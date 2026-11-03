@@ -1,0 +1,337 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "a": {
+        "left": 253.3,
+        "top": 711.8,
+        "width": 114.2,
+        "height": 14.5,
+        "type": "text",
+        "description": "Enter the QA sequence number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "b": {
+        "left": 375.6,
+        "top": 711.8,
+        "width": 109.7,
+        "height": 14.5,
+        "type": "text",
+        "description": "Enter the data manager code.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "c": {
+        "left": 492.6,
+        "top": 711.8,
+        "width": 96.2,
+        "height": 14.5,
+        "type": "text",
+        "description": "Enter the FST/prime code.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "repact": {
+        "left": 26.1,
+        "top": 683.6,
+        "width": 219.9,
+        "height": 53.3,
+        "type": "text",
+        "description": "Enter the reporting activity.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "repconum": {
+        "left": 252.6,
+        "top": 678.0,
+        "width": 336.9,
+        "height": 14.5,
+        "type": "text",
+        "description": "Enter the reporting control number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "datereport": {
+        "left": 252.6,
+        "top": 644.8,
+        "width": 54.8,
+        "height": 14.5,
+        "type": "text",
+        "description": "Enter the date as YY MM DD.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "wsa4": {
+        "left": 342.6,
+        "top": 644.8,
+        "width": 174.9,
+        "height": 14.5,
+        "type": "text",
+        "description": "Enter the weapon system application.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "discode": {
+        "left": 523.3,
+        "top": 644.8,
+        "width": 66.2,
+        "height": 14.5,
+        "type": "text",
+        "description": "Enter the discrepancy code (see page 2).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dNSDate7": {
+        "left": 293.0,
+        "top": 612.5,
+        "width": 106.2,
+        "height": 14.0,
+        "type": "text",
+        "description": "Enter the technical manual date using the format YY MM DD.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "tmn": {
+        "left": 27.3,
+        "top": 612.1,
+        "width": 257.0,
+        "height": 14.5,
+        "type": "text",
+        "description": "Enter the technical manual number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dNSDate8": {
+        "left": 411.6,
+        "top": 612.1,
+        "width": 54.8,
+        "height": 14.5,
+        "type": "text",
+        "description": "Enter the change number date using the format YY MM DD.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "wpno": {
+        "left": 523.3,
+        "top": 612.1,
+        "width": 66.9,
+        "height": 14.5,
+        "type": "text",
+        "description": "Enter the W/P number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "secpagno": {
+        "left": 26.1,
+        "top": 580.5,
+        "width": 80.4,
+        "height": 14.5,
+        "type": "text",
+        "description": "Enter the section and page numbers.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "parano": {
+        "left": 113.1,
+        "top": 580.5,
+        "width": 77.4,
+        "height": 14.5,
+        "type": "text",
+        "description": "Enter the paragraph number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "figTblno": {
+        "left": 197.1,
+        "top": 580.5,
+        "width": 146.4,
+        "height": 14.5,
+        "type": "text",
+        "description": "Enter the figure or table number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cartno": {
+        "left": 349.3,
+        "top": 580.5,
+        "width": 69.2,
+        "height": 14.5,
+        "type": "text",
+        "description": "Enter the cart Number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dNSDate14": {
+        "left": 430.4,
+        "top": 580.5,
+        "width": 54.8,
+        "height": 14.4,
+        "type": "text",
+        "description": "Enter the cart date using the format YY MM DD.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "frame": {
+        "left": 507.6,
+        "top": 580.5,
+        "width": 82.7,
+        "height": 14.5,
+        "type": "text",
+        "description": "Enter the frame number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "deficiency": {
+        "left": 26.9,
+        "top": 552.8,
+        "width": 562.6,
+        "height": 165.0,
+        "type": "text",
+        "description": "Enter the deficiency.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recommendation": {
+        "left": 26.9,
+        "top": 372.0,
+        "width": 562.6,
+        "height": 63.8,
+        "type": "text",
+        "description": "Enter the recommendation.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "impact": {
+        "left": 26.9,
+        "top": 296.2,
+        "width": 562.6,
+        "height": 65.3,
+        "type": "text",
+        "description": "Enter the impact.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mediaEval19": {
+        "left": 67.0,
+        "top": 199.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "F[0].P1[0].MediaEval19[0]",
+        "required": false
+      },
+      "mediaEval192": {
+        "left": 144.0,
+        "top": 199.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "F[0].P1[0].MediaEval19[0]",
+        "required": false
+      },
+      "mediaEval193": {
+        "left": 217.3,
+        "top": 199.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "2",
+        "options": null,
+        "group": "F[0].P1[0].MediaEval19[0]",
+        "required": false
+      },
+      "remarks": {
+        "left": 26.9,
+        "top": 172.5,
+        "width": 562.6,
+        "height": 68.2,
+        "type": "text",
+        "description": "Enter the remarks.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "reportedby": {
+        "left": 26.9,
+        "top": 82.5,
+        "width": 210.2,
+        "height": 14.5,
+        "type": "text",
+        "description": "Enter whom report by (name, rate/rank).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dNS3reported": {
+        "left": 241.3,
+        "top": 82.5,
+        "width": 72.2,
+        "height": 14.5,
+        "type": "text",
+        "description": "Enter the DSN number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "releasedby": {
+        "left": 320.8,
+        "top": 82.5,
+        "width": 187.7,
+        "height": 14.5,
+        "type": "text",
+        "description": "Enter whom released by (name, rate/rank).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dNS3released": {
+        "left": 511.3,
+        "top": 82.5,
+        "width": 78.2,
+        "height": 14.6,
+        "type": "text",
+        "description": "Enter the DSN number.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

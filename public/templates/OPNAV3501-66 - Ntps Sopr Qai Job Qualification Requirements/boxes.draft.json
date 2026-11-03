@@ -1,0 +1,282 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "q1aName": {
+        "left": 307.5,
+        "top": 661.9,
+        "width": 109.8,
+        "height": 25.5,
+        "type": "text",
+        "description": "Printed Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "q1aSig": {
+        "left": 420.6,
+        "top": 661.9,
+        "width": 92.3,
+        "height": 25.5,
+        "type": "text",
+        "description": "Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "q1aDate": {
+        "left": 515.2,
+        "top": 661.9,
+        "width": 59.4,
+        "height": 25.5,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "q1bName": {
+        "left": 307.5,
+        "top": 633.5,
+        "width": 109.8,
+        "height": 25.5,
+        "type": "text",
+        "description": "b. Qualified, designated, and current SOPR QAI",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "q1bSig": {
+        "left": 420.6,
+        "top": 633.5,
+        "width": 92.3,
+        "height": 25.5,
+        "type": "text",
+        "description": "b. Qualified, designated, and current SOPR QAI",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "q1bDate": {
+        "left": 515.2,
+        "top": 633.5,
+        "width": 59.4,
+        "height": 25.5,
+        "type": "text",
+        "description": "b. Qualified, designated, and current SOPR QAI",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "q2a1Name": {
+        "left": 307.5,
+        "top": 576.5,
+        "width": 109.8,
+        "height": 25.5,
+        "type": "text",
+        "description": "Printed Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "q2a1Sig": {
+        "left": 420.6,
+        "top": 576.5,
+        "width": 92.3,
+        "height": 25.5,
+        "type": "text",
+        "description": "Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "q2a1Date": {
+        "left": 515.2,
+        "top": 576.5,
+        "width": 59.4,
+        "height": 25.5,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "q2a2Name": {
+        "left": 307.5,
+        "top": 548.1,
+        "width": 109.8,
+        "height": 25.5,
+        "type": "text",
+        "description": "Printed Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "q2a2Sig": {
+        "left": 420.6,
+        "top": 548.1,
+        "width": 92.3,
+        "height": 25.5,
+        "type": "text",
+        "description": "Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "q2a2Date": {
+        "left": 515.2,
+        "top": 548.1,
+        "width": 59.4,
+        "height": 25.5,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "q2bName": {
+        "left": 307.5,
+        "top": 520.1,
+        "width": 109.8,
+        "height": 25.5,
+        "type": "text",
+        "description": "Printed Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "q2bSig": {
+        "left": 420.6,
+        "top": 520.1,
+        "width": 92.3,
+        "height": 25.5,
+        "type": "text",
+        "description": "Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "q2bDate": {
+        "left": 515.2,
+        "top": 520.1,
+        "width": 59.4,
+        "height": 25.5,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "q3Name": {
+        "left": 307.5,
+        "top": 463.6,
+        "width": 109.8,
+        "height": 25.5,
+        "type": "text",
+        "description": "3. LPO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "q3Sig": {
+        "left": 420.6,
+        "top": 463.6,
+        "width": 92.3,
+        "height": 25.5,
+        "type": "text",
+        "description": "3. LPO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "q3Date": {
+        "left": 515.2,
+        "top": 463.6,
+        "width": 59.4,
+        "height": 25.5,
+        "type": "text",
+        "description": "3. LPO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "q4Name": {
+        "left": 307.5,
+        "top": 435.4,
+        "width": 109.8,
+        "height": 25.5,
+        "type": "text",
+        "description": "4. Paraloft LCPO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "q4Sig": {
+        "left": 420.6,
+        "top": 435.4,
+        "width": 92.3,
+        "height": 25.5,
+        "type": "text",
+        "description": "4. Paraloft LCPO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "q4Date": {
+        "left": 515.2,
+        "top": 435.4,
+        "width": 59.4,
+        "height": 25.5,
+        "type": "text",
+        "description": "4. Paraloft LCPO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "q5Name": {
+        "left": 307.5,
+        "top": 407.3,
+        "width": 109.8,
+        "height": 25.5,
+        "type": "text",
+        "description": "5. P3 and Cargo Program Manager",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "q5Sig": {
+        "left": 420.6,
+        "top": 407.3,
+        "width": 92.3,
+        "height": 25.5,
+        "type": "text",
+        "description": "5. P3 and Cargo Program Manager",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "q5Date": {
+        "left": 515.2,
+        "top": 407.3,
+        "width": 59.4,
+        "height": 25.5,
+        "type": "text",
+        "description": "5. P3 and Cargo Program Manager",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

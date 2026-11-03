@@ -1,0 +1,589 @@
+{
+  "id": "opnav64201",
+  "label": "OPNAV6420-1 - Submarine Embarkation Medical Information",
+  "directory": "OPNAV6420-1 - Submarine Embarkation Medical Information",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "age",
+        "embPhn",
+        "nme",
+        "pphs",
+        "phyPhn",
+        "curMed",
+        "drgAlg",
+        "radio",
+        "radio2",
+        "medAltRea",
+        "asthma",
+        "hrtDis",
+        "shtBrth",
+        "chLgDs",
+        "diabetes",
+        "cancer",
+        "blPr",
+        "cltDis",
+        "stroke",
+        "claus",
+        "denDis",
+        "slnDis",
+        "ulcers",
+        "dizSpl",
+        "commDis",
+        "preSur",
+        "pacemaker",
+        "chPn",
+        "kidDis",
+        "sevMtnSkn",
+        "recInjIll",
+        "fdAl",
+        "expChkCirItm",
+        "radio3",
+        "radio4",
+        "medConExp",
+        "scrComm",
+        "radio5",
+        "radio6",
+        "sigScr",
+        "nmeScr",
+        "scfSigDte",
+        "radio7",
+        "radio8",
+        "uMOScr",
+        "uMOSigDte",
+        "nmeUMO"
+      ]
+    }
+  ],
+  "fields": {
+    "age": {
+      "type": "text",
+      "label": "2. Age",
+      "page": 1,
+      "box": {
+        "left": 385.2,
+        "top": 595.6,
+        "width": 26.0,
+        "height": 12.4
+      }
+    },
+    "embPhn": {
+      "type": "text",
+      "label": "3. Telephone Number",
+      "page": 1,
+      "box": {
+        "left": 499.9,
+        "top": 595.6,
+        "width": 73.3,
+        "height": 12.4
+      }
+    },
+    "nme": {
+      "type": "text",
+      "label": "1. Name (Last, First MI)",
+      "page": 1,
+      "box": {
+        "left": 135.7,
+        "top": 595.5,
+        "width": 212.5,
+        "height": 12.4
+      }
+    },
+    "pphs": {
+      "type": "text",
+      "label": "4. Personal Physician or Healthcare System",
+      "page": 1,
+      "box": {
+        "left": 200.1,
+        "top": 577.6,
+        "width": 211.1,
+        "height": 12.4
+      }
+    },
+    "phyPhn": {
+      "type": "text",
+      "label": "5. Telephone Number",
+      "page": 1,
+      "box": {
+        "left": 499.9,
+        "top": 577.6,
+        "width": 73.3,
+        "height": 12.4
+      }
+    },
+    "curMed": {
+      "type": "text",
+      "label": "6. Current Medications and Dosage",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 547.1,
+        "width": 534.4,
+        "height": 22.3
+      }
+    },
+    "drgAlg": {
+      "type": "text",
+      "label": "7. Drug Allergies",
+      "page": 1,
+      "box": {
+        "left": 108.1,
+        "top": 519.1,
+        "width": 465.2,
+        "height": 12.4
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 182.9,
+        "top": 502.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 227.9,
+        "top": 502.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "medAltRea": {
+      "type": "text",
+      "label": "Med Alt Rea",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 488.7,
+        "width": 534.4,
+        "height": 22.3
+      }
+    },
+    "asthma": {
+      "type": "checkbox",
+      "label": "Have",
+      "page": 1,
+      "box": {
+        "left": 57.8,
+        "top": 436.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "hrtDis": {
+      "type": "checkbox",
+      "label": "Asthma",
+      "page": 1,
+      "box": {
+        "left": 170.4,
+        "top": 436.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "shtBrth": {
+      "type": "checkbox",
+      "label": "Heart Disease",
+      "page": 1,
+      "box": {
+        "left": 296.4,
+        "top": 436.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "chLgDs": {
+      "type": "checkbox",
+      "label": "Shortness Of Breath",
+      "page": 1,
+      "box": {
+        "left": 453.9,
+        "top": 436.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "diabetes": {
+      "type": "checkbox",
+      "label": "Have",
+      "page": 1,
+      "box": {
+        "left": 57.8,
+        "top": 417.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cancer": {
+      "type": "checkbox",
+      "label": "Diabetes",
+      "page": 1,
+      "box": {
+        "left": 170.4,
+        "top": 417.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "blPr": {
+      "type": "checkbox",
+      "label": "Cancer",
+      "page": 1,
+      "box": {
+        "left": 296.4,
+        "top": 417.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cltDis": {
+      "type": "checkbox",
+      "label": "Bleeding Problems",
+      "page": 1,
+      "box": {
+        "left": 453.9,
+        "top": 417.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "stroke": {
+      "type": "checkbox",
+      "label": "Have",
+      "page": 1,
+      "box": {
+        "left": 57.8,
+        "top": 400.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "claus": {
+      "type": "checkbox",
+      "label": "Stroke",
+      "page": 1,
+      "box": {
+        "left": 170.4,
+        "top": 400.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "denDis": {
+      "type": "checkbox",
+      "label": "Claustrophobia",
+      "page": 1,
+      "box": {
+        "left": 296.4,
+        "top": 400.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "slnDis": {
+      "type": "checkbox",
+      "label": "Dental Disease",
+      "page": 1,
+      "box": {
+        "left": 453.9,
+        "top": 400.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "ulcers": {
+      "type": "checkbox",
+      "label": "Have",
+      "page": 1,
+      "box": {
+        "left": 57.8,
+        "top": 381.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "dizSpl": {
+      "type": "checkbox",
+      "label": "Ulcers",
+      "page": 1,
+      "box": {
+        "left": 170.4,
+        "top": 381.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "commDis": {
+      "type": "checkbox",
+      "label": "Dizzy Spells",
+      "page": 1,
+      "box": {
+        "left": 296.4,
+        "top": 381.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "preSur": {
+      "type": "checkbox",
+      "label": "Communicable Disease",
+      "page": 1,
+      "box": {
+        "left": 453.9,
+        "top": 381.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "pacemaker": {
+      "type": "checkbox",
+      "label": "Have",
+      "page": 1,
+      "box": {
+        "left": 57.8,
+        "top": 363.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "chPn": {
+      "type": "checkbox",
+      "label": "Pacemaker",
+      "page": 1,
+      "box": {
+        "left": 170.4,
+        "top": 363.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "kidDis": {
+      "type": "checkbox",
+      "label": "Chest Pains",
+      "page": 1,
+      "box": {
+        "left": 296.4,
+        "top": 363.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "sevMtnSkn": {
+      "type": "checkbox",
+      "label": "Kidney Disease",
+      "page": 1,
+      "box": {
+        "left": 453.9,
+        "top": 363.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "recInjIll": {
+      "type": "checkbox",
+      "label": "Have",
+      "page": 1,
+      "box": {
+        "left": 57.9,
+        "top": 345.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "fdAl": {
+      "type": "checkbox",
+      "label": "Recent Injury/Illness",
+      "page": 1,
+      "box": {
+        "left": 170.4,
+        "top": 345.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "expChkCirItm": {
+      "type": "text",
+      "label": "10. Please explain any checked or circled items",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 308.8,
+        "width": 534.4,
+        "height": 22.3
+      }
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 286.5,
+        "top": 282.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 331.5,
+        "top": 282.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "medConExp": {
+      "type": "text",
+      "label": "Med Con Exp",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 268.5,
+        "width": 534.4,
+        "height": 22.3
+      }
+    },
+    "scrComm": {
+      "type": "text",
+      "label": "12. Comments",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 210.1,
+        "width": 534.4,
+        "height": 22.3
+      }
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 376.5,
+        "top": 181.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 439.5,
+        "top": 181.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "sigScr": {
+      "type": "text",
+      "label": "Signature of Screener",
+      "page": 1,
+      "box": {
+        "left": 344.9,
+        "top": 138.6,
+        "width": 228.4,
+        "height": 22.8
+      }
+    },
+    "nmeScr": {
+      "type": "text",
+      "label": "14. Name/Command of Screener",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 138.3,
+        "width": 228.4,
+        "height": 22.4
+      }
+    },
+    "scfSigDte": {
+      "type": "text",
+      "label": "Date Signed",
+      "page": 1,
+      "box": {
+        "left": 273.6,
+        "top": 138.2,
+        "width": 65.1,
+        "height": 22.5
+      }
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 241.5,
+        "top": 110.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 304.5,
+        "top": 110.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "uMOScr": {
+      "type": "text",
+      "label": "Signature of UMO",
+      "page": 1,
+      "box": {
+        "left": 344.9,
+        "top": 62.1,
+        "width": 228.4,
+        "height": 22.8
+      }
+    },
+    "uMOSigDte": {
+      "type": "text",
+      "label": "Date Signed",
+      "page": 1,
+      "box": {
+        "left": 273.6,
+        "top": 61.8,
+        "width": 65.1,
+        "height": 22.5
+      }
+    },
+    "nmeUMO": {
+      "type": "text",
+      "label": "16. Name/Command of UMO",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 61.7,
+        "width": 228.4,
+        "height": 22.4
+      }
+    }
+  }
+}

@@ -1,0 +1,1324 @@
+{
+  "id": "opnav4790160",
+  "label": "OPNAV4790-160 - Acft Launch  Recovery Equip (alre) Maint Action (for Snap I Omms)",
+  "directory": "OPNAV4790-160 - Acft Launch  Recovery Equip (alre) Maint Action (for Snap I Omms)",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "shipuic",
+        "wc",
+        "jsn",
+        "aplael",
+        "equipnounname",
+        "wnd",
+        "stat",
+        "cas",
+        "dfr",
+        "number10",
+        "number11",
+        "number12",
+        "identequipserialno",
+        "eic",
+        "safetyhazard",
+        "location",
+        "wnddate",
+        "alterations",
+        "number19",
+        "inservnumber",
+        "suffix",
+        "u",
+        "s",
+        "pf",
+        "sfmhrsexp",
+        "deferdate",
+        "sfmhrsrem",
+        "deadlinedate",
+        "acttkn",
+        "sfmhrs",
+        "completiondate",
+        "actmainttime",
+        "ti",
+        "meterreading",
+        "startdate1",
+        "start1TIME",
+        "startdate2",
+        "start2TIME",
+        "startdate3",
+        "start1TIME3",
+        "startdate4",
+        "start1TIME4",
+        "startdate5",
+        "start1TIME5",
+        "startdate6",
+        "start1TIME6",
+        "stopdate1",
+        "stop1TIME",
+        "stopdate2",
+        "stop1TIME2",
+        "stopdate3",
+        "stop1TIME3",
+        "stopdate4",
+        "stop1TIME4",
+        "stopdate5",
+        "stop1TIME5",
+        "stopdate6",
+        "stop1TIME6",
+        "contsheet",
+        "remarks",
+        "csmpsummary",
+        "firstcontactsign",
+        "rate",
+        "secondcontactsign",
+        "pri",
+        "ta",
+        "integerpri",
+        "uic",
+        "tycom",
+        "pco",
+        "redtagserno",
+        "shothitvla",
+        "wnd2",
+        "extdamage",
+        "typemalf",
+        "type",
+        "actiontaken",
+        "tagno",
+        "configupdate",
+        "configupdate2",
+        "safetytag",
+        "safetytag2",
+        "componentpartnumber",
+        "mipcontrolno",
+        "mrccode",
+        "qa1",
+        "qa2",
+        "qa3",
+        "qa4",
+        "qa1a",
+        "qa2a",
+        "qa3a",
+        "qa4a",
+        "vidsjcn",
+        "vidsjcn2",
+        "tools",
+        "tools2",
+        "wc1",
+        "wc2",
+        "centraltool",
+        "centraltool2",
+        "ct1",
+        "ct2"
+      ]
+    }
+  ],
+  "fields": {
+    "shipuic": {
+      "type": "text",
+      "label": "ENTER SHIP'S UIC.",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 712.7,
+        "width": 52.9,
+        "height": 12.3
+      }
+    },
+    "wc": {
+      "type": "text",
+      "label": "ENTER W/C.",
+      "page": 1,
+      "box": {
+        "left": 97.3,
+        "top": 712.7,
+        "width": 30.4,
+        "height": 12.3
+      }
+    },
+    "jsn": {
+      "type": "text",
+      "label": "ENTER JSN.",
+      "page": 1,
+      "box": {
+        "left": 133.3,
+        "top": 712.7,
+        "width": 30.7,
+        "height": 12.3
+      }
+    },
+    "aplael": {
+      "type": "text",
+      "label": "ENTER API/AEL.",
+      "page": 1,
+      "box": {
+        "left": 169.6,
+        "top": 712.7,
+        "width": 74.8,
+        "height": 12.3
+      }
+    },
+    "equipnounname": {
+      "type": "text",
+      "label": "ENTER EQUIPMENT NOUN NAME.",
+      "page": 1,
+      "box": {
+        "left": 250.3,
+        "top": 712.7,
+        "width": 152.0,
+        "height": 12.3
+      }
+    },
+    "wnd": {
+      "type": "text",
+      "label": "ENTER WND.",
+      "page": 1,
+      "box": {
+        "left": 407.8,
+        "top": 712.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "stat": {
+      "type": "text",
+      "label": "ENTER STAT.",
+      "page": 1,
+      "box": {
+        "left": 443.8,
+        "top": 712.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "cas": {
+      "type": "text",
+      "label": "ENTER CAS.",
+      "page": 1,
+      "box": {
+        "left": 479.8,
+        "top": 712.7,
+        "width": 25.8,
+        "height": 12.3
+      }
+    },
+    "dfr": {
+      "type": "text",
+      "label": "ENTER DFR.",
+      "page": 1,
+      "box": {
+        "left": 511.3,
+        "top": 712.7,
+        "width": 25.9,
+        "height": 12.3
+      }
+    },
+    "number10": {
+      "type": "text",
+      "label": "NUMBER10",
+      "page": 1,
+      "box": {
+        "left": 542.8,
+        "top": 712.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "number11": {
+      "type": "text",
+      "label": "NUMBER11",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 681.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "number12": {
+      "type": "text",
+      "label": "NUMBER12",
+      "page": 1,
+      "box": {
+        "left": 66.2,
+        "top": 681.2,
+        "width": 21.2,
+        "height": 12.3
+      }
+    },
+    "identequipserialno": {
+      "type": "text",
+      "label": "ENTER IDENT/EQUIP SERIAL NUMBER.",
+      "page": 1,
+      "box": {
+        "left": 92.8,
+        "top": 681.2,
+        "width": 111.3,
+        "height": 12.3
+      }
+    },
+    "eic": {
+      "type": "text",
+      "label": "ENTER EIC.",
+      "page": 1,
+      "box": {
+        "left": 209.9,
+        "top": 681.2,
+        "width": 102.2,
+        "height": 12.3
+      }
+    },
+    "safetyhazard": {
+      "type": "text",
+      "label": "ENTER SAFETY HAZARD.",
+      "page": 1,
+      "box": {
+        "left": 317.8,
+        "top": 681.2,
+        "width": 79.6,
+        "height": 12.3
+      }
+    },
+    "location": {
+      "type": "text",
+      "label": "ENTER LOCATION.",
+      "page": 1,
+      "box": {
+        "left": 403.3,
+        "top": 681.2,
+        "width": 106.9,
+        "height": 12.3
+      }
+    },
+    "wnddate": {
+      "type": "text",
+      "label": "ENTER WND DATE.",
+      "page": 1,
+      "box": {
+        "left": 515.6,
+        "top": 681.2,
+        "width": 57.6,
+        "height": 12.3
+      }
+    },
+    "alterations": {
+      "type": "text",
+      "label": "ALTERATIONS",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 649.7,
+        "width": 219.6,
+        "height": 12.3
+      }
+    },
+    "number19": {
+      "type": "text",
+      "label": "NUMBER19",
+      "page": 1,
+      "box": {
+        "left": 263.8,
+        "top": 649.7,
+        "width": 62.0,
+        "height": 12.3
+      }
+    },
+    "inservnumber": {
+      "type": "text",
+      "label": "INSERVNUMBER",
+      "page": 1,
+      "box": {
+        "left": 331.3,
+        "top": 649.7,
+        "width": 93.3,
+        "height": 12.3
+      }
+    },
+    "suffix": {
+      "type": "text",
+      "label": "SUFFIX",
+      "page": 1,
+      "box": {
+        "left": 430.3,
+        "top": 649.7,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "u": {
+      "type": "text",
+      "label": "U",
+      "page": 1,
+      "box": {
+        "left": 484.3,
+        "top": 649.7,
+        "width": 25.8,
+        "height": 12.3
+      }
+    },
+    "s": {
+      "type": "text",
+      "label": "S",
+      "page": 1,
+      "box": {
+        "left": 515.8,
+        "top": 649.7,
+        "width": 25.8,
+        "height": 12.3
+      }
+    },
+    "pf": {
+      "type": "text",
+      "label": "PF",
+      "page": 1,
+      "box": {
+        "left": 547.3,
+        "top": 649.7,
+        "width": 25.8,
+        "height": 12.3
+      }
+    },
+    "sfmhrsexp": {
+      "type": "text",
+      "label": "ENTER S/F HMRS EXP.",
+      "page": 1,
+      "box": {
+        "left": 209.8,
+        "top": 618.2,
+        "width": 102.2,
+        "height": 12.3
+      }
+    },
+    "deferdate": {
+      "type": "text",
+      "label": "ENTER DEFER DATE.",
+      "page": 1,
+      "box": {
+        "left": 317.8,
+        "top": 618.2,
+        "width": 66.3,
+        "height": 12.3
+      }
+    },
+    "sfmhrsrem": {
+      "type": "text",
+      "label": "ENTER SF MHRS REM.",
+      "page": 1,
+      "box": {
+        "left": 389.8,
+        "top": 618.2,
+        "width": 102.2,
+        "height": 12.3
+      }
+    },
+    "deadlinedate": {
+      "type": "text",
+      "label": "ENTER DEADLINE DATE.",
+      "page": 1,
+      "box": {
+        "left": 497.8,
+        "top": 618.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "acttkn": {
+      "type": "text",
+      "label": "ENTER ACT TKN.",
+      "page": 1,
+      "box": {
+        "left": 173.8,
+        "top": 586.7,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "sfmhrs": {
+      "type": "text",
+      "label": "ENTER S/F MHRS.",
+      "page": 1,
+      "box": {
+        "left": 227.8,
+        "top": 586.7,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "completiondate": {
+      "type": "text",
+      "label": "ENTER COMPLETION DATE.",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 586.7,
+        "width": 88.8,
+        "height": 12.3
+      }
+    },
+    "actmainttime": {
+      "type": "text",
+      "label": "ENTER ACT MAINT TIME.",
+      "page": 1,
+      "box": {
+        "left": 376.3,
+        "top": 586.7,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "ti": {
+      "type": "text",
+      "label": "ENTER TI.",
+      "page": 1,
+      "box": {
+        "left": 457.3,
+        "top": 586.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "meterreading": {
+      "type": "text",
+      "label": "ENTER METER READING.",
+      "page": 1,
+      "box": {
+        "left": 493.3,
+        "top": 586.7,
+        "width": 79.8,
+        "height": 12.3
+      }
+    },
+    "startdate1": {
+      "type": "text",
+      "label": "ENTER START DATE.",
+      "page": 1,
+      "box": {
+        "left": 88.3,
+        "top": 550.7,
+        "width": 34.8,
+        "height": 12.3
+      }
+    },
+    "start1TIME": {
+      "type": "text",
+      "label": "ENTER START TIME.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 550.7,
+        "width": 35.2,
+        "height": 12.3
+      }
+    },
+    "startdate2": {
+      "type": "text",
+      "label": "ENTER START DATE.",
+      "page": 1,
+      "box": {
+        "left": 169.7,
+        "top": 550.7,
+        "width": 34.8,
+        "height": 12.3
+      }
+    },
+    "start2TIME": {
+      "type": "text",
+      "label": "ENTER START TIME.",
+      "page": 1,
+      "box": {
+        "left": 210.1,
+        "top": 550.7,
+        "width": 35.2,
+        "height": 12.3
+      }
+    },
+    "startdate3": {
+      "type": "text",
+      "label": "ENTER START DATE.",
+      "page": 1,
+      "box": {
+        "left": 251.0,
+        "top": 550.7,
+        "width": 34.8,
+        "height": 12.3
+      }
+    },
+    "start1TIME3": {
+      "type": "text",
+      "label": "ENTER START TIME.",
+      "page": 1,
+      "box": {
+        "left": 291.5,
+        "top": 550.7,
+        "width": 35.2,
+        "height": 12.3
+      }
+    },
+    "startdate4": {
+      "type": "text",
+      "label": "ENTER START DATE.",
+      "page": 1,
+      "box": {
+        "left": 332.3,
+        "top": 550.7,
+        "width": 34.8,
+        "height": 12.3
+      }
+    },
+    "start1TIME4": {
+      "type": "text",
+      "label": "ENTER START TIME.",
+      "page": 1,
+      "box": {
+        "left": 372.8,
+        "top": 550.7,
+        "width": 35.2,
+        "height": 12.3
+      }
+    },
+    "startdate5": {
+      "type": "text",
+      "label": "ENTER START DATE.",
+      "page": 1,
+      "box": {
+        "left": 413.7,
+        "top": 550.7,
+        "width": 34.8,
+        "height": 12.3
+      }
+    },
+    "start1TIME5": {
+      "type": "text",
+      "label": "ENTER START TIME.",
+      "page": 1,
+      "box": {
+        "left": 454.1,
+        "top": 550.7,
+        "width": 38.2,
+        "height": 12.3
+      }
+    },
+    "startdate6": {
+      "type": "text",
+      "label": "ENTER START DATE.",
+      "page": 1,
+      "box": {
+        "left": 497.8,
+        "top": 550.7,
+        "width": 34.8,
+        "height": 12.3
+      }
+    },
+    "start1TIME6": {
+      "type": "text",
+      "label": "ENTER START TIME.",
+      "page": 1,
+      "box": {
+        "left": 538.0,
+        "top": 550.7,
+        "width": 35.2,
+        "height": 12.3
+      }
+    },
+    "stopdate1": {
+      "type": "text",
+      "label": "ENTER STOP DATE.",
+      "page": 1,
+      "box": {
+        "left": 88.3,
+        "top": 532.7,
+        "width": 34.8,
+        "height": 12.2
+      }
+    },
+    "stop1TIME": {
+      "type": "text",
+      "label": "ENTER STOP TIME.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 532.5,
+        "width": 35.2,
+        "height": 12.0
+      }
+    },
+    "stopdate2": {
+      "type": "text",
+      "label": "ENTER STOP DATE.",
+      "page": 1,
+      "box": {
+        "left": 169.7,
+        "top": 532.5,
+        "width": 34.8,
+        "height": 12.0
+      }
+    },
+    "stop1TIME2": {
+      "type": "text",
+      "label": "ENTER STOP TIME.",
+      "page": 1,
+      "box": {
+        "left": 210.1,
+        "top": 532.5,
+        "width": 35.2,
+        "height": 12.0
+      }
+    },
+    "stopdate3": {
+      "type": "text",
+      "label": "ENTER STOP DATE.",
+      "page": 1,
+      "box": {
+        "left": 251.0,
+        "top": 532.5,
+        "width": 34.8,
+        "height": 12.0
+      }
+    },
+    "stop1TIME3": {
+      "type": "text",
+      "label": "ENTER STOP TIME.",
+      "page": 1,
+      "box": {
+        "left": 291.5,
+        "top": 532.5,
+        "width": 35.2,
+        "height": 12.0
+      }
+    },
+    "stopdate4": {
+      "type": "text",
+      "label": "ENTER STOP DATE.",
+      "page": 1,
+      "box": {
+        "left": 332.3,
+        "top": 532.5,
+        "width": 34.8,
+        "height": 12.0
+      }
+    },
+    "stop1TIME4": {
+      "type": "text",
+      "label": "ENTER STOP TIME.",
+      "page": 1,
+      "box": {
+        "left": 372.8,
+        "top": 532.5,
+        "width": 35.2,
+        "height": 12.0
+      }
+    },
+    "stopdate5": {
+      "type": "text",
+      "label": "ENTER STOP DATE.",
+      "page": 1,
+      "box": {
+        "left": 413.7,
+        "top": 532.5,
+        "width": 34.8,
+        "height": 12.0
+      }
+    },
+    "stop1TIME5": {
+      "type": "text",
+      "label": "ENTER STOP TIME.",
+      "page": 1,
+      "box": {
+        "left": 454.1,
+        "top": 532.5,
+        "width": 38.2,
+        "height": 12.0
+      }
+    },
+    "stopdate6": {
+      "type": "text",
+      "label": "ENTER STOP DATE.",
+      "page": 1,
+      "box": {
+        "left": 497.8,
+        "top": 532.5,
+        "width": 34.8,
+        "height": 12.0
+      }
+    },
+    "stop1TIME6": {
+      "type": "text",
+      "label": "ENTER STOP TIME.",
+      "page": 1,
+      "box": {
+        "left": 538.0,
+        "top": 532.5,
+        "width": 35.2,
+        "height": 12.0
+      }
+    },
+    "contsheet": {
+      "type": "text",
+      "label": "ENTER EIC.",
+      "page": 1,
+      "box": {
+        "left": 544.3,
+        "top": 501.2,
+        "width": 28.8,
+        "height": 12.3
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "ENTER REMARKS/ DESCRIPTION.",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 492.8,
+        "width": 430.8,
+        "height": 12.9
+      }
+    },
+    "csmpsummary": {
+      "type": "text",
+      "label": "ENTER CSMP SUMMARY.",
+      "page": 1,
+      "box": {
+        "left": 122.2,
+        "top": 474.2,
+        "width": 450.9,
+        "height": 12.3
+      }
+    },
+    "firstcontactsign": {
+      "type": "text",
+      "label": "ENTER FIRST CONTACT/MAINT. MAN (PRINT/SIGN).",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 433.7,
+        "width": 129.6,
+        "height": 12.3
+      }
+    },
+    "rate": {
+      "type": "text",
+      "label": "ENTER RATE.",
+      "page": 1,
+      "box": {
+        "left": 173.8,
+        "top": 433.7,
+        "width": 35.1,
+        "height": 12.3
+      }
+    },
+    "secondcontactsign": {
+      "type": "text",
+      "label": "ENTER SECOND CONTACT/MAINT. MAN (PRINT/SIGN).",
+      "page": 1,
+      "box": {
+        "left": 214.3,
+        "top": 433.7,
+        "width": 138.3,
+        "height": 12.3
+      }
+    },
+    "pri": {
+      "type": "text",
+      "label": "ENTER PRI.",
+      "page": 1,
+      "box": {
+        "left": 358.3,
+        "top": 433.7,
+        "width": 25.8,
+        "height": 12.3
+      }
+    },
+    "ta": {
+      "type": "text",
+      "label": "ENTER TA.",
+      "page": 1,
+      "box": {
+        "left": 389.8,
+        "top": 433.7,
+        "width": 21.6,
+        "height": 12.3
+      }
+    },
+    "integerpri": {
+      "type": "text",
+      "label": "ENTER INTEGER PRI.",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 433.7,
+        "width": 57.4,
+        "height": 12.3
+      }
+    },
+    "uic": {
+      "type": "text",
+      "label": "ENTER UIC.",
+      "page": 1,
+      "box": {
+        "left": 480.4,
+        "top": 433.7,
+        "width": 47.8,
+        "height": 12.3
+      }
+    },
+    "tycom": {
+      "type": "text",
+      "label": "ENTER TYCOM.",
+      "page": 1,
+      "box": {
+        "left": 533.8,
+        "top": 433.7,
+        "width": 39.3,
+        "height": 12.3
+      }
+    },
+    "pco": {
+      "type": "text",
+      "label": "ENTER P.C.O.",
+      "page": 1,
+      "box": {
+        "left": 115.3,
+        "top": 388.7,
+        "width": 21.3,
+        "height": 43.8
+      },
+      "multiline": true
+    },
+    "redtagserno": {
+      "type": "text",
+      "label": "ENTER RED TAG SERIAL NUMBER.",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 379.7,
+        "width": 43.8,
+        "height": 34.8
+      },
+      "multiline": true
+    },
+    "shothitvla": {
+      "type": "text",
+      "label": "ENTER SHOT/HIT/VLA.",
+      "page": 1,
+      "box": {
+        "left": 520.3,
+        "top": 379.7,
+        "width": 52.8,
+        "height": 34.8
+      },
+      "multiline": true
+    },
+    "wnd2": {
+      "type": "text",
+      "label": "ENTER WND.",
+      "page": 1,
+      "box": {
+        "left": 142.3,
+        "top": 375.2,
+        "width": 16.8,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "extdamage": {
+      "type": "text",
+      "label": "ENTER EXT DAMAGE.",
+      "page": 1,
+      "box": {
+        "left": 164.8,
+        "top": 375.2,
+        "width": 52.8,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "typemalf": {
+      "type": "text",
+      "label": "ENTER TYPE MALF.",
+      "page": 1,
+      "box": {
+        "left": 223.3,
+        "top": 375.2,
+        "width": 43.8,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "type": {
+      "type": "text",
+      "label": "ENTER TYPE.",
+      "page": 1,
+      "box": {
+        "left": 272.8,
+        "top": 375.2,
+        "width": 34.8,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "actiontaken": {
+      "type": "text",
+      "label": "ENTER ACT TKN.",
+      "page": 1,
+      "box": {
+        "left": 313.3,
+        "top": 375.2,
+        "width": 39.3,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "tagno": {
+      "type": "text",
+      "label": "ENTER NUMBER OF SAFETY TAGS REQUIRED.",
+      "page": 1,
+      "box": {
+        "left": 403.3,
+        "top": 357.2,
+        "width": 61.8,
+        "height": 12.3
+      }
+    },
+    "configupdate": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 53.7,
+        "top": 356.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_BODY_0_STATIC2_0_CONFIGUPDATE_0"
+    },
+    "configupdate2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 80.7,
+        "top": 356.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_BODY_0_STATIC2_0_CONFIGUPDATE_0"
+    },
+    "safetytag": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 360.7,
+        "top": 356.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_BODY_0_STATIC2_0_SAFETYTAG_0"
+    },
+    "safetytag2": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 382.5,
+        "top": 356.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_BODY_0_STATIC2_0_SAFETYTAG_0"
+    },
+    "componentpartnumber": {
+      "type": "text",
+      "label": "ENTER COMPONENT PART NUMBER",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 325.7,
+        "width": 196.8,
+        "height": 12.3
+      }
+    },
+    "mipcontrolno": {
+      "type": "text",
+      "label": "ENTER MIP CONTROL NUMBER.",
+      "page": 1,
+      "box": {
+        "left": 241.3,
+        "top": 325.7,
+        "width": 169.8,
+        "height": 12.3
+      }
+    },
+    "mrccode": {
+      "type": "text",
+      "label": "ENTER MRC CODE.",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 325.7,
+        "width": 156.3,
+        "height": 12.3
+      }
+    },
+    "qa1": {
+      "type": "text",
+      "label": "ENTER FIRST QA INSPECTION BY (PRINT/SIGN).",
+      "page": 1,
+      "box": {
+        "left": 52.3,
+        "top": 294.2,
+        "width": 120.3,
+        "height": 12.3
+      }
+    },
+    "qa2": {
+      "type": "text",
+      "label": "ENTER SECOND QA INSPECTION BY (PRINT/SIGN).",
+      "page": 1,
+      "box": {
+        "left": 178.3,
+        "top": 294.2,
+        "width": 120.3,
+        "height": 12.3
+      }
+    },
+    "qa3": {
+      "type": "text",
+      "label": "ENTER FINAL QA INSPECTION BY (PRINT/SIGN).",
+      "page": 1,
+      "box": {
+        "left": 304.3,
+        "top": 294.2,
+        "width": 129.3,
+        "height": 12.3
+      }
+    },
+    "qa4": {
+      "type": "text",
+      "label": "ENTER V-2 MAINT OFFICER (PRINT/SIGN).",
+      "page": 1,
+      "box": {
+        "left": 439.3,
+        "top": 294.2,
+        "width": 133.8,
+        "height": 12.3
+      }
+    },
+    "qa1a": {
+      "type": "text",
+      "label": "ENTER FIRST QA INSPECTION BY (PRINT/SIGN).",
+      "page": 1,
+      "box": {
+        "left": 52.3,
+        "top": 276.2,
+        "width": 120.3,
+        "height": 12.3
+      }
+    },
+    "qa2a": {
+      "type": "text",
+      "label": "ENTER SECOND QA INSPECTION BY (PRINT/SIGN).",
+      "page": 1,
+      "box": {
+        "left": 178.3,
+        "top": 276.2,
+        "width": 120.3,
+        "height": 12.3
+      }
+    },
+    "qa3a": {
+      "type": "text",
+      "label": "ENTER FINAL QA INSPECTION BY (PRINT/SIGN).",
+      "page": 1,
+      "box": {
+        "left": 304.3,
+        "top": 276.2,
+        "width": 129.3,
+        "height": 12.3
+      }
+    },
+    "qa4a": {
+      "type": "text",
+      "label": "ENTER V-2 MAINT OFFICER (PRINT/SIGN).",
+      "page": 1,
+      "box": {
+        "left": 439.3,
+        "top": 276.2,
+        "width": 133.8,
+        "height": 12.3
+      }
+    },
+    "vidsjcn": {
+      "type": "text",
+      "label": "ENTER VIDS/MAF JCN.",
+      "page": 1,
+      "box": {
+        "left": 288.6,
+        "top": 258.2,
+        "width": 109.1,
+        "height": 12.3
+      }
+    },
+    "vidsjcn2": {
+      "type": "text",
+      "label": "ENTER VIDS/MAF JCN.",
+      "page": 1,
+      "box": {
+        "left": 464.1,
+        "top": 258.2,
+        "width": 109.1,
+        "height": 12.3
+      }
+    },
+    "tools": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 489.0,
+        "top": 208.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_BODY_0_STATIC2_0_TOOLS_0"
+    },
+    "tools2": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 517.5,
+        "top": 208.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_BODY_0_STATIC2_0_TOOLS_0"
+    },
+    "wc1": {
+      "type": "text",
+      "label": "ENTER W/C TOOL PO (PRINT/SIGN)",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 172.7,
+        "width": 138.3,
+        "height": 12.3
+      }
+    },
+    "wc2": {
+      "type": "text",
+      "label": "ENTER W/C TOOL PO (PRINT/SIGN)",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 154.7,
+        "width": 138.3,
+        "height": 12.3
+      }
+    },
+    "centraltool": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 488.4,
+        "top": 131.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_BODY_0_STATIC2_0_CENTRALTOOL_0"
+    },
+    "centraltool2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 517.5,
+        "top": 131.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_BODY_0_STATIC2_0_CENTRALTOOL_0"
+    },
+    "ct1": {
+      "type": "text",
+      "label": "ENTER CENTRAL TOOL PO (PRINT/SIGN).",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 96.2,
+        "width": 138.3,
+        "height": 12.3
+      }
+    },
+    "ct2": {
+      "type": "text",
+      "label": "ENTER CENTRAL TOOL PO (PRINT/SIGN).",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 78.2,
+        "width": 138.3,
+        "height": 12.3
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 14,
+      "rowStride": 13.5,
+      "editor": "grid",
+      "columns": {
+        "qty": {
+          "type": "text",
+          "label": "ENTER QUANTITY.",
+          "page": 1,
+          "box": {
+            "left": 36.0,
+            "top": 225.0,
+            "width": 27.0,
+            "height": 13.5
+          }
+        },
+        "n": {
+          "type": "text",
+          "label": "ENTER NOMENCLATURE.",
+          "page": 1,
+          "box": {
+            "left": 63.0,
+            "top": 225.0,
+            "width": 121.5,
+            "height": 13.5
+          }
+        },
+        "p": {
+          "type": "text",
+          "label": "ENTER PART NUMBER.",
+          "page": 1,
+          "box": {
+            "left": 184.5,
+            "top": 225.0,
+            "width": 126.0,
+            "height": 13.5
+          }
+        },
+        "c": {
+          "type": "text",
+          "label": "ENTER CONTRACT NUMBER.",
+          "page": 1,
+          "box": {
+            "left": 310.5,
+            "top": 225.0,
+            "width": 121.5,
+            "height": 13.5
+          }
+        }
+      }
+    }
+  }
+}

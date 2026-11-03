@@ -1,0 +1,735 @@
+{
+  "id": "opnav479045ele",
+  "label": "OPNAV4790-45(ELE) - Document Control Form",
+  "directory": "OPNAV4790-45(ELE) - Document Control Form",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "julianDate",
+        "organization",
+        "awayFromHomeCode",
+        "supplyOrgCode",
+        "one1",
+        "two1",
+        "formsRej1",
+        "one2",
+        "two2",
+        "formsRej2",
+        "one3",
+        "two3",
+        "formsRej3",
+        "cardsForms4",
+        "one4",
+        "two4",
+        "formsRej4",
+        "cardsForms42",
+        "one42",
+        "two42",
+        "formsRej42",
+        "commentsLocalUse",
+        "one6",
+        "two6",
+        "formsRej6",
+        "one7",
+        "two7",
+        "formsRej7",
+        "cardsForms61",
+        "one8",
+        "two8",
+        "formsRej8",
+        "cardsForms62",
+        "one9",
+        "two9",
+        "formsRej9",
+        "one10",
+        "two10",
+        "formsRej10",
+        "one11",
+        "two11",
+        "formsRej11",
+        "cardsForms71",
+        "one12",
+        "two12",
+        "formsRej12",
+        "cardsForms72",
+        "one13",
+        "two13",
+        "formsRej13",
+        "cardsForms73",
+        "one14",
+        "two14",
+        "formsRej14",
+        "julianDateTime",
+        "receivedBy"
+      ]
+    }
+  ],
+  "fields": {
+    "julianDate": {
+      "type": "text",
+      "label": "DOCUMENT CONTROL FORM",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 741.9,
+        "width": 264.4,
+        "height": 19.0
+      }
+    },
+    "organization": {
+      "type": "text",
+      "label": "1. ORGANIZATION",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 705.9,
+        "width": 264.4,
+        "height": 55.0
+      },
+      "multiline": true
+    },
+    "awayFromHomeCode": {
+      "type": "text",
+      "label": "3. AWAY FROM HOME CODE",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 705.9,
+        "width": 264.4,
+        "height": 19.0
+      }
+    },
+    "supplyOrgCode": {
+      "type": "text",
+      "label": "4. SUPPLY ORGANIZATION CODE",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 669.9,
+        "width": 264.4,
+        "height": 19.0
+      }
+    },
+    "one1": {
+      "type": "text",
+      "label": "a. MAF/WO (COPY1)",
+      "page": 1,
+      "box": {
+        "left": 196.4,
+        "top": 591.2,
+        "width": 30.3,
+        "height": 16.8
+      }
+    },
+    "two1": {
+      "type": "text",
+      "label": "a. MAF/WO (COPY1)",
+      "page": 1,
+      "box": {
+        "left": 232.4,
+        "top": 591.2,
+        "width": 30.3,
+        "height": 16.8
+      }
+    },
+    "formsRej1": {
+      "type": "text",
+      "label": "a. MAF/WO (COPY1)",
+      "page": 1,
+      "box": {
+        "left": 268.4,
+        "top": 591.2,
+        "width": 34.8,
+        "height": 16.8
+      }
+    },
+    "one2": {
+      "type": "text",
+      "label": "b. MAF/WO (CLOSEOUT)",
+      "page": 1,
+      "box": {
+        "left": 196.4,
+        "top": 568.7,
+        "width": 30.3,
+        "height": 16.8
+      }
+    },
+    "two2": {
+      "type": "text",
+      "label": "b. MAF/WO (CLOSEOUT)",
+      "page": 1,
+      "box": {
+        "left": 232.4,
+        "top": 568.7,
+        "width": 30.3,
+        "height": 16.8
+      }
+    },
+    "formsRej2": {
+      "type": "text",
+      "label": "b. MAF/WO (CLOSEOUT)",
+      "page": 1,
+      "box": {
+        "left": 268.4,
+        "top": 568.7,
+        "width": 34.8,
+        "height": 16.8
+      }
+    },
+    "one3": {
+      "type": "text",
+      "label": "c. MAGNETIC MEDIA",
+      "page": 1,
+      "box": {
+        "left": 196.4,
+        "top": 546.2,
+        "width": 30.3,
+        "height": 16.8
+      }
+    },
+    "two3": {
+      "type": "text",
+      "label": "c. MAGNETIC MEDIA",
+      "page": 1,
+      "box": {
+        "left": 232.4,
+        "top": 546.2,
+        "width": 30.3,
+        "height": 16.8
+      }
+    },
+    "formsRej3": {
+      "type": "text",
+      "label": "c. MAGNETIC MEDIA",
+      "page": 1,
+      "box": {
+        "left": 268.4,
+        "top": 546.2,
+        "width": 34.8,
+        "height": 16.8
+      }
+    },
+    "cardsForms4": {
+      "type": "text",
+      "label": "c. MAGNETIC MEDIA",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 523.7,
+        "width": 151.9,
+        "height": 16.8
+      }
+    },
+    "one4": {
+      "type": "text",
+      "label": "One 4",
+      "page": 1,
+      "box": {
+        "left": 196.4,
+        "top": 523.7,
+        "width": 30.3,
+        "height": 16.8
+      }
+    },
+    "two4": {
+      "type": "text",
+      "label": "Two 4",
+      "page": 1,
+      "box": {
+        "left": 232.4,
+        "top": 523.7,
+        "width": 30.3,
+        "height": 16.8
+      }
+    },
+    "formsRej4": {
+      "type": "text",
+      "label": "REJECT",
+      "page": 1,
+      "box": {
+        "left": 268.4,
+        "top": 523.7,
+        "width": 34.8,
+        "height": 16.8
+      }
+    },
+    "cardsForms42": {
+      "type": "text",
+      "label": "c. DAILY AUDIT PART III",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 523.7,
+        "width": 151.9,
+        "height": 16.8
+      }
+    },
+    "one42": {
+      "type": "text",
+      "label": "One 42",
+      "page": 1,
+      "box": {
+        "left": 466.4,
+        "top": 523.7,
+        "width": 30.3,
+        "height": 16.8
+      }
+    },
+    "two42": {
+      "type": "text",
+      "label": "Two 42",
+      "page": 1,
+      "box": {
+        "left": 502.4,
+        "top": 523.7,
+        "width": 30.3,
+        "height": 16.8
+      }
+    },
+    "formsRej42": {
+      "type": "text",
+      "label": "REJECT",
+      "page": 1,
+      "box": {
+        "left": 538.4,
+        "top": 523.7,
+        "width": 34.8,
+        "height": 16.8
+      }
+    },
+    "commentsLocalUse": {
+      "type": "text",
+      "label": "9. COMMENTS / LOCAL USE",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 489.9,
+        "width": 264.4,
+        "height": 253.0
+      },
+      "multiline": true
+    },
+    "one6": {
+      "type": "text",
+      "label": "a. NAVAL AIRCRAFT FLIGHT RECORD",
+      "page": 1,
+      "box": {
+        "left": 196.4,
+        "top": 478.7,
+        "width": 30.3,
+        "height": 16.8
+      }
+    },
+    "two6": {
+      "type": "text",
+      "label": "a. NAVAL AIRCRAFT FLIGHT RECORD",
+      "page": 1,
+      "box": {
+        "left": 232.4,
+        "top": 478.7,
+        "width": 30.3,
+        "height": 16.8
+      }
+    },
+    "formsRej6": {
+      "type": "text",
+      "label": "a. NAVAL AIRCRAFT FLIGHT RECORD",
+      "page": 1,
+      "box": {
+        "left": 268.4,
+        "top": 478.7,
+        "width": 34.8,
+        "height": 16.8
+      }
+    },
+    "one7": {
+      "type": "text",
+      "label": "b. MAGNETIC MEDIA",
+      "page": 1,
+      "box": {
+        "left": 196.4,
+        "top": 456.2,
+        "width": 30.3,
+        "height": 16.8
+      }
+    },
+    "two7": {
+      "type": "text",
+      "label": "b. MAGNETIC MEDIA",
+      "page": 1,
+      "box": {
+        "left": 232.4,
+        "top": 456.2,
+        "width": 30.3,
+        "height": 16.8
+      }
+    },
+    "formsRej7": {
+      "type": "text",
+      "label": "b. MAGNETIC MEDIA",
+      "page": 1,
+      "box": {
+        "left": 268.4,
+        "top": 456.2,
+        "width": 34.8,
+        "height": 16.8
+      }
+    },
+    "cardsForms61": {
+      "type": "text",
+      "label": "b. MAGNETIC MEDIA",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 433.7,
+        "width": 151.9,
+        "height": 16.8
+      }
+    },
+    "one8": {
+      "type": "text",
+      "label": "One 8",
+      "page": 1,
+      "box": {
+        "left": 196.4,
+        "top": 433.7,
+        "width": 30.3,
+        "height": 16.8
+      }
+    },
+    "two8": {
+      "type": "text",
+      "label": "Two 8",
+      "page": 1,
+      "box": {
+        "left": 232.4,
+        "top": 433.7,
+        "width": 30.3,
+        "height": 16.8
+      }
+    },
+    "formsRej8": {
+      "type": "text",
+      "label": "REJECT",
+      "page": 1,
+      "box": {
+        "left": 268.4,
+        "top": 433.7,
+        "width": 34.8,
+        "height": 16.8
+      }
+    },
+    "cardsForms62": {
+      "type": "text",
+      "label": "b. MAGNETIC MEDIA",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 411.2,
+        "width": 151.9,
+        "height": 16.8
+      }
+    },
+    "one9": {
+      "type": "text",
+      "label": "One 9",
+      "page": 1,
+      "box": {
+        "left": 196.4,
+        "top": 411.2,
+        "width": 30.3,
+        "height": 16.8
+      }
+    },
+    "two9": {
+      "type": "text",
+      "label": "Two 9",
+      "page": 1,
+      "box": {
+        "left": 232.4,
+        "top": 411.2,
+        "width": 30.3,
+        "height": 16.8
+      }
+    },
+    "formsRej9": {
+      "type": "text",
+      "label": "REJECT",
+      "page": 1,
+      "box": {
+        "left": 268.4,
+        "top": 411.2,
+        "width": 34.8,
+        "height": 16.8
+      }
+    },
+    "one10": {
+      "type": "text",
+      "label": "a. MAF/WO (COPY 2)",
+      "page": 1,
+      "box": {
+        "left": 196.4,
+        "top": 366.2,
+        "width": 30.3,
+        "height": 16.8
+      }
+    },
+    "two10": {
+      "type": "text",
+      "label": "a. MAF/WO (COPY 2)",
+      "page": 1,
+      "box": {
+        "left": 232.4,
+        "top": 366.2,
+        "width": 30.3,
+        "height": 16.8
+      }
+    },
+    "formsRej10": {
+      "type": "text",
+      "label": "a. MAF/WO (COPY 2)",
+      "page": 1,
+      "box": {
+        "left": 268.4,
+        "top": 366.2,
+        "width": 34.8,
+        "height": 16.8
+      }
+    },
+    "one11": {
+      "type": "text",
+      "label": "b. DD1348",
+      "page": 1,
+      "box": {
+        "left": 196.4,
+        "top": 343.7,
+        "width": 30.3,
+        "height": 16.8
+      }
+    },
+    "two11": {
+      "type": "text",
+      "label": "b. DD1348",
+      "page": 1,
+      "box": {
+        "left": 232.4,
+        "top": 343.7,
+        "width": 30.3,
+        "height": 16.8
+      }
+    },
+    "formsRej11": {
+      "type": "text",
+      "label": "b. DD1348",
+      "page": 1,
+      "box": {
+        "left": 268.4,
+        "top": 343.7,
+        "width": 34.8,
+        "height": 16.8
+      }
+    },
+    "cardsForms71": {
+      "type": "text",
+      "label": "b. DD1348",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 321.2,
+        "width": 151.9,
+        "height": 16.8
+      }
+    },
+    "one12": {
+      "type": "text",
+      "label": "One 12",
+      "page": 1,
+      "box": {
+        "left": 196.4,
+        "top": 321.2,
+        "width": 30.3,
+        "height": 16.8
+      }
+    },
+    "two12": {
+      "type": "text",
+      "label": "Two 12",
+      "page": 1,
+      "box": {
+        "left": 232.4,
+        "top": 321.2,
+        "width": 30.3,
+        "height": 16.8
+      }
+    },
+    "formsRej12": {
+      "type": "text",
+      "label": "REJECT",
+      "page": 1,
+      "box": {
+        "left": 268.4,
+        "top": 321.2,
+        "width": 34.8,
+        "height": 16.8
+      }
+    },
+    "cardsForms72": {
+      "type": "text",
+      "label": "b. DD1348",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 298.7,
+        "width": 151.9,
+        "height": 16.8
+      }
+    },
+    "one13": {
+      "type": "text",
+      "label": "One 13",
+      "page": 1,
+      "box": {
+        "left": 196.4,
+        "top": 298.7,
+        "width": 30.3,
+        "height": 16.8
+      }
+    },
+    "two13": {
+      "type": "text",
+      "label": "Two 13",
+      "page": 1,
+      "box": {
+        "left": 232.4,
+        "top": 298.7,
+        "width": 30.3,
+        "height": 16.8
+      }
+    },
+    "formsRej13": {
+      "type": "text",
+      "label": "REJECT",
+      "page": 1,
+      "box": {
+        "left": 268.4,
+        "top": 298.7,
+        "width": 34.8,
+        "height": 16.8
+      }
+    },
+    "cardsForms73": {
+      "type": "text",
+      "label": "b. DD1348",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 276.2,
+        "width": 151.9,
+        "height": 16.8
+      }
+    },
+    "one14": {
+      "type": "text",
+      "label": "One 14",
+      "page": 1,
+      "box": {
+        "left": 196.4,
+        "top": 276.2,
+        "width": 30.3,
+        "height": 16.8
+      }
+    },
+    "two14": {
+      "type": "text",
+      "label": "Two 14",
+      "page": 1,
+      "box": {
+        "left": 232.4,
+        "top": 276.2,
+        "width": 30.3,
+        "height": 16.8
+      }
+    },
+    "formsRej14": {
+      "type": "text",
+      "label": "REJECT",
+      "page": 1,
+      "box": {
+        "left": 268.4,
+        "top": 276.2,
+        "width": 34.8,
+        "height": 16.8
+      }
+    },
+    "julianDateTime": {
+      "type": "text",
+      "label": "10. JULIAN DATE / TIME RECEIVED",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 221.3,
+        "width": 264.4,
+        "height": 15.9
+      }
+    },
+    "receivedBy": {
+      "type": "text",
+      "label": "11. RECEIVED BY (Signature)",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 188.3,
+        "width": 264.4,
+        "height": 19.0
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 22.5,
+      "editor": "grid",
+      "columns": {
+        "oneCol": {
+          "type": "text",
+          "label": "a. DAILY AUDIT PART I",
+          "page": 1,
+          "box": {
+            "left": 466.4,
+            "top": 591.2,
+            "width": 30.3,
+            "height": 16.8
+          }
+        },
+        "twoCol": {
+          "type": "text",
+          "label": "a. DAILY AUDIT PART I",
+          "page": 1,
+          "box": {
+            "left": 502.4,
+            "top": 591.2,
+            "width": 30.3,
+            "height": 16.8
+          }
+        },
+        "formsRejCol": {
+          "type": "text",
+          "label": "a. DAILY AUDIT PART I",
+          "page": 1,
+          "box": {
+            "left": 538.4,
+            "top": 591.2,
+            "width": 34.8,
+            "height": 16.8
+          }
+        }
+      }
+    }
+  }
+}

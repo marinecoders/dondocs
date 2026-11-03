@@ -1,0 +1,359 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 792,
+    "height": 612
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "to": {
+        "left": 486.9,
+        "top": 532.6,
+        "width": 120.8,
+        "height": 39.4,
+        "type": "text",
+        "description": "Enter who the request for change of action or extended distribution is to. Enter the recipient address.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date": {
+        "left": 611.1,
+        "top": 496.6,
+        "width": 143.7,
+        "height": 24.2,
+        "type": "text",
+        "description": "Enter the date using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "changeactionorcognizance": {
+        "left": 478.9,
+        "top": 463.1,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if change action or cognizance.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "actionrequested": {
+        "left": 36.6,
+        "top": 454.8,
+        "width": 197.0,
+        "height": 84.3,
+        "type": "text",
+        "description": "Enter the action requested.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "extendeddistributiion": {
+        "left": 266.0,
+        "top": 453.2,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if extended distribution.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "includerequestorINFORDIST": {
+        "left": 478.9,
+        "top": 439.1,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if including requestor in information distribution.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "notencluded": {
+        "left": 478.9,
+        "top": 412.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if not including requestor in re-issue distribution but return this request when requested action has been taken.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "additionalcopies": {
+        "left": 266.5,
+        "top": 402.1,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if additional copies.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "originator": {
+        "left": 139.4,
+        "top": 354.7,
+        "width": 304.4,
+        "height": 19.1,
+        "type": "text",
+        "description": "Enter the originator.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "datetimegroup": {
+        "left": 448.3,
+        "top": 354.7,
+        "width": 157.8,
+        "height": 19.1,
+        "type": "text",
+        "description": "Enter the date, time and group information.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "messagecontrolNOMCN": {
+        "left": 645.0,
+        "top": 354.7,
+        "width": 109.8,
+        "height": 19.1,
+        "type": "text",
+        "description": "Enter the message control number (MCN).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "requestor": {
+        "left": 36.6,
+        "top": 318.7,
+        "width": 99.4,
+        "height": 19.1,
+        "type": "text",
+        "description": "Enter the requestor.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "requestorofficeN": {
+        "left": 153.5,
+        "top": 318.7,
+        "width": 78.5,
+        "height": 19.1,
+        "type": "text",
+        "description": "Enter the requestor office N.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "typednameundersignature": {
+        "left": 235.4,
+        "top": 318.7,
+        "width": 297.1,
+        "height": 19.1,
+        "type": "text",
+        "description": "Enter the typed name under signature.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rank1": {
+        "left": 535.9,
+        "top": 318.7,
+        "width": 70.7,
+        "height": 19.1,
+        "type": "text",
+        "description": "Enter the rank.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "requestortelephone": {
+        "left": 609.0,
+        "top": 318.7,
+        "width": 145.8,
+        "height": 19.1,
+        "type": "text",
+        "description": "Enter the requestor's telephone number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "actionorCOGofficeN": {
+        "left": 153.5,
+        "top": 282.2,
+        "width": 78.5,
+        "height": 19.1,
+        "type": "text",
+        "description": "Enter the requestor office N.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "acceptedby": {
+        "left": 235.4,
+        "top": 282.2,
+        "width": 297.1,
+        "height": 19.1,
+        "type": "text",
+        "description": "Enter whom action or COG change is accepted by.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rank2": {
+        "left": 535.9,
+        "top": 282.2,
+        "width": 70.7,
+        "height": 19.1,
+        "type": "text",
+        "description": "Enter the rank.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "actionorCOGchangetelephone": {
+        "left": 609.0,
+        "top": 282.2,
+        "width": 145.8,
+        "height": 19.1,
+        "type": "text",
+        "description": "Enter the action or COG change telephone number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "additionalcopiesarerequiredby": {
+        "left": 36.6,
+        "top": 244.1,
+        "width": 718.1,
+        "height": 34.2,
+        "type": "text",
+        "description": "Enter who additional copies are required by.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "extendinternaldistributionto": {
+        "left": 36.6,
+        "top": 190.9,
+        "width": 718.1,
+        "height": 34.2,
+        "type": "text",
+        "description": "Enter who the extended internal distribution is to.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "received": {
+        "left": 193.2,
+        "top": 153.3,
+        "width": 95.7,
+        "height": 13.1,
+        "type": "text",
+        "description": "Enter when received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "actiontaken": {
+        "left": 528.1,
+        "top": 153.3,
+        "width": 70.7,
+        "height": 13.1,
+        "type": "text",
+        "description": "Enter the action taken.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "routes": {
+        "left": 624.0,
+        "top": 146.1,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "F[0].P1[0].Routes[0]",
+        "required": false
+      },
+      "approved": {
+        "left": 293.3,
+        "top": 137.1,
+        "width": 150.0,
+        "height": 38.1,
+        "type": "text",
+        "description": "Enter who approved.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "time1": {
+        "left": 193.2,
+        "top": 134.5,
+        "width": 95.7,
+        "height": 13.1,
+        "type": "text",
+        "description": "Enter the time using the 24-hour clock (HHMM).  ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "time2": {
+        "left": 503.1,
+        "top": 134.5,
+        "width": 95.7,
+        "height": 13.1,
+        "type": "text",
+        "description": "Enter the time using the 24-hour clock (HHMM).  ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "routes2": {
+        "left": 624.0,
+        "top": 120.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "F[0].P1[0].Routes[0]",
+        "required": false
+      },
+      "by1": {
+        "left": 135.8,
+        "top": 112.1,
+        "width": 153.1,
+        "height": 13.1,
+        "type": "text",
+        "description": "Enter who received by.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "by2": {
+        "left": 445.7,
+        "top": 112.1,
+        "width": 153.1,
+        "height": 13.1,
+        "type": "text",
+        "description": "Enter who action taken by.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

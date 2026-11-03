@@ -1,0 +1,300 @@
+{
+  "id": "opnav53005",
+  "label": "OPNAV5300-5 - Mentoring Profile Request",
+  "directory": "OPNAV5300-5 - Mentoring Profile Request",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "rank",
+        "position",
+        "years",
+        "specialty",
+        "unit",
+        "phone",
+        "email",
+        "title",
+        "ba",
+        "bs",
+        "dds",
+        "do",
+        "md",
+        "phd",
+        "other",
+        "rotation",
+        "activities",
+        "courses"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "1. NAME ( First, Middle, Last )",
+      "page": 1,
+      "box": {
+        "left": 39.2,
+        "top": 696.6,
+        "width": 354.4,
+        "height": 27.4
+      }
+    },
+    "rank": {
+      "type": "text",
+      "label": "2. RANK/GRADE",
+      "page": 1,
+      "box": {
+        "left": 399.3,
+        "top": 696.6,
+        "width": 174.4,
+        "height": 27.4
+      }
+    },
+    "position": {
+      "type": "text",
+      "label": "3. POSITION TITLE ( Job )",
+      "page": 1,
+      "box": {
+        "left": 39.2,
+        "top": 653.2,
+        "width": 354.4,
+        "height": 29.1
+      }
+    },
+    "years": {
+      "type": "text",
+      "label": "4. YEARS IN SERVICE",
+      "page": 1,
+      "box": {
+        "left": 399.3,
+        "top": 653.2,
+        "width": 174.4,
+        "height": 29.1
+      }
+    },
+    "specialty": {
+      "type": "text",
+      "label": "6. SPECIALTY AREA (Mil)/Series (Civil)",
+      "page": 1,
+      "box": {
+        "left": 255.2,
+        "top": 606.6,
+        "width": 318.4,
+        "height": 27.4
+      }
+    },
+    "unit": {
+      "type": "text",
+      "label": "5. UNIT/COMPETENCY",
+      "page": 1,
+      "box": {
+        "left": 39.2,
+        "top": 605.7,
+        "width": 210.4,
+        "height": 26.6
+      }
+    },
+    "phone": {
+      "type": "text",
+      "label": "7. WORK PHONE NUMBER",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 562.4,
+        "width": 210.4,
+        "height": 28.3
+      }
+    },
+    "email": {
+      "type": "text",
+      "label": "8. E-MAIL",
+      "page": 1,
+      "box": {
+        "left": 255.2,
+        "top": 562.4,
+        "width": 318.4,
+        "height": 28.3
+      }
+    },
+    "title": {
+      "type": "text",
+      "label": "9. OCCUPATION/POSITION TITLE",
+      "page": 1,
+      "box": {
+        "left": 39.2,
+        "top": 516.6,
+        "width": 210.4,
+        "height": 27.4
+      }
+    },
+    "ba": {
+      "type": "checkbox",
+      "label": "DEGREE",
+      "page": 1,
+      "box": {
+        "left": 265.2,
+        "top": 507.3,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "bs": {
+      "type": "checkbox",
+      "label": "BA",
+      "page": 1,
+      "box": {
+        "left": 373.2,
+        "top": 507.3,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "dds": {
+      "type": "checkbox",
+      "label": "BS",
+      "page": 1,
+      "box": {
+        "left": 481.3,
+        "top": 507.3,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "do": {
+      "type": "checkbox",
+      "label": "DEGREE",
+      "page": 1,
+      "box": {
+        "left": 265.2,
+        "top": 489.3,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "md": {
+      "type": "checkbox",
+      "label": "DO",
+      "page": 1,
+      "box": {
+        "left": 373.2,
+        "top": 489.3,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "phd": {
+      "type": "checkbox",
+      "label": "MD",
+      "page": 1,
+      "box": {
+        "left": 481.3,
+        "top": 489.3,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "other": {
+      "type": "text",
+      "label": "OTHER",
+      "page": 1,
+      "box": {
+        "left": 298.3,
+        "top": 474.4,
+        "width": 230.3,
+        "height": 21.3
+      }
+    },
+    "rotation": {
+      "type": "text",
+      "label": "11. ROTATION DATE ( Military Only )",
+      "page": 1,
+      "box": {
+        "left": 39.2,
+        "top": 473.2,
+        "width": 210.4,
+        "height": 29.1
+      }
+    },
+    "activities": {
+      "type": "text",
+      "label": "12. COMMUNITY ACTIVITIES",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 427.4,
+        "width": 534.4,
+        "height": 28.3
+      }
+    },
+    "courses": {
+      "type": "text",
+      "label": "13. PROFESSIONAL COURSES ATTENDED",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 380.7,
+        "width": 534.4,
+        "height": 26.6
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 7,
+      "rowStride": 33.57,
+      "editor": "grid",
+      "columns": {
+        "box": {
+          "type": "text",
+          "label": "DUTY STATION/DATE",
+          "page": 1,
+          "box": {
+            "left": 74.9,
+            "top": 294.5,
+            "width": 111.3,
+            "height": 27.9
+          }
+        },
+        "box2": {
+          "type": "text",
+          "label": "PRIMARY DUTY",
+          "page": 1,
+          "box": {
+            "left": 191.9,
+            "top": 294.5,
+            "width": 111.3,
+            "height": 27.9
+          }
+        },
+        "box3": {
+          "type": "text",
+          "label": "COLLATERALS",
+          "page": 1,
+          "box": {
+            "left": 308.9,
+            "top": 294.5,
+            "width": 111.3,
+            "height": 27.9
+          }
+        },
+        "box4": {
+          "type": "text",
+          "label": "COMMITTEE MEMBERSHIP",
+          "page": 1,
+          "box": {
+            "left": 425.9,
+            "top": 294.5,
+            "width": 111.3,
+            "height": 27.9
+          }
+        }
+      }
+    }
+  }
+}

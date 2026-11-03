@@ -1,0 +1,602 @@
+{
+  "id": "navpers17406",
+  "label": "NAVPERS1740-6 - Department Of The NAVY Family Care Certificate",
+  "directory": "NAVPERS1740-6 - Department Of The NAVY Family Care Certificate",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "textField1",
+        "textField12",
+        "textField13",
+        "textField14",
+        "textField15",
+        "textField16",
+        "textField17",
+        "textField18",
+        "textField19",
+        "textField110",
+        "textField2",
+        "textField111",
+        "textField22",
+        "textField112",
+        "textField3",
+        "textField32",
+        "dateTimeField1",
+        "staticText3"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "name2",
+        "address1",
+        "textField5",
+        "phone1",
+        "textField6",
+        "witness1",
+        "name22",
+        "address12",
+        "textField7",
+        "phone12",
+        "textField8",
+        "witness12",
+        "name4",
+        "textField4",
+        "textField9",
+        "name5",
+        "textField10",
+        "name6",
+        "command1",
+        "commandCoord",
+        "textField11",
+        "name7"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "command12",
+        "name8",
+        "textField122",
+        "dateTimeField2",
+        "name82",
+        "textField132",
+        "dateTimeField3"
+      ]
+    }
+  ],
+  "fields": {
+    "textField1": {
+      "type": "text",
+      "label": "INITIALS",
+      "page": 1,
+      "box": {
+        "left": 524.8,
+        "top": 532.8,
+        "width": 48.3,
+        "height": 17.0
+      }
+    },
+    "textField12": {
+      "type": "text",
+      "label": "TextField1",
+      "page": 1,
+      "box": {
+        "left": 524.8,
+        "top": 510.2,
+        "width": 48.3,
+        "height": 21.3
+      }
+    },
+    "textField13": {
+      "type": "text",
+      "label": "TextField1",
+      "page": 1,
+      "box": {
+        "left": 524.8,
+        "top": 483.2,
+        "width": 48.3,
+        "height": 21.3
+      }
+    },
+    "textField14": {
+      "type": "text",
+      "label": "TextField1",
+      "page": 1,
+      "box": {
+        "left": 524.8,
+        "top": 456.2,
+        "width": 48.3,
+        "height": 21.3
+      }
+    },
+    "textField15": {
+      "type": "text",
+      "label": "TextField1",
+      "page": 1,
+      "box": {
+        "left": 178.8,
+        "top": 429.2,
+        "width": 34.3,
+        "height": 14.3
+      }
+    },
+    "textField16": {
+      "type": "text",
+      "label": "TextField1",
+      "page": 1,
+      "box": {
+        "left": 524.8,
+        "top": 429.2,
+        "width": 48.3,
+        "height": 54.3
+      },
+      "multiline": true
+    },
+    "textField17": {
+      "type": "text",
+      "label": "TextField1",
+      "page": 1,
+      "box": {
+        "left": 234.8,
+        "top": 425.2,
+        "width": 34.3,
+        "height": 10.3
+      }
+    },
+    "textField18": {
+      "type": "text",
+      "label": "TextField1",
+      "page": 1,
+      "box": {
+        "left": 524.8,
+        "top": 369.2,
+        "width": 48.3,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "textField19": {
+      "type": "text",
+      "label": "TextField1",
+      "page": 1,
+      "box": {
+        "left": 524.8,
+        "top": 333.2,
+        "width": 48.3,
+        "height": 22.3
+      }
+    },
+    "textField110": {
+      "type": "text",
+      "label": "TextField1",
+      "page": 1,
+      "box": {
+        "left": 524.8,
+        "top": 305.2,
+        "width": 48.3,
+        "height": 34.3
+      },
+      "multiline": true
+    },
+    "textField2": {
+      "type": "text",
+      "label": "TextField2",
+      "page": 1,
+      "box": {
+        "left": 322.8,
+        "top": 265.2,
+        "width": 190.3,
+        "height": 10.3
+      }
+    },
+    "textField111": {
+      "type": "text",
+      "label": "TextField1",
+      "page": 1,
+      "box": {
+        "left": 524.8,
+        "top": 265.2,
+        "width": 48.3,
+        "height": 66.3
+      },
+      "multiline": true
+    },
+    "textField22": {
+      "type": "text",
+      "label": "TextField2",
+      "page": 1,
+      "box": {
+        "left": 42.8,
+        "top": 253.2,
+        "width": 470.3,
+        "height": 10.3
+      }
+    },
+    "textField112": {
+      "type": "text",
+      "label": "TextField1",
+      "page": 1,
+      "box": {
+        "left": 524.8,
+        "top": 193.2,
+        "width": 48.3,
+        "height": 42.3
+      },
+      "multiline": true
+    },
+    "textField3": {
+      "type": "text",
+      "label": "11.  TYPED OR PRINTED NAME OF MEMBER:",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 131.8,
+        "width": 294.3,
+        "height": 17.0
+      }
+    },
+    "textField32": {
+      "type": "text",
+      "label": "12. RANK/RATE:",
+      "page": 1,
+      "box": {
+        "left": 338.8,
+        "top": 131.8,
+        "width": 146.3,
+        "height": 17.0
+      }
+    },
+    "dateTimeField1": {
+      "type": "text",
+      "label": "14. DATE (YYYYMMDD):",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 99.9,
+        "width": 114.3,
+        "height": 17.0
+      }
+    },
+    "staticText3": {
+      "type": "text",
+      "label": "Member's Signature. To digitally sign using your CAC card, enable JavaScript, click on red arrow and save to a location other than e-mail.",
+      "page": 1,
+      "box": {
+        "left": 157.4,
+        "top": 99.0,
+        "width": 417.2,
+        "height": 17.5
+      }
+    },
+    "name2": {
+      "type": "text",
+      "label": "Please enter your name in this block if your absence is for less than 30 days.",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 655.7,
+        "width": 274.3,
+        "height": 16.8
+      }
+    },
+    "address1": {
+      "type": "text",
+      "label": "Please enter your mailing address.",
+      "page": 2,
+      "box": {
+        "left": 318.8,
+        "top": 655.7,
+        "width": 254.3,
+        "height": 88.8
+      },
+      "multiline": true
+    },
+    "textField5": {
+      "type": "text",
+      "label": "Caregiver Signature. To digitally sign using your CAC card, enable JavaScript, click on red arrow and save to a location other than e-mail.",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 620.4,
+        "width": 274.3,
+        "height": 17.6
+      }
+    },
+    "phone1": {
+      "type": "text",
+      "label": "Please enter your phone number including area code.",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 583.7,
+        "width": 274.3,
+        "height": 16.8
+      }
+    },
+    "textField6": {
+      "type": "text",
+      "label": "Witness Signature. To digitally sign using your CAC card, enable JavaScript, click on red arrow and save to a location other than e-mail.",
+      "page": 2,
+      "box": {
+        "left": 318.8,
+        "top": 548.4,
+        "width": 254.3,
+        "height": 19.6
+      }
+    },
+    "witness1": {
+      "type": "text",
+      "label": "Please enter witnessing officials name here.",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 546.9,
+        "width": 274.3,
+        "height": 18.1
+      }
+    },
+    "name22": {
+      "type": "text",
+      "label": "Please enter your name in this block if your absence is for less than 30 days.",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 491.7,
+        "width": 274.3,
+        "height": 16.8
+      }
+    },
+    "address12": {
+      "type": "text",
+      "label": "Please enter your mailing address.",
+      "page": 2,
+      "box": {
+        "left": 318.8,
+        "top": 491.7,
+        "width": 254.3,
+        "height": 88.8
+      },
+      "multiline": true
+    },
+    "textField7": {
+      "type": "text",
+      "label": "Caregiver Signature. To digitally sign using your CAC card, enable JavaScript, click on red arrow and save to a location other than e-mail.",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 456.4,
+        "width": 274.3,
+        "height": 17.6
+      }
+    },
+    "phone12": {
+      "type": "text",
+      "label": "Please enter your phone number including area code.",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 419.7,
+        "width": 274.3,
+        "height": 16.8
+      }
+    },
+    "textField8": {
+      "type": "text",
+      "label": "Witness Signature.  To digitally sign using your CAC card, enable JavaScript, click on red arrow and save to a location other than e-mail.",
+      "page": 2,
+      "box": {
+        "left": 318.8,
+        "top": 384.4,
+        "width": 254.3,
+        "height": 21.6
+      }
+    },
+    "witness12": {
+      "type": "text",
+      "label": "Please enter witnessing officials name here.",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 382.9,
+        "width": 274.3,
+        "height": 20.1
+      }
+    },
+    "name4": {
+      "type": "text",
+      "label": "Please enter the name of servicemember here.",
+      "page": 2,
+      "box": {
+        "left": 354.8,
+        "top": 329.2,
+        "width": 218.3,
+        "height": 12.3
+      }
+    },
+    "textField4": {
+      "type": "text",
+      "label": "TextField4",
+      "page": 2,
+      "box": {
+        "left": 42.8,
+        "top": 313.2,
+        "width": 254.3,
+        "height": 14.3
+      }
+    },
+    "textField9": {
+      "type": "text",
+      "label": "Escort Signature. To digitally sign using your CAC card, enable JavaScript, click on red arrow and save to a location other than e-mail.",
+      "page": 2,
+      "box": {
+        "left": 313.8,
+        "top": 280.4,
+        "width": 259.3,
+        "height": 17.6
+      }
+    },
+    "name5": {
+      "type": "text",
+      "label": "Please enter caregiver name here.",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 279.7,
+        "width": 269.3,
+        "height": 16.8
+      }
+    },
+    "textField10": {
+      "type": "text",
+      "label": "Witness Signature. To digitally sign using your CAC card, enable JavaScript, click on red arrow and save to a location other than e-mail.",
+      "page": 2,
+      "box": {
+        "left": 313.8,
+        "top": 244.4,
+        "width": 259.3,
+        "height": 17.6
+      }
+    },
+    "name6": {
+      "type": "text",
+      "label": "Please enter witnessing official name here.",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 243.7,
+        "width": 269.3,
+        "height": 16.8
+      }
+    },
+    "command1": {
+      "type": "text",
+      "label": "Please enter the name of command of dual servicemember.",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 171.7,
+        "width": 269.3,
+        "height": 34.8
+      },
+      "multiline": true
+    },
+    "commandCoord": {
+      "type": "text",
+      "label": "Please enter the name of the command family care plan coordinator.",
+      "page": 2,
+      "box": {
+        "left": 313.8,
+        "top": 165.7,
+        "width": 259.3,
+        "height": 28.8
+      }
+    },
+    "textField11": {
+      "type": "text",
+      "label": "Spouse Signature. To digitally sign using your CAC card, enable JavaScript, click on red arrow and save to a location other than e-mail.",
+      "page": 2,
+      "box": {
+        "left": 313.8,
+        "top": 118.4,
+        "width": 259.3,
+        "height": 17.6
+      }
+    },
+    "name7": {
+      "type": "text",
+      "label": "Please enter the full name and social of dual spouse.",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 117.7,
+        "width": 269.3,
+        "height": 16.8
+      }
+    },
+    "command12": {
+      "type": "text",
+      "label": "Please enter the name of command of dual servicemember.",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 691.7,
+        "width": 534.3,
+        "height": 464.8
+      },
+      "multiline": true
+    },
+    "name8": {
+      "type": "text",
+      "label": "Please enter the full name and social of dual spouse requesting certification.",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 175.4,
+        "width": 206.3,
+        "height": 20.6
+      }
+    },
+    "textField122": {
+      "type": "text",
+      "label": " Signature. To digitally sign using your CAC card, enable JavaScript, click on red arrow and save to a location other than e-mail.",
+      "page": 3,
+      "box": {
+        "left": 250.8,
+        "top": 175.4,
+        "width": 219.3,
+        "height": 20.6
+      }
+    },
+    "dateTimeField2": {
+      "type": "text",
+      "label": "21C. DATE (YYYYMMDD):",
+      "page": 3,
+      "box": {
+        "left": 474.8,
+        "top": 175.4,
+        "width": 98.3,
+        "height": 20.6
+      }
+    },
+    "name82": {
+      "type": "text",
+      "label": "Please enter the full name and social of dual spouse requesting certification.",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 94.4,
+        "width": 238.3,
+        "height": 20.6
+      }
+    },
+    "textField132": {
+      "type": "text",
+      "label": "Commanding Officer's Signature. To digitally sign using your CAC card, enable JavaScript, click on red arrow and save to a location other than e-mail.",
+      "page": 3,
+      "box": {
+        "left": 282.8,
+        "top": 94.4,
+        "width": 186.3,
+        "height": 20.6
+      }
+    },
+    "dateTimeField3": {
+      "type": "text",
+      "label": "22C. DATE (YYYYMMDD):",
+      "page": 3,
+      "box": {
+        "left": 474.8,
+        "top": 94.4,
+        "width": 98.3,
+        "height": 20.6
+      }
+    }
+  }
+}

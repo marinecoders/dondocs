@@ -1,0 +1,226 @@
+{
+  "id": "navpers1070120",
+  "label": "NAVPERS1070-120 - Request For Change To Permanent Personnel Record",
+  "directory": "NAVPERS1070-120 - Request For Change To Permanent Personnel Record",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "auth1",
+        "sig1",
+        "date1",
+        "auth2",
+        "sig2",
+        "date2",
+        "textField6",
+        "dateTimeField1",
+        "name",
+        "ssn",
+        "textField2"
+      ]
+    }
+  ],
+  "fields": {
+    "auth1": {
+      "type": "text",
+      "label": "Please enter authority for change request",
+      "page": 1,
+      "box": {
+        "left": 47.8,
+        "top": 672.2,
+        "width": 174.3,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "sig1": {
+      "type": "text",
+      "label": "Please type last name, first name and middle initial of authority",
+      "page": 1,
+      "box": {
+        "left": 227.8,
+        "top": 672.2,
+        "width": 237.3,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "date1": {
+      "type": "text",
+      "label": "Please enter date of authority signature",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 672.2,
+        "width": 93.3,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "auth2": {
+      "type": "text",
+      "label": "Please enter authority for change request",
+      "page": 1,
+      "box": {
+        "left": 47.8,
+        "top": 636.2,
+        "width": 174.3,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "sig2": {
+      "type": "text",
+      "label": "Please type last name, first name and middle initial of authority",
+      "page": 1,
+      "box": {
+        "left": 227.8,
+        "top": 636.2,
+        "width": 237.3,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "date2": {
+      "type": "text",
+      "label": "Please enter date of authority signature",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 636.2,
+        "width": 93.3,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "textField6": {
+      "type": "text",
+      "label": "TextField6",
+      "page": 1,
+      "box": {
+        "left": 227.8,
+        "top": 600.2,
+        "width": 237.3,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "dateTimeField1": {
+      "type": "text",
+      "label": "DateTimeField1",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 600.2,
+        "width": 93.3,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "name": {
+      "type": "text",
+      "label": "Please type full name of the member that is haveing permanent record changed",
+      "page": 1,
+      "box": {
+        "left": 83.1,
+        "top": 546.2,
+        "width": 328.1,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "ssn": {
+      "type": "text",
+      "label": "Please type social security number of member that is having permanent personnel record changed",
+      "page": 1,
+      "box": {
+        "left": 443.8,
+        "top": 546.2,
+        "width": 120.3,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "textField2": {
+      "type": "text",
+      "label": "Please enter additional comments if necessary",
+      "page": 1,
+      "box": {
+        "left": 47.8,
+        "top": 199.7,
+        "width": 516.3,
+        "height": 133.8
+      },
+      "multiline": true
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 7,
+      "rowStride": 36.0,
+      "editor": "grid",
+      "columns": {
+        "textField3": {
+          "type": "text",
+          "label": "Please enter form number of the permanent personnel record being changed",
+          "page": 1,
+          "box": {
+            "left": 47.8,
+            "top": 465.2,
+            "width": 75.3,
+            "height": 30.3
+          }
+        },
+        "textField32": {
+          "type": "text",
+          "label": "Please enter document title of the permanent personnel record being changed",
+          "page": 1,
+          "box": {
+            "left": 128.8,
+            "top": 465.2,
+            "width": 129.3,
+            "height": 30.3
+          }
+        },
+        "textField33": {
+          "type": "text",
+          "label": "Please enter document document date of the permanent personnel record being changed",
+          "page": 1,
+          "box": {
+            "left": 263.8,
+            "top": 465.2,
+            "width": 57.3,
+            "height": 30.3
+          }
+        },
+        "textField34": {
+          "type": "text",
+          "label": "Please enter number of pages of the form to be changed",
+          "page": 1,
+          "box": {
+            "left": 326.8,
+            "top": 465.2,
+            "width": 48.3,
+            "height": 30.3
+          }
+        },
+        "textField35": {
+          "type": "text",
+          "label": "Please enter action to be taken.",
+          "page": 1,
+          "box": {
+            "left": 380.8,
+            "top": 465.2,
+            "width": 183.3,
+            "height": 30.3
+          }
+        }
+      }
+    }
+  }
+}

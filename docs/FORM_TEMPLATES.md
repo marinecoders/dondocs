@@ -28,9 +28,17 @@ Official military PDF forms are typically encoded using **XFA (XML Forms Archite
 1. **What is flattening?** Converting dynamic XFA form elements into static PDF content (text, lines, rectangles)
 2. **Why flatten?** pdf-lib and most JavaScript PDF libraries cannot read or modify XFA content
 3. **How to flatten?**
-   - Adobe Acrobat Pro: Print to PDF or use "Flatten Form Fields"
-   - Online tools: Various PDF flattening services (ensure no sensitive data)
-   - Command line: `pdftk input.pdf output output.pdf flatten`
+   - Command line (verified on the NAVMC XFA hybrids — poppler, `brew install poppler`):
+     ```bash
+     pdftocairo -pdf official_form.pdf flat.pdf   # strips XFA/AcroForm, keeps vector text
+     pdfseparate flat.pdf page%d.pdf              # one file per page, as the registry expects
+     ```
+     Verify with `pdfinfo page1.pdf` — it must report `Form: none`.
+   - Adobe Acrobat Pro: Print to PDF or use "Flatten Form Fields" (the Jan 2026
+     10274/11811 pages were made this way; either pipeline is acceptable)
+   - **Do NOT use `pdftk ... flatten` for these forms** — it only flattens
+     AcroForm appearances and passes the XFA layer through untouched
+     (`pdfinfo` still reports `Form: XFA`), which pdf-lib can't consume.
 
 ---
 
@@ -38,12 +46,42 @@ Official military PDF forms are typically encoded using **XFA (XML Forms Archite
 
 1. **Obtain the official form** from https://forms.documentservices.dla.mil
 
-2. **Flatten the PDF** to remove XFA encoding:
+2. **Flatten the PDF** into the per-page template files, headless, with one
+   command — it lifts the owner-password, flattens, splits, and **refuses if the
+   form is pure dynamic XFA** (see the trap below) so a placeholder can never be
+   staged:
    ```bash
-   pdftk official_form.pdf output flattened_form.pdf flatten
+   scripts/flatten-navmc-form.sh ~/Desktop/"NAVMC 11621 (EF).pdf" \
+     "NAVMC11621 - BCP Evaluation"
+   ```
+   Or run the pieces by hand (see the verified pipeline above):
+   ```bash
+   pdftocairo -pdf official_form.pdf flat.pdf && pdfseparate flat.pdf page%d.pdf
    ```
 
-3. **Extract box boundaries** using the provided script:
+   **The pure-XFA trap.** Some NAVMCs (e.g. 11296 Request Mast) are *pure
+   dynamic XFA* — `Form: XFA`, one page, zero AcroForm fields. Their static
+   layer is only Adobe's "Please wait…" placeholder; poppler renders that, not
+   the form. `flatten-navmc-form.sh` detects it and exits 3. Flatten these in
+   Acrobat: open the decrypted copy (`qpdf --decrypt in.pdf out.pdf`), then
+   **File > Print > "Save as PDF"** (Print, not "Save As > PostScript" — the
+   latter often skips the XFA render), then `pdfseparate` the result.
+
+3. **Harvest the field boxes** from the ORIGINAL (EF) PDF — not the flattened
+   pages — into a reviewable draft:
+   ```bash
+   python3 scripts/harvest-fields.py ~/Desktop/"NAVMC 10132 (EF).pdf" \
+     "NAVMC10132 - Unit Punishment Book"
+   ```
+   It reads AcroForm widget rectangles when present (exact — every NAVMC tested
+   so far has them) and falls back to computing geometry from the XFA template
+   XML. Output: `boxes.draft.json` in the template folder plus overlay PNGs of
+   the boxes drawn on the flattened pages — **review the overlays, rename the
+   keys to semantic names, then promote the draft to `boxes.json`.** The script
+   refuses when the source's page size differs from the committed pages
+   (different revisions produce silently-wrong coordinates).
+
+   Legacy alternative — rectangle detection from the flattened pages:
    ```bash
    pip install pdfplumber
    python scripts/extract-pdf-boxes.py public/templates/your_form.pdf --save-image

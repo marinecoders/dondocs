@@ -1,0 +1,662 @@
+{
+  "id": "navpers171010",
+  "label": "NAVPERS1710-10 - Boat Mooring And Storage Agreement",
+  "directory": "NAVPERS1710-10 - Boat Mooring And Storage Agreement",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "dateTimeField1",
+        "marinaName",
+        "patronName",
+        "address1",
+        "cityStateZip",
+        "telephone",
+        "patronPermission",
+        "commenceDate",
+        "terminationDate",
+        "textField2",
+        "vesselName",
+        "vesselMake",
+        "vesselYear",
+        "vesselLength",
+        "vesselRegTitle",
+        "state1",
+        "trailerDescription",
+        "state",
+        "trailerTitleReg",
+        "ownerRecorrd",
+        "completeAddress1",
+        "completeAddress2",
+        "completeAddress3"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "additionalOwner1",
+        "additionalOwner2",
+        "additionalOwner3",
+        "completeMailingAddress",
+        "insuranceCompany",
+        "policyNumber",
+        "policyEndingDate",
+        "amountPaidYearSeasonYear",
+        "rentPaymentsCommence",
+        "rentPaymentsCommence2",
+        "totalAmountAgreement",
+        "feesPerDay"
+      ]
+    },
+    {
+      "title": "Page 4",
+      "fields": [
+        "dateOwner1",
+        "dateOwner",
+        "dateOwner3",
+        "mWRRep",
+        "dateOwner4"
+      ]
+    }
+  ],
+  "fields": {
+    "dateTimeField1": {
+      "type": "text",
+      "label": "Enter the agreement completion date (DD MMM YYYY).",
+      "page": 1,
+      "box": {
+        "left": 216.7,
+        "top": 681.0,
+        "width": 61.5,
+        "height": 15.0
+      }
+    },
+    "marinaName": {
+      "type": "text",
+      "label": "Enter the MWR marina name.",
+      "page": 1,
+      "box": {
+        "left": 63.8,
+        "top": 660.7,
+        "width": 291.3,
+        "height": 15.3
+      }
+    },
+    "patronName": {
+      "type": "text",
+      "label": "Enter the patron's complete name.",
+      "page": 1,
+      "box": {
+        "left": 64.3,
+        "top": 633.7,
+        "width": 242.6,
+        "height": 12.3
+      }
+    },
+    "address1": {
+      "type": "text",
+      "label": "Enter the mailing address number street name.",
+      "page": 1,
+      "box": {
+        "left": 222.0,
+        "top": 612.7,
+        "width": 193.5,
+        "height": 16.5
+      }
+    },
+    "cityStateZip": {
+      "type": "text",
+      "label": "Enter the city, state, and zip code",
+      "page": 1,
+      "box": {
+        "left": 222.0,
+        "top": 576.7,
+        "width": 193.5,
+        "height": 16.5
+      }
+    },
+    "telephone": {
+      "type": "text",
+      "label": "Enter the area code and telephone number.",
+      "page": 1,
+      "box": {
+        "left": 226.3,
+        "top": 539.3,
+        "width": 187.1,
+        "height": 14.2
+      }
+    },
+    "patronPermission": {
+      "type": "text",
+      "label": "Enter the patron's agreement request for permission to store or moor a privately ownened vessel at the marina.",
+      "page": 1,
+      "box": {
+        "left": 356.9,
+        "top": 508.1,
+        "width": 67.5,
+        "height": 12.8
+      }
+    },
+    "commenceDate": {
+      "type": "text",
+      "label": "Enter the date that the agreement will commence (DD MMM YYYY).",
+      "page": 1,
+      "box": {
+        "left": 227.9,
+        "top": 452.1,
+        "width": 75.0,
+        "height": 13.0
+      }
+    },
+    "terminationDate": {
+      "type": "text",
+      "label": "Enter the date the agreement will be terminated (DD MMM YYYY).",
+      "page": 1,
+      "box": {
+        "left": 431.9,
+        "top": 449.5,
+        "width": 71.0,
+        "height": 10.4
+      }
+    },
+    "textField2": {
+      "type": "text",
+      "label": "Enter the space, slip, bouy number that the MWR marina agrees to rent.",
+      "page": 1,
+      "box": {
+        "left": 219.9,
+        "top": 430.1,
+        "width": 44.0,
+        "height": 13.0
+      }
+    },
+    "vesselName": {
+      "type": "text",
+      "label": "Enter the vessel name.",
+      "page": 1,
+      "box": {
+        "left": 128.0,
+        "top": 394.5,
+        "width": 343.2,
+        "height": 14.3
+      }
+    },
+    "vesselMake": {
+      "type": "text",
+      "label": "Enter the vessel make.",
+      "page": 1,
+      "box": {
+        "left": 227.9,
+        "top": 374.1,
+        "width": 129.8,
+        "height": 16.5
+      }
+    },
+    "vesselYear": {
+      "type": "text",
+      "label": "Enter the vessel year.",
+      "page": 1,
+      "box": {
+        "left": 118.9,
+        "top": 373.1,
+        "width": 38.2,
+        "height": 17.3
+      }
+    },
+    "vesselLength": {
+      "type": "text",
+      "label": "Enter the vessel length.",
+      "page": 1,
+      "box": {
+        "left": 430.9,
+        "top": 370.5,
+        "width": 40.5,
+        "height": 14.3
+      }
+    },
+    "vesselRegTitle": {
+      "type": "text",
+      "label": "Enter the vessel registration title and number.",
+      "page": 1,
+      "box": {
+        "left": 192.0,
+        "top": 346.5,
+        "width": 153.0,
+        "height": 14.3
+      }
+    },
+    "state1": {
+      "type": "choice",
+      "label": "Select from the list the two letter state abbreviation of the state.",
+      "page": 1,
+      "box": {
+        "left": 437.9,
+        "top": 346.5,
+        "width": 36.0,
+        "height": 14.3
+      },
+      "options": [
+        "AL",
+        "AK",
+        "AS",
+        "AZ",
+        "AR",
+        "AA",
+        "AE",
+        "AP",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "DC",
+        "FM",
+        "FL",
+        "GA",
+        "GU",
+        "HI",
+        "ID",
+        "IL",
+        "IN",
+        "IA",
+        "KS",
+        "KY",
+        "LA",
+        "ME",
+        "MH",
+        "MD",
+        "MA",
+        "MI",
+        "MN",
+        "MS",
+        "MO",
+        "MT",
+        "NE",
+        "NV",
+        "NH",
+        "NJ",
+        "NM",
+        "NY",
+        "NC",
+        "ND",
+        "MP",
+        "OH",
+        "OK",
+        "OR",
+        "PW",
+        "PA",
+        "PR",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VT",
+        "VI",
+        "VA",
+        "WA",
+        "WV",
+        "WI",
+        "WY",
+        "   "
+      ]
+    },
+    "trailerDescription": {
+      "type": "text",
+      "label": "Enter the trailer description.",
+      "page": 1,
+      "box": {
+        "left": 192.9,
+        "top": 322.5,
+        "width": 241.9,
+        "height": 14.3
+      }
+    },
+    "state": {
+      "type": "choice",
+      "label": "Select from the list the two letter state abbreviation of the state.",
+      "page": 1,
+      "box": {
+        "left": 440.2,
+        "top": 298.5,
+        "width": 36.0,
+        "height": 14.3
+      },
+      "options": [
+        "AL",
+        "AK",
+        "AS",
+        "AZ",
+        "AR",
+        "AA",
+        "AE",
+        "AP",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "DC",
+        "FM",
+        "FL",
+        "GA",
+        "GU",
+        "HI",
+        "ID",
+        "IL",
+        "IN",
+        "IA",
+        "KS",
+        "KY",
+        "LA",
+        "ME",
+        "MH",
+        "MD",
+        "MA",
+        "MI",
+        "MN",
+        "MS",
+        "MO",
+        "MT",
+        "NE",
+        "NV",
+        "NH",
+        "NJ",
+        "NM",
+        "NY",
+        "NC",
+        "ND",
+        "MP",
+        "OH",
+        "OK",
+        "OR",
+        "PW",
+        "PA",
+        "PR",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VT",
+        "VI",
+        "VA",
+        "WA",
+        "WV",
+        "WI",
+        "WY",
+        "   "
+      ]
+    },
+    "trailerTitleReg": {
+      "type": "text",
+      "label": "Enter the trailer registration and title number.",
+      "page": 1,
+      "box": {
+        "left": 194.9,
+        "top": 298.1,
+        "width": 149.0,
+        "height": 14.3
+      }
+    },
+    "ownerRecorrd": {
+      "type": "text",
+      "label": "Enter the owner of record with the  full name as it appers on the title.",
+      "page": 1,
+      "box": {
+        "left": 144.0,
+        "top": 277.6,
+        "width": 326.9,
+        "height": 16.5
+      }
+    },
+    "completeAddress1": {
+      "type": "text",
+      "label": "Enter the complete mailing address.",
+      "page": 1,
+      "box": {
+        "left": 66.3,
+        "top": 240.5,
+        "width": 405.9,
+        "height": 15.8
+      }
+    },
+    "completeAddress2": {
+      "type": "text",
+      "label": "Enter the complete mailing address.",
+      "page": 1,
+      "box": {
+        "left": 66.3,
+        "top": 219.6,
+        "width": 405.9,
+        "height": 15.8
+      }
+    },
+    "completeAddress3": {
+      "type": "text",
+      "label": "Enter the complete mailing address.",
+      "page": 1,
+      "box": {
+        "left": 66.3,
+        "top": 197.6,
+        "width": 405.9,
+        "height": 15.8
+      }
+    },
+    "additionalOwner1": {
+      "type": "text",
+      "label": "Enter the full name of any additional owners or lien holders on the record.  ",
+      "page": 2,
+      "box": {
+        "left": 253.9,
+        "top": 696.0,
+        "width": 264.9,
+        "height": 11.3
+      }
+    },
+    "additionalOwner2": {
+      "type": "text",
+      "label": "Enter the complete mailing address.",
+      "page": 2,
+      "box": {
+        "left": 64.3,
+        "top": 671.0,
+        "width": 454.5,
+        "height": 11.3
+      }
+    },
+    "additionalOwner3": {
+      "type": "text",
+      "label": "Enter the complete mailing address.",
+      "page": 2,
+      "box": {
+        "left": 64.3,
+        "top": 653.0,
+        "width": 454.5,
+        "height": 11.3
+      }
+    },
+    "completeMailingAddress": {
+      "type": "text",
+      "label": "Enter the complete mailing address.",
+      "page": 2,
+      "box": {
+        "left": 64.3,
+        "top": 638.0,
+        "width": 454.5,
+        "height": 11.3
+      }
+    },
+    "insuranceCompany": {
+      "type": "text",
+      "label": "Enter the name of the insurance company.",
+      "page": 2,
+      "box": {
+        "left": 163.0,
+        "top": 538.1,
+        "width": 355.9,
+        "height": 15.3
+      }
+    },
+    "policyNumber": {
+      "type": "text",
+      "label": "Enter the  policy number.",
+      "page": 2,
+      "box": {
+        "left": 135.9,
+        "top": 516.0,
+        "width": 109.0,
+        "height": 15.0
+      }
+    },
+    "policyEndingDate": {
+      "type": "text",
+      "label": "Enter the ending date of insurance policy (DD MMM YYYY).",
+      "page": 2,
+      "box": {
+        "left": 403.9,
+        "top": 516.0,
+        "width": 115.0,
+        "height": 15.0
+      }
+    },
+    "amountPaidYearSeasonYear": {
+      "type": "text",
+      "label": "Enter the amount in dollars the patron agrees to to pay MWR marina per month, season, or year.  ",
+      "page": 2,
+      "box": {
+        "left": 289.9,
+        "top": 478.1,
+        "width": 60.0,
+        "height": 11.0
+      }
+    },
+    "rentPaymentsCommence": {
+      "type": "text",
+      "label": "Enter the date the rent payment shall commence (DD MMM YYYY).",
+      "page": 2,
+      "box": {
+        "left": 291.9,
+        "top": 465.1,
+        "width": 94.0,
+        "height": 11.0
+      }
+    },
+    "rentPaymentsCommence2": {
+      "type": "text",
+      "label": "Enter the date the rent payment shall commence (DD MMM YYYY).",
+      "page": 2,
+      "box": {
+        "left": 64.0,
+        "top": 454.1,
+        "width": 64.0,
+        "height": 11.0
+      }
+    },
+    "totalAmountAgreement": {
+      "type": "text",
+      "label": "Enter the total amount payable by this agreement.",
+      "page": 2,
+      "box": {
+        "left": 302.9,
+        "top": 431.1,
+        "width": 45.0,
+        "height": 11.0
+      }
+    },
+    "feesPerDay": {
+      "type": "text",
+      "label": "Enter the rate of storage fees per day.",
+      "page": 2,
+      "box": {
+        "left": 147.0,
+        "top": 406.1,
+        "width": 37.0,
+        "height": 11.0
+      }
+    },
+    "dateOwner1": {
+      "type": "text",
+      "label": "Enter the date.",
+      "page": 4,
+      "box": {
+        "left": 70.0,
+        "top": 367.1,
+        "width": 66.3,
+        "height": 17.2
+      }
+    },
+    "dateOwner": {
+      "type": "text",
+      "label": "Enter the date.",
+      "page": 4,
+      "box": {
+        "left": 70.0,
+        "top": 330.1,
+        "width": 66.3,
+        "height": 17.2
+      }
+    },
+    "dateOwner3": {
+      "type": "text",
+      "label": "Enter the date.",
+      "page": 4,
+      "box": {
+        "left": 71.0,
+        "top": 295.1,
+        "width": 66.3,
+        "height": 17.2
+      }
+    },
+    "mWRRep": {
+      "type": "text",
+      "label": "Enter the name of the MWR represenitive.",
+      "page": 4,
+      "box": {
+        "left": 153.0,
+        "top": 260.1,
+        "width": 354.4,
+        "height": 17.2
+      }
+    },
+    "dateOwner4": {
+      "type": "text",
+      "label": "Enter the date.",
+      "page": 4,
+      "box": {
+        "left": 72.0,
+        "top": 259.1,
+        "width": 66.3,
+        "height": 17.2
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 4,
+      "count": 3,
+      "rowStride": 35.5,
+      "editor": "grid",
+      "columns": {
+        "owner": {
+          "type": "text",
+          "label": "Enter the name of the owner.",
+          "page": 4,
+          "box": {
+            "left": 153.0,
+            "top": 367.1,
+            "width": 354.4,
+            "height": 17.2
+          }
+        }
+      }
+    }
+  }
+}

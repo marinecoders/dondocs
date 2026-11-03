@@ -1,0 +1,248 @@
+{
+  "id": "navmchq029",
+  "label": "NAVMC HQ 029 - Reference Service Log",
+  "directory": "NAVMCHQ029 - Reference Service Log",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "dateReceived",
+        "receivedBy",
+        "originatingOffice",
+        "requestor",
+        "reguestNature",
+        "priority",
+        "deadline",
+        "radioButtonList",
+        "radioButtonList2",
+        "radioButtonList3",
+        "date1",
+        "date2",
+        "date3",
+        "date4",
+        "date5",
+        "date6",
+        "remarks"
+      ]
+    }
+  ],
+  "fields": {
+    "dateReceived": {
+      "type": "text",
+      "label": "DateReceived",
+      "page": 1,
+      "box": {
+        "left": 413.7,
+        "top": 687.2,
+        "width": 177.3,
+        "height": 11.0
+      }
+    },
+    "receivedBy": {
+      "type": "text",
+      "label": "ReceivedBy",
+      "page": 1,
+      "box": {
+        "left": 23.9,
+        "top": 686.9,
+        "width": 381.9,
+        "height": 11.7
+      }
+    },
+    "originatingOffice": {
+      "type": "text",
+      "label": "OriginatingOffice",
+      "page": 1,
+      "box": {
+        "left": 23.4,
+        "top": 657.9,
+        "width": 279.7,
+        "height": 11.7
+      }
+    },
+    "requestor": {
+      "type": "text",
+      "label": "Requestor",
+      "page": 1,
+      "box": {
+        "left": 311.5,
+        "top": 657.8,
+        "width": 279.7,
+        "height": 11.7
+      }
+    },
+    "reguestNature": {
+      "type": "text",
+      "label": "ReguestNature",
+      "page": 1,
+      "box": {
+        "left": 21.4,
+        "top": 627.2,
+        "width": 569.8,
+        "height": 169.3
+      },
+      "multiline": true
+    },
+    "priority": {
+      "type": "text",
+      "label": "Priority",
+      "page": 1,
+      "box": {
+        "left": 22.9,
+        "top": 434.8,
+        "width": 279.7,
+        "height": 11.7
+      }
+    },
+    "deadline": {
+      "type": "text",
+      "label": "Deadline",
+      "page": 1,
+      "box": {
+        "left": 312.5,
+        "top": 434.8,
+        "width": 277.3,
+        "height": 11.7
+      }
+    },
+    "radioButtonList": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 307.3,
+        "top": 412.4,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_0"
+    },
+    "radioButtonList2": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 89.0,
+        "top": 412.3,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_0"
+    },
+    "radioButtonList3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 412.3,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_0"
+    },
+    "date1": {
+      "type": "text",
+      "label": "Date1",
+      "page": 1,
+      "box": {
+        "left": 200.2,
+        "top": 364.8,
+        "width": 96.9,
+        "height": 11.0
+      }
+    },
+    "date2": {
+      "type": "text",
+      "label": "Date2",
+      "page": 1,
+      "box": {
+        "left": 200.1,
+        "top": 344.4,
+        "width": 96.9,
+        "height": 11.0
+      }
+    },
+    "date3": {
+      "type": "text",
+      "label": "Date3",
+      "page": 1,
+      "box": {
+        "left": 200.3,
+        "top": 322.7,
+        "width": 96.9,
+        "height": 11.0
+      }
+    },
+    "date4": {
+      "type": "text",
+      "label": "Date4",
+      "page": 1,
+      "box": {
+        "left": 200.5,
+        "top": 302.4,
+        "width": 96.9,
+        "height": 11.0
+      }
+    },
+    "date5": {
+      "type": "text",
+      "label": "Date5",
+      "page": 1,
+      "box": {
+        "left": 199.9,
+        "top": 281.3,
+        "width": 96.9,
+        "height": 11.0
+      }
+    },
+    "date6": {
+      "type": "text",
+      "label": "Date6",
+      "page": 1,
+      "box": {
+        "left": 200.4,
+        "top": 261.2,
+        "width": 96.9,
+        "height": 11.0
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 1,
+      "box": {
+        "left": 21.4,
+        "top": 228.2,
+        "width": 569.8,
+        "height": 169.9
+      },
+      "multiline": true
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 6,
+      "rowStride": 20.82,
+      "editor": "grid",
+      "columns": {
+        "assigned": {
+          "type": "text",
+          "label": "Assigned1",
+          "page": 1,
+          "box": {
+            "left": 306.4,
+            "top": 366.6,
+            "width": 284.8,
+            "height": 11.7
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "id": "navmc11873",
+  "label": "NAVMC 11873 - Service Agreement (1100) Enlisted Commissioning Program Student Naval Aviator",
+  "directory": "NAVMC11873 - Service Agreement (1100) Enlisted Commissioning Program Student Naval Aviator",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "nameAppl"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "signatureField1",
+        "signatureField12",
+        "witnessName",
+        "applicantName",
+        "date"
+      ]
+    }
+  ],
+  "fields": {
+    "nameAppl": {
+      "type": "text",
+      "label": "LAST NAME, FIRST AND MIDDLE INITIAL OF APPLICANT",
+      "page": 1,
+      "box": {
+        "left": 74.8,
+        "top": 67.2,
+        "width": 462.4,
+        "height": 19.4
+      }
+    },
+    "signatureField1": {
+      "type": "text",
+      "label": "this document",
+      "page": 2,
+      "box": {
+        "left": 92.8,
+        "top": 366.1,
+        "width": 210.4,
+        "height": 33.4
+      },
+      "multiline": true
+    },
+    "signatureField12": {
+      "type": "text",
+      "label": "Signature Field 12",
+      "page": 2,
+      "box": {
+        "left": 344.9,
+        "top": 366.1,
+        "width": 210.4,
+        "height": 33.4
+      },
+      "multiline": true
+    },
+    "witnessName": {
+      "type": "text",
+      "label": "Signature of Witnessing Officer",
+      "page": 2,
+      "box": {
+        "left": 92.8,
+        "top": 287.9,
+        "width": 210.4,
+        "height": 33.4
+      },
+      "multiline": true
+    },
+    "applicantName": {
+      "type": "text",
+      "label": "Signature of Applicant",
+      "page": 2,
+      "box": {
+        "left": 344.9,
+        "top": 287.9,
+        "width": 210.4,
+        "height": 33.4
+      },
+      "multiline": true
+    },
+    "date": {
+      "type": "text",
+      "label": "Full Name of Applicant",
+      "page": 2,
+      "box": {
+        "left": 344.9,
+        "top": 215.9,
+        "width": 210.4,
+        "height": 20.7
+      }
+    }
+  }
+}

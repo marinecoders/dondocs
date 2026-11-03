@@ -1,0 +1,217 @@
+{
+  "id": "navpers13304",
+  "label": "NAVPERS1330-4 - Secretary Of The NAVY Tours With Industry Program Application",
+  "directory": "NAVPERS1330-4 - Secretary Of The NAVY Tours With Industry Program Application",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "cell2",
+        "cell22",
+        "cell3",
+        "cell32",
+        "cell33",
+        "cell4",
+        "cell1"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "cell12",
+        "cell13",
+        "cell14",
+        "cell15",
+        "cell16",
+        "name2",
+        "cell23",
+        "cell34"
+      ],
+      "editor": "checklist"
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "Name (Last, First, MI)",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 708.5,
+        "width": 318.3,
+        "height": 21.6
+      }
+    },
+    "cell2": {
+      "type": "text",
+      "label": "Command Name",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 708.5,
+        "width": 210.3,
+        "height": 21.6
+      }
+    },
+    "cell22": {
+      "type": "text",
+      "label": "Rank/Rate",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 672.5,
+        "width": 102.3,
+        "height": 21.6
+      }
+    },
+    "cell3": {
+      "type": "text",
+      "label": "Designator/Rating",
+      "page": 1,
+      "box": {
+        "left": 146.9,
+        "top": 672.5,
+        "width": 102.3,
+        "height": 21.6
+      }
+    },
+    "cell32": {
+      "type": "text",
+      "label": "Time In Service",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 672.5,
+        "width": 102.3,
+        "height": 21.6
+      }
+    },
+    "cell33": {
+      "type": "text",
+      "label": "PRD",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 672.5,
+        "width": 102.3,
+        "height": 21.6
+      }
+    },
+    "cell4": {
+      "type": "text",
+      "label": "EAOS",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 672.5,
+        "width": 102.3,
+        "height": 21.6
+      }
+    },
+    "cell1": {
+      "type": "text",
+      "label": "Cell 1",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 630.3,
+        "width": 534.3,
+        "height": 438.2
+      },
+      "multiline": true
+    },
+    "cell12": {
+      "type": "checkbox",
+      "label": "Applicant",
+      "page": 2,
+      "box": {
+        "left": 32.0,
+        "top": 697.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell13": {
+      "type": "checkbox",
+      "label": "Applicant",
+      "page": 2,
+      "box": {
+        "left": 32.0,
+        "top": 679.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell14": {
+      "type": "checkbox",
+      "label": "Applicant",
+      "page": 2,
+      "box": {
+        "left": 32.0,
+        "top": 661.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell15": {
+      "type": "checkbox",
+      "label": "Applicant",
+      "page": 2,
+      "box": {
+        "left": 32.0,
+        "top": 643.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell16": {
+      "type": "checkbox",
+      "label": "Applicant",
+      "page": 2,
+      "box": {
+        "left": 32.0,
+        "top": 619.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "name2": {
+      "type": "text",
+      "label": "Name (Last, First, MI)",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 589.7,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "cell23": {
+      "type": "text",
+      "label": "Signature",
+      "page": 2,
+      "box": {
+        "left": 272.9,
+        "top": 589.7,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "cell34": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 506.9,
+        "top": 589.7,
+        "width": 66.2,
+        "height": 21.6
+      }
+    }
+  }
+}

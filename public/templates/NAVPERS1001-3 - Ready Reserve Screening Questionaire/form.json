@@ -1,0 +1,675 @@
+{
+  "id": "navpers10013",
+  "label": "NAVPERS1001-3 - Ready Reserve Screening Questionaire",
+  "directory": "NAVPERS1001-3 - Ready Reserve Screening Questionaire",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "textField1",
+        "textField12",
+        "textField13",
+        "textField14",
+        "checkBox1",
+        "checkBox12",
+        "checkBox13",
+        "checkBox14",
+        "checkBox15",
+        "checkBox16",
+        "checkBox17",
+        "checkBox18",
+        "checkBox19",
+        "checkBox110",
+        "checkBox111",
+        "checkBox112",
+        "checkBox113",
+        "checkBox114",
+        "checkBox115",
+        "checkBox116",
+        "checkBox117",
+        "checkBox118",
+        "textField2",
+        "textField22",
+        "checkBox119",
+        "checkBox120",
+        "textField23",
+        "textField24",
+        "checkBox121",
+        "checkBox122",
+        "checkBox123",
+        "checkBox124",
+        "checkBox125",
+        "checkBox126",
+        "checkBox127",
+        "checkBox128",
+        "checkBox129",
+        "checkBox130",
+        "checkBox131",
+        "checkBox132",
+        "checkBox133",
+        "checkBox134",
+        "textField3"
+      ],
+      "editor": "checklist"
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "textField32",
+        "signatureField1",
+        "dateField1",
+        "checkBox135",
+        "textField4",
+        "checkBox136",
+        "checkBox137",
+        "signatureField12",
+        "dateField12",
+        "signatureField13",
+        "dateField13"
+      ]
+    }
+  ],
+  "fields": {
+    "textField1": {
+      "type": "text",
+      "label": "Name: (Last, First, MI)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 627.1,
+        "width": 327.4,
+        "height": 12.3
+      }
+    },
+    "textField12": {
+      "type": "text",
+      "label": "DODID Number",
+      "page": 1,
+      "box": {
+        "left": 371.9,
+        "top": 627.1,
+        "width": 66.3,
+        "height": 12.3
+      }
+    },
+    "textField13": {
+      "type": "text",
+      "label": "Pay grade",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 627.1,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "textField14": {
+      "type": "text",
+      "label": "Designator/Rating",
+      "page": 1,
+      "box": {
+        "left": 497.9,
+        "top": 627.1,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "checkBox1": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 546.2,
+        "top": 598.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox12": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 564.2,
+        "top": 598.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox13": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 546.2,
+        "top": 575.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox14": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 564.2,
+        "top": 575.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox15": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 546.2,
+        "top": 553.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox16": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 564.2,
+        "top": 553.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox17": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 546.2,
+        "top": 535.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox18": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 564.2,
+        "top": 535.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox19": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 546.2,
+        "top": 512.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox110": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 564.2,
+        "top": 512.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox111": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 546.2,
+        "top": 485.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox112": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 564.2,
+        "top": 485.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox113": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 546.2,
+        "top": 454.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox114": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 564.2,
+        "top": 454.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox115": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 546.2,
+        "top": 418.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox116": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 564.2,
+        "top": 418.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox117": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 546.2,
+        "top": 381.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox118": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 564.2,
+        "top": 381.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "textField2": {
+      "type": "text",
+      "label": "Name of organization",
+      "page": 1,
+      "box": {
+        "left": 119.8,
+        "top": 378.7,
+        "width": 201.4,
+        "height": 12.3
+      }
+    },
+    "textField22": {
+      "type": "text",
+      "label": "Position/Title",
+      "page": 1,
+      "box": {
+        "left": 380.9,
+        "top": 378.7,
+        "width": 156.4,
+        "height": 12.3
+      }
+    },
+    "checkBox119": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 546.2,
+        "top": 341.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox120": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 564.2,
+        "top": 341.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "textField23": {
+      "type": "text",
+      "label": "BUPERSINST 1001.39 (Chapter. 21)",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 337.7,
+        "width": 219.4,
+        "height": 12.3
+      }
+    },
+    "textField24": {
+      "type": "text",
+      "label": "below",
+      "page": 1,
+      "box": {
+        "left": 353.9,
+        "top": 337.7,
+        "width": 183.4,
+        "height": 12.3
+      }
+    },
+    "checkBox121": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 546.2,
+        "top": 305.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox122": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 564.2,
+        "top": 305.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox123": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 546.2,
+        "top": 278.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox124": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 564.2,
+        "top": 278.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox125": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 546.2,
+        "top": 251.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox126": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 564.2,
+        "top": 251.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox127": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 546.2,
+        "top": 228.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox128": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 564.2,
+        "top": 228.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox129": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 546.2,
+        "top": 206.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox130": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 564.2,
+        "top": 206.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox131": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 546.2,
+        "top": 183.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox132": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 564.2,
+        "top": 183.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox133": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 546.2,
+        "top": 161.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox134": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 564.2,
+        "top": 161.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "textField3": {
+      "type": "text",
+      "label": "Comments (explain questions above as appropriate)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 123.1,
+        "width": 534.4,
+        "height": 84.3
+      },
+      "multiline": true
+    },
+    "textField32": {
+      "type": "text",
+      "label": "Comments (continued)",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 699.2,
+        "width": 534.4,
+        "height": 354.4
+      },
+      "multiline": true
+    },
+    "signatureField1": {
+      "type": "text",
+      "label": "Member\u2019s Signature",
+      "page": 2,
+      "box": {
+        "left": 115.5,
+        "top": 294.1,
+        "width": 340.7,
+        "height": 21.3
+      }
+    },
+    "dateField1": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 485.3,
+        "top": 294.1,
+        "width": 87.9,
+        "height": 21.3
+      }
+    },
+    "checkBox135": {
+      "type": "checkbox",
+      "label": "Commanding",
+      "page": 2,
+      "box": {
+        "left": 42.2,
+        "top": 242.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "textField4": {
+      "type": "text",
+      "label": "Text Field 4",
+      "page": 2,
+      "box": {
+        "left": 56.8,
+        "top": 204.1,
+        "width": 516.4,
+        "height": 75.3
+      },
+      "multiline": true
+    },
+    "checkBox136": {
+      "type": "checkbox",
+      "label": "Commanding",
+      "page": 2,
+      "box": {
+        "left": 42.2,
+        "top": 179.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox137": {
+      "type": "checkbox",
+      "label": "Commanding",
+      "page": 2,
+      "box": {
+        "left": 42.2,
+        "top": 120.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "signatureField12": {
+      "type": "text",
+      "label": "Unit commanding officer\u2019s signature",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 96.1,
+        "width": 426.4,
+        "height": 21.3
+      }
+    },
+    "dateField12": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 470.9,
+        "top": 96.1,
+        "width": 102.3,
+        "height": 21.3
+      }
+    },
+    "signatureField13": {
+      "type": "text",
+      "label": "Activity commanding officer\u2019s signature",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 60.1,
+        "width": 426.4,
+        "height": 21.3
+      }
+    },
+    "dateField13": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 470.9,
+        "top": 60.1,
+        "width": 102.3,
+        "height": 21.3
+      }
+    }
+  }
+}

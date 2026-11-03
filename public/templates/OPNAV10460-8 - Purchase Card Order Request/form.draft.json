@@ -1,0 +1,694 @@
+{
+  "id": "opnav104608",
+  "label": "OPNAV10460-8 - Purchase Card Order Request",
+  "directory": "OPNAV10460-8 - Purchase Card Order Request",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "requNbr",
+        "callNbr",
+        "regNme",
+        "regCde",
+        "regPhn",
+        "sugVen",
+        "venPOC",
+        "regPhn2",
+        "desc",
+        "qty",
+        "uoi",
+        "euc",
+        "esc",
+        "etc",
+        "etc1",
+        "etc2",
+        "etc3",
+        "etc4",
+        "etc5",
+        "etc6",
+        "etc7",
+        "justi",
+        "gte",
+        "signatureField1",
+        "radio",
+        "aosigdte",
+        "aPPntNme",
+        "radio2",
+        "jon",
+        "fdsauth",
+        "fosigdte",
+        "radio3",
+        "cHPntNme",
+        "signatureField12",
+        "radio4",
+        "ordplcdte",
+        "odrplcw",
+        "odrplch",
+        "manscr",
+        "gte2",
+        "signatureField13",
+        "chsigdte",
+        "cHPntNme2",
+        "signatureField14",
+        "roSIGDTE",
+        "recPntNme",
+        "signatureField15",
+        "regPntNme",
+        "raSIGDTE"
+      ]
+    }
+  ],
+  "fields": {
+    "requNbr": {
+      "type": "text",
+      "label": "1. REQUISTION NUMBER",
+      "page": 1,
+      "box": {
+        "left": 178.1,
+        "top": 714.9,
+        "width": 132.6,
+        "height": 15.0
+      }
+    },
+    "callNbr": {
+      "type": "text",
+      "label": "2. CALL NUMBER",
+      "page": 1,
+      "box": {
+        "left": 427.0,
+        "top": 714.9,
+        "width": 109.0,
+        "height": 15.0
+      }
+    },
+    "regNme": {
+      "type": "text",
+      "label": "3. REQUESTOR&apos;S NAME",
+      "page": 1,
+      "box": {
+        "left": 39.5,
+        "top": 658.2,
+        "width": 353.6,
+        "height": 13.6
+      }
+    },
+    "regCde": {
+      "type": "text",
+      "label": "4. CODE",
+      "page": 1,
+      "box": {
+        "left": 401.2,
+        "top": 658.2,
+        "width": 80.6,
+        "height": 13.6
+      }
+    },
+    "regPhn": {
+      "type": "text",
+      "label": "5. PHONE NO",
+      "page": 1,
+      "box": {
+        "left": 490.1,
+        "top": 658.2,
+        "width": 81.4,
+        "height": 13.6
+      }
+    },
+    "sugVen": {
+      "type": "text",
+      "label": "6. SUGGESTED VENDOR",
+      "page": 1,
+      "box": {
+        "left": 39.5,
+        "top": 628.3,
+        "width": 217.2,
+        "height": 13.6
+      }
+    },
+    "venPOC": {
+      "type": "text",
+      "label": "7. VENDOR POC",
+      "page": 1,
+      "box": {
+        "left": 264.4,
+        "top": 628.3,
+        "width": 217.2,
+        "height": 13.6
+      }
+    },
+    "regPhn2": {
+      "type": "text",
+      "label": "8. VENDOR PHONE",
+      "page": 1,
+      "box": {
+        "left": 490.1,
+        "top": 628.3,
+        "width": 81.4,
+        "height": 13.6
+      }
+    },
+    "desc": {
+      "type": "text",
+      "label": "(If needed, attach full description)",
+      "page": 1,
+      "box": {
+        "left": 39.3,
+        "top": 577.1,
+        "width": 281.5,
+        "height": 15.0
+      }
+    },
+    "qty": {
+      "type": "text",
+      "label": "QUANTITY",
+      "page": 1,
+      "box": {
+        "left": 322.4,
+        "top": 577.1,
+        "width": 48.5,
+        "height": 15.0
+      }
+    },
+    "uoi": {
+      "type": "text",
+      "label": "ISSUE",
+      "page": 1,
+      "box": {
+        "left": 373.5,
+        "top": 577.1,
+        "width": 48.5,
+        "height": 15.0
+      }
+    },
+    "euc": {
+      "type": "text",
+      "label": "COST",
+      "page": 1,
+      "box": {
+        "left": 424.6,
+        "top": 577.1,
+        "width": 48.5,
+        "height": 15.0
+      }
+    },
+    "esc": {
+      "type": "text",
+      "label": "COST",
+      "page": 1,
+      "box": {
+        "left": 475.3,
+        "top": 577.1,
+        "width": 48.5,
+        "height": 15.0
+      }
+    },
+    "etc": {
+      "type": "text",
+      "label": "COST",
+      "page": 1,
+      "box": {
+        "left": 526.0,
+        "top": 576.2,
+        "width": 48.5,
+        "height": 15.0
+      }
+    },
+    "etc1": {
+      "type": "text",
+      "label": "COST",
+      "page": 1,
+      "box": {
+        "left": 526.0,
+        "top": 560.6,
+        "width": 48.5,
+        "height": 15.0
+      }
+    },
+    "etc2": {
+      "type": "text",
+      "label": "COST",
+      "page": 1,
+      "box": {
+        "left": 526.0,
+        "top": 544.1,
+        "width": 48.5,
+        "height": 15.0
+      }
+    },
+    "etc3": {
+      "type": "text",
+      "label": "COST",
+      "page": 1,
+      "box": {
+        "left": 526.0,
+        "top": 527.7,
+        "width": 48.5,
+        "height": 15.0
+      }
+    },
+    "etc4": {
+      "type": "text",
+      "label": "COST",
+      "page": 1,
+      "box": {
+        "left": 526.0,
+        "top": 511.2,
+        "width": 48.5,
+        "height": 15.0
+      }
+    },
+    "etc5": {
+      "type": "text",
+      "label": "COST",
+      "page": 1,
+      "box": {
+        "left": 526.0,
+        "top": 494.7,
+        "width": 48.5,
+        "height": 15.0
+      }
+    },
+    "etc6": {
+      "type": "text",
+      "label": "COST",
+      "page": 1,
+      "box": {
+        "left": 526.0,
+        "top": 477.7,
+        "width": 48.5,
+        "height": 15.0
+      }
+    },
+    "etc7": {
+      "type": "text",
+      "label": "COST",
+      "page": 1,
+      "box": {
+        "left": 526.0,
+        "top": 462.2,
+        "width": 48.5,
+        "height": 15.0
+      }
+    },
+    "justi": {
+      "type": "text",
+      "label": "10. JUSTIFICATION",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 432.5,
+        "width": 466.8,
+        "height": 59.9
+      },
+      "multiline": true
+    },
+    "gte": {
+      "type": "text",
+      "label": "TOTAL",
+      "page": 1,
+      "box": {
+        "left": 510.7,
+        "top": 414.0,
+        "width": 62.9,
+        "height": 43.2
+      },
+      "multiline": true
+    },
+    "signatureField1": {
+      "type": "text",
+      "label": "14. APPROVING OFFICIAL SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 304.1,
+        "top": 331.4,
+        "width": 164.7,
+        "height": 28.5
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 43.1,
+        "top": 327.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "aosigdte": {
+      "type": "text",
+      "label": "SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 473.0,
+        "top": 327.2,
+        "width": 101.4,
+        "height": 25.9
+      }
+    },
+    "aPPntNme": {
+      "type": "text",
+      "label": "(First, Last)",
+      "page": 1,
+      "box": {
+        "left": 127.5,
+        "top": 325.1,
+        "width": 168.4,
+        "height": 22.1
+      }
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 43.1,
+        "top": 314.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "jon": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 1,
+      "box": {
+        "left": 38.1,
+        "top": 264.0,
+        "width": 65.0,
+        "height": 26.6
+      }
+    },
+    "fdsauth": {
+      "type": "text",
+      "label": "AUTHORIZED",
+      "page": 1,
+      "box": {
+        "left": 106.0,
+        "top": 264.0,
+        "width": 56.1,
+        "height": 26.6
+      }
+    },
+    "fosigdte": {
+      "type": "text",
+      "label": "SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 490.0,
+        "top": 263.4,
+        "width": 84.4,
+        "height": 26.0
+      }
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 167.6,
+        "top": 261.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "cHPntNme": {
+      "type": "text",
+      "label": "NAME (First, Last)",
+      "page": 1,
+      "box": {
+        "left": 243.3,
+        "top": 261.4,
+        "width": 109.3,
+        "height": 21.2
+      }
+    },
+    "signatureField12": {
+      "type": "text",
+      "label": "SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 360.6,
+        "top": 261.4,
+        "width": 124.4,
+        "height": 21.2
+      }
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 167.6,
+        "top": 249.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "ordplcdte": {
+      "type": "text",
+      "label": "25. DATE ORDER PLACED",
+      "page": 1,
+      "box": {
+        "left": 462.4,
+        "top": 205.6,
+        "width": 111.4,
+        "height": 20.0
+      }
+    },
+    "odrplcw": {
+      "type": "choice",
+      "label": "23. ORDER WAS PLACED WITH",
+      "page": 1,
+      "box": {
+        "left": 197.0,
+        "top": 204.5,
+        "width": 124.9,
+        "height": 15.3
+      },
+      "options": [
+        "DOD EMALL",
+        "GSA SCHEDULE ORDER",
+        "GSA ADVANTAGES",
+        "OPEN MARKET"
+      ]
+    },
+    "odrplch": {
+      "type": "choice",
+      "label": "24. HOW ORDER WAS PLACED",
+      "page": 1,
+      "box": {
+        "left": 331.4,
+        "top": 204.5,
+        "width": 124.9,
+        "height": 15.3
+      },
+      "options": [
+        "OVER THE COUNTER",
+        "OVER THE PHONE",
+        "OVER THE INTERNET",
+        "OTHER"
+      ]
+    },
+    "manscr": {
+      "type": "choice",
+      "label": "22. MANDATORY SCREENING",
+      "page": 1,
+      "box": {
+        "left": 41.6,
+        "top": 203.3,
+        "width": 145.9,
+        "height": 14.0
+      },
+      "options": [
+        "T - SUPPLIES",
+        "Q - SERVICES",
+        "NOT AVAILBLE FROM EITHER"
+      ]
+    },
+    "gte2": {
+      "type": "text",
+      "label": "26. TOTAL PRICE",
+      "page": 1,
+      "box": {
+        "left": 38.1,
+        "top": 170.4,
+        "width": 72.6,
+        "height": 23.5
+      }
+    },
+    "signatureField13": {
+      "type": "text",
+      "label": "28. CARDHOLDER SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 290.8,
+        "top": 169.4,
+        "width": 186.8,
+        "height": 19.7
+      }
+    },
+    "chsigdte": {
+      "type": "text",
+      "label": "SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 483.2,
+        "top": 164.1,
+        "width": 90.6,
+        "height": 17.3
+      }
+    },
+    "cHPntNme2": {
+      "type": "text",
+      "label": "(First, Last)",
+      "page": 1,
+      "box": {
+        "left": 118.2,
+        "top": 163.1,
+        "width": 164.0,
+        "height": 13.4
+      }
+    },
+    "signatureField14": {
+      "type": "text",
+      "label": "31. RECEIVING OFFICIAL SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 224.8,
+        "top": 112.9,
+        "width": 212.4,
+        "height": 19.7
+      }
+    },
+    "roSIGDTE": {
+      "type": "text",
+      "label": "SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 443.0,
+        "top": 107.6,
+        "width": 130.8,
+        "height": 17.3
+      }
+    },
+    "recPntNme": {
+      "type": "text",
+      "label": "Last)",
+      "page": 1,
+      "box": {
+        "left": 41.6,
+        "top": 105.6,
+        "width": 174.0,
+        "height": 12.5
+      }
+    },
+    "signatureField15": {
+      "type": "text",
+      "label": "34. REQUESTOR&apos;S ACCEPTANCE SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 224.8,
+        "top": 56.3,
+        "width": 212.4,
+        "height": 19.7
+      }
+    },
+    "regPntNme": {
+      "type": "text",
+      "label": "(First, Last)",
+      "page": 1,
+      "box": {
+        "left": 41.6,
+        "top": 51.2,
+        "width": 174.0,
+        "height": 17.4
+      }
+    },
+    "raSIGDTE": {
+      "type": "text",
+      "label": "SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 443.0,
+        "top": 51.0,
+        "width": 130.8,
+        "height": 17.3
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 7,
+      "rowStride": 16.4,
+      "editor": "grid",
+      "columns": {
+        "desc": {
+          "type": "text",
+          "label": "(If needed, attach full description)",
+          "page": 1,
+          "box": {
+            "left": 39.3,
+            "top": 560.6,
+            "width": 281.5,
+            "height": 15.0
+          }
+        },
+        "qty": {
+          "type": "text",
+          "label": "QUANTITY",
+          "page": 1,
+          "box": {
+            "left": 322.4,
+            "top": 560.6,
+            "width": 48.5,
+            "height": 15.0
+          }
+        },
+        "uoi": {
+          "type": "text",
+          "label": "ISSUE",
+          "page": 1,
+          "box": {
+            "left": 373.5,
+            "top": 560.6,
+            "width": 48.5,
+            "height": 15.0
+          }
+        },
+        "euc": {
+          "type": "text",
+          "label": "COST",
+          "page": 1,
+          "box": {
+            "left": 424.6,
+            "top": 560.6,
+            "width": 48.5,
+            "height": 15.0
+          }
+        },
+        "esc": {
+          "type": "text",
+          "label": "COST",
+          "page": 1,
+          "box": {
+            "left": 475.3,
+            "top": 560.6,
+            "width": 48.5,
+            "height": 15.0
+          }
+        }
+      }
+    }
+  }
+}

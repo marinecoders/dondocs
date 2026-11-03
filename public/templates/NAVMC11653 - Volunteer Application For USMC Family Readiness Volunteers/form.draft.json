@@ -1,0 +1,446 @@
+{
+  "id": "navmc11653",
+  "label": "NAVMC11653 - Volunteer Application For USMC Family Readiness Volunteers",
+  "directory": "NAVMC11653 - Volunteer Application For USMC Family Readiness Volunteers",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "textField3",
+        "dateField1",
+        "textField34",
+        "textField5",
+        "textField37",
+        "textField52",
+        "textField310",
+        "textField311",
+        "textField312",
+        "textField313",
+        "radio",
+        "radio2",
+        "textField314",
+        "textField315",
+        "textField316",
+        "dropDownList1",
+        "dateField12",
+        "textField317",
+        "dateField13",
+        "textField318",
+        "radio3",
+        "radio4",
+        "radio5",
+        "dateField14",
+        "dateField15",
+        "dateField16",
+        "dateField17",
+        "dateField18",
+        "textField319",
+        "signatureField2",
+        "textField320",
+        "dateField19"
+      ]
+    }
+  ],
+  "fields": {
+    "textField3": {
+      "type": "text",
+      "label": "Last Name",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 439.2,
+        "width": 210.4,
+        "height": 22.4
+      }
+    },
+    "dateField1": {
+      "type": "text",
+      "label": "Year of Birth",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 439.2,
+        "width": 66.3,
+        "height": 22.4
+      }
+    },
+    "textField34": {
+      "type": "text",
+      "label": "Current Physical Address",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 403.2,
+        "width": 210.4,
+        "height": 22.4
+      }
+    },
+    "textField5": {
+      "type": "text",
+      "label": "Zip Code",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 403.2,
+        "width": 66.3,
+        "height": 22.4
+      }
+    },
+    "textField37": {
+      "type": "text",
+      "label": "Current Mailing Address (if different than physical address)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 367.1,
+        "width": 210.4,
+        "height": 22.4
+      }
+    },
+    "textField52": {
+      "type": "text",
+      "label": "Zip Code",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 367.1,
+        "width": 66.3,
+        "height": 22.4
+      }
+    },
+    "textField310": {
+      "type": "text",
+      "label": "Cell Phone",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 331.1,
+        "width": 129.3,
+        "height": 22.4
+      }
+    },
+    "textField311": {
+      "type": "text",
+      "label": "Cell Carrier",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 331.1,
+        "width": 129.3,
+        "height": 22.4
+      }
+    },
+    "textField312": {
+      "type": "text",
+      "label": "Home Phone",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 331.1,
+        "width": 129.3,
+        "height": 22.4
+      }
+    },
+    "textField313": {
+      "type": "text",
+      "label": "Email Address",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 331.1,
+        "width": 129.3,
+        "height": 22.4
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 135.3,
+        "top": 300.9,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 315.4,
+        "top": 300.9,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "radio"
+    },
+    "textField314": {
+      "type": "text",
+      "label": "3. Unit and unit address where applicant seeks appointment",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 277.1,
+        "width": 534.4,
+        "height": 22.4
+      }
+    },
+    "textField315": {
+      "type": "text",
+      "label": "4. Sponsor\u2019s Name",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 241.1,
+        "width": 174.4,
+        "height": 22.4
+      }
+    },
+    "textField316": {
+      "type": "text",
+      "label": "5. Sponsor\u2019s Section/Company",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 241.1,
+        "width": 174.4,
+        "height": 22.4
+      }
+    },
+    "dropDownList1": {
+      "type": "choice",
+      "label": "6. Relationship to Sponsor",
+      "page": 1,
+      "box": {
+        "left": 399.6,
+        "top": 240.4,
+        "width": 172.9,
+        "height": 20.9
+      },
+      "options": [
+        "Spouse",
+        "Parent",
+        "Child (over 18)",
+        "Extended Family",
+        "Other"
+      ]
+    },
+    "dateField12": {
+      "type": "text",
+      "label": "Date Application Received",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 187.1,
+        "width": 102.3,
+        "height": 22.4
+      }
+    },
+    "textField317": {
+      "type": "text",
+      "label": "Received by",
+      "page": 1,
+      "box": {
+        "left": 146.9,
+        "top": 187.1,
+        "width": 156.4,
+        "height": 22.4
+      }
+    },
+    "dateField13": {
+      "type": "text",
+      "label": "Date Interview Conducted",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 187.1,
+        "width": 102.3,
+        "height": 22.4
+      }
+    },
+    "textField318": {
+      "type": "text",
+      "label": "Interviewed by",
+      "page": 1,
+      "box": {
+        "left": 416.9,
+        "top": 187.1,
+        "width": 156.4,
+        "height": 22.4
+      }
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 92.8,
+        "top": 156.9,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 156.9,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "radio"
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 398.9,
+        "top": 156.9,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "radio"
+    },
+    "dateField14": {
+      "type": "text",
+      "label": "and signed",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 122.3,
+        "width": 102.3,
+        "height": 11.6
+      }
+    },
+    "dateField15": {
+      "type": "text",
+      "label": "Date of appointment letter",
+      "page": 1,
+      "box": {
+        "left": 146.9,
+        "top": 122.3,
+        "width": 102.3,
+        "height": 11.6
+      }
+    },
+    "dateField16": {
+      "type": "text",
+      "label": "Date of FRA/FRCTA Training",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 122.3,
+        "width": 102.3,
+        "height": 11.6
+      }
+    },
+    "dateField17": {
+      "type": "text",
+      "label": "Training",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 122.3,
+        "width": 102.3,
+        "height": 11.6
+      }
+    },
+    "dateField18": {
+      "type": "text",
+      "label": "Date of L.I.N.K.S. Training",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 122.3,
+        "width": 102.3,
+        "height": 11.6
+      }
+    },
+    "textField319": {
+      "type": "text",
+      "label": "Name",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 79.1,
+        "width": 138.3,
+        "height": 22.4
+      }
+    },
+    "signatureField2": {
+      "type": "text",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 182.9,
+        "top": 79.1,
+        "width": 138.3,
+        "height": 22.4
+      }
+    },
+    "textField320": {
+      "type": "text",
+      "label": "Title",
+      "page": 1,
+      "box": {
+        "left": 326.9,
+        "top": 79.1,
+        "width": 138.3,
+        "height": 22.4
+      }
+    },
+    "dateField19": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 79.1,
+        "width": 102.3,
+        "height": 22.4
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 36.05,
+      "editor": "grid",
+      "columns": {
+        "textField3": {
+          "type": "text",
+          "label": "First Name",
+          "page": 1,
+          "box": {
+            "left": 254.9,
+            "top": 439.2,
+            "width": 210.4,
+            "height": 22.4
+          }
+        },
+        "textField32": {
+          "type": "text",
+          "label": "MI",
+          "page": 1,
+          "box": {
+            "left": 470.9,
+            "top": 439.2,
+            "width": 30.3,
+            "height": 22.4
+          }
+        }
+      }
+    }
+  }
+}

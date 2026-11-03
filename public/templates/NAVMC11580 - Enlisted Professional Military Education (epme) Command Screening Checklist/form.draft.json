@@ -1,0 +1,1120 @@
+{
+  "id": "navmc11580",
+  "label": "NAVMC11580 - Enlisted Professional Military Education (epme) Command Screening Checklist",
+  "directory": "NAVMC11580 - Enlisted Professional Military Education (epme) Command Screening Checklist",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "grade",
+        "edipi",
+        "unit",
+        "radio",
+        "radio2",
+        "radio3",
+        "radio4",
+        "radio5",
+        "radio6",
+        "radio7",
+        "radio8",
+        "remarks4",
+        "radio9",
+        "radio10",
+        "dor",
+        "remarks5",
+        "radio11",
+        "radio12",
+        "program",
+        "programDate",
+        "remarks6",
+        "radio13",
+        "radio14",
+        "weighDate",
+        "height",
+        "weight",
+        "bf",
+        "remarks7",
+        "radio15",
+        "radio16",
+        "remarks8",
+        "radio17",
+        "radio18",
+        "datePFT",
+        "total",
+        "run",
+        "pu",
+        "crunch",
+        "dateCFT",
+        "total2",
+        "mtc",
+        "al",
+        "muf"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "remarks9",
+        "radio19",
+        "radio20",
+        "remarks10",
+        "radio21",
+        "radio22",
+        "remarks11",
+        "radio23",
+        "radio24",
+        "remarks12",
+        "reason12",
+        "radio25",
+        "radio26",
+        "date12",
+        "loc12",
+        "remarks14",
+        "radio27",
+        "radio28",
+        "remarks15",
+        "radio29",
+        "radio30",
+        "name16a",
+        "name16b",
+        "rank16a",
+        "staticText1",
+        "rank16a2",
+        "date16b",
+        "weighDate2",
+        "height2",
+        "weight2",
+        "bf2",
+        "datePFT2",
+        "total3",
+        "run2",
+        "pu2",
+        "crunch2",
+        "signature",
+        "unitSargeantMajor",
+        "phoneUSM",
+        "date",
+        "signature2",
+        "unitCommandingOfficer",
+        "phoneUCO",
+        "date2"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "Name",
+      "page": 1,
+      "box": {
+        "left": 82.9,
+        "top": 501.6,
+        "width": 318.6,
+        "height": 13.8
+      }
+    },
+    "grade": {
+      "type": "text",
+      "label": "Grade",
+      "page": 1,
+      "box": {
+        "left": 453.7,
+        "top": 501.6,
+        "width": 114.2,
+        "height": 13.8
+      }
+    },
+    "edipi": {
+      "type": "text",
+      "label": "EDIPI",
+      "page": 1,
+      "box": {
+        "left": 82.8,
+        "top": 480.5,
+        "width": 94.9,
+        "height": 13.8
+      }
+    },
+    "unit": {
+      "type": "text",
+      "label": "Unit",
+      "page": 1,
+      "box": {
+        "left": 236.2,
+        "top": 480.5,
+        "width": 333.2,
+        "height": 13.8
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 150.0,
+        "top": 457.3,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 223.6,
+        "top": 457.3,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 291.1,
+        "top": 457.3,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 381.1,
+        "top": 457.3,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 151.6,
+        "top": 439.3,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 223.6,
+        "top": 439.3,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 151.6,
+        "top": 421.3,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 223.6,
+        "top": 421.3,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "remarks4": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 1,
+      "box": {
+        "left": 334.0,
+        "top": 376.7,
+        "width": 241.4,
+        "height": 34.6
+      },
+      "multiline": true
+    },
+    "radio9": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 287.5,
+        "top": 365.4,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio10": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 314.5,
+        "top": 365.4,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "dor": {
+      "type": "text",
+      "label": "DOR",
+      "page": 1,
+      "box": {
+        "left": 90.0,
+        "top": 359.4,
+        "width": 81.0,
+        "height": 18.0
+      }
+    },
+    "remarks5": {
+      "type": "text",
+      "label": "5. Program",
+      "page": 1,
+      "box": {
+        "left": 334.0,
+        "top": 340.7,
+        "width": 241.4,
+        "height": 61.6
+      },
+      "multiline": true
+    },
+    "radio11": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 287.5,
+        "top": 315.9,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio12": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 314.5,
+        "top": 315.9,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "program": {
+      "type": "text",
+      "label": "Program",
+      "page": 1,
+      "box": {
+        "left": 99.0,
+        "top": 314.4,
+        "width": 180.0,
+        "height": 18.0
+      }
+    },
+    "programDate": {
+      "type": "text",
+      "label": "Date Completed",
+      "page": 1,
+      "box": {
+        "left": 135.0,
+        "top": 296.4,
+        "width": 113.4,
+        "height": 18.0
+      }
+    },
+    "remarks6": {
+      "type": "text",
+      "label": "Height Weight BF% (if required)",
+      "page": 1,
+      "box": {
+        "left": 334.0,
+        "top": 277.7,
+        "width": 241.4,
+        "height": 52.6
+      },
+      "multiline": true
+    },
+    "radio13": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 287.5,
+        "top": 257.4,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio14": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 314.5,
+        "top": 257.4,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "weighDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 54.0,
+        "top": 242.4,
+        "width": 71.9,
+        "height": 18.0
+      }
+    },
+    "height": {
+      "type": "text",
+      "label": "Height",
+      "page": 1,
+      "box": {
+        "left": 126.0,
+        "top": 242.4,
+        "width": 35.9,
+        "height": 18.0
+      }
+    },
+    "weight": {
+      "type": "text",
+      "label": "Weight",
+      "page": 1,
+      "box": {
+        "left": 162.0,
+        "top": 242.4,
+        "width": 35.9,
+        "height": 18.0
+      }
+    },
+    "bf": {
+      "type": "text",
+      "label": "BF% (if required)",
+      "page": 1,
+      "box": {
+        "left": 197.9,
+        "top": 242.4,
+        "width": 80.9,
+        "height": 18.0
+      }
+    },
+    "remarks7": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 1,
+      "box": {
+        "left": 334.0,
+        "top": 224.2,
+        "width": 241.4,
+        "height": 29.6
+      }
+    },
+    "radio15": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 287.5,
+        "top": 215.4,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio16": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 314.5,
+        "top": 215.4,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "remarks8": {
+      "type": "text",
+      "label": "8. PFT Date Total Run PU/FAH Crunches",
+      "page": 1,
+      "box": {
+        "left": 334.0,
+        "top": 192.7,
+        "width": 241.4,
+        "height": 115.5
+      },
+      "multiline": true
+    },
+    "radio17": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 287.5,
+        "top": 140.9,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio18": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 314.5,
+        "top": 140.9,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "datePFT": {
+      "type": "text",
+      "label": "PFT Date",
+      "page": 1,
+      "box": {
+        "left": 54.0,
+        "top": 130.4,
+        "width": 67.4,
+        "height": 18.0
+      }
+    },
+    "total": {
+      "type": "text",
+      "label": "Total",
+      "page": 1,
+      "box": {
+        "left": 121.5,
+        "top": 130.4,
+        "width": 36.0,
+        "height": 18.0
+      }
+    },
+    "run": {
+      "type": "text",
+      "label": "Run",
+      "page": 1,
+      "box": {
+        "left": 157.5,
+        "top": 130.4,
+        "width": 36.0,
+        "height": 18.0
+      }
+    },
+    "pu": {
+      "type": "text",
+      "label": "PU/FAH",
+      "page": 1,
+      "box": {
+        "left": 193.5,
+        "top": 130.4,
+        "width": 40.4,
+        "height": 18.0
+      }
+    },
+    "crunch": {
+      "type": "text",
+      "label": "Crunches",
+      "page": 1,
+      "box": {
+        "left": 233.8,
+        "top": 130.4,
+        "width": 45.0,
+        "height": 18.0
+      }
+    },
+    "dateCFT": {
+      "type": "text",
+      "label": "CFT Date",
+      "page": 1,
+      "box": {
+        "left": 54.0,
+        "top": 94.4,
+        "width": 67.4,
+        "height": 18.0
+      }
+    },
+    "total2": {
+      "type": "text",
+      "label": "Total",
+      "page": 1,
+      "box": {
+        "left": 121.5,
+        "top": 94.4,
+        "width": 36.0,
+        "height": 18.0
+      }
+    },
+    "mtc": {
+      "type": "text",
+      "label": "MTC",
+      "page": 1,
+      "box": {
+        "left": 157.5,
+        "top": 94.4,
+        "width": 36.0,
+        "height": 18.0
+      }
+    },
+    "al": {
+      "type": "text",
+      "label": "AL",
+      "page": 1,
+      "box": {
+        "left": 193.5,
+        "top": 94.4,
+        "width": 40.4,
+        "height": 18.0
+      }
+    },
+    "muf": {
+      "type": "text",
+      "label": "MUF",
+      "page": 1,
+      "box": {
+        "left": 233.8,
+        "top": 94.4,
+        "width": 45.0,
+        "height": 18.0
+      }
+    },
+    "remarks9": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 2,
+      "box": {
+        "left": 351.8,
+        "top": 728.2,
+        "width": 223.6,
+        "height": 65.9
+      },
+      "multiline": true
+    },
+    "radio19": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 304.8,
+        "top": 701.3,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio20": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 331.8,
+        "top": 701.3,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "remarks10": {
+      "type": "text",
+      "label": "10. would preclude this Marine from completing the course?",
+      "page": 2,
+      "box": {
+        "left": 351.8,
+        "top": 661.0,
+        "width": 223.6,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "radio21": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 304.8,
+        "top": 651.8,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio22": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 331.8,
+        "top": 651.8,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "remarks11": {
+      "type": "text",
+      "label": "11. Policy?",
+      "page": 2,
+      "box": {
+        "left": 351.8,
+        "top": 629.2,
+        "width": 223.6,
+        "height": 25.6
+      }
+    },
+    "radio23": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 304.8,
+        "top": 622.4,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio24": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 331.8,
+        "top": 622.4,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "remarks12": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 2,
+      "box": {
+        "left": 351.8,
+        "top": 602.2,
+        "width": 223.6,
+        "height": 79.6
+      },
+      "multiline": true
+    },
+    "reason12": {
+      "type": "text",
+      "label": "Reason",
+      "page": 2,
+      "box": {
+        "left": 143.0,
+        "top": 575.9,
+        "width": 123.9,
+        "height": 15.4
+      }
+    },
+    "radio25": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 304.8,
+        "top": 568.4,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio26": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 331.8,
+        "top": 568.4,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "date12": {
+      "type": "text",
+      "label": "Date Disenrolled",
+      "page": 2,
+      "box": {
+        "left": 143.0,
+        "top": 557.9,
+        "width": 123.9,
+        "height": 15.4
+      }
+    },
+    "loc12": {
+      "type": "text",
+      "label": "Location",
+      "page": 2,
+      "box": {
+        "left": 143.0,
+        "top": 539.3,
+        "width": 123.9,
+        "height": 15.4
+      }
+    },
+    "remarks14": {
+      "type": "text",
+      "label": "13. https://www.mcu.usmc.mil/epme/SitePages/Home.aspx",
+      "page": 2,
+      "box": {
+        "left": 351.8,
+        "top": 493.6,
+        "width": 223.6,
+        "height": 43.6
+      },
+      "multiline": true
+    },
+    "radio27": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 304.8,
+        "top": 477.9,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio28": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 331.8,
+        "top": 477.9,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "remarks15": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 2,
+      "box": {
+        "left": 351.8,
+        "top": 448.6,
+        "width": 223.6,
+        "height": 43.6
+      },
+      "multiline": true
+    },
+    "radio29": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 304.8,
+        "top": 432.8,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio30": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 331.8,
+        "top": 432.8,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "name16a": {
+      "type": "text",
+      "label": "15. Name",
+      "page": 2,
+      "box": {
+        "left": 90.0,
+        "top": 345.8,
+        "width": 216.0,
+        "height": 18.0
+      }
+    },
+    "name16b": {
+      "type": "text",
+      "label": "Name",
+      "page": 2,
+      "box": {
+        "left": 351.0,
+        "top": 345.8,
+        "width": 225.0,
+        "height": 18.0
+      }
+    },
+    "rank16a": {
+      "type": "text",
+      "label": "Rank",
+      "page": 2,
+      "box": {
+        "left": 90.0,
+        "top": 327.8,
+        "width": 90.0,
+        "height": 18.0
+      }
+    },
+    "staticText1": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 206.5,
+        "top": 327.8,
+        "width": 98.1,
+        "height": 18.0
+      }
+    },
+    "rank16a2": {
+      "type": "text",
+      "label": "Rank",
+      "page": 2,
+      "box": {
+        "left": 351.0,
+        "top": 327.8,
+        "width": 99.0,
+        "height": 18.0
+      }
+    },
+    "date16b": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 475.6,
+        "top": 327.8,
+        "width": 99.1,
+        "height": 18.0
+      }
+    },
+    "weighDate2": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 54.0,
+        "top": 291.8,
+        "width": 81.0,
+        "height": 18.0
+      }
+    },
+    "height2": {
+      "type": "text",
+      "label": "Height",
+      "page": 2,
+      "box": {
+        "left": 135.0,
+        "top": 291.8,
+        "width": 54.0,
+        "height": 18.0
+      }
+    },
+    "weight2": {
+      "type": "text",
+      "label": "Weight",
+      "page": 2,
+      "box": {
+        "left": 189.0,
+        "top": 291.8,
+        "width": 45.0,
+        "height": 18.0
+      }
+    },
+    "bf2": {
+      "type": "text",
+      "label": "BF% (if required)",
+      "page": 2,
+      "box": {
+        "left": 234.0,
+        "top": 291.8,
+        "width": 72.0,
+        "height": 18.0
+      }
+    },
+    "datePFT2": {
+      "type": "text",
+      "label": "PFT Date",
+      "page": 2,
+      "box": {
+        "left": 315.0,
+        "top": 291.8,
+        "width": 81.0,
+        "height": 18.0
+      }
+    },
+    "total3": {
+      "type": "text",
+      "label": "Total",
+      "page": 2,
+      "box": {
+        "left": 396.0,
+        "top": 291.8,
+        "width": 45.0,
+        "height": 18.0
+      }
+    },
+    "run2": {
+      "type": "text",
+      "label": "Run",
+      "page": 2,
+      "box": {
+        "left": 441.1,
+        "top": 291.8,
+        "width": 45.0,
+        "height": 18.0
+      }
+    },
+    "pu2": {
+      "type": "text",
+      "label": "PU/FAH",
+      "page": 2,
+      "box": {
+        "left": 486.1,
+        "top": 291.8,
+        "width": 45.0,
+        "height": 18.0
+      }
+    },
+    "crunch2": {
+      "type": "text",
+      "label": "Crunches",
+      "page": 2,
+      "box": {
+        "left": 531.1,
+        "top": 291.8,
+        "width": 44.3,
+        "height": 18.0
+      }
+    },
+    "signature": {
+      "type": "text",
+      "label": "PFT Date Total Run PU/FAH",
+      "page": 2,
+      "box": {
+        "left": 348.9,
+        "top": 264.9,
+        "width": 148.5,
+        "height": 32.3
+      },
+      "multiline": true
+    },
+    "unitSargeantMajor": {
+      "type": "text",
+      "label": "Date Height Weight",
+      "page": 2,
+      "box": {
+        "left": 39.6,
+        "top": 247.7,
+        "width": 186.9,
+        "height": 15.1
+      }
+    },
+    "phoneUSM": {
+      "type": "text",
+      "label": "BF% (if required) PFT",
+      "page": 2,
+      "box": {
+        "left": 236.6,
+        "top": 247.7,
+        "width": 102.0,
+        "height": 15.1
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "PU/FAH Crunches",
+      "page": 2,
+      "box": {
+        "left": 504.1,
+        "top": 247.7,
+        "width": 69.5,
+        "height": 15.1
+      }
+    },
+    "signature2": {
+      "type": "text",
+      "label": "Signature",
+      "page": 2,
+      "box": {
+        "left": 348.9,
+        "top": 213.9,
+        "width": 148.5,
+        "height": 32.3
+      },
+      "multiline": true
+    },
+    "unitCommandingOfficer": {
+      "type": "text",
+      "label": "Unit Sergeant Major",
+      "page": 2,
+      "box": {
+        "left": 39.6,
+        "top": 196.7,
+        "width": 186.9,
+        "height": 15.1
+      }
+    },
+    "phoneUCO": {
+      "type": "text",
+      "label": "Phone #",
+      "page": 2,
+      "box": {
+        "left": 236.6,
+        "top": 196.7,
+        "width": 102.0,
+        "height": 15.1
+      }
+    },
+    "date2": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 504.1,
+        "top": 196.7,
+        "width": 69.5,
+        "height": 15.1
+      }
+    }
+  }
+}

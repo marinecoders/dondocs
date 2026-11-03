@@ -1,0 +1,159 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "proDemDat": {
+        "left": 493.7,
+        "top": 562.1,
+        "width": 77.5,
+        "height": 20.8,
+        "type": "text",
+        "description": "Enter the date using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cerLevR1C2": {
+        "left": 274.5,
+        "top": 561.6,
+        "width": 90.7,
+        "height": 20.8,
+        "type": "choice",
+        "description": "CerLevR1C2",
+        "options": [
+          " ",
+          "IT - ",
+          "TM - ",
+          "I - ",
+          "TL - ",
+          "QA - ",
+          "SO - ",
+          "QA/SO - "
+        ],
+        "group": null,
+        "required": false
+      },
+      "insObs": {
+        "left": 369.4,
+        "top": 559.3,
+        "width": 120.1,
+        "height": 15.2,
+        "type": "text",
+        "description": "InsObs",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "expSOP": {
+        "left": 44.0,
+        "top": 558.7,
+        "width": 225.0,
+        "height": 15.2,
+        "type": "text",
+        "description": "ExpSOP",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "etrBy": {
+        "left": 42.8,
+        "top": 527.4,
+        "width": 527.2,
+        "height": 24.5,
+        "type": "text",
+        "description": "REMARKS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField1": {
+        "left": 43.1,
+        "top": 479.9,
+        "width": 256.8,
+        "height": 20.2,
+        "type": "text",
+        "description": "TRAINEE NAME (Last, First, MI):",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField12": {
+        "left": 308.2,
+        "top": 479.9,
+        "width": 259.6,
+        "height": 20.2,
+        "type": "text",
+        "description": "TRAINEE RANK/RATE/GRADE;",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField13": {
+        "left": 43.1,
+        "top": 440.3,
+        "width": 456.6,
+        "height": 36.4,
+        "type": "text",
+        "description": "COMMAND:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField2": {
+        "left": 507.0,
+        "top": 440.3,
+        "width": 64.5,
+        "height": 39.3,
+        "type": "text",
+        "description": " UIC:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField1": {
+        "left": 43.0,
+        "top": 387.1,
+        "width": 326.3,
+        "height": 31.7,
+        "type": "signature",
+        "description": "VERIFYING BOARD MEMBER SIGNATURE AND TITLE:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "vRMEMDate": {
+        "left": 377.3,
+        "top": 384.9,
+        "width": 194.3,
+        "height": 75.4,
+        "type": "text",
+        "description": "Enter the date using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "vrmem": {
+        "left": 43.0,
+        "top": 340.0,
+        "width": 326.3,
+        "height": 32.6,
+        "type": "text",
+        "description": "VERIFYING BOARD MEMBER PRINTED NAME AND TITLE:",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

@@ -1,0 +1,479 @@
+{
+  "id": "opnav551127",
+  "label": "OPNAV5511-27 - BriefingRebriefingDebriefing Certificate",
+  "directory": "OPNAV5511-27 - BriefingRebriefingDebriefing Certificate",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name1",
+        "rank1",
+        "ssn1",
+        "grade1",
+        "authorization1",
+        "telephone1",
+        "room1",
+        "building1",
+        "authorization12",
+        "authorization13",
+        "understand1",
+        "understand12",
+        "read1",
+        "read12",
+        "understand13",
+        "signature1",
+        "dNSDate1",
+        "signature2",
+        "dNSDate2",
+        "typed1",
+        "secret1",
+        "secret12",
+        "dNSDate9",
+        "dNSDate10",
+        "dNSDate11",
+        "dNSDate12",
+        "dNSDate13",
+        "dNSDate14",
+        "signature15",
+        "dNSDate15",
+        "signature16",
+        "dNSDate16",
+        "signature17",
+        "signature18"
+      ]
+    }
+  ],
+  "fields": {
+    "name1": {
+      "type": "text",
+      "label": "Enter the name (last, first, middle initial).",
+      "page": 1,
+      "box": {
+        "left": 34.3,
+        "top": 688.1,
+        "width": 192.3,
+        "height": 13.8
+      }
+    },
+    "rank1": {
+      "type": "text",
+      "label": "Enter the rank and/or grade.",
+      "page": 1,
+      "box": {
+        "left": 232.3,
+        "top": 688.1,
+        "width": 77.7,
+        "height": 13.8
+      }
+    },
+    "ssn1": {
+      "type": "text",
+      "label": "Enter the social security number.  ",
+      "page": 1,
+      "box": {
+        "left": 316.9,
+        "top": 688.1,
+        "width": 111.3,
+        "height": 13.8
+      }
+    },
+    "grade1": {
+      "type": "text",
+      "label": "Enter the office code.",
+      "page": 1,
+      "box": {
+        "left": 434.5,
+        "top": 688.1,
+        "width": 139.4,
+        "height": 13.8
+      }
+    },
+    "authorization1": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 497.4,
+        "top": 668.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_authorization1_0"
+    },
+    "telephone1": {
+      "type": "text",
+      "label": "Enter the telephone number.",
+      "page": 1,
+      "box": {
+        "left": 34.3,
+        "top": 655.7,
+        "width": 192.3,
+        "height": 13.8
+      }
+    },
+    "room1": {
+      "type": "text",
+      "label": "Enter the room number.",
+      "page": 1,
+      "box": {
+        "left": 232.3,
+        "top": 655.7,
+        "width": 77.7,
+        "height": 13.8
+      }
+    },
+    "building1": {
+      "type": "text",
+      "label": "Enter the building number.",
+      "page": 1,
+      "box": {
+        "left": 316.9,
+        "top": 655.7,
+        "width": 111.3,
+        "height": 13.8
+      }
+    },
+    "authorization12": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 433.9,
+        "top": 652.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_authorization1_0"
+    },
+    "authorization13": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 497.4,
+        "top": 652.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_authorization1_0"
+    },
+    "understand1": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 471.1,
+        "top": 553.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_understand1_0"
+    },
+    "understand12": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 508.0,
+        "top": 553.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_understand1_0"
+    },
+    "read1": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 106.2,
+        "top": 552.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_read1_0"
+    },
+    "read12": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 154.7,
+        "top": 552.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_read1_0"
+    },
+    "understand13": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 35.0,
+        "top": 542.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_understand1_0"
+    },
+    "signature1": {
+      "type": "text",
+      "label": "Enter the signature of individual being briefed.",
+      "page": 1,
+      "box": {
+        "left": 33.2,
+        "top": 494.6,
+        "width": 180.3,
+        "height": 18.2
+      }
+    },
+    "dNSDate1": {
+      "type": "text",
+      "label": "Enter the date of the signature using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 217.5,
+        "top": 494.6,
+        "width": 83.2,
+        "height": 18.2
+      }
+    },
+    "signature2": {
+      "type": "text",
+      "label": "Enter the signature of the control officer and/or alternate providing briefing.",
+      "page": 1,
+      "box": {
+        "left": 307.2,
+        "top": 494.6,
+        "width": 180.3,
+        "height": 18.2
+      }
+    },
+    "dNSDate2": {
+      "type": "text",
+      "label": "Enter the date of the signature using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 491.5,
+        "top": 494.6,
+        "width": 83.2,
+        "height": 18.2
+      }
+    },
+    "typed1": {
+      "type": "text",
+      "label": "Type or print name of control officer/alternate providing briefing.",
+      "page": 1,
+      "box": {
+        "left": 307.2,
+        "top": 459.1,
+        "width": 267.3,
+        "height": 18.2
+      }
+    },
+    "secret1": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 158.7,
+        "top": 451.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_SECRET1_0"
+    },
+    "secret12": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 228.7,
+        "top": 451.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_SECRET1_0"
+    },
+    "dNSDate9": {
+      "type": "text",
+      "label": "Enter the date of the signature using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 492.3,
+        "top": 366.0,
+        "width": 81.8,
+        "height": 19.3
+      }
+    },
+    "dNSDate10": {
+      "type": "text",
+      "label": "Enter the date of the signature using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 492.3,
+        "top": 342.1,
+        "width": 81.8,
+        "height": 19.3
+      }
+    },
+    "dNSDate11": {
+      "type": "text",
+      "label": "Enter the date of the signature using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 492.3,
+        "top": 317.5,
+        "width": 81.8,
+        "height": 19.3
+      }
+    },
+    "dNSDate12": {
+      "type": "text",
+      "label": "Enter the date of the signature using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 492.3,
+        "top": 293.6,
+        "width": 81.8,
+        "height": 19.3
+      }
+    },
+    "dNSDate13": {
+      "type": "text",
+      "label": "Enter the date of the signature using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 492.3,
+        "top": 269.4,
+        "width": 81.8,
+        "height": 19.3
+      }
+    },
+    "dNSDate14": {
+      "type": "text",
+      "label": "Enter the date of the signature using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 492.3,
+        "top": 245.5,
+        "width": 81.8,
+        "height": 19.3
+      }
+    },
+    "signature15": {
+      "type": "text",
+      "label": "Enter the signature of individual being debriefed.",
+      "page": 1,
+      "box": {
+        "left": 33.6,
+        "top": 144.7,
+        "width": 180.3,
+        "height": 18.2
+      }
+    },
+    "dNSDate15": {
+      "type": "text",
+      "label": "Enter the date of the signature using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 217.9,
+        "top": 144.7,
+        "width": 83.2,
+        "height": 18.2
+      }
+    },
+    "signature16": {
+      "type": "text",
+      "label": "Enter the signature of individual providing the debriefing.",
+      "page": 1,
+      "box": {
+        "left": 306.2,
+        "top": 144.7,
+        "width": 180.3,
+        "height": 18.2
+      }
+    },
+    "dNSDate16": {
+      "type": "text",
+      "label": "Enter the date of the signature using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 490.6,
+        "top": 144.7,
+        "width": 83.2,
+        "height": 18.2
+      }
+    },
+    "signature17": {
+      "type": "text",
+      "label": "Enter the typed and/or printed name of the individual being debriefed.",
+      "page": 1,
+      "box": {
+        "left": 33.6,
+        "top": 108.9,
+        "width": 267.7,
+        "height": 18.2
+      }
+    },
+    "signature18": {
+      "type": "text",
+      "label": "Enter the typed/printed name of the control officer/alternate providing the debriefing.",
+      "page": 1,
+      "box": {
+        "left": 306.2,
+        "top": 108.9,
+        "width": 268.3,
+        "height": 18.2
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 6,
+      "rowStride": 24.1,
+      "editor": "grid",
+      "columns": {
+        "signature": {
+          "type": "text",
+          "label": "This is row 1 of 6. Enter the signature of the individual being rebriefed.",
+          "page": 1,
+          "box": {
+            "left": 99.0,
+            "top": 366.0,
+            "width": 149.9,
+            "height": 19.3
+          }
+        },
+        "dNSDate": {
+          "type": "text",
+          "label": "Enter the date of the signature using the format DD MMM YYYY.",
+          "page": 1,
+          "box": {
+            "left": 252.5,
+            "top": 366.0,
+            "width": 81.8,
+            "height": 19.3
+          }
+        },
+        "signature2": {
+          "type": "text",
+          "label": "Enter the signature of the briefer.",
+          "page": 1,
+          "box": {
+            "left": 339.8,
+            "top": 366.0,
+            "width": 149.5,
+            "height": 19.3
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,150 @@
+{
+  "id": "opnav510210",
+  "label": "OPNAV5102-10 - Advice To Witness",
+  "directory": "OPNAV5102-10 - Advice To Witness",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "statement",
+        "2PRINTEDNAMEFirstMiddleLast",
+        "3DoDID",
+        "signature1",
+        "6SERVICE",
+        "4DATE",
+        "5RANKRATE",
+        "8ADDRESSWHEREYOUMAYBELOCATED",
+        "9TELEPHONE",
+        "signature2",
+        "10PRINTEDBOARDMEMBERSNAME"
+      ]
+    }
+  ],
+  "fields": {
+    "statement": {
+      "type": "text",
+      "label": "STATEMENT",
+      "page": 1,
+      "box": {
+        "left": 38.6,
+        "top": 573.6,
+        "width": 534.8,
+        "height": 332.0
+      },
+      "multiline": true
+    },
+    "2PRINTEDNAMEFirstMiddleLast": {
+      "type": "text",
+      "label": "2. PRINTED NAME: (First, Middle, Last)",
+      "page": 1,
+      "box": {
+        "left": 38.3,
+        "top": 232.8,
+        "width": 356.5,
+        "height": 26.0
+      }
+    },
+    "3DoDID": {
+      "type": "text",
+      "label": "3. DoD ID#:",
+      "page": 1,
+      "box": {
+        "left": 397.3,
+        "top": 232.8,
+        "width": 176.5,
+        "height": 26.0
+      }
+    },
+    "signature1": {
+      "type": "signature",
+      "label": "3. DoD ID#",
+      "page": 1,
+      "box": {
+        "left": 384.0,
+        "top": 207.0,
+        "width": 192.0,
+        "height": 39.0
+      }
+    },
+    "6SERVICE": {
+      "type": "text",
+      "label": "6. SERVICE",
+      "page": 1,
+      "box": {
+        "left": 226.4,
+        "top": 198.6,
+        "width": 81.2,
+        "height": 28.8
+      }
+    },
+    "4DATE": {
+      "type": "text",
+      "label": "4. DATE:",
+      "page": 1,
+      "box": {
+        "left": 38.4,
+        "top": 197.0,
+        "width": 104.3,
+        "height": 27.2
+      }
+    },
+    "5RANKRATE": {
+      "type": "text",
+      "label": "5. RANK/RATE",
+      "page": 1,
+      "box": {
+        "left": 145.4,
+        "top": 197.0,
+        "width": 78.2,
+        "height": 27.2
+      }
+    },
+    "8ADDRESSWHEREYOUMAYBELOCATED": {
+      "type": "text",
+      "label": "8. ADDRESS WHERE YOU MAY BE LOCATED:",
+      "page": 1,
+      "box": {
+        "left": 38.4,
+        "top": 157.2,
+        "width": 359.3,
+        "height": 28.8
+      }
+    },
+    "9TELEPHONE": {
+      "type": "text",
+      "label": "9. TELEPHONE:",
+      "page": 1,
+      "box": {
+        "left": 400.4,
+        "top": 157.2,
+        "width": 173.3,
+        "height": 28.8
+      }
+    },
+    "signature2": {
+      "type": "signature",
+      "label": "9. TELEPHONE",
+      "page": 1,
+      "box": {
+        "left": 384.0,
+        "top": 128.0,
+        "width": 192.0,
+        "height": 38.0
+      }
+    },
+    "10PRINTEDBOARDMEMBERSNAME": {
+      "type": "text",
+      "label": "10. PRINTED BOARD MEMBERS NAME:",
+      "page": 1,
+      "box": {
+        "left": 38.4,
+        "top": 119.5,
+        "width": 269.3,
+        "height": 27.1
+      }
+    }
+  }
+}

@@ -1,0 +1,515 @@
+{
+  "id": "navpers126003",
+  "label": "NAVPERS12600-3 - Bupers Civilian Employee Request For Extended Leave",
+  "directory": "NAVPERS12600-3 - Bupers Civilian Employee Request For Extended Leave",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "employeeName",
+        "two",
+        "supvName",
+        "four",
+        "five",
+        "sixBeginDate",
+        "sixEndDate",
+        "sick",
+        "without",
+        "excess",
+        "other",
+        "annual",
+        "numericField1",
+        "numericField12",
+        "numericField13",
+        "numericField14",
+        "numericField15",
+        "textField1",
+        "employeeName2",
+        "employeeSign",
+        "employeeSignDate",
+        "cell1",
+        "cell2",
+        "supv1Name",
+        "supv1Sign",
+        "supv1SignDate",
+        "cell12",
+        "cell22",
+        "supv2Name",
+        "supv2Sign",
+        "supv2SignDate",
+        "cell13",
+        "cell23",
+        "cell3",
+        "cell4",
+        "cell14",
+        "cell24",
+        "textField2",
+        "bP05Name",
+        "bP05Sign",
+        "bP05SignDate"
+      ]
+    }
+  ],
+  "fields": {
+    "employeeName": {
+      "type": "text",
+      "label": "1. Employee Name",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 618.5,
+        "width": 426.3,
+        "height": 21.6
+      }
+    },
+    "two": {
+      "type": "text",
+      "label": "2. Phone Number",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 618.5,
+        "width": 102.3,
+        "height": 21.6
+      }
+    },
+    "supvName": {
+      "type": "text",
+      "label": "3. Supervisor Name",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 582.5,
+        "width": 318.3,
+        "height": 21.6
+      }
+    },
+    "four": {
+      "type": "text",
+      "label": "4. Department/Division/Branch",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 582.5,
+        "width": 138.3,
+        "height": 21.6
+      }
+    },
+    "five": {
+      "type": "text",
+      "label": "5. Activity UIC",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 582.5,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "sixBeginDate": {
+      "type": "text",
+      "label": "Begin Date",
+      "page": 1,
+      "box": {
+        "left": 193.7,
+        "top": 555.1,
+        "width": 163.4,
+        "height": 12.2
+      }
+    },
+    "sixEndDate": {
+      "type": "text",
+      "label": "End Date",
+      "page": 1,
+      "box": {
+        "left": 409.7,
+        "top": 555.1,
+        "width": 163.4,
+        "height": 12.2
+      }
+    },
+    "sick": {
+      "type": "checkbox",
+      "label": "Advance Annual",
+      "page": 1,
+      "box": {
+        "left": 147.9,
+        "top": 467.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "without": {
+      "type": "checkbox",
+      "label": "Advance Sick Leave*",
+      "page": 1,
+      "box": {
+        "left": 255.9,
+        "top": 467.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "excess": {
+      "type": "checkbox",
+      "label": "Leave excess without of 10 days pay in",
+      "page": 1,
+      "box": {
+        "left": 363.9,
+        "top": 467.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "other": {
+      "type": "checkbox",
+      "label": "Any Leave 30 days in excess of",
+      "page": 1,
+      "box": {
+        "left": 471.9,
+        "top": 467.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "annual": {
+      "type": "checkbox",
+      "label": "7. Check",
+      "page": 1,
+      "box": {
+        "left": 39.9,
+        "top": 466.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "numericField1": {
+      "type": "text",
+      "label": "Number Hours: of",
+      "page": 1,
+      "box": {
+        "left": 89.4,
+        "top": 447.1,
+        "width": 51.8,
+        "height": 20.6
+      }
+    },
+    "numericField12": {
+      "type": "text",
+      "label": "Number Hours: of",
+      "page": 1,
+      "box": {
+        "left": 197.4,
+        "top": 447.1,
+        "width": 51.8,
+        "height": 20.6
+      }
+    },
+    "numericField13": {
+      "type": "text",
+      "label": "Number Hours: of",
+      "page": 1,
+      "box": {
+        "left": 305.4,
+        "top": 447.1,
+        "width": 51.8,
+        "height": 20.6
+      }
+    },
+    "numericField14": {
+      "type": "text",
+      "label": "Number Hours: of",
+      "page": 1,
+      "box": {
+        "left": 413.4,
+        "top": 447.1,
+        "width": 51.8,
+        "height": 20.6
+      }
+    },
+    "numericField15": {
+      "type": "text",
+      "label": "Number Hours: of",
+      "page": 1,
+      "box": {
+        "left": 521.4,
+        "top": 447.1,
+        "width": 51.8,
+        "height": 20.6
+      }
+    },
+    "textField1": {
+      "type": "text",
+      "label": "Specify Leave Other",
+      "page": 1,
+      "box": {
+        "left": 99.0,
+        "top": 420.1,
+        "width": 474.2,
+        "height": 30.2
+      },
+      "multiline": true
+    },
+    "employeeName2": {
+      "type": "text",
+      "label": "8. Employee Name",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 348.4,
+        "width": 228.2,
+        "height": 21.6
+      }
+    },
+    "employeeSign": {
+      "type": "text",
+      "label": "9. Employee Signature",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 348.4,
+        "width": 228.2,
+        "height": 21.6
+      }
+    },
+    "employeeSignDate": {
+      "type": "text",
+      "label": "10. Date",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 348.4,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "cell1": {
+      "type": "checkbox",
+      "label": "PART II",
+      "page": 1,
+      "box": {
+        "left": 59.0,
+        "top": 300.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell2": {
+      "type": "checkbox",
+      "label": "Recommended",
+      "page": 1,
+      "box": {
+        "left": 329.0,
+        "top": 300.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "supv1Name": {
+      "type": "text",
+      "label": "1st Level Supervisor Name",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 276.6,
+        "width": 228.2,
+        "height": 21.8
+      }
+    },
+    "supv1Sign": {
+      "type": "text",
+      "label": "1st Level Supervisor Signature",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 276.4,
+        "width": 228.2,
+        "height": 21.6
+      }
+    },
+    "supv1SignDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 276.4,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "cell12": {
+      "type": "checkbox",
+      "label": "Level",
+      "page": 1,
+      "box": {
+        "left": 59.0,
+        "top": 246.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell22": {
+      "type": "checkbox",
+      "label": "Recommended",
+      "page": 1,
+      "box": {
+        "left": 329.0,
+        "top": 246.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "supv2Name": {
+      "type": "text",
+      "label": "2nd Level Supervisor Name",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 222.4,
+        "width": 228.2,
+        "height": 21.6
+      }
+    },
+    "supv2Sign": {
+      "type": "text",
+      "label": "2nd Level Supervisor Signature",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 222.4,
+        "width": 228.2,
+        "height": 21.6
+      }
+    },
+    "supv2SignDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 222.4,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "cell13": {
+      "type": "text",
+      "label": "Balance Sick Leave (LS)",
+      "page": 1,
+      "box": {
+        "left": 96.5,
+        "top": 177.1,
+        "width": 71.6,
+        "height": 19.4
+      }
+    },
+    "cell23": {
+      "type": "text",
+      "label": "Annual Balance Leave (LA)",
+      "page": 1,
+      "box": {
+        "left": 231.5,
+        "top": 177.1,
+        "width": 71.6,
+        "height": 19.4
+      }
+    },
+    "cell3": {
+      "type": "text",
+      "label": "AWOL/LWOP Hours Used",
+      "page": 1,
+      "box": {
+        "left": 366.5,
+        "top": 177.1,
+        "width": 71.6,
+        "height": 19.4
+      }
+    },
+    "cell4": {
+      "type": "choice",
+      "label": "FMLA Invoke?",
+      "page": 1,
+      "box": {
+        "left": 501.8,
+        "top": 176.8,
+        "width": 71.1,
+        "height": 18.9
+      },
+      "options": [
+        "Yes",
+        "No"
+      ]
+    },
+    "cell14": {
+      "type": "checkbox",
+      "label": "PART",
+      "page": 1,
+      "box": {
+        "left": 46.9,
+        "top": 131.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell24": {
+      "type": "checkbox",
+      "label": "Approved",
+      "page": 1,
+      "box": {
+        "left": 314.4,
+        "top": 131.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "textField2": {
+      "type": "text",
+      "label": "Approved Disapproved",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 114.1,
+        "width": 534.4,
+        "height": 39.3
+      },
+      "multiline": true
+    },
+    "bP05Name": {
+      "type": "text",
+      "label": "BUPERS-05 Representative Name",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 60.4,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "bP05Sign": {
+      "type": "text",
+      "label": "BUPERS-05 Representative Signature",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 60.4,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "bP05SignDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 60.4,
+        "width": 66.3,
+        "height": 21.6
+      }
+    }
+  }
+}

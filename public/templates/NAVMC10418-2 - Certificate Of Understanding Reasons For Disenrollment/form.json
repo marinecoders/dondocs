@@ -1,0 +1,65 @@
+{
+  "id": "navmc104182",
+  "label": "NAVMC 10418-2 - Certificate Of Understanding Reasons For Disenrollment",
+  "directory": "NAVMC10418-2 - Certificate Of Understanding Reasons For Disenrollment",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "date1",
+        "place1",
+        "sigApplicant",
+        "sigOfficer"
+      ]
+    }
+  ],
+  "fields": {
+    "date1": {
+      "type": "text",
+      "label": "Certificate of understanding reasons for disenrollment.  Enter date using format 2002 12 23",
+      "page": 1,
+      "box": {
+        "left": 433.9,
+        "top": 698.6,
+        "width": 145.5,
+        "height": 15.7
+      }
+    },
+    "place1": {
+      "type": "text",
+      "label": "Place.",
+      "page": 1,
+      "box": {
+        "left": 365.3,
+        "top": 668.9,
+        "width": 217.4,
+        "height": 15.7
+      }
+    },
+    "sigApplicant": {
+      "type": "signature",
+      "label": "SigApplicant",
+      "page": 1,
+      "box": {
+        "left": 284.5,
+        "top": 168.6,
+        "width": 294.4,
+        "height": 25.5
+      }
+    },
+    "sigOfficer": {
+      "type": "signature",
+      "label": "SigOfficer",
+      "page": 1,
+      "box": {
+        "left": 256.4,
+        "top": 106.4,
+        "width": 323.0,
+        "height": 25.5
+      }
+    }
+  }
+}

@@ -1,0 +1,332 @@
+{
+  "id": "opnav53507",
+  "label": "OPNAV5350-7 - Drug And Alcohol Report (dar)",
+  "directory": "OPNAV5350-7 - Drug And Alcohol Report (dar)",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "doDIDSSN",
+        "payGrade",
+        "branch",
+        "reporting",
+        "abuse",
+        "trafficking",
+        "dateReport",
+        "dateIncident",
+        "manufacturing",
+        "possession",
+        "primarySubstance",
+        "methodID",
+        "screenDate",
+        "radio",
+        "drugAlcohol",
+        "geoLoc",
+        "radio2",
+        "incidentDescription",
+        "cOName",
+        "signatureField1",
+        "date1",
+        "contBy",
+        "cUICat",
+        "ldc",
+        "poc"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "1. NAME (last, first, middle initial)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 364.4,
+        "width": 160.0,
+        "height": 19.5
+      }
+    },
+    "doDIDSSN": {
+      "type": "text",
+      "label": "2. DoD ID/SSN",
+      "page": 1,
+      "box": {
+        "left": 204.5,
+        "top": 364.4,
+        "width": 64.5,
+        "height": 19.5
+      }
+    },
+    "payGrade": {
+      "type": "text",
+      "label": "3. PAY GRADE",
+      "page": 1,
+      "box": {
+        "left": 274.7,
+        "top": 364.4,
+        "width": 59.1,
+        "height": 19.5
+      }
+    },
+    "branch": {
+      "type": "text",
+      "label": "4. BRANCH OF SERVICE",
+      "page": 1,
+      "box": {
+        "left": 339.5,
+        "top": 364.4,
+        "width": 98.7,
+        "height": 19.5
+      }
+    },
+    "reporting": {
+      "type": "text",
+      "label": "5. REPORTING COMMAND UIC",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 364.4,
+        "width": 129.3,
+        "height": 19.5
+      }
+    },
+    "abuse": {
+      "type": "checkbox",
+      "label": "SERVICE",
+      "page": 1,
+      "box": {
+        "left": 417.9,
+        "top": 335.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "trafficking": {
+      "type": "checkbox",
+      "label": "Misuse",
+      "page": 1,
+      "box": {
+        "left": 493.5,
+        "top": 335.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "dateReport": {
+      "type": "text",
+      "label": "6. DATE OF REPORT",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 328.4,
+        "width": 129.3,
+        "height": 19.5
+      }
+    },
+    "dateIncident": {
+      "type": "text",
+      "label": "7. DATE OF INCIDENT",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 328.4,
+        "width": 129.3,
+        "height": 19.5
+      }
+    },
+    "manufacturing": {
+      "type": "checkbox",
+      "label": "SERVICE",
+      "page": 1,
+      "box": {
+        "left": 417.9,
+        "top": 320.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "possession": {
+      "type": "checkbox",
+      "label": "Manufacturing",
+      "page": 1,
+      "box": {
+        "left": 493.5,
+        "top": 320.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "primarySubstance": {
+      "type": "text",
+      "label": "9. PRIMARY SUBSTANCE INVOLVED",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 292.4,
+        "width": 174.4,
+        "height": 19.5
+      }
+    },
+    "methodID": {
+      "type": "text",
+      "label": "10. METHOD OF IDENTIFICATION",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 292.4,
+        "width": 167.2,
+        "height": 19.5
+      }
+    },
+    "screenDate": {
+      "type": "text",
+      "label": "11. SCHEDULED SCREEN DATE",
+      "page": 1,
+      "box": {
+        "left": 391.7,
+        "top": 292.4,
+        "width": 181.6,
+        "height": 19.5
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 539.3,
+        "top": 260.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "drugAlcohol": {
+      "type": "text",
+      "label": "12. LOC. DRUG/ALCOHOL PRIMARILY USED",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 256.4,
+        "width": 174.4,
+        "height": 26.7
+      }
+    },
+    "geoLoc": {
+      "type": "text",
+      "label": "13. GEOGRAPHIC LOCATION",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 256.4,
+        "width": 167.2,
+        "height": 26.7
+      }
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 539.3,
+        "top": 246.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "incidentDescription": {
+      "type": "text",
+      "label": "15. INCIDENT DESCRIPTION/REFERRAL REASON",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 213.2,
+        "width": 534.4,
+        "height": 116.7
+      },
+      "multiline": true
+    },
+    "cOName": {
+      "type": "text",
+      "label": "16. COMMANDING OFFICER NAME",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 80.0,
+        "width": 196.9,
+        "height": 26.7
+      }
+    },
+    "signatureField1": {
+      "type": "text",
+      "label": "17. COMMANDING OFFICER SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 80.0,
+        "width": 196.9,
+        "height": 26.7
+      }
+    },
+    "date1": {
+      "type": "text",
+      "label": "18. SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 80.0,
+        "width": 129.3,
+        "height": 26.7
+      }
+    },
+    "contBy": {
+      "type": "text",
+      "label": "CUI (when filled in) CONTROLLED BY",
+      "page": 1,
+      "box": {
+        "left": 406.1,
+        "top": 33.6,
+        "width": 113.1,
+        "height": 6.6
+      }
+    },
+    "cUICat": {
+      "type": "text",
+      "label": "CUI CATEGORY",
+      "page": 1,
+      "box": {
+        "left": 406.1,
+        "top": 25.1,
+        "width": 113.1,
+        "height": 6.6
+      }
+    },
+    "ldc": {
+      "type": "text",
+      "label": "LDC",
+      "page": 1,
+      "box": {
+        "left": 406.1,
+        "top": 17.5,
+        "width": 113.1,
+        "height": 6.6
+      }
+    },
+    "poc": {
+      "type": "text",
+      "label": "POC",
+      "page": 1,
+      "box": {
+        "left": 406.1,
+        "top": 9.9,
+        "width": 113.1,
+        "height": 6.6
+      }
+    }
+  }
+}

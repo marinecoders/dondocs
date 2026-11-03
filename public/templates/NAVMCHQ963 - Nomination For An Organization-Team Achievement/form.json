@@ -1,0 +1,253 @@
+{
+  "id": "navmchq963",
+  "label": "NAVMC HQ 963 - Nomination For An Organization-Team Achievement",
+  "directory": "NAVMCHQ963 - Nomination For An Organization-Team Achievement",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "teamName",
+        "nameRateOff",
+        "signatureSigRateOff",
+        "dateRateOff",
+        "nameRevOff",
+        "signatureSigRevOff",
+        "dateRevOff",
+        "r28b",
+        "r28b2",
+        "signaturePPM",
+        "datePPM",
+        "differingAmounts"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "justification1",
+        "justification2"
+      ]
+    }
+  ],
+  "fields": {
+    "teamName": {
+      "type": "text",
+      "label": "TeamName",
+      "page": 1,
+      "box": {
+        "left": 21.8,
+        "top": 664.4,
+        "width": 569.3,
+        "height": 30.2
+      },
+      "multiline": true
+    },
+    "nameRateOff": {
+      "type": "text",
+      "label": "NameRateOff",
+      "page": 1,
+      "box": {
+        "left": 78.3,
+        "top": 306.5,
+        "width": 201.4,
+        "height": 10.2
+      }
+    },
+    "signatureSigRateOff": {
+      "type": "signature",
+      "label": "SignatureSigRateOff",
+      "page": 1,
+      "box": {
+        "left": 292.2,
+        "top": 306.5,
+        "width": 150.3,
+        "height": 10.2
+      }
+    },
+    "dateRateOff": {
+      "type": "text",
+      "label": "DateRateOff",
+      "page": 1,
+      "box": {
+        "left": 456.7,
+        "top": 306.5,
+        "width": 77.6,
+        "height": 10.2
+      }
+    },
+    "nameRevOff": {
+      "type": "text",
+      "label": "NameRevOff",
+      "page": 1,
+      "box": {
+        "left": 78.3,
+        "top": 257.9,
+        "width": 201.4,
+        "height": 10.2
+      }
+    },
+    "signatureSigRevOff": {
+      "type": "signature",
+      "label": "SignatureSigRevOff",
+      "page": 1,
+      "box": {
+        "left": 292.2,
+        "top": 257.9,
+        "width": 150.3,
+        "height": 10.2
+      }
+    },
+    "dateRevOff": {
+      "type": "text",
+      "label": "DateRevOff",
+      "page": 1,
+      "box": {
+        "left": 456.8,
+        "top": 257.9,
+        "width": 77.6,
+        "height": 10.2
+      }
+    },
+    "r28b": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 82.1,
+        "top": 192.4,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "form1_0_subform_0_r28b_0"
+    },
+    "r28b2": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 180.9,
+        "top": 192.2,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "form1_0_subform_0_r28b_0"
+    },
+    "signaturePPM": {
+      "type": "signature",
+      "label": "SignaturePPM",
+      "page": 1,
+      "box": {
+        "left": 292.6,
+        "top": 191.6,
+        "width": 150.3,
+        "height": 10.2
+      }
+    },
+    "datePPM": {
+      "type": "text",
+      "label": "DatePPM",
+      "page": 1,
+      "box": {
+        "left": 457.2,
+        "top": 191.6,
+        "width": 77.6,
+        "height": 10.2
+      }
+    },
+    "differingAmounts": {
+      "type": "text",
+      "label": "DifferingAmounts",
+      "page": 1,
+      "box": {
+        "left": 21.1,
+        "top": 140.5,
+        "width": 569.3,
+        "height": 60.3
+      },
+      "multiline": true
+    },
+    "justification1": {
+      "type": "text",
+      "label": "Justification1",
+      "page": 3,
+      "box": {
+        "left": 57.2,
+        "top": 670.1,
+        "width": 497.1,
+        "height": 274.1
+      },
+      "multiline": true
+    },
+    "justification2": {
+      "type": "text",
+      "label": "Justification2",
+      "page": 3,
+      "box": {
+        "left": 57.2,
+        "top": 358.2,
+        "width": 497.1,
+        "height": 274.1
+      },
+      "multiline": true
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 2,
+      "count": 17,
+      "rowStride": 36.05,
+      "editor": "grid",
+      "columns": {
+        "a": {
+          "type": "text",
+          "label": "A",
+          "page": 2,
+          "box": {
+            "left": 21.7,
+            "top": 675.0,
+            "width": 161.3,
+            "height": 31.5
+          }
+        },
+        "b": {
+          "type": "text",
+          "label": "B",
+          "page": 2,
+          "box": {
+            "left": 187.4,
+            "top": 674.8,
+            "width": 85.0,
+            "height": 31.5
+          }
+        },
+        "c": {
+          "type": "text",
+          "label": "C",
+          "page": 2,
+          "box": {
+            "left": 276.7,
+            "top": 674.8,
+            "width": 191.3,
+            "height": 31.5
+          }
+        },
+        "d": {
+          "type": "text",
+          "label": "D",
+          "page": 2,
+          "box": {
+            "left": 473.2,
+            "top": 674.8,
+            "width": 118.1,
+            "height": 31.5
+          }
+        }
+      }
+    }
+  }
+}

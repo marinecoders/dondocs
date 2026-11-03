@@ -1,0 +1,634 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "name": {
+        "left": 38.9,
+        "top": 706.3,
+        "width": 426.2,
+        "height": 19.4,
+        "type": "text",
+        "description": "Full Name (Last, First Middle)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rr": {
+        "left": 470.9,
+        "top": 706.3,
+        "width": 102.2,
+        "height": 19.4,
+        "type": "text",
+        "description": "Rank/Rating",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recallAss": {
+        "left": 218.9,
+        "top": 670.3,
+        "width": 174.3,
+        "height": 19.4,
+        "type": "text",
+        "description": "Recall Assignment",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recallDate": {
+        "left": 398.9,
+        "top": 670.3,
+        "width": 174.3,
+        "height": 19.4,
+        "type": "text",
+        "description": "Recall Start Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recallDD": {
+        "left": 39.1,
+        "top": 670.1,
+        "width": 173.8,
+        "height": 18.9,
+        "type": "choice",
+        "description": "Recall Program",
+        "options": [
+          "Officer MPN",
+          "Officer RPN",
+          "Officer Recruiting",
+          "Enlisted MPN",
+          "Enlisted RPN/AWS",
+          "Enlisted Recruiting"
+        ],
+        "group": null,
+        "required": false
+      },
+      "yes": {
+        "left": 471.9,
+        "top": 409.0,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "form,",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "no": {
+        "left": 525.9,
+        "top": 409.0,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Yes",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "yes2": {
+        "left": 417.9,
+        "top": 374.7,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "incident",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "no2": {
+        "left": 471.9,
+        "top": 374.7,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Yes",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "na": {
+        "left": 525.9,
+        "top": 374.7,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "No",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sECName": {
+        "left": 38.9,
+        "top": 342.7,
+        "width": 228.3,
+        "height": 19.4,
+        "type": "text",
+        "description": "Security Manager Name and Rank/Rating",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sECSig": {
+        "left": 272.9,
+        "top": 342.7,
+        "width": 228.3,
+        "height": 19.4,
+        "type": "text",
+        "description": "Security Manager Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sECDate": {
+        "left": 506.9,
+        "top": 342.7,
+        "width": 66.2,
+        "height": 19.4,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "yes3": {
+        "left": 473.3,
+        "top": 309.9,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "form,",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "no3": {
+        "left": 518.5,
+        "top": 309.9,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Yes",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "yes4": {
+        "left": 473.3,
+        "top": 284.7,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "4. Does the Service Member have a valid driver\u2019s license?",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "no4": {
+        "left": 518.5,
+        "top": 284.7,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Yes",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "yes5": {
+        "left": 473.3,
+        "top": 259.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "form,",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "no5": {
+        "left": 518.5,
+        "top": 259.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Yes",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "gTCCName": {
+        "left": 38.9,
+        "top": 228.0,
+        "width": 228.3,
+        "height": 20.1,
+        "type": "text",
+        "description": "GTCC Manager Name and Rank/Rating",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "gTCCSig": {
+        "left": 272.9,
+        "top": 227.3,
+        "width": 228.3,
+        "height": 19.4,
+        "type": "text",
+        "description": "GTCC Manager Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "gTCCDate": {
+        "left": 506.9,
+        "top": 227.3,
+        "width": 66.2,
+        "height": 19.4,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "yes6": {
+        "left": 471.9,
+        "top": 189.2,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "form,",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "no6": {
+        "left": 525.9,
+        "top": 189.2,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Yes",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "yes7": {
+        "left": 471.9,
+        "top": 155.0,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "form,",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "no7": {
+        "left": 525.9,
+        "top": 155.0,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Yes",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mEDName": {
+        "left": 38.9,
+        "top": 122.9,
+        "width": 228.3,
+        "height": 19.4,
+        "type": "text",
+        "description": "Medical Department Representative Name and Rank/Rating",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mEDSig": {
+        "left": 272.9,
+        "top": 122.9,
+        "width": 228.3,
+        "height": 19.4,
+        "type": "text",
+        "description": "Medical Department Representative Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mEDDate": {
+        "left": 506.9,
+        "top": 122.9,
+        "width": 66.2,
+        "height": 19.4,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "yes8": {
+        "left": 471.9,
+        "top": 90.2,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "form,",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "no8": {
+        "left": 525.9,
+        "top": 90.2,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Yes",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "cFLName": {
+        "left": 38.9,
+        "top": 706.3,
+        "width": 228.3,
+        "height": 19.4,
+        "type": "text",
+        "description": "CFL/ACFL Name and Rank/Rating",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cFLSig": {
+        "left": 272.9,
+        "top": 706.3,
+        "width": 228.3,
+        "height": 19.4,
+        "type": "text",
+        "description": "CFL/AFCL Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cFLDate": {
+        "left": 506.9,
+        "top": 706.3,
+        "width": 66.2,
+        "height": 19.4,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name2": {
+        "left": 38.9,
+        "top": 670.3,
+        "width": 426.2,
+        "height": 19.4,
+        "type": "text",
+        "description": "Full Name (Last, First Middle)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rr2": {
+        "left": 470.9,
+        "top": 670.3,
+        "width": 102.2,
+        "height": 19.4,
+        "type": "text",
+        "description": "Rank/Rating",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "yes9": {
+        "left": 471.9,
+        "top": 598.0,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Rank/Rating",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "no9": {
+        "left": 525.9,
+        "top": 598.0,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cFSName": {
+        "left": 38.9,
+        "top": 555.1,
+        "width": 228.3,
+        "height": 19.4,
+        "type": "text",
+        "description": "Command Financial Specialist (CFS) Name and Rank/Rating",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cFSSig": {
+        "left": 272.9,
+        "top": 555.1,
+        "width": 228.3,
+        "height": 19.4,
+        "type": "text",
+        "description": "CFS Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cFSDate": {
+        "left": 506.9,
+        "top": 555.1,
+        "width": 66.2,
+        "height": 19.4,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "yes10": {
+        "left": 471.9,
+        "top": 511.6,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Rank/Rating",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "no10": {
+        "left": 525.9,
+        "top": 511.6,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Yes",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mPName": {
+        "left": 38.9,
+        "top": 468.7,
+        "width": 228.3,
+        "height": 19.4,
+        "type": "text",
+        "description": "Manpower Representative Name and Rank/Rating",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mPSig": {
+        "left": 272.9,
+        "top": 468.7,
+        "width": 228.3,
+        "height": 19.4,
+        "type": "text",
+        "description": "Manpower Representative Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mPDate": {
+        "left": 506.9,
+        "top": 468.7,
+        "width": 66.2,
+        "height": 19.4,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "yes11": {
+        "left": 471.9,
+        "top": 439.6,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "11. Has the ORDMOD in the RFMT Backlog been verified",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "no11": {
+        "left": 525.9,
+        "top": 439.6,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Yes",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cCCName": {
+        "left": 38.9,
+        "top": 411.1,
+        "width": 228.3,
+        "height": 19.4,
+        "type": "text",
+        "description": "Command Career Counselor (CCC) Name and Rating",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cCCSig": {
+        "left": 272.9,
+        "top": 411.1,
+        "width": 228.3,
+        "height": 19.4,
+        "type": "text",
+        "description": "CCC Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cCCDate": {
+        "left": 506.9,
+        "top": 411.1,
+        "width": 66.2,
+        "height": 19.4,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row1": {
+        "left": 38.9,
+        "top": 375.1,
+        "width": 534.3,
+        "height": 271.5,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page3": {
+      "nRAName": {
+        "left": 38.9,
+        "top": 641.5,
+        "width": 228.3,
+        "height": 19.4,
+        "type": "text",
+        "description": "Name and Rank",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nRASig": {
+        "left": 272.9,
+        "top": 641.5,
+        "width": 228.3,
+        "height": 19.4,
+        "type": "text",
+        "description": "Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nRADate": {
+        "left": 506.9,
+        "top": 641.5,
+        "width": 66.2,
+        "height": 19.4,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

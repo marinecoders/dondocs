@@ -1,0 +1,501 @@
+{
+  "id": "navpers10503",
+  "label": "NAVPERS1050-3 - Appellate Leave Statement Of Understanding",
+  "directory": "NAVPERS1050-3 - Appellate Leave Statement Of Understanding",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "textField1",
+        "ssn",
+        "radioButtonList",
+        "address",
+        "radioButtonList2",
+        "city",
+        "state",
+        "zipCode",
+        "radioButtonList3",
+        "radioButtonList4",
+        "address2",
+        "radioButtonList5",
+        "city2",
+        "state2",
+        "zipCode2",
+        "cell1",
+        "cell12",
+        "cell13",
+        "cell14",
+        "cell15",
+        "cell16",
+        "cell17",
+        "cell18",
+        "cell19",
+        "cell110",
+        "cell111"
+      ]
+    }
+  ],
+  "fields": {
+    "textField1": {
+      "type": "text",
+      "label": "Name:",
+      "page": 1,
+      "box": {
+        "left": 72.5,
+        "top": 645.1,
+        "width": 302.6,
+        "height": 12.2
+      }
+    },
+    "ssn": {
+      "type": "text",
+      "label": "DoDID Number:",
+      "page": 1,
+      "box": {
+        "left": 438.9,
+        "top": 645.1,
+        "width": 133.3,
+        "height": 12.2
+      }
+    },
+    "radioButtonList": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 566.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_p1_0_area_0_area_1_RadioButtonList_0"
+    },
+    "address": {
+      "type": "text",
+      "label": "Address:",
+      "page": 1,
+      "box": {
+        "left": 362.7,
+        "top": 563.8,
+        "width": 210.4,
+        "height": 12.2
+      }
+    },
+    "radioButtonList2": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 311.2,
+        "top": 562.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_p1_0_area_0_area_2_RadioButtonList_1"
+    },
+    "city": {
+      "type": "text",
+      "label": "City:",
+      "page": 1,
+      "box": {
+        "left": 362.7,
+        "top": 545.8,
+        "width": 66.4,
+        "height": 12.2
+      }
+    },
+    "state": {
+      "type": "choice",
+      "label": "State:",
+      "page": 1,
+      "box": {
+        "left": 456.5,
+        "top": 545.8,
+        "width": 26.6,
+        "height": 12.2
+      },
+      "options": [
+        "AL",
+        "AK",
+        "AZ",
+        "AR",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "FL",
+        "GA",
+        "HI",
+        "ID",
+        "IL",
+        "IN",
+        "IA",
+        "KS",
+        "KY",
+        "LA",
+        "ME",
+        "MD",
+        "MA",
+        "MI",
+        "MN",
+        "MS",
+        "MO",
+        "MT",
+        "NE",
+        "NV",
+        "NH",
+        "NJ",
+        "NM",
+        "NY",
+        "NC",
+        "ND",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VT",
+        "VA",
+        "WA",
+        "WV",
+        "WI",
+        "WY",
+        "AS",
+        "DC",
+        "FM",
+        "GU",
+        "MH",
+        "MP",
+        "PW",
+        "PR",
+        "VI",
+        "AE",
+        "AA",
+        "AE",
+        "AE",
+        "AE",
+        "AP"
+      ]
+    },
+    "zipCode": {
+      "type": "text",
+      "label": "Zip Code:",
+      "page": 1,
+      "box": {
+        "left": 532.5,
+        "top": 545.8,
+        "width": 40.7,
+        "height": 12.2
+      }
+    },
+    "radioButtonList3": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 539.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_p1_0_area_0_area_1_RadioButtonList_0"
+    },
+    "radioButtonList4": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 512.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_p1_0_area_0_area_1_RadioButtonList_0"
+    },
+    "address2": {
+      "type": "text",
+      "label": "Address:",
+      "page": 1,
+      "box": {
+        "left": 362.1,
+        "top": 509.8,
+        "width": 211.0,
+        "height": 12.2
+      }
+    },
+    "radioButtonList5": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 311.2,
+        "top": 508.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_p1_0_area_0_area_2_RadioButtonList_1"
+    },
+    "city2": {
+      "type": "text",
+      "label": "City:",
+      "page": 1,
+      "box": {
+        "left": 362.2,
+        "top": 491.8,
+        "width": 66.9,
+        "height": 12.2
+      }
+    },
+    "state2": {
+      "type": "choice",
+      "label": "State:",
+      "page": 1,
+      "box": {
+        "left": 457.0,
+        "top": 491.8,
+        "width": 26.1,
+        "height": 12.2
+      },
+      "options": [
+        "AL",
+        "AK",
+        "AZ",
+        "AR",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "FL",
+        "GA",
+        "HI",
+        "ID",
+        "IL",
+        "IN",
+        "IA",
+        "KS",
+        "KY",
+        "LA",
+        "ME",
+        "MD",
+        "MA",
+        "MI",
+        "MN",
+        "MS",
+        "MO",
+        "MT",
+        "NE",
+        "NV",
+        "NH",
+        "NJ",
+        "NM",
+        "NY",
+        "NC",
+        "ND",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VT",
+        "VA",
+        "WA",
+        "WV",
+        "WI",
+        "WY",
+        "AS",
+        "DC",
+        "FM",
+        "GU",
+        "MH",
+        "MP",
+        "PW",
+        "PR",
+        "VI",
+        "AE",
+        "AA",
+        "AE",
+        "AE",
+        "AE",
+        "AP"
+      ]
+    },
+    "zipCode2": {
+      "type": "text",
+      "label": "Zip Code:",
+      "page": 1,
+      "box": {
+        "left": 532.1,
+        "top": 491.8,
+        "width": 41.0,
+        "height": 12.2
+      }
+    },
+    "cell1": {
+      "type": "signature",
+      "label": "Cell1",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 459.4,
+        "width": 29.5,
+        "height": 15.8
+      }
+    },
+    "cell12": {
+      "type": "signature",
+      "label": "Cell1",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 437.8,
+        "width": 29.5,
+        "height": 8.6
+      }
+    },
+    "cell13": {
+      "type": "signature",
+      "label": "Cell1",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 423.4,
+        "width": 29.5,
+        "height": 8.6
+      }
+    },
+    "cell14": {
+      "type": "signature",
+      "label": "Cell1",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 409.0,
+        "width": 29.5,
+        "height": 8.6
+      }
+    },
+    "cell15": {
+      "type": "signature",
+      "label": "Cell1",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 394.6,
+        "width": 29.5,
+        "height": 15.8
+      }
+    },
+    "cell16": {
+      "type": "signature",
+      "label": "Cell1",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 373.0,
+        "width": 29.5,
+        "height": 15.8
+      }
+    },
+    "cell17": {
+      "type": "signature",
+      "label": "Cell1",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 351.4,
+        "width": 29.5,
+        "height": 8.6
+      }
+    },
+    "cell18": {
+      "type": "signature",
+      "label": "Cell1",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 337.0,
+        "width": 29.5,
+        "height": 15.8
+      }
+    },
+    "cell19": {
+      "type": "signature",
+      "label": "Cell1",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 315.4,
+        "width": 29.5,
+        "height": 15.8
+      }
+    },
+    "cell110": {
+      "type": "signature",
+      "label": "Cell1",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 293.8,
+        "width": 29.5,
+        "height": 26.6
+      }
+    },
+    "cell111": {
+      "type": "signature",
+      "label": "Cell1",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 261.4,
+        "width": 29.5,
+        "height": 15.8
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "textField": {
+          "type": "text",
+          "label": "Member's Name:",
+          "page": 1,
+          "box": {
+            "left": 144.0,
+            "top": 225.4,
+            "width": 159.2,
+            "height": 12.3
+          }
+        },
+        "signatureField": {
+          "type": "signature",
+          "label": "Member's Signature:",
+          "page": 1,
+          "box": {
+            "left": 414.0,
+            "top": 225.4,
+            "width": 159.2,
+            "height": 12.3
+          }
+        }
+      }
+    }
+  }
+}

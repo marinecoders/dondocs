@@ -1,0 +1,334 @@
+{
+  "id": "navmc11511",
+  "label": "NAVMC 11511 - Inspector General Of The Marine Corps Complaint Form",
+  "directory": "NAVMC11511 - Inspector General Of The Marine Corps Complaint Form",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "radio",
+        "radio2",
+        "radio3",
+        "radio4",
+        "radio5",
+        "radio6",
+        "nameFirst",
+        "nameLast",
+        "addressLine1",
+        "addressLine2",
+        "city",
+        "state",
+        "zip",
+        "country",
+        "phoneHome",
+        "homeCode",
+        "workCode",
+        "phoneWork",
+        "emailAddress"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "q5witnField",
+        "q5subjField",
+        "q6Field",
+        "q7Field",
+        "q8Field",
+        "q9Field"
+      ]
+    }
+  ],
+  "fields": {
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 75.7,
+        "top": 497.2,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 165.3,
+        "top": 496.9,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 165.6,
+        "top": 430.0,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 74.8,
+        "top": 429.5,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 165.6,
+        "top": 363.1,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 74.8,
+        "top": 362.9,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "nameFirst": {
+      "type": "text",
+      "label": "First",
+      "page": 1,
+      "box": {
+        "left": 104.5,
+        "top": 313.1,
+        "width": 201.7,
+        "height": 15.4
+      }
+    },
+    "nameLast": {
+      "type": "text",
+      "label": "Last",
+      "page": 1,
+      "box": {
+        "left": 104.4,
+        "top": 291.4,
+        "width": 201.7,
+        "height": 15.4
+      }
+    },
+    "addressLine1": {
+      "type": "text",
+      "label": "Address Line 1",
+      "page": 1,
+      "box": {
+        "left": 149.5,
+        "top": 240.6,
+        "width": 416.9,
+        "height": 15.4
+      }
+    },
+    "addressLine2": {
+      "type": "text",
+      "label": "Address Line 2",
+      "page": 1,
+      "box": {
+        "left": 149.5,
+        "top": 219.5,
+        "width": 416.9,
+        "height": 15.4
+      }
+    },
+    "city": {
+      "type": "text",
+      "label": "City",
+      "page": 1,
+      "box": {
+        "left": 102.5,
+        "top": 196.2,
+        "width": 235.0,
+        "height": 15.4
+      }
+    },
+    "state": {
+      "type": "text",
+      "label": "State",
+      "page": 1,
+      "box": {
+        "left": 394.5,
+        "top": 196.1,
+        "width": 172.2,
+        "height": 15.4
+      }
+    },
+    "zip": {
+      "type": "text",
+      "label": "Zip Code",
+      "page": 1,
+      "box": {
+        "left": 122.6,
+        "top": 174.4,
+        "width": 106.3,
+        "height": 15.4
+      }
+    },
+    "country": {
+      "type": "text",
+      "label": "Country",
+      "page": 1,
+      "box": {
+        "left": 305.2,
+        "top": 174.3,
+        "width": 261.4,
+        "height": 15.4
+      }
+    },
+    "phoneHome": {
+      "type": "text",
+      "label": "consent.)",
+      "page": 1,
+      "box": {
+        "left": 396.3,
+        "top": 143.8,
+        "width": 108.6,
+        "height": 14.9
+      }
+    },
+    "homeCode": {
+      "type": "text",
+      "label": "when",
+      "page": 1,
+      "box": {
+        "left": 512.5,
+        "top": 143.8,
+        "width": 30.0,
+        "height": 15.4
+      }
+    },
+    "workCode": {
+      "type": "text",
+      "label": "have",
+      "page": 1,
+      "box": {
+        "left": 537.2,
+        "top": 113.7,
+        "width": 30.0,
+        "height": 15.4
+      }
+    },
+    "phoneWork": {
+      "type": "text",
+      "label": "General",
+      "page": 1,
+      "box": {
+        "left": 424.4,
+        "top": 113.6,
+        "width": 108.6,
+        "height": 14.9
+      }
+    },
+    "emailAddress": {
+      "type": "text",
+      "label": "E-Mail Address",
+      "page": 1,
+      "box": {
+        "left": 127.3,
+        "top": 82.2,
+        "width": 274.8,
+        "height": 15.4
+      }
+    },
+    "q5witnField": {
+      "type": "text",
+      "label": "Q 5witn Field",
+      "page": 2,
+      "box": {
+        "left": 62.2,
+        "top": 631.3,
+        "width": 502.0,
+        "height": 63.2
+      },
+      "multiline": true
+    },
+    "q5subjField": {
+      "type": "text",
+      "label": "Subject(s) : Who performed the wrongdoing?",
+      "page": 2,
+      "box": {
+        "left": 62.2,
+        "top": 536.4,
+        "width": 502.0,
+        "height": 66.7
+      },
+      "multiline": true
+    },
+    "q6Field": {
+      "type": "text",
+      "label": "6. What did the subject do or fail to do that was wrong?",
+      "page": 2,
+      "box": {
+        "left": 47.8,
+        "top": 427.1,
+        "width": 516.4,
+        "height": 65.3
+      },
+      "multiline": true
+    },
+    "q7Field": {
+      "type": "text",
+      "label": "6. What did the subject do or fail to do that was wrong?",
+      "page": 2,
+      "box": {
+        "left": 47.8,
+        "top": 318.1,
+        "width": 516.4,
+        "height": 64.4
+      },
+      "multiline": true
+    },
+    "q8Field": {
+      "type": "text",
+      "label": "Q 8 Field",
+      "page": 2,
+      "box": {
+        "left": 47.8,
+        "top": 210.1,
+        "width": 516.4,
+        "height": 28.4
+      }
+    },
+    "q9Field": {
+      "type": "text",
+      "label": "Q 9 Field",
+      "page": 2,
+      "box": {
+        "left": 47.8,
+        "top": 139.0,
+        "width": 516.4,
+        "height": 58.4
+      },
+      "multiline": true
+    }
+  }
+}

@@ -1,0 +1,3357 @@
+{
+  "id": "navmc10154",
+  "label": "NAVMC10154 - Personal Effects Inventory",
+  "directory": "NAVMC10154 - Personal Effects Inventory",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "originatingORGANIZATION",
+        "date",
+        "rank",
+        "ssn",
+        "companyplatoon",
+        "nameLastFirstMiddleInitial",
+        "component",
+        "status",
+        "nameOFNEXTOFKIN",
+        "relationship",
+        "homeADDRESSOFMARINE",
+        "sBAGDUFFEL",
+        "sShoesPumpsBlack",
+        "uShoesPumpsBlack",
+        "uBAGDUFFEL",
+        "sCOATGABARDINEGREEN",
+        "uCOATGABARDINEGREEN",
+        "sBELTCOATGABARDINE",
+        "sSkirtGabardineGreen",
+        "uSkirtGabardineGreen",
+        "uBELTCOATGABARDINE",
+        "sCROWNSERVICECAPWHITE",
+        "uCROWNSERVICECAPWHITE",
+        "sBELTCOATWHITE",
+        "sSkirtGabardineBlue",
+        "uSkirtGabardineBlue",
+        "uBELTCOATWHITE",
+        "sCROWNSERVICECAPGREEN",
+        "uCROWNSERVICECAPGREEN",
+        "sBELTREFLECTIVESAFETY",
+        "sSlacksBlue",
+        "uSlacksBlue",
+        "uBELTREFLECTIVESAFETY",
+        "sDRAWERSWHITE",
+        "uDRAWERSWHITE",
+        "sBELTTROUSWEBKHAKI",
+        "sSlacksGreen",
+        "uSlacksGreen",
+        "uBELTTROUSWEBKHAKI",
+        "sFRAMESERVICECAP",
+        "uFRAMESERVICECAP",
+        "sBOOTSMCCOMBATHW",
+        "sSocksBoot",
+        "uSocksBoot",
+        "uBOOTSMCCOMBATHW",
+        "sGLOVESDRESSBLACK",
+        "uGLOVESDRESSBLACK",
+        "sBOOTSMCCOMBATCW",
+        "sSocksDress",
+        "uSocksDress",
+        "uBOOTSMCCOMBATCW",
+        "sGLOVESWHITE",
+        "uGLOVESWHITE",
+        "sBUCKLEGABARDINEBELT",
+        "sSocksPT",
+        "uSocksPT",
+        "uBUCKLEGABARDINEBELT",
+        "sINSIGNIABOSCOLLARBLK",
+        "uINSIGNIABOSCOLLARBLK",
+        "sBUCKLEWEBBELT",
+        "sSweaterWithEpaulettes",
+        "uSweaterWithEpaulettes",
+        "uBUCKLEWEBBELT",
+        "sINSIGNIABOSGARRCAPBLK",
+        "uINSIGNIABOSGARRCAPBLK",
+        "sBUTTONCROWNBLACK",
+        "sSweatpants",
+        "uSweatpants",
+        "uBUTTONCROWNBLACK",
+        "sINSIGNIABOSSERVCAPBLK",
+        "uINSIGNIABOSSERVCAPBLK",
+        "sCAPMARPATFIELDDESERT",
+        "sSweatshirt",
+        "uSweatshirt",
+        "uCAPMARPATFIELDDESERT",
+        "sINSIGNIABOSCOLLARGOLD",
+        "uINSIGNIABOSCOLLARGOLD",
+        "sCAPMARPATFIELDODLND",
+        "sTrousersMarpatDesert",
+        "uTrousersMarpatDesert",
+        "uCAPMARPATFIELDODLND",
+        "sINSIGNIABOSSERCAPGOLD",
+        "uINSIGNIABOSSERCAPGOLD",
+        "sCAPMARPATGARRDESERT",
+        "sTrousersMarpatWoodland",
+        "uTrousersMarpatWoodland",
+        "uCAPMARPATGARRDESERT",
+        "sJACKETATHLETIC",
+        "uJACKETATHLETIC",
+        "sCAPMARPATGARRWODLND",
+        "sTrousersDressBlue",
+        "usTrousersDressBlue",
+        "uCAPMARPATGARRWODLND",
+        "sNECKTABBLACK",
+        "uNECKTABBLACK",
+        "sCAPGARRISONGABGREEN",
+        "sTrousersGabGreen",
+        "uTrousersGabGreen",
+        "uCAPGARRISONGABGREEN",
+        "sNECKTABGREEN",
+        "uNECKTABGREEN",
+        "sCAPWOOLSERGEGREEN",
+        "sTrunksGeneralPurpose",
+        "uTrunksGeneralPurpose",
+        "uCAPWOOLSERGEGREEN",
+        "sNECKTIEKHAKI",
+        "uNECKTIEKHAKI",
+        "sCAPSERVICEVINYLWHITE",
+        "sUndershirtWhite",
+        "uUndershirtWhite",
+        "uCAPSERVICEVINYLWHITE",
+        "sPANTSATHLETIC",
+        "uPANTSATHLETIC",
+        "sCLASPNECKTIE",
+        "sUndershirtSynOlvDrab",
+        "uUndershirtSynOlvDrab",
+        "uCLASPNECKTIE",
+        "sSHIRTDRESSSSWHITE",
+        "uSHIRTDRESSSSWHITE",
+        "sCOATMARPATDESERT",
+        "sUndershirtOliveGreen",
+        "uUndershirtOliveGreen",
+        "uCOATMARPATDESERT",
+        "sSHIRTLONGSLEEVE",
+        "uSHIRTLONGSLEEVE",
+        "sCOATMARPATWOODLAND",
+        "sWaistplate",
+        "uWaistplate",
+        "uCOATMARPATWOODLAND",
+        "sSHIRTSHORTSLEEVE",
+        "uSHIRTSHORTSLEEVE",
+        "sCOATALLWEATHER",
+        "sOtherArticles1",
+        "uOtherArticles1",
+        "otherArticles1",
+        "uCOATALLWEATHER",
+        "sSHOESDRESSBLACK",
+        "uSHOESDRESSBLACK",
+        "sCOATDRESSBLUE",
+        "sOtherArticles2",
+        "uOtherArticles2",
+        "otherArticles2",
+        "uCOATDRESSBLUE",
+        "sSHOESOXFORDBLACK",
+        "uSHOESOXFORDBLACK",
+        "inventoryServiceable",
+        "inventoryServiceable2",
+        "inventoryServiceable3",
+        "inventoryServiceable4",
+        "inventoryServiceable5",
+        "inventoryServiceable6",
+        "inventoryServiceable7",
+        "inventoryServiceable8",
+        "inventoryServiceable9",
+        "inventoryServiceable10",
+        "inventoryServiceable11",
+        "inventoryServiceable12",
+        "inventoryServiceable13",
+        "inventoryServiceable14",
+        "inventoryServiceable15",
+        "inventoryServiceable16",
+        "inventoryServiceable17",
+        "inventoryServiceable18",
+        "inventoryServiceable19",
+        "inventoryServiceable20",
+        "inventoryServiceable21",
+        "inventoryServiceable22",
+        "inventoryServiceable23",
+        "inventoryServiceable24",
+        "inventoryServiceable25",
+        "inventoryServiceable26",
+        "inventoryServiceable27",
+        "inventoryServiceable28",
+        "inventoryServiceable29",
+        "inventoryServiceable30",
+        "inventoryServiceable31",
+        "inventoryServiceable32",
+        "inventoryServiceable33",
+        "inventoryServiceable34",
+        "inventoryServiceable35",
+        "inventoryServiceable36"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "inventoryServiceable37",
+        "inventoryServiceable38",
+        "inventoryUnserviceable38",
+        "inventoryServiceable39",
+        "inventoryServiceable40",
+        "inventoryUnserviceable40",
+        "inventoryServiceable41",
+        "inventoryServiceable42",
+        "inventoryServiceable43",
+        "inventoryServiceable44",
+        "inventoryUnserviceable44",
+        "inventoryServiceable45",
+        "inventoryServiceable46",
+        "inventoryUnserviceable46",
+        "inventoryServiceable47",
+        "inventoryServiceable48",
+        "inventoryUnserviceable49",
+        "inventoryServiceable49",
+        "inventoryServiceable50",
+        "inventoryServiceable51",
+        "inventoryServiceable52",
+        "inventoryServiceable53",
+        "inventoryServiceable54",
+        "inventoryUnserviceable53",
+        "inventoryUnserviceable55",
+        "inventoryServiceable55",
+        "inventoryServiceable56",
+        "inventoryServiceable57",
+        "inventoryServiceable58",
+        "inventoryUnserviceable58",
+        "inventoryServiceable59",
+        "inventoryServiceable60",
+        "inventoryServiceable61",
+        "inventoryUnserviceable61",
+        "inventoryServiceable62",
+        "inventoryServiceable63",
+        "inventoryServiceable64",
+        "inventoryServiceable65",
+        "inventoryServiceable66",
+        "inventoryUnserviceable64",
+        "inventoryServiceable67",
+        "inventoryUnserviceable67",
+        "inventoryServiceable68",
+        "inventoryServiceable69",
+        "inventoryServiceable70",
+        "inventoryUnserviceable70",
+        "inventoryServiceable71",
+        "inventoryServiceable72",
+        "inventoryServiceable73",
+        "inventoryUnserviceable73",
+        "inventoryServiceable74",
+        "inventoryServiceable75",
+        "inventoryServiceable76",
+        "inventoryUnserviceable76",
+        "inventoryServiceable77",
+        "inventoryServiceable78",
+        "inventoryServiceable79",
+        "inventoryUnserviceable79",
+        "inventoryServiceable80",
+        "inventoryServiceable81",
+        "inventoryServiceable82",
+        "inventoryUnserviceable82",
+        "inventoryServiceable83",
+        "inventoryServiceable84",
+        "inventoryServiceable85",
+        "inventoryUnserviceable85",
+        "inventoryServiceable86",
+        "inventoryServiceable87",
+        "remarks",
+        "typeOFCONTAINERINVENTORIED",
+        "packedIN",
+        "lbs",
+        "placeINVENTORIED",
+        "inventoryOfficialRank",
+        "inventoryOfficialORGANIZATION",
+        "inventoryOfficialNAMELastFirstMiddleInitial2",
+        "inventoryOfficialSignature",
+        "officialSigDATE2",
+        "assistant1NAMERankLastFirstMiddleInitial",
+        "assistant1Initials",
+        "assistant1NAMERankLastFirstMiddleInitial2",
+        "assistant1Initials2",
+        "recipientNAMELastFirstMiddleInitial3",
+        "dateTimeField1",
+        "recipientSignature"
+      ]
+    }
+  ],
+  "fields": {
+    "originatingORGANIZATION": {
+      "type": "text",
+      "label": "ORIGINATING ORGANIZATION",
+      "page": 1,
+      "box": {
+        "left": 25.8,
+        "top": 712.2,
+        "width": 400.4,
+        "height": 16.0
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 428.5,
+        "top": 711.9,
+        "width": 161.0,
+        "height": 16.9
+      }
+    },
+    "rank": {
+      "type": "text",
+      "label": "RANK",
+      "page": 1,
+      "box": {
+        "left": 309.2,
+        "top": 684.4,
+        "width": 92.6,
+        "height": 18.0
+      }
+    },
+    "ssn": {
+      "type": "text",
+      "label": "SSN",
+      "page": 1,
+      "box": {
+        "left": 205.7,
+        "top": 683.5,
+        "width": 98.1,
+        "height": 16.9
+      }
+    },
+    "companyplatoon": {
+      "type": "text",
+      "label": "COMPANY/PLATOON",
+      "page": 1,
+      "box": {
+        "left": 406.8,
+        "top": 683.5,
+        "width": 185.3,
+        "height": 15.8
+      }
+    },
+    "nameLastFirstMiddleInitial": {
+      "type": "text",
+      "label": "NAME (Last, First, Middle Initial)",
+      "page": 1,
+      "box": {
+        "left": 25.8,
+        "top": 683.1,
+        "width": 178.5,
+        "height": 15.8
+      }
+    },
+    "component": {
+      "type": "text",
+      "label": "COMPONENT",
+      "page": 1,
+      "box": {
+        "left": 22.0,
+        "top": 656.4,
+        "width": 65.6,
+        "height": 16.7
+      }
+    },
+    "status": {
+      "type": "text",
+      "label": "STATUS",
+      "page": 1,
+      "box": {
+        "left": 89.2,
+        "top": 656.4,
+        "width": 45.0,
+        "height": 16.7
+      }
+    },
+    "nameOFNEXTOFKIN": {
+      "type": "text",
+      "label": "NAME OF NEXT OF KIN",
+      "page": 1,
+      "box": {
+        "left": 140.1,
+        "top": 656.4,
+        "width": 260.8,
+        "height": 16.7
+      }
+    },
+    "relationship": {
+      "type": "text",
+      "label": "RELATIONSHIP",
+      "page": 1,
+      "box": {
+        "left": 407.2,
+        "top": 656.4,
+        "width": 184.0,
+        "height": 16.7
+      }
+    },
+    "homeADDRESSOFMARINE": {
+      "type": "text",
+      "label": "HOME ADDRESS OF MARINE",
+      "page": 1,
+      "box": {
+        "left": 25.8,
+        "top": 630.0,
+        "width": 565.0,
+        "height": 23.1
+      }
+    },
+    "sBAGDUFFEL": {
+      "type": "text",
+      "label": "(S, BAG, DUFFEL)",
+      "page": 1,
+      "box": {
+        "left": 20.9,
+        "top": 542.0,
+        "width": 23.8,
+        "height": 10.1
+      }
+    },
+    "sShoesPumpsBlack": {
+      "type": "text",
+      "label": "(S, <Row 1>)",
+      "page": 1,
+      "box": {
+        "left": 403.7,
+        "top": 541.8,
+        "width": 23.2,
+        "height": 10.1
+      }
+    },
+    "uShoesPumpsBlack": {
+      "type": "text",
+      "label": "(U, <Row 1>)",
+      "page": 1,
+      "box": {
+        "left": 427.7,
+        "top": 541.8,
+        "width": 23.6,
+        "height": 10.1
+      }
+    },
+    "uBAGDUFFEL": {
+      "type": "text",
+      "label": "(U, BAG, DUFFEL)",
+      "page": 1,
+      "box": {
+        "left": 45.5,
+        "top": 541.3,
+        "width": 23.9,
+        "height": 10.1
+      }
+    },
+    "sCOATGABARDINEGREEN": {
+      "type": "text",
+      "label": "(S, COAT, GABARDINE, GREEN)",
+      "page": 1,
+      "box": {
+        "left": 204.5,
+        "top": 540.9,
+        "width": 23.9,
+        "height": 10.1
+      }
+    },
+    "uCOATGABARDINEGREEN": {
+      "type": "text",
+      "label": "(U, COAT, GABARDINE, GREEN)",
+      "page": 1,
+      "box": {
+        "left": 229.2,
+        "top": 540.9,
+        "width": 24.1,
+        "height": 10.1
+      }
+    },
+    "sBELTCOATGABARDINE": {
+      "type": "text",
+      "label": "(S, BELT, COAT, GABARDINE)",
+      "page": 1,
+      "box": {
+        "left": 20.9,
+        "top": 531.4,
+        "width": 23.8,
+        "height": 10.0
+      }
+    },
+    "sSkirtGabardineGreen": {
+      "type": "text",
+      "label": "(S, <Row 2>)",
+      "page": 1,
+      "box": {
+        "left": 403.7,
+        "top": 531.1,
+        "width": 23.2,
+        "height": 10.0
+      }
+    },
+    "uSkirtGabardineGreen": {
+      "type": "text",
+      "label": "(U, <Row 2>)",
+      "page": 1,
+      "box": {
+        "left": 427.7,
+        "top": 531.1,
+        "width": 23.6,
+        "height": 10.0
+      }
+    },
+    "uBELTCOATGABARDINE": {
+      "type": "text",
+      "label": "(U, BELT, COAT, GABARDINE)",
+      "page": 1,
+      "box": {
+        "left": 45.5,
+        "top": 530.6,
+        "width": 23.9,
+        "height": 10.0
+      }
+    },
+    "sCROWNSERVICECAPWHITE": {
+      "type": "text",
+      "label": "(S, CROWN, SERVICE CAP, WHITE)",
+      "page": 1,
+      "box": {
+        "left": 204.5,
+        "top": 530.2,
+        "width": 23.9,
+        "height": 10.0
+      }
+    },
+    "uCROWNSERVICECAPWHITE": {
+      "type": "text",
+      "label": "(U, CROWN, SERVICE CAP, WHITE)",
+      "page": 1,
+      "box": {
+        "left": 229.2,
+        "top": 530.2,
+        "width": 24.1,
+        "height": 10.0
+      }
+    },
+    "sBELTCOATWHITE": {
+      "type": "text",
+      "label": "(S, BELT, COAT, WHITE)",
+      "page": 1,
+      "box": {
+        "left": 20.9,
+        "top": 520.8,
+        "width": 23.8,
+        "height": 10.0
+      }
+    },
+    "sSkirtGabardineBlue": {
+      "type": "text",
+      "label": "(S, <Row 3>)",
+      "page": 1,
+      "box": {
+        "left": 403.7,
+        "top": 520.5,
+        "width": 23.2,
+        "height": 10.0
+      }
+    },
+    "uSkirtGabardineBlue": {
+      "type": "text",
+      "label": "(U, <Row 3>)",
+      "page": 1,
+      "box": {
+        "left": 427.7,
+        "top": 520.5,
+        "width": 23.6,
+        "height": 10.0
+      }
+    },
+    "uBELTCOATWHITE": {
+      "type": "text",
+      "label": "(U, BELT, COAT, WHITE)",
+      "page": 1,
+      "box": {
+        "left": 45.5,
+        "top": 520.1,
+        "width": 23.9,
+        "height": 10.0
+      }
+    },
+    "sCROWNSERVICECAPGREEN": {
+      "type": "text",
+      "label": "(S, CROWN, SERVICE CAP, GREEN)",
+      "page": 1,
+      "box": {
+        "left": 204.5,
+        "top": 519.6,
+        "width": 23.9,
+        "height": 10.0
+      }
+    },
+    "uCROWNSERVICECAPGREEN": {
+      "type": "text",
+      "label": "(U, CROWN, SERVICE CAP, GREEN)",
+      "page": 1,
+      "box": {
+        "left": 229.2,
+        "top": 519.6,
+        "width": 24.1,
+        "height": 10.0
+      }
+    },
+    "sBELTREFLECTIVESAFETY": {
+      "type": "text",
+      "label": "(S, BELT, REFLECTIVE, SAFETY)",
+      "page": 1,
+      "box": {
+        "left": 20.9,
+        "top": 510.2,
+        "width": 23.8,
+        "height": 10.1
+      }
+    },
+    "sSlacksBlue": {
+      "type": "text",
+      "label": "(S, <Row 4>)",
+      "page": 1,
+      "box": {
+        "left": 403.7,
+        "top": 510.0,
+        "width": 23.2,
+        "height": 10.1
+      }
+    },
+    "uSlacksBlue": {
+      "type": "text",
+      "label": "(U, <Row 4>)",
+      "page": 1,
+      "box": {
+        "left": 427.7,
+        "top": 510.0,
+        "width": 23.6,
+        "height": 10.1
+      }
+    },
+    "uBELTREFLECTIVESAFETY": {
+      "type": "text",
+      "label": "(U, BELT, REFLECTIVE, SAFETY)",
+      "page": 1,
+      "box": {
+        "left": 45.5,
+        "top": 509.5,
+        "width": 23.9,
+        "height": 10.1
+      }
+    },
+    "sDRAWERSWHITE": {
+      "type": "text",
+      "label": "(S, DRAWERS, WHITE)",
+      "page": 1,
+      "box": {
+        "left": 204.5,
+        "top": 509.0,
+        "width": 23.9,
+        "height": 10.1
+      }
+    },
+    "uDRAWERSWHITE": {
+      "type": "text",
+      "label": "(U, DRAWERS, WHITE)",
+      "page": 1,
+      "box": {
+        "left": 229.2,
+        "top": 509.0,
+        "width": 24.1,
+        "height": 10.1
+      }
+    },
+    "sBELTTROUSWEBKHAKI": {
+      "type": "text",
+      "label": "(S, BELT, TROUS, WEB, KHAKI)",
+      "page": 1,
+      "box": {
+        "left": 20.9,
+        "top": 499.6,
+        "width": 23.8,
+        "height": 10.0
+      }
+    },
+    "sSlacksGreen": {
+      "type": "text",
+      "label": "(S, <Row 5>)",
+      "page": 1,
+      "box": {
+        "left": 403.7,
+        "top": 499.3,
+        "width": 23.2,
+        "height": 10.0
+      }
+    },
+    "uSlacksGreen": {
+      "type": "text",
+      "label": "(U, <Row 5>)",
+      "page": 1,
+      "box": {
+        "left": 427.7,
+        "top": 499.3,
+        "width": 23.6,
+        "height": 10.0
+      }
+    },
+    "uBELTTROUSWEBKHAKI": {
+      "type": "text",
+      "label": "(U, BELT, TROUS, WEB, KHAKI)",
+      "page": 1,
+      "box": {
+        "left": 45.5,
+        "top": 498.8,
+        "width": 23.9,
+        "height": 10.0
+      }
+    },
+    "sFRAMESERVICECAP": {
+      "type": "text",
+      "label": "(S, FRAME, SERVICE CAP)",
+      "page": 1,
+      "box": {
+        "left": 204.5,
+        "top": 498.4,
+        "width": 23.9,
+        "height": 10.0
+      }
+    },
+    "uFRAMESERVICECAP": {
+      "type": "text",
+      "label": "(U, FRAME, SERVICE CAP)",
+      "page": 1,
+      "box": {
+        "left": 229.2,
+        "top": 498.4,
+        "width": 24.1,
+        "height": 10.0
+      }
+    },
+    "sBOOTSMCCOMBATHW": {
+      "type": "text",
+      "label": "(S, BOOTS, MC COMBAT, HW)",
+      "page": 1,
+      "box": {
+        "left": 20.9,
+        "top": 489.0,
+        "width": 23.8,
+        "height": 10.0
+      }
+    },
+    "sSocksBoot": {
+      "type": "text",
+      "label": "(S, <Row 6>)",
+      "page": 1,
+      "box": {
+        "left": 403.7,
+        "top": 488.7,
+        "width": 23.2,
+        "height": 10.0
+      }
+    },
+    "uSocksBoot": {
+      "type": "text",
+      "label": "(U, <Row 6>)",
+      "page": 1,
+      "box": {
+        "left": 427.7,
+        "top": 488.7,
+        "width": 23.6,
+        "height": 10.0
+      }
+    },
+    "uBOOTSMCCOMBATHW": {
+      "type": "text",
+      "label": "(U, BOOTS, MC COMBAT, HW)",
+      "page": 1,
+      "box": {
+        "left": 45.5,
+        "top": 488.3,
+        "width": 23.9,
+        "height": 10.0
+      }
+    },
+    "sGLOVESDRESSBLACK": {
+      "type": "text",
+      "label": "(S, GLOVES, DRESS, BLACK)",
+      "page": 1,
+      "box": {
+        "left": 204.5,
+        "top": 487.8,
+        "width": 23.9,
+        "height": 10.0
+      }
+    },
+    "uGLOVESDRESSBLACK": {
+      "type": "text",
+      "label": "(U, GLOVES, DRESS, BLACK)",
+      "page": 1,
+      "box": {
+        "left": 229.2,
+        "top": 487.8,
+        "width": 24.1,
+        "height": 10.0
+      }
+    },
+    "sBOOTSMCCOMBATCW": {
+      "type": "text",
+      "label": "(S, BOOTS, MC COMBAT, CW)",
+      "page": 1,
+      "box": {
+        "left": 20.9,
+        "top": 478.4,
+        "width": 23.8,
+        "height": 10.1
+      }
+    },
+    "sSocksDress": {
+      "type": "text",
+      "label": "(S, <Row 7>)",
+      "page": 1,
+      "box": {
+        "left": 403.7,
+        "top": 478.2,
+        "width": 23.2,
+        "height": 10.1
+      }
+    },
+    "uSocksDress": {
+      "type": "text",
+      "label": "(U, <Row 7>)",
+      "page": 1,
+      "box": {
+        "left": 427.7,
+        "top": 478.2,
+        "width": 23.6,
+        "height": 10.1
+      }
+    },
+    "uBOOTSMCCOMBATCW": {
+      "type": "text",
+      "label": "(U, BOOTS, MC COMBAT, CW)",
+      "page": 1,
+      "box": {
+        "left": 45.5,
+        "top": 477.7,
+        "width": 23.9,
+        "height": 10.1
+      }
+    },
+    "sGLOVESWHITE": {
+      "type": "text",
+      "label": "(S, GLOVES,  WHITE)",
+      "page": 1,
+      "box": {
+        "left": 204.5,
+        "top": 477.2,
+        "width": 23.9,
+        "height": 10.1
+      }
+    },
+    "uGLOVESWHITE": {
+      "type": "text",
+      "label": "(U, GLOVES,  WHITE)",
+      "page": 1,
+      "box": {
+        "left": 229.2,
+        "top": 477.2,
+        "width": 24.1,
+        "height": 10.1
+      }
+    },
+    "sBUCKLEGABARDINEBELT": {
+      "type": "text",
+      "label": "(S, BUCKLE, GABARDINE BELT)",
+      "page": 1,
+      "box": {
+        "left": 20.9,
+        "top": 467.8,
+        "width": 23.8,
+        "height": 10.0
+      }
+    },
+    "sSocksPT": {
+      "type": "text",
+      "label": "(S, <Row 8>)",
+      "page": 1,
+      "box": {
+        "left": 403.7,
+        "top": 467.5,
+        "width": 23.2,
+        "height": 10.0
+      }
+    },
+    "uSocksPT": {
+      "type": "text",
+      "label": "(U, <Row 8>)",
+      "page": 1,
+      "box": {
+        "left": 427.7,
+        "top": 467.5,
+        "width": 23.6,
+        "height": 10.0
+      }
+    },
+    "uBUCKLEGABARDINEBELT": {
+      "type": "text",
+      "label": "(U, BUCKLE, GABARDINE BELT)",
+      "page": 1,
+      "box": {
+        "left": 45.5,
+        "top": 467.0,
+        "width": 23.9,
+        "height": 10.0
+      }
+    },
+    "sINSIGNIABOSCOLLARBLK": {
+      "type": "text",
+      "label": "(S, INSIGNIA, BOS, COLLAR,BLK)",
+      "page": 1,
+      "box": {
+        "left": 204.5,
+        "top": 466.6,
+        "width": 23.9,
+        "height": 10.0
+      }
+    },
+    "uINSIGNIABOSCOLLARBLK": {
+      "type": "text",
+      "label": "(U, INSIGNIA, BOS, COLLAR,BLK)",
+      "page": 1,
+      "box": {
+        "left": 229.2,
+        "top": 466.6,
+        "width": 24.1,
+        "height": 10.0
+      }
+    },
+    "sBUCKLEWEBBELT": {
+      "type": "text",
+      "label": "(S, BUCKLE, WEB BELT)",
+      "page": 1,
+      "box": {
+        "left": 20.9,
+        "top": 457.2,
+        "width": 23.8,
+        "height": 10.0
+      }
+    },
+    "sSweaterWithEpaulettes": {
+      "type": "text",
+      "label": "(S, <Row 9>)",
+      "page": 1,
+      "box": {
+        "left": 403.7,
+        "top": 456.9,
+        "width": 23.2,
+        "height": 10.0
+      }
+    },
+    "uSweaterWithEpaulettes": {
+      "type": "text",
+      "label": "(U, <Row 9>)",
+      "page": 1,
+      "box": {
+        "left": 427.7,
+        "top": 456.9,
+        "width": 23.6,
+        "height": 10.0
+      }
+    },
+    "uBUCKLEWEBBELT": {
+      "type": "text",
+      "label": "(U, BUCKLE, WEB BELT)",
+      "page": 1,
+      "box": {
+        "left": 45.5,
+        "top": 456.5,
+        "width": 23.9,
+        "height": 10.0
+      }
+    },
+    "sINSIGNIABOSGARRCAPBLK": {
+      "type": "text",
+      "label": "(S, INSIGNIA, BOS, GARR CAP,BLK)",
+      "page": 1,
+      "box": {
+        "left": 204.5,
+        "top": 456.0,
+        "width": 23.9,
+        "height": 10.0
+      }
+    },
+    "uINSIGNIABOSGARRCAPBLK": {
+      "type": "text",
+      "label": "(U, INSIGNIA, BOS, GARR CAP,BLK)",
+      "page": 1,
+      "box": {
+        "left": 229.2,
+        "top": 456.0,
+        "width": 24.1,
+        "height": 10.0
+      }
+    },
+    "sBUTTONCROWNBLACK": {
+      "type": "text",
+      "label": "(S, BUTTON, CROWN, BLACK)",
+      "page": 1,
+      "box": {
+        "left": 20.9,
+        "top": 446.6,
+        "width": 23.8,
+        "height": 10.1
+      }
+    },
+    "sSweatpants": {
+      "type": "text",
+      "label": "(S, <Row 10>)",
+      "page": 1,
+      "box": {
+        "left": 403.7,
+        "top": 446.4,
+        "width": 23.2,
+        "height": 10.1
+      }
+    },
+    "uSweatpants": {
+      "type": "text",
+      "label": "(U, <Row 10>)",
+      "page": 1,
+      "box": {
+        "left": 427.7,
+        "top": 446.4,
+        "width": 23.6,
+        "height": 10.1
+      }
+    },
+    "uBUTTONCROWNBLACK": {
+      "type": "text",
+      "label": "(U, BUTTON, CROWN, BLACK)",
+      "page": 1,
+      "box": {
+        "left": 45.5,
+        "top": 445.9,
+        "width": 23.9,
+        "height": 10.1
+      }
+    },
+    "sINSIGNIABOSSERVCAPBLK": {
+      "type": "text",
+      "label": "(S, INSIGNIA, BOS, SERV CAP, BLK)",
+      "page": 1,
+      "box": {
+        "left": 204.5,
+        "top": 445.4,
+        "width": 23.9,
+        "height": 10.1
+      }
+    },
+    "uINSIGNIABOSSERVCAPBLK": {
+      "type": "text",
+      "label": "(U, INSIGNIA, BOS, SERV CAP, BLK)",
+      "page": 1,
+      "box": {
+        "left": 229.2,
+        "top": 445.4,
+        "width": 24.1,
+        "height": 10.1
+      }
+    },
+    "sCAPMARPATFIELDDESERT": {
+      "type": "text",
+      "label": "(S, CAP, MARPAT, FIELD, DESERT)",
+      "page": 1,
+      "box": {
+        "left": 20.9,
+        "top": 436.0,
+        "width": 23.8,
+        "height": 10.0
+      }
+    },
+    "sSweatshirt": {
+      "type": "text",
+      "label": "(S, <Row 11>)",
+      "page": 1,
+      "box": {
+        "left": 403.7,
+        "top": 435.7,
+        "width": 23.2,
+        "height": 10.0
+      }
+    },
+    "uSweatshirt": {
+      "type": "text",
+      "label": "(U, <Row 11>)",
+      "page": 1,
+      "box": {
+        "left": 427.7,
+        "top": 435.7,
+        "width": 23.6,
+        "height": 10.0
+      }
+    },
+    "uCAPMARPATFIELDDESERT": {
+      "type": "text",
+      "label": "(U, CAP, MARPAT, FIELD, DESERT)",
+      "page": 1,
+      "box": {
+        "left": 45.5,
+        "top": 435.2,
+        "width": 23.9,
+        "height": 10.0
+      }
+    },
+    "sINSIGNIABOSCOLLARGOLD": {
+      "type": "text",
+      "label": "(S, INSIGNIA, BOS, COLLAR, GOLD)",
+      "page": 1,
+      "box": {
+        "left": 204.5,
+        "top": 434.8,
+        "width": 23.9,
+        "height": 10.0
+      }
+    },
+    "uINSIGNIABOSCOLLARGOLD": {
+      "type": "text",
+      "label": "(U, INSIGNIA, BOS, COLLAR, GOLD)",
+      "page": 1,
+      "box": {
+        "left": 229.2,
+        "top": 434.8,
+        "width": 24.1,
+        "height": 10.0
+      }
+    },
+    "sCAPMARPATFIELDODLND": {
+      "type": "text",
+      "label": "(S, CAP, MARPAT, FIELD, ODLND)",
+      "page": 1,
+      "box": {
+        "left": 20.9,
+        "top": 425.4,
+        "width": 23.8,
+        "height": 10.0
+      }
+    },
+    "sTrousersMarpatDesert": {
+      "type": "text",
+      "label": "(S, <Row 12>)",
+      "page": 1,
+      "box": {
+        "left": 403.7,
+        "top": 425.1,
+        "width": 23.2,
+        "height": 10.0
+      }
+    },
+    "uTrousersMarpatDesert": {
+      "type": "text",
+      "label": "(U, <Row 12>)",
+      "page": 1,
+      "box": {
+        "left": 427.7,
+        "top": 425.1,
+        "width": 23.6,
+        "height": 10.0
+      }
+    },
+    "uCAPMARPATFIELDODLND": {
+      "type": "text",
+      "label": "(U, CAP, MARPAT, FIELD, ODLND)",
+      "page": 1,
+      "box": {
+        "left": 45.5,
+        "top": 424.7,
+        "width": 23.9,
+        "height": 10.0
+      }
+    },
+    "sINSIGNIABOSSERCAPGOLD": {
+      "type": "text",
+      "label": "(S, INSIGNIA, BOS, SER CAP,GOLD)",
+      "page": 1,
+      "box": {
+        "left": 204.5,
+        "top": 424.2,
+        "width": 23.9,
+        "height": 10.0
+      }
+    },
+    "uINSIGNIABOSSERCAPGOLD": {
+      "type": "text",
+      "label": "(U, INSIGNIA, BOS, SER CAP,GOLD)",
+      "page": 1,
+      "box": {
+        "left": 229.2,
+        "top": 424.2,
+        "width": 24.1,
+        "height": 10.0
+      }
+    },
+    "sCAPMARPATGARRDESERT": {
+      "type": "text",
+      "label": "(S, CAP, MARPAT, GARR, DESERT)",
+      "page": 1,
+      "box": {
+        "left": 20.9,
+        "top": 414.8,
+        "width": 23.8,
+        "height": 10.1
+      }
+    },
+    "sTrousersMarpatWoodland": {
+      "type": "text",
+      "label": "(S, <Row 13>)",
+      "page": 1,
+      "box": {
+        "left": 403.7,
+        "top": 414.6,
+        "width": 23.2,
+        "height": 10.1
+      }
+    },
+    "uTrousersMarpatWoodland": {
+      "type": "text",
+      "label": "(U, <Row 13>)",
+      "page": 1,
+      "box": {
+        "left": 427.7,
+        "top": 414.6,
+        "width": 23.6,
+        "height": 10.1
+      }
+    },
+    "uCAPMARPATGARRDESERT": {
+      "type": "text",
+      "label": "(U, CAP, MARPAT, GARR, DESERT)",
+      "page": 1,
+      "box": {
+        "left": 45.5,
+        "top": 414.1,
+        "width": 23.9,
+        "height": 10.1
+      }
+    },
+    "sJACKETATHLETIC": {
+      "type": "text",
+      "label": "(S, JACKET,  ATHLETIC)",
+      "page": 1,
+      "box": {
+        "left": 204.5,
+        "top": 413.6,
+        "width": 23.9,
+        "height": 10.1
+      }
+    },
+    "uJACKETATHLETIC": {
+      "type": "text",
+      "label": "(U, JACKET,  ATHLETIC)",
+      "page": 1,
+      "box": {
+        "left": 229.2,
+        "top": 413.6,
+        "width": 24.1,
+        "height": 10.1
+      }
+    },
+    "sCAPMARPATGARRWODLND": {
+      "type": "text",
+      "label": "(S, CAP, MARPAT, GARR,WODLND)",
+      "page": 1,
+      "box": {
+        "left": 20.9,
+        "top": 404.1,
+        "width": 23.8,
+        "height": 10.0
+      }
+    },
+    "sTrousersDressBlue": {
+      "type": "text",
+      "label": "(S, <Row 14>)",
+      "page": 1,
+      "box": {
+        "left": 403.7,
+        "top": 403.9,
+        "width": 23.2,
+        "height": 10.0
+      }
+    },
+    "usTrousersDressBlue": {
+      "type": "text",
+      "label": "(U, <Row 14>)",
+      "page": 1,
+      "box": {
+        "left": 427.7,
+        "top": 403.9,
+        "width": 23.6,
+        "height": 10.0
+      }
+    },
+    "uCAPMARPATGARRWODLND": {
+      "type": "text",
+      "label": "(U, CAP, MARPAT, GARR,WODLND)",
+      "page": 1,
+      "box": {
+        "left": 45.5,
+        "top": 403.4,
+        "width": 23.9,
+        "height": 10.0
+      }
+    },
+    "sNECKTABBLACK": {
+      "type": "text",
+      "label": "(S, NECKTAB, BLACK)",
+      "page": 1,
+      "box": {
+        "left": 204.5,
+        "top": 403.0,
+        "width": 23.9,
+        "height": 10.0
+      }
+    },
+    "uNECKTABBLACK": {
+      "type": "text",
+      "label": "(U, NECKTAB, BLACK)",
+      "page": 1,
+      "box": {
+        "left": 229.2,
+        "top": 403.0,
+        "width": 24.1,
+        "height": 10.0
+      }
+    },
+    "sCAPGARRISONGABGREEN": {
+      "type": "text",
+      "label": "(S, CAP, GARRISON, GAB, GREEN)",
+      "page": 1,
+      "box": {
+        "left": 20.9,
+        "top": 393.6,
+        "width": 23.8,
+        "height": 10.0
+      }
+    },
+    "sTrousersGabGreen": {
+      "type": "text",
+      "label": "(S, <Row 15>)",
+      "page": 1,
+      "box": {
+        "left": 403.7,
+        "top": 393.3,
+        "width": 23.2,
+        "height": 10.0
+      }
+    },
+    "uTrousersGabGreen": {
+      "type": "text",
+      "label": "(U, <Row 15>)",
+      "page": 1,
+      "box": {
+        "left": 427.7,
+        "top": 393.3,
+        "width": 23.6,
+        "height": 10.0
+      }
+    },
+    "uCAPGARRISONGABGREEN": {
+      "type": "text",
+      "label": "(U, CAP, GARRISON, GAB, GREEN)",
+      "page": 1,
+      "box": {
+        "left": 45.5,
+        "top": 392.9,
+        "width": 23.9,
+        "height": 10.0
+      }
+    },
+    "sNECKTABGREEN": {
+      "type": "text",
+      "label": "(S, NECKTAB, GREEN)",
+      "page": 1,
+      "box": {
+        "left": 204.5,
+        "top": 392.4,
+        "width": 23.9,
+        "height": 10.0
+      }
+    },
+    "uNECKTABGREEN": {
+      "type": "text",
+      "label": "(U, NECKTAB, GREEN)",
+      "page": 1,
+      "box": {
+        "left": 229.2,
+        "top": 392.4,
+        "width": 24.1,
+        "height": 10.0
+      }
+    },
+    "sCAPWOOLSERGEGREEN": {
+      "type": "text",
+      "label": "(S, CAP, WOOL SERGE, GREEN)",
+      "page": 1,
+      "box": {
+        "left": 20.9,
+        "top": 383.0,
+        "width": 23.8,
+        "height": 10.1
+      }
+    },
+    "sTrunksGeneralPurpose": {
+      "type": "text",
+      "label": "(S, <Row 16>)",
+      "page": 1,
+      "box": {
+        "left": 403.7,
+        "top": 382.8,
+        "width": 23.2,
+        "height": 10.1
+      }
+    },
+    "uTrunksGeneralPurpose": {
+      "type": "text",
+      "label": "(U, <Row 16>)",
+      "page": 1,
+      "box": {
+        "left": 427.7,
+        "top": 382.8,
+        "width": 23.6,
+        "height": 10.1
+      }
+    },
+    "uCAPWOOLSERGEGREEN": {
+      "type": "text",
+      "label": "(U, CAP, WOOL SERGE, GREEN)",
+      "page": 1,
+      "box": {
+        "left": 45.5,
+        "top": 382.3,
+        "width": 23.9,
+        "height": 10.1
+      }
+    },
+    "sNECKTIEKHAKI": {
+      "type": "text",
+      "label": "(S, NECKTIE, KHAKI)",
+      "page": 1,
+      "box": {
+        "left": 204.5,
+        "top": 381.8,
+        "width": 23.9,
+        "height": 10.1
+      }
+    },
+    "uNECKTIEKHAKI": {
+      "type": "text",
+      "label": "(U, NECKTIE, KHAKI)",
+      "page": 1,
+      "box": {
+        "left": 229.2,
+        "top": 381.8,
+        "width": 24.1,
+        "height": 10.1
+      }
+    },
+    "sCAPSERVICEVINYLWHITE": {
+      "type": "text",
+      "label": "(S, CAP, SERVICE, VINYL, WHITE)",
+      "page": 1,
+      "box": {
+        "left": 20.9,
+        "top": 372.4,
+        "width": 23.8,
+        "height": 10.0
+      }
+    },
+    "sUndershirtWhite": {
+      "type": "text",
+      "label": "(S, <Row 17>)",
+      "page": 1,
+      "box": {
+        "left": 403.7,
+        "top": 372.1,
+        "width": 23.2,
+        "height": 10.0
+      }
+    },
+    "uUndershirtWhite": {
+      "type": "text",
+      "label": "(U, <Row 17>)",
+      "page": 1,
+      "box": {
+        "left": 427.7,
+        "top": 372.1,
+        "width": 23.6,
+        "height": 10.0
+      }
+    },
+    "uCAPSERVICEVINYLWHITE": {
+      "type": "text",
+      "label": "(U, CAP, SERVICE, VINYL, WHITE)",
+      "page": 1,
+      "box": {
+        "left": 45.5,
+        "top": 371.6,
+        "width": 23.9,
+        "height": 10.0
+      }
+    },
+    "sPANTSATHLETIC": {
+      "type": "text",
+      "label": "(S, PANTS,  ATHLETIC)",
+      "page": 1,
+      "box": {
+        "left": 204.5,
+        "top": 371.2,
+        "width": 23.9,
+        "height": 10.0
+      }
+    },
+    "uPANTSATHLETIC": {
+      "type": "text",
+      "label": "(U, PANTS,  ATHLETIC)",
+      "page": 1,
+      "box": {
+        "left": 229.2,
+        "top": 371.2,
+        "width": 24.1,
+        "height": 10.0
+      }
+    },
+    "sCLASPNECKTIE": {
+      "type": "text",
+      "label": "(S, CLASP, NECKTIE)",
+      "page": 1,
+      "box": {
+        "left": 20.9,
+        "top": 361.8,
+        "width": 23.8,
+        "height": 10.0
+      }
+    },
+    "sUndershirtSynOlvDrab": {
+      "type": "text",
+      "label": "(S, <Row 18>)",
+      "page": 1,
+      "box": {
+        "left": 403.7,
+        "top": 361.5,
+        "width": 23.2,
+        "height": 10.0
+      }
+    },
+    "uUndershirtSynOlvDrab": {
+      "type": "text",
+      "label": "(U, <Row 18>)",
+      "page": 1,
+      "box": {
+        "left": 427.7,
+        "top": 361.5,
+        "width": 23.6,
+        "height": 10.0
+      }
+    },
+    "uCLASPNECKTIE": {
+      "type": "text",
+      "label": "(U, CLASP, NECKTIE)",
+      "page": 1,
+      "box": {
+        "left": 45.5,
+        "top": 361.1,
+        "width": 23.9,
+        "height": 10.0
+      }
+    },
+    "sSHIRTDRESSSSWHITE": {
+      "type": "text",
+      "label": "(S, SHIRT, DRESS, SS, WHITE)",
+      "page": 1,
+      "box": {
+        "left": 204.5,
+        "top": 360.6,
+        "width": 23.9,
+        "height": 10.0
+      }
+    },
+    "uSHIRTDRESSSSWHITE": {
+      "type": "text",
+      "label": "(U, SHIRT, DRESS, SS, WHITE)",
+      "page": 1,
+      "box": {
+        "left": 229.2,
+        "top": 360.6,
+        "width": 24.1,
+        "height": 10.0
+      }
+    },
+    "sCOATMARPATDESERT": {
+      "type": "text",
+      "label": "(S, COAT, MARPAT, DESERT)",
+      "page": 1,
+      "box": {
+        "left": 20.9,
+        "top": 351.2,
+        "width": 23.8,
+        "height": 10.1
+      }
+    },
+    "sUndershirtOliveGreen": {
+      "type": "text",
+      "label": "(S, <Row 19>)",
+      "page": 1,
+      "box": {
+        "left": 403.7,
+        "top": 351.0,
+        "width": 23.2,
+        "height": 10.1
+      }
+    },
+    "uUndershirtOliveGreen": {
+      "type": "text",
+      "label": "(U, <Row 19>)",
+      "page": 1,
+      "box": {
+        "left": 427.7,
+        "top": 351.0,
+        "width": 23.6,
+        "height": 10.1
+      }
+    },
+    "uCOATMARPATDESERT": {
+      "type": "text",
+      "label": "(U, COAT, MARPAT, DESERT)",
+      "page": 1,
+      "box": {
+        "left": 45.5,
+        "top": 350.5,
+        "width": 23.9,
+        "height": 10.1
+      }
+    },
+    "sSHIRTLONGSLEEVE": {
+      "type": "text",
+      "label": "(S, SHIRT, LONG SLEEVE)",
+      "page": 1,
+      "box": {
+        "left": 204.5,
+        "top": 350.1,
+        "width": 23.9,
+        "height": 10.1
+      }
+    },
+    "uSHIRTLONGSLEEVE": {
+      "type": "text",
+      "label": "(U, SHIRT, LONG SLEEVE)",
+      "page": 1,
+      "box": {
+        "left": 229.2,
+        "top": 350.1,
+        "width": 24.1,
+        "height": 10.1
+      }
+    },
+    "sCOATMARPATWOODLAND": {
+      "type": "text",
+      "label": "(S, COAT, MARPAT, WOODLAND)",
+      "page": 1,
+      "box": {
+        "left": 20.9,
+        "top": 340.6,
+        "width": 23.8,
+        "height": 10.0
+      }
+    },
+    "sWaistplate": {
+      "type": "text",
+      "label": "(S, <Row 20>)",
+      "page": 1,
+      "box": {
+        "left": 403.7,
+        "top": 340.3,
+        "width": 23.2,
+        "height": 10.0
+      }
+    },
+    "uWaistplate": {
+      "type": "text",
+      "label": "(U, <Row 20>)",
+      "page": 1,
+      "box": {
+        "left": 427.7,
+        "top": 340.3,
+        "width": 23.6,
+        "height": 10.0
+      }
+    },
+    "uCOATMARPATWOODLAND": {
+      "type": "text",
+      "label": "(U, COAT, MARPAT, WOODLAND)",
+      "page": 1,
+      "box": {
+        "left": 45.5,
+        "top": 339.8,
+        "width": 23.9,
+        "height": 10.0
+      }
+    },
+    "sSHIRTSHORTSLEEVE": {
+      "type": "text",
+      "label": "(S, SHIRT, SHORT SLEEVE)",
+      "page": 1,
+      "box": {
+        "left": 204.5,
+        "top": 339.4,
+        "width": 23.9,
+        "height": 10.0
+      }
+    },
+    "uSHIRTSHORTSLEEVE": {
+      "type": "text",
+      "label": "(U, SHIRT, SHORT SLEEVE)",
+      "page": 1,
+      "box": {
+        "left": 229.2,
+        "top": 339.4,
+        "width": 24.1,
+        "height": 10.0
+      }
+    },
+    "sCOATALLWEATHER": {
+      "type": "text",
+      "label": "(S, COAT, ALL WEATHER)",
+      "page": 1,
+      "box": {
+        "left": 20.9,
+        "top": 330.0,
+        "width": 23.8,
+        "height": 10.0
+      }
+    },
+    "sOtherArticles1": {
+      "type": "text",
+      "label": "(S, <Row 21>)",
+      "page": 1,
+      "box": {
+        "left": 403.7,
+        "top": 329.7,
+        "width": 23.2,
+        "height": 10.0
+      }
+    },
+    "uOtherArticles1": {
+      "type": "text",
+      "label": "(U, <Row 21>)",
+      "page": 1,
+      "box": {
+        "left": 427.7,
+        "top": 329.7,
+        "width": 23.6,
+        "height": 10.0
+      }
+    },
+    "otherArticles1": {
+      "type": "text",
+      "label": "(WAISTPLATE, SHOES, DRESS BLACK)",
+      "page": 1,
+      "box": {
+        "left": 451.7,
+        "top": 329.4,
+        "width": 140.2,
+        "height": 10.0
+      }
+    },
+    "uCOATALLWEATHER": {
+      "type": "text",
+      "label": "(U, COAT, ALL WEATHER)",
+      "page": 1,
+      "box": {
+        "left": 45.5,
+        "top": 329.3,
+        "width": 23.9,
+        "height": 10.0
+      }
+    },
+    "sSHOESDRESSBLACK": {
+      "type": "text",
+      "label": "(S, SHOES, DRESS BLACK)",
+      "page": 1,
+      "box": {
+        "left": 204.5,
+        "top": 328.8,
+        "width": 23.9,
+        "height": 10.0
+      }
+    },
+    "uSHOESDRESSBLACK": {
+      "type": "text",
+      "label": "(U, SHOES, DRESS BLACK)",
+      "page": 1,
+      "box": {
+        "left": 229.2,
+        "top": 328.8,
+        "width": 24.1,
+        "height": 10.0
+      }
+    },
+    "sCOATDRESSBLUE": {
+      "type": "text",
+      "label": "(S, COAT, DRESS, BLUE)",
+      "page": 1,
+      "box": {
+        "left": 20.9,
+        "top": 319.4,
+        "width": 23.8,
+        "height": 10.1
+      }
+    },
+    "sOtherArticles2": {
+      "type": "text",
+      "label": "(S, <Row 22>)",
+      "page": 1,
+      "box": {
+        "left": 403.7,
+        "top": 319.2,
+        "width": 23.2,
+        "height": 10.1
+      }
+    },
+    "uOtherArticles2": {
+      "type": "text",
+      "label": "(U, <Row 22>)",
+      "page": 1,
+      "box": {
+        "left": 427.7,
+        "top": 319.2,
+        "width": 23.6,
+        "height": 10.1
+      }
+    },
+    "otherArticles2": {
+      "type": "text",
+      "label": "(WAISTPLATE, SHOES, OXFORD, BLACK)",
+      "page": 1,
+      "box": {
+        "left": 451.7,
+        "top": 318.8,
+        "width": 140.2,
+        "height": 10.1
+      }
+    },
+    "uCOATDRESSBLUE": {
+      "type": "text",
+      "label": "(U, COAT, DRESS, BLUE)",
+      "page": 1,
+      "box": {
+        "left": 45.5,
+        "top": 318.7,
+        "width": 23.9,
+        "height": 10.1
+      }
+    },
+    "sSHOESOXFORDBLACK": {
+      "type": "text",
+      "label": "(S, SHOES, OXFORD, BLACK)",
+      "page": 1,
+      "box": {
+        "left": 204.5,
+        "top": 318.2,
+        "width": 23.9,
+        "height": 10.1
+      }
+    },
+    "uSHOESOXFORDBLACK": {
+      "type": "text",
+      "label": "(U, SHOES, OXFORD, BLACK)",
+      "page": 1,
+      "box": {
+        "left": 229.2,
+        "top": 318.2,
+        "width": 24.1,
+        "height": 10.1
+      }
+    },
+    "inventoryServiceable": {
+      "type": "text",
+      "label": "S",
+      "page": 1,
+      "box": {
+        "left": 20.5,
+        "top": 271.0,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable2": {
+      "type": "text",
+      "label": "S",
+      "page": 1,
+      "box": {
+        "left": 204.3,
+        "top": 270.9,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable3": {
+      "type": "text",
+      "label": "S",
+      "page": 1,
+      "box": {
+        "left": 401.0,
+        "top": 270.9,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable4": {
+      "type": "text",
+      "label": "S",
+      "page": 1,
+      "box": {
+        "left": 20.5,
+        "top": 250.3,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable5": {
+      "type": "text",
+      "label": "S",
+      "page": 1,
+      "box": {
+        "left": 401.0,
+        "top": 250.3,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable6": {
+      "type": "text",
+      "label": "S",
+      "page": 1,
+      "box": {
+        "left": 204.3,
+        "top": 250.2,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable7": {
+      "type": "text",
+      "label": "S",
+      "page": 1,
+      "box": {
+        "left": 20.5,
+        "top": 229.7,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable8": {
+      "type": "text",
+      "label": "S",
+      "page": 1,
+      "box": {
+        "left": 401.0,
+        "top": 229.7,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable9": {
+      "type": "text",
+      "label": "S",
+      "page": 1,
+      "box": {
+        "left": 204.3,
+        "top": 229.6,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable10": {
+      "type": "text",
+      "label": "S",
+      "page": 1,
+      "box": {
+        "left": 20.5,
+        "top": 209.0,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable11": {
+      "type": "text",
+      "label": "S",
+      "page": 1,
+      "box": {
+        "left": 204.3,
+        "top": 209.0,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable12": {
+      "type": "text",
+      "label": "S",
+      "page": 1,
+      "box": {
+        "left": 401.0,
+        "top": 209.0,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable13": {
+      "type": "text",
+      "label": "S",
+      "page": 1,
+      "box": {
+        "left": 20.5,
+        "top": 186.9,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable14": {
+      "type": "text",
+      "label": "S",
+      "page": 1,
+      "box": {
+        "left": 204.3,
+        "top": 186.9,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable15": {
+      "type": "text",
+      "label": "S",
+      "page": 1,
+      "box": {
+        "left": 401.0,
+        "top": 186.9,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable16": {
+      "type": "text",
+      "label": "S",
+      "page": 1,
+      "box": {
+        "left": 20.5,
+        "top": 166.3,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable17": {
+      "type": "text",
+      "label": "S",
+      "page": 1,
+      "box": {
+        "left": 401.0,
+        "top": 166.3,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable18": {
+      "type": "text",
+      "label": "S",
+      "page": 1,
+      "box": {
+        "left": 204.3,
+        "top": 166.2,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable19": {
+      "type": "text",
+      "label": "S",
+      "page": 1,
+      "box": {
+        "left": 20.5,
+        "top": 144.9,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable20": {
+      "type": "text",
+      "label": "S",
+      "page": 1,
+      "box": {
+        "left": 401.0,
+        "top": 144.9,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable21": {
+      "type": "text",
+      "label": "S",
+      "page": 1,
+      "box": {
+        "left": 204.3,
+        "top": 144.8,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable22": {
+      "type": "text",
+      "label": "S",
+      "page": 1,
+      "box": {
+        "left": 20.5,
+        "top": 124.3,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable23": {
+      "type": "text",
+      "label": "S",
+      "page": 1,
+      "box": {
+        "left": 401.0,
+        "top": 124.3,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable24": {
+      "type": "text",
+      "label": "S",
+      "page": 1,
+      "box": {
+        "left": 204.3,
+        "top": 124.2,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable25": {
+      "type": "text",
+      "label": "S",
+      "page": 1,
+      "box": {
+        "left": 20.5,
+        "top": 103.6,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable26": {
+      "type": "text",
+      "label": "S",
+      "page": 1,
+      "box": {
+        "left": 204.3,
+        "top": 103.6,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable27": {
+      "type": "text",
+      "label": "S",
+      "page": 1,
+      "box": {
+        "left": 401.0,
+        "top": 103.6,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable28": {
+      "type": "text",
+      "label": "S",
+      "page": 1,
+      "box": {
+        "left": 20.5,
+        "top": 83.0,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable29": {
+      "type": "text",
+      "label": "S",
+      "page": 1,
+      "box": {
+        "left": 401.0,
+        "top": 83.0,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable30": {
+      "type": "text",
+      "label": "S",
+      "page": 1,
+      "box": {
+        "left": 204.3,
+        "top": 82.9,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable31": {
+      "type": "text",
+      "label": "S",
+      "page": 1,
+      "box": {
+        "left": 20.5,
+        "top": 61.6,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable32": {
+      "type": "text",
+      "label": "S",
+      "page": 1,
+      "box": {
+        "left": 401.0,
+        "top": 61.6,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable33": {
+      "type": "text",
+      "label": "S",
+      "page": 1,
+      "box": {
+        "left": 204.3,
+        "top": 61.5,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable34": {
+      "type": "text",
+      "label": "S",
+      "page": 1,
+      "box": {
+        "left": 20.5,
+        "top": 41.0,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable35": {
+      "type": "text",
+      "label": "S",
+      "page": 1,
+      "box": {
+        "left": 401.0,
+        "top": 41.0,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable36": {
+      "type": "text",
+      "label": "S",
+      "page": 1,
+      "box": {
+        "left": 204.3,
+        "top": 40.9,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable37": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 204.6,
+        "top": 718.7,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable38": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 20.5,
+        "top": 718.0,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryUnserviceable38": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 45.2,
+        "top": 718.0,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable39": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 401.8,
+        "top": 717.8,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable40": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 204.6,
+        "top": 698.0,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryUnserviceable40": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 45.4,
+        "top": 697.6,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable41": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 20.5,
+        "top": 697.3,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable42": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 401.8,
+        "top": 697.1,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable43": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 20.5,
+        "top": 676.7,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable44": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 401.8,
+        "top": 676.5,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryUnserviceable44": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 45.4,
+        "top": 676.4,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable45": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 204.1,
+        "top": 676.4,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable46": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 20.5,
+        "top": 656.1,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryUnserviceable46": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 45.2,
+        "top": 656.0,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable47": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 401.8,
+        "top": 655.8,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable48": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 204.3,
+        "top": 655.6,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryUnserviceable49": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 45.2,
+        "top": 634.7,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable49": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 204.3,
+        "top": 634.2,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable50": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 20.5,
+        "top": 633.9,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable51": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 401.0,
+        "top": 633.7,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable52": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 204.3,
+        "top": 613.5,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable53": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 401.6,
+        "top": 613.5,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable54": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 20.5,
+        "top": 613.3,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryUnserviceable53": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 45.2,
+        "top": 613.3,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryUnserviceable55": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 45.2,
+        "top": 592.7,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable55": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 401.6,
+        "top": 592.3,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable56": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 204.3,
+        "top": 592.2,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable57": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 20.5,
+        "top": 591.9,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable58": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 20.5,
+        "top": 571.3,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryUnserviceable58": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 45.2,
+        "top": 571.3,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable59": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 401.8,
+        "top": 571.1,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable60": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 204.3,
+        "top": 570.8,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable61": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 20.5,
+        "top": 550.7,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryUnserviceable61": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 45.2,
+        "top": 550.6,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable62": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 401.8,
+        "top": 550.4,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable63": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 204.3,
+        "top": 550.1,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable64": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 20.5,
+        "top": 530.0,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable65": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 401.8,
+        "top": 529.8,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable66": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 204.3,
+        "top": 529.5,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryUnserviceable64": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 45.2,
+        "top": 529.3,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable67": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 20.5,
+        "top": 508.6,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryUnserviceable67": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 45.2,
+        "top": 508.6,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable68": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 401.8,
+        "top": 508.4,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable69": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 204.3,
+        "top": 508.1,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable70": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 20.5,
+        "top": 488.0,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryUnserviceable70": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 45.2,
+        "top": 488.0,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable71": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 401.8,
+        "top": 487.8,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable72": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 204.3,
+        "top": 487.5,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable73": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 20.5,
+        "top": 467.4,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryUnserviceable73": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 45.2,
+        "top": 467.3,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable74": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 401.8,
+        "top": 467.1,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable75": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 204.3,
+        "top": 466.8,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable76": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 20.5,
+        "top": 446.7,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryUnserviceable76": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 45.2,
+        "top": 446.7,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable77": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 401.8,
+        "top": 446.5,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable78": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 204.3,
+        "top": 446.2,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable79": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 20.5,
+        "top": 425.3,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryUnserviceable79": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 45.2,
+        "top": 425.3,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable80": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 401.8,
+        "top": 425.1,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable81": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 204.3,
+        "top": 424.8,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable82": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 20.5,
+        "top": 403.9,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryUnserviceable82": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 45.2,
+        "top": 403.9,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable83": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 401.8,
+        "top": 403.7,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable84": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 204.3,
+        "top": 403.4,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable85": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 20.5,
+        "top": 383.3,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryUnserviceable85": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 45.2,
+        "top": 383.3,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable86": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 400.3,
+        "top": 383.1,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "inventoryServiceable87": {
+      "type": "text",
+      "label": "S",
+      "page": 2,
+      "box": {
+        "left": 204.3,
+        "top": 382.8,
+        "width": 24.7,
+        "height": 20.6
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 2,
+      "box": {
+        "left": 27.7,
+        "top": 348.0,
+        "width": 559.9,
+        "height": 93.5
+      },
+      "multiline": true
+    },
+    "typeOFCONTAINERINVENTORIED": {
+      "type": "text",
+      "label": "TYPE OF CONTAINER INVENTORIED",
+      "page": 2,
+      "box": {
+        "left": 22.0,
+        "top": 241.6,
+        "width": 184.8,
+        "height": 20.0
+      }
+    },
+    "packedIN": {
+      "type": "text",
+      "label": "PACKED IN",
+      "page": 2,
+      "box": {
+        "left": 208.3,
+        "top": 241.6,
+        "width": 186.0,
+        "height": 20.0
+      }
+    },
+    "lbs": {
+      "type": "text",
+      "label": "LBS.",
+      "page": 2,
+      "box": {
+        "left": 395.9,
+        "top": 241.6,
+        "width": 195.6,
+        "height": 20.0
+      }
+    },
+    "placeINVENTORIED": {
+      "type": "text",
+      "label": "PLACE INVENTORIED",
+      "page": 2,
+      "box": {
+        "left": 25.4,
+        "top": 213.7,
+        "width": 566.1,
+        "height": 20.0
+      }
+    },
+    "inventoryOfficialRank": {
+      "type": "text",
+      "label": "RANK",
+      "page": 2,
+      "box": {
+        "left": 265.2,
+        "top": 175.8,
+        "width": 60.2,
+        "height": 20.2
+      }
+    },
+    "inventoryOfficialORGANIZATION": {
+      "type": "text",
+      "label": "ORGANIZATION",
+      "page": 2,
+      "box": {
+        "left": 331.4,
+        "top": 175.8,
+        "width": 260.1,
+        "height": 20.2
+      }
+    },
+    "inventoryOfficialNAMELastFirstMiddleInitial2": {
+      "type": "text",
+      "label": "NAME (Last, First, Middle Initial)",
+      "page": 2,
+      "box": {
+        "left": 25.8,
+        "top": 175.4,
+        "width": 240.0,
+        "height": 20.2
+      }
+    },
+    "inventoryOfficialSignature": {
+      "type": "signature",
+      "label": "InventoryOfficialSignature",
+      "page": 2,
+      "box": {
+        "left": 83.3,
+        "top": 151.9,
+        "width": 386.6,
+        "height": 19.8
+      }
+    },
+    "officialSigDATE2": {
+      "type": "text",
+      "label": "DATE",
+      "page": 2,
+      "box": {
+        "left": 477.4,
+        "top": 147.0,
+        "width": 114.1,
+        "height": 19.2
+      }
+    },
+    "assistant1NAMERankLastFirstMiddleInitial": {
+      "type": "text",
+      "label": "NAME (Rank, Last, First, Middle Initial)",
+      "page": 2,
+      "box": {
+        "left": 25.8,
+        "top": 110.5,
+        "width": 202.2,
+        "height": 22.3
+      }
+    },
+    "assistant1Initials": {
+      "type": "text",
+      "label": "Initials",
+      "page": 2,
+      "box": {
+        "left": 234.0,
+        "top": 110.5,
+        "width": 69.1,
+        "height": 22.3
+      }
+    },
+    "assistant1NAMERankLastFirstMiddleInitial2": {
+      "type": "text",
+      "label": "NAME (Rank, Last, First, Middle Initial)",
+      "page": 2,
+      "box": {
+        "left": 309.2,
+        "top": 110.5,
+        "width": 202.2,
+        "height": 22.3
+      }
+    },
+    "assistant1Initials2": {
+      "type": "text",
+      "label": "Initials",
+      "page": 2,
+      "box": {
+        "left": 517.4,
+        "top": 110.5,
+        "width": 74.0,
+        "height": 22.3
+      }
+    },
+    "recipientNAMELastFirstMiddleInitial3": {
+      "type": "text",
+      "label": "NAME (Last, First, Middle Initial)",
+      "page": 2,
+      "box": {
+        "left": 25.4,
+        "top": 53.5,
+        "width": 206.8,
+        "height": 20.0
+      }
+    },
+    "dateTimeField1": {
+      "type": "text",
+      "label": "DateTimeField1",
+      "page": 2,
+      "box": {
+        "left": 480.2,
+        "top": 49.7,
+        "width": 108.3,
+        "height": 13.1
+      }
+    },
+    "recipientSignature": {
+      "type": "signature",
+      "label": "RecipientSignature",
+      "page": 2,
+      "box": {
+        "left": 279.5,
+        "top": 47.9,
+        "width": 190.9,
+        "height": 11.5
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 12,
+      "rowStride": 20.93,
+      "editor": "grid",
+      "columns": {
+        "inventoryUnserviceable": {
+          "type": "text",
+          "label": "S",
+          "page": 1,
+          "box": {
+            "left": 45.2,
+            "top": 270.9,
+            "width": 24.7,
+            "height": 20.6
+          }
+        },
+        "articles": {
+          "type": "text",
+          "label": "(ARTICLES, <Row 1>)",
+          "page": 1,
+          "box": {
+            "left": 70.4,
+            "top": 270.4,
+            "width": 133.1,
+            "height": 20.0
+          }
+        },
+        "inventoryUnserviceable2": {
+          "type": "text",
+          "label": "S",
+          "page": 1,
+          "box": {
+            "left": 229.0,
+            "top": 270.9,
+            "width": 24.7,
+            "height": 20.6
+          }
+        },
+        "articles2": {
+          "type": "text",
+          "label": "(ARTICLES, <Row 1>)",
+          "page": 1,
+          "box": {
+            "left": 254.4,
+            "top": 270.4,
+            "width": 146.4,
+            "height": 20.0
+          }
+        },
+        "inventoryUnserviceable3": {
+          "type": "text",
+          "label": "S",
+          "page": 1,
+          "box": {
+            "left": 425.7,
+            "top": 270.9,
+            "width": 24.7,
+            "height": 20.6
+          }
+        },
+        "articles3": {
+          "type": "text",
+          "label": "(ARTICLES, <Row 1>)",
+          "page": 1,
+          "box": {
+            "left": 452.0,
+            "top": 270.4,
+            "width": 139.4,
+            "height": 20.0
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 2,
+      "count": 17,
+      "rowStride": 20.95,
+      "editor": "grid",
+      "columns": {
+        "articles": {
+          "type": "text",
+          "label": "(ARTICLES, <Row 1>)",
+          "page": 2,
+          "box": {
+            "left": 70.8,
+            "top": 718.4,
+            "width": 133.1,
+            "height": 20.0
+          }
+        },
+        "inventoryUnserviceable": {
+          "type": "text",
+          "label": "S",
+          "page": 2,
+          "box": {
+            "left": 229.1,
+            "top": 718.2,
+            "width": 24.7,
+            "height": 20.6
+          }
+        },
+        "articles2": {
+          "type": "text",
+          "label": "(ARTICLES, <Row 1>)",
+          "page": 2,
+          "box": {
+            "left": 254.4,
+            "top": 717.5,
+            "width": 146.4,
+            "height": 20.0
+          }
+        },
+        "inventoryUnserviceable2": {
+          "type": "text",
+          "label": "S",
+          "page": 2,
+          "box": {
+            "left": 426.5,
+            "top": 717.8,
+            "width": 24.7,
+            "height": 20.6
+          }
+        },
+        "articles3": {
+          "type": "text",
+          "label": "(ARTICLES, <Row 1>)",
+          "page": 2,
+          "box": {
+            "left": 452.0,
+            "top": 717.5,
+            "width": 139.4,
+            "height": 20.0
+          }
+        }
+      }
+    }
+  }
+}

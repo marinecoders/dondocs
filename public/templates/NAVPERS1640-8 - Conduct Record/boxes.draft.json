@@ -1,0 +1,84 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "textField1": {
+        "left": 38.8,
+        "top": 649.8,
+        "width": 534.3,
+        "height": 17.0,
+        "type": "text",
+        "description": "PLEASE ENTER NAVAL CONFINEMENT FACILITY/CORRECTIONAL CUSTODY UNIT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField12": {
+        "left": 478.0,
+        "top": 615.2,
+        "width": 95.1,
+        "height": 18.3,
+        "type": "text",
+        "description": "PLEASE ENTER LAST 4 DIGITS OF SOCIAL SECURITY NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField13": {
+        "left": 38.8,
+        "top": 613.8,
+        "width": 347.1,
+        "height": 17.0,
+        "type": "text",
+        "description": "PLEASE ENTER NAME OF INDIVIDUAL RECEIVING THIS CONDUCT RECORD",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField14": {
+        "left": 391.6,
+        "top": 613.8,
+        "width": 80.7,
+        "height": 17.0,
+        "type": "text",
+        "description": "ENTER RATE/GRADE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField2": {
+        "left": 38.8,
+        "top": 573.2,
+        "width": 95.1,
+        "height": 494.7,
+        "type": "text",
+        "description": "ENTER DATE OF ACTION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField22": {
+        "left": 139.6,
+        "top": 573.2,
+        "width": 433.5,
+        "height": 494.7,
+        "type": "text",
+        "description": "ENTER DESCRIPTION OF ACTION TAKEN AND AUTHENTICATION",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

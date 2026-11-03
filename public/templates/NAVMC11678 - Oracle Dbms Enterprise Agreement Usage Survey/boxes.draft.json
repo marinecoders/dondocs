@@ -1,0 +1,385 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "iTSystem": {
+        "left": 57.0,
+        "top": 614.5,
+        "width": 507.3,
+        "height": 19.8,
+        "type": "text",
+        "description": "1.  With what Marine Corps IT System is this ORACLE DBMS used?",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "totUsers": {
+        "left": 439.5,
+        "top": 582.8,
+        "width": 124.8,
+        "height": 19.8,
+        "type": "text",
+        "description": "2. Approximately how many different people use the IT System?\n \n ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "outsideUsers": {
+        "left": 439.5,
+        "top": 546.8,
+        "width": 124.8,
+        "height": 48.3,
+        "type": "text",
+        "description": "3. Approximately how many of these users are not Active or Reserve Duty Marines, Civilians and Contractors that work for the Marine Corps?",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dBMSEdition": {
+        "left": 348.0,
+        "top": 492.7,
+        "width": 117.3,
+        "height": 19.0,
+        "type": "choice",
+        "description": "4.  What Edition of ORACLE DBMS is implemented?",
+        "options": [
+          "Enterprise",
+          "Lite",
+          "Personal",
+          "Standard",
+          "Standard One"
+        ],
+        "group": null,
+        "required": false
+      },
+      "dBMSRelease": {
+        "left": 350.2,
+        "top": 464.8,
+        "width": 115.1,
+        "height": 19.8,
+        "type": "choice",
+        "description": "5. What release of ORACLE DBMS is implemented?",
+        "options": [
+          "10.2.0.X",
+          "10.1.0.X",
+          "9.2.0.X",
+          "9.0.1.X",
+          "8.1.7.X",
+          "8.1.6.X",
+          "8.1.5.X",
+          "8.0.6.X",
+          "8.0.5.X",
+          "8.0.4.X",
+          "8.0.3.X",
+          "7.3.4.X",
+          "7.3.3.X",
+          "7.3.2.X"
+        ],
+        "group": null,
+        "required": false
+      },
+      "totProc": {
+        "left": 493.5,
+        "top": 434.7,
+        "width": 70.8,
+        "height": 57.3,
+        "type": "choice",
+        "description": "6. How many processors are used to operate this edition of ORACLE DBMS? \n Example: An IT System has Enterprise ORACLE DBMS installed on \n(1) 2-processor server for R&D/Testing and (2) 4-processor servers for Production. Therefore; TotProc = (1 x 2) + (2 x 4) = 10.",
+        "options": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10"
+        ],
+        "group": null,
+        "required": false
+      },
+      "opSys": {
+        "left": 354.7,
+        "top": 367.1,
+        "width": 83.6,
+        "height": 19.8,
+        "type": "choice",
+        "description": "7. With what O/S is this ORACLE DBMS installed?",
+        "options": [
+          "AIX",
+          "HP UX",
+          "Linux x86",
+          "MS Windows",
+          "Sun Solaris"
+        ],
+        "group": null,
+        "required": false
+      },
+      "opSysVer": {
+        "left": 465.7,
+        "top": 367.1,
+        "width": 98.6,
+        "height": 19.8,
+        "type": "text",
+        "description": "Ver",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "serviceMonth": {
+        "left": 432.0,
+        "top": 337.7,
+        "width": 42.3,
+        "height": 19.8,
+        "type": "choice",
+        "description": "Mo",
+        "options": [
+          "01",
+          "02",
+          "03",
+          "04",
+          "05",
+          "06",
+          "07",
+          "08",
+          "09",
+          "10",
+          "11",
+          "12"
+        ],
+        "group": null,
+        "required": false
+      },
+      "serviceYear": {
+        "left": 504.0,
+        "top": 337.7,
+        "width": 51.3,
+        "height": 19.8,
+        "type": "choice",
+        "description": "Yr",
+        "options": [
+          "1997",
+          "1998",
+          "1999",
+          "2000",
+          "2001",
+          "2002",
+          "2003",
+          "2004",
+          "2005",
+          "2006",
+          "2007",
+          "2008"
+        ],
+        "group": null,
+        "required": false
+      },
+      "textField1": {
+        "left": 407.0,
+        "top": 309.1,
+        "width": 68.2,
+        "height": 17.4,
+        "type": "text",
+        "description": "9.  Is your IT System using additional options with ORACLE DBMS?",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "option1": {
+        "left": 109.5,
+        "top": 283.7,
+        "width": 157.8,
+        "height": 19.8,
+        "type": "choice",
+        "description": "Option 1",
+        "options": [
+          "Advanced Security",
+          "Content Database",
+          "Data Mining",
+          "Database Vault",
+          "Label Security",
+          "Management Packs",
+          "OLAP",
+          "Partitioning",
+          "Real Application Clusters",
+          "Records Database",
+          "Spatial",
+          "Warehouse Builder"
+        ],
+        "group": null,
+        "required": false
+      },
+      "option1Lic": {
+        "left": 400.5,
+        "top": 283.7,
+        "width": 46.8,
+        "height": 19.8,
+        "type": "text",
+        "description": "Qty of Licenses",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "option2": {
+        "left": 109.5,
+        "top": 256.7,
+        "width": 157.8,
+        "height": 19.8,
+        "type": "choice",
+        "description": "Option 2",
+        "options": [
+          "Advanced Security",
+          "Content Database",
+          "Data Mining",
+          "Database Vault",
+          "Label Security",
+          "Management Packs",
+          "OLAP",
+          "Partitioning",
+          "Real Application Clusters",
+          "Records Database",
+          "Spatial",
+          "Warehouse Builder"
+        ],
+        "group": null,
+        "required": false
+      },
+      "option2Lic": {
+        "left": 400.5,
+        "top": 256.7,
+        "width": 46.8,
+        "height": 19.8,
+        "type": "text",
+        "description": "Qty of Licenses",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "option3": {
+        "left": 109.5,
+        "top": 229.7,
+        "width": 157.8,
+        "height": 19.8,
+        "type": "choice",
+        "description": "Option 3",
+        "options": [
+          "Advanced Security",
+          "Content Database",
+          "Data Mining",
+          "Database Vault",
+          "Label Security",
+          "Management Packs",
+          "OLAP",
+          "Partitioning",
+          "Real Application Clusters",
+          "Records Database",
+          "Spatial",
+          "Warehouse Builder"
+        ],
+        "group": null,
+        "required": false
+      },
+      "option3Lic": {
+        "left": 400.5,
+        "top": 229.7,
+        "width": 46.8,
+        "height": 19.8,
+        "type": "text",
+        "description": "Qty of Licenses",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField2": {
+        "left": 416.3,
+        "top": 199.9,
+        "width": 52.4,
+        "height": 16.1,
+        "type": "text",
+        "description": "If Yes, specify number of servers ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox1": {
+        "left": 242.2,
+        "top": 197.8,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "10.  Do you use Oracle IAS (app server)?  No",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField3": {
+        "left": 316.7,
+        "top": 174.0,
+        "width": 266.0,
+        "height": 36.7,
+        "type": "text",
+        "description": "11.  What other Oracle products do you use or anticipate using?",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pOCName": {
+        "left": 114.7,
+        "top": 126.7,
+        "width": 188.6,
+        "height": 19.8,
+        "type": "text",
+        "description": "POC Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pOCCmd": {
+        "left": 366.7,
+        "top": 126.7,
+        "width": 188.6,
+        "height": 19.8,
+        "type": "text",
+        "description": "POC Cmd",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pOCEmail": {
+        "left": 114.7,
+        "top": 99.7,
+        "width": 188.6,
+        "height": 19.8,
+        "type": "text",
+        "description": "POC Email",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pOCPhone": {
+        "left": 366.7,
+        "top": 99.7,
+        "width": 188.6,
+        "height": 19.8,
+        "type": "text",
+        "description": "POC Phone",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

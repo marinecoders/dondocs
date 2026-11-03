@@ -1,0 +1,139 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "name": {
+        "left": 34.4,
+        "top": 658.4,
+        "width": 341.0,
+        "height": 14.8,
+        "type": "text",
+        "description": "ADMINISTRATION OF BENEFIT FUNCTIONS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "female": {
+        "left": 447.5,
+        "top": 654.3,
+        "width": 10.7,
+        "height": 11.5,
+        "type": "checkbox",
+        "description": "MALE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "male": {
+        "left": 388.5,
+        "top": 653.5,
+        "width": 10.7,
+        "height": 11.5,
+        "type": "checkbox",
+        "description": "SEX",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "address1": {
+        "left": 35.2,
+        "top": 636.3,
+        "width": 268.9,
+        "height": 15.6,
+        "type": "text",
+        "description": "NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "address2": {
+        "left": 309.0,
+        "top": 634.6,
+        "width": 269.7,
+        "height": 14.8,
+        "type": "text",
+        "description": "MALE FEMALE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "activity": {
+        "left": 36.9,
+        "top": 610.8,
+        "width": 541.0,
+        "height": 16.4,
+        "type": "text",
+        "description": "STREET ADDRESS: CITY, STATE, ZIP CODE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "status1": {
+        "left": 395.1,
+        "top": 594.5,
+        "width": 9.0,
+        "height": 9.8,
+        "type": "checkbox",
+        "description": "MARTIAL STATUS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "status2": {
+        "left": 298.4,
+        "top": 583.8,
+        "width": 10.7,
+        "height": 10.7,
+        "type": "checkbox",
+        "description": "MARTIAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "status3": {
+        "left": 369.7,
+        "top": 583.8,
+        "width": 10.7,
+        "height": 10.7,
+        "type": "checkbox",
+        "description": "MARRIED",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dob": {
+        "left": 39.3,
+        "top": 578.9,
+        "width": 168.0,
+        "height": 15.6,
+        "type": "text",
+        "description": "DATE OF BIRTH (MM/DD/YYYY)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ssn": {
+        "left": 218.9,
+        "top": 578.1,
+        "width": 71.3,
+        "height": 15.6,
+        "type": "text",
+        "description": "SSN",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

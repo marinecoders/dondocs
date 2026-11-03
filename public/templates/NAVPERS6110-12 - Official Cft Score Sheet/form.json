@@ -1,0 +1,89 @@
+{
+  "id": "navpers611012",
+  "label": "NAVPERS6110-12 - Official Cft Score Sheet",
+  "directory": "NAVPERS6110-12 - Official Cft Score Sheet",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "cFTDate",
+        "cFLACF2LName",
+        "cFLACFL1Name",
+        "commandUIC",
+        "cFLACFL1Signature",
+        "cFLACFL2Signature"
+      ]
+    }
+  ],
+  "fields": {
+    "cFTDate": {
+      "type": "text",
+      "label": "CFT Date",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 510.0,
+        "width": 111.3,
+        "height": 12.1
+      }
+    },
+    "cFLACF2LName": {
+      "type": "text",
+      "label": "CFL/ACFL Name (Last, First, M.I. [Print])",
+      "page": 1,
+      "box": {
+        "left": 452.9,
+        "top": 510.0,
+        "width": 300.3,
+        "height": 12.1
+      }
+    },
+    "cFLACFL1Name": {
+      "type": "text",
+      "label": "CFL/ACFL Name (Last, First, M.I. [Print])",
+      "page": 1,
+      "box": {
+        "left": 155.9,
+        "top": 509.4,
+        "width": 291.3,
+        "height": 11.5
+      }
+    },
+    "commandUIC": {
+      "type": "text",
+      "label": "Command UIC",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 483.0,
+        "width": 111.3,
+        "height": 12.1
+      }
+    },
+    "cFLACFL1Signature": {
+      "type": "text",
+      "label": "CFL/ACFL Signature",
+      "page": 1,
+      "box": {
+        "left": 155.9,
+        "top": 483.0,
+        "width": 291.3,
+        "height": 12.1
+      }
+    },
+    "cFLACFL2Signature": {
+      "type": "text",
+      "label": "CFL/ACFL Signature",
+      "page": 1,
+      "box": {
+        "left": 452.9,
+        "top": 482.4,
+        "width": 300.3,
+        "height": 11.5
+      }
+    }
+  }
+}

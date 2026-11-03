@@ -1,0 +1,741 @@
+{
+  "template": "page2.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page2": {
+      "evaluator": {
+        "left": 30.9,
+        "top": 685.4,
+        "width": 263.7,
+        "height": 10.7,
+        "type": "text",
+        "description": "Enter the evaluator.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date": {
+        "left": 298.5,
+        "top": 685.4,
+        "width": 283.0,
+        "height": 10.7,
+        "type": "text",
+        "description": "Enter the date of evaluation using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dEPTname": {
+        "left": 30.9,
+        "top": 657.8,
+        "width": 136.5,
+        "height": 37.3,
+        "type": "text",
+        "description": "Enter the department name.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "location": {
+        "left": 170.2,
+        "top": 657.8,
+        "width": 124.4,
+        "height": 37.3,
+        "type": "text",
+        "description": "Enter the location.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pOCname": {
+        "left": 297.5,
+        "top": 631.2,
+        "width": 121.8,
+        "height": 10.7,
+        "type": "text",
+        "description": "Enter the point of contact name.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "telephoneNO": {
+        "left": 423.2,
+        "top": 631.2,
+        "width": 158.3,
+        "height": 10.7,
+        "type": "text",
+        "description": "Enter the telephone number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "jobpositionevaluated": {
+        "left": 30.9,
+        "top": 601.4,
+        "width": 263.7,
+        "height": 37.3,
+        "type": "text",
+        "description": "Enter the job position evaluated.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nOofemployeesperformingjob": {
+        "left": 298.5,
+        "top": 574.8,
+        "width": 283.0,
+        "height": 10.7,
+        "type": "text",
+        "description": "Enter the number of employees performing job.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "followupdate": {
+        "left": 30.9,
+        "top": 519.0,
+        "width": 263.7,
+        "height": 10.7,
+        "type": "text",
+        "description": "Enter the follow-up date using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "emailaddress": {
+        "left": 298.5,
+        "top": 519.0,
+        "width": 283.0,
+        "height": 10.7,
+        "type": "text",
+        "description": "Enter the E-mail address.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "jobdescriptionfigures": {
+        "left": 30.4,
+        "top": 485.1,
+        "width": 551.2,
+        "height": 118.7,
+        "type": "text",
+        "description": "Enter the job description and/or figures.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "caution": {
+        "left": 197.2,
+        "top": 345.7,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if the recommendation is a caution.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hazard": {
+        "left": 268.6,
+        "top": 345.7,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if the recommendation is a hazard.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "neither": {
+        "left": 339.6,
+        "top": 345.7,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if the recommendation is neither.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "notapplicable": {
+        "left": 435.6,
+        "top": 345.7,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if the recommendation is not applicable.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recommendations": {
+        "left": 30.4,
+        "top": 326.5,
+        "width": 551.2,
+        "height": 125.0,
+        "type": "text",
+        "description": "Enter the recommendations.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "followup": {
+        "left": 30.4,
+        "top": 182.5,
+        "width": 551.2,
+        "height": 119.7,
+        "type": "text",
+        "description": "Enter the follow-up.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page3": {
+      "comments1": {
+        "left": 467.7,
+        "top": 682.9,
+        "width": 113.5,
+        "height": 101.5,
+        "type": "text",
+        "description": "Enter the comments.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "caution1": {
+        "left": 241.5,
+        "top": 678.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if caution is more than 2 hours total per day.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hazard1": {
+        "left": 332.8,
+        "top": 678.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if hazard is more than 4 hours total per day.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comments2": {
+        "left": 467.7,
+        "top": 579.6,
+        "width": 113.5,
+        "height": 98.4,
+        "type": "text",
+        "description": "Enter the comments.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "caution2": {
+        "left": 241.5,
+        "top": 576.8,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if caution is non-applicable.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hazard2": {
+        "left": 332.8,
+        "top": 576.8,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if hazard is more than 4 hours total per day.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comments3": {
+        "left": 467.7,
+        "top": 478.9,
+        "width": 113.5,
+        "height": 98.4,
+        "type": "text",
+        "description": "Enter the comments.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "caution3": {
+        "left": 241.5,
+        "top": 474.6,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if caution is more than 30 degrees for more than 2 hours total per day.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hazard3": {
+        "left": 332.8,
+        "top": 474.6,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if hazard is more than 30 degrees for more than 4 hours per day or more than 45 degrees \r\nfor more than 2 hours total per day.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comments4": {
+        "left": 467.7,
+        "top": 378.2,
+        "width": 113.5,
+        "height": 95.2,
+        "type": "text",
+        "description": "Enter the comments.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "caution4": {
+        "left": 241.5,
+        "top": 374.4,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if caution is more than 30 degrees for more than 2 hours total per day.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hazard4": {
+        "left": 332.8,
+        "top": 374.4,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if hazard is more than 30 degrees for more than 4 hours total per day or more than 45 degrees more than 2 hours total per day.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comments5": {
+        "left": 467.7,
+        "top": 280.6,
+        "width": 113.5,
+        "height": 97.8,
+        "type": "text",
+        "description": "Enter the comments.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "caution5": {
+        "left": 243.1,
+        "top": 277.4,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if caution is more than 2 hours total per day.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hazard5": {
+        "left": 335.9,
+        "top": 277.4,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if hazard is more than 4 hours total per day.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comments6": {
+        "left": 467.7,
+        "top": 178.9,
+        "width": 113.5,
+        "height": 97.8,
+        "type": "text",
+        "description": "Enter the comments.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "caution6": {
+        "left": 243.1,
+        "top": 176.1,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if caution is more than 2 hours total per day.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hazard6": {
+        "left": 335.9,
+        "top": 176.1,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if hazard is more than 4 hours total per day.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page4": {
+      "comments12": {
+        "left": 470.5,
+        "top": 688.1,
+        "width": 110.4,
+        "height": 143.7,
+        "type": "text",
+        "description": "Enter the comments.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "caution7": {
+        "left": 241.5,
+        "top": 685.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if caution is more than 30 minutes total per day.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hazard7": {
+        "left": 332.3,
+        "top": 685.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if hazard is for exposures that exceed caution level of more than 30 minutes per day, perform analysis using the \r\nHand-Arm Vibration Analysis Tool Guide in the ACGIH TLV guide.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comments22": {
+        "left": 470.5,
+        "top": 541.5,
+        "width": 110.4,
+        "height": 84.8,
+        "type": "text",
+        "description": "Enter the comments.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "caution8": {
+        "left": 241.5,
+        "top": 537.7,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if caution is more than 2 hours total per day.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hazard8": {
+        "left": 332.3,
+        "top": 537.7,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if hazard is for exposures that exceed caution level of more than 2 hours per day \r\nperform analysis using the Hand-Arm Vibration Analysis Guide in the ACGIH TLV guide.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comments32": {
+        "left": 470.5,
+        "top": 393.8,
+        "width": 110.4,
+        "height": 135.4,
+        "type": "text",
+        "description": "Enter the comments.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "caution9": {
+        "left": 241.5,
+        "top": 390.0,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if caution is more than 2 hours total per day.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hazard9": {
+        "left": 332.3,
+        "top": 390.0,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if hazard is more than 6 hours per day with no other risk factors, or more than 2 hours \r\nper day with wrists bent in flexion (>30 degrees), or ulnar deviation (> 30 degrees) AND high, forceful exertions of the hand(s).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comments42": {
+        "left": 470.5,
+        "top": 254.5,
+        "width": 110.4,
+        "height": 114.5,
+        "type": "text",
+        "description": "Enter the comments.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "caution10": {
+        "left": 241.5,
+        "top": 251.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if caution is more than 4 hours total per day.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hazard10": {
+        "left": 332.3,
+        "top": 251.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if hazard is either, more than 7 hours per day with no other risk factors, or more than 4 hours per \r\nday with wrists bent in flexion (>30 degrees), extension (> 45 degrees), or ulnar deviation (>30 degrees).",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page5": {
+      "comments13": {
+        "left": 465.0,
+        "top": 686.0,
+        "width": 110.4,
+        "height": 150.5,
+        "type": "text",
+        "description": "Enter the comments.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "caution11": {
+        "left": 234.2,
+        "top": 683.8,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if caution is more than 2 hours per day (comparable  to \r\npinching half a ream of paper or the force required to open two wooden clothespins).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hazard11": {
+        "left": 326.5,
+        "top": 683.8,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if hazard is more than 4 hours per day with no other risk factors, \r\nor more than 3 hours day with highly repetitive motion, or more than 3 hours per day with significant wrist deviation in \r\nflexion (>30 degrees), extension (>45 degrees), ulnar deviation (>30 degrees).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comments23": {
+        "left": 465.0,
+        "top": 531.6,
+        "width": 110.4,
+        "height": 162.5,
+        "type": "text",
+        "description": "Enter the comments.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "caution12": {
+        "left": 234.2,
+        "top": 527.8,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if caution is more than 2 hours total per day (comparable to clamping light duty automotive \r\njumper cables onto a battery).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hazard12": {
+        "left": 326.5,
+        "top": 527.8,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if hazard is more than 4 hours per day with no other risk factors, or more than 3 hours day with \r\nhighly repetitive motion, or more than 3 hours per day with significant wrist deviation in flexion (>30 degrees), \r\nextension (>45 degrees), ulnar deviation (>30 degrees).",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page6": {
+      "comments14": {
+        "left": 469.1,
+        "top": 689.1,
+        "width": 110.3,
+        "height": 98.9,
+        "type": "text",
+        "description": "Enter the comments.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "caution13": {
+        "left": 239.9,
+        "top": 685.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if caution is more than 10 times per hour more than 2 hours total per day.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hazard13": {
+        "left": 330.7,
+        "top": 685.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if hazard is more than once per minute more than 2 hours total per day.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comments24": {
+        "left": 469.1,
+        "top": 528.4,
+        "width": 110.3,
+        "height": 102.5,
+        "type": "text",
+        "description": "Enter the comments.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "caution14": {
+        "left": 239.4,
+        "top": 524.1,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if caution is weighing more than 75 pounds once per \r\nday or more than 55 pounds 10 times per day.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hazard14": {
+        "left": 330.7,
+        "top": 524.1,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if hazard is for exposures that exceed caution level perform lift analysis using the \r\nNIOSH Lifiting Equation or the current Lifting index in the ACGIH TLV guide.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comments33": {
+        "left": 469.1,
+        "top": 423.5,
+        "width": 110.3,
+        "height": 108.8,
+        "type": "text",
+        "description": "Enter the comments.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "caution15": {
+        "left": 239.4,
+        "top": 419.8,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if caution is weighing more than 10 pounds if done more than twice per minute more than 2 hours total per day.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hazard15": {
+        "left": 330.7,
+        "top": 419.8,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if hazard is for exposures that exceed caution level perform Lift analysis using the \r\nNIOSH Lifting Equation or the current Lifting Index in the ACGIH TLV guide.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comments43": {
+        "left": 469.1,
+        "top": 311.9,
+        "width": 110.3,
+        "height": 119.7,
+        "type": "text",
+        "description": "Enter the comments.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "caution16": {
+        "left": 239.4,
+        "top": 306.6,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if caution is weighing more than 25 pounds above the shoulders, below the knees or \r\nat arms length more than 25 times per day.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hazard16": {
+        "left": 330.7,
+        "top": 306.6,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if hazard is for exposures that exceed caution level perform Lift analysis using the \r\nNIOSH Lifting Equation or the current Lifting Index in the ACGIH TLV guide.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

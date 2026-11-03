@@ -1,0 +1,1345 @@
+{
+  "id": "opnav51109",
+  "label": "OPNAV5110-9 - Mail Manifest",
+  "directory": "OPNAV5110-9 - Mail Manifest",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "dNSDate3491",
+        "from",
+        "to",
+        "air",
+        "htoh",
+        "surface",
+        "dispatchingClerk",
+        "signature",
+        "flightAircraft",
+        "weight",
+        "weight2",
+        "numberOfPieces1",
+        "typeClass1",
+        "identificationSeal1",
+        "ultimateDestination1",
+        "weight1",
+        "remarksComments1",
+        "numberOfPieces2",
+        "typeClass2",
+        "identificationSeal2",
+        "ultimateDestination2",
+        "weight22",
+        "remarksComments2",
+        "numberOfPieces3",
+        "typeClass3",
+        "identificationSeal3",
+        "ultimateDestination3",
+        "weight3",
+        "remarksComments3",
+        "numberOfPieces4",
+        "typeClass4",
+        "identificationSeal4",
+        "ultimateDestination4",
+        "weight4",
+        "remarksComments4",
+        "numberOfPieces5",
+        "typeClass5",
+        "identificationSeal5",
+        "ultimateDestination5",
+        "weight5",
+        "remarksComments5",
+        "numberOfPieces6",
+        "typeClass6",
+        "identificationSeal6",
+        "ultimateDestination6",
+        "weight67",
+        "remarksComments6",
+        "numberOfPieces7",
+        "typeClass7",
+        "identificationSeal7",
+        "ultimateDestination7",
+        "weight8",
+        "remarksComments7",
+        "numberOfPieces8",
+        "typeClass8",
+        "identificationSeal8",
+        "ultimateDestination8",
+        "weight9",
+        "remarksComments8",
+        "numberOfPieces9",
+        "typeClass9",
+        "identificationSeal9",
+        "ultimateDestination9",
+        "weight10",
+        "remarksComments9",
+        "numberOfPieces10",
+        "typeClass10",
+        "identificationSeal10",
+        "ultimateDestination10",
+        "weight11",
+        "remarksComments10",
+        "numberOfPieces11",
+        "typeClass11",
+        "identificationSeal11",
+        "ultimateDestination11",
+        "weight12",
+        "remarksComments11",
+        "numberOfPieces12",
+        "typeClass12",
+        "identificationSeal12",
+        "ultimateDestination12",
+        "weight13",
+        "remarksComments12",
+        "numberOfPieces13",
+        "typeClass13",
+        "identificationSeal13",
+        "ultimateDestination13",
+        "weight14",
+        "remarksComments13",
+        "numberOfPieces14",
+        "typeClass14",
+        "identificationSeal14",
+        "ultimateDestination14",
+        "weight15",
+        "remarksComments14",
+        "totalWeight1",
+        "lbs",
+        "totalPieces",
+        "print1",
+        "print2",
+        "print3",
+        "print4",
+        "sign1",
+        "sign2",
+        "sign3",
+        "sign4",
+        "dNSDate36",
+        "dNSDate327",
+        "dNSDate338",
+        "dNSDate349"
+      ]
+    }
+  ],
+  "fields": {
+    "dNSDate3491": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 477.6,
+        "top": 732.0,
+        "width": 106.0,
+        "height": 46.6
+      },
+      "multiline": true
+    },
+    "from": {
+      "type": "text",
+      "label": "Enter from whom.",
+      "page": 1,
+      "box": {
+        "left": 30.3,
+        "top": 727.7,
+        "width": 146.0,
+        "height": 42.4
+      },
+      "multiline": true
+    },
+    "to": {
+      "type": "text",
+      "label": "Enter to whom.",
+      "page": 1,
+      "box": {
+        "left": 184.3,
+        "top": 727.7,
+        "width": 136.7,
+        "height": 42.4
+      },
+      "multiline": true
+    },
+    "air": {
+      "type": "text",
+      "label": "Enter the air mode.",
+      "page": 1,
+      "box": {
+        "left": 337.9,
+        "top": 727.1,
+        "width": 33.6,
+        "height": 11.3
+      }
+    },
+    "htoh": {
+      "type": "text",
+      "label": "Enter the H to H mode.",
+      "page": 1,
+      "box": {
+        "left": 400.5,
+        "top": 727.1,
+        "width": 33.6,
+        "height": 11.3
+      }
+    },
+    "surface": {
+      "type": "text",
+      "label": "Enter the surface mode.",
+      "page": 1,
+      "box": {
+        "left": 361.5,
+        "top": 701.4,
+        "width": 33.6,
+        "height": 11.3
+      }
+    },
+    "dispatchingClerk": {
+      "type": "text",
+      "label": "Enter the dispatching clerk.",
+      "page": 1,
+      "box": {
+        "left": 30.2,
+        "top": 661.7,
+        "width": 219.5,
+        "height": 42.4
+      },
+      "multiline": true
+    },
+    "signature": {
+      "type": "text",
+      "label": "Enter the signature.",
+      "page": 1,
+      "box": {
+        "left": 257.4,
+        "top": 661.7,
+        "width": 213.5,
+        "height": 42.4
+      },
+      "multiline": true
+    },
+    "flightAircraft": {
+      "type": "text",
+      "label": "Enter the flight number or aircraft.",
+      "page": 1,
+      "box": {
+        "left": 477.6,
+        "top": 651.8,
+        "width": 106.0,
+        "height": 32.5
+      },
+      "multiline": true
+    },
+    "weight": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 381.7,
+        "top": 597.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_Weight_0"
+    },
+    "weight2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 418.4,
+        "top": 597.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_Weight_0"
+    },
+    "numberOfPieces1": {
+      "type": "text",
+      "label": "This is row 1 of 14, Enter the number of pieces.",
+      "page": 1,
+      "box": {
+        "left": 28.5,
+        "top": 567.9,
+        "width": 42.8,
+        "height": 16.8
+      }
+    },
+    "typeClass1": {
+      "type": "text",
+      "label": "Enter the type of class.",
+      "page": 1,
+      "box": {
+        "left": 76.4,
+        "top": 567.9,
+        "width": 42.8,
+        "height": 16.8
+      }
+    },
+    "identificationSeal1": {
+      "type": "text",
+      "label": "Enter the identification (seal # ISJ#).",
+      "page": 1,
+      "box": {
+        "left": 125.2,
+        "top": 567.9,
+        "width": 77.3,
+        "height": 16.8
+      }
+    },
+    "ultimateDestination1": {
+      "type": "text",
+      "label": "Enter the ultimate and/or final destination.",
+      "page": 1,
+      "box": {
+        "left": 208.5,
+        "top": 567.9,
+        "width": 157.5,
+        "height": 16.8
+      }
+    },
+    "weight1": {
+      "type": "text",
+      "label": "Enter the weight.",
+      "page": 1,
+      "box": {
+        "left": 373.4,
+        "top": 567.9,
+        "width": 84.8,
+        "height": 16.8
+      }
+    },
+    "remarksComments1": {
+      "type": "text",
+      "label": "Enter remarks and/or comments.",
+      "page": 1,
+      "box": {
+        "left": 464.2,
+        "top": 567.9,
+        "width": 120.8,
+        "height": 16.8
+      }
+    },
+    "numberOfPieces2": {
+      "type": "text",
+      "label": "This is row 2 of 14, Enter the number of pieces.",
+      "page": 1,
+      "box": {
+        "left": 28.5,
+        "top": 541.0,
+        "width": 42.8,
+        "height": 16.8
+      }
+    },
+    "typeClass2": {
+      "type": "text",
+      "label": "Enter the type of class.",
+      "page": 1,
+      "box": {
+        "left": 76.4,
+        "top": 541.0,
+        "width": 42.8,
+        "height": 16.8
+      }
+    },
+    "identificationSeal2": {
+      "type": "text",
+      "label": "Enter the identification (seal # ISJ#).",
+      "page": 1,
+      "box": {
+        "left": 125.2,
+        "top": 541.0,
+        "width": 77.3,
+        "height": 16.8
+      }
+    },
+    "ultimateDestination2": {
+      "type": "text",
+      "label": "Enter the ultimate and/or final destination.",
+      "page": 1,
+      "box": {
+        "left": 208.5,
+        "top": 541.0,
+        "width": 157.5,
+        "height": 16.8
+      }
+    },
+    "weight22": {
+      "type": "text",
+      "label": "Enter the weight.",
+      "page": 1,
+      "box": {
+        "left": 373.4,
+        "top": 541.0,
+        "width": 84.8,
+        "height": 16.8
+      }
+    },
+    "remarksComments2": {
+      "type": "text",
+      "label": "Enter remarks and/or comments.",
+      "page": 1,
+      "box": {
+        "left": 464.2,
+        "top": 541.0,
+        "width": 120.8,
+        "height": 16.8
+      }
+    },
+    "numberOfPieces3": {
+      "type": "text",
+      "label": "This is row 3 of 14, Enter the number of pieces.",
+      "page": 1,
+      "box": {
+        "left": 28.5,
+        "top": 514.4,
+        "width": 42.8,
+        "height": 16.8
+      }
+    },
+    "typeClass3": {
+      "type": "text",
+      "label": "Enter the type of class.",
+      "page": 1,
+      "box": {
+        "left": 76.4,
+        "top": 514.4,
+        "width": 42.8,
+        "height": 16.8
+      }
+    },
+    "identificationSeal3": {
+      "type": "text",
+      "label": "Enter the identification (seal # ISJ#).",
+      "page": 1,
+      "box": {
+        "left": 125.2,
+        "top": 514.4,
+        "width": 77.3,
+        "height": 16.8
+      }
+    },
+    "ultimateDestination3": {
+      "type": "text",
+      "label": "Enter the ultimate and/or final destination.",
+      "page": 1,
+      "box": {
+        "left": 208.5,
+        "top": 514.4,
+        "width": 157.5,
+        "height": 16.8
+      }
+    },
+    "weight3": {
+      "type": "text",
+      "label": "Enter the weight.",
+      "page": 1,
+      "box": {
+        "left": 373.4,
+        "top": 514.4,
+        "width": 84.8,
+        "height": 16.8
+      }
+    },
+    "remarksComments3": {
+      "type": "text",
+      "label": "Enter remarks and/or comments.",
+      "page": 1,
+      "box": {
+        "left": 464.2,
+        "top": 514.4,
+        "width": 120.8,
+        "height": 16.8
+      }
+    },
+    "numberOfPieces4": {
+      "type": "text",
+      "label": "This is row 4 of 14, Enter the number of pieces.",
+      "page": 1,
+      "box": {
+        "left": 28.5,
+        "top": 487.5,
+        "width": 42.8,
+        "height": 16.8
+      }
+    },
+    "typeClass4": {
+      "type": "text",
+      "label": "Enter the type of class.",
+      "page": 1,
+      "box": {
+        "left": 76.4,
+        "top": 487.5,
+        "width": 42.8,
+        "height": 16.8
+      }
+    },
+    "identificationSeal4": {
+      "type": "text",
+      "label": "Enter the identification (seal # ISJ#).",
+      "page": 1,
+      "box": {
+        "left": 125.2,
+        "top": 487.5,
+        "width": 77.3,
+        "height": 16.8
+      }
+    },
+    "ultimateDestination4": {
+      "type": "text",
+      "label": "Enter the ultimate and/or final destination.",
+      "page": 1,
+      "box": {
+        "left": 208.5,
+        "top": 487.5,
+        "width": 157.5,
+        "height": 16.8
+      }
+    },
+    "weight4": {
+      "type": "text",
+      "label": "Enter the weight.",
+      "page": 1,
+      "box": {
+        "left": 373.4,
+        "top": 487.5,
+        "width": 84.8,
+        "height": 16.8
+      }
+    },
+    "remarksComments4": {
+      "type": "text",
+      "label": "Enter remarks and/or comments.",
+      "page": 1,
+      "box": {
+        "left": 464.2,
+        "top": 487.5,
+        "width": 120.8,
+        "height": 16.8
+      }
+    },
+    "numberOfPieces5": {
+      "type": "text",
+      "label": "This is row 5 of 14, Enter the number of pieces.",
+      "page": 1,
+      "box": {
+        "left": 28.5,
+        "top": 460.5,
+        "width": 42.8,
+        "height": 16.8
+      }
+    },
+    "typeClass5": {
+      "type": "text",
+      "label": "Enter the type of class.",
+      "page": 1,
+      "box": {
+        "left": 76.4,
+        "top": 460.5,
+        "width": 42.8,
+        "height": 16.8
+      }
+    },
+    "identificationSeal5": {
+      "type": "text",
+      "label": "Enter the identification (seal # ISJ#).",
+      "page": 1,
+      "box": {
+        "left": 125.2,
+        "top": 460.5,
+        "width": 77.3,
+        "height": 16.8
+      }
+    },
+    "ultimateDestination5": {
+      "type": "text",
+      "label": "Enter the ultimate and/or final destination.",
+      "page": 1,
+      "box": {
+        "left": 208.5,
+        "top": 460.5,
+        "width": 157.5,
+        "height": 16.8
+      }
+    },
+    "weight5": {
+      "type": "text",
+      "label": "Enter the weight.",
+      "page": 1,
+      "box": {
+        "left": 373.4,
+        "top": 460.5,
+        "width": 84.8,
+        "height": 16.8
+      }
+    },
+    "remarksComments5": {
+      "type": "text",
+      "label": "Enter remarks and/or comments.",
+      "page": 1,
+      "box": {
+        "left": 464.2,
+        "top": 460.5,
+        "width": 120.8,
+        "height": 16.8
+      }
+    },
+    "numberOfPieces6": {
+      "type": "text",
+      "label": "This is row 6 of 14, Enter the number of pieces.",
+      "page": 1,
+      "box": {
+        "left": 28.5,
+        "top": 432.9,
+        "width": 42.8,
+        "height": 16.8
+      }
+    },
+    "typeClass6": {
+      "type": "text",
+      "label": "Enter the type of class.",
+      "page": 1,
+      "box": {
+        "left": 76.4,
+        "top": 432.9,
+        "width": 42.8,
+        "height": 16.8
+      }
+    },
+    "identificationSeal6": {
+      "type": "text",
+      "label": "Enter the identification (seal # ISJ#).",
+      "page": 1,
+      "box": {
+        "left": 125.2,
+        "top": 432.9,
+        "width": 77.3,
+        "height": 16.8
+      }
+    },
+    "ultimateDestination6": {
+      "type": "text",
+      "label": "Enter the ultimate and/or final destination.",
+      "page": 1,
+      "box": {
+        "left": 208.5,
+        "top": 432.9,
+        "width": 157.5,
+        "height": 16.8
+      }
+    },
+    "weight67": {
+      "type": "text",
+      "label": "Enter the weight.",
+      "page": 1,
+      "box": {
+        "left": 373.4,
+        "top": 432.9,
+        "width": 84.8,
+        "height": 16.8
+      }
+    },
+    "remarksComments6": {
+      "type": "text",
+      "label": "Enter remarks and/or comments.",
+      "page": 1,
+      "box": {
+        "left": 464.2,
+        "top": 432.9,
+        "width": 120.8,
+        "height": 16.8
+      }
+    },
+    "numberOfPieces7": {
+      "type": "text",
+      "label": "This is row 7 of 14, Enter the number of pieces.",
+      "page": 1,
+      "box": {
+        "left": 28.5,
+        "top": 406.7,
+        "width": 42.8,
+        "height": 16.8
+      }
+    },
+    "typeClass7": {
+      "type": "text",
+      "label": "Enter the type of class.",
+      "page": 1,
+      "box": {
+        "left": 76.4,
+        "top": 406.7,
+        "width": 42.8,
+        "height": 16.8
+      }
+    },
+    "identificationSeal7": {
+      "type": "text",
+      "label": "Enter the identification (seal # ISJ#).",
+      "page": 1,
+      "box": {
+        "left": 125.2,
+        "top": 406.7,
+        "width": 77.3,
+        "height": 16.8
+      }
+    },
+    "ultimateDestination7": {
+      "type": "text",
+      "label": "Enter the ultimate and/or final destination.",
+      "page": 1,
+      "box": {
+        "left": 208.5,
+        "top": 406.7,
+        "width": 157.5,
+        "height": 16.8
+      }
+    },
+    "weight8": {
+      "type": "text",
+      "label": "Enter the weight.",
+      "page": 1,
+      "box": {
+        "left": 373.4,
+        "top": 406.7,
+        "width": 84.8,
+        "height": 16.8
+      }
+    },
+    "remarksComments7": {
+      "type": "text",
+      "label": "Enter remarks and/or comments.",
+      "page": 1,
+      "box": {
+        "left": 464.2,
+        "top": 406.7,
+        "width": 120.8,
+        "height": 16.8
+      }
+    },
+    "numberOfPieces8": {
+      "type": "text",
+      "label": "This is row 8 of 14, Enter the number of pieces.",
+      "page": 1,
+      "box": {
+        "left": 28.5,
+        "top": 379.8,
+        "width": 42.8,
+        "height": 16.8
+      }
+    },
+    "typeClass8": {
+      "type": "text",
+      "label": "Enter the type of class.",
+      "page": 1,
+      "box": {
+        "left": 76.4,
+        "top": 379.8,
+        "width": 42.8,
+        "height": 16.8
+      }
+    },
+    "identificationSeal8": {
+      "type": "text",
+      "label": "Enter the identification (seal # ISJ#).",
+      "page": 1,
+      "box": {
+        "left": 125.2,
+        "top": 379.8,
+        "width": 77.3,
+        "height": 16.8
+      }
+    },
+    "ultimateDestination8": {
+      "type": "text",
+      "label": "Enter the ultimate and/or final destination.",
+      "page": 1,
+      "box": {
+        "left": 208.5,
+        "top": 379.8,
+        "width": 157.5,
+        "height": 16.8
+      }
+    },
+    "weight9": {
+      "type": "text",
+      "label": "Enter the weight.",
+      "page": 1,
+      "box": {
+        "left": 373.4,
+        "top": 379.8,
+        "width": 84.8,
+        "height": 16.8
+      }
+    },
+    "remarksComments8": {
+      "type": "text",
+      "label": "Enter remarks and/or comments.",
+      "page": 1,
+      "box": {
+        "left": 464.2,
+        "top": 379.8,
+        "width": 120.8,
+        "height": 16.8
+      }
+    },
+    "numberOfPieces9": {
+      "type": "text",
+      "label": "This is row 9 of 14, Enter the number of pieces.",
+      "page": 1,
+      "box": {
+        "left": 28.5,
+        "top": 352.8,
+        "width": 42.8,
+        "height": 16.8
+      }
+    },
+    "typeClass9": {
+      "type": "text",
+      "label": "Enter the type of class.",
+      "page": 1,
+      "box": {
+        "left": 76.4,
+        "top": 352.8,
+        "width": 42.8,
+        "height": 16.8
+      }
+    },
+    "identificationSeal9": {
+      "type": "text",
+      "label": "Enter the identification (seal # ISJ#).",
+      "page": 1,
+      "box": {
+        "left": 125.2,
+        "top": 352.8,
+        "width": 77.3,
+        "height": 16.8
+      }
+    },
+    "ultimateDestination9": {
+      "type": "text",
+      "label": "Enter the ultimate and/or final destination.",
+      "page": 1,
+      "box": {
+        "left": 208.5,
+        "top": 352.8,
+        "width": 157.5,
+        "height": 16.8
+      }
+    },
+    "weight10": {
+      "type": "text",
+      "label": "Enter the weight.",
+      "page": 1,
+      "box": {
+        "left": 373.4,
+        "top": 352.8,
+        "width": 84.8,
+        "height": 16.8
+      }
+    },
+    "remarksComments9": {
+      "type": "text",
+      "label": "Enter remarks and/or comments.",
+      "page": 1,
+      "box": {
+        "left": 464.2,
+        "top": 352.8,
+        "width": 120.8,
+        "height": 16.8
+      }
+    },
+    "numberOfPieces10": {
+      "type": "text",
+      "label": "This is row 10 of 14, Enter the number of pieces.",
+      "page": 1,
+      "box": {
+        "left": 28.5,
+        "top": 325.9,
+        "width": 42.8,
+        "height": 16.8
+      }
+    },
+    "typeClass10": {
+      "type": "text",
+      "label": "Enter the type of class.",
+      "page": 1,
+      "box": {
+        "left": 76.4,
+        "top": 325.9,
+        "width": 42.8,
+        "height": 16.8
+      }
+    },
+    "identificationSeal10": {
+      "type": "text",
+      "label": "Enter the identification (seal # ISJ#).",
+      "page": 1,
+      "box": {
+        "left": 125.2,
+        "top": 325.9,
+        "width": 77.3,
+        "height": 16.8
+      }
+    },
+    "ultimateDestination10": {
+      "type": "text",
+      "label": "Enter the ultimate and/or final destination.",
+      "page": 1,
+      "box": {
+        "left": 208.5,
+        "top": 325.9,
+        "width": 157.5,
+        "height": 16.8
+      }
+    },
+    "weight11": {
+      "type": "text",
+      "label": "Enter the weight.",
+      "page": 1,
+      "box": {
+        "left": 373.4,
+        "top": 325.9,
+        "width": 84.8,
+        "height": 16.8
+      }
+    },
+    "remarksComments10": {
+      "type": "text",
+      "label": "Enter remarks and/or comments.",
+      "page": 1,
+      "box": {
+        "left": 464.2,
+        "top": 325.9,
+        "width": 120.8,
+        "height": 16.8
+      }
+    },
+    "numberOfPieces11": {
+      "type": "text",
+      "label": "This is row 11 of 14, Enter the number of pieces.",
+      "page": 1,
+      "box": {
+        "left": 28.5,
+        "top": 299.0,
+        "width": 42.8,
+        "height": 16.8
+      }
+    },
+    "typeClass11": {
+      "type": "text",
+      "label": "Enter the type of class.",
+      "page": 1,
+      "box": {
+        "left": 76.4,
+        "top": 299.0,
+        "width": 42.8,
+        "height": 16.8
+      }
+    },
+    "identificationSeal11": {
+      "type": "text",
+      "label": "Enter the identification (seal # ISJ#).",
+      "page": 1,
+      "box": {
+        "left": 125.2,
+        "top": 299.0,
+        "width": 77.3,
+        "height": 16.8
+      }
+    },
+    "ultimateDestination11": {
+      "type": "text",
+      "label": "Enter the ultimate and/or final destination.",
+      "page": 1,
+      "box": {
+        "left": 208.5,
+        "top": 299.0,
+        "width": 157.5,
+        "height": 16.8
+      }
+    },
+    "weight12": {
+      "type": "text",
+      "label": "Enter the weight.",
+      "page": 1,
+      "box": {
+        "left": 373.4,
+        "top": 299.0,
+        "width": 84.8,
+        "height": 16.8
+      }
+    },
+    "remarksComments11": {
+      "type": "text",
+      "label": "Enter remarks and/or comments.",
+      "page": 1,
+      "box": {
+        "left": 464.2,
+        "top": 299.0,
+        "width": 120.8,
+        "height": 16.8
+      }
+    },
+    "numberOfPieces12": {
+      "type": "text",
+      "label": "This is row 12 of 14, Enter the number of pieces.",
+      "page": 1,
+      "box": {
+        "left": 28.5,
+        "top": 272.0,
+        "width": 42.8,
+        "height": 16.8
+      }
+    },
+    "typeClass12": {
+      "type": "text",
+      "label": "Enter the type of class.",
+      "page": 1,
+      "box": {
+        "left": 76.4,
+        "top": 272.0,
+        "width": 42.8,
+        "height": 16.8
+      }
+    },
+    "identificationSeal12": {
+      "type": "text",
+      "label": "Enter the identification (seal # ISJ#).",
+      "page": 1,
+      "box": {
+        "left": 125.2,
+        "top": 272.0,
+        "width": 77.3,
+        "height": 16.8
+      }
+    },
+    "ultimateDestination12": {
+      "type": "text",
+      "label": "Enter the ultimate and/or final destination.",
+      "page": 1,
+      "box": {
+        "left": 208.5,
+        "top": 272.0,
+        "width": 157.5,
+        "height": 16.8
+      }
+    },
+    "weight13": {
+      "type": "text",
+      "label": "Enter the weight.",
+      "page": 1,
+      "box": {
+        "left": 373.4,
+        "top": 272.0,
+        "width": 84.8,
+        "height": 16.8
+      }
+    },
+    "remarksComments12": {
+      "type": "text",
+      "label": "Enter remarks and/or comments.",
+      "page": 1,
+      "box": {
+        "left": 464.2,
+        "top": 272.0,
+        "width": 120.8,
+        "height": 16.8
+      }
+    },
+    "numberOfPieces13": {
+      "type": "text",
+      "label": "This is row 13 of 14, Enter the number of pieces.",
+      "page": 1,
+      "box": {
+        "left": 28.5,
+        "top": 245.1,
+        "width": 42.8,
+        "height": 16.8
+      }
+    },
+    "typeClass13": {
+      "type": "text",
+      "label": "Enter the type of class.",
+      "page": 1,
+      "box": {
+        "left": 76.4,
+        "top": 245.1,
+        "width": 42.8,
+        "height": 16.8
+      }
+    },
+    "identificationSeal13": {
+      "type": "text",
+      "label": "Enter the identification (seal # ISJ#).",
+      "page": 1,
+      "box": {
+        "left": 125.2,
+        "top": 245.1,
+        "width": 77.3,
+        "height": 16.8
+      }
+    },
+    "ultimateDestination13": {
+      "type": "text",
+      "label": "Enter the ultimate and/or final destination.",
+      "page": 1,
+      "box": {
+        "left": 208.5,
+        "top": 245.1,
+        "width": 157.5,
+        "height": 16.8
+      }
+    },
+    "weight14": {
+      "type": "text",
+      "label": "Enter the weight.",
+      "page": 1,
+      "box": {
+        "left": 373.4,
+        "top": 245.1,
+        "width": 84.8,
+        "height": 16.8
+      }
+    },
+    "remarksComments13": {
+      "type": "text",
+      "label": "Enter remarks and/or comments.",
+      "page": 1,
+      "box": {
+        "left": 464.2,
+        "top": 245.1,
+        "width": 120.8,
+        "height": 16.8
+      }
+    },
+    "numberOfPieces14": {
+      "type": "text",
+      "label": "This is row 14 of 14, Enter the number of pieces.",
+      "page": 1,
+      "box": {
+        "left": 28.5,
+        "top": 218.2,
+        "width": 42.8,
+        "height": 16.8
+      }
+    },
+    "typeClass14": {
+      "type": "text",
+      "label": "Enter the type of class.",
+      "page": 1,
+      "box": {
+        "left": 76.4,
+        "top": 218.2,
+        "width": 42.8,
+        "height": 16.8
+      }
+    },
+    "identificationSeal14": {
+      "type": "text",
+      "label": "Enter the identification (seal # ISJ#).",
+      "page": 1,
+      "box": {
+        "left": 125.2,
+        "top": 218.2,
+        "width": 77.3,
+        "height": 16.8
+      }
+    },
+    "ultimateDestination14": {
+      "type": "text",
+      "label": "Enter the ultimate and/or final destination.",
+      "page": 1,
+      "box": {
+        "left": 208.5,
+        "top": 218.2,
+        "width": 157.5,
+        "height": 16.8
+      }
+    },
+    "weight15": {
+      "type": "text",
+      "label": "Enter the weight.",
+      "page": 1,
+      "box": {
+        "left": 373.4,
+        "top": 218.2,
+        "width": 84.8,
+        "height": 16.8
+      }
+    },
+    "remarksComments14": {
+      "type": "text",
+      "label": "Enter remarks and/or comments.",
+      "page": 1,
+      "box": {
+        "left": 464.2,
+        "top": 218.2,
+        "width": 120.8,
+        "height": 16.8
+      }
+    },
+    "totalWeight1": {
+      "type": "text",
+      "label": "Enter the total weight in kilograms.",
+      "page": 1,
+      "box": {
+        "left": 397.1,
+        "top": 180.0,
+        "width": 69.8,
+        "height": 15.8
+      }
+    },
+    "lbs": {
+      "type": "text",
+      "label": "Enter the total weight in pounds.",
+      "page": 1,
+      "box": {
+        "left": 497.7,
+        "top": 180.0,
+        "width": 63.8,
+        "height": 15.8
+      }
+    },
+    "totalPieces": {
+      "type": "text",
+      "label": "Enter the total pieces.",
+      "page": 1,
+      "box": {
+        "left": 29.2,
+        "top": 172.7,
+        "width": 87.8,
+        "height": 11.6
+      }
+    },
+    "print1": {
+      "type": "text",
+      "label": "Print name.",
+      "page": 1,
+      "box": {
+        "left": 33.0,
+        "top": 128.3,
+        "width": 73.6,
+        "height": 15.8
+      }
+    },
+    "print2": {
+      "type": "text",
+      "label": "Print name.",
+      "page": 1,
+      "box": {
+        "left": 170.3,
+        "top": 128.3,
+        "width": 73.6,
+        "height": 15.8
+      }
+    },
+    "print3": {
+      "type": "text",
+      "label": "Print name.",
+      "page": 1,
+      "box": {
+        "left": 309.8,
+        "top": 128.3,
+        "width": 73.6,
+        "height": 15.8
+      }
+    },
+    "print4": {
+      "type": "text",
+      "label": "Print name.",
+      "page": 1,
+      "box": {
+        "left": 449.9,
+        "top": 128.3,
+        "width": 73.6,
+        "height": 15.8
+      }
+    },
+    "sign1": {
+      "type": "text",
+      "label": "Sign name.",
+      "page": 1,
+      "box": {
+        "left": 34.5,
+        "top": 105.8,
+        "width": 73.6,
+        "height": 15.8
+      }
+    },
+    "sign2": {
+      "type": "text",
+      "label": "Sign name.",
+      "page": 1,
+      "box": {
+        "left": 170.3,
+        "top": 105.8,
+        "width": 73.6,
+        "height": 15.8
+      }
+    },
+    "sign3": {
+      "type": "text",
+      "label": "Sign name.",
+      "page": 1,
+      "box": {
+        "left": 309.8,
+        "top": 105.8,
+        "width": 73.6,
+        "height": 15.8
+      }
+    },
+    "sign4": {
+      "type": "text",
+      "label": "Sign name.",
+      "page": 1,
+      "box": {
+        "left": 449.9,
+        "top": 105.8,
+        "width": 73.6,
+        "height": 15.8
+      }
+    },
+    "dNSDate36": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 59.7,
+        "top": 79.5,
+        "width": 73.1,
+        "height": 15.1
+      }
+    },
+    "dNSDate327": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 194.8,
+        "top": 79.5,
+        "width": 73.1,
+        "height": 15.1
+      }
+    },
+    "dNSDate338": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 333.0,
+        "top": 79.5,
+        "width": 73.1,
+        "height": 15.1
+      }
+    },
+    "dNSDate349": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 477.6,
+        "top": 79.5,
+        "width": 73.1,
+        "height": 15.1
+      }
+    }
+  }
+}

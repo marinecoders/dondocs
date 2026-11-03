@@ -1,0 +1,315 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "userName": {
+        "left": 38.9,
+        "top": 597.2,
+        "width": 264.4,
+        "height": 10.0,
+        "type": "text",
+        "description": "1. NAME OF USER (Last, First, MI)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "userEmail": {
+        "left": 308.9,
+        "top": 597.2,
+        "width": 264.4,
+        "height": 10.0,
+        "type": "text",
+        "description": "2. USER E-MAIL ADDRESS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "userOrg": {
+        "left": 38.9,
+        "top": 573.4,
+        "width": 264.4,
+        "height": 10.0,
+        "type": "text",
+        "description": "3. USER ORGANIZATION/N-CODE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "userPhone": {
+        "left": 308.9,
+        "top": 573.4,
+        "width": 264.4,
+        "height": 10.0,
+        "type": "text",
+        "description": "4. USER PHONE NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "userPrinted": {
+        "left": 38.8,
+        "top": 494.0,
+        "width": 223.1,
+        "height": 22.3,
+        "type": "text",
+        "description": "5. USER PRINTED NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "userSig": {
+        "left": 267.5,
+        "top": 494.0,
+        "width": 196.9,
+        "height": 22.3,
+        "type": "text",
+        "description": "6. USER SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "userSigDate": {
+        "left": 470.0,
+        "top": 494.0,
+        "width": 103.3,
+        "height": 22.3,
+        "type": "text",
+        "description": "7. DATE OF SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "devType": {
+        "left": 38.9,
+        "top": 434.7,
+        "width": 264.4,
+        "height": 10.0,
+        "type": "text",
+        "description": "8. TYPE OF DEVICE (i.e. EX, HD, MDR, etc.)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "devMan": {
+        "left": 308.9,
+        "top": 434.7,
+        "width": 264.4,
+        "height": 10.0,
+        "type": "text",
+        "description": "9. DEVICE MANUFACTURER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "devStor": {
+        "left": 38.9,
+        "top": 410.9,
+        "width": 264.4,
+        "height": 10.0,
+        "type": "text",
+        "description": "10. DEVICE STORAGE CAPACITY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "netClass": {
+        "left": 308.9,
+        "top": 410.9,
+        "width": 264.4,
+        "height": 10.0,
+        "type": "text",
+        "description": "11. CLASSIFICATION OF NETWORK TO BE UTILIZED ON",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "devSer": {
+        "left": 308.9,
+        "top": 387.1,
+        "width": 264.4,
+        "height": 10.0,
+        "type": "text",
+        "description": "YES NO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio": {
+        "left": 222.8,
+        "top": 386.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio2": {
+        "left": 258.8,
+        "top": 386.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio3": {
+        "left": 222.8,
+        "top": 338.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio4": {
+        "left": 258.8,
+        "top": 338.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "invNum": {
+        "left": 308.4,
+        "top": 338.3,
+        "width": 264.4,
+        "height": 10.0,
+        "type": "text",
+        "description": "YES NO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "justification": {
+        "left": 38.8,
+        "top": 314.0,
+        "width": 534.4,
+        "height": 100.1,
+        "type": "text",
+        "description": "16. JUSTIFICATION FOR UTILIZATION OF USB STORAGE DEVICE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "secCoordName": {
+        "left": 38.8,
+        "top": 200.1,
+        "width": 223.1,
+        "height": 22.3,
+        "type": "text",
+        "description": "17. ORG. SECURITY COORDINATOR PRINTED NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "secCoordSig": {
+        "left": 267.5,
+        "top": 200.1,
+        "width": 196.9,
+        "height": 22.3,
+        "type": "text",
+        "description": "18. ORG. SECURITY COORDINATOR SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "secCoordDate": {
+        "left": 470.0,
+        "top": 200.1,
+        "width": 103.3,
+        "height": 22.3,
+        "type": "text",
+        "description": "19. DATE OF SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio5": {
+        "left": 124.5,
+        "top": 145.6,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio6": {
+        "left": 230.6,
+        "top": 145.6,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "reason": {
+        "left": 38.8,
+        "top": 117.4,
+        "width": 534.4,
+        "height": 42.7,
+        "type": "text",
+        "description": "21. REASON FOR DISAPPROVAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "iAMPrint": {
+        "left": 38.9,
+        "top": 61.0,
+        "width": 223.1,
+        "height": 22.3,
+        "type": "text",
+        "description": "22. INFO. ASSURANCE MANAGER PRINTED NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "iAMSig": {
+        "left": 267.5,
+        "top": 61.0,
+        "width": 196.9,
+        "height": 22.3,
+        "type": "text",
+        "description": "23. INFO. ASSURANCE MANAGER SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "iAMDate": {
+        "left": 470.0,
+        "top": 61.0,
+        "width": 103.3,
+        "height": 22.3,
+        "type": "text",
+        "description": "24. DATE OF SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

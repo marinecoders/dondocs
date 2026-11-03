@@ -1,0 +1,218 @@
+{
+  "id": "navmchq885",
+  "label": "NAVMC HQ 885 - Annual Training Survey",
+  "directory": "NAVMCHQ885 - Annual Training Survey",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "fiscYr1",
+        "cdAgen",
+        "estCstPr1a",
+        "estCstPr1b",
+        "estCstPr1c",
+        "estCstPr1d",
+        "totEstCstPr1",
+        "estCstPr2a",
+        "estCstPr2b",
+        "estCstPr2c",
+        "estCstPr2d",
+        "totEstCstPr2",
+        "fiscYr2",
+        "totEstCst12",
+        "totEstCstPr3",
+        "grTotEstCst"
+      ]
+    }
+  ],
+  "fields": {
+    "fiscYr1": {
+      "type": "text",
+      "label": "Fiscal Year",
+      "page": 1,
+      "box": {
+        "left": 47.2,
+        "top": 677.6,
+        "width": 97.6,
+        "height": 16.0
+      }
+    },
+    "cdAgen": {
+      "type": "text",
+      "label": "Code/Agency",
+      "page": 1,
+      "box": {
+        "left": 145.6,
+        "top": 677.6,
+        "width": 436.8,
+        "height": 16.0
+      }
+    },
+    "estCstPr1a": {
+      "type": "text",
+      "label": "Estimated Costs for Priority One Training by Fiscal Year Quarter.  First Quarter.",
+      "page": 1,
+      "box": {
+        "left": 216.8,
+        "top": 635.2,
+        "width": 365.6,
+        "height": 32.8
+      },
+      "multiline": true
+    },
+    "estCstPr1b": {
+      "type": "text",
+      "label": "Estimated Costs for Priority One Training by Fiscal Year Quarter.  Second Quarter.",
+      "page": 1,
+      "box": {
+        "left": 216.7,
+        "top": 596.2,
+        "width": 365.6,
+        "height": 34.6
+      },
+      "multiline": true
+    },
+    "estCstPr1c": {
+      "type": "text",
+      "label": "Estimated Costs for Priority One Training by Fiscal Year Quarter.  Third Quarter.",
+      "page": 1,
+      "box": {
+        "left": 216.7,
+        "top": 556.5,
+        "width": 365.6,
+        "height": 35.5
+      },
+      "multiline": true
+    },
+    "estCstPr1d": {
+      "type": "text",
+      "label": "Estimated Costs for Priority One Training by Fiscal Year Quarter.  Fourth Quarter.",
+      "page": 1,
+      "box": {
+        "left": 216.8,
+        "top": 513.8,
+        "width": 365.6,
+        "height": 33.8
+      },
+      "multiline": true
+    },
+    "totEstCstPr1": {
+      "type": "text",
+      "label": "Total Estimated Costs for Priority One Training by Fiscal Year Quarter.",
+      "page": 1,
+      "box": {
+        "left": 217.6,
+        "top": 471.7,
+        "width": 364.8,
+        "height": 26.1
+      }
+    },
+    "estCstPr2a": {
+      "type": "text",
+      "label": "Estimated Costs for Priority Two Training by Fiscal Year Quarter.  First Quarter.",
+      "page": 1,
+      "box": {
+        "left": 216.0,
+        "top": 420.0,
+        "width": 366.4,
+        "height": 32.8
+      },
+      "multiline": true
+    },
+    "estCstPr2b": {
+      "type": "text",
+      "label": "Estimated Costs for Priority Two Training by Fiscal Year Quarter.  Second Quarter.",
+      "page": 1,
+      "box": {
+        "left": 216.0,
+        "top": 381.0,
+        "width": 366.4,
+        "height": 34.6
+      },
+      "multiline": true
+    },
+    "estCstPr2c": {
+      "type": "text",
+      "label": "Estimated Costs for Priority Two Training by Fiscal Year Quarter.  Third Quarter.",
+      "page": 1,
+      "box": {
+        "left": 216.0,
+        "top": 339.8,
+        "width": 366.4,
+        "height": 34.2
+      },
+      "multiline": true
+    },
+    "estCstPr2d": {
+      "type": "text",
+      "label": "Estimated Costs for Priority Two Training by Fiscal Year Quarter.  Fourth Quarter.",
+      "page": 1,
+      "box": {
+        "left": 216.0,
+        "top": 298.5,
+        "width": 366.4,
+        "height": 32.1
+      },
+      "multiline": true
+    },
+    "totEstCstPr2": {
+      "type": "text",
+      "label": "Total Estimated Costs for Priority Two Training by Fiscal Year Quarter.",
+      "page": 1,
+      "box": {
+        "left": 216.8,
+        "top": 259.5,
+        "width": 365.6,
+        "height": 27.5
+      }
+    },
+    "fiscYr2": {
+      "type": "text",
+      "label": "Fiscal Year",
+      "page": 1,
+      "box": {
+        "left": 456.8,
+        "top": 207.2,
+        "width": 40.0,
+        "height": 16.0
+      }
+    },
+    "totEstCst12": {
+      "type": "text",
+      "label": "Total Estimated Dollars, Priority One and Two.",
+      "page": 1,
+      "box": {
+        "left": 108.8,
+        "top": 180.0,
+        "width": 178.4,
+        "height": 28.0
+      }
+    },
+    "totEstCstPr3": {
+      "type": "text",
+      "label": "Estimated Costs, All Priority Three Training for Fiscal Year.",
+      "page": 1,
+      "box": {
+        "left": 404.8,
+        "top": 180.0,
+        "width": 177.6,
+        "height": 28.0
+      }
+    },
+    "grTotEstCst": {
+      "type": "text",
+      "label": "Grand Total",
+      "page": 1,
+      "box": {
+        "left": 264.8,
+        "top": 138.0,
+        "width": 317.6,
+        "height": 41.2
+      },
+      "multiline": true
+    }
+  }
+}

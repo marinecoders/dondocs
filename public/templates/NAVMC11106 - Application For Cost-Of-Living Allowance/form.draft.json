@@ -1,0 +1,539 @@
+{
+  "id": "navmc11106",
+  "label": "NAVMC11106 - Application For Cost-Of-Living Allowance",
+  "directory": "NAVMC11106 - Application For Cost-Of-Living Allowance",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "radA1",
+        "radA12",
+        "radA13",
+        "nameApplc",
+        "grdApplc",
+        "dateRnk",
+        "socSecNoApplc",
+        "dutyStatn",
+        "dateOrdrs",
+        "dateArrvl",
+        "nameSps1",
+        "relatnshpSps1",
+        "dateMarr",
+        "depLoc",
+        "dateDepArrv",
+        "dateDepComnd",
+        "sigMem",
+        "dateMemSigntr",
+        "radD1AvailNot",
+        "radD1AssnNot",
+        "radD1ToMemDep",
+        "radD1AssnNot2",
+        "radD1ToMemDep2",
+        "radD1AvailNot2",
+        "radD2AvailNot",
+        "radD2AvailNot2",
+        "radD2Mem",
+        "radD2Mem2",
+        "radD2B1",
+        "radD2B12",
+        "dateApplcEffct",
+        "remrkD3",
+        "sigCO",
+        "dateCmndOffcr",
+        "nameComndOffcr"
+      ]
+    }
+  ],
+  "fields": {
+    "radA1": {
+      "type": "radio",
+      "label": "mem",
+      "page": 1,
+      "box": {
+        "left": 32.2,
+        "top": 676.5,
+        "width": 15.1,
+        "height": 15.1
+      },
+      "group": "topmostSubform_0_Page1_0_RadA1_0"
+    },
+    "radA12": {
+      "type": "radio",
+      "label": "both",
+      "page": 1,
+      "box": {
+        "left": 207.2,
+        "top": 676.5,
+        "width": 15.1,
+        "height": 15.1
+      },
+      "group": "topmostSubform_0_Page1_0_RadA1_0"
+    },
+    "radA13": {
+      "type": "radio",
+      "label": "dep",
+      "page": 1,
+      "box": {
+        "left": 418.5,
+        "top": 676.5,
+        "width": 15.1,
+        "height": 15.1
+      },
+      "group": "topmostSubform_0_Page1_0_RadA1_0"
+    },
+    "nameApplc": {
+      "type": "text",
+      "label": "Enter applicants last name. First name and middle initial.",
+      "page": 1,
+      "box": {
+        "left": 17.1,
+        "top": 625.6,
+        "width": 283.6,
+        "height": 17.1
+      }
+    },
+    "grdApplc": {
+      "type": "text",
+      "label": "Enter applicants grade.",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 625.6,
+        "width": 69.7,
+        "height": 17.1
+      }
+    },
+    "dateRnk": {
+      "type": "text",
+      "label": "Enter date of rank as 2002 12 25",
+      "page": 1,
+      "box": {
+        "left": 374.3,
+        "top": 625.6,
+        "width": 86.2,
+        "height": 17.1
+      }
+    },
+    "socSecNoApplc": {
+      "type": "text",
+      "label": "Enter applicants social security number without dashes.",
+      "page": 1,
+      "box": {
+        "left": 461.8,
+        "top": 625.6,
+        "width": 134.2,
+        "height": 17.1
+      }
+    },
+    "dutyStatn": {
+      "type": "text",
+      "label": "Enter applicants current permanent duty station. City. Province. Country.",
+      "page": 1,
+      "box": {
+        "left": 16.4,
+        "top": 597.6,
+        "width": 273.0,
+        "height": 29.3
+      }
+    },
+    "dateOrdrs": {
+      "type": "text",
+      "label": "Enter effective date of orders.",
+      "page": 1,
+      "box": {
+        "left": 291.4,
+        "top": 588.1,
+        "width": 152.6,
+        "height": 17.1
+      }
+    },
+    "dateArrvl": {
+      "type": "text",
+      "label": "Enter date of arrival.",
+      "page": 1,
+      "box": {
+        "left": 446.7,
+        "top": 588.1,
+        "width": 148.0,
+        "height": 17.1
+      }
+    },
+    "nameSps1": {
+      "type": "text",
+      "label": "Enter name of spouse line 1.",
+      "page": 1,
+      "box": {
+        "left": 17.8,
+        "top": 541.3,
+        "width": 100.7,
+        "height": 17.1
+      }
+    },
+    "relatnshpSps1": {
+      "type": "text",
+      "label": "Enter relationship of spouse line 1.",
+      "page": 1,
+      "box": {
+        "left": 120.4,
+        "top": 541.3,
+        "width": 90.1,
+        "height": 17.1
+      }
+    },
+    "dateMarr": {
+      "type": "text",
+      "label": "Enter date of marriage.",
+      "page": 1,
+      "box": {
+        "left": 212.5,
+        "top": 541.3,
+        "width": 94.7,
+        "height": 17.1
+      }
+    },
+    "depLoc": {
+      "type": "text",
+      "label": "Enter dependents location if other than sponsors.",
+      "page": 1,
+      "box": {
+        "left": 309.2,
+        "top": 442.7,
+        "width": 286.2,
+        "height": 17.1
+      }
+    },
+    "dateDepArrv": {
+      "type": "text",
+      "label": "Enter date dependents arrive at permanent location.",
+      "page": 1,
+      "box": {
+        "left": 232.2,
+        "top": 415.7,
+        "width": 94.7,
+        "height": 17.1
+      }
+    },
+    "dateDepComnd": {
+      "type": "text",
+      "label": "Enter date dependents declared command sponsored.",
+      "page": 1,
+      "box": {
+        "left": 232.9,
+        "top": 382.8,
+        "width": 94.7,
+        "height": 17.1
+      }
+    },
+    "sigMem": {
+      "type": "signature",
+      "label": "SigMem",
+      "page": 1,
+      "box": {
+        "left": 17.8,
+        "top": 312.5,
+        "width": 464.2,
+        "height": 21.3
+      }
+    },
+    "dateMemSigntr": {
+      "type": "text",
+      "label": "Enter date of members signature.",
+      "page": 1,
+      "box": {
+        "left": 484.9,
+        "top": 307.8,
+        "width": 108.6,
+        "height": 17.1
+      }
+    },
+    "radD1AvailNot": {
+      "type": "radio",
+      "label": "y",
+      "page": 1,
+      "box": {
+        "left": 40.8,
+        "top": 260.9,
+        "width": 15.1,
+        "height": 15.1
+      },
+      "group": "topmostSubform_0_Page1_0_RadD1AvailNot_0"
+    },
+    "radD1AssnNot": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 214.5,
+        "top": 260.1,
+        "width": 15.1,
+        "height": 15.1
+      },
+      "group": "topmostSubform_0_Page1_0_RadD1AssnNot_0"
+    },
+    "radD1ToMemDep": {
+      "type": "radio",
+      "label": "mem",
+      "page": 1,
+      "box": {
+        "left": 434.2,
+        "top": 260.0,
+        "width": 15.2,
+        "height": 15.2
+      },
+      "group": "topmostSubform_0_Page1_0_RadD1ToMemDep_0"
+    },
+    "radD1AssnNot2": {
+      "type": "radio",
+      "label": "no",
+      "page": 1,
+      "box": {
+        "left": 184.9,
+        "top": 241.7,
+        "width": 15.1,
+        "height": 15.1
+      },
+      "group": "topmostSubform_0_Page1_0_RadD1AssnNot_0"
+    },
+    "radD1ToMemDep2": {
+      "type": "radio",
+      "label": "dep",
+      "page": 1,
+      "box": {
+        "left": 365.1,
+        "top": 241.7,
+        "width": 15.1,
+        "height": 15.1
+      },
+      "group": "topmostSubform_0_Page1_0_RadD1ToMemDep_0"
+    },
+    "radD1AvailNot2": {
+      "type": "radio",
+      "label": "n",
+      "page": 1,
+      "box": {
+        "left": 40.8,
+        "top": 240.9,
+        "width": 15.1,
+        "height": 15.1
+      },
+      "group": "topmostSubform_0_Page1_0_RadD1AvailNot_0"
+    },
+    "radD2AvailNot": {
+      "type": "radio",
+      "label": "y",
+      "page": 1,
+      "box": {
+        "left": 178.9,
+        "top": 218.6,
+        "width": 15.1,
+        "height": 15.1
+      },
+      "group": "topmostSubform_0_Page1_0_RadD2AvailNot_0"
+    },
+    "radD2AvailNot2": {
+      "type": "radio",
+      "label": "n",
+      "page": 1,
+      "box": {
+        "left": 225.0,
+        "top": 218.6,
+        "width": 15.1,
+        "height": 15.1
+      },
+      "group": "topmostSubform_0_Page1_0_RadD2AvailNot_0"
+    },
+    "radD2Mem": {
+      "type": "radio",
+      "label": "memdep",
+      "page": 1,
+      "box": {
+        "left": 342.8,
+        "top": 218.6,
+        "width": 15.1,
+        "height": 15.1
+      },
+      "group": "topmostSubform_0_Page1_0_RadD2Mem_0"
+    },
+    "radD2Mem2": {
+      "type": "radio",
+      "label": "mem",
+      "page": 1,
+      "box": {
+        "left": 506.0,
+        "top": 218.6,
+        "width": 15.1,
+        "height": 15.1
+      },
+      "group": "topmostSubform_0_Page1_0_RadD2Mem_0"
+    },
+    "radD2B1": {
+      "type": "radio",
+      "label": "y",
+      "page": 1,
+      "box": {
+        "left": 61.2,
+        "top": 202.2,
+        "width": 15.1,
+        "height": 15.1
+      },
+      "group": "topmostSubform_0_Page1_0_RadD2B1_0"
+    },
+    "radD2B12": {
+      "type": "radio",
+      "label": "n",
+      "page": 1,
+      "box": {
+        "left": 250.0,
+        "top": 202.2,
+        "width": 15.1,
+        "height": 15.1
+      },
+      "group": "topmostSubform_0_Page1_0_RadD2B1_0"
+    },
+    "dateApplcEffct": {
+      "type": "text",
+      "label": "Enter the date this application is approved effective.",
+      "page": 1,
+      "box": {
+        "left": 190.1,
+        "top": 172.3,
+        "width": 98.0,
+        "height": 17.1
+      }
+    },
+    "remrkD3": {
+      "type": "text",
+      "label": "Enter remarks concerning this cost of living allowance application.",
+      "page": 1,
+      "box": {
+        "left": 18.4,
+        "top": 142.3,
+        "width": 577.0,
+        "height": 78.6
+      },
+      "multiline": true
+    },
+    "sigCO": {
+      "type": "signature",
+      "label": "SigCO",
+      "page": 1,
+      "box": {
+        "left": 398.9,
+        "top": 53.0,
+        "width": 194.8,
+        "height": 22.4
+      }
+    },
+    "dateCmndOffcr": {
+      "type": "text",
+      "label": "Enter the date of commanding officer signature.",
+      "page": 1,
+      "box": {
+        "left": 19.1,
+        "top": 46.6,
+        "width": 92.8,
+        "height": 17.1
+      }
+    },
+    "nameComndOffcr": {
+      "type": "text",
+      "label": "Enter name. Grade and activity of commanding officer.",
+      "page": 1,
+      "box": {
+        "left": 113.8,
+        "top": 46.6,
+        "width": 283.6,
+        "height": 17.1
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 32.85,
+      "editor": "grid",
+      "columns": {
+        "nameDep": {
+          "type": "text",
+          "label": "Enter name of dependent line 2.",
+          "page": 1,
+          "box": {
+            "left": 17.8,
+            "top": 508.4,
+            "width": 100.7,
+            "height": 17.1
+          }
+        },
+        "relatnshpDep": {
+          "type": "text",
+          "label": "Enter relationship of dependent line 2.",
+          "page": 1,
+          "box": {
+            "left": 120.4,
+            "top": 508.4,
+            "width": 90.1,
+            "height": 17.1
+          }
+        },
+        "dateDepBrth": {
+          "type": "text",
+          "label": "Enter birth date of dependent line 2.",
+          "page": 1,
+          "box": {
+            "left": 212.5,
+            "top": 508.4,
+            "width": 94.7,
+            "height": 17.1
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 32.85,
+      "editor": "grid",
+      "columns": {
+        "nameDep2": {
+          "type": "text",
+          "label": "Enter name of dependent line 5.",
+          "page": 1,
+          "box": {
+            "left": 309.2,
+            "top": 541.3,
+            "width": 105.9,
+            "height": 17.1
+          }
+        },
+        "relatnshpDep2": {
+          "type": "text",
+          "label": "Enter relationship of dependent line 5.",
+          "page": 1,
+          "box": {
+            "left": 417.8,
+            "top": 541.3,
+            "width": 91.4,
+            "height": 17.1
+          }
+        },
+        "dateDepBrth2": {
+          "type": "text",
+          "label": "Enter birth date of dependent line 5.",
+          "page": 1,
+          "box": {
+            "left": 511.8,
+            "top": 541.3,
+            "width": 82.9,
+            "height": 17.1
+          }
+        }
+      }
+    }
+  }
+}

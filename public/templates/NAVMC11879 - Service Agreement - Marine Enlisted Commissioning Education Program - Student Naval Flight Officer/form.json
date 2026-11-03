@@ -1,0 +1,99 @@
+{
+  "id": "navmc11879",
+  "label": "NAVMC 11879 - Service Agreement - Marine Enlisted Commissioning Education Program - Student Naval Flight Officer",
+  "directory": "NAVMC11879 - Service Agreement - Marine Enlisted Commissioning Education Program - Student Naval Flight Officer",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "nameAppl"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "signatureField1",
+        "signatureField12",
+        "witnessName",
+        "applicantName",
+        "date"
+      ]
+    }
+  ],
+  "fields": {
+    "nameAppl": {
+      "type": "text",
+      "label": "LAST NAME, FIRST AND MIDDLE INITIAL OF APPLICANT",
+      "page": 1,
+      "box": {
+        "left": 74.8,
+        "top": 80.7,
+        "width": 462.4,
+        "height": 18.3
+      }
+    },
+    "signatureField1": {
+      "type": "text",
+      "label": "of this document",
+      "page": 2,
+      "box": {
+        "left": 92.8,
+        "top": 395.4,
+        "width": 210.4,
+        "height": 34.2
+      },
+      "multiline": true
+    },
+    "signatureField12": {
+      "type": "text",
+      "label": "program except as specified above. I acknowledge receipt",
+      "page": 2,
+      "box": {
+        "left": 344.9,
+        "top": 395.4,
+        "width": 210.4,
+        "height": 34.2
+      },
+      "multiline": true
+    },
+    "witnessName": {
+      "type": "text",
+      "label": "Signature of Witnessing Officer",
+      "page": 2,
+      "box": {
+        "left": 92.8,
+        "top": 317.1,
+        "width": 210.4,
+        "height": 34.2
+      },
+      "multiline": true
+    },
+    "applicantName": {
+      "type": "text",
+      "label": "Signature of Applicant",
+      "page": 2,
+      "box": {
+        "left": 344.9,
+        "top": 317.1,
+        "width": 210.4,
+        "height": 34.2
+      },
+      "multiline": true
+    },
+    "date": {
+      "type": "text",
+      "label": "Full Name of Applicant",
+      "page": 2,
+      "box": {
+        "left": 344.9,
+        "top": 245.1,
+        "width": 210.4,
+        "height": 20.7
+      }
+    }
+  }
+}

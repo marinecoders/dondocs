@@ -1,0 +1,461 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "cell1": {
+        "left": 38.9,
+        "top": 694.1,
+        "width": 282.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "1. Prisoner Name (Last, First, Middle)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell2": {
+        "left": 326.9,
+        "top": 694.1,
+        "width": 120.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "2. Resident Control Number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell3": {
+        "left": 452.9,
+        "top": 694.1,
+        "width": 48.2,
+        "height": 18.0,
+        "type": "text",
+        "description": "3. Sex",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell4": {
+        "left": 506.9,
+        "top": 694.1,
+        "width": 66.2,
+        "height": 18.0,
+        "type": "text",
+        "description": "4. Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell12": {
+        "left": 147.6,
+        "top": 641.5,
+        "width": 353.6,
+        "height": 12.2,
+        "type": "text",
+        "description": "Offense UCMJ Article(s)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell22": {
+        "left": 507.2,
+        "top": 641.3,
+        "width": 65.7,
+        "height": 11.7,
+        "type": "choice",
+        "description": "Offense UCMJ Article(s)",
+        "options": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8"
+        ],
+        "group": null,
+        "required": false
+      },
+      "cell23": {
+        "left": 507.2,
+        "top": 623.2,
+        "width": 65.7,
+        "height": 18.9,
+        "type": "choice",
+        "description": "4. Date",
+        "options": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "group": null,
+        "required": false
+      },
+      "cell24": {
+        "left": 507.2,
+        "top": 598.0,
+        "width": 65.7,
+        "height": 18.9,
+        "type": "choice",
+        "description": "3. History No= of Escape 0 ; Yes = High Risk",
+        "options": [
+          "0",
+          "High Risk"
+        ],
+        "group": null,
+        "required": false
+      },
+      "cell25": {
+        "left": 507.2,
+        "top": 572.8,
+        "width": 65.7,
+        "height": 29.7,
+        "type": "choice",
+        "description": "4. Date",
+        "options": [
+          "0",
+          "2",
+          "3",
+          "4",
+          "5",
+          "High Risk"
+        ],
+        "group": null,
+        "required": false
+      },
+      "cell26": {
+        "left": 507.2,
+        "top": 536.8,
+        "width": 65.7,
+        "height": 18.9,
+        "type": "choice",
+        "description": "4. Date",
+        "options": [
+          "0",
+          "1",
+          "2"
+        ],
+        "group": null,
+        "required": false
+      },
+      "cell27": {
+        "left": 507.2,
+        "top": 511.6,
+        "width": 65.7,
+        "height": 18.9,
+        "type": "choice",
+        "description": "4. Date",
+        "options": [
+          "0",
+          "1",
+          "2",
+          "NA"
+        ],
+        "group": null,
+        "required": false
+      },
+      "cell28": {
+        "left": 507.2,
+        "top": 486.4,
+        "width": 65.7,
+        "height": 29.7,
+        "type": "choice",
+        "description": "4. Date",
+        "options": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "High Risk"
+        ],
+        "group": null,
+        "required": false
+      },
+      "cell29": {
+        "left": 507.2,
+        "top": 450.4,
+        "width": 65.7,
+        "height": 18.9,
+        "type": "choice",
+        "description": "8. Ground GOV Transport = 0; Rental Car = 1",
+        "options": [
+          "0",
+          "1"
+        ],
+        "group": null,
+        "required": false
+      },
+      "cell210": {
+        "left": 507.2,
+        "top": 425.2,
+        "width": 65.7,
+        "height": 18.9,
+        "type": "choice",
+        "description": "9. Specialized No = Tactical 0; Yes = Training 3 (Prisoner)",
+        "options": [
+          "0",
+          "3"
+        ],
+        "group": null,
+        "required": false
+      },
+      "cell211": {
+        "left": 507.2,
+        "top": 400.0,
+        "width": 65.7,
+        "height": 18.9,
+        "type": "choice",
+        "description": "Affiliation)",
+        "options": [
+          "0",
+          "High Risk"
+        ],
+        "group": null,
+        "required": false
+      },
+      "cell212": {
+        "left": 507.2,
+        "top": 374.8,
+        "width": 65.7,
+        "height": 18.9,
+        "type": "choice",
+        "description": "11. Parole/MSR No = 0; Violation Yes = High Risk",
+        "options": [
+          "0",
+          "High Risk"
+        ],
+        "group": null,
+        "required": false
+      },
+      "cell213": {
+        "left": 507.2,
+        "top": 349.6,
+        "width": 65.7,
+        "height": 18.9,
+        "type": "choice",
+        "description": "12. Custody MAX Classification = High Risk",
+        "options": [
+          "High Risk",
+          "NA"
+        ],
+        "group": null,
+        "required": false
+      },
+      "cell13": {
+        "left": 147.6,
+        "top": 310.3,
+        "width": 353.6,
+        "height": 12.2,
+        "type": "text",
+        "description": "Offense UCMJ Article(s)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell214": {
+        "left": 507.2,
+        "top": 310.0,
+        "width": 65.7,
+        "height": 11.7,
+        "type": "choice",
+        "description": "Offense UCMJ Article(s)",
+        "options": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8"
+        ],
+        "group": null,
+        "required": false
+      },
+      "dropDownList1": {
+        "left": 356.5,
+        "top": 279.3,
+        "width": 92.1,
+        "height": 15.1,
+        "type": "choice",
+        "description": "",
+        "options": [
+          "Armed",
+          "Unarmed"
+        ],
+        "group": null,
+        "required": false
+      },
+      "totalField": {
+        "left": 520.5,
+        "top": 277.9,
+        "width": 52.7,
+        "height": 12.2,
+        "type": "text",
+        "description": "Total Points",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio": {
+        "left": 38.9,
+        "top": 276.7,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio2": {
+        "left": 155.9,
+        "top": 276.7,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "cell14": {
+        "left": 38.9,
+        "top": 204.4,
+        "width": 174.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "2. Operations Officer Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell215": {
+        "left": 218.9,
+        "top": 204.4,
+        "width": 174.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "4. Technical Director Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell32": {
+        "left": 398.9,
+        "top": 204.4,
+        "width": 174.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "6. Executive Officer Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "finalDecisionOverrideNo": {
+        "left": 69.4,
+        "top": 159.4,
+        "width": 6.0,
+        "height": 6.0,
+        "type": "checkbox",
+        "description": "Override",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "finalDecisionOverrideYes": {
+        "left": 249.4,
+        "top": 159.4,
+        "width": 6.0,
+        "height": 6.0,
+        "type": "checkbox",
+        "description": "No",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell15": {
+        "left": 38.9,
+        "top": 137.7,
+        "width": 534.3,
+        "height": 36.0,
+        "type": "text",
+        "description": "b. Rationale",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "lowRiskCheckBox": {
+        "left": 369.5,
+        "top": 81.2,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "1. Final Decision",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "highRiskCheckBox": {
+        "left": 480.6,
+        "top": 81.2,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Low Risk",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row11": {
+        "left": 464.5,
+        "top": 58.5,
+        "width": 108.9,
+        "height": 18.0,
+        "type": "text",
+        "description": "4. Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row1": {
+        "left": 38.9,
+        "top": 58.4,
+        "width": 236.8,
+        "height": 17.9,
+        "type": "text",
+        "description": "2. Commanding Officer Name, Rank",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell216": {
+        "left": 281.4,
+        "top": 58.4,
+        "width": 177.4,
+        "height": 17.9,
+        "type": "text",
+        "description": "3. Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

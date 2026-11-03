@@ -1,0 +1,1263 @@
+{
+  "id": "opnav572011",
+  "label": "OPNAV5720-11 - Distinguished Visitor (dv)Friends Of The NAVY (fon) Embark Request",
+  "directory": "OPNAV5720-11 - Distinguished Visitor (dv)Friends Of The NAVY (fon) Embark Request",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf",
+    "page5.pdf",
+    "page6.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "radio",
+        "radio2",
+        "radio3",
+        "submission",
+        "embark",
+        "disembark",
+        "radio4",
+        "radio5",
+        "radio6",
+        "radio7",
+        "radio8",
+        "radio9",
+        "shipName",
+        "firstName",
+        "lastName",
+        "prefferedName",
+        "male",
+        "female",
+        "radio10",
+        "radio11",
+        "birthDate",
+        "otherCountry",
+        "rank",
+        "emailAddress",
+        "firmName",
+        "position",
+        "homePhone",
+        "businessPhone",
+        "cellPhone",
+        "otherPhone",
+        "faxNumber",
+        "authContact",
+        "street",
+        "busStreet",
+        "city",
+        "busCity",
+        "state",
+        "busState",
+        "zip",
+        "busZip",
+        "contBy",
+        "cUICat",
+        "ldc",
+        "poc"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "orgPositions",
+        "bioInfo",
+        "militaryService"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "item4",
+        "date4",
+        "prevShipName4",
+        "sponsor4",
+        "sponsorPhone4"
+      ]
+    },
+    {
+      "title": "Page 4",
+      "fields": [
+        "certifyMedical",
+        "foodRestrictions",
+        "currentMeds",
+        "radio12",
+        "radio13",
+        "reasonMedAlert",
+        "radio14",
+        "radio15",
+        "drugAllergiesList",
+        "asthma",
+        "heartDisease",
+        "shortnessOfBreath",
+        "lungDisease",
+        "diabetes",
+        "hepatitis",
+        "bleedingProblems",
+        "injuryIllness",
+        "stroke",
+        "dizzySpells",
+        "bloodpressure",
+        "migraines",
+        "ulcers",
+        "cancer",
+        "communDiseases",
+        "seizureDisorders",
+        "pacemaker",
+        "chestPains",
+        "kidneyDisease",
+        "motionSickness"
+      ],
+      "editor": "checklist"
+    },
+    {
+      "title": "Page 5",
+      "fields": [
+        "explainItems",
+        "otherMedConditions",
+        "emergencyNotification",
+        "relationship",
+        "kinPhone",
+        "kinAddress",
+        "reportingStation",
+        "currentDutyStation",
+        "riskCheckbox",
+        "consentCheckbox"
+      ]
+    },
+    {
+      "title": "Page 6",
+      "fields": [
+        "comments"
+      ]
+    }
+  ],
+  "fields": {
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 384.5,
+        "top": 412.1,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 449.3,
+        "top": 412.1,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 514.1,
+        "top": 412.1,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "submission": {
+      "type": "text",
+      "label": "1. Submission Date",
+      "page": 1,
+      "box": {
+        "left": 125.3,
+        "top": 411.2,
+        "width": 178.0,
+        "height": 12.3
+      }
+    },
+    "embark": {
+      "type": "text",
+      "label": "3. * Embarkation Date",
+      "page": 1,
+      "box": {
+        "left": 125.3,
+        "top": 393.2,
+        "width": 178.0,
+        "height": 12.3
+      },
+      "required": true
+    },
+    "disembark": {
+      "type": "text",
+      "label": "4. * Disembarkation Date",
+      "page": 1,
+      "box": {
+        "left": 402.5,
+        "top": 393.2,
+        "width": 170.8,
+        "height": 12.3
+      },
+      "required": true
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 82.0,
+        "top": 376.0,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 376.0,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 82.0,
+        "top": 358.0,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 358.0,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 1,
+      "box": {
+        "left": 82.0,
+        "top": 340.0,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "radio9": {
+      "type": "radio",
+      "label": "Item5",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 340.0,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "shipName": {
+      "type": "text",
+      "label": "6. * Ship Name",
+      "page": 1,
+      "box": {
+        "left": 125.3,
+        "top": 321.2,
+        "width": 448.0,
+        "height": 12.3
+      },
+      "required": true
+    },
+    "firstName": {
+      "type": "text",
+      "label": "7. * First Name",
+      "page": 1,
+      "box": {
+        "left": 110.8,
+        "top": 285.2,
+        "width": 192.4,
+        "height": 12.3
+      },
+      "required": true
+    },
+    "lastName": {
+      "type": "text",
+      "label": "8. * Last Name",
+      "page": 1,
+      "box": {
+        "left": 388.1,
+        "top": 285.2,
+        "width": 185.2,
+        "height": 12.3
+      },
+      "required": true
+    },
+    "prefferedName": {
+      "type": "text",
+      "label": "9. Preferred Name",
+      "page": 1,
+      "box": {
+        "left": 110.8,
+        "top": 267.2,
+        "width": 192.2,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "male": {
+      "type": "checkbox",
+      "label": "10. * Sex",
+      "page": 1,
+      "box": {
+        "left": 392.7,
+        "top": 257.8,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "female": {
+      "type": "checkbox",
+      "label": "Male",
+      "page": 1,
+      "box": {
+        "left": 486.3,
+        "top": 257.8,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "radio10": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 290.9,
+        "top": 232.0,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "radio11": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 330.5,
+        "top": 232.0,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "birthDate": {
+      "type": "text",
+      "label": "12. * Birth Date",
+      "page": 1,
+      "box": {
+        "left": 114.4,
+        "top": 231.2,
+        "width": 98.7,
+        "height": 12.3
+      },
+      "required": true
+    },
+    "otherCountry": {
+      "type": "text",
+      "label": "If No, list country",
+      "page": 1,
+      "box": {
+        "left": 467.3,
+        "top": 231.2,
+        "width": 105.9,
+        "height": 12.3
+      }
+    },
+    "rank": {
+      "type": "text",
+      "label": "13. Rank (if applicable)",
+      "page": 1,
+      "box": {
+        "left": 125.3,
+        "top": 213.2,
+        "width": 178.0,
+        "height": 12.3
+      }
+    },
+    "emailAddress": {
+      "type": "text",
+      "label": "14. * Email Address",
+      "page": 1,
+      "box": {
+        "left": 388.1,
+        "top": 213.2,
+        "width": 185.2,
+        "height": 12.3
+      },
+      "required": true
+    },
+    "firmName": {
+      "type": "text",
+      "label": "15. * Firm Name",
+      "page": 1,
+      "box": {
+        "left": 110.8,
+        "top": 195.2,
+        "width": 192.4,
+        "height": 12.3
+      },
+      "required": true
+    },
+    "position": {
+      "type": "text",
+      "label": "16. * Position/Title",
+      "page": 1,
+      "box": {
+        "left": 388.1,
+        "top": 195.2,
+        "width": 185.2,
+        "height": 12.3
+      },
+      "required": true
+    },
+    "homePhone": {
+      "type": "text",
+      "label": "17. * Home Phone",
+      "page": 1,
+      "box": {
+        "left": 110.8,
+        "top": 177.2,
+        "width": 102.3,
+        "height": 12.3
+      },
+      "required": true
+    },
+    "businessPhone": {
+      "type": "text",
+      "label": "18. Business Phone",
+      "page": 1,
+      "box": {
+        "left": 294.5,
+        "top": 177.2,
+        "width": 98.7,
+        "height": 12.3
+      }
+    },
+    "cellPhone": {
+      "type": "text",
+      "label": "19. Cell Phone",
+      "page": 1,
+      "box": {
+        "left": 474.5,
+        "top": 177.2,
+        "width": 98.7,
+        "height": 12.3
+      }
+    },
+    "otherPhone": {
+      "type": "text",
+      "label": "20. Other Phone",
+      "page": 1,
+      "box": {
+        "left": 110.8,
+        "top": 159.2,
+        "width": 102.3,
+        "height": 12.3
+      }
+    },
+    "faxNumber": {
+      "type": "text",
+      "label": "21. Fax Number",
+      "page": 1,
+      "box": {
+        "left": 294.5,
+        "top": 159.2,
+        "width": 278.8,
+        "height": 12.3
+      }
+    },
+    "authContact": {
+      "type": "checkbox",
+      "label": "22. Authorized Contact",
+      "page": 1,
+      "box": {
+        "left": 133.5,
+        "top": 140.2,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "street": {
+      "type": "text",
+      "label": "a. * Street",
+      "page": 1,
+      "box": {
+        "left": 82.0,
+        "top": 105.2,
+        "width": 221.2,
+        "height": 12.3
+      },
+      "required": true
+    },
+    "busStreet": {
+      "type": "text",
+      "label": "a. Street",
+      "page": 1,
+      "box": {
+        "left": 352.1,
+        "top": 105.2,
+        "width": 221.2,
+        "height": 12.3
+      }
+    },
+    "city": {
+      "type": "text",
+      "label": "b. * City",
+      "page": 1,
+      "box": {
+        "left": 82.0,
+        "top": 87.2,
+        "width": 221.2,
+        "height": 12.3
+      },
+      "required": true
+    },
+    "busCity": {
+      "type": "text",
+      "label": "b. City",
+      "page": 1,
+      "box": {
+        "left": 352.1,
+        "top": 87.2,
+        "width": 221.2,
+        "height": 12.3
+      }
+    },
+    "state": {
+      "type": "text",
+      "label": "c. * State",
+      "page": 1,
+      "box": {
+        "left": 82.0,
+        "top": 69.2,
+        "width": 221.2,
+        "height": 12.3
+      },
+      "required": true
+    },
+    "busState": {
+      "type": "text",
+      "label": "c. State",
+      "page": 1,
+      "box": {
+        "left": 352.1,
+        "top": 69.2,
+        "width": 221.2,
+        "height": 12.3
+      }
+    },
+    "zip": {
+      "type": "text",
+      "label": "d. * Zip",
+      "page": 1,
+      "box": {
+        "left": 82.0,
+        "top": 51.2,
+        "width": 221.2,
+        "height": 12.3
+      },
+      "required": true
+    },
+    "busZip": {
+      "type": "text",
+      "label": "d. Zip",
+      "page": 1,
+      "box": {
+        "left": 352.1,
+        "top": 51.2,
+        "width": 221.2,
+        "height": 12.3
+      }
+    },
+    "contBy": {
+      "type": "text",
+      "label": "CUI (when filled in) CONTROLLED BY",
+      "page": 1,
+      "box": {
+        "left": 409.7,
+        "top": 32.2,
+        "width": 98.7,
+        "height": 6.6
+      }
+    },
+    "cUICat": {
+      "type": "text",
+      "label": "CUI CATEGORY",
+      "page": 1,
+      "box": {
+        "left": 409.7,
+        "top": 23.6,
+        "width": 98.7,
+        "height": 6.6
+      }
+    },
+    "ldc": {
+      "type": "text",
+      "label": "LDC",
+      "page": 1,
+      "box": {
+        "left": 409.7,
+        "top": 16.4,
+        "width": 98.7,
+        "height": 6.6
+      }
+    },
+    "poc": {
+      "type": "text",
+      "label": "POC",
+      "page": 1,
+      "box": {
+        "left": 409.7,
+        "top": 9.4,
+        "width": 98.7,
+        "height": 6.6
+      }
+    },
+    "orgPositions": {
+      "type": "text",
+      "label": "Org Positions",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 724.4,
+        "width": 534.4,
+        "height": 201.2
+      },
+      "multiline": true
+    },
+    "bioInfo": {
+      "type": "text",
+      "label": "26. Biographical Information (limited to 5000 characters)",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 506.7,
+        "width": 534.4,
+        "height": 201.2
+      },
+      "multiline": true
+    },
+    "militaryService": {
+      "type": "text",
+      "label": "27. Military Service (Date/Rank/Rate/Branch)",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 289.1,
+        "width": 534.4,
+        "height": 93.1
+      },
+      "multiline": true
+    },
+    "item4": {
+      "type": "text",
+      "label": "Item 4",
+      "page": 3,
+      "box": {
+        "left": 37.4,
+        "top": 754.6,
+        "width": 15.2,
+        "height": 33.2
+      },
+      "multiline": true
+    },
+    "date4": {
+      "type": "text",
+      "label": "a. Date",
+      "page": 3,
+      "box": {
+        "left": 100.0,
+        "top": 753.2,
+        "width": 149.1,
+        "height": 12.3
+      }
+    },
+    "prevShipName4": {
+      "type": "text",
+      "label": "b. Ship Name",
+      "page": 3,
+      "box": {
+        "left": 326.9,
+        "top": 753.2,
+        "width": 228.4,
+        "height": 12.3
+      }
+    },
+    "sponsor4": {
+      "type": "text",
+      "label": "c. Sponsor",
+      "page": 3,
+      "box": {
+        "left": 100.0,
+        "top": 735.2,
+        "width": 149.1,
+        "height": 12.3
+      }
+    },
+    "sponsorPhone4": {
+      "type": "text",
+      "label": "d. Sponsor\u2019s Phone",
+      "page": 3,
+      "box": {
+        "left": 326.9,
+        "top": 735.2,
+        "width": 228.4,
+        "height": 12.3
+      }
+    },
+    "certifyMedical": {
+      "type": "checkbox",
+      "label": "SECTION",
+      "page": 4,
+      "box": {
+        "left": 57.8,
+        "top": 735.0,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "foodRestrictions": {
+      "type": "text",
+      "label": "Food Restrictions",
+      "page": 4,
+      "box": {
+        "left": 38.8,
+        "top": 605.5,
+        "width": 534.4,
+        "height": 71.5
+      },
+      "multiline": true
+    },
+    "currentMeds": {
+      "type": "text",
+      "label": "31. Current Medications/Dosage (limited to 500 characters)",
+      "page": 4,
+      "box": {
+        "left": 38.8,
+        "top": 517.5,
+        "width": 534.4,
+        "height": 71.5
+      },
+      "multiline": true
+    },
+    "radio12": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 208.1,
+        "top": 441.2,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "radio13": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 280.1,
+        "top": 441.2,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "reasonMedAlert": {
+      "type": "text",
+      "label": "**Reason (limited to 500 characters)",
+      "page": 4,
+      "box": {
+        "left": 38.8,
+        "top": 411.5,
+        "width": 534.4,
+        "height": 71.5
+      },
+      "multiline": true
+    },
+    "radio14": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 208.1,
+        "top": 335.1,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "radio15": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 280.1,
+        "top": 335.1,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "drugAllergiesList": {
+      "type": "text",
+      "label": "**Reason (limited to 500 characters)",
+      "page": 4,
+      "box": {
+        "left": 38.8,
+        "top": 305.7,
+        "width": 534.4,
+        "height": 71.7
+      },
+      "multiline": true
+    },
+    "asthma": {
+      "type": "checkbox",
+      "label": "Asthma",
+      "page": 4,
+      "box": {
+        "left": 39.8,
+        "top": 210.1,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "heartDisease": {
+      "type": "checkbox",
+      "label": "Asthma",
+      "page": 4,
+      "box": {
+        "left": 174.9,
+        "top": 210.1,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "shortnessOfBreath": {
+      "type": "checkbox",
+      "label": "Heart Disease",
+      "page": 4,
+      "box": {
+        "left": 309.9,
+        "top": 210.1,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "lungDisease": {
+      "type": "checkbox",
+      "label": "Shortness of Breath",
+      "page": 4,
+      "box": {
+        "left": 444.9,
+        "top": 210.1,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "diabetes": {
+      "type": "checkbox",
+      "label": "Diabetes",
+      "page": 4,
+      "box": {
+        "left": 39.8,
+        "top": 192.1,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "hepatitis": {
+      "type": "checkbox",
+      "label": "Diabetes",
+      "page": 4,
+      "box": {
+        "left": 174.9,
+        "top": 192.1,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "bleedingProblems": {
+      "type": "checkbox",
+      "label": "Hepatitis",
+      "page": 4,
+      "box": {
+        "left": 309.9,
+        "top": 192.1,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "injuryIllness": {
+      "type": "checkbox",
+      "label": "Bleeding Problems",
+      "page": 4,
+      "box": {
+        "left": 444.9,
+        "top": 192.1,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "stroke": {
+      "type": "checkbox",
+      "label": "Stroke",
+      "page": 4,
+      "box": {
+        "left": 39.8,
+        "top": 174.1,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "dizzySpells": {
+      "type": "checkbox",
+      "label": "Stroke",
+      "page": 4,
+      "box": {
+        "left": 174.9,
+        "top": 174.1,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "bloodpressure": {
+      "type": "checkbox",
+      "label": "Dizzy Spells",
+      "page": 4,
+      "box": {
+        "left": 309.9,
+        "top": 174.1,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "migraines": {
+      "type": "checkbox",
+      "label": "High Blood Pressure",
+      "page": 4,
+      "box": {
+        "left": 444.9,
+        "top": 174.1,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "ulcers": {
+      "type": "checkbox",
+      "label": "Ulcers",
+      "page": 4,
+      "box": {
+        "left": 39.8,
+        "top": 156.1,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "cancer": {
+      "type": "checkbox",
+      "label": "Ulcers",
+      "page": 4,
+      "box": {
+        "left": 174.9,
+        "top": 156.1,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "communDiseases": {
+      "type": "checkbox",
+      "label": "Cancer",
+      "page": 4,
+      "box": {
+        "left": 309.9,
+        "top": 156.1,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "seizureDisorders": {
+      "type": "checkbox",
+      "label": "Communicable Diseases",
+      "page": 4,
+      "box": {
+        "left": 444.9,
+        "top": 156.1,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "pacemaker": {
+      "type": "checkbox",
+      "label": "Pacemaker",
+      "page": 4,
+      "box": {
+        "left": 39.8,
+        "top": 138.1,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "chestPains": {
+      "type": "checkbox",
+      "label": "Pacemaker",
+      "page": 4,
+      "box": {
+        "left": 174.9,
+        "top": 138.1,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "kidneyDisease": {
+      "type": "checkbox",
+      "label": "Chest Pains",
+      "page": 4,
+      "box": {
+        "left": 309.9,
+        "top": 138.1,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "motionSickness": {
+      "type": "checkbox",
+      "label": "Kidney Disease",
+      "page": 4,
+      "box": {
+        "left": 444.9,
+        "top": 138.1,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "explainItems": {
+      "type": "text",
+      "label": "Explain Items",
+      "page": 5,
+      "box": {
+        "left": 38.8,
+        "top": 741.7,
+        "width": 534.4,
+        "height": 78.0
+      },
+      "multiline": true
+    },
+    "otherMedConditions": {
+      "type": "text",
+      "label": "Other Med Conditions",
+      "page": 5,
+      "box": {
+        "left": 38.8,
+        "top": 646.4,
+        "width": 534.4,
+        "height": 67.2
+      },
+      "multiline": true
+    },
+    "emergencyNotification": {
+      "type": "text",
+      "label": "36. * In case of emergency, please notify",
+      "page": 5,
+      "box": {
+        "left": 190.1,
+        "top": 555.5,
+        "width": 383.2,
+        "height": 12.3
+      },
+      "required": true
+    },
+    "relationship": {
+      "type": "text",
+      "label": "Relationship: 37. *",
+      "page": 5,
+      "box": {
+        "left": 107.2,
+        "top": 537.5,
+        "width": 466.0,
+        "height": 12.3
+      },
+      "required": true
+    },
+    "kinPhone": {
+      "type": "text",
+      "label": "38. * Phone",
+      "page": 5,
+      "box": {
+        "left": 107.2,
+        "top": 519.5,
+        "width": 466.0,
+        "height": 12.3
+      },
+      "required": true
+    },
+    "kinAddress": {
+      "type": "text",
+      "label": "39. * Address",
+      "page": 5,
+      "box": {
+        "left": 107.2,
+        "top": 501.5,
+        "width": 466.0,
+        "height": 12.3
+      },
+      "required": true
+    },
+    "reportingStation": {
+      "type": "text",
+      "label": "Reporting Station",
+      "page": 5,
+      "box": {
+        "left": 38.8,
+        "top": 454.7,
+        "width": 534.4,
+        "height": 12.3
+      }
+    },
+    "currentDutyStation": {
+      "type": "text",
+      "label": "Current Duty Station",
+      "page": 5,
+      "box": {
+        "left": 38.8,
+        "top": 425.9,
+        "width": 534.4,
+        "height": 12.3
+      }
+    },
+    "riskCheckbox": {
+      "type": "checkbox",
+      "label": "RISK ADVISEMENT",
+      "page": 5,
+      "box": {
+        "left": 57.8,
+        "top": 389.8,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "consentCheckbox": {
+      "type": "checkbox",
+      "label": "CONSENT",
+      "page": 5,
+      "box": {
+        "left": 57.8,
+        "top": 299.7,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "comments": {
+      "type": "text",
+      "label": "44. Comments (limited to 500 characters)",
+      "page": 6,
+      "box": {
+        "left": 38.8,
+        "top": 742.4,
+        "width": 534.4,
+        "height": 93.1
+      },
+      "multiline": true
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 2,
+      "count": 3,
+      "rowStride": 36.0,
+      "editor": "grid",
+      "columns": {
+        "item": {
+          "type": "text",
+          "label": "Item",
+          "page": 2,
+          "box": {
+            "left": 37.4,
+            "top": 173.7,
+            "width": 15.2,
+            "height": 33.2
+          }
+        },
+        "sponsor": {
+          "type": "text",
+          "label": "c. Sponsor",
+          "page": 2,
+          "box": {
+            "left": 100.0,
+            "top": 154.3,
+            "width": 149.1,
+            "height": 12.3
+          }
+        },
+        "date": {
+          "type": "text",
+          "label": "a. Date",
+          "page": 2,
+          "box": {
+            "left": 100.0,
+            "top": 172.3,
+            "width": 149.1,
+            "height": 12.3
+          }
+        },
+        "sponsorPhone": {
+          "type": "text",
+          "label": "d. Sponsor\u2019s Phone",
+          "page": 2,
+          "box": {
+            "left": 326.9,
+            "top": 154.3,
+            "width": 228.4,
+            "height": 12.3
+          }
+        },
+        "prevShipName": {
+          "type": "text",
+          "label": "b. Ship Name",
+          "page": 2,
+          "box": {
+            "left": 326.9,
+            "top": 172.3,
+            "width": 228.4,
+            "height": 12.3
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,553 @@
+{
+  "id": "opnav80206",
+  "label": "OPNAV8020-6 - Department Of The NAVY Medical Examiner S Certificate",
+  "directory": "OPNAV8020-6 - Department Of The NAVY Medical Examiner S Certificate",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "exmNme",
+        "oprCode",
+        "hdlRes",
+        "corLen",
+        "herAid",
+        "sigMedExm",
+        "medExPhn",
+        "sigDte",
+        "advNrs",
+        "md",
+        "medExNme",
+        "medExpDte",
+        "do",
+        "idc",
+        "phyAst",
+        "medExLicNum",
+        "issState",
+        "dvrNme",
+        "dvrDODID",
+        "drvSig",
+        "dvrSigDte"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "exmNme2",
+        "oprCode2",
+        "hdlRes2",
+        "corLen2",
+        "herAid2",
+        "md2",
+        "advNrs2",
+        "do2",
+        "medExNme2",
+        "idc2",
+        "phyAst2",
+        "sigMedExm2",
+        "sigDte2",
+        "medExPhn2",
+        "medExpDte2",
+        "medExLicNum2",
+        "issState2",
+        "dvrNme2",
+        "dvrDODID2",
+        "drvSig2",
+        "dvrSigDte2"
+      ]
+    }
+  ],
+  "fields": {
+    "exmNme": {
+      "type": "text",
+      "label": "I certify that I have examined",
+      "page": 1,
+      "box": {
+        "left": 168.9,
+        "top": 549.8,
+        "width": 254.1,
+        "height": 14.3
+      }
+    },
+    "oprCode": {
+      "type": "choice",
+      "label": "OR",
+      "page": 1,
+      "box": {
+        "left": 575.1,
+        "top": 477.6,
+        "width": 39.9,
+        "height": 39.5
+      },
+      "options": [
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G"
+      ]
+    },
+    "hdlRes": {
+      "type": "text",
+      "label": "Wearing hearing aid(s)",
+      "page": 1,
+      "box": {
+        "left": 397.5,
+        "top": 351.5,
+        "width": 358.6,
+        "height": 53.8
+      },
+      "multiline": true
+    },
+    "corLen": {
+      "type": "checkbox",
+      "label": "find",
+      "page": 1,
+      "box": {
+        "left": 43.9,
+        "top": 344.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "herAid": {
+      "type": "checkbox",
+      "label": "find",
+      "page": 1,
+      "box": {
+        "left": 43.9,
+        "top": 326.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "sigMedExm": {
+      "type": "text",
+      "label": "SIGNATURE OF MEDICAL EXAMINER",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 255.6,
+        "width": 355.0,
+        "height": 33.8
+      },
+      "multiline": true
+    },
+    "medExPhn": {
+      "type": "text",
+      "label": "MEDICAL EXAMINER TELEPHONE NUMBER",
+      "page": 1,
+      "box": {
+        "left": 401.1,
+        "top": 255.6,
+        "width": 175.0,
+        "height": 33.8
+      },
+      "multiline": true
+    },
+    "sigDte": {
+      "type": "text",
+      "label": "MEDICAL EXAMINER SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 581.1,
+        "top": 255.6,
+        "width": 175.0,
+        "height": 33.8
+      },
+      "multiline": true
+    },
+    "advNrs": {
+      "type": "checkbox",
+      "label": "MD",
+      "page": 1,
+      "box": {
+        "left": 358.6,
+        "top": 215.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "md": {
+      "type": "checkbox",
+      "label": "examination",
+      "page": 1,
+      "box": {
+        "left": 266.8,
+        "top": 214.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "medExNme": {
+      "type": "text",
+      "label": "MEDICAL EXAMINER&apos;S NAME (Print or stamp)",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 208.8,
+        "width": 220.0,
+        "height": 33.8
+      },
+      "multiline": true
+    },
+    "medExpDte": {
+      "type": "text",
+      "label": "(Only D-G, Active Duty only)",
+      "page": 1,
+      "box": {
+        "left": 498.0,
+        "top": 201.8,
+        "width": 257.7,
+        "height": 26.7
+      }
+    },
+    "do": {
+      "type": "checkbox",
+      "label": "examination",
+      "page": 1,
+      "box": {
+        "left": 266.8,
+        "top": 200.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "idc": {
+      "type": "checkbox",
+      "label": "DO",
+      "page": 1,
+      "box": {
+        "left": 358.7,
+        "top": 200.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "phyAst": {
+      "type": "checkbox",
+      "label": "examination",
+      "page": 1,
+      "box": {
+        "left": 266.8,
+        "top": 187.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "medExLicNum": {
+      "type": "text",
+      "label": "(Required for levels B &amp; C)",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 156.0,
+        "width": 355.0,
+        "height": 27.2
+      }
+    },
+    "issState": {
+      "type": "text",
+      "label": "B &amp; C)",
+      "page": 1,
+      "box": {
+        "left": 401.1,
+        "top": 156.0,
+        "width": 355.0,
+        "height": 27.1
+      }
+    },
+    "dvrNme": {
+      "type": "text",
+      "label": "DRIVER OR HANDLER&apos;S NAME (Print)",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 115.9,
+        "width": 355.0,
+        "height": 33.8
+      },
+      "multiline": true
+    },
+    "dvrDODID": {
+      "type": "text",
+      "label": "DRIVER OR HANDLER&apos;S DoD ID",
+      "page": 1,
+      "box": {
+        "left": 401.1,
+        "top": 115.9,
+        "width": 355.0,
+        "height": 33.8
+      },
+      "multiline": true
+    },
+    "drvSig": {
+      "type": "text",
+      "label": "DRIVER OR HANDLER&apos;S SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 69.8,
+        "width": 355.0,
+        "height": 33.8
+      },
+      "multiline": true
+    },
+    "dvrSigDte": {
+      "type": "text",
+      "label": "DRIVER OR HANDLER&apos;S SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 401.1,
+        "top": 69.8,
+        "width": 355.0,
+        "height": 33.8
+      },
+      "multiline": true
+    },
+    "exmNme2": {
+      "type": "text",
+      "label": "I certify that I have examined",
+      "page": 2,
+      "box": {
+        "left": 96.5,
+        "top": 569.3,
+        "width": 72.6,
+        "height": 7.6
+      }
+    },
+    "oprCode2": {
+      "type": "choice",
+      "label": "accordance with",
+      "page": 2,
+      "box": {
+        "left": 188.5,
+        "top": 545.3,
+        "width": 24.0,
+        "height": 18.7
+      },
+      "options": [
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G"
+      ]
+    },
+    "hdlRes2": {
+      "type": "text",
+      "label": "HANDLER RESTRICTIONS",
+      "page": 2,
+      "box": {
+        "left": 36.0,
+        "top": 518.4,
+        "width": 180.0,
+        "height": 32.6
+      },
+      "multiline": true
+    },
+    "corLen2": {
+      "type": "checkbox",
+      "label": "I find",
+      "page": 2,
+      "box": {
+        "left": 38.7,
+        "top": 472.6,
+        "width": 5.0,
+        "height": 5.0
+      }
+    },
+    "herAid2": {
+      "type": "checkbox",
+      "label": "Wearing corrective lenses",
+      "page": 2,
+      "box": {
+        "left": 164.4,
+        "top": 472.6,
+        "width": 5.0,
+        "height": 5.0
+      }
+    },
+    "md2": {
+      "type": "checkbox",
+      "label": "embodies",
+      "page": 2,
+      "box": {
+        "left": 129.7,
+        "top": 428.5,
+        "width": 5.0,
+        "height": 5.0
+      }
+    },
+    "advNrs2": {
+      "type": "checkbox",
+      "label": "MD",
+      "page": 2,
+      "box": {
+        "left": 148.0,
+        "top": 428.5,
+        "width": 5.0,
+        "height": 5.0
+      }
+    },
+    "do2": {
+      "type": "checkbox",
+      "label": "MD Nurse Practitioner",
+      "page": 2,
+      "box": {
+        "left": 190.2,
+        "top": 428.5,
+        "width": 5.0,
+        "height": 5.0
+      }
+    },
+    "medExNme2": {
+      "type": "text",
+      "label": "MEDICAL EXAMINER&apos;S NAME (Print)",
+      "page": 2,
+      "box": {
+        "left": 38.2,
+        "top": 425.2,
+        "width": 87.9,
+        "height": 19.0
+      }
+    },
+    "idc2": {
+      "type": "checkbox",
+      "label": "embodies",
+      "page": 2,
+      "box": {
+        "left": 130.0,
+        "top": 417.0,
+        "width": 5.0,
+        "height": 5.0
+      }
+    },
+    "phyAst2": {
+      "type": "checkbox",
+      "label": "Corps-man (Only D-G,",
+      "page": 2,
+      "box": {
+        "left": 190.2,
+        "top": 416.9,
+        "width": 5.0,
+        "height": 5.0
+      }
+    },
+    "sigMedExm2": {
+      "type": "text",
+      "label": "SIGNATURE OF MEDICAL EXAMINER",
+      "page": 2,
+      "box": {
+        "left": 38.2,
+        "top": 399.8,
+        "width": 87.9,
+        "height": 13.8
+      }
+    },
+    "sigDte2": {
+      "type": "text",
+      "label": "MEDICAL EXAMINER SIGNATURE DATE",
+      "page": 2,
+      "box": {
+        "left": 128.2,
+        "top": 399.8,
+        "width": 87.9,
+        "height": 13.8
+      }
+    },
+    "medExPhn2": {
+      "type": "text",
+      "label": "MEDICAL EXAMINER TELEPHONE NUMBER",
+      "page": 2,
+      "box": {
+        "left": 128.2,
+        "top": 380.0,
+        "width": 87.9,
+        "height": 13.8
+      }
+    },
+    "medExpDte2": {
+      "type": "text",
+      "label": "EXPIRATION DATE (List by cat. if necessary)",
+      "page": 2,
+      "box": {
+        "left": 37.4,
+        "top": 374.8,
+        "width": 88.6,
+        "height": 8.6
+      }
+    },
+    "medExLicNum2": {
+      "type": "text",
+      "label": "CERTIFICATE NUMBER (Req. for levels B &amp; C)",
+      "page": 2,
+      "box": {
+        "left": 38.2,
+        "top": 354.6,
+        "width": 87.9,
+        "height": 16.6
+      }
+    },
+    "issState2": {
+      "type": "text",
+      "label": "EXAM. CERT (Req. for levels B&amp;C)",
+      "page": 2,
+      "box": {
+        "left": 128.2,
+        "top": 354.6,
+        "width": 87.9,
+        "height": 16.6
+      }
+    },
+    "dvrNme2": {
+      "type": "text",
+      "label": "DRIVER/HANDLER NAME (Print)",
+      "page": 2,
+      "box": {
+        "left": 38.2,
+        "top": 331.6,
+        "width": 87.9,
+        "height": 13.8
+      }
+    },
+    "dvrDODID2": {
+      "type": "text",
+      "label": "DRIVER/HANDLER DoD ID",
+      "page": 2,
+      "box": {
+        "left": 128.2,
+        "top": 331.6,
+        "width": 87.9,
+        "height": 13.8
+      }
+    },
+    "drvSig2": {
+      "type": "text",
+      "label": "DRIVER/HANDLER SIGNATURE",
+      "page": 2,
+      "box": {
+        "left": 38.2,
+        "top": 312.1,
+        "width": 87.9,
+        "height": 13.8
+      }
+    },
+    "dvrSigDte2": {
+      "type": "text",
+      "label": "DRIVER/HANDLER SIGNATURE DATE",
+      "page": 2,
+      "box": {
+        "left": 128.2,
+        "top": 312.1,
+        "width": 87.9,
+        "height": 13.8
+      }
+    }
+  }
+}

@@ -1,0 +1,324 @@
+{
+  "id": "opnav510029",
+  "label": "OPNAV5100-29 - Application For Recertification As A NAVY Gas Free Engineer",
+  "directory": "OPNAV5100-29 - Application For Recertification As A NAVY Gas Free Engineer",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "certNme",
+        "certPhn",
+        "certAct",
+        "certCde",
+        "collCrs",
+        "othCrs",
+        "count",
+        "fulExpTrn",
+        "empl",
+        "vess",
+        "cerCon",
+        "cerIss",
+        "facInc"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "dNSDate3",
+        "signatureField1",
+        "checkBox1",
+        "checkBox12",
+        "checkBox13",
+        "brdCmt"
+      ]
+    }
+  ],
+  "fields": {
+    "certNme": {
+      "type": "text",
+      "label": "1.  Name:",
+      "page": 1,
+      "box": {
+        "left": 81.3,
+        "top": 620.1,
+        "width": 312.3,
+        "height": 16.3
+      }
+    },
+    "certPhn": {
+      "type": "text",
+      "label": "2.  Phone:",
+      "page": 1,
+      "box": {
+        "left": 454.3,
+        "top": 620.1,
+        "width": 111.7,
+        "height": 16.3
+      }
+    },
+    "certAct": {
+      "type": "text",
+      "label": "3. Activity:",
+      "page": 1,
+      "box": {
+        "left": 82.3,
+        "top": 584.4,
+        "width": 311.3,
+        "height": 16.3
+      }
+    },
+    "certCde": {
+      "type": "text",
+      "label": "4.  Code:",
+      "page": 1,
+      "box": {
+        "left": 454.3,
+        "top": 584.4,
+        "width": 111.7,
+        "height": 16.3
+      }
+    },
+    "collCrs": {
+      "type": "text",
+      "label": "a.  College Courses (List courses taken since the last certification in related areas such as fire sciences, industrial hygiene, engineering, or safety.  List by name/number (if known)).",
+      "page": 1,
+      "box": {
+        "left": 56.8,
+        "top": 484.9,
+        "width": 506.3,
+        "height": 62.4
+      },
+      "multiline": true
+    },
+    "othCrs": {
+      "type": "text",
+      "label": "b.  Other Training (List  courses completed such as NFPA Marine Chemist Modules, DOL/OSHA, etc., completed since last certification.)",
+      "page": 1,
+      "box": {
+        "left": 56.8,
+        "top": 404.1,
+        "width": 506.3,
+        "height": 72.5
+      },
+      "multiline": true
+    },
+    "count": {
+      "type": "text",
+      "label": "incident(s)",
+      "page": 1,
+      "box": {
+        "left": 39.0,
+        "top": 281.0,
+        "width": 9.0,
+        "height": 12.1
+      }
+    },
+    "fulExpTrn": {
+      "type": "text",
+      "label": "Name:",
+      "page": 1,
+      "box": {
+        "left": 70.0,
+        "top": 263.4,
+        "width": 499.2,
+        "height": 11.3
+      }
+    },
+    "empl": {
+      "type": "text",
+      "label": "Empl",
+      "page": 1,
+      "box": {
+        "left": 42.3,
+        "top": 203.1,
+        "width": 76.2,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "vess": {
+      "type": "text",
+      "label": "Vess",
+      "page": 1,
+      "box": {
+        "left": 124.2,
+        "top": 203.1,
+        "width": 65.3,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "cerCon": {
+      "type": "text",
+      "label": "CerCon",
+      "page": 1,
+      "box": {
+        "left": 195.1,
+        "top": 203.1,
+        "width": 63.4,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "cerIss": {
+      "type": "text",
+      "label": "CerIss",
+      "page": 1,
+      "box": {
+        "left": 264.3,
+        "top": 203.1,
+        "width": 46.6,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "facInc": {
+      "type": "text",
+      "label": "FacInc",
+      "page": 1,
+      "box": {
+        "left": 316.5,
+        "top": 203.1,
+        "width": 252.5,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "dNSDate3": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 2,
+      "box": {
+        "left": 150.0,
+        "top": 698.4,
+        "width": 84.0,
+        "height": 17.0
+      }
+    },
+    "signatureField1": {
+      "type": "signature",
+      "label": "Signature:",
+      "page": 2,
+      "box": {
+        "left": 344.8,
+        "top": 695.6,
+        "width": 135.3,
+        "height": 12.3
+      }
+    },
+    "checkBox1": {
+      "type": "checkbox",
+      "label": "Approved:",
+      "page": 2,
+      "box": {
+        "left": 168.8,
+        "top": 651.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox12": {
+      "type": "checkbox",
+      "label": "Disapproved:",
+      "page": 2,
+      "box": {
+        "left": 306.4,
+        "top": 650.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox13": {
+      "type": "checkbox",
+      "label": "More Information Needed:",
+      "page": 2,
+      "box": {
+        "left": 472.8,
+        "top": 650.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "brdCmt": {
+      "type": "text",
+      "label": "BrdCmt",
+      "page": 2,
+      "box": {
+        "left": 42.8,
+        "top": 627.7,
+        "width": 528.3,
+        "height": 13.3
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 35.9,
+      "editor": "grid",
+      "columns": {
+        "empl": {
+          "type": "text",
+          "label": "Empl1",
+          "page": 1,
+          "box": {
+            "left": 42.3,
+            "top": 167.2,
+            "width": 76.2,
+            "height": 30.3
+          }
+        },
+        "vess": {
+          "type": "text",
+          "label": "Vess1",
+          "page": 1,
+          "box": {
+            "left": 124.2,
+            "top": 167.2,
+            "width": 65.3,
+            "height": 30.3
+          }
+        },
+        "cerCon": {
+          "type": "text",
+          "label": "CerCon1",
+          "page": 1,
+          "box": {
+            "left": 195.1,
+            "top": 167.2,
+            "width": 63.4,
+            "height": 30.3
+          }
+        },
+        "cerIss": {
+          "type": "text",
+          "label": "CerIss1",
+          "page": 1,
+          "box": {
+            "left": 264.3,
+            "top": 167.2,
+            "width": 46.6,
+            "height": 30.3
+          }
+        },
+        "facInc": {
+          "type": "text",
+          "label": "FacInc1",
+          "page": 1,
+          "box": {
+            "left": 316.5,
+            "top": 167.2,
+            "width": 252.5,
+            "height": 30.3
+          }
+        }
+      }
+    }
+  }
+}

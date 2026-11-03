@@ -1,0 +1,229 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "dateCover": {
+        "left": 246.4,
+        "top": 463.0,
+        "width": 88.8,
+        "height": 12.6,
+        "type": "text",
+        "description": "DateCover",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "surveyContNum": {
+        "left": 301.4,
+        "top": 440.3,
+        "width": 99.2,
+        "height": 11.8,
+        "type": "text",
+        "description": "SurveyContNum",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "addressUnit": {
+        "left": 164.5,
+        "top": 406.0,
+        "width": 277.0,
+        "height": 48.5,
+        "type": "text",
+        "description": "AddressUnit",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "addressUnit2": {
+        "left": 164.5,
+        "top": 340.5,
+        "width": 277.0,
+        "height": 48.5,
+        "type": "text",
+        "description": "AddressUnit",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "text": {
+        "left": 306.1,
+        "top": 230.4,
+        "width": 141.8,
+        "height": 11.8,
+        "type": "text",
+        "description": "Text",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "date": {
+        "left": 489.2,
+        "top": 667.3,
+        "width": 98.2,
+        "height": 12.6,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "status": {
+        "left": 489.6,
+        "top": 633.7,
+        "width": 99.2,
+        "height": 11.8,
+        "type": "text",
+        "description": "Status",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "surveyType": {
+        "left": 312.2,
+        "top": 598.0,
+        "width": 276.8,
+        "height": 11.8,
+        "type": "text",
+        "description": "SurveyType",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField1": {
+        "left": 23.1,
+        "top": 597.8,
+        "width": 278.7,
+        "height": 11.8,
+        "type": "text",
+        "description": "TextField1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "inspectUnit": {
+        "left": 23.0,
+        "top": 564.7,
+        "width": 278.7,
+        "height": 11.8,
+        "type": "text",
+        "description": "InspectUnit",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "reqUnit": {
+        "left": 312.2,
+        "top": 564.7,
+        "width": 277.5,
+        "height": 11.8,
+        "type": "text",
+        "description": "ReqUnit",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "org": {
+        "left": 23.4,
+        "top": 530.6,
+        "width": 565.0,
+        "height": 11.8,
+        "type": "text",
+        "description": "Org",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "addressUnit3": {
+        "left": 24.2,
+        "top": 495.8,
+        "width": 277.0,
+        "height": 46.4,
+        "type": "text",
+        "description": "AddressUnit",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "distribution": {
+        "left": 312.6,
+        "top": 495.7,
+        "width": 277.0,
+        "height": 46.4,
+        "type": "text",
+        "description": "Distribution",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comments": {
+        "left": 23.8,
+        "top": 429.9,
+        "width": 563.8,
+        "height": 242.2,
+        "type": "text",
+        "description": "Comments",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureInsp": {
+        "left": 23.0,
+        "top": 164.2,
+        "width": 277.0,
+        "height": 11.9,
+        "type": "signature",
+        "description": "SignatureInsp",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureAppOff": {
+        "left": 311.7,
+        "top": 164.1,
+        "width": 276.7,
+        "height": 11.5,
+        "type": "signature",
+        "description": "SignatureAppOff",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameInsp": {
+        "left": 23.0,
+        "top": 132.2,
+        "width": 277.5,
+        "height": 11.8,
+        "type": "text",
+        "description": "NameInsp",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameAO": {
+        "left": 310.7,
+        "top": 132.2,
+        "width": 277.5,
+        "height": 11.8,
+        "type": "text",
+        "description": "NameAO",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

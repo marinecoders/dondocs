@@ -1,0 +1,130 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "sSNMembr": {
+        "left": 479.2,
+        "top": 542.2,
+        "width": 106.8,
+        "height": 16.4,
+        "type": "text",
+        "description": "SSNMembr",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameMembr": {
+        "left": 25.5,
+        "top": 541.7,
+        "width": 452.9,
+        "height": 15.0,
+        "type": "text",
+        "description": "Enter the members last name followed by first name and middle initial.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "addrSMCR": {
+        "left": 26.1,
+        "top": 516.7,
+        "width": 558.8,
+        "height": 31.5,
+        "type": "text",
+        "description": "Enter the address of members S M C R.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameB1": {
+        "left": 50.3,
+        "top": 458.8,
+        "width": 226.8,
+        "height": 15.0,
+        "type": "text",
+        "description": "Enter name of enlisted marine.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "b2d": {
+        "left": 232.0,
+        "top": 267.8,
+        "width": 136.6,
+        "height": 15.0,
+        "type": "text",
+        "description": "Enter agreed date marine will remain a member of reserves to qualify for M G I B. S R benefits.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "sigMem": {
+        "left": 27.2,
+        "top": 271.4,
+        "width": 331.9,
+        "height": 38.6,
+        "type": "signature",
+        "description": "SigMem",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateSigMembr": {
+        "left": 360.8,
+        "top": 252.3,
+        "width": 223.5,
+        "height": 19.8,
+        "type": "text",
+        "description": "Enter the date of members signature using format 2 Dec 2002.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameGrdWitnss": {
+        "left": 27.5,
+        "top": 221.6,
+        "width": 558.2,
+        "height": 45.5,
+        "type": "text",
+        "description": "Enter the name and grade of witnessing official.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sigWit": {
+        "left": 27.2,
+        "top": 164.2,
+        "width": 331.9,
+        "height": 48.4,
+        "type": "signature",
+        "description": "SigWit",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateSigWitnss": {
+        "left": 361.4,
+        "top": 130.6,
+        "width": 223.5,
+        "height": 15.0,
+        "type": "text",
+        "description": "Enter the date of witness signature.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

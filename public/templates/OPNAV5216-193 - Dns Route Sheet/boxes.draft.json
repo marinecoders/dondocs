@@ -1,0 +1,304 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "radio": {
+        "left": 480.5,
+        "top": 747.2,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio2": {
+        "left": 480.5,
+        "top": 723.4,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "rscmt": {
+        "left": 91.7,
+        "top": 708.2,
+        "width": 358.3,
+        "height": 52.7,
+        "type": "text",
+        "description": "SUBJECT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dCNNo": {
+        "left": 491.0,
+        "top": 695.4,
+        "width": 82.3,
+        "height": 17.1,
+        "type": "text",
+        "description": "DCN #",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rptDte": {
+        "left": 506.4,
+        "top": 671.9,
+        "width": 66.8,
+        "height": 14.5,
+        "type": "text",
+        "description": "DUE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "actOff": {
+        "left": 149.9,
+        "top": 650.0,
+        "width": 172.2,
+        "height": 10.6,
+        "type": "text",
+        "description": "ACTION OFFICER/CODE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "iNTDte": {
+        "left": 420.5,
+        "top": 650.0,
+        "width": 151.9,
+        "height": 10.6,
+        "type": "text",
+        "description": "DNS-1 INITIAL/DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dns1cmt": {
+        "left": 38.8,
+        "top": 622.4,
+        "width": 411.1,
+        "height": 151.0,
+        "type": "text",
+        "description": "Comments",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox1": {
+        "left": 458.2,
+        "top": 604.9,
+        "width": 7.0,
+        "height": 7.0,
+        "type": "checkbox",
+        "description": "DUE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox12": {
+        "left": 458.2,
+        "top": 586.4,
+        "width": 7.0,
+        "height": 7.0,
+        "type": "checkbox",
+        "description": "DUE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox13": {
+        "left": 458.2,
+        "top": 566.9,
+        "width": 7.0,
+        "height": 7.0,
+        "type": "checkbox",
+        "description": "DUE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox14": {
+        "left": 458.2,
+        "top": 547.8,
+        "width": 7.0,
+        "height": 7.0,
+        "type": "checkbox",
+        "description": "DUE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox15": {
+        "left": 458.2,
+        "top": 528.8,
+        "width": 7.0,
+        "height": 7.0,
+        "type": "checkbox",
+        "description": "DUE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox16": {
+        "left": 458.2,
+        "top": 508.2,
+        "width": 7.0,
+        "height": 7.0,
+        "type": "checkbox",
+        "description": "DUE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox17": {
+        "left": 458.2,
+        "top": 486.9,
+        "width": 7.0,
+        "height": 7.0,
+        "type": "checkbox",
+        "description": "DUE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "flgseccmt": {
+        "left": 37.4,
+        "top": 456.0,
+        "width": 415.3,
+        "height": 71.0,
+        "type": "text",
+        "description": "Comments",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rptDte2": {
+        "left": 455.6,
+        "top": 413.8,
+        "width": 116.8,
+        "height": 16.7,
+        "type": "text",
+        "description": "DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "deacmt": {
+        "left": 37.4,
+        "top": 372.3,
+        "width": 415.3,
+        "height": 71.0,
+        "type": "text",
+        "description": "Comments",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rptDte3": {
+        "left": 455.6,
+        "top": 327.7,
+        "width": 116.8,
+        "height": 16.7,
+        "type": "text",
+        "description": "DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ddnscmt": {
+        "left": 37.4,
+        "top": 288.9,
+        "width": 415.3,
+        "height": 71.0,
+        "type": "text",
+        "description": "Comments",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rptDte4": {
+        "left": 455.6,
+        "top": 249.1,
+        "width": 116.8,
+        "height": 16.7,
+        "type": "text",
+        "description": "DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "eacmt": {
+        "left": 37.4,
+        "top": 205.5,
+        "width": 415.3,
+        "height": 71.0,
+        "type": "text",
+        "description": "Comments",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rptDte5": {
+        "left": 455.6,
+        "top": 163.1,
+        "width": 116.8,
+        "height": 16.7,
+        "type": "text",
+        "description": "DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dnscom": {
+        "left": 37.4,
+        "top": 122.1,
+        "width": 415.3,
+        "height": 85.4,
+        "type": "text",
+        "description": "Comments",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rptDte6": {
+        "left": 455.6,
+        "top": 97.9,
+        "width": 116.8,
+        "height": 14.7,
+        "type": "text",
+        "description": "DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cNORURptDte": {
+        "left": 455.6,
+        "top": 57.8,
+        "width": 116.8,
+        "height": 17.6,
+        "type": "text",
+        "description": "DUE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

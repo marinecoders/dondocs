@@ -1,0 +1,1192 @@
+{
+  "id": "navpers10004",
+  "label": "NAVPERS1000-4 - Officer Appointment Acceptance And Oath Of Office",
+  "directory": "NAVPERS1000-4 - Officer Appointment Acceptance And Oath Of Office",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "cell2",
+        "cell3",
+        "cell1",
+        "cell12",
+        "cell22",
+        "cell32",
+        "cell13",
+        "cell14",
+        "cell33",
+        "cell23",
+        "cell15",
+        "cell4",
+        "cell5",
+        "cell6",
+        "cell16",
+        "cell24",
+        "cell34",
+        "cell17",
+        "cell25",
+        "cell35",
+        "cell42",
+        "cell52",
+        "cell18",
+        "cell26",
+        "cell36",
+        "cell43",
+        "cell53",
+        "cell62",
+        "cell7",
+        "cell8",
+        "cell19",
+        "cell27",
+        "cell37",
+        "cell110",
+        "cell111",
+        "cell112",
+        "cell113",
+        "cell28",
+        "cell44",
+        "row1",
+        "cell29",
+        "cell117",
+        "cell118",
+        "cell119",
+        "cell63",
+        "cell210",
+        "cell45",
+        "cell211",
+        "cell212",
+        "cell38",
+        "cell123",
+        "cell213",
+        "no",
+        "cell214",
+        "cell39",
+        "na",
+        "cell124"
+      ]
+    }
+  ],
+  "fields": {
+    "cell2": {
+      "type": "text",
+      "label": "2. SSN",
+      "page": 1,
+      "box": {
+        "left": 326.9,
+        "top": 708.5,
+        "width": 120.3,
+        "height": 14.4
+      }
+    },
+    "cell3": {
+      "type": "text",
+      "label": "3. Designator",
+      "page": 1,
+      "box": {
+        "left": 452.9,
+        "top": 708.5,
+        "width": 120.3,
+        "height": 14.4
+      }
+    },
+    "cell1": {
+      "type": "text",
+      "label": "1. Name (Last, First Middle)",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 708.1,
+        "width": 282.3,
+        "height": 14.0
+      }
+    },
+    "cell12": {
+      "type": "text",
+      "label": "4. Status Before Appointment",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 679.7,
+        "width": 282.3,
+        "height": 14.4
+      }
+    },
+    "cell22": {
+      "type": "text",
+      "label": "5. PC",
+      "page": 1,
+      "box": {
+        "left": 326.9,
+        "top": 679.7,
+        "width": 120.3,
+        "height": 14.4
+      }
+    },
+    "cell32": {
+      "type": "text",
+      "label": "6. Sex",
+      "page": 1,
+      "box": {
+        "left": 452.9,
+        "top": 679.7,
+        "width": 120.3,
+        "height": 14.4
+      }
+    },
+    "cell13": {
+      "type": "text",
+      "label": "7. Street Address",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 650.9,
+        "width": 534.3,
+        "height": 14.4
+      }
+    },
+    "cell14": {
+      "type": "text",
+      "label": "8. City",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 622.1,
+        "width": 282.3,
+        "height": 14.4
+      }
+    },
+    "cell33": {
+      "type": "text",
+      "label": "10. Zip Code",
+      "page": 1,
+      "box": {
+        "left": 452.9,
+        "top": 622.1,
+        "width": 120.3,
+        "height": 14.4
+      }
+    },
+    "cell23": {
+      "type": "choice",
+      "label": "9. State",
+      "page": 1,
+      "box": {
+        "left": 327.7,
+        "top": 621.3,
+        "width": 118.8,
+        "height": 12.9
+      },
+      "options": [
+        "AL",
+        "AK",
+        "AZ",
+        "AR",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "FL",
+        "GA",
+        "HI",
+        "ID",
+        "IL",
+        "IN",
+        "IA",
+        "KS",
+        "KY",
+        "LA",
+        "ME",
+        "MD",
+        "MA",
+        "MI",
+        "MN",
+        "MS",
+        "MO",
+        "MT",
+        "NE",
+        "NV",
+        "NH",
+        "NJ",
+        "NM",
+        "NY",
+        "NC",
+        "ND",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VT",
+        "VA",
+        "WA",
+        "WV",
+        "WI",
+        "WY",
+        "AS",
+        "DC",
+        "FM",
+        "GU",
+        "MH",
+        "MP",
+        "PW",
+        "PR",
+        "VI",
+        "AE",
+        "AA",
+        "AE",
+        "AE",
+        "AE",
+        "AP"
+      ]
+    },
+    "cell15": {
+      "type": "text",
+      "label": "11. Date of Birth",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 593.3,
+        "width": 129.3,
+        "height": 14.4
+      }
+    },
+    "cell4": {
+      "type": "text",
+      "label": "12. OSC",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 593.3,
+        "width": 129.3,
+        "height": 14.4
+      }
+    },
+    "cell5": {
+      "type": "text",
+      "label": "13. CSC",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 593.3,
+        "width": 129.3,
+        "height": 14.4
+      }
+    },
+    "cell6": {
+      "type": "text",
+      "label": "14. BC",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 593.3,
+        "width": 129.3,
+        "height": 14.4
+      }
+    },
+    "cell16": {
+      "type": "choice",
+      "label": "15. Ethnic Group",
+      "page": 1,
+      "box": {
+        "left": 39.1,
+        "top": 564.2,
+        "width": 155.8,
+        "height": 13.9
+      },
+      "options": [
+        "1   Other Hispanic Descent",
+        "2   US/Canadian Indian Descent",
+        "3   Other Asian",
+        "4   Puerto Rican",
+        "5   Filipino",
+        "6   Mexican",
+        "7   Eskimo",
+        "8   Aleut",
+        "9   Cuban",
+        "D   Asian Indian",
+        "E   Melanesian",
+        "G   Chinese",
+        "H   Guamanian",
+        "J   Japanese",
+        "K   Korean",
+        "L   Polynesian",
+        "Q   Other Pacific Island Descent",
+        "S   Latin Amer-Hispanic Descent",
+        "V   Vietnamese",
+        "W   Micronesian",
+        "X   Other - Group Not on List",
+        "Y   Not Assoc with any Group",
+        "Z   Unknown"
+      ]
+    },
+    "cell24": {
+      "type": "choice",
+      "label": "16. Citizenship",
+      "page": 1,
+      "box": {
+        "left": 201.2,
+        "top": 564.2,
+        "width": 155.8,
+        "height": 13.9
+      },
+      "options": [
+        "AY   U.S. National",
+        "CA   U.S. Citizen by Birth",
+        "CB   U.S. Citizen Derived Natztn",
+        "CC   U.S. Citizen Derived Birth",
+        "CD   U.S. Citizen by Naturalization",
+        "NY   Non U.S. Citizen"
+      ]
+    },
+    "cell34": {
+      "type": "choice",
+      "label": "17. Place of Birth",
+      "page": 1,
+      "box": {
+        "left": 363.2,
+        "top": 564.2,
+        "width": 209.8,
+        "height": 13.9
+      },
+      "options": [
+        "1   Alabama",
+        "2   Alaska",
+        "4   Arizona",
+        "5   Arkansas",
+        "6   California",
+        "8   Colorado",
+        "9   Connecticut",
+        "10   Delaware",
+        "11   District Of Columbia",
+        "12   Florida",
+        "13   Georgia",
+        "15   Hawaii",
+        "16   Idaho",
+        "17   Illinois",
+        "18   Indiana",
+        "19   Iowa",
+        "20   Kansas",
+        "21   Kentucky",
+        "22   Louisiana",
+        "23   Maine",
+        "24   Maryland",
+        "25   Massachusetts",
+        "26   Michigan",
+        "27   Minnesota",
+        "28   Mississippi",
+        "29   Missouri",
+        "30   Montana",
+        "31   Nebraska",
+        "32   Nevada",
+        "33   New Hampshire",
+        "34   New Jersey",
+        "35   New Mexico",
+        "36   New York",
+        "37   North Carolina",
+        "38   North Dakota",
+        "39   Ohio",
+        "40   Oklahoma",
+        "41   Oregon",
+        "42   Pennsylvania",
+        "44   Rhode Island",
+        "45   South Carolina",
+        "46   South Dakota",
+        "47   Tennessee",
+        "48   Texas",
+        "49   Utah",
+        "50   Vermont",
+        "51   Virginia",
+        "53   Washington",
+        "54   West Virginia",
+        "55   Wisconsin",
+        "56   Wyoming",
+        "AA   Aruba",
+        "AC   Antigua and Barbuda",
+        "AE   United Arab Emirates",
+        "AF   Afghanistan",
+        "AG   Algeria",
+        "AJ   Azerbaijan",
+        "AL   Albania",
+        "AM   Armenia",
+        "AN   Andorra",
+        "AO   Angola",
+        "AQ   American Samoa",
+        "AR   Argentina",
+        "AS   Australia",
+        "AT   Ashmore and Cartier Islands",
+        "AU   Austria",
+        "AV   Anguilla",
+        "AY   Antarctica",
+        "BA   Bahrain",
+        "BB   Barbados",
+        "BC   Botswana",
+        "BD   Bermuda",
+        "BE   Belgium",
+        "BF   Bahamas, The",
+        "BG   Bangladesh",
+        "BH   Belize",
+        "BK   Bosnia and Herzegovina",
+        "BL   Bolivia",
+        "BM   Burma",
+        "BN   Benin",
+        "BO   Belarus",
+        "BP   Solomon Islands (British)",
+        "BQ   Navassa Is (Fmr U.S. Misc Caribe Is)",
+        "BR   Brazil",
+        "BS   Bassas De India",
+        "BT   Bhutan",
+        "BU   Bulgaria",
+        "BV   Bouvet Island",
+        "BX   Brunei",
+        "BY   Burundi",
+        "CA   Canada",
+        "CB   Cambodia",
+        "CD   Chad",
+        "CE   Sri Lanka",
+        "CF   Congo",
+        "CG   Zaire",
+        "CH   China",
+        "CI   Chile",
+        "CJ   Cayman Islands",
+        "CK   Cocos (Keeling) Islands",
+        "CM   Cameroon",
+        "CN   Comoros",
+        "CO   Colombia",
+        "CQ   Northern Mariana Islands",
+        "CR   Coral Sea Islands",
+        "CS   Costa Rica",
+        "CT   Central African Republic",
+        "CU   Cuba",
+        "CV   Cape Verde",
+        "CW   Cook Islands",
+        "CY   Cyprus",
+        "DA   Denmark",
+        "DJ   Djibouti",
+        "DO   Dominica",
+        "DQ   Jarvis Island",
+        "DR   Dominican Republic",
+        "EC   Ecuador",
+        "EG   Egypt",
+        "EI   Ireland",
+        "EK   Equatorial Guinea",
+        "EN   Estonia",
+        "ER   Eritrea",
+        "ES   El Salvador",
+        "ET   Ethiopia",
+        "EU   Europa Island",
+        "EZ   Czech Republic",
+        "FA   Falkland Islands",
+        "FG   French Guiana",
+        "FI   Finland",
+        "FJ   Fiji",
+        "FM   Micronesia, Federated States of",
+        "FO   Faroe Islands",
+        "FP   French Polynesia",
+        "FQ   Baker Island",
+        "FR   France",
+        "FS   French Southern & Antarctic Lands",
+        "GA   Gambia, The",
+        "GB   Gabon",
+        "GE   Germany, Federal Republic of",
+        "GG   Georgia",
+        "GH   Ghana",
+        "GI   Gibraltar",
+        "GJ   Grenada",
+        "GK   Guernsey",
+        "GL   Greenland",
+        "GM   Germany",
+        "GO   Glorioso Islands",
+        "GP   Guadeloupe",
+        "GQ   Guam",
+        "GR   Greece",
+        "GT   Guatemala",
+        "GV   Guinea",
+        "GY   Guyana",
+        "GZ   Gaza Strip",
+        "HA   Haiti",
+        "HK   Hong Kong",
+        "HM   Heard & McDonald Islands",
+        "HO   Honduras & Swan Islands",
+        "HQ   Howland Island",
+        "HR   Croatia",
+        "HU   Hungary",
+        "IC   Iceland",
+        "ID   Indonesia",
+        "IM   Man, Isle of",
+        "IN   India",
+        "IO   British Indian Ocean Territory/Chagos",
+        "IP   Clipperton Island",
+        "IR   Iran",
+        "IS   Israel",
+        "IT   Italy",
+        "IV   Cote D' Ivoire",
+        "IZ   Iraq",
+        "JA   Japan (Including Ryukyu Island)",
+        "JE   Jersey",
+        "JM   Jamaica",
+        "JN   Jan Mayen",
+        "JO   Jordan",
+        "JQ   Johnston Atoll",
+        "JU   Juan De Nova Island",
+        "KE   Kenya",
+        "KG   Kyrgyzstan",
+        "KN   Korea, North",
+        "KQ   Kingman Reef",
+        "KR   Kiribati, Republic of",
+        "KS   Korea, South",
+        "KT   Christmas Island",
+        "KU   Kuwait",
+        "KZ   Kazakhstan",
+        "LA   Laos",
+        "LE   Lebanon",
+        "LG   Latvia",
+        "LH   Lithuania",
+        "LI   Liberia",
+        "LO   Slovakia",
+        "LQ   Palmyra Atoll",
+        "LS   Liechtenstein",
+        "LT   Lesotho",
+        "LU   Luxembourg",
+        "LY   Libya",
+        "MA   Madagascar",
+        "MB   Martinique",
+        "MC   Macau",
+        "MD   Moldova",
+        "MF   Mayotte",
+        "MG   Mongolia",
+        "MH   Montserrat",
+        "MI   Malawi",
+        "MK   Macedonia",
+        "ML   Mali",
+        "MN   Monaco",
+        "MO   Morocco",
+        "MP   Mauritius",
+        "MQ   Midway Islands",
+        "MR   Mauritania",
+        "MT   Malta",
+        "MU   Oman",
+        "MV   Maldives",
+        "MW   Montenegro",
+        "MX   Mexico",
+        "MY   Malaysia",
+        "MZ   Mozambique",
+        "NC   New Caledonia",
+        "NE   Niue",
+        "NF   Norfolk Island",
+        "NG   Niger",
+        "NH   Vanuatu",
+        "NI   Nigeria",
+        "NL   Netherlands",
+        "NO   Norway",
+        "NP   Nepal",
+        "NR   Nauru",
+        "NS   Suriname",
+        "NT   Netherlands Antilles",
+        "NU   Nicaragua",
+        "NZ   New Zealand",
+        "PA   Paraguay",
+        "PC   Pitcairn Island",
+        "PE   Peru",
+        "PF   Paracel Islands",
+        "PG   Spratly Islands",
+        "PK   Pakistan",
+        "PL   Poland",
+        "PM   Panama",
+        "PO   Portugal",
+        "PP   Papua New Guinea",
+        "PS   Trust Territory of the Pacific",
+        "PU   Guinea-Bissau/Portuguese",
+        "QA   Qatar",
+        "RE   Reunion",
+        "RM   Marshall Islands",
+        "RO   Romania",
+        "RP   Philippines",
+        "RQ   Puerto Rico",
+        "RS   Russia",
+        "RW   Rwanda",
+        "SA   Saudi Arabia",
+        "SB   St Pierre and Miquelon",
+        "SC   St Kitts & Nevis",
+        "SE   Seychelles",
+        "SF   South Africa",
+        "SG   Senegal",
+        "SH   St Helena",
+        "SI   Slovenia",
+        "SL   Sierra Leone",
+        "SM   San Marino",
+        "SN   Singapore",
+        "SO   Somalia",
+        "SP   Spain",
+        "SR   Serbia",
+        "ST   St Lucia",
+        "SU   Sudan",
+        "SV   Svalbard",
+        "SW   Sweden",
+        "SX   South Georgia/South Sandwich Islands",
+        "SY   Syria",
+        "SZ   Switzerland",
+        "TD   Trinidad and Tobago",
+        "TE   Tromelin Island",
+        "TH   Thailand",
+        "TI   Tajikistan",
+        "TK   Turks & Caicos Island",
+        "TL   Tokelau",
+        "TN   Tonga",
+        "TO   Togo",
+        "TP   Sao Tome & Principe",
+        "TR   East Timor",
+        "TS   Tunisia",
+        "TU   Turkey",
+        "TV   Tuvalu",
+        "TW   Taiwan",
+        "TX   Turkmenistan",
+        "TZ   Tanzania",
+        "UG   Uganda",
+        "UK   United Kingdom",
+        "UP   Ukraine",
+        "US   United States",
+        "UV   Burkina",
+        "UY   Uruguay",
+        "UZ   Uzbekistan",
+        "VC   St Vincent & the Grenadines"
+      ]
+    },
+    "cell17": {
+      "type": "text",
+      "label": "18. Permanent Grade",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 535.6,
+        "width": 102.3,
+        "height": 14.4
+      }
+    },
+    "cell25": {
+      "type": "text",
+      "label": "19. Permanent Grade Date",
+      "page": 1,
+      "box": {
+        "left": 146.9,
+        "top": 535.6,
+        "width": 102.3,
+        "height": 14.4
+      }
+    },
+    "cell35": {
+      "type": "text",
+      "label": "20. Present Grade",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 535.6,
+        "width": 102.3,
+        "height": 14.4
+      }
+    },
+    "cell42": {
+      "type": "text",
+      "label": "21. Present Grade Date",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 535.6,
+        "width": 102.3,
+        "height": 14.4
+      }
+    },
+    "cell52": {
+      "type": "text",
+      "label": "22. Null &amp; Void Date",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 535.6,
+        "width": 102.3,
+        "height": 14.4
+      }
+    },
+    "cell18": {
+      "type": "checkbox",
+      "label": "Cell 18",
+      "page": 1,
+      "box": {
+        "left": 39.9,
+        "top": 500.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell26": {
+      "type": "checkbox",
+      "label": "Active",
+      "page": 1,
+      "box": {
+        "left": 107.4,
+        "top": 500.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell36": {
+      "type": "checkbox",
+      "label": "Inactive",
+      "page": 1,
+      "box": {
+        "left": 174.9,
+        "top": 500.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell43": {
+      "type": "checkbox",
+      "label": "Temporary",
+      "page": 1,
+      "box": {
+        "left": 242.4,
+        "top": 500.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell53": {
+      "type": "checkbox",
+      "label": "Permanent",
+      "page": 1,
+      "box": {
+        "left": 309.9,
+        "top": 500.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell62": {
+      "type": "checkbox",
+      "label": "Confirmed",
+      "page": 1,
+      "box": {
+        "left": 377.4,
+        "top": 500.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell7": {
+      "type": "checkbox",
+      "label": "AD Interim",
+      "page": 1,
+      "box": {
+        "left": 444.9,
+        "top": 500.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell8": {
+      "type": "checkbox",
+      "label": "USN",
+      "page": 1,
+      "box": {
+        "left": 512.4,
+        "top": 500.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell19": {
+      "type": "text",
+      "label": "27. Authority",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 478.0,
+        "width": 196.8,
+        "height": 18.0
+      }
+    },
+    "cell27": {
+      "type": "text",
+      "label": "28. PLSD",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 478.0,
+        "width": 129.3,
+        "height": 18.0
+      }
+    },
+    "cell37": {
+      "type": "checkbox",
+      "label": "Cell 37",
+      "page": 1,
+      "box": {
+        "left": 377.4,
+        "top": 477.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell110": {
+      "type": "text",
+      "label": "Authenticator Name",
+      "page": 1,
+      "box": {
+        "left": 118.1,
+        "top": 425.5,
+        "width": 455.1,
+        "height": 8.6
+      }
+    },
+    "cell111": {
+      "type": "text",
+      "label": "Authenticator Signature",
+      "page": 1,
+      "box": {
+        "left": 128.9,
+        "top": 411.1,
+        "width": 444.3,
+        "height": 8.6
+      }
+    },
+    "cell112": {
+      "type": "text",
+      "label": "From",
+      "page": 1,
+      "box": {
+        "left": 72.4,
+        "top": 382.3,
+        "width": 503.7,
+        "height": 11.5
+      }
+    },
+    "cell113": {
+      "type": "text",
+      "label": "To",
+      "page": 1,
+      "box": {
+        "left": 74.9,
+        "top": 367.9,
+        "width": 498.7,
+        "height": 8.6
+      }
+    },
+    "cell28": {
+      "type": "text",
+      "label": "I,",
+      "page": 1,
+      "box": {
+        "left": 47.5,
+        "top": 353.5,
+        "width": 283.7,
+        "height": 11.5
+      }
+    },
+    "cell44": {
+      "type": "text",
+      "label": "HAVING BEEN APPOINTED",
+      "page": 1,
+      "box": {
+        "left": 440.0,
+        "top": 353.5,
+        "width": 133.6,
+        "height": 11.5
+      }
+    },
+    "row1": {
+      "type": "text",
+      "label": "Row 1",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 282.9,
+        "width": 354.3,
+        "height": 10.1
+      }
+    },
+    "cell29": {
+      "type": "text",
+      "label": "( NAME OF APPOINTEE )",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 254.1,
+        "width": 354.3,
+        "height": 10.1
+      }
+    },
+    "cell117": {
+      "type": "text",
+      "label": "Copy to",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 239.7,
+        "width": 175.7,
+        "height": 13.0
+      }
+    },
+    "cell118": {
+      "type": "text",
+      "label": "Copy to",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 225.3,
+        "width": 175.7,
+        "height": 13.0
+      }
+    },
+    "cell119": {
+      "type": "text",
+      "label": "Copy to",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 210.9,
+        "width": 175.7,
+        "height": 13.0
+      }
+    },
+    "cell63": {
+      "type": "text",
+      "label": "WHICH I AM",
+      "page": 1,
+      "box": {
+        "left": 542.9,
+        "top": 210.9,
+        "width": 30.2,
+        "height": 10.1
+      }
+    },
+    "cell210": {
+      "type": "choice",
+      "label": "SUBSCRIBED AND SWORN",
+      "page": 1,
+      "box": {
+        "left": 219.2,
+        "top": 210.6,
+        "width": 83.8,
+        "height": 9.6
+      },
+      "options": [
+        "1st",
+        "2nd",
+        "3rd",
+        "4th",
+        "5th",
+        "6th",
+        "7th",
+        "8th",
+        "9th",
+        "10th",
+        "11th",
+        "12th",
+        "13th",
+        "14th",
+        "15th",
+        "16th",
+        "17th",
+        "18th",
+        "19th",
+        "20th",
+        "21st",
+        "22nd",
+        "23rd",
+        "24th",
+        "25th",
+        "26th",
+        "27th",
+        "28th",
+        "29th",
+        "30th",
+        "31st"
+      ]
+    },
+    "cell45": {
+      "type": "choice",
+      "label": "DAY OF",
+      "page": 1,
+      "box": {
+        "left": 363.2,
+        "top": 210.6,
+        "width": 137.8,
+        "height": 9.6
+      },
+      "options": [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ]
+    },
+    "cell211": {
+      "type": "text",
+      "label": "DAY OF 20",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 196.5,
+        "width": 354.3,
+        "height": 10.1
+      }
+    },
+    "cell212": {
+      "type": "text",
+      "label": "( NAME OF WITNESSING OFFICER )",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 167.7,
+        "width": 282.3,
+        "height": 10.1
+      }
+    },
+    "cell38": {
+      "type": "text",
+      "label": "Cell 38",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 167.7,
+        "width": 66.2,
+        "height": 10.1
+      }
+    },
+    "cell123": {
+      "type": "text",
+      "label": "Copy to",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 153.3,
+        "width": 175.7,
+        "height": 13.0
+      }
+    },
+    "cell213": {
+      "type": "text",
+      "label": "DECLINATION OR DISQUALIFICATION",
+      "page": 1,
+      "box": {
+        "left": 182.9,
+        "top": 124.5,
+        "width": 390.3,
+        "height": 10.1
+      }
+    },
+    "no": {
+      "type": "checkbox",
+      "label": "Copy",
+      "page": 1,
+      "box": {
+        "left": 39.9,
+        "top": 107.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell214": {
+      "type": "text",
+      "label": "NOT ACCEPTED",
+      "page": 1,
+      "box": {
+        "left": 182.9,
+        "top": 95.7,
+        "width": 318.3,
+        "height": 10.1
+      }
+    },
+    "cell39": {
+      "type": "text",
+      "label": "NOT ACCEPTED",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 95.7,
+        "width": 66.2,
+        "height": 10.1
+      }
+    },
+    "na": {
+      "type": "checkbox",
+      "label": "Copy",
+      "page": 1,
+      "box": {
+        "left": 39.9,
+        "top": 93.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell124": {
+      "type": "text",
+      "label": "Reason",
+      "page": 1,
+      "box": {
+        "left": 74.9,
+        "top": 65.4,
+        "width": 498.3,
+        "height": 13.7
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 14.4,
+      "editor": "grid",
+      "columns": {
+        "cell1": {
+          "type": "text",
+          "label": "Copy to",
+          "page": 1,
+          "box": {
+            "left": 37.4,
+            "top": 196.5,
+            "width": 175.7,
+            "height": 13.0
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 14.4,
+      "editor": "grid",
+      "columns": {
+        "cell12": {
+          "type": "text",
+          "label": "Copy to",
+          "page": 1,
+          "box": {
+            "left": 37.4,
+            "top": 282.9,
+            "width": 175.7,
+            "height": 13.0
+          }
+        }
+      }
+    }
+  }
+}

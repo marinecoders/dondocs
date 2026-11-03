@@ -1,0 +1,370 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 793
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "lastname1": {
+        "left": 60.6,
+        "top": 683.5,
+        "width": 99.2,
+        "height": 19.8,
+        "type": "text",
+        "description": "Enter the last name of the individual for whom the change is being requested.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "firstname1": {
+        "left": 178.4,
+        "top": 683.5,
+        "width": 99.2,
+        "height": 19.8,
+        "type": "text",
+        "description": "Enter the first name of the individual for whom the change is being requested.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "middleinitial1": {
+        "left": 293.4,
+        "top": 683.5,
+        "width": 38.8,
+        "height": 19.8,
+        "type": "text",
+        "description": "Enter the middle initial of the individual for whom the change is being requested.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rank1": {
+        "left": 346.9,
+        "top": 683.5,
+        "width": 213.3,
+        "height": 19.8,
+        "type": "text",
+        "description": "Enter the rank/rate/and or grade of the individual for whom the change is being requested.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "manpower1": {
+        "left": 57.8,
+        "top": 610.8,
+        "width": 501.8,
+        "height": 43.4,
+        "type": "text",
+        "description": "Enter the nature of manpower/organization change(s) requested\r\n (this form is not a substitute for SF-52 \r\n(request for personnel action) forms required for civilian personnel\r\n changes under FPM supplement 296-33).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "billet1": {
+        "left": 58.3,
+        "top": 532.1,
+        "width": 234.1,
+        "height": 23.1,
+        "type": "text",
+        "description": "Enter the billet/position title of the sender.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "billet2": {
+        "left": 310.1,
+        "top": 532.1,
+        "width": 246.2,
+        "height": 23.1,
+        "type": "text",
+        "description": "Enter the billet/position title of the addressee.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "bsc1": {
+        "left": 109.3,
+        "top": 499.8,
+        "width": 183.1,
+        "height": 16.6,
+        "type": "text",
+        "description": "Enter the BSC/BPC of the sender.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "bsc2": {
+        "left": 361.1,
+        "top": 499.8,
+        "width": 195.2,
+        "height": 16.6,
+        "type": "text",
+        "description": "Enter the BSC/BPC of the addressee.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ncodE": {
+        "left": 98.8,
+        "top": 476.3,
+        "width": 193.6,
+        "height": 16.9,
+        "type": "text",
+        "description": "Enter the N code of the sender.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ncodE2": {
+        "left": 350.6,
+        "top": 476.3,
+        "width": 205.7,
+        "height": 16.9,
+        "type": "text",
+        "description": "Enter the N code of the addressee.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "uic1": {
+        "left": 83.0,
+        "top": 452.9,
+        "width": 209.4,
+        "height": 18.0,
+        "type": "text",
+        "description": "Enter the UIC of the sender.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "uic2": {
+        "left": 334.9,
+        "top": 452.9,
+        "width": 221.4,
+        "height": 18.0,
+        "type": "text",
+        "description": "Enter the UIC of the addressee.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "room1": {
+        "left": 114.5,
+        "top": 428.2,
+        "width": 177.9,
+        "height": 16.6,
+        "type": "text",
+        "description": "Enter the building/ and or room of the sender.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "room2": {
+        "left": 366.4,
+        "top": 428.2,
+        "width": 189.9,
+        "height": 16.6,
+        "type": "text",
+        "description": "Enter the building/ and or room of the addressee.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "telephone": {
+        "left": 112.3,
+        "top": 404.7,
+        "width": 180.1,
+        "height": 16.7,
+        "type": "text",
+        "description": "Enter the telephone number of the sender.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "telephone2": {
+        "left": 364.1,
+        "top": 404.7,
+        "width": 192.2,
+        "height": 16.7,
+        "type": "text",
+        "description": "Enter the telephone number of the addressee.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name1": {
+        "left": 213.0,
+        "top": 378.6,
+        "width": 181.8,
+        "height": 17.4,
+        "type": "text",
+        "description": "Enter the point of contact name for additional information.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "telephone3": {
+        "left": 415.5,
+        "top": 378.6,
+        "width": 141.4,
+        "height": 17.3,
+        "type": "text",
+        "description": "Enter the point of contact phone number to call for additional information.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ncode2": {
+        "left": 213.0,
+        "top": 340.1,
+        "width": 68.6,
+        "height": 18.0,
+        "type": "text",
+        "description": "Enter the N code.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature1": {
+        "left": 292.3,
+        "top": 340.1,
+        "width": 161.0,
+        "height": 18.0,
+        "type": "text",
+        "description": "Type the name and signature of the requesting division director.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dNSDate1": {
+        "left": 462.4,
+        "top": 340.1,
+        "width": 94.4,
+        "height": 17.9,
+        "type": "text",
+        "description": "Enter the date signed using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "requestnumber1": {
+        "left": 399.4,
+        "top": 294.2,
+        "width": 151.6,
+        "height": 19.8,
+        "type": "text",
+        "description": "Enter the request number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "no9b20": {
+        "left": 62.1,
+        "top": 234.9,
+        "width": 99.2,
+        "height": 17.0,
+        "type": "text",
+        "description": "Enter the manpower/organization/resource reviewer for N09B20 to be completed by N09B.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "no9b21": {
+        "left": 186.1,
+        "top": 234.9,
+        "width": 99.2,
+        "height": 17.0,
+        "type": "text",
+        "description": "Enter the manpower/organization/resource reviewer for N09B21 to be completed by N09B.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "no9b23": {
+        "left": 309.2,
+        "top": 234.9,
+        "width": 99.2,
+        "height": 17.0,
+        "type": "text",
+        "description": "Enter the manpower/organization/resource reviewer for N09B23 to be completed by N09B.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "no9bbd": {
+        "left": 433.6,
+        "top": 234.9,
+        "width": 99.2,
+        "height": 17.0,
+        "type": "text",
+        "description": "Enter the manpower/organization/resource reviewer for N09BD to be completed by N09B.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "approved1": {
+        "left": 132.8,
+        "top": 180.3,
+        "width": 168.9,
+        "height": 16.6,
+        "type": "text",
+        "description": "Enter approved by whom.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "disapproved1": {
+        "left": 133.5,
+        "top": 158.0,
+        "width": 168.1,
+        "height": 16.6,
+        "type": "text",
+        "description": "Enter disapproved by whom.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comment1": {
+        "left": 128.2,
+        "top": 135.7,
+        "width": 432.0,
+        "height": 30.2,
+        "type": "text",
+        "description": "Enter the comments if any.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dNSDate2": {
+        "left": 465.9,
+        "top": 98.2,
+        "width": 94.4,
+        "height": 17.9,
+        "type": "text",
+        "description": "Enter the date signed using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature2": {
+        "left": 229.2,
+        "top": 97.1,
+        "width": 189.5,
+        "height": 16.9,
+        "type": "text",
+        "description": "Enter the signature of N09B2.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

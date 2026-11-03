@@ -1,0 +1,901 @@
+{
+  "id": "opnav572013",
+  "label": "OPNAV5720-13 - Media Rider Nominee",
+  "directory": "OPNAV5720-13 - Media Rider Nominee",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "dateFlight",
+        "showSite",
+        "nom1A",
+        "nom1B",
+        "nom1C",
+        "nom1D",
+        "nom2A",
+        "nom2B",
+        "nom2C",
+        "nom2D",
+        "radio",
+        "radio2",
+        "radio3",
+        "radio4",
+        "nom1E",
+        "nom2E",
+        "nom1F",
+        "nom2F",
+        "nom1G",
+        "nom2G",
+        "nom1H",
+        "nom2H",
+        "nom1I",
+        "nom1J",
+        "nom2I",
+        "nom2J",
+        "nom1K",
+        "nom2K",
+        "nom1L",
+        "nom2L",
+        "nom1M",
+        "nom2M",
+        "nom1N",
+        "nom2N",
+        "nom1O",
+        "nom2O",
+        "nom3A",
+        "nom3B",
+        "nom3C",
+        "nom3D",
+        "nom4A",
+        "nom4B",
+        "nom4C",
+        "nom4D",
+        "radio5",
+        "radio6",
+        "radio7",
+        "radio8",
+        "nom3E",
+        "nom4E",
+        "nom3F",
+        "nom4F",
+        "nom3G",
+        "nom4G",
+        "nom3H",
+        "nom4H",
+        "nom3I",
+        "nom3J",
+        "nom4I",
+        "nom4J",
+        "nom3K",
+        "nom4K",
+        "nom3L",
+        "nom4L",
+        "nom3M",
+        "nom4M",
+        "nom3N",
+        "nom4N",
+        "nom3O",
+        "nom4O",
+        "printedName",
+        "pubSig",
+        "dateSigned"
+      ]
+    }
+  ],
+  "fields": {
+    "dateFlight": {
+      "type": "text",
+      "label": "1. Date of Flight",
+      "page": 1,
+      "box": {
+        "left": 101.6,
+        "top": 563.1,
+        "width": 201.6,
+        "height": 10.2
+      }
+    },
+    "showSite": {
+      "type": "text",
+      "label": "2. Show Site",
+      "page": 1,
+      "box": {
+        "left": 358.9,
+        "top": 563.1,
+        "width": 214.4,
+        "height": 10.2
+      }
+    },
+    "nom1A": {
+      "type": "text",
+      "label": "a. Age",
+      "page": 1,
+      "box": {
+        "left": 67.4,
+        "top": 535.7,
+        "width": 18.3,
+        "height": 10.9
+      }
+    },
+    "nom1B": {
+      "type": "text",
+      "label": "a. Age: b. Height",
+      "page": 1,
+      "box": {
+        "left": 127.7,
+        "top": 535.7,
+        "width": 24.3,
+        "height": 10.9
+      }
+    },
+    "nom1C": {
+      "type": "text",
+      "label": "c. Weight",
+      "page": 1,
+      "box": {
+        "left": 196.4,
+        "top": 535.7,
+        "width": 24.7,
+        "height": 10.9
+      }
+    },
+    "nom1D": {
+      "type": "text",
+      "label": "d. Jacket Size",
+      "page": 1,
+      "box": {
+        "left": 281.2,
+        "top": 535.7,
+        "width": 22.0,
+        "height": 10.9
+      }
+    },
+    "nom2A": {
+      "type": "text",
+      "label": "a. Age",
+      "page": 1,
+      "box": {
+        "left": 337.5,
+        "top": 535.7,
+        "width": 18.3,
+        "height": 10.9
+      }
+    },
+    "nom2B": {
+      "type": "text",
+      "label": "a. Age: b. Height",
+      "page": 1,
+      "box": {
+        "left": 397.7,
+        "top": 535.7,
+        "width": 24.3,
+        "height": 10.9
+      }
+    },
+    "nom2C": {
+      "type": "text",
+      "label": "c. Weight",
+      "page": 1,
+      "box": {
+        "left": 467.8,
+        "top": 535.7,
+        "width": 23.4,
+        "height": 10.9
+      }
+    },
+    "nom2D": {
+      "type": "text",
+      "label": "d. Jacket Size",
+      "page": 1,
+      "box": {
+        "left": 551.2,
+        "top": 535.7,
+        "width": 22.0,
+        "height": 10.9
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 75.8,
+        "top": 518.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 214.5,
+        "top": 518.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 345.4,
+        "top": 518.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 481.6,
+        "top": 518.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "nom1E": {
+      "type": "text",
+      "label": "e. Name",
+      "page": 1,
+      "box": {
+        "left": 74.4,
+        "top": 502.6,
+        "width": 228.8,
+        "height": 10.9
+      }
+    },
+    "nom2E": {
+      "type": "text",
+      "label": "e. Name",
+      "page": 1,
+      "box": {
+        "left": 344.4,
+        "top": 502.6,
+        "width": 228.8,
+        "height": 10.9
+      }
+    },
+    "nom1F": {
+      "type": "text",
+      "label": "f. Phone",
+      "page": 1,
+      "box": {
+        "left": 74.4,
+        "top": 486.0,
+        "width": 228.8,
+        "height": 10.9
+      }
+    },
+    "nom2F": {
+      "type": "text",
+      "label": "f. Phone",
+      "page": 1,
+      "box": {
+        "left": 344.4,
+        "top": 486.0,
+        "width": 228.8,
+        "height": 10.9
+      }
+    },
+    "nom1G": {
+      "type": "text",
+      "label": "g. Email",
+      "page": 1,
+      "box": {
+        "left": 74.4,
+        "top": 469.4,
+        "width": 228.8,
+        "height": 10.9
+      }
+    },
+    "nom2G": {
+      "type": "text",
+      "label": "g. Email",
+      "page": 1,
+      "box": {
+        "left": 344.4,
+        "top": 469.4,
+        "width": 228.8,
+        "height": 10.9
+      }
+    },
+    "nom1H": {
+      "type": "text",
+      "label": "h. Affiliation",
+      "page": 1,
+      "box": {
+        "left": 85.6,
+        "top": 452.9,
+        "width": 217.6,
+        "height": 10.9
+      }
+    },
+    "nom2H": {
+      "type": "text",
+      "label": "h. Affiliation",
+      "page": 1,
+      "box": {
+        "left": 355.6,
+        "top": 452.9,
+        "width": 217.6,
+        "height": 10.9
+      }
+    },
+    "nom1I": {
+      "type": "text",
+      "label": "i. City",
+      "page": 1,
+      "box": {
+        "left": 74.4,
+        "top": 436.3,
+        "width": 146.7,
+        "height": 10.9
+      }
+    },
+    "nom1J": {
+      "type": "text",
+      "label": "j. State",
+      "page": 1,
+      "box": {
+        "left": 256.8,
+        "top": 436.3,
+        "width": 46.4,
+        "height": 10.9
+      }
+    },
+    "nom2I": {
+      "type": "text",
+      "label": "i. City",
+      "page": 1,
+      "box": {
+        "left": 344.4,
+        "top": 436.3,
+        "width": 146.7,
+        "height": 10.9
+      }
+    },
+    "nom2J": {
+      "type": "text",
+      "label": "j. State",
+      "page": 1,
+      "box": {
+        "left": 526.8,
+        "top": 436.3,
+        "width": 46.4,
+        "height": 10.9
+      }
+    },
+    "nom1K": {
+      "type": "text",
+      "label": "Size",
+      "page": 1,
+      "box": {
+        "left": 269.1,
+        "top": 419.8,
+        "width": 34.1,
+        "height": 10.9
+      }
+    },
+    "nom2K": {
+      "type": "text",
+      "label": "Size",
+      "page": 1,
+      "box": {
+        "left": 540.5,
+        "top": 419.8,
+        "width": 32.7,
+        "height": 10.9
+      }
+    },
+    "nom1L": {
+      "type": "text",
+      "label": "l. Twitter",
+      "page": 1,
+      "box": {
+        "left": 93.2,
+        "top": 403.2,
+        "width": 210.0,
+        "height": 10.9
+      }
+    },
+    "nom2L": {
+      "type": "text",
+      "label": "l. Twitter",
+      "page": 1,
+      "box": {
+        "left": 363.2,
+        "top": 403.2,
+        "width": 210.0,
+        "height": 10.9
+      }
+    },
+    "nom1M": {
+      "type": "text",
+      "label": "m. Facebook",
+      "page": 1,
+      "box": {
+        "left": 93.2,
+        "top": 386.6,
+        "width": 210.0,
+        "height": 10.9
+      }
+    },
+    "nom2M": {
+      "type": "text",
+      "label": "m. Facebook",
+      "page": 1,
+      "box": {
+        "left": 363.3,
+        "top": 386.6,
+        "width": 210.0,
+        "height": 10.9
+      }
+    },
+    "nom1N": {
+      "type": "text",
+      "label": "n. Instagram",
+      "page": 1,
+      "box": {
+        "left": 93.2,
+        "top": 370.1,
+        "width": 210.0,
+        "height": 10.9
+      }
+    },
+    "nom2N": {
+      "type": "text",
+      "label": "n. Instagram",
+      "page": 1,
+      "box": {
+        "left": 363.3,
+        "top": 370.1,
+        "width": 210.0,
+        "height": 10.9
+      }
+    },
+    "nom1O": {
+      "type": "text",
+      "label": "o. Periscope",
+      "page": 1,
+      "box": {
+        "left": 93.2,
+        "top": 353.5,
+        "width": 210.0,
+        "height": 10.9
+      }
+    },
+    "nom2O": {
+      "type": "text",
+      "label": "o. Periscope",
+      "page": 1,
+      "box": {
+        "left": 363.3,
+        "top": 353.5,
+        "width": 210.0,
+        "height": 10.9
+      }
+    },
+    "nom3A": {
+      "type": "text",
+      "label": "a. Age",
+      "page": 1,
+      "box": {
+        "left": 67.4,
+        "top": 325.4,
+        "width": 18.3,
+        "height": 10.9
+      }
+    },
+    "nom3B": {
+      "type": "text",
+      "label": "a. Age: b. Height",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 325.4,
+        "width": 23.2,
+        "height": 10.9
+      }
+    },
+    "nom3C": {
+      "type": "text",
+      "label": "c. Weight",
+      "page": 1,
+      "box": {
+        "left": 196.3,
+        "top": 325.4,
+        "width": 24.8,
+        "height": 10.9
+      }
+    },
+    "nom3D": {
+      "type": "text",
+      "label": "d. Jacket Size",
+      "page": 1,
+      "box": {
+        "left": 281.2,
+        "top": 325.4,
+        "width": 22.0,
+        "height": 10.9
+      }
+    },
+    "nom4A": {
+      "type": "text",
+      "label": "a. Age",
+      "page": 1,
+      "box": {
+        "left": 337.5,
+        "top": 325.4,
+        "width": 18.3,
+        "height": 10.9
+      }
+    },
+    "nom4B": {
+      "type": "text",
+      "label": "a. Age: b. Height",
+      "page": 1,
+      "box": {
+        "left": 397.7,
+        "top": 325.4,
+        "width": 24.3,
+        "height": 10.9
+      }
+    },
+    "nom4C": {
+      "type": "text",
+      "label": "c. Weight",
+      "page": 1,
+      "box": {
+        "left": 466.3,
+        "top": 325.4,
+        "width": 24.8,
+        "height": 10.9
+      }
+    },
+    "nom4D": {
+      "type": "text",
+      "label": "d. Jacket Size",
+      "page": 1,
+      "box": {
+        "left": 551.2,
+        "top": 325.4,
+        "width": 22.0,
+        "height": 10.9
+      }
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 71.9,
+        "top": 308.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 209.6,
+        "top": 308.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 343.4,
+        "top": 308.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 479.7,
+        "top": 308.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "nom3E": {
+      "type": "text",
+      "label": "e. Name",
+      "page": 1,
+      "box": {
+        "left": 74.4,
+        "top": 292.3,
+        "width": 228.8,
+        "height": 10.9
+      }
+    },
+    "nom4E": {
+      "type": "text",
+      "label": "e. Name",
+      "page": 1,
+      "box": {
+        "left": 343.9,
+        "top": 292.3,
+        "width": 228.3,
+        "height": 10.9
+      }
+    },
+    "nom3F": {
+      "type": "text",
+      "label": "f. Phone",
+      "page": 1,
+      "box": {
+        "left": 74.4,
+        "top": 275.7,
+        "width": 228.8,
+        "height": 10.9
+      }
+    },
+    "nom4F": {
+      "type": "text",
+      "label": "f. Phone",
+      "page": 1,
+      "box": {
+        "left": 343.9,
+        "top": 275.7,
+        "width": 228.3,
+        "height": 10.9
+      }
+    },
+    "nom3G": {
+      "type": "text",
+      "label": "g. Email",
+      "page": 1,
+      "box": {
+        "left": 74.4,
+        "top": 259.2,
+        "width": 228.8,
+        "height": 10.9
+      }
+    },
+    "nom4G": {
+      "type": "text",
+      "label": "g. Email",
+      "page": 1,
+      "box": {
+        "left": 343.9,
+        "top": 259.2,
+        "width": 228.3,
+        "height": 10.9
+      }
+    },
+    "nom3H": {
+      "type": "text",
+      "label": "h. Affiliation",
+      "page": 1,
+      "box": {
+        "left": 85.6,
+        "top": 242.6,
+        "width": 217.6,
+        "height": 10.9
+      }
+    },
+    "nom4H": {
+      "type": "text",
+      "label": "h. Affiliation",
+      "page": 1,
+      "box": {
+        "left": 355.1,
+        "top": 242.6,
+        "width": 217.2,
+        "height": 10.9
+      }
+    },
+    "nom3I": {
+      "type": "text",
+      "label": "i. City",
+      "page": 1,
+      "box": {
+        "left": 74.4,
+        "top": 226.1,
+        "width": 146.7,
+        "height": 10.9
+      }
+    },
+    "nom3J": {
+      "type": "text",
+      "label": "j. State",
+      "page": 1,
+      "box": {
+        "left": 256.8,
+        "top": 226.1,
+        "width": 46.4,
+        "height": 10.9
+      }
+    },
+    "nom4I": {
+      "type": "text",
+      "label": "i. City",
+      "page": 1,
+      "box": {
+        "left": 343.9,
+        "top": 226.1,
+        "width": 146.7,
+        "height": 10.9
+      }
+    },
+    "nom4J": {
+      "type": "text",
+      "label": "j. State",
+      "page": 1,
+      "box": {
+        "left": 526.8,
+        "top": 226.1,
+        "width": 46.4,
+        "height": 10.9
+      }
+    },
+    "nom3K": {
+      "type": "text",
+      "label": "Size",
+      "page": 1,
+      "box": {
+        "left": 269.1,
+        "top": 209.5,
+        "width": 34.1,
+        "height": 10.9
+      }
+    },
+    "nom4K": {
+      "type": "text",
+      "label": "Size",
+      "page": 1,
+      "box": {
+        "left": 540.0,
+        "top": 209.5,
+        "width": 32.2,
+        "height": 10.9
+      }
+    },
+    "nom3L": {
+      "type": "text",
+      "label": "l. Twitter",
+      "page": 1,
+      "box": {
+        "left": 93.2,
+        "top": 192.9,
+        "width": 210.0,
+        "height": 10.9
+      }
+    },
+    "nom4L": {
+      "type": "text",
+      "label": "l. Twitter",
+      "page": 1,
+      "box": {
+        "left": 363.2,
+        "top": 192.9,
+        "width": 210.0,
+        "height": 10.9
+      }
+    },
+    "nom3M": {
+      "type": "text",
+      "label": "m. Facebook",
+      "page": 1,
+      "box": {
+        "left": 93.2,
+        "top": 176.4,
+        "width": 210.0,
+        "height": 10.9
+      }
+    },
+    "nom4M": {
+      "type": "text",
+      "label": "m. Facebook",
+      "page": 1,
+      "box": {
+        "left": 363.3,
+        "top": 176.4,
+        "width": 210.0,
+        "height": 10.9
+      }
+    },
+    "nom3N": {
+      "type": "text",
+      "label": "n. Instagram",
+      "page": 1,
+      "box": {
+        "left": 93.2,
+        "top": 159.8,
+        "width": 210.0,
+        "height": 10.9
+      }
+    },
+    "nom4N": {
+      "type": "text",
+      "label": "n. Instagram",
+      "page": 1,
+      "box": {
+        "left": 363.3,
+        "top": 159.8,
+        "width": 210.0,
+        "height": 10.9
+      }
+    },
+    "nom3O": {
+      "type": "text",
+      "label": "o. Periscope",
+      "page": 1,
+      "box": {
+        "left": 93.2,
+        "top": 143.2,
+        "width": 210.0,
+        "height": 10.9
+      }
+    },
+    "nom4O": {
+      "type": "text",
+      "label": "o. Periscope",
+      "page": 1,
+      "box": {
+        "left": 363.3,
+        "top": 143.2,
+        "width": 210.0,
+        "height": 10.9
+      }
+    },
+    "printedName": {
+      "type": "text",
+      "label": "a. Printed Name",
+      "page": 1,
+      "box": {
+        "left": 102.3,
+        "top": 55.4,
+        "width": 157.7,
+        "height": 16.7
+      }
+    },
+    "pubSig": {
+      "type": "text",
+      "label": "b. Signature",
+      "page": 1,
+      "box": {
+        "left": 313.8,
+        "top": 55.4,
+        "width": 137.0,
+        "height": 16.7
+      }
+    },
+    "dateSigned": {
+      "type": "text",
+      "label": "c. Date",
+      "page": 1,
+      "box": {
+        "left": 501.1,
+        "top": 55.4,
+        "width": 72.1,
+        "height": 16.7
+      }
+    }
+  }
+}

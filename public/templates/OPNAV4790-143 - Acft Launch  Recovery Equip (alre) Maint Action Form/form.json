@@ -1,0 +1,4402 @@
+{
+  "id": "opnav4790143",
+  "label": "OPNAV4790-143 - Acft Launch  Recovery Equip (alre) Maint Action Form",
+  "directory": "OPNAV4790-143 - Acft Launch  Recovery Equip (alre) Maint Action Form",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "nomen1",
+        "partNumber1",
+        "nsn1",
+        "qty1",
+        "dateORD1",
+        "reonNo1",
+        "dateRec1",
+        "nomen2",
+        "partNumber2",
+        "nsn2",
+        "qty2",
+        "dateORD2",
+        "reonNo2",
+        "dateRec2",
+        "nomen3",
+        "partNumber3",
+        "nsn3",
+        "qty3",
+        "dateORD3",
+        "reonNo3",
+        "dateRec3",
+        "nomen4",
+        "partNumber4",
+        "nsn4",
+        "qty4",
+        "dateORD4",
+        "reonNo4",
+        "dateRec4",
+        "nomen5",
+        "partNumber5",
+        "nsn5",
+        "qty5",
+        "dateORD5",
+        "reonNo5",
+        "dateRec5",
+        "tcc",
+        "nomen6",
+        "partNumber6",
+        "nsn6",
+        "qty6",
+        "dateORD6",
+        "reonNo6",
+        "dateRec6",
+        "nomen7",
+        "partNumber7",
+        "nsn7",
+        "qty7",
+        "reonNo7",
+        "dateORD7",
+        "dateRec",
+        "freq",
+        "number",
+        "nomen8",
+        "partNumber8",
+        "nsn8",
+        "qty8",
+        "dateORD8",
+        "reonNo8",
+        "dateRec8",
+        "remarksDesc1",
+        "remarksDesc2",
+        "remarksDesc3",
+        "date",
+        "timeField1",
+        "noPers1",
+        "date3",
+        "tIMEField3",
+        "noPers2",
+        "date5",
+        "tIMEField5",
+        "noPers3",
+        "date2",
+        "tIMEField2",
+        "date4",
+        "tIMEField4",
+        "date6",
+        "tIMEField6",
+        "mH1",
+        "mH2",
+        "mH3",
+        "totalAllEXpended",
+        "jobCompletedBy",
+        "jobInspBy",
+        "brSupv",
+        "maintOff",
+        "jobComplDate",
+        "availScreening",
+        "wnd",
+        "actTkn",
+        "case",
+        "malf",
+        "partNumber",
+        "serialNumber",
+        "pco",
+        "meter",
+        "defAct",
+        "location",
+        "submitOPNAV47902k",
+        "continuationSheet",
+        "submitOPNAV47902k2",
+        "swlin1",
+        "continuationSheet2",
+        "submitOPNAV47902ck",
+        "submitOPNAV47902ck2",
+        "pge1",
+        "pge2",
+        "date7",
+        "uic",
+        "wc",
+        "jsn",
+        "system",
+        "equipmentName",
+        "recordNo",
+        "eic",
+        "safteyTagOut",
+        "no1",
+        "safteyTagOut2"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "nomen9",
+        "partNumber9",
+        "nsn9",
+        "qty9",
+        "dateORD9",
+        "reonNo9",
+        "dateRec9",
+        "nomen10",
+        "partNumber10",
+        "nsn10",
+        "qty10",
+        "dateORD10",
+        "reonNo10",
+        "dateRec10",
+        "nomen11",
+        "partNumber11",
+        "nsn11",
+        "qty11",
+        "dateORD11",
+        "reonNo11",
+        "dateRec11",
+        "nomen12",
+        "partNumber12",
+        "nsn12",
+        "qty12",
+        "dateORD12",
+        "reonNo12",
+        "dateRec12",
+        "nomen13",
+        "partNumber13",
+        "nsn13",
+        "qty13",
+        "dateORD13",
+        "reonNo13",
+        "dateRec13",
+        "tcc1",
+        "nomen14",
+        "partNumber14",
+        "nsn14",
+        "qty14",
+        "dateORD14",
+        "reonNo14",
+        "dateRec14",
+        "nomen15",
+        "partNumber15",
+        "nsn15",
+        "qty15",
+        "reonNo15",
+        "dateORD15",
+        "dateRec15",
+        "freq1",
+        "number1",
+        "nomen16",
+        "partNumber16",
+        "nsn16",
+        "qty16",
+        "dateORD16",
+        "reonNo16",
+        "dateRec16",
+        "remarksDesc4",
+        "remarksDesc5",
+        "remarksDesc6",
+        "date72",
+        "tImeField7",
+        "nOPers4",
+        "date9",
+        "tImeField9",
+        "nOPers5",
+        "date11",
+        "tImeField11",
+        "nOPers6",
+        "timeField12",
+        "date8",
+        "tImeField8",
+        "date10",
+        "tImeField10",
+        "date12",
+        "mH4",
+        "mH5",
+        "mH6",
+        "tOtalAllExpended",
+        "jobCompletedBy1",
+        "jobInspBy1",
+        "brSupv1",
+        "maintOff1",
+        "jobComplDate1",
+        "availScreening1",
+        "wnd1",
+        "actTkn1",
+        "case1",
+        "malf1",
+        "partNumber1Sec1Info",
+        "serialNumber1",
+        "pco1",
+        "meter1",
+        "defAct1",
+        "location1",
+        "submitOPNAV47902k1",
+        "submitOPNAV47902k12",
+        "contuationSheet1",
+        "swlin",
+        "contuationSheet12",
+        "submitOPNAV4790ck1",
+        "submitOPNAV4790ck12",
+        "pGe1",
+        "pGe2",
+        "dAte14",
+        "eic1",
+        "uic1",
+        "wc1",
+        "jsn1",
+        "system1",
+        "equipmentName1",
+        "recordNo1",
+        "safteyTagOut1",
+        "safteyTagOut12",
+        "no2"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "nomen17",
+        "partNumber17",
+        "nsn17",
+        "dateORD17",
+        "reonNo17",
+        "dateRec17",
+        "qty17",
+        "nomen18",
+        "partNumber18",
+        "nsn18",
+        "dateORD18",
+        "reonNo18",
+        "dateRec18",
+        "qty18",
+        "nomen19",
+        "partNumber19",
+        "nsn19",
+        "dateORD19",
+        "reonNo19",
+        "dateRec19",
+        "qty19",
+        "nomen20",
+        "partNumber20",
+        "nsn20",
+        "qty20",
+        "dateORD20",
+        "reonNo20",
+        "dateRec20",
+        "nomen21",
+        "partNumber21",
+        "nsn21",
+        "qty21",
+        "dateORD21",
+        "reonNo21",
+        "dateRec21",
+        "nomen22",
+        "partNumber22",
+        "nsn22",
+        "qty22",
+        "dateORD22",
+        "reonNo22",
+        "dateRec22",
+        "tcc3",
+        "reonNo23",
+        "nomen23",
+        "partNumber23",
+        "nsn23",
+        "qty23",
+        "dateORD23",
+        "dateRec23",
+        "freq2",
+        "number2",
+        "nomen24",
+        "partNumber24",
+        "nsn24",
+        "qty24",
+        "dateORD24",
+        "reonNo24",
+        "dateRec24",
+        "remarksDesc7",
+        "remarksDesc8",
+        "remarksDesc9",
+        "date13",
+        "timeField",
+        "noPers4",
+        "date15",
+        "timeField3",
+        "noPers5",
+        "date17",
+        "timeField5",
+        "noPers6",
+        "timeField6",
+        "timeField4",
+        "date14",
+        "timeField2",
+        "date16",
+        "date18",
+        "mH7",
+        "mH8",
+        "mH9",
+        "totalAllExpended",
+        "jobCompletedBy2",
+        "jobInspBy2",
+        "brSupv2",
+        "maintOff2",
+        "jobComplDate2",
+        "availScreening2",
+        "wnd2",
+        "actTkn2",
+        "case2",
+        "malf2",
+        "partNumber1Sec1Info1",
+        "serialNumber2",
+        "pco2",
+        "meter2",
+        "defAct2",
+        "location2",
+        "submitOPNAV47902k3",
+        "submitOPNAV47902k32",
+        "contuationSheet2",
+        "swlin2",
+        "submitOPNAV4790ck3",
+        "submitOPNAV4790ck32",
+        "contuationSheet22",
+        "pge12",
+        "pge22",
+        "date21",
+        "uic2",
+        "wc2",
+        "jsn2",
+        "system2",
+        "equipmentName2",
+        "recordNo2",
+        "eic2",
+        "no3",
+        "safteyTagOut3",
+        "safteyTagOut32"
+      ]
+    }
+  ],
+  "fields": {
+    "nomen1": {
+      "type": "text",
+      "label": "This is row 1 of 8.  Enter the NOMEN.",
+      "page": 1,
+      "box": {
+        "left": 33.3,
+        "top": 696.3,
+        "width": 64.0,
+        "height": 10.5
+      }
+    },
+    "partNumber1": {
+      "type": "text",
+      "label": "Enter the part number.",
+      "page": 1,
+      "box": {
+        "left": 99.0,
+        "top": 696.3,
+        "width": 80.2,
+        "height": 10.5
+      }
+    },
+    "nsn1": {
+      "type": "text",
+      "label": "Enter the NSN.",
+      "page": 1,
+      "box": {
+        "left": 180.7,
+        "top": 696.3,
+        "width": 79.4,
+        "height": 10.5
+      }
+    },
+    "qty1": {
+      "type": "text",
+      "label": "Enter the QTY.",
+      "page": 1,
+      "box": {
+        "left": 261.6,
+        "top": 696.3,
+        "width": 43.7,
+        "height": 10.5
+      }
+    },
+    "dateORD1": {
+      "type": "text",
+      "label": "Enter the date ORD, using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 307.8,
+        "top": 696.3,
+        "width": 49.4,
+        "height": 10.5
+      }
+    },
+    "reonNo1": {
+      "type": "text",
+      "label": "Enter the REQN number.",
+      "page": 1,
+      "box": {
+        "left": 360.3,
+        "top": 696.3,
+        "width": 34.8,
+        "height": 10.5
+      }
+    },
+    "dateRec1": {
+      "type": "text",
+      "label": "Enter the date received, using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 396.8,
+        "top": 696.3,
+        "width": 51.4,
+        "height": 10.5
+      }
+    },
+    "nomen2": {
+      "type": "text",
+      "label": "This is row 2 of 8.  Enter the NOMEN.",
+      "page": 1,
+      "box": {
+        "left": 33.3,
+        "top": 685.1,
+        "width": 64.0,
+        "height": 10.5
+      }
+    },
+    "partNumber2": {
+      "type": "text",
+      "label": "Enter the part number.",
+      "page": 1,
+      "box": {
+        "left": 99.0,
+        "top": 685.1,
+        "width": 80.2,
+        "height": 10.5
+      }
+    },
+    "nsn2": {
+      "type": "text",
+      "label": "Enter the NSN.",
+      "page": 1,
+      "box": {
+        "left": 180.7,
+        "top": 685.1,
+        "width": 79.4,
+        "height": 10.5
+      }
+    },
+    "qty2": {
+      "type": "text",
+      "label": "Enter the QTY.",
+      "page": 1,
+      "box": {
+        "left": 261.6,
+        "top": 685.1,
+        "width": 43.7,
+        "height": 10.5
+      }
+    },
+    "dateORD2": {
+      "type": "text",
+      "label": "Enter the date ORD, using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 307.8,
+        "top": 685.1,
+        "width": 49.4,
+        "height": 10.5
+      }
+    },
+    "reonNo2": {
+      "type": "text",
+      "label": "Enter the REQN number.",
+      "page": 1,
+      "box": {
+        "left": 360.3,
+        "top": 685.1,
+        "width": 34.8,
+        "height": 10.5
+      }
+    },
+    "dateRec2": {
+      "type": "text",
+      "label": "Enter the date received, using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 396.8,
+        "top": 685.1,
+        "width": 51.4,
+        "height": 10.5
+      }
+    },
+    "nomen3": {
+      "type": "text",
+      "label": "This is row 3 of 8.  Enter the NOMEN.",
+      "page": 1,
+      "box": {
+        "left": 33.3,
+        "top": 673.8,
+        "width": 64.0,
+        "height": 10.5
+      }
+    },
+    "partNumber3": {
+      "type": "text",
+      "label": "Enter the part number.",
+      "page": 1,
+      "box": {
+        "left": 99.0,
+        "top": 673.8,
+        "width": 80.2,
+        "height": 10.5
+      }
+    },
+    "nsn3": {
+      "type": "text",
+      "label": "Enter the NSN.",
+      "page": 1,
+      "box": {
+        "left": 180.7,
+        "top": 673.8,
+        "width": 79.4,
+        "height": 10.5
+      }
+    },
+    "qty3": {
+      "type": "text",
+      "label": "Enter the QTY.",
+      "page": 1,
+      "box": {
+        "left": 261.6,
+        "top": 673.8,
+        "width": 43.7,
+        "height": 10.5
+      }
+    },
+    "dateORD3": {
+      "type": "text",
+      "label": "Enter the date ORD, using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 307.8,
+        "top": 673.8,
+        "width": 49.4,
+        "height": 10.5
+      }
+    },
+    "reonNo3": {
+      "type": "text",
+      "label": "Enter the REQN number.",
+      "page": 1,
+      "box": {
+        "left": 360.3,
+        "top": 673.8,
+        "width": 34.8,
+        "height": 10.5
+      }
+    },
+    "dateRec3": {
+      "type": "text",
+      "label": "Enter the date received, using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 396.8,
+        "top": 673.8,
+        "width": 51.4,
+        "height": 10.5
+      }
+    },
+    "nomen4": {
+      "type": "text",
+      "label": "This is row 4 of 8.  Enter the NOMEN.",
+      "page": 1,
+      "box": {
+        "left": 33.3,
+        "top": 662.2,
+        "width": 64.0,
+        "height": 10.5
+      }
+    },
+    "partNumber4": {
+      "type": "text",
+      "label": "Enter the part number.",
+      "page": 1,
+      "box": {
+        "left": 99.0,
+        "top": 662.2,
+        "width": 80.2,
+        "height": 10.5
+      }
+    },
+    "nsn4": {
+      "type": "text",
+      "label": "Enter the NSN.",
+      "page": 1,
+      "box": {
+        "left": 180.7,
+        "top": 662.2,
+        "width": 79.4,
+        "height": 10.5
+      }
+    },
+    "qty4": {
+      "type": "text",
+      "label": "Enter the QTY.",
+      "page": 1,
+      "box": {
+        "left": 261.6,
+        "top": 662.2,
+        "width": 43.7,
+        "height": 10.5
+      }
+    },
+    "dateORD4": {
+      "type": "text",
+      "label": "Enter the date ORD, using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 307.8,
+        "top": 662.2,
+        "width": 49.4,
+        "height": 10.5
+      }
+    },
+    "reonNo4": {
+      "type": "text",
+      "label": "Enter the REQN number.",
+      "page": 1,
+      "box": {
+        "left": 360.3,
+        "top": 662.2,
+        "width": 34.8,
+        "height": 10.5
+      }
+    },
+    "dateRec4": {
+      "type": "text",
+      "label": "Enter the date received, using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 396.8,
+        "top": 662.2,
+        "width": 51.4,
+        "height": 10.5
+      }
+    },
+    "nomen5": {
+      "type": "text",
+      "label": "This is row 5 of 8.  Enter the NOMEN.",
+      "page": 1,
+      "box": {
+        "left": 33.3,
+        "top": 651.0,
+        "width": 64.0,
+        "height": 10.5
+      }
+    },
+    "partNumber5": {
+      "type": "text",
+      "label": "Enter the part number.",
+      "page": 1,
+      "box": {
+        "left": 99.0,
+        "top": 651.0,
+        "width": 80.2,
+        "height": 10.5
+      }
+    },
+    "nsn5": {
+      "type": "text",
+      "label": "Enter the NSN.",
+      "page": 1,
+      "box": {
+        "left": 180.7,
+        "top": 651.0,
+        "width": 79.4,
+        "height": 10.5
+      }
+    },
+    "qty5": {
+      "type": "text",
+      "label": "Enter the QTY.",
+      "page": 1,
+      "box": {
+        "left": 261.6,
+        "top": 651.0,
+        "width": 43.7,
+        "height": 10.5
+      }
+    },
+    "dateORD5": {
+      "type": "text",
+      "label": "Enter the date ORD, using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 307.8,
+        "top": 651.0,
+        "width": 49.4,
+        "height": 10.5
+      }
+    },
+    "reonNo5": {
+      "type": "text",
+      "label": "Enter the REQN number.",
+      "page": 1,
+      "box": {
+        "left": 360.3,
+        "top": 651.0,
+        "width": 34.8,
+        "height": 10.5
+      }
+    },
+    "dateRec5": {
+      "type": "text",
+      "label": "Enter the date received, using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 396.8,
+        "top": 651.0,
+        "width": 51.4,
+        "height": 10.5
+      }
+    },
+    "tcc": {
+      "type": "text",
+      "label": "Indicate if tool control is complete.",
+      "page": 1,
+      "box": {
+        "left": 541.2,
+        "top": 639.5,
+        "width": 33.7,
+        "height": 10.4
+      }
+    },
+    "nomen6": {
+      "type": "text",
+      "label": "This is row 6 of 8.  Enter the NOMEN.",
+      "page": 1,
+      "box": {
+        "left": 33.3,
+        "top": 638.9,
+        "width": 64.0,
+        "height": 9.0
+      }
+    },
+    "partNumber6": {
+      "type": "text",
+      "label": "Enter the part number.",
+      "page": 1,
+      "box": {
+        "left": 99.0,
+        "top": 638.9,
+        "width": 80.2,
+        "height": 9.0
+      }
+    },
+    "nsn6": {
+      "type": "text",
+      "label": "Enter the NSN.",
+      "page": 1,
+      "box": {
+        "left": 180.7,
+        "top": 638.9,
+        "width": 79.4,
+        "height": 9.0
+      }
+    },
+    "qty6": {
+      "type": "text",
+      "label": "Enter the QTY.",
+      "page": 1,
+      "box": {
+        "left": 261.6,
+        "top": 638.9,
+        "width": 43.7,
+        "height": 9.0
+      }
+    },
+    "dateORD6": {
+      "type": "text",
+      "label": "Enter the date ORD, using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 307.8,
+        "top": 638.9,
+        "width": 49.4,
+        "height": 9.0
+      }
+    },
+    "reonNo6": {
+      "type": "text",
+      "label": "Enter the REQN number.",
+      "page": 1,
+      "box": {
+        "left": 360.3,
+        "top": 638.9,
+        "width": 34.8,
+        "height": 9.0
+      }
+    },
+    "dateRec6": {
+      "type": "text",
+      "label": "Enter the date received, using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 396.8,
+        "top": 638.9,
+        "width": 51.4,
+        "height": 9.0
+      }
+    },
+    "nomen7": {
+      "type": "text",
+      "label": "This is row 7 of 8.  Enter the NOMEN.",
+      "page": 1,
+      "box": {
+        "left": 33.1,
+        "top": 627.7,
+        "width": 64.0,
+        "height": 9.0
+      }
+    },
+    "partNumber7": {
+      "type": "text",
+      "label": "Enter the part number.",
+      "page": 1,
+      "box": {
+        "left": 98.8,
+        "top": 627.7,
+        "width": 80.2,
+        "height": 9.0
+      }
+    },
+    "nsn7": {
+      "type": "text",
+      "label": "Enter the NSN.",
+      "page": 1,
+      "box": {
+        "left": 180.4,
+        "top": 627.7,
+        "width": 79.4,
+        "height": 9.0
+      }
+    },
+    "qty7": {
+      "type": "text",
+      "label": "Enter the QTY.",
+      "page": 1,
+      "box": {
+        "left": 261.4,
+        "top": 627.7,
+        "width": 43.7,
+        "height": 9.0
+      }
+    },
+    "reonNo7": {
+      "type": "text",
+      "label": "Enter the REQN number.",
+      "page": 1,
+      "box": {
+        "left": 360.1,
+        "top": 627.7,
+        "width": 34.8,
+        "height": 9.0
+      }
+    },
+    "dateORD7": {
+      "type": "text",
+      "label": "Enter the date ORD, using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 307.8,
+        "top": 627.4,
+        "width": 49.4,
+        "height": 8.1
+      }
+    },
+    "dateRec": {
+      "type": "text",
+      "label": "Enter the date received, using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 396.8,
+        "top": 627.4,
+        "width": 51.4,
+        "height": 8.1
+      }
+    },
+    "freq": {
+      "type": "text",
+      "label": "Enter the FREQ.",
+      "page": 1,
+      "box": {
+        "left": 480.4,
+        "top": 618.9,
+        "width": 36.4,
+        "height": 10.5
+      }
+    },
+    "number": {
+      "type": "text",
+      "label": "Enter the number.",
+      "page": 1,
+      "box": {
+        "left": 537.8,
+        "top": 618.9,
+        "width": 36.4,
+        "height": 10.5
+      }
+    },
+    "nomen8": {
+      "type": "text",
+      "label": "This is row 8 of 8.  Enter the NOMEN.",
+      "page": 1,
+      "box": {
+        "left": 33.3,
+        "top": 617.8,
+        "width": 64.0,
+        "height": 10.5
+      }
+    },
+    "partNumber8": {
+      "type": "text",
+      "label": "Enter the part number.",
+      "page": 1,
+      "box": {
+        "left": 99.0,
+        "top": 617.8,
+        "width": 80.2,
+        "height": 10.5
+      }
+    },
+    "nsn8": {
+      "type": "text",
+      "label": "Enter the NSN.",
+      "page": 1,
+      "box": {
+        "left": 180.7,
+        "top": 617.8,
+        "width": 79.4,
+        "height": 10.5
+      }
+    },
+    "qty8": {
+      "type": "text",
+      "label": "Enter the QTY.",
+      "page": 1,
+      "box": {
+        "left": 261.6,
+        "top": 617.8,
+        "width": 43.7,
+        "height": 10.5
+      }
+    },
+    "dateORD8": {
+      "type": "text",
+      "label": "Enter the date ORD, using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 307.8,
+        "top": 617.8,
+        "width": 49.4,
+        "height": 10.5
+      }
+    },
+    "reonNo8": {
+      "type": "text",
+      "label": "Enter the REQN number.",
+      "page": 1,
+      "box": {
+        "left": 360.3,
+        "top": 617.8,
+        "width": 34.8,
+        "height": 10.5
+      }
+    },
+    "dateRec8": {
+      "type": "text",
+      "label": "Enter the date received, using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 396.8,
+        "top": 617.8,
+        "width": 51.4,
+        "height": 10.5
+      }
+    },
+    "remarksDesc1": {
+      "type": "text",
+      "label": "Enter remarks and/or description for addional information and/or reading.",
+      "page": 1,
+      "box": {
+        "left": 37.8,
+        "top": 578.4,
+        "width": 535.6,
+        "height": 76.4
+      },
+      "multiline": true
+    },
+    "remarksDesc2": {
+      "type": "text",
+      "label": "Enter remarks and/or description for job description (4790/2K summary).",
+      "page": 1,
+      "box": {
+        "left": 37.8,
+        "top": 476.6,
+        "width": 535.6,
+        "height": 66.8
+      },
+      "multiline": true
+    },
+    "remarksDesc3": {
+      "type": "text",
+      "label": "Enter remarks and/or description for corrective action.",
+      "page": 1,
+      "box": {
+        "left": 37.8,
+        "top": 383.3,
+        "width": 535.6,
+        "height": 75.8
+      },
+      "multiline": true
+    },
+    "date": {
+      "type": "text",
+      "label": "Enter the date started, using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 87.3,
+        "top": 280.3,
+        "width": 49.4,
+        "height": 17.9
+      }
+    },
+    "timeField1": {
+      "type": "text",
+      "label": "Enter the time started using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 140.1,
+        "top": 280.3,
+        "width": 43.9,
+        "height": 17.9
+      }
+    },
+    "noPers1": {
+      "type": "text",
+      "label": "Enter the start no pers.",
+      "page": 1,
+      "box": {
+        "left": 187.6,
+        "top": 280.3,
+        "width": 37.0,
+        "height": 17.9
+      }
+    },
+    "date3": {
+      "type": "text",
+      "label": "Enter the date started, using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 227.3,
+        "top": 280.3,
+        "width": 49.4,
+        "height": 17.9
+      }
+    },
+    "tIMEField3": {
+      "type": "text",
+      "label": "Enter the time started using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 279.0,
+        "top": 280.3,
+        "width": 35.1,
+        "height": 17.9
+      }
+    },
+    "noPers2": {
+      "type": "text",
+      "label": "Enter the start no pers.",
+      "page": 1,
+      "box": {
+        "left": 316.8,
+        "top": 280.3,
+        "width": 39.8,
+        "height": 17.9
+      }
+    },
+    "date5": {
+      "type": "text",
+      "label": "Enter the date started, using the format DD MMM YYYY.  ",
+      "page": 1,
+      "box": {
+        "left": 359.0,
+        "top": 280.3,
+        "width": 49.4,
+        "height": 17.9
+      }
+    },
+    "tIMEField5": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 410.7,
+        "top": 280.3,
+        "width": 35.6,
+        "height": 17.9
+      }
+    },
+    "noPers3": {
+      "type": "text",
+      "label": "Enter the start no pers.",
+      "page": 1,
+      "box": {
+        "left": 449.0,
+        "top": 280.3,
+        "width": 39.8,
+        "height": 17.9
+      }
+    },
+    "date2": {
+      "type": "text",
+      "label": "Enter the date stopped, using the format DD MMM YYYY. ",
+      "page": 1,
+      "box": {
+        "left": 87.3,
+        "top": 258.4,
+        "width": 49.4,
+        "height": 18.4
+      }
+    },
+    "tIMEField2": {
+      "type": "text",
+      "label": "Enter the time stopped, using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 140.1,
+        "top": 258.4,
+        "width": 43.9,
+        "height": 18.4
+      }
+    },
+    "date4": {
+      "type": "text",
+      "label": "Enter the date stopped, using the format DD MMM YYYY. ",
+      "page": 1,
+      "box": {
+        "left": 227.3,
+        "top": 258.4,
+        "width": 49.4,
+        "height": 18.4
+      }
+    },
+    "tIMEField4": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 279.0,
+        "top": 258.4,
+        "width": 35.1,
+        "height": 18.4
+      }
+    },
+    "date6": {
+      "type": "text",
+      "label": "Enter the date stopped, using the format DD MMM YYYY.  ",
+      "page": 1,
+      "box": {
+        "left": 359.0,
+        "top": 258.4,
+        "width": 49.4,
+        "height": 18.4
+      }
+    },
+    "tIMEField6": {
+      "type": "text",
+      "label": "Enter the time stopped, using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 410.7,
+        "top": 258.4,
+        "width": 35.6,
+        "height": 18.4
+      }
+    },
+    "mH1": {
+      "type": "text",
+      "label": "Enter the stop no pers (M/H).",
+      "page": 1,
+      "box": {
+        "left": 187.6,
+        "top": 253.3,
+        "width": 37.0,
+        "height": 13.2
+      }
+    },
+    "mH2": {
+      "type": "text",
+      "label": "Enter the stop no pers (M/H).",
+      "page": 1,
+      "box": {
+        "left": 316.8,
+        "top": 253.3,
+        "width": 39.8,
+        "height": 13.2
+      }
+    },
+    "mH3": {
+      "type": "text",
+      "label": "Enter the stop no pers (M/H).",
+      "page": 1,
+      "box": {
+        "left": 449.0,
+        "top": 253.3,
+        "width": 39.8,
+        "height": 13.2
+      }
+    },
+    "totalAllEXpended": {
+      "type": "text",
+      "label": "Enter the total all M/H expended.",
+      "page": 1,
+      "box": {
+        "left": 493.2,
+        "top": 253.3,
+        "width": 81.1,
+        "height": 13.2
+      }
+    },
+    "jobCompletedBy": {
+      "type": "text",
+      "label": "Enter who the job was completed by.",
+      "page": 1,
+      "box": {
+        "left": 33.3,
+        "top": 213.4,
+        "width": 102.8,
+        "height": 17.3
+      }
+    },
+    "jobInspBy": {
+      "type": "text",
+      "label": "Enter who inspected the job.",
+      "page": 1,
+      "box": {
+        "left": 140.2,
+        "top": 213.4,
+        "width": 84.2,
+        "height": 17.3
+      }
+    },
+    "brSupv": {
+      "type": "text",
+      "label": "Enter who the br supervisor was.",
+      "page": 1,
+      "box": {
+        "left": 226.8,
+        "top": 213.4,
+        "width": 86.5,
+        "height": 17.3
+      }
+    },
+    "maintOff": {
+      "type": "text",
+      "label": "Enter the maintenance off.",
+      "page": 1,
+      "box": {
+        "left": 316.2,
+        "top": 213.4,
+        "width": 84.8,
+        "height": 17.3
+      }
+    },
+    "jobComplDate": {
+      "type": "text",
+      "label": "Enter the job completion date, using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 404.5,
+        "top": 213.4,
+        "width": 84.2,
+        "height": 17.3
+      }
+    },
+    "availScreening": {
+      "type": "text",
+      "label": "Enter the AVAIL screening.",
+      "page": 1,
+      "box": {
+        "left": 492.3,
+        "top": 213.4,
+        "width": 82.0,
+        "height": 17.3
+      }
+    },
+    "wnd": {
+      "type": "text",
+      "label": "Enter the WND.",
+      "page": 1,
+      "box": {
+        "left": 33.3,
+        "top": 170.1,
+        "width": 42.0,
+        "height": 21.8
+      }
+    },
+    "actTkn": {
+      "type": "text",
+      "label": "Enter the action taken.",
+      "page": 1,
+      "box": {
+        "left": 78.3,
+        "top": 170.1,
+        "width": 42.6,
+        "height": 21.8
+      }
+    },
+    "case": {
+      "type": "text",
+      "label": "Enter the CAS.",
+      "page": 1,
+      "box": {
+        "left": 123.3,
+        "top": 170.1,
+        "width": 41.5,
+        "height": 21.8
+      }
+    },
+    "malf": {
+      "type": "text",
+      "label": "Enter the MALF.",
+      "page": 1,
+      "box": {
+        "left": 166.0,
+        "top": 170.1,
+        "width": 40.4,
+        "height": 21.8
+      }
+    },
+    "partNumber": {
+      "type": "text",
+      "label": "Enter the part number.",
+      "page": 1,
+      "box": {
+        "left": 208.8,
+        "top": 170.1,
+        "width": 116.9,
+        "height": 21.8
+      }
+    },
+    "serialNumber": {
+      "type": "text",
+      "label": "Enter the serial number.",
+      "page": 1,
+      "box": {
+        "left": 330.3,
+        "top": 170.1,
+        "width": 49.9,
+        "height": 21.8
+      }
+    },
+    "pco": {
+      "type": "text",
+      "label": "Enter the P/C/O.",
+      "page": 1,
+      "box": {
+        "left": 383.2,
+        "top": 170.1,
+        "width": 38.1,
+        "height": 21.8
+      }
+    },
+    "meter": {
+      "type": "text",
+      "label": "Enter the meter.",
+      "page": 1,
+      "box": {
+        "left": 424.2,
+        "top": 170.1,
+        "width": 39.2,
+        "height": 21.8
+      }
+    },
+    "defAct": {
+      "type": "text",
+      "label": "Enter the def act.",
+      "page": 1,
+      "box": {
+        "left": 465.8,
+        "top": 170.1,
+        "width": 41.5,
+        "height": 21.8
+      }
+    },
+    "location": {
+      "type": "text",
+      "label": "Enter the location.",
+      "page": 1,
+      "box": {
+        "left": 510.3,
+        "top": 170.1,
+        "width": 64.0,
+        "height": 21.8
+      }
+    },
+    "submitOPNAV47902k": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 304.9,
+        "top": 142.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_SubmitOPNAV47902k_0"
+    },
+    "continuationSheet": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 492.1,
+        "top": 142.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_ContinuationSheet_0"
+    },
+    "submitOPNAV47902k2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 343.1,
+        "top": 142.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_SubmitOPNAV47902k_0"
+    },
+    "swlin1": {
+      "type": "text",
+      "label": "Enter the SWLIN",
+      "page": 1,
+      "box": {
+        "left": 34.4,
+        "top": 132.4,
+        "width": 169.8,
+        "height": 17.3
+      }
+    },
+    "continuationSheet2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 492.1,
+        "top": 128.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_ContinuationSheet_0"
+    },
+    "submitOPNAV47902ck": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 304.9,
+        "top": 127.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_SubmitOPNAV47902ck_0"
+    },
+    "submitOPNAV47902ck2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 343.1,
+        "top": 127.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_SubmitOPNAV47902ck_0"
+    },
+    "pge1": {
+      "type": "text",
+      "label": "Enter the current page number.",
+      "page": 1,
+      "box": {
+        "left": 483.3,
+        "top": 112.7,
+        "width": 32.5,
+        "height": 10.0
+      }
+    },
+    "pge2": {
+      "type": "text",
+      "label": "Enter the total number of pages.",
+      "page": 1,
+      "box": {
+        "left": 528.8,
+        "top": 112.7,
+        "width": 32.5,
+        "height": 10.0
+      }
+    },
+    "date7": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 33.3,
+        "top": 89.1,
+        "width": 51.6,
+        "height": 22.4
+      }
+    },
+    "uic": {
+      "type": "text",
+      "label": "Enter the UIC.",
+      "page": 1,
+      "box": {
+        "left": 87.3,
+        "top": 88.5,
+        "width": 42.0,
+        "height": 21.8
+      }
+    },
+    "wc": {
+      "type": "text",
+      "label": "Enter the W/C.",
+      "page": 1,
+      "box": {
+        "left": 132.3,
+        "top": 88.5,
+        "width": 40.4,
+        "height": 21.8
+      }
+    },
+    "jsn": {
+      "type": "text",
+      "label": "Enter the JSN.",
+      "page": 1,
+      "box": {
+        "left": 176.2,
+        "top": 88.5,
+        "width": 37.0,
+        "height": 21.8
+      }
+    },
+    "system": {
+      "type": "text",
+      "label": "Enter the system.",
+      "page": 1,
+      "box": {
+        "left": 215.5,
+        "top": 88.5,
+        "width": 38.1,
+        "height": 21.8
+      }
+    },
+    "equipmentName": {
+      "type": "text",
+      "label": "Enter the equipment name.",
+      "page": 1,
+      "box": {
+        "left": 257.1,
+        "top": 88.5,
+        "width": 104.5,
+        "height": 21.8
+      }
+    },
+    "recordNo": {
+      "type": "text",
+      "label": "Enter the record number.",
+      "page": 1,
+      "box": {
+        "left": 365.2,
+        "top": 88.0,
+        "width": 56.1,
+        "height": 21.8
+      }
+    },
+    "eic": {
+      "type": "text",
+      "label": "Enter the EIC.",
+      "page": 1,
+      "box": {
+        "left": 424.2,
+        "top": 88.0,
+        "width": 52.2,
+        "height": 21.8
+      }
+    },
+    "safteyTagOut": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 518.8,
+        "top": 81.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_SafteyTagOut_0"
+    },
+    "no1": {
+      "type": "text",
+      "label": "Enter the saftey tag out number.",
+      "page": 1,
+      "box": {
+        "left": 546.2,
+        "top": 81.0,
+        "width": 17.9,
+        "height": 10.5
+      }
+    },
+    "safteyTagOut2": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 492.3,
+        "top": 80.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_SafteyTagOut_0"
+    },
+    "nomen9": {
+      "type": "text",
+      "label": "This is row 1 of 8.  Enter the NOMEN.",
+      "page": 2,
+      "box": {
+        "left": 34.1,
+        "top": 696.8,
+        "width": 64.9,
+        "height": 10.5
+      }
+    },
+    "partNumber9": {
+      "type": "text",
+      "label": "Enter the part number.",
+      "page": 2,
+      "box": {
+        "left": 101.6,
+        "top": 696.8,
+        "width": 82.7,
+        "height": 10.5
+      }
+    },
+    "nsn9": {
+      "type": "text",
+      "label": "Enter the NSN.",
+      "page": 2,
+      "box": {
+        "left": 186.8,
+        "top": 696.8,
+        "width": 83.2,
+        "height": 10.5
+      }
+    },
+    "qty9": {
+      "type": "text",
+      "label": "Enter the QTY.",
+      "page": 2,
+      "box": {
+        "left": 272.3,
+        "top": 696.8,
+        "width": 30.5,
+        "height": 10.5
+      }
+    },
+    "dateORD9": {
+      "type": "text",
+      "label": "Enter the date ORD, using the format DD MMM YYYY.",
+      "page": 2,
+      "box": {
+        "left": 305.5,
+        "top": 696.8,
+        "width": 52.2,
+        "height": 10.5
+      }
+    },
+    "reonNo9": {
+      "type": "text",
+      "label": "Enter the REQN number.",
+      "page": 2,
+      "box": {
+        "left": 361.2,
+        "top": 696.8,
+        "width": 34.3,
+        "height": 10.5
+      }
+    },
+    "dateRec9": {
+      "type": "text",
+      "label": "Enter the date received, using the format DD MMM YYYY.",
+      "page": 2,
+      "box": {
+        "left": 397.9,
+        "top": 696.8,
+        "width": 53.7,
+        "height": 10.5
+      }
+    },
+    "nomen10": {
+      "type": "text",
+      "label": "This is row 2 of 8.  Enter the NOMEN.",
+      "page": 2,
+      "box": {
+        "left": 34.1,
+        "top": 685.6,
+        "width": 64.9,
+        "height": 10.5
+      }
+    },
+    "partNumber10": {
+      "type": "text",
+      "label": "Enter the part number.",
+      "page": 2,
+      "box": {
+        "left": 101.6,
+        "top": 685.6,
+        "width": 82.7,
+        "height": 10.5
+      }
+    },
+    "nsn10": {
+      "type": "text",
+      "label": "Enter the NSN.",
+      "page": 2,
+      "box": {
+        "left": 186.8,
+        "top": 685.6,
+        "width": 83.2,
+        "height": 10.5
+      }
+    },
+    "qty10": {
+      "type": "text",
+      "label": "Enter the QTY.",
+      "page": 2,
+      "box": {
+        "left": 272.3,
+        "top": 685.6,
+        "width": 30.5,
+        "height": 10.5
+      }
+    },
+    "dateORD10": {
+      "type": "text",
+      "label": "Enter the date ORD, using the format DD MMM YYYY.",
+      "page": 2,
+      "box": {
+        "left": 305.5,
+        "top": 685.6,
+        "width": 52.2,
+        "height": 10.5
+      }
+    },
+    "reonNo10": {
+      "type": "text",
+      "label": "Enter the REQN number.",
+      "page": 2,
+      "box": {
+        "left": 361.2,
+        "top": 685.6,
+        "width": 34.3,
+        "height": 10.5
+      }
+    },
+    "dateRec10": {
+      "type": "text",
+      "label": "Enter the date received, using the format DD MMM YYYY.",
+      "page": 2,
+      "box": {
+        "left": 397.9,
+        "top": 685.6,
+        "width": 53.7,
+        "height": 10.5
+      }
+    },
+    "nomen11": {
+      "type": "text",
+      "label": "This is row 3 of 8.  Enter the NOMEN.",
+      "page": 2,
+      "box": {
+        "left": 34.1,
+        "top": 674.3,
+        "width": 64.9,
+        "height": 10.5
+      }
+    },
+    "partNumber11": {
+      "type": "text",
+      "label": "Enter the part number.",
+      "page": 2,
+      "box": {
+        "left": 101.6,
+        "top": 674.3,
+        "width": 82.7,
+        "height": 10.5
+      }
+    },
+    "nsn11": {
+      "type": "text",
+      "label": "Enter the NSN.",
+      "page": 2,
+      "box": {
+        "left": 186.8,
+        "top": 674.3,
+        "width": 83.2,
+        "height": 10.5
+      }
+    },
+    "qty11": {
+      "type": "text",
+      "label": "Enter the QTY.",
+      "page": 2,
+      "box": {
+        "left": 272.3,
+        "top": 674.3,
+        "width": 30.5,
+        "height": 10.5
+      }
+    },
+    "dateORD11": {
+      "type": "text",
+      "label": "Enter the date ORD, using the format DD MMM YYYY.",
+      "page": 2,
+      "box": {
+        "left": 305.5,
+        "top": 674.3,
+        "width": 52.2,
+        "height": 10.5
+      }
+    },
+    "reonNo11": {
+      "type": "text",
+      "label": "Enter the REQN number.",
+      "page": 2,
+      "box": {
+        "left": 361.2,
+        "top": 674.3,
+        "width": 34.3,
+        "height": 10.5
+      }
+    },
+    "dateRec11": {
+      "type": "text",
+      "label": "Enter the date received, using the format DD MMM YYYY.",
+      "page": 2,
+      "box": {
+        "left": 397.9,
+        "top": 674.3,
+        "width": 53.7,
+        "height": 10.5
+      }
+    },
+    "nomen12": {
+      "type": "text",
+      "label": "This is row 4 of 8.  Enter the NOMEN.",
+      "page": 2,
+      "box": {
+        "left": 34.1,
+        "top": 662.5,
+        "width": 64.9,
+        "height": 10.5
+      }
+    },
+    "partNumber12": {
+      "type": "text",
+      "label": "Enter the part number.",
+      "page": 2,
+      "box": {
+        "left": 101.6,
+        "top": 662.5,
+        "width": 82.7,
+        "height": 10.5
+      }
+    },
+    "nsn12": {
+      "type": "text",
+      "label": "Enter the NSN.",
+      "page": 2,
+      "box": {
+        "left": 186.8,
+        "top": 662.5,
+        "width": 83.2,
+        "height": 10.5
+      }
+    },
+    "qty12": {
+      "type": "text",
+      "label": "Enter the QTY.",
+      "page": 2,
+      "box": {
+        "left": 272.3,
+        "top": 662.5,
+        "width": 30.5,
+        "height": 10.5
+      }
+    },
+    "dateORD12": {
+      "type": "text",
+      "label": "Enter the date ORD, using the format DD MMM YYYY.",
+      "page": 2,
+      "box": {
+        "left": 305.5,
+        "top": 662.5,
+        "width": 52.2,
+        "height": 10.5
+      }
+    },
+    "reonNo12": {
+      "type": "text",
+      "label": "Enter the REQN number.",
+      "page": 2,
+      "box": {
+        "left": 361.2,
+        "top": 662.5,
+        "width": 34.3,
+        "height": 10.5
+      }
+    },
+    "dateRec12": {
+      "type": "text",
+      "label": "Enter the date received, using the format DD MMM YYYY.",
+      "page": 2,
+      "box": {
+        "left": 397.9,
+        "top": 662.5,
+        "width": 53.7,
+        "height": 10.5
+      }
+    },
+    "nomen13": {
+      "type": "text",
+      "label": "This is row 5 of 8.  Enter the NOMEN.",
+      "page": 2,
+      "box": {
+        "left": 34.1,
+        "top": 651.3,
+        "width": 64.9,
+        "height": 10.5
+      }
+    },
+    "partNumber13": {
+      "type": "text",
+      "label": "Enter the part number.",
+      "page": 2,
+      "box": {
+        "left": 101.6,
+        "top": 651.3,
+        "width": 82.7,
+        "height": 10.5
+      }
+    },
+    "nsn13": {
+      "type": "text",
+      "label": "Enter the NSN.",
+      "page": 2,
+      "box": {
+        "left": 186.8,
+        "top": 651.3,
+        "width": 83.2,
+        "height": 10.5
+      }
+    },
+    "qty13": {
+      "type": "text",
+      "label": "Enter the QTY.",
+      "page": 2,
+      "box": {
+        "left": 272.3,
+        "top": 651.3,
+        "width": 30.5,
+        "height": 10.5
+      }
+    },
+    "dateORD13": {
+      "type": "text",
+      "label": "Enter the date ORD, using the format DD MMM YYYY.",
+      "page": 2,
+      "box": {
+        "left": 305.5,
+        "top": 651.3,
+        "width": 52.2,
+        "height": 10.5
+      }
+    },
+    "reonNo13": {
+      "type": "text",
+      "label": "Enter the REQN number.",
+      "page": 2,
+      "box": {
+        "left": 361.2,
+        "top": 651.3,
+        "width": 34.3,
+        "height": 10.5
+      }
+    },
+    "dateRec13": {
+      "type": "text",
+      "label": "Enter the date received, using the format DD MMM YYYY.",
+      "page": 2,
+      "box": {
+        "left": 397.9,
+        "top": 651.3,
+        "width": 53.7,
+        "height": 10.5
+      }
+    },
+    "tcc1": {
+      "type": "text",
+      "label": "Indicate if tool control is complete.",
+      "page": 2,
+      "box": {
+        "left": 543.0,
+        "top": 639.4,
+        "width": 32.1,
+        "height": 9.2
+      }
+    },
+    "nomen14": {
+      "type": "text",
+      "label": "This is row 6 of 8.  Enter the NOMEN.",
+      "page": 2,
+      "box": {
+        "left": 34.1,
+        "top": 639.2,
+        "width": 64.9,
+        "height": 9.0
+      }
+    },
+    "partNumber14": {
+      "type": "text",
+      "label": "Enter the part number.",
+      "page": 2,
+      "box": {
+        "left": 101.6,
+        "top": 639.2,
+        "width": 82.7,
+        "height": 9.0
+      }
+    },
+    "nsn14": {
+      "type": "text",
+      "label": "Enter the NSN.",
+      "page": 2,
+      "box": {
+        "left": 186.8,
+        "top": 639.2,
+        "width": 83.2,
+        "height": 9.0
+      }
+    },
+    "qty14": {
+      "type": "text",
+      "label": "Enter the QTY.",
+      "page": 2,
+      "box": {
+        "left": 272.3,
+        "top": 639.2,
+        "width": 30.5,
+        "height": 9.0
+      }
+    },
+    "dateORD14": {
+      "type": "text",
+      "label": "Enter the date ORD, using the format DD MMM YYYY.",
+      "page": 2,
+      "box": {
+        "left": 305.5,
+        "top": 639.2,
+        "width": 52.2,
+        "height": 9.0
+      }
+    },
+    "reonNo14": {
+      "type": "text",
+      "label": "Enter the REQN number.",
+      "page": 2,
+      "box": {
+        "left": 361.2,
+        "top": 639.2,
+        "width": 34.3,
+        "height": 9.0
+      }
+    },
+    "dateRec14": {
+      "type": "text",
+      "label": "Enter the date received, using the format DD MMM YYYY.",
+      "page": 2,
+      "box": {
+        "left": 397.9,
+        "top": 639.2,
+        "width": 53.7,
+        "height": 9.0
+      }
+    },
+    "nomen15": {
+      "type": "text",
+      "label": "This is row 7 of 8.  Enter the NOMEN.",
+      "page": 2,
+      "box": {
+        "left": 34.1,
+        "top": 628.2,
+        "width": 64.9,
+        "height": 9.6
+      }
+    },
+    "partNumber15": {
+      "type": "text",
+      "label": "Enter the part number.",
+      "page": 2,
+      "box": {
+        "left": 101.6,
+        "top": 628.2,
+        "width": 82.7,
+        "height": 9.6
+      }
+    },
+    "nsn15": {
+      "type": "text",
+      "label": "Enter the NSN.",
+      "page": 2,
+      "box": {
+        "left": 186.8,
+        "top": 628.2,
+        "width": 83.2,
+        "height": 9.6
+      }
+    },
+    "qty15": {
+      "type": "text",
+      "label": "Enter the QTY.",
+      "page": 2,
+      "box": {
+        "left": 272.3,
+        "top": 628.2,
+        "width": 30.5,
+        "height": 9.6
+      }
+    },
+    "reonNo15": {
+      "type": "text",
+      "label": "Enter the REQN number.",
+      "page": 2,
+      "box": {
+        "left": 361.2,
+        "top": 628.2,
+        "width": 34.3,
+        "height": 9.6
+      }
+    },
+    "dateORD15": {
+      "type": "text",
+      "label": "Enter the date ORD, using the format DD MMM YYYY.",
+      "page": 2,
+      "box": {
+        "left": 305.5,
+        "top": 627.7,
+        "width": 52.2,
+        "height": 8.1
+      }
+    },
+    "dateRec15": {
+      "type": "text",
+      "label": "Enter the date received, using the format DD MMM YYYY.",
+      "page": 2,
+      "box": {
+        "left": 397.9,
+        "top": 627.7,
+        "width": 53.7,
+        "height": 8.1
+      }
+    },
+    "freq1": {
+      "type": "text",
+      "label": "Enter the FREQ.",
+      "page": 2,
+      "box": {
+        "left": 476.6,
+        "top": 618.6,
+        "width": 35.1,
+        "height": 9.2
+      }
+    },
+    "number1": {
+      "type": "text",
+      "label": "Enter the number.",
+      "page": 2,
+      "box": {
+        "left": 530.0,
+        "top": 618.6,
+        "width": 35.1,
+        "height": 9.2
+      }
+    },
+    "nomen16": {
+      "type": "text",
+      "label": "This is row 8 of 8.  Enter the NOMEN.",
+      "page": 2,
+      "box": {
+        "left": 34.1,
+        "top": 618.1,
+        "width": 64.9,
+        "height": 10.5
+      }
+    },
+    "partNumber16": {
+      "type": "text",
+      "label": "Enter the part number.",
+      "page": 2,
+      "box": {
+        "left": 101.6,
+        "top": 618.1,
+        "width": 82.7,
+        "height": 10.5
+      }
+    },
+    "nsn16": {
+      "type": "text",
+      "label": "Enter the NSN.",
+      "page": 2,
+      "box": {
+        "left": 186.8,
+        "top": 618.1,
+        "width": 83.2,
+        "height": 10.5
+      }
+    },
+    "qty16": {
+      "type": "text",
+      "label": "Enter the QTY.",
+      "page": 2,
+      "box": {
+        "left": 272.3,
+        "top": 618.1,
+        "width": 30.5,
+        "height": 10.5
+      }
+    },
+    "dateORD16": {
+      "type": "text",
+      "label": "Enter the date ORD, using the format DD MMM YYYY.",
+      "page": 2,
+      "box": {
+        "left": 305.5,
+        "top": 618.1,
+        "width": 52.2,
+        "height": 10.5
+      }
+    },
+    "reonNo16": {
+      "type": "text",
+      "label": "Enter the REQN number.",
+      "page": 2,
+      "box": {
+        "left": 361.2,
+        "top": 618.1,
+        "width": 34.3,
+        "height": 10.5
+      }
+    },
+    "dateRec16": {
+      "type": "text",
+      "label": "Enter the date received, using the format DD MMM YYYY.",
+      "page": 2,
+      "box": {
+        "left": 397.9,
+        "top": 618.1,
+        "width": 53.7,
+        "height": 10.5
+      }
+    },
+    "remarksDesc4": {
+      "type": "text",
+      "label": "Enter remarks and/or description for addional information and/or reading.",
+      "page": 2,
+      "box": {
+        "left": 40.1,
+        "top": 579.8,
+        "width": 531.5,
+        "height": 75.1
+      },
+      "multiline": true
+    },
+    "remarksDesc5": {
+      "type": "text",
+      "label": "Enter remarks and/or description for job description (4790/2K summary).",
+      "page": 2,
+      "box": {
+        "left": 40.1,
+        "top": 477.9,
+        "width": 531.5,
+        "height": 65.5
+      },
+      "multiline": true
+    },
+    "remarksDesc6": {
+      "type": "text",
+      "label": "Enter remarks and/or description for corrective action.",
+      "page": 2,
+      "box": {
+        "left": 40.1,
+        "top": 383.5,
+        "width": 531.5,
+        "height": 74.5
+      },
+      "multiline": true
+    },
+    "date72": {
+      "type": "text",
+      "label": "Enter the date started, using the format DD MMM YYYY. ",
+      "page": 2,
+      "box": {
+        "left": 89.6,
+        "top": 279.4,
+        "width": 50.9,
+        "height": 16.6
+      }
+    },
+    "tImeField7": {
+      "type": "text",
+      "label": "Enter the time started using the 24-hour clock (HHMM).  ",
+      "page": 2,
+      "box": {
+        "left": 144.7,
+        "top": 279.4,
+        "width": 37.9,
+        "height": 16.6
+      }
+    },
+    "nOPers4": {
+      "type": "text",
+      "label": "Enter the start no pers.",
+      "page": 2,
+      "box": {
+        "left": 186.9,
+        "top": 279.4,
+        "width": 38.5,
+        "height": 16.6
+      }
+    },
+    "date9": {
+      "type": "text",
+      "label": "Enter the date started, using the format DD MMM YYYY. ",
+      "page": 2,
+      "box": {
+        "left": 229.1,
+        "top": 279.4,
+        "width": 50.9,
+        "height": 16.6
+      }
+    },
+    "tImeField9": {
+      "type": "text",
+      "label": "Enter the time started using the 24-hour clock (HHMM).  ",
+      "page": 2,
+      "box": {
+        "left": 283.6,
+        "top": 279.4,
+        "width": 31.3,
+        "height": 16.6
+      }
+    },
+    "nOPers5": {
+      "type": "text",
+      "label": "Enter the start no pers.",
+      "page": 2,
+      "box": {
+        "left": 319.1,
+        "top": 279.4,
+        "width": 38.5,
+        "height": 16.6
+      }
+    },
+    "date11": {
+      "type": "text",
+      "label": "Enter the date started, using the format DD MMM YYYY.  ",
+      "page": 2,
+      "box": {
+        "left": 360.7,
+        "top": 279.4,
+        "width": 50.9,
+        "height": 16.6
+      }
+    },
+    "tImeField11": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 2,
+      "box": {
+        "left": 414.7,
+        "top": 279.4,
+        "width": 32.6,
+        "height": 16.6
+      }
+    },
+    "nOPers6": {
+      "type": "text",
+      "label": "Enter the start no pers.",
+      "page": 2,
+      "box": {
+        "left": 451.3,
+        "top": 279.4,
+        "width": 38.5,
+        "height": 16.6
+      }
+    },
+    "timeField12": {
+      "type": "text",
+      "label": "Enter the time stopped, using the 24-hour clock (HHMM).    ",
+      "page": 2,
+      "box": {
+        "left": 414.1,
+        "top": 259.3,
+        "width": 33.9,
+        "height": 19.5
+      }
+    },
+    "date8": {
+      "type": "text",
+      "label": "Enter the date stopped, using the format DD MMM YYYY. ",
+      "page": 2,
+      "box": {
+        "left": 89.6,
+        "top": 258.6,
+        "width": 50.9,
+        "height": 18.2
+      }
+    },
+    "tImeField8": {
+      "type": "text",
+      "label": "Enter the time stopped, using the 24-hour clock (HHMM).  ",
+      "page": 2,
+      "box": {
+        "left": 144.7,
+        "top": 258.6,
+        "width": 37.9,
+        "height": 18.2
+      }
+    },
+    "date10": {
+      "type": "text",
+      "label": "Enter the date stopped, using the format DD MMM YYYY. ",
+      "page": 2,
+      "box": {
+        "left": 229.1,
+        "top": 258.6,
+        "width": 50.9,
+        "height": 18.2
+      }
+    },
+    "tImeField10": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 2,
+      "box": {
+        "left": 283.6,
+        "top": 258.6,
+        "width": 31.3,
+        "height": 18.2
+      }
+    },
+    "date12": {
+      "type": "text",
+      "label": "Enter the date stopped, using the format DD MMM YYYY.  ",
+      "page": 2,
+      "box": {
+        "left": 360.7,
+        "top": 258.6,
+        "width": 50.9,
+        "height": 18.2
+      }
+    },
+    "mH4": {
+      "type": "text",
+      "label": "Enter the stop no pers (M/H).",
+      "page": 2,
+      "box": {
+        "left": 186.9,
+        "top": 252.3,
+        "width": 38.5,
+        "height": 11.9
+      }
+    },
+    "mH5": {
+      "type": "text",
+      "label": "Enter the stop no pers (M/H).",
+      "page": 2,
+      "box": {
+        "left": 319.1,
+        "top": 252.3,
+        "width": 38.5,
+        "height": 11.9
+      }
+    },
+    "mH6": {
+      "type": "text",
+      "label": "Enter the stop no pers (M/H).",
+      "page": 2,
+      "box": {
+        "left": 451.3,
+        "top": 252.3,
+        "width": 38.5,
+        "height": 11.9
+      }
+    },
+    "tOtalAllExpended": {
+      "type": "text",
+      "label": "Enter the total all M/H expended.",
+      "page": 2,
+      "box": {
+        "left": 495.7,
+        "top": 252.3,
+        "width": 76.0,
+        "height": 11.9
+      }
+    },
+    "jobCompletedBy1": {
+      "type": "text",
+      "label": "Enter who the job was completed by.",
+      "page": 2,
+      "box": {
+        "left": 35.7,
+        "top": 213.0,
+        "width": 101.5,
+        "height": 16.0
+      }
+    },
+    "jobInspBy1": {
+      "type": "text",
+      "label": "Enter who inspected the job.",
+      "page": 2,
+      "box": {
+        "left": 142.5,
+        "top": 213.0,
+        "width": 82.9,
+        "height": 16.0
+      }
+    },
+    "brSupv1": {
+      "type": "text",
+      "label": "Enter who the BR supervisor was.",
+      "page": 2,
+      "box": {
+        "left": 229.1,
+        "top": 213.0,
+        "width": 85.2,
+        "height": 16.0
+      }
+    },
+    "maintOff1": {
+      "type": "text",
+      "label": "Enter the maintenance off.",
+      "page": 2,
+      "box": {
+        "left": 318.6,
+        "top": 213.0,
+        "width": 83.5,
+        "height": 16.0
+      }
+    },
+    "jobComplDate1": {
+      "type": "text",
+      "label": "Enter the job completion date, using the format DD MMM YYYY.",
+      "page": 2,
+      "box": {
+        "left": 406.9,
+        "top": 213.0,
+        "width": 82.9,
+        "height": 16.0
+      }
+    },
+    "availScreening1": {
+      "type": "text",
+      "label": "Enter the AVAIL screening.",
+      "page": 2,
+      "box": {
+        "left": 492.9,
+        "top": 213.0,
+        "width": 79.6,
+        "height": 16.0
+      }
+    },
+    "wnd1": {
+      "type": "text",
+      "label": "Enter the WND.",
+      "page": 2,
+      "box": {
+        "left": 35.7,
+        "top": 169.7,
+        "width": 40.7,
+        "height": 20.5
+      }
+    },
+    "actTkn1": {
+      "type": "text",
+      "label": "Enter the action taken.",
+      "page": 2,
+      "box": {
+        "left": 80.7,
+        "top": 169.7,
+        "width": 41.3,
+        "height": 20.5
+      }
+    },
+    "case1": {
+      "type": "text",
+      "label": "Enter the CAS.",
+      "page": 2,
+      "box": {
+        "left": 125.6,
+        "top": 169.7,
+        "width": 40.2,
+        "height": 20.5
+      }
+    },
+    "malf1": {
+      "type": "text",
+      "label": "Enter the MALF.",
+      "page": 2,
+      "box": {
+        "left": 168.4,
+        "top": 169.7,
+        "width": 39.1,
+        "height": 20.5
+      }
+    },
+    "partNumber1Sec1Info": {
+      "type": "text",
+      "label": "Enter the part number.",
+      "page": 2,
+      "box": {
+        "left": 210.6,
+        "top": 169.7,
+        "width": 116.1,
+        "height": 20.5
+      }
+    },
+    "serialNumber1": {
+      "type": "text",
+      "label": "Enter the serial number.",
+      "page": 2,
+      "box": {
+        "left": 332.6,
+        "top": 169.7,
+        "width": 48.6,
+        "height": 20.5
+      }
+    },
+    "pco1": {
+      "type": "text",
+      "label": "Enter the P/C/O.",
+      "page": 2,
+      "box": {
+        "left": 385.5,
+        "top": 169.7,
+        "width": 36.8,
+        "height": 20.5
+      }
+    },
+    "meter1": {
+      "type": "text",
+      "label": "Enter the meter.",
+      "page": 2,
+      "box": {
+        "left": 426.6,
+        "top": 169.7,
+        "width": 37.9,
+        "height": 20.5
+      }
+    },
+    "defAct1": {
+      "type": "text",
+      "label": "Enter the DEF act.",
+      "page": 2,
+      "box": {
+        "left": 468.2,
+        "top": 169.7,
+        "width": 40.2,
+        "height": 20.5
+      }
+    },
+    "location1": {
+      "type": "text",
+      "label": "Enter the location.",
+      "page": 2,
+      "box": {
+        "left": 514.7,
+        "top": 169.7,
+        "width": 58.4,
+        "height": 20.5
+      }
+    },
+    "submitOPNAV47902k1": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 304.9,
+        "top": 143.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_1_SubmitOPNAV47902k1_0"
+    },
+    "submitOPNAV47902k12": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 345.9,
+        "top": 143.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_1_SubmitOPNAV47902k1_0"
+    },
+    "contuationSheet1": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 488.9,
+        "top": 142.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_1_ContuationSheet1_0"
+    },
+    "swlin": {
+      "type": "text",
+      "label": "Enter the SWLIN",
+      "page": 2,
+      "box": {
+        "left": 35.0,
+        "top": 134.3,
+        "width": 170.2,
+        "height": 17.7
+      }
+    },
+    "contuationSheet12": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 488.9,
+        "top": 128.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_1_ContuationSheet1_0"
+    },
+    "submitOPNAV4790ck1": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 304.9,
+        "top": 128.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_1_SubmitOPNAV4790ck1_0"
+    },
+    "submitOPNAV4790ck12": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 345.9,
+        "top": 128.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_1_SubmitOPNAV4790ck1_0"
+    },
+    "pGe1": {
+      "type": "text",
+      "label": "Enter the current page number.",
+      "page": 2,
+      "box": {
+        "left": 485.5,
+        "top": 113.0,
+        "width": 32.4,
+        "height": 10.5
+      }
+    },
+    "pGe2": {
+      "type": "text",
+      "label": "Enter the total number of pages.",
+      "page": 2,
+      "box": {
+        "left": 529.9,
+        "top": 113.0,
+        "width": 32.5,
+        "height": 10.6
+      }
+    },
+    "dAte14": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 2,
+      "box": {
+        "left": 34.5,
+        "top": 88.7,
+        "width": 52.1,
+        "height": 21.1
+      }
+    },
+    "eic1": {
+      "type": "text",
+      "label": "Enter the EIC.",
+      "page": 2,
+      "box": {
+        "left": 427.0,
+        "top": 88.3,
+        "width": 51.6,
+        "height": 21.8
+      }
+    },
+    "uic1": {
+      "type": "text",
+      "label": "Enter the UIC.",
+      "page": 2,
+      "box": {
+        "left": 90.2,
+        "top": 88.2,
+        "width": 35.7,
+        "height": 20.5
+      }
+    },
+    "wc1": {
+      "type": "text",
+      "label": "Enter the W/C.",
+      "page": 2,
+      "box": {
+        "left": 130.7,
+        "top": 88.2,
+        "width": 40.7,
+        "height": 20.5
+      }
+    },
+    "jsn1": {
+      "type": "text",
+      "label": "Enter the JSN.",
+      "page": 2,
+      "box": {
+        "left": 175.1,
+        "top": 88.2,
+        "width": 37.4,
+        "height": 20.5
+      }
+    },
+    "system1": {
+      "type": "text",
+      "label": "Enter the system.",
+      "page": 2,
+      "box": {
+        "left": 217.3,
+        "top": 88.2,
+        "width": 37.9,
+        "height": 20.5
+      }
+    },
+    "equipmentName1": {
+      "type": "text",
+      "label": "Enter the equipment name.",
+      "page": 2,
+      "box": {
+        "left": 258.9,
+        "top": 88.2,
+        "width": 104.3,
+        "height": 20.5
+      }
+    },
+    "recordNo1": {
+      "type": "text",
+      "label": "Enter the record number.",
+      "page": 2,
+      "box": {
+        "left": 367.5,
+        "top": 87.6,
+        "width": 54.8,
+        "height": 20.5
+      }
+    },
+    "safteyTagOut1": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 490.4,
+        "top": 81.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_1_SafteyTagOut1_0"
+    },
+    "safteyTagOut12": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 519.4,
+        "top": 81.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_1_SafteyTagOut1_0"
+    },
+    "no2": {
+      "type": "text",
+      "label": "Enter the saftey tag out number.",
+      "page": 2,
+      "box": {
+        "left": 548.1,
+        "top": 80.3,
+        "width": 16.6,
+        "height": 9.2
+      }
+    },
+    "nomen17": {
+      "type": "text",
+      "label": "This is row 1 of 8.  Enter the NOMEN.",
+      "page": 3,
+      "box": {
+        "left": 33.2,
+        "top": 692.3,
+        "width": 64.9,
+        "height": 10.5
+      }
+    },
+    "partNumber17": {
+      "type": "text",
+      "label": "Enter the part number.",
+      "page": 3,
+      "box": {
+        "left": 100.7,
+        "top": 692.3,
+        "width": 81.8,
+        "height": 10.5
+      }
+    },
+    "nsn17": {
+      "type": "text",
+      "label": "Enter the NSN.",
+      "page": 3,
+      "box": {
+        "left": 184.6,
+        "top": 692.3,
+        "width": 81.7,
+        "height": 10.5
+      }
+    },
+    "dateORD17": {
+      "type": "text",
+      "label": "Enter the date ORD, using the format DD MMM YYYY.",
+      "page": 3,
+      "box": {
+        "left": 301.9,
+        "top": 692.3,
+        "width": 54.1,
+        "height": 10.5
+      }
+    },
+    "reonNo17": {
+      "type": "text",
+      "label": "Enter the REQN number.",
+      "page": 3,
+      "box": {
+        "left": 358.9,
+        "top": 692.3,
+        "width": 34.3,
+        "height": 10.5
+      }
+    },
+    "dateRec17": {
+      "type": "text",
+      "label": "Enter the date received, using the format DD MMM YYYY.",
+      "page": 3,
+      "box": {
+        "left": 395.2,
+        "top": 692.3,
+        "width": 55.3,
+        "height": 10.5
+      }
+    },
+    "qty17": {
+      "type": "text",
+      "label": "Enter the QTY.",
+      "page": 3,
+      "box": {
+        "left": 268.9,
+        "top": 692.0,
+        "width": 30.5,
+        "height": 10.2
+      }
+    },
+    "nomen18": {
+      "type": "text",
+      "label": "This is row 2 of 8.  Enter the NOMEN.",
+      "page": 3,
+      "box": {
+        "left": 33.2,
+        "top": 681.1,
+        "width": 64.9,
+        "height": 10.5
+      }
+    },
+    "partNumber18": {
+      "type": "text",
+      "label": "Enter the part number.",
+      "page": 3,
+      "box": {
+        "left": 100.7,
+        "top": 681.1,
+        "width": 81.8,
+        "height": 10.5
+      }
+    },
+    "nsn18": {
+      "type": "text",
+      "label": "Enter the NSN.",
+      "page": 3,
+      "box": {
+        "left": 184.6,
+        "top": 681.1,
+        "width": 81.7,
+        "height": 10.5
+      }
+    },
+    "dateORD18": {
+      "type": "text",
+      "label": "Enter the date ORD, using the format DD MMM YYYY.",
+      "page": 3,
+      "box": {
+        "left": 301.9,
+        "top": 681.1,
+        "width": 54.1,
+        "height": 10.5
+      }
+    },
+    "reonNo18": {
+      "type": "text",
+      "label": "Enter the REQN number.",
+      "page": 3,
+      "box": {
+        "left": 358.9,
+        "top": 681.1,
+        "width": 34.3,
+        "height": 10.5
+      }
+    },
+    "dateRec18": {
+      "type": "text",
+      "label": "Enter the date received, using the format DD MMM YYYY.",
+      "page": 3,
+      "box": {
+        "left": 395.2,
+        "top": 681.1,
+        "width": 55.3,
+        "height": 10.5
+      }
+    },
+    "qty18": {
+      "type": "text",
+      "label": "Enter the QTY.",
+      "page": 3,
+      "box": {
+        "left": 268.9,
+        "top": 680.6,
+        "width": 30.5,
+        "height": 10.2
+      }
+    },
+    "nomen19": {
+      "type": "text",
+      "label": "This is row 3 of 8.  Enter the NOMEN.",
+      "page": 3,
+      "box": {
+        "left": 33.2,
+        "top": 669.8,
+        "width": 64.9,
+        "height": 10.5
+      }
+    },
+    "partNumber19": {
+      "type": "text",
+      "label": "Enter the part number.",
+      "page": 3,
+      "box": {
+        "left": 100.7,
+        "top": 669.8,
+        "width": 81.8,
+        "height": 10.5
+      }
+    },
+    "nsn19": {
+      "type": "text",
+      "label": "Enter the NSN.",
+      "page": 3,
+      "box": {
+        "left": 184.6,
+        "top": 669.8,
+        "width": 81.7,
+        "height": 10.5
+      }
+    },
+    "dateORD19": {
+      "type": "text",
+      "label": "Enter the date ORD, using the format DD MMM YYYY.",
+      "page": 3,
+      "box": {
+        "left": 301.9,
+        "top": 669.8,
+        "width": 54.1,
+        "height": 10.5
+      }
+    },
+    "reonNo19": {
+      "type": "text",
+      "label": "Enter the REQN number.",
+      "page": 3,
+      "box": {
+        "left": 358.9,
+        "top": 669.8,
+        "width": 34.3,
+        "height": 10.5
+      }
+    },
+    "dateRec19": {
+      "type": "text",
+      "label": "Enter the date received, using the format DD MMM YYYY.",
+      "page": 3,
+      "box": {
+        "left": 395.2,
+        "top": 669.8,
+        "width": 55.3,
+        "height": 10.5
+      }
+    },
+    "qty19": {
+      "type": "text",
+      "label": "Enter the QTY.",
+      "page": 3,
+      "box": {
+        "left": 268.9,
+        "top": 668.7,
+        "width": 30.2,
+        "height": 8.9
+      }
+    },
+    "nomen20": {
+      "type": "text",
+      "label": "This is row 4 of 8.  Enter the NOMEN.",
+      "page": 3,
+      "box": {
+        "left": 33.2,
+        "top": 658.0,
+        "width": 64.9,
+        "height": 10.5
+      }
+    },
+    "partNumber20": {
+      "type": "text",
+      "label": "Enter the part number.",
+      "page": 3,
+      "box": {
+        "left": 100.7,
+        "top": 658.0,
+        "width": 81.8,
+        "height": 10.5
+      }
+    },
+    "nsn20": {
+      "type": "text",
+      "label": "Enter the NSN.",
+      "page": 3,
+      "box": {
+        "left": 184.6,
+        "top": 658.0,
+        "width": 81.7,
+        "height": 10.5
+      }
+    },
+    "qty20": {
+      "type": "text",
+      "label": "Enter the QTY.",
+      "page": 3,
+      "box": {
+        "left": 268.9,
+        "top": 658.0,
+        "width": 30.5,
+        "height": 10.5
+      }
+    },
+    "dateORD20": {
+      "type": "text",
+      "label": "Enter the date ORD, using the format DD MMM YYYY.",
+      "page": 3,
+      "box": {
+        "left": 301.9,
+        "top": 658.0,
+        "width": 54.1,
+        "height": 10.5
+      }
+    },
+    "reonNo20": {
+      "type": "text",
+      "label": "Enter the REQN number.",
+      "page": 3,
+      "box": {
+        "left": 358.9,
+        "top": 658.0,
+        "width": 34.3,
+        "height": 10.5
+      }
+    },
+    "dateRec20": {
+      "type": "text",
+      "label": "Enter the date received, using the format DD MMM YYYY.",
+      "page": 3,
+      "box": {
+        "left": 395.2,
+        "top": 658.0,
+        "width": 55.3,
+        "height": 10.5
+      }
+    },
+    "nomen21": {
+      "type": "text",
+      "label": "This is row 5 of 8.  Enter the NOMEN.",
+      "page": 3,
+      "box": {
+        "left": 33.2,
+        "top": 646.8,
+        "width": 64.9,
+        "height": 10.5
+      }
+    },
+    "partNumber21": {
+      "type": "text",
+      "label": "Enter the part number.",
+      "page": 3,
+      "box": {
+        "left": 100.7,
+        "top": 646.8,
+        "width": 81.8,
+        "height": 10.5
+      }
+    },
+    "nsn21": {
+      "type": "text",
+      "label": "Enter the NSN.",
+      "page": 3,
+      "box": {
+        "left": 184.6,
+        "top": 646.8,
+        "width": 81.7,
+        "height": 10.5
+      }
+    },
+    "qty21": {
+      "type": "text",
+      "label": "Enter the QTY.",
+      "page": 3,
+      "box": {
+        "left": 268.9,
+        "top": 646.8,
+        "width": 30.5,
+        "height": 10.5
+      }
+    },
+    "dateORD21": {
+      "type": "text",
+      "label": "Enter the date ORD, using the format DD MMM YYYY.",
+      "page": 3,
+      "box": {
+        "left": 301.9,
+        "top": 646.8,
+        "width": 54.1,
+        "height": 10.5
+      }
+    },
+    "reonNo21": {
+      "type": "text",
+      "label": "Enter the REQN number.",
+      "page": 3,
+      "box": {
+        "left": 358.9,
+        "top": 646.8,
+        "width": 34.3,
+        "height": 10.5
+      }
+    },
+    "dateRec21": {
+      "type": "text",
+      "label": "Enter the date received, using the format DD MMM YYYY.",
+      "page": 3,
+      "box": {
+        "left": 395.2,
+        "top": 646.8,
+        "width": 55.3,
+        "height": 10.5
+      }
+    },
+    "nomen22": {
+      "type": "text",
+      "label": "This is row 6 of 8.  Enter the NOMEN.",
+      "page": 3,
+      "box": {
+        "left": 33.2,
+        "top": 634.6,
+        "width": 64.9,
+        "height": 9.0
+      }
+    },
+    "partNumber22": {
+      "type": "text",
+      "label": "Enter the part number.",
+      "page": 3,
+      "box": {
+        "left": 100.7,
+        "top": 634.6,
+        "width": 81.8,
+        "height": 9.0
+      }
+    },
+    "nsn22": {
+      "type": "text",
+      "label": "Enter the NSN.",
+      "page": 3,
+      "box": {
+        "left": 184.6,
+        "top": 634.6,
+        "width": 81.7,
+        "height": 9.0
+      }
+    },
+    "qty22": {
+      "type": "text",
+      "label": "Enter the QTY.",
+      "page": 3,
+      "box": {
+        "left": 268.9,
+        "top": 634.6,
+        "width": 30.5,
+        "height": 9.0
+      }
+    },
+    "dateORD22": {
+      "type": "text",
+      "label": "Enter the date ORD, using the format DD MMM YYYY.",
+      "page": 3,
+      "box": {
+        "left": 301.9,
+        "top": 634.6,
+        "width": 54.1,
+        "height": 9.0
+      }
+    },
+    "reonNo22": {
+      "type": "text",
+      "label": "Enter the REQN number.",
+      "page": 3,
+      "box": {
+        "left": 358.9,
+        "top": 634.6,
+        "width": 34.3,
+        "height": 9.0
+      }
+    },
+    "dateRec22": {
+      "type": "text",
+      "label": "Enter the date received, using the format DD MMM YYYY.",
+      "page": 3,
+      "box": {
+        "left": 395.2,
+        "top": 634.6,
+        "width": 55.3,
+        "height": 9.0
+      }
+    },
+    "tcc3": {
+      "type": "text",
+      "label": "Indicate if tool control is complete.",
+      "page": 3,
+      "box": {
+        "left": 543.5,
+        "top": 634.4,
+        "width": 32.1,
+        "height": 8.7
+      }
+    },
+    "reonNo23": {
+      "type": "text",
+      "label": "Enter the REQN number.",
+      "page": 3,
+      "box": {
+        "left": 358.9,
+        "top": 623.8,
+        "width": 34.3,
+        "height": 9.4
+      }
+    },
+    "nomen23": {
+      "type": "text",
+      "label": "This is row 7 of 8.  Enter the NOMEN.",
+      "page": 3,
+      "box": {
+        "left": 33.2,
+        "top": 623.7,
+        "width": 64.9,
+        "height": 9.0
+      }
+    },
+    "partNumber23": {
+      "type": "text",
+      "label": "Enter the part number.",
+      "page": 3,
+      "box": {
+        "left": 100.7,
+        "top": 623.7,
+        "width": 81.8,
+        "height": 9.0
+      }
+    },
+    "nsn23": {
+      "type": "text",
+      "label": "Enter the NSN.",
+      "page": 3,
+      "box": {
+        "left": 184.6,
+        "top": 623.7,
+        "width": 81.7,
+        "height": 9.0
+      }
+    },
+    "qty23": {
+      "type": "text",
+      "label": "Enter the QTY.",
+      "page": 3,
+      "box": {
+        "left": 268.9,
+        "top": 623.7,
+        "width": 30.5,
+        "height": 9.0
+      }
+    },
+    "dateORD23": {
+      "type": "text",
+      "label": "Enter the date ORD, using the format DD MMM YYYY.",
+      "page": 3,
+      "box": {
+        "left": 301.9,
+        "top": 623.7,
+        "width": 54.1,
+        "height": 9.0
+      }
+    },
+    "dateRec23": {
+      "type": "text",
+      "label": "Enter the date received, using the format DD MMM YYYY.",
+      "page": 3,
+      "box": {
+        "left": 395.2,
+        "top": 623.7,
+        "width": 55.3,
+        "height": 9.0
+      }
+    },
+    "freq2": {
+      "type": "text",
+      "label": "Enter the FREQ.",
+      "page": 3,
+      "box": {
+        "left": 475.8,
+        "top": 614.0,
+        "width": 35.1,
+        "height": 9.2
+      }
+    },
+    "number2": {
+      "type": "text",
+      "label": "Enter the number.",
+      "page": 3,
+      "box": {
+        "left": 529.2,
+        "top": 614.0,
+        "width": 35.1,
+        "height": 9.2
+      }
+    },
+    "nomen24": {
+      "type": "text",
+      "label": "This is row 8 of 8.  Enter the NOMEN.",
+      "page": 3,
+      "box": {
+        "left": 33.2,
+        "top": 613.6,
+        "width": 64.9,
+        "height": 10.5
+      }
+    },
+    "partNumber24": {
+      "type": "text",
+      "label": "Enter the part number.",
+      "page": 3,
+      "box": {
+        "left": 100.7,
+        "top": 613.6,
+        "width": 81.8,
+        "height": 10.5
+      }
+    },
+    "nsn24": {
+      "type": "text",
+      "label": "Enter the NSN.",
+      "page": 3,
+      "box": {
+        "left": 184.6,
+        "top": 613.6,
+        "width": 81.7,
+        "height": 10.5
+      }
+    },
+    "qty24": {
+      "type": "text",
+      "label": "Enter the QTY.",
+      "page": 3,
+      "box": {
+        "left": 268.9,
+        "top": 613.6,
+        "width": 30.5,
+        "height": 10.5
+      }
+    },
+    "dateORD24": {
+      "type": "text",
+      "label": "Enter the date ORD, using the format DD MMM YYYY.",
+      "page": 3,
+      "box": {
+        "left": 301.9,
+        "top": 613.6,
+        "width": 54.1,
+        "height": 10.5
+      }
+    },
+    "reonNo24": {
+      "type": "text",
+      "label": "Enter the REQN number.",
+      "page": 3,
+      "box": {
+        "left": 358.9,
+        "top": 613.6,
+        "width": 34.3,
+        "height": 10.5
+      }
+    },
+    "dateRec24": {
+      "type": "text",
+      "label": "Enter the date received, using the format DD MMM YYYY.",
+      "page": 3,
+      "box": {
+        "left": 395.2,
+        "top": 613.6,
+        "width": 55.3,
+        "height": 10.5
+      }
+    },
+    "remarksDesc7": {
+      "type": "text",
+      "label": "Enter remarks and/or description for addional information and reading.",
+      "page": 3,
+      "box": {
+        "left": 42.0,
+        "top": 575.2,
+        "width": 531.7,
+        "height": 75.1
+      },
+      "multiline": true
+    },
+    "remarksDesc8": {
+      "type": "text",
+      "label": "Enter remarks and/or description for job description (4790/2K summary).",
+      "page": 3,
+      "box": {
+        "left": 42.0,
+        "top": 473.4,
+        "width": 531.7,
+        "height": 65.5
+      },
+      "multiline": true
+    },
+    "remarksDesc9": {
+      "type": "text",
+      "label": "Enter remarks and/or description for corrective action.",
+      "page": 3,
+      "box": {
+        "left": 42.0,
+        "top": 378.9,
+        "width": 531.7,
+        "height": 74.5
+      },
+      "multiline": true
+    },
+    "date13": {
+      "type": "text",
+      "label": "Enter the date started, using the format DD MMM YYYY.  ",
+      "page": 3,
+      "box": {
+        "left": 88.5,
+        "top": 275.5,
+        "width": 52.8,
+        "height": 16.6
+      }
+    },
+    "timeField": {
+      "type": "text",
+      "label": "Enter the time started, using the 24-hour clock (HHMM).  ",
+      "page": 3,
+      "box": {
+        "left": 147.3,
+        "top": 275.5,
+        "width": 35.1,
+        "height": 16.6
+      }
+    },
+    "noPers4": {
+      "type": "text",
+      "label": "Enter the start no pers.",
+      "page": 3,
+      "box": {
+        "left": 185.8,
+        "top": 275.5,
+        "width": 38.5,
+        "height": 16.6
+      }
+    },
+    "date15": {
+      "type": "text",
+      "label": "Enter the date started, using the format DD MMM YYYY.  ",
+      "page": 3,
+      "box": {
+        "left": 228.5,
+        "top": 275.5,
+        "width": 52.8,
+        "height": 16.6
+      }
+    },
+    "timeField3": {
+      "type": "text",
+      "label": "Enter the time started, using the 24-hour clock (HHMM).  ",
+      "page": 3,
+      "box": {
+        "left": 285.3,
+        "top": 275.5,
+        "width": 29.2,
+        "height": 16.6
+      }
+    },
+    "noPers5": {
+      "type": "text",
+      "label": "Enter the start no pers.",
+      "page": 3,
+      "box": {
+        "left": 318.0,
+        "top": 275.5,
+        "width": 38.5,
+        "height": 16.6
+      }
+    },
+    "date17": {
+      "type": "text",
+      "label": "Enter the date started, using the format DD MMM YYYY.  ",
+      "page": 3,
+      "box": {
+        "left": 360.1,
+        "top": 275.5,
+        "width": 52.8,
+        "height": 16.6
+      }
+    },
+    "timeField5": {
+      "type": "text",
+      "label": "Enter the time started, using the 24-hour clock (HHMM). ",
+      "page": 3,
+      "box": {
+        "left": 416.4,
+        "top": 275.5,
+        "width": 29.8,
+        "height": 16.6
+      }
+    },
+    "noPers6": {
+      "type": "text",
+      "label": "Enter the start no pers.",
+      "page": 3,
+      "box": {
+        "left": 450.2,
+        "top": 275.5,
+        "width": 38.5,
+        "height": 16.6
+      }
+    },
+    "timeField6": {
+      "type": "text",
+      "label": "Enter the time stopped, using the 24-hour clock (HHMM). ",
+      "page": 3,
+      "box": {
+        "left": 415.7,
+        "top": 254.8,
+        "width": 31.1,
+        "height": 19.0
+      }
+    },
+    "timeField4": {
+      "type": "text",
+      "label": "Enter the time stopped, using the 24-hour clock (HHMM). ",
+      "page": 3,
+      "box": {
+        "left": 285.3,
+        "top": 254.1,
+        "width": 29.2,
+        "height": 17.7
+      }
+    },
+    "date14": {
+      "type": "text",
+      "label": "Enter the date stopped, using the format DD MMM YYYY.  ",
+      "page": 3,
+      "box": {
+        "left": 88.5,
+        "top": 253.6,
+        "width": 52.8,
+        "height": 17.1
+      }
+    },
+    "timeField2": {
+      "type": "text",
+      "label": "Enter the time stopped, using the 24-hour clock (HHMM).  ",
+      "page": 3,
+      "box": {
+        "left": 147.3,
+        "top": 253.6,
+        "width": 35.1,
+        "height": 17.7
+      }
+    },
+    "date16": {
+      "type": "text",
+      "label": "Enter the date stopped, using the format DD MMM YYYY.  ",
+      "page": 3,
+      "box": {
+        "left": 228.5,
+        "top": 253.6,
+        "width": 52.8,
+        "height": 17.1
+      }
+    },
+    "date18": {
+      "type": "text",
+      "label": "Enter the date stopped, using the format DD MMM YYYY.  ",
+      "page": 3,
+      "box": {
+        "left": 360.1,
+        "top": 253.6,
+        "width": 52.8,
+        "height": 17.1
+      }
+    },
+    "mH7": {
+      "type": "text",
+      "label": "Enter the stop no pers (M/H).",
+      "page": 3,
+      "box": {
+        "left": 185.8,
+        "top": 248.4,
+        "width": 38.5,
+        "height": 11.9
+      }
+    },
+    "mH8": {
+      "type": "text",
+      "label": "Enter the stop no pers (M/H).",
+      "page": 3,
+      "box": {
+        "left": 318.0,
+        "top": 248.4,
+        "width": 38.5,
+        "height": 11.9
+      }
+    },
+    "mH9": {
+      "type": "text",
+      "label": "Enter the stop no pers (M/H).",
+      "page": 3,
+      "box": {
+        "left": 450.2,
+        "top": 248.4,
+        "width": 38.5,
+        "height": 11.9
+      }
+    },
+    "totalAllExpended": {
+      "type": "text",
+      "label": "Enter the total all M/H expended.",
+      "page": 3,
+      "box": {
+        "left": 494.0,
+        "top": 248.4,
+        "width": 79.0,
+        "height": 11.9
+      }
+    },
+    "jobCompletedBy2": {
+      "type": "text",
+      "label": "Enter who the job was completed by.",
+      "page": 3,
+      "box": {
+        "left": 34.8,
+        "top": 208.5,
+        "width": 101.5,
+        "height": 16.0
+      }
+    },
+    "jobInspBy2": {
+      "type": "text",
+      "label": "Enter who inspected the job.",
+      "page": 3,
+      "box": {
+        "left": 141.7,
+        "top": 208.5,
+        "width": 82.9,
+        "height": 16.0
+      }
+    },
+    "brSupv2": {
+      "type": "text",
+      "label": "Enter who the BR supervisor was.",
+      "page": 3,
+      "box": {
+        "left": 228.3,
+        "top": 208.5,
+        "width": 85.2,
+        "height": 16.0
+      }
+    },
+    "maintOff2": {
+      "type": "text",
+      "label": "Enter the maintenance off.",
+      "page": 3,
+      "box": {
+        "left": 317.7,
+        "top": 208.5,
+        "width": 83.5,
+        "height": 16.0
+      }
+    },
+    "jobComplDate2": {
+      "type": "text",
+      "label": "Enter the job completion date, using the format DD MMM YYYY.",
+      "page": 3,
+      "box": {
+        "left": 406.0,
+        "top": 208.5,
+        "width": 82.9,
+        "height": 16.0
+      }
+    },
+    "availScreening2": {
+      "type": "text",
+      "label": "Enter the AVAIL SCREENING.",
+      "page": 3,
+      "box": {
+        "left": 493.2,
+        "top": 208.5,
+        "width": 80.2,
+        "height": 16.0
+      }
+    },
+    "wnd2": {
+      "type": "text",
+      "label": "Enter the WND.",
+      "page": 3,
+      "box": {
+        "left": 34.8,
+        "top": 165.2,
+        "width": 40.7,
+        "height": 20.5
+      }
+    },
+    "actTkn2": {
+      "type": "text",
+      "label": "Enter the action taken.",
+      "page": 3,
+      "box": {
+        "left": 79.8,
+        "top": 165.2,
+        "width": 41.3,
+        "height": 20.5
+      }
+    },
+    "case2": {
+      "type": "text",
+      "label": "Enter the CAS.",
+      "page": 3,
+      "box": {
+        "left": 124.8,
+        "top": 165.2,
+        "width": 40.2,
+        "height": 20.5
+      }
+    },
+    "malf2": {
+      "type": "text",
+      "label": "Enter the MALF.",
+      "page": 3,
+      "box": {
+        "left": 167.5,
+        "top": 165.2,
+        "width": 39.1,
+        "height": 20.5
+      }
+    },
+    "partNumber1Sec1Info1": {
+      "type": "text",
+      "label": "Enter the part number.",
+      "page": 3,
+      "box": {
+        "left": 209.7,
+        "top": 165.2,
+        "width": 116.1,
+        "height": 20.5
+      }
+    },
+    "serialNumber2": {
+      "type": "text",
+      "label": "Enter the serial number.",
+      "page": 3,
+      "box": {
+        "left": 331.8,
+        "top": 165.2,
+        "width": 48.6,
+        "height": 20.5
+      }
+    },
+    "pco2": {
+      "type": "text",
+      "label": "Enter the P/C/O.",
+      "page": 3,
+      "box": {
+        "left": 384.6,
+        "top": 165.2,
+        "width": 36.8,
+        "height": 20.5
+      }
+    },
+    "meter2": {
+      "type": "text",
+      "label": "Enter the meter.",
+      "page": 3,
+      "box": {
+        "left": 425.7,
+        "top": 165.2,
+        "width": 37.9,
+        "height": 20.5
+      }
+    },
+    "defAct2": {
+      "type": "text",
+      "label": "Enter the Def Act.",
+      "page": 3,
+      "box": {
+        "left": 467.3,
+        "top": 165.2,
+        "width": 40.2,
+        "height": 20.5
+      }
+    },
+    "location2": {
+      "type": "text",
+      "label": "Enter the location.",
+      "page": 3,
+      "box": {
+        "left": 515.3,
+        "top": 165.2,
+        "width": 58.0,
+        "height": 20.5
+      }
+    },
+    "submitOPNAV47902k3": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 300.2,
+        "top": 140.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_2_SubmitOPNAV47902k3_0"
+    },
+    "submitOPNAV47902k32": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 339.0,
+        "top": 139.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_2_SubmitOPNAV47902k3_0"
+    },
+    "contuationSheet2": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 485.5,
+        "top": 139.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_2_ContuationSheet2_0"
+    },
+    "swlin2": {
+      "type": "text",
+      "label": "Enter the SWLIN",
+      "page": 3,
+      "box": {
+        "left": 34.5,
+        "top": 128.1,
+        "width": 169.9,
+        "height": 16.1
+      }
+    },
+    "submitOPNAV4790ck3": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 300.2,
+        "top": 126.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_2_SubmitOPNAV4790ck3_0"
+    },
+    "submitOPNAV4790ck32": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 339.0,
+        "top": 126.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_2_SubmitOPNAV4790ck3_0"
+    },
+    "contuationSheet22": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 485.5,
+        "top": 125.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_2_ContuationSheet2_0"
+    },
+    "pge12": {
+      "type": "text",
+      "label": "Enter the current page number.",
+      "page": 3,
+      "box": {
+        "left": 484.9,
+        "top": 108.0,
+        "width": 32.4,
+        "height": 10.5
+      }
+    },
+    "pge22": {
+      "type": "text",
+      "label": "Enter the total number of pages.",
+      "page": 3,
+      "box": {
+        "left": 530.5,
+        "top": 108.0,
+        "width": 32.5,
+        "height": 10.6
+      }
+    },
+    "date21": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 3,
+      "box": {
+        "left": 34.8,
+        "top": 84.2,
+        "width": 52.8,
+        "height": 21.1
+      }
+    },
+    "uic2": {
+      "type": "text",
+      "label": "Enter the UIC.",
+      "page": 3,
+      "box": {
+        "left": 91.9,
+        "top": 83.6,
+        "width": 39.5,
+        "height": 20.5
+      }
+    },
+    "wc2": {
+      "type": "text",
+      "label": "Enter the W/C.",
+      "page": 3,
+      "box": {
+        "left": 135.5,
+        "top": 83.6,
+        "width": 37.8,
+        "height": 20.5
+      }
+    },
+    "jsn2": {
+      "type": "text",
+      "label": "Enter the JSN.",
+      "page": 3,
+      "box": {
+        "left": 178.1,
+        "top": 83.6,
+        "width": 36.2,
+        "height": 20.5
+      }
+    },
+    "system2": {
+      "type": "text",
+      "label": "Enter the system.",
+      "page": 3,
+      "box": {
+        "left": 217.9,
+        "top": 83.6,
+        "width": 34.0,
+        "height": 20.5
+      }
+    },
+    "equipmentName2": {
+      "type": "text",
+      "label": "Enter the equipment name.",
+      "page": 3,
+      "box": {
+        "left": 256.1,
+        "top": 83.6,
+        "width": 109.3,
+        "height": 20.5
+      }
+    },
+    "recordNo2": {
+      "type": "text",
+      "label": "Enter the record number.",
+      "page": 3,
+      "box": {
+        "left": 370.1,
+        "top": 83.1,
+        "width": 53.1,
+        "height": 20.5
+      }
+    },
+    "eic2": {
+      "type": "text",
+      "label": "Enter the EIC.",
+      "page": 3,
+      "box": {
+        "left": 427.3,
+        "top": 83.1,
+        "width": 49.3,
+        "height": 20.5
+      }
+    },
+    "no3": {
+      "type": "text",
+      "label": "Enter the saftey tag out number.",
+      "page": 3,
+      "box": {
+        "left": 547.2,
+        "top": 79.8,
+        "width": 18.5,
+        "height": 12.7
+      }
+    },
+    "safteyTagOut3": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 490.2,
+        "top": 77.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_2_SafteyTagOut3_0"
+    },
+    "safteyTagOut32": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 518.5,
+        "top": 77.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_2_SafteyTagOut3_0"
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 6,
+      "rowStride": 11.45,
+      "editor": "grid",
+      "columns": {
+        "boxToolNo": {
+          "type": "text",
+          "label": "This is row 1 of 6. Enter the box or tool number.",
+          "page": 1,
+          "box": {
+            "left": 452.3,
+            "top": 708.1,
+            "width": 57.7,
+            "height": 10.4
+          }
+        },
+        "out": {
+          "type": "text",
+          "label": "Enter when the box or tool was out.",
+          "page": 1,
+          "box": {
+            "left": 510.8,
+            "top": 708.1,
+            "width": 27.8,
+            "height": 10.4
+          }
+        },
+        "in": {
+          "type": "text",
+          "label": "Enter when the box or tool was in.",
+          "page": 1,
+          "box": {
+            "left": 540.1,
+            "top": 708.1,
+            "width": 34.2,
+            "height": 10.4
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 2,
+      "count": 6,
+      "rowStride": 11.23,
+      "editor": "grid",
+      "columns": {
+        "boxToolNo": {
+          "type": "text",
+          "label": "This is row 1 of 6. Enter the box or tool number.",
+          "page": 2,
+          "box": {
+            "left": 454.6,
+            "top": 706.9,
+            "width": 56.4,
+            "height": 8.7
+          }
+        },
+        "out": {
+          "type": "text",
+          "label": "Enter when the box or tool was out.",
+          "page": 2,
+          "box": {
+            "left": 513.2,
+            "top": 706.9,
+            "width": 26.5,
+            "height": 9.1
+          }
+        },
+        "in": {
+          "type": "text",
+          "label": "Enter when the box or tool was in.",
+          "page": 2,
+          "box": {
+            "left": 543.0,
+            "top": 706.9,
+            "width": 32.1,
+            "height": 9.1
+          }
+        }
+      }
+    },
+    "rows3": {
+      "title": "Rows",
+      "page": 3,
+      "count": 6,
+      "rowStride": 11.23,
+      "editor": "grid",
+      "columns": {
+        "boxToolNo": {
+          "type": "text",
+          "label": "This is row 1 of 6. Enter the box or tool number.",
+          "page": 3,
+          "box": {
+            "left": 453.7,
+            "top": 702.4,
+            "width": 56.4,
+            "height": 8.7
+          }
+        },
+        "out": {
+          "type": "text",
+          "label": "Enter when the box or tool was out.",
+          "page": 3,
+          "box": {
+            "left": 512.3,
+            "top": 702.4,
+            "width": 26.5,
+            "height": 9.1
+          }
+        },
+        "in": {
+          "type": "text",
+          "label": "Enter when the box or tool was in.",
+          "page": 3,
+          "box": {
+            "left": 541.1,
+            "top": 702.4,
+            "width": 34.0,
+            "height": 9.1
+          }
+        }
+      }
+    }
+  }
+}

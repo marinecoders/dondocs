@@ -1,0 +1,294 @@
+{
+  "id": "navmchq961",
+  "label": "NAVMC HQ 961 - Nomination For An Informal Hqmc Incentive Award",
+  "directory": "NAVMCHQ961 - Nomination For An Informal Hqmc Incentive Award",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "lastName",
+        "firstName",
+        "nameMI",
+        "org",
+        "justification",
+        "pictureFrame",
+        "shellBox",
+        "jewelryBox",
+        "lastNamePickUp",
+        "firstNamePickUp",
+        "workPhone",
+        "email",
+        "rank35g",
+        "name35g",
+        "signature35g",
+        "date35g",
+        "rank35g2",
+        "name35g2",
+        "signature35g2",
+        "date35g2",
+        "dateProvided",
+        "dateApproved",
+        "awardIssued"
+      ]
+    }
+  ],
+  "fields": {
+    "lastName": {
+      "type": "text",
+      "label": "LastName",
+      "page": 1,
+      "box": {
+        "left": 22.3,
+        "top": 659.1,
+        "width": 285.6,
+        "height": 15.1
+      }
+    },
+    "firstName": {
+      "type": "text",
+      "label": "FirstName",
+      "page": 1,
+      "box": {
+        "left": 312.6,
+        "top": 659.1,
+        "width": 255.1,
+        "height": 15.1
+      }
+    },
+    "nameMI": {
+      "type": "text",
+      "label": "NameMI",
+      "page": 1,
+      "box": {
+        "left": 571.3,
+        "top": 658.8,
+        "width": 19.7,
+        "height": 15.1
+      }
+    },
+    "org": {
+      "type": "text",
+      "label": "Org",
+      "page": 1,
+      "box": {
+        "left": 22.3,
+        "top": 628.6,
+        "width": 570.0,
+        "height": 15.1
+      }
+    },
+    "justification": {
+      "type": "text",
+      "label": "Justification",
+      "page": 1,
+      "box": {
+        "left": 22.4,
+        "top": 596.2,
+        "width": 569.3,
+        "height": 119.3
+      },
+      "multiline": true
+    },
+    "pictureFrame": {
+      "type": "checkbox",
+      "label": "Desk Top Box \"8 x 8\"",
+      "page": 1,
+      "box": {
+        "left": 55.9,
+        "top": 447.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "shellBox": {
+      "type": "checkbox",
+      "label": "Desk Box \"7 x 11\"",
+      "page": 1,
+      "box": {
+        "left": 56.2,
+        "top": 427.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "jewelryBox": {
+      "type": "checkbox",
+      "label": "Picture Frame \"5 x 7\"",
+      "page": 1,
+      "box": {
+        "left": 56.2,
+        "top": 407.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "lastNamePickUp": {
+      "type": "text",
+      "label": "LastNamePickUp",
+      "page": 1,
+      "box": {
+        "left": 22.3,
+        "top": 286.9,
+        "width": 297.2,
+        "height": 15.1
+      }
+    },
+    "firstNamePickUp": {
+      "type": "text",
+      "label": "FirstNamePickUp",
+      "page": 1,
+      "box": {
+        "left": 324.4,
+        "top": 286.9,
+        "width": 267.3,
+        "height": 15.1
+      }
+    },
+    "workPhone": {
+      "type": "text",
+      "label": "WorkPhone",
+      "page": 1,
+      "box": {
+        "left": 22.9,
+        "top": 256.0,
+        "width": 169.8,
+        "height": 16.0
+      }
+    },
+    "email": {
+      "type": "text",
+      "label": "Email",
+      "page": 1,
+      "box": {
+        "left": 199.4,
+        "top": 255.3,
+        "width": 392.3,
+        "height": 15.1
+      }
+    },
+    "rank35g": {
+      "type": "text",
+      "label": "Rank35g",
+      "page": 1,
+      "box": {
+        "left": 31.3,
+        "top": 201.6,
+        "width": 94.8,
+        "height": 10.2
+      }
+    },
+    "name35g": {
+      "type": "text",
+      "label": "Name35g",
+      "page": 1,
+      "box": {
+        "left": 138.1,
+        "top": 201.6,
+        "width": 186.3,
+        "height": 10.2
+      }
+    },
+    "signature35g": {
+      "type": "signature",
+      "label": "Signature35g",
+      "page": 1,
+      "box": {
+        "left": 338.6,
+        "top": 201.6,
+        "width": 150.3,
+        "height": 10.2
+      }
+    },
+    "date35g": {
+      "type": "text",
+      "label": "Date35g",
+      "page": 1,
+      "box": {
+        "left": 503.1,
+        "top": 201.6,
+        "width": 77.6,
+        "height": 10.2
+      }
+    },
+    "rank35g2": {
+      "type": "text",
+      "label": "Rank35g",
+      "page": 1,
+      "box": {
+        "left": 31.4,
+        "top": 162.5,
+        "width": 94.8,
+        "height": 10.2
+      }
+    },
+    "name35g2": {
+      "type": "text",
+      "label": "Name35g",
+      "page": 1,
+      "box": {
+        "left": 138.1,
+        "top": 162.5,
+        "width": 186.3,
+        "height": 10.2
+      }
+    },
+    "signature35g2": {
+      "type": "signature",
+      "label": "Signature35g",
+      "page": 1,
+      "box": {
+        "left": 338.7,
+        "top": 162.5,
+        "width": 150.3,
+        "height": 10.2
+      }
+    },
+    "date35g2": {
+      "type": "text",
+      "label": "Date35g",
+      "page": 1,
+      "box": {
+        "left": 503.2,
+        "top": 162.5,
+        "width": 77.6,
+        "height": 10.2
+      }
+    },
+    "dateProvided": {
+      "type": "text",
+      "label": "DateProvided",
+      "page": 1,
+      "box": {
+        "left": 465.2,
+        "top": 92.1,
+        "width": 125.7,
+        "height": 15.1
+      }
+    },
+    "dateApproved": {
+      "type": "text",
+      "label": "DateApproved",
+      "page": 1,
+      "box": {
+        "left": 21.7,
+        "top": 91.8,
+        "width": 179.2,
+        "height": 15.1
+      }
+    },
+    "awardIssued": {
+      "type": "text",
+      "label": "AwardIssued",
+      "page": 1,
+      "box": {
+        "left": 208.0,
+        "top": 91.7,
+        "width": 250.2,
+        "height": 15.1
+      }
+    }
+  }
+}

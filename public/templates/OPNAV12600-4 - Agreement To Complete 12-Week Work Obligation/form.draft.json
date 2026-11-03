@@ -1,0 +1,65 @@
+{
+  "id": "opnav126004",
+  "label": "OPNAV12600-4 - Agreement To Complete 12-Week Work Obligation",
+  "directory": "OPNAV12600-4 - Agreement To Complete 12-Week Work Obligation",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "employeeName",
+        "signature1",
+        "1PRINTEDNAMELastFirstMiddleInitial",
+        "2SIGNATUREDATE"
+      ]
+    }
+  ],
+  "fields": {
+    "employeeName": {
+      "type": "text",
+      "label": "I,",
+      "page": 1,
+      "box": {
+        "left": 48.1,
+        "top": 728.5,
+        "width": 216.6,
+        "height": 17.0
+      }
+    },
+    "signature1": {
+      "type": "text",
+      "label": "3. SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 362.8,
+        "top": 418.0,
+        "width": 204.3,
+        "height": 29.7
+      }
+    },
+    "1PRINTEDNAMELastFirstMiddleInitial": {
+      "type": "text",
+      "label": "1. PRINTED NAME ( Last, First, Middle Initial)",
+      "page": 1,
+      "box": {
+        "left": 38.3,
+        "top": 417.7,
+        "width": 213.2,
+        "height": 28.8
+      }
+    },
+    "2SIGNATUREDATE": {
+      "type": "text",
+      "label": "2. SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 253.8,
+        "top": 417.7,
+        "width": 105.7,
+        "height": 28.8
+      }
+    }
+  }
+}

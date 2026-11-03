@@ -1,0 +1,798 @@
+{
+  "id": "navmc11850",
+  "label": "NAVMC 11850 - Class V(w) Materiel Work Order",
+  "directory": "NAVMC11850 - Class V(w) Materiel Work Order",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "date",
+        "documentNumber",
+        "location1",
+        "location2",
+        "locationCheck",
+        "dodic1",
+        "dodic2",
+        "dODICCheck",
+        "nsn1",
+        "nsn2",
+        "nSNCheck",
+        "lotNumber1",
+        "lotNumber2",
+        "lotNumberCheck",
+        "cc1",
+        "cc2",
+        "cCCheck",
+        "narcdc1",
+        "narcdc2",
+        "nARCDCCheck",
+        "serialNumber1",
+        "serialNumber2",
+        "serialNumberCheck",
+        "quantity1",
+        "quantity2",
+        "quantityCheck",
+        "originatingSignature",
+        "originatingNamePrint",
+        "location3",
+        "location4",
+        "locationCheck2",
+        "dodic3",
+        "dodic4",
+        "dODICCheck2",
+        "nsn3",
+        "nsn4",
+        "nSNCheck2",
+        "lotNumber3",
+        "lotNumber4",
+        "lotNumberCheck2",
+        "cc3",
+        "cc4",
+        "cCCheck2",
+        "narcdc3",
+        "narcdc4",
+        "nARCDCCheck2",
+        "serialNumber3",
+        "serialNumber4",
+        "serialNumberCheck2",
+        "quantity3",
+        "quantity4",
+        "quantityCheck2",
+        "bboh3",
+        "bboh4",
+        "bBOHCheck",
+        "aboh3",
+        "aboh4",
+        "aBOHCheck",
+        "firstVerifierPrint",
+        "secondVerifierPrint",
+        "firstVerifierSignature",
+        "secondVerifierSignature",
+        "processingSignature",
+        "processingNamePrint",
+        "remarks"
+      ]
+    }
+  ],
+  "fields": {
+    "date": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 419.9,
+        "top": 704.6,
+        "width": 153.4,
+        "height": 19.5
+      }
+    },
+    "documentNumber": {
+      "type": "text",
+      "label": "Document Number",
+      "page": 1,
+      "box": {
+        "left": 121.5,
+        "top": 703.8,
+        "width": 271.0,
+        "height": 18.0
+      }
+    },
+    "location1": {
+      "type": "text",
+      "label": "Location",
+      "page": 1,
+      "box": {
+        "left": 121.5,
+        "top": 645.4,
+        "width": 181.0,
+        "height": 10.8
+      }
+    },
+    "location2": {
+      "type": "text",
+      "label": "Location",
+      "page": 1,
+      "box": {
+        "left": 407.7,
+        "top": 645.4,
+        "width": 164.8,
+        "height": 10.8
+      }
+    },
+    "locationCheck": {
+      "type": "checkbox",
+      "label": "Location",
+      "page": 1,
+      "box": {
+        "left": 310.4,
+        "top": 644.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "dodic1": {
+      "type": "text",
+      "label": "DODIC",
+      "page": 1,
+      "box": {
+        "left": 121.5,
+        "top": 627.4,
+        "width": 181.0,
+        "height": 10.8
+      }
+    },
+    "dodic2": {
+      "type": "text",
+      "label": "DODIC",
+      "page": 1,
+      "box": {
+        "left": 407.7,
+        "top": 627.4,
+        "width": 164.8,
+        "height": 10.8
+      }
+    },
+    "dODICCheck": {
+      "type": "checkbox",
+      "label": "DODIC",
+      "page": 1,
+      "box": {
+        "left": 310.4,
+        "top": 626.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "nsn1": {
+      "type": "text",
+      "label": "NSN",
+      "page": 1,
+      "box": {
+        "left": 121.5,
+        "top": 609.4,
+        "width": 181.0,
+        "height": 10.8
+      }
+    },
+    "nsn2": {
+      "type": "text",
+      "label": "NSN",
+      "page": 1,
+      "box": {
+        "left": 407.7,
+        "top": 609.4,
+        "width": 164.8,
+        "height": 10.8
+      }
+    },
+    "nSNCheck": {
+      "type": "checkbox",
+      "label": "NSN",
+      "page": 1,
+      "box": {
+        "left": 310.4,
+        "top": 608.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "lotNumber1": {
+      "type": "text",
+      "label": "Lot Number",
+      "page": 1,
+      "box": {
+        "left": 121.5,
+        "top": 591.4,
+        "width": 181.0,
+        "height": 10.8
+      }
+    },
+    "lotNumber2": {
+      "type": "text",
+      "label": "Lot Number",
+      "page": 1,
+      "box": {
+        "left": 407.7,
+        "top": 591.4,
+        "width": 164.8,
+        "height": 10.8
+      }
+    },
+    "lotNumberCheck": {
+      "type": "checkbox",
+      "label": "Lot Number",
+      "page": 1,
+      "box": {
+        "left": 310.4,
+        "top": 590.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cc1": {
+      "type": "text",
+      "label": "C/C",
+      "page": 1,
+      "box": {
+        "left": 121.5,
+        "top": 573.4,
+        "width": 181.0,
+        "height": 10.8
+      }
+    },
+    "cc2": {
+      "type": "text",
+      "label": "C/C",
+      "page": 1,
+      "box": {
+        "left": 407.7,
+        "top": 573.4,
+        "width": 164.8,
+        "height": 10.8
+      }
+    },
+    "cCCheck": {
+      "type": "checkbox",
+      "label": "C/C",
+      "page": 1,
+      "box": {
+        "left": 310.4,
+        "top": 572.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "narcdc1": {
+      "type": "text",
+      "label": "NAR/CDC",
+      "page": 1,
+      "box": {
+        "left": 121.5,
+        "top": 555.4,
+        "width": 181.0,
+        "height": 10.8
+      }
+    },
+    "narcdc2": {
+      "type": "text",
+      "label": "NAR/CDC",
+      "page": 1,
+      "box": {
+        "left": 407.7,
+        "top": 555.4,
+        "width": 164.8,
+        "height": 10.8
+      }
+    },
+    "nARCDCCheck": {
+      "type": "checkbox",
+      "label": "NAR/CDC",
+      "page": 1,
+      "box": {
+        "left": 310.4,
+        "top": 554.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "serialNumber1": {
+      "type": "text",
+      "label": "Serial Number",
+      "page": 1,
+      "box": {
+        "left": 121.5,
+        "top": 537.4,
+        "width": 181.0,
+        "height": 10.8
+      }
+    },
+    "serialNumber2": {
+      "type": "text",
+      "label": "Serial Number",
+      "page": 1,
+      "box": {
+        "left": 407.7,
+        "top": 537.4,
+        "width": 164.8,
+        "height": 10.8
+      }
+    },
+    "serialNumberCheck": {
+      "type": "checkbox",
+      "label": "Serial Number",
+      "page": 1,
+      "box": {
+        "left": 310.4,
+        "top": 536.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "quantity1": {
+      "type": "text",
+      "label": "Quantity",
+      "page": 1,
+      "box": {
+        "left": 121.5,
+        "top": 519.4,
+        "width": 181.0,
+        "height": 10.8
+      }
+    },
+    "quantity2": {
+      "type": "text",
+      "label": "Quantity",
+      "page": 1,
+      "box": {
+        "left": 407.7,
+        "top": 519.4,
+        "width": 164.8,
+        "height": 10.8
+      }
+    },
+    "quantityCheck": {
+      "type": "checkbox",
+      "label": "Quantity",
+      "page": 1,
+      "box": {
+        "left": 310.4,
+        "top": 518.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "originatingSignature": {
+      "type": "text",
+      "label": "Quantity",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 502.1,
+        "width": 264.4,
+        "height": 14.3
+      }
+    },
+    "originatingNamePrint": {
+      "type": "text",
+      "label": "Quantity",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 501.4,
+        "width": 262.8,
+        "height": 13.5
+      }
+    },
+    "location3": {
+      "type": "text",
+      "label": "Location",
+      "page": 1,
+      "box": {
+        "left": 121.5,
+        "top": 439.4,
+        "width": 181.0,
+        "height": 10.8
+      }
+    },
+    "location4": {
+      "type": "text",
+      "label": "Location",
+      "page": 1,
+      "box": {
+        "left": 407.7,
+        "top": 439.4,
+        "width": 164.8,
+        "height": 10.8
+      }
+    },
+    "locationCheck2": {
+      "type": "checkbox",
+      "label": "Location",
+      "page": 1,
+      "box": {
+        "left": 310.4,
+        "top": 438.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "dodic3": {
+      "type": "text",
+      "label": "DODIC",
+      "page": 1,
+      "box": {
+        "left": 121.5,
+        "top": 421.4,
+        "width": 181.0,
+        "height": 10.8
+      }
+    },
+    "dodic4": {
+      "type": "text",
+      "label": "DODIC",
+      "page": 1,
+      "box": {
+        "left": 407.7,
+        "top": 421.4,
+        "width": 164.8,
+        "height": 10.8
+      }
+    },
+    "dODICCheck2": {
+      "type": "checkbox",
+      "label": "DODIC",
+      "page": 1,
+      "box": {
+        "left": 310.4,
+        "top": 420.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "nsn3": {
+      "type": "text",
+      "label": "NSN",
+      "page": 1,
+      "box": {
+        "left": 121.5,
+        "top": 403.4,
+        "width": 181.0,
+        "height": 10.8
+      }
+    },
+    "nsn4": {
+      "type": "text",
+      "label": "NSN",
+      "page": 1,
+      "box": {
+        "left": 407.7,
+        "top": 403.4,
+        "width": 164.8,
+        "height": 10.8
+      }
+    },
+    "nSNCheck2": {
+      "type": "checkbox",
+      "label": "NSN",
+      "page": 1,
+      "box": {
+        "left": 310.4,
+        "top": 402.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "lotNumber3": {
+      "type": "text",
+      "label": "Lot Number",
+      "page": 1,
+      "box": {
+        "left": 121.5,
+        "top": 385.4,
+        "width": 181.0,
+        "height": 10.8
+      }
+    },
+    "lotNumber4": {
+      "type": "text",
+      "label": "Lot Number",
+      "page": 1,
+      "box": {
+        "left": 407.7,
+        "top": 385.4,
+        "width": 164.8,
+        "height": 10.8
+      }
+    },
+    "lotNumberCheck2": {
+      "type": "checkbox",
+      "label": "Lot Number",
+      "page": 1,
+      "box": {
+        "left": 310.4,
+        "top": 383.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cc3": {
+      "type": "text",
+      "label": "C/C",
+      "page": 1,
+      "box": {
+        "left": 121.5,
+        "top": 367.3,
+        "width": 181.0,
+        "height": 10.8
+      }
+    },
+    "cc4": {
+      "type": "text",
+      "label": "C/C",
+      "page": 1,
+      "box": {
+        "left": 407.7,
+        "top": 367.3,
+        "width": 164.8,
+        "height": 10.8
+      }
+    },
+    "cCCheck2": {
+      "type": "checkbox",
+      "label": "C/C",
+      "page": 1,
+      "box": {
+        "left": 310.4,
+        "top": 365.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "narcdc3": {
+      "type": "text",
+      "label": "NAR/CDC",
+      "page": 1,
+      "box": {
+        "left": 121.5,
+        "top": 349.3,
+        "width": 181.0,
+        "height": 10.8
+      }
+    },
+    "narcdc4": {
+      "type": "text",
+      "label": "NAR/CDC",
+      "page": 1,
+      "box": {
+        "left": 407.7,
+        "top": 349.3,
+        "width": 164.8,
+        "height": 10.8
+      }
+    },
+    "nARCDCCheck2": {
+      "type": "checkbox",
+      "label": "NAR/CDC",
+      "page": 1,
+      "box": {
+        "left": 310.4,
+        "top": 347.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "serialNumber3": {
+      "type": "text",
+      "label": "Serial Number",
+      "page": 1,
+      "box": {
+        "left": 121.5,
+        "top": 331.3,
+        "width": 181.0,
+        "height": 10.8
+      }
+    },
+    "serialNumber4": {
+      "type": "text",
+      "label": "Serial Number",
+      "page": 1,
+      "box": {
+        "left": 407.7,
+        "top": 331.3,
+        "width": 164.8,
+        "height": 10.8
+      }
+    },
+    "serialNumberCheck2": {
+      "type": "checkbox",
+      "label": "Serial Number",
+      "page": 1,
+      "box": {
+        "left": 310.4,
+        "top": 329.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "quantity3": {
+      "type": "text",
+      "label": "Quantity",
+      "page": 1,
+      "box": {
+        "left": 121.5,
+        "top": 313.3,
+        "width": 181.0,
+        "height": 10.8
+      }
+    },
+    "quantity4": {
+      "type": "text",
+      "label": "Quantity",
+      "page": 1,
+      "box": {
+        "left": 407.7,
+        "top": 313.3,
+        "width": 164.8,
+        "height": 10.8
+      }
+    },
+    "quantityCheck2": {
+      "type": "checkbox",
+      "label": "Quantity",
+      "page": 1,
+      "box": {
+        "left": 310.4,
+        "top": 311.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "bboh3": {
+      "type": "text",
+      "label": "BBOH",
+      "page": 1,
+      "box": {
+        "left": 121.5,
+        "top": 295.3,
+        "width": 181.0,
+        "height": 10.8
+      }
+    },
+    "bboh4": {
+      "type": "text",
+      "label": "BBOH",
+      "page": 1,
+      "box": {
+        "left": 407.7,
+        "top": 295.3,
+        "width": 164.8,
+        "height": 10.8
+      }
+    },
+    "bBOHCheck": {
+      "type": "checkbox",
+      "label": "BBOH",
+      "page": 1,
+      "box": {
+        "left": 310.4,
+        "top": 293.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "aboh3": {
+      "type": "text",
+      "label": "ABOH",
+      "page": 1,
+      "box": {
+        "left": 121.5,
+        "top": 277.3,
+        "width": 181.0,
+        "height": 10.8
+      }
+    },
+    "aboh4": {
+      "type": "text",
+      "label": "ABOH",
+      "page": 1,
+      "box": {
+        "left": 407.7,
+        "top": 277.3,
+        "width": 164.8,
+        "height": 10.8
+      }
+    },
+    "aBOHCheck": {
+      "type": "checkbox",
+      "label": "ABOH",
+      "page": 1,
+      "box": {
+        "left": 310.4,
+        "top": 275.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "firstVerifierPrint": {
+      "type": "text",
+      "label": "ABOH",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 259.3,
+        "width": 262.8,
+        "height": 13.5
+      }
+    },
+    "secondVerifierPrint": {
+      "type": "text",
+      "label": "ABOH",
+      "page": 1,
+      "box": {
+        "left": 309.6,
+        "top": 259.3,
+        "width": 262.8,
+        "height": 13.5
+      }
+    },
+    "firstVerifierSignature": {
+      "type": "text",
+      "label": "First Verifier (Print)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 231.3,
+        "width": 264.4,
+        "height": 14.3
+      }
+    },
+    "secondVerifierSignature": {
+      "type": "text",
+      "label": "Second Verifier (Print)",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 231.3,
+        "width": 264.4,
+        "height": 14.3
+      }
+    },
+    "processingSignature": {
+      "type": "text",
+      "label": "Second Verifier Signature",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 187.3,
+        "width": 264.4,
+        "height": 14.3
+      }
+    },
+    "processingNamePrint": {
+      "type": "text",
+      "label": "Records/Inventory Accuracy Validation",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 186.5,
+        "width": 262.8,
+        "height": 13.5
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 149.1,
+        "width": 532.9,
+        "height": 82.6
+      },
+      "multiline": true
+    }
+  }
+}

@@ -1,0 +1,334 @@
+{
+  "id": "navmc124",
+  "label": "NAVMC 124 - Officer Selection Evaluation",
+  "directory": "NAVMC124 - Officer Selection Evaluation",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "ssn",
+        "date1",
+        "prog1",
+        "nameFull",
+        "college1",
+        "maj1",
+        "dateBirth",
+        "race1",
+        "barrProf",
+        "waiv1",
+        "currRuAddr",
+        "grade1",
+        "commOSO",
+        "signature",
+        "commMCD",
+        "signature2"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "activHS",
+        "activColl",
+        "activOth"
+      ]
+    }
+  ],
+  "fields": {
+    "ssn": {
+      "type": "text",
+      "label": "SSN",
+      "page": 1,
+      "box": {
+        "left": 266.7,
+        "top": 712.7,
+        "width": 123.9,
+        "height": 16.4
+      }
+    },
+    "date1": {
+      "type": "text",
+      "label": "Enter date using format 2002 06 27.",
+      "page": 1,
+      "box": {
+        "left": 502.1,
+        "top": 712.4,
+        "width": 92.3,
+        "height": 17.5
+      }
+    },
+    "prog1": {
+      "type": "text",
+      "label": "Program",
+      "page": 1,
+      "box": {
+        "left": 393.7,
+        "top": 711.5,
+        "width": 107.7,
+        "height": 17.5
+      }
+    },
+    "nameFull": {
+      "type": "text",
+      "label": "Applicants Name. Last, First, Middle",
+      "page": 1,
+      "box": {
+        "left": 17.5,
+        "top": 710.1,
+        "width": 245.5,
+        "height": 14.6
+      }
+    },
+    "college1": {
+      "type": "text",
+      "label": "College",
+      "page": 1,
+      "box": {
+        "left": 196.5,
+        "top": 686.5,
+        "width": 179.0,
+        "height": 14.0
+      }
+    },
+    "maj1": {
+      "type": "text",
+      "label": "Major",
+      "page": 1,
+      "box": {
+        "left": 375.5,
+        "top": 686.5,
+        "width": 218.9,
+        "height": 14.0
+      }
+    },
+    "dateBirth": {
+      "type": "text",
+      "label": "Enter date of birth using format 2002 06 27.",
+      "page": 1,
+      "box": {
+        "left": 17.5,
+        "top": 686.4,
+        "width": 72.0,
+        "height": 14.6
+      }
+    },
+    "race1": {
+      "type": "text",
+      "label": "Race",
+      "page": 1,
+      "box": {
+        "left": 89.5,
+        "top": 686.4,
+        "width": 106.3,
+        "height": 14.6
+      }
+    },
+    "barrProf": {
+      "type": "text",
+      "label": "Barron's Profile",
+      "page": 1,
+      "box": {
+        "left": 17.5,
+        "top": 662.7,
+        "width": 178.3,
+        "height": 15.5
+      }
+    },
+    "waiv1": {
+      "type": "text",
+      "label": "Waivers",
+      "page": 1,
+      "box": {
+        "left": 196.5,
+        "top": 662.0,
+        "width": 394.4,
+        "height": 14.1
+      }
+    },
+    "currRuAddr": {
+      "type": "text",
+      "label": "Current Reserve Unit address",
+      "page": 1,
+      "box": {
+        "left": 17.5,
+        "top": 638.2,
+        "width": 357.3,
+        "height": 63.6
+      },
+      "multiline": true
+    },
+    "grade1": {
+      "type": "text",
+      "label": "Grade",
+      "page": 1,
+      "box": {
+        "left": 375.5,
+        "top": 593.4,
+        "width": 107.0,
+        "height": 17.5
+      }
+    },
+    "commOSO": {
+      "type": "text",
+      "label": "OSO comments and recommendations",
+      "page": 1,
+      "box": {
+        "left": 17.5,
+        "top": 271.7,
+        "width": 579.7,
+        "height": 84.8
+      },
+      "multiline": true
+    },
+    "signature": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 152.1,
+        "top": 179.5,
+        "width": 174.4,
+        "height": 19.3
+      }
+    },
+    "commMCD": {
+      "type": "text",
+      "label": "MCD comments and recommendations.",
+      "page": 1,
+      "box": {
+        "left": 18.9,
+        "top": 147.2,
+        "width": 576.9,
+        "height": 74.8
+      },
+      "multiline": true
+    },
+    "signature2": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 131.4,
+        "top": 68.9,
+        "width": 174.4,
+        "height": 19.3
+      }
+    },
+    "activHS": {
+      "type": "text",
+      "label": "High School Activities",
+      "page": 2,
+      "box": {
+        "left": 19.2,
+        "top": 728.8,
+        "width": 576.0,
+        "height": 140.0
+      },
+      "multiline": true
+    },
+    "activColl": {
+      "type": "text",
+      "label": "College Activities",
+      "page": 2,
+      "box": {
+        "left": 18.4,
+        "top": 574.4,
+        "width": 577.6,
+        "height": 288.8
+      },
+      "multiline": true
+    },
+    "activOth": {
+      "type": "text",
+      "label": "Other Activities",
+      "page": 2,
+      "box": {
+        "left": 18.4,
+        "top": 270.9,
+        "width": 577.6,
+        "height": 242.1
+      },
+      "multiline": true
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 16,
+      "rowStride": 18.01,
+      "editor": "grid",
+      "columns": {
+        "chkQualNA": {
+          "type": "checkbox",
+          "label": "Check if academic potential has not been observed.",
+          "page": 1,
+          "box": {
+            "left": 486.7,
+            "top": 572.4,
+            "width": 11.9,
+            "height": 11.9
+          }
+        },
+        "chkQualInf": {
+          "type": "checkbox",
+          "label": "Check if academic potential is inferior.",
+          "page": 1,
+          "box": {
+            "left": 504.7,
+            "top": 572.5,
+            "width": 12.0,
+            "height": 12.0
+          }
+        },
+        "chkQualBlAv": {
+          "type": "checkbox",
+          "label": "Check if academic potential is below average.",
+          "page": 1,
+          "box": {
+            "left": 522.4,
+            "top": 572.4,
+            "width": 11.8,
+            "height": 11.8
+          }
+        },
+        "chkQualAv": {
+          "type": "checkbox",
+          "label": "Check if academic potential is average.",
+          "page": 1,
+          "box": {
+            "left": 540.7,
+            "top": 572.4,
+            "width": 11.8,
+            "height": 11.8
+          }
+        },
+        "chkQualAbAv": {
+          "type": "checkbox",
+          "label": "Check if academic potential is above average.",
+          "page": 1,
+          "box": {
+            "left": 559.2,
+            "top": 572.4,
+            "width": 12.0,
+            "height": 12.0
+          }
+        },
+        "chkQualSup": {
+          "type": "checkbox",
+          "label": "Check if academic potential is superior.",
+          "page": 1,
+          "box": {
+            "left": 576.5,
+            "top": 572.5,
+            "width": 12.0,
+            "height": 12.0
+          }
+        }
+      }
+    }
+  }
+}

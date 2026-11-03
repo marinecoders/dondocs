@@ -1,0 +1,377 @@
+{
+  "id": "navpers1070601",
+  "label": "NAVPERS1070-601 - Immediate Reenlistment Contract",
+  "directory": "NAVPERS1070-601 - Immediate Reenlistment Contract",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "textField1",
+        "textField12",
+        "textField13",
+        "textField2",
+        "textField22",
+        "textField23",
+        "textField3",
+        "textField4",
+        "textField42",
+        "textField43",
+        "textField44",
+        "textField45",
+        "textField46",
+        "textField47",
+        "textField48",
+        "textField49",
+        "textField410",
+        "textField411",
+        "textField412",
+        "textField413",
+        "textField414",
+        "textField415",
+        "textField416",
+        "textField5",
+        "textField417",
+        "textField6",
+        "textField62",
+        "textField63",
+        "textField418",
+        "textField419"
+      ]
+    }
+  ],
+  "fields": {
+    "textField1": {
+      "type": "text",
+      "label": "Please enter member's name",
+      "page": 1,
+      "box": {
+        "left": 66.6,
+        "top": 717.2,
+        "width": 272.6,
+        "height": 21.3
+      }
+    },
+    "textField12": {
+      "type": "text",
+      "label": "Please enter member's social security number",
+      "page": 1,
+      "box": {
+        "left": 367.3,
+        "top": 717.2,
+        "width": 88.8,
+        "height": 21.3
+      }
+    },
+    "textField13": {
+      "type": "text",
+      "label": "Please enter member's branch class",
+      "page": 1,
+      "box": {
+        "left": 489.6,
+        "top": 717.2,
+        "width": 83.6,
+        "height": 21.3
+      }
+    },
+    "textField2": {
+      "type": "text",
+      "label": "Please enter number of years of reenlistment",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 687.8,
+        "width": 55.1,
+        "height": 20.6
+      }
+    },
+    "textField22": {
+      "type": "text",
+      "label": "Please enter date of reenlistment",
+      "page": 1,
+      "box": {
+        "left": 387.2,
+        "top": 687.4,
+        "width": 86.2,
+        "height": 20.2
+      }
+    },
+    "textField23": {
+      "type": "text",
+      "label": "Please enter date contract expires",
+      "page": 1,
+      "box": {
+        "left": 228.6,
+        "top": 671.4,
+        "width": 75.3,
+        "height": 21.3
+      }
+    },
+    "textField3": {
+      "type": "text",
+      "label": "Please type any promises made with this contract",
+      "page": 1,
+      "box": {
+        "left": 71.8,
+        "top": 492.9,
+        "width": 481.8,
+        "height": 14.6
+      }
+    },
+    "textField4": {
+      "type": "text",
+      "label": "Mark with an x if member is inactive duty",
+      "page": 1,
+      "box": {
+        "left": 280.5,
+        "top": 457.5,
+        "width": 31.1,
+        "height": 19.8
+      }
+    },
+    "textField42": {
+      "type": "text",
+      "label": "Please enter member's date of birth",
+      "page": 1,
+      "box": {
+        "left": 520.4,
+        "top": 457.3,
+        "width": 52.9,
+        "height": 19.8
+      }
+    },
+    "textField43": {
+      "type": "text",
+      "label": "Mark with an x if member is active duty",
+      "page": 1,
+      "box": {
+        "left": 192.7,
+        "top": 457.2,
+        "width": 31.7,
+        "height": 19.8
+      }
+    },
+    "textField44": {
+      "type": "text",
+      "label": "Please enter R A D O in months / days",
+      "page": 1,
+      "box": {
+        "left": 417.0,
+        "top": 457.0,
+        "width": 69.2,
+        "height": 19.8
+      }
+    },
+    "textField45": {
+      "type": "text",
+      "label": "Please enter member's u i c",
+      "page": 1,
+      "box": {
+        "left": 55.3,
+        "top": 456.9,
+        "width": 54.3,
+        "height": 19.8
+      }
+    },
+    "textField46": {
+      "type": "text",
+      "label": "Please enter member's home of record",
+      "page": 1,
+      "box": {
+        "left": 422.8,
+        "top": 419.2,
+        "width": 149.8,
+        "height": 19.8
+      }
+    },
+    "textField47": {
+      "type": "text",
+      "label": "Please enter member's place of reenlistment",
+      "page": 1,
+      "box": {
+        "left": 144.6,
+        "top": 418.9,
+        "width": 185.6,
+        "height": 19.8
+      }
+    },
+    "textField48": {
+      "type": "text",
+      "label": "Please enter member's citizen country",
+      "page": 1,
+      "box": {
+        "left": 252.4,
+        "top": 381.6,
+        "width": 69.5,
+        "height": 19.8
+      }
+    },
+    "textField49": {
+      "type": "text",
+      "label": "Please enter member's rate",
+      "page": 1,
+      "box": {
+        "left": 362.8,
+        "top": 381.6,
+        "width": 39.4,
+        "height": 19.8
+      }
+    },
+    "textField410": {
+      "type": "text",
+      "label": "Please enter member's paygrade",
+      "page": 1,
+      "box": {
+        "left": 503.1,
+        "top": 381.6,
+        "width": 70.8,
+        "height": 19.8
+      }
+    },
+    "textField411": {
+      "type": "text",
+      "label": "Please enter member's citizenship",
+      "page": 1,
+      "box": {
+        "left": 92.1,
+        "top": 381.2,
+        "width": 68.6,
+        "height": 19.8
+      }
+    },
+    "textField412": {
+      "type": "text",
+      "label": "Please enter member's active duty service date",
+      "page": 1,
+      "box": {
+        "left": 65.8,
+        "top": 343.6,
+        "width": 95.6,
+        "height": 19.8
+      }
+    },
+    "textField413": {
+      "type": "text",
+      "label": "Please enter member's pay entry base date",
+      "page": 1,
+      "box": {
+        "left": 213.2,
+        "top": 343.6,
+        "width": 95.6,
+        "height": 19.8
+      }
+    },
+    "textField414": {
+      "type": "text",
+      "label": "Please enter member's date of last discharge",
+      "page": 1,
+      "box": {
+        "left": 449.8,
+        "top": 343.6,
+        "width": 124.1,
+        "height": 19.8
+      }
+    },
+    "textField415": {
+      "type": "text",
+      "label": "Please enter member's total active service (years/months/days)",
+      "page": 1,
+      "box": {
+        "left": 137.8,
+        "top": 304.1,
+        "width": 137.6,
+        "height": 24.5
+      }
+    },
+    "textField416": {
+      "type": "text",
+      "label": "Please enter member's total prior inactive service (years/months/days)",
+      "page": 1,
+      "box": {
+        "left": 436.3,
+        "top": 304.1,
+        "width": 136.8,
+        "height": 24.5
+      }
+    },
+    "textField5": {
+      "type": "text",
+      "label": "Please type member's full name",
+      "page": 1,
+      "box": {
+        "left": 139.3,
+        "top": 260.6,
+        "width": 278.2,
+        "height": 12.3
+      }
+    },
+    "textField417": {
+      "type": "text",
+      "label": "Text Field 417",
+      "page": 1,
+      "box": {
+        "left": 161.3,
+        "top": 198.2,
+        "width": 412.7,
+        "height": 20.6
+      }
+    },
+    "textField6": {
+      "type": "text",
+      "label": "Please enter month of reenlistment",
+      "page": 1,
+      "box": {
+        "left": 286.2,
+        "top": 145.2,
+        "width": 74.6,
+        "height": 14.5
+      }
+    },
+    "textField62": {
+      "type": "text",
+      "label": "Please enter last two digits of the year reenlisted",
+      "page": 1,
+      "box": {
+        "left": 398.2,
+        "top": 144.9,
+        "width": 40.7,
+        "height": 14.5
+      }
+    },
+    "textField63": {
+      "type": "text",
+      "label": "Please enter date of reenlistment",
+      "page": 1,
+      "box": {
+        "left": 177.5,
+        "top": 144.8,
+        "width": 74.6,
+        "height": 14.5
+      }
+    },
+    "textField418": {
+      "type": "text",
+      "label": "Please enter reenlisting officer's name and rank",
+      "page": 1,
+      "box": {
+        "left": 371.1,
+        "top": 106.0,
+        "width": 204.2,
+        "height": 15.9
+      }
+    },
+    "textField419": {
+      "type": "text",
+      "label": "AND GRADE",
+      "page": 1,
+      "box": {
+        "left": 93.5,
+        "top": 103.9,
+        "width": 219.4,
+        "height": 15.9
+      }
+    }
+  }
+}

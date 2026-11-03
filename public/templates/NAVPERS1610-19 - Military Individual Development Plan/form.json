@@ -1,0 +1,395 @@
+{
+  "id": "navpers161019",
+  "label": "NAVPERS1610-19 - Military Individual Development Plan",
+  "directory": "NAVPERS1610-19 - Military Individual Development Plan",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "one",
+        "two",
+        "three",
+        "four",
+        "five",
+        "eight",
+        "seven",
+        "cell2",
+        "cell22",
+        "cell23",
+        "cell24",
+        "cell25",
+        "cell26",
+        "cell27",
+        "cell28",
+        "cell29",
+        "cell210",
+        "cell211",
+        "cell212",
+        "cell1",
+        "cell213",
+        "cell3",
+        "cell4",
+        "cell5",
+        "cell6",
+        "cell12",
+        "cell13",
+        "cell14",
+        "cell15",
+        "cell16",
+        "cell17"
+      ]
+    }
+  ],
+  "fields": {
+    "one": {
+      "type": "text",
+      "label": "1. Sailor/Coaching Partner Name",
+      "page": 1,
+      "box": {
+        "left": 20.9,
+        "top": 528.5,
+        "width": 300.3,
+        "height": 18.0
+      }
+    },
+    "two": {
+      "type": "text",
+      "label": "2. Work Location",
+      "page": 1,
+      "box": {
+        "left": 326.9,
+        "top": 528.5,
+        "width": 300.3,
+        "height": 18.0
+      }
+    },
+    "three": {
+      "type": "text",
+      "label": "3. Designator/Rank or Rating",
+      "page": 1,
+      "box": {
+        "left": 633.0,
+        "top": 528.5,
+        "width": 138.3,
+        "height": 18.0
+      }
+    },
+    "four": {
+      "type": "text",
+      "label": "4. Organization",
+      "page": 1,
+      "box": {
+        "left": 20.9,
+        "top": 496.1,
+        "width": 606.3,
+        "height": 18.0
+      }
+    },
+    "five": {
+      "type": "text",
+      "label": "5. Date",
+      "page": 1,
+      "box": {
+        "left": 633.0,
+        "top": 496.1,
+        "width": 138.3,
+        "height": 18.0
+      }
+    },
+    "eight": {
+      "type": "text",
+      "label": "6. Supervisor/Coach Name",
+      "page": 1,
+      "box": {
+        "left": 20.9,
+        "top": 463.7,
+        "width": 606.3,
+        "height": 18.0
+      }
+    },
+    "seven": {
+      "type": "text",
+      "label": "7. Designator/Rank or Rating",
+      "page": 1,
+      "box": {
+        "left": 633.0,
+        "top": 463.7,
+        "width": 138.3,
+        "height": 18.0
+      }
+    },
+    "cell2": {
+      "type": "text",
+      "label": "List Three Strengths",
+      "page": 1,
+      "box": {
+        "left": 36.0,
+        "top": 422.0,
+        "width": 357.2,
+        "height": 12.2
+      }
+    },
+    "cell22": {
+      "type": "text",
+      "label": "List Three Opportunities for Improvement",
+      "page": 1,
+      "box": {
+        "left": 414.1,
+        "top": 422.0,
+        "width": 357.2,
+        "height": 12.2
+      }
+    },
+    "cell23": {
+      "type": "text",
+      "label": "List Three Strengths",
+      "page": 1,
+      "box": {
+        "left": 36.0,
+        "top": 404.0,
+        "width": 357.2,
+        "height": 12.2
+      }
+    },
+    "cell24": {
+      "type": "text",
+      "label": "List Three Opportunities for Improvement",
+      "page": 1,
+      "box": {
+        "left": 414.1,
+        "top": 404.0,
+        "width": 357.2,
+        "height": 12.2
+      }
+    },
+    "cell25": {
+      "type": "text",
+      "label": "List Three Strengths",
+      "page": 1,
+      "box": {
+        "left": 36.0,
+        "top": 386.0,
+        "width": 357.2,
+        "height": 12.2
+      }
+    },
+    "cell26": {
+      "type": "text",
+      "label": "List Three Opportunities for Improvement",
+      "page": 1,
+      "box": {
+        "left": 414.1,
+        "top": 386.0,
+        "width": 357.2,
+        "height": 12.2
+      }
+    },
+    "cell27": {
+      "type": "text",
+      "label": "Short-Term Goals (6-24 Months)",
+      "page": 1,
+      "box": {
+        "left": 36.0,
+        "top": 350.0,
+        "width": 357.2,
+        "height": 12.2
+      }
+    },
+    "cell28": {
+      "type": "text",
+      "label": "Long-Term Goals (36-60 Months)",
+      "page": 1,
+      "box": {
+        "left": 414.1,
+        "top": 350.0,
+        "width": 357.2,
+        "height": 12.2
+      }
+    },
+    "cell29": {
+      "type": "text",
+      "label": "Short-Term Goals (6-24 Months)",
+      "page": 1,
+      "box": {
+        "left": 36.0,
+        "top": 332.0,
+        "width": 357.2,
+        "height": 12.2
+      }
+    },
+    "cell210": {
+      "type": "text",
+      "label": "Long-Term Goals (36-60 Months)",
+      "page": 1,
+      "box": {
+        "left": 414.1,
+        "top": 332.0,
+        "width": 357.2,
+        "height": 12.2
+      }
+    },
+    "cell211": {
+      "type": "text",
+      "label": "Short-Term Goals (6-24 Months)",
+      "page": 1,
+      "box": {
+        "left": 36.0,
+        "top": 314.0,
+        "width": 357.2,
+        "height": 12.2
+      }
+    },
+    "cell212": {
+      "type": "text",
+      "label": "Long-Term Goals (36-60 Months)",
+      "page": 1,
+      "box": {
+        "left": 414.1,
+        "top": 314.0,
+        "width": 357.2,
+        "height": 12.2
+      }
+    },
+    "cell1": {
+      "type": "text",
+      "label": "would like to focus on?",
+      "page": 1,
+      "box": {
+        "left": 56.9,
+        "top": 256.4,
+        "width": 123.9,
+        "height": 134.7
+      },
+      "multiline": true
+    },
+    "cell213": {
+      "type": "text",
+      "label": "situation?",
+      "page": 1,
+      "box": {
+        "left": 186.5,
+        "top": 256.4,
+        "width": 123.9,
+        "height": 134.7
+      },
+      "multiline": true
+    },
+    "cell3": {
+      "type": "text",
+      "label": "to move forward?",
+      "page": 1,
+      "box": {
+        "left": 316.1,
+        "top": 256.4,
+        "width": 123.9,
+        "height": 134.7
+      },
+      "multiline": true
+    },
+    "cell4": {
+      "type": "text",
+      "label": "and when?",
+      "page": 1,
+      "box": {
+        "left": 445.7,
+        "top": 256.4,
+        "width": 123.9,
+        "height": 134.7
+      },
+      "multiline": true
+    },
+    "cell5": {
+      "type": "text",
+      "label": "Goal Date",
+      "page": 1,
+      "box": {
+        "left": 575.4,
+        "top": 256.4,
+        "width": 66.2,
+        "height": 134.7
+      },
+      "multiline": true
+    },
+    "cell6": {
+      "type": "text",
+      "label": "progress has been made?",
+      "page": 1,
+      "box": {
+        "left": 647.4,
+        "top": 256.4,
+        "width": 123.9,
+        "height": 134.7
+      },
+      "multiline": true
+    },
+    "cell12": {
+      "type": "text",
+      "label": "a. Sailor/Coaching Partner Name",
+      "page": 1,
+      "box": {
+        "left": 20.9,
+        "top": 89.3,
+        "width": 300.3,
+        "height": 18.0
+      }
+    },
+    "cell13": {
+      "type": "text",
+      "label": "b. Sailor/Coaching Partner Signature",
+      "page": 1,
+      "box": {
+        "left": 326.9,
+        "top": 89.3,
+        "width": 300.3,
+        "height": 18.0
+      }
+    },
+    "cell14": {
+      "type": "text",
+      "label": "c. Date",
+      "page": 1,
+      "box": {
+        "left": 633.0,
+        "top": 89.3,
+        "width": 138.3,
+        "height": 18.0
+      }
+    },
+    "cell15": {
+      "type": "text",
+      "label": "d. Supervisor/Coach Name",
+      "page": 1,
+      "box": {
+        "left": 20.9,
+        "top": 56.9,
+        "width": 300.3,
+        "height": 18.0
+      }
+    },
+    "cell16": {
+      "type": "text",
+      "label": "f. Date",
+      "page": 1,
+      "box": {
+        "left": 633.0,
+        "top": 56.9,
+        "width": 138.3,
+        "height": 18.0
+      }
+    },
+    "cell17": {
+      "type": "text",
+      "label": "e. Supervisor/Coach CUI (when Signature filled in)",
+      "page": 1,
+      "box": {
+        "left": 326.9,
+        "top": 56.5,
+        "width": 300.3,
+        "height": 17.6
+      }
+    }
+  }
+}

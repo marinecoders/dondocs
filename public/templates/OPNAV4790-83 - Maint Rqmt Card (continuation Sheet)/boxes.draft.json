@@ -1,0 +1,117 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "maintenanceRequirement": {
+        "left": 91.4,
+        "top": 759.6,
+        "width": 387.5,
+        "height": 674.0,
+        "type": "text",
+        "description": "Enter the maintenance requirement here.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "page": {
+        "left": 491.8,
+        "top": 375.8,
+        "width": 28.8,
+        "height": 22.3,
+        "type": "text",
+        "description": "Enter the current page number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "totalPages": {
+        "left": 491.8,
+        "top": 332.6,
+        "width": 28.8,
+        "height": 19.4,
+        "type": "text",
+        "description": "Enter the total number of pages.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "oneofSix": {
+        "left": 491.8,
+        "top": 309.6,
+        "width": 28.8,
+        "height": 24.5,
+        "type": "text",
+        "description": "Enter part 1 of 6 of the card number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "twoofSix": {
+        "left": 491.8,
+        "top": 279.4,
+        "width": 28.8,
+        "height": 49.0,
+        "type": "text",
+        "description": "Enter part 2 of 6 of the card number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "threeofSix": {
+        "left": 491.8,
+        "top": 223.9,
+        "width": 28.8,
+        "height": 23.0,
+        "type": "text",
+        "description": "Enter part 3 of 6 of the card number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fourofSix": {
+        "left": 491.8,
+        "top": 194.4,
+        "width": 28.8,
+        "height": 24.5,
+        "type": "text",
+        "description": "Enter part 4 of 6 of the card number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fiveofSix": {
+        "left": 491.8,
+        "top": 162.0,
+        "width": 28.8,
+        "height": 47.5,
+        "type": "text",
+        "description": "Enter part 5 of 6 of the card number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sixofSix": {
+        "left": 491.8,
+        "top": 105.1,
+        "width": 28.8,
+        "height": 20.2,
+        "type": "text",
+        "description": "Enter part 6 of 6 of the card number.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

@@ -1,0 +1,1199 @@
+{
+  "id": "opnav350164",
+  "label": "OPNAV3501-64 - Sopr Qai Job Qualification Requirements",
+  "directory": "OPNAV3501-64 - Sopr Qai Job Qualification Requirements",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "q1aName",
+        "q1aSig",
+        "q1aDate",
+        "q1b1Name",
+        "q1b1Sig",
+        "q1b1Date",
+        "q1b2Name",
+        "q1b2Sig",
+        "q1b2Date",
+        "q1b3Name",
+        "q1b3Sig",
+        "q1b3Date",
+        "q1b4Name",
+        "q1b4Sig",
+        "q1b4Date",
+        "q1b5Name",
+        "q1b5Sig",
+        "q1b5Date",
+        "q1b6Name",
+        "q1b6Sig",
+        "q1b6Date",
+        "q1b7Name",
+        "q1b7Sig",
+        "q1b7Date",
+        "q1b8Name",
+        "q1b8Sig",
+        "q1b8Date",
+        "q1cName",
+        "q1cSig",
+        "q1cDate",
+        "q2a1Type",
+        "q2a1Name",
+        "q2a1Sig",
+        "q2a1Date",
+        "q2a2Name",
+        "q2a2Sig",
+        "q2a2Date",
+        "q2a3Name",
+        "q2a3Sig",
+        "q2a3Date",
+        "q2a4Type",
+        "q2a4Name",
+        "q2a4Sig",
+        "q2a4Date",
+        "q2a5Type",
+        "q2a5Name",
+        "q2a5Sig",
+        "q2a5Date",
+        "q2a6Type",
+        "q2a6Name",
+        "q2a6Sig",
+        "q2a6Date",
+        "q2a7Type",
+        "q2a7Name",
+        "q2a7Sig",
+        "q2a7Date",
+        "q2b1Type",
+        "q2b1Name",
+        "q2b1Sig",
+        "q2b1Date"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "q2b2Name",
+        "q2b2Sig",
+        "q2b2Date",
+        "q2b3Name",
+        "q2b3Sig",
+        "q2b3Date",
+        "q2b4Type",
+        "q2b4Name",
+        "q2b4Sig",
+        "q2b4Date",
+        "q2b5Type",
+        "q2b5Name",
+        "q2b5Sig",
+        "q2b5Date",
+        "q2b6Type",
+        "q2b6Name",
+        "q2b6Sig",
+        "q2b6Date",
+        "q2b7Type",
+        "q2b7Name",
+        "q2b7Sig",
+        "q2b7Date",
+        "q2b8Name",
+        "q2b8Sig",
+        "q2b8Date",
+        "q2cScAtt",
+        "q2cName",
+        "q2cSig",
+        "q2cDate",
+        "q3Name",
+        "q3Sig",
+        "q3Date",
+        "q4Name",
+        "q4Sig",
+        "q4Date",
+        "q5Name",
+        "q5Sig",
+        "q5Date"
+      ]
+    }
+  ],
+  "fields": {
+    "q1aName": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 659.9,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q1aSig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 659.9,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q1aDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 659.9,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q1b1Name": {
+      "type": "text",
+      "label": "(1) USSOCOM Manual 350-3",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 602.8,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q1b1Sig": {
+      "type": "text",
+      "label": "(1) USSOCOM Manual 350-3",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 602.8,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q1b1Date": {
+      "type": "text",
+      "label": "(1) USSOCOM Manual 350-3",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 602.8,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q1b2Name": {
+      "type": "text",
+      "label": "(2) COMNAVSPECWARCOMINST 3000.3 (Series)",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 574.5,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q1b2Sig": {
+      "type": "text",
+      "label": "(2) COMNAVSPECWARCOMINST 3000.3 (Series)",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 574.5,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q1b2Date": {
+      "type": "text",
+      "label": "(2) COMNAVSPECWARCOMINST 3000.3 (Series)",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 574.5,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q1b3Name": {
+      "type": "text",
+      "label": "(3) COMNAVSPECWARCOMINST 3000.2 (Series)",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 546.3,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q1b3Sig": {
+      "type": "text",
+      "label": "(3) COMNAVSPECWARCOMINST 3000.2 (Series)",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 546.3,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q1b3Date": {
+      "type": "text",
+      "label": "(3) COMNAVSPECWARCOMINST 3000.2 (Series)",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 546.3,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q1b4Name": {
+      "type": "text",
+      "label": "(4) NAVSEAINST 13512.2 (Series)",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 518.1,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q1b4Sig": {
+      "type": "text",
+      "label": "(4) NAVSEAINST 13512.2 (Series)",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 518.1,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q1b4Date": {
+      "type": "text",
+      "label": "(4) NAVSEAINST 13512.2 (Series)",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 518.1,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q1b5Name": {
+      "type": "text",
+      "label": "(5) NAVSEA T0300-AW-MMO-010",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 489.9,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q1b5Sig": {
+      "type": "text",
+      "label": "(5) NAVSEA T0300-AW-MMO-010",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 489.9,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q1b5Date": {
+      "type": "text",
+      "label": "(5) NAVSEA T0300-AW-MMO-010",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 489.9,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q1b6Name": {
+      "type": "text",
+      "label": "(6) NAVSEA ULSS and maintenance plans",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 461.7,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q1b6Sig": {
+      "type": "text",
+      "label": "(6) NAVSEA ULSS and maintenance plans",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 461.7,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q1b6Date": {
+      "type": "text",
+      "label": "(6) NAVSEA ULSS and maintenance plans",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 461.7,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q1b7Name": {
+      "type": "text",
+      "label": "(7) OPNAVINST 3501.225 (Series)",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 433.4,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q1b7Sig": {
+      "type": "text",
+      "label": "(7) OPNAVINST 3501.225 (Series)",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 433.4,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q1b7Date": {
+      "type": "text",
+      "label": "(7) OPNAVINST 3501.225 (Series)",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 433.4,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q1b8Name": {
+      "type": "text",
+      "label": "(8) TB 43-0002-43",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 404.6,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q1b8Sig": {
+      "type": "text",
+      "label": "(8) TB 43-0002-43",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 404.6,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q1b8Date": {
+      "type": "text",
+      "label": "(8) TB 43-0002-43",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 404.6,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q1cName": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 376.0,
+        "width": 109.8,
+        "height": 27.2
+      }
+    },
+    "q1cSig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 376.0,
+        "width": 92.3,
+        "height": 27.2
+      }
+    },
+    "q1cDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 376.0,
+        "width": 59.4,
+        "height": 27.2
+      }
+    },
+    "q2a1Type": {
+      "type": "text",
+      "label": "(1) RAM Air parachute system (type inspected)",
+      "page": 1,
+      "box": {
+        "left": 253.5,
+        "top": 289.4,
+        "width": 51.2,
+        "height": 25.5
+      }
+    },
+    "q2a1Name": {
+      "type": "text",
+      "label": "(1) RAM Air parachute system (type inspected)",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 289.4,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q2a1Sig": {
+      "type": "text",
+      "label": "(1) RAM Air parachute system (type inspected)",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 289.4,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q2a1Date": {
+      "type": "text",
+      "label": "(1) RAM Air parachute system (type inspected)",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 289.4,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q2a2Name": {
+      "type": "text",
+      "label": "(2) MC-6 parachute",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 261.1,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q2a2Sig": {
+      "type": "text",
+      "label": "(2) MC-6 parachute",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 261.1,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q2a2Date": {
+      "type": "text",
+      "label": "(2) MC-6 parachute",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 261.1,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q2a3Name": {
+      "type": "text",
+      "label": "(3) T-11R parachute",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 232.9,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q2a3Sig": {
+      "type": "text",
+      "label": "(3) T-11R parachute",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 232.9,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q2a3Date": {
+      "type": "text",
+      "label": "(3) T-11R parachute",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 232.9,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q2a4Type": {
+      "type": "text",
+      "label": "(4) Cargo Parachute* (type inspected)",
+      "page": 1,
+      "box": {
+        "left": 253.5,
+        "top": 204.6,
+        "width": 51.2,
+        "height": 25.5
+      }
+    },
+    "q2a4Name": {
+      "type": "text",
+      "label": "(4) Cargo Parachute* (type inspected)",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 204.6,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q2a4Sig": {
+      "type": "text",
+      "label": "(4) Cargo Parachute* (type inspected)",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 204.6,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q2a4Date": {
+      "type": "text",
+      "label": "(4) Cargo Parachute* (type inspected)",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 204.6,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q2a5Type": {
+      "type": "text",
+      "label": "(5) Cargo Parachute* (type inspected, as necessary)",
+      "page": 1,
+      "box": {
+        "left": 253.5,
+        "top": 175.6,
+        "width": 51.2,
+        "height": 25.5
+      }
+    },
+    "q2a5Name": {
+      "type": "text",
+      "label": "(5) Cargo Parachute* (type inspected, as necessary)",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 175.6,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q2a5Sig": {
+      "type": "text",
+      "label": "(5) Cargo Parachute* (type inspected, as necessary)",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 175.6,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q2a5Date": {
+      "type": "text",
+      "label": "(5) Cargo Parachute* (type inspected, as necessary)",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 175.6,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q2a6Type": {
+      "type": "text",
+      "label": "(6) Cargo Parachute* (type inspected, as necessary)",
+      "page": 1,
+      "box": {
+        "left": 253.5,
+        "top": 147.3,
+        "width": 51.2,
+        "height": 25.5
+      }
+    },
+    "q2a6Name": {
+      "type": "text",
+      "label": "(6) Cargo Parachute* (type inspected, as necessary)",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 147.3,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q2a6Sig": {
+      "type": "text",
+      "label": "(6) Cargo Parachute* (type inspected, as necessary)",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 147.3,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q2a6Date": {
+      "type": "text",
+      "label": "(6) Cargo Parachute* (type inspected, as necessary)",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 147.3,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q2a7Type": {
+      "type": "text",
+      "label": "(7) Cargo Parachute* (type inspected, as necessary)",
+      "page": 1,
+      "box": {
+        "left": 253.5,
+        "top": 119.1,
+        "width": 51.2,
+        "height": 25.5
+      }
+    },
+    "q2a7Name": {
+      "type": "text",
+      "label": "(7) Cargo Parachute* (type inspected, as necessary)",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 119.1,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q2a7Sig": {
+      "type": "text",
+      "label": "(7) Cargo Parachute* (type inspected, as necessary)",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 119.1,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q2a7Date": {
+      "type": "text",
+      "label": "(7) Cargo Parachute* (type inspected, as necessary)",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 119.1,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q2b1Type": {
+      "type": "text",
+      "label": "(1) RAM Air parachute system (type inspected)",
+      "page": 1,
+      "box": {
+        "left": 253.5,
+        "top": 62.8,
+        "width": 51.2,
+        "height": 25.5
+      }
+    },
+    "q2b1Name": {
+      "type": "text",
+      "label": "(1) RAM Air parachute system (type inspected)",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 62.8,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q2b1Sig": {
+      "type": "text",
+      "label": "(1) RAM Air parachute system (type inspected)",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 62.8,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q2b1Date": {
+      "type": "text",
+      "label": "(1) RAM Air parachute system (type inspected)",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 62.8,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q2b2Name": {
+      "type": "text",
+      "label": "(2) MC-6 parachute",
+      "page": 2,
+      "box": {
+        "left": 307.5,
+        "top": 713.7,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q2b2Sig": {
+      "type": "text",
+      "label": "(2) MC-6 parachute",
+      "page": 2,
+      "box": {
+        "left": 420.6,
+        "top": 713.7,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q2b2Date": {
+      "type": "text",
+      "label": "(2) MC-6 parachute",
+      "page": 2,
+      "box": {
+        "left": 515.2,
+        "top": 713.7,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q2b3Name": {
+      "type": "text",
+      "label": "(3) T-11R parachute",
+      "page": 2,
+      "box": {
+        "left": 307.5,
+        "top": 685.5,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q2b3Sig": {
+      "type": "text",
+      "label": "(3) T-11R parachute",
+      "page": 2,
+      "box": {
+        "left": 420.6,
+        "top": 685.5,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q2b3Date": {
+      "type": "text",
+      "label": "(3) T-11R parachute",
+      "page": 2,
+      "box": {
+        "left": 515.2,
+        "top": 685.5,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q2b4Type": {
+      "type": "text",
+      "label": "(4) Cargo Parachute* (type inspected)",
+      "page": 2,
+      "box": {
+        "left": 253.5,
+        "top": 657.3,
+        "width": 51.2,
+        "height": 25.5
+      }
+    },
+    "q2b4Name": {
+      "type": "text",
+      "label": "(4) Cargo Parachute* (type inspected)",
+      "page": 2,
+      "box": {
+        "left": 307.5,
+        "top": 657.3,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q2b4Sig": {
+      "type": "text",
+      "label": "(4) Cargo Parachute* (type inspected)",
+      "page": 2,
+      "box": {
+        "left": 420.6,
+        "top": 657.3,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q2b4Date": {
+      "type": "text",
+      "label": "(4) Cargo Parachute* (type inspected)",
+      "page": 2,
+      "box": {
+        "left": 515.2,
+        "top": 657.3,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q2b5Type": {
+      "type": "text",
+      "label": "(5) Cargo Parachute* (type inspected, as necessary)",
+      "page": 2,
+      "box": {
+        "left": 253.5,
+        "top": 629.0,
+        "width": 51.2,
+        "height": 25.5
+      }
+    },
+    "q2b5Name": {
+      "type": "text",
+      "label": "(5) Cargo Parachute* (type inspected, as necessary)",
+      "page": 2,
+      "box": {
+        "left": 307.5,
+        "top": 629.0,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q2b5Sig": {
+      "type": "text",
+      "label": "(5) Cargo Parachute* (type inspected, as necessary)",
+      "page": 2,
+      "box": {
+        "left": 420.6,
+        "top": 629.0,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q2b5Date": {
+      "type": "text",
+      "label": "(5) Cargo Parachute* (type inspected, as necessary)",
+      "page": 2,
+      "box": {
+        "left": 515.2,
+        "top": 629.0,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q2b6Type": {
+      "type": "text",
+      "label": "(6) Cargo Parachute* (type inspected, as necessary)",
+      "page": 2,
+      "box": {
+        "left": 253.5,
+        "top": 600.8,
+        "width": 51.2,
+        "height": 25.5
+      }
+    },
+    "q2b6Name": {
+      "type": "text",
+      "label": "(6) Cargo Parachute* (type inspected, as necessary)",
+      "page": 2,
+      "box": {
+        "left": 307.5,
+        "top": 600.8,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q2b6Sig": {
+      "type": "text",
+      "label": "(6) Cargo Parachute* (type inspected, as necessary)",
+      "page": 2,
+      "box": {
+        "left": 420.6,
+        "top": 600.8,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q2b6Date": {
+      "type": "text",
+      "label": "(6) Cargo Parachute* (type inspected, as necessary)",
+      "page": 2,
+      "box": {
+        "left": 515.2,
+        "top": 600.8,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q2b7Type": {
+      "type": "text",
+      "label": "(7) Cargo Parachute* (type inspected, as necessary)",
+      "page": 2,
+      "box": {
+        "left": 253.5,
+        "top": 572.6,
+        "width": 51.2,
+        "height": 25.5
+      }
+    },
+    "q2b7Name": {
+      "type": "text",
+      "label": "(7) Cargo Parachute* (type inspected, as necessary)",
+      "page": 2,
+      "box": {
+        "left": 307.5,
+        "top": 572.6,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q2b7Sig": {
+      "type": "text",
+      "label": "(7) Cargo Parachute* (type inspected, as necessary)",
+      "page": 2,
+      "box": {
+        "left": 420.6,
+        "top": 572.6,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q2b7Date": {
+      "type": "text",
+      "label": "(7) Cargo Parachute* (type inspected, as necessary)",
+      "page": 2,
+      "box": {
+        "left": 515.2,
+        "top": 572.6,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q2b8Name": {
+      "type": "text",
+      "label": "parachute system(s) assigned",
+      "page": 2,
+      "box": {
+        "left": 307.5,
+        "top": 544.4,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q2b8Sig": {
+      "type": "text",
+      "label": "parachute system(s) assigned",
+      "page": 2,
+      "box": {
+        "left": 420.6,
+        "top": 544.4,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q2b8Date": {
+      "type": "text",
+      "label": "parachute system(s) assigned",
+      "page": 2,
+      "box": {
+        "left": 515.2,
+        "top": 544.4,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q2cScAtt": {
+      "type": "text",
+      "label": "attained",
+      "page": 2,
+      "box": {
+        "left": 253.5,
+        "top": 516.2,
+        "width": 51.2,
+        "height": 25.5
+      }
+    },
+    "q2cName": {
+      "type": "text",
+      "label": "attained",
+      "page": 2,
+      "box": {
+        "left": 307.5,
+        "top": 516.2,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q2cSig": {
+      "type": "text",
+      "label": "attained",
+      "page": 2,
+      "box": {
+        "left": 420.6,
+        "top": 516.2,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q2cDate": {
+      "type": "text",
+      "label": "attained",
+      "page": 2,
+      "box": {
+        "left": 515.2,
+        "top": 516.2,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q3Name": {
+      "type": "text",
+      "label": "3. LPO",
+      "page": 2,
+      "box": {
+        "left": 307.5,
+        "top": 459.7,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q3Sig": {
+      "type": "text",
+      "label": "3. LPO",
+      "page": 2,
+      "box": {
+        "left": 420.6,
+        "top": 459.7,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q3Date": {
+      "type": "text",
+      "label": "3. LPO",
+      "page": 2,
+      "box": {
+        "left": 515.2,
+        "top": 459.7,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q4Name": {
+      "type": "text",
+      "label": "4. Paraloft LCPO",
+      "page": 2,
+      "box": {
+        "left": 307.5,
+        "top": 431.5,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q4Sig": {
+      "type": "text",
+      "label": "4. Paraloft LCPO",
+      "page": 2,
+      "box": {
+        "left": 420.6,
+        "top": 431.5,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q4Date": {
+      "type": "text",
+      "label": "4. Paraloft LCPO",
+      "page": 2,
+      "box": {
+        "left": 515.2,
+        "top": 431.5,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q5Name": {
+      "type": "text",
+      "label": "5. P3 and Cargo Program Manager",
+      "page": 2,
+      "box": {
+        "left": 307.5,
+        "top": 403.4,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q5Sig": {
+      "type": "text",
+      "label": "5. P3 and Cargo Program Manager",
+      "page": 2,
+      "box": {
+        "left": 420.6,
+        "top": 403.4,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q5Date": {
+      "type": "text",
+      "label": "5. P3 and Cargo Program Manager",
+      "page": 2,
+      "box": {
+        "left": 515.2,
+        "top": 403.4,
+        "width": 59.4,
+        "height": 25.5
+      }
+    }
+  }
+}

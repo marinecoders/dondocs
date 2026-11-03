@@ -1,0 +1,405 @@
+{
+  "id": "navmc11670",
+  "label": "NAVMC11670 - Telework Agreement For Regular And Recurring Telework",
+  "directory": "NAVMC11670 - Telework Agreement For Regular And Recurring Telework",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "nameA",
+        "titleA",
+        "orgA",
+        "sunday1",
+        "sunday2",
+        "sunday3",
+        "monday1",
+        "monday2",
+        "monday3",
+        "tuesday1",
+        "tuesday2",
+        "tuesday3",
+        "wed1",
+        "wed2",
+        "wed3",
+        "thur1",
+        "thur2",
+        "thur3",
+        "fri1",
+        "fri2",
+        "fri3",
+        "sat1",
+        "sat2",
+        "sat3",
+        "gSACtr",
+        "other",
+        "address",
+        "faxNum",
+        "phoneNum",
+        "email",
+        "homeOffice",
+        "medical"
+      ]
+    }
+  ],
+  "fields": {
+    "nameA": {
+      "type": "text",
+      "label": "1.  YOUR NAME:",
+      "page": 1,
+      "box": {
+        "left": 20.8,
+        "top": 632.4,
+        "width": 570.3,
+        "height": 26.6
+      },
+      "required": true
+    },
+    "titleA": {
+      "type": "text",
+      "label": "2.  TITLE/SERIES/GRADE:",
+      "page": 1,
+      "box": {
+        "left": 20.8,
+        "top": 587.4,
+        "width": 570.3,
+        "height": 26.6
+      },
+      "required": true
+    },
+    "orgA": {
+      "type": "text",
+      "label": "3.  ORGANIZATION:",
+      "page": 1,
+      "box": {
+        "left": 20.8,
+        "top": 542.4,
+        "width": 570.3,
+        "height": 44.6
+      },
+      "multiline": true,
+      "required": true
+    },
+    "sunday1": {
+      "type": "text",
+      "label": "Sunday1",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 443.0,
+        "width": 160.1,
+        "height": 20.7
+      }
+    },
+    "sunday2": {
+      "type": "text",
+      "label": "Sunday2",
+      "page": 1,
+      "box": {
+        "left": 269.5,
+        "top": 443.0,
+        "width": 160.1,
+        "height": 20.7
+      }
+    },
+    "sunday3": {
+      "type": "text",
+      "label": "Sunday3",
+      "page": 1,
+      "box": {
+        "left": 432.5,
+        "top": 443.0,
+        "width": 160.1,
+        "height": 20.7
+      }
+    },
+    "monday1": {
+      "type": "text",
+      "label": "Monday1",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 419.4,
+        "width": 160.1,
+        "height": 20.7
+      }
+    },
+    "monday2": {
+      "type": "text",
+      "label": "Monday2",
+      "page": 1,
+      "box": {
+        "left": 269.5,
+        "top": 419.4,
+        "width": 160.1,
+        "height": 20.7
+      }
+    },
+    "monday3": {
+      "type": "text",
+      "label": "Monday3",
+      "page": 1,
+      "box": {
+        "left": 432.5,
+        "top": 419.4,
+        "width": 160.1,
+        "height": 20.7
+      }
+    },
+    "tuesday1": {
+      "type": "text",
+      "label": "Tuesday1",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 395.9,
+        "width": 160.1,
+        "height": 20.7
+      }
+    },
+    "tuesday2": {
+      "type": "text",
+      "label": "Tuesday2",
+      "page": 1,
+      "box": {
+        "left": 269.5,
+        "top": 395.9,
+        "width": 160.1,
+        "height": 20.7
+      }
+    },
+    "tuesday3": {
+      "type": "text",
+      "label": "Tuesday3",
+      "page": 1,
+      "box": {
+        "left": 432.5,
+        "top": 395.9,
+        "width": 160.1,
+        "height": 20.7
+      }
+    },
+    "wed1": {
+      "type": "text",
+      "label": "Wed1",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 372.3,
+        "width": 160.1,
+        "height": 16.2
+      }
+    },
+    "wed2": {
+      "type": "text",
+      "label": "Wed2",
+      "page": 1,
+      "box": {
+        "left": 269.5,
+        "top": 372.3,
+        "width": 160.1,
+        "height": 16.2
+      }
+    },
+    "wed3": {
+      "type": "text",
+      "label": "Wed3",
+      "page": 1,
+      "box": {
+        "left": 432.5,
+        "top": 372.3,
+        "width": 160.1,
+        "height": 16.2
+      }
+    },
+    "thur1": {
+      "type": "text",
+      "label": "Thur1",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 353.3,
+        "width": 160.1,
+        "height": 20.7
+      }
+    },
+    "thur2": {
+      "type": "text",
+      "label": "Thur2",
+      "page": 1,
+      "box": {
+        "left": 269.5,
+        "top": 353.3,
+        "width": 160.1,
+        "height": 20.7
+      }
+    },
+    "thur3": {
+      "type": "text",
+      "label": "Thur3",
+      "page": 1,
+      "box": {
+        "left": 432.5,
+        "top": 353.3,
+        "width": 160.1,
+        "height": 20.7
+      }
+    },
+    "fri1": {
+      "type": "text",
+      "label": "Fri1",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 329.7,
+        "width": 160.1,
+        "height": 20.7
+      }
+    },
+    "fri2": {
+      "type": "text",
+      "label": "Fri2",
+      "page": 1,
+      "box": {
+        "left": 269.5,
+        "top": 329.7,
+        "width": 160.1,
+        "height": 20.7
+      }
+    },
+    "fri3": {
+      "type": "text",
+      "label": "Fri3",
+      "page": 1,
+      "box": {
+        "left": 432.5,
+        "top": 329.7,
+        "width": 160.1,
+        "height": 20.7
+      }
+    },
+    "sat1": {
+      "type": "text",
+      "label": "Sat1",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 306.1,
+        "width": 160.1,
+        "height": 21.1
+      }
+    },
+    "sat2": {
+      "type": "text",
+      "label": "Sat2",
+      "page": 1,
+      "box": {
+        "left": 269.5,
+        "top": 306.1,
+        "width": 160.1,
+        "height": 21.1
+      }
+    },
+    "sat3": {
+      "type": "text",
+      "label": "Sat3",
+      "page": 1,
+      "box": {
+        "left": 432.5,
+        "top": 306.1,
+        "width": 160.1,
+        "height": 21.1
+      }
+    },
+    "gSACtr": {
+      "type": "checkbox",
+      "label": "GSA TELECENTER OR",
+      "page": 1,
+      "box": {
+        "left": 77.2,
+        "top": 258.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "other": {
+      "type": "checkbox",
+      "label": "OTHER APPROVED WORKSITE",
+      "page": 1,
+      "box": {
+        "left": 266.0,
+        "top": 258.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "address": {
+      "type": "text",
+      "label": "ADDRESS:",
+      "page": 1,
+      "box": {
+        "left": 77.2,
+        "top": 231.2,
+        "width": 513.9,
+        "height": 22.4
+      }
+    },
+    "faxNum": {
+      "type": "text",
+      "label": "Enter (999) 999-9999",
+      "page": 1,
+      "box": {
+        "left": 369.6,
+        "top": 204.3,
+        "width": 221.6,
+        "height": 17.2
+      }
+    },
+    "phoneNum": {
+      "type": "text",
+      "label": "Enter (999) 999-9999",
+      "page": 1,
+      "box": {
+        "left": 112.0,
+        "top": 202.6,
+        "width": 200.9,
+        "height": 17.2
+      }
+    },
+    "email": {
+      "type": "text",
+      "label": " E-MAIL ADDRESS:",
+      "page": 1,
+      "box": {
+        "left": 105.1,
+        "top": 182.7,
+        "width": 488.9,
+        "height": 20.5
+      }
+    },
+    "homeOffice": {
+      "type": "checkbox",
+      "label": "CHECK HERE if the alternate worksite is the employee's home.  If this box is checked, describe specific location within the home that will be used as the official worksite.",
+      "page": 1,
+      "box": {
+        "left": 53.0,
+        "top": 118.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "medical": {
+      "type": "checkbox",
+      "label": "CHECK HERE if the Telework arrangement is based on medical reasons or as an accommodation for a disability.  Attach medical documentation that supports the Telework arrangement.",
+      "page": 1,
+      "box": {
+        "left": 53.0,
+        "top": 85.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    }
+  }
+}

@@ -1,0 +1,289 @@
+{
+  "id": "opnav53058",
+  "label": "OPNAV5305-8 - Admiral Stan Arthur Awards For Logistics Excellence Nomination",
+  "directory": "OPNAV5305-8 - Admiral Stan Arthur Awards For Logistics Excellence Nomination",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "origName",
+        "origPhone",
+        "origEmail",
+        "date1",
+        "award",
+        "organization",
+        "subdivision",
+        "echelon2Contact",
+        "pSDName",
+        "pSDPhone",
+        "pSDEmail",
+        "nominee",
+        "nomineePhone",
+        "nomineeEmail",
+        "position",
+        "rank",
+        "citation",
+        "contBy",
+        "cUICat",
+        "ldc",
+        "poc"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "details"
+      ]
+    }
+  ],
+  "fields": {
+    "origName": {
+      "type": "text",
+      "label": "Initial)",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 588.3,
+        "width": 166.7,
+        "height": 20.9
+      }
+    },
+    "origPhone": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 1,
+      "box": {
+        "left": 209.2,
+        "top": 588.3,
+        "width": 108.2,
+        "height": 20.9
+      }
+    },
+    "origEmail": {
+      "type": "text",
+      "label": "3. ORIGINATOR E-MAIL ADDRESS",
+      "page": 1,
+      "box": {
+        "left": 321.7,
+        "top": 588.3,
+        "width": 184.7,
+        "height": 20.9
+      }
+    },
+    "date1": {
+      "type": "text",
+      "label": "PREPARED",
+      "page": 1,
+      "box": {
+        "left": 510.7,
+        "top": 588.3,
+        "width": 63.2,
+        "height": 20.9
+      }
+    },
+    "award": {
+      "type": "text",
+      "label": "5. AWARD CATEGORY",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 545.1,
+        "width": 166.7,
+        "height": 20.9
+      }
+    },
+    "organization": {
+      "type": "text",
+      "label": "6. ORGANIZATION",
+      "page": 1,
+      "box": {
+        "left": 209.2,
+        "top": 545.1,
+        "width": 108.2,
+        "height": 20.9
+      }
+    },
+    "subdivision": {
+      "type": "text",
+      "label": "SUBDIVISION",
+      "page": 1,
+      "box": {
+        "left": 321.7,
+        "top": 545.1,
+        "width": 112.7,
+        "height": 20.9
+      }
+    },
+    "echelon2Contact": {
+      "type": "text",
+      "label": "CONTACT",
+      "page": 1,
+      "box": {
+        "left": 438.7,
+        "top": 545.1,
+        "width": 135.2,
+        "height": 20.9
+      }
+    },
+    "pSDName": {
+      "type": "text",
+      "label": "9. COMPTROLLER/SERVICING PSD NAME",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 501.9,
+        "width": 166.7,
+        "height": 20.9
+      }
+    },
+    "pSDPhone": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 1,
+      "box": {
+        "left": 209.2,
+        "top": 501.9,
+        "width": 180.2,
+        "height": 20.9
+      }
+    },
+    "pSDEmail": {
+      "type": "text",
+      "label": "ADDRESS",
+      "page": 1,
+      "box": {
+        "left": 393.7,
+        "top": 501.9,
+        "width": 180.2,
+        "height": 20.9
+      }
+    },
+    "nominee": {
+      "type": "text",
+      "label": "NAME (Last, First, Middle Initial)",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 444.3,
+        "width": 125.3,
+        "height": 13.7
+      }
+    },
+    "nomineePhone": {
+      "type": "text",
+      "label": "PHONE NUMBER",
+      "page": 1,
+      "box": {
+        "left": 167.8,
+        "top": 444.3,
+        "width": 82.1,
+        "height": 13.7
+      }
+    },
+    "nomineeEmail": {
+      "type": "text",
+      "label": "E-MAIL ADDRESS",
+      "page": 1,
+      "box": {
+        "left": 254.2,
+        "top": 444.3,
+        "width": 135.2,
+        "height": 13.7
+      }
+    },
+    "position": {
+      "type": "text",
+      "label": "POSITION TITLE",
+      "page": 1,
+      "box": {
+        "left": 393.7,
+        "top": 444.3,
+        "width": 87.9,
+        "height": 13.7
+      }
+    },
+    "rank": {
+      "type": "text",
+      "label": "NAME (Last, First, Middle",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 426.3,
+        "width": 87.9,
+        "height": 13.7
+      }
+    },
+    "citation": {
+      "type": "text",
+      "label": "Citation",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 395.6,
+        "width": 534.4,
+        "height": 54.3
+      },
+      "multiline": true
+    },
+    "contBy": {
+      "type": "text",
+      "label": "CONTROLLED BY",
+      "page": 1,
+      "box": {
+        "left": 406.1,
+        "top": 33.1,
+        "width": 98.7,
+        "height": 6.6
+      }
+    },
+    "cUICat": {
+      "type": "text",
+      "label": "CUI (when filled in) CUI CATEGORY",
+      "page": 1,
+      "box": {
+        "left": 406.1,
+        "top": 24.6,
+        "width": 98.7,
+        "height": 6.6
+      }
+    },
+    "ldc": {
+      "type": "text",
+      "label": "LDC",
+      "page": 1,
+      "box": {
+        "left": 406.1,
+        "top": 17.0,
+        "width": 98.7,
+        "height": 6.6
+      }
+    },
+    "poc": {
+      "type": "text",
+      "label": "POC",
+      "page": 1,
+      "box": {
+        "left": 406.1,
+        "top": 9.4,
+        "width": 98.7,
+        "height": 6.6
+      }
+    },
+    "details": {
+      "type": "text",
+      "label": "(5) Impact joint operations",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 655.9,
+        "width": 534.4,
+        "height": 217.6
+      },
+      "multiline": true
+    }
+  }
+}

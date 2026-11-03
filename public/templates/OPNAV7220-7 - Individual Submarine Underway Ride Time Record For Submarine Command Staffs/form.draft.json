@@ -1,0 +1,567 @@
+{
+  "id": "opnav72207",
+  "label": "OPNAV7220-7 - Individual Submarine Underway Ride Time Record For Submarine Command Staffs",
+  "directory": "OPNAV7220-7 - Individual Submarine Underway Ride Time Record For Submarine Command Staffs",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "doDID",
+        "rankRate",
+        "number",
+        "total",
+        "command",
+        "uic",
+        "totCareer",
+        "ssed",
+        "yrtd6",
+        "yrtd8",
+        "yrtd10",
+        "contBy",
+        "cUICat",
+        "ldc",
+        "poc"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "contBy2",
+        "cUICat2",
+        "ldc2",
+        "poc2"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "1. NAME (Last, First, Middle Initial)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 534.9,
+        "width": 234.1,
+        "height": 13.6
+      }
+    },
+    "doDID": {
+      "type": "text",
+      "label": "2. DoD ID",
+      "page": 1,
+      "box": {
+        "left": 278.6,
+        "top": 533.6,
+        "width": 234.1,
+        "height": 12.3
+      }
+    },
+    "rankRate": {
+      "type": "text",
+      "label": "3. RANK/RATE",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 533.6,
+        "width": 126.8,
+        "height": 12.3
+      }
+    },
+    "number": {
+      "type": "text",
+      "label": "SHEET",
+      "page": 1,
+      "box": {
+        "left": 656.8,
+        "top": 532.8,
+        "width": 27.4,
+        "height": 11.0
+      }
+    },
+    "total": {
+      "type": "text",
+      "label": "of",
+      "page": 1,
+      "box": {
+        "left": 714.2,
+        "top": 532.8,
+        "width": 27.4,
+        "height": 11.0
+      }
+    },
+    "command": {
+      "type": "text",
+      "label": "5. COMMAND",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 504.8,
+        "width": 234.1,
+        "height": 12.3
+      }
+    },
+    "uic": {
+      "type": "text",
+      "label": "6. UIC",
+      "page": 1,
+      "box": {
+        "left": 278.6,
+        "top": 504.8,
+        "width": 234.1,
+        "height": 12.3
+      }
+    },
+    "totCareer": {
+      "type": "text",
+      "label": "7. TOTAL CAREER TOSS UPON REPORTING*",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 504.8,
+        "width": 234.8,
+        "height": 12.3
+      }
+    },
+    "ssed": {
+      "type": "text",
+      "label": "8. SSED*",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 476.0,
+        "width": 174.4,
+        "height": 12.3
+      }
+    },
+    "yrtd6": {
+      "type": "text",
+      "label": "9. 6 YRTD*",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 476.0,
+        "width": 174.4,
+        "height": 12.3
+      }
+    },
+    "yrtd8": {
+      "type": "text",
+      "label": "10. 8 YRTD*",
+      "page": 1,
+      "box": {
+        "left": 398.9,
+        "top": 476.0,
+        "width": 174.4,
+        "height": 12.3
+      }
+    },
+    "yrtd10": {
+      "type": "text",
+      "label": "11. 10 YRTD*",
+      "page": 1,
+      "box": {
+        "left": 578.9,
+        "top": 476.0,
+        "width": 174.4,
+        "height": 12.3
+      }
+    },
+    "contBy": {
+      "type": "text",
+      "label": "CUI (when filled in) CONTROLLED BY",
+      "page": 1,
+      "box": {
+        "left": 514.6,
+        "top": 33.2,
+        "width": 185.2,
+        "height": 6.6
+      }
+    },
+    "cUICat": {
+      "type": "text",
+      "label": "CUI CATEGORY",
+      "page": 1,
+      "box": {
+        "left": 514.6,
+        "top": 24.4,
+        "width": 185.2,
+        "height": 6.6
+      }
+    },
+    "ldc": {
+      "type": "text",
+      "label": "LDC",
+      "page": 1,
+      "box": {
+        "left": 514.6,
+        "top": 16.6,
+        "width": 185.2,
+        "height": 6.6
+      }
+    },
+    "poc": {
+      "type": "text",
+      "label": "POC",
+      "page": 1,
+      "box": {
+        "left": 514.6,
+        "top": 9.4,
+        "width": 185.2,
+        "height": 6.6
+      }
+    },
+    "contBy2": {
+      "type": "text",
+      "label": "CONTROLLED BY",
+      "page": 2,
+      "box": {
+        "left": 514.6,
+        "top": 33.2,
+        "width": 185.2,
+        "height": 6.6
+      }
+    },
+    "cUICat2": {
+      "type": "text",
+      "label": "CUI (when filled in) CUI CATEGORY",
+      "page": 2,
+      "box": {
+        "left": 514.6,
+        "top": 24.4,
+        "width": 185.2,
+        "height": 6.6
+      }
+    },
+    "ldc2": {
+      "type": "text",
+      "label": "LDC",
+      "page": 2,
+      "box": {
+        "left": 514.6,
+        "top": 16.6,
+        "width": 185.2,
+        "height": 6.6
+      }
+    },
+    "poc2": {
+      "type": "text",
+      "label": "POC",
+      "page": 2,
+      "box": {
+        "left": 514.6,
+        "top": 9.4,
+        "width": 185.2,
+        "height": 6.6
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 6,
+      "rowStride": 20.62,
+      "editor": "grid",
+      "columns": {
+        "row12": {
+          "type": "text",
+          "label": "MONTH/YEAR",
+          "page": 1,
+          "box": {
+            "left": 49.2,
+            "top": 175.9,
+            "width": 60.0,
+            "height": 17.8
+          }
+        },
+        "row121": {
+          "type": "text",
+          "label": "SHIP",
+          "page": 1,
+          "box": {
+            "left": 112.0,
+            "top": 175.9,
+            "width": 82.4,
+            "height": 17.8
+          }
+        },
+        "row122": {
+          "type": "text",
+          "label": "HOURS EARNED",
+          "page": 1,
+          "box": {
+            "left": 197.2,
+            "top": 175.9,
+            "width": 77.2,
+            "height": 17.8
+          }
+        },
+        "row123": {
+          "type": "text",
+          "label": "EARNED",
+          "page": 1,
+          "box": {
+            "left": 277.3,
+            "top": 175.9,
+            "width": 77.2,
+            "height": 17.8
+          }
+        },
+        "row124": {
+          "type": "text",
+          "label": "HOURS REQUIRED",
+          "page": 1,
+          "box": {
+            "left": 357.3,
+            "top": 175.9,
+            "width": 77.2,
+            "height": 17.8
+          }
+        },
+        "row125": {
+          "type": "text",
+          "label": "BANK TIME",
+          "page": 1,
+          "box": {
+            "left": 437.3,
+            "top": 175.9,
+            "width": 77.2,
+            "height": 17.8
+          }
+        },
+        "row126": {
+          "type": "text",
+          "label": "TIME",
+          "page": 1,
+          "box": {
+            "left": 517.4,
+            "top": 175.9,
+            "width": 76.6,
+            "height": 17.8
+          }
+        },
+        "row127": {
+          "type": "text",
+          "label": "MONTHS*",
+          "page": 1,
+          "box": {
+            "left": 596.7,
+            "top": 175.9,
+            "width": 77.2,
+            "height": 17.8
+          }
+        },
+        "row128": {
+          "type": "text",
+          "label": "TOSS",
+          "page": 1,
+          "box": {
+            "left": 676.8,
+            "top": 175.9,
+            "width": 78.4,
+            "height": 17.8
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 12,
+      "rowStride": 20.63,
+      "editor": "grid",
+      "columns": {
+        "cell": {
+          "type": "text",
+          "label": "MONTH/YEAR",
+          "page": 1,
+          "box": {
+            "left": 49.2,
+            "top": 423.4,
+            "width": 60.0,
+            "height": 17.8
+          }
+        },
+        "row": {
+          "type": "text",
+          "label": "SHIP",
+          "page": 1,
+          "box": {
+            "left": 112.0,
+            "top": 423.4,
+            "width": 82.4,
+            "height": 17.8
+          }
+        },
+        "cell2": {
+          "type": "text",
+          "label": "HOURS EARNED",
+          "page": 1,
+          "box": {
+            "left": 197.2,
+            "top": 423.4,
+            "width": 77.2,
+            "height": 17.8
+          }
+        },
+        "cell3": {
+          "type": "text",
+          "label": "EARNED",
+          "page": 1,
+          "box": {
+            "left": 277.3,
+            "top": 423.4,
+            "width": 77.2,
+            "height": 17.8
+          }
+        },
+        "cell4": {
+          "type": "text",
+          "label": "HOURS REQUIRED",
+          "page": 1,
+          "box": {
+            "left": 357.3,
+            "top": 423.4,
+            "width": 77.2,
+            "height": 17.8
+          }
+        },
+        "cell5": {
+          "type": "text",
+          "label": "BANK TIME",
+          "page": 1,
+          "box": {
+            "left": 437.3,
+            "top": 423.4,
+            "width": 77.2,
+            "height": 17.8
+          }
+        },
+        "cell6": {
+          "type": "text",
+          "label": "TIME",
+          "page": 1,
+          "box": {
+            "left": 517.4,
+            "top": 423.4,
+            "width": 76.6,
+            "height": 17.8
+          }
+        },
+        "cell7": {
+          "type": "text",
+          "label": "MONTHS*",
+          "page": 1,
+          "box": {
+            "left": 596.7,
+            "top": 423.4,
+            "width": 77.2,
+            "height": 17.8
+          }
+        },
+        "cell8": {
+          "type": "text",
+          "label": "TOSS",
+          "page": 1,
+          "box": {
+            "left": 676.8,
+            "top": 423.4,
+            "width": 78.4,
+            "height": 17.8
+          }
+        }
+      }
+    },
+    "rows3": {
+      "title": "Rows",
+      "page": 2,
+      "count": 16,
+      "rowStride": 30.6,
+      "editor": "grid",
+      "columns": {
+        "cell": {
+          "type": "text",
+          "label": "a. 1ST QTR",
+          "page": 2,
+          "box": {
+            "left": 97.9,
+            "top": 524.2,
+            "width": 48.3,
+            "height": 27.8
+          }
+        },
+        "cell2": {
+          "type": "text",
+          "label": "a. 1ST QTR",
+          "page": 2,
+          "box": {
+            "left": 149.1,
+            "top": 524.2,
+            "width": 97.8,
+            "height": 27.8
+          }
+        },
+        "cell3": {
+          "type": "text",
+          "label": "a. 1ST QTR",
+          "page": 2,
+          "box": {
+            "left": 249.7,
+            "top": 524.2,
+            "width": 92.2,
+            "height": 27.8
+          }
+        },
+        "cell4": {
+          "type": "text",
+          "label": "a. 1ST QTR",
+          "page": 2,
+          "box": {
+            "left": 344.8,
+            "top": 524.2,
+            "width": 107.2,
+            "height": 27.8
+          }
+        },
+        "cell5": {
+          "type": "text",
+          "label": "a. 1ST QTR",
+          "page": 2,
+          "box": {
+            "left": 454.8,
+            "top": 524.2,
+            "width": 97.8,
+            "height": 27.8
+          }
+        },
+        "cell6": {
+          "type": "text",
+          "label": "a. 1ST QTR",
+          "page": 2,
+          "box": {
+            "left": 555.5,
+            "top": 524.2,
+            "width": 89.1,
+            "height": 27.8
+          }
+        },
+        "cell7": {
+          "type": "text",
+          "label": "a. 1ST QTR",
+          "page": 2,
+          "box": {
+            "left": 647.3,
+            "top": 524.2,
+            "width": 107.2,
+            "height": 27.8
+          }
+        }
+      }
+    }
+  }
+}

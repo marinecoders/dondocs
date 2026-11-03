@@ -4,6 +4,8 @@ import type { LetterTemplate } from './types';
 import {
   pftWaiver,
   humanitarianTransfer,
+  recordsDiscrepancy,
+  uaStatement,
 } from './personnel';
 
 // Awards
@@ -21,6 +23,7 @@ import {
   appointmentAcknowledgement,
   appointmentBoardMember,
   appointmentSafetyOfficer,
+  certificateOfRelief,
 } from './administrative';
 
 // Investigations
@@ -36,6 +39,8 @@ export const LETTER_TEMPLATES: LetterTemplate[] = [
   // Personnel
   pftWaiver,
   humanitarianTransfer,
+  recordsDiscrepancy,
+  uaStatement,
   // Awards
   awardNam,
   awardLoa,
@@ -46,6 +51,7 @@ export const LETTER_TEMPLATES: LetterTemplate[] = [
   appointmentAcknowledgement,
   appointmentBoardMember,
   appointmentSafetyOfficer,
+  certificateOfRelief,
   // Investigations
   reportFindings,
   appointmentInvestigatingOfficer,

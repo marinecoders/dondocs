@@ -1,0 +1,135 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "name": {
+        "left": 38.9,
+        "top": 562.3,
+        "width": 426.2,
+        "height": 19.4,
+        "type": "text",
+        "description": "Full Name (Last, First Middle)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rr": {
+        "left": 470.9,
+        "top": 562.3,
+        "width": 102.2,
+        "height": 19.4,
+        "type": "text",
+        "description": "Rank/Rating/Designator",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recallAss": {
+        "left": 272.9,
+        "top": 526.3,
+        "width": 192.3,
+        "height": 19.4,
+        "type": "text",
+        "description": "Recall Assignment",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recallDate": {
+        "left": 470.9,
+        "top": 526.3,
+        "width": 102.3,
+        "height": 19.4,
+        "type": "text",
+        "description": "Recall Start Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recallDrop": {
+        "left": 39.1,
+        "top": 526.0,
+        "width": 227.8,
+        "height": 18.9,
+        "type": "choice",
+        "description": "Recall Program",
+        "options": [
+          "Officer MPN",
+          "Officer RPN",
+          "Officer Recruiting",
+          "Enlisted MPN",
+          "Enlisted RPN/AWS",
+          "Enlisted Recruiting"
+        ],
+        "group": null,
+        "required": false
+      },
+      "years": {
+        "left": 416.9,
+        "top": 502.2,
+        "width": 21.6,
+        "height": 1.0,
+        "type": "text",
+        "description": "to Navy",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "months": {
+        "left": 463.7,
+        "top": 502.2,
+        "width": 21.6,
+        "height": 1.0,
+        "type": "text",
+        "description": "Recall",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "days": {
+        "left": 536.5,
+        "top": 502.2,
+        "width": 21.6,
+        "height": 1.0,
+        "type": "text",
+        "description": "Rank/Rating/Designator",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sigDate": {
+        "left": 470.9,
+        "top": 436.3,
+        "width": 102.3,
+        "height": 19.4,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sMSig": {
+        "left": 38.9,
+        "top": 436.2,
+        "width": 426.3,
+        "height": 19.4,
+        "type": "text",
+        "description": "Service Member Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

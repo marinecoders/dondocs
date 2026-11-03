@@ -1,0 +1,310 @@
+{
+  "id": "opnav479012",
+  "label": "OPNAV4790-12 - Quality Assurance RepresentativeInspector Designation",
+  "directory": "OPNAV4790-12 - Quality Assurance RepresentativeInspector Designation",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "canNme",
+        "rnkGde",
+        "radio",
+        "radio2",
+        "radio3",
+        "forSys",
+        "divOffNme",
+        "divSigDte",
+        "divOffSig",
+        "qaaOffNme",
+        "qaaSigDte",
+        "qaaOffSig",
+        "matOffNme",
+        "matSigDte",
+        "mat",
+        "radio4",
+        "radio5",
+        "commNme",
+        "commSigDte",
+        "commSig",
+        "canTypNme",
+        "canSigDte",
+        "canSig",
+        "stmNo"
+      ]
+    }
+  ],
+  "fields": {
+    "canNme": {
+      "type": "text",
+      "label": "CANDIDATE NAME (Last Name, First Name, Middle Initial)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 700.9,
+        "width": 448.6,
+        "height": 21.9
+      }
+    },
+    "rnkGde": {
+      "type": "text",
+      "label": "RATE/GRADE",
+      "page": 1,
+      "box": {
+        "left": 493.1,
+        "top": 700.9,
+        "width": 79.3,
+        "height": 21.9
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 149.9,
+        "top": 612.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 282.5,
+        "top": 612.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 414.4,
+        "top": 612.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "forSys": {
+      "type": "text",
+      "label": "FOR (Aircraft/System/Work Center/Etc.,)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 574.2,
+        "width": 534.0,
+        "height": 21.9
+      }
+    },
+    "divOffNme": {
+      "type": "text",
+      "label": "DIVISION OFFICER TYPED NAME AND RANK",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 529.5,
+        "width": 206.2,
+        "height": 21.9
+      }
+    },
+    "divSigDte": {
+      "type": "text",
+      "label": "SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 251.2,
+        "top": 529.5,
+        "width": 109.2,
+        "height": 21.9
+      }
+    },
+    "divOffSig": {
+      "type": "text",
+      "label": "DIVISION OFFICER SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 366.7,
+        "top": 529.5,
+        "width": 206.2,
+        "height": 21.9
+      }
+    },
+    "qaaOffNme": {
+      "type": "text",
+      "label": "QA/A OFFICER TYPED NAME AND RANK",
+      "page": 1,
+      "box": {
+        "left": 39.2,
+        "top": 428.6,
+        "width": 206.2,
+        "height": 21.9
+      }
+    },
+    "qaaSigDte": {
+      "type": "text",
+      "label": "SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 251.5,
+        "top": 428.6,
+        "width": 109.2,
+        "height": 21.9
+      }
+    },
+    "qaaOffSig": {
+      "type": "text",
+      "label": "QA/A OFFICER SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 367.1,
+        "top": 428.6,
+        "width": 206.2,
+        "height": 21.9
+      }
+    },
+    "matOffNme": {
+      "type": "text",
+      "label": "MAINTENANCE OFFICER TYPED NAME AND RANK",
+      "page": 1,
+      "box": {
+        "left": 39.2,
+        "top": 329.1,
+        "width": 206.2,
+        "height": 21.9
+      }
+    },
+    "matSigDte": {
+      "type": "text",
+      "label": "SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 251.5,
+        "top": 329.1,
+        "width": 109.2,
+        "height": 21.9
+      }
+    },
+    "mat": {
+      "type": "text",
+      "label": "MAINTENANCE OFFICER SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 367.1,
+        "top": 329.1,
+        "width": 206.2,
+        "height": 21.9
+      }
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 175.7,
+        "top": 268.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 345.1,
+        "top": 268.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "commNme": {
+      "type": "text",
+      "label": "COMMANDING OFFICER TYPED NAME AND RANK",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 229.3,
+        "width": 206.2,
+        "height": 21.9
+      }
+    },
+    "commSigDte": {
+      "type": "text",
+      "label": "SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 251.5,
+        "top": 229.3,
+        "width": 109.2,
+        "height": 21.9
+      }
+    },
+    "commSig": {
+      "type": "text",
+      "label": "COMMANDING OFFICER SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 367.1,
+        "top": 229.3,
+        "width": 206.2,
+        "height": 21.9
+      }
+    },
+    "canTypNme": {
+      "type": "text",
+      "label": "CANDIDATE TYPED NAME AND RANK",
+      "page": 1,
+      "box": {
+        "left": 39.2,
+        "top": 60.7,
+        "width": 206.2,
+        "height": 21.9
+      }
+    },
+    "canSigDte": {
+      "type": "text",
+      "label": "SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 251.5,
+        "top": 60.7,
+        "width": 78.7,
+        "height": 21.9
+      }
+    },
+    "canSig": {
+      "type": "text",
+      "label": "CANDIDATE SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 337.9,
+        "top": 60.7,
+        "width": 167.5,
+        "height": 21.9
+      }
+    },
+    "stmNo": {
+      "type": "text",
+      "label": "STAMP NO",
+      "page": 1,
+      "box": {
+        "left": 510.5,
+        "top": 60.7,
+        "width": 62.7,
+        "height": 21.9
+      }
+    }
+  }
+}

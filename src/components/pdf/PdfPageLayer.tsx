@@ -250,6 +250,7 @@ export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(fu
                       pageNumber={i + 1}
                       width={pageWidth}
                       devicePixelRatio={dprCap}
+                      canvasBackground="#ffffff"
                       renderTextLayer={false}
                       renderAnnotationLayer={false}
                       // Skeleton until the canvas paints — react-pdf swaps this
@@ -312,6 +313,7 @@ export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(fu
                       pageNumber={i + 1}
                       width={72}
                       devicePixelRatio={dprCap}
+                      canvasBackground="#ffffff"
                       renderTextLayer={false}
                       renderAnnotationLayer={false}
                       loading={

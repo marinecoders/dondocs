@@ -1,0 +1,208 @@
+{
+  "id": "opnav53054",
+  "label": "OPNAV5305-4 - Thompson-Ravitz Individual Award Entry Form",
+  "directory": "OPNAV5305-4 - Thompson-Ravitz Individual Award Entry Form",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "commandname",
+        "cmdUIC",
+        "mailing",
+        "phone",
+        "email",
+        "srcommandname",
+        "srmailing",
+        "category",
+        "radio",
+        "radio2",
+        "radio3",
+        "radio4",
+        "pocname",
+        "pocrank",
+        "pocphone"
+      ]
+    }
+  ],
+  "fields": {
+    "commandname": {
+      "type": "text",
+      "label": "1. COMMAND NAME",
+      "page": 1,
+      "box": {
+        "left": 130.6,
+        "top": 738.6,
+        "width": 348.3,
+        "height": 18.0
+      }
+    },
+    "cmdUIC": {
+      "type": "text",
+      "label": "2. UIC",
+      "page": 1,
+      "box": {
+        "left": 520.8,
+        "top": 738.6,
+        "width": 54.3,
+        "height": 18.0
+      }
+    },
+    "mailing": {
+      "type": "text",
+      "label": "3. COMMAND ADDRESS",
+      "page": 1,
+      "box": {
+        "left": 145.0,
+        "top": 720.0,
+        "width": 431.1,
+        "height": 18.0
+      }
+    },
+    "phone": {
+      "type": "text",
+      "label": "4. COMMAND POC PHONE NUMBER",
+      "page": 1,
+      "box": {
+        "left": 193.2,
+        "top": 702.0,
+        "width": 75.3,
+        "height": 18.0
+      }
+    },
+    "email": {
+      "type": "text",
+      "label": "5. COMMAND POC EMAIL",
+      "page": 1,
+      "box": {
+        "left": 387.9,
+        "top": 702.0,
+        "width": 188.2,
+        "height": 18.0
+      }
+    },
+    "srcommandname": {
+      "type": "text",
+      "label": "6. NEXT SENIOR COMMAND NAME",
+      "page": 1,
+      "box": {
+        "left": 189.8,
+        "top": 684.0,
+        "width": 386.3,
+        "height": 18.0
+      }
+    },
+    "srmailing": {
+      "type": "text",
+      "label": "7. NEXT SENIOR COMMAND ADDRESS",
+      "page": 1,
+      "box": {
+        "left": 206.3,
+        "top": 666.0,
+        "width": 369.8,
+        "height": 16.3
+      }
+    },
+    "category": {
+      "type": "choice",
+      "label": "8. CATEGORY",
+      "page": 1,
+      "box": {
+        "left": 108.6,
+        "top": 648.7,
+        "width": 466.8,
+        "height": 16.5
+      },
+      "options": [
+        "Junior Public Affairs Officer of the Year",
+        "Junior Reserve Public Affairs Officer of the Year",
+        "Junior Civilian Public Affairs Specialist of the Year",
+        "Junior Collateral Duty Public Affairs Officer of the Year",
+        "Enlisted Public Affairs Officer of the Year"
+      ]
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 147.0,
+        "top": 625.7,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 196.1,
+        "top": 625.7,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 376.8,
+        "top": 625.7,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 474.8,
+        "top": 625.7,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "radio"
+    },
+    "pocname": {
+      "type": "text",
+      "label": "11. NOMINEE&apos;S NAME",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 596.8,
+        "width": 202.0,
+        "height": 17.7
+      }
+    },
+    "pocrank": {
+      "type": "text",
+      "label": "12. NOMINEE&apos;S RANK",
+      "page": 1,
+      "box": {
+        "left": 248.1,
+        "top": 596.8,
+        "width": 88.6,
+        "height": 17.7
+      }
+    },
+    "pocphone": {
+      "type": "text",
+      "label": "13. NOMINEE&apos;S LENGTH OF PUBLIC AFFAIRS EXPERIENCE",
+      "page": 1,
+      "box": {
+        "left": 342.3,
+        "top": 596.8,
+        "width": 233.8,
+        "height": 17.7
+      }
+    }
+  }
+}

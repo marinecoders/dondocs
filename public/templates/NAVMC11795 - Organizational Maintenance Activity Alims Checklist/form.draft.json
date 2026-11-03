@@ -1,0 +1,836 @@
+{
+  "id": "navmc11795",
+  "label": "NAVMC11795 - Organizational Maintenance Activity Alims Checklist",
+  "directory": "NAVMC11795 - Organizational Maintenance Activity Alims Checklist",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "mals",
+        "date",
+        "oic",
+        "ncoic",
+        "inspector",
+        "grade",
+        "radio",
+        "radio2",
+        "1",
+        "radio3",
+        "radio4",
+        "2",
+        "radio5",
+        "radio6",
+        "3",
+        "radio7",
+        "radio8",
+        "4",
+        "radio9",
+        "radio10",
+        "5",
+        "radio11",
+        "radio12",
+        "6",
+        "radio13",
+        "radio14",
+        "7",
+        "radio15",
+        "radio16",
+        "8",
+        "radio17",
+        "radio18",
+        "9"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "radio19",
+        "radio20",
+        "10",
+        "radio21",
+        "radio22",
+        "11",
+        "radio23",
+        "radio24",
+        "12",
+        "radio25",
+        "radio26",
+        "13",
+        "radio27",
+        "radio28",
+        "14",
+        "radio29",
+        "radio30",
+        "15",
+        "radio31",
+        "radio32",
+        "16",
+        "radio33",
+        "radio34",
+        "17",
+        "radio35",
+        "radio36",
+        "18",
+        "radio37",
+        "radio38",
+        "19"
+      ]
+    }
+  ],
+  "fields": {
+    "mals": {
+      "type": "text",
+      "label": "MALS",
+      "page": 1,
+      "box": {
+        "left": 80.9,
+        "top": 707.4,
+        "width": 221.5,
+        "height": 10.8
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 350.9,
+        "top": 707.4,
+        "width": 221.5,
+        "height": 10.8
+      }
+    },
+    "oic": {
+      "type": "text",
+      "label": "OIC",
+      "page": 1,
+      "box": {
+        "left": 80.9,
+        "top": 689.4,
+        "width": 221.5,
+        "height": 10.8
+      }
+    },
+    "ncoic": {
+      "type": "text",
+      "label": "NCOIC",
+      "page": 1,
+      "box": {
+        "left": 350.9,
+        "top": 689.4,
+        "width": 221.5,
+        "height": 10.8
+      }
+    },
+    "inspector": {
+      "type": "text",
+      "label": "Inspector",
+      "page": 1,
+      "box": {
+        "left": 80.9,
+        "top": 671.4,
+        "width": 221.5,
+        "height": 10.8
+      }
+    },
+    "grade": {
+      "type": "text",
+      "label": "Grade",
+      "page": 1,
+      "box": {
+        "left": 350.9,
+        "top": 671.4,
+        "width": 221.5,
+        "height": 10.8
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 516.1,
+        "top": 649.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 547.8,
+        "top": 649.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "1": {
+      "type": "text",
+      "label": "required entries? (3.2.E)",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 628.6,
+        "width": 532.9,
+        "height": 30.6
+      },
+      "multiline": true
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 516.1,
+        "top": 587.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 547.8,
+        "top": 587.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "2": {
+      "type": "text",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 566.0,
+        "width": 532.9,
+        "height": 30.6
+      },
+      "multiline": true
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 516.1,
+        "top": 524.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 547.8,
+        "top": 524.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "3": {
+      "type": "text",
+      "label": "3",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 503.4,
+        "width": 532.9,
+        "height": 30.6
+      },
+      "multiline": true
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 516.1,
+        "top": 461.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 547.8,
+        "top": 461.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "4": {
+      "type": "text",
+      "label": "4",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 440.8,
+        "width": 532.9,
+        "height": 30.6
+      },
+      "multiline": true
+    },
+    "radio9": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 516.1,
+        "top": 399.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio10": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 547.8,
+        "top": 399.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "5": {
+      "type": "text",
+      "label": "Manual)",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 378.2,
+        "width": 532.9,
+        "height": 30.6
+      },
+      "multiline": true
+    },
+    "radio11": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 516.1,
+        "top": 336.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio12": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 547.8,
+        "top": 336.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "6": {
+      "type": "text",
+      "label": "6",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 315.5,
+        "width": 532.9,
+        "height": 30.6
+      },
+      "multiline": true
+    },
+    "radio13": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 516.1,
+        "top": 273.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio14": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 547.8,
+        "top": 273.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "7": {
+      "type": "text",
+      "label": "(3.3.E, 3.6.G, 3.5.B)",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 252.9,
+        "width": 532.9,
+        "height": 30.6
+      },
+      "multiline": true
+    },
+    "radio15": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 516.1,
+        "top": 211.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio16": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 547.8,
+        "top": 211.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "8": {
+      "type": "text",
+      "label": "(4.4.G.3, 4.4.G.17)",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 190.3,
+        "width": 532.9,
+        "height": 30.6
+      },
+      "multiline": true
+    },
+    "radio17": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 516.1,
+        "top": 148.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio18": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 547.8,
+        "top": 148.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "9": {
+      "type": "text",
+      "label": "9",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 127.7,
+        "width": 532.9,
+        "height": 30.6
+      },
+      "multiline": true
+    },
+    "radio19": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 516.1,
+        "top": 725.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio20": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 547.8,
+        "top": 725.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "10": {
+      "type": "text",
+      "label": "10",
+      "page": 2,
+      "box": {
+        "left": 39.6,
+        "top": 704.2,
+        "width": 532.9,
+        "height": 30.6
+      },
+      "multiline": true
+    },
+    "radio21": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 516.1,
+        "top": 662.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio22": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 547.8,
+        "top": 662.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "11": {
+      "type": "text",
+      "label": "11",
+      "page": 2,
+      "box": {
+        "left": 39.6,
+        "top": 641.6,
+        "width": 532.9,
+        "height": 30.6
+      },
+      "multiline": true
+    },
+    "radio23": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 516.1,
+        "top": 600.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio24": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 547.8,
+        "top": 600.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "12": {
+      "type": "text",
+      "label": "(3.6.A, 3.6.C-D)",
+      "page": 2,
+      "box": {
+        "left": 39.6,
+        "top": 579.0,
+        "width": 532.9,
+        "height": 30.6
+      },
+      "multiline": true
+    },
+    "radio25": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 516.1,
+        "top": 537.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio26": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 547.8,
+        "top": 537.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "13": {
+      "type": "text",
+      "label": "or local directives governing email/internet access? (3.6.C)",
+      "page": 2,
+      "box": {
+        "left": 39.6,
+        "top": 516.4,
+        "width": 532.9,
+        "height": 30.6
+      },
+      "multiline": true
+    },
+    "radio27": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 516.1,
+        "top": 474.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio28": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 547.8,
+        "top": 474.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "14": {
+      "type": "text",
+      "label": "14",
+      "page": 2,
+      "box": {
+        "left": 39.6,
+        "top": 453.8,
+        "width": 532.9,
+        "height": 30.6
+      },
+      "multiline": true
+    },
+    "radio29": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 516.1,
+        "top": 412.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio30": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 547.8,
+        "top": 412.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "15": {
+      "type": "text",
+      "label": "15",
+      "page": 2,
+      "box": {
+        "left": 39.6,
+        "top": 391.2,
+        "width": 532.9,
+        "height": 30.6
+      },
+      "multiline": true
+    },
+    "radio31": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 516.1,
+        "top": 349.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio32": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 547.8,
+        "top": 349.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "16": {
+      "type": "text",
+      "label": "16",
+      "page": 2,
+      "box": {
+        "left": 39.6,
+        "top": 328.5,
+        "width": 532.9,
+        "height": 30.6
+      },
+      "multiline": true
+    },
+    "radio33": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 516.1,
+        "top": 286.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio34": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 547.8,
+        "top": 286.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "17": {
+      "type": "text",
+      "label": "administrative usernames and passwords? (OOMA SA DBA Manual)",
+      "page": 2,
+      "box": {
+        "left": 39.6,
+        "top": 265.9,
+        "width": 532.9,
+        "height": 30.6
+      },
+      "multiline": true
+    },
+    "radio35": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 516.1,
+        "top": 224.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio36": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 547.8,
+        "top": 224.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "18": {
+      "type": "text",
+      "label": "3.6.G)",
+      "page": 2,
+      "box": {
+        "left": 39.6,
+        "top": 203.3,
+        "width": 532.9,
+        "height": 30.6
+      },
+      "multiline": true
+    },
+    "radio37": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 516.1,
+        "top": 161.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio38": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 547.8,
+        "top": 161.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "19": {
+      "type": "text",
+      "label": "19",
+      "page": 2,
+      "box": {
+        "left": 39.6,
+        "top": 140.7,
+        "width": 532.9,
+        "height": 30.6
+      },
+      "multiline": true
+    }
+  }
+}

@@ -1,0 +1,996 @@
+{
+  "id": "navmc11895",
+  "label": "NAVMC 11895 - USMC Sports Application",
+  "directory": "NAVMC11895 - USMC Sports Application",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "sport",
+        "position",
+        "competition",
+        "dates",
+        "nameLast",
+        "nameFirst",
+        "nameMI",
+        "rank",
+        "radio",
+        "radio2",
+        "gender",
+        "eas",
+        "unit",
+        "unitAddress",
+        "base",
+        "radio3",
+        "radio4",
+        "dob",
+        "placeBirth",
+        "passportExp",
+        "height",
+        "weight",
+        "maritalStatus",
+        "email",
+        "homeAddress",
+        "radio5",
+        "radio6",
+        "workPhone",
+        "cellPhone",
+        "dutyTitle",
+        "mos",
+        "timeOnStation",
+        "pcstdy",
+        "nameGrade",
+        "signatureField1"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "secLeaderNameGrade",
+        "secLeaderDate",
+        "secLeaderPhone",
+        "signatureField12",
+        "nameUC",
+        "dateUC",
+        "phoneUC",
+        "signatureField13",
+        "cOAddress",
+        "radio7",
+        "radio8",
+        "initialsCO",
+        "emailAtheleticDir",
+        "emailAtheleticDir2",
+        "sportName",
+        "nameAthDir",
+        "dateAthDir",
+        "phoneAthDir",
+        "signatureField14"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "reference1",
+        "reference2",
+        "sportHS",
+        "compDatesHS",
+        "awardsHS",
+        "locHighSchool",
+        "sportCol",
+        "compDatesCol",
+        "awardsCol",
+        "locCollege",
+        "sportCiv",
+        "compDatesCiv",
+        "awardsCiv",
+        "locCivilian",
+        "sportMil",
+        "compDatesMil",
+        "awardsMil",
+        "locMilitary"
+      ]
+    }
+  ],
+  "fields": {
+    "sport": {
+      "type": "text",
+      "label": "Sport",
+      "page": 1,
+      "box": {
+        "left": 39.5,
+        "top": 589.4,
+        "width": 102.3,
+        "height": 23.7
+      }
+    },
+    "position": {
+      "type": "text",
+      "label": "Position/Division",
+      "page": 1,
+      "box": {
+        "left": 147.5,
+        "top": 589.4,
+        "width": 120.3,
+        "height": 23.7
+      }
+    },
+    "competition": {
+      "type": "text",
+      "label": "Competition (All-Marine, Armed Forces, or name of other )",
+      "page": 1,
+      "box": {
+        "left": 273.6,
+        "top": 589.4,
+        "width": 192.4,
+        "height": 23.7
+      }
+    },
+    "dates": {
+      "type": "text",
+      "label": "Dates of Camp/Competition",
+      "page": 1,
+      "box": {
+        "left": 471.6,
+        "top": 589.4,
+        "width": 102.3,
+        "height": 23.7
+      }
+    },
+    "nameLast": {
+      "type": "text",
+      "label": "Name (Last)",
+      "page": 1,
+      "box": {
+        "left": 39.5,
+        "top": 536.4,
+        "width": 210.4,
+        "height": 12.9
+      }
+    },
+    "nameFirst": {
+      "type": "text",
+      "label": "(First)",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 536.4,
+        "width": 192.4,
+        "height": 12.9
+      }
+    },
+    "nameMI": {
+      "type": "text",
+      "label": "(Middle Initial)",
+      "page": 1,
+      "box": {
+        "left": 453.6,
+        "top": 536.4,
+        "width": 48.3,
+        "height": 12.9
+      }
+    },
+    "rank": {
+      "type": "choice",
+      "label": "Rank/Grade",
+      "page": 1,
+      "box": {
+        "left": 509.1,
+        "top": 535.5,
+        "width": 63.3,
+        "height": 10.5
+      },
+      "options": [
+        "Sgt",
+        "SSgt",
+        "GySgt",
+        "MSgt",
+        "1stSgt",
+        "MGySgt",
+        "SgtMaj",
+        "SMMC",
+        "WO",
+        "Gunner",
+        "CWO2",
+        "CWO3",
+        "CWO4",
+        "CWO5",
+        "2ndLt",
+        "1stLt",
+        "Capt",
+        "Maj",
+        "LtCol",
+        "Col",
+        "CIV"
+      ]
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 89.6,
+        "top": 511.3,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 151.6,
+        "top": 511.3,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "gender": {
+      "type": "text",
+      "label": "Sex",
+      "page": 1,
+      "box": {
+        "left": 39.5,
+        "top": 507.6,
+        "width": 33.9,
+        "height": 12.9
+      }
+    },
+    "eas": {
+      "type": "text",
+      "label": "Reserve",
+      "page": 1,
+      "box": {
+        "left": 216.0,
+        "top": 507.6,
+        "width": 66.3,
+        "height": 12.9
+      }
+    },
+    "unit": {
+      "type": "text",
+      "label": "Reserve",
+      "page": 1,
+      "box": {
+        "left": 288.0,
+        "top": 507.6,
+        "width": 286.0,
+        "height": 12.9
+      }
+    },
+    "unitAddress": {
+      "type": "text",
+      "label": "Unit Address",
+      "page": 1,
+      "box": {
+        "left": 39.5,
+        "top": 478.8,
+        "width": 390.4,
+        "height": 12.9
+      }
+    },
+    "base": {
+      "type": "text",
+      "label": "Base",
+      "page": 1,
+      "box": {
+        "left": 435.6,
+        "top": 478.8,
+        "width": 138.3,
+        "height": 12.9
+      }
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 408.6,
+        "top": 454.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 463.4,
+        "top": 454.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "dob": {
+      "type": "text",
+      "label": "Date of Birth",
+      "page": 1,
+      "box": {
+        "left": 39.5,
+        "top": 450.0,
+        "width": 66.3,
+        "height": 12.9
+      }
+    },
+    "placeBirth": {
+      "type": "text",
+      "label": "Place of Birth/Hometown (City,State)",
+      "page": 1,
+      "box": {
+        "left": 111.5,
+        "top": 450.0,
+        "width": 246.4,
+        "height": 12.9
+      }
+    },
+    "passportExp": {
+      "type": "text",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 507.6,
+        "top": 450.0,
+        "width": 66.3,
+        "height": 12.9
+      }
+    },
+    "height": {
+      "type": "text",
+      "label": "Height",
+      "page": 1,
+      "box": {
+        "left": 39.5,
+        "top": 421.2,
+        "width": 30.3,
+        "height": 12.9
+      }
+    },
+    "weight": {
+      "type": "text",
+      "label": "Weight",
+      "page": 1,
+      "box": {
+        "left": 75.5,
+        "top": 421.2,
+        "width": 30.3,
+        "height": 12.9
+      }
+    },
+    "maritalStatus": {
+      "type": "text",
+      "label": "Marital Status",
+      "page": 1,
+      "box": {
+        "left": 111.5,
+        "top": 421.2,
+        "width": 66.3,
+        "height": 12.9
+      }
+    },
+    "email": {
+      "type": "text",
+      "label": "E-Mail Address",
+      "page": 1,
+      "box": {
+        "left": 183.6,
+        "top": 421.2,
+        "width": 390.4,
+        "height": 12.9
+      }
+    },
+    "homeAddress": {
+      "type": "text",
+      "label": "Present Home Address (Street, City, State, &amp; Zip Code)",
+      "page": 1,
+      "box": {
+        "left": 219.6,
+        "top": 392.4,
+        "width": 354.4,
+        "height": 77.7
+      },
+      "multiline": true
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 50.5,
+        "top": 388.3,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 105.3,
+        "top": 388.3,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "workPhone": {
+      "type": "text",
+      "label": "Work Number or Duty Phone (include area code)",
+      "page": 1,
+      "box": {
+        "left": 39.5,
+        "top": 356.4,
+        "width": 174.4,
+        "height": 12.9
+      }
+    },
+    "cellPhone": {
+      "type": "text",
+      "label": "Cell Phone",
+      "page": 1,
+      "box": {
+        "left": 39.5,
+        "top": 327.6,
+        "width": 174.4,
+        "height": 12.9
+      }
+    },
+    "dutyTitle": {
+      "type": "text",
+      "label": "Duty Title",
+      "page": 1,
+      "box": {
+        "left": 39.5,
+        "top": 285.8,
+        "width": 282.4,
+        "height": 12.9
+      }
+    },
+    "mos": {
+      "type": "text",
+      "label": "MOS",
+      "page": 1,
+      "box": {
+        "left": 327.6,
+        "top": 285.8,
+        "width": 30.3,
+        "height": 12.9
+      }
+    },
+    "timeOnStation": {
+      "type": "text",
+      "label": "Time on Station",
+      "page": 1,
+      "box": {
+        "left": 363.6,
+        "top": 285.8,
+        "width": 102.3,
+        "height": 12.9
+      }
+    },
+    "pcstdy": {
+      "type": "text",
+      "label": "Pending PCS/TDY",
+      "page": 1,
+      "box": {
+        "left": 471.6,
+        "top": 285.8,
+        "width": 102.3,
+        "height": 12.9
+      }
+    },
+    "nameGrade": {
+      "type": "text",
+      "label": "Typed Name and Grade",
+      "page": 1,
+      "box": {
+        "left": 39.5,
+        "top": 243.3,
+        "width": 282.4,
+        "height": 12.9
+      }
+    },
+    "signatureField1": {
+      "type": "text",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 327.6,
+        "top": 242.2,
+        "width": 246.4,
+        "height": 11.8
+      }
+    },
+    "secLeaderNameGrade": {
+      "type": "text",
+      "label": "Typed Name and Grade",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 658.8,
+        "width": 174.4,
+        "height": 12.9
+      }
+    },
+    "secLeaderDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 398.9,
+        "top": 658.8,
+        "width": 66.3,
+        "height": 12.9
+      }
+    },
+    "secLeaderPhone": {
+      "type": "text",
+      "label": "Phone",
+      "page": 2,
+      "box": {
+        "left": 470.9,
+        "top": 658.8,
+        "width": 102.3,
+        "height": 12.9
+      }
+    },
+    "signatureField12": {
+      "type": "text",
+      "label": "Signature",
+      "page": 2,
+      "box": {
+        "left": 218.9,
+        "top": 657.6,
+        "width": 174.4,
+        "height": 11.8
+      }
+    },
+    "nameUC": {
+      "type": "text",
+      "label": "Typed Name and Grade",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 603.4,
+        "width": 174.4,
+        "height": 12.9
+      }
+    },
+    "dateUC": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 398.9,
+        "top": 603.4,
+        "width": 66.3,
+        "height": 12.9
+      }
+    },
+    "phoneUC": {
+      "type": "text",
+      "label": "Phone",
+      "page": 2,
+      "box": {
+        "left": 470.9,
+        "top": 603.4,
+        "width": 102.3,
+        "height": 12.9
+      }
+    },
+    "signatureField13": {
+      "type": "text",
+      "label": "Signature",
+      "page": 2,
+      "box": {
+        "left": 218.9,
+        "top": 602.2,
+        "width": 174.4,
+        "height": 11.8
+      }
+    },
+    "cOAddress": {
+      "type": "text",
+      "label": "Quantico, VA22134-5103",
+      "page": 2,
+      "box": {
+        "left": 290.9,
+        "top": 574.6,
+        "width": 282.4,
+        "height": 56.1
+      },
+      "multiline": true
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 211.3,
+        "top": 505.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 283.7,
+        "top": 505.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "initialsCO": {
+      "type": "text",
+      "label": "manning. (Place",
+      "page": 2,
+      "box": {
+        "left": 51.1,
+        "top": 470.3,
+        "width": 37.8,
+        "height": 15.9
+      }
+    },
+    "emailAtheleticDir": {
+      "type": "text",
+      "label": "E-Mail Address",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 360.2,
+        "width": 264.4,
+        "height": 12.9
+      }
+    },
+    "emailAtheleticDir2": {
+      "type": "text",
+      "label": "Installation",
+      "page": 2,
+      "box": {
+        "left": 308.9,
+        "top": 360.2,
+        "width": 264.4,
+        "height": 12.9
+      }
+    },
+    "sportName": {
+      "type": "text",
+      "label": "sufficient competence/skill to compete in the sport of",
+      "page": 2,
+      "box": {
+        "left": 259.3,
+        "top": 312.6,
+        "width": 164.7,
+        "height": 12.9
+      }
+    },
+    "nameAthDir": {
+      "type": "text",
+      "label": "Typed Name and Grade",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 273.8,
+        "width": 174.4,
+        "height": 12.9
+      }
+    },
+    "dateAthDir": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 398.9,
+        "top": 273.8,
+        "width": 66.3,
+        "height": 12.9
+      }
+    },
+    "phoneAthDir": {
+      "type": "text",
+      "label": "Phone",
+      "page": 2,
+      "box": {
+        "left": 470.9,
+        "top": 273.8,
+        "width": 102.3,
+        "height": 12.9
+      }
+    },
+    "signatureField14": {
+      "type": "text",
+      "label": "Signature",
+      "page": 2,
+      "box": {
+        "left": 218.9,
+        "top": 272.7,
+        "width": 174.4,
+        "height": 11.8
+      }
+    },
+    "reference1": {
+      "type": "text",
+      "label": "Reference 1",
+      "page": 3,
+      "box": {
+        "left": 39.4,
+        "top": 706.3,
+        "width": 264.4,
+        "height": 56.1
+      },
+      "multiline": true
+    },
+    "reference2": {
+      "type": "text",
+      "label": "Reference 2",
+      "page": 3,
+      "box": {
+        "left": 309.4,
+        "top": 706.3,
+        "width": 264.4,
+        "height": 56.1
+      },
+      "multiline": true
+    },
+    "sportHS": {
+      "type": "text",
+      "label": "SPORT",
+      "page": 3,
+      "box": {
+        "left": 147.4,
+        "top": 588.3,
+        "width": 66.3,
+        "height": 34.7
+      },
+      "multiline": true
+    },
+    "compDatesHS": {
+      "type": "text",
+      "label": "DATES OF COMPLETION",
+      "page": 3,
+      "box": {
+        "left": 219.4,
+        "top": 588.3,
+        "width": 138.3,
+        "height": 34.7
+      },
+      "multiline": true
+    },
+    "awardsHS": {
+      "type": "text",
+      "label": "NOTABLE ACCOMPLISHMENTS",
+      "page": 3,
+      "box": {
+        "left": 363.4,
+        "top": 588.3,
+        "width": 210.4,
+        "height": 34.7
+      },
+      "multiline": true
+    },
+    "locHighSchool": {
+      "type": "text",
+      "label": "LOCATION",
+      "page": 3,
+      "box": {
+        "left": 39.4,
+        "top": 578.2,
+        "width": 102.3,
+        "height": 24.5
+      }
+    },
+    "sportCol": {
+      "type": "text",
+      "label": "SPORT",
+      "page": 3,
+      "box": {
+        "left": 147.4,
+        "top": 548.0,
+        "width": 66.3,
+        "height": 34.7
+      },
+      "multiline": true
+    },
+    "compDatesCol": {
+      "type": "text",
+      "label": "DATES OF COMPLETION",
+      "page": 3,
+      "box": {
+        "left": 219.4,
+        "top": 548.0,
+        "width": 138.3,
+        "height": 34.7
+      },
+      "multiline": true
+    },
+    "awardsCol": {
+      "type": "text",
+      "label": "NOTABLE ACCOMPLISHMENTS",
+      "page": 3,
+      "box": {
+        "left": 363.4,
+        "top": 548.0,
+        "width": 210.4,
+        "height": 34.7
+      },
+      "multiline": true
+    },
+    "locCollege": {
+      "type": "text",
+      "label": "COLLEGE",
+      "page": 3,
+      "box": {
+        "left": 39.4,
+        "top": 537.8,
+        "width": 102.3,
+        "height": 24.5
+      }
+    },
+    "sportCiv": {
+      "type": "text",
+      "label": "SPORT",
+      "page": 3,
+      "box": {
+        "left": 147.4,
+        "top": 507.7,
+        "width": 66.3,
+        "height": 34.7
+      },
+      "multiline": true
+    },
+    "compDatesCiv": {
+      "type": "text",
+      "label": "DATES OF COMPLETION",
+      "page": 3,
+      "box": {
+        "left": 219.4,
+        "top": 507.7,
+        "width": 138.3,
+        "height": 34.7
+      },
+      "multiline": true
+    },
+    "awardsCiv": {
+      "type": "text",
+      "label": "NOTABLE ACCOMPLISHMENTS",
+      "page": 3,
+      "box": {
+        "left": 363.4,
+        "top": 507.7,
+        "width": 210.4,
+        "height": 34.7
+      },
+      "multiline": true
+    },
+    "locCivilian": {
+      "type": "text",
+      "label": "CIVILIAN",
+      "page": 3,
+      "box": {
+        "left": 39.4,
+        "top": 497.5,
+        "width": 102.3,
+        "height": 24.5
+      }
+    },
+    "sportMil": {
+      "type": "text",
+      "label": "SPORT",
+      "page": 3,
+      "box": {
+        "left": 147.4,
+        "top": 467.3,
+        "width": 66.3,
+        "height": 34.7
+      },
+      "multiline": true
+    },
+    "compDatesMil": {
+      "type": "text",
+      "label": "DATES OF COMPLETION",
+      "page": 3,
+      "box": {
+        "left": 219.4,
+        "top": 467.3,
+        "width": 138.3,
+        "height": 34.7
+      },
+      "multiline": true
+    },
+    "awardsMil": {
+      "type": "text",
+      "label": "NOTABLE ACCOMPLISHMENTS",
+      "page": 3,
+      "box": {
+        "left": 363.4,
+        "top": 467.3,
+        "width": 210.4,
+        "height": 34.7
+      },
+      "multiline": true
+    },
+    "locMilitary": {
+      "type": "text",
+      "label": "MILITARY",
+      "page": 3,
+      "box": {
+        "left": 39.4,
+        "top": 457.2,
+        "width": 102.3,
+        "height": 24.5
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 3,
+      "count": 8,
+      "rowStride": 40.34,
+      "editor": "grid",
+      "columns": {
+        "event": {
+          "type": "text",
+          "label": "EVENT",
+          "page": 3,
+          "box": {
+            "left": 39.4,
+            "top": 385.2,
+            "width": 102.3,
+            "height": 34.7
+          }
+        },
+        "location": {
+          "type": "text",
+          "label": "LOCATION",
+          "page": 3,
+          "box": {
+            "left": 147.4,
+            "top": 385.2,
+            "width": 138.3,
+            "height": 34.7
+          }
+        },
+        "date": {
+          "type": "text",
+          "label": "DATE",
+          "page": 3,
+          "box": {
+            "left": 291.4,
+            "top": 385.2,
+            "width": 102.3,
+            "height": 34.7
+          }
+        },
+        "results": {
+          "type": "text",
+          "label": "RESULTS",
+          "page": 3,
+          "box": {
+            "left": 399.4,
+            "top": 385.2,
+            "width": 174.4,
+            "height": 34.7
+          }
+        }
+      }
+    }
+  }
+}

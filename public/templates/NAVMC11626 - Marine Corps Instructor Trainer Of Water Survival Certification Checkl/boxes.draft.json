@@ -1,0 +1,249 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "nameLast": {
+        "left": 128.1,
+        "top": 580.7,
+        "width": 175.8,
+        "height": 13.1,
+        "type": "text",
+        "description": "nameLast",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameFirst": {
+        "left": 312.6,
+        "top": 580.7,
+        "width": 142.1,
+        "height": 13.1,
+        "type": "text",
+        "description": "nameFirst",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameMI": {
+        "left": 462.8,
+        "top": 580.7,
+        "width": 29.8,
+        "height": 13.1,
+        "type": "text",
+        "description": "nameMI",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "phoneNumber": {
+        "left": 328.2,
+        "top": 539.5,
+        "width": 92.1,
+        "height": 12.7,
+        "type": "text",
+        "description": "PhoneNumber",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mos": {
+        "left": 128.1,
+        "top": 539.4,
+        "width": 191.6,
+        "height": 13.1,
+        "type": "text",
+        "description": "MOS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date": {
+        "left": 427.6,
+        "top": 539.1,
+        "width": 65.4,
+        "height": 12.6,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "requirement2part1": {
+        "left": 104.7,
+        "top": 464.0,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "requirement2part1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "requirement2part2": {
+        "left": 104.7,
+        "top": 414.4,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "requirement2part2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "requirement2part3": {
+        "left": 104.8,
+        "top": 379.2,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "requirement2part3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "requirement2part4": {
+        "left": 104.8,
+        "top": 334.0,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "requirement2part4",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "requirement3": {
+        "left": 104.8,
+        "top": 241.4,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "requirement3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "requirement4": {
+        "left": 104.5,
+        "top": 209.3,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "requirement4",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "requirement5": {
+        "left": 104.8,
+        "top": 174.9,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "requirement5",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mentorName": {
+        "left": 65.3,
+        "top": 125.2,
+        "width": 180.3,
+        "height": 13.1,
+        "type": "text",
+        "description": "mentorName",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mentorPhone": {
+        "left": 479.6,
+        "top": 125.2,
+        "width": 69.5,
+        "height": 12.7,
+        "type": "text",
+        "description": "mentorPhone",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mentorDate": {
+        "left": 416.6,
+        "top": 125.1,
+        "width": 55.0,
+        "height": 12.6,
+        "type": "text",
+        "description": "mentorDate",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mentorSig": {
+        "left": 254.9,
+        "top": 124.7,
+        "width": 153.3,
+        "height": 12.1,
+        "type": "signature",
+        "description": "mentorSig",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "directorName": {
+        "left": 64.8,
+        "top": 80.7,
+        "width": 181.3,
+        "height": 13.1,
+        "type": "text",
+        "description": "directorName",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "directorDate": {
+        "left": 416.6,
+        "top": 80.7,
+        "width": 55.0,
+        "height": 12.6,
+        "type": "text",
+        "description": "directorDate",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "directorPhone": {
+        "left": 479.6,
+        "top": 80.7,
+        "width": 68.4,
+        "height": 12.7,
+        "type": "text",
+        "description": "directorPhone",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "directorSig": {
+        "left": 255.6,
+        "top": 80.4,
+        "width": 153.3,
+        "height": 12.1,
+        "type": "signature",
+        "description": "directorSig",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

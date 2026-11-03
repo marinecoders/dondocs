@@ -1,0 +1,1134 @@
+{
+  "id": "opnav350170",
+  "label": "OPNAV3501-70 - Static Line Reserve Parachute History Record",
+  "directory": "OPNAV3501-70 - Static Line Reserve Parachute History Record",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "r1Part",
+        "r1Serial",
+        "r1Con",
+        "r1dom",
+        "r1dpis",
+        "r1fsd",
+        "r1Remarks",
+        "r2Part",
+        "r2Serial",
+        "r2Con",
+        "r2dom",
+        "r2dpis",
+        "r2fsd",
+        "r2Remarks",
+        "r3Part",
+        "r3Serial",
+        "r3Con",
+        "r3dom",
+        "r3dpis",
+        "r3fsd",
+        "r3Remarks",
+        "r4Part",
+        "r4Serial",
+        "r4Con",
+        "r4dom",
+        "r4dpis",
+        "r4fsd",
+        "r4Remarks",
+        "r5Part",
+        "r5Serial",
+        "r5Con",
+        "r5dom",
+        "r5dpis",
+        "r5fsd",
+        "r5Remarks",
+        "aDate",
+        "aDes",
+        "aIns",
+        "bDate",
+        "bDes",
+        "bIns",
+        "cDate",
+        "cDes",
+        "cIns",
+        "dDate",
+        "dDes",
+        "dIns",
+        "eDate",
+        "eDes",
+        "eIns",
+        "fDate",
+        "fDes",
+        "fIns",
+        "gDate",
+        "gDes",
+        "gIns",
+        "hDate",
+        "hDes",
+        "hIns",
+        "iDate",
+        "iDes",
+        "iIns",
+        "jDate",
+        "jDes",
+        "jIns",
+        "kDate",
+        "kDes",
+        "kIns",
+        "lDate",
+        "lDes",
+        "lIns",
+        "mDate",
+        "mDes",
+        "mIns",
+        "nDate",
+        "nDes",
+        "nIns",
+        "oDate",
+        "oDes",
+        "oIns",
+        "pDate",
+        "pDes",
+        "pIns",
+        "q7",
+        "q8",
+        "q9",
+        "q10",
+        "q11",
+        "q12",
+        "q13",
+        "q14",
+        "q15",
+        "q16"
+      ]
+    }
+  ],
+  "fields": {
+    "r1Part": {
+      "type": "text",
+      "label": "1. RESERVE CANOPY",
+      "page": 1,
+      "box": {
+        "left": 184.5,
+        "top": 728.5,
+        "width": 50.3,
+        "height": 15.2
+      }
+    },
+    "r1Serial": {
+      "type": "text",
+      "label": "1. RESERVE CANOPY",
+      "page": 1,
+      "box": {
+        "left": 237.6,
+        "top": 728.5,
+        "width": 53.0,
+        "height": 15.2
+      }
+    },
+    "r1Con": {
+      "type": "text",
+      "label": "1. RESERVE CANOPY",
+      "page": 1,
+      "box": {
+        "left": 293.5,
+        "top": 728.5,
+        "width": 87.2,
+        "height": 15.2
+      }
+    },
+    "r1dom": {
+      "type": "text",
+      "label": "1. RESERVE CANOPY",
+      "page": 1,
+      "box": {
+        "left": 383.5,
+        "top": 728.5,
+        "width": 28.3,
+        "height": 15.2
+      }
+    },
+    "r1dpis": {
+      "type": "text",
+      "label": "1. RESERVE CANOPY",
+      "page": 1,
+      "box": {
+        "left": 414.6,
+        "top": 728.5,
+        "width": 29.2,
+        "height": 15.2
+      }
+    },
+    "r1fsd": {
+      "type": "text",
+      "label": "1. RESERVE CANOPY",
+      "page": 1,
+      "box": {
+        "left": 446.6,
+        "top": 728.5,
+        "width": 28.3,
+        "height": 15.2
+      }
+    },
+    "r1Remarks": {
+      "type": "text",
+      "label": "1. RESERVE CANOPY",
+      "page": 1,
+      "box": {
+        "left": 477.8,
+        "top": 728.5,
+        "width": 96.5,
+        "height": 15.2
+      }
+    },
+    "r2Part": {
+      "type": "text",
+      "label": "2. EJECTOR SPRING ASSY",
+      "page": 1,
+      "box": {
+        "left": 184.5,
+        "top": 710.5,
+        "width": 50.3,
+        "height": 15.5
+      }
+    },
+    "r2Serial": {
+      "type": "text",
+      "label": "2. EJECTOR SPRING ASSY",
+      "page": 1,
+      "box": {
+        "left": 237.6,
+        "top": 710.5,
+        "width": 53.0,
+        "height": 15.5
+      }
+    },
+    "r2Con": {
+      "type": "text",
+      "label": "2. EJECTOR SPRING ASSY",
+      "page": 1,
+      "box": {
+        "left": 293.5,
+        "top": 710.5,
+        "width": 87.2,
+        "height": 15.5
+      }
+    },
+    "r2dom": {
+      "type": "text",
+      "label": "2. EJECTOR SPRING ASSY",
+      "page": 1,
+      "box": {
+        "left": 383.5,
+        "top": 710.5,
+        "width": 28.3,
+        "height": 15.5
+      }
+    },
+    "r2dpis": {
+      "type": "text",
+      "label": "2. EJECTOR SPRING ASSY",
+      "page": 1,
+      "box": {
+        "left": 414.6,
+        "top": 710.5,
+        "width": 29.2,
+        "height": 15.5
+      }
+    },
+    "r2fsd": {
+      "type": "text",
+      "label": "2. EJECTOR SPRING ASSY",
+      "page": 1,
+      "box": {
+        "left": 446.6,
+        "top": 710.5,
+        "width": 28.3,
+        "height": 15.5
+      }
+    },
+    "r2Remarks": {
+      "type": "text",
+      "label": "2. EJECTOR SPRING ASSY",
+      "page": 1,
+      "box": {
+        "left": 477.8,
+        "top": 710.5,
+        "width": 96.5,
+        "height": 15.5
+      }
+    },
+    "r3Part": {
+      "type": "text",
+      "label": "3. RISER SET",
+      "page": 1,
+      "box": {
+        "left": 184.5,
+        "top": 692.2,
+        "width": 50.3,
+        "height": 15.2
+      }
+    },
+    "r3Serial": {
+      "type": "text",
+      "label": "3. RISER SET",
+      "page": 1,
+      "box": {
+        "left": 237.6,
+        "top": 692.2,
+        "width": 53.0,
+        "height": 15.2
+      }
+    },
+    "r3Con": {
+      "type": "text",
+      "label": "3. RISER SET",
+      "page": 1,
+      "box": {
+        "left": 293.5,
+        "top": 692.2,
+        "width": 87.2,
+        "height": 15.2
+      }
+    },
+    "r3dom": {
+      "type": "text",
+      "label": "3. RISER SET",
+      "page": 1,
+      "box": {
+        "left": 383.5,
+        "top": 692.2,
+        "width": 28.3,
+        "height": 15.2
+      }
+    },
+    "r3dpis": {
+      "type": "text",
+      "label": "3. RISER SET",
+      "page": 1,
+      "box": {
+        "left": 414.6,
+        "top": 692.2,
+        "width": 29.2,
+        "height": 15.2
+      }
+    },
+    "r3fsd": {
+      "type": "text",
+      "label": "3. RISER SET",
+      "page": 1,
+      "box": {
+        "left": 446.6,
+        "top": 692.2,
+        "width": 28.3,
+        "height": 15.2
+      }
+    },
+    "r3Remarks": {
+      "type": "text",
+      "label": "3. RISER SET",
+      "page": 1,
+      "box": {
+        "left": 477.8,
+        "top": 692.2,
+        "width": 96.5,
+        "height": 15.2
+      }
+    },
+    "r4Part": {
+      "type": "text",
+      "label": "4. EXTRACTOR ASSEMBLY",
+      "page": 1,
+      "box": {
+        "left": 184.5,
+        "top": 674.2,
+        "width": 50.3,
+        "height": 15.2
+      }
+    },
+    "r4Serial": {
+      "type": "text",
+      "label": "4. EXTRACTOR ASSEMBLY",
+      "page": 1,
+      "box": {
+        "left": 237.6,
+        "top": 674.2,
+        "width": 53.0,
+        "height": 15.2
+      }
+    },
+    "r4Con": {
+      "type": "text",
+      "label": "4. EXTRACTOR ASSEMBLY",
+      "page": 1,
+      "box": {
+        "left": 293.5,
+        "top": 674.2,
+        "width": 87.2,
+        "height": 15.2
+      }
+    },
+    "r4dom": {
+      "type": "text",
+      "label": "4. EXTRACTOR ASSEMBLY",
+      "page": 1,
+      "box": {
+        "left": 383.5,
+        "top": 674.2,
+        "width": 28.3,
+        "height": 15.2
+      }
+    },
+    "r4dpis": {
+      "type": "text",
+      "label": "4. EXTRACTOR ASSEMBLY",
+      "page": 1,
+      "box": {
+        "left": 414.6,
+        "top": 674.2,
+        "width": 29.2,
+        "height": 15.2
+      }
+    },
+    "r4fsd": {
+      "type": "text",
+      "label": "4. EXTRACTOR ASSEMBLY",
+      "page": 1,
+      "box": {
+        "left": 446.6,
+        "top": 674.2,
+        "width": 28.3,
+        "height": 15.2
+      }
+    },
+    "r4Remarks": {
+      "type": "text",
+      "label": "4. EXTRACTOR ASSEMBLY",
+      "page": 1,
+      "box": {
+        "left": 477.8,
+        "top": 674.2,
+        "width": 96.5,
+        "height": 15.2
+      }
+    },
+    "r5Part": {
+      "type": "text",
+      "label": "5. PACK TRAY",
+      "page": 1,
+      "box": {
+        "left": 184.5,
+        "top": 656.2,
+        "width": 50.3,
+        "height": 15.2
+      }
+    },
+    "r5Serial": {
+      "type": "text",
+      "label": "5. PACK TRAY",
+      "page": 1,
+      "box": {
+        "left": 237.6,
+        "top": 656.2,
+        "width": 53.0,
+        "height": 15.2
+      }
+    },
+    "r5Con": {
+      "type": "text",
+      "label": "5. PACK TRAY",
+      "page": 1,
+      "box": {
+        "left": 293.5,
+        "top": 656.2,
+        "width": 87.2,
+        "height": 15.2
+      }
+    },
+    "r5dom": {
+      "type": "text",
+      "label": "5. PACK TRAY",
+      "page": 1,
+      "box": {
+        "left": 383.5,
+        "top": 656.2,
+        "width": 28.3,
+        "height": 15.2
+      }
+    },
+    "r5dpis": {
+      "type": "text",
+      "label": "5. PACK TRAY",
+      "page": 1,
+      "box": {
+        "left": 414.6,
+        "top": 656.2,
+        "width": 29.2,
+        "height": 15.2
+      }
+    },
+    "r5fsd": {
+      "type": "text",
+      "label": "5. PACK TRAY",
+      "page": 1,
+      "box": {
+        "left": 446.6,
+        "top": 656.2,
+        "width": 28.3,
+        "height": 15.2
+      }
+    },
+    "r5Remarks": {
+      "type": "text",
+      "label": "5. PACK TRAY",
+      "page": 1,
+      "box": {
+        "left": 477.8,
+        "top": 656.2,
+        "width": 96.5,
+        "height": 15.2
+      }
+    },
+    "aDate": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 59.5,
+        "top": 613.0,
+        "width": 55.1,
+        "height": 15.2
+      }
+    },
+    "aDes": {
+      "type": "text",
+      "label": "DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 117.4,
+        "top": 613.0,
+        "width": 373.1,
+        "height": 15.2
+      }
+    },
+    "aIns": {
+      "type": "text",
+      "label": "INSPECTOR",
+      "page": 1,
+      "box": {
+        "left": 493.4,
+        "top": 613.0,
+        "width": 81.0,
+        "height": 15.2
+      }
+    },
+    "bDate": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 59.5,
+        "top": 595.0,
+        "width": 55.1,
+        "height": 15.2
+      }
+    },
+    "bDes": {
+      "type": "text",
+      "label": "DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 117.4,
+        "top": 595.0,
+        "width": 373.1,
+        "height": 15.2
+      }
+    },
+    "bIns": {
+      "type": "text",
+      "label": "INSPECTOR",
+      "page": 1,
+      "box": {
+        "left": 493.4,
+        "top": 595.0,
+        "width": 81.0,
+        "height": 15.2
+      }
+    },
+    "cDate": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 59.5,
+        "top": 577.0,
+        "width": 55.1,
+        "height": 15.2
+      }
+    },
+    "cDes": {
+      "type": "text",
+      "label": "DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 117.4,
+        "top": 577.0,
+        "width": 373.1,
+        "height": 15.2
+      }
+    },
+    "cIns": {
+      "type": "text",
+      "label": "INSPECTOR",
+      "page": 1,
+      "box": {
+        "left": 493.4,
+        "top": 577.0,
+        "width": 81.0,
+        "height": 15.2
+      }
+    },
+    "dDate": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 59.5,
+        "top": 559.0,
+        "width": 55.1,
+        "height": 15.2
+      }
+    },
+    "dDes": {
+      "type": "text",
+      "label": "DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 117.4,
+        "top": 559.0,
+        "width": 373.1,
+        "height": 15.2
+      }
+    },
+    "dIns": {
+      "type": "text",
+      "label": "INSPECTOR",
+      "page": 1,
+      "box": {
+        "left": 493.4,
+        "top": 559.0,
+        "width": 81.0,
+        "height": 15.2
+      }
+    },
+    "eDate": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 59.5,
+        "top": 541.0,
+        "width": 55.1,
+        "height": 15.2
+      }
+    },
+    "eDes": {
+      "type": "text",
+      "label": "DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 117.4,
+        "top": 541.0,
+        "width": 373.1,
+        "height": 15.2
+      }
+    },
+    "eIns": {
+      "type": "text",
+      "label": "INSPECTOR",
+      "page": 1,
+      "box": {
+        "left": 493.4,
+        "top": 541.0,
+        "width": 81.0,
+        "height": 15.2
+      }
+    },
+    "fDate": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 59.5,
+        "top": 523.0,
+        "width": 55.1,
+        "height": 15.2
+      }
+    },
+    "fDes": {
+      "type": "text",
+      "label": "DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 117.4,
+        "top": 523.0,
+        "width": 373.1,
+        "height": 15.2
+      }
+    },
+    "fIns": {
+      "type": "text",
+      "label": "INSPECTOR",
+      "page": 1,
+      "box": {
+        "left": 493.4,
+        "top": 523.0,
+        "width": 81.0,
+        "height": 15.2
+      }
+    },
+    "gDate": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 59.5,
+        "top": 505.0,
+        "width": 55.1,
+        "height": 15.2
+      }
+    },
+    "gDes": {
+      "type": "text",
+      "label": "DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 117.4,
+        "top": 505.0,
+        "width": 373.1,
+        "height": 15.2
+      }
+    },
+    "gIns": {
+      "type": "text",
+      "label": "INSPECTOR",
+      "page": 1,
+      "box": {
+        "left": 493.4,
+        "top": 505.0,
+        "width": 81.0,
+        "height": 15.2
+      }
+    },
+    "hDate": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 59.5,
+        "top": 487.0,
+        "width": 55.1,
+        "height": 15.2
+      }
+    },
+    "hDes": {
+      "type": "text",
+      "label": "DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 117.4,
+        "top": 487.0,
+        "width": 373.1,
+        "height": 15.2
+      }
+    },
+    "hIns": {
+      "type": "text",
+      "label": "INSPECTOR",
+      "page": 1,
+      "box": {
+        "left": 493.4,
+        "top": 487.0,
+        "width": 81.0,
+        "height": 15.2
+      }
+    },
+    "iDate": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 59.5,
+        "top": 469.0,
+        "width": 55.1,
+        "height": 15.2
+      }
+    },
+    "iDes": {
+      "type": "text",
+      "label": "DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 117.4,
+        "top": 469.0,
+        "width": 373.1,
+        "height": 15.2
+      }
+    },
+    "iIns": {
+      "type": "text",
+      "label": "INSPECTOR",
+      "page": 1,
+      "box": {
+        "left": 493.4,
+        "top": 469.0,
+        "width": 81.0,
+        "height": 15.2
+      }
+    },
+    "jDate": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 59.5,
+        "top": 451.0,
+        "width": 55.1,
+        "height": 15.2
+      }
+    },
+    "jDes": {
+      "type": "text",
+      "label": "DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 117.4,
+        "top": 451.0,
+        "width": 373.1,
+        "height": 15.2
+      }
+    },
+    "jIns": {
+      "type": "text",
+      "label": "INSPECTOR",
+      "page": 1,
+      "box": {
+        "left": 493.4,
+        "top": 451.0,
+        "width": 81.0,
+        "height": 15.2
+      }
+    },
+    "kDate": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 59.5,
+        "top": 433.0,
+        "width": 55.1,
+        "height": 15.2
+      }
+    },
+    "kDes": {
+      "type": "text",
+      "label": "DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 117.4,
+        "top": 433.0,
+        "width": 373.1,
+        "height": 15.2
+      }
+    },
+    "kIns": {
+      "type": "text",
+      "label": "INSPECTOR",
+      "page": 1,
+      "box": {
+        "left": 493.4,
+        "top": 433.0,
+        "width": 81.0,
+        "height": 15.2
+      }
+    },
+    "lDate": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 59.5,
+        "top": 415.0,
+        "width": 55.1,
+        "height": 15.2
+      }
+    },
+    "lDes": {
+      "type": "text",
+      "label": "DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 117.4,
+        "top": 415.0,
+        "width": 373.1,
+        "height": 15.2
+      }
+    },
+    "lIns": {
+      "type": "text",
+      "label": "INSPECTOR",
+      "page": 1,
+      "box": {
+        "left": 493.4,
+        "top": 415.0,
+        "width": 81.0,
+        "height": 15.2
+      }
+    },
+    "mDate": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 59.5,
+        "top": 397.0,
+        "width": 55.1,
+        "height": 15.2
+      }
+    },
+    "mDes": {
+      "type": "text",
+      "label": "DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 117.4,
+        "top": 397.0,
+        "width": 373.1,
+        "height": 15.2
+      }
+    },
+    "mIns": {
+      "type": "text",
+      "label": "INSPECTOR",
+      "page": 1,
+      "box": {
+        "left": 493.4,
+        "top": 397.0,
+        "width": 81.0,
+        "height": 15.2
+      }
+    },
+    "nDate": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 59.5,
+        "top": 379.0,
+        "width": 55.1,
+        "height": 15.2
+      }
+    },
+    "nDes": {
+      "type": "text",
+      "label": "DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 117.4,
+        "top": 379.0,
+        "width": 373.1,
+        "height": 15.2
+      }
+    },
+    "nIns": {
+      "type": "text",
+      "label": "INSPECTOR",
+      "page": 1,
+      "box": {
+        "left": 493.4,
+        "top": 379.0,
+        "width": 81.0,
+        "height": 15.2
+      }
+    },
+    "oDate": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 59.5,
+        "top": 361.0,
+        "width": 55.1,
+        "height": 15.2
+      }
+    },
+    "oDes": {
+      "type": "text",
+      "label": "DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 117.4,
+        "top": 361.0,
+        "width": 373.1,
+        "height": 15.2
+      }
+    },
+    "oIns": {
+      "type": "text",
+      "label": "INSPECTOR",
+      "page": 1,
+      "box": {
+        "left": 493.4,
+        "top": 361.0,
+        "width": 81.0,
+        "height": 15.2
+      }
+    },
+    "pDate": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 59.5,
+        "top": 343.0,
+        "width": 55.1,
+        "height": 15.2
+      }
+    },
+    "pDes": {
+      "type": "text",
+      "label": "DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 117.4,
+        "top": 343.0,
+        "width": 373.1,
+        "height": 15.2
+      }
+    },
+    "pIns": {
+      "type": "text",
+      "label": "INSPECTOR",
+      "page": 1,
+      "box": {
+        "left": 493.4,
+        "top": 343.0,
+        "width": 81.0,
+        "height": 15.2
+      }
+    },
+    "q7": {
+      "type": "text",
+      "label": "7. REMARKS",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 311.7,
+        "width": 534.4,
+        "height": 198.0
+      },
+      "multiline": true
+    },
+    "q8": {
+      "type": "text",
+      "label": "8. FIELD NUMBER",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 89.4,
+        "width": 129.3,
+        "height": 13.1
+      }
+    },
+    "q9": {
+      "type": "text",
+      "label": "9. TYPE ASSEMBLY",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 89.4,
+        "width": 129.3,
+        "height": 13.1
+      }
+    },
+    "q10": {
+      "type": "text",
+      "label": "10. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 89.4,
+        "width": 129.3,
+        "height": 13.1
+      }
+    },
+    "q11": {
+      "type": "text",
+      "label": "11. WATER JUMPS",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 89.4,
+        "width": 129.3,
+        "height": 13.1
+      }
+    },
+    "q12": {
+      "type": "text",
+      "label": "applicable)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 51.8,
+        "width": 129.3,
+        "height": 13.1
+      }
+    },
+    "q13": {
+      "type": "text",
+      "label": "13. PACKER",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 51.8,
+        "width": 129.3,
+        "height": 13.1
+      }
+    },
+    "q14": {
+      "type": "text",
+      "label": "14. QAI",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 51.8,
+        "width": 129.3,
+        "height": 13.1
+      }
+    },
+    "q15": {
+      "type": "text",
+      "label": "REPACKED",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 51.8,
+        "width": 61.8,
+        "height": 13.1
+      }
+    },
+    "q16": {
+      "type": "text",
+      "label": "DUE",
+      "page": 1,
+      "box": {
+        "left": 511.4,
+        "top": 51.8,
+        "width": 61.8,
+        "height": 13.1
+      }
+    }
+  }
+}

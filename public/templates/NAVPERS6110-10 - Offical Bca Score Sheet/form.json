@@ -1,0 +1,258 @@
+{
+  "id": "navpers611010",
+  "label": "NAVPERS6110-10 - Offical Bca Score Sheet",
+  "directory": "NAVPERS6110-10 - Offical Bca Score Sheet",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "bCADate",
+        "commandUIC",
+        "sexMF",
+        "age",
+        "rateRank",
+        "doDID",
+        "rawHeightIN",
+        "rawHeightIN2",
+        "rawHeightIN3",
+        "rawHeightIN4",
+        "rawHeightIN5",
+        "rawHeightIN6",
+        "rawHeightIN7",
+        "textField1",
+        "memberName",
+        "memberSign",
+        "cFL1Name",
+        "cFL1Sign",
+        "cFL2Sign",
+        "cFL2Name"
+      ]
+    }
+  ],
+  "fields": {
+    "bCADate": {
+      "type": "text",
+      "label": "BCA Date",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 456.0,
+        "width": 66.2,
+        "height": 12.1
+      }
+    },
+    "commandUIC": {
+      "type": "text",
+      "label": "Command UIC",
+      "page": 1,
+      "box": {
+        "left": 110.9,
+        "top": 456.0,
+        "width": 201.3,
+        "height": 12.1
+      }
+    },
+    "sexMF": {
+      "type": "text",
+      "label": "Sex (M/F)",
+      "page": 1,
+      "box": {
+        "left": 515.9,
+        "top": 456.0,
+        "width": 75.2,
+        "height": 12.1
+      }
+    },
+    "age": {
+      "type": "text",
+      "label": "Age",
+      "page": 1,
+      "box": {
+        "left": 597.0,
+        "top": 456.0,
+        "width": 66.2,
+        "height": 12.1
+      }
+    },
+    "rateRank": {
+      "type": "text",
+      "label": "Rate/Rank",
+      "page": 1,
+      "box": {
+        "left": 669.0,
+        "top": 456.0,
+        "width": 84.3,
+        "height": 12.1
+      }
+    },
+    "doDID": {
+      "type": "text",
+      "label": "DoD ID Number",
+      "page": 1,
+      "box": {
+        "left": 317.9,
+        "top": 455.4,
+        "width": 192.3,
+        "height": 11.5
+      }
+    },
+    "rawHeightIN": {
+      "type": "text",
+      "label": "Raw",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 369.5,
+        "width": 93.3,
+        "height": 24.6
+      }
+    },
+    "rawHeightIN2": {
+      "type": "text",
+      "label": "Raw",
+      "page": 1,
+      "box": {
+        "left": 236.9,
+        "top": 369.5,
+        "width": 75.2,
+        "height": 24.6
+      }
+    },
+    "rawHeightIN3": {
+      "type": "text",
+      "label": "Rounded",
+      "page": 1,
+      "box": {
+        "left": 137.9,
+        "top": 369.2,
+        "width": 93.3,
+        "height": 24.3
+      }
+    },
+    "rawHeightIN4": {
+      "type": "text",
+      "label": "Waist Average (Inches)",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 369.2,
+        "width": 147.3,
+        "height": 24.3
+      }
+    },
+    "rawHeightIN5": {
+      "type": "text",
+      "label": "(W or NW)",
+      "page": 1,
+      "box": {
+        "left": 597.0,
+        "top": 369.2,
+        "width": 75.2,
+        "height": 24.3
+      }
+    },
+    "rawHeightIN6": {
+      "type": "text",
+      "label": "Rounded",
+      "page": 1,
+      "box": {
+        "left": 317.9,
+        "top": 368.9,
+        "width": 120.3,
+        "height": 24.0
+      }
+    },
+    "rawHeightIN7": {
+      "type": "text",
+      "label": "(As Required)",
+      "page": 1,
+      "box": {
+        "left": 678.0,
+        "top": 368.9,
+        "width": 75.2,
+        "height": 24.0
+      }
+    },
+    "textField1": {
+      "type": "text",
+      "label": "Table-1)",
+      "page": 1,
+      "box": {
+        "left": 429.2,
+        "top": 339.2,
+        "width": 9.0,
+        "height": 84.3
+      },
+      "multiline": true
+    },
+    "memberName": {
+      "type": "text",
+      "label": "Member Name (Last, First, M.I. [Print])",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 114.0,
+        "width": 354.3,
+        "height": 12.1
+      }
+    },
+    "memberSign": {
+      "type": "text",
+      "label": "Member Signature for BCA Acknowledgment",
+      "page": 1,
+      "box": {
+        "left": 398.9,
+        "top": 114.0,
+        "width": 354.3,
+        "height": 12.1
+      }
+    },
+    "cFL1Name": {
+      "type": "text",
+      "label": "CFL/ACFL Name (Last, First, M.I. [Print])",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 86.3,
+        "width": 354.3,
+        "height": 11.5
+      }
+    },
+    "cFL1Sign": {
+      "type": "text",
+      "label": "CFL/ACFL Signature",
+      "page": 1,
+      "box": {
+        "left": 398.9,
+        "top": 86.3,
+        "width": 354.3,
+        "height": 11.5
+      }
+    },
+    "cFL2Sign": {
+      "type": "text",
+      "label": "CFL/ACFL Signature",
+      "page": 1,
+      "box": {
+        "left": 398.9,
+        "top": 59.9,
+        "width": 354.3,
+        "height": 21.1
+      }
+    },
+    "cFL2Name": {
+      "type": "text",
+      "label": "CFL/ACFL Name (Last, First, M.I. [Print])",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 59.3,
+        "width": 354.3,
+        "height": 20.5
+      }
+    }
+  }
+}

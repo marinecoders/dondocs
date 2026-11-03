@@ -1,0 +1,304 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "date1": {
+        "left": 415.2,
+        "top": 732.8,
+        "width": 174.4,
+        "height": 14.4,
+        "type": "text",
+        "description": "Enter date using format 2002 12 24.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "addOff": {
+        "left": 24.8,
+        "top": 731.3,
+        "width": 221.6,
+        "height": 83.5,
+        "type": "text",
+        "description": "Office Address",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "reqst": {
+        "left": 448.8,
+        "top": 715.2,
+        "width": 140.8,
+        "height": 16.8,
+        "type": "text",
+        "description": "Requester:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "affil": {
+        "left": 448.8,
+        "top": 694.4,
+        "width": 140.8,
+        "height": 16.8,
+        "type": "text",
+        "description": "Affiliation:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "phoneNum1": {
+        "left": 422.4,
+        "top": 672.0,
+        "width": 167.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "PhoneNum1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ssn1": {
+        "left": 144.0,
+        "top": 587.2,
+        "width": 157.6,
+        "height": 15.2,
+        "type": "text",
+        "description": "Enter Social Security Number without dashes.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateBir": {
+        "left": 303.2,
+        "top": 586.4,
+        "width": 157.6,
+        "height": 14.4,
+        "type": "text",
+        "description": "Enter date of birth using format 2002 12 24.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameFull": {
+        "left": 22.4,
+        "top": 541.6,
+        "width": 288.8,
+        "height": 16.8,
+        "type": "text",
+        "description": "Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "grade1": {
+        "left": 312.8,
+        "top": 541.6,
+        "width": 160.8,
+        "height": 16.8,
+        "type": "text",
+        "description": "Grade",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateDor": {
+        "left": 475.2,
+        "top": 538.4,
+        "width": 115.2,
+        "height": 14.4,
+        "type": "text",
+        "description": "Enter DOR using format 2002 12 24.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "plcEnt": {
+        "left": 22.4,
+        "top": 515.2,
+        "width": 409.6,
+        "height": 16.8,
+        "type": "text",
+        "description": "Date/Place of Entry",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateDisch": {
+        "left": 433.6,
+        "top": 512.0,
+        "width": 156.8,
+        "height": 14.4,
+        "type": "text",
+        "description": "Enter date of discharge using format 2002 12 24.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "homeRec": {
+        "left": 22.4,
+        "top": 488.0,
+        "width": 568.0,
+        "height": 16.8,
+        "type": "text",
+        "description": "Home of Record",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dutyStat": {
+        "left": 22.4,
+        "top": 461.6,
+        "width": 568.0,
+        "height": 16.8,
+        "type": "text",
+        "description": "Duty Status/MOS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pastPresDutStat": {
+        "left": 22.4,
+        "top": 435.2,
+        "width": 568.0,
+        "height": 35.2,
+        "type": "text",
+        "description": "Past/Present Duty Stations",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dischTyp": {
+        "left": 22.4,
+        "top": 392.0,
+        "width": 568.0,
+        "height": 16.8,
+        "type": "text",
+        "description": "Discharge Type.  Punitive is releasable; administrative is not releaseable",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateAfadBase": {
+        "left": 22.4,
+        "top": 363.2,
+        "width": 283.2,
+        "height": 16.8,
+        "type": "text",
+        "description": "Enter Armed Forces Active Duty Base Date using format 2002 12 24.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateEcc": {
+        "left": 307.2,
+        "top": 363.2,
+        "width": 283.2,
+        "height": 16.8,
+        "type": "text",
+        "description": "Enter date of End of Current Contract using format 2002 12 24.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "milEdu": {
+        "left": 22.4,
+        "top": 337.6,
+        "width": 568.0,
+        "height": 16.8,
+        "type": "text",
+        "description": "Military Education",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "medDec": {
+        "left": 22.4,
+        "top": 316.8,
+        "width": 568.0,
+        "height": 33.6,
+        "type": "text",
+        "description": "Medals and Decorations.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "combServ": {
+        "left": 22.4,
+        "top": 275.2,
+        "width": 568.0,
+        "height": 16.8,
+        "type": "text",
+        "description": "Combat Service and Dates",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "promSeq": {
+        "left": 22.4,
+        "top": 245.6,
+        "width": 283.2,
+        "height": 16.8,
+        "type": "text",
+        "description": "Promotional Sequence Number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "commSrc": {
+        "left": 307.2,
+        "top": 245.6,
+        "width": 283.2,
+        "height": 16.8,
+        "type": "text",
+        "description": "Commission Source",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "additInf": {
+        "left": 22.4,
+        "top": 215.2,
+        "width": 568.0,
+        "height": 121.6,
+        "type": "text",
+        "description": "Additional Information",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature": {
+        "left": 22.2,
+        "top": 83.2,
+        "width": 417.4,
+        "height": 19.3,
+        "type": "signature",
+        "description": "Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateRelsd": {
+        "left": 442.4,
+        "top": 78.4,
+        "width": 148.0,
+        "height": 14.4,
+        "type": "text",
+        "description": "Enter date released using format 2002 12 24.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

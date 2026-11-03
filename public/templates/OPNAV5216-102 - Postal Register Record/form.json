@@ -1,0 +1,308 @@
+{
+  "id": "opnav5216102",
+  "label": "OPNAV5216-102 - Postal Register Record",
+  "directory": "OPNAV5216-102 - Postal Register Record",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "15",
+        "16",
+        "17",
+        "18",
+        "19c",
+        "19",
+        "19a",
+        "21",
+        "19b",
+        "20c",
+        "20",
+        "20a",
+        "20b"
+      ]
+    }
+  ],
+  "fields": {
+    "1": {
+      "type": "text",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 81.0,
+        "top": 713.0,
+        "width": 91.0,
+        "height": 15.0
+      }
+    },
+    "2": {
+      "type": "text",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 231.0,
+        "top": 713.0,
+        "width": 91.0,
+        "height": 15.0
+      }
+    },
+    "3": {
+      "type": "text",
+      "label": "3",
+      "page": 1,
+      "box": {
+        "left": 390.0,
+        "top": 712.0,
+        "width": 91.0,
+        "height": 15.0
+      }
+    },
+    "4": {
+      "type": "text",
+      "label": "4",
+      "page": 1,
+      "box": {
+        "left": 73.0,
+        "top": 690.0,
+        "width": 91.0,
+        "height": 15.0
+      }
+    },
+    "5": {
+      "type": "text",
+      "label": "5",
+      "page": 1,
+      "box": {
+        "left": 223.0,
+        "top": 689.0,
+        "width": 91.0,
+        "height": 15.0
+      }
+    },
+    "6": {
+      "type": "text",
+      "label": "6",
+      "page": 1,
+      "box": {
+        "left": 58.0,
+        "top": 668.0,
+        "width": 426.0,
+        "height": 17.0
+      }
+    },
+    "7": {
+      "type": "text",
+      "label": "7",
+      "page": 1,
+      "box": {
+        "left": 37.0,
+        "top": 606.0,
+        "width": 85.0,
+        "height": 538.0
+      },
+      "multiline": true
+    },
+    "8": {
+      "type": "text",
+      "label": "8",
+      "page": 1,
+      "box": {
+        "left": 128.0,
+        "top": 606.0,
+        "width": 265.0,
+        "height": 538.0
+      },
+      "multiline": true
+    },
+    "9": {
+      "type": "text",
+      "label": "9",
+      "page": 1,
+      "box": {
+        "left": 400.0,
+        "top": 604.0,
+        "width": 84.0,
+        "height": 536.0
+      },
+      "multiline": true
+    },
+    "10": {
+      "type": "text",
+      "label": "10",
+      "page": 1,
+      "box": {
+        "left": 496.0,
+        "top": 602.0,
+        "width": 81.0,
+        "height": 533.0
+      },
+      "multiline": true
+    },
+    "15": {
+      "type": "text",
+      "label": "15",
+      "page": 2,
+      "box": {
+        "left": 32.0,
+        "top": 756.0,
+        "width": 93.0,
+        "height": 545.0
+      },
+      "multiline": true
+    },
+    "16": {
+      "type": "text",
+      "label": "16",
+      "page": 2,
+      "box": {
+        "left": 127.0,
+        "top": 751.0,
+        "width": 268.0,
+        "height": 540.0
+      },
+      "multiline": true
+    },
+    "17": {
+      "type": "text",
+      "label": "17",
+      "page": 2,
+      "box": {
+        "left": 397.0,
+        "top": 751.0,
+        "width": 93.0,
+        "height": 540.0
+      },
+      "multiline": true
+    },
+    "18": {
+      "type": "text",
+      "label": "18",
+      "page": 2,
+      "box": {
+        "left": 491.0,
+        "top": 751.0,
+        "width": 93.0,
+        "height": 540.0
+      },
+      "multiline": true
+    },
+    "19c": {
+      "type": "text",
+      "label": "19c",
+      "page": 2,
+      "box": {
+        "left": 406.0,
+        "top": 204.0,
+        "width": 56.0,
+        "height": 22.0
+      }
+    },
+    "19": {
+      "type": "text",
+      "label": "19",
+      "page": 2,
+      "box": {
+        "left": 82.0,
+        "top": 199.0,
+        "width": 48.0,
+        "height": 17.0
+      }
+    },
+    "19a": {
+      "type": "text",
+      "label": "19a",
+      "page": 2,
+      "box": {
+        "left": 255.0,
+        "top": 199.0,
+        "width": 140.0,
+        "height": 19.0
+      }
+    },
+    "21": {
+      "type": "text",
+      "label": "21",
+      "page": 2,
+      "box": {
+        "left": 491.0,
+        "top": 197.0,
+        "width": 92.0,
+        "height": 105.0
+      },
+      "multiline": true
+    },
+    "19b": {
+      "type": "text",
+      "label": "19b",
+      "page": 2,
+      "box": {
+        "left": 255.0,
+        "top": 178.0,
+        "width": 140.0,
+        "height": 19.0
+      }
+    },
+    "20c": {
+      "type": "text",
+      "label": "20c",
+      "page": 2,
+      "box": {
+        "left": 404.0,
+        "top": 133.0,
+        "width": 56.0,
+        "height": 22.0
+      }
+    },
+    "20": {
+      "type": "text",
+      "label": "20",
+      "page": 2,
+      "box": {
+        "left": 82.0,
+        "top": 129.0,
+        "width": 48.0,
+        "height": 17.0
+      }
+    },
+    "20a": {
+      "type": "text",
+      "label": "20a",
+      "page": 2,
+      "box": {
+        "left": 254.0,
+        "top": 129.0,
+        "width": 140.0,
+        "height": 19.0
+      }
+    },
+    "20b": {
+      "type": "text",
+      "label": "20b",
+      "page": 2,
+      "box": {
+        "left": 255.0,
+        "top": 107.0,
+        "width": 140.0,
+        "height": 19.0
+      }
+    }
+  }
+}

@@ -1,0 +1,143 @@
+{
+  "id": "navmchq723",
+  "label": "NAVMC HQ 723 - Request For Follow-Up Info On Obsolete Form",
+  "directory": "NAVMCHQ723 - Request For Follow-Up Info On Obsolete Form",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "dateTimeField1",
+        "toAddr",
+        "signatureField1",
+        "sponsCd",
+        "dispStkImmed",
+        "dispStkNotBef",
+        "frmNum",
+        "supsdBy",
+        "remarks",
+        "signatureField2"
+      ]
+    }
+  ],
+  "fields": {
+    "dateTimeField1": {
+      "type": "text",
+      "label": "Enter date as YYYYMMDD; 20080617",
+      "page": 1,
+      "box": {
+        "left": 491.0,
+        "top": 717.1,
+        "width": 92.2,
+        "height": 16.0
+      }
+    },
+    "toAddr": {
+      "type": "text",
+      "label": "To:",
+      "page": 1,
+      "box": {
+        "left": 71.0,
+        "top": 695.4,
+        "width": 512.1,
+        "height": 17.5
+      }
+    },
+    "signatureField1": {
+      "type": "signature",
+      "label": "By direction",
+      "page": 1,
+      "box": {
+        "left": 223.3,
+        "top": 528.2,
+        "width": 319.3,
+        "height": 14.3
+      }
+    },
+    "sponsCd": {
+      "type": "text",
+      "label": "Sponsor Code.",
+      "page": 1,
+      "box": {
+        "left": 194.4,
+        "top": 450.0,
+        "width": 55.9,
+        "height": 204.4
+      },
+      "multiline": true
+    },
+    "dispStkImmed": {
+      "type": "text",
+      "label": "Dispose of Stock Immediately.",
+      "page": 1,
+      "box": {
+        "left": 252.0,
+        "top": 450.0,
+        "width": 63.1,
+        "height": 204.4
+      },
+      "multiline": true
+    },
+    "dispStkNotBef": {
+      "type": "text",
+      "label": "Dispose of Stock Not Before.",
+      "page": 1,
+      "box": {
+        "left": 317.6,
+        "top": 450.0,
+        "width": 63.1,
+        "height": 204.4
+      },
+      "multiline": true
+    },
+    "frmNum": {
+      "type": "text",
+      "label": "Form Number and Title",
+      "page": 1,
+      "box": {
+        "left": 27.1,
+        "top": 449.3,
+        "width": 165.6,
+        "height": 203.7
+      },
+      "multiline": true
+    },
+    "supsdBy": {
+      "type": "text",
+      "label": "Has been superseded by.",
+      "page": 1,
+      "box": {
+        "left": 382.4,
+        "top": 449.3,
+        "width": 202.4,
+        "height": 203.7
+      },
+      "multiline": true
+    },
+    "remarks": {
+      "type": "text",
+      "label": "REMARKS: ",
+      "page": 1,
+      "box": {
+        "left": 29.3,
+        "top": 232.3,
+        "width": 554.3,
+        "height": 171.4
+      },
+      "multiline": true
+    },
+    "signatureField2": {
+      "type": "signature",
+      "label": "SIGNATURE:",
+      "page": 1,
+      "box": {
+        "left": 333.5,
+        "top": 54.9,
+        "width": 244.5,
+        "height": 18.4
+      }
+    }
+  }
+}

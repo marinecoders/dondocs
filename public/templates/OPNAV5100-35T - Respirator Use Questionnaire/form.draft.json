@@ -1,0 +1,694 @@
+{
+  "id": "opnav510035t",
+  "label": "OPNAV5100-35T - Respirator Use Questionnaire",
+  "directory": "OPNAV5100-35T - Respirator Use Questionnaire",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "filDte",
+        "eMPNme",
+        "empPos",
+        "supNme",
+        "offTele",
+        "supCde",
+        "dept",
+        "apnpffp",
+        "astf",
+        "apnpehf",
+        "cas",
+        "apnpeff",
+        "checkBox1",
+        "apptffns",
+        "scc",
+        "applfhf",
+        "soc",
+        "fmtn",
+        "fmtp",
+        "fmtr",
+        "fe95",
+        "fe99",
+        "fe100",
+        "cct",
+        "ncc",
+        "light",
+        "moderate",
+        "heavy",
+        "strenuous",
+        "resUseWD",
+        "daily",
+        "nDaily",
+        "rarely",
+        "none",
+        "climbing",
+        "confined",
+        "opew",
+        "oter",
+        "heights",
+        "humity",
+        "the",
+        "oterDesc",
+        "wORest",
+        "wRest",
+        "nAllowed",
+        "excep",
+        "comRest",
+        "fiveYrs",
+        "twoYrs",
+        "oneYr",
+        "medFol",
+        "radio",
+        "radio2",
+        "healtPntNme",
+        "healthSig",
+        "healthSgnDte"
+      ],
+      "editor": "checklist"
+    }
+  ],
+  "fields": {
+    "filDte": {
+      "type": "text",
+      "label": "(DD MMM YYYY)",
+      "page": 1,
+      "box": {
+        "left": 36.0,
+        "top": 738.0,
+        "width": 85.7,
+        "height": 13.5
+      }
+    },
+    "eMPNme": {
+      "type": "text",
+      "label": "1. EMPLOYEE NAME (Last, First, MI)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 690.3,
+        "width": 264.4,
+        "height": 21.5
+      }
+    },
+    "empPos": {
+      "type": "text",
+      "label": "2. EMPLOYEE JOB TITLE",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 690.3,
+        "width": 264.4,
+        "height": 21.5
+      }
+    },
+    "supNme": {
+      "type": "text",
+      "label": "3. SUPERVISOR NAME (Last, First)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 649.8,
+        "width": 219.4,
+        "height": 21.5
+      }
+    },
+    "offTele": {
+      "type": "text",
+      "label": "4. OFFICE TELEPHONE",
+      "page": 1,
+      "box": {
+        "left": 263.9,
+        "top": 649.8,
+        "width": 106.8,
+        "height": 21.5
+      }
+    },
+    "supCde": {
+      "type": "text",
+      "label": "5. CODE",
+      "page": 1,
+      "box": {
+        "left": 376.4,
+        "top": 649.8,
+        "width": 52.8,
+        "height": 21.5
+      }
+    },
+    "dept": {
+      "type": "text",
+      "label": "6. DEPARTMENT",
+      "page": 1,
+      "box": {
+        "left": 434.9,
+        "top": 649.8,
+        "width": 138.3,
+        "height": 21.5
+      }
+    },
+    "apnpffp": {
+      "type": "checkbox",
+      "label": "OF RESPIRATOR(S)",
+      "page": 1,
+      "box": {
+        "left": 80.3,
+        "top": 604.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "astf": {
+      "type": "checkbox",
+      "label": "AIR-PURIFYING (Non-powered) Filtering Facepiece",
+      "page": 1,
+      "box": {
+        "left": 363.9,
+        "top": 604.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "apnpehf": {
+      "type": "checkbox",
+      "label": "OF RESPIRATOR(S)",
+      "page": 1,
+      "box": {
+        "left": 80.3,
+        "top": 591.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cas": {
+      "type": "checkbox",
+      "label": "AIR-PURIFYING (Non-powered) Elastomeric half mask",
+      "page": 1,
+      "box": {
+        "left": 363.9,
+        "top": 591.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "apnpeff": {
+      "type": "checkbox",
+      "label": "OF RESPIRATOR(S)",
+      "page": 1,
+      "box": {
+        "left": 80.3,
+        "top": 577.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox1": {
+      "type": "checkbox",
+      "label": "AIR-PURIFYING (Non-powered) Elastomeric Full Face",
+      "page": 1,
+      "box": {
+        "left": 363.9,
+        "top": 577.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "apptffns": {
+      "type": "checkbox",
+      "label": "OF RESPIRATOR(S)",
+      "page": 1,
+      "box": {
+        "left": 80.3,
+        "top": 564.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "scc": {
+      "type": "checkbox",
+      "label": "AIR-PURIFYING (Powered) (Tight-Fitting Face or Neck Seal)",
+      "page": 1,
+      "box": {
+        "left": 363.9,
+        "top": 564.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "applfhf": {
+      "type": "checkbox",
+      "label": "OF RESPIRATOR(S)",
+      "page": 1,
+      "box": {
+        "left": 80.3,
+        "top": 550.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "soc": {
+      "type": "checkbox",
+      "label": "AIR-PURIFYING (Powered) (Loose-fitting Hooded or Facepiece)",
+      "page": 1,
+      "box": {
+        "left": 363.9,
+        "top": 550.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "fmtn": {
+      "type": "checkbox",
+      "label": "Filter Media Type (Check one)",
+      "page": 1,
+      "box": {
+        "left": 188.4,
+        "top": 519.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "fmtp": {
+      "type": "checkbox",
+      "label": "Filter Media Type (Check one) : N",
+      "page": 1,
+      "box": {
+        "left": 215.4,
+        "top": 519.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "fmtr": {
+      "type": "checkbox",
+      "label": "Filter Media Type (Check one) : N P",
+      "page": 1,
+      "box": {
+        "left": 242.4,
+        "top": 519.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "fe95": {
+      "type": "checkbox",
+      "label": "above",
+      "page": 1,
+      "box": {
+        "left": 381.9,
+        "top": 519.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "fe99": {
+      "type": "checkbox",
+      "label": "(Open-circuit)",
+      "page": 1,
+      "box": {
+        "left": 413.4,
+        "top": 519.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "fe100": {
+      "type": "checkbox",
+      "label": "(Open-circuit)",
+      "page": 1,
+      "box": {
+        "left": 444.9,
+        "top": 519.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cct": {
+      "type": "text",
+      "label": "Chemical Cartridge Type (If used )",
+      "page": 1,
+      "box": {
+        "left": 204.0,
+        "top": 505.6,
+        "width": 135.2,
+        "height": 12.3
+      }
+    },
+    "ncc": {
+      "type": "checkbox",
+      "label": "Chemical Cartridge Type (If used )",
+      "page": 1,
+      "box": {
+        "left": 359.4,
+        "top": 501.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "light": {
+      "type": "checkbox",
+      "label": "EFFORT",
+      "page": 1,
+      "box": {
+        "left": 80.3,
+        "top": 460.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "moderate": {
+      "type": "checkbox",
+      "label": "Light",
+      "page": 1,
+      "box": {
+        "left": 174.9,
+        "top": 460.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "heavy": {
+      "type": "checkbox",
+      "label": "Moderate",
+      "page": 1,
+      "box": {
+        "left": 269.4,
+        "top": 460.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "strenuous": {
+      "type": "checkbox",
+      "label": "Heavy",
+      "page": 1,
+      "box": {
+        "left": 363.9,
+        "top": 460.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "resUseWD": {
+      "type": "text",
+      "label": "Daily - Hours of Respirator Use in Average Work Day",
+      "page": 1,
+      "box": {
+        "left": 236.9,
+        "top": 421.5,
+        "width": 26.2,
+        "height": 13.5
+      }
+    },
+    "daily": {
+      "type": "checkbox",
+      "label": "EXTENT",
+      "page": 1,
+      "box": {
+        "left": 44.3,
+        "top": 418.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "nDaily": {
+      "type": "checkbox",
+      "label": "Daily - Hours of Respirator Use in Average Work Day",
+      "page": 1,
+      "box": {
+        "left": 278.4,
+        "top": 418.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "rarely": {
+      "type": "checkbox",
+      "label": "Not daily - but more than once a week",
+      "page": 1,
+      "box": {
+        "left": 426.9,
+        "top": 418.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "none": {
+      "type": "checkbox",
+      "label": "SPECIAL",
+      "page": 1,
+      "box": {
+        "left": 53.3,
+        "top": 375.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "climbing": {
+      "type": "checkbox",
+      "label": "None",
+      "page": 1,
+      "box": {
+        "left": 165.9,
+        "top": 375.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "confined": {
+      "type": "checkbox",
+      "label": "Climbing",
+      "page": 1,
+      "box": {
+        "left": 291.9,
+        "top": 375.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "opew": {
+      "type": "checkbox",
+      "label": "Confined Spaces",
+      "page": 1,
+      "box": {
+        "left": 426.9,
+        "top": 375.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "oter": {
+      "type": "checkbox",
+      "label": "SPECIAL",
+      "page": 1,
+      "box": {
+        "left": 53.3,
+        "top": 361.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "heights": {
+      "type": "checkbox",
+      "label": "Other (Describe below)",
+      "page": 1,
+      "box": {
+        "left": 165.9,
+        "top": 361.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "humity": {
+      "type": "checkbox",
+      "label": "Working at Heights",
+      "page": 1,
+      "box": {
+        "left": 291.9,
+        "top": 361.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "the": {
+      "type": "checkbox",
+      "label": "Hazardous Materials",
+      "page": 1,
+      "box": {
+        "left": 426.9,
+        "top": 361.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "oterDesc": {
+      "type": "text",
+      "label": "Other Description",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 333.5,
+        "width": 534.4,
+        "height": 30.2
+      },
+      "multiline": true
+    },
+    "wORest": {
+      "type": "checkbox",
+      "label": "OF RESPIRATORS",
+      "page": 1,
+      "box": {
+        "left": 80.3,
+        "top": 256.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "wRest": {
+      "type": "checkbox",
+      "label": "Without Restrictions",
+      "page": 1,
+      "box": {
+        "left": 197.4,
+        "top": 256.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "nAllowed": {
+      "type": "checkbox",
+      "label": "With Restrictions Noted Below",
+      "page": 1,
+      "box": {
+        "left": 363.9,
+        "top": 256.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "excep": {
+      "type": "checkbox",
+      "label": "OF RESPIRATORS",
+      "page": 1,
+      "box": {
+        "left": 80.3,
+        "top": 243.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "comRest": {
+      "type": "text",
+      "label": "Comments/Restrictions",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 210.6,
+        "width": 534.4,
+        "height": 33.1
+      },
+      "multiline": true
+    },
+    "fiveYrs": {
+      "type": "checkbox",
+      "label": "FOLLOW-UP",
+      "page": 1,
+      "box": {
+        "left": 98.3,
+        "top": 148.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "twoYrs": {
+      "type": "checkbox",
+      "label": "5 YEARS (Under age 35)",
+      "page": 1,
+      "box": {
+        "left": 251.4,
+        "top": 148.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "oneYr": {
+      "type": "checkbox",
+      "label": "2 YEARS (Age 35 - 45)",
+      "page": 1,
+      "box": {
+        "left": 404.4,
+        "top": 148.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "medFol": {
+      "type": "text",
+      "label": "Or, due to findings, follow-up medical evaluation in",
+      "page": 1,
+      "box": {
+        "left": 265.3,
+        "top": 133.7,
+        "width": 22.4,
+        "height": 13.5
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 326.9,
+        "top": 118.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 118.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "healtPntNme": {
+      "type": "text",
+      "label": "Health Care Professional&apos;s Printed Name and Title",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 66.2,
+        "width": 246.4,
+        "height": 27.4
+      }
+    },
+    "healthSig": {
+      "type": "text",
+      "label": "Health Care Professional&apos;s Signature",
+      "page": 1,
+      "box": {
+        "left": 376.4,
+        "top": 66.2,
+        "width": 196.9,
+        "height": 27.4
+      }
+    },
+    "healthSgnDte": {
+      "type": "text",
+      "label": "(DD MMM YYYY)",
+      "page": 1,
+      "box": {
+        "left": 288.0,
+        "top": 66.0,
+        "width": 85.7,
+        "height": 30.0
+      }
+    }
+  }
+}

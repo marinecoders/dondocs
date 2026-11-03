@@ -1,0 +1,244 @@
+{
+  "id": "opnav551110",
+  "label": "OPNAV5511-10 - Record Of Receipt",
+  "directory": "OPNAV5511-10 - Record Of Receipt",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "cell1",
+        "cell2",
+        "cell3",
+        "cell4",
+        "cell5",
+        "cell6",
+        "cell7",
+        "add",
+        "authRecPrintName",
+        "authRecSig",
+        "authRecSigDte"
+      ]
+    }
+  ],
+  "fields": {
+    "cell1": {
+      "type": "text",
+      "label": "CODE",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 668.2,
+        "width": 62.0,
+        "height": 137.6
+      },
+      "multiline": true
+    },
+    "cell2": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 1,
+      "box": {
+        "left": 102.2,
+        "top": 668.2,
+        "width": 62.0,
+        "height": 137.6
+      },
+      "multiline": true
+    },
+    "cell3": {
+      "type": "text",
+      "label": "MATERIAL",
+      "page": 1,
+      "box": {
+        "left": 167.0,
+        "top": 668.2,
+        "width": 62.0,
+        "height": 137.6
+      },
+      "multiline": true
+    },
+    "cell4": {
+      "type": "text",
+      "label": "UNCLASSIFIED DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 231.8,
+        "top": 668.2,
+        "width": 148.4,
+        "height": 137.6
+      },
+      "multiline": true
+    },
+    "cell5": {
+      "type": "text",
+      "label": "COPY NO",
+      "page": 1,
+      "box": {
+        "left": 383.1,
+        "top": 668.2,
+        "width": 40.4,
+        "height": 137.6
+      },
+      "multiline": true
+    },
+    "cell6": {
+      "type": "text",
+      "label": "MATERIAL RECORD",
+      "page": 1,
+      "box": {
+        "left": 426.3,
+        "top": 668.2,
+        "width": 83.6,
+        "height": 137.6
+      },
+      "multiline": true
+    },
+    "cell7": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 1,
+      "box": {
+        "left": 512.7,
+        "top": 668.2,
+        "width": 62.0,
+        "height": 137.6
+      },
+      "multiline": true
+    },
+    "add": {
+      "type": "text",
+      "label": "2. ADDRESSEE (activity receiving material)",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 95.7,
+        "width": 537.2,
+        "height": 22.4
+      }
+    },
+    "authRecPrintName": {
+      "type": "text",
+      "label": "3. AUTHORIZED RECIPIENT PRINTED NAME (Last, First, MI)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 58.3,
+        "width": 228.4,
+        "height": 19.5
+      }
+    },
+    "authRecSig": {
+      "type": "text",
+      "label": "4. AUTHORIZED RECIPIENT SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 58.3,
+        "width": 192.4,
+        "height": 19.5
+      }
+    },
+    "authRecSigDte": {
+      "type": "text",
+      "label": "5. SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 58.3,
+        "width": 102.3,
+        "height": 19.5
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 140.4,
+      "editor": "grid",
+      "columns": {
+        "row1": {
+          "type": "text",
+          "label": "CODE",
+          "page": 1,
+          "box": {
+            "left": 37.4,
+            "top": 527.7,
+            "width": 62.0,
+            "height": 137.6
+          }
+        },
+        "row11": {
+          "type": "text",
+          "label": "NUMBER",
+          "page": 1,
+          "box": {
+            "left": 102.2,
+            "top": 527.7,
+            "width": 62.0,
+            "height": 137.6
+          }
+        },
+        "row12": {
+          "type": "text",
+          "label": "MATERIAL",
+          "page": 1,
+          "box": {
+            "left": 167.0,
+            "top": 527.7,
+            "width": 62.0,
+            "height": 137.6
+          }
+        },
+        "row13": {
+          "type": "text",
+          "label": "UNCLASSIFIED DESCRIPTION",
+          "page": 1,
+          "box": {
+            "left": 231.8,
+            "top": 527.7,
+            "width": 148.4,
+            "height": 137.6
+          }
+        },
+        "row14": {
+          "type": "text",
+          "label": "COPY NO",
+          "page": 1,
+          "box": {
+            "left": 383.1,
+            "top": 527.7,
+            "width": 40.4,
+            "height": 137.6
+          }
+        },
+        "row15": {
+          "type": "text",
+          "label": "MATERIAL RECORD",
+          "page": 1,
+          "box": {
+            "left": 426.3,
+            "top": 527.7,
+            "width": 83.6,
+            "height": 137.6
+          }
+        },
+        "row16": {
+          "type": "text",
+          "label": "NUMBER",
+          "page": 1,
+          "box": {
+            "left": 512.7,
+            "top": 527.7,
+            "width": 62.0,
+            "height": 137.6
+          }
+        }
+      }
+    }
+  }
+}

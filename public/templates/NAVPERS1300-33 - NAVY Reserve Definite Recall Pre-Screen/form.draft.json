@@ -1,0 +1,761 @@
+{
+  "id": "navpers130033",
+  "label": "NAVPERS1300-33 - NAVY Reserve Definite Recall Pre-Screen",
+  "directory": "NAVPERS1300-33 - NAVY Reserve Definite Recall Pre-Screen",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "rr",
+        "cell2",
+        "cell22",
+        "cell3",
+        "cell1",
+        "cell12",
+        "cell23",
+        "cell32",
+        "cell4",
+        "cell13",
+        "cell24",
+        "cell14",
+        "cell25",
+        "cell33",
+        "cell34",
+        "cell42",
+        "cell5",
+        "row3",
+        "row31",
+        "row32",
+        "row33",
+        "row1",
+        "yes",
+        "no",
+        "yes2",
+        "no2",
+        "yes3",
+        "no3",
+        "yes4",
+        "no4",
+        "row6",
+        "yes5",
+        "no5",
+        "row7",
+        "yes6",
+        "no6",
+        "yes7",
+        "no7",
+        "yes8",
+        "no8",
+        "row8"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "cell15",
+        "cell16",
+        "cell17",
+        "email",
+        "phoneNum",
+        "memName",
+        "memSig",
+        "memDate",
+        "row34",
+        "row312",
+        "row322",
+        "row332",
+        "row342",
+        "row35",
+        "row36",
+        "pERSName",
+        "pERSSig",
+        "pERSDate"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "Full Name (Last, First, Middle)",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 650.9,
+        "width": 381.3,
+        "height": 18.0
+      }
+    },
+    "rr": {
+      "type": "text",
+      "label": "Rank/Rating/Designator",
+      "page": 1,
+      "box": {
+        "left": 425.9,
+        "top": 650.9,
+        "width": 147.3,
+        "height": 18.0
+      }
+    },
+    "cell2": {
+      "type": "text",
+      "label": "Desired Ultimate Duty Assignment (UDA)(UIC)(BSC) and Address",
+      "page": 1,
+      "box": {
+        "left": 92.9,
+        "top": 618.5,
+        "width": 327.3,
+        "height": 18.0
+      }
+    },
+    "cell22": {
+      "type": "text",
+      "label": "Length of Orders",
+      "page": 1,
+      "box": {
+        "left": 425.9,
+        "top": 618.5,
+        "width": 66.2,
+        "height": 18.0
+      }
+    },
+    "cell3": {
+      "type": "text",
+      "label": "Request Start Date",
+      "page": 1,
+      "box": {
+        "left": 497.9,
+        "top": 618.5,
+        "width": 75.2,
+        "height": 18.0
+      }
+    },
+    "cell1": {
+      "type": "choice",
+      "label": "Applicant",
+      "page": 1,
+      "box": {
+        "left": 39.1,
+        "top": 618.2,
+        "width": 47.7,
+        "height": 17.5
+      },
+      "options": [
+        "SELRES",
+        "IRR"
+      ]
+    },
+    "cell12": {
+      "type": "text",
+      "label": "Street Address",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 571.7,
+        "width": 282.3,
+        "height": 18.0
+      }
+    },
+    "cell23": {
+      "type": "text",
+      "label": "City",
+      "page": 1,
+      "box": {
+        "left": 326.9,
+        "top": 571.7,
+        "width": 102.3,
+        "height": 18.0
+      }
+    },
+    "cell32": {
+      "type": "text",
+      "label": "State",
+      "page": 1,
+      "box": {
+        "left": 434.9,
+        "top": 571.7,
+        "width": 66.2,
+        "height": 18.0
+      }
+    },
+    "cell4": {
+      "type": "text",
+      "label": "Zip Code",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 571.7,
+        "width": 66.2,
+        "height": 18.0
+      }
+    },
+    "cell13": {
+      "type": "text",
+      "label": "Primary Phone Number",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 539.2,
+        "width": 102.3,
+        "height": 18.0
+      }
+    },
+    "cell24": {
+      "type": "text",
+      "label": "E-mail Address",
+      "page": 1,
+      "box": {
+        "left": 146.9,
+        "top": 539.2,
+        "width": 426.3,
+        "height": 18.0
+      }
+    },
+    "cell14": {
+      "type": "text",
+      "label": "DoD ID Number",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 492.4,
+        "width": 174.3,
+        "height": 21.6
+      }
+    },
+    "cell25": {
+      "type": "text",
+      "label": "Date of Rank/Rate",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 492.4,
+        "width": 174.3,
+        "height": 21.6
+      }
+    },
+    "cell33": {
+      "type": "text",
+      "label": "EREN",
+      "page": 1,
+      "box": {
+        "left": 398.9,
+        "top": 492.4,
+        "width": 174.3,
+        "height": 21.6
+      }
+    },
+    "cell34": {
+      "type": "text",
+      "label": "(include AT/ADT/ADSW/ADOS/MOB)",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 447.1,
+        "width": 62.5,
+        "height": 19.4
+      }
+    },
+    "cell42": {
+      "type": "text",
+      "label": "AT/ADT/ADSW/ADOS/MOB)",
+      "page": 1,
+      "box": {
+        "left": 128.9,
+        "top": 447.1,
+        "width": 58.5,
+        "height": 19.4
+      }
+    },
+    "cell5": {
+      "type": "text",
+      "label": "Months",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 447.1,
+        "width": 64.2,
+        "height": 19.4
+      }
+    },
+    "row3": {
+      "type": "text",
+      "label": "Months",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 447.1,
+        "width": 84.3,
+        "height": 20.9
+      }
+    },
+    "row31": {
+      "type": "text",
+      "label": "Months",
+      "page": 1,
+      "box": {
+        "left": 398.9,
+        "top": 447.1,
+        "width": 84.3,
+        "height": 20.9
+      }
+    },
+    "row32": {
+      "type": "text",
+      "label": "Months",
+      "page": 1,
+      "box": {
+        "left": 488.9,
+        "top": 447.1,
+        "width": 84.3,
+        "height": 20.9
+      }
+    },
+    "row33": {
+      "type": "text",
+      "label": "Row 33",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 411.1,
+        "width": 534.3,
+        "height": 19.4
+      }
+    },
+    "row1": {
+      "type": "text",
+      "label": "State",
+      "page": 1,
+      "box": {
+        "left": 424.8,
+        "top": 387.3,
+        "width": 41.9,
+        "height": 17.6
+      }
+    },
+    "yes": {
+      "type": "checkbox",
+      "label": "Orders",
+      "page": 1,
+      "box": {
+        "left": 471.9,
+        "top": 382.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 525.9,
+        "top": 382.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "yes2": {
+      "type": "checkbox",
+      "label": "2. Are you currently in a selected or frocked status?",
+      "page": 1,
+      "box": {
+        "left": 471.9,
+        "top": 363.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no2": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 525.9,
+        "top": 363.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "yes3": {
+      "type": "checkbox",
+      "label": "3. Are you eligible for promotion or advancement?",
+      "page": 1,
+      "box": {
+        "left": 471.9,
+        "top": 345.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no3": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 525.9,
+        "top": 345.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "yes4": {
+      "type": "checkbox",
+      "label": "Orders",
+      "page": 1,
+      "box": {
+        "left": 471.9,
+        "top": 327.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no4": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 525.9,
+        "top": 327.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "row6": {
+      "type": "text",
+      "label": "Secondary location(s) desired",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 301.1,
+        "width": 534.3,
+        "height": 19.9
+      }
+    },
+    "yes5": {
+      "type": "checkbox",
+      "label": "5. Do you reside within 50 miles of UDA?",
+      "page": 1,
+      "box": {
+        "left": 471.9,
+        "top": 273.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no5": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 525.9,
+        "top": 273.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "row7": {
+      "type": "text",
+      "label": "Expiration Date",
+      "page": 1,
+      "box": {
+        "left": 403.6,
+        "top": 258.9,
+        "width": 63.0,
+        "height": 17.6
+      }
+    },
+    "yes6": {
+      "type": "checkbox",
+      "label": "Expiration Date",
+      "page": 1,
+      "box": {
+        "left": 471.9,
+        "top": 254.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no6": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 525.9,
+        "top": 254.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "yes7": {
+      "type": "checkbox",
+      "label": "Orders",
+      "page": 1,
+      "box": {
+        "left": 471.9,
+        "top": 231.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no7": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 525.9,
+        "top": 231.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "yes8": {
+      "type": "checkbox",
+      "label": "Orders",
+      "page": 1,
+      "box": {
+        "left": 471.9,
+        "top": 210.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no8": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 525.9,
+        "top": 210.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "row8": {
+      "type": "text",
+      "label": "Date/Charge/Disposition",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 184.2,
+        "width": 534.3,
+        "height": 55.4
+      },
+      "multiline": true
+    },
+    "cell15": {
+      "type": "choice",
+      "label": "1. Service member\u2019s security clearance",
+      "page": 2,
+      "box": {
+        "left": 191.4,
+        "top": 703.4,
+        "width": 381.1,
+        "height": 13.6
+      },
+      "options": [
+        "Favorably Adjudicated NACLC / No Clearance Granted (Explanation required)",
+        "Secret",
+        "Secret (Out of Scope / Reinvestigation Open)",
+        "Top Secret",
+        "Top Secret (Out of Scope / Reinvestigation Open)",
+        "No favorable investigation and/or Secret/TS clearance (Explanation required)"
+      ]
+    },
+    "cell16": {
+      "type": "text",
+      "label": "2. Clearance Date",
+      "page": 2,
+      "box": {
+        "left": 190.6,
+        "top": 686.1,
+        "width": 382.6,
+        "height": 15.1
+      }
+    },
+    "cell17": {
+      "type": "text",
+      "label": "Name and Title",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 645.5,
+        "width": 228.3,
+        "height": 17.5
+      }
+    },
+    "email": {
+      "type": "text",
+      "label": "E-mail",
+      "page": 2,
+      "box": {
+        "left": 272.9,
+        "top": 645.5,
+        "width": 192.3,
+        "height": 17.5
+      }
+    },
+    "phoneNum": {
+      "type": "text",
+      "label": "Phone Number",
+      "page": 2,
+      "box": {
+        "left": 470.9,
+        "top": 645.5,
+        "width": 102.3,
+        "height": 17.5
+      }
+    },
+    "memName": {
+      "type": "text",
+      "label": "Name",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 577.6,
+        "width": 228.3,
+        "height": 18.0
+      }
+    },
+    "memSig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 2,
+      "box": {
+        "left": 272.9,
+        "top": 577.6,
+        "width": 228.3,
+        "height": 18.0
+      }
+    },
+    "memDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 506.9,
+        "top": 577.6,
+        "width": 66.2,
+        "height": 18.0
+      }
+    },
+    "row34": {
+      "type": "text",
+      "label": "MAS Code",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 527.2,
+        "width": 102.3,
+        "height": 28.8
+      }
+    },
+    "row312": {
+      "type": "text",
+      "label": "IMS Code",
+      "page": 2,
+      "box": {
+        "left": 146.9,
+        "top": 527.2,
+        "width": 102.3,
+        "height": 28.8
+      }
+    },
+    "row322": {
+      "type": "text",
+      "label": "HYT",
+      "page": 2,
+      "box": {
+        "left": 254.9,
+        "top": 527.2,
+        "width": 102.3,
+        "height": 28.8
+      }
+    },
+    "row332": {
+      "type": "text",
+      "label": "PEBD",
+      "page": 2,
+      "box": {
+        "left": 362.9,
+        "top": 527.2,
+        "width": 102.3,
+        "height": 28.8
+      }
+    },
+    "row342": {
+      "type": "text",
+      "label": "31-Day Break",
+      "page": 2,
+      "box": {
+        "left": 470.9,
+        "top": 527.2,
+        "width": 102.3,
+        "height": 28.8
+      }
+    },
+    "row35": {
+      "type": "choice",
+      "label": "Applicant is eligible or ineligible to apply",
+      "page": 2,
+      "box": {
+        "left": 196.6,
+        "top": 492.4,
+        "width": 376.3,
+        "height": 12.1
+      },
+      "options": [
+        "Eligible",
+        "Ineligible"
+      ]
+    },
+    "row36": {
+      "type": "text",
+      "label": "Comments",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 465.7,
+        "width": 534.3,
+        "height": 113.6
+      },
+      "multiline": true
+    },
+    "pERSName": {
+      "type": "text",
+      "label": "Verified by",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 337.7,
+        "width": 192.3,
+        "height": 18.0
+      }
+    },
+    "pERSSig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 2,
+      "box": {
+        "left": 236.9,
+        "top": 337.7,
+        "width": 246.3,
+        "height": 18.0
+      }
+    },
+    "pERSDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 488.9,
+        "top": 337.7,
+        "width": 84.3,
+        "height": 18.0
+      }
+    }
+  }
+}

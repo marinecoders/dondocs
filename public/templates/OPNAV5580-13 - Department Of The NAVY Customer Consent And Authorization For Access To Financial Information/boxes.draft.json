@@ -1,0 +1,174 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 613,
+    "height": 794
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "signature": {
+        "left": 448.2,
+        "top": 662.8,
+        "width": 111.4,
+        "height": 14.0,
+        "type": "text",
+        "description": "Enter the signature.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature1": {
+        "left": 75.6,
+        "top": 638.1,
+        "width": 104.7,
+        "height": 14.0,
+        "type": "text",
+        "description": "Enter the signature.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "authorizedsignature1": {
+        "left": 104.6,
+        "top": 620.1,
+        "width": 454.7,
+        "height": 17.5,
+        "type": "text",
+        "description": "Enter and indicate the authorized individual.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "financialrecords": {
+        "left": 251.1,
+        "top": 591.7,
+        "width": 308.5,
+        "height": 18.4,
+        "type": "text",
+        "description": "Enter the financial records.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "authorizedind": {
+        "left": 88.3,
+        "top": 546.2,
+        "width": 305.9,
+        "height": 16.0,
+        "type": "text",
+        "description": "Enter and indicate the authorized individual signature.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date": {
+        "left": 339.0,
+        "top": 380.0,
+        "width": 68.1,
+        "height": 14.5,
+        "type": "text",
+        "description": "Enter the date using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature2": {
+        "left": 375.4,
+        "top": 348.0,
+        "width": 184.6,
+        "height": 16.3,
+        "type": "text",
+        "description": "Enter the signature.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "typedname": {
+        "left": 380.8,
+        "top": 314.6,
+        "width": 179.1,
+        "height": 17.3,
+        "type": "text",
+        "description": "Enter the typed name.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "address": {
+        "left": 286.7,
+        "top": 241.9,
+        "width": 273.7,
+        "height": 102.4,
+        "type": "text",
+        "description": "Enter the address of the customer.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "witnesses": {
+        "left": 370.8,
+        "top": 122.6,
+        "width": 189.2,
+        "height": 22.0,
+        "type": "text",
+        "description": "Enter the witnesses signature.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "additionalinfor": {
+        "left": 58.0,
+        "top": 164.7,
+        "width": 502.3,
+        "height": 18.8,
+        "type": "text",
+        "description": "Enter additional information how to consent to release your financial records, please call the official whose name and telephone number appears below:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name": {
+        "left": 57.4,
+        "top": 131.8,
+        "width": 355.7,
+        "height": 17.6,
+        "type": "text",
+        "description": "Enter the name and title (last, first, MI).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "telephone": {
+        "left": 418.4,
+        "top": 131.8,
+        "width": 138.9,
+        "height": 17.8,
+        "type": "text",
+        "description": "Enter the telephone number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "componentactivandaddress": {
+        "left": 59.4,
+        "top": 101.5,
+        "width": 511.0,
+        "height": 56.9,
+        "type": "text",
+        "description": "Enter the component activity and address.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

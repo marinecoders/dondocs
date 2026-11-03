@@ -1,0 +1,41 @@
+{
+  "id": "navpers1230023",
+  "label": "NAVPERS12300-23 - Additional Data Sheet",
+  "directory": "NAVPERS12300-23 - Additional Data Sheet",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "1",
+        "2"
+      ]
+    }
+  ],
+  "fields": {
+    "1": {
+      "type": "text",
+      "label": "NAME",
+      "page": 1,
+      "box": {
+        "left": 77.9,
+        "top": 690.4,
+        "width": 355.7,
+        "height": 14.8
+      }
+    },
+    "2": {
+      "type": "text",
+      "label": "SSN",
+      "page": 1,
+      "box": {
+        "left": 473.8,
+        "top": 689.5,
+        "width": 98.4,
+        "height": 12.3
+      }
+    }
+  }
+}

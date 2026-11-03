@@ -1,0 +1,73 @@
+{
+  "id": "navmc11774",
+  "label": "NAVMC 11774 - Redesignation To Reserve Ground Officer - Service Agreement",
+  "directory": "NAVMC11774 - Redesignation To Reserve Ground Officer - Service Agreement",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "typeWit",
+        "typeApplicant",
+        "dateSigned"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "Last Name, First Name, and Middle Initial of Applicant",
+      "page": 1,
+      "box": {
+        "left": 65.2,
+        "top": 92.6,
+        "width": 481.7,
+        "height": 28.3
+      }
+    },
+    "typeWit": {
+      "type": "text",
+      "label": "Signature of Witnessing Officer",
+      "page": 2,
+      "box": {
+        "left": 65.2,
+        "top": 546.8,
+        "width": 229.7,
+        "height": 32.4
+      },
+      "multiline": true
+    },
+    "typeApplicant": {
+      "type": "text",
+      "label": "Signature of Applicant",
+      "page": 2,
+      "box": {
+        "left": 317.2,
+        "top": 546.8,
+        "width": 229.7,
+        "height": 32.4
+      },
+      "multiline": true
+    },
+    "dateSigned": {
+      "type": "text",
+      "label": "Typed Full Name of Applicant",
+      "page": 2,
+      "box": {
+        "left": 317.9,
+        "top": 474.1,
+        "width": 228.4,
+        "height": 21.3
+      }
+    }
+  }
+}

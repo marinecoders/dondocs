@@ -1,0 +1,164 @@
+{
+  "id": "navmc11225",
+  "label": "NAVMC 11225 - Individual Counseling- Recruitimg",
+  "directory": "NAVMC11225 - Individual Counseling- Recruitimg",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "date0",
+        "remarks0",
+        "nicoic1",
+        "rctr1",
+        "date1",
+        "remarks1",
+        "ncoic2",
+        "rctr2",
+        "date2",
+        "remarks2",
+        "rctr3",
+        "ncoic3"
+      ]
+    }
+  ],
+  "fields": {
+    "date0": {
+      "type": "text",
+      "label": "Enter date using format 2002 06 27. Section 1.",
+      "page": 1,
+      "box": {
+        "left": 34.4,
+        "top": 709.6,
+        "width": 106.4,
+        "height": 17.6
+      }
+    },
+    "remarks0": {
+      "type": "text",
+      "label": "Remarks. Section 1.",
+      "page": 1,
+      "box": {
+        "left": 34.4,
+        "top": 692.8,
+        "width": 548.8,
+        "height": 143.2
+      },
+      "multiline": true
+    },
+    "nicoic1": {
+      "type": "signature",
+      "label": "NICOIC1",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 539.6,
+        "width": 201.0,
+        "height": 17.3
+      }
+    },
+    "rctr1": {
+      "type": "signature",
+      "label": "RCTR1",
+      "page": 1,
+      "box": {
+        "left": 436.6,
+        "top": 539.6,
+        "width": 145.2,
+        "height": 17.3
+      }
+    },
+    "date1": {
+      "type": "text",
+      "label": "Enter date using format 2002 06 27. Section 2.",
+      "page": 1,
+      "box": {
+        "left": 34.5,
+        "top": 511.6,
+        "width": 113.5,
+        "height": 17.6
+      }
+    },
+    "remarks1": {
+      "type": "text",
+      "label": "Remarks. Section 2.",
+      "page": 1,
+      "box": {
+        "left": 34.5,
+        "top": 494.0,
+        "width": 548.0,
+        "height": 157.4
+      },
+      "multiline": true
+    },
+    "ncoic2": {
+      "type": "signature",
+      "label": "NCOIC2",
+      "page": 1,
+      "box": {
+        "left": 241.1,
+        "top": 326.2,
+        "width": 196.6,
+        "height": 22.8
+      }
+    },
+    "rctr2": {
+      "type": "signature",
+      "label": "RCTR2",
+      "page": 1,
+      "box": {
+        "left": 439.6,
+        "top": 326.2,
+        "width": 142.3,
+        "height": 22.3
+      }
+    },
+    "date2": {
+      "type": "text",
+      "label": "Enter date using format 2002 06 27. Section 3.",
+      "page": 1,
+      "box": {
+        "left": 34.5,
+        "top": 293.4,
+        "width": 144.6,
+        "height": 17.6
+      }
+    },
+    "remarks2": {
+      "type": "text",
+      "label": "Remarks. Section 3.",
+      "page": 1,
+      "box": {
+        "left": 34.5,
+        "top": 273.8,
+        "width": 548.6,
+        "height": 172.3
+      },
+      "multiline": true
+    },
+    "rctr3": {
+      "type": "signature",
+      "label": "RCTR3",
+      "page": 1,
+      "box": {
+        "left": 434.7,
+        "top": 93.1,
+        "width": 147.7,
+        "height": 26.7
+      }
+    },
+    "ncoic3": {
+      "type": "signature",
+      "label": "NCOIC3",
+      "page": 1,
+      "box": {
+        "left": 243.5,
+        "top": 92.1,
+        "width": 190.2,
+        "height": 25.7
+      }
+    }
+  }
+}

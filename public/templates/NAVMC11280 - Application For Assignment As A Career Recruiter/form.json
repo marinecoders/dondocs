@@ -1,0 +1,409 @@
+{
+  "id": "navmc11280",
+  "label": "NAVMC 11280 - Application For Assignment As A Career Recruiter",
+  "directory": "NAVMC11280 - Application For Assignment As A Career Recruiter",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "nameLFM",
+        "grade1",
+        "ssn1",
+        "mos1",
+        "presLoc",
+        "ruc1",
+        "rs1",
+        "mcd",
+        "other1",
+        "dateRank",
+        "dctb1",
+        "schedEndTour",
+        "afadbd1",
+        "dateGradDist",
+        "distRef1",
+        "distRef2",
+        "distRef3",
+        "dateGradRec",
+        "futComm",
+        "chkPcsoNo",
+        "chkPcsoYes",
+        "edd1",
+        "mcc1",
+        "textField1",
+        "textField3",
+        "textField2",
+        "signature",
+        "dateSig"
+      ]
+    }
+  ],
+  "fields": {
+    "nameLFM": {
+      "type": "text",
+      "label": "Name. Last, First, Middle Initial.",
+      "page": 1,
+      "box": {
+        "left": 17.4,
+        "top": 694.7,
+        "width": 277.2,
+        "height": 17.4
+      }
+    },
+    "grade1": {
+      "type": "text",
+      "label": "Grade.",
+      "page": 1,
+      "box": {
+        "left": 295.3,
+        "top": 694.7,
+        "width": 61.7,
+        "height": 17.4
+      }
+    },
+    "ssn1": {
+      "type": "text",
+      "label": "Enter Social Security Number without dashes.",
+      "page": 1,
+      "box": {
+        "left": 358.4,
+        "top": 694.7,
+        "width": 112.1,
+        "height": 18.1
+      }
+    },
+    "mos1": {
+      "type": "text",
+      "label": "MOS.",
+      "page": 1,
+      "box": {
+        "left": 471.8,
+        "top": 694.7,
+        "width": 122.8,
+        "height": 17.4
+      }
+    },
+    "presLoc": {
+      "type": "text",
+      "label": "Present Location MCC",
+      "page": 1,
+      "box": {
+        "left": 17.4,
+        "top": 657.1,
+        "width": 191.9,
+        "height": 17.4
+      }
+    },
+    "ruc1": {
+      "type": "text",
+      "label": "RUC",
+      "page": 1,
+      "box": {
+        "left": 210.7,
+        "top": 657.1,
+        "width": 84.6,
+        "height": 17.4
+      }
+    },
+    "rs1": {
+      "type": "text",
+      "label": "RS",
+      "page": 1,
+      "box": {
+        "left": 296.6,
+        "top": 657.1,
+        "width": 88.6,
+        "height": 17.4
+      }
+    },
+    "mcd": {
+      "type": "text",
+      "label": "MCD",
+      "page": 1,
+      "box": {
+        "left": 386.6,
+        "top": 657.1,
+        "width": 88.6,
+        "height": 17.4
+      }
+    },
+    "other1": {
+      "type": "text",
+      "label": "Other",
+      "page": 1,
+      "box": {
+        "left": 476.5,
+        "top": 657.1,
+        "width": 118.8,
+        "height": 17.4
+      }
+    },
+    "dateRank": {
+      "type": "text",
+      "label": "Enter date of rank using format 2002 06 27.",
+      "page": 1,
+      "box": {
+        "left": 312.8,
+        "top": 613.6,
+        "width": 119.2,
+        "height": 18.4
+      }
+    },
+    "dctb1": {
+      "type": "text",
+      "label": "DCTB",
+      "page": 1,
+      "box": {
+        "left": 17.4,
+        "top": 613.5,
+        "width": 114.1,
+        "height": 17.5
+      }
+    },
+    "schedEndTour": {
+      "type": "text",
+      "label": "Scheduled End of Tour.",
+      "page": 1,
+      "box": {
+        "left": 132.9,
+        "top": 613.5,
+        "width": 178.5,
+        "height": 17.5
+      }
+    },
+    "afadbd1": {
+      "type": "text",
+      "label": "AFADBD",
+      "page": 1,
+      "box": {
+        "left": 433.6,
+        "top": 613.5,
+        "width": 161.1,
+        "height": 17.5
+      }
+    },
+    "dateGradDist": {
+      "type": "text",
+      "label": "Enter date graduated from District NCOIC Course using format 2002 06 27.",
+      "page": 1,
+      "box": {
+        "left": 205.4,
+        "top": 581.3,
+        "width": 389.3,
+        "height": 18.1
+      }
+    },
+    "distRef1": {
+      "type": "text",
+      "label": "First District Reference.",
+      "page": 1,
+      "box": {
+        "left": 17.3,
+        "top": 555.3,
+        "width": 65.3,
+        "height": 18.0
+      }
+    },
+    "distRef2": {
+      "type": "text",
+      "label": "Second District Reference.",
+      "page": 1,
+      "box": {
+        "left": 83.9,
+        "top": 555.1,
+        "width": 66.4,
+        "height": 17.5
+      }
+    },
+    "distRef3": {
+      "type": "text",
+      "label": "Third District Reference.",
+      "page": 1,
+      "box": {
+        "left": 151.7,
+        "top": 555.1,
+        "width": 53.0,
+        "height": 17.5
+      }
+    },
+    "dateGradRec": {
+      "type": "text",
+      "label": "Enter date graduated from Recruiters School using format 2002 06 27.",
+      "page": 1,
+      "box": {
+        "left": 205.4,
+        "top": 555.1,
+        "width": 389.3,
+        "height": 18.1
+      }
+    },
+    "futComm": {
+      "type": "text",
+      "label": "Future Command",
+      "page": 1,
+      "box": {
+        "left": 264.0,
+        "top": 392.8,
+        "width": 216.0,
+        "height": 48.8
+      },
+      "multiline": true
+    },
+    "chkPcsoNo": {
+      "type": "checkbox",
+      "label": "Check if not presently in receipt of PCSO.",
+      "page": 1,
+      "box": {
+        "left": 45.6,
+        "top": 366.4,
+        "width": 17.6,
+        "height": 17.6
+      }
+    },
+    "chkPcsoYes": {
+      "type": "checkbox",
+      "label": "Check if presently in receipt of PCSO.",
+      "page": 1,
+      "box": {
+        "left": 109.9,
+        "top": 366.3,
+        "width": 18.5,
+        "height": 18.5
+      }
+    },
+    "edd1": {
+      "type": "text",
+      "label": "EDD",
+      "page": 1,
+      "box": {
+        "left": 173.6,
+        "top": 363.2,
+        "width": 88.8,
+        "height": 17.6
+      }
+    },
+    "mcc1": {
+      "type": "text",
+      "label": "MCC",
+      "page": 1,
+      "box": {
+        "left": 481.6,
+        "top": 363.2,
+        "width": 112.8,
+        "height": 17.6
+      }
+    },
+    "textField1": {
+      "type": "text",
+      "label": "TextField1",
+      "page": 1,
+      "box": {
+        "left": 214.1,
+        "top": 265.4,
+        "width": 175.7,
+        "height": 15.1
+      }
+    },
+    "textField3": {
+      "type": "text",
+      "label": "TextField3",
+      "page": 1,
+      "box": {
+        "left": 65.7,
+        "top": 197.1,
+        "width": 175.7,
+        "height": 15.0
+      }
+    },
+    "textField2": {
+      "type": "text",
+      "label": "TextField2",
+      "page": 1,
+      "box": {
+        "left": 394.6,
+        "top": 155.0,
+        "width": 175.7,
+        "height": 15.7
+      }
+    },
+    "signature": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 16.8,
+        "top": 93.6,
+        "width": 295.9,
+        "height": 30.7
+      }
+    },
+    "dateSig": {
+      "type": "text",
+      "label": "Enter date of Applicants Signature using format 2002 06 27. Line 4.",
+      "page": 1,
+      "box": {
+        "left": 314.4,
+        "top": 87.9,
+        "width": 280.0,
+        "height": 24.9
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 4,
+      "rowStride": 25.33,
+      "editor": "grid",
+      "columns": {
+        "recrAwd": {
+          "type": "text",
+          "label": "Recruiting Awards. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 18.0,
+            "top": 499.3,
+            "width": 191.3,
+            "height": 17.3
+          }
+        },
+        "recrBill": {
+          "type": "text",
+          "label": "Recruiter Billets Held. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 210.7,
+            "top": 499.3,
+            "width": 190.7,
+            "height": 17.3
+          }
+        },
+        "dateHeldSt": {
+          "type": "text",
+          "label": "Enter starting date for Billets held using format 2002 06 27. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 402.7,
+            "top": 500.0,
+            "width": 78.0,
+            "height": 18.7
+          }
+        },
+        "dateHeldEnd": {
+          "type": "text",
+          "label": "Enter ending date for Billets held using format 2002 06 27. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 523.3,
+            "top": 500.0,
+            "width": 70.7,
+            "height": 18.7
+          }
+        }
+      }
+    }
+  }
+}

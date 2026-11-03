@@ -1,0 +1,139 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "statement": {
+        "left": 38.6,
+        "top": 573.6,
+        "width": 534.8,
+        "height": 332.0,
+        "type": "text",
+        "description": "STATEMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "2PRINTEDNAMEFirstMiddleLast": {
+        "left": 38.3,
+        "top": 232.8,
+        "width": 356.5,
+        "height": 26.0,
+        "type": "text",
+        "description": "2. PRINTED NAME: (First, Middle, Last)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "3DoDID": {
+        "left": 397.3,
+        "top": 232.8,
+        "width": 176.5,
+        "height": 26.0,
+        "type": "text",
+        "description": "3. DoD ID#:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature1": {
+        "left": 384.0,
+        "top": 207.0,
+        "width": 192.0,
+        "height": 39.0,
+        "type": "signature",
+        "description": "3. DoD ID#",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "6SERVICE": {
+        "left": 226.4,
+        "top": 198.6,
+        "width": 81.2,
+        "height": 28.8,
+        "type": "text",
+        "description": "6. SERVICE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "4DATE": {
+        "left": 38.4,
+        "top": 197.0,
+        "width": 104.3,
+        "height": 27.2,
+        "type": "text",
+        "description": "4. DATE:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "5RANKRATE": {
+        "left": 145.4,
+        "top": 197.0,
+        "width": 78.2,
+        "height": 27.2,
+        "type": "text",
+        "description": "5. RANK/RATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "8ADDRESSWHEREYOUMAYBELOCATED": {
+        "left": 38.4,
+        "top": 157.2,
+        "width": 359.3,
+        "height": 28.8,
+        "type": "text",
+        "description": "8. ADDRESS WHERE YOU MAY BE LOCATED:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "9TELEPHONE": {
+        "left": 400.4,
+        "top": 157.2,
+        "width": 173.3,
+        "height": 28.8,
+        "type": "text",
+        "description": "9. TELEPHONE:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature2": {
+        "left": 384.0,
+        "top": 128.0,
+        "width": 192.0,
+        "height": 38.0,
+        "type": "signature",
+        "description": "9. TELEPHONE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "10PRINTEDBOARDMEMBERSNAME": {
+        "left": 38.4,
+        "top": 119.5,
+        "width": 269.3,
+        "height": 27.1,
+        "type": "text",
+        "description": "10. PRINTED BOARD MEMBERS NAME:",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

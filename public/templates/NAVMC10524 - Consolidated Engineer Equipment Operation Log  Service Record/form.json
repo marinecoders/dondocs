@@ -1,0 +1,1273 @@
+{
+  "id": "navmc10524",
+  "label": "NAVMC 10524 - Consolidated Engineer Equipment Operation Log  Service Record",
+  "directory": "NAVMC10524 - Consolidated Engineer Equipment Operation Log  Service Record",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "equipNomen",
+        "iDNo",
+        "serNo",
+        "dateRecOpen",
+        "dateRecClose",
+        "crtlNo",
+        "opMaintRef",
+        "partsRef",
+        "recRef",
+        "due1",
+        "due2",
+        "due3",
+        "due4",
+        "due5",
+        "due6",
+        "due7",
+        "typeLubDue",
+        "sch1",
+        "sch2",
+        "sch3",
+        "sch4",
+        "sch5",
+        "sch6",
+        "sch7",
+        "lastPMCS",
+        "nextPMCS"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "otherTime",
+        "81",
+        "101",
+        "82",
+        "102",
+        "83",
+        "103",
+        "84",
+        "104",
+        "85",
+        "105",
+        "86",
+        "106",
+        "87",
+        "107",
+        "88",
+        "108",
+        "89",
+        "109",
+        "810",
+        "1010",
+        "5a",
+        "5b",
+        "811",
+        "1011",
+        "5c",
+        "5d",
+        "812",
+        "1012",
+        "813",
+        "1013",
+        "814",
+        "1014",
+        "815",
+        "1015",
+        "816",
+        "1016",
+        "test17",
+        "817",
+        "1017",
+        "818",
+        "1018",
+        "819",
+        "1019",
+        "820",
+        "1020",
+        "821",
+        "1021",
+        "822",
+        "1022",
+        "823",
+        "1023",
+        "824",
+        "1024",
+        "825",
+        "1025",
+        "remarksPg2"
+      ]
+    }
+  ],
+  "fields": {
+    "equipNomen": {
+      "type": "text",
+      "label": "Enter equipment nomenclature.",
+      "page": 1,
+      "box": {
+        "left": 25.4,
+        "top": 549.3,
+        "width": 274.6,
+        "height": 17.8
+      }
+    },
+    "iDNo": {
+      "type": "text",
+      "label": "Enter identification number.",
+      "page": 1,
+      "box": {
+        "left": 301.7,
+        "top": 549.3,
+        "width": 57.6,
+        "height": 17.8
+      }
+    },
+    "serNo": {
+      "type": "text",
+      "label": "Enter U. S. M. C or serial number.",
+      "page": 1,
+      "box": {
+        "left": 361.0,
+        "top": 549.3,
+        "width": 106.8,
+        "height": 17.8
+      }
+    },
+    "dateRecOpen": {
+      "type": "text",
+      "label": "Enter date of record opening using format 2 Dec 2002.",
+      "page": 1,
+      "box": {
+        "left": 469.5,
+        "top": 549.3,
+        "width": 103.4,
+        "height": 17.8
+      }
+    },
+    "dateRecClose": {
+      "type": "text",
+      "label": "Enter date of record closing.",
+      "page": 1,
+      "box": {
+        "left": 574.6,
+        "top": 549.3,
+        "width": 103.4,
+        "height": 17.8
+      }
+    },
+    "crtlNo": {
+      "type": "text",
+      "label": "Enter control number or unit number.",
+      "page": 1,
+      "box": {
+        "left": 678.0,
+        "top": 549.3,
+        "width": 104.2,
+        "height": 17.8
+      }
+    },
+    "opMaintRef": {
+      "type": "text",
+      "label": "Enter operation or maintenance reference.",
+      "page": 1,
+      "box": {
+        "left": 205.1,
+        "top": 528.1,
+        "width": 201.7,
+        "height": 17.8
+      }
+    },
+    "partsRef": {
+      "type": "text",
+      "label": "Enter parts reference.",
+      "page": 1,
+      "box": {
+        "left": 466.1,
+        "top": 528.1,
+        "width": 169.5,
+        "height": 17.8
+      }
+    },
+    "recRef": {
+      "type": "text",
+      "label": "Enter records reference.",
+      "page": 1,
+      "box": {
+        "left": 742.4,
+        "top": 528.1,
+        "width": 39.0,
+        "height": 17.8
+      }
+    },
+    "due1": {
+      "type": "text",
+      "label": "Enter preventative maintenance due in area 1.",
+      "page": 1,
+      "box": {
+        "left": 90.7,
+        "top": 495.1,
+        "width": 57.6,
+        "height": 30.5
+      },
+      "multiline": true
+    },
+    "due2": {
+      "type": "text",
+      "label": "Enter preventative maintenance due in area 2.",
+      "page": 1,
+      "box": {
+        "left": 149.2,
+        "top": 495.1,
+        "width": 48.3,
+        "height": 30.5
+      },
+      "multiline": true
+    },
+    "due3": {
+      "type": "text",
+      "label": "Enter preventative maintenance due in area 3.",
+      "page": 1,
+      "box": {
+        "left": 199.2,
+        "top": 495.1,
+        "width": 44.9,
+        "height": 30.5
+      },
+      "multiline": true
+    },
+    "due4": {
+      "type": "text",
+      "label": "Enter preventative maintenance due in area 4.",
+      "page": 1,
+      "box": {
+        "left": 244.1,
+        "top": 495.1,
+        "width": 43.2,
+        "height": 30.5
+      },
+      "multiline": true
+    },
+    "due5": {
+      "type": "text",
+      "label": "Enter preventative maintenance due in area 5.",
+      "page": 1,
+      "box": {
+        "left": 289.0,
+        "top": 495.1,
+        "width": 41.5,
+        "height": 30.5
+      },
+      "multiline": true
+    },
+    "due6": {
+      "type": "text",
+      "label": "Enter preventative maintenance due in area 6.",
+      "page": 1,
+      "box": {
+        "left": 331.4,
+        "top": 495.1,
+        "width": 50.8,
+        "height": 30.5
+      },
+      "multiline": true
+    },
+    "due7": {
+      "type": "text",
+      "label": "Enter preventative maintenance due in area 7.",
+      "page": 1,
+      "box": {
+        "left": 383.1,
+        "top": 495.1,
+        "width": 55.1,
+        "height": 30.5
+      },
+      "multiline": true
+    },
+    "typeLubDue": {
+      "type": "text",
+      "label": "Enter type of lubrication due next.",
+      "page": 1,
+      "box": {
+        "left": 669.5,
+        "top": 466.2,
+        "width": 116.9,
+        "height": 30.5
+      },
+      "multiline": true
+    },
+    "sch1": {
+      "type": "text",
+      "label": "Enter preventative maintenance schedlued in area 1.",
+      "page": 1,
+      "box": {
+        "left": 90.7,
+        "top": 465.4,
+        "width": 57.6,
+        "height": 30.5
+      },
+      "multiline": true
+    },
+    "sch2": {
+      "type": "text",
+      "label": "Enter preventative maintenance schedlued in area 2.",
+      "page": 1,
+      "box": {
+        "left": 149.2,
+        "top": 465.4,
+        "width": 48.3,
+        "height": 30.5
+      },
+      "multiline": true
+    },
+    "sch3": {
+      "type": "text",
+      "label": "Enter preventative maintenance schedlued in area 3.",
+      "page": 1,
+      "box": {
+        "left": 199.2,
+        "top": 465.4,
+        "width": 44.9,
+        "height": 30.5
+      },
+      "multiline": true
+    },
+    "sch4": {
+      "type": "text",
+      "label": "Enter preventative maintenance schedlued in area 4.",
+      "page": 1,
+      "box": {
+        "left": 244.1,
+        "top": 465.4,
+        "width": 43.2,
+        "height": 30.5
+      },
+      "multiline": true
+    },
+    "sch5": {
+      "type": "text",
+      "label": "Enter preventative maintenance schedlued in area 5.",
+      "page": 1,
+      "box": {
+        "left": 289.0,
+        "top": 465.4,
+        "width": 41.5,
+        "height": 30.5
+      },
+      "multiline": true
+    },
+    "sch6": {
+      "type": "text",
+      "label": "Enter preventative maintenance schedlued in area 6.",
+      "page": 1,
+      "box": {
+        "left": 331.4,
+        "top": 465.4,
+        "width": 50.8,
+        "height": 30.5
+      },
+      "multiline": true
+    },
+    "sch7": {
+      "type": "text",
+      "label": "Enter preventative maintenance schedlued in area 7.",
+      "page": 1,
+      "box": {
+        "left": 383.1,
+        "top": 465.4,
+        "width": 55.1,
+        "height": 30.5
+      },
+      "multiline": true
+    },
+    "lastPMCS": {
+      "type": "text",
+      "label": "Enter date of last prevenative maintenance.",
+      "page": 1,
+      "box": {
+        "left": 440.7,
+        "top": 454.4,
+        "width": 113.6,
+        "height": 17.8
+      }
+    },
+    "nextPMCS": {
+      "type": "text",
+      "label": "Enter date of next prevenative maintenance.",
+      "page": 1,
+      "box": {
+        "left": 556.8,
+        "top": 454.4,
+        "width": 110.2,
+        "height": 17.8
+      }
+    },
+    "otherTime": {
+      "type": "text",
+      "label": "Enter other time maintenance interval.",
+      "page": 2,
+      "box": {
+        "left": 337.0,
+        "top": 506.5,
+        "width": 33.5,
+        "height": 13.0
+      }
+    },
+    "81": {
+      "type": "text",
+      "label": "Verify pilferage damage or loss at 8 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 255.3,
+        "top": 476.7,
+        "width": 36.0,
+        "height": 12.7
+      }
+    },
+    "101": {
+      "type": "text",
+      "label": "Verify pilferage damage or loss at 10 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 293.3,
+        "top": 476.7,
+        "width": 43.3,
+        "height": 12.7
+      }
+    },
+    "82": {
+      "type": "text",
+      "label": "Verify general leaks at 8 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 255.3,
+        "top": 462.7,
+        "width": 36.0,
+        "height": 12.7
+      }
+    },
+    "102": {
+      "type": "text",
+      "label": "Verify general leaks at 10 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 293.3,
+        "top": 462.7,
+        "width": 43.3,
+        "height": 12.7
+      }
+    },
+    "83": {
+      "type": "text",
+      "label": "Verify any notice of water oil or fuel at 8 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 255.3,
+        "top": 449.3,
+        "width": 36.0,
+        "height": 12.7
+      }
+    },
+    "103": {
+      "type": "text",
+      "label": "Verify any notice of water oil or fuel at 10 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 293.3,
+        "top": 449.3,
+        "width": 43.3,
+        "height": 12.7
+      }
+    },
+    "84": {
+      "type": "text",
+      "label": "Verify engine warm up at 8 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 255.3,
+        "top": 435.3,
+        "width": 36.0,
+        "height": 12.7
+      }
+    },
+    "104": {
+      "type": "text",
+      "label": "Verify engine warm up at 10 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 293.3,
+        "top": 435.3,
+        "width": 43.3,
+        "height": 12.7
+      }
+    },
+    "85": {
+      "type": "text",
+      "label": "Verify instruments at 8 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 255.3,
+        "top": 422.0,
+        "width": 36.0,
+        "height": 12.7
+      }
+    },
+    "105": {
+      "type": "text",
+      "label": "Verify instruments at 10 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 293.3,
+        "top": 422.0,
+        "width": 43.3,
+        "height": 12.7
+      }
+    },
+    "86": {
+      "type": "text",
+      "label": "Verify safety devices at 8 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 255.3,
+        "top": 408.0,
+        "width": 36.0,
+        "height": 12.7
+      }
+    },
+    "106": {
+      "type": "text",
+      "label": "Verify safety devices at 10 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 293.3,
+        "top": 408.0,
+        "width": 43.3,
+        "height": 12.7
+      }
+    },
+    "87": {
+      "type": "text",
+      "label": "Verify tools or equipment at 8 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 255.3,
+        "top": 394.7,
+        "width": 36.0,
+        "height": 12.7
+      }
+    },
+    "107": {
+      "type": "text",
+      "label": "Verify tools or equipment at 10 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 293.3,
+        "top": 394.7,
+        "width": 43.3,
+        "height": 12.7
+      }
+    },
+    "88": {
+      "type": "text",
+      "label": "Verify publications at 8 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 255.3,
+        "top": 380.7,
+        "width": 36.0,
+        "height": 12.7
+      }
+    },
+    "108": {
+      "type": "text",
+      "label": "Verify publications at 10 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 293.3,
+        "top": 380.7,
+        "width": 43.3,
+        "height": 12.7
+      }
+    },
+    "89": {
+      "type": "text",
+      "label": "Verify clutch at 8 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 255.3,
+        "top": 367.3,
+        "width": 36.0,
+        "height": 12.7
+      }
+    },
+    "109": {
+      "type": "text",
+      "label": "Verify clutch at 10 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 293.3,
+        "top": 367.3,
+        "width": 43.3,
+        "height": 12.7
+      }
+    },
+    "810": {
+      "type": "text",
+      "label": "Verify steering at 8 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 255.3,
+        "top": 353.3,
+        "width": 36.0,
+        "height": 12.7
+      }
+    },
+    "1010": {
+      "type": "text",
+      "label": "Verify steering at 10 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 293.3,
+        "top": 353.3,
+        "width": 43.3,
+        "height": 12.7
+      }
+    },
+    "5a": {
+      "type": "text",
+      "label": "Enter lower reading degree in farenheit of water temperature gauge.",
+      "page": 2,
+      "box": {
+        "left": 451.5,
+        "top": 342.0,
+        "width": 20.5,
+        "height": 9.5
+      }
+    },
+    "5b": {
+      "type": "text",
+      "label": "Enter top reading degree in farenheit of water temperature gauge.",
+      "page": 2,
+      "box": {
+        "left": 476.0,
+        "top": 342.0,
+        "width": 20.5,
+        "height": 9.5
+      }
+    },
+    "811": {
+      "type": "text",
+      "label": "Verify engine operation at 8 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 255.3,
+        "top": 340.0,
+        "width": 36.0,
+        "height": 12.7
+      }
+    },
+    "1011": {
+      "type": "text",
+      "label": "Verify engine operation at 10 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 293.3,
+        "top": 340.0,
+        "width": 43.3,
+        "height": 12.7
+      }
+    },
+    "5c": {
+      "type": "text",
+      "label": "Enter lower reading of oil pressure to register.",
+      "page": 2,
+      "box": {
+        "left": 419.0,
+        "top": 333.5,
+        "width": 20.5,
+        "height": 9.5
+      }
+    },
+    "5d": {
+      "type": "text",
+      "label": "Enter upper reading of oil pressure to register.",
+      "page": 2,
+      "box": {
+        "left": 444.0,
+        "top": 333.5,
+        "width": 20.5,
+        "height": 9.5
+      }
+    },
+    "812": {
+      "type": "text",
+      "label": "Verify unusual noises at 8 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 255.3,
+        "top": 326.0,
+        "width": 36.0,
+        "height": 12.7
+      }
+    },
+    "1012": {
+      "type": "text",
+      "label": "Verify unusual noises at 10 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 293.3,
+        "top": 326.0,
+        "width": 43.3,
+        "height": 12.7
+      }
+    },
+    "813": {
+      "type": "text",
+      "label": "Verify lights and reflectors at 8 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 255.3,
+        "top": 312.7,
+        "width": 36.0,
+        "height": 12.7
+      }
+    },
+    "1013": {
+      "type": "text",
+      "label": "Verify lights and reflectors at 10 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 293.3,
+        "top": 312.7,
+        "width": 43.3,
+        "height": 12.7
+      }
+    },
+    "814": {
+      "type": "text",
+      "label": "Verify air tanks at 8 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 255.3,
+        "top": 298.7,
+        "width": 36.0,
+        "height": 12.7
+      }
+    },
+    "1014": {
+      "type": "text",
+      "label": "Verify air tanks at 10 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 293.3,
+        "top": 298.7,
+        "width": 43.3,
+        "height": 12.7
+      }
+    },
+    "815": {
+      "type": "text",
+      "label": "Verify drive belts at 8 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 255.3,
+        "top": 285.3,
+        "width": 36.0,
+        "height": 12.7
+      }
+    },
+    "1015": {
+      "type": "text",
+      "label": "Verify drive belts at 10 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 293.3,
+        "top": 285.3,
+        "width": 43.3,
+        "height": 12.7
+      }
+    },
+    "816": {
+      "type": "text",
+      "label": "Verify battery electrolyte level at 8 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 255.3,
+        "top": 271.3,
+        "width": 36.0,
+        "height": 12.7
+      }
+    },
+    "1016": {
+      "type": "text",
+      "label": "Verify battery electrolyte level at 10 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 293.3,
+        "top": 271.3,
+        "width": 43.3,
+        "height": 12.7
+      }
+    },
+    "test17": {
+      "type": "text",
+      "label": "Enter degree farenheit of anti freeze test.",
+      "page": 2,
+      "box": {
+        "left": 95.0,
+        "top": 261.0,
+        "width": 21.0,
+        "height": 9.5
+      }
+    },
+    "817": {
+      "type": "text",
+      "label": "Verify antifreeze at 8 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 255.3,
+        "top": 257.3,
+        "width": 36.0,
+        "height": 12.7
+      }
+    },
+    "1017": {
+      "type": "text",
+      "label": "Verify antifreeze at 10 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 293.3,
+        "top": 257.3,
+        "width": 43.3,
+        "height": 12.7
+      }
+    },
+    "818": {
+      "type": "text",
+      "label": "Verify service of brakes at 8 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 255.3,
+        "top": 244.0,
+        "width": 36.0,
+        "height": 12.7
+      }
+    },
+    "1018": {
+      "type": "text",
+      "label": "Verify service of brakes at 10 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 293.3,
+        "top": 244.0,
+        "width": 43.3,
+        "height": 12.7
+      }
+    },
+    "819": {
+      "type": "text",
+      "label": "Verify transmission at 8 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 255.3,
+        "top": 230.0,
+        "width": 36.0,
+        "height": 12.7
+      }
+    },
+    "1019": {
+      "type": "text",
+      "label": "Verify transmission at 10 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 293.3,
+        "top": 230.0,
+        "width": 43.3,
+        "height": 12.7
+      }
+    },
+    "820": {
+      "type": "text",
+      "label": "Verify air filter at 8 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 255.3,
+        "top": 216.7,
+        "width": 36.0,
+        "height": 12.7
+      }
+    },
+    "1020": {
+      "type": "text",
+      "label": "Verify air filter at 10 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 293.3,
+        "top": 216.7,
+        "width": 43.3,
+        "height": 12.7
+      }
+    },
+    "821": {
+      "type": "text",
+      "label": "Verify fuel filter at 8 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 255.3,
+        "top": 203.3,
+        "width": 36.0,
+        "height": 12.7
+      }
+    },
+    "1021": {
+      "type": "text",
+      "label": "Verify fuel filter at 10 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 293.3,
+        "top": 203.3,
+        "width": 43.3,
+        "height": 12.7
+      }
+    },
+    "822": {
+      "type": "text",
+      "label": "Verify tires at 8 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 255.3,
+        "top": 189.3,
+        "width": 36.0,
+        "height": 12.7
+      }
+    },
+    "1022": {
+      "type": "text",
+      "label": "Verify tires at 10 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 293.3,
+        "top": 189.3,
+        "width": 43.3,
+        "height": 12.7
+      }
+    },
+    "823": {
+      "type": "text",
+      "label": "Verify coverage of line 1 at 8 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 255.3,
+        "top": 175.3,
+        "width": 36.0,
+        "height": 12.7
+      }
+    },
+    "1023": {
+      "type": "text",
+      "label": "Verify coverage of line 1 at 10 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 293.3,
+        "top": 175.3,
+        "width": 43.3,
+        "height": 12.7
+      }
+    },
+    "824": {
+      "type": "text",
+      "label": "Verify coverage of line 2 at 8 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 255.3,
+        "top": 162.0,
+        "width": 36.0,
+        "height": 12.7
+      }
+    },
+    "1024": {
+      "type": "text",
+      "label": "Verify coverage of line 2 at 10 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 293.3,
+        "top": 162.0,
+        "width": 43.3,
+        "height": 12.7
+      }
+    },
+    "825": {
+      "type": "text",
+      "label": "Verify coverage of line 3 at 8 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 255.3,
+        "top": 148.0,
+        "width": 36.0,
+        "height": 12.7
+      }
+    },
+    "1025": {
+      "type": "text",
+      "label": "Verify coverage of line 3 at 10 hours of operation.",
+      "page": 2,
+      "box": {
+        "left": 293.3,
+        "top": 148.0,
+        "width": 43.3,
+        "height": 12.7
+      }
+    },
+    "remarksPg2": {
+      "type": "text",
+      "label": "Enter any remarks concerning coverage and service operation.",
+      "page": 2,
+      "box": {
+        "left": 12.0,
+        "top": 82.0,
+        "width": 357.5,
+        "height": 47.0
+      },
+      "multiline": true
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 21,
+      "rowStride": 15.95,
+      "editor": "grid",
+      "columns": {
+        "dateOp": {
+          "type": "text",
+          "label": "Enter date of operation 1.",
+          "page": 1,
+          "box": {
+            "left": 23.0,
+            "top": 371.0,
+            "width": 52.5,
+            "height": 14.5
+          }
+        },
+        "start": {
+          "type": "text",
+          "label": "Started speedometer or hourmeter reading during operation number 1.",
+          "page": 1,
+          "box": {
+            "left": 77.5,
+            "top": 371.0,
+            "width": 52.5,
+            "height": 14.5
+          }
+        },
+        "stop": {
+          "type": "text",
+          "label": "Stopped speedometer or hourmeter reading during operation number 1.",
+          "page": 1,
+          "box": {
+            "left": 131.5,
+            "top": 371.0,
+            "width": 50.5,
+            "height": 14.5
+          }
+        },
+        "totlSS": {
+          "type": "text",
+          "label": "Total hour or mileage reading for operation number 1.",
+          "page": 1,
+          "box": {
+            "left": 183.5,
+            "top": 371.0,
+            "width": 48.5,
+            "height": 14.5
+          }
+        },
+        "gas": {
+          "type": "text",
+          "label": "Enter gas consumption during operation number 1.",
+          "page": 1,
+          "box": {
+            "left": 236.0,
+            "top": 371.0,
+            "width": 40.5,
+            "height": 14.5
+          }
+        },
+        "diesel": {
+          "type": "text",
+          "label": "Enter diesel fuel consumption during operation number 1.",
+          "page": 1,
+          "box": {
+            "left": 278.0,
+            "top": 371.0,
+            "width": 38.5,
+            "height": 14.5
+          }
+        },
+        "oil1Wt": {
+          "type": "text",
+          "label": "Enter oil number 1 weight and consumption during operation 1.",
+          "page": 1,
+          "box": {
+            "left": 318.5,
+            "top": 371.0,
+            "width": 38.5,
+            "height": 14.5
+          }
+        },
+        "oil2Wt": {
+          "type": "text",
+          "label": "Enter oil number 2 weight and consumption during operation 1.",
+          "page": 1,
+          "box": {
+            "left": 359.0,
+            "top": 371.0,
+            "width": 38.5,
+            "height": 14.5
+          }
+        },
+        "oil3Wt": {
+          "type": "text",
+          "label": "Enter oil number 3 weight and consumption during operation 1.",
+          "page": 1,
+          "box": {
+            "left": 399.5,
+            "top": 371.0,
+            "width": 38.5,
+            "height": 14.5
+          }
+        },
+        "airFilt": {
+          "type": "text",
+          "label": "Enter air filter cleaning or changing during operation 1.",
+          "page": 1,
+          "box": {
+            "left": 440.0,
+            "top": 371.0,
+            "width": 63.0,
+            "height": 14.5
+          }
+        },
+        "hrMiCompl": {
+          "type": "text",
+          "label": "Enter hours or mileage of maitenance completed during operation 1.",
+          "page": 1,
+          "box": {
+            "left": 505.0,
+            "top": 371.0,
+            "width": 63.0,
+            "height": 14.5
+          }
+        },
+        "eroNo": {
+          "type": "text",
+          "label": "Enter E. R. O number for operation 1.",
+          "page": 1,
+          "box": {
+            "left": 570.5,
+            "top": 371.0,
+            "width": 63.0,
+            "height": 14.5
+          }
+        },
+        "unit": {
+          "type": "text",
+          "label": "Enter servicing unit for operation 1.",
+          "page": 1,
+          "box": {
+            "left": 636.5,
+            "top": 371.0,
+            "width": 63.0,
+            "height": 14.5
+          }
+        },
+        "signat": {
+          "type": "text",
+          "label": "Enter servicing signature for operation 1.",
+          "page": 1,
+          "box": {
+            "left": 701.0,
+            "top": 371.0,
+            "width": 78.5,
+            "height": 14.5
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 2,
+      "count": 3,
+      "rowStride": 13.65,
+      "editor": "grid",
+      "columns": {
+        "cover": {
+          "type": "text",
+          "label": "Enter any at other coverage not listed for line 1.",
+          "page": 2,
+          "box": {
+            "left": 32.0,
+            "top": 175.3,
+            "width": 93.3,
+            "height": 12.7
+          }
+        },
+        "before": {
+          "type": "text",
+          "label": "Use legend marking for before operation for coverage on line 1.",
+          "page": 2,
+          "box": {
+            "left": 127.3,
+            "top": 175.3,
+            "width": 41.3,
+            "height": 12.7
+          }
+        },
+        "during": {
+          "type": "text",
+          "label": "Use legend marking for during operation for coverage on line 1.",
+          "page": 2,
+          "box": {
+            "left": 170.0,
+            "top": 175.3,
+            "width": 43.3,
+            "height": 12.7
+          }
+        },
+        "after": {
+          "type": "text",
+          "label": "Use legend marking during operation for coverage on line 1.",
+          "page": 2,
+          "box": {
+            "left": 215.3,
+            "top": 175.3,
+            "width": 38.0,
+            "height": 12.7
+          }
+        }
+      }
+    },
+    "rows3": {
+      "title": "Rows",
+      "page": 2,
+      "count": 25,
+      "rowStride": 13.7,
+      "editor": "grid",
+      "columns": {
+        "oth": {
+          "type": "text",
+          "label": "Verify pilferage damage or loss at other noted time interval of operation.",
+          "page": 2,
+          "box": {
+            "left": 338.0,
+            "top": 476.7,
+            "width": 32.0,
+            "height": 12.7
+          }
+        }
+      }
+    }
+  }
+}

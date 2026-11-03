@@ -1,0 +1,1352 @@
+{
+  "id": "opnav510014",
+  "label": "OPNAV5100-14 - Exposure Monitoring Plan",
+  "directory": "OPNAV5100-14 - Exposure Monitoring Plan",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "organization",
+        "shopOrwork",
+        "location",
+        "supervisor",
+        "telephone",
+        "female",
+        "male",
+        "noOfworkers",
+        "shopOper",
+        "workTask1",
+        "potenHaz1",
+        "freqDura1",
+        "workInvolv1",
+        "controlsRecommen1",
+        "workTask2",
+        "potenHaz2",
+        "freqDura2",
+        "workInvolv2",
+        "controlsRecommen2",
+        "workInvolv3",
+        "controlsRecommen3",
+        "workTask3",
+        "potenHaz3",
+        "freqDura3",
+        "workInvolv4",
+        "controlsRecommen4",
+        "workTask4",
+        "potenHaz4",
+        "freqDura4",
+        "workInvolv5",
+        "controlsRecommen5",
+        "workTask5",
+        "potenHaz5",
+        "freqDura5",
+        "shopOper2",
+        "date1",
+        "signed"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "noM1",
+        "fpy1",
+        "mhpy1",
+        "tph1",
+        "moM1",
+        "loM1",
+        "noM2",
+        "mhpy2",
+        "tph2",
+        "moM2",
+        "loM2",
+        "fpy2",
+        "noM3",
+        "mhpy3",
+        "tph3",
+        "moM3",
+        "loM3",
+        "fpy3",
+        "noM4",
+        "mhpy4",
+        "tph4",
+        "moM4",
+        "loM4",
+        "fpy4",
+        "noM5",
+        "tph5",
+        "moM5",
+        "loM5",
+        "fpy5",
+        "mhpy5",
+        "noM6",
+        "mhpy6",
+        "tph6",
+        "moM6",
+        "loM6",
+        "fpy6",
+        "noM7",
+        "tph7",
+        "moM7",
+        "loM7",
+        "fpy7",
+        "mhpy7",
+        "noM8",
+        "mhpy8",
+        "tph8",
+        "moM8",
+        "loM8",
+        "fpy8",
+        "tph9",
+        "noM9",
+        "moM9",
+        "loM9",
+        "fpy9",
+        "mhpy9",
+        "loM10",
+        "fpy10",
+        "tph10",
+        "noM10",
+        "moM10",
+        "mhpy10",
+        "noM11",
+        "mhpy11",
+        "loM11",
+        "fpy11",
+        "tph11",
+        "moM11"
+      ]
+    }
+  ],
+  "fields": {
+    "organization": {
+      "type": "text",
+      "label": "Enter the organization.",
+      "page": 1,
+      "box": {
+        "left": 112.9,
+        "top": 710.4,
+        "width": 449.2,
+        "height": 21.9
+      }
+    },
+    "shopOrwork": {
+      "type": "text",
+      "label": "Enter the shop or work center.",
+      "page": 1,
+      "box": {
+        "left": 148.4,
+        "top": 685.1,
+        "width": 413.7,
+        "height": 21.3
+      }
+    },
+    "location": {
+      "type": "text",
+      "label": "Enter the location.",
+      "page": 1,
+      "box": {
+        "left": 94.4,
+        "top": 660.3,
+        "width": 467.7,
+        "height": 23.0
+      }
+    },
+    "supervisor": {
+      "type": "text",
+      "label": "Enter the supervisor's name (last, first, middle initial).",
+      "page": 1,
+      "box": {
+        "left": 100.6,
+        "top": 633.9,
+        "width": 288.9,
+        "height": 25.3
+      }
+    },
+    "telephone": {
+      "type": "text",
+      "label": "Enter the supervisor's telephone number.",
+      "page": 1,
+      "box": {
+        "left": 449.9,
+        "top": 633.9,
+        "width": 112.3,
+        "height": 25.3
+      }
+    },
+    "female": {
+      "type": "text",
+      "label": "Enter the number of females in the workplace.",
+      "page": 1,
+      "box": {
+        "left": 438.1,
+        "top": 605.8,
+        "width": 126.2,
+        "height": 24.5
+      }
+    },
+    "male": {
+      "type": "text",
+      "label": "Enter the number of males in the workplace.",
+      "page": 1,
+      "box": {
+        "left": 280.6,
+        "top": 605.2,
+        "width": 108.3,
+        "height": 23.9
+      }
+    },
+    "noOfworkers": {
+      "type": "text",
+      "label": "Enter the number of workers.",
+      "page": 1,
+      "box": {
+        "left": 121.4,
+        "top": 604.7,
+        "width": 121.8,
+        "height": 23.6
+      }
+    },
+    "shopOper": {
+      "type": "text",
+      "label": "Enter the shop operations.",
+      "page": 1,
+      "box": {
+        "left": 47.7,
+        "top": 565.8,
+        "width": 515.0,
+        "height": 70.6
+      },
+      "multiline": true
+    },
+    "workTask1": {
+      "type": "text",
+      "label": "This is row 1 of 5. Enter the work task information.",
+      "page": 1,
+      "box": {
+        "left": 48.8,
+        "top": 453.4,
+        "width": 126.3,
+        "height": 47.6
+      },
+      "multiline": true
+    },
+    "potenHaz1": {
+      "type": "text",
+      "label": "Enter the potential hazard information.",
+      "page": 1,
+      "box": {
+        "left": 181.6,
+        "top": 453.4,
+        "width": 127.4,
+        "height": 47.6
+      },
+      "multiline": true
+    },
+    "freqDura1": {
+      "type": "text",
+      "label": "Enter the frequency or duration information.",
+      "page": 1,
+      "box": {
+        "left": 315.4,
+        "top": 453.4,
+        "width": 89.2,
+        "height": 47.6
+      },
+      "multiline": true
+    },
+    "workInvolv1": {
+      "type": "text",
+      "label": "Enter the workers involved.",
+      "page": 1,
+      "box": {
+        "left": 408.8,
+        "top": 453.4,
+        "width": 66.1,
+        "height": 47.6
+      },
+      "multiline": true
+    },
+    "controlsRecommen1": {
+      "type": "text",
+      "label": "Enter the controls ((E)xisting or (R)ecommended) information.",
+      "page": 1,
+      "box": {
+        "left": 480.8,
+        "top": 453.4,
+        "width": 81.9,
+        "height": 47.6
+      },
+      "multiline": true
+    },
+    "workTask2": {
+      "type": "text",
+      "label": "This is row 2 of 5. Enter the work task information.",
+      "page": 1,
+      "box": {
+        "left": 48.8,
+        "top": 401.6,
+        "width": 126.3,
+        "height": 47.6
+      },
+      "multiline": true
+    },
+    "potenHaz2": {
+      "type": "text",
+      "label": "Enter the potential hazard information.",
+      "page": 1,
+      "box": {
+        "left": 181.6,
+        "top": 401.6,
+        "width": 127.4,
+        "height": 47.6
+      },
+      "multiline": true
+    },
+    "freqDura2": {
+      "type": "text",
+      "label": "Enter the frequency or duration information.",
+      "page": 1,
+      "box": {
+        "left": 315.4,
+        "top": 401.6,
+        "width": 89.2,
+        "height": 47.6
+      },
+      "multiline": true
+    },
+    "workInvolv2": {
+      "type": "text",
+      "label": "Enter the workers involved.",
+      "page": 1,
+      "box": {
+        "left": 408.8,
+        "top": 401.5,
+        "width": 66.1,
+        "height": 47.6
+      },
+      "multiline": true
+    },
+    "controlsRecommen2": {
+      "type": "text",
+      "label": "Enter the controls ((E)xisting or (R)ecommended) information.",
+      "page": 1,
+      "box": {
+        "left": 480.8,
+        "top": 401.5,
+        "width": 81.9,
+        "height": 47.6
+      },
+      "multiline": true
+    },
+    "workInvolv3": {
+      "type": "text",
+      "label": "Enter the workers involved.",
+      "page": 1,
+      "box": {
+        "left": 408.8,
+        "top": 349.3,
+        "width": 66.1,
+        "height": 47.6
+      },
+      "multiline": true
+    },
+    "controlsRecommen3": {
+      "type": "text",
+      "label": "Enter the controls ((E)xisting or (R)ecommended) information.",
+      "page": 1,
+      "box": {
+        "left": 480.8,
+        "top": 349.3,
+        "width": 81.9,
+        "height": 47.6
+      },
+      "multiline": true
+    },
+    "workTask3": {
+      "type": "text",
+      "label": "This is row 3 of 5. Enter the work task information.",
+      "page": 1,
+      "box": {
+        "left": 48.8,
+        "top": 348.9,
+        "width": 126.3,
+        "height": 47.6
+      },
+      "multiline": true
+    },
+    "potenHaz3": {
+      "type": "text",
+      "label": "Enter the potential hazard information.",
+      "page": 1,
+      "box": {
+        "left": 181.6,
+        "top": 348.9,
+        "width": 127.4,
+        "height": 47.6
+      },
+      "multiline": true
+    },
+    "freqDura3": {
+      "type": "text",
+      "label": "Enter the frequency or duration information.",
+      "page": 1,
+      "box": {
+        "left": 315.4,
+        "top": 348.9,
+        "width": 89.2,
+        "height": 47.6
+      },
+      "multiline": true
+    },
+    "workInvolv4": {
+      "type": "text",
+      "label": "Enter the workers involved.",
+      "page": 1,
+      "box": {
+        "left": 408.8,
+        "top": 298.1,
+        "width": 66.1,
+        "height": 47.6
+      },
+      "multiline": true
+    },
+    "controlsRecommen4": {
+      "type": "text",
+      "label": "Enter the controls ((E)xisting or (R)ecommended) information.",
+      "page": 1,
+      "box": {
+        "left": 480.8,
+        "top": 298.1,
+        "width": 81.9,
+        "height": 47.6
+      },
+      "multiline": true
+    },
+    "workTask4": {
+      "type": "text",
+      "label": "This is row 4 of 5. Enter the work task information.",
+      "page": 1,
+      "box": {
+        "left": 48.8,
+        "top": 297.8,
+        "width": 126.3,
+        "height": 47.6
+      },
+      "multiline": true
+    },
+    "potenHaz4": {
+      "type": "text",
+      "label": "Enter the potential hazard information.",
+      "page": 1,
+      "box": {
+        "left": 181.6,
+        "top": 297.8,
+        "width": 127.4,
+        "height": 47.6
+      },
+      "multiline": true
+    },
+    "freqDura4": {
+      "type": "text",
+      "label": "Enter the frequency or duration information.",
+      "page": 1,
+      "box": {
+        "left": 315.4,
+        "top": 297.8,
+        "width": 89.2,
+        "height": 47.6
+      },
+      "multiline": true
+    },
+    "workInvolv5": {
+      "type": "text",
+      "label": "Enter the workers involved.",
+      "page": 1,
+      "box": {
+        "left": 408.8,
+        "top": 244.7,
+        "width": 66.1,
+        "height": 47.6
+      },
+      "multiline": true
+    },
+    "controlsRecommen5": {
+      "type": "text",
+      "label": "Enter the controls ((E)xisting or (R)ecommended) information.",
+      "page": 1,
+      "box": {
+        "left": 480.8,
+        "top": 244.7,
+        "width": 81.9,
+        "height": 47.6
+      },
+      "multiline": true
+    },
+    "workTask5": {
+      "type": "text",
+      "label": "This is row 5 of 5. Enter the work task information.",
+      "page": 1,
+      "box": {
+        "left": 48.8,
+        "top": 244.5,
+        "width": 126.3,
+        "height": 47.6
+      },
+      "multiline": true
+    },
+    "potenHaz5": {
+      "type": "text",
+      "label": "Enter the potential hazard information.",
+      "page": 1,
+      "box": {
+        "left": 181.6,
+        "top": 244.5,
+        "width": 127.4,
+        "height": 47.6
+      },
+      "multiline": true
+    },
+    "freqDura5": {
+      "type": "text",
+      "label": "Enter the frequency or duration information.",
+      "page": 1,
+      "box": {
+        "left": 315.4,
+        "top": 244.5,
+        "width": 89.2,
+        "height": 47.6
+      },
+      "multiline": true
+    },
+    "shopOper2": {
+      "type": "text",
+      "label": "Enter the shop operations.",
+      "page": 1,
+      "box": {
+        "left": 48.3,
+        "top": 179.4,
+        "width": 515.0,
+        "height": 70.1
+      },
+      "multiline": true
+    },
+    "date1": {
+      "type": "text",
+      "label": "Enter the date signed, using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 484.7,
+        "top": 105.2,
+        "width": 78.5,
+        "height": 23.4
+      }
+    },
+    "signed": {
+      "type": "text",
+      "label": "Enter the signature.",
+      "page": 1,
+      "box": {
+        "left": 85.9,
+        "top": 103.5,
+        "width": 362.6,
+        "height": 21.9
+      }
+    },
+    "noM1": {
+      "type": "text",
+      "label": "Enter the number of measurements.",
+      "page": 2,
+      "box": {
+        "left": 211.3,
+        "top": 699.4,
+        "width": 88.6,
+        "height": 40.3
+      },
+      "multiline": true
+    },
+    "fpy1": {
+      "type": "text",
+      "label": "Enter the frequency (per year).",
+      "page": 2,
+      "box": {
+        "left": 465.0,
+        "top": 699.4,
+        "width": 44.2,
+        "height": 40.1
+      },
+      "multiline": true
+    },
+    "mhpy1": {
+      "type": "text",
+      "label": "Enter the man-hours (per year).",
+      "page": 2,
+      "box": {
+        "left": 515.6,
+        "top": 699.4,
+        "width": 48.7,
+        "height": 40.3
+      },
+      "multiline": true
+    },
+    "tph1": {
+      "type": "text",
+      "label": "This is row 1 of 11. Enter the task or potential hazard.",
+      "page": 2,
+      "box": {
+        "left": 50.5,
+        "top": 698.8,
+        "width": 152.8,
+        "height": 39.9
+      },
+      "multiline": true
+    },
+    "moM1": {
+      "type": "text",
+      "label": "Enter the method of measurement (1).",
+      "page": 2,
+      "box": {
+        "left": 306.4,
+        "top": 698.8,
+        "width": 72.3,
+        "height": 39.9
+      },
+      "multiline": true
+    },
+    "loM1": {
+      "type": "text",
+      "label": "Enter the location of measurement (2).",
+      "page": 2,
+      "box": {
+        "left": 385.1,
+        "top": 698.8,
+        "width": 73.4,
+        "height": 40.1
+      },
+      "multiline": true
+    },
+    "noM2": {
+      "type": "text",
+      "label": "Enter the number of measurements.",
+      "page": 2,
+      "box": {
+        "left": 211.3,
+        "top": 652.1,
+        "width": 88.6,
+        "height": 40.3
+      },
+      "multiline": true
+    },
+    "mhpy2": {
+      "type": "text",
+      "label": "Enter the man-hours (per year).",
+      "page": 2,
+      "box": {
+        "left": 515.6,
+        "top": 652.1,
+        "width": 48.7,
+        "height": 40.3
+      },
+      "multiline": true
+    },
+    "tph2": {
+      "type": "text",
+      "label": "This is row 2 of 11. Enter the task or potential hazard.",
+      "page": 2,
+      "box": {
+        "left": 50.5,
+        "top": 651.5,
+        "width": 152.8,
+        "height": 39.9
+      },
+      "multiline": true
+    },
+    "moM2": {
+      "type": "text",
+      "label": "Enter the method of measurement (1).",
+      "page": 2,
+      "box": {
+        "left": 306.4,
+        "top": 651.5,
+        "width": 72.3,
+        "height": 39.9
+      },
+      "multiline": true
+    },
+    "loM2": {
+      "type": "text",
+      "label": "Enter the location of measurement (2).",
+      "page": 2,
+      "box": {
+        "left": 385.1,
+        "top": 651.5,
+        "width": 73.4,
+        "height": 40.1
+      },
+      "multiline": true
+    },
+    "fpy2": {
+      "type": "text",
+      "label": "Enter the frequency (per year).",
+      "page": 2,
+      "box": {
+        "left": 465.0,
+        "top": 651.5,
+        "width": 44.2,
+        "height": 40.1
+      },
+      "multiline": true
+    },
+    "noM3": {
+      "type": "text",
+      "label": "Enter the number of measurements.",
+      "page": 2,
+      "box": {
+        "left": 211.3,
+        "top": 604.9,
+        "width": 88.6,
+        "height": 40.3
+      },
+      "multiline": true
+    },
+    "mhpy3": {
+      "type": "text",
+      "label": "Enter the man-hours (per year).",
+      "page": 2,
+      "box": {
+        "left": 515.6,
+        "top": 604.9,
+        "width": 48.7,
+        "height": 40.3
+      },
+      "multiline": true
+    },
+    "tph3": {
+      "type": "text",
+      "label": "This is row 3 of 11. Enter the task or potential hazard.",
+      "page": 2,
+      "box": {
+        "left": 50.5,
+        "top": 604.3,
+        "width": 152.8,
+        "height": 39.9
+      },
+      "multiline": true
+    },
+    "moM3": {
+      "type": "text",
+      "label": "Enter the method of measurement (1).",
+      "page": 2,
+      "box": {
+        "left": 306.4,
+        "top": 604.3,
+        "width": 72.3,
+        "height": 39.9
+      },
+      "multiline": true
+    },
+    "loM3": {
+      "type": "text",
+      "label": "Enter the location of measurement (2).",
+      "page": 2,
+      "box": {
+        "left": 385.1,
+        "top": 604.3,
+        "width": 73.4,
+        "height": 40.1
+      },
+      "multiline": true
+    },
+    "fpy3": {
+      "type": "text",
+      "label": "Enter the frequency (per year).",
+      "page": 2,
+      "box": {
+        "left": 465.0,
+        "top": 604.3,
+        "width": 44.2,
+        "height": 40.1
+      },
+      "multiline": true
+    },
+    "noM4": {
+      "type": "text",
+      "label": "Enter the number of measurements.",
+      "page": 2,
+      "box": {
+        "left": 211.3,
+        "top": 557.1,
+        "width": 88.6,
+        "height": 40.3
+      },
+      "multiline": true
+    },
+    "mhpy4": {
+      "type": "text",
+      "label": "Enter the man-hours (per year).",
+      "page": 2,
+      "box": {
+        "left": 515.6,
+        "top": 557.1,
+        "width": 48.7,
+        "height": 40.3
+      },
+      "multiline": true
+    },
+    "tph4": {
+      "type": "text",
+      "label": "This is row 4 of 11. Enter the task or potential hazard.",
+      "page": 2,
+      "box": {
+        "left": 50.5,
+        "top": 556.5,
+        "width": 152.8,
+        "height": 39.9
+      },
+      "multiline": true
+    },
+    "moM4": {
+      "type": "text",
+      "label": "Enter the method of measurement (1).",
+      "page": 2,
+      "box": {
+        "left": 306.4,
+        "top": 556.5,
+        "width": 72.3,
+        "height": 39.9
+      },
+      "multiline": true
+    },
+    "loM4": {
+      "type": "text",
+      "label": "Enter the location of measurement (2).",
+      "page": 2,
+      "box": {
+        "left": 385.1,
+        "top": 556.5,
+        "width": 73.4,
+        "height": 40.1
+      },
+      "multiline": true
+    },
+    "fpy4": {
+      "type": "text",
+      "label": "Enter the frequency (per year).",
+      "page": 2,
+      "box": {
+        "left": 465.0,
+        "top": 556.5,
+        "width": 44.2,
+        "height": 40.1
+      },
+      "multiline": true
+    },
+    "noM5": {
+      "type": "text",
+      "label": "Enter the number of measurements.",
+      "page": 2,
+      "box": {
+        "left": 211.3,
+        "top": 509.8,
+        "width": 88.6,
+        "height": 40.3
+      },
+      "multiline": true
+    },
+    "tph5": {
+      "type": "text",
+      "label": "This is row 5 of 11. Enter the task or potential hazard.",
+      "page": 2,
+      "box": {
+        "left": 50.5,
+        "top": 509.2,
+        "width": 152.8,
+        "height": 39.9
+      },
+      "multiline": true
+    },
+    "moM5": {
+      "type": "text",
+      "label": "Enter the method of measurement (1).",
+      "page": 2,
+      "box": {
+        "left": 306.4,
+        "top": 509.2,
+        "width": 72.3,
+        "height": 39.9
+      },
+      "multiline": true
+    },
+    "loM5": {
+      "type": "text",
+      "label": "Enter the location of measurement (2).",
+      "page": 2,
+      "box": {
+        "left": 385.1,
+        "top": 509.2,
+        "width": 73.4,
+        "height": 40.1
+      },
+      "multiline": true
+    },
+    "fpy5": {
+      "type": "text",
+      "label": "Enter the frequency (per year).",
+      "page": 2,
+      "box": {
+        "left": 465.0,
+        "top": 509.2,
+        "width": 44.2,
+        "height": 40.1
+      },
+      "multiline": true
+    },
+    "mhpy5": {
+      "type": "text",
+      "label": "Enter the man-hours (per year).",
+      "page": 2,
+      "box": {
+        "left": 515.6,
+        "top": 509.2,
+        "width": 48.7,
+        "height": 40.3
+      },
+      "multiline": true
+    },
+    "noM6": {
+      "type": "text",
+      "label": "Enter the number of measurements.",
+      "page": 2,
+      "box": {
+        "left": 211.3,
+        "top": 462.6,
+        "width": 88.6,
+        "height": 40.3
+      },
+      "multiline": true
+    },
+    "mhpy6": {
+      "type": "text",
+      "label": "Enter the man-hours (per year).",
+      "page": 2,
+      "box": {
+        "left": 515.6,
+        "top": 462.6,
+        "width": 48.7,
+        "height": 40.3
+      },
+      "multiline": true
+    },
+    "tph6": {
+      "type": "text",
+      "label": "This is row 6 of 11. Enter the task or potential hazard.",
+      "page": 2,
+      "box": {
+        "left": 50.5,
+        "top": 462.0,
+        "width": 152.8,
+        "height": 39.9
+      },
+      "multiline": true
+    },
+    "moM6": {
+      "type": "text",
+      "label": "Enter the method of measurement (1).",
+      "page": 2,
+      "box": {
+        "left": 306.4,
+        "top": 462.0,
+        "width": 72.3,
+        "height": 39.9
+      },
+      "multiline": true
+    },
+    "loM6": {
+      "type": "text",
+      "label": "Enter the location of measurement (2).",
+      "page": 2,
+      "box": {
+        "left": 385.1,
+        "top": 462.0,
+        "width": 73.4,
+        "height": 40.1
+      },
+      "multiline": true
+    },
+    "fpy6": {
+      "type": "text",
+      "label": "Enter the frequency (per year).",
+      "page": 2,
+      "box": {
+        "left": 465.0,
+        "top": 462.0,
+        "width": 44.2,
+        "height": 40.1
+      },
+      "multiline": true
+    },
+    "noM7": {
+      "type": "text",
+      "label": "Enter the number of measurements.",
+      "page": 2,
+      "box": {
+        "left": 211.3,
+        "top": 415.3,
+        "width": 88.6,
+        "height": 40.3
+      },
+      "multiline": true
+    },
+    "tph7": {
+      "type": "text",
+      "label": "This is row 7 of 11. Enter the task or potential hazard.",
+      "page": 2,
+      "box": {
+        "left": 50.5,
+        "top": 414.7,
+        "width": 152.8,
+        "height": 39.9
+      },
+      "multiline": true
+    },
+    "moM7": {
+      "type": "text",
+      "label": "Enter the method of measurement (1).",
+      "page": 2,
+      "box": {
+        "left": 306.4,
+        "top": 414.7,
+        "width": 72.3,
+        "height": 39.9
+      },
+      "multiline": true
+    },
+    "loM7": {
+      "type": "text",
+      "label": "Enter the location of measurement (2).",
+      "page": 2,
+      "box": {
+        "left": 385.1,
+        "top": 414.7,
+        "width": 73.4,
+        "height": 40.1
+      },
+      "multiline": true
+    },
+    "fpy7": {
+      "type": "text",
+      "label": "Enter the frequency (per year).",
+      "page": 2,
+      "box": {
+        "left": 465.0,
+        "top": 414.7,
+        "width": 44.2,
+        "height": 40.1
+      },
+      "multiline": true
+    },
+    "mhpy7": {
+      "type": "text",
+      "label": "Enter the man-hours (per year).",
+      "page": 2,
+      "box": {
+        "left": 515.6,
+        "top": 414.7,
+        "width": 48.7,
+        "height": 40.3
+      },
+      "multiline": true
+    },
+    "noM8": {
+      "type": "text",
+      "label": "Enter the number of measurements.",
+      "page": 2,
+      "box": {
+        "left": 211.3,
+        "top": 367.2,
+        "width": 88.6,
+        "height": 40.3
+      },
+      "multiline": true
+    },
+    "mhpy8": {
+      "type": "text",
+      "label": "Enter the man-hours (per year).",
+      "page": 2,
+      "box": {
+        "left": 515.6,
+        "top": 367.2,
+        "width": 48.7,
+        "height": 40.3
+      },
+      "multiline": true
+    },
+    "tph8": {
+      "type": "text",
+      "label": "This is row 8 of 11. Enter the task or potential hazard.",
+      "page": 2,
+      "box": {
+        "left": 50.5,
+        "top": 366.9,
+        "width": 152.8,
+        "height": 39.9
+      },
+      "multiline": true
+    },
+    "moM8": {
+      "type": "text",
+      "label": "Enter the method of measurement (1).",
+      "page": 2,
+      "box": {
+        "left": 306.4,
+        "top": 366.9,
+        "width": 72.3,
+        "height": 39.9
+      },
+      "multiline": true
+    },
+    "loM8": {
+      "type": "text",
+      "label": "Enter the location of measurement (2).",
+      "page": 2,
+      "box": {
+        "left": 385.1,
+        "top": 366.9,
+        "width": 73.4,
+        "height": 40.1
+      },
+      "multiline": true
+    },
+    "fpy8": {
+      "type": "text",
+      "label": "Enter the frequency (per year).",
+      "page": 2,
+      "box": {
+        "left": 465.0,
+        "top": 366.9,
+        "width": 44.2,
+        "height": 40.1
+      },
+      "multiline": true
+    },
+    "tph9": {
+      "type": "text",
+      "label": "This is row 9 of 11. Enter the task or potential hazard.",
+      "page": 2,
+      "box": {
+        "left": 50.5,
+        "top": 319.7,
+        "width": 152.8,
+        "height": 39.9
+      },
+      "multiline": true
+    },
+    "noM9": {
+      "type": "text",
+      "label": "Enter the number of measurements.",
+      "page": 2,
+      "box": {
+        "left": 211.3,
+        "top": 319.7,
+        "width": 88.6,
+        "height": 40.3
+      },
+      "multiline": true
+    },
+    "moM9": {
+      "type": "text",
+      "label": "Enter the method of measurement (1).",
+      "page": 2,
+      "box": {
+        "left": 306.4,
+        "top": 319.7,
+        "width": 72.3,
+        "height": 39.9
+      },
+      "multiline": true
+    },
+    "loM9": {
+      "type": "text",
+      "label": "Enter the location of measurement (2).",
+      "page": 2,
+      "box": {
+        "left": 385.1,
+        "top": 319.7,
+        "width": 73.4,
+        "height": 40.1
+      },
+      "multiline": true
+    },
+    "fpy9": {
+      "type": "text",
+      "label": "Enter the frequency (per year).",
+      "page": 2,
+      "box": {
+        "left": 465.0,
+        "top": 319.7,
+        "width": 44.2,
+        "height": 40.1
+      },
+      "multiline": true
+    },
+    "mhpy9": {
+      "type": "text",
+      "label": "Enter the man-hours (per year).",
+      "page": 2,
+      "box": {
+        "left": 515.6,
+        "top": 319.7,
+        "width": 48.7,
+        "height": 40.3
+      },
+      "multiline": true
+    },
+    "loM10": {
+      "type": "text",
+      "label": "Enter the location of measurement (2).",
+      "page": 2,
+      "box": {
+        "left": 385.1,
+        "top": 273.3,
+        "width": 73.4,
+        "height": 40.1
+      },
+      "multiline": true
+    },
+    "fpy10": {
+      "type": "text",
+      "label": "Enter the frequency (per year).",
+      "page": 2,
+      "box": {
+        "left": 465.0,
+        "top": 273.3,
+        "width": 44.2,
+        "height": 40.1
+      },
+      "multiline": true
+    },
+    "tph10": {
+      "type": "text",
+      "label": "This is row 10 of 11. Enter the task or potential hazard.",
+      "page": 2,
+      "box": {
+        "left": 50.5,
+        "top": 273.0,
+        "width": 152.8,
+        "height": 39.9
+      },
+      "multiline": true
+    },
+    "noM10": {
+      "type": "text",
+      "label": "Enter the number of measurements.",
+      "page": 2,
+      "box": {
+        "left": 211.3,
+        "top": 273.0,
+        "width": 88.6,
+        "height": 39.7
+      },
+      "multiline": true
+    },
+    "moM10": {
+      "type": "text",
+      "label": "Enter the method of measurement (1).",
+      "page": 2,
+      "box": {
+        "left": 306.4,
+        "top": 273.0,
+        "width": 72.3,
+        "height": 39.9
+      },
+      "multiline": true
+    },
+    "mhpy10": {
+      "type": "text",
+      "label": "Enter the man-hours (per year).",
+      "page": 2,
+      "box": {
+        "left": 515.6,
+        "top": 273.0,
+        "width": 48.7,
+        "height": 39.7
+      },
+      "multiline": true
+    },
+    "noM11": {
+      "type": "text",
+      "label": "Enter the number of measurements.",
+      "page": 2,
+      "box": {
+        "left": 211.3,
+        "top": 224.6,
+        "width": 88.6,
+        "height": 40.3
+      },
+      "multiline": true
+    },
+    "mhpy11": {
+      "type": "text",
+      "label": "Enter the man-hours (per year).",
+      "page": 2,
+      "box": {
+        "left": 515.6,
+        "top": 224.6,
+        "width": 48.7,
+        "height": 40.3
+      },
+      "multiline": true
+    },
+    "loM11": {
+      "type": "text",
+      "label": "Enter the location of measurement (2).",
+      "page": 2,
+      "box": {
+        "left": 385.1,
+        "top": 224.3,
+        "width": 73.4,
+        "height": 40.1
+      },
+      "multiline": true
+    },
+    "fpy11": {
+      "type": "text",
+      "label": "Enter the frequency (per year).",
+      "page": 2,
+      "box": {
+        "left": 465.0,
+        "top": 224.3,
+        "width": 44.2,
+        "height": 40.1
+      },
+      "multiline": true
+    },
+    "tph11": {
+      "type": "text",
+      "label": "This is row 11 of 11. Enter the task or potential hazard.",
+      "page": 2,
+      "box": {
+        "left": 50.5,
+        "top": 224.1,
+        "width": 152.8,
+        "height": 39.9
+      },
+      "multiline": true
+    },
+    "moM11": {
+      "type": "text",
+      "label": "Enter the method of measurement (1).",
+      "page": 2,
+      "box": {
+        "left": 306.4,
+        "top": 224.1,
+        "width": 72.3,
+        "height": 39.9
+      },
+      "multiline": true
+    }
+  }
+}

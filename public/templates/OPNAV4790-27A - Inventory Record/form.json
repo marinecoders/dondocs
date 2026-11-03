@@ -1,0 +1,2213 @@
+{
+  "id": "opnav479027a",
+  "label": "OPNAV4790-27A - Inventory Record",
+  "directory": "OPNAV4790-27A - Inventory Record",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "airmodEqpnme",
+        "bunSerNo",
+        "typModSer",
+        "nomen",
+        "prtNo",
+        "serNo",
+        "nomen2",
+        "prtNo2",
+        "serNo2",
+        "instDte",
+        "remDte",
+        "instDte2",
+        "remDte2",
+        "nomenA",
+        "prtNoA",
+        "serNoA",
+        "nomen2A",
+        "prtNo2A",
+        "serNo2A",
+        "instDteA",
+        "remDteA",
+        "instDte2A",
+        "remDte2A",
+        "nomenB",
+        "prtNoB",
+        "serNoB",
+        "nomen2B",
+        "prtNo2B",
+        "serNo2B",
+        "instDteB",
+        "remDteB",
+        "instDte2B",
+        "remDte2B",
+        "nomenC",
+        "prtNoC",
+        "serNoC",
+        "nomen2C",
+        "prtNo2C",
+        "serNo2C",
+        "instDteC",
+        "remDteC",
+        "instDte2C",
+        "remDte2C",
+        "nomenD",
+        "prtNoD",
+        "serNoD",
+        "nomen2D",
+        "prtNo2D",
+        "serNo2D",
+        "instDteD",
+        "remDteD",
+        "instDte2D",
+        "remDte2D",
+        "nomenE",
+        "prtNoE",
+        "serNoE",
+        "nomen2E",
+        "prtNo2E",
+        "serNo2E",
+        "instDteE",
+        "remDteE",
+        "instDte2E",
+        "remDte2E",
+        "nomenF",
+        "prtNoF",
+        "serNoF",
+        "nomen2F",
+        "prtNo2F",
+        "serNo2F",
+        "instDteF",
+        "remDteF",
+        "instDte2F",
+        "remDte2F",
+        "nomenG",
+        "prtNoG",
+        "serNoG",
+        "nomen2G",
+        "prtNo2G",
+        "serNo2G",
+        "instDteG",
+        "remDteG",
+        "instDte2G",
+        "remDte2G",
+        "nomenH",
+        "prtNoH",
+        "serNoH",
+        "nomen2H",
+        "prtNo2H",
+        "serNo2H",
+        "instDteH",
+        "remDteH",
+        "instDte2H",
+        "remDte2H",
+        "nomenI",
+        "prtNoI",
+        "serNoI",
+        "nomen2I",
+        "prtNo2I",
+        "serNo2I",
+        "instDteI",
+        "remDteI",
+        "instDte2I",
+        "remDte2I",
+        "nomenJ",
+        "prtNoJ",
+        "serNoJ",
+        "nomen2J",
+        "prtNo2J",
+        "serNo2J",
+        "instDteJ",
+        "remDteJ",
+        "instDte2J",
+        "remDte2J",
+        "nomenK",
+        "prtNoK",
+        "serNoK",
+        "nomen2K",
+        "prtNo2K",
+        "serNo2K",
+        "instDteK",
+        "remDteK",
+        "instDte2K",
+        "remDte2K",
+        "nomenL",
+        "prtNoL",
+        "serNoL",
+        "nomen2L",
+        "prtNo2L",
+        "serNo2L",
+        "instDteL",
+        "remDteL",
+        "instDte2L",
+        "remDte2L",
+        "nomenM",
+        "prtNoM",
+        "serNoM",
+        "nomen2M",
+        "prtNo2M",
+        "serNo2M",
+        "instDteM",
+        "remDteM",
+        "instDte2M",
+        "remDte2M",
+        "nomenN",
+        "prtNoN",
+        "serNoN",
+        "nomen2N",
+        "prtNo2N",
+        "serNo2N",
+        "instDteN",
+        "remDteN",
+        "instDte2N",
+        "remDte2N",
+        "nomenO",
+        "prtNoO",
+        "serNoO",
+        "nomen2O",
+        "prtNo2O",
+        "serNo2O",
+        "instDteO",
+        "remDteO",
+        "instDte2O",
+        "remDte2O",
+        "nomenP",
+        "prtNoP",
+        "serNoP",
+        "nomen2P",
+        "prtNo2P",
+        "serNo2P",
+        "instDteP",
+        "remDteP",
+        "instDte2P",
+        "remDte2P",
+        "nomenQ",
+        "prtNoQ",
+        "serNoQ",
+        "nomen2Q",
+        "prtNo2Q",
+        "serNo2Q",
+        "instDteQ",
+        "remDteQ",
+        "instDte2Q",
+        "remDte2Q"
+      ]
+    }
+  ],
+  "fields": {
+    "airmodEqpnme": {
+      "type": "text",
+      "label": "1. AIRCRAFT MODEL/EQUIPMENT NAME",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 523.6,
+        "width": 234.1,
+        "height": 14.5
+      }
+    },
+    "bunSerNo": {
+      "type": "text",
+      "label": "3. BUNO OR SERIAL NUMBER",
+      "page": 1,
+      "box": {
+        "left": 518.5,
+        "top": 523.6,
+        "width": 234.1,
+        "height": 14.5
+      }
+    },
+    "typModSer": {
+      "type": "text",
+      "label": "2. TYPE/MODEL/SERIES",
+      "page": 1,
+      "box": {
+        "left": 279.0,
+        "top": 523.5,
+        "width": 234.1,
+        "height": 14.5
+      }
+    },
+    "nomen": {
+      "type": "text",
+      "label": "4. NOMENCLATURE",
+      "page": 1,
+      "box": {
+        "left": 36.3,
+        "top": 478.5,
+        "width": 133.7,
+        "height": 24.5
+      }
+    },
+    "prtNo": {
+      "type": "text",
+      "label": "PART NO",
+      "page": 1,
+      "box": {
+        "left": 170.9,
+        "top": 478.5,
+        "width": 55.4,
+        "height": 24.5
+      }
+    },
+    "serNo": {
+      "type": "text",
+      "label": "SERIAL NO",
+      "page": 1,
+      "box": {
+        "left": 226.3,
+        "top": 478.5,
+        "width": 56.4,
+        "height": 24.5
+      }
+    },
+    "nomen2": {
+      "type": "text",
+      "label": "8. NOMENCLATURE",
+      "page": 1,
+      "box": {
+        "left": 395.8,
+        "top": 478.5,
+        "width": 133.7,
+        "height": 24.5
+      }
+    },
+    "prtNo2": {
+      "type": "text",
+      "label": "PART NO",
+      "page": 1,
+      "box": {
+        "left": 530.5,
+        "top": 478.5,
+        "width": 55.4,
+        "height": 24.5
+      }
+    },
+    "serNo2": {
+      "type": "text",
+      "label": "SERIAL No",
+      "page": 1,
+      "box": {
+        "left": 585.9,
+        "top": 478.5,
+        "width": 56.4,
+        "height": 24.5
+      }
+    },
+    "instDte": {
+      "type": "text",
+      "label": "A. INSTALL",
+      "page": 1,
+      "box": {
+        "left": 286.1,
+        "top": 475.6,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "remDte": {
+      "type": "text",
+      "label": "B. REMOVE",
+      "page": 1,
+      "box": {
+        "left": 341.9,
+        "top": 475.6,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "instDte2": {
+      "type": "text",
+      "label": "A. INSTALL",
+      "page": 1,
+      "box": {
+        "left": 645.6,
+        "top": 475.6,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "remDte2": {
+      "type": "text",
+      "label": "B. REMOVE",
+      "page": 1,
+      "box": {
+        "left": 701.4,
+        "top": 475.6,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "nomenA": {
+      "type": "text",
+      "label": "4. NOMENCLATURE",
+      "page": 1,
+      "box": {
+        "left": 36.3,
+        "top": 453.9,
+        "width": 133.7,
+        "height": 24.5
+      }
+    },
+    "prtNoA": {
+      "type": "text",
+      "label": "PART NO",
+      "page": 1,
+      "box": {
+        "left": 170.9,
+        "top": 453.9,
+        "width": 55.4,
+        "height": 24.5
+      }
+    },
+    "serNoA": {
+      "type": "text",
+      "label": "SERIAL NO",
+      "page": 1,
+      "box": {
+        "left": 226.3,
+        "top": 453.9,
+        "width": 56.4,
+        "height": 24.5
+      }
+    },
+    "nomen2A": {
+      "type": "text",
+      "label": "8. NOMENCLATURE",
+      "page": 1,
+      "box": {
+        "left": 395.8,
+        "top": 453.9,
+        "width": 133.7,
+        "height": 24.5
+      }
+    },
+    "prtNo2A": {
+      "type": "text",
+      "label": "PART NO",
+      "page": 1,
+      "box": {
+        "left": 530.5,
+        "top": 453.9,
+        "width": 55.4,
+        "height": 24.5
+      }
+    },
+    "serNo2A": {
+      "type": "text",
+      "label": "SERIAL No",
+      "page": 1,
+      "box": {
+        "left": 585.9,
+        "top": 453.9,
+        "width": 56.4,
+        "height": 24.5
+      }
+    },
+    "instDteA": {
+      "type": "text",
+      "label": "A. INSTALL",
+      "page": 1,
+      "box": {
+        "left": 286.1,
+        "top": 451.1,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "remDteA": {
+      "type": "text",
+      "label": "B. REMOVE",
+      "page": 1,
+      "box": {
+        "left": 341.9,
+        "top": 451.1,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "instDte2A": {
+      "type": "text",
+      "label": "A. INSTALL",
+      "page": 1,
+      "box": {
+        "left": 645.6,
+        "top": 451.1,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "remDte2A": {
+      "type": "text",
+      "label": "B. REMOVE",
+      "page": 1,
+      "box": {
+        "left": 701.4,
+        "top": 451.1,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "nomenB": {
+      "type": "text",
+      "label": "4. NOMENCLATURE",
+      "page": 1,
+      "box": {
+        "left": 36.3,
+        "top": 429.4,
+        "width": 133.7,
+        "height": 24.5
+      }
+    },
+    "prtNoB": {
+      "type": "text",
+      "label": "PART NO",
+      "page": 1,
+      "box": {
+        "left": 170.9,
+        "top": 429.4,
+        "width": 55.4,
+        "height": 24.5
+      }
+    },
+    "serNoB": {
+      "type": "text",
+      "label": "SERIAL NO",
+      "page": 1,
+      "box": {
+        "left": 226.3,
+        "top": 429.4,
+        "width": 56.4,
+        "height": 24.5
+      }
+    },
+    "nomen2B": {
+      "type": "text",
+      "label": "8. NOMENCLATURE",
+      "page": 1,
+      "box": {
+        "left": 395.8,
+        "top": 429.4,
+        "width": 133.7,
+        "height": 24.5
+      }
+    },
+    "prtNo2B": {
+      "type": "text",
+      "label": "PART NO",
+      "page": 1,
+      "box": {
+        "left": 530.5,
+        "top": 429.4,
+        "width": 55.4,
+        "height": 24.5
+      }
+    },
+    "serNo2B": {
+      "type": "text",
+      "label": "SERIAL No",
+      "page": 1,
+      "box": {
+        "left": 585.9,
+        "top": 429.4,
+        "width": 56.4,
+        "height": 24.5
+      }
+    },
+    "instDteB": {
+      "type": "text",
+      "label": "A. INSTALL",
+      "page": 1,
+      "box": {
+        "left": 286.1,
+        "top": 426.5,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "remDteB": {
+      "type": "text",
+      "label": "B. REMOVE",
+      "page": 1,
+      "box": {
+        "left": 341.9,
+        "top": 426.5,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "instDte2B": {
+      "type": "text",
+      "label": "A. INSTALL",
+      "page": 1,
+      "box": {
+        "left": 645.6,
+        "top": 426.5,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "remDte2B": {
+      "type": "text",
+      "label": "B. REMOVE",
+      "page": 1,
+      "box": {
+        "left": 701.4,
+        "top": 426.5,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "nomenC": {
+      "type": "text",
+      "label": "4. NOMENCLATURE",
+      "page": 1,
+      "box": {
+        "left": 36.3,
+        "top": 404.8,
+        "width": 133.7,
+        "height": 24.5
+      }
+    },
+    "prtNoC": {
+      "type": "text",
+      "label": "PART NO",
+      "page": 1,
+      "box": {
+        "left": 170.9,
+        "top": 404.8,
+        "width": 55.4,
+        "height": 24.5
+      }
+    },
+    "serNoC": {
+      "type": "text",
+      "label": "SERIAL NO",
+      "page": 1,
+      "box": {
+        "left": 226.3,
+        "top": 404.8,
+        "width": 56.4,
+        "height": 24.5
+      }
+    },
+    "nomen2C": {
+      "type": "text",
+      "label": "8. NOMENCLATURE",
+      "page": 1,
+      "box": {
+        "left": 395.8,
+        "top": 404.8,
+        "width": 133.7,
+        "height": 24.5
+      }
+    },
+    "prtNo2C": {
+      "type": "text",
+      "label": "PART NO",
+      "page": 1,
+      "box": {
+        "left": 530.5,
+        "top": 404.8,
+        "width": 55.4,
+        "height": 24.5
+      }
+    },
+    "serNo2C": {
+      "type": "text",
+      "label": "SERIAL No",
+      "page": 1,
+      "box": {
+        "left": 585.9,
+        "top": 404.8,
+        "width": 56.4,
+        "height": 24.5
+      }
+    },
+    "instDteC": {
+      "type": "text",
+      "label": "A. INSTALL",
+      "page": 1,
+      "box": {
+        "left": 286.1,
+        "top": 402.0,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "remDteC": {
+      "type": "text",
+      "label": "B. REMOVE",
+      "page": 1,
+      "box": {
+        "left": 341.9,
+        "top": 402.0,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "instDte2C": {
+      "type": "text",
+      "label": "A. INSTALL",
+      "page": 1,
+      "box": {
+        "left": 645.6,
+        "top": 402.0,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "remDte2C": {
+      "type": "text",
+      "label": "B. REMOVE",
+      "page": 1,
+      "box": {
+        "left": 701.4,
+        "top": 402.0,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "nomenD": {
+      "type": "text",
+      "label": "4. NOMENCLATURE",
+      "page": 1,
+      "box": {
+        "left": 36.3,
+        "top": 380.3,
+        "width": 133.7,
+        "height": 24.5
+      }
+    },
+    "prtNoD": {
+      "type": "text",
+      "label": "PART NO",
+      "page": 1,
+      "box": {
+        "left": 170.9,
+        "top": 380.3,
+        "width": 55.4,
+        "height": 24.5
+      }
+    },
+    "serNoD": {
+      "type": "text",
+      "label": "SERIAL NO",
+      "page": 1,
+      "box": {
+        "left": 226.3,
+        "top": 380.3,
+        "width": 56.4,
+        "height": 24.5
+      }
+    },
+    "nomen2D": {
+      "type": "text",
+      "label": "8. NOMENCLATURE",
+      "page": 1,
+      "box": {
+        "left": 395.8,
+        "top": 380.3,
+        "width": 133.7,
+        "height": 24.5
+      }
+    },
+    "prtNo2D": {
+      "type": "text",
+      "label": "PART NO",
+      "page": 1,
+      "box": {
+        "left": 530.5,
+        "top": 380.3,
+        "width": 55.4,
+        "height": 24.5
+      }
+    },
+    "serNo2D": {
+      "type": "text",
+      "label": "SERIAL No",
+      "page": 1,
+      "box": {
+        "left": 585.9,
+        "top": 380.3,
+        "width": 56.4,
+        "height": 24.5
+      }
+    },
+    "instDteD": {
+      "type": "text",
+      "label": "A. INSTALL",
+      "page": 1,
+      "box": {
+        "left": 286.1,
+        "top": 377.5,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "remDteD": {
+      "type": "text",
+      "label": "B. REMOVE",
+      "page": 1,
+      "box": {
+        "left": 341.9,
+        "top": 377.5,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "instDte2D": {
+      "type": "text",
+      "label": "A. INSTALL",
+      "page": 1,
+      "box": {
+        "left": 645.6,
+        "top": 377.5,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "remDte2D": {
+      "type": "text",
+      "label": "B. REMOVE",
+      "page": 1,
+      "box": {
+        "left": 701.4,
+        "top": 377.5,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "nomenE": {
+      "type": "text",
+      "label": "4. NOMENCLATURE",
+      "page": 1,
+      "box": {
+        "left": 36.3,
+        "top": 355.8,
+        "width": 133.7,
+        "height": 24.5
+      }
+    },
+    "prtNoE": {
+      "type": "text",
+      "label": "PART NO",
+      "page": 1,
+      "box": {
+        "left": 170.9,
+        "top": 355.8,
+        "width": 55.4,
+        "height": 24.5
+      }
+    },
+    "serNoE": {
+      "type": "text",
+      "label": "SERIAL NO",
+      "page": 1,
+      "box": {
+        "left": 226.3,
+        "top": 355.8,
+        "width": 56.4,
+        "height": 24.5
+      }
+    },
+    "nomen2E": {
+      "type": "text",
+      "label": "8. NOMENCLATURE",
+      "page": 1,
+      "box": {
+        "left": 395.8,
+        "top": 355.8,
+        "width": 133.7,
+        "height": 24.5
+      }
+    },
+    "prtNo2E": {
+      "type": "text",
+      "label": "PART NO",
+      "page": 1,
+      "box": {
+        "left": 530.5,
+        "top": 355.8,
+        "width": 55.4,
+        "height": 24.5
+      }
+    },
+    "serNo2E": {
+      "type": "text",
+      "label": "SERIAL No",
+      "page": 1,
+      "box": {
+        "left": 585.9,
+        "top": 355.8,
+        "width": 56.4,
+        "height": 24.5
+      }
+    },
+    "instDteE": {
+      "type": "text",
+      "label": "A. INSTALL",
+      "page": 1,
+      "box": {
+        "left": 286.1,
+        "top": 352.9,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "remDteE": {
+      "type": "text",
+      "label": "B. REMOVE",
+      "page": 1,
+      "box": {
+        "left": 341.9,
+        "top": 352.9,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "instDte2E": {
+      "type": "text",
+      "label": "A. INSTALL",
+      "page": 1,
+      "box": {
+        "left": 645.6,
+        "top": 352.9,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "remDte2E": {
+      "type": "text",
+      "label": "B. REMOVE",
+      "page": 1,
+      "box": {
+        "left": 701.4,
+        "top": 352.9,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "nomenF": {
+      "type": "text",
+      "label": "4. NOMENCLATURE",
+      "page": 1,
+      "box": {
+        "left": 36.3,
+        "top": 331.2,
+        "width": 133.7,
+        "height": 24.5
+      }
+    },
+    "prtNoF": {
+      "type": "text",
+      "label": "PART NO",
+      "page": 1,
+      "box": {
+        "left": 170.9,
+        "top": 331.2,
+        "width": 55.4,
+        "height": 24.5
+      }
+    },
+    "serNoF": {
+      "type": "text",
+      "label": "SERIAL NO",
+      "page": 1,
+      "box": {
+        "left": 226.3,
+        "top": 331.2,
+        "width": 56.4,
+        "height": 24.5
+      }
+    },
+    "nomen2F": {
+      "type": "text",
+      "label": "8. NOMENCLATURE",
+      "page": 1,
+      "box": {
+        "left": 395.8,
+        "top": 331.2,
+        "width": 133.7,
+        "height": 24.5
+      }
+    },
+    "prtNo2F": {
+      "type": "text",
+      "label": "PART NO",
+      "page": 1,
+      "box": {
+        "left": 530.5,
+        "top": 331.2,
+        "width": 55.4,
+        "height": 24.5
+      }
+    },
+    "serNo2F": {
+      "type": "text",
+      "label": "SERIAL No",
+      "page": 1,
+      "box": {
+        "left": 585.9,
+        "top": 331.2,
+        "width": 56.4,
+        "height": 24.5
+      }
+    },
+    "instDteF": {
+      "type": "text",
+      "label": "A. INSTALL",
+      "page": 1,
+      "box": {
+        "left": 286.1,
+        "top": 328.4,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "remDteF": {
+      "type": "text",
+      "label": "B. REMOVE",
+      "page": 1,
+      "box": {
+        "left": 341.9,
+        "top": 328.4,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "instDte2F": {
+      "type": "text",
+      "label": "A. INSTALL",
+      "page": 1,
+      "box": {
+        "left": 645.6,
+        "top": 328.4,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "remDte2F": {
+      "type": "text",
+      "label": "B. REMOVE",
+      "page": 1,
+      "box": {
+        "left": 701.4,
+        "top": 328.4,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "nomenG": {
+      "type": "text",
+      "label": "4. NOMENCLATURE",
+      "page": 1,
+      "box": {
+        "left": 36.3,
+        "top": 306.7,
+        "width": 133.7,
+        "height": 24.5
+      }
+    },
+    "prtNoG": {
+      "type": "text",
+      "label": "PART NO",
+      "page": 1,
+      "box": {
+        "left": 170.9,
+        "top": 306.7,
+        "width": 55.4,
+        "height": 24.5
+      }
+    },
+    "serNoG": {
+      "type": "text",
+      "label": "SERIAL NO",
+      "page": 1,
+      "box": {
+        "left": 226.3,
+        "top": 306.7,
+        "width": 56.4,
+        "height": 24.5
+      }
+    },
+    "nomen2G": {
+      "type": "text",
+      "label": "8. NOMENCLATURE",
+      "page": 1,
+      "box": {
+        "left": 395.8,
+        "top": 306.7,
+        "width": 133.7,
+        "height": 24.5
+      }
+    },
+    "prtNo2G": {
+      "type": "text",
+      "label": "PART NO",
+      "page": 1,
+      "box": {
+        "left": 530.5,
+        "top": 306.7,
+        "width": 55.4,
+        "height": 24.5
+      }
+    },
+    "serNo2G": {
+      "type": "text",
+      "label": "SERIAL No",
+      "page": 1,
+      "box": {
+        "left": 585.9,
+        "top": 306.7,
+        "width": 56.4,
+        "height": 24.5
+      }
+    },
+    "instDteG": {
+      "type": "text",
+      "label": "A. INSTALL",
+      "page": 1,
+      "box": {
+        "left": 286.1,
+        "top": 303.9,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "remDteG": {
+      "type": "text",
+      "label": "B. REMOVE",
+      "page": 1,
+      "box": {
+        "left": 341.9,
+        "top": 303.9,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "instDte2G": {
+      "type": "text",
+      "label": "A. INSTALL",
+      "page": 1,
+      "box": {
+        "left": 645.6,
+        "top": 303.9,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "remDte2G": {
+      "type": "text",
+      "label": "B. REMOVE",
+      "page": 1,
+      "box": {
+        "left": 701.4,
+        "top": 303.9,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "nomenH": {
+      "type": "text",
+      "label": "4. NOMENCLATURE",
+      "page": 1,
+      "box": {
+        "left": 36.3,
+        "top": 282.2,
+        "width": 133.7,
+        "height": 24.5
+      }
+    },
+    "prtNoH": {
+      "type": "text",
+      "label": "PART NO",
+      "page": 1,
+      "box": {
+        "left": 170.9,
+        "top": 282.2,
+        "width": 55.4,
+        "height": 24.5
+      }
+    },
+    "serNoH": {
+      "type": "text",
+      "label": "SERIAL NO",
+      "page": 1,
+      "box": {
+        "left": 226.3,
+        "top": 282.2,
+        "width": 56.4,
+        "height": 24.5
+      }
+    },
+    "nomen2H": {
+      "type": "text",
+      "label": "8. NOMENCLATURE",
+      "page": 1,
+      "box": {
+        "left": 395.8,
+        "top": 282.2,
+        "width": 133.7,
+        "height": 24.5
+      }
+    },
+    "prtNo2H": {
+      "type": "text",
+      "label": "PART NO",
+      "page": 1,
+      "box": {
+        "left": 530.5,
+        "top": 282.2,
+        "width": 55.4,
+        "height": 24.5
+      }
+    },
+    "serNo2H": {
+      "type": "text",
+      "label": "SERIAL No",
+      "page": 1,
+      "box": {
+        "left": 585.9,
+        "top": 282.2,
+        "width": 56.4,
+        "height": 24.5
+      }
+    },
+    "instDteH": {
+      "type": "text",
+      "label": "A. INSTALL",
+      "page": 1,
+      "box": {
+        "left": 286.1,
+        "top": 279.3,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "remDteH": {
+      "type": "text",
+      "label": "B. REMOVE",
+      "page": 1,
+      "box": {
+        "left": 341.9,
+        "top": 279.3,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "instDte2H": {
+      "type": "text",
+      "label": "A. INSTALL",
+      "page": 1,
+      "box": {
+        "left": 645.6,
+        "top": 279.3,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "remDte2H": {
+      "type": "text",
+      "label": "B. REMOVE",
+      "page": 1,
+      "box": {
+        "left": 701.4,
+        "top": 279.3,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "nomenI": {
+      "type": "text",
+      "label": "4. NOMENCLATURE",
+      "page": 1,
+      "box": {
+        "left": 36.3,
+        "top": 257.6,
+        "width": 133.7,
+        "height": 24.5
+      }
+    },
+    "prtNoI": {
+      "type": "text",
+      "label": "PART NO",
+      "page": 1,
+      "box": {
+        "left": 170.9,
+        "top": 257.6,
+        "width": 55.4,
+        "height": 24.5
+      }
+    },
+    "serNoI": {
+      "type": "text",
+      "label": "SERIAL NO",
+      "page": 1,
+      "box": {
+        "left": 226.3,
+        "top": 257.6,
+        "width": 56.4,
+        "height": 24.5
+      }
+    },
+    "nomen2I": {
+      "type": "text",
+      "label": "8. NOMENCLATURE",
+      "page": 1,
+      "box": {
+        "left": 395.8,
+        "top": 257.6,
+        "width": 133.7,
+        "height": 24.5
+      }
+    },
+    "prtNo2I": {
+      "type": "text",
+      "label": "PART NO",
+      "page": 1,
+      "box": {
+        "left": 530.5,
+        "top": 257.6,
+        "width": 55.4,
+        "height": 24.5
+      }
+    },
+    "serNo2I": {
+      "type": "text",
+      "label": "SERIAL No",
+      "page": 1,
+      "box": {
+        "left": 585.9,
+        "top": 257.6,
+        "width": 56.4,
+        "height": 24.5
+      }
+    },
+    "instDteI": {
+      "type": "text",
+      "label": "A. INSTALL",
+      "page": 1,
+      "box": {
+        "left": 286.1,
+        "top": 254.8,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "remDteI": {
+      "type": "text",
+      "label": "B. REMOVE",
+      "page": 1,
+      "box": {
+        "left": 341.9,
+        "top": 254.8,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "instDte2I": {
+      "type": "text",
+      "label": "A. INSTALL",
+      "page": 1,
+      "box": {
+        "left": 645.6,
+        "top": 254.8,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "remDte2I": {
+      "type": "text",
+      "label": "B. REMOVE",
+      "page": 1,
+      "box": {
+        "left": 701.4,
+        "top": 254.8,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "nomenJ": {
+      "type": "text",
+      "label": "4. NOMENCLATURE",
+      "page": 1,
+      "box": {
+        "left": 36.3,
+        "top": 233.1,
+        "width": 133.7,
+        "height": 24.5
+      }
+    },
+    "prtNoJ": {
+      "type": "text",
+      "label": "PART NO",
+      "page": 1,
+      "box": {
+        "left": 170.9,
+        "top": 233.1,
+        "width": 55.4,
+        "height": 24.5
+      }
+    },
+    "serNoJ": {
+      "type": "text",
+      "label": "SERIAL NO",
+      "page": 1,
+      "box": {
+        "left": 226.3,
+        "top": 233.1,
+        "width": 56.4,
+        "height": 24.5
+      }
+    },
+    "nomen2J": {
+      "type": "text",
+      "label": "8. NOMENCLATURE",
+      "page": 1,
+      "box": {
+        "left": 395.8,
+        "top": 233.1,
+        "width": 133.7,
+        "height": 24.5
+      }
+    },
+    "prtNo2J": {
+      "type": "text",
+      "label": "PART NO",
+      "page": 1,
+      "box": {
+        "left": 530.5,
+        "top": 233.1,
+        "width": 55.4,
+        "height": 24.5
+      }
+    },
+    "serNo2J": {
+      "type": "text",
+      "label": "SERIAL No",
+      "page": 1,
+      "box": {
+        "left": 585.9,
+        "top": 233.1,
+        "width": 56.4,
+        "height": 24.5
+      }
+    },
+    "instDteJ": {
+      "type": "text",
+      "label": "A. INSTALL",
+      "page": 1,
+      "box": {
+        "left": 286.1,
+        "top": 230.3,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "remDteJ": {
+      "type": "text",
+      "label": "B. REMOVE",
+      "page": 1,
+      "box": {
+        "left": 341.9,
+        "top": 230.3,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "instDte2J": {
+      "type": "text",
+      "label": "A. INSTALL",
+      "page": 1,
+      "box": {
+        "left": 645.6,
+        "top": 230.3,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "remDte2J": {
+      "type": "text",
+      "label": "B. REMOVE",
+      "page": 1,
+      "box": {
+        "left": 701.4,
+        "top": 230.3,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "nomenK": {
+      "type": "text",
+      "label": "4. NOMENCLATURE",
+      "page": 1,
+      "box": {
+        "left": 36.3,
+        "top": 208.6,
+        "width": 133.7,
+        "height": 24.5
+      }
+    },
+    "prtNoK": {
+      "type": "text",
+      "label": "PART NO",
+      "page": 1,
+      "box": {
+        "left": 170.9,
+        "top": 208.6,
+        "width": 55.4,
+        "height": 24.5
+      }
+    },
+    "serNoK": {
+      "type": "text",
+      "label": "SERIAL NO",
+      "page": 1,
+      "box": {
+        "left": 226.3,
+        "top": 208.6,
+        "width": 56.4,
+        "height": 24.5
+      }
+    },
+    "nomen2K": {
+      "type": "text",
+      "label": "8. NOMENCLATURE",
+      "page": 1,
+      "box": {
+        "left": 395.8,
+        "top": 208.6,
+        "width": 133.7,
+        "height": 24.5
+      }
+    },
+    "prtNo2K": {
+      "type": "text",
+      "label": "PART NO",
+      "page": 1,
+      "box": {
+        "left": 530.5,
+        "top": 208.6,
+        "width": 55.4,
+        "height": 24.5
+      }
+    },
+    "serNo2K": {
+      "type": "text",
+      "label": "SERIAL No",
+      "page": 1,
+      "box": {
+        "left": 585.9,
+        "top": 208.6,
+        "width": 56.4,
+        "height": 24.5
+      }
+    },
+    "instDteK": {
+      "type": "text",
+      "label": "A. INSTALL",
+      "page": 1,
+      "box": {
+        "left": 286.1,
+        "top": 205.7,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "remDteK": {
+      "type": "text",
+      "label": "B. REMOVE",
+      "page": 1,
+      "box": {
+        "left": 341.9,
+        "top": 205.7,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "instDte2K": {
+      "type": "text",
+      "label": "A. INSTALL",
+      "page": 1,
+      "box": {
+        "left": 645.6,
+        "top": 205.7,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "remDte2K": {
+      "type": "text",
+      "label": "B. REMOVE",
+      "page": 1,
+      "box": {
+        "left": 701.4,
+        "top": 205.7,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "nomenL": {
+      "type": "text",
+      "label": "4. NOMENCLATURE",
+      "page": 1,
+      "box": {
+        "left": 36.3,
+        "top": 184.0,
+        "width": 133.7,
+        "height": 24.5
+      }
+    },
+    "prtNoL": {
+      "type": "text",
+      "label": "PART NO",
+      "page": 1,
+      "box": {
+        "left": 170.9,
+        "top": 184.0,
+        "width": 55.4,
+        "height": 24.5
+      }
+    },
+    "serNoL": {
+      "type": "text",
+      "label": "SERIAL NO",
+      "page": 1,
+      "box": {
+        "left": 226.3,
+        "top": 184.0,
+        "width": 56.4,
+        "height": 24.5
+      }
+    },
+    "nomen2L": {
+      "type": "text",
+      "label": "8. NOMENCLATURE",
+      "page": 1,
+      "box": {
+        "left": 395.8,
+        "top": 184.0,
+        "width": 133.7,
+        "height": 24.5
+      }
+    },
+    "prtNo2L": {
+      "type": "text",
+      "label": "PART NO",
+      "page": 1,
+      "box": {
+        "left": 530.5,
+        "top": 184.0,
+        "width": 55.4,
+        "height": 24.5
+      }
+    },
+    "serNo2L": {
+      "type": "text",
+      "label": "SERIAL No",
+      "page": 1,
+      "box": {
+        "left": 585.9,
+        "top": 184.0,
+        "width": 56.4,
+        "height": 24.5
+      }
+    },
+    "instDteL": {
+      "type": "text",
+      "label": "A. INSTALL",
+      "page": 1,
+      "box": {
+        "left": 286.1,
+        "top": 181.2,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "remDteL": {
+      "type": "text",
+      "label": "B. REMOVE",
+      "page": 1,
+      "box": {
+        "left": 341.9,
+        "top": 181.2,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "instDte2L": {
+      "type": "text",
+      "label": "A. INSTALL",
+      "page": 1,
+      "box": {
+        "left": 645.6,
+        "top": 181.2,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "remDte2L": {
+      "type": "text",
+      "label": "B. REMOVE",
+      "page": 1,
+      "box": {
+        "left": 701.4,
+        "top": 181.2,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "nomenM": {
+      "type": "text",
+      "label": "4. NOMENCLATURE",
+      "page": 1,
+      "box": {
+        "left": 36.3,
+        "top": 159.5,
+        "width": 133.7,
+        "height": 24.5
+      }
+    },
+    "prtNoM": {
+      "type": "text",
+      "label": "PART NO",
+      "page": 1,
+      "box": {
+        "left": 170.9,
+        "top": 159.5,
+        "width": 55.4,
+        "height": 24.5
+      }
+    },
+    "serNoM": {
+      "type": "text",
+      "label": "SERIAL NO",
+      "page": 1,
+      "box": {
+        "left": 226.3,
+        "top": 159.5,
+        "width": 56.4,
+        "height": 24.5
+      }
+    },
+    "nomen2M": {
+      "type": "text",
+      "label": "8. NOMENCLATURE",
+      "page": 1,
+      "box": {
+        "left": 395.8,
+        "top": 159.5,
+        "width": 133.7,
+        "height": 24.5
+      }
+    },
+    "prtNo2M": {
+      "type": "text",
+      "label": "PART NO",
+      "page": 1,
+      "box": {
+        "left": 530.5,
+        "top": 159.5,
+        "width": 55.4,
+        "height": 24.5
+      }
+    },
+    "serNo2M": {
+      "type": "text",
+      "label": "SERIAL No",
+      "page": 1,
+      "box": {
+        "left": 585.9,
+        "top": 159.5,
+        "width": 56.4,
+        "height": 24.5
+      }
+    },
+    "instDteM": {
+      "type": "text",
+      "label": "A. INSTALL",
+      "page": 1,
+      "box": {
+        "left": 286.1,
+        "top": 156.7,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "remDteM": {
+      "type": "text",
+      "label": "B. REMOVE",
+      "page": 1,
+      "box": {
+        "left": 341.9,
+        "top": 156.7,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "instDte2M": {
+      "type": "text",
+      "label": "A. INSTALL",
+      "page": 1,
+      "box": {
+        "left": 645.6,
+        "top": 156.7,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "remDte2M": {
+      "type": "text",
+      "label": "B. REMOVE",
+      "page": 1,
+      "box": {
+        "left": 701.4,
+        "top": 156.7,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "nomenN": {
+      "type": "text",
+      "label": "4. NOMENCLATURE",
+      "page": 1,
+      "box": {
+        "left": 36.3,
+        "top": 135.0,
+        "width": 133.7,
+        "height": 24.5
+      }
+    },
+    "prtNoN": {
+      "type": "text",
+      "label": "PART NO",
+      "page": 1,
+      "box": {
+        "left": 170.9,
+        "top": 135.0,
+        "width": 55.4,
+        "height": 24.5
+      }
+    },
+    "serNoN": {
+      "type": "text",
+      "label": "SERIAL NO",
+      "page": 1,
+      "box": {
+        "left": 226.3,
+        "top": 135.0,
+        "width": 56.4,
+        "height": 24.5
+      }
+    },
+    "nomen2N": {
+      "type": "text",
+      "label": "8. NOMENCLATURE",
+      "page": 1,
+      "box": {
+        "left": 395.8,
+        "top": 135.0,
+        "width": 133.7,
+        "height": 24.5
+      }
+    },
+    "prtNo2N": {
+      "type": "text",
+      "label": "PART NO",
+      "page": 1,
+      "box": {
+        "left": 530.5,
+        "top": 135.0,
+        "width": 55.4,
+        "height": 24.5
+      }
+    },
+    "serNo2N": {
+      "type": "text",
+      "label": "SERIAL No",
+      "page": 1,
+      "box": {
+        "left": 585.9,
+        "top": 135.0,
+        "width": 56.4,
+        "height": 24.5
+      }
+    },
+    "instDteN": {
+      "type": "text",
+      "label": "A. INSTALL",
+      "page": 1,
+      "box": {
+        "left": 286.1,
+        "top": 132.1,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "remDteN": {
+      "type": "text",
+      "label": "B. REMOVE",
+      "page": 1,
+      "box": {
+        "left": 341.9,
+        "top": 132.1,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "instDte2N": {
+      "type": "text",
+      "label": "A. INSTALL",
+      "page": 1,
+      "box": {
+        "left": 645.6,
+        "top": 132.1,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "remDte2N": {
+      "type": "text",
+      "label": "B. REMOVE",
+      "page": 1,
+      "box": {
+        "left": 701.4,
+        "top": 132.1,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "nomenO": {
+      "type": "text",
+      "label": "4. NOMENCLATURE",
+      "page": 1,
+      "box": {
+        "left": 36.3,
+        "top": 110.4,
+        "width": 133.7,
+        "height": 24.5
+      }
+    },
+    "prtNoO": {
+      "type": "text",
+      "label": "PART NO",
+      "page": 1,
+      "box": {
+        "left": 170.9,
+        "top": 110.4,
+        "width": 55.4,
+        "height": 24.5
+      }
+    },
+    "serNoO": {
+      "type": "text",
+      "label": "SERIAL NO",
+      "page": 1,
+      "box": {
+        "left": 226.3,
+        "top": 110.4,
+        "width": 56.4,
+        "height": 24.5
+      }
+    },
+    "nomen2O": {
+      "type": "text",
+      "label": "8. NOMENCLATURE",
+      "page": 1,
+      "box": {
+        "left": 395.8,
+        "top": 110.4,
+        "width": 133.7,
+        "height": 24.5
+      }
+    },
+    "prtNo2O": {
+      "type": "text",
+      "label": "PART NO",
+      "page": 1,
+      "box": {
+        "left": 530.5,
+        "top": 110.4,
+        "width": 55.4,
+        "height": 24.5
+      }
+    },
+    "serNo2O": {
+      "type": "text",
+      "label": "SERIAL No",
+      "page": 1,
+      "box": {
+        "left": 585.9,
+        "top": 110.4,
+        "width": 56.4,
+        "height": 24.5
+      }
+    },
+    "instDteO": {
+      "type": "text",
+      "label": "A. INSTALL",
+      "page": 1,
+      "box": {
+        "left": 286.1,
+        "top": 107.6,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "remDteO": {
+      "type": "text",
+      "label": "B. REMOVE",
+      "page": 1,
+      "box": {
+        "left": 341.9,
+        "top": 107.6,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "instDte2O": {
+      "type": "text",
+      "label": "A. INSTALL",
+      "page": 1,
+      "box": {
+        "left": 645.6,
+        "top": 107.6,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "remDte2O": {
+      "type": "text",
+      "label": "B. REMOVE",
+      "page": 1,
+      "box": {
+        "left": 701.4,
+        "top": 107.6,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "nomenP": {
+      "type": "text",
+      "label": "4. NOMENCLATURE",
+      "page": 1,
+      "box": {
+        "left": 36.3,
+        "top": 85.9,
+        "width": 133.7,
+        "height": 24.5
+      }
+    },
+    "prtNoP": {
+      "type": "text",
+      "label": "PART NO",
+      "page": 1,
+      "box": {
+        "left": 170.9,
+        "top": 85.9,
+        "width": 55.4,
+        "height": 24.5
+      }
+    },
+    "serNoP": {
+      "type": "text",
+      "label": "SERIAL NO",
+      "page": 1,
+      "box": {
+        "left": 226.3,
+        "top": 85.9,
+        "width": 56.4,
+        "height": 24.5
+      }
+    },
+    "nomen2P": {
+      "type": "text",
+      "label": "8. NOMENCLATURE",
+      "page": 1,
+      "box": {
+        "left": 395.8,
+        "top": 85.9,
+        "width": 133.7,
+        "height": 24.5
+      }
+    },
+    "prtNo2P": {
+      "type": "text",
+      "label": "PART NO",
+      "page": 1,
+      "box": {
+        "left": 530.5,
+        "top": 85.9,
+        "width": 55.4,
+        "height": 24.5
+      }
+    },
+    "serNo2P": {
+      "type": "text",
+      "label": "SERIAL No",
+      "page": 1,
+      "box": {
+        "left": 585.9,
+        "top": 85.9,
+        "width": 56.4,
+        "height": 24.5
+      }
+    },
+    "instDteP": {
+      "type": "text",
+      "label": "A. INSTALL",
+      "page": 1,
+      "box": {
+        "left": 286.1,
+        "top": 83.0,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "remDteP": {
+      "type": "text",
+      "label": "B. REMOVE",
+      "page": 1,
+      "box": {
+        "left": 341.9,
+        "top": 83.0,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "instDte2P": {
+      "type": "text",
+      "label": "A. INSTALL",
+      "page": 1,
+      "box": {
+        "left": 645.6,
+        "top": 83.0,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "remDte2P": {
+      "type": "text",
+      "label": "B. REMOVE",
+      "page": 1,
+      "box": {
+        "left": 701.4,
+        "top": 83.0,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "nomenQ": {
+      "type": "text",
+      "label": "4. NOMENCLATURE",
+      "page": 1,
+      "box": {
+        "left": 36.3,
+        "top": 61.4,
+        "width": 133.7,
+        "height": 24.5
+      }
+    },
+    "prtNoQ": {
+      "type": "text",
+      "label": "PART NO",
+      "page": 1,
+      "box": {
+        "left": 170.9,
+        "top": 61.4,
+        "width": 55.4,
+        "height": 24.5
+      }
+    },
+    "serNoQ": {
+      "type": "text",
+      "label": "SERIAL NO",
+      "page": 1,
+      "box": {
+        "left": 226.3,
+        "top": 61.4,
+        "width": 56.4,
+        "height": 24.5
+      }
+    },
+    "nomen2Q": {
+      "type": "text",
+      "label": "8. NOMENCLATURE",
+      "page": 1,
+      "box": {
+        "left": 395.8,
+        "top": 61.4,
+        "width": 133.7,
+        "height": 24.5
+      }
+    },
+    "prtNo2Q": {
+      "type": "text",
+      "label": "PART NO",
+      "page": 1,
+      "box": {
+        "left": 530.5,
+        "top": 61.4,
+        "width": 55.4,
+        "height": 24.5
+      }
+    },
+    "serNo2Q": {
+      "type": "text",
+      "label": "SERIAL No",
+      "page": 1,
+      "box": {
+        "left": 585.9,
+        "top": 61.4,
+        "width": 56.4,
+        "height": 24.5
+      }
+    },
+    "instDteQ": {
+      "type": "text",
+      "label": "A. INSTALL",
+      "page": 1,
+      "box": {
+        "left": 286.1,
+        "top": 58.5,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "remDteQ": {
+      "type": "text",
+      "label": "B. REMOVE",
+      "page": 1,
+      "box": {
+        "left": 341.9,
+        "top": 58.5,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "instDte2Q": {
+      "type": "text",
+      "label": "A. INSTALL",
+      "page": 1,
+      "box": {
+        "left": 645.6,
+        "top": 58.5,
+        "width": 50.1,
+        "height": 18.9
+      }
+    },
+    "remDte2Q": {
+      "type": "text",
+      "label": "B. REMOVE",
+      "page": 1,
+      "box": {
+        "left": 701.4,
+        "top": 58.5,
+        "width": 50.1,
+        "height": 18.9
+      }
+    }
+  }
+}

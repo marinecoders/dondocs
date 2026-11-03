@@ -1,0 +1,165 @@
+{
+  "id": "opnav558010",
+  "label": "OPNAV5580-10 - Affidavit For Search Authorization",
+  "directory": "OPNAV5580-10 - Affidavit For Search Authorization",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "who",
+        "personbytitle",
+        "unassigned",
+        "property",
+        "auth",
+        "request",
+        "rank",
+        "day",
+        "month",
+        "year",
+        "addOath",
+        "sigAff"
+      ]
+    }
+  ],
+  "fields": {
+    "who": {
+      "type": "text",
+      "label": "Enter who versus U.S.A.",
+      "page": 1,
+      "box": {
+        "left": 232.5,
+        "top": 671.4,
+        "width": 151.7,
+        "height": 14.2
+      }
+    },
+    "personbytitle": {
+      "type": "text",
+      "label": "Enter the person by title and command.",
+      "page": 1,
+      "box": {
+        "left": 131.4,
+        "top": 655.7,
+        "width": 102.6,
+        "height": 14.9
+      }
+    },
+    "unassigned": {
+      "type": "text",
+      "label": "Identify the person and/or describe the premises with particularity and in detail.",
+      "page": 1,
+      "box": {
+        "left": 78.7,
+        "top": 584.3,
+        "width": 487.6,
+        "height": 63.6
+      },
+      "multiline": true
+    },
+    "property": {
+      "type": "text",
+      "label": "Describe the property.",
+      "page": 1,
+      "box": {
+        "left": 78.7,
+        "top": 477.0,
+        "width": 487.6,
+        "height": 63.6
+      },
+      "multiline": true
+    },
+    "auth": {
+      "type": "text",
+      "label": "Indicate the request of authorization to search and seize is made in connection with an investigation into the offense(s).",
+      "page": 1,
+      "box": {
+        "left": 78.7,
+        "top": 373.6,
+        "width": 487.6,
+        "height": 36.1
+      },
+      "multiline": true
+    },
+    "request": {
+      "type": "text",
+      "label": "Enter the request of authorization to search and seize is made in connection with an investigation into the offense(s) of",
+      "page": 1,
+      "box": {
+        "left": 78.7,
+        "top": 276.0,
+        "width": 487.6,
+        "height": 42.2
+      },
+      "multiline": true
+    },
+    "rank": {
+      "type": "text",
+      "label": "Enter the signature od the affiant.",
+      "page": 1,
+      "box": {
+        "left": 369.7,
+        "top": 207.1,
+        "width": 199.6,
+        "height": 19.8
+      }
+    },
+    "day": {
+      "type": "text",
+      "label": "Enter the day.",
+      "page": 1,
+      "box": {
+        "left": 349.6,
+        "top": 150.9,
+        "width": 81.6,
+        "height": 14.1
+      }
+    },
+    "month": {
+      "type": "text",
+      "label": "Enter the month.",
+      "page": 1,
+      "box": {
+        "left": 467.2,
+        "top": 150.9,
+        "width": 64.7,
+        "height": 14.1
+      }
+    },
+    "year": {
+      "type": "text",
+      "label": "Enter the year using the format YYYY.",
+      "page": 1,
+      "box": {
+        "left": 538.5,
+        "top": 150.9,
+        "width": 36.4,
+        "height": 14.1
+      }
+    },
+    "addOath": {
+      "type": "text",
+      "label": "Enter the signature of the Person Administering Oath.",
+      "page": 1,
+      "box": {
+        "left": 369.7,
+        "top": 121.7,
+        "width": 199.6,
+        "height": 19.8
+      }
+    },
+    "sigAff": {
+      "type": "text",
+      "label": "Enter the rank, service and title.",
+      "page": 1,
+      "box": {
+        "left": 369.7,
+        "top": 82.8,
+        "width": 199.6,
+        "height": 19.8
+      }
+    }
+  }
+}

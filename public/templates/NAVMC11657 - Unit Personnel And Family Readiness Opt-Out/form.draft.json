@@ -1,0 +1,135 @@
+{
+  "id": "navmc11657",
+  "label": "NAVMC11657 - Unit Personnel And Family Readiness Opt-Out",
+  "directory": "NAVMC11657 - Unit Personnel And Family Readiness Opt-Out",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "signatureField2",
+        "name2",
+        "signatureField22",
+        "signatureField23",
+        "textField3",
+        "name3",
+        "name4"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "Spouse Name (Last, First, MI)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 367.1,
+        "width": 210.4,
+        "height": 22.4
+      }
+    },
+    "signatureField2": {
+      "type": "text",
+      "label": "Spouse Signature",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 367.1,
+        "width": 210.4,
+        "height": 22.4
+      }
+    },
+    "name2": {
+      "type": "text",
+      "label": "Sponsor Name (Last, First, MI)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 241.1,
+        "width": 210.4,
+        "height": 22.4
+      }
+    },
+    "signatureField22": {
+      "type": "text",
+      "label": "Sponsor Signature",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 241.1,
+        "width": 210.4,
+        "height": 22.4
+      }
+    },
+    "signatureField23": {
+      "type": "text",
+      "label": "Commander Signature",
+      "page": 1,
+      "box": {
+        "left": 290.9,
+        "top": 115.4,
+        "width": 174.4,
+        "height": 22.7
+      }
+    },
+    "textField3": {
+      "type": "text",
+      "label": "Commander Rank",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 115.1,
+        "width": 66.3,
+        "height": 22.4
+      }
+    },
+    "name3": {
+      "type": "text",
+      "label": "Commander Name (Last, First, MI)",
+      "page": 1,
+      "box": {
+        "left": 110.8,
+        "top": 115.1,
+        "width": 174.4,
+        "height": 22.4
+      }
+    },
+    "name4": {
+      "type": "text",
+      "label": "Unit",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 79.1,
+        "width": 534.4,
+        "height": 22.4
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 126.0,
+      "editor": "grid",
+      "columns": {
+        "dateField1": {
+          "type": "text",
+          "label": "Date",
+          "page": 1,
+          "box": {
+            "left": 470.9,
+            "top": 367.1,
+            "width": 102.3,
+            "height": 22.4
+          }
+        }
+      }
+    }
+  }
+}

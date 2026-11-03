@@ -1,0 +1,1171 @@
+{
+  "id": "opnav40011",
+  "label": "OPNAV4001-1 - NAVY Presentation Silver AgreementRequest Form",
+  "directory": "OPNAV4001-1 - NAVY Presentation Silver AgreementRequest Form",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "collection",
+        "contact",
+        "agree",
+        "fromDte",
+        "toDte",
+        "location",
+        "radio",
+        "radio2"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "asNumA",
+        "nameA",
+        "descA",
+        "valA",
+        "asNumB",
+        "nameB",
+        "descB",
+        "valB",
+        "asNumC",
+        "nameC",
+        "descC",
+        "valC",
+        "asNumD",
+        "nameD",
+        "descD",
+        "valD",
+        "asNumE",
+        "nameE",
+        "descE",
+        "valE",
+        "asNumF",
+        "nameF",
+        "descF",
+        "valF",
+        "asNumbG",
+        "nameG",
+        "descG",
+        "valG",
+        "asNumH",
+        "nameH",
+        "descH",
+        "valH",
+        "asNumI",
+        "nameI",
+        "descI",
+        "valI",
+        "asNumJ",
+        "nameJ",
+        "descJ",
+        "valJ",
+        "asNumK",
+        "nameK",
+        "descK",
+        "valK",
+        "asNumL",
+        "nameL",
+        "descL",
+        "valL",
+        "asNumM",
+        "nameM",
+        "descM",
+        "valM",
+        "asNumN",
+        "nameN",
+        "descN",
+        "valN",
+        "asNumO",
+        "nameO",
+        "descO",
+        "valO",
+        "asNumP",
+        "nameP",
+        "descP",
+        "valP",
+        "asNumQ",
+        "nameQ",
+        "descQ",
+        "valQ",
+        "asNumR",
+        "nameR",
+        "descR",
+        "valR",
+        "asNumS",
+        "nameS",
+        "descS",
+        "valS",
+        "asNumT",
+        "nameT",
+        "descT",
+        "valT",
+        "rowRep",
+        "asNumRep",
+        "nameRep",
+        "descRep",
+        "valRep",
+        "totalValue",
+        "addInfo"
+      ]
+    }
+  ],
+  "fields": {
+    "collection": {
+      "type": "text",
+      "label": "1. PRESENTATION SILVER COLLECTION(S)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 655.9,
+        "width": 534.4,
+        "height": 127.5
+      },
+      "multiline": true
+    },
+    "contact": {
+      "type": "text",
+      "label": "2. CONTACT/BORROWER",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 511.9,
+        "width": 534.4,
+        "height": 127.5
+      },
+      "multiline": true
+    },
+    "agree": {
+      "type": "text",
+      "label": "FOLLOWING PURPOSE ONLY",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 349.9,
+        "width": 534.4,
+        "height": 109.5
+      },
+      "multiline": true
+    },
+    "fromDte": {
+      "type": "text",
+      "label": "4. FOR PERIOD: a. FROM DATE",
+      "page": 1,
+      "box": {
+        "left": 172.1,
+        "top": 234.7,
+        "width": 77.1,
+        "height": 12.3
+      }
+    },
+    "toDte": {
+      "type": "text",
+      "label": "b. TO DATE",
+      "page": 1,
+      "box": {
+        "left": 316.1,
+        "top": 234.7,
+        "width": 77.1,
+        "height": 12.3
+      }
+    },
+    "location": {
+      "type": "text",
+      "label": "PROPERTY (SILVER ASSETS) AT LOCATIONS OTHER THAN",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 195.1,
+        "width": 534.4,
+        "height": 116.7
+      },
+      "multiline": true
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 70.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 50.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "asNumA": {
+      "type": "text",
+      "label": "ERP ASSET NUMBER",
+      "page": 2,
+      "box": {
+        "left": 55.4,
+        "top": 715.0,
+        "width": 123.2,
+        "height": 22.4
+      }
+    },
+    "nameA": {
+      "type": "text",
+      "label": "NAMESAKE/SHIP HULL",
+      "page": 2,
+      "box": {
+        "left": 181.4,
+        "top": 715.0,
+        "width": 141.2,
+        "height": 22.4
+      }
+    },
+    "descA": {
+      "type": "text",
+      "label": "ASSET DESCRIPTION",
+      "page": 2,
+      "box": {
+        "left": 325.5,
+        "top": 715.0,
+        "width": 177.2,
+        "height": 22.4
+      }
+    },
+    "valA": {
+      "type": "text",
+      "label": "VALUE",
+      "page": 2,
+      "box": {
+        "left": 505.5,
+        "top": 715.0,
+        "width": 69.2,
+        "height": 22.4
+      }
+    },
+    "asNumB": {
+      "type": "text",
+      "label": "ERP ASSET NUMBER",
+      "page": 2,
+      "box": {
+        "left": 55.4,
+        "top": 689.8,
+        "width": 123.2,
+        "height": 22.4
+      }
+    },
+    "nameB": {
+      "type": "text",
+      "label": "NAMESAKE/SHIP HULL",
+      "page": 2,
+      "box": {
+        "left": 181.4,
+        "top": 689.8,
+        "width": 141.2,
+        "height": 22.4
+      }
+    },
+    "descB": {
+      "type": "text",
+      "label": "ASSET DESCRIPTION",
+      "page": 2,
+      "box": {
+        "left": 325.5,
+        "top": 689.8,
+        "width": 177.2,
+        "height": 22.4
+      }
+    },
+    "valB": {
+      "type": "text",
+      "label": "VALUE",
+      "page": 2,
+      "box": {
+        "left": 505.5,
+        "top": 689.8,
+        "width": 69.2,
+        "height": 22.4
+      }
+    },
+    "asNumC": {
+      "type": "text",
+      "label": "ERP ASSET NUMBER",
+      "page": 2,
+      "box": {
+        "left": 55.4,
+        "top": 664.6,
+        "width": 123.2,
+        "height": 22.4
+      }
+    },
+    "nameC": {
+      "type": "text",
+      "label": "NAMESAKE/SHIP HULL",
+      "page": 2,
+      "box": {
+        "left": 181.4,
+        "top": 664.6,
+        "width": 141.2,
+        "height": 22.4
+      }
+    },
+    "descC": {
+      "type": "text",
+      "label": "ASSET DESCRIPTION",
+      "page": 2,
+      "box": {
+        "left": 325.5,
+        "top": 664.6,
+        "width": 177.2,
+        "height": 22.4
+      }
+    },
+    "valC": {
+      "type": "text",
+      "label": "VALUE",
+      "page": 2,
+      "box": {
+        "left": 505.5,
+        "top": 664.6,
+        "width": 69.2,
+        "height": 22.4
+      }
+    },
+    "asNumD": {
+      "type": "text",
+      "label": "ERP ASSET NUMBER",
+      "page": 2,
+      "box": {
+        "left": 55.4,
+        "top": 639.4,
+        "width": 123.2,
+        "height": 22.4
+      }
+    },
+    "nameD": {
+      "type": "text",
+      "label": "NAMESAKE/SHIP HULL",
+      "page": 2,
+      "box": {
+        "left": 181.4,
+        "top": 639.4,
+        "width": 141.2,
+        "height": 22.4
+      }
+    },
+    "descD": {
+      "type": "text",
+      "label": "ASSET DESCRIPTION",
+      "page": 2,
+      "box": {
+        "left": 325.5,
+        "top": 639.4,
+        "width": 177.2,
+        "height": 22.4
+      }
+    },
+    "valD": {
+      "type": "text",
+      "label": "VALUE",
+      "page": 2,
+      "box": {
+        "left": 505.5,
+        "top": 639.4,
+        "width": 69.2,
+        "height": 22.4
+      }
+    },
+    "asNumE": {
+      "type": "text",
+      "label": "ERP ASSET NUMBER",
+      "page": 2,
+      "box": {
+        "left": 55.4,
+        "top": 614.2,
+        "width": 123.2,
+        "height": 22.4
+      }
+    },
+    "nameE": {
+      "type": "text",
+      "label": "NAMESAKE/SHIP HULL",
+      "page": 2,
+      "box": {
+        "left": 181.4,
+        "top": 614.2,
+        "width": 141.2,
+        "height": 22.4
+      }
+    },
+    "descE": {
+      "type": "text",
+      "label": "ASSET DESCRIPTION",
+      "page": 2,
+      "box": {
+        "left": 325.5,
+        "top": 614.2,
+        "width": 177.2,
+        "height": 22.4
+      }
+    },
+    "valE": {
+      "type": "text",
+      "label": "VALUE",
+      "page": 2,
+      "box": {
+        "left": 505.5,
+        "top": 614.2,
+        "width": 69.2,
+        "height": 22.4
+      }
+    },
+    "asNumF": {
+      "type": "text",
+      "label": "ERP ASSET NUMBER",
+      "page": 2,
+      "box": {
+        "left": 55.4,
+        "top": 589.0,
+        "width": 123.2,
+        "height": 22.4
+      }
+    },
+    "nameF": {
+      "type": "text",
+      "label": "NAMESAKE/SHIP HULL",
+      "page": 2,
+      "box": {
+        "left": 181.4,
+        "top": 589.0,
+        "width": 141.2,
+        "height": 22.4
+      }
+    },
+    "descF": {
+      "type": "text",
+      "label": "ASSET DESCRIPTION",
+      "page": 2,
+      "box": {
+        "left": 325.5,
+        "top": 589.0,
+        "width": 177.2,
+        "height": 22.4
+      }
+    },
+    "valF": {
+      "type": "text",
+      "label": "VALUE",
+      "page": 2,
+      "box": {
+        "left": 505.5,
+        "top": 589.0,
+        "width": 69.2,
+        "height": 22.4
+      }
+    },
+    "asNumbG": {
+      "type": "text",
+      "label": "ERP ASSET NUMBER",
+      "page": 2,
+      "box": {
+        "left": 55.4,
+        "top": 563.8,
+        "width": 123.2,
+        "height": 22.4
+      }
+    },
+    "nameG": {
+      "type": "text",
+      "label": "NAMESAKE/SHIP HULL",
+      "page": 2,
+      "box": {
+        "left": 181.4,
+        "top": 563.8,
+        "width": 141.2,
+        "height": 22.4
+      }
+    },
+    "descG": {
+      "type": "text",
+      "label": "ASSET DESCRIPTION",
+      "page": 2,
+      "box": {
+        "left": 325.5,
+        "top": 563.8,
+        "width": 177.2,
+        "height": 22.4
+      }
+    },
+    "valG": {
+      "type": "text",
+      "label": "VALUE",
+      "page": 2,
+      "box": {
+        "left": 505.5,
+        "top": 563.8,
+        "width": 69.2,
+        "height": 22.4
+      }
+    },
+    "asNumH": {
+      "type": "text",
+      "label": "ERP ASSET NUMBER",
+      "page": 2,
+      "box": {
+        "left": 55.4,
+        "top": 538.6,
+        "width": 123.2,
+        "height": 22.4
+      }
+    },
+    "nameH": {
+      "type": "text",
+      "label": "NAMESAKE/SHIP HULL",
+      "page": 2,
+      "box": {
+        "left": 181.4,
+        "top": 538.6,
+        "width": 141.2,
+        "height": 22.4
+      }
+    },
+    "descH": {
+      "type": "text",
+      "label": "ASSET DESCRIPTION",
+      "page": 2,
+      "box": {
+        "left": 325.5,
+        "top": 538.6,
+        "width": 177.2,
+        "height": 22.4
+      }
+    },
+    "valH": {
+      "type": "text",
+      "label": "VALUE",
+      "page": 2,
+      "box": {
+        "left": 505.5,
+        "top": 538.6,
+        "width": 69.2,
+        "height": 22.4
+      }
+    },
+    "asNumI": {
+      "type": "text",
+      "label": "ERP ASSET NUMBER",
+      "page": 2,
+      "box": {
+        "left": 55.4,
+        "top": 513.3,
+        "width": 123.2,
+        "height": 22.4
+      }
+    },
+    "nameI": {
+      "type": "text",
+      "label": "NAMESAKE/SHIP HULL",
+      "page": 2,
+      "box": {
+        "left": 181.4,
+        "top": 513.3,
+        "width": 141.2,
+        "height": 22.4
+      }
+    },
+    "descI": {
+      "type": "text",
+      "label": "ASSET DESCRIPTION",
+      "page": 2,
+      "box": {
+        "left": 325.5,
+        "top": 513.3,
+        "width": 177.2,
+        "height": 22.4
+      }
+    },
+    "valI": {
+      "type": "text",
+      "label": "VALUE",
+      "page": 2,
+      "box": {
+        "left": 505.5,
+        "top": 513.3,
+        "width": 69.2,
+        "height": 22.4
+      }
+    },
+    "asNumJ": {
+      "type": "text",
+      "label": "ERP ASSET NUMBER",
+      "page": 2,
+      "box": {
+        "left": 55.4,
+        "top": 488.1,
+        "width": 123.2,
+        "height": 22.4
+      }
+    },
+    "nameJ": {
+      "type": "text",
+      "label": "NAMESAKE/SHIP HULL",
+      "page": 2,
+      "box": {
+        "left": 181.4,
+        "top": 488.1,
+        "width": 141.2,
+        "height": 22.4
+      }
+    },
+    "descJ": {
+      "type": "text",
+      "label": "ASSET DESCRIPTION",
+      "page": 2,
+      "box": {
+        "left": 325.5,
+        "top": 488.1,
+        "width": 177.2,
+        "height": 22.4
+      }
+    },
+    "valJ": {
+      "type": "text",
+      "label": "VALUE",
+      "page": 2,
+      "box": {
+        "left": 505.5,
+        "top": 488.1,
+        "width": 69.2,
+        "height": 22.4
+      }
+    },
+    "asNumK": {
+      "type": "text",
+      "label": "ERP ASSET NUMBER",
+      "page": 2,
+      "box": {
+        "left": 55.4,
+        "top": 462.9,
+        "width": 123.2,
+        "height": 22.4
+      }
+    },
+    "nameK": {
+      "type": "text",
+      "label": "NAMESAKE/SHIP HULL",
+      "page": 2,
+      "box": {
+        "left": 181.4,
+        "top": 462.9,
+        "width": 141.2,
+        "height": 22.4
+      }
+    },
+    "descK": {
+      "type": "text",
+      "label": "ASSET DESCRIPTION",
+      "page": 2,
+      "box": {
+        "left": 325.5,
+        "top": 462.9,
+        "width": 177.2,
+        "height": 22.4
+      }
+    },
+    "valK": {
+      "type": "text",
+      "label": "VALUE",
+      "page": 2,
+      "box": {
+        "left": 505.5,
+        "top": 462.9,
+        "width": 69.2,
+        "height": 22.4
+      }
+    },
+    "asNumL": {
+      "type": "text",
+      "label": "ERP ASSET NUMBER",
+      "page": 2,
+      "box": {
+        "left": 55.4,
+        "top": 437.7,
+        "width": 123.2,
+        "height": 22.4
+      }
+    },
+    "nameL": {
+      "type": "text",
+      "label": "NAMESAKE/SHIP HULL",
+      "page": 2,
+      "box": {
+        "left": 181.4,
+        "top": 437.7,
+        "width": 141.2,
+        "height": 22.4
+      }
+    },
+    "descL": {
+      "type": "text",
+      "label": "ASSET DESCRIPTION",
+      "page": 2,
+      "box": {
+        "left": 325.5,
+        "top": 437.7,
+        "width": 177.2,
+        "height": 22.4
+      }
+    },
+    "valL": {
+      "type": "text",
+      "label": "VALUE",
+      "page": 2,
+      "box": {
+        "left": 505.5,
+        "top": 437.7,
+        "width": 69.2,
+        "height": 22.4
+      }
+    },
+    "asNumM": {
+      "type": "text",
+      "label": "ERP ASSET NUMBER",
+      "page": 2,
+      "box": {
+        "left": 55.4,
+        "top": 412.5,
+        "width": 123.2,
+        "height": 22.4
+      }
+    },
+    "nameM": {
+      "type": "text",
+      "label": "NAMESAKE/SHIP HULL",
+      "page": 2,
+      "box": {
+        "left": 181.4,
+        "top": 412.5,
+        "width": 141.2,
+        "height": 22.4
+      }
+    },
+    "descM": {
+      "type": "text",
+      "label": "ASSET DESCRIPTION",
+      "page": 2,
+      "box": {
+        "left": 325.5,
+        "top": 412.5,
+        "width": 177.2,
+        "height": 22.4
+      }
+    },
+    "valM": {
+      "type": "text",
+      "label": "VALUE",
+      "page": 2,
+      "box": {
+        "left": 505.5,
+        "top": 412.5,
+        "width": 69.2,
+        "height": 22.4
+      }
+    },
+    "asNumN": {
+      "type": "text",
+      "label": "ERP ASSET NUMBER",
+      "page": 2,
+      "box": {
+        "left": 55.4,
+        "top": 387.3,
+        "width": 123.2,
+        "height": 22.4
+      }
+    },
+    "nameN": {
+      "type": "text",
+      "label": "NAMESAKE/SHIP HULL",
+      "page": 2,
+      "box": {
+        "left": 181.4,
+        "top": 387.3,
+        "width": 141.2,
+        "height": 22.4
+      }
+    },
+    "descN": {
+      "type": "text",
+      "label": "ASSET DESCRIPTION",
+      "page": 2,
+      "box": {
+        "left": 325.5,
+        "top": 387.3,
+        "width": 177.2,
+        "height": 22.4
+      }
+    },
+    "valN": {
+      "type": "text",
+      "label": "VALUE",
+      "page": 2,
+      "box": {
+        "left": 505.5,
+        "top": 387.3,
+        "width": 69.2,
+        "height": 22.4
+      }
+    },
+    "asNumO": {
+      "type": "text",
+      "label": "ERP ASSET NUMBER",
+      "page": 2,
+      "box": {
+        "left": 55.4,
+        "top": 362.1,
+        "width": 123.2,
+        "height": 22.4
+      }
+    },
+    "nameO": {
+      "type": "text",
+      "label": "NAMESAKE/SHIP HULL",
+      "page": 2,
+      "box": {
+        "left": 181.4,
+        "top": 362.1,
+        "width": 141.2,
+        "height": 22.4
+      }
+    },
+    "descO": {
+      "type": "text",
+      "label": "ASSET DESCRIPTION",
+      "page": 2,
+      "box": {
+        "left": 325.5,
+        "top": 362.1,
+        "width": 177.2,
+        "height": 22.4
+      }
+    },
+    "valO": {
+      "type": "text",
+      "label": "VALUE",
+      "page": 2,
+      "box": {
+        "left": 505.5,
+        "top": 362.1,
+        "width": 69.2,
+        "height": 22.4
+      }
+    },
+    "asNumP": {
+      "type": "text",
+      "label": "ERP ASSET NUMBER",
+      "page": 2,
+      "box": {
+        "left": 55.4,
+        "top": 336.9,
+        "width": 123.2,
+        "height": 22.4
+      }
+    },
+    "nameP": {
+      "type": "text",
+      "label": "NAMESAKE/SHIP HULL",
+      "page": 2,
+      "box": {
+        "left": 181.4,
+        "top": 336.9,
+        "width": 141.2,
+        "height": 22.4
+      }
+    },
+    "descP": {
+      "type": "text",
+      "label": "ASSET DESCRIPTION",
+      "page": 2,
+      "box": {
+        "left": 325.5,
+        "top": 336.9,
+        "width": 177.2,
+        "height": 22.4
+      }
+    },
+    "valP": {
+      "type": "text",
+      "label": "VALUE",
+      "page": 2,
+      "box": {
+        "left": 505.5,
+        "top": 336.9,
+        "width": 69.2,
+        "height": 22.4
+      }
+    },
+    "asNumQ": {
+      "type": "text",
+      "label": "ERP ASSET NUMBER",
+      "page": 2,
+      "box": {
+        "left": 55.4,
+        "top": 311.7,
+        "width": 123.2,
+        "height": 22.4
+      }
+    },
+    "nameQ": {
+      "type": "text",
+      "label": "NAMESAKE/SHIP HULL",
+      "page": 2,
+      "box": {
+        "left": 181.4,
+        "top": 311.7,
+        "width": 141.2,
+        "height": 22.4
+      }
+    },
+    "descQ": {
+      "type": "text",
+      "label": "ASSET DESCRIPTION",
+      "page": 2,
+      "box": {
+        "left": 325.5,
+        "top": 311.7,
+        "width": 177.2,
+        "height": 22.4
+      }
+    },
+    "valQ": {
+      "type": "text",
+      "label": "VALUE",
+      "page": 2,
+      "box": {
+        "left": 505.5,
+        "top": 311.7,
+        "width": 69.2,
+        "height": 22.4
+      }
+    },
+    "asNumR": {
+      "type": "text",
+      "label": "ERP ASSET NUMBER",
+      "page": 2,
+      "box": {
+        "left": 55.4,
+        "top": 286.5,
+        "width": 123.2,
+        "height": 22.4
+      }
+    },
+    "nameR": {
+      "type": "text",
+      "label": "NAMESAKE/SHIP HULL",
+      "page": 2,
+      "box": {
+        "left": 181.4,
+        "top": 286.5,
+        "width": 141.2,
+        "height": 22.4
+      }
+    },
+    "descR": {
+      "type": "text",
+      "label": "ASSET DESCRIPTION",
+      "page": 2,
+      "box": {
+        "left": 325.5,
+        "top": 286.5,
+        "width": 177.2,
+        "height": 22.4
+      }
+    },
+    "valR": {
+      "type": "text",
+      "label": "VALUE",
+      "page": 2,
+      "box": {
+        "left": 505.5,
+        "top": 286.5,
+        "width": 69.2,
+        "height": 22.4
+      }
+    },
+    "asNumS": {
+      "type": "text",
+      "label": "ERP ASSET NUMBER",
+      "page": 2,
+      "box": {
+        "left": 55.4,
+        "top": 261.3,
+        "width": 123.2,
+        "height": 22.4
+      }
+    },
+    "nameS": {
+      "type": "text",
+      "label": "NAMESAKE/SHIP HULL",
+      "page": 2,
+      "box": {
+        "left": 181.4,
+        "top": 261.3,
+        "width": 141.2,
+        "height": 22.4
+      }
+    },
+    "descS": {
+      "type": "text",
+      "label": "ASSET DESCRIPTION",
+      "page": 2,
+      "box": {
+        "left": 325.5,
+        "top": 261.3,
+        "width": 177.2,
+        "height": 22.4
+      }
+    },
+    "valS": {
+      "type": "text",
+      "label": "VALUE",
+      "page": 2,
+      "box": {
+        "left": 505.5,
+        "top": 261.3,
+        "width": 69.2,
+        "height": 22.4
+      }
+    },
+    "asNumT": {
+      "type": "text",
+      "label": "ERP ASSET NUMBER",
+      "page": 2,
+      "box": {
+        "left": 55.4,
+        "top": 236.1,
+        "width": 123.2,
+        "height": 22.4
+      }
+    },
+    "nameT": {
+      "type": "text",
+      "label": "NAMESAKE/SHIP HULL",
+      "page": 2,
+      "box": {
+        "left": 181.4,
+        "top": 236.1,
+        "width": 141.2,
+        "height": 22.4
+      }
+    },
+    "descT": {
+      "type": "text",
+      "label": "ASSET DESCRIPTION",
+      "page": 2,
+      "box": {
+        "left": 325.5,
+        "top": 236.1,
+        "width": 177.2,
+        "height": 22.4
+      }
+    },
+    "valT": {
+      "type": "text",
+      "label": "VALUE",
+      "page": 2,
+      "box": {
+        "left": 505.5,
+        "top": 236.1,
+        "width": 69.2,
+        "height": 22.4
+      }
+    },
+    "rowRep": {
+      "type": "text",
+      "label": "Row Rep",
+      "page": 2,
+      "box": {
+        "left": 37.4,
+        "top": 210.9,
+        "width": 15.2,
+        "height": 22.4
+      }
+    },
+    "asNumRep": {
+      "type": "text",
+      "label": "ERP ASSET NUMBER",
+      "page": 2,
+      "box": {
+        "left": 55.4,
+        "top": 210.9,
+        "width": 123.2,
+        "height": 22.4
+      }
+    },
+    "nameRep": {
+      "type": "text",
+      "label": "NAMESAKE/SHIP HULL",
+      "page": 2,
+      "box": {
+        "left": 181.4,
+        "top": 210.9,
+        "width": 141.2,
+        "height": 22.4
+      }
+    },
+    "descRep": {
+      "type": "text",
+      "label": "ASSET DESCRIPTION",
+      "page": 2,
+      "box": {
+        "left": 325.5,
+        "top": 210.9,
+        "width": 177.2,
+        "height": 22.4
+      }
+    },
+    "valRep": {
+      "type": "text",
+      "label": "VALUE",
+      "page": 2,
+      "box": {
+        "left": 505.5,
+        "top": 210.9,
+        "width": 69.2,
+        "height": 22.4
+      }
+    },
+    "totalValue": {
+      "type": "text",
+      "label": "TOTAL VALUE",
+      "page": 2,
+      "box": {
+        "left": 505.5,
+        "top": 185.7,
+        "width": 69.2,
+        "height": 22.4
+      }
+    },
+    "addInfo": {
+      "type": "text",
+      "label": "Add Info",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 148.3,
+        "width": 534.4,
+        "height": 59.1
+      },
+      "multiline": true
+    }
+  }
+}

@@ -1,0 +1,315 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "rank": {
+        "left": 345.1,
+        "top": 672.6,
+        "width": 228.3,
+        "height": 29.0,
+        "type": "text",
+        "description": " 2.  RANK/GRADE:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name": {
+        "left": 38.8,
+        "top": 671.6,
+        "width": 300.3,
+        "height": 28.0,
+        "type": "text",
+        "description": " 1.  NAME (First, Middle, Last):",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "serv": {
+        "left": 345.1,
+        "top": 629.0,
+        "width": 228.3,
+        "height": 29.0,
+        "type": "text",
+        "description": " 4.  YEARS IN SERVICE:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pos": {
+        "left": 38.8,
+        "top": 627.1,
+        "width": 300.3,
+        "height": 27.0,
+        "type": "text",
+        "description": " 3.  POSITION TITLE (Job):",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "spec": {
+        "left": 345.1,
+        "top": 586.4,
+        "width": 228.3,
+        "height": 71.3,
+        "type": "text",
+        "description": " 6.  SPECIALTY AREA (Mil/Series)(Civil):",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unit": {
+        "left": 38.8,
+        "top": 586.0,
+        "width": 300.3,
+        "height": 29.0,
+        "type": "text",
+        "description": " 5.  UNIT/COMPETENCY:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "phn": {
+        "left": 38.8,
+        "top": 542.8,
+        "width": 300.3,
+        "height": 27.0,
+        "type": "text",
+        "description": " 7.  WORK PHONE NUMBER:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "eml": {
+        "left": 38.8,
+        "top": 499.7,
+        "width": 300.3,
+        "height": 28.5,
+        "type": "text",
+        "description": " 8.  E-MAIL:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "occ": {
+        "left": 345.1,
+        "top": 499.3,
+        "width": 228.3,
+        "height": 28.2,
+        "type": "text",
+        "description": " 9.  OCCUPATION/POSITION TITLE:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rotat": {
+        "left": 345.1,
+        "top": 456.6,
+        "width": 228.3,
+        "height": 42.3,
+        "type": "text",
+        "description": " 11.  ROTATION DATE (Military Only):",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ba": {
+        "left": 38.8,
+        "top": 445.0,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "BA",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "bs": {
+        "left": 146.8,
+        "top": 445.0,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "BS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dds": {
+        "left": 247.6,
+        "top": 445.0,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "DDS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "phd": {
+        "left": 247.6,
+        "top": 409.7,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "PHD",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "do": {
+        "left": 38.8,
+        "top": 408.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "DO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "md": {
+        "left": 146.8,
+        "top": 408.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "MD",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comAct": {
+        "left": 345.1,
+        "top": 398.4,
+        "width": 228.3,
+        "height": 65.2,
+        "type": "text",
+        "description": " 12.  COMMUNITY ACTIVITIES:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "other": {
+        "left": 38.8,
+        "top": 360.9,
+        "width": 300.3,
+        "height": 27.2,
+        "type": "text",
+        "description": "OTHER:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "adv": {
+        "left": 85.6,
+        "top": 272.9,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "ADVANCEMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "course": {
+        "left": 265.6,
+        "top": 272.9,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "COURSES AND TAD",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "prog": {
+        "left": 445.6,
+        "top": 272.9,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "NAVY PROGRAMS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "billet": {
+        "left": 85.6,
+        "top": 222.5,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "BILLET INFORMATION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "boards": {
+        "left": 265.6,
+        "top": 222.5,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "BOARDS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "navair": {
+        "left": 445.6,
+        "top": 222.5,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "NAVAIR ISSUES",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "career": {
+        "left": 85.8,
+        "top": 172.1,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "CAREER CHOICES",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "retention": {
+        "left": 267.0,
+        "top": 172.1,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "RETENTION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "othIn": {
+        "left": 55.9,
+        "top": 120.6,
+        "width": 516.7,
+        "height": 80.5,
+        "type": "text",
+        "description": "OTHER:",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

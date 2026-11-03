@@ -1,0 +1,154 @@
+{
+  "id": "opnav551113pdf",
+  "label": "OPNAV5511-13(PDF) - Record Of Disclosure",
+  "directory": "OPNAV5511-13(PDF) - Record Of Disclosure",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "acty",
+        "actCtrlNo",
+        "origtr",
+        "cpyNo",
+        "serNo"
+      ]
+    }
+  ],
+  "fields": {
+    "acty": {
+      "type": "text",
+      "label": "ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 40.1,
+        "top": 739.2,
+        "width": 364.9,
+        "height": 17.1
+      }
+    },
+    "actCtrlNo": {
+      "type": "text",
+      "label": "ACTIVITY CONTROL NO.",
+      "page": 1,
+      "box": {
+        "left": 412.2,
+        "top": 739.2,
+        "width": 160.9,
+        "height": 17.1
+      }
+    },
+    "origtr": {
+      "type": "text",
+      "label": "ORIGINATOR",
+      "page": 1,
+      "box": {
+        "left": 40.1,
+        "top": 702.9,
+        "width": 290.7,
+        "height": 17.1
+      }
+    },
+    "cpyNo": {
+      "type": "text",
+      "label": "COPY NO.",
+      "page": 1,
+      "box": {
+        "left": 338.7,
+        "top": 702.9,
+        "width": 66.3,
+        "height": 17.1
+      }
+    },
+    "serNo": {
+      "type": "text",
+      "label": "SERIAL NO.",
+      "page": 1,
+      "box": {
+        "left": 412.2,
+        "top": 702.9,
+        "width": 160.9,
+        "height": 17.1
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 30,
+      "rowStride": 17.9,
+      "editor": "grid",
+      "columns": {
+        "activity": {
+          "type": "text",
+          "label": "ACTIVITY1",
+          "page": 1,
+          "box": {
+            "left": 37.3,
+            "top": 573.7,
+            "width": 72.9,
+            "height": 17.9
+          }
+        },
+        "frstLstNme": {
+          "type": "text",
+          "label": "FrstLstNme1",
+          "page": 1,
+          "box": {
+            "left": 110.2,
+            "top": 573.7,
+            "width": 126.8,
+            "height": 17.9
+          }
+        },
+        "adte": {
+          "type": "text",
+          "label": "Enter the date using the format DD MMM YYYY.",
+          "page": 1,
+          "box": {
+            "left": 237.0,
+            "top": 573.7,
+            "width": 69.4,
+            "height": 17.9
+          }
+        },
+        "bactivity": {
+          "type": "text",
+          "label": "BACTIVITY1",
+          "page": 1,
+          "box": {
+            "left": 306.3,
+            "top": 573.7,
+            "width": 72.9,
+            "height": 17.9
+          }
+        },
+        "bFrstLstNme": {
+          "type": "text",
+          "label": "BFrstLstNme1",
+          "page": 1,
+          "box": {
+            "left": 379.0,
+            "top": 573.7,
+            "width": 126.8,
+            "height": 17.9
+          }
+        },
+        "bdte": {
+          "type": "text",
+          "label": "Enter the date using the format DD MMM YYYY.",
+          "page": 1,
+          "box": {
+            "left": 506.0,
+            "top": 573.7,
+            "width": 69.4,
+            "height": 17.9
+          }
+        }
+      }
+    }
+  }
+}

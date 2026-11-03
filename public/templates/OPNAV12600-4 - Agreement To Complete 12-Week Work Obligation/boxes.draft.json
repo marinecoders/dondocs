@@ -1,0 +1,62 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "employeeName": {
+        "left": 48.1,
+        "top": 728.5,
+        "width": 216.6,
+        "height": 17.0,
+        "type": "text",
+        "description": "I,",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature1": {
+        "left": 362.8,
+        "top": 418.0,
+        "width": 204.3,
+        "height": 29.7,
+        "type": "text",
+        "description": "3. SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "1PRINTEDNAMELastFirstMiddleInitial": {
+        "left": 38.3,
+        "top": 417.7,
+        "width": 213.2,
+        "height": 28.8,
+        "type": "text",
+        "description": "1. PRINTED NAME ( Last, First, Middle Initial)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "2SIGNATUREDATE": {
+        "left": 253.8,
+        "top": 417.7,
+        "width": 105.7,
+        "height": 28.8,
+        "type": "text",
+        "description": "2. SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

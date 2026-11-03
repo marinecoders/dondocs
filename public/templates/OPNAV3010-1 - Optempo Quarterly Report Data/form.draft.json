@@ -1,0 +1,1764 @@
+{
+  "id": "opnav30101",
+  "label": "OPNAV3010-1 - Optempo Quarterly Report Data",
+  "directory": "OPNAV3010-1 - Optempo Quarterly Report Data",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "cvnuad",
+        "cvnuadd",
+        "cvnuadl",
+        "cvnwd",
+        "cvnwdl",
+        "cvnwrd",
+        "cvnwoad",
+        "cvnwldd3",
+        "cvnwlops183",
+        "cvnwuw",
+        "cvnwlu",
+        "cvnwj",
+        "esuad",
+        "esuadd",
+        "esuadl",
+        "eswd",
+        "eswdl",
+        "eswrd",
+        "eswoad",
+        "eswldd3",
+        "eswlops183",
+        "eswuw",
+        "eswj",
+        "eswlu",
+        "cvnacsuad",
+        "cvnacsuadd",
+        "cvnacsuadl",
+        "cvnacswd",
+        "cvnacswdl",
+        "cvnacswrd",
+        "cvnacswoad",
+        "cvnacswldd3",
+        "cvnacswlops183",
+        "cvnacswuw",
+        "cvnacswj",
+        "cvnacswlu",
+        "ampseuad",
+        "ampseuadd",
+        "ampseuadl",
+        "ampsewd",
+        "ampsewdl",
+        "ampsewrd",
+        "ampsewoad",
+        "ampsewldd3",
+        "ampsewlops183",
+        "ampseuw",
+        "ampsewj",
+        "ampsewlu",
+        "sscuad",
+        "sscuadd",
+        "sscuadl",
+        "sscwd",
+        "sscwdl",
+        "sscwrd",
+        "sscwoad",
+        "sscwldd3",
+        "sscwlops183",
+        "sscuw",
+        "sscwj",
+        "sscwlu",
+        "ssbuad",
+        "ssbuadd",
+        "ssbuadl",
+        "ssbwd",
+        "ssbwdl",
+        "ssbwrd",
+        "ssbwoad",
+        "ssbwldd3",
+        "ssbwlops183",
+        "ssbuw",
+        "ssbwlj",
+        "ssbwlu",
+        "snnuad",
+        "snnuadd",
+        "snnuadl",
+        "snnwd",
+        "snnwdl",
+        "snnwrd",
+        "snnwoad",
+        "snnwldd3",
+        "snnwlops183",
+        "snnuw",
+        "snnwj",
+        "snnwlu",
+        "fweauad",
+        "fweauadd",
+        "fweauadl",
+        "fweawd",
+        "fweawdl",
+        "fweawrd",
+        "fweawoad",
+        "fweawldd3",
+        "fweawlops183",
+        "fweauw",
+        "fweawj",
+        "fweawlu",
+        "rweauad",
+        "rweauadd",
+        "rweauadl",
+        "rweawd",
+        "rweawdl",
+        "rweawrd",
+        "rweawoad",
+        "rweawldd3",
+        "rweawlops183",
+        "rweauw",
+        "rweawj",
+        "rweawlu",
+        "neccuad",
+        "neccuadd",
+        "neccuadl",
+        "neccwd",
+        "neccwdl",
+        "neccwrd",
+        "neccwoad",
+        "neccwldd3",
+        "neccwlops183",
+        "neccuw",
+        "neccwj",
+        "neccwlu",
+        "nswuad",
+        "nswuadd",
+        "nswuadl",
+        "nswwd",
+        "nswwdl",
+        "nswwrd",
+        "nswwoad",
+        "nswwldd3",
+        "nswwlops183",
+        "nswuw",
+        "nswwj",
+        "nswwlu",
+        "cnmocuad",
+        "cnmocuadd",
+        "cnmocuadl",
+        "cnmocwd",
+        "cnmocwdl",
+        "cnmocwrd",
+        "cnmocwoad",
+        "cnmocwldd3",
+        "cnmocwlops183",
+        "cnmocuw",
+        "cnmocwj",
+        "cnmocwlu"
+      ]
+    }
+  ],
+  "fields": {
+    "cvnuad": {
+      "type": "text",
+      "label": "LIMITS",
+      "page": 1,
+      "box": {
+        "left": 106.4,
+        "top": 479.9,
+        "width": 39.2,
+        "height": 5.7
+      }
+    },
+    "cvnuadd": {
+      "type": "text",
+      "label": "LIMITS",
+      "page": 1,
+      "box": {
+        "left": 151.4,
+        "top": 479.9,
+        "width": 39.3,
+        "height": 5.7
+      }
+    },
+    "cvnuadl": {
+      "type": "text",
+      "label": "LIMITS",
+      "page": 1,
+      "box": {
+        "left": 196.4,
+        "top": 479.9,
+        "width": 39.3,
+        "height": 5.7
+      }
+    },
+    "cvnwd": {
+      "type": "text",
+      "label": "&lt;1:1",
+      "page": 1,
+      "box": {
+        "left": 389.9,
+        "top": 479.9,
+        "width": 30.3,
+        "height": 5.7
+      }
+    },
+    "cvnwdl": {
+      "type": "text",
+      "label": "&gt;213",
+      "page": 1,
+      "box": {
+        "left": 425.9,
+        "top": 479.9,
+        "width": 30.3,
+        "height": 5.7
+      }
+    },
+    "cvnwrd": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 461.8,
+        "top": 479.9,
+        "width": 61.7,
+        "height": 5.7
+      }
+    },
+    "cvnwoad": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 529.4,
+        "top": 479.9,
+        "width": 61.7,
+        "height": 5.7
+      }
+    },
+    "cvnwldd3": {
+      "type": "text",
+      "label": "IN 3 YEARS",
+      "page": 1,
+      "box": {
+        "left": 659.9,
+        "top": 479.9,
+        "width": 43.8,
+        "height": 5.7
+      }
+    },
+    "cvnwlops183": {
+      "type": "text",
+      "label": "&gt; 183 DAYS",
+      "page": 1,
+      "box": {
+        "left": 709.4,
+        "top": 479.9,
+        "width": 43.8,
+        "height": 5.7
+      }
+    },
+    "cvnwuw": {
+      "type": "text",
+      "label": "CVN",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 474.2,
+        "width": 39.3,
+        "height": 22.3
+      }
+    },
+    "cvnwlu": {
+      "type": "text",
+      "label": "CVN",
+      "page": 1,
+      "box": {
+        "left": 596.9,
+        "top": 474.2,
+        "width": 57.3,
+        "height": 22.3
+      }
+    },
+    "cvnwj": {
+      "type": "text",
+      "label": "CVN",
+      "page": 1,
+      "box": {
+        "left": 286.4,
+        "top": 473.9,
+        "width": 97.9,
+        "height": 22.3
+      }
+    },
+    "esuad": {
+      "type": "text",
+      "label": "LIMITS",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 451.6,
+        "width": 39.2,
+        "height": 5.7
+      }
+    },
+    "esuadd": {
+      "type": "text",
+      "label": "LIMITS",
+      "page": 1,
+      "box": {
+        "left": 151.4,
+        "top": 451.6,
+        "width": 39.3,
+        "height": 5.7
+      }
+    },
+    "esuadl": {
+      "type": "text",
+      "label": "LIMITS",
+      "page": 1,
+      "box": {
+        "left": 196.4,
+        "top": 451.6,
+        "width": 39.3,
+        "height": 5.7
+      }
+    },
+    "eswd": {
+      "type": "text",
+      "label": "&lt;1:1",
+      "page": 1,
+      "box": {
+        "left": 389.9,
+        "top": 451.6,
+        "width": 30.3,
+        "height": 5.7
+      }
+    },
+    "eswdl": {
+      "type": "text",
+      "label": "&gt;213",
+      "page": 1,
+      "box": {
+        "left": 425.9,
+        "top": 451.6,
+        "width": 30.3,
+        "height": 5.7
+      }
+    },
+    "eswrd": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 461.8,
+        "top": 451.6,
+        "width": 61.7,
+        "height": 5.7
+      }
+    },
+    "eswoad": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 529.4,
+        "top": 451.6,
+        "width": 61.7,
+        "height": 5.7
+      }
+    },
+    "eswldd3": {
+      "type": "text",
+      "label": "IN 3 YEARS",
+      "page": 1,
+      "box": {
+        "left": 659.9,
+        "top": 451.6,
+        "width": 43.8,
+        "height": 5.7
+      }
+    },
+    "eswlops183": {
+      "type": "text",
+      "label": "&gt; 183 DAYS",
+      "page": 1,
+      "box": {
+        "left": 709.4,
+        "top": 451.6,
+        "width": 43.8,
+        "height": 5.7
+      }
+    },
+    "eswuw": {
+      "type": "text",
+      "label": "STAFF",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 445.9,
+        "width": 39.3,
+        "height": 27.9
+      }
+    },
+    "eswj": {
+      "type": "text",
+      "label": "STAFF",
+      "page": 1,
+      "box": {
+        "left": 286.4,
+        "top": 445.9,
+        "width": 97.9,
+        "height": 27.9
+      }
+    },
+    "eswlu": {
+      "type": "text",
+      "label": "STAFF",
+      "page": 1,
+      "box": {
+        "left": 596.9,
+        "top": 445.9,
+        "width": 57.3,
+        "height": 27.9
+      }
+    },
+    "cvnacsuad": {
+      "type": "text",
+      "label": "LIMITS",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 418.0,
+        "width": 39.2,
+        "height": 5.7
+      }
+    },
+    "cvnacsuadd": {
+      "type": "text",
+      "label": "LIMITS",
+      "page": 1,
+      "box": {
+        "left": 151.4,
+        "top": 418.0,
+        "width": 39.3,
+        "height": 5.7
+      }
+    },
+    "cvnacsuadl": {
+      "type": "text",
+      "label": "LIMITS",
+      "page": 1,
+      "box": {
+        "left": 196.4,
+        "top": 418.0,
+        "width": 39.3,
+        "height": 5.7
+      }
+    },
+    "cvnacswd": {
+      "type": "text",
+      "label": "&lt;1:1",
+      "page": 1,
+      "box": {
+        "left": 389.9,
+        "top": 418.0,
+        "width": 30.3,
+        "height": 5.7
+      }
+    },
+    "cvnacswdl": {
+      "type": "text",
+      "label": "&gt;213",
+      "page": 1,
+      "box": {
+        "left": 425.9,
+        "top": 418.0,
+        "width": 30.3,
+        "height": 5.7
+      }
+    },
+    "cvnacswrd": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 461.8,
+        "top": 418.0,
+        "width": 61.7,
+        "height": 5.7
+      }
+    },
+    "cvnacswoad": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 529.4,
+        "top": 418.0,
+        "width": 61.7,
+        "height": 5.7
+      }
+    },
+    "cvnacswldd3": {
+      "type": "text",
+      "label": "IN 3 YEARS",
+      "page": 1,
+      "box": {
+        "left": 659.9,
+        "top": 418.0,
+        "width": 43.8,
+        "height": 5.7
+      }
+    },
+    "cvnacswlops183": {
+      "type": "text",
+      "label": "&gt; 183 DAYS",
+      "page": 1,
+      "box": {
+        "left": 709.4,
+        "top": 418.0,
+        "width": 43.8,
+        "height": 5.7
+      }
+    },
+    "cvnacswuw": {
+      "type": "text",
+      "label": "STAFF",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 412.3,
+        "width": 39.3,
+        "height": 33.5
+      },
+      "multiline": true
+    },
+    "cvnacswj": {
+      "type": "text",
+      "label": "STAFF",
+      "page": 1,
+      "box": {
+        "left": 286.4,
+        "top": 412.3,
+        "width": 97.5,
+        "height": 33.5
+      },
+      "multiline": true
+    },
+    "cvnacswlu": {
+      "type": "text",
+      "label": "STAFF",
+      "page": 1,
+      "box": {
+        "left": 596.9,
+        "top": 412.3,
+        "width": 57.3,
+        "height": 33.5
+      },
+      "multiline": true
+    },
+    "ampseuad": {
+      "type": "text",
+      "label": "LIMITS",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 378.8,
+        "width": 39.2,
+        "height": 5.7
+      }
+    },
+    "ampseuadd": {
+      "type": "text",
+      "label": "LIMITS",
+      "page": 1,
+      "box": {
+        "left": 151.4,
+        "top": 378.8,
+        "width": 39.3,
+        "height": 5.7
+      }
+    },
+    "ampseuadl": {
+      "type": "text",
+      "label": "LIMITS",
+      "page": 1,
+      "box": {
+        "left": 196.4,
+        "top": 378.8,
+        "width": 39.3,
+        "height": 5.7
+      }
+    },
+    "ampsewd": {
+      "type": "text",
+      "label": "&lt;1:1",
+      "page": 1,
+      "box": {
+        "left": 389.9,
+        "top": 378.8,
+        "width": 30.3,
+        "height": 5.7
+      }
+    },
+    "ampsewdl": {
+      "type": "text",
+      "label": "&gt;213",
+      "page": 1,
+      "box": {
+        "left": 425.9,
+        "top": 378.8,
+        "width": 30.3,
+        "height": 5.7
+      }
+    },
+    "ampsewrd": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 461.8,
+        "top": 378.8,
+        "width": 61.7,
+        "height": 5.7
+      }
+    },
+    "ampsewoad": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 529.4,
+        "top": 378.8,
+        "width": 61.7,
+        "height": 5.7
+      }
+    },
+    "ampsewldd3": {
+      "type": "text",
+      "label": "IN 3 YEARS",
+      "page": 1,
+      "box": {
+        "left": 659.9,
+        "top": 378.8,
+        "width": 43.8,
+        "height": 5.7
+      }
+    },
+    "ampsewlops183": {
+      "type": "text",
+      "label": "&gt; 183 DAYS",
+      "page": 1,
+      "box": {
+        "left": 709.4,
+        "top": 378.8,
+        "width": 43.8,
+        "height": 5.7
+      }
+    },
+    "ampseuw": {
+      "type": "text",
+      "label": "SHIPS/ESG",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 373.1,
+        "width": 39.3,
+        "height": 39.1
+      },
+      "multiline": true
+    },
+    "ampsewj": {
+      "type": "text",
+      "label": "SHIPS/ESG",
+      "page": 1,
+      "box": {
+        "left": 286.4,
+        "top": 373.1,
+        "width": 97.5,
+        "height": 39.1
+      },
+      "multiline": true
+    },
+    "ampsewlu": {
+      "type": "text",
+      "label": "SHIPS/ESG",
+      "page": 1,
+      "box": {
+        "left": 596.9,
+        "top": 373.1,
+        "width": 57.3,
+        "height": 39.1
+      },
+      "multiline": true
+    },
+    "sscuad": {
+      "type": "text",
+      "label": "LIMITS",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 334.0,
+        "width": 39.2,
+        "height": 5.7
+      }
+    },
+    "sscuadd": {
+      "type": "text",
+      "label": "LIMITS",
+      "page": 1,
+      "box": {
+        "left": 151.4,
+        "top": 333.9,
+        "width": 39.3,
+        "height": 5.7
+      }
+    },
+    "sscuadl": {
+      "type": "text",
+      "label": "LIMITS",
+      "page": 1,
+      "box": {
+        "left": 196.4,
+        "top": 333.9,
+        "width": 39.3,
+        "height": 5.7
+      }
+    },
+    "sscwd": {
+      "type": "text",
+      "label": "&lt;1:1",
+      "page": 1,
+      "box": {
+        "left": 389.9,
+        "top": 333.9,
+        "width": 30.3,
+        "height": 5.7
+      }
+    },
+    "sscwdl": {
+      "type": "text",
+      "label": "&gt;213",
+      "page": 1,
+      "box": {
+        "left": 425.9,
+        "top": 333.9,
+        "width": 30.3,
+        "height": 5.7
+      }
+    },
+    "sscwrd": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 461.8,
+        "top": 333.9,
+        "width": 61.7,
+        "height": 5.7
+      }
+    },
+    "sscwoad": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 529.4,
+        "top": 333.9,
+        "width": 61.7,
+        "height": 5.7
+      }
+    },
+    "sscwldd3": {
+      "type": "text",
+      "label": "IN 3 YEARS",
+      "page": 1,
+      "box": {
+        "left": 659.9,
+        "top": 333.9,
+        "width": 43.8,
+        "height": 5.7
+      }
+    },
+    "sscwlops183": {
+      "type": "text",
+      "label": "&gt; 183 DAYS",
+      "page": 1,
+      "box": {
+        "left": 709.4,
+        "top": 333.9,
+        "width": 43.8,
+        "height": 5.7
+      }
+    },
+    "sscuw": {
+      "type": "text",
+      "label": "SHIPS",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 328.3,
+        "width": 39.3,
+        "height": 39.1
+      },
+      "multiline": true
+    },
+    "sscwj": {
+      "type": "text",
+      "label": "SHIPS",
+      "page": 1,
+      "box": {
+        "left": 286.4,
+        "top": 328.3,
+        "width": 97.5,
+        "height": 39.1
+      },
+      "multiline": true
+    },
+    "sscwlu": {
+      "type": "text",
+      "label": "SHIPS",
+      "page": 1,
+      "box": {
+        "left": 596.9,
+        "top": 328.3,
+        "width": 57.3,
+        "height": 39.1
+      },
+      "multiline": true
+    },
+    "ssbuad": {
+      "type": "text",
+      "label": "LIMITS",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 289.2,
+        "width": 39.2,
+        "height": 5.7
+      }
+    },
+    "ssbuadd": {
+      "type": "text",
+      "label": "LIMITS",
+      "page": 1,
+      "box": {
+        "left": 151.4,
+        "top": 289.1,
+        "width": 39.3,
+        "height": 5.7
+      }
+    },
+    "ssbuadl": {
+      "type": "text",
+      "label": "LIMITS",
+      "page": 1,
+      "box": {
+        "left": 196.4,
+        "top": 289.1,
+        "width": 39.3,
+        "height": 5.7
+      }
+    },
+    "ssbwd": {
+      "type": "text",
+      "label": "&lt;1:1",
+      "page": 1,
+      "box": {
+        "left": 389.9,
+        "top": 289.1,
+        "width": 30.3,
+        "height": 5.7
+      }
+    },
+    "ssbwdl": {
+      "type": "text",
+      "label": "&gt;213",
+      "page": 1,
+      "box": {
+        "left": 425.9,
+        "top": 289.1,
+        "width": 30.3,
+        "height": 5.7
+      }
+    },
+    "ssbwrd": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 461.8,
+        "top": 289.1,
+        "width": 61.7,
+        "height": 5.7
+      }
+    },
+    "ssbwoad": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 529.4,
+        "top": 289.1,
+        "width": 61.7,
+        "height": 5.7
+      }
+    },
+    "ssbwldd3": {
+      "type": "text",
+      "label": "IN 3 YEARS",
+      "page": 1,
+      "box": {
+        "left": 659.9,
+        "top": 289.1,
+        "width": 43.8,
+        "height": 5.7
+      }
+    },
+    "ssbwlops183": {
+      "type": "text",
+      "label": "&gt; 183 DAYS",
+      "page": 1,
+      "box": {
+        "left": 709.4,
+        "top": 289.1,
+        "width": 43.8,
+        "height": 5.7
+      }
+    },
+    "ssbuw": {
+      "type": "text",
+      "label": "SHIPS",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 283.5,
+        "width": 39.3,
+        "height": 39.1
+      },
+      "multiline": true
+    },
+    "ssbwlj": {
+      "type": "text",
+      "label": "SHIPS",
+      "page": 1,
+      "box": {
+        "left": 286.4,
+        "top": 283.5,
+        "width": 97.5,
+        "height": 39.1
+      },
+      "multiline": true
+    },
+    "ssbwlu": {
+      "type": "text",
+      "label": "SHIPS",
+      "page": 1,
+      "box": {
+        "left": 596.9,
+        "top": 283.5,
+        "width": 57.3,
+        "height": 39.1
+      },
+      "multiline": true
+    },
+    "snnuad": {
+      "type": "text",
+      "label": "LIMITS",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 244.3,
+        "width": 39.2,
+        "height": 5.7
+      }
+    },
+    "snnuadd": {
+      "type": "text",
+      "label": "LIMITS",
+      "page": 1,
+      "box": {
+        "left": 151.4,
+        "top": 244.3,
+        "width": 39.3,
+        "height": 5.7
+      }
+    },
+    "snnuadl": {
+      "type": "text",
+      "label": "LIMITS",
+      "page": 1,
+      "box": {
+        "left": 196.4,
+        "top": 244.3,
+        "width": 39.3,
+        "height": 5.7
+      }
+    },
+    "snnwd": {
+      "type": "text",
+      "label": "&lt;1:1",
+      "page": 1,
+      "box": {
+        "left": 389.9,
+        "top": 244.3,
+        "width": 30.3,
+        "height": 5.7
+      }
+    },
+    "snnwdl": {
+      "type": "text",
+      "label": "&gt;213",
+      "page": 1,
+      "box": {
+        "left": 425.9,
+        "top": 244.3,
+        "width": 30.3,
+        "height": 5.7
+      }
+    },
+    "snnwrd": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 461.8,
+        "top": 244.3,
+        "width": 61.7,
+        "height": 5.7
+      }
+    },
+    "snnwoad": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 529.2,
+        "top": 244.3,
+        "width": 62.0,
+        "height": 5.7
+      }
+    },
+    "snnwldd3": {
+      "type": "text",
+      "label": "IN 3 YEARS",
+      "page": 1,
+      "box": {
+        "left": 659.9,
+        "top": 244.3,
+        "width": 43.8,
+        "height": 5.7
+      }
+    },
+    "snnwlops183": {
+      "type": "text",
+      "label": "&gt; 183 DAYS",
+      "page": 1,
+      "box": {
+        "left": 709.4,
+        "top": 244.3,
+        "width": 43.8,
+        "height": 5.7
+      }
+    },
+    "snnuw": {
+      "type": "text",
+      "label": "SSN",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 238.7,
+        "width": 39.3,
+        "height": 22.3
+      }
+    },
+    "snnwj": {
+      "type": "text",
+      "label": "SSN",
+      "page": 1,
+      "box": {
+        "left": 286.4,
+        "top": 238.7,
+        "width": 97.5,
+        "height": 22.3
+      }
+    },
+    "snnwlu": {
+      "type": "text",
+      "label": "SSN",
+      "page": 1,
+      "box": {
+        "left": 596.9,
+        "top": 238.7,
+        "width": 57.3,
+        "height": 22.3
+      }
+    },
+    "fweauad": {
+      "type": "text",
+      "label": "LIMITS",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 216.3,
+        "width": 39.2,
+        "height": 5.7
+      }
+    },
+    "fweauadd": {
+      "type": "text",
+      "label": "LIMITS",
+      "page": 1,
+      "box": {
+        "left": 151.4,
+        "top": 216.3,
+        "width": 39.3,
+        "height": 5.7
+      }
+    },
+    "fweauadl": {
+      "type": "text",
+      "label": "LIMITS",
+      "page": 1,
+      "box": {
+        "left": 196.4,
+        "top": 216.3,
+        "width": 39.3,
+        "height": 5.7
+      }
+    },
+    "fweawd": {
+      "type": "text",
+      "label": "&lt;1:1",
+      "page": 1,
+      "box": {
+        "left": 389.9,
+        "top": 216.3,
+        "width": 30.3,
+        "height": 5.7
+      }
+    },
+    "fweawdl": {
+      "type": "text",
+      "label": "&gt;213",
+      "page": 1,
+      "box": {
+        "left": 425.9,
+        "top": 216.3,
+        "width": 30.3,
+        "height": 5.7
+      }
+    },
+    "fweawrd": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 461.8,
+        "top": 216.3,
+        "width": 61.7,
+        "height": 5.7
+      }
+    },
+    "fweawoad": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 529.4,
+        "top": 216.3,
+        "width": 62.0,
+        "height": 5.7
+      }
+    },
+    "fweawldd3": {
+      "type": "text",
+      "label": "IN 3 YEARS",
+      "page": 1,
+      "box": {
+        "left": 659.9,
+        "top": 216.3,
+        "width": 43.8,
+        "height": 5.7
+      }
+    },
+    "fweawlops183": {
+      "type": "text",
+      "label": "&gt; 183 DAYS",
+      "page": 1,
+      "box": {
+        "left": 709.4,
+        "top": 216.3,
+        "width": 43.8,
+        "height": 5.7
+      }
+    },
+    "fweauw": {
+      "type": "text",
+      "label": "EXPEDITIONARY",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 210.6,
+        "width": 39.3,
+        "height": 39.1
+      },
+      "multiline": true
+    },
+    "fweawj": {
+      "type": "text",
+      "label": "EXPEDITIONARY",
+      "page": 1,
+      "box": {
+        "left": 286.4,
+        "top": 210.6,
+        "width": 97.5,
+        "height": 39.1
+      },
+      "multiline": true
+    },
+    "fweawlu": {
+      "type": "text",
+      "label": "EXPEDITIONARY",
+      "page": 1,
+      "box": {
+        "left": 596.9,
+        "top": 210.6,
+        "width": 57.3,
+        "height": 39.1
+      },
+      "multiline": true
+    },
+    "rweauad": {
+      "type": "text",
+      "label": "LIMITS",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 171.5,
+        "width": 39.2,
+        "height": 5.7
+      }
+    },
+    "rweauadd": {
+      "type": "text",
+      "label": "LIMITS",
+      "page": 1,
+      "box": {
+        "left": 151.4,
+        "top": 171.5,
+        "width": 39.3,
+        "height": 5.7
+      }
+    },
+    "rweauadl": {
+      "type": "text",
+      "label": "LIMITS",
+      "page": 1,
+      "box": {
+        "left": 196.4,
+        "top": 171.5,
+        "width": 39.3,
+        "height": 5.7
+      }
+    },
+    "rweawd": {
+      "type": "text",
+      "label": "&lt;1:1",
+      "page": 1,
+      "box": {
+        "left": 389.9,
+        "top": 171.5,
+        "width": 30.3,
+        "height": 5.7
+      }
+    },
+    "rweawdl": {
+      "type": "text",
+      "label": "&gt;213",
+      "page": 1,
+      "box": {
+        "left": 425.9,
+        "top": 171.5,
+        "width": 30.3,
+        "height": 5.7
+      }
+    },
+    "rweawrd": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 461.8,
+        "top": 171.5,
+        "width": 61.7,
+        "height": 5.7
+      }
+    },
+    "rweawoad": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 529.4,
+        "top": 171.5,
+        "width": 62.0,
+        "height": 5.7
+      }
+    },
+    "rweawldd3": {
+      "type": "text",
+      "label": "IN 3 YEARS",
+      "page": 1,
+      "box": {
+        "left": 659.9,
+        "top": 171.5,
+        "width": 43.8,
+        "height": 5.7
+      }
+    },
+    "rweawlops183": {
+      "type": "text",
+      "label": "&gt; 183 DAYS",
+      "page": 1,
+      "box": {
+        "left": 709.4,
+        "top": 171.5,
+        "width": 43.8,
+        "height": 5.7
+      }
+    },
+    "rweauw": {
+      "type": "text",
+      "label": "EXPEDITIONARY",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 165.8,
+        "width": 39.3,
+        "height": 39.1
+      },
+      "multiline": true
+    },
+    "rweawj": {
+      "type": "text",
+      "label": "EXPEDITIONARY",
+      "page": 1,
+      "box": {
+        "left": 286.4,
+        "top": 165.8,
+        "width": 97.5,
+        "height": 39.1
+      },
+      "multiline": true
+    },
+    "rweawlu": {
+      "type": "text",
+      "label": "EXPEDITIONARY",
+      "page": 1,
+      "box": {
+        "left": 596.9,
+        "top": 165.8,
+        "width": 57.3,
+        "height": 39.1
+      },
+      "multiline": true
+    },
+    "neccuad": {
+      "type": "text",
+      "label": "LIMITS",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 126.7,
+        "width": 39.2,
+        "height": 5.7
+      }
+    },
+    "neccuadd": {
+      "type": "text",
+      "label": "LIMITS",
+      "page": 1,
+      "box": {
+        "left": 151.4,
+        "top": 126.7,
+        "width": 39.3,
+        "height": 5.7
+      }
+    },
+    "neccuadl": {
+      "type": "text",
+      "label": "LIMITS",
+      "page": 1,
+      "box": {
+        "left": 196.4,
+        "top": 126.7,
+        "width": 39.3,
+        "height": 5.7
+      }
+    },
+    "neccwd": {
+      "type": "text",
+      "label": "&lt;1:1",
+      "page": 1,
+      "box": {
+        "left": 389.9,
+        "top": 126.7,
+        "width": 30.3,
+        "height": 5.7
+      }
+    },
+    "neccwdl": {
+      "type": "text",
+      "label": "&gt;213",
+      "page": 1,
+      "box": {
+        "left": 425.9,
+        "top": 126.7,
+        "width": 30.3,
+        "height": 5.7
+      }
+    },
+    "neccwrd": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 461.8,
+        "top": 126.7,
+        "width": 61.7,
+        "height": 5.7
+      }
+    },
+    "neccwoad": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 529.4,
+        "top": 126.7,
+        "width": 62.0,
+        "height": 5.7
+      }
+    },
+    "neccwldd3": {
+      "type": "text",
+      "label": "IN 3 YEARS",
+      "page": 1,
+      "box": {
+        "left": 659.9,
+        "top": 126.7,
+        "width": 43.8,
+        "height": 5.7
+      }
+    },
+    "neccwlops183": {
+      "type": "text",
+      "label": "&gt; 183 DAYS",
+      "page": 1,
+      "box": {
+        "left": 709.4,
+        "top": 126.7,
+        "width": 43.8,
+        "height": 5.7
+      }
+    },
+    "neccuw": {
+      "type": "text",
+      "label": "NECC",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 121.0,
+        "width": 39.3,
+        "height": 22.3
+      }
+    },
+    "neccwj": {
+      "type": "text",
+      "label": "NECC",
+      "page": 1,
+      "box": {
+        "left": 286.4,
+        "top": 121.0,
+        "width": 97.5,
+        "height": 22.3
+      }
+    },
+    "neccwlu": {
+      "type": "text",
+      "label": "NECC",
+      "page": 1,
+      "box": {
+        "left": 596.9,
+        "top": 121.0,
+        "width": 57.3,
+        "height": 22.3
+      }
+    },
+    "nswuad": {
+      "type": "text",
+      "label": "LIMITS",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 98.7,
+        "width": 39.2,
+        "height": 5.7
+      }
+    },
+    "nswuadd": {
+      "type": "text",
+      "label": "LIMITS",
+      "page": 1,
+      "box": {
+        "left": 151.4,
+        "top": 98.7,
+        "width": 39.3,
+        "height": 5.7
+      }
+    },
+    "nswuadl": {
+      "type": "text",
+      "label": "LIMITS",
+      "page": 1,
+      "box": {
+        "left": 196.4,
+        "top": 98.7,
+        "width": 39.3,
+        "height": 5.7
+      }
+    },
+    "nswwd": {
+      "type": "text",
+      "label": "&lt;1:1",
+      "page": 1,
+      "box": {
+        "left": 389.9,
+        "top": 98.7,
+        "width": 30.3,
+        "height": 5.7
+      }
+    },
+    "nswwdl": {
+      "type": "text",
+      "label": "&gt;213",
+      "page": 1,
+      "box": {
+        "left": 425.9,
+        "top": 98.7,
+        "width": 30.3,
+        "height": 5.7
+      }
+    },
+    "nswwrd": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 461.8,
+        "top": 98.7,
+        "width": 61.7,
+        "height": 5.7
+      }
+    },
+    "nswwoad": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 529.4,
+        "top": 98.7,
+        "width": 62.0,
+        "height": 5.7
+      }
+    },
+    "nswwldd3": {
+      "type": "text",
+      "label": "IN 3 YEARS",
+      "page": 1,
+      "box": {
+        "left": 659.9,
+        "top": 98.7,
+        "width": 43.8,
+        "height": 5.7
+      }
+    },
+    "nswwlops183": {
+      "type": "text",
+      "label": "&gt; 183 DAYS",
+      "page": 1,
+      "box": {
+        "left": 709.4,
+        "top": 98.7,
+        "width": 43.8,
+        "height": 5.7
+      }
+    },
+    "nswuw": {
+      "type": "text",
+      "label": "NSW",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 93.0,
+        "width": 39.3,
+        "height": 22.3
+      }
+    },
+    "nswwj": {
+      "type": "text",
+      "label": "NSW",
+      "page": 1,
+      "box": {
+        "left": 286.4,
+        "top": 93.0,
+        "width": 97.5,
+        "height": 22.3
+      }
+    },
+    "nswwlu": {
+      "type": "text",
+      "label": "NSW",
+      "page": 1,
+      "box": {
+        "left": 596.9,
+        "top": 93.0,
+        "width": 57.3,
+        "height": 22.3
+      }
+    },
+    "cnmocuad": {
+      "type": "text",
+      "label": "LIMITS",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 70.7,
+        "width": 39.2,
+        "height": 5.7
+      }
+    },
+    "cnmocuadd": {
+      "type": "text",
+      "label": "LIMITS",
+      "page": 1,
+      "box": {
+        "left": 151.4,
+        "top": 70.7,
+        "width": 39.3,
+        "height": 5.7
+      }
+    },
+    "cnmocuadl": {
+      "type": "text",
+      "label": "LIMITS",
+      "page": 1,
+      "box": {
+        "left": 196.4,
+        "top": 70.7,
+        "width": 39.3,
+        "height": 5.7
+      }
+    },
+    "cnmocwd": {
+      "type": "text",
+      "label": "&lt;1:1",
+      "page": 1,
+      "box": {
+        "left": 389.9,
+        "top": 70.7,
+        "width": 30.3,
+        "height": 5.7
+      }
+    },
+    "cnmocwdl": {
+      "type": "text",
+      "label": "&gt;213",
+      "page": 1,
+      "box": {
+        "left": 425.9,
+        "top": 70.7,
+        "width": 30.3,
+        "height": 5.7
+      }
+    },
+    "cnmocwrd": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 461.8,
+        "top": 70.7,
+        "width": 61.7,
+        "height": 5.7
+      }
+    },
+    "cnmocwoad": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 529.4,
+        "top": 70.7,
+        "width": 62.0,
+        "height": 5.7
+      }
+    },
+    "cnmocwldd3": {
+      "type": "text",
+      "label": "IN 3 YEARS",
+      "page": 1,
+      "box": {
+        "left": 659.9,
+        "top": 70.7,
+        "width": 43.8,
+        "height": 5.7
+      }
+    },
+    "cnmocwlops183": {
+      "type": "text",
+      "label": "&gt; 183 DAYS",
+      "page": 1,
+      "box": {
+        "left": 709.4,
+        "top": 70.7,
+        "width": 43.8,
+        "height": 5.7
+      }
+    },
+    "cnmocuw": {
+      "type": "text",
+      "label": "CNMOC",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 65.0,
+        "width": 39.3,
+        "height": 22.3
+      }
+    },
+    "cnmocwj": {
+      "type": "text",
+      "label": "CNMOC",
+      "page": 1,
+      "box": {
+        "left": 286.4,
+        "top": 65.0,
+        "width": 97.5,
+        "height": 22.3
+      }
+    },
+    "cnmocwlu": {
+      "type": "text",
+      "label": "CNMOC",
+      "page": 1,
+      "box": {
+        "left": 596.9,
+        "top": 65.0,
+        "width": 57.3,
+        "height": 22.3
+      }
+    }
+  }
+}

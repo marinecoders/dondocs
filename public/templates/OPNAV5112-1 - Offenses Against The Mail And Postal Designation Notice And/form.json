@@ -1,0 +1,443 @@
+{
+  "id": "opnav51121",
+  "label": "OPNAV5112-1 - Offenses Against The Mail And Postal Designation Notice And",
+  "directory": "OPNAV5112-1 - Offenses Against The Mail And Postal Designation Notice And",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "rankName",
+        "date",
+        "ack1Sig1",
+        "ack2Sig2",
+        "ack3Sig3",
+        "ack4Sig4"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "ack5Sig5",
+        "appointeeName",
+        "appName",
+        "appSigDte",
+        "appSig",
+        "appOffName",
+        "appOffSigDte",
+        "appOffSign",
+        "sig1",
+        "dte1",
+        "sig2",
+        "dte2",
+        "sig3",
+        "dte3",
+        "appOfficial",
+        "doDID",
+        "appOffSigDte2",
+        "appOffSign2",
+        "checkBox1",
+        "checkBox2",
+        "checkBox3",
+        "checkBox4",
+        "appOff",
+        "appOffDte",
+        "appOffSig",
+        "appDte",
+        "mailCardNum",
+        "trainComDte",
+        "revTranDte"
+      ]
+    }
+  ],
+  "fields": {
+    "rankName": {
+      "type": "text",
+      "label": "RANK/FULL NAME",
+      "page": 1,
+      "box": {
+        "left": 132.9,
+        "top": 718.1,
+        "width": 265.2,
+        "height": 14.9
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 433.7,
+        "top": 718.1,
+        "width": 139.5,
+        "height": 14.9
+      }
+    },
+    "ack1Sig1": {
+      "type": "text",
+      "label": "2. General. Appointee&apos;s References Signature: (a)",
+      "page": 1,
+      "box": {
+        "left": 154.2,
+        "top": 566.3,
+        "width": 180.7,
+        "height": 12.8
+      }
+    },
+    "ack2Sig2": {
+      "type": "text",
+      "label": "Appointee&apos;s Signature",
+      "page": 1,
+      "box": {
+        "left": 154.2,
+        "top": 457.3,
+        "width": 180.7,
+        "height": 12.8
+      }
+    },
+    "ack3Sig3": {
+      "type": "text",
+      "label": "Prohibitions",
+      "page": 1,
+      "box": {
+        "left": 154.2,
+        "top": 413.5,
+        "width": 180.7,
+        "height": 12.8
+      }
+    },
+    "ack4Sig4": {
+      "type": "text",
+      "label": "Appointee&apos;s Signature",
+      "page": 1,
+      "box": {
+        "left": 154.2,
+        "top": 199.4,
+        "width": 180.7,
+        "height": 12.8
+      }
+    },
+    "ack5Sig5": {
+      "type": "text",
+      "label": "I, Appointee&apos;s Signature",
+      "page": 2,
+      "box": {
+        "left": 143.5,
+        "top": 435.9,
+        "width": 180.7,
+        "height": 12.8
+      }
+    },
+    "appointeeName": {
+      "type": "text",
+      "label": "through 5",
+      "page": 2,
+      "box": {
+        "left": 47.6,
+        "top": 401.9,
+        "width": 263.9,
+        "height": 13.0
+      }
+    },
+    "appName": {
+      "type": "text",
+      "label": "APPOINTEE NAME",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 363.0,
+        "width": 199.7,
+        "height": 18.8
+      }
+    },
+    "appSigDte": {
+      "type": "text",
+      "label": "DATE OF SIGNATURE",
+      "page": 2,
+      "box": {
+        "left": 244.2,
+        "top": 363.0,
+        "width": 85.8,
+        "height": 18.8
+      }
+    },
+    "appSig": {
+      "type": "text",
+      "label": "APPOINTEE SIGNATURE",
+      "page": 2,
+      "box": {
+        "left": 335.7,
+        "top": 363.0,
+        "width": 236.8,
+        "height": 18.8
+      }
+    },
+    "appOffName": {
+      "type": "text",
+      "label": "OMM/RPM/POSTAL OFFICER NAME",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 330.3,
+        "width": 199.7,
+        "height": 19.1
+      }
+    },
+    "appOffSigDte": {
+      "type": "text",
+      "label": "DATE OF SIGNATURE",
+      "page": 2,
+      "box": {
+        "left": 244.2,
+        "top": 330.3,
+        "width": 85.8,
+        "height": 19.1
+      }
+    },
+    "appOffSign": {
+      "type": "text",
+      "label": "OMM/RPM/POSTAL OFFICER SIGNATURE",
+      "page": 2,
+      "box": {
+        "left": 335.7,
+        "top": 329.9,
+        "width": 236.8,
+        "height": 18.8
+      }
+    },
+    "sig1": {
+      "type": "text",
+      "label": "OMM/RPM/POSTAL OFFICER NAME",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 290.0,
+        "width": 116.0,
+        "height": 18.6
+      }
+    },
+    "dte1": {
+      "type": "text",
+      "label": "NAME",
+      "page": 2,
+      "box": {
+        "left": 160.5,
+        "top": 290.0,
+        "width": 53.7,
+        "height": 18.6
+      }
+    },
+    "sig2": {
+      "type": "text",
+      "label": "ANNUAL UPDATE",
+      "page": 2,
+      "box": {
+        "left": 219.9,
+        "top": 290.0,
+        "width": 116.0,
+        "height": 18.6
+      }
+    },
+    "dte2": {
+      "type": "text",
+      "label": "UPDATE",
+      "page": 2,
+      "box": {
+        "left": 341.5,
+        "top": 290.0,
+        "width": 52.7,
+        "height": 18.6
+      }
+    },
+    "sig3": {
+      "type": "text",
+      "label": "OMM/RPM/POSTAL OFFICER SIGNATURE",
+      "page": 2,
+      "box": {
+        "left": 399.9,
+        "top": 290.0,
+        "width": 116.0,
+        "height": 18.2
+      }
+    },
+    "dte3": {
+      "type": "text",
+      "label": "paragraphs 1",
+      "page": 2,
+      "box": {
+        "left": 521.5,
+        "top": 290.0,
+        "width": 51.7,
+        "height": 18.6
+      }
+    },
+    "appOfficial": {
+      "type": "text",
+      "label": "I,",
+      "page": 2,
+      "box": {
+        "left": 47.6,
+        "top": 223.8,
+        "width": 277.5,
+        "height": 11.1
+      }
+    },
+    "doDID": {
+      "type": "text",
+      "label": "DoD ID NUMBER",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 152.2,
+        "width": 196.9,
+        "height": 14.3
+      }
+    },
+    "appOffSigDte2": {
+      "type": "text",
+      "label": "SECURITY CLEARANCE LEVEL",
+      "page": 2,
+      "box": {
+        "left": 241.3,
+        "top": 152.2,
+        "width": 196.9,
+        "height": 14.3
+      }
+    },
+    "appOffSign2": {
+      "type": "text",
+      "label": "EXPIRATION DATE",
+      "page": 2,
+      "box": {
+        "left": 443.9,
+        "top": 151.9,
+        "width": 129.3,
+        "height": 13.9
+      }
+    },
+    "checkBox1": {
+      "type": "checkbox",
+      "label": "DoD",
+      "page": 2,
+      "box": {
+        "left": 43.0,
+        "top": 126.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox2": {
+      "type": "checkbox",
+      "label": "(EXCEPT ACCOUNTABLE)",
+      "page": 2,
+      "box": {
+        "left": 174.4,
+        "top": 126.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox3": {
+      "type": "checkbox",
+      "label": "(ALL)",
+      "page": 2,
+      "box": {
+        "left": 308.7,
+        "top": 126.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox4": {
+      "type": "checkbox",
+      "label": "(ALL)",
+      "page": 2,
+      "box": {
+        "left": 444.9,
+        "top": 126.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "appOff": {
+      "type": "text",
+      "label": "APPOINTING OFFICIAL PRINTED NAME",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 100.7,
+        "width": 228.9,
+        "height": 19.1
+      }
+    },
+    "appOffDte": {
+      "type": "text",
+      "label": "DATE OF SIGNATURE",
+      "page": 2,
+      "box": {
+        "left": 273.4,
+        "top": 100.7,
+        "width": 85.8,
+        "height": 19.1
+      }
+    },
+    "appOffSig": {
+      "type": "text",
+      "label": "APPOINTING OFFICIAL SIGNATURE",
+      "page": 2,
+      "box": {
+        "left": 364.8,
+        "top": 100.3,
+        "width": 208.4,
+        "height": 18.8
+      }
+    },
+    "appDte": {
+      "type": "text",
+      "label": "APPOINTMENT DATE",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 54.1,
+        "width": 129.6,
+        "height": 15.3
+      }
+    },
+    "mailCardNum": {
+      "type": "text",
+      "label": "MAIL CARD #",
+      "page": 2,
+      "box": {
+        "left": 174.1,
+        "top": 54.1,
+        "width": 129.6,
+        "height": 15.3
+      }
+    },
+    "trainComDte": {
+      "type": "text",
+      "label": "TRAINING COMPLETED DATE",
+      "page": 2,
+      "box": {
+        "left": 309.4,
+        "top": 54.1,
+        "width": 126.7,
+        "height": 15.3
+      }
+    },
+    "revTranDte": {
+      "type": "text",
+      "label": "REVOCATION/TRANSFER DATE",
+      "page": 2,
+      "box": {
+        "left": 441.7,
+        "top": 54.1,
+        "width": 131.5,
+        "height": 15.3
+      }
+    }
+  }
+}

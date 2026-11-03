@@ -1,0 +1,740 @@
+{
+  "id": "navmc11911",
+  "label": "NAVMC 11911 - Report Of Result Fotrial",
+  "directory": "NAVMC11911 - Report Of Result Fotrial",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "nameofAccused",
+        "edipi",
+        "gradeofAccused",
+        "serviceofAccused",
+        "unitofAccused",
+        "nameofConveningAuthority",
+        "typeofCourt",
+        "charge",
+        "pleatoCharge",
+        "findingonCharge",
+        "pleatoSpec",
+        "findingonSpec",
+        "spec",
+        "dibrs",
+        "discharge",
+        "reduction",
+        "confinement",
+        "reprimand",
+        "forfeiture",
+        "fine",
+        "other",
+        "clemency",
+        "dateofSentence",
+        "preferral",
+        "pretrial",
+        "article32",
+        "adjForfeitures",
+        "referral",
+        "adjReduction",
+        "courtOrdered",
+        "arg",
+        "autoForfeitures",
+        "otherCredit",
+        "trial",
+        "totalCredit",
+        "dateofPunishments",
+        "radio",
+        "radio2",
+        "dNACollection",
+        "hazing",
+        "mentalIncompetence",
+        "sexAssault",
+        "sexOffender",
+        "otherNotifications",
+        "judge",
+        "reporter",
+        "tc",
+        "timeinCourt",
+        "rls",
+        "signatureField1",
+        "prntNmeRnkTitl"
+      ]
+    }
+  ],
+  "fields": {
+    "nameofAccused": {
+      "type": "text",
+      "label": "1. FULL NAME OF ACCUSED: (Last, First, Middle)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 715.2,
+        "width": 300.4,
+        "height": 16.3
+      }
+    },
+    "edipi": {
+      "type": "text",
+      "label": "2. DoD EDIPI",
+      "page": 1,
+      "box": {
+        "left": 344.9,
+        "top": 715.2,
+        "width": 70.8,
+        "height": 16.3
+      }
+    },
+    "gradeofAccused": {
+      "type": "choice",
+      "label": "3. GRADE",
+      "page": 1,
+      "box": {
+        "left": 422.1,
+        "top": 713.2,
+        "width": 60.3,
+        "height": 13.5
+      },
+      "options": [
+        "E-1",
+        "E-2",
+        "E-3",
+        "E-4",
+        "E-5",
+        "E-6",
+        "E-7",
+        "E-8",
+        "E-9",
+        "WO",
+        "CWO2",
+        "CWO3",
+        "CWO4",
+        "CWO5",
+        "O-1",
+        "O-2",
+        "O-3",
+        "O-4",
+        "O-5",
+        "O-6",
+        "O-7",
+        "O-8",
+        "O-9"
+      ]
+    },
+    "serviceofAccused": {
+      "type": "choice",
+      "label": "4. SERVICE",
+      "page": 1,
+      "box": {
+        "left": 489.6,
+        "top": 713.2,
+        "width": 82.8,
+        "height": 13.5
+      },
+      "options": [
+        "USA",
+        "USN",
+        "USAF",
+        "USMC",
+        "USCG"
+      ]
+    },
+    "unitofAccused": {
+      "type": "text",
+      "label": "5. UNIT",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 681.0,
+        "width": 260.1,
+        "height": 15.0
+      }
+    },
+    "nameofConveningAuthority": {
+      "type": "choice",
+      "label": "6. TYPE OF COURT &amp; FORUM",
+      "page": 1,
+      "box": {
+        "left": 305.1,
+        "top": 680.2,
+        "width": 267.4,
+        "height": 13.5
+      },
+      "options": [
+        "SPECIAL - MILITARY JUDGE",
+        "SPECIAL - OFFICER MEMBERS",
+        "SPECIAL - ENLISTED MEMBERS",
+        "GENERAL - MILITARY JUDGE",
+        "GENERAL - OFFICER MEMBERS",
+        "GENERAL - ENLISTED MEMBERS"
+      ]
+    },
+    "typeofCourt": {
+      "type": "text",
+      "label": "7. CONVENING AUTHORITY",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 648.0,
+        "width": 534.4,
+        "height": 15.0
+      }
+    },
+    "charge": {
+      "type": "text",
+      "label": "CHARGE",
+      "page": 1,
+      "box": {
+        "left": 95.1,
+        "top": 616.7,
+        "width": 314.5,
+        "height": 18.0
+      }
+    },
+    "pleatoCharge": {
+      "type": "choice",
+      "label": "CHARGE",
+      "page": 1,
+      "box": {
+        "left": 410.3,
+        "top": 615.9,
+        "width": 52.5,
+        "height": 16.5
+      },
+      "options": [
+        "NG",
+        "G",
+        "G by E&S",
+        "G of LIO"
+      ]
+    },
+    "findingonCharge": {
+      "type": "choice",
+      "label": "CHARGE",
+      "page": 1,
+      "box": {
+        "left": 464.3,
+        "top": 615.9,
+        "width": 52.5,
+        "height": 16.5
+      },
+      "options": [
+        "NG",
+        "G",
+        "G by E&S",
+        "G of LIO",
+        "W/D"
+      ]
+    },
+    "pleatoSpec": {
+      "type": "choice",
+      "label": "Specification",
+      "page": 1,
+      "box": {
+        "left": 410.3,
+        "top": 599.4,
+        "width": 52.5,
+        "height": 1.5
+      },
+      "options": [
+        "NG",
+        "G",
+        "G by E&S",
+        "G of LIO"
+      ]
+    },
+    "findingonSpec": {
+      "type": "choice",
+      "label": "Specification",
+      "page": 1,
+      "box": {
+        "left": 464.3,
+        "top": 599.4,
+        "width": 52.5,
+        "height": 1.5
+      },
+      "options": [
+        "NG",
+        "G",
+        "G by E&S",
+        "G of LIO",
+        "W/D"
+      ]
+    },
+    "spec": {
+      "type": "text",
+      "label": "Specification",
+      "page": 1,
+      "box": {
+        "left": 111.6,
+        "top": 598.7,
+        "width": 298.0,
+        "height": 9.6
+      }
+    },
+    "dibrs": {
+      "type": "text",
+      "label": "Specification",
+      "page": 1,
+      "box": {
+        "left": 517.6,
+        "top": 598.7,
+        "width": 58.5,
+        "height": 10.0
+      }
+    },
+    "discharge": {
+      "type": "choice",
+      "label": "SENTENCE",
+      "page": 1,
+      "box": {
+        "left": 140.6,
+        "top": 574.4,
+        "width": 164.7,
+        "height": 12.0
+      },
+      "options": [
+        "Bad Conduct Discharge",
+        "Dishonorable Discharge",
+        "Dismissal",
+        "Not Adjudged",
+        "N/A"
+      ]
+    },
+    "reduction": {
+      "type": "choice",
+      "label": "REDUCTION",
+      "page": 1,
+      "box": {
+        "left": 410.5,
+        "top": 574.4,
+        "width": 164.7,
+        "height": 12.0
+      },
+      "options": [
+        "E-1",
+        "E-2",
+        "E-3",
+        "E-4",
+        "E-5",
+        "E-6",
+        "E-7",
+        "E-8"
+      ]
+    },
+    "confinement": {
+      "type": "text",
+      "label": "CONFINEMENT",
+      "page": 1,
+      "box": {
+        "left": 409.8,
+        "top": 561.7,
+        "width": 166.2,
+        "height": 13.5
+      }
+    },
+    "reprimand": {
+      "type": "choice",
+      "label": "REDUCTION",
+      "page": 1,
+      "box": {
+        "left": 140.6,
+        "top": 560.9,
+        "width": 164.7,
+        "height": 12.0
+      },
+      "options": [
+        "Yes",
+        "Not Adjudged"
+      ]
+    },
+    "forfeiture": {
+      "type": "text",
+      "label": "CONFINEMENT",
+      "page": 1,
+      "box": {
+        "left": 139.8,
+        "top": 548.2,
+        "width": 166.2,
+        "height": 13.5
+      }
+    },
+    "fine": {
+      "type": "text",
+      "label": "FINE",
+      "page": 1,
+      "box": {
+        "left": 409.8,
+        "top": 548.2,
+        "width": 166.2,
+        "height": 13.5
+      }
+    },
+    "other": {
+      "type": "text",
+      "label": "FINE",
+      "page": 1,
+      "box": {
+        "left": 138.6,
+        "top": 534.6,
+        "width": 167.4,
+        "height": 27.0
+      }
+    },
+    "clemency": {
+      "type": "text",
+      "label": "RECOMMENDATION CLEMENCY",
+      "page": 1,
+      "box": {
+        "left": 409.8,
+        "top": 534.6,
+        "width": 166.2,
+        "height": 27.0
+      }
+    },
+    "dateofSentence": {
+      "type": "text",
+      "label": "Date of Sentence",
+      "page": 1,
+      "box": {
+        "left": 304.8,
+        "top": 494.1,
+        "width": 75.6,
+        "height": 13.5
+      }
+    },
+    "preferral": {
+      "type": "text",
+      "label": "Preferral Date 1",
+      "page": 1,
+      "box": {
+        "left": 136.2,
+        "top": 494.0,
+        "width": 70.3,
+        "height": 13.5
+      }
+    },
+    "pretrial": {
+      "type": "text",
+      "label": "PRETRIAL (Days )",
+      "page": 1,
+      "box": {
+        "left": 483.9,
+        "top": 491.3,
+        "width": 89.0,
+        "height": 21.3
+      }
+    },
+    "article32": {
+      "type": "text",
+      "label": "Article 32 Date 1",
+      "page": 1,
+      "box": {
+        "left": 136.2,
+        "top": 480.5,
+        "width": 70.3,
+        "height": 13.5
+      }
+    },
+    "adjForfeitures": {
+      "type": "checkbox",
+      "label": "Adjudged forfeitures",
+      "page": 1,
+      "box": {
+        "left": 364.0,
+        "top": 477.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "referral": {
+      "type": "text",
+      "label": "Referral Date 1",
+      "page": 1,
+      "box": {
+        "left": 136.2,
+        "top": 467.0,
+        "width": 70.3,
+        "height": 13.5
+      }
+    },
+    "adjReduction": {
+      "type": "checkbox",
+      "label": "Adjudged reduction in grade",
+      "page": 1,
+      "box": {
+        "left": 363.4,
+        "top": 464.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "courtOrdered": {
+      "type": "text",
+      "label": "COURT ORDERED (Days)",
+      "page": 1,
+      "box": {
+        "left": 483.9,
+        "top": 464.4,
+        "width": 89.0,
+        "height": 21.3
+      }
+    },
+    "arg": {
+      "type": "text",
+      "label": "Arraignment Date 1",
+      "page": 1,
+      "box": {
+        "left": 136.2,
+        "top": 453.5,
+        "width": 70.3,
+        "height": 13.5
+      }
+    },
+    "autoForfeitures": {
+      "type": "checkbox",
+      "label": "Automatic forfeitures",
+      "page": 1,
+      "box": {
+        "left": 363.4,
+        "top": 450.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "otherCredit": {
+      "type": "text",
+      "label": "CREDITS",
+      "page": 1,
+      "box": {
+        "left": 484.4,
+        "top": 437.4,
+        "width": 88.5,
+        "height": 21.3
+      }
+    },
+    "trial": {
+      "type": "text",
+      "label": "Trial Date(s)",
+      "page": 1,
+      "box": {
+        "left": 43.2,
+        "top": 429.8,
+        "width": 163.3,
+        "height": 48.4
+      },
+      "multiline": true
+    },
+    "totalCredit": {
+      "type": "text",
+      "label": "TOTAL CREDIT (Days )",
+      "page": 1,
+      "box": {
+        "left": 483.9,
+        "top": 410.5,
+        "width": 89.0,
+        "height": 25.9
+      }
+    },
+    "dateofPunishments": {
+      "type": "text",
+      "label": "forfeiture",
+      "page": 1,
+      "box": {
+        "left": 210.1,
+        "top": 400.5,
+        "width": 170.4,
+        "height": 19.1
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 277.4,
+        "top": 377.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 313.4,
+        "top": 377.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "dNACollection": {
+      "type": "choice",
+      "label": "CREDIT (Days )",
+      "page": 1,
+      "box": {
+        "left": 368.0,
+        "top": 349.4,
+        "width": 207.3,
+        "height": 12.0
+      },
+      "options": [
+        "NO",
+        "YES"
+      ]
+    },
+    "hazing": {
+      "type": "choice",
+      "label": "15. DID THIS CASE INVOLVE AN ALLEGATION OF HAZING?",
+      "page": 1,
+      "box": {
+        "left": 368.0,
+        "top": 335.9,
+        "width": 207.3,
+        "height": 12.0
+      },
+      "options": [
+        "NO",
+        "YES"
+      ]
+    },
+    "mentalIncompetence": {
+      "type": "choice",
+      "label": "CREDIT (Days )",
+      "page": 1,
+      "box": {
+        "left": 368.0,
+        "top": 322.4,
+        "width": 207.3,
+        "height": 12.0
+      },
+      "options": [
+        "NO",
+        "YES"
+      ]
+    },
+    "sexAssault": {
+      "type": "choice",
+      "label": "17. DID THIS CASE INVOLVE AN ALLEGATION OF SEXUAL ASSAULT?",
+      "page": 1,
+      "box": {
+        "left": 368.0,
+        "top": 308.9,
+        "width": 207.3,
+        "height": 12.0
+      },
+      "options": [
+        "NO",
+        "YES"
+      ]
+    },
+    "sexOffender": {
+      "type": "choice",
+      "label": "18. IS SEX OFFENDER NOTIFICATION REQUIRED?",
+      "page": 1,
+      "box": {
+        "left": 368.0,
+        "top": 295.4,
+        "width": 207.3,
+        "height": 12.0
+      },
+      "options": [
+        "NO",
+        "YES"
+      ]
+    },
+    "otherNotifications": {
+      "type": "text",
+      "label": "19. LIST ANY OTHER SPECIAL NOTIFICATIONS",
+      "page": 1,
+      "box": {
+        "left": 43.2,
+        "top": 270.0,
+        "width": 532.9,
+        "height": 23.3
+      }
+    },
+    "judge": {
+      "type": "text",
+      "label": "20. MILITARY JUDGE(S)",
+      "page": 1,
+      "box": {
+        "left": 139.8,
+        "top": 233.4,
+        "width": 166.0,
+        "height": 13.5
+      }
+    },
+    "reporter": {
+      "type": "text",
+      "label": "21. DEFENSE COUNSEL(S)",
+      "page": 1,
+      "box": {
+        "left": 419.1,
+        "top": 233.4,
+        "width": 156.6,
+        "height": 13.5
+      }
+    },
+    "tc": {
+      "type": "text",
+      "label": "22. TRIAL COUNSEL(S)",
+      "page": 1,
+      "box": {
+        "left": 139.8,
+        "top": 219.9,
+        "width": 166.0,
+        "height": 13.5
+      }
+    },
+    "timeinCourt": {
+      "type": "text",
+      "label": "23. CIVILIAN COUNSEL(S)",
+      "page": 1,
+      "box": {
+        "left": 419.7,
+        "top": 219.9,
+        "width": 156.0,
+        "height": 13.5
+      }
+    },
+    "rls": {
+      "type": "text",
+      "label": "23. CIVILIAN",
+      "page": 1,
+      "box": {
+        "left": 252.0,
+        "top": 201.9,
+        "width": 103.5,
+        "height": 26.8
+      }
+    },
+    "signatureField1": {
+      "type": "text",
+      "label": "COUNSEL(S)",
+      "page": 1,
+      "box": {
+        "left": 382.5,
+        "top": 201.9,
+        "width": 180.0,
+        "height": 27.6
+      }
+    },
+    "prntNmeRnkTitl": {
+      "type": "text",
+      "label": "TRIAL COUNSEL(S)",
+      "page": 1,
+      "box": {
+        "left": 52.3,
+        "top": 199.1,
+        "width": 174.4,
+        "height": 22.0
+      }
+    }
+  }
+}

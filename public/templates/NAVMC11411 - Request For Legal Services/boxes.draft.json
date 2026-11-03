@@ -1,0 +1,619 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "nmeAcc": {
+        "left": 38.8,
+        "top": 719.9,
+        "width": 304.9,
+        "height": 15.0,
+        "type": "text",
+        "description": "1. FULL NAME (Last, First, Middle Initial)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "gde": {
+        "left": 349.4,
+        "top": 719.9,
+        "width": 84.3,
+        "height": 15.0,
+        "type": "text",
+        "description": "2. GRADE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "eas": {
+        "left": 511.4,
+        "top": 719.9,
+        "width": 61.8,
+        "height": 15.0,
+        "type": "text",
+        "description": "4. EAS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "branchofService": {
+        "left": 440.1,
+        "top": 719.1,
+        "width": 64.8,
+        "height": 13.5,
+        "type": "choice",
+        "description": "3. SERVICE",
+        "options": [
+          "USA",
+          "USN",
+          "USAF",
+          "USMC",
+          "USCG"
+        ],
+        "group": null,
+        "required": false
+      },
+      "unit": {
+        "left": 38.8,
+        "top": 688.4,
+        "width": 363.4,
+        "height": 15.0,
+        "type": "text",
+        "description": "5. UNIT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "afadbd": {
+        "left": 407.9,
+        "top": 688.4,
+        "width": 79.8,
+        "height": 15.0,
+        "type": "text",
+        "description": "6. AFADBD",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mos": {
+        "left": 493.4,
+        "top": 688.4,
+        "width": 79.8,
+        "height": 15.0,
+        "type": "text",
+        "description": "7. MOS/BMOS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "didAccusedRefuseNJP": {
+        "left": 309.6,
+        "top": 656.1,
+        "width": 262.9,
+        "height": 13.5,
+        "type": "choice",
+        "description": "9. DID THE ACCUSED REFUSE ALTERNATE DISPOSITION?",
+        "options": [
+          "NO - IT WAS NEVER OFFERED",
+          "YES - COMPANY NJP",
+          "YES - BATTALION NJP",
+          "YES - SUMMARY COURT-MARTIAL",
+          "YES - REFUSED FAST TRACK"
+        ],
+        "group": null,
+        "required": false
+      },
+      "edipi": {
+        "left": 470.9,
+        "top": 625.7,
+        "width": 102.3,
+        "height": 15.4,
+        "type": "text",
+        "description": "11. EDIPI",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "susOf": {
+        "left": 38.8,
+        "top": 593.8,
+        "width": 534.4,
+        "height": 37.5,
+        "type": "text",
+        "description": "12. WHAT IS THE ACCUSED SUSPECTED OF?",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateBegan": {
+        "left": 245.9,
+        "top": 517.3,
+        "width": 96.9,
+        "height": 15.0,
+        "type": "text",
+        "description": "14. DATE IT BEGAN",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateEnded": {
+        "left": 475.4,
+        "top": 517.3,
+        "width": 96.9,
+        "height": 15.0,
+        "type": "text",
+        "description": "NO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "anyRestraint": {
+        "left": 39.6,
+        "top": 516.6,
+        "width": 199.9,
+        "height": 13.5,
+        "type": "choice",
+        "description": "CONFINEMENT OR CONDITIONS ON LIBERTY?",
+        "options": [
+          "NO",
+          "YES - RESTRICTION",
+          "YES - CONFINEMENT",
+          "YES - LIBERTY RISK PROGRAM",
+          "YES - RESTRICTION & CONFINEMENT"
+        ],
+        "group": null,
+        "required": false
+      },
+      "radio": {
+        "left": 371.9,
+        "top": 513.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio2": {
+        "left": 421.4,
+        "top": 513.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "unit2": {
+        "left": 38.8,
+        "top": 486.2,
+        "width": 264.4,
+        "height": 15.4,
+        "type": "text",
+        "description": "17. NAME OF CONVENING AUTHORITY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unit3": {
+        "left": 308.9,
+        "top": 485.8,
+        "width": 264.4,
+        "height": 15.0,
+        "type": "text",
+        "description": "18. WHO WILL INFORM THE ACCUSED OF THE CHARGES",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nmeAcc2": {
+        "left": 38.8,
+        "top": 440.8,
+        "width": 318.4,
+        "height": 15.0,
+        "type": "text",
+        "description": "19. EXECUTIVE OFFICER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "accPhn": {
+        "left": 362.9,
+        "top": 440.8,
+        "width": 102.3,
+        "height": 15.0,
+        "type": "text",
+        "description": "20. WORK PHONE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "accPhn2": {
+        "left": 470.9,
+        "top": 440.7,
+        "width": 102.3,
+        "height": 14.9,
+        "type": "text",
+        "description": "21. BB/CELL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nmeAcc3": {
+        "left": 38.8,
+        "top": 409.3,
+        "width": 318.4,
+        "height": 15.0,
+        "type": "text",
+        "description": "22. LEGAL OFFICER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "accPhn3": {
+        "left": 362.9,
+        "top": 409.3,
+        "width": 102.3,
+        "height": 15.0,
+        "type": "text",
+        "description": "23. WORK PHONE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "accPhn4": {
+        "left": 470.9,
+        "top": 409.3,
+        "width": 102.3,
+        "height": 15.0,
+        "type": "text",
+        "description": "24. BB/CELL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nmeAcc4": {
+        "left": 38.8,
+        "top": 377.8,
+        "width": 318.4,
+        "height": 15.0,
+        "type": "text",
+        "description": "25. COMPANY CO/SECTION OIC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "accPhn5": {
+        "left": 362.9,
+        "top": 377.8,
+        "width": 102.3,
+        "height": 15.0,
+        "type": "text",
+        "description": "26. WORK PHONE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "accPhn6": {
+        "left": 470.9,
+        "top": 377.5,
+        "width": 102.3,
+        "height": 14.7,
+        "type": "text",
+        "description": "27. BB/CELL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nmeAcc5": {
+        "left": 38.8,
+        "top": 346.3,
+        "width": 318.4,
+        "height": 15.0,
+        "type": "text",
+        "description": "28. 1STSGT/SECTION CHIEF",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "accPhn7": {
+        "left": 362.9,
+        "top": 346.3,
+        "width": 102.3,
+        "height": 15.0,
+        "type": "text",
+        "description": "29. WORK PHONE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "accPhn8": {
+        "left": 470.9,
+        "top": 346.3,
+        "width": 102.3,
+        "height": 15.0,
+        "type": "text",
+        "description": "30. BB/CELL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox1": {
+        "left": 39.8,
+        "top": 288.3,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox12": {
+        "left": 309.9,
+        "top": 288.3,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "EMAIL PERTAINING TO THE CASE FROM ANYONE IN THE UNIT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox13": {
+        "left": 39.8,
+        "top": 272.0,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox14": {
+        "left": 309.9,
+        "top": 272.0,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "PRELIMINARY INQUIRY/COMMAND INVESTIGATION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox15": {
+        "left": 39.8,
+        "top": 255.8,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox16": {
+        "left": 309.9,
+        "top": 255.8,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "LOGBOOK ENTRIES",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox17": {
+        "left": 39.8,
+        "top": 239.5,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox18": {
+        "left": 309.9,
+        "top": 239.5,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "RESTRICTION PAPERWORK OR CONFINEMENT DOCUMENTS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox19": {
+        "left": 39.8,
+        "top": 223.2,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox110": {
+        "left": 309.9,
+        "top": 223.2,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "WRITTEN STATEMENTS TAKEN BY THE CHAIN OF COMMAND",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox111": {
+        "left": 39.8,
+        "top": 206.9,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox112": {
+        "left": 309.9,
+        "top": 206.9,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "URINALYSIS DOCUMENTATION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nmeAcc6": {
+        "left": 398.9,
+        "top": 191.9,
+        "width": 174.4,
+        "height": 10.6,
+        "type": "text",
+        "description": "OTHER (SPECIFY )",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox113": {
+        "left": 39.8,
+        "top": 190.6,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox114": {
+        "left": 309.9,
+        "top": 190.6,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "PHOTOGRAPHS OF SCENE TAKEN BY CELL PHONE OR CAMERA",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nmeAcc7": {
+        "left": 128.9,
+        "top": 175.6,
+        "width": 174.4,
+        "height": 10.6,
+        "type": "text",
+        "description": "OTHER (SPECIFY )",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox115": {
+        "left": 39.8,
+        "top": 174.3,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio3": {
+        "left": 187.4,
+        "top": 151.2,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio4": {
+        "left": 223.4,
+        "top": 151.2,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "accPhn9": {
+        "left": 259.4,
+        "top": 149.5,
+        "width": 178.9,
+        "height": 16.2,
+        "type": "text",
+        "description": "YES NO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "accPhn10": {
+        "left": 443.9,
+        "top": 149.5,
+        "width": 129.3,
+        "height": 16.2,
+        "type": "text",
+        "description": "YES NO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "susOf2": {
+        "left": 38.8,
+        "top": 116.8,
+        "width": 534.4,
+        "height": 51.9,
+        "type": "text",
+        "description": "36. ADDITIONAL REMARKS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField1": {
+        "left": 288.9,
+        "top": 59.2,
+        "width": 120.9,
+        "height": 19.8,
+        "type": "text",
+        "description": "ATTACHMENTS OR SUBMIT A HARD COPY SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateEnded2": {
+        "left": 493.3,
+        "top": 58.6,
+        "width": 79.5,
+        "height": 18.6,
+        "type": "text",
+        "description": "DATE SUBMITTED",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

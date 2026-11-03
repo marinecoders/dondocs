@@ -1,0 +1,5707 @@
+{
+  "id": "opnav14201",
+  "label": "OPNAV1420-1 - Officer Programs Application",
+  "directory": "OPNAV1420-1 - Officer Programs Application",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf",
+    "page5.pdf",
+    "page6.pdf",
+    "page7.pdf",
+    "page8.pdf",
+    "page9.pdf",
+    "page10.pdf",
+    "page11.pdf",
+    "page12.pdf",
+    "page13.pdf",
+    "page14.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "appName",
+        "appRaRk",
+        "appSSN",
+        "appOtName",
+        "mecp",
+        "ldo",
+        "cwo",
+        "ocs",
+        "hca",
+        "direct",
+        "training",
+        "phyAsst",
+        "radHlth",
+        "radHlthTrg",
+        "radHlthBac",
+        "radHlthMas",
+        "radHlthDir",
+        "enviHlth",
+        "enviHlth2",
+        "indHlthDir",
+        "indHlthTrg",
+        "indHlthBac",
+        "indHlthMas",
+        "entomology",
+        "entomology2",
+        "disA",
+        "disB",
+        "disC",
+        "birDate",
+        "radio",
+        "radio2",
+        "radio3",
+        "radio4",
+        "plcBir",
+        "radio5",
+        "natNum",
+        "radio6",
+        "plcNat",
+        "radio7",
+        "datNat",
+        "radio8",
+        "radio9",
+        "radio10",
+        "totDep",
+        "uic",
+        "spouse",
+        "depChd",
+        "othDep",
+        "prd",
+        "exp",
+        "nmeCmd",
+        "hmStr",
+        "street",
+        "hmCity",
+        "street2",
+        "state",
+        "zipCode",
+        "hmState",
+        "phnDSN",
+        "faxNum",
+        "hmZipCde",
+        "emailAdd",
+        "hmPhn",
+        "cmdxo",
+        "hmFax",
+        "cmdxo2",
+        "hmEmail",
+        "cmdco",
+        "cOEm",
+        "aian",
+        "asian",
+        "baa",
+        "nhop",
+        "white",
+        "othFill",
+        "othCB"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "appName2",
+        "appRaRk2",
+        "appSSN2",
+        "tmeRate",
+        "othSpc",
+        "radio11",
+        "radio12",
+        "radio13",
+        "radio14",
+        "radio15",
+        "radio16",
+        "wq1",
+        "wq2",
+        "wq3",
+        "wq4",
+        "aDSDate",
+        "aFQTSc",
+        "gRESc",
+        "vESc",
+        "gMATSc",
+        "aRSc",
+        "pFOFARSc",
+        "pFOBISc",
+        "satActSC",
+        "bl1",
+        "oARSc",
+        "bk2",
+        "aQTSc",
+        "pRTDate",
+        "finSc",
+        "rSSc",
+        "sUSc",
+        "pUSc",
+        "hESc",
+        "wESc",
+        "pBFSc",
+        "radio17",
+        "radio18",
+        "radio19",
+        "radio20",
+        "radio21",
+        "pRTDate2",
+        "finSc2",
+        "rSSc2",
+        "sUSc2",
+        "pUSc2",
+        "hESc2",
+        "wESc2",
+        "pBFSc2",
+        "radio22",
+        "radio23",
+        "radio24",
+        "radio25",
+        "radio26",
+        "pRTDate3",
+        "finSc3",
+        "rSSc3",
+        "sUSc3",
+        "pUSc3",
+        "hESc3",
+        "wESc3",
+        "pBFSc3",
+        "radio27",
+        "radio28",
+        "radio29",
+        "radio30",
+        "radio31",
+        "pRTNmeRk",
+        "pRTSigDtd",
+        "hstDate",
+        "posPD",
+        "pDComm"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "appName3",
+        "appRaRk3",
+        "appSSN3",
+        "hSGDate",
+        "hSAtnd",
+        "hSAtnd2",
+        "hSAtnd3",
+        "gEDDate",
+        "asoDeg",
+        "acMaj",
+        "asoDate",
+        "asoFrm",
+        "bacDeg",
+        "bAMaj",
+        "bacDate",
+        "bacFrm",
+        "grdDeg",
+        "grdMaj",
+        "gRDDate",
+        "gradDFrm",
+        "degTyp",
+        "bacCre",
+        "apBacDate",
+        "desMaj",
+        "uniPre",
+        "uniPre3",
+        "uniPre2",
+        "uniPre4",
+        "perArd",
+        "commST",
+        "perArdDtd",
+        "serSch",
+        "serSchdtd",
+        "cldStd",
+        "corTle",
+        "corTledtd"
+      ]
+    },
+    {
+      "title": "Page 4",
+      "fields": [
+        "appName4",
+        "appRaRk4",
+        "appSSN4",
+        "extAct",
+        "speSkl",
+        "speSkl2",
+        "speSkl3",
+        "radio32",
+        "radio33",
+        "offense",
+        "plOff",
+        "dispOff",
+        "dispDtd",
+        "offense2",
+        "plOff2",
+        "dispOff2",
+        "dispDtd2",
+        "offense3",
+        "plOff3",
+        "dispOff3",
+        "dispDtd3",
+        "dAUsed",
+        "amtTak",
+        "freUse",
+        "dADtd",
+        "dAUsed2",
+        "amtTak2",
+        "freUse2",
+        "dADtd2",
+        "dAUsed3",
+        "amtTak3",
+        "freUse3",
+        "dADtd3"
+      ]
+    },
+    {
+      "title": "Page 5",
+      "fields": [
+        "appName5",
+        "appRaRk5",
+        "appSSN5",
+        "prevProg",
+        "spoSer",
+        "prPoDtd",
+        "result",
+        "prevProg2",
+        "spoSer2",
+        "prPoDtd2",
+        "result2",
+        "prevProg3",
+        "spoSer3",
+        "prPoDtd3",
+        "result3",
+        "radio34",
+        "radio35",
+        "radio36",
+        "invAg",
+        "invAgDtd",
+        "secMgrPr",
+        "secMgPh",
+        "sMSigDtd",
+        "sMDsn"
+      ]
+    },
+    {
+      "title": "Page 6",
+      "fields": [
+        "appVerSig",
+        "appVerSig2"
+      ]
+    },
+    {
+      "title": "Page 7",
+      "fields": [
+        "appName6",
+        "appRaRk6",
+        "appSSN6",
+        "reaCom",
+        "corVal"
+      ]
+    },
+    {
+      "title": "Page 8",
+      "fields": [
+        "appName7",
+        "appRaRk7",
+        "appSSN7",
+        "waiReq",
+        "brSer",
+        "enlDate",
+        "disDate",
+        "tmLst",
+        "inaDate",
+        "aDDte"
+      ]
+    },
+    {
+      "title": "Page 9",
+      "fields": [
+        "appName8",
+        "appRaRk8",
+        "appSSN8",
+        "comOffNme",
+        "comNme",
+        "strAdd",
+        "ctyAdd",
+        "staAdd",
+        "zipCde",
+        "wrkPhn",
+        "wrkPhn2",
+        "wrkPhn3",
+        "radio37",
+        "radio38",
+        "radio39",
+        "radio40",
+        "radio41",
+        "radio42",
+        "radio43",
+        "radio44",
+        "radio45",
+        "radio46",
+        "radio47",
+        "radio48",
+        "radio49",
+        "radio50",
+        "radio51",
+        "radio52",
+        "radio53",
+        "radio54",
+        "radio55",
+        "radio56",
+        "radio57",
+        "radio58",
+        "radio59",
+        "radio60",
+        "radio61",
+        "radio62",
+        "radio63",
+        "radio64",
+        "radio65",
+        "radio66",
+        "radio67",
+        "radio68",
+        "radio69",
+        "radio70",
+        "radio71",
+        "radio72",
+        "radio73",
+        "radio74",
+        "radio75",
+        "radio76",
+        "radio77",
+        "radio78",
+        "radio79",
+        "radio80",
+        "radio81",
+        "radio82",
+        "radio83",
+        "radio84",
+        "radio85",
+        "radio86",
+        "radio87",
+        "rnkOf",
+        "rnkOut",
+        "lDRnkOf",
+        "lDRnkOut",
+        "cWRnkOf",
+        "cWRnkOut"
+      ]
+    },
+    {
+      "title": "Page 10",
+      "fields": [
+        "appName9",
+        "appRaRk9",
+        "appSSN9",
+        "cORec",
+        "waiSig",
+        "waiSigDtd"
+      ]
+    },
+    {
+      "title": "Page 11",
+      "fields": [
+        "appName10",
+        "appRaRk10",
+        "appSSN10",
+        "prNmFl",
+        "prNmFl2",
+        "soSeNm",
+        "grdYr",
+        "numTraRe",
+        "snAdd",
+        "snAdd5",
+        "tranSigDtd",
+        "tranSig",
+        "gpa",
+        "gPASc",
+        "ric",
+        "fyc",
+        "tyc",
+        "ets",
+        "radio88",
+        "radio89",
+        "radio90",
+        "radio91",
+        "radio92",
+        "radio93",
+        "radio94",
+        "radio95",
+        "radio96",
+        "radio97",
+        "radio98",
+        "radio99",
+        "radio100",
+        "radio101",
+        "radio102",
+        "radio103"
+      ]
+    },
+    {
+      "title": "Page 12",
+      "fields": [
+        "appName11",
+        "appRaRk11",
+        "appSSN11",
+        "nmSc",
+        "adSc",
+        "ciSc",
+        "stSc",
+        "zpSc",
+        "scPh",
+        "rkMY",
+        "ciSc2",
+        "radio104",
+        "radio105",
+        "radio106",
+        "radio107",
+        "radio108",
+        "radio109",
+        "radio110",
+        "addComSc",
+        "prNmTi",
+        "sgNmTi",
+        "dtdSgNm"
+      ]
+    },
+    {
+      "title": "Page 13",
+      "fields": [
+        "appName12",
+        "appRaRk12",
+        "appSSN12",
+        "nmUnCo",
+        "sTUnCo",
+        "ciUnCo",
+        "stUnCo",
+        "zpUnCo",
+        "nmTrs",
+        "dtAtt",
+        "yrOGd",
+        "degCol",
+        "numTrn",
+        "cMOr",
+        "trnTo",
+        "tnSig",
+        "trSigDtd"
+      ]
+    },
+    {
+      "title": "Page 14",
+      "fields": [
+        "appName13",
+        "appRaRk13",
+        "appSSN13",
+        "radio111",
+        "radio112",
+        "bKInfo",
+        "radio113",
+        "radio114",
+        "wGGar",
+        "radio115",
+        "radio116",
+        "reposs",
+        "radio117",
+        "radio118",
+        "lienIn",
+        "radio119",
+        "radio120",
+        "lienIn2",
+        "radio121",
+        "radio122",
+        "delIn",
+        "radio123",
+        "radio124",
+        "delDebIn"
+      ]
+    }
+  ],
+  "fields": {
+    "appName": {
+      "type": "text",
+      "label": "Applicant&apos;s Name (Last, First, MI)",
+      "page": 1,
+      "box": {
+        "left": 37.1,
+        "top": 715.3,
+        "width": 322.5,
+        "height": 15.4
+      }
+    },
+    "appRaRk": {
+      "type": "text",
+      "label": "Rate/Rank",
+      "page": 1,
+      "box": {
+        "left": 362.1,
+        "top": 715.3,
+        "width": 101.7,
+        "height": 15.4
+      }
+    },
+    "appSSN": {
+      "type": "text",
+      "label": "SSN",
+      "page": 1,
+      "box": {
+        "left": 466.5,
+        "top": 714.4,
+        "width": 107.7,
+        "height": 14.5
+      }
+    },
+    "appOtName": {
+      "type": "text",
+      "label": "1. Other Names Used (i.e., maiden name)",
+      "page": 1,
+      "box": {
+        "left": 37.1,
+        "top": 687.6,
+        "width": 538.0,
+        "height": 15.4
+      }
+    },
+    "mecp": {
+      "type": "checkbox",
+      "label": "LDO",
+      "page": 1,
+      "box": {
+        "left": 112.2,
+        "top": 647.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "ldo": {
+      "type": "checkbox",
+      "label": "Indicate",
+      "page": 1,
+      "box": {
+        "left": 58.2,
+        "top": 646.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cwo": {
+      "type": "checkbox",
+      "label": "Indicate",
+      "page": 1,
+      "box": {
+        "left": 58.2,
+        "top": 632.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "ocs": {
+      "type": "checkbox",
+      "label": "CWO",
+      "page": 1,
+      "box": {
+        "left": 112.2,
+        "top": 632.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "hca": {
+      "type": "checkbox",
+      "label": "OCS",
+      "page": 1,
+      "box": {
+        "left": 236.6,
+        "top": 632.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "direct": {
+      "type": "checkbox",
+      "label": "HCA",
+      "page": 1,
+      "box": {
+        "left": 300.0,
+        "top": 632.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "training": {
+      "type": "checkbox",
+      "label": "Direct",
+      "page": 1,
+      "box": {
+        "left": 364.8,
+        "top": 632.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "phyAsst": {
+      "type": "checkbox",
+      "label": "HCA",
+      "page": 1,
+      "box": {
+        "left": 253.5,
+        "top": 614.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "radHlth": {
+      "type": "checkbox",
+      "label": "HCA",
+      "page": 1,
+      "box": {
+        "left": 253.5,
+        "top": 601.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "radHlthTrg": {
+      "type": "checkbox",
+      "label": "Direct (",
+      "page": 1,
+      "box": {
+        "left": 384.0,
+        "top": 601.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "radHlthBac": {
+      "type": "checkbox",
+      "label": "Direct ( Training",
+      "page": 1,
+      "box": {
+        "left": 433.2,
+        "top": 601.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "radHlthMas": {
+      "type": "checkbox",
+      "label": "Direct ( Training Bachelors",
+      "page": 1,
+      "box": {
+        "left": 489.2,
+        "top": 601.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "radHlthDir": {
+      "type": "checkbox",
+      "label": "Radiation Health",
+      "page": 1,
+      "box": {
+        "left": 340.1,
+        "top": 600.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "enviHlth": {
+      "type": "checkbox",
+      "label": "HCA",
+      "page": 1,
+      "box": {
+        "left": 253.5,
+        "top": 588.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "enviHlth2": {
+      "type": "checkbox",
+      "label": "HCA",
+      "page": 1,
+      "box": {
+        "left": 253.5,
+        "top": 575.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "indHlthDir": {
+      "type": "checkbox",
+      "label": "Industrial Health",
+      "page": 1,
+      "box": {
+        "left": 339.2,
+        "top": 575.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "indHlthTrg": {
+      "type": "checkbox",
+      "label": "Direct (",
+      "page": 1,
+      "box": {
+        "left": 384.0,
+        "top": 575.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "indHlthBac": {
+      "type": "checkbox",
+      "label": "Direct ( Training",
+      "page": 1,
+      "box": {
+        "left": 433.2,
+        "top": 575.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "indHlthMas": {
+      "type": "checkbox",
+      "label": "Direct ( Training Bachelors",
+      "page": 1,
+      "box": {
+        "left": 489.2,
+        "top": 575.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "entomology": {
+      "type": "checkbox",
+      "label": "HCA",
+      "page": 1,
+      "box": {
+        "left": 253.5,
+        "top": 562.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "entomology2": {
+      "type": "checkbox",
+      "label": "HCA",
+      "page": 1,
+      "box": {
+        "left": 253.5,
+        "top": 549.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "disA": {
+      "type": "text",
+      "label": "Desired Community/Designator (Required for",
+      "page": 1,
+      "box": {
+        "left": 47.2,
+        "top": 514.4,
+        "width": 156.5,
+        "height": 18.1
+      }
+    },
+    "disB": {
+      "type": "text",
+      "label": "LDO, and CWO applicants. Optional for all other",
+      "page": 1,
+      "box": {
+        "left": 235.8,
+        "top": 514.4,
+        "width": 156.5,
+        "height": 18.1
+      }
+    },
+    "disC": {
+      "type": "text",
+      "label": "programs.)",
+      "page": 1,
+      "box": {
+        "left": 418.1,
+        "top": 514.4,
+        "width": 155.0,
+        "height": 18.1
+      }
+    },
+    "birDate": {
+      "type": "text",
+      "label": "Female",
+      "page": 1,
+      "box": {
+        "left": 305.5,
+        "top": 463.2,
+        "width": 269.5,
+        "height": 13.5
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 95.5,
+        "top": 461.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 181.7,
+        "top": 461.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 221.3,
+        "top": 434.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 168.2,
+        "top": 433.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "plcBir": {
+      "type": "text",
+      "label": "b. Place of Birth",
+      "page": 1,
+      "box": {
+        "left": 121.3,
+        "top": 421.1,
+        "width": 175.9,
+        "height": 11.9
+      }
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 380.3,
+        "top": 410.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "natNum": {
+      "type": "text",
+      "label": "(1) Naturalization Number",
+      "page": 1,
+      "box": {
+        "left": 156.3,
+        "top": 394.6,
+        "width": 169.0,
+        "height": 13.6
+      }
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 380.3,
+        "top": 389.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "plcNat": {
+      "type": "text",
+      "label": "(2) Place where naturalized",
+      "page": 1,
+      "box": {
+        "left": 161.3,
+        "top": 380.1,
+        "width": 164.1,
+        "height": 13.1
+      }
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 380.3,
+        "top": 368.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "datNat": {
+      "type": "text",
+      "label": "(3) Date of Naturalization",
+      "page": 1,
+      "box": {
+        "left": 152.8,
+        "top": 366.1,
+        "width": 172.5,
+        "height": 13.1
+      }
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 221.3,
+        "top": 351.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio9": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 168.2,
+        "top": 350.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio10": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 380.3,
+        "top": 347.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "totDep": {
+      "type": "text",
+      "label": "Total Number of Dependents",
+      "page": 1,
+      "box": {
+        "left": 165.7,
+        "top": 303.2,
+        "width": 32.9,
+        "height": 13.1
+      }
+    },
+    "uic": {
+      "type": "text",
+      "label": "Single",
+      "page": 1,
+      "box": {
+        "left": 390.2,
+        "top": 295.6,
+        "width": 104.9,
+        "height": 13.1
+      }
+    },
+    "spouse": {
+      "type": "text",
+      "label": "Spouse",
+      "page": 1,
+      "box": {
+        "left": 165.7,
+        "top": 290.1,
+        "width": 32.9,
+        "height": 13.1
+      }
+    },
+    "depChd": {
+      "type": "text",
+      "label": "Number of Dependent Children",
+      "page": 1,
+      "box": {
+        "left": 165.7,
+        "top": 277.0,
+        "width": 32.9,
+        "height": 13.1
+      }
+    },
+    "othDep": {
+      "type": "text",
+      "label": "Number of Other Dependents",
+      "page": 1,
+      "box": {
+        "left": 165.7,
+        "top": 263.9,
+        "width": 32.9,
+        "height": 13.1
+      }
+    },
+    "prd": {
+      "type": "text",
+      "label": "Explain",
+      "page": 1,
+      "box": {
+        "left": 390.2,
+        "top": 248.4,
+        "width": 104.9,
+        "height": 13.1
+      }
+    },
+    "exp": {
+      "type": "text",
+      "label": "Other Dependents",
+      "page": 1,
+      "box": {
+        "left": 101.6,
+        "top": 248.2,
+        "width": 215.4,
+        "height": 19.7
+      }
+    },
+    "nmeCmd": {
+      "type": "text",
+      "label": "Name Of Command",
+      "page": 1,
+      "box": {
+        "left": 115.8,
+        "top": 205.6,
+        "width": 205.9,
+        "height": 13.1
+      }
+    },
+    "hmStr": {
+      "type": "text",
+      "label": "Street",
+      "page": 1,
+      "box": {
+        "left": 399.2,
+        "top": 199.1,
+        "width": 166.1,
+        "height": 13.1
+      }
+    },
+    "street": {
+      "type": "text",
+      "label": "Street",
+      "page": 1,
+      "box": {
+        "left": 115.8,
+        "top": 190.6,
+        "width": 205.9,
+        "height": 13.1
+      }
+    },
+    "hmCity": {
+      "type": "text",
+      "label": "City",
+      "page": 1,
+      "box": {
+        "left": 399.2,
+        "top": 184.2,
+        "width": 166.1,
+        "height": 13.1
+      }
+    },
+    "street2": {
+      "type": "text",
+      "label": "City",
+      "page": 1,
+      "box": {
+        "left": 115.8,
+        "top": 177.2,
+        "width": 84.1,
+        "height": 13.1
+      }
+    },
+    "state": {
+      "type": "text",
+      "label": "State",
+      "page": 1,
+      "box": {
+        "left": 230.0,
+        "top": 177.2,
+        "width": 18.4,
+        "height": 13.1
+      }
+    },
+    "zipCode": {
+      "type": "text",
+      "label": "State: Zip Code",
+      "page": 1,
+      "box": {
+        "left": 289.7,
+        "top": 177.2,
+        "width": 32.0,
+        "height": 13.1
+      }
+    },
+    "hmState": {
+      "type": "text",
+      "label": "State",
+      "page": 1,
+      "box": {
+        "left": 399.2,
+        "top": 169.2,
+        "width": 166.1,
+        "height": 13.1
+      }
+    },
+    "phnDSN": {
+      "type": "text",
+      "label": "Phone/DSN",
+      "page": 1,
+      "box": {
+        "left": 115.8,
+        "top": 162.9,
+        "width": 73.9,
+        "height": 13.1
+      }
+    },
+    "faxNum": {
+      "type": "text",
+      "label": "FAX",
+      "page": 1,
+      "box": {
+        "left": 247.8,
+        "top": 162.1,
+        "width": 73.9,
+        "height": 13.1
+      }
+    },
+    "hmZipCde": {
+      "type": "text",
+      "label": "Zip Code",
+      "page": 1,
+      "box": {
+        "left": 399.2,
+        "top": 154.2,
+        "width": 166.1,
+        "height": 12.3
+      }
+    },
+    "emailAdd": {
+      "type": "text",
+      "label": "E-Mail CCC",
+      "page": 1,
+      "box": {
+        "left": 115.8,
+        "top": 148.6,
+        "width": 205.9,
+        "height": 13.1
+      }
+    },
+    "hmPhn": {
+      "type": "text",
+      "label": "Phone Number",
+      "page": 1,
+      "box": {
+        "left": 399.2,
+        "top": 140.0,
+        "width": 166.1,
+        "height": 12.3
+      }
+    },
+    "cmdxo": {
+      "type": "text",
+      "label": "Command XO",
+      "page": 1,
+      "box": {
+        "left": 115.8,
+        "top": 133.7,
+        "width": 205.9,
+        "height": 13.1
+      }
+    },
+    "hmFax": {
+      "type": "text",
+      "label": "Fax Number",
+      "page": 1,
+      "box": {
+        "left": 399.2,
+        "top": 125.8,
+        "width": 166.1,
+        "height": 12.3
+      }
+    },
+    "cmdxo2": {
+      "type": "text",
+      "label": "Command XO Email",
+      "page": 1,
+      "box": {
+        "left": 115.8,
+        "top": 119.1,
+        "width": 205.9,
+        "height": 13.1
+      }
+    },
+    "hmEmail": {
+      "type": "text",
+      "label": "E-Mail",
+      "page": 1,
+      "box": {
+        "left": 399.2,
+        "top": 111.7,
+        "width": 166.1,
+        "height": 12.3
+      }
+    },
+    "cmdco": {
+      "type": "text",
+      "label": "Command CO",
+      "page": 1,
+      "box": {
+        "left": 115.8,
+        "top": 104.8,
+        "width": 205.9,
+        "height": 13.1
+      }
+    },
+    "cOEm": {
+      "type": "text",
+      "label": "Command CO Email",
+      "page": 1,
+      "box": {
+        "left": 115.8,
+        "top": 90.2,
+        "width": 205.9,
+        "height": 13.1
+      }
+    },
+    "aian": {
+      "type": "checkbox",
+      "label": "White",
+      "page": 1,
+      "box": {
+        "left": 112.1,
+        "top": 60.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "asian": {
+      "type": "checkbox",
+      "label": "America Indian/Alaskan Native",
+      "page": 1,
+      "box": {
+        "left": 252.2,
+        "top": 60.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "baa": {
+      "type": "checkbox",
+      "label": "Asian",
+      "page": 1,
+      "box": {
+        "left": 304.6,
+        "top": 60.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "nhop": {
+      "type": "checkbox",
+      "label": "Black/African American",
+      "page": 1,
+      "box": {
+        "left": 414.2,
+        "top": 60.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "white": {
+      "type": "checkbox",
+      "label": "Race",
+      "page": 1,
+      "box": {
+        "left": 56.3,
+        "top": 59.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "othFill": {
+      "type": "text",
+      "label": "Other",
+      "page": 1,
+      "box": {
+        "left": 116.4,
+        "top": 50.5,
+        "width": 166.1,
+        "height": 12.3
+      }
+    },
+    "othCB": {
+      "type": "checkbox",
+      "label": "White",
+      "page": 1,
+      "box": {
+        "left": 78.4,
+        "top": 47.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "appName2": {
+      "type": "text",
+      "label": "Applicant&apos;s Name (Last, First, MI)",
+      "page": 2,
+      "box": {
+        "left": 36.4,
+        "top": 725.9,
+        "width": 322.5,
+        "height": 15.4
+      }
+    },
+    "appRaRk2": {
+      "type": "text",
+      "label": "Rate/Rank",
+      "page": 2,
+      "box": {
+        "left": 361.4,
+        "top": 725.9,
+        "width": 101.7,
+        "height": 15.4
+      }
+    },
+    "appSSN2": {
+      "type": "text",
+      "label": "SSN",
+      "page": 2,
+      "box": {
+        "left": 465.9,
+        "top": 725.0,
+        "width": 107.7,
+        "height": 14.5
+      }
+    },
+    "tmeRate": {
+      "type": "text",
+      "label": "14. Time in Rate",
+      "page": 2,
+      "box": {
+        "left": 105.5,
+        "top": 686.5,
+        "width": 50.1,
+        "height": 12.5
+      }
+    },
+    "othSpc": {
+      "type": "text",
+      "label": "Other (Specify)",
+      "page": 2,
+      "box": {
+        "left": 426.6,
+        "top": 643.2,
+        "width": 140.4,
+        "height": 12.4
+      }
+    },
+    "radio11": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 47.8,
+        "top": 642.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio12": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 101.0,
+        "top": 642.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio13": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 154.1,
+        "top": 642.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio14": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 2,
+      "box": {
+        "left": 219.3,
+        "top": 642.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio15": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 2,
+      "box": {
+        "left": 277.5,
+        "top": 642.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio16": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 2,
+      "box": {
+        "left": 354.1,
+        "top": 642.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "wq1": {
+      "type": "text",
+      "label": "Warfare Qualification(s)",
+      "page": 2,
+      "box": {
+        "left": 63.4,
+        "top": 605.9,
+        "width": 115.6,
+        "height": 13.4
+      }
+    },
+    "wq2": {
+      "type": "text",
+      "label": "USNR-R USMC USNR",
+      "page": 2,
+      "box": {
+        "left": 195.3,
+        "top": 605.9,
+        "width": 115.6,
+        "height": 13.4
+      }
+    },
+    "wq3": {
+      "type": "text",
+      "label": "(FTS) Other (Specify)",
+      "page": 2,
+      "box": {
+        "left": 327.1,
+        "top": 605.9,
+        "width": 115.6,
+        "height": 13.4
+      }
+    },
+    "wq4": {
+      "type": "text",
+      "label": "SSN",
+      "page": 2,
+      "box": {
+        "left": 458.9,
+        "top": 605.9,
+        "width": 115.6,
+        "height": 13.4
+      }
+    },
+    "aDSDate": {
+      "type": "text",
+      "label": "17. Active Duty Service Date (DD MMM YYYY)",
+      "page": 2,
+      "box": {
+        "left": 215.4,
+        "top": 586.8,
+        "width": 98.7,
+        "height": 13.1
+      }
+    },
+    "aFQTSc": {
+      "type": "text",
+      "label": "AFQT",
+      "page": 2,
+      "box": {
+        "left": 184.2,
+        "top": 535.0,
+        "width": 121.9,
+        "height": 13.3
+      }
+    },
+    "gRESc": {
+      "type": "text",
+      "label": "GRE",
+      "page": 2,
+      "box": {
+        "left": 427.9,
+        "top": 535.0,
+        "width": 121.9,
+        "height": 13.3
+      }
+    },
+    "vESc": {
+      "type": "text",
+      "label": "VE",
+      "page": 2,
+      "box": {
+        "left": 184.2,
+        "top": 521.7,
+        "width": 121.9,
+        "height": 13.3
+      }
+    },
+    "gMATSc": {
+      "type": "text",
+      "label": "GMAT",
+      "page": 2,
+      "box": {
+        "left": 427.9,
+        "top": 521.7,
+        "width": 121.9,
+        "height": 13.3
+      }
+    },
+    "aRSc": {
+      "type": "text",
+      "label": "AR",
+      "page": 2,
+      "box": {
+        "left": 184.2,
+        "top": 508.4,
+        "width": 121.9,
+        "height": 13.3
+      }
+    },
+    "pFOFARSc": {
+      "type": "text",
+      "label": "P/FOFAR",
+      "page": 2,
+      "box": {
+        "left": 427.9,
+        "top": 508.4,
+        "width": 121.9,
+        "height": 13.3
+      }
+    },
+    "pFOBISc": {
+      "type": "text",
+      "label": "P/FOBI",
+      "page": 2,
+      "box": {
+        "left": 427.9,
+        "top": 495.1,
+        "width": 121.9,
+        "height": 13.3
+      }
+    },
+    "satActSC": {
+      "type": "text",
+      "label": "SAT/ACT",
+      "page": 2,
+      "box": {
+        "left": 184.2,
+        "top": 494.9,
+        "width": 121.9,
+        "height": 13.3
+      }
+    },
+    "bl1": {
+      "type": "text",
+      "label": "SCORE",
+      "page": 2,
+      "box": {
+        "left": 184.2,
+        "top": 481.7,
+        "width": 121.9,
+        "height": 13.3
+      }
+    },
+    "oARSc": {
+      "type": "text",
+      "label": "OAR",
+      "page": 2,
+      "box": {
+        "left": 427.9,
+        "top": 481.7,
+        "width": 121.9,
+        "height": 13.3
+      }
+    },
+    "bk2": {
+      "type": "text",
+      "label": "SCORE",
+      "page": 2,
+      "box": {
+        "left": 184.2,
+        "top": 468.4,
+        "width": 121.9,
+        "height": 13.3
+      }
+    },
+    "aQTSc": {
+      "type": "text",
+      "label": "AQT",
+      "page": 2,
+      "box": {
+        "left": 427.9,
+        "top": 468.4,
+        "width": 121.9,
+        "height": 13.3
+      }
+    },
+    "pRTDate": {
+      "type": "text",
+      "label": "Date of PRT",
+      "page": 2,
+      "box": {
+        "left": 42.8,
+        "top": 404.1,
+        "width": 50.0,
+        "height": 17.6
+      }
+    },
+    "finSc": {
+      "type": "text",
+      "label": "Final Score",
+      "page": 2,
+      "box": {
+        "left": 92.8,
+        "top": 404.1,
+        "width": 48.0,
+        "height": 17.6
+      }
+    },
+    "rSSc": {
+      "type": "text",
+      "label": "O E G S F",
+      "page": 2,
+      "box": {
+        "left": 285.1,
+        "top": 404.1,
+        "width": 47.4,
+        "height": 17.6
+      }
+    },
+    "sUSc": {
+      "type": "text",
+      "label": "O E G S F",
+      "page": 2,
+      "box": {
+        "left": 332.5,
+        "top": 404.1,
+        "width": 47.4,
+        "height": 17.6
+      }
+    },
+    "pUSc": {
+      "type": "text",
+      "label": "O E G S F",
+      "page": 2,
+      "box": {
+        "left": 379.8,
+        "top": 404.1,
+        "width": 47.4,
+        "height": 17.6
+      }
+    },
+    "hESc": {
+      "type": "text",
+      "label": "O E G S F",
+      "page": 2,
+      "box": {
+        "left": 427.2,
+        "top": 404.1,
+        "width": 47.4,
+        "height": 17.6
+      }
+    },
+    "wESc": {
+      "type": "text",
+      "label": "O E G S F",
+      "page": 2,
+      "box": {
+        "left": 474.6,
+        "top": 404.1,
+        "width": 47.4,
+        "height": 17.6
+      }
+    },
+    "pBFSc": {
+      "type": "text",
+      "label": "O E G S F",
+      "page": 2,
+      "box": {
+        "left": 521.9,
+        "top": 404.1,
+        "width": 47.4,
+        "height": 17.6
+      }
+    },
+    "radio17": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 155.8,
+        "top": 401.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio18": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 179.8,
+        "top": 401.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio19": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 2,
+      "box": {
+        "left": 203.9,
+        "top": 401.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio20": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 2,
+      "box": {
+        "left": 227.9,
+        "top": 401.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio21": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 2,
+      "box": {
+        "left": 252.0,
+        "top": 401.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "pRTDate2": {
+      "type": "text",
+      "label": "Date of PRT",
+      "page": 2,
+      "box": {
+        "left": 42.8,
+        "top": 386.5,
+        "width": 50.0,
+        "height": 17.6
+      }
+    },
+    "finSc2": {
+      "type": "text",
+      "label": "Final Score",
+      "page": 2,
+      "box": {
+        "left": 92.8,
+        "top": 386.5,
+        "width": 48.0,
+        "height": 17.6
+      }
+    },
+    "rSSc2": {
+      "type": "text",
+      "label": "O E G S F",
+      "page": 2,
+      "box": {
+        "left": 285.1,
+        "top": 386.5,
+        "width": 47.4,
+        "height": 17.6
+      }
+    },
+    "sUSc2": {
+      "type": "text",
+      "label": "O E G S F",
+      "page": 2,
+      "box": {
+        "left": 332.5,
+        "top": 386.5,
+        "width": 47.4,
+        "height": 17.6
+      }
+    },
+    "pUSc2": {
+      "type": "text",
+      "label": "O E G S F",
+      "page": 2,
+      "box": {
+        "left": 379.8,
+        "top": 386.5,
+        "width": 47.4,
+        "height": 17.6
+      }
+    },
+    "hESc2": {
+      "type": "text",
+      "label": "O E G S F",
+      "page": 2,
+      "box": {
+        "left": 427.2,
+        "top": 386.5,
+        "width": 47.4,
+        "height": 17.6
+      }
+    },
+    "wESc2": {
+      "type": "text",
+      "label": "O E G S F",
+      "page": 2,
+      "box": {
+        "left": 474.6,
+        "top": 386.5,
+        "width": 47.4,
+        "height": 17.6
+      }
+    },
+    "pBFSc2": {
+      "type": "text",
+      "label": "O E G S F",
+      "page": 2,
+      "box": {
+        "left": 521.9,
+        "top": 386.5,
+        "width": 47.4,
+        "height": 17.6
+      }
+    },
+    "radio22": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 2,
+      "box": {
+        "left": 156.3,
+        "top": 383.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio23": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 2,
+      "box": {
+        "left": 180.3,
+        "top": 383.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio24": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 228.4,
+        "top": 383.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio25": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 252.5,
+        "top": 383.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio26": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 2,
+      "box": {
+        "left": 204.9,
+        "top": 382.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "pRTDate3": {
+      "type": "text",
+      "label": "Date of PRT",
+      "page": 2,
+      "box": {
+        "left": 42.8,
+        "top": 368.9,
+        "width": 50.0,
+        "height": 17.6
+      }
+    },
+    "finSc3": {
+      "type": "text",
+      "label": "Final Score",
+      "page": 2,
+      "box": {
+        "left": 92.8,
+        "top": 368.9,
+        "width": 48.0,
+        "height": 17.6
+      }
+    },
+    "rSSc3": {
+      "type": "text",
+      "label": "O E G S F",
+      "page": 2,
+      "box": {
+        "left": 285.1,
+        "top": 368.9,
+        "width": 47.4,
+        "height": 17.6
+      }
+    },
+    "sUSc3": {
+      "type": "text",
+      "label": "O E G S F",
+      "page": 2,
+      "box": {
+        "left": 332.5,
+        "top": 368.9,
+        "width": 47.4,
+        "height": 17.6
+      }
+    },
+    "pUSc3": {
+      "type": "text",
+      "label": "O E G S F",
+      "page": 2,
+      "box": {
+        "left": 379.8,
+        "top": 368.9,
+        "width": 47.4,
+        "height": 17.6
+      }
+    },
+    "hESc3": {
+      "type": "text",
+      "label": "O E G S F",
+      "page": 2,
+      "box": {
+        "left": 427.2,
+        "top": 368.9,
+        "width": 47.4,
+        "height": 17.6
+      }
+    },
+    "wESc3": {
+      "type": "text",
+      "label": "O E G S F",
+      "page": 2,
+      "box": {
+        "left": 474.6,
+        "top": 368.9,
+        "width": 47.4,
+        "height": 17.6
+      }
+    },
+    "pBFSc3": {
+      "type": "text",
+      "label": "O E G S F",
+      "page": 2,
+      "box": {
+        "left": 521.9,
+        "top": 368.9,
+        "width": 47.4,
+        "height": 17.6
+      }
+    },
+    "radio27": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 2,
+      "box": {
+        "left": 156.3,
+        "top": 365.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio28": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 179.8,
+        "top": 365.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio29": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 203.9,
+        "top": 365.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio30": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 2,
+      "box": {
+        "left": 227.9,
+        "top": 365.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio31": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 2,
+      "box": {
+        "left": 252.0,
+        "top": 365.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "pRTNmeRk": {
+      "type": "text",
+      "label": "PRT Coordinator (Print Name and Rate/Rank)",
+      "page": 2,
+      "box": {
+        "left": 42.8,
+        "top": 334.7,
+        "width": 246.0,
+        "height": 17.6
+      }
+    },
+    "pRTSigDtd": {
+      "type": "text",
+      "label": "PRT Coordinator Signature and Date",
+      "page": 2,
+      "box": {
+        "left": 313.6,
+        "top": 334.7,
+        "width": 246.0,
+        "height": 17.6
+      }
+    },
+    "hstDate": {
+      "type": "text",
+      "label": "Dates (from/to)",
+      "page": 2,
+      "box": {
+        "left": 62.3,
+        "top": 271.8,
+        "width": 65.7,
+        "height": 32.7
+      },
+      "multiline": true
+    },
+    "posPD": {
+      "type": "text",
+      "label": "PRESENT",
+      "page": 2,
+      "box": {
+        "left": 194.0,
+        "top": 271.8,
+        "width": 177.3,
+        "height": 32.7
+      },
+      "multiline": true
+    },
+    "pDComm": {
+      "type": "text",
+      "label": "PRESENT",
+      "page": 2,
+      "box": {
+        "left": 371.3,
+        "top": 271.8,
+        "width": 177.3,
+        "height": 32.7
+      },
+      "multiline": true
+    },
+    "appName3": {
+      "type": "text",
+      "label": "Applicant&apos;s Name (Last, First, MI)",
+      "page": 3,
+      "box": {
+        "left": 37.7,
+        "top": 724.3,
+        "width": 322.5,
+        "height": 15.4
+      }
+    },
+    "appRaRk3": {
+      "type": "text",
+      "label": "Rate/Rank",
+      "page": 3,
+      "box": {
+        "left": 362.7,
+        "top": 724.3,
+        "width": 101.7,
+        "height": 15.4
+      }
+    },
+    "appSSN3": {
+      "type": "text",
+      "label": "SSN",
+      "page": 3,
+      "box": {
+        "left": 467.1,
+        "top": 723.4,
+        "width": 107.7,
+        "height": 14.5
+      }
+    },
+    "hSGDate": {
+      "type": "text",
+      "label": "(a) High School Graduation Date (DD MMM YYYY)",
+      "page": 3,
+      "box": {
+        "left": 247.3,
+        "top": 662.5,
+        "width": 98.7,
+        "height": 13.1
+      }
+    },
+    "hSAtnd": {
+      "type": "text",
+      "label": "High School(s) Attended (Name &amp; Location)",
+      "page": 3,
+      "box": {
+        "left": 81.3,
+        "top": 628.4,
+        "width": 492.8,
+        "height": 14.0
+      }
+    },
+    "hSAtnd2": {
+      "type": "text",
+      "label": "High School(s) Attended (Name &amp; Location)",
+      "page": 3,
+      "box": {
+        "left": 81.3,
+        "top": 612.5,
+        "width": 492.8,
+        "height": 14.0
+      }
+    },
+    "hSAtnd3": {
+      "type": "text",
+      "label": "High School(s) Attended (Name &amp; Location)",
+      "page": 3,
+      "box": {
+        "left": 81.3,
+        "top": 596.5,
+        "width": 492.8,
+        "height": 14.0
+      }
+    },
+    "gEDDate": {
+      "type": "text",
+      "label": "(c) GED Date (DD MMM YYYY)",
+      "page": 3,
+      "box": {
+        "left": 181.4,
+        "top": 583.1,
+        "width": 98.7,
+        "height": 13.1
+      }
+    },
+    "asoDeg": {
+      "type": "text",
+      "label": "(a) Associate&apos;s Degree",
+      "page": 3,
+      "box": {
+        "left": 147.0,
+        "top": 551.9,
+        "width": 138.9,
+        "height": 11.5
+      }
+    },
+    "acMaj": {
+      "type": "text",
+      "label": "Major",
+      "page": 3,
+      "box": {
+        "left": 312.2,
+        "top": 551.9,
+        "width": 87.2,
+        "height": 11.3
+      }
+    },
+    "asoDate": {
+      "type": "text",
+      "label": "Date of Degree (DD MMM YYYY)",
+      "page": 3,
+      "box": {
+        "left": 518.4,
+        "top": 551.9,
+        "width": 55.4,
+        "height": 11.5
+      }
+    },
+    "asoFrm": {
+      "type": "text",
+      "label": "From",
+      "page": 3,
+      "box": {
+        "left": 120.7,
+        "top": 540.0,
+        "width": 453.3,
+        "height": 11.5
+      }
+    },
+    "bacDeg": {
+      "type": "text",
+      "label": "(b) Bachelor&apos;s Degree",
+      "page": 3,
+      "box": {
+        "left": 139.7,
+        "top": 528.6,
+        "width": 146.3,
+        "height": 11.3
+      }
+    },
+    "bAMaj": {
+      "type": "text",
+      "label": "Major",
+      "page": 3,
+      "box": {
+        "left": 312.2,
+        "top": 528.6,
+        "width": 87.2,
+        "height": 11.3
+      }
+    },
+    "bacDate": {
+      "type": "text",
+      "label": "Date of Degree (DD MMM YYYY)",
+      "page": 3,
+      "box": {
+        "left": 518.4,
+        "top": 528.6,
+        "width": 55.4,
+        "height": 11.5
+      }
+    },
+    "bacFrm": {
+      "type": "text",
+      "label": "From",
+      "page": 3,
+      "box": {
+        "left": 120.7,
+        "top": 517.3,
+        "width": 453.3,
+        "height": 11.5
+      }
+    },
+    "grdDeg": {
+      "type": "text",
+      "label": "(c) Graduate Degree",
+      "page": 3,
+      "box": {
+        "left": 139.7,
+        "top": 504.1,
+        "width": 146.3,
+        "height": 11.5
+      }
+    },
+    "grdMaj": {
+      "type": "text",
+      "label": "Major",
+      "page": 3,
+      "box": {
+        "left": 312.2,
+        "top": 504.1,
+        "width": 87.2,
+        "height": 11.5
+      }
+    },
+    "gRDDate": {
+      "type": "text",
+      "label": "Date of Degree (DD MMM YYYY)",
+      "page": 3,
+      "box": {
+        "left": 518.4,
+        "top": 504.1,
+        "width": 55.4,
+        "height": 11.5
+      }
+    },
+    "gradDFrm": {
+      "type": "text",
+      "label": "From",
+      "page": 3,
+      "box": {
+        "left": 120.7,
+        "top": 490.9,
+        "width": 453.3,
+        "height": 11.5
+      }
+    },
+    "degTyp": {
+      "type": "text",
+      "label": "(d) Degree is not completed? Degree Type",
+      "page": 3,
+      "box": {
+        "left": 221.3,
+        "top": 478.8,
+        "width": 100.1,
+        "height": 11.5
+      }
+    },
+    "bacCre": {
+      "type": "text",
+      "label": "No. of Credits",
+      "page": 3,
+      "box": {
+        "left": 378.8,
+        "top": 478.8,
+        "width": 29.2,
+        "height": 11.5
+      }
+    },
+    "apBacDate": {
+      "type": "text",
+      "label": "Anticipated graduation Date",
+      "page": 3,
+      "box": {
+        "left": 518.4,
+        "top": 478.3,
+        "width": 55.4,
+        "height": 11.5
+      }
+    },
+    "desMaj": {
+      "type": "text",
+      "label": "(a) Desired Course of Study (Major)",
+      "page": 3,
+      "box": {
+        "left": 190.4,
+        "top": 448.3,
+        "width": 315.0,
+        "height": 13.5
+      }
+    },
+    "uniPre": {
+      "type": "text",
+      "label": "University Preference(s)",
+      "page": 3,
+      "box": {
+        "left": 81.3,
+        "top": 417.4,
+        "width": 192.5,
+        "height": 13.5
+      }
+    },
+    "uniPre3": {
+      "type": "text",
+      "label": "of Credits : Anticipated graduation Date",
+      "page": 3,
+      "box": {
+        "left": 343.1,
+        "top": 417.4,
+        "width": 192.5,
+        "height": 13.5
+      }
+    },
+    "uniPre2": {
+      "type": "text",
+      "label": "University Preference(s)",
+      "page": 3,
+      "box": {
+        "left": 81.3,
+        "top": 401.2,
+        "width": 192.5,
+        "height": 13.5
+      }
+    },
+    "uniPre4": {
+      "type": "text",
+      "label": "of Credits : Anticipated graduation Date",
+      "page": 3,
+      "box": {
+        "left": 343.1,
+        "top": 401.2,
+        "width": 192.5,
+        "height": 13.5
+      }
+    },
+    "perArd": {
+      "type": "text",
+      "label": "AWARD",
+      "page": 3,
+      "box": {
+        "left": 68.1,
+        "top": 329.5,
+        "width": 174.7,
+        "height": 13.5
+      }
+    },
+    "commST": {
+      "type": "text",
+      "label": "COMMAND (Short Title)",
+      "page": 3,
+      "box": {
+        "left": 242.9,
+        "top": 329.5,
+        "width": 174.7,
+        "height": 13.5
+      }
+    },
+    "perArdDtd": {
+      "type": "text",
+      "label": "Date Awarded",
+      "page": 3,
+      "box": {
+        "left": 417.6,
+        "top": 329.5,
+        "width": 123.4,
+        "height": 13.5
+      }
+    },
+    "serSch": {
+      "type": "text",
+      "label": "NAME AND LOCATION OF SCHOOL ATTENDED",
+      "page": 3,
+      "box": {
+        "left": 68.4,
+        "top": 217.7,
+        "width": 289.2,
+        "height": 13.5
+      }
+    },
+    "serSchdtd": {
+      "type": "text",
+      "label": "Date of School",
+      "page": 3,
+      "box": {
+        "left": 357.3,
+        "top": 217.7,
+        "width": 91.8,
+        "height": 13.5
+      }
+    },
+    "cldStd": {
+      "type": "text",
+      "label": "(If applicable)",
+      "page": 3,
+      "box": {
+        "left": 449.2,
+        "top": 217.7,
+        "width": 91.8,
+        "height": 13.5
+      }
+    },
+    "corTle": {
+      "type": "text",
+      "label": "COORESPONDENCE COURSE TITLE",
+      "page": 3,
+      "box": {
+        "left": 68.4,
+        "top": 105.1,
+        "width": 359.0,
+        "height": 13.5
+      }
+    },
+    "corTledtd": {
+      "type": "text",
+      "label": "Date Completed",
+      "page": 3,
+      "box": {
+        "left": 427.1,
+        "top": 105.1,
+        "width": 114.0,
+        "height": 13.5
+      }
+    },
+    "appName4": {
+      "type": "text",
+      "label": "Applicant&apos;s Name (Last, First, MI)",
+      "page": 4,
+      "box": {
+        "left": 37.6,
+        "top": 722.9,
+        "width": 322.5,
+        "height": 15.4
+      }
+    },
+    "appRaRk4": {
+      "type": "text",
+      "label": "Rate/Rank",
+      "page": 4,
+      "box": {
+        "left": 362.6,
+        "top": 722.9,
+        "width": 101.7,
+        "height": 15.4
+      }
+    },
+    "appSSN4": {
+      "type": "text",
+      "label": "SSN",
+      "page": 4,
+      "box": {
+        "left": 467.1,
+        "top": 722.1,
+        "width": 107.7,
+        "height": 14.5
+      }
+    },
+    "extAct": {
+      "type": "text",
+      "label": "Ext Act",
+      "page": 4,
+      "box": {
+        "left": 45.4,
+        "top": 673.4,
+        "width": 523.8,
+        "height": 29.5
+      }
+    },
+    "speSkl": {
+      "type": "text",
+      "label": "Spe Skl",
+      "page": 4,
+      "box": {
+        "left": 45.4,
+        "top": 447.0,
+        "width": 523.8,
+        "height": 29.5
+      }
+    },
+    "speSkl2": {
+      "type": "text",
+      "label": "Spe Skl 2",
+      "page": 4,
+      "box": {
+        "left": 45.4,
+        "top": 407.2,
+        "width": 523.8,
+        "height": 29.5
+      }
+    },
+    "speSkl3": {
+      "type": "text",
+      "label": "Spe Skl 3",
+      "page": 4,
+      "box": {
+        "left": 45.4,
+        "top": 367.3,
+        "width": 523.8,
+        "height": 29.5
+      }
+    },
+    "radio32": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 330.5,
+        "top": 321.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio33": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 361.3,
+        "top": 321.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "offense": {
+      "type": "text",
+      "label": "OFFENSE(S)",
+      "page": 4,
+      "box": {
+        "left": 70.0,
+        "top": 254.8,
+        "width": 157.0,
+        "height": 22.4
+      }
+    },
+    "plOff": {
+      "type": "text",
+      "label": "PLACE OF OFFENSE(S)",
+      "page": 4,
+      "box": {
+        "left": 227.0,
+        "top": 254.8,
+        "width": 157.0,
+        "height": 22.4
+      }
+    },
+    "dispOff": {
+      "type": "text",
+      "label": "OFFENSE(S)",
+      "page": 4,
+      "box": {
+        "left": 383.6,
+        "top": 254.8,
+        "width": 99.7,
+        "height": 22.4
+      }
+    },
+    "dispDtd": {
+      "type": "text",
+      "label": "DISPOSTION(S)",
+      "page": 4,
+      "box": {
+        "left": 483.4,
+        "top": 254.8,
+        "width": 62.1,
+        "height": 22.4
+      }
+    },
+    "offense2": {
+      "type": "text",
+      "label": "OFFENSE(S)",
+      "page": 4,
+      "box": {
+        "left": 70.0,
+        "top": 232.4,
+        "width": 157.0,
+        "height": 22.4
+      }
+    },
+    "plOff2": {
+      "type": "text",
+      "label": "PLACE OF OFFENSE(S)",
+      "page": 4,
+      "box": {
+        "left": 227.0,
+        "top": 232.4,
+        "width": 157.0,
+        "height": 22.4
+      }
+    },
+    "dispOff2": {
+      "type": "text",
+      "label": "OFFENSE(S)",
+      "page": 4,
+      "box": {
+        "left": 383.6,
+        "top": 232.4,
+        "width": 99.7,
+        "height": 22.4
+      }
+    },
+    "dispDtd2": {
+      "type": "text",
+      "label": "DISPOSTION(S)",
+      "page": 4,
+      "box": {
+        "left": 483.4,
+        "top": 232.4,
+        "width": 62.1,
+        "height": 22.4
+      }
+    },
+    "offense3": {
+      "type": "text",
+      "label": "OFFENSE(S)",
+      "page": 4,
+      "box": {
+        "left": 70.0,
+        "top": 210.0,
+        "width": 157.0,
+        "height": 22.4
+      }
+    },
+    "plOff3": {
+      "type": "text",
+      "label": "PLACE OF OFFENSE(S)",
+      "page": 4,
+      "box": {
+        "left": 227.0,
+        "top": 210.0,
+        "width": 157.0,
+        "height": 22.4
+      }
+    },
+    "dispOff3": {
+      "type": "text",
+      "label": "OFFENSE(S)",
+      "page": 4,
+      "box": {
+        "left": 383.6,
+        "top": 210.0,
+        "width": 99.7,
+        "height": 22.4
+      }
+    },
+    "dispDtd3": {
+      "type": "text",
+      "label": "DISPOSTION(S)",
+      "page": 4,
+      "box": {
+        "left": 483.4,
+        "top": 210.0,
+        "width": 62.1,
+        "height": 22.4
+      }
+    },
+    "dAUsed": {
+      "type": "text",
+      "label": "DRUG/ALCOHOL USED",
+      "page": 4,
+      "box": {
+        "left": 70.0,
+        "top": 122.9,
+        "width": 157.0,
+        "height": 22.4
+      }
+    },
+    "amtTak": {
+      "type": "text",
+      "label": "AMOUNT TAKEN",
+      "page": 4,
+      "box": {
+        "left": 227.0,
+        "top": 122.9,
+        "width": 157.0,
+        "height": 22.4
+      }
+    },
+    "freUse": {
+      "type": "text",
+      "label": "USE",
+      "page": 4,
+      "box": {
+        "left": 383.6,
+        "top": 122.9,
+        "width": 99.7,
+        "height": 22.4
+      }
+    },
+    "dADtd": {
+      "type": "text",
+      "label": "USED",
+      "page": 4,
+      "box": {
+        "left": 483.4,
+        "top": 122.9,
+        "width": 62.1,
+        "height": 22.4
+      }
+    },
+    "dAUsed2": {
+      "type": "text",
+      "label": "DRUG/ALCOHOL USED",
+      "page": 4,
+      "box": {
+        "left": 70.0,
+        "top": 100.5,
+        "width": 157.0,
+        "height": 22.4
+      }
+    },
+    "amtTak2": {
+      "type": "text",
+      "label": "AMOUNT TAKEN",
+      "page": 4,
+      "box": {
+        "left": 227.0,
+        "top": 100.5,
+        "width": 157.0,
+        "height": 22.4
+      }
+    },
+    "freUse2": {
+      "type": "text",
+      "label": "USE",
+      "page": 4,
+      "box": {
+        "left": 383.6,
+        "top": 100.5,
+        "width": 99.7,
+        "height": 22.4
+      }
+    },
+    "dADtd2": {
+      "type": "text",
+      "label": "USED",
+      "page": 4,
+      "box": {
+        "left": 483.4,
+        "top": 100.5,
+        "width": 62.1,
+        "height": 22.4
+      }
+    },
+    "dAUsed3": {
+      "type": "text",
+      "label": "DRUG/ALCOHOL USED",
+      "page": 4,
+      "box": {
+        "left": 70.0,
+        "top": 78.2,
+        "width": 157.0,
+        "height": 22.4
+      }
+    },
+    "amtTak3": {
+      "type": "text",
+      "label": "AMOUNT TAKEN",
+      "page": 4,
+      "box": {
+        "left": 227.0,
+        "top": 78.2,
+        "width": 157.0,
+        "height": 22.4
+      }
+    },
+    "freUse3": {
+      "type": "text",
+      "label": "USE",
+      "page": 4,
+      "box": {
+        "left": 383.6,
+        "top": 78.2,
+        "width": 99.7,
+        "height": 22.4
+      }
+    },
+    "dADtd3": {
+      "type": "text",
+      "label": "USED",
+      "page": 4,
+      "box": {
+        "left": 483.4,
+        "top": 78.2,
+        "width": 62.1,
+        "height": 22.4
+      }
+    },
+    "appName5": {
+      "type": "text",
+      "label": "Applicant&apos;s Name (Last, First, MI)",
+      "page": 5,
+      "box": {
+        "left": 37.2,
+        "top": 723.1,
+        "width": 322.5,
+        "height": 15.4
+      }
+    },
+    "appRaRk5": {
+      "type": "text",
+      "label": "Rate/Rank",
+      "page": 5,
+      "box": {
+        "left": 362.2,
+        "top": 723.1,
+        "width": 101.7,
+        "height": 15.4
+      }
+    },
+    "appSSN5": {
+      "type": "text",
+      "label": "SSN",
+      "page": 5,
+      "box": {
+        "left": 466.6,
+        "top": 722.2,
+        "width": 107.7,
+        "height": 14.5
+      }
+    },
+    "prevProg": {
+      "type": "text",
+      "label": "PROGRAM",
+      "page": 5,
+      "box": {
+        "left": 70.0,
+        "top": 650.4,
+        "width": 188.5,
+        "height": 22.4
+      }
+    },
+    "spoSer": {
+      "type": "text",
+      "label": "SERVICE",
+      "page": 5,
+      "box": {
+        "left": 258.7,
+        "top": 650.4,
+        "width": 69.5,
+        "height": 22.4
+      }
+    },
+    "prPoDtd": {
+      "type": "text",
+      "label": "DATE",
+      "page": 5,
+      "box": {
+        "left": 328.1,
+        "top": 650.4,
+        "width": 66.5,
+        "height": 22.4
+      }
+    },
+    "result": {
+      "type": "text",
+      "label": "(Selected but declined or non-selection)",
+      "page": 5,
+      "box": {
+        "left": 394.3,
+        "top": 650.4,
+        "width": 147.6,
+        "height": 22.4
+      }
+    },
+    "prevProg2": {
+      "type": "text",
+      "label": "PROGRAM",
+      "page": 5,
+      "box": {
+        "left": 70.0,
+        "top": 628.0,
+        "width": 188.5,
+        "height": 22.4
+      }
+    },
+    "spoSer2": {
+      "type": "text",
+      "label": "SERVICE",
+      "page": 5,
+      "box": {
+        "left": 258.7,
+        "top": 628.0,
+        "width": 69.5,
+        "height": 22.4
+      }
+    },
+    "prPoDtd2": {
+      "type": "text",
+      "label": "DATE",
+      "page": 5,
+      "box": {
+        "left": 328.1,
+        "top": 628.0,
+        "width": 66.5,
+        "height": 22.4
+      }
+    },
+    "result2": {
+      "type": "text",
+      "label": "(Selected but declined or non-selection)",
+      "page": 5,
+      "box": {
+        "left": 394.3,
+        "top": 628.0,
+        "width": 147.6,
+        "height": 22.4
+      }
+    },
+    "prevProg3": {
+      "type": "text",
+      "label": "PROGRAM",
+      "page": 5,
+      "box": {
+        "left": 70.0,
+        "top": 605.6,
+        "width": 188.5,
+        "height": 22.4
+      }
+    },
+    "spoSer3": {
+      "type": "text",
+      "label": "SERVICE",
+      "page": 5,
+      "box": {
+        "left": 258.7,
+        "top": 605.6,
+        "width": 69.5,
+        "height": 22.4
+      }
+    },
+    "prPoDtd3": {
+      "type": "text",
+      "label": "DATE",
+      "page": 5,
+      "box": {
+        "left": 328.1,
+        "top": 605.6,
+        "width": 66.5,
+        "height": 22.4
+      }
+    },
+    "result3": {
+      "type": "text",
+      "label": "(Selected but declined or non-selection)",
+      "page": 5,
+      "box": {
+        "left": 394.3,
+        "top": 605.6,
+        "width": 147.6,
+        "height": 22.4
+      }
+    },
+    "radio34": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 198.0,
+        "top": 518.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio35": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 260.9,
+        "top": 518.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio36": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 5,
+      "box": {
+        "left": 310.5,
+        "top": 518.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "invAg": {
+      "type": "text",
+      "label": "33. Investigating Agency (e.g., DOD, FBI, State Department)",
+      "page": 5,
+      "box": {
+        "left": 260.2,
+        "top": 487.5,
+        "width": 146.4,
+        "height": 15.0
+      }
+    },
+    "invAgDtd": {
+      "type": "text",
+      "label": "Date of Investigation",
+      "page": 5,
+      "box": {
+        "left": 496.9,
+        "top": 487.5,
+        "width": 72.9,
+        "height": 15.0
+      }
+    },
+    "secMgrPr": {
+      "type": "text",
+      "label": "Security Manager Name and Rank (Print)",
+      "page": 5,
+      "box": {
+        "left": 45.4,
+        "top": 420.0,
+        "width": 367.9,
+        "height": 20.3
+      }
+    },
+    "secMgPh": {
+      "type": "text",
+      "label": "Work Phone",
+      "page": 5,
+      "box": {
+        "left": 441.1,
+        "top": 419.2,
+        "width": 116.8,
+        "height": 19.5
+      }
+    },
+    "sMSigDtd": {
+      "type": "text",
+      "label": "Security Manager Signature and Date",
+      "page": 5,
+      "box": {
+        "left": 45.4,
+        "top": 381.8,
+        "width": 367.9,
+        "height": 20.3
+      }
+    },
+    "sMDsn": {
+      "type": "text",
+      "label": "DSN",
+      "page": 5,
+      "box": {
+        "left": 441.3,
+        "top": 381.1,
+        "width": 116.8,
+        "height": 19.5
+      }
+    },
+    "appVerSig": {
+      "type": "text",
+      "label": "Applicant&apos;s Signature",
+      "page": 6,
+      "box": {
+        "left": 127.5,
+        "top": 212.5,
+        "width": 283.1,
+        "height": 16.8
+      }
+    },
+    "appVerSig2": {
+      "type": "text",
+      "label": "Date",
+      "page": 6,
+      "box": {
+        "left": 485.7,
+        "top": 212.5,
+        "width": 68.0,
+        "height": 16.8
+      }
+    },
+    "appName6": {
+      "type": "text",
+      "label": "Applicant&apos;s Name (Last, First, MI)",
+      "page": 7,
+      "box": {
+        "left": 37.3,
+        "top": 720.3,
+        "width": 322.5,
+        "height": 15.4
+      }
+    },
+    "appRaRk6": {
+      "type": "text",
+      "label": "Rate/Rank",
+      "page": 7,
+      "box": {
+        "left": 362.3,
+        "top": 720.3,
+        "width": 101.7,
+        "height": 15.4
+      }
+    },
+    "appSSN6": {
+      "type": "text",
+      "label": "SSN",
+      "page": 7,
+      "box": {
+        "left": 466.8,
+        "top": 719.5,
+        "width": 107.7,
+        "height": 14.5
+      }
+    },
+    "reaCom": {
+      "type": "text",
+      "label": "Rea Com",
+      "page": 7,
+      "box": {
+        "left": 44.3,
+        "top": 606.4,
+        "width": 523.6,
+        "height": 262.6
+      },
+      "multiline": true
+    },
+    "corVal": {
+      "type": "text",
+      "label": "U.S. Navy",
+      "page": 7,
+      "box": {
+        "left": 44.3,
+        "top": 315.3,
+        "width": 523.6,
+        "height": 262.6
+      },
+      "multiline": true
+    },
+    "appName7": {
+      "type": "text",
+      "label": "Applicant&apos;s Name (Last, First, MI)",
+      "page": 8,
+      "box": {
+        "left": 37.5,
+        "top": 715.1,
+        "width": 322.5,
+        "height": 15.4
+      }
+    },
+    "appRaRk7": {
+      "type": "text",
+      "label": "Rate/Rank",
+      "page": 8,
+      "box": {
+        "left": 362.5,
+        "top": 715.1,
+        "width": 101.7,
+        "height": 15.4
+      }
+    },
+    "appSSN7": {
+      "type": "text",
+      "label": "SSN",
+      "page": 8,
+      "box": {
+        "left": 467.0,
+        "top": 714.2,
+        "width": 107.7,
+        "height": 14.5
+      }
+    },
+    "waiReq": {
+      "type": "text",
+      "label": "Wai Req",
+      "page": 8,
+      "box": {
+        "left": 45.0,
+        "top": 653.0,
+        "width": 523.6,
+        "height": 365.8
+      },
+      "multiline": true
+    },
+    "brSer": {
+      "type": "text",
+      "label": "Service",
+      "page": 8,
+      "box": {
+        "left": 63.0,
+        "top": 230.4,
+        "width": 82.3,
+        "height": 32.7
+      },
+      "multiline": true
+    },
+    "enlDate": {
+      "type": "text",
+      "label": "(DD MMM YYYY)",
+      "page": 8,
+      "box": {
+        "left": 147.6,
+        "top": 229.5,
+        "width": 80.2,
+        "height": 32.7
+      },
+      "multiline": true
+    },
+    "disDate": {
+      "type": "text",
+      "label": "(DD MMM YYYY)",
+      "page": 8,
+      "box": {
+        "left": 227.8,
+        "top": 229.5,
+        "width": 80.2,
+        "height": 32.7
+      },
+      "multiline": true
+    },
+    "tmLst": {
+      "type": "text",
+      "label": "To Misconduct",
+      "page": 8,
+      "box": {
+        "left": 308.0,
+        "top": 229.5,
+        "width": 80.2,
+        "height": 30.4
+      },
+      "multiline": true
+    },
+    "inaDate": {
+      "type": "text",
+      "label": "(DD MMM YYYY)",
+      "page": 8,
+      "box": {
+        "left": 389.5,
+        "top": 229.5,
+        "width": 80.2,
+        "height": 32.7
+      },
+      "multiline": true
+    },
+    "aDDte": {
+      "type": "text",
+      "label": "(DD MMM YYYY)",
+      "page": 8,
+      "box": {
+        "left": 469.7,
+        "top": 229.5,
+        "width": 80.2,
+        "height": 32.7
+      },
+      "multiline": true
+    },
+    "appName8": {
+      "type": "text",
+      "label": "Applicant&apos;s Name (Last, First, MI)",
+      "page": 9,
+      "box": {
+        "left": 37.5,
+        "top": 724.4,
+        "width": 322.5,
+        "height": 15.4
+      }
+    },
+    "appRaRk8": {
+      "type": "text",
+      "label": "Rate/Rank",
+      "page": 9,
+      "box": {
+        "left": 362.5,
+        "top": 724.4,
+        "width": 101.7,
+        "height": 15.4
+      }
+    },
+    "appSSN8": {
+      "type": "text",
+      "label": "SSN",
+      "page": 9,
+      "box": {
+        "left": 466.9,
+        "top": 723.5,
+        "width": 107.7,
+        "height": 14.5
+      }
+    },
+    "comOffNme": {
+      "type": "text",
+      "label": "Commanding Officer&apos;s Name",
+      "page": 9,
+      "box": {
+        "left": 155.1,
+        "top": 681.1,
+        "width": 406.5,
+        "height": 14.0
+      }
+    },
+    "comNme": {
+      "type": "text",
+      "label": "Command",
+      "page": 9,
+      "box": {
+        "left": 89.5,
+        "top": 661.4,
+        "width": 472.1,
+        "height": 14.0
+      }
+    },
+    "strAdd": {
+      "type": "text",
+      "label": "Street Address",
+      "page": 9,
+      "box": {
+        "left": 105.4,
+        "top": 641.7,
+        "width": 456.2,
+        "height": 14.0
+      }
+    },
+    "ctyAdd": {
+      "type": "text",
+      "label": "City",
+      "page": 9,
+      "box": {
+        "left": 66.0,
+        "top": 622.1,
+        "width": 227.4,
+        "height": 14.0
+      }
+    },
+    "staAdd": {
+      "type": "text",
+      "label": "State",
+      "page": 9,
+      "box": {
+        "left": 329.7,
+        "top": 622.1,
+        "width": 97.9,
+        "height": 14.0
+      }
+    },
+    "zipCde": {
+      "type": "text",
+      "label": "Zip Code",
+      "page": 9,
+      "box": {
+        "left": 479.1,
+        "top": 622.1,
+        "width": 82.7,
+        "height": 14.0
+      }
+    },
+    "wrkPhn": {
+      "type": "text",
+      "label": "Work Phone",
+      "page": 9,
+      "box": {
+        "left": 97.0,
+        "top": 602.4,
+        "width": 119.6,
+        "height": 14.0
+      }
+    },
+    "wrkPhn2": {
+      "type": "text",
+      "label": "DSN",
+      "page": 9,
+      "box": {
+        "left": 264.6,
+        "top": 602.4,
+        "width": 126.5,
+        "height": 14.0
+      }
+    },
+    "wrkPhn3": {
+      "type": "text",
+      "label": "FAX",
+      "page": 9,
+      "box": {
+        "left": 435.4,
+        "top": 602.4,
+        "width": 126.5,
+        "height": 14.0
+      }
+    },
+    "radio37": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 9,
+      "box": {
+        "left": 216.8,
+        "top": 548.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio38": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 9,
+      "box": {
+        "left": 292.0,
+        "top": 548.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio39": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 9,
+      "box": {
+        "left": 366.1,
+        "top": 548.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio40": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 9,
+      "box": {
+        "left": 441.1,
+        "top": 548.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio41": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 9,
+      "box": {
+        "left": 517.0,
+        "top": 548.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio42": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 9,
+      "box": {
+        "left": 216.8,
+        "top": 528.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio43": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 9,
+      "box": {
+        "left": 292.0,
+        "top": 528.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio44": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 9,
+      "box": {
+        "left": 366.1,
+        "top": 528.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio45": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 9,
+      "box": {
+        "left": 441.1,
+        "top": 528.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio46": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 9,
+      "box": {
+        "left": 517.0,
+        "top": 528.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio47": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 9,
+      "box": {
+        "left": 216.8,
+        "top": 509.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio48": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 9,
+      "box": {
+        "left": 292.0,
+        "top": 509.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio49": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 9,
+      "box": {
+        "left": 366.1,
+        "top": 509.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio50": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 9,
+      "box": {
+        "left": 441.1,
+        "top": 509.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio51": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 9,
+      "box": {
+        "left": 517.0,
+        "top": 509.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio52": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 9,
+      "box": {
+        "left": 216.8,
+        "top": 490.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio53": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 9,
+      "box": {
+        "left": 292.0,
+        "top": 490.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio54": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 9,
+      "box": {
+        "left": 366.1,
+        "top": 490.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio55": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 9,
+      "box": {
+        "left": 441.1,
+        "top": 490.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio56": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 9,
+      "box": {
+        "left": 517.0,
+        "top": 490.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio57": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 9,
+      "box": {
+        "left": 216.8,
+        "top": 472.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio58": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 9,
+      "box": {
+        "left": 292.0,
+        "top": 472.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio59": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 9,
+      "box": {
+        "left": 366.1,
+        "top": 472.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio60": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 9,
+      "box": {
+        "left": 441.1,
+        "top": 472.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio61": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 9,
+      "box": {
+        "left": 517.0,
+        "top": 472.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio62": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 9,
+      "box": {
+        "left": 216.8,
+        "top": 451.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio63": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 9,
+      "box": {
+        "left": 292.0,
+        "top": 451.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio64": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 9,
+      "box": {
+        "left": 366.1,
+        "top": 451.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio65": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 9,
+      "box": {
+        "left": 441.1,
+        "top": 451.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio66": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 9,
+      "box": {
+        "left": 517.0,
+        "top": 451.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio67": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 9,
+      "box": {
+        "left": 216.8,
+        "top": 431.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio68": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 9,
+      "box": {
+        "left": 292.0,
+        "top": 431.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio69": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 9,
+      "box": {
+        "left": 366.1,
+        "top": 431.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio70": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 9,
+      "box": {
+        "left": 441.1,
+        "top": 431.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio71": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 9,
+      "box": {
+        "left": 517.0,
+        "top": 431.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio72": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 9,
+      "box": {
+        "left": 216.8,
+        "top": 413.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio73": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 9,
+      "box": {
+        "left": 292.0,
+        "top": 413.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio74": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 9,
+      "box": {
+        "left": 366.1,
+        "top": 413.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio75": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 9,
+      "box": {
+        "left": 441.1,
+        "top": 413.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio76": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 9,
+      "box": {
+        "left": 517.0,
+        "top": 413.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio77": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 9,
+      "box": {
+        "left": 216.8,
+        "top": 394.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio78": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 9,
+      "box": {
+        "left": 292.0,
+        "top": 394.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio79": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 9,
+      "box": {
+        "left": 366.1,
+        "top": 394.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio80": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 9,
+      "box": {
+        "left": 441.1,
+        "top": 394.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio81": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 9,
+      "box": {
+        "left": 517.0,
+        "top": 394.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio82": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 9,
+      "box": {
+        "left": 287.9,
+        "top": 365.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio83": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 9,
+      "box": {
+        "left": 340.1,
+        "top": 365.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio84": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 9,
+      "box": {
+        "left": 287.9,
+        "top": 344.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio85": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 9,
+      "box": {
+        "left": 340.1,
+        "top": 344.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio86": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 9,
+      "box": {
+        "left": 224.3,
+        "top": 325.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio87": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 9,
+      "box": {
+        "left": 276.5,
+        "top": 325.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "rnkOf": {
+      "type": "text",
+      "label": "Member ranked",
+      "page": 9,
+      "box": {
+        "left": 104.0,
+        "top": 292.4,
+        "width": 22.2,
+        "height": 17.8
+      }
+    },
+    "rnkOut": {
+      "type": "text",
+      "label": "out of",
+      "page": 9,
+      "box": {
+        "left": 153.9,
+        "top": 292.4,
+        "width": 22.2,
+        "height": 17.8
+      }
+    },
+    "lDRnkOf": {
+      "type": "text",
+      "label": "Member ranked",
+      "page": 9,
+      "box": {
+        "left": 104.0,
+        "top": 243.4,
+        "width": 22.2,
+        "height": 17.8
+      }
+    },
+    "lDRnkOut": {
+      "type": "text",
+      "label": "out of",
+      "page": 9,
+      "box": {
+        "left": 153.9,
+        "top": 243.4,
+        "width": 22.2,
+        "height": 17.8
+      }
+    },
+    "cWRnkOf": {
+      "type": "text",
+      "label": "Member ranked",
+      "page": 9,
+      "box": {
+        "left": 104.0,
+        "top": 217.1,
+        "width": 22.2,
+        "height": 17.8
+      }
+    },
+    "cWRnkOut": {
+      "type": "text",
+      "label": "out of",
+      "page": 9,
+      "box": {
+        "left": 153.9,
+        "top": 217.1,
+        "width": 22.2,
+        "height": 17.8
+      }
+    },
+    "appName9": {
+      "type": "text",
+      "label": "Applicant&apos;s Name (Last, First, MI)",
+      "page": 10,
+      "box": {
+        "left": 37.6,
+        "top": 724.7,
+        "width": 322.5,
+        "height": 15.4
+      }
+    },
+    "appRaRk9": {
+      "type": "text",
+      "label": "Rate/Rank",
+      "page": 10,
+      "box": {
+        "left": 362.6,
+        "top": 724.7,
+        "width": 101.7,
+        "height": 15.4
+      }
+    },
+    "appSSN9": {
+      "type": "text",
+      "label": "SSN",
+      "page": 10,
+      "box": {
+        "left": 467.0,
+        "top": 723.9,
+        "width": 107.7,
+        "height": 14.5
+      }
+    },
+    "cORec": {
+      "type": "text",
+      "label": "COMMANDING OFFICER&apos;S RECOMMENDATION",
+      "page": 10,
+      "box": {
+        "left": 44.1,
+        "top": 683.2,
+        "width": 524.1,
+        "height": 513.8
+      },
+      "multiline": true
+    },
+    "waiSig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 10,
+      "box": {
+        "left": 123.3,
+        "top": 89.7,
+        "width": 242.3,
+        "height": 12.2
+      }
+    },
+    "waiSigDtd": {
+      "type": "text",
+      "label": "Date",
+      "page": 10,
+      "box": {
+        "left": 440.6,
+        "top": 89.7,
+        "width": 72.1,
+        "height": 12.2
+      }
+    },
+    "appName10": {
+      "type": "text",
+      "label": "Applicant&apos;s Name (Last, First, MI)",
+      "page": 11,
+      "box": {
+        "left": 38.3,
+        "top": 719.0,
+        "width": 322.5,
+        "height": 15.4
+      }
+    },
+    "appRaRk10": {
+      "type": "text",
+      "label": "Rate/Rank",
+      "page": 11,
+      "box": {
+        "left": 363.3,
+        "top": 719.0,
+        "width": 101.7,
+        "height": 15.4
+      }
+    },
+    "appSSN10": {
+      "type": "text",
+      "label": "SSN",
+      "page": 11,
+      "box": {
+        "left": 467.8,
+        "top": 718.2,
+        "width": 107.7,
+        "height": 14.5
+      }
+    },
+    "prNmFl": {
+      "type": "text",
+      "label": "PRINT NAME IN FULL (Last, First, Middle)",
+      "page": 11,
+      "box": {
+        "left": 202.5,
+        "top": 661.3,
+        "width": 362.8,
+        "height": 15.4
+      }
+    },
+    "prNmFl2": {
+      "type": "text",
+      "label": "BIRTHDATE",
+      "page": 11,
+      "box": {
+        "left": 96.6,
+        "top": 629.3,
+        "width": 82.5,
+        "height": 15.4
+      }
+    },
+    "soSeNm": {
+      "type": "text",
+      "label": "SOCIAL SECURITY NUMBER",
+      "page": 11,
+      "box": {
+        "left": 381.6,
+        "top": 629.3,
+        "width": 92.8,
+        "height": 15.4
+      }
+    },
+    "grdYr": {
+      "type": "text",
+      "label": "GRADUATION YEAR",
+      "page": 11,
+      "box": {
+        "left": 129.4,
+        "top": 611.1,
+        "width": 49.7,
+        "height": 15.4
+      }
+    },
+    "numTraRe": {
+      "type": "text",
+      "label": "NUMBER OF TRANSCRIPTS REQUESTED",
+      "page": 11,
+      "box": {
+        "left": 431.3,
+        "top": 611.1,
+        "width": 43.1,
+        "height": 15.4
+      }
+    },
+    "snAdd": {
+      "type": "text",
+      "label": "Send Transcript to (Address)",
+      "page": 11,
+      "box": {
+        "left": 180.0,
+        "top": 591.1,
+        "width": 332.9,
+        "height": 15.4
+      }
+    },
+    "snAdd5": {
+      "type": "text",
+      "label": "Check or Money Order enclosed $",
+      "page": 11,
+      "box": {
+        "left": 171.6,
+        "top": 526.0,
+        "width": 47.8,
+        "height": 15.4
+      }
+    },
+    "tranSigDtd": {
+      "type": "text",
+      "label": "DATE",
+      "page": 11,
+      "box": {
+        "left": 451.0,
+        "top": 489.4,
+        "width": 92.1,
+        "height": 15.2
+      }
+    },
+    "tranSig": {
+      "type": "text",
+      "label": "SIGNATURE",
+      "page": 11,
+      "box": {
+        "left": 97.9,
+        "top": 488.5,
+        "width": 289.7,
+        "height": 15.4
+      }
+    },
+    "gpa": {
+      "type": "text",
+      "label": "Candidates Cumulative GPA",
+      "page": 11,
+      "box": {
+        "left": 169.5,
+        "top": 318.0,
+        "width": 37.9,
+        "height": 14.4
+      }
+    },
+    "gPASc": {
+      "type": "text",
+      "label": "GPA Scale",
+      "page": 11,
+      "box": {
+        "left": 301.5,
+        "top": 318.0,
+        "width": 40.0,
+        "height": 15.5
+      }
+    },
+    "ric": {
+      "type": "text",
+      "label": "Rank in Class",
+      "page": 11,
+      "box": {
+        "left": 440.3,
+        "top": 318.0,
+        "width": 45.4,
+        "height": 16.5
+      }
+    },
+    "fyc": {
+      "type": "text",
+      "label": "4 Year College",
+      "page": 11,
+      "box": {
+        "left": 315.0,
+        "top": 287.3,
+        "width": 54.5,
+        "height": 16.8
+      }
+    },
+    "tyc": {
+      "type": "text",
+      "label": "2 Year College",
+      "page": 11,
+      "box": {
+        "left": 451.7,
+        "top": 287.3,
+        "width": 54.5,
+        "height": 16.8
+      }
+    },
+    "ets": {
+      "type": "text",
+      "label": "School ETS Code",
+      "page": 11,
+      "box": {
+        "left": 112.3,
+        "top": 259.3,
+        "width": 44.2,
+        "height": 16.8
+      }
+    },
+    "radio88": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 11,
+      "box": {
+        "left": 196.4,
+        "top": 181.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio89": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 11,
+      "box": {
+        "left": 234.6,
+        "top": 181.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio90": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 11,
+      "box": {
+        "left": 332.5,
+        "top": 181.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio91": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 11,
+      "box": {
+        "left": 370.7,
+        "top": 181.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio92": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 11,
+      "box": {
+        "left": 460.5,
+        "top": 181.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio93": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 11,
+      "box": {
+        "left": 498.7,
+        "top": 181.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio94": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 11,
+      "box": {
+        "left": 79.7,
+        "top": 180.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio95": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 11,
+      "box": {
+        "left": 119.1,
+        "top": 180.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio96": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 11,
+      "box": {
+        "left": 435.7,
+        "top": 132.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio97": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 11,
+      "box": {
+        "left": 473.9,
+        "top": 132.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio98": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 11,
+      "box": {
+        "left": 209.1,
+        "top": 131.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio99": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 11,
+      "box": {
+        "left": 247.3,
+        "top": 131.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio100": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 11,
+      "box": {
+        "left": 277.5,
+        "top": 109.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio101": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 11,
+      "box": {
+        "left": 315.7,
+        "top": 109.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio102": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 11,
+      "box": {
+        "left": 102.2,
+        "top": 79.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio103": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 11,
+      "box": {
+        "left": 102.2,
+        "top": 63.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "appName11": {
+      "type": "text",
+      "label": "Applicant&apos;s Name (Last, First, MI)",
+      "page": 12,
+      "box": {
+        "left": 37.6,
+        "top": 722.3,
+        "width": 322.5,
+        "height": 15.4
+      }
+    },
+    "appRaRk11": {
+      "type": "text",
+      "label": "Rate/Rank",
+      "page": 12,
+      "box": {
+        "left": 362.6,
+        "top": 722.3,
+        "width": 101.7,
+        "height": 15.4
+      }
+    },
+    "appSSN11": {
+      "type": "text",
+      "label": "SSN",
+      "page": 12,
+      "box": {
+        "left": 467.0,
+        "top": 721.5,
+        "width": 107.7,
+        "height": 14.5
+      }
+    },
+    "nmSc": {
+      "type": "text",
+      "label": "Official Name of School",
+      "page": 12,
+      "box": {
+        "left": 131.3,
+        "top": 675.4,
+        "width": 440.7,
+        "height": 15.4
+      }
+    },
+    "adSc": {
+      "type": "text",
+      "label": "Street Address",
+      "page": 12,
+      "box": {
+        "left": 103.2,
+        "top": 657.3,
+        "width": 468.8,
+        "height": 15.4
+      }
+    },
+    "ciSc": {
+      "type": "text",
+      "label": "City",
+      "page": 12,
+      "box": {
+        "left": 63.8,
+        "top": 639.1,
+        "width": 110.6,
+        "height": 15.4
+      }
+    },
+    "stSc": {
+      "type": "text",
+      "label": "State",
+      "page": 12,
+      "box": {
+        "left": 222.2,
+        "top": 639.1,
+        "width": 47.8,
+        "height": 15.0
+      }
+    },
+    "zpSc": {
+      "type": "text",
+      "label": "Zip Code",
+      "page": 12,
+      "box": {
+        "left": 324.4,
+        "top": 639.1,
+        "width": 73.0,
+        "height": 15.0
+      }
+    },
+    "scPh": {
+      "type": "text",
+      "label": "School Telephone",
+      "page": 12,
+      "box": {
+        "left": 483.8,
+        "top": 639.1,
+        "width": 88.1,
+        "height": 15.9
+      }
+    },
+    "rkMY": {
+      "type": "text",
+      "label": "Ranking Period (Month/Year)",
+      "page": 12,
+      "box": {
+        "left": 152.8,
+        "top": 609.9,
+        "width": 46.9,
+        "height": 15.4
+      }
+    },
+    "ciSc2": {
+      "type": "text",
+      "label": "Ci Sc 2",
+      "page": 12,
+      "box": {
+        "left": 44.1,
+        "top": 564.5,
+        "width": 527.9,
+        "height": 137.3
+      },
+      "multiline": true
+    },
+    "radio104": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 12,
+      "box": {
+        "left": 65.6,
+        "top": 395.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio105": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 12,
+      "box": {
+        "left": 118.7,
+        "top": 395.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio106": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 12,
+      "box": {
+        "left": 169.9,
+        "top": 395.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio107": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 12,
+      "box": {
+        "left": 219.3,
+        "top": 395.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio108": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 12,
+      "box": {
+        "left": 267.8,
+        "top": 395.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio109": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 12,
+      "box": {
+        "left": 319.1,
+        "top": 395.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio110": {
+      "type": "radio",
+      "label": "Item5",
+      "page": 12,
+      "box": {
+        "left": 369.4,
+        "top": 395.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "addComSc": {
+      "type": "text",
+      "label": "Add Com Sc",
+      "page": 12,
+      "box": {
+        "left": 44.1,
+        "top": 358.4,
+        "width": 527.9,
+        "height": 137.3
+      },
+      "multiline": true
+    },
+    "prNmTi": {
+      "type": "text",
+      "label": "Printed Name and Tiltle",
+      "page": 12,
+      "box": {
+        "left": 44.1,
+        "top": 154.1,
+        "width": 528.8,
+        "height": 61.6
+      },
+      "multiline": true
+    },
+    "sgNmTi": {
+      "type": "text",
+      "label": "Signature",
+      "page": 12,
+      "box": {
+        "left": 44.1,
+        "top": 75.4,
+        "width": 256.9,
+        "height": 16.6
+      }
+    },
+    "dtdSgNm": {
+      "type": "text",
+      "label": "Date",
+      "page": 12,
+      "box": {
+        "left": 351.6,
+        "top": 75.4,
+        "width": 206.2,
+        "height": 16.6
+      }
+    },
+    "appName12": {
+      "type": "text",
+      "label": "Applicant&apos;s Name (Last, First, MI)",
+      "page": 13,
+      "box": {
+        "left": 37.6,
+        "top": 731.0,
+        "width": 322.5,
+        "height": 15.4
+      }
+    },
+    "appRaRk12": {
+      "type": "text",
+      "label": "Rate/Rank",
+      "page": 13,
+      "box": {
+        "left": 362.6,
+        "top": 731.0,
+        "width": 101.7,
+        "height": 15.4
+      }
+    },
+    "appSSN12": {
+      "type": "text",
+      "label": "SSN",
+      "page": 13,
+      "box": {
+        "left": 467.0,
+        "top": 730.2,
+        "width": 107.7,
+        "height": 14.5
+      }
+    },
+    "nmUnCo": {
+      "type": "text",
+      "label": "Name of University/College",
+      "page": 13,
+      "box": {
+        "left": 146.0,
+        "top": 641.0,
+        "width": 422.2,
+        "height": 15.0
+      }
+    },
+    "sTUnCo": {
+      "type": "text",
+      "label": "Street Address",
+      "page": 13,
+      "box": {
+        "left": 101.9,
+        "top": 617.6,
+        "width": 466.3,
+        "height": 15.0
+      }
+    },
+    "ciUnCo": {
+      "type": "text",
+      "label": "City",
+      "page": 13,
+      "box": {
+        "left": 63.5,
+        "top": 594.3,
+        "width": 504.7,
+        "height": 15.0
+      }
+    },
+    "stUnCo": {
+      "type": "text",
+      "label": "State",
+      "page": 13,
+      "box": {
+        "left": 68.2,
+        "top": 572.0,
+        "width": 500.0,
+        "height": 15.0
+      }
+    },
+    "zpUnCo": {
+      "type": "text",
+      "label": "Zip Code",
+      "page": 13,
+      "box": {
+        "left": 82.2,
+        "top": 548.7,
+        "width": 486.0,
+        "height": 15.0
+      }
+    },
+    "nmTrs": {
+      "type": "text",
+      "label": "Name on Transcript",
+      "page": 13,
+      "box": {
+        "left": 116.9,
+        "top": 525.4,
+        "width": 451.3,
+        "height": 15.0
+      }
+    },
+    "dtAtt": {
+      "type": "text",
+      "label": "Dates attended",
+      "page": 13,
+      "box": {
+        "left": 104.7,
+        "top": 502.1,
+        "width": 463.5,
+        "height": 15.0
+      }
+    },
+    "yrOGd": {
+      "type": "text",
+      "label": "Year of Graduation",
+      "page": 13,
+      "box": {
+        "left": 117.9,
+        "top": 477.9,
+        "width": 450.3,
+        "height": 15.0
+      }
+    },
+    "degCol": {
+      "type": "text",
+      "label": "Degree (College Only)",
+      "page": 13,
+      "box": {
+        "left": 130.0,
+        "top": 451.9,
+        "width": 438.2,
+        "height": 15.0
+      }
+    },
+    "numTrn": {
+      "type": "text",
+      "label": "Number of transcripts requested",
+      "page": 13,
+      "box": {
+        "left": 163.8,
+        "top": 426.8,
+        "width": 404.4,
+        "height": 15.0
+      }
+    },
+    "cMOr": {
+      "type": "text",
+      "label": "Check or money order enclosed $",
+      "page": 13,
+      "box": {
+        "left": 179.7,
+        "top": 400.7,
+        "width": 388.5,
+        "height": 15.0
+      }
+    },
+    "trnTo": {
+      "type": "text",
+      "label": "Send transcript to",
+      "page": 13,
+      "box": {
+        "left": 179.7,
+        "top": 346.1,
+        "width": 388.5,
+        "height": 15.0
+      }
+    },
+    "tnSig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 13,
+      "box": {
+        "left": 116.6,
+        "top": 162.8,
+        "width": 279.4,
+        "height": 16.3
+      }
+    },
+    "trSigDtd": {
+      "type": "text",
+      "label": "Date",
+      "page": 13,
+      "box": {
+        "left": 449.5,
+        "top": 162.8,
+        "width": 91.9,
+        "height": 16.3
+      }
+    },
+    "appName13": {
+      "type": "text",
+      "label": "Applicant&apos;s Name (Last, First, MI)",
+      "page": 14,
+      "box": {
+        "left": 37.6,
+        "top": 719.1,
+        "width": 322.5,
+        "height": 15.4
+      }
+    },
+    "appRaRk13": {
+      "type": "text",
+      "label": "Rate/Rank",
+      "page": 14,
+      "box": {
+        "left": 362.6,
+        "top": 719.1,
+        "width": 101.7,
+        "height": 15.4
+      }
+    },
+    "appSSN13": {
+      "type": "text",
+      "label": "SSN",
+      "page": 14,
+      "box": {
+        "left": 467.0,
+        "top": 718.2,
+        "width": 107.7,
+        "height": 14.5
+      }
+    },
+    "radio111": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 14,
+      "box": {
+        "left": 461.2,
+        "top": 617.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio112": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 14,
+      "box": {
+        "left": 511.6,
+        "top": 617.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "bKInfo": {
+      "type": "text",
+      "label": "B K Info",
+      "page": 14,
+      "box": {
+        "left": 45.0,
+        "top": 605.3,
+        "width": 523.2,
+        "height": 56.2
+      },
+      "multiline": true
+    },
+    "radio113": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 14,
+      "box": {
+        "left": 461.2,
+        "top": 542.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio114": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 14,
+      "box": {
+        "left": 511.6,
+        "top": 542.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "wGGar": {
+      "type": "text",
+      "label": "W G Gar",
+      "page": 14,
+      "box": {
+        "left": 45.0,
+        "top": 530.0,
+        "width": 523.2,
+        "height": 56.2
+      },
+      "multiline": true
+    },
+    "radio115": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 14,
+      "box": {
+        "left": 461.2,
+        "top": 468.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio116": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 14,
+      "box": {
+        "left": 511.6,
+        "top": 468.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "reposs": {
+      "type": "text",
+      "label": "Reposs",
+      "page": 14,
+      "box": {
+        "left": 45.0,
+        "top": 455.6,
+        "width": 523.2,
+        "height": 56.2
+      },
+      "multiline": true
+    },
+    "radio117": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 14,
+      "box": {
+        "left": 461.2,
+        "top": 394.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio118": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 14,
+      "box": {
+        "left": 511.6,
+        "top": 394.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "lienIn": {
+      "type": "text",
+      "label": "Lien In",
+      "page": 14,
+      "box": {
+        "left": 45.0,
+        "top": 381.2,
+        "width": 523.2,
+        "height": 56.2
+      },
+      "multiline": true
+    },
+    "radio119": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 14,
+      "box": {
+        "left": 461.2,
+        "top": 316.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio120": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 14,
+      "box": {
+        "left": 511.6,
+        "top": 316.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "lienIn2": {
+      "type": "text",
+      "label": "If no, indicate payment plan and last projected payment",
+      "page": 14,
+      "box": {
+        "left": 45.0,
+        "top": 290.2,
+        "width": 523.2,
+        "height": 56.2
+      },
+      "multiline": true
+    },
+    "radio121": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 14,
+      "box": {
+        "left": 461.2,
+        "top": 225.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio122": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 14,
+      "box": {
+        "left": 511.6,
+        "top": 225.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "delIn": {
+      "type": "text",
+      "label": "and address of creditor or oblige, including state and zip",
+      "page": 14,
+      "box": {
+        "left": 45.0,
+        "top": 195.6,
+        "width": 523.2,
+        "height": 56.2
+      },
+      "multiline": true
+    },
+    "radio123": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 14,
+      "box": {
+        "left": 461.2,
+        "top": 132.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio124": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 14,
+      "box": {
+        "left": 511.6,
+        "top": 132.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "delDebIn": {
+      "type": "text",
+      "label": "and address of creditor or oblige, including state and zip",
+      "page": 14,
+      "box": {
+        "left": 45.0,
+        "top": 101.8,
+        "width": 523.2,
+        "height": 61.8
+      },
+      "multiline": true
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 2,
+      "count": 4,
+      "rowStride": 32.7,
+      "editor": "grid",
+      "columns": {
+        "hstDate": {
+          "type": "text",
+          "label": "Dates (from/to)",
+          "page": 2,
+          "box": {
+            "left": 62.3,
+            "top": 239.2,
+            "width": 65.7,
+            "height": 32.7
+          }
+        },
+        "hstToDate": {
+          "type": "text",
+          "label": "PRESENT",
+          "page": 2,
+          "box": {
+            "left": 128.0,
+            "top": 239.2,
+            "width": 65.7,
+            "height": 32.7
+          }
+        },
+        "posPD": {
+          "type": "text",
+          "label": "Position (Primary Duty)",
+          "page": 2,
+          "box": {
+            "left": 194.0,
+            "top": 239.2,
+            "width": 177.3,
+            "height": 32.7
+          }
+        },
+        "pDComm": {
+          "type": "text",
+          "label": "Command",
+          "page": 2,
+          "box": {
+            "left": 371.3,
+            "top": 239.2,
+            "width": 177.3,
+            "height": 32.7
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 3,
+      "count": 3,
+      "rowStride": 13.45,
+      "editor": "grid",
+      "columns": {
+        "corTle": {
+          "type": "text",
+          "label": "COORESPONDENCE COURSE TITLE",
+          "page": 3,
+          "box": {
+            "left": 68.4,
+            "top": 91.7,
+            "width": 359.0,
+            "height": 13.5
+          }
+        },
+        "corTledtd": {
+          "type": "text",
+          "label": "Date Completed",
+          "page": 3,
+          "box": {
+            "left": 427.1,
+            "top": 91.7,
+            "width": 114.0,
+            "height": 13.5
+          }
+        }
+      }
+    },
+    "rows3": {
+      "title": "Rows",
+      "page": 3,
+      "count": 3,
+      "rowStride": 13.45,
+      "editor": "grid",
+      "columns": {
+        "serSch": {
+          "type": "text",
+          "label": "NAME AND LOCATION OF SCHOOL ATTENDED",
+          "page": 3,
+          "box": {
+            "left": 68.4,
+            "top": 204.2,
+            "width": 289.2,
+            "height": 13.5
+          }
+        },
+        "serSchdtd": {
+          "type": "text",
+          "label": "Date of School",
+          "page": 3,
+          "box": {
+            "left": 357.3,
+            "top": 204.2,
+            "width": 91.8,
+            "height": 13.5
+          }
+        },
+        "cldStd": {
+          "type": "text",
+          "label": "(If applicable)",
+          "page": 3,
+          "box": {
+            "left": 449.2,
+            "top": 204.2,
+            "width": 91.8,
+            "height": 13.5
+          }
+        }
+      }
+    },
+    "rows4": {
+      "title": "Rows",
+      "page": 3,
+      "count": 3,
+      "rowStride": 13.45,
+      "editor": "grid",
+      "columns": {
+        "perArd": {
+          "type": "text",
+          "label": "AWARD",
+          "page": 3,
+          "box": {
+            "left": 68.1,
+            "top": 316.1,
+            "width": 174.7,
+            "height": 13.5
+          }
+        },
+        "commST": {
+          "type": "text",
+          "label": "COMMAND (Short Title)",
+          "page": 3,
+          "box": {
+            "left": 242.9,
+            "top": 316.1,
+            "width": 174.7,
+            "height": 13.5
+          }
+        },
+        "perArdDtd": {
+          "type": "text",
+          "label": "Date Awarded",
+          "page": 3,
+          "box": {
+            "left": 417.6,
+            "top": 316.1,
+            "width": 123.4,
+            "height": 13.5
+          }
+        }
+      }
+    },
+    "rows5": {
+      "title": "Rows",
+      "page": 4,
+      "count": 4,
+      "rowStride": 39.87,
+      "editor": "grid",
+      "columns": {
+        "extAct": {
+          "type": "text",
+          "label": "Ext Act",
+          "page": 4,
+          "box": {
+            "left": 45.4,
+            "top": 633.6,
+            "width": 523.8,
+            "height": 29.5
+          }
+        }
+      }
+    },
+    "rows6": {
+      "title": "Rows",
+      "page": 8,
+      "count": 4,
+      "rowStride": 32.67,
+      "editor": "grid",
+      "columns": {
+        "brSer": {
+          "type": "text",
+          "label": "Service",
+          "page": 8,
+          "box": {
+            "left": 63.0,
+            "top": 197.7,
+            "width": 82.3,
+            "height": 32.7
+          }
+        },
+        "enlDate": {
+          "type": "text",
+          "label": "(DD MMM YYYY)",
+          "page": 8,
+          "box": {
+            "left": 147.6,
+            "top": 196.9,
+            "width": 80.2,
+            "height": 32.7
+          }
+        },
+        "disDate": {
+          "type": "text",
+          "label": "(DD MMM YYYY)",
+          "page": 8,
+          "box": {
+            "left": 227.8,
+            "top": 196.9,
+            "width": 80.2,
+            "height": 32.7
+          }
+        },
+        "tmLst": {
+          "type": "text",
+          "label": "To Misconduct",
+          "page": 8,
+          "box": {
+            "left": 308.0,
+            "top": 196.9,
+            "width": 80.2,
+            "height": 30.4
+          }
+        },
+        "inaDate": {
+          "type": "text",
+          "label": "(DD MMM YYYY)",
+          "page": 8,
+          "box": {
+            "left": 389.5,
+            "top": 196.9,
+            "width": 80.2,
+            "height": 32.7
+          }
+        },
+        "aDDte": {
+          "type": "text",
+          "label": "(DD MMM YYYY)",
+          "page": 8,
+          "box": {
+            "left": 469.7,
+            "top": 196.9,
+            "width": 80.2,
+            "height": 32.7
+          }
+        }
+      }
+    },
+    "rows7": {
+      "title": "Rows",
+      "page": 11,
+      "count": 3,
+      "rowStride": 15.4,
+      "editor": "grid",
+      "columns": {
+        "snAdd": {
+          "type": "text",
+          "label": "NUMBER OF TRANSCRIPTS REQUESTED",
+          "page": 11,
+          "box": {
+            "left": 180.0,
+            "top": 575.7,
+            "width": 332.9,
+            "height": 15.4
+          }
+        }
+      }
+    },
+    "rows8": {
+      "title": "Rows",
+      "page": 13,
+      "count": 4,
+      "rowStride": 14.97,
+      "editor": "grid",
+      "columns": {
+        "trnTo": {
+          "type": "text",
+          "label": "To be Completed by applicant",
+          "page": 13,
+          "box": {
+            "left": 179.7,
+            "top": 331.1,
+            "width": 388.5,
+            "height": 15.0
+          }
+        }
+      }
+    }
+  }
+}

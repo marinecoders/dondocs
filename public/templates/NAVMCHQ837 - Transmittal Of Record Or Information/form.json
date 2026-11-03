@@ -1,0 +1,250 @@
+{
+  "id": "navmchq837",
+  "label": "NAVMC HQ 837 - Transmittal Of Record Or Information",
+  "directory": "NAVMCHQ837 - Transmittal Of Record Or Information",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "date",
+        "to",
+        "officeCode",
+        "suiteNumber",
+        "subj",
+        "ref",
+        "encl",
+        "chkEncl",
+        "chkInAcc",
+        "chkDeliver",
+        "chkInfo",
+        "chkRetention",
+        "chkAction",
+        "chkForReply",
+        "chkMisc",
+        "misc",
+        "copyTo",
+        "sigSpouse",
+        "title"
+      ]
+    }
+  ],
+  "fields": {
+    "date": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 487.2,
+        "top": 738.4,
+        "width": 65.6,
+        "height": 15.0
+      }
+    },
+    "to": {
+      "type": "text",
+      "label": "To",
+      "page": 1,
+      "box": {
+        "left": 57.0,
+        "top": 705.0,
+        "width": 246.0,
+        "height": 61.9
+      },
+      "multiline": true
+    },
+    "officeCode": {
+      "type": "text",
+      "label": "OfficeCode",
+      "page": 1,
+      "box": {
+        "left": 511.5,
+        "top": 691.0,
+        "width": 26.0,
+        "height": 11.9
+      }
+    },
+    "suiteNumber": {
+      "type": "text",
+      "label": "SuiteNumber",
+      "page": 1,
+      "box": {
+        "left": 409.5,
+        "top": 668.0,
+        "width": 54.0,
+        "height": 11.9
+      }
+    },
+    "subj": {
+      "type": "text",
+      "label": "Subj",
+      "page": 1,
+      "box": {
+        "left": 98.9,
+        "top": 639.1,
+        "width": 456.2,
+        "height": 23.4
+      }
+    },
+    "ref": {
+      "type": "text",
+      "label": "Ref",
+      "page": 1,
+      "box": {
+        "left": 56.9,
+        "top": 598.0,
+        "width": 246.0,
+        "height": 48.7
+      },
+      "multiline": true
+    },
+    "encl": {
+      "type": "text",
+      "label": "Encl",
+      "page": 1,
+      "box": {
+        "left": 309.1,
+        "top": 598.0,
+        "width": 246.0,
+        "height": 48.7
+      },
+      "multiline": true
+    },
+    "chkEncl": {
+      "type": "checkbox",
+      "label": "chkEncl",
+      "page": 1,
+      "box": {
+        "left": 64.6,
+        "top": 542.7,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "chkInAcc": {
+      "type": "checkbox",
+      "label": "chkInAcc",
+      "page": 1,
+      "box": {
+        "left": 91.3,
+        "top": 524.2,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "chkDeliver": {
+      "type": "checkbox",
+      "label": "chkDeliver",
+      "page": 1,
+      "box": {
+        "left": 305.6,
+        "top": 524.0,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "chkInfo": {
+      "type": "checkbox",
+      "label": "chkInfo",
+      "page": 1,
+      "box": {
+        "left": 91.3,
+        "top": 507.7,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "chkRetention": {
+      "type": "checkbox",
+      "label": "chkRetention",
+      "page": 1,
+      "box": {
+        "left": 305.6,
+        "top": 507.6,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "chkAction": {
+      "type": "checkbox",
+      "label": "chkAction",
+      "page": 1,
+      "box": {
+        "left": 91.3,
+        "top": 491.3,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "chkForReply": {
+      "type": "checkbox",
+      "label": "chkForReply",
+      "page": 1,
+      "box": {
+        "left": 305.6,
+        "top": 491.1,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "chkMisc": {
+      "type": "checkbox",
+      "label": "chkMisc",
+      "page": 1,
+      "box": {
+        "left": 64.6,
+        "top": 469.5,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "misc": {
+      "type": "text",
+      "label": "Misc",
+      "page": 1,
+      "box": {
+        "left": 57.8,
+        "top": 451.6,
+        "width": 496.8,
+        "height": 335.9
+      },
+      "multiline": true
+    },
+    "copyTo": {
+      "type": "text",
+      "label": "CopyTo",
+      "page": 1,
+      "box": {
+        "left": 56.6,
+        "top": 96.0,
+        "width": 246.0,
+        "height": 55.6
+      },
+      "multiline": true
+    },
+    "sigSpouse": {
+      "type": "signature",
+      "label": "SigSpouse",
+      "page": 1,
+      "box": {
+        "left": 310.8,
+        "top": 94.9,
+        "width": 241.2,
+        "height": 15.4
+      }
+    },
+    "title": {
+      "type": "text",
+      "label": "Title",
+      "page": 1,
+      "box": {
+        "left": 310.8,
+        "top": 65.3,
+        "width": 241.2,
+        "height": 15.4
+      }
+    }
+  }
+}

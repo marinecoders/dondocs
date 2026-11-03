@@ -1,0 +1,553 @@
+{
+  "id": "navmchq966a",
+  "label": "NAVMC HQ 966A - Resource Validation",
+  "directory": "NAVMCHQ966A - Resource Validation",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "date",
+        "firstName",
+        "lastName",
+        "deptAddress",
+        "divison",
+        "empFirstName",
+        "empLastName",
+        "typeAction",
+        "effectDate",
+        "billetTitle",
+        "vice",
+        "certifier",
+        "nSPSeries1",
+        "nSPSeries2",
+        "nSPSPayGrade",
+        "nSPSPAYGrade2",
+        "nSPSPay1",
+        "nSPSPay2",
+        "gSPayGrade1",
+        "gSPayGrade2",
+        "gspay1",
+        "gspay2",
+        "bic",
+        "comment1",
+        "date2",
+        "uic",
+        "uic2",
+        "costCodeCtr",
+        "progElement",
+        "comments2",
+        "date3",
+        "signatureField1",
+        "rad1Yes",
+        "rad1Yes2"
+      ]
+    }
+  ],
+  "fields": {
+    "date": {
+      "type": "text",
+      "label": "Enter DD-MMM-YYYY",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 721.9,
+        "width": 76.3,
+        "height": 18.0
+      },
+      "required": true
+    },
+    "firstName": {
+      "type": "text",
+      "label": "FIRST:",
+      "page": 1,
+      "box": {
+        "left": 148.0,
+        "top": 693.0,
+        "width": 158.0,
+        "height": 18.0
+      },
+      "required": true
+    },
+    "lastName": {
+      "type": "text",
+      "label": "LAST:",
+      "page": 1,
+      "box": {
+        "left": 346.0,
+        "top": 693.0,
+        "width": 212.0,
+        "height": 18.0
+      },
+      "required": true
+    },
+    "deptAddress": {
+      "type": "text",
+      "label": "DEPARTMENT:",
+      "page": 1,
+      "box": {
+        "left": 96.0,
+        "top": 669.7,
+        "width": 209.8,
+        "height": 18.0
+      },
+      "required": true
+    },
+    "divison": {
+      "type": "text",
+      "label": "DIVISION:",
+      "page": 1,
+      "box": {
+        "left": 362.4,
+        "top": 669.7,
+        "width": 195.6,
+        "height": 18.0
+      },
+      "required": true
+    },
+    "empFirstName": {
+      "type": "text",
+      "label": "FIRST:",
+      "page": 1,
+      "box": {
+        "left": 147.6,
+        "top": 646.4,
+        "width": 158.4,
+        "height": 18.0
+      }
+    },
+    "empLastName": {
+      "type": "text",
+      "label": "LAST:",
+      "page": 1,
+      "box": {
+        "left": 346.0,
+        "top": 646.4,
+        "width": 212.0,
+        "height": 18.0
+      }
+    },
+    "typeAction": {
+      "type": "choice",
+      "label": "TYPE OF ACTION:",
+      "page": 1,
+      "box": {
+        "left": 114.2,
+        "top": 613.3,
+        "width": 218.8,
+        "height": 18.0
+      },
+      "options": [
+        "New Hire",
+        "Promotion",
+        "Reassignment",
+        "Award",
+        "Extension",
+        "Separation",
+        "Name Change",
+        "Full-Time Status Change",
+        "ACDP",
+        "Other"
+      ],
+      "required": true
+    },
+    "effectDate": {
+      "type": "text",
+      "label": "EFFECTIVE DATE OF ACTION:",
+      "page": 1,
+      "box": {
+        "left": 480.3,
+        "top": 613.3,
+        "width": 95.7,
+        "height": 18.0
+      },
+      "required": true
+    },
+    "billetTitle": {
+      "type": "text",
+      "label": "BILLET TITLE:",
+      "page": 1,
+      "box": {
+        "left": 384.9,
+        "top": 588.5,
+        "width": 191.1,
+        "height": 34.0
+      },
+      "multiline": true
+    },
+    "vice": {
+      "type": "text",
+      "label": "VICE:",
+      "page": 1,
+      "box": {
+        "left": 60.3,
+        "top": 584.3,
+        "width": 253.6,
+        "height": 18.0
+      }
+    },
+    "certifier": {
+      "type": "text",
+      "label": "T&A CERTIFIER:",
+      "page": 1,
+      "box": {
+        "left": 303.2,
+        "top": 550.5,
+        "width": 272.8,
+        "height": 18.0
+      }
+    },
+    "nSPSeries1": {
+      "type": "text",
+      "label": "NSPS SERIES:",
+      "page": 1,
+      "box": {
+        "left": 143.0,
+        "top": 513.0,
+        "width": 117.2,
+        "height": 18.0
+      }
+    },
+    "nSPSeries2": {
+      "type": "text",
+      "label": "NSPS SERIES:",
+      "page": 1,
+      "box": {
+        "left": 365.3,
+        "top": 512.0,
+        "width": 120.7,
+        "height": 18.7
+      }
+    },
+    "nSPSPayGrade": {
+      "type": "choice",
+      "label": "NSPS PAY GRADE:",
+      "page": 1,
+      "box": {
+        "left": 174.6,
+        "top": 495.0,
+        "width": 50.6,
+        "height": 18.0
+      },
+      "options": [
+        "YA",
+        "YB",
+        "YC",
+        "YD",
+        "YE",
+        "YF",
+        "YG",
+        "YH",
+        "YI",
+        "YJ",
+        "YK",
+        "YL",
+        "YM",
+        "YN"
+      ]
+    },
+    "nSPSPAYGrade2": {
+      "type": "choice",
+      "label": "NSPSPAYGrade2",
+      "page": 1,
+      "box": {
+        "left": 225.0,
+        "top": 495.0,
+        "width": 36.2,
+        "height": 18.0
+      },
+      "options": [
+        "01",
+        "02",
+        "03",
+        "04"
+      ]
+    },
+    "nSPSPay1": {
+      "type": "choice",
+      "label": "NSPS PAY GRADE:",
+      "page": 1,
+      "box": {
+        "left": 400.0,
+        "top": 493.4,
+        "width": 41.0,
+        "height": 17.0
+      },
+      "options": [
+        "YA",
+        "YB",
+        "YC",
+        "YD",
+        "YE",
+        "YF",
+        "YG",
+        "YH",
+        "YI",
+        "YJ",
+        "YK",
+        "YL",
+        "YM",
+        "YN"
+      ]
+    },
+    "nSPSPay2": {
+      "type": "choice",
+      "label": "NSPSPay2",
+      "page": 1,
+      "box": {
+        "left": 441.0,
+        "top": 493.3,
+        "width": 45.0,
+        "height": 16.9
+      },
+      "options": [
+        "01",
+        "02",
+        "03",
+        "04"
+      ]
+    },
+    "gSPayGrade1": {
+      "type": "choice",
+      "label": "GS PAY GRADE:",
+      "page": 1,
+      "box": {
+        "left": 174.6,
+        "top": 477.0,
+        "width": 50.6,
+        "height": 18.0
+      },
+      "options": [
+        "AD",
+        "GS",
+        "WG",
+        "WD",
+        "WL",
+        "WN",
+        "WS"
+      ]
+    },
+    "gSPayGrade2": {
+      "type": "choice",
+      "label": "GSPayGrade2",
+      "page": 1,
+      "box": {
+        "left": 225.0,
+        "top": 477.0,
+        "width": 36.0,
+        "height": 18.0
+      },
+      "options": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08",
+        "09",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19"
+      ]
+    },
+    "gspay1": {
+      "type": "choice",
+      "label": "GS PAY GRADE:",
+      "page": 1,
+      "box": {
+        "left": 400.2,
+        "top": 476.4,
+        "width": 40.8,
+        "height": 18.0
+      },
+      "options": [
+        "AD",
+        "GS",
+        "WG",
+        "WD",
+        "WL",
+        "WN",
+        "WS"
+      ]
+    },
+    "gspay2": {
+      "type": "choice",
+      "label": "GSPAY2",
+      "page": 1,
+      "box": {
+        "left": 441.0,
+        "top": 476.4,
+        "width": 45.0,
+        "height": 18.0
+      },
+      "options": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08",
+        "09",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19"
+      ]
+    },
+    "bic": {
+      "type": "text",
+      "label": "BIC:",
+      "page": 1,
+      "box": {
+        "left": 65.3,
+        "top": 363.2,
+        "width": 168.7,
+        "height": 18.0
+      }
+    },
+    "comment1": {
+      "type": "text",
+      "label": "COMMENTS:",
+      "page": 1,
+      "box": {
+        "left": 96.2,
+        "top": 338.4,
+        "width": 470.9,
+        "height": 36.0
+      },
+      "multiline": true
+    },
+    "date2": {
+      "type": "text",
+      "label": "Enter DD-MMM-YYYY",
+      "page": 1,
+      "box": {
+        "left": 492.8,
+        "top": 297.1,
+        "width": 74.2,
+        "height": 18.0
+      }
+    },
+    "uic": {
+      "type": "text",
+      "label": "*BLK 41 UIC:",
+      "page": 1,
+      "box": {
+        "left": 95.2,
+        "top": 233.0,
+        "width": 51.2,
+        "height": 18.0
+      }
+    },
+    "uic2": {
+      "type": "text",
+      "label": "*BLK 42 ORG CODE:",
+      "page": 1,
+      "box": {
+        "left": 273.5,
+        "top": 231.5,
+        "width": 68.8,
+        "height": 18.0
+      }
+    },
+    "costCodeCtr": {
+      "type": "text",
+      "label": "*BLK 43 COST CENTER:",
+      "page": 1,
+      "box": {
+        "left": 139.1,
+        "top": 207.1,
+        "width": 80.0,
+        "height": 18.0
+      }
+    },
+    "progElement": {
+      "type": "text",
+      "label": "PROGRAM ELEMENT:",
+      "page": 1,
+      "box": {
+        "left": 487.2,
+        "top": 207.1,
+        "width": 78.2,
+        "height": 18.0
+      }
+    },
+    "comments2": {
+      "type": "text",
+      "label": "COMMENTS:",
+      "page": 1,
+      "box": {
+        "left": 94.2,
+        "top": 180.1,
+        "width": 472.8,
+        "height": 36.0
+      },
+      "multiline": true
+    },
+    "date3": {
+      "type": "text",
+      "label": "Enter DD-MMM-YYYY",
+      "page": 1,
+      "box": {
+        "left": 492.8,
+        "top": 135.1,
+        "width": 74.2,
+        "height": 18.0
+      }
+    },
+    "signatureField1": {
+      "type": "signature",
+      "label": "SIGNATURE:",
+      "page": 1,
+      "box": {
+        "left": 104.2,
+        "top": 132.2,
+        "width": 253.0,
+        "height": 21.3
+      }
+    },
+    "rad1Yes": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 279.0,
+        "top": 59.6,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_0"
+    },
+    "rad1Yes2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 415.1,
+        "top": 59.6,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_0"
+    }
+  }
+}

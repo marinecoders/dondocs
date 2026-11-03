@@ -1,0 +1,451 @@
+{
+  "id": "opnav350167",
+  "label": "OPNAV3501-67 - Parachutist Altimeter History Record",
+  "directory": "OPNAV3501-67 - Parachutist Altimeter History Record",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "row18",
+        "row181",
+        "row182",
+        "row183",
+        "row184",
+        "row185",
+        "row186",
+        "row187",
+        "row188",
+        "row189",
+        "row1810",
+        "row1812",
+        "row1822",
+        "row1832",
+        "row1842",
+        "row1852",
+        "row1862",
+        "row1872",
+        "row1882",
+        "row1892",
+        "textField1",
+        "textField12",
+        "textField13",
+        "textField14",
+        "textField15",
+        "textField16"
+      ]
+    }
+  ],
+  "fields": {
+    "row18": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 53.1,
+        "top": 209.7,
+        "width": 49.2,
+        "height": 14.2
+      }
+    },
+    "row181": {
+      "type": "text",
+      "label": "+/- ___ FT",
+      "page": 1,
+      "box": {
+        "left": 105.2,
+        "top": 209.7,
+        "width": 62.6,
+        "height": 14.2
+      }
+    },
+    "row182": {
+      "type": "text",
+      "label": "(+/- 500&apos;)",
+      "page": 1,
+      "box": {
+        "left": 170.6,
+        "top": 209.7,
+        "width": 62.6,
+        "height": 14.2
+      }
+    },
+    "row183": {
+      "type": "text",
+      "label": "(+/- 400&apos;)",
+      "page": 1,
+      "box": {
+        "left": 236.1,
+        "top": 209.7,
+        "width": 62.6,
+        "height": 14.2
+      }
+    },
+    "row184": {
+      "type": "text",
+      "label": "(+/- 400&apos;)",
+      "page": 1,
+      "box": {
+        "left": 301.5,
+        "top": 209.7,
+        "width": 62.6,
+        "height": 14.2
+      }
+    },
+    "row185": {
+      "type": "text",
+      "label": "(+/- 400&apos;)",
+      "page": 1,
+      "box": {
+        "left": 367.0,
+        "top": 209.7,
+        "width": 62.6,
+        "height": 14.2
+      }
+    },
+    "row186": {
+      "type": "text",
+      "label": "(+/- 350&apos;)",
+      "page": 1,
+      "box": {
+        "left": 432.5,
+        "top": 209.7,
+        "width": 62.6,
+        "height": 14.2
+      }
+    },
+    "row187": {
+      "type": "text",
+      "label": "(+/- 300&apos;)",
+      "page": 1,
+      "box": {
+        "left": 497.9,
+        "top": 209.7,
+        "width": 62.6,
+        "height": 14.2
+      }
+    },
+    "row188": {
+      "type": "text",
+      "label": "NAME",
+      "page": 1,
+      "box": {
+        "left": 563.4,
+        "top": 209.7,
+        "width": 93.9,
+        "height": 14.2
+      }
+    },
+    "row189": {
+      "type": "text",
+      "label": "(2) SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 660.2,
+        "top": 209.7,
+        "width": 94.5,
+        "height": 14.2
+      }
+    },
+    "row1810": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 53.1,
+        "top": 192.7,
+        "width": 49.2,
+        "height": 14.2
+      }
+    },
+    "row1812": {
+      "type": "text",
+      "label": "+/- ___ FT",
+      "page": 1,
+      "box": {
+        "left": 105.2,
+        "top": 192.7,
+        "width": 62.6,
+        "height": 14.2
+      }
+    },
+    "row1822": {
+      "type": "text",
+      "label": "(+/- 500&apos;)",
+      "page": 1,
+      "box": {
+        "left": 170.6,
+        "top": 192.7,
+        "width": 62.6,
+        "height": 14.2
+      }
+    },
+    "row1832": {
+      "type": "text",
+      "label": "(+/- 400&apos;)",
+      "page": 1,
+      "box": {
+        "left": 236.1,
+        "top": 192.7,
+        "width": 62.6,
+        "height": 14.2
+      }
+    },
+    "row1842": {
+      "type": "text",
+      "label": "(+/- 400&apos;)",
+      "page": 1,
+      "box": {
+        "left": 301.5,
+        "top": 192.7,
+        "width": 62.6,
+        "height": 14.2
+      }
+    },
+    "row1852": {
+      "type": "text",
+      "label": "(+/- 400&apos;)",
+      "page": 1,
+      "box": {
+        "left": 367.0,
+        "top": 192.7,
+        "width": 62.6,
+        "height": 14.2
+      }
+    },
+    "row1862": {
+      "type": "text",
+      "label": "(+/- 350&apos;)",
+      "page": 1,
+      "box": {
+        "left": 432.5,
+        "top": 192.7,
+        "width": 62.6,
+        "height": 14.2
+      }
+    },
+    "row1872": {
+      "type": "text",
+      "label": "(+/- 300&apos;)",
+      "page": 1,
+      "box": {
+        "left": 497.9,
+        "top": 192.7,
+        "width": 62.6,
+        "height": 14.2
+      }
+    },
+    "row1882": {
+      "type": "text",
+      "label": "NAME",
+      "page": 1,
+      "box": {
+        "left": 563.4,
+        "top": 192.7,
+        "width": 93.9,
+        "height": 14.2
+      }
+    },
+    "row1892": {
+      "type": "text",
+      "label": "(2) SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 660.2,
+        "top": 192.7,
+        "width": 94.5,
+        "height": 14.2
+      }
+    },
+    "textField1": {
+      "type": "text",
+      "label": "21. REMARKS",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 116.0,
+        "width": 714.4,
+        "height": 45.3
+      },
+      "multiline": true
+    },
+    "textField12": {
+      "type": "text",
+      "label": "22. PART NUMBER",
+      "page": 1,
+      "box": {
+        "left": 142.3,
+        "top": 65.1,
+        "width": 250.9,
+        "height": 10.2
+      }
+    },
+    "textField13": {
+      "type": "text",
+      "label": "23. CONTRACT NUMBER",
+      "page": 1,
+      "box": {
+        "left": 502.3,
+        "top": 65.1,
+        "width": 250.9,
+        "height": 10.2
+      }
+    },
+    "textField14": {
+      "type": "text",
+      "label": "24. ALTIMETER TYPE",
+      "page": 1,
+      "box": {
+        "left": 142.3,
+        "top": 49.0,
+        "width": 130.7,
+        "height": 10.2
+      }
+    },
+    "textField15": {
+      "type": "text",
+      "label": "25. SERNO",
+      "page": 1,
+      "box": {
+        "left": 381.6,
+        "top": 49.0,
+        "width": 130.7,
+        "height": 10.2
+      }
+    },
+    "textField16": {
+      "type": "text",
+      "label": "26. FIELD NUMBER",
+      "page": 1,
+      "box": {
+        "left": 622.0,
+        "top": 49.0,
+        "width": 131.3,
+        "height": 10.2
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 18,
+      "rowStride": 17.04,
+      "editor": "grid",
+      "columns": {
+        "cell": {
+          "type": "text",
+          "label": "DATE",
+          "page": 1,
+          "box": {
+            "left": 53.1,
+            "top": 516.3,
+            "width": 49.2,
+            "height": 14.2
+          }
+        },
+        "cell2": {
+          "type": "text",
+          "label": "+/- ___ FT",
+          "page": 1,
+          "box": {
+            "left": 105.2,
+            "top": 516.3,
+            "width": 62.6,
+            "height": 14.2
+          }
+        },
+        "cell3": {
+          "type": "text",
+          "label": "(+/- 500&apos;)",
+          "page": 1,
+          "box": {
+            "left": 170.6,
+            "top": 516.3,
+            "width": 62.6,
+            "height": 14.2
+          }
+        },
+        "cell4": {
+          "type": "text",
+          "label": "(+/- 400&apos;)",
+          "page": 1,
+          "box": {
+            "left": 236.1,
+            "top": 516.3,
+            "width": 62.6,
+            "height": 14.2
+          }
+        },
+        "cell5": {
+          "type": "text",
+          "label": "(+/- 400&apos;)",
+          "page": 1,
+          "box": {
+            "left": 301.5,
+            "top": 516.3,
+            "width": 62.6,
+            "height": 14.2
+          }
+        },
+        "cell6": {
+          "type": "text",
+          "label": "(+/- 400&apos;)",
+          "page": 1,
+          "box": {
+            "left": 367.0,
+            "top": 516.3,
+            "width": 62.6,
+            "height": 14.2
+          }
+        },
+        "cell7": {
+          "type": "text",
+          "label": "(+/- 350&apos;)",
+          "page": 1,
+          "box": {
+            "left": 432.5,
+            "top": 516.3,
+            "width": 62.6,
+            "height": 14.2
+          }
+        },
+        "cell8": {
+          "type": "text",
+          "label": "(+/- 300&apos;)",
+          "page": 1,
+          "box": {
+            "left": 497.9,
+            "top": 516.3,
+            "width": 62.6,
+            "height": 14.2
+          }
+        },
+        "cell9": {
+          "type": "text",
+          "label": "NAME",
+          "page": 1,
+          "box": {
+            "left": 563.4,
+            "top": 516.3,
+            "width": 93.9,
+            "height": 14.2
+          }
+        },
+        "cell10": {
+          "type": "text",
+          "label": "(2) SIGNATURE",
+          "page": 1,
+          "box": {
+            "left": 660.2,
+            "top": 516.3,
+            "width": 94.5,
+            "height": 14.2
+          }
+        }
+      }
+    }
+  }
+}

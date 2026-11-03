@@ -1,0 +1,714 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "prisonerName": {
+        "left": 85.7,
+        "top": 702.9,
+        "width": 217.5,
+        "height": 21.5,
+        "type": "text",
+        "description": "a. Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "residentControlNumber": {
+        "left": 372.0,
+        "top": 702.9,
+        "width": 95.9,
+        "height": 21.5,
+        "type": "text",
+        "description": "b. Control Resident Number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "gender": {
+        "left": 528.1,
+        "top": 702.2,
+        "width": 42.9,
+        "height": 20.0,
+        "type": "choice",
+        "description": "c. Gender",
+        "options": [
+          "Male",
+          "Female"
+        ],
+        "group": null,
+        "required": false
+      },
+      "branch": {
+        "left": 86.4,
+        "top": 674.9,
+        "width": 216.0,
+        "height": 17.1,
+        "type": "choice",
+        "description": "d. Branch",
+        "options": [
+          "United States Army",
+          "United States Navy",
+          "United States Air Force",
+          "United States Marine Corps",
+          "United States Coast Guard",
+          "United States Space Force"
+        ],
+        "group": null,
+        "required": false
+      },
+      "riskAssessment": {
+        "left": 399.7,
+        "top": 674.9,
+        "width": 171.3,
+        "height": 17.1,
+        "type": "choice",
+        "description": "e. Risk Assessment",
+        "options": [
+          "Low Risk/Unarmed Escort",
+          "High Risk/Armed Escort"
+        ],
+        "group": null,
+        "required": false
+      },
+      "leadEscort": {
+        "left": 110.9,
+        "top": 637.1,
+        "width": 192.3,
+        "height": 15.8,
+        "type": "text",
+        "description": "a. Lead Escort",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "secondEscort": {
+        "left": 380.9,
+        "top": 637.1,
+        "width": 190.8,
+        "height": 15.8,
+        "type": "text",
+        "description": "b. Second Escort",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "thirdEscort": {
+        "left": 110.9,
+        "top": 615.5,
+        "width": 192.3,
+        "height": 17.6,
+        "type": "text",
+        "description": "c. Third Escort",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "departureDate": {
+        "left": 381.0,
+        "top": 615.5,
+        "width": 86.8,
+        "height": 17.6,
+        "type": "text",
+        "description": "d. Departure Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "return": {
+        "left": 515.7,
+        "top": 615.5,
+        "width": 58.9,
+        "height": 17.6,
+        "type": "text",
+        "description": "e. Return",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "currentlyAt": {
+        "left": 110.9,
+        "top": 592.1,
+        "width": 192.3,
+        "height": 15.8,
+        "type": "text",
+        "description": "f. Currently at",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "transferringTo": {
+        "left": 380.9,
+        "top": 592.1,
+        "width": 190.8,
+        "height": 15.8,
+        "type": "text",
+        "description": "g. Transferring to",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "departureDate2": {
+        "left": 128.9,
+        "top": 556.3,
+        "width": 174.3,
+        "height": 17.6,
+        "type": "text",
+        "description": "a. Departure Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "modeOfTravel": {
+        "left": 380.9,
+        "top": 556.3,
+        "width": 192.3,
+        "height": 17.6,
+        "type": "text",
+        "description": "b. Mode of Travel",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rentalCarAgency": {
+        "left": 128.9,
+        "top": 533.0,
+        "width": 174.3,
+        "height": 15.8,
+        "type": "text",
+        "description": "c. Rental Car Agency",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hotelName": {
+        "left": 380.9,
+        "top": 533.0,
+        "width": 192.3,
+        "height": 15.8,
+        "type": "text",
+        "description": "d. Hotel Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "city": {
+        "left": 129.1,
+        "top": 511.4,
+        "width": 174.1,
+        "height": 15.8,
+        "type": "text",
+        "description": "e. City",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "state1": {
+        "left": 380.9,
+        "top": 511.4,
+        "width": 192.3,
+        "height": 15.8,
+        "type": "text",
+        "description": "f. State",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "armedMissionsRationaleFreeText": {
+        "left": 38.9,
+        "top": 690.5,
+        "width": 534.4,
+        "height": 101.9,
+        "type": "text",
+        "description": "a. Rationale",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "armedMissionsBUPERSApprovalDateRow": {
+        "left": 294.2,
+        "top": 584.3,
+        "width": 162.8,
+        "height": 13.4,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell1": {
+        "left": 262.1,
+        "top": 548.5,
+        "width": 311.1,
+        "height": 19.2,
+        "type": "text",
+        "description": "a. Transfer POC at Losing Military Correctional Facility",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell12": {
+        "left": 262.1,
+        "top": 523.6,
+        "width": 311.1,
+        "height": 12.2,
+        "type": "text",
+        "description": "b. Losing MCF Master Control and Commercial Number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell13": {
+        "left": 262.1,
+        "top": 505.6,
+        "width": 311.1,
+        "height": 12.2,
+        "type": "text",
+        "description": "c. Mission Lead Escort &amp; Duty Cell Phone Number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell14": {
+        "left": 262.1,
+        "top": 487.6,
+        "width": 311.1,
+        "height": 12.2,
+        "type": "text",
+        "description": "d. Transfer POC at Gaining MCF and Commercial Number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell15": {
+        "left": 262.1,
+        "top": 469.6,
+        "width": 311.1,
+        "height": 12.2,
+        "type": "text",
+        "description": "e. Gaining MCF Master Control and Commercial Number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell16": {
+        "left": 85.7,
+        "top": 451.6,
+        "width": 487.6,
+        "height": 12.2,
+        "type": "text",
+        "description": "f. Signal",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell17": {
+        "left": 38.9,
+        "top": 424.9,
+        "width": 227.8,
+        "height": 18.0,
+        "type": "text",
+        "description": "g. Lead Escort Name and Rank or Rating",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell2": {
+        "left": 272.5,
+        "top": 424.9,
+        "width": 183.0,
+        "height": 18.0,
+        "type": "text",
+        "description": "h. Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell3": {
+        "left": 461.2,
+        "top": 424.9,
+        "width": 112.0,
+        "height": 18.0,
+        "type": "text",
+        "description": "i. Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell18": {
+        "left": 38.9,
+        "top": 392.5,
+        "width": 227.8,
+        "height": 18.0,
+        "type": "text",
+        "description": "j. Second Escort Name and Rank or Rating",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell32": {
+        "left": 461.2,
+        "top": 392.5,
+        "width": 112.0,
+        "height": 18.0,
+        "type": "text",
+        "description": "l. Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell22": {
+        "left": 272.5,
+        "top": 392.0,
+        "width": 183.0,
+        "height": 17.5,
+        "type": "text",
+        "description": "k. Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell19": {
+        "left": 38.9,
+        "top": 360.1,
+        "width": 227.8,
+        "height": 18.0,
+        "type": "text",
+        "description": "m. Third Escort Name and Rank or Rating",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell23": {
+        "left": 272.5,
+        "top": 360.1,
+        "width": 183.0,
+        "height": 18.0,
+        "type": "text",
+        "description": "n. Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell33": {
+        "left": 461.2,
+        "top": 360.1,
+        "width": 112.0,
+        "height": 18.0,
+        "type": "text",
+        "description": "o. Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "escportProgramManagerName": {
+        "left": 118.1,
+        "top": 309.7,
+        "width": 188.7,
+        "height": 21.6,
+        "type": "text",
+        "description": "b. Escort Program Manager Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "escportProgramManagerSignature": {
+        "left": 312.5,
+        "top": 309.7,
+        "width": 188.7,
+        "height": 21.6,
+        "type": "text",
+        "description": "c. Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "escportProgramManagerDate": {
+        "left": 506.9,
+        "top": 309.7,
+        "width": 66.2,
+        "height": 21.6,
+        "type": "text",
+        "description": "d. Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "escortProgramManagerResponse": {
+        "left": 36.3,
+        "top": 309.5,
+        "width": 78.7,
+        "height": 21.2,
+        "type": "choice",
+        "description": "a. Response",
+        "options": [
+          "Concur",
+          "Do Not Concur"
+        ],
+        "group": null,
+        "required": false
+      },
+      "officerInChargeName": {
+        "left": 118.1,
+        "top": 273.7,
+        "width": 188.7,
+        "height": 21.6,
+        "type": "text",
+        "description": "f. Officer In Charge Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "officerInChargeSignature": {
+        "left": 312.5,
+        "top": 273.7,
+        "width": 188.7,
+        "height": 21.6,
+        "type": "text",
+        "description": "g. Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "officerInChargeDate": {
+        "left": 506.9,
+        "top": 273.7,
+        "width": 66.2,
+        "height": 21.6,
+        "type": "text",
+        "description": "h. Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "officerInChargeResponse": {
+        "left": 36.3,
+        "top": 273.4,
+        "width": 78.7,
+        "height": 21.1,
+        "type": "choice",
+        "description": "e. Response",
+        "options": [
+          "Concur",
+          "Do Not Concur"
+        ],
+        "group": null,
+        "required": false
+      },
+      "technicalDirectorName": {
+        "left": 118.1,
+        "top": 237.7,
+        "width": 188.7,
+        "height": 21.6,
+        "type": "text",
+        "description": "j. Technical Director Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "technicalDirectorSignature": {
+        "left": 312.5,
+        "top": 237.7,
+        "width": 188.7,
+        "height": 21.6,
+        "type": "text",
+        "description": "k. Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "technicalDirectorDate": {
+        "left": 506.9,
+        "top": 237.7,
+        "width": 66.2,
+        "height": 21.6,
+        "type": "text",
+        "description": "l. Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "technicalDirectorResponse": {
+        "left": 36.3,
+        "top": 237.4,
+        "width": 78.7,
+        "height": 21.1,
+        "type": "choice",
+        "description": "i. Response",
+        "options": [
+          "Concur",
+          "Do Not Concur"
+        ],
+        "group": null,
+        "required": false
+      },
+      "executiveOfficerName": {
+        "left": 118.1,
+        "top": 201.7,
+        "width": 188.7,
+        "height": 21.6,
+        "type": "text",
+        "description": "n. Executive Officer Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "executiveOfficerSignature": {
+        "left": 312.5,
+        "top": 201.7,
+        "width": 188.7,
+        "height": 21.6,
+        "type": "text",
+        "description": "o. Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "executiveOfficerDate": {
+        "left": 506.9,
+        "top": 201.7,
+        "width": 66.2,
+        "height": 21.6,
+        "type": "text",
+        "description": "p. Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "executiveOfficerResponse": {
+        "left": 36.3,
+        "top": 201.4,
+        "width": 78.7,
+        "height": 21.1,
+        "type": "choice",
+        "description": "m. Response",
+        "options": [
+          "Concur",
+          "Do Not Concur"
+        ],
+        "group": null,
+        "required": false
+      },
+      "commandingOfficerName": {
+        "left": 118.1,
+        "top": 165.7,
+        "width": 188.7,
+        "height": 21.6,
+        "type": "text",
+        "description": "r. Commanding Officer Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "commandingOfficerSignature": {
+        "left": 312.5,
+        "top": 165.7,
+        "width": 188.7,
+        "height": 21.6,
+        "type": "text",
+        "description": "s. Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "commandingOfficerDate": {
+        "left": 506.9,
+        "top": 165.7,
+        "width": 66.2,
+        "height": 21.6,
+        "type": "text",
+        "description": "t. Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "commandOfficerResponse": {
+        "left": 36.3,
+        "top": 165.2,
+        "width": 78.7,
+        "height": 20.9,
+        "type": "choice",
+        "description": "q. Response",
+        "options": [
+          "Concur",
+          "Approved",
+          "Disapproved"
+        ],
+        "group": null,
+        "required": false
+      }
+    },
+    "page3": {
+      "cell110": {
+        "left": 38.9,
+        "top": 717.1,
+        "width": 534.3,
+        "height": 196.5,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "bUPERS00DSignature": {
+        "left": 312.5,
+        "top": 492.4,
+        "width": 188.7,
+        "height": 21.6,
+        "type": "text",
+        "description": "c. Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "bUPERS00DDate": {
+        "left": 506.9,
+        "top": 492.4,
+        "width": 65.2,
+        "height": 21.6,
+        "type": "text",
+        "description": "d. Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "bUPERS00DResponse": {
+        "left": 39.1,
+        "top": 492.2,
+        "width": 72.9,
+        "height": 21.1,
+        "type": "choice",
+        "description": "a. Decision",
+        "options": [
+          "Approved",
+          "Disapproved"
+        ],
+        "group": null,
+        "required": false
+      },
+      "cell111": {
+        "left": 38.9,
+        "top": 450.8,
+        "width": 534.3,
+        "height": 199.7,
+        "type": "text",
+        "description": "BUPERS-00D Comments",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

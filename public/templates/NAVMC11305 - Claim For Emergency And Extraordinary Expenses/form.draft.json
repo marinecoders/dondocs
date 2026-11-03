@@ -1,0 +1,1073 @@
+{
+  "id": "navmc11305",
+  "label": "NAVMC11305 - Claim For Emergency And Extraordinary Expenses",
+  "directory": "NAVMC11305 - Claim For Emergency And Extraordinary Expenses",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "unit1",
+        "prepBy",
+        "sig1",
+        "dateClaim0",
+        "dateClaim1",
+        "date1",
+        "numA0",
+        "numB0",
+        "amtB0",
+        "ci1",
+        "humint1",
+        "amtA0",
+        "numA1",
+        "amtA1",
+        "numB1",
+        "amtB1",
+        "ci2",
+        "humint2",
+        "numA2",
+        "amtA2",
+        "numB2",
+        "amtB2",
+        "ci3",
+        "humint3",
+        "numA3",
+        "amtA3",
+        "numB3",
+        "amtB3",
+        "ci4",
+        "humint4",
+        "ci5",
+        "humint5",
+        "numA4",
+        "amtA4",
+        "numB4",
+        "amtB4",
+        "ci6",
+        "humint6",
+        "numA5",
+        "amtA5",
+        "numB5",
+        "amtB5",
+        "ci7",
+        "humint7",
+        "numA6",
+        "amtA6",
+        "numB6",
+        "amtB6",
+        "numA7",
+        "amtA7",
+        "numB7",
+        "amtB7",
+        "ci8",
+        "humint8",
+        "ci9",
+        "humint9",
+        "numA8",
+        "amtA8",
+        "numB8",
+        "amtB8",
+        "numA9",
+        "amtA9",
+        "numB9",
+        "amtB9",
+        "ci10",
+        "humint10",
+        "subHumint",
+        "subC1",
+        "numA10",
+        "amtA10",
+        "numB10",
+        "amtB10",
+        "totC1Hum",
+        "numA11",
+        "amtA11",
+        "numB11",
+        "amtB11",
+        "sig2",
+        "sig3",
+        "sig4",
+        "amtPaid",
+        "datePaid",
+        "checkNo",
+        "chkCash",
+        "vouchNum",
+        "sigRecip"
+      ]
+    }
+  ],
+  "fields": {
+    "unit1": {
+      "type": "text",
+      "label": "Unit",
+      "page": 1,
+      "box": {
+        "left": 44.6,
+        "top": 700.6,
+        "width": 282.6,
+        "height": 40.0
+      },
+      "multiline": true
+    },
+    "prepBy": {
+      "type": "text",
+      "label": "Prepared By",
+      "page": 1,
+      "box": {
+        "left": 328.9,
+        "top": 700.6,
+        "width": 256.2,
+        "height": 40.0
+      },
+      "multiline": true
+    },
+    "sig1": {
+      "type": "signature",
+      "label": "Sig1",
+      "page": 1,
+      "box": {
+        "left": 329.0,
+        "top": 649.7,
+        "width": 183.3,
+        "height": 19.3
+      }
+    },
+    "dateClaim0": {
+      "type": "text",
+      "label": "Enter date of claims YYMMDD.Line 1",
+      "page": 1,
+      "box": {
+        "left": 44.6,
+        "top": 644.9,
+        "width": 140.5,
+        "height": 15.7
+      }
+    },
+    "dateClaim1": {
+      "type": "text",
+      "label": "Enter date of claims YYMMDD.Line 2",
+      "page": 1,
+      "box": {
+        "left": 185.9,
+        "top": 644.9,
+        "width": 141.3,
+        "height": 15.7
+      }
+    },
+    "date1": {
+      "type": "text",
+      "label": "Enter date using format 2 Dec 2002",
+      "page": 1,
+      "box": {
+        "left": 514.0,
+        "top": 644.9,
+        "width": 71.1,
+        "height": 15.7
+      }
+    },
+    "numA0": {
+      "type": "text",
+      "label": "First number.Line 1",
+      "page": 1,
+      "box": {
+        "left": 44.6,
+        "top": 577.1,
+        "width": 65.3,
+        "height": 15.7
+      }
+    },
+    "numB0": {
+      "type": "text",
+      "label": "Second number.Line 1",
+      "page": 1,
+      "box": {
+        "left": 178.5,
+        "top": 577.1,
+        "width": 66.9,
+        "height": 15.7
+      }
+    },
+    "amtB0": {
+      "type": "text",
+      "label": "Second amount.Line 1",
+      "page": 1,
+      "box": {
+        "left": 246.3,
+        "top": 577.1,
+        "width": 66.1,
+        "height": 15.7
+      }
+    },
+    "ci1": {
+      "type": "text",
+      "label": "Total CI by Category.Line 1",
+      "page": 1,
+      "box": {
+        "left": 448.8,
+        "top": 577.1,
+        "width": 67.8,
+        "height": 15.7
+      }
+    },
+    "humint1": {
+      "type": "text",
+      "label": "Total Humint by Category.Line 1",
+      "page": 1,
+      "box": {
+        "left": 518.2,
+        "top": 577.1,
+        "width": 66.9,
+        "height": 15.7
+      }
+    },
+    "amtA0": {
+      "type": "text",
+      "label": "First amount.Line 1",
+      "page": 1,
+      "box": {
+        "left": 111.3,
+        "top": 576.3,
+        "width": 66.1,
+        "height": 15.7
+      }
+    },
+    "numA1": {
+      "type": "text",
+      "label": "First number.Line 2",
+      "page": 1,
+      "box": {
+        "left": 44.6,
+        "top": 553.2,
+        "width": 65.3,
+        "height": 15.7
+      }
+    },
+    "amtA1": {
+      "type": "text",
+      "label": "First amount.Line 2",
+      "page": 1,
+      "box": {
+        "left": 111.6,
+        "top": 553.2,
+        "width": 66.1,
+        "height": 15.7
+      }
+    },
+    "numB1": {
+      "type": "text",
+      "label": "Second number.Line 2",
+      "page": 1,
+      "box": {
+        "left": 178.5,
+        "top": 553.2,
+        "width": 66.9,
+        "height": 15.7
+      }
+    },
+    "amtB1": {
+      "type": "text",
+      "label": "Second amount.Line 2",
+      "page": 1,
+      "box": {
+        "left": 246.3,
+        "top": 553.2,
+        "width": 66.1,
+        "height": 15.7
+      }
+    },
+    "ci2": {
+      "type": "text",
+      "label": "Total CI by Category.Line 2",
+      "page": 1,
+      "box": {
+        "left": 448.8,
+        "top": 551.5,
+        "width": 67.8,
+        "height": 15.7
+      }
+    },
+    "humint2": {
+      "type": "text",
+      "label": "Total Humint by Category.Line 2",
+      "page": 1,
+      "box": {
+        "left": 518.2,
+        "top": 551.5,
+        "width": 66.9,
+        "height": 15.7
+      }
+    },
+    "numA2": {
+      "type": "text",
+      "label": "First number.Line 3",
+      "page": 1,
+      "box": {
+        "left": 44.6,
+        "top": 527.5,
+        "width": 65.3,
+        "height": 15.7
+      }
+    },
+    "amtA2": {
+      "type": "text",
+      "label": "First amount.Line 3",
+      "page": 1,
+      "box": {
+        "left": 111.6,
+        "top": 527.5,
+        "width": 66.1,
+        "height": 15.7
+      }
+    },
+    "numB2": {
+      "type": "text",
+      "label": "Second number.Line 3",
+      "page": 1,
+      "box": {
+        "left": 178.5,
+        "top": 527.5,
+        "width": 66.9,
+        "height": 15.7
+      }
+    },
+    "amtB2": {
+      "type": "text",
+      "label": "Second amount.Line 3",
+      "page": 1,
+      "box": {
+        "left": 246.3,
+        "top": 527.5,
+        "width": 66.1,
+        "height": 15.7
+      }
+    },
+    "ci3": {
+      "type": "text",
+      "label": "Total CI by Category.Line 3",
+      "page": 1,
+      "box": {
+        "left": 448.8,
+        "top": 526.7,
+        "width": 67.8,
+        "height": 15.7
+      }
+    },
+    "humint3": {
+      "type": "text",
+      "label": "Total Humint by Category.Line 3",
+      "page": 1,
+      "box": {
+        "left": 518.2,
+        "top": 526.7,
+        "width": 66.9,
+        "height": 15.7
+      }
+    },
+    "numA3": {
+      "type": "text",
+      "label": "First number.Line 4",
+      "page": 1,
+      "box": {
+        "left": 44.6,
+        "top": 503.6,
+        "width": 65.3,
+        "height": 15.7
+      }
+    },
+    "amtA3": {
+      "type": "text",
+      "label": "First amount.Line 4",
+      "page": 1,
+      "box": {
+        "left": 111.6,
+        "top": 503.6,
+        "width": 66.1,
+        "height": 15.7
+      }
+    },
+    "numB3": {
+      "type": "text",
+      "label": "Second number.Line 4",
+      "page": 1,
+      "box": {
+        "left": 178.5,
+        "top": 503.6,
+        "width": 66.9,
+        "height": 15.7
+      }
+    },
+    "amtB3": {
+      "type": "text",
+      "label": "Second amount.Line 4",
+      "page": 1,
+      "box": {
+        "left": 246.3,
+        "top": 503.6,
+        "width": 66.1,
+        "height": 15.7
+      }
+    },
+    "ci4": {
+      "type": "text",
+      "label": "Total CI by Category.Line 4",
+      "page": 1,
+      "box": {
+        "left": 448.8,
+        "top": 502.7,
+        "width": 67.8,
+        "height": 15.7
+      }
+    },
+    "humint4": {
+      "type": "text",
+      "label": "Total Humint by Category.Line 4",
+      "page": 1,
+      "box": {
+        "left": 518.2,
+        "top": 502.7,
+        "width": 66.9,
+        "height": 15.7
+      }
+    },
+    "ci5": {
+      "type": "text",
+      "label": "Total CI by Category.Line 5",
+      "page": 1,
+      "box": {
+        "left": 448.8,
+        "top": 477.9,
+        "width": 67.8,
+        "height": 15.7
+      }
+    },
+    "humint5": {
+      "type": "text",
+      "label": "Total Humint by Category.Line 5",
+      "page": 1,
+      "box": {
+        "left": 518.2,
+        "top": 477.9,
+        "width": 66.9,
+        "height": 15.7
+      }
+    },
+    "numA4": {
+      "type": "text",
+      "label": "First number.Line 5",
+      "page": 1,
+      "box": {
+        "left": 44.6,
+        "top": 477.1,
+        "width": 65.3,
+        "height": 15.7
+      }
+    },
+    "amtA4": {
+      "type": "text",
+      "label": "First amount.Line 5",
+      "page": 1,
+      "box": {
+        "left": 111.6,
+        "top": 477.1,
+        "width": 66.1,
+        "height": 15.7
+      }
+    },
+    "numB4": {
+      "type": "text",
+      "label": "Second number.Line 5",
+      "page": 1,
+      "box": {
+        "left": 178.5,
+        "top": 477.1,
+        "width": 66.9,
+        "height": 15.7
+      }
+    },
+    "amtB4": {
+      "type": "text",
+      "label": "Second amount.Line 5",
+      "page": 1,
+      "box": {
+        "left": 246.3,
+        "top": 477.1,
+        "width": 66.1,
+        "height": 15.7
+      }
+    },
+    "ci6": {
+      "type": "text",
+      "label": "Total CI by Category.Line 6",
+      "page": 1,
+      "box": {
+        "left": 448.8,
+        "top": 453.2,
+        "width": 67.8,
+        "height": 15.7
+      }
+    },
+    "humint6": {
+      "type": "text",
+      "label": "Total Humint by Category.Line 6",
+      "page": 1,
+      "box": {
+        "left": 518.2,
+        "top": 453.2,
+        "width": 66.9,
+        "height": 15.7
+      }
+    },
+    "numA5": {
+      "type": "text",
+      "label": "First number.Line 6",
+      "page": 1,
+      "box": {
+        "left": 44.6,
+        "top": 452.3,
+        "width": 65.3,
+        "height": 15.7
+      }
+    },
+    "amtA5": {
+      "type": "text",
+      "label": "First amount.Line 6",
+      "page": 1,
+      "box": {
+        "left": 111.6,
+        "top": 452.3,
+        "width": 66.1,
+        "height": 15.7
+      }
+    },
+    "numB5": {
+      "type": "text",
+      "label": "Second number.Line 6",
+      "page": 1,
+      "box": {
+        "left": 178.5,
+        "top": 452.3,
+        "width": 66.9,
+        "height": 15.7
+      }
+    },
+    "amtB5": {
+      "type": "text",
+      "label": "Second amount.Line 6",
+      "page": 1,
+      "box": {
+        "left": 246.3,
+        "top": 452.3,
+        "width": 66.1,
+        "height": 15.7
+      }
+    },
+    "ci7": {
+      "type": "text",
+      "label": "Total CI by Category.Line 7",
+      "page": 1,
+      "box": {
+        "left": 448.8,
+        "top": 428.4,
+        "width": 67.8,
+        "height": 15.7
+      }
+    },
+    "humint7": {
+      "type": "text",
+      "label": "Total Humint by Category.Line 7",
+      "page": 1,
+      "box": {
+        "left": 518.2,
+        "top": 428.4,
+        "width": 66.9,
+        "height": 15.7
+      }
+    },
+    "numA6": {
+      "type": "text",
+      "label": "First number.Line 7",
+      "page": 1,
+      "box": {
+        "left": 44.6,
+        "top": 427.5,
+        "width": 65.3,
+        "height": 15.7
+      }
+    },
+    "amtA6": {
+      "type": "text",
+      "label": "First amount.Line 7",
+      "page": 1,
+      "box": {
+        "left": 111.6,
+        "top": 427.5,
+        "width": 66.1,
+        "height": 15.7
+      }
+    },
+    "numB6": {
+      "type": "text",
+      "label": "Second number.Line 7",
+      "page": 1,
+      "box": {
+        "left": 178.5,
+        "top": 427.5,
+        "width": 66.9,
+        "height": 15.7
+      }
+    },
+    "amtB6": {
+      "type": "text",
+      "label": "Second amount.Line 7",
+      "page": 1,
+      "box": {
+        "left": 246.3,
+        "top": 427.5,
+        "width": 66.1,
+        "height": 15.7
+      }
+    },
+    "numA7": {
+      "type": "text",
+      "label": "First number.Line 8",
+      "page": 1,
+      "box": {
+        "left": 44.6,
+        "top": 402.7,
+        "width": 65.3,
+        "height": 15.7
+      }
+    },
+    "amtA7": {
+      "type": "text",
+      "label": "First amount.Line 8",
+      "page": 1,
+      "box": {
+        "left": 111.6,
+        "top": 402.7,
+        "width": 66.1,
+        "height": 15.7
+      }
+    },
+    "numB7": {
+      "type": "text",
+      "label": "Second number.Line 8",
+      "page": 1,
+      "box": {
+        "left": 178.5,
+        "top": 402.7,
+        "width": 66.9,
+        "height": 15.7
+      }
+    },
+    "amtB7": {
+      "type": "text",
+      "label": "Second amount.Line 8",
+      "page": 1,
+      "box": {
+        "left": 246.3,
+        "top": 402.7,
+        "width": 66.1,
+        "height": 15.7
+      }
+    },
+    "ci8": {
+      "type": "text",
+      "label": "Total CI by Category.Line 8",
+      "page": 1,
+      "box": {
+        "left": 448.8,
+        "top": 402.7,
+        "width": 67.8,
+        "height": 15.7
+      }
+    },
+    "humint8": {
+      "type": "text",
+      "label": "Total Humint by Category.Line 8",
+      "page": 1,
+      "box": {
+        "left": 518.2,
+        "top": 402.7,
+        "width": 66.9,
+        "height": 15.7
+      }
+    },
+    "ci9": {
+      "type": "text",
+      "label": "Total CI by Category.Line 9",
+      "page": 1,
+      "box": {
+        "left": 448.8,
+        "top": 378.8,
+        "width": 67.8,
+        "height": 15.7
+      }
+    },
+    "humint9": {
+      "type": "text",
+      "label": "Total Humint by Category.Line 9",
+      "page": 1,
+      "box": {
+        "left": 518.2,
+        "top": 378.8,
+        "width": 66.9,
+        "height": 15.7
+      }
+    },
+    "numA8": {
+      "type": "text",
+      "label": "First number.Line 9",
+      "page": 1,
+      "box": {
+        "left": 44.6,
+        "top": 377.9,
+        "width": 65.3,
+        "height": 15.7
+      }
+    },
+    "amtA8": {
+      "type": "text",
+      "label": "First amount.Line 9",
+      "page": 1,
+      "box": {
+        "left": 111.6,
+        "top": 377.9,
+        "width": 66.1,
+        "height": 15.7
+      }
+    },
+    "numB8": {
+      "type": "text",
+      "label": "Second number.Line 9",
+      "page": 1,
+      "box": {
+        "left": 178.5,
+        "top": 377.9,
+        "width": 66.9,
+        "height": 15.7
+      }
+    },
+    "amtB8": {
+      "type": "text",
+      "label": "Second amount.Line 9",
+      "page": 1,
+      "box": {
+        "left": 246.3,
+        "top": 377.9,
+        "width": 66.1,
+        "height": 15.7
+      }
+    },
+    "numA9": {
+      "type": "text",
+      "label": "First number.Line 10",
+      "page": 1,
+      "box": {
+        "left": 44.6,
+        "top": 354.0,
+        "width": 65.3,
+        "height": 15.7
+      }
+    },
+    "amtA9": {
+      "type": "text",
+      "label": "First amount.Line 10",
+      "page": 1,
+      "box": {
+        "left": 111.6,
+        "top": 354.0,
+        "width": 66.1,
+        "height": 15.7
+      }
+    },
+    "numB9": {
+      "type": "text",
+      "label": "Second number.Line 10",
+      "page": 1,
+      "box": {
+        "left": 178.5,
+        "top": 354.0,
+        "width": 66.9,
+        "height": 15.7
+      }
+    },
+    "amtB9": {
+      "type": "text",
+      "label": "Second amount.Line 10",
+      "page": 1,
+      "box": {
+        "left": 246.3,
+        "top": 354.0,
+        "width": 66.1,
+        "height": 15.7
+      }
+    },
+    "ci10": {
+      "type": "text",
+      "label": "Total CI by Category.Line 10",
+      "page": 1,
+      "box": {
+        "left": 448.8,
+        "top": 354.0,
+        "width": 67.8,
+        "height": 15.7
+      }
+    },
+    "humint10": {
+      "type": "text",
+      "label": "Total Humint by Category.Line 10",
+      "page": 1,
+      "box": {
+        "left": 518.2,
+        "top": 354.0,
+        "width": 66.9,
+        "height": 15.7
+      }
+    },
+    "subHumint": {
+      "type": "text",
+      "label": "Subtotal of Humint all categories",
+      "page": 1,
+      "box": {
+        "left": 519.7,
+        "top": 330.0,
+        "width": 64.2,
+        "height": 15.7
+      }
+    },
+    "subC1": {
+      "type": "text",
+      "label": "Subtotal of CI all categories",
+      "page": 1,
+      "box": {
+        "left": 451.7,
+        "top": 329.6,
+        "width": 63.8,
+        "height": 15.7
+      }
+    },
+    "numA10": {
+      "type": "text",
+      "label": "First number.Line 11",
+      "page": 1,
+      "box": {
+        "left": 44.6,
+        "top": 329.2,
+        "width": 65.3,
+        "height": 15.7
+      }
+    },
+    "amtA10": {
+      "type": "text",
+      "label": "First amount.Line 11",
+      "page": 1,
+      "box": {
+        "left": 111.6,
+        "top": 329.2,
+        "width": 66.1,
+        "height": 15.7
+      }
+    },
+    "numB10": {
+      "type": "text",
+      "label": "Second number.Line 11",
+      "page": 1,
+      "box": {
+        "left": 178.5,
+        "top": 329.2,
+        "width": 66.9,
+        "height": 15.7
+      }
+    },
+    "amtB10": {
+      "type": "text",
+      "label": "Second amount.Line 11",
+      "page": 1,
+      "box": {
+        "left": 246.3,
+        "top": 329.2,
+        "width": 66.1,
+        "height": 15.7
+      }
+    },
+    "totC1Hum": {
+      "type": "text",
+      "label": "Total of all CI and Humint",
+      "page": 1,
+      "box": {
+        "left": 476.9,
+        "top": 305.2,
+        "width": 108.3,
+        "height": 15.7
+      }
+    },
+    "numA11": {
+      "type": "text",
+      "label": "First number.Line 12",
+      "page": 1,
+      "box": {
+        "left": 44.6,
+        "top": 304.4,
+        "width": 65.3,
+        "height": 15.7
+      }
+    },
+    "amtA11": {
+      "type": "text",
+      "label": "First amount.Line 12",
+      "page": 1,
+      "box": {
+        "left": 111.6,
+        "top": 304.4,
+        "width": 66.1,
+        "height": 15.7
+      }
+    },
+    "numB11": {
+      "type": "text",
+      "label": "Second number.Line 12",
+      "page": 1,
+      "box": {
+        "left": 178.5,
+        "top": 304.4,
+        "width": 66.9,
+        "height": 15.7
+      }
+    },
+    "amtB11": {
+      "type": "text",
+      "label": "Second amount.Line 12",
+      "page": 1,
+      "box": {
+        "left": 246.3,
+        "top": 304.4,
+        "width": 66.1,
+        "height": 15.7
+      }
+    },
+    "sig2": {
+      "type": "signature",
+      "label": "Sig2",
+      "page": 1,
+      "box": {
+        "left": 429.2,
+        "top": 263.5,
+        "width": 155.1,
+        "height": 37.6
+      }
+    },
+    "sig3": {
+      "type": "signature",
+      "label": "Sig3",
+      "page": 1,
+      "box": {
+        "left": 429.2,
+        "top": 224.0,
+        "width": 155.6,
+        "height": 37.6
+      }
+    },
+    "sig4": {
+      "type": "signature",
+      "label": "Sig4",
+      "page": 1,
+      "box": {
+        "left": 430.1,
+        "top": 182.7,
+        "width": 153.3,
+        "height": 37.6
+      }
+    },
+    "amtPaid": {
+      "type": "text",
+      "label": "Amount Paid",
+      "page": 1,
+      "box": {
+        "left": 44.6,
+        "top": 129.1,
+        "width": 156.2,
+        "height": 23.0
+      }
+    },
+    "datePaid": {
+      "type": "text",
+      "label": "Enter date paid on using format 2 Dec 2002",
+      "page": 1,
+      "box": {
+        "left": 201.7,
+        "top": 128.2,
+        "width": 106.6,
+        "height": 22.1
+      }
+    },
+    "checkNo": {
+      "type": "text",
+      "label": "Check Number",
+      "page": 1,
+      "box": {
+        "left": 309.9,
+        "top": 128.2,
+        "width": 117.4,
+        "height": 22.1
+      }
+    },
+    "chkCash": {
+      "type": "checkbox",
+      "label": "Check if paid cash",
+      "page": 1,
+      "box": {
+        "left": 479.4,
+        "top": 126.8,
+        "width": 15.7,
+        "height": 15.7
+      }
+    },
+    "vouchNum": {
+      "type": "text",
+      "label": "Voucher Number",
+      "page": 1,
+      "box": {
+        "left": 44.6,
+        "top": 91.8,
+        "width": 154.5,
+        "height": 27.9
+      }
+    },
+    "sigRecip": {
+      "type": "signature",
+      "label": "SigRecip",
+      "page": 1,
+      "box": {
+        "left": 201.5,
+        "top": 89.1,
+        "width": 382.3,
+        "height": 25.2
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 40.0,
+      "editor": "grid",
+      "columns": {
+        "name": {
+          "type": "text",
+          "label": "Approval name.Line 1",
+          "page": 1,
+          "box": {
+            "left": 216.5,
+            "top": 263.6,
+            "width": 210.7,
+            "height": 36.8
+          }
+        }
+      }
+    }
+  }
+}

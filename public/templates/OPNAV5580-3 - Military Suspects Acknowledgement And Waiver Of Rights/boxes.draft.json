@@ -1,0 +1,161 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "place1": {
+        "left": 386.2,
+        "top": 684.5,
+        "width": 179.7,
+        "height": 18.0,
+        "type": "text",
+        "description": "Indicate the place.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "place2": {
+        "left": 386.3,
+        "top": 662.6,
+        "width": 179.5,
+        "height": 18.0,
+        "type": "text",
+        "description": "Indicate the place.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "i1": {
+        "left": 56.3,
+        "top": 602.5,
+        "width": 512.8,
+        "height": 18.0,
+        "type": "text",
+        "description": "Enter your name.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "advised12": {
+        "left": 150.1,
+        "top": 581.1,
+        "width": 419.1,
+        "height": 18.0,
+        "type": "text",
+        "description": "Indicate who you have been advised by.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "suspected": {
+        "left": 150.1,
+        "top": 559.6,
+        "width": 419.1,
+        "height": 18.0,
+        "type": "text",
+        "description": "Indicate what your suspected of.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "witness12": {
+        "left": 373.9,
+        "top": 311.1,
+        "width": 193.9,
+        "height": 18.0,
+        "type": "text",
+        "description": "Enter the signature.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dNSDate1": {
+        "left": 388.0,
+        "top": 289.3,
+        "width": 91.6,
+        "height": 18.0,
+        "type": "text",
+        "description": "Enter the date using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "timeField24": {
+        "left": 481.0,
+        "top": 289.3,
+        "width": 86.6,
+        "height": 18.0,
+        "type": "text",
+        "description": "Enter the time using the 24-hour clock (HHMM).  ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "witness1": {
+        "left": 95.4,
+        "top": 257.1,
+        "width": 216.5,
+        "height": 18.0,
+        "type": "text",
+        "description": "Indicate the witness.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "witness2": {
+        "left": 96.0,
+        "top": 235.3,
+        "width": 215.8,
+        "height": 18.0,
+        "type": "text",
+        "description": "Enter the witness.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dNSDate123": {
+        "left": 383.4,
+        "top": 187.0,
+        "width": 96.2,
+        "height": 18.0,
+        "type": "text",
+        "description": "Enter the date using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "timeField": {
+        "left": 481.0,
+        "top": 187.0,
+        "width": 86.6,
+        "height": 18.0,
+        "type": "text",
+        "description": "Enter the time using the 24-hour clock (HHMM).  ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "i": {
+        "left": 117.3,
+        "top": 149.5,
+        "width": 454.2,
+        "height": 18.8,
+        "type": "text",
+        "description": "Enter the name of the individual making the voluntary statement.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

@@ -1,0 +1,340 @@
+{
+  "id": "opnav54203",
+  "label": "OPNAV5420-3 - Cno Committee Management Program Recertification Form",
+  "directory": "OPNAV5420-3 - Cno Committee Management Program Recertification Form",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "nameof",
+        "oPNAVSponsor",
+        "committeePOC",
+        "dSNorCOM2",
+        "dNSDate3",
+        "recDispofComm",
+        "recDispofComm2",
+        "oPNAVTravel",
+        "oPNAVPerDiem",
+        "oPNAVMisc",
+        "oPNAVTotal",
+        "othersTravel",
+        "othersPerDiem",
+        "othersMisc",
+        "othersTotal",
+        "professionalWY",
+        "clericalWY",
+        "recordofMeetings",
+        "changesto510and14",
+        "oPNAVPricOfficial",
+        "oPNAVPricNCode",
+        "dNSDate3OPNAV",
+        "nO9BSignature",
+        "no9bnCode",
+        "dNSDate3NO9B"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "additionalComments"
+      ]
+    }
+  ],
+  "fields": {
+    "nameof": {
+      "type": "text",
+      "label": "Enter the name of the committee.",
+      "page": 1,
+      "box": {
+        "left": 179.1,
+        "top": 712.8,
+        "width": 360.0,
+        "height": 15.1
+      }
+    },
+    "oPNAVSponsor": {
+      "type": "text",
+      "label": "Enter the OPNAV Sponsor.",
+      "page": 1,
+      "box": {
+        "left": 168.4,
+        "top": 680.4,
+        "width": 370.7,
+        "height": 15.1
+      }
+    },
+    "committeePOC": {
+      "type": "text",
+      "label": "Enter the committee POC (name & N-Code).",
+      "page": 1,
+      "box": {
+        "left": 303.1,
+        "top": 646.6,
+        "width": 156.1,
+        "height": 15.1
+      }
+    },
+    "dSNorCOM2": {
+      "type": "text",
+      "label": "Enter a 10-digit commercial telephone number or a 7-digit DSN for the committee POC.",
+      "page": 1,
+      "box": {
+        "left": 461.7,
+        "top": 646.6,
+        "width": 77.5,
+        "height": 15.1
+      }
+    },
+    "dNSDate3": {
+      "type": "text",
+      "label": "Enter the date committee approved by NO9B using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 302.4,
+        "top": 614.2,
+        "width": 156.1,
+        "height": 15.1
+      }
+    },
+    "recDispofComm": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 329.9,
+        "top": 581.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_RecDispofComm_0"
+    },
+    "recDispofComm2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 442.8,
+        "top": 580.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_RecDispofComm_0"
+    },
+    "oPNAVTravel": {
+      "type": "text",
+      "label": "Enter the estimated annual costs for all committee travel for OPNAV.",
+      "page": 1,
+      "box": {
+        "left": 158.4,
+        "top": 512.7,
+        "width": 81.5,
+        "height": 16.8
+      }
+    },
+    "oPNAVPerDiem": {
+      "type": "text",
+      "label": "Enter the estimated annual costs for all committee per diem for OPNAV.",
+      "page": 1,
+      "box": {
+        "left": 258.4,
+        "top": 512.7,
+        "width": 81.4,
+        "height": 16.8
+      }
+    },
+    "oPNAVMisc": {
+      "type": "text",
+      "label": "Enter the estimated annual costs for all committee miscellaneous expenses for OPNAV.",
+      "page": 1,
+      "box": {
+        "left": 356.4,
+        "top": 512.7,
+        "width": 81.4,
+        "height": 16.8
+      }
+    },
+    "oPNAVTotal": {
+      "type": "text",
+      "label": "OPNAVTotal",
+      "page": 1,
+      "box": {
+        "left": 453.6,
+        "top": 512.7,
+        "width": 81.4,
+        "height": 16.8
+      }
+    },
+    "othersTravel": {
+      "type": "text",
+      "label": "Enter the estimated annual costs for all committee travel for others.",
+      "page": 1,
+      "box": {
+        "left": 158.4,
+        "top": 478.8,
+        "width": 81.5,
+        "height": 16.8
+      }
+    },
+    "othersPerDiem": {
+      "type": "text",
+      "label": "Enter the estimated annual costs for all committee per diem for others.",
+      "page": 1,
+      "box": {
+        "left": 258.4,
+        "top": 478.8,
+        "width": 81.4,
+        "height": 16.8
+      }
+    },
+    "othersMisc": {
+      "type": "text",
+      "label": "Enter the estimated annual costs for all committee miscellaneous expenses for others.",
+      "page": 1,
+      "box": {
+        "left": 356.4,
+        "top": 478.8,
+        "width": 81.4,
+        "height": 16.8
+      }
+    },
+    "othersTotal": {
+      "type": "text",
+      "label": "OthersTotal",
+      "page": 1,
+      "box": {
+        "left": 453.6,
+        "top": 478.8,
+        "width": 81.4,
+        "height": 16.8
+      }
+    },
+    "professionalWY": {
+      "type": "text",
+      "label": "Enter the professional work years.",
+      "page": 1,
+      "box": {
+        "left": 224.2,
+        "top": 388.8,
+        "width": 316.0,
+        "height": 24.5
+      }
+    },
+    "clericalWY": {
+      "type": "text",
+      "label": "Enter the clerical work years.",
+      "page": 1,
+      "box": {
+        "left": 224.2,
+        "top": 362.9,
+        "width": 316.0,
+        "height": 20.9
+      }
+    },
+    "recordofMeetings": {
+      "type": "text",
+      "label": "Enter the record of meetings held in past fiscal year and planned for next fiscal year.",
+      "page": 1,
+      "box": {
+        "left": 69.8,
+        "top": 312.5,
+        "width": 470.2,
+        "height": 49.0
+      },
+      "multiline": true
+    },
+    "changesto510and14": {
+      "type": "text",
+      "label": "Enter changes to items 5 through 10 & 14 of original Committee Management Program Data Form (NOTE: OPNAV officials proposing to continue committees are required to observe OPNAVINST 5420.27 (series) \r\npolicy regarding consideration of balanced representation of women and minorities.) (Use back of form if more space is necessary).",
+      "page": 1,
+      "box": {
+        "left": 69.8,
+        "top": 209.5,
+        "width": 470.2,
+        "height": 49.0
+      },
+      "multiline": true
+    },
+    "oPNAVPricOfficial": {
+      "type": "text",
+      "label": "Enter the OPNAV Pricipal Offical's signature for approval authority.",
+      "page": 1,
+      "box": {
+        "left": 234.7,
+        "top": 146.9,
+        "width": 131.8,
+        "height": 17.9
+      }
+    },
+    "oPNAVPricNCode": {
+      "type": "text",
+      "label": "Enter the OPNAV Pricipal Official N-Code.",
+      "page": 1,
+      "box": {
+        "left": 368.6,
+        "top": 146.9,
+        "width": 86.4,
+        "height": 17.9
+      }
+    },
+    "dNSDate3OPNAV": {
+      "type": "text",
+      "label": "Enter the date of OPNAV Principal Official approval using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 457.1,
+        "top": 146.9,
+        "width": 83.6,
+        "height": 18.0
+      }
+    },
+    "nO9BSignature": {
+      "type": "text",
+      "label": "Enter the NO9B Recerification signature for approval authority.",
+      "page": 1,
+      "box": {
+        "left": 234.7,
+        "top": 115.2,
+        "width": 131.8,
+        "height": 17.9
+      }
+    },
+    "no9bnCode": {
+      "type": "text",
+      "label": "Enter the NO9B Recerification N-Code.",
+      "page": 1,
+      "box": {
+        "left": 368.6,
+        "top": 115.2,
+        "width": 86.4,
+        "height": 17.9
+      }
+    },
+    "dNSDate3NO9B": {
+      "type": "text",
+      "label": "Enter the date of NO9B Recerification approval using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 457.1,
+        "top": 115.2,
+        "width": 83.6,
+        "height": 17.9
+      }
+    },
+    "additionalComments": {
+      "type": "text",
+      "label": "Enter additional information.",
+      "page": 2,
+      "box": {
+        "left": 72.0,
+        "top": 747.4,
+        "width": 467.4,
+        "height": 663.2
+      },
+      "multiline": true
+    }
+  }
+}

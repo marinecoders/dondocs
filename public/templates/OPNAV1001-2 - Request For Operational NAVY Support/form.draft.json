@@ -1,0 +1,883 @@
+{
+  "id": "opnav10012",
+  "label": "OPNAV1001-2 - Request For Operational NAVY Support",
+  "directory": "OPNAV1001-2 - Request For Operational NAVY Support",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "oSRBAppDTE",
+        "radio",
+        "radio2",
+        "reqemladd",
+        "reqdte",
+        "dirbrtle",
+        "bcodeinit",
+        "reqnme",
+        "reqncde",
+        "reqphno",
+        "reqemladd2",
+        "osonme",
+        "osoncde",
+        "osophno",
+        "reqncde2",
+        "rptloc",
+        "rsvrptpoc",
+        "recpdpoc",
+        "radio3",
+        "radio4",
+        "shttle",
+        "objetv",
+        "cnoinasen",
+        "shttle2",
+        "shttle3",
+        "wstdte",
+        "wduete",
+        "textField2",
+        "osrbtotsc",
+        "radio5",
+        "radio6",
+        "radio7",
+        "radio8",
+        "radio9",
+        "radio10",
+        "radio11",
+        "radio12",
+        "radio13",
+        "radio14",
+        "radio15",
+        "radio16",
+        "radio17",
+        "radio18",
+        "radio19"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "sl1r",
+        "sl1w",
+        "sl2r",
+        "sl2w",
+        "sl3r",
+        "sl3w",
+        "sl4r",
+        "sl4w",
+        "sl5r",
+        "sl5w"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "sl6r",
+        "sl6w",
+        "sl7w",
+        "sl7r",
+        "sl8r",
+        "sl8w",
+        "rccst",
+        "accst",
+        "accst2"
+      ]
+    }
+  ],
+  "fields": {
+    "oSRBAppDTE": {
+      "type": "text",
+      "label": "OSRB Approval Date",
+      "page": 1,
+      "box": {
+        "left": 259.5,
+        "top": 710.4,
+        "width": 109.7,
+        "height": 22.8
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 56.1,
+        "top": 710.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 143.1,
+        "top": 710.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "reqemladd": {
+      "type": "text",
+      "label": "OSRB Tracking Number",
+      "page": 1,
+      "box": {
+        "left": 381.5,
+        "top": 709.6,
+        "width": 189.5,
+        "height": 20.6
+      }
+    },
+    "reqdte": {
+      "type": "text",
+      "label": "1. REQUEST DATE",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 644.6,
+        "width": 73.6,
+        "height": 12.6
+      }
+    },
+    "dirbrtle": {
+      "type": "text",
+      "label": "2. DIRECTORATE BRANCH TITLE",
+      "page": 1,
+      "box": {
+        "left": 122.6,
+        "top": 643.9,
+        "width": 349.9,
+        "height": 12.0
+      }
+    },
+    "bcodeinit": {
+      "type": "text",
+      "label": "INITIALS",
+      "page": 1,
+      "box": {
+        "left": 481.3,
+        "top": 643.9,
+        "width": 92.7,
+        "height": 12.0
+      }
+    },
+    "reqnme": {
+      "type": "text",
+      "label": "4. REQUESTOR&apos;S NAME",
+      "page": 1,
+      "box": {
+        "left": 39.1,
+        "top": 605.0,
+        "width": 176.2,
+        "height": 12.0
+      }
+    },
+    "reqncde": {
+      "type": "text",
+      "label": "5. N-CODE",
+      "page": 1,
+      "box": {
+        "left": 223.4,
+        "top": 605.0,
+        "width": 51.8,
+        "height": 12.0
+      }
+    },
+    "reqphno": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 1,
+      "box": {
+        "left": 284.0,
+        "top": 605.0,
+        "width": 101.9,
+        "height": 12.0
+      }
+    },
+    "reqemladd2": {
+      "type": "text",
+      "label": "7. REQUESTOR&apos;S EMAIL ADDRESS",
+      "page": 1,
+      "box": {
+        "left": 397.7,
+        "top": 605.0,
+        "width": 176.2,
+        "height": 12.0
+      }
+    },
+    "osonme": {
+      "type": "text",
+      "label": "8. OSO NAME",
+      "page": 1,
+      "box": {
+        "left": 39.1,
+        "top": 566.0,
+        "width": 176.2,
+        "height": 12.0
+      }
+    },
+    "osoncde": {
+      "type": "text",
+      "label": "9. N-CODE",
+      "page": 1,
+      "box": {
+        "left": 223.4,
+        "top": 566.0,
+        "width": 51.8,
+        "height": 12.0
+      }
+    },
+    "osophno": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 1,
+      "box": {
+        "left": 284.0,
+        "top": 566.0,
+        "width": 101.9,
+        "height": 12.0
+      }
+    },
+    "reqncde2": {
+      "type": "text",
+      "label": "11. OSO EMAIL ADDRESS",
+      "page": 1,
+      "box": {
+        "left": 397.7,
+        "top": 566.0,
+        "width": 176.2,
+        "height": 12.0
+      }
+    },
+    "rptloc": {
+      "type": "text",
+      "label": "12. REPORT TO OFFICE LOCATION",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 534.9,
+        "width": 533.6,
+        "height": 11.8
+      }
+    },
+    "rsvrptpoc": {
+      "type": "text",
+      "label": "(Name, Rank, Contact Information)",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 496.4,
+        "width": 202.6,
+        "height": 36.8
+      },
+      "multiline": true
+    },
+    "recpdpoc": {
+      "type": "text",
+      "label": "(Name, Rank, Contact Information)",
+      "page": 1,
+      "box": {
+        "left": 251.5,
+        "top": 496.4,
+        "width": 202.6,
+        "height": 36.8
+      },
+      "multiline": true
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 479.5,
+        "top": 478.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 534.3,
+        "top": 478.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "shttle": {
+      "type": "text",
+      "label": "16. SHORT TITLE",
+      "page": 1,
+      "box": {
+        "left": 40.4,
+        "top": 425.0,
+        "width": 533.6,
+        "height": 12.8
+      }
+    },
+    "objetv": {
+      "type": "text",
+      "label": "Objetv",
+      "page": 1,
+      "box": {
+        "left": 39.1,
+        "top": 393.8,
+        "width": 533.6,
+        "height": 24.6
+      }
+    },
+    "cnoinasen": {
+      "type": "text",
+      "label": "Cnoinasen",
+      "page": 1,
+      "box": {
+        "left": 39.1,
+        "top": 353.7,
+        "width": 533.6,
+        "height": 24.6
+      }
+    },
+    "shttle2": {
+      "type": "text",
+      "label": "Shttle 2",
+      "page": 1,
+      "box": {
+        "left": 39.1,
+        "top": 313.7,
+        "width": 533.6,
+        "height": 24.6
+      }
+    },
+    "shttle3": {
+      "type": "text",
+      "label": "20. LIST SKILL SET(S) REQUIRED TO EXECUTE ACTION PLAN",
+      "page": 1,
+      "box": {
+        "left": 39.1,
+        "top": 273.6,
+        "width": 533.6,
+        "height": 24.6
+      }
+    },
+    "wstdte": {
+      "type": "text",
+      "label": "START DATE",
+      "page": 1,
+      "box": {
+        "left": 107.2,
+        "top": 245.0,
+        "width": 106.3,
+        "height": 15.4
+      }
+    },
+    "wduete": {
+      "type": "text",
+      "label": "END DATE",
+      "page": 1,
+      "box": {
+        "left": 288.1,
+        "top": 245.0,
+        "width": 106.3,
+        "height": 15.4
+      }
+    },
+    "textField2": {
+      "type": "text",
+      "label": "TOTAL NUMBER OF DAYS",
+      "page": 1,
+      "box": {
+        "left": 507.7,
+        "top": 245.0,
+        "width": 67.2,
+        "height": 15.4
+      }
+    },
+    "osrbtotsc": {
+      "type": "text",
+      "label": "OSRB DECISION PRIORITIZATION TOTAL SCORE",
+      "page": 1,
+      "box": {
+        "left": 321.4,
+        "top": 206.1,
+        "width": 84.7,
+        "height": 14.9
+      }
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 475.5,
+        "top": 155.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 508.1,
+        "top": 155.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 540.7,
+        "top": 155.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 475.5,
+        "top": 134.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio9": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 508.1,
+        "top": 134.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio10": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 540.7,
+        "top": 134.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio11": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 475.5,
+        "top": 114.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio12": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 508.1,
+        "top": 114.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio13": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 540.7,
+        "top": 114.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio14": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 475.5,
+        "top": 93.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio15": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 508.1,
+        "top": 93.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio16": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 540.7,
+        "top": 93.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio17": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 475.5,
+        "top": 73.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio18": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 508.1,
+        "top": 73.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio19": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 540.7,
+        "top": 73.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "sl1r": {
+      "type": "text",
+      "label": "RATING",
+      "page": 2,
+      "box": {
+        "left": 466.0,
+        "top": 745.3,
+        "width": 40.6,
+        "height": 17.7
+      }
+    },
+    "sl1w": {
+      "type": "text",
+      "label": "WEIGHING",
+      "page": 2,
+      "box": {
+        "left": 515.0,
+        "top": 745.3,
+        "width": 45.6,
+        "height": 17.7
+      }
+    },
+    "sl2r": {
+      "type": "text",
+      "label": "RATING",
+      "page": 2,
+      "box": {
+        "left": 466.0,
+        "top": 610.5,
+        "width": 40.6,
+        "height": 17.7
+      }
+    },
+    "sl2w": {
+      "type": "text",
+      "label": "WEIGHING",
+      "page": 2,
+      "box": {
+        "left": 514.2,
+        "top": 610.5,
+        "width": 45.6,
+        "height": 17.7
+      }
+    },
+    "sl3r": {
+      "type": "text",
+      "label": "RATING",
+      "page": 2,
+      "box": {
+        "left": 466.0,
+        "top": 477.0,
+        "width": 40.6,
+        "height": 17.7
+      }
+    },
+    "sl3w": {
+      "type": "text",
+      "label": "WEIGHING",
+      "page": 2,
+      "box": {
+        "left": 514.2,
+        "top": 477.0,
+        "width": 45.6,
+        "height": 17.7
+      }
+    },
+    "sl4r": {
+      "type": "text",
+      "label": "RATING",
+      "page": 2,
+      "box": {
+        "left": 466.0,
+        "top": 344.2,
+        "width": 40.6,
+        "height": 17.7
+      }
+    },
+    "sl4w": {
+      "type": "text",
+      "label": "WEIGHING",
+      "page": 2,
+      "box": {
+        "left": 514.2,
+        "top": 344.2,
+        "width": 45.6,
+        "height": 17.7
+      }
+    },
+    "sl5r": {
+      "type": "text",
+      "label": "RATING",
+      "page": 2,
+      "box": {
+        "left": 466.6,
+        "top": 157.4,
+        "width": 40.6,
+        "height": 17.7
+      }
+    },
+    "sl5w": {
+      "type": "text",
+      "label": "WEIGHING",
+      "page": 2,
+      "box": {
+        "left": 514.2,
+        "top": 157.4,
+        "width": 45.6,
+        "height": 17.7
+      }
+    },
+    "sl6r": {
+      "type": "text",
+      "label": "RATING",
+      "page": 3,
+      "box": {
+        "left": 470.4,
+        "top": 745.3,
+        "width": 40.6,
+        "height": 17.7
+      }
+    },
+    "sl6w": {
+      "type": "text",
+      "label": "WEIGHING",
+      "page": 3,
+      "box": {
+        "left": 516.9,
+        "top": 745.3,
+        "width": 45.6,
+        "height": 17.7
+      }
+    },
+    "sl7w": {
+      "type": "text",
+      "label": "WEIGHING",
+      "page": 3,
+      "box": {
+        "left": 516.9,
+        "top": 610.2,
+        "width": 45.6,
+        "height": 17.8
+      }
+    },
+    "sl7r": {
+      "type": "text",
+      "label": "RATING",
+      "page": 3,
+      "box": {
+        "left": 470.4,
+        "top": 610.0,
+        "width": 40.6,
+        "height": 17.7
+      }
+    },
+    "sl8r": {
+      "type": "text",
+      "label": "RATING",
+      "page": 3,
+      "box": {
+        "left": 470.4,
+        "top": 473.3,
+        "width": 40.6,
+        "height": 17.7
+      }
+    },
+    "sl8w": {
+      "type": "text",
+      "label": "1-No advisory activity/capability",
+      "page": 3,
+      "box": {
+        "left": 518.5,
+        "top": 472.0,
+        "width": 45.6,
+        "height": 17.7
+      }
+    },
+    "rccst": {
+      "type": "text",
+      "label": "Rccst",
+      "page": 3,
+      "box": {
+        "left": 39.2,
+        "top": 319.7,
+        "width": 532.3,
+        "height": 18.2
+      }
+    },
+    "accst": {
+      "type": "text",
+      "label": "Determine per diem, lodging and travel funding (AC cost)",
+      "page": 3,
+      "box": {
+        "left": 39.2,
+        "top": 282.4,
+        "width": 532.3,
+        "height": 18.2
+      }
+    },
+    "accst2": {
+      "type": "text",
+      "label": "REMARKS",
+      "page": 3,
+      "box": {
+        "left": 39.1,
+        "top": 242.5,
+        "width": 532.3,
+        "height": 25.2
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 3,
+      "count": 7,
+      "rowStride": 15.2,
+      "editor": "grid",
+      "columns": {
+        "textField1": {
+          "type": "text",
+          "label": "Rank/Name",
+          "page": 3,
+          "box": {
+            "left": 37.5,
+            "top": 144.2,
+            "width": 116.8,
+            "height": 12.9
+          }
+        },
+        "textField12": {
+          "type": "text",
+          "label": "Email",
+          "page": 3,
+          "box": {
+            "left": 154.3,
+            "top": 144.2,
+            "width": 144.5,
+            "height": 12.9
+          }
+        },
+        "textField13": {
+          "type": "text",
+          "label": "Unit",
+          "page": 3,
+          "box": {
+            "left": 298.8,
+            "top": 144.2,
+            "width": 71.9,
+            "height": 12.9
+          }
+        },
+        "textField14": {
+          "type": "text",
+          "label": "Skill(s)",
+          "page": 3,
+          "box": {
+            "left": 370.7,
+            "top": 144.2,
+            "width": 44.3,
+            "height": 12.9
+          }
+        },
+        "textField15": {
+          "type": "text",
+          "label": "Rating",
+          "page": 3,
+          "box": {
+            "left": 415.0,
+            "top": 144.2,
+            "width": 44.3,
+            "height": 12.9
+          }
+        },
+        "textField16": {
+          "type": "text",
+          "label": "Remarks",
+          "page": 3,
+          "box": {
+            "left": 459.0,
+            "top": 144.2,
+            "width": 116.8,
+            "height": 12.9
+          }
+        }
+      }
+    }
+  }
+}

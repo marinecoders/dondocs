@@ -1,0 +1,260 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "uss": {
+        "left": 141.8,
+        "top": 727.6,
+        "width": 142.3,
+        "height": 13.6,
+        "type": "text",
+        "description": "Enter the ship number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "time": {
+        "left": 340.8,
+        "top": 727.2,
+        "width": 64.3,
+        "height": 10.8,
+        "type": "text",
+        "description": "Enter the start time using the format HHMM.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date": {
+        "left": 449.7,
+        "top": 727.2,
+        "width": 64.3,
+        "height": 10.8,
+        "type": "text",
+        "description": "Enter the start date (DD MMM YYYY).  ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "trunk": {
+        "left": 227.8,
+        "top": 695.6,
+        "width": 38.3,
+        "height": 13.6,
+        "type": "text",
+        "description": "Trunk",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "location": {
+        "left": 380.8,
+        "top": 695.6,
+        "width": 188.3,
+        "height": 13.6,
+        "type": "text",
+        "description": "Location",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField8": {
+        "left": 20.8,
+        "top": 671.6,
+        "width": 570.2,
+        "height": 67.1,
+        "type": "text",
+        "description": "Enter the list of work to be peformed. ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initial": {
+        "left": 21.8,
+        "top": 568.2,
+        "width": 40.3,
+        "height": 10.8,
+        "type": "text",
+        "description": "Enter initials or NA.  Initials certify completion of an item.  ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initial1": {
+        "left": 21.8,
+        "top": 550.2,
+        "width": 40.3,
+        "height": 10.8,
+        "type": "text",
+        "description": "Enter initials or NA.  Initials certify completion of an item.  ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initial2": {
+        "left": 21.8,
+        "top": 532.2,
+        "width": 40.3,
+        "height": 10.8,
+        "type": "text",
+        "description": "Enter initials or NA.  Initials certify completion of an item.  ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initial3": {
+        "left": 21.8,
+        "top": 514.2,
+        "width": 40.3,
+        "height": 10.8,
+        "type": "text",
+        "description": "Enter initials or NA.  Initials certify completion of an item.  ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initial4": {
+        "left": 21.8,
+        "top": 497.2,
+        "width": 40.3,
+        "height": 10.8,
+        "type": "text",
+        "description": "Enter initials or NA.  Initials certify completion of an item.  ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initial5": {
+        "left": 21.8,
+        "top": 479.2,
+        "width": 40.3,
+        "height": 10.8,
+        "type": "text",
+        "description": "Enter initials or NA.  Initials certify completion of an item.  ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initial6": {
+        "left": 21.8,
+        "top": 441.2,
+        "width": 40.3,
+        "height": 10.8,
+        "type": "text",
+        "description": "Enter initials or NA.  Initials certify completion of an item.  ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initial7": {
+        "left": 21.8,
+        "top": 415.2,
+        "width": 40.3,
+        "height": 10.8,
+        "type": "text",
+        "description": "Enter initials or NA.  Initials certify completion of an item.  ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initial8": {
+        "left": 21.8,
+        "top": 388.2,
+        "width": 40.3,
+        "height": 10.8,
+        "type": "text",
+        "description": "Enter initials or NA.  Initials certify completion of an item.  ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initial9": {
+        "left": 21.8,
+        "top": 368.7,
+        "width": 40.3,
+        "height": 10.8,
+        "type": "text",
+        "description": "Enter initials or NA.  Initials certify completion of an item.  ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initial10": {
+        "left": 21.8,
+        "top": 345.2,
+        "width": 40.3,
+        "height": 10.8,
+        "type": "text",
+        "description": "Enter initials or NA.  Initials certify completion of an item.  ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "theLetter": {
+        "left": 75.8,
+        "top": 299.2,
+        "width": 12.7,
+        "height": 19.8,
+        "type": "text",
+        "description": "TheLetter",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "extraInitial": {
+        "left": 21.8,
+        "top": 296.2,
+        "width": 40.3,
+        "height": 10.8,
+        "type": "text",
+        "description": "Enter initials or NA.  Initials certify completion of an item.  ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "task1": {
+        "left": 93.8,
+        "top": 295.2,
+        "width": 493.2,
+        "height": 44.3,
+        "type": "text",
+        "description": "Use this space to enter additional tasks. ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "commenced": {
+        "left": 186.8,
+        "top": 205.2,
+        "width": 127.3,
+        "height": 10.8,
+        "type": "text",
+        "description": "Enter when work commenced. ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "completed": {
+        "left": 186.8,
+        "top": 184.2,
+        "width": 127.3,
+        "height": 10.8,
+        "type": "text",
+        "description": "Enter when work completed.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

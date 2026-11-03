@@ -1,0 +1,965 @@
+{
+  "id": "opnav150040",
+  "label": "OPNAV1500-40 - Technical Training Equipment Sustaining (delivery) And Support Form",
+  "directory": "OPNAV1500-40 - Technical Training Equipment Sustaining (delivery) And Support Form",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "actTitl",
+        "funCom",
+        "sponCod",
+        "cog",
+        "nomen",
+        "nomLine",
+        "modNum",
+        "serNum",
+        "stoNum",
+        "cage",
+        "uniCos",
+        "cogSys",
+        "allow",
+        "allQty",
+        "onHand",
+        "onHanQty",
+        "exSh",
+        "exShQty",
+        "numStuTot",
+        "equUtlTot",
+        "pipCouTot",
+        "awardTot",
+        "textField1",
+        "fisYr",
+        "shtQty",
+        "seqNum",
+        "requ",
+        "yrFis",
+        "type",
+        "qty",
+        "tcsn",
+        "install",
+        "lastIn",
+        "traLost",
+        "casrep",
+        "eval"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "justCont",
+        "traActNam",
+        "traActCod",
+        "traActDat",
+        "traActPhn",
+        "traActDSN",
+        "revFor",
+        "revRet",
+        "revExp",
+        "revNam",
+        "revCode",
+        "revSub",
+        "revComPh",
+        "revDsnNum",
+        "obsoBox",
+        "plaSup",
+        "obsoFil",
+        "emerReq",
+        "outFY",
+        "avaShe",
+        "plaFill",
+        "reqFill",
+        "plaReg",
+        "noSys",
+        "unident",
+        "entBox",
+        "supCost",
+        "sysNam",
+        "sysCod",
+        "sysDatSub",
+        "sysPho",
+        "sysdsn",
+        "sysForRev",
+        "forTo",
+        "sysApp",
+        "sysDat"
+      ]
+    }
+  ],
+  "fields": {
+    "actTitl": {
+      "type": "text",
+      "label": "Part 1. a. Activity Title/Location/U I C",
+      "page": 1,
+      "box": {
+        "left": 202.8,
+        "top": 681.3,
+        "width": 325.2,
+        "height": 15.5
+      }
+    },
+    "funCom": {
+      "type": "text",
+      "label": "Part 1. b. Functional Command",
+      "page": 1,
+      "box": {
+        "left": 188.9,
+        "top": 663.8,
+        "width": 339.1,
+        "height": 15.5
+      }
+    },
+    "sponCod": {
+      "type": "text",
+      "label": "Part 1. c. OP NAV Sponsor Code",
+      "page": 1,
+      "box": {
+        "left": 188.9,
+        "top": 645.6,
+        "width": 339.1,
+        "height": 15.5
+      }
+    },
+    "cog": {
+      "type": "text",
+      "label": "Part 2. a. Cognizance",
+      "page": 1,
+      "box": {
+        "left": 188.9,
+        "top": 605.8,
+        "width": 339.1,
+        "height": 15.5
+      }
+    },
+    "nomen": {
+      "type": "text",
+      "label": "Part 2. b.  Equipment/System Nomenclature/Description.",
+      "page": 1,
+      "box": {
+        "left": 277.5,
+        "top": 587.3,
+        "width": 250.5,
+        "height": 15.5
+      }
+    },
+    "nomLine": {
+      "type": "text",
+      "label": "Part 2. b. second fill in line.",
+      "page": 1,
+      "box": {
+        "left": 88.5,
+        "top": 568.5,
+        "width": 439.0,
+        "height": 15.5
+      }
+    },
+    "modNum": {
+      "type": "text",
+      "label": "Part 2. c. Type/Part/Model Number",
+      "page": 1,
+      "box": {
+        "left": 200.6,
+        "top": 550.4,
+        "width": 327.4,
+        "height": 15.5
+      }
+    },
+    "serNum": {
+      "type": "text",
+      "label": "Part 2. d. Serial Number",
+      "page": 1,
+      "box": {
+        "left": 153.7,
+        "top": 532.0,
+        "width": 374.3,
+        "height": 15.5
+      }
+    },
+    "stoNum": {
+      "type": "text",
+      "label": "Part 2. e. National Stock Number",
+      "page": 1,
+      "box": {
+        "left": 191.1,
+        "top": 513.6,
+        "width": 336.9,
+        "height": 15.5
+      }
+    },
+    "cage": {
+      "type": "text",
+      "label": "Part 2. f. Contractor and Government Entity (CAGE)",
+      "page": 1,
+      "box": {
+        "left": 269.4,
+        "top": 495.1,
+        "width": 258.6,
+        "height": 15.5
+      }
+    },
+    "uniCos": {
+      "type": "text",
+      "label": "Part 2. g. Unit Cost",
+      "page": 1,
+      "box": {
+        "left": 135.4,
+        "top": 476.7,
+        "width": 392.6,
+        "height": 15.5
+      }
+    },
+    "cogSys": {
+      "type": "text",
+      "label": "Part 2. h. Cognizant SYSCOM",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 458.2,
+        "width": 350.8,
+        "height": 15.5
+      }
+    },
+    "allow": {
+      "type": "text",
+      "label": "Part 3. Allowance",
+      "page": 1,
+      "box": {
+        "left": 152.9,
+        "top": 403.7,
+        "width": 59.2,
+        "height": 15.5
+      }
+    },
+    "allQty": {
+      "type": "text",
+      "label": "Part 3. Allowance Quantity",
+      "page": 1,
+      "box": {
+        "left": 227.3,
+        "top": 403.4,
+        "width": 59.2,
+        "height": 15.5
+      }
+    },
+    "onHand": {
+      "type": "text",
+      "label": "Part 3. On Hand",
+      "page": 1,
+      "box": {
+        "left": 152.9,
+        "top": 385.2,
+        "width": 59.2,
+        "height": 15.5
+      }
+    },
+    "onHanQty": {
+      "type": "text",
+      "label": "Part 3. On Hand Quantity",
+      "page": 1,
+      "box": {
+        "left": 226.9,
+        "top": 385.2,
+        "width": 59.2,
+        "height": 15.5
+      }
+    },
+    "exSh": {
+      "type": "text",
+      "label": "Part 3. Excess/Short",
+      "page": 1,
+      "box": {
+        "left": 152.9,
+        "top": 366.8,
+        "width": 59.2,
+        "height": 15.5
+      }
+    },
+    "exShQty": {
+      "type": "text",
+      "label": "Part 3. Excess/Short Quantity",
+      "page": 1,
+      "box": {
+        "left": 226.9,
+        "top": 366.8,
+        "width": 59.2,
+        "height": 15.5
+      }
+    },
+    "numStuTot": {
+      "type": "text",
+      "label": "Part 4. Number of Students Total",
+      "page": 1,
+      "box": {
+        "left": 162.0,
+        "top": 242.0,
+        "width": 71.3,
+        "height": 15.5
+      }
+    },
+    "equUtlTot": {
+      "type": "text",
+      "label": "Part 4.  Equiment Utilized Total",
+      "page": 1,
+      "box": {
+        "left": 242.2,
+        "top": 242.0,
+        "width": 75.7,
+        "height": 15.5
+      }
+    },
+    "pipCouTot": {
+      "type": "text",
+      "label": "Part 4.  Pipeline Course Total",
+      "page": 1,
+      "box": {
+        "left": 328.1,
+        "top": 242.0,
+        "width": 71.3,
+        "height": 15.5
+      }
+    },
+    "awardTot": {
+      "type": "text",
+      "label": "Part 4.  M O S / N E C Awarded Total",
+      "page": 1,
+      "box": {
+        "left": 407.3,
+        "top": 241.2,
+        "width": 56.2,
+        "height": 15.5
+      }
+    },
+    "textField1": {
+      "type": "text",
+      "label": "Part 4. Type of Training Total",
+      "page": 1,
+      "box": {
+        "left": 471.7,
+        "top": 241.2,
+        "width": 64.5,
+        "height": 15.5
+      }
+    },
+    "fisYr": {
+      "type": "text",
+      "label": "Part 5. a. Fiscal Year",
+      "page": 1,
+      "box": {
+        "left": 142.5,
+        "top": 201.0,
+        "width": 386.2,
+        "height": 15.5
+      }
+    },
+    "shtQty": {
+      "type": "text",
+      "label": "Part 5. b. Short Quantity",
+      "page": 1,
+      "box": {
+        "left": 157.9,
+        "top": 182.6,
+        "width": 370.9,
+        "height": 15.5
+      }
+    },
+    "seqNum": {
+      "type": "text",
+      "label": "Part 5. c. Training Command Sequence Number (T C S N)",
+      "page": 1,
+      "box": {
+        "left": 280.7,
+        "top": 164.1,
+        "width": 248.0,
+        "height": 15.5
+      }
+    },
+    "requ": {
+      "type": "text",
+      "label": "Part 5. d.  Date Required",
+      "page": 1,
+      "box": {
+        "left": 157.9,
+        "top": 145.7,
+        "width": 370.9,
+        "height": 15.5
+      }
+    },
+    "yrFis": {
+      "type": "text",
+      "label": "Part 6. F Y",
+      "page": 1,
+      "box": {
+        "left": 74.2,
+        "top": 81.3,
+        "width": 17.3,
+        "height": 15.5
+      }
+    },
+    "type": {
+      "type": "text",
+      "label": "Part 6. Type",
+      "page": 1,
+      "box": {
+        "left": 98.1,
+        "top": 81.3,
+        "width": 27.9,
+        "height": 15.5
+      }
+    },
+    "qty": {
+      "type": "text",
+      "label": "Part 6. Quantity",
+      "page": 1,
+      "box": {
+        "left": 133.4,
+        "top": 81.3,
+        "width": 27.9,
+        "height": 15.5
+      }
+    },
+    "tcsn": {
+      "type": "text",
+      "label": "Part 6.Training Command Sequence Number ( T C S N)",
+      "page": 1,
+      "box": {
+        "left": 170.1,
+        "top": 81.3,
+        "width": 42.2,
+        "height": 15.5
+      }
+    },
+    "install": {
+      "type": "text",
+      "label": "Part 6. Date Installed",
+      "page": 1,
+      "box": {
+        "left": 221.1,
+        "top": 81.3,
+        "width": 69.9,
+        "height": 15.5
+      }
+    },
+    "lastIn": {
+      "type": "text",
+      "label": "Part 6. Last Installed",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 81.3,
+        "width": 63.2,
+        "height": 15.5
+      }
+    },
+    "traLost": {
+      "type": "text",
+      "label": "Part 6. Training Lost",
+      "page": 1,
+      "box": {
+        "left": 371.8,
+        "top": 81.3,
+        "width": 63.2,
+        "height": 15.5
+      }
+    },
+    "casrep": {
+      "type": "text",
+      "label": "Part 6. Cas Reps",
+      "page": 1,
+      "box": {
+        "left": 444.0,
+        "top": 81.3,
+        "width": 48.8,
+        "height": 15.5
+      }
+    },
+    "eval": {
+      "type": "text",
+      "label": "Part 6. Eval",
+      "page": 1,
+      "box": {
+        "left": 499.3,
+        "top": 81.3,
+        "width": 38.5,
+        "height": 15.5
+      }
+    },
+    "justCont": {
+      "type": "text",
+      "label": "Part 7. a.  Fill in Amplifying Data and Justification.  If more space is needed please attach continuation sheets.",
+      "page": 2,
+      "box": {
+        "left": 78.7,
+        "top": 671.4,
+        "width": 450.0,
+        "height": 106.6
+      },
+      "multiline": true
+    },
+    "traActNam": {
+      "type": "text",
+      "label": "Part 8. (1) Training Activity Submission. a. Name",
+      "page": 2,
+      "box": {
+        "left": 131.0,
+        "top": 516.8,
+        "width": 153.8,
+        "height": 15.8
+      }
+    },
+    "traActCod": {
+      "type": "text",
+      "label": "Part 8. (1) Training Activity Submission. a. Code",
+      "page": 2,
+      "box": {
+        "left": 320.2,
+        "top": 516.8,
+        "width": 70.1,
+        "height": 15.8
+      }
+    },
+    "traActDat": {
+      "type": "text",
+      "label": "Part 8. (1) Training Activity Submission. a. Date Submitt",
+      "page": 2,
+      "box": {
+        "left": 462.0,
+        "top": 516.8,
+        "width": 73.7,
+        "height": 15.8
+      }
+    },
+    "traActPhn": {
+      "type": "text",
+      "label": "Part 8. (1) Training Activity Submission. b. Phone Commercial",
+      "page": 2,
+      "box": {
+        "left": 186.1,
+        "top": 498.8,
+        "width": 178.5,
+        "height": 15.8
+      }
+    },
+    "traActDSN": {
+      "type": "text",
+      "label": "Part 8. (1) Training Activity Submission. b. D S N Phone Number",
+      "page": 2,
+      "box": {
+        "left": 414.5,
+        "top": 498.8,
+        "width": 117.0,
+        "height": 15.8
+      }
+    },
+    "revFor": {
+      "type": "checkbox",
+      "label": "Part 8. (2) Functional Command Review. Reviewed and Forwarded Check box",
+      "page": 2,
+      "box": {
+        "left": 163.3,
+        "top": 451.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "revRet": {
+      "type": "checkbox",
+      "label": "Part 8. (2) Functional Command Review. Reviewed and Returned Check box",
+      "page": 2,
+      "box": {
+        "left": 334.2,
+        "top": 451.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "revExp": {
+      "type": "text",
+      "label": "Part 8. (2) Functional Command Review. Explaination",
+      "page": 2,
+      "box": {
+        "left": 86.1,
+        "top": 426.2,
+        "width": 442.8,
+        "height": 29.5
+      }
+    },
+    "revNam": {
+      "type": "text",
+      "label": "Part 8. (2) Functional Command Review. a.  Name",
+      "page": 2,
+      "box": {
+        "left": 130.3,
+        "top": 390.9,
+        "width": 153.8,
+        "height": 15.8
+      }
+    },
+    "revCode": {
+      "type": "text",
+      "label": "Part 8. (2) Functional Command Review. a. Code",
+      "page": 2,
+      "box": {
+        "left": 319.4,
+        "top": 390.9,
+        "width": 70.1,
+        "height": 15.8
+      }
+    },
+    "revSub": {
+      "type": "text",
+      "label": "Part 8. (2) Functional Command Review. a.  Date Submitt",
+      "page": 2,
+      "box": {
+        "left": 461.3,
+        "top": 390.9,
+        "width": 73.7,
+        "height": 15.8
+      }
+    },
+    "revComPh": {
+      "type": "text",
+      "label": "Part 8. (2) Functional Command Review. b.  Phone Commercial",
+      "page": 2,
+      "box": {
+        "left": 185.3,
+        "top": 372.9,
+        "width": 178.5,
+        "height": 15.8
+      }
+    },
+    "revDsnNum": {
+      "type": "text",
+      "label": "Part 8. (2) Functional Command Review. b.  D S N Phone Number",
+      "page": 2,
+      "box": {
+        "left": 413.7,
+        "top": 372.9,
+        "width": 117.0,
+        "height": 15.8
+      }
+    },
+    "obsoBox": {
+      "type": "checkbox",
+      "label": "Part 9. SYS COM Review (1) Substaining (Delivery).  Obsolete (Identify Unit) Check box",
+      "page": 2,
+      "box": {
+        "left": 85.9,
+        "top": 306.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "plaSup": {
+      "type": "checkbox",
+      "label": "Part 9. SYS COM Review (2) Support.  Planned Support Check box",
+      "page": 2,
+      "box": {
+        "left": 299.6,
+        "top": 306.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "obsoFil": {
+      "type": "text",
+      "label": "Part 9. SYS COM Review (1) Substaining (Delivery).  Obsolete (Identify Unit) Fill In line",
+      "page": 2,
+      "box": {
+        "left": 99.0,
+        "top": 292.3,
+        "width": 178.5,
+        "height": 15.8
+      }
+    },
+    "emerReq": {
+      "type": "checkbox",
+      "label": "Part 9. SYS COM Review (2) Support.  Unplanned Emergent Requirement Check box",
+      "page": 2,
+      "box": {
+        "left": 299.6,
+        "top": 290.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "outFY": {
+      "type": "checkbox",
+      "label": "Part 9. SYS COM Review (2) Support.  Planned Requirement - Out of FY Check box",
+      "page": 2,
+      "box": {
+        "left": 299.6,
+        "top": 272.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "avaShe": {
+      "type": "checkbox",
+      "label": "Part 9. SYS COM Review (1) Substaining (Delivery).  Standard Item - Available On Shelf Check box",
+      "page": 2,
+      "box": {
+        "left": 85.9,
+        "top": 271.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "plaFill": {
+      "type": "text",
+      "label": "Part 9. SYS COM Review (2) Support.  Planned Year Fill Field",
+      "page": 2,
+      "box": {
+        "left": 374.7,
+        "top": 258.5,
+        "width": 37.0,
+        "height": 15.8
+      }
+    },
+    "reqFill": {
+      "type": "text",
+      "label": "Part 9. SYS COM Review (2) Support.  Requested Year Fill Filled",
+      "page": 2,
+      "box": {
+        "left": 489.0,
+        "top": 258.5,
+        "width": 47.3,
+        "height": 15.8
+      }
+    },
+    "plaReg": {
+      "type": "checkbox",
+      "label": "Part 9. SYS COM Review (2) Support.  Planned Year / Requested Year Check box",
+      "page": 2,
+      "box": {
+        "left": 299.6,
+        "top": 255.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "noSys": {
+      "type": "checkbox",
+      "label": "Part 9. SYS COM Review (1) Substaining (Delivery).  Unable to Identify as SYS COM Check box",
+      "page": 2,
+      "box": {
+        "left": 85.9,
+        "top": 244.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "unident": {
+      "type": "checkbox",
+      "label": "Part 9. SYS COM Review (2) Support.  Incorrect / Unidentified Requirement Check box",
+      "page": 2,
+      "box": {
+        "left": 299.6,
+        "top": 238.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "entBox": {
+      "type": "checkbox",
+      "label": "Part 9. SYS COM Review (1) Substaining (Delivery).  Approved and Entered in Acquistion Track Check box",
+      "page": 2,
+      "box": {
+        "left": 85.9,
+        "top": 227.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "supCost": {
+      "type": "text",
+      "label": "Part 9. SYS COM Review (2) Support.  SYS Com Estimate Support Cost ",
+      "page": 2,
+      "box": {
+        "left": 480.8,
+        "top": 219.1,
+        "width": 56.2,
+        "height": 15.8
+      }
+    },
+    "sysNam": {
+      "type": "text",
+      "label": "Part 9. SYS COM Review.  a. Name",
+      "page": 2,
+      "box": {
+        "left": 133.5,
+        "top": 192.8,
+        "width": 137.2,
+        "height": 15.8
+      }
+    },
+    "sysCod": {
+      "type": "text",
+      "label": "Part 9. SYS COM Review.  a. Code",
+      "page": 2,
+      "box": {
+        "left": 302.8,
+        "top": 192.8,
+        "width": 65.7,
+        "height": 15.8
+      }
+    },
+    "sysDatSub": {
+      "type": "text",
+      "label": "Part 9. SYS COM Review.  a. Date Submit",
+      "page": 2,
+      "box": {
+        "left": 435.0,
+        "top": 192.8,
+        "width": 94.9,
+        "height": 15.8
+      }
+    },
+    "sysPho": {
+      "type": "text",
+      "label": "Part 9. SYS COM Review.  b. Phone Commercial",
+      "page": 2,
+      "box": {
+        "left": 185.3,
+        "top": 174.8,
+        "width": 182.9,
+        "height": 15.8
+      }
+    },
+    "sysdsn": {
+      "type": "text",
+      "label": "Part 9. SYS COM Review.  b. D S N Phone Number",
+      "page": 2,
+      "box": {
+        "left": 396.7,
+        "top": 174.8,
+        "width": 133.3,
+        "height": 15.8
+      }
+    },
+    "sysForRev": {
+      "type": "text",
+      "label": "Part 9. SYS COM Review.  c. Date Forwarded/Revised",
+      "page": 2,
+      "box": {
+        "left": 211.4,
+        "top": 156.9,
+        "width": 156.9,
+        "height": 15.8
+      }
+    },
+    "forTo": {
+      "type": "text",
+      "label": "Part 9. SYS COM Review.  c. Forwarded To",
+      "page": 2,
+      "box": {
+        "left": 430.6,
+        "top": 156.9,
+        "width": 100.8,
+        "height": 15.8
+      }
+    },
+    "sysApp": {
+      "type": "text",
+      "label": "Part 9. SYS COM Review.  d. Approved by",
+      "page": 2,
+      "box": {
+        "left": 162.0,
+        "top": 138.2,
+        "width": 206.2,
+        "height": 15.8
+      }
+    },
+    "sysDat": {
+      "type": "text",
+      "label": "Part 9. SYS COM Review.  d.  Date",
+      "page": 2,
+      "box": {
+        "left": 400.4,
+        "top": 138.2,
+        "width": 131.0,
+        "height": 15.8
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 19.9,
+      "editor": "grid",
+      "columns": {
+        "cin": {
+          "type": "text",
+          "label": "Part 4. Line 1. C I N",
+          "page": 1,
+          "box": {
+            "left": 87.0,
+            "top": 301.2,
+            "width": 68.3,
+            "height": 15.5
+          }
+        },
+        "numStu": {
+          "type": "text",
+          "label": "Part 4. Line 1. Number of Students",
+          "page": 1,
+          "box": {
+            "left": 162.0,
+            "top": 301.2,
+            "width": 71.3,
+            "height": 15.5
+          }
+        },
+        "equUtl": {
+          "type": "text",
+          "label": "Part 4. Line 1. Equiment Utilized",
+          "page": 1,
+          "box": {
+            "left": 242.2,
+            "top": 301.2,
+            "width": 75.7,
+            "height": 15.5
+          }
+        },
+        "pipCou": {
+          "type": "text",
+          "label": "Part 4. Line 1. Pipeline Course",
+          "page": 1,
+          "box": {
+            "left": 328.1,
+            "top": 301.2,
+            "width": 71.3,
+            "height": 15.5
+          }
+        },
+        "award": {
+          "type": "text",
+          "label": "Part 4. Line 1. M O S / N E C Awarded",
+          "page": 1,
+          "box": {
+            "left": 407.3,
+            "top": 301.2,
+            "width": 56.2,
+            "height": 15.5
+          }
+        },
+        "typTra": {
+          "type": "text",
+          "label": "Part 4. Line 1. Type of Training",
+          "page": 1,
+          "box": {
+            "left": 471.7,
+            "top": 301.2,
+            "width": 64.5,
+            "height": 15.5
+          }
+        }
+      }
+    }
+  }
+}

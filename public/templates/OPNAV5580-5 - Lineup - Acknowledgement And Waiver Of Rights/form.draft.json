@@ -1,0 +1,125 @@
+{
+  "id": "opnav55805",
+  "label": "OPNAV5580-5 - Lineup - Acknowledgement And Waiver Of Rights",
+  "directory": "OPNAV5580-5 - Lineup - Acknowledgement And Waiver Of Rights",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "place",
+        "date",
+        "advisedBy",
+        "adviser",
+        "thatthe",
+        "offenses",
+        "sig",
+        "time",
+        "witSig"
+      ]
+    }
+  ],
+  "fields": {
+    "place": {
+      "type": "text",
+      "label": "Enter the place.",
+      "page": 1,
+      "box": {
+        "left": 342.7,
+        "top": 668.9,
+        "width": 195.5,
+        "height": 19.8
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "Enter the date (DD MMM YYYY).",
+      "page": 1,
+      "box": {
+        "left": 342.7,
+        "top": 639.9,
+        "width": 195.5,
+        "height": 19.8
+      }
+    },
+    "advisedBy": {
+      "type": "text",
+      "label": "Name the advised individual. ",
+      "page": 1,
+      "box": {
+        "left": 53.8,
+        "top": 584.8,
+        "width": 391.2,
+        "height": 14.5
+      }
+    },
+    "adviser": {
+      "type": "text",
+      "label": "Name the advising individual.",
+      "page": 1,
+      "box": {
+        "left": 44.1,
+        "top": 560.7,
+        "width": 134.4,
+        "height": 14.5
+      }
+    },
+    "thatthe": {
+      "type": "text",
+      "label": "Name the facility conducting the investigation.",
+      "page": 1,
+      "box": {
+        "left": 225.4,
+        "top": 560.7,
+        "width": 339.0,
+        "height": 14.5
+      }
+    },
+    "offenses": {
+      "type": "text",
+      "label": "Name the offenses(s).",
+      "page": 1,
+      "box": {
+        "left": 44.1,
+        "top": 518.1,
+        "width": 520.3,
+        "height": 19.8
+      }
+    },
+    "sig": {
+      "type": "text",
+      "label": "Enter the signature.",
+      "page": 1,
+      "box": {
+        "left": 374.7,
+        "top": 230.8,
+        "width": 179.7,
+        "height": 19.8
+      }
+    },
+    "time": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 360.4,
+        "top": 201.8,
+        "width": 196.2,
+        "height": 19.8
+      }
+    },
+    "witSig": {
+      "type": "text",
+      "label": "Enter the witness signature.",
+      "page": 1,
+      "box": {
+        "left": 43.2,
+        "top": 78.5,
+        "width": 179.7,
+        "height": 22.4
+      }
+    }
+  }
+}

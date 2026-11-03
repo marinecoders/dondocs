@@ -1,0 +1,286 @@
+{
+  "id": "navmc11035",
+  "label": "NAVMC 11035 - Notification Of Change In Marine Official Records",
+  "directory": "NAVMC11035 - Notification Of Change In Marine Official Records",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "date",
+        "to",
+        "from",
+        "component",
+        "name",
+        "ssn4",
+        "rank",
+        "ref",
+        "encl",
+        "dDform4",
+        "dDform4chk",
+        "dDform1966",
+        "dDform1966chk",
+        "navmc321a",
+        "nAVMC321Achk",
+        "navmc763",
+        "nAVMC763chk",
+        "other",
+        "nAVMC763chk2",
+        "comments"
+      ]
+    }
+  ],
+  "fields": {
+    "date": {
+      "type": "text",
+      "label": "NOTIFICATION OF CHANGE IN MARINE&apos;S OFFICIAL RECORDS",
+      "page": 1,
+      "box": {
+        "left": 524.9,
+        "top": 734.3,
+        "width": 66.3,
+        "height": 11.4
+      }
+    },
+    "to": {
+      "type": "text",
+      "label": "TO",
+      "page": 1,
+      "box": {
+        "left": 21.6,
+        "top": 707.4,
+        "width": 280.8,
+        "height": 68.1
+      },
+      "multiline": true
+    },
+    "from": {
+      "type": "text",
+      "label": "FROM",
+      "page": 1,
+      "box": {
+        "left": 309.6,
+        "top": 707.4,
+        "width": 280.8,
+        "height": 68.1
+      },
+      "multiline": true
+    },
+    "component": {
+      "type": "text",
+      "label": "XXX-XX-",
+      "page": 1,
+      "box": {
+        "left": 453.7,
+        "top": 626.7,
+        "width": 136.8,
+        "height": 11.1
+      }
+    },
+    "name": {
+      "type": "text",
+      "label": "NAME (Last, First, Middle)",
+      "page": 1,
+      "box": {
+        "left": 21.6,
+        "top": 626.4,
+        "width": 253.8,
+        "height": 10.8
+      }
+    },
+    "ssn4": {
+      "type": "text",
+      "label": "XXX-XX-",
+      "page": 1,
+      "box": {
+        "left": 336.6,
+        "top": 626.4,
+        "width": 19.8,
+        "height": 10.8
+      }
+    },
+    "rank": {
+      "type": "choice",
+      "label": "XXX-XX-",
+      "page": 1,
+      "box": {
+        "left": 382.4,
+        "top": 625.3,
+        "width": 63.3,
+        "height": 9.0
+      },
+      "options": [
+        "E-1",
+        "E-2",
+        "E-3",
+        "E-4",
+        "E-5",
+        "E-6",
+        "E-7",
+        "E-8",
+        "E-9",
+        "W-1",
+        "W-2",
+        "W-3",
+        "W-4",
+        "W-5",
+        "O-1",
+        "O-2",
+        "O-3",
+        "O-4",
+        "O-5",
+        "O-6",
+        "O-7",
+        "O-8",
+        "O-9",
+        "O-10"
+      ]
+    },
+    "ref": {
+      "type": "text",
+      "label": "REF",
+      "page": 1,
+      "box": {
+        "left": 21.6,
+        "top": 599.4,
+        "width": 568.9,
+        "height": 23.1
+      }
+    },
+    "encl": {
+      "type": "text",
+      "label": "ENCL",
+      "page": 1,
+      "box": {
+        "left": 21.6,
+        "top": 563.4,
+        "width": 568.9,
+        "height": 23.1
+      }
+    },
+    "dDform4": {
+      "type": "text",
+      "label": "DD FORM 4 OR 4C - ENLISTMENT OR REENLISTMENT AGREEMENT OF",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 527.4,
+        "width": 256.8,
+        "height": 10.8
+      }
+    },
+    "dDform4chk": {
+      "type": "checkbox",
+      "label": "ENCL",
+      "page": 1,
+      "box": {
+        "left": 32.2,
+        "top": 527.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "dDform1966": {
+      "type": "text",
+      "label": "DD FORM 1966 - APPLICATION FOR ENLISTMENT OF",
+      "page": 1,
+      "box": {
+        "left": 324.3,
+        "top": 509.4,
+        "width": 257.2,
+        "height": 10.8
+      }
+    },
+    "dDform1966chk": {
+      "type": "checkbox",
+      "label": "ENCL",
+      "page": 1,
+      "box": {
+        "left": 32.2,
+        "top": 509.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "navmc321a": {
+      "type": "text",
+      "label": "NAVMC 321A - AGREEMENT TO EXTEND ENLISTMENT OF",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 491.4,
+        "width": 256.8,
+        "height": 10.8
+      }
+    },
+    "nAVMC321Achk": {
+      "type": "checkbox",
+      "label": "ENCL",
+      "page": 1,
+      "box": {
+        "left": 32.2,
+        "top": 491.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "navmc763": {
+      "type": "text",
+      "label": "NAVMC 763 - APPOINTMENT ACCEPTANCE RECORD OF",
+      "page": 1,
+      "box": {
+        "left": 324.3,
+        "top": 473.4,
+        "width": 257.2,
+        "height": 10.8
+      }
+    },
+    "nAVMC763chk": {
+      "type": "checkbox",
+      "label": "ENCL",
+      "page": 1,
+      "box": {
+        "left": 32.2,
+        "top": 473.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "other": {
+      "type": "text",
+      "label": "OTHER",
+      "page": 1,
+      "box": {
+        "left": 80.4,
+        "top": 455.4,
+        "width": 501.1,
+        "height": 10.8
+      }
+    },
+    "nAVMC763chk2": {
+      "type": "checkbox",
+      "label": "ENCL",
+      "page": 1,
+      "box": {
+        "left": 32.2,
+        "top": 455.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "comments": {
+      "type": "text",
+      "label": "COMMENTS",
+      "page": 1,
+      "box": {
+        "left": 21.6,
+        "top": 419.4,
+        "width": 568.9,
+        "height": 365.1
+      },
+      "multiline": true
+    }
+  }
+}

@@ -1,0 +1,1057 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "cell1": {
+        "left": 38.9,
+        "top": 691.9,
+        "width": 84.3,
+        "height": 19.4,
+        "type": "text",
+        "description": "1. Application Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell2": {
+        "left": 128.9,
+        "top": 691.9,
+        "width": 184.3,
+        "height": 19.4,
+        "type": "text",
+        "description": "2. Member Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell4": {
+        "left": 319.0,
+        "top": 691.9,
+        "width": 80.7,
+        "height": 19.4,
+        "type": "text",
+        "description": "3. Member Rating",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell5": {
+        "left": 405.4,
+        "top": 691.9,
+        "width": 80.7,
+        "height": 19.4,
+        "type": "text",
+        "description": "4. Department",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell6": {
+        "left": 491.8,
+        "top": 691.9,
+        "width": 80.7,
+        "height": 19.4,
+        "type": "text",
+        "description": "5. Division",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell12": {
+        "left": 38.9,
+        "top": 655.9,
+        "width": 84.3,
+        "height": 19.4,
+        "type": "text",
+        "description": "6. Phone Number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell22": {
+        "left": 128.9,
+        "top": 655.9,
+        "width": 84.3,
+        "height": 19.4,
+        "type": "text",
+        "description": "7. Office Number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell62": {
+        "left": 491.8,
+        "top": 655.9,
+        "width": 80.7,
+        "height": 19.4,
+        "type": "text",
+        "description": "9. Previous Rating",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell3": {
+        "left": 218.9,
+        "top": 655.3,
+        "width": 267.2,
+        "height": 18.8,
+        "type": "text",
+        "description": "8. E-mail Address",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "uSCitizen": {
+        "left": 261.4,
+        "top": 618.8,
+        "width": 41.0,
+        "height": 13.6,
+        "type": "choice",
+        "description": "10. Are you a United States citizen?",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "group": null,
+        "required": false
+      },
+      "parentsBorn": {
+        "left": 531.5,
+        "top": 618.8,
+        "width": 41.0,
+        "height": 13.6,
+        "type": "choice",
+        "description": "11. Were your parents born in the United States?",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "group": null,
+        "required": false
+      },
+      "familyUSCitizen": {
+        "left": 261.4,
+        "top": 600.8,
+        "width": 41.0,
+        "height": 13.6,
+        "type": "choice",
+        "description": "12. Are all immediate family members United States citizens?",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "group": null,
+        "required": false
+      },
+      "familyUSCitizen2": {
+        "left": 465.2,
+        "top": 600.8,
+        "width": 107.2,
+        "height": 13.6,
+        "type": "choice",
+        "description": "13. Highest Level of Education completed",
+        "options": [
+          "Less than HS Diploma",
+          "High School Diploma",
+          "Associates Degree",
+          "Bachelors Degree",
+          "Masters Degree",
+          "Doctorate"
+        ],
+        "group": null,
+        "required": false
+      },
+      "dateField1": {
+        "left": 331.4,
+        "top": 583.5,
+        "width": 54.2,
+        "height": 15.1,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "familyUSCitizen3": {
+        "left": 261.4,
+        "top": 582.8,
+        "width": 41.0,
+        "height": 13.6,
+        "type": "choice",
+        "description": "14. Commanding Officer recommendation for retention",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "group": null,
+        "required": false
+      },
+      "intend2Seperate": {
+        "left": 531.6,
+        "top": 582.8,
+        "width": 40.8,
+        "height": 13.6,
+        "type": "choice",
+        "description": "15. Do you intend to separate?",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "group": null,
+        "required": true
+      },
+      "reason2Seperate": {
+        "left": 363.1,
+        "top": 564.8,
+        "width": 209.4,
+        "height": 15.4,
+        "type": "choice",
+        "description": "15. Do you intend to separate?",
+        "options": [
+          "Culture:",
+          "Education/Development:",
+          "Financial:",
+          "Navy Opportunities:",
+          "Not Recommended:",
+          "Outside Opportunities:",
+          "Quality of Life:",
+          "Other:",
+          "Select Category then Specific reason below"
+        ],
+        "group": null,
+        "required": false
+      },
+      "reason2Stay": {
+        "left": 363.1,
+        "top": 518.3,
+        "width": 209.4,
+        "height": 15.4,
+        "type": "choice",
+        "description": "15. Do you intend to separate?",
+        "options": [
+          "Culture:",
+          "Distribution:",
+          "Education/Development",
+          "Financial:",
+          "I want to stay Navy, but...",
+          "Navy Opportunities:",
+          "Quality of Life:",
+          "Other:",
+          "Select Category then Specific reason below"
+        ],
+        "group": null,
+        "required": false
+      },
+      "otherexplain": {
+        "left": 81.0,
+        "top": 473.7,
+        "width": 492.2,
+        "height": 16.6,
+        "type": "text",
+        "description": "17. Other",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "naptdate": {
+        "left": 500.5,
+        "top": 442.8,
+        "width": 75.6,
+        "height": 14.4,
+        "type": "text",
+        "description": "NAPT Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "naptscore": {
+        "left": 500.5,
+        "top": 428.0,
+        "width": 75.6,
+        "height": 14.4,
+        "type": "text",
+        "description": "NAPT Score",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dlabdate": {
+        "left": 500.5,
+        "top": 413.6,
+        "width": 75.6,
+        "height": 14.4,
+        "type": "text",
+        "description": "DLAB Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell13": {
+        "left": 38.1,
+        "top": 412.6,
+        "width": 54.8,
+        "height": 26.3,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell23": {
+        "left": 95.7,
+        "top": 412.6,
+        "width": 31.4,
+        "height": 26.3,
+        "type": "text",
+        "description": "Version",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell32": {
+        "left": 130.0,
+        "top": 412.6,
+        "width": 18.8,
+        "height": 26.3,
+        "type": "text",
+        "description": "GS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell42": {
+        "left": 151.6,
+        "top": 412.6,
+        "width": 18.8,
+        "height": 26.3,
+        "type": "text",
+        "description": "AR",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell52": {
+        "left": 173.2,
+        "top": 412.6,
+        "width": 18.8,
+        "height": 26.3,
+        "type": "text",
+        "description": "WK",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell63": {
+        "left": 194.8,
+        "top": 412.6,
+        "width": 18.8,
+        "height": 26.3,
+        "type": "text",
+        "description": "PC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell7": {
+        "left": 216.4,
+        "top": 412.6,
+        "width": 18.8,
+        "height": 26.3,
+        "type": "text",
+        "description": "MK",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell8": {
+        "left": 238.0,
+        "top": 412.6,
+        "width": 18.8,
+        "height": 26.3,
+        "type": "text",
+        "description": "EI",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell9": {
+        "left": 259.6,
+        "top": 412.6,
+        "width": 26.0,
+        "height": 26.3,
+        "type": "text",
+        "description": "AS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell10": {
+        "left": 288.4,
+        "top": 412.6,
+        "width": 18.8,
+        "height": 26.3,
+        "type": "text",
+        "description": "MC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell11": {
+        "left": 310.0,
+        "top": 412.6,
+        "width": 18.8,
+        "height": 26.3,
+        "type": "text",
+        "description": "AO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell122": {
+        "left": 331.6,
+        "top": 412.6,
+        "width": 18.8,
+        "height": 26.3,
+        "type": "text",
+        "description": "VE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell132": {
+        "left": 353.2,
+        "top": 412.6,
+        "width": 18.8,
+        "height": 26.3,
+        "type": "text",
+        "description": "CS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell14": {
+        "left": 374.8,
+        "top": 412.6,
+        "width": 18.8,
+        "height": 26.3,
+        "type": "text",
+        "description": "NO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell15": {
+        "left": 396.4,
+        "top": 412.6,
+        "width": 26.0,
+        "height": 26.3,
+        "type": "text",
+        "description": "AFQT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dlabscore": {
+        "left": 500.5,
+        "top": 399.2,
+        "width": 75.6,
+        "height": 14.4,
+        "type": "text",
+        "description": "DLAB Score",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "evalMostDate": {
+        "left": 136.5,
+        "top": 370.0,
+        "width": 51.1,
+        "height": 15.1,
+        "type": "text",
+        "description": "Recommendation History",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "eval3rdDate": {
+        "left": 289.5,
+        "top": 370.0,
+        "width": 51.1,
+        "height": 15.1,
+        "type": "text",
+        "description": "MC AO VE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "eval5thDate": {
+        "left": 442.5,
+        "top": 370.0,
+        "width": 51.1,
+        "height": 15.1,
+        "type": "text",
+        "description": "DLAB Score",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "evalMost": {
+        "left": 38.2,
+        "top": 369.3,
+        "width": 94.6,
+        "height": 13.6,
+        "type": "choice",
+        "description": "Promotion Recommendation",
+        "options": [
+          "Most Recent",
+          "NOB",
+          "Significant Problems",
+          "Progressing",
+          "Promotable",
+          "Must Promote",
+          "Early Promote"
+        ],
+        "group": null,
+        "required": false
+      },
+      "eval3rd": {
+        "left": 191.2,
+        "top": 369.3,
+        "width": 94.6,
+        "height": 13.6,
+        "type": "choice",
+        "description": "PC MK EI AS",
+        "options": [
+          "Third Most Recent",
+          "NOB",
+          "Significant Problems",
+          "Progressing",
+          "Promotable",
+          "Must Promote",
+          "Early Promote"
+        ],
+        "group": null,
+        "required": false
+      },
+      "eval5th": {
+        "left": 344.2,
+        "top": 369.3,
+        "width": 94.6,
+        "height": 13.6,
+        "type": "choice",
+        "description": "VE CS NO AFQT",
+        "options": [
+          "Fifth Most Recent",
+          "NOB",
+          "Significant Problems",
+          "Progressing",
+          "Promotable",
+          "Must Promote",
+          "Early Promote"
+        ],
+        "group": null,
+        "required": false
+      },
+      "eval2ndDate": {
+        "left": 136.5,
+        "top": 352.0,
+        "width": 51.1,
+        "height": 15.1,
+        "type": "text",
+        "description": "Recommendation History",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "eval4thDate": {
+        "left": 289.5,
+        "top": 352.0,
+        "width": 51.1,
+        "height": 15.1,
+        "type": "text",
+        "description": "MC AO VE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "eval2nd": {
+        "left": 38.2,
+        "top": 351.3,
+        "width": 94.6,
+        "height": 13.6,
+        "type": "choice",
+        "description": "Promotion Recommendation",
+        "options": [
+          "Second Most Recent",
+          "NOB",
+          "Significant Problems",
+          "Progressing",
+          "Promotable",
+          "Must Promote",
+          "Early Promote"
+        ],
+        "group": null,
+        "required": false
+      },
+      "eval4th": {
+        "left": 191.2,
+        "top": 351.3,
+        "width": 94.6,
+        "height": 13.6,
+        "type": "choice",
+        "description": "PC MK EI AS",
+        "options": [
+          "Fourth Most Recent",
+          "NOB",
+          "Significant Problems",
+          "Progressing",
+          "Promotable",
+          "Must Promote",
+          "Early Promote"
+        ],
+        "group": null,
+        "required": false
+      },
+      "colorNormal": {
+        "left": 191.0,
+        "top": 317.9,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Normal",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "colorBlind": {
+        "left": 254.0,
+        "top": 317.9,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Color Blind",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "stereoYes": {
+        "left": 218.0,
+        "top": 301.5,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "21. Stereoscopic Vision (Depth Perception): Yes",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "stereoNo": {
+        "left": 254.0,
+        "top": 301.5,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "21. Stereoscopic Vision (Depth Perception): Yes No",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unLeftDistant": {
+        "left": 302.4,
+        "top": 289.4,
+        "width": 36.0,
+        "height": 16.2,
+        "type": "text",
+        "description": "Distant",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unRightDistant": {
+        "left": 338.4,
+        "top": 289.4,
+        "width": 40.3,
+        "height": 16.2,
+        "type": "text",
+        "description": "Distant",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unLeftDistant2": {
+        "left": 396.0,
+        "top": 289.4,
+        "width": 36.0,
+        "height": 16.2,
+        "type": "text",
+        "description": "Distant",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unRightDistant2": {
+        "left": 432.4,
+        "top": 289.4,
+        "width": 40.3,
+        "height": 16.2,
+        "type": "text",
+        "description": "Distant",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "acuityYes": {
+        "left": 218.0,
+        "top": 285.3,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Yes",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "acuityNo": {
+        "left": 254.0,
+        "top": 285.3,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Yes No",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unLeftNear": {
+        "left": 302.4,
+        "top": 273.2,
+        "width": 36.0,
+        "height": 16.2,
+        "type": "text",
+        "description": "Near",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unLeftNear2": {
+        "left": 338.4,
+        "top": 273.2,
+        "width": 40.3,
+        "height": 16.2,
+        "type": "text",
+        "description": "Near",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unLeftNear3": {
+        "left": 396.0,
+        "top": 273.2,
+        "width": 36.0,
+        "height": 16.2,
+        "type": "text",
+        "description": "Near",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unLeftNear4": {
+        "left": 432.4,
+        "top": 273.2,
+        "width": 40.3,
+        "height": 16.2,
+        "type": "text",
+        "description": "Near",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "speechYes": {
+        "left": 218.0,
+        "top": 269.1,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Yes",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "speechNo": {
+        "left": 254.0,
+        "top": 269.1,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Yes No",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "medName": {
+        "left": 38.9,
+        "top": 242.9,
+        "width": 264.3,
+        "height": 15.5,
+        "type": "text",
+        "description": "24. Medical Representative Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "medSig": {
+        "left": 308.9,
+        "top": 242.9,
+        "width": 264.3,
+        "height": 15.5,
+        "type": "text",
+        "description": "25. Medical Representative Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "turYesNo": {
+        "left": 543.7,
+        "top": 209.8,
+        "width": 28.1,
+        "height": 19.5,
+        "type": "choice",
+        "description": "Rating",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "group": null,
+        "required": false
+      },
+      "adversYesNo": {
+        "left": 543.7,
+        "top": 182.8,
+        "width": 28.1,
+        "height": 22.9,
+        "type": "choice",
+        "description": "Rating",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "group": null,
+        "required": false
+      },
+      "nJPYesNo": {
+        "left": 542.9,
+        "top": 152.6,
+        "width": 28.1,
+        "height": 22.9,
+        "type": "choice",
+        "description": "Rating",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "group": null,
+        "required": false
+      },
+      "drugYesNo": {
+        "left": 542.9,
+        "top": 122.3,
+        "width": 28.1,
+        "height": 14.8,
+        "type": "choice",
+        "description": "Rating",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "group": null,
+        "required": false
+      },
+      "alcoholYesNo": {
+        "left": 543.7,
+        "top": 100.4,
+        "width": 28.1,
+        "height": 19.5,
+        "type": "choice",
+        "description": "Rating",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "group": null,
+        "required": false
+      },
+      "securityYesNo": {
+        "left": 543.7,
+        "top": 74.1,
+        "width": 28.1,
+        "height": 33.9,
+        "type": "choice",
+        "description": "Rating",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "applicationReason": {
+        "left": 98.4,
+        "top": 705.6,
+        "width": 195.0,
+        "height": 26.9,
+        "type": "choice",
+        "description": "32. Reason: Application",
+        "options": [
+          "Select ",
+          "4/2/2 (input MSO in 33.a)",
+          "Conversion (SELRES Only) (complete 33.b)",
+          "Special Circumstances (explain below in 33.c)"
+        ],
+        "group": null,
+        "required": false
+      },
+      "applicationReason2": {
+        "left": 377.4,
+        "top": 705.6,
+        "width": 195.1,
+        "height": 27.0,
+        "type": "choice",
+        "description": "33. Applying: Reason for Not",
+        "options": [
+          "Select ",
+          "Member Not Available for Counseling",
+          "Waiting for Updated ASVAB",
+          "Waiting for Updated Security Clearance",
+          "Waiting for Updated Citizenship",
+          "No Quota Available",
+          "Member Undecided"
+        ],
+        "group": null,
+        "required": false
+      },
+      "conversionChoices2": {
+        "left": 344.9,
+        "top": 672.2,
+        "width": 111.3,
+        "height": 19.8,
+        "type": "text",
+        "description": "33.b (SELRES Conversion Only)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "conversionChoices3": {
+        "left": 461.9,
+        "top": 672.2,
+        "width": 111.3,
+        "height": 19.8,
+        "type": "text",
+        "description": "33.b (SELRES Conversion Only)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mSORemaining": {
+        "left": 81.5,
+        "top": 672.1,
+        "width": 59.6,
+        "height": 19.8,
+        "type": "text",
+        "description": "33.a Remaining: MSO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "conversionChoices1": {
+        "left": 211.1,
+        "top": 672.1,
+        "width": 128.1,
+        "height": 19.8,
+        "type": "text",
+        "description": "33.b (SELRES Conversion Only)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "specialCirc": {
+        "left": 95.3,
+        "top": 645.1,
+        "width": 477.9,
+        "height": 48.2,
+        "type": "text",
+        "description": "33.c Circumstances Special",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sailorSig": {
+        "left": 38.9,
+        "top": 579.6,
+        "width": 435.3,
+        "height": 18.7,
+        "type": "text",
+        "description": "34. Sailor\u2019s Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateField2": {
+        "left": 479.9,
+        "top": 579.6,
+        "width": 93.3,
+        "height": 18.8,
+        "type": "text",
+        "description": "35. Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cCCName": {
+        "left": 38.9,
+        "top": 543.6,
+        "width": 228.3,
+        "height": 18.7,
+        "type": "text",
+        "description": "36. Command Career Counselor Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cCCSig": {
+        "left": 272.9,
+        "top": 543.6,
+        "width": 201.3,
+        "height": 18.7,
+        "type": "text",
+        "description": "37. Command Career Counselor Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateField22": {
+        "left": 479.9,
+        "top": 543.6,
+        "width": 93.3,
+        "height": 18.8,
+        "type": "text",
+        "description": "38. Date",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

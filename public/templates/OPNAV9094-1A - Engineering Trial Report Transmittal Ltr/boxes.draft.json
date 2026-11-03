@@ -1,0 +1,458 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "to": {
+        "left": 53.2,
+        "top": 699.2,
+        "width": 250.0,
+        "height": 12.3,
+        "type": "text",
+        "description": "To",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "via1CO": {
+        "left": 118.8,
+        "top": 681.2,
+        "width": 184.4,
+        "height": 12.3,
+        "type": "text",
+        "description": "Via: (1) CO, USS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "via2": {
+        "left": 74.8,
+        "top": 663.1,
+        "width": 228.4,
+        "height": 12.3,
+        "type": "text",
+        "description": "CO, USS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "via3": {
+        "left": 74.8,
+        "top": 645.1,
+        "width": 228.4,
+        "height": 12.3,
+        "type": "text",
+        "description": "CO, USS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "subj": {
+        "left": 91.4,
+        "top": 627.1,
+        "width": 211.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "Subj: USS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "encl2": {
+        "left": 125.3,
+        "top": 591.1,
+        "width": 178.0,
+        "height": 12.3,
+        "type": "text",
+        "description": "(2) CO, USS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "an": {
+        "left": 74.8,
+        "top": 573.1,
+        "width": 228.4,
+        "height": 12.3,
+        "type": "text",
+        "description": "1. A(n)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio": {
+        "left": 470.7,
+        "top": 536.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio2": {
+        "left": 506.6,
+        "top": 536.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio3": {
+        "left": 542.6,
+        "top": 536.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio4": {
+        "left": 470.7,
+        "top": 522.7,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio5": {
+        "left": 506.6,
+        "top": 522.7,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "config": {
+        "left": 183.8,
+        "top": 493.7,
+        "width": 120.3,
+        "height": 12.3,
+        "type": "text",
+        "description": "List OGC configuration",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "configOther": {
+        "left": 381.8,
+        "top": 493.7,
+        "width": 138.3,
+        "height": 12.3,
+        "type": "text",
+        "description": "Other (specify)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "specify": {
+        "left": 469.8,
+        "top": 460.5,
+        "width": 102.3,
+        "height": 12.3,
+        "type": "text",
+        "description": "EVAPORATOR/RO LIGHTING OTHER (specify)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio6": {
+        "left": 75.8,
+        "top": 459.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio7": {
+        "left": 194.2,
+        "top": 459.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio8": {
+        "left": 302.1,
+        "top": 459.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item2",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio9": {
+        "left": 370.3,
+        "top": 459.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item3",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "config2": {
+        "left": 228.3,
+        "top": 427.4,
+        "width": 15.9,
+        "height": 12.3,
+        "type": "text",
+        "description": "Significant Wave Height (meters)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "configOther2": {
+        "left": 340.6,
+        "top": 427.4,
+        "width": 15.9,
+        "height": 12.3,
+        "type": "text",
+        "description": "Significant Wave Height (meters): Wind Speed (knots)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "configOther3": {
+        "left": 543.7,
+        "top": 427.4,
+        "width": 15.9,
+        "height": 12.3,
+        "type": "text",
+        "description": "N/A",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fillField": {
+        "left": 56.8,
+        "top": 390.4,
+        "width": 516.4,
+        "height": 69.9,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio10": {
+        "left": 84.3,
+        "top": 291.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio11": {
+        "left": 136.4,
+        "top": 291.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "fuel1": {
+        "left": 136.6,
+        "top": 270.6,
+        "width": 60.0,
+        "height": 34.2,
+        "type": "text",
+        "description": "USED (GAL)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "inboard1": {
+        "left": 415.5,
+        "top": 270.6,
+        "width": 70.2,
+        "height": 34.2,
+        "type": "text",
+        "description": "GT AND DIESEL SHIPS - SHP",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "outboard1": {
+        "left": 488.5,
+        "top": 270.6,
+        "width": 79.1,
+        "height": 34.2,
+        "type": "text",
+        "description": "GT AND DIESEL SHIPS - SHP",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fuel2": {
+        "left": 136.6,
+        "top": 233.7,
+        "width": 60.0,
+        "height": 34.2,
+        "type": "text",
+        "description": "ALLOWED (GAL)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "inboard2": {
+        "left": 415.5,
+        "top": 233.7,
+        "width": 70.2,
+        "height": 34.2,
+        "type": "text",
+        "description": "GT AND DIESEL SHIPS - SHP",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "outboard2": {
+        "left": 488.5,
+        "top": 233.7,
+        "width": 79.1,
+        "height": 34.2,
+        "type": "text",
+        "description": "GT AND DIESEL SHIPS - SHP",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fuel3": {
+        "left": 136.6,
+        "top": 197.7,
+        "width": 60.0,
+        "height": 34.2,
+        "type": "text",
+        "description": "RATIO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "inboard3": {
+        "left": 415.5,
+        "top": 197.7,
+        "width": 70.2,
+        "height": 34.2,
+        "type": "text",
+        "description": "(REQUIRED) IN THE PERFORMANCE RATIO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "outboard3": {
+        "left": 488.5,
+        "top": 197.7,
+        "width": 79.1,
+        "height": 34.2,
+        "type": "text",
+        "description": "(REQUIRED) IN THE PERFORMANCE RATIO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio12": {
+        "left": 144.9,
+        "top": 158.2,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio13": {
+        "left": 185.6,
+        "top": 158.2,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "field2": {
+        "left": 56.8,
+        "top": 141.3,
+        "width": 516.4,
+        "height": 48.3,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField1": {
+        "left": 308.9,
+        "top": 87.1,
+        "width": 138.3,
+        "height": 25.3,
+        "type": "text",
+        "description": "met, specify reason)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "copy1": {
+        "left": 38.8,
+        "top": 69.1,
+        "width": 136.2,
+        "height": 12.3,
+        "type": "text",
+        "description": "Copy To",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "copy2": {
+        "left": 38.8,
+        "top": 51.1,
+        "width": 136.2,
+        "height": 12.3,
+        "type": "text",
+        "description": "Copy To",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

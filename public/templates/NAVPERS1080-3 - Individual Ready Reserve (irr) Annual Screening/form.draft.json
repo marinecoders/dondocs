@@ -1,0 +1,546 @@
+{
+  "id": "navpers10803",
+  "label": "NAVPERS1080-3 - Individual Ready Reserve (irr) Annual Screening",
+  "directory": "NAVPERS1080-3 - Individual Ready Reserve (irr) Annual Screening",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "textField1",
+        "textField12",
+        "textField13",
+        "textField14",
+        "textField15",
+        "textField16",
+        "textField17",
+        "textField18",
+        "textField19",
+        "textField110",
+        "textField111",
+        "checkBox1",
+        "textField112",
+        "textField113",
+        "textField114",
+        "textField115",
+        "dropDownList1",
+        "dropDownList12",
+        "dateField1",
+        "textField116",
+        "textField117",
+        "textField118",
+        "textField119",
+        "textField120",
+        "dropDownList13",
+        "dropDownList14",
+        "dropDownList15",
+        "dropDownList16",
+        "dropDownList17",
+        "dropDownList18",
+        "dropDownList19",
+        "dropDownList110",
+        "dropDownList111",
+        "dropDownList112",
+        "textField2"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "textField22",
+        "textField121",
+        "signatureField1",
+        "dateField2"
+      ]
+    }
+  ],
+  "fields": {
+    "textField1": {
+      "type": "text",
+      "label": "Rank/Rate",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 590.5,
+        "width": 57.3,
+        "height": 11.7
+      }
+    },
+    "textField12": {
+      "type": "text",
+      "label": "Last Name",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 590.5,
+        "width": 228.4,
+        "height": 11.7
+      }
+    },
+    "textField13": {
+      "type": "text",
+      "label": "First Name",
+      "page": 1,
+      "box": {
+        "left": 335.9,
+        "top": 590.5,
+        "width": 156.4,
+        "height": 11.7
+      }
+    },
+    "textField14": {
+      "type": "text",
+      "label": "MI",
+      "page": 1,
+      "box": {
+        "left": 497.9,
+        "top": 590.5,
+        "width": 30.3,
+        "height": 11.7
+      }
+    },
+    "textField15": {
+      "type": "text",
+      "label": "Suffix",
+      "page": 1,
+      "box": {
+        "left": 533.9,
+        "top": 589.9,
+        "width": 39.3,
+        "height": 11.1
+      }
+    },
+    "textField16": {
+      "type": "text",
+      "label": "Address",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 563.5,
+        "width": 453.4,
+        "height": 11.7
+      }
+    },
+    "textField17": {
+      "type": "text",
+      "label": "Apt #",
+      "page": 1,
+      "box": {
+        "left": 497.9,
+        "top": 563.5,
+        "width": 75.3,
+        "height": 11.7
+      }
+    },
+    "textField18": {
+      "type": "text",
+      "label": "City",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 536.5,
+        "width": 165.4,
+        "height": 11.7
+      }
+    },
+    "textField19": {
+      "type": "text",
+      "label": "State",
+      "page": 1,
+      "box": {
+        "left": 209.9,
+        "top": 536.5,
+        "width": 39.3,
+        "height": 11.7
+      }
+    },
+    "textField110": {
+      "type": "text",
+      "label": "Zip Code",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 536.5,
+        "width": 66.3,
+        "height": 11.7
+      }
+    },
+    "textField111": {
+      "type": "text",
+      "label": "Primary Email Address",
+      "page": 1,
+      "box": {
+        "left": 326.9,
+        "top": 536.5,
+        "width": 246.4,
+        "height": 11.7
+      }
+    },
+    "checkBox1": {
+      "type": "checkbox",
+      "label": "I do not have a Cell Phone",
+      "page": 1,
+      "box": {
+        "left": 560.0,
+        "top": 512.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "textField112": {
+      "type": "text",
+      "label": "Home Phone",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 509.5,
+        "width": 129.3,
+        "height": 11.7
+      }
+    },
+    "textField113": {
+      "type": "text",
+      "label": "Cell Phone",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 509.5,
+        "width": 129.3,
+        "height": 11.7
+      }
+    },
+    "textField114": {
+      "type": "text",
+      "label": "Cell Phone Carrier",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 509.5,
+        "width": 147.3,
+        "height": 11.7
+      }
+    },
+    "textField115": {
+      "type": "text",
+      "label": "Other Email Address",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 482.5,
+        "width": 534.4,
+        "height": 11.7
+      }
+    },
+    "dropDownList1": {
+      "type": "choice",
+      "label": "1. What is your current employment status?",
+      "page": 1,
+      "box": {
+        "left": 469.4,
+        "top": 455.4,
+        "width": 103.1,
+        "height": 10.8
+      },
+      "options": [
+        "Full - Time",
+        "Part - Time",
+        "Self-employed",
+        "Unemployed"
+      ]
+    },
+    "dropDownList12": {
+      "type": "choice",
+      "label": "do not have a Cell Phone",
+      "page": 1,
+      "box": {
+        "left": 469.4,
+        "top": 437.4,
+        "width": 103.1,
+        "height": 10.8
+      },
+      "options": [
+        "Yes",
+        "No"
+      ]
+    },
+    "dateField1": {
+      "type": "text",
+      "label": "Start Date",
+      "page": 1,
+      "box": {
+        "left": 509.5,
+        "top": 420.1,
+        "width": 63.7,
+        "height": 21.3
+      }
+    },
+    "textField116": {
+      "type": "text",
+      "label": "Employer Name",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 410.5,
+        "width": 228.4,
+        "height": 11.7
+      }
+    },
+    "textField117": {
+      "type": "text",
+      "label": "Job Title",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 410.5,
+        "width": 192.4,
+        "height": 11.7
+      }
+    },
+    "textField118": {
+      "type": "text",
+      "label": "Employer Address",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 383.5,
+        "width": 534.4,
+        "height": 11.7
+      }
+    },
+    "textField119": {
+      "type": "text",
+      "label": "Employer Phone",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 356.5,
+        "width": 129.3,
+        "height": 11.7
+      }
+    },
+    "textField120": {
+      "type": "text",
+      "label": "Work Email Address",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 356.5,
+        "width": 399.4,
+        "height": 11.7
+      }
+    },
+    "dropDownList13": {
+      "type": "choice",
+      "label": "Cell Phone",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 329.4,
+        "width": 54.0,
+        "height": 10.8
+      },
+      "options": [
+        "Yes",
+        "No"
+      ]
+    },
+    "dropDownList14": {
+      "type": "choice",
+      "label": "Cell Phone",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 311.4,
+        "width": 54.0,
+        "height": 10.8
+      },
+      "options": [
+        "Yes",
+        "No"
+      ]
+    },
+    "dropDownList15": {
+      "type": "choice",
+      "label": "1. Select current marital status",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 284.4,
+        "width": 54.0,
+        "height": 10.8
+      },
+      "options": [
+        "Married",
+        "Single",
+        "Divorced",
+        "Married but separated",
+        "Single but engaged"
+      ]
+    },
+    "dropDownList16": {
+      "type": "choice",
+      "label": "Cell Phone",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 266.3,
+        "width": 54.0,
+        "height": 10.8
+      },
+      "options": [
+        "Yes",
+        "No"
+      ]
+    },
+    "dropDownList17": {
+      "type": "choice",
+      "label": "Cell Phone",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 248.3,
+        "width": 54.0,
+        "height": 10.8
+      },
+      "options": [
+        "Yes",
+        "No"
+      ]
+    },
+    "dropDownList18": {
+      "type": "choice",
+      "label": "Cell Phone",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 230.3,
+        "width": 54.0,
+        "height": 10.8
+      },
+      "options": [
+        "Yes",
+        "No"
+      ]
+    },
+    "dropDownList19": {
+      "type": "choice",
+      "label": "Cell Phone",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 212.3,
+        "width": 54.0,
+        "height": 10.8
+      },
+      "options": [
+        "Yes",
+        "No"
+      ]
+    },
+    "dropDownList110": {
+      "type": "choice",
+      "label": "Cell Phone",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 185.3,
+        "width": 54.0,
+        "height": 10.8
+      },
+      "options": [
+        "Yes",
+        "No"
+      ]
+    },
+    "dropDownList111": {
+      "type": "choice",
+      "label": "Cell Phone",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 167.3,
+        "width": 54.0,
+        "height": 10.8
+      },
+      "options": [
+        "Yes",
+        "No"
+      ]
+    },
+    "dropDownList112": {
+      "type": "choice",
+      "label": "Cell Phone",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 149.3,
+        "width": 54.0,
+        "height": 10.8
+      },
+      "options": [
+        "Yes",
+        "No"
+      ]
+    },
+    "textField2": {
+      "type": "text",
+      "label": "Text Field 2",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 113.4,
+        "width": 534.4,
+        "height": 74.7
+      },
+      "multiline": true
+    },
+    "textField22": {
+      "type": "text",
+      "label": "VI. ADDITIONAL INFORMATION (continued)",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 708.2,
+        "width": 534.4,
+        "height": 201.4
+      },
+      "multiline": true
+    },
+    "textField121": {
+      "type": "text",
+      "label": "IRR Member Name",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 428.5,
+        "width": 228.4,
+        "height": 11.7
+      }
+    },
+    "signatureField1": {
+      "type": "text",
+      "label": "IRR Member Signature",
+      "page": 2,
+      "box": {
+        "left": 272.9,
+        "top": 428.5,
+        "width": 201.4,
+        "height": 11.7
+      }
+    },
+    "dateField2": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 479.9,
+        "top": 428.5,
+        "width": 93.3,
+        "height": 11.7
+      }
+    }
+  }
+}

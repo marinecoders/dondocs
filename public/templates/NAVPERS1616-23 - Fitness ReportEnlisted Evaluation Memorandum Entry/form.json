@@ -1,0 +1,500 @@
+{
+  "id": "navpers161623",
+  "label": "NAVPERS1616-23 - Fitness ReportEnlisted Evaluation Memorandum Entry",
+  "directory": "NAVPERS1616-23 - Fitness ReportEnlisted Evaluation Memorandum Entry",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "dd1",
+        "dd2",
+        "dd3",
+        "dd4",
+        "dd5",
+        "dd6",
+        "date",
+        "cell2",
+        "cell1",
+        "cell22",
+        "cell3",
+        "cell23",
+        "cell32",
+        "cell33",
+        "cell4",
+        "cell12",
+        "cell34",
+        "cell13",
+        "cell14",
+        "cell35",
+        "cell15",
+        "cell16",
+        "cell17",
+        "cell18",
+        "cell19",
+        "textField2",
+        "cell110",
+        "cell111",
+        "cell112",
+        "cell24",
+        "date2",
+        "cell113",
+        "cell25",
+        "date3"
+      ]
+    }
+  ],
+  "fields": {
+    "dd1": {
+      "type": "choice",
+      "label": "Type of Report",
+      "page": 1,
+      "box": {
+        "left": 255.2,
+        "top": 716.9,
+        "width": 47.7,
+        "height": 29.7
+      },
+      "options": [
+        "CC",
+        "DOI",
+        "DRS",
+        "NOB",
+        "OPS",
+        "PER",
+        "PR/F",
+        "REG",
+        "SPC",
+        "IRR"
+      ]
+    },
+    "dd2": {
+      "type": "choice",
+      "label": "Type of Report",
+      "page": 1,
+      "box": {
+        "left": 309.2,
+        "top": 716.9,
+        "width": 47.7,
+        "height": 29.7
+      },
+      "options": [
+        "CC",
+        "DOI",
+        "DRS",
+        "NOB",
+        "OPS",
+        "PER",
+        "PR/F",
+        "REG",
+        "SPC",
+        "IRR"
+      ]
+    },
+    "dd3": {
+      "type": "choice",
+      "label": "Type of Report",
+      "page": 1,
+      "box": {
+        "left": 363.2,
+        "top": 716.9,
+        "width": 47.7,
+        "height": 29.7
+      },
+      "options": [
+        "CC",
+        "DOI",
+        "DRS",
+        "NOB",
+        "OPS",
+        "PER",
+        "PR/F",
+        "REG",
+        "SPC",
+        "IRR"
+      ]
+    },
+    "dd4": {
+      "type": "choice",
+      "label": "Type of Report",
+      "page": 1,
+      "box": {
+        "left": 417.2,
+        "top": 716.9,
+        "width": 47.7,
+        "height": 29.7
+      },
+      "options": [
+        "CC",
+        "DOI",
+        "DRS",
+        "NOB",
+        "OPS",
+        "PER",
+        "PR/F",
+        "REG",
+        "SPC",
+        "IRR"
+      ]
+    },
+    "dd5": {
+      "type": "choice",
+      "label": "Type of Report",
+      "page": 1,
+      "box": {
+        "left": 471.2,
+        "top": 716.9,
+        "width": 47.7,
+        "height": 29.7
+      },
+      "options": [
+        "CC",
+        "DOI",
+        "DRS",
+        "NOB",
+        "OPS",
+        "PER",
+        "PR/F",
+        "REG",
+        "SPC",
+        "IRR"
+      ]
+    },
+    "dd6": {
+      "type": "choice",
+      "label": "Type of Report",
+      "page": 1,
+      "box": {
+        "left": 525.2,
+        "top": 716.9,
+        "width": 47.7,
+        "height": 29.7
+      },
+      "options": [
+        "CC",
+        "DOI",
+        "DRS",
+        "NOB",
+        "OPS",
+        "PER",
+        "PR/F",
+        "REG",
+        "SPC",
+        "IRR"
+      ]
+    },
+    "date": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 708.5,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "cell2": {
+      "type": "text",
+      "label": "Initials",
+      "page": 1,
+      "box": {
+        "left": 110.9,
+        "top": 708.5,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "cell1": {
+      "type": "text",
+      "label": "Name",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 672.5,
+        "width": 390.3,
+        "height": 21.6
+      }
+    },
+    "cell22": {
+      "type": "text",
+      "label": "Grade/Rate",
+      "page": 1,
+      "box": {
+        "left": 434.9,
+        "top": 672.5,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "cell3": {
+      "type": "text",
+      "label": "SSN",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 672.5,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "cell23": {
+      "type": "text",
+      "label": "From",
+      "page": 1,
+      "box": {
+        "left": 288.3,
+        "top": 645.1,
+        "width": 104.9,
+        "height": 15.8
+      }
+    },
+    "cell32": {
+      "type": "text",
+      "label": "To",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 645.1,
+        "width": 102.3,
+        "height": 15.8
+      }
+    },
+    "cell33": {
+      "type": "text",
+      "label": "Change dates of report to read:From",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 609.1,
+        "width": 102.3,
+        "height": 15.8
+      }
+    },
+    "cell4": {
+      "type": "text",
+      "label": "To",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 609.1,
+        "width": 210.3,
+        "height": 15.8
+      }
+    },
+    "cell12": {
+      "type": "checkbox",
+      "label": "This",
+      "page": 1,
+      "box": {
+        "left": 42.1,
+        "top": 605.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell34": {
+      "type": "text",
+      "label": "Change block",
+      "page": 1,
+      "box": {
+        "left": 128.9,
+        "top": 587.5,
+        "width": 66.2,
+        "height": 15.8
+      }
+    },
+    "cell13": {
+      "type": "checkbox",
+      "label": "This",
+      "page": 1,
+      "box": {
+        "left": 42.1,
+        "top": 583.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell14": {
+      "type": "text",
+      "label": "Change block to read",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 565.9,
+        "width": 534.3,
+        "height": 66.2
+      },
+      "multiline": true
+    },
+    "cell35": {
+      "type": "text",
+      "label": "Add block",
+      "page": 1,
+      "box": {
+        "left": 128.9,
+        "top": 493.9,
+        "width": 66.2,
+        "height": 15.8
+      }
+    },
+    "cell15": {
+      "type": "checkbox",
+      "label": "This",
+      "page": 1,
+      "box": {
+        "left": 42.1,
+        "top": 490.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell16": {
+      "type": "text",
+      "label": "Add block to read",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 472.3,
+        "width": 534.3,
+        "height": 66.2
+      },
+      "multiline": true
+    },
+    "cell17": {
+      "type": "checkbox",
+      "label": "This",
+      "page": 1,
+      "box": {
+        "left": 42.1,
+        "top": 389.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell18": {
+      "type": "checkbox",
+      "label": "This",
+      "page": 1,
+      "box": {
+        "left": 42.1,
+        "top": 353.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell19": {
+      "type": "checkbox",
+      "label": "This",
+      "page": 1,
+      "box": {
+        "left": 42.1,
+        "top": 311.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "textField2": {
+      "type": "text",
+      "label": "signature,",
+      "page": 1,
+      "box": {
+        "left": 93.6,
+        "top": 303.1,
+        "width": 126.0,
+        "height": 10.8
+      }
+    },
+    "cell110": {
+      "type": "checkbox",
+      "label": "This",
+      "page": 1,
+      "box": {
+        "left": 42.1,
+        "top": 277.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell111": {
+      "type": "text",
+      "label": "Other as shown below",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 259.9,
+        "width": 534.3,
+        "height": 120.3
+      },
+      "multiline": true
+    },
+    "cell112": {
+      "type": "text",
+      "label": "Name",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 110.8,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "cell24": {
+      "type": "text",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 110.8,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "date2": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 110.8,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "cell113": {
+      "type": "text",
+      "label": "Name",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 60.4,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "cell25": {
+      "type": "text",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 60.4,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "date3": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 60.4,
+        "width": 66.2,
+        "height": 21.6
+      }
+    }
+  }
+}

@@ -1,0 +1,199 @@
+{
+  "id": "navmc799",
+  "label": "NAVMC799 - Equivalent Instruction Report",
+  "directory": "NAVMC799 - Equivalent Instruction Report",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "ssn",
+        "grade",
+        "name",
+        "orgAndLoc",
+        "description",
+        "date",
+        "hours",
+        "pointsClaimed",
+        "authority",
+        "gradeIndivid",
+        "sigIndivid",
+        "orgAndLocInstruct",
+        "sigInstruct",
+        "gradeInstruct",
+        "sigAuthority"
+      ]
+    }
+  ],
+  "fields": {
+    "ssn": {
+      "type": "text",
+      "label": "SSN",
+      "page": 1,
+      "box": {
+        "left": 484.0,
+        "top": 618.3,
+        "width": 89.9,
+        "height": 18.2
+      }
+    },
+    "grade": {
+      "type": "text",
+      "label": "Grade",
+      "page": 1,
+      "box": {
+        "left": 396.9,
+        "top": 617.4,
+        "width": 83.8,
+        "height": 17.7
+      }
+    },
+    "name": {
+      "type": "text",
+      "label": "Name. Include last, first, middle initial.",
+      "page": 1,
+      "box": {
+        "left": 35.9,
+        "top": 616.1,
+        "width": 360.1,
+        "height": 17.1
+      }
+    },
+    "orgAndLoc": {
+      "type": "text",
+      "label": "Organization and Location",
+      "page": 1,
+      "box": {
+        "left": 35.4,
+        "top": 593.3,
+        "width": 540.5,
+        "height": 17.7
+      }
+    },
+    "description": {
+      "type": "text",
+      "label": "Description of Equivalent Instruction. Shore party lecture-Preparation time-Presentation time-Seminars-Other pertinent factors. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 35.3,
+        "top": 548.8,
+        "width": 540.7,
+        "height": 209.7
+      },
+      "multiline": true
+    },
+    "date": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 36.3,
+        "top": 329.5,
+        "width": 176.4,
+        "height": 14.9
+      }
+    },
+    "hours": {
+      "type": "text",
+      "label": "Hours",
+      "page": 1,
+      "box": {
+        "left": 216.1,
+        "top": 328.4,
+        "width": 176.5,
+        "height": 14.4
+      }
+    },
+    "pointsClaimed": {
+      "type": "text",
+      "label": "Points claimed",
+      "page": 1,
+      "box": {
+        "left": 396.0,
+        "top": 328.0,
+        "width": 178.6,
+        "height": 13.9
+      }
+    },
+    "authority": {
+      "type": "text",
+      "label": "Authority to perform Equivalent Instruction.",
+      "page": 1,
+      "box": {
+        "left": 33.5,
+        "top": 303.8,
+        "width": 541.1,
+        "height": 26.8
+      }
+    },
+    "gradeIndivid": {
+      "type": "text",
+      "label": "Grade",
+      "page": 1,
+      "box": {
+        "left": 318.4,
+        "top": 244.3,
+        "width": 88.0,
+        "height": 12.7
+      }
+    },
+    "sigIndivid": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 114.1,
+        "top": 242.2,
+        "width": 184.7,
+        "height": 10.4
+      }
+    },
+    "orgAndLocInstruct": {
+      "type": "text",
+      "label": "Organization and Location",
+      "page": 1,
+      "box": {
+        "left": 38.0,
+        "top": 195.6,
+        "width": 540.5,
+        "height": 29.5
+      }
+    },
+    "sigInstruct": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 116.6,
+        "top": 148.9,
+        "width": 185.2,
+        "height": 16.3
+      }
+    },
+    "gradeInstruct": {
+      "type": "text",
+      "label": "Grade",
+      "page": 1,
+      "box": {
+        "left": 320.7,
+        "top": 144.2,
+        "width": 88.0,
+        "height": 12.7
+      }
+    },
+    "sigAuthority": {
+      "type": "signature",
+      "label": "SignatureAuth",
+      "page": 1,
+      "box": {
+        "left": 285.4,
+        "top": 90.9,
+        "width": 179.5,
+        "height": 16.3
+      }
+    }
+  }
+}

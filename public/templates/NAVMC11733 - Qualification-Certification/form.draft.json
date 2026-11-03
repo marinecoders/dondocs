@@ -1,0 +1,536 @@
+{
+  "id": "navmc11733",
+  "label": "NAVMC11733 - Qualification-Certification",
+  "directory": "NAVMC11733 - Qualification-Certification",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "explosiveA",
+        "workCodeA",
+        "certLevA",
+        "indSignA",
+        "boardA",
+        "dateA",
+        "explosiveB",
+        "workTaskB",
+        "certLevB",
+        "indSignB",
+        "boardB",
+        "explosiveC",
+        "workTaskC",
+        "certLevC",
+        "indSignC",
+        "boardC",
+        "explosiveD",
+        "workTaskD",
+        "certLevD",
+        "indSignD",
+        "boardD",
+        "signIndA",
+        "boardSignA",
+        "indDateA",
+        "boardDateA",
+        "signIndB",
+        "boardSignB",
+        "indDateB",
+        "boardDateB",
+        "signIndC",
+        "boardSignC",
+        "indDatec",
+        "boardDateC",
+        "cmdSign",
+        "indDatec2",
+        "marName",
+        "mos",
+        "aCTIVITY",
+        "mCRank"
+      ]
+    }
+  ],
+  "fields": {
+    "explosiveA": {
+      "type": "text",
+      "label": "ExplosiveA",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 462.8,
+        "width": 132.7,
+        "height": 22.2
+      }
+    },
+    "workCodeA": {
+      "type": "text",
+      "label": "WorkCodeA",
+      "page": 1,
+      "box": {
+        "left": 173.0,
+        "top": 462.8,
+        "width": 55.4,
+        "height": 22.2
+      }
+    },
+    "certLevA": {
+      "type": "text",
+      "label": "CertLevA",
+      "page": 1,
+      "box": {
+        "left": 231.2,
+        "top": 462.8,
+        "width": 55.4,
+        "height": 22.2
+      }
+    },
+    "indSignA": {
+      "type": "text",
+      "label": "IndSignA",
+      "page": 1,
+      "box": {
+        "left": 289.5,
+        "top": 462.8,
+        "width": 105.8,
+        "height": 22.2
+      }
+    },
+    "boardA": {
+      "type": "text",
+      "label": "BoardA",
+      "page": 1,
+      "box": {
+        "left": 398.1,
+        "top": 462.8,
+        "width": 86.2,
+        "height": 22.2
+      }
+    },
+    "dateA": {
+      "type": "text",
+      "label": "DateA",
+      "page": 1,
+      "box": {
+        "left": 487.1,
+        "top": 462.8,
+        "width": 87.0,
+        "height": 22.2
+      }
+    },
+    "explosiveB": {
+      "type": "text",
+      "label": "ExplosiveB",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 437.8,
+        "width": 132.7,
+        "height": 22.2
+      }
+    },
+    "workTaskB": {
+      "type": "text",
+      "label": "WorkTaskB",
+      "page": 1,
+      "box": {
+        "left": 173.0,
+        "top": 437.8,
+        "width": 55.4,
+        "height": 22.2
+      }
+    },
+    "certLevB": {
+      "type": "text",
+      "label": "CertLevB",
+      "page": 1,
+      "box": {
+        "left": 231.2,
+        "top": 437.8,
+        "width": 55.4,
+        "height": 22.2
+      }
+    },
+    "indSignB": {
+      "type": "text",
+      "label": "IndSignB",
+      "page": 1,
+      "box": {
+        "left": 289.5,
+        "top": 437.8,
+        "width": 105.8,
+        "height": 22.2
+      }
+    },
+    "boardB": {
+      "type": "text",
+      "label": "BoardB",
+      "page": 1,
+      "box": {
+        "left": 398.1,
+        "top": 437.8,
+        "width": 86.2,
+        "height": 22.2
+      }
+    },
+    "explosiveC": {
+      "type": "text",
+      "label": "ExplosiveC",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 412.8,
+        "width": 132.7,
+        "height": 22.2
+      }
+    },
+    "workTaskC": {
+      "type": "text",
+      "label": "WorkTaskC",
+      "page": 1,
+      "box": {
+        "left": 173.0,
+        "top": 412.8,
+        "width": 55.4,
+        "height": 22.2
+      }
+    },
+    "certLevC": {
+      "type": "text",
+      "label": "CertLevC",
+      "page": 1,
+      "box": {
+        "left": 231.2,
+        "top": 412.8,
+        "width": 55.4,
+        "height": 22.2
+      }
+    },
+    "indSignC": {
+      "type": "text",
+      "label": "IndSignC",
+      "page": 1,
+      "box": {
+        "left": 289.5,
+        "top": 412.8,
+        "width": 105.8,
+        "height": 22.2
+      }
+    },
+    "boardC": {
+      "type": "text",
+      "label": "BoardC",
+      "page": 1,
+      "box": {
+        "left": 398.1,
+        "top": 412.8,
+        "width": 86.2,
+        "height": 22.2
+      }
+    },
+    "explosiveD": {
+      "type": "text",
+      "label": "ExplosiveD",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 387.8,
+        "width": 132.7,
+        "height": 26.4
+      }
+    },
+    "workTaskD": {
+      "type": "text",
+      "label": "WorkTaskD",
+      "page": 1,
+      "box": {
+        "left": 173.0,
+        "top": 387.8,
+        "width": 55.4,
+        "height": 26.4
+      }
+    },
+    "certLevD": {
+      "type": "text",
+      "label": "CertLevD",
+      "page": 1,
+      "box": {
+        "left": 231.2,
+        "top": 387.8,
+        "width": 55.4,
+        "height": 26.4
+      }
+    },
+    "indSignD": {
+      "type": "text",
+      "label": "IndSignD",
+      "page": 1,
+      "box": {
+        "left": 289.5,
+        "top": 387.8,
+        "width": 105.8,
+        "height": 26.4
+      }
+    },
+    "boardD": {
+      "type": "text",
+      "label": "BoardD",
+      "page": 1,
+      "box": {
+        "left": 398.1,
+        "top": 387.8,
+        "width": 86.2,
+        "height": 26.4
+      }
+    },
+    "signIndA": {
+      "type": "text",
+      "label": "SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 294.8,
+        "width": 175.7,
+        "height": 13.0
+      }
+    },
+    "boardSignA": {
+      "type": "text",
+      "label": "SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 326.2,
+        "top": 294.8,
+        "width": 175.7,
+        "height": 13.5
+      }
+    },
+    "indDateA": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 1,
+      "box": {
+        "left": 218.8,
+        "top": 294.2,
+        "width": 65.2,
+        "height": 12.8
+      }
+    },
+    "boardDateA": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 1,
+      "box": {
+        "left": 506.8,
+        "top": 294.2,
+        "width": 65.2,
+        "height": 12.8
+      }
+    },
+    "signIndB": {
+      "type": "text",
+      "label": "SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 258.8,
+        "width": 175.7,
+        "height": 12.1
+      }
+    },
+    "boardSignB": {
+      "type": "text",
+      "label": "SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 326.2,
+        "top": 258.8,
+        "width": 175.7,
+        "height": 13.5
+      }
+    },
+    "indDateB": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 1,
+      "box": {
+        "left": 218.8,
+        "top": 258.2,
+        "width": 65.2,
+        "height": 11.0
+      }
+    },
+    "boardDateB": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 1,
+      "box": {
+        "left": 506.8,
+        "top": 258.2,
+        "width": 65.2,
+        "height": 12.8
+      }
+    },
+    "signIndC": {
+      "type": "text",
+      "label": "SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 222.8,
+        "width": 175.7,
+        "height": 13.0
+      }
+    },
+    "boardSignC": {
+      "type": "text",
+      "label": "SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 326.2,
+        "top": 222.8,
+        "width": 175.7,
+        "height": 13.5
+      }
+    },
+    "indDatec": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 1,
+      "box": {
+        "left": 218.8,
+        "top": 222.2,
+        "width": 65.2,
+        "height": 12.8
+      }
+    },
+    "boardDateC": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 1,
+      "box": {
+        "left": 506.8,
+        "top": 222.2,
+        "width": 65.2,
+        "height": 12.8
+      }
+    },
+    "cmdSign": {
+      "type": "text",
+      "label": "COMMANDER:",
+      "page": 1,
+      "box": {
+        "left": 109.0,
+        "top": 177.8,
+        "width": 329.8,
+        "height": 14.4
+      }
+    },
+    "indDatec2": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 1,
+      "box": {
+        "left": 452.8,
+        "top": 177.2,
+        "width": 65.2,
+        "height": 14.8
+      }
+    },
+    "marName": {
+      "type": "text",
+      "label": "NAME:",
+      "page": 1,
+      "box": {
+        "left": 70.7,
+        "top": 114.8,
+        "width": 278.1,
+        "height": 14.4
+      }
+    },
+    "mos": {
+      "type": "text",
+      "label": "MOS",
+      "page": 1,
+      "box": {
+        "left": 416.2,
+        "top": 114.8,
+        "width": 43.4,
+        "height": 15.9
+      }
+    },
+    "aCTIVITY": {
+      "type": "text",
+      "label": "ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 470.2,
+        "top": 114.8,
+        "width": 103.7,
+        "height": 15.4
+      }
+    },
+    "mCRank": {
+      "type": "choice",
+      "label": "RANK",
+      "page": 1,
+      "box": {
+        "left": 353.8,
+        "top": 114.2,
+        "width": 57.3,
+        "height": 14.8
+      },
+      "options": [
+        "PFC",
+        "LCpl",
+        "Cpl",
+        "Sgt",
+        "SSgt",
+        "GySgt",
+        "MSgt",
+        "1stSgt",
+        "MGySgt",
+        "SgtMaj",
+        "SMMC",
+        "WO",
+        "Gunner",
+        "CWO2",
+        "CWO3",
+        "CWO4",
+        "CWO5",
+        "2ndLt",
+        "1stLt",
+        "Capt",
+        "Maj",
+        "LtCol",
+        "Col",
+        "BGen",
+        "MajGen",
+        "LtGen",
+        "Gen"
+      ]
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 25.0,
+      "editor": "grid",
+      "columns": {
+        "cell": {
+          "type": "text",
+          "label": "Cell6",
+          "page": 1,
+          "box": {
+            "left": 487.1,
+            "top": 437.8,
+            "width": 87.0,
+            "height": 22.2
+          }
+        }
+      }
+    }
+  }
+}

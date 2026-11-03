@@ -1,0 +1,564 @@
+{
+  "id": "navmc11650",
+  "label": "NAVMC 11650 - Alternative Work Schedule Request",
+  "directory": "NAVMC11650 - Alternative Work Schedule Request",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "dateA",
+        "flexitour",
+        "gliding",
+        "compressdA",
+        "compassedB",
+        "variable",
+        "varWeek",
+        "maxiflex",
+        "tourOfDutyC",
+        "tourOfDutyD",
+        "tourOfDutyE",
+        "tourOfDutyE2",
+        "tourOfDutyE3",
+        "tourOfDutyB",
+        "tourOfDutyA",
+        "workHoursA",
+        "workHoursB",
+        "workHoursC",
+        "workHoursD",
+        "workHoursE",
+        "workHoursE2",
+        "workHoursE3",
+        "tourOfDutyF",
+        "tourOfDutyB2",
+        "tourOfDutyC2",
+        "tourOfDutyD2",
+        "tourOfDutyE4",
+        "tourOfDutyE5",
+        "tourOfDutyE6",
+        "workHoursF",
+        "workHoursB2",
+        "workHoursC2",
+        "workHoursD2",
+        "workHoursE4",
+        "workHoursE5",
+        "workHoursE6",
+        "effDate",
+        "disapprove",
+        "approve",
+        "reasons",
+        "dateC",
+        "superSign"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "NAME:",
+      "page": 1,
+      "box": {
+        "left": 109.7,
+        "top": 645.2,
+        "width": 313.7,
+        "height": 39.3
+      },
+      "multiline": true
+    },
+    "dateA": {
+      "type": "text",
+      "label": "DATE OF REQUEST:",
+      "page": 1,
+      "box": {
+        "left": 485.4,
+        "top": 645.2,
+        "width": 87.7,
+        "height": 39.3
+      },
+      "multiline": true
+    },
+    "flexitour": {
+      "type": "checkbox",
+      "label": "Flexitour",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 554.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "gliding": {
+      "type": "checkbox",
+      "label": "Gliding",
+      "page": 1,
+      "box": {
+        "left": 191.8,
+        "top": 554.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "compressdA": {
+      "type": "checkbox",
+      "label": "5 - 4/9",
+      "page": 1,
+      "box": {
+        "left": 371.8,
+        "top": 554.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "compassedB": {
+      "type": "checkbox",
+      "label": "4-day week",
+      "page": 1,
+      "box": {
+        "left": 461.8,
+        "top": 554.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "variable": {
+      "type": "checkbox",
+      "label": "Variable Day",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 518.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "varWeek": {
+      "type": "checkbox",
+      "label": "Variable Week",
+      "page": 1,
+      "box": {
+        "left": 191.8,
+        "top": 518.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "maxiflex": {
+      "type": "checkbox",
+      "label": "Maxiflex",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 482.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "tourOfDutyC": {
+      "type": "text",
+      "label": "TourOfDutyC",
+      "page": 1,
+      "box": {
+        "left": 218.8,
+        "top": 375.2,
+        "width": 66.3,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "tourOfDutyD": {
+      "type": "text",
+      "label": "TourOfDutyD",
+      "page": 1,
+      "box": {
+        "left": 290.8,
+        "top": 375.2,
+        "width": 66.3,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "tourOfDutyE": {
+      "type": "text",
+      "label": "TourOfDutyE",
+      "page": 1,
+      "box": {
+        "left": 362.8,
+        "top": 375.2,
+        "width": 66.3,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "tourOfDutyE2": {
+      "type": "text",
+      "label": "TourOfDutyE",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 375.2,
+        "width": 66.3,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "tourOfDutyE3": {
+      "type": "text",
+      "label": "TourOfDutyE",
+      "page": 1,
+      "box": {
+        "left": 506.8,
+        "top": 375.2,
+        "width": 66.3,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "tourOfDutyB": {
+      "type": "text",
+      "label": "TourOfDutyB",
+      "page": 1,
+      "box": {
+        "left": 146.8,
+        "top": 374.8,
+        "width": 66.3,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "tourOfDutyA": {
+      "type": "text",
+      "label": "TourOfDutyA",
+      "page": 1,
+      "box": {
+        "left": 74.8,
+        "top": 374.4,
+        "width": 66.3,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "workHoursA": {
+      "type": "text",
+      "label": "# of work hours:",
+      "page": 1,
+      "box": {
+        "left": 113.1,
+        "top": 339.2,
+        "width": 28.1,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "workHoursB": {
+      "type": "text",
+      "label": "# of work hours:",
+      "page": 1,
+      "box": {
+        "left": 182.1,
+        "top": 339.2,
+        "width": 31.1,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "workHoursC": {
+      "type": "text",
+      "label": "# of work hours:",
+      "page": 1,
+      "box": {
+        "left": 257.1,
+        "top": 339.2,
+        "width": 28.1,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "workHoursD": {
+      "type": "text",
+      "label": "# of work hours:",
+      "page": 1,
+      "box": {
+        "left": 326.8,
+        "top": 339.2,
+        "width": 30.3,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "workHoursE": {
+      "type": "text",
+      "label": "# of work hours:",
+      "page": 1,
+      "box": {
+        "left": 398.8,
+        "top": 339.2,
+        "width": 30.3,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "workHoursE2": {
+      "type": "text",
+      "label": "# of work hours:",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 339.2,
+        "width": 30.3,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "workHoursE3": {
+      "type": "text",
+      "label": "# of work hours:",
+      "page": 1,
+      "box": {
+        "left": 542.8,
+        "top": 339.2,
+        "width": 30.3,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "tourOfDutyF": {
+      "type": "text",
+      "label": "TourOfDutyF",
+      "page": 1,
+      "box": {
+        "left": 74.8,
+        "top": 303.2,
+        "width": 66.3,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "tourOfDutyB2": {
+      "type": "text",
+      "label": "TourOfDutyB",
+      "page": 1,
+      "box": {
+        "left": 146.8,
+        "top": 303.2,
+        "width": 66.3,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "tourOfDutyC2": {
+      "type": "text",
+      "label": "TourOfDutyC",
+      "page": 1,
+      "box": {
+        "left": 218.8,
+        "top": 303.2,
+        "width": 66.3,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "tourOfDutyD2": {
+      "type": "text",
+      "label": "TourOfDutyD",
+      "page": 1,
+      "box": {
+        "left": 290.8,
+        "top": 303.2,
+        "width": 66.3,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "tourOfDutyE4": {
+      "type": "text",
+      "label": "TourOfDutyE",
+      "page": 1,
+      "box": {
+        "left": 362.8,
+        "top": 303.2,
+        "width": 66.3,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "tourOfDutyE5": {
+      "type": "text",
+      "label": "TourOfDutyE",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 303.2,
+        "width": 66.3,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "tourOfDutyE6": {
+      "type": "text",
+      "label": "TourOfDutyE",
+      "page": 1,
+      "box": {
+        "left": 506.8,
+        "top": 303.2,
+        "width": 66.3,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "workHoursF": {
+      "type": "text",
+      "label": "# of work hours:",
+      "page": 1,
+      "box": {
+        "left": 110.8,
+        "top": 267.2,
+        "width": 30.3,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "workHoursB2": {
+      "type": "text",
+      "label": "# of work hours:",
+      "page": 1,
+      "box": {
+        "left": 182.1,
+        "top": 267.2,
+        "width": 31.1,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "workHoursC2": {
+      "type": "text",
+      "label": "# of work hours:",
+      "page": 1,
+      "box": {
+        "left": 257.1,
+        "top": 267.2,
+        "width": 28.1,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "workHoursD2": {
+      "type": "text",
+      "label": "# of work hours:",
+      "page": 1,
+      "box": {
+        "left": 326.8,
+        "top": 267.2,
+        "width": 30.3,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "workHoursE4": {
+      "type": "text",
+      "label": "# of work hours:",
+      "page": 1,
+      "box": {
+        "left": 398.8,
+        "top": 267.2,
+        "width": 30.3,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "workHoursE5": {
+      "type": "text",
+      "label": "# of work hours:",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 267.2,
+        "width": 30.3,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "workHoursE6": {
+      "type": "text",
+      "label": "# of work hours:",
+      "page": 1,
+      "box": {
+        "left": 542.8,
+        "top": 267.2,
+        "width": 30.3,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "effDate": {
+      "type": "text",
+      "label": "EFFECTIVE DATE OF AWS:",
+      "page": 1,
+      "box": {
+        "left": 486.0,
+        "top": 229.9,
+        "width": 86.3,
+        "height": 14.4
+      }
+    },
+    "disapprove": {
+      "type": "checkbox",
+      "label": "DISAPPROVED",
+      "page": 1,
+      "box": {
+        "left": 273.3,
+        "top": 227.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "approve": {
+      "type": "checkbox",
+      "label": "APPROVED",
+      "page": 1,
+      "box": {
+        "left": 182.8,
+        "top": 227.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "reasons": {
+      "type": "text",
+      "label": "Reasons",
+      "page": 1,
+      "box": {
+        "left": 42.7,
+        "top": 194.4,
+        "width": 526.0,
+        "height": 97.0
+      },
+      "multiline": true
+    },
+    "dateC": {
+      "type": "text",
+      "label": "DATE:",
+      "page": 1,
+      "box": {
+        "left": 422.9,
+        "top": 89.4,
+        "width": 147.6,
+        "height": 15.9
+      }
+    },
+    "superSign": {
+      "type": "text",
+      "label": "SUPERVISOR'S SIGNATURE:",
+      "page": 1,
+      "box": {
+        "left": 153.1,
+        "top": 89.3,
+        "width": 234.1,
+        "height": 15.8
+      }
+    }
+  }
+}

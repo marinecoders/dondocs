@@ -1,0 +1,260 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "name": {
+        "left": 48.7,
+        "top": 644.3,
+        "width": 195.0,
+        "height": 13.5,
+        "type": "text",
+        "description": "Enter name (last, first, middle initial) and rank and/or rate.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ssn": {
+        "left": 250.5,
+        "top": 644.3,
+        "width": 99.0,
+        "height": 13.5,
+        "type": "text",
+        "description": "Enter the Social Security Number.  ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "numberAssigned": {
+        "left": 446.3,
+        "top": 644.3,
+        "width": 115.5,
+        "height": 13.5,
+        "type": "text",
+        "description": "Enter the number assigned.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "insuranceInfo": {
+        "left": 355.3,
+        "top": 629.4,
+        "width": 82.1,
+        "height": 65.6,
+        "type": "text",
+        "description": "Enter insurance company and policy number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "issueDate": {
+        "left": 446.3,
+        "top": 621.7,
+        "width": 115.5,
+        "height": 13.5,
+        "type": "text",
+        "description": "Enter the issuing date using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "office": {
+        "left": 48.7,
+        "top": 620.2,
+        "width": 195.0,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the office and activity.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "telephoneOffice": {
+        "left": 250.5,
+        "top": 620.2,
+        "width": 99.0,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the office telephone number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "expirationDate": {
+        "left": 446.3,
+        "top": 597.3,
+        "width": 115.5,
+        "height": 13.5,
+        "type": "text",
+        "description": "Enter the expiration date using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "residenceAddress": {
+        "left": 48.7,
+        "top": 595.9,
+        "width": 195.0,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the residence address.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "telephoneRes": {
+        "left": 250.5,
+        "top": 595.9,
+        "width": 99.0,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the residence telephone number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "issuingActivity": {
+        "left": 48.7,
+        "top": 572.7,
+        "width": 298.5,
+        "height": 13.5,
+        "type": "text",
+        "description": "Enter the issuing activity.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "categoryDecal": {
+        "left": 446.3,
+        "top": 572.7,
+        "width": 115.5,
+        "height": 13.5,
+        "type": "text",
+        "description": "Enter the category of decal.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "vehicle": {
+        "left": 48.7,
+        "top": 548.2,
+        "width": 372.0,
+        "height": 12.0,
+        "type": "text",
+        "description": "This is row 1 of 4.  Enter the vehicle year, make, model, style, color, and I.D. number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "stateLicenseNo": {
+        "left": 427.5,
+        "top": 548.2,
+        "width": 134.2,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the state license number (expires).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "vehicle2": {
+        "left": 48.7,
+        "top": 531.8,
+        "width": 371.3,
+        "height": 20.3,
+        "type": "text",
+        "description": "This is row 2 of 4.  Enter the vehicle year, make, model, style, color, and I.D. number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "stateLicense2": {
+        "left": 427.5,
+        "top": 531.8,
+        "width": 134.2,
+        "height": 20.3,
+        "type": "text",
+        "description": "Enter the state license number (expires).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "vehicle3": {
+        "left": 48.7,
+        "top": 508.6,
+        "width": 372.0,
+        "height": 20.3,
+        "type": "text",
+        "description": "This is row 3 of 4.  Enter the vehicle year, make, model, style, color, and I.D. number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "stateLicense3": {
+        "left": 427.5,
+        "top": 508.6,
+        "width": 134.2,
+        "height": 20.3,
+        "type": "text",
+        "description": "Enter the state license number (expires).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "vehicle4": {
+        "left": 48.7,
+        "top": 484.6,
+        "width": 372.0,
+        "height": 20.3,
+        "type": "text",
+        "description": "This is row 4 of 4.  Enter the vehicle year, make, model, style, color, and I.D. number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "stateLicense4": {
+        "left": 427.5,
+        "top": 484.6,
+        "width": 134.2,
+        "height": 20.3,
+        "type": "text",
+        "description": "Enter the state license number (expires).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature": {
+        "left": 362.2,
+        "top": 347.4,
+        "width": 129.8,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the signature.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dNSDate3": {
+        "left": 499.5,
+        "top": 347.4,
+        "width": 63.0,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

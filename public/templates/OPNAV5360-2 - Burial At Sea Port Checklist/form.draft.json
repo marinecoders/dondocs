@@ -1,0 +1,733 @@
+{
+  "id": "opnav53602",
+  "label": "OPNAV5360-2 - Burial At Sea Port Checklist",
+  "directory": "OPNAV5360-2 - Burial At Sea Port Checklist",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "textField1",
+        "textField12",
+        "textField3",
+        "dropDownList2",
+        "textField13",
+        "textField14",
+        "textField15",
+        "textField16",
+        "textField17",
+        "textField18",
+        "textField19",
+        "dropDownList3",
+        "radio",
+        "textField110",
+        "textField111",
+        "dateField1",
+        "radio2",
+        "textField112",
+        "textField113",
+        "textField114",
+        "textField115",
+        "textField116",
+        "textField117",
+        "textField118",
+        "dropDownList32",
+        "cell2",
+        "cell3",
+        "cell22",
+        "cell32",
+        "cell23",
+        "cell33",
+        "cell24",
+        "cell34",
+        "cell25",
+        "cell35",
+        "textField119",
+        "textField120",
+        "textField121",
+        "dateTimeField1",
+        "textField122",
+        "textField123",
+        "textField124",
+        "dateTimeField2",
+        "contBy",
+        "cUICat",
+        "ldc",
+        "poc"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "textField2"
+      ]
+    }
+  ],
+  "fields": {
+    "textField1": {
+      "type": "text",
+      "label": "1. Name of the Deceased",
+      "page": 1,
+      "box": {
+        "left": 136.1,
+        "top": 573.2,
+        "width": 302.1,
+        "height": 12.2
+      }
+    },
+    "textField12": {
+      "type": "text",
+      "label": "2. Rank/Rate",
+      "page": 1,
+      "box": {
+        "left": 497.9,
+        "top": 573.2,
+        "width": 75.2,
+        "height": 12.2
+      }
+    },
+    "textField3": {
+      "type": "text",
+      "label": "3. Branch of Service",
+      "page": 1,
+      "box": {
+        "left": 118.1,
+        "top": 555.2,
+        "width": 185.1,
+        "height": 12.2
+      }
+    },
+    "dropDownList2": {
+      "type": "choice",
+      "label": "4. Status",
+      "page": 1,
+      "box": {
+        "left": 345.7,
+        "top": 554.4,
+        "width": 226.8,
+        "height": 10.7
+      },
+      "options": [
+        "Active Duty",
+        "Retired",
+        "Veteran",
+        "Dependent Family Member"
+      ]
+    },
+    "textField13": {
+      "type": "text",
+      "label": "5. Preparing/Shipping Funeral Home",
+      "page": 1,
+      "box": {
+        "left": 175.7,
+        "top": 537.2,
+        "width": 397.5,
+        "height": 12.2
+      }
+    },
+    "textField14": {
+      "type": "text",
+      "label": "6. Point of Contact",
+      "page": 1,
+      "box": {
+        "left": 118.1,
+        "top": 519.2,
+        "width": 185.1,
+        "height": 12.2
+      }
+    },
+    "textField15": {
+      "type": "text",
+      "label": "7. Phone",
+      "page": 1,
+      "box": {
+        "left": 344.9,
+        "top": 519.2,
+        "width": 93.3,
+        "height": 12.2
+      }
+    },
+    "textField16": {
+      "type": "text",
+      "label": "8. Fax",
+      "page": 1,
+      "box": {
+        "left": 469.1,
+        "top": 519.2,
+        "width": 104.1,
+        "height": 12.2
+      }
+    },
+    "textField17": {
+      "type": "text",
+      "label": "9. Street Address",
+      "page": 1,
+      "box": {
+        "left": 118.1,
+        "top": 501.2,
+        "width": 455.1,
+        "height": 12.2
+      }
+    },
+    "textField18": {
+      "type": "text",
+      "label": "10. City",
+      "page": 1,
+      "box": {
+        "left": 71.3,
+        "top": 483.2,
+        "width": 231.9,
+        "height": 12.2
+      }
+    },
+    "textField19": {
+      "type": "text",
+      "label": "12. Zip Code",
+      "page": 1,
+      "box": {
+        "left": 494.3,
+        "top": 483.2,
+        "width": 78.8,
+        "height": 12.2
+      }
+    },
+    "dropDownList3": {
+      "type": "choice",
+      "label": "11. State",
+      "page": 1,
+      "box": {
+        "left": 345.7,
+        "top": 482.4,
+        "width": 91.8,
+        "height": 10.7
+      },
+      "options": [
+        "Alabama",
+        "Alaska",
+        "Arizona",
+        "Arkansas",
+        "California",
+        "Colorado",
+        "Connecticut",
+        "Delaware",
+        "Florida",
+        "Georgia",
+        "Hawaii",
+        "Idaho",
+        "Illinois",
+        "Indiana",
+        "Iowa",
+        "Kansas",
+        "Kentucky",
+        "Louisiana",
+        "Maine",
+        "Maryland",
+        "Massachusetts",
+        "Michigan",
+        "Minnesota",
+        "Mississippi",
+        "Missouri",
+        "Montana",
+        "Nebraska",
+        "Nevada",
+        "New Hampshire",
+        "New Jersey",
+        "New Mexico",
+        "New York",
+        "North Carolina",
+        "North Dakota",
+        "Ohio",
+        "Oklahoma",
+        "Oregon",
+        "Pennsylvania",
+        "Rhode Island",
+        "South Carolina",
+        "South Dakota",
+        "Tennessee",
+        "Texas",
+        "Utah",
+        "Vermont",
+        "Virginia",
+        "Washington",
+        "West Virginia",
+        "Wisconsin",
+        "Wyoming",
+        "American Samoa",
+        "District of Columbia",
+        "Federated States of Micronesia",
+        "Guam",
+        "Marshall Islands",
+        "Northern Mariana Islands",
+        "Palau",
+        "Puerto Rico",
+        "Virgin Islands"
+      ]
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 497.9,
+        "top": 442.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "textField110": {
+      "type": "text",
+      "label": "remains are to be shipped in a sealable metal casket",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 429.2,
+        "width": 174.3,
+        "height": 19.4
+      }
+    },
+    "textField111": {
+      "type": "text",
+      "label": "casket with all plastic parts removed",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 429.2,
+        "width": 174.3,
+        "height": 19.4
+      }
+    },
+    "dateField1": {
+      "type": "text",
+      "label": "60 days; and",
+      "page": 1,
+      "box": {
+        "left": 398.9,
+        "top": 429.2,
+        "width": 66.2,
+        "height": 19.4
+      }
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 497.9,
+        "top": 424.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "textField112": {
+      "type": "text",
+      "label": "17. Receiving Funeral Home at Port",
+      "page": 1,
+      "box": {
+        "left": 168.5,
+        "top": 378.8,
+        "width": 404.7,
+        "height": 12.2
+      }
+    },
+    "textField113": {
+      "type": "text",
+      "label": "18. Contact: Point of",
+      "page": 1,
+      "box": {
+        "left": 110.9,
+        "top": 360.8,
+        "width": 192.3,
+        "height": 12.2
+      }
+    },
+    "textField114": {
+      "type": "text",
+      "label": "19. Phone",
+      "page": 1,
+      "box": {
+        "left": 348.5,
+        "top": 360.8,
+        "width": 89.7,
+        "height": 12.2
+      }
+    },
+    "textField115": {
+      "type": "text",
+      "label": "20. Fax",
+      "page": 1,
+      "box": {
+        "left": 472.7,
+        "top": 360.8,
+        "width": 100.5,
+        "height": 12.2
+      }
+    },
+    "textField116": {
+      "type": "text",
+      "label": "21. Street Address",
+      "page": 1,
+      "box": {
+        "left": 110.9,
+        "top": 342.8,
+        "width": 462.3,
+        "height": 12.2
+      }
+    },
+    "textField117": {
+      "type": "text",
+      "label": "22. City",
+      "page": 1,
+      "box": {
+        "left": 71.3,
+        "top": 324.8,
+        "width": 231.9,
+        "height": 12.2
+      }
+    },
+    "textField118": {
+      "type": "text",
+      "label": "24. Zip Code",
+      "page": 1,
+      "box": {
+        "left": 494.3,
+        "top": 324.8,
+        "width": 78.8,
+        "height": 12.2
+      }
+    },
+    "dropDownList32": {
+      "type": "choice",
+      "label": "23. State",
+      "page": 1,
+      "box": {
+        "left": 345.7,
+        "top": 324.0,
+        "width": 91.8,
+        "height": 10.7
+      },
+      "options": [
+        "Alabama",
+        "Alaska",
+        "Arizona",
+        "Arkansas",
+        "California",
+        "Colorado",
+        "Connecticut",
+        "Delaware",
+        "Florida",
+        "Georgia",
+        "Hawaii",
+        "Idaho",
+        "Illinois",
+        "Indiana",
+        "Iowa",
+        "Kansas",
+        "Kentucky",
+        "Louisiana",
+        "Maine",
+        "Maryland",
+        "Massachusetts",
+        "Michigan",
+        "Minnesota",
+        "Mississippi",
+        "Missouri",
+        "Montana",
+        "Nebraska",
+        "Nevada",
+        "New Hampshire",
+        "New Jersey",
+        "New Mexico",
+        "New York",
+        "North Carolina",
+        "North Dakota",
+        "Ohio",
+        "Oklahoma",
+        "Oregon",
+        "Pennsylvania",
+        "Rhode Island",
+        "South Carolina",
+        "South Dakota",
+        "Tennessee",
+        "Texas",
+        "Utah",
+        "Vermont",
+        "Virginia",
+        "Washington",
+        "West Virginia",
+        "Wisconsin",
+        "Wyoming",
+        "American Samoa",
+        "District of Columbia",
+        "Federated States of Micronesia",
+        "Guam",
+        "Marshall Islands",
+        "Northern Mariana Islands",
+        "Palau",
+        "Puerto Rico",
+        "Virgin Islands"
+      ]
+    },
+    "cell2": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 434.9,
+        "top": 292.4,
+        "width": 66.2,
+        "height": 19.4
+      }
+    },
+    "cell3": {
+      "type": "text",
+      "label": "Initials",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 292.4,
+        "width": 66.2,
+        "height": 19.4
+      }
+    },
+    "cell22": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 434.9,
+        "top": 267.2,
+        "width": 66.2,
+        "height": 19.4
+      }
+    },
+    "cell32": {
+      "type": "text",
+      "label": "Initials",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 267.2,
+        "width": 66.2,
+        "height": 19.4
+      }
+    },
+    "cell23": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 434.9,
+        "top": 242.0,
+        "width": 66.2,
+        "height": 19.4
+      }
+    },
+    "cell33": {
+      "type": "text",
+      "label": "Initials",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 242.0,
+        "width": 66.2,
+        "height": 19.4
+      }
+    },
+    "cell24": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 434.9,
+        "top": 216.7,
+        "width": 66.2,
+        "height": 30.2
+      },
+      "multiline": true
+    },
+    "cell34": {
+      "type": "text",
+      "label": "Initials",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 216.7,
+        "width": 66.2,
+        "height": 30.2
+      },
+      "multiline": true
+    },
+    "cell25": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 434.9,
+        "top": 180.7,
+        "width": 66.2,
+        "height": 19.4
+      }
+    },
+    "cell35": {
+      "type": "text",
+      "label": "Initials",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 180.7,
+        "width": 66.2,
+        "height": 19.4
+      }
+    },
+    "textField119": {
+      "type": "text",
+      "label": "26. Location of Inspection",
+      "page": 1,
+      "box": {
+        "left": 162.0,
+        "top": 141.1,
+        "width": 410.5,
+        "height": 12.2
+      }
+    },
+    "textField120": {
+      "type": "text",
+      "label": "Inspection",
+      "page": 1,
+      "box": {
+        "left": 306.0,
+        "top": 123.1,
+        "width": 266.4,
+        "height": 12.2
+      }
+    },
+    "textField121": {
+      "type": "text",
+      "label": "28. Funeral Director Signature",
+      "page": 1,
+      "box": {
+        "left": 162.0,
+        "top": 105.1,
+        "width": 303.9,
+        "height": 12.2
+      }
+    },
+    "dateTimeField1": {
+      "type": "text",
+      "label": "29. Date",
+      "page": 1,
+      "box": {
+        "left": 504.1,
+        "top": 105.1,
+        "width": 68.4,
+        "height": 12.2
+      }
+    },
+    "textField122": {
+      "type": "text",
+      "label": "30. Command of Naval Inspector",
+      "page": 1,
+      "box": {
+        "left": 162.0,
+        "top": 87.1,
+        "width": 410.5,
+        "height": 12.2
+      }
+    },
+    "textField123": {
+      "type": "text",
+      "label": "31. Name of Naval Inspector",
+      "page": 1,
+      "box": {
+        "left": 162.0,
+        "top": 69.1,
+        "width": 410.5,
+        "height": 12.2
+      }
+    },
+    "textField124": {
+      "type": "text",
+      "label": "32. Naval Inspector Signature",
+      "page": 1,
+      "box": {
+        "left": 162.0,
+        "top": 51.1,
+        "width": 303.9,
+        "height": 12.2
+      }
+    },
+    "dateTimeField2": {
+      "type": "text",
+      "label": "33. Date",
+      "page": 1,
+      "box": {
+        "left": 504.1,
+        "top": 51.1,
+        "width": 68.4,
+        "height": 12.2
+      }
+    },
+    "contBy": {
+      "type": "text",
+      "label": "CUI (when filled in) CONTROLLED BY",
+      "page": 1,
+      "box": {
+        "left": 406.1,
+        "top": 33.1,
+        "width": 109.5,
+        "height": 6.6
+      }
+    },
+    "cUICat": {
+      "type": "text",
+      "label": "CUI CATEGORY",
+      "page": 1,
+      "box": {
+        "left": 406.1,
+        "top": 24.6,
+        "width": 109.5,
+        "height": 6.6
+      }
+    },
+    "ldc": {
+      "type": "text",
+      "label": "LDC",
+      "page": 1,
+      "box": {
+        "left": 406.1,
+        "top": 17.6,
+        "width": 109.5,
+        "height": 6.6
+      }
+    },
+    "poc": {
+      "type": "text",
+      "label": "POC",
+      "page": 1,
+      "box": {
+        "left": 406.1,
+        "top": 9.4,
+        "width": 109.5,
+        "height": 6.6
+      }
+    },
+    "textField2": {
+      "type": "text",
+      "label": "casket preparation",
+      "page": 3,
+      "box": {
+        "left": 312.1,
+        "top": 376.6,
+        "width": 248.5,
+        "height": 324.2
+      },
+      "multiline": true
+    }
+  }
+}

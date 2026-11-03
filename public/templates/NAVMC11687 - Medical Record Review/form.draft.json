@@ -1,0 +1,387 @@
+{
+  "id": "navmc11687",
+  "label": "NAVMC11687 - Medical Record Review",
+  "directory": "NAVMC11687 - Medical Record Review",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 2",
+      "fields": [
+        "q1",
+        "q2",
+        "r3a",
+        "r3a2",
+        "r3b",
+        "r3b2",
+        "r3c",
+        "r3c2",
+        "r3d",
+        "r3d2",
+        "q3",
+        "r4a",
+        "r4a2",
+        "q4a",
+        "r4b",
+        "r4b2",
+        "q4b",
+        "r4c",
+        "r4c2",
+        "q4c",
+        "r4d",
+        "r4d2",
+        "q4d",
+        "r4e",
+        "r4e2",
+        "q4e",
+        "addComments",
+        "marName",
+        "dateA"
+      ]
+    }
+  ],
+  "fields": {
+    "q1": {
+      "type": "text",
+      "label": "Q1",
+      "page": 2,
+      "box": {
+        "left": 36.0,
+        "top": 688.8,
+        "width": 540.0,
+        "height": 24.0
+      }
+    },
+    "q2": {
+      "type": "text",
+      "label": "Q2",
+      "page": 2,
+      "box": {
+        "left": 36.0,
+        "top": 644.0,
+        "width": 540.0,
+        "height": 24.0
+      }
+    },
+    "r3a": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 297.6,
+        "top": 585.9,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_r3a_0"
+    },
+    "r3a2": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 357.0,
+        "top": 585.7,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_r3a_0"
+    },
+    "r3b": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 297.6,
+        "top": 557.2,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_r3b_0"
+    },
+    "r3b2": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 357.0,
+        "top": 557.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_r3b_0"
+    },
+    "r3c": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 297.6,
+        "top": 529.6,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_r3c_0"
+    },
+    "r3c2": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 357.0,
+        "top": 529.3,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_r3c_0"
+    },
+    "r3d": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 297.6,
+        "top": 501.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_r3d_0"
+    },
+    "r3d2": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 357.0,
+        "top": 500.8,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_r3d_0"
+    },
+    "q3": {
+      "type": "text",
+      "label": "Q3",
+      "page": 2,
+      "box": {
+        "left": 36.0,
+        "top": 457.5,
+        "width": 540.0,
+        "height": 50.2
+      },
+      "multiline": true
+    },
+    "r4a": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 298.0,
+        "top": 384.6,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_r4a_0"
+    },
+    "r4a2": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 357.4,
+        "top": 384.4,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_r4a_0"
+    },
+    "q4a": {
+      "type": "text",
+      "label": "Q4a",
+      "page": 2,
+      "box": {
+        "left": 36.0,
+        "top": 363.5,
+        "width": 540.0,
+        "height": 31.0
+      },
+      "multiline": true
+    },
+    "r4b": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 298.0,
+        "top": 325.4,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_r4b_0"
+    },
+    "r4b2": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 357.4,
+        "top": 325.2,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_r4b_0"
+    },
+    "q4b": {
+      "type": "text",
+      "label": "Q4b",
+      "page": 2,
+      "box": {
+        "left": 36.0,
+        "top": 311.5,
+        "width": 540.0,
+        "height": 24.0
+      }
+    },
+    "r4c": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 298.0,
+        "top": 279.7,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_r4c_0"
+    },
+    "r4c2": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 357.4,
+        "top": 279.5,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_r4c_0"
+    },
+    "q4c": {
+      "type": "text",
+      "label": "Q4c",
+      "page": 2,
+      "box": {
+        "left": 36.0,
+        "top": 265.7,
+        "width": 540.0,
+        "height": 24.0
+      }
+    },
+    "r4d": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 297.9,
+        "top": 233.2,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_r4d_0"
+    },
+    "r4d2": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 357.3,
+        "top": 233.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_r4d_0"
+    },
+    "q4d": {
+      "type": "text",
+      "label": "Q4d",
+      "page": 2,
+      "box": {
+        "left": 36.0,
+        "top": 219.3,
+        "width": 540.0,
+        "height": 24.0
+      }
+    },
+    "r4e": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 297.9,
+        "top": 186.3,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_r4e_0"
+    },
+    "r4e2": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 357.3,
+        "top": 186.1,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_r4e_0"
+    },
+    "q4e": {
+      "type": "text",
+      "label": "Q4e",
+      "page": 2,
+      "box": {
+        "left": 36.0,
+        "top": 172.7,
+        "width": 540.0,
+        "height": 24.0
+      }
+    },
+    "addComments": {
+      "type": "text",
+      "label": "AddComments",
+      "page": 2,
+      "box": {
+        "left": 36.0,
+        "top": 124.7,
+        "width": 540.0,
+        "height": 48.2
+      },
+      "multiline": true
+    },
+    "marName": {
+      "type": "text",
+      "label": "Marine's Name:  ",
+      "page": 2,
+      "box": {
+        "left": 121.6,
+        "top": 67.4,
+        "width": 340.9,
+        "height": 19.8
+      }
+    },
+    "dateA": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 2,
+      "box": {
+        "left": 504.3,
+        "top": 66.8,
+        "width": 66.3,
+        "height": 18.9
+      }
+    }
+  }
+}

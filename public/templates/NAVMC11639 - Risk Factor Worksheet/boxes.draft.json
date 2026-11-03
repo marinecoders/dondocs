@@ -1,0 +1,513 @@
+{
+  "template": "page2.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page2": {
+      "name": {
+        "left": 126.8,
+        "top": 744.2,
+        "width": 311.3,
+        "height": 12.3,
+        "type": "text",
+        "description": "NAME (LAST, FIRST, M.I.): ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ssn4": {
+        "left": 513.2,
+        "top": 744.2,
+        "width": 78.0,
+        "height": 12.3,
+        "type": "text",
+        "description": "Enter last four digits",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "command": {
+        "left": 77.5,
+        "top": 726.2,
+        "width": 252.7,
+        "height": 12.3,
+        "type": "text",
+        "description": "COMMAND: ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "section": {
+        "left": 384.5,
+        "top": 726.2,
+        "width": 53.7,
+        "height": 12.3,
+        "type": "text",
+        "description": "SECTION: ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "phone": {
+        "left": 483.5,
+        "top": 726.2,
+        "width": 107.6,
+        "height": 12.3,
+        "type": "text",
+        "description": "PHONE: ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "physicalExamRequirementsAge": {
+        "left": 539.7,
+        "top": 690.0,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[1].PhysicalExamRequirementsAge[0]",
+        "required": false
+      },
+      "physicalExamRequirementsAge2": {
+        "left": 571.2,
+        "top": 690.0,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[1].PhysicalExamRequirementsAge[0]",
+        "required": false
+      },
+      "lastExamDate": {
+        "left": 304.8,
+        "top": 672.2,
+        "width": 286.4,
+        "height": 12.3,
+        "type": "text",
+        "description": "(2)  DATE OF LAST PERIODIC PHYSICAL EXAMINATION:  ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "historyHeartDiseaseBP": {
+        "left": 539.7,
+        "top": 633.3,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[1].HistoryHeartDiseaseBP[0]",
+        "required": false
+      },
+      "historyHeartDiseaseBP2": {
+        "left": 571.2,
+        "top": 633.3,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[1].HistoryHeartDiseaseBP[0]",
+        "required": false
+      },
+      "historyChangeHeartBP": {
+        "left": 539.7,
+        "top": 591.0,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[1].HistoryChangeHeartBP[0]",
+        "required": false
+      },
+      "historyChangeHeartBP2": {
+        "left": 571.2,
+        "top": 591.0,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[1].HistoryChangeHeartBP[0]",
+        "required": false
+      },
+      "changeInFamilyHistory": {
+        "left": 539.7,
+        "top": 573.0,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[1].ChangeInFamilyHistory[0]",
+        "required": false
+      },
+      "changeInFamilyHistory2": {
+        "left": 571.2,
+        "top": 573.0,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[1].ChangeInFamilyHistory[0]",
+        "required": false
+      },
+      "changeInDiscomfort": {
+        "left": 539.7,
+        "top": 555.0,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[1].ChangeInDiscomfort[0]",
+        "required": false
+      },
+      "changeInDiscomfort2": {
+        "left": 571.2,
+        "top": 555.0,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[1].ChangeInDiscomfort[0]",
+        "required": false
+      },
+      "heatStrokeFaint": {
+        "left": 539.7,
+        "top": 537.0,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[1].HeatStrokeFaint[0]",
+        "required": false
+      },
+      "heatStrokeFaint2": {
+        "left": 571.2,
+        "top": 537.0,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[1].HeatStrokeFaint[0]",
+        "required": false
+      },
+      "changeInOtherMedical": {
+        "left": 539.7,
+        "top": 519.0,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[1].ChangeInOtherMedical[0]",
+        "required": false
+      },
+      "changeInOtherMedical2": {
+        "left": 571.2,
+        "top": 519.0,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[1].ChangeInOtherMedical[0]",
+        "required": false
+      },
+      "significantWeightChange": {
+        "left": 539.7,
+        "top": 501.0,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[1].SignificantWeightChange[0]",
+        "required": false
+      },
+      "significantWeightChange2": {
+        "left": 571.2,
+        "top": 501.0,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[1].SignificantWeightChange[0]",
+        "required": false
+      },
+      "changeInSmoking": {
+        "left": 539.7,
+        "top": 483.0,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[1].ChangeInSmoking[0]",
+        "required": false
+      },
+      "changeInSmoking2": {
+        "left": 571.2,
+        "top": 483.0,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[1].ChangeInSmoking[0]",
+        "required": false
+      },
+      "marineSignature": {
+        "left": 127.6,
+        "top": 465.2,
+        "width": 274.6,
+        "height": 12.3,
+        "type": "signature",
+        "description": "MARINE'S SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "marineSignatureDate": {
+        "left": 445.8,
+        "top": 465.2,
+        "width": 145.4,
+        "height": 12.3,
+        "type": "text",
+        "description": "DATE:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "medEvalDate": {
+        "left": 190.2,
+        "top": 429.2,
+        "width": 113.0,
+        "height": 12.3,
+        "type": "text",
+        "description": "DATE  OF MEDICAL EVALUATION:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "meetsBCPStandards": {
+        "left": 539.7,
+        "top": 411.0,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[1].MeetsBCPStandards[0]",
+        "required": false
+      },
+      "meetsBCPStandards2": {
+        "left": 571.2,
+        "top": 411.0,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[1].MeetsBCPStandards[0]",
+        "required": false
+      },
+      "bCPRemarks": {
+        "left": 21.6,
+        "top": 381.2,
+        "width": 568.8,
+        "height": 36.3,
+        "type": "text",
+        "description": "REMARKS: ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "yesToSectionB": {
+        "left": 539.7,
+        "top": 339.0,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[1].YesToSectionB[0]",
+        "required": false
+      },
+      "yesToSectionB2": {
+        "left": 571.2,
+        "top": 339.0,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[1].YesToSectionB[0]",
+        "required": false
+      },
+      "sectionBRemarks": {
+        "left": 21.6,
+        "top": 308.8,
+        "width": 568.8,
+        "height": 36.0,
+        "type": "text",
+        "description": "REMARKS: ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "furtherConsultation": {
+        "left": 539.7,
+        "top": 249.0,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[1].FurtherConsultation[0]",
+        "required": false
+      },
+      "furtherConsultation2": {
+        "left": 571.2,
+        "top": 249.0,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[1].FurtherConsultation[0]",
+        "required": false
+      },
+      "recommendationRemarks": {
+        "left": 21.6,
+        "top": 218.8,
+        "width": 568.8,
+        "height": 36.0,
+        "type": "text",
+        "description": "REMARKS: ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "clearedForPFT": {
+        "left": 539.7,
+        "top": 177.0,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[1].ClearedForPFT[0]",
+        "required": false
+      },
+      "clearedForPFT2": {
+        "left": 571.2,
+        "top": 177.0,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[1].ClearedForPFT[0]",
+        "required": false
+      },
+      "participationRemarks": {
+        "left": 21.6,
+        "top": 146.8,
+        "width": 568.8,
+        "height": 36.0,
+        "type": "text",
+        "description": "REMARKS: ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mOSignature": {
+        "left": 136.8,
+        "top": 105.2,
+        "width": 292.4,
+        "height": 12.3,
+        "type": "signature",
+        "description": "SIGNATURE OF M.O.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mOSignatureDate": {
+        "left": 472.8,
+        "top": 105.2,
+        "width": 118.4,
+        "height": 12.3,
+        "type": "text",
+        "description": "DATE:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mOName": {
+        "left": 91.6,
+        "top": 87.2,
+        "width": 346.6,
+        "height": 12.3,
+        "type": "text",
+        "description": "PRINTED NAME: ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mOPhone": {
+        "left": 483.8,
+        "top": 87.2,
+        "width": 107.4,
+        "height": 12.3,
+        "type": "text",
+        "description": "PHONE: ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mOCommand": {
+        "left": 78.3,
+        "top": 69.2,
+        "width": 269.9,
+        "height": 12.3,
+        "type": "text",
+        "description": "COMMAND: ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unit": {
+        "left": 382.9,
+        "top": 69.2,
+        "width": 208.3,
+        "height": 12.3,
+        "type": "text",
+        "description": "UNIT: ",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

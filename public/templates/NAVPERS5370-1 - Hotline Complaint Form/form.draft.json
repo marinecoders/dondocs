@@ -1,0 +1,402 @@
+{
+  "id": "navpers53701",
+  "label": "NAVPERS5370-1 - Hotline Complaint Form",
+  "directory": "NAVPERS5370-1 - Hotline Complaint Form",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "radio",
+        "radio2",
+        "radio3",
+        "radio4",
+        "callerName",
+        "callerRank",
+        "callerAddress",
+        "callerAptnumber",
+        "callerCity",
+        "callerState",
+        "callerZip",
+        "callerCountry",
+        "callerDutyStation",
+        "callerPhone",
+        "callerEmail",
+        "callerWorkNumber",
+        "radio5",
+        "radio6",
+        "involved",
+        "subjects",
+        "witnesses",
+        "wrongDoing"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "lawViolated",
+        "whenOccured",
+        "whereOccured",
+        "whyOccured",
+        "whyIG",
+        "triedResolve",
+        "whatIG",
+        "additionalInfo"
+      ]
+    }
+  ],
+  "fields": {
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 67.6,
+        "top": 557.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 139.7,
+        "top": 557.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 334.1,
+        "top": 557.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 406.1,
+        "top": 557.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "callerName": {
+      "type": "text",
+      "label": "NAME (First and Last, no nicknames please)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 505.9,
+        "width": 325.6,
+        "height": 20.7
+      }
+    },
+    "callerRank": {
+      "type": "text",
+      "label": "RATE/PAYGRADE",
+      "page": 1,
+      "box": {
+        "left": 370.1,
+        "top": 505.9,
+        "width": 203.2,
+        "height": 20.7
+      }
+    },
+    "callerAddress": {
+      "type": "text",
+      "label": "STREET MAILING ADDRESS",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 469.9,
+        "width": 217.6,
+        "height": 20.7
+      }
+    },
+    "callerAptnumber": {
+      "type": "text",
+      "label": "APARTMENT NUMBER",
+      "page": 1,
+      "box": {
+        "left": 262.1,
+        "top": 469.9,
+        "width": 152.7,
+        "height": 20.7
+      }
+    },
+    "callerCity": {
+      "type": "text",
+      "label": "CITY",
+      "page": 1,
+      "box": {
+        "left": 420.5,
+        "top": 469.9,
+        "width": 152.7,
+        "height": 20.7
+      }
+    },
+    "callerState": {
+      "type": "text",
+      "label": "STATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 433.9,
+        "width": 217.6,
+        "height": 20.7
+      }
+    },
+    "callerZip": {
+      "type": "text",
+      "label": "ZIP CODE",
+      "page": 1,
+      "box": {
+        "left": 262.1,
+        "top": 433.9,
+        "width": 152.7,
+        "height": 20.7
+      }
+    },
+    "callerCountry": {
+      "type": "text",
+      "label": "COUNTRY",
+      "page": 1,
+      "box": {
+        "left": 420.5,
+        "top": 433.9,
+        "width": 152.7,
+        "height": 20.7
+      }
+    },
+    "callerDutyStation": {
+      "type": "text",
+      "label": "DUTY STATION / PLACE OF EMPLOYMENT",
+      "page": 1,
+      "box": {
+        "left": 262.1,
+        "top": 395.1,
+        "width": 311.2,
+        "height": 25.1
+      }
+    },
+    "callerPhone": {
+      "type": "text",
+      "label": "(Include country code, if applicable)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 387.4,
+        "width": 217.6,
+        "height": 17.4
+      }
+    },
+    "callerEmail": {
+      "type": "text",
+      "label": "E-MAIL ADDRESS",
+      "page": 1,
+      "box": {
+        "left": 247.7,
+        "top": 351.9,
+        "width": 174.4,
+        "height": 25.1
+      }
+    },
+    "callerWorkNumber": {
+      "type": "text",
+      "label": "(Include DSN and/or country code, if applicable)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 344.2,
+        "width": 203.2,
+        "height": 17.4
+      }
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 449.3,
+        "top": 341.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 521.3,
+        "top": 341.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "involved": {
+      "type": "text",
+      "label": "Involved",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 307.8,
+        "width": 537.2,
+        "height": 76.0
+      },
+      "multiline": true
+    },
+    "subjects": {
+      "type": "text",
+      "label": "5. SUBJECT(s): (Who performed the wrong doing?)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 217.9,
+        "width": 268.0,
+        "height": 64.2
+      },
+      "multiline": true
+    },
+    "witnesses": {
+      "type": "text",
+      "label": "6. WITNESS(es): (Who are the witnesses?)",
+      "page": 1,
+      "box": {
+        "left": 312.5,
+        "top": 215.1,
+        "width": 260.8,
+        "height": 61.5
+      },
+      "multiline": true
+    },
+    "wrongDoing": {
+      "type": "text",
+      "label": "Wrong Doing",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 135.9,
+        "width": 534.4,
+        "height": 97.2
+      },
+      "multiline": true
+    },
+    "lawViolated": {
+      "type": "text",
+      "label": "Law Violated",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 703.9,
+        "width": 534.4,
+        "height": 44.1
+      },
+      "multiline": true
+    },
+    "whenOccured": {
+      "type": "text",
+      "label": "When Occured",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 644.5,
+        "width": 534.4,
+        "height": 38.7
+      },
+      "multiline": true
+    },
+    "whereOccured": {
+      "type": "text",
+      "label": "Where Occured",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 590.5,
+        "width": 534.4,
+        "height": 47.7
+      },
+      "multiline": true
+    },
+    "whyOccured": {
+      "type": "text",
+      "label": "11. Why do you think the incident took place?",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 527.5,
+        "width": 534.4,
+        "height": 65.7
+      },
+      "multiline": true
+    },
+    "whyIG": {
+      "type": "text",
+      "label": "12. Why do you want the IG involved?",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 446.5,
+        "width": 534.4,
+        "height": 63.9
+      },
+      "multiline": true
+    },
+    "triedResolve": {
+      "type": "text",
+      "label": "Tried Resolve",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 342.8,
+        "width": 534.4,
+        "height": 97.1
+      },
+      "multiline": true
+    },
+    "whatIG": {
+      "type": "text",
+      "label": "14. What do you want the IG to do?",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 230.5,
+        "width": 534.4,
+        "height": 78.3
+      },
+      "multiline": true
+    },
+    "additionalInfo": {
+      "type": "text",
+      "label": "15. Additional information you wish to provide",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 134.1,
+        "width": 534.4,
+        "height": 95.4
+      },
+      "multiline": true
+    }
+  }
+}

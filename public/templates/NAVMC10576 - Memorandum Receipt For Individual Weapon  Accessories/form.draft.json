@@ -1,0 +1,665 @@
+{
+  "id": "navmc10576",
+  "label": "NAVMC10576 - Memorandum Receipt For Individual Weapon  Accessories",
+  "directory": "NAVMC10576 - Memorandum Receipt For Individual Weapon  Accessories",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "nameLFM1",
+        "grade1",
+        "ssn",
+        "org",
+        "date1",
+        "q8",
+        "i8",
+        "t8",
+        "q9",
+        "i9",
+        "t9",
+        "q10",
+        "i10",
+        "t10",
+        "q11",
+        "i11",
+        "t11",
+        "q12",
+        "i12",
+        "t12",
+        "q13",
+        "i13",
+        "item7",
+        "q14",
+        "i14",
+        "item14",
+        "t14",
+        "boreRecov",
+        "boreIssue",
+        "stockIssue",
+        "stockRecov",
+        "initIssue",
+        "cardNoIssue",
+        "initRecov",
+        "cardNoRecov",
+        "remarkIssue",
+        "remarkRecov",
+        "officerIssue",
+        "officerRecov",
+        "dateIssue",
+        "dateRecov",
+        "signature",
+        "nameLFM2",
+        "grade2",
+        "ssn2"
+      ]
+    }
+  ],
+  "fields": {
+    "nameLFM1": {
+      "type": "text",
+      "label": "Enter last name. First name and middle initial.",
+      "page": 1,
+      "box": {
+        "left": 16.0,
+        "top": 372.7,
+        "width": 382.0,
+        "height": 17.3
+      }
+    },
+    "grade1": {
+      "type": "text",
+      "label": "Enter military grade.",
+      "page": 1,
+      "box": {
+        "left": 400.7,
+        "top": 372.7,
+        "width": 81.3,
+        "height": 17.3
+      }
+    },
+    "ssn": {
+      "type": "text",
+      "label": "SSN",
+      "page": 1,
+      "box": {
+        "left": 484.6,
+        "top": 371.7,
+        "width": 97.9,
+        "height": 16.5
+      }
+    },
+    "org": {
+      "type": "text",
+      "label": "Enter name of organization.",
+      "page": 1,
+      "box": {
+        "left": 15.8,
+        "top": 345.3,
+        "width": 382.9,
+        "height": 17.8
+      }
+    },
+    "date1": {
+      "type": "text",
+      "label": "Enter date using format of 2002 dec 2",
+      "page": 1,
+      "box": {
+        "left": 400.7,
+        "top": 345.3,
+        "width": 182.2,
+        "height": 17.8
+      }
+    },
+    "q8": {
+      "type": "text",
+      "label": "Enter quanitity of magazines.",
+      "page": 1,
+      "box": {
+        "left": 296.7,
+        "top": 277.3,
+        "width": 26.0,
+        "height": 9.3
+      }
+    },
+    "i8": {
+      "type": "text",
+      "label": "Enter initials for receipt of magazines.",
+      "page": 1,
+      "box": {
+        "left": 323.3,
+        "top": 277.3,
+        "width": 26.0,
+        "height": 9.3
+      }
+    },
+    "t8": {
+      "type": "text",
+      "label": "Enter type of magazines.",
+      "page": 1,
+      "box": {
+        "left": 398.7,
+        "top": 277.3,
+        "width": 38.7,
+        "height": 9.3
+      }
+    },
+    "q9": {
+      "type": "text",
+      "label": "Enter quanitity of slings.",
+      "page": 1,
+      "box": {
+        "left": 296.5,
+        "top": 266.5,
+        "width": 26.0,
+        "height": 9.0
+      }
+    },
+    "i9": {
+      "type": "text",
+      "label": "Enter initials for receipt of slings.",
+      "page": 1,
+      "box": {
+        "left": 323.5,
+        "top": 266.5,
+        "width": 26.0,
+        "height": 9.0
+      }
+    },
+    "t9": {
+      "type": "text",
+      "label": "Enter type of slings.",
+      "page": 1,
+      "box": {
+        "left": 398.5,
+        "top": 266.5,
+        "width": 38.5,
+        "height": 9.0
+      }
+    },
+    "q10": {
+      "type": "text",
+      "label": "Enter quanitity of cleaning rods.",
+      "page": 1,
+      "box": {
+        "left": 296.5,
+        "top": 257.0,
+        "width": 26.0,
+        "height": 9.0
+      }
+    },
+    "i10": {
+      "type": "text",
+      "label": "Enter initials for receipt of cleaning rods.",
+      "page": 1,
+      "box": {
+        "left": 323.5,
+        "top": 257.0,
+        "width": 26.0,
+        "height": 9.0
+      }
+    },
+    "t10": {
+      "type": "text",
+      "label": "Enter type of cleaning rods.",
+      "page": 1,
+      "box": {
+        "left": 398.5,
+        "top": 257.0,
+        "width": 38.5,
+        "height": 9.0
+      }
+    },
+    "q11": {
+      "type": "text",
+      "label": "Enter quanitity of comb tool.",
+      "page": 1,
+      "box": {
+        "left": 296.5,
+        "top": 247.0,
+        "width": 26.0,
+        "height": 9.0
+      }
+    },
+    "i11": {
+      "type": "text",
+      "label": "Enter initials for receipt of comb tool.",
+      "page": 1,
+      "box": {
+        "left": 323.5,
+        "top": 247.0,
+        "width": 26.0,
+        "height": 9.0
+      }
+    },
+    "t11": {
+      "type": "text",
+      "label": "Enter type of comb tool.",
+      "page": 1,
+      "box": {
+        "left": 398.5,
+        "top": 247.0,
+        "width": 38.5,
+        "height": 9.0
+      }
+    },
+    "q12": {
+      "type": "text",
+      "label": "Enter quanitity of B F A.",
+      "page": 1,
+      "box": {
+        "left": 296.5,
+        "top": 237.0,
+        "width": 26.0,
+        "height": 9.0
+      }
+    },
+    "i12": {
+      "type": "text",
+      "label": "Enter initials for receipt of B F A.",
+      "page": 1,
+      "box": {
+        "left": 323.5,
+        "top": 237.0,
+        "width": 26.0,
+        "height": 9.0
+      }
+    },
+    "t12": {
+      "type": "text",
+      "label": "Enter type of B F A.",
+      "page": 1,
+      "box": {
+        "left": 398.5,
+        "top": 237.0,
+        "width": 38.5,
+        "height": 9.0
+      }
+    },
+    "q13": {
+      "type": "text",
+      "label": "Enter quanitity of case oiler and thong.",
+      "page": 1,
+      "box": {
+        "left": 296.5,
+        "top": 227.0,
+        "width": 26.0,
+        "height": 9.0
+      }
+    },
+    "i13": {
+      "type": "text",
+      "label": "Enter initials for receipt of case oiler and thong.",
+      "page": 1,
+      "box": {
+        "left": 323.5,
+        "top": 227.0,
+        "width": 26.0,
+        "height": 9.0
+      }
+    },
+    "item7": {
+      "type": "text",
+      "label": "Enter other weapon not listed.",
+      "page": 1,
+      "box": {
+        "left": 68.7,
+        "top": 218.7,
+        "width": 64.7,
+        "height": 8.7
+      }
+    },
+    "q14": {
+      "type": "text",
+      "label": "Enter quanitity of accessory number 1 not listed.",
+      "page": 1,
+      "box": {
+        "left": 296.5,
+        "top": 217.5,
+        "width": 26.0,
+        "height": 9.0
+      }
+    },
+    "i14": {
+      "type": "text",
+      "label": "Enter initials for receipt of accessory number 1 not listed.",
+      "page": 1,
+      "box": {
+        "left": 323.5,
+        "top": 217.5,
+        "width": 26.0,
+        "height": 9.0
+      }
+    },
+    "item14": {
+      "type": "text",
+      "label": "Enter accessory number 1 not listed.",
+      "page": 1,
+      "box": {
+        "left": 351.0,
+        "top": 217.0,
+        "width": 47.0,
+        "height": 8.5
+      }
+    },
+    "t14": {
+      "type": "text",
+      "label": "Enter type of accessory number 1 not listed.",
+      "page": 1,
+      "box": {
+        "left": 398.5,
+        "top": 217.0,
+        "width": 38.5,
+        "height": 8.5
+      }
+    },
+    "boreRecov": {
+      "type": "text",
+      "label": "What is the bore condition at recovery inspection.",
+      "page": 1,
+      "box": {
+        "left": 354.6,
+        "top": 184.2,
+        "width": 220.4,
+        "height": 17.8
+      }
+    },
+    "boreIssue": {
+      "type": "text",
+      "label": "What is the bore condition on inspection issue.",
+      "page": 1,
+      "box": {
+        "left": 75.0,
+        "top": 183.5,
+        "width": 220.4,
+        "height": 17.8
+      }
+    },
+    "stockIssue": {
+      "type": "text",
+      "label": "What is the stock condition on inspection issue.",
+      "page": 1,
+      "box": {
+        "left": 75.0,
+        "top": 165.7,
+        "width": 220.4,
+        "height": 17.8
+      }
+    },
+    "stockRecov": {
+      "type": "text",
+      "label": "What is the stock condition at recovery inspection.",
+      "page": 1,
+      "box": {
+        "left": 354.6,
+        "top": 165.7,
+        "width": 220.4,
+        "height": 17.8
+      }
+    },
+    "initIssue": {
+      "type": "text",
+      "label": "Enter initials of 1 0 5 2 0 inspection issue.",
+      "page": 1,
+      "box": {
+        "left": 103.9,
+        "top": 148.0,
+        "width": 61.8,
+        "height": 10.5
+      }
+    },
+    "cardNoIssue": {
+      "type": "text",
+      "label": "Enter card number at inspection issue.",
+      "page": 1,
+      "box": {
+        "left": 199.3,
+        "top": 148.0,
+        "width": 95.4,
+        "height": 10.5
+      }
+    },
+    "initRecov": {
+      "type": "text",
+      "label": "Enter initials of 1 0 5 2 0 at recovery inspection.",
+      "page": 1,
+      "box": {
+        "left": 383.6,
+        "top": 148.0,
+        "width": 61.8,
+        "height": 10.5
+      }
+    },
+    "cardNoRecov": {
+      "type": "text",
+      "label": "Enter card number at recovery inspection.",
+      "page": 1,
+      "box": {
+        "left": 478.9,
+        "top": 148.0,
+        "width": 95.4,
+        "height": 10.5
+      }
+    },
+    "remarkIssue": {
+      "type": "text",
+      "label": "Enter any remarks on inspection issue.",
+      "page": 1,
+      "box": {
+        "left": 48.0,
+        "top": 135.5,
+        "width": 246.7,
+        "height": 17.8
+      }
+    },
+    "remarkRecov": {
+      "type": "text",
+      "label": "Enter any remarks at recovery inspection.",
+      "page": 1,
+      "box": {
+        "left": 327.6,
+        "top": 135.5,
+        "width": 246.7,
+        "height": 17.8
+      }
+    },
+    "officerIssue": {
+      "type": "text",
+      "label": "Enter name of inspecting officer at issue inspection.",
+      "page": 1,
+      "box": {
+        "left": 80.3,
+        "top": 115.1,
+        "width": 152.6,
+        "height": 17.8
+      }
+    },
+    "officerRecov": {
+      "type": "text",
+      "label": "Enter name of inspecting officer at recovery inspection.",
+      "page": 1,
+      "box": {
+        "left": 359.9,
+        "top": 115.1,
+        "width": 152.6,
+        "height": 17.8
+      }
+    },
+    "dateIssue": {
+      "type": "text",
+      "label": "Enter date of issue inspection.",
+      "page": 1,
+      "box": {
+        "left": 234.7,
+        "top": 110.7,
+        "width": 62.0,
+        "height": 14.0
+      }
+    },
+    "dateRecov": {
+      "type": "text",
+      "label": "Enter date of recovery inspection.",
+      "page": 1,
+      "box": {
+        "left": 519.3,
+        "top": 110.7,
+        "width": 62.0,
+        "height": 14.0
+      }
+    },
+    "signature": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 342.8,
+        "top": 89.3,
+        "width": 208.0,
+        "height": 19.3
+      }
+    },
+    "nameLFM2": {
+      "type": "text",
+      "label": "Enter last name. First name and middle initial.",
+      "page": 1,
+      "box": {
+        "left": 16.7,
+        "top": 58.0,
+        "width": 382.0,
+        "height": 17.3
+      }
+    },
+    "grade2": {
+      "type": "text",
+      "label": "Enter military grade.",
+      "page": 1,
+      "box": {
+        "left": 401.3,
+        "top": 58.0,
+        "width": 81.3,
+        "height": 17.3
+      }
+    },
+    "ssn2": {
+      "type": "text",
+      "label": "SSN",
+      "page": 1,
+      "box": {
+        "left": 485.2,
+        "top": 56.7,
+        "width": 96.0,
+        "height": 17.8
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 5,
+      "rowStride": 9.88,
+      "editor": "grid",
+      "columns": {
+        "item": {
+          "type": "text",
+          "label": "Enter accessory number 2 not listed.",
+          "page": 1,
+          "box": {
+            "left": 484.0,
+            "top": 256.5,
+            "width": 60.5,
+            "height": 8.5
+          }
+        },
+        "t": {
+          "type": "text",
+          "label": "Enter type of accessory number 2 not listed.",
+          "page": 1,
+          "box": {
+            "left": 544.5,
+            "top": 256.5,
+            "width": 38.5,
+            "height": 8.5
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 7,
+      "rowStride": 9.79,
+      "editor": "grid",
+      "columns": {
+        "q": {
+          "type": "text",
+          "label": "Enter quanitity of rifles.",
+          "page": 1,
+          "box": {
+            "left": 14.7,
+            "top": 277.3,
+            "width": 26.0,
+            "height": 9.3
+          }
+        },
+        "i": {
+          "type": "text",
+          "label": "Enter initials for receipt of rifles.",
+          "page": 1,
+          "box": {
+            "left": 41.3,
+            "top": 277.3,
+            "width": 26.0,
+            "height": 9.3
+          }
+        },
+        "t2": {
+          "type": "text",
+          "label": "Enter type of rifles.",
+          "page": 1,
+          "box": {
+            "left": 134.7,
+            "top": 277.3,
+            "width": 70.7,
+            "height": 9.3
+          }
+        },
+        "s": {
+          "type": "text",
+          "label": "Enter serial number for received rifle.",
+          "page": 1,
+          "box": {
+            "left": 206.7,
+            "top": 277.3,
+            "width": 88.0,
+            "height": 9.3
+          }
+        },
+        "q2": {
+          "type": "text",
+          "label": "Enter quanitity of accessory number 2 not listed.",
+          "page": 1,
+          "box": {
+            "left": 438.0,
+            "top": 276.5,
+            "width": 21.5,
+            "height": 9.0
+          }
+        },
+        "i2": {
+          "type": "text",
+          "label": "Enter initials for receipt of accessory number 2 not listed.",
+          "page": 1,
+          "box": {
+            "left": 460.0,
+            "top": 276.5,
+            "width": 24.5,
+            "height": 9.0
+          }
+        }
+      }
+    }
+  }
+}

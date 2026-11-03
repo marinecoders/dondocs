@@ -1,0 +1,152 @@
+{
+  "id": "navmc11680",
+  "label": "NAVMC11680 - Hold Harmless Agreement And Release From Liability",
+  "directory": "NAVMC11680 - Hold Harmless Agreement And Release From Liability",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "applicantName",
+        "eventName",
+        "date1",
+        "date2",
+        "applicantSign",
+        "minorName",
+        "parentSign",
+        "date3",
+        "notify",
+        "address",
+        "phoneNum"
+      ]
+    }
+  ],
+  "fields": {
+    "applicantName": {
+      "type": "text",
+      "label": "ApplicantName",
+      "page": 1,
+      "box": {
+        "left": 90.0,
+        "top": 698.7,
+        "width": 237.6,
+        "height": 15.7
+      }
+    },
+    "eventName": {
+      "type": "text",
+      "label": "EventName",
+      "page": 1,
+      "box": {
+        "left": 210.0,
+        "top": 668.4,
+        "width": 324.0,
+        "height": 15.4
+      }
+    },
+    "date1": {
+      "type": "text",
+      "label": "Enter MM/DD/YYYY",
+      "page": 1,
+      "box": {
+        "left": 184.7,
+        "top": 550.7,
+        "width": 186.0,
+        "height": 12.2
+      }
+    },
+    "date2": {
+      "type": "text",
+      "label": "Enter DD/MM/YYYY",
+      "page": 1,
+      "box": {
+        "left": 390.0,
+        "top": 476.7,
+        "width": 90.0,
+        "height": 16.9
+      }
+    },
+    "applicantSign": {
+      "type": "text",
+      "label": "ApplicantSign",
+      "page": 1,
+      "box": {
+        "left": 72.0,
+        "top": 476.0,
+        "width": 256.8,
+        "height": 16.2
+      }
+    },
+    "minorName": {
+      "type": "text",
+      "label": "MinorName",
+      "page": 1,
+      "box": {
+        "left": 72.0,
+        "top": 227.6,
+        "width": 168.0,
+        "height": 21.6
+      }
+    },
+    "parentSign": {
+      "type": "text",
+      "label": "ParentSign",
+      "page": 1,
+      "box": {
+        "left": 252.0,
+        "top": 227.6,
+        "width": 210.0,
+        "height": 21.6
+      }
+    },
+    "date3": {
+      "type": "text",
+      "label": "Enter MM/DD/YYYY",
+      "page": 1,
+      "box": {
+        "left": 474.0,
+        "top": 227.6,
+        "width": 60.0,
+        "height": 21.6
+      }
+    },
+    "notify": {
+      "type": "text",
+      "label": "                           Notify",
+      "page": 1,
+      "box": {
+        "left": 72.0,
+        "top": 140.1,
+        "width": 155.8,
+        "height": 36.1
+      },
+      "multiline": true
+    },
+    "address": {
+      "type": "text",
+      "label": "                                      Address",
+      "page": 1,
+      "box": {
+        "left": 230.0,
+        "top": 140.1,
+        "width": 203.1,
+        "height": 36.1
+      },
+      "multiline": true
+    },
+    "phoneNum": {
+      "type": "text",
+      "label": "Please enter phone number, without the '+' sign, using numerical ",
+      "page": 1,
+      "box": {
+        "left": 435.6,
+        "top": 135.6,
+        "width": 104.3,
+        "height": 32.5
+      },
+      "multiline": true
+    }
+  }
+}

@@ -1,0 +1,1107 @@
+{
+  "id": "navpers130016",
+  "label": "NAVPERS1300-16 - Report Of Suitability For Overseas Assignment",
+  "directory": "NAVPERS1300-16 - Report Of Suitability For Overseas Assignment",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "textField1",
+        "dateField1",
+        "textField12",
+        "currentShip",
+        "currentUIC",
+        "proposedUIC",
+        "proposedShip",
+        "checkBox1",
+        "checkBox12",
+        "checkBox13",
+        "checkBox14",
+        "checkBox15",
+        "checkBox16",
+        "checkBox17",
+        "checkBox18",
+        "checkBox19",
+        "checkBox110",
+        "checkBox111",
+        "checkBox112",
+        "checkBox113",
+        "checkBox114",
+        "checkBox115",
+        "checkBox116",
+        "checkBox117",
+        "checkBox118",
+        "checkBox119",
+        "checkBox120",
+        "checkBox121",
+        "checkBox122",
+        "checkBox123",
+        "checkBox124",
+        "checkBox125",
+        "checkBox126",
+        "checkBox127",
+        "checkBox128",
+        "checkBox129",
+        "checkBox130",
+        "checkBox131",
+        "checkBox132",
+        "checkBox133",
+        "checkBox134",
+        "checkBox135",
+        "checkBox136",
+        "checkBox137",
+        "checkBox138",
+        "checkBox139",
+        "checkBox140",
+        "checkBox141"
+      ],
+      "editor": "checklist"
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "textField13",
+        "dateField12",
+        "textField14",
+        "signatureField1",
+        "textField2",
+        "textField3",
+        "signatureField12",
+        "dateField2",
+        "textField32",
+        "signatureField13",
+        "dateField22",
+        "checkBox142",
+        "checkBox143",
+        "checkBox146",
+        "checkBox147",
+        "checkBox150",
+        "checkBox151",
+        "checkBox154",
+        "checkBox155",
+        "textField22",
+        "textField33",
+        "signatureField14",
+        "dateField23"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "textField15",
+        "dateField13",
+        "textField16",
+        "checkBox2",
+        "checkBox22",
+        "textField34",
+        "signatureField15",
+        "dateField24",
+        "checkBox23",
+        "checkBox24",
+        "textField23",
+        "textField35",
+        "signatureField16",
+        "dateField25"
+      ]
+    }
+  ],
+  "fields": {
+    "textField1": {
+      "type": "text",
+      "label": "1. Member\u2019s Name (Last, First, MI)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 703.8,
+        "width": 345.4,
+        "height": 17.0
+      }
+    },
+    "dateField1": {
+      "type": "text",
+      "label": "2. Date",
+      "page": 1,
+      "box": {
+        "left": 389.9,
+        "top": 703.8,
+        "width": 84.3,
+        "height": 17.0
+      }
+    },
+    "textField12": {
+      "type": "text",
+      "label": "3. Number of Dependents",
+      "page": 1,
+      "box": {
+        "left": 479.9,
+        "top": 703.8,
+        "width": 93.3,
+        "height": 17.0
+      }
+    },
+    "currentShip": {
+      "type": "text",
+      "label": "4. Current Ship/Station",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 667.8,
+        "width": 192.4,
+        "height": 17.0
+      }
+    },
+    "currentUIC": {
+      "type": "text",
+      "label": "5. Current UIC",
+      "page": 1,
+      "box": {
+        "left": 236.9,
+        "top": 667.8,
+        "width": 66.3,
+        "height": 17.0
+      }
+    },
+    "proposedUIC": {
+      "type": "text",
+      "label": "6. Proposed Overseas/Remote Location",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 667.8,
+        "width": 192.4,
+        "height": 17.0
+      }
+    },
+    "proposedShip": {
+      "type": "text",
+      "label": "7. Proposed UIC",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 667.8,
+        "width": 66.3,
+        "height": 17.0
+      }
+    },
+    "checkBox1": {
+      "type": "checkbox",
+      "label": "PART",
+      "page": 1,
+      "box": {
+        "left": 507.9,
+        "top": 589.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox12": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 543.9,
+        "top": 589.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox13": {
+      "type": "checkbox",
+      "label": "unsuitability?",
+      "page": 1,
+      "box": {
+        "left": 471.9,
+        "top": 557.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox14": {
+      "type": "checkbox",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 507.9,
+        "top": 557.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox15": {
+      "type": "checkbox",
+      "label": "N/A Yes",
+      "page": 1,
+      "box": {
+        "left": 543.9,
+        "top": 557.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox16": {
+      "type": "checkbox",
+      "label": "unsuitability?",
+      "page": 1,
+      "box": {
+        "left": 471.9,
+        "top": 521.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox17": {
+      "type": "checkbox",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 507.9,
+        "top": 521.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox18": {
+      "type": "checkbox",
+      "label": "N/A Yes",
+      "page": 1,
+      "box": {
+        "left": 543.9,
+        "top": 521.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox19": {
+      "type": "checkbox",
+      "label": "unsuitability?",
+      "page": 1,
+      "box": {
+        "left": 471.9,
+        "top": 490.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox110": {
+      "type": "checkbox",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 507.9,
+        "top": 490.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox111": {
+      "type": "checkbox",
+      "label": "N/A Yes",
+      "page": 1,
+      "box": {
+        "left": 543.9,
+        "top": 490.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox112": {
+      "type": "checkbox",
+      "label": "PART",
+      "page": 1,
+      "box": {
+        "left": 507.9,
+        "top": 458.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox113": {
+      "type": "checkbox",
+      "label": "(NAVMED)",
+      "page": 1,
+      "box": {
+        "left": 543.9,
+        "top": 458.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox114": {
+      "type": "checkbox",
+      "label": "PART",
+      "page": 1,
+      "box": {
+        "left": 507.9,
+        "top": 431.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox115": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 543.9,
+        "top": 431.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox116": {
+      "type": "checkbox",
+      "label": "PART",
+      "page": 1,
+      "box": {
+        "left": 507.9,
+        "top": 400.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox117": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 543.9,
+        "top": 400.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox118": {
+      "type": "checkbox",
+      "label": "PART",
+      "page": 1,
+      "box": {
+        "left": 507.9,
+        "top": 354.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox119": {
+      "type": "checkbox",
+      "label": "(NAVMED)",
+      "page": 1,
+      "box": {
+        "left": 543.9,
+        "top": 354.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox120": {
+      "type": "checkbox",
+      "label": "and",
+      "page": 1,
+      "box": {
+        "left": 471.9,
+        "top": 314.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox121": {
+      "type": "checkbox",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 507.9,
+        "top": 314.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox122": {
+      "type": "checkbox",
+      "label": "N/A Yes",
+      "page": 1,
+      "box": {
+        "left": 543.9,
+        "top": 314.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox123": {
+      "type": "checkbox",
+      "label": "NAVADMIN which govern Physical Readiness Program",
+      "page": 1,
+      "box": {
+        "left": 507.9,
+        "top": 287.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox124": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 543.9,
+        "top": 287.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox125": {
+      "type": "checkbox",
+      "label": "and",
+      "page": 1,
+      "box": {
+        "left": 471.9,
+        "top": 264.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox126": {
+      "type": "checkbox",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 507.9,
+        "top": 264.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox127": {
+      "type": "checkbox",
+      "label": "N/A Yes",
+      "page": 1,
+      "box": {
+        "left": 543.9,
+        "top": 264.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox128": {
+      "type": "checkbox",
+      "label": "PART",
+      "page": 1,
+      "box": {
+        "left": 507.9,
+        "top": 242.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox129": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 543.9,
+        "top": 242.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox130": {
+      "type": "checkbox",
+      "label": "PART",
+      "page": 1,
+      "box": {
+        "left": 507.9,
+        "top": 215.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox131": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 543.9,
+        "top": 215.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox132": {
+      "type": "checkbox",
+      "label": "executed or is not per OPNAVINST 1740.4D?",
+      "page": 1,
+      "box": {
+        "left": 471.9,
+        "top": 188.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox133": {
+      "type": "checkbox",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 507.9,
+        "top": 188.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox134": {
+      "type": "checkbox",
+      "label": "N/A Yes",
+      "page": 1,
+      "box": {
+        "left": 543.9,
+        "top": 188.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox135": {
+      "type": "checkbox",
+      "label": "years?",
+      "page": 1,
+      "box": {
+        "left": 507.9,
+        "top": 134.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox136": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 543.9,
+        "top": 134.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox137": {
+      "type": "checkbox",
+      "label": "remarks",
+      "page": 1,
+      "box": {
+        "left": 507.9,
+        "top": 107.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox138": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 543.9,
+        "top": 107.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox139": {
+      "type": "checkbox",
+      "label": "Check Box 139",
+      "page": 1,
+      "box": {
+        "left": 471.9,
+        "top": 80.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox140": {
+      "type": "checkbox",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 507.9,
+        "top": 80.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox141": {
+      "type": "checkbox",
+      "label": "N/A Yes",
+      "page": 1,
+      "box": {
+        "left": 543.9,
+        "top": 80.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "textField13": {
+      "type": "text",
+      "label": "1. Member\u2019s Name (Last, First, MI)",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 703.8,
+        "width": 345.4,
+        "height": 17.0
+      }
+    },
+    "dateField12": {
+      "type": "text",
+      "label": "2. Date",
+      "page": 2,
+      "box": {
+        "left": 389.9,
+        "top": 703.8,
+        "width": 84.3,
+        "height": 17.0
+      }
+    },
+    "textField14": {
+      "type": "text",
+      "label": "3. Number of Dependents",
+      "page": 2,
+      "box": {
+        "left": 479.9,
+        "top": 703.8,
+        "width": 93.3,
+        "height": 17.0
+      }
+    },
+    "signatureField1": {
+      "type": "text",
+      "label": "in return to CONUS at his or her expense, and the",
+      "page": 2,
+      "box": {
+        "left": 368.1,
+        "top": 636.1,
+        "width": 205.1,
+        "height": 21.3
+      }
+    },
+    "textField2": {
+      "type": "text",
+      "label": "16. Remarks",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 595.8,
+        "width": 534.3,
+        "height": 52.9
+      },
+      "multiline": true
+    },
+    "textField3": {
+      "type": "text",
+      "label": "17. Member\u2019s Name and Rank/Rate",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 499.3,
+        "width": 264.3,
+        "height": 19.4
+      }
+    },
+    "signatureField12": {
+      "type": "text",
+      "label": "18. Member\u2019s Signature",
+      "page": 2,
+      "box": {
+        "left": 308.9,
+        "top": 499.3,
+        "width": 210.3,
+        "height": 19.4
+      }
+    },
+    "dateField2": {
+      "type": "text",
+      "label": "19. Date",
+      "page": 2,
+      "box": {
+        "left": 524.9,
+        "top": 499.3,
+        "width": 48.2,
+        "height": 19.4
+      }
+    },
+    "textField32": {
+      "type": "text",
+      "label": "20. Interviewer\u2019s Name, Rank/Rate and Title",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 463.3,
+        "width": 264.3,
+        "height": 19.4
+      }
+    },
+    "signatureField13": {
+      "type": "text",
+      "label": "20. Interviewer\u2019s Signature",
+      "page": 2,
+      "box": {
+        "left": 308.9,
+        "top": 463.3,
+        "width": 210.3,
+        "height": 19.4
+      }
+    },
+    "dateField22": {
+      "type": "text",
+      "label": "22. Date",
+      "page": 2,
+      "box": {
+        "left": 524.9,
+        "top": 463.3,
+        "width": 48.2,
+        "height": 19.4
+      }
+    },
+    "checkBox142": {
+      "type": "checkbox",
+      "label": "1. Service Member is suitable for this assignment",
+      "page": 2,
+      "box": {
+        "left": 507.9,
+        "top": 289.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox143": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 2,
+      "box": {
+        "left": 543.9,
+        "top": 289.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox146": {
+      "type": "checkbox",
+      "label": "Yes No 3. Name",
+      "page": 2,
+      "box": {
+        "left": 507.9,
+        "top": 261.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox147": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 2,
+      "box": {
+        "left": 543.9,
+        "top": 261.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox150": {
+      "type": "checkbox",
+      "label": "Yes No 5. Name",
+      "page": 2,
+      "box": {
+        "left": 507.9,
+        "top": 231.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox151": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 2,
+      "box": {
+        "left": 543.9,
+        "top": 231.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox154": {
+      "type": "checkbox",
+      "label": "Yes No 7. Name",
+      "page": 2,
+      "box": {
+        "left": 507.9,
+        "top": 200.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox155": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 2,
+      "box": {
+        "left": 543.9,
+        "top": 200.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "textField22": {
+      "type": "text",
+      "label": "8. Names",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 136.7,
+        "width": 534.3,
+        "height": 25.9
+      }
+    },
+    "textField33": {
+      "type": "text",
+      "label": "9. Name of CO/OIC or designee of cognizant medical facility",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 94.2,
+        "width": 534.3,
+        "height": 19.4
+      }
+    },
+    "signatureField14": {
+      "type": "text",
+      "label": "Signature Field 14",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 58.2,
+        "width": 480.3,
+        "height": 19.4
+      }
+    },
+    "dateField23": {
+      "type": "text",
+      "label": "11. Date",
+      "page": 2,
+      "box": {
+        "left": 524.9,
+        "top": 58.2,
+        "width": 48.2,
+        "height": 19.4
+      }
+    },
+    "textField15": {
+      "type": "text",
+      "label": "1. Member\u2019s Name (Last, First, MI)",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 703.8,
+        "width": 345.4,
+        "height": 17.0
+      }
+    },
+    "dateField13": {
+      "type": "text",
+      "label": "2. Date",
+      "page": 3,
+      "box": {
+        "left": 389.9,
+        "top": 703.8,
+        "width": 84.3,
+        "height": 17.0
+      }
+    },
+    "textField16": {
+      "type": "text",
+      "label": "3. Number of Dependents",
+      "page": 3,
+      "box": {
+        "left": 479.9,
+        "top": 703.8,
+        "width": 93.3,
+        "height": 17.0
+      }
+    },
+    "checkBox2": {
+      "type": "checkbox",
+      "label": "1. On the basis of all available information, I",
+      "page": 3,
+      "box": {
+        "left": 198.8,
+        "top": 661.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox22": {
+      "type": "checkbox",
+      "label": "1. On the basis of all available information, I endorse /",
+      "page": 3,
+      "box": {
+        "left": 247.4,
+        "top": 661.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "textField34": {
+      "type": "text",
+      "label": "2. CMC/COB/SEA Name and Rank",
+      "page": 3,
+      "box": {
+        "left": 38.9,
+        "top": 634.3,
+        "width": 264.3,
+        "height": 19.4
+      }
+    },
+    "signatureField15": {
+      "type": "text",
+      "label": "3. CMC/COB/SEA Signature",
+      "page": 3,
+      "box": {
+        "left": 308.9,
+        "top": 634.3,
+        "width": 210.3,
+        "height": 19.4
+      }
+    },
+    "dateField24": {
+      "type": "text",
+      "label": "4. Date",
+      "page": 3,
+      "box": {
+        "left": 524.9,
+        "top": 634.3,
+        "width": 48.2,
+        "height": 19.4
+      }
+    },
+    "checkBox23": {
+      "type": "checkbox",
+      "label": "1. On the basis of all available information, I",
+      "page": 3,
+      "box": {
+        "left": 198.8,
+        "top": 589.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox24": {
+      "type": "checkbox",
+      "label": "1. On the basis of all available information, I endorse /",
+      "page": 3,
+      "box": {
+        "left": 247.4,
+        "top": 589.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "textField23": {
+      "type": "text",
+      "label": "/dental) request per MILPERSMAN - 1300-302",
+      "page": 3,
+      "box": {
+        "left": 38.9,
+        "top": 545.7,
+        "width": 534.3,
+        "height": 164.9
+      },
+      "multiline": true
+    },
+    "textField35": {
+      "type": "text",
+      "label": "3. CO/OIC Name and Rank",
+      "page": 3,
+      "box": {
+        "left": 38.9,
+        "top": 364.3,
+        "width": 264.3,
+        "height": 19.4
+      }
+    },
+    "signatureField16": {
+      "type": "text",
+      "label": "4. CO/OIC Signature",
+      "page": 3,
+      "box": {
+        "left": 308.9,
+        "top": 364.3,
+        "width": 210.3,
+        "height": 19.4
+      }
+    },
+    "dateField25": {
+      "type": "text",
+      "label": "5. Date",
+      "page": 3,
+      "box": {
+        "left": 524.9,
+        "top": 364.3,
+        "width": 48.2,
+        "height": 19.4
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 2,
+      "count": 3,
+      "rowStride": 30.25,
+      "editor": "grid",
+      "columns": {
+        "textField4": {
+          "type": "text",
+          "label": "2. Name: Yes No",
+          "page": 2,
+          "box": {
+            "left": 38.9,
+            "top": 252.3,
+            "width": 264.3,
+            "height": 15.5
+          }
+        },
+        "checkBox1": {
+          "type": "checkbox",
+          "label": "2. Name",
+          "page": 2,
+          "box": {
+            "left": 237.9,
+            "top": 261.4,
+            "width": 8.0,
+            "height": 8.0
+          }
+        },
+        "checkBox12": {
+          "type": "checkbox",
+          "label": "Yes",
+          "page": 2,
+          "box": {
+            "left": 273.9,
+            "top": 261.4,
+            "width": 8.0,
+            "height": 8.0
+          }
+        },
+        "textField42": {
+          "type": "text",
+          "label": "3. Name: Yes No",
+          "page": 2,
+          "box": {
+            "left": 308.9,
+            "top": 252.3,
+            "width": 264.3,
+            "height": 15.5
+          }
+        }
+      }
+    }
+  }
+}

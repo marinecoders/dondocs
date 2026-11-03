@@ -1,0 +1,311 @@
+{
+  "id": "navmc11627",
+  "label": "NAVMC11627 - Marcor Instructors Of Water Survivual Prerequisites-Prescreening Checklist",
+  "directory": "NAVMC11627 - Marcor Instructors Of Water Survivual Prerequisites-Prescreening Checklist",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "nameLast",
+        "nameFirst",
+        "nameMI",
+        "mos",
+        "phoneNumber",
+        "date",
+        "e4orAbove",
+        "currentWSI",
+        "oneYearRemaining",
+        "firstClassPFT",
+        "recommendedByMCIWS",
+        "phoneNumber2",
+        "mcitws",
+        "mcitwsSig",
+        "ordersToAttend",
+        "medicalRecord",
+        "copyOfBIRorBTR",
+        "swim500m",
+        "swinUnderWater",
+        "lifeSavingStroke",
+        "rubberDiveBrick"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "sigAttendee",
+        "nameCO",
+        "sigCO"
+      ]
+    }
+  ],
+  "fields": {
+    "nameLast": {
+      "type": "text",
+      "label": "nameLast",
+      "page": 1,
+      "box": {
+        "left": 128.1,
+        "top": 659.5,
+        "width": 175.8,
+        "height": 13.1
+      }
+    },
+    "nameFirst": {
+      "type": "text",
+      "label": "nameFirst",
+      "page": 1,
+      "box": {
+        "left": 312.6,
+        "top": 659.5,
+        "width": 142.1,
+        "height": 13.1
+      }
+    },
+    "nameMI": {
+      "type": "text",
+      "label": "nameMI",
+      "page": 1,
+      "box": {
+        "left": 462.8,
+        "top": 659.5,
+        "width": 29.8,
+        "height": 13.1
+      }
+    },
+    "mos": {
+      "type": "text",
+      "label": "MOS",
+      "page": 1,
+      "box": {
+        "left": 128.1,
+        "top": 623.2,
+        "width": 191.6,
+        "height": 13.1
+      }
+    },
+    "phoneNumber": {
+      "type": "text",
+      "label": "phoneNumber",
+      "page": 1,
+      "box": {
+        "left": 328.3,
+        "top": 623.2,
+        "width": 91.1,
+        "height": 13.1
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "date",
+      "page": 1,
+      "box": {
+        "left": 429.6,
+        "top": 621.7,
+        "width": 63.3,
+        "height": 10.9
+      }
+    },
+    "e4orAbove": {
+      "type": "checkbox",
+      "label": "E4orAbove",
+      "page": 1,
+      "box": {
+        "left": 113.3,
+        "top": 551.5,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "currentWSI": {
+      "type": "checkbox",
+      "label": "currentWSI",
+      "page": 1,
+      "box": {
+        "left": 114.0,
+        "top": 523.5,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "oneYearRemaining": {
+      "type": "checkbox",
+      "label": "oneYearRemaining",
+      "page": 1,
+      "box": {
+        "left": 113.4,
+        "top": 495.3,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "firstClassPFT": {
+      "type": "checkbox",
+      "label": "firstClassPFT",
+      "page": 1,
+      "box": {
+        "left": 113.3,
+        "top": 466.1,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "recommendedByMCIWS": {
+      "type": "checkbox",
+      "label": "recommendedByMCIWS",
+      "page": 1,
+      "box": {
+        "left": 113.7,
+        "top": 437.2,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "phoneNumber2": {
+      "type": "text",
+      "label": "phoneNumber",
+      "page": 1,
+      "box": {
+        "left": 466.1,
+        "top": 405.7,
+        "width": 80.3,
+        "height": 13.1
+      }
+    },
+    "mcitws": {
+      "type": "text",
+      "label": "MCITWS",
+      "page": 1,
+      "box": {
+        "left": 67.2,
+        "top": 405.4,
+        "width": 251.9,
+        "height": 13.1
+      }
+    },
+    "mcitwsSig": {
+      "type": "signature",
+      "label": "mcitwsSig",
+      "page": 1,
+      "box": {
+        "left": 328.5,
+        "top": 405.2,
+        "width": 128.4,
+        "height": 12.1
+      }
+    },
+    "ordersToAttend": {
+      "type": "checkbox",
+      "label": "OrdersToAttend",
+      "page": 1,
+      "box": {
+        "left": 113.7,
+        "top": 334.6,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "medicalRecord": {
+      "type": "checkbox",
+      "label": "MedicalRecord",
+      "page": 1,
+      "box": {
+        "left": 113.6,
+        "top": 305.2,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "copyOfBIRorBTR": {
+      "type": "checkbox",
+      "label": "copyOfBIRorBTR",
+      "page": 1,
+      "box": {
+        "left": 113.6,
+        "top": 276.0,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "swim500m": {
+      "type": "checkbox",
+      "label": "swim500m",
+      "page": 1,
+      "box": {
+        "left": 113.8,
+        "top": 215.1,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "swinUnderWater": {
+      "type": "checkbox",
+      "label": "swinUnderWater",
+      "page": 1,
+      "box": {
+        "left": 113.5,
+        "top": 175.3,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "lifeSavingStroke": {
+      "type": "checkbox",
+      "label": "lifeSavingStroke",
+      "page": 1,
+      "box": {
+        "left": 113.6,
+        "top": 144.2,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "rubberDiveBrick": {
+      "type": "checkbox",
+      "label": "rubberDiveBrick",
+      "page": 1,
+      "box": {
+        "left": 113.6,
+        "top": 104.5,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "sigAttendee": {
+      "type": "signature",
+      "label": "sigAttendee",
+      "page": 2,
+      "box": {
+        "left": 158.2,
+        "top": 617.8,
+        "width": 153.3,
+        "height": 12.1
+      }
+    },
+    "nameCO": {
+      "type": "text",
+      "label": "nameCO",
+      "page": 2,
+      "box": {
+        "left": 94.2,
+        "top": 587.2,
+        "width": 256.5,
+        "height": 13.1
+      }
+    },
+    "sigCO": {
+      "type": "signature",
+      "label": "sigCO",
+      "page": 2,
+      "box": {
+        "left": 360.1,
+        "top": 586.9,
+        "width": 153.3,
+        "height": 12.1
+      }
+    }
+  }
+}

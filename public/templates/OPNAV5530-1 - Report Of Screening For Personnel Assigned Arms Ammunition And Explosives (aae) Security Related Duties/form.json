@@ -1,0 +1,527 @@
+{
+  "id": "opnav55301",
+  "label": "OPNAV5530-1 - Report Of Screening For Personnel Assigned Arms Ammunition And Explosives (aae) Security Related Duties",
+  "directory": "OPNAV5530-1 - Report Of Screening For Personnel Assigned Arms Ammunition And Explosives (aae) Security Related Duties",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "nameIndScreen",
+        "rankIndScreen",
+        "doDIDIndScreen",
+        "nameOffScreen",
+        "rankOffScreen",
+        "doDIDOffScreen",
+        "remarks1",
+        "yes1",
+        "no1",
+        "na1",
+        "remarks2",
+        "yes2",
+        "no2",
+        "na2",
+        "remarks3",
+        "yes3",
+        "no3",
+        "na3",
+        "remarks4",
+        "yes4",
+        "no4",
+        "na4",
+        "remarks5",
+        "yes5",
+        "no5",
+        "na5",
+        "remarks6",
+        "yes6",
+        "no6",
+        "na6",
+        "remarks7",
+        "yes7",
+        "no7",
+        "na7",
+        "sigIndScreen",
+        "dateSigIndScreen",
+        "sigOffScreen",
+        "dateSigOffScreen",
+        "radio",
+        "radio2",
+        "numDays",
+        "radio3"
+      ]
+    }
+  ],
+  "fields": {
+    "nameIndScreen": {
+      "type": "text",
+      "label": "personnel being screened and discuss the duties to",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 666.7,
+        "width": 196.0,
+        "height": 18.1
+      }
+    },
+    "rankIndScreen": {
+      "type": "text",
+      "label": "assigned with the person",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 666.7,
+        "width": 66.3,
+        "height": 18.1
+      }
+    },
+    "doDIDIndScreen": {
+      "type": "text",
+      "label": "person&apos;s supervisor",
+      "page": 1,
+      "box": {
+        "left": 377.3,
+        "top": 666.7,
+        "width": 196.0,
+        "height": 18.1
+      }
+    },
+    "nameOffScreen": {
+      "type": "text",
+      "label": "NAME OF INDIVIDUAL BEING SCREENED",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 623.5,
+        "width": 196.0,
+        "height": 18.1
+      }
+    },
+    "rankOffScreen": {
+      "type": "text",
+      "label": "RANK",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 623.5,
+        "width": 66.3,
+        "height": 18.1
+      }
+    },
+    "doDIDOffScreen": {
+      "type": "text",
+      "label": "(Or other unique ID Number)",
+      "page": 1,
+      "box": {
+        "left": 377.3,
+        "top": 623.5,
+        "width": 196.0,
+        "height": 18.1
+      }
+    },
+    "remarks1": {
+      "type": "text",
+      "label": "REMARKS",
+      "page": 1,
+      "box": {
+        "left": 369.1,
+        "top": 567.4,
+        "width": 206.4,
+        "height": 18.8
+      }
+    },
+    "yes1": {
+      "type": "checkbox",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 265.4,
+        "top": 562.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no1": {
+      "type": "checkbox",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 304.9,
+        "top": 562.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "na1": {
+      "type": "checkbox",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 344.3,
+        "top": 562.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "remarks2": {
+      "type": "text",
+      "label": "REMARKS",
+      "page": 1,
+      "box": {
+        "left": 369.1,
+        "top": 545.8,
+        "width": 206.4,
+        "height": 37.5
+      },
+      "multiline": true
+    },
+    "yes2": {
+      "type": "checkbox",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 265.4,
+        "top": 531.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no2": {
+      "type": "checkbox",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 304.9,
+        "top": 531.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "na2": {
+      "type": "checkbox",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 344.3,
+        "top": 531.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "remarks3": {
+      "type": "text",
+      "label": "Agency and Credit Checks (NACLC) or Access National",
+      "page": 1,
+      "box": {
+        "left": 369.1,
+        "top": 505.4,
+        "width": 206.4,
+        "height": 29.6
+      }
+    },
+    "yes3": {
+      "type": "checkbox",
+      "label": "Agency and Credit Checks (NACLC) or Access National",
+      "page": 1,
+      "box": {
+        "left": 265.4,
+        "top": 494.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no3": {
+      "type": "checkbox",
+      "label": "Agency and Credit Checks (NACLC) or Access National",
+      "page": 1,
+      "box": {
+        "left": 304.9,
+        "top": 494.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "na3": {
+      "type": "checkbox",
+      "label": "Agency and Credit Checks (NACLC) or Access National",
+      "page": 1,
+      "box": {
+        "left": 344.3,
+        "top": 494.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "remarks4": {
+      "type": "text",
+      "label": "REMARKS",
+      "page": 1,
+      "box": {
+        "left": 369.1,
+        "top": 473.0,
+        "width": 206.4,
+        "height": 29.6
+      }
+    },
+    "yes4": {
+      "type": "checkbox",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 265.4,
+        "top": 462.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no4": {
+      "type": "checkbox",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 304.9,
+        "top": 462.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "na4": {
+      "type": "checkbox",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 344.3,
+        "top": 462.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "remarks5": {
+      "type": "text",
+      "label": "REMARKS",
+      "page": 1,
+      "box": {
+        "left": 369.1,
+        "top": 440.6,
+        "width": 206.4,
+        "height": 37.5
+      },
+      "multiline": true
+    },
+    "yes5": {
+      "type": "checkbox",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 265.4,
+        "top": 425.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no5": {
+      "type": "checkbox",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 304.9,
+        "top": 425.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "na5": {
+      "type": "checkbox",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 344.3,
+        "top": 425.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "remarks6": {
+      "type": "text",
+      "label": "that would prohibit this individual from being assigned",
+      "page": 1,
+      "box": {
+        "left": 369.1,
+        "top": 400.3,
+        "width": 206.4,
+        "height": 37.5
+      },
+      "multiline": true
+    },
+    "yes6": {
+      "type": "checkbox",
+      "label": "that would prohibit this individual from being assigned",
+      "page": 1,
+      "box": {
+        "left": 265.4,
+        "top": 385.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no6": {
+      "type": "checkbox",
+      "label": "that would prohibit this individual from being assigned",
+      "page": 1,
+      "box": {
+        "left": 304.9,
+        "top": 385.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "na6": {
+      "type": "checkbox",
+      "label": "that would prohibit this individual from being assigned",
+      "page": 1,
+      "box": {
+        "left": 344.3,
+        "top": 385.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "remarks7": {
+      "type": "text",
+      "label": "REMARKS",
+      "page": 1,
+      "box": {
+        "left": 369.1,
+        "top": 360.0,
+        "width": 206.4,
+        "height": 29.6
+      }
+    },
+    "yes7": {
+      "type": "checkbox",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 265.4,
+        "top": 349.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no7": {
+      "type": "checkbox",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 304.9,
+        "top": 349.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "na7": {
+      "type": "checkbox",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 344.3,
+        "top": 349.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "sigIndScreen": {
+      "type": "text",
+      "label": "SAFEGUARD ARMS, AMMUNITION, AND/OR EXPLOSIVES.&quot;",
+      "page": 1,
+      "box": {
+        "left": 74.8,
+        "top": 239.7,
+        "width": 196.0,
+        "height": 18.1
+      }
+    },
+    "dateSigIndScreen": {
+      "type": "text",
+      "label": "AND ACCEPT THE",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 239.7,
+        "width": 66.3,
+        "height": 18.1
+      }
+    },
+    "sigOffScreen": {
+      "type": "text",
+      "label": "SIGNATURE OF INDIVIDUAL BEING SCREENED",
+      "page": 1,
+      "box": {
+        "left": 74.8,
+        "top": 196.5,
+        "width": 196.0,
+        "height": 18.1
+      }
+    },
+    "dateSigOffScreen": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 196.5,
+        "width": 66.3,
+        "height": 18.1
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 130.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 100.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "numDays": {
+      "type": "text",
+      "label": "re-evaluated in",
+      "page": 1,
+      "box": {
+        "left": 113.8,
+        "top": 97.8,
+        "width": 18.2,
+        "height": 11.4
+      }
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 63.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    }
+  }
+}

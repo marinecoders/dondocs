@@ -1,0 +1,1934 @@
+{
+  "id": "opnav4790113",
+  "label": "OPNAV4790-113 - Equipment History Record (ehr) Card",
+  "directory": "OPNAV4790-113 - Equipment History Record (ehr) Card",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "nomenclature",
+        "workUnitCode",
+        "fscm",
+        "replacementInterval",
+        "maintenanceDueDate",
+        "partNumber",
+        "serialNumber",
+        "fst",
+        "reference",
+        "hoursCounts1",
+        "hoursCounts2",
+        "hoursCounts3",
+        "hoursCounts4",
+        "hoursCounts5",
+        "hoursCounts6",
+        "hoursCounts7",
+        "hoursCounts8",
+        "dateSecIIFill",
+        "bunoSernoFill",
+        "hoursCounts1Fill",
+        "hoursCounts2Fill",
+        "hoursCounts3Fill",
+        "hoursCounts4Fill",
+        "hoursCounts5Fill",
+        "hoursCounts6Fill",
+        "hoursCounts7Fill",
+        "hoursCounts8Fill",
+        "hoursCounts1SecIII",
+        "hoursCounts2SecIII",
+        "hoursCounts3SecIII",
+        "hoursCounts4SecIII",
+        "hoursCounts5SecIII",
+        "hoursCounts6SecIII",
+        "hoursCounts7SecIII",
+        "hoursCounts8SecIII",
+        "dateSecIIIFill",
+        "hoursCounts1SecIIIFill",
+        "hoursCounts2SecIIIFill",
+        "hoursCounts3SecIIIFill",
+        "hoursCounts4SecIIIFill",
+        "hoursCounts5SecIIIFill",
+        "hoursCounts6SecIIIFill",
+        "hoursCounts7SecIIIFill",
+        "hoursCounts8SecIIIFill",
+        "reasonsFill",
+        "dateSecIVFill",
+        "activityFill",
+        "remarksSecIVFill",
+        "signatureField1",
+        "date2SecIVFill",
+        "activity2Fill",
+        "remarks2SecIVFill",
+        "signature2Field1",
+        "date3SecIVFill",
+        "activity3Fill",
+        "remarks3SecIVFill",
+        "signature3Field1",
+        "date4SecIVFill",
+        "activity4Fill",
+        "remarks4SecIVFill",
+        "signature4Field1",
+        "date5SecIVFill",
+        "activity5Fill",
+        "remarks5SecIVFill",
+        "signature5Field1",
+        "date6SecIVFill",
+        "activity6Fill",
+        "remarks6SecIVFill",
+        "signature6Field1",
+        "typeInspectionFill",
+        "referenceFill",
+        "dateCommFill",
+        "dateCompFill",
+        "activityFill2",
+        "signatureFill",
+        "typeInspection2Fill",
+        "reference2Fill",
+        "dateComm2Fill",
+        "dateComp2Fill",
+        "activity2Fill2",
+        "signature2Fill",
+        "typeInspection3Fill",
+        "reference3Fill",
+        "dateComm3Fill",
+        "dateComp3Fill",
+        "activity3Fill2",
+        "signature3Fill",
+        "typeInspection4Fill",
+        "reference4Fill",
+        "dateComm4Fill",
+        "dateComp4Fill",
+        "activity4Fill2",
+        "signature4Fill",
+        "typeInspection5Fill",
+        "reference5Fill",
+        "dateComm5Fill",
+        "dateComp5Fill",
+        "activity5Fill2",
+        "signature5Fill",
+        "typeInspection6Fill",
+        "reference6Fill",
+        "dateComm6Fill",
+        "dateComp6Fill",
+        "activity6Fill2",
+        "signature6Fill",
+        "typeInspection7Fill",
+        "reference7Fill",
+        "dateComm7Fill",
+        "dateComp7Fill",
+        "activity7Fill",
+        "signature7Fill",
+        "typeInspection8Fill",
+        "reference8Fill",
+        "dateComm8Fill",
+        "dateComp8Fill",
+        "activity8Fill",
+        "signature8Fill"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "typeInspection9Fill",
+        "reference9Fill",
+        "dateComm9Fill",
+        "dateComp9Fill",
+        "activity9Fill",
+        "signature9Fill",
+        "typeInspection10Fill",
+        "reference10Fill",
+        "dateComm10Fill",
+        "dateComp10Fill",
+        "activity10Fill",
+        "signature10Fill",
+        "typeInspection11Fill",
+        "reference11Fill",
+        "dateComm11Fill",
+        "dateComp11Fill",
+        "activity11Fill",
+        "signature11Fill",
+        "typeInspection12Fill",
+        "reference12Fill",
+        "dateComm12Fill",
+        "dateComp12Fill",
+        "activity12Fill",
+        "signature12Fill"
+      ]
+    }
+  ],
+  "fields": {
+    "nomenclature": {
+      "type": "text",
+      "label": "A. NOMENCLATURE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 530.6,
+        "width": 151.9,
+        "height": 10.2
+      }
+    },
+    "workUnitCode": {
+      "type": "text",
+      "label": "B. WORK UNIT CODE",
+      "page": 1,
+      "box": {
+        "left": 196.4,
+        "top": 530.6,
+        "width": 129.3,
+        "height": 10.2
+      }
+    },
+    "fscm": {
+      "type": "text",
+      "label": "C. FSCM",
+      "page": 1,
+      "box": {
+        "left": 331.4,
+        "top": 530.6,
+        "width": 124.8,
+        "height": 10.2
+      }
+    },
+    "replacementInterval": {
+      "type": "text",
+      "label": "D. REPLACEMENT INTERVAL",
+      "page": 1,
+      "box": {
+        "left": 461.9,
+        "top": 530.6,
+        "width": 165.4,
+        "height": 10.2
+      }
+    },
+    "maintenanceDueDate": {
+      "type": "text",
+      "label": "I. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 632.9,
+        "top": 530.6,
+        "width": 123.2,
+        "height": 40.0
+      },
+      "multiline": true
+    },
+    "partNumber": {
+      "type": "text",
+      "label": "F. PART NUMBER",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 503.6,
+        "width": 120.3,
+        "height": 10.2
+      }
+    },
+    "serialNumber": {
+      "type": "text",
+      "label": "G. SERIAL NUMBER",
+      "page": 1,
+      "box": {
+        "left": 164.9,
+        "top": 503.6,
+        "width": 160.9,
+        "height": 10.2
+      }
+    },
+    "fst": {
+      "type": "text",
+      "label": "H. FST",
+      "page": 1,
+      "box": {
+        "left": 331.4,
+        "top": 503.6,
+        "width": 124.8,
+        "height": 10.2
+      }
+    },
+    "reference": {
+      "type": "text",
+      "label": "I. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 461.9,
+        "top": 503.6,
+        "width": 165.4,
+        "height": 10.2
+      }
+    },
+    "hoursCounts1": {
+      "type": "choice",
+      "label": "C. TOTAL AIRCRAFT",
+      "page": 1,
+      "box": {
+        "left": 291.6,
+        "top": 460.0,
+        "width": 51.3,
+        "height": 10.8
+      },
+      "options": [
+        "HOURS",
+        "COUNTS"
+      ]
+    },
+    "hoursCounts2": {
+      "type": "choice",
+      "label": "AIRCRAFT / EQUIPMENT",
+      "page": 1,
+      "box": {
+        "left": 350.1,
+        "top": 460.0,
+        "width": 51.3,
+        "height": 10.8
+      },
+      "options": [
+        "HOURS",
+        "COUNTS"
+      ]
+    },
+    "hoursCounts3": {
+      "type": "choice",
+      "label": "EQUIPMENT HOURS",
+      "page": 1,
+      "box": {
+        "left": 408.6,
+        "top": 460.0,
+        "width": 51.3,
+        "height": 10.8
+      },
+      "options": [
+        "HOURS",
+        "COUNTS"
+      ]
+    },
+    "hoursCounts4": {
+      "type": "choice",
+      "label": "OR COUNTS",
+      "page": 1,
+      "box": {
+        "left": 467.1,
+        "top": 460.0,
+        "width": 51.3,
+        "height": 10.8
+      },
+      "options": [
+        "HOURS",
+        "COUNTS"
+      ]
+    },
+    "hoursCounts5": {
+      "type": "choice",
+      "label": "D. TOTAL",
+      "page": 1,
+      "box": {
+        "left": 525.7,
+        "top": 460.0,
+        "width": 51.3,
+        "height": 10.8
+      },
+      "options": [
+        "HOURS",
+        "COUNTS"
+      ]
+    },
+    "hoursCounts6": {
+      "type": "choice",
+      "label": "TOTAL HOURS OR",
+      "page": 1,
+      "box": {
+        "left": 584.2,
+        "top": 460.0,
+        "width": 51.3,
+        "height": 10.8
+      },
+      "options": [
+        "HOURS",
+        "COUNTS"
+      ]
+    },
+    "hoursCounts7": {
+      "type": "choice",
+      "label": "OR COUNTS ON",
+      "page": 1,
+      "box": {
+        "left": 642.7,
+        "top": 460.0,
+        "width": 51.3,
+        "height": 10.8
+      },
+      "options": [
+        "HOURS",
+        "COUNTS"
+      ]
+    },
+    "hoursCounts8": {
+      "type": "choice",
+      "label": "ITEM",
+      "page": 1,
+      "box": {
+        "left": 701.2,
+        "top": 460.0,
+        "width": 51.3,
+        "height": 10.8
+      },
+      "options": [
+        "HOURS",
+        "COUNTS"
+      ]
+    },
+    "dateSecIIFill": {
+      "type": "text",
+      "label": "A. DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 442.7,
+        "width": 57.3,
+        "height": 15.2
+      }
+    },
+    "bunoSernoFill": {
+      "type": "text",
+      "label": "B. BUNO / SERNO INSTALLED ON",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 442.7,
+        "width": 183.4,
+        "height": 15.2
+      }
+    },
+    "hoursCounts1Fill": {
+      "type": "text",
+      "label": "C. TOTAL AIRCRAFT",
+      "page": 1,
+      "box": {
+        "left": 290.9,
+        "top": 442.7,
+        "width": 52.8,
+        "height": 15.2
+      }
+    },
+    "hoursCounts2Fill": {
+      "type": "text",
+      "label": "AIRCRAFT / EQUIPMENT",
+      "page": 1,
+      "box": {
+        "left": 349.4,
+        "top": 442.7,
+        "width": 52.8,
+        "height": 15.2
+      }
+    },
+    "hoursCounts3Fill": {
+      "type": "text",
+      "label": "EQUIPMENT HOURS",
+      "page": 1,
+      "box": {
+        "left": 407.9,
+        "top": 442.7,
+        "width": 52.8,
+        "height": 15.2
+      }
+    },
+    "hoursCounts4Fill": {
+      "type": "text",
+      "label": "OR COUNTS",
+      "page": 1,
+      "box": {
+        "left": 466.4,
+        "top": 442.7,
+        "width": 52.8,
+        "height": 15.2
+      }
+    },
+    "hoursCounts5Fill": {
+      "type": "text",
+      "label": "D. TOTAL",
+      "page": 1,
+      "box": {
+        "left": 524.9,
+        "top": 442.7,
+        "width": 52.8,
+        "height": 15.2
+      }
+    },
+    "hoursCounts6Fill": {
+      "type": "text",
+      "label": "TOTAL HOURS OR",
+      "page": 1,
+      "box": {
+        "left": 583.4,
+        "top": 442.7,
+        "width": 52.8,
+        "height": 15.2
+      }
+    },
+    "hoursCounts7Fill": {
+      "type": "text",
+      "label": "OR COUNTS ON",
+      "page": 1,
+      "box": {
+        "left": 641.9,
+        "top": 442.7,
+        "width": 52.8,
+        "height": 15.2
+      }
+    },
+    "hoursCounts8Fill": {
+      "type": "text",
+      "label": "ITEM",
+      "page": 1,
+      "box": {
+        "left": 700.4,
+        "top": 442.7,
+        "width": 52.8,
+        "height": 15.2
+      }
+    },
+    "hoursCounts1SecIII": {
+      "type": "choice",
+      "label": "B. TOTAL AIRCRAFT",
+      "page": 1,
+      "box": {
+        "left": 102.6,
+        "top": 397.0,
+        "width": 51.3,
+        "height": 10.8
+      },
+      "options": [
+        "HOURS",
+        "COUNTS"
+      ]
+    },
+    "hoursCounts2SecIII": {
+      "type": "choice",
+      "label": "AIRCRAFT / EQUIPMENT",
+      "page": 1,
+      "box": {
+        "left": 161.1,
+        "top": 397.0,
+        "width": 51.3,
+        "height": 10.8
+      },
+      "options": [
+        "HOURS",
+        "COUNTS"
+      ]
+    },
+    "hoursCounts3SecIII": {
+      "type": "choice",
+      "label": "EQUIPMENT HOURS",
+      "page": 1,
+      "box": {
+        "left": 219.6,
+        "top": 397.0,
+        "width": 51.3,
+        "height": 10.8
+      },
+      "options": [
+        "HOURS",
+        "COUNTS"
+      ]
+    },
+    "hoursCounts4SecIII": {
+      "type": "choice",
+      "label": "OR COUNTS",
+      "page": 1,
+      "box": {
+        "left": 278.1,
+        "top": 397.0,
+        "width": 51.3,
+        "height": 10.8
+      },
+      "options": [
+        "HOURS",
+        "COUNTS"
+      ]
+    },
+    "hoursCounts5SecIII": {
+      "type": "choice",
+      "label": "C. TOTAL",
+      "page": 1,
+      "box": {
+        "left": 336.6,
+        "top": 397.0,
+        "width": 51.3,
+        "height": 10.8
+      },
+      "options": [
+        "HOURS",
+        "COUNTS"
+      ]
+    },
+    "hoursCounts6SecIII": {
+      "type": "choice",
+      "label": "TOTAL HOURS OR",
+      "page": 1,
+      "box": {
+        "left": 395.1,
+        "top": 397.0,
+        "width": 51.3,
+        "height": 10.8
+      },
+      "options": [
+        "HOURS",
+        "COUNTS"
+      ]
+    },
+    "hoursCounts7SecIII": {
+      "type": "choice",
+      "label": "OR COUNTS ON",
+      "page": 1,
+      "box": {
+        "left": 453.6,
+        "top": 397.0,
+        "width": 51.3,
+        "height": 10.8
+      },
+      "options": [
+        "HOURS",
+        "COUNTS"
+      ]
+    },
+    "hoursCounts8SecIII": {
+      "type": "choice",
+      "label": "ITEM",
+      "page": 1,
+      "box": {
+        "left": 512.1,
+        "top": 397.0,
+        "width": 51.3,
+        "height": 10.8
+      },
+      "options": [
+        "HOURS",
+        "COUNTS"
+      ]
+    },
+    "dateSecIIIFill": {
+      "type": "text",
+      "label": "A. DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 379.7,
+        "width": 57.3,
+        "height": 15.2
+      }
+    },
+    "hoursCounts1SecIIIFill": {
+      "type": "text",
+      "label": "B. TOTAL AIRCRAFT",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 379.7,
+        "width": 52.8,
+        "height": 15.2
+      }
+    },
+    "hoursCounts2SecIIIFill": {
+      "type": "text",
+      "label": "AIRCRAFT / EQUIPMENT",
+      "page": 1,
+      "box": {
+        "left": 160.3,
+        "top": 379.7,
+        "width": 52.8,
+        "height": 15.2
+      }
+    },
+    "hoursCounts3SecIIIFill": {
+      "type": "text",
+      "label": "EQUIPMENT HOURS",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 379.7,
+        "width": 52.8,
+        "height": 15.2
+      }
+    },
+    "hoursCounts4SecIIIFill": {
+      "type": "text",
+      "label": "OR COUNTS",
+      "page": 1,
+      "box": {
+        "left": 277.4,
+        "top": 379.7,
+        "width": 52.8,
+        "height": 15.2
+      }
+    },
+    "hoursCounts5SecIIIFill": {
+      "type": "text",
+      "label": "C. TOTAL",
+      "page": 1,
+      "box": {
+        "left": 335.9,
+        "top": 379.7,
+        "width": 52.8,
+        "height": 15.2
+      }
+    },
+    "hoursCounts6SecIIIFill": {
+      "type": "text",
+      "label": "TOTAL HOURS OR",
+      "page": 1,
+      "box": {
+        "left": 394.4,
+        "top": 379.7,
+        "width": 52.8,
+        "height": 15.2
+      }
+    },
+    "hoursCounts7SecIIIFill": {
+      "type": "text",
+      "label": "OR COUNTS ON",
+      "page": 1,
+      "box": {
+        "left": 452.9,
+        "top": 379.7,
+        "width": 52.8,
+        "height": 15.2
+      }
+    },
+    "hoursCounts8SecIIIFill": {
+      "type": "text",
+      "label": "ITEM",
+      "page": 1,
+      "box": {
+        "left": 511.4,
+        "top": 379.7,
+        "width": 52.8,
+        "height": 15.2
+      }
+    },
+    "reasonsFill": {
+      "type": "text",
+      "label": "JOB CONTROL NUMBER",
+      "page": 1,
+      "box": {
+        "left": 569.9,
+        "top": 379.7,
+        "width": 183.4,
+        "height": 15.2
+      }
+    },
+    "dateSecIVFill": {
+      "type": "text",
+      "label": "A. DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 334.7,
+        "width": 57.3,
+        "height": 15.2
+      }
+    },
+    "activityFill": {
+      "type": "text",
+      "label": "B. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 334.7,
+        "width": 111.3,
+        "height": 15.2
+      }
+    },
+    "remarksSecIVFill": {
+      "type": "text",
+      "label": "C. REMARKS AND MAJOR PARTS REPLACED",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 334.7,
+        "width": 345.4,
+        "height": 15.2
+      }
+    },
+    "signatureField1": {
+      "type": "text",
+      "label": "D. SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 569.9,
+        "top": 334.7,
+        "width": 183.4,
+        "height": 12.3
+      }
+    },
+    "date2SecIVFill": {
+      "type": "text",
+      "label": "A. DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 316.7,
+        "width": 57.3,
+        "height": 15.2
+      }
+    },
+    "activity2Fill": {
+      "type": "text",
+      "label": "B. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 316.7,
+        "width": 111.3,
+        "height": 15.2
+      }
+    },
+    "remarks2SecIVFill": {
+      "type": "text",
+      "label": "C. REMARKS AND MAJOR PARTS REPLACED",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 316.7,
+        "width": 345.4,
+        "height": 15.2
+      }
+    },
+    "signature2Field1": {
+      "type": "text",
+      "label": "D. SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 569.9,
+        "top": 316.7,
+        "width": 183.4,
+        "height": 12.3
+      }
+    },
+    "date3SecIVFill": {
+      "type": "text",
+      "label": "A. DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 298.7,
+        "width": 57.3,
+        "height": 15.2
+      }
+    },
+    "activity3Fill": {
+      "type": "text",
+      "label": "B. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 298.7,
+        "width": 111.3,
+        "height": 15.2
+      }
+    },
+    "remarks3SecIVFill": {
+      "type": "text",
+      "label": "C. REMARKS AND MAJOR PARTS REPLACED",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 298.7,
+        "width": 345.4,
+        "height": 15.2
+      }
+    },
+    "signature3Field1": {
+      "type": "text",
+      "label": "D. SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 569.9,
+        "top": 298.7,
+        "width": 183.4,
+        "height": 12.3
+      }
+    },
+    "date4SecIVFill": {
+      "type": "text",
+      "label": "A. DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 280.7,
+        "width": 57.3,
+        "height": 15.2
+      }
+    },
+    "activity4Fill": {
+      "type": "text",
+      "label": "B. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 280.7,
+        "width": 111.3,
+        "height": 15.2
+      }
+    },
+    "remarks4SecIVFill": {
+      "type": "text",
+      "label": "C. REMARKS AND MAJOR PARTS REPLACED",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 280.7,
+        "width": 345.4,
+        "height": 15.2
+      }
+    },
+    "signature4Field1": {
+      "type": "text",
+      "label": "D. SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 569.9,
+        "top": 280.7,
+        "width": 183.4,
+        "height": 12.3
+      }
+    },
+    "date5SecIVFill": {
+      "type": "text",
+      "label": "A. DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 262.7,
+        "width": 57.3,
+        "height": 15.2
+      }
+    },
+    "activity5Fill": {
+      "type": "text",
+      "label": "B. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 262.7,
+        "width": 111.3,
+        "height": 15.2
+      }
+    },
+    "remarks5SecIVFill": {
+      "type": "text",
+      "label": "C. REMARKS AND MAJOR PARTS REPLACED",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 262.7,
+        "width": 345.4,
+        "height": 15.2
+      }
+    },
+    "signature5Field1": {
+      "type": "text",
+      "label": "D. SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 569.9,
+        "top": 262.7,
+        "width": 183.4,
+        "height": 12.3
+      }
+    },
+    "date6SecIVFill": {
+      "type": "text",
+      "label": "A. DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 244.7,
+        "width": 57.3,
+        "height": 15.2
+      }
+    },
+    "activity6Fill": {
+      "type": "text",
+      "label": "B. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 244.7,
+        "width": 111.3,
+        "height": 15.2
+      }
+    },
+    "remarks6SecIVFill": {
+      "type": "text",
+      "label": "C. REMARKS AND MAJOR PARTS REPLACED",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 244.7,
+        "width": 345.4,
+        "height": 15.2
+      }
+    },
+    "signature6Field1": {
+      "type": "text",
+      "label": "D. SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 569.9,
+        "top": 244.7,
+        "width": 183.4,
+        "height": 12.3
+      }
+    },
+    "typeInspectionFill": {
+      "type": "text",
+      "label": "OF INSPECTION",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 192.7,
+        "width": 138.3,
+        "height": 15.2
+      }
+    },
+    "referenceFill": {
+      "type": "text",
+      "label": "B. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 182.9,
+        "top": 192.7,
+        "width": 183.4,
+        "height": 15.2
+      }
+    },
+    "dateCommFill": {
+      "type": "text",
+      "label": "COMMENCED",
+      "page": 1,
+      "box": {
+        "left": 371.9,
+        "top": 192.7,
+        "width": 66.3,
+        "height": 15.2
+      }
+    },
+    "dateCompFill": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 192.7,
+        "width": 66.3,
+        "height": 15.2
+      }
+    },
+    "activityFill2": {
+      "type": "text",
+      "label": "E. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 515.9,
+        "top": 192.7,
+        "width": 106.8,
+        "height": 15.2
+      }
+    },
+    "signatureFill": {
+      "type": "text",
+      "label": "F. SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 628.4,
+        "top": 192.7,
+        "width": 124.8,
+        "height": 12.3
+      }
+    },
+    "typeInspection2Fill": {
+      "type": "text",
+      "label": "OF INSPECTION",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 174.7,
+        "width": 138.3,
+        "height": 15.2
+      }
+    },
+    "reference2Fill": {
+      "type": "text",
+      "label": "B. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 182.9,
+        "top": 174.7,
+        "width": 183.4,
+        "height": 15.2
+      }
+    },
+    "dateComm2Fill": {
+      "type": "text",
+      "label": "COMMENCED",
+      "page": 1,
+      "box": {
+        "left": 371.9,
+        "top": 174.7,
+        "width": 66.3,
+        "height": 15.2
+      }
+    },
+    "dateComp2Fill": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 174.7,
+        "width": 66.3,
+        "height": 15.2
+      }
+    },
+    "activity2Fill2": {
+      "type": "text",
+      "label": "E. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 515.9,
+        "top": 174.7,
+        "width": 106.8,
+        "height": 15.2
+      }
+    },
+    "signature2Fill": {
+      "type": "text",
+      "label": "F. SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 628.4,
+        "top": 174.7,
+        "width": 124.8,
+        "height": 12.3
+      }
+    },
+    "typeInspection3Fill": {
+      "type": "text",
+      "label": "OF INSPECTION",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 156.7,
+        "width": 138.3,
+        "height": 15.2
+      }
+    },
+    "reference3Fill": {
+      "type": "text",
+      "label": "B. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 182.9,
+        "top": 156.7,
+        "width": 183.4,
+        "height": 15.2
+      }
+    },
+    "dateComm3Fill": {
+      "type": "text",
+      "label": "COMMENCED",
+      "page": 1,
+      "box": {
+        "left": 371.9,
+        "top": 156.7,
+        "width": 66.3,
+        "height": 15.2
+      }
+    },
+    "dateComp3Fill": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 156.7,
+        "width": 66.3,
+        "height": 15.2
+      }
+    },
+    "activity3Fill2": {
+      "type": "text",
+      "label": "E. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 515.9,
+        "top": 156.7,
+        "width": 106.8,
+        "height": 15.2
+      }
+    },
+    "signature3Fill": {
+      "type": "text",
+      "label": "F. SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 628.4,
+        "top": 156.7,
+        "width": 124.8,
+        "height": 12.3
+      }
+    },
+    "typeInspection4Fill": {
+      "type": "text",
+      "label": "OF INSPECTION",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 138.7,
+        "width": 138.3,
+        "height": 15.2
+      }
+    },
+    "reference4Fill": {
+      "type": "text",
+      "label": "B. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 182.9,
+        "top": 138.7,
+        "width": 183.4,
+        "height": 15.2
+      }
+    },
+    "dateComm4Fill": {
+      "type": "text",
+      "label": "COMMENCED",
+      "page": 1,
+      "box": {
+        "left": 371.9,
+        "top": 138.7,
+        "width": 66.3,
+        "height": 15.2
+      }
+    },
+    "dateComp4Fill": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 138.7,
+        "width": 66.3,
+        "height": 15.2
+      }
+    },
+    "activity4Fill2": {
+      "type": "text",
+      "label": "E. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 515.9,
+        "top": 138.7,
+        "width": 106.8,
+        "height": 15.2
+      }
+    },
+    "signature4Fill": {
+      "type": "text",
+      "label": "F. SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 628.4,
+        "top": 138.7,
+        "width": 124.8,
+        "height": 12.3
+      }
+    },
+    "typeInspection5Fill": {
+      "type": "text",
+      "label": "OF INSPECTION",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 120.7,
+        "width": 138.3,
+        "height": 15.2
+      }
+    },
+    "reference5Fill": {
+      "type": "text",
+      "label": "B. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 182.9,
+        "top": 120.7,
+        "width": 183.4,
+        "height": 15.2
+      }
+    },
+    "dateComm5Fill": {
+      "type": "text",
+      "label": "COMMENCED",
+      "page": 1,
+      "box": {
+        "left": 371.9,
+        "top": 120.7,
+        "width": 66.3,
+        "height": 15.2
+      }
+    },
+    "dateComp5Fill": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 120.7,
+        "width": 66.3,
+        "height": 15.2
+      }
+    },
+    "activity5Fill2": {
+      "type": "text",
+      "label": "E. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 515.9,
+        "top": 120.7,
+        "width": 106.8,
+        "height": 15.2
+      }
+    },
+    "signature5Fill": {
+      "type": "text",
+      "label": "F. SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 628.4,
+        "top": 120.7,
+        "width": 124.8,
+        "height": 12.3
+      }
+    },
+    "typeInspection6Fill": {
+      "type": "text",
+      "label": "OF INSPECTION",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 102.7,
+        "width": 138.3,
+        "height": 15.2
+      }
+    },
+    "reference6Fill": {
+      "type": "text",
+      "label": "B. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 182.9,
+        "top": 102.7,
+        "width": 183.4,
+        "height": 15.2
+      }
+    },
+    "dateComm6Fill": {
+      "type": "text",
+      "label": "COMMENCED",
+      "page": 1,
+      "box": {
+        "left": 371.9,
+        "top": 102.7,
+        "width": 66.3,
+        "height": 15.2
+      }
+    },
+    "dateComp6Fill": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 102.7,
+        "width": 66.3,
+        "height": 15.2
+      }
+    },
+    "activity6Fill2": {
+      "type": "text",
+      "label": "E. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 515.9,
+        "top": 102.7,
+        "width": 106.8,
+        "height": 15.2
+      }
+    },
+    "signature6Fill": {
+      "type": "text",
+      "label": "F. SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 628.4,
+        "top": 102.7,
+        "width": 124.8,
+        "height": 12.3
+      }
+    },
+    "typeInspection7Fill": {
+      "type": "text",
+      "label": "OF INSPECTION",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 84.7,
+        "width": 138.3,
+        "height": 15.2
+      }
+    },
+    "reference7Fill": {
+      "type": "text",
+      "label": "B. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 182.9,
+        "top": 84.7,
+        "width": 183.4,
+        "height": 15.2
+      }
+    },
+    "dateComm7Fill": {
+      "type": "text",
+      "label": "COMMENCED",
+      "page": 1,
+      "box": {
+        "left": 371.9,
+        "top": 84.7,
+        "width": 66.3,
+        "height": 15.2
+      }
+    },
+    "dateComp7Fill": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 84.7,
+        "width": 66.3,
+        "height": 15.2
+      }
+    },
+    "activity7Fill": {
+      "type": "text",
+      "label": "E. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 515.9,
+        "top": 84.7,
+        "width": 106.8,
+        "height": 15.2
+      }
+    },
+    "signature7Fill": {
+      "type": "text",
+      "label": "F. SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 628.4,
+        "top": 84.7,
+        "width": 124.8,
+        "height": 12.3
+      }
+    },
+    "typeInspection8Fill": {
+      "type": "text",
+      "label": "OF INSPECTION",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 66.7,
+        "width": 138.3,
+        "height": 15.2
+      }
+    },
+    "reference8Fill": {
+      "type": "text",
+      "label": "B. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 182.9,
+        "top": 66.7,
+        "width": 183.4,
+        "height": 15.2
+      }
+    },
+    "dateComm8Fill": {
+      "type": "text",
+      "label": "COMMENCED",
+      "page": 1,
+      "box": {
+        "left": 371.9,
+        "top": 66.7,
+        "width": 66.3,
+        "height": 15.2
+      }
+    },
+    "dateComp8Fill": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 66.7,
+        "width": 66.3,
+        "height": 15.2
+      }
+    },
+    "activity8Fill": {
+      "type": "text",
+      "label": "E. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 515.9,
+        "top": 66.7,
+        "width": 106.8,
+        "height": 15.2
+      }
+    },
+    "signature8Fill": {
+      "type": "text",
+      "label": "F. SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 628.4,
+        "top": 66.7,
+        "width": 124.8,
+        "height": 12.3
+      }
+    },
+    "typeInspection9Fill": {
+      "type": "text",
+      "label": "Type Inspection 9 Fill",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 573.2,
+        "width": 138.3,
+        "height": 15.2
+      }
+    },
+    "reference9Fill": {
+      "type": "text",
+      "label": "Reference 9 Fill",
+      "page": 2,
+      "box": {
+        "left": 182.9,
+        "top": 573.2,
+        "width": 183.4,
+        "height": 15.2
+      }
+    },
+    "dateComm9Fill": {
+      "type": "text",
+      "label": "Date Comm 9 Fill",
+      "page": 2,
+      "box": {
+        "left": 371.9,
+        "top": 573.2,
+        "width": 66.3,
+        "height": 15.2
+      }
+    },
+    "dateComp9Fill": {
+      "type": "text",
+      "label": "Date Comp 9 Fill",
+      "page": 2,
+      "box": {
+        "left": 443.9,
+        "top": 573.2,
+        "width": 66.3,
+        "height": 15.2
+      }
+    },
+    "activity9Fill": {
+      "type": "text",
+      "label": "Activity 9 Fill",
+      "page": 2,
+      "box": {
+        "left": 515.9,
+        "top": 573.2,
+        "width": 106.8,
+        "height": 15.2
+      }
+    },
+    "signature9Fill": {
+      "type": "text",
+      "label": "OPNAV M-8000.16 Volume III",
+      "page": 2,
+      "box": {
+        "left": 628.4,
+        "top": 573.2,
+        "width": 124.8,
+        "height": 12.3
+      }
+    },
+    "typeInspection10Fill": {
+      "type": "text",
+      "label": "Type Inspection 10 Fill",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 555.2,
+        "width": 138.3,
+        "height": 15.2
+      }
+    },
+    "reference10Fill": {
+      "type": "text",
+      "label": "Reference 10 Fill",
+      "page": 2,
+      "box": {
+        "left": 182.9,
+        "top": 555.2,
+        "width": 183.4,
+        "height": 15.2
+      }
+    },
+    "dateComm10Fill": {
+      "type": "text",
+      "label": "Date Comm 10 Fill",
+      "page": 2,
+      "box": {
+        "left": 371.9,
+        "top": 555.2,
+        "width": 66.3,
+        "height": 15.2
+      }
+    },
+    "dateComp10Fill": {
+      "type": "text",
+      "label": "Date Comp 10 Fill",
+      "page": 2,
+      "box": {
+        "left": 443.9,
+        "top": 555.2,
+        "width": 66.3,
+        "height": 15.2
+      }
+    },
+    "activity10Fill": {
+      "type": "text",
+      "label": "Activity 10 Fill",
+      "page": 2,
+      "box": {
+        "left": 515.9,
+        "top": 555.2,
+        "width": 106.8,
+        "height": 15.2
+      }
+    },
+    "signature10Fill": {
+      "type": "text",
+      "label": "OPNAV M-8000.16 Volume III",
+      "page": 2,
+      "box": {
+        "left": 628.4,
+        "top": 555.2,
+        "width": 124.8,
+        "height": 12.3
+      }
+    },
+    "typeInspection11Fill": {
+      "type": "text",
+      "label": "Type Inspection 11 Fill",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 537.2,
+        "width": 138.3,
+        "height": 15.2
+      }
+    },
+    "reference11Fill": {
+      "type": "text",
+      "label": "Reference 11 Fill",
+      "page": 2,
+      "box": {
+        "left": 182.9,
+        "top": 537.2,
+        "width": 183.4,
+        "height": 15.2
+      }
+    },
+    "dateComm11Fill": {
+      "type": "text",
+      "label": "Date Comm 11 Fill",
+      "page": 2,
+      "box": {
+        "left": 371.9,
+        "top": 537.2,
+        "width": 66.3,
+        "height": 15.2
+      }
+    },
+    "dateComp11Fill": {
+      "type": "text",
+      "label": "Date Comp 11 Fill",
+      "page": 2,
+      "box": {
+        "left": 443.9,
+        "top": 537.2,
+        "width": 66.3,
+        "height": 15.2
+      }
+    },
+    "activity11Fill": {
+      "type": "text",
+      "label": "Activity 11 Fill",
+      "page": 2,
+      "box": {
+        "left": 515.9,
+        "top": 537.2,
+        "width": 106.8,
+        "height": 15.2
+      }
+    },
+    "signature11Fill": {
+      "type": "text",
+      "label": "OPNAV M-8000.16 Volume III",
+      "page": 2,
+      "box": {
+        "left": 628.4,
+        "top": 537.2,
+        "width": 124.8,
+        "height": 12.3
+      }
+    },
+    "typeInspection12Fill": {
+      "type": "text",
+      "label": "Type Inspection 12 Fill",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 519.2,
+        "width": 138.3,
+        "height": 15.2
+      }
+    },
+    "reference12Fill": {
+      "type": "text",
+      "label": "Reference 12 Fill",
+      "page": 2,
+      "box": {
+        "left": 182.9,
+        "top": 519.2,
+        "width": 183.4,
+        "height": 15.2
+      }
+    },
+    "dateComm12Fill": {
+      "type": "text",
+      "label": "Date Comm 12 Fill",
+      "page": 2,
+      "box": {
+        "left": 371.9,
+        "top": 519.2,
+        "width": 66.3,
+        "height": 15.2
+      }
+    },
+    "dateComp12Fill": {
+      "type": "text",
+      "label": "Date Comp 12 Fill",
+      "page": 2,
+      "box": {
+        "left": 443.9,
+        "top": 519.2,
+        "width": 66.3,
+        "height": 15.2
+      }
+    },
+    "activity12Fill": {
+      "type": "text",
+      "label": "Activity 12 Fill",
+      "page": 2,
+      "box": {
+        "left": 515.9,
+        "top": 519.2,
+        "width": 106.8,
+        "height": 15.2
+      }
+    },
+    "signature12Fill": {
+      "type": "text",
+      "label": "OPNAV M-8000.16 Volume III",
+      "page": 2,
+      "box": {
+        "left": 628.4,
+        "top": 519.2,
+        "width": 124.8,
+        "height": 12.3
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 2,
+      "count": 13,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "code": {
+          "type": "text",
+          "label": "CODE",
+          "page": 2,
+          "box": {
+            "left": 38.8,
+            "top": 451.7,
+            "width": 21.3,
+            "height": 12.3
+          }
+        },
+        "basic": {
+          "type": "text",
+          "label": "BASIC",
+          "page": 2,
+          "box": {
+            "left": 65.8,
+            "top": 451.7,
+            "width": 21.3,
+            "height": 12.3
+          }
+        },
+        "int": {
+          "type": "text",
+          "label": "INT",
+          "page": 2,
+          "box": {
+            "left": 92.8,
+            "top": 451.7,
+            "width": 21.3,
+            "height": 12.3
+          }
+        },
+        "rev": {
+          "type": "text",
+          "label": "REV",
+          "page": 2,
+          "box": {
+            "left": 119.8,
+            "top": 451.7,
+            "width": 21.3,
+            "height": 12.3
+          }
+        },
+        "am": {
+          "type": "text",
+          "label": "AM",
+          "page": 2,
+          "box": {
+            "left": 146.9,
+            "top": 451.7,
+            "width": 21.3,
+            "height": 12.3
+          }
+        },
+        "pt": {
+          "type": "text",
+          "label": "PT",
+          "page": 2,
+          "box": {
+            "left": 173.9,
+            "top": 451.7,
+            "width": 21.3,
+            "height": 12.3
+          }
+        },
+        "kit": {
+          "type": "text",
+          "label": "KIT",
+          "page": 2,
+          "box": {
+            "left": 200.9,
+            "top": 451.7,
+            "width": 21.3,
+            "height": 12.3
+          }
+        },
+        "pri": {
+          "type": "text",
+          "label": "PRI",
+          "page": 2,
+          "box": {
+            "left": 227.9,
+            "top": 451.7,
+            "width": 21.3,
+            "height": 12.3
+          }
+        },
+        "status": {
+          "type": "choice",
+          "label": "B. STATUS",
+          "page": 2,
+          "box": {
+            "left": 255.6,
+            "top": 451.0,
+            "width": 51.3,
+            "height": 10.8
+          }
+        },
+        "titleRemarks": {
+          "type": "text",
+          "label": "C. TITLE/REMARKS",
+          "page": 2,
+          "box": {
+            "left": 313.4,
+            "top": 451.7,
+            "width": 115.8,
+            "height": 12.3
+          }
+        },
+        "activity": {
+          "type": "text",
+          "label": "BY (Activity)",
+          "page": 2,
+          "box": {
+            "left": 434.9,
+            "top": 451.7,
+            "width": 70.8,
+            "height": 12.3
+          }
+        },
+        "date": {
+          "type": "text",
+          "label": "DATE",
+          "page": 2,
+          "box": {
+            "left": 511.4,
+            "top": 451.7,
+            "width": 70.8,
+            "height": 12.3
+          }
+        },
+        "signature": {
+          "type": "text",
+          "label": "E. SIGNATURE",
+          "page": 2,
+          "box": {
+            "left": 587.9,
+            "top": 451.7,
+            "width": 165.4,
+            "height": 12.3
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,559 @@
+{
+  "id": "opnav4790182",
+  "label": "OPNAV4790-182 - Roto Launch Valve Dry Cycle Data",
+  "directory": "OPNAV4790-182 - Roto Launch Valve Dry Cycle Data",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "catapult",
+        "dateTimeField1",
+        "jsn",
+        "shotno",
+        "shotssince",
+        "testdate",
+        "lvtemp",
+        "hydpress",
+        "hydtemp",
+        "time1",
+        "time2",
+        "time3",
+        "time4",
+        "time5",
+        "time6",
+        "time7",
+        "time8",
+        "time9",
+        "testdate2",
+        "lvtemp2",
+        "hydpress2",
+        "hydtemp2",
+        "c0501A",
+        "c100cA",
+        "c1002A",
+        "c1501A",
+        "c1502A",
+        "c2501A",
+        "c2502A",
+        "c3001A",
+        "c3002A",
+        "remarks",
+        "maintman",
+        "aglpocpo",
+        "qainspector",
+        "maintcpo"
+      ]
+    }
+  ],
+  "fields": {
+    "catapult": {
+      "type": "text",
+      "label": "ENTER CATAPULT NUMBER.",
+      "page": 1,
+      "box": {
+        "left": 108.2,
+        "top": 726.2,
+        "width": 78.0,
+        "height": 12.3
+      }
+    },
+    "dateTimeField1": {
+      "type": "text",
+      "label": "ENTER DATE.",
+      "page": 1,
+      "box": {
+        "left": 473.2,
+        "top": 726.2,
+        "width": 91.0,
+        "height": 12.3
+      }
+    },
+    "jsn": {
+      "type": "text",
+      "label": "ENTER JSN.",
+      "page": 1,
+      "box": {
+        "left": 282.3,
+        "top": 717.2,
+        "width": 65.9,
+        "height": 12.3
+      }
+    },
+    "shotno": {
+      "type": "text",
+      "label": "ENTER SHOT NUMBER.",
+      "page": 1,
+      "box": {
+        "left": 86.8,
+        "top": 699.2,
+        "width": 99.4,
+        "height": 12.3
+      }
+    },
+    "shotssince": {
+      "type": "text",
+      "label": "ENTER SHOTS SINCE LAST INSPECTION.",
+      "page": 1,
+      "box": {
+        "left": 501.1,
+        "top": 699.2,
+        "width": 63.1,
+        "height": 12.3
+      }
+    },
+    "testdate": {
+      "type": "text",
+      "label": "ENTER DATE TESTED.",
+      "page": 1,
+      "box": {
+        "left": 118.7,
+        "top": 622.7,
+        "width": 62.9,
+        "height": 12.3
+      }
+    },
+    "lvtemp": {
+      "type": "text",
+      "label": "ENTER LV TEMP.",
+      "page": 1,
+      "box": {
+        "left": 226.4,
+        "top": 622.7,
+        "width": 63.2,
+        "height": 12.3
+      }
+    },
+    "hydpress": {
+      "type": "text",
+      "label": "ENTER HYD PRESSURE.",
+      "page": 1,
+      "box": {
+        "left": 363.3,
+        "top": 622.7,
+        "width": 47.8,
+        "height": 12.3
+      }
+    },
+    "hydtemp": {
+      "type": "text",
+      "label": "ENTER JYD TEMP.",
+      "page": 1,
+      "box": {
+        "left": 482.7,
+        "top": 622.7,
+        "width": 54.4,
+        "height": 12.3
+      }
+    },
+    "time1": {
+      "type": "text",
+      "label": "ENTER CLOCK TIMES.",
+      "page": 1,
+      "box": {
+        "left": 141.3,
+        "top": 573.2,
+        "width": 26.8,
+        "height": 12.3
+      }
+    },
+    "time2": {
+      "type": "text",
+      "label": "ENTER CLOCK TIMES.",
+      "page": 1,
+      "box": {
+        "left": 190.8,
+        "top": 573.2,
+        "width": 26.8,
+        "height": 12.3
+      }
+    },
+    "time3": {
+      "type": "text",
+      "label": "ENTER CLOCK TIMES.",
+      "page": 1,
+      "box": {
+        "left": 240.3,
+        "top": 573.2,
+        "width": 26.8,
+        "height": 12.3
+      }
+    },
+    "time4": {
+      "type": "text",
+      "label": "ENTER CLOCK TIMES.",
+      "page": 1,
+      "box": {
+        "left": 289.8,
+        "top": 573.2,
+        "width": 26.8,
+        "height": 12.3
+      }
+    },
+    "time5": {
+      "type": "text",
+      "label": "ENTER CLOCK TIMES.",
+      "page": 1,
+      "box": {
+        "left": 339.3,
+        "top": 573.2,
+        "width": 26.8,
+        "height": 12.3
+      }
+    },
+    "time6": {
+      "type": "text",
+      "label": "ENTER CLOCK TIMES.",
+      "page": 1,
+      "box": {
+        "left": 388.8,
+        "top": 573.2,
+        "width": 26.8,
+        "height": 12.3
+      }
+    },
+    "time7": {
+      "type": "text",
+      "label": "ENTER CLOCK TIMES.",
+      "page": 1,
+      "box": {
+        "left": 438.3,
+        "top": 573.2,
+        "width": 26.8,
+        "height": 12.3
+      }
+    },
+    "time8": {
+      "type": "text",
+      "label": "ENTER CLOCK TIMES.",
+      "page": 1,
+      "box": {
+        "left": 487.8,
+        "top": 573.2,
+        "width": 26.8,
+        "height": 12.3
+      }
+    },
+    "time9": {
+      "type": "text",
+      "label": "ENTER CLOCK TIMES.",
+      "page": 1,
+      "box": {
+        "left": 537.3,
+        "top": 573.2,
+        "width": 26.8,
+        "height": 12.3
+      }
+    },
+    "testdate2": {
+      "type": "text",
+      "label": "ENTER DATE TESTED.",
+      "page": 1,
+      "box": {
+        "left": 118.7,
+        "top": 519.2,
+        "width": 62.9,
+        "height": 12.3
+      }
+    },
+    "lvtemp2": {
+      "type": "text",
+      "label": "ENTER LV TEMP.",
+      "page": 1,
+      "box": {
+        "left": 226.4,
+        "top": 519.2,
+        "width": 63.2,
+        "height": 12.3
+      }
+    },
+    "hydpress2": {
+      "type": "text",
+      "label": "ENTER HYD PRESSURE.",
+      "page": 1,
+      "box": {
+        "left": 363.3,
+        "top": 519.2,
+        "width": 47.8,
+        "height": 12.3
+      }
+    },
+    "hydtemp2": {
+      "type": "text",
+      "label": "ENTER HYD TEMPERATURE.",
+      "page": 1,
+      "box": {
+        "left": 482.7,
+        "top": 519.2,
+        "width": 54.4,
+        "height": 12.3
+      }
+    },
+    "c0501A": {
+      "type": "text",
+      "label": "ENTER CLOCK TIMES.",
+      "page": 1,
+      "box": {
+        "left": 88.3,
+        "top": 357.2,
+        "width": 52.8,
+        "height": 12.3
+      }
+    },
+    "c100cA": {
+      "type": "text",
+      "label": "ENTER CLOCK TIMES.",
+      "page": 1,
+      "box": {
+        "left": 146.8,
+        "top": 357.2,
+        "width": 50.8,
+        "height": 12.3
+      }
+    },
+    "c1002A": {
+      "type": "text",
+      "label": "ENTER CLOCK TIMES.",
+      "page": 1,
+      "box": {
+        "left": 203.3,
+        "top": 357.2,
+        "width": 46.1,
+        "height": 12.3
+      }
+    },
+    "c1501A": {
+      "type": "text",
+      "label": "ENTER CLOCK TIMES.",
+      "page": 1,
+      "box": {
+        "left": 255.0,
+        "top": 357.2,
+        "width": 50.8,
+        "height": 12.3
+      }
+    },
+    "c1502A": {
+      "type": "text",
+      "label": "ENTER CLOCK TIMES.",
+      "page": 1,
+      "box": {
+        "left": 311.5,
+        "top": 357.2,
+        "width": 46.1,
+        "height": 12.3
+      }
+    },
+    "c2501A": {
+      "type": "text",
+      "label": "ENTER CLOCK TIMES.",
+      "page": 1,
+      "box": {
+        "left": 363.3,
+        "top": 357.2,
+        "width": 50.8,
+        "height": 12.3
+      }
+    },
+    "c2502A": {
+      "type": "text",
+      "label": "ENTER CLOCK TIMES.",
+      "page": 1,
+      "box": {
+        "left": 419.7,
+        "top": 357.2,
+        "width": 50.0,
+        "height": 12.3
+      }
+    },
+    "c3001A": {
+      "type": "text",
+      "label": "ENTER CLOCK TIMES.",
+      "page": 1,
+      "box": {
+        "left": 475.3,
+        "top": 357.2,
+        "width": 48.1,
+        "height": 12.3
+      }
+    },
+    "c3002A": {
+      "type": "text",
+      "label": "ENTER CLOCK TIMES.",
+      "page": 1,
+      "box": {
+        "left": 529.3,
+        "top": 357.2,
+        "width": 43.8,
+        "height": 12.3
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "ENTER REMARKS.",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 321.2,
+        "width": 534.3,
+        "height": 25.8
+      }
+    },
+    "maintman": {
+      "type": "text",
+      "label": "ENTER MAINT. MAN.",
+      "page": 1,
+      "box": {
+        "left": 96.5,
+        "top": 82.7,
+        "width": 161.7,
+        "height": 12.3
+      }
+    },
+    "aglpocpo": {
+      "type": "text",
+      "label": "ENTER W/C SUPERVISOR.",
+      "page": 1,
+      "box": {
+        "left": 425.9,
+        "top": 82.7,
+        "width": 129.2,
+        "height": 12.3
+      }
+    },
+    "qainspector": {
+      "type": "text",
+      "label": "ENTER QA INSPECTOR.",
+      "page": 1,
+      "box": {
+        "left": 115.7,
+        "top": 60.2,
+        "width": 142.4,
+        "height": 12.3
+      }
+    },
+    "maintcpo": {
+      "type": "text",
+      "label": "ENTER MAINT. CHIEF/OFFICER.",
+      "page": 1,
+      "box": {
+        "left": 446.5,
+        "top": 60.2,
+        "width": 108.6,
+        "height": 12.3
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 5,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "c": {
+          "type": "text",
+          "label": "ENTER CLOCK TIMES.",
+          "page": 1,
+          "box": {
+            "left": 88.3,
+            "top": 447.2,
+            "width": 52.8,
+            "height": 12.3
+          }
+        },
+        "c100c": {
+          "type": "text",
+          "label": "ENTER CLOCK TIMES.",
+          "page": 1,
+          "box": {
+            "left": 146.8,
+            "top": 447.2,
+            "width": 50.8,
+            "height": 12.3
+          }
+        },
+        "c2": {
+          "type": "text",
+          "label": "ENTER CLOCK TIMES.",
+          "page": 1,
+          "box": {
+            "left": 203.3,
+            "top": 447.2,
+            "width": 46.1,
+            "height": 12.3
+          }
+        },
+        "c3": {
+          "type": "text",
+          "label": "ENTER CLOCK TIMES.",
+          "page": 1,
+          "box": {
+            "left": 255.0,
+            "top": 447.2,
+            "width": 50.8,
+            "height": 12.3
+          }
+        },
+        "c4": {
+          "type": "text",
+          "label": "ENTER CLOCK TIMES.",
+          "page": 1,
+          "box": {
+            "left": 311.5,
+            "top": 447.2,
+            "width": 46.1,
+            "height": 12.3
+          }
+        },
+        "c5": {
+          "type": "text",
+          "label": "ENTER CLOCK TIMES.",
+          "page": 1,
+          "box": {
+            "left": 363.3,
+            "top": 447.2,
+            "width": 50.8,
+            "height": 12.3
+          }
+        },
+        "c6": {
+          "type": "text",
+          "label": "ENTER CLOCK TIMES.",
+          "page": 1,
+          "box": {
+            "left": 419.7,
+            "top": 447.2,
+            "width": 50.0,
+            "height": 12.3
+          }
+        },
+        "c7": {
+          "type": "text",
+          "label": "ENTER CLOCK TIMES.",
+          "page": 1,
+          "box": {
+            "left": 475.3,
+            "top": 447.2,
+            "width": 48.1,
+            "height": 12.3
+          }
+        },
+        "c8": {
+          "type": "text",
+          "label": "ENTER CLOCK TIMES.",
+          "page": 1,
+          "box": {
+            "left": 529.3,
+            "top": 447.2,
+            "width": 43.8,
+            "height": 12.3
+          }
+        }
+      }
+    }
+  }
+}

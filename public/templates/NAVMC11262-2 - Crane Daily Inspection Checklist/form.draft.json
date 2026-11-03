@@ -1,0 +1,206 @@
+{
+  "id": "navmc112622",
+  "label": "NAVMC11262-2 - Crane Daily Inspection Checklist",
+  "directory": "NAVMC11262-2 - Crane Daily Inspection Checklist",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "serialNumber",
+        "type",
+        "unit",
+        "remarks",
+        "operator",
+        "dateOperator"
+      ]
+    }
+  ],
+  "fields": {
+    "serialNumber": {
+      "type": "text",
+      "label": "USMC Serial Number",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 528.2,
+        "width": 174.4,
+        "height": 12.3
+      }
+    },
+    "type": {
+      "type": "text",
+      "label": "Type/Capacity",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 528.2,
+        "width": 282.4,
+        "height": 12.3
+      }
+    },
+    "unit": {
+      "type": "text",
+      "label": "UNIT",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 528.2,
+        "width": 246.4,
+        "height": 12.3
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "Section 4 Remarks",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 141.1,
+        "width": 714.4,
+        "height": 40.7
+      },
+      "multiline": true
+    },
+    "operator": {
+      "type": "text",
+      "label": "Operator",
+      "page": 1,
+      "box": {
+        "left": 76.3,
+        "top": 78.1,
+        "width": 370.9,
+        "height": 12.3
+      }
+    },
+    "dateOperator": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 478.4,
+        "top": 78.1,
+        "width": 103.8,
+        "height": 12.3
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 6,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "blank": {
+          "type": "text",
+          "label": "Walks / Ladders / Handrails",
+          "page": 1,
+          "box": {
+            "left": 219.6,
+            "top": 306.0,
+            "width": 149.4,
+            "height": 18.0
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 7,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "blank2": {
+          "type": "text",
+          "label": "Fire Extinguisher",
+          "page": 1,
+          "box": {
+            "left": 399.6,
+            "top": 324.0,
+            "width": 149.4,
+            "height": 18.0
+          }
+        }
+      }
+    },
+    "rows3": {
+      "title": "Rows",
+      "page": 1,
+      "count": 9,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "blank3": {
+          "type": "text",
+          "label": "List / Trim indicators",
+          "page": 1,
+          "box": {
+            "left": 579.7,
+            "top": 360.0,
+            "width": 149.4,
+            "height": 18.0
+          }
+        }
+      }
+    },
+    "rows4": {
+      "title": "Rows",
+      "page": 1,
+      "count": 16,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "inspection": {
+          "type": "text",
+          "label": "*Safety Guards and Plates",
+          "page": 1,
+          "box": {
+            "left": 190.5,
+            "top": 484.5,
+            "width": 24.1,
+            "height": 15.1
+          }
+        },
+        "inspection2": {
+          "type": "text",
+          "label": "Housekeeping",
+          "page": 1,
+          "box": {
+            "left": 370.5,
+            "top": 484.5,
+            "width": 24.1,
+            "height": 15.1
+          }
+        },
+        "inspection3": {
+          "type": "text",
+          "label": "Gauges",
+          "page": 1,
+          "box": {
+            "left": 550.5,
+            "top": 484.5,
+            "width": 24.1,
+            "height": 15.1
+          }
+        },
+        "inspection4": {
+          "type": "text",
+          "label": "Area Safety",
+          "page": 1,
+          "box": {
+            "left": 730.5,
+            "top": 484.5,
+            "width": 24.1,
+            "height": 15.1
+          }
+        }
+      }
+    }
+  }
+}

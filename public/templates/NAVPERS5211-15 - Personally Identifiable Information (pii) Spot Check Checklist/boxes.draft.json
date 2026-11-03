@@ -1,0 +1,381 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "dateInspected": {
+        "left": 38.9,
+        "top": 708.5,
+        "width": 390.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "COMMAND/CODE INSPECTED",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "code": {
+        "left": 434.9,
+        "top": 708.5,
+        "width": 138.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "DATE OF INSPECTION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell2": {
+        "left": 562.8,
+        "top": 665.7,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "1. Do you know what makes PII sensitive?",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell22": {
+        "left": 562.8,
+        "top": 648.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "5211.7A",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell23": {
+        "left": 562.8,
+        "top": 629.7,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "5211.7A",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell24": {
+        "left": 562.8,
+        "top": 615.3,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "5211.7A",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell25": {
+        "left": 562.8,
+        "top": 598.0,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "5211.7A",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell26": {
+        "left": 562.8,
+        "top": 579.3,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "5211.7A",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell27": {
+        "left": 562.8,
+        "top": 564.9,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "5211.7A",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell28": {
+        "left": 562.8,
+        "top": 550.5,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "5211.7A",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell29": {
+        "left": 562.8,
+        "top": 533.2,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "5211.7A",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell210": {
+        "left": 562.8,
+        "top": 514.5,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "10. Do you know what the Navy\u2019s policy is on faxing PII?",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell211": {
+        "left": 562.8,
+        "top": 500.1,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "11. Do you always remove your CAC when you leave your desk?",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell212": {
+        "left": 562.8,
+        "top": 485.7,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "5211.7A",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell213": {
+        "left": 562.8,
+        "top": 468.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "5211.7A",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell214": {
+        "left": 562.8,
+        "top": 449.7,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "5211.7A",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell215": {
+        "left": 562.8,
+        "top": 435.3,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "5211.7A",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell216": {
+        "left": 562.8,
+        "top": 412.6,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "5211.7A",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell217": {
+        "left": 562.8,
+        "top": 388.5,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "5211.7A",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell218": {
+        "left": 562.8,
+        "top": 369.3,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "5211.7A",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell219": {
+        "left": 562.8,
+        "top": 331.5,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "5211.7A",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell220": {
+        "left": 562.8,
+        "top": 312.9,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "5211.7A",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell221": {
+        "left": 562.8,
+        "top": 295.5,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "5211.7A",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell222": {
+        "left": 562.8,
+        "top": 276.9,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "5211.7A",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell223": {
+        "left": 562.8,
+        "top": 259.5,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "5211.7A",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell224": {
+        "left": 562.8,
+        "top": 226.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "5211.7A",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell225": {
+        "left": 562.8,
+        "top": 209.1,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "5211.7A",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell226": {
+        "left": 562.8,
+        "top": 187.5,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "5211.7A",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "commentsField": {
+        "left": 38.9,
+        "top": 155.4,
+        "width": 534.3,
+        "height": 69.8,
+        "type": "text",
+        "description": "Please use this field to document discrepancies identified",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pIIname": {
+        "left": 38.9,
+        "top": 56.8,
+        "width": 192.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "PII COORDINATOR/INSPECTOR NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pIIcode": {
+        "left": 236.9,
+        "top": 56.8,
+        "width": 66.2,
+        "height": 18.0,
+        "type": "text",
+        "description": "CODE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pIIsignature": {
+        "left": 308.9,
+        "top": 56.8,
+        "width": 192.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "PII COORDINATOR/INSPECTOR SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pIIdate": {
+        "left": 506.9,
+        "top": 56.8,
+        "width": 66.2,
+        "height": 18.0,
+        "type": "text",
+        "description": "DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

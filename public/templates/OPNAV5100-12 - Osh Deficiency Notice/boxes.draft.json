@@ -1,0 +1,227 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 616,
+    "height": 796
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "organization": {
+        "left": 39.2,
+        "top": 707.2,
+        "width": 191.2,
+        "height": 33.4,
+        "type": "text",
+        "description": "Enter the organization, building number, department and/or code, as appropriate.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "location": {
+        "left": 236.6,
+        "top": 707.2,
+        "width": 189.3,
+        "height": 33.4,
+        "type": "text",
+        "description": "Enter the specific location of the deficiency noted.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "iDNo": {
+        "left": 430.7,
+        "top": 707.2,
+        "width": 143.2,
+        "height": 33.4,
+        "type": "text",
+        "description": "Enter the the identification number or serial number assigned to the deficiency.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "desOfHaz": {
+        "left": 39.2,
+        "top": 658.7,
+        "width": 533.3,
+        "height": 84.3,
+        "type": "text",
+        "description": "Enter the description of hazard.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "standViola": {
+        "left": 39.2,
+        "top": 559.0,
+        "width": 265.0,
+        "height": 34.4,
+        "type": "text",
+        "description": "Enter the standard violated.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rac": {
+        "left": 308.8,
+        "top": 559.0,
+        "width": 265.1,
+        "height": 34.4,
+        "type": "text",
+        "description": "Enter the risk assessment code (RAC) assigned to this deficiency..",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "oSHofficial": {
+        "left": 39.2,
+        "top": 512.2,
+        "width": 193.1,
+        "height": 33.7,
+        "type": "text",
+        "description": "Enter the OSH official's name (last, first, middle initial).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "oSHofficial2": {
+        "left": 238.3,
+        "top": 512.2,
+        "width": 121.8,
+        "height": 33.7,
+        "type": "text",
+        "description": "Enter the OSH official's telephone number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date1": {
+        "left": 365.7,
+        "top": 511.5,
+        "width": 208.2,
+        "height": 31.0,
+        "type": "text",
+        "description": " Date Hazard Reported:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "secBInterControls": {
+        "left": 39.2,
+        "top": 450.6,
+        "width": 533.3,
+        "height": 76.4,
+        "type": "text",
+        "description": "For section B, enter the interim controls.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "proDes": {
+        "left": 39.2,
+        "top": 343.0,
+        "width": 265.0,
+        "height": 88.0,
+        "type": "text",
+        "description": "Under Abatement project initiated, Enter the project description.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "actTaken": {
+        "left": 308.8,
+        "top": 333.5,
+        "width": 265.1,
+        "height": 34.9,
+        "type": "text",
+        "description": "Under Abatement project initiated, Enter the action taken (include work rders/purchase request numbers and date as appropriate).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "costEst": {
+        "left": 308.8,
+        "top": 283.1,
+        "width": 130.7,
+        "height": 27.3,
+        "type": "text",
+        "description": "Under Abatement project initiated, Enter the cost estimate.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateCompleEst": {
+        "left": 443.2,
+        "top": 283.1,
+        "width": 130.7,
+        "height": 27.3,
+        "type": "text",
+        "description": "Under Abatement project initiated, Enter the completion date (est), using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "corrMade": {
+        "left": 39.2,
+        "top": 226.2,
+        "width": 265.1,
+        "height": 88.8,
+        "type": "text",
+        "description": "Under deficiency corrected, Enter the deficiency corrections made.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date2": {
+        "left": 308.8,
+        "top": 224.7,
+        "width": 265.1,
+        "height": 31.5,
+        "type": "text",
+        "description": "Under deficiency corrected, Enter the completion date (est), using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "laborCost": {
+        "left": 308.8,
+        "top": 162.8,
+        "width": 130.7,
+        "height": 24.3,
+        "type": "text",
+        "description": "Under deficiency corrected, Enter the cost of labor.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "matCost": {
+        "left": 443.2,
+        "top": 162.4,
+        "width": 130.7,
+        "height": 24.0,
+        "type": "text",
+        "description": "Under deficiency corrected, Enter the cost of material.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comments": {
+        "left": 39.2,
+        "top": 114.4,
+        "width": 535.2,
+        "height": 71.2,
+        "type": "text",
+        "description": "For section C, enter comments.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

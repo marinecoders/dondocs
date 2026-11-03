@@ -1,0 +1,698 @@
+{
+  "id": "navmc11802",
+  "label": "NAVMC 11802 - Computation Of Traverse",
+  "directory": "NAVMC11802 - Computation Of Traverse",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "software",
+        "stationNo1",
+        "stationNo2",
+        "rearStationName",
+        "stationName1",
+        "stationName2",
+        "easting1",
+        "easting2",
+        "northing1",
+        "northing2",
+        "elevation1",
+        "elevation2",
+        "aZRear1",
+        "aZRear2",
+        "scheme1",
+        "scheme2",
+        "horz1",
+        "horz2",
+        "vert1",
+        "vert2",
+        "recip1",
+        "recip2",
+        "distance1",
+        "distance2",
+        "stationNo3",
+        "stationNo4",
+        "stationName3",
+        "stationName4",
+        "easting3",
+        "easting4",
+        "northing3",
+        "northing4",
+        "elevation3",
+        "elevation4",
+        "aZRear3",
+        "aZRear4",
+        "scheme3",
+        "scheme4",
+        "horz3",
+        "horz4",
+        "vert3",
+        "vert4",
+        "recip3",
+        "recip4",
+        "distance3",
+        "distance4",
+        "remarks",
+        "computer",
+        "checker",
+        "date",
+        "locality",
+        "fileName",
+        "sheet",
+        "of"
+      ]
+    }
+  ],
+  "fields": {
+    "software": {
+      "type": "text",
+      "label": "Survey Software for RPDA Version:",
+      "page": 1,
+      "box": {
+        "left": 170.5,
+        "top": 703.8,
+        "width": 401.9,
+        "height": 18.0
+      }
+    },
+    "stationNo1": {
+      "type": "text",
+      "label": "STATION #:",
+      "page": 1,
+      "box": {
+        "left": 301.5,
+        "top": 660.6,
+        "width": 108.9,
+        "height": 9.0
+      }
+    },
+    "stationNo2": {
+      "type": "text",
+      "label": "STATION #:",
+      "page": 1,
+      "box": {
+        "left": 463.5,
+        "top": 660.6,
+        "width": 108.9,
+        "height": 9.0
+      }
+    },
+    "rearStationName": {
+      "type": "text",
+      "label": "RearStationName",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 644.4,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "stationName1": {
+      "type": "text",
+      "label": "StationName1",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 626.4,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "stationName2": {
+      "type": "text",
+      "label": "StationName2",
+      "page": 1,
+      "box": {
+        "left": 417.6,
+        "top": 626.4,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "easting1": {
+      "type": "text",
+      "label": "Easting1",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 608.4,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "easting2": {
+      "type": "text",
+      "label": "Easting2",
+      "page": 1,
+      "box": {
+        "left": 417.6,
+        "top": 608.4,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "northing1": {
+      "type": "text",
+      "label": "Northing1",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 590.4,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "northing2": {
+      "type": "text",
+      "label": "Northing2",
+      "page": 1,
+      "box": {
+        "left": 417.6,
+        "top": 590.4,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "elevation1": {
+      "type": "text",
+      "label": "Elevation1",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 572.4,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "elevation2": {
+      "type": "text",
+      "label": "Elevation2",
+      "page": 1,
+      "box": {
+        "left": 417.6,
+        "top": 572.4,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "aZRear1": {
+      "type": "text",
+      "label": "AZRear1",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 554.4,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "aZRear2": {
+      "type": "text",
+      "label": "AZRear2",
+      "page": 1,
+      "box": {
+        "left": 417.6,
+        "top": 554.4,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "scheme1": {
+      "type": "choice",
+      "label": "Scheme1",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 521.2,
+        "width": 154.8,
+        "height": 10.8
+      },
+      "options": [
+        "Y",
+        "N"
+      ]
+    },
+    "scheme2": {
+      "type": "choice",
+      "label": "Scheme2",
+      "page": 1,
+      "box": {
+        "left": 417.6,
+        "top": 521.2,
+        "width": 154.8,
+        "height": 10.8
+      },
+      "options": [
+        "Y",
+        "N"
+      ]
+    },
+    "horz1": {
+      "type": "text",
+      "label": "Horz1",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 503.2,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "horz2": {
+      "type": "text",
+      "label": "Horz2",
+      "page": 1,
+      "box": {
+        "left": 417.6,
+        "top": 503.2,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "vert1": {
+      "type": "text",
+      "label": "Vert1",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 485.2,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "vert2": {
+      "type": "text",
+      "label": "Vert2",
+      "page": 1,
+      "box": {
+        "left": 417.6,
+        "top": 485.2,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "recip1": {
+      "type": "choice",
+      "label": "Recip1",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 467.2,
+        "width": 154.8,
+        "height": 10.8
+      },
+      "options": [
+        "Y",
+        "N"
+      ]
+    },
+    "recip2": {
+      "type": "choice",
+      "label": "Recip2",
+      "page": 1,
+      "box": {
+        "left": 417.6,
+        "top": 467.2,
+        "width": 154.8,
+        "height": 10.8
+      },
+      "options": [
+        "Y",
+        "N"
+      ]
+    },
+    "distance1": {
+      "type": "text",
+      "label": "Distance1",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 449.2,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "distance2": {
+      "type": "text",
+      "label": "Distance2",
+      "page": 1,
+      "box": {
+        "left": 417.6,
+        "top": 449.2,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "stationNo3": {
+      "type": "text",
+      "label": "STATION #:",
+      "page": 1,
+      "box": {
+        "left": 301.5,
+        "top": 424.0,
+        "width": 108.9,
+        "height": 9.0
+      }
+    },
+    "stationNo4": {
+      "type": "text",
+      "label": "STATION #:",
+      "page": 1,
+      "box": {
+        "left": 463.5,
+        "top": 424.0,
+        "width": 108.9,
+        "height": 9.0
+      }
+    },
+    "stationName3": {
+      "type": "text",
+      "label": "StationName3",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 407.8,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "stationName4": {
+      "type": "text",
+      "label": "StationName4",
+      "page": 1,
+      "box": {
+        "left": 417.6,
+        "top": 407.8,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "easting3": {
+      "type": "text",
+      "label": "Easting3",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 389.8,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "easting4": {
+      "type": "text",
+      "label": "Easting4",
+      "page": 1,
+      "box": {
+        "left": 417.6,
+        "top": 389.8,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "northing3": {
+      "type": "text",
+      "label": "Northing3",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 371.8,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "northing4": {
+      "type": "text",
+      "label": "Northing4",
+      "page": 1,
+      "box": {
+        "left": 417.6,
+        "top": 371.8,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "elevation3": {
+      "type": "text",
+      "label": "Elevation3",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 353.8,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "elevation4": {
+      "type": "text",
+      "label": "Elevation4",
+      "page": 1,
+      "box": {
+        "left": 417.6,
+        "top": 353.8,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "aZRear3": {
+      "type": "text",
+      "label": "AZRear3",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 335.8,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "aZRear4": {
+      "type": "text",
+      "label": "AZRear4",
+      "page": 1,
+      "box": {
+        "left": 417.6,
+        "top": 335.8,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "scheme3": {
+      "type": "choice",
+      "label": "Scheme3",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 302.6,
+        "width": 154.8,
+        "height": 10.8
+      },
+      "options": [
+        "Y",
+        "N"
+      ]
+    },
+    "scheme4": {
+      "type": "choice",
+      "label": "Scheme4",
+      "page": 1,
+      "box": {
+        "left": 417.6,
+        "top": 302.6,
+        "width": 154.8,
+        "height": 10.8
+      },
+      "options": [
+        "Y",
+        "N"
+      ]
+    },
+    "horz3": {
+      "type": "text",
+      "label": "Horz3",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 284.6,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "horz4": {
+      "type": "text",
+      "label": "Horz4",
+      "page": 1,
+      "box": {
+        "left": 417.6,
+        "top": 284.6,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "vert3": {
+      "type": "text",
+      "label": "Vert3",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 266.6,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "vert4": {
+      "type": "text",
+      "label": "Vert4",
+      "page": 1,
+      "box": {
+        "left": 417.6,
+        "top": 266.6,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "recip3": {
+      "type": "choice",
+      "label": "Recip3",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 248.6,
+        "width": 154.8,
+        "height": 10.8
+      },
+      "options": [
+        "Y",
+        "N"
+      ]
+    },
+    "recip4": {
+      "type": "choice",
+      "label": "Recip4",
+      "page": 1,
+      "box": {
+        "left": 417.6,
+        "top": 248.6,
+        "width": 154.8,
+        "height": 10.8
+      },
+      "options": [
+        "Y",
+        "N"
+      ]
+    },
+    "distance3": {
+      "type": "text",
+      "label": "Distance3",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 230.6,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "distance4": {
+      "type": "text",
+      "label": "Distance4",
+      "page": 1,
+      "box": {
+        "left": 417.6,
+        "top": 230.6,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "REMARKS:",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 201.8,
+        "width": 532.8,
+        "height": 99.2
+      },
+      "multiline": true
+    },
+    "computer": {
+      "type": "text",
+      "label": "COMPUTER:",
+      "page": 1,
+      "box": {
+        "left": 90.2,
+        "top": 95.4,
+        "width": 122.2,
+        "height": 10.8
+      }
+    },
+    "checker": {
+      "type": "text",
+      "label": "CHECKER:",
+      "page": 1,
+      "box": {
+        "left": 261.1,
+        "top": 95.4,
+        "width": 221.3,
+        "height": 10.8
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "DATE:",
+      "page": 1,
+      "box": {
+        "left": 513.7,
+        "top": 95.4,
+        "width": 58.7,
+        "height": 10.8
+      }
+    },
+    "locality": {
+      "type": "text",
+      "label": "LOCALITY:",
+      "page": 1,
+      "box": {
+        "left": 90.2,
+        "top": 77.4,
+        "width": 122.2,
+        "height": 10.8
+      }
+    },
+    "fileName": {
+      "type": "text",
+      "label": "ARCHIVE FILE NAME:",
+      "page": 1,
+      "box": {
+        "left": 301.8,
+        "top": 77.4,
+        "width": 180.6,
+        "height": 10.8
+      }
+    },
+    "sheet": {
+      "type": "text",
+      "label": "Sheet",
+      "page": 1,
+      "box": {
+        "left": 528.4,
+        "top": 77.4,
+        "width": 10.8,
+        "height": 10.8
+      }
+    },
+    "of": {
+      "type": "text",
+      "label": "Of",
+      "page": 1,
+      "box": {
+        "left": 561.6,
+        "top": 77.4,
+        "width": 10.8,
+        "height": 10.8
+      }
+    }
+  }
+}

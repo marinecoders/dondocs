@@ -1,0 +1,567 @@
+{
+  "id": "navmc10047",
+  "label": "NAVMC10047 - Audiovisual Material Transmittal Work Request",
+  "directory": "NAVMC10047 - Audiovisual Material Transmittal Work Request",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "date",
+        "unitREQUESTNO",
+        "from",
+        "securityCLASSIFICATIONOFWORK",
+        "to",
+        "internalREFERENCENOS",
+        "motionPictureFilm",
+        "size16MM",
+        "sizeHi8",
+        "color",
+        "stillPhotoFilmNeg",
+        "bandW",
+        "size35MM",
+        "sizeMII",
+        "videotape",
+        "captions",
+        "size34UMatic",
+        "stillPhotoFilmSlide",
+        "developed",
+        "specify",
+        "sizeBetaC",
+        "other",
+        "undeveloped",
+        "noOFCONTAINERSRow1",
+        "subject",
+        "subject2",
+        "noOFCONTAINERSRow2",
+        "noOFCONTAINERSRow3",
+        "subject3",
+        "noOFCONTAINERSRow4",
+        "subject4",
+        "subject5",
+        "noOFCONTAINERSRow5",
+        "noOFCONTAINERSRow6",
+        "subject6",
+        "workRequestedJustification",
+        "dispositionOfOriginals",
+        "distributionRequirements",
+        "packedANDCHECKEDBY",
+        "aVoff",
+        "signature",
+        "completionBY",
+        "date2"
+      ]
+    }
+  ],
+  "fields": {
+    "date": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 438.2,
+        "top": 754.0,
+        "width": 148.3,
+        "height": 17.4
+      }
+    },
+    "unitREQUESTNO": {
+      "type": "text",
+      "label": "UNIT REQUEST NO.",
+      "page": 1,
+      "box": {
+        "left": 374.9,
+        "top": 721.7,
+        "width": 216.1,
+        "height": 11.5
+      }
+    },
+    "from": {
+      "type": "text",
+      "label": "FROM:",
+      "page": 1,
+      "box": {
+        "left": 20.8,
+        "top": 714.1,
+        "width": 352.6,
+        "height": 28.0
+      }
+    },
+    "securityCLASSIFICATIONOFWORK": {
+      "type": "text",
+      "label": "SECURITY CLASSIFICATION OF WORK",
+      "page": 1,
+      "box": {
+        "left": 374.9,
+        "top": 700.7,
+        "width": 219.4,
+        "height": 14.5
+      }
+    },
+    "to": {
+      "type": "text",
+      "label": "TO:",
+      "page": 1,
+      "box": {
+        "left": 20.8,
+        "top": 667.1,
+        "width": 352.6,
+        "height": 28.0
+      }
+    },
+    "internalREFERENCENOS": {
+      "type": "text",
+      "label": "INTERNAL REFERENCE NO(S):",
+      "page": 1,
+      "box": {
+        "left": 375.4,
+        "top": 667.1,
+        "width": 214.3,
+        "height": 28.0
+      }
+    },
+    "motionPictureFilm": {
+      "type": "checkbox",
+      "label": "MotionPictureFilm",
+      "page": 1,
+      "box": {
+        "left": 32.3,
+        "top": 603.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "size16MM": {
+      "type": "checkbox",
+      "label": "Size16MM",
+      "page": 1,
+      "box": {
+        "left": 182.7,
+        "top": 602.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "sizeHi8": {
+      "type": "checkbox",
+      "label": "SizeHi8",
+      "page": 1,
+      "box": {
+        "left": 268.6,
+        "top": 602.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "color": {
+      "type": "checkbox",
+      "label": "Color",
+      "page": 1,
+      "box": {
+        "left": 349.1,
+        "top": 601.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "stillPhotoFilmNeg": {
+      "type": "checkbox",
+      "label": "StillPhotoFilmNeg",
+      "page": 1,
+      "box": {
+        "left": 32.3,
+        "top": 585.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "bandW": {
+      "type": "checkbox",
+      "label": "BandW",
+      "page": 1,
+      "box": {
+        "left": 349.1,
+        "top": 583.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "size35MM": {
+      "type": "checkbox",
+      "label": "Size35MM",
+      "page": 1,
+      "box": {
+        "left": 182.7,
+        "top": 582.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "sizeMII": {
+      "type": "checkbox",
+      "label": "SizeMII",
+      "page": 1,
+      "box": {
+        "left": 268.6,
+        "top": 582.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "videotape": {
+      "type": "checkbox",
+      "label": "Videotape",
+      "page": 1,
+      "box": {
+        "left": 32.9,
+        "top": 566.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "captions": {
+      "type": "checkbox",
+      "label": "Captions",
+      "page": 1,
+      "box": {
+        "left": 349.1,
+        "top": 565.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "size34UMatic": {
+      "type": "checkbox",
+      "label": "Size3-4UMatic",
+      "page": 1,
+      "box": {
+        "left": 182.7,
+        "top": 561.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "stillPhotoFilmSlide": {
+      "type": "checkbox",
+      "label": "StillPhotoFilmSlide",
+      "page": 1,
+      "box": {
+        "left": 32.3,
+        "top": 548.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "developed": {
+      "type": "checkbox",
+      "label": "Developed",
+      "page": 1,
+      "box": {
+        "left": 349.1,
+        "top": 546.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "specify": {
+      "type": "checkbox",
+      "label": "Specify",
+      "page": 1,
+      "box": {
+        "left": 182.7,
+        "top": 541.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "sizeBetaC": {
+      "type": "checkbox",
+      "label": "SizeBetaC",
+      "page": 1,
+      "box": {
+        "left": 268.6,
+        "top": 541.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "other": {
+      "type": "checkbox",
+      "label": "Other",
+      "page": 1,
+      "box": {
+        "left": 32.3,
+        "top": 529.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "undeveloped": {
+      "type": "checkbox",
+      "label": "Undeveloped",
+      "page": 1,
+      "box": {
+        "left": 349.1,
+        "top": 528.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "noOFCONTAINERSRow1": {
+      "type": "text",
+      "label": "(NO. OF CONTAINERS, <Row 1>)",
+      "page": 1,
+      "box": {
+        "left": 189.4,
+        "top": 487.7,
+        "width": 60.8,
+        "height": 24.1
+      }
+    },
+    "subject": {
+      "type": "text",
+      "label": "(NO. OF CONTAINERS, <Row 1>)",
+      "page": 1,
+      "box": {
+        "left": 252.6,
+        "top": 486.2,
+        "width": 338.4,
+        "height": 24.1
+      }
+    },
+    "subject2": {
+      "type": "text",
+      "label": "(NO. OF CONTAINERS, <Row 1>)",
+      "page": 1,
+      "box": {
+        "left": 252.6,
+        "top": 462.0,
+        "width": 338.4,
+        "height": 24.1
+      }
+    },
+    "noOFCONTAINERSRow2": {
+      "type": "text",
+      "label": "(NO. OF CONTAINERS, <Row 2>)",
+      "page": 1,
+      "box": {
+        "left": 189.4,
+        "top": 461.4,
+        "width": 60.8,
+        "height": 24.0
+      }
+    },
+    "noOFCONTAINERSRow3": {
+      "type": "text",
+      "label": "(NO. OF CONTAINERS, <Row 3>)",
+      "page": 1,
+      "box": {
+        "left": 189.4,
+        "top": 436.2,
+        "width": 60.8,
+        "height": 24.1
+      }
+    },
+    "subject3": {
+      "type": "text",
+      "label": "(NO. OF CONTAINERS, <Row 1>)",
+      "page": 1,
+      "box": {
+        "left": 252.6,
+        "top": 435.7,
+        "width": 338.4,
+        "height": 24.1
+      }
+    },
+    "noOFCONTAINERSRow4": {
+      "type": "text",
+      "label": "(NO. OF CONTAINERS, <Row 4>)",
+      "page": 1,
+      "box": {
+        "left": 189.4,
+        "top": 411.5,
+        "width": 60.8,
+        "height": 24.0
+      }
+    },
+    "subject4": {
+      "type": "text",
+      "label": "(NO. OF CONTAINERS, <Row 1>)",
+      "page": 1,
+      "box": {
+        "left": 252.6,
+        "top": 410.9,
+        "width": 338.4,
+        "height": 24.1
+      }
+    },
+    "subject5": {
+      "type": "text",
+      "label": "(NO. OF CONTAINERS, <Row 1>)",
+      "page": 1,
+      "box": {
+        "left": 252.6,
+        "top": 386.7,
+        "width": 338.4,
+        "height": 24.1
+      }
+    },
+    "noOFCONTAINERSRow5": {
+      "type": "text",
+      "label": "(NO. OF CONTAINERS, <Row 5>)",
+      "page": 1,
+      "box": {
+        "left": 189.4,
+        "top": 386.6,
+        "width": 60.8,
+        "height": 24.0
+      }
+    },
+    "noOFCONTAINERSRow6": {
+      "type": "text",
+      "label": "(NO. OF CONTAINERS, <Row 6>)",
+      "page": 1,
+      "box": {
+        "left": 189.4,
+        "top": 360.5,
+        "width": 60.8,
+        "height": 24.1
+      }
+    },
+    "subject6": {
+      "type": "text",
+      "label": "(NO. OF CONTAINERS, <Row 1>)",
+      "page": 1,
+      "box": {
+        "left": 252.6,
+        "top": 360.4,
+        "width": 338.4,
+        "height": 24.1
+      }
+    },
+    "workRequestedJustification": {
+      "type": "text",
+      "label": "WorkRequestedJustification",
+      "page": 1,
+      "box": {
+        "left": 22.3,
+        "top": 313.5,
+        "width": 566.3,
+        "height": 67.0
+      },
+      "multiline": true
+    },
+    "dispositionOfOriginals": {
+      "type": "text",
+      "label": "PACKED AND CHECKED BY",
+      "page": 1,
+      "box": {
+        "left": 22.6,
+        "top": 228.4,
+        "width": 566.7,
+        "height": 12.1
+      }
+    },
+    "distributionRequirements": {
+      "type": "text",
+      "label": "PACKED AND CHECKED BY",
+      "page": 1,
+      "box": {
+        "left": 22.6,
+        "top": 204.7,
+        "width": 566.7,
+        "height": 16.8
+      }
+    },
+    "packedANDCHECKEDBY": {
+      "type": "text",
+      "label": "PACKED AND CHECKED BY",
+      "page": 1,
+      "box": {
+        "left": 18.8,
+        "top": 173.2,
+        "width": 282.4,
+        "height": 27.5
+      }
+    },
+    "aVoff": {
+      "type": "signature",
+      "label": "AVoff",
+      "page": 1,
+      "box": {
+        "left": 307.6,
+        "top": 168.3,
+        "width": 280.3,
+        "height": 19.1
+      }
+    },
+    "signature": {
+      "type": "signature",
+      "label": "SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 262.2,
+        "top": 100.0,
+        "width": 115.7,
+        "height": 16.9
+      }
+    },
+    "completionBY": {
+      "type": "text",
+      "label": "COMPLETION BY",
+      "page": 1,
+      "box": {
+        "left": 467.0,
+        "top": 99.6,
+        "width": 90.1,
+        "height": 13.7
+      }
+    },
+    "date2": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 57.9,
+        "top": 98.1,
+        "width": 90.8,
+        "height": 12.3
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 6,
+      "rowStride": 25.45,
+      "editor": "grid",
+      "columns": {
+        "referenceNo": {
+          "type": "text",
+          "label": "(NO. OF CONTAINERS, <Row 1>)",
+          "page": 1,
+          "box": {
+            "left": 20.8,
+            "top": 487.3,
+            "width": 97.2,
+            "height": 24.1
+          }
+        },
+        "runTimeExposures": {
+          "type": "text",
+          "label": "RunTimeExposures",
+          "page": 1,
+          "box": {
+            "left": 118.4,
+            "top": 487.8,
+            "width": 68.4,
+            "height": 24.1
+          }
+        }
+      }
+    }
+  }
+}

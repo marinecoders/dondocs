@@ -1,0 +1,257 @@
+{
+  "id": "opnav4790193",
+  "label": "OPNAV4790-193 - Artisan Inspector Designation",
+  "directory": "OPNAV4790-193 - Artisan Inspector Designation",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "artIspNme",
+        "artRteGde",
+        "artPatNum",
+        "artIspDepDiv",
+        "artAcTMS",
+        "artTde",
+        "sigArtInsp",
+        "artIspSigDte",
+        "prgMgrNme",
+        "pMCde",
+        "sigPM",
+        "pmSigDte",
+        "dirQltyNme",
+        "dirQltyCde",
+        "sigDirQlty",
+        "dirQltySigDte",
+        "cONme",
+        "cOCde",
+        "sigCO",
+        "cOSigDte"
+      ]
+    }
+  ],
+  "fields": {
+    "artIspNme": {
+      "type": "text",
+      "label": "1. ARTISAN INSPECTOR&apos;S NAME",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 651.0,
+        "width": 174.0,
+        "height": 24.9
+      }
+    },
+    "artRteGde": {
+      "type": "text",
+      "label": "2. RATE/GRADE",
+      "page": 1,
+      "box": {
+        "left": 219.3,
+        "top": 651.0,
+        "width": 174.0,
+        "height": 24.9
+      }
+    },
+    "artPatNum": {
+      "type": "text",
+      "label": "3. PAY NUMBER",
+      "page": 1,
+      "box": {
+        "left": 399.0,
+        "top": 651.0,
+        "width": 174.0,
+        "height": 24.9
+      }
+    },
+    "artIspDepDiv": {
+      "type": "text",
+      "label": "4. DEPARTMENT/DIVISION",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 606.3,
+        "width": 174.0,
+        "height": 24.9
+      }
+    },
+    "artAcTMS": {
+      "type": "text",
+      "label": "5. AIRCRAFT T/M/S",
+      "page": 1,
+      "box": {
+        "left": 219.3,
+        "top": 606.3,
+        "width": 174.0,
+        "height": 24.9
+      }
+    },
+    "artTde": {
+      "type": "text",
+      "label": "6. TRADE",
+      "page": 1,
+      "box": {
+        "left": 399.0,
+        "top": 606.3,
+        "width": 174.0,
+        "height": 24.9
+      }
+    },
+    "sigArtInsp": {
+      "type": "text",
+      "label": "7. SIGNATURE OF ARTISAN INSPECTOR",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 530.9,
+        "width": 418.6,
+        "height": 24.9
+      }
+    },
+    "artIspSigDte": {
+      "type": "text",
+      "label": "8. SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 464.2,
+        "top": 530.9,
+        "width": 108.8,
+        "height": 24.9
+      }
+    },
+    "prgMgrNme": {
+      "type": "text",
+      "label": "9. PROGRAM MANAGER&apos;S NAME",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 426.3,
+        "width": 418.6,
+        "height": 24.9
+      }
+    },
+    "pMCde": {
+      "type": "text",
+      "label": "10. CODE",
+      "page": 1,
+      "box": {
+        "left": 464.2,
+        "top": 426.3,
+        "width": 108.8,
+        "height": 24.9
+      }
+    },
+    "sigPM": {
+      "type": "text",
+      "label": "11. SIGNATURE OF PROGRAM MANAGER",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 381.0,
+        "width": 418.6,
+        "height": 24.9
+      }
+    },
+    "pmSigDte": {
+      "type": "text",
+      "label": "12. SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 464.2,
+        "top": 381.0,
+        "width": 108.8,
+        "height": 24.9
+      }
+    },
+    "dirQltyNme": {
+      "type": "text",
+      "label": "13. DIRECTOR OF QUALITY&apos;S NAME",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 260.5,
+        "width": 418.6,
+        "height": 24.9
+      }
+    },
+    "dirQltyCde": {
+      "type": "text",
+      "label": "14. CODE",
+      "page": 1,
+      "box": {
+        "left": 464.2,
+        "top": 260.5,
+        "width": 108.8,
+        "height": 24.9
+      }
+    },
+    "sigDirQlty": {
+      "type": "text",
+      "label": "15. SIGNATURE OF DIRECTOR OF QUALITY",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 215.2,
+        "width": 418.6,
+        "height": 24.9
+      }
+    },
+    "dirQltySigDte": {
+      "type": "text",
+      "label": "16. SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 464.2,
+        "top": 215.2,
+        "width": 108.8,
+        "height": 24.9
+      }
+    },
+    "cONme": {
+      "type": "text",
+      "label": "17. COMMANDING OFFICER&apos;S NAME",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 109.9,
+        "width": 418.6,
+        "height": 24.9
+      }
+    },
+    "cOCde": {
+      "type": "text",
+      "label": "18. CODE",
+      "page": 1,
+      "box": {
+        "left": 464.2,
+        "top": 109.9,
+        "width": 108.8,
+        "height": 24.9
+      }
+    },
+    "sigCO": {
+      "type": "text",
+      "label": "19. SIGNATURE OF COMMANDING OFFICER",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 64.6,
+        "width": 418.6,
+        "height": 25.4
+      }
+    },
+    "cOSigDte": {
+      "type": "text",
+      "label": "20. SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 464.2,
+        "top": 64.6,
+        "width": 108.8,
+        "height": 25.4
+      }
+    }
+  }
+}

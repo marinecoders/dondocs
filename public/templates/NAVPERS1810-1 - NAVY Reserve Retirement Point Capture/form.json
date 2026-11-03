@@ -1,0 +1,247 @@
+{
+  "id": "navpers18101",
+  "label": "NAVPERS1810-1 - NAVY Reserve Retirement Point Capture",
+  "directory": "NAVPERS1810-1 - NAVY Reserve Retirement Point Capture",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "textField1",
+        "textField12",
+        "textField13",
+        "textField14",
+        "numericField1",
+        "textField15",
+        "numericField12",
+        "signatureField1",
+        "numericField13",
+        "signatureField12"
+      ]
+    }
+  ],
+  "fields": {
+    "textField1": {
+      "type": "text",
+      "label": "RUIC",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 636.1,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "textField12": {
+      "type": "text",
+      "label": "Reserve Unit Title",
+      "page": 1,
+      "box": {
+        "left": 92.8,
+        "top": 636.1,
+        "width": 210.4,
+        "height": 12.3
+      }
+    },
+    "textField13": {
+      "type": "text",
+      "label": "UIC",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 636.1,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "textField14": {
+      "type": "text",
+      "label": "Record Holding Activity Name",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 636.1,
+        "width": 210.4,
+        "height": 12.3
+      }
+    },
+    "numericField1": {
+      "type": "text",
+      "label": "Name: (Last, First, MI)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 609.1,
+        "width": 399.4,
+        "height": 12.3
+      }
+    },
+    "textField15": {
+      "type": "text",
+      "label": "DoDID Number",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 609.1,
+        "width": 129.3,
+        "height": 12.3
+      }
+    },
+    "numericField12": {
+      "type": "text",
+      "label": "Name: (Last, First, MI)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 150.1,
+        "width": 264.4,
+        "height": 21.3
+      }
+    },
+    "signatureField1": {
+      "type": "text",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 150.1,
+        "width": 264.4,
+        "height": 21.3
+      }
+    },
+    "numericField13": {
+      "type": "text",
+      "label": "Name: (Last, First, MI)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 105.1,
+        "width": 264.4,
+        "height": 21.3
+      }
+    },
+    "signatureField12": {
+      "type": "text",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 105.1,
+        "width": 264.4,
+        "height": 21.3
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 20,
+      "rowStride": 18.01,
+      "editor": "grid",
+      "columns": {
+        "textField2": {
+          "type": "text",
+          "label": "From",
+          "page": 1,
+          "box": {
+            "left": 74.9,
+            "top": 546.1,
+            "width": 48.2,
+            "height": 12.2
+          }
+        },
+        "textField22": {
+          "type": "text",
+          "label": "To",
+          "page": 1,
+          "box": {
+            "left": 128.9,
+            "top": 546.1,
+            "width": 48.2,
+            "height": 12.2
+          }
+        },
+        "textField23": {
+          "type": "text",
+          "label": "Drills",
+          "page": 1,
+          "box": {
+            "left": 182.9,
+            "top": 546.1,
+            "width": 48.2,
+            "height": 12.2
+          }
+        },
+        "textField24": {
+          "type": "text",
+          "label": "AT/ADT",
+          "page": 1,
+          "box": {
+            "left": 236.9,
+            "top": 546.1,
+            "width": 48.2,
+            "height": 12.2
+          }
+        },
+        "textField25": {
+          "type": "text",
+          "label": "Duty",
+          "page": 1,
+          "box": {
+            "left": 290.9,
+            "top": 546.1,
+            "width": 48.2,
+            "height": 12.2
+          }
+        },
+        "textField26": {
+          "type": "text",
+          "label": "Courses",
+          "page": 1,
+          "box": {
+            "left": 344.9,
+            "top": 546.1,
+            "width": 48.2,
+            "height": 12.2
+          }
+        },
+        "textField27": {
+          "type": "text",
+          "label": "Gratuitous",
+          "page": 1,
+          "box": {
+            "left": 398.9,
+            "top": 546.1,
+            "width": 48.2,
+            "height": 12.2
+          }
+        },
+        "textField28": {
+          "type": "text",
+          "label": "Code",
+          "page": 1,
+          "box": {
+            "left": 452.9,
+            "top": 546.1,
+            "width": 48.2,
+            "height": 12.2
+          }
+        },
+        "textField29": {
+          "type": "text",
+          "label": "Text Field 29",
+          "page": 1,
+          "box": {
+            "left": 506.9,
+            "top": 546.1,
+            "width": 48.2,
+            "height": 12.2
+          }
+        }
+      }
+    }
+  }
+}

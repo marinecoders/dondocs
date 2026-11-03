@@ -1,0 +1,989 @@
+{
+  "id": "opnav4790169",
+  "label": "OPNAV4790-169 - Catapult Pre-Operational Data",
+  "directory": "OPNAV4790-169 - Catapult Pre-Operational Data",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "catapultno",
+        "date",
+        "time",
+        "consoleccp",
+        "steampress",
+        "temp",
+        "deckedgeiccs",
+        "receiverwaterlevel",
+        "rectractionengine",
+        "hydpress",
+        "temp2",
+        "waterbrakes",
+        "gravitytanklevel",
+        "nosegearlaunch",
+        "lubeoiltanklvl",
+        "jbd",
+        "sphonesup",
+        "sphonesdown",
+        "flightdeck",
+        "jbdwaterpressure",
+        "centerdeck",
+        "steamsmotherup",
+        "steamsmotherdown",
+        "catelectrician",
+        "safetylightsup",
+        "safetylightsdown",
+        "mll1",
+        "mll2",
+        "fs",
+        "waterlevel",
+        "temp3",
+        "dischargealpha",
+        "dischargebravo",
+        "tankskim",
+        "tankskim2",
+        "elbowalpha",
+        "sensorsbravo",
+        "sensorsopenalpha",
+        "sensorsopenbravo",
+        "vacuumalpha",
+        "vacuumbravo",
+        "sensorsclosealpha",
+        "sensorsbravo2",
+        "clk1time",
+        "clk2time",
+        "clock1range",
+        "clock1to",
+        "clock2range",
+        "clock2to",
+        "clock3range",
+        "clock3to"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "dynoforce1",
+        "dynoforce2",
+        "dynoforce3",
+        "hydpressure",
+        "hydpressurehigh",
+        "dynoforcelow",
+        "creeprate",
+        "time2",
+        "coc",
+        "mc",
+        "ccp",
+        "wb",
+        "prifly",
+        "rr",
+        "lk",
+        "wbp",
+        "fp",
+        "wvc",
+        "rr2",
+        "catcaptain",
+        "qai",
+        "catchief",
+        "maintofficercpo"
+      ]
+    }
+  ],
+  "fields": {
+    "catapultno": {
+      "type": "text",
+      "label": "ENTER CATAPULT NUMBER.",
+      "page": 1,
+      "box": {
+        "left": 109.9,
+        "top": 735.2,
+        "width": 103.3,
+        "height": 12.3
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "ENTER DATE.",
+      "page": 1,
+      "box": {
+        "left": 309.5,
+        "top": 735.2,
+        "width": 74.7,
+        "height": 12.3
+      }
+    },
+    "time": {
+      "type": "text",
+      "label": "ENTER TIME.",
+      "page": 1,
+      "box": {
+        "left": 488.7,
+        "top": 735.2,
+        "width": 57.5,
+        "height": 12.3
+      }
+    },
+    "consoleccp": {
+      "type": "text",
+      "label": "ENTER CONSOLE/CCP.",
+      "page": 1,
+      "box": {
+        "left": 109.9,
+        "top": 699.2,
+        "width": 193.3,
+        "height": 12.3
+      }
+    },
+    "steampress": {
+      "type": "text",
+      "label": "ENTER STEAM PRESS PSI.",
+      "page": 1,
+      "box": {
+        "left": 400.4,
+        "top": 699.2,
+        "width": 46.8,
+        "height": 12.3
+      }
+    },
+    "temp": {
+      "type": "text",
+      "label": "ENTER STEAM PRESS TEMPERATURE.",
+      "page": 1,
+      "box": {
+        "left": 517.4,
+        "top": 699.2,
+        "width": 28.8,
+        "height": 12.3
+      }
+    },
+    "deckedgeiccs": {
+      "type": "text",
+      "label": "ENTER DECKEDGE/ICCS.",
+      "page": 1,
+      "box": {
+        "left": 114.1,
+        "top": 672.2,
+        "width": 189.1,
+        "height": 12.3
+      }
+    },
+    "receiverwaterlevel": {
+      "type": "text",
+      "label": "ENTER RECEIVER WATER LEVEL IN INCHES.",
+      "page": 1,
+      "box": {
+        "left": 439.8,
+        "top": 672.2,
+        "width": 106.4,
+        "height": 12.3
+      }
+    },
+    "rectractionengine": {
+      "type": "text",
+      "label": "ENTER RETRACTION ENGINE.",
+      "page": 1,
+      "box": {
+        "left": 135.0,
+        "top": 645.2,
+        "width": 168.1,
+        "height": 12.3
+      }
+    },
+    "hydpress": {
+      "type": "text",
+      "label": "ENTER HYD. PRESS. IN PSI.",
+      "page": 1,
+      "box": {
+        "left": 391.2,
+        "top": 645.2,
+        "width": 56.0,
+        "height": 12.3
+      }
+    },
+    "temp2": {
+      "type": "text",
+      "label": "ENTER HYD. PRESS. TEMPERATURE.",
+      "page": 1,
+      "box": {
+        "left": 517.4,
+        "top": 645.2,
+        "width": 28.8,
+        "height": 12.3
+      }
+    },
+    "waterbrakes": {
+      "type": "text",
+      "label": "ENTER WATER BRAKES.",
+      "page": 1,
+      "box": {
+        "left": 117.4,
+        "top": 618.2,
+        "width": 185.7,
+        "height": 12.3
+      }
+    },
+    "gravitytanklevel": {
+      "type": "text",
+      "label": "ENTER GRAVITY TANK LEVEL IN GALLONS.",
+      "page": 1,
+      "box": {
+        "left": 422.2,
+        "top": 618.2,
+        "width": 124.0,
+        "height": 12.3
+      }
+    },
+    "nosegearlaunch": {
+      "type": "text",
+      "label": "ENTER FDNGL.",
+      "page": 1,
+      "box": {
+        "left": 132.5,
+        "top": 591.2,
+        "width": 170.7,
+        "height": 12.3
+      }
+    },
+    "lubeoiltanklvl": {
+      "type": "text",
+      "label": "ENTER LUBE OIL TANK LEVEL IN GALLONS",
+      "page": 1,
+      "box": {
+        "left": 422.2,
+        "top": 591.2,
+        "width": 124.0,
+        "height": 12.3
+      }
+    },
+    "jbd": {
+      "type": "text",
+      "label": "ENTER JBD.",
+      "page": 1,
+      "box": {
+        "left": 69.6,
+        "top": 564.2,
+        "width": 233.5,
+        "height": 12.3
+      }
+    },
+    "sphonesup": {
+      "type": "text",
+      "label": "ENTER SP PHONES UP.",
+      "page": 1,
+      "box": {
+        "left": 411.3,
+        "top": 564.2,
+        "width": 62.9,
+        "height": 12.3
+      }
+    },
+    "sphonesdown": {
+      "type": "text",
+      "label": "ENTER SP PHONES DOWN.",
+      "page": 1,
+      "box": {
+        "left": 514.2,
+        "top": 564.2,
+        "width": 50.0,
+        "height": 12.3
+      }
+    },
+    "flightdeck": {
+      "type": "text",
+      "label": "ENTER FLIGHT DECK.",
+      "page": 1,
+      "box": {
+        "left": 104.0,
+        "top": 537.2,
+        "width": 199.2,
+        "height": 12.3
+      }
+    },
+    "jbdwaterpressure": {
+      "type": "text",
+      "label": "ENTER JBD WATER PRESSURE IN PSI.",
+      "page": 1,
+      "box": {
+        "left": 417.1,
+        "top": 537.2,
+        "width": 129.0,
+        "height": 12.3
+      }
+    },
+    "centerdeck": {
+      "type": "text",
+      "label": "ENTER CENTER DECK.",
+      "page": 1,
+      "box": {
+        "left": 109.9,
+        "top": 510.2,
+        "width": 193.3,
+        "height": 12.3
+      }
+    },
+    "steamsmotherup": {
+      "type": "text",
+      "label": "ENTER STEAM SMOTHER UP.",
+      "page": 1,
+      "box": {
+        "left": 425.5,
+        "top": 510.2,
+        "width": 57.6,
+        "height": 12.3
+      }
+    },
+    "steamsmotherdown": {
+      "type": "text",
+      "label": "ENTER STEAM SMOTHER DOWN.",
+      "page": 1,
+      "box": {
+        "left": 523.2,
+        "top": 510.2,
+        "width": 41.0,
+        "height": 12.3
+      }
+    },
+    "catelectrician": {
+      "type": "text",
+      "label": "ENTER CAT ELECTRICIAN.",
+      "page": 1,
+      "box": {
+        "left": 119.9,
+        "top": 483.2,
+        "width": 183.2,
+        "height": 12.3
+      }
+    },
+    "safetylightsup": {
+      "type": "text",
+      "label": "ENTER SAFETY LIGHTS UP.",
+      "page": 1,
+      "box": {
+        "left": 426.4,
+        "top": 483.2,
+        "width": 56.8,
+        "height": 12.3
+      }
+    },
+    "safetylightsdown": {
+      "type": "text",
+      "label": "ENTER SAFETY LIGHTS DOWN.",
+      "page": 1,
+      "box": {
+        "left": 523.2,
+        "top": 483.2,
+        "width": 41.0,
+        "height": 12.3
+      }
+    },
+    "mll1": {
+      "type": "text",
+      "label": "ENTER MEGOHMS LL1.",
+      "page": 1,
+      "box": {
+        "left": 402.9,
+        "top": 456.2,
+        "width": 35.3,
+        "height": 12.3
+      }
+    },
+    "mll2": {
+      "type": "text",
+      "label": "ENTER MEGOHMS LL2.",
+      "page": 1,
+      "box": {
+        "left": 466.5,
+        "top": 456.2,
+        "width": 34.7,
+        "height": 12.3
+      }
+    },
+    "fs": {
+      "type": "text",
+      "label": "ENTER MEGOHMS F/S.",
+      "page": 1,
+      "box": {
+        "left": 523.6,
+        "top": 456.2,
+        "width": 40.6,
+        "height": 12.3
+      }
+    },
+    "waterlevel": {
+      "type": "text",
+      "label": "ENTER WATER LEVEL IN INCHES.",
+      "page": 1,
+      "box": {
+        "left": 112.4,
+        "top": 411.2,
+        "width": 46.8,
+        "height": 12.3
+      }
+    },
+    "temp3": {
+      "type": "text",
+      "label": "ENTER WATER TEMPERATURE.",
+      "page": 1,
+      "box": {
+        "left": 229.4,
+        "top": 411.2,
+        "width": 28.8,
+        "height": 12.3
+      }
+    },
+    "dischargealpha": {
+      "type": "text",
+      "label": "ENTER ALPHA PUMP DISCHARGE PSI.",
+      "page": 1,
+      "box": {
+        "left": 397.7,
+        "top": 393.2,
+        "width": 58.5,
+        "height": 12.3
+      }
+    },
+    "dischargebravo": {
+      "type": "text",
+      "label": "ENTER BRAVO PUMP DISCHARGE PSI.",
+      "page": 1,
+      "box": {
+        "left": 488.8,
+        "top": 393.2,
+        "width": 57.3,
+        "height": 12.3
+      }
+    },
+    "tankskim": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 383.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TANKSKIM_0"
+    },
+    "tankskim2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 182.8,
+        "top": 383.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TANKSKIM_0"
+    },
+    "elbowalpha": {
+      "type": "text",
+      "label": "ENTER ALPHA PUMP ELBOW PSI.",
+      "page": 1,
+      "box": {
+        "left": 398.5,
+        "top": 366.2,
+        "width": 57.7,
+        "height": 12.3
+      }
+    },
+    "sensorsbravo": {
+      "type": "text",
+      "label": "ENTER BRAVO PUMP ELBOW PSI.",
+      "page": 1,
+      "box": {
+        "left": 488.8,
+        "top": 366.2,
+        "width": 57.2,
+        "height": 12.3
+      }
+    },
+    "sensorsopenalpha": {
+      "type": "text",
+      "label": "ENTER OPEN SENSOR PSI FOR ALPHA.",
+      "page": 1,
+      "box": {
+        "left": 124.1,
+        "top": 348.2,
+        "width": 53.0,
+        "height": 12.3
+      }
+    },
+    "sensorsopenbravo": {
+      "type": "text",
+      "label": "ENTER OPEN SENSOR PSI FOR BRAVO.",
+      "page": 1,
+      "box": {
+        "left": 209.8,
+        "top": 348.2,
+        "width": 57.2,
+        "height": 12.3
+      }
+    },
+    "vacuumalpha": {
+      "type": "text",
+      "label": "ENTER ALPHA PUMP VACUUM PSI.",
+      "page": 1,
+      "box": {
+        "left": 398.5,
+        "top": 339.2,
+        "width": 57.7,
+        "height": 12.3
+      }
+    },
+    "vacuumbravo": {
+      "type": "text",
+      "label": "ENTER BRAVO PUMP VACUUM PSI.",
+      "page": 1,
+      "box": {
+        "left": 488.8,
+        "top": 339.2,
+        "width": 57.2,
+        "height": 12.3
+      }
+    },
+    "sensorsclosealpha": {
+      "type": "text",
+      "label": "ENTER CLOSE SENSOR PSI FOR ALPHA.",
+      "page": 1,
+      "box": {
+        "left": 124.1,
+        "top": 321.2,
+        "width": 53.0,
+        "height": 12.3
+      }
+    },
+    "sensorsbravo2": {
+      "type": "text",
+      "label": "ENTER CLOSE SENSOR PSI FOR BRAVO.",
+      "page": 1,
+      "box": {
+        "left": 209.8,
+        "top": 321.2,
+        "width": 57.2,
+        "height": 12.3
+      }
+    },
+    "clk1time": {
+      "type": "text",
+      "label": "ENTER CLOCK#1 TIME.",
+      "page": 1,
+      "box": {
+        "left": 155.8,
+        "top": 249.2,
+        "width": 57.3,
+        "height": 12.3
+      }
+    },
+    "clk2time": {
+      "type": "text",
+      "label": "ENTER CLOCK#2 TIME.",
+      "page": 1,
+      "box": {
+        "left": 236.8,
+        "top": 249.2,
+        "width": 57.3,
+        "height": 12.3
+      }
+    },
+    "clock1range": {
+      "type": "text",
+      "label": "ENTER CLOCK ONE ALLOWABLE RANGE.",
+      "page": 1,
+      "box": {
+        "left": 308.8,
+        "top": 168.2,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "clock1to": {
+      "type": "text",
+      "label": "ENTER CLOCK ONE ALLOWABLE RANGE.",
+      "page": 1,
+      "box": {
+        "left": 380.8,
+        "top": 168.2,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "clock2range": {
+      "type": "text",
+      "label": "ENTER CLOCK TWO ALLOWABLE RANGE.",
+      "page": 1,
+      "box": {
+        "left": 308.8,
+        "top": 150.2,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "clock2to": {
+      "type": "text",
+      "label": "ENTER CLOCK TWO ALLOWABLE RANGE.",
+      "page": 1,
+      "box": {
+        "left": 380.8,
+        "top": 150.2,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "clock3range": {
+      "type": "text",
+      "label": "ENTER CLOCK THREE ALLOWABLE RANGE.",
+      "page": 1,
+      "box": {
+        "left": 308.8,
+        "top": 132.2,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "clock3to": {
+      "type": "text",
+      "label": "ENTER CLOCK THREE ALLOWABLE RANGE.",
+      "page": 1,
+      "box": {
+        "left": 380.8,
+        "top": 132.2,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "dynoforce1": {
+      "type": "text",
+      "label": "ENTER DYNO FORCE.",
+      "page": 2,
+      "box": {
+        "left": 109.9,
+        "top": 726.2,
+        "width": 112.3,
+        "height": 12.3
+      }
+    },
+    "dynoforce2": {
+      "type": "text",
+      "label": "ENTER DYNO FORCE.",
+      "page": 2,
+      "box": {
+        "left": 281.8,
+        "top": 726.2,
+        "width": 93.3,
+        "height": 12.3
+      }
+    },
+    "dynoforce3": {
+      "type": "text",
+      "label": "ENTER DYNO FORCE.",
+      "page": 2,
+      "box": {
+        "left": 425.8,
+        "top": 726.2,
+        "width": 112.3,
+        "height": 12.3
+      }
+    },
+    "hydpressure": {
+      "type": "text",
+      "label": "ENTER HYDRO PRESSURE.",
+      "page": 2,
+      "box": {
+        "left": 113.2,
+        "top": 699.2,
+        "width": 108.9,
+        "height": 12.3
+      }
+    },
+    "hydpressurehigh": {
+      "type": "text",
+      "label": "ENTER HYDRO PRESSURE HIGH.",
+      "page": 2,
+      "box": {
+        "left": 280.3,
+        "top": 699.2,
+        "width": 94.8,
+        "height": 12.3
+      }
+    },
+    "dynoforcelow": {
+      "type": "text",
+      "label": "ENTER HYDRO PRESSURE LOW.",
+      "page": 2,
+      "box": {
+        "left": 424.0,
+        "top": 699.2,
+        "width": 113.2,
+        "height": 12.3
+      }
+    },
+    "creeprate": {
+      "type": "text",
+      "label": "ENTER CREEP RATE.",
+      "page": 2,
+      "box": {
+        "left": 101.5,
+        "top": 672.2,
+        "width": 120.7,
+        "height": 12.3
+      }
+    },
+    "time2": {
+      "type": "text",
+      "label": "ENTER TIME.",
+      "page": 2,
+      "box": {
+        "left": 281.7,
+        "top": 672.2,
+        "width": 57.5,
+        "height": 12.3
+      }
+    },
+    "coc": {
+      "type": "text",
+      "label": "ENTER COC.",
+      "page": 2,
+      "box": {
+        "left": 189.1,
+        "top": 636.2,
+        "width": 24.0,
+        "height": 12.3
+      }
+    },
+    "mc": {
+      "type": "text",
+      "label": "ENTER M/C.",
+      "page": 2,
+      "box": {
+        "left": 243.1,
+        "top": 636.2,
+        "width": 24.0,
+        "height": 12.3
+      }
+    },
+    "ccp": {
+      "type": "text",
+      "label": "ENTER CCP.",
+      "page": 2,
+      "box": {
+        "left": 297.1,
+        "top": 636.2,
+        "width": 24.0,
+        "height": 12.3
+      }
+    },
+    "wb": {
+      "type": "text",
+      "label": "ENTER W/B.",
+      "page": 2,
+      "box": {
+        "left": 351.1,
+        "top": 636.2,
+        "width": 24.0,
+        "height": 12.3
+      }
+    },
+    "prifly": {
+      "type": "text",
+      "label": "ENTER PRI-FLY.",
+      "page": 2,
+      "box": {
+        "left": 412.7,
+        "top": 636.2,
+        "width": 25.5,
+        "height": 12.3
+      }
+    },
+    "rr": {
+      "type": "text",
+      "label": "ENTER NUMBER OF BOLTS MISSING FROM RETAINER RAILS.",
+      "page": 2,
+      "box": {
+        "left": 128.8,
+        "top": 591.2,
+        "width": 84.3,
+        "height": 12.3
+      }
+    },
+    "lk": {
+      "type": "text",
+      "label": "ENTER NUMBER OF BOLTS MISSING FROM LOCKING KEYS.",
+      "page": 2,
+      "box": {
+        "left": 218.8,
+        "top": 591.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "wbp": {
+      "type": "text",
+      "label": "ENTER NUMBER OF BOLTS MISSING FROM WATER BRAKE PLATE.",
+      "page": 2,
+      "box": {
+        "left": 299.8,
+        "top": 591.2,
+        "width": 93.3,
+        "height": 12.3
+      }
+    },
+    "fp": {
+      "type": "text",
+      "label": "ENTER NUMBER OF BOLTS MISSING FROM FDNGL PLATE.",
+      "page": 2,
+      "box": {
+        "left": 398.8,
+        "top": 591.2,
+        "width": 84.3,
+        "height": 12.3
+      }
+    },
+    "wvc": {
+      "type": "text",
+      "label": "ENTER NUMBER OF BOLTS MISSING FROM WNG VOID COVERS.",
+      "page": 2,
+      "box": {
+        "left": 488.8,
+        "top": 591.2,
+        "width": 84.3,
+        "height": 12.3
+      }
+    },
+    "rr2": {
+      "type": "text",
+      "label": "ENTER COMMENTS OR ADDITIONAL REMARKS.",
+      "page": 2,
+      "box": {
+        "left": 47.8,
+        "top": 528.2,
+        "width": 516.3,
+        "height": 381.3
+      },
+      "multiline": true
+    },
+    "catcaptain": {
+      "type": "text",
+      "label": "ENTER CATAPULT CAPTAIN.",
+      "page": 2,
+      "box": {
+        "left": 104.0,
+        "top": 114.2,
+        "width": 163.2,
+        "height": 12.3
+      }
+    },
+    "qai": {
+      "type": "text",
+      "label": "ENTER QAI.",
+      "page": 2,
+      "box": {
+        "left": 375.5,
+        "top": 114.2,
+        "width": 134.7,
+        "height": 12.3
+      }
+    },
+    "catchief": {
+      "type": "text",
+      "label": "ENTER CATAPULT CHIEF.",
+      "page": 2,
+      "box": {
+        "left": 104.0,
+        "top": 87.2,
+        "width": 163.2,
+        "height": 12.3
+      }
+    },
+    "maintofficercpo": {
+      "type": "text",
+      "label": "ENTER MAINTENANCE OFFICER/CPO.",
+      "page": 2,
+      "box": {
+        "left": 375.5,
+        "top": 87.2,
+        "width": 134.7,
+        "height": 12.3
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "clk1time": {
+          "type": "text",
+          "label": "ENTER CLOCK#1 TIME.",
+          "page": 1,
+          "box": {
+            "left": 155.8,
+            "top": 231.2,
+            "width": 57.3,
+            "height": 12.3
+          }
+        },
+        "clk2time": {
+          "type": "text",
+          "label": "ENTER CLOCK#2 TIME.",
+          "page": 1,
+          "box": {
+            "left": 236.8,
+            "top": 231.2,
+            "width": 57.3,
+            "height": 12.3
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 4,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "elongin": {
+          "type": "text",
+          "label": "ENTER ELONG IN.",
+          "page": 1,
+          "box": {
+            "left": 317.8,
+            "top": 249.2,
+            "width": 48.3,
+            "height": 12.3
+          }
+        },
+        "elongout": {
+          "type": "text",
+          "label": "ENTER ELONG OUT.",
+          "page": 1,
+          "box": {
+            "left": 371.8,
+            "top": 249.2,
+            "width": 48.3,
+            "height": 12.3
+          }
+        },
+        "endspeed": {
+          "type": "text",
+          "label": "ENTER END SPEED.",
+          "page": 1,
+          "box": {
+            "left": 443.8,
+            "top": 249.2,
+            "width": 57.3,
+            "height": 12.3
+          }
+        }
+      }
+    }
+  }
+}

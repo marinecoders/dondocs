@@ -1,0 +1,494 @@
+{
+  "id": "opnav52007",
+  "label": "OPNAV5200-7 - Request For Information Services (ris)",
+  "directory": "OPNAV5200-7 - Request For Information Services (ris)",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "risid",
+        "tilReq",
+        "subOrg",
+        "nmeSub",
+        "inpDte",
+        "subPN",
+        "subEml",
+        "sb",
+        "dirPol",
+        "sbwr",
+        "rmi",
+        "leg",
+        "ei",
+        "reSoPc",
+        "capSum",
+        "radio",
+        "radio2",
+        "outBus",
+        "radio3",
+        "radio4",
+        "staExp"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "radio5",
+        "radio6",
+        "idPro",
+        "idPro2",
+        "ssmm",
+        "ssmm2",
+        "adIn",
+        "frbt",
+        "vmn",
+        "vMADte",
+        "pmsb",
+        "rECIODte",
+        "fRBDte",
+        "nmFRB",
+        "frbs",
+        "rygs",
+        "dteFRB"
+      ]
+    }
+  ],
+  "fields": {
+    "risid": {
+      "type": "text",
+      "label": "RIS ID",
+      "page": 1,
+      "box": {
+        "left": 508.1,
+        "top": 752.9,
+        "width": 59.0,
+        "height": 18.0
+      }
+    },
+    "tilReq": {
+      "type": "text",
+      "label": "Title Of Request",
+      "page": 1,
+      "box": {
+        "left": 101.0,
+        "top": 672.1,
+        "width": 470.4,
+        "height": 15.3
+      }
+    },
+    "subOrg": {
+      "type": "text",
+      "label": "2. Submitting Organization",
+      "page": 1,
+      "box": {
+        "left": 115.6,
+        "top": 614.8,
+        "width": 227.5,
+        "height": 25.0
+      }
+    },
+    "nmeSub": {
+      "type": "text",
+      "label": "3. Name Of Submitter",
+      "page": 1,
+      "box": {
+        "left": 348.1,
+        "top": 614.8,
+        "width": 224.9,
+        "height": 25.0
+      }
+    },
+    "inpDte": {
+      "type": "text",
+      "label": "(DDMMMYYYY)",
+      "page": 1,
+      "box": {
+        "left": 37.2,
+        "top": 608.0,
+        "width": 74.4,
+        "height": 18.0
+      }
+    },
+    "subPN": {
+      "type": "text",
+      "label": "4. Submitter\u2019s Phone Number",
+      "page": 1,
+      "box": {
+        "left": 38.0,
+        "top": 575.0,
+        "width": 223.1,
+        "height": 25.0
+      }
+    },
+    "subEml": {
+      "type": "text",
+      "label": "5. Submitter\u2019s Email Address",
+      "page": 1,
+      "box": {
+        "left": 268.2,
+        "top": 575.0,
+        "width": 304.9,
+        "height": 25.0
+      }
+    },
+    "sb": {
+      "type": "checkbox",
+      "label": "Submitting",
+      "page": 1,
+      "box": {
+        "left": 147.6,
+        "top": 516.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "dirPol": {
+      "type": "checkbox",
+      "label": "System Breakage",
+      "page": 1,
+      "box": {
+        "left": 330.4,
+        "top": 516.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "sbwr": {
+      "type": "checkbox",
+      "label": "Submitting",
+      "page": 1,
+      "box": {
+        "left": 147.6,
+        "top": 489.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "rmi": {
+      "type": "checkbox",
+      "label": "System Breakage w/Workaround",
+      "page": 1,
+      "box": {
+        "left": 330.4,
+        "top": 489.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "leg": {
+      "type": "checkbox",
+      "label": "Submitting",
+      "page": 1,
+      "box": {
+        "left": 147.6,
+        "top": 462.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "ei": {
+      "type": "checkbox",
+      "label": "Legislative",
+      "page": 1,
+      "box": {
+        "left": 330.4,
+        "top": 462.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "reSoPc": {
+      "type": "text",
+      "label": "7. Reference Source Of Legislative Or Other Policy Change",
+      "page": 1,
+      "box": {
+        "left": 36.0,
+        "top": 428.0,
+        "width": 535.1,
+        "height": 41.9
+      },
+      "multiline": true
+    },
+    "capSum": {
+      "type": "text",
+      "label": "Cap Sum",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 351.8,
+        "width": 534.4,
+        "height": 64.3
+      },
+      "multiline": true
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 207.9,
+        "top": 277.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 247.9,
+        "top": 277.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "outBus": {
+      "type": "text",
+      "label": "Out Bus",
+      "page": 1,
+      "box": {
+        "left": 36.0,
+        "top": 230.6,
+        "width": 538.1,
+        "height": 70.0
+      },
+      "multiline": true
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 284.6,
+        "top": 139.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 324.5,
+        "top": 139.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "staExp": {
+      "type": "text",
+      "label": "Explain",
+      "page": 1,
+      "box": {
+        "left": 36.0,
+        "top": 107.6,
+        "width": 539.1,
+        "height": 69.6
+      },
+      "multiline": true
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 386.5,
+        "top": 752.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 426.5,
+        "top": 752.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "idPro": {
+      "type": "text",
+      "label": "Id Pro",
+      "page": 2,
+      "box": {
+        "left": 36.0,
+        "top": 719.0,
+        "width": 522.1,
+        "height": 51.0
+      },
+      "multiline": true
+    },
+    "idPro2": {
+      "type": "text",
+      "label": "Id Pro 2",
+      "page": 2,
+      "box": {
+        "left": 36.0,
+        "top": 629.5,
+        "width": 522.1,
+        "height": 53.0
+      },
+      "multiline": true
+    },
+    "ssmm": {
+      "type": "text",
+      "label": "Ssmm",
+      "page": 2,
+      "box": {
+        "left": 36.0,
+        "top": 556.5,
+        "width": 522.1,
+        "height": 53.0
+      },
+      "multiline": true
+    },
+    "ssmm2": {
+      "type": "text",
+      "label": "15. Identify Business Risk(s) Of Not Completing the Change",
+      "page": 2,
+      "box": {
+        "left": 36.0,
+        "top": 465.1,
+        "width": 522.1,
+        "height": 53.0
+      },
+      "multiline": true
+    },
+    "adIn": {
+      "type": "text",
+      "label": "Ad In",
+      "page": 2,
+      "box": {
+        "left": 36.0,
+        "top": 382.6,
+        "width": 522.1,
+        "height": 55.8
+      },
+      "multiline": true
+    },
+    "frbt": {
+      "type": "text",
+      "label": "18. FRB Title",
+      "page": 2,
+      "box": {
+        "left": 36.0,
+        "top": 286.9,
+        "width": 220.8,
+        "height": 17.0
+      }
+    },
+    "vmn": {
+      "type": "text",
+      "label": "19. Voting Member Name",
+      "page": 2,
+      "box": {
+        "left": 259.9,
+        "top": 286.9,
+        "width": 220.8,
+        "height": 17.0
+      }
+    },
+    "vMADte": {
+      "type": "text",
+      "label": "Approval Date",
+      "page": 2,
+      "box": {
+        "left": 483.3,
+        "top": 284.7,
+        "width": 90.7,
+        "height": 14.8
+      }
+    },
+    "pmsb": {
+      "type": "text",
+      "label": "23. PMSB POC",
+      "page": 2,
+      "box": {
+        "left": 162.0,
+        "top": 229.0,
+        "width": 412.1,
+        "height": 17.0
+      }
+    },
+    "rECIODte": {
+      "type": "text",
+      "label": "(DDMMMYYYY)",
+      "page": 2,
+      "box": {
+        "left": 37.0,
+        "top": 228.9,
+        "width": 121.0,
+        "height": 17.0
+      }
+    },
+    "fRBDte": {
+      "type": "text",
+      "label": "Date: (DDMMMYYYY)",
+      "page": 2,
+      "box": {
+        "left": 37.0,
+        "top": 189.0,
+        "width": 121.0,
+        "height": 17.0
+      }
+    },
+    "nmFRB": {
+      "type": "text",
+      "label": "25. Name Of FRB",
+      "page": 2,
+      "box": {
+        "left": 162.0,
+        "top": 188.1,
+        "width": 412.1,
+        "height": 16.0
+      }
+    },
+    "frbs": {
+      "type": "text",
+      "label": "27. FRB Score",
+      "page": 2,
+      "box": {
+        "left": 163.4,
+        "top": 129.7,
+        "width": 201.0,
+        "height": 16.0
+      }
+    },
+    "rygs": {
+      "type": "text",
+      "label": "28. Red/Yellow/Green Status",
+      "page": 2,
+      "box": {
+        "left": 370.3,
+        "top": 129.7,
+        "width": 204.0,
+        "height": 16.0
+      }
+    },
+    "dteFRB": {
+      "type": "text",
+      "label": "(DDMMMYYYY)",
+      "page": 2,
+      "box": {
+        "left": 37.0,
+        "top": 129.4,
+        "width": 121.0,
+        "height": 17.0
+      }
+    }
+  }
+}

@@ -1,0 +1,588 @@
+{
+  "id": "navmc11639",
+  "label": "NAVMC11639 - Risk Factor Worksheet",
+  "directory": "NAVMC11639 - Risk Factor Worksheet",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 2",
+      "fields": [
+        "name",
+        "ssn4",
+        "command",
+        "section",
+        "phone",
+        "physicalExamRequirementsAge",
+        "physicalExamRequirementsAge2",
+        "lastExamDate",
+        "historyHeartDiseaseBP",
+        "historyHeartDiseaseBP2",
+        "historyChangeHeartBP",
+        "historyChangeHeartBP2",
+        "changeInFamilyHistory",
+        "changeInFamilyHistory2",
+        "changeInDiscomfort",
+        "changeInDiscomfort2",
+        "heatStrokeFaint",
+        "heatStrokeFaint2",
+        "changeInOtherMedical",
+        "changeInOtherMedical2",
+        "significantWeightChange",
+        "significantWeightChange2",
+        "changeInSmoking",
+        "changeInSmoking2",
+        "marineSignature",
+        "marineSignatureDate",
+        "medEvalDate",
+        "meetsBCPStandards",
+        "meetsBCPStandards2",
+        "bCPRemarks",
+        "yesToSectionB",
+        "yesToSectionB2",
+        "sectionBRemarks",
+        "furtherConsultation",
+        "furtherConsultation2",
+        "recommendationRemarks",
+        "clearedForPFT",
+        "clearedForPFT2",
+        "participationRemarks",
+        "mOSignature",
+        "mOSignatureDate",
+        "mOName",
+        "mOPhone",
+        "mOCommand",
+        "unit"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "NAME (LAST, FIRST, M.I.): ",
+      "page": 2,
+      "box": {
+        "left": 126.8,
+        "top": 744.2,
+        "width": 311.3,
+        "height": 12.3
+      }
+    },
+    "ssn4": {
+      "type": "text",
+      "label": "Enter last four digits",
+      "page": 2,
+      "box": {
+        "left": 513.2,
+        "top": 744.2,
+        "width": 78.0,
+        "height": 12.3
+      }
+    },
+    "command": {
+      "type": "text",
+      "label": "COMMAND: ",
+      "page": 2,
+      "box": {
+        "left": 77.5,
+        "top": 726.2,
+        "width": 252.7,
+        "height": 12.3
+      }
+    },
+    "section": {
+      "type": "text",
+      "label": "SECTION: ",
+      "page": 2,
+      "box": {
+        "left": 384.5,
+        "top": 726.2,
+        "width": 53.7,
+        "height": 12.3
+      }
+    },
+    "phone": {
+      "type": "text",
+      "label": "PHONE: ",
+      "page": 2,
+      "box": {
+        "left": 483.5,
+        "top": 726.2,
+        "width": 107.6,
+        "height": 12.3
+      }
+    },
+    "physicalExamRequirementsAge": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 539.7,
+        "top": 690.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_PhysicalExamRequirementsAge_0"
+    },
+    "physicalExamRequirementsAge2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 571.2,
+        "top": 690.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_PhysicalExamRequirementsAge_0"
+    },
+    "lastExamDate": {
+      "type": "text",
+      "label": "(2)  DATE OF LAST PERIODIC PHYSICAL EXAMINATION:  ",
+      "page": 2,
+      "box": {
+        "left": 304.8,
+        "top": 672.2,
+        "width": 286.4,
+        "height": 12.3
+      }
+    },
+    "historyHeartDiseaseBP": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 539.7,
+        "top": 633.3,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_HistoryHeartDiseaseBP_0"
+    },
+    "historyHeartDiseaseBP2": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 571.2,
+        "top": 633.3,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_HistoryHeartDiseaseBP_0"
+    },
+    "historyChangeHeartBP": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 539.7,
+        "top": 591.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_HistoryChangeHeartBP_0"
+    },
+    "historyChangeHeartBP2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 571.2,
+        "top": 591.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_HistoryChangeHeartBP_0"
+    },
+    "changeInFamilyHistory": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 539.7,
+        "top": 573.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_ChangeInFamilyHistory_0"
+    },
+    "changeInFamilyHistory2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 571.2,
+        "top": 573.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_ChangeInFamilyHistory_0"
+    },
+    "changeInDiscomfort": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 539.7,
+        "top": 555.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_ChangeInDiscomfort_0"
+    },
+    "changeInDiscomfort2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 571.2,
+        "top": 555.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_ChangeInDiscomfort_0"
+    },
+    "heatStrokeFaint": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 539.7,
+        "top": 537.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_HeatStrokeFaint_0"
+    },
+    "heatStrokeFaint2": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 571.2,
+        "top": 537.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_HeatStrokeFaint_0"
+    },
+    "changeInOtherMedical": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 539.7,
+        "top": 519.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_ChangeInOtherMedical_0"
+    },
+    "changeInOtherMedical2": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 571.2,
+        "top": 519.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_ChangeInOtherMedical_0"
+    },
+    "significantWeightChange": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 539.7,
+        "top": 501.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_SignificantWeightChange_0"
+    },
+    "significantWeightChange2": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 571.2,
+        "top": 501.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_SignificantWeightChange_0"
+    },
+    "changeInSmoking": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 539.7,
+        "top": 483.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_ChangeInSmoking_0"
+    },
+    "changeInSmoking2": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 571.2,
+        "top": 483.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_ChangeInSmoking_0"
+    },
+    "marineSignature": {
+      "type": "signature",
+      "label": "MARINE'S SIGNATURE",
+      "page": 2,
+      "box": {
+        "left": 127.6,
+        "top": 465.2,
+        "width": 274.6,
+        "height": 12.3
+      }
+    },
+    "marineSignatureDate": {
+      "type": "text",
+      "label": "DATE:",
+      "page": 2,
+      "box": {
+        "left": 445.8,
+        "top": 465.2,
+        "width": 145.4,
+        "height": 12.3
+      }
+    },
+    "medEvalDate": {
+      "type": "text",
+      "label": "DATE  OF MEDICAL EVALUATION:",
+      "page": 2,
+      "box": {
+        "left": 190.2,
+        "top": 429.2,
+        "width": 113.0,
+        "height": 12.3
+      }
+    },
+    "meetsBCPStandards": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 539.7,
+        "top": 411.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_MeetsBCPStandards_0"
+    },
+    "meetsBCPStandards2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 571.2,
+        "top": 411.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_MeetsBCPStandards_0"
+    },
+    "bCPRemarks": {
+      "type": "text",
+      "label": "REMARKS: ",
+      "page": 2,
+      "box": {
+        "left": 21.6,
+        "top": 381.2,
+        "width": 568.8,
+        "height": 36.3
+      },
+      "multiline": true
+    },
+    "yesToSectionB": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 539.7,
+        "top": 339.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_YesToSectionB_0"
+    },
+    "yesToSectionB2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 571.2,
+        "top": 339.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_YesToSectionB_0"
+    },
+    "sectionBRemarks": {
+      "type": "text",
+      "label": "REMARKS: ",
+      "page": 2,
+      "box": {
+        "left": 21.6,
+        "top": 308.8,
+        "width": 568.8,
+        "height": 36.0
+      },
+      "multiline": true
+    },
+    "furtherConsultation": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 539.7,
+        "top": 249.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_FurtherConsultation_0"
+    },
+    "furtherConsultation2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 571.2,
+        "top": 249.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_FurtherConsultation_0"
+    },
+    "recommendationRemarks": {
+      "type": "text",
+      "label": "REMARKS: ",
+      "page": 2,
+      "box": {
+        "left": 21.6,
+        "top": 218.8,
+        "width": 568.8,
+        "height": 36.0
+      },
+      "multiline": true
+    },
+    "clearedForPFT": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 539.7,
+        "top": 177.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_ClearedForPFT_0"
+    },
+    "clearedForPFT2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 571.2,
+        "top": 177.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_ClearedForPFT_0"
+    },
+    "participationRemarks": {
+      "type": "text",
+      "label": "REMARKS: ",
+      "page": 2,
+      "box": {
+        "left": 21.6,
+        "top": 146.8,
+        "width": 568.8,
+        "height": 36.0
+      },
+      "multiline": true
+    },
+    "mOSignature": {
+      "type": "signature",
+      "label": "SIGNATURE OF M.O.",
+      "page": 2,
+      "box": {
+        "left": 136.8,
+        "top": 105.2,
+        "width": 292.4,
+        "height": 12.3
+      }
+    },
+    "mOSignatureDate": {
+      "type": "text",
+      "label": "DATE:",
+      "page": 2,
+      "box": {
+        "left": 472.8,
+        "top": 105.2,
+        "width": 118.4,
+        "height": 12.3
+      }
+    },
+    "mOName": {
+      "type": "text",
+      "label": "PRINTED NAME: ",
+      "page": 2,
+      "box": {
+        "left": 91.6,
+        "top": 87.2,
+        "width": 346.6,
+        "height": 12.3
+      }
+    },
+    "mOPhone": {
+      "type": "text",
+      "label": "PHONE: ",
+      "page": 2,
+      "box": {
+        "left": 483.8,
+        "top": 87.2,
+        "width": 107.4,
+        "height": 12.3
+      }
+    },
+    "mOCommand": {
+      "type": "text",
+      "label": "COMMAND: ",
+      "page": 2,
+      "box": {
+        "left": 78.3,
+        "top": 69.2,
+        "width": 269.9,
+        "height": 12.3
+      }
+    },
+    "unit": {
+      "type": "text",
+      "label": "UNIT: ",
+      "page": 2,
+      "box": {
+        "left": 382.9,
+        "top": 69.2,
+        "width": 208.3,
+        "height": 12.3
+      }
+    }
+  }
+}

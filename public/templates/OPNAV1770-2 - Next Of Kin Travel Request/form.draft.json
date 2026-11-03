@@ -1,0 +1,563 @@
+{
+  "id": "opnav17702",
+  "label": "OPNAV1770-2 - Next Of Kin Travel Request",
+  "directory": "OPNAV1770-2 - Next Of Kin Travel Request",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "serMemNme",
+        "dteReq",
+        "radio",
+        "radio2",
+        "lefNmeTrlv",
+        "radio3",
+        "dteBrth",
+        "fulSNN",
+        "lefNmeTrlv2",
+        "lefNmeTrlv3",
+        "lefNmeTrlv4",
+        "hmAdd",
+        "emlAdd",
+        "radio4",
+        "radio5",
+        "emlAdd2",
+        "radio6",
+        "radio7",
+        "purTrvl",
+        "dteEvnt",
+        "locEvnt",
+        "radio8",
+        "radio9",
+        "radio10",
+        "radio11",
+        "radio12",
+        "radio13",
+        "radio14",
+        "radio15",
+        "perfAPArr",
+        "dteTmeDep",
+        "radio16",
+        "radio17",
+        "radio18",
+        "radio19",
+        "radio20",
+        "radio21",
+        "perfAPArr2",
+        "dteTmeDep2",
+        "contBy",
+        "cUICat",
+        "ldc",
+        "poc"
+      ]
+    }
+  ],
+  "fields": {
+    "serMemNme": {
+      "type": "text",
+      "label": "1. Service Member&apos;s Full Name (Last, First, Middle)",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 540.6,
+        "width": 419.2,
+        "height": 15.7
+      }
+    },
+    "dteReq": {
+      "type": "text",
+      "label": "2. Date of Request",
+      "page": 1,
+      "box": {
+        "left": 464.7,
+        "top": 540.6,
+        "width": 109.5,
+        "height": 15.7
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 61.9,
+        "top": 507.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 61.9,
+        "top": 496.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "lefNmeTrlv": {
+      "type": "text",
+      "label": "Full Legal Name of Traveler ( last, first, middle )",
+      "page": 1,
+      "box": {
+        "left": 111.8,
+        "top": 493.8,
+        "width": 462.4,
+        "height": 15.7
+      }
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 61.9,
+        "top": 485.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "dteBrth": {
+      "type": "text",
+      "label": "4. Date of Birth",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 461.4,
+        "width": 84.3,
+        "height": 15.7
+      }
+    },
+    "fulSNN": {
+      "type": "text",
+      "label": "5. Full SSN",
+      "page": 1,
+      "box": {
+        "left": 129.8,
+        "top": 461.4,
+        "width": 84.3,
+        "height": 15.7
+      }
+    },
+    "lefNmeTrlv2": {
+      "type": "text",
+      "label": "6. Sex",
+      "page": 1,
+      "box": {
+        "left": 219.8,
+        "top": 461.4,
+        "width": 84.3,
+        "height": 15.7
+      }
+    },
+    "lefNmeTrlv3": {
+      "type": "text",
+      "label": "7. Relationship to Service Member",
+      "page": 1,
+      "box": {
+        "left": 309.9,
+        "top": 461.4,
+        "width": 149.1,
+        "height": 15.7
+      }
+    },
+    "lefNmeTrlv4": {
+      "type": "text",
+      "label": "8. Telephone Number",
+      "page": 1,
+      "box": {
+        "left": 464.7,
+        "top": 461.4,
+        "width": 109.5,
+        "height": 15.7
+      }
+    },
+    "hmAdd": {
+      "type": "text",
+      "label": "9. Address (street address, city, state, and zip code+4)",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 429.0,
+        "width": 264.4,
+        "height": 55.3
+      },
+      "multiline": true
+    },
+    "emlAdd": {
+      "type": "text",
+      "label": "10. E-Mail Address",
+      "page": 1,
+      "box": {
+        "left": 309.9,
+        "top": 429.0,
+        "width": 264.4,
+        "height": 55.3
+      },
+      "multiline": true
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 367.7,
+        "top": 369.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 420.8,
+        "top": 369.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "emlAdd2": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 312.1,
+        "top": 346.4,
+        "width": 262.2,
+        "height": 33.9
+      },
+      "multiline": true
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 80.5,
+        "top": 336.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 150.9,
+        "top": 336.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "purTrvl": {
+      "type": "text",
+      "label": "transfer, bedside travel)",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 274.4,
+        "width": 222.9,
+        "height": 33.9
+      },
+      "multiline": true
+    },
+    "dteEvnt": {
+      "type": "text",
+      "label": "14. Date of Event",
+      "page": 1,
+      "box": {
+        "left": 268.5,
+        "top": 274.4,
+        "width": 76.2,
+        "height": 33.9
+      },
+      "multiline": true
+    },
+    "locEvnt": {
+      "type": "text",
+      "label": "cemetery)",
+      "page": 1,
+      "box": {
+        "left": 350.3,
+        "top": 274.4,
+        "width": 222.9,
+        "height": 33.9
+      },
+      "multiline": true
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 75.8,
+        "top": 222.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio9": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 173.0,
+        "top": 222.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio10": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 345.9,
+        "top": 222.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio11": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 443.1,
+        "top": 222.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio12": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 75.8,
+        "top": 198.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio13": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 173.0,
+        "top": 198.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio14": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 345.9,
+        "top": 198.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio15": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 443.1,
+        "top": 198.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "perfAPArr": {
+      "type": "text",
+      "label": "18. Preferred Airport for Departure to Event",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 173.3,
+        "width": 383.2,
+        "height": 15.7
+      }
+    },
+    "dteTmeDep": {
+      "type": "text",
+      "label": "19. Date and Time of Departure",
+      "page": 1,
+      "box": {
+        "left": 428.7,
+        "top": 173.3,
+        "width": 145.5,
+        "height": 15.7
+      }
+    },
+    "radio16": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 75.8,
+        "top": 140.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio17": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 173.0,
+        "top": 140.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio18": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 345.9,
+        "top": 140.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio19": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 443.1,
+        "top": 140.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio20": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 75.8,
+        "top": 116.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio21": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 173.0,
+        "top": 116.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "perfAPArr2": {
+      "type": "text",
+      "label": "22. Preferred Airport for Arrival to Event",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 90.5,
+        "width": 383.2,
+        "height": 15.7
+      }
+    },
+    "dteTmeDep2": {
+      "type": "text",
+      "label": "23. Date and Time of Return",
+      "page": 1,
+      "box": {
+        "left": 428.7,
+        "top": 90.5,
+        "width": 145.5,
+        "height": 15.7
+      }
+    },
+    "contBy": {
+      "type": "text",
+      "label": "CUI (when filled in) CONTROLLED BY",
+      "page": 1,
+      "box": {
+        "left": 413.3,
+        "top": 32.2,
+        "width": 98.7,
+        "height": 6.6
+      }
+    },
+    "cUICat": {
+      "type": "text",
+      "label": "CUI CATEGORY",
+      "page": 1,
+      "box": {
+        "left": 413.3,
+        "top": 24.4,
+        "width": 98.7,
+        "height": 6.6
+      }
+    },
+    "ldc": {
+      "type": "text",
+      "label": "LDC",
+      "page": 1,
+      "box": {
+        "left": 413.3,
+        "top": 16.6,
+        "width": 98.7,
+        "height": 6.6
+      }
+    },
+    "poc": {
+      "type": "text",
+      "label": "POC",
+      "page": 1,
+      "box": {
+        "left": 413.3,
+        "top": 9.4,
+        "width": 98.7,
+        "height": 6.6
+      }
+    }
+  }
+}

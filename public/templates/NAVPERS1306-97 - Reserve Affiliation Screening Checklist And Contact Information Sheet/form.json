@@ -1,0 +1,1004 @@
+{
+  "id": "navpers130697",
+  "label": "NAVPERS1306-97 - Reserve Affiliation Screening Checklist And Contact Information Sheet",
+  "directory": "NAVPERS1306-97 - Reserve Affiliation Screening Checklist And Contact Information Sheet",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "rate",
+        "dropDownList2",
+        "transitionAsst",
+        "textField2",
+        "radioButtonList",
+        "radioButtonList2",
+        "radioButtonList3",
+        "textField22",
+        "radioButtonList4",
+        "radioButtonList5",
+        "radioButtonList6",
+        "textField23",
+        "radioButtonList7",
+        "radioButtonList8",
+        "radioButtonList9",
+        "textField24",
+        "radioButtonList10",
+        "radioButtonList11",
+        "radioButtonList12",
+        "textField25",
+        "radioButtonList13",
+        "radioButtonList14",
+        "radioButtonList15",
+        "email",
+        "phoneNum",
+        "signatureField1",
+        "dateField1",
+        "textField26",
+        "radioButtonList16",
+        "radioButtonList17",
+        "textField27",
+        "radioButtonList18",
+        "radioButtonList19",
+        "dateTimeField2",
+        "signatureField12",
+        "dateTimeField1",
+        "textField14",
+        "email2",
+        "phoneNum2",
+        "signatureField13",
+        "dateField12",
+        "radioButtonList20",
+        "radioButtonList21",
+        "email3",
+        "email4",
+        "phoneNum3",
+        "phoneNum4",
+        "dateTimeField3",
+        "dateTimeField32"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "address",
+        "city",
+        "state",
+        "zipCode",
+        "name2",
+        "email5",
+        "textField15",
+        "signatureField2",
+        "dateTimeField12",
+        "radioButtonList22",
+        "radioButtonList23",
+        "textField16",
+        "radioButtonList24",
+        "radioButtonList25",
+        "textField17",
+        "signatureField3",
+        "dateTimeField13"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "1. NAME:",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 642.7,
+        "width": 246.3,
+        "height": 20.7
+      }
+    },
+    "rate": {
+      "type": "text",
+      "label": "2. RATE:",
+      "page": 1,
+      "box": {
+        "left": 290.8,
+        "top": 642.7,
+        "width": 105.9,
+        "height": 20.7
+      }
+    },
+    "dropDownList2": {
+      "type": "choice",
+      "label": "3.  PROPOSED NAVY RESERVE CENTER:",
+      "page": 1,
+      "box": {
+        "left": 402.4,
+        "top": 642.7,
+        "width": 170.7,
+        "height": 20.7
+      },
+      "options": [
+        "NOSC AKRON OH",
+        "NOSC ALAMEDA CA",
+        "NOSC ALBUQUERQUE NM",
+        "NOSC AMARILLO TX",
+        "NOSC AMITYVLE NY",
+        "NOSC ANCHORAGE AK",
+        "NOSC ATLANTA GA",
+        "NOSC AUGUSTA GA",
+        "NOSC AUSTIN TX",
+        "NOSC AVOCA PA",
+        "NOSC BALTIMORE MD",
+        "NOSC BANGOR ME",
+        "NOSC BATTLE CREEK MI",
+        "NOSC BESSEMER AL",
+        "NOSC BILLINGS MT",
+        "NOSC BOISE ID",
+        "NOSC BUFFALO NY",
+        "NOSC CHARLESTON SC",
+        "NOSC CHARLOTTE NC",
+        "NOSC CHATTANOOGA TN",
+        "NOSC CHEYENNE WY",
+        "NOSC CHICAGO IL",
+        "NOSC CINCINNATI OH",
+        "NOSC COLUMBIA SC",
+        "NOSC COLUMBUS GA",
+        "NOSC COLUMBUS OH",
+        "NOSC CORPUS CHRISTI TX",
+        "NOSC DECATUR IL",
+        "NOSC DENVER CO",
+        "NOSC DES MOINES IA",
+        "NOSC DETROIT MI",
+        "NOSC EARLE",
+        "NOSC EBENSBURG PA",
+        "NOSC EL PASO TX",
+        "NOSC ELEANOR WV",
+        "NOSC ERIE PA",
+        "NOSC EVERETT WA",
+        "NOSC FARGO",
+        "NOSC FORT DIX NJ",
+        "NOSC FT CARSON CO",
+        "NOSC FT WORTH",
+        "NOSC GRAND RAPIDS MI",
+        "NOSC GREEN BAY WI",
+        "NOSC GREENSBORO NC",
+        "NOSC GREENVILLE SC",
+        "NOSC GUAM",
+        "NOSC GULFPORT MS",
+        "NOSC HARLINGEN TX",
+        "NOSC HARRISBURG PA",
+        "NOSC HELENA MT",
+        "NOSC HONOLULU HI",
+        "NOSC HOUSTON TX",
+        "NOSC INDIANAPOLIS IN",
+        "NOSC JACKSONVILLE FL",
+        "NOSC KANSAS CITY MO",
+        "NOSC KITSAP WA",
+        "NOSC KNOXVILLE TN",
+        "NOSC LANSING MI",
+        "NOSC LAS VEGAS NV",
+        "NOSC LEHIGH VALLEY PA",
+        "NOSC LEMOORE CA",
+        "NOSC LITTLE ROCK AR",
+        "NOSC BELL CA",
+        "NOSC LOUISVILLE KY",
+        "NOSC MADISON WI",
+        "NOSC MANCHESTER NH",
+        "NOSC MEMPHIS TN",
+        "NOSC MERIDIAN MS",
+        "NOSC MIAMI FL",
+        "NOSC MILWAUKEE WI",
+        "NOSC MINNEAPOLIS MN",
+        "NOSC MORENO VALLEY CA",
+        "NOSC NASHVILLE TN",
+        "NOSC NEW LONDON CT",
+        "NOSC NEW ORLEANS LA",
+        "NOSC NEW YORK NY",
+        "NOSC NEWPORT RI",
+        "NOSC NORFOLK VA",
+        "NOSC NORTH ISLAND CA",
+        "NOSC OKLAHOMA CITY OK",
+        "NOSC OMAHA NE",
+        "NOSC ORLANDO FL",
+        "NOSC PENSACOLA FL",
+        "NOSC PEORIA IL",
+        "NOSC PHOENIX AZ",
+        "NOSC PITTSBURG PA",
+        "NOSC PLAINVILLE CT",
+        "NOSC POINT MUGU CA",
+        "NOSC PORT HUENEME CA",
+        "NOSC PORTLAND OR",
+        "NOSC PUERTO RICO",
+        "NOSC QUINCY MA",
+        "NOSC RALEIGH NC",
+        "NOSC RENO NV",
+        "NOSC RICHMOND VA",
+        "NOSC ROANOKE VA",
+        "NOSC ROCHESTER NY",
+        "NOSC ROCK ISLAND IL",
+        "NOSC SACRAMENTO CA",
+        "NOSC SAGINAW MI",
+        "NOSC SALT LAKE CITY UT",
+        "NOSC SAN ANTONIO TX",
+        "NOSC SAN DIEGO CA",
+        "NOSC SAN JOSE CA",
+        "NOSC SCHNECTADY",
+        "NOSC SHREVEPORT LA",
+        "NOSC SIOUX FALLS SD",
+        "NOSC SPOKANE WA",
+        "NOSC SPRINGFIELD MO",
+        "NOSC SPRINGFIELD OR",
+        "NOSC ST LOUIS MO",
+        "NOSC SYRACUSE",
+        "NOSC TALLAHASSEE FL",
+        "NOSC TAMPA FL",
+        "NOSC TOLEDO OH",
+        "NOSC TUCSON AZ",
+        "NOSC TULSA OK",
+        "NOSC WACO TX",
+        "NOSC WEST PALM BEACH FL",
+        "NOSC WHIDBEY ISLAND WA",
+        "NOSC WHITE RIVER JUNCTION VT",
+        "NOSC WICHITA KS",
+        "NOSC WILLOW GROVE PA",
+        "NOSC WILMINGTON DE",
+        "NOSC WILMINGTON NC",
+        "NOSC YOUNGSTOWN OH"
+      ]
+    },
+    "transitionAsst": {
+      "type": "text",
+      "label": "5.  TRANSITION ASSISTANT (if known): ",
+      "page": 1,
+      "box": {
+        "left": 208.0,
+        "top": 606.7,
+        "width": 365.1,
+        "height": 20.7
+      }
+    },
+    "textField2": {
+      "type": "text",
+      "label": "INTERVIEWER'S INITIALS",
+      "page": 1,
+      "box": {
+        "left": 514.0,
+        "top": 558.8,
+        "width": 59.1,
+        "height": 15.9
+      }
+    },
+    "radioButtonList": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 384.4,
+        "top": 556.8,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_area_0_RadioButtonList_10"
+    },
+    "radioButtonList2": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 427.6,
+        "top": 556.8,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_area_0_RadioButtonList_10"
+    },
+    "radioButtonList3": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 556.8,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_area_0_RadioButtonList_6"
+    },
+    "textField22": {
+      "type": "text",
+      "label": "INTERVIEWER'S INITIALS",
+      "page": 1,
+      "box": {
+        "left": 514.0,
+        "top": 537.1,
+        "width": 59.1,
+        "height": 16.0
+      }
+    },
+    "radioButtonList4": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 535.2,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_area_0_RadioButtonList_7"
+    },
+    "radioButtonList5": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 384.4,
+        "top": 535.1,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_area_0_RadioButtonList_0"
+    },
+    "radioButtonList6": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 427.6,
+        "top": 535.1,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_area_0_RadioButtonList_0"
+    },
+    "textField23": {
+      "type": "text",
+      "label": "INTERVIEWER'S INITIALS",
+      "page": 1,
+      "box": {
+        "left": 514.0,
+        "top": 515.6,
+        "width": 59.1,
+        "height": 16.0
+      }
+    },
+    "radioButtonList7": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 384.4,
+        "top": 513.6,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_area_0_RadioButtonList_1"
+    },
+    "radioButtonList8": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 427.6,
+        "top": 513.6,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_area_0_RadioButtonList_1"
+    },
+    "radioButtonList9": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 513.6,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_area_0_RadioButtonList_8"
+    },
+    "textField24": {
+      "type": "text",
+      "label": "INTERVIEWER'S INITIALS",
+      "page": 1,
+      "box": {
+        "left": 514.0,
+        "top": 494.0,
+        "width": 59.1,
+        "height": 15.8
+      }
+    },
+    "radioButtonList10": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 384.4,
+        "top": 492.1,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_area_0_RadioButtonList_2"
+    },
+    "radioButtonList11": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 427.6,
+        "top": 492.1,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_area_0_RadioButtonList_2"
+    },
+    "radioButtonList12": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 492.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_area_0_RadioButtonList_9"
+    },
+    "textField25": {
+      "type": "text",
+      "label": "INTERVIEWER'S INITIALS",
+      "page": 1,
+      "box": {
+        "left": 514.0,
+        "top": 472.4,
+        "width": 59.1,
+        "height": 23.2
+      }
+    },
+    "radioButtonList13": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 384.4,
+        "top": 466.8,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_area_0_RadioButtonList_3"
+    },
+    "radioButtonList14": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 427.6,
+        "top": 466.8,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_area_0_RadioButtonList_3"
+    },
+    "radioButtonList15": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 466.8,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_11"
+    },
+    "email": {
+      "type": "text",
+      "label": "7.  CCC E-MAIL ADDRESS:",
+      "page": 1,
+      "box": {
+        "left": 312.4,
+        "top": 433.9,
+        "width": 260.7,
+        "height": 20.7
+      }
+    },
+    "phoneNum": {
+      "type": "text",
+      "label": "9.  CCC PHONE NUMBER:",
+      "page": 1,
+      "box": {
+        "left": 334.0,
+        "top": 398.0,
+        "width": 138.4,
+        "height": 20.8
+      }
+    },
+    "signatureField1": {
+      "type": "signature",
+      "label": "8.  CCC SIGNATURE:",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 397.9,
+        "width": 289.5,
+        "height": 20.7
+      }
+    },
+    "dateField1": {
+      "type": "text",
+      "label": "10.  DATE:",
+      "page": 1,
+      "box": {
+        "left": 478.0,
+        "top": 397.9,
+        "width": 95.1,
+        "height": 20.7
+      }
+    },
+    "textField26": {
+      "type": "text",
+      "label": "INTERVIEWER'S INITIALS",
+      "page": 1,
+      "box": {
+        "left": 514.0,
+        "top": 349.9,
+        "width": 59.1,
+        "height": 15.7
+      }
+    },
+    "radioButtonList16": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 427.6,
+        "top": 348.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_area_0_RadioButtonList_4"
+    },
+    "radioButtonList17": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 348.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_area_0_RadioButtonList_4"
+    },
+    "textField27": {
+      "type": "text",
+      "label": "INTERVIEWER'S INITIALS",
+      "page": 1,
+      "box": {
+        "left": 514.0,
+        "top": 328.4,
+        "width": 59.1,
+        "height": 15.9
+      }
+    },
+    "radioButtonList18": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 427.6,
+        "top": 326.4,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_area_0_RadioButtonList_5"
+    },
+    "radioButtonList19": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 326.4,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_area_0_RadioButtonList_5"
+    },
+    "dateTimeField2": {
+      "type": "text",
+      "label": "DateTimeField2",
+      "page": 1,
+      "box": {
+        "left": 139.6,
+        "top": 292.4,
+        "width": 51.9,
+        "height": 15.9
+      }
+    },
+    "signatureField12": {
+      "type": "signature",
+      "label": " 5.  MEDICAL OFFICER OR IDC SIGNATURE:",
+      "page": 1,
+      "box": {
+        "left": 290.8,
+        "top": 261.2,
+        "width": 188.7,
+        "height": 20.9
+      }
+    },
+    "dateTimeField1": {
+      "type": "text",
+      "label": " 6.  DATE:",
+      "page": 1,
+      "box": {
+        "left": 485.2,
+        "top": 261.0,
+        "width": 87.9,
+        "height": 20.8
+      }
+    },
+    "textField14": {
+      "type": "text",
+      "label": "1.  NAME/RATE:",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 210.7,
+        "width": 267.9,
+        "height": 20.6
+      }
+    },
+    "email2": {
+      "type": "text",
+      "label": "2.  E-MAIL ADDRESS:",
+      "page": 1,
+      "box": {
+        "left": 312.4,
+        "top": 210.7,
+        "width": 260.7,
+        "height": 20.6
+      }
+    },
+    "phoneNum2": {
+      "type": "text",
+      "label": "4.  PHONE NUMBER:",
+      "page": 1,
+      "box": {
+        "left": 334.0,
+        "top": 174.8,
+        "width": 138.4,
+        "height": 20.7
+      }
+    },
+    "signatureField13": {
+      "type": "signature",
+      "label": "3.  SIGNATURE:",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 174.7,
+        "width": 289.5,
+        "height": 20.6
+      }
+    },
+    "dateField12": {
+      "type": "text",
+      "label": "5.  DATE:",
+      "page": 1,
+      "box": {
+        "left": 478.0,
+        "top": 174.7,
+        "width": 95.1,
+        "height": 20.7
+      }
+    },
+    "radioButtonList20": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 43.2,
+        "top": 134.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_12"
+    },
+    "radioButtonList21": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 262.0,
+        "top": 134.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_12"
+    },
+    "email3": {
+      "type": "text",
+      "label": "1.  PERSONAL E-MAIL:",
+      "page": 1,
+      "box": {
+        "left": 128.5,
+        "top": 119.6,
+        "width": 444.6,
+        "height": 23.1
+      }
+    },
+    "email4": {
+      "type": "text",
+      "label": "2.  WORK E-MAIL:",
+      "page": 1,
+      "box": {
+        "left": 128.5,
+        "top": 90.8,
+        "width": 444.6,
+        "height": 23.1
+      }
+    },
+    "phoneNum3": {
+      "type": "text",
+      "label": "3.  LEAVE PHONE: ",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 52.5,
+        "width": 131.1,
+        "height": 13.7
+      }
+    },
+    "phoneNum4": {
+      "type": "text",
+      "label": "4. CELL PHONE: ",
+      "page": 1,
+      "box": {
+        "left": 175.6,
+        "top": 52.5,
+        "width": 116.7,
+        "height": 13.7
+      }
+    },
+    "dateTimeField3": {
+      "type": "text",
+      "label": "5.  EAOS/SEAOS:",
+      "page": 1,
+      "box": {
+        "left": 298.0,
+        "top": 52.3,
+        "width": 145.5,
+        "height": 13.5
+      }
+    },
+    "dateTimeField32": {
+      "type": "text",
+      "label": "6.TERMINAL LEAVE DATE:",
+      "page": 1,
+      "box": {
+        "left": 449.2,
+        "top": 52.3,
+        "width": 123.9,
+        "height": 13.5
+      }
+    },
+    "address": {
+      "type": "text",
+      "label": "STREET ADDRESS:",
+      "page": 2,
+      "box": {
+        "left": 85.4,
+        "top": 688.4,
+        "width": 487.8,
+        "height": 30.4
+      },
+      "multiline": true
+    },
+    "city": {
+      "type": "text",
+      "label": " CITY:",
+      "page": 2,
+      "box": {
+        "left": 85.4,
+        "top": 652.4,
+        "width": 293.4,
+        "height": 23.2
+      }
+    },
+    "state": {
+      "type": "text",
+      "label": "STATE:",
+      "page": 2,
+      "box": {
+        "left": 414.5,
+        "top": 652.4,
+        "width": 43.5,
+        "height": 23.2
+      }
+    },
+    "zipCode": {
+      "type": "text",
+      "label": " ZIP CODE:",
+      "page": 2,
+      "box": {
+        "left": 490.3,
+        "top": 652.4,
+        "width": 82.9,
+        "height": 23.2
+      }
+    },
+    "name2": {
+      "type": "text",
+      "label": "8.  CPPA NAME:",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 614.0,
+        "width": 275.2,
+        "height": 20.8
+      }
+    },
+    "email5": {
+      "type": "text",
+      "label": "9.  CPPA E-MAIL:",
+      "page": 2,
+      "box": {
+        "left": 319.6,
+        "top": 614.0,
+        "width": 253.6,
+        "height": 20.8
+      }
+    },
+    "textField15": {
+      "type": "text",
+      "label": "10.  MEMBER'S NAME AND RANK:",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 556.3,
+        "width": 246.3,
+        "height": 20.7
+      }
+    },
+    "signatureField2": {
+      "type": "signature",
+      "label": "11.   MEMBER'S SIGNATURE:",
+      "page": 2,
+      "box": {
+        "left": 290.8,
+        "top": 556.3,
+        "width": 203.1,
+        "height": 20.7
+      }
+    },
+    "dateTimeField12": {
+      "type": "text",
+      "label": "12.  DATE:",
+      "page": 2,
+      "box": {
+        "left": 499.6,
+        "top": 556.3,
+        "width": 73.5,
+        "height": 20.7
+      }
+    },
+    "radioButtonList22": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 492.4,
+        "top": 513.7,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_area_1_RadioButtonList_13"
+    },
+    "radioButtonList23": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 535.6,
+        "top": 513.7,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_area_1_RadioButtonList_13"
+    },
+    "textField16": {
+      "type": "text",
+      "label": "2. Command Endorsement: Provide written recommendation from commanding officer indicating member's potential to perform\n and excel in the Navy Reserve.)",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 432.0,
+        "width": 534.3,
+        "height": 335.6
+      },
+      "multiline": true
+    },
+    "radioButtonList24": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 370.0,
+        "top": 88.7,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_area_1_RadioButtonList_14"
+    },
+    "radioButtonList25": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 442.0,
+        "top": 88.7,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_area_1_RadioButtonList_14"
+    },
+    "textField17": {
+      "type": "text",
+      "label": "4.  NAME AND RANK:",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 59.5,
+        "width": 231.9,
+        "height": 20.7
+      }
+    },
+    "signatureField3": {
+      "type": "signature",
+      "label": "5.  SIGNATURE:",
+      "page": 2,
+      "box": {
+        "left": 276.4,
+        "top": 59.5,
+        "width": 195.9,
+        "height": 20.7
+      }
+    },
+    "dateTimeField13": {
+      "type": "text",
+      "label": "6.  DATE:",
+      "page": 2,
+      "box": {
+        "left": 478.0,
+        "top": 59.5,
+        "width": 95.1,
+        "height": 20.7
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 172.75,
+      "editor": "grid",
+      "columns": {
+        "textField1": {
+          "type": "text",
+          "label": "4.  CONVERSION RATE, IF APPLICABLE: ",
+          "page": 1,
+          "box": {
+            "left": 38.8,
+            "top": 606.7,
+            "width": 163.5,
+            "height": 20.7
+          }
+        }
+      }
+    }
+  }
+}

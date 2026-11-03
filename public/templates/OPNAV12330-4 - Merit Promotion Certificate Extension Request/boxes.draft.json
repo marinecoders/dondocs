@@ -1,0 +1,205 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "reqDate": {
+        "left": 486.6,
+        "top": 742.4,
+        "width": 88.3,
+        "height": 26.9,
+        "type": "text",
+        "description": "1. REQUEST DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rPANbr": {
+        "left": 41.0,
+        "top": 702.5,
+        "width": 94.0,
+        "height": 23.0,
+        "type": "text",
+        "description": "2. RPA NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "title": {
+        "left": 140.1,
+        "top": 702.5,
+        "width": 242.5,
+        "height": 23.0,
+        "type": "text",
+        "description": "3. TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "series": {
+        "left": 387.6,
+        "top": 702.5,
+        "width": 125.5,
+        "height": 23.0,
+        "type": "text",
+        "description": "4. SERIES",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "grade": {
+        "left": 518.1,
+        "top": 702.5,
+        "width": 58.0,
+        "height": 23.0,
+        "type": "text",
+        "description": "5. GRADE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "justification": {
+        "left": 41.0,
+        "top": 666.5,
+        "width": 535.0,
+        "height": 113.0,
+        "type": "text",
+        "description": "6. JUSTIFICATION (Why is management requesting an extension)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mgmtReq": {
+        "left": 41.0,
+        "top": 540.5,
+        "width": 535.0,
+        "height": 113.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "intlEff": {
+        "left": 41.0,
+        "top": 414.5,
+        "width": 535.0,
+        "height": 113.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "selDet": {
+        "left": 41.0,
+        "top": 288.5,
+        "width": 535.0,
+        "height": 113.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hOPrntNme": {
+        "left": 41.0,
+        "top": 162.4,
+        "width": 211.0,
+        "height": 36.4,
+        "type": "text",
+        "description": "10. PRINTED NAME AND TITLE OF HIRING OFFICIAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hOSigDate": {
+        "left": 257.1,
+        "top": 162.4,
+        "width": 107.5,
+        "height": 36.4,
+        "type": "text",
+        "description": "11. SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hOSig": {
+        "left": 369.6,
+        "top": 162.4,
+        "width": 206.5,
+        "height": 36.4,
+        "type": "text",
+        "description": "12. SIGNATURE OF HIRING OFFICIAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "certIss": {
+        "left": 175.3,
+        "top": 125.9,
+        "width": 121.7,
+        "height": 22.7,
+        "type": "text",
+        "description": "13. DATE CERTIFICATE ISSUED",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "certExp": {
+        "left": 450.6,
+        "top": 125.9,
+        "width": 125.5,
+        "height": 22.7,
+        "type": "text",
+        "description": "14. CERTIFICATE EXPIRATION DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "depDCHRPrntNme": {
+        "left": 41.0,
+        "top": 72.4,
+        "width": 211.0,
+        "height": 36.4,
+        "type": "text",
+        "description": "15. PRINTED NAME DEPUTY DCHR",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "depDCHRSigDate": {
+        "left": 257.1,
+        "top": 72.4,
+        "width": 107.5,
+        "height": 36.4,
+        "type": "text",
+        "description": "16. SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "depDCHRSig": {
+        "left": 369.6,
+        "top": 72.4,
+        "width": 206.5,
+        "height": 36.4,
+        "type": "text",
+        "description": "17. SIGNATURE OF DEPUTY DCHR",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

@@ -1,0 +1,802 @@
+{
+  "id": "navmc11804",
+  "label": "NAVMC 11804 - Conversion Of UTM Coordinates To Geographic Positions",
+  "directory": "NAVMC11804 - Conversion Of UTM Coordinates To Geographic Positions",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "software",
+        "stationName1",
+        "stationName2",
+        "ellipsoid1",
+        "ellipsoid2",
+        "easting1",
+        "easting2",
+        "northing1",
+        "northing2",
+        "latitude1",
+        "latitude2",
+        "grid1",
+        "grid2",
+        "recordLat1",
+        "recordLat2",
+        "recordLong1",
+        "recordLong2",
+        "stationName3",
+        "stationName4",
+        "ellipsoid3",
+        "ellipsoid4",
+        "easting3",
+        "easting4",
+        "northing3",
+        "northing4",
+        "latitude3",
+        "latitude4",
+        "grid3",
+        "grid4",
+        "recordLat3",
+        "recordLat4",
+        "recordLong3",
+        "recordLong4",
+        "remarks",
+        "computer",
+        "checker",
+        "date",
+        "locality",
+        "fileName",
+        "sheet",
+        "of"
+      ]
+    }
+  ],
+  "fields": {
+    "software": {
+      "type": "text",
+      "label": "Survey Software for RPDA Version:",
+      "page": 1,
+      "box": {
+        "left": 170.5,
+        "top": 703.8,
+        "width": 401.9,
+        "height": 18.0
+      }
+    },
+    "stationName1": {
+      "type": "text",
+      "label": "StationName1",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 660.6,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "stationName2": {
+      "type": "text",
+      "label": "StationName2",
+      "page": 1,
+      "box": {
+        "left": 417.6,
+        "top": 660.6,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "ellipsoid1": {
+      "type": "choice",
+      "label": "Ellipsoid1",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 642.6,
+        "width": 154.8,
+        "height": 10.8
+      },
+      "options": [
+        "1 CLARK 1866",
+        "2 INTERNATIONAL",
+        "3 CLARK 1880",
+        "4 EVEREST",
+        "5 BESSEL",
+        "6 AUSTRALIAN",
+        "7 WGS 72",
+        "8 GRS 80",
+        "9 WGS 84"
+      ]
+    },
+    "ellipsoid2": {
+      "type": "choice",
+      "label": "Ellipsoid2",
+      "page": 1,
+      "box": {
+        "left": 417.6,
+        "top": 642.6,
+        "width": 154.8,
+        "height": 10.8
+      },
+      "options": [
+        "1 CLARK 1866",
+        "2 INTERNATIONAL",
+        "3 CLARK 1880",
+        "4 EVEREST",
+        "5 BESSEL",
+        "6 AUSTRALIAN",
+        "7 WGS 72",
+        "8 GRS 80",
+        "9 WGS 84"
+      ]
+    },
+    "easting1": {
+      "type": "text",
+      "label": "Easting1",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 624.6,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "easting2": {
+      "type": "text",
+      "label": "Easting2",
+      "page": 1,
+      "box": {
+        "left": 417.6,
+        "top": 624.6,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "northing1": {
+      "type": "text",
+      "label": "Northing1",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 606.6,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "northing2": {
+      "type": "text",
+      "label": "Northing2",
+      "page": 1,
+      "box": {
+        "left": 417.6,
+        "top": 606.6,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "latitude1": {
+      "type": "text",
+      "label": "Latitude1",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 588.6,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "latitude2": {
+      "type": "text",
+      "label": "Latitude2",
+      "page": 1,
+      "box": {
+        "left": 417.6,
+        "top": 588.6,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "grid1": {
+      "type": "choice",
+      "label": "Grid1",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 570.6,
+        "width": 154.8,
+        "height": 10.8
+      },
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45",
+        "46",
+        "47",
+        "48",
+        "49",
+        "50",
+        "51",
+        "52",
+        "53",
+        "54",
+        "55",
+        "56",
+        "57",
+        "58",
+        "59",
+        "60"
+      ]
+    },
+    "grid2": {
+      "type": "choice",
+      "label": "Grid2",
+      "page": 1,
+      "box": {
+        "left": 417.6,
+        "top": 570.6,
+        "width": 154.8,
+        "height": 10.8
+      },
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45",
+        "46",
+        "47",
+        "48",
+        "49",
+        "50",
+        "51",
+        "52",
+        "53",
+        "54",
+        "55",
+        "56",
+        "57",
+        "58",
+        "59",
+        "60"
+      ]
+    },
+    "recordLat1": {
+      "type": "text",
+      "label": "RecordLat1",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 537.4,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "recordLat2": {
+      "type": "text",
+      "label": "RecordLat2",
+      "page": 1,
+      "box": {
+        "left": 417.6,
+        "top": 537.4,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "recordLong1": {
+      "type": "text",
+      "label": "RecordLong1",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 519.4,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "recordLong2": {
+      "type": "text",
+      "label": "RecordLong2",
+      "page": 1,
+      "box": {
+        "left": 417.6,
+        "top": 519.4,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "stationName3": {
+      "type": "text",
+      "label": "StationName3",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 475.5,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "stationName4": {
+      "type": "text",
+      "label": "StationName4",
+      "page": 1,
+      "box": {
+        "left": 417.6,
+        "top": 475.5,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "ellipsoid3": {
+      "type": "choice",
+      "label": "Ellipsoid3",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 457.5,
+        "width": 154.8,
+        "height": 10.8
+      },
+      "options": [
+        "1 CLARK 1866",
+        "2 INTERNATIONAL",
+        "3 CLARK 1880",
+        "4 EVEREST",
+        "5 BESSEL",
+        "6 AUSTRALIAN",
+        "7 WGS 72",
+        "8 GRS 80",
+        "9 WGS 84"
+      ]
+    },
+    "ellipsoid4": {
+      "type": "choice",
+      "label": "Ellipsoid4",
+      "page": 1,
+      "box": {
+        "left": 417.6,
+        "top": 457.5,
+        "width": 154.8,
+        "height": 10.8
+      },
+      "options": [
+        "1 CLARK 1866",
+        "2 INTERNATIONAL",
+        "3 CLARK 1880",
+        "4 EVEREST",
+        "5 BESSEL",
+        "6 AUSTRALIAN",
+        "7 WGS 72",
+        "8 GRS 80",
+        "9 WGS 84"
+      ]
+    },
+    "easting3": {
+      "type": "text",
+      "label": "Easting3",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 439.5,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "easting4": {
+      "type": "text",
+      "label": "Easting4",
+      "page": 1,
+      "box": {
+        "left": 417.6,
+        "top": 439.5,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "northing3": {
+      "type": "text",
+      "label": "Northing3",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 421.5,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "northing4": {
+      "type": "text",
+      "label": "Northing4",
+      "page": 1,
+      "box": {
+        "left": 417.6,
+        "top": 421.5,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "latitude3": {
+      "type": "text",
+      "label": "Latitude3",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 403.5,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "latitude4": {
+      "type": "text",
+      "label": "Latitude4",
+      "page": 1,
+      "box": {
+        "left": 417.6,
+        "top": 403.5,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "grid3": {
+      "type": "choice",
+      "label": "Grid3",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 385.5,
+        "width": 154.8,
+        "height": 10.8
+      },
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45",
+        "46",
+        "47",
+        "48",
+        "49",
+        "50",
+        "51",
+        "52",
+        "53",
+        "54",
+        "55",
+        "56",
+        "57",
+        "58",
+        "59",
+        "60"
+      ]
+    },
+    "grid4": {
+      "type": "choice",
+      "label": "Grid4",
+      "page": 1,
+      "box": {
+        "left": 417.6,
+        "top": 385.5,
+        "width": 154.8,
+        "height": 10.8
+      },
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45",
+        "46",
+        "47",
+        "48",
+        "49",
+        "50",
+        "51",
+        "52",
+        "53",
+        "54",
+        "55",
+        "56",
+        "57",
+        "58",
+        "59",
+        "60"
+      ]
+    },
+    "recordLat3": {
+      "type": "text",
+      "label": "RecordLat3",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 352.3,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "recordLat4": {
+      "type": "text",
+      "label": "RecordLat4",
+      "page": 1,
+      "box": {
+        "left": 417.6,
+        "top": 352.3,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "recordLong3": {
+      "type": "text",
+      "label": "RecordLong3",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 334.3,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "recordLong4": {
+      "type": "text",
+      "label": "RecordLong4",
+      "page": 1,
+      "box": {
+        "left": 417.6,
+        "top": 334.3,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "REMARKS:",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 305.5,
+        "width": 532.8,
+        "height": 202.9
+      },
+      "multiline": true
+    },
+    "computer": {
+      "type": "text",
+      "label": "COMPUTER:",
+      "page": 1,
+      "box": {
+        "left": 90.2,
+        "top": 95.4,
+        "width": 122.2,
+        "height": 10.8
+      }
+    },
+    "checker": {
+      "type": "text",
+      "label": "CHECKER:",
+      "page": 1,
+      "box": {
+        "left": 261.1,
+        "top": 95.4,
+        "width": 221.3,
+        "height": 10.8
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "DATE:",
+      "page": 1,
+      "box": {
+        "left": 513.7,
+        "top": 95.4,
+        "width": 58.7,
+        "height": 10.8
+      }
+    },
+    "locality": {
+      "type": "text",
+      "label": "LOCALITY:",
+      "page": 1,
+      "box": {
+        "left": 90.2,
+        "top": 77.4,
+        "width": 122.2,
+        "height": 10.8
+      }
+    },
+    "fileName": {
+      "type": "text",
+      "label": "ARCHIVE FILE NAME:",
+      "page": 1,
+      "box": {
+        "left": 301.8,
+        "top": 77.4,
+        "width": 180.6,
+        "height": 10.8
+      }
+    },
+    "sheet": {
+      "type": "text",
+      "label": "Sheet",
+      "page": 1,
+      "box": {
+        "left": 528.4,
+        "top": 77.4,
+        "width": 10.8,
+        "height": 10.8
+      }
+    },
+    "of": {
+      "type": "text",
+      "label": "Of",
+      "page": 1,
+      "box": {
+        "left": 561.6,
+        "top": 77.4,
+        "width": 10.8,
+        "height": 10.8
+      }
+    }
+  }
+}

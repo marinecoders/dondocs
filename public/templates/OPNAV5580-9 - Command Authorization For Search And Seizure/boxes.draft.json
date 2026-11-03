@@ -1,0 +1,139 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "nameOfPerson": {
+        "left": 184.3,
+        "top": 640.3,
+        "width": 243.3,
+        "height": 21.7,
+        "type": "text",
+        "description": "Enter the defendant's name (last, first, MI).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "to": {
+        "left": 67.5,
+        "top": 608.2,
+        "width": 251.5,
+        "height": 21.3,
+        "type": "text",
+        "description": "Enter the defendant's name (last, first, MI).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "affidavit": {
+        "left": 53.3,
+        "top": 561.0,
+        "width": 516.1,
+        "height": 21.3,
+        "type": "text",
+        "description": "Enter by whom the affidavit(s) was made by before you (last, first, MI).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "premisisDetail": {
+        "left": 53.3,
+        "top": 513.2,
+        "width": 516.1,
+        "height": 56.0,
+        "type": "text",
+        "description": "Identify the person and/or describe the premisis with particularity and in detail.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "describeProperty": {
+        "left": 53.3,
+        "top": 424.9,
+        "width": 516.1,
+        "height": 52.1,
+        "type": "text",
+        "description": "Here describe the property.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "day": {
+        "left": 98.3,
+        "top": 228.0,
+        "width": 39.7,
+        "height": 21.3,
+        "type": "text",
+        "description": "Enter the day.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "month": {
+        "left": 175.3,
+        "top": 228.0,
+        "width": 98.8,
+        "height": 21.3,
+        "type": "text",
+        "description": "Enter the month.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "year": {
+        "left": 291.8,
+        "top": 228.0,
+        "width": 22.8,
+        "height": 21.3,
+        "type": "text",
+        "description": "Enter the last two digits of the year.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureAuthorization": {
+        "left": 326.6,
+        "top": 190.3,
+        "width": 221.9,
+        "height": 21.3,
+        "type": "text",
+        "description": "Enter the signature of person authorizing the search.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rankSerTitle": {
+        "left": 326.6,
+        "top": 156.0,
+        "width": 220.8,
+        "height": 20.1,
+        "type": "text",
+        "description": "Enter rank, service and/or title.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "command": {
+        "left": 326.6,
+        "top": 123.4,
+        "width": 220.2,
+        "height": 20.1,
+        "type": "text",
+        "description": "Enter the command.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

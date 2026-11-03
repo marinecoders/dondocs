@@ -1,0 +1,303 @@
+{
+  "id": "opnav55807",
+  "label": "OPNAV5580-7 - InterviewInterrogation Log",
+  "directory": "OPNAV5580-7 - InterviewInterrogation Log",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "ccn",
+        "depo",
+        "interlock",
+        "dateofinter",
+        "depo2",
+        "name",
+        "ssn",
+        "rank",
+        "dpob",
+        "ciloc",
+        "edu",
+        "citiz",
+        "nameadd",
+        "addrelate",
+        "homeadd",
+        "datemploy",
+        "datepreass",
+        "remarks",
+        "sig"
+      ]
+    }
+  ],
+  "fields": {
+    "ccn": {
+      "type": "text",
+      "label": "Enter the Case Control Number (CCN).",
+      "page": 1,
+      "box": {
+        "left": 421.9,
+        "top": 741.1,
+        "width": 153.5,
+        "height": 26.0
+      }
+    },
+    "depo": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 689.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo_0"
+    },
+    "interlock": {
+      "type": "text",
+      "label": "Enter the interview location.",
+      "page": 1,
+      "box": {
+        "left": 37.2,
+        "top": 677.6,
+        "width": 210.8,
+        "height": 18.6
+      }
+    },
+    "dateofinter": {
+      "type": "text",
+      "label": "Enter the date (DD MMM YYYY) of the interview.  ",
+      "page": 1,
+      "box": {
+        "left": 421.9,
+        "top": 677.6,
+        "width": 153.4,
+        "height": 18.6
+      }
+    },
+    "depo2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 673.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo_0"
+    },
+    "name": {
+      "type": "text",
+      "label": "Enter the name (last, first, middle initial).",
+      "page": 1,
+      "box": {
+        "left": 37.2,
+        "top": 418.8,
+        "width": 267.3,
+        "height": 17.0
+      }
+    },
+    "ssn": {
+      "type": "text",
+      "label": "Enter the Social Security Number.  ",
+      "page": 1,
+      "box": {
+        "left": 307.2,
+        "top": 418.3,
+        "width": 150.4,
+        "height": 16.4
+      }
+    },
+    "rank": {
+      "type": "text",
+      "label": "Enter the rank/rate and grade.",
+      "page": 1,
+      "box": {
+        "left": 460.2,
+        "top": 418.3,
+        "width": 115.1,
+        "height": 16.4
+      }
+    },
+    "dpob": {
+      "type": "text",
+      "label": "Enter the DPOB/sex/race/height/hair/eyes and identifying marks.",
+      "page": 1,
+      "box": {
+        "left": 37.2,
+        "top": 385.7,
+        "width": 538.1,
+        "height": 27.1
+      }
+    },
+    "ciloc": {
+      "type": "text",
+      "label": "Enter the civilian occupation.",
+      "page": 1,
+      "box": {
+        "left": 37.2,
+        "top": 341.2,
+        "width": 267.6,
+        "height": 18.6
+      }
+    },
+    "edu": {
+      "type": "text",
+      "label": "Enter the education.",
+      "page": 1,
+      "box": {
+        "left": 307.2,
+        "top": 341.2,
+        "width": 150.6,
+        "height": 18.6
+      }
+    },
+    "citiz": {
+      "type": "text",
+      "label": "Enter the citizenship.",
+      "page": 1,
+      "box": {
+        "left": 460.2,
+        "top": 341.2,
+        "width": 115.1,
+        "height": 18.6
+      }
+    },
+    "nameadd": {
+      "type": "text",
+      "label": "Enter the name and address of spouse.",
+      "page": 1,
+      "box": {
+        "left": 37.2,
+        "top": 305.3,
+        "width": 267.6,
+        "height": 40.2
+      },
+      "multiline": true
+    },
+    "addrelate": {
+      "type": "text",
+      "label": "Enter the name, address and relationship of next of kin.",
+      "page": 1,
+      "box": {
+        "left": 307.2,
+        "top": 305.3,
+        "width": 268.3,
+        "height": 40.2
+      },
+      "multiline": true
+    },
+    "homeadd": {
+      "type": "text",
+      "label": "Enter the subject's home address of record.",
+      "page": 1,
+      "box": {
+        "left": 37.2,
+        "top": 249.0,
+        "width": 267.6,
+        "height": 27.6
+      }
+    },
+    "datemploy": {
+      "type": "text",
+      "label": "Enter the date (DD MMM YYYY) of last enlistment/employment/commissioning.",
+      "page": 1,
+      "box": {
+        "left": 307.2,
+        "top": 240.0,
+        "width": 150.6,
+        "height": 18.6
+      }
+    },
+    "datepreass": {
+      "type": "text",
+      "label": "Enter the date (DD MMM YYYY) reported to present assignment.",
+      "page": 1,
+      "box": {
+        "left": 460.2,
+        "top": 240.0,
+        "width": 115.0,
+        "height": 18.6
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "Enter any remarks (if more space needed, continue on reverse).",
+      "page": 1,
+      "box": {
+        "left": 37.2,
+        "top": 205.1,
+        "width": 538.1,
+        "height": 128.3
+      },
+      "multiline": true
+    },
+    "sig": {
+      "type": "text",
+      "label": "Enter the signature of interviewer.",
+      "page": 1,
+      "box": {
+        "left": 37.2,
+        "top": 63.4,
+        "width": 538.1,
+        "height": 11.9
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 8,
+      "rowStride": 12.21,
+      "editor": "grid",
+      "columns": {
+        "action": {
+          "type": "text",
+          "label": "Enter any other type of questions prior to warning.",
+          "page": 1,
+          "box": {
+            "left": 37.2,
+            "top": 606.9,
+            "width": 210.8,
+            "height": 9.9
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 16,
+      "rowStride": 12.27,
+      "editor": "grid",
+      "columns": {
+        "hour": {
+          "type": "text",
+          "label": "Enter the time of arrival at component/other using the 24 hour clock.  ",
+          "page": 1,
+          "box": {
+            "left": 250.4,
+            "top": 644.3,
+            "width": 54.4,
+            "height": 10.9
+          }
+        },
+        "hour2": {
+          "type": "text",
+          "label": "Enter the time written statement commenced using the 24 hour clock.  ",
+          "page": 1,
+          "box": {
+            "left": 515.9,
+            "top": 644.3,
+            "width": 59.5,
+            "height": 10.9
+          }
+        }
+      }
+    }
+  }
+}

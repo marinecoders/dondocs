@@ -1,0 +1,295 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "lastName": {
+        "left": 21.6,
+        "top": 659.1,
+        "width": 285.6,
+        "height": 15.1,
+        "type": "text",
+        "description": "LastName",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "firstName": {
+        "left": 311.9,
+        "top": 659.1,
+        "width": 255.1,
+        "height": 15.1,
+        "type": "text",
+        "description": "FirstName",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameMI": {
+        "left": 570.6,
+        "top": 658.8,
+        "width": 19.7,
+        "height": 15.1,
+        "type": "text",
+        "description": "NameMI",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "grade": {
+        "left": 479.3,
+        "top": 611.7,
+        "width": 112.5,
+        "height": 15.1,
+        "type": "text",
+        "description": "Grade",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "title": {
+        "left": 20.9,
+        "top": 611.6,
+        "width": 191.4,
+        "height": 15.1,
+        "type": "text",
+        "description": "Title",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "series": {
+        "left": 216.8,
+        "top": 611.6,
+        "width": 258.7,
+        "height": 15.1,
+        "type": "text",
+        "description": "Series",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "title2": {
+        "left": 20.9,
+        "top": 563.7,
+        "width": 191.4,
+        "height": 15.1,
+        "type": "text",
+        "description": "Title",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "series2": {
+        "left": 218.2,
+        "top": 563.7,
+        "width": 168.5,
+        "height": 15.1,
+        "type": "text",
+        "description": "Series",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "grade2": {
+        "left": 394.5,
+        "top": 563.7,
+        "width": 197.3,
+        "height": 15.1,
+        "type": "text",
+        "description": "Grade",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "justification": {
+        "left": 21.7,
+        "top": 483.8,
+        "width": 569.3,
+        "height": 117.0,
+        "type": "text",
+        "description": "Justification",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "titleRO1": {
+        "left": 102.1,
+        "top": 315.8,
+        "width": 150.2,
+        "height": 10.2,
+        "type": "text",
+        "description": "TitleRO1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureSigRO1": {
+        "left": 264.9,
+        "top": 315.8,
+        "width": 150.3,
+        "height": 10.2,
+        "type": "signature",
+        "description": "SignatureSigRO1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateRO1": {
+        "left": 429.5,
+        "top": 315.8,
+        "width": 77.6,
+        "height": 10.2,
+        "type": "text",
+        "description": "DateRO1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "titleRO2": {
+        "left": 102.1,
+        "top": 276.8,
+        "width": 150.8,
+        "height": 10.2,
+        "type": "text",
+        "description": "TitleRO2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureSigRO2": {
+        "left": 265.0,
+        "top": 276.8,
+        "width": 150.3,
+        "height": 10.2,
+        "type": "signature",
+        "description": "SignatureSigRO2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateRO2": {
+        "left": 429.5,
+        "top": 276.8,
+        "width": 77.6,
+        "height": 10.2,
+        "type": "text",
+        "description": "DateRO2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "r28b": {
+        "left": 82.1,
+        "top": 220.9,
+        "width": 11.0,
+        "height": 11.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[0].r28b[0]",
+        "required": false
+      },
+      "r28b2": {
+        "left": 180.9,
+        "top": 220.6,
+        "width": 11.0,
+        "height": 11.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[0].r28b[0]",
+        "required": false
+      },
+      "otherHours": {
+        "left": 504.1,
+        "top": 219.7,
+        "width": 29.6,
+        "height": 10.2,
+        "type": "text",
+        "description": "OtherHours",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "titleAO": {
+        "left": 101.8,
+        "top": 186.9,
+        "width": 150.8,
+        "height": 10.2,
+        "type": "text",
+        "description": "TitleAO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureAO": {
+        "left": 264.6,
+        "top": 186.9,
+        "width": 150.3,
+        "height": 10.2,
+        "type": "signature",
+        "description": "SignatureAO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateAO": {
+        "left": 429.2,
+        "top": 186.9,
+        "width": 77.6,
+        "height": 10.2,
+        "type": "text",
+        "description": "DateAO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "forHROMuseOnly": {
+        "left": 21.1,
+        "top": 140.2,
+        "width": 569.3,
+        "height": 54.7,
+        "type": "text",
+        "description": "forHROMuseOnly",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "employees": {
+        "left": 58.5,
+        "top": 717.5,
+        "width": 342.0,
+        "height": 515.0,
+        "type": "text",
+        "description": "Employees",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "timeOffHours": {
+        "left": 409.6,
+        "top": 717.5,
+        "width": 146.2,
+        "height": 515.0,
+        "type": "text",
+        "description": "TimeOffHours",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

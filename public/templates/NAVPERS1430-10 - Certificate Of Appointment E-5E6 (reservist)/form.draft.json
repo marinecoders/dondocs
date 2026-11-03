@@ -1,0 +1,138 @@
+{
+  "id": "navpers143010",
+  "label": "NAVPERS1430-10 - Certificate Of Appointment E-5E6 (reservist)",
+  "directory": "NAVPERS1430-10 - Certificate Of Appointment E-5E6 (reservist)",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "membersname",
+        "membersrate",
+        "date1",
+        "month1",
+        "year1",
+        "textField2",
+        "date2",
+        "month2",
+        "year2",
+        "textField3"
+      ]
+    }
+  ],
+  "fields": {
+    "membersname": {
+      "type": "text",
+      "label": "Please enter member's full name",
+      "page": 1,
+      "box": {
+        "left": 200.8,
+        "top": 510.2,
+        "width": 210.3,
+        "height": 21.3
+      }
+    },
+    "membersrate": {
+      "type": "text",
+      "label": "Please enter member's new rate.  ",
+      "page": 1,
+      "box": {
+        "left": 200.8,
+        "top": 438.2,
+        "width": 210.3,
+        "height": 21.3
+      }
+    },
+    "date1": {
+      "type": "text",
+      "label": "Please spell out the day of advancement.",
+      "page": 1,
+      "box": {
+        "left": 187.2,
+        "top": 351.0,
+        "width": 63.0,
+        "height": 28.8
+      }
+    },
+    "month1": {
+      "type": "text",
+      "label": "Please spell out month of advancement.",
+      "page": 1,
+      "box": {
+        "left": 291.6,
+        "top": 351.0,
+        "width": 81.0,
+        "height": 28.8
+      }
+    },
+    "year1": {
+      "type": "text",
+      "label": "Please enter year of advancement.  Example the year is 2006, spell out six.",
+      "page": 1,
+      "box": {
+        "left": 482.4,
+        "top": 351.0,
+        "width": 84.6,
+        "height": 28.8
+      }
+    },
+    "textField2": {
+      "type": "text",
+      "label": "Enter name of command.",
+      "page": 1,
+      "box": {
+        "left": 191.8,
+        "top": 150.2,
+        "width": 372.3,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "date2": {
+      "type": "text",
+      "label": "Please spell out the day of advancement.",
+      "page": 1,
+      "box": {
+        "left": 70.6,
+        "top": 117.0,
+        "width": 50.4,
+        "height": 28.8
+      }
+    },
+    "month2": {
+      "type": "text",
+      "label": "Please spell out month of advancement.",
+      "page": 1,
+      "box": {
+        "left": 165.6,
+        "top": 117.0,
+        "width": 75.6,
+        "height": 28.8
+      }
+    },
+    "year2": {
+      "type": "text",
+      "label": "Please enter year of advancement.  Example the year is 2006, spell out six.",
+      "page": 1,
+      "box": {
+        "left": 482.4,
+        "top": 117.0,
+        "width": 84.6,
+        "height": 28.8
+      }
+    },
+    "textField3": {
+      "type": "text",
+      "label": "Enter your command's approving authority.",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 69.2,
+        "width": 282.3,
+        "height": 19.8
+      }
+    }
+  }
+}

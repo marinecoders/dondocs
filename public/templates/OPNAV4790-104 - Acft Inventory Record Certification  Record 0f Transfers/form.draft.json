@@ -1,0 +1,296 @@
+{
+  "id": "opnav4790104",
+  "label": "OPNAV4790-104 - Acft Inventory Record Certification  Record 0f Transfers",
+  "directory": "OPNAV4790-104 - Acft Inventory Record Certification  Record 0f Transfers",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "nameContractor",
+        "govtSerialNo",
+        "contractNumber",
+        "aircraftType",
+        "certNumber",
+        "transferredFrom",
+        "dateTransferred",
+        "signatureField",
+        "certNumber2",
+        "receivedBy",
+        "dateReceived",
+        "certNumber3",
+        "certNumber4",
+        "certNumber5",
+        "certNumber6",
+        "certNumber7",
+        "certNumber8"
+      ]
+    }
+  ],
+  "fields": {
+    "nameContractor": {
+      "type": "text",
+      "label": "1. NAME OF PRIME CONTRACTOR",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 544.2,
+        "width": 327.4,
+        "height": 10.3
+      }
+    },
+    "govtSerialNo": {
+      "type": "text",
+      "label": "2. GOVERNMENT SERIAL NO",
+      "page": 1,
+      "box": {
+        "left": 371.9,
+        "top": 544.2,
+        "width": 133.8,
+        "height": 10.3
+      }
+    },
+    "contractNumber": {
+      "type": "text",
+      "label": "3. CONTRACT NUMBER",
+      "page": 1,
+      "box": {
+        "left": 511.4,
+        "top": 544.2,
+        "width": 142.8,
+        "height": 10.3
+      }
+    },
+    "aircraftType": {
+      "type": "text",
+      "label": "4. AIRCRAFT TYPE",
+      "page": 1,
+      "box": {
+        "left": 659.9,
+        "top": 544.2,
+        "width": 93.3,
+        "height": 10.3
+      }
+    },
+    "certNumber": {
+      "type": "text",
+      "label": "5. CERTIFICATE NUMBER",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 487.0,
+        "width": 106.8,
+        "height": 14.8
+      }
+    },
+    "transferredFrom": {
+      "type": "text",
+      "label": "6. TRANSFERRED FROM",
+      "page": 1,
+      "box": {
+        "left": 151.4,
+        "top": 487.0,
+        "width": 246.4,
+        "height": 14.8
+      }
+    },
+    "dateTransferred": {
+      "type": "text",
+      "label": "7. DATE TRANSFERRED",
+      "page": 1,
+      "box": {
+        "left": 403.4,
+        "top": 487.0,
+        "width": 102.3,
+        "height": 14.8
+      }
+    },
+    "signatureField": {
+      "type": "text",
+      "label": "AGENT, OFFICIAL TITLE AND ORGANIZATION",
+      "page": 1,
+      "box": {
+        "left": 511.4,
+        "top": 487.0,
+        "width": 241.9,
+        "height": 14.8
+      }
+    },
+    "certNumber2": {
+      "type": "text",
+      "label": "9. CERTIFICATE NUMBER",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 425.2,
+        "width": 106.8,
+        "height": 14.8
+      }
+    },
+    "receivedBy": {
+      "type": "text",
+      "label": "10. RECEIVED BY",
+      "page": 1,
+      "box": {
+        "left": 151.4,
+        "top": 425.2,
+        "width": 246.4,
+        "height": 14.8
+      }
+    },
+    "dateReceived": {
+      "type": "text",
+      "label": "11. DATE RECEIVED",
+      "page": 1,
+      "box": {
+        "left": 403.4,
+        "top": 425.2,
+        "width": 102.3,
+        "height": 14.8
+      }
+    },
+    "certNumber3": {
+      "type": "text",
+      "label": "13. CERTIFICATE NUMBER",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 363.5,
+        "width": 106.8,
+        "height": 14.8
+      }
+    },
+    "certNumber4": {
+      "type": "text",
+      "label": "17. CERTIFICATE NUMBER",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 301.7,
+        "width": 106.8,
+        "height": 14.8
+      }
+    },
+    "certNumber5": {
+      "type": "text",
+      "label": "21. CERTIFICATE NUMBER",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 240.0,
+        "width": 106.8,
+        "height": 14.8
+      }
+    },
+    "certNumber6": {
+      "type": "text",
+      "label": "25. CERTIFICATE NUMBER",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 178.2,
+        "width": 106.8,
+        "height": 14.8
+      }
+    },
+    "certNumber7": {
+      "type": "text",
+      "label": "29. CERTIFICATE NUMBER",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 117.3,
+        "width": 106.8,
+        "height": 15.7
+      }
+    },
+    "certNumber8": {
+      "type": "text",
+      "label": "33. CERTIFICATE NUMBER",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 54.7,
+        "width": 106.8,
+        "height": 14.8
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 123.51,
+      "editor": "grid",
+      "columns": {
+        "receivedBy": {
+          "type": "text",
+          "label": "18 RECEIVED BY",
+          "page": 1,
+          "box": {
+            "left": 151.4,
+            "top": 301.7,
+            "width": 246.4,
+            "height": 14.8
+          }
+        },
+        "transferredFrom": {
+          "type": "text",
+          "label": "14. TRANSFERRED FROM",
+          "page": 1,
+          "box": {
+            "left": 151.4,
+            "top": 363.5,
+            "width": 246.4,
+            "height": 14.8
+          }
+        },
+        "dateReceived": {
+          "type": "text",
+          "label": "19. DATE RECEIVED",
+          "page": 1,
+          "box": {
+            "left": 403.4,
+            "top": 301.7,
+            "width": 102.3,
+            "height": 14.8
+          }
+        },
+        "dateTransferred": {
+          "type": "text",
+          "label": "15. DATE TRANSFERRED",
+          "page": 1,
+          "box": {
+            "left": 403.4,
+            "top": 363.5,
+            "width": 102.3,
+            "height": 14.8
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 7,
+      "rowStride": 61.75,
+      "editor": "grid",
+      "columns": {
+        "signatureField": {
+          "type": "text",
+          "label": "AGENT, OFFICIAL TITLE AND ORGANIZATION",
+          "page": 1,
+          "box": {
+            "left": 511.4,
+            "top": 425.2,
+            "width": 241.9,
+            "height": 14.8
+          }
+        }
+      }
+    }
+  }
+}

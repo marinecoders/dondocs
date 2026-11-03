@@ -1,0 +1,1757 @@
+{
+  "id": "navmc11226",
+  "label": "NAVMC11226 - Recruiter Productivity Record",
+  "directory": "NAVMC11226 - Recruiter Productivity Record",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "recruiter",
+        "dateTimeField1",
+        "octReg",
+        "octKres",
+        "octWM",
+        "octTotal",
+        "octA",
+        "octPoolDisch",
+        "octNetProd",
+        "octComments",
+        "octMcrdDisch",
+        "octPoolDischReason",
+        "octMcrdDischReason",
+        "novReg",
+        "novKres",
+        "novWM",
+        "novTotal",
+        "novA",
+        "novNetProd",
+        "novComments",
+        "novPoolDisch",
+        "novMcrdDisch",
+        "novPoolDischReason",
+        "novMcrdDischReason",
+        "decReg",
+        "decKres",
+        "decWM",
+        "decTotal",
+        "decA",
+        "decNetProd",
+        "decComments",
+        "decPoolDisch",
+        "decMcrdDisch",
+        "decPoolDischReason",
+        "decMcrdDischReason",
+        "janReg",
+        "janKres",
+        "janWM",
+        "janTotal",
+        "janA",
+        "janNetProd",
+        "janComments",
+        "janPoolDisch",
+        "janMcrdDisch",
+        "janPoolDischReason",
+        "janMcrdDischReason",
+        "febReg",
+        "febKres",
+        "febWM",
+        "febTotal",
+        "febA",
+        "febNetProd",
+        "febComments",
+        "febPoolDisch",
+        "febMcrdDisch",
+        "febPoolDischReason",
+        "febMcrdDischReason",
+        "marReg",
+        "marKres",
+        "marWM",
+        "marTotal",
+        "marA",
+        "marNetProd",
+        "marComments",
+        "marPoolDisch",
+        "marMcrdDisch",
+        "marPoolDischReason",
+        "marMcrdDischReason",
+        "aprReg",
+        "aprKres",
+        "aprWM",
+        "aprTotal",
+        "aprA",
+        "aprNetProd",
+        "aprComments",
+        "aprPoolDisch",
+        "aprMcrdDisch",
+        "aprPoolDischReason",
+        "aprMcrdDischReason",
+        "mayReg",
+        "mayKres",
+        "mayWM",
+        "mayTotal",
+        "mayA",
+        "mayNetProd",
+        "mayComments",
+        "mayPoolDisch",
+        "mayMcrdDisch",
+        "mayPoolDischReason",
+        "mayMcrdDischReason",
+        "junReg",
+        "junKres",
+        "junWM",
+        "junTotal",
+        "junA",
+        "junNetProd",
+        "junComments",
+        "junPoolDisch",
+        "junMcrdDisch",
+        "junPoolDischReason",
+        "junMcrdDischReason",
+        "julReg",
+        "julKres",
+        "julWM",
+        "julTotal",
+        "julA",
+        "julNetProd",
+        "julComments",
+        "julPoolDisch",
+        "julMcrdDisch",
+        "julPoolDischReason",
+        "julMcrdDischReason",
+        "augReg",
+        "augKres",
+        "augWM",
+        "augTotal",
+        "augA",
+        "augNetProd",
+        "augComments",
+        "augPoolDisch",
+        "augMcrdDisch",
+        "augPoolDischReason",
+        "augMcrdDischReason",
+        "sepReg",
+        "sepKres",
+        "sepWM",
+        "sepTotal",
+        "sepA",
+        "sepPoolDisch",
+        "sepNetProd",
+        "sepComments",
+        "sepMcrdDisch",
+        "sepPoolDischReason",
+        "sepMcrdDischReason",
+        "totalReg",
+        "totalKres",
+        "totalWM",
+        "totalTotal",
+        "totalA",
+        "totalPoolDisch",
+        "totalNetProd",
+        "totalComments",
+        "totalMcrdDisch",
+        "totalPoolDischReason",
+        "totalMcrdDischReason"
+      ]
+    }
+  ],
+  "fields": {
+    "recruiter": {
+      "type": "text",
+      "label": "RECRUITER:",
+      "page": 1,
+      "box": {
+        "left": 118.3,
+        "top": 531.0,
+        "width": 313.2,
+        "height": 18.7
+      }
+    },
+    "dateTimeField1": {
+      "type": "text",
+      "label": "F/Y",
+      "page": 1,
+      "box": {
+        "left": 687.4,
+        "top": 528.2,
+        "width": 56.8,
+        "height": 19.8
+      }
+    },
+    "octReg": {
+      "type": "text",
+      "label": "octReg",
+      "page": 1,
+      "box": {
+        "left": 135.0,
+        "top": 468.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "octKres": {
+      "type": "text",
+      "label": "octKres",
+      "page": 1,
+      "box": {
+        "left": 198.0,
+        "top": 468.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "octWM": {
+      "type": "text",
+      "label": "octWM",
+      "page": 1,
+      "box": {
+        "left": 261.0,
+        "top": 468.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "octTotal": {
+      "type": "text",
+      "label": "octTotal",
+      "page": 1,
+      "box": {
+        "left": 324.0,
+        "top": 468.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "octA": {
+      "type": "text",
+      "label": "octA",
+      "page": 1,
+      "box": {
+        "left": 387.0,
+        "top": 468.0,
+        "width": 54.0,
+        "height": 27.0
+      }
+    },
+    "octPoolDisch": {
+      "type": "text",
+      "label": "octPoolDisch",
+      "page": 1,
+      "box": {
+        "left": 441.0,
+        "top": 468.0,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "octNetProd": {
+      "type": "text",
+      "label": "octNetProd",
+      "page": 1,
+      "box": {
+        "left": 495.0,
+        "top": 468.0,
+        "width": 54.0,
+        "height": 27.0
+      }
+    },
+    "octComments": {
+      "type": "text",
+      "label": "octComments",
+      "page": 1,
+      "box": {
+        "left": 603.0,
+        "top": 468.0,
+        "width": 153.0,
+        "height": 27.0
+      }
+    },
+    "octMcrdDisch": {
+      "type": "text",
+      "label": "octMcrdDisch",
+      "page": 1,
+      "box": {
+        "left": 549.0,
+        "top": 467.8,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "octPoolDischReason": {
+      "type": "text",
+      "label": "octPoolDischReason",
+      "page": 1,
+      "box": {
+        "left": 477.0,
+        "top": 459.0,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "octMcrdDischReason": {
+      "type": "text",
+      "label": "octMcrdDischReason",
+      "page": 1,
+      "box": {
+        "left": 585.0,
+        "top": 458.8,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "novReg": {
+      "type": "text",
+      "label": "novReg",
+      "page": 1,
+      "box": {
+        "left": 135.0,
+        "top": 441.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "novKres": {
+      "type": "text",
+      "label": "novKres",
+      "page": 1,
+      "box": {
+        "left": 198.0,
+        "top": 441.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "novWM": {
+      "type": "text",
+      "label": "novWM",
+      "page": 1,
+      "box": {
+        "left": 261.0,
+        "top": 441.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "novTotal": {
+      "type": "text",
+      "label": "novTotal",
+      "page": 1,
+      "box": {
+        "left": 324.0,
+        "top": 441.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "novA": {
+      "type": "text",
+      "label": "novA",
+      "page": 1,
+      "box": {
+        "left": 387.0,
+        "top": 441.0,
+        "width": 54.0,
+        "height": 27.0
+      }
+    },
+    "novNetProd": {
+      "type": "text",
+      "label": "novNetProd",
+      "page": 1,
+      "box": {
+        "left": 495.0,
+        "top": 441.0,
+        "width": 54.0,
+        "height": 27.0
+      }
+    },
+    "novComments": {
+      "type": "text",
+      "label": "novComments",
+      "page": 1,
+      "box": {
+        "left": 603.0,
+        "top": 441.0,
+        "width": 153.0,
+        "height": 27.0
+      }
+    },
+    "novPoolDisch": {
+      "type": "text",
+      "label": "novPoolDisch",
+      "page": 1,
+      "box": {
+        "left": 441.0,
+        "top": 440.8,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "novMcrdDisch": {
+      "type": "text",
+      "label": "novMcrdDisch",
+      "page": 1,
+      "box": {
+        "left": 549.0,
+        "top": 440.6,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "novPoolDischReason": {
+      "type": "text",
+      "label": "novPoolDischReason",
+      "page": 1,
+      "box": {
+        "left": 477.0,
+        "top": 431.8,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "novMcrdDischReason": {
+      "type": "text",
+      "label": "novMcrdDischReason",
+      "page": 1,
+      "box": {
+        "left": 585.0,
+        "top": 431.6,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "decReg": {
+      "type": "text",
+      "label": "decReg",
+      "page": 1,
+      "box": {
+        "left": 135.0,
+        "top": 414.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "decKres": {
+      "type": "text",
+      "label": "decKres",
+      "page": 1,
+      "box": {
+        "left": 198.0,
+        "top": 414.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "decWM": {
+      "type": "text",
+      "label": "decWM",
+      "page": 1,
+      "box": {
+        "left": 261.0,
+        "top": 414.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "decTotal": {
+      "type": "text",
+      "label": "decTotal",
+      "page": 1,
+      "box": {
+        "left": 324.0,
+        "top": 414.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "decA": {
+      "type": "text",
+      "label": "decA",
+      "page": 1,
+      "box": {
+        "left": 387.0,
+        "top": 414.0,
+        "width": 54.0,
+        "height": 27.0
+      }
+    },
+    "decNetProd": {
+      "type": "text",
+      "label": "decNetProd",
+      "page": 1,
+      "box": {
+        "left": 495.0,
+        "top": 414.0,
+        "width": 54.0,
+        "height": 27.0
+      }
+    },
+    "decComments": {
+      "type": "text",
+      "label": "decComments",
+      "page": 1,
+      "box": {
+        "left": 603.0,
+        "top": 414.0,
+        "width": 153.0,
+        "height": 27.0
+      }
+    },
+    "decPoolDisch": {
+      "type": "text",
+      "label": "decPoolDisch",
+      "page": 1,
+      "box": {
+        "left": 441.0,
+        "top": 413.6,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "decMcrdDisch": {
+      "type": "text",
+      "label": "decMcrdDisch",
+      "page": 1,
+      "box": {
+        "left": 549.0,
+        "top": 413.5,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "decPoolDischReason": {
+      "type": "text",
+      "label": "decPoolDischReason",
+      "page": 1,
+      "box": {
+        "left": 477.0,
+        "top": 404.6,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "decMcrdDischReason": {
+      "type": "text",
+      "label": "decMcrdDischReason",
+      "page": 1,
+      "box": {
+        "left": 585.0,
+        "top": 404.5,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "janReg": {
+      "type": "text",
+      "label": "janReg",
+      "page": 1,
+      "box": {
+        "left": 135.0,
+        "top": 387.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "janKres": {
+      "type": "text",
+      "label": "janKres",
+      "page": 1,
+      "box": {
+        "left": 198.0,
+        "top": 387.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "janWM": {
+      "type": "text",
+      "label": "janWM",
+      "page": 1,
+      "box": {
+        "left": 261.0,
+        "top": 387.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "janTotal": {
+      "type": "text",
+      "label": "janTotal",
+      "page": 1,
+      "box": {
+        "left": 324.0,
+        "top": 387.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "janA": {
+      "type": "text",
+      "label": "janA",
+      "page": 1,
+      "box": {
+        "left": 387.0,
+        "top": 387.0,
+        "width": 54.0,
+        "height": 27.0
+      }
+    },
+    "janNetProd": {
+      "type": "text",
+      "label": "janNetProd",
+      "page": 1,
+      "box": {
+        "left": 495.0,
+        "top": 387.0,
+        "width": 54.0,
+        "height": 27.0
+      }
+    },
+    "janComments": {
+      "type": "text",
+      "label": "janComments",
+      "page": 1,
+      "box": {
+        "left": 603.0,
+        "top": 387.0,
+        "width": 153.0,
+        "height": 27.0
+      }
+    },
+    "janPoolDisch": {
+      "type": "text",
+      "label": "janPoolDisch",
+      "page": 1,
+      "box": {
+        "left": 441.0,
+        "top": 386.5,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "janMcrdDisch": {
+      "type": "text",
+      "label": "janMcrdDisch",
+      "page": 1,
+      "box": {
+        "left": 549.0,
+        "top": 386.3,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "janPoolDischReason": {
+      "type": "text",
+      "label": "janPoolDischReason",
+      "page": 1,
+      "box": {
+        "left": 477.0,
+        "top": 377.5,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "janMcrdDischReason": {
+      "type": "text",
+      "label": "janMcrdDischReason",
+      "page": 1,
+      "box": {
+        "left": 585.0,
+        "top": 377.3,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "febReg": {
+      "type": "text",
+      "label": "febReg",
+      "page": 1,
+      "box": {
+        "left": 135.0,
+        "top": 360.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "febKres": {
+      "type": "text",
+      "label": "febKres",
+      "page": 1,
+      "box": {
+        "left": 198.0,
+        "top": 360.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "febWM": {
+      "type": "text",
+      "label": "febWM",
+      "page": 1,
+      "box": {
+        "left": 261.0,
+        "top": 360.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "febTotal": {
+      "type": "text",
+      "label": "febTotal",
+      "page": 1,
+      "box": {
+        "left": 324.0,
+        "top": 360.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "febA": {
+      "type": "text",
+      "label": "febA",
+      "page": 1,
+      "box": {
+        "left": 387.0,
+        "top": 360.0,
+        "width": 54.0,
+        "height": 27.0
+      }
+    },
+    "febNetProd": {
+      "type": "text",
+      "label": "febNetProd",
+      "page": 1,
+      "box": {
+        "left": 495.0,
+        "top": 360.0,
+        "width": 54.0,
+        "height": 27.0
+      }
+    },
+    "febComments": {
+      "type": "text",
+      "label": "febComments",
+      "page": 1,
+      "box": {
+        "left": 603.0,
+        "top": 360.0,
+        "width": 153.0,
+        "height": 27.0
+      }
+    },
+    "febPoolDisch": {
+      "type": "text",
+      "label": "febPoolDisch",
+      "page": 1,
+      "box": {
+        "left": 441.0,
+        "top": 359.3,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "febMcrdDisch": {
+      "type": "text",
+      "label": "febMcrdDisch",
+      "page": 1,
+      "box": {
+        "left": 549.0,
+        "top": 359.1,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "febPoolDischReason": {
+      "type": "text",
+      "label": "febPoolDischReason",
+      "page": 1,
+      "box": {
+        "left": 477.0,
+        "top": 350.3,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "febMcrdDischReason": {
+      "type": "text",
+      "label": "febMcrdDischReason",
+      "page": 1,
+      "box": {
+        "left": 585.0,
+        "top": 350.1,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "marReg": {
+      "type": "text",
+      "label": "marReg",
+      "page": 1,
+      "box": {
+        "left": 135.0,
+        "top": 333.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "marKres": {
+      "type": "text",
+      "label": "marKres",
+      "page": 1,
+      "box": {
+        "left": 198.0,
+        "top": 333.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "marWM": {
+      "type": "text",
+      "label": "marWM",
+      "page": 1,
+      "box": {
+        "left": 261.0,
+        "top": 333.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "marTotal": {
+      "type": "text",
+      "label": "marTotal",
+      "page": 1,
+      "box": {
+        "left": 324.0,
+        "top": 333.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "marA": {
+      "type": "text",
+      "label": "marA",
+      "page": 1,
+      "box": {
+        "left": 387.0,
+        "top": 333.0,
+        "width": 54.0,
+        "height": 27.0
+      }
+    },
+    "marNetProd": {
+      "type": "text",
+      "label": "marNetProd",
+      "page": 1,
+      "box": {
+        "left": 495.0,
+        "top": 333.0,
+        "width": 54.0,
+        "height": 27.0
+      }
+    },
+    "marComments": {
+      "type": "text",
+      "label": "marComments",
+      "page": 1,
+      "box": {
+        "left": 603.0,
+        "top": 333.0,
+        "width": 153.0,
+        "height": 27.0
+      }
+    },
+    "marPoolDisch": {
+      "type": "text",
+      "label": "marPoolDisch",
+      "page": 1,
+      "box": {
+        "left": 441.0,
+        "top": 332.1,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "marMcrdDisch": {
+      "type": "text",
+      "label": "marMcrdDisch",
+      "page": 1,
+      "box": {
+        "left": 549.0,
+        "top": 331.9,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "marPoolDischReason": {
+      "type": "text",
+      "label": "marPoolDischReason",
+      "page": 1,
+      "box": {
+        "left": 477.0,
+        "top": 323.1,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "marMcrdDischReason": {
+      "type": "text",
+      "label": "marMcrdDischReason",
+      "page": 1,
+      "box": {
+        "left": 585.0,
+        "top": 322.9,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "aprReg": {
+      "type": "text",
+      "label": "aprReg",
+      "page": 1,
+      "box": {
+        "left": 135.0,
+        "top": 306.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "aprKres": {
+      "type": "text",
+      "label": "aprKres",
+      "page": 1,
+      "box": {
+        "left": 198.0,
+        "top": 306.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "aprWM": {
+      "type": "text",
+      "label": "aprWM",
+      "page": 1,
+      "box": {
+        "left": 261.0,
+        "top": 306.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "aprTotal": {
+      "type": "text",
+      "label": "aprTotal",
+      "page": 1,
+      "box": {
+        "left": 324.0,
+        "top": 306.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "aprA": {
+      "type": "text",
+      "label": "aprA",
+      "page": 1,
+      "box": {
+        "left": 387.0,
+        "top": 306.0,
+        "width": 54.0,
+        "height": 27.0
+      }
+    },
+    "aprNetProd": {
+      "type": "text",
+      "label": "aprNetProd",
+      "page": 1,
+      "box": {
+        "left": 495.0,
+        "top": 306.0,
+        "width": 54.0,
+        "height": 27.0
+      }
+    },
+    "aprComments": {
+      "type": "text",
+      "label": "aprComments",
+      "page": 1,
+      "box": {
+        "left": 603.0,
+        "top": 306.0,
+        "width": 153.0,
+        "height": 27.0
+      }
+    },
+    "aprPoolDisch": {
+      "type": "text",
+      "label": "aprPoolDisch",
+      "page": 1,
+      "box": {
+        "left": 441.0,
+        "top": 304.9,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "aprMcrdDisch": {
+      "type": "text",
+      "label": "aprMcrdDisch",
+      "page": 1,
+      "box": {
+        "left": 549.0,
+        "top": 304.7,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "aprPoolDischReason": {
+      "type": "text",
+      "label": "aprPoolDischReason",
+      "page": 1,
+      "box": {
+        "left": 477.0,
+        "top": 297.0,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "aprMcrdDischReason": {
+      "type": "text",
+      "label": "aprMcrdDischReason",
+      "page": 1,
+      "box": {
+        "left": 585.0,
+        "top": 296.8,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "mayReg": {
+      "type": "text",
+      "label": "mayReg",
+      "page": 1,
+      "box": {
+        "left": 135.0,
+        "top": 279.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "mayKres": {
+      "type": "text",
+      "label": "mayKres",
+      "page": 1,
+      "box": {
+        "left": 198.0,
+        "top": 279.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "mayWM": {
+      "type": "text",
+      "label": "mayWM",
+      "page": 1,
+      "box": {
+        "left": 261.0,
+        "top": 279.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "mayTotal": {
+      "type": "text",
+      "label": "mayTotal",
+      "page": 1,
+      "box": {
+        "left": 324.0,
+        "top": 279.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "mayA": {
+      "type": "text",
+      "label": "mayA",
+      "page": 1,
+      "box": {
+        "left": 387.0,
+        "top": 279.0,
+        "width": 54.0,
+        "height": 27.0
+      }
+    },
+    "mayNetProd": {
+      "type": "text",
+      "label": "mayNetProd",
+      "page": 1,
+      "box": {
+        "left": 495.0,
+        "top": 279.0,
+        "width": 54.0,
+        "height": 27.0
+      }
+    },
+    "mayComments": {
+      "type": "text",
+      "label": "mayComments",
+      "page": 1,
+      "box": {
+        "left": 603.0,
+        "top": 279.0,
+        "width": 153.0,
+        "height": 27.0
+      }
+    },
+    "mayPoolDisch": {
+      "type": "text",
+      "label": "mayPoolDisch",
+      "page": 1,
+      "box": {
+        "left": 441.0,
+        "top": 277.7,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "mayMcrdDisch": {
+      "type": "text",
+      "label": "mayMcrdDisch",
+      "page": 1,
+      "box": {
+        "left": 549.0,
+        "top": 277.6,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "mayPoolDischReason": {
+      "type": "text",
+      "label": "mayPoolDischReason",
+      "page": 1,
+      "box": {
+        "left": 477.0,
+        "top": 270.0,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "mayMcrdDischReason": {
+      "type": "text",
+      "label": "mayMcrdDischReason",
+      "page": 1,
+      "box": {
+        "left": 585.0,
+        "top": 269.8,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "junReg": {
+      "type": "text",
+      "label": "junReg",
+      "page": 1,
+      "box": {
+        "left": 135.0,
+        "top": 252.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "junKres": {
+      "type": "text",
+      "label": "junKres",
+      "page": 1,
+      "box": {
+        "left": 198.0,
+        "top": 252.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "junWM": {
+      "type": "text",
+      "label": "junWM",
+      "page": 1,
+      "box": {
+        "left": 261.0,
+        "top": 252.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "junTotal": {
+      "type": "text",
+      "label": "junTotal",
+      "page": 1,
+      "box": {
+        "left": 324.0,
+        "top": 252.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "junA": {
+      "type": "text",
+      "label": "junA",
+      "page": 1,
+      "box": {
+        "left": 387.0,
+        "top": 252.0,
+        "width": 54.0,
+        "height": 27.0
+      }
+    },
+    "junNetProd": {
+      "type": "text",
+      "label": "junNetProd",
+      "page": 1,
+      "box": {
+        "left": 495.0,
+        "top": 252.0,
+        "width": 54.0,
+        "height": 27.0
+      }
+    },
+    "junComments": {
+      "type": "text",
+      "label": "junComments",
+      "page": 1,
+      "box": {
+        "left": 603.0,
+        "top": 252.0,
+        "width": 153.0,
+        "height": 27.0
+      }
+    },
+    "junPoolDisch": {
+      "type": "text",
+      "label": "junPoolDisch",
+      "page": 1,
+      "box": {
+        "left": 441.0,
+        "top": 250.6,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "junMcrdDisch": {
+      "type": "text",
+      "label": "junMcrdDisch",
+      "page": 1,
+      "box": {
+        "left": 549.0,
+        "top": 250.4,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "junPoolDischReason": {
+      "type": "text",
+      "label": "junPoolDischReason",
+      "page": 1,
+      "box": {
+        "left": 477.0,
+        "top": 243.0,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "junMcrdDischReason": {
+      "type": "text",
+      "label": "junMcrdDischReason",
+      "page": 1,
+      "box": {
+        "left": 585.0,
+        "top": 242.8,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "julReg": {
+      "type": "text",
+      "label": "julReg",
+      "page": 1,
+      "box": {
+        "left": 135.0,
+        "top": 225.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "julKres": {
+      "type": "text",
+      "label": "julKres",
+      "page": 1,
+      "box": {
+        "left": 198.0,
+        "top": 225.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "julWM": {
+      "type": "text",
+      "label": "julWM",
+      "page": 1,
+      "box": {
+        "left": 261.0,
+        "top": 225.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "julTotal": {
+      "type": "text",
+      "label": "julTotal",
+      "page": 1,
+      "box": {
+        "left": 324.0,
+        "top": 225.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "julA": {
+      "type": "text",
+      "label": "julA",
+      "page": 1,
+      "box": {
+        "left": 387.0,
+        "top": 225.0,
+        "width": 54.0,
+        "height": 27.0
+      }
+    },
+    "julNetProd": {
+      "type": "text",
+      "label": "julNetProd",
+      "page": 1,
+      "box": {
+        "left": 495.0,
+        "top": 225.0,
+        "width": 54.0,
+        "height": 27.0
+      }
+    },
+    "julComments": {
+      "type": "text",
+      "label": "julComments",
+      "page": 1,
+      "box": {
+        "left": 603.0,
+        "top": 225.0,
+        "width": 153.0,
+        "height": 27.0
+      }
+    },
+    "julPoolDisch": {
+      "type": "text",
+      "label": "julPoolDisch",
+      "page": 1,
+      "box": {
+        "left": 441.0,
+        "top": 223.4,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "julMcrdDisch": {
+      "type": "text",
+      "label": "julMcrdDisch",
+      "page": 1,
+      "box": {
+        "left": 549.0,
+        "top": 223.2,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "julPoolDischReason": {
+      "type": "text",
+      "label": "julPoolDischReason",
+      "page": 1,
+      "box": {
+        "left": 477.0,
+        "top": 216.0,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "julMcrdDischReason": {
+      "type": "text",
+      "label": "julMcrdDischReason",
+      "page": 1,
+      "box": {
+        "left": 585.0,
+        "top": 215.8,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "augReg": {
+      "type": "text",
+      "label": "augReg",
+      "page": 1,
+      "box": {
+        "left": 135.0,
+        "top": 198.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "augKres": {
+      "type": "text",
+      "label": "augKres",
+      "page": 1,
+      "box": {
+        "left": 198.0,
+        "top": 198.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "augWM": {
+      "type": "text",
+      "label": "augWM",
+      "page": 1,
+      "box": {
+        "left": 261.0,
+        "top": 198.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "augTotal": {
+      "type": "text",
+      "label": "augTotal",
+      "page": 1,
+      "box": {
+        "left": 324.0,
+        "top": 198.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "augA": {
+      "type": "text",
+      "label": "augA",
+      "page": 1,
+      "box": {
+        "left": 387.0,
+        "top": 198.0,
+        "width": 54.0,
+        "height": 27.0
+      }
+    },
+    "augNetProd": {
+      "type": "text",
+      "label": "augNetProd",
+      "page": 1,
+      "box": {
+        "left": 495.0,
+        "top": 198.0,
+        "width": 54.0,
+        "height": 27.0
+      }
+    },
+    "augComments": {
+      "type": "text",
+      "label": "augComments",
+      "page": 1,
+      "box": {
+        "left": 603.0,
+        "top": 198.0,
+        "width": 153.0,
+        "height": 27.0
+      }
+    },
+    "augPoolDisch": {
+      "type": "text",
+      "label": "augPoolDisch",
+      "page": 1,
+      "box": {
+        "left": 441.0,
+        "top": 196.2,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "augMcrdDisch": {
+      "type": "text",
+      "label": "augMcrdDisch",
+      "page": 1,
+      "box": {
+        "left": 549.0,
+        "top": 196.0,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "augPoolDischReason": {
+      "type": "text",
+      "label": "augPoolDischReason",
+      "page": 1,
+      "box": {
+        "left": 477.0,
+        "top": 189.0,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "augMcrdDischReason": {
+      "type": "text",
+      "label": "augMcrdDischReason",
+      "page": 1,
+      "box": {
+        "left": 585.0,
+        "top": 188.8,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "sepReg": {
+      "type": "text",
+      "label": "sepReg",
+      "page": 1,
+      "box": {
+        "left": 135.0,
+        "top": 171.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "sepKres": {
+      "type": "text",
+      "label": "sepKres",
+      "page": 1,
+      "box": {
+        "left": 198.0,
+        "top": 171.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "sepWM": {
+      "type": "text",
+      "label": "sepWM",
+      "page": 1,
+      "box": {
+        "left": 261.0,
+        "top": 171.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "sepTotal": {
+      "type": "text",
+      "label": "sepTotal",
+      "page": 1,
+      "box": {
+        "left": 324.0,
+        "top": 171.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "sepA": {
+      "type": "text",
+      "label": "sepA",
+      "page": 1,
+      "box": {
+        "left": 387.0,
+        "top": 171.0,
+        "width": 54.0,
+        "height": 27.0
+      }
+    },
+    "sepPoolDisch": {
+      "type": "text",
+      "label": "sepPoolDisch",
+      "page": 1,
+      "box": {
+        "left": 441.0,
+        "top": 171.0,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "sepNetProd": {
+      "type": "text",
+      "label": "sepNetProd",
+      "page": 1,
+      "box": {
+        "left": 495.0,
+        "top": 171.0,
+        "width": 54.0,
+        "height": 27.0
+      }
+    },
+    "sepComments": {
+      "type": "text",
+      "label": "sepComments",
+      "page": 1,
+      "box": {
+        "left": 603.0,
+        "top": 171.0,
+        "width": 153.0,
+        "height": 27.0
+      }
+    },
+    "sepMcrdDisch": {
+      "type": "text",
+      "label": "sepMcrdDisch",
+      "page": 1,
+      "box": {
+        "left": 549.0,
+        "top": 170.8,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "sepPoolDischReason": {
+      "type": "text",
+      "label": "sepPoolDischReason",
+      "page": 1,
+      "box": {
+        "left": 477.0,
+        "top": 162.0,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "sepMcrdDischReason": {
+      "type": "text",
+      "label": "sepMcrdDischReason",
+      "page": 1,
+      "box": {
+        "left": 585.0,
+        "top": 161.8,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "totalReg": {
+      "type": "text",
+      "label": "totalReg",
+      "page": 1,
+      "box": {
+        "left": 135.0,
+        "top": 144.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "totalKres": {
+      "type": "text",
+      "label": "totalKres",
+      "page": 1,
+      "box": {
+        "left": 198.0,
+        "top": 144.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "totalWM": {
+      "type": "text",
+      "label": "totalWM",
+      "page": 1,
+      "box": {
+        "left": 261.0,
+        "top": 144.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "totalTotal": {
+      "type": "text",
+      "label": "totalTotal",
+      "page": 1,
+      "box": {
+        "left": 324.0,
+        "top": 144.0,
+        "width": 63.0,
+        "height": 27.0
+      }
+    },
+    "totalA": {
+      "type": "text",
+      "label": "totalA",
+      "page": 1,
+      "box": {
+        "left": 387.0,
+        "top": 144.0,
+        "width": 54.0,
+        "height": 27.0
+      }
+    },
+    "totalPoolDisch": {
+      "type": "text",
+      "label": "totalPoolDisch",
+      "page": 1,
+      "box": {
+        "left": 441.0,
+        "top": 144.0,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "totalNetProd": {
+      "type": "text",
+      "label": "totalNetProd",
+      "page": 1,
+      "box": {
+        "left": 495.0,
+        "top": 144.0,
+        "width": 54.0,
+        "height": 27.0
+      }
+    },
+    "totalComments": {
+      "type": "text",
+      "label": "totalComments",
+      "page": 1,
+      "box": {
+        "left": 603.0,
+        "top": 144.0,
+        "width": 153.0,
+        "height": 27.0
+      }
+    },
+    "totalMcrdDisch": {
+      "type": "text",
+      "label": "totalMcrdDisch",
+      "page": 1,
+      "box": {
+        "left": 549.0,
+        "top": 143.8,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "totalPoolDischReason": {
+      "type": "text",
+      "label": "totalPoolDischReason",
+      "page": 1,
+      "box": {
+        "left": 477.0,
+        "top": 135.0,
+        "width": 18.0,
+        "height": 18.0
+      }
+    },
+    "totalMcrdDischReason": {
+      "type": "text",
+      "label": "totalMcrdDischReason",
+      "page": 1,
+      "box": {
+        "left": 585.0,
+        "top": 134.8,
+        "width": 18.0,
+        "height": 18.0
+      }
+    }
+  }
+}

@@ -1,0 +1,2379 @@
+{
+  "id": "navmc10939b",
+  "label": "NAVMC 10939B - Jrotc Memorandum Receipt For Uniform Issue Female Cadet",
+  "directory": "NAVMC10939B - Jrotc Memorandum Receipt For Uniform Issue Female Cadet",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "naLaFi",
+        "grD",
+        "ssn1",
+        "daT",
+        "quty1",
+        "siZ1",
+        "siZ46",
+        "siZ47",
+        "quty2",
+        "siZ2",
+        "quty3",
+        "siZ3",
+        "siZ32",
+        "itm3",
+        "siZ48",
+        "quty4",
+        "siZ4",
+        "siZ49",
+        "quty5",
+        "siZ5",
+        "siZ50",
+        "siZ51",
+        "quty6",
+        "siZ6",
+        "quty7",
+        "siZ7",
+        "siZ52",
+        "quty8",
+        "siZ8",
+        "siZ53",
+        "quty9",
+        "siZ9",
+        "siZ54",
+        "quty10",
+        "siZ10",
+        "itm10",
+        "textField1",
+        "quty11",
+        "siZ11",
+        "siZ56",
+        "quty12",
+        "siZ12",
+        "siZ57",
+        "quty13",
+        "siZ13",
+        "siZ58",
+        "itm58",
+        "itm13",
+        "quty14",
+        "siZ14",
+        "itm14",
+        "siZ59",
+        "quty15",
+        "siZ15",
+        "siZ60",
+        "itm61",
+        "quty16",
+        "siZ16",
+        "siZ61",
+        "itm62",
+        "quty17",
+        "siZ17",
+        "itm17",
+        "siZ62",
+        "itm63",
+        "quty18",
+        "itm18",
+        "siZ18",
+        "siZ63",
+        "itm64",
+        "itm19",
+        "quty19",
+        "siZ19",
+        "siZ64",
+        "itm65",
+        "quty20",
+        "siZ20",
+        "siZ65",
+        "itm66",
+        "quty21",
+        "siZ21",
+        "itm21",
+        "siZ66",
+        "itm67",
+        "quty22",
+        "siZ22",
+        "siZ67",
+        "itm68",
+        "quty23",
+        "siZ23",
+        "siZ68",
+        "itm24",
+        "quty24",
+        "itm69",
+        "siZ24",
+        "siZ69",
+        "itm70",
+        "quty25",
+        "siZ25",
+        "siZ70",
+        "quty26",
+        "itm71",
+        "siZ26",
+        "siZ71",
+        "quty27",
+        "itm72",
+        "itm27",
+        "siZ27",
+        "siZ72",
+        "quty28",
+        "itm73",
+        "siZ28",
+        "siZ73",
+        "itm29",
+        "quty29",
+        "itm74",
+        "siZ29",
+        "siZ74",
+        "quty30",
+        "itm75",
+        "siZ30",
+        "siZ75",
+        "quty31",
+        "itm31",
+        "itm76",
+        "siZ31",
+        "siZ76",
+        "quty32",
+        "itm77",
+        "siZ322",
+        "siZ77",
+        "itm33",
+        "quty33",
+        "siZ78",
+        "siZ33",
+        "itm78",
+        "quty34",
+        "siZ34",
+        "siZ79",
+        "itm79",
+        "quty35",
+        "siZ35",
+        "siZ80",
+        "itm80",
+        "quty36",
+        "siZ36",
+        "siZ81",
+        "itm81",
+        "quty37",
+        "itm82",
+        "siZ37",
+        "itm37",
+        "siZ82",
+        "quty38",
+        "siZ38",
+        "itm38",
+        "siZ83",
+        "itm83",
+        "itm39",
+        "quty39",
+        "siZ39",
+        "siZ84",
+        "itm84",
+        "quty40",
+        "itm40",
+        "siZ40",
+        "siZ85",
+        "itm85",
+        "quty41",
+        "itm86",
+        "siZ41",
+        "itm41",
+        "siZ86",
+        "quty42",
+        "itm87",
+        "itm42",
+        "siZ42",
+        "siZ87",
+        "quty43",
+        "itm43",
+        "itm88",
+        "siZ43",
+        "siZ88",
+        "quty44",
+        "itm44",
+        "siZ89",
+        "siZ44",
+        "itm89",
+        "quty45",
+        "siZ45",
+        "itm45",
+        "itm90",
+        "siZ90",
+        "signature",
+        "daT2"
+      ]
+    }
+  ],
+  "fields": {
+    "naLaFi": {
+      "type": "text",
+      "label": "J R O T C Memorandum receipt for uniform issue female cadet.  Enter last name, first name, middle initial. ",
+      "page": 1,
+      "box": {
+        "left": 25.3,
+        "top": 735.0,
+        "width": 262.7,
+        "height": 15.2
+      }
+    },
+    "grD": {
+      "type": "text",
+      "label": "Grade",
+      "page": 1,
+      "box": {
+        "left": 287.3,
+        "top": 735.0,
+        "width": 62.0,
+        "height": 15.2
+      }
+    },
+    "ssn1": {
+      "type": "text",
+      "label": "Enter Social Security Number without dashes",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 735.0,
+        "width": 100.0,
+        "height": 15.2
+      }
+    },
+    "daT": {
+      "type": "text",
+      "label": "Enter date using format  2002 12 23",
+      "page": 1,
+      "box": {
+        "left": 451.9,
+        "top": 735.0,
+        "width": 132.3,
+        "height": 15.2
+      }
+    },
+    "quty1": {
+      "type": "text",
+      "label": "Belt, Trousers, web, khaki.   Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 695.2,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "siZ1": {
+      "type": "text",
+      "label": "Enter size. ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 695.2,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "siZ46": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 695.2,
+        "width": 31.0,
+        "height": 10.1
+      }
+    },
+    "siZ47": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 684.6,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "quty2": {
+      "type": "text",
+      "label": "Boot, Combat, leather, black, pair.   Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 684.5,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "siZ2": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 684.5,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "quty3": {
+      "type": "text",
+      "label": "Line 3.   Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 673.9,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "siZ3": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 673.9,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "siZ32": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 58.2,
+        "top": 673.6,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "itm3": {
+      "type": "text",
+      "label": "Item.   Line 3.",
+      "page": 1,
+      "box": {
+        "left": 89.2,
+        "top": 673.6,
+        "width": 217.1,
+        "height": 10.8
+      }
+    },
+    "siZ48": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 673.6,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "quty4": {
+      "type": "text",
+      "label": "Buckle: F / belt, web.   Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 663.3,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "siZ4": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 662.9,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "siZ49": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 662.9,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "quty5": {
+      "type": "text",
+      "label": "Cap, Camouflage.   Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 652.6,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "siZ5": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 652.1,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "siZ50": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 652.1,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "siZ51": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 642.2,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "quty6": {
+      "type": "text",
+      "label": "Cap, garrison, womans: all-season, green.   Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 642.0,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "siZ6": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 641.9,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "quty7": {
+      "type": "text",
+      "label": "Coat, Camouflage.   Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 631.4,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "siZ7": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 631.3,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "siZ52": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 631.2,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "quty8": {
+      "type": "text",
+      "label": "Coat, woman's all season, green.   Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 620.8,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "siZ8": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 620.7,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "siZ53": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 620.5,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "quty9": {
+      "type": "text",
+      "label": "Coat, woman's all weather.  Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 610.1,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "siZ9": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 610.0,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "siZ54": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 609.7,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "quty10": {
+      "type": "text",
+      "label": "Line 10.   Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 599.5,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "siZ10": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 599.0,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "itm10": {
+      "type": "text",
+      "label": "Item.  Line 10.",
+      "page": 1,
+      "box": {
+        "left": 89.2,
+        "top": 599.0,
+        "width": 217.1,
+        "height": 10.8
+      }
+    },
+    "textField1": {
+      "type": "text",
+      "label": "TextField1",
+      "page": 1,
+      "box": {
+        "left": 351.3,
+        "top": 598.8,
+        "width": 31.7,
+        "height": 10.5
+      }
+    },
+    "quty11": {
+      "type": "text",
+      "label": "Gloves, leather, black, pair.   Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 588.9,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "siZ11": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 588.2,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "siZ56": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 588.2,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "quty12": {
+      "type": "text",
+      "label": "Handbag, woman's black.   Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 578.2,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "siZ12": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 578.1,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "siZ57": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 578.1,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "quty13": {
+      "type": "text",
+      "label": "Line 13.   Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 567.6,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "siZ13": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 567.4,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "siZ58": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 567.3,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "itm58": {
+      "type": "text",
+      "label": "Item.  Line 58.",
+      "page": 1,
+      "box": {
+        "left": 382.3,
+        "top": 567.3,
+        "width": 200.6,
+        "height": 10.8
+      }
+    },
+    "itm13": {
+      "type": "text",
+      "label": "Item.  Line 13. ",
+      "page": 1,
+      "box": {
+        "left": 89.2,
+        "top": 566.7,
+        "width": 217.1,
+        "height": 10.8
+      }
+    },
+    "quty14": {
+      "type": "text",
+      "label": "Line 14.   Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 557.0,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "siZ14": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 556.8,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "itm14": {
+      "type": "text",
+      "label": "Item.  Line  14.",
+      "page": 1,
+      "box": {
+        "left": 89.2,
+        "top": 556.6,
+        "width": 217.1,
+        "height": 10.8
+      }
+    },
+    "siZ59": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 556.6,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "quty15": {
+      "type": "text",
+      "label": "Insignia, B O F S, collar, black, pair.   Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 546.3,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "siZ15": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 545.8,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "siZ60": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 545.8,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "itm61": {
+      "type": "text",
+      "label": "Item.  Line 61",
+      "page": 1,
+      "box": {
+        "left": 382.3,
+        "top": 536.3,
+        "width": 200.6,
+        "height": 10.8
+      }
+    },
+    "quty16": {
+      "type": "text",
+      "label": "Insignia, B O F S, collar, black, left.  Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 535.7,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "siZ16": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 535.0,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "siZ61": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 535.0,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "itm62": {
+      "type": "text",
+      "label": "Item.  Line 62",
+      "page": 1,
+      "box": {
+        "left": 382.3,
+        "top": 525.6,
+        "width": 200.6,
+        "height": 10.8
+      }
+    },
+    "quty17": {
+      "type": "text",
+      "label": "Line 17.   Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 525.1,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "siZ17": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 524.9,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "itm17": {
+      "type": "text",
+      "label": "Item.  Line 17.",
+      "page": 1,
+      "box": {
+        "left": 89.2,
+        "top": 524.9,
+        "width": 217.1,
+        "height": 10.8
+      }
+    },
+    "siZ62": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 524.9,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "itm63": {
+      "type": "text",
+      "label": "Item.  Line 63",
+      "page": 1,
+      "box": {
+        "left": 382.3,
+        "top": 514.9,
+        "width": 200.6,
+        "height": 10.8
+      }
+    },
+    "quty18": {
+      "type": "text",
+      "label": "Line 18.   Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 514.5,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "itm18": {
+      "type": "text",
+      "label": "Item.  Line 18.",
+      "page": 1,
+      "box": {
+        "left": 89.2,
+        "top": 514.5,
+        "width": 217.1,
+        "height": 10.8
+      }
+    },
+    "siZ18": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 514.2,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "siZ63": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 514.1,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "itm64": {
+      "type": "text",
+      "label": "Item.  Line 64",
+      "page": 1,
+      "box": {
+        "left": 382.3,
+        "top": 504.2,
+        "width": 200.6,
+        "height": 10.8
+      }
+    },
+    "itm19": {
+      "type": "text",
+      "label": "Item.  Line 19.",
+      "page": 1,
+      "box": {
+        "left": 89.2,
+        "top": 504.0,
+        "width": 217.1,
+        "height": 10.8
+      }
+    },
+    "quty19": {
+      "type": "text",
+      "label": "Line 19.   Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 503.8,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "siZ19": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 503.6,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "siZ64": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 503.4,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "itm65": {
+      "type": "text",
+      "label": "Item.  Line 65",
+      "page": 1,
+      "box": {
+        "left": 382.3,
+        "top": 493.5,
+        "width": 200.6,
+        "height": 10.8
+      }
+    },
+    "quty20": {
+      "type": "text",
+      "label": "Neck tab, woman's:  green.   Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 493.2,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "siZ20": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 492.9,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "siZ65": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 492.6,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "itm66": {
+      "type": "text",
+      "label": "Item.  Line 66",
+      "page": 1,
+      "box": {
+        "left": 382.3,
+        "top": 482.8,
+        "width": 200.6,
+        "height": 10.8
+      }
+    },
+    "quty21": {
+      "type": "text",
+      "label": "Line 21.   Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 482.6,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "siZ21": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 481.9,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "itm21": {
+      "type": "text",
+      "label": "Item.  Line  21",
+      "page": 1,
+      "box": {
+        "left": 89.2,
+        "top": 481.9,
+        "width": 217.1,
+        "height": 10.8
+      }
+    },
+    "siZ66": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 481.9,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "itm67": {
+      "type": "text",
+      "label": "Item.  Line 67",
+      "page": 1,
+      "box": {
+        "left": 382.3,
+        "top": 472.1,
+        "width": 200.6,
+        "height": 10.8
+      }
+    },
+    "quty22": {
+      "type": "text",
+      "label": "Shirt, woman's polyester / wool, khaki;  long sleeve.   Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 471.9,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "siZ22": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 471.1,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "siZ67": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 471.1,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "itm68": {
+      "type": "text",
+      "label": "Item.  Line 68",
+      "page": 1,
+      "box": {
+        "left": 382.3,
+        "top": 461.4,
+        "width": 200.6,
+        "height": 10.8
+      }
+    },
+    "quty23": {
+      "type": "text",
+      "label": "Shirt, woman's, polyester / wool, khaki;  short sleeve.   Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 461.3,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "siZ23": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 461.0,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "siZ68": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 461.0,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "itm24": {
+      "type": "text",
+      "label": "Item.  Line 24.",
+      "page": 1,
+      "box": {
+        "left": 89.2,
+        "top": 450.9,
+        "width": 217.1,
+        "height": 10.8
+      }
+    },
+    "quty24": {
+      "type": "text",
+      "label": "Line 24.   Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 450.7,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "itm69": {
+      "type": "text",
+      "label": "Item.  Line 69",
+      "page": 1,
+      "box": {
+        "left": 382.3,
+        "top": 450.7,
+        "width": 200.6,
+        "height": 10.8
+      }
+    },
+    "siZ24": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 450.3,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "siZ69": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 450.2,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "itm70": {
+      "type": "text",
+      "label": "Item.  Line 70",
+      "page": 1,
+      "box": {
+        "left": 382.3,
+        "top": 440.1,
+        "width": 200.6,
+        "height": 10.8
+      }
+    },
+    "quty25": {
+      "type": "text",
+      "label": "Shoe, dress oxford, leather, black, pair.  Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 440.0,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "siZ25": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 439.7,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "siZ70": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 439.5,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "quty26": {
+      "type": "text",
+      "label": "Skirt, woman's, all-season, green.   Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 429.4,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "itm71": {
+      "type": "text",
+      "label": "Item.  Line 71",
+      "page": 1,
+      "box": {
+        "left": 382.3,
+        "top": 429.4,
+        "width": 200.6,
+        "height": 10.8
+      }
+    },
+    "siZ26": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 428.7,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "siZ71": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 428.7,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "quty27": {
+      "type": "text",
+      "label": "Line 27.   Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 418.8,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "itm72": {
+      "type": "text",
+      "label": "Item.  Line 72",
+      "page": 1,
+      "box": {
+        "left": 382.3,
+        "top": 418.7,
+        "width": 200.6,
+        "height": 10.8
+      }
+    },
+    "itm27": {
+      "type": "text",
+      "label": "Item.  Line 27.",
+      "page": 1,
+      "box": {
+        "left": 89.2,
+        "top": 418.6,
+        "width": 217.1,
+        "height": 10.8
+      }
+    },
+    "siZ27": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 417.9,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "siZ72": {
+      "type": "text",
+      "label": "Line  72.  Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 349.4,
+        "top": 417.9,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "quty28": {
+      "type": "text",
+      "label": "Slacks, woman's, all-season, green.   Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 408.1,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "itm73": {
+      "type": "text",
+      "label": "Item.  Line 73",
+      "page": 1,
+      "box": {
+        "left": 382.3,
+        "top": 408.0,
+        "width": 200.6,
+        "height": 10.8
+      }
+    },
+    "siZ28": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 407.8,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "siZ73": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 349.4,
+        "top": 407.8,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "itm29": {
+      "type": "text",
+      "label": "Item.  Line 29.",
+      "page": 1,
+      "box": {
+        "left": 89.2,
+        "top": 397.7,
+        "width": 217.1,
+        "height": 10.8
+      }
+    },
+    "quty29": {
+      "type": "text",
+      "label": "Line 29.   Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 397.5,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "itm74": {
+      "type": "text",
+      "label": "Item.  Line 74",
+      "page": 1,
+      "box": {
+        "left": 382.3,
+        "top": 397.3,
+        "width": 200.6,
+        "height": 10.8
+      }
+    },
+    "siZ29": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 397.1,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "siZ74": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 397.1,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "quty30": {
+      "type": "text",
+      "label": "Socks, w / cushion sole, pair.   Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 386.9,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "itm75": {
+      "type": "text",
+      "label": "Item.  Line 75",
+      "page": 1,
+      "box": {
+        "left": 382.3,
+        "top": 386.6,
+        "width": 200.6,
+        "height": 10.8
+      }
+    },
+    "siZ30": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 386.5,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "siZ75": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 386.3,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "quty31": {
+      "type": "text",
+      "label": "Line 31.   Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 376.3,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "itm31": {
+      "type": "text",
+      "label": "Item.  Line 31.",
+      "page": 1,
+      "box": {
+        "left": 89.2,
+        "top": 376.2,
+        "width": 217.1,
+        "height": 10.8
+      }
+    },
+    "itm76": {
+      "type": "text",
+      "label": "Item.  Line 76",
+      "page": 1,
+      "box": {
+        "left": 382.3,
+        "top": 375.9,
+        "width": 200.6,
+        "height": 10.8
+      }
+    },
+    "siZ31": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 375.8,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "siZ76": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 375.5,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "quty32": {
+      "type": "text",
+      "label": "Sweater, pull over, olive green.   Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 365.6,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "itm77": {
+      "type": "text",
+      "label": "Item.  Line 77",
+      "page": 1,
+      "box": {
+        "left": 382.3,
+        "top": 365.2,
+        "width": 200.6,
+        "height": 10.8
+      }
+    },
+    "siZ322": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 364.8,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "siZ77": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 364.8,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "itm33": {
+      "type": "text",
+      "label": "Item.  Line 33.",
+      "page": 1,
+      "box": {
+        "left": 89.2,
+        "top": 355.3,
+        "width": 217.1,
+        "height": 10.8
+      }
+    },
+    "quty33": {
+      "type": "text",
+      "label": "Line 33.    Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 355.0,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "siZ78": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 354.7,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "siZ33": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 354.5,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "itm78": {
+      "type": "text",
+      "label": "Item.  Line 78",
+      "page": 1,
+      "box": {
+        "left": 382.3,
+        "top": 354.5,
+        "width": 200.6,
+        "height": 10.8
+      }
+    },
+    "quty34": {
+      "type": "text",
+      "label": "Trousers, camouflage.   Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 344.4,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "siZ34": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 343.9,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "siZ79": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 343.9,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "itm79": {
+      "type": "text",
+      "label": "Item.  Line 79",
+      "page": 1,
+      "box": {
+        "left": 382.3,
+        "top": 343.8,
+        "width": 200.6,
+        "height": 10.8
+      }
+    },
+    "quty35": {
+      "type": "text",
+      "label": "Trunk:  general purpose, pair.    Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 333.7,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "siZ35": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 333.2,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "siZ80": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 333.1,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "itm80": {
+      "type": "text",
+      "label": "Item.  Line 80",
+      "page": 1,
+      "box": {
+        "left": 382.3,
+        "top": 333.1,
+        "width": 200.6,
+        "height": 10.8
+      }
+    },
+    "quty36": {
+      "type": "text",
+      "label": "Undershirt, cotton, olive green.   Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 323.1,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "siZ36": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 322.4,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "siZ81": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 322.4,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "itm81": {
+      "type": "text",
+      "label": "Item.  Line 81",
+      "page": 1,
+      "box": {
+        "left": 382.3,
+        "top": 322.4,
+        "width": 200.6,
+        "height": 10.8
+      }
+    },
+    "quty37": {
+      "type": "text",
+      "label": "Line 37.   Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 312.5,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "itm82": {
+      "type": "text",
+      "label": "Item.  Line 82",
+      "page": 1,
+      "box": {
+        "left": 382.3,
+        "top": 311.7,
+        "width": 200.6,
+        "height": 10.8
+      }
+    },
+    "siZ37": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 311.6,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "itm37": {
+      "type": "text",
+      "label": "Item.  Line 37.",
+      "page": 1,
+      "box": {
+        "left": 89.2,
+        "top": 311.6,
+        "width": 217.1,
+        "height": 10.8
+      }
+    },
+    "siZ82": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 311.6,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "quty38": {
+      "type": "text",
+      "label": "Line 38.   Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 301.8,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "siZ38": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.0,
+        "top": 301.5,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "itm38": {
+      "type": "text",
+      "label": "Item.  Line 38.",
+      "page": 1,
+      "box": {
+        "left": 89.2,
+        "top": 301.5,
+        "width": 217.1,
+        "height": 10.8
+      }
+    },
+    "siZ83": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 301.5,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "itm83": {
+      "type": "text",
+      "label": "Item.  Line 83",
+      "page": 1,
+      "box": {
+        "left": 382.3,
+        "top": 301.0,
+        "width": 200.6,
+        "height": 10.8
+      }
+    },
+    "itm39": {
+      "type": "text",
+      "label": "39.",
+      "page": 1,
+      "box": {
+        "left": 89.2,
+        "top": 291.4,
+        "width": 217.1,
+        "height": 10.8
+      }
+    },
+    "quty39": {
+      "type": "text",
+      "label": "Line 39.  Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 291.2,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "siZ39": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 290.7,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "siZ84": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 290.7,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "itm84": {
+      "type": "text",
+      "label": "Item.  Line 84",
+      "page": 1,
+      "box": {
+        "left": 382.3,
+        "top": 290.7,
+        "width": 200.6,
+        "height": 10.8
+      }
+    },
+    "quty40": {
+      "type": "text",
+      "label": "Line 40.  Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 280.6,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "itm40": {
+      "type": "text",
+      "label": "Item.  Line 40.",
+      "page": 1,
+      "box": {
+        "left": 89.2,
+        "top": 280.6,
+        "width": 217.1,
+        "height": 10.8
+      }
+    },
+    "siZ40": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 280.0,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "siZ85": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 280.0,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "itm85": {
+      "type": "text",
+      "label": "Item.  Line 85",
+      "page": 1,
+      "box": {
+        "left": 382.3,
+        "top": 280.0,
+        "width": 200.6,
+        "height": 10.8
+      }
+    },
+    "quty41": {
+      "type": "text",
+      "label": "Line 41.  Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 270.0,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "itm86": {
+      "type": "text",
+      "label": "Item.  Line 86",
+      "page": 1,
+      "box": {
+        "left": 382.3,
+        "top": 269.8,
+        "width": 200.6,
+        "height": 10.8
+      }
+    },
+    "siZ41": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 269.2,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "itm41": {
+      "type": "text",
+      "label": "Item.  Line 41",
+      "page": 1,
+      "box": {
+        "left": 89.2,
+        "top": 269.2,
+        "width": 217.1,
+        "height": 10.8
+      }
+    },
+    "siZ86": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 269.2,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "quty42": {
+      "type": "text",
+      "label": "Line 42.   Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 261.6,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "itm87": {
+      "type": "text",
+      "label": "Item.  Line 87",
+      "page": 1,
+      "box": {
+        "left": 382.3,
+        "top": 259.1,
+        "width": 200.6,
+        "height": 10.8
+      }
+    },
+    "itm42": {
+      "type": "text",
+      "label": "Item.  Line 42",
+      "page": 1,
+      "box": {
+        "left": 89.2,
+        "top": 258.8,
+        "width": 217.1,
+        "height": 10.8
+      }
+    },
+    "siZ42": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 258.7,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "siZ87": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 258.4,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "quty43": {
+      "type": "text",
+      "label": "Line 43.   Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 248.7,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "itm43": {
+      "type": "text",
+      "label": "Item.  Line ",
+      "page": 1,
+      "box": {
+        "left": 89.2,
+        "top": 248.3,
+        "width": 217.1,
+        "height": 10.8
+      }
+    },
+    "itm88": {
+      "type": "text",
+      "label": "Item.  Line 88",
+      "page": 1,
+      "box": {
+        "left": 382.3,
+        "top": 248.3,
+        "width": 200.6,
+        "height": 10.8
+      }
+    },
+    "siZ43": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 247.7,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "siZ88": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 247.7,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "quty44": {
+      "type": "text",
+      "label": "Line 44.   Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 238.1,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "itm44": {
+      "type": "text",
+      "label": "Item.  Line 44",
+      "page": 1,
+      "box": {
+        "left": 89.2,
+        "top": 237.9,
+        "width": 217.1,
+        "height": 10.8
+      }
+    },
+    "siZ89": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 237.6,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "siZ44": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 237.4,
+        "width": 32.9,
+        "height": 10.1
+      }
+    },
+    "itm89": {
+      "type": "text",
+      "label": "Item.  Line 89",
+      "page": 1,
+      "box": {
+        "left": 382.3,
+        "top": 236.9,
+        "width": 200.6,
+        "height": 10.8
+      }
+    },
+    "quty45": {
+      "type": "text",
+      "label": "Line 45.   Enter quantity.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 227.4,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "siZ45": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 57.6,
+        "top": 227.4,
+        "width": 32.9,
+        "height": 10.8
+      }
+    },
+    "itm45": {
+      "type": "text",
+      "label": "Item.  Line 45.",
+      "page": 1,
+      "box": {
+        "left": 89.2,
+        "top": 227.4,
+        "width": 217.1,
+        "height": 10.8
+      }
+    },
+    "itm90": {
+      "type": "text",
+      "label": "Item.  Line 90",
+      "page": 1,
+      "box": {
+        "left": 382.3,
+        "top": 226.8,
+        "width": 200.6,
+        "height": 10.8
+      }
+    },
+    "siZ90": {
+      "type": "text",
+      "label": "Enter size.  ",
+      "page": 1,
+      "box": {
+        "left": 350.0,
+        "top": 226.2,
+        "width": 31.6,
+        "height": 10.8
+      }
+    },
+    "signature": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 124.0,
+        "top": 76.8,
+        "width": 219.8,
+        "height": 23.9
+      }
+    },
+    "daT2": {
+      "type": "text",
+      "label": "Enter date using format  2002 12 23",
+      "page": 1,
+      "box": {
+        "left": 380.8,
+        "top": 71.2,
+        "width": 152.0,
+        "height": 16.8
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 45,
+      "rowStride": 10.66,
+      "editor": "grid",
+      "columns": {
+        "quty": {
+          "type": "text",
+          "label": "Blue uniform.    Enter quantity.",
+          "page": 1,
+          "box": {
+            "left": 307.0,
+            "top": 695.2,
+            "width": 43.0,
+            "height": 10.1
+          }
+        }
+      }
+    }
+  }
+}

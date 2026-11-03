@@ -1,0 +1,291 @@
+{
+  "id": "navmc11115",
+  "label": "NAVMC11115 - Authorization For Advance Dependent Travel And-Or Dislocation Allowance",
+  "directory": "NAVMC11115 - Authorization For Advance Dependent Travel And-Or Dislocation Allowance",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "grade",
+        "last4SSN",
+        "pebd",
+        "unit",
+        "detachDate",
+        "payment",
+        "payment2",
+        "addressFrom",
+        "addressTo",
+        "commenceDate",
+        "completeDate",
+        "dITYDate",
+        "makeApp",
+        "newDutyStation",
+        "appSigDate",
+        "appSignature",
+        "cOSigDate",
+        "cOSignature"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "Enter first and last name and middle initial of dependent line 1.",
+      "page": 1,
+      "box": {
+        "left": 20.3,
+        "top": 653.5,
+        "width": 351.1,
+        "height": 15.1
+      }
+    },
+    "grade": {
+      "type": "text",
+      "label": "Enter first and last name and middle initial of dependent line 1.",
+      "page": 1,
+      "box": {
+        "left": 375.0,
+        "top": 653.0,
+        "width": 145.3,
+        "height": 15.1
+      }
+    },
+    "last4SSN": {
+      "type": "text",
+      "label": "Last4SSN",
+      "page": 1,
+      "box": {
+        "left": 527.2,
+        "top": 651.7,
+        "width": 62.8,
+        "height": 10.5
+      }
+    },
+    "pebd": {
+      "type": "text",
+      "label": "Enter first and last name and middle initial of dependent line 1.",
+      "page": 1,
+      "box": {
+        "left": 19.2,
+        "top": 624.0,
+        "width": 129.6,
+        "height": 15.1
+      }
+    },
+    "unit": {
+      "type": "text",
+      "label": "Enter first and last name and middle initial of dependent line 1.",
+      "page": 1,
+      "box": {
+        "left": 152.7,
+        "top": 623.7,
+        "width": 362.1,
+        "height": 15.1
+      }
+    },
+    "detachDate": {
+      "type": "text",
+      "label": "Enter birth date of dependent line 1.",
+      "page": 1,
+      "box": {
+        "left": 518.1,
+        "top": 623.4,
+        "width": 74.7,
+        "height": 14.7
+      }
+    },
+    "payment": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 155.8,
+        "top": 603.7,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_Payment_0"
+    },
+    "payment2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 303.3,
+        "top": 603.7,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_Payment_0"
+    },
+    "addressFrom": {
+      "type": "text",
+      "label": "Enter first and last name and middle initial of dependent line 1.",
+      "page": 1,
+      "box": {
+        "left": 28.9,
+        "top": 549.0,
+        "width": 557.9,
+        "height": 15.1
+      }
+    },
+    "addressTo": {
+      "type": "text",
+      "label": "Enter first and last name and middle initial of dependent line 1.",
+      "page": 1,
+      "box": {
+        "left": 54.6,
+        "top": 519.6,
+        "width": 532.2,
+        "height": 15.1
+      }
+    },
+    "commenceDate": {
+      "type": "text",
+      "label": "Enter birth date of dependent line 1.",
+      "page": 1,
+      "box": {
+        "left": 200.2,
+        "top": 291.7,
+        "width": 74.7,
+        "height": 14.7
+      }
+    },
+    "completeDate": {
+      "type": "text",
+      "label": "Enter birth date of dependent line 1.",
+      "page": 1,
+      "box": {
+        "left": 383.7,
+        "top": 291.6,
+        "width": 74.7,
+        "height": 14.7
+      }
+    },
+    "dITYDate": {
+      "type": "text",
+      "label": "Enter birth date of dependent line 1.",
+      "page": 1,
+      "box": {
+        "left": 354.5,
+        "top": 261.2,
+        "width": 74.7,
+        "height": 14.7
+      }
+    },
+    "makeApp": {
+      "type": "checkbox",
+      "label": "MakeApp",
+      "page": 1,
+      "box": {
+        "left": 77.7,
+        "top": 210.5,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "newDutyStation": {
+      "type": "text",
+      "label": "Enter first and last name and middle initial of dependent line 1.",
+      "page": 1,
+      "box": {
+        "left": 41.2,
+        "top": 186.2,
+        "width": 532.2,
+        "height": 15.1
+      }
+    },
+    "appSigDate": {
+      "type": "text",
+      "label": "Enter birth date of dependent line 1.",
+      "page": 1,
+      "box": {
+        "left": 415.2,
+        "top": 153.3,
+        "width": 74.7,
+        "height": 14.7
+      }
+    },
+    "appSignature": {
+      "type": "signature",
+      "label": "AppSignature",
+      "page": 1,
+      "box": {
+        "left": 199.9,
+        "top": 150.2,
+        "width": 168.7,
+        "height": 11.8
+      }
+    },
+    "cOSigDate": {
+      "type": "text",
+      "label": "Enter birth date of dependent line 1.",
+      "page": 1,
+      "box": {
+        "left": 414.8,
+        "top": 93.2,
+        "width": 74.7,
+        "height": 14.7
+      }
+    },
+    "cOSignature": {
+      "type": "signature",
+      "label": "COSignature",
+      "page": 1,
+      "box": {
+        "left": 199.4,
+        "top": 90.1,
+        "width": 168.7,
+        "height": 11.8
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 7,
+      "rowStride": 20.62,
+      "editor": "grid",
+      "columns": {
+        "depName": {
+          "type": "text",
+          "label": "Enter first and last name and middle initial of dependent line 1.",
+          "page": 1,
+          "box": {
+            "left": 20.8,
+            "top": 452.6,
+            "width": 299.9,
+            "height": 17.1
+          }
+        },
+        "depRel": {
+          "type": "text",
+          "label": "Enter relationship of dependent line 1.",
+          "page": 1,
+          "box": {
+            "left": 324.1,
+            "top": 452.6,
+            "width": 185.5,
+            "height": 17.1
+          }
+        },
+        "dateBirth": {
+          "type": "text",
+          "label": "Enter birth date of dependent line 1.",
+          "page": 1,
+          "box": {
+            "left": 513.0,
+            "top": 452.6,
+            "width": 79.5,
+            "height": 17.1
+          }
+        }
+      }
+    }
+  }
+}

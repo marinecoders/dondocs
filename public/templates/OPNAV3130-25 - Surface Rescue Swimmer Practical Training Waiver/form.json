@@ -1,0 +1,126 @@
+{
+  "id": "opnav313025",
+  "label": "OPNAV3130-25 - Surface Rescue Swimmer Practical Training Waiver",
+  "directory": "OPNAV3130-25 - Surface Rescue Swimmer Practical Training Waiver",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "date",
+        "cmdOfficer",
+        "searchRescueOfficer",
+        "rate",
+        "name",
+        "deployStartDate",
+        "deployEndtDate",
+        "waiverExpireDate",
+        "signatureField1"
+      ]
+    }
+  ],
+  "fields": {
+    "date": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 430.2,
+        "top": 720.8,
+        "width": 143.1,
+        "height": 15.9
+      }
+    },
+    "cmdOfficer": {
+      "type": "text",
+      "label": "From: Commanding Officer,",
+      "page": 1,
+      "box": {
+        "left": 154.1,
+        "top": 674.0,
+        "width": 203.2,
+        "height": 15.9
+      }
+    },
+    "searchRescueOfficer": {
+      "type": "text",
+      "label": "To: Search and Rescue Officer,",
+      "page": 1,
+      "box": {
+        "left": 154.1,
+        "top": 652.3,
+        "width": 203.2,
+        "height": 15.9
+      }
+    },
+    "rate": {
+      "type": "text",
+      "label": "RATE",
+      "page": 1,
+      "box": {
+        "left": 67.6,
+        "top": 533.5,
+        "width": 91.5,
+        "height": 15.9
+      }
+    },
+    "name": {
+      "type": "text",
+      "label": "NAME (Last, First, MI)",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 533.5,
+        "width": 318.4,
+        "height": 15.9
+      }
+    },
+    "deployStartDate": {
+      "type": "text",
+      "label": "Deployment Start Date",
+      "page": 1,
+      "box": {
+        "left": 128.9,
+        "top": 504.7,
+        "width": 192.4,
+        "height": 15.9
+      }
+    },
+    "deployEndtDate": {
+      "type": "text",
+      "label": "Deployment End Date",
+      "page": 1,
+      "box": {
+        "left": 128.9,
+        "top": 483.1,
+        "width": 192.4,
+        "height": 15.9
+      }
+    },
+    "waiverExpireDate": {
+      "type": "text",
+      "label": "Waiver Expiration Date",
+      "page": 1,
+      "box": {
+        "left": 128.9,
+        "top": 461.5,
+        "width": 192.4,
+        "height": 15.9
+      }
+    },
+    "signatureField1": {
+      "type": "text",
+      "label": "Signature Field 1",
+      "page": 1,
+      "box": {
+        "left": 312.5,
+        "top": 360.7,
+        "width": 228.4,
+        "height": 37.5
+      },
+      "multiline": true
+    }
+  }
+}

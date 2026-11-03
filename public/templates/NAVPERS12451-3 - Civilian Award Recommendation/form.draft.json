@@ -1,0 +1,530 @@
+{
+  "id": "navpers124513",
+  "label": "NAVPERS12451-3 - Civilian Award Recommendation",
+  "directory": "NAVPERS12451-3 - Civilian Award Recommendation",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "from",
+        "poc",
+        "phone",
+        "bldg",
+        "date",
+        "empName",
+        "title",
+        "series",
+        "hours",
+        "awardTime",
+        "amountRec",
+        "onSpot",
+        "recAmount",
+        "special",
+        "comp",
+        "appl",
+        "amtRec",
+        "performance",
+        "step",
+        "fillIn1",
+        "fillIn2",
+        "other",
+        "originator",
+        "orgSign",
+        "orgDate",
+        "dept",
+        "award",
+        "signature",
+        "date2",
+        "dept2",
+        "award2",
+        "signature2",
+        "date3",
+        "dept3",
+        "award3",
+        "signature3",
+        "date4",
+        "disposition",
+        "name",
+        "signature4",
+        "date5"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "justificationfield"
+      ]
+    }
+  ],
+  "fields": {
+    "from": {
+      "type": "text",
+      "label": "From",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 681.5,
+        "width": 264.3,
+        "height": 39.6
+      },
+      "multiline": true
+    },
+    "poc": {
+      "type": "text",
+      "label": "3. POC",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 627.5,
+        "width": 174.3,
+        "height": 21.6
+      }
+    },
+    "phone": {
+      "type": "text",
+      "label": "4. TELEPHONE NUMBER",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 627.5,
+        "width": 138.3,
+        "height": 21.6
+      }
+    },
+    "bldg": {
+      "type": "text",
+      "label": "5. BLDG / ROOM NUMBER",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 627.5,
+        "width": 138.3,
+        "height": 21.6
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "6. DATE",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 627.5,
+        "width": 65.4,
+        "height": 21.6
+      }
+    },
+    "empName": {
+      "type": "text",
+      "label": "7. EMPLOYEE NAME",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 591.5,
+        "width": 237.3,
+        "height": 21.6
+      }
+    },
+    "title": {
+      "type": "text",
+      "label": "8. POSITION TITLE",
+      "page": 1,
+      "box": {
+        "left": 281.9,
+        "top": 591.5,
+        "width": 156.3,
+        "height": 21.6
+      }
+    },
+    "series": {
+      "type": "text",
+      "label": "9. SERIES / GRADE / STEP",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 591.5,
+        "width": 128.4,
+        "height": 21.6
+      }
+    },
+    "hours": {
+      "type": "text",
+      "label": "TIME OFF AWARD NUMBER OF HOURS RECOMMENDED",
+      "page": 1,
+      "box": {
+        "left": 417.1,
+        "top": 537.1,
+        "width": 156.2,
+        "height": 21.3
+      }
+    },
+    "awardTime": {
+      "type": "checkbox",
+      "label": "EMPLOYEE",
+      "page": 1,
+      "box": {
+        "left": 84.8,
+        "top": 530.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "amountRec": {
+      "type": "text",
+      "label": "ON-THE-SPOT AWARD RECOMMENDED AMOUNT",
+      "page": 1,
+      "box": {
+        "left": 417.1,
+        "top": 510.1,
+        "width": 156.2,
+        "height": 21.3
+      }
+    },
+    "onSpot": {
+      "type": "checkbox",
+      "label": "EMPLOYEE",
+      "page": 1,
+      "box": {
+        "left": 84.8,
+        "top": 503.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "recAmount": {
+      "type": "text",
+      "label": "SPECIAL ACT / SERVICE RECOMMENDED AWARD AMOUNT",
+      "page": 1,
+      "box": {
+        "left": 417.1,
+        "top": 483.1,
+        "width": 156.2,
+        "height": 21.3
+      }
+    },
+    "special": {
+      "type": "checkbox",
+      "label": "12A",
+      "page": 1,
+      "box": {
+        "left": 84.8,
+        "top": 476.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "comp": {
+      "type": "text",
+      "label": "SERVICE RECOMMENDED AWARD AMOUNT",
+      "page": 1,
+      "box": {
+        "left": 191.9,
+        "top": 456.1,
+        "width": 111.3,
+        "height": 23.3
+      }
+    },
+    "appl": {
+      "type": "text",
+      "label": "SERIES / GRADE / STEP",
+      "page": 1,
+      "box": {
+        "left": 461.9,
+        "top": 456.1,
+        "width": 111.3,
+        "height": 22.6
+      }
+    },
+    "amtRec": {
+      "type": "text",
+      "label": "PERFORMANCE AWARD RECOMMENDED AMOUNT",
+      "page": 1,
+      "box": {
+        "left": 417.1,
+        "top": 411.1,
+        "width": 156.2,
+        "height": 21.3
+      }
+    },
+    "performance": {
+      "type": "checkbox",
+      "label": "TANGIBLE",
+      "page": 1,
+      "box": {
+        "left": 84.8,
+        "top": 404.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "step": {
+      "type": "checkbox",
+      "label": "TANGIBLE",
+      "page": 1,
+      "box": {
+        "left": 84.8,
+        "top": 377.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "fillIn1": {
+      "type": "text",
+      "label": "OTHER",
+      "page": 1,
+      "box": {
+        "left": 164.9,
+        "top": 357.1,
+        "width": 201.4,
+        "height": 21.3
+      }
+    },
+    "fillIn2": {
+      "type": "text",
+      "label": "OTHER",
+      "page": 1,
+      "box": {
+        "left": 371.9,
+        "top": 357.1,
+        "width": 200.5,
+        "height": 21.3
+      }
+    },
+    "other": {
+      "type": "checkbox",
+      "label": "TANGIBLE",
+      "page": 1,
+      "box": {
+        "left": 84.8,
+        "top": 350.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "originator": {
+      "type": "text",
+      "label": "16. NAME, TITLE OF ORIGINATOR",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 321.4,
+        "width": 237.3,
+        "height": 21.6
+      }
+    },
+    "orgSign": {
+      "type": "text",
+      "label": "17. SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 281.9,
+        "top": 321.4,
+        "width": 219.3,
+        "height": 21.6
+      }
+    },
+    "orgDate": {
+      "type": "text",
+      "label": "18. DATE",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 321.4,
+        "width": 65.4,
+        "height": 21.6
+      }
+    },
+    "dept": {
+      "type": "text",
+      "label": "DEPARTMENT / DIVISION HEAD",
+      "page": 1,
+      "box": {
+        "left": 60.5,
+        "top": 235.6,
+        "width": 145.5,
+        "height": 23.0
+      }
+    },
+    "award": {
+      "type": "text",
+      "label": "RECOMMENDED AWARD",
+      "page": 1,
+      "box": {
+        "left": 211.7,
+        "top": 235.6,
+        "width": 145.5,
+        "height": 23.0
+      }
+    },
+    "signature": {
+      "type": "text",
+      "label": "SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 235.6,
+        "width": 138.3,
+        "height": 23.0
+      }
+    },
+    "date2": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 235.6,
+        "width": 66.2,
+        "height": 23.0
+      }
+    },
+    "dept2": {
+      "type": "text",
+      "label": "DEPARTMENT / DIVISION HEAD",
+      "page": 1,
+      "box": {
+        "left": 60.5,
+        "top": 206.8,
+        "width": 145.5,
+        "height": 23.0
+      }
+    },
+    "award2": {
+      "type": "text",
+      "label": "RECOMMENDED AWARD",
+      "page": 1,
+      "box": {
+        "left": 211.7,
+        "top": 206.8,
+        "width": 145.5,
+        "height": 23.0
+      }
+    },
+    "signature2": {
+      "type": "text",
+      "label": "SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 206.8,
+        "width": 138.3,
+        "height": 23.0
+      }
+    },
+    "date3": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 206.8,
+        "width": 66.2,
+        "height": 23.0
+      }
+    },
+    "dept3": {
+      "type": "text",
+      "label": "DEPARTMENT / DIVISION HEAD",
+      "page": 1,
+      "box": {
+        "left": 60.5,
+        "top": 178.0,
+        "width": 145.5,
+        "height": 23.0
+      }
+    },
+    "award3": {
+      "type": "text",
+      "label": "RECOMMENDED AWARD",
+      "page": 1,
+      "box": {
+        "left": 211.7,
+        "top": 178.0,
+        "width": 145.5,
+        "height": 23.0
+      }
+    },
+    "signature3": {
+      "type": "text",
+      "label": "SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 178.0,
+        "width": 138.3,
+        "height": 23.0
+      }
+    },
+    "date4": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 178.0,
+        "width": 66.2,
+        "height": 23.0
+      }
+    },
+    "disposition": {
+      "type": "text",
+      "label": "19. DISPOSITION OF BASIC AWARD RECOMMENDATION",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 114.4,
+        "width": 534.3,
+        "height": 39.6
+      },
+      "multiline": true
+    },
+    "name": {
+      "type": "text",
+      "label": "20. EMPLOYEE NAME",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 60.4,
+        "width": 210.3,
+        "height": 21.6
+      }
+    },
+    "signature4": {
+      "type": "text",
+      "label": "21. SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 60.4,
+        "width": 246.3,
+        "height": 21.6
+      }
+    },
+    "date5": {
+      "type": "text",
+      "label": "22. DATE",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 60.4,
+        "width": 65.4,
+        "height": 21.6
+      }
+    },
+    "justificationfield": {
+      "type": "text",
+      "label": "JUSTIFICATION",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 690.1,
+        "width": 534.3,
+        "height": 651.3
+      },
+      "multiline": true
+    }
+  }
+}

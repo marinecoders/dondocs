@@ -1,0 +1,609 @@
+{
+  "id": "navpers123613",
+  "label": "NAVPERS1236-13 - Flag Writer Interview Sheet",
+  "directory": "NAVPERS1236-13 - Flag Writer Interview Sheet",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "textField1",
+        "textField12",
+        "textField13",
+        "textField14",
+        "textField15",
+        "textField16",
+        "textField17",
+        "textField18",
+        "textField19",
+        "textField110",
+        "checkBox1",
+        "checkBox12",
+        "checkBox13",
+        "checkBox14",
+        "checkBox15",
+        "checkBox16",
+        "checkBox17",
+        "checkBox18",
+        "checkBox19",
+        "checkBox110",
+        "checkBox111",
+        "checkBox112",
+        "checkBox113",
+        "checkBox114",
+        "checkBox115",
+        "checkBox116",
+        "checkBox117",
+        "checkBox118",
+        "checkBox119",
+        "checkBox120",
+        "checkBox121",
+        "checkBox122",
+        "checkBox123",
+        "checkBox124",
+        "checkBox125",
+        "checkBox126",
+        "checkBox127",
+        "checkBox128",
+        "checkBox129",
+        "checkBox130",
+        "textField2",
+        "checkBox131",
+        "checkBox132",
+        "checkBox133",
+        "checkBox134",
+        "checkBox135",
+        "textField22",
+        "textField3",
+        "textField32"
+      ],
+      "editor": "checklist"
+    }
+  ],
+  "fields": {
+    "textField1": {
+      "type": "text",
+      "label": "Enter applicant's name",
+      "page": 1,
+      "box": {
+        "left": 25.3,
+        "top": 707.4,
+        "width": 267.3,
+        "height": 13.8
+      }
+    },
+    "textField12": {
+      "type": "text",
+      "label": "Enter applicant's rank",
+      "page": 1,
+      "box": {
+        "left": 298.3,
+        "top": 707.0,
+        "width": 97.8,
+        "height": 13.8
+      }
+    },
+    "textField13": {
+      "type": "text",
+      "label": "Enter date of application",
+      "page": 1,
+      "box": {
+        "left": 511.3,
+        "top": 707.0,
+        "width": 76.5,
+        "height": 13.8
+      }
+    },
+    "textField14": {
+      "type": "text",
+      "label": "Enter applicant's warfare qualifications",
+      "page": 1,
+      "box": {
+        "left": 406.7,
+        "top": 706.6,
+        "width": 97.8,
+        "height": 13.8
+      }
+    },
+    "textField15": {
+      "type": "text",
+      "label": "Observe the candidate and an adjective or phrase which you believe to be most descriptive",
+      "page": 1,
+      "box": {
+        "left": 36.6,
+        "top": 653.4,
+        "width": 171.3,
+        "height": 13.8
+      }
+    },
+    "textField16": {
+      "type": "text",
+      "label": "Observe the candidate and an adjective or phrase which you believe to be most descriptive",
+      "page": 1,
+      "box": {
+        "left": 215.1,
+        "top": 653.4,
+        "width": 185.6,
+        "height": 13.8
+      }
+    },
+    "textField17": {
+      "type": "text",
+      "label": "Observe the candidate and an adjective or phrase which you believe to be most descriptive",
+      "page": 1,
+      "box": {
+        "left": 412.0,
+        "top": 653.4,
+        "width": 171.3,
+        "height": 13.8
+      }
+    },
+    "textField18": {
+      "type": "text",
+      "label": "Observe the candidate and an adjective or phrase which you believe to be most descriptive",
+      "page": 1,
+      "box": {
+        "left": 36.6,
+        "top": 633.2,
+        "width": 171.3,
+        "height": 13.8
+      }
+    },
+    "textField19": {
+      "type": "text",
+      "label": "Observe the candidate and an adjective or phrase which you believe to be most descriptive",
+      "page": 1,
+      "box": {
+        "left": 215.8,
+        "top": 633.2,
+        "width": 184.8,
+        "height": 13.8
+      }
+    },
+    "textField110": {
+      "type": "text",
+      "label": "Observe the candidate and an adjective or phrase which you believe to be most descriptive",
+      "page": 1,
+      "box": {
+        "left": 412.0,
+        "top": 633.2,
+        "width": 171.3,
+        "height": 13.8
+      }
+    },
+    "checkBox1": {
+      "type": "checkbox",
+      "label": "Place a check mark if appropriate",
+      "page": 1,
+      "box": {
+        "left": 314.9,
+        "top": 576.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox12": {
+      "type": "checkbox",
+      "label": "Place a check mark if appropriate",
+      "page": 1,
+      "box": {
+        "left": 386.0,
+        "top": 576.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox13": {
+      "type": "checkbox",
+      "label": "Place a check mark if appropriate",
+      "page": 1,
+      "box": {
+        "left": 455.5,
+        "top": 576.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox14": {
+      "type": "checkbox",
+      "label": "Place a check mark if appropriate",
+      "page": 1,
+      "box": {
+        "left": 531.7,
+        "top": 576.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox15": {
+      "type": "checkbox",
+      "label": "Place a check mark if appropriate",
+      "page": 1,
+      "box": {
+        "left": 245.3,
+        "top": 575.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox16": {
+      "type": "checkbox",
+      "label": "Place a check mark if appropriate",
+      "page": 1,
+      "box": {
+        "left": 245.3,
+        "top": 552.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox17": {
+      "type": "checkbox",
+      "label": "Place a check mark if appropriate",
+      "page": 1,
+      "box": {
+        "left": 314.9,
+        "top": 551.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox18": {
+      "type": "checkbox",
+      "label": "Place a check mark if appropriate",
+      "page": 1,
+      "box": {
+        "left": 386.0,
+        "top": 551.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox19": {
+      "type": "checkbox",
+      "label": "Place a check mark if appropriate",
+      "page": 1,
+      "box": {
+        "left": 455.5,
+        "top": 551.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox110": {
+      "type": "checkbox",
+      "label": "Place a check mark if appropriate",
+      "page": 1,
+      "box": {
+        "left": 531.7,
+        "top": 551.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox111": {
+      "type": "checkbox",
+      "label": "Place a check mark if appropriate",
+      "page": 1,
+      "box": {
+        "left": 245.3,
+        "top": 530.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox112": {
+      "type": "checkbox",
+      "label": "Place a check mark if appropriate",
+      "page": 1,
+      "box": {
+        "left": 314.9,
+        "top": 530.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox113": {
+      "type": "checkbox",
+      "label": "Place a check mark if appropriate",
+      "page": 1,
+      "box": {
+        "left": 386.0,
+        "top": 529.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox114": {
+      "type": "checkbox",
+      "label": "Place a check mark if appropriate",
+      "page": 1,
+      "box": {
+        "left": 455.5,
+        "top": 529.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox115": {
+      "type": "checkbox",
+      "label": "Place a check mark if appropriate",
+      "page": 1,
+      "box": {
+        "left": 531.7,
+        "top": 529.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox116": {
+      "type": "checkbox",
+      "label": "Place a check mark if appropriate",
+      "page": 1,
+      "box": {
+        "left": 314.9,
+        "top": 507.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox117": {
+      "type": "checkbox",
+      "label": "Place a check mark if appropriate",
+      "page": 1,
+      "box": {
+        "left": 386.0,
+        "top": 507.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox118": {
+      "type": "checkbox",
+      "label": "Place a check mark if appropriate",
+      "page": 1,
+      "box": {
+        "left": 455.5,
+        "top": 507.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox119": {
+      "type": "checkbox",
+      "label": "Place a check mark if appropriate",
+      "page": 1,
+      "box": {
+        "left": 245.3,
+        "top": 507.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox120": {
+      "type": "checkbox",
+      "label": "Place a check mark if appropriate",
+      "page": 1,
+      "box": {
+        "left": 531.7,
+        "top": 507.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox121": {
+      "type": "checkbox",
+      "label": "Place a check mark if appropriate",
+      "page": 1,
+      "box": {
+        "left": 245.3,
+        "top": 485.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox122": {
+      "type": "checkbox",
+      "label": "Place a check mark if appropriate",
+      "page": 1,
+      "box": {
+        "left": 314.9,
+        "top": 485.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox123": {
+      "type": "checkbox",
+      "label": "Place a check mark if appropriate",
+      "page": 1,
+      "box": {
+        "left": 386.0,
+        "top": 485.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox124": {
+      "type": "checkbox",
+      "label": "Place a check mark if appropriate",
+      "page": 1,
+      "box": {
+        "left": 455.5,
+        "top": 485.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox125": {
+      "type": "checkbox",
+      "label": "Place a check mark if appropriate",
+      "page": 1,
+      "box": {
+        "left": 531.7,
+        "top": 485.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox126": {
+      "type": "checkbox",
+      "label": "Place a check mark if appropriate",
+      "page": 1,
+      "box": {
+        "left": 245.3,
+        "top": 462.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox127": {
+      "type": "checkbox",
+      "label": "Place a check mark if appropriate",
+      "page": 1,
+      "box": {
+        "left": 314.9,
+        "top": 462.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox128": {
+      "type": "checkbox",
+      "label": "Place a check mark if appropriate",
+      "page": 1,
+      "box": {
+        "left": 386.0,
+        "top": 462.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox129": {
+      "type": "checkbox",
+      "label": "Place a check mark if appropriate",
+      "page": 1,
+      "box": {
+        "left": 455.5,
+        "top": 462.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox130": {
+      "type": "checkbox",
+      "label": "Place a check mark if appropriate",
+      "page": 1,
+      "box": {
+        "left": 531.7,
+        "top": 462.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "textField2": {
+      "type": "text",
+      "label": "Enter a summary statement evaluating the applicant is required. All extreme ratings marked by an (*) should be further commented upon on this page",
+      "page": 1,
+      "box": {
+        "left": 26.1,
+        "top": 434.4,
+        "width": 559.1,
+        "height": 104.6
+      },
+      "multiline": true
+    },
+    "checkBox131": {
+      "type": "checkbox",
+      "label": "Place a check mark if appropriate",
+      "page": 1,
+      "box": {
+        "left": 245.3,
+        "top": 292.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox132": {
+      "type": "checkbox",
+      "label": "Place a check mark if appropriate",
+      "page": 1,
+      "box": {
+        "left": 322.3,
+        "top": 292.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox133": {
+      "type": "checkbox",
+      "label": "Place a check mark if appropriate",
+      "page": 1,
+      "box": {
+        "left": 391.9,
+        "top": 292.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox134": {
+      "type": "checkbox",
+      "label": "Place a check mark if appropriate",
+      "page": 1,
+      "box": {
+        "left": 458.5,
+        "top": 292.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox135": {
+      "type": "checkbox",
+      "label": "Place a check mark if appropriate",
+      "page": 1,
+      "box": {
+        "left": 531.7,
+        "top": 292.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "textField22": {
+      "type": "text",
+      "label": "Enter supplement or qualify the motivation rating and potential as a flag writer; including record review",
+      "page": 1,
+      "box": {
+        "left": 27.6,
+        "top": 259.7,
+        "width": 559.1,
+        "height": 147.3
+      },
+      "multiline": true
+    },
+    "textField3": {
+      "type": "text",
+      "label": "Enter name of interviewer",
+      "page": 1,
+      "box": {
+        "left": 187.4,
+        "top": 98.4,
+        "width": 141.3,
+        "height": 17.6
+      }
+    },
+    "textField32": {
+      "type": "text",
+      "label": "Enter the interviewer's current duty station and phone number",
+      "page": 1,
+      "box": {
+        "left": 334.3,
+        "top": 98.4,
+        "width": 250.8,
+        "height": 17.6
+      }
+    }
+  }
+}

@@ -1,0 +1,250 @@
+{
+  "id": "navmc11751",
+  "label": "NAVMC11751 - Authorization To Order Marine Corps Personnel Files",
+  "directory": "NAVMC11751 - Authorization To Order Marine Corps Personnel Files",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "signatureField1",
+        "grade",
+        "branch",
+        "divDept",
+        "roomNo",
+        "officeCode",
+        "phoneNo",
+        "jobTitle",
+        "justification",
+        "userID",
+        "authFor",
+        "recApproval",
+        "blank13",
+        "signatureField2",
+        "signatureField3",
+        "dateA",
+        "disapprov",
+        "disapprov2"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "1. NAME (Last) (First,) (Initial)",
+      "page": 1,
+      "box": {
+        "left": 37.7,
+        "top": 508.0,
+        "width": 266.1,
+        "height": 20.6
+      }
+    },
+    "signatureField1": {
+      "type": "signature",
+      "label": "2.  SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 308.8,
+        "top": 508.0,
+        "width": 264.3,
+        "height": 19.2
+      }
+    },
+    "grade": {
+      "type": "text",
+      "label": "3.  MILITARY GRADE/CIVIL SERVICE GRADE",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 471.5,
+        "width": 175.7,
+        "height": 20.1
+      }
+    },
+    "branch": {
+      "type": "text",
+      "label": "4.  BRANCH",
+      "page": 1,
+      "box": {
+        "left": 218.2,
+        "top": 471.5,
+        "width": 175.7,
+        "height": 20.1
+      }
+    },
+    "divDept": {
+      "type": "text",
+      "label": "5.  DIVISION-DEPARTMENT",
+      "page": 1,
+      "box": {
+        "left": 398.2,
+        "top": 471.5,
+        "width": 175.7,
+        "height": 20.1
+      }
+    },
+    "roomNo": {
+      "type": "text",
+      "label": "7.  ROOM NUMBER",
+      "page": 1,
+      "box": {
+        "left": 218.2,
+        "top": 435.7,
+        "width": 85.7,
+        "height": 20.3
+      }
+    },
+    "officeCode": {
+      "type": "text",
+      "label": "8.  OFFICE CODE",
+      "page": 1,
+      "box": {
+        "left": 308.2,
+        "top": 435.7,
+        "width": 85.7,
+        "height": 20.3
+      }
+    },
+    "phoneNo": {
+      "type": "text",
+      "label": "9.  PHONE NUMBER(S)",
+      "page": 1,
+      "box": {
+        "left": 398.2,
+        "top": 435.7,
+        "width": 175.7,
+        "height": 20.3
+      }
+    },
+    "jobTitle": {
+      "type": "text",
+      "label": "6.  JOB TITLE",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 435.5,
+        "width": 175.7,
+        "height": 20.1
+      }
+    },
+    "justification": {
+      "type": "text",
+      "label": "10. JUSTIFICATION (See Chapter 6, HQADMINMAN)\nThe specific reason access to personnel files is requested:",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 391.8,
+        "width": 534.6,
+        "height": 142.4
+      },
+      "multiline": true
+    },
+    "userID": {
+      "type": "text",
+      "label": "USER ID:  ",
+      "page": 1,
+      "box": {
+        "left": 413.0,
+        "top": 232.3,
+        "width": 160.8,
+        "height": 41.4
+      },
+      "multiline": true
+    },
+    "authFor": {
+      "type": "text",
+      "label": "  (Name)                                                                                             (Grade)",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 222.4,
+        "width": 322.6,
+        "height": 17.9
+      }
+    },
+    "recApproval": {
+      "type": "text",
+      "label": "(Typed Name + Title of Hd/Asst Hd. Dept/Div/Br.)",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 177.6,
+        "width": 292.7,
+        "height": 36.6
+      },
+      "multiline": true
+    },
+    "blank13": {
+      "type": "text",
+      "label": "13.  ",
+      "page": 1,
+      "box": {
+        "left": 335.2,
+        "top": 176.7,
+        "width": 238.7,
+        "height": 21.8
+      }
+    },
+    "signatureField2": {
+      "type": "signature",
+      "label": "(Signature of Hd.Asst Hd. Dept/Div/Br.)",
+      "page": 1,
+      "box": {
+        "left": 335.8,
+        "top": 139.0,
+        "width": 237.3,
+        "height": 18.7
+      }
+    },
+    "signatureField3": {
+      "type": "signature",
+      "label": "SignatureField3",
+      "page": 1,
+      "box": {
+        "left": 247.2,
+        "top": 105.6,
+        "width": 208.9,
+        "height": 17.9
+      }
+    },
+    "dateA": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 104.6,
+        "width": 102.3,
+        "height": 20.5
+      }
+    },
+    "disapprov": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 48.6,
+        "top": 99.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Disapprov_0"
+    },
+    "disapprov2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 133.1,
+        "top": 99.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Disapprov_0"
+    }
+  }
+}

@@ -1,0 +1,264 @@
+{
+  "id": "opnav521540",
+  "label": "OPNAV5215-40 - Review Of Instruction",
+  "directory": "OPNAV5215-40 - Review Of Instruction",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "instNo",
+        "instDte",
+        "orgCde",
+        "instCls",
+        "instSubj",
+        "radio",
+        "radio2",
+        "radio3",
+        "radio4",
+        "radio5",
+        "radio6",
+        "radio7",
+        "radio8",
+        "radio9",
+        "instRevRei",
+        "instCan",
+        "instSponPrtNme",
+        "dneDte",
+        "sponSig"
+      ]
+    }
+  ],
+  "fields": {
+    "instNo": {
+      "type": "text",
+      "label": "(e.g., OPNAVINST 1234.56B)",
+      "page": 1,
+      "box": {
+        "left": 41.4,
+        "top": 674.4,
+        "width": 118.8,
+        "height": 20.0
+      }
+    },
+    "instDte": {
+      "type": "text",
+      "label": "(DD MMM YYYY)",
+      "page": 1,
+      "box": {
+        "left": 166.4,
+        "top": 674.4,
+        "width": 84.7,
+        "height": 20.0
+      }
+    },
+    "orgCde": {
+      "type": "text",
+      "label": "(e.g., CNIC/OPNAV N45))",
+      "page": 1,
+      "box": {
+        "left": 436.8,
+        "top": 674.4,
+        "width": 136.1,
+        "height": 20.0
+      }
+    },
+    "instCls": {
+      "type": "choice",
+      "label": "INSTRUCTION CLASSIFICATION",
+      "page": 1,
+      "box": {
+        "left": 257.6,
+        "top": 673.6,
+        "width": 170.2,
+        "height": 18.5
+      },
+      "options": [
+        "UNCLASSIFIED",
+        "FOUO ",
+        "CONFIDENTIAL (To include NOFORN)",
+        "SECRET (To include NOFORN)"
+      ]
+    },
+    "instSubj": {
+      "type": "text",
+      "label": "INSTRUCTION SUBJECT",
+      "page": 1,
+      "box": {
+        "left": 40.8,
+        "top": 634.1,
+        "width": 532.2,
+        "height": 32.5
+      },
+      "multiline": true
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 309.1,
+        "top": 573.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 350.5,
+        "top": 573.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 309.1,
+        "top": 549.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 429.4,
+        "top": 549.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 64.3,
+        "top": 505.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 64.3,
+        "top": 479.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 64.3,
+        "top": 457.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 100.5,
+        "top": 411.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio9": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 383.0,
+        "top": 411.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "instRevRei": {
+      "type": "checkbox",
+      "label": "Should",
+      "page": 1,
+      "box": {
+        "left": 54.4,
+        "top": 381.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "instCan": {
+      "type": "checkbox",
+      "label": "Should",
+      "page": 1,
+      "box": {
+        "left": 54.4,
+        "top": 345.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "instSponPrtNme": {
+      "type": "text",
+      "label": "Sponsor Name, Title, Organization, Code",
+      "page": 1,
+      "box": {
+        "left": 40.8,
+        "top": 204.7,
+        "width": 213.9,
+        "height": 79.3
+      },
+      "multiline": true
+    },
+    "dneDte": {
+      "type": "text",
+      "label": "(DD MMM YYYY)",
+      "page": 1,
+      "box": {
+        "left": 262.1,
+        "top": 204.7,
+        "width": 89.3,
+        "height": 79.3
+      },
+      "multiline": true
+    },
+    "sponSig": {
+      "type": "text",
+      "label": "Sponsor Signature",
+      "page": 1,
+      "box": {
+        "left": 359.2,
+        "top": 204.7,
+        "width": 213.7,
+        "height": 79.3
+      },
+      "multiline": true
+    }
+  }
+}

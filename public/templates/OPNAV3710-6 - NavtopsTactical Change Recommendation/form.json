@@ -1,0 +1,410 @@
+{
+  "id": "opnav37106",
+  "label": "OPNAV3710-6 - NavtopsTactical Change Recommendation",
+  "directory": "OPNAV3710-6 - NavtopsTactical Change Recommendation",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "dNSDate31",
+        "x2",
+        "x3",
+        "x4",
+        "x5",
+        "x6",
+        "x10",
+        "dNSDate32",
+        "dNSDate33",
+        "x9",
+        "x11",
+        "x12",
+        "x13",
+        "x14",
+        "x17",
+        "x15",
+        "rank",
+        "x18",
+        "x19",
+        "dATE",
+        "x21",
+        "dNSDate35",
+        "dNSDate36",
+        "x23",
+        "dNSDate3",
+        "x26",
+        "x28",
+        "x27",
+        "x29",
+        "x30",
+        "x31"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "x99"
+      ]
+    }
+  ],
+  "fields": {
+    "dNSDate31": {
+      "type": "text",
+      "label": "Enter the date, using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 449.8,
+        "top": 741.4,
+        "width": 122.5,
+        "height": 17.6
+      }
+    },
+    "x2": {
+      "type": "text",
+      "label": "Enter who the change recommendation is from.",
+      "page": 1,
+      "box": {
+        "left": 107.5,
+        "top": 707.5,
+        "width": 212.7,
+        "height": 18.2
+      }
+    },
+    "x3": {
+      "type": "text",
+      "label": "Enter the unit.",
+      "page": 1,
+      "box": {
+        "left": 354.9,
+        "top": 707.5,
+        "width": 220.2,
+        "height": 18.1
+      }
+    },
+    "x4": {
+      "type": "text",
+      "label": "Enter who the change recommendation is to.",
+      "page": 1,
+      "box": {
+        "left": 114.2,
+        "top": 686.2,
+        "width": 206.0,
+        "height": 20.2
+      }
+    },
+    "x5": {
+      "type": "text",
+      "label": "Enter the unit",
+      "page": 1,
+      "box": {
+        "left": 354.5,
+        "top": 685.2,
+        "width": 221.0,
+        "height": 19.1
+      }
+    },
+    "x6": {
+      "type": "text",
+      "label": "Enter the complete name of the manual and/or checklist.",
+      "page": 1,
+      "box": {
+        "left": 38.5,
+        "top": 653.9,
+        "width": 206.8,
+        "height": 13.3
+      }
+    },
+    "x10": {
+      "type": "text",
+      "label": "Enter the page.",
+      "page": 1,
+      "box": {
+        "left": 480.9,
+        "top": 653.7,
+        "width": 31.0,
+        "height": 13.1
+      }
+    },
+    "dNSDate32": {
+      "type": "text",
+      "label": "Enter the revision date, using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 250.7,
+        "top": 653.5,
+        "width": 69.1,
+        "height": 12.9
+      }
+    },
+    "dNSDate33": {
+      "type": "text",
+      "label": "Enter the change date, using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 325.6,
+        "top": 653.5,
+        "width": 64.0,
+        "height": 12.9
+      }
+    },
+    "x9": {
+      "type": "text",
+      "label": "Enter the section and/or chapter.",
+      "page": 1,
+      "box": {
+        "left": 395.1,
+        "top": 653.5,
+        "width": 80.4,
+        "height": 12.9
+      }
+    },
+    "x11": {
+      "type": "text",
+      "label": "Enter the paragraph.",
+      "page": 1,
+      "box": {
+        "left": 517.3,
+        "top": 653.5,
+        "width": 58.2,
+        "height": 12.9
+      }
+    },
+    "x12": {
+      "type": "text",
+      "label": "Enter the recommendation (be specific).",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 622.5,
+        "width": 536.3,
+        "height": 129.9
+      },
+      "multiline": true
+    },
+    "x13": {
+      "type": "checkbox",
+      "label": "Check this if continued on the back.",
+      "page": 1,
+      "box": {
+        "left": 449.4,
+        "top": 489.5,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "x14": {
+      "type": "text",
+      "label": "Enter the justification.",
+      "page": 1,
+      "box": {
+        "left": 38.3,
+        "top": 468.5,
+        "width": 536.3,
+        "height": 150.0
+      },
+      "multiline": true
+    },
+    "x17": {
+      "type": "text",
+      "label": "Enter the title.",
+      "page": 1,
+      "box": {
+        "left": 405.3,
+        "top": 314.6,
+        "width": 169.4,
+        "height": 19.0
+      }
+    },
+    "x15": {
+      "type": "text",
+      "label": "Enter the signature of originator.",
+      "page": 1,
+      "box": {
+        "left": 85.0,
+        "top": 313.6,
+        "width": 212.9,
+        "height": 17.7
+      }
+    },
+    "rank": {
+      "type": "text",
+      "label": "Enter the rank.",
+      "page": 1,
+      "box": {
+        "left": 326.0,
+        "top": 313.6,
+        "width": 41.9,
+        "height": 18.0
+      }
+    },
+    "x18": {
+      "type": "text",
+      "label": "Enter the address of unit or command.",
+      "page": 1,
+      "box": {
+        "left": 170.3,
+        "top": 291.0,
+        "width": 404.3,
+        "height": 18.4
+      }
+    },
+    "x19": {
+      "type": "text",
+      "label": "Enter who the change recommendation is from.",
+      "page": 1,
+      "box": {
+        "left": 65.2,
+        "top": 258.6,
+        "width": 415.0,
+        "height": 19.0
+      }
+    },
+    "dATE": {
+      "type": "text",
+      "label": "Enter the date, using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 510.6,
+        "top": 258.6,
+        "width": 64.0,
+        "height": 19.0
+      }
+    },
+    "x21": {
+      "type": "text",
+      "label": "Enter who the change recommendation is to.",
+      "page": 1,
+      "box": {
+        "left": 53.1,
+        "top": 235.5,
+        "width": 521.5,
+        "height": 18.0
+      }
+    },
+    "dNSDate35": {
+      "type": "text",
+      "label": "Indicate the change recommendation dated, using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 211.7,
+        "top": 205.2,
+        "width": 110.1,
+        "height": 12.1
+      }
+    },
+    "dNSDate36": {
+      "type": "text",
+      "label": "Enter the date, using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 204.2,
+        "top": 167.5,
+        "width": 149.8,
+        "height": 12.1
+      }
+    },
+    "x23": {
+      "type": "checkbox",
+      "label": "Check this if the change recommendation is dated.",
+      "page": 1,
+      "box": {
+        "left": 47.3,
+        "top": 159.5,
+        "width": 14.0,
+        "height": 14.0
+      }
+    },
+    "dNSDate3": {
+      "type": "text",
+      "label": "Enter the date planned for the review conference, using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 183.3,
+        "top": 151.2,
+        "width": 146.5,
+        "height": 13.0
+      }
+    },
+    "x26": {
+      "type": "text",
+      "label": "Indicate where the review conference will be held.",
+      "page": 1,
+      "box": {
+        "left": 377.5,
+        "top": 151.2,
+        "width": 173.7,
+        "height": 13.0
+      }
+    },
+    "x28": {
+      "type": "text",
+      "label": "Indicate where the change recommendation is being forwarded for approval and is reclassified URGENT.",
+      "page": 1,
+      "box": {
+        "left": 365.0,
+        "top": 124.4,
+        "width": 190.0,
+        "height": 12.1
+      }
+    },
+    "x27": {
+      "type": "checkbox",
+      "label": "Check this if the change recommendation is reclassified URGENT and is forwarded for approval.",
+      "page": 1,
+      "box": {
+        "left": 47.3,
+        "top": 119.3,
+        "width": 14.0,
+        "height": 14.0
+      }
+    },
+    "x29": {
+      "type": "text",
+      "label": "Enter the DTG.",
+      "page": 1,
+      "box": {
+        "left": 125.9,
+        "top": 111.0,
+        "width": 192.0,
+        "height": 12.1
+      }
+    },
+    "x30": {
+      "type": "text",
+      "label": "Enter the signature of the model manager.",
+      "page": 1,
+      "box": {
+        "left": 53.3,
+        "top": 74.2,
+        "width": 211.0,
+        "height": 12.1
+      }
+    },
+    "x31": {
+      "type": "text",
+      "label": "Enter the type of aircraft.",
+      "page": 1,
+      "box": {
+        "left": 351.6,
+        "top": 74.2,
+        "width": 174.9,
+        "height": 12.1
+      }
+    },
+    "x99": {
+      "type": "text",
+      "label": "Enter the recommendation (be specific).",
+      "page": 2,
+      "box": {
+        "left": 41.0,
+        "top": 735.1,
+        "width": 528.0,
+        "height": 681.0
+      },
+      "multiline": true
+    }
+  }
+}

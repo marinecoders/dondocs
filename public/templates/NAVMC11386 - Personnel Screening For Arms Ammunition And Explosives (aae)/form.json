@@ -1,0 +1,604 @@
+{
+  "id": "navmc11386",
+  "label": "NAVMC 11386 - Personnel Screening For Arms Ammunition And Explosives (aae)",
+  "directory": "NAVMC11386 - Personnel Screening For Arms Ammunition And Explosives (aae)",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "screening",
+        "screening2",
+        "nameIndivid",
+        "rankIndivid",
+        "billetIndivid",
+        "mOSIndivid",
+        "sSNIndivid",
+        "sigIndivid",
+        "dateIndivid",
+        "nameScreener",
+        "rankScreener",
+        "billetScreener",
+        "mOSScreener",
+        "sSNScreener",
+        "sigScreener",
+        "dateScreener",
+        "remarks1",
+        "yes1",
+        "no1",
+        "na1",
+        "remarks2",
+        "yes2",
+        "no2",
+        "na2",
+        "remarks3",
+        "yes3",
+        "no3",
+        "na3",
+        "remarks4",
+        "yes4",
+        "no4",
+        "na4",
+        "remarks5",
+        "yes5",
+        "no6",
+        "na6",
+        "remarks6",
+        "yes7",
+        "no7",
+        "na7",
+        "remarks7",
+        "yes8",
+        "no8",
+        "na8",
+        "determination",
+        "determination2",
+        "days",
+        "determination3"
+      ]
+    }
+  ],
+  "fields": {
+    "screening": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 215.0,
+        "top": 698.3,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_Screening_0"
+    },
+    "screening2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 329.9,
+        "top": 698.3,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_Screening_0"
+    },
+    "nameIndivid": {
+      "type": "text",
+      "label": "NameIndivid",
+      "page": 1,
+      "box": {
+        "left": 215.4,
+        "top": 632.4,
+        "width": 340.4,
+        "height": 15.1
+      }
+    },
+    "rankIndivid": {
+      "type": "text",
+      "label": "RankIndivid",
+      "page": 1,
+      "box": {
+        "left": 85.5,
+        "top": 632.1,
+        "width": 76.8,
+        "height": 15.0
+      }
+    },
+    "billetIndivid": {
+      "type": "text",
+      "label": "BilletIndivid",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 615.3,
+        "width": 248.5,
+        "height": 15.1
+      }
+    },
+    "mOSIndivid": {
+      "type": "text",
+      "label": "MOSIndivid",
+      "page": 1,
+      "box": {
+        "left": 224.1,
+        "top": 615.2,
+        "width": 50.6,
+        "height": 15.1
+      }
+    },
+    "sSNIndivid": {
+      "type": "text",
+      "label": "SSNIndivid",
+      "page": 1,
+      "box": {
+        "left": 84.6,
+        "top": 614.6,
+        "width": 100.0,
+        "height": 15.0
+      }
+    },
+    "sigIndivid": {
+      "type": "text",
+      "label": "SigIndivid",
+      "page": 1,
+      "box": {
+        "left": 276.0,
+        "top": 597.8,
+        "width": 279.3,
+        "height": 15.1
+      }
+    },
+    "dateIndivid": {
+      "type": "text",
+      "label": "DateIndivid",
+      "page": 1,
+      "box": {
+        "left": 129.9,
+        "top": 597.6,
+        "width": 95.1,
+        "height": 15.0
+      }
+    },
+    "nameScreener": {
+      "type": "text",
+      "label": "NameScreener",
+      "page": 1,
+      "box": {
+        "left": 216.0,
+        "top": 561.8,
+        "width": 339.8,
+        "height": 15.1
+      }
+    },
+    "rankScreener": {
+      "type": "text",
+      "label": "RankScreener",
+      "page": 1,
+      "box": {
+        "left": 85.6,
+        "top": 561.5,
+        "width": 76.8,
+        "height": 15.0
+      }
+    },
+    "billetScreener": {
+      "type": "text",
+      "label": "BilletScreener",
+      "page": 1,
+      "box": {
+        "left": 307.6,
+        "top": 544.8,
+        "width": 248.5,
+        "height": 15.1
+      }
+    },
+    "mOSScreener": {
+      "type": "text",
+      "label": "MOSScreener",
+      "page": 1,
+      "box": {
+        "left": 224.2,
+        "top": 544.6,
+        "width": 50.6,
+        "height": 15.1
+      }
+    },
+    "sSNScreener": {
+      "type": "text",
+      "label": "SSNScreener",
+      "page": 1,
+      "box": {
+        "left": 84.7,
+        "top": 544.0,
+        "width": 100.0,
+        "height": 15.0
+      }
+    },
+    "sigScreener": {
+      "type": "text",
+      "label": "SigScreener",
+      "page": 1,
+      "box": {
+        "left": 276.1,
+        "top": 527.2,
+        "width": 279.3,
+        "height": 15.1
+      }
+    },
+    "dateScreener": {
+      "type": "text",
+      "label": "DateScreener",
+      "page": 1,
+      "box": {
+        "left": 130.0,
+        "top": 527.0,
+        "width": 95.1,
+        "height": 15.0
+      }
+    },
+    "remarks1": {
+      "type": "text",
+      "label": "Remarks1",
+      "page": 1,
+      "box": {
+        "left": 304.3,
+        "top": 481.8,
+        "width": 252.0,
+        "height": 41.8
+      },
+      "multiline": true
+    },
+    "yes1": {
+      "type": "checkbox",
+      "label": "Yes1",
+      "page": 1,
+      "box": {
+        "left": 234.2,
+        "top": 467.9,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "no1": {
+      "type": "checkbox",
+      "label": "No1",
+      "page": 1,
+      "box": {
+        "left": 259.1,
+        "top": 467.9,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "na1": {
+      "type": "checkbox",
+      "label": "NA1",
+      "page": 1,
+      "box": {
+        "left": 283.7,
+        "top": 467.9,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "remarks2": {
+      "type": "text",
+      "label": "Remarks2",
+      "page": 1,
+      "box": {
+        "left": 304.3,
+        "top": 436.8,
+        "width": 252.0,
+        "height": 42.0
+      },
+      "multiline": true
+    },
+    "yes2": {
+      "type": "checkbox",
+      "label": "Yes2",
+      "page": 1,
+      "box": {
+        "left": 234.2,
+        "top": 422.3,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "no2": {
+      "type": "checkbox",
+      "label": "No2",
+      "page": 1,
+      "box": {
+        "left": 259.1,
+        "top": 422.3,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "na2": {
+      "type": "checkbox",
+      "label": "NA2",
+      "page": 1,
+      "box": {
+        "left": 283.7,
+        "top": 422.3,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "remarks3": {
+      "type": "text",
+      "label": "Remarks3",
+      "page": 1,
+      "box": {
+        "left": 304.3,
+        "top": 391.8,
+        "width": 252.0,
+        "height": 43.3
+      },
+      "multiline": true
+    },
+    "yes3": {
+      "type": "checkbox",
+      "label": "Yes3",
+      "page": 1,
+      "box": {
+        "left": 234.2,
+        "top": 376.6,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "no3": {
+      "type": "checkbox",
+      "label": "No3",
+      "page": 1,
+      "box": {
+        "left": 259.1,
+        "top": 376.6,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "na3": {
+      "type": "checkbox",
+      "label": "NA3",
+      "page": 1,
+      "box": {
+        "left": 283.7,
+        "top": 376.6,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "remarks4": {
+      "type": "text",
+      "label": "Remarks4",
+      "page": 1,
+      "box": {
+        "left": 304.3,
+        "top": 346.0,
+        "width": 252.0,
+        "height": 33.1
+      },
+      "multiline": true
+    },
+    "yes4": {
+      "type": "checkbox",
+      "label": "Yes4",
+      "page": 1,
+      "box": {
+        "left": 234.2,
+        "top": 335.7,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "no4": {
+      "type": "checkbox",
+      "label": "No4",
+      "page": 1,
+      "box": {
+        "left": 259.1,
+        "top": 335.7,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "na4": {
+      "type": "checkbox",
+      "label": "NA4",
+      "page": 1,
+      "box": {
+        "left": 283.7,
+        "top": 335.7,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "remarks5": {
+      "type": "text",
+      "label": "Remarks5",
+      "page": 1,
+      "box": {
+        "left": 304.3,
+        "top": 309.7,
+        "width": 252.0,
+        "height": 43.9
+      },
+      "multiline": true
+    },
+    "yes5": {
+      "type": "checkbox",
+      "label": "Yes5",
+      "page": 1,
+      "box": {
+        "left": 234.2,
+        "top": 293.9,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "no6": {
+      "type": "checkbox",
+      "label": "No6",
+      "page": 1,
+      "box": {
+        "left": 259.1,
+        "top": 293.9,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "na6": {
+      "type": "checkbox",
+      "label": "NA6",
+      "page": 1,
+      "box": {
+        "left": 283.7,
+        "top": 293.9,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "remarks6": {
+      "type": "text",
+      "label": "Remarks6",
+      "page": 1,
+      "box": {
+        "left": 304.3,
+        "top": 262.2,
+        "width": 252.0,
+        "height": 24.0
+      }
+    },
+    "yes7": {
+      "type": "checkbox",
+      "label": "Yes7",
+      "page": 1,
+      "box": {
+        "left": 234.2,
+        "top": 256.2,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "no7": {
+      "type": "checkbox",
+      "label": "No7",
+      "page": 1,
+      "box": {
+        "left": 259.1,
+        "top": 256.2,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "na7": {
+      "type": "checkbox",
+      "label": "NA7",
+      "page": 1,
+      "box": {
+        "left": 283.7,
+        "top": 256.2,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "remarks7": {
+      "type": "text",
+      "label": "Remarks7",
+      "page": 1,
+      "box": {
+        "left": 304.3,
+        "top": 235.5,
+        "width": 252.0,
+        "height": 50.1
+      },
+      "multiline": true
+    },
+    "yes8": {
+      "type": "checkbox",
+      "label": "Yes8",
+      "page": 1,
+      "box": {
+        "left": 234.2,
+        "top": 217.6,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "no8": {
+      "type": "checkbox",
+      "label": "No8",
+      "page": 1,
+      "box": {
+        "left": 259.1,
+        "top": 217.6,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "na8": {
+      "type": "checkbox",
+      "label": "NA8",
+      "page": 1,
+      "box": {
+        "left": 283.7,
+        "top": 217.6,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "determination": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 57.0,
+        "top": 139.3,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_Determination_0"
+    },
+    "determination2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 57.3,
+        "top": 119.4,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_Determination_0"
+    },
+    "days": {
+      "type": "text",
+      "label": "days",
+      "page": 1,
+      "box": {
+        "left": 153.0,
+        "top": 114.0,
+        "width": 28.0,
+        "height": 13.6
+      }
+    },
+    "determination3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 56.8,
+        "top": 95.7,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_Determination_0"
+    }
+  }
+}

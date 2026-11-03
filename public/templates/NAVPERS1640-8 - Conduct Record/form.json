@@ -1,0 +1,91 @@
+{
+  "id": "navpers16408",
+  "label": "NAVPERS1640-8 - Conduct Record",
+  "directory": "NAVPERS1640-8 - Conduct Record",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "textField1",
+        "textField12",
+        "textField13",
+        "textField14",
+        "textField2",
+        "textField22"
+      ]
+    }
+  ],
+  "fields": {
+    "textField1": {
+      "type": "text",
+      "label": "PLEASE ENTER NAVAL CONFINEMENT FACILITY/CORRECTIONAL CUSTODY UNIT",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 649.8,
+        "width": 534.3,
+        "height": 17.0
+      }
+    },
+    "textField12": {
+      "type": "text",
+      "label": "PLEASE ENTER LAST 4 DIGITS OF SOCIAL SECURITY NUMBER",
+      "page": 1,
+      "box": {
+        "left": 478.0,
+        "top": 615.2,
+        "width": 95.1,
+        "height": 18.3
+      }
+    },
+    "textField13": {
+      "type": "text",
+      "label": "PLEASE ENTER NAME OF INDIVIDUAL RECEIVING THIS CONDUCT RECORD",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 613.8,
+        "width": 347.1,
+        "height": 17.0
+      }
+    },
+    "textField14": {
+      "type": "text",
+      "label": "ENTER RATE/GRADE",
+      "page": 1,
+      "box": {
+        "left": 391.6,
+        "top": 613.8,
+        "width": 80.7,
+        "height": 17.0
+      }
+    },
+    "textField2": {
+      "type": "text",
+      "label": "ENTER DATE OF ACTION",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 573.2,
+        "width": 95.1,
+        "height": 494.7
+      },
+      "multiline": true
+    },
+    "textField22": {
+      "type": "text",
+      "label": "ENTER DESCRIPTION OF ACTION TAKEN AND AUTHENTICATION",
+      "page": 1,
+      "box": {
+        "left": 139.6,
+        "top": 573.2,
+        "width": 433.5,
+        "height": 494.7
+      },
+      "multiline": true
+    }
+  }
+}

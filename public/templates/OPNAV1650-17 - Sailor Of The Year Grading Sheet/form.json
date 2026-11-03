@@ -1,0 +1,245 @@
+{
+  "id": "opnav165017",
+  "label": "OPNAV1650-17 - Sailor Of The Year Grading Sheet",
+  "directory": "OPNAV1650-17 - Sailor Of The Year Grading Sheet",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "brMbrSig",
+        "brMbr",
+        "slrNme",
+        "slCmd",
+        "catARmk",
+        "catAPts",
+        "catBRmk",
+        "catBPts",
+        "catCRmk",
+        "catCPts",
+        "catDRmk",
+        "catDPts",
+        "catERmk",
+        "catEPts",
+        "catFRmk",
+        "catFPts",
+        "brdMbrCmt",
+        "totPts"
+      ]
+    }
+  ],
+  "fields": {
+    "brMbrSig": {
+      "type": "text",
+      "label": "BOARD MEMBER&apos;S SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 310.2,
+        "top": 709.5,
+        "width": 260.8,
+        "height": 21.0
+      }
+    },
+    "brMbr": {
+      "type": "text",
+      "label": "BOARD MEMBER&apos;S RATE/NAME (Printed)",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 709.0,
+        "width": 263.6,
+        "height": 21.9
+      }
+    },
+    "slrNme": {
+      "type": "text",
+      "label": "SAILOR&apos;S RATE/NAME",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 671.3,
+        "width": 263.6,
+        "height": 21.9
+      }
+    },
+    "slCmd": {
+      "type": "text",
+      "label": "SAILOR&apos;S COMMAND",
+      "page": 1,
+      "box": {
+        "left": 308.7,
+        "top": 671.3,
+        "width": 263.6,
+        "height": 21.8
+      }
+    },
+    "catARmk": {
+      "type": "text",
+      "label": "leadership that inspires confidence and trust. (7 pts)",
+      "page": 1,
+      "box": {
+        "left": 349.0,
+        "top": 618.1,
+        "width": 224.1,
+        "height": 103.7
+      },
+      "multiline": true
+    },
+    "catAPts": {
+      "type": "text",
+      "label": "leadership that inspires confidence and trust. (7 pts)",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 616.7,
+        "width": 35.8,
+        "height": 100.9
+      },
+      "multiline": true
+    },
+    "catBRmk": {
+      "type": "text",
+      "label": "complex, high-stress environments. (7 pts)",
+      "page": 1,
+      "box": {
+        "left": 349.0,
+        "top": 511.5,
+        "width": 224.1,
+        "height": 112.7
+      },
+      "multiline": true
+    },
+    "catBPts": {
+      "type": "text",
+      "label": "complex, high-stress environments. (7 pts)",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 510.1,
+        "width": 35.8,
+        "height": 111.3
+      },
+      "multiline": true
+    },
+    "catCRmk": {
+      "type": "text",
+      "label": "REMARKS",
+      "page": 1,
+      "box": {
+        "left": 349.0,
+        "top": 394.5,
+        "width": 224.1,
+        "height": 122.8
+      },
+      "multiline": true
+    },
+    "catCPts": {
+      "type": "text",
+      "label": "POINTS",
+      "page": 1,
+      "box": {
+        "left": 308.6,
+        "top": 393.1,
+        "width": 35.8,
+        "height": 120.4
+      },
+      "multiline": true
+    },
+    "catDRmk": {
+      "type": "text",
+      "label": "REMARKS",
+      "page": 1,
+      "box": {
+        "left": 349.0,
+        "top": 268.5,
+        "width": 224.1,
+        "height": 41.9
+      },
+      "multiline": true
+    },
+    "catDPts": {
+      "type": "text",
+      "label": "POINTS",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 267.0,
+        "width": 35.8,
+        "height": 39.0
+      },
+      "multiline": true
+    },
+    "catERmk": {
+      "type": "text",
+      "label": "-Special programs/arduous/selective assignments. (7 pts)",
+      "page": 1,
+      "box": {
+        "left": 349.0,
+        "top": 223.8,
+        "width": 224.1,
+        "height": 33.2
+      },
+      "multiline": true
+    },
+    "catEPts": {
+      "type": "text",
+      "label": "-Normal Sea/Shore flow. (3 pts)",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 216.8,
+        "width": 35.8,
+        "height": 24.8
+      }
+    },
+    "catFRmk": {
+      "type": "text",
+      "label": "REMARKS",
+      "page": 1,
+      "box": {
+        "left": 349.0,
+        "top": 187.8,
+        "width": 224.1,
+        "height": 42.2
+      },
+      "multiline": true
+    },
+    "catFPts": {
+      "type": "text",
+      "label": "POINTS",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 186.3,
+        "width": 35.8,
+        "height": 39.3
+      },
+      "multiline": true
+    },
+    "brdMbrCmt": {
+      "type": "text",
+      "label": "BOARD MEMBER&apos;S COMMENTS",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 129.8,
+        "width": 537.2,
+        "height": 29.5
+      }
+    },
+    "totPts": {
+      "type": "text",
+      "label": "(150 Max points)",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 84.1,
+        "width": 35.8,
+        "height": 36.5
+      },
+      "multiline": true
+    }
+  }
+}

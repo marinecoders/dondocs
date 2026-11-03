@@ -1,0 +1,338 @@
+{
+  "id": "opnav5216193",
+  "label": "OPNAV5216-193 - Dns Route Sheet",
+  "directory": "OPNAV5216-193 - Dns Route Sheet",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "radio",
+        "radio2",
+        "rscmt",
+        "dCNNo",
+        "rptDte",
+        "actOff",
+        "iNTDte",
+        "dns1cmt",
+        "checkBox1",
+        "checkBox12",
+        "checkBox13",
+        "checkBox14",
+        "checkBox15",
+        "checkBox16",
+        "checkBox17",
+        "flgseccmt",
+        "rptDte2",
+        "deacmt",
+        "rptDte3",
+        "ddnscmt",
+        "rptDte4",
+        "eacmt",
+        "rptDte5",
+        "dnscom",
+        "rptDte6",
+        "cNORURptDte"
+      ]
+    }
+  ],
+  "fields": {
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 480.5,
+        "top": 747.2,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 480.5,
+        "top": 723.4,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "rscmt": {
+      "type": "text",
+      "label": "SUBJECT",
+      "page": 1,
+      "box": {
+        "left": 91.7,
+        "top": 708.2,
+        "width": 358.3,
+        "height": 52.7
+      },
+      "multiline": true
+    },
+    "dCNNo": {
+      "type": "text",
+      "label": "DCN #",
+      "page": 1,
+      "box": {
+        "left": 491.0,
+        "top": 695.4,
+        "width": 82.3,
+        "height": 17.1
+      }
+    },
+    "rptDte": {
+      "type": "text",
+      "label": "DUE DATE",
+      "page": 1,
+      "box": {
+        "left": 506.4,
+        "top": 671.9,
+        "width": 66.8,
+        "height": 14.5
+      }
+    },
+    "actOff": {
+      "type": "text",
+      "label": "ACTION OFFICER/CODE",
+      "page": 1,
+      "box": {
+        "left": 149.9,
+        "top": 650.0,
+        "width": 172.2,
+        "height": 10.6
+      }
+    },
+    "iNTDte": {
+      "type": "text",
+      "label": "DNS-1 INITIAL/DATE",
+      "page": 1,
+      "box": {
+        "left": 420.5,
+        "top": 650.0,
+        "width": 151.9,
+        "height": 10.6
+      }
+    },
+    "dns1cmt": {
+      "type": "text",
+      "label": "Comments",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 622.4,
+        "width": 411.1,
+        "height": 151.0
+      },
+      "multiline": true
+    },
+    "checkBox1": {
+      "type": "checkbox",
+      "label": "DUE",
+      "page": 1,
+      "box": {
+        "left": 458.2,
+        "top": 604.9,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "checkBox12": {
+      "type": "checkbox",
+      "label": "DUE",
+      "page": 1,
+      "box": {
+        "left": 458.2,
+        "top": 586.4,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "checkBox13": {
+      "type": "checkbox",
+      "label": "DUE",
+      "page": 1,
+      "box": {
+        "left": 458.2,
+        "top": 566.9,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "checkBox14": {
+      "type": "checkbox",
+      "label": "DUE",
+      "page": 1,
+      "box": {
+        "left": 458.2,
+        "top": 547.8,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "checkBox15": {
+      "type": "checkbox",
+      "label": "DUE",
+      "page": 1,
+      "box": {
+        "left": 458.2,
+        "top": 528.8,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "checkBox16": {
+      "type": "checkbox",
+      "label": "DUE",
+      "page": 1,
+      "box": {
+        "left": 458.2,
+        "top": 508.2,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "checkBox17": {
+      "type": "checkbox",
+      "label": "DUE",
+      "page": 1,
+      "box": {
+        "left": 458.2,
+        "top": 486.9,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "flgseccmt": {
+      "type": "text",
+      "label": "Comments",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 456.0,
+        "width": 415.3,
+        "height": 71.0
+      },
+      "multiline": true
+    },
+    "rptDte2": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 455.6,
+        "top": 413.8,
+        "width": 116.8,
+        "height": 16.7
+      }
+    },
+    "deacmt": {
+      "type": "text",
+      "label": "Comments",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 372.3,
+        "width": 415.3,
+        "height": 71.0
+      },
+      "multiline": true
+    },
+    "rptDte3": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 455.6,
+        "top": 327.7,
+        "width": 116.8,
+        "height": 16.7
+      }
+    },
+    "ddnscmt": {
+      "type": "text",
+      "label": "Comments",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 288.9,
+        "width": 415.3,
+        "height": 71.0
+      },
+      "multiline": true
+    },
+    "rptDte4": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 455.6,
+        "top": 249.1,
+        "width": 116.8,
+        "height": 16.7
+      }
+    },
+    "eacmt": {
+      "type": "text",
+      "label": "Comments",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 205.5,
+        "width": 415.3,
+        "height": 71.0
+      },
+      "multiline": true
+    },
+    "rptDte5": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 455.6,
+        "top": 163.1,
+        "width": 116.8,
+        "height": 16.7
+      }
+    },
+    "dnscom": {
+      "type": "text",
+      "label": "Comments",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 122.1,
+        "width": 415.3,
+        "height": 85.4
+      },
+      "multiline": true
+    },
+    "rptDte6": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 455.6,
+        "top": 97.9,
+        "width": 116.8,
+        "height": 14.7
+      }
+    },
+    "cNORURptDte": {
+      "type": "text",
+      "label": "DUE DATE",
+      "page": 1,
+      "box": {
+        "left": 455.6,
+        "top": 57.8,
+        "width": 116.8,
+        "height": 17.6
+      }
+    }
+  }
+}

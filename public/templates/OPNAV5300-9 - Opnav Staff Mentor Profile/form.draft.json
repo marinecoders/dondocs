@@ -1,0 +1,202 @@
+{
+  "id": "opnav53009",
+  "label": "OPNAV5300-9 - Opnav Staff Mentor Profile",
+  "directory": "OPNAV5300-9 - Opnav Staff Mentor Profile",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "dateField1",
+        "textField12",
+        "textField13",
+        "textField15",
+        "textField16",
+        "textField18",
+        "textField19",
+        "textField110",
+        "textField111",
+        "textField112",
+        "textField113",
+        "textField114",
+        "textField115"
+      ]
+    }
+  ],
+  "fields": {
+    "dateField1": {
+      "type": "text",
+      "label": "Submit Date",
+      "page": 1,
+      "box": {
+        "left": 527.2,
+        "top": 702.8,
+        "width": 65.8,
+        "height": 13.4
+      }
+    },
+    "textField12": {
+      "type": "text",
+      "label": "2. Grade/Rank",
+      "page": 1,
+      "box": {
+        "left": 284.1,
+        "top": 677.3,
+        "width": 59.6,
+        "height": 13.0
+      }
+    },
+    "textField13": {
+      "type": "text",
+      "label": "3. Position Title (Job)",
+      "page": 1,
+      "box": {
+        "left": 351.6,
+        "top": 677.3,
+        "width": 239.7,
+        "height": 13.0
+      }
+    },
+    "textField15": {
+      "type": "text",
+      "label": "5. Department/N-Code",
+      "page": 1,
+      "box": {
+        "left": 122.1,
+        "top": 650.3,
+        "width": 91.1,
+        "height": 13.0
+      }
+    },
+    "textField16": {
+      "type": "text",
+      "label": "6. Specialty Area",
+      "page": 1,
+      "box": {
+        "left": 221.1,
+        "top": 650.3,
+        "width": 370.2,
+        "height": 13.0
+      }
+    },
+    "textField18": {
+      "type": "text",
+      "label": "8. Work E-Mail",
+      "page": 1,
+      "box": {
+        "left": 158.1,
+        "top": 623.3,
+        "width": 433.2,
+        "height": 13.0
+      }
+    },
+    "textField19": {
+      "type": "text",
+      "label": "9. Education",
+      "page": 1,
+      "box": {
+        "left": 23.0,
+        "top": 596.3,
+        "width": 568.2,
+        "height": 40.0
+      },
+      "multiline": true
+    },
+    "textField110": {
+      "type": "text",
+      "label": "10. Community Activities",
+      "page": 1,
+      "box": {
+        "left": 23.0,
+        "top": 542.3,
+        "width": 568.2,
+        "height": 75.3
+      },
+      "multiline": true
+    },
+    "textField111": {
+      "type": "text",
+      "label": "11. Professional Courses Attended",
+      "page": 1,
+      "box": {
+        "left": 23.0,
+        "top": 453.0,
+        "width": 568.2,
+        "height": 75.3
+      },
+      "multiline": true
+    },
+    "textField112": {
+      "type": "text",
+      "label": "12. Greatest Strengths",
+      "page": 1,
+      "box": {
+        "left": 23.0,
+        "top": 363.7,
+        "width": 568.2,
+        "height": 75.3
+      },
+      "multiline": true
+    },
+    "textField113": {
+      "type": "text",
+      "label": "Text Field 113",
+      "page": 1,
+      "box": {
+        "left": 23.0,
+        "top": 274.4,
+        "width": 568.2,
+        "height": 75.3
+      },
+      "multiline": true
+    },
+    "textField114": {
+      "type": "text",
+      "label": "Text Field 114",
+      "page": 1,
+      "box": {
+        "left": 23.0,
+        "top": 185.1,
+        "width": 568.2,
+        "height": 78.0
+      },
+      "multiline": true
+    },
+    "textField115": {
+      "type": "text",
+      "label": "15. Additional Information",
+      "page": 1,
+      "box": {
+        "left": 23.0,
+        "top": 93.1,
+        "width": 568.2,
+        "height": 71.5
+      },
+      "multiline": true
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 27.0,
+      "editor": "grid",
+      "columns": {
+        "textField1": {
+          "type": "text",
+          "label": "1. Name (First, Middle, Last)",
+          "page": 1,
+          "box": {
+            "left": 23.0,
+            "top": 677.3,
+            "width": 253.2,
+            "height": 13.0
+          }
+        }
+      }
+    }
+  }
+}

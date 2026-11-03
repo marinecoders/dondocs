@@ -1,0 +1,768 @@
+{
+  "id": "opnav4790187",
+  "label": "OPNAV4790-187 - Water Brake And Piston Assy Data",
+  "directory": "OPNAV4790-187 - Water Brake And Piston Assy Data",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "dateTimeField1",
+        "catapult",
+        "jsn",
+        "pms",
+        "shotno",
+        "shotssince",
+        "fbr1",
+        "fbm1",
+        "fbl1",
+        "fbr2",
+        "fbm2",
+        "fbl2",
+        "fbr3",
+        "fbm3",
+        "fbl3",
+        "fbr4",
+        "fbm4",
+        "fbl4",
+        "fbr5",
+        "fbm5",
+        "fbl5",
+        "fbr6",
+        "fbm6",
+        "fbl6",
+        "port",
+        "stbd",
+        "pORTng",
+        "sTBDng",
+        "horizontal",
+        "horizontal2",
+        "chokeringid",
+        "vert",
+        "vert2",
+        "sum",
+        "sum2",
+        "maintman",
+        "aglpocpo",
+        "qainspector",
+        "maintcpo"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "dateTimeField12",
+        "catapult2",
+        "jsn2",
+        "pms2",
+        "shotno2",
+        "shotssince2",
+        "port2",
+        "stbd2",
+        "p17o",
+        "s17o",
+        "p115o",
+        "s115o",
+        "port6",
+        "port11",
+        "port1o",
+        "stbd6",
+        "stbd1",
+        "stbd1o",
+        "remarks",
+        "maintman2",
+        "aglpocpo2",
+        "qainspector2",
+        "maintcpo2"
+      ]
+    }
+  ],
+  "fields": {
+    "dateTimeField1": {
+      "type": "text",
+      "label": "ENTER DATE.",
+      "page": 1,
+      "box": {
+        "left": 473.2,
+        "top": 735.2,
+        "width": 91.0,
+        "height": 12.3
+      }
+    },
+    "catapult": {
+      "type": "text",
+      "label": "ENTER CATAPULT NUMBER.",
+      "page": 1,
+      "box": {
+        "left": 108.2,
+        "top": 726.2,
+        "width": 78.0,
+        "height": 12.3
+      }
+    },
+    "jsn": {
+      "type": "text",
+      "label": "ENTER JSN.",
+      "page": 1,
+      "box": {
+        "left": 273.3,
+        "top": 717.2,
+        "width": 65.9,
+        "height": 12.3
+      }
+    },
+    "pms": {
+      "type": "text",
+      "label": "ENTER PMS BEING PERFORMED.",
+      "page": 1,
+      "box": {
+        "left": 480.1,
+        "top": 717.2,
+        "width": 84.0,
+        "height": 12.3
+      }
+    },
+    "shotno": {
+      "type": "text",
+      "label": "ENTER SHOT NUMBER.",
+      "page": 1,
+      "box": {
+        "left": 86.8,
+        "top": 699.2,
+        "width": 99.4,
+        "height": 12.3
+      }
+    },
+    "shotssince": {
+      "type": "text",
+      "label": "ENTER SHOTS SINCE LAST INSPECTION.",
+      "page": 1,
+      "box": {
+        "left": 501.1,
+        "top": 699.2,
+        "width": 63.1,
+        "height": 12.3
+      }
+    },
+    "fbr1": {
+      "type": "text",
+      "label": "ENTER FOOTPAD CLEARANCES.",
+      "page": 1,
+      "box": {
+        "left": 70.3,
+        "top": 622.7,
+        "width": 34.8,
+        "height": 12.3
+      }
+    },
+    "fbm1": {
+      "type": "text",
+      "label": "ENTER FOOTPAD CLEARANCES.",
+      "page": 1,
+      "box": {
+        "left": 110.8,
+        "top": 622.7,
+        "width": 34.8,
+        "height": 12.3
+      }
+    },
+    "fbl1": {
+      "type": "text",
+      "label": "ENTER FOOTPAD CLEARANCES.",
+      "page": 1,
+      "box": {
+        "left": 151.3,
+        "top": 622.7,
+        "width": 34.8,
+        "height": 12.3
+      }
+    },
+    "fbr2": {
+      "type": "text",
+      "label": "ENTER FOOTPAD CLEARANCES.",
+      "page": 1,
+      "box": {
+        "left": 241.3,
+        "top": 622.7,
+        "width": 34.8,
+        "height": 12.3
+      }
+    },
+    "fbm2": {
+      "type": "text",
+      "label": "ENTER FOOTPAD CLEARANCES.",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 622.7,
+        "width": 34.8,
+        "height": 12.3
+      }
+    },
+    "fbl2": {
+      "type": "text",
+      "label": "ENTER FOOTPAD CLEARANCES.",
+      "page": 1,
+      "box": {
+        "left": 322.3,
+        "top": 622.7,
+        "width": 34.8,
+        "height": 12.3
+      }
+    },
+    "fbr3": {
+      "type": "text",
+      "label": "ENTER FOOTPAD CLEARANCES.",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 622.7,
+        "width": 34.8,
+        "height": 12.3
+      }
+    },
+    "fbm3": {
+      "type": "text",
+      "label": "ENTER FOOTPAD CLEARANCES.",
+      "page": 1,
+      "box": {
+        "left": 457.3,
+        "top": 622.7,
+        "width": 34.8,
+        "height": 12.3
+      }
+    },
+    "fbl3": {
+      "type": "text",
+      "label": "ENTER FOOTPAD CLEARANCES.",
+      "page": 1,
+      "box": {
+        "left": 497.8,
+        "top": 622.7,
+        "width": 34.8,
+        "height": 12.3
+      }
+    },
+    "fbr4": {
+      "type": "text",
+      "label": "ENTER FOOTPAD CLEARANCES.",
+      "page": 1,
+      "box": {
+        "left": 70.3,
+        "top": 577.7,
+        "width": 34.8,
+        "height": 12.3
+      }
+    },
+    "fbm4": {
+      "type": "text",
+      "label": "ENTER FOOTPAD CLEARANCES.",
+      "page": 1,
+      "box": {
+        "left": 110.8,
+        "top": 577.7,
+        "width": 34.8,
+        "height": 12.3
+      }
+    },
+    "fbl4": {
+      "type": "text",
+      "label": "ENTER FOOTPAD CLEARANCES.",
+      "page": 1,
+      "box": {
+        "left": 151.3,
+        "top": 577.7,
+        "width": 34.8,
+        "height": 12.3
+      }
+    },
+    "fbr5": {
+      "type": "text",
+      "label": "ENTER FOOTPAD CLEARANCES.",
+      "page": 1,
+      "box": {
+        "left": 241.3,
+        "top": 577.7,
+        "width": 34.8,
+        "height": 12.3
+      }
+    },
+    "fbm5": {
+      "type": "text",
+      "label": "ENTER FOOTPAD CLEARANCES.",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 577.7,
+        "width": 34.8,
+        "height": 12.3
+      }
+    },
+    "fbl5": {
+      "type": "text",
+      "label": "ENTER FOOTPAD CLEARANCES.",
+      "page": 1,
+      "box": {
+        "left": 322.3,
+        "top": 577.7,
+        "width": 34.8,
+        "height": 12.3
+      }
+    },
+    "fbr6": {
+      "type": "text",
+      "label": "ENTER FOOTPAD CLEARANCES.",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 577.7,
+        "width": 34.8,
+        "height": 12.3
+      }
+    },
+    "fbm6": {
+      "type": "text",
+      "label": "ENTER FOOTPAD CLEARANCES.",
+      "page": 1,
+      "box": {
+        "left": 457.3,
+        "top": 577.7,
+        "width": 34.8,
+        "height": 12.3
+      }
+    },
+    "fbl6": {
+      "type": "text",
+      "label": "ENTER FOOTPAD CLEARANCES.",
+      "page": 1,
+      "box": {
+        "left": 497.8,
+        "top": 577.7,
+        "width": 34.8,
+        "height": 12.3
+      }
+    },
+    "port": {
+      "type": "text",
+      "label": "ENTER PORT CHOKE TO ANULUS GAP.",
+      "page": 1,
+      "box": {
+        "left": 84.1,
+        "top": 487.7,
+        "width": 48.1,
+        "height": 12.3
+      }
+    },
+    "stbd": {
+      "type": "text",
+      "label": "ENTER STBD CHOKE TO ANULUS GAP.",
+      "page": 1,
+      "box": {
+        "left": 165.1,
+        "top": 487.7,
+        "width": 48.1,
+        "height": 12.3
+      }
+    },
+    "pORTng": {
+      "type": "text",
+      "label": "ENTER PORT NO-GO GAGE.",
+      "page": 1,
+      "box": {
+        "left": 408.1,
+        "top": 487.7,
+        "width": 61.6,
+        "height": 12.3
+      }
+    },
+    "sTBDng": {
+      "type": "text",
+      "label": "ENTER STBD NO-GO GAGE.",
+      "page": 1,
+      "box": {
+        "left": 502.6,
+        "top": 487.7,
+        "width": 57.1,
+        "height": 12.3
+      }
+    },
+    "horizontal": {
+      "type": "text",
+      "label": "ENTER PORT HORIZONTAL.",
+      "page": 1,
+      "box": {
+        "left": 361.0,
+        "top": 447.2,
+        "width": 63.7,
+        "height": 12.3
+      }
+    },
+    "horizontal2": {
+      "type": "text",
+      "label": "ENTER STBD HORIZONTAL.",
+      "page": 1,
+      "box": {
+        "left": 452.8,
+        "top": 447.2,
+        "width": 66.3,
+        "height": 12.3
+      }
+    },
+    "chokeringid": {
+      "type": "text",
+      "label": "ENTER CHOKE RING ID.",
+      "page": 1,
+      "box": {
+        "left": 56.8,
+        "top": 442.7,
+        "width": 160.8,
+        "height": 12.3
+      }
+    },
+    "vert": {
+      "type": "text",
+      "label": "ENTER PORT VERTICAL.",
+      "page": 1,
+      "box": {
+        "left": 361.0,
+        "top": 424.7,
+        "width": 63.7,
+        "height": 12.3
+      }
+    },
+    "vert2": {
+      "type": "text",
+      "label": "ENTER STBD VERTICAL.",
+      "page": 1,
+      "box": {
+        "left": 452.8,
+        "top": 424.7,
+        "width": 66.3,
+        "height": 12.3
+      }
+    },
+    "sum": {
+      "type": "text",
+      "label": "ENTER PORT SUM.",
+      "page": 1,
+      "box": {
+        "left": 361.0,
+        "top": 402.2,
+        "width": 63.7,
+        "height": 12.3
+      }
+    },
+    "sum2": {
+      "type": "text",
+      "label": "ENTER STBD SUM.",
+      "page": 1,
+      "box": {
+        "left": 452.8,
+        "top": 402.2,
+        "width": 66.3,
+        "height": 12.3
+      }
+    },
+    "maintman": {
+      "type": "text",
+      "label": "ENTER MAINT. MAN.",
+      "page": 1,
+      "box": {
+        "left": 96.5,
+        "top": 177.2,
+        "width": 161.7,
+        "height": 12.3
+      }
+    },
+    "aglpocpo": {
+      "type": "text",
+      "label": "ENTER W/C SUPERVISOR.",
+      "page": 1,
+      "box": {
+        "left": 426.0,
+        "top": 177.2,
+        "width": 129.1,
+        "height": 12.3
+      }
+    },
+    "qainspector": {
+      "type": "text",
+      "label": "ENTER QA INSPECTOR.",
+      "page": 1,
+      "box": {
+        "left": 115.7,
+        "top": 141.2,
+        "width": 142.4,
+        "height": 12.3
+      }
+    },
+    "maintcpo": {
+      "type": "text",
+      "label": "ENTER MAINT. CHIEF/OFFICER.",
+      "page": 1,
+      "box": {
+        "left": 446.5,
+        "top": 141.2,
+        "width": 108.6,
+        "height": 12.3
+      }
+    },
+    "dateTimeField12": {
+      "type": "text",
+      "label": "ENTER DATE.",
+      "page": 2,
+      "box": {
+        "left": 473.2,
+        "top": 735.2,
+        "width": 91.0,
+        "height": 12.3
+      }
+    },
+    "catapult2": {
+      "type": "text",
+      "label": "ENTER CATAPULT NUMBER.",
+      "page": 2,
+      "box": {
+        "left": 108.2,
+        "top": 726.2,
+        "width": 78.0,
+        "height": 12.3
+      }
+    },
+    "jsn2": {
+      "type": "text",
+      "label": "ENTER JSN.",
+      "page": 2,
+      "box": {
+        "left": 273.3,
+        "top": 717.2,
+        "width": 65.9,
+        "height": 12.3
+      }
+    },
+    "pms2": {
+      "type": "text",
+      "label": "ENTER PMS BEING PERFORMED.",
+      "page": 2,
+      "box": {
+        "left": 480.1,
+        "top": 717.2,
+        "width": 84.0,
+        "height": 12.3
+      }
+    },
+    "shotno2": {
+      "type": "text",
+      "label": "ENTER SHOT NUMBER.",
+      "page": 2,
+      "box": {
+        "left": 86.8,
+        "top": 699.2,
+        "width": 99.4,
+        "height": 12.3
+      }
+    },
+    "shotssince2": {
+      "type": "text",
+      "label": "ENTER SHOTS SINCE LAST INSPECTION.",
+      "page": 2,
+      "box": {
+        "left": 501.1,
+        "top": 699.2,
+        "width": 63.1,
+        "height": 12.3
+      }
+    },
+    "port2": {
+      "type": "text",
+      "label": "ENTER PORT DEFLECTOR RING TO STRIKER RING CLEARANCE.",
+      "page": 2,
+      "box": {
+        "left": 106.6,
+        "top": 438.2,
+        "width": 48.1,
+        "height": 12.3
+      }
+    },
+    "stbd2": {
+      "type": "text",
+      "label": "ENTER STBD DEFLECTOR RING TO STRIKER RING CLEARANCE.",
+      "page": 2,
+      "box": {
+        "left": 480.1,
+        "top": 438.2,
+        "width": 48.1,
+        "height": 12.3
+      }
+    },
+    "p17o": {
+      "type": "text",
+      "label": "ENTER PISTON DIAMETER.",
+      "page": 2,
+      "box": {
+        "left": 102.2,
+        "top": 375.2,
+        "width": 115.5,
+        "height": 12.3
+      }
+    },
+    "s17o": {
+      "type": "text",
+      "label": "ENTER PISTON DIAMETER.",
+      "page": 2,
+      "box": {
+        "left": 426.2,
+        "top": 375.2,
+        "width": 115.5,
+        "height": 12.3
+      }
+    },
+    "p115o": {
+      "type": "text",
+      "label": "ENTER PISTON DIAMETER.",
+      "page": 2,
+      "box": {
+        "left": 102.2,
+        "top": 357.2,
+        "width": 115.5,
+        "height": 12.3
+      }
+    },
+    "s115o": {
+      "type": "text",
+      "label": "ENTER PISTON DIAMETER.",
+      "page": 2,
+      "box": {
+        "left": 426.2,
+        "top": 357.2,
+        "width": 115.5,
+        "height": 12.3
+      }
+    },
+    "port6": {
+      "type": "text",
+      "label": "ENTER PISTON GUIDE WEAR.",
+      "page": 2,
+      "box": {
+        "left": 142.6,
+        "top": 280.7,
+        "width": 48.1,
+        "height": 12.3
+      }
+    },
+    "port11": {
+      "type": "text",
+      "label": "ENTER PISTON GUIDE WEAR.",
+      "page": 2,
+      "box": {
+        "left": 268.3,
+        "top": 280.7,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "port1o": {
+      "type": "text",
+      "label": "ENTER PISTON GUIDE WEAR.",
+      "page": 2,
+      "box": {
+        "left": 403.3,
+        "top": 280.7,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "stbd6": {
+      "type": "text",
+      "label": "ENTER PISTON GUIDE WEAR.",
+      "page": 2,
+      "box": {
+        "left": 142.6,
+        "top": 258.2,
+        "width": 48.1,
+        "height": 12.3
+      }
+    },
+    "stbd1": {
+      "type": "text",
+      "label": "ENTER PISTON GUIDE WEAR.",
+      "page": 2,
+      "box": {
+        "left": 268.3,
+        "top": 258.2,
+        "width": 48.1,
+        "height": 12.3
+      }
+    },
+    "stbd1o": {
+      "type": "text",
+      "label": "ENTER PISTON GUIDE WEAR.",
+      "page": 2,
+      "box": {
+        "left": 403.3,
+        "top": 258.2,
+        "width": 48.1,
+        "height": 12.3
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "ENTER REMARKS.",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 190.7,
+        "width": 534.3,
+        "height": 39.3
+      },
+      "multiline": true
+    },
+    "maintman2": {
+      "type": "text",
+      "label": "ENTER MAINT. MAN.",
+      "page": 2,
+      "box": {
+        "left": 96.5,
+        "top": 136.7,
+        "width": 161.7,
+        "height": 12.3
+      }
+    },
+    "aglpocpo2": {
+      "type": "text",
+      "label": "ENTER W/C SUPERVISOR",
+      "page": 2,
+      "box": {
+        "left": 424.6,
+        "top": 136.7,
+        "width": 130.6,
+        "height": 12.3
+      }
+    },
+    "qainspector2": {
+      "type": "text",
+      "label": "ENTER QA INSPECTOR.",
+      "page": 2,
+      "box": {
+        "left": 115.7,
+        "top": 100.7,
+        "width": 142.4,
+        "height": 12.3
+      }
+    },
+    "maintcpo2": {
+      "type": "text",
+      "label": "ENTER MAINT. CHIEF/OFFICER.",
+      "page": 2,
+      "box": {
+        "left": 446.5,
+        "top": 100.7,
+        "width": 108.6,
+        "height": 12.3
+      }
+    }
+  }
+}

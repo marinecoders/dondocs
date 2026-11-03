@@ -1,0 +1,249 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "yesNo1": {
+        "left": 443.8,
+        "top": 648.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[0].Yes_No1[0]",
+        "required": false
+      },
+      "yesNo12": {
+        "left": 506.8,
+        "top": 648.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[0].Yes_No1[0]",
+        "required": false
+      },
+      "yesNo2": {
+        "left": 443.8,
+        "top": 585.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[0].Yes_no2[0]",
+        "required": false
+      },
+      "yesNo22": {
+        "left": 506.8,
+        "top": 585.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[0].Yes_no2[0]",
+        "required": false
+      },
+      "yesNo3": {
+        "left": 443.8,
+        "top": 522.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[0].Yes_no3[0]",
+        "required": false
+      },
+      "yesNo32": {
+        "left": 506.8,
+        "top": 522.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[0].Yes_no3[0]",
+        "required": false
+      },
+      "yesNo4": {
+        "left": 443.8,
+        "top": 459.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[0].Yes_no4[0]",
+        "required": false
+      },
+      "yesNo42": {
+        "left": 506.8,
+        "top": 459.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[0].Yes_no4[0]",
+        "required": false
+      },
+      "yesNo5": {
+        "left": 443.8,
+        "top": 396.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[0].Yes_no5[0]",
+        "required": false
+      },
+      "yesNo52": {
+        "left": 506.8,
+        "top": 396.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[0].Yes_no5[0]",
+        "required": false
+      },
+      "yesNo6": {
+        "left": 443.8,
+        "top": 333.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[0].Yes_no6[0]",
+        "required": false
+      },
+      "yesNo62": {
+        "left": 506.8,
+        "top": 333.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[0].Yes_no6[0]",
+        "required": false
+      },
+      "signatureField1": {
+        "left": 158.2,
+        "top": 285.2,
+        "width": 289.0,
+        "height": 21.3,
+        "type": "signature",
+        "description": "EMPLOYEE'S SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date1": {
+        "left": 481.2,
+        "top": 285.2,
+        "width": 83.0,
+        "height": 21.3,
+        "type": "text",
+        "description": "DATE:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name1": {
+        "left": 73.8,
+        "top": 258.2,
+        "width": 310.4,
+        "height": 30.3,
+        "type": "text",
+        "description": "NAME:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "component": {
+        "left": 452.5,
+        "top": 258.2,
+        "width": 111.7,
+        "height": 30.3,
+        "type": "text",
+        "description": "COMPONENT:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name12": {
+        "left": 121.3,
+        "top": 222.2,
+        "width": 442.9,
+        "height": 30.3,
+        "type": "text",
+        "description": "POSITION:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "address": {
+        "left": 93.6,
+        "top": 186.2,
+        "width": 470.6,
+        "height": 30.3,
+        "type": "text",
+        "description": "ADDRESS:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "location": {
+        "left": 205.0,
+        "top": 150.2,
+        "width": 359.1,
+        "height": 39.3,
+        "type": "text",
+        "description": "LOCATION OF DESIGNATED HOME OFFICE OR WORK AREA:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "homePhone": {
+        "left": 109.7,
+        "top": 105.2,
+        "width": 166.5,
+        "height": 21.3,
+        "type": "text",
+        "description": "HOME TELEPHONE:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "supervisor": {
+        "left": 143.0,
+        "top": 78.2,
+        "width": 421.1,
+        "height": 21.3,
+        "type": "text",
+        "description": "SUPERVISOR'S NAME:",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

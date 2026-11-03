@@ -1,0 +1,606 @@
+{
+  "id": "navmc11297",
+  "label": "NAVMC11297 - USMC Fitness Report Standard Addendum Page",
+  "directory": "NAVMC11297 - USMC Fitness Report Standard Addendum Page",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "lName",
+        "fName",
+        "mi",
+        "ssn",
+        "grade",
+        "occ",
+        "periodFrom",
+        "periodTo",
+        "ocfrSight",
+        "ro",
+        "justA",
+        "just",
+        "mROState",
+        "sectionI",
+        "adminReview",
+        "suppMat",
+        "hQMCUse",
+        "text",
+        "lNameA",
+        "mIa",
+        "fNameA",
+        "sSNa",
+        "service",
+        "gradeA",
+        "dayA",
+        "monthB",
+        "yearB",
+        "yearC",
+        "dayB",
+        "yearD",
+        "yearA",
+        "monthA",
+        "lNameB",
+        "fNameB",
+        "mIb",
+        "sSNb",
+        "serviceB",
+        "gradeB",
+        "yearG",
+        "yearH",
+        "dayC",
+        "dayD",
+        "monthC",
+        "yearE",
+        "monthD",
+        "yearF",
+        "gOTitle",
+        "pageA",
+        "pageB"
+      ]
+    }
+  ],
+  "fields": {
+    "lName": {
+      "type": "text",
+      "label": "Last Name",
+      "page": 1,
+      "box": {
+        "left": 30.5,
+        "top": 701.3,
+        "width": 150.5,
+        "height": 17.0
+      }
+    },
+    "fName": {
+      "type": "text",
+      "label": "First Name",
+      "page": 1,
+      "box": {
+        "left": 184.3,
+        "top": 699.8,
+        "width": 84.6,
+        "height": 15.3
+      }
+    },
+    "mi": {
+      "type": "text",
+      "label": "Middle Initial",
+      "page": 1,
+      "box": {
+        "left": 270.6,
+        "top": 699.8,
+        "width": 17.8,
+        "height": 15.3
+      }
+    },
+    "ssn": {
+      "type": "text",
+      "label": "Enter numbers only",
+      "page": 1,
+      "box": {
+        "left": 290.8,
+        "top": 699.3,
+        "width": 74.1,
+        "height": 15.3
+      }
+    },
+    "grade": {
+      "type": "text",
+      "label": "Grade",
+      "page": 1,
+      "box": {
+        "left": 368.0,
+        "top": 698.8,
+        "width": 56.9,
+        "height": 14.9
+      }
+    },
+    "occ": {
+      "type": "text",
+      "label": "OCC",
+      "page": 1,
+      "box": {
+        "left": 427.3,
+        "top": 698.8,
+        "width": 27.6,
+        "height": 14.9
+      }
+    },
+    "periodFrom": {
+      "type": "text",
+      "label": "Enter YYYYMMDD",
+      "page": 1,
+      "box": {
+        "left": 456.6,
+        "top": 698.8,
+        "width": 65.9,
+        "height": 14.4
+      }
+    },
+    "periodTo": {
+      "type": "text",
+      "label": "Enter YYYYMMDD",
+      "page": 1,
+      "box": {
+        "left": 524.1,
+        "top": 698.8,
+        "width": 64.7,
+        "height": 14.4
+      }
+    },
+    "ocfrSight": {
+      "type": "text",
+      "label": "OcfrSight",
+      "page": 1,
+      "box": {
+        "left": 367.1,
+        "top": 643.1,
+        "width": 10.9,
+        "height": 14.3
+      }
+    },
+    "ro": {
+      "type": "text",
+      "label": "RO",
+      "page": 1,
+      "box": {
+        "left": 137.2,
+        "top": 642.9,
+        "width": 10.9,
+        "height": 14.3
+      }
+    },
+    "justA": {
+      "type": "text",
+      "label": "JustA",
+      "page": 1,
+      "box": {
+        "left": 206.4,
+        "top": 642.8,
+        "width": 10.9,
+        "height": 14.3
+      }
+    },
+    "just": {
+      "type": "text",
+      "label": "Just",
+      "page": 1,
+      "box": {
+        "left": 51.4,
+        "top": 642.7,
+        "width": 10.9,
+        "height": 14.3
+      }
+    },
+    "mROState": {
+      "type": "text",
+      "label": "MROState",
+      "page": 1,
+      "box": {
+        "left": 303.8,
+        "top": 642.7,
+        "width": 10.9,
+        "height": 14.3
+      }
+    },
+    "sectionI": {
+      "type": "text",
+      "label": "SectionI",
+      "page": 1,
+      "box": {
+        "left": 104.0,
+        "top": 642.5,
+        "width": 10.9,
+        "height": 14.3
+      }
+    },
+    "adminReview": {
+      "type": "text",
+      "label": "AdminReview",
+      "page": 1,
+      "box": {
+        "left": 434.5,
+        "top": 642.5,
+        "width": 10.9,
+        "height": 12.9
+      }
+    },
+    "suppMat": {
+      "type": "text",
+      "label": "SuppMat",
+      "page": 1,
+      "box": {
+        "left": 496.4,
+        "top": 642.5,
+        "width": 10.9,
+        "height": 14.3
+      }
+    },
+    "hQMCUse": {
+      "type": "text",
+      "label": "HQMCUse",
+      "page": 1,
+      "box": {
+        "left": 559.2,
+        "top": 642.4,
+        "width": 10.9,
+        "height": 14.3
+      }
+    },
+    "text": {
+      "type": "text",
+      "label": "Text",
+      "page": 1,
+      "box": {
+        "left": 31.3,
+        "top": 612.5,
+        "width": 554.0,
+        "height": 378.2
+      },
+      "multiline": true
+    },
+    "lNameA": {
+      "type": "text",
+      "label": "LNameA",
+      "page": 1,
+      "box": {
+        "left": 30.0,
+        "top": 208.0,
+        "width": 167.3,
+        "height": 17.9
+      }
+    },
+    "mIa": {
+      "type": "text",
+      "label": "MIa",
+      "page": 1,
+      "box": {
+        "left": 325.6,
+        "top": 206.6,
+        "width": 25.4,
+        "height": 17.5
+      }
+    },
+    "fNameA": {
+      "type": "text",
+      "label": "FNameA",
+      "page": 1,
+      "box": {
+        "left": 201.0,
+        "top": 205.7,
+        "width": 121.8,
+        "height": 16.1
+      }
+    },
+    "sSNa": {
+      "type": "text",
+      "label": "Enter numbers only",
+      "page": 1,
+      "box": {
+        "left": 355.1,
+        "top": 205.7,
+        "width": 93.2,
+        "height": 16.1
+      }
+    },
+    "service": {
+      "type": "text",
+      "label": "Service",
+      "page": 1,
+      "box": {
+        "left": 451.1,
+        "top": 205.3,
+        "width": 59.1,
+        "height": 15.6
+      }
+    },
+    "gradeA": {
+      "type": "text",
+      "label": "GradeA",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 205.3,
+        "width": 70.0,
+        "height": 15.6
+      }
+    },
+    "dayA": {
+      "type": "text",
+      "label": "DayA",
+      "page": 1,
+      "box": {
+        "left": 532.0,
+        "top": 180.1,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "monthB": {
+      "type": "text",
+      "label": "MonthB",
+      "page": 1,
+      "box": {
+        "left": 511.0,
+        "top": 179.8,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "yearB": {
+      "type": "text",
+      "label": "YearB",
+      "page": 1,
+      "box": {
+        "left": 444.7,
+        "top": 179.7,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "yearC": {
+      "type": "text",
+      "label": "YearC",
+      "page": 1,
+      "box": {
+        "left": 458.9,
+        "top": 179.6,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "dayB": {
+      "type": "text",
+      "label": "DayB",
+      "page": 1,
+      "box": {
+        "left": 548.5,
+        "top": 179.6,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "yearD": {
+      "type": "text",
+      "label": "YearD",
+      "page": 1,
+      "box": {
+        "left": 474.0,
+        "top": 179.5,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "yearA": {
+      "type": "text",
+      "label": "YearA",
+      "page": 1,
+      "box": {
+        "left": 430.2,
+        "top": 179.4,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "monthA": {
+      "type": "text",
+      "label": "MonthA",
+      "page": 1,
+      "box": {
+        "left": 495.5,
+        "top": 179.4,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "lNameB": {
+      "type": "text",
+      "label": "LNameB",
+      "page": 1,
+      "box": {
+        "left": 29.1,
+        "top": 115.2,
+        "width": 165.5,
+        "height": 15.2
+      }
+    },
+    "fNameB": {
+      "type": "text",
+      "label": "b. First Name",
+      "page": 1,
+      "box": {
+        "left": 200.0,
+        "top": 115.1,
+        "width": 123.6,
+        "height": 15.2
+      }
+    },
+    "mIb": {
+      "type": "text",
+      "label": "MIb",
+      "page": 1,
+      "box": {
+        "left": 325.3,
+        "top": 114.6,
+        "width": 27.6,
+        "height": 14.3
+      }
+    },
+    "sSNb": {
+      "type": "text",
+      "label": "Enter numbers only",
+      "page": 1,
+      "box": {
+        "left": 353.9,
+        "top": 114.6,
+        "width": 95.2,
+        "height": 14.3
+      }
+    },
+    "serviceB": {
+      "type": "text",
+      "label": "ServiceB",
+      "page": 1,
+      "box": {
+        "left": 451.3,
+        "top": 113.7,
+        "width": 59.8,
+        "height": 12.9
+      }
+    },
+    "gradeB": {
+      "type": "text",
+      "label": "4. Grade",
+      "page": 1,
+      "box": {
+        "left": 513.9,
+        "top": 113.7,
+        "width": 71.8,
+        "height": 13.4
+      }
+    },
+    "yearG": {
+      "type": "text",
+      "label": "YearG",
+      "page": 1,
+      "box": {
+        "left": 459.2,
+        "top": 90.2,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "yearH": {
+      "type": "text",
+      "label": "YearH",
+      "page": 1,
+      "box": {
+        "left": 473.7,
+        "top": 90.2,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "dayC": {
+      "type": "text",
+      "label": "DayC",
+      "page": 1,
+      "box": {
+        "left": 531.6,
+        "top": 90.1,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "dayD": {
+      "type": "text",
+      "label": "DayD",
+      "page": 1,
+      "box": {
+        "left": 547.1,
+        "top": 90.0,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "monthC": {
+      "type": "text",
+      "label": "MonthC",
+      "page": 1,
+      "box": {
+        "left": 495.7,
+        "top": 89.6,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "yearE": {
+      "type": "text",
+      "label": "YearE",
+      "page": 1,
+      "box": {
+        "left": 430.3,
+        "top": 89.5,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "monthD": {
+      "type": "text",
+      "label": "MonthD",
+      "page": 1,
+      "box": {
+        "left": 510.2,
+        "top": 89.5,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "yearF": {
+      "type": "text",
+      "label": "YearF",
+      "page": 1,
+      "box": {
+        "left": 445.4,
+        "top": 89.4,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "gOTitle": {
+      "type": "text",
+      "label": "GOTitle",
+      "page": 1,
+      "box": {
+        "left": 28.7,
+        "top": 84.3,
+        "width": 157.3,
+        "height": 18.4
+      }
+    },
+    "pageA": {
+      "type": "text",
+      "label": "PageA",
+      "page": 1,
+      "box": {
+        "left": 534.0,
+        "top": 48.1,
+        "width": 14.5,
+        "height": 13.8
+      }
+    },
+    "pageB": {
+      "type": "text",
+      "label": "PageB",
+      "page": 1,
+      "box": {
+        "left": 566.3,
+        "top": 48.0,
+        "width": 15.4,
+        "height": 12.9
+      }
+    }
+  }
+}

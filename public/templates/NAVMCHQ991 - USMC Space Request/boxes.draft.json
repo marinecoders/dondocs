@@ -1,0 +1,293 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "dateTimeField1": {
+        "left": 510.3,
+        "top": 717.2,
+        "width": 62.9,
+        "height": 18.9,
+        "type": "text",
+        "description": "Date of Request",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField2": {
+        "left": 121.3,
+        "top": 665.2,
+        "width": 302.0,
+        "height": 20.2,
+        "type": "text",
+        "description": "Agency Information",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField22": {
+        "left": 93.1,
+        "top": 643.0,
+        "width": 330.2,
+        "height": 20.2,
+        "type": "text",
+        "description": "Department/Agency",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField23": {
+        "left": 93.1,
+        "top": 621.4,
+        "width": 330.2,
+        "height": 20.2,
+        "type": "text",
+        "description": "Department/Agency",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField24": {
+        "left": 103.9,
+        "top": 599.8,
+        "width": 319.4,
+        "height": 20.2,
+        "type": "text",
+        "description": "Department/Agency",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField25": {
+        "left": 135.9,
+        "top": 578.2,
+        "width": 35.1,
+        "height": 20.7,
+        "type": "text",
+        "description": "Agency Information",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField26": {
+        "left": 177.9,
+        "top": 578.2,
+        "width": 141.6,
+        "height": 20.7,
+        "type": "text",
+        "description": "Information",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField27": {
+        "left": 326.9,
+        "top": 578.2,
+        "width": 64.7,
+        "height": 20.7,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField28": {
+        "left": 401.5,
+        "top": 578.2,
+        "width": 163.3,
+        "height": 20.7,
+        "type": "text",
+        "description": "Date of Request",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField29": {
+        "left": 125.7,
+        "top": 549.0,
+        "width": 40.9,
+        "height": 20.7,
+        "type": "text",
+        "description": "Rank/Grade",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField210": {
+        "left": 401.5,
+        "top": 549.0,
+        "width": 165.3,
+        "height": 20.7,
+        "type": "text",
+        "description": "E-mail",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField211": {
+        "left": 171.7,
+        "top": 548.9,
+        "width": 147.8,
+        "height": 20.7,
+        "type": "text",
+        "description": "Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField212": {
+        "left": 326.9,
+        "top": 548.9,
+        "width": 64.7,
+        "height": 20.7,
+        "type": "text",
+        "description": "Phone Number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField8": {
+        "left": 469.5,
+        "top": 480.0,
+        "width": 80.2,
+        "height": 17.6,
+        "type": "text",
+        "description": "Dates",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateTimeField12": {
+        "left": 387.2,
+        "top": 478.6,
+        "width": 60.0,
+        "height": 16.1,
+        "type": "text",
+        "description": "Dates",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio": {
+        "left": 198.1,
+        "top": 475.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio2": {
+        "left": 263.4,
+        "top": 475.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "dateTimeField2": {
+        "left": 123.6,
+        "top": 445.5,
+        "width": 61.0,
+        "height": 14.4,
+        "type": "text",
+        "description": "Date Space Required",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField213": {
+        "left": 299.4,
+        "top": 445.5,
+        "width": 254.2,
+        "height": 14.4,
+        "type": "text",
+        "description": "Classification of Space",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "civilian": {
+        "left": 212.3,
+        "top": 420.0,
+        "width": 27.8,
+        "height": 16.6,
+        "type": "text",
+        "description": "Number of Personnel",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "numofPersTOTAL": {
+        "left": 123.6,
+        "top": 419.9,
+        "width": 43.3,
+        "height": 16.6,
+        "type": "text",
+        "description": "Number of Personnel",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "military": {
+        "left": 176.6,
+        "top": 419.9,
+        "width": 27.8,
+        "height": 16.6,
+        "type": "text",
+        "description": "Number of Personnel",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "contractor": {
+        "left": 251.3,
+        "top": 419.9,
+        "width": 27.8,
+        "height": 16.6,
+        "type": "text",
+        "description": "Number of Personnel",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField214": {
+        "left": 43.2,
+        "top": 379.9,
+        "width": 525.6,
+        "height": 120.6,
+        "type": "text",
+        "description": "Total Military Civilian Contractors",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField215": {
+        "left": 43.7,
+        "top": 235.9,
+        "width": 525.6,
+        "height": 125.1,
+        "type": "text",
+        "description": "Space Request Justification",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

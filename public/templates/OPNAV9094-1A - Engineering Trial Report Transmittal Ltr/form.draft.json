@@ -1,0 +1,449 @@
+{
+  "id": "opnav90941a",
+  "label": "OPNAV9094-1A - Engineering Trial Report Transmittal Ltr",
+  "directory": "OPNAV9094-1A - Engineering Trial Report Transmittal Ltr",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "to",
+        "via1CO",
+        "via2",
+        "via3",
+        "subj",
+        "encl2",
+        "an",
+        "radio",
+        "radio2",
+        "radio3",
+        "radio4",
+        "radio5",
+        "config",
+        "configOther",
+        "specify",
+        "radio6",
+        "radio7",
+        "radio8",
+        "radio9",
+        "config2",
+        "configOther2",
+        "configOther3",
+        "fillField",
+        "radio10",
+        "radio11",
+        "radio12",
+        "radio13",
+        "field2",
+        "signatureField1",
+        "copy1",
+        "copy2"
+      ]
+    }
+  ],
+  "fields": {
+    "to": {
+      "type": "text",
+      "label": "To",
+      "page": 1,
+      "box": {
+        "left": 53.2,
+        "top": 699.2,
+        "width": 250.0,
+        "height": 12.3
+      }
+    },
+    "via1CO": {
+      "type": "text",
+      "label": "Via: (1) CO, USS",
+      "page": 1,
+      "box": {
+        "left": 118.8,
+        "top": 681.2,
+        "width": 184.4,
+        "height": 12.3
+      }
+    },
+    "via2": {
+      "type": "text",
+      "label": "CO, USS",
+      "page": 1,
+      "box": {
+        "left": 74.8,
+        "top": 663.1,
+        "width": 228.4,
+        "height": 12.3
+      }
+    },
+    "via3": {
+      "type": "text",
+      "label": "CO, USS",
+      "page": 1,
+      "box": {
+        "left": 74.8,
+        "top": 645.1,
+        "width": 228.4,
+        "height": 12.3
+      }
+    },
+    "subj": {
+      "type": "text",
+      "label": "Subj: USS",
+      "page": 1,
+      "box": {
+        "left": 91.4,
+        "top": 627.1,
+        "width": 211.8,
+        "height": 12.3
+      }
+    },
+    "encl2": {
+      "type": "text",
+      "label": "(2) CO, USS",
+      "page": 1,
+      "box": {
+        "left": 125.3,
+        "top": 591.1,
+        "width": 178.0,
+        "height": 12.3
+      }
+    },
+    "an": {
+      "type": "text",
+      "label": "1. A(n)",
+      "page": 1,
+      "box": {
+        "left": 74.8,
+        "top": 573.1,
+        "width": 228.4,
+        "height": 12.3
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 470.7,
+        "top": 536.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 506.6,
+        "top": 536.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 542.6,
+        "top": 536.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 470.7,
+        "top": 522.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 506.6,
+        "top": 522.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "config": {
+      "type": "text",
+      "label": "List OGC configuration",
+      "page": 1,
+      "box": {
+        "left": 183.8,
+        "top": 493.7,
+        "width": 120.3,
+        "height": 12.3
+      }
+    },
+    "configOther": {
+      "type": "text",
+      "label": "Other (specify)",
+      "page": 1,
+      "box": {
+        "left": 381.8,
+        "top": 493.7,
+        "width": 138.3,
+        "height": 12.3
+      }
+    },
+    "specify": {
+      "type": "text",
+      "label": "EVAPORATOR/RO LIGHTING OTHER (specify)",
+      "page": 1,
+      "box": {
+        "left": 469.8,
+        "top": 460.5,
+        "width": 102.3,
+        "height": 12.3
+      }
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 75.8,
+        "top": 459.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 194.2,
+        "top": 459.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 302.1,
+        "top": 459.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio9": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 1,
+      "box": {
+        "left": 370.3,
+        "top": 459.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "config2": {
+      "type": "text",
+      "label": "Significant Wave Height (meters)",
+      "page": 1,
+      "box": {
+        "left": 228.3,
+        "top": 427.4,
+        "width": 15.9,
+        "height": 12.3
+      }
+    },
+    "configOther2": {
+      "type": "text",
+      "label": "Significant Wave Height (meters): Wind Speed (knots)",
+      "page": 1,
+      "box": {
+        "left": 340.6,
+        "top": 427.4,
+        "width": 15.9,
+        "height": 12.3
+      }
+    },
+    "configOther3": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 543.7,
+        "top": 427.4,
+        "width": 15.9,
+        "height": 12.3
+      }
+    },
+    "fillField": {
+      "type": "text",
+      "label": "Fill Field",
+      "page": 1,
+      "box": {
+        "left": 56.8,
+        "top": 390.4,
+        "width": 516.4,
+        "height": 69.9
+      },
+      "multiline": true
+    },
+    "radio10": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 84.3,
+        "top": 291.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio11": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 136.4,
+        "top": 291.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio12": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 144.9,
+        "top": 158.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio13": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 185.6,
+        "top": 158.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "field2": {
+      "type": "text",
+      "label": "Field 2",
+      "page": 1,
+      "box": {
+        "left": 56.8,
+        "top": 141.3,
+        "width": 516.4,
+        "height": 48.3
+      },
+      "multiline": true
+    },
+    "signatureField1": {
+      "type": "text",
+      "label": "met, specify reason)",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 87.1,
+        "width": 138.3,
+        "height": 25.3
+      }
+    },
+    "copy1": {
+      "type": "text",
+      "label": "Copy To",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 69.1,
+        "width": 136.2,
+        "height": 12.3
+      }
+    },
+    "copy2": {
+      "type": "text",
+      "label": "Copy To",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 51.1,
+        "width": 136.2,
+        "height": 12.3
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 36.45,
+      "editor": "grid",
+      "columns": {
+        "fuel": {
+          "type": "text",
+          "label": "USED (GAL)",
+          "page": 1,
+          "box": {
+            "left": 136.6,
+            "top": 270.6,
+            "width": 60.0,
+            "height": 34.2
+          }
+        },
+        "inboard": {
+          "type": "text",
+          "label": "GT AND DIESEL SHIPS - SHP",
+          "page": 1,
+          "box": {
+            "left": 415.5,
+            "top": 270.6,
+            "width": 70.2,
+            "height": 34.2
+          }
+        },
+        "outboard": {
+          "type": "text",
+          "label": "GT AND DIESEL SHIPS - SHP",
+          "page": 1,
+          "box": {
+            "left": 488.5,
+            "top": 270.6,
+            "width": 79.1,
+            "height": 34.2
+          }
+        }
+      }
+    }
+  }
+}

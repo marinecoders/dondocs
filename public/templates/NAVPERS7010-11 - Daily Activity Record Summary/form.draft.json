@@ -1,0 +1,3105 @@
+{
+  "id": "navpers701011",
+  "label": "NAVPERS7010-11 - Daily Activity Record Summary",
+  "directory": "NAVPERS7010-11 - Daily Activity Record Summary",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "fund",
+        "months1",
+        "months2",
+        "day1",
+        "day2",
+        "year1",
+        "year2",
+        "numbers1",
+        "numbers2",
+        "numbers3",
+        "funday",
+        "account1",
+        "daily1",
+        "number1",
+        "amount1",
+        "month1",
+        "accountnumber1",
+        "dailyamount1",
+        "montdate1",
+        "account2",
+        "daily2",
+        "number2",
+        "amount2",
+        "month2",
+        "accountnumber2",
+        "dailyamount2",
+        "montdate2",
+        "account3",
+        "daily3",
+        "number3",
+        "amount3",
+        "month3",
+        "accountnumber3",
+        "dailyamount3",
+        "montdate3",
+        "account4",
+        "daily4",
+        "number4",
+        "amount4",
+        "month4",
+        "accountnumber4",
+        "dailyamount4",
+        "montdate4",
+        "account5",
+        "daily5",
+        "number5",
+        "amount5",
+        "month5",
+        "accountnumber5",
+        "dailyamount5",
+        "montdate5",
+        "account6",
+        "daily6",
+        "number6",
+        "amount6",
+        "month6",
+        "accountnumber6",
+        "dailyamount6",
+        "montdate6",
+        "account7",
+        "daily7",
+        "number7",
+        "amount7",
+        "month7",
+        "accountnumber7",
+        "dailyamount7",
+        "montdate7",
+        "account8",
+        "daily8",
+        "number8",
+        "amount8",
+        "month8",
+        "accountnumber8",
+        "dailyamount8",
+        "montdate8",
+        "account9",
+        "daily9",
+        "number9",
+        "amount9",
+        "month9",
+        "accountnumber9",
+        "dailyamount9",
+        "montdate9",
+        "account10",
+        "daily10",
+        "number10",
+        "amount10",
+        "month10",
+        "accountnumber10",
+        "dailyamount10",
+        "montdate10",
+        "account11",
+        "daily11",
+        "number11",
+        "amount11",
+        "month11",
+        "accountnumber11",
+        "dailyamount11",
+        "montdate11",
+        "account12",
+        "daily12",
+        "number12",
+        "amount12",
+        "month12",
+        "accountnumber12",
+        "dailyamount12",
+        "montdate12",
+        "account13",
+        "daily13",
+        "number13",
+        "amount13",
+        "month13",
+        "accountnumber13",
+        "dailyamount13",
+        "montdate13",
+        "account14",
+        "daily14",
+        "number14",
+        "amount14",
+        "month14",
+        "accountnumber14",
+        "dailyamount14",
+        "montdate14",
+        "account15",
+        "daily15",
+        "number15",
+        "amount15",
+        "month15",
+        "accountnumber15",
+        "dailyamount15",
+        "montdate15",
+        "account16",
+        "daily16",
+        "number16",
+        "amount16",
+        "month16",
+        "accountnumber16",
+        "dailyamount16",
+        "montdate16",
+        "account17",
+        "daily17",
+        "number17",
+        "amount17",
+        "month17",
+        "accountnumber17",
+        "dailyamount17",
+        "montdate17",
+        "account18",
+        "daily18",
+        "number18",
+        "amount18",
+        "month18",
+        "accountnumber18",
+        "dailyamount18",
+        "montdate18",
+        "accountdeposit",
+        "number19",
+        "amount19",
+        "month19",
+        "accountnumber19",
+        "dailyamount19",
+        "montdate19",
+        "number20",
+        "amount20",
+        "month20",
+        "accountnumber20",
+        "dailyamount20",
+        "montdate20",
+        "number21",
+        "amount21",
+        "month21",
+        "accountnumber21",
+        "dailyamount21",
+        "montdate21",
+        "totaldebits",
+        "number22",
+        "amount22",
+        "month22",
+        "accountnumber22",
+        "dailyamount22",
+        "montdate22",
+        "number23",
+        "amount23",
+        "month23",
+        "accountnumber23",
+        "dailyamount23",
+        "montdate23",
+        "number24",
+        "amount24",
+        "month24",
+        "accountnumber24",
+        "dailyamount24",
+        "montdate24",
+        "number25",
+        "amount25",
+        "month25",
+        "accountnumber25",
+        "dailyamount25",
+        "montdate25",
+        "number26",
+        "amount26",
+        "month26",
+        "accountnumber26",
+        "dailyamount26",
+        "montdate26",
+        "number27",
+        "amount27",
+        "month27",
+        "accountnumber27",
+        "dailyamount27",
+        "montdate27",
+        "number28",
+        "amount28",
+        "month28",
+        "accountnumber28",
+        "dailyamount28",
+        "montdate28",
+        "remarks1",
+        "number29",
+        "amount29",
+        "month29",
+        "accountnumber29",
+        "dailyamount29",
+        "montdate29",
+        "number30",
+        "amount30",
+        "month30",
+        "accountnumber30",
+        "dailyamount30",
+        "montdate30",
+        "remarks2",
+        "number31",
+        "amount31",
+        "month31",
+        "accountnumber31",
+        "dailyamount31",
+        "montdate31",
+        "number32",
+        "amount32",
+        "month32",
+        "accountnumber32",
+        "dailyamount32",
+        "montdate32",
+        "remarks3",
+        "number33",
+        "amount33",
+        "month33",
+        "accountnumber33",
+        "dailyamount33",
+        "montdate33",
+        "totalb",
+        "totalc",
+        "remarks4",
+        "predate",
+        "date",
+        "prepare",
+        "approve"
+      ]
+    }
+  ],
+  "fields": {
+    "fund": {
+      "type": "text",
+      "label": "Enter the fund.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 727.1,
+        "width": 268.2,
+        "height": 21.4
+      }
+    },
+    "months1": {
+      "type": "text",
+      "label": "Enter the month.",
+      "page": 1,
+      "box": {
+        "left": 434.3,
+        "top": 726.7,
+        "width": 10.6,
+        "height": 21.8
+      }
+    },
+    "months2": {
+      "type": "text",
+      "label": "Enter the month.",
+      "page": 1,
+      "box": {
+        "left": 451.1,
+        "top": 726.7,
+        "width": 10.6,
+        "height": 21.8
+      }
+    },
+    "day1": {
+      "type": "text",
+      "label": "Enter the day.",
+      "page": 1,
+      "box": {
+        "left": 468.0,
+        "top": 726.7,
+        "width": 10.1,
+        "height": 21.8
+      }
+    },
+    "day2": {
+      "type": "text",
+      "label": "Enter the day.",
+      "page": 1,
+      "box": {
+        "left": 484.3,
+        "top": 726.7,
+        "width": 10.7,
+        "height": 21.8
+      }
+    },
+    "year1": {
+      "type": "text",
+      "label": "Enter the year.",
+      "page": 1,
+      "box": {
+        "left": 501.1,
+        "top": 726.7,
+        "width": 10.1,
+        "height": 21.8
+      }
+    },
+    "year2": {
+      "type": "text",
+      "label": "Enter the year.",
+      "page": 1,
+      "box": {
+        "left": 518.1,
+        "top": 726.7,
+        "width": 10.1,
+        "height": 21.8
+      }
+    },
+    "numbers1": {
+      "type": "text",
+      "label": "Enter the number.",
+      "page": 1,
+      "box": {
+        "left": 534.4,
+        "top": 726.7,
+        "width": 9.5,
+        "height": 21.8
+      }
+    },
+    "numbers2": {
+      "type": "text",
+      "label": "Enter the number.",
+      "page": 1,
+      "box": {
+        "left": 550.1,
+        "top": 726.7,
+        "width": 9.5,
+        "height": 21.8
+      }
+    },
+    "numbers3": {
+      "type": "text",
+      "label": "Enter the number.",
+      "page": 1,
+      "box": {
+        "left": 565.9,
+        "top": 726.7,
+        "width": 7.3,
+        "height": 21.8
+      }
+    },
+    "funday": {
+      "type": "text",
+      "label": "Enter the fund number.",
+      "page": 1,
+      "box": {
+        "left": 347.1,
+        "top": 725.9,
+        "width": 79.8,
+        "height": 20.3
+      }
+    },
+    "account1": {
+      "type": "text",
+      "label": "For line 1 of 18 of the debits enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 668.7,
+        "width": 60.9,
+        "height": 13.9
+      }
+    },
+    "daily1": {
+      "type": "text",
+      "label": "For line 1 of 18 of the debits enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 106.9,
+        "top": 668.7,
+        "width": 57.2,
+        "height": 13.9
+      }
+    },
+    "number1": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 1 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 170.3,
+        "top": 668.7,
+        "width": 64.3,
+        "height": 13.9
+      }
+    },
+    "amount1": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 1 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 668.7,
+        "width": 66.1,
+        "height": 13.9
+      }
+    },
+    "month1": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 1 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 314.2,
+        "top": 668.7,
+        "width": 65.1,
+        "height": 13.9
+      }
+    },
+    "accountnumber1": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 1 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 668.7,
+        "width": 63.3,
+        "height": 13.9
+      }
+    },
+    "dailyamount1": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 1 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 455.1,
+        "top": 668.7,
+        "width": 52.9,
+        "height": 13.9
+      }
+    },
+    "montdate1": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 1 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 514.7,
+        "top": 668.7,
+        "width": 58.8,
+        "height": 13.9
+      }
+    },
+    "account2": {
+      "type": "text",
+      "label": "For line 2 of 18 of the debits enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 652.4,
+        "width": 60.9,
+        "height": 14.5
+      }
+    },
+    "daily2": {
+      "type": "text",
+      "label": "For line 2 of 18 of the debits enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 106.9,
+        "top": 652.4,
+        "width": 57.2,
+        "height": 14.5
+      }
+    },
+    "number2": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 2 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 170.3,
+        "top": 652.4,
+        "width": 64.3,
+        "height": 14.5
+      }
+    },
+    "amount2": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 2 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 652.4,
+        "width": 66.1,
+        "height": 14.5
+      }
+    },
+    "month2": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 2 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 314.2,
+        "top": 652.4,
+        "width": 65.1,
+        "height": 14.5
+      }
+    },
+    "accountnumber2": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 2 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 652.4,
+        "width": 63.3,
+        "height": 14.5
+      }
+    },
+    "dailyamount2": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 2 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 455.1,
+        "top": 652.4,
+        "width": 52.9,
+        "height": 14.5
+      }
+    },
+    "montdate2": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 2 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 514.7,
+        "top": 652.4,
+        "width": 58.8,
+        "height": 14.5
+      }
+    },
+    "account3": {
+      "type": "text",
+      "label": "For line 3 of 18 of the debits enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 636.1,
+        "width": 60.9,
+        "height": 14.5
+      }
+    },
+    "daily3": {
+      "type": "text",
+      "label": "For line 3 of 18 of the debits enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 106.9,
+        "top": 636.1,
+        "width": 57.2,
+        "height": 14.5
+      }
+    },
+    "number3": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 3 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 170.3,
+        "top": 636.1,
+        "width": 64.3,
+        "height": 14.5
+      }
+    },
+    "amount3": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 3 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 636.1,
+        "width": 66.1,
+        "height": 14.5
+      }
+    },
+    "month3": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 3 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 314.2,
+        "top": 636.1,
+        "width": 65.1,
+        "height": 14.5
+      }
+    },
+    "accountnumber3": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 3 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 636.1,
+        "width": 63.3,
+        "height": 14.5
+      }
+    },
+    "dailyamount3": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 3 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 455.1,
+        "top": 636.1,
+        "width": 52.9,
+        "height": 14.5
+      }
+    },
+    "montdate3": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 3 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 514.7,
+        "top": 636.1,
+        "width": 58.8,
+        "height": 14.5
+      }
+    },
+    "account4": {
+      "type": "text",
+      "label": "For line 4 of 18 of the debits enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 619.8,
+        "width": 60.9,
+        "height": 15.0
+      }
+    },
+    "daily4": {
+      "type": "text",
+      "label": "For line 4 of 18 of the debits enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 106.9,
+        "top": 619.8,
+        "width": 57.2,
+        "height": 15.0
+      }
+    },
+    "number4": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 4 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 170.3,
+        "top": 619.8,
+        "width": 64.3,
+        "height": 15.0
+      }
+    },
+    "amount4": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 4 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 619.8,
+        "width": 66.1,
+        "height": 15.0
+      }
+    },
+    "month4": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 4 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 314.2,
+        "top": 619.8,
+        "width": 65.1,
+        "height": 15.0
+      }
+    },
+    "accountnumber4": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 4 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 619.8,
+        "width": 63.3,
+        "height": 15.0
+      }
+    },
+    "dailyamount4": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 4 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 455.1,
+        "top": 619.8,
+        "width": 52.9,
+        "height": 15.0
+      }
+    },
+    "montdate4": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 4 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 514.7,
+        "top": 619.8,
+        "width": 58.8,
+        "height": 15.0
+      }
+    },
+    "account5": {
+      "type": "text",
+      "label": "For line 5 of 18 of the debits enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 602.9,
+        "width": 60.9,
+        "height": 14.5
+      }
+    },
+    "daily5": {
+      "type": "text",
+      "label": "For line 5 of 18 of the debits enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 106.9,
+        "top": 602.9,
+        "width": 57.2,
+        "height": 14.5
+      }
+    },
+    "number5": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 5 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 170.3,
+        "top": 602.9,
+        "width": 64.3,
+        "height": 14.5
+      }
+    },
+    "amount5": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 5 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 602.9,
+        "width": 66.1,
+        "height": 14.5
+      }
+    },
+    "month5": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 5 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 314.2,
+        "top": 602.9,
+        "width": 65.1,
+        "height": 14.5
+      }
+    },
+    "accountnumber5": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 5 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 602.9,
+        "width": 63.3,
+        "height": 14.5
+      }
+    },
+    "dailyamount5": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 5 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 455.1,
+        "top": 602.9,
+        "width": 52.9,
+        "height": 14.5
+      }
+    },
+    "montdate5": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 5 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 514.7,
+        "top": 602.9,
+        "width": 58.8,
+        "height": 14.5
+      }
+    },
+    "account6": {
+      "type": "text",
+      "label": "For line 6 of 18 of the debits enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 586.1,
+        "width": 60.9,
+        "height": 14.5
+      }
+    },
+    "daily6": {
+      "type": "text",
+      "label": "For line 6 of 18 of the debits enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 106.9,
+        "top": 586.1,
+        "width": 57.2,
+        "height": 14.5
+      }
+    },
+    "number6": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 6 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 170.3,
+        "top": 586.1,
+        "width": 64.3,
+        "height": 14.5
+      }
+    },
+    "amount6": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 6 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 586.1,
+        "width": 66.1,
+        "height": 14.5
+      }
+    },
+    "month6": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 6 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 314.2,
+        "top": 586.1,
+        "width": 65.1,
+        "height": 14.5
+      }
+    },
+    "accountnumber6": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 6 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 586.1,
+        "width": 63.3,
+        "height": 14.5
+      }
+    },
+    "dailyamount6": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 6 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 455.1,
+        "top": 586.1,
+        "width": 52.9,
+        "height": 14.5
+      }
+    },
+    "montdate6": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 6 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 514.7,
+        "top": 586.1,
+        "width": 58.8,
+        "height": 14.5
+      }
+    },
+    "account7": {
+      "type": "text",
+      "label": "For line 6 of 18 of the debits enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 569.7,
+        "width": 60.9,
+        "height": 15.0
+      }
+    },
+    "daily7": {
+      "type": "text",
+      "label": "For line 6 of 18 of the debits enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 106.9,
+        "top": 569.7,
+        "width": 57.2,
+        "height": 15.0
+      }
+    },
+    "number7": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 6 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 170.3,
+        "top": 569.7,
+        "width": 64.3,
+        "height": 15.0
+      }
+    },
+    "amount7": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 6 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 569.7,
+        "width": 66.1,
+        "height": 15.0
+      }
+    },
+    "month7": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 6 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 314.2,
+        "top": 569.7,
+        "width": 65.1,
+        "height": 15.0
+      }
+    },
+    "accountnumber7": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 6 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 569.7,
+        "width": 63.3,
+        "height": 15.0
+      }
+    },
+    "dailyamount7": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 6 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 455.1,
+        "top": 569.7,
+        "width": 52.9,
+        "height": 15.0
+      }
+    },
+    "montdate7": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 6 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 514.7,
+        "top": 569.7,
+        "width": 58.8,
+        "height": 15.0
+      }
+    },
+    "account8": {
+      "type": "text",
+      "label": "For line 8 of 18 of the debits enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 552.9,
+        "width": 60.9,
+        "height": 14.5
+      }
+    },
+    "daily8": {
+      "type": "text",
+      "label": "For line 8 of 18 of the debits enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 106.9,
+        "top": 552.9,
+        "width": 57.2,
+        "height": 14.5
+      }
+    },
+    "number8": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 8 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 170.3,
+        "top": 552.9,
+        "width": 64.3,
+        "height": 14.5
+      }
+    },
+    "amount8": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 8 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 552.9,
+        "width": 66.1,
+        "height": 14.5
+      }
+    },
+    "month8": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 8 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 314.2,
+        "top": 552.9,
+        "width": 65.1,
+        "height": 14.5
+      }
+    },
+    "accountnumber8": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 8 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 552.9,
+        "width": 63.3,
+        "height": 14.5
+      }
+    },
+    "dailyamount8": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 8 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 455.1,
+        "top": 552.9,
+        "width": 52.9,
+        "height": 14.5
+      }
+    },
+    "montdate8": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 8 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 514.7,
+        "top": 552.9,
+        "width": 58.8,
+        "height": 14.5
+      }
+    },
+    "account9": {
+      "type": "text",
+      "label": "For line 9 of 18 of the debits enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 536.6,
+        "width": 60.9,
+        "height": 15.0
+      }
+    },
+    "daily9": {
+      "type": "text",
+      "label": "For line 9 of 18 of the debits enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 106.9,
+        "top": 536.6,
+        "width": 57.2,
+        "height": 15.0
+      }
+    },
+    "number9": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 9 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 170.3,
+        "top": 536.6,
+        "width": 64.3,
+        "height": 15.0
+      }
+    },
+    "amount9": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 9 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 536.6,
+        "width": 66.1,
+        "height": 15.0
+      }
+    },
+    "month9": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 9 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 314.2,
+        "top": 536.6,
+        "width": 65.1,
+        "height": 15.0
+      }
+    },
+    "accountnumber9": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 9 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 536.6,
+        "width": 63.3,
+        "height": 15.0
+      }
+    },
+    "dailyamount9": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 9 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 455.1,
+        "top": 536.6,
+        "width": 52.9,
+        "height": 15.0
+      }
+    },
+    "montdate9": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 9 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 514.7,
+        "top": 536.6,
+        "width": 58.8,
+        "height": 15.0
+      }
+    },
+    "account10": {
+      "type": "text",
+      "label": "For line 10 of 18 of the debits enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 519.7,
+        "width": 60.9,
+        "height": 14.5
+      }
+    },
+    "daily10": {
+      "type": "text",
+      "label": "For line 10 of 18 of the debits enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 106.9,
+        "top": 519.7,
+        "width": 57.2,
+        "height": 14.5
+      }
+    },
+    "number10": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 10 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 170.3,
+        "top": 519.7,
+        "width": 64.3,
+        "height": 14.5
+      }
+    },
+    "amount10": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 10 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 519.7,
+        "width": 66.1,
+        "height": 14.5
+      }
+    },
+    "month10": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 10 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 314.2,
+        "top": 519.7,
+        "width": 65.1,
+        "height": 14.5
+      }
+    },
+    "accountnumber10": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 10 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 519.7,
+        "width": 63.3,
+        "height": 14.5
+      }
+    },
+    "dailyamount10": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 10 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 455.1,
+        "top": 519.7,
+        "width": 52.9,
+        "height": 14.5
+      }
+    },
+    "montdate10": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 10 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 514.7,
+        "top": 519.7,
+        "width": 58.8,
+        "height": 14.5
+      }
+    },
+    "account11": {
+      "type": "text",
+      "label": "For line 11 of 18 of the debits enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 503.4,
+        "width": 60.9,
+        "height": 15.0
+      }
+    },
+    "daily11": {
+      "type": "text",
+      "label": "For line 11 of 18 of the debits enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 106.9,
+        "top": 503.4,
+        "width": 57.2,
+        "height": 15.0
+      }
+    },
+    "number11": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 11 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 170.3,
+        "top": 503.4,
+        "width": 64.3,
+        "height": 15.0
+      }
+    },
+    "amount11": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 11 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 503.4,
+        "width": 66.1,
+        "height": 15.0
+      }
+    },
+    "month11": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 11 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 314.2,
+        "top": 503.4,
+        "width": 65.1,
+        "height": 15.0
+      }
+    },
+    "accountnumber11": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 11 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 503.4,
+        "width": 63.3,
+        "height": 15.0
+      }
+    },
+    "dailyamount11": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 11 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 455.1,
+        "top": 503.4,
+        "width": 52.9,
+        "height": 15.0
+      }
+    },
+    "montdate11": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 11 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 514.7,
+        "top": 503.4,
+        "width": 58.8,
+        "height": 15.0
+      }
+    },
+    "account12": {
+      "type": "text",
+      "label": "For line 12 of 18 of the debits enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 486.5,
+        "width": 60.9,
+        "height": 14.5
+      }
+    },
+    "daily12": {
+      "type": "text",
+      "label": "For line 12 of 18 of the debits enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 106.9,
+        "top": 486.5,
+        "width": 57.2,
+        "height": 14.5
+      }
+    },
+    "number12": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 12 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 170.3,
+        "top": 486.5,
+        "width": 64.3,
+        "height": 14.5
+      }
+    },
+    "amount12": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 12 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 486.5,
+        "width": 66.1,
+        "height": 14.5
+      }
+    },
+    "month12": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 12 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 314.2,
+        "top": 486.5,
+        "width": 65.1,
+        "height": 14.5
+      }
+    },
+    "accountnumber12": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 12 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 486.5,
+        "width": 63.3,
+        "height": 14.5
+      }
+    },
+    "dailyamount12": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 12 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 455.1,
+        "top": 486.5,
+        "width": 52.9,
+        "height": 14.5
+      }
+    },
+    "montdate12": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 12 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 514.7,
+        "top": 486.5,
+        "width": 58.8,
+        "height": 14.5
+      }
+    },
+    "account13": {
+      "type": "text",
+      "label": "For line 13 of 18 of the debits enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 470.2,
+        "width": 60.9,
+        "height": 15.0
+      }
+    },
+    "daily13": {
+      "type": "text",
+      "label": "For line 13 of 18 of the debits enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 106.9,
+        "top": 470.2,
+        "width": 57.2,
+        "height": 15.0
+      }
+    },
+    "number13": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 13 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 170.3,
+        "top": 470.2,
+        "width": 64.3,
+        "height": 15.0
+      }
+    },
+    "amount13": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 13 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 470.2,
+        "width": 66.1,
+        "height": 15.0
+      }
+    },
+    "month13": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 13 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 314.2,
+        "top": 470.2,
+        "width": 65.1,
+        "height": 15.0
+      }
+    },
+    "accountnumber13": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 13 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 470.2,
+        "width": 63.3,
+        "height": 15.0
+      }
+    },
+    "dailyamount13": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 13 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 455.1,
+        "top": 470.2,
+        "width": 52.9,
+        "height": 15.0
+      }
+    },
+    "montdate13": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 13 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 514.7,
+        "top": 470.2,
+        "width": 58.8,
+        "height": 15.0
+      }
+    },
+    "account14": {
+      "type": "text",
+      "label": "For line 14 of 18 of the debits enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 453.3,
+        "width": 60.9,
+        "height": 13.9
+      }
+    },
+    "daily14": {
+      "type": "text",
+      "label": "For line 14 of 18 of the debits enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 106.9,
+        "top": 453.3,
+        "width": 57.2,
+        "height": 13.9
+      }
+    },
+    "number14": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 14 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 170.3,
+        "top": 453.3,
+        "width": 64.3,
+        "height": 13.9
+      }
+    },
+    "amount14": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 14 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 453.3,
+        "width": 66.1,
+        "height": 13.9
+      }
+    },
+    "month14": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 14 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 314.2,
+        "top": 453.3,
+        "width": 65.1,
+        "height": 13.9
+      }
+    },
+    "accountnumber14": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 14 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 453.3,
+        "width": 63.3,
+        "height": 13.9
+      }
+    },
+    "dailyamount14": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 14 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 455.1,
+        "top": 453.3,
+        "width": 52.9,
+        "height": 13.9
+      }
+    },
+    "montdate14": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 14 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 514.7,
+        "top": 453.3,
+        "width": 58.8,
+        "height": 13.9
+      }
+    },
+    "account15": {
+      "type": "text",
+      "label": "For line 15 of 18 of the debits enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 437.6,
+        "width": 60.9,
+        "height": 15.0
+      }
+    },
+    "daily15": {
+      "type": "text",
+      "label": "For line 15 of 18 of the debits enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 106.9,
+        "top": 437.6,
+        "width": 57.2,
+        "height": 15.0
+      }
+    },
+    "number15": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 15 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 170.3,
+        "top": 437.6,
+        "width": 64.3,
+        "height": 15.0
+      }
+    },
+    "amount15": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 15 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 437.6,
+        "width": 66.1,
+        "height": 15.0
+      }
+    },
+    "month15": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 15 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 314.2,
+        "top": 437.6,
+        "width": 65.1,
+        "height": 15.0
+      }
+    },
+    "accountnumber15": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 15 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 437.6,
+        "width": 63.3,
+        "height": 15.0
+      }
+    },
+    "dailyamount15": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 15 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 455.1,
+        "top": 437.6,
+        "width": 52.9,
+        "height": 15.0
+      }
+    },
+    "montdate15": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 15 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 514.7,
+        "top": 437.6,
+        "width": 58.8,
+        "height": 15.0
+      }
+    },
+    "account16": {
+      "type": "text",
+      "label": "For line 16 of 18 of the debits enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 420.7,
+        "width": 60.9,
+        "height": 14.5
+      }
+    },
+    "daily16": {
+      "type": "text",
+      "label": "For line 16 of 18 of the debits enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 106.9,
+        "top": 420.7,
+        "width": 57.2,
+        "height": 14.5
+      }
+    },
+    "number16": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 16 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 170.3,
+        "top": 420.7,
+        "width": 64.3,
+        "height": 14.5
+      }
+    },
+    "amount16": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 16 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 420.7,
+        "width": 66.1,
+        "height": 14.5
+      }
+    },
+    "month16": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 16 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 314.2,
+        "top": 420.7,
+        "width": 65.1,
+        "height": 14.5
+      }
+    },
+    "accountnumber16": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 16 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 420.7,
+        "width": 63.3,
+        "height": 14.5
+      }
+    },
+    "dailyamount16": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 16 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 455.1,
+        "top": 420.7,
+        "width": 52.9,
+        "height": 14.5
+      }
+    },
+    "montdate16": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 16 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 514.7,
+        "top": 420.7,
+        "width": 58.8,
+        "height": 14.5
+      }
+    },
+    "account17": {
+      "type": "text",
+      "label": "For line 17 of 18 of the debits enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 404.4,
+        "width": 60.9,
+        "height": 15.0
+      }
+    },
+    "daily17": {
+      "type": "text",
+      "label": "For line 17 of 18 of the debits enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 106.9,
+        "top": 404.4,
+        "width": 57.2,
+        "height": 15.0
+      }
+    },
+    "number17": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 17 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 170.3,
+        "top": 404.4,
+        "width": 64.3,
+        "height": 15.0
+      }
+    },
+    "amount17": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 17 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 404.4,
+        "width": 66.1,
+        "height": 15.0
+      }
+    },
+    "month17": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 17 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 314.2,
+        "top": 404.4,
+        "width": 65.1,
+        "height": 15.0
+      }
+    },
+    "accountnumber17": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 17 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 404.4,
+        "width": 63.3,
+        "height": 15.0
+      }
+    },
+    "dailyamount17": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 17 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 455.1,
+        "top": 404.4,
+        "width": 52.9,
+        "height": 15.0
+      }
+    },
+    "montdate17": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 17 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 514.7,
+        "top": 404.4,
+        "width": 58.8,
+        "height": 15.0
+      }
+    },
+    "account18": {
+      "type": "text",
+      "label": "For line 18 of 18 of the debits enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 387.5,
+        "width": 60.9,
+        "height": 14.5
+      }
+    },
+    "daily18": {
+      "type": "text",
+      "label": "For line 18 of 18 of the debits enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 106.9,
+        "top": 387.5,
+        "width": 57.2,
+        "height": 14.5
+      }
+    },
+    "number18": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 18 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 170.3,
+        "top": 387.5,
+        "width": 64.3,
+        "height": 14.5
+      }
+    },
+    "amount18": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 18 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 387.5,
+        "width": 66.1,
+        "height": 14.5
+      }
+    },
+    "month18": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 18 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 314.2,
+        "top": 387.5,
+        "width": 65.1,
+        "height": 14.5
+      }
+    },
+    "accountnumber18": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 18 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 387.5,
+        "width": 63.3,
+        "height": 14.5
+      }
+    },
+    "dailyamount18": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 18 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 455.1,
+        "top": 387.5,
+        "width": 52.9,
+        "height": 14.5
+      }
+    },
+    "montdate18": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 18 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 514.7,
+        "top": 387.5,
+        "width": 58.8,
+        "height": 14.5
+      }
+    },
+    "accountdeposit": {
+      "type": "text",
+      "label": "Enter the total deposit.",
+      "page": 1,
+      "box": {
+        "left": 106.3,
+        "top": 371.0,
+        "width": 57.7,
+        "height": 31.4
+      },
+      "multiline": true
+    },
+    "number19": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 19 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 170.3,
+        "top": 370.7,
+        "width": 64.3,
+        "height": 14.6
+      }
+    },
+    "amount19": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 19 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 370.7,
+        "width": 66.1,
+        "height": 14.6
+      }
+    },
+    "month19": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 19 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 314.2,
+        "top": 370.7,
+        "width": 65.1,
+        "height": 14.6
+      }
+    },
+    "accountnumber19": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 19 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 370.7,
+        "width": 63.3,
+        "height": 14.6
+      }
+    },
+    "dailyamount19": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 19 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 455.1,
+        "top": 370.7,
+        "width": 52.9,
+        "height": 14.6
+      }
+    },
+    "montdate19": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 19 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 514.7,
+        "top": 370.7,
+        "width": 58.8,
+        "height": 14.6
+      }
+    },
+    "number20": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 20 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 170.3,
+        "top": 354.3,
+        "width": 64.3,
+        "height": 14.5
+      }
+    },
+    "amount20": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 20 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 354.3,
+        "width": 66.1,
+        "height": 14.5
+      }
+    },
+    "month20": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 20 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 314.2,
+        "top": 354.3,
+        "width": 65.1,
+        "height": 14.5
+      }
+    },
+    "accountnumber20": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 20 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 354.3,
+        "width": 63.3,
+        "height": 14.5
+      }
+    },
+    "dailyamount20": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 20 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 455.1,
+        "top": 354.3,
+        "width": 52.9,
+        "height": 14.5
+      }
+    },
+    "montdate20": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 20 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 514.7,
+        "top": 354.3,
+        "width": 58.8,
+        "height": 14.5
+      }
+    },
+    "number21": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 21 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 170.3,
+        "top": 338.0,
+        "width": 64.3,
+        "height": 15.1
+      }
+    },
+    "amount21": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 21 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 338.0,
+        "width": 66.1,
+        "height": 15.1
+      }
+    },
+    "month21": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 21 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 314.2,
+        "top": 338.0,
+        "width": 65.1,
+        "height": 15.1
+      }
+    },
+    "accountnumber21": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 21 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 338.0,
+        "width": 63.3,
+        "height": 15.1
+      }
+    },
+    "dailyamount21": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 21 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 455.1,
+        "top": 338.0,
+        "width": 52.9,
+        "height": 15.1
+      }
+    },
+    "montdate21": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 21 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 514.7,
+        "top": 338.0,
+        "width": 58.8,
+        "height": 15.1
+      }
+    },
+    "totaldebits": {
+      "type": "text",
+      "label": "Enter the total debits for column B.",
+      "page": 1,
+      "box": {
+        "left": 106.3,
+        "top": 337.8,
+        "width": 57.7,
+        "height": 31.3
+      },
+      "multiline": true
+    },
+    "number22": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 22 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 170.3,
+        "top": 321.1,
+        "width": 64.3,
+        "height": 14.5
+      }
+    },
+    "amount22": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 22 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 321.1,
+        "width": 66.1,
+        "height": 14.5
+      }
+    },
+    "month22": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 22 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 314.2,
+        "top": 321.1,
+        "width": 65.1,
+        "height": 14.5
+      }
+    },
+    "accountnumber22": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 22 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 321.1,
+        "width": 63.3,
+        "height": 14.5
+      }
+    },
+    "dailyamount22": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 22 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 455.1,
+        "top": 321.1,
+        "width": 52.9,
+        "height": 14.5
+      }
+    },
+    "montdate22": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 22 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 514.7,
+        "top": 321.1,
+        "width": 58.8,
+        "height": 14.5
+      }
+    },
+    "number23": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 23 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 170.3,
+        "top": 304.3,
+        "width": 64.3,
+        "height": 14.5
+      }
+    },
+    "amount23": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 23 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 304.3,
+        "width": 66.1,
+        "height": 14.5
+      }
+    },
+    "month23": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 23 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 314.2,
+        "top": 304.3,
+        "width": 65.1,
+        "height": 14.5
+      }
+    },
+    "accountnumber23": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 23 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 304.3,
+        "width": 63.3,
+        "height": 14.5
+      }
+    },
+    "dailyamount23": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 23 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 455.1,
+        "top": 304.3,
+        "width": 52.9,
+        "height": 14.5
+      }
+    },
+    "montdate23": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 23 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 514.7,
+        "top": 304.3,
+        "width": 58.8,
+        "height": 14.5
+      }
+    },
+    "number24": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 24 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 170.3,
+        "top": 287.9,
+        "width": 64.3,
+        "height": 14.5
+      }
+    },
+    "amount24": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 24 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 287.9,
+        "width": 66.1,
+        "height": 14.5
+      }
+    },
+    "month24": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 24 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 314.2,
+        "top": 287.9,
+        "width": 65.1,
+        "height": 14.5
+      }
+    },
+    "accountnumber24": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 24 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 287.9,
+        "width": 63.3,
+        "height": 14.5
+      }
+    },
+    "dailyamount24": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 24 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 455.1,
+        "top": 287.9,
+        "width": 52.9,
+        "height": 14.5
+      }
+    },
+    "montdate24": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 24 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 514.7,
+        "top": 287.9,
+        "width": 58.8,
+        "height": 14.5
+      }
+    },
+    "number25": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 25 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 170.3,
+        "top": 271.1,
+        "width": 64.3,
+        "height": 14.5
+      }
+    },
+    "amount25": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 25 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 271.1,
+        "width": 66.1,
+        "height": 14.5
+      }
+    },
+    "month25": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 25 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 314.2,
+        "top": 271.1,
+        "width": 65.1,
+        "height": 14.5
+      }
+    },
+    "accountnumber25": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 25 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 271.1,
+        "width": 63.3,
+        "height": 14.5
+      }
+    },
+    "dailyamount25": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 25 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 455.1,
+        "top": 271.1,
+        "width": 52.9,
+        "height": 14.5
+      }
+    },
+    "montdate25": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 25 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 514.7,
+        "top": 271.1,
+        "width": 58.8,
+        "height": 14.5
+      }
+    },
+    "number26": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 26 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 170.3,
+        "top": 254.8,
+        "width": 64.3,
+        "height": 14.5
+      }
+    },
+    "amount26": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 26 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 254.8,
+        "width": 66.1,
+        "height": 14.5
+      }
+    },
+    "month26": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 26 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 314.2,
+        "top": 254.8,
+        "width": 65.1,
+        "height": 14.5
+      }
+    },
+    "accountnumber26": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 26 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 254.8,
+        "width": 63.3,
+        "height": 14.5
+      }
+    },
+    "dailyamount26": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 26 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 455.1,
+        "top": 254.8,
+        "width": 52.9,
+        "height": 14.5
+      }
+    },
+    "montdate26": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 26 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 514.7,
+        "top": 254.8,
+        "width": 58.8,
+        "height": 14.5
+      }
+    },
+    "number27": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 27 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 170.3,
+        "top": 237.8,
+        "width": 64.3,
+        "height": 13.8
+      }
+    },
+    "amount27": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 27 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 237.8,
+        "width": 66.1,
+        "height": 13.8
+      }
+    },
+    "month27": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 27 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 314.2,
+        "top": 237.8,
+        "width": 65.1,
+        "height": 13.8
+      }
+    },
+    "accountnumber27": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 27 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 237.8,
+        "width": 63.3,
+        "height": 13.8
+      }
+    },
+    "dailyamount27": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 27 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 455.1,
+        "top": 237.8,
+        "width": 52.9,
+        "height": 13.8
+      }
+    },
+    "montdate27": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 27 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 514.7,
+        "top": 237.8,
+        "width": 58.8,
+        "height": 13.8
+      }
+    },
+    "number28": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 28 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 170.3,
+        "top": 222.1,
+        "width": 64.3,
+        "height": 14.5
+      }
+    },
+    "amount28": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 28 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 222.1,
+        "width": 66.1,
+        "height": 14.5
+      }
+    },
+    "month28": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 28 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 314.2,
+        "top": 222.1,
+        "width": 65.1,
+        "height": 14.5
+      }
+    },
+    "accountnumber28": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 28 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 222.1,
+        "width": 63.3,
+        "height": 14.5
+      }
+    },
+    "dailyamount28": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 28 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 455.1,
+        "top": 222.1,
+        "width": 52.9,
+        "height": 14.5
+      }
+    },
+    "montdate28": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 28 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 514.7,
+        "top": 222.1,
+        "width": 58.8,
+        "height": 14.5
+      }
+    },
+    "remarks1": {
+      "type": "text",
+      "label": "Enter your remarks.",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 210.7,
+        "width": 123.5,
+        "height": 19.2
+      }
+    },
+    "number29": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 29 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 170.3,
+        "top": 205.3,
+        "width": 64.3,
+        "height": 14.5
+      }
+    },
+    "amount29": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 29 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 205.3,
+        "width": 66.1,
+        "height": 14.5
+      }
+    },
+    "month29": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 29 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 314.2,
+        "top": 205.3,
+        "width": 65.1,
+        "height": 14.5
+      }
+    },
+    "accountnumber29": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 29 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 205.3,
+        "width": 63.3,
+        "height": 14.5
+      }
+    },
+    "dailyamount29": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 29 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 455.1,
+        "top": 205.3,
+        "width": 52.9,
+        "height": 14.5
+      }
+    },
+    "montdate29": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 29 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 514.7,
+        "top": 205.3,
+        "width": 58.8,
+        "height": 14.5
+      }
+    },
+    "number30": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 30 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 170.3,
+        "top": 189.0,
+        "width": 64.3,
+        "height": 14.5
+      }
+    },
+    "amount30": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 30 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 189.0,
+        "width": 66.1,
+        "height": 14.5
+      }
+    },
+    "month30": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 30 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 314.2,
+        "top": 189.0,
+        "width": 65.1,
+        "height": 14.5
+      }
+    },
+    "accountnumber30": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 30 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 189.0,
+        "width": 63.3,
+        "height": 14.5
+      }
+    },
+    "dailyamount30": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 30 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 455.1,
+        "top": 189.0,
+        "width": 52.9,
+        "height": 14.5
+      }
+    },
+    "montdate30": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 30 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 514.7,
+        "top": 189.0,
+        "width": 58.8,
+        "height": 14.5
+      }
+    },
+    "remarks2": {
+      "type": "text",
+      "label": "Enter your remarks.",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 188.2,
+        "width": 123.5,
+        "height": 29.9
+      }
+    },
+    "number31": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 31 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 170.3,
+        "top": 172.1,
+        "width": 64.3,
+        "height": 14.5
+      }
+    },
+    "amount31": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 31 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 172.1,
+        "width": 66.1,
+        "height": 14.5
+      }
+    },
+    "month31": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 31 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 314.2,
+        "top": 172.1,
+        "width": 65.1,
+        "height": 14.5
+      }
+    },
+    "accountnumber31": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 31 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 172.1,
+        "width": 63.3,
+        "height": 14.5
+      }
+    },
+    "dailyamount31": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 31 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 455.1,
+        "top": 172.1,
+        "width": 52.9,
+        "height": 14.5
+      }
+    },
+    "montdate31": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 31 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 514.7,
+        "top": 172.1,
+        "width": 58.8,
+        "height": 14.5
+      }
+    },
+    "number32": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 32 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 170.3,
+        "top": 155.8,
+        "width": 64.3,
+        "height": 14.8
+      }
+    },
+    "amount32": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 32 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 155.8,
+        "width": 66.1,
+        "height": 14.8
+      }
+    },
+    "month32": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 32 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 314.2,
+        "top": 155.8,
+        "width": 65.1,
+        "height": 14.8
+      }
+    },
+    "accountnumber32": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 32 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 155.8,
+        "width": 63.3,
+        "height": 14.8
+      }
+    },
+    "dailyamount32": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 32 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 455.1,
+        "top": 155.8,
+        "width": 52.9,
+        "height": 14.8
+      }
+    },
+    "montdate32": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 32 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 514.7,
+        "top": 155.8,
+        "width": 58.8,
+        "height": 14.8
+      }
+    },
+    "remarks3": {
+      "type": "text",
+      "label": "Enter your remarks.",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 155.0,
+        "width": 123.5,
+        "height": 29.9
+      }
+    },
+    "number33": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 33 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 170.3,
+        "top": 138.9,
+        "width": 64.3,
+        "height": 14.5
+      }
+    },
+    "amount33": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 33 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 138.9,
+        "width": 66.1,
+        "height": 14.5
+      }
+    },
+    "month33": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 33 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 314.2,
+        "top": 138.9,
+        "width": 65.1,
+        "height": 14.5
+      }
+    },
+    "accountnumber33": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 33 of 33 enter the account number.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 138.9,
+        "width": 63.3,
+        "height": 14.5
+      }
+    },
+    "dailyamount33": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 33 of 33 enter the daily amount.",
+      "page": 1,
+      "box": {
+        "left": 455.1,
+        "top": 138.9,
+        "width": 52.9,
+        "height": 14.5
+      }
+    },
+    "montdate33": {
+      "type": "text",
+      "label": "For sales and other receipts credit on line 33 of 33 enter the month to date amount.",
+      "page": 1,
+      "box": {
+        "left": 514.7,
+        "top": 138.9,
+        "width": 58.8,
+        "height": 14.5
+      }
+    },
+    "totalb": {
+      "type": "text",
+      "label": "Enter total sales and other receipts credits for column B.",
+      "page": 1,
+      "box": {
+        "left": 455.1,
+        "top": 122.6,
+        "width": 52.9,
+        "height": 31.6
+      },
+      "multiline": true
+    },
+    "totalc": {
+      "type": "text",
+      "label": "Enter total sales and other receipts credits for column C.",
+      "page": 1,
+      "box": {
+        "left": 514.7,
+        "top": 122.6,
+        "width": 58.8,
+        "height": 31.6
+      },
+      "multiline": true
+    },
+    "remarks4": {
+      "type": "text",
+      "label": "Enter your remarks.",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 121.9,
+        "width": 123.5,
+        "height": 29.9
+      }
+    },
+    "predate": {
+      "type": "text",
+      "label": "Enter the date (DD MMM YYYY) by the preparer.",
+      "page": 1,
+      "box": {
+        "left": 241.3,
+        "top": 79.2,
+        "width": 66.4,
+        "height": 28.2
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "Enter the date (DD MMM YYYY) by the approver.",
+      "page": 1,
+      "box": {
+        "left": 514.7,
+        "top": 79.2,
+        "width": 59.0,
+        "height": 28.2
+      }
+    },
+    "prepare": {
+      "type": "text",
+      "label": "Enter the name (last, first, middle initial) of the preparer of the daily activity record summary.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 79.1,
+        "width": 195.7,
+        "height": 28.2
+      }
+    },
+    "approve": {
+      "type": "text",
+      "label": "Enter the name (last, first, middle initial) of the approver of the daily activity record summary.",
+      "page": 1,
+      "box": {
+        "left": 313.9,
+        "top": 79.1,
+        "width": 194.6,
+        "height": 28.2
+      }
+    }
+  }
+}

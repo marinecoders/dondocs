@@ -1,0 +1,137 @@
+{
+  "id": "opnav4790140",
+  "label": "OPNAV4790-140 - Ndi TechnicianOperator Work Record",
+  "directory": "OPNAV4790-140 - Ndi TechnicianOperator Work Record",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name1",
+        "rank1",
+        "organization1",
+        "datein1",
+        "dateout1",
+        "date1",
+        "method1",
+        "hours1",
+        "remarks1",
+        "verified1"
+      ]
+    }
+  ],
+  "fields": {
+    "name1": {
+      "type": "text",
+      "label": "1. NAME",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 705.3,
+        "width": 367.5,
+        "height": 19.8
+      }
+    },
+    "rank1": {
+      "type": "text",
+      "label": "2. RATE/RANK",
+      "page": 1,
+      "box": {
+        "left": 413.3,
+        "top": 705.3,
+        "width": 158.6,
+        "height": 19.8
+      }
+    },
+    "organization1": {
+      "type": "text",
+      "label": "3. ORGANIZATION",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 664.5,
+        "width": 532.5,
+        "height": 19.8
+      }
+    },
+    "datein1": {
+      "type": "text",
+      "label": "4. DATE IN (DD MMM YYYY)",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 624.9,
+        "width": 263.8,
+        "height": 19.8
+      }
+    },
+    "dateout1": {
+      "type": "text",
+      "label": "4. DATE OUT (DD MMM YYYY)",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 624.9,
+        "width": 263.0,
+        "height": 19.8
+      }
+    },
+    "date1": {
+      "type": "text",
+      "label": "6. DATE",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 574.5,
+        "width": 53.0,
+        "height": 19.8
+      }
+    },
+    "method1": {
+      "type": "text",
+      "label": "7. NDI METHOD",
+      "page": 1,
+      "box": {
+        "left": 97.6,
+        "top": 574.5,
+        "width": 156.4,
+        "height": 19.8
+      }
+    },
+    "hours1": {
+      "type": "text",
+      "label": "8. HRS",
+      "page": 1,
+      "box": {
+        "left": 259.9,
+        "top": 574.5,
+        "width": 43.4,
+        "height": 19.8
+      }
+    },
+    "remarks1": {
+      "type": "text",
+      "label": "9. REMARKS",
+      "page": 1,
+      "box": {
+        "left": 309.0,
+        "top": 574.5,
+        "width": 195.5,
+        "height": 19.8
+      }
+    },
+    "verified1": {
+      "type": "text",
+      "label": "10. VERIFIED",
+      "page": 1,
+      "box": {
+        "left": 510.4,
+        "top": 574.5,
+        "width": 61.5,
+        "height": 19.8
+      }
+    }
+  }
+}

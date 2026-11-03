@@ -1,0 +1,480 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "requirementName": {
+        "left": 161.0,
+        "top": 709.3,
+        "width": 410.8,
+        "height": 12.0,
+        "type": "text",
+        "description": "1. REQUIREMENT NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "descriptionOfFunctionalNeedServicesRequired": {
+        "left": 37.3,
+        "top": 686.8,
+        "width": 534.1,
+        "height": 85.9,
+        "type": "text",
+        "description": "1. REQUIREMENT NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "totalNumberOfYears": {
+        "left": 339.7,
+        "top": 600.3,
+        "width": 81.6,
+        "height": 24.7,
+        "type": "text",
+        "description": "3. OCCURANCE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox1": {
+        "left": 156.6,
+        "top": 599.8,
+        "width": 18.0,
+        "height": 12.3,
+        "type": "checkbox",
+        "description": "3. OCCURANCE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox2": {
+        "left": 156.6,
+        "top": 587.6,
+        "width": 18.0,
+        "height": 11.9,
+        "type": "checkbox",
+        "description": "FUNCTIONAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "igceAmount": {
+        "left": 423.8,
+        "top": 576.4,
+        "width": 147.6,
+        "height": 12.1,
+        "type": "text",
+        "description": "(i.e., the base, plus all options)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "poPStartDate": {
+        "left": 343.1,
+        "top": 563.3,
+        "width": 227.9,
+        "height": 12.1,
+        "type": "text",
+        "description": "5. REQUIRED PERIOD OF PERFORMANCE (POP) START DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "other1": {
+        "left": 398.8,
+        "top": 539.1,
+        "width": 127.4,
+        "height": 12.2,
+        "type": "text",
+        "description": "c. IGCE: (Required)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox3": {
+        "left": 279.8,
+        "top": 538.2,
+        "width": 19.2,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "a. HIRING FREEZE ACKNOWLEDGEMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox5": {
+        "left": 538.2,
+        "top": 537.8,
+        "width": 18.4,
+        "height": 9.6,
+        "type": "checkbox",
+        "description": "c. IGCE: (Required)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "other2": {
+        "left": 398.7,
+        "top": 527.3,
+        "width": 127.5,
+        "height": 12.6,
+        "type": "text",
+        "description": "d. OTHER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox4": {
+        "left": 279.8,
+        "top": 525.9,
+        "width": 19.2,
+        "height": 9.9,
+        "type": "checkbox",
+        "description": "b. PERFORMANCE WORK STATEMENT : (Required)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox6": {
+        "left": 538.2,
+        "top": 525.5,
+        "width": 18.4,
+        "height": 9.5,
+        "type": "checkbox",
+        "description": "d. OTHER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "marketResearchSummary": {
+        "left": 36.9,
+        "top": 503.9,
+        "width": 535.7,
+        "height": 75.4,
+        "type": "text",
+        "description": "7. MARKET RESEARCH SUMMARY (e.g., potential sources)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "originatorSName": {
+        "left": 85.2,
+        "top": 417.5,
+        "width": 335.8,
+        "height": 13.6,
+        "type": "text",
+        "description": "a. NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "originatorSOrganization": {
+        "left": 131.8,
+        "top": 405.3,
+        "width": 289.5,
+        "height": 13.6,
+        "type": "text",
+        "description": "b. ORGANIZATION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "originator": {
+        "left": 422.2,
+        "top": 404.7,
+        "width": 150.2,
+        "height": 25.4,
+        "type": "signature",
+        "description": "c. E-MAIL ADDRESS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "originatorSEMailAddress": {
+        "left": 139.5,
+        "top": 393.2,
+        "width": 281.8,
+        "height": 14.4,
+        "type": "text",
+        "description": "c. E-MAIL ADDRESS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fundsHolderSName": {
+        "left": 84.0,
+        "top": 368.0,
+        "width": 215.7,
+        "height": 13.5,
+        "type": "text",
+        "description": "a. NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fundsHolder": {
+        "left": 420.9,
+        "top": 356.5,
+        "width": 150.6,
+        "height": 25.8,
+        "type": "signature",
+        "description": "d. SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox7": {
+        "left": 311.1,
+        "top": 355.2,
+        "width": 18.0,
+        "height": 12.7,
+        "type": "checkbox",
+        "description": "b. ORGANIZATION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fundsHolderSOrganization": {
+        "left": 132.2,
+        "top": 354.9,
+        "width": 167.8,
+        "height": 12.1,
+        "type": "text",
+        "description": "b. ORGANIZATION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fundsHolderSEMailAddress": {
+        "left": 140.3,
+        "top": 343.7,
+        "width": 159.3,
+        "height": 13.0,
+        "type": "text",
+        "description": "c. E-MAIL ADDRESS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox8": {
+        "left": 311.1,
+        "top": 342.6,
+        "width": 18.0,
+        "height": 12.3,
+        "type": "checkbox",
+        "description": "c. E-MAIL ADDRESS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "orrbNo": {
+        "left": 402.9,
+        "top": 319.5,
+        "width": 168.9,
+        "height": 13.7,
+        "type": "text",
+        "description": "10. ASSIGNED OPNAV REQUIREMENTS REVIEW BOARD (ORRB) NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cwgLeadSName": {
+        "left": 86.0,
+        "top": 294.6,
+        "width": 214.9,
+        "height": 13.0,
+        "type": "text",
+        "description": "a. NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cwgLeadSOrganization": {
+        "left": 132.2,
+        "top": 282.8,
+        "width": 168.2,
+        "height": 12.0,
+        "type": "text",
+        "description": "b. ORGANIZATION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox9": {
+        "left": 310.7,
+        "top": 282.2,
+        "width": 18.0,
+        "height": 13.1,
+        "type": "checkbox",
+        "description": "b. ORGANIZATION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cwgLead": {
+        "left": 421.8,
+        "top": 282.2,
+        "width": 151.0,
+        "height": 25.3,
+        "type": "signature",
+        "description": "DISAPPROVE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cwgLeadSEMailAddress": {
+        "left": 139.5,
+        "top": 270.7,
+        "width": 161.0,
+        "height": 13.9,
+        "type": "text",
+        "description": "c. E-MAIL ADDRESS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox10": {
+        "left": 310.7,
+        "top": 269.6,
+        "width": 18.0,
+        "height": 11.9,
+        "type": "checkbox",
+        "description": "c. E-MAIL ADDRESS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cwgLeadSComments": {
+        "left": 36.7,
+        "top": 246.6,
+        "width": 535.6,
+        "height": 76.3,
+        "type": "text",
+        "description": "f. COMMENTS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cwgExecChairORRBDecisionAuthoritySName": {
+        "left": 86.8,
+        "top": 118.1,
+        "width": 213.7,
+        "height": 12.9,
+        "type": "text",
+        "description": "a. NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cwgExecChairORRBDecisionAuthoritySOrganization": {
+        "left": 134.2,
+        "top": 105.6,
+        "width": 166.2,
+        "height": 13.5,
+        "type": "text",
+        "description": "b. ORGANIZATION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox11": {
+        "left": 311.1,
+        "top": 104.6,
+        "width": 18.0,
+        "height": 11.1,
+        "type": "checkbox",
+        "description": "b. ORGANIZATION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cwgExecutiveChairORRBDecisionAuthority": {
+        "left": 420.8,
+        "top": 103.7,
+        "width": 151.1,
+        "height": 24.1,
+        "type": "signature",
+        "description": "DISAPPROVE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cwgExecChairORRBDecisionAuthoritySEMailAddress": {
+        "left": 141.9,
+        "top": 93.3,
+        "width": 158.5,
+        "height": 14.1,
+        "type": "text",
+        "description": "c. E-MAIL ADDRESS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox12": {
+        "left": 311.1,
+        "top": 92.4,
+        "width": 18.0,
+        "height": 12.3,
+        "type": "checkbox",
+        "description": "c. E-MAIL ADDRESS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "controlledBy": {
+        "left": 420.2,
+        "top": 79.0,
+        "width": 107.8,
+        "height": 9.4,
+        "type": "text",
+        "description": "CUI (when filled in) CONTROLLED BY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cuiCategority": {
+        "left": 420.2,
+        "top": 69.7,
+        "width": 107.8,
+        "height": 9.8,
+        "type": "text",
+        "description": "CUI CATEGORITY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ldc": {
+        "left": 420.2,
+        "top": 60.4,
+        "width": 107.8,
+        "height": 10.6,
+        "type": "text",
+        "description": "LDC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "poc": {
+        "left": 420.2,
+        "top": 50.2,
+        "width": 107.8,
+        "height": 10.6,
+        "type": "text",
+        "description": "POC",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

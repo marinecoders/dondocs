@@ -1,0 +1,317 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "ssn": {
+        "left": 411.7,
+        "top": 637.0,
+        "width": 124.8,
+        "height": 13.0,
+        "type": "text",
+        "description": "SSN",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name": {
+        "left": 77.4,
+        "top": 633.8,
+        "width": 324.0,
+        "height": 10.6,
+        "type": "text",
+        "description": "Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "college": {
+        "left": 77.3,
+        "top": 606.8,
+        "width": 458.4,
+        "height": 10.8,
+        "type": "text",
+        "description": "College",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radioButtonList": {
+        "left": 370.4,
+        "top": 567.3,
+        "width": 13.0,
+        "height": 13.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[0].RadioButtonList[1]",
+        "required": false
+      },
+      "radioButtonList2": {
+        "left": 302.6,
+        "top": 567.2,
+        "width": 13.0,
+        "height": 13.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[0].RadioButtonList[1]",
+        "required": false
+      },
+      "radioButtonList3": {
+        "left": 93.4,
+        "top": 496.7,
+        "width": 13.0,
+        "height": 13.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[0].RadioButtonList[0]",
+        "required": false
+      },
+      "radioButtonList4": {
+        "left": 200.8,
+        "top": 496.7,
+        "width": 13.0,
+        "height": 13.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[0].RadioButtonList[0]",
+        "required": false
+      },
+      "radioButtonList5": {
+        "left": 321.4,
+        "top": 496.7,
+        "width": 13.0,
+        "height": 13.0,
+        "type": "radio",
+        "description": "2",
+        "options": null,
+        "group": "form1[0].#subform[0].RadioButtonList[0]",
+        "required": false
+      },
+      "degreeDate": {
+        "left": 280.1,
+        "top": 455.0,
+        "width": 64.1,
+        "height": 19.8,
+        "type": "text",
+        "description": "degreeDate",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "major": {
+        "left": 298.8,
+        "top": 363.9,
+        "width": 124.8,
+        "height": 13.0,
+        "type": "text",
+        "description": "major",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hoursAttempt": {
+        "left": 299.1,
+        "top": 337.7,
+        "width": 124.8,
+        "height": 13.0,
+        "type": "text",
+        "description": "hoursAttempt",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hoursComplete": {
+        "left": 299.1,
+        "top": 311.4,
+        "width": 124.8,
+        "height": 13.0,
+        "type": "text",
+        "description": "hoursComplete",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "gp": {
+        "left": 298.8,
+        "top": 285.2,
+        "width": 124.8,
+        "height": 13.0,
+        "type": "text",
+        "description": "GP",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "gpa": {
+        "left": 299.4,
+        "top": 258.2,
+        "width": 124.8,
+        "height": 13.0,
+        "type": "text",
+        "description": "GPA",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "equiv": {
+        "left": 235.3,
+        "top": 233.4,
+        "width": 26.6,
+        "height": 13.0,
+        "type": "text",
+        "description": "equiv",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "verbalSAT": {
+        "left": 352.8,
+        "top": 206.4,
+        "width": 31.9,
+        "height": 13.0,
+        "type": "text",
+        "description": "verbalSAT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mathSAT": {
+        "left": 249.5,
+        "top": 206.3,
+        "width": 31.9,
+        "height": 13.0,
+        "type": "text",
+        "description": "mathSAT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mathACT": {
+        "left": 249.5,
+        "top": 184.6,
+        "width": 31.9,
+        "height": 13.0,
+        "type": "text",
+        "description": "mathACT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "englishACT": {
+        "left": 352.5,
+        "top": 184.6,
+        "width": 31.9,
+        "height": 13.0,
+        "type": "text",
+        "description": "englishACT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sig": {
+        "left": 294.3,
+        "top": 124.5,
+        "width": 146.6,
+        "height": 19.8,
+        "type": "signature",
+        "description": "Sig",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "title": {
+        "left": 294.1,
+        "top": 93.3,
+        "width": 124.8,
+        "height": 13.0,
+        "type": "text",
+        "description": "title",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date": {
+        "left": 294.1,
+        "top": 76.1,
+        "width": 64.1,
+        "height": 19.8,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "addressCollege": {
+        "left": 75.1,
+        "top": 682.4,
+        "width": 221.7,
+        "height": 69.9,
+        "type": "text",
+        "description": "addressCollege",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameLetter": {
+        "left": 335.2,
+        "top": 399.2,
+        "width": 203.4,
+        "height": 14.9,
+        "type": "text",
+        "description": "nameLetter",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sigApp": {
+        "left": 83.0,
+        "top": 202.4,
+        "width": 146.6,
+        "height": 19.8,
+        "type": "signature",
+        "description": "SigApp",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sigWit": {
+        "left": 264.4,
+        "top": 202.4,
+        "width": 146.6,
+        "height": 19.8,
+        "type": "signature",
+        "description": "SigWit",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signDate": {
+        "left": 437.6,
+        "top": 202.4,
+        "width": 64.1,
+        "height": 19.8,
+        "type": "text",
+        "description": "SignDate",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

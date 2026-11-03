@@ -1,0 +1,924 @@
+{
+  "id": "navpers13303",
+  "label": "NAVPERS1330-3 - Distribution Systems Request",
+  "directory": "NAVPERS1330-3 - Distribution Systems Request",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "radio",
+        "radio2",
+        "radio3",
+        "name",
+        "eMail",
+        "phone",
+        "onboardUIC",
+        "activity",
+        "prd",
+        "cACDoDID",
+        "radio4",
+        "saar455",
+        "cACexpire",
+        "radio5",
+        "checkBox1",
+        "checkBox2",
+        "checkBox3",
+        "checkBox12",
+        "checkBox22",
+        "checkBox32",
+        "checkBox13",
+        "checkBox23",
+        "checkBox33",
+        "checkBox14",
+        "checkBox24",
+        "checkBox34",
+        "checkBox15",
+        "checkBox25",
+        "checkBox16",
+        "checkBox26",
+        "checkBox35",
+        "checkBox17",
+        "checkBox27",
+        "checkBox36",
+        "checkBox28",
+        "checkBox37",
+        "checkBox18",
+        "checkBox29",
+        "uICs",
+        "checkBox19",
+        "checkBox210",
+        "checkBox38",
+        "checkBox211",
+        "checkBox39",
+        "checkBox110",
+        "checkBox111",
+        "checkBox212",
+        "checkBox112",
+        "checkBox310",
+        "checkBox213",
+        "checkBox214",
+        "checkBox311",
+        "checkBox113",
+        "checkBox114",
+        "checkBox312",
+        "checkBox313",
+        "checkBox115",
+        "checkBox215",
+        "checkBox314",
+        "cell2",
+        "cell3",
+        "cell4",
+        "cell5",
+        "cell6",
+        "cell7",
+        "cell1",
+        "yes",
+        "no",
+        "userName",
+        "userSign",
+        "userDate",
+        "aoName",
+        "aoTitle",
+        "aoSign",
+        "aoDate"
+      ],
+      "editor": "checklist"
+    }
+  ],
+  "fields": {
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 319.7,
+        "top": 714.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 391.7,
+        "top": 714.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 714.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "name": {
+      "type": "text",
+      "label": "Name",
+      "page": 1,
+      "box": {
+        "left": 67.7,
+        "top": 695.5,
+        "width": 145.5,
+        "height": 12.2
+      }
+    },
+    "eMail": {
+      "type": "text",
+      "label": "E-mail Address",
+      "page": 1,
+      "box": {
+        "left": 280.1,
+        "top": 695.5,
+        "width": 149.1,
+        "height": 12.2
+      }
+    },
+    "phone": {
+      "type": "text",
+      "label": "Phone Number",
+      "page": 1,
+      "box": {
+        "left": 492.5,
+        "top": 695.5,
+        "width": 80.7,
+        "height": 12.2
+      }
+    },
+    "onboardUIC": {
+      "type": "text",
+      "label": "Onboard UIC",
+      "page": 1,
+      "box": {
+        "left": 94.2,
+        "top": 677.5,
+        "width": 82.9,
+        "height": 12.2
+      }
+    },
+    "activity": {
+      "type": "text",
+      "label": "Activity",
+      "page": 1,
+      "box": {
+        "left": 215.7,
+        "top": 677.5,
+        "width": 213.5,
+        "height": 12.2
+      }
+    },
+    "prd": {
+      "type": "text",
+      "label": "PRD (Military)",
+      "page": 1,
+      "box": {
+        "left": 492.8,
+        "top": 677.5,
+        "width": 80.4,
+        "height": 12.2
+      }
+    },
+    "cACDoDID": {
+      "type": "text",
+      "label": "CAC DoD ID Number",
+      "page": 1,
+      "box": {
+        "left": 118.1,
+        "top": 659.5,
+        "width": 167.1,
+        "height": 12.2
+      }
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 658.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "saar455": {
+      "type": "checkbox",
+      "label": "SAAR on file",
+      "page": 1,
+      "box": {
+        "left": 564.1,
+        "top": 648.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cACexpire": {
+      "type": "text",
+      "label": "CAC Expiration Date",
+      "page": 1,
+      "box": {
+        "left": 118.1,
+        "top": 641.5,
+        "width": 167.1,
+        "height": 12.2
+      }
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 640.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "checkBox1": {
+      "type": "checkbox",
+      "label": "Activity Manning Manager",
+      "page": 1,
+      "box": {
+        "left": 191.1,
+        "top": 586.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox2": {
+      "type": "checkbox",
+      "label": "Activity Manning Support",
+      "page": 1,
+      "box": {
+        "left": 371.1,
+        "top": 586.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox3": {
+      "type": "checkbox",
+      "label": "View Only",
+      "page": 1,
+      "box": {
+        "left": 551.1,
+        "top": 586.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox12": {
+      "type": "checkbox",
+      "label": "Enlisted Command",
+      "page": 1,
+      "box": {
+        "left": 191.1,
+        "top": 572.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox22": {
+      "type": "checkbox",
+      "label": "Enlisted Command Career Counselor",
+      "page": 1,
+      "box": {
+        "left": 371.1,
+        "top": 572.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox32": {
+      "type": "checkbox",
+      "label": "Community Management",
+      "page": 1,
+      "box": {
+        "left": 551.1,
+        "top": 572.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox13": {
+      "type": "checkbox",
+      "label": "Type Commander",
+      "page": 1,
+      "box": {
+        "left": 191.1,
+        "top": 557.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox23": {
+      "type": "checkbox",
+      "label": "Immediate Superior In Command",
+      "page": 1,
+      "box": {
+        "left": 371.1,
+        "top": 557.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox33": {
+      "type": "checkbox",
+      "label": "Community Manager Lead",
+      "page": 1,
+      "box": {
+        "left": 551.1,
+        "top": 557.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox14": {
+      "type": "checkbox",
+      "label": "Manning Control Authority",
+      "page": 1,
+      "box": {
+        "left": 191.1,
+        "top": 543.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox24": {
+      "type": "checkbox",
+      "label": "Manning Control Readiness",
+      "page": 1,
+      "box": {
+        "left": 371.1,
+        "top": 543.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox34": {
+      "type": "checkbox",
+      "label": "Community Manager Director",
+      "page": 1,
+      "box": {
+        "left": 551.1,
+        "top": 543.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox15": {
+      "type": "checkbox",
+      "label": "Officer Activity Manning Manager",
+      "page": 1,
+      "box": {
+        "left": 191.1,
+        "top": 528.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox25": {
+      "type": "checkbox",
+      "label": "Officer Community Manager",
+      "page": 1,
+      "box": {
+        "left": 371.1,
+        "top": 528.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox16": {
+      "type": "checkbox",
+      "label": "Reserve Asgmt. Coord. - HQ Enlisted",
+      "page": 1,
+      "box": {
+        "left": 191.1,
+        "top": 500.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox26": {
+      "type": "checkbox",
+      "label": "Reserve Asgmt. Coord. - HQ Officer",
+      "page": 1,
+      "box": {
+        "left": 371.1,
+        "top": 500.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox35": {
+      "type": "checkbox",
+      "label": "Reserve Asgmt. Coord. - Field",
+      "page": 1,
+      "box": {
+        "left": 551.1,
+        "top": 500.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox17": {
+      "type": "checkbox",
+      "label": "Reserve Command",
+      "page": 1,
+      "box": {
+        "left": 191.1,
+        "top": 485.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox27": {
+      "type": "checkbox",
+      "label": "Reserve Command - Staff",
+      "page": 1,
+      "box": {
+        "left": 371.1,
+        "top": 485.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox36": {
+      "type": "checkbox",
+      "label": "Reserve Command - Career Counselor",
+      "page": 1,
+      "box": {
+        "left": 551.1,
+        "top": 485.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox28": {
+      "type": "checkbox",
+      "label": "Reserve Manning Control",
+      "page": 1,
+      "box": {
+        "left": 191.1,
+        "top": 471.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox37": {
+      "type": "checkbox",
+      "label": "Reserve Placement Coordinator",
+      "page": 1,
+      "box": {
+        "left": 371.1,
+        "top": 471.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox18": {
+      "type": "checkbox",
+      "label": "Reserve Accession Manager",
+      "page": 1,
+      "box": {
+        "left": 551.1,
+        "top": 471.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox29": {
+      "type": "checkbox",
+      "label": "Reserve User (View Only)",
+      "page": 1,
+      "box": {
+        "left": 191.1,
+        "top": 456.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "uICs": {
+      "type": "text",
+      "label": "U I Cs",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 434.8,
+        "width": 534.3,
+        "height": 28.8
+      }
+    },
+    "checkBox19": {
+      "type": "checkbox",
+      "label": "Allocation Manager",
+      "page": 1,
+      "box": {
+        "left": 191.1,
+        "top": 384.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox210": {
+      "type": "checkbox",
+      "label": "Allocation Support",
+      "page": 1,
+      "box": {
+        "left": 371.1,
+        "top": 384.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox38": {
+      "type": "checkbox",
+      "label": "Incentive Manager",
+      "page": 1,
+      "box": {
+        "left": 551.1,
+        "top": 384.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox211": {
+      "type": "checkbox",
+      "label": "Placement Coordinator Lead",
+      "page": 1,
+      "box": {
+        "left": 191.1,
+        "top": 370.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox39": {
+      "type": "checkbox",
+      "label": "Placement Coordinator",
+      "page": 1,
+      "box": {
+        "left": 371.1,
+        "top": 370.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox110": {
+      "type": "checkbox",
+      "label": "Special Case Placement",
+      "page": 1,
+      "box": {
+        "left": 551.1,
+        "top": 370.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox111": {
+      "type": "checkbox",
+      "label": "Rating Specialist Lead",
+      "page": 1,
+      "box": {
+        "left": 191.1,
+        "top": 356.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox212": {
+      "type": "checkbox",
+      "label": "Rating Specialist",
+      "page": 1,
+      "box": {
+        "left": 371.1,
+        "top": 356.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox112": {
+      "type": "checkbox",
+      "label": "Rating Assignment Officer",
+      "page": 1,
+      "box": {
+        "left": 551.1,
+        "top": 356.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox310": {
+      "type": "checkbox",
+      "label": "Enlisted Detailer",
+      "page": 1,
+      "box": {
+        "left": 191.1,
+        "top": 341.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox213": {
+      "type": "checkbox",
+      "label": "Assignment Management",
+      "page": 1,
+      "box": {
+        "left": 371.1,
+        "top": 341.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox214": {
+      "type": "checkbox",
+      "label": "Women in Ships Coordinator",
+      "page": 1,
+      "box": {
+        "left": 551.1,
+        "top": 341.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox311": {
+      "type": "checkbox",
+      "label": "Officer Detailer",
+      "page": 1,
+      "box": {
+        "left": 191.1,
+        "top": 327.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox113": {
+      "type": "checkbox",
+      "label": "Officer Placement",
+      "page": 1,
+      "box": {
+        "left": 371.1,
+        "top": 327.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox114": {
+      "type": "checkbox",
+      "label": "Deployability Coordinator",
+      "page": 1,
+      "box": {
+        "left": 551.1,
+        "top": 327.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox312": {
+      "type": "checkbox",
+      "label": "MyNavy Assignment Administrator",
+      "page": 1,
+      "box": {
+        "left": 191.1,
+        "top": 312.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox313": {
+      "type": "checkbox",
+      "label": "Help Desk",
+      "page": 1,
+      "box": {
+        "left": 371.1,
+        "top": 312.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox115": {
+      "type": "checkbox",
+      "label": "EAIS",
+      "page": 1,
+      "box": {
+        "left": 129.9,
+        "top": 275.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox215": {
+      "type": "checkbox",
+      "label": "OAIS",
+      "page": 1,
+      "box": {
+        "left": 309.9,
+        "top": 275.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox314": {
+      "type": "checkbox",
+      "label": "ODIS",
+      "page": 1,
+      "box": {
+        "left": 489.9,
+        "top": 275.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell2": {
+      "type": "text",
+      "label": "Desk Codes",
+      "page": 1,
+      "box": {
+        "left": 92.9,
+        "top": 259.9,
+        "width": 75.2,
+        "height": 12.2
+      }
+    },
+    "cell3": {
+      "type": "text",
+      "label": "Desk Codes",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 259.9,
+        "width": 75.2,
+        "height": 12.2
+      }
+    },
+    "cell4": {
+      "type": "text",
+      "label": "Desk Codes",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 259.9,
+        "width": 75.2,
+        "height": 12.2
+      }
+    },
+    "cell5": {
+      "type": "text",
+      "label": "Desk Codes",
+      "page": 1,
+      "box": {
+        "left": 335.9,
+        "top": 259.9,
+        "width": 75.2,
+        "height": 12.2
+      }
+    },
+    "cell6": {
+      "type": "text",
+      "label": "Desk Codes",
+      "page": 1,
+      "box": {
+        "left": 416.9,
+        "top": 259.9,
+        "width": 75.2,
+        "height": 12.2
+      }
+    },
+    "cell7": {
+      "type": "text",
+      "label": "Desk Codes",
+      "page": 1,
+      "box": {
+        "left": 497.9,
+        "top": 259.9,
+        "width": 75.2,
+        "height": 12.2
+      }
+    },
+    "cell1": {
+      "type": "text",
+      "label": "MIAP Community of Interest",
+      "page": 1,
+      "box": {
+        "left": 144.9,
+        "top": 241.9,
+        "width": 104.2,
+        "height": 12.2
+      }
+    },
+    "yes": {
+      "type": "checkbox",
+      "label": "https://miap.csd.disa.mil",
+      "page": 1,
+      "box": {
+        "left": 417.9,
+        "top": 221.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 498.9,
+        "top": 221.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "userName": {
+      "type": "text",
+      "label": "User Name, Title, Rank/Rating/Grade",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 154.0,
+        "width": 210.3,
+        "height": 14.4
+      }
+    },
+    "userSign": {
+      "type": "text",
+      "label": "User Signature",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 154.0,
+        "width": 228.3,
+        "height": 14.4
+      }
+    },
+    "userDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 488.9,
+        "top": 154.0,
+        "width": 84.3,
+        "height": 14.4
+      }
+    },
+    "aoName": {
+      "type": "text",
+      "label": "Authorized Official (AO) Name",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 125.2,
+        "width": 264.3,
+        "height": 14.4
+      }
+    },
+    "aoTitle": {
+      "type": "text",
+      "label": "AO Title, Rank/Grade",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 125.2,
+        "width": 264.3,
+        "height": 14.4
+      }
+    },
+    "aoSign": {
+      "type": "text",
+      "label": "AO Signature",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 96.4,
+        "width": 444.3,
+        "height": 14.4
+      }
+    },
+    "aoDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 488.9,
+        "top": 96.4,
+        "width": 84.3,
+        "height": 14.4
+      }
+    }
+  }
+}

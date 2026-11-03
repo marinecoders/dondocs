@@ -1,0 +1,1392 @@
+{
+  "id": "opnav558510",
+  "label": "OPNAV5585-10 - Drug Training Aid Accountability Record",
+  "directory": "OPNAV5585-10 - Drug Training Aid Accountability Record",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "commandUIC",
+        "dEAregno",
+        "dEA222ordform",
+        "entryno1",
+        "serialno1",
+        "type1",
+        "nomsubweig1",
+        "total1",
+        "receivedby1",
+        "date1",
+        "remarks1",
+        "entryno2",
+        "serialno2",
+        "type2",
+        "nomsubweig2",
+        "total2",
+        "receivedby2",
+        "date2",
+        "remarks2",
+        "entryno3",
+        "serialno3",
+        "type3",
+        "nomsubweig3",
+        "total3",
+        "receivedby3",
+        "date3",
+        "remarks3",
+        "entryno4",
+        "serialno4",
+        "type4",
+        "nomsubweig4",
+        "total4",
+        "receivedby4",
+        "date4",
+        "remarks4",
+        "entryno5",
+        "serialno5",
+        "type5",
+        "nomsubweig5",
+        "tota5",
+        "receivedby5",
+        "date5",
+        "remarks5",
+        "entryno6",
+        "serialno6",
+        "type6",
+        "nomsubweig6",
+        "total6",
+        "receivedby6",
+        "date6",
+        "remarks6",
+        "entryno7",
+        "serialno7",
+        "type7",
+        "nomsubweig7",
+        "total7",
+        "receivedby7",
+        "date7",
+        "remarks7",
+        "entryno8",
+        "serialno8",
+        "type8",
+        "nomsubweig8",
+        "total8",
+        "receivedby8",
+        "date8",
+        "remarks8",
+        "entryno9",
+        "serialno9",
+        "type9",
+        "nomsubweig9",
+        "total9",
+        "receivedby9",
+        "date9",
+        "remarks9",
+        "entryno10",
+        "serialno10",
+        "type10",
+        "nomsubweig10",
+        "total10",
+        "receivedby10",
+        "date10",
+        "remarks10",
+        "entryno11",
+        "serialno11",
+        "type11",
+        "nomsubweig11",
+        "total11",
+        "receivedby11",
+        "date11",
+        "remarks11",
+        "entryno12",
+        "serialno12",
+        "type12",
+        "nomsubweig12",
+        "total12",
+        "receivedby12",
+        "date12",
+        "remarks12",
+        "entryno13",
+        "serialno13",
+        "type13",
+        "nomsubweig13",
+        "total13",
+        "receivedby13",
+        "date13",
+        "remarks13"
+      ]
+    }
+  ],
+  "fields": {
+    "commandUIC": {
+      "type": "text",
+      "label": "Enter the command/Unit identification code.",
+      "page": 1,
+      "box": {
+        "left": 43.5,
+        "top": 515.4,
+        "width": 319.3,
+        "height": 23.8
+      }
+    },
+    "dEAregno": {
+      "type": "text",
+      "label": "Enter the DEA registration number.",
+      "page": 1,
+      "box": {
+        "left": 367.1,
+        "top": 515.4,
+        "width": 188.8,
+        "height": 23.9
+      }
+    },
+    "dEA222ordform": {
+      "type": "text",
+      "label": "Enter the DEA 222C order form.",
+      "page": 1,
+      "box": {
+        "left": 559.6,
+        "top": 515.4,
+        "width": 197.1,
+        "height": 23.8
+      }
+    },
+    "entryno1": {
+      "type": "text",
+      "label": "This row 1 of 13. Enter the entry number.",
+      "page": 1,
+      "box": {
+        "left": 43.5,
+        "top": 373.9,
+        "width": 75.8,
+        "height": 20.4
+      }
+    },
+    "serialno1": {
+      "type": "text",
+      "label": "Enter the serial number.",
+      "page": 1,
+      "box": {
+        "left": 122.6,
+        "top": 373.9,
+        "width": 74.5,
+        "height": 20.4
+      }
+    },
+    "type1": {
+      "type": "choice",
+      "label": "Enter the type of control substance (see code keys listed above).",
+      "page": 1,
+      "box": {
+        "left": 201.8,
+        "top": 373.9,
+        "width": 77.9,
+        "height": 20.4
+      },
+      "options": [
+        "ME",
+        "MJ",
+        "HE",
+        "HA",
+        "CO"
+      ]
+    },
+    "nomsubweig1": {
+      "type": "text",
+      "label": "Enter the nominal substance weight.",
+      "page": 1,
+      "box": {
+        "left": 280.2,
+        "top": 373.9,
+        "width": 82.4,
+        "height": 20.6
+      }
+    },
+    "total1": {
+      "type": "text",
+      "label": "Enter the total.",
+      "page": 1,
+      "box": {
+        "left": 366.5,
+        "top": 373.9,
+        "width": 81.5,
+        "height": 20.2
+      }
+    },
+    "receivedby1": {
+      "type": "text",
+      "label": "Enter whom received by.",
+      "page": 1,
+      "box": {
+        "left": 452.9,
+        "top": 373.9,
+        "width": 103.0,
+        "height": 20.4
+      }
+    },
+    "date1": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 559.6,
+        "top": 373.9,
+        "width": 74.7,
+        "height": 20.5
+      }
+    },
+    "remarks1": {
+      "type": "text",
+      "label": "Enter any remarks.",
+      "page": 1,
+      "box": {
+        "left": 638.3,
+        "top": 373.9,
+        "width": 118.4,
+        "height": 20.4
+      }
+    },
+    "entryno2": {
+      "type": "text",
+      "label": "This row 2 of 13.  Enter the entry number.",
+      "page": 1,
+      "box": {
+        "left": 43.5,
+        "top": 349.1,
+        "width": 75.8,
+        "height": 20.4
+      }
+    },
+    "serialno2": {
+      "type": "text",
+      "label": "Enter the serial number.",
+      "page": 1,
+      "box": {
+        "left": 122.6,
+        "top": 349.1,
+        "width": 74.5,
+        "height": 20.4
+      }
+    },
+    "type2": {
+      "type": "choice",
+      "label": "Enter the type of control substance (see code keys listed above).",
+      "page": 1,
+      "box": {
+        "left": 201.8,
+        "top": 349.1,
+        "width": 77.9,
+        "height": 20.4
+      },
+      "options": [
+        "ME",
+        "MJ",
+        "HE",
+        "HA",
+        "CO"
+      ]
+    },
+    "nomsubweig2": {
+      "type": "text",
+      "label": "Enter the nominal substance weight.",
+      "page": 1,
+      "box": {
+        "left": 280.2,
+        "top": 349.1,
+        "width": 82.4,
+        "height": 20.6
+      }
+    },
+    "total2": {
+      "type": "text",
+      "label": "Enter the total.",
+      "page": 1,
+      "box": {
+        "left": 366.5,
+        "top": 349.1,
+        "width": 81.5,
+        "height": 20.2
+      }
+    },
+    "receivedby2": {
+      "type": "text",
+      "label": "Enter whom received by.",
+      "page": 1,
+      "box": {
+        "left": 452.9,
+        "top": 349.1,
+        "width": 103.0,
+        "height": 20.4
+      }
+    },
+    "date2": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 559.6,
+        "top": 349.1,
+        "width": 74.7,
+        "height": 20.5
+      }
+    },
+    "remarks2": {
+      "type": "text",
+      "label": "Enter any remarks.",
+      "page": 1,
+      "box": {
+        "left": 638.3,
+        "top": 349.1,
+        "width": 118.4,
+        "height": 20.5
+      }
+    },
+    "entryno3": {
+      "type": "text",
+      "label": "This row 3 of 13.  Enter the entry number.",
+      "page": 1,
+      "box": {
+        "left": 43.5,
+        "top": 324.2,
+        "width": 75.8,
+        "height": 20.4
+      }
+    },
+    "serialno3": {
+      "type": "text",
+      "label": "Enter the serial number.",
+      "page": 1,
+      "box": {
+        "left": 122.6,
+        "top": 324.2,
+        "width": 74.5,
+        "height": 20.4
+      }
+    },
+    "type3": {
+      "type": "choice",
+      "label": "Enter the type of control substance (see code keys listed above).",
+      "page": 1,
+      "box": {
+        "left": 201.8,
+        "top": 324.2,
+        "width": 77.9,
+        "height": 20.4
+      },
+      "options": [
+        "ME",
+        "MJ",
+        "HE",
+        "HA",
+        "CO"
+      ]
+    },
+    "nomsubweig3": {
+      "type": "text",
+      "label": "Enter the nominal substance weight.",
+      "page": 1,
+      "box": {
+        "left": 280.2,
+        "top": 324.2,
+        "width": 82.4,
+        "height": 20.6
+      }
+    },
+    "total3": {
+      "type": "text",
+      "label": "Enter the total.",
+      "page": 1,
+      "box": {
+        "left": 366.5,
+        "top": 324.2,
+        "width": 81.5,
+        "height": 20.2
+      }
+    },
+    "receivedby3": {
+      "type": "text",
+      "label": "Enter whom received by.",
+      "page": 1,
+      "box": {
+        "left": 452.9,
+        "top": 324.2,
+        "width": 103.0,
+        "height": 20.4
+      }
+    },
+    "date3": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 559.6,
+        "top": 324.2,
+        "width": 74.7,
+        "height": 20.5
+      }
+    },
+    "remarks3": {
+      "type": "text",
+      "label": "Enter any remarks.",
+      "page": 1,
+      "box": {
+        "left": 638.3,
+        "top": 324.2,
+        "width": 118.4,
+        "height": 20.5
+      }
+    },
+    "entryno4": {
+      "type": "text",
+      "label": "This row 4 of 13.  Enter the entry number.",
+      "page": 1,
+      "box": {
+        "left": 43.5,
+        "top": 299.4,
+        "width": 75.8,
+        "height": 20.4
+      }
+    },
+    "serialno4": {
+      "type": "text",
+      "label": "Enter the serial number.",
+      "page": 1,
+      "box": {
+        "left": 122.6,
+        "top": 299.4,
+        "width": 74.5,
+        "height": 20.4
+      }
+    },
+    "type4": {
+      "type": "choice",
+      "label": "Enter the type of control substance (see code keys listed above).",
+      "page": 1,
+      "box": {
+        "left": 201.8,
+        "top": 299.4,
+        "width": 77.9,
+        "height": 20.4
+      },
+      "options": [
+        "ME",
+        "MJ",
+        "HE",
+        "HA",
+        "CO"
+      ]
+    },
+    "nomsubweig4": {
+      "type": "text",
+      "label": "Enter the nominal substance weight.",
+      "page": 1,
+      "box": {
+        "left": 280.2,
+        "top": 299.4,
+        "width": 82.4,
+        "height": 20.1
+      }
+    },
+    "total4": {
+      "type": "text",
+      "label": "Enter the total.",
+      "page": 1,
+      "box": {
+        "left": 366.5,
+        "top": 299.4,
+        "width": 81.5,
+        "height": 20.2
+      }
+    },
+    "receivedby4": {
+      "type": "text",
+      "label": "Enter whom received by.",
+      "page": 1,
+      "box": {
+        "left": 452.9,
+        "top": 299.4,
+        "width": 103.0,
+        "height": 20.4
+      }
+    },
+    "date4": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 559.6,
+        "top": 299.4,
+        "width": 74.7,
+        "height": 20.5
+      }
+    },
+    "remarks4": {
+      "type": "text",
+      "label": "Enter any remarks.",
+      "page": 1,
+      "box": {
+        "left": 638.3,
+        "top": 299.4,
+        "width": 118.4,
+        "height": 20.5
+      }
+    },
+    "entryno5": {
+      "type": "text",
+      "label": "This row 5 of 13.  Enter the entry number.",
+      "page": 1,
+      "box": {
+        "left": 43.5,
+        "top": 274.2,
+        "width": 75.8,
+        "height": 21.1
+      }
+    },
+    "serialno5": {
+      "type": "text",
+      "label": "Enter the serial number.",
+      "page": 1,
+      "box": {
+        "left": 122.6,
+        "top": 274.2,
+        "width": 74.5,
+        "height": 21.1
+      }
+    },
+    "type5": {
+      "type": "choice",
+      "label": "Enter the type of control substance (see code keys listed above).",
+      "page": 1,
+      "box": {
+        "left": 201.8,
+        "top": 274.2,
+        "width": 77.9,
+        "height": 21.1
+      },
+      "options": [
+        "ME",
+        "MJ",
+        "HE",
+        "HA",
+        "CO"
+      ]
+    },
+    "nomsubweig5": {
+      "type": "text",
+      "label": "Enter the nominal substance weight.",
+      "page": 1,
+      "box": {
+        "left": 280.2,
+        "top": 274.2,
+        "width": 82.4,
+        "height": 21.2
+      }
+    },
+    "tota5": {
+      "type": "text",
+      "label": "Enter the total.",
+      "page": 1,
+      "box": {
+        "left": 366.5,
+        "top": 274.2,
+        "width": 81.5,
+        "height": 21.2
+      }
+    },
+    "receivedby5": {
+      "type": "text",
+      "label": "Enter whom received by.",
+      "page": 1,
+      "box": {
+        "left": 452.9,
+        "top": 274.2,
+        "width": 103.0,
+        "height": 21.2
+      }
+    },
+    "date5": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 559.6,
+        "top": 274.2,
+        "width": 74.7,
+        "height": 21.2
+      }
+    },
+    "remarks5": {
+      "type": "text",
+      "label": "Enter any remarks.",
+      "page": 1,
+      "box": {
+        "left": 638.3,
+        "top": 274.2,
+        "width": 118.4,
+        "height": 21.2
+      }
+    },
+    "entryno6": {
+      "type": "text",
+      "label": "This row 6 of 13.  Enter the entry number.",
+      "page": 1,
+      "box": {
+        "left": 43.5,
+        "top": 248.4,
+        "width": 75.8,
+        "height": 20.4
+      }
+    },
+    "serialno6": {
+      "type": "text",
+      "label": "Enter the serial number.",
+      "page": 1,
+      "box": {
+        "left": 122.6,
+        "top": 248.4,
+        "width": 74.5,
+        "height": 20.4
+      }
+    },
+    "type6": {
+      "type": "choice",
+      "label": "Enter the type of control substance (see code keys listed above).",
+      "page": 1,
+      "box": {
+        "left": 201.8,
+        "top": 248.4,
+        "width": 77.9,
+        "height": 20.4
+      },
+      "options": [
+        "ME",
+        "MJ",
+        "HE",
+        "HA",
+        "CO"
+      ]
+    },
+    "nomsubweig6": {
+      "type": "text",
+      "label": "Enter the nominal substance weight.",
+      "page": 1,
+      "box": {
+        "left": 280.2,
+        "top": 248.4,
+        "width": 82.4,
+        "height": 20.1
+      }
+    },
+    "total6": {
+      "type": "text",
+      "label": "Enter the total.",
+      "page": 1,
+      "box": {
+        "left": 366.5,
+        "top": 248.4,
+        "width": 81.5,
+        "height": 20.2
+      }
+    },
+    "receivedby6": {
+      "type": "text",
+      "label": "Enter whom received by.",
+      "page": 1,
+      "box": {
+        "left": 452.9,
+        "top": 248.4,
+        "width": 103.0,
+        "height": 20.4
+      }
+    },
+    "date6": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 559.6,
+        "top": 248.4,
+        "width": 74.7,
+        "height": 20.5
+      }
+    },
+    "remarks6": {
+      "type": "text",
+      "label": "Enter any remarks.",
+      "page": 1,
+      "box": {
+        "left": 638.3,
+        "top": 248.4,
+        "width": 118.4,
+        "height": 20.5
+      }
+    },
+    "entryno7": {
+      "type": "text",
+      "label": "This row 7 of 13.  Enter the entry number.",
+      "page": 1,
+      "box": {
+        "left": 43.5,
+        "top": 223.7,
+        "width": 75.8,
+        "height": 20.4
+      }
+    },
+    "serialno7": {
+      "type": "text",
+      "label": "Enter the serial number.",
+      "page": 1,
+      "box": {
+        "left": 122.6,
+        "top": 223.7,
+        "width": 74.5,
+        "height": 20.4
+      }
+    },
+    "type7": {
+      "type": "choice",
+      "label": "Enter the type of control substance (see code keys listed above).",
+      "page": 1,
+      "box": {
+        "left": 201.8,
+        "top": 223.7,
+        "width": 77.9,
+        "height": 20.4
+      },
+      "options": [
+        "ME",
+        "MJ",
+        "HE",
+        "HA",
+        "CO"
+      ]
+    },
+    "nomsubweig7": {
+      "type": "text",
+      "label": "Enter the nominal substance weight.",
+      "page": 1,
+      "box": {
+        "left": 280.2,
+        "top": 223.7,
+        "width": 82.4,
+        "height": 20.1
+      }
+    },
+    "total7": {
+      "type": "text",
+      "label": "Enter the total.",
+      "page": 1,
+      "box": {
+        "left": 366.5,
+        "top": 223.7,
+        "width": 81.5,
+        "height": 20.2
+      }
+    },
+    "receivedby7": {
+      "type": "text",
+      "label": "Enter whom received by.",
+      "page": 1,
+      "box": {
+        "left": 452.9,
+        "top": 223.7,
+        "width": 103.0,
+        "height": 20.4
+      }
+    },
+    "date7": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 559.6,
+        "top": 223.7,
+        "width": 74.7,
+        "height": 20.5
+      }
+    },
+    "remarks7": {
+      "type": "text",
+      "label": "Enter any remarks.",
+      "page": 1,
+      "box": {
+        "left": 638.3,
+        "top": 223.7,
+        "width": 118.4,
+        "height": 20.5
+      }
+    },
+    "entryno8": {
+      "type": "text",
+      "label": "This row 8 of 13.  Enter the entry number.",
+      "page": 1,
+      "box": {
+        "left": 43.5,
+        "top": 199.0,
+        "width": 75.8,
+        "height": 21.2
+      }
+    },
+    "serialno8": {
+      "type": "text",
+      "label": "Enter the serial number.",
+      "page": 1,
+      "box": {
+        "left": 122.6,
+        "top": 199.0,
+        "width": 74.5,
+        "height": 21.2
+      }
+    },
+    "type8": {
+      "type": "choice",
+      "label": "Enter the type of control substance (see code keys listed above).",
+      "page": 1,
+      "box": {
+        "left": 201.8,
+        "top": 199.0,
+        "width": 77.9,
+        "height": 21.2
+      },
+      "options": [
+        "ME",
+        "MJ",
+        "HE",
+        "HA",
+        "CO"
+      ]
+    },
+    "nomsubweig8": {
+      "type": "text",
+      "label": "Enter the nominal substance weight.",
+      "page": 1,
+      "box": {
+        "left": 280.2,
+        "top": 199.0,
+        "width": 82.4,
+        "height": 20.9
+      }
+    },
+    "total8": {
+      "type": "text",
+      "label": "Enter the total.",
+      "page": 1,
+      "box": {
+        "left": 366.5,
+        "top": 199.0,
+        "width": 81.5,
+        "height": 21.0
+      }
+    },
+    "receivedby8": {
+      "type": "text",
+      "label": "Enter whom received by.",
+      "page": 1,
+      "box": {
+        "left": 452.9,
+        "top": 199.0,
+        "width": 103.0,
+        "height": 21.2
+      }
+    },
+    "date8": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 559.6,
+        "top": 199.0,
+        "width": 74.7,
+        "height": 21.3
+      }
+    },
+    "remarks8": {
+      "type": "text",
+      "label": "Enter any remarks.",
+      "page": 1,
+      "box": {
+        "left": 638.3,
+        "top": 199.0,
+        "width": 118.4,
+        "height": 21.3
+      }
+    },
+    "entryno9": {
+      "type": "text",
+      "label": "This row 9 of 13.  Enter the entry number.",
+      "page": 1,
+      "box": {
+        "left": 43.5,
+        "top": 173.8,
+        "width": 75.8,
+        "height": 21.1
+      }
+    },
+    "serialno9": {
+      "type": "text",
+      "label": "Enter the serial number.",
+      "page": 1,
+      "box": {
+        "left": 122.6,
+        "top": 173.8,
+        "width": 74.5,
+        "height": 21.1
+      }
+    },
+    "type9": {
+      "type": "choice",
+      "label": "Enter the type of control substance (see code keys listed above).",
+      "page": 1,
+      "box": {
+        "left": 201.8,
+        "top": 173.8,
+        "width": 77.9,
+        "height": 21.1
+      },
+      "options": [
+        "ME",
+        "MJ",
+        "HE",
+        "HA",
+        "CO"
+      ]
+    },
+    "nomsubweig9": {
+      "type": "text",
+      "label": "Enter the nominal substance weight.",
+      "page": 1,
+      "box": {
+        "left": 280.2,
+        "top": 173.8,
+        "width": 82.4,
+        "height": 21.3
+      }
+    },
+    "total9": {
+      "type": "text",
+      "label": "Enter the total.",
+      "page": 1,
+      "box": {
+        "left": 366.5,
+        "top": 173.8,
+        "width": 81.5,
+        "height": 21.2
+      }
+    },
+    "receivedby9": {
+      "type": "text",
+      "label": "Enter whom received by.",
+      "page": 1,
+      "box": {
+        "left": 452.9,
+        "top": 173.8,
+        "width": 103.0,
+        "height": 21.1
+      }
+    },
+    "date9": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 559.6,
+        "top": 173.8,
+        "width": 74.7,
+        "height": 21.2
+      }
+    },
+    "remarks9": {
+      "type": "text",
+      "label": "Enter any remarks.",
+      "page": 1,
+      "box": {
+        "left": 638.3,
+        "top": 173.8,
+        "width": 118.4,
+        "height": 21.2
+      }
+    },
+    "entryno10": {
+      "type": "text",
+      "label": "This row 10 of 13.  Enter the entry number.",
+      "page": 1,
+      "box": {
+        "left": 43.5,
+        "top": 148.3,
+        "width": 75.8,
+        "height": 20.4
+      }
+    },
+    "serialno10": {
+      "type": "text",
+      "label": "Enter the serial number.",
+      "page": 1,
+      "box": {
+        "left": 122.6,
+        "top": 148.3,
+        "width": 74.5,
+        "height": 20.4
+      }
+    },
+    "type10": {
+      "type": "choice",
+      "label": "Enter the type of control substance (see code keys listed above).",
+      "page": 1,
+      "box": {
+        "left": 201.8,
+        "top": 148.3,
+        "width": 77.9,
+        "height": 20.4
+      },
+      "options": [
+        "ME",
+        "MJ",
+        "HE",
+        "HA",
+        "CO"
+      ]
+    },
+    "nomsubweig10": {
+      "type": "text",
+      "label": "Enter the nominal substance weight.",
+      "page": 1,
+      "box": {
+        "left": 280.2,
+        "top": 148.3,
+        "width": 82.4,
+        "height": 20.6
+      }
+    },
+    "total10": {
+      "type": "text",
+      "label": "Enter the total.",
+      "page": 1,
+      "box": {
+        "left": 366.5,
+        "top": 148.3,
+        "width": 81.5,
+        "height": 20.5
+      }
+    },
+    "receivedby10": {
+      "type": "text",
+      "label": "Enter whom received by.",
+      "page": 1,
+      "box": {
+        "left": 452.9,
+        "top": 148.3,
+        "width": 103.0,
+        "height": 20.4
+      }
+    },
+    "date10": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 559.6,
+        "top": 148.3,
+        "width": 74.7,
+        "height": 20.5
+      }
+    },
+    "remarks10": {
+      "type": "text",
+      "label": "Enter any remarks.",
+      "page": 1,
+      "box": {
+        "left": 638.3,
+        "top": 148.3,
+        "width": 118.4,
+        "height": 20.4
+      }
+    },
+    "entryno11": {
+      "type": "text",
+      "label": "This row 11 of 13.  Enter the entry number.",
+      "page": 1,
+      "box": {
+        "left": 43.5,
+        "top": 124.2,
+        "width": 75.8,
+        "height": 23.5
+      }
+    },
+    "serialno11": {
+      "type": "text",
+      "label": "Enter the serial number.",
+      "page": 1,
+      "box": {
+        "left": 122.6,
+        "top": 124.2,
+        "width": 74.5,
+        "height": 23.5
+      }
+    },
+    "type11": {
+      "type": "choice",
+      "label": "Enter the type of control substance (see code keys listed above).",
+      "page": 1,
+      "box": {
+        "left": 201.8,
+        "top": 124.2,
+        "width": 77.9,
+        "height": 23.5
+      },
+      "options": [
+        "ME",
+        "MJ",
+        "HE",
+        "HA",
+        "CO"
+      ]
+    },
+    "nomsubweig11": {
+      "type": "text",
+      "label": "Enter the nominal substance weight.",
+      "page": 1,
+      "box": {
+        "left": 280.2,
+        "top": 124.2,
+        "width": 82.4,
+        "height": 23.7
+      }
+    },
+    "total11": {
+      "type": "text",
+      "label": "Enter the total.",
+      "page": 1,
+      "box": {
+        "left": 366.5,
+        "top": 124.2,
+        "width": 81.5,
+        "height": 23.3
+      }
+    },
+    "receivedby11": {
+      "type": "text",
+      "label": "Enter whom received by.",
+      "page": 1,
+      "box": {
+        "left": 452.9,
+        "top": 124.2,
+        "width": 103.0,
+        "height": 23.5
+      }
+    },
+    "date11": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 559.6,
+        "top": 124.2,
+        "width": 74.7,
+        "height": 23.6
+      }
+    },
+    "remarks11": {
+      "type": "text",
+      "label": "Enter any remarks.",
+      "page": 1,
+      "box": {
+        "left": 638.3,
+        "top": 124.2,
+        "width": 118.4,
+        "height": 23.6
+      }
+    },
+    "entryno12": {
+      "type": "text",
+      "label": "This row 12 of 13.  Enter the entry number.",
+      "page": 1,
+      "box": {
+        "left": 43.5,
+        "top": 96.9,
+        "width": 75.8,
+        "height": 20.4
+      }
+    },
+    "serialno12": {
+      "type": "text",
+      "label": "Enter the serial number.",
+      "page": 1,
+      "box": {
+        "left": 122.6,
+        "top": 96.9,
+        "width": 74.5,
+        "height": 20.4
+      }
+    },
+    "type12": {
+      "type": "choice",
+      "label": "Enter the type of control substance (see code keys listed above).",
+      "page": 1,
+      "box": {
+        "left": 201.8,
+        "top": 96.9,
+        "width": 77.9,
+        "height": 20.4
+      },
+      "options": [
+        "ME",
+        "MJ",
+        "HE",
+        "HA",
+        "CO"
+      ]
+    },
+    "nomsubweig12": {
+      "type": "text",
+      "label": "Enter the nominal substance weight.",
+      "page": 1,
+      "box": {
+        "left": 280.2,
+        "top": 96.9,
+        "width": 82.4,
+        "height": 20.1
+      }
+    },
+    "total12": {
+      "type": "text",
+      "label": "Enter the total.",
+      "page": 1,
+      "box": {
+        "left": 366.5,
+        "top": 96.9,
+        "width": 81.5,
+        "height": 20.2
+      }
+    },
+    "receivedby12": {
+      "type": "text",
+      "label": "Enter whom received by.",
+      "page": 1,
+      "box": {
+        "left": 452.9,
+        "top": 96.9,
+        "width": 103.0,
+        "height": 20.4
+      }
+    },
+    "date12": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 559.6,
+        "top": 96.9,
+        "width": 74.7,
+        "height": 20.5
+      }
+    },
+    "remarks12": {
+      "type": "text",
+      "label": "Enter any remarks.",
+      "page": 1,
+      "box": {
+        "left": 638.3,
+        "top": 96.9,
+        "width": 118.4,
+        "height": 20.5
+      }
+    },
+    "entryno13": {
+      "type": "text",
+      "label": "This row 13 of 13.  Enter the entry number.",
+      "page": 1,
+      "box": {
+        "left": 43.5,
+        "top": 72.6,
+        "width": 75.8,
+        "height": 20.4
+      }
+    },
+    "serialno13": {
+      "type": "text",
+      "label": "Enter the serial number.",
+      "page": 1,
+      "box": {
+        "left": 122.6,
+        "top": 72.6,
+        "width": 74.5,
+        "height": 20.4
+      }
+    },
+    "type13": {
+      "type": "choice",
+      "label": "Enter the type of control substance (see code keys listed above).",
+      "page": 1,
+      "box": {
+        "left": 201.8,
+        "top": 72.6,
+        "width": 77.9,
+        "height": 20.4
+      },
+      "options": [
+        "ME",
+        "MJ",
+        "HE",
+        "HA",
+        "CO"
+      ]
+    },
+    "nomsubweig13": {
+      "type": "text",
+      "label": "Enter the nominal substance weight.",
+      "page": 1,
+      "box": {
+        "left": 280.2,
+        "top": 72.6,
+        "width": 82.4,
+        "height": 20.6
+      }
+    },
+    "total13": {
+      "type": "text",
+      "label": "Enter the total.",
+      "page": 1,
+      "box": {
+        "left": 366.5,
+        "top": 72.6,
+        "width": 81.5,
+        "height": 20.5
+      }
+    },
+    "receivedby13": {
+      "type": "text",
+      "label": "Enter whom received by.",
+      "page": 1,
+      "box": {
+        "left": 452.9,
+        "top": 72.6,
+        "width": 103.0,
+        "height": 20.4
+      }
+    },
+    "date13": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 559.6,
+        "top": 72.6,
+        "width": 74.7,
+        "height": 20.5
+      }
+    },
+    "remarks13": {
+      "type": "text",
+      "label": "Enter any remarks.",
+      "page": 1,
+      "box": {
+        "left": 638.3,
+        "top": 72.6,
+        "width": 118.4,
+        "height": 20.5
+      }
+    }
+  }
+}

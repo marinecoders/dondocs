@@ -1,0 +1,284 @@
+{
+  "id": "opnav53501",
+  "label": "OPNAV5350-1 - Drug And Alcohol Abuse Statement Of Understanding",
+  "directory": "OPNAV5350-1 - Drug And Alcohol Abuse Statement Of Understanding",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "initials5a",
+        "initials5b",
+        "initials5b1",
+        "initials5b2",
+        "initials5b3"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "printedName",
+        "gradeRank",
+        "doDID",
+        "signature",
+        "date",
+        "nameCertifyingOfficial",
+        "signatureCertifyingOfficial",
+        "dateCertifyingOfficial",
+        "nameWitness",
+        "signatureWitness",
+        "dateWitness",
+        "remarks"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "I,",
+      "page": 1,
+      "box": {
+        "left": 50.5,
+        "top": 373.6,
+        "width": 262.9,
+        "height": 10.2
+      }
+    },
+    "initials5a": {
+      "type": "text",
+      "label": "Initials",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 198.7,
+        "width": 66.3,
+        "height": 55.5
+      },
+      "multiline": true
+    },
+    "initials5b": {
+      "type": "text",
+      "label": "Initials",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 137.5,
+        "width": 66.3,
+        "height": 37.5
+      },
+      "multiline": true
+    },
+    "initials5b1": {
+      "type": "text",
+      "label": "Initials",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 94.3,
+        "width": 66.3,
+        "height": 12.3
+      }
+    },
+    "initials5b2": {
+      "type": "text",
+      "label": "and at other follow-on times necessary",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 76.3,
+        "width": 66.3,
+        "height": 15.9
+      }
+    },
+    "initials5b3": {
+      "type": "text",
+      "label": "Initials",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 54.7,
+        "width": 66.3,
+        "height": 15.9
+      }
+    },
+    "printedName": {
+      "type": "text",
+      "label": "6. PRINTED NAME (last, first, middle)",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 655.9,
+        "width": 174.4,
+        "height": 19.5
+      }
+    },
+    "gradeRank": {
+      "type": "text",
+      "label": "7. GRADE/RANK (if applicable)",
+      "page": 2,
+      "box": {
+        "left": 218.9,
+        "top": 655.9,
+        "width": 174.4,
+        "height": 19.5
+      }
+    },
+    "doDID": {
+      "type": "text",
+      "label": "8. DoD ID",
+      "page": 2,
+      "box": {
+        "left": 398.9,
+        "top": 655.9,
+        "width": 174.4,
+        "height": 19.5
+      }
+    },
+    "signature": {
+      "type": "text",
+      "label": "9. SIGNATURE",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 619.9,
+        "width": 354.4,
+        "height": 19.5
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "10. DATE",
+      "page": 2,
+      "box": {
+        "left": 398.9,
+        "top": 619.9,
+        "width": 174.4,
+        "height": 19.5
+      }
+    },
+    "nameCertifyingOfficial": {
+      "type": "text",
+      "label": "11. PRINTED NAME/TITLE OF CERTIFYING OFFICIAL",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 562.3,
+        "width": 208.4,
+        "height": 19.5
+      }
+    },
+    "signatureCertifyingOfficial": {
+      "type": "text",
+      "label": "12. SIGNATURE",
+      "page": 2,
+      "box": {
+        "left": 252.9,
+        "top": 562.3,
+        "width": 140.3,
+        "height": 19.5
+      }
+    },
+    "dateCertifyingOfficial": {
+      "type": "text",
+      "label": "13. DATE",
+      "page": 2,
+      "box": {
+        "left": 398.9,
+        "top": 562.3,
+        "width": 174.4,
+        "height": 19.5
+      }
+    },
+    "nameWitness": {
+      "type": "text",
+      "label": "14. PRINTED NAME/TITLE OF WITNESS",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 526.3,
+        "width": 208.4,
+        "height": 19.5
+      }
+    },
+    "signatureWitness": {
+      "type": "text",
+      "label": "15. SIGNATURE",
+      "page": 2,
+      "box": {
+        "left": 252.9,
+        "top": 526.3,
+        "width": 140.3,
+        "height": 19.5
+      }
+    },
+    "dateWitness": {
+      "type": "text",
+      "label": "16. DATE",
+      "page": 2,
+      "box": {
+        "left": 398.9,
+        "top": 526.3,
+        "width": 174.4,
+        "height": 19.5
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "17. REMARKS",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 492.5,
+        "width": 534.4,
+        "height": 453.8
+      },
+      "multiline": true
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 4,
+      "rowStride": 21.6,
+      "editor": "grid",
+      "columns": {
+        "initials": {
+          "type": "text",
+          "label": "Initials",
+          "page": 1,
+          "box": {
+            "left": 506.9,
+            "top": 342.7,
+            "width": 66.3,
+            "height": 15.9
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 2,
+      "count": 3,
+      "rowStride": 21.6,
+      "editor": "grid",
+      "columns": {
+        "initials5b": {
+          "type": "text",
+          "label": "OPNAVINST 5350.4 (Series)",
+          "page": 2,
+          "box": {
+            "left": 506.9,
+            "top": 753.2,
+            "width": 66.3,
+            "height": 15.9
+          }
+        }
+      }
+    }
+  }
+}

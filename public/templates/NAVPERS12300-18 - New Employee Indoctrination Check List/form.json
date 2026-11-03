@@ -1,0 +1,114 @@
+{
+  "id": "navpers1230018",
+  "label": "NAVPERS12300-18 - New Employee Indoctrination Check List",
+  "directory": "NAVPERS12300-18 - New Employee Indoctrination Check List",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "8",
+        "7"
+      ]
+    }
+  ],
+  "fields": {
+    "1": {
+      "type": "text",
+      "label": "NEW EMPLOYEE INDOCTRINATION CHECK",
+      "page": 1,
+      "box": {
+        "left": 36.1,
+        "top": 708.4,
+        "width": 370.5,
+        "height": 18.0
+      }
+    },
+    "2": {
+      "type": "text",
+      "label": "SUPPORTING DIRECTIVE BUPERSINST 5300.10A",
+      "page": 1,
+      "box": {
+        "left": 413.1,
+        "top": 707.6,
+        "width": 166.4,
+        "height": 16.4
+      }
+    },
+    "3": {
+      "type": "text",
+      "label": "EMPLOYEE&apos;S NAME",
+      "page": 1,
+      "box": {
+        "left": 35.2,
+        "top": 682.2,
+        "width": 373.8,
+        "height": 19.7
+      }
+    },
+    "4": {
+      "type": "text",
+      "label": "SUSPENSE DATE",
+      "page": 1,
+      "box": {
+        "left": 413.1,
+        "top": 681.3,
+        "width": 168.0,
+        "height": 18.0
+      }
+    },
+    "5": {
+      "type": "text",
+      "label": "DEPARTMENT/BRANCH",
+      "page": 1,
+      "box": {
+        "left": 35.2,
+        "top": 653.5,
+        "width": 373.0,
+        "height": 18.9
+      }
+    },
+    "6": {
+      "type": "text",
+      "label": "DATE EMPLOYED",
+      "page": 1,
+      "box": {
+        "left": 413.9,
+        "top": 651.8,
+        "width": 167.2,
+        "height": 18.9
+      }
+    },
+    "8": {
+      "type": "text",
+      "label": "GRADE",
+      "page": 1,
+      "box": {
+        "left": 414.8,
+        "top": 624.0,
+        "width": 168.0,
+        "height": 17.2
+      }
+    },
+    "7": {
+      "type": "text",
+      "label": "JOB TITLE",
+      "page": 1,
+      "box": {
+        "left": 36.1,
+        "top": 623.1,
+        "width": 373.8,
+        "height": 16.4
+      }
+    }
+  }
+}

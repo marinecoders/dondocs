@@ -1,0 +1,315 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "division": {
+        "left": 38.8,
+        "top": 720.9,
+        "width": 210.4,
+        "height": 41.1,
+        "type": "text",
+        "description": "DIVISION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "col1": {
+        "left": 254.9,
+        "top": 651.7,
+        "width": 60.6,
+        "height": 21.3,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "col2": {
+        "left": 281.9,
+        "top": 651.7,
+        "width": 60.6,
+        "height": 21.3,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "col3": {
+        "left": 308.9,
+        "top": 651.7,
+        "width": 60.6,
+        "height": 21.3,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "col4": {
+        "left": 335.9,
+        "top": 651.7,
+        "width": 60.6,
+        "height": 21.3,
+        "type": "text",
+        "description": "SUBJECT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "col5": {
+        "left": 362.9,
+        "top": 651.7,
+        "width": 60.6,
+        "height": 21.3,
+        "type": "text",
+        "description": "SUBJECT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "col6": {
+        "left": 389.9,
+        "top": 651.7,
+        "width": 60.6,
+        "height": 21.3,
+        "type": "text",
+        "description": "SUBJECT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "col7": {
+        "left": 416.9,
+        "top": 651.7,
+        "width": 60.6,
+        "height": 21.3,
+        "type": "text",
+        "description": "SUBJECT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "col8": {
+        "left": 443.9,
+        "top": 651.7,
+        "width": 60.6,
+        "height": 21.3,
+        "type": "text",
+        "description": "COMNAVAIRFORINST",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "col9": {
+        "left": 470.9,
+        "top": 651.7,
+        "width": 60.6,
+        "height": 21.3,
+        "type": "text",
+        "description": "COMNAVAIRFORINST",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "col10": {
+        "left": 497.9,
+        "top": 651.7,
+        "width": 60.6,
+        "height": 21.3,
+        "type": "text",
+        "description": "COMNAVAIRFORINST 4790.2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "col11": {
+        "left": 524.9,
+        "top": 651.7,
+        "width": 60.6,
+        "height": 21.3,
+        "type": "text",
+        "description": "COMNAVAIRFORINST 4790.2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "col12": {
+        "left": 551.9,
+        "top": 651.7,
+        "width": 60.6,
+        "height": 21.3,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameField": {
+        "left": 38.8,
+        "top": 624.7,
+        "width": 156.4,
+        "height": 15.6,
+        "type": "text",
+        "description": "NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rateField": {
+        "left": 200.9,
+        "top": 624.7,
+        "width": 48.3,
+        "height": 15.6,
+        "type": "text",
+        "description": "RATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "col1Field": {
+        "left": 254.9,
+        "top": 624.7,
+        "width": 21.3,
+        "height": 15.6,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "col2Field": {
+        "left": 281.9,
+        "top": 624.7,
+        "width": 21.3,
+        "height": 15.6,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "col3Field": {
+        "left": 308.9,
+        "top": 624.7,
+        "width": 21.3,
+        "height": 15.6,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "col4Field": {
+        "left": 335.9,
+        "top": 624.7,
+        "width": 21.3,
+        "height": 15.6,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "col5Field": {
+        "left": 362.9,
+        "top": 624.7,
+        "width": 21.3,
+        "height": 15.6,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "col6Field": {
+        "left": 389.9,
+        "top": 624.7,
+        "width": 21.3,
+        "height": 15.6,
+        "type": "text",
+        "description": "SUBJECT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "col7Field": {
+        "left": 416.9,
+        "top": 624.7,
+        "width": 21.3,
+        "height": 15.6,
+        "type": "text",
+        "description": "SUBJECT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "col8Field": {
+        "left": 443.9,
+        "top": 624.7,
+        "width": 21.3,
+        "height": 15.6,
+        "type": "text",
+        "description": "COMNAVAIRFORINST",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "col9Field": {
+        "left": 470.9,
+        "top": 624.7,
+        "width": 21.3,
+        "height": 15.6,
+        "type": "text",
+        "description": "COMNAVAIRFORINST",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "col10Field": {
+        "left": 497.9,
+        "top": 624.7,
+        "width": 21.3,
+        "height": 15.6,
+        "type": "text",
+        "description": "COMNAVAIRFORINST",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "col11Field": {
+        "left": 524.9,
+        "top": 624.7,
+        "width": 21.3,
+        "height": 15.6,
+        "type": "text",
+        "description": "COMNAVAIRFORINST",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "col12Field": {
+        "left": 551.9,
+        "top": 624.7,
+        "width": 21.3,
+        "height": 15.6,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

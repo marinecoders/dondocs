@@ -1,0 +1,977 @@
+{
+  "id": "opnav479084",
+  "label": "OPNAV4790-84 - Maintenance Index Page (mip)",
+  "directory": "OPNAV4790-84 - Maintenance Index Page (mip)",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "date1",
+        "shipSysSubEqui",
+        "refPub",
+        "config",
+        "typeOfMain1",
+        "typeOfMain12",
+        "typeOfMain2",
+        "typeOfMain22",
+        "typeOfMain3",
+        "typeOfMain32",
+        "typeOfMain4",
+        "typeOfMain42",
+        "typeOfMain5",
+        "typeOfMain52",
+        "typeOfMain6",
+        "typeOfMain62",
+        "typeOfMain7",
+        "typeOfMain72",
+        "typeOfMain8",
+        "typeOfMain82",
+        "typeOfMain9",
+        "typeOfMain92",
+        "typeOfMain10",
+        "typeOfMain102",
+        "typeOfMain11",
+        "typeOfMain112",
+        "typeOfMain122",
+        "typeOfMain123",
+        "typeOfMain13",
+        "typeOfMain132",
+        "typeOfMain14",
+        "typeOfMain142",
+        "typeOfMain15",
+        "typeOfMain152",
+        "typeOfMain16",
+        "typeOfMain162",
+        "typeOfMain17",
+        "typeOfMain172",
+        "typeOfMain18",
+        "typeOfMain182",
+        "typeOfMain19",
+        "typeOfMain192",
+        "typeOfMain20",
+        "typeOfMain202",
+        "typeOfMain21",
+        "typeOfMain212",
+        "typeOfMain222",
+        "typeOfMain223",
+        "typeOfMain23",
+        "typeOfMain232",
+        "typeOfMain24",
+        "typeOfMain242",
+        "typeOfMain25",
+        "typeOfMain252",
+        "typeOfMain26",
+        "typeOfMain262",
+        "typeOfMain27",
+        "typeOfMain272",
+        "typeOfMain28",
+        "typeOfMain282",
+        "typeOfMain29",
+        "typeOfMain292",
+        "typeOfMain30",
+        "typeOfMain302",
+        "typeOfMain31",
+        "typeOfMain312",
+        "typeOfMain322",
+        "typeOfMain323"
+      ]
+    }
+  ],
+  "fields": {
+    "date1": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 497.6,
+        "top": 769.1,
+        "width": 83.8,
+        "height": 16.1
+      }
+    },
+    "shipSysSubEqui": {
+      "type": "text",
+      "label": "Enter the ship system, system, subsystem, or equipment.",
+      "page": 1,
+      "box": {
+        "left": 29.6,
+        "top": 740.4,
+        "width": 270.3,
+        "height": 41.4
+      },
+      "multiline": true
+    },
+    "refPub": {
+      "type": "text",
+      "label": "Enter the reference publications.",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 740.4,
+        "width": 273.6,
+        "height": 41.9
+      },
+      "multiline": true
+    },
+    "config": {
+      "type": "text",
+      "label": "Enter the configuration.",
+      "page": 1,
+      "box": {
+        "left": 29.6,
+        "top": 687.0,
+        "width": 551.5,
+        "height": 44.2
+      },
+      "multiline": true
+    },
+    "typeOfMain1": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 48.7,
+        "top": 595.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain1_0"
+    },
+    "typeOfMain12": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 30.1,
+        "top": 595.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain1_0"
+    },
+    "typeOfMain2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 48.7,
+        "top": 578.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain2_0"
+    },
+    "typeOfMain22": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 30.1,
+        "top": 577.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain2_0"
+    },
+    "typeOfMain3": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 48.7,
+        "top": 561.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain3_0"
+    },
+    "typeOfMain32": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 30.1,
+        "top": 560.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain3_0"
+    },
+    "typeOfMain4": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 48.7,
+        "top": 544.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain4_0"
+    },
+    "typeOfMain42": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 30.1,
+        "top": 543.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain4_0"
+    },
+    "typeOfMain5": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 48.7,
+        "top": 526.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain5_0"
+    },
+    "typeOfMain52": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 30.1,
+        "top": 526.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain5_0"
+    },
+    "typeOfMain6": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 48.7,
+        "top": 509.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain6_0"
+    },
+    "typeOfMain62": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 30.1,
+        "top": 509.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain6_0"
+    },
+    "typeOfMain7": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 48.7,
+        "top": 492.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain7_0"
+    },
+    "typeOfMain72": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 30.1,
+        "top": 491.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain7_0"
+    },
+    "typeOfMain8": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 48.7,
+        "top": 475.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain8_0"
+    },
+    "typeOfMain82": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 30.1,
+        "top": 474.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain8_0"
+    },
+    "typeOfMain9": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 48.7,
+        "top": 458.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain9_0"
+    },
+    "typeOfMain92": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 30.1,
+        "top": 457.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain9_0"
+    },
+    "typeOfMain10": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 48.7,
+        "top": 440.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain10_0"
+    },
+    "typeOfMain102": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 30.1,
+        "top": 440.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain10_0"
+    },
+    "typeOfMain11": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 48.7,
+        "top": 423.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain11_0"
+    },
+    "typeOfMain112": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 30.1,
+        "top": 423.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain11_0"
+    },
+    "typeOfMain122": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 48.7,
+        "top": 406.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain12_0"
+    },
+    "typeOfMain123": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 30.1,
+        "top": 405.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain12_0"
+    },
+    "typeOfMain13": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 48.7,
+        "top": 389.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain13_0"
+    },
+    "typeOfMain132": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 30.1,
+        "top": 388.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain13_0"
+    },
+    "typeOfMain14": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 48.7,
+        "top": 372.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain14_0"
+    },
+    "typeOfMain142": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 30.1,
+        "top": 371.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain14_0"
+    },
+    "typeOfMain15": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 48.7,
+        "top": 355.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain15_0"
+    },
+    "typeOfMain152": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 30.1,
+        "top": 354.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain15_0"
+    },
+    "typeOfMain16": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 48.7,
+        "top": 337.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain16_0"
+    },
+    "typeOfMain162": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 30.1,
+        "top": 337.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain16_0"
+    },
+    "typeOfMain17": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 48.7,
+        "top": 320.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain17_0"
+    },
+    "typeOfMain172": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 30.1,
+        "top": 320.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain17_0"
+    },
+    "typeOfMain18": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 48.7,
+        "top": 303.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain18_0"
+    },
+    "typeOfMain182": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 30.1,
+        "top": 302.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain18_0"
+    },
+    "typeOfMain19": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 48.7,
+        "top": 286.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain19_0"
+    },
+    "typeOfMain192": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 30.1,
+        "top": 285.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain19_0"
+    },
+    "typeOfMain20": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 48.7,
+        "top": 269.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain20_0"
+    },
+    "typeOfMain202": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 30.1,
+        "top": 268.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain20_0"
+    },
+    "typeOfMain21": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 48.7,
+        "top": 251.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain21_0"
+    },
+    "typeOfMain212": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 30.1,
+        "top": 251.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain21_0"
+    },
+    "typeOfMain222": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 48.7,
+        "top": 234.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain22_0"
+    },
+    "typeOfMain223": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 30.1,
+        "top": 234.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain22_0"
+    },
+    "typeOfMain23": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 48.7,
+        "top": 217.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain23_0"
+    },
+    "typeOfMain232": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 30.1,
+        "top": 216.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain23_0"
+    },
+    "typeOfMain24": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 48.7,
+        "top": 200.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain24_0"
+    },
+    "typeOfMain242": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 30.1,
+        "top": 199.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain24_0"
+    },
+    "typeOfMain25": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 48.7,
+        "top": 183.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain25_0"
+    },
+    "typeOfMain252": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 30.1,
+        "top": 182.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain25_0"
+    },
+    "typeOfMain26": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 48.7,
+        "top": 165.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain26_0"
+    },
+    "typeOfMain262": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 30.1,
+        "top": 165.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain26_0"
+    },
+    "typeOfMain27": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 48.7,
+        "top": 148.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain27_0"
+    },
+    "typeOfMain272": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 30.1,
+        "top": 148.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain27_0"
+    },
+    "typeOfMain28": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 48.7,
+        "top": 131.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain28_0"
+    },
+    "typeOfMain282": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 30.1,
+        "top": 131.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain28_0"
+    },
+    "typeOfMain29": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 48.7,
+        "top": 114.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain29_0"
+    },
+    "typeOfMain292": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 30.1,
+        "top": 113.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain29_0"
+    },
+    "typeOfMain30": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 48.7,
+        "top": 97.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain30_0"
+    },
+    "typeOfMain302": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 30.1,
+        "top": 96.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain30_0"
+    },
+    "typeOfMain31": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 48.7,
+        "top": 80.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain31_0"
+    },
+    "typeOfMain312": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 30.1,
+        "top": 79.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain31_0"
+    },
+    "typeOfMain322": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 48.7,
+        "top": 62.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain32_0"
+    },
+    "typeOfMain323": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 30.1,
+        "top": 62.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfMain32_0"
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 32,
+      "rowStride": 17.18,
+      "editor": "grid",
+      "columns": {
+        "conNo": {
+          "type": "text",
+          "label": "Enter the SYSCOM MRC control number.",
+          "page": 1,
+          "box": {
+            "left": 65.6,
+            "top": 595.3,
+            "width": 57.7,
+            "height": 10.1
+          }
+        },
+        "des": {
+          "type": "text",
+          "label": "Enter the maintenance requirement description.",
+          "page": 1,
+          "box": {
+            "left": 129.8,
+            "top": 595.9,
+            "width": 273.1,
+            "height": 10.7
+          }
+        },
+        "code": {
+          "type": "text",
+          "label": "Enter the periodicity code.",
+          "page": 1,
+          "box": {
+            "left": 409.3,
+            "top": 595.9,
+            "width": 30.7,
+            "height": 10.7
+          }
+        },
+        "rates": {
+          "type": "text",
+          "label": "Enter the rates.",
+          "page": 1,
+          "box": {
+            "left": 445.9,
+            "top": 595.9,
+            "width": 35.8,
+            "height": 10.7
+          }
+        },
+        "man": {
+          "type": "text",
+          "label": "Enter the man hours.",
+          "page": 1,
+          "box": {
+            "left": 488.1,
+            "top": 595.9,
+            "width": 47.6,
+            "height": 10.7
+          }
+        },
+        "rel": {
+          "type": "text",
+          "label": "Enter the related maintenance.",
+          "page": 1,
+          "box": {
+            "left": 542.1,
+            "top": 595.9,
+            "width": 39.1,
+            "height": 10.7
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,575 @@
+{
+  "id": "navpers1070607",
+  "label": "NAVPERS1070-607 - Court Memorandum",
+  "directory": "NAVPERS1070-607 - Court Memorandum",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "textField1",
+        "dateField1",
+        "dateField2",
+        "textField12",
+        "dateField3",
+        "textField13",
+        "dateField4",
+        "checkBox1",
+        "dateField5",
+        "checkBox12",
+        "checkBox13",
+        "textField14",
+        "textField15",
+        "dateField13",
+        "checkBox14",
+        "checkBox15",
+        "numericField8",
+        "numericField7",
+        "textField16",
+        "numericField2",
+        "checkBox16",
+        "checkBox17",
+        "checkBox18",
+        "numericField1",
+        "checkBox19",
+        "checkBox110",
+        "checkBox111",
+        "numericField6",
+        "numericField4",
+        "dateField9",
+        "dateField8",
+        "numericField5",
+        "numericField3",
+        "dateField7",
+        "dateField6",
+        "dateField11",
+        "textField17",
+        "dateField12",
+        "textField18",
+        "textField19",
+        "textField110",
+        "textField111",
+        "textField112",
+        "textField113",
+        "textField2",
+        "textField22"
+      ]
+    }
+  ],
+  "fields": {
+    "textField1": {
+      "type": "text",
+      "label": "2. SHIP OR STATION AND LOCATION",
+      "page": 1,
+      "box": {
+        "left": 146.9,
+        "top": 703.8,
+        "width": 426.4,
+        "height": 17.0
+      }
+    },
+    "dateField1": {
+      "type": "text",
+      "label": "1. DATE SUBMITTED",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 703.5,
+        "width": 102.3,
+        "height": 16.7
+      }
+    },
+    "dateField2": {
+      "type": "text",
+      "label": "3. DATE OF REFERRAL",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 667.8,
+        "width": 102.3,
+        "height": 17.0
+      }
+    },
+    "textField12": {
+      "type": "text",
+      "label": "4. TYPE OF COURT",
+      "page": 1,
+      "box": {
+        "left": 146.9,
+        "top": 667.8,
+        "width": 259.9,
+        "height": 17.0
+      }
+    },
+    "dateField3": {
+      "type": "text",
+      "label": "5. DATE OF COURT/NJP",
+      "page": 1,
+      "box": {
+        "left": 412.4,
+        "top": 667.8,
+        "width": 160.9,
+        "height": 17.0
+      }
+    },
+    "textField13": {
+      "type": "text",
+      "label": "6. UCMJ ARTICLE (S)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 634.4,
+        "width": 534.4,
+        "height": 19.5
+      }
+    },
+    "dateField4": {
+      "type": "text",
+      "label": "7. DATE OF ACTION",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 598.4,
+        "width": 102.3,
+        "height": 24.0
+      }
+    },
+    "checkBox1": {
+      "type": "checkbox",
+      "label": "ACTION",
+      "page": 1,
+      "box": {
+        "left": 186.0,
+        "top": 594.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "dateField5": {
+      "type": "text",
+      "label": "OR CORRECTION",
+      "page": 1,
+      "box": {
+        "left": 416.9,
+        "top": 591.0,
+        "width": 156.4,
+        "height": 16.7
+      }
+    },
+    "checkBox12": {
+      "type": "checkbox",
+      "label": "ACTION",
+      "page": 1,
+      "box": {
+        "left": 275.1,
+        "top": 590.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox13": {
+      "type": "checkbox",
+      "label": "CORRECTION TO",
+      "page": 1,
+      "box": {
+        "left": 393.1,
+        "top": 590.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "textField14": {
+      "type": "text",
+      "label": "13. FROM",
+      "page": 1,
+      "box": {
+        "left": 146.9,
+        "top": 557.9,
+        "width": 102.3,
+        "height": 24.1
+      }
+    },
+    "textField15": {
+      "type": "text",
+      "label": "14. TO",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 557.8,
+        "width": 102.3,
+        "height": 24.0
+      }
+    },
+    "dateField13": {
+      "type": "text",
+      "label": "15. TIR",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 557.8,
+        "width": 102.3,
+        "height": 24.0
+      }
+    },
+    "checkBox14": {
+      "type": "checkbox",
+      "label": "ADJUSTMENT",
+      "page": 1,
+      "box": {
+        "left": 86.1,
+        "top": 554.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox15": {
+      "type": "checkbox",
+      "label": "FORFEITURE",
+      "page": 1,
+      "box": {
+        "left": 74.8,
+        "top": 518.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "numericField8": {
+      "type": "text",
+      "label": "17. MONTHLY AMOUNT",
+      "page": 1,
+      "box": {
+        "left": 124.4,
+        "top": 517.3,
+        "width": 97.8,
+        "height": 15.0
+      }
+    },
+    "numericField7": {
+      "type": "text",
+      "label": "18. NO. MONTHS",
+      "page": 1,
+      "box": {
+        "left": 227.9,
+        "top": 517.3,
+        "width": 75.3,
+        "height": 15.0
+      }
+    },
+    "textField16": {
+      "type": "text",
+      "label": "20. AMOUNT",
+      "page": 1,
+      "box": {
+        "left": 124.4,
+        "top": 485.8,
+        "width": 61.8,
+        "height": 24.0
+      }
+    },
+    "numericField2": {
+      "type": "text",
+      "label": "24. NO. MOS",
+      "page": 1,
+      "box": {
+        "left": 502.4,
+        "top": 483.3,
+        "width": 70.8,
+        "height": 21.5
+      }
+    },
+    "checkBox16": {
+      "type": "checkbox",
+      "label": "FINE",
+      "page": 1,
+      "box": {
+        "left": 74.8,
+        "top": 482.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox17": {
+      "type": "checkbox",
+      "label": "CONSENT",
+      "page": 1,
+      "box": {
+        "left": 351.7,
+        "top": 482.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox18": {
+      "type": "checkbox",
+      "label": "CHECKAGE",
+      "page": 1,
+      "box": {
+        "left": 225.6,
+        "top": 478.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "numericField1": {
+      "type": "text",
+      "label": "CHECKAGE",
+      "page": 1,
+      "box": {
+        "left": 376.4,
+        "top": 478.5,
+        "width": 120.3,
+        "height": 16.7
+      }
+    },
+    "checkBox19": {
+      "type": "checkbox",
+      "label": "DETENTION",
+      "page": 1,
+      "box": {
+        "left": 74.8,
+        "top": 442.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox110": {
+      "type": "checkbox",
+      "label": "ADJUDGED",
+      "page": 1,
+      "box": {
+        "left": 160.4,
+        "top": 442.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox111": {
+      "type": "checkbox",
+      "label": "AND DISAPPROVED",
+      "page": 1,
+      "box": {
+        "left": 284.1,
+        "top": 442.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "numericField6": {
+      "type": "text",
+      "label": "30. DAYS LOST TIME (30 DAY BASIS)",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 402.3,
+        "width": 156.4,
+        "height": 30.5
+      },
+      "multiline": true
+    },
+    "numericField4": {
+      "type": "text",
+      "label": "31. DAYS LOST TIME (DAY FOR DAY)",
+      "page": 1,
+      "box": {
+        "left": 416.9,
+        "top": 402.3,
+        "width": 156.4,
+        "height": 30.5
+      },
+      "multiline": true
+    },
+    "dateField9": {
+      "type": "text",
+      "label": "28. FROM",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 391.3,
+        "width": 102.3,
+        "height": 19.5
+      }
+    },
+    "dateField8": {
+      "type": "text",
+      "label": "29. TO",
+      "page": 1,
+      "box": {
+        "left": 146.9,
+        "top": 391.3,
+        "width": 102.3,
+        "height": 19.5
+      }
+    },
+    "numericField5": {
+      "type": "text",
+      "label": "34. DAYS LOST TIME (30 DAY BASIS)",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 352.8,
+        "width": 156.4,
+        "height": 30.5
+      },
+      "multiline": true
+    },
+    "numericField3": {
+      "type": "text",
+      "label": "35. DAYS LOST TIME (DAY FOR DAY)",
+      "page": 1,
+      "box": {
+        "left": 416.9,
+        "top": 352.8,
+        "width": 156.4,
+        "height": 30.5
+      },
+      "multiline": true
+    },
+    "dateField7": {
+      "type": "text",
+      "label": "32. FROM",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 341.8,
+        "width": 102.3,
+        "height": 19.5
+      }
+    },
+    "dateField6": {
+      "type": "text",
+      "label": "33. TO",
+      "page": 1,
+      "box": {
+        "left": 146.9,
+        "top": 341.8,
+        "width": 102.3,
+        "height": 19.5
+      }
+    },
+    "dateField11": {
+      "type": "text",
+      "label": "36. CHANGE EAOS TO",
+      "page": 1,
+      "box": {
+        "left": 134.3,
+        "top": 316.6,
+        "width": 69.9,
+        "height": 16.8
+      }
+    },
+    "textField17": {
+      "type": "text",
+      "label": "MAY BE CONTINUED ON CONTINUATION PAGE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 275.9,
+        "width": 534.4,
+        "height": 52.7
+      },
+      "multiline": true
+    },
+    "dateField12": {
+      "type": "text",
+      "label": "38. DATE APPROVED/MODIFIED",
+      "page": 1,
+      "box": {
+        "left": 169.6,
+        "top": 204.1,
+        "width": 133.6,
+        "height": 16.8
+      }
+    },
+    "textField18": {
+      "type": "text",
+      "label": "39. AUTHORITY TYPE",
+      "page": 1,
+      "box": {
+        "left": 419.9,
+        "top": 204.1,
+        "width": 153.3,
+        "height": 16.8
+      }
+    },
+    "textField19": {
+      "type": "text",
+      "label": "40. RESUMPTION OF PROCEEDINGS",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 171.4,
+        "width": 534.4,
+        "height": 24.6
+      }
+    },
+    "textField110": {
+      "type": "text",
+      "label": "39. AUTHORITY TYPE",
+      "page": 1,
+      "box": {
+        "left": 259.4,
+        "top": 141.1,
+        "width": 313.9,
+        "height": 21.2
+      }
+    },
+    "textField111": {
+      "type": "text",
+      "label": "42. UNIT I.D. CODE",
+      "page": 1,
+      "box": {
+        "left": 259.4,
+        "top": 94.9,
+        "width": 156.4,
+        "height": 14.4
+      }
+    },
+    "textField112": {
+      "type": "text",
+      "label": "43. RATE",
+      "page": 1,
+      "box": {
+        "left": 421.4,
+        "top": 94.9,
+        "width": 151.8,
+        "height": 14.4
+      }
+    },
+    "textField113": {
+      "type": "text",
+      "label": "44. NAME (LAST, FIRST, MIDDLE)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 51.0,
+        "width": 363.4,
+        "height": 12.2
+      }
+    },
+    "textField2": {
+      "type": "text",
+      "label": "45. SSN",
+      "page": 1,
+      "box": {
+        "left": 407.9,
+        "top": 51.0,
+        "width": 66.3,
+        "height": 12.2
+      }
+    },
+    "textField22": {
+      "type": "text",
+      "label": "46. BRANCH/CLASS",
+      "page": 1,
+      "box": {
+        "left": 478.5,
+        "top": 51.0,
+        "width": 94.7,
+        "height": 12.2
+      }
+    }
+  }
+}

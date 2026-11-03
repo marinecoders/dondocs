@@ -1,0 +1,314 @@
+{
+  "id": "navpers13002",
+  "label": "NAVPERS1300-2 - Affiliation Processing And Summary Record",
+  "directory": "NAVPERS1300-2 - Affiliation Processing And Summary Record",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "trackingNum",
+        "rank",
+        "state",
+        "zip",
+        "address",
+        "city",
+        "phone",
+        "eMail",
+        "sex",
+        "bonusAmount",
+        "affiliationBonus",
+        "lrp",
+        "specialPayAmount",
+        "years",
+        "stipend",
+        "specialPay",
+        "signature",
+        "signature2",
+        "name2",
+        "phoneNum",
+        "email",
+        "signature3",
+        "date"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "1. MEMBER\u2019S NAME (LAST, FIRST, MIDDLE)",
+      "page": 1,
+      "box": {
+        "left": 41.8,
+        "top": 623.1,
+        "width": 225.4,
+        "height": 26.3
+      }
+    },
+    "trackingNum": {
+      "type": "text",
+      "label": "2. TRACKING NUMBER",
+      "page": 1,
+      "box": {
+        "left": 275.8,
+        "top": 623.1,
+        "width": 171.4,
+        "height": 26.3
+      }
+    },
+    "rank": {
+      "type": "text",
+      "label": "3. DESIGNATOR/RATING",
+      "page": 1,
+      "box": {
+        "left": 455.8,
+        "top": 623.1,
+        "width": 117.4,
+        "height": 26.3
+      }
+    },
+    "state": {
+      "type": "text",
+      "label": "6. STATE",
+      "page": 1,
+      "box": {
+        "left": 419.8,
+        "top": 578.8,
+        "width": 63.4,
+        "height": 27.0
+      }
+    },
+    "zip": {
+      "type": "text",
+      "label": "7. ZIP",
+      "page": 1,
+      "box": {
+        "left": 491.8,
+        "top": 578.8,
+        "width": 81.4,
+        "height": 27.0
+      }
+    },
+    "address": {
+      "type": "text",
+      "label": "4. STREET ADDRESS",
+      "page": 1,
+      "box": {
+        "left": 41.8,
+        "top": 578.3,
+        "width": 225.4,
+        "height": 26.5
+      }
+    },
+    "city": {
+      "type": "text",
+      "label": "5. CITY",
+      "page": 1,
+      "box": {
+        "left": 275.8,
+        "top": 577.9,
+        "width": 135.4,
+        "height": 26.1
+      }
+    },
+    "phone": {
+      "type": "text",
+      "label": "8. PHONE NUMBER",
+      "page": 1,
+      "box": {
+        "left": 41.8,
+        "top": 534.1,
+        "width": 171.4,
+        "height": 27.3
+      }
+    },
+    "eMail": {
+      "type": "text",
+      "label": "9. PERSONAL E-MAIL ADDRESS",
+      "page": 1,
+      "box": {
+        "left": 221.8,
+        "top": 533.1,
+        "width": 216.4,
+        "height": 26.3
+      }
+    },
+    "sex": {
+      "type": "text",
+      "label": "10. SEX",
+      "page": 1,
+      "box": {
+        "left": 446.8,
+        "top": 533.1,
+        "width": 126.4,
+        "height": 26.3
+      }
+    },
+    "bonusAmount": {
+      "type": "text",
+      "label": "AMOUNT",
+      "page": 1,
+      "box": {
+        "left": 276.3,
+        "top": 465.1,
+        "width": 116.9,
+        "height": 30.1
+      },
+      "multiline": true,
+      "required": true
+    },
+    "affiliationBonus": {
+      "type": "checkbox",
+      "label": "BONUS",
+      "page": 1,
+      "box": {
+        "left": 190.7,
+        "top": 456.1,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "lrp": {
+      "type": "checkbox",
+      "label": "12. (LRP) LOAN REPAYMENT PROGRAM",
+      "page": 1,
+      "box": {
+        "left": 548.1,
+        "top": 456.1,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "specialPayAmount": {
+      "type": "text",
+      "label": "AMOUNT",
+      "page": 1,
+      "box": {
+        "left": 349.3,
+        "top": 429.1,
+        "width": 116.0,
+        "height": 30.3
+      },
+      "multiline": true,
+      "required": true
+    },
+    "years": {
+      "type": "choice",
+      "label": "YEARS",
+      "page": 1,
+      "box": {
+        "left": 533.1,
+        "top": 428.4,
+        "width": 39.4,
+        "height": 28.9
+      },
+      "options": [
+        "1",
+        "2",
+        "3"
+      ]
+    },
+    "stipend": {
+      "type": "checkbox",
+      "label": "INCENTIVES",
+      "page": 1,
+      "box": {
+        "left": 111.5,
+        "top": 420.0,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "specialPay": {
+      "type": "checkbox",
+      "label": "14. SPECIAL PAY",
+      "page": 1,
+      "box": {
+        "left": 239.6,
+        "top": 420.0,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "signature": {
+      "type": "text",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 317.9,
+        "top": 321.1,
+        "width": 238.5,
+        "height": 27.8
+      }
+    },
+    "signature2": {
+      "type": "text",
+      "label": "accessing into the Navy Reserve. I certify that I do wish to",
+      "page": 1,
+      "box": {
+        "left": 317.9,
+        "top": 195.1,
+        "width": 238.5,
+        "height": 26.8
+      }
+    },
+    "name2": {
+      "type": "text",
+      "label": "17. NAME AND RANK",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 110.7,
+        "width": 203.2,
+        "height": 25.6
+      }
+    },
+    "phoneNum": {
+      "type": "text",
+      "label": "incentives when accessing into the Navy",
+      "page": 1,
+      "box": {
+        "left": 247.6,
+        "top": 110.6,
+        "width": 116.8,
+        "height": 25.5
+      }
+    },
+    "email": {
+      "type": "text",
+      "label": "19. E-MAIL",
+      "page": 1,
+      "box": {
+        "left": 370.1,
+        "top": 110.6,
+        "width": 203.2,
+        "height": 25.4
+      }
+    },
+    "signature3": {
+      "type": "text",
+      "label": "20. SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 68.6,
+        "width": 325.6,
+        "height": 29.9
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "21. DATE SIGNED (YYYYMMDD)",
+      "page": 1,
+      "box": {
+        "left": 370.1,
+        "top": 67.8,
+        "width": 203.2,
+        "height": 29.0
+      }
+    }
+  }
+}

@@ -1,0 +1,348 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "1NAMELastFirstMI": {
+        "left": 37.0,
+        "top": 608.3,
+        "width": 268.0,
+        "height": 18.0,
+        "type": "text",
+        "description": "SECTION 1 (TO BE COMPLETED BY THE EMPLOYEE)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "2COMMANDDEPARTMENT": {
+        "left": 306.5,
+        "top": 608.3,
+        "width": 268.1,
+        "height": 18.0,
+        "type": "text",
+        "description": "information may delay or prevent action on the application",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "3TELEPHONENUMBER": {
+        "left": 37.0,
+        "top": 579.5,
+        "width": 268.0,
+        "height": 18.0,
+        "type": "text",
+        "description": "1. NAME (Last, First, MI)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "4TITLEPAYPLANSERIESGRADE": {
+        "left": 306.5,
+        "top": 579.5,
+        "width": 268.1,
+        "height": 18.0,
+        "type": "text",
+        "description": "2. COMMAND/DEPARTMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "totalHoursRequested": {
+        "left": 429.4,
+        "top": 557.4,
+        "width": 108.4,
+        "height": 22.0,
+        "type": "text",
+        "description": "PLAN-SERIES-GRADE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "5ORIGINALLEAVEREQUESTDATES": {
+        "left": 37.0,
+        "top": 550.7,
+        "width": 268.0,
+        "height": 17.9,
+        "type": "text",
+        "description": "3. TELEPHONE NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "6TOTALHOURSREQUESTEDRow1": {
+        "left": 374.6,
+        "top": 531.8,
+        "width": 9.1,
+        "height": 9.2,
+        "type": "text",
+        "description": "HOURS REQUESTED",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "yes": {
+        "left": 410.6,
+        "top": 531.8,
+        "width": 9.1,
+        "height": 9.2,
+        "type": "text",
+        "description": "REQUESTED",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "8REASONFORCANCELLATIONORDISAPPROVALAttachInitialApprovedLeaveRequestFromStandardLaborDataCollectionAndDistributionApplicationSLDCADAOPM71RequestForLeaveOrApprovedAbsenceOrEmailShowingApprovalAndCurrentLeaveEarningsStatement": {
+        "left": 37.6,
+        "top": 498.5,
+        "width": 536.4,
+        "height": 52.1,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "9RESCHEDULEDLEAVEREQUESTDATES": {
+        "left": 37.0,
+        "top": 435.6,
+        "width": 268.0,
+        "height": 18.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "10TOTALHOURSREQUESTED": {
+        "left": 306.5,
+        "top": 435.6,
+        "width": 268.1,
+        "height": 18.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateRescheduled": {
+        "left": 290.8,
+        "top": 416.9,
+        "width": 150.0,
+        "height": 16.6,
+        "type": "text",
+        "description": "11. DATE THE RESCHEDULED LEAVE REQUEST DISAPPROVED",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "12REASONFORCANCELLATION": {
+        "left": 37.6,
+        "top": 388.2,
+        "width": 536.4,
+        "height": 60.6,
+        "type": "text",
+        "description": "11. DATE THE RESCHEDULED LEAVE REQUEST DISAPPROVED",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "amountOfLeave": {
+        "left": 309.8,
+        "top": 328.1,
+        "width": 99.5,
+        "height": 16.6,
+        "type": "text",
+        "description": "13. AMOUNT OF LEAVE REQUESTING TO BE RESTORED ( total hours)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "14EMPLOYEEPRINTEDNAMELastFirstMI": {
+        "left": 37.3,
+        "top": 295.4,
+        "width": 213.1,
+        "height": 28.8,
+        "type": "text",
+        "description": "14. EMPLOYEE PRINTED NAME ( Last, First, MI)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "15SIGNATUREDATE": {
+        "left": 253.0,
+        "top": 295.4,
+        "width": 105.6,
+        "height": 28.8,
+        "type": "text",
+        "description": "15. SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "employeeSignature": {
+        "left": 362.8,
+        "top": 295.4,
+        "width": 210.1,
+        "height": 28.1,
+        "type": "text",
+        "description": "16. EMPLOYEE SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "17SUPERVISORPRINTEDNAMELastFirstMI": {
+        "left": 37.3,
+        "top": 223.6,
+        "width": 213.1,
+        "height": 28.8,
+        "type": "text",
+        "description": "17. SUPERVISOR PRINTED NAME ( Last, First, MI)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "18SIGNATUREDATE": {
+        "left": 253.0,
+        "top": 223.6,
+        "width": 105.6,
+        "height": 28.8,
+        "type": "text",
+        "description": "18. SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "supervisorSignature": {
+        "left": 361.7,
+        "top": 223.0,
+        "width": 210.9,
+        "height": 28.5,
+        "type": "text",
+        "description": "19. SUPERVISOR SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "section3TOBECOMPLETEDBYTHEDIVISIONHEADRow1": {
+        "left": 219.8,
+        "top": 178.9,
+        "width": 9.1,
+        "height": 8.9,
+        "type": "text",
+        "description": "20. FORWARDED, RECOMMENDING",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "approval": {
+        "left": 291.8,
+        "top": 178.9,
+        "width": 9.1,
+        "height": 8.9,
+        "type": "text",
+        "description": "APPROVAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "21DIVISIONHEADPRINTEDNAMELastFirstMI": {
+        "left": 37.3,
+        "top": 151.7,
+        "width": 213.1,
+        "height": 28.8,
+        "type": "text",
+        "description": "21. DIVISION HEAD PRINTED NAME ( Last, First, MI)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "22SIGNATUREDATE": {
+        "left": 253.0,
+        "top": 151.7,
+        "width": 105.6,
+        "height": 28.8,
+        "type": "text",
+        "description": "22. SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "divisionHeadSignature": {
+        "left": 362.4,
+        "top": 149.4,
+        "width": 211.6,
+        "height": 26.6,
+        "type": "text",
+        "description": "23. DIVISION HEAD SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "section4TOBECOMPLETEDBYDIRECTORCIVILIANHUMANRESOURCESDCHRHUMANRESOURCESDIRECTORHRDCHIEFOFNAVALOPERATIONSCNOHUMANRESOURCESOFFICEHRORow1": {
+        "left": 219.8,
+        "top": 96.2,
+        "width": 9.0,
+        "height": 8.9,
+        "type": "text",
+        "description": "24. DETERMINATION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "approval2": {
+        "left": 291.8,
+        "top": 96.2,
+        "width": 9.0,
+        "height": 8.9,
+        "type": "text",
+        "description": "APPROVAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "25DCHRHRDPRINTEDNAMELastFirstMI": {
+        "left": 37.6,
+        "top": 71.6,
+        "width": 212.6,
+        "height": 35.0,
+        "type": "text",
+        "description": "24. DETERMINATION: APPROVAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dchrHDRSignature": {
+        "left": 364.0,
+        "top": 69.8,
+        "width": 207.8,
+        "height": 32.0,
+        "type": "text",
+        "description": "27. DCHR/HRD SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "26SIGNATUREDATE": {
+        "left": 253.2,
+        "top": 69.3,
+        "width": 105.1,
+        "height": 32.7,
+        "type": "text",
+        "description": "26. SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

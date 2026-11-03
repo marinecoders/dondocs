@@ -1,0 +1,54 @@
+{
+  "id": "navmchq631",
+  "label": "NAVMC HQ 631 - Certificate - Transfer To Temporary Disability Retired List (format)",
+  "directory": "NAVMCHQ631 - Certificate - Transfer To Temporary Disability Retired List (format)",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "printingNote",
+        "0",
+        "years"
+      ]
+    }
+  ],
+  "fields": {
+    "printingNote": {
+      "type": "text",
+      "label": "Printing Note",
+      "page": 1,
+      "box": {
+        "left": 28.1,
+        "top": 589.8,
+        "width": 160.8,
+        "height": 56.6
+      },
+      "multiline": true
+    },
+    "0": {
+      "type": "text",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 220.7,
+        "top": 316.0,
+        "width": 351.5,
+        "height": 16.2
+      }
+    },
+    "years": {
+      "type": "text",
+      "label": "Years",
+      "page": 1,
+      "box": {
+        "left": 148.3,
+        "top": 196.3,
+        "width": 57.0,
+        "height": 16.8
+      }
+    }
+  }
+}

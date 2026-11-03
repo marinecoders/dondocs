@@ -1,0 +1,392 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "eName": {
+        "left": 32.7,
+        "top": 612.7,
+        "width": 223.5,
+        "height": 15.0,
+        "type": "text",
+        "description": "Section A. Enter the name of the requester.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature": {
+        "left": 32.9,
+        "top": 595.8,
+        "width": 221.9,
+        "height": 19.3,
+        "type": "signature",
+        "description": "Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "officeCode": {
+        "left": 258.8,
+        "top": 591.3,
+        "width": 92.8,
+        "height": 15.0,
+        "type": "text",
+        "description": "Enter the office code.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "phoneNumE": {
+        "left": 352.9,
+        "top": 591.3,
+        "width": 119.6,
+        "height": 15.0,
+        "type": "text",
+        "description": "Enter the requester phone number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateReq": {
+        "left": 474.5,
+        "top": 591.3,
+        "width": 108.5,
+        "height": 15.0,
+        "type": "text",
+        "description": "Enter the date of request using format 2 Dec 2002.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "originatorChg": {
+        "left": 32.7,
+        "top": 511.0,
+        "width": 222.9,
+        "height": 15.0,
+        "type": "text",
+        "description": "Section B. Change action. Info. Enter the change action originator.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mCNNo": {
+        "left": 257.5,
+        "top": 511.0,
+        "width": 94.1,
+        "height": 15.0,
+        "type": "text",
+        "description": "Enter the change action M C N number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "officeCodeChg": {
+        "left": 353.6,
+        "top": 511.0,
+        "width": 86.3,
+        "height": 15.0,
+        "type": "text",
+        "description": "Enter the change action to office code.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "coordinateWith": {
+        "left": 442.5,
+        "top": 511.0,
+        "width": 139.2,
+        "height": 15.0,
+        "type": "text",
+        "description": "Enter the name and phone number with whom this change is coordinated with.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "messagePrecedChg": {
+        "left": 32.7,
+        "top": 463.2,
+        "width": 222.9,
+        "height": 15.0,
+        "type": "text",
+        "description": "Enter the change action message precedence.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "origDTGChg": {
+        "left": 257.5,
+        "top": 463.2,
+        "width": 94.1,
+        "height": 15.0,
+        "type": "text",
+        "description": "Enter the original change action D T G month and year.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "addInfoCode": {
+        "left": 353.6,
+        "top": 463.2,
+        "width": 86.3,
+        "height": 15.0,
+        "type": "text",
+        "description": "Enter additional information to code.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "classChg": {
+        "left": 442.5,
+        "top": 463.2,
+        "width": 139.2,
+        "height": 15.0,
+        "type": "text",
+        "description": "Enter the change action classification.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "originatorSerReq": {
+        "left": 33.3,
+        "top": 382.9,
+        "width": 221.6,
+        "height": 15.0,
+        "type": "text",
+        "description": "Section C. Service request. Enter the service request originator.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mCNNoRevReq": {
+        "left": 257.5,
+        "top": 382.9,
+        "width": 92.2,
+        "height": 15.0,
+        "type": "text",
+        "description": "Enter the service request M C N number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "messagePrecSerReq": {
+        "left": 352.9,
+        "top": 382.9,
+        "width": 85.0,
+        "height": 15.0,
+        "type": "text",
+        "description": "Enter the service message request.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "origDTGSer": {
+        "left": 439.9,
+        "top": 382.9,
+        "width": 141.8,
+        "height": 15.0,
+        "type": "text",
+        "description": "Enter the original service request D T G month and year.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radServYes": {
+        "left": 68.6,
+        "top": 341.7,
+        "width": 15.0,
+        "height": 15.0,
+        "type": "radio",
+        "description": "Yes",
+        "options": null,
+        "group": "topmostSubform[0].Page1[0].RadServYes[0]",
+        "required": false
+      },
+      "radServYes2": {
+        "left": 157.5,
+        "top": 341.7,
+        "width": 15.0,
+        "height": 15.0,
+        "type": "radio",
+        "description": "no",
+        "options": null,
+        "group": "topmostSubform[0].Page1[0].RadServYes[0]",
+        "required": false
+      },
+      "radRetransYes": {
+        "left": 260.1,
+        "top": 341.7,
+        "width": 15.0,
+        "height": 15.0,
+        "type": "radio",
+        "description": "Yes",
+        "options": null,
+        "group": "topmostSubform[0].Page1[0].RadRetransYes[0]",
+        "required": false
+      },
+      "radRetransYes2": {
+        "left": 309.1,
+        "top": 341.7,
+        "width": 15.0,
+        "height": 15.0,
+        "type": "radio",
+        "description": "no",
+        "options": null,
+        "group": "topmostSubform[0].Page1[0].RadRetransYes[0]",
+        "required": false
+      },
+      "reasonServReq": {
+        "left": 352.3,
+        "top": 327.3,
+        "width": 86.3,
+        "height": 15.0,
+        "type": "text",
+        "description": "Enter the reason for service request.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "classServReq": {
+        "left": 440.5,
+        "top": 327.3,
+        "width": 141.2,
+        "height": 15.0,
+        "type": "text",
+        "description": "Enter the service request classification.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "originatorCopies": {
+        "left": 33.3,
+        "top": 223.4,
+        "width": 220.3,
+        "height": 15.0,
+        "type": "text",
+        "description": "Section D. Request for copies. Enter the request for copies originator.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mCNNoCopies": {
+        "left": 256.9,
+        "top": 223.4,
+        "width": 92.8,
+        "height": 15.0,
+        "type": "text",
+        "description": "Enter the request for copies M C N number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "origDTGCopies": {
+        "left": 351.6,
+        "top": 223.4,
+        "width": 85.0,
+        "height": 15.0,
+        "type": "text",
+        "description": "Enter the original request for copies D T G month and year.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "classCopies": {
+        "left": 439.9,
+        "top": 223.4,
+        "width": 141.8,
+        "height": 15.0,
+        "type": "text",
+        "description": "Enter the request for copies classification.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "messagePrecedCopie": {
+        "left": 33.3,
+        "top": 151.5,
+        "width": 220.3,
+        "height": 15.0,
+        "type": "text",
+        "description": "Enter the request for copies message precedence.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "copiesRequest": {
+        "left": 256.9,
+        "top": 151.5,
+        "width": 92.8,
+        "height": 15.0,
+        "type": "text",
+        "description": "Enter the number of copies requested.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "reasonReqCopie": {
+        "left": 351.6,
+        "top": 151.5,
+        "width": 230.1,
+        "height": 15.0,
+        "type": "text",
+        "description": "Enter the reason for the request for copies.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chopTC": {
+        "left": 34.0,
+        "top": 76.3,
+        "width": 74.5,
+        "height": 15.0,
+        "type": "text",
+        "description": "For communication center use only. Enter the T C chop.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chopSVC": {
+        "left": 111.1,
+        "top": 76.3,
+        "width": 87.6,
+        "height": 15.0,
+        "type": "text",
+        "description": "Enter the S V C chop.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chopMRC": {
+        "left": 201.3,
+        "top": 76.3,
+        "width": 124.8,
+        "height": 15.0,
+        "type": "text",
+        "description": "Enter the M R C chop.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarksChop": {
+        "left": 328.8,
+        "top": 76.3,
+        "width": 253.6,
+        "height": 15.0,
+        "type": "text",
+        "description": "Enter any remarks.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

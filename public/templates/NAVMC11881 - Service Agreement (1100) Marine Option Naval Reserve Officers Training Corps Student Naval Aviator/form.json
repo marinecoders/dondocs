@@ -1,0 +1,99 @@
+{
+  "id": "navmc11881",
+  "label": "NAVMC 11881 - Service Agreement (1100) Marine Option Naval Reserve Officers Training Corps Student Naval Aviator",
+  "directory": "NAVMC11881 - Service Agreement (1100) Marine Option Naval Reserve Officers Training Corps Student Naval Aviator",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "nameAppl"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "signatureField11",
+        "signatureField112",
+        "witnessName",
+        "applicantName",
+        "date"
+      ]
+    }
+  ],
+  "fields": {
+    "nameAppl": {
+      "type": "text",
+      "label": "LAST NAME, FIRST AND MIDDLE INITIAL OF APPLICANT",
+      "page": 1,
+      "box": {
+        "left": 75.4,
+        "top": 61.8,
+        "width": 462.9,
+        "height": 18.3
+      }
+    },
+    "signatureField11": {
+      "type": "text",
+      "label": "acknowledge receipt of a copy of this document",
+      "page": 2,
+      "box": {
+        "left": 92.8,
+        "top": 324.0,
+        "width": 210.4,
+        "height": 33.4
+      },
+      "multiline": true
+    },
+    "signatureField112": {
+      "type": "text",
+      "label": "OPTION NROTC SNA program except as specified above. I",
+      "page": 2,
+      "box": {
+        "left": 344.8,
+        "top": 324.0,
+        "width": 210.4,
+        "height": 33.4
+      },
+      "multiline": true
+    },
+    "witnessName": {
+      "type": "text",
+      "label": "Signature of Witnessing Officer",
+      "page": 2,
+      "box": {
+        "left": 92.8,
+        "top": 245.8,
+        "width": 210.4,
+        "height": 33.4
+      },
+      "multiline": true
+    },
+    "applicantName": {
+      "type": "text",
+      "label": "Signature of Applicant",
+      "page": 2,
+      "box": {
+        "left": 344.8,
+        "top": 245.8,
+        "width": 210.4,
+        "height": 33.4
+      },
+      "multiline": true
+    },
+    "date": {
+      "type": "text",
+      "label": "Full Name of Applicant",
+      "page": 2,
+      "box": {
+        "left": 344.8,
+        "top": 173.8,
+        "width": 210.4,
+        "height": 20.7
+      }
+    }
+  }
+}

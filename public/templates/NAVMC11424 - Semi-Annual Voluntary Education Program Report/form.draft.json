@@ -1,0 +1,1661 @@
+{
+  "id": "navmc11424",
+  "label": "NAVMC11424 - Semi-Annual Voluntary Education Program Report",
+  "directory": "NAVMC11424 - Semi-Annual Voluntary Education Program Report",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "datePer1Yr0",
+        "datePer2Yr0",
+        "dateTotYr0",
+        "ia3",
+        "ia2",
+        "ia1",
+        "ib1",
+        "ib2",
+        "ib3",
+        "ic1",
+        "ic2",
+        "ic3",
+        "id1",
+        "id2",
+        "id3",
+        "ie1",
+        "ie2",
+        "ie3",
+        "if1",
+        "if2",
+        "if3",
+        "iIa1",
+        "iIa2",
+        "iIa3",
+        "iIb1",
+        "iIb2",
+        "iIb3",
+        "iIIa1",
+        "iIIa2",
+        "iIIa3",
+        "iIIb1",
+        "iIIb2",
+        "iIIb3",
+        "iIIc1",
+        "iIIc2",
+        "iIIc3",
+        "iIId1",
+        "iIId2",
+        "iIId3",
+        "iVa1",
+        "iVa2",
+        "iVa3",
+        "iVb1",
+        "iVb2",
+        "iVb3",
+        "iVc1",
+        "iVc2",
+        "iVc3",
+        "iVd1",
+        "iVd2",
+        "iVd3",
+        "iVe1",
+        "iVe2",
+        "iVe3",
+        "iVf1",
+        "iVf2",
+        "iVf3",
+        "va1",
+        "va2",
+        "va3",
+        "vb1",
+        "vb3",
+        "vb2",
+        "vc1",
+        "vc2",
+        "vc3",
+        "vd2",
+        "vd3",
+        "vd1",
+        "ve1",
+        "ve2",
+        "ve3",
+        "vf1",
+        "vf2",
+        "vf3",
+        "oVa1",
+        "oVa3",
+        "oVa2",
+        "oVb1",
+        "oVb2",
+        "oVb3",
+        "oVc1",
+        "oVc2",
+        "oVc3",
+        "oVd1",
+        "oVd2",
+        "oVd3",
+        "oVe1",
+        "oVe2",
+        "oVe3",
+        "oVf1",
+        "oVf2",
+        "oVf3"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "datePer1Yr1",
+        "dateTotYr1",
+        "datePer2Yr1",
+        "oVa12",
+        "oVa22",
+        "oVa32",
+        "oVb12",
+        "oVb22",
+        "oVb32",
+        "oVc12",
+        "oVc22",
+        "oVc32",
+        "oVd12",
+        "oVd22",
+        "oVd32",
+        "oVe12",
+        "oVe22",
+        "oVe32",
+        "vIa1",
+        "vIa2",
+        "vIa3",
+        "vIb1",
+        "vIb2",
+        "vIb3",
+        "vIc1",
+        "vIc2",
+        "vIc3",
+        "cVIa1",
+        "cVIa2",
+        "cVIa3",
+        "cVIb1",
+        "cVIb2",
+        "cVIb3",
+        "vIIa1",
+        "vIIa2",
+        "vIIa3",
+        "vIIb1",
+        "vIIb2",
+        "vIIb3",
+        "vIIc1",
+        "vIIc2",
+        "vIIc3"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "tabberp3"
+      ]
+    }
+  ],
+  "fields": {
+    "datePer1Yr0": {
+      "type": "text",
+      "label": "Enter the last two digits of the year for the end of the first period.",
+      "page": 1,
+      "box": {
+        "left": 328.8,
+        "top": 677.6,
+        "width": 18.4,
+        "height": 16.0
+      }
+    },
+    "datePer2Yr0": {
+      "type": "text",
+      "label": "Enter the last two digits of the year for the end of the second period.",
+      "page": 1,
+      "box": {
+        "left": 435.2,
+        "top": 676.8,
+        "width": 18.4,
+        "height": 16.0
+      }
+    },
+    "dateTotYr0": {
+      "type": "text",
+      "label": "Enter the last two digits of the year for the end of the entire fiscal year period.",
+      "page": 1,
+      "box": {
+        "left": 529.6,
+        "top": 676.8,
+        "width": 19.2,
+        "height": 16.0
+      }
+    },
+    "ia3": {
+      "type": "text",
+      "label": "Number of Marines at your installation with GT scores of 99 or below. Total for Fiscal Year.",
+      "page": 1,
+      "box": {
+        "left": 461.6,
+        "top": 641.1,
+        "width": 104.0,
+        "height": 14.7
+      }
+    },
+    "ia2": {
+      "type": "text",
+      "label": "Number of Marines at your installation with GT scores of 99 or below. Second Period.",
+      "page": 1,
+      "box": {
+        "left": 356.0,
+        "top": 640.0,
+        "width": 103.2,
+        "height": 13.6
+      }
+    },
+    "ia1": {
+      "type": "text",
+      "label": "Number of Marines at your installation with GT scores of 99 or below. First Period.",
+      "page": 1,
+      "box": {
+        "left": 250.7,
+        "top": 638.9,
+        "width": 104.0,
+        "height": 13.6
+      }
+    },
+    "ib1": {
+      "type": "text",
+      "label": "Number of individuals enrolled in traditional, instructor delivered MASP classes. First Period.",
+      "page": 1,
+      "box": {
+        "left": 249.6,
+        "top": 624.8,
+        "width": 104.0,
+        "height": 12.8
+      }
+    },
+    "ib2": {
+      "type": "text",
+      "label": "Number of individuals enrolled in traditional, instructor delivered MASP classes. Second Period.",
+      "page": 1,
+      "box": {
+        "left": 356.0,
+        "top": 624.8,
+        "width": 103.2,
+        "height": 12.8
+      }
+    },
+    "ib3": {
+      "type": "text",
+      "label": "Number of individuals enrolled in traditional, instructor delivered MASP classes. Total for Fiscal Year.",
+      "page": 1,
+      "box": {
+        "left": 461.6,
+        "top": 624.8,
+        "width": 104.0,
+        "height": 12.8
+      }
+    },
+    "ic1": {
+      "type": "text",
+      "label": "Number of individuals enrolled in MCSEN delievered MASP classes. First Period.",
+      "page": 1,
+      "box": {
+        "left": 249.6,
+        "top": 610.4,
+        "width": 104.0,
+        "height": 13.6
+      }
+    },
+    "ic2": {
+      "type": "text",
+      "label": "Number of individuals enrolled in MCSEN delievered MASP classes. Second Period.",
+      "page": 1,
+      "box": {
+        "left": 356.0,
+        "top": 610.4,
+        "width": 103.2,
+        "height": 13.6
+      }
+    },
+    "ic3": {
+      "type": "text",
+      "label": "Number of individuals enrolled in MCSEN delievered MASP classes. Total for Fiscal Year.",
+      "page": 1,
+      "box": {
+        "left": 461.6,
+        "top": 610.4,
+        "width": 104.0,
+        "height": 13.6
+      }
+    },
+    "id1": {
+      "type": "text",
+      "label": "Number of course enrollments in traditional, instructor delievered MASP classes. First Period.",
+      "page": 1,
+      "box": {
+        "left": 249.6,
+        "top": 596.0,
+        "width": 104.0,
+        "height": 13.6
+      }
+    },
+    "id2": {
+      "type": "text",
+      "label": "Number of course enrollments in traditional, instructor delievered MASP classes. Second Period.",
+      "page": 1,
+      "box": {
+        "left": 356.0,
+        "top": 596.0,
+        "width": 103.2,
+        "height": 13.6
+      }
+    },
+    "id3": {
+      "type": "text",
+      "label": "Number of course enrollments in traditional, instructor delievered MASP classes. Total for Fiscal Year.",
+      "page": 1,
+      "box": {
+        "left": 462.4,
+        "top": 595.2,
+        "width": 104.0,
+        "height": 13.6
+      }
+    },
+    "ie1": {
+      "type": "text",
+      "label": "Number of course enrollments in MCSEN delivered MASP classes. First Period.",
+      "page": 1,
+      "box": {
+        "left": 249.6,
+        "top": 580.8,
+        "width": 104.0,
+        "height": 13.6
+      }
+    },
+    "ie2": {
+      "type": "text",
+      "label": "Number of course enrollments in MCSEN delivered MASP classes. Second Period.",
+      "page": 1,
+      "box": {
+        "left": 356.0,
+        "top": 580.8,
+        "width": 103.2,
+        "height": 13.6
+      }
+    },
+    "ie3": {
+      "type": "text",
+      "label": "Number of course enrollments in MCSEN delivered MASP classes. Total for Fiscal Year.",
+      "page": 1,
+      "box": {
+        "left": 462.4,
+        "top": 580.2,
+        "width": 104.0,
+        "height": 13.6
+      }
+    },
+    "if1": {
+      "type": "text",
+      "label": "Number of course completions in MCSEN delivered MASP classes. First Period.",
+      "page": 1,
+      "box": {
+        "left": 249.6,
+        "top": 567.2,
+        "width": 104.0,
+        "height": 14.4
+      }
+    },
+    "if2": {
+      "type": "text",
+      "label": "Number of course completions in MCSEN delivered MASP classes. Second Period.",
+      "page": 1,
+      "box": {
+        "left": 356.0,
+        "top": 567.2,
+        "width": 103.2,
+        "height": 14.4
+      }
+    },
+    "if3": {
+      "type": "text",
+      "label": "Number of course completions in MCSEN delivered MASP classes. Total for Fiscal Year.",
+      "page": 1,
+      "box": {
+        "left": 461.6,
+        "top": 567.2,
+        "width": 104.0,
+        "height": 14.4
+      }
+    },
+    "iIa1": {
+      "type": "text",
+      "label": "Number of USMC classification tests administered in the education center. First Period.",
+      "page": 1,
+      "box": {
+        "left": 250.4,
+        "top": 525.6,
+        "width": 103.2,
+        "height": 13.6
+      }
+    },
+    "iIa2": {
+      "type": "text",
+      "label": "Number of USMC classification tests administered in the education center. Second Period.",
+      "page": 1,
+      "box": {
+        "left": 356.0,
+        "top": 525.6,
+        "width": 103.2,
+        "height": 13.6
+      }
+    },
+    "iIa3": {
+      "type": "text",
+      "label": "Number of USMC classification tests administered in the education center. Total for Fiscal Year.",
+      "page": 1,
+      "box": {
+        "left": 460.8,
+        "top": 525.6,
+        "width": 104.8,
+        "height": 13.6
+      }
+    },
+    "iIb1": {
+      "type": "text",
+      "label": "Number of proctored exams administered in the education center. First Period.",
+      "page": 1,
+      "box": {
+        "left": 250.4,
+        "top": 511.2,
+        "width": 103.2,
+        "height": 13.6
+      }
+    },
+    "iIb2": {
+      "type": "text",
+      "label": "Number of proctored exams administered in the education center. Second Period.",
+      "page": 1,
+      "box": {
+        "left": 356.0,
+        "top": 511.2,
+        "width": 103.2,
+        "height": 13.6
+      }
+    },
+    "iIb3": {
+      "type": "text",
+      "label": "Number of proctored exams administered in the education center. Total for Fiscal Year.",
+      "page": 1,
+      "box": {
+        "left": 460.8,
+        "top": 511.2,
+        "width": 104.8,
+        "height": 13.6
+      }
+    },
+    "iIIa1": {
+      "type": "text",
+      "label": "Number of Officer participants using VA benefits for college/university programs on base. First Period.",
+      "page": 1,
+      "box": {
+        "left": 250.4,
+        "top": 468.8,
+        "width": 103.2,
+        "height": 13.6
+      }
+    },
+    "iIIa2": {
+      "type": "text",
+      "label": "Number of Officer participants using VA benefits for college/university programs on base. Second Period.",
+      "page": 1,
+      "box": {
+        "left": 356.0,
+        "top": 468.8,
+        "width": 103.2,
+        "height": 13.6
+      }
+    },
+    "iIIa3": {
+      "type": "text",
+      "label": "Number of Officer participants using VA benefits for college/university programs on base. Total for Fiscal Year.",
+      "page": 1,
+      "box": {
+        "left": 460.8,
+        "top": 468.8,
+        "width": 105.6,
+        "height": 13.6
+      }
+    },
+    "iIIb1": {
+      "type": "text",
+      "label": "Number of course enrollments for individual defined in 3a. First Period.",
+      "page": 1,
+      "box": {
+        "left": 250.4,
+        "top": 454.4,
+        "width": 103.2,
+        "height": 13.6
+      }
+    },
+    "iIIb2": {
+      "type": "text",
+      "label": "Number of course enrollments for individual defined in 3a. Second Period.",
+      "page": 1,
+      "box": {
+        "left": 356.0,
+        "top": 454.4,
+        "width": 103.2,
+        "height": 13.6
+      }
+    },
+    "iIIb3": {
+      "type": "text",
+      "label": "Number of course enrollments for individual defined in 3a. Total for Fiscal Year.",
+      "page": 1,
+      "box": {
+        "left": 460.8,
+        "top": 454.4,
+        "width": 105.6,
+        "height": 13.6
+      }
+    },
+    "iIIc1": {
+      "type": "text",
+      "label": "Number of Enlisted participants using VA benefits for college/university programs on base. First Period.",
+      "page": 1,
+      "box": {
+        "left": 250.4,
+        "top": 440.0,
+        "width": 103.2,
+        "height": 13.6
+      }
+    },
+    "iIIc2": {
+      "type": "text",
+      "label": "Number of Enlisted participants using VA benefits for college/university programs on base. Second Period.",
+      "page": 1,
+      "box": {
+        "left": 356.0,
+        "top": 440.0,
+        "width": 103.2,
+        "height": 13.6
+      }
+    },
+    "iIIc3": {
+      "type": "text",
+      "label": "Number of Enlisted participants using VA benefits for college/university programs on base. Total for Fiscal Year.",
+      "page": 1,
+      "box": {
+        "left": 460.8,
+        "top": 440.0,
+        "width": 105.6,
+        "height": 13.6
+      }
+    },
+    "iIId1": {
+      "type": "text",
+      "label": "Number of course enrollments for individuals defined in 3c. First Period.",
+      "page": 1,
+      "box": {
+        "left": 250.4,
+        "top": 425.6,
+        "width": 103.2,
+        "height": 13.6
+      }
+    },
+    "iIId2": {
+      "type": "text",
+      "label": "Number of course enrollments for individuals defined in 3c. Second Period.",
+      "page": 1,
+      "box": {
+        "left": 356.0,
+        "top": 425.6,
+        "width": 103.2,
+        "height": 13.6
+      }
+    },
+    "iIId3": {
+      "type": "text",
+      "label": "Number of course enrollments for individuals defined in 3c. Total for Fiscal Year.",
+      "page": 1,
+      "box": {
+        "left": 460.8,
+        "top": 425.6,
+        "width": 105.6,
+        "height": 13.6
+      }
+    },
+    "iVa1": {
+      "type": "text",
+      "label": "Number of civilians enrolled in high school programs on base. First Period.",
+      "page": 1,
+      "box": {
+        "left": 250.4,
+        "top": 384.0,
+        "width": 102.4,
+        "height": 13.6
+      }
+    },
+    "iVa2": {
+      "type": "text",
+      "label": "Number of civilians enrolled in high school programs on base. Second Period.",
+      "page": 1,
+      "box": {
+        "left": 355.2,
+        "top": 384.0,
+        "width": 102.4,
+        "height": 13.6
+      }
+    },
+    "iVa3": {
+      "type": "text",
+      "label": "Number of civilians enrolled in high school programs on base. Total for Fiscal Year.",
+      "page": 1,
+      "box": {
+        "left": 459.2,
+        "top": 384.0,
+        "width": 106.4,
+        "height": 13.6
+      }
+    },
+    "iVb1": {
+      "type": "text",
+      "label": "Number of civilian course enrollments in high school programs on base. First Period.",
+      "page": 1,
+      "box": {
+        "left": 250.4,
+        "top": 369.6,
+        "width": 102.4,
+        "height": 13.6
+      }
+    },
+    "iVb2": {
+      "type": "text",
+      "label": "Number of civilian course enrollments in high school programs on base. Second Period.",
+      "page": 1,
+      "box": {
+        "left": 355.2,
+        "top": 369.6,
+        "width": 102.4,
+        "height": 13.6
+      }
+    },
+    "iVb3": {
+      "type": "text",
+      "label": "Number of civilian course enrollments in high school programs on base. Total for Fiscal Year.",
+      "page": 1,
+      "box": {
+        "left": 459.2,
+        "top": 369.6,
+        "width": 106.4,
+        "height": 13.6
+      }
+    },
+    "iVc1": {
+      "type": "text",
+      "label": "Number of civilians enrolled in undergraduate programs on base. First Period.",
+      "page": 1,
+      "box": {
+        "left": 250.4,
+        "top": 355.2,
+        "width": 102.4,
+        "height": 13.6
+      }
+    },
+    "iVc2": {
+      "type": "text",
+      "label": "Number of civilians enrolled in undergraduate programs on base. Second Period.",
+      "page": 1,
+      "box": {
+        "left": 355.2,
+        "top": 355.2,
+        "width": 102.4,
+        "height": 13.6
+      }
+    },
+    "iVc3": {
+      "type": "text",
+      "label": "Number of civilians enrolled in undergraduate programs on base. Total for Fiscal Year.",
+      "page": 1,
+      "box": {
+        "left": 459.2,
+        "top": 355.2,
+        "width": 106.4,
+        "height": 13.6
+      }
+    },
+    "iVd1": {
+      "type": "text",
+      "label": "Number of civilian course enrollments in undergraduate programs on base. First Period.",
+      "page": 1,
+      "box": {
+        "left": 250.4,
+        "top": 340.8,
+        "width": 102.4,
+        "height": 13.6
+      }
+    },
+    "iVd2": {
+      "type": "text",
+      "label": "Number of civilian course enrollments in undergraduate programs on base. Second Period.",
+      "page": 1,
+      "box": {
+        "left": 355.2,
+        "top": 340.8,
+        "width": 102.4,
+        "height": 13.6
+      }
+    },
+    "iVd3": {
+      "type": "text",
+      "label": "Number of civilian course enrollments in undergraduate programs on base. Total for Fiscal Year.",
+      "page": 1,
+      "box": {
+        "left": 459.2,
+        "top": 340.8,
+        "width": 106.4,
+        "height": 13.6
+      }
+    },
+    "iVe1": {
+      "type": "text",
+      "label": "Number of civilians enrolled in graduate programs on base. First Period.",
+      "page": 1,
+      "box": {
+        "left": 250.4,
+        "top": 325.6,
+        "width": 102.4,
+        "height": 13.6
+      }
+    },
+    "iVe2": {
+      "type": "text",
+      "label": "Number of civilians enrolled in graduate programs on base. Second Period.",
+      "page": 1,
+      "box": {
+        "left": 355.2,
+        "top": 325.6,
+        "width": 102.4,
+        "height": 13.6
+      }
+    },
+    "iVe3": {
+      "type": "text",
+      "label": "Number of civilians enrolled in graduate programs on base. Total for Fiscal Year.",
+      "page": 1,
+      "box": {
+        "left": 459.2,
+        "top": 325.6,
+        "width": 106.4,
+        "height": 13.6
+      }
+    },
+    "iVf1": {
+      "type": "text",
+      "label": "Number of civilian course enrollments in graduate programs on base. First Period.",
+      "page": 1,
+      "box": {
+        "left": 250.4,
+        "top": 311.2,
+        "width": 102.4,
+        "height": 13.6
+      }
+    },
+    "iVf2": {
+      "type": "text",
+      "label": "Number of civilian course enrollments in graduate programs on base. Second Period.",
+      "page": 1,
+      "box": {
+        "left": 355.2,
+        "top": 311.2,
+        "width": 102.4,
+        "height": 13.6
+      }
+    },
+    "iVf3": {
+      "type": "text",
+      "label": "Number of civilian course enrollments in graduate programs on base. Total for Fiscal Year.",
+      "page": 1,
+      "box": {
+        "left": 459.2,
+        "top": 311.2,
+        "width": 106.4,
+        "height": 13.6
+      }
+    },
+    "va1": {
+      "type": "text",
+      "label": "Number of Enlisted personnel who completed High School degrees. First Period.",
+      "page": 1,
+      "box": {
+        "left": 250.4,
+        "top": 270.4,
+        "width": 102.4,
+        "height": 13.6
+      }
+    },
+    "va2": {
+      "type": "text",
+      "label": "Number of Enlisted personnel who completed High School degrees. Second Period.",
+      "page": 1,
+      "box": {
+        "left": 355.2,
+        "top": 270.4,
+        "width": 102.4,
+        "height": 13.6
+      }
+    },
+    "va3": {
+      "type": "text",
+      "label": "Number of Enlisted personnel who completed High School degrees. Total for Fiscal Year.",
+      "page": 1,
+      "box": {
+        "left": 459.2,
+        "top": 270.4,
+        "width": 105.6,
+        "height": 13.6
+      }
+    },
+    "vb1": {
+      "type": "text",
+      "label": "Number of Enlisted personnel who completed Associate degrees. First Period.",
+      "page": 1,
+      "box": {
+        "left": 250.4,
+        "top": 256.0,
+        "width": 102.4,
+        "height": 13.6
+      }
+    },
+    "vb3": {
+      "type": "text",
+      "label": "Number of Enlisted personnel who completed Associate degrees. Total for Fiscal Year.",
+      "page": 1,
+      "box": {
+        "left": 459.2,
+        "top": 256.0,
+        "width": 105.6,
+        "height": 13.6
+      }
+    },
+    "vb2": {
+      "type": "text",
+      "label": "Number of Enlisted personnel who completed Associate degrees. Second Period.",
+      "page": 1,
+      "box": {
+        "left": 356.0,
+        "top": 255.4,
+        "width": 102.4,
+        "height": 13.6
+      }
+    },
+    "vc1": {
+      "type": "text",
+      "label": "Number of Enlisted personnel who completed Bachelor degrees. First Period.",
+      "page": 1,
+      "box": {
+        "left": 250.4,
+        "top": 240.8,
+        "width": 102.4,
+        "height": 13.6
+      }
+    },
+    "vc2": {
+      "type": "text",
+      "label": "Number of Enlisted personnel who completed Bachelor degrees. Second Period.",
+      "page": 1,
+      "box": {
+        "left": 355.2,
+        "top": 240.8,
+        "width": 102.4,
+        "height": 13.6
+      }
+    },
+    "vc3": {
+      "type": "text",
+      "label": "Number of Enlisted personnel who completed Bachelor degrees. Total for Fiscal Year.",
+      "page": 1,
+      "box": {
+        "left": 459.2,
+        "top": 240.8,
+        "width": 105.6,
+        "height": 13.6
+      }
+    },
+    "vd2": {
+      "type": "text",
+      "label": "Number of Enlisted personnel who completed Master degrees. Second Period.",
+      "page": 1,
+      "box": {
+        "left": 355.2,
+        "top": 226.4,
+        "width": 102.4,
+        "height": 13.6
+      }
+    },
+    "vd3": {
+      "type": "text",
+      "label": "Number of Enlisted personnel who completed Master degrees. Total for Fiscal Year.",
+      "page": 1,
+      "box": {
+        "left": 459.2,
+        "top": 226.4,
+        "width": 105.6,
+        "height": 13.6
+      }
+    },
+    "vd1": {
+      "type": "text",
+      "label": "Number of Enlisted personnel who completed Master degrees. First Period.",
+      "page": 1,
+      "box": {
+        "left": 251.9,
+        "top": 226.1,
+        "width": 102.4,
+        "height": 13.6
+      }
+    },
+    "ve1": {
+      "type": "text",
+      "label": "Number of Enlisted personnel who completed First Professional degrees. First Period.",
+      "page": 1,
+      "box": {
+        "left": 250.4,
+        "top": 212.0,
+        "width": 102.4,
+        "height": 13.6
+      }
+    },
+    "ve2": {
+      "type": "text",
+      "label": "Number of Enlisted personnel who completed First Professional degrees. Second Period.",
+      "page": 1,
+      "box": {
+        "left": 355.2,
+        "top": 212.0,
+        "width": 102.4,
+        "height": 13.6
+      }
+    },
+    "ve3": {
+      "type": "text",
+      "label": "Number of Enlisted personnel who completed First Professional degrees. Total for Fiscal Year.",
+      "page": 1,
+      "box": {
+        "left": 459.2,
+        "top": 212.0,
+        "width": 105.6,
+        "height": 13.6
+      }
+    },
+    "vf1": {
+      "type": "text",
+      "label": "Number of Enlisted personnel who completed Doctorate degrees. First Period.",
+      "page": 1,
+      "box": {
+        "left": 250.4,
+        "top": 198.4,
+        "width": 102.4,
+        "height": 13.6
+      }
+    },
+    "vf2": {
+      "type": "text",
+      "label": "Number of Enlisted personnel who completed Doctorate degrees. Second Period.",
+      "page": 1,
+      "box": {
+        "left": 355.2,
+        "top": 198.4,
+        "width": 102.4,
+        "height": 13.6
+      }
+    },
+    "vf3": {
+      "type": "text",
+      "label": "Number of Enlisted personnel who completed Doctorate degrees. Total for Fiscal Year.",
+      "page": 1,
+      "box": {
+        "left": 459.2,
+        "top": 198.4,
+        "width": 105.6,
+        "height": 13.6
+      }
+    },
+    "oVa1": {
+      "type": "text",
+      "label": "Number of Officer personnel who completed High School degrees. First Period.",
+      "page": 1,
+      "box": {
+        "left": 250.4,
+        "top": 156.8,
+        "width": 102.4,
+        "height": 13.6
+      }
+    },
+    "oVa3": {
+      "type": "text",
+      "label": "Number of Officer personnel who completed High School degrees. Total for Fiscal Year.",
+      "page": 1,
+      "box": {
+        "left": 459.2,
+        "top": 156.8,
+        "width": 105.6,
+        "height": 13.6
+      }
+    },
+    "oVa2": {
+      "type": "text",
+      "label": "Number of Officer personnel who completed High School degrees. Second Period.",
+      "page": 1,
+      "box": {
+        "left": 356.5,
+        "top": 156.1,
+        "width": 102.4,
+        "height": 13.6
+      }
+    },
+    "oVb1": {
+      "type": "text",
+      "label": "Number of Officer personnel who completed Associate degrees. First Period.",
+      "page": 1,
+      "box": {
+        "left": 250.4,
+        "top": 142.4,
+        "width": 102.4,
+        "height": 13.6
+      }
+    },
+    "oVb2": {
+      "type": "text",
+      "label": "Number of Officer personnel who completed Associate degrees. Second Period.",
+      "page": 1,
+      "box": {
+        "left": 355.2,
+        "top": 142.4,
+        "width": 102.4,
+        "height": 13.6
+      }
+    },
+    "oVb3": {
+      "type": "text",
+      "label": "Number of Officer personnel who completed Associate degrees. Total for Fiscal Year.",
+      "page": 1,
+      "box": {
+        "left": 459.2,
+        "top": 142.4,
+        "width": 105.6,
+        "height": 13.6
+      }
+    },
+    "oVc1": {
+      "type": "text",
+      "label": "Number of Officer personnel who completed Bachelor degrees. First Period.",
+      "page": 1,
+      "box": {
+        "left": 250.4,
+        "top": 127.2,
+        "width": 102.4,
+        "height": 13.6
+      }
+    },
+    "oVc2": {
+      "type": "text",
+      "label": "Number of Officer personnel who completed Bachelor degrees. Second Period.",
+      "page": 1,
+      "box": {
+        "left": 355.2,
+        "top": 127.2,
+        "width": 102.4,
+        "height": 13.6
+      }
+    },
+    "oVc3": {
+      "type": "text",
+      "label": "Number of Officer personnel who completed Bachelor degrees. Total for Fiscal Year.",
+      "page": 1,
+      "box": {
+        "left": 459.2,
+        "top": 127.2,
+        "width": 105.6,
+        "height": 13.6
+      }
+    },
+    "oVd1": {
+      "type": "text",
+      "label": "Number of Officer personnel who completed Master degrees. First Period.",
+      "page": 1,
+      "box": {
+        "left": 250.4,
+        "top": 112.8,
+        "width": 102.4,
+        "height": 13.6
+      }
+    },
+    "oVd2": {
+      "type": "text",
+      "label": "Number of Officer personnel who completed Master degrees. Second Period.",
+      "page": 1,
+      "box": {
+        "left": 355.2,
+        "top": 112.8,
+        "width": 102.4,
+        "height": 13.6
+      }
+    },
+    "oVd3": {
+      "type": "text",
+      "label": "Number of Officer personnel who completed Master degrees. Total for Fiscal Year.",
+      "page": 1,
+      "box": {
+        "left": 459.2,
+        "top": 112.8,
+        "width": 105.6,
+        "height": 13.6
+      }
+    },
+    "oVe1": {
+      "type": "text",
+      "label": "Number of Officer personnel who completed First Professional degrees. First Period.",
+      "page": 1,
+      "box": {
+        "left": 250.4,
+        "top": 98.4,
+        "width": 102.4,
+        "height": 13.6
+      }
+    },
+    "oVe2": {
+      "type": "text",
+      "label": "Number of Officer personnel who completed First Professional degrees. Second Period.",
+      "page": 1,
+      "box": {
+        "left": 355.2,
+        "top": 98.4,
+        "width": 102.4,
+        "height": 13.6
+      }
+    },
+    "oVe3": {
+      "type": "text",
+      "label": "Number of Officer personnel who completed First Professional degrees. Total for Fiscal Year.",
+      "page": 1,
+      "box": {
+        "left": 459.2,
+        "top": 98.4,
+        "width": 105.6,
+        "height": 13.6
+      }
+    },
+    "oVf1": {
+      "type": "text",
+      "label": "Number of Officer personnel who completed Doctorate degrees. First Period.",
+      "page": 1,
+      "box": {
+        "left": 250.4,
+        "top": 83.2,
+        "width": 102.4,
+        "height": 13.6
+      }
+    },
+    "oVf2": {
+      "type": "text",
+      "label": "Number of Officer personnel who completed Doctorate degrees. Second Period.",
+      "page": 1,
+      "box": {
+        "left": 355.2,
+        "top": 83.2,
+        "width": 102.4,
+        "height": 13.6
+      }
+    },
+    "oVf3": {
+      "type": "text",
+      "label": "Number of Officer personnel who completed Doctorate degrees. Total for Fiscal Year.",
+      "page": 1,
+      "box": {
+        "left": 459.2,
+        "top": 83.2,
+        "width": 105.6,
+        "height": 13.6
+      }
+    },
+    "datePer1Yr1": {
+      "type": "text",
+      "label": "Enter the last two digits of the year for the end of the first period.",
+      "page": 2,
+      "box": {
+        "left": 328.8,
+        "top": 677.6,
+        "width": 18.4,
+        "height": 16.0
+      }
+    },
+    "dateTotYr1": {
+      "type": "text",
+      "label": "Enter the last two digits of the year for the end of the entire fiscal year period.",
+      "page": 2,
+      "box": {
+        "left": 530.4,
+        "top": 677.6,
+        "width": 19.2,
+        "height": 16.0
+      }
+    },
+    "datePer2Yr1": {
+      "type": "text",
+      "label": "Enter the last two digits of the year for the end of the second period.",
+      "page": 2,
+      "box": {
+        "left": 434.4,
+        "top": 676.8,
+        "width": 19.2,
+        "height": 16.0
+      }
+    },
+    "oVa12": {
+      "type": "text",
+      "label": "Number of Civilian personnel who completed High School degrees. First Period.",
+      "page": 2,
+      "box": {
+        "left": 249.6,
+        "top": 640.0,
+        "width": 104.8,
+        "height": 13.6
+      }
+    },
+    "oVa22": {
+      "type": "text",
+      "label": "Number of Civilian personnel who completed High School degrees. Second Period.",
+      "page": 2,
+      "box": {
+        "left": 356.0,
+        "top": 640.0,
+        "width": 103.2,
+        "height": 13.6
+      }
+    },
+    "oVa32": {
+      "type": "text",
+      "label": "Number of Civilian personnel who completed High School degrees. Total for Fiscal Year.",
+      "page": 2,
+      "box": {
+        "left": 461.6,
+        "top": 640.0,
+        "width": 104.8,
+        "height": 13.6
+      }
+    },
+    "oVb12": {
+      "type": "text",
+      "label": "Number of Civilian personnel who completed Associate degrees. First Period.",
+      "page": 2,
+      "box": {
+        "left": 249.6,
+        "top": 624.8,
+        "width": 104.0,
+        "height": 13.6
+      }
+    },
+    "oVb22": {
+      "type": "text",
+      "label": "Number of Civilian personnel who completed Associate degrees. Second Period.",
+      "page": 2,
+      "box": {
+        "left": 356.0,
+        "top": 624.8,
+        "width": 103.2,
+        "height": 13.6
+      }
+    },
+    "oVb32": {
+      "type": "text",
+      "label": "Number of Civilian personnel who completed Associate degrees. Total for Fiscal Year.",
+      "page": 2,
+      "box": {
+        "left": 461.6,
+        "top": 624.8,
+        "width": 104.0,
+        "height": 13.6
+      }
+    },
+    "oVc12": {
+      "type": "text",
+      "label": "Number of Civilian personnel who completed Bachelor degrees. First Period.",
+      "page": 2,
+      "box": {
+        "left": 249.6,
+        "top": 610.4,
+        "width": 104.0,
+        "height": 13.6
+      }
+    },
+    "oVc22": {
+      "type": "text",
+      "label": "Number of Civilian personnel who completed Bachelor degrees. Second Period.",
+      "page": 2,
+      "box": {
+        "left": 356.0,
+        "top": 610.4,
+        "width": 103.2,
+        "height": 13.6
+      }
+    },
+    "oVc32": {
+      "type": "text",
+      "label": "Number of Civilian personnel who completed Bachelor degrees. Total for Fiscal Year.",
+      "page": 2,
+      "box": {
+        "left": 461.6,
+        "top": 610.4,
+        "width": 104.0,
+        "height": 13.6
+      }
+    },
+    "oVd12": {
+      "type": "text",
+      "label": "Number of Civilian personnel who completed Master degrees. First Period.",
+      "page": 2,
+      "box": {
+        "left": 249.6,
+        "top": 595.2,
+        "width": 104.0,
+        "height": 13.6
+      }
+    },
+    "oVd22": {
+      "type": "text",
+      "label": "Number of Civilian personnel who completed Master degrees. Second Period.",
+      "page": 2,
+      "box": {
+        "left": 356.0,
+        "top": 595.2,
+        "width": 103.2,
+        "height": 13.6
+      }
+    },
+    "oVd32": {
+      "type": "text",
+      "label": "Number of Civilian personnel who completed Master degrees. Total for Fiscal Year.",
+      "page": 2,
+      "box": {
+        "left": 461.6,
+        "top": 595.2,
+        "width": 104.0,
+        "height": 13.6
+      }
+    },
+    "oVe12": {
+      "type": "text",
+      "label": "Number of Civilian personnel who completed Doctorate degrees. First Period.",
+      "page": 2,
+      "box": {
+        "left": 249.6,
+        "top": 580.8,
+        "width": 104.0,
+        "height": 13.6
+      }
+    },
+    "oVe22": {
+      "type": "text",
+      "label": "Number of Civilian personnel who completed Doctorate degrees. Second Period.",
+      "page": 2,
+      "box": {
+        "left": 356.0,
+        "top": 580.8,
+        "width": 103.2,
+        "height": 13.6
+      }
+    },
+    "oVe32": {
+      "type": "text",
+      "label": "Number of Civilian personnel who completed Doctorate degrees. Total for Fiscal Year.",
+      "page": 2,
+      "box": {
+        "left": 461.6,
+        "top": 580.8,
+        "width": 104.0,
+        "height": 13.6
+      }
+    },
+    "vIa1": {
+      "type": "text",
+      "label": "Number of current personnel assigned to the Education Center on a permanent basis. First Period.",
+      "page": 2,
+      "box": {
+        "left": 249.6,
+        "top": 519.2,
+        "width": 104.0,
+        "height": 13.6
+      }
+    },
+    "vIa2": {
+      "type": "text",
+      "label": "Number of current personnel assigned to the Education Center on a permanent basis. Second Period.",
+      "page": 2,
+      "box": {
+        "left": 356.0,
+        "top": 519.2,
+        "width": 103.2,
+        "height": 13.6
+      }
+    },
+    "vIa3": {
+      "type": "text",
+      "label": "Number of current personnel assigned to the Education Center on a permanent basis. Total for Fiscal Year.",
+      "page": 2,
+      "box": {
+        "left": 461.6,
+        "top": 519.2,
+        "width": 104.0,
+        "height": 13.6
+      }
+    },
+    "vIb1": {
+      "type": "text",
+      "label": "Number of FAP Marines currently assigned for duty to the Education Center. First Period.",
+      "page": 2,
+      "box": {
+        "left": 249.6,
+        "top": 504.0,
+        "width": 104.0,
+        "height": 13.6
+      }
+    },
+    "vIb2": {
+      "type": "text",
+      "label": "Number of FAP Marines currently assigned for duty to the Education Center. Second Period.",
+      "page": 2,
+      "box": {
+        "left": 356.0,
+        "top": 504.0,
+        "width": 103.2,
+        "height": 13.6
+      }
+    },
+    "vIb3": {
+      "type": "text",
+      "label": "Number of FAP Marines currently assigned for duty to the Education Center. Total for Fiscal Year.",
+      "page": 2,
+      "box": {
+        "left": 461.6,
+        "top": 504.0,
+        "width": 104.0,
+        "height": 13.6
+      }
+    },
+    "vIc1": {
+      "type": "text",
+      "label": "Other personnel assigned to the Eduction Center. First Period.",
+      "page": 2,
+      "box": {
+        "left": 249.6,
+        "top": 488.8,
+        "width": 104.0,
+        "height": 13.6
+      }
+    },
+    "vIc2": {
+      "type": "text",
+      "label": "Other personnel assigned to the Eduction Center. Second Period.",
+      "page": 2,
+      "box": {
+        "left": 356.0,
+        "top": 488.8,
+        "width": 103.2,
+        "height": 13.6
+      }
+    },
+    "vIc3": {
+      "type": "text",
+      "label": "Other personnel assigned to the Eduction Center. Total for Fiscal Year.",
+      "page": 2,
+      "box": {
+        "left": 461.6,
+        "top": 488.8,
+        "width": 104.0,
+        "height": 13.6
+      }
+    },
+    "cVIa1": {
+      "type": "text",
+      "label": "Number of current personnel assigned to the Education Center on a permanent basis. First Period.",
+      "page": 2,
+      "box": {
+        "left": 249.6,
+        "top": 457.6,
+        "width": 104.0,
+        "height": 13.6
+      }
+    },
+    "cVIa2": {
+      "type": "text",
+      "label": "Number of current personnel assigned to the Education Center on a permanent basis. Second Period.",
+      "page": 2,
+      "box": {
+        "left": 356.0,
+        "top": 457.6,
+        "width": 103.2,
+        "height": 13.6
+      }
+    },
+    "cVIa3": {
+      "type": "text",
+      "label": "Number of current personnel assigned to the Education Center on a permanent basis. Total for Fiscal Year.",
+      "page": 2,
+      "box": {
+        "left": 461.6,
+        "top": 457.6,
+        "width": 104.0,
+        "height": 13.6
+      }
+    },
+    "cVIb1": {
+      "type": "text",
+      "label": "Number of contract personnel assigned to the Education Center on a permanent basis. First Period.",
+      "page": 2,
+      "box": {
+        "left": 249.6,
+        "top": 442.4,
+        "width": 104.0,
+        "height": 13.6
+      }
+    },
+    "cVIb2": {
+      "type": "text",
+      "label": "Number of contract personnel assigned to the Education Center on a permanent basis. Second Period.",
+      "page": 2,
+      "box": {
+        "left": 356.0,
+        "top": 442.4,
+        "width": 103.2,
+        "height": 13.6
+      }
+    },
+    "cVIb3": {
+      "type": "text",
+      "label": "Number of contract personnel assigned to the Education Center on a permanent basis. Total for Fiscal Year.",
+      "page": 2,
+      "box": {
+        "left": 461.6,
+        "top": 442.4,
+        "width": 104.0,
+        "height": 13.6
+      }
+    },
+    "vIIa1": {
+      "type": "text",
+      "label": "Number of installation personnel in appreticeable MOSs. First Period.",
+      "page": 2,
+      "box": {
+        "left": 249.6,
+        "top": 396.0,
+        "width": 104.0,
+        "height": 13.6
+      }
+    },
+    "vIIa2": {
+      "type": "text",
+      "label": "Number of installation personnel in appreticeable MOSs. Second Period.",
+      "page": 2,
+      "box": {
+        "left": 356.0,
+        "top": 396.0,
+        "width": 103.2,
+        "height": 13.6
+      }
+    },
+    "vIIa3": {
+      "type": "text",
+      "label": "Number of installation personnel in appreticeable MOSs. Total for Fiscal Year.",
+      "page": 2,
+      "box": {
+        "left": 461.6,
+        "top": 396.0,
+        "width": 104.0,
+        "height": 13.6
+      }
+    },
+    "vIIb1": {
+      "type": "text",
+      "label": "Number of installation personnel currently enrolled in the apprenticeship program. First Period.",
+      "page": 2,
+      "box": {
+        "left": 249.6,
+        "top": 380.8,
+        "width": 104.0,
+        "height": 13.6
+      }
+    },
+    "vIIb2": {
+      "type": "text",
+      "label": "Number of installation personnel currently enrolled in the apprenticeship program. Second Period.",
+      "page": 2,
+      "box": {
+        "left": 356.0,
+        "top": 380.8,
+        "width": 103.2,
+        "height": 13.6
+      }
+    },
+    "vIIb3": {
+      "type": "text",
+      "label": "Number of installation personnel currently enrolled in the apprenticeship program. Total for Fiscal Year.",
+      "page": 2,
+      "box": {
+        "left": 461.6,
+        "top": 380.8,
+        "width": 104.0,
+        "height": 13.6
+      }
+    },
+    "vIIc1": {
+      "type": "text",
+      "label": "Number of program completions. First Period.",
+      "page": 2,
+      "box": {
+        "left": 249.6,
+        "top": 365.6,
+        "width": 104.0,
+        "height": 13.6
+      }
+    },
+    "vIIc2": {
+      "type": "text",
+      "label": "Number of program completions. Second Period.",
+      "page": 2,
+      "box": {
+        "left": 356.0,
+        "top": 365.6,
+        "width": 103.2,
+        "height": 13.6
+      }
+    },
+    "vIIc3": {
+      "type": "text",
+      "label": "Number of program completions. Total for Fiscal Year.",
+      "page": 2,
+      "box": {
+        "left": 461.6,
+        "top": 365.6,
+        "width": 104.0,
+        "height": 13.6
+      }
+    },
+    "tabberp3": {
+      "type": "text",
+      "label": "Tabberp3",
+      "page": 3,
+      "box": {
+        "left": 48.9,
+        "top": 772.0,
+        "width": 13.8,
+        "height": 14.1
+      }
+    }
+  }
+}

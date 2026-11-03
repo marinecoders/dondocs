@@ -1,0 +1,337 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "textField1": {
+        "left": 29.8,
+        "top": 704.8,
+        "width": 435.3,
+        "height": 17.9,
+        "type": "text",
+        "description": "Please enter the required information for the from line",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateTimeField1": {
+        "left": 470.8,
+        "top": 704.4,
+        "width": 111.3,
+        "height": 17.6,
+        "type": "text",
+        "description": "Please enter date form is filled out",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField12": {
+        "left": 29.8,
+        "top": 650.4,
+        "width": 552.3,
+        "height": 17.6,
+        "type": "text",
+        "description": "Please enter the full name, rank or rate, grade, and social security number of the individual that is requesting security access",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField13": {
+        "left": 29.8,
+        "top": 614.4,
+        "width": 264.3,
+        "height": 17.6,
+        "type": "text",
+        "description": "Please enter the subject's office code",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField14": {
+        "left": 299.8,
+        "top": 614.4,
+        "width": 282.3,
+        "height": 17.6,
+        "type": "text",
+        "description": "Please enter the subject's office phone number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox1": {
+        "left": 65.8,
+        "top": 574.0,
+        "width": 14.0,
+        "height": 14.0,
+        "type": "checkbox",
+        "description": "Please mark if final access requested is for TOP SECRET",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox12": {
+        "left": 272.8,
+        "top": 574.0,
+        "width": 14.0,
+        "height": 14.0,
+        "type": "checkbox",
+        "description": "Please mark if final access requested is for  SECRET",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox13": {
+        "left": 461.8,
+        "top": 574.0,
+        "width": 14.0,
+        "height": 14.0,
+        "type": "checkbox",
+        "description": "Please mark if final access requested is for CONFIDENTIAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox14": {
+        "left": 65.8,
+        "top": 538.0,
+        "width": 14.0,
+        "height": 14.0,
+        "type": "checkbox",
+        "description": "Please mark if interim access requested is for TOP SECRET",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox15": {
+        "left": 272.8,
+        "top": 538.0,
+        "width": 14.0,
+        "height": 14.0,
+        "type": "checkbox",
+        "description": "Please mark if interim access requested is for  SECRET",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox16": {
+        "left": 461.8,
+        "top": 538.0,
+        "width": 14.0,
+        "height": 14.0,
+        "type": "checkbox",
+        "description": "Please mark if interim access requested is for CONFIDENTIAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField15": {
+        "left": 29.8,
+        "top": 506.4,
+        "width": 183.3,
+        "height": 17.6,
+        "type": "text",
+        "description": "Please enter position sensitivity",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField16": {
+        "left": 218.8,
+        "top": 506.4,
+        "width": 201.3,
+        "height": 17.6,
+        "type": "text",
+        "description": "Please enter civilian position descriptino number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField17": {
+        "left": 425.8,
+        "top": 506.4,
+        "width": 156.3,
+        "height": 17.6,
+        "type": "text",
+        "description": "Please enter the military billet sequence code number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField18": {
+        "left": 29.8,
+        "top": 380.4,
+        "width": 444.3,
+        "height": 17.6,
+        "type": "text",
+        "description": "Please enter the degree of access granted",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateTimeField7": {
+        "left": 479.8,
+        "top": 380.4,
+        "width": 102.3,
+        "height": 17.6,
+        "type": "text",
+        "description": "Please enter the date access was granted",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateTimeField2": {
+        "left": 245.8,
+        "top": 339.2,
+        "width": 93.3,
+        "height": 11.6,
+        "type": "text",
+        "description": "Please enter the date Special Background Investigation was completed",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField19": {
+        "left": 344.8,
+        "top": 339.2,
+        "width": 237.3,
+        "height": 11.6,
+        "type": "text",
+        "description": "Please enter the Agency that completed the Special Background Investigation",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateTimeField3": {
+        "left": 245.8,
+        "top": 321.2,
+        "width": 93.3,
+        "height": 11.6,
+        "type": "text",
+        "description": "Please enter the date Background Investigation was completed",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField110": {
+        "left": 344.8,
+        "top": 321.2,
+        "width": 237.3,
+        "height": 11.6,
+        "type": "text",
+        "description": "Please enter the Agency that completed the Background Investigation",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateTimeField4": {
+        "left": 245.8,
+        "top": 303.2,
+        "width": 93.3,
+        "height": 11.6,
+        "type": "text",
+        "description": "Please enter the date National Agency Check and Inquiry was completed",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField111": {
+        "left": 344.8,
+        "top": 303.2,
+        "width": 237.3,
+        "height": 11.6,
+        "type": "text",
+        "description": "Please enter the Agency that completed the National Agency Check and Inquiry",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateTimeField5": {
+        "left": 245.8,
+        "top": 285.2,
+        "width": 93.3,
+        "height": 11.6,
+        "type": "text",
+        "description": "Please enter the date National Agency Check was completed",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField112": {
+        "left": 344.8,
+        "top": 285.2,
+        "width": 237.3,
+        "height": 11.6,
+        "type": "text",
+        "description": "Please enter the Agency that completed the National Agency Check",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateTimeField6": {
+        "left": 245.8,
+        "top": 267.2,
+        "width": 93.3,
+        "height": 11.6,
+        "type": "text",
+        "description": "Please enter the date Entrance National Agency check was completed",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField113": {
+        "left": 344.8,
+        "top": 267.2,
+        "width": 237.3,
+        "height": 11.6,
+        "type": "text",
+        "description": "Please enter the Agency that completed the Entrance National Agency check",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField114": {
+        "left": 29.8,
+        "top": 191.4,
+        "width": 552.3,
+        "height": 71.6,
+        "type": "text",
+        "description": "Please enter any remarks needed ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateTimeField8": {
+        "left": 479.8,
+        "top": 101.4,
+        "width": 102.3,
+        "height": 26.6,
+        "type": "text",
+        "description": "Please enter the date signed by the Lead Personnel Security Specialist",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "staticText8": {
+        "left": 29.8,
+        "top": 99.2,
+        "width": 444.3,
+        "height": 24.3,
+        "type": "signature",
+        "description": "Please enter the name of the Lead Personnel Security Specialist",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

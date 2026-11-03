@@ -1,0 +1,106 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "reqDocument": {
+        "left": 41.6,
+        "top": 685.7,
+        "width": 390.3,
+        "height": 36.2,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sponsorCode": {
+        "left": 436.2,
+        "top": 685.1,
+        "width": 139.0,
+        "height": 35.7,
+        "type": "text",
+        "description": "2. SPONSOR CODE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "desTitleOrReq": {
+        "left": 41.6,
+        "top": 633.9,
+        "width": 533.5,
+        "height": 36.3,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "authority": {
+        "left": 41.6,
+        "top": 562.5,
+        "width": 533.5,
+        "height": 72.5,
+        "type": "text",
+        "description": "1. AUTHORITY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "prinPurp": {
+        "left": 41.6,
+        "top": 473.3,
+        "width": 533.5,
+        "height": 148.5,
+        "type": "text",
+        "description": "2. PRINCIPLE PURPOSE(S)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "routineUses": {
+        "left": 41.6,
+        "top": 309.3,
+        "width": 533.5,
+        "height": 196.6,
+        "type": "text",
+        "description": "3. ROUTINE USE(S)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "frmNumRepConSymOthIden": {
+        "left": 41.6,
+        "top": 78.5,
+        "width": 390.3,
+        "height": 40.5,
+        "type": "text",
+        "description": "1. FORM NO./REPORT CONTROL SYMBOL/OTHER IDENTIFICATION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "privActStmnt": {
+        "left": 436.2,
+        "top": 78.5,
+        "width": 139.0,
+        "height": 40.5,
+        "type": "text",
+        "description": "PRIVACY ACT STATEMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

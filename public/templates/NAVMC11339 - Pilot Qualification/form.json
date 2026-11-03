@@ -1,0 +1,626 @@
+{
+  "id": "navmc11339",
+  "label": "NAVMC 11339 - Pilot Qualification",
+  "directory": "NAVMC11339 - Pilot Qualification",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "nameL",
+        "nameF",
+        "nameM",
+        "natnlty1",
+        "mos1",
+        "grade1",
+        "dor1",
+        "gradeSel",
+        "ssn1",
+        "dctb1",
+        "eas1",
+        "dausdr1",
+        "height1",
+        "weight1",
+        "rtd1",
+        "maritStat",
+        "numDepd",
+        "addHome",
+        "phoneNum",
+        "addUnit",
+        "phoneWork",
+        "phoneFax",
+        "phoneCom",
+        "timeHeloFlt0",
+        "typHeloFlt0",
+        "timeTotFlt",
+        "timeNvg",
+        "timeHeloFlt1",
+        "typHeloFlt1",
+        "timeTotHelo",
+        "timeHeloFlt2",
+        "typHeloFlt2",
+        "lastSQual",
+        "fltDesig",
+        "lastInstChk",
+        "deplymnt1"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "descVol",
+        "radBkgrdYes",
+        "radBkgrdYes2",
+        "radAccidYes",
+        "radAccidYes2",
+        "descIncid",
+        "signature",
+        "dateSig"
+      ]
+    }
+  ],
+  "fields": {
+    "nameL": {
+      "type": "text",
+      "label": "Last Name",
+      "page": 1,
+      "box": {
+        "left": 37.1,
+        "top": 688.8,
+        "width": 159.7,
+        "height": 16.0
+      }
+    },
+    "nameF": {
+      "type": "text",
+      "label": "First Name",
+      "page": 1,
+      "box": {
+        "left": 196.8,
+        "top": 688.8,
+        "width": 164.0,
+        "height": 16.0
+      }
+    },
+    "nameM": {
+      "type": "text",
+      "label": "Middle Name",
+      "page": 1,
+      "box": {
+        "left": 360.8,
+        "top": 688.8,
+        "width": 70.4,
+        "height": 16.0
+      }
+    },
+    "natnlty1": {
+      "type": "text",
+      "label": "Nationality",
+      "page": 1,
+      "box": {
+        "left": 432.8,
+        "top": 688.8,
+        "width": 152.8,
+        "height": 16.0
+      }
+    },
+    "mos1": {
+      "type": "text",
+      "label": "MOS",
+      "page": 1,
+      "box": {
+        "left": 164.8,
+        "top": 656.8,
+        "width": 104.0,
+        "height": 16.0
+      }
+    },
+    "grade1": {
+      "type": "text",
+      "label": "Grade",
+      "page": 1,
+      "box": {
+        "left": 270.4,
+        "top": 656.8,
+        "width": 104.0,
+        "height": 16.0
+      }
+    },
+    "dor1": {
+      "type": "text",
+      "label": "DOR",
+      "page": 1,
+      "box": {
+        "left": 376.0,
+        "top": 656.8,
+        "width": 104.0,
+        "height": 16.0
+      }
+    },
+    "gradeSel": {
+      "type": "text",
+      "label": "Selected Grade",
+      "page": 1,
+      "box": {
+        "left": 482.4,
+        "top": 656.8,
+        "width": 104.0,
+        "height": 16.0
+      }
+    },
+    "ssn1": {
+      "type": "text",
+      "label": "Enter Social Security Number without dashes",
+      "page": 1,
+      "box": {
+        "left": 32.8,
+        "top": 656.0,
+        "width": 130.4,
+        "height": 15.2
+      }
+    },
+    "dctb1": {
+      "type": "text",
+      "label": "DCTB",
+      "page": 1,
+      "box": {
+        "left": 32.8,
+        "top": 620.0,
+        "width": 60.0,
+        "height": 16.0
+      }
+    },
+    "eas1": {
+      "type": "text",
+      "label": "EAS",
+      "page": 1,
+      "box": {
+        "left": 94.4,
+        "top": 620.0,
+        "width": 59.2,
+        "height": 16.0
+      }
+    },
+    "dausdr1": {
+      "type": "text",
+      "label": "DAUSDR",
+      "page": 1,
+      "box": {
+        "left": 155.2,
+        "top": 620.0,
+        "width": 60.0,
+        "height": 16.0
+      }
+    },
+    "height1": {
+      "type": "text",
+      "label": "Height",
+      "page": 1,
+      "box": {
+        "left": 216.8,
+        "top": 620.0,
+        "width": 60.0,
+        "height": 16.0
+      }
+    },
+    "weight1": {
+      "type": "text",
+      "label": "Weight",
+      "page": 1,
+      "box": {
+        "left": 278.4,
+        "top": 620.0,
+        "width": 59.2,
+        "height": 16.0
+      }
+    },
+    "rtd1": {
+      "type": "text",
+      "label": "RTD",
+      "page": 1,
+      "box": {
+        "left": 339.2,
+        "top": 620.0,
+        "width": 60.0,
+        "height": 16.0
+      }
+    },
+    "maritStat": {
+      "type": "text",
+      "label": "Martial Status",
+      "page": 1,
+      "box": {
+        "left": 400.8,
+        "top": 620.0,
+        "width": 101.6,
+        "height": 16.0
+      }
+    },
+    "numDepd": {
+      "type": "text",
+      "label": "Number of Dependents",
+      "page": 1,
+      "box": {
+        "left": 504.0,
+        "top": 620.0,
+        "width": 82.4,
+        "height": 16.0
+      }
+    },
+    "addHome": {
+      "type": "text",
+      "label": "Home Address",
+      "page": 1,
+      "box": {
+        "left": 32.8,
+        "top": 592.9,
+        "width": 446.4,
+        "height": 25.7
+      }
+    },
+    "phoneNum": {
+      "type": "text",
+      "label": "Home Phone Number",
+      "page": 1,
+      "box": {
+        "left": 480.8,
+        "top": 582.4,
+        "width": 105.6,
+        "height": 15.2
+      }
+    },
+    "addUnit": {
+      "type": "text",
+      "label": "Unit Address",
+      "page": 1,
+      "box": {
+        "left": 32.8,
+        "top": 545.6,
+        "width": 553.6,
+        "height": 16.0
+      }
+    },
+    "phoneWork": {
+      "type": "text",
+      "label": "Work Phone/DSN",
+      "page": 1,
+      "box": {
+        "left": 32.8,
+        "top": 508.8,
+        "width": 179.2,
+        "height": 15.2
+      }
+    },
+    "phoneFax": {
+      "type": "text",
+      "label": "Fax Number",
+      "page": 1,
+      "box": {
+        "left": 213.6,
+        "top": 508.8,
+        "width": 202.4,
+        "height": 15.2
+      }
+    },
+    "phoneCom": {
+      "type": "text",
+      "label": "COM Phone Number",
+      "page": 1,
+      "box": {
+        "left": 417.6,
+        "top": 508.8,
+        "width": 168.8,
+        "height": 15.2
+      }
+    },
+    "timeHeloFlt0": {
+      "type": "text",
+      "label": "Helo flight time. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 224.0,
+        "top": 476.0,
+        "width": 100.0,
+        "height": 16.0
+      }
+    },
+    "typHeloFlt0": {
+      "type": "text",
+      "label": "Type of Helo flight. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 324.0,
+        "top": 476.0,
+        "width": 100.0,
+        "height": 16.0
+      }
+    },
+    "timeTotFlt": {
+      "type": "text",
+      "label": "Total Flight Time",
+      "page": 1,
+      "box": {
+        "left": 32.8,
+        "top": 467.2,
+        "width": 125.6,
+        "height": 16.0
+      }
+    },
+    "timeNvg": {
+      "type": "text",
+      "label": "NVG Time",
+      "page": 1,
+      "box": {
+        "left": 425.6,
+        "top": 466.4,
+        "width": 160.8,
+        "height": 16.0
+      }
+    },
+    "timeHeloFlt1": {
+      "type": "text",
+      "label": "Helo flight time. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 224.0,
+        "top": 455.2,
+        "width": 100.0,
+        "height": 15.2
+      }
+    },
+    "typHeloFlt1": {
+      "type": "text",
+      "label": "Type of Helo flight. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 324.0,
+        "top": 455.2,
+        "width": 100.0,
+        "height": 15.2
+      }
+    },
+    "timeTotHelo": {
+      "type": "text",
+      "label": "Total Helo. Flight Time",
+      "page": 1,
+      "box": {
+        "left": 32.8,
+        "top": 436.8,
+        "width": 125.6,
+        "height": 16.0
+      }
+    },
+    "timeHeloFlt2": {
+      "type": "text",
+      "label": "Helo flight time. Line 3.",
+      "page": 1,
+      "box": {
+        "left": 224.0,
+        "top": 436.8,
+        "width": 100.0,
+        "height": 16.0
+      }
+    },
+    "typHeloFlt2": {
+      "type": "text",
+      "label": "Type of Helo flight. Line 3.",
+      "page": 1,
+      "box": {
+        "left": 324.0,
+        "top": 436.8,
+        "width": 100.0,
+        "height": 16.0
+      }
+    },
+    "lastSQual": {
+      "type": "text",
+      "label": "Last Swim Qual.",
+      "page": 1,
+      "box": {
+        "left": 425.6,
+        "top": 436.8,
+        "width": 160.8,
+        "height": 16.0
+      }
+    },
+    "fltDesig": {
+      "type": "text",
+      "label": "Flight Designations",
+      "page": 1,
+      "box": {
+        "left": 32.8,
+        "top": 409.6,
+        "width": 332.0,
+        "height": 34.0
+      },
+      "multiline": true
+    },
+    "lastInstChk": {
+      "type": "text",
+      "label": "Data/Type Last Instrument Check",
+      "page": 1,
+      "box": {
+        "left": 367.2,
+        "top": 407.2,
+        "width": 219.2,
+        "height": 31.2
+      },
+      "multiline": true
+    },
+    "deplymnt1": {
+      "type": "text",
+      "label": "Deployments",
+      "page": 1,
+      "box": {
+        "left": 32.8,
+        "top": 364.7,
+        "width": 553.6,
+        "height": 79.1
+      },
+      "multiline": true
+    },
+    "descVol": {
+      "type": "text",
+      "label": "Briefly describe why you are a volunteer for HMX-1.",
+      "page": 2,
+      "box": {
+        "left": 33.6,
+        "top": 731.7,
+        "width": 552.0,
+        "height": 118.1
+      },
+      "multiline": true
+    },
+    "radBkgrdYes": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 2,
+      "box": {
+        "left": 76.0,
+        "top": 552.8,
+        "width": 18.4,
+        "height": 18.4
+      },
+      "group": "topmostSubform_0_Page2_0_RadBkgrdYes_0"
+    },
+    "radBkgrdYes2": {
+      "type": "radio",
+      "label": "no",
+      "page": 2,
+      "box": {
+        "left": 192.0,
+        "top": 552.8,
+        "width": 18.4,
+        "height": 18.4
+      },
+      "group": "topmostSubform_0_Page2_0_RadBkgrdYes_0"
+    },
+    "radAccidYes": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 2,
+      "box": {
+        "left": 77.6,
+        "top": 481.6,
+        "width": 17.6,
+        "height": 17.6
+      },
+      "group": "topmostSubform_0_Page2_0_RadAccidYes_0"
+    },
+    "radAccidYes2": {
+      "type": "radio",
+      "label": "no",
+      "page": 2,
+      "box": {
+        "left": 192.7,
+        "top": 480.7,
+        "width": 18.0,
+        "height": 18.0
+      },
+      "group": "topmostSubform_0_Page2_0_RadAccidYes_0"
+    },
+    "descIncid": {
+      "type": "text",
+      "label": "Breifly describe the incident.",
+      "page": 2,
+      "box": {
+        "left": 33.6,
+        "top": 442.4,
+        "width": 552.0,
+        "height": 261.4
+      },
+      "multiline": true
+    },
+    "signature": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 2,
+      "box": {
+        "left": 33.1,
+        "top": 168.6,
+        "width": 429.2,
+        "height": 29.7
+      }
+    },
+    "dateSig": {
+      "type": "text",
+      "label": "Enter signature date using format 2002 06 27.",
+      "page": 2,
+      "box": {
+        "left": 464.8,
+        "top": 164.2,
+        "width": 120.8,
+        "height": 25.0
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 7,
+      "rowStride": 30.53,
+      "editor": "grid",
+      "columns": {
+        "billet": {
+          "type": "text",
+          "label": "Billet. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 32.8,
+            "top": 243.2,
+            "width": 137.6,
+            "height": 16.0
+          }
+        },
+        "timePerStart": {
+          "type": "text",
+          "label": "Starting Time Period. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 172.0,
+            "top": 243.2,
+            "width": 65.6,
+            "height": 16.0
+          }
+        },
+        "timePerEnd": {
+          "type": "text",
+          "label": "Ending Time Period. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 238.4,
+            "top": 243.2,
+            "width": 70.4,
+            "height": 16.0
+          }
+        },
+        "oicRepSen": {
+          "type": "text",
+          "label": "OIC/Reporting Senior. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 310.4,
+            "top": 243.2,
+            "width": 137.6,
+            "height": 16.0
+          }
+        },
+        "commOffic": {
+          "type": "text",
+          "label": "Commanding Officer. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 449.6,
+            "top": 243.2,
+            "width": 136.8,
+            "height": 16.0
+          }
+        }
+      }
+    }
+  }
+}

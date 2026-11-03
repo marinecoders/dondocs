@@ -1,0 +1,115 @@
+{
+  "id": "opnav55115",
+  "label": "OPNAV5511-5 - Security Violation Report",
+  "directory": "OPNAV5511-5 - Security Violation Report",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "svnumber1",
+        "to1",
+        "roomNumber1",
+        "assignedTo1",
+        "equipment1",
+        "statement1",
+        "signature1",
+        "dNSDate1"
+      ]
+    }
+  ],
+  "fields": {
+    "svnumber1": {
+      "type": "text",
+      "label": "Enter the SV number.",
+      "page": 1,
+      "box": {
+        "left": 427.7,
+        "top": 746.5,
+        "width": 146.9,
+        "height": 17.9
+      }
+    },
+    "to1": {
+      "type": "text",
+      "label": "Enter the recipient address.",
+      "page": 1,
+      "box": {
+        "left": 52.0,
+        "top": 680.6,
+        "width": 522.6,
+        "height": 39.1
+      },
+      "multiline": true
+    },
+    "roomNumber1": {
+      "type": "text",
+      "label": "Enter the room number.",
+      "page": 1,
+      "box": {
+        "left": 37.0,
+        "top": 613.7,
+        "width": 171.5,
+        "height": 19.9
+      }
+    },
+    "assignedTo1": {
+      "type": "text",
+      "label": "Enter whom it was assigned to (OP).",
+      "page": 1,
+      "box": {
+        "left": 215.6,
+        "top": 613.7,
+        "width": 171.5,
+        "height": 19.9
+      }
+    },
+    "equipment1": {
+      "type": "text",
+      "label": "Enter the equipment number (if applicable).",
+      "page": 1,
+      "box": {
+        "left": 394.6,
+        "top": 613.7,
+        "width": 180.0,
+        "height": 19.9
+      }
+    },
+    "statement1": {
+      "type": "text",
+      "label": "Enter the statement of circumstances surrounding the incident.",
+      "page": 1,
+      "box": {
+        "left": 37.0,
+        "top": 580.2,
+        "width": 536.8,
+        "height": 446.1
+      },
+      "multiline": true
+    },
+    "signature1": {
+      "type": "text",
+      "label": "Enter the signature.",
+      "page": 1,
+      "box": {
+        "left": 34.7,
+        "top": 87.4,
+        "width": 391.3,
+        "height": 21.0
+      }
+    },
+    "dNSDate1": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 432.7,
+        "top": 87.4,
+        "width": 140.3,
+        "height": 21.0
+      }
+    }
+  }
+}

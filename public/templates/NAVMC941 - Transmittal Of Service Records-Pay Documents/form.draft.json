@@ -1,0 +1,169 @@
+{
+  "id": "navmc941",
+  "label": "NAVMC941 - Transmittal Of Service Records-Pay Documents",
+  "directory": "NAVMC941 - Transmittal Of Service Records-Pay Documents",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "nameInfo0",
+        "nameInfo1",
+        "nameInfo2",
+        "nameInfo3",
+        "nameInfo4",
+        "nameInfo5",
+        "reas1"
+      ]
+    }
+  ],
+  "fields": {
+    "nameInfo0": {
+      "type": "text",
+      "label": "Name, Grade, and Social Security Number. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 108.0,
+        "top": 517.3,
+        "width": 192.0,
+        "height": 16.5
+      }
+    },
+    "nameInfo1": {
+      "type": "text",
+      "label": "Name, Grade, and Social Security Number. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 108.0,
+        "top": 500.3,
+        "width": 192.0,
+        "height": 18.0
+      }
+    },
+    "nameInfo2": {
+      "type": "text",
+      "label": "Name, Grade, and Social Security Number. Line 3.",
+      "page": 1,
+      "box": {
+        "left": 108.0,
+        "top": 482.3,
+        "width": 192.0,
+        "height": 20.0
+      }
+    },
+    "nameInfo3": {
+      "type": "text",
+      "label": "Name, Grade, and Social Security Number. Line 4.",
+      "page": 1,
+      "box": {
+        "left": 108.0,
+        "top": 462.5,
+        "width": 192.0,
+        "height": 19.0
+      }
+    },
+    "nameInfo4": {
+      "type": "text",
+      "label": "Name, Grade, and Social Security Number. Line 5.",
+      "page": 1,
+      "box": {
+        "left": 108.0,
+        "top": 444.3,
+        "width": 192.0,
+        "height": 19.3
+      }
+    },
+    "nameInfo5": {
+      "type": "text",
+      "label": "Name, Grade, and Social Security Number. Line 6.",
+      "page": 1,
+      "box": {
+        "left": 108.0,
+        "top": 425.3,
+        "width": 192.0,
+        "height": 19.3
+      }
+    },
+    "reas1": {
+      "type": "text",
+      "label": "Reason/Remarks",
+      "page": 1,
+      "box": {
+        "left": 108.0,
+        "top": 396.0,
+        "width": 192.0,
+        "height": 46.0
+      },
+      "multiline": true
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 6,
+      "rowStride": 19.06,
+      "editor": "grid",
+      "columns": {
+        "chkOQR": {
+          "type": "checkbox",
+          "label": "Check for OQR. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 310.8,
+            "top": 515.3,
+            "width": 13.4,
+            "height": 13.4
+          }
+        },
+        "chkSRB": {
+          "type": "checkbox",
+          "label": "Check for SRB. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 336.3,
+            "top": 515.3,
+            "width": 13.3,
+            "height": 13.4
+          }
+        },
+        "chkHR": {
+          "type": "checkbox",
+          "label": "Check for HR. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 361.7,
+            "top": 515.3,
+            "width": 13.4,
+            "height": 13.4
+          }
+        },
+        "chkDR": {
+          "type": "checkbox",
+          "label": "Check for DR. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 387.2,
+            "top": 515.3,
+            "width": 13.3,
+            "height": 13.4
+          }
+        },
+        "chkOth": {
+          "type": "checkbox",
+          "label": "Check for other. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 412.6,
+            "top": 515.3,
+            "width": 13.3,
+            "height": 13.4
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,954 @@
+{
+  "id": "opnav4790168",
+  "label": "OPNAV4790-168 - Catapult Post-Operational Data",
+  "directory": "OPNAV4790-168 - Catapult Post-Operational Data",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "catapultno",
+        "date",
+        "time",
+        "consoleccp",
+        "catshottdy",
+        "deckedgeiccs",
+        "catnoloadshot",
+        "rectractionengine",
+        "inbd",
+        "outbd",
+        "waterbrakes",
+        "fdngl",
+        "waterlevel",
+        "oil",
+        "jbd",
+        "flightdeck",
+        "oillevel",
+        "oilusedtoday",
+        "centerdeck",
+        "catelectrician",
+        "lubeoil",
+        "e2serial",
+        "e2shotstoday",
+        "e2shotsuntil",
+        "e2ttl",
+        "e2status",
+        "e2serial2",
+        "e2shotstoday2",
+        "e2shotsuntil2",
+        "e2ttl2",
+        "e2status2",
+        "f18serial",
+        "f18shotstoday",
+        "f18shotsuntil",
+        "f18ttl",
+        "f18status",
+        "f18serial2",
+        "f18shotstoday2",
+        "f18shotsuntil2",
+        "f18ttl2",
+        "f18status2",
+        "f18serialefg",
+        "f18shotstodayefg",
+        "f18shotsuntilefg",
+        "f18ttllefg",
+        "f18statusefg",
+        "f18serialefg2",
+        "f18shotstodayefg2",
+        "f18shotsuntilefg2",
+        "f18tllefg2",
+        "f18statusefg2",
+        "t45",
+        "t45shotstoday",
+        "t45shotsuntil",
+        "t45ttl",
+        "t45status",
+        "t452",
+        "t452shotstoday",
+        "t452shotsuntil",
+        "t452ttl",
+        "t452status",
+        "holdbackbar",
+        "serialnumber",
+        "shotstoday",
+        "shotsuntil",
+        "ttl",
+        "status2",
+        "holdbackbar2",
+        "serialnumber2",
+        "shotstoday2",
+        "shotsuntil2",
+        "ttl2",
+        "status",
+        "releaseelements",
+        "pmscompleted",
+        "catcaptain",
+        "catchief",
+        "maintofficercpo"
+      ]
+    }
+  ],
+  "fields": {
+    "catapultno": {
+      "type": "text",
+      "label": "ENTER CATAPULT NUMBER.",
+      "page": 1,
+      "box": {
+        "left": 109.9,
+        "top": 735.2,
+        "width": 103.3,
+        "height": 12.3
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "ENTER DATE.",
+      "page": 1,
+      "box": {
+        "left": 308.7,
+        "top": 735.2,
+        "width": 75.5,
+        "height": 12.3
+      }
+    },
+    "time": {
+      "type": "text",
+      "label": "ENTER TIME.",
+      "page": 1,
+      "box": {
+        "left": 488.7,
+        "top": 735.2,
+        "width": 57.5,
+        "height": 12.3
+      }
+    },
+    "consoleccp": {
+      "type": "text",
+      "label": "ENTER CONSOLE/CCP.",
+      "page": 1,
+      "box": {
+        "left": 109.9,
+        "top": 699.2,
+        "width": 193.3,
+        "height": 12.3
+      }
+    },
+    "catshottdy": {
+      "type": "text",
+      "label": "ENTER NUMBER OF CATAPULT AIRCRAFT SHOTS TODAY.",
+      "page": 1,
+      "box": {
+        "left": 480.0,
+        "top": 699.2,
+        "width": 84.1,
+        "height": 12.3
+      }
+    },
+    "deckedgeiccs": {
+      "type": "text",
+      "label": "ENTER DECKEDGE/ICCS.",
+      "page": 1,
+      "box": {
+        "left": 114.1,
+        "top": 672.2,
+        "width": 189.1,
+        "height": 12.3
+      }
+    },
+    "catnoloadshot": {
+      "type": "text",
+      "label": "ENTER NUMBER OF NO-LOAD SHOTS TODAY.",
+      "page": 1,
+      "box": {
+        "left": 479.2,
+        "top": 672.2,
+        "width": 85.0,
+        "height": 12.3
+      }
+    },
+    "rectractionengine": {
+      "type": "text",
+      "label": "ENTER RETRACTION ENGINE.",
+      "page": 1,
+      "box": {
+        "left": 135.0,
+        "top": 645.2,
+        "width": 168.1,
+        "height": 12.3
+      }
+    },
+    "inbd": {
+      "type": "text",
+      "label": "ENTER STRIP TENSIONERS INBOARD IN INCHES.",
+      "page": 1,
+      "box": {
+        "left": 377.3,
+        "top": 627.2,
+        "width": 60.9,
+        "height": 12.3
+      }
+    },
+    "outbd": {
+      "type": "text",
+      "label": "ENTER STRIP TENSIONERS OUTBOARD IN INCHES.",
+      "page": 1,
+      "box": {
+        "left": 492.5,
+        "top": 627.2,
+        "width": 44.7,
+        "height": 12.3
+      }
+    },
+    "waterbrakes": {
+      "type": "text",
+      "label": "ENTER WATER BRAKES.",
+      "page": 1,
+      "box": {
+        "left": 117.4,
+        "top": 618.2,
+        "width": 185.7,
+        "height": 12.3
+      }
+    },
+    "fdngl": {
+      "type": "text",
+      "label": "ENTER FDNGL.",
+      "page": 1,
+      "box": {
+        "left": 80.5,
+        "top": 591.2,
+        "width": 222.6,
+        "height": 12.3
+      }
+    },
+    "waterlevel": {
+      "type": "text",
+      "label": "ENTER WATER BRAKES WATER LEVEL IN INCHES.",
+      "page": 1,
+      "box": {
+        "left": 411.7,
+        "top": 573.2,
+        "width": 44.5,
+        "height": 12.3
+      }
+    },
+    "oil": {
+      "type": "text",
+      "label": "ENTER WATER BRAKES OIL LEVEL IN INCHES.",
+      "page": 1,
+      "box": {
+        "left": 507.8,
+        "top": 573.2,
+        "width": 29.3,
+        "height": 12.3
+      }
+    },
+    "jbd": {
+      "type": "text",
+      "label": "ENTER JBD.",
+      "page": 1,
+      "box": {
+        "left": 69.6,
+        "top": 564.2,
+        "width": 233.5,
+        "height": 12.3
+      }
+    },
+    "flightdeck": {
+      "type": "text",
+      "label": "ENTER FLIGHT DECK.",
+      "page": 1,
+      "box": {
+        "left": 104.0,
+        "top": 537.2,
+        "width": 199.2,
+        "height": 12.3
+      }
+    },
+    "oillevel": {
+      "type": "text",
+      "label": "ENTER OIL LEVEL IN GALLONS.",
+      "page": 1,
+      "box": {
+        "left": 399.9,
+        "top": 519.2,
+        "width": 29.2,
+        "height": 12.3
+      }
+    },
+    "oilusedtoday": {
+      "type": "text",
+      "label": "ENTER OIL LEVEL USED TODAY IN GALLONS.",
+      "page": 1,
+      "box": {
+        "left": 514.7,
+        "top": 519.2,
+        "width": 22.5,
+        "height": 12.3
+      }
+    },
+    "centerdeck": {
+      "type": "text",
+      "label": "ENTER CENTER DECK.",
+      "page": 1,
+      "box": {
+        "left": 109.9,
+        "top": 510.2,
+        "width": 193.3,
+        "height": 12.3
+      }
+    },
+    "catelectrician": {
+      "type": "text",
+      "label": "ENTER CAT ELECTRICIAN.",
+      "page": 1,
+      "box": {
+        "left": 119.9,
+        "top": 483.2,
+        "width": 183.2,
+        "height": 12.3
+      }
+    },
+    "lubeoil": {
+      "type": "text",
+      "label": "ENTER LUBE OIL ADDED IN GALLONS.",
+      "page": 1,
+      "box": {
+        "left": 423.4,
+        "top": 483.2,
+        "width": 41.7,
+        "height": 12.3
+      }
+    },
+    "e2serial": {
+      "type": "text",
+      "label": "ENTER SERIAL NUMBER FOR E-2/EA-6B/C-2.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 402.2,
+        "width": 84.3,
+        "height": 12.3
+      }
+    },
+    "e2shotstoday": {
+      "type": "text",
+      "label": "ENTER SHOTS TODAY FOR E-2/EA-6B/C-2",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 402.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "e2shotsuntil": {
+      "type": "text",
+      "label": "ENTER SHOTS UNTIL PMS FOR E-2/EA-6B/C-2.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 402.2,
+        "width": 75.1,
+        "height": 12.3
+      }
+    },
+    "e2ttl": {
+      "type": "text",
+      "label": "ENTER TOTAL SHOTS FOR E-2/EA-6B/C-2.",
+      "page": 1,
+      "box": {
+        "left": 380.9,
+        "top": 402.2,
+        "width": 84.3,
+        "height": 12.3
+      }
+    },
+    "e2status": {
+      "type": "text",
+      "label": "ENTER STATUS FOR E-2/EA-6B/C-2.",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 402.2,
+        "width": 102.8,
+        "height": 12.3
+      }
+    },
+    "e2serial2": {
+      "type": "text",
+      "label": "ENTER SERIAL NUMBER FOR E-2/EA-6B/C-2.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 384.2,
+        "width": 84.3,
+        "height": 12.3
+      }
+    },
+    "e2shotstoday2": {
+      "type": "text",
+      "label": "ENTER SHOTS TODAY FOR  E-2/EA-6B/C-2.",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 384.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "e2shotsuntil2": {
+      "type": "text",
+      "label": "ENTER SHOTS UNTIL PMS FOR E-2/EA-6B/C-2.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 384.2,
+        "width": 75.1,
+        "height": 12.3
+      }
+    },
+    "e2ttl2": {
+      "type": "text",
+      "label": "ENTER TOTAL SHOTS FOR E-2/EA-6B/C-2.",
+      "page": 1,
+      "box": {
+        "left": 380.9,
+        "top": 384.2,
+        "width": 84.3,
+        "height": 12.3
+      }
+    },
+    "e2status2": {
+      "type": "text",
+      "label": "ENTER STATUS FOR E-2/EA-6B/C-2.",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 384.2,
+        "width": 102.8,
+        "height": 12.3
+      }
+    },
+    "f18serial": {
+      "type": "text",
+      "label": "ENTER SERIAL NUMBER FOR F/A - 18.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 366.2,
+        "width": 84.3,
+        "height": 12.3
+      }
+    },
+    "f18shotstoday": {
+      "type": "text",
+      "label": "ENTER SHOTS TODAY FOR F/A - 18.",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 366.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "f18shotsuntil": {
+      "type": "text",
+      "label": "ENTER SHOTS UNTIL PMS FOR F/A - 18.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 366.2,
+        "width": 75.1,
+        "height": 12.3
+      }
+    },
+    "f18ttl": {
+      "type": "text",
+      "label": "ENTER TOTAL SHOTS FOR F/A - 18.",
+      "page": 1,
+      "box": {
+        "left": 380.9,
+        "top": 366.2,
+        "width": 84.3,
+        "height": 12.3
+      }
+    },
+    "f18status": {
+      "type": "text",
+      "label": "ENTER STATUS FOR F/A - 18.",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 366.2,
+        "width": 102.8,
+        "height": 12.3
+      }
+    },
+    "f18serial2": {
+      "type": "text",
+      "label": "ENTER SERIAL NUMBER FOR F/A - 18.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 348.2,
+        "width": 84.3,
+        "height": 12.3
+      }
+    },
+    "f18shotstoday2": {
+      "type": "text",
+      "label": "ENTER SHOTS TODAY FOR F/A - 18.",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 348.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "f18shotsuntil2": {
+      "type": "text",
+      "label": "ENTER SHOTS UNTIL PMS FOR F/A - 18.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 348.2,
+        "width": 75.1,
+        "height": 12.3
+      }
+    },
+    "f18ttl2": {
+      "type": "text",
+      "label": "ENTER TOTAL SHOTS FOR F/A - 18.",
+      "page": 1,
+      "box": {
+        "left": 380.9,
+        "top": 348.2,
+        "width": 84.3,
+        "height": 12.3
+      }
+    },
+    "f18status2": {
+      "type": "text",
+      "label": "ENTER STATUS FOR F/A - 18.",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 348.2,
+        "width": 102.8,
+        "height": 12.3
+      }
+    },
+    "f18serialefg": {
+      "type": "text",
+      "label": "ENTER SERIAL NUMBER FOR F/A - 18E/F/G.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 330.2,
+        "width": 84.3,
+        "height": 12.3
+      }
+    },
+    "f18shotstodayefg": {
+      "type": "text",
+      "label": "ENTER SHOTS TODAY FOR F/A - 18E/F/G.",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 330.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "f18shotsuntilefg": {
+      "type": "text",
+      "label": "ENTER SHOTS UNTIL PMS FOR F/A - 18E/F/G.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 330.2,
+        "width": 75.1,
+        "height": 12.3
+      }
+    },
+    "f18ttllefg": {
+      "type": "text",
+      "label": "ENTER TOTAL SHOTS FOR F/A - 18E/F/G.",
+      "page": 1,
+      "box": {
+        "left": 380.9,
+        "top": 330.2,
+        "width": 84.3,
+        "height": 12.3
+      }
+    },
+    "f18statusefg": {
+      "type": "text",
+      "label": "ENTER STATUS FOR F/A - 18E/F/G.",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 330.2,
+        "width": 102.8,
+        "height": 12.3
+      }
+    },
+    "f18serialefg2": {
+      "type": "text",
+      "label": "ENTER SERIAL NUMBER FOR F/A - 18E/F/G.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 312.2,
+        "width": 84.3,
+        "height": 12.3
+      }
+    },
+    "f18shotstodayefg2": {
+      "type": "text",
+      "label": "ENTER SHOTS TODAY FOR F/A - 18E/F/G.",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 312.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "f18shotsuntilefg2": {
+      "type": "text",
+      "label": "ENTER SHOTS UNTIL PMS FOR F/A - 18E/F/G.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 312.2,
+        "width": 75.1,
+        "height": 12.3
+      }
+    },
+    "f18tllefg2": {
+      "type": "text",
+      "label": "ENTER TOTAL SHOTS FOR F/A - 18E/F/G.",
+      "page": 1,
+      "box": {
+        "left": 380.9,
+        "top": 312.2,
+        "width": 84.3,
+        "height": 12.3
+      }
+    },
+    "f18statusefg2": {
+      "type": "text",
+      "label": "ENTER STATUS FOR F/A - 18E/F/G.",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 312.2,
+        "width": 102.8,
+        "height": 12.3
+      }
+    },
+    "t45": {
+      "type": "text",
+      "label": "ENTER SERIAL NUMBER FOR T-45.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 294.2,
+        "width": 84.3,
+        "height": 12.3
+      }
+    },
+    "t45shotstoday": {
+      "type": "text",
+      "label": "ENTER SHOTS TODAY FOR T-45.",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 294.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "t45shotsuntil": {
+      "type": "text",
+      "label": "ENTER SHOTS UNTIL PMS FOR T-45.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 294.2,
+        "width": 75.1,
+        "height": 12.3
+      }
+    },
+    "t45ttl": {
+      "type": "text",
+      "label": "ENTER TOTAL SHOTS FOR T-45.",
+      "page": 1,
+      "box": {
+        "left": 380.9,
+        "top": 294.2,
+        "width": 84.3,
+        "height": 12.3
+      }
+    },
+    "t45status": {
+      "type": "text",
+      "label": "ENTER STATUS FOR T-45.",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 294.2,
+        "width": 102.8,
+        "height": 12.3
+      }
+    },
+    "t452": {
+      "type": "text",
+      "label": "ENTER SERIAL NUMBER FOR T-45.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 276.2,
+        "width": 84.3,
+        "height": 12.3
+      }
+    },
+    "t452shotstoday": {
+      "type": "text",
+      "label": "ENTER SHOTS TODAY FOR T-45.",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 276.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "t452shotsuntil": {
+      "type": "text",
+      "label": "ENTER SHOTS UNTIL PMS FOR T-45.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 276.2,
+        "width": 75.1,
+        "height": 12.3
+      }
+    },
+    "t452ttl": {
+      "type": "text",
+      "label": "ENTER TOTAL SHOTS FOR T-45.",
+      "page": 1,
+      "box": {
+        "left": 380.9,
+        "top": 276.2,
+        "width": 84.3,
+        "height": 12.3
+      }
+    },
+    "t452status": {
+      "type": "text",
+      "label": "ENTER STATUS FOR T-45.",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 276.2,
+        "width": 102.8,
+        "height": 12.3
+      }
+    },
+    "holdbackbar": {
+      "type": "text",
+      "label": "ENTER PLANE TYPE.",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 258.2,
+        "width": 84.3,
+        "height": 12.3
+      }
+    },
+    "serialnumber": {
+      "type": "text",
+      "label": "ENTER SERIAL NUMBER.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 258.2,
+        "width": 84.3,
+        "height": 12.3
+      }
+    },
+    "shotstoday": {
+      "type": "text",
+      "label": "ENTER SHOTS TODAY.",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 258.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "shotsuntil": {
+      "type": "text",
+      "label": "ENTER SHOTS UNTIL PMS.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 258.2,
+        "width": 75.1,
+        "height": 12.3
+      }
+    },
+    "ttl": {
+      "type": "text",
+      "label": "ENTER TOTAL SHOTS.",
+      "page": 1,
+      "box": {
+        "left": 380.9,
+        "top": 258.2,
+        "width": 84.3,
+        "height": 12.3
+      }
+    },
+    "status2": {
+      "type": "text",
+      "label": "ENTER STATUS (UP/DOWN).",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 258.2,
+        "width": 102.8,
+        "height": 12.3
+      }
+    },
+    "holdbackbar2": {
+      "type": "text",
+      "label": "ENTER PLANE TYPE.",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 240.2,
+        "width": 84.3,
+        "height": 12.3
+      }
+    },
+    "serialnumber2": {
+      "type": "text",
+      "label": "ENTER SERIAL NUMBER.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 240.2,
+        "width": 84.3,
+        "height": 12.3
+      }
+    },
+    "shotstoday2": {
+      "type": "text",
+      "label": "ENTER SHOTS TODAY.",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 240.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "shotsuntil2": {
+      "type": "text",
+      "label": "ENTER SHOTS UNTIL PMS.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 240.2,
+        "width": 75.1,
+        "height": 12.3
+      }
+    },
+    "ttl2": {
+      "type": "text",
+      "label": "ENTER TOTAL SHOTS.",
+      "page": 1,
+      "box": {
+        "left": 380.9,
+        "top": 240.2,
+        "width": 84.3,
+        "height": 12.3
+      }
+    },
+    "status": {
+      "type": "text",
+      "label": "ENTER STATUS (UP/DOWN).",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 240.2,
+        "width": 102.3,
+        "height": 12.3
+      }
+    },
+    "releaseelements": {
+      "type": "text",
+      "label": "ENTER RELEASE ELEMENTS ON HAND FOR C-2/E-2/EA-6B.",
+      "page": 1,
+      "box": {
+        "left": 282.3,
+        "top": 213.2,
+        "width": 101.8,
+        "height": 12.3
+      }
+    },
+    "pmscompleted": {
+      "type": "text",
+      "label": "ENTER PMS COMPLETED THIS DATE.",
+      "page": 1,
+      "box": {
+        "left": 47.8,
+        "top": 177.2,
+        "width": 516.3,
+        "height": 75.3
+      },
+      "multiline": true
+    },
+    "catcaptain": {
+      "type": "text",
+      "label": "ENTER CATAPULT CAPTAIN.",
+      "page": 1,
+      "box": {
+        "left": 104.0,
+        "top": 87.2,
+        "width": 163.2,
+        "height": 12.3
+      }
+    },
+    "catchief": {
+      "type": "text",
+      "label": "ENTER CATAPULT CHIEF.",
+      "page": 1,
+      "box": {
+        "left": 104.0,
+        "top": 60.2,
+        "width": 163.2,
+        "height": 12.3
+      }
+    },
+    "maintofficercpo": {
+      "type": "text",
+      "label": "ENTER MAINTENANCE OFFICER/CPO.",
+      "page": 1,
+      "box": {
+        "left": 375.5,
+        "top": 60.2,
+        "width": 134.7,
+        "height": 12.3
+      }
+    }
+  }
+}

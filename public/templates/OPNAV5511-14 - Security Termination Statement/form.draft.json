@@ -1,0 +1,111 @@
+{
+  "id": "opnav551114",
+  "label": "OPNAV5511-14 - Security Termination Statement",
+  "directory": "OPNAV5511-14 - Security Termination Statement",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "sigWitness",
+        "sigEmployee",
+        "typeName",
+        "typeName1",
+        "date1",
+        "date2"
+      ]
+    }
+  ],
+  "fields": {
+    "sigWitness": {
+      "type": "text",
+      "label": "Enter the signature of the witness.",
+      "page": 1,
+      "box": {
+        "left": 73.9,
+        "top": 254.6,
+        "width": 221.6,
+        "height": 14.1
+      }
+    },
+    "sigEmployee": {
+      "type": "text",
+      "label": "Enter the signature of the employee or military member.",
+      "page": 1,
+      "box": {
+        "left": 312.4,
+        "top": 254.6,
+        "width": 221.6,
+        "height": 14.1
+      }
+    },
+    "typeName": {
+      "type": "text",
+      "label": "Enter the typed or printed name of the witness.",
+      "page": 1,
+      "box": {
+        "left": 71.7,
+        "top": 183.9,
+        "width": 221.6,
+        "height": 14.1
+      }
+    },
+    "typeName1": {
+      "type": "text",
+      "label": "Enter the typed or printed first, middle, and last name of employee or service member.  Include the civilian grade or military rank or rate.",
+      "page": 1,
+      "box": {
+        "left": 312.4,
+        "top": 183.9,
+        "width": 221.6,
+        "height": 14.1
+      }
+    },
+    "date1": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 132.0,
+        "top": 149.3,
+        "width": 99.2,
+        "height": 19.8
+      }
+    },
+    "date2": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 362.8,
+        "top": 149.3,
+        "width": 99.2,
+        "height": 19.8
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 16.65,
+      "editor": "grid",
+      "columns": {
+        "statement": {
+          "type": "text",
+          "label": "Enter the security termination statement.",
+          "page": 1,
+          "box": {
+            "left": 194.1,
+            "top": 678.0,
+            "width": 230.8,
+            "height": 16.6
+          }
+        }
+      }
+    }
+  }
+}

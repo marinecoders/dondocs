@@ -1,0 +1,359 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "name": {
+        "left": 38.9,
+        "top": 708.5,
+        "width": 444.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "Name (Last, First, MI)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "doDID": {
+        "left": 488.9,
+        "top": 708.5,
+        "width": 84.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "DoD ID Number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell1": {
+        "left": 50.0,
+        "top": 661.0,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell2": {
+        "left": 272.9,
+        "top": 645.1,
+        "width": 300.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "Other",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell12": {
+        "left": 50.0,
+        "top": 639.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell13": {
+        "left": 50.0,
+        "top": 587.2,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "table3Number": {
+        "left": 395.7,
+        "top": 538.5,
+        "width": 10.8,
+        "height": 13.0,
+        "type": "text",
+        "description": "GROOMING",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell14": {
+        "left": 50.0,
+        "top": 529.6,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "table3Date": {
+        "left": 68.4,
+        "top": 529.2,
+        "width": 41.4,
+        "height": 13.0,
+        "type": "text",
+        "description": "operational",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell15": {
+        "left": 72.0,
+        "top": 496.0,
+        "width": 501.2,
+        "height": 39.6,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hCPname": {
+        "left": 38.9,
+        "top": 384.4,
+        "width": 228.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "Health Care Provider Name and Rank",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hCPsign": {
+        "left": 272.9,
+        "top": 384.4,
+        "width": 228.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "Health Care Provider Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hCPdate": {
+        "left": 506.9,
+        "top": 384.4,
+        "width": 66.2,
+        "height": 21.6,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cOname": {
+        "left": 38.9,
+        "top": 348.4,
+        "width": 228.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "Commanding Officer Name and Rank",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cOsign": {
+        "left": 272.9,
+        "top": 348.4,
+        "width": 228.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "Commanding Officer Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cOdate": {
+        "left": 506.9,
+        "top": 348.4,
+        "width": 66.2,
+        "height": 21.6,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell16": {
+        "left": 50.0,
+        "top": 300.9,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Commanding",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell17": {
+        "left": 50.0,
+        "top": 282.9,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Commanding",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell22": {
+        "left": 84.2,
+        "top": 264.9,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Treatment",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell23": {
+        "left": 84.2,
+        "top": 246.9,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Treatment",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell18": {
+        "left": 50.0,
+        "top": 228.9,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Commanding",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell24": {
+        "left": 84.2,
+        "top": 210.9,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Treatment",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell25": {
+        "left": 84.2,
+        "top": 192.9,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Treatment",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell19": {
+        "left": 50.0,
+        "top": 162.3,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Commanding",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell110": {
+        "left": 50.0,
+        "top": 126.3,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Commanding",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hCPname2": {
+        "left": 38.9,
+        "top": 96.4,
+        "width": 228.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "Health Care Provider Name and Rank",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hCPsign2": {
+        "left": 272.9,
+        "top": 96.4,
+        "width": 228.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "Health Care Provider Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hCPdate2": {
+        "left": 506.9,
+        "top": 96.4,
+        "width": 66.2,
+        "height": 21.6,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cOname2": {
+        "left": 38.9,
+        "top": 60.4,
+        "width": 228.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "Commanding Officer Name and Rank",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cOsign2": {
+        "left": 272.9,
+        "top": 60.4,
+        "width": 228.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "Commanding Officer Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cOdate2": {
+        "left": 506.9,
+        "top": 60.4,
+        "width": 66.2,
+        "height": 21.6,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

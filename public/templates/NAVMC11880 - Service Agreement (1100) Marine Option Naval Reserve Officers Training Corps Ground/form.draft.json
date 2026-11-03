@@ -1,0 +1,99 @@
+{
+  "id": "navmc11880",
+  "label": "NAVMC11880 - Service Agreement (1100) Marine Option Naval Reserve Officers Training Corps Ground",
+  "directory": "NAVMC11880 - Service Agreement (1100) Marine Option Naval Reserve Officers Training Corps Ground",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "nameAppl"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "signatureField1",
+        "signatureField12",
+        "witnessName",
+        "applicantName",
+        "date"
+      ]
+    }
+  ],
+  "fields": {
+    "nameAppl": {
+      "type": "text",
+      "label": "LAST NAME, FIRST AND MIDDLE INITIAL OF APPLICANT",
+      "page": 1,
+      "box": {
+        "left": 74.8,
+        "top": 62.7,
+        "width": 462.4,
+        "height": 18.3
+      }
+    },
+    "signatureField1": {
+      "type": "text",
+      "label": "Signature Field 1",
+      "page": 2,
+      "box": {
+        "left": 91.7,
+        "top": 515.8,
+        "width": 210.4,
+        "height": 33.4
+      },
+      "multiline": true
+    },
+    "signatureField12": {
+      "type": "text",
+      "label": "document",
+      "page": 2,
+      "box": {
+        "left": 343.8,
+        "top": 515.8,
+        "width": 210.4,
+        "height": 33.4
+      },
+      "multiline": true
+    },
+    "witnessName": {
+      "type": "text",
+      "label": "Signature of Witnessing Officer",
+      "page": 2,
+      "box": {
+        "left": 91.7,
+        "top": 457.8,
+        "width": 210.4,
+        "height": 33.4
+      },
+      "multiline": true
+    },
+    "applicantName": {
+      "type": "text",
+      "label": "Signature of Applicant",
+      "page": 2,
+      "box": {
+        "left": 343.8,
+        "top": 457.8,
+        "width": 210.4,
+        "height": 33.4
+      },
+      "multiline": true
+    },
+    "date": {
+      "type": "text",
+      "label": "Full Name of Applicant",
+      "page": 2,
+      "box": {
+        "left": 343.8,
+        "top": 398.7,
+        "width": 210.4,
+        "height": 20.7
+      }
+    }
+  }
+}

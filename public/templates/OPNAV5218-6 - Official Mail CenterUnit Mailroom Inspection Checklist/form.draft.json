@@ -1,0 +1,554 @@
+{
+  "id": "opnav52186",
+  "label": "OPNAV5218-6 - Official Mail CenterUnit Mailroom Inspection Checklist",
+  "directory": "OPNAV5218-6 - Official Mail CenterUnit Mailroom Inspection Checklist",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "date",
+        "advisorInspector",
+        "to",
+        "from",
+        "offManEmail",
+        "pOEmail",
+        "outstanding",
+        "excellent",
+        "satisfactory",
+        "unsatisfactory",
+        "totalPointsRec",
+        "dteInsp",
+        "postOffName",
+        "postOffDte",
+        "postOffRank",
+        "offMailName",
+        "offMailDte",
+        "offMailRank",
+        "postAdvName",
+        "postAdvDte",
+        "postAdvRank",
+        "dirName",
+        "dirDte",
+        "dirRank",
+        "regPostName",
+        "regPostDte",
+        "regPostRank",
+        "remarks"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "oMCCheck",
+        "uMRCheck",
+        "inspGrade",
+        "inspName",
+        "inspOrg",
+        "inspTele",
+        "inspDteSig",
+        "inspSig",
+        "remarks2"
+      ]
+    }
+  ],
+  "fields": {
+    "date": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 723.6,
+        "width": 129.3,
+        "height": 11.6
+      }
+    },
+    "advisorInspector": {
+      "type": "text",
+      "label": "2. POSTAL ADVISOR/INSPECTOR",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 723.6,
+        "width": 129.3,
+        "height": 11.6
+      }
+    },
+    "to": {
+      "type": "text",
+      "label": "3. TO (INSPECTED ACTIVITY)",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 723.6,
+        "width": 129.3,
+        "height": 11.6
+      }
+    },
+    "from": {
+      "type": "text",
+      "label": "4. FROM (INSPECTING ACTIVITY)",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 723.6,
+        "width": 129.3,
+        "height": 11.6
+      }
+    },
+    "offManEmail": {
+      "type": "text",
+      "label": "5. MAIL MANAGER EMAIL ADDRESS",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 694.8,
+        "width": 264.4,
+        "height": 11.6
+      }
+    },
+    "pOEmail": {
+      "type": "text",
+      "label": "6. POSTAL OFFICER EMAIL ADDRESS",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 694.8,
+        "width": 264.4,
+        "height": 11.6
+      }
+    },
+    "outstanding": {
+      "type": "text",
+      "label": "OUTSTANDING",
+      "page": 1,
+      "box": {
+        "left": 146.9,
+        "top": 669.0,
+        "width": 102.3,
+        "height": 14.6
+      }
+    },
+    "excellent": {
+      "type": "text",
+      "label": "EXCELLENT",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 669.0,
+        "width": 102.3,
+        "height": 14.6
+      }
+    },
+    "satisfactory": {
+      "type": "text",
+      "label": "SATISFACTORY",
+      "page": 1,
+      "box": {
+        "left": 363.9,
+        "top": 669.0,
+        "width": 102.3,
+        "height": 14.6
+      }
+    },
+    "unsatisfactory": {
+      "type": "text",
+      "label": "UNSATISFACTORY",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 669.0,
+        "width": 102.3,
+        "height": 14.6
+      }
+    },
+    "totalPointsRec": {
+      "type": "text",
+      "label": "7. TOTAL POINTS RECEIVED",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 648.7,
+        "width": 84.3,
+        "height": 23.1
+      }
+    },
+    "dteInsp": {
+      "type": "text",
+      "label": "8. DATE OF LAST ANNUAL INSPECTION",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 619.9,
+        "width": 84.3,
+        "height": 23.1
+      }
+    },
+    "postOffName": {
+      "type": "text",
+      "label": "9. POSTAL OFFICER (E-7 or above, GS-11 or above)",
+      "page": 1,
+      "box": {
+        "left": 321.9,
+        "top": 452.1,
+        "width": 180.8,
+        "height": 15.2
+      }
+    },
+    "postOffDte": {
+      "type": "text",
+      "label": "9. POSTAL OFFICER (E-7 or above, GS-11 or above)",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 452.1,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "postOffRank": {
+      "type": "choice",
+      "label": "9. POSTAL OFFICER (E-7 or above, GS-11 or above)",
+      "page": 1,
+      "box": {
+        "left": 271.7,
+        "top": 451.9,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "E-7",
+        "E-8",
+        "E-9",
+        "O-1",
+        "O-2",
+        "O-3",
+        "O-4",
+        "O-5",
+        "O-6",
+        "GS-7",
+        "GS-8",
+        "GS-9",
+        "GS-10",
+        "GS-11",
+        "GS-12",
+        "GS-13",
+        "GS-14",
+        "GS-15"
+      ]
+    },
+    "offMailName": {
+      "type": "text",
+      "label": "10. OFFICIAL MAIL MANAGER (E-6 or above, GS-9 or above)",
+      "page": 1,
+      "box": {
+        "left": 321.9,
+        "top": 434.1,
+        "width": 180.8,
+        "height": 15.2
+      }
+    },
+    "offMailDte": {
+      "type": "text",
+      "label": "10. OFFICIAL MAIL MANAGER (E-6 or above, GS-9 or above)",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 434.1,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "offMailRank": {
+      "type": "choice",
+      "label": "10. OFFICIAL MAIL MANAGER (E-6 or above, GS-9 or above)",
+      "page": 1,
+      "box": {
+        "left": 271.7,
+        "top": 433.9,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "E-6",
+        "E-7",
+        "E-8",
+        "E-9",
+        "O-1",
+        "O-2",
+        "O-3",
+        "O-4",
+        "O-5",
+        "O-6",
+        "GS-7",
+        "GS-8",
+        "GS-9",
+        "GS-10",
+        "GS-11",
+        "GS-12",
+        "GS-13",
+        "GS-14",
+        "GS-15"
+      ]
+    },
+    "postAdvName": {
+      "type": "text",
+      "label": "11. POSTAL ADVISOR ASHORE",
+      "page": 1,
+      "box": {
+        "left": 321.9,
+        "top": 416.1,
+        "width": 180.8,
+        "height": 15.2
+      }
+    },
+    "postAdvDte": {
+      "type": "text",
+      "label": "11. POSTAL ADVISOR ASHORE",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 416.1,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "postAdvRank": {
+      "type": "choice",
+      "label": "11. POSTAL ADVISOR ASHORE",
+      "page": 1,
+      "box": {
+        "left": 271.7,
+        "top": 415.9,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "E-7",
+        "E-8",
+        "E-9",
+        "O-1",
+        "O-2",
+        "O-3",
+        "O-4",
+        "O-5",
+        "O-6",
+        "GS-11",
+        "GS-12",
+        "GS-13",
+        "GS-14",
+        "GS-15"
+      ]
+    },
+    "dirName": {
+      "type": "text",
+      "label": "12. DIRECTOR, CONSOLIDATED MAIL FACILITY",
+      "page": 1,
+      "box": {
+        "left": 321.9,
+        "top": 398.1,
+        "width": 180.8,
+        "height": 15.2
+      }
+    },
+    "dirDte": {
+      "type": "text",
+      "label": "12. DIRECTOR, CONSOLIDATED MAIL FACILITY",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 398.1,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "dirRank": {
+      "type": "choice",
+      "label": "12. DIRECTOR, CONSOLIDATED MAIL FACILITY",
+      "page": 1,
+      "box": {
+        "left": 271.7,
+        "top": 397.9,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "E-8",
+        "E-9",
+        "O-1",
+        "O-2",
+        "O-3",
+        "O-4",
+        "O-5",
+        "O-6",
+        "GS-7",
+        "GS-8",
+        "GS-9",
+        "GS-10",
+        "GS-11",
+        "GS-12",
+        "GS-13",
+        "GS-14",
+        "GS-15"
+      ]
+    },
+    "regPostName": {
+      "type": "text",
+      "label": "13. REGION POSTAL MANAGER",
+      "page": 1,
+      "box": {
+        "left": 321.9,
+        "top": 380.1,
+        "width": 180.8,
+        "height": 15.2
+      }
+    },
+    "regPostDte": {
+      "type": "text",
+      "label": "13. REGION POSTAL MANAGER",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 380.1,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "regPostRank": {
+      "type": "choice",
+      "label": "13. REGION POSTAL MANAGER",
+      "page": 1,
+      "box": {
+        "left": 271.7,
+        "top": 379.9,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "E-8",
+        "E-9",
+        "GS-11",
+        "GS-12",
+        "GS-13",
+        "GS-14",
+        "GS-15"
+      ]
+    },
+    "remarks": {
+      "type": "text",
+      "label": "14. REMARKS",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 349.9,
+        "width": 534.4,
+        "height": 311.2
+      },
+      "multiline": true
+    },
+    "oMCCheck": {
+      "type": "checkbox",
+      "label": "O MC Check",
+      "page": 2,
+      "box": {
+        "left": 111.9,
+        "top": 749.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "uMRCheck": {
+      "type": "checkbox",
+      "label": "U MR Check",
+      "page": 2,
+      "box": {
+        "left": 111.9,
+        "top": 727.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "inspGrade": {
+      "type": "text",
+      "label": "INSPECTOR NAME (Last, First, Middle Initial)",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 698.4,
+        "width": 264.4,
+        "height": 11.6
+      }
+    },
+    "inspName": {
+      "type": "text",
+      "label": "INSPECTOR GRADE OR TITLE",
+      "page": 2,
+      "box": {
+        "left": 308.9,
+        "top": 698.4,
+        "width": 264.4,
+        "height": 11.6
+      }
+    },
+    "inspOrg": {
+      "type": "text",
+      "label": "ORGANIZATION",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 669.6,
+        "width": 264.4,
+        "height": 11.6
+      }
+    },
+    "inspTele": {
+      "type": "text",
+      "label": "TELEPHONE NUMBER",
+      "page": 2,
+      "box": {
+        "left": 308.9,
+        "top": 669.6,
+        "width": 264.4,
+        "height": 11.6
+      }
+    },
+    "inspDteSig": {
+      "type": "text",
+      "label": "SIGNATURE DATE",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 640.8,
+        "width": 264.4,
+        "height": 11.6
+      }
+    },
+    "inspSig": {
+      "type": "text",
+      "label": "INSPECTOR SIGNATURE",
+      "page": 2,
+      "box": {
+        "left": 308.9,
+        "top": 640.8,
+        "width": 264.4,
+        "height": 11.6
+      }
+    },
+    "remarks2": {
+      "type": "text",
+      "label": "ADDITIONAL COMMENTS",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 612.7,
+        "width": 534.4,
+        "height": 574.0
+      },
+      "multiline": true
+    }
+  }
+}

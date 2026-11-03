@@ -1,0 +1,1762 @@
+{
+  "id": "navpers16105",
+  "label": "NAVPERS1610-5 - Fitness Report  Counseling Record (0708)",
+  "directory": "NAVPERS1610-5 - Fitness Report  Counseling Record (0708)",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "1NameLastFirstMISuffix",
+        "2Grade",
+        "3Desig",
+        "4SSN",
+        "7Command",
+        "9DateReported",
+        "dropdown3",
+        "6UIC",
+        "group1",
+        "group12",
+        "from",
+        "to",
+        "11DetachmentOf",
+        "12DetachmentOfReporting",
+        "10Periodic",
+        "13Special",
+        "undefined",
+        "20PhysicalReadiness",
+        "17Regular",
+        "18Concurrent",
+        "19OpsCDR",
+        "21ReportingSeniorLastFIMI",
+        "22Grade",
+        "23Desig",
+        "24Title",
+        "25UIC",
+        "26CommandEmploymentAndAchievements",
+        "27PrimaryAdditionalDutiesAssigned",
+        "27aPrimaryAdditionalDutiesAssigned",
+        "28DateCounseled",
+        "29Counselor",
+        "signature2",
+        "undefined3",
+        "group2",
+        "group22",
+        "group23",
+        "group24",
+        "group25",
+        "group26",
+        "undefined10",
+        "group3",
+        "group32",
+        "group33",
+        "group34",
+        "group35",
+        "group36",
+        "undefined17",
+        "group4",
+        "group42",
+        "group43",
+        "group44",
+        "group45",
+        "group46",
+        "undefined24",
+        "group5",
+        "group52",
+        "group53",
+        "group54",
+        "group55",
+        "group56",
+        "undefined31",
+        "group6",
+        "group62",
+        "group63",
+        "group64",
+        "group65",
+        "group66",
+        "undefined38",
+        "group7",
+        "group72",
+        "group73",
+        "group74",
+        "group75",
+        "group76",
+        "undefined45",
+        "group8",
+        "group82",
+        "group83",
+        "group84",
+        "group85",
+        "group86",
+        "undefined52",
+        "group9",
+        "group92",
+        "group93",
+        "group94",
+        "group95",
+        "group96",
+        "undefined59",
+        "group10",
+        "group102",
+        "group103",
+        "group104",
+        "group105",
+        "group106"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "4SSN2",
+        "1NameLastFirstMISuffix2",
+        "2Grade2",
+        "3Desig2",
+        "group11",
+        "group112",
+        "group113",
+        "group114",
+        "group115",
+        "group116",
+        "group122",
+        "group123",
+        "group124",
+        "group125",
+        "group126",
+        "group127",
+        "group13",
+        "group132",
+        "group133",
+        "group134",
+        "group135",
+        "group136",
+        "text1",
+        "text6",
+        "text2",
+        "text3",
+        "text4",
+        "text5",
+        "tactical",
+        "operational",
+        "strategic",
+        "text7",
+        "individual",
+        "45FutureAssignmentsIRecommendTheFollowingAssignmentsForThisIndividualThreeRow1",
+        "45FutureAssignmentsIRecommendTheFollowingAssignmentsForThisIndividualThreeRow12",
+        "45FutureAssignmentsIRecommendTheFollowingAssignmentsForThisIndividualThreeRow13",
+        "46Comments",
+        "signature3",
+        "group14",
+        "group142",
+        "signature4",
+        "49TypedNameGradeCommandUICAndSignatureOfRegularReportingSeniorOnConcurrentReport"
+      ]
+    }
+  ],
+  "fields": {
+    "1NameLastFirstMISuffix": {
+      "type": "text",
+      "label": "1. Name (Last, First MI Suffix)",
+      "page": 1,
+      "box": {
+        "left": 19.2,
+        "top": 744.1,
+        "width": 267.0,
+        "height": 22.1
+      }
+    },
+    "2Grade": {
+      "type": "text",
+      "label": "2. Grade",
+      "page": 1,
+      "box": {
+        "left": 289.1,
+        "top": 744.1,
+        "width": 69.3,
+        "height": 21.9
+      }
+    },
+    "3Desig": {
+      "type": "text",
+      "label": "3. Desig",
+      "page": 1,
+      "box": {
+        "left": 361.1,
+        "top": 744.1,
+        "width": 69.3,
+        "height": 21.7
+      }
+    },
+    "4SSN": {
+      "type": "text",
+      "label": "4. SSN",
+      "page": 1,
+      "box": {
+        "left": 434.4,
+        "top": 744.1,
+        "width": 158.2,
+        "height": 21.4
+      }
+    },
+    "7Command": {
+      "type": "text",
+      "label": "7. Command",
+      "page": 1,
+      "box": {
+        "left": 172.9,
+        "top": 707.3,
+        "width": 239.2,
+        "height": 21.1
+      }
+    },
+    "9DateReported": {
+      "type": "text",
+      "label": "9. Date Reported",
+      "page": 1,
+      "box": {
+        "left": 505.6,
+        "top": 707.3,
+        "width": 87.0,
+        "height": 21.4
+      }
+    },
+    "dropdown3": {
+      "type": "choice",
+      "label": "8. Promotion Status",
+      "page": 1,
+      "box": {
+        "left": 416.0,
+        "top": 707.2,
+        "width": 85.7,
+        "height": 21.3
+      },
+      "options": [
+        "REGULAR",
+        "FROCKED"
+      ]
+    },
+    "6UIC": {
+      "type": "text",
+      "label": "6. UIC",
+      "page": 1,
+      "box": {
+        "left": 109.9,
+        "top": 707.1,
+        "width": 59.7,
+        "height": 20.6
+      }
+    },
+    "group1": {
+      "type": "radio",
+      "label": "Choice1",
+      "page": 1,
+      "box": {
+        "left": 39.0,
+        "top": 701.0,
+        "width": 9.7,
+        "height": 9.5
+      },
+      "group": "Group1"
+    },
+    "group12": {
+      "type": "radio",
+      "label": "Choice2",
+      "page": 1,
+      "box": {
+        "left": 66.1,
+        "top": 701.0,
+        "width": 9.6,
+        "height": 9.6
+      },
+      "group": "Group1"
+    },
+    "from": {
+      "type": "text",
+      "label": "7. Command",
+      "page": 1,
+      "box": {
+        "left": 374.8,
+        "top": 673.5,
+        "width": 87.0,
+        "height": 22.7
+      }
+    },
+    "to": {
+      "type": "text",
+      "label": "7. Command",
+      "page": 1,
+      "box": {
+        "left": 501.1,
+        "top": 673.3,
+        "width": 87.0,
+        "height": 22.3
+      }
+    },
+    "11DetachmentOf": {
+      "type": "checkbox",
+      "label": "11. Detachment Of",
+      "page": 1,
+      "box": {
+        "left": 149.4,
+        "top": 667.4,
+        "width": 10.4,
+        "height": 10.4
+      }
+    },
+    "12DetachmentOfReporting": {
+      "type": "checkbox",
+      "label": "12. Detachment Of Reporting",
+      "page": 1,
+      "box": {
+        "left": 266.0,
+        "top": 667.4,
+        "width": 10.4,
+        "height": 10.4
+      }
+    },
+    "10Periodic": {
+      "type": "checkbox",
+      "label": "10. Periodic",
+      "page": 1,
+      "box": {
+        "left": 61.9,
+        "top": 666.7,
+        "width": 10.4,
+        "height": 10.4
+      }
+    },
+    "13Special": {
+      "type": "checkbox",
+      "label": "13. Special",
+      "page": 1,
+      "box": {
+        "left": 319.8,
+        "top": 666.7,
+        "width": 10.4,
+        "height": 10.4
+      }
+    },
+    "undefined": {
+      "type": "checkbox",
+      "label": "undefined",
+      "page": 1,
+      "box": {
+        "left": 112.8,
+        "top": 640.4,
+        "width": 10.4,
+        "height": 10.4
+      }
+    },
+    "20PhysicalReadiness": {
+      "type": "text",
+      "label": "20. Physical Readiness",
+      "page": 1,
+      "box": {
+        "left": 389.2,
+        "top": 634.1,
+        "width": 203.2,
+        "height": 19.9
+      }
+    },
+    "17Regular": {
+      "type": "checkbox",
+      "label": "17. Regular",
+      "page": 1,
+      "box": {
+        "left": 167.6,
+        "top": 627.0,
+        "width": 10.4,
+        "height": 10.4
+      }
+    },
+    "18Concurrent": {
+      "type": "checkbox",
+      "label": "18. Concurrent",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 627.0,
+        "width": 10.6,
+        "height": 10.4
+      }
+    },
+    "19OpsCDR": {
+      "type": "checkbox",
+      "label": "19. Ops CDR",
+      "page": 1,
+      "box": {
+        "left": 338.4,
+        "top": 627.0,
+        "width": 10.4,
+        "height": 10.4
+      }
+    },
+    "21ReportingSeniorLastFIMI": {
+      "type": "text",
+      "label": "21. Reporting Senior (Last, FI MI)",
+      "page": 1,
+      "box": {
+        "left": 20.0,
+        "top": 598.4,
+        "width": 212.4,
+        "height": 20.4
+      }
+    },
+    "22Grade": {
+      "type": "text",
+      "label": "22. Grade",
+      "page": 1,
+      "box": {
+        "left": 235.7,
+        "top": 598.4,
+        "width": 68.5,
+        "height": 20.4
+      }
+    },
+    "23Desig": {
+      "type": "text",
+      "label": "23. Desig",
+      "page": 1,
+      "box": {
+        "left": 308.1,
+        "top": 598.4,
+        "width": 59.0,
+        "height": 20.2
+      }
+    },
+    "24Title": {
+      "type": "text",
+      "label": "24. Title",
+      "page": 1,
+      "box": {
+        "left": 370.6,
+        "top": 598.4,
+        "width": 158.8,
+        "height": 20.0
+      }
+    },
+    "25UIC": {
+      "type": "text",
+      "label": "25. UIC",
+      "page": 1,
+      "box": {
+        "left": 532.1,
+        "top": 598.4,
+        "width": 60.1,
+        "height": 19.9
+      }
+    },
+    "26CommandEmploymentAndAchievements": {
+      "type": "text",
+      "label": "26. Command Employment And Achievements",
+      "page": 1,
+      "box": {
+        "left": 20.7,
+        "top": 562.7,
+        "width": 571.2,
+        "height": 46.9
+      },
+      "multiline": true
+    },
+    "27PrimaryAdditionalDutiesAssigned": {
+      "type": "text",
+      "label": "27. Primary/Additional Duties Assigned",
+      "page": 1,
+      "box": {
+        "left": 182.0,
+        "top": 512.7,
+        "width": 409.7,
+        "height": 15.3
+      }
+    },
+    "27aPrimaryAdditionalDutiesAssigned": {
+      "type": "text",
+      "label": "27A. Primary/Additional Duties Assigned",
+      "page": 1,
+      "box": {
+        "left": 19.6,
+        "top": 498.9,
+        "width": 572.1,
+        "height": 46.5
+      },
+      "multiline": true
+    },
+    "28DateCounseled": {
+      "type": "text",
+      "label": "28. Date Counseled",
+      "page": 1,
+      "box": {
+        "left": 190.5,
+        "top": 436.0,
+        "width": 86.5,
+        "height": 19.9
+      }
+    },
+    "29Counselor": {
+      "type": "text",
+      "label": "29. Counselor",
+      "page": 1,
+      "box": {
+        "left": 280.8,
+        "top": 436.0,
+        "width": 86.8,
+        "height": 19.9
+      }
+    },
+    "signature2": {
+      "type": "signature",
+      "label": "30. Signature of Individual Counseled",
+      "page": 1,
+      "box": {
+        "left": 370.6,
+        "top": 435.9,
+        "width": 221.3,
+        "height": 19.9
+      }
+    },
+    "undefined3": {
+      "type": "text",
+      "label": "undefined",
+      "page": 1,
+      "box": {
+        "left": 478.4,
+        "top": 381.2,
+        "width": 114.5,
+        "height": 22.6
+      }
+    },
+    "group2": {
+      "type": "radio",
+      "label": "Choice1",
+      "page": 1,
+      "box": {
+        "left": 228.2,
+        "top": 378.1,
+        "width": 10.8,
+        "height": 11.0
+      },
+      "group": "Group2"
+    },
+    "group22": {
+      "type": "radio",
+      "label": "Choice4",
+      "page": 1,
+      "box": {
+        "left": 359.3,
+        "top": 378.1,
+        "width": 10.8,
+        "height": 10.8
+      },
+      "group": "Group2"
+    },
+    "group23": {
+      "type": "radio",
+      "label": "Choice3",
+      "page": 1,
+      "box": {
+        "left": 315.7,
+        "top": 377.9,
+        "width": 10.1,
+        "height": 10.6
+      },
+      "group": "Group2"
+    },
+    "group24": {
+      "type": "radio",
+      "label": "Choice5",
+      "page": 1,
+      "box": {
+        "left": 406.7,
+        "top": 377.9,
+        "width": 10.4,
+        "height": 10.4
+      },
+      "group": "Group2"
+    },
+    "group25": {
+      "type": "radio",
+      "label": "Choice6",
+      "page": 1,
+      "box": {
+        "left": 451.4,
+        "top": 377.7,
+        "width": 10.1,
+        "height": 10.4
+      },
+      "group": "Group2"
+    },
+    "group26": {
+      "type": "radio",
+      "label": "Choice2",
+      "page": 1,
+      "box": {
+        "left": 270.5,
+        "top": 377.5,
+        "width": 10.1,
+        "height": 10.1
+      },
+      "group": "Group2"
+    },
+    "undefined10": {
+      "type": "text",
+      "label": "undefined",
+      "page": 1,
+      "box": {
+        "left": 478.3,
+        "top": 356.3,
+        "width": 114.6,
+        "height": 30.5
+      },
+      "multiline": true
+    },
+    "group3": {
+      "type": "radio",
+      "label": "Choice1",
+      "page": 1,
+      "box": {
+        "left": 228.3,
+        "top": 346.0,
+        "width": 10.8,
+        "height": 11.0
+      },
+      "group": "Group3"
+    },
+    "group32": {
+      "type": "radio",
+      "label": "Choice4",
+      "page": 1,
+      "box": {
+        "left": 359.5,
+        "top": 346.0,
+        "width": 10.8,
+        "height": 10.8
+      },
+      "group": "Group3"
+    },
+    "group33": {
+      "type": "radio",
+      "label": "Choice3",
+      "page": 1,
+      "box": {
+        "left": 315.8,
+        "top": 345.8,
+        "width": 10.1,
+        "height": 10.6
+      },
+      "group": "Group3"
+    },
+    "group34": {
+      "type": "radio",
+      "label": "Choice5",
+      "page": 1,
+      "box": {
+        "left": 406.8,
+        "top": 345.8,
+        "width": 10.4,
+        "height": 10.4
+      },
+      "group": "Group3"
+    },
+    "group35": {
+      "type": "radio",
+      "label": "Choice6",
+      "page": 1,
+      "box": {
+        "left": 451.5,
+        "top": 345.6,
+        "width": 10.1,
+        "height": 10.4
+      },
+      "group": "Group3"
+    },
+    "group36": {
+      "type": "radio",
+      "label": "Choice2",
+      "page": 1,
+      "box": {
+        "left": 270.7,
+        "top": 345.4,
+        "width": 10.1,
+        "height": 10.1
+      },
+      "group": "Group3"
+    },
+    "undefined17": {
+      "type": "text",
+      "label": "undefined",
+      "page": 1,
+      "box": {
+        "left": 478.0,
+        "top": 304.6,
+        "width": 114.8,
+        "height": 34.1
+      },
+      "multiline": true
+    },
+    "group4": {
+      "type": "radio",
+      "label": "Choice1",
+      "page": 1,
+      "box": {
+        "left": 228.4,
+        "top": 294.9,
+        "width": 10.8,
+        "height": 11.0
+      },
+      "group": "Group4"
+    },
+    "group42": {
+      "type": "radio",
+      "label": "Choice4",
+      "page": 1,
+      "box": {
+        "left": 359.6,
+        "top": 294.9,
+        "width": 10.8,
+        "height": 10.8
+      },
+      "group": "Group4"
+    },
+    "group43": {
+      "type": "radio",
+      "label": "Choice3",
+      "page": 1,
+      "box": {
+        "left": 315.9,
+        "top": 294.7,
+        "width": 10.1,
+        "height": 10.6
+      },
+      "group": "Group4"
+    },
+    "group44": {
+      "type": "radio",
+      "label": "Choice5",
+      "page": 1,
+      "box": {
+        "left": 406.9,
+        "top": 294.7,
+        "width": 10.4,
+        "height": 10.4
+      },
+      "group": "Group4"
+    },
+    "group45": {
+      "type": "radio",
+      "label": "Choice6",
+      "page": 1,
+      "box": {
+        "left": 451.6,
+        "top": 294.4,
+        "width": 10.1,
+        "height": 10.4
+      },
+      "group": "Group4"
+    },
+    "group46": {
+      "type": "radio",
+      "label": "Choice2",
+      "page": 1,
+      "box": {
+        "left": 270.8,
+        "top": 294.2,
+        "width": 10.1,
+        "height": 10.1
+      },
+      "group": "Group4"
+    },
+    "undefined24": {
+      "type": "text",
+      "label": "undefined",
+      "page": 1,
+      "box": {
+        "left": 478.1,
+        "top": 267.9,
+        "width": 114.5,
+        "height": 32.8
+      },
+      "multiline": true
+    },
+    "group5": {
+      "type": "radio",
+      "label": "Choice1",
+      "page": 1,
+      "box": {
+        "left": 228.4,
+        "top": 257.8,
+        "width": 10.8,
+        "height": 11.0
+      },
+      "group": "Group5"
+    },
+    "group52": {
+      "type": "radio",
+      "label": "Choice4",
+      "page": 1,
+      "box": {
+        "left": 359.5,
+        "top": 257.8,
+        "width": 10.8,
+        "height": 10.8
+      },
+      "group": "Group5"
+    },
+    "group53": {
+      "type": "radio",
+      "label": "Choice3",
+      "page": 1,
+      "box": {
+        "left": 315.9,
+        "top": 257.6,
+        "width": 10.1,
+        "height": 10.6
+      },
+      "group": "Group5"
+    },
+    "group54": {
+      "type": "radio",
+      "label": "Choice5",
+      "page": 1,
+      "box": {
+        "left": 406.9,
+        "top": 257.6,
+        "width": 10.4,
+        "height": 10.4
+      },
+      "group": "Group5"
+    },
+    "group55": {
+      "type": "radio",
+      "label": "Choice6",
+      "page": 1,
+      "box": {
+        "left": 451.6,
+        "top": 257.4,
+        "width": 10.1,
+        "height": 10.4
+      },
+      "group": "Group5"
+    },
+    "group56": {
+      "type": "radio",
+      "label": "Choice2",
+      "page": 1,
+      "box": {
+        "left": 270.7,
+        "top": 257.2,
+        "width": 10.1,
+        "height": 10.1
+      },
+      "group": "Group5"
+    },
+    "undefined31": {
+      "type": "text",
+      "label": "undefined",
+      "page": 1,
+      "box": {
+        "left": 478.0,
+        "top": 232.5,
+        "width": 114.4,
+        "height": 31.2
+      },
+      "multiline": true
+    },
+    "group6": {
+      "type": "radio",
+      "label": "Choice1",
+      "page": 1,
+      "box": {
+        "left": 228.2,
+        "top": 222.3,
+        "width": 10.8,
+        "height": 11.0
+      },
+      "group": "Group6"
+    },
+    "group62": {
+      "type": "radio",
+      "label": "Choice4",
+      "page": 1,
+      "box": {
+        "left": 359.3,
+        "top": 222.3,
+        "width": 10.8,
+        "height": 10.8
+      },
+      "group": "Group6"
+    },
+    "group63": {
+      "type": "radio",
+      "label": "Choice3",
+      "page": 1,
+      "box": {
+        "left": 315.7,
+        "top": 222.1,
+        "width": 10.1,
+        "height": 10.6
+      },
+      "group": "Group6"
+    },
+    "group64": {
+      "type": "radio",
+      "label": "Choice5",
+      "page": 1,
+      "box": {
+        "left": 406.6,
+        "top": 222.1,
+        "width": 10.4,
+        "height": 10.4
+      },
+      "group": "Group6"
+    },
+    "group65": {
+      "type": "radio",
+      "label": "Choice6",
+      "page": 1,
+      "box": {
+        "left": 451.4,
+        "top": 221.8,
+        "width": 10.1,
+        "height": 10.4
+      },
+      "group": "Group6"
+    },
+    "group66": {
+      "type": "radio",
+      "label": "Choice2",
+      "page": 1,
+      "box": {
+        "left": 270.5,
+        "top": 221.6,
+        "width": 10.1,
+        "height": 10.1
+      },
+      "group": "Group6"
+    },
+    "undefined38": {
+      "type": "text",
+      "label": "undefined",
+      "page": 1,
+      "box": {
+        "left": 478.1,
+        "top": 180.9,
+        "width": 114.3,
+        "height": 34.9
+      },
+      "multiline": true
+    },
+    "group7": {
+      "type": "radio",
+      "label": "Choice1",
+      "page": 1,
+      "box": {
+        "left": 228.2,
+        "top": 169.5,
+        "width": 10.8,
+        "height": 11.0
+      },
+      "group": "Group7"
+    },
+    "group72": {
+      "type": "radio",
+      "label": "Choice4",
+      "page": 1,
+      "box": {
+        "left": 359.3,
+        "top": 169.5,
+        "width": 10.8,
+        "height": 10.8
+      },
+      "group": "Group7"
+    },
+    "group73": {
+      "type": "radio",
+      "label": "Choice3",
+      "page": 1,
+      "box": {
+        "left": 315.7,
+        "top": 169.3,
+        "width": 10.1,
+        "height": 10.6
+      },
+      "group": "Group7"
+    },
+    "group74": {
+      "type": "radio",
+      "label": "Choice5",
+      "page": 1,
+      "box": {
+        "left": 406.6,
+        "top": 169.3,
+        "width": 10.4,
+        "height": 10.4
+      },
+      "group": "Group7"
+    },
+    "group75": {
+      "type": "radio",
+      "label": "Choice6",
+      "page": 1,
+      "box": {
+        "left": 451.4,
+        "top": 169.0,
+        "width": 10.1,
+        "height": 10.4
+      },
+      "group": "Group7"
+    },
+    "group76": {
+      "type": "radio",
+      "label": "Choice2",
+      "page": 1,
+      "box": {
+        "left": 270.5,
+        "top": 168.8,
+        "width": 10.1,
+        "height": 10.1
+      },
+      "group": "Group7"
+    },
+    "undefined45": {
+      "type": "text",
+      "label": "undefined",
+      "page": 1,
+      "box": {
+        "left": 478.1,
+        "top": 143.6,
+        "width": 114.2,
+        "height": 33.6
+      },
+      "multiline": true
+    },
+    "group8": {
+      "type": "radio",
+      "label": "Choice1",
+      "page": 1,
+      "box": {
+        "left": 228.2,
+        "top": 133.5,
+        "width": 10.8,
+        "height": 11.0
+      },
+      "group": "Group8"
+    },
+    "group82": {
+      "type": "radio",
+      "label": "Choice4",
+      "page": 1,
+      "box": {
+        "left": 359.3,
+        "top": 133.5,
+        "width": 10.8,
+        "height": 10.8
+      },
+      "group": "Group8"
+    },
+    "group83": {
+      "type": "radio",
+      "label": "Choice3",
+      "page": 1,
+      "box": {
+        "left": 315.7,
+        "top": 133.3,
+        "width": 10.1,
+        "height": 10.6
+      },
+      "group": "Group8"
+    },
+    "group84": {
+      "type": "radio",
+      "label": "Choice5",
+      "page": 1,
+      "box": {
+        "left": 406.6,
+        "top": 133.3,
+        "width": 10.4,
+        "height": 10.4
+      },
+      "group": "Group8"
+    },
+    "group85": {
+      "type": "radio",
+      "label": "Choice6",
+      "page": 1,
+      "box": {
+        "left": 451.4,
+        "top": 133.0,
+        "width": 10.1,
+        "height": 10.4
+      },
+      "group": "Group8"
+    },
+    "group86": {
+      "type": "radio",
+      "label": "Choice2",
+      "page": 1,
+      "box": {
+        "left": 270.5,
+        "top": 132.8,
+        "width": 10.1,
+        "height": 10.1
+      },
+      "group": "Group8"
+    },
+    "undefined52": {
+      "type": "text",
+      "label": "undefined",
+      "page": 1,
+      "box": {
+        "left": 478.1,
+        "top": 107.6,
+        "width": 114.2,
+        "height": 33.6
+      },
+      "multiline": true
+    },
+    "group9": {
+      "type": "radio",
+      "label": "Choice1",
+      "page": 1,
+      "box": {
+        "left": 228.2,
+        "top": 97.3,
+        "width": 10.8,
+        "height": 11.0
+      },
+      "group": "Group9"
+    },
+    "group92": {
+      "type": "radio",
+      "label": "Choice4",
+      "page": 1,
+      "box": {
+        "left": 359.3,
+        "top": 97.3,
+        "width": 10.8,
+        "height": 10.8
+      },
+      "group": "Group9"
+    },
+    "group93": {
+      "type": "radio",
+      "label": "Choice3",
+      "page": 1,
+      "box": {
+        "left": 315.7,
+        "top": 97.0,
+        "width": 10.1,
+        "height": 10.6
+      },
+      "group": "Group9"
+    },
+    "group94": {
+      "type": "radio",
+      "label": "Choice5",
+      "page": 1,
+      "box": {
+        "left": 406.6,
+        "top": 97.0,
+        "width": 10.4,
+        "height": 10.4
+      },
+      "group": "Group9"
+    },
+    "group95": {
+      "type": "radio",
+      "label": "Choice6",
+      "page": 1,
+      "box": {
+        "left": 451.4,
+        "top": 96.8,
+        "width": 10.1,
+        "height": 10.4
+      },
+      "group": "Group9"
+    },
+    "group96": {
+      "type": "radio",
+      "label": "Choice2",
+      "page": 1,
+      "box": {
+        "left": 270.5,
+        "top": 96.6,
+        "width": 10.1,
+        "height": 10.1
+      },
+      "group": "Group9"
+    },
+    "undefined59": {
+      "type": "text",
+      "label": "undefined",
+      "page": 1,
+      "box": {
+        "left": 478.1,
+        "top": 71.9,
+        "width": 114.2,
+        "height": 33.9
+      },
+      "multiline": true
+    },
+    "group10": {
+      "type": "radio",
+      "label": "Choice1",
+      "page": 1,
+      "box": {
+        "left": 228.4,
+        "top": 61.3,
+        "width": 10.8,
+        "height": 11.0
+      },
+      "group": "Group10"
+    },
+    "group102": {
+      "type": "radio",
+      "label": "Choice4",
+      "page": 1,
+      "box": {
+        "left": 359.5,
+        "top": 61.3,
+        "width": 10.8,
+        "height": 10.8
+      },
+      "group": "Group10"
+    },
+    "group103": {
+      "type": "radio",
+      "label": "Choice3",
+      "page": 1,
+      "box": {
+        "left": 315.9,
+        "top": 61.0,
+        "width": 10.1,
+        "height": 10.6
+      },
+      "group": "Group10"
+    },
+    "group104": {
+      "type": "radio",
+      "label": "Choice5",
+      "page": 1,
+      "box": {
+        "left": 406.9,
+        "top": 61.0,
+        "width": 10.4,
+        "height": 10.4
+      },
+      "group": "Group10"
+    },
+    "group105": {
+      "type": "radio",
+      "label": "Choice6",
+      "page": 1,
+      "box": {
+        "left": 451.6,
+        "top": 60.8,
+        "width": 10.1,
+        "height": 10.4
+      },
+      "group": "Group10"
+    },
+    "group106": {
+      "type": "radio",
+      "label": "Choice2",
+      "page": 1,
+      "box": {
+        "left": 270.7,
+        "top": 60.6,
+        "width": 10.1,
+        "height": 10.1
+      },
+      "group": "Group10"
+    },
+    "4SSN2": {
+      "type": "text",
+      "label": "4. SSN",
+      "page": 2,
+      "box": {
+        "left": 442.9,
+        "top": 743.4,
+        "width": 149.6,
+        "height": 21.9
+      }
+    },
+    "1NameLastFirstMISuffix2": {
+      "type": "text",
+      "label": "1. Name (Last, First MI Suffix)",
+      "page": 2,
+      "box": {
+        "left": 19.5,
+        "top": 743.3,
+        "width": 276.0,
+        "height": 21.7
+      }
+    },
+    "2Grade2": {
+      "type": "text",
+      "label": "2. Grade",
+      "page": 2,
+      "box": {
+        "left": 298.5,
+        "top": 743.3,
+        "width": 68.5,
+        "height": 21.8
+      }
+    },
+    "3Desig2": {
+      "type": "text",
+      "label": "3. Desig",
+      "page": 2,
+      "box": {
+        "left": 370.7,
+        "top": 743.3,
+        "width": 68.4,
+        "height": 21.9
+      }
+    },
+    "group11": {
+      "type": "radio",
+      "label": "Choice1",
+      "page": 2,
+      "box": {
+        "left": 291.2,
+        "top": 655.1,
+        "width": 10.8,
+        "height": 11.0
+      },
+      "group": "Group11"
+    },
+    "group112": {
+      "type": "radio",
+      "label": "Choice4",
+      "page": 2,
+      "box": {
+        "left": 452.2,
+        "top": 655.1,
+        "width": 10.8,
+        "height": 10.8
+      },
+      "group": "Group11"
+    },
+    "group113": {
+      "type": "radio",
+      "label": "Choice5",
+      "page": 2,
+      "box": {
+        "left": 505.5,
+        "top": 654.9,
+        "width": 10.4,
+        "height": 10.4
+      },
+      "group": "Group11"
+    },
+    "group114": {
+      "type": "radio",
+      "label": "Choice6",
+      "page": 2,
+      "box": {
+        "left": 562.4,
+        "top": 654.9,
+        "width": 10.1,
+        "height": 10.4
+      },
+      "group": "Group11"
+    },
+    "group115": {
+      "type": "radio",
+      "label": "Choice2",
+      "page": 2,
+      "box": {
+        "left": 345.3,
+        "top": 654.7,
+        "width": 10.1,
+        "height": 10.1
+      },
+      "group": "Group11"
+    },
+    "group116": {
+      "type": "radio",
+      "label": "Choice3",
+      "page": 2,
+      "box": {
+        "left": 397.7,
+        "top": 654.7,
+        "width": 10.1,
+        "height": 10.6
+      },
+      "group": "Group11"
+    },
+    "group122": {
+      "type": "radio",
+      "label": "Choice1",
+      "page": 2,
+      "box": {
+        "left": 291.2,
+        "top": 619.1,
+        "width": 10.8,
+        "height": 11.0
+      },
+      "group": "Group12"
+    },
+    "group123": {
+      "type": "radio",
+      "label": "Choice4",
+      "page": 2,
+      "box": {
+        "left": 452.2,
+        "top": 619.1,
+        "width": 10.8,
+        "height": 10.8
+      },
+      "group": "Group12"
+    },
+    "group124": {
+      "type": "radio",
+      "label": "Choice5",
+      "page": 2,
+      "box": {
+        "left": 505.5,
+        "top": 618.9,
+        "width": 10.4,
+        "height": 10.4
+      },
+      "group": "Group12"
+    },
+    "group125": {
+      "type": "radio",
+      "label": "Choice6",
+      "page": 2,
+      "box": {
+        "left": 562.4,
+        "top": 618.9,
+        "width": 10.1,
+        "height": 10.4
+      },
+      "group": "Group12"
+    },
+    "group126": {
+      "type": "radio",
+      "label": "Choice2",
+      "page": 2,
+      "box": {
+        "left": 345.3,
+        "top": 618.7,
+        "width": 10.1,
+        "height": 10.1
+      },
+      "group": "Group12"
+    },
+    "group127": {
+      "type": "radio",
+      "label": "Choice3",
+      "page": 2,
+      "box": {
+        "left": 397.7,
+        "top": 618.7,
+        "width": 10.1,
+        "height": 10.6
+      },
+      "group": "Group12"
+    },
+    "group13": {
+      "type": "radio",
+      "label": "Choice1",
+      "page": 2,
+      "box": {
+        "left": 291.0,
+        "top": 583.1,
+        "width": 10.8,
+        "height": 11.0
+      },
+      "group": "Group13"
+    },
+    "group132": {
+      "type": "radio",
+      "label": "Choice4",
+      "page": 2,
+      "box": {
+        "left": 452.0,
+        "top": 583.1,
+        "width": 10.8,
+        "height": 10.8
+      },
+      "group": "Group13"
+    },
+    "group133": {
+      "type": "radio",
+      "label": "Choice5",
+      "page": 2,
+      "box": {
+        "left": 505.3,
+        "top": 582.9,
+        "width": 10.4,
+        "height": 10.4
+      },
+      "group": "Group13"
+    },
+    "group134": {
+      "type": "radio",
+      "label": "Choice6",
+      "page": 2,
+      "box": {
+        "left": 562.2,
+        "top": 582.9,
+        "width": 10.1,
+        "height": 10.4
+      },
+      "group": "Group13"
+    },
+    "group135": {
+      "type": "radio",
+      "label": "Choice2",
+      "page": 2,
+      "box": {
+        "left": 345.1,
+        "top": 582.7,
+        "width": 10.1,
+        "height": 10.1
+      },
+      "group": "Group13"
+    },
+    "group136": {
+      "type": "radio",
+      "label": "Choice3",
+      "page": 2,
+      "box": {
+        "left": 397.5,
+        "top": 582.7,
+        "width": 10.1,
+        "height": 10.6
+      },
+      "group": "Group13"
+    },
+    "text1": {
+      "type": "text",
+      "label": "Text 1",
+      "page": 2,
+      "box": {
+        "left": 325.3,
+        "top": 557.7,
+        "width": 49.9,
+        "height": 22.0
+      }
+    },
+    "text6": {
+      "type": "text",
+      "label": "NOB",
+      "page": 2,
+      "box": {
+        "left": 278.2,
+        "top": 557.0,
+        "width": 37.4,
+        "height": 22.0
+      }
+    },
+    "text2": {
+      "type": "text",
+      "label": "Text 2",
+      "page": 2,
+      "box": {
+        "left": 382.3,
+        "top": 556.4,
+        "width": 47.2,
+        "height": 22.0
+      }
+    },
+    "text3": {
+      "type": "text",
+      "label": "Text 3",
+      "page": 2,
+      "box": {
+        "left": 434.0,
+        "top": 556.4,
+        "width": 49.9,
+        "height": 22.0
+      }
+    },
+    "text4": {
+      "type": "text",
+      "label": "Text 4",
+      "page": 2,
+      "box": {
+        "left": 490.1,
+        "top": 556.4,
+        "width": 45.9,
+        "height": 22.0
+      }
+    },
+    "text5": {
+      "type": "text",
+      "label": "Text 5",
+      "page": 2,
+      "box": {
+        "left": 543.2,
+        "top": 556.4,
+        "width": 46.6,
+        "height": 22.0
+      }
+    },
+    "tactical": {
+      "type": "text",
+      "label": "Tactical",
+      "page": 2,
+      "box": {
+        "left": 363.7,
+        "top": 505.7,
+        "width": 14.8,
+        "height": 15.2
+      }
+    },
+    "operational": {
+      "type": "text",
+      "label": "Operational",
+      "page": 2,
+      "box": {
+        "left": 454.3,
+        "top": 505.4,
+        "width": 14.8,
+        "height": 15.2
+      }
+    },
+    "strategic": {
+      "type": "text",
+      "label": "Strategic",
+      "page": 2,
+      "box": {
+        "left": 539.0,
+        "top": 505.4,
+        "width": 14.8,
+        "height": 15.2
+      }
+    },
+    "text7": {
+      "type": "text",
+      "label": "Reporting Senior",
+      "page": 2,
+      "box": {
+        "left": 407.1,
+        "top": 485.7,
+        "width": 62.7,
+        "height": 15.9
+      }
+    },
+    "individual": {
+      "type": "text",
+      "label": "Individual",
+      "page": 2,
+      "box": {
+        "left": 235.5,
+        "top": 485.5,
+        "width": 69.2,
+        "height": 15.5
+      }
+    },
+    "45FutureAssignmentsIRecommendTheFollowingAssignmentsForThisIndividualThreeRow1": {
+      "type": "text",
+      "label": "45. Future Assignments: I recommend the following assignments for this individual (three)_Row_1",
+      "page": 2,
+      "box": {
+        "left": 20.1,
+        "top": 447.1,
+        "width": 194.1,
+        "height": 30.4
+      },
+      "multiline": true
+    },
+    "45FutureAssignmentsIRecommendTheFollowingAssignmentsForThisIndividualThreeRow12": {
+      "type": "text",
+      "label": "45. Future Assignments: I recommend the following assignments for this individual (three)_Row_1",
+      "page": 2,
+      "box": {
+        "left": 218.0,
+        "top": 447.1,
+        "width": 185.5,
+        "height": 30.4
+      },
+      "multiline": true
+    },
+    "45FutureAssignmentsIRecommendTheFollowingAssignmentsForThisIndividualThreeRow13": {
+      "type": "text",
+      "label": "45. Future Assignments: I recommend the following assignments for this individual (three)_Row_1",
+      "page": 2,
+      "box": {
+        "left": 406.6,
+        "top": 447.1,
+        "width": 185.2,
+        "height": 30.4
+      },
+      "multiline": true
+    },
+    "46Comments": {
+      "type": "text",
+      "label": "46. Comments",
+      "page": 2,
+      "box": {
+        "left": 20.1,
+        "top": 394.8,
+        "width": 570.9,
+        "height": 217.5
+      },
+      "multiline": true
+    },
+    "signature3": {
+      "type": "signature",
+      "label": "47. Signature of Reporting Senior",
+      "page": 2,
+      "box": {
+        "left": 20.8,
+        "top": 153.4,
+        "width": 226.3,
+        "height": 42.0
+      }
+    },
+    "group14": {
+      "type": "radio",
+      "label": "Choice1",
+      "page": 2,
+      "box": {
+        "left": 254.6,
+        "top": 140.3,
+        "width": 10.6,
+        "height": 10.6
+      },
+      "group": "Group14"
+    },
+    "group142": {
+      "type": "radio",
+      "label": "Choice2",
+      "page": 2,
+      "box": {
+        "left": 398.6,
+        "top": 140.3,
+        "width": 10.6,
+        "height": 10.7
+      },
+      "group": "Group14"
+    },
+    "signature4": {
+      "type": "signature",
+      "label": "Signature 4",
+      "page": 2,
+      "box": {
+        "left": 253.8,
+        "top": 128.4,
+        "width": 337.2,
+        "height": 17.4
+      }
+    },
+    "49TypedNameGradeCommandUICAndSignatureOfRegularReportingSeniorOnConcurrentReport": {
+      "type": "text",
+      "label": "49. Typed name, grade, command, UIC and signature of Regular Reporting Senior on Concurrent Report",
+      "page": 2,
+      "box": {
+        "left": 20.3,
+        "top": 93.1,
+        "width": 570.8,
+        "height": 54.4
+      },
+      "multiline": true
+    }
+  }
+}

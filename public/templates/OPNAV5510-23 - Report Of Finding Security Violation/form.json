@@ -1,0 +1,799 @@
+{
+  "id": "opnav551023",
+  "label": "OPNAV5510-23 - Report Of Finding Security Violation",
+  "directory": "OPNAV5510-23 - Report Of Finding Security Violation",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "from",
+        "to",
+        "dateOfReport",
+        "secClssOther",
+        "securityClassification",
+        "securityClassification2",
+        "securityClassification3",
+        "securityClassification4",
+        "roomNo",
+        "oPcode",
+        "locOther",
+        "entered",
+        "exited",
+        "masterkey",
+        "cypherBypass",
+        "combination",
+        "howSpaceEntOther",
+        "doorUnsecured",
+        "other",
+        "nameTitOfPerNotified1",
+        "dateNotified1",
+        "timeNotified",
+        "nameSecurityCoord",
+        "nameTitOfPerNotified2",
+        "dateNotified2",
+        "timeReceivingCopy",
+        "signature",
+        "lockContainer",
+        "lockContainer2",
+        "lockContainer3",
+        "dblkTheContainer",
+        "dblkTheContainer2",
+        "dblkTheContainer3",
+        "classifiedCoverSheet",
+        "classifiedCoverSheet2",
+        "classifiedCoverSheet3",
+        "initialFirstFolder",
+        "initialFirstFolder2",
+        "initialFirstFolder3",
+        "trashReceptEmpty",
+        "trashReceptEmpty2",
+        "trashReceptEmpty3",
+        "redViolaCard",
+        "redViolaCard2",
+        "redViolaCard3",
+        "properlySecureClassMaterial",
+        "properlySecureClassMaterial2",
+        "properlySecureClassMaterial3",
+        "secureTheSpace",
+        "secureTheSpace2",
+        "secureTheSpace3",
+        "dblCheckTheDoor",
+        "dblCheckTheDoor2",
+        "dblCheckTheDoor3",
+        "statementSurrCir",
+        "continOnRev",
+        "secForceLeader",
+        "patrolmen1",
+        "patrolmen2"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "continuation"
+      ]
+    }
+  ],
+  "fields": {
+    "from": {
+      "type": "text",
+      "label": "Enter who the report of finding violation is from.",
+      "page": 1,
+      "box": {
+        "left": 67.6,
+        "top": 732.3,
+        "width": 191.1,
+        "height": 17.8
+      }
+    },
+    "to": {
+      "type": "text",
+      "label": "Enter who the report of finding violation is to.",
+      "page": 1,
+      "box": {
+        "left": 283.6,
+        "top": 732.3,
+        "width": 193.9,
+        "height": 17.8
+      }
+    },
+    "dateOfReport": {
+      "type": "text",
+      "label": "Enter the date of report, \r\nusing the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 501.8,
+        "top": 732.3,
+        "width": 79.1,
+        "height": 17.8
+      }
+    },
+    "secClssOther": {
+      "type": "text",
+      "label": "Enter the other information concerning security classification.",
+      "page": 1,
+      "box": {
+        "left": 480.4,
+        "top": 709.8,
+        "width": 97.7,
+        "height": 11.6
+      }
+    },
+    "securityClassification": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 199.7,
+        "top": 707.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_PageOneOfReportOfFinding_0_SecurityClassification_0"
+    },
+    "securityClassification2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 282.4,
+        "top": 707.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_PageOneOfReportOfFinding_0_SecurityClassification_0"
+    },
+    "securityClassification3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 345.4,
+        "top": 707.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_PageOneOfReportOfFinding_0_SecurityClassification_0"
+    },
+    "securityClassification4": {
+      "type": "radio",
+      "label": "3",
+      "page": 1,
+      "box": {
+        "left": 435.4,
+        "top": 707.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_PageOneOfReportOfFinding_0_SecurityClassification_0"
+    },
+    "roomNo": {
+      "type": "text",
+      "label": "Enter the room number.",
+      "page": 1,
+      "box": {
+        "left": 193.6,
+        "top": 678.3,
+        "width": 121.3,
+        "height": 11.6
+      }
+    },
+    "oPcode": {
+      "type": "text",
+      "label": "Enter the OP code.",
+      "page": 1,
+      "box": {
+        "left": 318.4,
+        "top": 678.3,
+        "width": 120.2,
+        "height": 11.6
+      }
+    },
+    "locOther": {
+      "type": "text",
+      "label": "Enter the other information.",
+      "page": 1,
+      "box": {
+        "left": 443.3,
+        "top": 678.3,
+        "width": 137.1,
+        "height": 11.6
+      }
+    },
+    "entered": {
+      "type": "text",
+      "label": "Enter the time entered, \r\nusing the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 228.6,
+        "top": 654.7,
+        "width": 66.8,
+        "height": 11.6
+      }
+    },
+    "exited": {
+      "type": "text",
+      "label": "Enter the time exited,\r\nusing the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 349.9,
+        "top": 654.7,
+        "width": 66.8,
+        "height": 11.6
+      }
+    },
+    "masterkey": {
+      "type": "checkbox",
+      "label": "How space entered -Master Key",
+      "page": 1,
+      "box": {
+        "left": 217.2,
+        "top": 635.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cypherBypass": {
+      "type": "checkbox",
+      "label": "How space entered -Cypher By-pass",
+      "page": 1,
+      "box": {
+        "left": 324.0,
+        "top": 635.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "combination": {
+      "type": "checkbox",
+      "label": "How space entered -Combination",
+      "page": 1,
+      "box": {
+        "left": 446.1,
+        "top": 635.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "howSpaceEntOther": {
+      "type": "text",
+      "label": "Enter the other information.",
+      "page": 1,
+      "box": {
+        "left": 371.3,
+        "top": 619.8,
+        "width": 206.8,
+        "height": 11.6
+      }
+    },
+    "doorUnsecured": {
+      "type": "checkbox",
+      "label": "How space entered -Door Unsecured",
+      "page": 1,
+      "box": {
+        "left": 217.2,
+        "top": 615.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "other": {
+      "type": "checkbox",
+      "label": "How space entered -Other",
+      "page": 1,
+      "box": {
+        "left": 324.0,
+        "top": 615.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "nameTitOfPerNotified1": {
+      "type": "text",
+      "label": "Enter the name or title of person notified.",
+      "page": 1,
+      "box": {
+        "left": 31.6,
+        "top": 587.2,
+        "width": 214.7,
+        "height": 11.6
+      }
+    },
+    "dateNotified1": {
+      "type": "text",
+      "label": "Enter the date of notification, \r\nusing the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 249.8,
+        "top": 587.2,
+        "width": 69.6,
+        "height": 11.6
+      }
+    },
+    "timeNotified": {
+      "type": "text",
+      "label": "Enter the time of notification, \r\nusing the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 324.1,
+        "top": 587.2,
+        "width": 65.1,
+        "height": 11.6
+      }
+    },
+    "nameSecurityCoord": {
+      "type": "text",
+      "label": "Enter the name of security coordinator.",
+      "page": 1,
+      "box": {
+        "left": 393.8,
+        "top": 587.2,
+        "width": 186.6,
+        "height": 11.6
+      }
+    },
+    "nameTitOfPerNotified2": {
+      "type": "text",
+      "label": "Enter the name or title of person receiving copy.",
+      "page": 1,
+      "box": {
+        "left": 31.6,
+        "top": 564.1,
+        "width": 214.7,
+        "height": 11.6
+      }
+    },
+    "dateNotified2": {
+      "type": "text",
+      "label": "Enter the date copy was received, \r\nusing the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 249.8,
+        "top": 564.1,
+        "width": 69.6,
+        "height": 11.6
+      }
+    },
+    "timeReceivingCopy": {
+      "type": "text",
+      "label": "Enter the time copy was received, \r\nusing the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 324.1,
+        "top": 564.1,
+        "width": 65.1,
+        "height": 11.6
+      }
+    },
+    "signature": {
+      "type": "text",
+      "label": "Enter the signature.",
+      "page": 1,
+      "box": {
+        "left": 393.8,
+        "top": 564.1,
+        "width": 186.6,
+        "height": 11.6
+      }
+    },
+    "lockContainer": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 338.9,
+        "top": 541.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_PageOneOfReportOfFinding_0_LockContainer_0"
+    },
+    "lockContainer2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 430.6,
+        "top": 541.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_PageOneOfReportOfFinding_0_LockContainer_0"
+    },
+    "lockContainer3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 512.7,
+        "top": 541.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_PageOneOfReportOfFinding_0_LockContainer_0"
+    },
+    "dblkTheContainer": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 338.9,
+        "top": 518.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_PageOneOfReportOfFinding_0_DblkTheContainer_0"
+    },
+    "dblkTheContainer2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 430.6,
+        "top": 518.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_PageOneOfReportOfFinding_0_DblkTheContainer_0"
+    },
+    "dblkTheContainer3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 512.7,
+        "top": 518.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_PageOneOfReportOfFinding_0_DblkTheContainer_0"
+    },
+    "classifiedCoverSheet": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 338.9,
+        "top": 496.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_PageOneOfReportOfFinding_0_ClassifiedCoverSheet_0"
+    },
+    "classifiedCoverSheet2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 430.6,
+        "top": 495.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_PageOneOfReportOfFinding_0_ClassifiedCoverSheet_0"
+    },
+    "classifiedCoverSheet3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 512.7,
+        "top": 495.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_PageOneOfReportOfFinding_0_ClassifiedCoverSheet_0"
+    },
+    "initialFirstFolder": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 338.9,
+        "top": 472.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_PageOneOfReportOfFinding_0_InitialFirstFolder_0"
+    },
+    "initialFirstFolder2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 430.6,
+        "top": 472.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_PageOneOfReportOfFinding_0_InitialFirstFolder_0"
+    },
+    "initialFirstFolder3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 512.7,
+        "top": 472.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_PageOneOfReportOfFinding_0_InitialFirstFolder_0"
+    },
+    "trashReceptEmpty": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 338.9,
+        "top": 447.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_PageOneOfReportOfFinding_0_TrashReceptEmpty_0"
+    },
+    "trashReceptEmpty2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 430.6,
+        "top": 447.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_PageOneOfReportOfFinding_0_TrashReceptEmpty_0"
+    },
+    "trashReceptEmpty3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 512.7,
+        "top": 447.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_PageOneOfReportOfFinding_0_TrashReceptEmpty_0"
+    },
+    "redViolaCard": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 338.9,
+        "top": 425.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_PageOneOfReportOfFinding_0_RedViolaCard_0"
+    },
+    "redViolaCard2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 430.6,
+        "top": 425.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_PageOneOfReportOfFinding_0_RedViolaCard_0"
+    },
+    "redViolaCard3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 512.7,
+        "top": 425.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_PageOneOfReportOfFinding_0_RedViolaCard_0"
+    },
+    "properlySecureClassMaterial": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 338.9,
+        "top": 402.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_PageOneOfReportOfFinding_0_ProperlySecureClassMaterial_0"
+    },
+    "properlySecureClassMaterial2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 430.6,
+        "top": 402.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_PageOneOfReportOfFinding_0_ProperlySecureClassMaterial_0"
+    },
+    "properlySecureClassMaterial3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 512.7,
+        "top": 402.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_PageOneOfReportOfFinding_0_ProperlySecureClassMaterial_0"
+    },
+    "secureTheSpace": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 338.9,
+        "top": 377.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_PageOneOfReportOfFinding_0_SecureTheSpace_0"
+    },
+    "secureTheSpace2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 430.6,
+        "top": 377.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_PageOneOfReportOfFinding_0_SecureTheSpace_0"
+    },
+    "secureTheSpace3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 512.7,
+        "top": 377.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_PageOneOfReportOfFinding_0_SecureTheSpace_0"
+    },
+    "dblCheckTheDoor": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 338.9,
+        "top": 353.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_PageOneOfReportOfFinding_0_DblCheckTheDoor_0"
+    },
+    "dblCheckTheDoor2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 430.6,
+        "top": 353.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_PageOneOfReportOfFinding_0_DblCheckTheDoor_0"
+    },
+    "dblCheckTheDoor3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 512.7,
+        "top": 353.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_PageOneOfReportOfFinding_0_DblCheckTheDoor_0"
+    },
+    "statementSurrCir": {
+      "type": "text",
+      "label": "Enter the statement of circumstances surrounding incident.",
+      "page": 1,
+      "box": {
+        "left": 31.6,
+        "top": 329.6,
+        "width": 548.8,
+        "height": 161.8
+      },
+      "multiline": true
+    },
+    "continOnRev": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 357.2,
+        "top": 163.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_PageOneOfReportOfFinding_0_ContinOnRev_0"
+    },
+    "secForceLeader": {
+      "type": "text",
+      "label": "Enter the name of the security force leader.",
+      "page": 1,
+      "box": {
+        "left": 308.3,
+        "top": 139.5,
+        "width": 272.1,
+        "height": 13.3
+      }
+    },
+    "patrolmen1": {
+      "type": "text",
+      "label": "Enter the name of the patrolmen.",
+      "page": 1,
+      "box": {
+        "left": 308.3,
+        "top": 111.3,
+        "width": 272.1,
+        "height": 13.3
+      }
+    },
+    "patrolmen2": {
+      "type": "text",
+      "label": "Enter the name of the patrolmen.",
+      "page": 1,
+      "box": {
+        "left": 308.3,
+        "top": 83.8,
+        "width": 272.1,
+        "height": 13.3
+      }
+    },
+    "continuation": {
+      "type": "text",
+      "label": "Enter the statement of circumstances surrounding incident.",
+      "page": 2,
+      "box": {
+        "left": 32.1,
+        "top": 753.1,
+        "width": 547.7,
+        "height": 684.3
+      },
+      "multiline": true
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 27.85,
+      "editor": "grid",
+      "columns": {
+        "rankRateTitle": {
+          "type": "text",
+          "label": "Enter the rank, rate and/or title of security force leader.",
+          "page": 1,
+          "box": {
+            "left": 31.6,
+            "top": 139.5,
+            "width": 273.2,
+            "height": 13.3
+          }
+        }
+      }
+    }
+  }
+}

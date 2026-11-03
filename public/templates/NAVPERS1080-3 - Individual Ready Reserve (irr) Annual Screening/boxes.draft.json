@@ -1,0 +1,490 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "textField1": {
+        "left": 38.8,
+        "top": 590.5,
+        "width": 57.3,
+        "height": 11.7,
+        "type": "text",
+        "description": "Rank/Rate",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField12": {
+        "left": 101.8,
+        "top": 590.5,
+        "width": 228.4,
+        "height": 11.7,
+        "type": "text",
+        "description": "Last Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField13": {
+        "left": 335.9,
+        "top": 590.5,
+        "width": 156.4,
+        "height": 11.7,
+        "type": "text",
+        "description": "First Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField14": {
+        "left": 497.9,
+        "top": 590.5,
+        "width": 30.3,
+        "height": 11.7,
+        "type": "text",
+        "description": "MI",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField15": {
+        "left": 533.9,
+        "top": 589.9,
+        "width": 39.3,
+        "height": 11.1,
+        "type": "text",
+        "description": "Suffix",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField16": {
+        "left": 38.8,
+        "top": 563.5,
+        "width": 453.4,
+        "height": 11.7,
+        "type": "text",
+        "description": "Address",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField17": {
+        "left": 497.9,
+        "top": 563.5,
+        "width": 75.3,
+        "height": 11.7,
+        "type": "text",
+        "description": "Apt #",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField18": {
+        "left": 38.8,
+        "top": 536.5,
+        "width": 165.4,
+        "height": 11.7,
+        "type": "text",
+        "description": "City",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField19": {
+        "left": 209.9,
+        "top": 536.5,
+        "width": 39.3,
+        "height": 11.7,
+        "type": "text",
+        "description": "State",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField110": {
+        "left": 254.9,
+        "top": 536.5,
+        "width": 66.3,
+        "height": 11.7,
+        "type": "text",
+        "description": "Zip Code",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField111": {
+        "left": 326.9,
+        "top": 536.5,
+        "width": 246.4,
+        "height": 11.7,
+        "type": "text",
+        "description": "Primary Email Address",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox1": {
+        "left": 560.0,
+        "top": 512.5,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "I do not have a Cell Phone",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField112": {
+        "left": 38.8,
+        "top": 509.5,
+        "width": 129.3,
+        "height": 11.7,
+        "type": "text",
+        "description": "Home Phone",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField113": {
+        "left": 173.9,
+        "top": 509.5,
+        "width": 129.3,
+        "height": 11.7,
+        "type": "text",
+        "description": "Cell Phone",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField114": {
+        "left": 308.9,
+        "top": 509.5,
+        "width": 147.3,
+        "height": 11.7,
+        "type": "text",
+        "description": "Cell Phone Carrier",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField115": {
+        "left": 38.8,
+        "top": 482.5,
+        "width": 534.4,
+        "height": 11.7,
+        "type": "text",
+        "description": "Other Email Address",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dropDownList1": {
+        "left": 469.4,
+        "top": 455.4,
+        "width": 103.1,
+        "height": 10.8,
+        "type": "choice",
+        "description": "1. What is your current employment status?",
+        "options": [
+          "Full - Time",
+          "Part - Time",
+          "Self-employed",
+          "Unemployed"
+        ],
+        "group": null,
+        "required": false
+      },
+      "dropDownList12": {
+        "left": 469.4,
+        "top": 437.4,
+        "width": 103.1,
+        "height": 10.8,
+        "type": "choice",
+        "description": "do not have a Cell Phone",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "group": null,
+        "required": false
+      },
+      "dateField1": {
+        "left": 509.5,
+        "top": 420.1,
+        "width": 63.7,
+        "height": 21.3,
+        "type": "text",
+        "description": "Start Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField116": {
+        "left": 38.8,
+        "top": 410.5,
+        "width": 228.4,
+        "height": 11.7,
+        "type": "text",
+        "description": "Employer Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField117": {
+        "left": 272.9,
+        "top": 410.5,
+        "width": 192.4,
+        "height": 11.7,
+        "type": "text",
+        "description": "Job Title",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField118": {
+        "left": 38.8,
+        "top": 383.5,
+        "width": 534.4,
+        "height": 11.7,
+        "type": "text",
+        "description": "Employer Address",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField119": {
+        "left": 38.8,
+        "top": 356.5,
+        "width": 129.3,
+        "height": 11.7,
+        "type": "text",
+        "description": "Employer Phone",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField120": {
+        "left": 173.9,
+        "top": 356.5,
+        "width": 399.4,
+        "height": 11.7,
+        "type": "text",
+        "description": "Work Email Address",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dropDownList13": {
+        "left": 518.4,
+        "top": 329.4,
+        "width": 54.0,
+        "height": 10.8,
+        "type": "choice",
+        "description": "Cell Phone",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "group": null,
+        "required": false
+      },
+      "dropDownList14": {
+        "left": 518.4,
+        "top": 311.4,
+        "width": 54.0,
+        "height": 10.8,
+        "type": "choice",
+        "description": "Cell Phone",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "group": null,
+        "required": false
+      },
+      "dropDownList15": {
+        "left": 518.4,
+        "top": 284.4,
+        "width": 54.0,
+        "height": 10.8,
+        "type": "choice",
+        "description": "1. Select current marital status",
+        "options": [
+          "Married",
+          "Single",
+          "Divorced",
+          "Married but separated",
+          "Single but engaged"
+        ],
+        "group": null,
+        "required": false
+      },
+      "dropDownList16": {
+        "left": 518.4,
+        "top": 266.3,
+        "width": 54.0,
+        "height": 10.8,
+        "type": "choice",
+        "description": "Cell Phone",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "group": null,
+        "required": false
+      },
+      "dropDownList17": {
+        "left": 518.4,
+        "top": 248.3,
+        "width": 54.0,
+        "height": 10.8,
+        "type": "choice",
+        "description": "Cell Phone",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "group": null,
+        "required": false
+      },
+      "dropDownList18": {
+        "left": 518.4,
+        "top": 230.3,
+        "width": 54.0,
+        "height": 10.8,
+        "type": "choice",
+        "description": "Cell Phone",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "group": null,
+        "required": false
+      },
+      "dropDownList19": {
+        "left": 518.4,
+        "top": 212.3,
+        "width": 54.0,
+        "height": 10.8,
+        "type": "choice",
+        "description": "Cell Phone",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "group": null,
+        "required": false
+      },
+      "dropDownList110": {
+        "left": 518.4,
+        "top": 185.3,
+        "width": 54.0,
+        "height": 10.8,
+        "type": "choice",
+        "description": "Cell Phone",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "group": null,
+        "required": false
+      },
+      "dropDownList111": {
+        "left": 518.4,
+        "top": 167.3,
+        "width": 54.0,
+        "height": 10.8,
+        "type": "choice",
+        "description": "Cell Phone",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "group": null,
+        "required": false
+      },
+      "dropDownList112": {
+        "left": 518.4,
+        "top": 149.3,
+        "width": 54.0,
+        "height": 10.8,
+        "type": "choice",
+        "description": "Cell Phone",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "group": null,
+        "required": false
+      },
+      "textField2": {
+        "left": 38.8,
+        "top": 113.4,
+        "width": 534.4,
+        "height": 74.7,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "textField22": {
+        "left": 38.8,
+        "top": 708.2,
+        "width": 534.4,
+        "height": 201.4,
+        "type": "text",
+        "description": "VI. ADDITIONAL INFORMATION (continued)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField121": {
+        "left": 38.8,
+        "top": 428.5,
+        "width": 228.4,
+        "height": 11.7,
+        "type": "text",
+        "description": "IRR Member Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField1": {
+        "left": 272.9,
+        "top": 428.5,
+        "width": 201.4,
+        "height": 11.7,
+        "type": "text",
+        "description": "IRR Member Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateField2": {
+        "left": 479.9,
+        "top": 428.5,
+        "width": 93.3,
+        "height": 11.7,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

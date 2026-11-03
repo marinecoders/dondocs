@@ -1,0 +1,622 @@
+{
+  "id": "navmc11901",
+  "label": "NAVMC 11901 - Prospective Fsmao - Analyst Worksheet",
+  "directory": "NAVMC11901 - Prospective Fsmao - Analyst Worksheet",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "east",
+        "west",
+        "westPac",
+        "lastName",
+        "firstName",
+        "midInitial",
+        "dor",
+        "rank",
+        "mos",
+        "unit",
+        "unitPhone",
+        "dtcb",
+        "billet",
+        "eas",
+        "reEnlist",
+        "available",
+        "govCard",
+        "clearance",
+        "radio",
+        "radio2",
+        "howLong",
+        "ages",
+        "weapons",
+        "pft",
+        "pme",
+        "software",
+        "gcss",
+        "networkAdmin",
+        "militarySchools",
+        "civilEducLev",
+        "amos",
+        "gcss2",
+        "problems",
+        "date",
+        "pending",
+        "extend24mo",
+        "stable",
+        "reason",
+        "concerns"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "past",
+        "billet2",
+        "rec",
+        "past2",
+        "aoic",
+        "admin",
+        "oic",
+        "comments"
+      ]
+    }
+  ],
+  "fields": {
+    "east": {
+      "type": "text",
+      "label": "East Coast",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 665.3,
+        "width": 102.3,
+        "height": 13.0
+      }
+    },
+    "west": {
+      "type": "text",
+      "label": "West Coast",
+      "page": 1,
+      "box": {
+        "left": 281.9,
+        "top": 665.3,
+        "width": 102.3,
+        "height": 13.0
+      }
+    },
+    "westPac": {
+      "type": "text",
+      "label": "WestPac",
+      "page": 1,
+      "box": {
+        "left": 452.9,
+        "top": 665.3,
+        "width": 102.3,
+        "height": 13.0
+      }
+    },
+    "lastName": {
+      "type": "text",
+      "label": "Administrative Information",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 618.8,
+        "width": 174.4,
+        "height": 12.9
+      }
+    },
+    "firstName": {
+      "type": "text",
+      "label": "West Coast",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 618.8,
+        "width": 138.3,
+        "height": 12.9
+      }
+    },
+    "midInitial": {
+      "type": "text",
+      "label": "WestPac",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 618.8,
+        "width": 48.3,
+        "height": 12.9
+      }
+    },
+    "dor": {
+      "type": "text",
+      "label": "Dor",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 618.8,
+        "width": 66.3,
+        "height": 12.9
+      }
+    },
+    "rank": {
+      "type": "choice",
+      "label": "Rank",
+      "page": 1,
+      "box": {
+        "left": 418.4,
+        "top": 618.1,
+        "width": 81.3,
+        "height": 12.2
+      },
+      "options": [
+        "PFC",
+        "LCpl",
+        "Cpl",
+        "Sgt",
+        "SSgt",
+        "GySgt",
+        "MSgt",
+        "1stSgt",
+        "MGySgt",
+        "SgtMaj",
+        "SMMC",
+        "WO",
+        "Gunner",
+        "CWO2",
+        "CWO3",
+        "CWO4",
+        "CWO5",
+        "2ndLt",
+        "1stLt",
+        "Capt",
+        "Maj",
+        "LtCol",
+        "Col",
+        "BGen",
+        "MajGen",
+        "LtGen",
+        "Gen"
+      ]
+    },
+    "mos": {
+      "type": "text",
+      "label": "Last Name",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 591.8,
+        "width": 48.3,
+        "height": 12.9
+      }
+    },
+    "unit": {
+      "type": "text",
+      "label": "First Name Middle Initial",
+      "page": 1,
+      "box": {
+        "left": 92.8,
+        "top": 591.8,
+        "width": 318.4,
+        "height": 12.9
+      }
+    },
+    "unitPhone": {
+      "type": "text",
+      "label": "DOR",
+      "page": 1,
+      "box": {
+        "left": 416.9,
+        "top": 591.8,
+        "width": 156.4,
+        "height": 12.9
+      }
+    },
+    "dtcb": {
+      "type": "text",
+      "label": "MOS Present Unit",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 564.7,
+        "width": 138.3,
+        "height": 12.9
+      }
+    },
+    "billet": {
+      "type": "text",
+      "label": "Unit",
+      "page": 1,
+      "box": {
+        "left": 182.9,
+        "top": 564.7,
+        "width": 246.4,
+        "height": 12.9
+      }
+    },
+    "eas": {
+      "type": "text",
+      "label": "Phone",
+      "page": 1,
+      "box": {
+        "left": 434.9,
+        "top": 564.7,
+        "width": 138.3,
+        "height": 12.9
+      }
+    },
+    "reEnlist": {
+      "type": "text",
+      "label": "DTCB",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 537.7,
+        "width": 84.3,
+        "height": 12.9
+      }
+    },
+    "available": {
+      "type": "text",
+      "label": "Current Billet",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 537.7,
+        "width": 156.4,
+        "height": 12.9
+      }
+    },
+    "govCard": {
+      "type": "text",
+      "label": "Unit",
+      "page": 1,
+      "box": {
+        "left": 290.9,
+        "top": 537.7,
+        "width": 138.3,
+        "height": 12.9
+      }
+    },
+    "clearance": {
+      "type": "text",
+      "label": "EAS / ECC",
+      "page": 1,
+      "box": {
+        "left": 434.9,
+        "top": 537.7,
+        "width": 138.3,
+        "height": 12.9
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 91.4,
+        "top": 514.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 145.5,
+        "top": 514.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "howLong": {
+      "type": "text",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 200.9,
+        "top": 510.7,
+        "width": 201.4,
+        "height": 12.9
+      }
+    },
+    "ages": {
+      "type": "text",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 407.9,
+        "top": 510.7,
+        "width": 165.4,
+        "height": 12.9
+      }
+    },
+    "weapons": {
+      "type": "text",
+      "label": "Training Information",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 465.7,
+        "width": 174.4,
+        "height": 12.9
+      }
+    },
+    "pft": {
+      "type": "text",
+      "label": "Long",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 465.7,
+        "width": 174.4,
+        "height": 12.9
+      }
+    },
+    "pme": {
+      "type": "text",
+      "label": "Children&apos;s Ages",
+      "page": 1,
+      "box": {
+        "left": 398.9,
+        "top": 465.7,
+        "width": 174.4,
+        "height": 12.9
+      }
+    },
+    "software": {
+      "type": "text",
+      "label": "Computer Skills",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 420.7,
+        "width": 534.4,
+        "height": 12.9
+      }
+    },
+    "gcss": {
+      "type": "text",
+      "label": "a. Software familiarity",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 393.7,
+        "width": 534.4,
+        "height": 12.9
+      }
+    },
+    "networkAdmin": {
+      "type": "text",
+      "label": "b. GCSS-MC / UUAM",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 366.7,
+        "width": 534.4,
+        "height": 12.9
+      }
+    },
+    "militarySchools": {
+      "type": "text",
+      "label": "Education",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 321.7,
+        "width": 534.4,
+        "height": 39.9
+      },
+      "multiline": true
+    },
+    "civilEducLev": {
+      "type": "text",
+      "label": "Military Schools attended",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 267.7,
+        "width": 84.3,
+        "height": 12.9
+      }
+    },
+    "amos": {
+      "type": "text",
+      "label": "and dates",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 267.7,
+        "width": 300.4,
+        "height": 12.9
+      }
+    },
+    "gcss2": {
+      "type": "text",
+      "label": "status for grade",
+      "page": 1,
+      "box": {
+        "left": 434.9,
+        "top": 267.7,
+        "width": 138.3,
+        "height": 12.9
+      }
+    },
+    "problems": {
+      "type": "text",
+      "label": "Problems",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 240.7,
+        "width": 471.4,
+        "height": 21.9
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 515.9,
+        "top": 239.9,
+        "width": 57.3,
+        "height": 24.0
+      }
+    },
+    "pending": {
+      "type": "text",
+      "label": "Assignment Considerations",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 186.7,
+        "width": 534.4,
+        "height": 12.9
+      }
+    },
+    "extend24mo": {
+      "type": "text",
+      "label": "Extend 24mo",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 159.7,
+        "width": 534.4,
+        "height": 12.9
+      }
+    },
+    "stable": {
+      "type": "text",
+      "label": "Stable",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 132.7,
+        "width": 534.4,
+        "height": 12.9
+      }
+    },
+    "reason": {
+      "type": "text",
+      "label": "Are you financially stable",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 105.7,
+        "width": 534.4,
+        "height": 12.9
+      }
+    },
+    "concerns": {
+      "type": "text",
+      "label": "Concerns",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 78.7,
+        "width": 534.4,
+        "height": 12.9
+      }
+    },
+    "past": {
+      "type": "text",
+      "label": "PROSPECTIVE FSMAO - ANALYST WORK SHEET",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 681.8,
+        "width": 534.4,
+        "height": 75.9
+      },
+      "multiline": true
+    },
+    "billet2": {
+      "type": "text",
+      "label": "Billet 2",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 591.8,
+        "width": 534.4,
+        "height": 12.9
+      }
+    },
+    "rec": {
+      "type": "text",
+      "label": "Internal FSMAO actions",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 546.7,
+        "width": 534.4,
+        "height": 12.9
+      }
+    },
+    "past2": {
+      "type": "text",
+      "label": "FSMAO Analyst recommended by",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 519.7,
+        "width": 534.4,
+        "height": 21.9
+      }
+    },
+    "aoic": {
+      "type": "text",
+      "label": "Office interview team and results",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 483.7,
+        "width": 534.4,
+        "height": 12.9
+      }
+    },
+    "admin": {
+      "type": "text",
+      "label": "AOIC/ Maint/Supply recommendation",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 456.7,
+        "width": 534.4,
+        "height": 30.9
+      },
+      "multiline": true
+    },
+    "oic": {
+      "type": "text",
+      "label": "Admin section review/consult with monitor/occfld sponsor",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 411.7,
+        "width": 534.4,
+        "height": 12.9
+      }
+    },
+    "comments": {
+      "type": "text",
+      "label": "Comments",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 276.7,
+        "width": 534.4,
+        "height": 103.0
+      },
+      "multiline": true
+    }
+  }
+}

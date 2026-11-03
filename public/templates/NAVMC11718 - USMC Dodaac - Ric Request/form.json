@@ -1,0 +1,1215 @@
+{
+  "id": "navmc11718",
+  "label": "NAVMC 11718 - USMC Dodaac - Ric Request",
+  "directory": "NAVMC11718 - USMC Dodaac - Ric Request",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf",
+    "page5.pdf",
+    "page6.pdf",
+    "page7.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "new",
+        "newEnter",
+        "delete",
+        "deleteEnter",
+        "changeC",
+        "updateC",
+        "updateChangeEnter",
+        "secondary",
+        "mAJCOMCode",
+        "unitRotation",
+        "tertiary",
+        "mAJCOMCode3",
+        "newRIC",
+        "newRICEnter",
+        "updateF",
+        "changeF",
+        "deleteF",
+        "rICChange",
+        "assocDoDAAC",
+        "reason",
+        "uic",
+        "procurement",
+        "mAJCOMCode2",
+        "statusCOMMRI",
+        "authorityCode2",
+        "billingCOMMRI",
+        "coutnry",
+        "stateProvince",
+        "city",
+        "zip",
+        "t1IPCZIP",
+        "adsnfsn5"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "coutnry2",
+        "stateAPOProvince2",
+        "city2",
+        "zip2",
+        "t2IPCZIP",
+        "adsnfsn6",
+        "coutnry3",
+        "stateAPOProvince3",
+        "zip3",
+        "city3",
+        "t3IPCZIP",
+        "adsnfsn7",
+        "adsnfsn8",
+        "ccp",
+        "t2BBP",
+        "t2APOD",
+        "t2WPOD",
+        "pOCName",
+        "pOCEmail",
+        "pOCPhoneNumber"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "contractNumber",
+        "cageCode",
+        "contAdminOff",
+        "contractSponsor",
+        "contExpDte",
+        "uic2",
+        "sOSignature",
+        "cSPDate",
+        "uic3",
+        "sOSignature2",
+        "cSPDate2",
+        "uic4",
+        "sOSignature3",
+        "cSPDate3",
+        "uic5",
+        "sOSignature4",
+        "cSPDate4",
+        "uic6",
+        "sOSignature5",
+        "cSPDate5",
+        "name49a",
+        "sig49b",
+        "date49c",
+        "sOSignature6",
+        "cageCode2",
+        "authorityCode",
+        "cSPDate6",
+        "sOSignature7",
+        "cageCode3",
+        "cSPDate7"
+      ]
+    }
+  ],
+  "fields": {
+    "new": {
+      "type": "checkbox",
+      "label": "A. NEW DoDAAC\t",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 640.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "newEnter": {
+      "type": "text",
+      "label": "NewEnter",
+      "page": 1,
+      "box": {
+        "left": 507.6,
+        "top": 640.4,
+        "width": 64.8,
+        "height": 9.4
+      }
+    },
+    "delete": {
+      "type": "checkbox",
+      "label": "B. DELETE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 624.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "deleteEnter": {
+      "type": "text",
+      "label": "DeleteEnter",
+      "page": 1,
+      "box": {
+        "left": 507.6,
+        "top": 623.8,
+        "width": 64.8,
+        "height": 9.4
+      }
+    },
+    "changeC": {
+      "type": "checkbox",
+      "label": "C. Change\t",
+      "page": 1,
+      "box": {
+        "left": 121.8,
+        "top": 607.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "updateC": {
+      "type": "checkbox",
+      "label": "C. UPDATE\t",
+      "page": 1,
+      "box": {
+        "left": 67.8,
+        "top": 607.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "updateChangeEnter": {
+      "type": "text",
+      "label": "UpdateChangeEnter",
+      "page": 1,
+      "box": {
+        "left": 507.6,
+        "top": 607.2,
+        "width": 64.8,
+        "height": 9.4
+      }
+    },
+    "secondary": {
+      "type": "text",
+      "label": "Secondary",
+      "page": 1,
+      "box": {
+        "left": 507.6,
+        "top": 590.7,
+        "width": 64.8,
+        "height": 9.4
+      }
+    },
+    "mAJCOMCode": {
+      "type": "choice",
+      "label": "(Enter Tertiary MAJCOM)",
+      "page": 1,
+      "box": {
+        "left": 349.6,
+        "top": 590.1,
+        "width": 51.0,
+        "height": 9.4
+      },
+      "options": [
+        "BLANK",
+        "B1    MCI EAST",
+        "B2    MCI WEST",
+        "B3    MCI PAC",
+        "C1    HQTRS USMC",
+        "C2    MCI COM",
+        "C3    MC RECRUITING COM",
+        "C4    TRNG & ED COM",
+        "C5    MARCORLOGCOM",
+        "C6    MARCORSYSCOM",
+        "H1    MARFORCOM",
+        "H2    MARFORPAC",
+        "H3    MARSOCOM",
+        "H4    MARFOREUCOM",
+        "H5    MARFORAFRICOM",
+        "H6    MARFORSOUTHCOM",
+        "H7    MARFORCENTCOM",
+        "H8    MARFORNORTHCOM",
+        "M1    I MEF",
+        "M2    II MEF",
+        "M3    III MEF",
+        "M7    VII MEF (MEF FWD)",
+        "P1    MPS-1",
+        "P2    MPS-2",
+        "P3    MPS-3",
+        "PB    PREPO PGM BIC",
+        "PN    MCPP-N",
+        "R1    MARFORRES"
+      ]
+    },
+    "unitRotation": {
+      "type": "checkbox",
+      "label": "D. UNIT ROTATION  (NOTE: If this DoDAAC Update is for a Unit Rotation, enter the DoDAAC of the other unit(s) involved here):\t\n\n",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 581.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "tertiary": {
+      "type": "text",
+      "label": "Tertiary",
+      "page": 1,
+      "box": {
+        "left": 507.6,
+        "top": 574.1,
+        "width": 64.8,
+        "height": 9.4
+      }
+    },
+    "mAJCOMCode3": {
+      "type": "choice",
+      "label": "(Enter Tertiary MAJCOM)",
+      "page": 1,
+      "box": {
+        "left": 350.4,
+        "top": 572.5,
+        "width": 51.0,
+        "height": 9.4
+      },
+      "options": [
+        "BLANK",
+        "B1    MCI EAST",
+        "B2    MCI WEST",
+        "B3    MCI PAC",
+        "C1    HQTRS USMC",
+        "C2    MCI COM",
+        "C3    MC RECRUITING COM",
+        "C4    TRNG & ED COM",
+        "C5    MARCORLOGCOM",
+        "C6    MARCORSYSCOM",
+        "H1    MARFORCOM",
+        "H2    MARFORPAC",
+        "H3    MARSOCOM",
+        "H4    MARFOREUCOM",
+        "H5    MARFORAFRICOM",
+        "H6    MARFORSOUTHCOM",
+        "H7    MARFORCENTCOM",
+        "H8    MARFORNORTHCOM",
+        "M1    I MEF",
+        "M2    II MEF",
+        "M3    III MEF",
+        "M7    VII MEF (MEF FWD)",
+        "P1    MPS-1",
+        "P2    MPS-2",
+        "P3    MPS-3",
+        "PB    PREPO PGM BIC",
+        "PN    MCPP-N",
+        "R1    MARFORRES"
+      ]
+    },
+    "newRIC": {
+      "type": "checkbox",
+      "label": "E. NEW RIC",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 542.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "newRICEnter": {
+      "type": "text",
+      "label": "NewRICEnter",
+      "page": 1,
+      "box": {
+        "left": 507.6,
+        "top": 542.2,
+        "width": 64.8,
+        "height": 9.4
+      }
+    },
+    "updateF": {
+      "type": "checkbox",
+      "label": "F. UPDATE\t",
+      "page": 1,
+      "box": {
+        "left": 68.5,
+        "top": 526.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "changeF": {
+      "type": "checkbox",
+      "label": "F. Change\t",
+      "page": 1,
+      "box": {
+        "left": 123.3,
+        "top": 526.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "deleteF": {
+      "type": "checkbox",
+      "label": "F. Delete",
+      "page": 1,
+      "box": {
+        "left": 179.7,
+        "top": 526.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "rICChange": {
+      "type": "text",
+      "label": "RICChange",
+      "page": 1,
+      "box": {
+        "left": 282.6,
+        "top": 525.7,
+        "width": 45.0,
+        "height": 9.4
+      }
+    },
+    "assocDoDAAC": {
+      "type": "text",
+      "label": "AssocDoDAAC",
+      "page": 1,
+      "box": {
+        "left": 507.6,
+        "top": 525.7,
+        "width": 64.8,
+        "height": 9.4
+      }
+    },
+    "reason": {
+      "type": "text",
+      "label": "G. REASON FOR REQUEST: (Provide a brief description why this request is being submitted. If new DoDAAC, ensure reason justifies Authority Code requested.)",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 501.0,
+        "width": 532.8,
+        "height": 38.7
+      },
+      "multiline": true
+    },
+    "uic": {
+      "type": "text",
+      "label": "1. UNIT IDENTIFICATION CODE (UIC): (Enter the Unit's UIC of this DoDAAC from either TFSMS or DRRS-MC.)",
+      "page": 1,
+      "box": {
+        "left": 266.1,
+        "top": 440.7,
+        "width": 70.8,
+        "height": 16.6
+      }
+    },
+    "procurement": {
+      "type": "text",
+      "label": "4. PROCUREMENT AUTHORITY FLAG: (Enter Y ONLY if authorized by HQMC LB to write contracts against this DoDAAC.)",
+      "page": 1,
+      "box": {
+        "left": 529.3,
+        "top": 440.7,
+        "width": 43.1,
+        "height": 16.6
+      }
+    },
+    "mAJCOMCode2": {
+      "type": "choice",
+      "label": "2. MAJOR COMMAND (MAJCOM) CODE: (Enter MAJCOM.)",
+      "page": 1,
+      "box": {
+        "left": 335.8,
+        "top": 416.9,
+        "width": 92.6,
+        "height": 9.4
+      },
+      "options": [
+        "BLANK",
+        "B1    MCI EAST",
+        "B2    MCI WEST",
+        "B3    MCI PAC",
+        "C1    HQTRS USMC",
+        "C2    MCI COM",
+        "C3    MC RECRUITING COM",
+        "C4    TRNG & ED COM",
+        "C5    MARCORLOGCOM",
+        "C6    MARCORSYSCOM",
+        "H1    MARFORCOM",
+        "H2    MARFORPAC",
+        "H3    MARSOCOM",
+        "H4    MARFOREUCOM",
+        "H5    MARFORAFRICOM",
+        "H6    MARFORSOUTHCOM",
+        "H7    MARFORCENTCOM",
+        "H8    MARFORNORTHCOM",
+        "M1    I MEF",
+        "M2    II MEF",
+        "M3    III MEF",
+        "M7    VII MEF (MEF FWD)",
+        "P1    MPS-1",
+        "P2    MPS-2",
+        "P3    MPS-3",
+        "PB    PREPO PGM BIC",
+        "PN    MCPP-N",
+        "R1    MARFORRES"
+      ]
+    },
+    "statusCOMMRI": {
+      "type": "text",
+      "label": "5. STATUS COMMRI:",
+      "page": 1,
+      "box": {
+        "left": 515.1,
+        "top": 416.9,
+        "width": 57.3,
+        "height": 9.4
+      }
+    },
+    "authorityCode2": {
+      "type": "choice",
+      "label": "3. AUTHORITY CODE: (Enter requested Authority Code. 00, 02, & 05 require Commander's approval.)",
+      "page": 1,
+      "box": {
+        "left": 335.5,
+        "top": 400.4,
+        "width": 92.9,
+        "height": 9.4
+      },
+      "options": [
+        "BLANK",
+        "00",
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07"
+      ]
+    },
+    "billingCOMMRI": {
+      "type": "text",
+      "label": "6. BILLING COMMRI:",
+      "page": 1,
+      "box": {
+        "left": 515.1,
+        "top": 400.4,
+        "width": 57.3,
+        "height": 9.4
+      }
+    },
+    "coutnry": {
+      "type": "text",
+      "label": "14A. COUNTRY (--mil-, fip-, fms-)",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 181.7,
+        "width": 262.8,
+        "height": 9.9
+      }
+    },
+    "stateProvince": {
+      "type": "text",
+      "label": "14B. STATE/PROVINCE:",
+      "page": 1,
+      "box": {
+        "left": 309.6,
+        "top": 181.7,
+        "width": 262.8,
+        "height": 9.9
+      }
+    },
+    "city": {
+      "type": "text",
+      "label": "14C. CITY:",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 156.5,
+        "width": 262.8,
+        "height": 9.9
+      }
+    },
+    "zip": {
+      "type": "text",
+      "label": "14D. ZIP CODE:",
+      "page": 1,
+      "box": {
+        "left": 309.6,
+        "top": 156.5,
+        "width": 127.8,
+        "height": 9.9
+      }
+    },
+    "t1IPCZIP": {
+      "type": "text",
+      "label": "14E. INTERNATIONAL ZIP CODE:",
+      "page": 1,
+      "box": {
+        "left": 444.6,
+        "top": 156.5,
+        "width": 127.8,
+        "height": 9.9
+      }
+    },
+    "adsnfsn5": {
+      "type": "text",
+      "label": "15. LINE 5 (RESERVED FOR DLA USE ONLY.)",
+      "page": 1,
+      "box": {
+        "left": 180.6,
+        "top": 139.4,
+        "width": 391.8,
+        "height": 9.4
+      }
+    },
+    "coutnry2": {
+      "type": "text",
+      "label": "19A. COUNTRY (--mil-, fip-, fms-)",
+      "page": 2,
+      "box": {
+        "left": 39.6,
+        "top": 611.5,
+        "width": 262.8,
+        "height": 9.9
+      }
+    },
+    "stateAPOProvince2": {
+      "type": "text",
+      "label": "19B. STATE/APO/PROVINCE:",
+      "page": 2,
+      "box": {
+        "left": 309.6,
+        "top": 611.5,
+        "width": 262.8,
+        "height": 9.9
+      }
+    },
+    "city2": {
+      "type": "text",
+      "label": "19C. CITY:",
+      "page": 2,
+      "box": {
+        "left": 39.6,
+        "top": 586.3,
+        "width": 262.8,
+        "height": 9.9
+      }
+    },
+    "zip2": {
+      "type": "text",
+      "label": "19D. ZIP CODE:",
+      "page": 2,
+      "box": {
+        "left": 309.6,
+        "top": 586.3,
+        "width": 127.8,
+        "height": 9.9
+      }
+    },
+    "t2IPCZIP": {
+      "type": "text",
+      "label": "19E. INTERNATIONAL ZIP CODE:",
+      "page": 2,
+      "box": {
+        "left": 444.6,
+        "top": 586.3,
+        "width": 127.8,
+        "height": 9.9
+      }
+    },
+    "adsnfsn6": {
+      "type": "text",
+      "label": "20. LINE 5 (RESERVED FOR DLA USE ONLY.)",
+      "page": 2,
+      "box": {
+        "left": 180.6,
+        "top": 569.2,
+        "width": 391.8,
+        "height": 9.4
+      }
+    },
+    "coutnry3": {
+      "type": "text",
+      "label": "24A. COUNTRY (--mil-, fip-, fms-)",
+      "page": 2,
+      "box": {
+        "left": 39.6,
+        "top": 439.3,
+        "width": 262.8,
+        "height": 9.9
+      }
+    },
+    "stateAPOProvince3": {
+      "type": "text",
+      "label": "24B. STATE/APO/PROVINCE:",
+      "page": 2,
+      "box": {
+        "left": 309.6,
+        "top": 439.3,
+        "width": 262.8,
+        "height": 9.9
+      }
+    },
+    "zip3": {
+      "type": "text",
+      "label": "24D. ZIP CODE:",
+      "page": 2,
+      "box": {
+        "left": 309.6,
+        "top": 414.2,
+        "width": 127.8,
+        "height": 9.9
+      }
+    },
+    "city3": {
+      "type": "text",
+      "label": "24C. CITY:",
+      "page": 2,
+      "box": {
+        "left": 39.6,
+        "top": 414.1,
+        "width": 262.8,
+        "height": 9.9
+      }
+    },
+    "t3IPCZIP": {
+      "type": "text",
+      "label": "24E. INTERNATIONAL ZIP CODE:",
+      "page": 2,
+      "box": {
+        "left": 444.6,
+        "top": 414.1,
+        "width": 127.8,
+        "height": 9.9
+      }
+    },
+    "adsnfsn7": {
+      "type": "text",
+      "label": "25. LINE 5 (RESERVED FOR DLA USE ONLY.)",
+      "page": 2,
+      "box": {
+        "left": 180.6,
+        "top": 397.0,
+        "width": 391.8,
+        "height": 9.4
+      }
+    },
+    "adsnfsn8": {
+      "type": "text",
+      "label": "26. ADSN/FSN: (Enter 067443, except for MCLC Navy Working Capital Fund DoDAAC's use 067004.)",
+      "page": 2,
+      "box": {
+        "left": 440.9,
+        "top": 380.5,
+        "width": 131.5,
+        "height": 9.4
+      }
+    },
+    "ccp": {
+      "type": "choice",
+      "label": "32. CONSOLIDATION AND \u2029CONTAINERIZATION POINT (CCP):",
+      "page": 2,
+      "box": {
+        "left": 39.6,
+        "top": 331.6,
+        "width": 118.8,
+        "height": 12.3
+      },
+      "options": [
+        "101 (W25N14)",
+        "301 (W26N2A) "
+      ]
+    },
+    "t2BBP": {
+      "type": "text",
+      "label": "33. BREAK BULK POINT: (Enter DoDAAC of\nsupporting DMO/TMO/DMC or any subsequent BBP.)",
+      "page": 2,
+      "box": {
+        "left": 165.6,
+        "top": 331.6,
+        "width": 144.0,
+        "height": 12.3
+      }
+    },
+    "t2APOD": {
+      "type": "text",
+      "label": "34. AERIAL PORT OF DEBARKATION\n(APOD): (Enter the applicable APOD.)",
+      "page": 2,
+      "box": {
+        "left": 316.8,
+        "top": 331.6,
+        "width": 122.4,
+        "height": 12.3
+      }
+    },
+    "t2WPOD": {
+      "type": "text",
+      "label": "35. WATER PORT OF DEBARKATION\n(WPOD): (Enter the applicable WPOD.)",
+      "page": 2,
+      "box": {
+        "left": 446.4,
+        "top": 331.6,
+        "width": 126.0,
+        "height": 12.3
+      }
+    },
+    "pOCName": {
+      "type": "text",
+      "label": "36. POC NAME: (Enter POC of person primarily associated with this DoDAAC; Last, First, Middle Initial. - For Contractor DoDAAC's, enter POC of Government representative.)",
+      "page": 2,
+      "box": {
+        "left": 39.6,
+        "top": 289.6,
+        "width": 532.8,
+        "height": 9.9
+      }
+    },
+    "pOCEmail": {
+      "type": "text",
+      "label": "37. POC E-MAIL:",
+      "page": 2,
+      "box": {
+        "left": 39.6,
+        "top": 264.4,
+        "width": 262.8,
+        "height": 9.9
+      }
+    },
+    "pOCPhoneNumber": {
+      "type": "text",
+      "label": "38. POC PHONE NUMBER: (10 digit commercial/DSN.)",
+      "page": 2,
+      "box": {
+        "left": 309.6,
+        "top": 264.4,
+        "width": 262.8,
+        "height": 9.9
+      }
+    },
+    "contractNumber": {
+      "type": "text",
+      "label": "39. CONTRACT NUMBER:",
+      "page": 3,
+      "box": {
+        "left": 39.6,
+        "top": 686.6,
+        "width": 208.8,
+        "height": 13.2
+      }
+    },
+    "cageCode": {
+      "type": "text",
+      "label": "40. CAGE CODE:",
+      "page": 3,
+      "box": {
+        "left": 255.6,
+        "top": 686.6,
+        "width": 100.8,
+        "height": 13.2
+      }
+    },
+    "contAdminOff": {
+      "type": "text",
+      "label": "41. CONTRACT ADMINISTRATION OFFICE: (Enter DoDAAC of Procurement Authority for this contract.)",
+      "page": 3,
+      "box": {
+        "left": 363.6,
+        "top": 686.6,
+        "width": 208.8,
+        "height": 13.2
+      }
+    },
+    "contractSponsor": {
+      "type": "text",
+      "label": "42. CONTRACT SPONSOR: (Enter Requisitioning DoDAAC of Command that funded this contract.)",
+      "page": 3,
+      "box": {
+        "left": 39.6,
+        "top": 658.1,
+        "width": 352.8,
+        "height": 9.9
+      }
+    },
+    "contExpDte": {
+      "type": "text",
+      "label": "43. CONTRACT EXPIRATION DATE:",
+      "page": 3,
+      "box": {
+        "left": 399.6,
+        "top": 658.1,
+        "width": 172.8,
+        "height": 9.9
+      }
+    },
+    "uic2": {
+      "type": "text",
+      "label": "44.a. CONTRACT SPONSOR: (Enter rank/full name of contracting officer or funding authority approving this contract.)",
+      "page": 3,
+      "box": {
+        "left": 142.2,
+        "top": 597.0,
+        "width": 160.2,
+        "height": 18.7
+      }
+    },
+    "sOSignature": {
+      "type": "signature",
+      "label": "b. SPONSOR SIGNATURE",
+      "page": 3,
+      "box": {
+        "left": 367.2,
+        "top": 597.0,
+        "width": 153.6,
+        "height": 18.7
+      }
+    },
+    "cSPDate": {
+      "type": "text",
+      "label": "c. Date",
+      "page": 3,
+      "box": {
+        "left": 528.0,
+        "top": 588.8,
+        "width": 44.4,
+        "height": 10.5
+      }
+    },
+    "uic3": {
+      "type": "text",
+      "label": "45.a. MANAGEMENT CONTROL ACTIVITY (MCA): (Enter rank/full name of MCA Authority approving this request.)",
+      "page": 3,
+      "box": {
+        "left": 142.1,
+        "top": 571.1,
+        "width": 160.3,
+        "height": 18.7
+      }
+    },
+    "sOSignature2": {
+      "type": "signature",
+      "label": "b. MCA (MAJCOM)",
+      "page": 3,
+      "box": {
+        "left": 367.8,
+        "top": 571.1,
+        "width": 153.6,
+        "height": 18.7
+      }
+    },
+    "cSPDate2": {
+      "type": "text",
+      "label": "c. Date",
+      "page": 3,
+      "box": {
+        "left": 528.0,
+        "top": 562.8,
+        "width": 44.4,
+        "height": 10.5
+      }
+    },
+    "uic4": {
+      "type": "text",
+      "label": "46.a. SUPPLY OFFICER: (Enter rank/full name if requesting full authority.)",
+      "page": 3,
+      "box": {
+        "left": 156.6,
+        "top": 497.4,
+        "width": 145.8,
+        "height": 18.7
+      }
+    },
+    "sOSignature3": {
+      "type": "signature",
+      "label": "b. SUPPLY OFFICER SIGNATURE",
+      "page": 3,
+      "box": {
+        "left": 372.6,
+        "top": 497.4,
+        "width": 148.2,
+        "height": 18.7
+      }
+    },
+    "cSPDate3": {
+      "type": "text",
+      "label": "c. Date",
+      "page": 3,
+      "box": {
+        "left": 528.0,
+        "top": 489.2,
+        "width": 44.4,
+        "height": 10.5
+      }
+    },
+    "uic5": {
+      "type": "text",
+      "label": "47.a. COMMANDING OFFICER: (Enter rank/full name of this DoDAAC's/RIC's authority.)",
+      "page": 3,
+      "box": {
+        "left": 156.6,
+        "top": 471.5,
+        "width": 145.8,
+        "height": 18.7
+      }
+    },
+    "sOSignature4": {
+      "type": "signature",
+      "label": "b. COMMANDER'S SIGNATURE",
+      "page": 3,
+      "box": {
+        "left": 372.6,
+        "top": 471.5,
+        "width": 148.2,
+        "height": 18.7
+      }
+    },
+    "cSPDate4": {
+      "type": "text",
+      "label": "c. Date",
+      "page": 3,
+      "box": {
+        "left": 528.0,
+        "top": 463.2,
+        "width": 44.4,
+        "height": 10.5
+      }
+    },
+    "uic6": {
+      "type": "text",
+      "label": "48.a. MAJCOM DoDAAC MONITOR: (Enter rank/full name MAJCOM Monitor.)",
+      "page": 3,
+      "box": {
+        "left": 157.2,
+        "top": 430.4,
+        "width": 145.2,
+        "height": 18.7
+      }
+    },
+    "sOSignature5": {
+      "type": "signature",
+      "label": "b. MAJCOM SIGNATURE",
+      "page": 3,
+      "box": {
+        "left": 373.2,
+        "top": 430.4,
+        "width": 148.2,
+        "height": 18.7
+      }
+    },
+    "cSPDate5": {
+      "type": "text",
+      "label": "c. Date",
+      "page": 3,
+      "box": {
+        "left": 528.0,
+        "top": 422.1,
+        "width": 44.4,
+        "height": 10.5
+      }
+    },
+    "name49a": {
+      "type": "text",
+      "label": "48.a. MAJCOM DoDAAC MONITOR: (Enter rank/full name MAJCOM Monitor.)",
+      "page": 3,
+      "box": {
+        "left": 156.9,
+        "top": 404.4,
+        "width": 145.2,
+        "height": 18.7
+      }
+    },
+    "sig49b": {
+      "type": "signature",
+      "label": "SIGNATURE",
+      "page": 3,
+      "box": {
+        "left": 373.1,
+        "top": 404.4,
+        "width": 148.7,
+        "height": 18.9
+      }
+    },
+    "date49c": {
+      "type": "text",
+      "label": "c. Date",
+      "page": 3,
+      "box": {
+        "left": 528.3,
+        "top": 395.7,
+        "width": 44.4,
+        "height": 10.5
+      }
+    },
+    "sOSignature6": {
+      "type": "signature",
+      "label": "b. HQMC APPROVAL SIGNATURE",
+      "page": 3,
+      "box": {
+        "left": 372.6,
+        "top": 361.5,
+        "width": 148.8,
+        "height": 18.7
+      }
+    },
+    "cageCode2": {
+      "type": "text",
+      "label": "                    Amplifying Comments",
+      "page": 3,
+      "box": {
+        "left": 205.4,
+        "top": 356.9,
+        "width": 98.5,
+        "height": 14.6
+      }
+    },
+    "authorityCode": {
+      "type": "choice",
+      "label": "Approved Code",
+      "page": 3,
+      "box": {
+        "left": 163.2,
+        "top": 356.2,
+        "width": 37.2,
+        "height": 12.7
+      },
+      "options": [
+        "00",
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07"
+      ]
+    },
+    "cSPDate6": {
+      "type": "text",
+      "label": "c. Date",
+      "page": 3,
+      "box": {
+        "left": 528.0,
+        "top": 353.3,
+        "width": 44.4,
+        "height": 10.5
+      }
+    },
+    "sOSignature7": {
+      "type": "signature",
+      "label": "b. CSP SIGNATURE",
+      "page": 3,
+      "box": {
+        "left": 373.2,
+        "top": 336.3,
+        "width": 148.2,
+        "height": 18.7
+      }
+    },
+    "cageCode3": {
+      "type": "text",
+      "label": "                                  Amplifying Comments",
+      "page": 3,
+      "box": {
+        "left": 160.4,
+        "top": 332.8,
+        "width": 143.6,
+        "height": 17.0
+      }
+    },
+    "cSPDate7": {
+      "type": "text",
+      "label": "c. Date",
+      "page": 3,
+      "box": {
+        "left": 528.0,
+        "top": 328.1,
+        "width": 44.4,
+        "height": 10.5
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 25.2,
+      "editor": "grid",
+      "columns": {
+        "t1ADDR": {
+          "type": "text",
+          "label": "11. LINE 1: (Enter first line of the Unit's official mailing address; normally unit/activity commander's title.)",
+          "page": 1,
+          "box": {
+            "left": 39.6,
+            "top": 272.5,
+            "width": 532.8,
+            "height": 9.9
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 4,
+      "rowStride": 16.57,
+      "editor": "grid",
+      "columns": {
+        "adsnfsn": {
+          "type": "text",
+          "label": "7. MAJOR COMMAND RECIPIENT IDENTIFIER (MRI):",
+          "page": 1,
+          "box": {
+            "left": 503.1,
+            "top": 361.2,
+            "width": 69.3,
+            "height": 9.4
+          }
+        }
+      }
+    },
+    "rows3": {
+      "title": "Rows",
+      "page": 2,
+      "count": 3,
+      "rowStride": 25.15,
+      "editor": "grid",
+      "columns": {
+        "t3ADDR": {
+          "type": "text",
+          "label": "21. LINE 1: (Enter first line of the Unit's official billing address.)",
+          "page": 2,
+          "box": {
+            "left": 39.6,
+            "top": 530.1,
+            "width": 532.8,
+            "height": 9.9
+          }
+        }
+      }
+    },
+    "rows4": {
+      "title": "Rows",
+      "page": 2,
+      "count": 3,
+      "rowStride": 25.2,
+      "editor": "grid",
+      "columns": {
+        "t2ADDR": {
+          "type": "text",
+          "label": "16. LINE 1: (Enter first line of the Unit's official shipping address; normally the supporting DMO/TMO.)",
+          "page": 2,
+          "box": {
+            "left": 39.6,
+            "top": 702.3,
+            "width": 532.8,
+            "height": 9.9
+          }
+        }
+      }
+    }
+  }
+}

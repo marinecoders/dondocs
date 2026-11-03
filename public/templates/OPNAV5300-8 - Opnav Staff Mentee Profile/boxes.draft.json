@@ -1,0 +1,194 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "dateField1": {
+        "left": 527.5,
+        "top": 703.3,
+        "width": 65.8,
+        "height": 13.4,
+        "type": "text",
+        "description": "Submit Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField1": {
+        "left": 23.0,
+        "top": 677.3,
+        "width": 253.2,
+        "height": 13.0,
+        "type": "text",
+        "description": "1. Name (First, Middle, Last)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField12": {
+        "left": 284.1,
+        "top": 677.3,
+        "width": 59.6,
+        "height": 13.0,
+        "type": "text",
+        "description": "2. Grade",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField13": {
+        "left": 351.6,
+        "top": 677.3,
+        "width": 239.7,
+        "height": 13.0,
+        "type": "text",
+        "description": "3. Position Title (Job)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField14": {
+        "left": 23.0,
+        "top": 650.3,
+        "width": 91.1,
+        "height": 13.0,
+        "type": "text",
+        "description": "4. Years of Service",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField15": {
+        "left": 122.1,
+        "top": 650.3,
+        "width": 91.1,
+        "height": 13.0,
+        "type": "text",
+        "description": "5. Department/N-Code",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField16": {
+        "left": 221.1,
+        "top": 650.3,
+        "width": 370.2,
+        "height": 13.0,
+        "type": "text",
+        "description": "6. Specialty Area",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField17": {
+        "left": 23.0,
+        "top": 623.3,
+        "width": 127.1,
+        "height": 13.0,
+        "type": "text",
+        "description": "7. Work Phone",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField18": {
+        "left": 158.1,
+        "top": 623.3,
+        "width": 433.2,
+        "height": 13.0,
+        "type": "text",
+        "description": "8. Work E-Mail",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField19": {
+        "left": 23.0,
+        "top": 596.3,
+        "width": 568.2,
+        "height": 40.0,
+        "type": "text",
+        "description": "9. Education",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField110": {
+        "left": 23.0,
+        "top": 542.3,
+        "width": 568.2,
+        "height": 75.3,
+        "type": "text",
+        "description": "10. Community Activities",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField111": {
+        "left": 23.0,
+        "top": 453.0,
+        "width": 568.2,
+        "height": 75.3,
+        "type": "text",
+        "description": "11. Professional Courses Attended",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField112": {
+        "left": 23.0,
+        "top": 363.7,
+        "width": 568.2,
+        "height": 75.3,
+        "type": "text",
+        "description": "12. Greatest Strengths",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField113": {
+        "left": 23.0,
+        "top": 274.4,
+        "width": 568.2,
+        "height": 75.3,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField114": {
+        "left": 23.0,
+        "top": 185.1,
+        "width": 568.2,
+        "height": 78.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField115": {
+        "left": 23.0,
+        "top": 93.1,
+        "width": 568.2,
+        "height": 71.5,
+        "type": "text",
+        "description": "15. Additional Information",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

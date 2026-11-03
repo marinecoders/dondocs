@@ -1,0 +1,172 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "fileNum": {
+        "left": 377.9,
+        "top": 709.1,
+        "width": 198.1,
+        "height": 17.1,
+        "type": "text",
+        "description": "File Number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date1": {
+        "left": 406.3,
+        "top": 681.2,
+        "width": 169.6,
+        "height": 17.7,
+        "type": "text",
+        "description": "Enter date using format 2002 06 27.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "subj1": {
+        "left": 35.4,
+        "top": 653.4,
+        "width": 277.9,
+        "height": 101.3,
+        "type": "text",
+        "description": "Subject",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "repOrgan": {
+        "left": 315.2,
+        "top": 653.4,
+        "width": 262.7,
+        "height": 101.3,
+        "type": "text",
+        "description": "Reporting Organization",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ref1": {
+        "left": 35.4,
+        "top": 545.2,
+        "width": 277.9,
+        "height": 101.3,
+        "type": "text",
+        "description": "References",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "repDist": {
+        "left": 315.2,
+        "top": 545.2,
+        "width": 263.3,
+        "height": 74.7,
+        "type": "text",
+        "description": "Distribution of Report",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "repOrig": {
+        "left": 315.2,
+        "top": 462.2,
+        "width": 261.4,
+        "height": 17.1,
+        "type": "text",
+        "description": "Origin of Report",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "encl1": {
+        "left": 35.4,
+        "top": 430.6,
+        "width": 277.9,
+        "height": 74.1,
+        "type": "text",
+        "description": "Enclosures",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "caseCat": {
+        "left": 315.2,
+        "top": 428.7,
+        "width": 261.4,
+        "height": 17.1,
+        "type": "text",
+        "description": "Case Character/Category",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "period1": {
+        "left": 315.2,
+        "top": 399.6,
+        "width": 261.4,
+        "height": 17.1,
+        "type": "text",
+        "description": "Period covered",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "status1": {
+        "left": 315.2,
+        "top": 373.6,
+        "width": 261.4,
+        "height": 17.1,
+        "type": "text",
+        "description": "Status",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "synop1": {
+        "left": 35.2,
+        "top": 348.0,
+        "width": 540.8,
+        "height": 249.6,
+        "type": "text",
+        "description": "Synopsis",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sigRepBy": {
+        "left": 34.8,
+        "top": 76.2,
+        "width": 284.2,
+        "height": 17.1,
+        "type": "text",
+        "description": "Signature. Reported by.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sigAppBy": {
+        "left": 320.3,
+        "top": 76.2,
+        "width": 257.6,
+        "height": 17.1,
+        "type": "text",
+        "description": "Signature. Approved by.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

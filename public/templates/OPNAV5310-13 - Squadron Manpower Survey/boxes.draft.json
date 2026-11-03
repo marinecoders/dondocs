@@ -1,0 +1,238 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 792,
+    "height": 612
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "rocpoedue": {
+        "left": 162.0,
+        "top": 530.3,
+        "width": 142.6,
+        "height": 12.8,
+        "type": "text",
+        "description": "Enter the ROC/POE due.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rcvd": {
+        "left": 372.0,
+        "top": 529.5,
+        "width": 86.4,
+        "height": 12.8,
+        "type": "text",
+        "description": "Enter the RCVD.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks": {
+        "left": 490.5,
+        "top": 519.2,
+        "width": 278.3,
+        "height": 366.3,
+        "type": "text",
+        "description": "Enter the remarks.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ladtSurveyDNSDate3": {
+        "left": 372.0,
+        "top": 512.1,
+        "width": 86.4,
+        "height": 12.8,
+        "type": "text",
+        "description": "Enter the final review date, using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "a3": {
+        "left": 372.0,
+        "top": 494.1,
+        "width": 86.4,
+        "height": 12.8,
+        "type": "text",
+        "description": "Enter all reviews RCVD.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "a4": {
+        "left": 372.0,
+        "top": 476.9,
+        "width": 86.4,
+        "height": 12.8,
+        "type": "text",
+        "description": "Enter the ADJUS. LTR Sent.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "a5": {
+        "left": 372.0,
+        "top": 459.6,
+        "width": 86.4,
+        "height": 12.8,
+        "type": "text",
+        "description": "Enter the 1000/4 final RCVD.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "a6": {
+        "left": 372.0,
+        "top": 442.5,
+        "width": 86.4,
+        "height": 12.8,
+        "type": "text",
+        "description": "Enter the 1000/4 sent to 121.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pGgraphic": {
+        "left": 372.0,
+        "top": 426.8,
+        "width": 86.4,
+        "height": 12.8,
+        "type": "text",
+        "description": "Enter the title PG to graphics.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "finalTRWDP": {
+        "left": 372.0,
+        "top": 409.5,
+        "width": 86.4,
+        "height": 12.8,
+        "type": "text",
+        "description": "Enter the final LTR WDP ID number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sndl9": {
+        "left": 372.0,
+        "top": 392.3,
+        "width": 86.4,
+        "height": 12.8,
+        "type": "text",
+        "description": "Enter the SNDL Ck. to P-GON.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "smooth10": {
+        "left": 372.0,
+        "top": 374.3,
+        "width": 86.4,
+        "height": 12.8,
+        "type": "text",
+        "description": "Enter smooth print RVCD.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ladtSurveyDNSDate32": {
+        "left": 179.2,
+        "top": 320.4,
+        "width": 126.8,
+        "height": 13.6,
+        "type": "text",
+        "description": "Enter the last survey date, using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ladtSurveyDNSDate33": {
+        "left": 179.2,
+        "top": 301.5,
+        "width": 126.8,
+        "height": 13.6,
+        "type": "text",
+        "description": "Enter the last survey date, using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "by1": {
+        "left": 50.2,
+        "top": 266.3,
+        "width": 72.1,
+        "height": 12.8,
+        "type": "text",
+        "description": "Enter by whom.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "currentNumber": {
+        "left": 252.7,
+        "top": 266.3,
+        "width": 142.6,
+        "height": 12.8,
+        "type": "text",
+        "description": "Enter the current number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "by2": {
+        "left": 50.2,
+        "top": 246.7,
+        "width": 72.1,
+        "height": 12.8,
+        "type": "text",
+        "description": "Enter by whom.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "newDocNumber": {
+        "left": 306.7,
+        "top": 246.7,
+        "width": 88.6,
+        "height": 12.8,
+        "type": "text",
+        "description": "Enter the document number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "survey": {
+        "left": 379.5,
+        "top": 74.3,
+        "width": 212.3,
+        "height": 27.4,
+        "type": "text",
+        "description": "Enter the survey.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unit": {
+        "left": 80.2,
+        "top": 72.7,
+        "width": 212.3,
+        "height": 27.4,
+        "type": "text",
+        "description": "Enter the unit.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

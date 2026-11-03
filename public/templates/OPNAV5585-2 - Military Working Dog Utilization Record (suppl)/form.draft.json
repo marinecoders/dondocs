@@ -1,0 +1,317 @@
+{
+  "id": "opnav55852",
+  "label": "OPNAV5585-2 - Military Working Dog Utilization Record (suppl)",
+  "directory": "OPNAV5585-2 - Military Working Dog Utilization Record (suppl)",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "month1",
+        "name1",
+        "tattoo1",
+        "age1",
+        "type1",
+        "location1",
+        "textField1",
+        "textField12",
+        "textField13",
+        "textField14",
+        "textField15",
+        "textField16",
+        "textField17"
+      ]
+    }
+  ],
+  "fields": {
+    "month1": {
+      "type": "text",
+      "label": "Enter the month and year using the format MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 618.5,
+        "top": 580.3,
+        "width": 144.2,
+        "height": 21.4
+      }
+    },
+    "name1": {
+      "type": "text",
+      "label": "Enter the name of the dog.",
+      "page": 1,
+      "box": {
+        "left": 28.3,
+        "top": 539.7,
+        "width": 124.6,
+        "height": 22.4
+      }
+    },
+    "tattoo1": {
+      "type": "text",
+      "label": "Enter the tattoo.",
+      "page": 1,
+      "box": {
+        "left": 158.9,
+        "top": 539.7,
+        "width": 84.9,
+        "height": 22.4
+      }
+    },
+    "age1": {
+      "type": "text",
+      "label": "Enter the age in years.",
+      "page": 1,
+      "box": {
+        "left": 250.3,
+        "top": 539.7,
+        "width": 84.9,
+        "height": 22.4
+      }
+    },
+    "type1": {
+      "type": "text",
+      "label": "Enter the type of dog.",
+      "page": 1,
+      "box": {
+        "left": 341.3,
+        "top": 539.7,
+        "width": 148.3,
+        "height": 22.4
+      }
+    },
+    "location1": {
+      "type": "text",
+      "label": "Enter the organization and location.",
+      "page": 1,
+      "box": {
+        "left": 495.7,
+        "top": 539.7,
+        "width": 267.0,
+        "height": 22.4
+      }
+    },
+    "textField1": {
+      "type": "text",
+      "label": "Enter the reviewer's signature and title.",
+      "page": 1,
+      "box": {
+        "left": 606.8,
+        "top": 93.5,
+        "width": 156.0,
+        "height": 45.2
+      },
+      "multiline": true
+    },
+    "textField12": {
+      "type": "text",
+      "label": "Enter the handler's name (last, first, middle initial).",
+      "page": 1,
+      "box": {
+        "left": 28.3,
+        "top": 93.1,
+        "width": 250.9,
+        "height": 13.2
+      }
+    },
+    "textField13": {
+      "type": "text",
+      "label": "Enter the grade.",
+      "page": 1,
+      "box": {
+        "left": 284.8,
+        "top": 93.1,
+        "width": 61.1,
+        "height": 13.2
+      }
+    },
+    "textField14": {
+      "type": "text",
+      "label": "Enter the handler's signature.",
+      "page": 1,
+      "box": {
+        "left": 351.6,
+        "top": 93.1,
+        "width": 248.8,
+        "height": 13.2
+      }
+    },
+    "textField15": {
+      "type": "text",
+      "label": "Enter the immediate supervisor's name (last, first, middle initial).",
+      "page": 1,
+      "box": {
+        "left": 28.3,
+        "top": 63.0,
+        "width": 250.9,
+        "height": 14.7
+      }
+    },
+    "textField16": {
+      "type": "text",
+      "label": "Enter the grade.",
+      "page": 1,
+      "box": {
+        "left": 284.8,
+        "top": 63.0,
+        "width": 61.1,
+        "height": 14.7
+      }
+    },
+    "textField17": {
+      "type": "text",
+      "label": "Enter the supervisor's signature.",
+      "page": 1,
+      "box": {
+        "left": 351.6,
+        "top": 63.0,
+        "width": 248.8,
+        "height": 14.7
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 22,
+      "rowStride": 17.35,
+      "editor": "grid",
+      "columns": {
+        "firstdate": {
+          "type": "text",
+          "label": "This is item 1 of 22. Enter the date using the format DD MMM YYYY.",
+          "page": 1,
+          "box": {
+            "left": 52.4,
+            "top": 489.0,
+            "width": 57.0,
+            "height": 14.5
+          }
+        },
+        "time": {
+          "type": "text",
+          "label": "Enter the time using the 24-hour clock (HHMM).  ",
+          "page": 1,
+          "box": {
+            "left": 115.7,
+            "top": 489.0,
+            "width": 41.4,
+            "height": 14.5
+          }
+        },
+        "location": {
+          "type": "text",
+          "label": "Enter the location.",
+          "page": 1,
+          "box": {
+            "left": 162.1,
+            "top": 489.0,
+            "width": 117.7,
+            "height": 14.5
+          }
+        },
+        "sub": {
+          "type": "text",
+          "label": "Enter the substance and/or item.",
+          "page": 1,
+          "box": {
+            "left": 284.1,
+            "top": 489.0,
+            "width": 123.3,
+            "height": 14.5
+          }
+        },
+        "uom": {
+          "type": "text",
+          "label": "Enter the unit of measure.",
+          "page": 1,
+          "box": {
+            "left": 411.6,
+            "top": 481.3,
+            "width": 34.6,
+            "height": 7.2
+          }
+        },
+        "qty": {
+          "type": "text",
+          "label": "Enter the quantity.",
+          "page": 1,
+          "box": {
+            "left": 411.6,
+            "top": 489.8,
+            "width": 34.6,
+            "height": 7.2
+          }
+        },
+        "test": {
+          "type": "text",
+          "label": "Enter the field test.",
+          "page": 1,
+          "box": {
+            "left": 450.2,
+            "top": 489.0,
+            "width": 36.1,
+            "height": 14.5
+          }
+        },
+        "thedate": {
+          "type": "text",
+          "label": "Enter the field test date using the format DD MMM YYYY.",
+          "page": 1,
+          "box": {
+            "left": 488.3,
+            "top": 489.0,
+            "width": 54.2,
+            "height": 14.5
+          }
+        },
+        "labtest": {
+          "type": "text",
+          "label": "Enter the lab test.",
+          "page": 1,
+          "box": {
+            "left": 546.4,
+            "top": 489.0,
+            "width": 38.7,
+            "height": 14.5
+          }
+        },
+        "date": {
+          "type": "text",
+          "label": "Enter the lab test date using the format DD MMM YYYY.",
+          "page": 1,
+          "box": {
+            "left": 587.2,
+            "top": 489.0,
+            "width": 53.5,
+            "height": 14.5
+          }
+        },
+        "casenum": {
+          "type": "text",
+          "label": "Enter the case number.",
+          "page": 1,
+          "box": {
+            "left": 644.9,
+            "top": 489.0,
+            "width": 89.0,
+            "height": 14.5
+          }
+        },
+        "the": {
+          "type": "text",
+          "label": "Use reverse side for remarks and monthly performance and/or\r\n evaluation summary (refer to item number).",
+          "page": 1,
+          "box": {
+            "left": 736.9,
+            "top": 489.0,
+            "width": 24.8,
+            "height": 14.5
+          }
+        }
+      }
+    }
+  }
+}

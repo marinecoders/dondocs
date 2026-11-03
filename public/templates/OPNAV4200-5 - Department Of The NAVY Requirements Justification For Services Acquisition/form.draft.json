@@ -1,0 +1,524 @@
+{
+  "id": "opnav42005",
+  "label": "OPNAV4200-5 - Department Of The NAVY Requirements Justification For Services Acquisition",
+  "directory": "OPNAV4200-5 - Department Of The NAVY Requirements Justification For Services Acquisition",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "requirementName",
+        "descriptionOfFunctionalNeedServicesRequired",
+        "totalNumberOfYears",
+        "checkBox1",
+        "checkBox2",
+        "igceAmount",
+        "poPStartDate",
+        "other1",
+        "checkBox3",
+        "checkBox5",
+        "other2",
+        "checkBox4",
+        "checkBox6",
+        "marketResearchSummary",
+        "originatorSName",
+        "originatorSOrganization",
+        "originator",
+        "originatorSEMailAddress",
+        "fundsHolderSName",
+        "fundsHolder",
+        "checkBox7",
+        "fundsHolderSOrganization",
+        "fundsHolderSEMailAddress",
+        "checkBox8",
+        "orrbNo",
+        "cwgLeadSName",
+        "cwgLeadSOrganization",
+        "checkBox9",
+        "cwgLead",
+        "cwgLeadSEMailAddress",
+        "checkBox10",
+        "cwgLeadSComments",
+        "cwgExecChairORRBDecisionAuthoritySName",
+        "cwgExecChairORRBDecisionAuthoritySOrganization",
+        "checkBox11",
+        "cwgExecutiveChairORRBDecisionAuthority",
+        "cwgExecChairORRBDecisionAuthoritySEMailAddress",
+        "checkBox12",
+        "controlledBy",
+        "cuiCategority",
+        "ldc",
+        "poc"
+      ]
+    }
+  ],
+  "fields": {
+    "requirementName": {
+      "type": "text",
+      "label": "1. REQUIREMENT NAME",
+      "page": 1,
+      "box": {
+        "left": 161.0,
+        "top": 709.3,
+        "width": 410.8,
+        "height": 12.0
+      }
+    },
+    "descriptionOfFunctionalNeedServicesRequired": {
+      "type": "text",
+      "label": "1. REQUIREMENT NAME",
+      "page": 1,
+      "box": {
+        "left": 37.3,
+        "top": 686.8,
+        "width": 534.1,
+        "height": 85.9
+      },
+      "multiline": true
+    },
+    "totalNumberOfYears": {
+      "type": "text",
+      "label": "3. OCCURANCE",
+      "page": 1,
+      "box": {
+        "left": 339.7,
+        "top": 600.3,
+        "width": 81.6,
+        "height": 24.7
+      }
+    },
+    "checkBox1": {
+      "type": "checkbox",
+      "label": "3. OCCURANCE",
+      "page": 1,
+      "box": {
+        "left": 156.6,
+        "top": 599.8,
+        "width": 18.0,
+        "height": 12.3
+      }
+    },
+    "checkBox2": {
+      "type": "checkbox",
+      "label": "FUNCTIONAL",
+      "page": 1,
+      "box": {
+        "left": 156.6,
+        "top": 587.6,
+        "width": 18.0,
+        "height": 11.9
+      }
+    },
+    "igceAmount": {
+      "type": "text",
+      "label": "(i.e., the base, plus all options)",
+      "page": 1,
+      "box": {
+        "left": 423.8,
+        "top": 576.4,
+        "width": 147.6,
+        "height": 12.1
+      }
+    },
+    "poPStartDate": {
+      "type": "text",
+      "label": "5. REQUIRED PERIOD OF PERFORMANCE (POP) START DATE",
+      "page": 1,
+      "box": {
+        "left": 343.1,
+        "top": 563.3,
+        "width": 227.9,
+        "height": 12.1
+      }
+    },
+    "other1": {
+      "type": "text",
+      "label": "c. IGCE: (Required)",
+      "page": 1,
+      "box": {
+        "left": 398.8,
+        "top": 539.1,
+        "width": 127.4,
+        "height": 12.2
+      }
+    },
+    "checkBox3": {
+      "type": "checkbox",
+      "label": "a. HIRING FREEZE ACKNOWLEDGEMENT",
+      "page": 1,
+      "box": {
+        "left": 279.8,
+        "top": 538.2,
+        "width": 19.2,
+        "height": 10.0
+      }
+    },
+    "checkBox5": {
+      "type": "checkbox",
+      "label": "c. IGCE: (Required)",
+      "page": 1,
+      "box": {
+        "left": 538.2,
+        "top": 537.8,
+        "width": 18.4,
+        "height": 9.6
+      }
+    },
+    "other2": {
+      "type": "text",
+      "label": "d. OTHER",
+      "page": 1,
+      "box": {
+        "left": 398.7,
+        "top": 527.3,
+        "width": 127.5,
+        "height": 12.6
+      }
+    },
+    "checkBox4": {
+      "type": "checkbox",
+      "label": "b. PERFORMANCE WORK STATEMENT : (Required)",
+      "page": 1,
+      "box": {
+        "left": 279.8,
+        "top": 525.9,
+        "width": 19.2,
+        "height": 9.9
+      }
+    },
+    "checkBox6": {
+      "type": "checkbox",
+      "label": "d. OTHER",
+      "page": 1,
+      "box": {
+        "left": 538.2,
+        "top": 525.5,
+        "width": 18.4,
+        "height": 9.5
+      }
+    },
+    "marketResearchSummary": {
+      "type": "text",
+      "label": "7. MARKET RESEARCH SUMMARY (e.g., potential sources)",
+      "page": 1,
+      "box": {
+        "left": 36.9,
+        "top": 503.9,
+        "width": 535.7,
+        "height": 75.4
+      },
+      "multiline": true
+    },
+    "originatorSName": {
+      "type": "text",
+      "label": "a. NAME",
+      "page": 1,
+      "box": {
+        "left": 85.2,
+        "top": 417.5,
+        "width": 335.8,
+        "height": 13.6
+      }
+    },
+    "originatorSOrganization": {
+      "type": "text",
+      "label": "b. ORGANIZATION",
+      "page": 1,
+      "box": {
+        "left": 131.8,
+        "top": 405.3,
+        "width": 289.5,
+        "height": 13.6
+      }
+    },
+    "originator": {
+      "type": "signature",
+      "label": "c. E-MAIL ADDRESS",
+      "page": 1,
+      "box": {
+        "left": 422.2,
+        "top": 404.7,
+        "width": 150.2,
+        "height": 25.4
+      }
+    },
+    "originatorSEMailAddress": {
+      "type": "text",
+      "label": "c. E-MAIL ADDRESS",
+      "page": 1,
+      "box": {
+        "left": 139.5,
+        "top": 393.2,
+        "width": 281.8,
+        "height": 14.4
+      }
+    },
+    "fundsHolderSName": {
+      "type": "text",
+      "label": "a. NAME",
+      "page": 1,
+      "box": {
+        "left": 84.0,
+        "top": 368.0,
+        "width": 215.7,
+        "height": 13.5
+      }
+    },
+    "fundsHolder": {
+      "type": "signature",
+      "label": "d. SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 420.9,
+        "top": 356.5,
+        "width": 150.6,
+        "height": 25.8
+      }
+    },
+    "checkBox7": {
+      "type": "checkbox",
+      "label": "b. ORGANIZATION",
+      "page": 1,
+      "box": {
+        "left": 311.1,
+        "top": 355.2,
+        "width": 18.0,
+        "height": 12.7
+      }
+    },
+    "fundsHolderSOrganization": {
+      "type": "text",
+      "label": "b. ORGANIZATION",
+      "page": 1,
+      "box": {
+        "left": 132.2,
+        "top": 354.9,
+        "width": 167.8,
+        "height": 12.1
+      }
+    },
+    "fundsHolderSEMailAddress": {
+      "type": "text",
+      "label": "c. E-MAIL ADDRESS",
+      "page": 1,
+      "box": {
+        "left": 140.3,
+        "top": 343.7,
+        "width": 159.3,
+        "height": 13.0
+      }
+    },
+    "checkBox8": {
+      "type": "checkbox",
+      "label": "c. E-MAIL ADDRESS",
+      "page": 1,
+      "box": {
+        "left": 311.1,
+        "top": 342.6,
+        "width": 18.0,
+        "height": 12.3
+      }
+    },
+    "orrbNo": {
+      "type": "text",
+      "label": "10. ASSIGNED OPNAV REQUIREMENTS REVIEW BOARD (ORRB) NUMBER",
+      "page": 1,
+      "box": {
+        "left": 402.9,
+        "top": 319.5,
+        "width": 168.9,
+        "height": 13.7
+      }
+    },
+    "cwgLeadSName": {
+      "type": "text",
+      "label": "a. NAME",
+      "page": 1,
+      "box": {
+        "left": 86.0,
+        "top": 294.6,
+        "width": 214.9,
+        "height": 13.0
+      }
+    },
+    "cwgLeadSOrganization": {
+      "type": "text",
+      "label": "b. ORGANIZATION",
+      "page": 1,
+      "box": {
+        "left": 132.2,
+        "top": 282.8,
+        "width": 168.2,
+        "height": 12.0
+      }
+    },
+    "checkBox9": {
+      "type": "checkbox",
+      "label": "b. ORGANIZATION",
+      "page": 1,
+      "box": {
+        "left": 310.7,
+        "top": 282.2,
+        "width": 18.0,
+        "height": 13.1
+      }
+    },
+    "cwgLead": {
+      "type": "signature",
+      "label": "DISAPPROVE",
+      "page": 1,
+      "box": {
+        "left": 421.8,
+        "top": 282.2,
+        "width": 151.0,
+        "height": 25.3
+      }
+    },
+    "cwgLeadSEMailAddress": {
+      "type": "text",
+      "label": "c. E-MAIL ADDRESS",
+      "page": 1,
+      "box": {
+        "left": 139.5,
+        "top": 270.7,
+        "width": 161.0,
+        "height": 13.9
+      }
+    },
+    "checkBox10": {
+      "type": "checkbox",
+      "label": "c. E-MAIL ADDRESS",
+      "page": 1,
+      "box": {
+        "left": 310.7,
+        "top": 269.6,
+        "width": 18.0,
+        "height": 11.9
+      }
+    },
+    "cwgLeadSComments": {
+      "type": "text",
+      "label": "f. COMMENTS",
+      "page": 1,
+      "box": {
+        "left": 36.7,
+        "top": 246.6,
+        "width": 535.6,
+        "height": 76.3
+      },
+      "multiline": true
+    },
+    "cwgExecChairORRBDecisionAuthoritySName": {
+      "type": "text",
+      "label": "a. NAME",
+      "page": 1,
+      "box": {
+        "left": 86.8,
+        "top": 118.1,
+        "width": 213.7,
+        "height": 12.9
+      }
+    },
+    "cwgExecChairORRBDecisionAuthoritySOrganization": {
+      "type": "text",
+      "label": "b. ORGANIZATION",
+      "page": 1,
+      "box": {
+        "left": 134.2,
+        "top": 105.6,
+        "width": 166.2,
+        "height": 13.5
+      }
+    },
+    "checkBox11": {
+      "type": "checkbox",
+      "label": "b. ORGANIZATION",
+      "page": 1,
+      "box": {
+        "left": 311.1,
+        "top": 104.6,
+        "width": 18.0,
+        "height": 11.1
+      }
+    },
+    "cwgExecutiveChairORRBDecisionAuthority": {
+      "type": "signature",
+      "label": "DISAPPROVE",
+      "page": 1,
+      "box": {
+        "left": 420.8,
+        "top": 103.7,
+        "width": 151.1,
+        "height": 24.1
+      }
+    },
+    "cwgExecChairORRBDecisionAuthoritySEMailAddress": {
+      "type": "text",
+      "label": "c. E-MAIL ADDRESS",
+      "page": 1,
+      "box": {
+        "left": 141.9,
+        "top": 93.3,
+        "width": 158.5,
+        "height": 14.1
+      }
+    },
+    "checkBox12": {
+      "type": "checkbox",
+      "label": "c. E-MAIL ADDRESS",
+      "page": 1,
+      "box": {
+        "left": 311.1,
+        "top": 92.4,
+        "width": 18.0,
+        "height": 12.3
+      }
+    },
+    "controlledBy": {
+      "type": "text",
+      "label": "CUI (when filled in) CONTROLLED BY",
+      "page": 1,
+      "box": {
+        "left": 420.2,
+        "top": 79.0,
+        "width": 107.8,
+        "height": 9.4
+      }
+    },
+    "cuiCategority": {
+      "type": "text",
+      "label": "CUI CATEGORITY",
+      "page": 1,
+      "box": {
+        "left": 420.2,
+        "top": 69.7,
+        "width": 107.8,
+        "height": 9.8
+      }
+    },
+    "ldc": {
+      "type": "text",
+      "label": "LDC",
+      "page": 1,
+      "box": {
+        "left": 420.2,
+        "top": 60.4,
+        "width": 107.8,
+        "height": 10.6
+      }
+    },
+    "poc": {
+      "type": "text",
+      "label": "POC",
+      "page": 1,
+      "box": {
+        "left": 420.2,
+        "top": 50.2,
+        "width": 107.8,
+        "height": 10.6
+      }
+    }
+  }
+}

@@ -1,0 +1,403 @@
+{
+  "id": "opnav531014",
+  "label": "OPNAV5310-14 - ManpowerOrganization Change Request",
+  "directory": "OPNAV5310-14 - ManpowerOrganization Change Request",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "lastname1",
+        "firstname1",
+        "middleinitial1",
+        "rank1",
+        "manpower1",
+        "billet1",
+        "billet2",
+        "bsc1",
+        "bsc2",
+        "ncodE",
+        "ncodE2",
+        "uic1",
+        "uic2",
+        "room1",
+        "room2",
+        "telephone",
+        "telephone2",
+        "name1",
+        "telephone3",
+        "ncode2",
+        "signature1",
+        "dNSDate1",
+        "requestnumber1",
+        "no9b20",
+        "no9b21",
+        "no9b23",
+        "no9bbd",
+        "approved1",
+        "disapproved1",
+        "comment1",
+        "dNSDate2",
+        "signature2"
+      ]
+    }
+  ],
+  "fields": {
+    "lastname1": {
+      "type": "text",
+      "label": "Enter the last name of the individual for whom the change is being requested.",
+      "page": 1,
+      "box": {
+        "left": 60.6,
+        "top": 683.5,
+        "width": 99.2,
+        "height": 19.8
+      }
+    },
+    "firstname1": {
+      "type": "text",
+      "label": "Enter the first name of the individual for whom the change is being requested.",
+      "page": 1,
+      "box": {
+        "left": 178.4,
+        "top": 683.5,
+        "width": 99.2,
+        "height": 19.8
+      }
+    },
+    "middleinitial1": {
+      "type": "text",
+      "label": "Enter the middle initial of the individual for whom the change is being requested.",
+      "page": 1,
+      "box": {
+        "left": 293.4,
+        "top": 683.5,
+        "width": 38.8,
+        "height": 19.8
+      }
+    },
+    "rank1": {
+      "type": "text",
+      "label": "Enter the rank/rate/and or grade of the individual for whom the change is being requested.",
+      "page": 1,
+      "box": {
+        "left": 346.9,
+        "top": 683.5,
+        "width": 213.3,
+        "height": 19.8
+      }
+    },
+    "manpower1": {
+      "type": "text",
+      "label": "Enter the nature of manpower/organization change(s) requested\r\n (this form is not a substitute for SF-52 \r\n(request for personnel action) forms required for civilian personnel\r\n changes under FPM supplement 296-33).",
+      "page": 1,
+      "box": {
+        "left": 57.8,
+        "top": 610.8,
+        "width": 501.8,
+        "height": 43.4
+      },
+      "multiline": true
+    },
+    "billet1": {
+      "type": "text",
+      "label": "Enter the billet/position title of the sender.",
+      "page": 1,
+      "box": {
+        "left": 58.3,
+        "top": 532.1,
+        "width": 234.1,
+        "height": 23.1
+      }
+    },
+    "billet2": {
+      "type": "text",
+      "label": "Enter the billet/position title of the addressee.",
+      "page": 1,
+      "box": {
+        "left": 310.1,
+        "top": 532.1,
+        "width": 246.2,
+        "height": 23.1
+      }
+    },
+    "bsc1": {
+      "type": "text",
+      "label": "Enter the BSC/BPC of the sender.",
+      "page": 1,
+      "box": {
+        "left": 109.3,
+        "top": 499.8,
+        "width": 183.1,
+        "height": 16.6
+      }
+    },
+    "bsc2": {
+      "type": "text",
+      "label": "Enter the BSC/BPC of the addressee.",
+      "page": 1,
+      "box": {
+        "left": 361.1,
+        "top": 499.8,
+        "width": 195.2,
+        "height": 16.6
+      }
+    },
+    "ncodE": {
+      "type": "text",
+      "label": "Enter the N code of the sender.",
+      "page": 1,
+      "box": {
+        "left": 98.8,
+        "top": 476.3,
+        "width": 193.6,
+        "height": 16.9
+      }
+    },
+    "ncodE2": {
+      "type": "text",
+      "label": "Enter the N code of the addressee.",
+      "page": 1,
+      "box": {
+        "left": 350.6,
+        "top": 476.3,
+        "width": 205.7,
+        "height": 16.9
+      }
+    },
+    "uic1": {
+      "type": "text",
+      "label": "Enter the UIC of the sender.",
+      "page": 1,
+      "box": {
+        "left": 83.0,
+        "top": 452.9,
+        "width": 209.4,
+        "height": 18.0
+      }
+    },
+    "uic2": {
+      "type": "text",
+      "label": "Enter the UIC of the addressee.",
+      "page": 1,
+      "box": {
+        "left": 334.9,
+        "top": 452.9,
+        "width": 221.4,
+        "height": 18.0
+      }
+    },
+    "room1": {
+      "type": "text",
+      "label": "Enter the building/ and or room of the sender.",
+      "page": 1,
+      "box": {
+        "left": 114.5,
+        "top": 428.2,
+        "width": 177.9,
+        "height": 16.6
+      }
+    },
+    "room2": {
+      "type": "text",
+      "label": "Enter the building/ and or room of the addressee.",
+      "page": 1,
+      "box": {
+        "left": 366.4,
+        "top": 428.2,
+        "width": 189.9,
+        "height": 16.6
+      }
+    },
+    "telephone": {
+      "type": "text",
+      "label": "Enter the telephone number of the sender.",
+      "page": 1,
+      "box": {
+        "left": 112.3,
+        "top": 404.7,
+        "width": 180.1,
+        "height": 16.7
+      }
+    },
+    "telephone2": {
+      "type": "text",
+      "label": "Enter the telephone number of the addressee.",
+      "page": 1,
+      "box": {
+        "left": 364.1,
+        "top": 404.7,
+        "width": 192.2,
+        "height": 16.7
+      }
+    },
+    "name1": {
+      "type": "text",
+      "label": "Enter the point of contact name for additional information.",
+      "page": 1,
+      "box": {
+        "left": 213.0,
+        "top": 378.6,
+        "width": 181.8,
+        "height": 17.4
+      }
+    },
+    "telephone3": {
+      "type": "text",
+      "label": "Enter the point of contact phone number to call for additional information.",
+      "page": 1,
+      "box": {
+        "left": 415.5,
+        "top": 378.6,
+        "width": 141.4,
+        "height": 17.3
+      }
+    },
+    "ncode2": {
+      "type": "text",
+      "label": "Enter the N code.",
+      "page": 1,
+      "box": {
+        "left": 213.0,
+        "top": 340.1,
+        "width": 68.6,
+        "height": 18.0
+      }
+    },
+    "signature1": {
+      "type": "text",
+      "label": "Type the name and signature of the requesting division director.",
+      "page": 1,
+      "box": {
+        "left": 292.3,
+        "top": 340.1,
+        "width": 161.0,
+        "height": 18.0
+      }
+    },
+    "dNSDate1": {
+      "type": "text",
+      "label": "Enter the date signed using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 462.4,
+        "top": 340.1,
+        "width": 94.4,
+        "height": 17.9
+      }
+    },
+    "requestnumber1": {
+      "type": "text",
+      "label": "Enter the request number.",
+      "page": 1,
+      "box": {
+        "left": 399.4,
+        "top": 294.2,
+        "width": 151.6,
+        "height": 19.8
+      }
+    },
+    "no9b20": {
+      "type": "text",
+      "label": "Enter the manpower/organization/resource reviewer for N09B20 to be completed by N09B.",
+      "page": 1,
+      "box": {
+        "left": 62.1,
+        "top": 234.9,
+        "width": 99.2,
+        "height": 17.0
+      }
+    },
+    "no9b21": {
+      "type": "text",
+      "label": "Enter the manpower/organization/resource reviewer for N09B21 to be completed by N09B.",
+      "page": 1,
+      "box": {
+        "left": 186.1,
+        "top": 234.9,
+        "width": 99.2,
+        "height": 17.0
+      }
+    },
+    "no9b23": {
+      "type": "text",
+      "label": "Enter the manpower/organization/resource reviewer for N09B23 to be completed by N09B.",
+      "page": 1,
+      "box": {
+        "left": 309.2,
+        "top": 234.9,
+        "width": 99.2,
+        "height": 17.0
+      }
+    },
+    "no9bbd": {
+      "type": "text",
+      "label": "Enter the manpower/organization/resource reviewer for N09BD to be completed by N09B.",
+      "page": 1,
+      "box": {
+        "left": 433.6,
+        "top": 234.9,
+        "width": 99.2,
+        "height": 17.0
+      }
+    },
+    "approved1": {
+      "type": "text",
+      "label": "Enter approved by whom.",
+      "page": 1,
+      "box": {
+        "left": 132.8,
+        "top": 180.3,
+        "width": 168.9,
+        "height": 16.6
+      }
+    },
+    "disapproved1": {
+      "type": "text",
+      "label": "Enter disapproved by whom.",
+      "page": 1,
+      "box": {
+        "left": 133.5,
+        "top": 158.0,
+        "width": 168.1,
+        "height": 16.6
+      }
+    },
+    "comment1": {
+      "type": "text",
+      "label": "Enter the comments if any.",
+      "page": 1,
+      "box": {
+        "left": 128.2,
+        "top": 135.7,
+        "width": 432.0,
+        "height": 30.2
+      },
+      "multiline": true
+    },
+    "dNSDate2": {
+      "type": "text",
+      "label": "Enter the date signed using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 465.9,
+        "top": 98.2,
+        "width": 94.4,
+        "height": 17.9
+      }
+    },
+    "signature2": {
+      "type": "text",
+      "label": "Enter the signature of N09B2.",
+      "page": 1,
+      "box": {
+        "left": 229.2,
+        "top": 97.1,
+        "width": 189.5,
+        "height": 16.9
+      }
+    }
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "id": "navmchq73702",
+  "label": "NAVMC HQ 737-02 - Aviation Safety Unit Award (sample Format)",
+  "directory": "NAVMCHQ737-02 - Aviation Safety Unit Award (sample Format)",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "printingNote",
+        "name",
+        "number",
+        "date",
+        "datePresented"
+      ]
+    }
+  ],
+  "fields": {
+    "printingNote": {
+      "type": "text",
+      "label": "Printing Note",
+      "page": 1,
+      "box": {
+        "left": 16.1,
+        "top": 595.3,
+        "width": 160.8,
+        "height": 56.6
+      },
+      "multiline": true
+    },
+    "name": {
+      "type": "text",
+      "label": "Name",
+      "page": 1,
+      "box": {
+        "left": 218.2,
+        "top": 247.0,
+        "width": 346.1,
+        "height": 16.2
+      }
+    },
+    "number": {
+      "type": "text",
+      "label": "Number",
+      "page": 1,
+      "box": {
+        "left": 324.0,
+        "top": 188.9,
+        "width": 146.1,
+        "height": 16.2
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 317.0,
+        "top": 98.5,
+        "width": 146.1,
+        "height": 16.2
+      }
+    },
+    "datePresented": {
+      "type": "text",
+      "label": "Date Presented",
+      "page": 1,
+      "box": {
+        "left": 89.9,
+        "top": 67.2,
+        "width": 146.1,
+        "height": 16.2
+      }
+    }
+  }
+}

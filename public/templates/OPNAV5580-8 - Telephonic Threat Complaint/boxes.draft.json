@@ -1,0 +1,563 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "nameadd": {
+        "left": 37.2,
+        "top": 641.2,
+        "width": 415.2,
+        "height": 21.8,
+        "type": "text",
+        "description": "Enter the name (last, first, middle initial) and address.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "telephone": {
+        "left": 454.6,
+        "top": 641.2,
+        "width": 120.8,
+        "height": 21.7,
+        "type": "text",
+        "description": "Enter the telephone number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comname": {
+        "left": 37.2,
+        "top": 597.9,
+        "width": 538.1,
+        "height": 12.2,
+        "type": "text",
+        "description": "Enter the name (last, first, middle initial) of the complainant.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "place": {
+        "left": 410.7,
+        "top": 564.1,
+        "width": 164.4,
+        "height": 12.8,
+        "type": "text",
+        "description": "Enter the place of birth.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pername": {
+        "left": 37.2,
+        "top": 563.6,
+        "width": 272.1,
+        "height": 12.2,
+        "type": "text",
+        "description": "Enter the name (last, first, middle initial) of the person receiving the call.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date1": {
+        "left": 311.1,
+        "top": 563.6,
+        "width": 97.7,
+        "height": 12.2,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY).  ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "commname": {
+        "left": 37.2,
+        "top": 537.7,
+        "width": 272.1,
+        "height": 30.8,
+        "type": "text",
+        "description": "Enter the command name and address.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "worktelephone": {
+        "left": 311.1,
+        "top": 528.7,
+        "width": 141.6,
+        "height": 21.7,
+        "type": "text",
+        "description": "Enter the work telephone number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hometelephone": {
+        "left": 454.6,
+        "top": 528.7,
+        "width": 120.8,
+        "height": 21.7,
+        "type": "text",
+        "description": "Enter the home telephone number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "areatelephone": {
+        "left": 37.2,
+        "top": 485.4,
+        "width": 272.1,
+        "height": 13.9,
+        "type": "text",
+        "description": "Enter the telephone number for the call received on.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "loco": {
+        "left": 311.1,
+        "top": 485.4,
+        "width": 264.0,
+        "height": 13.9,
+        "type": "text",
+        "description": "Enter the location.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "phonelist1": {
+        "left": 270.8,
+        "top": 457.2,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select Command Directory for the phone number listed in.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "phonelist2": {
+        "left": 384.0,
+        "top": 457.2,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select Base Directory for the phone number listed in.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "phonelist3": {
+        "left": 494.1,
+        "top": 457.2,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select Local Directory for the phone number listed in.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "other": {
+        "left": 239.7,
+        "top": 442.6,
+        "width": 335.6,
+        "height": 15.0,
+        "type": "text",
+        "description": "Enter the other telephone listing.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "phonelist4": {
+        "left": 70.0,
+        "top": 438.1,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select Unlisted for the phone number listed in.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "phonelist5": {
+        "left": 194.3,
+        "top": 438.1,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select Other for the phone number listed in.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date2": {
+        "left": 37.2,
+        "top": 406.1,
+        "width": 219.2,
+        "height": 11.1,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) for the details of the call.  ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "days": {
+        "left": 258.3,
+        "top": 406.1,
+        "width": 189.9,
+        "height": 11.1,
+        "type": "choice",
+        "description": "Enter the day of the week.",
+        "options": [
+          "Sunday",
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday"
+        ],
+        "group": null,
+        "required": false
+      },
+      "hourtime": {
+        "left": 450.1,
+        "top": 406.1,
+        "width": 125.3,
+        "height": 11.1,
+        "type": "text",
+        "description": "Enter the time using the 24 hour clock.  ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "contextname1": {
+        "left": 92.5,
+        "top": 380.8,
+        "width": 451.3,
+        "height": 20.1,
+        "type": "text",
+        "description": "Enter the Context of the Conversation for the Recipient.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "contextname2": {
+        "left": 92.5,
+        "top": 358.3,
+        "width": 451.3,
+        "height": 20.8,
+        "type": "text",
+        "description": "Enter the Context of the Conversation for the Caller.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "contextname3": {
+        "left": 92.5,
+        "top": 335.8,
+        "width": 451.3,
+        "height": 20.3,
+        "type": "text",
+        "description": "Enter the Context of the Conversation for the Recipient.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "contextname4": {
+        "left": 92.5,
+        "top": 313.3,
+        "width": 451.3,
+        "height": 20.7,
+        "type": "text",
+        "description": "Enter the Context of the Conversation for the Caller.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "contextname5": {
+        "left": 92.5,
+        "top": 290.2,
+        "width": 451.3,
+        "height": 20.1,
+        "type": "text",
+        "description": "Enter the Context of the Conversation for the Recipient.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "contextname6": {
+        "left": 92.5,
+        "top": 268.3,
+        "width": 451.3,
+        "height": 20.7,
+        "type": "text",
+        "description": "Enter the Context of the Conversation for the Caller.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "background": {
+        "left": 37.2,
+        "top": 233.3,
+        "width": 538.1,
+        "height": 18.9,
+        "type": "text",
+        "description": "Enter the Background Noises (Describe street sounds, voices, music, etc. \r\nIf more space is needed continue on reverse.).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sex": {
+        "left": 37.2,
+        "top": 190.7,
+        "width": 117.9,
+        "height": 11.7,
+        "type": "choice",
+        "description": "Enter the sex Male/Female; for information about the Caller/Voice Characteristics.",
+        "options": [
+          "Male",
+          "Female"
+        ],
+        "group": null,
+        "required": false
+      },
+      "age": {
+        "left": 157.0,
+        "top": 190.7,
+        "width": 153.5,
+        "height": 11.7,
+        "type": "text",
+        "description": "Enter the age for information about the Caller/Voice Characteristics.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "race": {
+        "left": 312.3,
+        "top": 190.7,
+        "width": 153.4,
+        "height": 11.7,
+        "type": "choice",
+        "description": "Enter the Race for information about the Caller/Voice Characteristics.",
+        "options": [
+          "White",
+          "Black",
+          "American Indian-Alaskan Native",
+          "Asian",
+          "Pacific Islander"
+        ],
+        "group": null,
+        "required": false
+      },
+      "accent": {
+        "left": 467.5,
+        "top": 190.7,
+        "width": 107.8,
+        "height": 11.7,
+        "type": "text",
+        "description": "Enter the Accent for information about the Caller/Voice Characteristics.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "edulevel": {
+        "left": 37.2,
+        "top": 169.8,
+        "width": 273.3,
+        "height": 12.8,
+        "type": "text",
+        "description": "Enter the Education Level for information about the Caller/Voice Characteristics.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "attitude": {
+        "left": 312.3,
+        "top": 169.8,
+        "width": 263.1,
+        "height": 12.7,
+        "type": "text",
+        "description": "Enter the Attitude (calm, nervous, serious, Etc.) for information about the Caller/Voice Characteristics.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "other1": {
+        "left": 37.2,
+        "top": 147.9,
+        "width": 538.1,
+        "height": 10.5,
+        "type": "text",
+        "description": "Enter any other information about the Caller/Voice Characteristics.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "depo": {
+        "left": 162.2,
+        "top": 129.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "F[0].P1[0].depo[0]",
+        "required": false
+      },
+      "depo3": {
+        "left": 477.2,
+        "top": 129.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "F[0].P1[0].depo3[0]",
+        "required": false
+      },
+      "witname": {
+        "left": 115.3,
+        "top": 114.7,
+        "width": 192.9,
+        "height": 15.6,
+        "type": "text",
+        "description": "Enter the name (last, first, middle initial) if yes was selected for any witnesses to the call.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "identname": {
+        "left": 393.7,
+        "top": 114.7,
+        "width": 179.2,
+        "height": 15.6,
+        "type": "text",
+        "description": "Enter the name (last, first, middle initial) if yes was selected for the identity of the caller.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "depo2": {
+        "left": 51.4,
+        "top": 109.0,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "F[0].P1[0].depo[0]",
+        "required": false
+      },
+      "depo32": {
+        "left": 331.5,
+        "top": 109.0,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "F[0].P1[0].depo3[0]",
+        "required": false
+      },
+      "noteauth1": {
+        "left": 45.2,
+        "top": 73.6,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select CO for the Notification of Authority.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "noteauth2": {
+        "left": 97.0,
+        "top": 73.6,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select XO for the Notification of Authority.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "noteauth3": {
+        "left": 151.0,
+        "top": 73.6,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select OCD for the Notification of Authority.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "noteauth4": {
+        "left": 208.3,
+        "top": 73.6,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select Security for the Notification of Authority.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "noteauth5": {
+        "left": 274.1,
+        "top": 73.6,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select NISRA for the Notification of Authority.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "noteauth6": {
+        "left": 334.9,
+        "top": 73.6,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select Telephone Company for the Notification of Authority.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "noteauth7": {
+        "left": 438.9,
+        "top": 73.6,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select EOD for the Notification of Authority.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "noteauth8": {
+        "left": 494.1,
+        "top": 73.6,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select Fire Department for the Notification of Authority.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

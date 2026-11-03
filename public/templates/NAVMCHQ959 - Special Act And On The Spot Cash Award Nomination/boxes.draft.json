@@ -1,0 +1,341 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "lastName": {
+        "left": 20.9,
+        "top": 654.0,
+        "width": 285.6,
+        "height": 15.1,
+        "type": "text",
+        "description": "LastName",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "firstName": {
+        "left": 311.2,
+        "top": 654.0,
+        "width": 255.1,
+        "height": 15.1,
+        "type": "text",
+        "description": "FirstName",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameMI": {
+        "left": 570.6,
+        "top": 653.7,
+        "width": 19.7,
+        "height": 15.1,
+        "type": "text",
+        "description": "NameMI",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "title": {
+        "left": 20.1,
+        "top": 606.5,
+        "width": 191.4,
+        "height": 15.1,
+        "type": "text",
+        "description": "Title",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "series": {
+        "left": 216.1,
+        "top": 606.5,
+        "width": 258.7,
+        "height": 15.1,
+        "type": "text",
+        "description": "Series",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "grade": {
+        "left": 478.5,
+        "top": 606.5,
+        "width": 112.5,
+        "height": 15.1,
+        "type": "text",
+        "description": "Grade",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "amountRec": {
+        "left": 429.0,
+        "top": 558.7,
+        "width": 162.5,
+        "height": 15.9,
+        "type": "text",
+        "description": "AmountRec",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "organization": {
+        "left": 20.1,
+        "top": 558.6,
+        "width": 230.6,
+        "height": 15.1,
+        "type": "text",
+        "description": "Organization",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "code": {
+        "left": 255.8,
+        "top": 558.6,
+        "width": 168.5,
+        "height": 15.1,
+        "type": "text",
+        "description": "Code",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "titleRO1": {
+        "left": 101.3,
+        "top": 385.9,
+        "width": 150.2,
+        "height": 10.2,
+        "type": "text",
+        "description": "TitleRO1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureRO1": {
+        "left": 264.2,
+        "top": 385.9,
+        "width": 150.3,
+        "height": 10.2,
+        "type": "signature",
+        "description": "SignatureRO1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateRO1": {
+        "left": 428.7,
+        "top": 385.9,
+        "width": 77.6,
+        "height": 10.2,
+        "type": "text",
+        "description": "DateRO1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "titleRO2": {
+        "left": 101.4,
+        "top": 349.1,
+        "width": 150.8,
+        "height": 10.2,
+        "type": "text",
+        "description": "TitleRO2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureRO2": {
+        "left": 264.3,
+        "top": 349.1,
+        "width": 150.3,
+        "height": 10.2,
+        "type": "signature",
+        "description": "SignatureRO2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateRO2": {
+        "left": 428.8,
+        "top": 349.1,
+        "width": 77.6,
+        "height": 10.2,
+        "type": "text",
+        "description": "DateRO2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "othAward": {
+        "left": 475.1,
+        "top": 294.5,
+        "width": 70.1,
+        "height": 15.9,
+        "type": "text",
+        "description": "OthAward",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "aOapprove": {
+        "left": 174.3,
+        "top": 290.2,
+        "width": 11.0,
+        "height": 11.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[0].AOapprove[0]",
+        "required": false
+      },
+      "aOapprove2": {
+        "left": 80.0,
+        "top": 290.0,
+        "width": 11.0,
+        "height": 11.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[0].AOapprove[0]",
+        "required": false
+      },
+      "titleAO": {
+        "left": 101.1,
+        "top": 255.8,
+        "width": 150.8,
+        "height": 10.2,
+        "type": "text",
+        "description": "TitleAO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureAO": {
+        "left": 263.9,
+        "top": 255.8,
+        "width": 150.3,
+        "height": 10.2,
+        "type": "signature",
+        "description": "SignatureAO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateAO": {
+        "left": 428.5,
+        "top": 255.8,
+        "width": 77.6,
+        "height": 10.2,
+        "type": "text",
+        "description": "DateAO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureAR": {
+        "left": 269.0,
+        "top": 188.5,
+        "width": 150.3,
+        "height": 10.2,
+        "type": "signature",
+        "description": "SignatureAR",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateAR": {
+        "left": 433.5,
+        "top": 188.5,
+        "width": 77.6,
+        "height": 10.2,
+        "type": "text",
+        "description": "DateAR",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fundAvail": {
+        "left": 147.7,
+        "top": 187.8,
+        "width": 11.0,
+        "height": 11.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[0].FundAvail[0]",
+        "required": false
+      },
+      "fundAvail2": {
+        "left": 83.6,
+        "top": 187.6,
+        "width": 11.0,
+        "height": 11.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[0].FundAvail[0]",
+        "required": false
+      },
+      "forHROMuse": {
+        "left": 21.1,
+        "top": 140.5,
+        "width": 569.3,
+        "height": 60.3,
+        "type": "text",
+        "description": "ForHROMuse",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "employees": {
+        "left": 58.5,
+        "top": 717.4,
+        "width": 342.0,
+        "height": 515.0,
+        "type": "text",
+        "description": "Employees",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "timeOffHours": {
+        "left": 409.6,
+        "top": 717.4,
+        "width": 146.2,
+        "height": 515.0,
+        "type": "text",
+        "description": "TimeOffHours",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page3": {
+      "justification": {
+        "left": 57.2,
+        "top": 663.7,
+        "width": 497.1,
+        "height": 424.6,
+        "type": "text",
+        "description": "Justification",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

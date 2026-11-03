@@ -1,0 +1,292 @@
+{
+  "id": "navmc11681",
+  "label": "NAVMC 11681 - Intial Notification",
+  "directory": "NAVMC11681 - Intial Notification",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "dateA",
+        "kansasTime",
+        "nameCallingFrom",
+        "timeLoca",
+        "homePhone",
+        "yesNo1",
+        "yesNo12",
+        "howID",
+        "yesNo2",
+        "yesNo22",
+        "phyDescr",
+        "witness",
+        "yesNo3",
+        "yesNo32",
+        "onScene1",
+        "yesNo4",
+        "yesNo42",
+        "ifSoWho",
+        "yesNo5",
+        "yesNo52",
+        "propDamage",
+        "weather"
+      ]
+    }
+  ],
+  "fields": {
+    "dateA": {
+      "type": "text",
+      "label": "Enter YYYY MM DD",
+      "page": 1,
+      "box": {
+        "left": 82.7,
+        "top": 654.2,
+        "width": 175.4,
+        "height": 21.3
+      }
+    },
+    "kansasTime": {
+      "type": "text",
+      "label": " LOCAL TIME:",
+      "page": 1,
+      "box": {
+        "left": 400.8,
+        "top": 654.2,
+        "width": 172.4,
+        "height": 21.3
+      }
+    },
+    "nameCallingFrom": {
+      "type": "text",
+      "label": "2.  NAME OF PERSON REPORTING MISHAP AND PHONE NUMBER WHICH THEY ARE CALLING FROM:",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 608.8,
+        "width": 534.3,
+        "height": 21.0
+      }
+    },
+    "timeLoca": {
+      "type": "text",
+      "label": "4.  TIME AND LOCATION OF MISHAP (INCLUDE AIRPORT/CITY NAME IF APPLICABLE):",
+      "page": 1,
+      "box": {
+        "left": 200.8,
+        "top": 566.4,
+        "width": 372.3,
+        "height": 23.6
+      }
+    },
+    "homePhone": {
+      "type": "text",
+      "label": "3.  THEIR HOME PHONE NUMBER:  ",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 565.7,
+        "width": 156.4,
+        "height": 22.9
+      }
+    },
+    "yesNo1": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 218.8,
+        "top": 518.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_YesNo1_0"
+    },
+    "yesNo12": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 259.3,
+        "top": 518.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_YesNo1_0"
+    },
+    "howID": {
+      "type": "text",
+      "label": "How (tail number, type of aircraft, etc.):  ",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 517.2,
+        "width": 273.3,
+        "height": 28.3
+      }
+    },
+    "yesNo2": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 488.8,
+        "top": 473.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_YesNo2_0"
+    },
+    "yesNo22": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 533.8,
+        "top": 473.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_YesNo2_0"
+    },
+    "phyDescr": {
+      "type": "text",
+      "label": "7.  PHYSICAL DESCRIPTION OF MISHAP SITE, (E.G. TERRAIN, OBSTACLES TO APPROACH, ETC.)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 428.8,
+        "width": 534.3,
+        "height": 30.0
+      }
+    },
+    "witness": {
+      "type": "text",
+      "label": "9.  IS THE WITNESS AWARE OF ANY SURVIVORS OR CASUALTIES?",
+      "page": 1,
+      "box": {
+        "left": 236.8,
+        "top": 380.4,
+        "width": 336.3,
+        "height": 26.6
+      }
+    },
+    "yesNo3": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 137.8,
+        "top": 378.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_YesNo3_0"
+    },
+    "yesNo32": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 187.3,
+        "top": 378.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_YesNo3_0"
+    },
+    "onScene1": {
+      "type": "text",
+      "label": "10.  IS THE FIRE DEPARTMENT OR LOCAL OFFICIALS ON THE SCENE?",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 335.4,
+        "width": 534.3,
+        "height": 26.6
+      }
+    },
+    "yesNo4": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 326.8,
+        "top": 288.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_YesNo4_0"
+    },
+    "yesNo42": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 371.8,
+        "top": 288.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_YesNo4_0"
+    },
+    "ifSoWho": {
+      "type": "text",
+      "label": "IF SO, WHO?",
+      "page": 1,
+      "box": {
+        "left": 272.8,
+        "top": 245.4,
+        "width": 300.3,
+        "height": 26.6
+      }
+    },
+    "yesNo5": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 191.8,
+        "top": 243.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_YesNo5_0"
+    },
+    "yesNo52": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 232.3,
+        "top": 243.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_YesNo5_0"
+    },
+    "propDamage": {
+      "type": "text",
+      "label": "13.  CAN THE CALLER GIVE AN ACCOUNT OF PROPERTY DAMAGE?",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 195.9,
+        "width": 534.3,
+        "height": 22.1
+      }
+    },
+    "weather": {
+      "type": "text",
+      "label": "14.  WHAT IS THE WEATHER AT THE CRASH SITE?",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 150.9,
+        "width": 534.3,
+        "height": 31.1
+      },
+      "multiline": true
+    }
+  }
+}

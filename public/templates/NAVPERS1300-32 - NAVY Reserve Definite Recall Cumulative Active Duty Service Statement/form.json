@@ -1,0 +1,145 @@
+{
+  "id": "navpers130032",
+  "label": "NAVPERS1300-32 - NAVY Reserve Definite Recall Cumulative Active Duty Service Statement",
+  "directory": "NAVPERS1300-32 - NAVY Reserve Definite Recall Cumulative Active Duty Service Statement",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "rr",
+        "recallAss",
+        "recallDate",
+        "recallDrop",
+        "years",
+        "months",
+        "days",
+        "sigDate",
+        "sMSig"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "Full Name (Last, First Middle)",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 562.3,
+        "width": 426.2,
+        "height": 19.4
+      }
+    },
+    "rr": {
+      "type": "text",
+      "label": "Rank/Rating/Designator",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 562.3,
+        "width": 102.2,
+        "height": 19.4
+      }
+    },
+    "recallAss": {
+      "type": "text",
+      "label": "Recall Assignment",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 526.3,
+        "width": 192.3,
+        "height": 19.4
+      }
+    },
+    "recallDate": {
+      "type": "text",
+      "label": "Recall Start Date",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 526.3,
+        "width": 102.3,
+        "height": 19.4
+      }
+    },
+    "recallDrop": {
+      "type": "choice",
+      "label": "Recall Program",
+      "page": 1,
+      "box": {
+        "left": 39.1,
+        "top": 526.0,
+        "width": 227.8,
+        "height": 18.9
+      },
+      "options": [
+        "Officer MPN",
+        "Officer RPN",
+        "Officer Recruiting",
+        "Enlisted MPN",
+        "Enlisted RPN/AWS",
+        "Enlisted Recruiting"
+      ]
+    },
+    "years": {
+      "type": "text",
+      "label": "to Navy",
+      "page": 1,
+      "box": {
+        "left": 416.9,
+        "top": 502.2,
+        "width": 21.6,
+        "height": 1.0
+      }
+    },
+    "months": {
+      "type": "text",
+      "label": "Recall",
+      "page": 1,
+      "box": {
+        "left": 463.7,
+        "top": 502.2,
+        "width": 21.6,
+        "height": 1.0
+      }
+    },
+    "days": {
+      "type": "text",
+      "label": "Rank/Rating/Designator",
+      "page": 1,
+      "box": {
+        "left": 536.5,
+        "top": 502.2,
+        "width": 21.6,
+        "height": 1.0
+      }
+    },
+    "sigDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 436.3,
+        "width": 102.3,
+        "height": 19.4
+      }
+    },
+    "sMSig": {
+      "type": "text",
+      "label": "Service Member Signature",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 436.2,
+        "width": 426.3,
+        "height": 19.4
+      }
+    }
+  }
+}

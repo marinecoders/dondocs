@@ -1,0 +1,941 @@
+{
+  "id": "navmc11358",
+  "label": "NAVMC11358 - Reports Inventory",
+  "directory": "NAVMC11358 - Reports Inventory",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "namePrepr",
+        "datePrepr",
+        "nameOrg",
+        "phonePrepr",
+        "reportTitl",
+        "formNoFrmt",
+        "reportCtrlSym",
+        "dateDue",
+        "reqDirectInstr",
+        "freqncyReport",
+        "dateExpir",
+        "purposeUse",
+        "noCopyReqd",
+        "tyoeOffReqSub",
+        "noOffReqSub",
+        "sourceInfo",
+        "distribReqd",
+        "dateReportOrig",
+        "noRevOrig",
+        "dateLastRev",
+        "estCostDev",
+        "estCostUse",
+        "rad11WYes",
+        "rad11WYes2",
+        "rad11WYes3",
+        "rad11WYes4",
+        "rad11WYes5",
+        "rad11WYes6",
+        "rad11WYes7",
+        "rad11WYes8",
+        "rad11WYes9",
+        "rad11WYes10",
+        "rad11WYes11",
+        "rad11WYes12",
+        "rad11WYes13",
+        "rad11WYes14",
+        "rad11WYes15",
+        "rad11WYes16",
+        "rad11WYes17",
+        "rad11WYes18",
+        "rad11WYes19",
+        "rad11WYes20",
+        "rad11WYes21",
+        "rad11WYes22",
+        "rad11WYes23",
+        "rad11WYes24",
+        "rad11WYes25",
+        "rad11WYes26",
+        "rad11WYes27",
+        "rad11WYes28",
+        "rad11WYes29",
+        "rad11WYes30",
+        "rad11WYes31",
+        "rad11WYes32",
+        "rad11WYes33",
+        "rad11WYes34",
+        "rad11WYes35",
+        "rad11WYes36",
+        "rad11WYes37",
+        "rad11WYes38",
+        "rad11WYes39",
+        "rad11WYes40",
+        "rad11WYes41",
+        "rad11WYes42",
+        "rad11WYes43",
+        "rad11WYes44",
+        "rad11WYes45",
+        "rad11WYes46",
+        "sourceForComplt",
+        "noCopiesPreprd",
+        "distOrigCopy",
+        "estAnnualCostPrep",
+        "estAnnualCostColl"
+      ]
+    }
+  ],
+  "fields": {
+    "namePrepr": {
+      "type": "text",
+      "label": "Enter the name of the person preparing this reports inventory.",
+      "page": 1,
+      "box": {
+        "left": 288.0,
+        "top": 746.7,
+        "width": 215.3,
+        "height": 16.0
+      }
+    },
+    "datePrepr": {
+      "type": "text",
+      "label": "Enter the date that this reports inventory was prepared using format 2 Dec 2002.",
+      "page": 1,
+      "box": {
+        "left": 504.7,
+        "top": 746.7,
+        "width": 81.8,
+        "height": 15.7
+      }
+    },
+    "nameOrg": {
+      "type": "text",
+      "label": "Enter the name of the organization that the preparer represents.",
+      "page": 1,
+      "box": {
+        "left": 288.0,
+        "top": 729.3,
+        "width": 215.3,
+        "height": 16.0
+      }
+    },
+    "phonePrepr": {
+      "type": "text",
+      "label": "Enter the phone number of the preparer of this reports inventory.",
+      "page": 1,
+      "box": {
+        "left": 288.0,
+        "top": 712.0,
+        "width": 214.7,
+        "height": 15.3
+      }
+    },
+    "reportTitl": {
+      "type": "text",
+      "label": "Section A. Identification Data. 1. Enter the title of this report.",
+      "page": 1,
+      "box": {
+        "left": 26.7,
+        "top": 613.5,
+        "width": 176.0,
+        "height": 36.0
+      },
+      "multiline": true
+    },
+    "formNoFrmt": {
+      "type": "text",
+      "label": "3. Enter the form number or format. For example. Memo. Tabulation. Narrative.",
+      "page": 1,
+      "box": {
+        "left": 388.0,
+        "top": 592.7,
+        "width": 176.0,
+        "height": 15.3
+      }
+    },
+    "reportCtrlSym": {
+      "type": "text",
+      "label": "2. Enter the report control symbol or number if any.",
+      "page": 1,
+      "box": {
+        "left": 204.7,
+        "top": 592.5,
+        "width": 176.0,
+        "height": 15.3
+      }
+    },
+    "dateDue": {
+      "type": "text",
+      "label": "6. Enter the due date of this report.",
+      "page": 1,
+      "box": {
+        "left": 389.5,
+        "top": 567.5,
+        "width": 175.8,
+        "height": 12.8
+      }
+    },
+    "reqDirectInstr": {
+      "type": "text",
+      "label": "4. Enter any required directive or instructions.",
+      "page": 1,
+      "box": {
+        "left": 26.7,
+        "top": 566.3,
+        "width": 176.0,
+        "height": 35.8
+      },
+      "multiline": true
+    },
+    "freqncyReport": {
+      "type": "text",
+      "label": "5. Enter the frequency of this report. For example. Monthly. Quarterly. Daily.",
+      "page": 1,
+      "box": {
+        "left": 204.7,
+        "top": 546.0,
+        "width": 176.0,
+        "height": 15.3
+      }
+    },
+    "dateExpir": {
+      "type": "text",
+      "label": " 7. Enter the expiration date of this report.",
+      "page": 1,
+      "box": {
+        "left": 389.3,
+        "top": 546.0,
+        "width": 176.0,
+        "height": 15.3
+      }
+    },
+    "purposeUse": {
+      "type": "text",
+      "label": "Section B. 1. Enter the purpose and use of this report and identify other reports for which this report is used as a feeder report.",
+      "page": 1,
+      "box": {
+        "left": 26.7,
+        "top": 499.9,
+        "width": 560.0,
+        "height": 28.7
+      }
+    },
+    "noCopyReqd": {
+      "type": "text",
+      "label": "4. Enter the number of copies required..",
+      "page": 1,
+      "box": {
+        "left": 388.7,
+        "top": 462.7,
+        "width": 178.7,
+        "height": 16.0
+      }
+    },
+    "tyoeOffReqSub": {
+      "type": "text",
+      "label": "2. Enter the type of offices required to submit this report.",
+      "page": 1,
+      "box": {
+        "left": 26.0,
+        "top": 436.7,
+        "width": 88.0,
+        "height": 16.0
+      }
+    },
+    "noOffReqSub": {
+      "type": "text",
+      "label": "Enter the number of offices required to submit this report.",
+      "page": 1,
+      "box": {
+        "left": 114.7,
+        "top": 436.7,
+        "width": 88.0,
+        "height": 16.0
+      }
+    },
+    "sourceInfo": {
+      "type": "text",
+      "label": "3. Enter the sources of information used by preparing offices to complete this form. For example. Form number. Report. File.",
+      "page": 1,
+      "box": {
+        "left": 204.0,
+        "top": 436.7,
+        "width": 174.7,
+        "height": 16.0
+      }
+    },
+    "distribReqd": {
+      "type": "text",
+      "label": "5. Enter the distribution of copies.",
+      "page": 1,
+      "box": {
+        "left": 388.7,
+        "top": 436.7,
+        "width": 178.7,
+        "height": 16.0
+      }
+    },
+    "dateReportOrig": {
+      "type": "text",
+      "label": "6. Enter the date the report originated.",
+      "page": 1,
+      "box": {
+        "left": 26.0,
+        "top": 408.7,
+        "width": 176.0,
+        "height": 15.3
+      }
+    },
+    "noRevOrig": {
+      "type": "text",
+      "label": "7. Enter the number of revisions since the report originated.",
+      "page": 1,
+      "box": {
+        "left": 203.3,
+        "top": 408.7,
+        "width": 176.0,
+        "height": 15.3
+      }
+    },
+    "dateLastRev": {
+      "type": "text",
+      "label": "8. Enter the date of the last revision.",
+      "page": 1,
+      "box": {
+        "left": 388.7,
+        "top": 408.7,
+        "width": 178.0,
+        "height": 15.3
+      }
+    },
+    "estCostDev": {
+      "type": "text",
+      "label": "9. Enter the estimated cost of developing the report.",
+      "page": 1,
+      "box": {
+        "left": 26.7,
+        "top": 382.0,
+        "width": 260.0,
+        "height": 15.3
+      }
+    },
+    "estCostUse": {
+      "type": "text",
+      "label": "10. Enter the estimated annual cost of using the report.",
+      "page": 1,
+      "box": {
+        "left": 289.3,
+        "top": 382.0,
+        "width": 278.0,
+        "height": 15.3
+      }
+    },
+    "rad11WYes": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 527.2,
+        "top": 339.7,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_7"
+    },
+    "rad11WYes2": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 552.8,
+        "top": 339.7,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_7"
+    },
+    "rad11WYes3": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 162.4,
+        "top": 337.5,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_16"
+    },
+    "rad11WYes4": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 188.0,
+        "top": 337.5,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_16"
+    },
+    "rad11WYes5": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 345.0,
+        "top": 336.8,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_15"
+    },
+    "rad11WYes6": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 370.6,
+        "top": 336.8,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_15"
+    },
+    "rad11WYes7": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 527.2,
+        "top": 321.6,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_6"
+    },
+    "rad11WYes8": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 552.8,
+        "top": 321.6,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_6"
+    },
+    "rad11WYes9": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 162.7,
+        "top": 314.3,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_17"
+    },
+    "rad11WYes10": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 188.3,
+        "top": 314.3,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_17"
+    },
+    "rad11WYes11": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 344.3,
+        "top": 314.3,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_14"
+    },
+    "rad11WYes12": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 369.9,
+        "top": 314.3,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_14"
+    },
+    "rad11WYes13": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 527.2,
+        "top": 304.1,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_5"
+    },
+    "rad11WYes14": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 552.8,
+        "top": 304.1,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_5"
+    },
+    "rad11WYes15": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 162.4,
+        "top": 291.8,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_18"
+    },
+    "rad11WYes16": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 188.0,
+        "top": 291.8,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_18"
+    },
+    "rad11WYes17": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 344.3,
+        "top": 291.8,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_13"
+    },
+    "rad11WYes18": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 369.9,
+        "top": 291.8,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_13"
+    },
+    "rad11WYes19": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 527.0,
+        "top": 286.7,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_4"
+    },
+    "rad11WYes20": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 552.6,
+        "top": 286.7,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_4"
+    },
+    "rad11WYes21": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 527.0,
+        "top": 269.2,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_3"
+    },
+    "rad11WYes22": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 552.6,
+        "top": 269.2,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_3"
+    },
+    "rad11WYes23": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 162.7,
+        "top": 268.9,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_19"
+    },
+    "rad11WYes24": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 188.3,
+        "top": 268.9,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_19"
+    },
+    "rad11WYes25": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 345.0,
+        "top": 268.6,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_12"
+    },
+    "rad11WYes26": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 370.6,
+        "top": 268.6,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_12"
+    },
+    "rad11WYes27": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 527.3,
+        "top": 251.0,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_2"
+    },
+    "rad11WYes28": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 552.9,
+        "top": 251.0,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_2"
+    },
+    "rad11WYes29": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 344.2,
+        "top": 246.4,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_11"
+    },
+    "rad11WYes30": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 369.8,
+        "top": 246.4,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_11"
+    },
+    "rad11WYes31": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 162.7,
+        "top": 245.7,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_20"
+    },
+    "rad11WYes32": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 188.3,
+        "top": 245.7,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_20"
+    },
+    "rad11WYes33": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 527.3,
+        "top": 233.8,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_1"
+    },
+    "rad11WYes34": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 552.9,
+        "top": 233.8,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_1"
+    },
+    "rad11WYes35": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 344.2,
+        "top": 223.5,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_10"
+    },
+    "rad11WYes36": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 369.8,
+        "top": 223.5,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_10"
+    },
+    "rad11WYes37": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 162.0,
+        "top": 223.2,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_21"
+    },
+    "rad11WYes38": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 187.6,
+        "top": 223.2,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_21"
+    },
+    "rad11WYes39": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 527.6,
+        "top": 216.1,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_0"
+    },
+    "rad11WYes40": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 553.2,
+        "top": 216.1,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_0"
+    },
+    "rad11WYes41": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 343.9,
+        "top": 201.0,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_9"
+    },
+    "rad11WYes42": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 369.5,
+        "top": 201.0,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_9"
+    },
+    "rad11WYes43": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 162.7,
+        "top": 200.7,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_22"
+    },
+    "rad11WYes44": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 188.3,
+        "top": 200.7,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_22"
+    },
+    "rad11WYes45": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 528.0,
+        "top": 198.0,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_8"
+    },
+    "rad11WYes46": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 553.6,
+        "top": 198.0,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_3_Rad11WYes_8"
+    },
+    "sourceForComplt": {
+      "type": "text",
+      "label": "Section C. Preparing office forms. 1. Enter the sources of information for completing report.",
+      "page": 1,
+      "box": {
+        "left": 26.8,
+        "top": 146.9,
+        "width": 206.5,
+        "height": 15.0
+      }
+    },
+    "noCopiesPreprd": {
+      "type": "text",
+      "label": "2. Enter the number of copies prepared.",
+      "page": 1,
+      "box": {
+        "left": 235.3,
+        "top": 146.9,
+        "width": 160.8,
+        "height": 15.0
+      }
+    },
+    "distOrigCopy": {
+      "type": "text",
+      "label": "3. Enter the distribution of original and copies.",
+      "page": 1,
+      "box": {
+        "left": 400.0,
+        "top": 146.9,
+        "width": 185.6,
+        "height": 15.0
+      }
+    },
+    "estAnnualCostPrep": {
+      "type": "text",
+      "label": "5. Enter the estimated annual cost for collecting and maintaining information needed for the report.",
+      "page": 1,
+      "box": {
+        "left": 27.0,
+        "top": 114.0,
+        "width": 280.9,
+        "height": 16.9
+      }
+    },
+    "estAnnualCostColl": {
+      "type": "text",
+      "label": "5. Enter the estimated annual cost for collecting and maintaining information needed for the report.",
+      "page": 1,
+      "box": {
+        "left": 312.4,
+        "top": 110.3,
+        "width": 273.9,
+        "height": 15.0
+      }
+    }
+  }
+}

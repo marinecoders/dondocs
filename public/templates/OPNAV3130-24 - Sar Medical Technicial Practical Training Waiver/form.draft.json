@@ -1,0 +1,153 @@
+{
+  "id": "opnav313024",
+  "label": "OPNAV3130-24 - Sar Medical Technicial Practical Training Waiver",
+  "directory": "OPNAV3130-24 - Sar Medical Technicial Practical Training Waiver",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "date",
+        "cmdOfficer",
+        "searchRescueOfficer",
+        "dropDownList",
+        "rate",
+        "name",
+        "deployEndtDate",
+        "waiverExpireDate",
+        "signatureField1"
+      ]
+    }
+  ],
+  "fields": {
+    "date": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 430.2,
+        "top": 720.8,
+        "width": 143.1,
+        "height": 15.9
+      }
+    },
+    "cmdOfficer": {
+      "type": "text",
+      "label": "From: Commanding Officer,",
+      "page": 1,
+      "box": {
+        "left": 154.1,
+        "top": 674.0,
+        "width": 203.2,
+        "height": 15.9
+      }
+    },
+    "searchRescueOfficer": {
+      "type": "text",
+      "label": "To: Search and Rescue Officer,",
+      "page": 1,
+      "box": {
+        "left": 154.1,
+        "top": 652.3,
+        "width": 203.2,
+        "height": 15.9
+      }
+    },
+    "dropDownList": {
+      "type": "choice",
+      "label": "Drop Down List",
+      "page": 1,
+      "box": {
+        "left": 43.2,
+        "top": 532.8,
+        "width": 529.3,
+        "height": 14.4
+      },
+      "options": [
+        "Deployment",
+        "Operational Commitment",
+        "Aircraft Availability / Adverse Weather"
+      ]
+    },
+    "rate": {
+      "type": "text",
+      "label": "RATE",
+      "page": 1,
+      "box": {
+        "left": 67.6,
+        "top": 475.9,
+        "width": 91.5,
+        "height": 15.9
+      }
+    },
+    "name": {
+      "type": "text",
+      "label": "NAME (Last, First, MI)",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 475.9,
+        "width": 318.4,
+        "height": 15.9
+      }
+    },
+    "deployEndtDate": {
+      "type": "text",
+      "label": "Deployment End Date",
+      "page": 1,
+      "box": {
+        "left": 128.9,
+        "top": 321.1,
+        "width": 192.4,
+        "height": 15.9
+      }
+    },
+    "waiverExpireDate": {
+      "type": "text",
+      "label": "Waiver Expiration Date",
+      "page": 1,
+      "box": {
+        "left": 128.9,
+        "top": 299.5,
+        "width": 192.4,
+        "height": 15.9
+      }
+    },
+    "signatureField1": {
+      "type": "text",
+      "label": "Signature Field 1",
+      "page": 1,
+      "box": {
+        "left": 312.5,
+        "top": 177.1,
+        "width": 228.4,
+        "height": 37.5
+      },
+      "multiline": true
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 4,
+      "rowStride": 21.63,
+      "editor": "grid",
+      "columns": {
+        "checkBox": {
+          "type": "checkbox",
+          "label": "Training",
+          "page": 1,
+          "box": {
+            "left": 57.8,
+            "top": 403.6,
+            "width": 8.0,
+            "height": 8.0
+          }
+        }
+      }
+    }
+  }
+}

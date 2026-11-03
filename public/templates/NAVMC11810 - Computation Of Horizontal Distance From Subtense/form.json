@@ -1,0 +1,203 @@
+{
+  "id": "navmc11810",
+  "label": "NAVMC 11810 - Computation Of Horizontal Distance From Subtense",
+  "directory": "NAVMC11810 - Computation Of Horizontal Distance From Subtense",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "software",
+        "remarks",
+        "computer",
+        "checker",
+        "date",
+        "locality",
+        "fileName",
+        "sheet",
+        "of"
+      ]
+    }
+  ],
+  "fields": {
+    "software": {
+      "type": "text",
+      "label": "Survey Software for RPDA Version:",
+      "page": 1,
+      "box": {
+        "left": 170.5,
+        "top": 703.8,
+        "width": 401.9,
+        "height": 18.0
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "REMARKS:",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 298.6,
+        "width": 532.8,
+        "height": 196.0
+      },
+      "multiline": true
+    },
+    "computer": {
+      "type": "text",
+      "label": "COMPUTER:",
+      "page": 1,
+      "box": {
+        "left": 90.2,
+        "top": 95.4,
+        "width": 122.2,
+        "height": 10.8
+      }
+    },
+    "checker": {
+      "type": "text",
+      "label": "CHECKER:",
+      "page": 1,
+      "box": {
+        "left": 261.1,
+        "top": 95.4,
+        "width": 221.3,
+        "height": 10.8
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "DATE:",
+      "page": 1,
+      "box": {
+        "left": 513.7,
+        "top": 95.4,
+        "width": 58.7,
+        "height": 10.8
+      }
+    },
+    "locality": {
+      "type": "text",
+      "label": "LOCALITY:",
+      "page": 1,
+      "box": {
+        "left": 90.2,
+        "top": 77.4,
+        "width": 122.2,
+        "height": 10.8
+      }
+    },
+    "fileName": {
+      "type": "text",
+      "label": "ARCHIVE FILE NAME:",
+      "page": 1,
+      "box": {
+        "left": 301.8,
+        "top": 77.4,
+        "width": 180.6,
+        "height": 10.8
+      }
+    },
+    "sheet": {
+      "type": "text",
+      "label": "Sheet",
+      "page": 1,
+      "box": {
+        "left": 528.4,
+        "top": 77.4,
+        "width": 10.8,
+        "height": 10.8
+      }
+    },
+    "of": {
+      "type": "text",
+      "label": "Of",
+      "page": 1,
+      "box": {
+        "left": 561.6,
+        "top": 77.4,
+        "width": 10.8,
+        "height": 10.8
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 4,
+      "rowStride": 94.4,
+      "editor": "grid",
+      "columns": {
+        "distance": {
+          "type": "text",
+          "label": "Distance1",
+          "page": 1,
+          "box": {
+            "left": 255.6,
+            "top": 609.4,
+            "width": 154.8,
+            "height": 10.8
+          }
+        },
+        "length": {
+          "type": "text",
+          "label": "Length1",
+          "page": 1,
+          "box": {
+            "left": 255.6,
+            "top": 642.6,
+            "width": 154.8,
+            "height": 10.8
+          }
+        },
+        "angle": {
+          "type": "text",
+          "label": "Angle1",
+          "page": 1,
+          "box": {
+            "left": 255.6,
+            "top": 660.6,
+            "width": 154.8,
+            "height": 10.8
+          }
+        },
+        "distance2": {
+          "type": "text",
+          "label": "Distance2",
+          "page": 1,
+          "box": {
+            "left": 417.6,
+            "top": 609.4,
+            "width": 154.8,
+            "height": 10.8
+          }
+        },
+        "length2": {
+          "type": "text",
+          "label": "Length2",
+          "page": 1,
+          "box": {
+            "left": 417.6,
+            "top": 642.6,
+            "width": 154.8,
+            "height": 10.8
+          }
+        },
+        "angle2": {
+          "type": "text",
+          "label": "Angle2",
+          "page": 1,
+          "box": {
+            "left": 417.6,
+            "top": 660.6,
+            "width": 154.8,
+            "height": 10.8
+          }
+        }
+      }
+    }
+  }
+}

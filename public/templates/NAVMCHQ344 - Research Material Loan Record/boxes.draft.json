@@ -1,0 +1,216 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "dateReceived": {
+        "left": 425.1,
+        "top": 676.1,
+        "width": 160.6,
+        "height": 11.0,
+        "type": "text",
+        "description": "DateReceived",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "reference": {
+        "left": 78.6,
+        "top": 657.3,
+        "width": 301.8,
+        "height": 11.7,
+        "type": "text",
+        "description": "Reference",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radioButtonList": {
+        "left": 403.3,
+        "top": 639.0,
+        "width": 9.0,
+        "height": 9.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[0].RadioButtonList[0]",
+        "required": false
+      },
+      "radioButtonList2": {
+        "left": 403.3,
+        "top": 623.4,
+        "width": 9.0,
+        "height": 9.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[0].RadioButtonList[0]",
+        "required": false
+      },
+      "to": {
+        "left": 84.1,
+        "top": 618.3,
+        "width": 239.7,
+        "height": 88.5,
+        "type": "text",
+        "description": "To",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radioButtonList3": {
+        "left": 403.3,
+        "top": 607.8,
+        "width": 9.0,
+        "height": 9.0,
+        "type": "radio",
+        "description": "2",
+        "options": null,
+        "group": "form1[0].#subform[0].RadioButtonList[0]",
+        "required": false
+      },
+      "radioButtonList4": {
+        "left": 403.3,
+        "top": 592.3,
+        "width": 9.0,
+        "height": 9.0,
+        "type": "radio",
+        "description": "3",
+        "options": null,
+        "group": "form1[0].#subform[0].RadioButtonList[0]",
+        "required": false
+      },
+      "radioButtonList5": {
+        "left": 403.3,
+        "top": 576.7,
+        "width": 9.0,
+        "height": 9.0,
+        "type": "radio",
+        "description": "4",
+        "options": null,
+        "group": "form1[0].#subform[0].RadioButtonList[0]",
+        "required": false
+      },
+      "radioButtonList6": {
+        "left": 403.3,
+        "top": 560.9,
+        "width": 9.0,
+        "height": 9.0,
+        "type": "radio",
+        "description": "5",
+        "options": null,
+        "group": "form1[0].#subform[0].RadioButtonList[0]",
+        "required": false
+      },
+      "radioButtonList7": {
+        "left": 403.3,
+        "top": 545.4,
+        "width": 9.0,
+        "height": 9.0,
+        "type": "radio",
+        "description": "6",
+        "options": null,
+        "group": "form1[0].#subform[0].RadioButtonList[0]",
+        "required": false
+      },
+      "radioButtonList8": {
+        "left": 403.3,
+        "top": 529.7,
+        "width": 9.0,
+        "height": 9.0,
+        "type": "radio",
+        "description": "7",
+        "options": null,
+        "group": "form1[0].#subform[0].RadioButtonList[0]",
+        "required": false
+      },
+      "radioButtonList9": {
+        "left": 403.3,
+        "top": 513.7,
+        "width": 9.0,
+        "height": 9.0,
+        "type": "radio",
+        "description": "8",
+        "options": null,
+        "group": "form1[0].#subform[0].RadioButtonList[0]",
+        "required": false
+      },
+      "researchMaterial": {
+        "left": 21.4,
+        "top": 476.9,
+        "width": 569.8,
+        "height": 352.2,
+        "type": "text",
+        "description": "ResearchMaterial",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name": {
+        "left": 336.6,
+        "top": 84.4,
+        "width": 253.8,
+        "height": 10.7,
+        "type": "text",
+        "description": "Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "received": {
+        "left": 75.0,
+        "top": 72.2,
+        "width": 152.8,
+        "height": 12.2,
+        "type": "text",
+        "description": "Received",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateReceived2": {
+        "left": 253.7,
+        "top": 71.0,
+        "width": 47.9,
+        "height": 11.5,
+        "type": "text",
+        "description": "DateReceived",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature": {
+        "left": 349.7,
+        "top": 69.2,
+        "width": 151.6,
+        "height": 11.3,
+        "type": "signature",
+        "description": "Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sigDate": {
+        "left": 531.9,
+        "top": 68.7,
+        "width": 58.5,
+        "height": 10.5,
+        "type": "text",
+        "description": "SigDate",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

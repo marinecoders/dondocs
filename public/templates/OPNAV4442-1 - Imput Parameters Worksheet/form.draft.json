@@ -1,0 +1,341 @@
+{
+  "id": "opnav44421",
+  "label": "OPNAV4442-1 - Imput Parameters Worksheet",
+  "directory": "OPNAV4442-1 - Imput Parameters Worksheet",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "textField1",
+        "textField12",
+        "textField13",
+        "textField14",
+        "textField15",
+        "textField16",
+        "textField17",
+        "textField18",
+        "textField19",
+        "textField110",
+        "textField2",
+        "textField111",
+        "textField112",
+        "textField113",
+        "textField114",
+        "textField115",
+        "textField116",
+        "textField117",
+        "textField118",
+        "textField119",
+        "textField120",
+        "textField121",
+        "textField122",
+        "textField3",
+        "textField123",
+        "textField124",
+        "textField125"
+      ]
+    }
+  ],
+  "fields": {
+    "textField1": {
+      "type": "text",
+      "label": "ENGINE/AIRCRAFT",
+      "page": 1,
+      "box": {
+        "left": 125.8,
+        "top": 546.2,
+        "width": 627.4,
+        "height": 16.8
+      }
+    },
+    "textField12": {
+      "type": "text",
+      "label": "Engine",
+      "page": 1,
+      "box": {
+        "left": 110.8,
+        "top": 424.7,
+        "width": 66.3,
+        "height": 21.3
+      }
+    },
+    "textField13": {
+      "type": "text",
+      "label": "Engine",
+      "page": 1,
+      "box": {
+        "left": 182.9,
+        "top": 424.7,
+        "width": 66.3,
+        "height": 21.3
+      }
+    },
+    "textField14": {
+      "type": "text",
+      "label": "Engine",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 424.7,
+        "width": 66.3,
+        "height": 21.3
+      }
+    },
+    "textField15": {
+      "type": "text",
+      "label": "Engine",
+      "page": 1,
+      "box": {
+        "left": 326.9,
+        "top": 424.7,
+        "width": 66.3,
+        "height": 21.3
+      }
+    },
+    "textField16": {
+      "type": "text",
+      "label": "Engine",
+      "page": 1,
+      "box": {
+        "left": 398.9,
+        "top": 424.7,
+        "width": 66.3,
+        "height": 21.3
+      }
+    },
+    "textField17": {
+      "type": "text",
+      "label": "Engine",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 424.7,
+        "width": 66.3,
+        "height": 21.3
+      }
+    },
+    "textField18": {
+      "type": "text",
+      "label": "Engine",
+      "page": 1,
+      "box": {
+        "left": 542.9,
+        "top": 424.7,
+        "width": 66.3,
+        "height": 21.3
+      }
+    },
+    "textField19": {
+      "type": "text",
+      "label": "Engine",
+      "page": 1,
+      "box": {
+        "left": 614.9,
+        "top": 424.7,
+        "width": 66.3,
+        "height": 21.3
+      }
+    },
+    "textField110": {
+      "type": "text",
+      "label": "Engine",
+      "page": 1,
+      "box": {
+        "left": 686.9,
+        "top": 424.7,
+        "width": 66.3,
+        "height": 21.3
+      }
+    },
+    "textField2": {
+      "type": "text",
+      "label": "Engine",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 399.1,
+        "width": 69.2,
+        "height": 24.2
+      }
+    },
+    "textField111": {
+      "type": "text",
+      "label": "BCM",
+      "page": 1,
+      "box": {
+        "left": 110.8,
+        "top": 397.7,
+        "width": 66.3,
+        "height": 21.3
+      }
+    },
+    "textField112": {
+      "type": "text",
+      "label": "FY13",
+      "page": 1,
+      "box": {
+        "left": 182.9,
+        "top": 397.7,
+        "width": 66.3,
+        "height": 21.3
+      }
+    },
+    "textField113": {
+      "type": "text",
+      "label": "FY14",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 397.7,
+        "width": 66.3,
+        "height": 21.3
+      }
+    },
+    "textField114": {
+      "type": "text",
+      "label": "FY15",
+      "page": 1,
+      "box": {
+        "left": 326.9,
+        "top": 397.7,
+        "width": 66.3,
+        "height": 21.3
+      }
+    },
+    "textField115": {
+      "type": "text",
+      "label": "FY16",
+      "page": 1,
+      "box": {
+        "left": 398.9,
+        "top": 397.7,
+        "width": 66.3,
+        "height": 21.3
+      }
+    },
+    "textField116": {
+      "type": "text",
+      "label": "FY17",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 397.7,
+        "width": 66.3,
+        "height": 21.3
+      }
+    },
+    "textField117": {
+      "type": "text",
+      "label": "FY18",
+      "page": 1,
+      "box": {
+        "left": 542.9,
+        "top": 397.7,
+        "width": 66.3,
+        "height": 21.3
+      }
+    },
+    "textField118": {
+      "type": "text",
+      "label": "FY19",
+      "page": 1,
+      "box": {
+        "left": 614.9,
+        "top": 397.7,
+        "width": 66.3,
+        "height": 21.3
+      }
+    },
+    "textField119": {
+      "type": "text",
+      "label": "FY20",
+      "page": 1,
+      "box": {
+        "left": 686.9,
+        "top": 397.7,
+        "width": 66.3,
+        "height": 21.3
+      }
+    },
+    "textField120": {
+      "type": "text",
+      "label": "Engine",
+      "page": 1,
+      "box": {
+        "left": 110.8,
+        "top": 249.2,
+        "width": 120.3,
+        "height": 21.3
+      }
+    },
+    "textField121": {
+      "type": "text",
+      "label": "Engine",
+      "page": 1,
+      "box": {
+        "left": 236.9,
+        "top": 249.2,
+        "width": 120.3,
+        "height": 21.3
+      }
+    },
+    "textField122": {
+      "type": "text",
+      "label": "Engine",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 249.2,
+        "width": 120.3,
+        "height": 21.3
+      }
+    },
+    "textField3": {
+      "type": "text",
+      "label": "Engine",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 223.6,
+        "width": 69.2,
+        "height": 24.2
+      }
+    },
+    "textField123": {
+      "type": "text",
+      "label": "Depot TAT",
+      "page": 1,
+      "box": {
+        "left": 110.8,
+        "top": 222.2,
+        "width": 120.3,
+        "height": 21.3
+      }
+    },
+    "textField124": {
+      "type": "text",
+      "label": "Shore I-level TAT",
+      "page": 1,
+      "box": {
+        "left": 236.9,
+        "top": 222.2,
+        "width": 120.3,
+        "height": 21.3
+      }
+    },
+    "textField125": {
+      "type": "text",
+      "label": "Deploy I-level TAT",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 222.2,
+        "width": 120.3,
+        "height": 21.3
+      }
+    }
+  }
+}

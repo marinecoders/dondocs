@@ -1,0 +1,718 @@
+{
+  "id": "navmc11151",
+  "label": "NAVMC11151 - High School-Community College Visit Card- Enlisted Recruiting",
+  "directory": "NAVMC11151 - High School-Community College Visit Card- Enlisted Recruiting",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "radHS",
+        "radHS2",
+        "nameHSCC",
+        "nameRecrt",
+        "phoneNumHSCC",
+        "sectrHSCC",
+        "schYrHSCC",
+        "schCodeHSCC",
+        "addrssHSCC",
+        "radioButtonList",
+        "radioButtonList2",
+        "radioButtonList3",
+        "field",
+        "field2",
+        "field3",
+        "datePhone",
+        "resltPhone",
+        "resltVisit",
+        "dateVisit",
+        "dateSemper",
+        "resltSemper",
+        "dateDistng",
+        "resltDistng",
+        "dateScholstc",
+        "resltScholstc",
+        "dateYPF",
+        "resltYPF",
+        "dateASVAB",
+        "resltASVAB",
+        "noJrsROTC",
+        "dateROTC",
+        "noSrsROTC",
+        "dateBand",
+        "noSrsBand",
+        "dateCareer",
+        "noSrsCareer",
+        "totlNo",
+        "dateListHS",
+        "noSrsMaleSrs",
+        "dateListCC",
+        "noMaleNms",
+        "dateObtnSr",
+        "nameFrstSr",
+        "dateObtnKey",
+        "nameKey",
+        "dateFinlVisit",
+        "delivCoachTape",
+        "delivCalendr",
+        "chkToSchl",
+        "delivTakeOne",
+        "delivStudyTp"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "remakrs"
+      ]
+    }
+  ],
+  "fields": {
+    "radHS": {
+      "type": "radio",
+      "label": "hs",
+      "page": 1,
+      "box": {
+        "left": 319.0,
+        "top": 342.7,
+        "width": 17.1,
+        "height": 17.1
+      },
+      "group": "topmostSubform_0_Page1_0_RadHS_0"
+    },
+    "radHS2": {
+      "type": "radio",
+      "label": "cc",
+      "page": 1,
+      "box": {
+        "left": 363.8,
+        "top": 342.7,
+        "width": 17.1,
+        "height": 17.1
+      },
+      "group": "topmostSubform_0_Page1_0_RadHS_0"
+    },
+    "nameHSCC": {
+      "type": "text",
+      "label": "Enter name of visiting high school or community college.",
+      "page": 1,
+      "box": {
+        "left": 17.1,
+        "top": 338.1,
+        "width": 270.4,
+        "height": 17.1
+      }
+    },
+    "nameRecrt": {
+      "type": "text",
+      "label": "Enter name of recruiter.",
+      "page": 1,
+      "box": {
+        "left": 434.2,
+        "top": 338.1,
+        "width": 161.8,
+        "height": 17.1
+      }
+    },
+    "phoneNumHSCC": {
+      "type": "text",
+      "label": "PhoneNumHSCC",
+      "page": 1,
+      "box": {
+        "left": 256.7,
+        "top": 311.5,
+        "width": 84.5,
+        "height": 18.3
+      }
+    },
+    "sectrHSCC": {
+      "type": "text",
+      "label": "Enter sector of visiting high school or community college.",
+      "page": 1,
+      "box": {
+        "left": 342.8,
+        "top": 311.1,
+        "width": 82.9,
+        "height": 17.1
+      }
+    },
+    "schYrHSCC": {
+      "type": "text",
+      "label": "Enter school year of visiting high school or community college.",
+      "page": 1,
+      "box": {
+        "left": 428.3,
+        "top": 311.1,
+        "width": 82.9,
+        "height": 17.1
+      }
+    },
+    "schCodeHSCC": {
+      "type": "text",
+      "label": "Enter school code of visiting high school or community college.",
+      "page": 1,
+      "box": {
+        "left": 513.8,
+        "top": 311.1,
+        "width": 82.9,
+        "height": 17.1
+      }
+    },
+    "addrssHSCC": {
+      "type": "text",
+      "label": "Enter address of visiting high school or community college.",
+      "page": 1,
+      "box": {
+        "left": 15.8,
+        "top": 308.9,
+        "width": 239.4,
+        "height": 44.2
+      },
+      "multiline": true
+    },
+    "radioButtonList": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 307.2,
+        "top": 289.4,
+        "width": 17.1,
+        "height": 17.1
+      },
+      "group": "topmostSubform_0_Page1_0_RadioButtonList_0"
+    },
+    "radioButtonList2": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 346.1,
+        "top": 288.8,
+        "width": 17.1,
+        "height": 17.1
+      },
+      "group": "topmostSubform_0_Page1_0_RadioButtonList_0"
+    },
+    "radioButtonList3": {
+      "type": "radio",
+      "label": "3",
+      "page": 1,
+      "box": {
+        "left": 386.2,
+        "top": 288.8,
+        "width": 17.1,
+        "height": 17.1
+      },
+      "group": "topmostSubform_0_Page1_0_RadioButtonList_0"
+    },
+    "field": {
+      "type": "checkbox",
+      "label": "Check if visitor access is to be F.",
+      "page": 1,
+      "box": {
+        "left": 473.7,
+        "top": 288.8,
+        "width": 17.1,
+        "height": 17.1
+      }
+    },
+    "field2": {
+      "type": "checkbox",
+      "label": "Check if visitor access is to be L.",
+      "page": 1,
+      "box": {
+        "left": 513.2,
+        "top": 288.8,
+        "width": 17.1,
+        "height": 17.1
+      }
+    },
+    "field3": {
+      "type": "checkbox",
+      "label": "Check if visitor access is to be N.",
+      "page": 1,
+      "box": {
+        "left": 553.3,
+        "top": 288.8,
+        "width": 17.1,
+        "height": 17.1
+      }
+    },
+    "datePhone": {
+      "type": "text",
+      "label": "Enter date of initial phone call using format 2 Dec 2002.",
+      "page": 1,
+      "box": {
+        "left": 188.8,
+        "top": 244.4,
+        "width": 72.4,
+        "height": 11.2
+      }
+    },
+    "resltPhone": {
+      "type": "text",
+      "label": "Enter results of initial phone call.",
+      "page": 1,
+      "box": {
+        "left": 263.2,
+        "top": 244.4,
+        "width": 333.6,
+        "height": 11.2
+      }
+    },
+    "resltVisit": {
+      "type": "text",
+      "label": "Enter results of initial visit.",
+      "page": 1,
+      "box": {
+        "left": 263.1,
+        "top": 232.9,
+        "width": 333.8,
+        "height": 11.2
+      }
+    },
+    "dateVisit": {
+      "type": "text",
+      "label": "Enter date of initial visit.",
+      "page": 1,
+      "box": {
+        "left": 188.8,
+        "top": 232.4,
+        "width": 72.4,
+        "height": 11.2
+      }
+    },
+    "dateSemper": {
+      "type": "text",
+      "label": "Enter date of semper fidelis award.",
+      "page": 1,
+      "box": {
+        "left": 188.8,
+        "top": 220.4,
+        "width": 72.4,
+        "height": 10.8
+      }
+    },
+    "resltSemper": {
+      "type": "text",
+      "label": "Enter results of semper fidelis award.",
+      "page": 1,
+      "box": {
+        "left": 263.2,
+        "top": 220.4,
+        "width": 333.6,
+        "height": 10.8
+      }
+    },
+    "dateDistng": {
+      "type": "text",
+      "label": "Enter date of distinguished athlete award.",
+      "page": 1,
+      "box": {
+        "left": 188.8,
+        "top": 208.4,
+        "width": 72.4,
+        "height": 10.8
+      }
+    },
+    "resltDistng": {
+      "type": "text",
+      "label": "Enter results of distinguished athlete award.",
+      "page": 1,
+      "box": {
+        "left": 263.8,
+        "top": 207.6,
+        "width": 333.6,
+        "height": 10.8
+      }
+    },
+    "dateScholstc": {
+      "type": "text",
+      "label": "Enter date of scholastic excellance award.",
+      "page": 1,
+      "box": {
+        "left": 188.8,
+        "top": 196.4,
+        "width": 72.4,
+        "height": 10.8
+      }
+    },
+    "resltScholstc": {
+      "type": "text",
+      "label": "Enter results of scholastic excellance award.",
+      "page": 1,
+      "box": {
+        "left": 263.2,
+        "top": 196.4,
+        "width": 333.6,
+        "height": 10.8
+      }
+    },
+    "dateYPF": {
+      "type": "text",
+      "label": "Enter date of Y P F schedule.",
+      "page": 1,
+      "box": {
+        "left": 188.8,
+        "top": 184.4,
+        "width": 72.4,
+        "height": 10.8
+      }
+    },
+    "resltYPF": {
+      "type": "text",
+      "label": "Enter results of Y P F schedule.",
+      "page": 1,
+      "box": {
+        "left": 263.2,
+        "top": 184.4,
+        "width": 333.6,
+        "height": 10.8
+      }
+    },
+    "dateASVAB": {
+      "type": "text",
+      "label": "Enter date of A S V A B schedule.",
+      "page": 1,
+      "box": {
+        "left": 188.8,
+        "top": 172.4,
+        "width": 72.4,
+        "height": 10.8
+      }
+    },
+    "resltASVAB": {
+      "type": "text",
+      "label": "Enter results of A S V A B schedule.",
+      "page": 1,
+      "box": {
+        "left": 263.1,
+        "top": 172.2,
+        "width": 333.8,
+        "height": 10.6
+      }
+    },
+    "noJrsROTC": {
+      "type": "text",
+      "label": "Enter number of juniors at N R O T C talk.",
+      "page": 1,
+      "box": {
+        "left": 510.7,
+        "top": 160.8,
+        "width": 85.5,
+        "height": 12.4
+      }
+    },
+    "dateROTC": {
+      "type": "text",
+      "label": "Enter date of N R O T C talk.",
+      "page": 1,
+      "box": {
+        "left": 188.8,
+        "top": 160.4,
+        "width": 72.4,
+        "height": 10.8
+      }
+    },
+    "noSrsROTC": {
+      "type": "text",
+      "label": "Enter number of seniors at N R O T C talk.",
+      "page": 1,
+      "box": {
+        "left": 376.9,
+        "top": 159.8,
+        "width": 32.5,
+        "height": 10.6
+      }
+    },
+    "dateBand": {
+      "type": "text",
+      "label": "Enter date of band talk.",
+      "page": 1,
+      "box": {
+        "left": 188.8,
+        "top": 148.4,
+        "width": 72.4,
+        "height": 10.8
+      }
+    },
+    "noSrsBand": {
+      "type": "text",
+      "label": "Enter number of seniors at band talk.",
+      "page": 1,
+      "box": {
+        "left": 376.9,
+        "top": 147.9,
+        "width": 32.5,
+        "height": 10.6
+      }
+    },
+    "dateCareer": {
+      "type": "text",
+      "label": "Enter date of career talk.",
+      "page": 1,
+      "box": {
+        "left": 188.8,
+        "top": 136.4,
+        "width": 72.4,
+        "height": 10.8
+      }
+    },
+    "noSrsCareer": {
+      "type": "text",
+      "label": "Enter number of seniors at career talk.",
+      "page": 1,
+      "box": {
+        "left": 376.9,
+        "top": 136.0,
+        "width": 32.5,
+        "height": 10.6
+      }
+    },
+    "totlNo": {
+      "type": "text",
+      "label": "TotlNo",
+      "page": 1,
+      "box": {
+        "left": 484.3,
+        "top": 135.4,
+        "width": 111.2,
+        "height": 15.1
+      }
+    },
+    "dateListHS": {
+      "type": "text",
+      "label": "Enter date of community college list.",
+      "page": 1,
+      "box": {
+        "left": 188.8,
+        "top": 124.4,
+        "width": 72.4,
+        "height": 10.8
+      }
+    },
+    "noSrsMaleSrs": {
+      "type": "text",
+      "label": "Enter number of male seniors on high school list.",
+      "page": 1,
+      "box": {
+        "left": 376.9,
+        "top": 124.1,
+        "width": 32.5,
+        "height": 10.6
+      }
+    },
+    "dateListCC": {
+      "type": "text",
+      "label": "Enter date of community college list.",
+      "page": 1,
+      "box": {
+        "left": 188.8,
+        "top": 112.4,
+        "width": 72.4,
+        "height": 10.8
+      }
+    },
+    "noMaleNms": {
+      "type": "text",
+      "label": "Enter number of male names on community college list.",
+      "page": 1,
+      "box": {
+        "left": 376.9,
+        "top": 112.2,
+        "width": 32.5,
+        "height": 10.6
+      }
+    },
+    "dateObtnSr": {
+      "type": "text",
+      "label": "Enter date of obtaining first senior.",
+      "page": 1,
+      "box": {
+        "left": 188.8,
+        "top": 97.9,
+        "width": 72.5,
+        "height": 10.6
+      }
+    },
+    "nameFrstSr": {
+      "type": "text",
+      "label": "Enter name of first senior obtained.",
+      "page": 1,
+      "box": {
+        "left": 302.5,
+        "top": 97.2,
+        "width": 149.4,
+        "height": 15.6
+      }
+    },
+    "dateObtnKey": {
+      "type": "text",
+      "label": "Enter date of obtaining keyman.",
+      "page": 1,
+      "box": {
+        "left": 188.8,
+        "top": 86.6,
+        "width": 72.5,
+        "height": 10.6
+      }
+    },
+    "nameKey": {
+      "type": "text",
+      "label": "Enter name of key man obtained.",
+      "page": 1,
+      "box": {
+        "left": 302.5,
+        "top": 80.4,
+        "width": 149.4,
+        "height": 15.6
+      }
+    },
+    "dateFinlVisit": {
+      "type": "text",
+      "label": "Enter date that final visit was conducted.",
+      "page": 1,
+      "box": {
+        "left": 188.8,
+        "top": 74.8,
+        "width": 72.5,
+        "height": 10.6
+      }
+    },
+    "delivCoachTape": {
+      "type": "text",
+      "label": "Enter amount of coach tapes delivered.",
+      "page": 1,
+      "box": {
+        "left": 374.4,
+        "top": 62.9,
+        "width": 77.5,
+        "height": 15.6
+      }
+    },
+    "delivCalendr": {
+      "type": "text",
+      "label": "Enter amount of calendars delivered.",
+      "page": 1,
+      "box": {
+        "left": 207.5,
+        "top": 62.2,
+        "width": 77.5,
+        "height": 15.6
+      }
+    },
+    "chkToSchl": {
+      "type": "checkbox",
+      "label": "Check if material was delivered to school.",
+      "page": 1,
+      "box": {
+        "left": 75.6,
+        "top": 44.1,
+        "width": 16.9,
+        "height": 16.9
+      }
+    },
+    "delivTakeOne": {
+      "type": "text",
+      "label": "Enter amount of take one brochures delivered.",
+      "page": 1,
+      "box": {
+        "left": 208.1,
+        "top": 42.9,
+        "width": 77.5,
+        "height": 15.6
+      }
+    },
+    "delivStudyTp": {
+      "type": "text",
+      "label": "Enter amount of study skill tapes delivered.",
+      "page": 1,
+      "box": {
+        "left": 387.5,
+        "top": 42.2,
+        "width": 65.0,
+        "height": 15.6
+      }
+    },
+    "remakrs": {
+      "type": "text",
+      "label": "Enter remarks of dispositions.",
+      "page": 2,
+      "box": {
+        "left": 15.6,
+        "top": 81.7,
+        "width": 580.6,
+        "height": 44.0
+      },
+      "multiline": true
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 4,
+      "rowStride": 12.7,
+      "editor": "grid",
+      "columns": {
+        "poolSr": {
+          "type": "text",
+          "label": "Enter additional senior poole line 1.",
+          "page": 1,
+          "box": {
+            "left": 460.6,
+            "top": 89.1,
+            "width": 135.6,
+            "height": 10.6
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 2,
+      "count": 8,
+      "rowStride": 31.69,
+      "editor": "grid",
+      "columns": {
+        "datedDisp": {
+          "type": "text",
+          "label": "Enter date of disposition line 1.",
+          "page": 2,
+          "box": {
+            "left": 15.6,
+            "top": 331.6,
+            "width": 60.0,
+            "height": 17.5
+          }
+        },
+        "purps": {
+          "type": "text",
+          "label": "Enter purpose of disposition line 1.",
+          "page": 2,
+          "box": {
+            "left": 77.5,
+            "top": 331.6,
+            "width": 80.6,
+            "height": 17.5
+          }
+        },
+        "result": {
+          "type": "text",
+          "label": "Enter results of disposition line 1.",
+          "page": 2,
+          "box": {
+            "left": 160.0,
+            "top": 331.6,
+            "width": 435.6,
+            "height": 17.5
+          }
+        }
+      }
+    }
+  }
+}

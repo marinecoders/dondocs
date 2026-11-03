@@ -1,0 +1,1033 @@
+{
+  "id": "opnav92101",
+  "label": "OPNAV9210-1 - It Checklist For Nnpi",
+  "directory": "OPNAV9210-1 - It Checklist For Nnpi",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "date1",
+        "site",
+        "siteID",
+        "system",
+        "system2",
+        "description",
+        "description2",
+        "iAname",
+        "iAphone",
+        "iAemail",
+        "pSDName",
+        "pSDPhone",
+        "pSDEmail",
+        "checkBox1",
+        "checkBox2",
+        "checkBox3",
+        "checkBox12",
+        "checkBox22",
+        "checkBox13",
+        "checkBox23",
+        "checkBox14",
+        "checkBox24",
+        "checkBox15",
+        "checkBox25",
+        "checkBox32",
+        "checkBox4",
+        "checkBox16",
+        "checkBox26",
+        "checkBox17",
+        "checkBox27",
+        "checkBox33"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "checkBox42",
+        "checkBox18",
+        "checkBox28",
+        "checkBox19",
+        "checkBox110",
+        "checkBox111",
+        "checkBox29",
+        "checkBox34",
+        "checkBox43",
+        "checkBox112",
+        "checkBox210",
+        "checkBox113",
+        "checkBox211",
+        "checkBox35",
+        "checkBox44",
+        "checkBox5",
+        "checkBox6",
+        "checkBox7",
+        "checkBox8",
+        "checkBox114",
+        "checkBox212",
+        "checkBox36",
+        "checkBox115"
+      ],
+      "editor": "checklist"
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "checkBox116",
+        "checkBox213",
+        "checkBox37",
+        "checkBox117",
+        "checkBox118",
+        "checkBox214",
+        "checkBox38",
+        "checkBox45",
+        "checkBox119",
+        "checkBox215",
+        "checkBox120",
+        "checkBox216",
+        "checkBox39",
+        "checkBox121",
+        "checkBox217",
+        "checkBox310",
+        "checkBox46",
+        "checkBox52",
+        "checkBox62",
+        "checkBox122",
+        "checkBox218"
+      ],
+      "editor": "checklist"
+    },
+    {
+      "title": "Page 4",
+      "fields": [
+        "checkBox311",
+        "checkBox47",
+        "checkBox53",
+        "checkBox63",
+        "name1",
+        "title",
+        "date12",
+        "qualifier1"
+      ]
+    }
+  ],
+  "fields": {
+    "date1": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 500.2,
+        "top": 741.8,
+        "width": 75.1,
+        "height": 12.1
+      }
+    },
+    "site": {
+      "type": "text",
+      "label": "Site Identification(UIC, PLA, or PSI): ",
+      "page": 1,
+      "box": {
+        "left": 167.8,
+        "top": 728.3,
+        "width": 101.5,
+        "height": 12.1
+      }
+    },
+    "siteID": {
+      "type": "text",
+      "label": "C & A Package Identification (IATS or CAST Number):",
+      "page": 1,
+      "box": {
+        "left": 465.1,
+        "top": 728.3,
+        "width": 110.2,
+        "height": 12.1
+      }
+    },
+    "system": {
+      "type": "text",
+      "label": "IT System Name:",
+      "page": 1,
+      "box": {
+        "left": 101.5,
+        "top": 714.8,
+        "width": 217.3,
+        "height": 12.1
+      }
+    },
+    "system2": {
+      "type": "text",
+      "label": "Acronym for IT System (if one is used): ",
+      "page": 1,
+      "box": {
+        "left": 460.6,
+        "top": 714.8,
+        "width": 114.7,
+        "height": 12.1
+      }
+    },
+    "description": {
+      "type": "text",
+      "label": " IT System Identifier (DADMS ID #, DITPR-DON ID #, or Unique Network Name in DADMS): ",
+      "page": 1,
+      "box": {
+        "left": 36.7,
+        "top": 692.3,
+        "width": 538.6,
+        "height": 12.1
+      }
+    },
+    "description2": {
+      "type": "text",
+      "label": " IT System Description:",
+      "page": 1,
+      "box": {
+        "left": 36.7,
+        "top": 669.8,
+        "width": 538.6,
+        "height": 25.6
+      }
+    },
+    "iAname": {
+      "type": "text",
+      "label": "Name: ",
+      "page": 1,
+      "box": {
+        "left": 63.7,
+        "top": 629.3,
+        "width": 178.2,
+        "height": 12.1
+      }
+    },
+    "iAphone": {
+      "type": "text",
+      "label": "Phone Number:",
+      "page": 1,
+      "box": {
+        "left": 302.4,
+        "top": 629.3,
+        "width": 79.0,
+        "height": 12.1
+      }
+    },
+    "iAemail": {
+      "type": "text",
+      "label": "E-mail Address:",
+      "page": 1,
+      "box": {
+        "left": 441.9,
+        "top": 629.3,
+        "width": 133.1,
+        "height": 12.1
+      }
+    },
+    "pSDName": {
+      "type": "text",
+      "label": "Name: ",
+      "page": 1,
+      "box": {
+        "left": 63.7,
+        "top": 602.3,
+        "width": 178.2,
+        "height": 12.1
+      }
+    },
+    "pSDPhone": {
+      "type": "text",
+      "label": "Phone Number:",
+      "page": 1,
+      "box": {
+        "left": 302.4,
+        "top": 602.3,
+        "width": 79.0,
+        "height": 12.1
+      }
+    },
+    "pSDEmail": {
+      "type": "text",
+      "label": "E-mail Address:",
+      "page": 1,
+      "box": {
+        "left": 441.9,
+        "top": 602.3,
+        "width": 133.1,
+        "height": 12.1
+      }
+    },
+    "checkBox1": {
+      "type": "checkbox",
+      "label": "Information Systems - Requirements in chapters 1-10 and 11 of OPNAVINST N9210.3 shall be met. See Chapter 11 paragraph 3a(2) of OPNAVINST N9210.3 for additional detail on this form and required supporting documentation.",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 569.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox2": {
+      "type": "checkbox",
+      "label": "Telecommunication Systems - Requirements in chapters 1-10 and 12 of OPNAVINST N9210.3 shall be met. This checklist provides comprehensive guidelines for items to be addressed regarding control and protection for NNPI on IT. The NNPI control categories addressed and controls selected shall be tailored as appropriate for security plans for telecommunication systems processing or that are planned to process NNPI that are submitted to CNO (N00N) for approval or information.",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 536.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox3": {
+      "type": "checkbox",
+      "label": "Other Electronics - Requirements in chapters 1-10 and 13 of OPNAVINST N9210.3 shall be met. This checklist provides comprehensive guidelines for items to be addressed regarding control and protection for NNPI. The NNPI control categories addressed and controls selected shall be tailored as appropriate for security plans for electronics (not otherwise addressed as an information system or telecommunication system) processing or that are planned to process NNPI that are submitted to CNO (N00N) for approval or information.",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 491.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox12": {
+      "type": "checkbox",
+      "label": "Unclassified naval nuclear propulsion information (U-NNPI)\nAll NNPI security control requirements in 5.1 through 5.18 of this checklist apply.",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 443.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox22": {
+      "type": "checkbox",
+      "label": "Classified naval nuclear propulsion information\nAll NNPI security control requirements in 5.1 through 5.17 and 5.19 of this checklist apply.",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 421.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox13": {
+      "type": "checkbox",
+      "label": "DOD Instruction 8500.2 of 6 Feb 03 (or subsequent version)",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 387.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox23": {
+      "type": "checkbox",
+      "label": "NIST Special Publication 800-53 ver. 3 of Aug 09 (or subsequent ver.)",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 369.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox14": {
+      "type": "checkbox",
+      "label": "5.1.1 Controls are implemented/maintained to limit NNPI access to authorized NNPI users, to processes acting on behalf of authorized users or devices (including other information systems), and to the types of transactions and functions authorized users are permitted to exercise.",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 323.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox24": {
+      "type": "checkbox",
+      "label": "5.1.2 Controls are implemented/maintained to limit NNPI access with hardware and system configurations in such a manner that the IT users may not compromise them.",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 300.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox15": {
+      "type": "checkbox",
+      "label": "5.2.1 Controls are implemented/maintained to ensure that managers and users of the information systems processing NNPI know about the security risks associated with their activities and the applicable laws, executive orders, directives, policies, standards, instructions, regulations, or procedures related to the security of information systems and NNPI.",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 259.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox25": {
+      "type": "checkbox",
+      "label": "5.2.2 Controls are implemented/maintained to ensure that personnel are adequately trained to carry out their assigned NNPI information security-related duties and responsibilities.",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 232.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox32": {
+      "type": "checkbox",
+      "label": "5.2.3 Controls are implemented/maintained to ensure that all NNPI users receive initial and annual refresher NNPI training. Records of training for the most recent training received by users shall be retained.",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 209.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox4": {
+      "type": "checkbox",
+      "label": "5.2.4 Controls are implemented/maintained to ensure that each NNPI users has a signed user agreement on record prior to being granted access to NNPI on the information system.",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 187.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox16": {
+      "type": "checkbox",
+      "label": "5.3.1 Controls are implemented/maintained to create, protect, and retain information system audit records to the extent needed to enable the monitoring, analysis, investigation, and reporting of unlawful, unauthorized, or inappropriate information system activity involving NNPI.",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 151.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox26": {
+      "type": "checkbox",
+      "label": "5.3.2 Controls are implemented/maintained to ensure that the actions of individual information system users can be uniquely traced to those users so they can be held accountable for their actions.",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 128.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox17": {
+      "type": "checkbox",
+      "label": "5.4.1 NNPI controls on the information system are periodically (at least annually) assessed to determine if the controls are effective.",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 96.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox27": {
+      "type": "checkbox",
+      "label": "5.4.2 Controls are implemented/maintained to ensure that privileged users develop and implement plans of action designed to correct deficiencies and reduce or eliminate vulnerabilities to unauthorized disclosure or spillage of NNPI on the information system.",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 76.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox33": {
+      "type": "checkbox",
+      "label": "5.4.3 Controls are implemented/maintained to ensure that only authorized information systems interconnection(s) are implemented.",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 56.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox42": {
+      "type": "checkbox",
+      "label": "5.4.4 Information system security controls for NNPI are monitored on an ongoing basis to ensure the continued effectiveness of the controls.",
+      "page": 2,
+      "box": {
+        "left": 38.2,
+        "top": 752.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox18": {
+      "type": "checkbox",
+      "label": "5.5.1  NNPI controls are implemented/maintained on the information system to establish and maintain baseline configurations and inventories of information systems (including hardware, software, firmware, and documentation) throughout the respective system development life cycles.",
+      "page": 2,
+      "box": {
+        "left": 38.2,
+        "top": 720.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox28": {
+      "type": "checkbox",
+      "label": "5.5.2 NNPI controls are implemented/maintained on the information system to establish and enforce security configuration settings for information technology products employed in information systems.",
+      "page": 2,
+      "box": {
+        "left": 38.2,
+        "top": 696.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox19": {
+      "type": "checkbox",
+      "label": "5.6.1 NNPI controls are incorporated into organizational efforts to establish, maintain, and effectively implement plans for emergency response, backup operations, and post-disaster recovery for information systems to ensure the availability of critical information resources (including NNPI) and continuity of operations in emergency situations.",
+      "page": 2,
+      "box": {
+        "left": 38.2,
+        "top": 658.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox110": {
+      "type": "checkbox",
+      "label": "5.7.1 Controls are implemented/maintained to identify NNPI information system users, processes acting on behalf of NNPI users, or NNPI devices and authenticate (or verify) the identities of those authorized NNPI users, processes, or devices, as a prerequisite to allowing access to NNPI on information systems.",
+      "page": 2,
+      "box": {
+        "left": 38.2,
+        "top": 613.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox111": {
+      "type": "checkbox",
+      "label": "5.8.1 Controls are implemented/maintained for an operational NNPI incident handling capability for information systems that include adequate preparation, detection, analysis, containment, recovery, and user response activities.",
+      "page": 2,
+      "box": {
+        "left": 38.2,
+        "top": 572.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox29": {
+      "type": "checkbox",
+      "label": "5.8.2  Controls are implemented/maintained to track, document, and report NNPI incidents to appropriate organizational officials and/or authorities (such as the DAA).",
+      "page": 2,
+      "box": {
+        "left": 38.2,
+        "top": 548.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox34": {
+      "type": "checkbox",
+      "label": "5.8.3  Controls are implemented/maintained for verifying the occurrence of unauthorized or inadvertent disclosures of NNPI and reporting verified incidents to the Operational DAA and CNO (N00N).  Suspected Unauthorized or inadvertent disclosures of U-NNPI shall be verified and reported, if confirmed, within 24 hours. Unauthorized or inadvertent disclosures of classified NNPI shall be verified and reported, if confirmed, within 8 hours.",
+      "page": 2,
+      "box": {
+        "left": 38.2,
+        "top": 513.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox43": {
+      "type": "checkbox",
+      "label": "5.8.4 Controls are implemented/maintained for responding to and resolving incidents of unauthorized or inadvertent disclosures of NNPI. U-NNPI incidents shall be resolved and closed within 30 calendar days of initial reporting. Classified NNPI incidents shall be resolved within 14 calendar days of initial reporting.",
+      "page": 2,
+      "box": {
+        "left": 38.2,
+        "top": 473.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox112": {
+      "type": "checkbox",
+      "label": "5.9.1 Controls are implemented/maintained to perform periodic and timely maintenance on information systems involving NNPI.",
+      "page": 2,
+      "box": {
+        "left": 38.2,
+        "top": 432.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox210": {
+      "type": "checkbox",
+      "label": "5.9.2 Controls are implemented/maintained for the tools, techniques, mechanisms, and personnel used to conduct information system maintenance to preclude foreign national or unauthorized access to NNPI.",
+      "page": 2,
+      "box": {
+        "left": 38.2,
+        "top": 412.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox113": {
+      "type": "checkbox",
+      "label": "5.10.1 Controls are implemented/maintained to protect NNPI on information system equipment and IT media.",
+      "page": 2,
+      "box": {
+        "left": 38.2,
+        "top": 378.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox211": {
+      "type": "checkbox",
+      "label": "5.10.2 Controls are implemented/maintained to limit access to NNPI on IT media to authorized NNPI users.",
+      "page": 2,
+      "box": {
+        "left": 38.2,
+        "top": 361.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox35": {
+      "type": "checkbox",
+      "label": "5.10.3  Controls are implemented/maintained to dispose of NNPI IT media per chapter 6 of OPNAVINST N9210.3.",
+      "page": 2,
+      "box": {
+        "left": 38.2,
+        "top": 340.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox44": {
+      "type": "checkbox",
+      "label": "5.10.4 Controls are implemented/maintained to ensure that NNPI IT media is disposed of when no longer needed or accumulated for disposal at a periodicity not longer than a calendar year.",
+      "page": 2,
+      "box": {
+        "left": 38.2,
+        "top": 318.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox5": {
+      "type": "checkbox",
+      "label": "5.10.5 Controls are implemented/maintained to ensure that unattended IT media containing NNPI (classified or unclassified) has adequate physical protections commensurate with the level of information they contain.",
+      "page": 2,
+      "box": {
+        "left": 38.2,
+        "top": 295.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox6": {
+      "type": "checkbox",
+      "label": "5.10.6 Controls are implemented/maintained for ingress and egress controls for NNPI IT media and equipment per OPNAVINST N9210.3 and DAA policy.",
+      "page": 2,
+      "box": {
+        "left": 38.2,
+        "top": 273.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox7": {
+      "type": "checkbox",
+      "label": "5.10.7 Controls are implemented/maintained to ensure that IT media used to transfer NNPI to or from information systems accredited for NNPI are used only for required business/work purposes and are not used to introduce malicious code, vulnerabilities, or mechanisms for the collection or redirection of information processed on the information system.",
+      "page": 2,
+      "box": {
+        "left": 38.2,
+        "top": 244.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox8": {
+      "type": "checkbox",
+      "label": "5.10.8 Controls are implemented/maintained to ensure that IT media used for NNPI are only used on information systems with an accreditation for NNPI commensurate with the highest level and most restrictive controls required for the IT media. Reuse of IT media containing NNPI on a less restrictive or low classification of information system is prohibited.",
+      "page": 2,
+      "box": {
+        "left": 38.2,
+        "top": 208.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox114": {
+      "type": "checkbox",
+      "label": "5.11.1 Controls are implemented/maintained to prevent physical access to information systems, equipment, IT media, and the respective operating environments involving NNPI by foreign nationals or others without a need-to-know per OPNAVINST N9210.3.",
+      "page": 2,
+      "box": {
+        "left": 38.2,
+        "top": 167.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox212": {
+      "type": "checkbox",
+      "label": "5.11.2 Controls are implemented/maintained to protect the physical plant and support infrastructure for information systems processing NNPI.",
+      "page": 2,
+      "box": {
+        "left": 38.2,
+        "top": 145.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox36": {
+      "type": "checkbox",
+      "label": "5.11.3 Controls are implemented/maintained to limit physical access to NNPI IT resources in manner that is commensurate with the classification and handling requirements for the information processed. These controls shall be in place to prevent unauthorized physical access, tampering, damage, and theft. This can be achieved by controlling access into specific areas or by controlling access to specific resources (e.g., PCs, printers, servers, network devices, wiring closets, etc).",
+      "page": 2,
+      "box": {
+        "left": 38.2,
+        "top": 118.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox115": {
+      "type": "checkbox",
+      "label": "5.12.1 Controls are implemented/maintained to develop, document, periodically update, and implement security plans for information systems that describe the security controls in place or planned for the information systems and the rules of behavior for individuals accessing NNPI.",
+      "page": 2,
+      "box": {
+        "left": 38.2,
+        "top": 70.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox116": {
+      "type": "checkbox",
+      "label": "5.13.1 Controls are implemented/maintained to ensure that individuals occupying positions of responsibility within organizations (including third-party service providers) are trustworthy and meet established security criteria (including NNPI) for those positions.",
+      "page": 3,
+      "box": {
+        "left": 38.2,
+        "top": 738.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox213": {
+      "type": "checkbox",
+      "label": "5.13.2 Controls are implemented/maintained to ensure that NNPI and information systems are protected during and after personnel actions such as terminations and transfers.",
+      "page": 3,
+      "box": {
+        "left": 38.2,
+        "top": 716.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox37": {
+      "type": "checkbox",
+      "label": "5.13.3 Controls are implemented/maintained to employ formal sanctions for personnel failing to comply with organizational security policies and procedures regarding NNPI.",
+      "page": 3,
+      "box": {
+        "left": 38.2,
+        "top": 694.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox117": {
+      "type": "checkbox",
+      "label": "5.14.1 Controls are implemented/maintained to periodically assess the risk to operations (including mission, functions, image, or reputation), organizational assets, and individuals, resulting from the operation of information systems and the associated processing, storage, or transmission of NNPI.",
+      "page": 3,
+      "box": {
+        "left": 38.2,
+        "top": 651.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox118": {
+      "type": "checkbox",
+      "label": "5.15.1 Controls are implemented/maintained to allocate sufficient resources to adequately protect information systems with regards to NNPI processing needs.",
+      "page": 3,
+      "box": {
+        "left": 38.2,
+        "top": 612.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox214": {
+      "type": "checkbox",
+      "label": "5.15.2 Controls are implemented/maintained to employ system development life cycle processes that incorporate NNPI information security considerations.",
+      "page": 3,
+      "box": {
+        "left": 38.2,
+        "top": 590.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox38": {
+      "type": "checkbox",
+      "label": "5.15.3 Controls are implemented/maintained to employ necessary software usage and installation restrictions regarding NNPI processing.",
+      "page": 3,
+      "box": {
+        "left": 38.2,
+        "top": 568.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox45": {
+      "type": "checkbox",
+      "label": "5.15.4 Controls are implemented/maintained to ensure that third-party providers employ adequate NNPI security measures to protect infor applications, and/or services outsourced from the organization.",
+      "page": 3,
+      "box": {
+        "left": 38.2,
+        "top": 547.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox119": {
+      "type": "checkbox",
+      "label": "5.16.1 Controls are implemented/maintained to monitor, manage, and protect organizational communications (i.e., information transmitted or received by information systems) at the external boundaries and key internal boundaries of the information systems processing NNPI.",
+      "page": 3,
+      "box": {
+        "left": 38.2,
+        "top": 514.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox215": {
+      "type": "checkbox",
+      "label": "5.16.2 Controls are implemented/maintained to employ architectural designs, software development techniques, and systems engineering printhat promote effective NNPI security within information systems.",
+      "page": 3,
+      "box": {
+        "left": 38.2,
+        "top": 492.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox120": {
+      "type": "checkbox",
+      "label": "5.17.1  Controls are implemented/maintained to identify, report, and correct information and information system flaws affecting NNPI related controls in a timely manner. ",
+      "page": 3,
+      "box": {
+        "left": 38.2,
+        "top": 454.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox216": {
+      "type": "checkbox",
+      "label": "5.17.2 Controls are implemented/maintained to provide protection from malicious code at appropriate locations within information system processing NNPI.",
+      "page": 3,
+      "box": {
+        "left": 38.2,
+        "top": 434.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox39": {
+      "type": "checkbox",
+      "label": "5.17.3 Controls are implemented/maintained to monitor information system security alerts and advisories for NNPI and take appropriate actions in response.",
+      "page": 3,
+      "box": {
+        "left": 38.2,
+        "top": 409.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox121": {
+      "type": "checkbox",
+      "label": "5.18.1 Controls are implemented/maintained to ensure a FIPS-140-2 certified encryption is used for data in transit on information systems used to process up to U-NNPI.",
+      "page": 3,
+      "box": {
+        "left": 38.2,
+        "top": 375.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox217": {
+      "type": "checkbox",
+      "label": "5.18.2 Controls are implemented/maintained to ensure a FIPS-140-2 certified encryption is used for data at rest on mobile client devices processing up to U-NNPI.",
+      "page": 3,
+      "box": {
+        "left": 38.2,
+        "top": 351.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox310": {
+      "type": "checkbox",
+      "label": "5.18.3 Controls are implemented/maintained to ensure an FIPS-140-2 certified encryption is implemented for all removable IT media (including peripheral electronic storage) containing up to U-NNPI. IT media includes, but is not limited to, optical media (such CDs or DVDs), universal serial bus (USB) thumb drives, and external hard-drives.",
+      "page": 3,
+      "box": {
+        "left": 38.2,
+        "top": 326.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox46": {
+      "type": "checkbox",
+      "label": "5.18.4 Controls are implemented/maintained to ensure that IT equipment, media, electronic displays, and other IT items for U-NNPI are marked or labeled per chapter 2 of OPNAVINST N9210.3.",
+      "page": 3,
+      "box": {
+        "left": 38.2,
+        "top": 297.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox52": {
+      "type": "checkbox",
+      "label": "5.18.5 Controls are implemented/maintained to ensure that U-NNPI IT media and equipment are disposed of per chapter 6 of OPNAVINST N9210.3.",
+      "page": 3,
+      "box": {
+        "left": 38.2,
+        "top": 274.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox62": {
+      "type": "checkbox",
+      "label": "5.18.6 Controls are implemented/maintained to ensure that users are prompted to accept the following terms during the initial logon for each session that includes access to U-NNPI:\n \nYou are approved to process up to and including unclassified naval nuclear propulsion information (U-NNPI) on this system.\n \nU-NNPI is not for release to foreign nationals (NOFORN) and has special handling requirements. U-NNPI is subject to special export controls, and each transmittal to foreign governments or foreign nationals may be made only with the approval of the Director, Naval Nuclear Propulsion Program (CNO (N00N)). It is your responsibility to protect U-NNPI from disclosure to individuals without a need-to-know.\n \nYou are not approved to process classified information on this system.",
+      "page": 3,
+      "box": {
+        "left": 38.2,
+        "top": 207.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox122": {
+      "type": "checkbox",
+      "label": "5.19.1 Controls are implemented/maintained to ensure a NSA Type 1 certified encryption is implemented for data in transit or protected distribution systems are used per the requirements of NSTISSI No. 7003 of 13 Dec 96, Protective Distribution Systems (PDS) on information systems used to process classified NNPI.",
+      "page": 3,
+      "box": {
+        "left": 38.2,
+        "top": 123.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox218": {
+      "type": "checkbox",
+      "label": "5.19.2  Controls are implemented/maintained to ensure a FIPS-140-2 certified encryption is used for data at rest on mobile client devices processing classified NNPI until an NSA Type 1 certified encryption product for data at rest is available, at which time the NSA Type 1 certified encryption product shall be used for data at rest on mobile client devices processing classified NNPI.",
+      "page": 3,
+      "box": {
+        "left": 38.2,
+        "top": 92.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox311": {
+      "type": "checkbox",
+      "label": "5.19.3 Controls are implemented/maintained to ensure a FIPS-140-2 certified encryption is used for all removable IT media (including peripheral electronic storage) containing classified NNPI until an NSA Type 1 certified encryption product for data at rest is available, at which time the NSA \nType 1 certified encryption product shall be used for all removable IT media (including peripheral electronic storage) containing classified NNPI. IT media includes, but is not limited to, optical media (such CDs or DVDs), universal serial bus (USB) thumb drives, media cards, and external \nhard-drives.",
+      "page": 4,
+      "box": {
+        "left": 38.2,
+        "top": 733.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox47": {
+      "type": "checkbox",
+      "label": "5.19.4  Controls are implemented/maintained to ensure that IT equipment, media, electronic displays, and other IT items for classified NNPI are marked or labeled per chapter 2 of OPNAVINST N9210.3.",
+      "page": 4,
+      "box": {
+        "left": 38.2,
+        "top": 695.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox53": {
+      "type": "checkbox",
+      "label": "5.19.5  Controls are implemented/maintained to ensure that classified NNPI IT media and equipment are disposed of per chapter 6 of OPNAVINST N9210.3.",
+      "page": 4,
+      "box": {
+        "left": 38.2,
+        "top": 672.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox63": {
+      "type": "checkbox",
+      "label": "5.19.6 Controls are implemented/maintained to ensure that a classified NNPI user on IT systems authorized up to the CONFIDENTIAL or SECRET level are prompted to accept the following terms during the initial logon for each session that includes access to classified NNPI:\n \nYou are approved to process up to and including [CONFIDENTIAL or SECRET as appropriate] naval nuclear propulsion information (NNPI) on this system.\n \nNNPI is not for release to foreign nationals (NOFORN) and has special handling requirements. NNPI is subject to special export controls, and each transmittal to foreign governments or foreign nationals may be made only with the approval of the Director, Naval Nuclear Propulsion Program (CNO (N00N)). It is your responsibility to protect NNPI from disclosure to individuals without a need-to-know.\n \nAccess to RESTRICTED DATA (RD) NNPI requires FINAL Government clearance. It is your responsibility to protect RD NNPI from disclosure to individuals without a final clearance. ",
+      "page": 4,
+      "box": {
+        "left": 38.2,
+        "top": 600.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "name1": {
+      "type": "text",
+      "label": "Name: ",
+      "page": 4,
+      "box": {
+        "left": 68.2,
+        "top": 511.7,
+        "width": 237.1,
+        "height": 16.6
+      }
+    },
+    "title": {
+      "type": "text",
+      "label": "Title:",
+      "page": 4,
+      "box": {
+        "left": 333.7,
+        "top": 511.7,
+        "width": 241.6,
+        "height": 16.6
+      }
+    },
+    "date12": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 4,
+      "box": {
+        "left": 333.0,
+        "top": 494.4,
+        "width": 243.0,
+        "height": 18.0
+      }
+    },
+    "qualifier1": {
+      "type": "signature",
+      "label": "Signature:",
+      "page": 4,
+      "box": {
+        "left": 79.3,
+        "top": 491.6,
+        "width": 223.8,
+        "height": 12.3
+      }
+    }
+  }
+}

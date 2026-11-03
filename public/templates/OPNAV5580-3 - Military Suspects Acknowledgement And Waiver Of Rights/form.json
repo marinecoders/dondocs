@@ -1,0 +1,173 @@
+{
+  "id": "opnav55803",
+  "label": "OPNAV5580-3 - Military Suspects Acknowledgement And Waiver Of Rights",
+  "directory": "OPNAV5580-3 - Military Suspects Acknowledgement And Waiver Of Rights",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "place1",
+        "place2",
+        "i1",
+        "advised12",
+        "suspected",
+        "witness12",
+        "dNSDate1",
+        "timeField24",
+        "witness1",
+        "witness2",
+        "dNSDate123",
+        "timeField",
+        "i"
+      ]
+    }
+  ],
+  "fields": {
+    "place1": {
+      "type": "text",
+      "label": "Indicate the place.",
+      "page": 1,
+      "box": {
+        "left": 386.2,
+        "top": 684.5,
+        "width": 179.7,
+        "height": 18.0
+      }
+    },
+    "place2": {
+      "type": "text",
+      "label": "Indicate the place.",
+      "page": 1,
+      "box": {
+        "left": 386.3,
+        "top": 662.6,
+        "width": 179.5,
+        "height": 18.0
+      }
+    },
+    "i1": {
+      "type": "text",
+      "label": "Enter your name.",
+      "page": 1,
+      "box": {
+        "left": 56.3,
+        "top": 602.5,
+        "width": 512.8,
+        "height": 18.0
+      }
+    },
+    "advised12": {
+      "type": "text",
+      "label": "Indicate who you have been advised by.",
+      "page": 1,
+      "box": {
+        "left": 150.1,
+        "top": 581.1,
+        "width": 419.1,
+        "height": 18.0
+      }
+    },
+    "suspected": {
+      "type": "text",
+      "label": "Indicate what your suspected of.",
+      "page": 1,
+      "box": {
+        "left": 150.1,
+        "top": 559.6,
+        "width": 419.1,
+        "height": 18.0
+      }
+    },
+    "witness12": {
+      "type": "text",
+      "label": "Enter the signature.",
+      "page": 1,
+      "box": {
+        "left": 373.9,
+        "top": 311.1,
+        "width": 193.9,
+        "height": 18.0
+      }
+    },
+    "dNSDate1": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 388.0,
+        "top": 289.3,
+        "width": 91.6,
+        "height": 18.0
+      }
+    },
+    "timeField24": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 481.0,
+        "top": 289.3,
+        "width": 86.6,
+        "height": 18.0
+      }
+    },
+    "witness1": {
+      "type": "text",
+      "label": "Indicate the witness.",
+      "page": 1,
+      "box": {
+        "left": 95.4,
+        "top": 257.1,
+        "width": 216.5,
+        "height": 18.0
+      }
+    },
+    "witness2": {
+      "type": "text",
+      "label": "Enter the witness.",
+      "page": 1,
+      "box": {
+        "left": 96.0,
+        "top": 235.3,
+        "width": 215.8,
+        "height": 18.0
+      }
+    },
+    "dNSDate123": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 383.4,
+        "top": 187.0,
+        "width": 96.2,
+        "height": 18.0
+      }
+    },
+    "timeField": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 481.0,
+        "top": 187.0,
+        "width": 86.6,
+        "height": 18.0
+      }
+    },
+    "i": {
+      "type": "text",
+      "label": "Enter the name of the individual making the voluntary statement.",
+      "page": 1,
+      "box": {
+        "left": 117.3,
+        "top": 149.5,
+        "width": 454.2,
+        "height": 18.8
+      }
+    }
+  }
+}

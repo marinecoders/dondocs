@@ -1,0 +1,405 @@
+{
+  "id": "opnav4790108",
+  "label": "OPNAV4790-108 - Support Equipment MisuseAbuse",
+  "directory": "OPNAV4790-108 - Support Equipment MisuseAbuse",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "controlNo",
+        "from",
+        "to",
+        "name",
+        "rankRate",
+        "orgUnit",
+        "seLicenseNo",
+        "govtOptLicenseNo",
+        "location",
+        "typeEquip",
+        "time",
+        "date",
+        "equipSerialNo",
+        "jcn",
+        "orgUnit2",
+        "name2",
+        "rankRate2",
+        "orgUnit22",
+        "radio",
+        "radio2",
+        "remarks",
+        "seLicenseConfiscated",
+        "textField1",
+        "date2",
+        "signatureRptingOfficial"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "datePg2",
+        "from2",
+        "to2",
+        "via",
+        "actionTaken",
+        "signatureAndTitle"
+      ]
+    }
+  ],
+  "fields": {
+    "controlNo": {
+      "type": "text",
+      "label": "CONTROL NO",
+      "page": 1,
+      "box": {
+        "left": 471.8,
+        "top": 753.2,
+        "width": 101.5,
+        "height": 34.8
+      },
+      "multiline": true
+    },
+    "from": {
+      "type": "text",
+      "label": "FROM",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 700.2,
+        "width": 264.4,
+        "height": 57.7
+      },
+      "multiline": true
+    },
+    "to": {
+      "type": "text",
+      "label": "TO",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 700.2,
+        "width": 264.4,
+        "height": 57.7
+      },
+      "multiline": true
+    },
+    "name": {
+      "type": "text",
+      "label": "SUBMITTED IN REGARDS TO A REPORT OF MISUSE/ABUSE",
+      "page": 1,
+      "box": {
+        "left": 181.5,
+        "top": 618.8,
+        "width": 247.8,
+        "height": 17.5
+      }
+    },
+    "rankRate": {
+      "type": "text",
+      "label": "RANK/RATE",
+      "page": 1,
+      "box": {
+        "left": 434.9,
+        "top": 607.3,
+        "width": 138.3,
+        "height": 10.4
+      }
+    },
+    "orgUnit": {
+      "type": "text",
+      "label": "EQUIPMENT",
+      "page": 1,
+      "box": {
+        "left": 232.1,
+        "top": 595.6,
+        "width": 197.2,
+        "height": 52.8
+      },
+      "multiline": true
+    },
+    "seLicenseNo": {
+      "type": "text",
+      "label": "MISUSED/ABUSED",
+      "page": 1,
+      "box": {
+        "left": 434.9,
+        "top": 581.0,
+        "width": 138.3,
+        "height": 11.2
+      }
+    },
+    "govtOptLicenseNo": {
+      "type": "text",
+      "label": "GOVT OPERATOR LICENSE NO",
+      "page": 1,
+      "box": {
+        "left": 434.9,
+        "top": 555.6,
+        "width": 138.3,
+        "height": 12.8
+      }
+    },
+    "location": {
+      "type": "text",
+      "label": "EQUIPMENT",
+      "page": 1,
+      "box": {
+        "left": 168.9,
+        "top": 537.1,
+        "width": 138.8,
+        "height": 76.0
+      },
+      "multiline": true
+    },
+    "typeEquip": {
+      "type": "text",
+      "label": "LOCATION",
+      "page": 1,
+      "box": {
+        "left": 313.4,
+        "top": 526.2,
+        "width": 115.8,
+        "height": 24.3
+      }
+    },
+    "time": {
+      "type": "text",
+      "label": "TIME",
+      "page": 1,
+      "box": {
+        "left": 434.9,
+        "top": 526.1,
+        "width": 138.3,
+        "height": 11.0
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "EQUIPMENT SERIAL NO",
+      "page": 1,
+      "box": {
+        "left": 434.9,
+        "top": 500.9,
+        "width": 138.3,
+        "height": 12.8
+      }
+    },
+    "equipSerialNo": {
+      "type": "text",
+      "label": "EQUIPMENT SERIAL NO",
+      "page": 1,
+      "box": {
+        "left": 313.4,
+        "top": 485.7,
+        "width": 115.8,
+        "height": 24.3
+      }
+    },
+    "jcn": {
+      "type": "text",
+      "label": "JCN",
+      "page": 1,
+      "box": {
+        "left": 434.9,
+        "top": 473.3,
+        "width": 138.3,
+        "height": 12.2
+      }
+    },
+    "orgUnit2": {
+      "type": "text",
+      "label": "NARRATIVE DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 443.7,
+        "width": 534.4,
+        "height": 251.3
+      },
+      "multiline": true
+    },
+    "name2": {
+      "type": "text",
+      "label": "EQUIPMENT SERIAL NO",
+      "page": 1,
+      "box": {
+        "left": 149.4,
+        "top": 186.8,
+        "width": 279.9,
+        "height": 21.3
+      }
+    },
+    "rankRate2": {
+      "type": "text",
+      "label": "PERSON",
+      "page": 1,
+      "box": {
+        "left": 434.9,
+        "top": 176.7,
+        "width": 138.3,
+        "height": 11.2
+      }
+    },
+    "orgUnit22": {
+      "type": "text",
+      "label": "ABUSE",
+      "page": 1,
+      "box": {
+        "left": 217.9,
+        "top": 159.8,
+        "width": 355.4,
+        "height": 34.8
+      },
+      "multiline": true
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 268.4,
+        "top": 115.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 115.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "remarks": {
+      "type": "text",
+      "label": "REMARKS",
+      "page": 1,
+      "box": {
+        "left": 344.9,
+        "top": 107.9,
+        "width": 228.4,
+        "height": 27.9
+      }
+    },
+    "seLicenseConfiscated": {
+      "type": "text",
+      "label": "IF YES, LICENSE IS BEING HELD BY",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 100.6,
+        "width": 223.9,
+        "height": 20.6
+      }
+    },
+    "textField1": {
+      "type": "text",
+      "label": "YES NO",
+      "page": 1,
+      "box": {
+        "left": 268.4,
+        "top": 96.8,
+        "width": 70.8,
+        "height": 16.8
+      }
+    },
+    "date2": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 434.9,
+        "top": 61.1,
+        "width": 138.3,
+        "height": 21.7
+      }
+    },
+    "signatureRptingOfficial": {
+      "type": "text",
+      "label": "SIGNATURE AND TITLE OF REPORTING OFFICIAL",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 61.0,
+        "width": 390.4,
+        "height": 21.6
+      }
+    },
+    "datePg2": {
+      "type": "text",
+      "label": "DATE",
+      "page": 2,
+      "box": {
+        "left": 434.9,
+        "top": 740.7,
+        "width": 138.3,
+        "height": 22.4
+      }
+    },
+    "from2": {
+      "type": "text",
+      "label": "ENDORSEMENT",
+      "page": 2,
+      "box": {
+        "left": 82.5,
+        "top": 712.7,
+        "width": 490.8,
+        "height": 17.5
+      }
+    },
+    "to2": {
+      "type": "text",
+      "label": "ENDORSEMENT",
+      "page": 2,
+      "box": {
+        "left": 82.5,
+        "top": 689.5,
+        "width": 490.8,
+        "height": 17.5
+      }
+    },
+    "via": {
+      "type": "text",
+      "label": "ENDORSEMENT",
+      "page": 2,
+      "box": {
+        "left": 82.5,
+        "top": 666.3,
+        "width": 490.8,
+        "height": 17.5
+      }
+    },
+    "actionTaken": {
+      "type": "text",
+      "label": "ACTION TAKEN / RECOMMENDATIONS",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 608.2,
+        "width": 534.4,
+        "height": 524.4
+      },
+      "multiline": true
+    },
+    "signatureAndTitle": {
+      "type": "text",
+      "label": "SIGNATURE AND TITLE",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 64.8,
+        "width": 534.4,
+        "height": 25.6
+      }
+    }
+  }
+}

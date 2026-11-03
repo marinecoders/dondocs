@@ -1,0 +1,788 @@
+{
+  "id": "opnav510021",
+  "label": "OPNAV5100-21 - Computer Workstation Checklist",
+  "directory": "OPNAV5100-21 - Computer Workstation Checklist",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 3",
+      "fields": [
+        "textField1",
+        "textField12",
+        "textField13",
+        "textField14",
+        "textField15",
+        "textField16",
+        "textField17",
+        "textField18",
+        "textField19",
+        "textField110",
+        "textField111",
+        "textField112",
+        "textField113",
+        "textField114",
+        "textField115",
+        "textField116",
+        "y1",
+        "n1",
+        "y2",
+        "n2",
+        "y3",
+        "n3",
+        "y4",
+        "n4",
+        "y5",
+        "n5",
+        "y6",
+        "n6",
+        "y7",
+        "n7",
+        "y8",
+        "n8",
+        "y9",
+        "n9",
+        "y10",
+        "n10"
+      ]
+    },
+    {
+      "title": "Page 4",
+      "fields": [
+        "y11",
+        "n11",
+        "y12",
+        "n12",
+        "y13",
+        "n13",
+        "y14",
+        "n14",
+        "y15",
+        "n15",
+        "y16",
+        "n16",
+        "y17",
+        "n17",
+        "y18",
+        "n18",
+        "y19",
+        "n19",
+        "y20",
+        "n20",
+        "y21",
+        "n21",
+        "y22",
+        "n22",
+        "y23",
+        "n23",
+        "textField2"
+      ],
+      "editor": "checklist"
+    }
+  ],
+  "fields": {
+    "textField1": {
+      "type": "text",
+      "label": "Evaluator:",
+      "page": 3,
+      "box": {
+        "left": 20.8,
+        "top": 719.4,
+        "width": 282.3,
+        "height": 14.6
+      }
+    },
+    "textField12": {
+      "type": "text",
+      "label": "Date:",
+      "page": 3,
+      "box": {
+        "left": 308.8,
+        "top": 719.4,
+        "width": 282.3,
+        "height": 14.6
+      }
+    },
+    "textField13": {
+      "type": "text",
+      "label": "Location:",
+      "page": 3,
+      "box": {
+        "left": 308.8,
+        "top": 687.2,
+        "width": 138.3,
+        "height": 18.3
+      }
+    },
+    "textField14": {
+      "type": "text",
+      "label": "Email:",
+      "page": 3,
+      "box": {
+        "left": 452.8,
+        "top": 687.2,
+        "width": 138.3,
+        "height": 18.3
+      }
+    },
+    "textField15": {
+      "type": "text",
+      "label": "Title:",
+      "page": 3,
+      "box": {
+        "left": 166.6,
+        "top": 684.9,
+        "width": 136.5,
+        "height": 16.1
+      }
+    },
+    "textField16": {
+      "type": "text",
+      "label": "Employee Name:",
+      "page": 3,
+      "box": {
+        "left": 20.8,
+        "top": 684.2,
+        "width": 140.1,
+        "height": 15.3
+      }
+    },
+    "textField17": {
+      "type": "text",
+      "label": "Time in current position:",
+      "page": 3,
+      "box": {
+        "left": 20.8,
+        "top": 649.7,
+        "width": 282.3,
+        "height": 16.8
+      }
+    },
+    "textField18": {
+      "type": "text",
+      "label": "Phone Number:",
+      "page": 3,
+      "box": {
+        "left": 308.8,
+        "top": 649.7,
+        "width": 282.3,
+        "height": 16.8
+      }
+    },
+    "textField19": {
+      "type": "text",
+      "label": "Computer - Keying:",
+      "page": 3,
+      "box": {
+        "left": 372.1,
+        "top": 627.2,
+        "width": 66.0,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "textField110": {
+      "type": "text",
+      "label": "Mouse, Track ball:",
+      "page": 3,
+      "box": {
+        "left": 530.1,
+        "top": 627.2,
+        "width": 61.1,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "textField111": {
+      "type": "text",
+      "label": "Hours worked per week?",
+      "page": 3,
+      "box": {
+        "left": 121.3,
+        "top": 591.2,
+        "width": 39.6,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "textField112": {
+      "type": "text",
+      "label": "Is the workstation shared? Y/N",
+      "page": 3,
+      "box": {
+        "left": 273.1,
+        "top": 591.2,
+        "width": 31.8,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "textField113": {
+      "type": "text",
+      "label": "Writing:",
+      "page": 3,
+      "box": {
+        "left": 444.9,
+        "top": 591.2,
+        "width": 47.3,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "textField114": {
+      "type": "text",
+      "label": "Other tasks:",
+      "page": 3,
+      "box": {
+        "left": 554.8,
+        "top": 591.2,
+        "width": 36.3,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "textField115": {
+      "type": "text",
+      "label": "Telephone:",
+      "page": 3,
+      "box": {
+        "left": 310.6,
+        "top": 576.9,
+        "width": 84.3,
+        "height": 16.1
+      }
+    },
+    "textField116": {
+      "type": "text",
+      "label": "Pain or discomfort, documented injuries, risk factors, etc:",
+      "page": 3,
+      "box": {
+        "left": 20.8,
+        "top": 540.2,
+        "width": 570.3,
+        "height": 15.3
+      }
+    },
+    "y1": {
+      "type": "checkbox",
+      "label": "y1",
+      "page": 3,
+      "box": {
+        "left": 22.4,
+        "top": 396.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "n1": {
+      "type": "checkbox",
+      "label": "n1",
+      "page": 3,
+      "box": {
+        "left": 40.4,
+        "top": 396.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "y2": {
+      "type": "checkbox",
+      "label": "y2",
+      "page": 3,
+      "box": {
+        "left": 22.4,
+        "top": 338.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "n2": {
+      "type": "checkbox",
+      "label": "n2",
+      "page": 3,
+      "box": {
+        "left": 40.4,
+        "top": 338.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "y3": {
+      "type": "checkbox",
+      "label": "y3",
+      "page": 3,
+      "box": {
+        "left": 22.4,
+        "top": 311.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "n3": {
+      "type": "checkbox",
+      "label": "n3",
+      "page": 3,
+      "box": {
+        "left": 40.4,
+        "top": 311.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "y4": {
+      "type": "checkbox",
+      "label": "y4",
+      "page": 3,
+      "box": {
+        "left": 22.4,
+        "top": 293.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "n4": {
+      "type": "checkbox",
+      "label": "n4",
+      "page": 3,
+      "box": {
+        "left": 40.4,
+        "top": 293.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "y5": {
+      "type": "checkbox",
+      "label": "y5",
+      "page": 3,
+      "box": {
+        "left": 22.4,
+        "top": 248.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "n5": {
+      "type": "checkbox",
+      "label": "n5",
+      "page": 3,
+      "box": {
+        "left": 40.4,
+        "top": 248.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "y6": {
+      "type": "checkbox",
+      "label": "y6",
+      "page": 3,
+      "box": {
+        "left": 22.4,
+        "top": 221.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "n6": {
+      "type": "checkbox",
+      "label": "n6",
+      "page": 3,
+      "box": {
+        "left": 40.4,
+        "top": 221.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "y7": {
+      "type": "checkbox",
+      "label": "y7",
+      "page": 3,
+      "box": {
+        "left": 22.4,
+        "top": 176.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "n7": {
+      "type": "checkbox",
+      "label": "n7",
+      "page": 3,
+      "box": {
+        "left": 40.4,
+        "top": 176.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "y8": {
+      "type": "checkbox",
+      "label": "y8",
+      "page": 3,
+      "box": {
+        "left": 22.4,
+        "top": 144.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "n8": {
+      "type": "checkbox",
+      "label": "n8",
+      "page": 3,
+      "box": {
+        "left": 40.4,
+        "top": 144.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "y9": {
+      "type": "checkbox",
+      "label": "y9",
+      "page": 3,
+      "box": {
+        "left": 22.4,
+        "top": 104.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "n9": {
+      "type": "checkbox",
+      "label": "n9",
+      "page": 3,
+      "box": {
+        "left": 40.4,
+        "top": 104.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "y10": {
+      "type": "checkbox",
+      "label": "y10",
+      "page": 3,
+      "box": {
+        "left": 22.4,
+        "top": 81.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "n10": {
+      "type": "checkbox",
+      "label": "n10",
+      "page": 3,
+      "box": {
+        "left": 40.4,
+        "top": 81.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "y11": {
+      "type": "checkbox",
+      "label": "y11",
+      "page": 4,
+      "box": {
+        "left": 22.4,
+        "top": 666.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "n11": {
+      "type": "checkbox",
+      "label": "n11",
+      "page": 4,
+      "box": {
+        "left": 40.4,
+        "top": 666.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "y12": {
+      "type": "checkbox",
+      "label": "y12",
+      "page": 4,
+      "box": {
+        "left": 22.4,
+        "top": 630.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "n12": {
+      "type": "checkbox",
+      "label": "n12",
+      "page": 4,
+      "box": {
+        "left": 40.4,
+        "top": 630.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "y13": {
+      "type": "checkbox",
+      "label": "y13",
+      "page": 4,
+      "box": {
+        "left": 22.4,
+        "top": 585.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "n13": {
+      "type": "checkbox",
+      "label": "n13",
+      "page": 4,
+      "box": {
+        "left": 40.4,
+        "top": 585.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "y14": {
+      "type": "checkbox",
+      "label": "y14",
+      "page": 4,
+      "box": {
+        "left": 22.4,
+        "top": 522.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "n14": {
+      "type": "checkbox",
+      "label": "n14",
+      "page": 4,
+      "box": {
+        "left": 40.4,
+        "top": 522.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "y15": {
+      "type": "checkbox",
+      "label": "y15",
+      "page": 4,
+      "box": {
+        "left": 22.4,
+        "top": 473.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "n15": {
+      "type": "checkbox",
+      "label": "n15",
+      "page": 4,
+      "box": {
+        "left": 40.4,
+        "top": 473.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "y16": {
+      "type": "checkbox",
+      "label": "y16",
+      "page": 4,
+      "box": {
+        "left": 22.4,
+        "top": 414.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "n16": {
+      "type": "checkbox",
+      "label": "n16",
+      "page": 4,
+      "box": {
+        "left": 40.4,
+        "top": 414.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "y17": {
+      "type": "checkbox",
+      "label": "y17",
+      "page": 4,
+      "box": {
+        "left": 22.4,
+        "top": 369.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "n17": {
+      "type": "checkbox",
+      "label": "n17",
+      "page": 4,
+      "box": {
+        "left": 40.4,
+        "top": 369.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "y18": {
+      "type": "checkbox",
+      "label": "y18",
+      "page": 4,
+      "box": {
+        "left": 22.4,
+        "top": 315.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "n18": {
+      "type": "checkbox",
+      "label": "n18",
+      "page": 4,
+      "box": {
+        "left": 40.4,
+        "top": 315.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "y19": {
+      "type": "checkbox",
+      "label": "y19",
+      "page": 4,
+      "box": {
+        "left": 22.4,
+        "top": 252.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "n19": {
+      "type": "checkbox",
+      "label": "n19",
+      "page": 4,
+      "box": {
+        "left": 40.4,
+        "top": 252.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "y20": {
+      "type": "checkbox",
+      "label": "y20",
+      "page": 4,
+      "box": {
+        "left": 22.4,
+        "top": 221.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "n20": {
+      "type": "checkbox",
+      "label": "n20",
+      "page": 4,
+      "box": {
+        "left": 40.4,
+        "top": 221.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "y21": {
+      "type": "checkbox",
+      "label": "y21",
+      "page": 4,
+      "box": {
+        "left": 22.4,
+        "top": 185.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "n21": {
+      "type": "checkbox",
+      "label": "n21",
+      "page": 4,
+      "box": {
+        "left": 40.4,
+        "top": 185.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "y22": {
+      "type": "checkbox",
+      "label": "y22",
+      "page": 4,
+      "box": {
+        "left": 22.4,
+        "top": 158.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "n22": {
+      "type": "checkbox",
+      "label": "n22",
+      "page": 4,
+      "box": {
+        "left": 40.4,
+        "top": 158.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "y23": {
+      "type": "checkbox",
+      "label": "y23",
+      "page": 4,
+      "box": {
+        "left": 22.4,
+        "top": 126.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "n23": {
+      "type": "checkbox",
+      "label": "n23",
+      "page": 4,
+      "box": {
+        "left": 40.4,
+        "top": 126.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "textField2": {
+      "type": "text",
+      "label": "Workstation Sketch, Notes, Follow-up, Comments:",
+      "page": 4,
+      "box": {
+        "left": 20.8,
+        "top": 83.8,
+        "width": 570.3,
+        "height": 12.3
+      }
+    }
+  }
+}

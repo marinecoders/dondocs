@@ -1,0 +1,84 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "iAMAppDtd": {
+        "left": 254.2,
+        "top": 258.8,
+        "width": 103.7,
+        "height": 26.2,
+        "type": "text",
+        "description": "attention of this office so that",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "iAMAppSig": {
+        "left": 389.2,
+        "top": 258.8,
+        "width": 175.7,
+        "height": 25.7,
+        "type": "text",
+        "description": "remedies may be worked out for the benefit of other",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "prtNme": {
+        "left": 47.8,
+        "top": 258.1,
+        "width": 174.4,
+        "height": 26.3,
+        "type": "text",
+        "description": "NATO travelers",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "iAMAppDtd2": {
+        "left": 254.2,
+        "top": 114.8,
+        "width": 103.7,
+        "height": 25.6,
+        "type": "text",
+        "description": "instructions set forth above which pertain",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "iAMAppSig2": {
+        "left": 389.2,
+        "top": 114.8,
+        "width": 175.7,
+        "height": 25.7,
+        "type": "text",
+        "description": "the handling of NATO classified documents in",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "prtNme2": {
+        "left": 47.8,
+        "top": 114.1,
+        "width": 174.4,
+        "height": 23.7,
+        "type": "text",
+        "description": "my custody while I am an official courier",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

@@ -1,0 +1,442 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "textField3": {
+        "left": 38.8,
+        "top": 439.2,
+        "width": 210.4,
+        "height": 22.4,
+        "type": "text",
+        "description": "Last Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField32": {
+        "left": 254.9,
+        "top": 439.2,
+        "width": 210.4,
+        "height": 22.4,
+        "type": "text",
+        "description": "First Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField33": {
+        "left": 470.9,
+        "top": 439.2,
+        "width": 30.3,
+        "height": 22.4,
+        "type": "text",
+        "description": "MI",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateField1": {
+        "left": 506.9,
+        "top": 439.2,
+        "width": 66.3,
+        "height": 22.4,
+        "type": "text",
+        "description": "Year of Birth",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField34": {
+        "left": 38.8,
+        "top": 403.2,
+        "width": 210.4,
+        "height": 22.4,
+        "type": "text",
+        "description": "Current Physical Address",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField35": {
+        "left": 254.9,
+        "top": 403.2,
+        "width": 210.4,
+        "height": 22.4,
+        "type": "text",
+        "description": "City",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField36": {
+        "left": 470.9,
+        "top": 403.2,
+        "width": 30.3,
+        "height": 22.4,
+        "type": "text",
+        "description": "State",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField5": {
+        "left": 506.9,
+        "top": 403.2,
+        "width": 66.3,
+        "height": 22.4,
+        "type": "text",
+        "description": "Zip Code",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField37": {
+        "left": 38.8,
+        "top": 367.1,
+        "width": 210.4,
+        "height": 22.4,
+        "type": "text",
+        "description": "Current Mailing Address (if different than physical address)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField38": {
+        "left": 254.9,
+        "top": 367.1,
+        "width": 210.4,
+        "height": 22.4,
+        "type": "text",
+        "description": "City",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField39": {
+        "left": 470.9,
+        "top": 367.1,
+        "width": 30.3,
+        "height": 22.4,
+        "type": "text",
+        "description": "State",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField52": {
+        "left": 506.9,
+        "top": 367.1,
+        "width": 66.3,
+        "height": 22.4,
+        "type": "text",
+        "description": "Zip Code",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField310": {
+        "left": 38.8,
+        "top": 331.1,
+        "width": 129.3,
+        "height": 22.4,
+        "type": "text",
+        "description": "Cell Phone",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField311": {
+        "left": 173.9,
+        "top": 331.1,
+        "width": 129.3,
+        "height": 22.4,
+        "type": "text",
+        "description": "Cell Carrier",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField312": {
+        "left": 308.9,
+        "top": 331.1,
+        "width": 129.3,
+        "height": 22.4,
+        "type": "text",
+        "description": "Home Phone",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField313": {
+        "left": 443.9,
+        "top": 331.1,
+        "width": 129.3,
+        "height": 22.4,
+        "type": "text",
+        "description": "Email Address",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio": {
+        "left": 135.3,
+        "top": 300.9,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio2": {
+        "left": 315.4,
+        "top": 300.9,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "textField314": {
+        "left": 38.8,
+        "top": 277.1,
+        "width": 534.4,
+        "height": 22.4,
+        "type": "text",
+        "description": "3. Unit and unit address where applicant seeks appointment",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField315": {
+        "left": 38.8,
+        "top": 241.1,
+        "width": 174.4,
+        "height": 22.4,
+        "type": "text",
+        "description": "4. Sponsor\u2019s Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField316": {
+        "left": 218.9,
+        "top": 241.1,
+        "width": 174.4,
+        "height": 22.4,
+        "type": "text",
+        "description": "5. Sponsor\u2019s Section/Company",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dropDownList1": {
+        "left": 399.6,
+        "top": 240.4,
+        "width": 172.9,
+        "height": 20.9,
+        "type": "choice",
+        "description": "6. Relationship to Sponsor",
+        "options": [
+          "Spouse",
+          "Parent",
+          "Child (over 18)",
+          "Extended Family",
+          "Other"
+        ],
+        "group": null,
+        "required": false
+      },
+      "dateField12": {
+        "left": 38.8,
+        "top": 187.1,
+        "width": 102.3,
+        "height": 22.4,
+        "type": "text",
+        "description": "Date Application Received",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField317": {
+        "left": 146.9,
+        "top": 187.1,
+        "width": 156.4,
+        "height": 22.4,
+        "type": "text",
+        "description": "Received by",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateField13": {
+        "left": 308.9,
+        "top": 187.1,
+        "width": 102.3,
+        "height": 22.4,
+        "type": "text",
+        "description": "Date Interview Conducted",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField318": {
+        "left": 416.9,
+        "top": 187.1,
+        "width": 156.4,
+        "height": 22.4,
+        "type": "text",
+        "description": "Interviewed by",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio3": {
+        "left": 92.8,
+        "top": 156.9,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio4": {
+        "left": 272.9,
+        "top": 156.9,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio5": {
+        "left": 398.9,
+        "top": 156.9,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "radio",
+        "description": "Item2",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "dateField14": {
+        "left": 38.8,
+        "top": 122.3,
+        "width": 102.3,
+        "height": 11.6,
+        "type": "text",
+        "description": "and signed",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateField15": {
+        "left": 146.9,
+        "top": 122.3,
+        "width": 102.3,
+        "height": 11.6,
+        "type": "text",
+        "description": "Date of appointment letter",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateField16": {
+        "left": 254.9,
+        "top": 122.3,
+        "width": 102.3,
+        "height": 11.6,
+        "type": "text",
+        "description": "Date of FRA/FRCTA Training",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateField17": {
+        "left": 362.9,
+        "top": 122.3,
+        "width": 102.3,
+        "height": 11.6,
+        "type": "text",
+        "description": "Training",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateField18": {
+        "left": 470.9,
+        "top": 122.3,
+        "width": 102.3,
+        "height": 11.6,
+        "type": "text",
+        "description": "Date of L.I.N.K.S. Training",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField319": {
+        "left": 38.8,
+        "top": 79.1,
+        "width": 138.3,
+        "height": 22.4,
+        "type": "text",
+        "description": "Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField2": {
+        "left": 182.9,
+        "top": 79.1,
+        "width": 138.3,
+        "height": 22.4,
+        "type": "text",
+        "description": "Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField320": {
+        "left": 326.9,
+        "top": 79.1,
+        "width": 138.3,
+        "height": 22.4,
+        "type": "text",
+        "description": "Title",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateField19": {
+        "left": 470.9,
+        "top": 79.1,
+        "width": 102.3,
+        "height": 22.4,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

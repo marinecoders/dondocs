@@ -1,0 +1,620 @@
+{
+  "id": "opnav15422",
+  "label": "OPNAV1542-2 - Naval Aeromedical Dual Designator Program Application",
+  "directory": "OPNAV1542-2 - Naval Aeromedical Dual Designator Program Application",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "dteBth",
+        "nmeLasFirM",
+        "gde",
+        "socSecNo",
+        "hmAdd",
+        "phoneNum",
+        "dtyAdd",
+        "dtyPhoneNum",
+        "emlAdd",
+        "nADDte",
+        "nATyNo",
+        "nFODDte",
+        "nFOTyNo",
+        "aDDDte",
+        "aDTyNo",
+        "oSPRDDte",
+        "oSPRTyNo",
+        "aFRtg",
+        "armyRtg",
+        "cmmd",
+        "cmdDte",
+        "cmmda",
+        "cmdDtea",
+        "cmmdb",
+        "cmdDteb",
+        "cmmdc",
+        "cmdDtec",
+        "cmmdc2",
+        "cmdDted",
+        "cmmde",
+        "cmdDtee",
+        "mat",
+        "mt",
+        "cat",
+        "ct",
+        "mATa",
+        "mTa",
+        "cATa",
+        "cTa",
+        "mATb",
+        "mTb",
+        "cATb",
+        "cTb",
+        "mATc",
+        "mTc",
+        "cATc",
+        "cTc",
+        "nADDte2",
+        "nADDte3",
+        "signatureField1"
+      ]
+    }
+  ],
+  "fields": {
+    "dteBth": {
+      "type": "text",
+      "label": "4. Date if Birth",
+      "page": 1,
+      "box": {
+        "left": 477.7,
+        "top": 625.7,
+        "width": 97.7,
+        "height": 22.2
+      }
+    },
+    "nmeLasFirM": {
+      "type": "text",
+      "label": "1. Name (Last, First , MI)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 625.4,
+        "width": 264.4,
+        "height": 19.7
+      }
+    },
+    "gde": {
+      "type": "text",
+      "label": "2. Grade",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 625.4,
+        "width": 48.3,
+        "height": 19.7
+      }
+    },
+    "socSecNo": {
+      "type": "text",
+      "label": "3. SSN",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 625.4,
+        "width": 111.3,
+        "height": 19.7
+      }
+    },
+    "hmAdd": {
+      "type": "text",
+      "label": "5. Home Address (Zip+4)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 585.0,
+        "width": 210.4,
+        "height": 51.2
+      },
+      "multiline": true
+    },
+    "phoneNum": {
+      "type": "text",
+      "label": "6. Home Telephone",
+      "page": 1,
+      "box": {
+        "left": 254.8,
+        "top": 585.0,
+        "width": 102.4,
+        "height": 51.2
+      },
+      "multiline": true
+    },
+    "dtyAdd": {
+      "type": "text",
+      "label": "7. Complete Duty Address",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 585.0,
+        "width": 210.4,
+        "height": 51.2
+      },
+      "multiline": true
+    },
+    "dtyPhoneNum": {
+      "type": "text",
+      "label": "8. Duty Telephone",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 519.3,
+        "width": 264.4,
+        "height": 21.7
+      }
+    },
+    "emlAdd": {
+      "type": "text",
+      "label": "9. E-Mail Address",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 519.3,
+        "width": 264.4,
+        "height": 21.6
+      }
+    },
+    "nADDte": {
+      "type": "text",
+      "label": "a. Naval Aviator",
+      "page": 1,
+      "box": {
+        "left": 306.7,
+        "top": 471.8,
+        "width": 79.7,
+        "height": 16.7
+      }
+    },
+    "nATyNo": {
+      "type": "text",
+      "label": "a. Naval Aviator",
+      "page": 1,
+      "box": {
+        "left": 389.9,
+        "top": 469.6,
+        "width": 183.4,
+        "height": 12.3
+      }
+    },
+    "nFODDte": {
+      "type": "text",
+      "label": "b. Naval Flight Officer",
+      "page": 1,
+      "box": {
+        "left": 306.7,
+        "top": 453.8,
+        "width": 79.7,
+        "height": 16.7
+      }
+    },
+    "nFOTyNo": {
+      "type": "text",
+      "label": "b. Naval Flight Officer",
+      "page": 1,
+      "box": {
+        "left": 389.9,
+        "top": 451.6,
+        "width": 183.4,
+        "height": 12.3
+      }
+    },
+    "aDDDte": {
+      "type": "text",
+      "label": "c. Aeromedical Designation",
+      "page": 1,
+      "box": {
+        "left": 306.7,
+        "top": 435.8,
+        "width": 79.7,
+        "height": 16.7
+      }
+    },
+    "aDTyNo": {
+      "type": "text",
+      "label": "c. Aeromedical Designation",
+      "page": 1,
+      "box": {
+        "left": 389.9,
+        "top": 433.6,
+        "width": 183.4,
+        "height": 12.3
+      }
+    },
+    "oSPRDDte": {
+      "type": "text",
+      "label": "Designation",
+      "page": 1,
+      "box": {
+        "left": 306.7,
+        "top": 417.8,
+        "width": 79.7,
+        "height": 25.7
+      }
+    },
+    "oSPRTyNo": {
+      "type": "text",
+      "label": "12. Certification Type/Number",
+      "page": 1,
+      "box": {
+        "left": 389.9,
+        "top": 415.6,
+        "width": 183.4,
+        "height": 21.3
+      }
+    },
+    "aFRtg": {
+      "type": "text",
+      "label": "Air Force",
+      "page": 1,
+      "box": {
+        "left": 92.2,
+        "top": 405.0,
+        "width": 78.9,
+        "height": 13.9
+      }
+    },
+    "armyRtg": {
+      "type": "text",
+      "label": "Army",
+      "page": 1,
+      "box": {
+        "left": 207.0,
+        "top": 405.0,
+        "width": 99.1,
+        "height": 13.9
+      }
+    },
+    "cmmd": {
+      "type": "text",
+      "label": "Command",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 352.6,
+        "width": 264.4,
+        "height": 12.3
+      }
+    },
+    "cmdDte": {
+      "type": "text",
+      "label": "Dates",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 352.6,
+        "width": 264.4,
+        "height": 12.3
+      }
+    },
+    "cmmda": {
+      "type": "text",
+      "label": "Command",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 334.6,
+        "width": 264.4,
+        "height": 12.3
+      }
+    },
+    "cmdDtea": {
+      "type": "text",
+      "label": "Dates",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 334.6,
+        "width": 264.4,
+        "height": 12.3
+      }
+    },
+    "cmmdb": {
+      "type": "text",
+      "label": "Command",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 316.6,
+        "width": 264.4,
+        "height": 12.3
+      }
+    },
+    "cmdDteb": {
+      "type": "text",
+      "label": "Dates",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 316.6,
+        "width": 264.4,
+        "height": 12.3
+      }
+    },
+    "cmmdc": {
+      "type": "text",
+      "label": "Command",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 298.6,
+        "width": 264.4,
+        "height": 12.3
+      }
+    },
+    "cmdDtec": {
+      "type": "text",
+      "label": "Dates",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 298.6,
+        "width": 264.4,
+        "height": 12.3
+      }
+    },
+    "cmmdc2": {
+      "type": "text",
+      "label": "Command",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 280.6,
+        "width": 264.4,
+        "height": 12.3
+      }
+    },
+    "cmdDted": {
+      "type": "text",
+      "label": "Dates",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 280.6,
+        "width": 264.4,
+        "height": 12.3
+      }
+    },
+    "cmmde": {
+      "type": "text",
+      "label": "Command",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 262.6,
+        "width": 264.4,
+        "height": 12.3
+      }
+    },
+    "cmdDtee": {
+      "type": "text",
+      "label": "Dates",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 262.6,
+        "width": 264.4,
+        "height": 12.3
+      }
+    },
+    "mat": {
+      "type": "text",
+      "label": "Aircraft Type",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 195.1,
+        "width": 129.3,
+        "height": 12.3
+      }
+    },
+    "mt": {
+      "type": "text",
+      "label": "Time",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 195.1,
+        "width": 129.3,
+        "height": 12.3
+      }
+    },
+    "cat": {
+      "type": "text",
+      "label": "Aircraft Type",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 195.1,
+        "width": 129.3,
+        "height": 12.3
+      }
+    },
+    "ct": {
+      "type": "text",
+      "label": "Time",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 195.1,
+        "width": 129.3,
+        "height": 12.3
+      }
+    },
+    "mATa": {
+      "type": "text",
+      "label": "Aircraft Type",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 177.1,
+        "width": 129.3,
+        "height": 12.3
+      }
+    },
+    "mTa": {
+      "type": "text",
+      "label": "Time",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 177.1,
+        "width": 129.3,
+        "height": 12.3
+      }
+    },
+    "cATa": {
+      "type": "text",
+      "label": "Aircraft Type",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 177.1,
+        "width": 129.3,
+        "height": 12.3
+      }
+    },
+    "cTa": {
+      "type": "text",
+      "label": "Time",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 177.1,
+        "width": 129.3,
+        "height": 12.3
+      }
+    },
+    "mATb": {
+      "type": "text",
+      "label": "Aircraft Type",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 159.1,
+        "width": 129.3,
+        "height": 12.3
+      }
+    },
+    "mTb": {
+      "type": "text",
+      "label": "Time",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 159.1,
+        "width": 129.3,
+        "height": 12.3
+      }
+    },
+    "cATb": {
+      "type": "text",
+      "label": "Aircraft Type",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 159.1,
+        "width": 129.3,
+        "height": 12.3
+      }
+    },
+    "cTb": {
+      "type": "text",
+      "label": "Time",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 159.1,
+        "width": 129.3,
+        "height": 12.3
+      }
+    },
+    "mATc": {
+      "type": "text",
+      "label": "Aircraft Type",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 141.1,
+        "width": 129.3,
+        "height": 12.3
+      }
+    },
+    "mTc": {
+      "type": "text",
+      "label": "Time",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 141.1,
+        "width": 129.3,
+        "height": 12.3
+      }
+    },
+    "cATc": {
+      "type": "text",
+      "label": "Aircraft Type",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 141.1,
+        "width": 129.3,
+        "height": 12.3
+      }
+    },
+    "cTc": {
+      "type": "text",
+      "label": "Time",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 141.1,
+        "width": 129.3,
+        "height": 12.3
+      }
+    },
+    "nADDte2": {
+      "type": "text",
+      "label": "15. Date of current complete aviation physical exam",
+      "page": 1,
+      "box": {
+        "left": 234.8,
+        "top": 125.3,
+        "width": 340.6,
+        "height": 16.7
+      }
+    },
+    "nADDte3": {
+      "type": "text",
+      "label": "information is true and complete to",
+      "page": 1,
+      "box": {
+        "left": 144.7,
+        "top": 66.8,
+        "width": 79.7,
+        "height": 15.0
+      }
+    },
+    "signatureField1": {
+      "type": "text",
+      "label": "knowledge",
+      "page": 1,
+      "box": {
+        "left": 290.9,
+        "top": 64.6,
+        "width": 192.4,
+        "height": 13.1
+      }
+    }
+  }
+}

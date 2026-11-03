@@ -1,0 +1,1745 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 792,
+    "height": 612
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "office": {
+        "left": 83.2,
+        "top": 546.9,
+        "width": 144.2,
+        "height": 13.7,
+        "type": "text",
+        "description": "Office",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "preparedby": {
+        "left": 290.3,
+        "top": 546.9,
+        "width": 126.1,
+        "height": 13.7,
+        "type": "text",
+        "description": "Prepared By",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date": {
+        "left": 477.7,
+        "top": 546.9,
+        "width": 114.2,
+        "height": 13.7,
+        "type": "text",
+        "description": "Date Prepared",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "titlenumber": {
+        "left": 38.8,
+        "top": 528.2,
+        "width": 39.3,
+        "height": 48.3,
+        "type": "text",
+        "description": "Office",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ssic": {
+        "left": 83.8,
+        "top": 519.7,
+        "width": 61.8,
+        "height": 12.8,
+        "type": "text",
+        "description": "a) SSIC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "seriestitle": {
+        "left": 151.4,
+        "top": 519.6,
+        "width": 75.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "b) Series Title",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dispositionofrecords": {
+        "left": 232.4,
+        "top": 519.6,
+        "width": 165.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "c) Disposition of Records",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "disp": {
+        "left": 403.4,
+        "top": 519.6,
+        "width": 187.8,
+        "height": 12.7,
+        "type": "text",
+        "description": "d) Description",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "auhortity": {
+        "left": 596.9,
+        "top": 519.6,
+        "width": 156.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "e) Disposition Authority",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "con": {
+        "left": 576.1,
+        "top": 493.2,
+        "width": 54.0,
+        "height": 13.3,
+        "type": "text",
+        "description": "l) Media Type",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "daterange": {
+        "left": 83.8,
+        "top": 492.6,
+        "width": 70.8,
+        "height": 12.7,
+        "type": "text",
+        "description": "f) Date Range",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recordslocation": {
+        "left": 160.4,
+        "top": 492.6,
+        "width": 75.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "g) Records Location",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "con2": {
+        "left": 632.9,
+        "top": 492.6,
+        "width": 120.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "m) Declassification Complete",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "estvolume": {
+        "left": 242.1,
+        "top": 491.8,
+        "width": 78.3,
+        "height": 11.2,
+        "type": "choice",
+        "description": "h) Estimated Volume",
+        "options": [
+          "Cu.",
+          "Ft.",
+          "Terabyte(s)",
+          "Gigabyte(s)",
+          "Megabyte(s)"
+        ],
+        "group": null,
+        "required": false
+      },
+      "essentialrecords": {
+        "left": 327.6,
+        "top": 491.8,
+        "width": 73.8,
+        "height": 11.2,
+        "type": "choice",
+        "description": "i) Essential Records",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "group": null,
+        "required": false
+      },
+      "accessrestrictions": {
+        "left": 408.6,
+        "top": 491.8,
+        "width": 82.8,
+        "height": 11.2,
+        "type": "choice",
+        "description": "j) Access Restrictions",
+        "options": [
+          "PII",
+          "CUI",
+          "Confidential",
+          "Secret",
+          "Top Secret",
+          "Unclassified"
+        ],
+        "group": null,
+        "required": false
+      },
+      "specialmarkings": {
+        "left": 498.6,
+        "top": 491.2,
+        "width": 73.8,
+        "height": 10.5,
+        "type": "choice",
+        "description": "k) Special Markings",
+        "options": [
+          "N/A",
+          "RD",
+          "FRD",
+          "SCI",
+          "NATO",
+          "Other"
+        ],
+        "group": null,
+        "required": false
+      },
+      "textField1": {
+        "left": 134.4,
+        "top": 474.2,
+        "width": 614.4,
+        "height": 21.3,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "titlenumber2": {
+        "left": 38.8,
+        "top": 447.2,
+        "width": 39.3,
+        "height": 48.3,
+        "type": "text",
+        "description": "Office",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ssic2": {
+        "left": 83.8,
+        "top": 438.7,
+        "width": 61.8,
+        "height": 12.8,
+        "type": "text",
+        "description": "a) SSIC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "seriestitle2": {
+        "left": 151.4,
+        "top": 438.6,
+        "width": 75.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "b) Series Title",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dispositionofrecords2": {
+        "left": 232.4,
+        "top": 438.6,
+        "width": 165.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "c) Disposition of Records",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "disp2": {
+        "left": 403.4,
+        "top": 438.6,
+        "width": 187.8,
+        "height": 12.7,
+        "type": "text",
+        "description": "d) Description",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "auhortity2": {
+        "left": 596.9,
+        "top": 438.6,
+        "width": 156.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "e) Disposition Authority",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "con3": {
+        "left": 576.1,
+        "top": 412.2,
+        "width": 54.0,
+        "height": 13.3,
+        "type": "text",
+        "description": "l) Media Type",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "daterange2": {
+        "left": 83.8,
+        "top": 411.6,
+        "width": 70.8,
+        "height": 12.7,
+        "type": "text",
+        "description": "f) Date Range",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recordslocation2": {
+        "left": 160.4,
+        "top": 411.6,
+        "width": 75.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "g) Records Location",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "con4": {
+        "left": 632.9,
+        "top": 411.6,
+        "width": 120.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "m) Declassification Complete",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "estvolume2": {
+        "left": 242.1,
+        "top": 410.8,
+        "width": 78.3,
+        "height": 11.2,
+        "type": "choice",
+        "description": "h) Estimated Volume",
+        "options": [
+          "Cu.",
+          "Ft.",
+          "Terabyte(s)",
+          "Gigabyte(s)",
+          "Megabyte(s)"
+        ],
+        "group": null,
+        "required": false
+      },
+      "essentialrecords2": {
+        "left": 327.6,
+        "top": 410.8,
+        "width": 73.8,
+        "height": 11.2,
+        "type": "choice",
+        "description": "i) Essential Records",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "group": null,
+        "required": false
+      },
+      "accessrestrictions2": {
+        "left": 408.6,
+        "top": 410.8,
+        "width": 82.8,
+        "height": 11.2,
+        "type": "choice",
+        "description": "j) Access Restrictions",
+        "options": [
+          "PII",
+          "CUI",
+          "Confidential",
+          "Secret",
+          "Top Secret",
+          "Unclassified"
+        ],
+        "group": null,
+        "required": false
+      },
+      "specialmarkings2": {
+        "left": 498.6,
+        "top": 410.2,
+        "width": 73.8,
+        "height": 10.5,
+        "type": "choice",
+        "description": "k) Special Markings",
+        "options": [
+          "N/A",
+          "RD",
+          "FRD",
+          "SCI",
+          "NATO",
+          "Other"
+        ],
+        "group": null,
+        "required": false
+      },
+      "textField12": {
+        "left": 134.4,
+        "top": 393.2,
+        "width": 614.4,
+        "height": 21.3,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "titlenumber3": {
+        "left": 38.8,
+        "top": 366.2,
+        "width": 39.3,
+        "height": 48.3,
+        "type": "text",
+        "description": "Office",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ssic3": {
+        "left": 83.8,
+        "top": 357.7,
+        "width": 61.8,
+        "height": 12.8,
+        "type": "text",
+        "description": "a) SSIC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "seriestitle3": {
+        "left": 151.4,
+        "top": 357.6,
+        "width": 75.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "b) Series Title",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dispositionofrecords3": {
+        "left": 232.4,
+        "top": 357.6,
+        "width": 165.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "c) Disposition of Records",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "disp3": {
+        "left": 403.4,
+        "top": 357.6,
+        "width": 187.8,
+        "height": 12.7,
+        "type": "text",
+        "description": "d) Description",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "auhortity3": {
+        "left": 596.9,
+        "top": 357.6,
+        "width": 156.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "e) Disposition Authority",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "con5": {
+        "left": 576.1,
+        "top": 331.2,
+        "width": 54.0,
+        "height": 13.3,
+        "type": "text",
+        "description": "l) Media Type",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "daterange3": {
+        "left": 83.8,
+        "top": 330.6,
+        "width": 70.8,
+        "height": 12.7,
+        "type": "text",
+        "description": "f) Date Range",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recordslocation3": {
+        "left": 160.4,
+        "top": 330.6,
+        "width": 75.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "g) Records Location",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "con6": {
+        "left": 632.9,
+        "top": 330.6,
+        "width": 120.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "m) Declassification Complete",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "estvolume3": {
+        "left": 242.1,
+        "top": 329.8,
+        "width": 78.3,
+        "height": 11.2,
+        "type": "choice",
+        "description": "h) Estimated Volume",
+        "options": [
+          "Cu.",
+          "Ft.",
+          "Terabyte(s)",
+          "Gigabyte(s)",
+          "Megabyte(s)"
+        ],
+        "group": null,
+        "required": false
+      },
+      "essentialrecords3": {
+        "left": 327.6,
+        "top": 329.8,
+        "width": 73.8,
+        "height": 11.2,
+        "type": "choice",
+        "description": "i) Essential Records",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "group": null,
+        "required": false
+      },
+      "accessrestrictions3": {
+        "left": 408.6,
+        "top": 329.8,
+        "width": 82.8,
+        "height": 11.2,
+        "type": "choice",
+        "description": "j) Access Restrictions",
+        "options": [
+          "PII",
+          "CUI",
+          "Confidential",
+          "Secret",
+          "Top Secret",
+          "Unclassified"
+        ],
+        "group": null,
+        "required": false
+      },
+      "specialmarkings3": {
+        "left": 498.6,
+        "top": 329.2,
+        "width": 73.8,
+        "height": 10.5,
+        "type": "choice",
+        "description": "k) Special Markings",
+        "options": [
+          "N/A",
+          "RD",
+          "FRD",
+          "SCI",
+          "NATO",
+          "Other"
+        ],
+        "group": null,
+        "required": false
+      },
+      "textField13": {
+        "left": 134.4,
+        "top": 312.2,
+        "width": 614.4,
+        "height": 21.3,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "titlenumber4": {
+        "left": 38.8,
+        "top": 285.2,
+        "width": 39.3,
+        "height": 48.3,
+        "type": "text",
+        "description": "Office",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ssic4": {
+        "left": 83.8,
+        "top": 276.6,
+        "width": 61.8,
+        "height": 12.8,
+        "type": "text",
+        "description": "a) SSIC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "seriestitle4": {
+        "left": 151.4,
+        "top": 276.6,
+        "width": 75.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "b) Series Title",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dispositionofrecords4": {
+        "left": 232.4,
+        "top": 276.6,
+        "width": 165.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "c) Disposition of Records",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "disp4": {
+        "left": 403.4,
+        "top": 276.6,
+        "width": 187.8,
+        "height": 12.7,
+        "type": "text",
+        "description": "d) Description",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "auhortity4": {
+        "left": 596.9,
+        "top": 276.6,
+        "width": 156.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "e) Disposition Authority",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "con7": {
+        "left": 576.1,
+        "top": 250.2,
+        "width": 54.0,
+        "height": 13.3,
+        "type": "text",
+        "description": "l) Media Type",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "daterange4": {
+        "left": 83.8,
+        "top": 249.6,
+        "width": 70.8,
+        "height": 12.7,
+        "type": "text",
+        "description": "f) Date Range",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recordslocation4": {
+        "left": 160.4,
+        "top": 249.6,
+        "width": 75.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "g) Records Location",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "con8": {
+        "left": 632.9,
+        "top": 249.6,
+        "width": 120.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "m) Declassification Complete",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "estvolume4": {
+        "left": 242.1,
+        "top": 248.8,
+        "width": 78.3,
+        "height": 11.2,
+        "type": "choice",
+        "description": "h) Estimated Volume",
+        "options": [
+          "Cu.",
+          "Ft.",
+          "Terabyte(s)",
+          "Gigabyte(s)",
+          "Megabyte(s)"
+        ],
+        "group": null,
+        "required": false
+      },
+      "essentialrecords4": {
+        "left": 327.6,
+        "top": 248.8,
+        "width": 73.8,
+        "height": 11.2,
+        "type": "choice",
+        "description": "i) Essential Records",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "group": null,
+        "required": false
+      },
+      "accessrestrictions4": {
+        "left": 408.6,
+        "top": 248.8,
+        "width": 82.8,
+        "height": 11.2,
+        "type": "choice",
+        "description": "j) Access Restrictions",
+        "options": [
+          "PII",
+          "CUI",
+          "Confidential",
+          "Secret",
+          "Top Secret",
+          "Unclassified"
+        ],
+        "group": null,
+        "required": false
+      },
+      "specialmarkings4": {
+        "left": 498.6,
+        "top": 248.1,
+        "width": 73.8,
+        "height": 10.5,
+        "type": "choice",
+        "description": "k) Special Markings",
+        "options": [
+          "N/A",
+          "RD",
+          "FRD",
+          "SCI",
+          "NATO",
+          "Other"
+        ],
+        "group": null,
+        "required": false
+      },
+      "textField14": {
+        "left": 134.4,
+        "top": 231.2,
+        "width": 614.4,
+        "height": 21.3,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "titlenumber5": {
+        "left": 38.8,
+        "top": 204.2,
+        "width": 39.3,
+        "height": 48.3,
+        "type": "text",
+        "description": "Office",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ssic5": {
+        "left": 83.8,
+        "top": 195.6,
+        "width": 61.8,
+        "height": 12.8,
+        "type": "text",
+        "description": "a) SSIC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "seriestitle5": {
+        "left": 151.4,
+        "top": 195.6,
+        "width": 75.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "b) Series Title",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "auhortity5": {
+        "left": 596.9,
+        "top": 195.6,
+        "width": 156.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "e) Disposition Authority",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dispositionofrecords5": {
+        "left": 232.4,
+        "top": 195.5,
+        "width": 165.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "c) Disposition of Records",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "disp5": {
+        "left": 403.4,
+        "top": 195.5,
+        "width": 187.8,
+        "height": 12.7,
+        "type": "text",
+        "description": "d) Description",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "con9": {
+        "left": 576.1,
+        "top": 169.2,
+        "width": 54.0,
+        "height": 13.3,
+        "type": "text",
+        "description": "l) Media Type",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "daterange5": {
+        "left": 83.8,
+        "top": 168.5,
+        "width": 70.8,
+        "height": 12.7,
+        "type": "text",
+        "description": "f) Date Range",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recordslocation5": {
+        "left": 160.4,
+        "top": 168.5,
+        "width": 75.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "g) Records Location",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "con10": {
+        "left": 632.9,
+        "top": 168.5,
+        "width": 120.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "m) Declassification Complete",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "estvolume5": {
+        "left": 242.1,
+        "top": 167.8,
+        "width": 78.3,
+        "height": 11.2,
+        "type": "choice",
+        "description": "h) Estimated Volume",
+        "options": [
+          "Cu.",
+          "Ft.",
+          "Terabyte(s)",
+          "Gigabyte(s)",
+          "Megabyte(s)"
+        ],
+        "group": null,
+        "required": false
+      },
+      "essentialrecords5": {
+        "left": 327.6,
+        "top": 167.8,
+        "width": 73.8,
+        "height": 11.2,
+        "type": "choice",
+        "description": "i) Essential Records",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "group": null,
+        "required": false
+      },
+      "accessrestrictions5": {
+        "left": 408.6,
+        "top": 167.8,
+        "width": 82.8,
+        "height": 11.2,
+        "type": "choice",
+        "description": "j) Access Restrictions",
+        "options": [
+          "PII",
+          "CUI",
+          "Confidential",
+          "Secret",
+          "Top Secret",
+          "Unclassified"
+        ],
+        "group": null,
+        "required": false
+      },
+      "specialmarkings5": {
+        "left": 498.6,
+        "top": 167.1,
+        "width": 73.8,
+        "height": 10.5,
+        "type": "choice",
+        "description": "k) Special Markings",
+        "options": [
+          "N/A",
+          "RD",
+          "FRD",
+          "SCI",
+          "NATO",
+          "Other"
+        ],
+        "group": null,
+        "required": false
+      },
+      "textField15": {
+        "left": 134.4,
+        "top": 150.2,
+        "width": 614.4,
+        "height": 21.3,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "titlenumber6": {
+        "left": 38.8,
+        "top": 123.2,
+        "width": 39.3,
+        "height": 48.3,
+        "type": "text",
+        "description": "Office",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ssic6": {
+        "left": 83.8,
+        "top": 114.6,
+        "width": 61.8,
+        "height": 12.8,
+        "type": "text",
+        "description": "a) SSIC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "seriestitle6": {
+        "left": 151.4,
+        "top": 114.6,
+        "width": 75.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "b) Series Title",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "auhortity6": {
+        "left": 596.9,
+        "top": 114.6,
+        "width": 156.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "e) Disposition Authority",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dispositionofrecords6": {
+        "left": 232.4,
+        "top": 114.5,
+        "width": 165.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "c) Disposition of Records",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "disp6": {
+        "left": 403.4,
+        "top": 114.5,
+        "width": 187.8,
+        "height": 12.7,
+        "type": "text",
+        "description": "d) Description",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "con11": {
+        "left": 576.1,
+        "top": 88.2,
+        "width": 54.0,
+        "height": 13.3,
+        "type": "text",
+        "description": "l) Media Type",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "daterange6": {
+        "left": 83.8,
+        "top": 87.5,
+        "width": 70.8,
+        "height": 12.7,
+        "type": "text",
+        "description": "f) Date Range",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recordslocation6": {
+        "left": 160.4,
+        "top": 87.5,
+        "width": 75.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "g) Records Location",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "con12": {
+        "left": 632.9,
+        "top": 87.5,
+        "width": 120.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "m) Declassification Complete",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "estvolume6": {
+        "left": 242.1,
+        "top": 86.8,
+        "width": 78.3,
+        "height": 11.2,
+        "type": "choice",
+        "description": "h) Estimated Volume",
+        "options": [
+          "Cu.",
+          "Ft.",
+          "Terabyte(s)",
+          "Gigabyte(s)",
+          "Megabyte(s)"
+        ],
+        "group": null,
+        "required": false
+      },
+      "essentialrecords6": {
+        "left": 327.6,
+        "top": 86.8,
+        "width": 73.8,
+        "height": 11.2,
+        "type": "choice",
+        "description": "i) Essential Records",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "group": null,
+        "required": false
+      },
+      "accessrestrictions6": {
+        "left": 408.6,
+        "top": 86.8,
+        "width": 82.8,
+        "height": 11.2,
+        "type": "choice",
+        "description": "j) Access Restrictions",
+        "options": [
+          "PII",
+          "CUI",
+          "Confidential",
+          "Secret",
+          "Top Secret",
+          "Unclassified"
+        ],
+        "group": null,
+        "required": false
+      },
+      "specialmarkings6": {
+        "left": 498.6,
+        "top": 86.1,
+        "width": 73.8,
+        "height": 10.5,
+        "type": "choice",
+        "description": "k) Special Markings",
+        "options": [
+          "N/A",
+          "RD",
+          "FRD",
+          "SCI",
+          "NATO",
+          "Other"
+        ],
+        "group": null,
+        "required": false
+      },
+      "textField16": {
+        "left": 134.4,
+        "top": 69.2,
+        "width": 614.4,
+        "height": 21.3,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "titlenumber7": {
+        "left": 38.8,
+        "top": 573.2,
+        "width": 39.3,
+        "height": 48.3,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ssic7": {
+        "left": 83.8,
+        "top": 564.7,
+        "width": 61.8,
+        "height": 12.8,
+        "type": "text",
+        "description": "a) SSIC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "seriestitle7": {
+        "left": 151.4,
+        "top": 564.6,
+        "width": 75.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "b) Series Title",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dispositionofrecords7": {
+        "left": 232.4,
+        "top": 564.6,
+        "width": 165.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "c) Disposition of Records",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "disp7": {
+        "left": 403.4,
+        "top": 564.6,
+        "width": 187.8,
+        "height": 12.7,
+        "type": "text",
+        "description": "d) Description",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "auhortity7": {
+        "left": 596.9,
+        "top": 564.6,
+        "width": 156.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "e) Disposition Authority",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "con13": {
+        "left": 576.1,
+        "top": 538.2,
+        "width": 54.0,
+        "height": 13.3,
+        "type": "text",
+        "description": "l) Media Type",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "daterange7": {
+        "left": 83.8,
+        "top": 537.6,
+        "width": 70.8,
+        "height": 12.7,
+        "type": "text",
+        "description": "f) Date Range",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recordslocation7": {
+        "left": 160.4,
+        "top": 537.6,
+        "width": 75.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "g) Records Location",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "con14": {
+        "left": 632.9,
+        "top": 537.6,
+        "width": 120.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "m) Declassification Complete",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "estvolume7": {
+        "left": 242.1,
+        "top": 536.8,
+        "width": 78.3,
+        "height": 11.2,
+        "type": "choice",
+        "description": "h) Estimated Volume",
+        "options": [
+          "Cu.",
+          "Ft.",
+          "Terabyte(s)",
+          "Gigabyte(s)",
+          "Megabyte(s)"
+        ],
+        "group": null,
+        "required": false
+      },
+      "essentialrecords7": {
+        "left": 327.6,
+        "top": 536.8,
+        "width": 73.8,
+        "height": 11.2,
+        "type": "choice",
+        "description": "i) Essential Records",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "group": null,
+        "required": false
+      },
+      "accessrestrictions7": {
+        "left": 408.6,
+        "top": 536.8,
+        "width": 82.8,
+        "height": 11.2,
+        "type": "choice",
+        "description": "j) Access Restrictions",
+        "options": [
+          "PII",
+          "CUI",
+          "Confidential",
+          "Secret",
+          "Top Secret",
+          "Unclassified"
+        ],
+        "group": null,
+        "required": false
+      },
+      "specialmarkings7": {
+        "left": 498.6,
+        "top": 536.2,
+        "width": 73.8,
+        "height": 10.5,
+        "type": "choice",
+        "description": "k) Special Markings",
+        "options": [
+          "N/A",
+          "RD",
+          "FRD",
+          "SCI",
+          "NATO",
+          "Other"
+        ],
+        "group": null,
+        "required": false
+      },
+      "textField17": {
+        "left": 134.4,
+        "top": 519.2,
+        "width": 614.4,
+        "height": 21.3,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "titlenumber8": {
+        "left": 38.8,
+        "top": 492.2,
+        "width": 39.3,
+        "height": 48.3,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ssic8": {
+        "left": 83.8,
+        "top": 483.7,
+        "width": 61.8,
+        "height": 12.8,
+        "type": "text",
+        "description": "a) SSIC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "seriestitle8": {
+        "left": 151.4,
+        "top": 483.6,
+        "width": 75.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "b) Series Title",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dispositionofrecords8": {
+        "left": 232.4,
+        "top": 483.6,
+        "width": 165.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "c) Disposition of Records",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "disp8": {
+        "left": 403.4,
+        "top": 483.6,
+        "width": 187.8,
+        "height": 12.7,
+        "type": "text",
+        "description": "d) Description",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "auhortity8": {
+        "left": 596.9,
+        "top": 483.6,
+        "width": 156.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "e) Disposition Authority",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "con15": {
+        "left": 576.1,
+        "top": 457.2,
+        "width": 54.0,
+        "height": 13.3,
+        "type": "text",
+        "description": "l) Media Type",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "daterange8": {
+        "left": 83.8,
+        "top": 456.6,
+        "width": 70.8,
+        "height": 12.7,
+        "type": "text",
+        "description": "f) Date Range",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recordslocation8": {
+        "left": 160.4,
+        "top": 456.6,
+        "width": 75.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "g) Records Location",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "con16": {
+        "left": 632.9,
+        "top": 456.6,
+        "width": 120.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "m) Declassification Complete",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "estvolume8": {
+        "left": 242.1,
+        "top": 455.8,
+        "width": 78.3,
+        "height": 11.2,
+        "type": "choice",
+        "description": "h) Estimated Volume",
+        "options": [
+          "Cu.",
+          "Ft.",
+          "Terabyte(s)",
+          "Gigabyte(s)",
+          "Megabyte(s)"
+        ],
+        "group": null,
+        "required": false
+      },
+      "essentialrecords8": {
+        "left": 327.6,
+        "top": 455.8,
+        "width": 73.8,
+        "height": 11.2,
+        "type": "choice",
+        "description": "i) Essential Records",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "group": null,
+        "required": false
+      },
+      "accessrestrictions8": {
+        "left": 408.6,
+        "top": 455.8,
+        "width": 82.8,
+        "height": 11.2,
+        "type": "choice",
+        "description": "j) Access Restrictions",
+        "options": [
+          "PII",
+          "CUI",
+          "Confidential",
+          "Secret",
+          "Top Secret",
+          "Unclassified"
+        ],
+        "group": null,
+        "required": false
+      },
+      "specialmarkings8": {
+        "left": 498.6,
+        "top": 455.2,
+        "width": 73.8,
+        "height": 10.5,
+        "type": "choice",
+        "description": "k) Special Markings",
+        "options": [
+          "N/A",
+          "RD",
+          "FRD",
+          "SCI",
+          "NATO",
+          "Other"
+        ],
+        "group": null,
+        "required": false
+      },
+      "textField18": {
+        "left": 134.4,
+        "top": 438.2,
+        "width": 614.4,
+        "height": 21.3,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "titlenumber9": {
+        "left": 38.8,
+        "top": 411.2,
+        "width": 39.3,
+        "height": 48.3,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ssic9": {
+        "left": 83.8,
+        "top": 402.7,
+        "width": 61.8,
+        "height": 12.8,
+        "type": "text",
+        "description": "a) SSIC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "seriestitle9": {
+        "left": 151.4,
+        "top": 402.6,
+        "width": 75.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "b) Series Title",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dispositionofrecords9": {
+        "left": 232.4,
+        "top": 402.6,
+        "width": 165.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "c) Disposition of Records",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "disp9": {
+        "left": 403.4,
+        "top": 402.6,
+        "width": 187.8,
+        "height": 12.7,
+        "type": "text",
+        "description": "d) Description",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "auhortity9": {
+        "left": 596.9,
+        "top": 402.6,
+        "width": 156.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "e) Disposition Authority",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "con17": {
+        "left": 576.1,
+        "top": 376.2,
+        "width": 54.0,
+        "height": 13.3,
+        "type": "text",
+        "description": "l) Media Type",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "daterange9": {
+        "left": 83.8,
+        "top": 375.6,
+        "width": 70.8,
+        "height": 12.7,
+        "type": "text",
+        "description": "f) Date Range",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recordslocation9": {
+        "left": 160.4,
+        "top": 375.6,
+        "width": 75.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "g) Records Location",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "con18": {
+        "left": 632.9,
+        "top": 375.6,
+        "width": 120.3,
+        "height": 12.7,
+        "type": "text",
+        "description": "m) Declassification Complete",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "estvolume9": {
+        "left": 242.1,
+        "top": 374.8,
+        "width": 78.3,
+        "height": 11.2,
+        "type": "choice",
+        "description": "h) Estimated Volume",
+        "options": [
+          "Cu.",
+          "Ft.",
+          "Terabyte(s)",
+          "Gigabyte(s)",
+          "Megabyte(s)"
+        ],
+        "group": null,
+        "required": false
+      },
+      "essentialrecords9": {
+        "left": 327.6,
+        "top": 374.8,
+        "width": 73.8,
+        "height": 11.2,
+        "type": "choice",
+        "description": "i) Essential Records",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "group": null,
+        "required": false
+      },
+      "accessrestrictions9": {
+        "left": 408.6,
+        "top": 374.8,
+        "width": 82.8,
+        "height": 11.2,
+        "type": "choice",
+        "description": "j) Access Restrictions",
+        "options": [
+          "PII",
+          "CUI",
+          "Confidential",
+          "Secret",
+          "Top Secret",
+          "Unclassified"
+        ],
+        "group": null,
+        "required": false
+      },
+      "specialmarkings9": {
+        "left": 498.6,
+        "top": 374.2,
+        "width": 73.8,
+        "height": 10.5,
+        "type": "choice",
+        "description": "k) Special Markings",
+        "options": [
+          "N/A",
+          "RD",
+          "FRD",
+          "SCI",
+          "NATO",
+          "Other"
+        ],
+        "group": null,
+        "required": false
+      },
+      "textField19": {
+        "left": 134.4,
+        "top": 357.2,
+        "width": 614.4,
+        "height": 21.3,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

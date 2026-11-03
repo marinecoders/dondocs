@@ -1,0 +1,305 @@
+{
+  "id": "opnav350166",
+  "label": "OPNAV3501-66 - Ntps Sopr Qai Job Qualification Requirements",
+  "directory": "OPNAV3501-66 - Ntps Sopr Qai Job Qualification Requirements",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "q1aName",
+        "q1aSig",
+        "q1aDate",
+        "q1bName",
+        "q1bSig",
+        "q1bDate",
+        "q2a1Name",
+        "q2a1Sig",
+        "q2a1Date",
+        "q2a2Name",
+        "q2a2Sig",
+        "q2a2Date",
+        "q2bName",
+        "q2bSig",
+        "q2bDate",
+        "q3Name",
+        "q3Sig",
+        "q3Date",
+        "q4Name",
+        "q4Sig",
+        "q4Date",
+        "q5Name",
+        "q5Sig",
+        "q5Date"
+      ]
+    }
+  ],
+  "fields": {
+    "q1aName": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 661.9,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q1aSig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 661.9,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q1aDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 661.9,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q1bName": {
+      "type": "text",
+      "label": "b. Qualified, designated, and current SOPR QAI",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 633.5,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q1bSig": {
+      "type": "text",
+      "label": "b. Qualified, designated, and current SOPR QAI",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 633.5,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q1bDate": {
+      "type": "text",
+      "label": "b. Qualified, designated, and current SOPR QAI",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 633.5,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q2a1Name": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 576.5,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q2a1Sig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 576.5,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q2a1Date": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 576.5,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q2a2Name": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 548.1,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q2a2Sig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 548.1,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q2a2Date": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 548.1,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q2bName": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 520.1,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q2bSig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 520.1,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q2bDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 520.1,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q3Name": {
+      "type": "text",
+      "label": "3. LPO",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 463.6,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q3Sig": {
+      "type": "text",
+      "label": "3. LPO",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 463.6,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q3Date": {
+      "type": "text",
+      "label": "3. LPO",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 463.6,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q4Name": {
+      "type": "text",
+      "label": "4. Paraloft LCPO",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 435.4,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q4Sig": {
+      "type": "text",
+      "label": "4. Paraloft LCPO",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 435.4,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q4Date": {
+      "type": "text",
+      "label": "4. Paraloft LCPO",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 435.4,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q5Name": {
+      "type": "text",
+      "label": "5. P3 and Cargo Program Manager",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 407.3,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q5Sig": {
+      "type": "text",
+      "label": "5. P3 and Cargo Program Manager",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 407.3,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q5Date": {
+      "type": "text",
+      "label": "5. P3 and Cargo Program Manager",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 407.3,
+        "width": 59.4,
+        "height": 25.5
+      }
+    }
+  }
+}

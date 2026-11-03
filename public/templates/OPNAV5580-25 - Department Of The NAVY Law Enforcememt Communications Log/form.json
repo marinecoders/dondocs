@@ -1,0 +1,144 @@
+{
+  "id": "opnav558025",
+  "label": "OPNAV5580-25 - Department Of The NAVY Law Enforcememt Communications Log",
+  "directory": "OPNAV5580-25 - Department Of The NAVY Law Enforcememt Communications Log",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "date",
+        "time",
+        "pageNO",
+        "nOofpages",
+        "shiporstation",
+        "callsign"
+      ]
+    }
+  ],
+  "fields": {
+    "date": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 281.3,
+        "top": 738.0,
+        "width": 90.6,
+        "height": 19.6
+      }
+    },
+    "time": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 377.9,
+        "top": 738.0,
+        "width": 53.4,
+        "height": 19.6
+      }
+    },
+    "pageNO": {
+      "type": "text",
+      "label": "Enter the page number.",
+      "page": 1,
+      "box": {
+        "left": 434.2,
+        "top": 738.0,
+        "width": 59.2,
+        "height": 19.6
+      }
+    },
+    "nOofpages": {
+      "type": "text",
+      "label": "Enter the number of pages.",
+      "page": 1,
+      "box": {
+        "left": 495.8,
+        "top": 738.0,
+        "width": 74.4,
+        "height": 19.6
+      }
+    },
+    "shiporstation": {
+      "type": "text",
+      "label": "Enter the ship or station.",
+      "page": 1,
+      "box": {
+        "left": 42.9,
+        "top": 704.1,
+        "width": 376.9,
+        "height": 19.6
+      }
+    },
+    "callsign": {
+      "type": "text",
+      "label": "Enter the call sign.",
+      "page": 1,
+      "box": {
+        "left": 422.7,
+        "top": 704.1,
+        "width": 147.4,
+        "height": 19.6
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 41,
+      "rowStride": 14.59,
+      "editor": "grid",
+      "columns": {
+        "time": {
+          "type": "text",
+          "label": "This is row 1 of 41. Enter the time using the 24-hour clock (HHMM).  ",
+          "page": 1,
+          "box": {
+            "left": 42.4,
+            "top": 655.6,
+            "width": 59.2,
+            "height": 13.3
+          }
+        },
+        "unitto": {
+          "type": "text",
+          "label": "Enter who the unit the message is to.",
+          "page": 1,
+          "box": {
+            "left": 104.5,
+            "top": 655.6,
+            "width": 62.9,
+            "height": 13.3
+          }
+        },
+        "unitfrom": {
+          "type": "text",
+          "label": "Enter who the unit that message is from.",
+          "page": 1,
+          "box": {
+            "left": 169.7,
+            "top": 655.6,
+            "width": 60.8,
+            "height": 13.3
+          }
+        },
+        "message": {
+          "type": "text",
+          "label": "Enter the message.",
+          "page": 1,
+          "box": {
+            "left": 232.8,
+            "top": 655.6,
+            "width": 337.5,
+            "height": 13.3
+          }
+        }
+      }
+    }
+  }
+}

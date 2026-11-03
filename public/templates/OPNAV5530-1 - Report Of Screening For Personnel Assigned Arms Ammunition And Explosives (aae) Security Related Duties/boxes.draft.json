@@ -1,0 +1,480 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "nameIndScreen": {
+        "left": 38.8,
+        "top": 666.7,
+        "width": 196.0,
+        "height": 18.1,
+        "type": "text",
+        "description": "personnel being screened and discuss the duties to",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rankIndScreen": {
+        "left": 272.9,
+        "top": 666.7,
+        "width": 66.3,
+        "height": 18.1,
+        "type": "text",
+        "description": "assigned with the person",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "doDIDIndScreen": {
+        "left": 377.3,
+        "top": 666.7,
+        "width": 196.0,
+        "height": 18.1,
+        "type": "text",
+        "description": "person&apos;s supervisor",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameOffScreen": {
+        "left": 38.8,
+        "top": 623.5,
+        "width": 196.0,
+        "height": 18.1,
+        "type": "text",
+        "description": "NAME OF INDIVIDUAL BEING SCREENED",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rankOffScreen": {
+        "left": 272.9,
+        "top": 623.5,
+        "width": 66.3,
+        "height": 18.1,
+        "type": "text",
+        "description": "RANK",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "doDIDOffScreen": {
+        "left": 377.3,
+        "top": 623.5,
+        "width": 196.0,
+        "height": 18.1,
+        "type": "text",
+        "description": "(Or other unique ID Number)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks1": {
+        "left": 369.1,
+        "top": 567.4,
+        "width": 206.4,
+        "height": 18.8,
+        "type": "text",
+        "description": "REMARKS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "yes1": {
+        "left": 265.4,
+        "top": 562.0,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "YES",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "no1": {
+        "left": 304.9,
+        "top": 562.0,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "NO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "na1": {
+        "left": 344.3,
+        "top": 562.0,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "N/A",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks2": {
+        "left": 369.1,
+        "top": 545.8,
+        "width": 206.4,
+        "height": 37.5,
+        "type": "text",
+        "description": "REMARKS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "yes2": {
+        "left": 265.4,
+        "top": 531.0,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "YES",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "no2": {
+        "left": 304.9,
+        "top": 531.0,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "NO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "na2": {
+        "left": 344.3,
+        "top": 531.0,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "N/A",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks3": {
+        "left": 369.1,
+        "top": 505.4,
+        "width": 206.4,
+        "height": 29.6,
+        "type": "text",
+        "description": "Agency and Credit Checks (NACLC) or Access National",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "yes3": {
+        "left": 265.4,
+        "top": 494.6,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Agency and Credit Checks (NACLC) or Access National",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "no3": {
+        "left": 304.9,
+        "top": 494.6,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Agency and Credit Checks (NACLC) or Access National",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "na3": {
+        "left": 344.3,
+        "top": 494.6,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Agency and Credit Checks (NACLC) or Access National",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks4": {
+        "left": 369.1,
+        "top": 473.0,
+        "width": 206.4,
+        "height": 29.6,
+        "type": "text",
+        "description": "REMARKS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "yes4": {
+        "left": 265.4,
+        "top": 462.2,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "YES",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "no4": {
+        "left": 304.9,
+        "top": 462.2,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "NO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "na4": {
+        "left": 344.3,
+        "top": 462.2,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "N/A",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks5": {
+        "left": 369.1,
+        "top": 440.6,
+        "width": 206.4,
+        "height": 37.5,
+        "type": "text",
+        "description": "REMARKS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "yes5": {
+        "left": 265.4,
+        "top": 425.9,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "YES",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "no5": {
+        "left": 304.9,
+        "top": 425.9,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "NO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "na5": {
+        "left": 344.3,
+        "top": 425.9,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "N/A",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks6": {
+        "left": 369.1,
+        "top": 400.3,
+        "width": 206.4,
+        "height": 37.5,
+        "type": "text",
+        "description": "that would prohibit this individual from being assigned",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "yes6": {
+        "left": 265.4,
+        "top": 385.5,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "that would prohibit this individual from being assigned",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "no6": {
+        "left": 304.9,
+        "top": 385.5,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "that would prohibit this individual from being assigned",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "na6": {
+        "left": 344.3,
+        "top": 385.5,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "that would prohibit this individual from being assigned",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks7": {
+        "left": 369.1,
+        "top": 360.0,
+        "width": 206.4,
+        "height": 29.6,
+        "type": "text",
+        "description": "REMARKS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "yes7": {
+        "left": 265.4,
+        "top": 349.2,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "YES",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "no7": {
+        "left": 304.9,
+        "top": 349.2,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "NO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "na7": {
+        "left": 344.3,
+        "top": 349.2,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "N/A",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sigIndScreen": {
+        "left": 74.8,
+        "top": 239.7,
+        "width": 196.0,
+        "height": 18.1,
+        "type": "text",
+        "description": "SAFEGUARD ARMS, AMMUNITION, AND/OR EXPLOSIVES.&quot;",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateSigIndScreen": {
+        "left": 362.9,
+        "top": 239.7,
+        "width": 66.3,
+        "height": 18.1,
+        "type": "text",
+        "description": "AND ACCEPT THE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sigOffScreen": {
+        "left": 74.8,
+        "top": 196.5,
+        "width": 196.0,
+        "height": 18.1,
+        "type": "text",
+        "description": "SIGNATURE OF INDIVIDUAL BEING SCREENED",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateSigOffScreen": {
+        "left": 362.9,
+        "top": 196.5,
+        "width": 66.3,
+        "height": 18.1,
+        "type": "text",
+        "description": "DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio": {
+        "left": 38.8,
+        "top": 130.6,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio2": {
+        "left": 38.8,
+        "top": 100.0,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "numDays": {
+        "left": 113.8,
+        "top": 97.8,
+        "width": 18.2,
+        "height": 11.4,
+        "type": "text",
+        "description": "re-evaluated in",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio3": {
+        "left": 38.8,
+        "top": 63.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      }
+    }
+  }
+}

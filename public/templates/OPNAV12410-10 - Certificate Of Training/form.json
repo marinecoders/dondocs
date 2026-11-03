@@ -1,0 +1,89 @@
+{
+  "id": "opnav1241010",
+  "label": "OPNAV12410-10 - Certificate Of Training",
+  "directory": "OPNAV12410-10 - Certificate Of Training",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "information1",
+        "date",
+        "signature1",
+        "signature2",
+        "information2"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "Enter the name.",
+      "page": 1,
+      "box": {
+        "left": 280.0,
+        "top": 284.4,
+        "width": 231.5,
+        "height": 27.2
+      }
+    },
+    "information1": {
+      "type": "text",
+      "label": "Enter the information",
+      "page": 1,
+      "box": {
+        "left": 280.4,
+        "top": 214.3,
+        "width": 231.1,
+        "height": 29.2
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 353.0,
+        "top": 139.7,
+        "width": 86.0,
+        "height": 25.1
+      }
+    },
+    "signature1": {
+      "type": "text",
+      "label": "Enter the signature.",
+      "page": 1,
+      "box": {
+        "left": 539.1,
+        "top": 117.8,
+        "width": 175.3,
+        "height": 21.1
+      }
+    },
+    "signature2": {
+      "type": "text",
+      "label": "Enter the signature.",
+      "page": 1,
+      "box": {
+        "left": 539.1,
+        "top": 85.5,
+        "width": 176.0,
+        "height": 21.0
+      }
+    },
+    "information2": {
+      "type": "text",
+      "label": "Enter the information.",
+      "page": 1,
+      "box": {
+        "left": 71.3,
+        "top": 83.5,
+        "width": 102.5,
+        "height": 19.0
+      }
+    }
+  }
+}

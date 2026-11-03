@@ -1,0 +1,96 @@
+{
+  "id": "opnav558019",
+  "label": "OPNAV5580-19 - Desk Journal",
+  "directory": "OPNAV5580-19 - Desk Journal",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "pgno",
+        "dNSDate3"
+      ]
+    }
+  ],
+  "fields": {
+    "pgno": {
+      "type": "text",
+      "label": "pgno",
+      "page": 1,
+      "box": {
+        "left": 467.8,
+        "top": 765.9,
+        "width": 123.2,
+        "height": 22.8
+      }
+    },
+    "dNSDate3": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 432.7,
+        "top": 734.5,
+        "width": 157.1,
+        "height": 24.5
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 39,
+      "rowStride": 16.77,
+      "editor": "grid",
+      "columns": {
+        "entry": {
+          "type": "text",
+          "label": "This is row 1 of 39, enter the entry value.",
+          "page": 1,
+          "box": {
+            "left": 23.8,
+            "top": 687.5,
+            "width": 55.9,
+            "height": 13.3
+          }
+        },
+        "timeField": {
+          "type": "text",
+          "label": "Enter the desk journal time using the 24-hour clock (HHMM).  ",
+          "page": 1,
+          "box": {
+            "left": 88.6,
+            "top": 687.5,
+            "width": 53.4,
+            "height": 13.3
+          }
+        },
+        "incident": {
+          "type": "text",
+          "label": "Enter the incident (who, what, when and where).",
+          "page": 1,
+          "box": {
+            "left": 149.7,
+            "top": 687.5,
+            "width": 340.9,
+            "height": 13.3
+          }
+        },
+        "acttkn": {
+          "type": "text",
+          "label": "Enter the action taken.",
+          "page": 1,
+          "box": {
+            "left": 500.0,
+            "top": 687.5,
+            "width": 93.7,
+            "height": 13.3
+          }
+        }
+      }
+    }
+  }
+}

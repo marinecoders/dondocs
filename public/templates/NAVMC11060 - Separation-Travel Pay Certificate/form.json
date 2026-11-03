@@ -1,0 +1,875 @@
+{
+  "id": "navmc11060",
+  "label": "NAVMC 11060 - Separation-Travel Pay Certificate",
+  "directory": "NAVMC11060 - Separation-Travel Pay Certificate",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "unit1",
+        "date1",
+        "nameLast",
+        "nameFirst",
+        "nameMI",
+        "sSNum",
+        "desigCode",
+        "dateEff",
+        "chkReas1",
+        "chkReas2",
+        "chkReas3",
+        "chkReas4",
+        "chkReas5",
+        "chkTypDis1",
+        "chkTypDis2",
+        "chkTypDis3",
+        "chkTypDis4",
+        "chkTypDis5",
+        "homeRec",
+        "plcFrom",
+        "radRcEnlBYes",
+        "radRcEnlBYes2",
+        "radRcREnlBYes",
+        "radRcREnlBYes2",
+        "amtPersFunds",
+        "chkPayInfo1",
+        "actServYr1",
+        "actServMnth1",
+        "chkPayInfo2",
+        "amtReAdjPay",
+        "actServYr2",
+        "actServMnth2",
+        "chkPayInfo3",
+        "chkPayInfo4",
+        "tmDtFrom",
+        "tmDtTo",
+        "amtRecpLoan",
+        "chkPayInfo5",
+        "radRcLoanNo",
+        "radRcLoanNo2",
+        "chkPayInfo6",
+        "other1",
+        "apprSym",
+        "objCls",
+        "burContNum",
+        "subAllot",
+        "authAcct",
+        "tranType",
+        "propAA",
+        "costCode",
+        "chkDataCorr",
+        "sigCO",
+        "dateSigCO",
+        "daysRLB",
+        "daysSLB",
+        "chkAppLvYes",
+        "chkAppLvNo",
+        "leaveBal1",
+        "leaveBal2",
+        "chkNoAdvAllow",
+        "dtyStat1",
+        "chkYesGTR",
+        "destLoc",
+        "dtyStat2",
+        "chkYesTrvAllow",
+        "addrMail",
+        "travMode",
+        "addrPermMail",
+        "disbOffice",
+        "sigMarine",
+        "dateSigMar"
+      ]
+    }
+  ],
+  "fields": {
+    "unit1": {
+      "type": "text",
+      "label": "Unit",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 718.0,
+        "width": 348.0,
+        "height": 15.3
+      }
+    },
+    "date1": {
+      "type": "text",
+      "label": "Enter date using format 2002 06 27",
+      "page": 1,
+      "box": {
+        "left": 374.4,
+        "top": 717.6,
+        "width": 220.0,
+        "height": 15.2
+      }
+    },
+    "nameLast": {
+      "type": "text",
+      "label": "Last name",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 694.0,
+        "width": 160.0,
+        "height": 15.3
+      }
+    },
+    "nameFirst": {
+      "type": "text",
+      "label": "First name",
+      "page": 1,
+      "box": {
+        "left": 185.3,
+        "top": 694.0,
+        "width": 160.0,
+        "height": 15.3
+      }
+    },
+    "nameMI": {
+      "type": "text",
+      "label": "Middle initial",
+      "page": 1,
+      "box": {
+        "left": 346.0,
+        "top": 694.0,
+        "width": 25.3,
+        "height": 15.3
+      }
+    },
+    "sSNum": {
+      "type": "text",
+      "label": "Social Security Number",
+      "page": 1,
+      "box": {
+        "left": 374.0,
+        "top": 692.7,
+        "width": 220.7,
+        "height": 14.7
+      }
+    },
+    "desigCode": {
+      "type": "text",
+      "label": "Auth. for SEP and program designator code.",
+      "page": 1,
+      "box": {
+        "left": 26.4,
+        "top": 669.6,
+        "width": 272.8,
+        "height": 15.2
+      }
+    },
+    "dateEff": {
+      "type": "text",
+      "label": "Enter effective Date of Separation from ACDU using format 2002 06 27",
+      "page": 1,
+      "box": {
+        "left": 301.6,
+        "top": 669.6,
+        "width": 293.6,
+        "height": 15.2
+      }
+    },
+    "chkReas1": {
+      "type": "checkbox",
+      "label": "Check for discharge",
+      "page": 1,
+      "box": {
+        "left": 101.6,
+        "top": 652.8,
+        "width": 10.4,
+        "height": 10.4
+      }
+    },
+    "chkReas2": {
+      "type": "checkbox",
+      "label": "Check for retirement",
+      "page": 1,
+      "box": {
+        "left": 169.6,
+        "top": 652.8,
+        "width": 10.4,
+        "height": 10.4
+      }
+    },
+    "chkReas3": {
+      "type": "checkbox",
+      "label": "Check for resignation",
+      "page": 1,
+      "box": {
+        "left": 262.4,
+        "top": 652.8,
+        "width": 10.4,
+        "height": 10.4
+      }
+    },
+    "chkReas4": {
+      "type": "checkbox",
+      "label": "Check for transfer to FMCR",
+      "page": 1,
+      "box": {
+        "left": 362.4,
+        "top": 652.8,
+        "width": 10.4,
+        "height": 10.4
+      }
+    },
+    "chkReas5": {
+      "type": "checkbox",
+      "label": "Check for transfer to TDRL.PDRL",
+      "page": 1,
+      "box": {
+        "left": 477.6,
+        "top": 652.8,
+        "width": 10.4,
+        "height": 10.4
+      }
+    },
+    "chkTypDis1": {
+      "type": "checkbox",
+      "label": "Check for HON",
+      "page": 1,
+      "box": {
+        "left": 129.6,
+        "top": 644.0,
+        "width": 10.4,
+        "height": 10.4
+      }
+    },
+    "chkTypDis2": {
+      "type": "checkbox",
+      "label": "Check for GEN",
+      "page": 1,
+      "box": {
+        "left": 192.8,
+        "top": 644.0,
+        "width": 10.4,
+        "height": 10.4
+      }
+    },
+    "chkTypDis3": {
+      "type": "checkbox",
+      "label": "Check for other than HON",
+      "page": 1,
+      "box": {
+        "left": 297.6,
+        "top": 644.0,
+        "width": 10.4,
+        "height": 10.4
+      }
+    },
+    "chkTypDis4": {
+      "type": "checkbox",
+      "label": "Check for BCD",
+      "page": 1,
+      "box": {
+        "left": 415.2,
+        "top": 644.0,
+        "width": 10.4,
+        "height": 10.4
+      }
+    },
+    "chkTypDis5": {
+      "type": "checkbox",
+      "label": "Check for DD",
+      "page": 1,
+      "box": {
+        "left": 503.2,
+        "top": 644.0,
+        "width": 10.4,
+        "height": 10.4
+      }
+    },
+    "homeRec": {
+      "type": "text",
+      "label": "Home of record",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 623.6,
+        "width": 176.7,
+        "height": 14.1
+      }
+    },
+    "plcFrom": {
+      "type": "text",
+      "label": "Place from ordered to ACDU",
+      "page": 1,
+      "box": {
+        "left": 202.7,
+        "top": 623.6,
+        "width": 391.3,
+        "height": 12.1
+      }
+    },
+    "radRcEnlBYes": {
+      "type": "radio",
+      "label": "y",
+      "page": 1,
+      "box": {
+        "left": 136.7,
+        "top": 598.7,
+        "width": 13.3,
+        "height": 13.3
+      },
+      "group": "topmostSubform_0_Page1_0_RadRcEnlBYes_0"
+    },
+    "radRcEnlBYes2": {
+      "type": "radio",
+      "label": "n",
+      "page": 1,
+      "box": {
+        "left": 188.7,
+        "top": 598.7,
+        "width": 13.3,
+        "height": 13.3
+      },
+      "group": "topmostSubform_0_Page1_0_RadRcEnlBYes_0"
+    },
+    "radRcREnlBYes": {
+      "type": "radio",
+      "label": "y",
+      "page": 1,
+      "box": {
+        "left": 364.0,
+        "top": 598.7,
+        "width": 13.3,
+        "height": 13.3
+      },
+      "group": "topmostSubform_0_Page1_0_RadRcREnlBYes_0"
+    },
+    "radRcREnlBYes2": {
+      "type": "radio",
+      "label": "n",
+      "page": 1,
+      "box": {
+        "left": 416.0,
+        "top": 598.7,
+        "width": 13.3,
+        "height": 13.3
+      },
+      "group": "topmostSubform_0_Page1_0_RadRcREnlBYes_0"
+    },
+    "amtPersFunds": {
+      "type": "text",
+      "label": "Amount of personal funds.",
+      "page": 1,
+      "box": {
+        "left": 219.3,
+        "top": 584.7,
+        "width": 98.0,
+        "height": 17.3
+      }
+    },
+    "chkPayInfo1": {
+      "type": "checkbox",
+      "label": "Check for pay discharge gratuity.",
+      "page": 1,
+      "box": {
+        "left": 35.3,
+        "top": 580.0,
+        "width": 13.3,
+        "height": 13.3
+      }
+    },
+    "actServYr1": {
+      "type": "text",
+      "label": "Years of Active Service.",
+      "page": 1,
+      "box": {
+        "left": 234.7,
+        "top": 567.3,
+        "width": 52.7,
+        "height": 15.3
+      }
+    },
+    "actServMnth1": {
+      "type": "text",
+      "label": "Additional months of Active Service.",
+      "page": 1,
+      "box": {
+        "left": 328.7,
+        "top": 565.3,
+        "width": 43.3,
+        "height": 15.3
+      }
+    },
+    "chkPayInfo2": {
+      "type": "checkbox",
+      "label": "Check for pay separation pay.",
+      "page": 1,
+      "box": {
+        "left": 35.3,
+        "top": 563.3,
+        "width": 13.3,
+        "height": 13.3
+      }
+    },
+    "amtReAdjPay": {
+      "type": "text",
+      "label": "Amount of previously paid readjustment pay.",
+      "page": 1,
+      "box": {
+        "left": 133.3,
+        "top": 554.7,
+        "width": 64.0,
+        "height": 16.0
+      }
+    },
+    "actServYr2": {
+      "type": "text",
+      "label": "Years of Active Service.",
+      "page": 1,
+      "box": {
+        "left": 272.7,
+        "top": 543.3,
+        "width": 30.0,
+        "height": 15.3
+      }
+    },
+    "actServMnth2": {
+      "type": "text",
+      "label": "Additional months of Active Service.",
+      "page": 1,
+      "box": {
+        "left": 337.3,
+        "top": 543.3,
+        "width": 33.3,
+        "height": 15.3
+      }
+    },
+    "chkPayInfo3": {
+      "type": "checkbox",
+      "label": "Check for pay disability severance pay.",
+      "page": 1,
+      "box": {
+        "left": 35.3,
+        "top": 539.3,
+        "width": 13.3,
+        "height": 13.3
+      }
+    },
+    "chkPayInfo4": {
+      "type": "checkbox",
+      "label": "Check for leave awaiting separation",
+      "page": 1,
+      "box": {
+        "left": 35.3,
+        "top": 523.3,
+        "width": 13.3,
+        "height": 13.3
+      }
+    },
+    "tmDtFrom": {
+      "type": "text",
+      "label": "Enter time and date of start of Leave Awaiting Separation period.",
+      "page": 1,
+      "box": {
+        "left": 282.0,
+        "top": 522.7,
+        "width": 100.7,
+        "height": 15.3
+      }
+    },
+    "tmDtTo": {
+      "type": "text",
+      "label": "Enter time and date of end of Leave Awaiting Separation period.",
+      "page": 1,
+      "box": {
+        "left": 477.3,
+        "top": 522.7,
+        "width": 103.3,
+        "height": 15.3
+      }
+    },
+    "amtRecpLoan": {
+      "type": "text",
+      "label": "Amount of loan.",
+      "page": 1,
+      "box": {
+        "left": 146.7,
+        "top": 506.7,
+        "width": 64.0,
+        "height": 17.3
+      }
+    },
+    "chkPayInfo5": {
+      "type": "checkbox",
+      "label": "Check for recoup NRS loan",
+      "page": 1,
+      "box": {
+        "left": 35.3,
+        "top": 506.0,
+        "width": 13.3,
+        "height": 13.3
+      }
+    },
+    "radRcLoanNo": {
+      "type": "radio",
+      "label": "y",
+      "page": 1,
+      "box": {
+        "left": 217.3,
+        "top": 502.7,
+        "width": 13.3,
+        "height": 13.3
+      },
+      "group": "topmostSubform_0_Page1_0_RadRcLoanNo_0"
+    },
+    "radRcLoanNo2": {
+      "type": "radio",
+      "label": "n",
+      "page": 1,
+      "box": {
+        "left": 269.3,
+        "top": 502.7,
+        "width": 13.3,
+        "height": 13.3
+      },
+      "group": "topmostSubform_0_Page1_0_RadRcLoanNo_0"
+    },
+    "chkPayInfo6": {
+      "type": "checkbox",
+      "label": "Check for other",
+      "page": 1,
+      "box": {
+        "left": 35.3,
+        "top": 490.0,
+        "width": 13.3,
+        "height": 13.3
+      }
+    },
+    "other1": {
+      "type": "text",
+      "label": "Enter description of other.",
+      "page": 1,
+      "box": {
+        "left": 89.6,
+        "top": 487.5,
+        "width": 503.2,
+        "height": 28.7
+      }
+    },
+    "apprSym": {
+      "type": "text",
+      "label": "Appropriation Symbol and Subhead.",
+      "page": 1,
+      "box": {
+        "left": 26.0,
+        "top": 406.0,
+        "width": 110.7,
+        "height": 15.3
+      }
+    },
+    "objCls": {
+      "type": "text",
+      "label": "Object class.",
+      "page": 1,
+      "box": {
+        "left": 137.3,
+        "top": 406.0,
+        "width": 53.3,
+        "height": 15.3
+      }
+    },
+    "burContNum": {
+      "type": "text",
+      "label": "Bureau Cont. Number.",
+      "page": 1,
+      "box": {
+        "left": 191.3,
+        "top": 406.0,
+        "width": 52.0,
+        "height": 15.3
+      }
+    },
+    "subAllot": {
+      "type": "text",
+      "label": "Sub Allot.",
+      "page": 1,
+      "box": {
+        "left": 245.3,
+        "top": 406.0,
+        "width": 34.7,
+        "height": 15.3
+      }
+    },
+    "authAcct": {
+      "type": "text",
+      "label": "Auth'n Accounting.",
+      "page": 1,
+      "box": {
+        "left": 280.0,
+        "top": 406.0,
+        "width": 53.3,
+        "height": 15.3
+      }
+    },
+    "tranType": {
+      "type": "text",
+      "label": "Trans. type.",
+      "page": 1,
+      "box": {
+        "left": 336.0,
+        "top": 406.0,
+        "width": 42.0,
+        "height": 15.3
+      }
+    },
+    "propAA": {
+      "type": "text",
+      "label": "Property Accounting ACTY",
+      "page": 1,
+      "box": {
+        "left": 378.7,
+        "top": 406.0,
+        "width": 84.7,
+        "height": 15.3
+      }
+    },
+    "costCode": {
+      "type": "text",
+      "label": "Cost Code.",
+      "page": 1,
+      "box": {
+        "left": 464.7,
+        "top": 406.0,
+        "width": 130.0,
+        "height": 15.3
+      }
+    },
+    "chkDataCorr": {
+      "type": "checkbox",
+      "label": "Check if data contained on VIS Screen JRED, MMPA is correct and may be used to substantiate dependency for travel claim.",
+      "page": 1,
+      "box": {
+        "left": 41.3,
+        "top": 387.3,
+        "width": 13.3,
+        "height": 13.3
+      }
+    },
+    "sigCO": {
+      "type": "signature",
+      "label": "SigCO",
+      "page": 1,
+      "box": {
+        "left": 25.2,
+        "top": 353.4,
+        "width": 355.2,
+        "height": 19.3
+      }
+    },
+    "dateSigCO": {
+      "type": "text",
+      "label": "Enter date of signature of Commanding/Certifying Officer using format 20020627.",
+      "page": 1,
+      "box": {
+        "left": 384.7,
+        "top": 348.0,
+        "width": 208.7,
+        "height": 14.7
+      }
+    },
+    "daysRLB": {
+      "type": "text",
+      "label": "Days RLB",
+      "page": 1,
+      "box": {
+        "left": 214.0,
+        "top": 312.0,
+        "width": 34.0,
+        "height": 16.7
+      }
+    },
+    "daysSLB": {
+      "type": "text",
+      "label": "Days SLB",
+      "page": 1,
+      "box": {
+        "left": 310.7,
+        "top": 312.0,
+        "width": 34.0,
+        "height": 16.7
+      }
+    },
+    "chkAppLvYes": {
+      "type": "checkbox",
+      "label": "Check if you do elect payment in connection with involuntary appellate leave.",
+      "page": 1,
+      "box": {
+        "left": 48.0,
+        "top": 309.3,
+        "width": 13.3,
+        "height": 13.3
+      }
+    },
+    "chkAppLvNo": {
+      "type": "checkbox",
+      "label": "Check if you do not elect payment in connection with involuntary appellate leave.",
+      "page": 1,
+      "box": {
+        "left": 100.0,
+        "top": 309.3,
+        "width": 13.3,
+        "height": 13.3
+      }
+    },
+    "leaveBal1": {
+      "type": "text",
+      "label": "Current leave balance in days.",
+      "page": 1,
+      "box": {
+        "left": 547.3,
+        "top": 294.0,
+        "width": 34.0,
+        "height": 16.7
+      }
+    },
+    "leaveBal2": {
+      "type": "text",
+      "label": "Leave balance in days.",
+      "page": 1,
+      "box": {
+        "left": 189.3,
+        "top": 268.0,
+        "width": 34.0,
+        "height": 16.7
+      }
+    },
+    "chkNoAdvAllow": {
+      "type": "checkbox",
+      "label": "Check if you do not elect to be paid an advance separation allowances.",
+      "page": 1,
+      "box": {
+        "left": 28.0,
+        "top": 228.0,
+        "width": 13.3,
+        "height": 13.3
+      }
+    },
+    "dtyStat1": {
+      "type": "text",
+      "label": "Duty Station",
+      "page": 1,
+      "box": {
+        "left": 452.0,
+        "top": 216.7,
+        "width": 142.7,
+        "height": 16.7
+      }
+    },
+    "chkYesGTR": {
+      "type": "checkbox",
+      "label": "Check if you do elect to be issued Government Transportation Request(s) for travel for yourself and your dependents.",
+      "page": 1,
+      "box": {
+        "left": 28.0,
+        "top": 213.3,
+        "width": 13.3,
+        "height": 13.3
+      }
+    },
+    "destLoc": {
+      "type": "text",
+      "label": "Destination. City and State.",
+      "page": 1,
+      "box": {
+        "left": 62.0,
+        "top": 204.5,
+        "width": 267.3,
+        "height": 13.9
+      }
+    },
+    "dtyStat2": {
+      "type": "text",
+      "label": "Duty Station",
+      "page": 1,
+      "box": {
+        "left": 410.0,
+        "top": 183.3,
+        "width": 146.7,
+        "height": 16.7
+      }
+    },
+    "chkYesTrvAllow": {
+      "type": "checkbox",
+      "label": "Check if you elect to be paid advance separation travel allowances for yourself and your dependents.",
+      "page": 1,
+      "box": {
+        "left": 28.0,
+        "top": 180.0,
+        "width": 13.3,
+        "height": 13.3
+      }
+    },
+    "addrMail": {
+      "type": "text",
+      "label": "Complete mailing address.",
+      "page": 1,
+      "box": {
+        "left": 48.7,
+        "top": 171.3,
+        "width": 200.0,
+        "height": 16.7
+      }
+    },
+    "travMode": {
+      "type": "text",
+      "label": "Mode of travel.",
+      "page": 1,
+      "box": {
+        "left": 267.3,
+        "top": 171.3,
+        "width": 144.0,
+        "height": 16.7
+      }
+    },
+    "addrPermMail": {
+      "type": "text",
+      "label": "Permanent mailing address.",
+      "page": 1,
+      "box": {
+        "left": 141.9,
+        "top": 145.9,
+        "width": 447.1,
+        "height": 9.8
+      }
+    },
+    "disbOffice": {
+      "type": "text",
+      "label": "Complete address of disbursing office paying the advance.",
+      "page": 1,
+      "box": {
+        "left": 147.1,
+        "top": 119.2,
+        "width": 442.7,
+        "height": 13.2
+      }
+    },
+    "sigMarine": {
+      "type": "signature",
+      "label": "SigMarine",
+      "page": 1,
+      "box": {
+        "left": 122.0,
+        "top": 40.7,
+        "width": 262.3,
+        "height": 21.3
+      }
+    },
+    "dateSigMar": {
+      "type": "text",
+      "label": "Enter date of signature of Marine using format 2002 06 27.",
+      "page": 1,
+      "box": {
+        "left": 385.6,
+        "top": 35.2,
+        "width": 208.8,
+        "height": 15.2
+      }
+    }
+  }
+}

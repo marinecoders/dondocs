@@ -1,0 +1,414 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "engineno": {
+        "left": 96.5,
+        "top": 735.2,
+        "width": 89.7,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER ENGINE NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateTimeField1": {
+        "left": 473.2,
+        "top": 735.2,
+        "width": 91.0,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER DATE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "jsn": {
+        "left": 282.3,
+        "top": 726.2,
+        "width": 65.9,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER JSN.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hitno": {
+        "left": 81.4,
+        "top": 708.2,
+        "width": 104.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER HIT NUMBER.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hitssince": {
+        "left": 475.4,
+        "top": 708.2,
+        "width": 88.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER HITS SINCE LAST INSPECTION.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rs1": {
+        "left": 96.4,
+        "top": 429.2,
+        "width": 71.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER RAIN SPAN READING 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rs2": {
+        "left": 186.4,
+        "top": 429.2,
+        "width": 71.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER RAIN SPAN READING 2.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rs3": {
+        "left": 276.4,
+        "top": 429.2,
+        "width": 71.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER RAIN SPAN READING 3.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rs4": {
+        "left": 366.4,
+        "top": 429.2,
+        "width": 71.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER RAIN SPAN READING 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rs5": {
+        "left": 456.4,
+        "top": 429.2,
+        "width": 71.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER RAIN SPAN READING 5.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ts1": {
+        "left": 96.4,
+        "top": 393.2,
+        "width": 71.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER TRACK SPAN READING 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ts2": {
+        "left": 186.4,
+        "top": 393.2,
+        "width": 71.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER TRACK SPAN READING 2.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ts3": {
+        "left": 276.4,
+        "top": 393.2,
+        "width": 71.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER TRACK SPAN READING 3.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ts4": {
+        "left": 366.4,
+        "top": 393.2,
+        "width": 71.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER TRACK SPAN READING 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ts5": {
+        "left": 456.4,
+        "top": 393.2,
+        "width": 71.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER TRACK SPAN READING 5.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "meca": {
+        "left": 105.4,
+        "top": 357.2,
+        "width": 53.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER MEC END READING CA.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mecf": {
+        "left": 276.4,
+        "top": 357.2,
+        "width": 53.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER MEC END READING CF.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mec": {
+        "left": 449.1,
+        "top": 357.2,
+        "width": 52.1,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER MEC END READING C.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "meda": {
+        "left": 105.4,
+        "top": 339.2,
+        "width": 53.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER MEC END READING DA.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "medf": {
+        "left": 276.4,
+        "top": 339.2,
+        "width": 53.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER MEC END READING DF.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "med": {
+        "left": 447.4,
+        "top": 339.2,
+        "width": 53.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER MEC END READING D.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mee": {
+        "left": 105.4,
+        "top": 321.2,
+        "width": 53.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER MEC END READING E.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mef": {
+        "left": 276.4,
+        "top": 321.2,
+        "width": 53.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER MEC END READING F.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "xca": {
+        "left": 105.4,
+        "top": 285.2,
+        "width": 53.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER X-HEAD READING CA.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "xcf": {
+        "left": 276.4,
+        "top": 285.2,
+        "width": 53.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER X-HEAD READING CF.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "xc": {
+        "left": 447.4,
+        "top": 285.2,
+        "width": 53.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER X-HEAD READING C.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "xda": {
+        "left": 105.4,
+        "top": 267.2,
+        "width": 53.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER X-HEAD READING DA.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "xdf": {
+        "left": 276.4,
+        "top": 267.2,
+        "width": 53.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER X-HEAD READING DF.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "xd": {
+        "left": 447.4,
+        "top": 267.2,
+        "width": 53.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER X-HEAD READING D.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "xe": {
+        "left": 105.4,
+        "top": 249.2,
+        "width": 53.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER X-HEAD READING E.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "xf": {
+        "left": 276.4,
+        "top": 249.2,
+        "width": 53.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER X-HEAD READING F.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks": {
+        "left": 52.3,
+        "top": 204.2,
+        "width": 507.3,
+        "height": 48.3,
+        "type": "text",
+        "description": "ENTER REMARKS.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "maintman": {
+        "left": 105.5,
+        "top": 150.2,
+        "width": 161.7,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER MAINT. MAN.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "aglpocpo": {
+        "left": 419.0,
+        "top": 150.2,
+        "width": 145.2,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER A/G LPO/CPO.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "qainspector": {
+        "left": 124.7,
+        "top": 123.2,
+        "width": 142.4,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER QA INSPECTOR.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "maintcpo": {
+        "left": 450.9,
+        "top": 123.2,
+        "width": 113.3,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER MAINT. CPO/OFFICER.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

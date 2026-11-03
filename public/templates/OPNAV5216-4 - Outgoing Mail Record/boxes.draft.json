@@ -1,0 +1,282 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "classification": {
+        "left": 64.1,
+        "top": 622.8,
+        "width": 483.1,
+        "height": 11.3,
+        "type": "text",
+        "description": "Enter the classification (of the attached material).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "controllNumber": {
+        "left": 64.8,
+        "top": 587.5,
+        "width": 110.2,
+        "height": 13.4,
+        "type": "text",
+        "description": "Enter the control number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "code": {
+        "left": 179.3,
+        "top": 587.5,
+        "width": 77.0,
+        "height": 13.4,
+        "type": "text",
+        "description": "Enter the code ORIG.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cno": {
+        "left": 261.4,
+        "top": 587.5,
+        "width": 145.4,
+        "height": 13.4,
+        "type": "text",
+        "description": "Enter the CNO serial number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "type": {
+        "left": 482.4,
+        "top": 587.5,
+        "width": 65.5,
+        "height": 13.4,
+        "type": "text",
+        "description": "Enter the type.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date2": {
+        "left": 412.6,
+        "top": 586.8,
+        "width": 65.5,
+        "height": 12.7,
+        "type": "text",
+        "description": "Enter the CNO date using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "regNumber": {
+        "left": 260.6,
+        "top": 558.7,
+        "width": 287.3,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter thr REG. number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "addressee": {
+        "left": 64.1,
+        "top": 558.0,
+        "width": 191.5,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the addressee (CMR action).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "keyWord1": {
+        "left": 64.8,
+        "top": 532.8,
+        "width": 191.5,
+        "height": 10.8,
+        "type": "text",
+        "description": "Enter the key word.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "keyWord2": {
+        "left": 260.6,
+        "top": 532.8,
+        "width": 116.6,
+        "height": 10.8,
+        "type": "text",
+        "description": "Enter the key word.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "keyWord3": {
+        "left": 382.3,
+        "top": 532.8,
+        "width": 164.9,
+        "height": 10.8,
+        "type": "text",
+        "description": "Enter the key word.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "keyWord4": {
+        "left": 64.1,
+        "top": 506.9,
+        "width": 191.5,
+        "height": 11.3,
+        "type": "text",
+        "description": "Enter the key word.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ssci": {
+        "left": 260.6,
+        "top": 506.9,
+        "width": 116.6,
+        "height": 11.3,
+        "type": "text",
+        "description": "Enter the SSIC.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "declass": {
+        "left": 382.3,
+        "top": 506.9,
+        "width": 164.9,
+        "height": 11.3,
+        "type": "text",
+        "description": "Enter the declass/review.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date1": {
+        "left": 65.5,
+        "top": 480.2,
+        "width": 225.4,
+        "height": 11.3,
+        "type": "text",
+        "description": "Enter the required retention date using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "internationalMail": {
+        "left": 298.1,
+        "top": 480.2,
+        "width": 249.8,
+        "height": 11.3,
+        "type": "text",
+        "description": "Enter the internal mail dalivery.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "clearance": {
+        "left": 63.4,
+        "top": 456.5,
+        "width": 484.6,
+        "height": 35.3,
+        "type": "text",
+        "description": "Enter the clearance ladder.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "originatorName": {
+        "left": 190.8,
+        "top": 343.4,
+        "width": 357.1,
+        "height": 11.5,
+        "type": "text",
+        "description": "Enter the originator's name and/or code.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "typedBy": {
+        "left": 112.3,
+        "top": 311.8,
+        "width": 434.9,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter whom typed by.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comments": {
+        "left": 67.7,
+        "top": 293.0,
+        "width": 478.1,
+        "height": 162.7,
+        "type": "text",
+        "description": "Enter the comments that should become a permant part of this action for retention in the CMR files.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mailer": {
+        "left": 65.5,
+        "top": 111.6,
+        "width": 77.0,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the mailer. ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "filer": {
+        "left": 146.9,
+        "top": 111.6,
+        "width": 80.6,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the filer.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "foila": {
+        "left": 231.1,
+        "top": 111.6,
+        "width": 128.9,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the FOIA.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "classification2": {
+        "left": 365.0,
+        "top": 111.6,
+        "width": 182.2,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the classification (of attached material).",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

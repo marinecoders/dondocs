@@ -1,0 +1,165 @@
+{
+  "id": "navpers1070613",
+  "label": "NAVPERS1070-613 - Administrative Remarks",
+  "directory": "NAVPERS1070-613 - Administrative Remarks",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "textField1",
+        "radioButtonList",
+        "radioButtonList2",
+        "textField2",
+        "authority",
+        "rmksSection",
+        "textField3",
+        "textField4",
+        "dateTimeField1",
+        "name",
+        "ssn",
+        "branch"
+      ]
+    }
+  ],
+  "fields": {
+    "textField1": {
+      "type": "text",
+      "label": "Please enter member's ship or statioin",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 704.4,
+        "width": 534.3,
+        "height": 17.6
+      }
+    },
+    "radioButtonList": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 371.8,
+        "top": 680.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_0"
+    },
+    "radioButtonList2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 479.8,
+        "top": 680.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_0"
+    },
+    "textField2": {
+      "type": "text",
+      "label": "Enter the subject of the reason for the document.",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 671.4,
+        "width": 300.3,
+        "height": 38.6
+      },
+      "multiline": true
+    },
+    "authority": {
+      "type": "text",
+      "label": "Please enter the authority to make this document a permanent part of the member's service record.",
+      "page": 1,
+      "box": {
+        "left": 344.8,
+        "top": 653.4,
+        "width": 228.3,
+        "height": 20.6
+      }
+    },
+    "rmksSection": {
+      "type": "text",
+      "label": "Please enter command comments.",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 627.2,
+        "width": 534.3,
+        "height": 444.3
+      },
+      "multiline": true
+    },
+    "textField3": {
+      "type": "text",
+      "label": "VERIFYING OFFICIAL RANK OR GRADE/TITLE:",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 114.9,
+        "width": 210.3,
+        "height": 22.1
+      }
+    },
+    "textField4": {
+      "type": "text",
+      "label": "SIGNATURE OF VERIFYING OFFICIAL:",
+      "page": 1,
+      "box": {
+        "left": 343.4,
+        "top": 114.8,
+        "width": 231.2,
+        "height": 23.4
+      }
+    },
+    "dateTimeField1": {
+      "type": "text",
+      "label": "DATE:",
+      "page": 1,
+      "box": {
+        "left": 254.8,
+        "top": 114.2,
+        "width": 84.3,
+        "height": 21.3
+      }
+    },
+    "name": {
+      "type": "text",
+      "label": "Please enter full name",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 59.4,
+        "width": 300.3,
+        "height": 20.6
+      }
+    },
+    "ssn": {
+      "type": "text",
+      "label": "Please enter member's social security number..",
+      "page": 1,
+      "box": {
+        "left": 344.8,
+        "top": 59.4,
+        "width": 120.3,
+        "height": 20.6
+      }
+    },
+    "branch": {
+      "type": "text",
+      "label": "Please enter service branch.",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 58.7,
+        "width": 102.3,
+        "height": 19.8
+      }
+    }
+  }
+}

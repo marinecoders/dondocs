@@ -1,0 +1,1412 @@
+{
+  "id": "opnav4790173",
+  "label": "OPNAV4790-173 - Flols Mk6md3alignstaband Pole",
+  "directory": "OPNAV4790-173 - Flols Mk6md3alignstaband Pole",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf",
+    "page5.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "date1",
+        "jsn1",
+        "maint",
+        "branch",
+        "qa",
+        "maintchief"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "date12",
+        "jsn12",
+        "l1",
+        "l2",
+        "x",
+        "poleheight",
+        "maint2",
+        "branch2",
+        "qa2",
+        "maintchief2"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "date13",
+        "jsn13",
+        "maint3",
+        "branch3",
+        "qa3",
+        "maintchief3"
+      ]
+    },
+    {
+      "title": "Page 4",
+      "fields": [
+        "date14",
+        "jsn14",
+        "maint4",
+        "branch4",
+        "qa4",
+        "maintchief4"
+      ]
+    },
+    {
+      "title": "Page 5",
+      "fields": [
+        "date15",
+        "jsn15",
+        "maint5",
+        "branch5",
+        "qa5",
+        "maintchief5"
+      ]
+    }
+  ],
+  "fields": {
+    "date1": {
+      "type": "text",
+      "label": "ENTER DATE.",
+      "page": 1,
+      "box": {
+        "left": 81.7,
+        "top": 735.2,
+        "width": 86.4,
+        "height": 15.3
+      }
+    },
+    "jsn1": {
+      "type": "text",
+      "label": "ENTER JSN.",
+      "page": 1,
+      "box": {
+        "left": 358.6,
+        "top": 735.2,
+        "width": 111.0,
+        "height": 15.3
+      }
+    },
+    "maint": {
+      "type": "text",
+      "label": "ENTER MAINT. MAN SIGNATURE.",
+      "page": 1,
+      "box": {
+        "left": 89.6,
+        "top": 298.7,
+        "width": 213.6,
+        "height": 15.3
+      }
+    },
+    "branch": {
+      "type": "text",
+      "label": "ENTER BRANCH LPO/CHIEF SIGNATURE.",
+      "page": 1,
+      "box": {
+        "left": 409.2,
+        "top": 298.7,
+        "width": 159.5,
+        "height": 15.3
+      }
+    },
+    "qa": {
+      "type": "text",
+      "label": "ENTER QA INSPECTOR SIGNATURE.",
+      "page": 1,
+      "box": {
+        "left": 99.2,
+        "top": 271.7,
+        "width": 204.0,
+        "height": 15.3
+      }
+    },
+    "maintchief": {
+      "type": "text",
+      "label": "ENTER MAINT. CHIEF OFFICER SIGNATURE.",
+      "page": 1,
+      "box": {
+        "left": 421.0,
+        "top": 271.7,
+        "width": 147.7,
+        "height": 15.3
+      }
+    },
+    "date12": {
+      "type": "text",
+      "label": "ENTER DATE.",
+      "page": 2,
+      "box": {
+        "left": 81.7,
+        "top": 735.2,
+        "width": 86.4,
+        "height": 15.3
+      }
+    },
+    "jsn12": {
+      "type": "text",
+      "label": "ENTER JSN.",
+      "page": 2,
+      "box": {
+        "left": 358.6,
+        "top": 735.2,
+        "width": 111.0,
+        "height": 15.3
+      }
+    },
+    "l1": {
+      "type": "text",
+      "label": "ENTER L1.",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 235.7,
+        "width": 70.8,
+        "height": 21.3
+      }
+    },
+    "l2": {
+      "type": "text",
+      "label": "ENTER L2.",
+      "page": 2,
+      "box": {
+        "left": 115.3,
+        "top": 235.7,
+        "width": 70.8,
+        "height": 21.3
+      }
+    },
+    "x": {
+      "type": "text",
+      "label": "ENTER POLE LOCATION X.",
+      "page": 2,
+      "box": {
+        "left": 308.8,
+        "top": 235.7,
+        "width": 70.8,
+        "height": 21.3
+      }
+    },
+    "poleheight": {
+      "type": "text",
+      "label": "ENTER POLE HEIGHT Z.",
+      "page": 2,
+      "box": {
+        "left": 461.8,
+        "top": 235.7,
+        "width": 111.3,
+        "height": 21.3
+      }
+    },
+    "maint2": {
+      "type": "text",
+      "label": "ENTER MAINT. MAN SIGNATURE",
+      "page": 2,
+      "box": {
+        "left": 89.6,
+        "top": 204.2,
+        "width": 213.6,
+        "height": 15.3
+      }
+    },
+    "branch2": {
+      "type": "text",
+      "label": "ENTER BRANCH LPO/CHIEF SIGNATURE.",
+      "page": 2,
+      "box": {
+        "left": 409.2,
+        "top": 204.2,
+        "width": 159.5,
+        "height": 15.3
+      }
+    },
+    "qa2": {
+      "type": "text",
+      "label": "ENTER QA INSPECTOR SIGNATURE.",
+      "page": 2,
+      "box": {
+        "left": 99.2,
+        "top": 177.2,
+        "width": 204.0,
+        "height": 15.3
+      }
+    },
+    "maintchief2": {
+      "type": "text",
+      "label": "ENTER MAIN. CHIEF/OFFICER SIGNATURE.",
+      "page": 2,
+      "box": {
+        "left": 421.0,
+        "top": 177.2,
+        "width": 147.7,
+        "height": 15.3
+      }
+    },
+    "date13": {
+      "type": "text",
+      "label": "ENTER DATE.",
+      "page": 3,
+      "box": {
+        "left": 77.3,
+        "top": 735.2,
+        "width": 86.4,
+        "height": 15.3
+      }
+    },
+    "jsn13": {
+      "type": "text",
+      "label": "ENTER JSN.",
+      "page": 3,
+      "box": {
+        "left": 354.1,
+        "top": 735.2,
+        "width": 111.0,
+        "height": 15.3
+      }
+    },
+    "maint3": {
+      "type": "text",
+      "label": "ENTER MAINT. MAN. SIGNATURE.",
+      "page": 3,
+      "box": {
+        "left": 89.6,
+        "top": 231.2,
+        "width": 213.6,
+        "height": 15.3
+      }
+    },
+    "branch3": {
+      "type": "text",
+      "label": "ENTER BRANCH LPO/CHIEF SIGNATURE.",
+      "page": 3,
+      "box": {
+        "left": 409.2,
+        "top": 231.2,
+        "width": 159.5,
+        "height": 15.3
+      }
+    },
+    "qa3": {
+      "type": "text",
+      "label": "ENTER QA INSPECTOR SIGNATURE.",
+      "page": 3,
+      "box": {
+        "left": 99.2,
+        "top": 204.2,
+        "width": 204.0,
+        "height": 15.3
+      }
+    },
+    "maintchief3": {
+      "type": "text",
+      "label": "ENTER MAINT.CHIEF/OFFICER SIGNATURE.",
+      "page": 3,
+      "box": {
+        "left": 421.0,
+        "top": 204.2,
+        "width": 147.7,
+        "height": 15.3
+      }
+    },
+    "date14": {
+      "type": "text",
+      "label": "ENTER DATE.",
+      "page": 4,
+      "box": {
+        "left": 86.2,
+        "top": 735.2,
+        "width": 86.4,
+        "height": 15.3
+      }
+    },
+    "jsn14": {
+      "type": "text",
+      "label": "ENTER JSN.",
+      "page": 4,
+      "box": {
+        "left": 363.1,
+        "top": 735.2,
+        "width": 111.0,
+        "height": 15.3
+      }
+    },
+    "maint4": {
+      "type": "text",
+      "label": "ENTER MAINT. MAN. SIGNATURE.",
+      "page": 4,
+      "box": {
+        "left": 89.6,
+        "top": 231.2,
+        "width": 213.6,
+        "height": 15.3
+      }
+    },
+    "branch4": {
+      "type": "text",
+      "label": "ENTER BRANCH LPO/CHIEF SIGNATURE.",
+      "page": 4,
+      "box": {
+        "left": 409.2,
+        "top": 231.2,
+        "width": 159.5,
+        "height": 15.3
+      }
+    },
+    "qa4": {
+      "type": "text",
+      "label": "ENTER QA INSPECTOR SIGNATURE.",
+      "page": 4,
+      "box": {
+        "left": 99.2,
+        "top": 204.2,
+        "width": 204.0,
+        "height": 15.3
+      }
+    },
+    "maintchief4": {
+      "type": "text",
+      "label": "ENTER MAINT.CHIEF/OFFICER SIGNATURE.",
+      "page": 4,
+      "box": {
+        "left": 421.0,
+        "top": 204.2,
+        "width": 147.7,
+        "height": 15.3
+      }
+    },
+    "date15": {
+      "type": "text",
+      "label": "ENTER DATE.",
+      "page": 5,
+      "box": {
+        "left": 86.2,
+        "top": 735.2,
+        "width": 86.4,
+        "height": 15.3
+      }
+    },
+    "jsn15": {
+      "type": "text",
+      "label": "ENTER JSN.",
+      "page": 5,
+      "box": {
+        "left": 363.1,
+        "top": 735.2,
+        "width": 111.0,
+        "height": 15.3
+      }
+    },
+    "maint5": {
+      "type": "text",
+      "label": "MAINT. MAN",
+      "page": 5,
+      "box": {
+        "left": 89.6,
+        "top": 262.7,
+        "width": 213.6,
+        "height": 15.3
+      }
+    },
+    "branch5": {
+      "type": "text",
+      "label": "BRANCH LPO/CHIEF",
+      "page": 5,
+      "box": {
+        "left": 409.2,
+        "top": 262.7,
+        "width": 159.5,
+        "height": 15.3
+      }
+    },
+    "qa5": {
+      "type": "text",
+      "label": "QA INSPECTOR",
+      "page": 5,
+      "box": {
+        "left": 99.2,
+        "top": 235.7,
+        "width": 204.0,
+        "height": 15.3
+      }
+    },
+    "maintchief5": {
+      "type": "text",
+      "label": "MAINT. CHIEF/OFFICER",
+      "page": 5,
+      "box": {
+        "left": 421.0,
+        "top": 235.7,
+        "width": 147.7,
+        "height": 15.3
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "wpi": {
+          "type": "text",
+          "label": "ENTER IDEAL POLE HEIGHT.",
+          "page": 1,
+          "box": {
+            "left": 155.8,
+            "top": 393.2,
+            "width": 48.3,
+            "height": 12.3
+          }
+        },
+        "wpa": {
+          "type": "text",
+          "label": "ENTER ACTUAL POLE HEIGHT.",
+          "page": 1,
+          "box": {
+            "left": 209.8,
+            "top": 393.2,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "wpe": {
+          "type": "text",
+          "label": "ENTER ERROR POLE HEIGHT.",
+          "page": 1,
+          "box": {
+            "left": 259.3,
+            "top": 393.2,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "wra": {
+          "type": "text",
+          "label": "ENTER ACTUAL POLE HEIGHT.",
+          "page": 1,
+          "box": {
+            "left": 362.8,
+            "top": 393.2,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "wre": {
+          "type": "text",
+          "label": "ENTER ERROR POLE HEIGHT.",
+          "page": 1,
+          "box": {
+            "left": 412.3,
+            "top": 393.2,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "wca": {
+          "type": "text",
+          "label": "ENTER ACTUAL POLE HEIGHT.",
+          "page": 1,
+          "box": {
+            "left": 461.8,
+            "top": 393.2,
+            "width": 53.1,
+            "height": 12.3
+          }
+        },
+        "wce": {
+          "type": "text",
+          "label": "ENTER ERROR POLE HEIGHT.",
+          "page": 1,
+          "box": {
+            "left": 520.5,
+            "top": 393.2,
+            "width": 52.7,
+            "height": 12.3
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "dpi": {
+          "type": "text",
+          "label": "ENTER IDEAL POLE HEIGHT.",
+          "page": 1,
+          "box": {
+            "left": 155.8,
+            "top": 523.7,
+            "width": 48.3,
+            "height": 12.3
+          }
+        },
+        "dpa": {
+          "type": "text",
+          "label": "ENTER ACTUAL POLE HEIGHT.",
+          "page": 1,
+          "box": {
+            "left": 209.8,
+            "top": 523.7,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "dpe": {
+          "type": "text",
+          "label": "ENTER ERROR POLE HEIGHT.",
+          "page": 1,
+          "box": {
+            "left": 259.3,
+            "top": 523.7,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "dra": {
+          "type": "text",
+          "label": "ENTER ACTUAL POLE HEIGHT.",
+          "page": 1,
+          "box": {
+            "left": 362.8,
+            "top": 523.7,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "dre": {
+          "type": "text",
+          "label": "ENTER ERROR POLE HEIGHT.",
+          "page": 1,
+          "box": {
+            "left": 412.3,
+            "top": 523.7,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "dca": {
+          "type": "text",
+          "label": "ENTER ACTUAL POLE HEIGHT.",
+          "page": 1,
+          "box": {
+            "left": 461.8,
+            "top": 523.7,
+            "width": 52.8,
+            "height": 12.3
+          }
+        },
+        "dce": {
+          "type": "text",
+          "label": "ENTER ERROR POLE HEIGHT.",
+          "page": 1,
+          "box": {
+            "left": 520.3,
+            "top": 523.7,
+            "width": 52.9,
+            "height": 12.3
+          }
+        }
+      }
+    },
+    "rows3": {
+      "title": "Rows",
+      "page": 2,
+      "count": 13,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "rc1i": {
+          "type": "text",
+          "label": "ENTER RESP METER READING.",
+          "page": 2,
+          "box": {
+            "left": 65.8,
+            "top": 550.7,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "rc1a": {
+          "type": "text",
+          "label": "ENTER RESP METER READING.",
+          "page": 2,
+          "box": {
+            "left": 115.3,
+            "top": 550.7,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "rc1e": {
+          "type": "text",
+          "label": "ENTER RESP METER READING.",
+          "page": 2,
+          "box": {
+            "left": 164.8,
+            "top": 550.7,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "rc2a": {
+          "type": "text",
+          "label": "ENTER RESP METER READING.",
+          "page": 2,
+          "box": {
+            "left": 214.3,
+            "top": 550.7,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "rc2e": {
+          "type": "text",
+          "label": "ENTER RESP METER READING.",
+          "page": 2,
+          "box": {
+            "left": 263.8,
+            "top": 550.7,
+            "width": 39.3,
+            "height": 12.3
+          }
+        },
+        "pc1i": {
+          "type": "text",
+          "label": "ENTER POLE HEIGHT.",
+          "page": 2,
+          "box": {
+            "left": 308.6,
+            "top": 550.7,
+            "width": 49.4,
+            "height": 12.3
+          }
+        },
+        "pc1a": {
+          "type": "text",
+          "label": "ENTER POLE HEIGHT.",
+          "page": 2,
+          "box": {
+            "left": 363.6,
+            "top": 550.7,
+            "width": 49.4,
+            "height": 12.3
+          }
+        },
+        "ec1e": {
+          "type": "text",
+          "label": "ENTER POLE HEIGHT.",
+          "page": 2,
+          "box": {
+            "left": 418.7,
+            "top": 550.7,
+            "width": 49.4,
+            "height": 12.3
+          }
+        },
+        "pc2a": {
+          "type": "text",
+          "label": "ENTER POLE HEIGHT.",
+          "page": 2,
+          "box": {
+            "left": 473.7,
+            "top": 550.7,
+            "width": 49.4,
+            "height": 12.3
+          }
+        },
+        "pc2e": {
+          "type": "text",
+          "label": "ENTER POLE HEIGHT.",
+          "page": 2,
+          "box": {
+            "left": 528.8,
+            "top": 550.7,
+            "width": 44.4,
+            "height": 12.3
+          }
+        }
+      }
+    },
+    "rows4": {
+      "title": "Rows",
+      "page": 3,
+      "count": 9,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "cPI": {
+          "type": "text",
+          "label": "ENTER POLE HEIGHT",
+          "page": 3,
+          "box": {
+            "left": 137.8,
+            "top": 397.7,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "cPA": {
+          "type": "text",
+          "label": "ENTER POLE HEIGHT",
+          "page": 3,
+          "box": {
+            "left": 187.3,
+            "top": 397.7,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "cPE": {
+          "type": "text",
+          "label": "ENTER POLE HEIGHT",
+          "page": 3,
+          "box": {
+            "left": 236.8,
+            "top": 397.7,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "cRPI": {
+          "type": "text",
+          "label": "ENTER RESP METER READING",
+          "page": 3,
+          "box": {
+            "left": 286.3,
+            "top": 397.7,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "cRPA": {
+          "type": "text",
+          "label": "ENTER RESP METER READING",
+          "page": 3,
+          "box": {
+            "left": 335.8,
+            "top": 397.7,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "cRPE": {
+          "type": "text",
+          "label": "ENTER RESP METER READING",
+          "page": 3,
+          "box": {
+            "left": 385.3,
+            "top": 397.7,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "cRRI": {
+          "type": "text",
+          "label": "ENTER RESP METER READING",
+          "page": 3,
+          "box": {
+            "left": 434.8,
+            "top": 397.7,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "cRRA": {
+          "type": "text",
+          "label": "ENTER RESP METER READING",
+          "page": 3,
+          "box": {
+            "left": 484.3,
+            "top": 397.7,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "cRRE": {
+          "type": "text",
+          "label": "ENTER RESP METER READING",
+          "page": 3,
+          "box": {
+            "left": 533.8,
+            "top": 397.7,
+            "width": 39.3,
+            "height": 12.3
+          }
+        }
+      }
+    },
+    "rows5": {
+      "title": "Rows",
+      "page": 3,
+      "count": 9,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "pi": {
+          "type": "text",
+          "label": "ENTER POLE HEIGHT",
+          "page": 3,
+          "box": {
+            "left": 137.8,
+            "top": 600.2,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "pa": {
+          "type": "text",
+          "label": "ENTER POLE HEIGHT",
+          "page": 3,
+          "box": {
+            "left": 187.3,
+            "top": 600.2,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "pe": {
+          "type": "text",
+          "label": "ENTER POLE HEIGHT",
+          "page": 3,
+          "box": {
+            "left": 236.8,
+            "top": 600.2,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "rpi": {
+          "type": "text",
+          "label": "ENTER RESP METER READING",
+          "page": 3,
+          "box": {
+            "left": 286.3,
+            "top": 600.2,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "rpa": {
+          "type": "text",
+          "label": "ENTER RESP METER READING",
+          "page": 3,
+          "box": {
+            "left": 335.8,
+            "top": 600.2,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "rpe": {
+          "type": "text",
+          "label": "ENTER RESP METER READING",
+          "page": 3,
+          "box": {
+            "left": 385.3,
+            "top": 600.2,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "rri": {
+          "type": "text",
+          "label": "ENTER RESP METER READING",
+          "page": 3,
+          "box": {
+            "left": 434.8,
+            "top": 600.2,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "rra": {
+          "type": "text",
+          "label": "ENTER RESP METER READING",
+          "page": 3,
+          "box": {
+            "left": 484.3,
+            "top": 600.2,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "rre": {
+          "type": "text",
+          "label": "ENTER RESP METER READING",
+          "page": 3,
+          "box": {
+            "left": 533.8,
+            "top": 600.2,
+            "width": 39.3,
+            "height": 12.3
+          }
+        }
+      }
+    },
+    "rows6": {
+      "title": "Rows",
+      "page": 4,
+      "count": 9,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "cPI": {
+          "type": "text",
+          "label": "ENTER POLE HEIGHT",
+          "page": 4,
+          "box": {
+            "left": 137.8,
+            "top": 397.7,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "cPA": {
+          "type": "text",
+          "label": "ENTER POLE HEIGHT",
+          "page": 4,
+          "box": {
+            "left": 187.3,
+            "top": 397.7,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "cPE": {
+          "type": "text",
+          "label": "ENTER POLE HEIGHT",
+          "page": 4,
+          "box": {
+            "left": 236.8,
+            "top": 397.7,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "cRPI": {
+          "type": "text",
+          "label": "ENTER RESP METER READING",
+          "page": 4,
+          "box": {
+            "left": 286.3,
+            "top": 397.7,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "cRPA": {
+          "type": "text",
+          "label": "ENTER RESP METER READING",
+          "page": 4,
+          "box": {
+            "left": 335.8,
+            "top": 397.7,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "cRPE": {
+          "type": "text",
+          "label": "ENTER RESP METER READING",
+          "page": 4,
+          "box": {
+            "left": 385.3,
+            "top": 397.7,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "cRRI": {
+          "type": "text",
+          "label": "ENTER RESP METER READING",
+          "page": 4,
+          "box": {
+            "left": 434.8,
+            "top": 397.7,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "cRRA": {
+          "type": "text",
+          "label": "ENTER RESP METER READING",
+          "page": 4,
+          "box": {
+            "left": 484.3,
+            "top": 397.7,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "cRRE": {
+          "type": "text",
+          "label": "ENTER RESP METER READING",
+          "page": 4,
+          "box": {
+            "left": 533.8,
+            "top": 397.7,
+            "width": 39.3,
+            "height": 12.3
+          }
+        }
+      }
+    },
+    "rows7": {
+      "title": "Rows",
+      "page": 4,
+      "count": 9,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "pi": {
+          "type": "text",
+          "label": "ENTER POLE HEIGHT",
+          "page": 4,
+          "box": {
+            "left": 137.8,
+            "top": 600.2,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "pa": {
+          "type": "text",
+          "label": "ENTER POLE HEIGHT",
+          "page": 4,
+          "box": {
+            "left": 187.3,
+            "top": 600.2,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "pe": {
+          "type": "text",
+          "label": "ENTER POLE HEIGHT",
+          "page": 4,
+          "box": {
+            "left": 236.8,
+            "top": 600.2,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "rpi": {
+          "type": "text",
+          "label": "ENTER RESP METER READING",
+          "page": 4,
+          "box": {
+            "left": 286.3,
+            "top": 600.2,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "rpa": {
+          "type": "text",
+          "label": "ENTER RESP METER READING",
+          "page": 4,
+          "box": {
+            "left": 335.8,
+            "top": 600.2,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "rpe": {
+          "type": "text",
+          "label": "ENTER RESP METER READING",
+          "page": 4,
+          "box": {
+            "left": 385.3,
+            "top": 600.2,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "rri": {
+          "type": "text",
+          "label": "ENTER RESP METER READING",
+          "page": 4,
+          "box": {
+            "left": 434.8,
+            "top": 600.2,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "rra": {
+          "type": "text",
+          "label": "ENTER RESP METER READING",
+          "page": 4,
+          "box": {
+            "left": 484.3,
+            "top": 600.2,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "rre": {
+          "type": "text",
+          "label": "ENTER RESP METER READING",
+          "page": 4,
+          "box": {
+            "left": 533.8,
+            "top": 600.2,
+            "width": 39.3,
+            "height": 12.3
+          }
+        }
+      }
+    },
+    "rows8": {
+      "title": "Rows",
+      "page": 5,
+      "count": 5,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "pi": {
+          "type": "text",
+          "label": "ENTER DAILY RESPONSE METER READING.",
+          "page": 5,
+          "box": {
+            "left": 137.8,
+            "top": 591.2,
+            "width": 30.2,
+            "height": 12.3
+          }
+        },
+        "pa": {
+          "type": "text",
+          "label": "ENTER DAILY RESPONSE METER READING.",
+          "page": 5,
+          "box": {
+            "left": 173.8,
+            "top": 591.2,
+            "width": 39.4,
+            "height": 12.3
+          }
+        },
+        "pe": {
+          "type": "text",
+          "label": "ENTER DAILY RESPONSE METER READING.",
+          "page": 5,
+          "box": {
+            "left": 218.8,
+            "top": 591.2,
+            "width": 34.7,
+            "height": 12.3
+          }
+        },
+        "ri": {
+          "type": "text",
+          "label": "ENTER DAILY RESPONSE METER READING.",
+          "page": 5,
+          "box": {
+            "left": 259.3,
+            "top": 591.2,
+            "width": 34.9,
+            "height": 12.3
+          }
+        },
+        "ra": {
+          "type": "text",
+          "label": "ENTER DAILY RESPONSE METER READING.",
+          "page": 5,
+          "box": {
+            "left": 299.8,
+            "top": 591.2,
+            "width": 34.7,
+            "height": 12.3
+          }
+        },
+        "re": {
+          "type": "text",
+          "label": "ENTER DAILY RESPONSE METER READING.",
+          "page": 5,
+          "box": {
+            "left": 340.3,
+            "top": 591.2,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "c2pi": {
+          "type": "text",
+          "label": "ENTER DAILY RESPONSE METER READING.",
+          "page": 5,
+          "box": {
+            "left": 389.8,
+            "top": 591.2,
+            "width": 34.7,
+            "height": 12.3
+          }
+        },
+        "c2pe": {
+          "type": "text",
+          "label": "ENTER DAILY RESPONSE METER READING.",
+          "page": 5,
+          "box": {
+            "left": 430.3,
+            "top": 591.2,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "c2ra": {
+          "type": "text",
+          "label": "ENTER DAILY RESPONSE METER READING.",
+          "page": 5,
+          "box": {
+            "left": 479.8,
+            "top": 591.2,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "c2re": {
+          "type": "text",
+          "label": "ENTER DAILY RESPONSE METER READING.",
+          "page": 5,
+          "box": {
+            "left": 529.3,
+            "top": 591.2,
+            "width": 43.8,
+            "height": 12.3
+          }
+        }
+      }
+    },
+    "rows9": {
+      "title": "Rows",
+      "page": 5,
+      "count": 9,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "wpi": {
+          "type": "text",
+          "label": "ENTER WEEKLY RESPONSE METER READING.",
+          "page": 5,
+          "box": {
+            "left": 137.8,
+            "top": 429.2,
+            "width": 34.7,
+            "height": 12.3
+          }
+        },
+        "wpa": {
+          "type": "text",
+          "label": "ENTER WEEKLY RESPONSE METER READING.",
+          "page": 5,
+          "box": {
+            "left": 178.3,
+            "top": 429.2,
+            "width": 34.9,
+            "height": 12.3
+          }
+        },
+        "wpe": {
+          "type": "text",
+          "label": "ENTER WEEKLY RESPONSE METER READING.",
+          "page": 5,
+          "box": {
+            "left": 218.8,
+            "top": 429.2,
+            "width": 34.7,
+            "height": 12.3
+          }
+        },
+        "wri": {
+          "type": "text",
+          "label": "ENTER WEEKLY RESPONSE METER READING.",
+          "page": 5,
+          "box": {
+            "left": 259.3,
+            "top": 429.2,
+            "width": 34.9,
+            "height": 12.3
+          }
+        },
+        "wra": {
+          "type": "text",
+          "label": "ENTER WEEKLY RESPONSE METER READING.",
+          "page": 5,
+          "box": {
+            "left": 299.8,
+            "top": 429.2,
+            "width": 34.7,
+            "height": 12.3
+          }
+        },
+        "wre": {
+          "type": "text",
+          "label": "ENTER WEEKLY RESPONSE METER READING.",
+          "page": 5,
+          "box": {
+            "left": 340.3,
+            "top": 429.2,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "wc2pi": {
+          "type": "text",
+          "label": "ENTER WEEKLY RESPONSE METER READING.",
+          "page": 5,
+          "box": {
+            "left": 389.8,
+            "top": 429.2,
+            "width": 34.7,
+            "height": 12.3
+          }
+        },
+        "wc2pe": {
+          "type": "text",
+          "label": "ENTER WEEKLY RESPONSE METER READING.",
+          "page": 5,
+          "box": {
+            "left": 430.3,
+            "top": 429.2,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "wc2ra": {
+          "type": "text",
+          "label": "ENTER WEEKLY RESPONSE METER READING.",
+          "page": 5,
+          "box": {
+            "left": 479.8,
+            "top": 429.2,
+            "width": 43.8,
+            "height": 12.3
+          }
+        },
+        "wc2re": {
+          "type": "text",
+          "label": "ENTER WEEKLY RESPONSE METER READING.",
+          "page": 5,
+          "box": {
+            "left": 529.3,
+            "top": 429.2,
+            "width": 43.8,
+            "height": 12.3
+          }
+        }
+      }
+    }
+  }
+}

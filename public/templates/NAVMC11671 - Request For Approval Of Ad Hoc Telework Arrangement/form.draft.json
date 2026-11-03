@@ -1,0 +1,196 @@
+{
+  "id": "navmc11671",
+  "label": "NAVMC11671 - Request For Approval Of Ad Hoc Telework Arrangement",
+  "directory": "NAVMC11671 - Request For Approval Of Ad Hoc Telework Arrangement",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "nameEmp",
+        "title",
+        "empOrg",
+        "dateWork",
+        "descrip",
+        "address",
+        "phoneNumA",
+        "phoneNumB",
+        "email",
+        "signatureField1",
+        "dateTimeField1",
+        "approved",
+        "disapproved",
+        "reasons"
+      ]
+    }
+  ],
+  "fields": {
+    "nameEmp": {
+      "type": "text",
+      "label": "1.  NAME OF EMPLOYEE:",
+      "page": 1,
+      "box": {
+        "left": 151.9,
+        "top": 627.2,
+        "width": 412.3,
+        "height": 30.3
+      },
+      "multiline": true,
+      "required": true
+    },
+    "title": {
+      "type": "text",
+      "label": "TITLE/SERIES/GRADE:",
+      "page": 1,
+      "box": {
+        "left": 132.3,
+        "top": 591.2,
+        "width": 431.9,
+        "height": 30.3
+      },
+      "multiline": true,
+      "required": true
+    },
+    "empOrg": {
+      "type": "text",
+      "label": "ORGANIZATION:",
+      "page": 1,
+      "box": {
+        "left": 117.2,
+        "top": 555.2,
+        "width": 446.9,
+        "height": 57.3
+      },
+      "multiline": true,
+      "required": true
+    },
+    "dateWork": {
+      "type": "text",
+      "label": "Enter dates you wish to Telework",
+      "page": 1,
+      "box": {
+        "left": 163.2,
+        "top": 492.2,
+        "width": 401.0,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "descrip": {
+      "type": "text",
+      "label": "3.  BRIEFLY DESCRIBE WHAT YOU EXPECT TO ACCOMPLISH WHILE IN A TELEWORK STATUS:",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 438.1,
+        "width": 525.3,
+        "height": 75.2
+      },
+      "multiline": true
+    },
+    "address": {
+      "type": "text",
+      "label": "Please enter street, city, state and zip code",
+      "page": 1,
+      "box": {
+        "left": 85.6,
+        "top": 321.2,
+        "width": 478.6,
+        "height": 39.4
+      },
+      "multiline": true
+    },
+    "phoneNumA": {
+      "type": "text",
+      "label": "Enter numbers only",
+      "page": 1,
+      "box": {
+        "left": 109.7,
+        "top": 276.2,
+        "width": 188.9,
+        "height": 21.4
+      }
+    },
+    "phoneNumB": {
+      "type": "text",
+      "label": "Enter numbers only",
+      "page": 1,
+      "box": {
+        "left": 414.9,
+        "top": 276.2,
+        "width": 148.9,
+        "height": 21.4
+      }
+    },
+    "email": {
+      "type": "text",
+      "label": "  E-MAIL (IF AVAILABLE):",
+      "page": 1,
+      "box": {
+        "left": 140.1,
+        "top": 252.0,
+        "width": 426.9,
+        "height": 27.0
+      }
+    },
+    "signatureField1": {
+      "type": "signature",
+      "label": "SIGNATURE OF EMPLOYEE:",
+      "page": 1,
+      "box": {
+        "left": 109.7,
+        "top": 222.2,
+        "width": 328.5,
+        "height": 30.3
+      }
+    },
+    "dateTimeField1": {
+      "type": "text",
+      "label": "DATE:",
+      "page": 1,
+      "box": {
+        "left": 475.5,
+        "top": 222.2,
+        "width": 88.7,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "approved": {
+      "type": "checkbox",
+      "label": "APPROVED",
+      "page": 1,
+      "box": {
+        "left": 227.8,
+        "top": 176.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "disapproved": {
+      "type": "checkbox",
+      "label": "DISAPPROVED",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 176.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "reasons": {
+      "type": "text",
+      "label": "IF DISAPPROVED, STATE REASONS:",
+      "page": 1,
+      "box": {
+        "left": 123.2,
+        "top": 150.2,
+        "width": 440.9,
+        "height": 66.3
+      },
+      "multiline": true
+    }
+  }
+}

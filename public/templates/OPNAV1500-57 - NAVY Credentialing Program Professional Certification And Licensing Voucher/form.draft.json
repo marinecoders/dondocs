@@ -1,0 +1,946 @@
+{
+  "id": "opnav150057",
+  "label": "OPNAV1500-57 - NAVY Credentialing Program Professional Certification And Licensing Voucher",
+  "directory": "OPNAV1500-57 - NAVY Credentialing Program Professional Certification And Licensing Voucher",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "fulNme",
+        "lfssn",
+        "mPayGde",
+        "cPayGde",
+        "enlRat",
+        "jobSer",
+        "offDes",
+        "iat",
+        "iam",
+        "cnd",
+        "iasae",
+        "reqFnd",
+        "cmdUIC",
+        "cmdNme",
+        "offEml",
+        "oFFPhnCC",
+        "fAXPhnCC",
+        "actDty",
+        "comPhn",
+        "fComPhn",
+        "resFTSSEL",
+        "resFTSSEL2",
+        "dSNPhn",
+        "fDSNPhn",
+        "eAOSDtd",
+        "proCerLic",
+        "dtdAwa",
+        "dtdExp",
+        "proCerLicA",
+        "dtdAwaA",
+        "dtdExpA",
+        "proCerLicB",
+        "dtdAwaB",
+        "dtdExpB",
+        "proCerLicC",
+        "dtdAwaC",
+        "dtdExpC",
+        "proCerLicD",
+        "dtdAwaD",
+        "dtdExpD",
+        "proCerLicE",
+        "dtdAwaE",
+        "dtdExpE",
+        "proCerLicF",
+        "dtdAwaF",
+        "dtdExpF"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "fulNme2",
+        "lfssn2",
+        "licExm",
+        "licExm2",
+        "reqFnd2",
+        "licExm3",
+        "licExm4",
+        "creOrg",
+        "tstLoc",
+        "exmTkeDtd",
+        "lteComm",
+        "ackIde",
+        "ackVer",
+        "ackDup",
+        "ackVer2",
+        "aclRec",
+        "ackYr",
+        "aclNoReg",
+        "ackRst",
+        "fNmePnt",
+        "appSgnDtd",
+        "appSig",
+        "radioButtonList",
+        "radioButtonList2",
+        "cAOFNmePnt",
+        "rkOffTle",
+        "offPhNo",
+        "offEmlAdd",
+        "cAOSgnDtd",
+        "cAOSig"
+      ]
+    }
+  ],
+  "fields": {
+    "fulNme": {
+      "type": "text",
+      "label": " 1. FULL NAME (LAST FIRST MIDDLE - ALL CAPS):",
+      "page": 1,
+      "box": {
+        "left": 216.3,
+        "top": 492.2,
+        "width": 253.4,
+        "height": 12.3
+      }
+    },
+    "lfssn": {
+      "type": "text",
+      "label": " 2.EDIPI:",
+      "page": 1,
+      "box": {
+        "left": 506.5,
+        "top": 492.2,
+        "width": 66.7,
+        "height": 12.3
+      }
+    },
+    "mPayGde": {
+      "type": "text",
+      "label": " 3. Paygrade (i.e. E6, 03):",
+      "page": 1,
+      "box": {
+        "left": 152.9,
+        "top": 456.2,
+        "width": 150.3,
+        "height": 12.3
+      }
+    },
+    "cPayGde": {
+      "type": "text",
+      "label": " 4. Paygrade (i.e. GS-11):",
+      "page": 1,
+      "box": {
+        "left": 431.5,
+        "top": 456.2,
+        "width": 141.7,
+        "height": 21.5
+      }
+    },
+    "enlRat": {
+      "type": "text",
+      "label": " Enlisted Rating (i.e. HM):",
+      "page": 1,
+      "box": {
+        "left": 154.4,
+        "top": 438.2,
+        "width": 148.8,
+        "height": 12.3
+      }
+    },
+    "jobSer": {
+      "type": "text",
+      "label": "   Job Series (i.e. 0343):",
+      "page": 1,
+      "box": {
+        "left": 431.5,
+        "top": 429.1,
+        "width": 141.7,
+        "height": 21.5
+      }
+    },
+    "offDes": {
+      "type": "text",
+      "label": "   Officer Designator (i.e. 1650):",
+      "page": 1,
+      "box": {
+        "left": 154.4,
+        "top": 420.2,
+        "width": 148.8,
+        "height": 12.3
+      }
+    },
+    "iat": {
+      "type": "text",
+      "label": "IAT-",
+      "page": 1,
+      "box": {
+        "left": 252.9,
+        "top": 391.5,
+        "width": 21.6,
+        "height": 13.5
+      }
+    },
+    "iam": {
+      "type": "text",
+      "label": "IAM-",
+      "page": 1,
+      "box": {
+        "left": 320.4,
+        "top": 391.5,
+        "width": 21.6,
+        "height": 13.5
+      }
+    },
+    "cnd": {
+      "type": "text",
+      "label": "CND-",
+      "page": 1,
+      "box": {
+        "left": 387.9,
+        "top": 391.5,
+        "width": 21.6,
+        "height": 13.5
+      }
+    },
+    "iasae": {
+      "type": "text",
+      "label": "IASAE-",
+      "page": 1,
+      "box": {
+        "left": 463.6,
+        "top": 391.5,
+        "width": 26.9,
+        "height": 13.5
+      }
+    },
+    "reqFnd": {
+      "type": "text",
+      "label": " 6. If requesting exam funding for a credential that is NOT mapped to your rating, in which rating or occupation (as listed on Navy DOOL Search Page) are you performing duties?",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 355.1,
+        "width": 534.3,
+        "height": 14.8
+      }
+    },
+    "cmdUIC": {
+      "type": "text",
+      "label": "  7.  COMMAND UIC:",
+      "page": 1,
+      "box": {
+        "left": 116.1,
+        "top": 334.7,
+        "width": 52.1,
+        "height": 12.3
+      }
+    },
+    "cmdNme": {
+      "type": "text",
+      "label": " 8. COMMAND NAME (i.e. CVN 68 NIMITZ):",
+      "page": 1,
+      "box": {
+        "left": 329.5,
+        "top": 334.7,
+        "width": 243.7,
+        "height": 12.3
+      }
+    },
+    "offEml": {
+      "type": "text",
+      "label": " 9. APPLICANT OFFICIAL \".mil\" EMAIL ADDRESS:",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 316.7,
+        "width": 338.6,
+        "height": 12.3
+      }
+    },
+    "oFFPhnCC": {
+      "type": "text",
+      "label": " 11. COUNTRY CODE (If Applicable):",
+      "page": 1,
+      "box": {
+        "left": 355.1,
+        "top": 280.7,
+        "width": 38.2,
+        "height": 12.3
+      }
+    },
+    "fAXPhnCC": {
+      "type": "text",
+      "label": " 12. COUNTRY CODE (If Applicable):",
+      "page": 1,
+      "box": {
+        "left": 535.2,
+        "top": 280.7,
+        "width": 38.0,
+        "height": 12.3
+      }
+    },
+    "actDty": {
+      "type": "checkbox",
+      "label": " 10. ACTIVE DUTY:",
+      "page": 1,
+      "box": {
+        "left": 125.5,
+        "top": 279.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "comPhn": {
+      "type": "text",
+      "label": " Commercial:\n (Include Extension)",
+      "page": 1,
+      "box": {
+        "left": 288.0,
+        "top": 265.5,
+        "width": 108.2,
+        "height": 18.0
+      }
+    },
+    "fComPhn": {
+      "type": "text",
+      "label": " Commercial:\n (Include Extension)",
+      "page": 1,
+      "box": {
+        "left": 468.1,
+        "top": 265.5,
+        "width": 107.9,
+        "height": 18.0
+      }
+    },
+    "resFTSSEL": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 125.0,
+        "top": 261.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_ResFTSSEL_0"
+    },
+    "resFTSSEL2": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 185.3,
+        "top": 261.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_ResFTSSEL_0"
+    },
+    "dSNPhn": {
+      "type": "text",
+      "label": " DSN:\n (Include Extension)",
+      "page": 1,
+      "box": {
+        "left": 288.0,
+        "top": 247.5,
+        "width": 108.2,
+        "height": 18.0
+      }
+    },
+    "fDSNPhn": {
+      "type": "text",
+      "label": " DSN:\n (Include Extension)",
+      "page": 1,
+      "box": {
+        "left": 468.1,
+        "top": 247.5,
+        "width": 107.9,
+        "height": 18.0
+      }
+    },
+    "eAOSDtd": {
+      "type": "text",
+      "label": " EAOS (dd mmm yyyy):",
+      "page": 1,
+      "box": {
+        "left": 130.1,
+        "top": 245.4,
+        "width": 83.8,
+        "height": 13.8
+      }
+    },
+    "proCerLic": {
+      "type": "text",
+      "label": "ProCerLic",
+      "page": 1,
+      "box": {
+        "left": 58.5,
+        "top": 171.0,
+        "width": 319.5,
+        "height": 19.3
+      }
+    },
+    "dtdAwa": {
+      "type": "text",
+      "label": "DtdAwa",
+      "page": 1,
+      "box": {
+        "left": 380.3,
+        "top": 168.9,
+        "width": 94.7,
+        "height": 15.1
+      }
+    },
+    "dtdExp": {
+      "type": "text",
+      "label": "DtdExp",
+      "page": 1,
+      "box": {
+        "left": 479.2,
+        "top": 168.9,
+        "width": 94.7,
+        "height": 15.1
+      }
+    },
+    "proCerLicA": {
+      "type": "text",
+      "label": "ProCerLicA",
+      "page": 1,
+      "box": {
+        "left": 58.5,
+        "top": 151.7,
+        "width": 319.5,
+        "height": 19.3
+      }
+    },
+    "dtdAwaA": {
+      "type": "text",
+      "label": "DtdAwaA",
+      "page": 1,
+      "box": {
+        "left": 380.3,
+        "top": 149.6,
+        "width": 94.7,
+        "height": 15.1
+      }
+    },
+    "dtdExpA": {
+      "type": "text",
+      "label": "DtdExpA",
+      "page": 1,
+      "box": {
+        "left": 479.2,
+        "top": 149.6,
+        "width": 94.7,
+        "height": 15.1
+      }
+    },
+    "proCerLicB": {
+      "type": "text",
+      "label": "ProCerLicB",
+      "page": 1,
+      "box": {
+        "left": 58.5,
+        "top": 132.4,
+        "width": 319.5,
+        "height": 19.3
+      }
+    },
+    "dtdAwaB": {
+      "type": "text",
+      "label": "DtdAwaB",
+      "page": 1,
+      "box": {
+        "left": 380.3,
+        "top": 130.3,
+        "width": 94.7,
+        "height": 15.1
+      }
+    },
+    "dtdExpB": {
+      "type": "text",
+      "label": "DtdExpB",
+      "page": 1,
+      "box": {
+        "left": 479.2,
+        "top": 130.3,
+        "width": 94.7,
+        "height": 15.1
+      }
+    },
+    "proCerLicC": {
+      "type": "text",
+      "label": "ProCerLicC",
+      "page": 1,
+      "box": {
+        "left": 58.5,
+        "top": 113.1,
+        "width": 319.5,
+        "height": 19.3
+      }
+    },
+    "dtdAwaC": {
+      "type": "text",
+      "label": "DtdAwaC",
+      "page": 1,
+      "box": {
+        "left": 380.3,
+        "top": 111.1,
+        "width": 94.7,
+        "height": 15.1
+      }
+    },
+    "dtdExpC": {
+      "type": "text",
+      "label": "DtdExpC",
+      "page": 1,
+      "box": {
+        "left": 479.2,
+        "top": 111.1,
+        "width": 94.7,
+        "height": 15.1
+      }
+    },
+    "proCerLicD": {
+      "type": "text",
+      "label": "ProCerLicD",
+      "page": 1,
+      "box": {
+        "left": 58.5,
+        "top": 93.9,
+        "width": 319.5,
+        "height": 19.3
+      }
+    },
+    "dtdAwaD": {
+      "type": "text",
+      "label": "DtdAwaD",
+      "page": 1,
+      "box": {
+        "left": 380.3,
+        "top": 91.8,
+        "width": 94.7,
+        "height": 15.1
+      }
+    },
+    "dtdExpD": {
+      "type": "text",
+      "label": "DtdExpD",
+      "page": 1,
+      "box": {
+        "left": 479.2,
+        "top": 91.8,
+        "width": 94.7,
+        "height": 15.1
+      }
+    },
+    "proCerLicE": {
+      "type": "text",
+      "label": "ProCerLicE",
+      "page": 1,
+      "box": {
+        "left": 58.5,
+        "top": 74.6,
+        "width": 319.5,
+        "height": 19.3
+      }
+    },
+    "dtdAwaE": {
+      "type": "text",
+      "label": "DtdAwaE",
+      "page": 1,
+      "box": {
+        "left": 380.3,
+        "top": 72.5,
+        "width": 94.7,
+        "height": 15.1
+      }
+    },
+    "dtdExpE": {
+      "type": "text",
+      "label": "DtdExpE",
+      "page": 1,
+      "box": {
+        "left": 479.2,
+        "top": 72.5,
+        "width": 94.7,
+        "height": 15.1
+      }
+    },
+    "proCerLicF": {
+      "type": "text",
+      "label": "ProCerLicF",
+      "page": 1,
+      "box": {
+        "left": 58.5,
+        "top": 55.3,
+        "width": 319.5,
+        "height": 19.3
+      }
+    },
+    "dtdAwaF": {
+      "type": "text",
+      "label": "DtdAwaF",
+      "page": 1,
+      "box": {
+        "left": 380.3,
+        "top": 53.2,
+        "width": 94.7,
+        "height": 15.1
+      }
+    },
+    "dtdExpF": {
+      "type": "text",
+      "label": "DtdExpF",
+      "page": 1,
+      "box": {
+        "left": 479.2,
+        "top": 53.2,
+        "width": 94.7,
+        "height": 15.1
+      }
+    },
+    "fulNme2": {
+      "type": "text",
+      "label": " 14. FULL NAME (LAST FIRST MIDDLE - ALL CAPS):",
+      "page": 2,
+      "box": {
+        "left": 219.8,
+        "top": 753.2,
+        "width": 249.8,
+        "height": 12.3
+      }
+    },
+    "lfssn2": {
+      "type": "text",
+      "label": " 2. EDIPI:",
+      "page": 2,
+      "box": {
+        "left": 506.5,
+        "top": 753.2,
+        "width": 66.7,
+        "height": 12.3
+      }
+    },
+    "licExm": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 561.8,
+        "top": 716.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_1_LicExm_0"
+    },
+    "licExm2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 561.8,
+        "top": 698.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_1_LicExm_0"
+    },
+    "reqFnd2": {
+      "type": "text",
+      "label": " 15. NAME OF CERTIFICATION/LICENSE EXAM YOU WANT FUNDED (As found on COOL):\n(i.e. Certified Technical Trainer (CTT+) or Six Sigma Green Belt (SSGB))",
+      "page": 2,
+      "box": {
+        "left": 36.0,
+        "top": 697.0,
+        "width": 333.0,
+        "height": 49.0
+      },
+      "multiline": true
+    },
+    "licExm3": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 561.8,
+        "top": 680.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_1_LicExm_0"
+    },
+    "licExm4": {
+      "type": "radio",
+      "label": "3",
+      "page": 2,
+      "box": {
+        "left": 561.8,
+        "top": 662.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_1_LicExm_0"
+    },
+    "creOrg": {
+      "type": "text",
+      "label": " 16. CREDENTIALING ORGANIZATION/COMPANY (i.e. CompTI):",
+      "page": 2,
+      "box": {
+        "left": 275.3,
+        "top": 645.2,
+        "width": 297.9,
+        "height": 12.3
+      }
+    },
+    "tstLoc": {
+      "type": "text",
+      "label": " 17. TESTING LOCATION (i.e. on-base, off-base, oconus and City/Couhntry):",
+      "page": 2,
+      "box": {
+        "left": 298.3,
+        "top": 627.2,
+        "width": 274.9,
+        "height": 12.3
+      }
+    },
+    "exmTkeDtd": {
+      "type": "text",
+      "label": " 18. DATE YOU INTEND TO TAKE EXAM (Let us know in comments below why if beyond 60 calendar days):",
+      "page": 2,
+      "box": {
+        "left": 400.7,
+        "top": 609.9,
+        "width": 173.2,
+        "height": 13.8
+      }
+    },
+    "lteComm": {
+      "type": "text",
+      "label": " 19.  COMMENTS:",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 578.8,
+        "width": 534.3,
+        "height": 54.0
+      },
+      "multiline": true
+    },
+    "ackIde": {
+      "type": "checkbox",
+      "label": " \n \nThe credential being sought is specifically identified as Navy-funded on the Navy COOL Web site for the member's rating, job, or occupation identified with the NAVY $ icon.",
+      "page": 2,
+      "box": {
+        "left": 556.7,
+        "top": 479.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "ackVer": {
+      "type": "checkbox",
+      "label": " 20. The command approving official must verify member is currently working, and has experience, in the position for which the credential is tied to.\n* Command Approving Official must be Command IAM (for IA voucher), or Command Career Counselor, or E7 or above, or DON Civil Service designated by the Commanding Officer.",
+      "page": 2,
+      "box": {
+        "left": 285.9,
+        "top": 479.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "ackDup": {
+      "type": "checkbox",
+      "label": "The member must not have received exam funding from any other source that would constitute a duplication of payment, such as, GI Bill, local Command funding, or DANTES.",
+      "page": 2,
+      "box": {
+        "left": 556.5,
+        "top": 425.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "ackVer2": {
+      "type": "checkbox",
+      "label": " 22. The member has reviewed the credentialing agency's Web site and verified that he/she has met all the agency's pre-requisites, application requirements, education, and experience requirements to be eligible for the exam.",
+      "page": 2,
+      "box": {
+        "left": 285.9,
+        "top": 425.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "aclRec": {
+      "type": "checkbox",
+      "label": " 24. The Navy Credentials Program Office must receive the voucher\nrequest from the member of command approving Official - NO LESS\nTHAN seven (7) business days PRIOR to the exam date.\n - Exceptions may be reviewed on a case-by-case basis.",
+      "page": 2,
+      "box": {
+        "left": 285.9,
+        "top": 378.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "ackYr": {
+      "type": "checkbox",
+      "label": " \nThe member shall have, at a minimum, one year remaining employment/service obligation..",
+      "page": 2,
+      "box": {
+        "left": 556.5,
+        "top": 378.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "aclNoReg": {
+      "type": "checkbox",
+      "label": " 26. Under no circumstances shall the member (or member's \ncommand/organization) register, take, participate in, schedule, or\notherwise obligate the member or Government in any Navy-funded\ncredentialing program or exam without completed and comfirmed funding from the Navy Credentials Program Office.",
+      "page": 2,
+      "box": {
+        "left": 285.9,
+        "top": 328.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "ackRst": {
+      "type": "checkbox",
+      "label": "27. The member must report examination results (pass, fail) to \nCredentials Program Office within 30 calendar days of taking the Exam. If pass, also notify personnel office to get entry into Service Record and provide certification or license document to Navy College Office for input to SMART/ETJ.",
+      "page": 2,
+      "box": {
+        "left": 556.5,
+        "top": 328.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "fNmePnt": {
+      "type": "text",
+      "label": " 28. FULL NAME (Printed/Typed):",
+      "page": 2,
+      "box": {
+        "left": 157.3,
+        "top": 231.2,
+        "width": 415.8,
+        "height": 12.3
+      }
+    },
+    "appSgnDtd": {
+      "type": "text",
+      "label": " 29. DATE SIGNED (dd mmm yyyy):",
+      "page": 2,
+      "box": {
+        "left": 166.0,
+        "top": 213.9,
+        "width": 79.4,
+        "height": 13.8
+      }
+    },
+    "appSig": {
+      "type": "signature",
+      "label": " 30.  SIGNATURE OF APPLICANT:",
+      "page": 2,
+      "box": {
+        "left": 380.6,
+        "top": 213.2,
+        "width": 192.5,
+        "height": 12.3
+      }
+    },
+    "radioButtonList": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 229.1,
+        "top": 135.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_1_RadioButtonList_0"
+    },
+    "radioButtonList2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 521.6,
+        "top": 135.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_1_RadioButtonList_0"
+    },
+    "cAOFNmePnt": {
+      "type": "text",
+      "label": " 33. FULL NAME (Last, First MI):",
+      "page": 2,
+      "box": {
+        "left": 153.8,
+        "top": 118.7,
+        "width": 171.9,
+        "height": 12.3
+      }
+    },
+    "rkOffTle": {
+      "type": "text",
+      "label": " 36.  RANK OR OFFICE TITLE:",
+      "page": 2,
+      "box": {
+        "left": 446.3,
+        "top": 118.7,
+        "width": 126.9,
+        "height": 12.3
+      }
+    },
+    "offPhNo": {
+      "type": "text",
+      "label": " 38. OFFICE PHONE NUMBER:\n (Include Extension)",
+      "page": 2,
+      "box": {
+        "left": 465.0,
+        "top": 103.5,
+        "width": 111.0,
+        "height": 18.0
+      }
+    },
+    "offEmlAdd": {
+      "type": "text",
+      "label": " 37.  OFFICIAL EMAIL ADDRESS:",
+      "page": 2,
+      "box": {
+        "left": 166.2,
+        "top": 100.7,
+        "width": 177.5,
+        "height": 12.3
+      }
+    },
+    "cAOSgnDtd": {
+      "type": "text",
+      "label": " 39. DATE SIGNED (dd mmm yyyy):",
+      "page": 2,
+      "box": {
+        "left": 166.0,
+        "top": 83.4,
+        "width": 79.4,
+        "height": 13.8
+      }
+    },
+    "cAOSig": {
+      "type": "signature",
+      "label": " 40.  SIGNATURE:",
+      "page": 2,
+      "box": {
+        "left": 321.1,
+        "top": 82.7,
+        "width": 252.1,
+        "height": 12.3
+      }
+    }
+  }
+}

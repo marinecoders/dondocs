@@ -1,0 +1,7355 @@
+{
+  "id": "opnav55801",
+  "label": "OPNAV5580-1 - Incident Report",
+  "directory": "OPNAV5580-1 - Incident Report",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "incidentNumber",
+        "radio",
+        "incidentNumber2",
+        "radio2",
+        "radio3",
+        "radio4",
+        "radio5",
+        "date",
+        "timeField1",
+        "incidReportOther",
+        "radio6",
+        "radio7",
+        "radio8",
+        "last",
+        "first",
+        "middle",
+        "ssn",
+        "grade",
+        "radio9",
+        "radio10",
+        "radio11",
+        "radio12",
+        "radio13",
+        "radio14",
+        "radio15",
+        "otherBranchServices",
+        "radio16",
+        "radio17",
+        "radio18",
+        "radio19",
+        "radio20",
+        "radio21",
+        "duty",
+        "uic",
+        "telephone",
+        "address",
+        "city",
+        "zIPCode",
+        "state",
+        "radio22",
+        "radio23",
+        "radio24",
+        "fromDate1",
+        "radio25",
+        "radio26",
+        "radio27",
+        "fromDate2",
+        "timeFrom",
+        "timeTo",
+        "radio28",
+        "radio29",
+        "clear3",
+        "clear5",
+        "clear7",
+        "radio30",
+        "radio31",
+        "clear1",
+        "radio32",
+        "radio33",
+        "weatherConditionOther",
+        "clear6",
+        "clear8",
+        "clear2",
+        "clear4",
+        "firearm",
+        "alcohol",
+        "handgun",
+        "drugsNarcotics",
+        "rifle",
+        "computer",
+        "shotgun",
+        "otherWeaponForce",
+        "notApplicable",
+        "radio34",
+        "radio35",
+        "exchange",
+        "air",
+        "rental",
+        "restraunt",
+        "school",
+        "trainig",
+        "lake",
+        "bank",
+        "nCo",
+        "feilds",
+        "constructionSite",
+        "gasStation",
+        "goverment",
+        "highyway",
+        "hospital",
+        "onShip",
+        "boq",
+        "commissary",
+        "childcare",
+        "airCraft",
+        "package",
+        "chapel",
+        "specialty",
+        "other",
+        "otherLocation",
+        "shopett",
+        "commercial",
+        "quarters",
+        "unknown2",
+        "corrections",
+        "park",
+        "motor",
+        "otherTypeCriminalActivy"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "numerOfEntered",
+        "radio36",
+        "radio37",
+        "incidentNumber3",
+        "radio38",
+        "radio39",
+        "radio40",
+        "radio41",
+        "year",
+        "make",
+        "model",
+        "radio42",
+        "radio43",
+        "radio44",
+        "radio45",
+        "radio46",
+        "radio47",
+        "radio48",
+        "radio49",
+        "radio50",
+        "enterOtherstyle",
+        "radio51",
+        "radio52",
+        "radio53",
+        "color",
+        "color2",
+        "color3",
+        "vin",
+        "ownerName",
+        "otherTool",
+        "otherIdentifyingMarks",
+        "enterOtherMethod1",
+        "none1",
+        "antiAlaskanNative",
+        "antiCatholic",
+        "agnostic",
+        "antiWhite",
+        "antiAsian",
+        "antiIslamic",
+        "homosexual",
+        "antiBlack",
+        "antiPacficIslander",
+        "antiProtestant",
+        "maleHomo",
+        "antiBlack2",
+        "antiOtherEthnicity",
+        "antiMultiReligous",
+        "femaleHomo",
+        "antiHispanic",
+        "antiMultiRacial",
+        "religous",
+        "hetroSexual",
+        "antiAmericanIndian",
+        "antiJewish",
+        "antiJewish2",
+        "bisexual",
+        "type1",
+        "qty1",
+        "description1",
+        "makeModel1",
+        "size2",
+        "serialNumber",
+        "value",
+        "su",
+        "owner",
+        "disp",
+        "vehicleNumberRecovered",
+        "type2",
+        "qty2",
+        "description2",
+        "makeModel2",
+        "size",
+        "serialNumber1",
+        "value1",
+        "su1",
+        "owner1",
+        "disp1",
+        "vehicleNumberRecovered1",
+        "size1",
+        "type",
+        "qty",
+        "description",
+        "makeModel",
+        "serialNumber2",
+        "value2",
+        "su2",
+        "owner2",
+        "disp2",
+        "vehicleNumberRecovered2",
+        "drugType1",
+        "eSTquanity1",
+        "measurements2",
+        "drugType2",
+        "eSTquanity2",
+        "measurements1",
+        "drugType",
+        "eSTquanity",
+        "measurements",
+        "radio54",
+        "radio55",
+        "radio56",
+        "radio57",
+        "radio58",
+        "radio59",
+        "radio60",
+        "radio61",
+        "radio62",
+        "radio63",
+        "victimNumber",
+        "radio64",
+        "radio65",
+        "radio66",
+        "radio67",
+        "radio68",
+        "radio69",
+        "radio70",
+        "radio71",
+        "radio72",
+        "radio73",
+        "radio74",
+        "radio75",
+        "middle2",
+        "ssn2",
+        "lastName2",
+        "first02",
+        "gradeRank",
+        "radio76",
+        "radio77",
+        "radio78",
+        "radio79",
+        "radio80",
+        "radio81",
+        "radio82",
+        "otherBranchServices01",
+        "radio83",
+        "radio84",
+        "radio85",
+        "radio86",
+        "radio87",
+        "radio88",
+        "dutyEmployer",
+        "uicric",
+        "workTelephone",
+        "adress",
+        "citypg2",
+        "state2",
+        "zIPCodepg2",
+        "dob",
+        "radio89",
+        "radio90",
+        "radio91",
+        "radio92",
+        "radio93",
+        "radio94",
+        "radio95",
+        "radio96",
+        "radio97",
+        "radio98",
+        "pob",
+        "radio99",
+        "radio100",
+        "radio101",
+        "radio102"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "incidentNumber4",
+        "indivi",
+        "regOrgn",
+        "business",
+        "socPub",
+        "finInst",
+        "vicOth",
+        "gover",
+        "vicUnk",
+        "lawEnfor",
+        "typSeq",
+        "radio103",
+        "radio104",
+        "witNo",
+        "sponNo",
+        "lawEnfor2",
+        "lawEnfor3",
+        "last2",
+        "first2",
+        "middle22",
+        "ssn22",
+        "grade2",
+        "radio105",
+        "radio106",
+        "radio107",
+        "radio108",
+        "radio109",
+        "radio110",
+        "radio111",
+        "bSOthFil2",
+        "radio112",
+        "radio113",
+        "radio114",
+        "radio115",
+        "radio116",
+        "radio117",
+        "duty2",
+        "uic2",
+        "telephone2",
+        "address2",
+        "city2",
+        "zIPCode2",
+        "state22",
+        "typSeq2",
+        "radio118",
+        "radio119",
+        "witNo2",
+        "arrestee",
+        "radio120",
+        "radio121",
+        "radio122",
+        "radio123",
+        "radio124",
+        "radio125",
+        "radio126",
+        "radio127",
+        "radio128",
+        "radio129",
+        "radio130",
+        "radio131",
+        "lawEnfor4",
+        "lawEnfor5",
+        "last22",
+        "first22",
+        "middle23",
+        "ssn23",
+        "grade22",
+        "radio132",
+        "radio133",
+        "radio134",
+        "radio135",
+        "radio136",
+        "radio137",
+        "radio138",
+        "bSOthFil22",
+        "radio139",
+        "radio140",
+        "radio141",
+        "radio142",
+        "radio143",
+        "radio144",
+        "duty22",
+        "uic22",
+        "telephone22",
+        "address22",
+        "city22",
+        "zIPCode22",
+        "state23",
+        "hc",
+        "ec",
+        "ht",
+        "wt",
+        "dob2",
+        "pob2",
+        "alas",
+        "radio145",
+        "radio146",
+        "radio147",
+        "radio148",
+        "radio149",
+        "radio150",
+        "radio151",
+        "radio152",
+        "radio153",
+        "radio154",
+        "radio155",
+        "radio156",
+        "radio157",
+        "radio158",
+        "descrp",
+        "indivi2",
+        "indivi3",
+        "indivi4",
+        "indivi5",
+        "indivi6",
+        "indivi7",
+        "business2",
+        "business3",
+        "business4",
+        "business5",
+        "business6",
+        "business7",
+        "finInst2",
+        "finInst3",
+        "finInst4",
+        "finInst5",
+        "finInst6",
+        "finInst7",
+        "gover2",
+        "gover3",
+        "gover4",
+        "lawEnfor6",
+        "lawEnfor7",
+        "lawEnfor8",
+        "gover5",
+        "gover6",
+        "gover7",
+        "lawEnfor9",
+        "lawEnfor10",
+        "lawEnfor11",
+        "lawEnfor12",
+        "lawEnfor13",
+        "regOrgn2",
+        "regOrgn3",
+        "regOrgn4",
+        "regOrgn5",
+        "regOrgn6",
+        "regOrgn7",
+        "regOrgn8",
+        "regOrgn9",
+        "socPub2",
+        "socPub3",
+        "socPub4",
+        "socPub5",
+        "socPub6",
+        "socPub7",
+        "socPub8",
+        "socPub9",
+        "lawEnfor14",
+        "vicOth2",
+        "vicOth3",
+        "vicOth4",
+        "vicOth5",
+        "vicOth6",
+        "vicOth7",
+        "vicOth8",
+        "vicOth9",
+        "regOrgn10",
+        "vicUnk3",
+        "vicUnk7",
+        "socPub10",
+        "vicUnk11",
+        "vicUnk15",
+        "vicOth10",
+        "vicUnk19",
+        "otherTool2",
+        "vicUnk27",
+        "otherTool3",
+        "vicUnk34",
+        "otherTool4",
+        "otherTool5",
+        "vicUnk48",
+        "otherTool6",
+        "vicUnk52",
+        "otherTool7",
+        "vicUnk55",
+        "vicUnk59",
+        "vicUnk60",
+        "vicUnk64",
+        "vicUnk65",
+        "otherTool8",
+        "vicUnk68",
+        "vicUnk71",
+        "otherTool9",
+        "otherTool10"
+      ]
+    },
+    {
+      "title": "Page 4",
+      "fields": [
+        "incidentNumber5",
+        "radio159",
+        "radio160",
+        "checkBox16",
+        "radio161",
+        "otherTool11",
+        "checkBox110",
+        "date2",
+        "last3",
+        "first3",
+        "middle3",
+        "last4",
+        "first4",
+        "middle4",
+        "last5",
+        "last6",
+        "last7",
+        "last8",
+        "last9",
+        "last10",
+        "textField1",
+        "last11",
+        "last13",
+        "last15",
+        "suprSig",
+        "supNme",
+        "supSigDtd",
+        "suprSig2",
+        "supNme2",
+        "supSigDtd2",
+        "supSigDtd22",
+        "radio162",
+        "radio163",
+        "radio164",
+        "relVicSus62",
+        "radio165",
+        "radio166",
+        "radio167",
+        "relVicSus63",
+        "radio168",
+        "radio169",
+        "radio170",
+        "otherTool12",
+        "radio171",
+        "radio172",
+        "indivi8",
+        "otherTool13",
+        "radio173",
+        "radio174",
+        "business8",
+        "otherTool14",
+        "otherTool15",
+        "radio175",
+        "radio176",
+        "finInst8",
+        "otherTool16",
+        "radio177",
+        "finInst9"
+      ]
+    }
+  ],
+  "fields": {
+    "incidentNumber": {
+      "type": "text",
+      "label": "INCIDENT",
+      "page": 1,
+      "box": {
+        "left": 668.6,
+        "top": 750.5,
+        "width": 126.6,
+        "height": 9.9
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 490.4,
+        "top": 742.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "incidentNumber2": {
+      "type": "text",
+      "label": "INCIDENT NUMBER",
+      "page": 1,
+      "box": {
+        "left": 341.6,
+        "top": 742.0,
+        "width": 140.9,
+        "height": 21.5
+      }
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 490.4,
+        "top": 731.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 312.5,
+        "top": 618.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 368.4,
+        "top": 618.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item5",
+      "page": 1,
+      "box": {
+        "left": 462.6,
+        "top": 618.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "date": {
+      "type": "text",
+      "label": "DATE REC&apos;D (YYYYMMDD)",
+      "page": 1,
+      "box": {
+        "left": 37.2,
+        "top": 608.4,
+        "width": 89.8,
+        "height": 17.9
+      }
+    },
+    "timeField1": {
+      "type": "text",
+      "label": "TIME REC&apos;D (24 Hour)",
+      "page": 1,
+      "box": {
+        "left": 127.2,
+        "top": 608.4,
+        "width": 92.0,
+        "height": 17.9
+      }
+    },
+    "incidReportOther": {
+      "type": "text",
+      "label": "By Crime Stop Call/911 Other",
+      "page": 1,
+      "box": {
+        "left": 500.3,
+        "top": 605.6,
+        "width": 74.6,
+        "height": 15.0
+      }
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 312.5,
+        "top": 603.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 1,
+      "box": {
+        "left": 368.4,
+        "top": 603.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 1,
+      "box": {
+        "left": 462.6,
+        "top": 603.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "last": {
+      "type": "text",
+      "label": "LAST NAME (Include Jr., Sr., II, III, etc.)",
+      "page": 1,
+      "box": {
+        "left": 36.6,
+        "top": 565.1,
+        "width": 144.7,
+        "height": 12.8
+      }
+    },
+    "first": {
+      "type": "text",
+      "label": "FIRST",
+      "page": 1,
+      "box": {
+        "left": 181.6,
+        "top": 565.1,
+        "width": 131.0,
+        "height": 12.8
+      }
+    },
+    "middle": {
+      "type": "text",
+      "label": "MIDDLE SSN/ALIEN",
+      "page": 1,
+      "box": {
+        "left": 313.3,
+        "top": 565.1,
+        "width": 92.7,
+        "height": 12.8
+      }
+    },
+    "ssn": {
+      "type": "text",
+      "label": "SSN/ALIEN REGISTRATION",
+      "page": 1,
+      "box": {
+        "left": 405.6,
+        "top": 565.1,
+        "width": 110.9,
+        "height": 12.8
+      }
+    },
+    "grade": {
+      "type": "text",
+      "label": "GRADE/RANK",
+      "page": 1,
+      "box": {
+        "left": 516.7,
+        "top": 565.1,
+        "width": 59.4,
+        "height": 12.8
+      }
+    },
+    "radio9": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 125.5,
+        "top": 542.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio10": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 1,
+      "box": {
+        "left": 179.1,
+        "top": 542.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio11": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 1,
+      "box": {
+        "left": 226.1,
+        "top": 542.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio12": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 1,
+      "box": {
+        "left": 328.9,
+        "top": 542.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio13": {
+      "type": "radio",
+      "label": "Item6",
+      "page": 1,
+      "box": {
+        "left": 498.4,
+        "top": 542.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio14": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 1,
+      "box": {
+        "left": 396.3,
+        "top": 542.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio15": {
+      "type": "radio",
+      "label": "Item5",
+      "page": 1,
+      "box": {
+        "left": 450.0,
+        "top": 542.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "otherBranchServices": {
+      "type": "text",
+      "label": "MARINE CORPS COAST GUARD OTHER",
+      "page": 1,
+      "box": {
+        "left": 232.2,
+        "top": 531.8,
+        "width": 56.4,
+        "height": 11.6
+      }
+    },
+    "radio16": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 531.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio17": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 113.7,
+        "top": 531.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio18": {
+      "type": "radio",
+      "label": "Item5",
+      "page": 1,
+      "box": {
+        "left": 187.0,
+        "top": 531.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio19": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 328.9,
+        "top": 531.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio20": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 396.6,
+        "top": 531.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio21": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 462.1,
+        "top": 531.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "duty": {
+      "type": "text",
+      "label": "Duty",
+      "page": 1,
+      "box": {
+        "left": 36.6,
+        "top": 507.8,
+        "width": 404.8,
+        "height": 12.0
+      }
+    },
+    "uic": {
+      "type": "text",
+      "label": "UIC/RUC",
+      "page": 1,
+      "box": {
+        "left": 441.7,
+        "top": 507.8,
+        "width": 46.6,
+        "height": 12.0
+      }
+    },
+    "telephone": {
+      "type": "text",
+      "label": "WORK TELEPHONE",
+      "page": 1,
+      "box": {
+        "left": 488.8,
+        "top": 507.8,
+        "width": 87.3,
+        "height": 12.0
+      }
+    },
+    "address": {
+      "type": "text",
+      "label": "ADDRESS",
+      "page": 1,
+      "box": {
+        "left": 36.6,
+        "top": 484.1,
+        "width": 297.3,
+        "height": 12.6
+      }
+    },
+    "city": {
+      "type": "text",
+      "label": "CITY",
+      "page": 1,
+      "box": {
+        "left": 335.2,
+        "top": 484.1,
+        "width": 143.6,
+        "height": 12.6
+      }
+    },
+    "zIPCode": {
+      "type": "text",
+      "label": "ZIP CODE",
+      "page": 1,
+      "box": {
+        "left": 519.6,
+        "top": 484.1,
+        "width": 55.7,
+        "height": 12.6
+      }
+    },
+    "state": {
+      "type": "choice",
+      "label": "STATE",
+      "page": 1,
+      "box": {
+        "left": 479.3,
+        "top": 483.8,
+        "width": 39.6,
+        "height": 12.1
+      },
+      "options": [
+        "AL",
+        "AK",
+        "AS",
+        "AZ",
+        "AR",
+        "AA",
+        "AE",
+        "AP",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "DC",
+        "FM",
+        "FL",
+        "GA",
+        "GU",
+        "HI",
+        "ID",
+        "IL",
+        "IN",
+        "IA",
+        "KS",
+        "KY",
+        "LA",
+        "ME",
+        "MH",
+        "MD",
+        "MA",
+        "MI",
+        "MN",
+        "MS",
+        "MO",
+        "MT",
+        "NE",
+        "NV",
+        "NH",
+        "NJ",
+        "NM",
+        "NY",
+        "NC",
+        "ND",
+        "MP",
+        "OH",
+        "OK",
+        "OR",
+        "PW",
+        "PA",
+        "PR",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VT",
+        "VI",
+        "VA",
+        "WA",
+        "WV",
+        "WI",
+        "WY"
+      ]
+    },
+    "radio22": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 344.2,
+        "top": 436.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio23": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 427.4,
+        "top": 436.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio24": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 510.2,
+        "top": 436.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "fromDate1": {
+      "type": "text",
+      "label": "From",
+      "page": 1,
+      "box": {
+        "left": 36.6,
+        "top": 423.3,
+        "width": 70.3,
+        "height": 12.9
+      }
+    },
+    "radio25": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 344.2,
+        "top": 423.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio26": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 427.4,
+        "top": 423.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio27": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 510.2,
+        "top": 423.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "fromDate2": {
+      "type": "text",
+      "label": "To",
+      "page": 1,
+      "box": {
+        "left": 108.3,
+        "top": 422.8,
+        "width": 73.4,
+        "height": 12.3
+      }
+    },
+    "timeFrom": {
+      "type": "text",
+      "label": "From",
+      "page": 1,
+      "box": {
+        "left": 182.9,
+        "top": 422.8,
+        "width": 75.5,
+        "height": 12.3
+      }
+    },
+    "timeTo": {
+      "type": "text",
+      "label": "To",
+      "page": 1,
+      "box": {
+        "left": 261.0,
+        "top": 422.8,
+        "width": 72.0,
+        "height": 12.3
+      }
+    },
+    "radio28": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 306.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio29": {
+      "type": "radio",
+      "label": "Item5",
+      "page": 1,
+      "box": {
+        "left": 481.2,
+        "top": 306.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "clear3": {
+      "type": "checkbox",
+      "label": "Clear",
+      "page": 1,
+      "box": {
+        "left": 187.0,
+        "top": 294.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "clear5": {
+      "type": "checkbox",
+      "label": "Cloudy",
+      "page": 1,
+      "box": {
+        "left": 236.9,
+        "top": 294.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "clear7": {
+      "type": "checkbox",
+      "label": "Rain",
+      "page": 1,
+      "box": {
+        "left": 291.0,
+        "top": 294.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "radio30": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 294.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio31": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 1,
+      "box": {
+        "left": 481.2,
+        "top": 294.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "clear1": {
+      "type": "checkbox",
+      "label": "(U) UCMJ (F) Federal",
+      "page": 1,
+      "box": {
+        "left": 143.5,
+        "top": 294.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "radio32": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 282.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio33": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 1,
+      "box": {
+        "left": 481.2,
+        "top": 281.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "weatherConditionOther": {
+      "type": "text",
+      "label": "Other",
+      "page": 1,
+      "box": {
+        "left": 325.3,
+        "top": 281.6,
+        "width": 41.1,
+        "height": 12.2
+      }
+    },
+    "clear6": {
+      "type": "checkbox",
+      "label": "Snow",
+      "page": 1,
+      "box": {
+        "left": 236.9,
+        "top": 279.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "clear8": {
+      "type": "checkbox",
+      "label": "Unknown",
+      "page": 1,
+      "box": {
+        "left": 291.4,
+        "top": 279.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "clear2": {
+      "type": "checkbox",
+      "label": "WEATHER",
+      "page": 1,
+      "box": {
+        "left": 143.5,
+        "top": 279.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "clear4": {
+      "type": "checkbox",
+      "label": "Ice",
+      "page": 1,
+      "box": {
+        "left": 187.0,
+        "top": 279.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "firearm": {
+      "type": "text",
+      "label": "Alcohol",
+      "page": 1,
+      "box": {
+        "left": 147.6,
+        "top": 253.2,
+        "width": 12.1,
+        "height": 11.6
+      }
+    },
+    "alcohol": {
+      "type": "checkbox",
+      "label": "STATUTORY",
+      "page": 1,
+      "box": {
+        "left": 40.4,
+        "top": 250.9,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "handgun": {
+      "type": "text",
+      "label": "Drugs/Narcotics",
+      "page": 1,
+      "box": {
+        "left": 147.6,
+        "top": 241.1,
+        "width": 12.1,
+        "height": 11.6
+      }
+    },
+    "drugsNarcotics": {
+      "type": "checkbox",
+      "label": "STATUTORY",
+      "page": 1,
+      "box": {
+        "left": 40.4,
+        "top": 238.8,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "rifle": {
+      "type": "text",
+      "label": "Computer Equipment",
+      "page": 1,
+      "box": {
+        "left": 147.6,
+        "top": 229.5,
+        "width": 12.1,
+        "height": 11.6
+      }
+    },
+    "computer": {
+      "type": "checkbox",
+      "label": "STATUTORY",
+      "page": 1,
+      "box": {
+        "left": 40.4,
+        "top": 227.2,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "shotgun": {
+      "type": "text",
+      "label": "Not applicable",
+      "page": 1,
+      "box": {
+        "left": 147.6,
+        "top": 217.3,
+        "width": 12.1,
+        "height": 11.6
+      }
+    },
+    "otherWeaponForce": {
+      "type": "text",
+      "label": "Other (Specify)",
+      "page": 1,
+      "box": {
+        "left": 524.1,
+        "top": 216.9,
+        "width": 50.8,
+        "height": 10.9
+      }
+    },
+    "notApplicable": {
+      "type": "checkbox",
+      "label": "STATUTORY",
+      "page": 1,
+      "box": {
+        "left": 40.4,
+        "top": 215.0,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "radio34": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 356.8,
+        "top": 202.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio35": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 454.7,
+        "top": 202.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "exchange": {
+      "type": "text",
+      "label": "LOCATION",
+      "page": 1,
+      "box": {
+        "left": 36.6,
+        "top": 190.0,
+        "width": 12.2,
+        "height": 11.6
+      }
+    },
+    "air": {
+      "type": "text",
+      "label": "Exchange/Dept./Discount Store",
+      "page": 1,
+      "box": {
+        "left": 158.7,
+        "top": 190.0,
+        "width": 12.2,
+        "height": 11.6
+      }
+    },
+    "rental": {
+      "type": "text",
+      "label": "Exchange/Dept./Discount Store Air/Bus/Train Terminal",
+      "page": 1,
+      "box": {
+        "left": 296.0,
+        "top": 190.0,
+        "width": 12.2,
+        "height": 11.6
+      }
+    },
+    "restraunt": {
+      "type": "text",
+      "label": "Rental/Storage Facility",
+      "page": 1,
+      "box": {
+        "left": 438.5,
+        "top": 190.0,
+        "width": 12.2,
+        "height": 11.6
+      }
+    },
+    "school": {
+      "type": "text",
+      "label": "LOCATION",
+      "page": 1,
+      "box": {
+        "left": 36.6,
+        "top": 178.4,
+        "width": 11.6,
+        "height": 11.6
+      }
+    },
+    "trainig": {
+      "type": "text",
+      "label": "School (Elem, High/College)",
+      "page": 1,
+      "box": {
+        "left": 158.7,
+        "top": 178.4,
+        "width": 12.2,
+        "height": 11.6
+      }
+    },
+    "lake": {
+      "type": "text",
+      "label": "Training/Service School",
+      "page": 1,
+      "box": {
+        "left": 296.0,
+        "top": 178.4,
+        "width": 12.2,
+        "height": 11.6
+      }
+    },
+    "bank": {
+      "type": "text",
+      "label": "Lake/Waterway/Ocean",
+      "page": 1,
+      "box": {
+        "left": 438.5,
+        "top": 178.4,
+        "width": 12.2,
+        "height": 11.6
+      }
+    },
+    "nCo": {
+      "type": "text",
+      "label": "School",
+      "page": 1,
+      "box": {
+        "left": 36.6,
+        "top": 166.1,
+        "width": 11.6,
+        "height": 11.6
+      }
+    },
+    "feilds": {
+      "type": "text",
+      "label": "NCO Club/Officer Club/Bar",
+      "page": 1,
+      "box": {
+        "left": 158.7,
+        "top": 166.1,
+        "width": 12.2,
+        "height": 11.6
+      }
+    },
+    "constructionSite": {
+      "type": "text",
+      "label": "Training Area/Field/Woods",
+      "page": 1,
+      "box": {
+        "left": 296.0,
+        "top": 166.1,
+        "width": 12.2,
+        "height": 11.6
+      }
+    },
+    "gasStation": {
+      "type": "text",
+      "label": "Construction Site",
+      "page": 1,
+      "box": {
+        "left": 438.5,
+        "top": 166.1,
+        "width": 12.2,
+        "height": 11.6
+      }
+    },
+    "goverment": {
+      "type": "text",
+      "label": "NCO",
+      "page": 1,
+      "box": {
+        "left": 36.6,
+        "top": 153.8,
+        "width": 12.2,
+        "height": 11.6
+      }
+    },
+    "highyway": {
+      "type": "text",
+      "label": "Government/Public Building",
+      "page": 1,
+      "box": {
+        "left": 158.7,
+        "top": 153.8,
+        "width": 12.2,
+        "height": 11.6
+      }
+    },
+    "hospital": {
+      "type": "text",
+      "label": "Highway/Road/Alley/Sidewalk",
+      "page": 1,
+      "box": {
+        "left": 296.0,
+        "top": 153.8,
+        "width": 12.2,
+        "height": 11.6
+      }
+    },
+    "onShip": {
+      "type": "text",
+      "label": "Hospital/Clinic",
+      "page": 1,
+      "box": {
+        "left": 438.5,
+        "top": 153.8,
+        "width": 12.2,
+        "height": 11.6
+      }
+    },
+    "boq": {
+      "type": "text",
+      "label": "School",
+      "page": 1,
+      "box": {
+        "left": 36.6,
+        "top": 142.3,
+        "width": 11.6,
+        "height": 11.6
+      }
+    },
+    "commissary": {
+      "type": "text",
+      "label": "BOQ/CBO/Lodge/Hotel",
+      "page": 1,
+      "box": {
+        "left": 158.7,
+        "top": 142.3,
+        "width": 12.2,
+        "height": 11.6
+      }
+    },
+    "childcare": {
+      "type": "text",
+      "label": "Commissary/Grocery Store",
+      "page": 1,
+      "box": {
+        "left": 296.0,
+        "top": 142.3,
+        "width": 12.2,
+        "height": 11.6
+      }
+    },
+    "airCraft": {
+      "type": "text",
+      "label": "Child Care Facility",
+      "page": 1,
+      "box": {
+        "left": 438.5,
+        "top": 142.3,
+        "width": 12.2,
+        "height": 11.6
+      }
+    },
+    "package": {
+      "type": "text",
+      "label": "School",
+      "page": 1,
+      "box": {
+        "left": 36.6,
+        "top": 130.7,
+        "width": 11.6,
+        "height": 11.6
+      }
+    },
+    "chapel": {
+      "type": "text",
+      "label": "Package/Liquor Store",
+      "page": 1,
+      "box": {
+        "left": 158.7,
+        "top": 130.7,
+        "width": 12.2,
+        "height": 11.6
+      }
+    },
+    "specialty": {
+      "type": "text",
+      "label": "Chapel/Church/Synagogue",
+      "page": 1,
+      "box": {
+        "left": 296.0,
+        "top": 130.7,
+        "width": 12.2,
+        "height": 11.6
+      }
+    },
+    "other": {
+      "type": "text",
+      "label": "Specialty Store/Concessionaire",
+      "page": 1,
+      "box": {
+        "left": 438.5,
+        "top": 130.7,
+        "width": 11.6,
+        "height": 11.6
+      }
+    },
+    "otherLocation": {
+      "type": "text",
+      "label": "Other (Specify)",
+      "page": 1,
+      "box": {
+        "left": 500.5,
+        "top": 130.7,
+        "width": 73.8,
+        "height": 11.6
+      }
+    },
+    "shopett": {
+      "type": "text",
+      "label": "School",
+      "page": 1,
+      "box": {
+        "left": 36.6,
+        "top": 119.0,
+        "width": 11.6,
+        "height": 11.9
+      }
+    },
+    "commercial": {
+      "type": "text",
+      "label": "Shoppette/Convenience",
+      "page": 1,
+      "box": {
+        "left": 158.7,
+        "top": 119.0,
+        "width": 12.2,
+        "height": 11.6
+      }
+    },
+    "quarters": {
+      "type": "text",
+      "label": "Commercial/Office Building",
+      "page": 1,
+      "box": {
+        "left": 296.0,
+        "top": 119.0,
+        "width": 11.8,
+        "height": 11.6
+      }
+    },
+    "unknown2": {
+      "type": "text",
+      "label": "Quarters/Barracks/Residence/Berthing",
+      "page": 1,
+      "box": {
+        "left": 438.5,
+        "top": 119.0,
+        "width": 12.2,
+        "height": 11.6
+      }
+    },
+    "corrections": {
+      "type": "text",
+      "label": "LOCATION",
+      "page": 1,
+      "box": {
+        "left": 36.6,
+        "top": 107.6,
+        "width": 11.0,
+        "height": 11.6
+      }
+    },
+    "park": {
+      "type": "text",
+      "label": "Corrections Facility/Jail/Prison",
+      "page": 1,
+      "box": {
+        "left": 158.7,
+        "top": 107.6,
+        "width": 12.2,
+        "height": 11.6
+      }
+    },
+    "motor": {
+      "type": "text",
+      "label": "Recreation Area/Pard",
+      "page": 1,
+      "box": {
+        "left": 296.0,
+        "top": 107.6,
+        "width": 12.2,
+        "height": 11.6
+      }
+    },
+    "otherTypeCriminalActivy": {
+      "type": "text",
+      "label": "Other: (Specify)",
+      "page": 1,
+      "box": {
+        "left": 437.9,
+        "top": 58.6,
+        "width": 112.1,
+        "height": 11.4
+      }
+    },
+    "numerOfEntered": {
+      "type": "text",
+      "label": "BURGLERY/B &amp; E ONLY: Force No Force",
+      "page": 2,
+      "box": {
+        "left": 484.4,
+        "top": 755.4,
+        "width": 16.2,
+        "height": 11.6
+      }
+    },
+    "radio36": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 402.3,
+        "top": 754.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio37": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 438.3,
+        "top": 754.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "incidentNumber3": {
+      "type": "text",
+      "label": "Force No Force # of Premises Entered INCIDENT",
+      "page": 2,
+      "box": {
+        "left": 668.6,
+        "top": 750.5,
+        "width": 126.6,
+        "height": 9.9
+      }
+    },
+    "radio38": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 480.5,
+        "top": 731.3,
+        "width": 6.0,
+        "height": 6.0
+      },
+      "group": "radio"
+    },
+    "radio39": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 2,
+      "box": {
+        "left": 480.5,
+        "top": 724.3,
+        "width": 6.0,
+        "height": 6.0
+      },
+      "group": "radio"
+    },
+    "radio40": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 43.5,
+        "top": 723.0,
+        "width": 6.0,
+        "height": 6.0
+      },
+      "group": "radio"
+    },
+    "radio41": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 2,
+      "box": {
+        "left": 89.5,
+        "top": 723.0,
+        "width": 6.0,
+        "height": 6.0
+      },
+      "group": "radio"
+    },
+    "year": {
+      "type": "text",
+      "label": "Recovered Target",
+      "page": 2,
+      "box": {
+        "left": 136.1,
+        "top": 721.7,
+        "width": 35.2,
+        "height": 14.5
+      }
+    },
+    "make": {
+      "type": "text",
+      "label": "Recovered Target",
+      "page": 2,
+      "box": {
+        "left": 171.3,
+        "top": 721.7,
+        "width": 72.0,
+        "height": 14.5
+      }
+    },
+    "model": {
+      "type": "text",
+      "label": "Recovered Target",
+      "page": 2,
+      "box": {
+        "left": 243.3,
+        "top": 721.7,
+        "width": 72.0,
+        "height": 14.5
+      }
+    },
+    "radio42": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 480.5,
+        "top": 716.6,
+        "width": 6.0,
+        "height": 6.0
+      },
+      "group": "radio"
+    },
+    "radio43": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 43.5,
+        "top": 714.9,
+        "width": 6.0,
+        "height": 6.0
+      },
+      "group": "radio"
+    },
+    "radio44": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 2,
+      "box": {
+        "left": 89.5,
+        "top": 714.9,
+        "width": 6.0,
+        "height": 6.0
+      },
+      "group": "radio"
+    },
+    "radio45": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 2,
+      "box": {
+        "left": 480.5,
+        "top": 709.0,
+        "width": 6.0,
+        "height": 6.0
+      },
+      "group": "radio"
+    },
+    "radio46": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 2,
+      "box": {
+        "left": 111.4,
+        "top": 705.0,
+        "width": 6.0,
+        "height": 6.0
+      },
+      "group": "radio"
+    },
+    "radio47": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 2,
+      "box": {
+        "left": 181.1,
+        "top": 705.0,
+        "width": 6.0,
+        "height": 6.0
+      },
+      "group": "radio"
+    },
+    "radio48": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 41.7,
+        "top": 694.8,
+        "width": 6.0,
+        "height": 6.0
+      },
+      "group": "radio"
+    },
+    "radio49": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 2,
+      "box": {
+        "left": 111.4,
+        "top": 694.8,
+        "width": 6.0,
+        "height": 6.0
+      },
+      "group": "radio"
+    },
+    "radio50": {
+      "type": "radio",
+      "label": "Item5",
+      "page": 2,
+      "box": {
+        "left": 181.1,
+        "top": 694.8,
+        "width": 6.0,
+        "height": 6.0
+      },
+      "group": "radio"
+    },
+    "enterOtherstyle": {
+      "type": "text",
+      "label": "Other",
+      "page": 2,
+      "box": {
+        "left": 210.5,
+        "top": 685.2,
+        "width": 103.6,
+        "height": 9.9
+      }
+    },
+    "radio51": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 41.7,
+        "top": 684.6,
+        "width": 6.0,
+        "height": 6.0
+      },
+      "group": "radio"
+    },
+    "radio52": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 111.4,
+        "top": 684.5,
+        "width": 6.0,
+        "height": 6.0
+      },
+      "group": "radio"
+    },
+    "radio53": {
+      "type": "radio",
+      "label": "Item6",
+      "page": 2,
+      "box": {
+        "left": 181.1,
+        "top": 684.5,
+        "width": 6.0,
+        "height": 6.0
+      },
+      "group": "radio"
+    },
+    "color": {
+      "type": "text",
+      "label": "Color",
+      "page": 2,
+      "box": {
+        "left": 59.2,
+        "top": 675.8,
+        "width": 50.5,
+        "height": 19.7
+      }
+    },
+    "color2": {
+      "type": "text",
+      "label": "License Plate #",
+      "page": 2,
+      "box": {
+        "left": 164.8,
+        "top": 675.8,
+        "width": 77.8,
+        "height": 19.7
+      }
+    },
+    "color3": {
+      "type": "text",
+      "label": "State",
+      "page": 2,
+      "box": {
+        "left": 265.8,
+        "top": 675.8,
+        "width": 49.5,
+        "height": 19.7
+      }
+    },
+    "vin": {
+      "type": "text",
+      "label": "VIN",
+      "page": 2,
+      "box": {
+        "left": 54.4,
+        "top": 656.3,
+        "width": 261.5,
+        "height": 13.0
+      }
+    },
+    "ownerName": {
+      "type": "text",
+      "label": "OWNER NAME",
+      "page": 2,
+      "box": {
+        "left": 91.8,
+        "top": 643.5,
+        "width": 224.1,
+        "height": 13.0
+      }
+    },
+    "otherTool": {
+      "type": "text",
+      "label": "Unknown",
+      "page": 2,
+      "box": {
+        "left": 525.7,
+        "top": 632.3,
+        "width": 48.1,
+        "height": 9.4
+      }
+    },
+    "otherIdentifyingMarks": {
+      "type": "text",
+      "label": "OTHER IDENTIFYING MARKS",
+      "page": 2,
+      "box": {
+        "left": 141.4,
+        "top": 630.1,
+        "width": 174.5,
+        "height": 13.0
+      }
+    },
+    "enterOtherMethod1": {
+      "type": "text",
+      "label": "Other",
+      "page": 2,
+      "box": {
+        "left": 419.8,
+        "top": 625.6,
+        "width": 41.3,
+        "height": 8.1
+      }
+    },
+    "none1": {
+      "type": "checkbox",
+      "label": "OTHER",
+      "page": 2,
+      "box": {
+        "left": 38.0,
+        "top": 603.5,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "antiAlaskanNative": {
+      "type": "checkbox",
+      "label": "None",
+      "page": 2,
+      "box": {
+        "left": 163.1,
+        "top": 603.5,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "antiCatholic": {
+      "type": "checkbox",
+      "label": "Anti-Alaskan Native",
+      "page": 2,
+      "box": {
+        "left": 297.5,
+        "top": 603.5,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "agnostic": {
+      "type": "checkbox",
+      "label": "Anti-Catholic",
+      "page": 2,
+      "box": {
+        "left": 439.2,
+        "top": 603.5,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "antiWhite": {
+      "type": "checkbox",
+      "label": "OTHER",
+      "page": 2,
+      "box": {
+        "left": 38.0,
+        "top": 593.5,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "antiAsian": {
+      "type": "checkbox",
+      "label": "Anti-White",
+      "page": 2,
+      "box": {
+        "left": 163.1,
+        "top": 593.5,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "antiIslamic": {
+      "type": "checkbox",
+      "label": "Anti-Asian",
+      "page": 2,
+      "box": {
+        "left": 297.5,
+        "top": 593.5,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "homosexual": {
+      "type": "checkbox",
+      "label": "Anti-islamic (Muslem)",
+      "page": 2,
+      "box": {
+        "left": 439.2,
+        "top": 593.5,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "antiBlack": {
+      "type": "checkbox",
+      "label": "OTHER",
+      "page": 2,
+      "box": {
+        "left": 38.0,
+        "top": 583.6,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "antiPacficIslander": {
+      "type": "checkbox",
+      "label": "Anti-Black",
+      "page": 2,
+      "box": {
+        "left": 163.1,
+        "top": 583.6,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "antiProtestant": {
+      "type": "checkbox",
+      "label": "Anti-Pacific Islander",
+      "page": 2,
+      "box": {
+        "left": 297.5,
+        "top": 583.6,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "maleHomo": {
+      "type": "checkbox",
+      "label": "Anti-Protestant",
+      "page": 2,
+      "box": {
+        "left": 439.2,
+        "top": 583.6,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "antiBlack2": {
+      "type": "checkbox",
+      "label": "OTHER",
+      "page": 2,
+      "box": {
+        "left": 38.0,
+        "top": 573.6,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "antiOtherEthnicity": {
+      "type": "checkbox",
+      "label": "Anti-Arab",
+      "page": 2,
+      "box": {
+        "left": 163.1,
+        "top": 573.6,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "antiMultiReligous": {
+      "type": "checkbox",
+      "label": "Anti-Other Ethnicity/Origin",
+      "page": 2,
+      "box": {
+        "left": 297.5,
+        "top": 573.6,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "femaleHomo": {
+      "type": "checkbox",
+      "label": "Anti-Multi Religious Group",
+      "page": 2,
+      "box": {
+        "left": 439.2,
+        "top": 573.6,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "antiHispanic": {
+      "type": "checkbox",
+      "label": "OTHER",
+      "page": 2,
+      "box": {
+        "left": 38.0,
+        "top": 563.7,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "antiMultiRacial": {
+      "type": "checkbox",
+      "label": "Anti-Hispanic",
+      "page": 2,
+      "box": {
+        "left": 163.1,
+        "top": 563.7,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "religous": {
+      "type": "checkbox",
+      "label": "Anti-Multi-Racial Group",
+      "page": 2,
+      "box": {
+        "left": 297.5,
+        "top": 563.7,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "hetroSexual": {
+      "type": "checkbox",
+      "label": "Anti-Other Religion",
+      "page": 2,
+      "box": {
+        "left": 439.2,
+        "top": 563.7,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "antiAmericanIndian": {
+      "type": "checkbox",
+      "label": "OTHER",
+      "page": 2,
+      "box": {
+        "left": 38.0,
+        "top": 553.7,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "antiJewish": {
+      "type": "checkbox",
+      "label": "Anti-American Indian",
+      "page": 2,
+      "box": {
+        "left": 163.1,
+        "top": 553.1,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "antiJewish2": {
+      "type": "checkbox",
+      "label": "Anti-Jewish",
+      "page": 2,
+      "box": {
+        "left": 297.5,
+        "top": 553.1,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "bisexual": {
+      "type": "checkbox",
+      "label": "Anti-Atheism",
+      "page": 2,
+      "box": {
+        "left": 439.2,
+        "top": 553.1,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "type1": {
+      "type": "text",
+      "label": "(b)",
+      "page": 2,
+      "box": {
+        "left": 58.1,
+        "top": 507.2,
+        "width": 21.6,
+        "height": 13.2
+      }
+    },
+    "qty1": {
+      "type": "text",
+      "label": "QTY",
+      "page": 2,
+      "box": {
+        "left": 80.1,
+        "top": 507.2,
+        "width": 21.6,
+        "height": 13.2
+      }
+    },
+    "description1": {
+      "type": "text",
+      "label": "DESCRIPTION",
+      "page": 2,
+      "box": {
+        "left": 102.3,
+        "top": 507.2,
+        "width": 105.0,
+        "height": 13.2
+      }
+    },
+    "makeModel1": {
+      "type": "text",
+      "label": "MAKE/MODEL",
+      "page": 2,
+      "box": {
+        "left": 208.2,
+        "top": 507.2,
+        "width": 45.5,
+        "height": 13.2
+      }
+    },
+    "size2": {
+      "type": "text",
+      "label": "SIZE",
+      "page": 2,
+      "box": {
+        "left": 254.4,
+        "top": 507.2,
+        "width": 21.6,
+        "height": 13.2
+      }
+    },
+    "serialNumber": {
+      "type": "text",
+      "label": "SERIAL #",
+      "page": 2,
+      "box": {
+        "left": 275.9,
+        "top": 507.2,
+        "width": 41.9,
+        "height": 13.2
+      }
+    },
+    "value": {
+      "type": "text",
+      "label": "VALUE",
+      "page": 2,
+      "box": {
+        "left": 346.8,
+        "top": 507.2,
+        "width": 27.5,
+        "height": 13.2
+      }
+    },
+    "su": {
+      "type": "text",
+      "label": "(c)",
+      "page": 2,
+      "box": {
+        "left": 375.4,
+        "top": 507.2,
+        "width": 21.5,
+        "height": 13.2
+      }
+    },
+    "owner": {
+      "type": "text",
+      "label": "(d)",
+      "page": 2,
+      "box": {
+        "left": 397.4,
+        "top": 507.2,
+        "width": 37.3,
+        "height": 13.2
+      }
+    },
+    "disp": {
+      "type": "text",
+      "label": "(e)",
+      "page": 2,
+      "box": {
+        "left": 435.0,
+        "top": 507.2,
+        "width": 23.8,
+        "height": 13.2
+      }
+    },
+    "vehicleNumberRecovered": {
+      "type": "text",
+      "label": "RECOVERED",
+      "page": 2,
+      "box": {
+        "left": 459.3,
+        "top": 507.2,
+        "width": 54.3,
+        "height": 13.2
+      }
+    },
+    "type2": {
+      "type": "text",
+      "label": "(b)",
+      "page": 2,
+      "box": {
+        "left": 58.1,
+        "top": 493.9,
+        "width": 21.6,
+        "height": 13.2
+      }
+    },
+    "qty2": {
+      "type": "text",
+      "label": "QTY",
+      "page": 2,
+      "box": {
+        "left": 80.1,
+        "top": 493.9,
+        "width": 21.6,
+        "height": 13.2
+      }
+    },
+    "description2": {
+      "type": "text",
+      "label": "DESCRIPTION",
+      "page": 2,
+      "box": {
+        "left": 102.3,
+        "top": 493.9,
+        "width": 105.0,
+        "height": 13.2
+      }
+    },
+    "makeModel2": {
+      "type": "text",
+      "label": "MAKE/MODEL",
+      "page": 2,
+      "box": {
+        "left": 208.2,
+        "top": 493.9,
+        "width": 45.5,
+        "height": 13.2
+      }
+    },
+    "size": {
+      "type": "text",
+      "label": "SIZE",
+      "page": 2,
+      "box": {
+        "left": 254.4,
+        "top": 493.9,
+        "width": 21.6,
+        "height": 13.2
+      }
+    },
+    "serialNumber1": {
+      "type": "text",
+      "label": "SERIAL #",
+      "page": 2,
+      "box": {
+        "left": 275.9,
+        "top": 493.9,
+        "width": 41.9,
+        "height": 13.2
+      }
+    },
+    "value1": {
+      "type": "text",
+      "label": "VALUE",
+      "page": 2,
+      "box": {
+        "left": 346.8,
+        "top": 493.9,
+        "width": 27.5,
+        "height": 13.2
+      }
+    },
+    "su1": {
+      "type": "text",
+      "label": "(c)",
+      "page": 2,
+      "box": {
+        "left": 375.4,
+        "top": 493.9,
+        "width": 21.5,
+        "height": 13.2
+      }
+    },
+    "owner1": {
+      "type": "text",
+      "label": "(d)",
+      "page": 2,
+      "box": {
+        "left": 397.4,
+        "top": 493.9,
+        "width": 37.3,
+        "height": 13.2
+      }
+    },
+    "disp1": {
+      "type": "text",
+      "label": "(e)",
+      "page": 2,
+      "box": {
+        "left": 435.0,
+        "top": 493.9,
+        "width": 23.8,
+        "height": 13.2
+      }
+    },
+    "vehicleNumberRecovered1": {
+      "type": "text",
+      "label": "RECOVERED",
+      "page": 2,
+      "box": {
+        "left": 459.3,
+        "top": 493.9,
+        "width": 54.3,
+        "height": 13.2
+      }
+    },
+    "size1": {
+      "type": "text",
+      "label": "SIZE",
+      "page": 2,
+      "box": {
+        "left": 254.4,
+        "top": 480.6,
+        "width": 21.7,
+        "height": 13.2
+      }
+    },
+    "type": {
+      "type": "text",
+      "label": "(b)",
+      "page": 2,
+      "box": {
+        "left": 58.1,
+        "top": 480.5,
+        "width": 21.6,
+        "height": 13.2
+      }
+    },
+    "qty": {
+      "type": "text",
+      "label": "QTY",
+      "page": 2,
+      "box": {
+        "left": 80.1,
+        "top": 480.5,
+        "width": 21.6,
+        "height": 13.2
+      }
+    },
+    "description": {
+      "type": "text",
+      "label": "DESCRIPTION",
+      "page": 2,
+      "box": {
+        "left": 102.3,
+        "top": 480.5,
+        "width": 105.0,
+        "height": 13.2
+      }
+    },
+    "makeModel": {
+      "type": "text",
+      "label": "MAKE/MODEL",
+      "page": 2,
+      "box": {
+        "left": 208.2,
+        "top": 480.5,
+        "width": 45.5,
+        "height": 13.2
+      }
+    },
+    "serialNumber2": {
+      "type": "text",
+      "label": "SERIAL #",
+      "page": 2,
+      "box": {
+        "left": 275.9,
+        "top": 480.5,
+        "width": 41.9,
+        "height": 13.2
+      }
+    },
+    "value2": {
+      "type": "text",
+      "label": "VALUE",
+      "page": 2,
+      "box": {
+        "left": 346.8,
+        "top": 480.5,
+        "width": 27.5,
+        "height": 13.2
+      }
+    },
+    "su2": {
+      "type": "text",
+      "label": "(c)",
+      "page": 2,
+      "box": {
+        "left": 375.4,
+        "top": 480.5,
+        "width": 21.5,
+        "height": 13.2
+      }
+    },
+    "owner2": {
+      "type": "text",
+      "label": "(d)",
+      "page": 2,
+      "box": {
+        "left": 397.4,
+        "top": 480.5,
+        "width": 37.3,
+        "height": 13.2
+      }
+    },
+    "disp2": {
+      "type": "text",
+      "label": "(e)",
+      "page": 2,
+      "box": {
+        "left": 435.0,
+        "top": 480.5,
+        "width": 23.8,
+        "height": 13.2
+      }
+    },
+    "vehicleNumberRecovered2": {
+      "type": "text",
+      "label": "RECOVERED",
+      "page": 2,
+      "box": {
+        "left": 459.3,
+        "top": 480.5,
+        "width": 54.3,
+        "height": 13.2
+      }
+    },
+    "drugType1": {
+      "type": "text",
+      "label": "DRUG TYPE (f)",
+      "page": 2,
+      "box": {
+        "left": 36.0,
+        "top": 286.3,
+        "width": 55.4,
+        "height": 19.7
+      }
+    },
+    "eSTquanity1": {
+      "type": "text",
+      "label": "EST. QUANTITY",
+      "page": 2,
+      "box": {
+        "left": 91.1,
+        "top": 286.3,
+        "width": 60.0,
+        "height": 19.7
+      }
+    },
+    "measurements2": {
+      "type": "text",
+      "label": "MEASURMENT(g)",
+      "page": 2,
+      "box": {
+        "left": 151.4,
+        "top": 286.3,
+        "width": 64.7,
+        "height": 19.7
+      }
+    },
+    "drugType2": {
+      "type": "text",
+      "label": "DRUG TYPE (f)",
+      "page": 2,
+      "box": {
+        "left": 36.0,
+        "top": 267.0,
+        "width": 55.4,
+        "height": 19.7
+      }
+    },
+    "eSTquanity2": {
+      "type": "text",
+      "label": "EST. QUANTITY",
+      "page": 2,
+      "box": {
+        "left": 91.1,
+        "top": 267.0,
+        "width": 60.0,
+        "height": 19.7
+      }
+    },
+    "measurements1": {
+      "type": "text",
+      "label": "MEASURMENT(g)",
+      "page": 2,
+      "box": {
+        "left": 151.4,
+        "top": 267.0,
+        "width": 64.7,
+        "height": 19.7
+      }
+    },
+    "drugType": {
+      "type": "text",
+      "label": "DRUG TYPE (f)",
+      "page": 2,
+      "box": {
+        "left": 36.0,
+        "top": 247.7,
+        "width": 55.4,
+        "height": 19.7
+      }
+    },
+    "eSTquanity": {
+      "type": "text",
+      "label": "EST. QUANTITY",
+      "page": 2,
+      "box": {
+        "left": 91.1,
+        "top": 247.7,
+        "width": 60.0,
+        "height": 19.7
+      }
+    },
+    "measurements": {
+      "type": "text",
+      "label": "MEASURMENT(g)",
+      "page": 2,
+      "box": {
+        "left": 151.4,
+        "top": 247.7,
+        "width": 64.7,
+        "height": 19.7
+      }
+    },
+    "radio54": {
+      "type": "radio",
+      "label": "Item8",
+      "page": 2,
+      "box": {
+        "left": 428.4,
+        "top": 212.8,
+        "width": 7.0,
+        "height": 7.0
+      },
+      "group": "radio"
+    },
+    "radio55": {
+      "type": "radio",
+      "label": "Item7",
+      "page": 2,
+      "box": {
+        "left": 441.4,
+        "top": 212.8,
+        "width": 7.0,
+        "height": 7.0
+      },
+      "group": "radio"
+    },
+    "radio56": {
+      "type": "radio",
+      "label": "Item6",
+      "page": 2,
+      "box": {
+        "left": 456.0,
+        "top": 212.8,
+        "width": 7.0,
+        "height": 7.0
+      },
+      "group": "radio"
+    },
+    "radio57": {
+      "type": "radio",
+      "label": "Item5",
+      "page": 2,
+      "box": {
+        "left": 472.3,
+        "top": 212.8,
+        "width": 7.0,
+        "height": 7.0
+      },
+      "group": "radio"
+    },
+    "radio58": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 2,
+      "box": {
+        "left": 488.1,
+        "top": 212.8,
+        "width": 7.0,
+        "height": 7.0
+      },
+      "group": "radio"
+    },
+    "radio59": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 2,
+      "box": {
+        "left": 501.0,
+        "top": 212.8,
+        "width": 7.0,
+        "height": 7.0
+      },
+      "group": "radio"
+    },
+    "radio60": {
+      "type": "radio",
+      "label": "Item9",
+      "page": 2,
+      "box": {
+        "left": 516.2,
+        "top": 212.8,
+        "width": 7.0,
+        "height": 7.0
+      },
+      "group": "radio"
+    },
+    "radio61": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 2,
+      "box": {
+        "left": 530.3,
+        "top": 212.8,
+        "width": 7.0,
+        "height": 7.0
+      },
+      "group": "radio"
+    },
+    "radio62": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 545.5,
+        "top": 212.8,
+        "width": 7.0,
+        "height": 7.0
+      },
+      "group": "radio"
+    },
+    "radio63": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 560.1,
+        "top": 212.8,
+        "width": 7.0,
+        "height": 7.0
+      },
+      "group": "radio"
+    },
+    "victimNumber": {
+      "type": "text",
+      "label": "VICTIM#",
+      "page": 2,
+      "box": {
+        "left": 295.8,
+        "top": 212.3,
+        "width": 60.8,
+        "height": 29.4
+      }
+    },
+    "radio64": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 360.8,
+        "top": 208.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio65": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 395.3,
+        "top": 208.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio66": {
+      "type": "radio",
+      "label": "Item8",
+      "page": 2,
+      "box": {
+        "left": 428.4,
+        "top": 193.1,
+        "width": 7.0,
+        "height": 7.0
+      },
+      "group": "radio"
+    },
+    "radio67": {
+      "type": "radio",
+      "label": "Item7",
+      "page": 2,
+      "box": {
+        "left": 441.4,
+        "top": 193.1,
+        "width": 7.0,
+        "height": 7.0
+      },
+      "group": "radio"
+    },
+    "radio68": {
+      "type": "radio",
+      "label": "Item9",
+      "page": 2,
+      "box": {
+        "left": 456.0,
+        "top": 193.1,
+        "width": 7.0,
+        "height": 7.0
+      },
+      "group": "radio"
+    },
+    "radio69": {
+      "type": "radio",
+      "label": "Item6",
+      "page": 2,
+      "box": {
+        "left": 472.3,
+        "top": 193.1,
+        "width": 7.0,
+        "height": 7.0
+      },
+      "group": "radio"
+    },
+    "radio70": {
+      "type": "radio",
+      "label": "Item5",
+      "page": 2,
+      "box": {
+        "left": 488.1,
+        "top": 193.1,
+        "width": 7.0,
+        "height": 7.0
+      },
+      "group": "radio"
+    },
+    "radio71": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 2,
+      "box": {
+        "left": 501.0,
+        "top": 193.1,
+        "width": 7.0,
+        "height": 7.0
+      },
+      "group": "radio"
+    },
+    "radio72": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 2,
+      "box": {
+        "left": 516.2,
+        "top": 193.1,
+        "width": 7.0,
+        "height": 7.0
+      },
+      "group": "radio"
+    },
+    "radio73": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 2,
+      "box": {
+        "left": 530.3,
+        "top": 193.1,
+        "width": 7.0,
+        "height": 7.0
+      },
+      "group": "radio"
+    },
+    "radio74": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 545.5,
+        "top": 193.1,
+        "width": 7.0,
+        "height": 7.0
+      },
+      "group": "radio"
+    },
+    "radio75": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 560.1,
+        "top": 193.1,
+        "width": 7.0,
+        "height": 7.0
+      },
+      "group": "radio"
+    },
+    "middle2": {
+      "type": "text",
+      "label": "MIDDLE",
+      "page": 2,
+      "box": {
+        "left": 303.3,
+        "top": 173.2,
+        "width": 90.5,
+        "height": 12.8
+      }
+    },
+    "ssn2": {
+      "type": "text",
+      "label": "SSN/ALIEN REGISTRATION #",
+      "page": 2,
+      "box": {
+        "left": 396.7,
+        "top": 172.6,
+        "width": 108.9,
+        "height": 12.2
+      }
+    },
+    "lastName2": {
+      "type": "text",
+      "label": "LAST NAME (Include Jr., Sr., III, etc.)",
+      "page": 2,
+      "box": {
+        "left": 36.0,
+        "top": 172.3,
+        "width": 188.0,
+        "height": 12.0
+      }
+    },
+    "first02": {
+      "type": "text",
+      "label": "FIRST",
+      "page": 2,
+      "box": {
+        "left": 224.4,
+        "top": 172.3,
+        "width": 78.7,
+        "height": 12.0
+      }
+    },
+    "gradeRank": {
+      "type": "text",
+      "label": "GRADE/RANK",
+      "page": 2,
+      "box": {
+        "left": 508.9,
+        "top": 172.3,
+        "width": 66.4,
+        "height": 12.0
+      }
+    },
+    "radio76": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 2,
+      "box": {
+        "left": 41.1,
+        "top": 147.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio77": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 2,
+      "box": {
+        "left": 120.4,
+        "top": 147.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio78": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 2,
+      "box": {
+        "left": 192.2,
+        "top": 147.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio79": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 2,
+      "box": {
+        "left": 298.6,
+        "top": 147.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio80": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 2,
+      "box": {
+        "left": 372.4,
+        "top": 147.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio81": {
+      "type": "radio",
+      "label": "Item5",
+      "page": 2,
+      "box": {
+        "left": 431.0,
+        "top": 147.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio82": {
+      "type": "radio",
+      "label": "Item6",
+      "page": 2,
+      "box": {
+        "left": 488.9,
+        "top": 147.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "otherBranchServices01": {
+      "type": "text",
+      "label": "COAST GUARD OTHER",
+      "page": 2,
+      "box": {
+        "left": 234.1,
+        "top": 137.1,
+        "width": 63.7,
+        "height": 10.6
+      }
+    },
+    "radio83": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 41.1,
+        "top": 136.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio84": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 120.4,
+        "top": 136.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio85": {
+      "type": "radio",
+      "label": "Item5",
+      "page": 2,
+      "box": {
+        "left": 192.2,
+        "top": 136.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio86": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 2,
+      "box": {
+        "left": 298.6,
+        "top": 136.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio87": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 384.0,
+        "top": 136.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio88": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 478.3,
+        "top": 136.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "dutyEmployer": {
+      "type": "text",
+      "label": "Duty Employer",
+      "page": 2,
+      "box": {
+        "left": 36.0,
+        "top": 114.8,
+        "width": 398.5,
+        "height": 12.2
+      }
+    },
+    "uicric": {
+      "type": "text",
+      "label": "UIC/RUC",
+      "page": 2,
+      "box": {
+        "left": 435.3,
+        "top": 114.8,
+        "width": 61.5,
+        "height": 12.2
+      }
+    },
+    "workTelephone": {
+      "type": "text",
+      "label": "WORK TELEPHONE",
+      "page": 2,
+      "box": {
+        "left": 500.3,
+        "top": 114.8,
+        "width": 72.4,
+        "height": 12.2
+      }
+    },
+    "adress": {
+      "type": "text",
+      "label": "ADDRESS",
+      "page": 2,
+      "box": {
+        "left": 36.0,
+        "top": 91.2,
+        "width": 331.2,
+        "height": 12.2
+      }
+    },
+    "citypg2": {
+      "type": "text",
+      "label": "CITY",
+      "page": 2,
+      "box": {
+        "left": 367.5,
+        "top": 91.2,
+        "width": 112.9,
+        "height": 12.2
+      }
+    },
+    "state2": {
+      "type": "choice",
+      "label": "STATE",
+      "page": 2,
+      "box": {
+        "left": 482.2,
+        "top": 90.9,
+        "width": 35.9,
+        "height": 12.1
+      },
+      "options": [
+        "AL",
+        "AK",
+        "AS",
+        "AZ",
+        "AR",
+        "AA",
+        "AE",
+        "AP",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "DC",
+        "FM",
+        "FL",
+        "GA",
+        "GU",
+        "HI",
+        "ID",
+        "IL",
+        "IN",
+        "IA",
+        "KS",
+        "KY",
+        "LA",
+        "ME",
+        "MH",
+        "MD",
+        "MA",
+        "MI",
+        "MN",
+        "MS",
+        "MO",
+        "MT",
+        "NE",
+        "NV",
+        "NH",
+        "NJ",
+        "NM",
+        "NY",
+        "NC",
+        "ND",
+        "MP",
+        "OH",
+        "OK",
+        "OR",
+        "PW",
+        "PA",
+        "PR",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VT",
+        "VI",
+        "VA",
+        "WA",
+        "WV",
+        "WI",
+        "WY"
+      ]
+    },
+    "zIPCodepg2": {
+      "type": "text",
+      "label": "ZIP CODE",
+      "page": 2,
+      "box": {
+        "left": 522.5,
+        "top": 90.5,
+        "width": 50.8,
+        "height": 11.4
+      }
+    },
+    "dob": {
+      "type": "text",
+      "label": "DOB",
+      "page": 2,
+      "box": {
+        "left": 36.0,
+        "top": 69.4,
+        "width": 99.0,
+        "height": 12.4
+      }
+    },
+    "radio89": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 2,
+      "box": {
+        "left": 149.7,
+        "top": 67.9,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "radio90": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 2,
+      "box": {
+        "left": 248.4,
+        "top": 67.3,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "radio91": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 346.4,
+        "top": 67.3,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "radio92": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 2,
+      "box": {
+        "left": 424.2,
+        "top": 67.3,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "radio93": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 509.7,
+        "top": 67.3,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "radio94": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 346.4,
+        "top": 57.3,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "radio95": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 149.7,
+        "top": 57.2,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "radio96": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 2,
+      "box": {
+        "left": 248.4,
+        "top": 56.7,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "radio97": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 424.2,
+        "top": 56.7,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "radio98": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 2,
+      "box": {
+        "left": 509.7,
+        "top": 56.7,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "pob": {
+      "type": "text",
+      "label": "POB",
+      "page": 2,
+      "box": {
+        "left": 36.0,
+        "top": 47.0,
+        "width": 99.0,
+        "height": 11.1
+      }
+    },
+    "radio99": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 509.7,
+        "top": 46.9,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "radio100": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 2,
+      "box": {
+        "left": 248.4,
+        "top": 46.5,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "radio101": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 424.2,
+        "top": 46.5,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "radio102": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 149.7,
+        "top": 46.0,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "incidentNumber4": {
+      "type": "text",
+      "label": "INCIDENT",
+      "page": 3,
+      "box": {
+        "left": 668.6,
+        "top": 750.5,
+        "width": 126.6,
+        "height": 9.9
+      }
+    },
+    "indivi": {
+      "type": "checkbox",
+      "label": "SECTION",
+      "page": 3,
+      "box": {
+        "left": 37.8,
+        "top": 725.9,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "regOrgn": {
+      "type": "checkbox",
+      "label": "Individual",
+      "page": 3,
+      "box": {
+        "left": 119.4,
+        "top": 725.9,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "business": {
+      "type": "checkbox",
+      "label": "SECTION",
+      "page": 3,
+      "box": {
+        "left": 37.8,
+        "top": 716.0,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "socPub": {
+      "type": "checkbox",
+      "label": "Business",
+      "page": 3,
+      "box": {
+        "left": 119.4,
+        "top": 716.0,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "finInst": {
+      "type": "checkbox",
+      "label": "SECTION",
+      "page": 3,
+      "box": {
+        "left": 37.8,
+        "top": 706.0,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "vicOth": {
+      "type": "checkbox",
+      "label": "Financial Institution",
+      "page": 3,
+      "box": {
+        "left": 119.4,
+        "top": 706.0,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "gover": {
+      "type": "checkbox",
+      "label": "SECTION",
+      "page": 3,
+      "box": {
+        "left": 37.8,
+        "top": 696.1,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "vicUnk": {
+      "type": "checkbox",
+      "label": "Government",
+      "page": 3,
+      "box": {
+        "left": 119.4,
+        "top": 696.1,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "lawEnfor": {
+      "type": "checkbox",
+      "label": "SECTION",
+      "page": 3,
+      "box": {
+        "left": 37.8,
+        "top": 686.1,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "typSeq": {
+      "type": "text",
+      "label": "TYPE/SEQUINCE #",
+      "page": 3,
+      "box": {
+        "left": 386.1,
+        "top": 609.7,
+        "width": 121.6,
+        "height": 11.4
+      }
+    },
+    "radio103": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 513.2,
+        "top": 599.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio104": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 547.7,
+        "top": 599.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "witNo": {
+      "type": "text",
+      "label": "WITNESS #",
+      "page": 3,
+      "box": {
+        "left": 367.6,
+        "top": 598.5,
+        "width": 45.5,
+        "height": 10.8
+      }
+    },
+    "sponNo": {
+      "type": "text",
+      "label": "SPONSOR",
+      "page": 3,
+      "box": {
+        "left": 465.0,
+        "top": 598.5,
+        "width": 45.5,
+        "height": 10.8
+      }
+    },
+    "lawEnfor2": {
+      "type": "checkbox",
+      "label": "TYPE/SEQUINCE",
+      "page": 3,
+      "box": {
+        "left": 318.1,
+        "top": 596.1,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "lawEnfor3": {
+      "type": "checkbox",
+      "label": "WITNESS #",
+      "page": 3,
+      "box": {
+        "left": 414.9,
+        "top": 596.1,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "last2": {
+      "type": "text",
+      "label": "LAST NAME (Include Jr., Sr., II, III, etc.)",
+      "page": 3,
+      "box": {
+        "left": 36.3,
+        "top": 576.9,
+        "width": 144.7,
+        "height": 12.8
+      }
+    },
+    "first2": {
+      "type": "text",
+      "label": "FIRST",
+      "page": 3,
+      "box": {
+        "left": 181.3,
+        "top": 576.9,
+        "width": 131.0,
+        "height": 12.8
+      }
+    },
+    "middle22": {
+      "type": "text",
+      "label": "MIDDLE SSN/ALIEN",
+      "page": 3,
+      "box": {
+        "left": 313.0,
+        "top": 576.9,
+        "width": 92.7,
+        "height": 12.8
+      }
+    },
+    "ssn22": {
+      "type": "text",
+      "label": "SSN/ALIEN REGISTRATION",
+      "page": 3,
+      "box": {
+        "left": 405.3,
+        "top": 576.9,
+        "width": 110.9,
+        "height": 12.8
+      }
+    },
+    "grade2": {
+      "type": "text",
+      "label": "GRADE/RANK",
+      "page": 3,
+      "box": {
+        "left": 516.4,
+        "top": 576.9,
+        "width": 59.4,
+        "height": 12.8
+      }
+    },
+    "radio105": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 3,
+      "box": {
+        "left": 127.4,
+        "top": 562.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio106": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 3,
+      "box": {
+        "left": 181.0,
+        "top": 562.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio107": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 3,
+      "box": {
+        "left": 228.0,
+        "top": 562.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio108": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 3,
+      "box": {
+        "left": 328.6,
+        "top": 562.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio109": {
+      "type": "radio",
+      "label": "Item6",
+      "page": 3,
+      "box": {
+        "left": 498.1,
+        "top": 562.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio110": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 3,
+      "box": {
+        "left": 396.0,
+        "top": 561.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio111": {
+      "type": "radio",
+      "label": "Item5",
+      "page": 3,
+      "box": {
+        "left": 449.7,
+        "top": 561.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "bSOthFil2": {
+      "type": "text",
+      "label": "MARINE CORPS COAST GUARD OTHER",
+      "page": 3,
+      "box": {
+        "left": 231.9,
+        "top": 553.2,
+        "width": 55.2,
+        "height": 11.6
+      }
+    },
+    "radio112": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 39.1,
+        "top": 550.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio113": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 113.4,
+        "top": 550.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio114": {
+      "type": "radio",
+      "label": "Item5",
+      "page": 3,
+      "box": {
+        "left": 186.7,
+        "top": 550.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio115": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 3,
+      "box": {
+        "left": 328.6,
+        "top": 550.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio116": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 396.3,
+        "top": 550.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio117": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 461.8,
+        "top": 550.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "duty2": {
+      "type": "text",
+      "label": "Duty 2",
+      "page": 3,
+      "box": {
+        "left": 36.3,
+        "top": 528.4,
+        "width": 404.8,
+        "height": 12.0
+      }
+    },
+    "uic2": {
+      "type": "text",
+      "label": "UIC/RUC",
+      "page": 3,
+      "box": {
+        "left": 441.4,
+        "top": 528.4,
+        "width": 46.6,
+        "height": 12.0
+      }
+    },
+    "telephone2": {
+      "type": "text",
+      "label": "WORK TELEPHONE",
+      "page": 3,
+      "box": {
+        "left": 488.5,
+        "top": 528.4,
+        "width": 87.3,
+        "height": 12.0
+      }
+    },
+    "address2": {
+      "type": "text",
+      "label": "ADDRESS",
+      "page": 3,
+      "box": {
+        "left": 36.3,
+        "top": 504.7,
+        "width": 298.2,
+        "height": 12.6
+      }
+    },
+    "city2": {
+      "type": "text",
+      "label": "CITY",
+      "page": 3,
+      "box": {
+        "left": 334.9,
+        "top": 504.7,
+        "width": 143.6,
+        "height": 12.6
+      }
+    },
+    "zIPCode2": {
+      "type": "text",
+      "label": "ZIP CODE",
+      "page": 3,
+      "box": {
+        "left": 519.3,
+        "top": 504.7,
+        "width": 55.7,
+        "height": 12.6
+      }
+    },
+    "state22": {
+      "type": "choice",
+      "label": "STATE",
+      "page": 3,
+      "box": {
+        "left": 479.0,
+        "top": 504.4,
+        "width": 39.6,
+        "height": 12.6
+      },
+      "options": [
+        "AL",
+        "AK",
+        "AS",
+        "AZ",
+        "AR",
+        "AA",
+        "AE",
+        "AP",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "DC",
+        "FM",
+        "FL",
+        "GA",
+        "GU",
+        "HI",
+        "ID",
+        "IL",
+        "IN",
+        "IA",
+        "KS",
+        "KY",
+        "LA",
+        "ME",
+        "MH",
+        "MD",
+        "MA",
+        "MI",
+        "MN",
+        "MS",
+        "MO",
+        "MT",
+        "NE",
+        "NV",
+        "NH",
+        "NJ",
+        "NM",
+        "NY",
+        "NC",
+        "ND",
+        "MP",
+        "OH",
+        "OK",
+        "OR",
+        "PW",
+        "PA",
+        "PR",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VT",
+        "VI",
+        "VA",
+        "WA",
+        "WV",
+        "WI",
+        "WY"
+      ]
+    },
+    "typSeq2": {
+      "type": "text",
+      "label": "TYPE/SEQUINCE #",
+      "page": 3,
+      "box": {
+        "left": 105.6,
+        "top": 478.4,
+        "width": 78.0,
+        "height": 11.4
+      }
+    },
+    "radio118": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 451.0,
+        "top": 476.0,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "radio"
+    },
+    "radio119": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 3,
+      "box": {
+        "left": 517.7,
+        "top": 476.0,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "radio"
+    },
+    "witNo2": {
+      "type": "text",
+      "label": "WITNESS #",
+      "page": 3,
+      "box": {
+        "left": 87.2,
+        "top": 467.2,
+        "width": 17.9,
+        "height": 10.8
+      }
+    },
+    "arrestee": {
+      "type": "text",
+      "label": "ARRESTEE #",
+      "page": 3,
+      "box": {
+        "left": 163.8,
+        "top": 467.2,
+        "width": 22.6,
+        "height": 10.8
+      }
+    },
+    "radio120": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 190.4,
+        "top": 465.7,
+        "width": 7.0,
+        "height": 7.0
+      },
+      "group": "radio"
+    },
+    "radio121": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 209.8,
+        "top": 465.7,
+        "width": 7.0,
+        "height": 7.0
+      },
+      "group": "radio"
+    },
+    "radio122": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 3,
+      "box": {
+        "left": 226.1,
+        "top": 465.7,
+        "width": 7.0,
+        "height": 7.0
+      },
+      "group": "radio"
+    },
+    "radio123": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 3,
+      "box": {
+        "left": 246.3,
+        "top": 465.7,
+        "width": 7.0,
+        "height": 7.0
+      },
+      "group": "radio"
+    },
+    "radio124": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 3,
+      "box": {
+        "left": 267.2,
+        "top": 465.7,
+        "width": 7.0,
+        "height": 7.0
+      },
+      "group": "radio"
+    },
+    "radio125": {
+      "type": "radio",
+      "label": "Item5",
+      "page": 3,
+      "box": {
+        "left": 288.1,
+        "top": 465.7,
+        "width": 7.0,
+        "height": 7.0
+      },
+      "group": "radio"
+    },
+    "radio126": {
+      "type": "radio",
+      "label": "Item6",
+      "page": 3,
+      "box": {
+        "left": 308.2,
+        "top": 465.7,
+        "width": 7.0,
+        "height": 7.0
+      },
+      "group": "radio"
+    },
+    "radio127": {
+      "type": "radio",
+      "label": "Item7",
+      "page": 3,
+      "box": {
+        "left": 329.1,
+        "top": 465.7,
+        "width": 7.0,
+        "height": 7.0
+      },
+      "group": "radio"
+    },
+    "radio128": {
+      "type": "radio",
+      "label": "Item8",
+      "page": 3,
+      "box": {
+        "left": 349.9,
+        "top": 465.7,
+        "width": 7.0,
+        "height": 7.0
+      },
+      "group": "radio"
+    },
+    "radio129": {
+      "type": "radio",
+      "label": "Item9",
+      "page": 3,
+      "box": {
+        "left": 369.3,
+        "top": 465.7,
+        "width": 7.0,
+        "height": 7.0
+      },
+      "group": "radio"
+    },
+    "radio130": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 451.0,
+        "top": 465.5,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "radio"
+    },
+    "radio131": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 3,
+      "box": {
+        "left": 517.7,
+        "top": 465.5,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "radio"
+    },
+    "lawEnfor4": {
+      "type": "checkbox",
+      "label": "WITNESS #",
+      "page": 3,
+      "box": {
+        "left": 106.7,
+        "top": 465.0,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "lawEnfor5": {
+      "type": "checkbox",
+      "label": "TYPE/SEQUINCE",
+      "page": 3,
+      "box": {
+        "left": 37.6,
+        "top": 464.7,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "last22": {
+      "type": "text",
+      "label": "LAST NAME (Include Jr., Sr., II, III, etc.)",
+      "page": 3,
+      "box": {
+        "left": 36.3,
+        "top": 444.2,
+        "width": 144.7,
+        "height": 12.8
+      }
+    },
+    "first22": {
+      "type": "text",
+      "label": "FIRST",
+      "page": 3,
+      "box": {
+        "left": 181.3,
+        "top": 444.2,
+        "width": 131.0,
+        "height": 12.8
+      }
+    },
+    "middle23": {
+      "type": "text",
+      "label": "MIDDLE SSN/ALIEN",
+      "page": 3,
+      "box": {
+        "left": 313.0,
+        "top": 444.2,
+        "width": 92.7,
+        "height": 12.8
+      }
+    },
+    "ssn23": {
+      "type": "text",
+      "label": "SSN/ALIEN REGISTRATION",
+      "page": 3,
+      "box": {
+        "left": 405.3,
+        "top": 444.2,
+        "width": 110.9,
+        "height": 12.8
+      }
+    },
+    "grade22": {
+      "type": "text",
+      "label": "GRADE/RANK",
+      "page": 3,
+      "box": {
+        "left": 516.4,
+        "top": 444.2,
+        "width": 59.4,
+        "height": 12.8
+      }
+    },
+    "radio132": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 3,
+      "box": {
+        "left": 125.2,
+        "top": 430.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio133": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 3,
+      "box": {
+        "left": 178.8,
+        "top": 430.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio134": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 3,
+      "box": {
+        "left": 225.8,
+        "top": 430.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio135": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 3,
+      "box": {
+        "left": 328.6,
+        "top": 430.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio136": {
+      "type": "radio",
+      "label": "Item6",
+      "page": 3,
+      "box": {
+        "left": 498.1,
+        "top": 430.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio137": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 3,
+      "box": {
+        "left": 396.0,
+        "top": 430.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio138": {
+      "type": "radio",
+      "label": "Item5",
+      "page": 3,
+      "box": {
+        "left": 449.7,
+        "top": 430.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "bSOthFil22": {
+      "type": "text",
+      "label": "MARINE CORPS COAST GUARD OTHER",
+      "page": 3,
+      "box": {
+        "left": 231.9,
+        "top": 419.8,
+        "width": 55.2,
+        "height": 11.6
+      }
+    },
+    "radio139": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 39.1,
+        "top": 419.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio140": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 113.4,
+        "top": 419.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio141": {
+      "type": "radio",
+      "label": "Item5",
+      "page": 3,
+      "box": {
+        "left": 186.7,
+        "top": 419.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio142": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 3,
+      "box": {
+        "left": 328.6,
+        "top": 419.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio143": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 396.3,
+        "top": 419.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio144": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 461.8,
+        "top": 419.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "duty22": {
+      "type": "text",
+      "label": "Duty 22",
+      "page": 3,
+      "box": {
+        "left": 36.3,
+        "top": 395.8,
+        "width": 404.8,
+        "height": 12.0
+      }
+    },
+    "uic22": {
+      "type": "text",
+      "label": "UIC/RUC",
+      "page": 3,
+      "box": {
+        "left": 441.4,
+        "top": 395.8,
+        "width": 46.6,
+        "height": 12.0
+      }
+    },
+    "telephone22": {
+      "type": "text",
+      "label": "WORK TELEPHONE",
+      "page": 3,
+      "box": {
+        "left": 488.5,
+        "top": 395.8,
+        "width": 87.3,
+        "height": 12.0
+      }
+    },
+    "address22": {
+      "type": "text",
+      "label": "ADDRESS",
+      "page": 3,
+      "box": {
+        "left": 36.3,
+        "top": 372.0,
+        "width": 298.2,
+        "height": 12.6
+      }
+    },
+    "city22": {
+      "type": "text",
+      "label": "CITY",
+      "page": 3,
+      "box": {
+        "left": 334.9,
+        "top": 372.0,
+        "width": 143.6,
+        "height": 12.6
+      }
+    },
+    "zIPCode22": {
+      "type": "text",
+      "label": "ZIP CODE",
+      "page": 3,
+      "box": {
+        "left": 519.3,
+        "top": 372.0,
+        "width": 55.7,
+        "height": 12.6
+      }
+    },
+    "state23": {
+      "type": "choice",
+      "label": "STATE",
+      "page": 3,
+      "box": {
+        "left": 479.0,
+        "top": 371.8,
+        "width": 39.6,
+        "height": 12.1
+      },
+      "options": [
+        "AL",
+        "AK",
+        "AS",
+        "AZ",
+        "AR",
+        "AA",
+        "AE",
+        "AP",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "DC",
+        "FM",
+        "FL",
+        "GA",
+        "GU",
+        "HI",
+        "ID",
+        "IL",
+        "IN",
+        "IA",
+        "KS",
+        "KY",
+        "LA",
+        "ME",
+        "MH",
+        "MD",
+        "MA",
+        "MI",
+        "MN",
+        "MS",
+        "MO",
+        "MT",
+        "NE",
+        "NV",
+        "NH",
+        "NJ",
+        "NM",
+        "NY",
+        "NC",
+        "ND",
+        "MP",
+        "OH",
+        "OK",
+        "OR",
+        "PW",
+        "PA",
+        "PR",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VT",
+        "VI",
+        "VA",
+        "WA",
+        "WV",
+        "WI",
+        "WY"
+      ]
+    },
+    "hc": {
+      "type": "text",
+      "label": "HAIR COLOR EYE",
+      "page": 3,
+      "box": {
+        "left": 36.0,
+        "top": 346.8,
+        "width": 71.8,
+        "height": 13.8
+      }
+    },
+    "ec": {
+      "type": "text",
+      "label": "EYE COLOR",
+      "page": 3,
+      "box": {
+        "left": 107.2,
+        "top": 346.8,
+        "width": 71.8,
+        "height": 13.8
+      }
+    },
+    "ht": {
+      "type": "text",
+      "label": "HEIGHT",
+      "page": 3,
+      "box": {
+        "left": 179.1,
+        "top": 346.8,
+        "width": 71.8,
+        "height": 13.8
+      }
+    },
+    "wt": {
+      "type": "text",
+      "label": "WEIGHT",
+      "page": 3,
+      "box": {
+        "left": 250.9,
+        "top": 346.8,
+        "width": 71.8,
+        "height": 13.8
+      }
+    },
+    "dob2": {
+      "type": "text",
+      "label": "DATE OF BIRTH",
+      "page": 3,
+      "box": {
+        "left": 322.8,
+        "top": 346.8,
+        "width": 125.4,
+        "height": 13.8
+      }
+    },
+    "pob2": {
+      "type": "text",
+      "label": "PLACE OF BIRTH",
+      "page": 3,
+      "box": {
+        "left": 449.2,
+        "top": 346.8,
+        "width": 125.4,
+        "height": 13.8
+      }
+    },
+    "alas": {
+      "type": "text",
+      "label": "ALAS (AKA)",
+      "page": 3,
+      "box": {
+        "left": 36.0,
+        "top": 321.0,
+        "width": 156.4,
+        "height": 12.6
+      }
+    },
+    "radio145": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 3,
+      "box": {
+        "left": 201.7,
+        "top": 318.4,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "radio146": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 3,
+      "box": {
+        "left": 282.6,
+        "top": 317.8,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "radio147": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 370.5,
+        "top": 317.8,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "radio148": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 3,
+      "box": {
+        "left": 430.0,
+        "top": 317.8,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "radio149": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 512.6,
+        "top": 317.8,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "radio150": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 370.6,
+        "top": 307.0,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "radio151": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 201.7,
+        "top": 306.9,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "radio152": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 3,
+      "box": {
+        "left": 282.6,
+        "top": 306.3,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "radio153": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 430.0,
+        "top": 306.3,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "radio154": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 3,
+      "box": {
+        "left": 512.6,
+        "top": 306.3,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "radio155": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 512.6,
+        "top": 295.8,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "radio156": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 201.7,
+        "top": 295.6,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "radio157": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 3,
+      "box": {
+        "left": 282.6,
+        "top": 295.4,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "radio158": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 430.0,
+        "top": 295.4,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "descrp": {
+      "type": "text",
+      "label": "DESCRIPTION",
+      "page": 3,
+      "box": {
+        "left": 377.9,
+        "top": 259.5,
+        "width": 198.0,
+        "height": 15.0
+      }
+    },
+    "indivi2": {
+      "type": "checkbox",
+      "label": "ALAS",
+      "page": 3,
+      "box": {
+        "left": 40.5,
+        "top": 248.3,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "indivi3": {
+      "type": "checkbox",
+      "label": "Unknown",
+      "page": 3,
+      "box": {
+        "left": 88.9,
+        "top": 248.3,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "indivi4": {
+      "type": "checkbox",
+      "label": "Unknown Unknown",
+      "page": 3,
+      "box": {
+        "left": 141.4,
+        "top": 248.3,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "indivi5": {
+      "type": "checkbox",
+      "label": "Unknown",
+      "page": 3,
+      "box": {
+        "left": 196.2,
+        "top": 248.2,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "indivi6": {
+      "type": "checkbox",
+      "label": "Unknown",
+      "page": 3,
+      "box": {
+        "left": 251.5,
+        "top": 248.2,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "indivi7": {
+      "type": "checkbox",
+      "label": "Unknown",
+      "page": 3,
+      "box": {
+        "left": 304.9,
+        "top": 248.2,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "business2": {
+      "type": "checkbox",
+      "label": "Bald",
+      "page": 3,
+      "box": {
+        "left": 88.9,
+        "top": 239.5,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "business3": {
+      "type": "checkbox",
+      "label": "ALAS",
+      "page": 3,
+      "box": {
+        "left": 40.5,
+        "top": 239.4,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "business4": {
+      "type": "checkbox",
+      "label": "Afro",
+      "page": 3,
+      "box": {
+        "left": 141.4,
+        "top": 239.3,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "business5": {
+      "type": "checkbox",
+      "label": "Dirty",
+      "page": 3,
+      "box": {
+        "left": 304.9,
+        "top": 239.1,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "business6": {
+      "type": "checkbox",
+      "label": "Clean",
+      "page": 3,
+      "box": {
+        "left": 196.2,
+        "top": 239.0,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "business7": {
+      "type": "checkbox",
+      "label": "Light",
+      "page": 3,
+      "box": {
+        "left": 251.5,
+        "top": 239.0,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "finInst2": {
+      "type": "checkbox",
+      "label": "Receding",
+      "page": 3,
+      "box": {
+        "left": 88.9,
+        "top": 230.6,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "finInst3": {
+      "type": "checkbox",
+      "label": "ALAS",
+      "page": 3,
+      "box": {
+        "left": 40.5,
+        "top": 230.5,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "finInst4": {
+      "type": "checkbox",
+      "label": "Receding Braided",
+      "page": 3,
+      "box": {
+        "left": 141.4,
+        "top": 230.3,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "finInst5": {
+      "type": "checkbox",
+      "label": "Disguised",
+      "page": 3,
+      "box": {
+        "left": 304.9,
+        "top": 230.0,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "finInst6": {
+      "type": "checkbox",
+      "label": "Medium",
+      "page": 3,
+      "box": {
+        "left": 196.2,
+        "top": 229.9,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "finInst7": {
+      "type": "checkbox",
+      "label": "Medium",
+      "page": 3,
+      "box": {
+        "left": 251.5,
+        "top": 229.9,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "gover2": {
+      "type": "checkbox",
+      "label": "ALAS",
+      "page": 3,
+      "box": {
+        "left": 40.5,
+        "top": 221.7,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "gover3": {
+      "type": "checkbox",
+      "label": "Short",
+      "page": 3,
+      "box": {
+        "left": 88.9,
+        "top": 221.7,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "gover4": {
+      "type": "checkbox",
+      "label": "Bushy",
+      "page": 3,
+      "box": {
+        "left": 141.4,
+        "top": 221.3,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "lawEnfor6": {
+      "type": "checkbox",
+      "label": "Mark",
+      "page": 3,
+      "box": {
+        "left": 383.1,
+        "top": 221.3,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "lawEnfor7": {
+      "type": "checkbox",
+      "label": "Unknown",
+      "page": 3,
+      "box": {
+        "left": 457.6,
+        "top": 221.3,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "lawEnfor8": {
+      "type": "checkbox",
+      "label": "Unknown",
+      "page": 3,
+      "box": {
+        "left": 518.9,
+        "top": 221.3,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "gover5": {
+      "type": "checkbox",
+      "label": "Flashy",
+      "page": 3,
+      "box": {
+        "left": 304.9,
+        "top": 220.9,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "gover6": {
+      "type": "checkbox",
+      "label": "Mustache",
+      "page": 3,
+      "box": {
+        "left": 196.2,
+        "top": 220.7,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "gover7": {
+      "type": "checkbox",
+      "label": "Dark",
+      "page": 3,
+      "box": {
+        "left": 251.5,
+        "top": 220.7,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "lawEnfor9": {
+      "type": "checkbox",
+      "label": "ALAS",
+      "page": 3,
+      "box": {
+        "left": 40.5,
+        "top": 212.8,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "lawEnfor10": {
+      "type": "checkbox",
+      "label": "Collar",
+      "page": 3,
+      "box": {
+        "left": 88.9,
+        "top": 212.8,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "lawEnfor11": {
+      "type": "checkbox",
+      "label": "Crewcut",
+      "page": 3,
+      "box": {
+        "left": 141.4,
+        "top": 212.2,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "lawEnfor12": {
+      "type": "checkbox",
+      "label": "Goatee",
+      "page": 3,
+      "box": {
+        "left": 196.2,
+        "top": 211.5,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "lawEnfor13": {
+      "type": "checkbox",
+      "label": "Freckled",
+      "page": 3,
+      "box": {
+        "left": 251.5,
+        "top": 211.5,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "regOrgn2": {
+      "type": "checkbox",
+      "label": "Military",
+      "page": 3,
+      "box": {
+        "left": 383.1,
+        "top": 211.3,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "regOrgn3": {
+      "type": "checkbox",
+      "label": "Gang Attire",
+      "page": 3,
+      "box": {
+        "left": 457.6,
+        "top": 211.2,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "regOrgn4": {
+      "type": "checkbox",
+      "label": "Accent",
+      "page": 3,
+      "box": {
+        "left": 518.9,
+        "top": 211.2,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "regOrgn5": {
+      "type": "checkbox",
+      "label": "Shoulder",
+      "page": 3,
+      "box": {
+        "left": 88.9,
+        "top": 203.6,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "regOrgn6": {
+      "type": "checkbox",
+      "label": "ALAS",
+      "page": 3,
+      "box": {
+        "left": 40.5,
+        "top": 203.5,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "regOrgn7": {
+      "type": "checkbox",
+      "label": "Shoulder Greasy",
+      "page": 3,
+      "box": {
+        "left": 141.4,
+        "top": 202.9,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "regOrgn8": {
+      "type": "checkbox",
+      "label": "Lower Lip",
+      "page": 3,
+      "box": {
+        "left": 196.2,
+        "top": 202.0,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "regOrgn9": {
+      "type": "checkbox",
+      "label": "Tanned",
+      "page": 3,
+      "box": {
+        "left": 251.5,
+        "top": 202.0,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "socPub2": {
+      "type": "checkbox",
+      "label": "Unkempt",
+      "page": 3,
+      "box": {
+        "left": 383.1,
+        "top": 201.6,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "socPub3": {
+      "type": "checkbox",
+      "label": "Camouflage",
+      "page": 3,
+      "box": {
+        "left": 457.6,
+        "top": 201.6,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "socPub4": {
+      "type": "checkbox",
+      "label": "Lisp",
+      "page": 3,
+      "box": {
+        "left": 518.9,
+        "top": 201.5,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "socPub5": {
+      "type": "checkbox",
+      "label": "Long",
+      "page": 3,
+      "box": {
+        "left": 88.9,
+        "top": 194.8,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "socPub6": {
+      "type": "checkbox",
+      "label": "ALAS",
+      "page": 3,
+      "box": {
+        "left": 40.5,
+        "top": 194.6,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "socPub7": {
+      "type": "checkbox",
+      "label": "Recruit",
+      "page": 3,
+      "box": {
+        "left": 141.4,
+        "top": 193.9,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "socPub8": {
+      "type": "checkbox",
+      "label": "Beard",
+      "page": 3,
+      "box": {
+        "left": 196.2,
+        "top": 192.9,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "socPub9": {
+      "type": "checkbox",
+      "label": "Acne",
+      "page": 3,
+      "box": {
+        "left": 251.5,
+        "top": 192.9,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "lawEnfor14": {
+      "type": "checkbox",
+      "label": "Odorous",
+      "page": 3,
+      "box": {
+        "left": 304.9,
+        "top": 192.4,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "vicOth2": {
+      "type": "checkbox",
+      "label": "Eye (Left/Right)",
+      "page": 3,
+      "box": {
+        "left": 383.1,
+        "top": 192.0,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "vicOth3": {
+      "type": "checkbox",
+      "label": "Swimwear",
+      "page": 3,
+      "box": {
+        "left": 457.6,
+        "top": 191.9,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "vicOth4": {
+      "type": "checkbox",
+      "label": "Mumbles",
+      "page": 3,
+      "box": {
+        "left": 518.9,
+        "top": 191.8,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "vicOth5": {
+      "type": "checkbox",
+      "label": "Course",
+      "page": 3,
+      "box": {
+        "left": 88.9,
+        "top": 185.9,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "vicOth6": {
+      "type": "checkbox",
+      "label": "ALAS",
+      "page": 3,
+      "box": {
+        "left": 40.5,
+        "top": 185.7,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "vicOth7": {
+      "type": "checkbox",
+      "label": "Ponytail",
+      "page": 3,
+      "box": {
+        "left": 141.4,
+        "top": 184.9,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "vicOth8": {
+      "type": "checkbox",
+      "label": "Sideburns",
+      "page": 3,
+      "box": {
+        "left": 196.2,
+        "top": 183.7,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "vicOth9": {
+      "type": "checkbox",
+      "label": "Pocked",
+      "page": 3,
+      "box": {
+        "left": 251.5,
+        "top": 183.7,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "regOrgn10": {
+      "type": "checkbox",
+      "label": "Neat",
+      "page": 3,
+      "box": {
+        "left": 304.9,
+        "top": 183.2,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "vicUnk3": {
+      "type": "checkbox",
+      "label": "Western Attire",
+      "page": 3,
+      "box": {
+        "left": 457.6,
+        "top": 182.2,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "vicUnk7": {
+      "type": "checkbox",
+      "label": "Processed",
+      "page": 3,
+      "box": {
+        "left": 141.4,
+        "top": 175.9,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "socPub10": {
+      "type": "checkbox",
+      "label": "Cap/Hat",
+      "page": 3,
+      "box": {
+        "left": 304.9,
+        "top": 174.2,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "vicUnk11": {
+      "type": "checkbox",
+      "label": "Ragged Attire",
+      "page": 3,
+      "box": {
+        "left": 457.6,
+        "top": 172.6,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "vicUnk15": {
+      "type": "checkbox",
+      "label": "Straight",
+      "page": 3,
+      "box": {
+        "left": 141.5,
+        "top": 166.7,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "vicOth10": {
+      "type": "checkbox",
+      "label": "Sunglasses",
+      "page": 3,
+      "box": {
+        "left": 304.9,
+        "top": 165.3,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "vicUnk19": {
+      "type": "checkbox",
+      "label": "Athletic Attire",
+      "page": 3,
+      "box": {
+        "left": 457.6,
+        "top": 162.9,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "otherTool2": {
+      "type": "text",
+      "label": "Thinning",
+      "page": 3,
+      "box": {
+        "left": 150.4,
+        "top": 159.1,
+        "width": 41.4,
+        "height": 13.2
+      }
+    },
+    "vicUnk27": {
+      "type": "checkbox",
+      "label": "Business Attire",
+      "page": 3,
+      "box": {
+        "left": 457.6,
+        "top": 153.2,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "otherTool3": {
+      "type": "text",
+      "label": "Part L/R",
+      "page": 3,
+      "box": {
+        "left": 204.7,
+        "top": 148.0,
+        "width": 42.2,
+        "height": 13.2
+      }
+    },
+    "vicUnk34": {
+      "type": "checkbox",
+      "label": "Navy Uniform",
+      "page": 3,
+      "box": {
+        "left": 457.9,
+        "top": 143.7,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "otherTool4": {
+      "type": "text",
+      "label": "AF Uniform",
+      "page": 3,
+      "box": {
+        "left": 467.5,
+        "top": 135.8,
+        "width": 47.1,
+        "height": 13.2
+      }
+    },
+    "otherTool5": {
+      "type": "text",
+      "label": "Other",
+      "page": 3,
+      "box": {
+        "left": 47.7,
+        "top": 133.7,
+        "width": 36.9,
+        "height": 13.2
+      }
+    },
+    "vicUnk48": {
+      "type": "checkbox",
+      "label": "Cornrow",
+      "page": 3,
+      "box": {
+        "left": 141.4,
+        "top": 123.6,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "otherTool6": {
+      "type": "text",
+      "label": "Thin",
+      "page": 3,
+      "box": {
+        "left": 259.6,
+        "top": 120.9,
+        "width": 40.4,
+        "height": 13.2
+      }
+    },
+    "vicUnk52": {
+      "type": "checkbox",
+      "label": "Other",
+      "page": 3,
+      "box": {
+        "left": 141.4,
+        "top": 114.5,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "otherTool7": {
+      "type": "text",
+      "label": "Other",
+      "page": 3,
+      "box": {
+        "left": 96.8,
+        "top": 107.0,
+        "width": 40.0,
+        "height": 8.1
+      }
+    },
+    "vicUnk55": {
+      "type": "checkbox",
+      "label": "BUILD",
+      "page": 3,
+      "box": {
+        "left": 141.4,
+        "top": 105.4,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "vicUnk59": {
+      "type": "checkbox",
+      "label": "Stomach",
+      "page": 3,
+      "box": {
+        "left": 457.6,
+        "top": 100.3,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "vicUnk60": {
+      "type": "checkbox",
+      "label": "BUILD",
+      "page": 3,
+      "box": {
+        "left": 141.4,
+        "top": 96.3,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "vicUnk64": {
+      "type": "checkbox",
+      "label": "Chest",
+      "page": 3,
+      "box": {
+        "left": 457.6,
+        "top": 90.9,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "vicUnk65": {
+      "type": "checkbox",
+      "label": "BUILD",
+      "page": 3,
+      "box": {
+        "left": 141.4,
+        "top": 87.2,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "otherTool8": {
+      "type": "text",
+      "label": "Left Handed",
+      "page": 3,
+      "box": {
+        "left": 528.8,
+        "top": 86.7,
+        "width": 47.1,
+        "height": 13.2
+      }
+    },
+    "vicUnk68": {
+      "type": "checkbox",
+      "label": "Back",
+      "page": 3,
+      "box": {
+        "left": 457.6,
+        "top": 81.4,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "vicUnk71": {
+      "type": "checkbox",
+      "label": "HANDS",
+      "page": 3,
+      "box": {
+        "left": 457.6,
+        "top": 72.0,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "otherTool9": {
+      "type": "text",
+      "label": "Other",
+      "page": 3,
+      "box": {
+        "left": 394.4,
+        "top": 58.1,
+        "width": 58.1,
+        "height": 13.2
+      }
+    },
+    "otherTool10": {
+      "type": "text",
+      "label": "Other",
+      "page": 3,
+      "box": {
+        "left": 317.5,
+        "top": 50.2,
+        "width": 60.4,
+        "height": 13.2
+      }
+    },
+    "incidentNumber5": {
+      "type": "text",
+      "label": "INCIDENT",
+      "page": 4,
+      "box": {
+        "left": 668.6,
+        "top": 750.5,
+        "width": 126.6,
+        "height": 9.9
+      }
+    },
+    "radio159": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 62.2,
+        "top": 726.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio160": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 62.2,
+        "top": 713.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "checkBox16": {
+      "type": "checkbox",
+      "label": "Club/Blackjack/Brass Knuckles",
+      "page": 4,
+      "box": {
+        "left": 493.5,
+        "top": 706.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "radio161": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 62.2,
+        "top": 700.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "otherTool11": {
+      "type": "text",
+      "label": "Other (Specify)",
+      "page": 4,
+      "box": {
+        "left": 386.4,
+        "top": 696.7,
+        "width": 88.6,
+        "height": 15.7
+      }
+    },
+    "checkBox110": {
+      "type": "checkbox",
+      "label": "DATE ARRESTED ARRESTEE",
+      "page": 4,
+      "box": {
+        "left": 493.5,
+        "top": 684.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "date2": {
+      "type": "text",
+      "label": "DATE ONLY ARRESTED",
+      "page": 4,
+      "box": {
+        "left": 59.4,
+        "top": 677.4,
+        "width": 100.4,
+        "height": 11.6
+      }
+    },
+    "last3": {
+      "type": "text",
+      "label": "LAST NAME",
+      "page": 4,
+      "box": {
+        "left": 36.6,
+        "top": 639.6,
+        "width": 127.0,
+        "height": 10.8
+      }
+    },
+    "first3": {
+      "type": "text",
+      "label": "FIRST",
+      "page": 4,
+      "box": {
+        "left": 163.9,
+        "top": 639.6,
+        "width": 114.9,
+        "height": 10.8
+      }
+    },
+    "middle3": {
+      "type": "text",
+      "label": "MI LAST",
+      "page": 4,
+      "box": {
+        "left": 279.5,
+        "top": 639.6,
+        "width": 26.3,
+        "height": 10.8
+      }
+    },
+    "last4": {
+      "type": "text",
+      "label": "LAST NAME",
+      "page": 4,
+      "box": {
+        "left": 305.7,
+        "top": 639.6,
+        "width": 127.0,
+        "height": 10.8
+      }
+    },
+    "first4": {
+      "type": "text",
+      "label": "FIRST",
+      "page": 4,
+      "box": {
+        "left": 433.1,
+        "top": 639.6,
+        "width": 114.9,
+        "height": 10.8
+      }
+    },
+    "middle4": {
+      "type": "text",
+      "label": "MI",
+      "page": 4,
+      "box": {
+        "left": 548.6,
+        "top": 639.6,
+        "width": 26.3,
+        "height": 10.8
+      }
+    },
+    "last5": {
+      "type": "text",
+      "label": "GRADE/RANK",
+      "page": 4,
+      "box": {
+        "left": 36.6,
+        "top": 617.5,
+        "width": 60.7,
+        "height": 10.8
+      }
+    },
+    "last6": {
+      "type": "text",
+      "label": "DUTY STATION/EMPLOYER",
+      "page": 4,
+      "box": {
+        "left": 97.3,
+        "top": 617.5,
+        "width": 151.6,
+        "height": 10.8
+      }
+    },
+    "last7": {
+      "type": "text",
+      "label": "BADGE #",
+      "page": 4,
+      "box": {
+        "left": 249.0,
+        "top": 617.5,
+        "width": 57.0,
+        "height": 10.8
+      }
+    },
+    "last8": {
+      "type": "text",
+      "label": "GRADE/RANK",
+      "page": 4,
+      "box": {
+        "left": 306.0,
+        "top": 617.5,
+        "width": 60.7,
+        "height": 10.8
+      }
+    },
+    "last9": {
+      "type": "text",
+      "label": "DUTY STATION/EMPLOYER",
+      "page": 4,
+      "box": {
+        "left": 366.8,
+        "top": 617.5,
+        "width": 151.6,
+        "height": 10.8
+      }
+    },
+    "last10": {
+      "type": "text",
+      "label": "BADGE #",
+      "page": 4,
+      "box": {
+        "left": 518.5,
+        "top": 617.5,
+        "width": 57.0,
+        "height": 10.8
+      }
+    },
+    "textField1": {
+      "type": "text",
+      "label": "Text Field 1",
+      "page": 4,
+      "box": {
+        "left": 38.2,
+        "top": 589.3,
+        "width": 535.7,
+        "height": 292.2
+      },
+      "multiline": true
+    },
+    "last11": {
+      "type": "text",
+      "label": "ENCL #",
+      "page": 4,
+      "box": {
+        "left": 36.3,
+        "top": 269.3,
+        "width": 39.9,
+        "height": 10.1
+      }
+    },
+    "last13": {
+      "type": "text",
+      "label": "ENCL #",
+      "page": 4,
+      "box": {
+        "left": 36.3,
+        "top": 259.2,
+        "width": 39.9,
+        "height": 10.1
+      }
+    },
+    "last15": {
+      "type": "text",
+      "label": "ENCL #",
+      "page": 4,
+      "box": {
+        "left": 36.3,
+        "top": 249.1,
+        "width": 39.9,
+        "height": 10.1
+      }
+    },
+    "suprSig": {
+      "type": "text",
+      "label": "REPORTING OFFICIAL SIGNATURE",
+      "page": 4,
+      "box": {
+        "left": 400.0,
+        "top": 211.1,
+        "width": 174.0,
+        "height": 13.4
+      }
+    },
+    "supNme": {
+      "type": "text",
+      "label": "REPORTING OFFICIAL PRINTED NAME, RANK, TITLE",
+      "page": 4,
+      "box": {
+        "left": 38.2,
+        "top": 210.8,
+        "width": 286.6,
+        "height": 13.1
+      }
+    },
+    "supSigDtd": {
+      "type": "text",
+      "label": "DATE (DDMMMYYYY)",
+      "page": 4,
+      "box": {
+        "left": 328.8,
+        "top": 210.8,
+        "width": 66.3,
+        "height": 13.1
+      }
+    },
+    "suprSig2": {
+      "type": "text",
+      "label": "APPROVING OFFICIAL SIGNATURE",
+      "page": 4,
+      "box": {
+        "left": 400.0,
+        "top": 182.2,
+        "width": 174.0,
+        "height": 13.4
+      }
+    },
+    "supNme2": {
+      "type": "text",
+      "label": "APPROVING OFFICIAL PRINTED NAME, RANK, TITLE",
+      "page": 4,
+      "box": {
+        "left": 38.2,
+        "top": 181.9,
+        "width": 286.6,
+        "height": 13.1
+      }
+    },
+    "supSigDtd2": {
+      "type": "text",
+      "label": "DATE (DDMMMYYYY)",
+      "page": 4,
+      "box": {
+        "left": 328.8,
+        "top": 181.9,
+        "width": 66.3,
+        "height": 13.1
+      }
+    },
+    "supSigDtd22": {
+      "type": "text",
+      "label": "DATE CLEARED (DDMMMYYYY)",
+      "page": 4,
+      "box": {
+        "left": 459.9,
+        "top": 139.1,
+        "width": 113.6,
+        "height": 8.9
+      }
+    },
+    "radio162": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 4,
+      "box": {
+        "left": 205.1,
+        "top": 126.8,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "radio163": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 4,
+      "box": {
+        "left": 337.0,
+        "top": 126.8,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "radio164": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 4,
+      "box": {
+        "left": 448.5,
+        "top": 126.8,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "relVicSus62": {
+      "type": "text",
+      "label": "(DD Form 2701",
+      "page": 4,
+      "box": {
+        "left": 44.9,
+        "top": 126.4,
+        "width": 26.0,
+        "height": 11.3
+      }
+    },
+    "radio165": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 205.1,
+        "top": 116.9,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "radio166": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 337.0,
+        "top": 116.9,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "radio167": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 4,
+      "box": {
+        "left": 448.5,
+        "top": 116.9,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "relVicSus63": {
+      "type": "text",
+      "label": "Rel Vic Sus 63",
+      "page": 4,
+      "box": {
+        "left": 44.9,
+        "top": 114.4,
+        "width": 26.9,
+        "height": 11.3
+      }
+    },
+    "radio168": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 205.1,
+        "top": 107.1,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "radio169": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 337.0,
+        "top": 107.1,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "radio170": {
+      "type": "radio",
+      "label": "Item5",
+      "page": 4,
+      "box": {
+        "left": 448.5,
+        "top": 107.1,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "otherTool12": {
+      "type": "text",
+      "label": "NCIS Case #",
+      "page": 4,
+      "box": {
+        "left": 93.0,
+        "top": 84.8,
+        "width": 147.4,
+        "height": 12.1
+      }
+    },
+    "radio171": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 4,
+      "box": {
+        "left": 261.8,
+        "top": 83.3,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "radio172": {
+      "type": "radio",
+      "label": "Item6",
+      "page": 4,
+      "box": {
+        "left": 386.0,
+        "top": 83.3,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "indivi8": {
+      "type": "checkbox",
+      "label": "REFFERRED",
+      "page": 4,
+      "box": {
+        "left": 37.1,
+        "top": 81.8,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "otherTool13": {
+      "type": "text",
+      "label": "INVESTIGATIONS Case #",
+      "page": 4,
+      "box": {
+        "left": 132.8,
+        "top": 72.8,
+        "width": 107.4,
+        "height": 12.1
+      }
+    },
+    "radio173": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 261.8,
+        "top": 71.2,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "radio174": {
+      "type": "radio",
+      "label": "Item5",
+      "page": 4,
+      "box": {
+        "left": 386.0,
+        "top": 71.2,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "business8": {
+      "type": "checkbox",
+      "label": "REFFERRED",
+      "page": 4,
+      "box": {
+        "left": 37.1,
+        "top": 69.7,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "otherTool14": {
+      "type": "text",
+      "label": "LOCAL POLICE Case #",
+      "page": 4,
+      "box": {
+        "left": 126.5,
+        "top": 60.7,
+        "width": 113.6,
+        "height": 12.1
+      }
+    },
+    "otherTool15": {
+      "type": "text",
+      "label": "OTHER",
+      "page": 4,
+      "box": {
+        "left": 428.9,
+        "top": 60.7,
+        "width": 113.6,
+        "height": 12.1
+      }
+    },
+    "radio175": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 261.8,
+        "top": 59.2,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "radio176": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 4,
+      "box": {
+        "left": 386.0,
+        "top": 59.2,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "finInst8": {
+      "type": "checkbox",
+      "label": "REFFERRED",
+      "page": 4,
+      "box": {
+        "left": 37.1,
+        "top": 57.7,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "otherTool16": {
+      "type": "text",
+      "label": "OTHER (Specify)",
+      "page": 4,
+      "box": {
+        "left": 101.6,
+        "top": 48.6,
+        "width": 138.8,
+        "height": 12.1
+      }
+    },
+    "radio177": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 4,
+      "box": {
+        "left": 261.8,
+        "top": 47.1,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "finInst9": {
+      "type": "checkbox",
+      "label": "REFFERRED",
+      "page": 4,
+      "box": {
+        "left": 37.1,
+        "top": 45.6,
+        "width": 6.0,
+        "height": 6.0
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 11.45,
+      "editor": "grid",
+      "columns": {
+        "receiving": {
+          "type": "checkbox",
+          "label": "Operating/Promoting/Assisting",
+          "page": 1,
+          "box": {
+            "left": 374.9,
+            "top": 78.3,
+            "width": 5.0,
+            "height": 5.0
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "basis": {
+          "type": "choice",
+          "label": "BELOW)",
+          "page": 1,
+          "box": {
+            "left": 52.4,
+            "top": 366.7,
+            "width": 39.1,
+            "height": 16.9
+          }
+        },
+        "offenseDescription": {
+          "type": "text",
+          "label": "OFFENSE DESCRIPTION",
+          "page": 1,
+          "box": {
+            "left": 92.4,
+            "top": 367.4,
+            "width": 223.2,
+            "height": 18.4
+          }
+        },
+        "locationAdress": {
+          "type": "text",
+          "label": "LOCATION/ADDRESS",
+          "page": 1,
+          "box": {
+            "left": 315.3,
+            "top": 367.4,
+            "width": 218.5,
+            "height": 18.4
+          }
+        },
+        "dropDownList1": {
+          "type": "choice",
+          "label": "(YES/NO)",
+          "page": 1,
+          "box": {
+            "left": 534.3,
+            "top": 366.7,
+            "width": 40.5,
+            "height": 16.9
+          }
+        }
+      }
+    },
+    "rows3": {
+      "title": "Rows",
+      "page": 1,
+      "count": 4,
+      "rowStride": 11.42,
+      "editor": "grid",
+      "columns": {
+        "receiving2": {
+          "type": "checkbox",
+          "label": "LOCATION",
+          "page": 1,
+          "box": {
+            "left": 40.4,
+            "top": 78.3,
+            "width": 5.0,
+            "height": 5.0
+          }
+        },
+        "receiving3": {
+          "type": "checkbox",
+          "label": "Buying/Receiving",
+          "page": 1,
+          "box": {
+            "left": 206.6,
+            "top": 78.3,
+            "width": 5.0,
+            "height": 5.0
+          }
+        }
+      }
+    },
+    "rows4": {
+      "title": "Rows",
+      "page": 1,
+      "count": 4,
+      "rowStride": 11.84,
+      "editor": "grid",
+      "columns": {
+        "knife": {
+          "type": "checkbox",
+          "label": "Firearm (Not Listed)",
+          "page": 1,
+          "box": {
+            "left": 264.4,
+            "top": 250.5,
+            "width": 7.0,
+            "height": 7.0
+          }
+        },
+        "knife2": {
+          "type": "checkbox",
+          "label": "Knife/Cutting Tool",
+          "page": 1,
+          "box": {
+            "left": 381.0,
+            "top": 250.6,
+            "width": 7.0,
+            "height": 7.0
+          }
+        },
+        "knife3": {
+          "type": "checkbox",
+          "label": "Poison",
+          "page": 1,
+          "box": {
+            "left": 464.9,
+            "top": 250.5,
+            "width": 7.0,
+            "height": 7.0
+          }
+        }
+      }
+    },
+    "rows5": {
+      "title": "Rows",
+      "page": 2,
+      "count": 3,
+      "rowStride": 13.35,
+      "editor": "grid",
+      "columns": {
+        "code": {
+          "type": "text",
+          "label": "(a)",
+          "page": 2,
+          "box": {
+            "left": 36.0,
+            "top": 507.2,
+            "width": 21.6,
+            "height": 13.2
+          }
+        },
+        "color": {
+          "type": "text",
+          "label": "COLOR",
+          "page": 2,
+          "box": {
+            "left": 318.0,
+            "top": 507.2,
+            "width": 28.0,
+            "height": 13.2
+          }
+        },
+        "recoveredDate": {
+          "type": "text",
+          "label": "RECOVERED",
+          "page": 2,
+          "box": {
+            "left": 513.8,
+            "top": 507.2,
+            "width": 61.6,
+            "height": 13.2
+          }
+        }
+      }
+    },
+    "rows6": {
+      "title": "Rows",
+      "page": 2,
+      "count": 7,
+      "rowStride": 7.68,
+      "editor": "grid",
+      "columns": {
+        "toolused": {
+          "type": "checkbox",
+          "label": "Window Broken",
+          "page": 2,
+          "box": {
+            "left": 465.2,
+            "top": 685.0,
+            "width": 4.0,
+            "height": 4.0
+          }
+        },
+        "toolused2": {
+          "type": "checkbox",
+          "label": "Bar/Pipe",
+          "page": 2,
+          "box": {
+            "left": 521.2,
+            "top": 685.0,
+            "width": 4.0,
+            "height": 4.0
+          }
+        }
+      }
+    },
+    "rows7": {
+      "title": "Rows",
+      "page": 2,
+      "count": 15,
+      "rowStride": 7.64,
+      "editor": "grid",
+      "columns": {
+        "doorKnob": {
+          "type": "checkbox",
+          "label": "MODEL",
+          "page": 2,
+          "box": {
+            "left": 319.8,
+            "top": 730.9,
+            "width": 4.0,
+            "height": 4.0
+          }
+        },
+        "doorKnob2": {
+          "type": "checkbox",
+          "label": "Door Knob Twist",
+          "page": 2,
+          "box": {
+            "left": 393.2,
+            "top": 730.3,
+            "width": 4.0,
+            "height": 4.0
+          }
+        }
+      }
+    },
+    "rows8": {
+      "title": "Rows",
+      "page": 3,
+      "count": 3,
+      "rowStride": 9.4,
+      "editor": "grid",
+      "columns": {
+        "vicUnk": {
+          "type": "checkbox",
+          "label": "Processed Unshaven",
+          "page": 3,
+          "box": {
+            "left": 196.2,
+            "top": 174.5,
+            "width": 6.0,
+            "height": 6.0
+          }
+        }
+      }
+    },
+    "rows9": {
+      "title": "Rows",
+      "page": 3,
+      "count": 4,
+      "rowStride": 10.3,
+      "editor": "grid",
+      "columns": {
+        "aac": {
+          "type": "checkbox",
+          "label": "Argument",
+          "page": 3,
+          "box": {
+            "left": 310.5,
+            "top": 724.8,
+            "width": 4.0,
+            "height": 4.0
+          }
+        },
+        "injTyp": {
+          "type": "checkbox",
+          "label": "Assault on LE Officer",
+          "page": 3,
+          "box": {
+            "left": 407.3,
+            "top": 724.8,
+            "width": 4.0,
+            "height": 4.0
+          }
+        },
+        "injTyp2": {
+          "type": "checkbox",
+          "label": "None",
+          "page": 3,
+          "box": {
+            "left": 498.0,
+            "top": 724.8,
+            "width": 4.0,
+            "height": 4.0
+          }
+        }
+      }
+    },
+    "rows10": {
+      "title": "Rows",
+      "page": 3,
+      "count": 5,
+      "rowStride": 8.88,
+      "editor": "grid",
+      "columns": {
+        "vicUnk2": {
+          "type": "checkbox",
+          "label": "ALAS",
+          "page": 3,
+          "box": {
+            "left": 40.5,
+            "top": 176.8,
+            "width": 6.0,
+            "height": 6.0
+          }
+        }
+      }
+    },
+    "rows11": {
+      "title": "Rows",
+      "page": 3,
+      "count": 5,
+      "rowStride": 10.53,
+      "editor": "grid",
+      "columns": {
+        "relVicSus": {
+          "type": "text",
+          "label": "SECTION",
+          "page": 3,
+          "box": {
+            "left": 39.6,
+            "top": 662.6,
+            "width": 6.5,
+            "height": 10.5
+          }
+        },
+        "relVicSus2": {
+          "type": "text",
+          "label": "Spouse",
+          "page": 3,
+          "box": {
+            "left": 151.9,
+            "top": 662.6,
+            "width": 6.5,
+            "height": 10.5
+          }
+        },
+        "relVicSus3": {
+          "type": "text",
+          "label": "Grandparent",
+          "page": 3,
+          "box": {
+            "left": 264.3,
+            "top": 662.6,
+            "width": 6.5,
+            "height": 10.5
+          }
+        },
+        "relVicSus4": {
+          "type": "text",
+          "label": "Stepsibling",
+          "page": 3,
+          "box": {
+            "left": 376.7,
+            "top": 662.6,
+            "width": 6.5,
+            "height": 10.5
+          }
+        },
+        "relVicSus5": {
+          "type": "text",
+          "label": "Baby Sitter (Baby)",
+          "page": 3,
+          "box": {
+            "left": 489.0,
+            "top": 662.6,
+            "width": 6.5,
+            "height": 10.5
+          }
+        }
+      }
+    },
+    "rows12": {
+      "title": "Rows",
+      "page": 3,
+      "count": 5,
+      "rowStride": 10.15,
+      "editor": "grid",
+      "columns": {
+        "aac2": {
+          "type": "checkbox",
+          "label": "Religious Org&apos;n",
+          "page": 3,
+          "box": {
+            "left": 219.8,
+            "top": 724.8,
+            "width": 4.0,
+            "height": 4.0
+          }
+        }
+      }
+    },
+    "rows13": {
+      "title": "Rows",
+      "page": 3,
+      "count": 6,
+      "rowStride": 9.2,
+      "editor": "grid",
+      "columns": {
+        "vicUnk3": {
+          "type": "checkbox",
+          "label": "Ruddy",
+          "page": 3,
+          "box": {
+            "left": 251.5,
+            "top": 174.5,
+            "width": 6.0,
+            "height": 6.0
+          }
+        }
+      }
+    },
+    "rows14": {
+      "title": "Rows",
+      "page": 3,
+      "count": 8,
+      "rowStride": 8.93,
+      "editor": "grid",
+      "columns": {
+        "vicUnk4": {
+          "type": "checkbox",
+          "label": "Fine",
+          "page": 3,
+          "box": {
+            "left": 88.9,
+            "top": 177.0,
+            "width": 6.0,
+            "height": 6.0
+          }
+        }
+      }
+    },
+    "rows15": {
+      "title": "Rows",
+      "page": 3,
+      "count": 10,
+      "rowStride": 9.72,
+      "editor": "grid",
+      "columns": {
+        "vicUnk5": {
+          "type": "checkbox",
+          "label": "Quiet",
+          "page": 3,
+          "box": {
+            "left": 518.9,
+            "top": 182.1,
+            "width": 6.0,
+            "height": 6.0
+          }
+        }
+      }
+    },
+    "rows16": {
+      "title": "Rows",
+      "page": 3,
+      "count": 12,
+      "rowStride": 8.96,
+      "editor": "grid",
+      "columns": {
+        "vicUnk6": {
+          "type": "checkbox",
+          "label": "Glasses",
+          "page": 3,
+          "box": {
+            "left": 304.9,
+            "top": 156.3,
+            "width": 6.0,
+            "height": 6.0
+          }
+        }
+      }
+    },
+    "rows17": {
+      "title": "Rows",
+      "page": 3,
+      "count": 13,
+      "rowStride": 9.69,
+      "editor": "grid",
+      "columns": {
+        "vicUnk7": {
+          "type": "checkbox",
+          "label": "Face",
+          "page": 3,
+          "box": {
+            "left": 383.1,
+            "top": 182.3,
+            "width": 6.0,
+            "height": 6.0
+          }
+        }
+      }
+    },
+    "rows18": {
+      "title": "Rows",
+      "page": 4,
+      "count": 3,
+      "rowStride": 10.1,
+      "editor": "grid",
+      "columns": {
+        "last": {
+          "type": "text",
+          "label": "Last",
+          "page": 4,
+          "box": {
+            "left": 76.2,
+            "top": 269.3,
+            "width": 498.7,
+            "height": 10.1
+          }
+        }
+      }
+    },
+    "rows19": {
+      "title": "Rows",
+      "page": 4,
+      "count": 3,
+      "rowStride": 20.9,
+      "editor": "grid",
+      "columns": {
+        "checkBox1": {
+          "type": "checkbox",
+          "label": "On View",
+          "page": 4,
+          "box": {
+            "left": 163.6,
+            "top": 721.6,
+            "width": 8.0,
+            "height": 8.0
+          }
+        }
+      }
+    },
+    "rows20": {
+      "title": "Rows",
+      "page": 4,
+      "count": 3,
+      "rowStride": 15.7,
+      "editor": "grid",
+      "columns": {
+        "checkBox12": {
+          "type": "checkbox",
+          "label": "Unarmed",
+          "page": 4,
+          "box": {
+            "left": 324.5,
+            "top": 724.2,
+            "width": 8.0,
+            "height": 8.0
+          }
+        }
+      }
+    },
+    "rows21": {
+      "title": "Rows",
+      "page": 4,
+      "count": 4,
+      "rowStride": 15.67,
+      "editor": "grid",
+      "columns": {
+        "checkBox13": {
+          "type": "checkbox",
+          "label": "Multiple",
+          "page": 4,
+          "box": {
+            "left": 264.0,
+            "top": 724.2,
+            "width": 8.0,
+            "height": 8.0
+          }
+        }
+      }
+    }
+  }
+}

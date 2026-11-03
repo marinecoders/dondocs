@@ -1,0 +1,425 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 792,
+    "height": 612
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "nameInfo0": {
+        "left": 108.0,
+        "top": 517.3,
+        "width": 192.0,
+        "height": 16.5,
+        "type": "text",
+        "description": "Name, Grade, and Social Security Number. Line 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkOQR0": {
+        "left": 310.8,
+        "top": 515.3,
+        "width": 13.4,
+        "height": 13.4,
+        "type": "checkbox",
+        "description": "Check for OQR. Line 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkSRB0": {
+        "left": 336.3,
+        "top": 515.3,
+        "width": 13.3,
+        "height": 13.4,
+        "type": "checkbox",
+        "description": "Check for SRB. Line 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkHR0": {
+        "left": 361.7,
+        "top": 515.3,
+        "width": 13.4,
+        "height": 13.4,
+        "type": "checkbox",
+        "description": "Check for HR. Line 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkDR0": {
+        "left": 387.2,
+        "top": 515.3,
+        "width": 13.3,
+        "height": 13.4,
+        "type": "checkbox",
+        "description": "Check for DR. Line 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkOth0": {
+        "left": 412.6,
+        "top": 515.3,
+        "width": 13.3,
+        "height": 13.4,
+        "type": "checkbox",
+        "description": "Check for other. Line 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameInfo1": {
+        "left": 108.0,
+        "top": 500.3,
+        "width": 192.0,
+        "height": 18.0,
+        "type": "text",
+        "description": "Name, Grade, and Social Security Number. Line 2.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkOQR1": {
+        "left": 311.0,
+        "top": 496.0,
+        "width": 13.3,
+        "height": 13.3,
+        "type": "checkbox",
+        "description": "Check for OQR. Line 2.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkSRB1": {
+        "left": 336.3,
+        "top": 496.0,
+        "width": 13.3,
+        "height": 13.3,
+        "type": "checkbox",
+        "description": "Check for SRB. Line 2.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkHR1": {
+        "left": 361.7,
+        "top": 496.0,
+        "width": 13.3,
+        "height": 13.3,
+        "type": "checkbox",
+        "description": "Check for HR. Line 2.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkDR1": {
+        "left": 387.3,
+        "top": 496.0,
+        "width": 13.3,
+        "height": 13.3,
+        "type": "checkbox",
+        "description": "Check for DR. Line 2.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkOth1": {
+        "left": 412.7,
+        "top": 496.0,
+        "width": 13.3,
+        "height": 13.3,
+        "type": "checkbox",
+        "description": "Check for other. Line 2.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameInfo2": {
+        "left": 108.0,
+        "top": 482.3,
+        "width": 192.0,
+        "height": 20.0,
+        "type": "text",
+        "description": "Name, Grade, and Social Security Number. Line 3.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkOQR2": {
+        "left": 311.0,
+        "top": 477.0,
+        "width": 13.3,
+        "height": 13.3,
+        "type": "checkbox",
+        "description": "Check for OQR. Line 3.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkSRB2": {
+        "left": 336.3,
+        "top": 477.0,
+        "width": 13.3,
+        "height": 13.3,
+        "type": "checkbox",
+        "description": "Check for SRB. Line 3.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkHR2": {
+        "left": 361.7,
+        "top": 477.0,
+        "width": 13.3,
+        "height": 13.3,
+        "type": "checkbox",
+        "description": "Check for HR. Line 3.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkDR2": {
+        "left": 387.3,
+        "top": 477.0,
+        "width": 13.3,
+        "height": 13.3,
+        "type": "checkbox",
+        "description": "Check for DR. Line 3.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkOth2": {
+        "left": 412.7,
+        "top": 477.0,
+        "width": 13.3,
+        "height": 13.3,
+        "type": "checkbox",
+        "description": "Check for other. Line 3.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameInfo3": {
+        "left": 108.0,
+        "top": 462.5,
+        "width": 192.0,
+        "height": 19.0,
+        "type": "text",
+        "description": "Name, Grade, and Social Security Number. Line 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkOQR3": {
+        "left": 311.0,
+        "top": 458.3,
+        "width": 13.3,
+        "height": 13.3,
+        "type": "checkbox",
+        "description": "Check for OQR. Line 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkSRB3": {
+        "left": 336.3,
+        "top": 458.3,
+        "width": 13.3,
+        "height": 13.3,
+        "type": "checkbox",
+        "description": "Check for SRB. Line 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkHR3": {
+        "left": 361.7,
+        "top": 458.3,
+        "width": 13.3,
+        "height": 13.3,
+        "type": "checkbox",
+        "description": "Check for HR. Line 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkDR3": {
+        "left": 387.3,
+        "top": 458.3,
+        "width": 13.3,
+        "height": 13.3,
+        "type": "checkbox",
+        "description": "Check for DR. Line 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkOth3": {
+        "left": 412.7,
+        "top": 458.3,
+        "width": 13.3,
+        "height": 13.3,
+        "type": "checkbox",
+        "description": "Check for other. Line 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameInfo4": {
+        "left": 108.0,
+        "top": 444.3,
+        "width": 192.0,
+        "height": 19.3,
+        "type": "text",
+        "description": "Name, Grade, and Social Security Number. Line 5.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkOQR4": {
+        "left": 311.0,
+        "top": 439.3,
+        "width": 13.3,
+        "height": 13.3,
+        "type": "checkbox",
+        "description": "Check for OQR. Line 5.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkSRB4": {
+        "left": 336.3,
+        "top": 439.3,
+        "width": 13.3,
+        "height": 13.3,
+        "type": "checkbox",
+        "description": "Check for SRB. Line 5.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkHR4": {
+        "left": 361.7,
+        "top": 439.3,
+        "width": 13.3,
+        "height": 13.3,
+        "type": "checkbox",
+        "description": "Check for HR. Line 5.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkDR4": {
+        "left": 387.3,
+        "top": 439.3,
+        "width": 13.3,
+        "height": 13.3,
+        "type": "checkbox",
+        "description": "Check for DR. Line 5.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkOth4": {
+        "left": 412.7,
+        "top": 439.3,
+        "width": 13.3,
+        "height": 13.3,
+        "type": "checkbox",
+        "description": "Check for other. Line 5.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameInfo5": {
+        "left": 108.0,
+        "top": 425.3,
+        "width": 192.0,
+        "height": 19.3,
+        "type": "text",
+        "description": "Name, Grade, and Social Security Number. Line 6.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkOQR5": {
+        "left": 311.0,
+        "top": 420.0,
+        "width": 13.3,
+        "height": 13.3,
+        "type": "checkbox",
+        "description": "Check for OQR. Line 6.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkSRB5": {
+        "left": 336.3,
+        "top": 420.0,
+        "width": 13.3,
+        "height": 13.3,
+        "type": "checkbox",
+        "description": "Check for SRB. Line 6.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkHR5": {
+        "left": 361.7,
+        "top": 420.0,
+        "width": 13.3,
+        "height": 13.3,
+        "type": "checkbox",
+        "description": "Check for HR. Line 6.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkDR5": {
+        "left": 387.3,
+        "top": 420.0,
+        "width": 13.3,
+        "height": 13.3,
+        "type": "checkbox",
+        "description": "Check for DR. Line 6.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkOth5": {
+        "left": 412.7,
+        "top": 420.0,
+        "width": 13.3,
+        "height": 13.3,
+        "type": "checkbox",
+        "description": "Check for other. Line 6.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "reas1": {
+        "left": 108.0,
+        "top": 396.0,
+        "width": 192.0,
+        "height": 46.0,
+        "type": "text",
+        "description": "Reason/Remarks",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

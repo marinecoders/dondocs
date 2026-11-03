@@ -1,0 +1,855 @@
+{
+  "id": "opnav4790166",
+  "label": "OPNAV4790-166 - Arresting Gear Pre-Ops Data",
+  "directory": "OPNAV4790-166 - Arresting Gear Pre-Ops Data",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "dateTimeField1",
+        "dateTimeField12",
+        "engine1",
+        "engine3",
+        "engine2",
+        "engine4",
+        "barricadeengine",
+        "barricadepp",
+        "sdp1",
+        "s1",
+        "sdp3",
+        "s3",
+        "sdp2",
+        "s2",
+        "sdp4",
+        "s4",
+        "bbsd",
+        "bbs",
+        "belowdecks",
+        "pendantengines",
+        "lso",
+        "deckedge",
+        "barricade",
+        "qa",
+        "topsidepo",
+        "primflightctl",
+        "poweron",
+        "airpressure",
+        "operator",
+        "airgun",
+        "airpressure2",
+        "tools",
+        "operator2",
+        "ag1p",
+        "ag1s",
+        "ag1pI",
+        "ag1sI",
+        "ag1W",
+        "ag1T",
+        "ag1ST",
+        "ag2p",
+        "ag2s",
+        "ag2pI",
+        "ag2sI",
+        "ag2W",
+        "ag2PT",
+        "ag2ST",
+        "ag3p",
+        "ag3s",
+        "ag3pI",
+        "ag3sI",
+        "ag3W",
+        "ag3PT",
+        "ag3ST",
+        "ag4p",
+        "ag4s",
+        "ag4pI",
+        "ag4sI",
+        "ag4W",
+        "ag4PT",
+        "ag4ST",
+        "bep",
+        "bes",
+        "bePT",
+        "beST",
+        "aglpo",
+        "agCpo",
+        "maintcheifofficer"
+      ]
+    }
+  ],
+  "fields": {
+    "dateTimeField1": {
+      "type": "text",
+      "label": "ENTER DATE.",
+      "page": 1,
+      "box": {
+        "left": 75.8,
+        "top": 739.7,
+        "width": 74.3,
+        "height": 12.3
+      }
+    },
+    "dateTimeField12": {
+      "type": "text",
+      "label": "ENTER TIME.",
+      "page": 1,
+      "box": {
+        "left": 484.5,
+        "top": 739.7,
+        "width": 79.7,
+        "height": 12.3
+      }
+    },
+    "engine1": {
+      "type": "text",
+      "label": "ENTER ENGINE NO. 1.",
+      "page": 1,
+      "box": {
+        "left": 106.8,
+        "top": 690.2,
+        "width": 173.8,
+        "height": 12.3
+      }
+    },
+    "engine3": {
+      "type": "text",
+      "label": "ENTER ENGINE NO. 3.",
+      "page": 1,
+      "box": {
+        "left": 390.3,
+        "top": 690.2,
+        "width": 173.8,
+        "height": 12.3
+      }
+    },
+    "engine2": {
+      "type": "text",
+      "label": "ENTER ENGINE NO. 2.",
+      "page": 1,
+      "box": {
+        "left": 106.8,
+        "top": 667.7,
+        "width": 173.8,
+        "height": 12.3
+      }
+    },
+    "engine4": {
+      "type": "text",
+      "label": "ENTER ENGINE NO. 4.",
+      "page": 1,
+      "box": {
+        "left": 390.3,
+        "top": 667.7,
+        "width": 173.8,
+        "height": 12.3
+      }
+    },
+    "barricadeengine": {
+      "type": "text",
+      "label": "ENTER BARRICADE ENGINE.",
+      "page": 1,
+      "box": {
+        "left": 129.9,
+        "top": 645.2,
+        "width": 150.8,
+        "height": 12.3
+      }
+    },
+    "barricadepp": {
+      "type": "text",
+      "label": "ENTER BARRICADE POWER PACK.",
+      "page": 1,
+      "box": {
+        "left": 436.3,
+        "top": 645.2,
+        "width": 127.8,
+        "height": 12.3
+      }
+    },
+    "sdp1": {
+      "type": "text",
+      "label": "ENTER SHEAVE DAMPERS 1P.",
+      "page": 1,
+      "box": {
+        "left": 141.8,
+        "top": 622.7,
+        "width": 75.8,
+        "height": 12.3
+      }
+    },
+    "s1": {
+      "type": "text",
+      "label": "ENTER SHEAVE DAMPERS 1S.",
+      "page": 1,
+      "box": {
+        "left": 235.8,
+        "top": 622.7,
+        "width": 44.8,
+        "height": 12.3
+      }
+    },
+    "sdp3": {
+      "type": "text",
+      "label": "ENTER SHEAVE DAMPERS 3P.",
+      "page": 1,
+      "box": {
+        "left": 425.3,
+        "top": 622.7,
+        "width": 75.8,
+        "height": 12.3
+      }
+    },
+    "s3": {
+      "type": "text",
+      "label": "ENTER SHEAVE DAMPERS 3S.",
+      "page": 1,
+      "box": {
+        "left": 519.3,
+        "top": 622.7,
+        "width": 44.8,
+        "height": 12.3
+      }
+    },
+    "sdp2": {
+      "type": "text",
+      "label": "ENTER SHEAVE DAMPERS 2P.",
+      "page": 1,
+      "box": {
+        "left": 139.8,
+        "top": 600.2,
+        "width": 77.8,
+        "height": 12.3
+      }
+    },
+    "s2": {
+      "type": "text",
+      "label": "ENTER SHEAVE DAMPERS 2S.",
+      "page": 1,
+      "box": {
+        "left": 235.8,
+        "top": 600.2,
+        "width": 44.8,
+        "height": 12.3
+      }
+    },
+    "sdp4": {
+      "type": "text",
+      "label": "ENTER SHEAVE DAMPERS 4P.",
+      "page": 1,
+      "box": {
+        "left": 425.3,
+        "top": 600.2,
+        "width": 75.8,
+        "height": 12.3
+      }
+    },
+    "s4": {
+      "type": "text",
+      "label": "ENTER SHEAVE DAMPERS 4S.",
+      "page": 1,
+      "box": {
+        "left": 519.3,
+        "top": 600.2,
+        "width": 44.8,
+        "height": 12.3
+      }
+    },
+    "bbsd": {
+      "type": "text",
+      "label": "ENTER BB SHEAVE DAMPERS P.",
+      "page": 1,
+      "box": {
+        "left": 144.8,
+        "top": 577.7,
+        "width": 72.8,
+        "height": 12.3
+      }
+    },
+    "bbs": {
+      "type": "text",
+      "label": "ENTER BB SHEAVE DAMPERS S.",
+      "page": 1,
+      "box": {
+        "left": 235.8,
+        "top": 577.7,
+        "width": 44.8,
+        "height": 12.3
+      }
+    },
+    "belowdecks": {
+      "type": "text",
+      "label": "ENTER BELOW DECKS P.O.",
+      "page": 1,
+      "box": {
+        "left": 415.4,
+        "top": 577.7,
+        "width": 148.8,
+        "height": 12.3
+      }
+    },
+    "pendantengines": {
+      "type": "text",
+      "label": "ENTER PENDANT ENGINES.",
+      "page": 1,
+      "box": {
+        "left": 127.8,
+        "top": 528.2,
+        "width": 436.3,
+        "height": 12.3
+      }
+    },
+    "lso": {
+      "type": "text",
+      "label": "ENTER LSO STATION.",
+      "page": 1,
+      "box": {
+        "left": 105.9,
+        "top": 501.2,
+        "width": 458.3,
+        "height": 12.3
+      }
+    },
+    "deckedge": {
+      "type": "text",
+      "label": "ENTER DECKAGE STATION.",
+      "page": 1,
+      "box": {
+        "left": 133.8,
+        "top": 478.7,
+        "width": 430.3,
+        "height": 12.3
+      }
+    },
+    "barricade": {
+      "type": "text",
+      "label": "ENTER BARRICADE.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 456.2,
+        "width": 255.3,
+        "height": 12.3
+      }
+    },
+    "qa": {
+      "type": "text",
+      "label": "ENTER QA/",
+      "page": 1,
+      "box": {
+        "left": 384.3,
+        "top": 456.2,
+        "width": 179.9,
+        "height": 12.3
+      }
+    },
+    "topsidepo": {
+      "type": "text",
+      "label": "ENTER TOPSIDE P.O.",
+      "page": 1,
+      "box": {
+        "left": 103.8,
+        "top": 433.7,
+        "width": 460.3,
+        "height": 12.3
+      }
+    },
+    "primflightctl": {
+      "type": "text",
+      "label": "ENTER PRIMARY FLIGHT CONTROL.",
+      "page": 1,
+      "box": {
+        "left": 157.8,
+        "top": 406.7,
+        "width": 406.3,
+        "height": 12.3
+      }
+    },
+    "poweron": {
+      "type": "text",
+      "label": "ENTER POWER ON.",
+      "page": 1,
+      "box": {
+        "left": 282.3,
+        "top": 348.2,
+        "width": 97.3,
+        "height": 12.3
+      }
+    },
+    "airpressure": {
+      "type": "text",
+      "label": "ENTER AIR PRESSURE.",
+      "page": 1,
+      "box": {
+        "left": 480.8,
+        "top": 348.2,
+        "width": 83.3,
+        "height": 12.3
+      }
+    },
+    "operator": {
+      "type": "text",
+      "label": "ENTER OPERATOR.",
+      "page": 1,
+      "box": {
+        "left": 93.3,
+        "top": 316.7,
+        "width": 97.3,
+        "height": 12.3
+      }
+    },
+    "airgun": {
+      "type": "text",
+      "label": "ENTER TWO AIR GUNS.",
+      "page": 1,
+      "box": {
+        "left": 282.3,
+        "top": 316.7,
+        "width": 97.3,
+        "height": 12.3
+      }
+    },
+    "airpressure2": {
+      "type": "text",
+      "label": "ENTER TOPSIDE GEAR.",
+      "page": 1,
+      "box": {
+        "left": 480.8,
+        "top": 316.7,
+        "width": 83.3,
+        "height": 12.3
+      }
+    },
+    "tools": {
+      "type": "text",
+      "label": "ENTER TOOLS.",
+      "page": 1,
+      "box": {
+        "left": 93.3,
+        "top": 280.7,
+        "width": 97.3,
+        "height": 12.3
+      }
+    },
+    "operator2": {
+      "type": "text",
+      "label": "ENTER OPERATOR.",
+      "page": 1,
+      "box": {
+        "left": 282.3,
+        "top": 280.7,
+        "width": 97.3,
+        "height": 12.3
+      }
+    },
+    "ag1p": {
+      "type": "text",
+      "label": "ENTER NUMBER OF MISSING BOLTS ON RETRACTABLE SHEAVES PORT SIDE FOR A/G # 1.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 222.2,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "ag1s": {
+      "type": "text",
+      "label": "ENTER NUMBER OF MISSING BOLTS ON RETRACTABLE SHEAVES STBD SIDE FOR A/G # 1.",
+      "page": 1,
+      "box": {
+        "left": 182.8,
+        "top": 222.2,
+        "width": 43.9,
+        "height": 12.3
+      }
+    },
+    "ag1pI": {
+      "type": "text",
+      "label": "ENTER NUMBER OF MISSING BOLTS ON IMPACT PAD RAILS PORT SIDE FOR A/G # 1.",
+      "page": 1,
+      "box": {
+        "left": 232.3,
+        "top": 222.2,
+        "width": 35.0,
+        "height": 12.3
+      }
+    },
+    "ag1sI": {
+      "type": "text",
+      "label": "ENTER NUMBER OF MISSING BOLTS ON IMPACT PAD RAILS STBD SIDE FOR A/G # 1.",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 222.2,
+        "width": 34.5,
+        "height": 12.3
+      }
+    },
+    "ag1W": {
+      "type": "text",
+      "label": "ENTER NUMBER OF MISSING BOLTS ON WIRE SUPPORTS FOR A/G # 1.",
+      "page": 1,
+      "box": {
+        "left": 313.3,
+        "top": 222.2,
+        "width": 79.8,
+        "height": 12.3
+      }
+    },
+    "ag1T": {
+      "type": "text",
+      "label": "ENTER NUMBER OF MISSING BOLTS ON TERMINAL TO SHEAVE PORT SIDE  FOR A/G # 1.",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 222.2,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "ag1ST": {
+      "type": "text",
+      "label": "ENTER NUMBER OF MISSING BOLTS ON TERMINAL TO SHEAVE STBD SIDE  FOR A/G # 1.",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 222.2,
+        "width": 43.8,
+        "height": 12.3
+      }
+    },
+    "ag2p": {
+      "type": "text",
+      "label": "ENTER NUMBER OF MISSING BOLTS ON RETRACTABLE SHEAVES PORT SIDE FOR A/G # 2.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 204.2,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "ag2s": {
+      "type": "text",
+      "label": "ENTER NUMBER OF MISSING BOLTS ON RETRACTABLE SHEAVES STBD SIDE FOR A/G # 2.",
+      "page": 1,
+      "box": {
+        "left": 182.8,
+        "top": 204.2,
+        "width": 43.9,
+        "height": 12.3
+      }
+    },
+    "ag2pI": {
+      "type": "text",
+      "label": "ENTER NUMBER OF MISSING BOLTS ON IMPACT PAD RAILS PORT SIDE FOR A/G # 2.",
+      "page": 1,
+      "box": {
+        "left": 232.3,
+        "top": 204.2,
+        "width": 35.0,
+        "height": 12.3
+      }
+    },
+    "ag2sI": {
+      "type": "text",
+      "label": "ENTER NUMBER OF MISSING BOLTS ON IMPACT PAD RAILS STBD SIDE FOR A/G # 2.",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 204.2,
+        "width": 34.5,
+        "height": 12.3
+      }
+    },
+    "ag2W": {
+      "type": "text",
+      "label": "ENTER NUMBER OF MISSING BOLTS ON WIRE SUPPORTS FOR A/G # 2.",
+      "page": 1,
+      "box": {
+        "left": 313.3,
+        "top": 204.2,
+        "width": 79.8,
+        "height": 12.3
+      }
+    },
+    "ag2PT": {
+      "type": "text",
+      "label": "ENTER NUMBER OF MISSING BOLTS ON TERMINAL TO SHEAVE PORT SIDE  FOR A/G # 2.",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 204.2,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "ag2ST": {
+      "type": "text",
+      "label": "ENTER NUMBER OF MISSING BOLTS ON TERMINAL TO SHEAVE STBD SIDE  FOR A/G # 2.",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 204.2,
+        "width": 43.8,
+        "height": 12.3
+      }
+    },
+    "ag3p": {
+      "type": "text",
+      "label": "ENTER NUMBER OF MISSING BOLTS ON RETRACTABLE SHEAVES PORT SIDE FOR A/G # 3.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 186.2,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "ag3s": {
+      "type": "text",
+      "label": "ENTER NUMBER OF MISSING BOLTS ON RETRACTABLE SHEAVES STBD SIDE FOR A/G # 3.",
+      "page": 1,
+      "box": {
+        "left": 182.8,
+        "top": 186.2,
+        "width": 43.9,
+        "height": 12.3
+      }
+    },
+    "ag3pI": {
+      "type": "text",
+      "label": "ENTER NUMBER OF MISSING BOLTS ON IMPACT PAD RAILS PORT SIDE FOR A/G # 3.",
+      "page": 1,
+      "box": {
+        "left": 232.3,
+        "top": 186.2,
+        "width": 35.0,
+        "height": 12.3
+      }
+    },
+    "ag3sI": {
+      "type": "text",
+      "label": "ENTER NUMBER OF MISSING BOLTS ON IMPACT PAD RAILS STBD SIDE FOR A/G # 3.",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 186.2,
+        "width": 34.5,
+        "height": 12.3
+      }
+    },
+    "ag3W": {
+      "type": "text",
+      "label": "ENTER NUMBER OF MISSING BOLTS ON WIRE SUPPORTS FOR A/G # 3.",
+      "page": 1,
+      "box": {
+        "left": 313.3,
+        "top": 186.2,
+        "width": 79.8,
+        "height": 12.3
+      }
+    },
+    "ag3PT": {
+      "type": "text",
+      "label": "ENTER NUMBER OF MISSING BOLTS ON TERMINAL TO SHEAVE PORT SIDE  FOR A/G # 3.",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 186.2,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "ag3ST": {
+      "type": "text",
+      "label": "ENTER NUMBER OF MISSING BOLTS ON TERMINAL TO SHEAVE STBD SIDE  FOR A/G # 3.",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 186.2,
+        "width": 43.8,
+        "height": 12.3
+      }
+    },
+    "ag4p": {
+      "type": "text",
+      "label": "ENTER NUMBER OF MISSING BOLTS ON RETRACTABLE SHEAVES PORT SIDE FOR A/G # 4.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 168.2,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "ag4s": {
+      "type": "text",
+      "label": "ENTER NUMBER OF MISSING BOLTS ON RETRACTABLE SHEAVES STBD SIDE FOR A/G # 4.",
+      "page": 1,
+      "box": {
+        "left": 182.8,
+        "top": 168.2,
+        "width": 43.9,
+        "height": 12.3
+      }
+    },
+    "ag4pI": {
+      "type": "text",
+      "label": "ENTER NUMBER OF MISSING BOLTS ON IMPACT PAD RAILS PORT SIDE FOR A/G # 4.",
+      "page": 1,
+      "box": {
+        "left": 232.3,
+        "top": 168.2,
+        "width": 35.0,
+        "height": 12.3
+      }
+    },
+    "ag4sI": {
+      "type": "text",
+      "label": "ENTER NUMBER OF MISSING BOLTS ON IMPACT PAD RAILS STBD SIDE FOR A/G # 4.",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 168.2,
+        "width": 34.5,
+        "height": 12.3
+      }
+    },
+    "ag4W": {
+      "type": "text",
+      "label": "ENTER NUMBER OF MISSING BOLTS ON WIRE SUPPORTS FOR A/G # 4.",
+      "page": 1,
+      "box": {
+        "left": 313.3,
+        "top": 168.2,
+        "width": 79.8,
+        "height": 12.3
+      }
+    },
+    "ag4PT": {
+      "type": "text",
+      "label": "ENTER NUMBER OF MISSING BOLTS ON TERMINAL TO SHEAVE PORT SIDE  FOR A/G # 4.",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 168.2,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "ag4ST": {
+      "type": "text",
+      "label": "ENTER NUMBER OF MISSING BOLTS ON TERMINAL TO SHEAVE STBD SIDE  FOR A/G # 4.",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 168.2,
+        "width": 43.8,
+        "height": 12.3
+      }
+    },
+    "bep": {
+      "type": "text",
+      "label": "ENTER NUMBER OF MISSING BOLTS ON RETRACTABLE SHEAVES PORT SIDE FOR BARRICADE ENGINE.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 150.2,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "bes": {
+      "type": "text",
+      "label": "ENTER NUMBER OF MISSING BOLTS ON RETRACTABLE SHEAVES STBD SIDE FOR BARRICADE ENGINE.",
+      "page": 1,
+      "box": {
+        "left": 182.8,
+        "top": 150.2,
+        "width": 43.9,
+        "height": 12.3
+      }
+    },
+    "bePT": {
+      "type": "text",
+      "label": "ENTER NUMBER OF MISSING BOLTS ON TERMINAL TO SHEAVE PORT SIDE  FOR BARRICADE ENGINE.",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 150.2,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "beST": {
+      "type": "text",
+      "label": "ENTER NUMBER OF MISSING BOLTS ON TERMINAL TO SHEAVE STBD SIDE  FOR BARRICADE ENGINE.",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 150.2,
+        "width": 43.8,
+        "height": 12.3
+      }
+    },
+    "aglpo": {
+      "type": "text",
+      "label": "ENTER A/G LPO.",
+      "page": 1,
+      "box": {
+        "left": 85.1,
+        "top": 114.2,
+        "width": 132.6,
+        "height": 12.3
+      }
+    },
+    "agCpo": {
+      "type": "text",
+      "label": "ENTER A/G CPO.",
+      "page": 1,
+      "box": {
+        "left": 367.9,
+        "top": 114.2,
+        "width": 133.3,
+        "height": 12.3
+      }
+    },
+    "maintcheifofficer": {
+      "type": "text",
+      "label": "ENTER MAINT.CHIEF/OFFICER.",
+      "page": 1,
+      "box": {
+        "left": 288.4,
+        "top": 73.7,
+        "width": 127.3,
+        "height": 12.3
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 5,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "x": {
+          "type": "text",
+          "label": "ENTER X-STOP.",
+          "page": 1,
+          "box": {
+            "left": 520.3,
+            "top": 222.2,
+            "width": 52.7,
+            "height": 12.3
+          }
+        }
+      }
+    }
+  }
+}

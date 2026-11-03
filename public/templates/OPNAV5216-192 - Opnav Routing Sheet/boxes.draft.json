@@ -1,0 +1,359 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "dCNNo": {
+        "left": 487.7,
+        "top": 713.6,
+        "width": 85.5,
+        "height": 14.9,
+        "type": "text",
+        "description": "DCN #",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cNORSSubj": {
+        "left": 88.2,
+        "top": 713.5,
+        "width": 359.2,
+        "height": 34.8,
+        "type": "text",
+        "description": "SUBJECT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rptDte": {
+        "left": 503.2,
+        "top": 692.4,
+        "width": 70.1,
+        "height": 13.7,
+        "type": "text",
+        "description": "DUE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "actOff": {
+        "left": 39.6,
+        "top": 663.4,
+        "width": 281.7,
+        "height": 12.2,
+        "type": "text",
+        "description": "ACTION OFFICER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "aOCode": {
+        "left": 328.3,
+        "top": 663.4,
+        "width": 118.9,
+        "height": 12.2,
+        "type": "text",
+        "description": "CODE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "aOPne": {
+        "left": 452.9,
+        "top": 663.4,
+        "width": 118.9,
+        "height": 12.2,
+        "type": "text",
+        "description": "PHONE#",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio": {
+        "left": 50.0,
+        "top": 635.8,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "nCODEComm": {
+        "left": 139.3,
+        "top": 616.4,
+        "width": 433.1,
+        "height": 114.7,
+        "type": "text",
+        "description": "Comments",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio2": {
+        "left": 50.0,
+        "top": 613.0,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "nCde": {
+        "left": 40.2,
+        "top": 577.7,
+        "width": 93.5,
+        "height": 14.4,
+        "type": "text",
+        "description": "N-CODE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nCdeIntl": {
+        "left": 40.2,
+        "top": 547.3,
+        "width": 93.5,
+        "height": 14.4,
+        "type": "text",
+        "description": "INITIAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nE2Dte": {
+        "left": 40.2,
+        "top": 517.3,
+        "width": 93.5,
+        "height": 15.0,
+        "type": "text",
+        "description": "DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dNSIntl": {
+        "left": 40.2,
+        "top": 484.3,
+        "width": 93.5,
+        "height": 17.7,
+        "type": "text",
+        "description": "INITIAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dNSComm": {
+        "left": 137.9,
+        "top": 484.3,
+        "width": 437.3,
+        "height": 129.9,
+        "type": "text",
+        "description": "DNS FOLLOW-UP",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dNSRptDte": {
+        "left": 40.2,
+        "top": 449.9,
+        "width": 93.5,
+        "height": 17.7,
+        "type": "text",
+        "description": "DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio3": {
+        "left": 48.9,
+        "top": 405.8,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio4": {
+        "left": 84.6,
+        "top": 405.8,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "dNSFURptDte": {
+        "left": 40.2,
+        "top": 375.8,
+        "width": 93.5,
+        "height": 18.5,
+        "type": "text",
+        "description": "FOLLOW-UP DUE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "vcnodeaid": {
+        "left": 284.4,
+        "top": 349.9,
+        "width": 100.0,
+        "height": 11.0,
+        "type": "text",
+        "description": "DEA Initial/Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "vcnoeaid": {
+        "left": 451.1,
+        "top": 349.9,
+        "width": 104.9,
+        "height": 11.0,
+        "type": "text",
+        "description": "EA Initial/Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "vNCOInt": {
+        "left": 40.2,
+        "top": 340.6,
+        "width": 93.5,
+        "height": 20.7,
+        "type": "text",
+        "description": "VCNO INITIAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "vCNOComm": {
+        "left": 137.9,
+        "top": 335.4,
+        "width": 437.3,
+        "height": 133.2,
+        "type": "text",
+        "description": "Comments: DEA Initial/Date: EA Initial/Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "vCNODte": {
+        "left": 40.2,
+        "top": 303.0,
+        "width": 93.5,
+        "height": 22.3,
+        "type": "text",
+        "description": "VCNO DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio5": {
+        "left": 49.0,
+        "top": 254.8,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio6": {
+        "left": 84.7,
+        "top": 254.8,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "vCNOFURptDte": {
+        "left": 40.2,
+        "top": 225.8,
+        "width": 93.5,
+        "height": 16.7,
+        "type": "text",
+        "description": "FOLLOW-UP DUE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "vcno2deaid": {
+        "left": 200.5,
+        "top": 199.0,
+        "width": 100.0,
+        "height": 12.3,
+        "type": "text",
+        "description": "DEA Initial/Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "vcno2eaid": {
+        "left": 467.8,
+        "top": 199.0,
+        "width": 104.9,
+        "height": 12.3,
+        "type": "text",
+        "description": "EA Initial/Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dEAComm": {
+        "left": 38.0,
+        "top": 184.8,
+        "width": 268.0,
+        "height": 41.0,
+        "type": "text",
+        "description": "DEA Comments: DEA Initial/Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "eAComm": {
+        "left": 307.5,
+        "top": 184.8,
+        "width": 268.0,
+        "height": 41.0,
+        "type": "text",
+        "description": "EA Comments: EA Initial/Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cNOComm": {
+        "left": 38.0,
+        "top": 125.5,
+        "width": 537.5,
+        "height": 88.3,
+        "type": "text",
+        "description": "CNO Comments",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

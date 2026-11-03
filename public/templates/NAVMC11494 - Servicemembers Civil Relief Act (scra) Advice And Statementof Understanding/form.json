@@ -1,0 +1,85 @@
+{
+  "id": "navmc11494",
+  "label": "NAVMC 11494 - Servicemembers Civil Relief Act (scra) Advice And Statementof Understanding",
+  "directory": "NAVMC11494 - Servicemembers Civil Relief Act (scra) Advice And Statementof Understanding",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "signatureA",
+        "dateA",
+        "signatureB",
+        "dateB"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "Fill in last, first, and middle initial",
+      "page": 1,
+      "box": {
+        "left": 65.2,
+        "top": 717.8,
+        "width": 346.7,
+        "height": 15.1
+      }
+    },
+    "signatureA": {
+      "type": "text",
+      "label": "16a.  SIGNATURE",
+      "page": 2,
+      "box": {
+        "left": 38.2,
+        "top": 573.6,
+        "width": 445.7,
+        "height": 23.2
+      }
+    },
+    "dateA": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 2,
+      "box": {
+        "left": 488.8,
+        "top": 572.9,
+        "width": 84.3,
+        "height": 21.1
+      }
+    },
+    "signatureB": {
+      "type": "text",
+      "label": "a.  SIGNATURE",
+      "page": 2,
+      "box": {
+        "left": 263.2,
+        "top": 537.6,
+        "width": 220.7,
+        "height": 32.2
+      },
+      "multiline": true
+    },
+    "dateB": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 2,
+      "box": {
+        "left": 488.8,
+        "top": 536.9,
+        "width": 84.3,
+        "height": 30.1
+      },
+      "multiline": true
+    }
+  }
+}

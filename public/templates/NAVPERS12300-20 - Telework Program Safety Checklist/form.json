@@ -1,0 +1,282 @@
+{
+  "id": "navpers1230020",
+  "label": "NAVPERS12300-20 - Telework Program Safety Checklist",
+  "directory": "NAVPERS12300-20 - Telework Program Safety Checklist",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "a",
+        "a2",
+        "b",
+        "b2",
+        "c",
+        "c2",
+        "d",
+        "d2",
+        "e",
+        "e2",
+        "f",
+        "f2",
+        "g",
+        "h",
+        "i",
+        "j",
+        "k",
+        "l",
+        "m",
+        "n",
+        "o"
+      ]
+    }
+  ],
+  "fields": {
+    "a": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 479.3,
+        "top": 634.2,
+        "width": 22.4,
+        "height": 22.4
+      },
+      "group": "a"
+    },
+    "a2": {
+      "type": "radio",
+      "label": "no",
+      "page": 1,
+      "box": {
+        "left": 516.0,
+        "top": 634.0,
+        "width": 22.7,
+        "height": 22.0
+      },
+      "group": "a"
+    },
+    "b": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 479.3,
+        "top": 587.3,
+        "width": 22.7,
+        "height": 22.0
+      },
+      "group": "b"
+    },
+    "b2": {
+      "type": "radio",
+      "label": "no",
+      "page": 1,
+      "box": {
+        "left": 516.0,
+        "top": 587.3,
+        "width": 22.7,
+        "height": 22.0
+      },
+      "group": "b"
+    },
+    "c": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 479.3,
+        "top": 541.3,
+        "width": 22.7,
+        "height": 22.0
+      },
+      "group": "c"
+    },
+    "c2": {
+      "type": "radio",
+      "label": "no",
+      "page": 1,
+      "box": {
+        "left": 516.0,
+        "top": 541.3,
+        "width": 22.7,
+        "height": 22.0
+      },
+      "group": "c"
+    },
+    "d": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 479.3,
+        "top": 498.0,
+        "width": 22.7,
+        "height": 22.0
+      },
+      "group": "d"
+    },
+    "d2": {
+      "type": "radio",
+      "label": "no",
+      "page": 1,
+      "box": {
+        "left": 516.0,
+        "top": 498.0,
+        "width": 22.7,
+        "height": 22.0
+      },
+      "group": "d"
+    },
+    "e": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 479.3,
+        "top": 455.3,
+        "width": 22.7,
+        "height": 22.0
+      },
+      "group": "e"
+    },
+    "e2": {
+      "type": "radio",
+      "label": "no",
+      "page": 1,
+      "box": {
+        "left": 516.0,
+        "top": 455.3,
+        "width": 22.7,
+        "height": 22.0
+      },
+      "group": "e"
+    },
+    "f": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 479.3,
+        "top": 412.0,
+        "width": 22.7,
+        "height": 22.0
+      },
+      "group": "f"
+    },
+    "f2": {
+      "type": "radio",
+      "label": "no",
+      "page": 1,
+      "box": {
+        "left": 516.0,
+        "top": 412.0,
+        "width": 22.7,
+        "height": 22.0
+      },
+      "group": "f"
+    },
+    "g": {
+      "type": "text",
+      "label": "EMPLOYEE\u0092S NAME",
+      "page": 1,
+      "box": {
+        "left": 222.0,
+        "top": 380.0,
+        "width": 323.3,
+        "height": 26.7
+      }
+    },
+    "h": {
+      "type": "text",
+      "label": "COMPNENT",
+      "page": 1,
+      "box": {
+        "left": 222.0,
+        "top": 352.7,
+        "width": 323.3,
+        "height": 26.7
+      }
+    },
+    "i": {
+      "type": "text",
+      "label": "POSITION",
+      "page": 1,
+      "box": {
+        "left": 222.0,
+        "top": 326.0,
+        "width": 323.3,
+        "height": 26.7
+      }
+    },
+    "j": {
+      "type": "text",
+      "label": "ADDRESS",
+      "page": 1,
+      "box": {
+        "left": 222.0,
+        "top": 303.3,
+        "width": 323.3,
+        "height": 73.3
+      },
+      "multiline": true
+    },
+    "k": {
+      "type": "text",
+      "label": "LOCATION OF DESIGNATED HOME",
+      "page": 1,
+      "box": {
+        "left": 294.0,
+        "top": 230.7,
+        "width": 251.3,
+        "height": 26.7
+      }
+    },
+    "l": {
+      "type": "text",
+      "label": "HOME TELEPHONE",
+      "page": 1,
+      "box": {
+        "left": 222.0,
+        "top": 202.7,
+        "width": 323.3,
+        "height": 26.7
+      }
+    },
+    "m": {
+      "type": "text",
+      "label": "SUPERVISOR\u0092S NAME",
+      "page": 1,
+      "box": {
+        "left": 222.0,
+        "top": 176.0,
+        "width": 323.3,
+        "height": 26.7
+      }
+    },
+    "n": {
+      "type": "text",
+      "label": "SUPERVISOR\u0092S NAME",
+      "page": 1,
+      "box": {
+        "left": 72.7,
+        "top": 128.7,
+        "width": 337.3,
+        "height": 26.7
+      }
+    },
+    "o": {
+      "type": "text",
+      "label": "secured under a",
+      "page": 1,
+      "box": {
+        "left": 421.3,
+        "top": 128.7,
+        "width": 114.0,
+        "height": 26.7
+      }
+    }
+  }
+}

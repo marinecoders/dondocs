@@ -1,0 +1,78 @@
+{
+  "id": "navpers165077nr",
+  "label": "NAVPERS1650-77NR - Certificate Of Reenlistment (usnr)",
+  "directory": "NAVPERS1650-77NR - Certificate Of Reenlistment (usnr)",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "membersname",
+        "date1",
+        "month1",
+        "year1",
+        "textField3"
+      ]
+    }
+  ],
+  "fields": {
+    "membersname": {
+      "type": "text",
+      "label": "Please enter member's rate and full name.",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 466.8,
+        "width": 534.3,
+        "height": 39.2
+      },
+      "multiline": true
+    },
+    "date1": {
+      "type": "text",
+      "label": "Please enter day of reenlistment.",
+      "page": 1,
+      "box": {
+        "left": 306.3,
+        "top": 156.6,
+        "width": 45.8,
+        "height": 29.3
+      }
+    },
+    "month1": {
+      "type": "text",
+      "label": "Please spell out month of reenlistment.",
+      "page": 1,
+      "box": {
+        "left": 419.4,
+        "top": 156.6,
+        "width": 97.2,
+        "height": 29.3
+      }
+    },
+    "year1": {
+      "type": "text",
+      "label": "Please enter year of reenlistment.  Example the year is 2006, spell out six.",
+      "page": 1,
+      "box": {
+        "left": 162.3,
+        "top": 130.9,
+        "width": 61.2,
+        "height": 25.2
+      }
+    },
+    "textField3": {
+      "type": "text",
+      "label": "Enter your command's approving authority.",
+      "page": 1,
+      "box": {
+        "left": 285.7,
+        "top": 69.2,
+        "width": 284.9,
+        "height": 19.8
+      }
+    }
+  }
+}

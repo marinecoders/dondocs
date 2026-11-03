@@ -1,0 +1,211 @@
+{
+  "id": "navmchq974",
+  "label": "NAVMCHQ974 - Hqmc Ardb Directves Management Checklist",
+  "directory": "NAVMCHQ974 - Hqmc Ardb Directves Management Checklist",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "yesA",
+        "noA",
+        "yesC",
+        "noC",
+        "noD",
+        "yesd",
+        "noE",
+        "yesE",
+        "noF",
+        "yesF",
+        "noF2",
+        "yesF2",
+        "nameSpon",
+        "date",
+        "mCONumTitle",
+        "orgCode"
+      ],
+      "editor": "checklist"
+    }
+  ],
+  "fields": {
+    "yesA": {
+      "type": "checkbox",
+      "label": "YesA",
+      "page": 1,
+      "box": {
+        "left": 501.6,
+        "top": 628.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "noA": {
+      "type": "checkbox",
+      "label": "NoA",
+      "page": 1,
+      "box": {
+        "left": 546.6,
+        "top": 628.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "yesC": {
+      "type": "checkbox",
+      "label": "YesC",
+      "page": 1,
+      "box": {
+        "left": 501.6,
+        "top": 599.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "noC": {
+      "type": "checkbox",
+      "label": "NoC",
+      "page": 1,
+      "box": {
+        "left": 546.6,
+        "top": 599.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "noD": {
+      "type": "checkbox",
+      "label": "NoD",
+      "page": 1,
+      "box": {
+        "left": 546.6,
+        "top": 566.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "yesd": {
+      "type": "checkbox",
+      "label": "Yesd",
+      "page": 1,
+      "box": {
+        "left": 501.6,
+        "top": 566.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "noE": {
+      "type": "checkbox",
+      "label": "NoE",
+      "page": 1,
+      "box": {
+        "left": 546.6,
+        "top": 539.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "yesE": {
+      "type": "checkbox",
+      "label": "YesE",
+      "page": 1,
+      "box": {
+        "left": 501.6,
+        "top": 539.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "noF": {
+      "type": "checkbox",
+      "label": "NoF",
+      "page": 1,
+      "box": {
+        "left": 546.6,
+        "top": 512.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "yesF": {
+      "type": "checkbox",
+      "label": "YesF",
+      "page": 1,
+      "box": {
+        "left": 501.6,
+        "top": 512.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "noF2": {
+      "type": "checkbox",
+      "label": "NoF",
+      "page": 1,
+      "box": {
+        "left": 546.6,
+        "top": 467.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "yesF2": {
+      "type": "checkbox",
+      "label": "YesF",
+      "page": 1,
+      "box": {
+        "left": 501.6,
+        "top": 467.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "nameSpon": {
+      "type": "text",
+      "label": "NAME OF SPONSOR:",
+      "page": 1,
+      "box": {
+        "left": 144.6,
+        "top": 402.8,
+        "width": 321.3,
+        "height": 23.4
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 1,
+      "box": {
+        "left": 497.5,
+        "top": 402.2,
+        "width": 66.6,
+        "height": 21.3
+      }
+    },
+    "mCONumTitle": {
+      "type": "text",
+      "label": "MCO NUMBER AND\nTITLE:",
+      "page": 1,
+      "box": {
+        "left": 144.6,
+        "top": 375.8,
+        "width": 420.3,
+        "height": 41.4
+      },
+      "multiline": true
+    },
+    "orgCode": {
+      "type": "text",
+      "label": "SPONSOR'S\nORGANIZATIONAL \nCODE:",
+      "page": 1,
+      "box": {
+        "left": 144.6,
+        "top": 330.8,
+        "width": 420.3,
+        "height": 23.4
+      }
+    }
+  }
+}

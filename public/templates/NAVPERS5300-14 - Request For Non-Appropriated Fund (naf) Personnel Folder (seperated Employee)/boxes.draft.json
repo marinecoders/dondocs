@@ -1,0 +1,150 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "1": {
+        "left": 407.4,
+        "top": 704.3,
+        "width": 114.8,
+        "height": 21.3,
+        "type": "text",
+        "description": "(SEPARATED EMPLOYEE)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "2": {
+        "left": 32.8,
+        "top": 655.9,
+        "width": 271.3,
+        "height": 20.5,
+        "type": "text",
+        "description": "2. CURRENT NAME (LAST, FIRST, MIDDLE)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "3": {
+        "left": 307.4,
+        "top": 650.2,
+        "width": 273.0,
+        "height": 15.6,
+        "type": "text",
+        "description": "2A. NAME UNDER WHICH FORMERLY EMPLOYED NAF",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "5": {
+        "left": 309.0,
+        "top": 627.2,
+        "width": 235.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "ACTIVITY (IF DIFFERENT THAN ITEM 2)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "4": {
+        "left": 34.4,
+        "top": 626.4,
+        "width": 202.5,
+        "height": 16.4,
+        "type": "text",
+        "description": "2. CURRENT NAME (LAST, FIRST, MIDDLE)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "6": {
+        "left": 32.8,
+        "top": 578.1,
+        "width": 545.9,
+        "height": 59.8,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "8": {
+        "left": 266.4,
+        "top": 492.8,
+        "width": 123.0,
+        "height": 44.3,
+        "type": "text",
+        "description": "LOCATION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "7": {
+        "left": 32.8,
+        "top": 492.0,
+        "width": 228.7,
+        "height": 42.6,
+        "type": "text",
+        "description": "ACTIVITY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "9": {
+        "left": 391.8,
+        "top": 491.2,
+        "width": 98.4,
+        "height": 42.6,
+        "type": "text",
+        "description": "FROM",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "10": {
+        "left": 491.8,
+        "top": 488.7,
+        "width": 86.1,
+        "height": 39.3,
+        "type": "text",
+        "description": "TO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "11": {
+        "left": 33.6,
+        "top": 414.1,
+        "width": 545.9,
+        "height": 58.2,
+        "type": "text",
+        "description": "NON-APPROPRIATED FUND",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "90": {
+        "left": 34.4,
+        "top": 125.6,
+        "width": 544.3,
+        "height": 59.8,
+        "type": "text",
+        "description": "8. COMPLETE ADDRESS TO WHICH FOLDER OR REPLY IS TO BE MAILED",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

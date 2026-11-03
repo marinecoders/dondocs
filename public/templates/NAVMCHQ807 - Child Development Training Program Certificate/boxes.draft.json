@@ -1,0 +1,51 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 614,
+    "height": 810
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "printingNote": {
+        "left": 20.7,
+        "top": 799.4,
+        "width": 160.8,
+        "height": 56.6,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "0": {
+        "left": 131.4,
+        "top": 425.7,
+        "width": 351.5,
+        "height": 16.2,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date": {
+        "left": 99.7,
+        "top": 151.5,
+        "width": 146.1,
+        "height": 16.2,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

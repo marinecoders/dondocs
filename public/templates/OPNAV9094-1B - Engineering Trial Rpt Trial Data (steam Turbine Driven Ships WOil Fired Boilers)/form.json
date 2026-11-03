@@ -1,0 +1,2029 @@
+{
+  "id": "opnav90941b",
+  "label": "OPNAV9094-1B - Engineering Trial Rpt Trial Data (steam Turbine Driven Ships WOil Fired Boilers)",
+  "directory": "OPNAV9094-1B - Engineering Trial Rpt Trial Data (steam Turbine Driven Ships WOil Fired Boilers)",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "shipName",
+        "trialDte",
+        "radio",
+        "radio2",
+        "radio3",
+        "radio4",
+        "other1",
+        "radio5",
+        "radio6",
+        "radio7",
+        "other2",
+        "radio8",
+        "forward",
+        "aft",
+        "mean",
+        "displacement",
+        "outofDock",
+        "underway",
+        "notUnderway",
+        "paint",
+        "diameter1",
+        "pitch1",
+        "blades1",
+        "type1",
+        "diameter2",
+        "pitch2",
+        "blades2",
+        "type2",
+        "a30",
+        "a60",
+        "a90",
+        "a120",
+        "aAverage",
+        "aFullAstern",
+        "b30",
+        "b60",
+        "b90",
+        "b120",
+        "bAverage",
+        "bFullAstern",
+        "c30",
+        "c60",
+        "c90",
+        "c120",
+        "cAverage",
+        "cFullAstern",
+        "d30",
+        "d60",
+        "d90",
+        "d120",
+        "dAverage",
+        "dFullAstern",
+        "e30",
+        "e60",
+        "e90",
+        "e120",
+        "eAverage",
+        "eFullAstern",
+        "f30",
+        "f60",
+        "f90",
+        "f120",
+        "fAverage",
+        "fFullAstern",
+        "g30",
+        "g60",
+        "g90",
+        "g120",
+        "gAverage",
+        "gFullAstern",
+        "h30",
+        "h60",
+        "h90",
+        "h120",
+        "hAverage",
+        "hFullAstern",
+        "i30",
+        "i60",
+        "i90",
+        "i120",
+        "iAverage",
+        "iFullAstern",
+        "v15",
+        "v30",
+        "v45",
+        "v60",
+        "vAverage",
+        "vFullAstern",
+        "j30",
+        "j60",
+        "j90",
+        "j120",
+        "jAverage",
+        "jFullAstern",
+        "k30",
+        "k60",
+        "k90",
+        "k120",
+        "kAverage",
+        "kFullAstern",
+        "l30",
+        "l60",
+        "l90",
+        "l120",
+        "lAverage",
+        "lFullAstern",
+        "m30",
+        "m60",
+        "m90",
+        "m120",
+        "mAverage",
+        "mFullAstern",
+        "n30",
+        "n60",
+        "n90",
+        "n120",
+        "nAverage",
+        "nFullAstern",
+        "o30",
+        "o60",
+        "o90",
+        "o120",
+        "oAverage",
+        "oFullAstern",
+        "p30",
+        "p60",
+        "p90",
+        "p120",
+        "pAverage",
+        "pFullAstern",
+        "q30",
+        "q60",
+        "q90",
+        "q120",
+        "qAverage",
+        "qFullAstern",
+        "r30",
+        "r60",
+        "r90",
+        "r120",
+        "rAverage",
+        "rFullAstern",
+        "s30",
+        "s60",
+        "s90",
+        "s120",
+        "sAverage",
+        "sFullAstern",
+        "t30",
+        "t60",
+        "t90",
+        "t120",
+        "tAverage",
+        "tFullAstern",
+        "u30",
+        "u60",
+        "u90",
+        "u120",
+        "uAverage",
+        "uFullAstern",
+        "v302",
+        "v602",
+        "v90",
+        "v120",
+        "vAverage2",
+        "vFullAstern2"
+      ]
+    }
+  ],
+  "fields": {
+    "shipName": {
+      "type": "text",
+      "label": "SHIP (NAME, TYPE, NUMBER)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 712.8,
+        "width": 426.4,
+        "height": 12.3
+      }
+    },
+    "trialDte": {
+      "type": "text",
+      "label": "DATE OF TRIAL",
+      "page": 1,
+      "box": {
+        "left": 470.7,
+        "top": 712.8,
+        "width": 102.3,
+        "height": 12.3
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 67.2,
+        "top": 682.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 400.6,
+        "top": 682.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 189.7,
+        "top": 681.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 319.3,
+        "top": 681.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "other1": {
+      "type": "text",
+      "label": "OTHER (SPECIFY)",
+      "page": 1,
+      "box": {
+        "left": 488.9,
+        "top": 681.6,
+        "width": 84.3,
+        "height": 10.2
+      }
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 1,
+      "box": {
+        "left": 67.2,
+        "top": 666.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 319.3,
+        "top": 666.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 400.6,
+        "top": 666.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "other2": {
+      "type": "text",
+      "label": "OTHER (SPECIFY)",
+      "page": 1,
+      "box": {
+        "left": 488.9,
+        "top": 665.5,
+        "width": 84.3,
+        "height": 10.2
+      }
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 189.7,
+        "top": 665.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "forward": {
+      "type": "text",
+      "label": "a. FORWARD (FEET-INCHES)",
+      "page": 1,
+      "box": {
+        "left": 103.2,
+        "top": 624.4,
+        "width": 111.3,
+        "height": 12.7
+      }
+    },
+    "aft": {
+      "type": "text",
+      "label": "b. AFT (FEET-INCHES)",
+      "page": 1,
+      "box": {
+        "left": 220.2,
+        "top": 624.0,
+        "width": 111.3,
+        "height": 12.3
+      }
+    },
+    "mean": {
+      "type": "text",
+      "label": "c. MEAN (FEET-INCHES)",
+      "page": 1,
+      "box": {
+        "left": 337.3,
+        "top": 624.0,
+        "width": 111.3,
+        "height": 12.3
+      }
+    },
+    "displacement": {
+      "type": "text",
+      "label": "d. DISPLACEMENT (TONS)",
+      "page": 1,
+      "box": {
+        "left": 454.3,
+        "top": 624.0,
+        "width": 118.6,
+        "height": 12.3
+      }
+    },
+    "outofDock": {
+      "type": "text",
+      "label": "DATA",
+      "page": 1,
+      "box": {
+        "left": 103.2,
+        "top": 587.4,
+        "width": 111.3,
+        "height": 12.3
+      }
+    },
+    "underway": {
+      "type": "text",
+      "label": "DATA",
+      "page": 1,
+      "box": {
+        "left": 220.2,
+        "top": 587.4,
+        "width": 111.3,
+        "height": 12.3
+      }
+    },
+    "notUnderway": {
+      "type": "text",
+      "label": "DATA",
+      "page": 1,
+      "box": {
+        "left": 337.3,
+        "top": 587.4,
+        "width": 111.3,
+        "height": 12.3
+      }
+    },
+    "paint": {
+      "type": "text",
+      "label": "DATA",
+      "page": 1,
+      "box": {
+        "left": 454.3,
+        "top": 587.4,
+        "width": 118.6,
+        "height": 12.3
+      }
+    },
+    "diameter1": {
+      "type": "text",
+      "label": "3. PROPELLERS INBOARD",
+      "page": 1,
+      "box": {
+        "left": 152.0,
+        "top": 560.0,
+        "width": 87.2,
+        "height": 11.6
+      }
+    },
+    "pitch1": {
+      "type": "text",
+      "label": "3. PROPELLERS INBOARD",
+      "page": 1,
+      "box": {
+        "left": 242.2,
+        "top": 560.0,
+        "width": 90.8,
+        "height": 11.6
+      }
+    },
+    "blades1": {
+      "type": "text",
+      "label": "3. PROPELLERS INBOARD",
+      "page": 1,
+      "box": {
+        "left": 335.8,
+        "top": 559.9,
+        "width": 114.2,
+        "height": 11.6
+      }
+    },
+    "type1": {
+      "type": "text",
+      "label": "3. PROPELLERS INBOARD",
+      "page": 1,
+      "box": {
+        "left": 452.9,
+        "top": 559.9,
+        "width": 121.5,
+        "height": 11.6
+      }
+    },
+    "diameter2": {
+      "type": "text",
+      "label": "OUTBOARD",
+      "page": 1,
+      "box": {
+        "left": 152.0,
+        "top": 545.7,
+        "width": 87.2,
+        "height": 11.6
+      }
+    },
+    "pitch2": {
+      "type": "text",
+      "label": "OUTBOARD",
+      "page": 1,
+      "box": {
+        "left": 242.2,
+        "top": 545.7,
+        "width": 90.8,
+        "height": 11.6
+      }
+    },
+    "blades2": {
+      "type": "text",
+      "label": "OUTBOARD",
+      "page": 1,
+      "box": {
+        "left": 335.8,
+        "top": 545.7,
+        "width": 114.2,
+        "height": 11.6
+      }
+    },
+    "type2": {
+      "type": "text",
+      "label": "OUTBOARD",
+      "page": 1,
+      "box": {
+        "left": 452.9,
+        "top": 545.7,
+        "width": 121.5,
+        "height": 11.6
+      }
+    },
+    "a30": {
+      "type": "text",
+      "label": "(INCHES HG)",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 519.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "a60": {
+      "type": "text",
+      "label": "(INCHES HG)",
+      "page": 1,
+      "box": {
+        "left": 324.4,
+        "top": 519.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "a90": {
+      "type": "text",
+      "label": "(INCHES HG)",
+      "page": 1,
+      "box": {
+        "left": 367.0,
+        "top": 519.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "a120": {
+      "type": "text",
+      "label": "(INCHES HG)",
+      "page": 1,
+      "box": {
+        "left": 410.6,
+        "top": 519.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "aAverage": {
+      "type": "text",
+      "label": "(INCHES HG)",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 519.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "aFullAstern": {
+      "type": "text",
+      "label": "(INCHES HG)",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 519.3,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "b30": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 504.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "b60": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 324.4,
+        "top": 504.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "b90": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 367.0,
+        "top": 504.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "b120": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 410.6,
+        "top": 504.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "bAverage": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 504.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "bFullAstern": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 504.9,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "c30": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 491.0,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "c60": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 324.4,
+        "top": 491.0,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "c90": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 367.0,
+        "top": 491.0,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "c120": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 410.6,
+        "top": 491.0,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "cAverage": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 491.0,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "cFullAstern": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 491.0,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "d30": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 476.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "d60": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 324.4,
+        "top": 476.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "d90": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 367.0,
+        "top": 476.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "d120": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 410.6,
+        "top": 476.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "dAverage": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 476.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "dFullAstern": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 476.8,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "e30": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 462.4,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "e60": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 324.4,
+        "top": 462.4,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "e90": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 367.0,
+        "top": 462.4,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "e120": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 410.6,
+        "top": 462.4,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "eAverage": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 462.4,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "eFullAstern": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 462.4,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "f30": {
+      "type": "text",
+      "label": "(DEG)",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 448.2,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "f60": {
+      "type": "text",
+      "label": "(DEG)",
+      "page": 1,
+      "box": {
+        "left": 324.4,
+        "top": 448.2,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "f90": {
+      "type": "text",
+      "label": "(DEG)",
+      "page": 1,
+      "box": {
+        "left": 367.0,
+        "top": 448.2,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "f120": {
+      "type": "text",
+      "label": "(DEG)",
+      "page": 1,
+      "box": {
+        "left": 410.6,
+        "top": 448.2,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fAverage": {
+      "type": "text",
+      "label": "(DEG)",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 448.2,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fFullAstern": {
+      "type": "text",
+      "label": "(DEG)",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 448.2,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "g30": {
+      "type": "text",
+      "label": "(BEAUFORT NO)",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 433.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "g60": {
+      "type": "text",
+      "label": "(BEAUFORT NO)",
+      "page": 1,
+      "box": {
+        "left": 324.4,
+        "top": 433.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "g90": {
+      "type": "text",
+      "label": "(BEAUFORT NO)",
+      "page": 1,
+      "box": {
+        "left": 367.0,
+        "top": 433.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "g120": {
+      "type": "text",
+      "label": "(BEAUFORT NO)",
+      "page": 1,
+      "box": {
+        "left": 410.6,
+        "top": 433.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "gAverage": {
+      "type": "text",
+      "label": "(BEAUFORT NO)",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 433.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "gFullAstern": {
+      "type": "text",
+      "label": "(BEAUFORT NO)",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 433.8,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "h30": {
+      "type": "text",
+      "label": "(DEG)",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 419.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "h60": {
+      "type": "text",
+      "label": "(DEG)",
+      "page": 1,
+      "box": {
+        "left": 324.4,
+        "top": 419.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "h90": {
+      "type": "text",
+      "label": "(DEG)",
+      "page": 1,
+      "box": {
+        "left": 367.0,
+        "top": 419.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "h120": {
+      "type": "text",
+      "label": "(DEG)",
+      "page": 1,
+      "box": {
+        "left": 410.6,
+        "top": 419.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "hAverage": {
+      "type": "text",
+      "label": "(DEG)",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 419.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "hFullAstern": {
+      "type": "text",
+      "label": "(DEG)",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 419.7,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "i30": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 391.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "i60": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 324.4,
+        "top": 391.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "i90": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 367.0,
+        "top": 391.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "i120": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 410.6,
+        "top": 391.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "iAverage": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 391.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "iFullAstern": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 391.8,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "v15": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 376.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "v30": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 324.4,
+        "top": 376.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "v45": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 367.0,
+        "top": 376.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "v60": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 410.6,
+        "top": 376.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "vAverage": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 376.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "vFullAstern": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 376.7,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "j30": {
+      "type": "text",
+      "label": "OUTBOARD",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 362.9,
+        "width": 40.4,
+        "height": 20.9
+      }
+    },
+    "j60": {
+      "type": "text",
+      "label": "OUTBOARD",
+      "page": 1,
+      "box": {
+        "left": 324.4,
+        "top": 362.9,
+        "width": 40.4,
+        "height": 20.9
+      }
+    },
+    "j90": {
+      "type": "text",
+      "label": "OUTBOARD",
+      "page": 1,
+      "box": {
+        "left": 367.0,
+        "top": 362.9,
+        "width": 40.4,
+        "height": 20.9
+      }
+    },
+    "j120": {
+      "type": "text",
+      "label": "OUTBOARD",
+      "page": 1,
+      "box": {
+        "left": 410.6,
+        "top": 362.9,
+        "width": 40.4,
+        "height": 20.9
+      }
+    },
+    "jAverage": {
+      "type": "text",
+      "label": "OUTBOARD",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 362.9,
+        "width": 40.4,
+        "height": 20.9
+      }
+    },
+    "jFullAstern": {
+      "type": "text",
+      "label": "OUTBOARD",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 362.9,
+        "width": 77.8,
+        "height": 20.9
+      }
+    },
+    "k30": {
+      "type": "text",
+      "label": "INBOARD",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 339.1,
+        "width": 40.4,
+        "height": 20.9
+      }
+    },
+    "k60": {
+      "type": "text",
+      "label": "INBOARD",
+      "page": 1,
+      "box": {
+        "left": 324.4,
+        "top": 339.1,
+        "width": 40.4,
+        "height": 20.9
+      }
+    },
+    "k90": {
+      "type": "text",
+      "label": "INBOARD",
+      "page": 1,
+      "box": {
+        "left": 367.0,
+        "top": 339.1,
+        "width": 40.4,
+        "height": 20.9
+      }
+    },
+    "k120": {
+      "type": "text",
+      "label": "INBOARD",
+      "page": 1,
+      "box": {
+        "left": 410.6,
+        "top": 339.1,
+        "width": 40.4,
+        "height": 20.9
+      }
+    },
+    "kAverage": {
+      "type": "text",
+      "label": "INBOARD",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 339.1,
+        "width": 40.4,
+        "height": 20.9
+      }
+    },
+    "kFullAstern": {
+      "type": "text",
+      "label": "INBOARD",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 339.1,
+        "width": 77.8,
+        "height": 20.9
+      }
+    },
+    "l30": {
+      "type": "text",
+      "label": "OUTBOARD",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 315.3,
+        "width": 40.4,
+        "height": 20.9
+      }
+    },
+    "l60": {
+      "type": "text",
+      "label": "OUTBOARD",
+      "page": 1,
+      "box": {
+        "left": 324.4,
+        "top": 315.3,
+        "width": 40.4,
+        "height": 20.9
+      }
+    },
+    "l90": {
+      "type": "text",
+      "label": "OUTBOARD",
+      "page": 1,
+      "box": {
+        "left": 367.0,
+        "top": 315.3,
+        "width": 40.4,
+        "height": 20.9
+      }
+    },
+    "l120": {
+      "type": "text",
+      "label": "OUTBOARD",
+      "page": 1,
+      "box": {
+        "left": 410.6,
+        "top": 315.3,
+        "width": 40.4,
+        "height": 20.9
+      }
+    },
+    "lAverage": {
+      "type": "text",
+      "label": "OUTBOARD",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 315.3,
+        "width": 40.4,
+        "height": 20.9
+      }
+    },
+    "lFullAstern": {
+      "type": "text",
+      "label": "OUTBOARD",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 315.3,
+        "width": 77.8,
+        "height": 20.9
+      }
+    },
+    "m30": {
+      "type": "text",
+      "label": "INBOARD",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 291.6,
+        "width": 40.4,
+        "height": 20.9
+      }
+    },
+    "m60": {
+      "type": "text",
+      "label": "INBOARD",
+      "page": 1,
+      "box": {
+        "left": 324.4,
+        "top": 291.6,
+        "width": 40.4,
+        "height": 20.9
+      }
+    },
+    "m90": {
+      "type": "text",
+      "label": "INBOARD",
+      "page": 1,
+      "box": {
+        "left": 367.0,
+        "top": 291.6,
+        "width": 40.4,
+        "height": 20.9
+      }
+    },
+    "m120": {
+      "type": "text",
+      "label": "INBOARD",
+      "page": 1,
+      "box": {
+        "left": 410.6,
+        "top": 291.6,
+        "width": 40.4,
+        "height": 20.9
+      }
+    },
+    "mAverage": {
+      "type": "text",
+      "label": "INBOARD",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 291.6,
+        "width": 40.4,
+        "height": 20.9
+      }
+    },
+    "mFullAstern": {
+      "type": "text",
+      "label": "INBOARD",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 291.6,
+        "width": 77.8,
+        "height": 20.9
+      }
+    },
+    "n30": {
+      "type": "text",
+      "label": "CONDITIONS",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 267.4,
+        "width": 40.4,
+        "height": 33.2
+      },
+      "multiline": true
+    },
+    "n60": {
+      "type": "text",
+      "label": "CONDITIONS (GENERAL)",
+      "page": 1,
+      "box": {
+        "left": 324.4,
+        "top": 267.4,
+        "width": 40.4,
+        "height": 33.2
+      },
+      "multiline": true
+    },
+    "n90": {
+      "type": "text",
+      "label": "(GENERAL)",
+      "page": 1,
+      "box": {
+        "left": 367.0,
+        "top": 267.4,
+        "width": 40.4,
+        "height": 33.2
+      },
+      "multiline": true
+    },
+    "n120": {
+      "type": "text",
+      "label": "120 MIN",
+      "page": 1,
+      "box": {
+        "left": 410.6,
+        "top": 267.4,
+        "width": 40.4,
+        "height": 33.2
+      },
+      "multiline": true
+    },
+    "nAverage": {
+      "type": "text",
+      "label": "AVERAGE",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 267.4,
+        "width": 40.4,
+        "height": 33.2
+      },
+      "multiline": true
+    },
+    "nFullAstern": {
+      "type": "text",
+      "label": "FULL ASTERN DATA",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 267.4,
+        "width": 77.8,
+        "height": 33.2
+      },
+      "multiline": true
+    },
+    "o30": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 231.4,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "o60": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 1,
+      "box": {
+        "left": 324.4,
+        "top": 231.4,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "o90": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 1,
+      "box": {
+        "left": 367.0,
+        "top": 231.4,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "o120": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 1,
+      "box": {
+        "left": 410.6,
+        "top": 231.4,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "oAverage": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 231.4,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "oFullAstern": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 231.4,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "p30": {
+      "type": "text",
+      "label": "TYPE",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 217.0,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "p60": {
+      "type": "text",
+      "label": "TYPE",
+      "page": 1,
+      "box": {
+        "left": 324.4,
+        "top": 217.0,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "p90": {
+      "type": "text",
+      "label": "TYPE",
+      "page": 1,
+      "box": {
+        "left": 367.0,
+        "top": 217.0,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "p120": {
+      "type": "text",
+      "label": "TYPE",
+      "page": 1,
+      "box": {
+        "left": 410.6,
+        "top": 217.0,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "pAverage": {
+      "type": "text",
+      "label": "TYPE",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 217.0,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "pFullAstern": {
+      "type": "text",
+      "label": "TYPE",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 217.0,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "q30": {
+      "type": "text",
+      "label": "TOTAL FRESH FEED WATER CONSUMED (GAL)",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 202.6,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "q60": {
+      "type": "text",
+      "label": "TOTAL FRESH FEED WATER CONSUMED (GAL)",
+      "page": 1,
+      "box": {
+        "left": 324.4,
+        "top": 202.6,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "q90": {
+      "type": "text",
+      "label": "TOTAL FRESH FEED WATER CONSUMED (GAL)",
+      "page": 1,
+      "box": {
+        "left": 367.0,
+        "top": 202.6,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "q120": {
+      "type": "text",
+      "label": "TOTAL FRESH FEED WATER CONSUMED (GAL)",
+      "page": 1,
+      "box": {
+        "left": 410.6,
+        "top": 202.6,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "qAverage": {
+      "type": "text",
+      "label": "TOTAL FRESH FEED WATER CONSUMED (GAL)",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 202.6,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "qFullAstern": {
+      "type": "text",
+      "label": "TOTAL FRESH FEED WATER CONSUMED (GAL)",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 202.6,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "r30": {
+      "type": "text",
+      "label": "TOTAL 3. WATER MADE BY DISTILLING PLANTS (GAL)",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 188.2,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "r60": {
+      "type": "text",
+      "label": "TOTAL 3. WATER MADE BY DISTILLING PLANTS (GAL)",
+      "page": 1,
+      "box": {
+        "left": 324.4,
+        "top": 188.2,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "r90": {
+      "type": "text",
+      "label": "TOTAL 3. WATER MADE BY DISTILLING PLANTS (GAL)",
+      "page": 1,
+      "box": {
+        "left": 367.0,
+        "top": 188.2,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "r120": {
+      "type": "text",
+      "label": "TOTAL 3. WATER MADE BY DISTILLING PLANTS (GAL)",
+      "page": 1,
+      "box": {
+        "left": 410.6,
+        "top": 188.2,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "rAverage": {
+      "type": "text",
+      "label": "TOTAL 3. WATER MADE BY DISTILLING PLANTS (GAL)",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 188.2,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "rFullAstern": {
+      "type": "text",
+      "label": "TOTAL 3. WATER MADE BY DISTILLING PLANTS (GAL)",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 188.2,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "s30": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 173.6,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "s60": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 1,
+      "box": {
+        "left": 324.4,
+        "top": 173.6,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "s90": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 1,
+      "box": {
+        "left": 367.0,
+        "top": 173.6,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "s120": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 1,
+      "box": {
+        "left": 410.6,
+        "top": 173.6,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "sAverage": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 173.6,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "sFullAstern": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 173.6,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "t30": {
+      "type": "text",
+      "label": "RATING",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 159.2,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "t60": {
+      "type": "text",
+      "label": "RATING",
+      "page": 1,
+      "box": {
+        "left": 324.4,
+        "top": 159.2,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "t90": {
+      "type": "text",
+      "label": "RATING",
+      "page": 1,
+      "box": {
+        "left": 367.0,
+        "top": 159.2,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "t120": {
+      "type": "text",
+      "label": "RATING",
+      "page": 1,
+      "box": {
+        "left": 410.6,
+        "top": 159.2,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "tAverage": {
+      "type": "text",
+      "label": "RATING",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 159.2,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "tFullAstern": {
+      "type": "text",
+      "label": "RATING",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 159.2,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "u30": {
+      "type": "text",
+      "label": "S/S GENERATORS (KW)",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 144.8,
+        "width": 40.4,
+        "height": 26.0
+      }
+    },
+    "u60": {
+      "type": "text",
+      "label": "S/S GENERATORS (KW)",
+      "page": 1,
+      "box": {
+        "left": 324.4,
+        "top": 144.8,
+        "width": 40.4,
+        "height": 26.0
+      }
+    },
+    "u90": {
+      "type": "text",
+      "label": "S/S GENERATORS (KW)",
+      "page": 1,
+      "box": {
+        "left": 367.0,
+        "top": 144.8,
+        "width": 40.4,
+        "height": 26.0
+      }
+    },
+    "u120": {
+      "type": "text",
+      "label": "S/S GENERATORS (KW)",
+      "page": 1,
+      "box": {
+        "left": 410.6,
+        "top": 144.8,
+        "width": 40.4,
+        "height": 26.0
+      }
+    },
+    "uAverage": {
+      "type": "text",
+      "label": "S/S GENERATORS (KW)",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 144.8,
+        "width": 40.4,
+        "height": 26.0
+      }
+    },
+    "uFullAstern": {
+      "type": "text",
+      "label": "S/S GENERATORS (KW)",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 144.8,
+        "width": 77.8,
+        "height": 26.0
+      }
+    },
+    "v302": {
+      "type": "text",
+      "label": "BLACK SMOKE (B), DARK BROWN (DB), LIGHT BROWN (LB),",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 115.9,
+        "width": 40.4,
+        "height": 40.4
+      },
+      "multiline": true
+    },
+    "v602": {
+      "type": "text",
+      "label": "BLACK SMOKE (B), DARK BROWN (DB), LIGHT BROWN (LB),",
+      "page": 1,
+      "box": {
+        "left": 324.4,
+        "top": 115.9,
+        "width": 40.4,
+        "height": 40.4
+      },
+      "multiline": true
+    },
+    "v90": {
+      "type": "text",
+      "label": "BLACK SMOKE (B), DARK BROWN (DB), LIGHT BROWN (LB),",
+      "page": 1,
+      "box": {
+        "left": 367.0,
+        "top": 115.9,
+        "width": 40.4,
+        "height": 40.4
+      },
+      "multiline": true
+    },
+    "v120": {
+      "type": "text",
+      "label": "BLACK SMOKE (B), DARK BROWN (DB), LIGHT BROWN (LB),",
+      "page": 1,
+      "box": {
+        "left": 410.6,
+        "top": 115.9,
+        "width": 40.4,
+        "height": 40.4
+      },
+      "multiline": true
+    },
+    "vAverage2": {
+      "type": "text",
+      "label": "BLACK SMOKE (B), DARK BROWN (DB), LIGHT BROWN (LB),",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 115.9,
+        "width": 40.4,
+        "height": 40.4
+      },
+      "multiline": true
+    },
+    "vFullAstern2": {
+      "type": "text",
+      "label": "BLACK SMOKE (B), DARK BROWN (DB), LIGHT BROWN (LB),",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 115.9,
+        "width": 77.8,
+        "height": 40.4
+      },
+      "multiline": true
+    }
+  }
+}

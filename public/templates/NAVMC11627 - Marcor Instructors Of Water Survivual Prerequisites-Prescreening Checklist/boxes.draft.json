@@ -1,0 +1,284 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "nameLast": {
+        "left": 128.1,
+        "top": 659.5,
+        "width": 175.8,
+        "height": 13.1,
+        "type": "text",
+        "description": "nameLast",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameFirst": {
+        "left": 312.6,
+        "top": 659.5,
+        "width": 142.1,
+        "height": 13.1,
+        "type": "text",
+        "description": "nameFirst",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameMI": {
+        "left": 462.8,
+        "top": 659.5,
+        "width": 29.8,
+        "height": 13.1,
+        "type": "text",
+        "description": "nameMI",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mos": {
+        "left": 128.1,
+        "top": 623.2,
+        "width": 191.6,
+        "height": 13.1,
+        "type": "text",
+        "description": "MOS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "phoneNumber": {
+        "left": 328.3,
+        "top": 623.2,
+        "width": 91.1,
+        "height": 13.1,
+        "type": "text",
+        "description": "phoneNumber",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date": {
+        "left": 429.6,
+        "top": 621.7,
+        "width": 63.3,
+        "height": 10.9,
+        "type": "text",
+        "description": "date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "e4orAbove": {
+        "left": 113.3,
+        "top": 551.5,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "E4orAbove",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "currentWSI": {
+        "left": 114.0,
+        "top": 523.5,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "currentWSI",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "oneYearRemaining": {
+        "left": 113.4,
+        "top": 495.3,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "oneYearRemaining",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "firstClassPFT": {
+        "left": 113.3,
+        "top": 466.1,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "firstClassPFT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recommendedByMCIWS": {
+        "left": 113.7,
+        "top": 437.2,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "recommendedByMCIWS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "phoneNumber2": {
+        "left": 466.1,
+        "top": 405.7,
+        "width": 80.3,
+        "height": 13.1,
+        "type": "text",
+        "description": "phoneNumber",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mcitws": {
+        "left": 67.2,
+        "top": 405.4,
+        "width": 251.9,
+        "height": 13.1,
+        "type": "text",
+        "description": "MCITWS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mcitwsSig": {
+        "left": 328.5,
+        "top": 405.2,
+        "width": 128.4,
+        "height": 12.1,
+        "type": "signature",
+        "description": "mcitwsSig",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ordersToAttend": {
+        "left": 113.7,
+        "top": 334.6,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "OrdersToAttend",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "medicalRecord": {
+        "left": 113.6,
+        "top": 305.2,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "MedicalRecord",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "copyOfBIRorBTR": {
+        "left": 113.6,
+        "top": 276.0,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "copyOfBIRorBTR",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "swim500m": {
+        "left": 113.8,
+        "top": 215.1,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "swim500m",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "swinUnderWater": {
+        "left": 113.5,
+        "top": 175.3,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "swinUnderWater",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "lifeSavingStroke": {
+        "left": 113.6,
+        "top": 144.2,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "lifeSavingStroke",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rubberDiveBrick": {
+        "left": 113.6,
+        "top": 104.5,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "rubberDiveBrick",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "sigAttendee": {
+        "left": 158.2,
+        "top": 617.8,
+        "width": 153.3,
+        "height": 12.1,
+        "type": "signature",
+        "description": "sigAttendee",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameCO": {
+        "left": 94.2,
+        "top": 587.2,
+        "width": 256.5,
+        "height": 13.1,
+        "type": "text",
+        "description": "nameCO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sigCO": {
+        "left": 360.1,
+        "top": 586.9,
+        "width": 153.3,
+        "height": 12.1,
+        "type": "signature",
+        "description": "sigCO",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

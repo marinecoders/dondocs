@@ -1,0 +1,4661 @@
+{
+  "id": "opnav90941c",
+  "label": "OPNAV9094-1C - Engineering Trial Report (deisel Driven Ships And Submarines)",
+  "directory": "OPNAV9094-1C - Engineering Trial Report (deisel Driven Ships And Submarines)",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "shipName",
+        "trialDte",
+        "radio",
+        "radio2",
+        "radio3",
+        "radio4",
+        "radio5",
+        "radio6",
+        "other1",
+        "other2",
+        "radio7",
+        "radio8",
+        "radio9",
+        "radio10",
+        "radio11",
+        "forward",
+        "aft",
+        "mean",
+        "displacement",
+        "outofDock",
+        "underway",
+        "notUnderway",
+        "paint",
+        "fixedPitch",
+        "diameter1",
+        "pitch1",
+        "blades1",
+        "conPitch",
+        "diameter2",
+        "pitch2",
+        "blades2",
+        "a15",
+        "a30",
+        "a45",
+        "a60",
+        "aAverage",
+        "aFullAstern",
+        "b15",
+        "b30",
+        "b45",
+        "b60",
+        "bAverage",
+        "bFullAstern",
+        "c15",
+        "c30",
+        "c45",
+        "c60",
+        "cAverage",
+        "cFullAstern",
+        "d15",
+        "d30",
+        "d45",
+        "d60",
+        "dAverage",
+        "dFullAstern",
+        "e15",
+        "e30",
+        "e45",
+        "e60",
+        "eAverage",
+        "eFullAstern",
+        "f15",
+        "f30",
+        "f45",
+        "f60",
+        "fAverage",
+        "fFullAstern",
+        "g15",
+        "g30",
+        "g45",
+        "g60",
+        "gAverage",
+        "gFullAstern",
+        "h15",
+        "h30",
+        "h45",
+        "h60",
+        "hAverage",
+        "hFullAstern",
+        "i30",
+        "i60",
+        "i90",
+        "i120",
+        "iAverage",
+        "iFullAstern",
+        "v15",
+        "v30",
+        "v45",
+        "v60",
+        "vAverage",
+        "vFullAstern",
+        "n15",
+        "n30",
+        "n45",
+        "n60",
+        "nAverage",
+        "nFullAstern",
+        "s15",
+        "s30",
+        "s45",
+        "s60",
+        "sAverage",
+        "sFullAstern",
+        "t15",
+        "t30",
+        "t45",
+        "t60",
+        "tAverage",
+        "tFullAstern",
+        "u15",
+        "u30",
+        "u45",
+        "u60",
+        "uAverage",
+        "uFullAstern"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "engRoom",
+        "engNum",
+        "genNum",
+        "motNum",
+        "a152",
+        "a302",
+        "a452",
+        "a602",
+        "aAverage2",
+        "aFullAstern2",
+        "b152",
+        "b302",
+        "b452",
+        "b602",
+        "bAverage2",
+        "bFullAstern2",
+        "a153",
+        "a303",
+        "a453",
+        "a603",
+        "aAverage3",
+        "aFullAstern3",
+        "radio12",
+        "radio13",
+        "b153",
+        "b303",
+        "b453",
+        "b603",
+        "bAverage3",
+        "bFullAstern3",
+        "g152",
+        "g302",
+        "g452",
+        "g602",
+        "gAverage2",
+        "gFullAstern2",
+        "h152",
+        "h302",
+        "h452",
+        "h602",
+        "hAverage2",
+        "hFullAstern2",
+        "k15",
+        "k30",
+        "k45",
+        "k60",
+        "kAverage",
+        "kFullAstern",
+        "l1521",
+        "l3021",
+        "l4521",
+        "l6021",
+        "lAverage21",
+        "lFullAstern21",
+        "m15",
+        "m30",
+        "m45",
+        "m60",
+        "mAverage",
+        "mFullAstern",
+        "n152",
+        "n302",
+        "n452",
+        "n602",
+        "nAverage2",
+        "nFullAstern2",
+        "o15",
+        "o30",
+        "o45",
+        "o60",
+        "oAverage",
+        "oFullAstern",
+        "p15",
+        "p30",
+        "p45",
+        "p60",
+        "pAverage",
+        "pFullAstern",
+        "q15",
+        "q30",
+        "q45",
+        "q60",
+        "qAverage",
+        "qFullAstern",
+        "r15",
+        "r30",
+        "r45",
+        "r60",
+        "rAverage",
+        "rFullAstern",
+        "s152",
+        "s302",
+        "s452",
+        "s602",
+        "sAverage2",
+        "sFullAstern2",
+        "t152",
+        "t302",
+        "t452",
+        "t602",
+        "tAverage2",
+        "tFullAstern2",
+        "u152",
+        "u302",
+        "u452",
+        "u602",
+        "uAverage2",
+        "uFullAstern2",
+        "v152",
+        "v302",
+        "v452",
+        "v602",
+        "vAverage2",
+        "vFullAstern2",
+        "w15",
+        "w30",
+        "w45",
+        "w60",
+        "wAverage",
+        "wFullAstern",
+        "x15",
+        "x30",
+        "x45",
+        "x60",
+        "xAverage",
+        "xFullAstern",
+        "y15",
+        "y30",
+        "y45",
+        "y60",
+        "yAverage",
+        "yFullAstern",
+        "z15",
+        "z30",
+        "z45",
+        "z60",
+        "zAverage",
+        "zFullAstern",
+        "aa15",
+        "aa30",
+        "aa45",
+        "aa60",
+        "aaAverage",
+        "aaFullAstern",
+        "ab15",
+        "ab30",
+        "ab45",
+        "ab60",
+        "abAverage",
+        "abFullAstern",
+        "ac15",
+        "ac30",
+        "ac45",
+        "ac60",
+        "acAverage",
+        "acFullAstern",
+        "ad15",
+        "ad30",
+        "ad45",
+        "ad60",
+        "adAverage",
+        "adFullAstern",
+        "ae15",
+        "ae30",
+        "ae45",
+        "ae60",
+        "aeAverage",
+        "aeFullAstern",
+        "af15",
+        "af30",
+        "af45",
+        "af60",
+        "afAverage",
+        "afFullAstern",
+        "ag15",
+        "ag30",
+        "ag45",
+        "ag60",
+        "agAverage",
+        "agFullAstern",
+        "ah15",
+        "ah30",
+        "ah45",
+        "ah60",
+        "ahAverage",
+        "ahFullAstern",
+        "ai15",
+        "ai30",
+        "ai45",
+        "ai60",
+        "aiAverage",
+        "aiFullAstern",
+        "aj15",
+        "aj30",
+        "aj45",
+        "aj60",
+        "ajAverage",
+        "ajFullAstern",
+        "ak15",
+        "ak30",
+        "ak45",
+        "ak60",
+        "akAverage",
+        "akFullAstern",
+        "al15",
+        "al30",
+        "al45",
+        "al60",
+        "alAverage",
+        "alFullAstern",
+        "am15",
+        "am30",
+        "am45",
+        "am60",
+        "amAverage",
+        "amFullAstern",
+        "an15",
+        "an30",
+        "an45",
+        "an60",
+        "anAverage",
+        "anFullAstern",
+        "ao15",
+        "ao30",
+        "ao45",
+        "ao60",
+        "aoAverage",
+        "aoFullAstern",
+        "ap15",
+        "ap30",
+        "ap45",
+        "ap60",
+        "apAverage",
+        "apFullAstern",
+        "aq15",
+        "aq30",
+        "aq45",
+        "aq60",
+        "aqAverage",
+        "aqFullAstern"
+      ]
+    }
+  ],
+  "fields": {
+    "shipName": {
+      "type": "text",
+      "label": "SHIP (NAME, TYPE, NUMBER)",
+      "page": 1,
+      "box": {
+        "left": 39.0,
+        "top": 715.7,
+        "width": 426.4,
+        "height": 10.9
+      }
+    },
+    "trialDte": {
+      "type": "text",
+      "label": "DATE OF TRIAL",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 715.7,
+        "width": 102.3,
+        "height": 10.9
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 119.3,
+        "top": 685.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 173.3,
+        "top": 685.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 247.9,
+        "top": 685.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 320.8,
+        "top": 685.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 1,
+      "box": {
+        "left": 384.1,
+        "top": 685.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 1,
+      "box": {
+        "left": 446.3,
+        "top": 685.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "other1": {
+      "type": "text",
+      "label": "PRE-OVERHAUL POST REPAIR FULL POWER OTHER (SPECIFY)",
+      "page": 1,
+      "box": {
+        "left": 524.0,
+        "top": 685.0,
+        "width": 48.3,
+        "height": 10.2
+      }
+    },
+    "other2": {
+      "type": "text",
+      "label": "OTHER (SPECIFY)",
+      "page": 1,
+      "box": {
+        "left": 524.0,
+        "top": 666.6,
+        "width": 48.3,
+        "height": 10.2
+      }
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 119.3,
+        "top": 665.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 173.3,
+        "top": 665.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio9": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 247.9,
+        "top": 665.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio10": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 1,
+      "box": {
+        "left": 320.8,
+        "top": 665.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio11": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 1,
+      "box": {
+        "left": 446.3,
+        "top": 665.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "forward": {
+      "type": "text",
+      "label": "a. FORWARD (FEET-INCHES)",
+      "page": 1,
+      "box": {
+        "left": 103.2,
+        "top": 629.8,
+        "width": 111.3,
+        "height": 10.9
+      }
+    },
+    "aft": {
+      "type": "text",
+      "label": "b. AFT (FEET-INCHES)",
+      "page": 1,
+      "box": {
+        "left": 220.2,
+        "top": 629.8,
+        "width": 111.3,
+        "height": 10.9
+      }
+    },
+    "mean": {
+      "type": "text",
+      "label": "c. MEAN (FEET-INCHES)",
+      "page": 1,
+      "box": {
+        "left": 337.3,
+        "top": 629.8,
+        "width": 111.3,
+        "height": 10.9
+      }
+    },
+    "displacement": {
+      "type": "text",
+      "label": "d. DISPLACEMENT (TONS)",
+      "page": 1,
+      "box": {
+        "left": 454.3,
+        "top": 629.8,
+        "width": 118.6,
+        "height": 10.9
+      }
+    },
+    "outofDock": {
+      "type": "text",
+      "label": "DATA",
+      "page": 1,
+      "box": {
+        "left": 103.2,
+        "top": 595.9,
+        "width": 111.3,
+        "height": 10.2
+      }
+    },
+    "underway": {
+      "type": "text",
+      "label": "DATA",
+      "page": 1,
+      "box": {
+        "left": 220.2,
+        "top": 595.9,
+        "width": 111.3,
+        "height": 10.2
+      }
+    },
+    "notUnderway": {
+      "type": "text",
+      "label": "DATA",
+      "page": 1,
+      "box": {
+        "left": 337.3,
+        "top": 595.9,
+        "width": 111.3,
+        "height": 10.2
+      }
+    },
+    "paint": {
+      "type": "text",
+      "label": "DATA",
+      "page": 1,
+      "box": {
+        "left": 454.3,
+        "top": 595.9,
+        "width": 118.6,
+        "height": 10.2
+      }
+    },
+    "fixedPitch": {
+      "type": "checkbox",
+      "label": "LOCATION DIAMETER (FT-IN) PITCH NO. OF BLADES",
+      "page": 1,
+      "box": {
+        "left": 361.9,
+        "top": 577.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "diameter1": {
+      "type": "text",
+      "label": "3. PROPELLERS INBOARD",
+      "page": 1,
+      "box": {
+        "left": 152.0,
+        "top": 570.5,
+        "width": 76.1,
+        "height": 10.1
+      }
+    },
+    "pitch1": {
+      "type": "text",
+      "label": "3. PROPELLERS INBOARD",
+      "page": 1,
+      "box": {
+        "left": 230.6,
+        "top": 570.5,
+        "width": 50.8,
+        "height": 10.1
+      }
+    },
+    "blades1": {
+      "type": "text",
+      "label": "3. PROPELLERS INBOARD",
+      "page": 1,
+      "box": {
+        "left": 284.4,
+        "top": 570.4,
+        "width": 70.1,
+        "height": 10.1
+      }
+    },
+    "conPitch": {
+      "type": "checkbox",
+      "label": "OUTBOARD",
+      "page": 1,
+      "box": {
+        "left": 361.9,
+        "top": 558.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "diameter2": {
+      "type": "text",
+      "label": "OUTBOARD",
+      "page": 1,
+      "box": {
+        "left": 152.0,
+        "top": 557.1,
+        "width": 76.1,
+        "height": 10.1
+      }
+    },
+    "pitch2": {
+      "type": "text",
+      "label": "OUTBOARD",
+      "page": 1,
+      "box": {
+        "left": 230.6,
+        "top": 557.1,
+        "width": 50.8,
+        "height": 10.1
+      }
+    },
+    "blades2": {
+      "type": "text",
+      "label": "OUTBOARD",
+      "page": 1,
+      "box": {
+        "left": 284.4,
+        "top": 557.1,
+        "width": 70.1,
+        "height": 10.1
+      }
+    },
+    "a15": {
+      "type": "text",
+      "label": "(INCHES HG)",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 533.2,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "a30": {
+      "type": "text",
+      "label": "(INCHES HG)",
+      "page": 1,
+      "box": {
+        "left": 324.4,
+        "top": 533.2,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "a45": {
+      "type": "text",
+      "label": "(INCHES HG)",
+      "page": 1,
+      "box": {
+        "left": 367.0,
+        "top": 533.2,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "a60": {
+      "type": "text",
+      "label": "(INCHES HG)",
+      "page": 1,
+      "box": {
+        "left": 410.6,
+        "top": 533.2,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "aAverage": {
+      "type": "text",
+      "label": "(INCHES HG)",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 533.2,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "aFullAstern": {
+      "type": "text",
+      "label": "(INCHES HG)",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 533.2,
+        "width": 77.8,
+        "height": 10.1
+      }
+    },
+    "b15": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 520.0,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "b30": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 324.4,
+        "top": 520.0,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "b45": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 367.0,
+        "top": 520.0,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "b60": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 410.6,
+        "top": 520.0,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "bAverage": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 520.0,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "bFullAstern": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 520.0,
+        "width": 77.8,
+        "height": 10.1
+      }
+    },
+    "c15": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 507.0,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "c30": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 324.4,
+        "top": 507.0,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "c45": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 367.0,
+        "top": 507.0,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "c60": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 410.6,
+        "top": 507.0,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "cAverage": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 507.0,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "cFullAstern": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 507.0,
+        "width": 77.8,
+        "height": 10.1
+      }
+    },
+    "d15": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 494.1,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "d30": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 324.4,
+        "top": 494.1,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "d45": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 367.0,
+        "top": 494.1,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "d60": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 410.6,
+        "top": 494.1,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "dAverage": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 494.1,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "dFullAstern": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 494.1,
+        "width": 77.8,
+        "height": 10.1
+      }
+    },
+    "e15": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 481.1,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "e30": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 324.4,
+        "top": 481.1,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "e45": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 367.0,
+        "top": 481.1,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "e60": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 410.6,
+        "top": 481.1,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "eAverage": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 481.1,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "eFullAstern": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 481.1,
+        "width": 77.8,
+        "height": 10.1
+      }
+    },
+    "f15": {
+      "type": "text",
+      "label": "(DEG)",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 467.9,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "f30": {
+      "type": "text",
+      "label": "(DEG)",
+      "page": 1,
+      "box": {
+        "left": 324.4,
+        "top": 467.9,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "f45": {
+      "type": "text",
+      "label": "(DEG)",
+      "page": 1,
+      "box": {
+        "left": 367.0,
+        "top": 467.9,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "f60": {
+      "type": "text",
+      "label": "(DEG)",
+      "page": 1,
+      "box": {
+        "left": 410.6,
+        "top": 467.9,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "fAverage": {
+      "type": "text",
+      "label": "(DEG)",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 467.9,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "fFullAstern": {
+      "type": "text",
+      "label": "(DEG)",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 467.9,
+        "width": 77.8,
+        "height": 10.1
+      }
+    },
+    "g15": {
+      "type": "text",
+      "label": "(BEAUFORT NO)",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 454.9,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "g30": {
+      "type": "text",
+      "label": "(BEAUFORT NO)",
+      "page": 1,
+      "box": {
+        "left": 324.4,
+        "top": 454.9,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "g45": {
+      "type": "text",
+      "label": "(BEAUFORT NO)",
+      "page": 1,
+      "box": {
+        "left": 367.0,
+        "top": 454.9,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "g60": {
+      "type": "text",
+      "label": "(BEAUFORT NO)",
+      "page": 1,
+      "box": {
+        "left": 410.6,
+        "top": 454.9,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "gAverage": {
+      "type": "text",
+      "label": "(BEAUFORT NO)",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 454.9,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "gFullAstern": {
+      "type": "text",
+      "label": "(BEAUFORT NO)",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 454.9,
+        "width": 77.8,
+        "height": 10.1
+      }
+    },
+    "h15": {
+      "type": "text",
+      "label": "(DEG)",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 442.0,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "h30": {
+      "type": "text",
+      "label": "(DEG)",
+      "page": 1,
+      "box": {
+        "left": 324.4,
+        "top": 442.0,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "h45": {
+      "type": "text",
+      "label": "(DEG)",
+      "page": 1,
+      "box": {
+        "left": 367.0,
+        "top": 442.0,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "h60": {
+      "type": "text",
+      "label": "(DEG)",
+      "page": 1,
+      "box": {
+        "left": 410.6,
+        "top": 442.0,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "hAverage": {
+      "type": "text",
+      "label": "(DEG)",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 442.0,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "hFullAstern": {
+      "type": "text",
+      "label": "(DEG)",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 442.0,
+        "width": 77.8,
+        "height": 10.1
+      }
+    },
+    "i30": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 418.4,
+        "width": 40.4,
+        "height": 10.2
+      }
+    },
+    "i60": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 324.4,
+        "top": 418.4,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "i90": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 367.0,
+        "top": 418.4,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "i120": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 410.6,
+        "top": 418.4,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "iAverage": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 418.4,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "iFullAstern": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 418.4,
+        "width": 77.8,
+        "height": 10.1
+      }
+    },
+    "v15": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 405.4,
+        "width": 40.4,
+        "height": 10.2
+      }
+    },
+    "v30": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 324.4,
+        "top": 405.4,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "v45": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 367.0,
+        "top": 405.4,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "v60": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 410.6,
+        "top": 405.4,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "vAverage": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 405.4,
+        "width": 40.4,
+        "height": 10.1
+      }
+    },
+    "vFullAstern": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 405.4,
+        "width": 77.8,
+        "height": 10.1
+      }
+    },
+    "n15": {
+      "type": "text",
+      "label": "CONDITIONS",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 133.3,
+        "width": 40.4,
+        "height": 33.2
+      },
+      "multiline": true
+    },
+    "n30": {
+      "type": "text",
+      "label": "CONDITIONS (GENERAL)",
+      "page": 1,
+      "box": {
+        "left": 324.4,
+        "top": 133.3,
+        "width": 40.4,
+        "height": 33.2
+      },
+      "multiline": true
+    },
+    "n45": {
+      "type": "text",
+      "label": "(GENERAL)",
+      "page": 1,
+      "box": {
+        "left": 367.0,
+        "top": 133.3,
+        "width": 40.4,
+        "height": 33.2
+      },
+      "multiline": true
+    },
+    "n60": {
+      "type": "text",
+      "label": "60 MIN",
+      "page": 1,
+      "box": {
+        "left": 410.6,
+        "top": 133.3,
+        "width": 40.4,
+        "height": 33.2
+      },
+      "multiline": true
+    },
+    "nAverage": {
+      "type": "text",
+      "label": "AVERAGE",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 133.3,
+        "width": 40.4,
+        "height": 33.2
+      },
+      "multiline": true
+    },
+    "nFullAstern": {
+      "type": "text",
+      "label": "FULL ASTERN DATA",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 133.3,
+        "width": 77.8,
+        "height": 33.2
+      },
+      "multiline": true
+    },
+    "s15": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 97.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "s30": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 1,
+      "box": {
+        "left": 324.4,
+        "top": 97.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "s45": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 1,
+      "box": {
+        "left": 367.0,
+        "top": 97.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "s60": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 1,
+      "box": {
+        "left": 410.6,
+        "top": 97.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "sAverage": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 97.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "sFullAstern": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 97.9,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "t15": {
+      "type": "text",
+      "label": "RATING",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 83.5,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "t30": {
+      "type": "text",
+      "label": "RATING",
+      "page": 1,
+      "box": {
+        "left": 324.4,
+        "top": 83.5,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "t45": {
+      "type": "text",
+      "label": "RATING",
+      "page": 1,
+      "box": {
+        "left": 367.0,
+        "top": 83.5,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "t60": {
+      "type": "text",
+      "label": "RATING",
+      "page": 1,
+      "box": {
+        "left": 410.6,
+        "top": 83.5,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "tAverage": {
+      "type": "text",
+      "label": "RATING",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 83.5,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "tFullAstern": {
+      "type": "text",
+      "label": "RATING",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 83.5,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "u15": {
+      "type": "text",
+      "label": "S/S 3. GENERATORS (KW)",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 69.1,
+        "width": 40.4,
+        "height": 18.8
+      }
+    },
+    "u30": {
+      "type": "text",
+      "label": "S/S 3. GENERATORS (KW)",
+      "page": 1,
+      "box": {
+        "left": 324.4,
+        "top": 69.1,
+        "width": 40.4,
+        "height": 18.8
+      }
+    },
+    "u45": {
+      "type": "text",
+      "label": "S/S 3. GENERATORS (KW)",
+      "page": 1,
+      "box": {
+        "left": 367.0,
+        "top": 69.1,
+        "width": 40.4,
+        "height": 18.8
+      }
+    },
+    "u60": {
+      "type": "text",
+      "label": "S/S 3. GENERATORS (KW)",
+      "page": 1,
+      "box": {
+        "left": 410.6,
+        "top": 69.1,
+        "width": 40.4,
+        "height": 18.8
+      }
+    },
+    "uAverage": {
+      "type": "text",
+      "label": "S/S 3. GENERATORS (KW)",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 69.1,
+        "width": 40.4,
+        "height": 18.8
+      }
+    },
+    "uFullAstern": {
+      "type": "text",
+      "label": "S/S 3. GENERATORS (KW)",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 69.1,
+        "width": 77.8,
+        "height": 18.8
+      }
+    },
+    "engRoom": {
+      "type": "text",
+      "label": "ENGINE ROOM NUMBER",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 716.1,
+        "width": 129.3,
+        "height": 10.2
+      }
+    },
+    "engNum": {
+      "type": "text",
+      "label": "ENGINE NUMBERS",
+      "page": 2,
+      "box": {
+        "left": 173.3,
+        "top": 716.1,
+        "width": 129.3,
+        "height": 10.2
+      }
+    },
+    "genNum": {
+      "type": "text",
+      "label": "GENERATOR NUMBERS",
+      "page": 2,
+      "box": {
+        "left": 308.3,
+        "top": 716.1,
+        "width": 129.3,
+        "height": 10.2
+      }
+    },
+    "motNum": {
+      "type": "text",
+      "label": "MOTOR NUMBERS",
+      "page": 2,
+      "box": {
+        "left": 442.8,
+        "top": 716.1,
+        "width": 129.3,
+        "height": 10.2
+      }
+    },
+    "a152": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 679.7,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "a302": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 679.7,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "a452": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 679.7,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "a602": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 679.7,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "aAverage2": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 679.7,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "aFullAstern2": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 679.7,
+        "width": 77.8,
+        "height": 9.4
+      }
+    },
+    "b152": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 667.5,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "b302": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 667.5,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "b452": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 667.5,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "b602": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 667.5,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "bAverage2": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 667.5,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "bFullAstern2": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 667.5,
+        "width": 77.8,
+        "height": 9.4
+      }
+    },
+    "a153": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 655.4,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "a303": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 655.4,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "a453": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 655.4,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "a603": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 655.4,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "aAverage3": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 655.4,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "aFullAstern3": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 655.4,
+        "width": 77.8,
+        "height": 9.4
+      }
+    },
+    "radio12": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 68.2,
+        "top": 643.9,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "radio"
+    },
+    "radio13": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 117.4,
+        "top": 643.9,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "radio"
+    },
+    "b153": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 643.2,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "b303": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 643.2,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "b453": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 643.2,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "b603": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 643.2,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "bAverage3": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 643.2,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "bFullAstern3": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 643.2,
+        "width": 77.8,
+        "height": 9.4
+      }
+    },
+    "g152": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 484.4,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "g302": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 484.4,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "g452": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 484.4,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "g602": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 484.4,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "gAverage2": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 484.4,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "gFullAstern2": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 484.4,
+        "width": 77.8,
+        "height": 9.4
+      }
+    },
+    "h152": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 472.1,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "h302": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 472.1,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "h452": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 472.1,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "h602": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 472.1,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "hAverage2": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 472.1,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "hFullAstern2": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 472.1,
+        "width": 77.8,
+        "height": 9.4
+      }
+    },
+    "k15": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 459.9,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "k30": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 459.9,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "k45": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 459.9,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "k60": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 459.9,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "kAverage": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 459.9,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "kFullAstern": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 459.9,
+        "width": 77.8,
+        "height": 9.4
+      }
+    },
+    "l1521": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 447.6,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "l3021": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 447.6,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "l4521": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 447.6,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "l6021": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 447.6,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "lAverage21": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 447.6,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "lFullAstern21": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 447.6,
+        "width": 77.8,
+        "height": 9.4
+      }
+    },
+    "m15": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 435.4,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "m30": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 435.4,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "m45": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 435.4,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "m60": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 435.4,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "mAverage": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 435.4,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "mFullAstern": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 435.4,
+        "width": 77.8,
+        "height": 9.4
+      }
+    },
+    "n152": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 423.2,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "n302": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 423.2,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "n452": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 423.2,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "n602": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 423.2,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "nAverage2": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 423.2,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "nFullAstern2": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 423.2,
+        "width": 77.8,
+        "height": 9.4
+      }
+    },
+    "o15": {
+      "type": "text",
+      "label": "1.12 WAS CYLINDER TO CYLINDER EXHAUST ENGINE ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 411.3,
+        "width": 40.4,
+        "height": 21.1
+      }
+    },
+    "o30": {
+      "type": "text",
+      "label": "1.12 WAS CYLINDER TO CYLINDER EXHAUST ENGINE ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 411.3,
+        "width": 40.4,
+        "height": 21.1
+      }
+    },
+    "o45": {
+      "type": "text",
+      "label": "1.12 WAS CYLINDER TO CYLINDER EXHAUST ENGINE ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 411.3,
+        "width": 40.4,
+        "height": 21.1
+      }
+    },
+    "o60": {
+      "type": "text",
+      "label": "1.12 WAS CYLINDER TO CYLINDER EXHAUST ENGINE ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 411.3,
+        "width": 40.4,
+        "height": 21.1
+      }
+    },
+    "oAverage": {
+      "type": "text",
+      "label": "1.12 WAS CYLINDER TO CYLINDER EXHAUST ENGINE ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 411.3,
+        "width": 40.4,
+        "height": 21.1
+      }
+    },
+    "oFullAstern": {
+      "type": "text",
+      "label": "1.12 WAS CYLINDER TO CYLINDER EXHAUST ENGINE ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 411.3,
+        "width": 77.8,
+        "height": 21.1
+      }
+    },
+    "p15": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 387.4,
+        "width": 40.4,
+        "height": 21.1
+      }
+    },
+    "p30": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 387.4,
+        "width": 40.4,
+        "height": 21.1
+      }
+    },
+    "p45": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 387.4,
+        "width": 40.4,
+        "height": 21.1
+      }
+    },
+    "p60": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 387.4,
+        "width": 40.4,
+        "height": 21.1
+      }
+    },
+    "pAverage": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 387.4,
+        "width": 40.4,
+        "height": 21.1
+      }
+    },
+    "pFullAstern": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 387.4,
+        "width": 77.8,
+        "height": 21.1
+      }
+    },
+    "q15": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 364.3,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "q30": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 364.3,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "q45": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 364.3,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "q60": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 364.3,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "qAverage": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 364.3,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "qFullAstern": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 364.3,
+        "width": 77.8,
+        "height": 9.4
+      }
+    },
+    "r15": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 352.1,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "r30": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 352.1,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "r45": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 352.1,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "r60": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 352.1,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "rAverage": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 352.1,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "rFullAstern": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 352.1,
+        "width": 77.8,
+        "height": 9.4
+      }
+    },
+    "s152": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 339.8,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "s302": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 339.8,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "s452": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 339.8,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "s602": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 339.8,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "sAverage2": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 339.8,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "sFullAstern2": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 339.8,
+        "width": 77.8,
+        "height": 9.4
+      }
+    },
+    "t152": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 327.6,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "t302": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 327.6,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "t452": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 327.6,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "t602": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 327.6,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "tAverage2": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 327.6,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "tFullAstern2": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 327.6,
+        "width": 77.8,
+        "height": 9.4
+      }
+    },
+    "u152": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 315.4,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "u302": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 315.4,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "u452": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 315.4,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "u602": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 315.4,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "uAverage2": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 315.4,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "uFullAstern2": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 315.4,
+        "width": 77.8,
+        "height": 9.4
+      }
+    },
+    "v152": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 303.1,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "v302": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 303.1,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "v452": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 303.1,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "v602": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 303.1,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "vAverage2": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 303.1,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "vFullAstern2": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 303.1,
+        "width": 77.8,
+        "height": 9.4
+      }
+    },
+    "w15": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 290.9,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "w30": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 290.9,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "w45": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 290.9,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "w60": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 290.9,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "wAverage": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 290.9,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "wFullAstern": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 290.9,
+        "width": 77.8,
+        "height": 9.4
+      }
+    },
+    "x15": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 278.6,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "x30": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 278.6,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "x45": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 278.6,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "x60": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 278.6,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "xAverage": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 278.6,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "xFullAstern": {
+      "type": "text",
+      "label": "GEN. NO",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 278.6,
+        "width": 77.8,
+        "height": 9.4
+      }
+    },
+    "y15": {
+      "type": "text",
+      "label": "MOTOR NO",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 266.4,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "y30": {
+      "type": "text",
+      "label": "MOTOR NO",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 266.4,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "y45": {
+      "type": "text",
+      "label": "MOTOR NO",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 266.4,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "y60": {
+      "type": "text",
+      "label": "MOTOR NO",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 266.4,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "yAverage": {
+      "type": "text",
+      "label": "MOTOR NO",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 266.4,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "yFullAstern": {
+      "type": "text",
+      "label": "MOTOR NO",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 266.4,
+        "width": 77.8,
+        "height": 9.4
+      }
+    },
+    "z15": {
+      "type": "text",
+      "label": "MOTOR NO",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 254.1,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "z30": {
+      "type": "text",
+      "label": "MOTOR NO",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 254.1,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "z45": {
+      "type": "text",
+      "label": "MOTOR NO",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 254.1,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "z60": {
+      "type": "text",
+      "label": "MOTOR NO",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 254.1,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "zAverage": {
+      "type": "text",
+      "label": "MOTOR NO",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 254.1,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "zFullAstern": {
+      "type": "text",
+      "label": "MOTOR NO",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 254.1,
+        "width": 77.8,
+        "height": 9.4
+      }
+    },
+    "aa15": {
+      "type": "text",
+      "label": "MOTOR NO",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 242.1,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "aa30": {
+      "type": "text",
+      "label": "MOTOR NO",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 242.1,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "aa45": {
+      "type": "text",
+      "label": "MOTOR NO",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 242.1,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "aa60": {
+      "type": "text",
+      "label": "MOTOR NO",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 242.1,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "aaAverage": {
+      "type": "text",
+      "label": "MOTOR NO",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 242.1,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "aaFullAstern": {
+      "type": "text",
+      "label": "MOTOR NO",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 242.1,
+        "width": 77.8,
+        "height": 9.4
+      }
+    },
+    "ab15": {
+      "type": "text",
+      "label": "MOTOR NO",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 229.8,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "ab30": {
+      "type": "text",
+      "label": "MOTOR NO",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 229.8,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "ab45": {
+      "type": "text",
+      "label": "MOTOR NO",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 229.8,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "ab60": {
+      "type": "text",
+      "label": "MOTOR NO",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 229.8,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "abAverage": {
+      "type": "text",
+      "label": "MOTOR NO",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 229.8,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "abFullAstern": {
+      "type": "text",
+      "label": "MOTOR NO",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 229.8,
+        "width": 77.8,
+        "height": 9.4
+      }
+    },
+    "ac15": {
+      "type": "text",
+      "label": "MOTOR NO",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 217.4,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "ac30": {
+      "type": "text",
+      "label": "MOTOR NO",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 217.4,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "ac45": {
+      "type": "text",
+      "label": "MOTOR NO",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 217.4,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "ac60": {
+      "type": "text",
+      "label": "MOTOR NO",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 217.4,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "acAverage": {
+      "type": "text",
+      "label": "MOTOR NO",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 217.4,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "acFullAstern": {
+      "type": "text",
+      "label": "MOTOR NO",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 217.4,
+        "width": 77.8,
+        "height": 9.4
+      }
+    },
+    "ad15": {
+      "type": "text",
+      "label": "MOTOR NO",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 205.2,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "ad30": {
+      "type": "text",
+      "label": "MOTOR NO",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 205.2,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "ad45": {
+      "type": "text",
+      "label": "MOTOR NO",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 205.2,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "ad60": {
+      "type": "text",
+      "label": "MOTOR NO",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 205.2,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "adAverage": {
+      "type": "text",
+      "label": "MOTOR NO",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 205.2,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "adFullAstern": {
+      "type": "text",
+      "label": "MOTOR NO",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 205.2,
+        "width": 77.8,
+        "height": 9.4
+      }
+    },
+    "ae15": {
+      "type": "text",
+      "label": "CHARGE (AMPS)",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 192.9,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "ae30": {
+      "type": "text",
+      "label": "CHARGE (AMPS)",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 192.9,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "ae45": {
+      "type": "text",
+      "label": "CHARGE (AMPS)",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 192.9,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "ae60": {
+      "type": "text",
+      "label": "CHARGE (AMPS)",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 192.9,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "aeAverage": {
+      "type": "text",
+      "label": "CHARGE (AMPS)",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 192.9,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "aeFullAstern": {
+      "type": "text",
+      "label": "CHARGE (AMPS)",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 192.9,
+        "width": 77.8,
+        "height": 9.4
+      }
+    },
+    "af15": {
+      "type": "text",
+      "label": "DISCHARGE (AMPS)",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 180.7,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "af30": {
+      "type": "text",
+      "label": "DISCHARGE (AMPS)",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 180.7,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "af45": {
+      "type": "text",
+      "label": "DISCHARGE (AMPS)",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 180.7,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "af60": {
+      "type": "text",
+      "label": "DISCHARGE (AMPS)",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 180.7,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "afAverage": {
+      "type": "text",
+      "label": "DISCHARGE (AMPS)",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 180.7,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "afFullAstern": {
+      "type": "text",
+      "label": "DISCHARGE (AMPS)",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 180.7,
+        "width": 77.8,
+        "height": 9.4
+      }
+    },
+    "ag15": {
+      "type": "text",
+      "label": "CHARGE (AMP HRS)",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 168.2,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "ag30": {
+      "type": "text",
+      "label": "CHARGE (AMP HRS)",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 168.2,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "ag45": {
+      "type": "text",
+      "label": "CHARGE (AMP HRS)",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 168.2,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "ag60": {
+      "type": "text",
+      "label": "CHARGE (AMP HRS)",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 168.2,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "agAverage": {
+      "type": "text",
+      "label": "CHARGE (AMP HRS)",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 168.2,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "agFullAstern": {
+      "type": "text",
+      "label": "CHARGE (AMP HRS)",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 168.2,
+        "width": 77.8,
+        "height": 9.4
+      }
+    },
+    "ah15": {
+      "type": "text",
+      "label": "DISCHARGE (AMP HRS)",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 156.0,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "ah30": {
+      "type": "text",
+      "label": "DISCHARGE (AMP HRS)",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 156.0,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "ah45": {
+      "type": "text",
+      "label": "DISCHARGE (AMP HRS)",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 156.0,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "ah60": {
+      "type": "text",
+      "label": "DISCHARGE (AMP HRS)",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 156.0,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "ahAverage": {
+      "type": "text",
+      "label": "DISCHARGE (AMP HRS)",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 156.0,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "ahFullAstern": {
+      "type": "text",
+      "label": "DISCHARGE (AMP HRS)",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 156.0,
+        "width": 77.8,
+        "height": 9.4
+      }
+    },
+    "ai15": {
+      "type": "text",
+      "label": "4.3 VOLTAGE 4. (VOLTS)",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 144.0,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "ai30": {
+      "type": "text",
+      "label": "4.3 VOLTAGE 4. (VOLTS)",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 144.0,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "ai45": {
+      "type": "text",
+      "label": "4.3 VOLTAGE 4. (VOLTS)",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 144.0,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "ai60": {
+      "type": "text",
+      "label": "4.3 VOLTAGE 4. (VOLTS)",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 144.0,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "aiAverage": {
+      "type": "text",
+      "label": "4.3 VOLTAGE 4. (VOLTS)",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 144.0,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "aiFullAstern": {
+      "type": "text",
+      "label": "4.3 VOLTAGE 4. (VOLTS)",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 144.0,
+        "width": 77.8,
+        "height": 9.4
+      }
+    },
+    "aj15": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 132.0,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "aj30": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 132.0,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "aj45": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 132.0,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "aj60": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 132.0,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "ajAverage": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 132.0,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "ajFullAstern": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 132.0,
+        "width": 77.8,
+        "height": 9.4
+      }
+    },
+    "ak15": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 119.8,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "ak30": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 119.8,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "ak45": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 119.8,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "ak60": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 119.8,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "akAverage": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 119.8,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "akFullAstern": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 119.8,
+        "width": 77.8,
+        "height": 9.4
+      }
+    },
+    "al15": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 107.6,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "al30": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 107.6,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "al45": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 107.6,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "al60": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 107.6,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "alAverage": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 107.6,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "alFullAstern": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 107.6,
+        "width": 77.8,
+        "height": 9.4
+      }
+    },
+    "am15": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 95.3,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "am30": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 95.3,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "am45": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 95.3,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "am60": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 95.3,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "amAverage": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 95.3,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "amFullAstern": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 95.3,
+        "width": 77.8,
+        "height": 9.4
+      }
+    },
+    "an15": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 83.1,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "an30": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 83.1,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "an45": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 83.1,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "an60": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 83.1,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "anAverage": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 83.1,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "anFullAstern": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 83.1,
+        "width": 77.8,
+        "height": 9.4
+      }
+    },
+    "ao15": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 70.8,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "ao30": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 70.8,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "ao45": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 70.8,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "ao60": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 70.8,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "aoAverage": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 70.8,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "aoFullAstern": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 70.8,
+        "width": 77.8,
+        "height": 9.4
+      }
+    },
+    "ap15": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 59.0,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "ap30": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 59.0,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "ap45": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 59.0,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "ap60": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 59.0,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "apAverage": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 59.0,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "apFullAstern": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 59.0,
+        "width": 77.8,
+        "height": 9.4
+      }
+    },
+    "aq15": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 46.7,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "aq30": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 46.7,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "aq45": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 46.7,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "aq60": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 46.7,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "aqAverage": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 46.7,
+        "width": 40.4,
+        "height": 9.4
+      }
+    },
+    "aqFullAstern": {
+      "type": "text",
+      "label": "ENGINE NO",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 46.7,
+        "width": 77.8,
+        "height": 9.4
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 20,
+      "rowStride": 12.96,
+      "editor": "grid",
+      "columns": {
+        "l15": {
+          "type": "text",
+          "label": "STARBOARD",
+          "page": 1,
+          "box": {
+            "left": 281.8,
+            "top": 392.4,
+            "width": 40.4,
+            "height": 10.2
+          }
+        },
+        "l30": {
+          "type": "text",
+          "label": "STARBOARD",
+          "page": 1,
+          "box": {
+            "left": 324.4,
+            "top": 392.4,
+            "width": 40.4,
+            "height": 10.1
+          }
+        },
+        "l45": {
+          "type": "text",
+          "label": "STARBOARD",
+          "page": 1,
+          "box": {
+            "left": 367.0,
+            "top": 392.4,
+            "width": 40.4,
+            "height": 10.1
+          }
+        },
+        "l60": {
+          "type": "text",
+          "label": "STARBOARD",
+          "page": 1,
+          "box": {
+            "left": 410.6,
+            "top": 392.4,
+            "width": 40.4,
+            "height": 10.1
+          }
+        },
+        "lAverage": {
+          "type": "text",
+          "label": "STARBOARD",
+          "page": 1,
+          "box": {
+            "left": 454.2,
+            "top": 392.4,
+            "width": 40.4,
+            "height": 10.1
+          }
+        },
+        "lFullAstern": {
+          "type": "text",
+          "label": "STARBOARD",
+          "page": 1,
+          "box": {
+            "left": 496.9,
+            "top": 392.4,
+            "width": 77.8,
+            "height": 10.1
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 2,
+      "count": 3,
+      "rowStride": 24.55,
+      "editor": "grid",
+      "columns": {
+        "f15": {
+          "type": "text",
+          "label": "ENGINE NO",
+          "page": 2,
+          "box": {
+            "left": 281.2,
+            "top": 545.2,
+            "width": 40.4,
+            "height": 9.4
+          }
+        },
+        "e15": {
+          "type": "text",
+          "label": "ENGINE NO",
+          "page": 2,
+          "box": {
+            "left": 281.2,
+            "top": 557.4,
+            "width": 40.4,
+            "height": 9.4
+          }
+        },
+        "f30": {
+          "type": "text",
+          "label": "ENGINE NO",
+          "page": 2,
+          "box": {
+            "left": 324.4,
+            "top": 545.2,
+            "width": 40.4,
+            "height": 9.4
+          }
+        },
+        "e30": {
+          "type": "text",
+          "label": "ENGINE NO",
+          "page": 2,
+          "box": {
+            "left": 324.4,
+            "top": 557.4,
+            "width": 40.4,
+            "height": 9.4
+          }
+        },
+        "f45": {
+          "type": "text",
+          "label": "ENGINE NO",
+          "page": 2,
+          "box": {
+            "left": 367.4,
+            "top": 545.2,
+            "width": 40.4,
+            "height": 9.4
+          }
+        },
+        "e45": {
+          "type": "text",
+          "label": "ENGINE NO",
+          "page": 2,
+          "box": {
+            "left": 367.4,
+            "top": 557.4,
+            "width": 40.4,
+            "height": 9.4
+          }
+        },
+        "f60": {
+          "type": "text",
+          "label": "ENGINE NO",
+          "page": 2,
+          "box": {
+            "left": 410.6,
+            "top": 545.2,
+            "width": 40.4,
+            "height": 9.4
+          }
+        },
+        "e60": {
+          "type": "text",
+          "label": "ENGINE NO",
+          "page": 2,
+          "box": {
+            "left": 410.6,
+            "top": 557.4,
+            "width": 40.4,
+            "height": 9.4
+          }
+        },
+        "fAverage": {
+          "type": "text",
+          "label": "ENGINE NO",
+          "page": 2,
+          "box": {
+            "left": 453.8,
+            "top": 545.2,
+            "width": 40.4,
+            "height": 9.4
+          }
+        },
+        "eAverage": {
+          "type": "text",
+          "label": "ENGINE NO",
+          "page": 2,
+          "box": {
+            "left": 453.8,
+            "top": 557.4,
+            "width": 40.4,
+            "height": 9.4
+          }
+        },
+        "fFullAstern": {
+          "type": "text",
+          "label": "ENGINE NO",
+          "page": 2,
+          "box": {
+            "left": 496.9,
+            "top": 545.2,
+            "width": 77.8,
+            "height": 9.4
+          }
+        },
+        "eFullAstern": {
+          "type": "text",
+          "label": "ENGINE NO",
+          "page": 2,
+          "box": {
+            "left": 496.9,
+            "top": 557.4,
+            "width": 77.8,
+            "height": 9.4
+          }
+        }
+      }
+    },
+    "rows3": {
+      "title": "Rows",
+      "page": 2,
+      "count": 3,
+      "rowStride": 24.62,
+      "editor": "grid",
+      "columns": {
+        "d15": {
+          "type": "text",
+          "label": "ENGINE NO",
+          "page": 2,
+          "box": {
+            "left": 281.2,
+            "top": 619.2,
+            "width": 40.4,
+            "height": 9.4
+          }
+        },
+        "c15": {
+          "type": "text",
+          "label": "ENGINE NO",
+          "page": 2,
+          "box": {
+            "left": 281.2,
+            "top": 631.5,
+            "width": 40.4,
+            "height": 9.4
+          }
+        },
+        "d30": {
+          "type": "text",
+          "label": "ENGINE NO",
+          "page": 2,
+          "box": {
+            "left": 324.4,
+            "top": 619.2,
+            "width": 40.4,
+            "height": 9.4
+          }
+        },
+        "c30": {
+          "type": "text",
+          "label": "ENGINE NO",
+          "page": 2,
+          "box": {
+            "left": 324.4,
+            "top": 631.5,
+            "width": 40.4,
+            "height": 9.4
+          }
+        },
+        "d45": {
+          "type": "text",
+          "label": "ENGINE NO",
+          "page": 2,
+          "box": {
+            "left": 367.4,
+            "top": 619.2,
+            "width": 40.4,
+            "height": 9.4
+          }
+        },
+        "c45": {
+          "type": "text",
+          "label": "ENGINE NO",
+          "page": 2,
+          "box": {
+            "left": 367.4,
+            "top": 631.5,
+            "width": 40.4,
+            "height": 9.4
+          }
+        },
+        "d60": {
+          "type": "text",
+          "label": "ENGINE NO",
+          "page": 2,
+          "box": {
+            "left": 410.6,
+            "top": 619.2,
+            "width": 40.4,
+            "height": 9.4
+          }
+        },
+        "c60": {
+          "type": "text",
+          "label": "ENGINE NO",
+          "page": 2,
+          "box": {
+            "left": 410.6,
+            "top": 631.5,
+            "width": 40.4,
+            "height": 9.4
+          }
+        },
+        "dAverage": {
+          "type": "text",
+          "label": "ENGINE NO",
+          "page": 2,
+          "box": {
+            "left": 453.8,
+            "top": 619.2,
+            "width": 40.4,
+            "height": 9.4
+          }
+        },
+        "cAverage": {
+          "type": "text",
+          "label": "ENGINE NO",
+          "page": 2,
+          "box": {
+            "left": 453.8,
+            "top": 631.5,
+            "width": 40.4,
+            "height": 9.4
+          }
+        },
+        "dFullAstern": {
+          "type": "text",
+          "label": "ENGINE NO",
+          "page": 2,
+          "box": {
+            "left": 496.9,
+            "top": 619.2,
+            "width": 77.8,
+            "height": 9.4
+          }
+        },
+        "cFullAstern": {
+          "type": "text",
+          "label": "ENGINE NO",
+          "page": 2,
+          "box": {
+            "left": 496.9,
+            "top": 631.5,
+            "width": 77.8,
+            "height": 9.4
+          }
+        }
+      }
+    }
+  }
+}

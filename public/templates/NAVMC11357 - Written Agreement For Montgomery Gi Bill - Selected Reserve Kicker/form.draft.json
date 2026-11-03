@@ -1,0 +1,215 @@
+{
+  "id": "navmc11357",
+  "label": "NAVMC11357 - Written Agreement For Montgomery Gi Bill - Selected Reserve Kicker",
+  "directory": "NAVMC11357 - Written Agreement For Montgomery Gi Bill - Selected Reserve Kicker",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "criticalSpclty",
+        "criticalUnit",
+        "amtEdAllow"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "authRemrks1",
+        "authRemrks2",
+        "sigMem",
+        "sSNServMem",
+        "dateServMemSig",
+        "sigAdminOff",
+        "nameAdminOff",
+        "gradeAdminOff",
+        "dateAdminOffSig",
+        "sigSerRep",
+        "nameServRep",
+        "gradeServRep",
+        "dateServRepSig"
+      ]
+    }
+  ],
+  "fields": {
+    "criticalSpclty": {
+      "type": "text",
+      "label": "Enter the critical specialty or skill in which applying marine shall serve.",
+      "page": 1,
+      "box": {
+        "left": 296.7,
+        "top": 478.3,
+        "width": 285.6,
+        "height": 15.7
+      }
+    },
+    "criticalUnit": {
+      "type": "text",
+      "label": "Enter the critical unit in which applying marine shall serve.",
+      "page": 1,
+      "box": {
+        "left": 240.5,
+        "top": 453.4,
+        "width": 343.8,
+        "height": 15.7
+      }
+    },
+    "amtEdAllow": {
+      "type": "text",
+      "label": "Enter the amount of educational allowance to supplement each month of basic entitled benefit.",
+      "page": 1,
+      "box": {
+        "left": 27.5,
+        "top": 420.8,
+        "width": 88.9,
+        "height": 15.7
+      }
+    },
+    "authRemrks1": {
+      "type": "text",
+      "label": "Enter line one of any remarks regarding authentication of this written agreement.",
+      "page": 2,
+      "box": {
+        "left": 27.8,
+        "top": 516.8,
+        "width": 558.2,
+        "height": 15.0
+      }
+    },
+    "authRemrks2": {
+      "type": "text",
+      "label": "Enter line two of any remarks regarding authentication of this written agreement.",
+      "page": 2,
+      "box": {
+        "left": 27.5,
+        "top": 495.9,
+        "width": 558.2,
+        "height": 15.0
+      }
+    },
+    "sigMem": {
+      "type": "signature",
+      "label": "SigMem",
+      "page": 2,
+      "box": {
+        "left": 44.2,
+        "top": 432.0,
+        "width": 198.0,
+        "height": 19.3
+      }
+    },
+    "sSNServMem": {
+      "type": "text",
+      "label": "Enter the service members social security number without dashes.",
+      "page": 2,
+      "box": {
+        "left": 265.4,
+        "top": 428.6,
+        "width": 179.1,
+        "height": 15.0
+      }
+    },
+    "dateServMemSig": {
+      "type": "text",
+      "label": "Enter the date of the service members signature using format 2 Dec 2002.",
+      "page": 2,
+      "box": {
+        "left": 478.4,
+        "top": 428.6,
+        "width": 107.8,
+        "height": 15.0
+      }
+    },
+    "sigAdminOff": {
+      "type": "signature",
+      "label": "SigAdminOff",
+      "page": 2,
+      "box": {
+        "left": 314.2,
+        "top": 357.0,
+        "width": 144.8,
+        "height": 19.3
+      }
+    },
+    "nameAdminOff": {
+      "type": "text",
+      "label": "Enter the name of the authorized administering official.",
+      "page": 2,
+      "box": {
+        "left": 43.1,
+        "top": 352.8,
+        "width": 183.0,
+        "height": 15.0
+      }
+    },
+    "gradeAdminOff": {
+      "type": "text",
+      "label": "Enter the grade of the authorized administering official.",
+      "page": 2,
+      "box": {
+        "left": 244.4,
+        "top": 352.8,
+        "width": 62.7,
+        "height": 15.0
+      }
+    },
+    "dateAdminOffSig": {
+      "type": "text",
+      "label": "Enter the date of the administering officials signature.",
+      "page": 2,
+      "box": {
+        "left": 479.7,
+        "top": 352.8,
+        "width": 107.8,
+        "height": 15.0
+      }
+    },
+    "sigSerRep": {
+      "type": "signature",
+      "label": "SigSerRep",
+      "page": 2,
+      "box": {
+        "left": 315.0,
+        "top": 275.2,
+        "width": 146.2,
+        "height": 19.3
+      }
+    },
+    "nameServRep": {
+      "type": "text",
+      "label": "Enter the name of the service representative.",
+      "page": 2,
+      "box": {
+        "left": 42.5,
+        "top": 270.4,
+        "width": 183.0,
+        "height": 15.0
+      }
+    },
+    "gradeServRep": {
+      "type": "text",
+      "label": "Enter the grade of the service representative.",
+      "page": 2,
+      "box": {
+        "left": 243.8,
+        "top": 270.4,
+        "width": 62.7,
+        "height": 15.0
+      }
+    },
+    "dateServRepSig": {
+      "type": "text",
+      "label": "Enter the date of the service representatives signature.",
+      "page": 2,
+      "box": {
+        "left": 479.1,
+        "top": 270.4,
+        "width": 107.8,
+        "height": 15.0
+      }
+    }
+  }
+}

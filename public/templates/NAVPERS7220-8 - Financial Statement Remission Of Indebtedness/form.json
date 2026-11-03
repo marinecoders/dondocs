@@ -1,0 +1,1545 @@
+{
+  "id": "navpers72208",
+  "label": "NAVPERS7220-8 - Financial Statement Remission Of Indebtedness",
+  "directory": "NAVPERS7220-8 - Financial Statement Remission Of Indebtedness",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name1",
+        "grade1",
+        "ssn",
+        "age1",
+        "relationship1",
+        "age2",
+        "relationship2",
+        "age3",
+        "relationship3",
+        "age4",
+        "relationship4",
+        "age5",
+        "relationship5",
+        "address6",
+        "age6",
+        "relationship6",
+        "support6",
+        "basicPay",
+        "express1",
+        "express2",
+        "express3",
+        "express4",
+        "express5",
+        "express6",
+        "express7",
+        "express8",
+        "express9",
+        "express10",
+        "express11",
+        "express12",
+        "express13",
+        "total1",
+        "express14",
+        "other12",
+        "express15",
+        "other13",
+        "express16",
+        "amount1",
+        "other14",
+        "express17",
+        "amount2",
+        "other15",
+        "express18",
+        "amount3",
+        "other16",
+        "express19",
+        "amount4",
+        "other17",
+        "express20",
+        "amount5",
+        "other18",
+        "express21",
+        "amount6",
+        "amount7",
+        "other19",
+        "express22",
+        "amount8",
+        "total3",
+        "total4",
+        "total12",
+        "total32",
+        "total42",
+        "obligations1",
+        "obligations2"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "spouse1",
+        "spousemonthly1",
+        "ftiw1",
+        "sitw1",
+        "operation1",
+        "monthlyIncome1",
+        "fica1",
+        "operation2",
+        "monthlyIncome2",
+        "operation3",
+        "monthlyIncome3",
+        "operation4",
+        "monthlyIncome4",
+        "operation5",
+        "monthlyIncome5",
+        "operation6",
+        "monthlyIncome6",
+        "childCare1",
+        "operation7",
+        "monthlyIncome7",
+        "otherSpecify",
+        "operation8",
+        "monthlyIncome8",
+        "operation9",
+        "monthlyIncome9",
+        "operation10",
+        "monthlyIncome10",
+        "netAmount1",
+        "recap1",
+        "applicant1",
+        "spousesIncome",
+        "otherNet",
+        "totalExpenses1",
+        "total",
+        "netIncome1",
+        "assets1",
+        "remarks1",
+        "signature3",
+        "date9",
+        "date10",
+        "amounts1",
+        "believe",
+        "endorsement",
+        "textField3",
+        "telephone",
+        "textField4",
+        "date"
+      ]
+    }
+  ],
+  "fields": {
+    "name1": {
+      "type": "text",
+      "label": "Enter the name as last, first, middle initial.",
+      "page": 1,
+      "box": {
+        "left": 45.5,
+        "top": 632.4,
+        "width": 354.3,
+        "height": 10.3
+      }
+    },
+    "grade1": {
+      "type": "text",
+      "label": "Enter the grade.",
+      "page": 1,
+      "box": {
+        "left": 404.6,
+        "top": 632.1,
+        "width": 65.2,
+        "height": 10.0
+      }
+    },
+    "ssn": {
+      "type": "text",
+      "label": "Enter the Social Security Number.  ",
+      "page": 1,
+      "box": {
+        "left": 475.4,
+        "top": 632.1,
+        "width": 94.0,
+        "height": 10.0
+      }
+    },
+    "age1": {
+      "type": "text",
+      "label": "Enter the age of the dependents.",
+      "page": 1,
+      "box": {
+        "left": 388.3,
+        "top": 589.2,
+        "width": 50.0,
+        "height": 7.6
+      }
+    },
+    "relationship1": {
+      "type": "text",
+      "label": "Enter the relationship of the dependents.",
+      "page": 1,
+      "box": {
+        "left": 442.9,
+        "top": 589.2,
+        "width": 59.1,
+        "height": 7.6
+      }
+    },
+    "age2": {
+      "type": "text",
+      "label": "Enter the age of the dependents.",
+      "page": 1,
+      "box": {
+        "left": 388.3,
+        "top": 575.2,
+        "width": 50.0,
+        "height": 7.6
+      }
+    },
+    "relationship2": {
+      "type": "text",
+      "label": "Enter the relationship of the dependents.",
+      "page": 1,
+      "box": {
+        "left": 442.9,
+        "top": 575.2,
+        "width": 59.1,
+        "height": 7.6
+      }
+    },
+    "age3": {
+      "type": "text",
+      "label": "Enter the age of the dependents.",
+      "page": 1,
+      "box": {
+        "left": 388.3,
+        "top": 561.6,
+        "width": 50.0,
+        "height": 7.6
+      }
+    },
+    "relationship3": {
+      "type": "text",
+      "label": "Enter the relationship of the dependents.",
+      "page": 1,
+      "box": {
+        "left": 442.9,
+        "top": 561.6,
+        "width": 59.1,
+        "height": 7.6
+      }
+    },
+    "age4": {
+      "type": "text",
+      "label": "Enter the age of the dependents.",
+      "page": 1,
+      "box": {
+        "left": 388.3,
+        "top": 547.9,
+        "width": 50.0,
+        "height": 7.6
+      }
+    },
+    "relationship4": {
+      "type": "text",
+      "label": "Enter the relationship of the dependents.",
+      "page": 1,
+      "box": {
+        "left": 442.9,
+        "top": 547.9,
+        "width": 59.1,
+        "height": 7.6
+      }
+    },
+    "age5": {
+      "type": "text",
+      "label": "Enter the age of the dependents.",
+      "page": 1,
+      "box": {
+        "left": 388.3,
+        "top": 534.6,
+        "width": 50.0,
+        "height": 7.6
+      }
+    },
+    "relationship5": {
+      "type": "text",
+      "label": "Enter the relationship of the dependents.",
+      "page": 1,
+      "box": {
+        "left": 442.9,
+        "top": 534.6,
+        "width": 59.1,
+        "height": 7.6
+      }
+    },
+    "address6": {
+      "type": "text",
+      "label": "This is 6 of 6. Enter the name and address of the dependents.",
+      "page": 1,
+      "box": {
+        "left": 45.4,
+        "top": 522.0,
+        "width": 337.6,
+        "height": 7.6
+      }
+    },
+    "age6": {
+      "type": "text",
+      "label": "Enter the age of the dependents.",
+      "page": 1,
+      "box": {
+        "left": 388.3,
+        "top": 522.0,
+        "width": 50.0,
+        "height": 7.6
+      }
+    },
+    "relationship6": {
+      "type": "text",
+      "label": "Enter the relationship of the dependents.",
+      "page": 1,
+      "box": {
+        "left": 442.9,
+        "top": 522.0,
+        "width": 59.1,
+        "height": 7.6
+      }
+    },
+    "support6": {
+      "type": "text",
+      "label": "Enter the percentage of support.",
+      "page": 1,
+      "box": {
+        "left": 508.1,
+        "top": 522.0,
+        "width": 61.5,
+        "height": 7.6
+      }
+    },
+    "basicPay": {
+      "type": "text",
+      "label": "Enter the monthly income for basic pay.",
+      "page": 1,
+      "box": {
+        "left": 188.2,
+        "top": 474.1,
+        "width": 103.7,
+        "height": 7.8
+      }
+    },
+    "express1": {
+      "type": "text",
+      "label": "Enter the monthly expense for FITW (exemption status).",
+      "page": 1,
+      "box": {
+        "left": 503.8,
+        "top": 474.1,
+        "width": 67.4,
+        "height": 7.8
+      }
+    },
+    "express2": {
+      "type": "text",
+      "label": "Enter the monthly expense for SITW (exemption status).",
+      "page": 1,
+      "box": {
+        "left": 503.8,
+        "top": 460.6,
+        "width": 67.4,
+        "height": 7.8
+      }
+    },
+    "express3": {
+      "type": "text",
+      "label": "Enter the monthly expense for FICA tax.",
+      "page": 1,
+      "box": {
+        "left": 503.8,
+        "top": 447.2,
+        "width": 67.4,
+        "height": 7.8
+      }
+    },
+    "express4": {
+      "type": "text",
+      "label": "Enter the monthly expense for rent.",
+      "page": 1,
+      "box": {
+        "left": 503.8,
+        "top": 434.1,
+        "width": 67.4,
+        "height": 7.8
+      }
+    },
+    "express5": {
+      "type": "text",
+      "label": "Enter the monthly expense for utilities.",
+      "page": 1,
+      "box": {
+        "left": 503.8,
+        "top": 420.7,
+        "width": 67.4,
+        "height": 7.8
+      }
+    },
+    "express6": {
+      "type": "text",
+      "label": "Enter the monthly expense for telephone.",
+      "page": 1,
+      "box": {
+        "left": 503.8,
+        "top": 407.2,
+        "width": 67.4,
+        "height": 7.8
+      }
+    },
+    "express7": {
+      "type": "text",
+      "label": "Enter the monthly expense for food.",
+      "page": 1,
+      "box": {
+        "left": 503.8,
+        "top": 393.4,
+        "width": 67.4,
+        "height": 7.8
+      }
+    },
+    "express8": {
+      "type": "text",
+      "label": "Enter the monthly expense for clothing.",
+      "page": 1,
+      "box": {
+        "left": 503.8,
+        "top": 379.5,
+        "width": 67.4,
+        "height": 7.8
+      }
+    },
+    "express9": {
+      "type": "text",
+      "label": "Enter the monthly expense for insurance.",
+      "page": 1,
+      "box": {
+        "left": 503.8,
+        "top": 365.7,
+        "width": 67.4,
+        "height": 7.8
+      }
+    },
+    "express10": {
+      "type": "text",
+      "label": "Enter the monthly expense for car expenses (operating).",
+      "page": 1,
+      "box": {
+        "left": 503.8,
+        "top": 351.8,
+        "width": 67.4,
+        "height": 7.8
+      }
+    },
+    "express11": {
+      "type": "text",
+      "label": "Enter the monthly expense for school.",
+      "page": 1,
+      "box": {
+        "left": 503.8,
+        "top": 338.0,
+        "width": 67.4,
+        "height": 7.8
+      }
+    },
+    "express12": {
+      "type": "text",
+      "label": "Enter the monthly expense for medical or dental.",
+      "page": 1,
+      "box": {
+        "left": 503.8,
+        "top": 324.5,
+        "width": 67.4,
+        "height": 7.8
+      }
+    },
+    "express13": {
+      "type": "text",
+      "label": "Enter the monthly expense for fortfeitures of pay - EXP.",
+      "page": 1,
+      "box": {
+        "left": 503.8,
+        "top": 311.1,
+        "width": 67.4,
+        "height": 7.8
+      }
+    },
+    "total1": {
+      "type": "text",
+      "label": "Total1",
+      "page": 1,
+      "box": {
+        "left": 184.8,
+        "top": 310.5,
+        "width": 109.8,
+        "height": 12.9
+      }
+    },
+    "express14": {
+      "type": "text",
+      "label": "Enter the monthly expense for child support or alimony.",
+      "page": 1,
+      "box": {
+        "left": 503.8,
+        "top": 297.6,
+        "width": 67.4,
+        "height": 7.8
+      }
+    },
+    "other12": {
+      "type": "text",
+      "label": "This is 1 of 8. Specify the other monthly expenses.",
+      "page": 1,
+      "box": {
+        "left": 297.9,
+        "top": 274.9,
+        "width": 200.0,
+        "height": 11.7
+      }
+    },
+    "express15": {
+      "type": "text",
+      "label": "Specify the other monthly expenses.",
+      "page": 1,
+      "box": {
+        "left": 504.7,
+        "top": 274.9,
+        "width": 67.5,
+        "height": 11.7
+      }
+    },
+    "other13": {
+      "type": "text",
+      "label": "This is 2 of 8. Specify the other monthly expenses.",
+      "page": 1,
+      "box": {
+        "left": 297.9,
+        "top": 261.5,
+        "width": 200.0,
+        "height": 11.7
+      }
+    },
+    "express16": {
+      "type": "text",
+      "label": "Specify the other monthly expenses.",
+      "page": 1,
+      "box": {
+        "left": 504.7,
+        "top": 261.5,
+        "width": 67.5,
+        "height": 11.7
+      }
+    },
+    "amount1": {
+      "type": "text",
+      "label": "Enter the amuont of monthly installment payments.",
+      "page": 1,
+      "box": {
+        "left": 189.4,
+        "top": 256.5,
+        "width": 102.6,
+        "height": 7.8
+      }
+    },
+    "other14": {
+      "type": "text",
+      "label": "This is 3 of 8. Specify the other monthly expenses.",
+      "page": 1,
+      "box": {
+        "left": 297.9,
+        "top": 246.4,
+        "width": 200.0,
+        "height": 11.7
+      }
+    },
+    "express17": {
+      "type": "text",
+      "label": "Specify the other monthly expenses.",
+      "page": 1,
+      "box": {
+        "left": 504.7,
+        "top": 246.4,
+        "width": 67.5,
+        "height": 11.7
+      }
+    },
+    "amount2": {
+      "type": "text",
+      "label": "Enter the amuont of monthly installment payments.",
+      "page": 1,
+      "box": {
+        "left": 189.3,
+        "top": 242.3,
+        "width": 102.6,
+        "height": 7.8
+      }
+    },
+    "other15": {
+      "type": "text",
+      "label": "This is 4 of 8. Specify the other monthly expenses.",
+      "page": 1,
+      "box": {
+        "left": 297.9,
+        "top": 232.2,
+        "width": 200.0,
+        "height": 11.7
+      }
+    },
+    "express18": {
+      "type": "text",
+      "label": "Specify the other monthly expenses.",
+      "page": 1,
+      "box": {
+        "left": 504.7,
+        "top": 232.2,
+        "width": 67.5,
+        "height": 11.7
+      }
+    },
+    "amount3": {
+      "type": "text",
+      "label": "Enter the amuont of monthly installment payments.",
+      "page": 1,
+      "box": {
+        "left": 189.3,
+        "top": 228.4,
+        "width": 102.6,
+        "height": 7.8
+      }
+    },
+    "other16": {
+      "type": "text",
+      "label": "This is 5 of 8. Specify the other monthly expenses.",
+      "page": 1,
+      "box": {
+        "left": 297.9,
+        "top": 216.4,
+        "width": 200.0,
+        "height": 11.7
+      }
+    },
+    "express19": {
+      "type": "text",
+      "label": "Specify the other monthly expenses.",
+      "page": 1,
+      "box": {
+        "left": 504.7,
+        "top": 216.4,
+        "width": 67.5,
+        "height": 11.7
+      }
+    },
+    "amount4": {
+      "type": "text",
+      "label": "Enter the amount of monthly installment payments.",
+      "page": 1,
+      "box": {
+        "left": 189.5,
+        "top": 208.5,
+        "width": 101.9,
+        "height": 10.2
+      }
+    },
+    "other17": {
+      "type": "text",
+      "label": "This is 6 of 8. Specify the other monthly expenses.",
+      "page": 1,
+      "box": {
+        "left": 297.9,
+        "top": 201.7,
+        "width": 200.0,
+        "height": 11.7
+      }
+    },
+    "express20": {
+      "type": "text",
+      "label": "Specify the other monthly expenses.",
+      "page": 1,
+      "box": {
+        "left": 504.7,
+        "top": 201.7,
+        "width": 67.5,
+        "height": 11.7
+      }
+    },
+    "amount5": {
+      "type": "text",
+      "label": "Enter the amount of monthly installment payments.",
+      "page": 1,
+      "box": {
+        "left": 189.5,
+        "top": 196.2,
+        "width": 101.9,
+        "height": 10.2
+      }
+    },
+    "other18": {
+      "type": "text",
+      "label": "This is 7 of 8. Specify the other monthly expenses.",
+      "page": 1,
+      "box": {
+        "left": 297.9,
+        "top": 185.6,
+        "width": 200.0,
+        "height": 11.7
+      }
+    },
+    "express21": {
+      "type": "text",
+      "label": "Specify the other monthly expenses.",
+      "page": 1,
+      "box": {
+        "left": 504.7,
+        "top": 185.6,
+        "width": 67.5,
+        "height": 11.7
+      }
+    },
+    "amount6": {
+      "type": "text",
+      "label": "Enter the amount of monthly installment payments.",
+      "page": 1,
+      "box": {
+        "left": 189.5,
+        "top": 183.5,
+        "width": 101.9,
+        "height": 10.2
+      }
+    },
+    "amount7": {
+      "type": "text",
+      "label": "Enter the amount of monthly installment payments.",
+      "page": 1,
+      "box": {
+        "left": 189.5,
+        "top": 170.5,
+        "width": 101.9,
+        "height": 10.2
+      }
+    },
+    "other19": {
+      "type": "text",
+      "label": "This is 8 of 8. Specify the other monthly expenses.",
+      "page": 1,
+      "box": {
+        "left": 297.9,
+        "top": 169.3,
+        "width": 200.0,
+        "height": 11.7
+      }
+    },
+    "express22": {
+      "type": "text",
+      "label": "Specify the other monthly expenses.",
+      "page": 1,
+      "box": {
+        "left": 504.7,
+        "top": 169.3,
+        "width": 67.5,
+        "height": 11.7
+      }
+    },
+    "amount8": {
+      "type": "text",
+      "label": "Enter the amount of monthly installment payments.",
+      "page": 1,
+      "box": {
+        "left": 189.5,
+        "top": 158.2,
+        "width": 101.9,
+        "height": 10.2
+      }
+    },
+    "total3": {
+      "type": "text",
+      "label": "Total3",
+      "page": 1,
+      "box": {
+        "left": 186.7,
+        "top": 146.4,
+        "width": 107.8,
+        "height": 11.3
+      }
+    },
+    "total4": {
+      "type": "text",
+      "label": "Total4",
+      "page": 1,
+      "box": {
+        "left": 501.2,
+        "top": 146.4,
+        "width": 72.6,
+        "height": 11.3
+      }
+    },
+    "total12": {
+      "type": "text",
+      "label": "Total1",
+      "page": 1,
+      "box": {
+        "left": 502.2,
+        "top": 116.4,
+        "width": 71.0,
+        "height": 8.9
+      }
+    },
+    "total32": {
+      "type": "text",
+      "label": "Total3",
+      "page": 1,
+      "box": {
+        "left": 420.3,
+        "top": 102.1,
+        "width": 76.5,
+        "height": 8.9
+      }
+    },
+    "total42": {
+      "type": "text",
+      "label": "Total4",
+      "page": 1,
+      "box": {
+        "left": 420.3,
+        "top": 86.9,
+        "width": 76.5,
+        "height": 8.9
+      }
+    },
+    "obligations1": {
+      "type": "text",
+      "label": "Obligations1",
+      "page": 1,
+      "box": {
+        "left": 502.2,
+        "top": 71.8,
+        "width": 71.0,
+        "height": 8.9
+      }
+    },
+    "obligations2": {
+      "type": "text",
+      "label": "Obligations2",
+      "page": 1,
+      "box": {
+        "left": 502.2,
+        "top": 56.2,
+        "width": 71.0,
+        "height": 8.9
+      }
+    },
+    "spouse1": {
+      "type": "text",
+      "label": "Enter the spouse's monthly gross income.",
+      "page": 2,
+      "box": {
+        "left": 187.5,
+        "top": 755.1,
+        "width": 82.6,
+        "height": 9.1
+      }
+    },
+    "spousemonthly1": {
+      "type": "text",
+      "label": "Enter the spouse's other monthly income.",
+      "page": 2,
+      "box": {
+        "left": 488.1,
+        "top": 755.1,
+        "width": 82.6,
+        "height": 9.1
+      }
+    },
+    "ftiw1": {
+      "type": "text",
+      "label": "Enter the spouse's monthly gross income for FITW.",
+      "page": 2,
+      "box": {
+        "left": 128.2,
+        "top": 728.2,
+        "width": 53.3,
+        "height": 8.4
+      }
+    },
+    "sitw1": {
+      "type": "text",
+      "label": "Enter the spouse's monthly gross income for SITW.",
+      "page": 2,
+      "box": {
+        "left": 128.2,
+        "top": 714.2,
+        "width": 53.3,
+        "height": 8.4
+      }
+    },
+    "operation1": {
+      "type": "text",
+      "label": "This is 1 of 10. Enter less expenses incident to the operation of a private business or other outside income. (Itemize and/or explain as appropriate. Use a separate sheet if necessary.)",
+      "page": 2,
+      "box": {
+        "left": 276.1,
+        "top": 703.7,
+        "width": 206.7,
+        "height": 10.5
+      }
+    },
+    "monthlyIncome1": {
+      "type": "text",
+      "label": "Enter the amount.",
+      "page": 2,
+      "box": {
+        "left": 488.1,
+        "top": 703.7,
+        "width": 83.3,
+        "height": 10.5
+      }
+    },
+    "fica1": {
+      "type": "text",
+      "label": "Enter the spouse's monthly gross income for FICA.",
+      "page": 2,
+      "box": {
+        "left": 128.2,
+        "top": 700.1,
+        "width": 53.3,
+        "height": 8.4
+      }
+    },
+    "operation2": {
+      "type": "text",
+      "label": "This is 2 of 10. Enter less expenses incident to the operation of a private business or other outside income. (Itemize and/or explain as appropriate. Use a separate sheet if necessary.)",
+      "page": 2,
+      "box": {
+        "left": 276.1,
+        "top": 689.9,
+        "width": 206.7,
+        "height": 10.5
+      }
+    },
+    "monthlyIncome2": {
+      "type": "text",
+      "label": "Enter the amount.",
+      "page": 2,
+      "box": {
+        "left": 488.1,
+        "top": 689.9,
+        "width": 83.3,
+        "height": 10.5
+      }
+    },
+    "operation3": {
+      "type": "text",
+      "label": "This is 3 of 10. Enter less expenses incident to the operation of a private business or other outside income. (Itemize and/or explain as appropriate. Use a separate sheet if necessary.)",
+      "page": 2,
+      "box": {
+        "left": 276.1,
+        "top": 676.4,
+        "width": 206.7,
+        "height": 10.5
+      }
+    },
+    "monthlyIncome3": {
+      "type": "text",
+      "label": "Enter the amount.",
+      "page": 2,
+      "box": {
+        "left": 488.1,
+        "top": 676.4,
+        "width": 83.3,
+        "height": 10.5
+      }
+    },
+    "operation4": {
+      "type": "text",
+      "label": "This is 4 of 10. Enter less expenses incident to the operation of a private business or other outside income. (Itemize and/or explain as appropriate. Use a separate sheet if necessary.)",
+      "page": 2,
+      "box": {
+        "left": 276.1,
+        "top": 662.6,
+        "width": 206.7,
+        "height": 10.5
+      }
+    },
+    "monthlyIncome4": {
+      "type": "text",
+      "label": "Enter the amount.",
+      "page": 2,
+      "box": {
+        "left": 488.1,
+        "top": 662.6,
+        "width": 83.3,
+        "height": 10.5
+      }
+    },
+    "operation5": {
+      "type": "text",
+      "label": "This is 5 of 10. Enter less expenses incident to the operation of a private business or other outside income. (Itemize and/or explain as appropriate. Use a separate sheet if necessary.)",
+      "page": 2,
+      "box": {
+        "left": 276.1,
+        "top": 648.3,
+        "width": 206.7,
+        "height": 10.5
+      }
+    },
+    "monthlyIncome5": {
+      "type": "text",
+      "label": "Enter the amount.",
+      "page": 2,
+      "box": {
+        "left": 488.1,
+        "top": 648.3,
+        "width": 83.3,
+        "height": 10.5
+      }
+    },
+    "operation6": {
+      "type": "text",
+      "label": "This is 6 of 10. Enter less expenses incident to the operation of a private business or other outside income. (Itemize and/or explain as appropriate. Use a separate sheet if necessary.)",
+      "page": 2,
+      "box": {
+        "left": 276.1,
+        "top": 635.3,
+        "width": 206.7,
+        "height": 10.5
+      }
+    },
+    "monthlyIncome6": {
+      "type": "text",
+      "label": "Enter the amount.",
+      "page": 2,
+      "box": {
+        "left": 488.1,
+        "top": 635.3,
+        "width": 83.3,
+        "height": 10.5
+      }
+    },
+    "childCare1": {
+      "type": "text",
+      "label": "Enter the spouse's monthly gross income for child care.",
+      "page": 2,
+      "box": {
+        "left": 128.2,
+        "top": 623.9,
+        "width": 53.3,
+        "height": 8.4
+      }
+    },
+    "operation7": {
+      "type": "text",
+      "label": "This is 7 of 10. Enter less expenses incident to the operation of a private business or other outside income. (Itemize and/or explain as appropriate. Use a separate sheet if necessary.)",
+      "page": 2,
+      "box": {
+        "left": 276.1,
+        "top": 622.6,
+        "width": 206.7,
+        "height": 10.5
+      }
+    },
+    "monthlyIncome7": {
+      "type": "text",
+      "label": "Enter the amount.",
+      "page": 2,
+      "box": {
+        "left": 488.1,
+        "top": 622.6,
+        "width": 83.3,
+        "height": 10.5
+      }
+    },
+    "otherSpecify": {
+      "type": "text",
+      "label": "Enter the spouse's monthly gross income for specify other.",
+      "page": 2,
+      "box": {
+        "left": 128.2,
+        "top": 610.0,
+        "width": 53.3,
+        "height": 8.4
+      }
+    },
+    "operation8": {
+      "type": "text",
+      "label": "This is 8 of 10. Enter less expenses incident to the operation of a private business or other outside income. (Itemize and/or explain as appropriate. Use a separate sheet if necessary.)",
+      "page": 2,
+      "box": {
+        "left": 276.1,
+        "top": 610.0,
+        "width": 206.7,
+        "height": 10.5
+      }
+    },
+    "monthlyIncome8": {
+      "type": "text",
+      "label": "Enter the amount.",
+      "page": 2,
+      "box": {
+        "left": 488.1,
+        "top": 610.0,
+        "width": 83.3,
+        "height": 10.5
+      }
+    },
+    "operation9": {
+      "type": "text",
+      "label": "This is 9 of 10. Enter less expenses incident to the operation of a private business or other outside income. (Itemize and/or explain as appropriate. Use a separate sheet if necessary.)",
+      "page": 2,
+      "box": {
+        "left": 276.1,
+        "top": 597.7,
+        "width": 206.7,
+        "height": 10.5
+      }
+    },
+    "monthlyIncome9": {
+      "type": "text",
+      "label": "Enter the amount.",
+      "page": 2,
+      "box": {
+        "left": 488.1,
+        "top": 597.7,
+        "width": 83.3,
+        "height": 10.5
+      }
+    },
+    "operation10": {
+      "type": "text",
+      "label": "This is 10 of 10. Enter less expenses incident to the operation of a private business or other outside income. (Itemize and/or explain as appropriate. Use a separate sheet if necessary.)",
+      "page": 2,
+      "box": {
+        "left": 276.1,
+        "top": 584.6,
+        "width": 206.7,
+        "height": 10.5
+      }
+    },
+    "monthlyIncome10": {
+      "type": "text",
+      "label": "Enter the amount.",
+      "page": 2,
+      "box": {
+        "left": 488.1,
+        "top": 584.6,
+        "width": 83.3,
+        "height": 10.5
+      }
+    },
+    "netAmount1": {
+      "type": "text",
+      "label": "Enter the net amount of the other monthly income.",
+      "page": 2,
+      "box": {
+        "left": 488.1,
+        "top": 568.3,
+        "width": 82.6,
+        "height": 7.6
+      }
+    },
+    "recap1": {
+      "type": "text",
+      "label": "Enter the recap of the total monthly family income.",
+      "page": 2,
+      "box": {
+        "left": 488.1,
+        "top": 554.2,
+        "width": 82.6,
+        "height": 7.6
+      }
+    },
+    "applicant1": {
+      "type": "text",
+      "label": "Enter the applicant's net income.",
+      "page": 2,
+      "box": {
+        "left": 488.1,
+        "top": 540.6,
+        "width": 82.6,
+        "height": 7.6
+      }
+    },
+    "spousesIncome": {
+      "type": "text",
+      "label": "Enter the spouse's net income.",
+      "page": 2,
+      "box": {
+        "left": 488.1,
+        "top": 527.4,
+        "width": 82.6,
+        "height": 7.6
+      }
+    },
+    "otherNet": {
+      "type": "text",
+      "label": "Enter the other net income.",
+      "page": 2,
+      "box": {
+        "left": 488.1,
+        "top": 514.3,
+        "width": 82.6,
+        "height": 7.6
+      }
+    },
+    "totalExpenses1": {
+      "type": "text",
+      "label": "TotalExpenses1",
+      "page": 2,
+      "box": {
+        "left": 184.8,
+        "top": 501.2,
+        "width": 88.1,
+        "height": 11.3
+      }
+    },
+    "total": {
+      "type": "text",
+      "label": "Enter the total net monthly income after expenses for family.",
+      "page": 2,
+      "box": {
+        "left": 488.1,
+        "top": 501.0,
+        "width": 82.6,
+        "height": 20.8
+      }
+    },
+    "netIncome1": {
+      "type": "text",
+      "label": "NetIncome1",
+      "page": 2,
+      "box": {
+        "left": 184.8,
+        "top": 488.9,
+        "width": 88.1,
+        "height": 11.3
+      }
+    },
+    "assets1": {
+      "type": "text",
+      "label": "Enter the other assets show present value of and equity in all assets other than household goods and clothing, including but not limited to savings and checking accounts, stocks, bonds, real estats, automobiles, boats, trailers, business, etc.",
+      "page": 2,
+      "box": {
+        "left": 38.4,
+        "top": 447.4,
+        "width": 535.4,
+        "height": 54.4
+      },
+      "multiline": true
+    },
+    "remarks1": {
+      "type": "text",
+      "label": "Enter the remarks.",
+      "page": 2,
+      "box": {
+        "left": 38.4,
+        "top": 379.7,
+        "width": 535.4,
+        "height": 45.0
+      },
+      "multiline": true
+    },
+    "signature3": {
+      "type": "text",
+      "label": "Enter the signature of the applicant.",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 273.3,
+        "width": 289.8,
+        "height": 17.4
+      }
+    },
+    "date9": {
+      "type": "text",
+      "label": "Enter the date.  ",
+      "page": 2,
+      "box": {
+        "left": 335.1,
+        "top": 273.3,
+        "width": 72.2,
+        "height": 17.4
+      }
+    },
+    "date10": {
+      "type": "text",
+      "label": "Enter the date of application received by member's commanding officer.  ",
+      "page": 2,
+      "box": {
+        "left": 413.0,
+        "top": 268.0,
+        "width": 159.6,
+        "height": 12.1
+      }
+    },
+    "amounts1": {
+      "type": "text",
+      "label": "Are amounts provided by the member reasonable for your locale?  Explain any concerns you have with the amounts reported.",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 219.9,
+        "width": 533.8,
+        "height": 42.2
+      },
+      "multiline": true
+    },
+    "believe": {
+      "type": "text",
+      "label": "Do you believe hardship is an appropriate consideration in the member's application? Provide your opinion on the extent of hardship and/or recommend a monthly collection rate.",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 152.9,
+        "width": 533.8,
+        "height": 36.9
+      },
+      "multiline": true
+    },
+    "endorsement": {
+      "type": "text",
+      "label": "Enter whom the endorsement was prepared by.",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 101.4,
+        "width": 225.3,
+        "height": 15.4
+      }
+    },
+    "textField3": {
+      "type": "text",
+      "label": "Enter the position title.",
+      "page": 2,
+      "box": {
+        "left": 269.8,
+        "top": 101.4,
+        "width": 130.8,
+        "height": 15.4
+      }
+    },
+    "telephone": {
+      "type": "text",
+      "label": "Enter the telephone number.",
+      "page": 2,
+      "box": {
+        "left": 406.6,
+        "top": 100.6,
+        "width": 166.0,
+        "height": 14.6
+      }
+    },
+    "textField4": {
+      "type": "text",
+      "label": "Enter the signature and grade.",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 70.6,
+        "width": 361.7,
+        "height": 14.6
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "Enter the date.  ",
+      "page": 2,
+      "box": {
+        "left": 406.6,
+        "top": 69.8,
+        "width": 166.0,
+        "height": 13.9
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 13.45,
+      "editor": "grid",
+      "columns": {
+        "date": {
+          "type": "text",
+          "label": "Enter the date when the item expires.  ",
+          "page": 1,
+          "box": {
+            "left": 107.3,
+            "top": 257.9,
+            "width": 77.8,
+            "height": 9.7
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 5,
+      "rowStride": 12.58,
+      "editor": "grid",
+      "columns": {
+        "other": {
+          "type": "text",
+          "label": "This is 1 of 5. Specify the other type of monthly installment payments.",
+          "page": 1,
+          "box": {
+            "left": 44.1,
+            "top": 208.5,
+            "width": 83.6,
+            "height": 10.2
+          }
+        },
+        "date2": {
+          "type": "text",
+          "label": "Enter the date when the item expires.  ",
+          "page": 1,
+          "box": {
+            "left": 129.5,
+            "top": 208.5,
+            "width": 55.2,
+            "height": 10.2
+          }
+        }
+      }
+    },
+    "rows3": {
+      "title": "Rows",
+      "page": 1,
+      "count": 5,
+      "rowStride": 13.35,
+      "editor": "grid",
+      "columns": {
+        "basicPay": {
+          "type": "text",
+          "label": "Enter the monthly income for basic allowance for quarters.",
+          "page": 1,
+          "box": {
+            "left": 188.2,
+            "top": 460.6,
+            "width": 103.7,
+            "height": 7.8
+          }
+        }
+      }
+    },
+    "rows4": {
+      "title": "Rows",
+      "page": 1,
+      "count": 5,
+      "rowStride": 13.65,
+      "editor": "grid",
+      "columns": {
+        "address": {
+          "type": "text",
+          "label": "This is 1 of 6. Enter the name and address of the dependents.",
+          "page": 1,
+          "box": {
+            "left": 42.8,
+            "top": 591.8,
+            "width": 340.2,
+            "height": 10.2
+          }
+        },
+        "support": {
+          "type": "text",
+          "label": "Enter the percentage of support.",
+          "page": 1,
+          "box": {
+            "left": 505.7,
+            "top": 589.2,
+            "width": 63.9,
+            "height": 7.6
+          }
+        }
+      }
+    },
+    "rows5": {
+      "title": "Rows",
+      "page": 1,
+      "count": 6,
+      "rowStride": 12.9,
+      "editor": "grid",
+      "columns": {
+        "income": {
+          "type": "text",
+          "label": "This is 1 of 6. Specify the other type of monthly income.",
+          "page": 1,
+          "box": {
+            "left": 42.8,
+            "top": 388.1,
+            "width": 141.0,
+            "height": 10.1
+          }
+        },
+        "other2": {
+          "type": "text",
+          "label": "Enter the other monthly income.",
+          "page": 1,
+          "box": {
+            "left": 186.0,
+            "top": 388.1,
+            "width": 107.0,
+            "height": 10.1
+          }
+        }
+      }
+    },
+    "rows6": {
+      "title": "Rows",
+      "page": 2,
+      "count": 3,
+      "rowStride": 24.05,
+      "editor": "grid",
+      "columns": {
+        "car": {
+          "type": "text",
+          "label": "Enter the spouse's monthly gross income for car maintenance and operation.",
+          "page": 2,
+          "box": {
+            "left": 128.2,
+            "top": 686.1,
+            "width": 53.3,
+            "height": 18.4
+          }
+        }
+      }
+    },
+    "rows7": {
+      "title": "Rows",
+      "page": 2,
+      "count": 5,
+      "rowStride": 16.12,
+      "editor": "grid",
+      "columns": {
+        "other": {
+          "type": "text",
+          "label": "This is row 1 of 5. Specify the other spouse's monthly gross income.",
+          "page": 2,
+          "box": {
+            "left": 37.2,
+            "top": 580.3,
+            "width": 86.1,
+            "height": 12.7
+          }
+        },
+        "specify": {
+          "type": "text",
+          "label": "Enter the amount of the spouse's other income.",
+          "page": 2,
+          "box": {
+            "left": 126.2,
+            "top": 580.3,
+            "width": 56.0,
+            "height": 12.7
+          }
+        }
+      }
+    }
+  }
+}

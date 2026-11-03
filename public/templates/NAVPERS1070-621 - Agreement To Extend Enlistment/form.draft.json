@@ -1,0 +1,366 @@
+{
+  "id": "navpers1070621",
+  "label": "NAVPERS1070-621 - Agreement To Extend Enlistment",
+  "directory": "NAVPERS1070-621 - Agreement To Extend Enlistment",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "textField1",
+        "textField12",
+        "textField13",
+        "textField7",
+        "textField72",
+        "textField73",
+        "textField74",
+        "textField75",
+        "textField76",
+        "textField8",
+        "textField4",
+        "textField42",
+        "textField43",
+        "textField44",
+        "textField45",
+        "textField46",
+        "textField47",
+        "textField48",
+        "textField49",
+        "textField410",
+        "textField77",
+        "textField78",
+        "textField79",
+        "textField411",
+        "textField412",
+        "textField710",
+        "textField711",
+        "textField712",
+        "textField413"
+      ]
+    }
+  ],
+  "fields": {
+    "textField1": {
+      "type": "text",
+      "label": "Please enter member's name",
+      "page": 1,
+      "box": {
+        "left": 63.3,
+        "top": 625.1,
+        "width": 274.0,
+        "height": 21.3
+      }
+    },
+    "textField12": {
+      "type": "text",
+      "label": "Please enter member's social security number",
+      "page": 1,
+      "box": {
+        "left": 366.1,
+        "top": 625.1,
+        "width": 90.2,
+        "height": 21.3
+      }
+    },
+    "textField13": {
+      "type": "text",
+      "label": "Please enter member's branch class",
+      "page": 1,
+      "box": {
+        "left": 491.3,
+        "top": 625.1,
+        "width": 85.0,
+        "height": 21.3
+      }
+    },
+    "textField7": {
+      "type": "text",
+      "label": "Please enter the current enlistment date of member.",
+      "page": 1,
+      "box": {
+        "left": 283.1,
+        "top": 596.7,
+        "width": 126.3,
+        "height": 19.8
+      }
+    },
+    "textField72": {
+      "type": "text",
+      "label": "Please enter the number of years member enlisted on  current enlistment contract.",
+      "page": 1,
+      "box": {
+        "left": 432.1,
+        "top": 596.1,
+        "width": 31.1,
+        "height": 19.8
+      }
+    },
+    "textField73": {
+      "type": "text",
+      "label": "Please enter the number of months member extends current enlistment.",
+      "page": 1,
+      "box": {
+        "left": 159.0,
+        "top": 581.9,
+        "width": 40.8,
+        "height": 19.8
+      }
+    },
+    "textField74": {
+      "type": "text",
+      "label": "Please enter X if reason for extension is for school.",
+      "page": 1,
+      "box": {
+        "left": 317.3,
+        "top": 581.4,
+        "width": 28.1,
+        "height": 19.8
+      }
+    },
+    "textField75": {
+      "type": "text",
+      "label": "Please enter X if reason for extension is for other than school.",
+      "page": 1,
+      "box": {
+        "left": 379.8,
+        "top": 579.7,
+        "width": 28.1,
+        "height": 19.8
+      }
+    },
+    "textField76": {
+      "type": "text",
+      "label": "Please enter member's new contract expiration date.",
+      "page": 1,
+      "box": {
+        "left": 172.6,
+        "top": 550.2,
+        "width": 100.1,
+        "height": 19.8
+      }
+    },
+    "textField8": {
+      "type": "text",
+      "label": "Please enter any promises made concerning this extension agreement.",
+      "page": 1,
+      "box": {
+        "left": 37.0,
+        "top": 493.9,
+        "width": 543.3,
+        "height": 98.2
+      },
+      "multiline": true
+    },
+    "textField4": {
+      "type": "text",
+      "label": "Please enter member's u i c",
+      "page": 1,
+      "box": {
+        "left": 53.5,
+        "top": 387.8,
+        "width": 55.8,
+        "height": 19.8
+      }
+    },
+    "textField42": {
+      "type": "text",
+      "label": "Mark with an x if member is active duty",
+      "page": 1,
+      "box": {
+        "left": 198.5,
+        "top": 387.8,
+        "width": 40.8,
+        "height": 19.8
+      }
+    },
+    "textField43": {
+      "type": "text",
+      "label": "Mark with an x if member is inactive duty",
+      "page": 1,
+      "box": {
+        "left": 288.1,
+        "top": 387.8,
+        "width": 40.7,
+        "height": 19.8
+      }
+    },
+    "textField44": {
+      "type": "text",
+      "label": "Please enter member's rate",
+      "page": 1,
+      "box": {
+        "left": 365.6,
+        "top": 387.8,
+        "width": 79.7,
+        "height": 19.8
+      }
+    },
+    "textField45": {
+      "type": "text",
+      "label": "Please enter combat zone information.",
+      "page": 1,
+      "box": {
+        "left": 98.6,
+        "top": 360.5,
+        "width": 61.0,
+        "height": 19.8
+      }
+    },
+    "textField46": {
+      "type": "text",
+      "label": "Please enter member's pay entry base date",
+      "page": 1,
+      "box": {
+        "left": 193.2,
+        "top": 360.5,
+        "width": 74.2,
+        "height": 19.8
+      }
+    },
+    "textField47": {
+      "type": "text",
+      "label": "Please enter total aggregate months.",
+      "page": 1,
+      "box": {
+        "left": 391.2,
+        "top": 360.5,
+        "width": 61.7,
+        "height": 19.8
+      }
+    },
+    "textField48": {
+      "type": "text",
+      "label": "Please enter member's ship or station.",
+      "page": 1,
+      "box": {
+        "left": 115.0,
+        "top": 333.8,
+        "width": 450.2,
+        "height": 19.8
+      }
+    },
+    "textField49": {
+      "type": "text",
+      "label": "Please enter location of ship or station.",
+      "page": 1,
+      "box": {
+        "left": 169.1,
+        "top": 307.2,
+        "width": 397.0,
+        "height": 19.8
+      }
+    },
+    "textField410": {
+      "type": "text",
+      "label": "STATION",
+      "page": 1,
+      "box": {
+        "left": 142.6,
+        "top": 279.3,
+        "width": 426.3,
+        "height": 20.6
+      }
+    },
+    "textField77": {
+      "type": "text",
+      "label": "Please enter day witnessed or accepted on behalf of the U. S. Navy.",
+      "page": 1,
+      "box": {
+        "left": 201.2,
+        "top": 229.9,
+        "width": 67.8,
+        "height": 19.8
+      }
+    },
+    "textField78": {
+      "type": "text",
+      "label": "Please enter month witnessed or accepted on behalf of the U. S. Navy.",
+      "page": 1,
+      "box": {
+        "left": 303.8,
+        "top": 229.9,
+        "width": 60.7,
+        "height": 19.8
+      }
+    },
+    "textField79": {
+      "type": "text",
+      "label": "Please enter last 2 digits of the year witnessed or accepted on behalf of the U. S. Navy.",
+      "page": 1,
+      "box": {
+        "left": 403.9,
+        "top": 229.9,
+        "width": 29.8,
+        "height": 19.8
+      }
+    },
+    "textField411": {
+      "type": "text",
+      "label": "Please enter Certifying Officer's full name and rank.",
+      "page": 1,
+      "box": {
+        "left": 140.2,
+        "top": 197.1,
+        "width": 225.9,
+        "height": 16.6
+      }
+    },
+    "textField412": {
+      "type": "text",
+      "label": "Please enter title of Certifying Officer.",
+      "page": 1,
+      "box": {
+        "left": 407.6,
+        "top": 197.1,
+        "width": 166.1,
+        "height": 18.3
+      }
+    },
+    "textField710": {
+      "type": "text",
+      "label": "Please enter number of months identified hereon.",
+      "page": 1,
+      "box": {
+        "left": 207.2,
+        "top": 148.4,
+        "width": 54.3,
+        "height": 19.8
+      }
+    },
+    "textField711": {
+      "type": "text",
+      "label": "Please enter the cancellation effective date.",
+      "page": 1,
+      "box": {
+        "left": 415.5,
+        "top": 148.4,
+        "width": 82.8,
+        "height": 19.8
+      }
+    },
+    "textField712": {
+      "type": "text",
+      "label": "Please enter authority for cancellation.",
+      "page": 1,
+      "box": {
+        "left": 88.9,
+        "top": 128.8,
+        "width": 485.1,
+        "height": 16.9
+      }
+    },
+    "textField413": {
+      "type": "text",
+      "label": "Please enter Certifying Officer's full name and rank.",
+      "page": 1,
+      "box": {
+        "left": 139.1,
+        "top": 103.9,
+        "width": 435.5,
+        "height": 16.6
+      }
+    }
+  }
+}

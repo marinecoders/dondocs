@@ -1,0 +1,853 @@
+{
+  "id": "navmc11738",
+  "label": "NAVMC 11738 - Marine Corps Martial Arts Mishap Report",
+  "directory": "NAVMC11738 - Marine Corps Martial Arts Mishap Report",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "instructor",
+        "dateTime",
+        "maiTName",
+        "unit",
+        "maiTCertDate",
+        "textField1",
+        "maiTRank",
+        "beltLevel",
+        "mos",
+        "age",
+        "sex",
+        "jobTitle",
+        "mCRank",
+        "onBase",
+        "offBase",
+        "genArea",
+        "specLoc",
+        "environCond",
+        "groundCond",
+        "genAct",
+        "specAct",
+        "typeInjury",
+        "bodyPt",
+        "fatality",
+        "permTotDis",
+        "propertyDam1",
+        "permPartDis",
+        "hospital",
+        "propertyDam2",
+        "timeLost",
+        "propertyDam3",
+        "noLostTime",
+        "firstAid",
+        "propertyDam4",
+        "mishapTimeYes",
+        "mishapTimeNo",
+        "mishapTimeAYes",
+        "mishapTimeANo",
+        "techTrng",
+        "ground3",
+        "edip",
+        "sustain",
+        "martialArts1",
+        "fieldDrill",
+        "martialArts2",
+        "deployDrill",
+        "equipDescr"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "hospDays",
+        "sIQDays",
+        "lightDuty",
+        "summary",
+        "hazYes",
+        "hazNo",
+        "wESSRept",
+        "unitSafeName",
+        "phoneNum",
+        "signatureField1",
+        "signDate1",
+        "signatureField12",
+        "signDate2"
+      ]
+    }
+  ],
+  "fields": {
+    "instructor": {
+      "type": "text",
+      "label": "MAI/T Supervising \u2029Training:",
+      "page": 1,
+      "box": {
+        "left": 398.9,
+        "top": 690.8,
+        "width": 175.0,
+        "height": 17.9
+      }
+    },
+    "dateTime": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 1,
+      "box": {
+        "left": 246.1,
+        "top": 690.6,
+        "width": 75.7,
+        "height": 16.8
+      }
+    },
+    "maiTName": {
+      "type": "text",
+      "label": "NAME:",
+      "page": 1,
+      "box": {
+        "left": 357.7,
+        "top": 669.3,
+        "width": 216.2,
+        "height": 19.4
+      }
+    },
+    "unit": {
+      "type": "text",
+      "label": "UNIT:",
+      "page": 1,
+      "box": {
+        "left": 179.5,
+        "top": 668.4,
+        "width": 142.8,
+        "height": 18.7
+      }
+    },
+    "maiTCertDate": {
+      "type": "text",
+      "label": "MAI/T CERTIFICATION DATE:",
+      "page": 1,
+      "box": {
+        "left": 215.6,
+        "top": 645.4,
+        "width": 75.5,
+        "height": 23.4
+      }
+    },
+    "textField1": {
+      "type": "text",
+      "label": "CONTACT\u2029INFO:  ",
+      "page": 1,
+      "box": {
+        "left": 343.4,
+        "top": 645.4,
+        "width": 230.4,
+        "height": 23.3
+      }
+    },
+    "maiTRank": {
+      "type": "choice",
+      "label": "Rank:",
+      "page": 1,
+      "box": {
+        "left": 70.3,
+        "top": 644.7,
+        "width": 51.7,
+        "height": 21.3
+      },
+      "options": [
+        "PFC",
+        "LCpl",
+        "Cpl",
+        "Sgt",
+        "SSgt",
+        "GySgt",
+        "MSgt",
+        "1stSgt",
+        "MGySgt",
+        "SgtMaj",
+        "SMMC",
+        "WO",
+        "Gunner",
+        "CWO2",
+        "CWO3",
+        "CWO4",
+        "CWO5",
+        "2ndLt",
+        "1stLt",
+        "Capt",
+        "Maj",
+        "LtCol",
+        "Col",
+        "BGen",
+        "MajGen",
+        "LtGen",
+        "Gen"
+      ]
+    },
+    "beltLevel": {
+      "type": "choice",
+      "label": "CURRENT\u2029BELT LEVEL:",
+      "page": 1,
+      "box": {
+        "left": 523.1,
+        "top": 603.7,
+        "width": 50.6,
+        "height": 16.6
+      },
+      "options": [
+        "Tan",
+        "Gray",
+        "Green",
+        "Brown",
+        "Black"
+      ]
+    },
+    "mos": {
+      "type": "text",
+      "label": "MOS",
+      "page": 1,
+      "box": {
+        "left": 155.4,
+        "top": 603.6,
+        "width": 40.8,
+        "height": 17.7
+      }
+    },
+    "age": {
+      "type": "text",
+      "label": "AGE",
+      "page": 1,
+      "box": {
+        "left": 225.0,
+        "top": 603.6,
+        "width": 29.8,
+        "height": 17.7
+      }
+    },
+    "sex": {
+      "type": "text",
+      "label": "SEX",
+      "page": 1,
+      "box": {
+        "left": 283.9,
+        "top": 603.6,
+        "width": 43.2,
+        "height": 17.7
+      }
+    },
+    "jobTitle": {
+      "type": "text",
+      "label": "JOB TITLE:",
+      "page": 1,
+      "box": {
+        "left": 371.2,
+        "top": 603.6,
+        "width": 100.2,
+        "height": 17.7
+      }
+    },
+    "mCRank": {
+      "type": "choice",
+      "label": "RANK:",
+      "page": 1,
+      "box": {
+        "left": 70.2,
+        "top": 602.5,
+        "width": 55.5,
+        "height": 15.2
+      },
+      "options": [
+        " ",
+        "PFC",
+        "LCpl",
+        "Cpl",
+        "Sgt",
+        "SSgt",
+        "GySgt",
+        "MSgt",
+        "1stSgt",
+        "MGySgt",
+        "SgtMaj",
+        "SMMC",
+        "WO",
+        "Gunner",
+        "CWO2",
+        "CWO3",
+        "CWO4",
+        "CWO5",
+        "2ndLt",
+        "1stLt",
+        "Capt",
+        "Maj",
+        "LtCol",
+        "Col",
+        "BGen",
+        "MajGen",
+        "LtGen",
+        "Gen"
+      ]
+    },
+    "onBase": {
+      "type": "checkbox",
+      "label": "ON",
+      "page": 1,
+      "box": {
+        "left": 327.4,
+        "top": 580.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "offBase": {
+      "type": "checkbox",
+      "label": "OFF",
+      "page": 1,
+      "box": {
+        "left": 398.8,
+        "top": 580.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "genArea": {
+      "type": "text",
+      "label": "GENERAL AREA:",
+      "page": 1,
+      "box": {
+        "left": 110.2,
+        "top": 564.3,
+        "width": 463.9,
+        "height": 14.0
+      }
+    },
+    "specLoc": {
+      "type": "text",
+      "label": "SPECIFIC LOCATION:",
+      "page": 1,
+      "box": {
+        "left": 125.6,
+        "top": 546.7,
+        "width": 448.6,
+        "height": 14.0
+      }
+    },
+    "environCond": {
+      "type": "text",
+      "label": "ENVIRONMENTAL CONDITIONS:",
+      "page": 1,
+      "box": {
+        "left": 171.7,
+        "top": 529.0,
+        "width": 402.5,
+        "height": 14.0
+      }
+    },
+    "groundCond": {
+      "type": "text",
+      "label": "GROUND CONDITIONS:",
+      "page": 1,
+      "box": {
+        "left": 136.4,
+        "top": 511.4,
+        "width": 437.7,
+        "height": 14.0
+      }
+    },
+    "genAct": {
+      "type": "text",
+      "label": "GENERAL ACTIVITY:",
+      "page": 1,
+      "box": {
+        "left": 123.7,
+        "top": 493.8,
+        "width": 450.4,
+        "height": 14.0
+      }
+    },
+    "specAct": {
+      "type": "text",
+      "label": "SPECIFIC ACTIVITY:",
+      "page": 1,
+      "box": {
+        "left": 123.3,
+        "top": 476.1,
+        "width": 450.8,
+        "height": 14.0
+      }
+    },
+    "typeInjury": {
+      "type": "text",
+      "label": "TYPE OF INJURY:",
+      "page": 1,
+      "box": {
+        "left": 114.3,
+        "top": 458.5,
+        "width": 459.9,
+        "height": 14.0
+      }
+    },
+    "bodyPt": {
+      "type": "text",
+      "label": "BODY PART:",
+      "page": 1,
+      "box": {
+        "left": 95.7,
+        "top": 440.9,
+        "width": 478.4,
+        "height": 14.0
+      }
+    },
+    "fatality": {
+      "type": "checkbox",
+      "label": "A:  1.  Fatality",
+      "page": 1,
+      "box": {
+        "left": 181.4,
+        "top": 409.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "permTotDis": {
+      "type": "checkbox",
+      "label": "2.  Permanent Total Disability",
+      "page": 1,
+      "box": {
+        "left": 334.2,
+        "top": 409.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "propertyDam1": {
+      "type": "checkbox",
+      "label": "3.  Property damage of $1,000.000 or more",
+      "page": 1,
+      "box": {
+        "left": 558.8,
+        "top": 409.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "permPartDis": {
+      "type": "checkbox",
+      "label": "B:  4.  Permanent Partial Disability",
+      "page": 1,
+      "box": {
+        "left": 181.4,
+        "top": 394.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "hospital": {
+      "type": "checkbox",
+      "label": "5.  Hospitalization (3 or more personnel",
+      "page": 1,
+      "box": {
+        "left": 351.9,
+        "top": 394.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "propertyDam2": {
+      "type": "checkbox",
+      "label": "6.  Property damage of $2,000.000 to $999,999",
+      "page": 1,
+      "box": {
+        "left": 559.2,
+        "top": 394.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "timeLost": {
+      "type": "text",
+      "label": "C:  7.  Lost time (How much)",
+      "page": 1,
+      "box": {
+        "left": 144.9,
+        "top": 379.3,
+        "width": 55.0,
+        "height": 12.8
+      }
+    },
+    "propertyDam3": {
+      "type": "checkbox",
+      "label": "8.  Property damage of $20K to $199,999",
+      "page": 1,
+      "box": {
+        "left": 395.2,
+        "top": 378.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "noLostTime": {
+      "type": "checkbox",
+      "label": "9.  No Lost Time",
+      "page": 1,
+      "box": {
+        "left": 554.5,
+        "top": 378.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "firstAid": {
+      "type": "checkbox",
+      "label": "10.  First Aid Case",
+      "page": 1,
+      "box": {
+        "left": 177.4,
+        "top": 362.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "propertyDam4": {
+      "type": "checkbox",
+      "label": "11.  Property damage of $200,000 to $19,999",
+      "page": 1,
+      "box": {
+        "left": 395.6,
+        "top": 362.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "mishapTimeYes": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 302.9,
+        "top": 346.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "mishapTimeNo": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 347.6,
+        "top": 346.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "mishapTimeAYes": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 329.4,
+        "top": 330.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "mishapTimeANo": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 374.1,
+        "top": 330.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "techTrng": {
+      "type": "checkbox",
+      "label": "1.  TECHNIQUE TRAINING",
+      "page": 1,
+      "box": {
+        "left": 312.4,
+        "top": 299.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "ground3": {
+      "type": "checkbox",
+      "label": "STANDING",
+      "page": 1,
+      "box": {
+        "left": 341.1,
+        "top": 284.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "edip": {
+      "type": "checkbox",
+      "label": "2.  EDIP",
+      "page": 1,
+      "box": {
+        "left": 312.4,
+        "top": 283.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "sustain": {
+      "type": "checkbox",
+      "label": "3.  SUSTAINMENT",
+      "page": 1,
+      "box": {
+        "left": 312.4,
+        "top": 268.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "martialArts1": {
+      "type": "checkbox",
+      "label": "1.  MARTIAL ARTS DRILL (E.G. LZ DRILL)",
+      "page": 1,
+      "box": {
+        "left": 422.8,
+        "top": 237.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "fieldDrill": {
+      "type": "checkbox",
+      "label": "4.  FIELD DRILL",
+      "page": 1,
+      "box": {
+        "left": 554.3,
+        "top": 237.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "martialArts2": {
+      "type": "checkbox",
+      "label": "2.  MARTIAL ARTS PHYSICAL INTEGRATION TRAINING",
+      "page": 1,
+      "box": {
+        "left": 422.8,
+        "top": 222.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "deployDrill": {
+      "type": "checkbox",
+      "label": "3.  DEPLOYED DRILL",
+      "page": 1,
+      "box": {
+        "left": 422.8,
+        "top": 206.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "equipDescr": {
+      "type": "text",
+      "label": "DESCRIPTION:",
+      "page": 1,
+      "box": {
+        "left": 38.4,
+        "top": 168.6,
+        "width": 535.7,
+        "height": 103.6
+      },
+      "multiline": true
+    },
+    "hospDays": {
+      "type": "text",
+      "label": "Hospital Days:",
+      "page": 2,
+      "box": {
+        "left": 102.7,
+        "top": 713.2,
+        "width": 114.9,
+        "height": 13.3
+      }
+    },
+    "sIQDays": {
+      "type": "text",
+      "label": "SIQ Days:",
+      "page": 2,
+      "box": {
+        "left": 102.4,
+        "top": 695.8,
+        "width": 115.1,
+        "height": 13.3
+      }
+    },
+    "lightDuty": {
+      "type": "text",
+      "label": "Light Duty Days:",
+      "page": 2,
+      "box": {
+        "left": 102.4,
+        "top": 679.3,
+        "width": 115.2,
+        "height": 13.3
+      }
+    },
+    "summary": {
+      "type": "text",
+      "label": "Summary",
+      "page": 2,
+      "box": {
+        "left": 38.2,
+        "top": 647.3,
+        "width": 535.7,
+        "height": 402.9
+      },
+      "multiline": true
+    },
+    "hazYes": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 2,
+      "box": {
+        "left": 200.4,
+        "top": 237.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "hazNo": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 254.9,
+        "top": 237.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "wESSRept": {
+      "type": "text",
+      "label": "WESS Report # (If applicable):",
+      "page": 2,
+      "box": {
+        "left": 154.7,
+        "top": 218.8,
+        "width": 419.2,
+        "height": 10.9
+      }
+    },
+    "unitSafeName": {
+      "type": "text",
+      "label": "RANK/NAME:",
+      "page": 2,
+      "box": {
+        "left": 94.4,
+        "top": 190.2,
+        "width": 479.7,
+        "height": 12.9
+      }
+    },
+    "phoneNum": {
+      "type": "text",
+      "label": "PHONE NUMBER:",
+      "page": 2,
+      "box": {
+        "left": 109.9,
+        "top": 173.8,
+        "width": 464.2,
+        "height": 12.9
+      }
+    },
+    "signatureField1": {
+      "type": "signature",
+      "label": "SIGNATURE OF INSTRUCTOR / INSTRUCTOR TRAINER:",
+      "page": 2,
+      "box": {
+        "left": 39.0,
+        "top": 147.9,
+        "width": 440.3,
+        "height": 13.6
+      }
+    },
+    "signDate1": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 2,
+      "box": {
+        "left": 485.0,
+        "top": 147.5,
+        "width": 88.4,
+        "height": 13.7
+      }
+    },
+    "signatureField12": {
+      "type": "signature",
+      "label": "SIGNATURE OF UNIT SAFETY REPRESENTATIVE",
+      "page": 2,
+      "box": {
+        "left": 39.0,
+        "top": 119.2,
+        "width": 440.3,
+        "height": 13.6
+      }
+    },
+    "signDate2": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 2,
+      "box": {
+        "left": 485.0,
+        "top": 118.8,
+        "width": 88.4,
+        "height": 13.7
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 14.4,
+      "editor": "grid",
+      "columns": {
+        "ground": {
+          "type": "checkbox",
+          "label": "GROUND",
+          "page": 1,
+          "box": {
+            "left": 432.4,
+            "top": 298.8,
+            "width": 10.0,
+            "height": 10.0
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 4,
+      "rowStride": 15.07,
+      "editor": "grid",
+      "columns": {
+        "mcmap": {
+          "type": "text",
+          "label": "MCMAP1",
+          "page": 1,
+          "box": {
+            "left": 38.6,
+            "top": 298.7,
+            "width": 161.8,
+            "height": 9.4
+          }
+        }
+      }
+    }
+  }
+}

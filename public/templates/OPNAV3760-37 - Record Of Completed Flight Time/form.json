@@ -1,0 +1,332 @@
+{
+  "id": "opnav376037",
+  "label": "OPNAV3760-37 - Record Of Completed Flight Time",
+  "directory": "OPNAV3760-37 - Record Of Completed Flight Time",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "toPA",
+        "from",
+        "signature",
+        "rank",
+        "doDID",
+        "designator",
+        "date",
+        "signature2",
+        "actiondate",
+        "mac",
+        "acserno",
+        "fpc",
+        "tpt",
+        "fp",
+        "cp",
+        "instp",
+        "sc",
+        "act",
+        "sim",
+        "night",
+        "ldg",
+        "instrumapr",
+        "remarktxtf",
+        "title",
+        "date2",
+        "signature3"
+      ]
+    }
+  ],
+  "fields": {
+    "toPA": {
+      "type": "text",
+      "label": "TO: (Pilot&apos;s activity)",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 658.8,
+        "width": 260.0,
+        "height": 59.0
+      },
+      "multiline": true
+    },
+    "from": {
+      "type": "text",
+      "label": "FROM (Aircraft Custodian)",
+      "page": 1,
+      "box": {
+        "left": 311.1,
+        "top": 658.8,
+        "width": 265.0,
+        "height": 59.0
+      },
+      "multiline": true
+    },
+    "signature": {
+      "type": "text",
+      "label": "PILOT (Name - Last, First, Middle)",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 572.4,
+        "width": 198.7,
+        "height": 13.0
+      }
+    },
+    "rank": {
+      "type": "text",
+      "label": "RANK",
+      "page": 1,
+      "box": {
+        "left": 249.9,
+        "top": 572.4,
+        "width": 105.1,
+        "height": 13.0
+      }
+    },
+    "doDID": {
+      "type": "text",
+      "label": "DoD ID Number",
+      "page": 1,
+      "box": {
+        "left": 365.1,
+        "top": 572.4,
+        "width": 105.1,
+        "height": 13.0
+      }
+    },
+    "designator": {
+      "type": "text",
+      "label": "DESIGNATOR",
+      "page": 1,
+      "box": {
+        "left": 480.3,
+        "top": 572.4,
+        "width": 95.8,
+        "height": 14.4
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 547.2,
+        "width": 67.0,
+        "height": 25.2
+      }
+    },
+    "signature2": {
+      "type": "text",
+      "label": "SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 113.1,
+        "top": 547.2,
+        "width": 242.0,
+        "height": 25.2
+      }
+    },
+    "actiondate": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 470.8,
+        "width": 43.9,
+        "height": 13.0
+      }
+    },
+    "mac": {
+      "type": "text",
+      "label": "A/C",
+      "page": 1,
+      "box": {
+        "left": 91.5,
+        "top": 470.8,
+        "width": 40.3,
+        "height": 13.0
+      }
+    },
+    "acserno": {
+      "type": "text",
+      "label": "(BUNO)",
+      "page": 1,
+      "box": {
+        "left": 141.9,
+        "top": 470.8,
+        "width": 40.3,
+        "height": 13.0
+      }
+    },
+    "fpc": {
+      "type": "text",
+      "label": "CODE",
+      "page": 1,
+      "box": {
+        "left": 192.3,
+        "top": 470.8,
+        "width": 22.3,
+        "height": 13.0
+      }
+    },
+    "tpt": {
+      "type": "text",
+      "label": "PILOT TIM",
+      "page": 1,
+      "box": {
+        "left": 224.7,
+        "top": 470.8,
+        "width": 33.1,
+        "height": 13.0
+      }
+    },
+    "fp": {
+      "type": "text",
+      "label": "FP",
+      "page": 1,
+      "box": {
+        "left": 267.9,
+        "top": 470.8,
+        "width": 18.7,
+        "height": 13.0
+      }
+    },
+    "cp": {
+      "type": "text",
+      "label": "CP",
+      "page": 1,
+      "box": {
+        "left": 296.7,
+        "top": 470.8,
+        "width": 18.7,
+        "height": 13.0
+      }
+    },
+    "instp": {
+      "type": "text",
+      "label": "A/C COMM",
+      "page": 1,
+      "box": {
+        "left": 325.5,
+        "top": 470.8,
+        "width": 33.1,
+        "height": 13.0
+      }
+    },
+    "sc": {
+      "type": "text",
+      "label": "CSC",
+      "page": 1,
+      "box": {
+        "left": 368.7,
+        "top": 470.8,
+        "width": 18.7,
+        "height": 13.0
+      }
+    },
+    "act": {
+      "type": "text",
+      "label": "ACT",
+      "page": 1,
+      "box": {
+        "left": 397.5,
+        "top": 470.8,
+        "width": 25.9,
+        "height": 13.0
+      }
+    },
+    "sim": {
+      "type": "text",
+      "label": "SIM",
+      "page": 1,
+      "box": {
+        "left": 433.5,
+        "top": 470.8,
+        "width": 18.7,
+        "height": 13.0
+      }
+    },
+    "night": {
+      "type": "text",
+      "label": "NIGHT",
+      "page": 1,
+      "box": {
+        "left": 462.3,
+        "top": 470.8,
+        "width": 18.7,
+        "height": 13.0
+      }
+    },
+    "ldg": {
+      "type": "text",
+      "label": "LDG",
+      "page": 1,
+      "box": {
+        "left": 491.1,
+        "top": 470.8,
+        "width": 22.3,
+        "height": 13.0
+      }
+    },
+    "instrumapr": {
+      "type": "text",
+      "label": "APPROACHES",
+      "page": 1,
+      "box": {
+        "left": 523.5,
+        "top": 470.8,
+        "width": 52.6,
+        "height": 13.0
+      }
+    },
+    "remarktxtf": {
+      "type": "text",
+      "label": "REMARKS",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 446.4,
+        "width": 530.0,
+        "height": 129.6
+      },
+      "multiline": true
+    },
+    "title": {
+      "type": "text",
+      "label": "NAME, RANK, TITLE (Type or print)",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 266.5,
+        "width": 242.0,
+        "height": 23.9
+      }
+    },
+    "date2": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 288.0,
+        "top": 266.3,
+        "width": 72.0,
+        "height": 23.8
+      }
+    },
+    "signature3": {
+      "type": "text",
+      "label": "SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 365.1,
+        "top": 266.3,
+        "width": 205.9,
+        "height": 25.2
+      }
+    }
+  }
+}

@@ -1,0 +1,837 @@
+{
+  "id": "opnav31307",
+  "label": "OPNAV3130-7 - Sar Medical Technician And Helicopter Inland Rescue Aircrewman Practical Training Form",
+  "directory": "OPNAV3130-7 - Sar Medical Technician And Helicopter Inland Rescue Aircrewman Practical Training Form",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "calYr",
+        "janH1",
+        "aprH1",
+        "julH1",
+        "octH1",
+        "janH2",
+        "aprH2",
+        "julH2",
+        "octH2",
+        "janH3",
+        "aprH3",
+        "julH3",
+        "octH3",
+        "janH4",
+        "aprH4",
+        "julH4",
+        "octH4",
+        "janH5",
+        "aprH5",
+        "julH5",
+        "octH5",
+        "janH6",
+        "aprH6",
+        "julH6",
+        "octH6",
+        "janJuns1",
+        "julDecs1",
+        "janJuns2",
+        "julDecs2",
+        "janJunh7",
+        "julDech7",
+        "janJuns3",
+        "julDecs3",
+        "janJuns4",
+        "julDecs4",
+        "janJunh8",
+        "julDech8",
+        "janJuns5",
+        "julDecs5",
+        "janJuns6",
+        "julDecs6",
+        "janJuns7",
+        "julDecs7",
+        "janJunh9",
+        "julDech9",
+        "janJuns8",
+        "julDecs8",
+        "janJuns9",
+        "julDecs9",
+        "janS10",
+        "aprS10",
+        "julS10",
+        "octS10",
+        "janDech10",
+        "janS13",
+        "aprS13",
+        "julS13",
+        "octS13",
+        "janS15",
+        "aprS15",
+        "julS15",
+        "octS15",
+        "janS16",
+        "aprS16",
+        "julS16",
+        "octS16",
+        "name",
+        "name2"
+      ]
+    }
+  ],
+  "fields": {
+    "calYr": {
+      "type": "text",
+      "label": "Enter the calendar year using the format YYYY. ",
+      "page": 1,
+      "box": {
+        "left": 457.3,
+        "top": 555.2,
+        "width": 66.3,
+        "height": 12.3
+      }
+    },
+    "janH1": {
+      "type": "text",
+      "label": "H1.  Enter date of Standard Repel: JAN-MAR using the format DDMMM.",
+      "page": 1,
+      "box": {
+        "left": 559.4,
+        "top": 493.6,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "aprH1": {
+      "type": "text",
+      "label": "H1.  Enter date of Standard Repel: APR-JUN using the format DDMMM.",
+      "page": 1,
+      "box": {
+        "left": 608.9,
+        "top": 493.6,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "julH1": {
+      "type": "text",
+      "label": "H1.  Enter date of Standard Repel: JUL-SEP using the format DDMMM.",
+      "page": 1,
+      "box": {
+        "left": 658.4,
+        "top": 493.6,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "octH1": {
+      "type": "text",
+      "label": "H1.  Enter date of Standard Repel: OCT-DEC using the format DDMMM.",
+      "page": 1,
+      "box": {
+        "left": 707.9,
+        "top": 493.6,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "janH2": {
+      "type": "text",
+      "label": "H2.  Enter date of Bagless Rappel: JAN-MAR using the format DDMMM. ",
+      "page": 1,
+      "box": {
+        "left": 559.4,
+        "top": 480.1,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "aprH2": {
+      "type": "text",
+      "label": "H2.  Enter date of Bagless Rappel: APR-JUN using the format DDMMM. ",
+      "page": 1,
+      "box": {
+        "left": 608.9,
+        "top": 480.1,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "julH2": {
+      "type": "text",
+      "label": "H2.  Enter date of Bagless Rappel: JUL-SEP using the format DDMMM. ",
+      "page": 1,
+      "box": {
+        "left": 658.4,
+        "top": 480.1,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "octH2": {
+      "type": "text",
+      "label": "H2.  Enter date of Bagless Rappel: OCT-DEC using the format DDMMM. ",
+      "page": 1,
+      "box": {
+        "left": 707.9,
+        "top": 480.1,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "janH3": {
+      "type": "text",
+      "label": "Enter date of Rappel with Litter (open):  JAN-MAR  using the format DDMMM.",
+      "page": 1,
+      "box": {
+        "left": 559.4,
+        "top": 466.6,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "aprH3": {
+      "type": "text",
+      "label": "Enter date of Rappel with Litter (open):  APR-JUN using the format DDMMM.",
+      "page": 1,
+      "box": {
+        "left": 608.9,
+        "top": 466.6,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "julH3": {
+      "type": "text",
+      "label": "Enter date of Rappel with Litter (open):  JUL-SEP using the format DDMMM.",
+      "page": 1,
+      "box": {
+        "left": 658.4,
+        "top": 466.6,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "octH3": {
+      "type": "text",
+      "label": "Enter date of Rappel with Litter (open): OCT-DEC using the format DDMMM.",
+      "page": 1,
+      "box": {
+        "left": 707.9,
+        "top": 466.6,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "janH4": {
+      "type": "text",
+      "label": "H4.  Enter date of Harness: JAN-MAR using the format DDMMM.",
+      "page": 1,
+      "box": {
+        "left": 559.4,
+        "top": 439.6,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "aprH4": {
+      "type": "text",
+      "label": "H4.  Enter date of Harness: APR-JUN using the format DDMMM.",
+      "page": 1,
+      "box": {
+        "left": 608.9,
+        "top": 439.6,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "julH4": {
+      "type": "text",
+      "label": "H4.  Enter date of Harness: JUL-SEP using the format DDMMM.",
+      "page": 1,
+      "box": {
+        "left": 658.4,
+        "top": 439.6,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "octH4": {
+      "type": "text",
+      "label": "H4.  Enter date of Harness: OCT-DEC using the format DDMMM.",
+      "page": 1,
+      "box": {
+        "left": 707.9,
+        "top": 439.6,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "janH5": {
+      "type": "text",
+      "label": "H5.  Enter date of Hoisting Vest: JAN-MAR using the format DDMMM.",
+      "page": 1,
+      "box": {
+        "left": 559.4,
+        "top": 426.1,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "aprH5": {
+      "type": "text",
+      "label": "H5.  Enter date of Hoisting Vest: APR-JUN using the format DDMMM.",
+      "page": 1,
+      "box": {
+        "left": 608.9,
+        "top": 426.1,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "julH5": {
+      "type": "text",
+      "label": "H5.  Enter date of Hoisting Vest: JUL-SEP using the format DDMMM.",
+      "page": 1,
+      "box": {
+        "left": 658.4,
+        "top": 426.1,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "octH5": {
+      "type": "text",
+      "label": "H5.  Enter date of Hoisting Vest: OCT-DEC using the format DDMMM.",
+      "page": 1,
+      "box": {
+        "left": 707.9,
+        "top": 426.1,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "janH6": {
+      "type": "text",
+      "label": "H6.  Enter date of Rescue Litter:  JAN-MAR using the format DDMMM.",
+      "page": 1,
+      "box": {
+        "left": 559.4,
+        "top": 412.6,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "aprH6": {
+      "type": "text",
+      "label": "H6.  Enter date of Rescue Litter:  APR-JUN using the format DDMMM.",
+      "page": 1,
+      "box": {
+        "left": 608.9,
+        "top": 412.6,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "julH6": {
+      "type": "text",
+      "label": "H6.  Enter date of Rescue Litter:  JUL-SEP using the format DDMMM.",
+      "page": 1,
+      "box": {
+        "left": 658.4,
+        "top": 412.6,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "octH6": {
+      "type": "text",
+      "label": "H6.  Enter date of Rescue Litter:  OCT-DEC using the format DDMMM.",
+      "page": 1,
+      "box": {
+        "left": 707.9,
+        "top": 412.6,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "janJuns1": {
+      "type": "text",
+      "label": "S1.  Enter date of Rescue Litter/Trail Line:  JAN-JUN using the format DDMMM. ",
+      "page": 1,
+      "box": {
+        "left": 221.9,
+        "top": 372.3,
+        "width": 78.2,
+        "height": 10.7
+      }
+    },
+    "julDecs1": {
+      "type": "text",
+      "label": "S1.  Enter date of Rescue Litter/Trail Line:  JUL-DEC using the format DDMMM. ",
+      "page": 1,
+      "box": {
+        "left": 302.9,
+        "top": 372.3,
+        "width": 82.7,
+        "height": 10.7
+      }
+    },
+    "janJuns2": {
+      "type": "text",
+      "label": "S2.  Enter date of Rescue Net/Rescue Basket: JAN-JUN using the format DDMMM. ",
+      "page": 1,
+      "box": {
+        "left": 221.9,
+        "top": 358.8,
+        "width": 78.2,
+        "height": 10.7
+      }
+    },
+    "julDecs2": {
+      "type": "text",
+      "label": "S2.  Enter date of Rescue Net/Rescue Basket:  JUL-DEC using the format DDMMM. ",
+      "page": 1,
+      "box": {
+        "left": 302.9,
+        "top": 358.8,
+        "width": 82.7,
+        "height": 10.7
+      }
+    },
+    "janJunh7": {
+      "type": "text",
+      "label": "H7.  Enter date of Survivor in Hoisting Vest: JAN-JUN using the format DDMMM. ",
+      "page": 1,
+      "box": {
+        "left": 559.4,
+        "top": 355.1,
+        "width": 96.2,
+        "height": 28.9
+      }
+    },
+    "julDech7": {
+      "type": "text",
+      "label": "H7.  Enter date of Survivor in Hoisting Vest: JUL-DEC using the format DDMMM. ",
+      "page": 1,
+      "box": {
+        "left": 658.4,
+        "top": 355.1,
+        "width": 96.2,
+        "height": 28.9
+      }
+    },
+    "janJuns3": {
+      "type": "text",
+      "label": "S3.  Enter the date of Rescue Strop:  JAN-JUN using the format DDMMM.",
+      "page": 1,
+      "box": {
+        "left": 221.9,
+        "top": 345.3,
+        "width": 78.2,
+        "height": 10.7
+      }
+    },
+    "julDecs3": {
+      "type": "text",
+      "label": "S3.  Enter the date of Rescue Strop:  JUL-DEC using the format DDMMM.",
+      "page": 1,
+      "box": {
+        "left": 302.9,
+        "top": 345.3,
+        "width": 82.7,
+        "height": 10.7
+      }
+    },
+    "janJuns4": {
+      "type": "text",
+      "label": "S4.  Enter the date of Rescue Seat:  JAN-JUN using the format DDMMM.",
+      "page": 1,
+      "box": {
+        "left": 221.9,
+        "top": 331.8,
+        "width": 78.2,
+        "height": 10.7
+      }
+    },
+    "julDecs4": {
+      "type": "text",
+      "label": "S4.  Enter the date of Rescue Seat:  JUL-DEC using the format DDMMM.",
+      "page": 1,
+      "box": {
+        "left": 302.9,
+        "top": 331.8,
+        "width": 82.7,
+        "height": 10.7
+      }
+    },
+    "janJunh8": {
+      "type": "text",
+      "label": "H8.  Enter date of Survivor in Litter: JAN-JUN using the format DDMMM. ",
+      "page": 1,
+      "box": {
+        "left": 559.4,
+        "top": 323.3,
+        "width": 96.2,
+        "height": 28.9
+      }
+    },
+    "julDech8": {
+      "type": "text",
+      "label": "H8.  Enter date of Survivor in Litter: JUL-DEC using the format DDMMM. ",
+      "page": 1,
+      "box": {
+        "left": 658.4,
+        "top": 323.3,
+        "width": 96.2,
+        "height": 28.9
+      }
+    },
+    "janJuns5": {
+      "type": "text",
+      "label": "S5.  Enter the date of Tri-SAR/Quick Strop:  JAN-JUN using the format DDMMM. ",
+      "page": 1,
+      "box": {
+        "left": 221.9,
+        "top": 318.3,
+        "width": 78.2,
+        "height": 10.7
+      }
+    },
+    "julDecs5": {
+      "type": "text",
+      "label": "S5.  Enter the date of Tri-SAR/Quick Strop:  JUL-DEC using the format DDMMM. ",
+      "page": 1,
+      "box": {
+        "left": 302.9,
+        "top": 318.3,
+        "width": 82.7,
+        "height": 10.7
+      }
+    },
+    "janJuns6": {
+      "type": "text",
+      "label": "S6.  Enter the date of Rescue Vest:  JAN-JUN using the format DDMMM.",
+      "page": 1,
+      "box": {
+        "left": 221.9,
+        "top": 304.8,
+        "width": 78.2,
+        "height": 10.7
+      }
+    },
+    "julDecs6": {
+      "type": "text",
+      "label": "S6.  Enter the date of Rescue Vest:  JUL-DEC using the format DDMMM.",
+      "page": 1,
+      "box": {
+        "left": 302.9,
+        "top": 304.8,
+        "width": 82.7,
+        "height": 10.7
+      }
+    },
+    "janJuns7": {
+      "type": "text",
+      "label": "S7.  Enter the date of Mega Code:  JAN-JUN using the format DDMMM. ",
+      "page": 1,
+      "box": {
+        "left": 221.9,
+        "top": 279.8,
+        "width": 78.2,
+        "height": 10.7
+      }
+    },
+    "julDecs7": {
+      "type": "text",
+      "label": "S7.  Enter the date of Mega Code:  JUL-DEC using the format DDMMM. ",
+      "page": 1,
+      "box": {
+        "left": 302.9,
+        "top": 279.8,
+        "width": 82.7,
+        "height": 10.7
+      }
+    },
+    "janJunh9": {
+      "type": "text",
+      "label": "H9.  Enter date of Quick Stops (1):  JAN-JUN using the format DDMMM. ",
+      "page": 1,
+      "box": {
+        "left": 559.4,
+        "top": 269.1,
+        "width": 96.2,
+        "height": 26.8
+      }
+    },
+    "julDech9": {
+      "type": "text",
+      "label": "H9.  Enter date of Quick Stops (1):  JUL-DEC using the format DDMMM. ",
+      "page": 1,
+      "box": {
+        "left": 658.4,
+        "top": 269.1,
+        "width": 96.2,
+        "height": 26.8
+      }
+    },
+    "janJuns8": {
+      "type": "text",
+      "label": "S8.  Enter the date of Trauma Assessment:  JAN-JUN using the format DDMMM. ",
+      "page": 1,
+      "box": {
+        "left": 221.9,
+        "top": 266.3,
+        "width": 78.2,
+        "height": 10.7
+      }
+    },
+    "julDecs8": {
+      "type": "text",
+      "label": "S8.  Enter the date of Trauma Assessment:  JUL-DEC using the format DDMMM. ",
+      "page": 1,
+      "box": {
+        "left": 302.9,
+        "top": 266.3,
+        "width": 82.7,
+        "height": 10.7
+      }
+    },
+    "janJuns9": {
+      "type": "text",
+      "label": "S9.  Enter the date of Medical Assessment:  JAN-JUN using the format DDMMM. ",
+      "page": 1,
+      "box": {
+        "left": 221.9,
+        "top": 252.8,
+        "width": 78.2,
+        "height": 10.7
+      }
+    },
+    "julDecs9": {
+      "type": "text",
+      "label": "S9.  Enter the date of Medical Assessment:  JUL-DEC using the format DDMMM. ",
+      "page": 1,
+      "box": {
+        "left": 302.9,
+        "top": 252.8,
+        "width": 82.7,
+        "height": 10.7
+      }
+    },
+    "janS10": {
+      "type": "text",
+      "label": "S10.  Enter date of Intravenous and Interosseous Therapy:  JAN-MAR using the format DDMMM. ",
+      "page": 1,
+      "box": {
+        "left": 199.2,
+        "top": 205.1,
+        "width": 44.5,
+        "height": 19.8
+      }
+    },
+    "aprS10": {
+      "type": "text",
+      "label": "S10.  Enter date of Intravenous and Interosseous Therapy:  APR-JUN using the format DDMMM. ",
+      "page": 1,
+      "box": {
+        "left": 246.5,
+        "top": 205.1,
+        "width": 44.5,
+        "height": 19.8
+      }
+    },
+    "julS10": {
+      "type": "text",
+      "label": "S10.  Enter date of Intravenous and Interosseous Therapy:  JUL-SEP using the format DDMMM. ",
+      "page": 1,
+      "box": {
+        "left": 293.8,
+        "top": 205.1,
+        "width": 44.5,
+        "height": 19.8
+      }
+    },
+    "octS10": {
+      "type": "text",
+      "label": "S10.  Enter date of Intravenous and Interosseous Therapy:  OCT-DEC using the format DDMMM. ",
+      "page": 1,
+      "box": {
+        "left": 341.1,
+        "top": 205.1,
+        "width": 44.5,
+        "height": 19.8
+      }
+    },
+    "janDech10": {
+      "type": "text",
+      "label": "H10.  Enter date of Overland Direct Deployment (2):  JAN DEC using the format DDMMM. ",
+      "page": 1,
+      "box": {
+        "left": 658.1,
+        "top": 205.1,
+        "width": 96.2,
+        "height": 10.7
+      }
+    },
+    "janS13": {
+      "type": "text",
+      "label": "S11.  Enter date of Airway Skills - Maneuvers, Adjuncts, Suction, Supraglottic Airways, Cricothyrotomy, BVM, and Ventilator:  JAN-MAR using the format DDMMM. ",
+      "page": 1,
+      "box": {
+        "left": 199.2,
+        "top": 182.5,
+        "width": 44.5,
+        "height": 37.2
+      },
+      "multiline": true
+    },
+    "aprS13": {
+      "type": "text",
+      "label": "S11.  Enter date of Airway Skills - Maneuvers, Adjuncts, Suction, Supraglottic Airways, Cricothyrotomy, BVM, and Ventilator:  APR-JUN using the format DDMMM. ",
+      "page": 1,
+      "box": {
+        "left": 246.5,
+        "top": 182.5,
+        "width": 44.5,
+        "height": 37.2
+      },
+      "multiline": true
+    },
+    "julS13": {
+      "type": "text",
+      "label": "S11.  Enter date of Airway Skills - Maneuvers, Adjuncts, Suction, Supraglottic Airways, Cricothyrotomy, BVM, and Ventilator:  JUL-SEP using the format DDMMM. ",
+      "page": 1,
+      "box": {
+        "left": 293.8,
+        "top": 182.5,
+        "width": 44.5,
+        "height": 37.2
+      },
+      "multiline": true
+    },
+    "octS13": {
+      "type": "text",
+      "label": "S11.  Enter date of Airway Skills - Maneuvers, Adjuncts, Suction, Supraglottic Airways, Cricothyrotomy, BVM, and Ventilator:  OCT-DEC using the format DDMMM. ",
+      "page": 1,
+      "box": {
+        "left": 341.1,
+        "top": 182.5,
+        "width": 44.5,
+        "height": 37.2
+      },
+      "multiline": true
+    },
+    "janS15": {
+      "type": "text",
+      "label": "S12.  Enter date of Patient Monitoring: JAN-MAR using the format DDMMM.",
+      "page": 1,
+      "box": {
+        "left": 199.2,
+        "top": 142.7,
+        "width": 44.5,
+        "height": 10.7
+      }
+    },
+    "aprS15": {
+      "type": "text",
+      "label": "S12.  Enter date of Patient Monitoring: APR-JUN using the format DDMMM.",
+      "page": 1,
+      "box": {
+        "left": 246.5,
+        "top": 142.7,
+        "width": 44.5,
+        "height": 10.7
+      }
+    },
+    "julS15": {
+      "type": "text",
+      "label": "S12.  Enter date of Patient Monitoring:  JUL-SEP using the format DDMMM.",
+      "page": 1,
+      "box": {
+        "left": 293.8,
+        "top": 142.7,
+        "width": 44.5,
+        "height": 10.7
+      }
+    },
+    "octS15": {
+      "type": "text",
+      "label": "S12.  Enter date of Patient Monitoring: OCT-DEC using the format DDMMM.",
+      "page": 1,
+      "box": {
+        "left": 341.1,
+        "top": 142.7,
+        "width": 44.5,
+        "height": 10.7
+      }
+    },
+    "janS16": {
+      "type": "text",
+      "label": "S13.  Enter date of Hemorrhage Control - Wound Packing and Tourniquet:  JAN-MAR using the format DDMMM.",
+      "page": 1,
+      "box": {
+        "left": 199.2,
+        "top": 129.2,
+        "width": 44.5,
+        "height": 19.8
+      }
+    },
+    "aprS16": {
+      "type": "text",
+      "label": "S13.  Enter date of Hemorrhage Control - Wound Packing and Tourniquet:  APR-JUN using the format DDMMM.",
+      "page": 1,
+      "box": {
+        "left": 246.5,
+        "top": 129.2,
+        "width": 44.5,
+        "height": 19.8
+      }
+    },
+    "julS16": {
+      "type": "text",
+      "label": "S13.  Enter date of Hemorrhage Control - Wound Packing and Tourniquet:  JUL-SEP using the format DDMMM.",
+      "page": 1,
+      "box": {
+        "left": 293.8,
+        "top": 129.2,
+        "width": 44.5,
+        "height": 19.8
+      }
+    },
+    "octS16": {
+      "type": "text",
+      "label": "S13.  Enter date of Hemorrhage Control - Wound Packing and Tourniquet:  OCT-DEC using the format DDMMM.",
+      "page": 1,
+      "box": {
+        "left": 341.1,
+        "top": 129.2,
+        "width": 44.5,
+        "height": 19.8
+      }
+    },
+    "name": {
+      "type": "text",
+      "label": "Enter name using the format Last, First, Middle Initial, Suffix.",
+      "page": 1,
+      "box": {
+        "left": 166.4,
+        "top": 105.4,
+        "width": 138.3,
+        "height": 12.3
+      }
+    },
+    "name2": {
+      "type": "text",
+      "label": "Enter rate. ",
+      "page": 1,
+      "box": {
+        "left": 336.3,
+        "top": 105.4,
+        "width": 47.8,
+        "height": 12.3
+      }
+    }
+  }
+}

@@ -1,0 +1,2041 @@
+{
+  "id": "navmc11742",
+  "label": "NAVMC 11742 - Brown Belt Performance Test",
+  "directory": "NAVMC11742 - Brown Belt Performance Test",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "rankA",
+        "dateA",
+        "tech1",
+        "pass1",
+        "failA",
+        "remediiate1",
+        "tech2",
+        "pass2",
+        "fail2",
+        "remediiate2",
+        "tech3",
+        "pass3",
+        "fail3",
+        "remediiate3",
+        "tech4",
+        "pass4",
+        "fail4",
+        "remediiate4",
+        "tech5",
+        "pass5",
+        "fail5",
+        "remediiate5",
+        "tech6",
+        "pass6",
+        "fail6",
+        "remediiate6",
+        "tech7",
+        "pass7",
+        "fail7",
+        "remediiate7",
+        "tech8",
+        "pass8",
+        "fail8",
+        "remediiate8",
+        "tech9",
+        "pass9",
+        "fail9",
+        "remediiate9",
+        "tech10",
+        "pass10",
+        "fail10",
+        "remediiate10",
+        "tech11",
+        "pass11",
+        "fail11",
+        "remediiate11",
+        "tech12",
+        "pass12",
+        "fail12",
+        "remediiate12",
+        "tech13",
+        "pass13",
+        "fail13",
+        "remediiate13",
+        "tech14",
+        "pass14",
+        "fail14",
+        "remediiate14",
+        "tech15",
+        "pass15",
+        "fail15",
+        "remediiate15",
+        "passSusA",
+        "failSusF",
+        "fail16",
+        "pass16",
+        "remediate16",
+        "fail17",
+        "remediate17",
+        "pass17",
+        "fail18",
+        "remediate18",
+        "pass18",
+        "pass19",
+        "fail19",
+        "remediate19",
+        "fail20",
+        "pass20",
+        "remediate20",
+        "fail21",
+        "remediate21",
+        "pass21",
+        "fail22",
+        "remediate22",
+        "pass22",
+        "fail23",
+        "pass23",
+        "remediate23",
+        "fail24",
+        "remediate24",
+        "pass24",
+        "fail25",
+        "remediate25",
+        "pass25",
+        "fail26",
+        "remediate26",
+        "pass26",
+        "fail27",
+        "remediate27",
+        "pass27"
+      ],
+      "editor": "checklist"
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "fail29",
+        "remediate29",
+        "pass29",
+        "fail30",
+        "remediate30",
+        "pass30",
+        "pass31",
+        "fail31",
+        "remediate31",
+        "fail32",
+        "pass32",
+        "remediate32",
+        "fail33",
+        "remediate33",
+        "pass33",
+        "fail34",
+        "remediate34",
+        "pass34",
+        "pass35",
+        "fail35",
+        "remediate35",
+        "pass36",
+        "fail36",
+        "remediate36",
+        "fail37",
+        "pass37",
+        "remediate37",
+        "fail38",
+        "remediate38",
+        "pass38",
+        "fail39",
+        "remediate39",
+        "pass39",
+        "pass40",
+        "fail40",
+        "remediate40",
+        "pass41",
+        "fail41",
+        "remediate41",
+        "pass42",
+        "fail42",
+        "remediate42",
+        "fail43",
+        "pass43",
+        "remediate43",
+        "fail44",
+        "remediate44",
+        "pass44",
+        "fail45",
+        "remediate45",
+        "pass45",
+        "fail46",
+        "pass46",
+        "remediate46",
+        "fail47",
+        "remediate47",
+        "pass47",
+        "fail48",
+        "remediate48",
+        "pass48",
+        "endPass",
+        "endFail",
+        "endPercent",
+        "intrNamePrtg",
+        "signDateA",
+        "intrName",
+        "signDateB"
+      ],
+      "editor": "checklist"
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "NAME:  ",
+      "page": 1,
+      "box": {
+        "left": 73.5,
+        "top": 708.8,
+        "width": 284.3,
+        "height": 23.4
+      }
+    },
+    "rankA": {
+      "type": "text",
+      "label": "RANK:",
+      "page": 1,
+      "box": {
+        "left": 400.8,
+        "top": 708.8,
+        "width": 74.0,
+        "height": 23.4
+      }
+    },
+    "dateA": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 1,
+      "box": {
+        "left": 504.4,
+        "top": 708.2,
+        "width": 68.8,
+        "height": 21.3
+      }
+    },
+    "tech1": {
+      "type": "text",
+      "label": "Tech1",
+      "page": 1,
+      "box": {
+        "left": 119.8,
+        "top": 668.6,
+        "width": 229.9,
+        "height": 19.9
+      }
+    },
+    "pass1": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 1,
+      "box": {
+        "left": 391.8,
+        "top": 663.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "failA": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 1,
+      "box": {
+        "left": 472.1,
+        "top": 663.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "remediiate1": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 1,
+      "box": {
+        "left": 559.0,
+        "top": 663.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "tech2": {
+      "type": "text",
+      "label": "Tech2",
+      "page": 1,
+      "box": {
+        "left": 119.8,
+        "top": 648.7,
+        "width": 229.9,
+        "height": 19.9
+      }
+    },
+    "pass2": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 1,
+      "box": {
+        "left": 391.8,
+        "top": 643.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "fail2": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 1,
+      "box": {
+        "left": 472.1,
+        "top": 643.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "remediiate2": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 1,
+      "box": {
+        "left": 559.0,
+        "top": 643.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "tech3": {
+      "type": "text",
+      "label": "Tech3",
+      "page": 1,
+      "box": {
+        "left": 119.8,
+        "top": 627.3,
+        "width": 228.5,
+        "height": 17.7
+      }
+    },
+    "pass3": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 1,
+      "box": {
+        "left": 391.8,
+        "top": 623.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "fail3": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 1,
+      "box": {
+        "left": 472.1,
+        "top": 623.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "remediiate3": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 1,
+      "box": {
+        "left": 559.0,
+        "top": 623.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "tech4": {
+      "type": "text",
+      "label": "Tech4",
+      "page": 1,
+      "box": {
+        "left": 119.8,
+        "top": 606.8,
+        "width": 228.5,
+        "height": 18.4
+      }
+    },
+    "pass4": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 1,
+      "box": {
+        "left": 391.2,
+        "top": 602.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "fail4": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 1,
+      "box": {
+        "left": 472.1,
+        "top": 602.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "remediiate4": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 1,
+      "box": {
+        "left": 559.0,
+        "top": 602.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "tech5": {
+      "type": "text",
+      "label": "Tech5",
+      "page": 1,
+      "box": {
+        "left": 119.8,
+        "top": 585.5,
+        "width": 228.5,
+        "height": 18.4
+      }
+    },
+    "pass5": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 1,
+      "box": {
+        "left": 391.2,
+        "top": 581.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "fail5": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 1,
+      "box": {
+        "left": 472.1,
+        "top": 581.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "remediiate5": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 1,
+      "box": {
+        "left": 559.0,
+        "top": 581.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "tech6": {
+      "type": "text",
+      "label": "Tech6",
+      "page": 1,
+      "box": {
+        "left": 119.1,
+        "top": 564.3,
+        "width": 229.2,
+        "height": 17.0
+      }
+    },
+    "pass6": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 1,
+      "box": {
+        "left": 391.2,
+        "top": 560.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "fail6": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 1,
+      "box": {
+        "left": 472.1,
+        "top": 560.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "remediiate6": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 1,
+      "box": {
+        "left": 559.0,
+        "top": 560.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "tech7": {
+      "type": "text",
+      "label": "Tech7",
+      "page": 1,
+      "box": {
+        "left": 119.1,
+        "top": 544.5,
+        "width": 229.2,
+        "height": 18.4
+      }
+    },
+    "pass7": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 1,
+      "box": {
+        "left": 391.2,
+        "top": 540.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "fail7": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 1,
+      "box": {
+        "left": 472.1,
+        "top": 540.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "remediiate7": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 1,
+      "box": {
+        "left": 559.0,
+        "top": 540.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "tech8": {
+      "type": "text",
+      "label": "Tech8",
+      "page": 1,
+      "box": {
+        "left": 119.1,
+        "top": 523.3,
+        "width": 229.2,
+        "height": 17.6
+      }
+    },
+    "pass8": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 1,
+      "box": {
+        "left": 391.2,
+        "top": 519.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "fail8": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 1,
+      "box": {
+        "left": 472.1,
+        "top": 519.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "remediiate8": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 1,
+      "box": {
+        "left": 559.0,
+        "top": 519.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "tech9": {
+      "type": "text",
+      "label": "Tech9",
+      "page": 1,
+      "box": {
+        "left": 119.1,
+        "top": 502.9,
+        "width": 229.2,
+        "height": 17.6
+      }
+    },
+    "pass9": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 1,
+      "box": {
+        "left": 391.2,
+        "top": 499.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "fail9": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 1,
+      "box": {
+        "left": 472.1,
+        "top": 499.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "remediiate9": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 1,
+      "box": {
+        "left": 559.0,
+        "top": 499.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "tech10": {
+      "type": "text",
+      "label": "Tech10",
+      "page": 1,
+      "box": {
+        "left": 119.1,
+        "top": 482.5,
+        "width": 229.2,
+        "height": 17.6
+      }
+    },
+    "pass10": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 1,
+      "box": {
+        "left": 391.2,
+        "top": 478.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "fail10": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 1,
+      "box": {
+        "left": 472.1,
+        "top": 478.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "remediiate10": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 1,
+      "box": {
+        "left": 559.0,
+        "top": 478.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "tech11": {
+      "type": "text",
+      "label": "Tech11",
+      "page": 1,
+      "box": {
+        "left": 119.1,
+        "top": 462.1,
+        "width": 229.2,
+        "height": 17.6
+      }
+    },
+    "pass11": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 1,
+      "box": {
+        "left": 391.2,
+        "top": 458.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "fail11": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 1,
+      "box": {
+        "left": 472.1,
+        "top": 458.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "remediiate11": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 1,
+      "box": {
+        "left": 559.0,
+        "top": 458.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "tech12": {
+      "type": "text",
+      "label": "Tech12",
+      "page": 1,
+      "box": {
+        "left": 119.1,
+        "top": 441.7,
+        "width": 229.2,
+        "height": 17.6
+      }
+    },
+    "pass12": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 1,
+      "box": {
+        "left": 391.2,
+        "top": 437.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "fail12": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 1,
+      "box": {
+        "left": 472.1,
+        "top": 437.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "remediiate12": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 1,
+      "box": {
+        "left": 559.0,
+        "top": 437.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "tech13": {
+      "type": "text",
+      "label": "Tech13",
+      "page": 1,
+      "box": {
+        "left": 119.1,
+        "top": 421.3,
+        "width": 229.2,
+        "height": 17.6
+      }
+    },
+    "pass13": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 1,
+      "box": {
+        "left": 391.2,
+        "top": 417.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "fail13": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 1,
+      "box": {
+        "left": 472.1,
+        "top": 417.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "remediiate13": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 1,
+      "box": {
+        "left": 559.0,
+        "top": 417.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "tech14": {
+      "type": "text",
+      "label": "Tech14",
+      "page": 1,
+      "box": {
+        "left": 119.1,
+        "top": 400.9,
+        "width": 229.2,
+        "height": 17.6
+      }
+    },
+    "pass14": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 1,
+      "box": {
+        "left": 391.2,
+        "top": 397.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "fail14": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 1,
+      "box": {
+        "left": 472.1,
+        "top": 397.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "remediiate14": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 1,
+      "box": {
+        "left": 559.0,
+        "top": 397.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "tech15": {
+      "type": "text",
+      "label": "Tech15",
+      "page": 1,
+      "box": {
+        "left": 119.1,
+        "top": 380.5,
+        "width": 229.2,
+        "height": 17.6
+      }
+    },
+    "pass15": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 1,
+      "box": {
+        "left": 391.2,
+        "top": 376.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "fail15": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 1,
+      "box": {
+        "left": 472.1,
+        "top": 376.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "remediiate15": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 1,
+      "box": {
+        "left": 559.0,
+        "top": 376.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "passSusA": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 1,
+      "box": {
+        "left": 288.8,
+        "top": 341.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "failSusF": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 1,
+      "box": {
+        "left": 369.8,
+        "top": 341.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "fail16": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 1,
+      "box": {
+        "left": 500.0,
+        "top": 264.3,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "pass16": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 1,
+      "box": {
+        "left": 440.9,
+        "top": 264.2,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "remediate16": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 1,
+      "box": {
+        "left": 560.9,
+        "top": 264.2,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "fail17": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 1,
+      "box": {
+        "left": 500.0,
+        "top": 247.4,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "remediate17": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 1,
+      "box": {
+        "left": 561.3,
+        "top": 247.4,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "pass17": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 1,
+      "box": {
+        "left": 440.1,
+        "top": 247.2,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "fail18": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 1,
+      "box": {
+        "left": 500.0,
+        "top": 230.2,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "remediate18": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 1,
+      "box": {
+        "left": 561.3,
+        "top": 230.2,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "pass18": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 1,
+      "box": {
+        "left": 440.2,
+        "top": 230.0,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "pass19": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 1,
+      "box": {
+        "left": 440.6,
+        "top": 213.9,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "fail19": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 1,
+      "box": {
+        "left": 500.0,
+        "top": 213.9,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "remediate19": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 1,
+      "box": {
+        "left": 561.3,
+        "top": 213.9,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "fail20": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 1,
+      "box": {
+        "left": 500.0,
+        "top": 183.0,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "pass20": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 1,
+      "box": {
+        "left": 440.9,
+        "top": 182.9,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "remediate20": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 1,
+      "box": {
+        "left": 560.9,
+        "top": 182.9,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "fail21": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 1,
+      "box": {
+        "left": 500.0,
+        "top": 166.1,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "remediate21": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 1,
+      "box": {
+        "left": 561.3,
+        "top": 166.1,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "pass21": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 1,
+      "box": {
+        "left": 440.1,
+        "top": 165.9,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "fail22": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 1,
+      "box": {
+        "left": 500.0,
+        "top": 148.9,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "remediate22": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 1,
+      "box": {
+        "left": 561.3,
+        "top": 148.9,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "pass22": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 1,
+      "box": {
+        "left": 440.2,
+        "top": 148.7,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "fail23": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 1,
+      "box": {
+        "left": 500.0,
+        "top": 118.0,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "pass23": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 1,
+      "box": {
+        "left": 440.9,
+        "top": 117.9,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "remediate23": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 1,
+      "box": {
+        "left": 560.9,
+        "top": 117.9,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "fail24": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 1,
+      "box": {
+        "left": 500.0,
+        "top": 101.1,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "remediate24": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 1,
+      "box": {
+        "left": 561.3,
+        "top": 101.1,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "pass24": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 1,
+      "box": {
+        "left": 440.1,
+        "top": 100.9,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "fail25": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 1,
+      "box": {
+        "left": 500.0,
+        "top": 83.9,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "remediate25": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 1,
+      "box": {
+        "left": 561.3,
+        "top": 83.9,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "pass25": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 1,
+      "box": {
+        "left": 440.2,
+        "top": 83.7,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "fail26": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 1,
+      "box": {
+        "left": 500.0,
+        "top": 67.1,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "remediate26": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 1,
+      "box": {
+        "left": 561.3,
+        "top": 67.1,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "pass26": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 1,
+      "box": {
+        "left": 440.2,
+        "top": 66.9,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "fail27": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 1,
+      "box": {
+        "left": 500.0,
+        "top": 50.4,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "remediate27": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 1,
+      "box": {
+        "left": 561.3,
+        "top": 50.4,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "pass27": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 1,
+      "box": {
+        "left": 440.2,
+        "top": 50.1,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "fail29": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 2,
+      "box": {
+        "left": 498.6,
+        "top": 703.8,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "remediate29": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 2,
+      "box": {
+        "left": 559.8,
+        "top": 703.8,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "pass29": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 2,
+      "box": {
+        "left": 438.8,
+        "top": 703.6,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "fail30": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 2,
+      "box": {
+        "left": 498.6,
+        "top": 689.3,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "remediate30": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 2,
+      "box": {
+        "left": 559.8,
+        "top": 689.3,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "pass30": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 2,
+      "box": {
+        "left": 438.9,
+        "top": 689.1,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "pass31": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 2,
+      "box": {
+        "left": 439.2,
+        "top": 675.6,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "fail31": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 2,
+      "box": {
+        "left": 498.6,
+        "top": 675.6,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "remediate31": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 2,
+      "box": {
+        "left": 559.8,
+        "top": 675.6,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "fail32": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 2,
+      "box": {
+        "left": 498.6,
+        "top": 648.9,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "pass32": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 2,
+      "box": {
+        "left": 439.6,
+        "top": 648.8,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "remediate32": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 2,
+      "box": {
+        "left": 559.4,
+        "top": 648.8,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "fail33": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 2,
+      "box": {
+        "left": 498.6,
+        "top": 634.7,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "remediate33": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 2,
+      "box": {
+        "left": 559.8,
+        "top": 634.7,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "pass33": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 2,
+      "box": {
+        "left": 438.8,
+        "top": 634.4,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "fail34": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 2,
+      "box": {
+        "left": 498.6,
+        "top": 620.2,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "remediate34": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 2,
+      "box": {
+        "left": 559.8,
+        "top": 620.2,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "pass34": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 2,
+      "box": {
+        "left": 438.9,
+        "top": 619.9,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "pass35": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 2,
+      "box": {
+        "left": 439.2,
+        "top": 606.4,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "fail35": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 2,
+      "box": {
+        "left": 498.6,
+        "top": 606.4,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "remediate35": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 2,
+      "box": {
+        "left": 559.8,
+        "top": 606.4,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "pass36": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 2,
+      "box": {
+        "left": 439.2,
+        "top": 592.1,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "fail36": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 2,
+      "box": {
+        "left": 498.6,
+        "top": 592.1,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "remediate36": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 2,
+      "box": {
+        "left": 559.8,
+        "top": 592.1,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "fail37": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 2,
+      "box": {
+        "left": 498.6,
+        "top": 566.0,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "pass37": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 2,
+      "box": {
+        "left": 439.6,
+        "top": 565.9,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "remediate37": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 2,
+      "box": {
+        "left": 559.4,
+        "top": 565.9,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "fail38": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 2,
+      "box": {
+        "left": 498.6,
+        "top": 551.7,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "remediate38": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 2,
+      "box": {
+        "left": 559.8,
+        "top": 551.7,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "pass38": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 2,
+      "box": {
+        "left": 438.8,
+        "top": 551.5,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "fail39": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 2,
+      "box": {
+        "left": 498.6,
+        "top": 537.3,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "remediate39": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 2,
+      "box": {
+        "left": 559.8,
+        "top": 537.3,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "pass39": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 2,
+      "box": {
+        "left": 438.9,
+        "top": 537.0,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "pass40": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 2,
+      "box": {
+        "left": 439.2,
+        "top": 523.5,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "fail40": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 2,
+      "box": {
+        "left": 498.6,
+        "top": 523.5,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "remediate40": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 2,
+      "box": {
+        "left": 559.8,
+        "top": 523.5,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "pass41": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 2,
+      "box": {
+        "left": 439.2,
+        "top": 509.1,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "fail41": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 2,
+      "box": {
+        "left": 498.6,
+        "top": 509.1,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "remediate41": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 2,
+      "box": {
+        "left": 559.8,
+        "top": 509.1,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "pass42": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 2,
+      "box": {
+        "left": 439.2,
+        "top": 495.4,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "fail42": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 2,
+      "box": {
+        "left": 498.6,
+        "top": 495.4,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "remediate42": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 2,
+      "box": {
+        "left": 559.8,
+        "top": 495.4,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "fail43": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 2,
+      "box": {
+        "left": 498.6,
+        "top": 469.3,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "pass43": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 2,
+      "box": {
+        "left": 439.6,
+        "top": 469.2,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "remediate43": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 2,
+      "box": {
+        "left": 559.4,
+        "top": 469.2,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "fail44": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 2,
+      "box": {
+        "left": 498.6,
+        "top": 455.1,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "remediate44": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 2,
+      "box": {
+        "left": 559.8,
+        "top": 455.1,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "pass44": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 2,
+      "box": {
+        "left": 438.8,
+        "top": 454.9,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "fail45": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 2,
+      "box": {
+        "left": 498.6,
+        "top": 440.6,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "remediate45": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 2,
+      "box": {
+        "left": 559.8,
+        "top": 440.6,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "pass45": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 2,
+      "box": {
+        "left": 438.9,
+        "top": 440.4,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "fail46": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 2,
+      "box": {
+        "left": 498.6,
+        "top": 414.5,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "pass46": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 2,
+      "box": {
+        "left": 439.6,
+        "top": 414.4,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "remediate46": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 2,
+      "box": {
+        "left": 559.4,
+        "top": 414.4,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "fail47": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 2,
+      "box": {
+        "left": 498.6,
+        "top": 400.3,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "remediate47": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 2,
+      "box": {
+        "left": 559.8,
+        "top": 400.3,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "pass47": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 2,
+      "box": {
+        "left": 438.8,
+        "top": 400.1,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "fail48": {
+      "type": "checkbox",
+      "label": "Fail",
+      "page": 2,
+      "box": {
+        "left": 498.6,
+        "top": 385.8,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "remediate48": {
+      "type": "checkbox",
+      "label": "Remediate",
+      "page": 2,
+      "box": {
+        "left": 559.8,
+        "top": 385.8,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "pass48": {
+      "type": "checkbox",
+      "label": "Pass",
+      "page": 2,
+      "box": {
+        "left": 438.9,
+        "top": 385.6,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "endPass": {
+      "type": "text",
+      "label": "Pass",
+      "page": 2,
+      "box": {
+        "left": 194.0,
+        "top": 286.7,
+        "width": 47.1,
+        "height": 23.4
+      }
+    },
+    "endFail": {
+      "type": "text",
+      "label": "Fail",
+      "page": 2,
+      "box": {
+        "left": 293.7,
+        "top": 286.7,
+        "width": 46.4,
+        "height": 23.4
+      }
+    },
+    "endPercent": {
+      "type": "text",
+      "label": "Percentage",
+      "page": 2,
+      "box": {
+        "left": 404.7,
+        "top": 286.7,
+        "width": 79.3,
+        "height": 23.4
+      }
+    },
+    "intrNamePrtg": {
+      "type": "text",
+      "label": "Instructor Name:\u2029(Printed)",
+      "page": 2,
+      "box": {
+        "left": 127.7,
+        "top": 242.4,
+        "width": 347.4,
+        "height": 23.4
+      }
+    },
+    "signDateA": {
+      "type": "text",
+      "label": "DATE",
+      "page": 2,
+      "box": {
+        "left": 507.6,
+        "top": 241.7,
+        "width": 65.0,
+        "height": 21.3
+      }
+    },
+    "intrName": {
+      "type": "text",
+      "label": "Instructor Signature:",
+      "page": 2,
+      "box": {
+        "left": 127.7,
+        "top": 215.4,
+        "width": 347.4,
+        "height": 23.4
+      }
+    },
+    "signDateB": {
+      "type": "text",
+      "label": "DATE",
+      "page": 2,
+      "box": {
+        "left": 507.6,
+        "top": 214.7,
+        "width": 65.0,
+        "height": 21.3
+      }
+    }
+  }
+}

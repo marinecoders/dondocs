@@ -1,0 +1,436 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 792,
+    "height": 612
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "mfSerialNo": {
+        "left": 100.4,
+        "top": 546.2,
+        "width": 292.9,
+        "height": 11.4,
+        "type": "text",
+        "description": "MF SERIAL NO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mmfModelType": {
+        "left": 479.9,
+        "top": 546.2,
+        "width": 273.4,
+        "height": 11.4,
+        "type": "text",
+        "description": "MF MODEL/TYPE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "itemNoFill": {
+        "left": 37.4,
+        "top": 492.8,
+        "width": 24.2,
+        "height": 18.8,
+        "type": "text",
+        "description": "NO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "equipNomModTypeFill": {
+        "left": 64.4,
+        "top": 492.8,
+        "width": 213.2,
+        "height": 18.8,
+        "type": "text",
+        "description": "MODEL AND TYPE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "serialNoFill": {
+        "left": 280.5,
+        "top": 492.8,
+        "width": 51.2,
+        "height": 18.8,
+        "type": "text",
+        "description": "SERIAL NO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "locationRemarksFill": {
+        "left": 622.5,
+        "top": 492.8,
+        "width": 132.2,
+        "height": 18.8,
+        "type": "text",
+        "description": "LOCATION OR REMARKS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkOff1": {
+        "left": 339.2,
+        "top": 487.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkOff2": {
+        "left": 357.2,
+        "top": 487.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkOff3": {
+        "left": 375.2,
+        "top": 487.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkOf4": {
+        "left": 393.2,
+        "top": 487.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkOf5": {
+        "left": 411.2,
+        "top": 487.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkOf6": {
+        "left": 429.2,
+        "top": 487.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkOf7": {
+        "left": 447.2,
+        "top": 487.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkOf8": {
+        "left": 465.2,
+        "top": 487.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkOf9": {
+        "left": 483.2,
+        "top": 487.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkOf10": {
+        "left": 501.2,
+        "top": 487.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkOf11": {
+        "left": 519.2,
+        "top": 487.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkOf12": {
+        "left": 537.2,
+        "top": 487.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkOf13": {
+        "left": 555.2,
+        "top": 487.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkOf14": {
+        "left": 573.2,
+        "top": 487.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkOf15": {
+        "left": 591.2,
+        "top": 487.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkOf16": {
+        "left": 609.2,
+        "top": 487.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField51": {
+        "left": 218.9,
+        "top": 456.6,
+        "width": 174.4,
+        "height": 17.2,
+        "type": "text",
+        "description": "CHECK 5 BY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField11": {
+        "left": 38.8,
+        "top": 456.4,
+        "width": 174.4,
+        "height": 17.0,
+        "type": "text",
+        "description": "CHECK 1 BY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField91": {
+        "left": 398.9,
+        "top": 456.4,
+        "width": 174.4,
+        "height": 17.0,
+        "type": "text",
+        "description": "CHECK 9 BY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField131": {
+        "left": 578.9,
+        "top": 456.4,
+        "width": 174.4,
+        "height": 17.0,
+        "type": "text",
+        "description": "CHECK 13 BY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField61": {
+        "left": 218.9,
+        "top": 421.6,
+        "width": 174.4,
+        "height": 18.2,
+        "type": "text",
+        "description": "CHECK 6 BY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField21": {
+        "left": 38.8,
+        "top": 420.4,
+        "width": 174.4,
+        "height": 17.0,
+        "type": "text",
+        "description": "CHECK 2 BY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField101": {
+        "left": 398.9,
+        "top": 420.4,
+        "width": 174.4,
+        "height": 17.0,
+        "type": "text",
+        "description": "CHECK 10 BY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField141": {
+        "left": 578.9,
+        "top": 420.4,
+        "width": 174.4,
+        "height": 17.0,
+        "type": "text",
+        "description": "CHECK 14 BY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField31": {
+        "left": 38.8,
+        "top": 384.3,
+        "width": 174.4,
+        "height": 17.0,
+        "type": "text",
+        "description": "CHECK 3 BY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField71": {
+        "left": 218.9,
+        "top": 384.3,
+        "width": 174.4,
+        "height": 17.0,
+        "type": "text",
+        "description": "CHECK 7 BY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField111": {
+        "left": 398.9,
+        "top": 384.3,
+        "width": 174.4,
+        "height": 17.0,
+        "type": "text",
+        "description": "CHECK 11 BY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField151": {
+        "left": 578.9,
+        "top": 384.3,
+        "width": 174.4,
+        "height": 17.0,
+        "type": "text",
+        "description": "CHECK 15 BY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField41": {
+        "left": 38.8,
+        "top": 348.3,
+        "width": 174.4,
+        "height": 17.0,
+        "type": "text",
+        "description": "CHECK 4 BY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField81": {
+        "left": 218.9,
+        "top": 348.3,
+        "width": 174.4,
+        "height": 17.0,
+        "type": "text",
+        "description": "CHECK 8 BY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField121": {
+        "left": 398.9,
+        "top": 348.3,
+        "width": 174.4,
+        "height": 17.0,
+        "type": "text",
+        "description": "CHECK 12 BY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField161": {
+        "left": 578.9,
+        "top": 348.3,
+        "width": 174.4,
+        "height": 17.0,
+        "type": "text",
+        "description": "CHECK 16 BY",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

@@ -1,0 +1,1866 @@
+{
+  "id": "navmc11731",
+  "label": "NAVMC11731 - Supervisor - Co-Worker Interview",
+  "directory": "NAVMC11731 - Supervisor - Co-Worker Interview",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "marName",
+        "mCRank",
+        "ssn",
+        "oICName",
+        "oICPhone",
+        "sNCOICName",
+        "sNCOICPhone",
+        "coWorkName1",
+        "coWorkPhone1",
+        "coWorkPhone2",
+        "oICName2",
+        "oICProfess",
+        "oICPersonal",
+        "sNCOICcProfess",
+        "sNCOICPersonal",
+        "coWorKProfess1",
+        "coWorkPersonal2",
+        "coWorkProfess2",
+        "coWorkPersonal22"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "oICBearing",
+        "sNCOICBear",
+        "coWorkerBearA",
+        "coWorkerBearB",
+        "oICHonesty",
+        "sNCOICHonest",
+        "cOWorkerHonestA",
+        "coWorkerHonestB",
+        "oICInit",
+        "sNCOICInitiat",
+        "coWorkerIniti",
+        "coWorkerInitiA",
+        "oICInteg",
+        "sNCOICInteg",
+        "coWorkerIntegA",
+        "coWorkerIntegB",
+        "oICJudge",
+        "sNCOICJudge",
+        "coWorkerJudgeA",
+        "coWorkerJudgeB",
+        "oICLeadA",
+        "sNCOICLeadA",
+        "coWorkerLeadA",
+        "coWorkerLeadB",
+        "oICLoyal",
+        "sNCOICLoyal",
+        "coWorkerLoyalA",
+        "coWorkerLoyalB",
+        "oICMat",
+        "nCOICMaturity",
+        "coWorkerMatA",
+        "coWorkerMatB",
+        "oICReput",
+        "sNCOICReput",
+        "coWorkerRepA",
+        "coWorkerRepB",
+        "oICTact",
+        "sNCOICTact",
+        "coWorkerTactA",
+        "coWorkerTactB",
+        "oICGrowth",
+        "sNCOICGrowth",
+        "coWorkerGrowthA",
+        "coWorkerGrowthB",
+        "oICForeign",
+        "sNCOICForeign",
+        "coWorkerForeignA",
+        "coWorkerForeignB",
+        "oICfinances",
+        "sNCOICFiances",
+        "coWorkerFinancesA",
+        "coWorkerFinancesB",
+        "oICGambling",
+        "sNCOICGamlbing",
+        "coWorkerGambleA",
+        "coWorkerGamblieB",
+        "oICDrugs",
+        "sNCOICDrugs",
+        "coWorkerDrugsA",
+        "coWorkerDrugsB",
+        "oICAlcohol",
+        "sNCOICAlcohol",
+        "coWorkerAlcoholA",
+        "coWorkerAlcoholB",
+        "oICMental",
+        "sNCOICMental",
+        "coWorkerMentalA",
+        "coWorkerMentalB",
+        "oICStab",
+        "sNCOICStab",
+        "coWorkerStabA",
+        "coWorkerStabB",
+        "oICOrg",
+        "sNCOICOrg",
+        "coWorkerOrgA",
+        "coWorkerOrgB",
+        "remarks3",
+        "notRecA",
+        "recA",
+        "recEnthA",
+        "notRecB",
+        "recB",
+        "recEnthB",
+        "notRecc",
+        "notRecC",
+        "recEnthC",
+        "notRecD",
+        "recEnthD",
+        "notRecD2"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "oICRemarks5",
+        "sNCOICRemarks5",
+        "coWorkRemarks5",
+        "coWorkRemarks52",
+        "oICRemarks6",
+        "sNCOICRemarks6",
+        "coWorkRemarks6",
+        "coWorkRemarks62",
+        "favorInterview",
+        "favorInterview2",
+        "overallRating",
+        "printerName",
+        "signDate",
+        "namePrinted"
+      ]
+    }
+  ],
+  "fields": {
+    "marName": {
+      "type": "text",
+      "label": "Last Name, First Name",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 699.8,
+        "width": 327.2,
+        "height": 30.4
+      },
+      "multiline": true
+    },
+    "mCRank": {
+      "type": "choice",
+      "label": "Rank:",
+      "page": 1,
+      "box": {
+        "left": 372.6,
+        "top": 699.2,
+        "width": 110.6,
+        "height": 29.8
+      },
+      "options": [
+        "PFC",
+        "LCpl",
+        "Cpl",
+        "Sgt",
+        "SSgt",
+        "GySgt",
+        "MSgt",
+        "1stSgt",
+        "MGySgt",
+        "SgtMaj",
+        "SMMC",
+        "WO",
+        "Gunner",
+        "CWO2",
+        "CWO3",
+        "CWO4",
+        "CWO5",
+        "2ndLt",
+        "1stLt",
+        "Capt",
+        "Maj",
+        "LtCol",
+        "Col",
+        "BGen",
+        "MajGen",
+        "LtGen",
+        "Gen"
+      ]
+    },
+    "ssn": {
+      "type": "text",
+      "label": "SSN",
+      "page": 1,
+      "box": {
+        "left": 489.6,
+        "top": 699.2,
+        "width": 83.6,
+        "height": 29.9
+      }
+    },
+    "oICName": {
+      "type": "text",
+      "label": "OIC Name:",
+      "page": 1,
+      "box": {
+        "left": 91.1,
+        "top": 654.8,
+        "width": 320.8,
+        "height": 23.8
+      }
+    },
+    "oICPhone": {
+      "type": "text",
+      "label": "Phone:",
+      "page": 1,
+      "box": {
+        "left": 451.5,
+        "top": 654.2,
+        "width": 121.7,
+        "height": 21.4
+      }
+    },
+    "sNCOICName": {
+      "type": "text",
+      "label": "SNCOIC Name:",
+      "page": 1,
+      "box": {
+        "left": 102.8,
+        "top": 627.4,
+        "width": 309.0,
+        "height": 23.8
+      }
+    },
+    "sNCOICPhone": {
+      "type": "text",
+      "label": "Phone:",
+      "page": 1,
+      "box": {
+        "left": 451.5,
+        "top": 626.8,
+        "width": 121.7,
+        "height": 21.4
+      }
+    },
+    "coWorkName1": {
+      "type": "text",
+      "label": "CoWorker - 1 Name:  ",
+      "page": 1,
+      "box": {
+        "left": 119.8,
+        "top": 600.0,
+        "width": 292.1,
+        "height": 23.8
+      }
+    },
+    "coWorkPhone1": {
+      "type": "text",
+      "label": "Phone:",
+      "page": 1,
+      "box": {
+        "left": 451.5,
+        "top": 599.4,
+        "width": 121.7,
+        "height": 21.4
+      }
+    },
+    "coWorkPhone2": {
+      "type": "text",
+      "label": "Phone:",
+      "page": 1,
+      "box": {
+        "left": 451.5,
+        "top": 573.2,
+        "width": 121.7,
+        "height": 20.2
+      }
+    },
+    "oICName2": {
+      "type": "text",
+      "label": "CoWorker - 2 Name:",
+      "page": 1,
+      "box": {
+        "left": 119.8,
+        "top": 572.6,
+        "width": 292.1,
+        "height": 22.2
+      }
+    },
+    "oICProfess": {
+      "type": "text",
+      "label": "Professionally ",
+      "page": 1,
+      "box": {
+        "left": 110.5,
+        "top": 519.8,
+        "width": 463.4,
+        "height": 32.4
+      },
+      "multiline": true
+    },
+    "oICPersonal": {
+      "type": "text",
+      "label": "Personally ",
+      "page": 1,
+      "box": {
+        "left": 110.5,
+        "top": 483.8,
+        "width": 463.4,
+        "height": 32.4
+      },
+      "multiline": true
+    },
+    "sNCOICcProfess": {
+      "type": "text",
+      "label": "Professionally ",
+      "page": 1,
+      "box": {
+        "left": 110.5,
+        "top": 420.8,
+        "width": 463.4,
+        "height": 32.4
+      },
+      "multiline": true
+    },
+    "sNCOICPersonal": {
+      "type": "text",
+      "label": "Personally ",
+      "page": 1,
+      "box": {
+        "left": 110.5,
+        "top": 384.8,
+        "width": 463.4,
+        "height": 32.4
+      },
+      "multiline": true
+    },
+    "coWorKProfess1": {
+      "type": "text",
+      "label": "Professionally ",
+      "page": 1,
+      "box": {
+        "left": 110.5,
+        "top": 321.8,
+        "width": 463.4,
+        "height": 32.4
+      },
+      "multiline": true
+    },
+    "coWorkPersonal2": {
+      "type": "text",
+      "label": "Personally ",
+      "page": 1,
+      "box": {
+        "left": 110.5,
+        "top": 285.8,
+        "width": 463.4,
+        "height": 32.4
+      },
+      "multiline": true
+    },
+    "coWorkProfess2": {
+      "type": "text",
+      "label": "Professionally ",
+      "page": 1,
+      "box": {
+        "left": 110.5,
+        "top": 222.8,
+        "width": 463.4,
+        "height": 32.4
+      },
+      "multiline": true
+    },
+    "coWorkPersonal22": {
+      "type": "text",
+      "label": "Personally ",
+      "page": 1,
+      "box": {
+        "left": 110.5,
+        "top": 186.8,
+        "width": 463.4,
+        "height": 32.4
+      },
+      "multiline": true
+    },
+    "oICBearing": {
+      "type": "choice",
+      "label": "OICBearing",
+      "page": 2,
+      "box": {
+        "left": 239.1,
+        "top": 689.5,
+        "width": 82.5,
+        "height": 17.2
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "sNCOICBear": {
+      "type": "choice",
+      "label": "SNCOICBear",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 689.5,
+        "width": 82.5,
+        "height": 17.2
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "coWorkerBearA": {
+      "type": "choice",
+      "label": "CoWorkerBearA",
+      "page": 2,
+      "box": {
+        "left": 409.7,
+        "top": 689.5,
+        "width": 82.5,
+        "height": 17.2
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "coWorkerBearB": {
+      "type": "choice",
+      "label": "CoWorkerBearB",
+      "page": 2,
+      "box": {
+        "left": 495.0,
+        "top": 689.5,
+        "width": 79.6,
+        "height": 17.2
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "oICHonesty": {
+      "type": "choice",
+      "label": "OICHonesty",
+      "page": 2,
+      "box": {
+        "left": 239.1,
+        "top": 669.5,
+        "width": 82.5,
+        "height": 17.2
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "sNCOICHonest": {
+      "type": "choice",
+      "label": "SNCOICHonest",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 669.5,
+        "width": 82.5,
+        "height": 17.2
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "cOWorkerHonestA": {
+      "type": "choice",
+      "label": "COWorkerHonestA",
+      "page": 2,
+      "box": {
+        "left": 409.7,
+        "top": 669.5,
+        "width": 82.5,
+        "height": 17.2
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "coWorkerHonestB": {
+      "type": "choice",
+      "label": "CoWorkerHonestB",
+      "page": 2,
+      "box": {
+        "left": 495.0,
+        "top": 669.5,
+        "width": 79.6,
+        "height": 17.2
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "oICInit": {
+      "type": "choice",
+      "label": "OICInit",
+      "page": 2,
+      "box": {
+        "left": 239.1,
+        "top": 649.4,
+        "width": 82.5,
+        "height": 17.2
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "sNCOICInitiat": {
+      "type": "choice",
+      "label": "SNCOICInitiat",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 649.4,
+        "width": 82.5,
+        "height": 17.2
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "coWorkerIniti": {
+      "type": "choice",
+      "label": "CoWorkerIniti",
+      "page": 2,
+      "box": {
+        "left": 409.7,
+        "top": 649.4,
+        "width": 82.5,
+        "height": 17.2
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "coWorkerInitiA": {
+      "type": "choice",
+      "label": "CoWorkerInitiA",
+      "page": 2,
+      "box": {
+        "left": 495.0,
+        "top": 649.4,
+        "width": 79.6,
+        "height": 17.2
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "oICInteg": {
+      "type": "choice",
+      "label": "OICInteg",
+      "page": 2,
+      "box": {
+        "left": 239.1,
+        "top": 629.4,
+        "width": 82.5,
+        "height": 17.2
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "sNCOICInteg": {
+      "type": "choice",
+      "label": "SNCOICInteg",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 629.4,
+        "width": 82.5,
+        "height": 17.2
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "coWorkerIntegA": {
+      "type": "choice",
+      "label": "CoWorkerIntegA",
+      "page": 2,
+      "box": {
+        "left": 409.7,
+        "top": 629.4,
+        "width": 82.5,
+        "height": 17.2
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "coWorkerIntegB": {
+      "type": "choice",
+      "label": "CoWorkerIntegB",
+      "page": 2,
+      "box": {
+        "left": 495.0,
+        "top": 629.4,
+        "width": 79.6,
+        "height": 17.2
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "oICJudge": {
+      "type": "choice",
+      "label": "OICJudge",
+      "page": 2,
+      "box": {
+        "left": 239.1,
+        "top": 609.3,
+        "width": 82.5,
+        "height": 17.2
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "sNCOICJudge": {
+      "type": "choice",
+      "label": "SNCOICJudge",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 609.3,
+        "width": 82.5,
+        "height": 17.2
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "coWorkerJudgeA": {
+      "type": "choice",
+      "label": "CoWorkerJudgeA",
+      "page": 2,
+      "box": {
+        "left": 409.7,
+        "top": 609.3,
+        "width": 82.5,
+        "height": 17.2
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "coWorkerJudgeB": {
+      "type": "choice",
+      "label": "CoWorkerJudgeB",
+      "page": 2,
+      "box": {
+        "left": 495.0,
+        "top": 609.3,
+        "width": 79.6,
+        "height": 17.2
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "oICLeadA": {
+      "type": "choice",
+      "label": "OICLeadA",
+      "page": 2,
+      "box": {
+        "left": 239.1,
+        "top": 589.3,
+        "width": 82.5,
+        "height": 17.2
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "sNCOICLeadA": {
+      "type": "choice",
+      "label": "SNCOICLeadA",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 589.3,
+        "width": 82.5,
+        "height": 17.2
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "coWorkerLeadA": {
+      "type": "choice",
+      "label": "CoWorkerLeadA",
+      "page": 2,
+      "box": {
+        "left": 409.7,
+        "top": 589.3,
+        "width": 82.5,
+        "height": 17.2
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "coWorkerLeadB": {
+      "type": "choice",
+      "label": "CoWorkerLeadB",
+      "page": 2,
+      "box": {
+        "left": 495.0,
+        "top": 589.3,
+        "width": 79.6,
+        "height": 17.2
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "oICLoyal": {
+      "type": "choice",
+      "label": "OICLoyal",
+      "page": 2,
+      "box": {
+        "left": 239.1,
+        "top": 569.3,
+        "width": 82.5,
+        "height": 17.2
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "sNCOICLoyal": {
+      "type": "choice",
+      "label": "SNCOICLoyal",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 569.3,
+        "width": 82.5,
+        "height": 17.2
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "coWorkerLoyalA": {
+      "type": "choice",
+      "label": "CoWorkerLoyalA",
+      "page": 2,
+      "box": {
+        "left": 409.7,
+        "top": 569.3,
+        "width": 82.5,
+        "height": 17.2
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "coWorkerLoyalB": {
+      "type": "choice",
+      "label": "CoWorkerLoyalB",
+      "page": 2,
+      "box": {
+        "left": 495.0,
+        "top": 569.3,
+        "width": 79.6,
+        "height": 17.2
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "oICMat": {
+      "type": "choice",
+      "label": "OICMat",
+      "page": 2,
+      "box": {
+        "left": 239.1,
+        "top": 549.2,
+        "width": 82.5,
+        "height": 17.2
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "nCOICMaturity": {
+      "type": "choice",
+      "label": "NCOICMaturity",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 549.2,
+        "width": 82.5,
+        "height": 17.2
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "coWorkerMatA": {
+      "type": "choice",
+      "label": "CoWorkerMatA",
+      "page": 2,
+      "box": {
+        "left": 409.7,
+        "top": 549.2,
+        "width": 82.5,
+        "height": 17.2
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "coWorkerMatB": {
+      "type": "choice",
+      "label": "CoWorkerMatB",
+      "page": 2,
+      "box": {
+        "left": 495.0,
+        "top": 549.2,
+        "width": 79.6,
+        "height": 17.2
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "oICReput": {
+      "type": "choice",
+      "label": "OICReput",
+      "page": 2,
+      "box": {
+        "left": 239.1,
+        "top": 529.2,
+        "width": 82.5,
+        "height": 17.2
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "sNCOICReput": {
+      "type": "choice",
+      "label": "SNCOICReput",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 529.2,
+        "width": 82.5,
+        "height": 17.2
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "coWorkerRepA": {
+      "type": "choice",
+      "label": "CoWorkerRepA",
+      "page": 2,
+      "box": {
+        "left": 409.7,
+        "top": 529.2,
+        "width": 82.5,
+        "height": 17.2
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "coWorkerRepB": {
+      "type": "choice",
+      "label": "CoWorkerRepB",
+      "page": 2,
+      "box": {
+        "left": 495.0,
+        "top": 529.2,
+        "width": 79.6,
+        "height": 17.2
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "oICTact": {
+      "type": "choice",
+      "label": "OICTact",
+      "page": 2,
+      "box": {
+        "left": 239.1,
+        "top": 509.1,
+        "width": 82.5,
+        "height": 17.2
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "sNCOICTact": {
+      "type": "choice",
+      "label": "SNCOICTact",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 509.1,
+        "width": 82.5,
+        "height": 17.2
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "coWorkerTactA": {
+      "type": "choice",
+      "label": "CoWorkerTactA",
+      "page": 2,
+      "box": {
+        "left": 409.7,
+        "top": 509.1,
+        "width": 82.5,
+        "height": 17.2
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "coWorkerTactB": {
+      "type": "choice",
+      "label": "CoWorkerTactB",
+      "page": 2,
+      "box": {
+        "left": 495.0,
+        "top": 509.1,
+        "width": 79.6,
+        "height": 17.2
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "oICGrowth": {
+      "type": "choice",
+      "label": "OICGrowth",
+      "page": 2,
+      "box": {
+        "left": 239.1,
+        "top": 489.1,
+        "width": 82.5,
+        "height": 19.6
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "sNCOICGrowth": {
+      "type": "choice",
+      "label": "SNCOICGrowth",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 489.1,
+        "width": 82.5,
+        "height": 19.6
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "coWorkerGrowthA": {
+      "type": "choice",
+      "label": "CoWorkerGrowthA",
+      "page": 2,
+      "box": {
+        "left": 409.7,
+        "top": 489.1,
+        "width": 82.5,
+        "height": 19.6
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "coWorkerGrowthB": {
+      "type": "choice",
+      "label": "CoWorkerGrowthB",
+      "page": 2,
+      "box": {
+        "left": 495.0,
+        "top": 489.1,
+        "width": 79.6,
+        "height": 19.6
+      },
+      "options": [
+        "OS",
+        "EX",
+        "AA",
+        "BA",
+        "UN"
+      ]
+    },
+    "oICForeign": {
+      "type": "choice",
+      "label": "OICForeign",
+      "page": 2,
+      "box": {
+        "left": 239.1,
+        "top": 429.5,
+        "width": 82.5,
+        "height": 16.3
+      },
+      "options": [
+        "YES",
+        "NO"
+      ]
+    },
+    "sNCOICForeign": {
+      "type": "choice",
+      "label": "SNCOICForeign",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 429.5,
+        "width": 82.5,
+        "height": 16.3
+      }
+    },
+    "coWorkerForeignA": {
+      "type": "choice",
+      "label": "CoWorkerForeignA",
+      "page": 2,
+      "box": {
+        "left": 409.7,
+        "top": 429.5,
+        "width": 82.5,
+        "height": 16.3
+      }
+    },
+    "coWorkerForeignB": {
+      "type": "choice",
+      "label": "CoWorkerForeignB",
+      "page": 2,
+      "box": {
+        "left": 495.0,
+        "top": 429.5,
+        "width": 79.6,
+        "height": 16.3
+      }
+    },
+    "oICfinances": {
+      "type": "choice",
+      "label": "OICfinances",
+      "page": 2,
+      "box": {
+        "left": 239.1,
+        "top": 410.4,
+        "width": 82.5,
+        "height": 15.3
+      },
+      "options": [
+        "YES",
+        "NO"
+      ]
+    },
+    "sNCOICFiances": {
+      "type": "choice",
+      "label": "SNCOICFiances",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 410.4,
+        "width": 82.5,
+        "height": 15.3
+      }
+    },
+    "coWorkerFinancesA": {
+      "type": "choice",
+      "label": "CoWorkerFinancesA",
+      "page": 2,
+      "box": {
+        "left": 409.7,
+        "top": 410.4,
+        "width": 82.5,
+        "height": 15.3
+      }
+    },
+    "coWorkerFinancesB": {
+      "type": "choice",
+      "label": "CoWorkerFinancesB",
+      "page": 2,
+      "box": {
+        "left": 495.0,
+        "top": 410.4,
+        "width": 79.6,
+        "height": 15.3
+      }
+    },
+    "oICGambling": {
+      "type": "choice",
+      "label": "OICGambling",
+      "page": 2,
+      "box": {
+        "left": 239.1,
+        "top": 392.2,
+        "width": 82.5,
+        "height": 16.3
+      }
+    },
+    "sNCOICGamlbing": {
+      "type": "choice",
+      "label": "SNCOICGamlbing",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 392.2,
+        "width": 82.5,
+        "height": 16.3
+      }
+    },
+    "coWorkerGambleA": {
+      "type": "choice",
+      "label": "CoWorkerGambleA",
+      "page": 2,
+      "box": {
+        "left": 409.7,
+        "top": 392.2,
+        "width": 82.5,
+        "height": 16.3
+      }
+    },
+    "coWorkerGamblieB": {
+      "type": "choice",
+      "label": "CoWorkerGamblieB",
+      "page": 2,
+      "box": {
+        "left": 495.0,
+        "top": 392.2,
+        "width": 79.6,
+        "height": 16.3
+      }
+    },
+    "oICDrugs": {
+      "type": "choice",
+      "label": "OICDrugs",
+      "page": 2,
+      "box": {
+        "left": 239.1,
+        "top": 373.1,
+        "width": 82.5,
+        "height": 16.3
+      }
+    },
+    "sNCOICDrugs": {
+      "type": "choice",
+      "label": "SNCOICDrugs",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 373.1,
+        "width": 82.5,
+        "height": 16.3
+      }
+    },
+    "coWorkerDrugsA": {
+      "type": "choice",
+      "label": "CoWorkerDrugsA",
+      "page": 2,
+      "box": {
+        "left": 409.7,
+        "top": 373.1,
+        "width": 82.5,
+        "height": 16.3
+      }
+    },
+    "coWorkerDrugsB": {
+      "type": "choice",
+      "label": "CoWorkerDrugsB",
+      "page": 2,
+      "box": {
+        "left": 495.0,
+        "top": 373.1,
+        "width": 79.6,
+        "height": 16.3
+      }
+    },
+    "oICAlcohol": {
+      "type": "choice",
+      "label": "OICAlcohol",
+      "page": 2,
+      "box": {
+        "left": 239.1,
+        "top": 354.1,
+        "width": 82.5,
+        "height": 15.3
+      }
+    },
+    "sNCOICAlcohol": {
+      "type": "choice",
+      "label": "SNCOICAlcohol",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 354.1,
+        "width": 82.5,
+        "height": 15.3
+      }
+    },
+    "coWorkerAlcoholA": {
+      "type": "choice",
+      "label": "CoWorkerAlcoholA",
+      "page": 2,
+      "box": {
+        "left": 409.7,
+        "top": 354.1,
+        "width": 82.5,
+        "height": 15.3
+      }
+    },
+    "coWorkerAlcoholB": {
+      "type": "choice",
+      "label": "CoWorkerAlcoholB",
+      "page": 2,
+      "box": {
+        "left": 495.0,
+        "top": 354.1,
+        "width": 79.6,
+        "height": 15.3
+      }
+    },
+    "oICMental": {
+      "type": "choice",
+      "label": "OICMental",
+      "page": 2,
+      "box": {
+        "left": 239.1,
+        "top": 335.9,
+        "width": 82.5,
+        "height": 16.3
+      }
+    },
+    "sNCOICMental": {
+      "type": "choice",
+      "label": "SNCOICMental",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 335.9,
+        "width": 82.5,
+        "height": 16.3
+      }
+    },
+    "coWorkerMentalA": {
+      "type": "choice",
+      "label": "CoWorkerMentalA",
+      "page": 2,
+      "box": {
+        "left": 409.7,
+        "top": 335.9,
+        "width": 82.5,
+        "height": 16.3
+      }
+    },
+    "coWorkerMentalB": {
+      "type": "choice",
+      "label": "CoWorkerMentalB",
+      "page": 2,
+      "box": {
+        "left": 495.0,
+        "top": 335.9,
+        "width": 79.6,
+        "height": 16.3
+      }
+    },
+    "oICStab": {
+      "type": "choice",
+      "label": "OICStab",
+      "page": 2,
+      "box": {
+        "left": 239.1,
+        "top": 316.8,
+        "width": 82.5,
+        "height": 16.3
+      }
+    },
+    "sNCOICStab": {
+      "type": "choice",
+      "label": "SNCOICStab",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 316.8,
+        "width": 82.5,
+        "height": 16.3
+      }
+    },
+    "coWorkerStabA": {
+      "type": "choice",
+      "label": "CoWorkerStabA",
+      "page": 2,
+      "box": {
+        "left": 409.7,
+        "top": 316.8,
+        "width": 82.5,
+        "height": 16.3
+      }
+    },
+    "coWorkerStabB": {
+      "type": "choice",
+      "label": "CoWorkerStabB",
+      "page": 2,
+      "box": {
+        "left": 495.0,
+        "top": 316.8,
+        "width": 79.6,
+        "height": 16.3
+      }
+    },
+    "oICOrg": {
+      "type": "choice",
+      "label": "OICOrg",
+      "page": 2,
+      "box": {
+        "left": 239.1,
+        "top": 297.7,
+        "width": 82.5,
+        "height": 17.3
+      }
+    },
+    "sNCOICOrg": {
+      "type": "choice",
+      "label": "SNCOICOrg",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 297.7,
+        "width": 82.5,
+        "height": 17.3
+      }
+    },
+    "coWorkerOrgA": {
+      "type": "choice",
+      "label": "CoWorkerOrgA",
+      "page": 2,
+      "box": {
+        "left": 409.7,
+        "top": 297.7,
+        "width": 82.5,
+        "height": 17.3
+      }
+    },
+    "coWorkerOrgB": {
+      "type": "choice",
+      "label": "CoWorkerOrgB",
+      "page": 2,
+      "box": {
+        "left": 495.0,
+        "top": 297.7,
+        "width": 79.6,
+        "height": 17.3
+      }
+    },
+    "remarks3": {
+      "type": "text",
+      "label": "REMARKS:  ",
+      "page": 2,
+      "box": {
+        "left": 38.2,
+        "top": 268.7,
+        "width": 535.7,
+        "height": 42.3
+      },
+      "multiline": true
+    },
+    "notRecA": {
+      "type": "checkbox",
+      "label": "Not Recommended",
+      "page": 2,
+      "box": {
+        "left": 149.4,
+        "top": 197.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "recA": {
+      "type": "checkbox",
+      "label": "Recommended",
+      "page": 2,
+      "box": {
+        "left": 293.7,
+        "top": 197.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "recEnthA": {
+      "type": "checkbox",
+      "label": "Recommended w/Enthusiasm",
+      "page": 2,
+      "box": {
+        "left": 438.1,
+        "top": 197.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "notRecB": {
+      "type": "checkbox",
+      "label": "Not Recommended",
+      "page": 2,
+      "box": {
+        "left": 149.4,
+        "top": 169.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "recB": {
+      "type": "checkbox",
+      "label": "Recommended",
+      "page": 2,
+      "box": {
+        "left": 293.7,
+        "top": 169.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "recEnthB": {
+      "type": "checkbox",
+      "label": "Recommended w/Enthusiasm",
+      "page": 2,
+      "box": {
+        "left": 438.1,
+        "top": 169.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "notRecc": {
+      "type": "checkbox",
+      "label": "Not Recommended",
+      "page": 2,
+      "box": {
+        "left": 149.4,
+        "top": 141.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "notRecC": {
+      "type": "checkbox",
+      "label": "Recommended",
+      "page": 2,
+      "box": {
+        "left": 293.7,
+        "top": 141.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "recEnthC": {
+      "type": "checkbox",
+      "label": "Recommended w/enthusiasm",
+      "page": 2,
+      "box": {
+        "left": 438.1,
+        "top": 141.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "notRecD": {
+      "type": "checkbox",
+      "label": "Recommended",
+      "page": 2,
+      "box": {
+        "left": 293.7,
+        "top": 112.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "recEnthD": {
+      "type": "checkbox",
+      "label": "Recommended w/Enthusiasm",
+      "page": 2,
+      "box": {
+        "left": 438.1,
+        "top": 112.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "notRecD2": {
+      "type": "checkbox",
+      "label": "Not Recommended",
+      "page": 2,
+      "box": {
+        "left": 149.9,
+        "top": 112.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "oICRemarks5": {
+      "type": "text",
+      "label": "OIC:  ",
+      "page": 3,
+      "box": {
+        "left": 39.6,
+        "top": 700.2,
+        "width": 534.2,
+        "height": 50.8
+      },
+      "multiline": true
+    },
+    "sNCOICRemarks5": {
+      "type": "text",
+      "label": "SNCOIC",
+      "page": 3,
+      "box": {
+        "left": 39.6,
+        "top": 637.2,
+        "width": 534.2,
+        "height": 50.8
+      },
+      "multiline": true
+    },
+    "coWorkRemarks5": {
+      "type": "text",
+      "label": "CO-WORKER 1:",
+      "page": 3,
+      "box": {
+        "left": 39.6,
+        "top": 574.2,
+        "width": 534.2,
+        "height": 50.8
+      },
+      "multiline": true
+    },
+    "coWorkRemarks52": {
+      "type": "text",
+      "label": "CO-WORKER 2:",
+      "page": 3,
+      "box": {
+        "left": 39.6,
+        "top": 511.2,
+        "width": 534.2,
+        "height": 50.8
+      },
+      "multiline": true
+    },
+    "oICRemarks6": {
+      "type": "text",
+      "label": "OIC:  ",
+      "page": 3,
+      "box": {
+        "left": 39.6,
+        "top": 430.2,
+        "width": 534.2,
+        "height": 50.8
+      },
+      "multiline": true
+    },
+    "sNCOICRemarks6": {
+      "type": "text",
+      "label": "SNCOIC",
+      "page": 3,
+      "box": {
+        "left": 39.6,
+        "top": 367.2,
+        "width": 534.2,
+        "height": 50.8
+      },
+      "multiline": true
+    },
+    "coWorkRemarks6": {
+      "type": "text",
+      "label": "CO-WORKER 1:",
+      "page": 3,
+      "box": {
+        "left": 39.6,
+        "top": 304.2,
+        "width": 534.2,
+        "height": 50.8
+      },
+      "multiline": true
+    },
+    "coWorkRemarks62": {
+      "type": "text",
+      "label": "CO-WORKER 2:",
+      "page": 3,
+      "box": {
+        "left": 39.6,
+        "top": 241.2,
+        "width": 534.2,
+        "height": 50.8
+      },
+      "multiline": true
+    },
+    "favorInterview": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 191.8,
+        "top": 180.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_5_FavorInterview_0"
+    },
+    "favorInterview2": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 281.8,
+        "top": 180.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_5_FavorInterview_0"
+    },
+    "overallRating": {
+      "type": "choice",
+      "label": "8.  OVERALL RATING:",
+      "page": 3,
+      "box": {
+        "left": 130.6,
+        "top": 159.2,
+        "width": 442.6,
+        "height": 21.3
+      },
+      "options": [
+        "OUTSTANDING",
+        "EXCELLENT",
+        "ABOVE AVERAGE",
+        "BELOW AVERAGE",
+        "UNSATISFACTORY"
+      ]
+    },
+    "printerName": {
+      "type": "text",
+      "label": "PRINTED NAME OF INTERVIEWER:",
+      "page": 3,
+      "box": {
+        "left": 122.6,
+        "top": 131.4,
+        "width": 451.2,
+        "height": 22.0
+      }
+    },
+    "signDate": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 3,
+      "box": {
+        "left": 471.3,
+        "top": 105.2,
+        "width": 101.8,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "namePrinted": {
+      "type": "signature",
+      "label": "SIGNATURE OF\nINTERVIEWER",
+      "page": 3,
+      "box": {
+        "left": 122.6,
+        "top": 104.4,
+        "width": 316.2,
+        "height": 31.0
+      }
+    }
+  }
+}

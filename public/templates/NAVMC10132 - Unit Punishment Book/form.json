@@ -1,0 +1,913 @@
+{
+  "id": "navmc10132",
+  "label": "NAVMC10132 - Unit Punishment Book",
+  "directory": "NAVMC10132 - Unit Punishment Book",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "1AARTICLE",
+        "1ASUMMARY",
+        "1BARTICLE",
+        "1BSUMMARY",
+        "1CARTICLE",
+        "1CSUMMARY",
+        "1DARTICLE",
+        "1DSUMMARY",
+        "1EARTICLE",
+        "1ESUMMARY",
+        "2DEMAND",
+        "2COUNSELOPP",
+        "2BOOKER",
+        "2ACCREFUSETOSIGN",
+        "2ACCELECTIONANDRIGHTSDATEAfDate",
+        "2ACCELECTIONANDRIGHTSSIGNATURE",
+        "3RIGHTSATTESTSIGNATURE",
+        "3RIGHTSATTESTDATEAfDate",
+        "4CURRENTUASOVER24HRSANDMARKSOFDESERTION",
+        "1AFINDING",
+        "1BFINDING",
+        "1CFINDING",
+        "1DFINDING",
+        "1EFINDING",
+        "6PUNISHMENTIMPOSED",
+        "6PUNISHMENTIMPOSITIONDATE",
+        "7SUSPENSIONIFANY",
+        "8NJPAUTHORITYNAMETITLESERVICE",
+        "8ANJPAUTHORITYGRADE",
+        "8BNJPAUTHORITYEDIPI",
+        "9NJPAUTHORITYSIGNATURE",
+        "10DATEOFDISPOSITIONNOTICE",
+        "12INTENDAPPEAL",
+        "13NOTAPPEALED",
+        "12APPEALINTENTDATEAfDate",
+        "11APPEALADVISEMENTDATEAfDate",
+        "11APPEALADVISEMENTSIGNATURE",
+        "12APPEALINTENTSIGNATURE",
+        "13DATEOFAPPEALIFANYAfDate",
+        "14APPEALDECISION",
+        "14APPEALDECISIONDATEAfDate",
+        "14APPEALDECISIONSIGNATURE",
+        "15DATEOFNOTICEOFAPPEALDECISIONAfDate",
+        "16FINALADMINUD",
+        "16FINALADMINDTD",
+        "16FINALADMININIT",
+        "17UNIT",
+        "18ACCUSEDFULLNAME",
+        "19ACCUSEDRANKGRADE",
+        "20ACCUSEDEDIPI"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "21REMARKS",
+        "22AVICTIMSTATUS",
+        "22AVICTIMSEX",
+        "22AVICTIMRACE",
+        "22AVICTIMETHNICITY",
+        "22BVICTIMSTATUS",
+        "22BVICTIMSEX",
+        "22BVICTIMRACE",
+        "22BVICTIMETHNICITY",
+        "22CVICTIMSTATUS",
+        "22CVICTIMSEX",
+        "22CVICTIMRACE",
+        "22CVICTIMETHNICITY",
+        "22DVICTIMRACE",
+        "22DVICTIMSTATUS",
+        "22DVICTIMSEX",
+        "22DVICTIMETHNICITY",
+        "22EVICTIMRACE",
+        "22EVICTIMSTATUS",
+        "22EVICTIMSEX",
+        "22EVICTIMETHNICITY",
+        "23ACCUSEDFULLNAME",
+        "24ACCUSEDRANKGRADE",
+        "25ACCUSEDEDIPI"
+      ]
+    }
+  ],
+  "fields": {
+    "1AARTICLE": {
+      "type": "choice",
+      "label": "1AARTICLE",
+      "page": 1,
+      "box": {
+        "left": 50.6,
+        "top": 652.1,
+        "width": 212.4,
+        "height": 10.8
+      }
+    },
+    "1ASUMMARY": {
+      "type": "text",
+      "label": "1ASUMMARY",
+      "page": 1,
+      "box": {
+        "left": 266.2,
+        "top": 652.1,
+        "width": 302.4,
+        "height": 10.8
+      }
+    },
+    "1BARTICLE": {
+      "type": "choice",
+      "label": "1BARTICLE",
+      "page": 1,
+      "box": {
+        "left": 50.6,
+        "top": 640.1,
+        "width": 212.4,
+        "height": 10.8
+      }
+    },
+    "1BSUMMARY": {
+      "type": "text",
+      "label": "1BSUMMARY",
+      "page": 1,
+      "box": {
+        "left": 266.2,
+        "top": 640.1,
+        "width": 302.4,
+        "height": 10.8
+      }
+    },
+    "1CARTICLE": {
+      "type": "choice",
+      "label": "1CARTICLE",
+      "page": 1,
+      "box": {
+        "left": 50.6,
+        "top": 628.0,
+        "width": 212.4,
+        "height": 10.8
+      }
+    },
+    "1CSUMMARY": {
+      "type": "text",
+      "label": "1CSUMMARY",
+      "page": 1,
+      "box": {
+        "left": 266.2,
+        "top": 628.0,
+        "width": 302.4,
+        "height": 10.8
+      }
+    },
+    "1DARTICLE": {
+      "type": "choice",
+      "label": "1DARTICLE",
+      "page": 1,
+      "box": {
+        "left": 50.6,
+        "top": 616.0,
+        "width": 212.4,
+        "height": 10.8
+      }
+    },
+    "1DSUMMARY": {
+      "type": "text",
+      "label": "1DSUMMARY",
+      "page": 1,
+      "box": {
+        "left": 266.2,
+        "top": 616.0,
+        "width": 302.4,
+        "height": 10.8
+      }
+    },
+    "1EARTICLE": {
+      "type": "choice",
+      "label": "1EARTICLE",
+      "page": 1,
+      "box": {
+        "left": 50.6,
+        "top": 604.0,
+        "width": 212.4,
+        "height": 10.8
+      }
+    },
+    "1ESUMMARY": {
+      "type": "text",
+      "label": "1ESUMMARY",
+      "page": 1,
+      "box": {
+        "left": 266.2,
+        "top": 604.0,
+        "width": 302.4,
+        "height": 10.8
+      }
+    },
+    "2DEMAND": {
+      "type": "choice",
+      "label": "2DEMAND",
+      "page": 1,
+      "box": {
+        "left": 229.5,
+        "top": 580.3,
+        "width": 337.9,
+        "height": 10.6
+      }
+    },
+    "2COUNSELOPP": {
+      "type": "choice",
+      "label": "2COUNSELOPP",
+      "page": 1,
+      "box": {
+        "left": 110.0,
+        "top": 564.4,
+        "width": 48.9,
+        "height": 10.6
+      }
+    },
+    "2BOOKER": {
+      "type": "text",
+      "label": "2BOOKER",
+      "page": 1,
+      "box": {
+        "left": 35.9,
+        "top": 528.7,
+        "width": 527.8,
+        "height": 10.6
+      }
+    },
+    "2ACCREFUSETOSIGN": {
+      "type": "checkbox",
+      "label": "2ACCREFUSETOSIGN",
+      "page": 1,
+      "box": {
+        "left": 188.4,
+        "top": 513.1,
+        "width": 12.7,
+        "height": 11.5
+      }
+    },
+    "2ACCELECTIONANDRIGHTSDATEAfDate": {
+      "type": "text",
+      "label": "2ACCELECTIONANDRIGHTSDATEAfDate",
+      "page": 1,
+      "box": {
+        "left": 34.9,
+        "top": 500.0,
+        "width": 94.6,
+        "height": 13.4
+      }
+    },
+    "2ACCELECTIONANDRIGHTSSIGNATURE": {
+      "type": "signature",
+      "label": "2ACCELECTIONANDRIGHTSSIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 188.4,
+        "top": 500.0,
+        "width": 374.7,
+        "height": 13.4
+      }
+    },
+    "3RIGHTSATTESTSIGNATURE": {
+      "type": "signature",
+      "label": "3RIGHTSATTESTSIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 188.4,
+        "top": 453.6,
+        "width": 374.7,
+        "height": 13.4
+      }
+    },
+    "3RIGHTSATTESTDATEAfDate": {
+      "type": "text",
+      "label": "3RIGHTSATTESTDATEAfDate",
+      "page": 1,
+      "box": {
+        "left": 34.9,
+        "top": 453.5,
+        "width": 94.6,
+        "height": 13.4
+      }
+    },
+    "4CURRENTUASOVER24HRSANDMARKSOFDESERTION": {
+      "type": "text",
+      "label": "4CURRENTUASOVER24HRSANDMARKSOFDESERTION",
+      "page": 1,
+      "box": {
+        "left": 34.1,
+        "top": 419.1,
+        "width": 538.2,
+        "height": 14.4
+      }
+    },
+    "1AFINDING": {
+      "type": "choice",
+      "label": "1AFINDING",
+      "page": 1,
+      "box": {
+        "left": 245.2,
+        "top": 391.6,
+        "width": 23.8,
+        "height": 10.8
+      }
+    },
+    "1BFINDING": {
+      "type": "choice",
+      "label": "1BFINDING",
+      "page": 1,
+      "box": {
+        "left": 296.9,
+        "top": 391.6,
+        "width": 23.8,
+        "height": 10.8
+      }
+    },
+    "1CFINDING": {
+      "type": "choice",
+      "label": "1CFINDING",
+      "page": 1,
+      "box": {
+        "left": 349.1,
+        "top": 391.6,
+        "width": 23.8,
+        "height": 10.8
+      }
+    },
+    "1DFINDING": {
+      "type": "choice",
+      "label": "1DFINDING",
+      "page": 1,
+      "box": {
+        "left": 401.8,
+        "top": 391.6,
+        "width": 23.8,
+        "height": 10.8
+      }
+    },
+    "1EFINDING": {
+      "type": "choice",
+      "label": "1EFINDING",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 391.6,
+        "width": 23.8,
+        "height": 10.8
+      }
+    },
+    "6PUNISHMENTIMPOSED": {
+      "type": "text",
+      "label": "6PUNISHMENTIMPOSED",
+      "page": 1,
+      "box": {
+        "left": 34.1,
+        "top": 366.2,
+        "width": 436.5,
+        "height": 15.9
+      }
+    },
+    "6PUNISHMENTIMPOSITIONDATE": {
+      "type": "text",
+      "label": "6PUNISHMENTIMPOSITIONDATE",
+      "page": 1,
+      "box": {
+        "left": 475.7,
+        "top": 366.2,
+        "width": 96.3,
+        "height": 15.9
+      }
+    },
+    "7SUSPENSIONIFANY": {
+      "type": "text",
+      "label": "7SUSPENSIONIFANY",
+      "page": 1,
+      "box": {
+        "left": 34.1,
+        "top": 338.6,
+        "width": 538.2,
+        "height": 15.9
+      }
+    },
+    "8NJPAUTHORITYNAMETITLESERVICE": {
+      "type": "text",
+      "label": "8NJPAUTHORITYNAMETITLESERVICE",
+      "page": 1,
+      "box": {
+        "left": 34.1,
+        "top": 311.7,
+        "width": 358.6,
+        "height": 15.9
+      }
+    },
+    "8ANJPAUTHORITYGRADE": {
+      "type": "text",
+      "label": "8ANJPAUTHORITYGRADE",
+      "page": 1,
+      "box": {
+        "left": 394.5,
+        "top": 311.7,
+        "width": 87.9,
+        "height": 15.9
+      }
+    },
+    "8BNJPAUTHORITYEDIPI": {
+      "type": "text",
+      "label": "8BNJPAUTHORITYEDIPI",
+      "page": 1,
+      "box": {
+        "left": 483.8,
+        "top": 311.7,
+        "width": 88.4,
+        "height": 15.9
+      }
+    },
+    "9NJPAUTHORITYSIGNATURE": {
+      "type": "signature",
+      "label": "9NJPAUTHORITYSIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 34.7,
+        "top": 271.3,
+        "width": 415.9,
+        "height": 13.4
+      }
+    },
+    "10DATEOFDISPOSITIONNOTICE": {
+      "type": "text",
+      "label": "10DATEOFDISPOSITIONNOTICE",
+      "page": 1,
+      "box": {
+        "left": 476.0,
+        "top": 261.6,
+        "width": 96.3,
+        "height": 14.4
+      }
+    },
+    "12INTENDAPPEAL": {
+      "type": "choice",
+      "label": "12INTENDAPPEAL",
+      "page": 1,
+      "box": {
+        "left": 328.4,
+        "top": 234.8,
+        "width": 124.0,
+        "height": 9.4
+      }
+    },
+    "13NOTAPPEALED": {
+      "type": "checkbox",
+      "label": "13NOTAPPEALED",
+      "page": 1,
+      "box": {
+        "left": 479.6,
+        "top": 222.7,
+        "width": 12.0,
+        "height": 11.5
+      }
+    },
+    "12APPEALINTENTDATEAfDate": {
+      "type": "text",
+      "label": "12APPEALINTENTDATEAfDate",
+      "page": 1,
+      "box": {
+        "left": 256.0,
+        "top": 218.3,
+        "width": 66.4,
+        "height": 14.4
+      }
+    },
+    "11APPEALADVISEMENTDATEAfDate": {
+      "type": "text",
+      "label": "11APPEALADVISEMENTDATEAfDate",
+      "page": 1,
+      "box": {
+        "left": 35.6,
+        "top": 218.1,
+        "width": 66.4,
+        "height": 14.4
+      }
+    },
+    "11APPEALADVISEMENTSIGNATURE": {
+      "type": "signature",
+      "label": "11APPEALADVISEMENTSIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 106.0,
+        "top": 218.1,
+        "width": 142.0,
+        "height": 14.4
+      }
+    },
+    "12APPEALINTENTSIGNATURE": {
+      "type": "signature",
+      "label": "12APPEALINTENTSIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 331.5,
+        "top": 218.1,
+        "width": 142.0,
+        "height": 14.4
+      }
+    },
+    "13DATEOFAPPEALIFANYAfDate": {
+      "type": "text",
+      "label": "13DATEOFAPPEALIFANYAfDate",
+      "page": 1,
+      "box": {
+        "left": 476.0,
+        "top": 207.6,
+        "width": 96.3,
+        "height": 14.4
+      }
+    },
+    "14APPEALDECISION": {
+      "type": "text",
+      "label": "14APPEALDECISION",
+      "page": 1,
+      "box": {
+        "left": 35.6,
+        "top": 180.9,
+        "width": 433.7,
+        "height": 13.4
+      }
+    },
+    "14APPEALDECISIONDATEAfDate": {
+      "type": "text",
+      "label": "14APPEALDECISIONDATEAfDate",
+      "page": 1,
+      "box": {
+        "left": 35.6,
+        "top": 166.3,
+        "width": 66.4,
+        "height": 14.4
+      }
+    },
+    "14APPEALDECISIONSIGNATURE": {
+      "type": "signature",
+      "label": "Signature of CO making final decision on appeal",
+      "page": 1,
+      "box": {
+        "left": 106.9,
+        "top": 166.3,
+        "width": 362.5,
+        "height": 14.4
+      }
+    },
+    "15DATEOFNOTICEOFAPPEALDECISIONAfDate": {
+      "type": "text",
+      "label": "15DATEOFNOTICEOFAPPEALDECISIONAfDate",
+      "page": 1,
+      "box": {
+        "left": 476.0,
+        "top": 153.6,
+        "width": 96.3,
+        "height": 14.4
+      }
+    },
+    "16FINALADMINUD": {
+      "type": "text",
+      "label": "16FINALADMINUD",
+      "page": 1,
+      "box": {
+        "left": 310.1,
+        "top": 136.8,
+        "width": 59.1,
+        "height": 14.4
+      }
+    },
+    "16FINALADMINDTD": {
+      "type": "text",
+      "label": "16FINALADMINDTD",
+      "page": 1,
+      "box": {
+        "left": 388.8,
+        "top": 136.8,
+        "width": 59.1,
+        "height": 14.4
+      }
+    },
+    "16FINALADMININIT": {
+      "type": "signature",
+      "label": "16FINALADMININIT",
+      "page": 1,
+      "box": {
+        "left": 468.0,
+        "top": 136.8,
+        "width": 102.6,
+        "height": 14.4
+      }
+    },
+    "17UNIT": {
+      "type": "text",
+      "label": "17UNIT",
+      "page": 1,
+      "box": {
+        "left": 34.1,
+        "top": 108.6,
+        "width": 538.2,
+        "height": 14.4
+      }
+    },
+    "18ACCUSEDFULLNAME": {
+      "type": "text",
+      "label": "18ACCUSEDFULLNAME",
+      "page": 1,
+      "box": {
+        "left": 34.1,
+        "top": 81.6,
+        "width": 358.6,
+        "height": 14.4
+      }
+    },
+    "19ACCUSEDRANKGRADE": {
+      "type": "text",
+      "label": "19ACCUSEDRANKGRADE",
+      "page": 1,
+      "box": {
+        "left": 394.1,
+        "top": 81.6,
+        "width": 88.3,
+        "height": 14.4
+      }
+    },
+    "20ACCUSEDEDIPI": {
+      "type": "text",
+      "label": "20ACCUSEDEDIPI",
+      "page": 1,
+      "box": {
+        "left": 483.8,
+        "top": 81.6,
+        "width": 88.4,
+        "height": 14.4
+      }
+    },
+    "21REMARKS": {
+      "type": "text",
+      "label": "21REMARKS",
+      "page": 2,
+      "box": {
+        "left": 39.3,
+        "top": 722.5,
+        "width": 538.6,
+        "height": 518.9
+      },
+      "multiline": true
+    },
+    "22AVICTIMSTATUS": {
+      "type": "choice",
+      "label": "22AVICTIMSTATUS",
+      "page": 2,
+      "box": {
+        "left": 64.4,
+        "top": 190.3,
+        "width": 100.7,
+        "height": 10.8
+      }
+    },
+    "22AVICTIMSEX": {
+      "type": "choice",
+      "label": "22AVICTIMSEX",
+      "page": 2,
+      "box": {
+        "left": 183.3,
+        "top": 190.2,
+        "width": 80.0,
+        "height": 10.8
+      }
+    },
+    "22AVICTIMRACE": {
+      "type": "choice",
+      "label": "22AVICTIMRACE",
+      "page": 2,
+      "box": {
+        "left": 280.5,
+        "top": 190.1,
+        "width": 150.0,
+        "height": 10.8
+      }
+    },
+    "22AVICTIMETHNICITY": {
+      "type": "choice",
+      "label": "22AVICTIMETHNICITY",
+      "page": 2,
+      "box": {
+        "left": 447.6,
+        "top": 190.1,
+        "width": 93.4,
+        "height": 10.8
+      }
+    },
+    "22BVICTIMSTATUS": {
+      "type": "choice",
+      "label": "22BVICTIMSTATUS",
+      "page": 2,
+      "box": {
+        "left": 64.4,
+        "top": 176.7,
+        "width": 100.7,
+        "height": 10.8
+      }
+    },
+    "22BVICTIMSEX": {
+      "type": "choice",
+      "label": "22BVICTIMSEX",
+      "page": 2,
+      "box": {
+        "left": 183.3,
+        "top": 176.7,
+        "width": 80.0,
+        "height": 10.8
+      }
+    },
+    "22BVICTIMRACE": {
+      "type": "choice",
+      "label": "22BVICTIMRACE",
+      "page": 2,
+      "box": {
+        "left": 280.5,
+        "top": 176.7,
+        "width": 150.0,
+        "height": 10.8
+      }
+    },
+    "22BVICTIMETHNICITY": {
+      "type": "choice",
+      "label": "22BVICTIMETHNICITY",
+      "page": 2,
+      "box": {
+        "left": 447.6,
+        "top": 176.7,
+        "width": 93.4,
+        "height": 10.8
+      }
+    },
+    "22CVICTIMSTATUS": {
+      "type": "choice",
+      "label": "22CVICTIMSTATUS",
+      "page": 2,
+      "box": {
+        "left": 64.4,
+        "top": 162.9,
+        "width": 100.7,
+        "height": 10.8
+      }
+    },
+    "22CVICTIMSEX": {
+      "type": "choice",
+      "label": "22CVICTIMSEX",
+      "page": 2,
+      "box": {
+        "left": 183.3,
+        "top": 162.9,
+        "width": 80.0,
+        "height": 10.8
+      }
+    },
+    "22CVICTIMRACE": {
+      "type": "choice",
+      "label": "22CVICTIMRACE",
+      "page": 2,
+      "box": {
+        "left": 280.5,
+        "top": 162.8,
+        "width": 150.0,
+        "height": 10.8
+      }
+    },
+    "22CVICTIMETHNICITY": {
+      "type": "choice",
+      "label": "22CVICTIMETHNICITY",
+      "page": 2,
+      "box": {
+        "left": 447.6,
+        "top": 162.8,
+        "width": 93.4,
+        "height": 10.8
+      }
+    },
+    "22DVICTIMRACE": {
+      "type": "choice",
+      "label": "22DVICTIMRACE",
+      "page": 2,
+      "box": {
+        "left": 280.5,
+        "top": 149.1,
+        "width": 150.0,
+        "height": 10.8
+      }
+    },
+    "22DVICTIMSTATUS": {
+      "type": "choice",
+      "label": "22DVICTIMSTATUS",
+      "page": 2,
+      "box": {
+        "left": 64.4,
+        "top": 148.6,
+        "width": 100.7,
+        "height": 10.8
+      }
+    },
+    "22DVICTIMSEX": {
+      "type": "choice",
+      "label": "22DVICTIMSEX",
+      "page": 2,
+      "box": {
+        "left": 183.3,
+        "top": 148.6,
+        "width": 80.0,
+        "height": 10.8
+      }
+    },
+    "22DVICTIMETHNICITY": {
+      "type": "choice",
+      "label": "22DVICTIMETHNICITY",
+      "page": 2,
+      "box": {
+        "left": 447.6,
+        "top": 148.6,
+        "width": 93.4,
+        "height": 10.8
+      }
+    },
+    "22EVICTIMRACE": {
+      "type": "choice",
+      "label": "22EVICTIMRACE",
+      "page": 2,
+      "box": {
+        "left": 280.5,
+        "top": 135.2,
+        "width": 150.0,
+        "height": 10.8
+      }
+    },
+    "22EVICTIMSTATUS": {
+      "type": "choice",
+      "label": "22EVICTIMSTATUS",
+      "page": 2,
+      "box": {
+        "left": 64.4,
+        "top": 134.7,
+        "width": 100.7,
+        "height": 10.8
+      }
+    },
+    "22EVICTIMSEX": {
+      "type": "choice",
+      "label": "22EVICTIMSEX",
+      "page": 2,
+      "box": {
+        "left": 183.3,
+        "top": 134.7,
+        "width": 80.0,
+        "height": 10.8
+      }
+    },
+    "22EVICTIMETHNICITY": {
+      "type": "choice",
+      "label": "22EVICTIMETHNICITY",
+      "page": 2,
+      "box": {
+        "left": 447.6,
+        "top": 134.7,
+        "width": 93.4,
+        "height": 10.8
+      }
+    },
+    "23ACCUSEDFULLNAME": {
+      "type": "text",
+      "label": "23ACCUSEDFULLNAME",
+      "page": 2,
+      "box": {
+        "left": 39.4,
+        "top": 109.8,
+        "width": 358.6,
+        "height": 14.4
+      }
+    },
+    "24ACCUSEDRANKGRADE": {
+      "type": "text",
+      "label": "24ACCUSEDRANKGRADE",
+      "page": 2,
+      "box": {
+        "left": 399.4,
+        "top": 109.8,
+        "width": 88.6,
+        "height": 14.4
+      }
+    },
+    "25ACCUSEDEDIPI": {
+      "type": "text",
+      "label": "25ACCUSEDEDIPI",
+      "page": 2,
+      "box": {
+        "left": 489.4,
+        "top": 109.8,
+        "width": 88.6,
+        "height": 14.4
+      }
+    }
+  }
+}

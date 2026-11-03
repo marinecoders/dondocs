@@ -1,0 +1,2735 @@
+{
+  "id": "navmc11537a",
+  "label": "NAVMC11537A - Reserve Reenlistment Extension Lateral Move (rrelm) Request",
+  "directory": "NAVMC11537A - Reserve Reenlistment Extension Lateral Move (rrelm) Request",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf",
+    "page5.pdf",
+    "page6.pdf",
+    "page7.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 2",
+      "fields": [
+        "rank",
+        "name",
+        "mos",
+        "bmos",
+        "edipi",
+        "dor",
+        "afadbd",
+        "pebd",
+        "ecc",
+        "eas",
+        "dctb",
+        "rtd",
+        "rcomp",
+        "ruc",
+        "mcc",
+        "mdsd",
+        "carDesig",
+        "typeRequest",
+        "length",
+        "sOEcode",
+        "workPhone",
+        "organization",
+        "avgcon19",
+        "avgpro19",
+        "radio",
+        "radio2",
+        "date20",
+        "first22",
+        "second22",
+        "third22",
+        "first23",
+        "second23",
+        "third23",
+        "testScoreGT",
+        "testScoreMM",
+        "testScoreEL",
+        "testScoreCL",
+        "radio3",
+        "radio4",
+        "radio5",
+        "radio6",
+        "code26p1a",
+        "code26p1b",
+        "code26p2a",
+        "code26p2b",
+        "code26p3a",
+        "code26p3b",
+        "typeConviction1",
+        "typeConviction2",
+        "typeConviction3",
+        "radio7",
+        "radio8",
+        "amount1",
+        "radio9",
+        "radio10",
+        "amount2",
+        "tier1",
+        "bonusAmount",
+        "amount3",
+        "radio11",
+        "radio12",
+        "radio13",
+        "radio14",
+        "mCCspouse",
+        "nameSpouse",
+        "rankSpouse",
+        "mOSspouse",
+        "branchSpouse",
+        "eASspouse",
+        "rTDspouse",
+        "remarks",
+        "marineDate",
+        "signatureMarine",
+        "plannerDate",
+        "signaturePlanner"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "rank2",
+        "name2",
+        "edipi2",
+        "radio15",
+        "radio16",
+        "dentalClass",
+        "radio17",
+        "radio18",
+        "reason34b",
+        "reason34a",
+        "rank34b",
+        "name34b",
+        "rank34a",
+        "name34a",
+        "signatureDental",
+        "signatureMedical",
+        "dentalDate",
+        "medicalDate",
+        "date34d",
+        "score34d",
+        "class34d",
+        "radio19",
+        "radio20",
+        "date38d",
+        "score38d",
+        "class38d",
+        "ht34d",
+        "wt34d",
+        "max34d",
+        "bF34d",
+        "dateAssig38d",
+        "radio21",
+        "radio22",
+        "comments34c",
+        "comments34d",
+        "rank34d",
+        "name34d",
+        "signatureS3",
+        "dateS3",
+        "rank34c",
+        "name34c",
+        "dateS2",
+        "signatureS2",
+        "name34d2",
+        "radio23",
+        "radio24",
+        "radio25",
+        "radio26",
+        "comments34e",
+        "comments34f",
+        "rank34f",
+        "rank34e",
+        "name34f",
+        "name34e",
+        "signatureSACO",
+        "signatureS1",
+        "dateS1",
+        "dateSACO"
+      ]
+    },
+    {
+      "title": "Page 4",
+      "fields": [
+        "rank3",
+        "name3",
+        "edipi3",
+        "ncoic",
+        "radio27",
+        "radio28",
+        "comments35a",
+        "rank35a",
+        "name35a",
+        "signature35a",
+        "date35a",
+        "oic",
+        "radio29",
+        "radio30",
+        "comments35b",
+        "signature35b",
+        "name35b",
+        "rank35b",
+        "date35b",
+        "firstSgt",
+        "radio31",
+        "radio32",
+        "comments35c",
+        "rank35c",
+        "signature35c",
+        "name35c",
+        "date35c",
+        "cc",
+        "radio33",
+        "radio34",
+        "comments35d",
+        "signature35d",
+        "rank35d",
+        "name35d",
+        "date35d"
+      ]
+    },
+    {
+      "title": "Page 5",
+      "fields": [
+        "edipi4",
+        "rank4",
+        "name4",
+        "sgtMj",
+        "radio35",
+        "radio36",
+        "comments35e",
+        "signature35e",
+        "name35e",
+        "rank35e",
+        "date35e",
+        "execOff",
+        "radio37",
+        "radio38",
+        "comments35f",
+        "signature35f",
+        "name35f",
+        "rank35f",
+        "date3f"
+      ]
+    },
+    {
+      "title": "Page 6",
+      "fields": [
+        "rank5",
+        "edipi5",
+        "name5",
+        "radio39",
+        "radio40",
+        "radio41",
+        "radio42",
+        "radio43",
+        "radio44",
+        "radio45",
+        "radio46",
+        "cmtstoMMEA",
+        "signature35g",
+        "name35g",
+        "date35g",
+        "rank35g"
+      ]
+    }
+  ],
+  "fields": {
+    "rank": {
+      "type": "choice",
+      "label": "1. Rank",
+      "page": 2,
+      "box": {
+        "left": 21.2,
+        "top": 732.8,
+        "width": 94.6,
+        "height": 15.2
+      },
+      "options": [
+        "E2 / PFC",
+        "E3 / LCpl",
+        "E4 / Cpl",
+        "E5 / Sgt",
+        "E6 / SSgt",
+        "E7 / GySgt",
+        "E8 / MSgt",
+        "E8 / 1stSgt",
+        "E9 / MGySgt",
+        "E9 / SgtMaj"
+      ]
+    },
+    "name": {
+      "type": "text",
+      "label": "2. Name (Last, First, MI)",
+      "page": 2,
+      "box": {
+        "left": 123.1,
+        "top": 731.2,
+        "width": 297.1,
+        "height": 11.1
+      }
+    },
+    "mos": {
+      "type": "text",
+      "label": "4. MOS",
+      "page": 2,
+      "box": {
+        "left": 508.1,
+        "top": 731.2,
+        "width": 36.3,
+        "height": 11.1
+      }
+    },
+    "bmos": {
+      "type": "text",
+      "label": "5. BMOS",
+      "page": 2,
+      "box": {
+        "left": 553.1,
+        "top": 731.2,
+        "width": 36.3,
+        "height": 11.1
+      }
+    },
+    "edipi": {
+      "type": "text",
+      "label": "3. EDIPI",
+      "page": 2,
+      "box": {
+        "left": 425.9,
+        "top": 730.9,
+        "width": 73.8,
+        "height": 10.7
+      }
+    },
+    "dor": {
+      "type": "text",
+      "label": "6. DOR",
+      "page": 2,
+      "box": {
+        "left": 22.8,
+        "top": 699.4,
+        "width": 44.3,
+        "height": 11.1
+      }
+    },
+    "afadbd": {
+      "type": "text",
+      "label": "7. AFADBD",
+      "page": 2,
+      "box": {
+        "left": 75.2,
+        "top": 699.4,
+        "width": 57.5,
+        "height": 11.1
+      }
+    },
+    "pebd": {
+      "type": "text",
+      "label": "8. PEBD",
+      "page": 2,
+      "box": {
+        "left": 139.1,
+        "top": 699.4,
+        "width": 44.4,
+        "height": 11.1
+      }
+    },
+    "ecc": {
+      "type": "text",
+      "label": "9. RECC",
+      "page": 2,
+      "box": {
+        "left": 192.0,
+        "top": 699.4,
+        "width": 36.3,
+        "height": 11.1
+      }
+    },
+    "eas": {
+      "type": "text",
+      "label": "10. EAS",
+      "page": 2,
+      "box": {
+        "left": 239.5,
+        "top": 699.4,
+        "width": 41.2,
+        "height": 11.1
+      }
+    },
+    "dctb": {
+      "type": "text",
+      "label": "11. DCTB",
+      "page": 2,
+      "box": {
+        "left": 287.9,
+        "top": 699.4,
+        "width": 45.3,
+        "height": 11.1
+      }
+    },
+    "rtd": {
+      "type": "text",
+      "label": "13. CRCR Cert Date",
+      "page": 2,
+      "box": {
+        "left": 395.3,
+        "top": 699.4,
+        "width": 58.3,
+        "height": 11.1
+      }
+    },
+    "rcomp": {
+      "type": "text",
+      "label": "14. RCOMP",
+      "page": 2,
+      "box": {
+        "left": 461.9,
+        "top": 699.4,
+        "width": 45.7,
+        "height": 11.1
+      }
+    },
+    "ruc": {
+      "type": "text",
+      "label": "15. RUC",
+      "page": 2,
+      "box": {
+        "left": 516.3,
+        "top": 699.4,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "mcc": {
+      "type": "text",
+      "label": "16. MCC",
+      "page": 2,
+      "box": {
+        "left": 556.7,
+        "top": 699.4,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "mdsd": {
+      "type": "text",
+      "label": "12. MDSD",
+      "page": 2,
+      "box": {
+        "left": 340.4,
+        "top": 698.7,
+        "width": 46.1,
+        "height": 10.8
+      }
+    },
+    "carDesig": {
+      "type": "text",
+      "label": "19. Career Designated (AR Only)",
+      "page": 2,
+      "box": {
+        "left": 346.3,
+        "top": 663.2,
+        "width": 161.9,
+        "height": 16.0
+      }
+    },
+    "typeRequest": {
+      "type": "choice",
+      "label": "17. Type of Request",
+      "page": 2,
+      "box": {
+        "left": 21.9,
+        "top": 662.5,
+        "width": 220.3,
+        "height": 14.5
+      },
+      "options": [
+        "Reenlistment",
+        "Reenlistment With OER",
+        "Extension",
+        "Extension With OER",
+        "Lateral Move",
+        "Lateral Move with Extension",
+        "Lateral Move with Reenlistment",
+        "Overseas Extension",
+        "Drill Instructor Duty",
+        "AMOI Duty",
+        "Drug & Alcohol Counselor",
+        "Equal Opportunity Advisor",
+        "Extension on DI Duty",
+        "Extension on Recruiting Duty",
+        "Recruiting Duty",
+        "Extension on MSG Duty",
+        "Security Forces Duty",
+        "MSG Duty",
+        "Tour Curtailment",
+        "Separations Pay Determinaton",
+        "SNCO Degree Completion Program",
+        "SOI East",
+        "SOI West",
+        "Hazmat Duty",
+        "SNCOA Duty",
+        "Shooting Team",
+        "MARSOC Screening",
+        "AR Accession",
+        "AR Accession w/Reenlist",
+        "AR Accession w/Ext"
+      ]
+    },
+    "length": {
+      "type": "text",
+      "label": "18. Length Requested",
+      "page": 2,
+      "box": {
+        "left": 249.1,
+        "top": 661.7,
+        "width": 86.8,
+        "height": 11.1
+      }
+    },
+    "sOEcode": {
+      "type": "text",
+      "label": "20. SOE Code",
+      "page": 2,
+      "box": {
+        "left": 514.3,
+        "top": 661.2,
+        "width": 75.1,
+        "height": 11.1
+      }
+    },
+    "workPhone": {
+      "type": "text",
+      "label": "22. Work Phone",
+      "page": 2,
+      "box": {
+        "left": 495.7,
+        "top": 630.4,
+        "width": 93.4,
+        "height": 10.9
+      }
+    },
+    "organization": {
+      "type": "text",
+      "label": "21. Organization (Unit / Section)",
+      "page": 2,
+      "box": {
+        "left": 23.8,
+        "top": 629.9,
+        "width": 462.4,
+        "height": 11.1
+      }
+    },
+    "avgcon19": {
+      "type": "text",
+      "label": "AVG CON in Enlistment",
+      "page": 2,
+      "box": {
+        "left": 132.4,
+        "top": 596.0,
+        "width": 17.3,
+        "height": 11.9
+      }
+    },
+    "avgpro19": {
+      "type": "text",
+      "label": "AVG PRO in Enlistment",
+      "page": 2,
+      "box": {
+        "left": 270.1,
+        "top": 596.0,
+        "width": 17.3,
+        "height": 11.9
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 472.2,
+        "top": 594.9,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 532.0,
+        "top": 594.7,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "date20": {
+      "type": "text",
+      "label": "Date Verified",
+      "page": 2,
+      "box": {
+        "left": 467.9,
+        "top": 579.1,
+        "width": 69.2,
+        "height": 14.6
+      }
+    },
+    "first22": {
+      "type": "text",
+      "label": "CL",
+      "page": 2,
+      "box": {
+        "left": 251.5,
+        "top": 530.4,
+        "width": 51.6,
+        "height": 13.9
+      }
+    },
+    "second22": {
+      "type": "text",
+      "label": "CL",
+      "page": 2,
+      "box": {
+        "left": 309.2,
+        "top": 530.4,
+        "width": 51.6,
+        "height": 13.9
+      }
+    },
+    "third22": {
+      "type": "text",
+      "label": "CL",
+      "page": 2,
+      "box": {
+        "left": 367.3,
+        "top": 530.4,
+        "width": 51.6,
+        "height": 13.9
+      }
+    },
+    "first23": {
+      "type": "text",
+      "label": "CL",
+      "page": 2,
+      "box": {
+        "left": 424.4,
+        "top": 530.4,
+        "width": 51.6,
+        "height": 13.9
+      }
+    },
+    "second23": {
+      "type": "text",
+      "label": "CL",
+      "page": 2,
+      "box": {
+        "left": 481.5,
+        "top": 530.4,
+        "width": 51.6,
+        "height": 13.9
+      }
+    },
+    "third23": {
+      "type": "text",
+      "label": "CL",
+      "page": 2,
+      "box": {
+        "left": 538.8,
+        "top": 530.4,
+        "width": 51.6,
+        "height": 13.9
+      }
+    },
+    "testScoreGT": {
+      "type": "text",
+      "label": "GT",
+      "page": 2,
+      "box": {
+        "left": 51.5,
+        "top": 529.9,
+        "width": 19.5,
+        "height": 11.9
+      }
+    },
+    "testScoreMM": {
+      "type": "text",
+      "label": "MM",
+      "page": 2,
+      "box": {
+        "left": 108.7,
+        "top": 529.9,
+        "width": 19.5,
+        "height": 11.9
+      }
+    },
+    "testScoreEL": {
+      "type": "text",
+      "label": "EL",
+      "page": 2,
+      "box": {
+        "left": 166.7,
+        "top": 529.9,
+        "width": 19.5,
+        "height": 11.9
+      }
+    },
+    "testScoreCL": {
+      "type": "text",
+      "label": "CL",
+      "page": 2,
+      "box": {
+        "left": 224.5,
+        "top": 529.9,
+        "width": 19.5,
+        "height": 11.9
+      }
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 187.2,
+        "top": 502.6,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 491.4,
+        "top": 502.6,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 247.0,
+        "top": 502.3,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 550.8,
+        "top": 502.3,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "code26p1a": {
+      "type": "text",
+      "label": "Only)",
+      "page": 2,
+      "box": {
+        "left": 156.1,
+        "top": 477.5,
+        "width": 31.9,
+        "height": 13.9
+      }
+    },
+    "code26p1b": {
+      "type": "text",
+      "label": "Yes No",
+      "page": 2,
+      "box": {
+        "left": 196.0,
+        "top": 477.5,
+        "width": 79.8,
+        "height": 13.9
+      }
+    },
+    "code26p2a": {
+      "type": "text",
+      "label": "29. Previous",
+      "page": 2,
+      "box": {
+        "left": 308.1,
+        "top": 477.5,
+        "width": 31.9,
+        "height": 13.9
+      }
+    },
+    "code26p2b": {
+      "type": "text",
+      "label": "Previous Requests (Within last",
+      "page": 2,
+      "box": {
+        "left": 348.9,
+        "top": 477.5,
+        "width": 79.8,
+        "height": 13.9
+      }
+    },
+    "code26p3a": {
+      "type": "text",
+      "label": "months.)",
+      "page": 2,
+      "box": {
+        "left": 456.9,
+        "top": 477.5,
+        "width": 31.9,
+        "height": 13.9
+      }
+    },
+    "code26p3b": {
+      "type": "text",
+      "label": "Yes No",
+      "page": 2,
+      "box": {
+        "left": 497.6,
+        "top": 477.5,
+        "width": 79.8,
+        "height": 13.9
+      }
+    },
+    "typeConviction1": {
+      "type": "choice",
+      "label": "Conviction Type",
+      "page": 2,
+      "box": {
+        "left": 97.6,
+        "top": 439.7,
+        "width": 168.6,
+        "height": 14.1
+      },
+      "options": [
+        "Non Judicial Punishment",
+        "Summary Courts-Martial",
+        "General Courts-Martial",
+        "Special Courts-Martial",
+        "Civilian Conviction"
+      ]
+    },
+    "typeConviction2": {
+      "type": "choice",
+      "label": "Conviction Type",
+      "page": 2,
+      "box": {
+        "left": 96.9,
+        "top": 418.8,
+        "width": 168.6,
+        "height": 14.1
+      },
+      "options": [
+        "Non Judicial Punishment",
+        "Summary Courts-Martial",
+        "General Courts-Martial",
+        "Special Courts-Martial",
+        "Civilian Conviction"
+      ]
+    },
+    "typeConviction3": {
+      "type": "choice",
+      "label": "Conviction Type",
+      "page": 2,
+      "box": {
+        "left": 97.6,
+        "top": 399.1,
+        "width": 168.6,
+        "height": 14.1
+      },
+      "options": [
+        "Non Judicial Punishment",
+        "Summary Courts-Martial",
+        "General Courts-Martial",
+        "Special Courts-Martial",
+        "Civilian Conviction"
+      ]
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 197.0,
+        "top": 363.1,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 256.0,
+        "top": 362.9,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "amount1": {
+      "type": "text",
+      "label": "Amount Paid",
+      "page": 2,
+      "box": {
+        "left": 516.2,
+        "top": 352.1,
+        "width": 57.3,
+        "height": 13.3
+      }
+    },
+    "radio9": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 197.0,
+        "top": 339.7,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "radio10": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 255.2,
+        "top": 339.4,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "amount2": {
+      "type": "text",
+      "label": "Amount Paid",
+      "page": 2,
+      "box": {
+        "left": 516.2,
+        "top": 332.1,
+        "width": 57.3,
+        "height": 13.3
+      }
+    },
+    "tier1": {
+      "type": "choice",
+      "label": "REB",
+      "page": 2,
+      "box": {
+        "left": 59.5,
+        "top": 312.7,
+        "width": 64.4,
+        "height": 15.3
+      },
+      "options": [
+        "Initial",
+        "Subsequent"
+      ]
+    },
+    "bonusAmount": {
+      "type": "text",
+      "label": "Bonus Amount",
+      "page": 2,
+      "box": {
+        "left": 199.0,
+        "top": 310.7,
+        "width": 57.3,
+        "height": 13.3
+      }
+    },
+    "amount3": {
+      "type": "text",
+      "label": "Amount Paid",
+      "page": 2,
+      "box": {
+        "left": 516.2,
+        "top": 310.7,
+        "width": 57.3,
+        "height": 13.3
+      }
+    },
+    "radio11": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 215.1,
+        "top": 284.3,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "radio12": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 274.7,
+        "top": 284.1,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "radio13": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 215.1,
+        "top": 261.1,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "radio14": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 276.3,
+        "top": 260.9,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "mCCspouse": {
+      "type": "text",
+      "label": "35f. MCC",
+      "page": 2,
+      "box": {
+        "left": 455.5,
+        "top": 218.6,
+        "width": 61.7,
+        "height": 11.1
+      }
+    },
+    "nameSpouse": {
+      "type": "text",
+      "label": "35a. Name",
+      "page": 2,
+      "box": {
+        "left": 22.4,
+        "top": 218.3,
+        "width": 133.8,
+        "height": 11.1
+      }
+    },
+    "rankSpouse": {
+      "type": "text",
+      "label": "35b. Rank",
+      "page": 2,
+      "box": {
+        "left": 165.8,
+        "top": 218.3,
+        "width": 61.8,
+        "height": 11.1
+      }
+    },
+    "mOSspouse": {
+      "type": "text",
+      "label": "35c. MOS",
+      "page": 2,
+      "box": {
+        "left": 240.1,
+        "top": 218.3,
+        "width": 58.9,
+        "height": 11.1
+      }
+    },
+    "branchSpouse": {
+      "type": "text",
+      "label": "35d. Branch",
+      "page": 2,
+      "box": {
+        "left": 309.9,
+        "top": 218.3,
+        "width": 66.1,
+        "height": 11.1
+      }
+    },
+    "eASspouse": {
+      "type": "text",
+      "label": "35e. EAS",
+      "page": 2,
+      "box": {
+        "left": 386.5,
+        "top": 218.3,
+        "width": 58.9,
+        "height": 11.1
+      }
+    },
+    "rTDspouse": {
+      "type": "text",
+      "label": "35g. RTD",
+      "page": 2,
+      "box": {
+        "left": 529.0,
+        "top": 218.3,
+        "width": 60.3,
+        "height": 11.1
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "36. Remarks",
+      "page": 2,
+      "box": {
+        "left": 21.8,
+        "top": 191.1,
+        "width": 571.2,
+        "height": 65.0
+      },
+      "multiline": true
+    },
+    "marineDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 417.0,
+        "top": 106.6,
+        "width": 108.1,
+        "height": 11.8
+      }
+    },
+    "signatureMarine": {
+      "type": "text",
+      "label": "Marine&apos;s Signature",
+      "page": 2,
+      "box": {
+        "left": 138.9,
+        "top": 105.7,
+        "width": 234.8,
+        "height": 10.7
+      }
+    },
+    "plannerDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 416.6,
+        "top": 87.9,
+        "width": 108.1,
+        "height": 11.8
+      }
+    },
+    "signaturePlanner": {
+      "type": "text",
+      "label": "Career Planner&apos;s Signature",
+      "page": 2,
+      "box": {
+        "left": 139.2,
+        "top": 86.5,
+        "width": 234.8,
+        "height": 10.7
+      }
+    },
+    "rank2": {
+      "type": "choice",
+      "label": "PREVIOUS EDITIONS ARE",
+      "page": 3,
+      "box": {
+        "left": 21.8,
+        "top": -29.5,
+        "width": 94.6,
+        "height": 15.2
+      },
+      "options": [
+        "E2 / PFC",
+        "E3 / LCpl",
+        "E4 / Cpl",
+        "E5 / Sgt",
+        "E6 / SSgt",
+        "E7 / GySgt",
+        "E8 / MSgt",
+        "E8 / 1stSgt",
+        "E9 / MGySgt",
+        "E9 / SgtMaj"
+      ]
+    },
+    "name2": {
+      "type": "text",
+      "label": "OBSOLETE",
+      "page": 3,
+      "box": {
+        "left": 125.8,
+        "top": -31.3,
+        "width": 366.4,
+        "height": 11.1
+      }
+    },
+    "edipi2": {
+      "type": "text",
+      "label": "Adobe LiveCycle Designer",
+      "page": 3,
+      "box": {
+        "left": 515.9,
+        "top": -31.6,
+        "width": 72.3,
+        "height": 10.7
+      }
+    },
+    "radio15": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 146.2,
+        "top": -102.5,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "radio16": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 222.7,
+        "top": -103.0,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "dentalClass": {
+      "type": "text",
+      "label": "(RRELM) Request",
+      "page": 3,
+      "box": {
+        "left": 398.6,
+        "top": -109.1,
+        "width": 103.3,
+        "height": 11.1
+      }
+    },
+    "radio17": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 3,
+      "box": {
+        "left": 146.2,
+        "top": -123.0,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "radio18": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 3,
+      "box": {
+        "left": 222.7,
+        "top": -123.0,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "reason34b": {
+      "type": "text",
+      "label": "Adobe LiveCycle Designer 9",
+      "page": 3,
+      "box": {
+        "left": 313.2,
+        "top": -142.3,
+        "width": 278.7,
+        "height": 64.9
+      },
+      "multiline": true
+    },
+    "reason34a": {
+      "type": "text",
+      "label": "PREVIOUS EDITIONS ARE OBSOLETE",
+      "page": 3,
+      "box": {
+        "left": 25.1,
+        "top": -166.6,
+        "width": 278.7,
+        "height": 58.5
+      },
+      "multiline": true
+    },
+    "rank34b": {
+      "type": "text",
+      "label": "sensitive when filled in",
+      "page": 3,
+      "box": {
+        "left": 318.0,
+        "top": -217.6,
+        "width": 67.8,
+        "height": 11.1
+      }
+    },
+    "name34b": {
+      "type": "text",
+      "label": "Adobe LiveCycle Designer",
+      "page": 3,
+      "box": {
+        "left": 400.5,
+        "top": -217.8,
+        "width": 186.3,
+        "height": 11.1
+      }
+    },
+    "rank34a": {
+      "type": "text",
+      "label": "PREVIOUS EDITIONS",
+      "page": 3,
+      "box": {
+        "left": 29.9,
+        "top": -228.5,
+        "width": 67.8,
+        "height": 11.1
+      }
+    },
+    "name34a": {
+      "type": "text",
+      "label": "ARE OBSOLETE",
+      "page": 3,
+      "box": {
+        "left": 112.4,
+        "top": -228.7,
+        "width": 186.3,
+        "height": 11.1
+      }
+    },
+    "signatureDental": {
+      "type": "text",
+      "label": "sensitive when filled in",
+      "page": 3,
+      "box": {
+        "left": 317.9,
+        "top": -246.0,
+        "width": 178.9,
+        "height": 16.8
+      }
+    },
+    "signatureMedical": {
+      "type": "text",
+      "label": "PREVIOUS EDITIONS ARE OBSOLETE",
+      "page": 3,
+      "box": {
+        "left": 43.6,
+        "top": -251.3,
+        "width": 150.4,
+        "height": 9.6
+      }
+    },
+    "dentalDate": {
+      "type": "text",
+      "label": "Adobe LiveCycle Designer",
+      "page": 3,
+      "box": {
+        "left": 506.9,
+        "top": -252.8,
+        "width": 77.6,
+        "height": 10.3
+      }
+    },
+    "medicalDate": {
+      "type": "text",
+      "label": "Privacy",
+      "page": 3,
+      "box": {
+        "left": 203.3,
+        "top": -252.9,
+        "width": 77.6,
+        "height": 10.3
+      }
+    },
+    "date34d": {
+      "type": "text",
+      "label": "filled in",
+      "page": 3,
+      "box": {
+        "left": 354.3,
+        "top": -294.7,
+        "width": 58.7,
+        "height": 10.3
+      }
+    },
+    "score34d": {
+      "type": "text",
+      "label": "Request",
+      "page": 3,
+      "box": {
+        "left": 452.2,
+        "top": -294.7,
+        "width": 28.6,
+        "height": 11.1
+      }
+    },
+    "class34d": {
+      "type": "text",
+      "label": "Adobe LiveCycle Designer",
+      "page": 3,
+      "box": {
+        "left": 521.3,
+        "top": -294.7,
+        "width": 65.1,
+        "height": 11.1
+      }
+    },
+    "radio19": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 181.9,
+        "top": -300.7,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "radio20": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 245.5,
+        "top": -301.2,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "date38d": {
+      "type": "text",
+      "label": "filled in",
+      "page": 3,
+      "box": {
+        "left": 354.3,
+        "top": -315.2,
+        "width": 58.7,
+        "height": 10.3
+      }
+    },
+    "score38d": {
+      "type": "text",
+      "label": "Request",
+      "page": 3,
+      "box": {
+        "left": 452.2,
+        "top": -315.2,
+        "width": 28.6,
+        "height": 11.1
+      }
+    },
+    "class38d": {
+      "type": "text",
+      "label": "Adobe LiveCycle Designer",
+      "page": 3,
+      "box": {
+        "left": 521.3,
+        "top": -315.2,
+        "width": 65.1,
+        "height": 11.1
+      }
+    },
+    "ht34d": {
+      "type": "text",
+      "label": "when filled",
+      "page": 3,
+      "box": {
+        "left": 334.0,
+        "top": -336.7,
+        "width": 25.5,
+        "height": 11.1
+      }
+    },
+    "wt34d": {
+      "type": "text",
+      "label": "(RRELM)",
+      "page": 3,
+      "box": {
+        "left": 395.8,
+        "top": -336.7,
+        "width": 33.6,
+        "height": 11.1
+      }
+    },
+    "max34d": {
+      "type": "text",
+      "label": "Request",
+      "page": 3,
+      "box": {
+        "left": 467.3,
+        "top": -336.7,
+        "width": 25.5,
+        "height": 11.1
+      }
+    },
+    "bF34d": {
+      "type": "text",
+      "label": "LiveCycle",
+      "page": 3,
+      "box": {
+        "left": 529.1,
+        "top": -336.7,
+        "width": 25.5,
+        "height": 11.1
+      }
+    },
+    "dateAssig38d": {
+      "type": "text",
+      "label": "LiveCycle Designer",
+      "page": 3,
+      "box": {
+        "left": 545.2,
+        "top": -360.1,
+        "width": 41.5,
+        "height": 10.3
+      }
+    },
+    "radio21": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 379.2,
+        "top": -361.3,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "radio22": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 439.3,
+        "top": -361.5,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "comments34c": {
+      "type": "text",
+      "label": "PREVIOUS EDITIONS ARE OBSOLETE",
+      "page": 3,
+      "box": {
+        "left": 24.4,
+        "top": -364.6,
+        "width": 278.7,
+        "height": 68.7
+      },
+      "multiline": true
+    },
+    "comments34d": {
+      "type": "text",
+      "label": "Adobe LiveCycle Designer 9",
+      "page": 3,
+      "box": {
+        "left": 311.3,
+        "top": -391.0,
+        "width": 280.6,
+        "height": 20.1
+      }
+    },
+    "rank34d": {
+      "type": "text",
+      "label": "sensitive when filled in",
+      "page": 3,
+      "box": {
+        "left": 316.4,
+        "top": -414.0,
+        "width": 67.8,
+        "height": 11.1
+      }
+    },
+    "name34d": {
+      "type": "text",
+      "label": "Adobe LiveCycle Designer",
+      "page": 3,
+      "box": {
+        "left": 398.8,
+        "top": -414.2,
+        "width": 186.3,
+        "height": 11.1
+      }
+    },
+    "signatureS3": {
+      "type": "text",
+      "label": "when filled in",
+      "page": 3,
+      "box": {
+        "left": 329.6,
+        "top": -435.0,
+        "width": 150.4,
+        "height": 13.6
+      }
+    },
+    "dateS3": {
+      "type": "text",
+      "label": "Adobe LiveCycle Designer",
+      "page": 3,
+      "box": {
+        "left": 489.8,
+        "top": -435.0,
+        "width": 77.6,
+        "height": 13.8
+      }
+    },
+    "rank34c": {
+      "type": "text",
+      "label": "PREVIOUS EDITIONS",
+      "page": 3,
+      "box": {
+        "left": 29.3,
+        "top": -440.9,
+        "width": 67.8,
+        "height": 11.1
+      }
+    },
+    "name34c": {
+      "type": "text",
+      "label": "ARE OBSOLETE",
+      "page": 3,
+      "box": {
+        "left": 111.7,
+        "top": -441.0,
+        "width": 186.3,
+        "height": 11.1
+      }
+    },
+    "dateS2": {
+      "type": "text",
+      "label": "Privacy",
+      "page": 3,
+      "box": {
+        "left": 202.6,
+        "top": -463.0,
+        "width": 77.6,
+        "height": 16.3
+      }
+    },
+    "signatureS2": {
+      "type": "text",
+      "label": "PREVIOUS EDITIONS ARE OBSOLETE",
+      "page": 3,
+      "box": {
+        "left": 42.5,
+        "top": -465.3,
+        "width": 150.4,
+        "height": 14.0
+      }
+    },
+    "name34d2": {
+      "type": "text",
+      "label": "Adobe LiveCycle Designer",
+      "page": 3,
+      "box": {
+        "left": 316.4,
+        "top": -479.0,
+        "width": 268.4,
+        "height": 10.1
+      }
+    },
+    "radio23": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 251.8,
+        "top": -544.9,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "radio24": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 439.3,
+        "top": -545.2,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "radio25": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 369.5,
+        "top": -545.5,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "radio26": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 197.5,
+        "top": -545.9,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "comments34e": {
+      "type": "text",
+      "label": "PREVIOUS EDITIONS ARE OBSOLETE",
+      "page": 3,
+      "box": {
+        "left": 24.4,
+        "top": -588.0,
+        "width": 278.7,
+        "height": 47.0
+      },
+      "multiline": true
+    },
+    "comments34f": {
+      "type": "text",
+      "label": "Adobe LiveCycle Designer 9",
+      "page": 3,
+      "box": {
+        "left": 313.2,
+        "top": -588.0,
+        "width": 278.7,
+        "height": 46.9
+      },
+      "multiline": true
+    },
+    "rank34f": {
+      "type": "text",
+      "label": "sensitive when filled in",
+      "page": 3,
+      "box": {
+        "left": 318.0,
+        "top": -641.0,
+        "width": 67.8,
+        "height": 13.0
+      }
+    },
+    "rank34e": {
+      "type": "text",
+      "label": "PREVIOUS EDITIONS",
+      "page": 3,
+      "box": {
+        "left": 29.3,
+        "top": -641.1,
+        "width": 67.8,
+        "height": 13.0
+      }
+    },
+    "name34f": {
+      "type": "text",
+      "label": "Adobe LiveCycle Designer",
+      "page": 3,
+      "box": {
+        "left": 400.5,
+        "top": -641.2,
+        "width": 186.3,
+        "height": 13.0
+      }
+    },
+    "name34e": {
+      "type": "text",
+      "label": "ARE OBSOLETE",
+      "page": 3,
+      "box": {
+        "left": 111.8,
+        "top": -641.4,
+        "width": 186.3,
+        "height": 13.0
+      }
+    },
+    "signatureSACO": {
+      "type": "text",
+      "label": "when filled in",
+      "page": 3,
+      "box": {
+        "left": 331.2,
+        "top": -667.5,
+        "width": 150.4,
+        "height": 14.5
+      }
+    },
+    "signatureS1": {
+      "type": "text",
+      "label": "PREVIOUS EDITIONS ARE OBSOLETE",
+      "page": 3,
+      "box": {
+        "left": 42.5,
+        "top": -667.6,
+        "width": 150.4,
+        "height": 14.5
+      }
+    },
+    "dateS1": {
+      "type": "text",
+      "label": "Privacy",
+      "page": 3,
+      "box": {
+        "left": 202.7,
+        "top": -669.0,
+        "width": 77.6,
+        "height": 11.8
+      }
+    },
+    "dateSACO": {
+      "type": "text",
+      "label": "Adobe LiveCycle Designer",
+      "page": 3,
+      "box": {
+        "left": 491.4,
+        "top": -669.0,
+        "width": 77.6,
+        "height": 11.6
+      }
+    },
+    "rank3": {
+      "type": "choice",
+      "label": "PREVIOUS EDITIONS ARE",
+      "page": 4,
+      "box": {
+        "left": 21.0,
+        "top": -29.1,
+        "width": 94.6,
+        "height": 15.2
+      },
+      "options": [
+        "E2 / PFC",
+        "E3 / LCpl",
+        "E4 / Cpl",
+        "E5 / Sgt",
+        "E6 / SSgt",
+        "E7 / GySgt",
+        "E8 / MSgt",
+        "E8 / 1stSgt",
+        "E9 / MGySgt",
+        "E9 / SgtMaj"
+      ]
+    },
+    "name3": {
+      "type": "text",
+      "label": "OBSOLETE Adobe",
+      "page": 4,
+      "box": {
+        "left": 122.8,
+        "top": -30.8,
+        "width": 382.9,
+        "height": 11.1
+      }
+    },
+    "edipi3": {
+      "type": "text",
+      "label": "Adobe LiveCycle Designer",
+      "page": 4,
+      "box": {
+        "left": 515.9,
+        "top": -31.0,
+        "width": 72.3,
+        "height": 10.7
+      }
+    },
+    "ncoic": {
+      "type": "choice",
+      "label": "PREVIOUS EDITIONS ARE OBSOLETE",
+      "page": 4,
+      "box": {
+        "left": 49.5,
+        "top": -68.2,
+        "width": 101.4,
+        "height": 15.3
+      },
+      "options": [
+        "NCOIC",
+        "SNCOIC"
+      ]
+    },
+    "radio27": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 176.4,
+        "top": -69.9,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "radio28": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 303.8,
+        "top": -70.2,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "comments35a": {
+      "type": "text",
+      "label": "PREVIOUS EDITIONS ARE OBSOLETE Adobe LiveCycle Designer 9",
+      "page": 4,
+      "box": {
+        "left": 24.9,
+        "top": -103.3,
+        "width": 566.1,
+        "height": 72.3
+      },
+      "multiline": true
+    },
+    "rank35a": {
+      "type": "text",
+      "label": "PREVIOUS EDITIONS ARE",
+      "page": 4,
+      "box": {
+        "left": 44.5,
+        "top": -187.6,
+        "width": 67.8,
+        "height": 19.8
+      }
+    },
+    "name35a": {
+      "type": "text",
+      "label": "OBSOLETE",
+      "page": 4,
+      "box": {
+        "left": 127.0,
+        "top": -187.9,
+        "width": 186.3,
+        "height": 19.8
+      }
+    },
+    "signature35a": {
+      "type": "text",
+      "label": "when filled in",
+      "page": 4,
+      "box": {
+        "left": 327.5,
+        "top": -189.5,
+        "width": 150.4,
+        "height": 17.4
+      }
+    },
+    "date35a": {
+      "type": "text",
+      "label": "Adobe LiveCycle Designer",
+      "page": 4,
+      "box": {
+        "left": 492.1,
+        "top": -196.6,
+        "width": 77.6,
+        "height": 10.8
+      }
+    },
+    "oic": {
+      "type": "choice",
+      "label": "PREVIOUS EDITIONS ARE OBSOLETE",
+      "page": 4,
+      "box": {
+        "left": 49.8,
+        "top": -224.2,
+        "width": 88.3,
+        "height": 14.5
+      },
+      "options": [
+        "OIC"
+      ]
+    },
+    "radio29": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 176.4,
+        "top": -226.9,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "radio30": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 315.2,
+        "top": -227.1,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "comments35b": {
+      "type": "text",
+      "label": "PREVIOUS EDITIONS ARE OBSOLETE Adobe LiveCycle Designer 9",
+      "page": 4,
+      "box": {
+        "left": 25.0,
+        "top": -260.7,
+        "width": 566.1,
+        "height": 67.5
+      },
+      "multiline": true
+    },
+    "signature35b": {
+      "type": "text",
+      "label": "when filled in",
+      "page": 4,
+      "box": {
+        "left": 327.6,
+        "top": -340.6,
+        "width": 150.4,
+        "height": 23.3
+      }
+    },
+    "name35b": {
+      "type": "text",
+      "label": "OBSOLETE",
+      "page": 4,
+      "box": {
+        "left": 127.0,
+        "top": -349.6,
+        "width": 186.3,
+        "height": 14.8
+      }
+    },
+    "rank35b": {
+      "type": "text",
+      "label": "PREVIOUS EDITIONS ARE",
+      "page": 4,
+      "box": {
+        "left": 44.6,
+        "top": -353.1,
+        "width": 67.8,
+        "height": 11.1
+      }
+    },
+    "date35b": {
+      "type": "text",
+      "label": "Adobe LiveCycle Designer",
+      "page": 4,
+      "box": {
+        "left": 492.2,
+        "top": -353.9,
+        "width": 77.6,
+        "height": 10.3
+      }
+    },
+    "firstSgt": {
+      "type": "choice",
+      "label": "PREVIOUS EDITIONS ARE OBSOLETE",
+      "page": 4,
+      "box": {
+        "left": 49.6,
+        "top": -384.2,
+        "width": 170.2,
+        "height": 17.5
+      },
+      "options": [
+        "FIRST SERGEANT",
+        "MAINTENANCE CHIEF",
+        "SENIOR ENLISTED STAFF SECTION"
+      ]
+    },
+    "radio31": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 391.9,
+        "top": -388.0,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "radio32": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 242.5,
+        "top": -388.2,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "comments35c": {
+      "type": "text",
+      "label": "PREVIOUS EDITIONS ARE OBSOLETE Adobe LiveCycle Designer 9",
+      "page": 4,
+      "box": {
+        "left": 25.0,
+        "top": -418.7,
+        "width": 566.1,
+        "height": 73.0
+      },
+      "multiline": true
+    },
+    "rank35c": {
+      "type": "text",
+      "label": "PREVIOUS EDITIONS ARE",
+      "page": 4,
+      "box": {
+        "left": 44.6,
+        "top": -502.4,
+        "width": 67.8,
+        "height": 20.6
+      }
+    },
+    "signature35c": {
+      "type": "text",
+      "label": "when filled in",
+      "page": 4,
+      "box": {
+        "left": 327.6,
+        "top": -502.6,
+        "width": 150.4,
+        "height": 19.9
+      }
+    },
+    "name35c": {
+      "type": "text",
+      "label": "OBSOLETE",
+      "page": 4,
+      "box": {
+        "left": 127.0,
+        "top": -502.7,
+        "width": 186.3,
+        "height": 20.6
+      }
+    },
+    "date35c": {
+      "type": "text",
+      "label": "Adobe LiveCycle Designer",
+      "page": 4,
+      "box": {
+        "left": 492.2,
+        "top": -511.6,
+        "width": 77.6,
+        "height": 11.4
+      }
+    },
+    "cc": {
+      "type": "choice",
+      "label": "PREVIOUS EDITIONS ARE OBSOLETE",
+      "page": 4,
+      "box": {
+        "left": 48.4,
+        "top": -544.8,
+        "width": 134.0,
+        "height": 17.5
+      },
+      "options": [
+        "COMPANY COMMANDER",
+        "MAINTENANCE OFFICER",
+        "STAFF SECTION OIC"
+      ]
+    },
+    "radio33": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 242.5,
+        "top": -546.4,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "radio34": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 396.5,
+        "top": -546.6,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "comments35d": {
+      "type": "text",
+      "label": "PREVIOUS EDITIONS ARE OBSOLETE Adobe LiveCycle Designer 9",
+      "page": 4,
+      "box": {
+        "left": 25.0,
+        "top": -580.8,
+        "width": 566.1,
+        "height": 70.8
+      },
+      "multiline": true
+    },
+    "signature35d": {
+      "type": "text",
+      "label": "when filled in",
+      "page": 4,
+      "box": {
+        "left": 327.6,
+        "top": -660.1,
+        "width": 150.4,
+        "height": 22.2
+      }
+    },
+    "rank35d": {
+      "type": "text",
+      "label": "PREVIOUS EDITIONS ARE",
+      "page": 4,
+      "box": {
+        "left": 44.6,
+        "top": -664.4,
+        "width": 67.8,
+        "height": 18.4
+      }
+    },
+    "name35d": {
+      "type": "text",
+      "label": "OBSOLETE",
+      "page": 4,
+      "box": {
+        "left": 127.0,
+        "top": -664.7,
+        "width": 186.3,
+        "height": 18.4
+      }
+    },
+    "date35d": {
+      "type": "text",
+      "label": "Adobe LiveCycle Designer",
+      "page": 4,
+      "box": {
+        "left": 492.2,
+        "top": -669.1,
+        "width": 77.6,
+        "height": 13.7
+      }
+    },
+    "edipi4": {
+      "type": "text",
+      "label": "Adobe LiveCycle Designer 9",
+      "page": 5,
+      "box": {
+        "left": 513.1,
+        "top": -20.5,
+        "width": 80.7,
+        "height": 16.4
+      }
+    },
+    "rank4": {
+      "type": "choice",
+      "label": "PREVIOUS EDITIONS ARE",
+      "page": 5,
+      "box": {
+        "left": 22.3,
+        "top": -21.7,
+        "width": 94.6,
+        "height": 15.2
+      },
+      "options": [
+        "E2 / PFC",
+        "E3 / LCpl",
+        "E4 / Cpl",
+        "E5 / Sgt",
+        "E6 / SSgt",
+        "E7 / GySgt",
+        "E8 / MSgt",
+        "E8 / 1stSgt",
+        "E9 / MGySgt",
+        "E9 / SgtMaj"
+      ]
+    },
+    "name4": {
+      "type": "text",
+      "label": "OBSOLETE Adobe",
+      "page": 5,
+      "box": {
+        "left": 125.6,
+        "top": -23.3,
+        "width": 380.1,
+        "height": 11.1
+      }
+    },
+    "sgtMj": {
+      "type": "choice",
+      "label": "PREVIOUS EDITIONS ARE OBSOLETE",
+      "page": 5,
+      "box": {
+        "left": 49.9,
+        "top": -40.6,
+        "width": 143.0,
+        "height": 17.5
+      },
+      "options": [
+        "SERGEANT MAJOR",
+        "SENIOR ENLISTED ADVISOR",
+        "FIRST SERGEANT"
+      ]
+    },
+    "radio35": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 210.4,
+        "top": -60.5,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "radio36": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 265.3,
+        "top": -60.8,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "comments35e": {
+      "type": "text",
+      "label": "PREVIOUS EDITIONS ARE OBSOLETE Adobe LiveCycle Designer 9",
+      "page": 5,
+      "box": {
+        "left": 26.3,
+        "top": -91.1,
+        "width": 564.2,
+        "height": 219.6
+      },
+      "multiline": true
+    },
+    "signature35e": {
+      "type": "text",
+      "label": "when filled in",
+      "page": 5,
+      "box": {
+        "left": 328.9,
+        "top": -322.6,
+        "width": 150.4,
+        "height": 17.7
+      }
+    },
+    "name35e": {
+      "type": "text",
+      "label": "OBSOLETE",
+      "page": 5,
+      "box": {
+        "left": 128.3,
+        "top": -327.1,
+        "width": 186.3,
+        "height": 13.7
+      }
+    },
+    "rank35e": {
+      "type": "text",
+      "label": "PREVIOUS EDITIONS ARE",
+      "page": 5,
+      "box": {
+        "left": 45.8,
+        "top": -329.5,
+        "width": 67.8,
+        "height": 11.1
+      }
+    },
+    "date35e": {
+      "type": "text",
+      "label": "Adobe LiveCycle Designer",
+      "page": 5,
+      "box": {
+        "left": 493.4,
+        "top": -330.3,
+        "width": 77.6,
+        "height": 10.3
+      }
+    },
+    "execOff": {
+      "type": "choice",
+      "label": "PREVIOUS EDITIONS ARE OBSOLETE",
+      "page": 5,
+      "box": {
+        "left": 48.4,
+        "top": -368.3,
+        "width": 111.3,
+        "height": 17.5
+      },
+      "options": [
+        "EXECUTIVE OFFICER",
+        "CHIEF OF STAFF",
+        "NOT APPLICABLE"
+      ]
+    },
+    "radio37": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 198.4,
+        "top": -390.5,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "radio38": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 5,
+      "box": {
+        "left": 264.3,
+        "top": -391.5,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "comments35f": {
+      "type": "text",
+      "label": "PREVIOUS EDITIONS ARE OBSOLETE Adobe LiveCycle Designer 9",
+      "page": 5,
+      "box": {
+        "left": 26.4,
+        "top": -420.7,
+        "width": 566.1,
+        "height": 232.1
+      },
+      "multiline": true
+    },
+    "signature35f": {
+      "type": "text",
+      "label": "when filled in",
+      "page": 5,
+      "box": {
+        "left": 329.0,
+        "top": -664.6,
+        "width": 150.4,
+        "height": 20.0
+      }
+    },
+    "name35f": {
+      "type": "text",
+      "label": "OBSOLETE",
+      "page": 5,
+      "box": {
+        "left": 128.4,
+        "top": -669.1,
+        "width": 186.3,
+        "height": 16.1
+      }
+    },
+    "rank35f": {
+      "type": "text",
+      "label": "PREVIOUS EDITIONS ARE",
+      "page": 5,
+      "box": {
+        "left": 46.0,
+        "top": -672.7,
+        "width": 67.8,
+        "height": 12.3
+      }
+    },
+    "date3f": {
+      "type": "text",
+      "label": "Adobe LiveCycle Designer",
+      "page": 5,
+      "box": {
+        "left": 493.5,
+        "top": -673.6,
+        "width": 77.6,
+        "height": 11.4
+      }
+    },
+    "rank5": {
+      "type": "choice",
+      "label": "PREVIOUS EDITIONS ARE",
+      "page": 6,
+      "box": {
+        "left": 21.7,
+        "top": -29.2,
+        "width": 94.6,
+        "height": 15.2
+      },
+      "options": [
+        "E2 / PFC",
+        "E3 / LCpl",
+        "E4 / Cpl",
+        "E5 / Sgt",
+        "E6 / SSgt",
+        "E7 / GySgt",
+        "E8 / MSgt",
+        "E8 / 1stSgt",
+        "E9 / MGySgt",
+        "E9 / SgtMaj"
+      ]
+    },
+    "edipi5": {
+      "type": "text",
+      "label": "Adobe LiveCycle Designer 9",
+      "page": 6,
+      "box": {
+        "left": 513.1,
+        "top": -29.5,
+        "width": 78.9,
+        "height": 16.4
+      }
+    },
+    "name5": {
+      "type": "text",
+      "label": "OBSOLETE Adobe",
+      "page": 6,
+      "box": {
+        "left": 125.1,
+        "top": -30.8,
+        "width": 380.7,
+        "height": 11.1
+      }
+    },
+    "radio39": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 6,
+      "box": {
+        "left": 229.9,
+        "top": -95.8,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "radio40": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 6,
+      "box": {
+        "left": 311.4,
+        "top": -96.1,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "radio41": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 6,
+      "box": {
+        "left": 229.9,
+        "top": -119.2,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "radio42": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 6,
+      "box": {
+        "left": 311.4,
+        "top": -119.5,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "radio43": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 6,
+      "box": {
+        "left": 153.7,
+        "top": -291.5,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "radio44": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 6,
+      "box": {
+        "left": 153.7,
+        "top": -310.5,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "radio45": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 6,
+      "box": {
+        "left": 153.7,
+        "top": -329.5,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "radio46": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 6,
+      "box": {
+        "left": 153.7,
+        "top": -348.6,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "radio"
+    },
+    "cmtstoMMEA": {
+      "type": "text",
+      "label": "PREVIOUS EDITIONS ARE OBSOLETE Adobe LiveCycle Designer 9",
+      "page": 6,
+      "box": {
+        "left": 26.5,
+        "top": -383.4,
+        "width": 562.9,
+        "height": 260.4
+      },
+      "multiline": true
+    },
+    "signature35g": {
+      "type": "text",
+      "label": "when filled in",
+      "page": 6,
+      "box": {
+        "left": 328.6,
+        "top": -655.6,
+        "width": 150.4,
+        "height": 17.4
+      }
+    },
+    "name35g": {
+      "type": "text",
+      "label": "OBSOLETE",
+      "page": 6,
+      "box": {
+        "left": 128.0,
+        "top": -660.1,
+        "width": 186.3,
+        "height": 13.5
+      }
+    },
+    "date35g": {
+      "type": "text",
+      "label": "Adobe LiveCycle Designer",
+      "page": 6,
+      "box": {
+        "left": 493.1,
+        "top": -661.7,
+        "width": 77.6,
+        "height": 11.6
+      }
+    },
+    "rank35g": {
+      "type": "text",
+      "label": "PREVIOUS EDITIONS ARE",
+      "page": 6,
+      "box": {
+        "left": 45.5,
+        "top": -662.2,
+        "width": 67.8,
+        "height": 11.1
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 2,
+      "count": 3,
+      "rowStride": 19.95,
+      "editor": "grid",
+      "columns": {
+        "tier": {
+          "type": "choice",
+          "label": "EAB/SSB",
+          "page": 2,
+          "box": {
+            "left": 365.3,
+            "top": 351.9,
+            "width": 64.4,
+            "height": 15.3
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 2,
+      "count": 3,
+      "rowStride": 19.85,
+      "editor": "grid",
+      "columns": {
+        "article": {
+          "type": "text",
+          "label": "Articles(s)",
+          "page": 2,
+          "box": {
+            "left": 321.0,
+            "top": 438.7,
+            "width": 165.4,
+            "height": 13.9
+          }
+        },
+        "date27a": {
+          "type": "text",
+          "label": "Date",
+          "page": 2,
+          "box": {
+            "left": 520.5,
+            "top": 437.0,
+            "width": 69.2,
+            "height": 14.6
+          }
+        }
+      }
+    }
+  }
+}

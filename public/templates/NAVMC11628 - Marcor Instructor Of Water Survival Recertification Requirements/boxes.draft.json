@@ -1,0 +1,260 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "nameLast": {
+        "left": 128.1,
+        "top": 620.5,
+        "width": 175.8,
+        "height": 13.1,
+        "type": "text",
+        "description": "nameLast",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameFirst": {
+        "left": 312.6,
+        "top": 620.5,
+        "width": 142.1,
+        "height": 13.1,
+        "type": "text",
+        "description": "nameFirst",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameMI": {
+        "left": 462.8,
+        "top": 620.5,
+        "width": 29.8,
+        "height": 13.1,
+        "type": "text",
+        "description": "nameMI",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mos": {
+        "left": 128.1,
+        "top": 581.2,
+        "width": 191.6,
+        "height": 13.1,
+        "type": "text",
+        "description": "MOS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "phoneNumber": {
+        "left": 328.8,
+        "top": 581.1,
+        "width": 90.9,
+        "height": 12.7,
+        "type": "text",
+        "description": "PhoneNumber",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date": {
+        "left": 427.6,
+        "top": 581.1,
+        "width": 65.4,
+        "height": 12.6,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "swim500m": {
+        "left": 104.9,
+        "top": 489.3,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "swim500m",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "swinUnderWater": {
+        "left": 104.7,
+        "top": 445.1,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "swinUnderWater",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "lifeSavingStroke": {
+        "left": 104.7,
+        "top": 407.3,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "lifeSavingStroke",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rubberDiveBrick": {
+        "left": 104.8,
+        "top": 364.7,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "rubberDiveBrick",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "performAteachback": {
+        "left": 104.8,
+        "top": 302.3,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "performAteachback",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cPRAEDPractical": {
+        "left": 104.8,
+        "top": 278.3,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "CPRAEDPractical",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cPRAEDWrittenExam": {
+        "left": 104.5,
+        "top": 253.1,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "CPRAEDWrittenExam",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "lGWrittenExam": {
+        "left": 104.8,
+        "top": 227.0,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "LGWrittenExam",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fIRSTAidWrittenExam": {
+        "left": 104.7,
+        "top": 201.5,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "FIRSTAidWrittenExam",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "lGRescuesR06": {
+        "left": 104.5,
+        "top": 177.0,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "LGRescuesR06",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "spinalManagement": {
+        "left": 104.8,
+        "top": 151.5,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "SpinalManagement",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "oxygenAdmin": {
+        "left": 104.8,
+        "top": 126.8,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "OxygenAdmin",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "copies": {
+        "left": 104.8,
+        "top": 104.7,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "Copies",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mcitws": {
+        "left": 64.8,
+        "top": 78.2,
+        "width": 256.5,
+        "height": 13.1,
+        "type": "text",
+        "description": "MCITWS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mcitwsSig": {
+        "left": 330.7,
+        "top": 78.0,
+        "width": 153.3,
+        "height": 12.1,
+        "type": "signature",
+        "description": "mcitwsSig",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mcitwsDate": {
+        "left": 493.2,
+        "top": 77.8,
+        "width": 55.3,
+        "height": 11.5,
+        "type": "text",
+        "description": "mcitwsDate",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

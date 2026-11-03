@@ -1,0 +1,128 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "dateAsOf": {
+        "left": 39.7,
+        "top": 729.8,
+        "width": 256.2,
+        "height": 35.0,
+        "type": "text",
+        "description": "STATUS AS OF (DATE)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "reportedBy": {
+        "left": 302.9,
+        "top": 729.8,
+        "width": 271.8,
+        "height": 34.8,
+        "type": "text",
+        "description": "REPORTED BY (ACTION OP/BUREAU/COMMAND)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "actionOfficer": {
+        "left": 39.8,
+        "top": 680.7,
+        "width": 256.4,
+        "height": 34.8,
+        "type": "text",
+        "description": "ACTION OFFICER (NAME AND EXTENSION)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "coorOfficer": {
+        "left": 302.7,
+        "top": 680.7,
+        "width": 272.6,
+        "height": 34.8,
+        "type": "text",
+        "description": "COORDINATING ACTION (ACTION OP/BUREAU/COMMAND)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "iDofReport": {
+        "left": 39.8,
+        "top": 632.0,
+        "width": 455.6,
+        "height": 34.3,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateOfReport": {
+        "left": 500.6,
+        "top": 632.0,
+        "width": 73.9,
+        "height": 33.9,
+        "type": "text",
+        "description": "AND DATE.)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "iDofAction": {
+        "left": 38.1,
+        "top": 575.8,
+        "width": 535.0,
+        "height": 140.7,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recommendation": {
+        "left": 38.1,
+        "top": 415.0,
+        "width": 535.5,
+        "height": 85.9,
+        "type": "text",
+        "description": "RECOMMENDATION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "currentImplem": {
+        "left": 38.1,
+        "top": 309.5,
+        "width": 535.5,
+        "height": 137.3,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nextStep": {
+        "left": 38.1,
+        "top": 153.2,
+        "width": 535.5,
+        "height": 112.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

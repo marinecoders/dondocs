@@ -1,0 +1,54 @@
+{
+  "id": "navmchq734",
+  "label": "NAVMC HQ 734 - Navy-Marine Corps Scholarship Certificate Nrotc Program (format)",
+  "directory": "NAVMCHQ734 - Navy-Marine Corps Scholarship Certificate Nrotc Program (format)",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "printingNote",
+        "0",
+        "year"
+      ]
+    }
+  ],
+  "fields": {
+    "printingNote": {
+      "type": "text",
+      "label": "Printing Note",
+      "page": 1,
+      "box": {
+        "left": 23.7,
+        "top": 587.3,
+        "width": 160.8,
+        "height": 56.6
+      },
+      "multiline": true
+    },
+    "0": {
+      "type": "text",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 219.8,
+        "top": 315.0,
+        "width": 351.5,
+        "height": 16.2
+      }
+    },
+    "year": {
+      "type": "text",
+      "label": "Year",
+      "page": 1,
+      "box": {
+        "left": 487.5,
+        "top": 224.3,
+        "width": 63.2,
+        "height": 15.7
+      }
+    }
+  }
+}

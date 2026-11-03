@@ -1,0 +1,1349 @@
+{
+  "id": "opnav479023a",
+  "label": "OPNAV4790-23A - RepairRework Record",
+  "directory": "OPNAV4790-23A - RepairRework Record",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "aCmEPn",
+        "tyMdSr",
+        "bNsER",
+        "datInd",
+        "dteComp",
+        "desWrk",
+        "refer",
+        "acty",
+        "sig",
+        "datIndA",
+        "dteCompA",
+        "desWrkA",
+        "referA",
+        "actyA",
+        "sigA",
+        "datIndB",
+        "dteCompB",
+        "desWrkB",
+        "referB",
+        "actyB",
+        "sigB",
+        "datIndC",
+        "dteCompC",
+        "desWrkC",
+        "referC",
+        "actyC",
+        "sigC",
+        "datIndD",
+        "dteCompD",
+        "desWrkD",
+        "referD",
+        "actyD",
+        "sigD",
+        "datIndE",
+        "dteCompE",
+        "desWrkE",
+        "referE",
+        "actyE",
+        "sigE",
+        "datIndF",
+        "dteCompF",
+        "desWrkF",
+        "referF",
+        "actyF",
+        "sigF",
+        "datIndG",
+        "dteCompG",
+        "desWrkG",
+        "referG",
+        "actyG",
+        "sigG",
+        "datIndH",
+        "dteCompH",
+        "desWrkH",
+        "referH",
+        "actyH",
+        "sigH",
+        "datIndI",
+        "dteCompI",
+        "desWrkI",
+        "referI",
+        "actyI",
+        "sigI",
+        "datIndJ",
+        "dteCompJ",
+        "desWrkJ",
+        "referJ",
+        "actyJ",
+        "sigJ",
+        "datIndK",
+        "dteCompK",
+        "desWrkK",
+        "referK",
+        "actyK",
+        "sigK",
+        "datIndL",
+        "dteCompL",
+        "desWrkL",
+        "referL",
+        "actyL",
+        "sigL",
+        "datIndM",
+        "dteCompM",
+        "desWrkM",
+        "referM",
+        "actyM",
+        "sigM",
+        "desWrkN",
+        "referN",
+        "actyN",
+        "sigN",
+        "datIndN",
+        "dteCompN",
+        "datIndO",
+        "dteCompO",
+        "desWrkO",
+        "referO",
+        "actyO",
+        "sigO",
+        "datIndP",
+        "dteCompP",
+        "desWrkP",
+        "referP",
+        "actyP",
+        "sigP",
+        "datIndQ",
+        "dteCompq",
+        "desWrkQ",
+        "referQ",
+        "actyQ",
+        "sigQ"
+      ]
+    }
+  ],
+  "fields": {
+    "aCmEPn": {
+      "type": "text",
+      "label": "1. AIRCRAFT MODEL OR EQUIPMENT NAME",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 531.6,
+        "width": 234.3,
+        "height": 20.9
+      }
+    },
+    "tyMdSr": {
+      "type": "text",
+      "label": "2. TYPE/MODEL SERIES",
+      "page": 1,
+      "box": {
+        "left": 278.8,
+        "top": 531.6,
+        "width": 234.3,
+        "height": 20.9
+      }
+    },
+    "bNsER": {
+      "type": "text",
+      "label": "3. BUNO OR SERIAL NUMBER",
+      "page": 1,
+      "box": {
+        "left": 518.8,
+        "top": 531.6,
+        "width": 234.3,
+        "height": 20.9
+      }
+    },
+    "datInd": {
+      "type": "text",
+      "label": "INDUCTED",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 483.9,
+        "width": 64.0,
+        "height": 20.2
+      }
+    },
+    "dteComp": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 109.4,
+        "top": 483.9,
+        "width": 64.0,
+        "height": 20.2
+      }
+    },
+    "desWrk": {
+      "type": "text",
+      "label": "6. DESCRIPTION OF WORK",
+      "page": 1,
+      "box": {
+        "left": 182.2,
+        "top": 483.9,
+        "width": 161.9,
+        "height": 20.2
+      }
+    },
+    "refer": {
+      "type": "text",
+      "label": "7. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 351.1,
+        "top": 483.9,
+        "width": 171.4,
+        "height": 20.3
+      }
+    },
+    "acty": {
+      "type": "text",
+      "label": "8. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 527.9,
+        "top": 483.9,
+        "width": 126.4,
+        "height": 20.3
+      }
+    },
+    "sig": {
+      "type": "text",
+      "label": "9. Signature",
+      "page": 1,
+      "box": {
+        "left": 661.7,
+        "top": 483.9,
+        "width": 90.2,
+        "height": 20.3
+      }
+    },
+    "datIndA": {
+      "type": "text",
+      "label": "INDUCTED",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 458.0,
+        "width": 64.0,
+        "height": 19.3
+      }
+    },
+    "dteCompA": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 109.4,
+        "top": 458.0,
+        "width": 64.0,
+        "height": 19.3
+      }
+    },
+    "desWrkA": {
+      "type": "text",
+      "label": "6. DESCRIPTION OF WORK",
+      "page": 1,
+      "box": {
+        "left": 182.2,
+        "top": 458.0,
+        "width": 161.9,
+        "height": 19.3
+      }
+    },
+    "referA": {
+      "type": "text",
+      "label": "7. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 351.1,
+        "top": 458.0,
+        "width": 171.4,
+        "height": 19.3
+      }
+    },
+    "actyA": {
+      "type": "text",
+      "label": "8. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 527.9,
+        "top": 458.0,
+        "width": 126.4,
+        "height": 19.3
+      }
+    },
+    "sigA": {
+      "type": "text",
+      "label": "9. Signature",
+      "page": 1,
+      "box": {
+        "left": 661.7,
+        "top": 458.0,
+        "width": 90.2,
+        "height": 19.3
+      }
+    },
+    "datIndB": {
+      "type": "text",
+      "label": "INDUCTED",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 433.1,
+        "width": 64.0,
+        "height": 19.3
+      }
+    },
+    "dteCompB": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 109.4,
+        "top": 433.1,
+        "width": 64.0,
+        "height": 19.3
+      }
+    },
+    "desWrkB": {
+      "type": "text",
+      "label": "6. DESCRIPTION OF WORK",
+      "page": 1,
+      "box": {
+        "left": 182.2,
+        "top": 433.1,
+        "width": 161.9,
+        "height": 19.3
+      }
+    },
+    "referB": {
+      "type": "text",
+      "label": "7. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 351.1,
+        "top": 433.1,
+        "width": 171.4,
+        "height": 19.3
+      }
+    },
+    "actyB": {
+      "type": "text",
+      "label": "8. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 527.9,
+        "top": 433.1,
+        "width": 126.4,
+        "height": 19.3
+      }
+    },
+    "sigB": {
+      "type": "text",
+      "label": "9. Signature",
+      "page": 1,
+      "box": {
+        "left": 661.7,
+        "top": 433.1,
+        "width": 90.2,
+        "height": 19.3
+      }
+    },
+    "datIndC": {
+      "type": "text",
+      "label": "INDUCTED",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 408.1,
+        "width": 64.0,
+        "height": 19.3
+      }
+    },
+    "dteCompC": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 109.4,
+        "top": 408.1,
+        "width": 64.0,
+        "height": 19.3
+      }
+    },
+    "desWrkC": {
+      "type": "text",
+      "label": "6. DESCRIPTION OF WORK",
+      "page": 1,
+      "box": {
+        "left": 182.2,
+        "top": 408.1,
+        "width": 161.9,
+        "height": 19.3
+      }
+    },
+    "referC": {
+      "type": "text",
+      "label": "7. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 351.1,
+        "top": 408.1,
+        "width": 171.4,
+        "height": 19.3
+      }
+    },
+    "actyC": {
+      "type": "text",
+      "label": "8. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 527.9,
+        "top": 408.1,
+        "width": 126.4,
+        "height": 19.3
+      }
+    },
+    "sigC": {
+      "type": "text",
+      "label": "9. Signature",
+      "page": 1,
+      "box": {
+        "left": 661.7,
+        "top": 408.1,
+        "width": 90.2,
+        "height": 19.3
+      }
+    },
+    "datIndD": {
+      "type": "text",
+      "label": "INDUCTED",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 383.1,
+        "width": 64.0,
+        "height": 19.3
+      }
+    },
+    "dteCompD": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 109.4,
+        "top": 383.1,
+        "width": 64.0,
+        "height": 19.3
+      }
+    },
+    "desWrkD": {
+      "type": "text",
+      "label": "6. DESCRIPTION OF WORK",
+      "page": 1,
+      "box": {
+        "left": 182.2,
+        "top": 383.1,
+        "width": 161.9,
+        "height": 19.3
+      }
+    },
+    "referD": {
+      "type": "text",
+      "label": "7. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 351.1,
+        "top": 383.1,
+        "width": 171.4,
+        "height": 19.3
+      }
+    },
+    "actyD": {
+      "type": "text",
+      "label": "8. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 527.9,
+        "top": 383.1,
+        "width": 126.4,
+        "height": 19.3
+      }
+    },
+    "sigD": {
+      "type": "text",
+      "label": "9. Signature",
+      "page": 1,
+      "box": {
+        "left": 661.7,
+        "top": 383.1,
+        "width": 90.2,
+        "height": 19.3
+      }
+    },
+    "datIndE": {
+      "type": "text",
+      "label": "INDUCTED",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 358.2,
+        "width": 64.0,
+        "height": 19.3
+      }
+    },
+    "dteCompE": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 109.4,
+        "top": 358.2,
+        "width": 64.0,
+        "height": 19.3
+      }
+    },
+    "desWrkE": {
+      "type": "text",
+      "label": "6. DESCRIPTION OF WORK",
+      "page": 1,
+      "box": {
+        "left": 182.2,
+        "top": 358.2,
+        "width": 161.9,
+        "height": 19.3
+      }
+    },
+    "referE": {
+      "type": "text",
+      "label": "7. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 351.1,
+        "top": 358.2,
+        "width": 171.4,
+        "height": 19.3
+      }
+    },
+    "actyE": {
+      "type": "text",
+      "label": "8. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 527.9,
+        "top": 358.2,
+        "width": 126.4,
+        "height": 19.3
+      }
+    },
+    "sigE": {
+      "type": "text",
+      "label": "9. Signature",
+      "page": 1,
+      "box": {
+        "left": 661.7,
+        "top": 358.2,
+        "width": 90.2,
+        "height": 19.3
+      }
+    },
+    "datIndF": {
+      "type": "text",
+      "label": "INDUCTED",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 333.2,
+        "width": 64.0,
+        "height": 19.3
+      }
+    },
+    "dteCompF": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 109.4,
+        "top": 333.2,
+        "width": 64.0,
+        "height": 19.3
+      }
+    },
+    "desWrkF": {
+      "type": "text",
+      "label": "6. DESCRIPTION OF WORK",
+      "page": 1,
+      "box": {
+        "left": 182.2,
+        "top": 333.2,
+        "width": 161.9,
+        "height": 19.3
+      }
+    },
+    "referF": {
+      "type": "text",
+      "label": "7. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 351.1,
+        "top": 333.2,
+        "width": 171.4,
+        "height": 19.3
+      }
+    },
+    "actyF": {
+      "type": "text",
+      "label": "8. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 527.9,
+        "top": 333.2,
+        "width": 126.4,
+        "height": 19.3
+      }
+    },
+    "sigF": {
+      "type": "text",
+      "label": "9. Signature",
+      "page": 1,
+      "box": {
+        "left": 661.7,
+        "top": 333.2,
+        "width": 90.2,
+        "height": 19.3
+      }
+    },
+    "datIndG": {
+      "type": "text",
+      "label": "INDUCTED",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 308.3,
+        "width": 64.0,
+        "height": 19.3
+      }
+    },
+    "dteCompG": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 109.4,
+        "top": 308.3,
+        "width": 64.0,
+        "height": 19.3
+      }
+    },
+    "desWrkG": {
+      "type": "text",
+      "label": "6. DESCRIPTION OF WORK",
+      "page": 1,
+      "box": {
+        "left": 182.2,
+        "top": 308.3,
+        "width": 161.9,
+        "height": 19.3
+      }
+    },
+    "referG": {
+      "type": "text",
+      "label": "7. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 351.1,
+        "top": 308.3,
+        "width": 171.4,
+        "height": 19.3
+      }
+    },
+    "actyG": {
+      "type": "text",
+      "label": "8. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 527.9,
+        "top": 308.3,
+        "width": 126.4,
+        "height": 19.3
+      }
+    },
+    "sigG": {
+      "type": "text",
+      "label": "9. Signature",
+      "page": 1,
+      "box": {
+        "left": 661.7,
+        "top": 308.3,
+        "width": 90.2,
+        "height": 19.3
+      }
+    },
+    "datIndH": {
+      "type": "text",
+      "label": "INDUCTED",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 283.3,
+        "width": 64.0,
+        "height": 19.3
+      }
+    },
+    "dteCompH": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 109.4,
+        "top": 283.3,
+        "width": 64.0,
+        "height": 19.3
+      }
+    },
+    "desWrkH": {
+      "type": "text",
+      "label": "6. DESCRIPTION OF WORK",
+      "page": 1,
+      "box": {
+        "left": 182.2,
+        "top": 283.3,
+        "width": 161.9,
+        "height": 19.3
+      }
+    },
+    "referH": {
+      "type": "text",
+      "label": "7. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 351.1,
+        "top": 283.3,
+        "width": 171.4,
+        "height": 19.3
+      }
+    },
+    "actyH": {
+      "type": "text",
+      "label": "8. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 527.9,
+        "top": 283.3,
+        "width": 126.4,
+        "height": 19.3
+      }
+    },
+    "sigH": {
+      "type": "text",
+      "label": "9. Signature",
+      "page": 1,
+      "box": {
+        "left": 661.7,
+        "top": 283.3,
+        "width": 90.2,
+        "height": 19.3
+      }
+    },
+    "datIndI": {
+      "type": "text",
+      "label": "INDUCTED",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 258.3,
+        "width": 64.0,
+        "height": 19.3
+      }
+    },
+    "dteCompI": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 109.4,
+        "top": 258.3,
+        "width": 64.0,
+        "height": 19.3
+      }
+    },
+    "desWrkI": {
+      "type": "text",
+      "label": "6. DESCRIPTION OF WORK",
+      "page": 1,
+      "box": {
+        "left": 182.2,
+        "top": 258.3,
+        "width": 161.9,
+        "height": 19.3
+      }
+    },
+    "referI": {
+      "type": "text",
+      "label": "7. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 351.1,
+        "top": 258.3,
+        "width": 171.4,
+        "height": 19.3
+      }
+    },
+    "actyI": {
+      "type": "text",
+      "label": "8. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 527.9,
+        "top": 258.3,
+        "width": 126.4,
+        "height": 19.3
+      }
+    },
+    "sigI": {
+      "type": "text",
+      "label": "9. Signature",
+      "page": 1,
+      "box": {
+        "left": 661.7,
+        "top": 258.3,
+        "width": 90.2,
+        "height": 19.3
+      }
+    },
+    "datIndJ": {
+      "type": "text",
+      "label": "INDUCTED",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 233.4,
+        "width": 64.0,
+        "height": 19.3
+      }
+    },
+    "dteCompJ": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 109.4,
+        "top": 233.4,
+        "width": 64.0,
+        "height": 19.3
+      }
+    },
+    "desWrkJ": {
+      "type": "text",
+      "label": "6. DESCRIPTION OF WORK",
+      "page": 1,
+      "box": {
+        "left": 182.2,
+        "top": 233.4,
+        "width": 161.9,
+        "height": 19.3
+      }
+    },
+    "referJ": {
+      "type": "text",
+      "label": "7. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 351.1,
+        "top": 233.4,
+        "width": 171.4,
+        "height": 19.3
+      }
+    },
+    "actyJ": {
+      "type": "text",
+      "label": "8. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 527.9,
+        "top": 233.4,
+        "width": 126.4,
+        "height": 19.3
+      }
+    },
+    "sigJ": {
+      "type": "text",
+      "label": "9. Signature",
+      "page": 1,
+      "box": {
+        "left": 661.7,
+        "top": 233.4,
+        "width": 90.2,
+        "height": 19.3
+      }
+    },
+    "datIndK": {
+      "type": "text",
+      "label": "INDUCTED",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 208.4,
+        "width": 64.0,
+        "height": 19.3
+      }
+    },
+    "dteCompK": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 109.4,
+        "top": 208.4,
+        "width": 64.0,
+        "height": 19.3
+      }
+    },
+    "desWrkK": {
+      "type": "text",
+      "label": "6. DESCRIPTION OF WORK",
+      "page": 1,
+      "box": {
+        "left": 182.2,
+        "top": 208.4,
+        "width": 161.9,
+        "height": 19.3
+      }
+    },
+    "referK": {
+      "type": "text",
+      "label": "7. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 351.1,
+        "top": 208.4,
+        "width": 171.4,
+        "height": 19.3
+      }
+    },
+    "actyK": {
+      "type": "text",
+      "label": "8. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 527.9,
+        "top": 208.4,
+        "width": 126.4,
+        "height": 19.3
+      }
+    },
+    "sigK": {
+      "type": "text",
+      "label": "9. Signature",
+      "page": 1,
+      "box": {
+        "left": 661.7,
+        "top": 208.4,
+        "width": 90.2,
+        "height": 19.3
+      }
+    },
+    "datIndL": {
+      "type": "text",
+      "label": "INDUCTED",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 183.5,
+        "width": 64.0,
+        "height": 19.3
+      }
+    },
+    "dteCompL": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 109.4,
+        "top": 183.5,
+        "width": 64.0,
+        "height": 19.3
+      }
+    },
+    "desWrkL": {
+      "type": "text",
+      "label": "6. DESCRIPTION OF WORK",
+      "page": 1,
+      "box": {
+        "left": 182.2,
+        "top": 183.5,
+        "width": 161.9,
+        "height": 19.3
+      }
+    },
+    "referL": {
+      "type": "text",
+      "label": "7. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 351.1,
+        "top": 183.5,
+        "width": 171.4,
+        "height": 19.3
+      }
+    },
+    "actyL": {
+      "type": "text",
+      "label": "8. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 527.9,
+        "top": 183.5,
+        "width": 126.4,
+        "height": 19.3
+      }
+    },
+    "sigL": {
+      "type": "text",
+      "label": "9. Signature",
+      "page": 1,
+      "box": {
+        "left": 661.7,
+        "top": 183.5,
+        "width": 90.2,
+        "height": 19.3
+      }
+    },
+    "datIndM": {
+      "type": "text",
+      "label": "INDUCTED",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 158.5,
+        "width": 64.0,
+        "height": 19.3
+      }
+    },
+    "dteCompM": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 109.4,
+        "top": 158.5,
+        "width": 64.0,
+        "height": 19.3
+      }
+    },
+    "desWrkM": {
+      "type": "text",
+      "label": "6. DESCRIPTION OF WORK",
+      "page": 1,
+      "box": {
+        "left": 182.2,
+        "top": 158.5,
+        "width": 161.9,
+        "height": 19.3
+      }
+    },
+    "referM": {
+      "type": "text",
+      "label": "7. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 351.1,
+        "top": 158.5,
+        "width": 171.4,
+        "height": 19.3
+      }
+    },
+    "actyM": {
+      "type": "text",
+      "label": "8. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 527.9,
+        "top": 158.5,
+        "width": 126.4,
+        "height": 19.3
+      }
+    },
+    "sigM": {
+      "type": "text",
+      "label": "9. Signature",
+      "page": 1,
+      "box": {
+        "left": 661.7,
+        "top": 158.5,
+        "width": 90.2,
+        "height": 19.3
+      }
+    },
+    "desWrkN": {
+      "type": "text",
+      "label": "6. DESCRIPTION OF WORK",
+      "page": 1,
+      "box": {
+        "left": 182.2,
+        "top": 133.6,
+        "width": 161.9,
+        "height": 19.3
+      }
+    },
+    "referN": {
+      "type": "text",
+      "label": "7. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 351.1,
+        "top": 133.6,
+        "width": 171.4,
+        "height": 19.3
+      }
+    },
+    "actyN": {
+      "type": "text",
+      "label": "8. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 527.9,
+        "top": 133.6,
+        "width": 126.4,
+        "height": 19.3
+      }
+    },
+    "sigN": {
+      "type": "text",
+      "label": "9. Signature",
+      "page": 1,
+      "box": {
+        "left": 661.7,
+        "top": 133.6,
+        "width": 90.2,
+        "height": 19.3
+      }
+    },
+    "datIndN": {
+      "type": "text",
+      "label": "INDUCTED",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 133.5,
+        "width": 64.0,
+        "height": 19.3
+      }
+    },
+    "dteCompN": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 109.4,
+        "top": 133.5,
+        "width": 64.0,
+        "height": 19.3
+      }
+    },
+    "datIndO": {
+      "type": "text",
+      "label": "INDUCTED",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 108.6,
+        "width": 64.0,
+        "height": 19.3
+      }
+    },
+    "dteCompO": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 109.4,
+        "top": 108.6,
+        "width": 64.0,
+        "height": 19.3
+      }
+    },
+    "desWrkO": {
+      "type": "text",
+      "label": "6. DESCRIPTION OF WORK",
+      "page": 1,
+      "box": {
+        "left": 182.2,
+        "top": 108.6,
+        "width": 161.9,
+        "height": 19.3
+      }
+    },
+    "referO": {
+      "type": "text",
+      "label": "7. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 351.1,
+        "top": 108.6,
+        "width": 171.4,
+        "height": 19.3
+      }
+    },
+    "actyO": {
+      "type": "text",
+      "label": "8. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 527.9,
+        "top": 108.6,
+        "width": 126.4,
+        "height": 19.3
+      }
+    },
+    "sigO": {
+      "type": "text",
+      "label": "9. Signature",
+      "page": 1,
+      "box": {
+        "left": 661.7,
+        "top": 108.6,
+        "width": 90.2,
+        "height": 19.3
+      }
+    },
+    "datIndP": {
+      "type": "text",
+      "label": "INDUCTED",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 83.6,
+        "width": 64.0,
+        "height": 19.3
+      }
+    },
+    "dteCompP": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 109.4,
+        "top": 83.6,
+        "width": 64.0,
+        "height": 19.3
+      }
+    },
+    "desWrkP": {
+      "type": "text",
+      "label": "6. DESCRIPTION OF WORK",
+      "page": 1,
+      "box": {
+        "left": 182.2,
+        "top": 83.6,
+        "width": 161.9,
+        "height": 19.3
+      }
+    },
+    "referP": {
+      "type": "text",
+      "label": "7. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 351.1,
+        "top": 83.6,
+        "width": 171.4,
+        "height": 19.3
+      }
+    },
+    "actyP": {
+      "type": "text",
+      "label": "8. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 527.9,
+        "top": 83.6,
+        "width": 126.4,
+        "height": 19.3
+      }
+    },
+    "sigP": {
+      "type": "text",
+      "label": "9. Signature",
+      "page": 1,
+      "box": {
+        "left": 661.7,
+        "top": 83.6,
+        "width": 90.2,
+        "height": 19.3
+      }
+    },
+    "datIndQ": {
+      "type": "text",
+      "label": "INDUCTED",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 58.6,
+        "width": 64.0,
+        "height": 19.3
+      }
+    },
+    "dteCompq": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 109.4,
+        "top": 58.6,
+        "width": 64.0,
+        "height": 19.3
+      }
+    },
+    "desWrkQ": {
+      "type": "text",
+      "label": "6. DESCRIPTION OF WORK",
+      "page": 1,
+      "box": {
+        "left": 182.2,
+        "top": 58.6,
+        "width": 161.9,
+        "height": 19.3
+      }
+    },
+    "referQ": {
+      "type": "text",
+      "label": "7. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 351.1,
+        "top": 58.6,
+        "width": 171.4,
+        "height": 19.3
+      }
+    },
+    "actyQ": {
+      "type": "text",
+      "label": "8. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 527.9,
+        "top": 58.6,
+        "width": 126.4,
+        "height": 19.3
+      }
+    },
+    "sigQ": {
+      "type": "text",
+      "label": "9. Signature",
+      "page": 1,
+      "box": {
+        "left": 661.7,
+        "top": 58.1,
+        "width": 90.2,
+        "height": 19.3
+      }
+    }
+  }
+}

@@ -1,0 +1,791 @@
+{
+  "id": "opnav310099",
+  "label": "OPNAV3100-99 - Ship Deck Log",
+  "directory": "OPNAV3100-99 - Ship Deck Log",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "uss",
+        "atpassagefrom",
+        "shiptype1",
+        "shiptype2",
+        "hullnumber1",
+        "hullnumber2",
+        "hullnumber3",
+        "handle",
+        "year",
+        "month1",
+        "month2",
+        "zone",
+        "day1",
+        "day2",
+        "class",
+        "to",
+        "positionzone1",
+        "time1",
+        "positionzone3",
+        "time3",
+        "positionzone5",
+        "time5",
+        "positionzone2",
+        "time2",
+        "positionzone4",
+        "time4",
+        "positionzone6",
+        "time6",
+        "timea",
+        "timeb",
+        "timec",
+        "timed",
+        "timee",
+        "timef",
+        "timeg",
+        "timeh",
+        "timei",
+        "timej",
+        "timek",
+        "timel",
+        "timem",
+        "timen",
+        "timeo",
+        "timep",
+        "timeq",
+        "timer",
+        "times",
+        "timet",
+        "timeu",
+        "timev",
+        "timew",
+        "timex",
+        "timey",
+        "timez",
+        "timeaa",
+        "timebb",
+        "timecc",
+        "timedd",
+        "timeee"
+      ]
+    }
+  ],
+  "fields": {
+    "uss": {
+      "type": "text",
+      "label": "Enter the USS.",
+      "page": 1,
+      "box": {
+        "left": 350.1,
+        "top": 746.2,
+        "width": 149.9,
+        "height": 10.8
+      }
+    },
+    "atpassagefrom": {
+      "type": "text",
+      "label": "Indicate position or where traveling to.",
+      "page": 1,
+      "box": {
+        "left": 414.9,
+        "top": 723.8,
+        "width": 85.1,
+        "height": 10.8
+      }
+    },
+    "shiptype1": {
+      "type": "text",
+      "label": "Enter the ship type.",
+      "page": 1,
+      "box": {
+        "left": 77.3,
+        "top": 710.7,
+        "width": 11.2,
+        "height": 16.0
+      }
+    },
+    "shiptype2": {
+      "type": "text",
+      "label": "Enter the ship type.",
+      "page": 1,
+      "box": {
+        "left": 90.9,
+        "top": 710.7,
+        "width": 10.2,
+        "height": 16.0
+      }
+    },
+    "hullnumber1": {
+      "type": "text",
+      "label": "Enter the hull number.",
+      "page": 1,
+      "box": {
+        "left": 145.2,
+        "top": 710.7,
+        "width": 10.7,
+        "height": 16.0
+      }
+    },
+    "hullnumber2": {
+      "type": "text",
+      "label": "Enter the hull number.",
+      "page": 1,
+      "box": {
+        "left": 158.2,
+        "top": 710.7,
+        "width": 10.7,
+        "height": 16.0
+      }
+    },
+    "hullnumber3": {
+      "type": "text",
+      "label": "Enter the hull number.",
+      "page": 1,
+      "box": {
+        "left": 170.7,
+        "top": 710.7,
+        "width": 10.7,
+        "height": 16.0
+      }
+    },
+    "handle": {
+      "type": "text",
+      "label": "Enter the handle.",
+      "page": 1,
+      "box": {
+        "left": 539.1,
+        "top": 710.5,
+        "width": 13.8,
+        "height": 15.8
+      }
+    },
+    "year": {
+      "type": "text",
+      "label": "Enter the year.",
+      "page": 1,
+      "box": {
+        "left": 193.2,
+        "top": 709.7,
+        "width": 15.4,
+        "height": 15.0
+      }
+    },
+    "month1": {
+      "type": "text",
+      "label": "Enter the month.",
+      "page": 1,
+      "box": {
+        "left": 209.9,
+        "top": 709.7,
+        "width": 10.7,
+        "height": 15.0
+      }
+    },
+    "month2": {
+      "type": "text",
+      "label": "Enter the month.",
+      "page": 1,
+      "box": {
+        "left": 223.4,
+        "top": 709.7,
+        "width": 10.2,
+        "height": 15.0
+      }
+    },
+    "zone": {
+      "type": "text",
+      "label": "Enter the zone.",
+      "page": 1,
+      "box": {
+        "left": 236.5,
+        "top": 709.7,
+        "width": 15.4,
+        "height": 15.0
+      }
+    },
+    "day1": {
+      "type": "text",
+      "label": "Enter the day.",
+      "page": 1,
+      "box": {
+        "left": 254.7,
+        "top": 709.7,
+        "width": 10.2,
+        "height": 15.0
+      }
+    },
+    "day2": {
+      "type": "text",
+      "label": "Enter the day.",
+      "page": 1,
+      "box": {
+        "left": 267.8,
+        "top": 709.7,
+        "width": 10.2,
+        "height": 15.0
+      }
+    },
+    "class": {
+      "type": "text",
+      "label": "Enter any other traffic control not mention.",
+      "page": 1,
+      "box": {
+        "left": 521.3,
+        "top": 709.7,
+        "width": 15.9,
+        "height": 15.0
+      }
+    },
+    "to": {
+      "type": "text",
+      "label": "Enter where traveling to.",
+      "page": 1,
+      "box": {
+        "left": 350.1,
+        "top": 703.3,
+        "width": 149.9,
+        "height": 10.8
+      }
+    },
+    "positionzone1": {
+      "type": "text",
+      "label": "Enter the latitude and zone at 0800.",
+      "page": 1,
+      "box": {
+        "left": 60.7,
+        "top": 659.4,
+        "width": 77.9,
+        "height": 10.8
+      }
+    },
+    "time1": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 156.1,
+        "top": 659.4,
+        "width": 22.5,
+        "height": 10.8
+      }
+    },
+    "positionzone3": {
+      "type": "text",
+      "label": "Enter the latitude and zone at 1200.",
+      "page": 1,
+      "box": {
+        "left": 211.9,
+        "top": 659.4,
+        "width": 77.9,
+        "height": 10.8
+      }
+    },
+    "time3": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 305.3,
+        "top": 659.4,
+        "width": 22.5,
+        "height": 10.8
+      }
+    },
+    "positionzone5": {
+      "type": "text",
+      "label": "Enter the latitude and zone at 2000.",
+      "page": 1,
+      "box": {
+        "left": 362.2,
+        "top": 659.4,
+        "width": 77.9,
+        "height": 10.8
+      }
+    },
+    "time5": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 456.1,
+        "top": 659.4,
+        "width": 22.5,
+        "height": 10.8
+      }
+    },
+    "positionzone2": {
+      "type": "text",
+      "label": "Enter the longitude and zone at 0800.",
+      "page": 1,
+      "box": {
+        "left": 60.7,
+        "top": 641.6,
+        "width": 77.9,
+        "height": 10.8
+      }
+    },
+    "time2": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 156.1,
+        "top": 641.6,
+        "width": 22.5,
+        "height": 10.8
+      }
+    },
+    "positionzone4": {
+      "type": "text",
+      "label": "Enter the longitude and zone at 1200.",
+      "page": 1,
+      "box": {
+        "left": 211.9,
+        "top": 641.6,
+        "width": 77.9,
+        "height": 10.8
+      }
+    },
+    "time4": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 305.3,
+        "top": 641.6,
+        "width": 22.5,
+        "height": 10.8
+      }
+    },
+    "positionzone6": {
+      "type": "text",
+      "label": "Enter the longitude and zone at 2000.",
+      "page": 1,
+      "box": {
+        "left": 362.2,
+        "top": 641.6,
+        "width": 77.9,
+        "height": 10.8
+      }
+    },
+    "time6": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 456.1,
+        "top": 641.6,
+        "width": 22.5,
+        "height": 10.8
+      }
+    },
+    "timea": {
+      "type": "text",
+      "label": "This is row 1 of 31. Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 42.5,
+        "top": 592.8,
+        "width": 40.9,
+        "height": 16.3
+      }
+    },
+    "timeb": {
+      "type": "text",
+      "label": "This is row 2 of 31. Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 42.5,
+        "top": 574.7,
+        "width": 40.9,
+        "height": 16.3
+      }
+    },
+    "timec": {
+      "type": "text",
+      "label": "This is row 3 of 31. Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 42.5,
+        "top": 556.6,
+        "width": 40.9,
+        "height": 16.3
+      }
+    },
+    "timed": {
+      "type": "text",
+      "label": "This is row 4 of 31. Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 42.5,
+        "top": 538.5,
+        "width": 40.9,
+        "height": 16.3
+      }
+    },
+    "timee": {
+      "type": "text",
+      "label": "This is row 5 of 31. Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 42.5,
+        "top": 520.4,
+        "width": 40.9,
+        "height": 16.3
+      }
+    },
+    "timef": {
+      "type": "text",
+      "label": "This is row 6 of 31. Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 42.5,
+        "top": 502.3,
+        "width": 40.9,
+        "height": 16.3
+      }
+    },
+    "timeg": {
+      "type": "text",
+      "label": "This is row 7 of 31. Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 42.5,
+        "top": 484.2,
+        "width": 40.9,
+        "height": 16.3
+      }
+    },
+    "timeh": {
+      "type": "text",
+      "label": "This is row 8 of 31. Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 42.5,
+        "top": 466.1,
+        "width": 40.9,
+        "height": 16.3
+      }
+    },
+    "timei": {
+      "type": "text",
+      "label": "This is row 9 of 31. Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 42.5,
+        "top": 448.0,
+        "width": 40.9,
+        "height": 16.3
+      }
+    },
+    "timej": {
+      "type": "text",
+      "label": "This is row 10 of 31. Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 42.5,
+        "top": 429.9,
+        "width": 40.9,
+        "height": 16.3
+      }
+    },
+    "timek": {
+      "type": "text",
+      "label": "This is row 11 of 31. Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 42.5,
+        "top": 411.8,
+        "width": 40.9,
+        "height": 16.3
+      }
+    },
+    "timel": {
+      "type": "text",
+      "label": "This is row 12 of 31. Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 42.5,
+        "top": 393.7,
+        "width": 40.9,
+        "height": 16.3
+      }
+    },
+    "timem": {
+      "type": "text",
+      "label": "This is row 13 of 31. Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 42.5,
+        "top": 375.6,
+        "width": 40.9,
+        "height": 16.3
+      }
+    },
+    "timen": {
+      "type": "text",
+      "label": "This is row 14 of 31. Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 42.5,
+        "top": 357.5,
+        "width": 40.9,
+        "height": 16.3
+      }
+    },
+    "timeo": {
+      "type": "text",
+      "label": "This is row 15 of 31. Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 42.5,
+        "top": 339.4,
+        "width": 40.9,
+        "height": 16.3
+      }
+    },
+    "timep": {
+      "type": "text",
+      "label": "This is row 16 of 31. Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 42.5,
+        "top": 321.3,
+        "width": 40.9,
+        "height": 16.3
+      }
+    },
+    "timeq": {
+      "type": "text",
+      "label": "This is row 17 of 31. Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 42.5,
+        "top": 303.2,
+        "width": 40.9,
+        "height": 16.3
+      }
+    },
+    "timer": {
+      "type": "text",
+      "label": "This is row 18 of 31. Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 42.5,
+        "top": 285.1,
+        "width": 40.9,
+        "height": 16.3
+      }
+    },
+    "times": {
+      "type": "text",
+      "label": "This is row 19 of 31. Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 42.5,
+        "top": 267.0,
+        "width": 40.9,
+        "height": 16.3
+      }
+    },
+    "timet": {
+      "type": "text",
+      "label": "This is row 20 of 31. Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 42.5,
+        "top": 248.9,
+        "width": 40.9,
+        "height": 16.3
+      }
+    },
+    "timeu": {
+      "type": "text",
+      "label": "This is row 21 of 31. Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 42.5,
+        "top": 230.8,
+        "width": 40.9,
+        "height": 16.3
+      }
+    },
+    "timev": {
+      "type": "text",
+      "label": "This is row 22 of 31. Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 42.5,
+        "top": 212.7,
+        "width": 40.9,
+        "height": 16.3
+      }
+    },
+    "timew": {
+      "type": "text",
+      "label": "This is row 23 of 31. Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 42.5,
+        "top": 194.6,
+        "width": 40.9,
+        "height": 16.3
+      }
+    },
+    "timex": {
+      "type": "text",
+      "label": "This is row 24 of 31. Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 42.5,
+        "top": 176.5,
+        "width": 40.9,
+        "height": 16.3
+      }
+    },
+    "timey": {
+      "type": "text",
+      "label": "This is row 25 of 31. Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 42.5,
+        "top": 158.4,
+        "width": 40.9,
+        "height": 16.3
+      }
+    },
+    "timez": {
+      "type": "text",
+      "label": "This is row 26 of 31. Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 42.5,
+        "top": 140.3,
+        "width": 40.9,
+        "height": 16.3
+      }
+    },
+    "timeaa": {
+      "type": "text",
+      "label": "This is row 27 of 31. Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 42.5,
+        "top": 122.2,
+        "width": 40.9,
+        "height": 16.3
+      }
+    },
+    "timebb": {
+      "type": "text",
+      "label": "This is row 28 of 31. Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 42.5,
+        "top": 104.1,
+        "width": 40.9,
+        "height": 16.3
+      }
+    },
+    "timecc": {
+      "type": "text",
+      "label": "This is row 29 of 31. Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 42.5,
+        "top": 86.0,
+        "width": 40.9,
+        "height": 16.3
+      }
+    },
+    "timedd": {
+      "type": "text",
+      "label": "This is row 30 of 31. Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 42.5,
+        "top": 68.0,
+        "width": 40.9,
+        "height": 16.3
+      }
+    },
+    "timeee": {
+      "type": "text",
+      "label": "This is row 31 of 31. Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 42.5,
+        "top": 49.9,
+        "width": 40.9,
+        "height": 11.6
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 31,
+      "rowStride": 18.1,
+      "editor": "grid",
+      "columns": {
+        "order": {
+          "type": "text",
+          "label": "Enter the order.",
+          "page": 1,
+          "box": {
+            "left": 84.7,
+            "top": 592.8,
+            "width": 52.4,
+            "height": 16.3
+          }
+        },
+        "cse": {
+          "type": "text",
+          "label": "Enter the course.",
+          "page": 1,
+          "box": {
+            "left": 139.4,
+            "top": 592.8,
+            "width": 32.6,
+            "height": 16.3
+          }
+        },
+        "speed": {
+          "type": "text",
+          "label": "Enter the speed.",
+          "page": 1,
+          "box": {
+            "left": 174.4,
+            "top": 592.8,
+            "width": 33.7,
+            "height": 16.3
+          }
+        },
+        "depth": {
+          "type": "text",
+          "label": "Enter the depth.",
+          "page": 1,
+          "box": {
+            "left": 210.4,
+            "top": 592.8,
+            "width": 32.6,
+            "height": 16.3
+          }
+        },
+        "recordalleventsdaily": {
+          "type": "text",
+          "label": "Enter the record of all events of the day.",
+          "page": 1,
+          "box": {
+            "left": 245.3,
+            "top": 592.8,
+            "width": 326.3,
+            "height": 16.3
+          }
+        }
+      }
+    }
+  }
+}

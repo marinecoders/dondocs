@@ -1,0 +1,913 @@
+{
+  "id": "navpers70102",
+  "label": "NAVPERS7010-2 - Recreation Fund Financial Statement",
+  "directory": "NAVPERS7010-2 - Recreation Fund Financial Statement",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "reportingactivity",
+        "date1",
+        "uic1",
+        "uic2",
+        "uic3",
+        "uic4",
+        "uic5",
+        "reportingBUPERS",
+        "date2",
+        "totals1",
+        "totals2",
+        "totals3",
+        "totals4",
+        "totals5",
+        "totals6",
+        "totals7",
+        "totals8",
+        "totals9",
+        "totals10",
+        "totals11",
+        "totals12",
+        "totals13",
+        "totals14",
+        "totals15",
+        "totals16",
+        "totals17",
+        "totals18",
+        "totals19",
+        "totals20",
+        "totals21",
+        "totals22",
+        "totals23",
+        "totals24",
+        "totals25",
+        "totals26",
+        "totals27",
+        "totals28",
+        "totals29",
+        "totals30",
+        "totals31",
+        "totals32",
+        "totals33",
+        "totals34"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "totals35",
+        "totals36",
+        "totals37",
+        "totals38",
+        "totals39",
+        "totals40",
+        "totals41",
+        "totals42",
+        "totals43",
+        "totals44",
+        "totals45",
+        "totals46A",
+        "totals46B",
+        "totals47A",
+        "totals",
+        "totals48",
+        "totals49",
+        "totals50",
+        "totals51",
+        "totals52",
+        "custodianormemberauditboard",
+        "date3",
+        "commandingofficer",
+        "date4"
+      ]
+    }
+  ],
+  "fields": {
+    "reportingactivity": {
+      "type": "text",
+      "label": "Enter the reporting activity.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 695.3,
+        "width": 265.3,
+        "height": 17.2
+      }
+    },
+    "date1": {
+      "type": "text",
+      "label": "Enter the date of the annual report (DD MMM YYYY).  ",
+      "page": 1,
+      "box": {
+        "left": 480.1,
+        "top": 690.1,
+        "width": 67.7,
+        "height": 12.8
+      }
+    },
+    "uic1": {
+      "type": "text",
+      "label": "This is 1 of 5. Enter the UIC number.",
+      "page": 1,
+      "box": {
+        "left": 329.9,
+        "top": 662.9,
+        "width": 11.7,
+        "height": 12.7
+      }
+    },
+    "uic2": {
+      "type": "text",
+      "label": "This is 2 of 5. Enter the UIC number.",
+      "page": 1,
+      "box": {
+        "left": 343.0,
+        "top": 662.9,
+        "width": 11.7,
+        "height": 12.7
+      }
+    },
+    "uic3": {
+      "type": "text",
+      "label": "This is 3 of 5. Enter the UIC number.",
+      "page": 1,
+      "box": {
+        "left": 356.0,
+        "top": 662.9,
+        "width": 11.7,
+        "height": 12.7
+      }
+    },
+    "uic4": {
+      "type": "text",
+      "label": "This is 4 of 5. Enter the UIC number.",
+      "page": 1,
+      "box": {
+        "left": 369.0,
+        "top": 662.9,
+        "width": 11.7,
+        "height": 12.7
+      }
+    },
+    "uic5": {
+      "type": "text",
+      "label": "This is 5 of 5. Enter the UIC number.",
+      "page": 1,
+      "box": {
+        "left": 382.0,
+        "top": 662.9,
+        "width": 11.7,
+        "height": 12.7
+      }
+    },
+    "reportingBUPERS": {
+      "type": "text",
+      "label": "Enter the reporting to BUPERS.",
+      "page": 1,
+      "box": {
+        "left": 89.4,
+        "top": 657.3,
+        "width": 320.2,
+        "height": 17.2
+      }
+    },
+    "date2": {
+      "type": "text",
+      "label": "Enter the date of the interim report (DD MMM YYYY).  ",
+      "page": 1,
+      "box": {
+        "left": 480.1,
+        "top": 651.1,
+        "width": 67.7,
+        "height": 13.1
+      }
+    },
+    "totals1": {
+      "type": "text",
+      "label": "Enter the net worth (cash) brought forward beginning of period.",
+      "page": 1,
+      "box": {
+        "left": 465.1,
+        "top": 604.3,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals2": {
+      "type": "text",
+      "label": "Enter the resale operation income.",
+      "page": 1,
+      "box": {
+        "left": 385.1,
+        "top": 561.3,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals3": {
+      "type": "text",
+      "label": "Enter the vending or amusement machine income.",
+      "page": 1,
+      "box": {
+        "left": 385.1,
+        "top": 547.3,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals4": {
+      "type": "text",
+      "label": "Enter the total resale or vending income (total of lines 2 and 3).",
+      "page": 1,
+      "box": {
+        "left": 465.1,
+        "top": 533.3,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals5": {
+      "type": "text",
+      "label": "Enter the exhange or ships store profits.",
+      "page": 1,
+      "box": {
+        "left": 465.1,
+        "top": 519.3,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals6": {
+      "type": "text",
+      "label": "Enter the transfers from bupers central fund.",
+      "page": 1,
+      "box": {
+        "left": 465.1,
+        "top": 505.3,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals7": {
+      "type": "text",
+      "label": "Enter the transfers from other recreation funds. ",
+      "page": 1,
+      "box": {
+        "left": 465.1,
+        "top": 491.3,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals8": {
+      "type": "text",
+      "label": "Enter the sports program income.",
+      "page": 1,
+      "box": {
+        "left": 465.1,
+        "top": 477.3,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals9": {
+      "type": "text",
+      "label": "Enter the entertainment income.",
+      "page": 1,
+      "box": {
+        "left": 465.1,
+        "top": 463.3,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals10": {
+      "type": "text",
+      "label": "Enter the tours income.",
+      "page": 1,
+      "box": {
+        "left": 465.1,
+        "top": 449.3,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals11": {
+      "type": "text",
+      "label": "Enter the cruise book income.",
+      "page": 1,
+      "box": {
+        "left": 465.1,
+        "top": 435.3,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals12": {
+      "type": "text",
+      "label": "Enter the recreation program and activity income.",
+      "page": 1,
+      "box": {
+        "left": 465.1,
+        "top": 421.3,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals13": {
+      "type": "text",
+      "label": "Enter the interest income.",
+      "page": 1,
+      "box": {
+        "left": 465.1,
+        "top": 407.4,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals14": {
+      "type": "text",
+      "label": "Enter the loan repayment from individuals.",
+      "page": 1,
+      "box": {
+        "left": 465.1,
+        "top": 393.4,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals15": {
+      "type": "text",
+      "label": "Enter the miscellaneous income (other income not listed) (attach addendum).",
+      "page": 1,
+      "box": {
+        "left": 465.1,
+        "top": 379.4,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals16": {
+      "type": "text",
+      "label": "Enter the total cash receipts (total of lines 4 thru 15).",
+      "page": 1,
+      "box": {
+        "left": 465.1,
+        "top": 365.4,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals17": {
+      "type": "text",
+      "label": "Enter the resale merchandise perchased.",
+      "page": 1,
+      "box": {
+        "left": 385.1,
+        "top": 322.4,
+        "width": 78.7,
+        "height": 12.1
+      }
+    },
+    "totals18": {
+      "type": "text",
+      "label": "Enter the vending machine merchandise purchased.",
+      "page": 1,
+      "box": {
+        "left": 385.1,
+        "top": 309.0,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals19": {
+      "type": "text",
+      "label": "Enter the total resale or vending merchandise expense (total of lines 17 and 18).",
+      "page": 1,
+      "box": {
+        "left": 465.1,
+        "top": 294.6,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals20": {
+      "type": "text",
+      "label": "Enter the distributions.",
+      "page": 1,
+      "box": {
+        "left": 465.1,
+        "top": 280.2,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals21": {
+      "type": "text",
+      "label": "Enter the entertainment expense.",
+      "page": 1,
+      "box": {
+        "left": 465.1,
+        "top": 265.8,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals22": {
+      "type": "text",
+      "label": "Enter the sports expense. ",
+      "page": 1,
+      "box": {
+        "left": 465.1,
+        "top": 251.4,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals23": {
+      "type": "text",
+      "label": "Enter the electronics expense.",
+      "page": 1,
+      "box": {
+        "left": 465.1,
+        "top": 237.0,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals24": {
+      "type": "text",
+      "label": "Enter the tours expense.",
+      "page": 1,
+      "box": {
+        "left": 465.1,
+        "top": 222.6,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals25": {
+      "type": "text",
+      "label": "Enter the cruise book expense.",
+      "page": 1,
+      "box": {
+        "left": 465.1,
+        "top": 208.2,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals26": {
+      "type": "text",
+      "label": "Enter the expendable property or supplies expense.",
+      "page": 1,
+      "box": {
+        "left": 465.1,
+        "top": 193.8,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals27": {
+      "type": "text",
+      "label": "Enter the nonexpendable property expense.",
+      "page": 1,
+      "box": {
+        "left": 465.1,
+        "top": 179.4,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals28": {
+      "type": "text",
+      "label": "Enter the vehicle procurement expense.",
+      "page": 1,
+      "box": {
+        "left": 465.1,
+        "top": 165.0,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals29": {
+      "type": "text",
+      "label": "Enter the salaries and wages expense (requires completion of line 44 & 45).",
+      "page": 1,
+      "box": {
+        "left": 465.1,
+        "top": 150.6,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals30": {
+      "type": "text",
+      "label": "Enter the maintenance or repair expense.",
+      "page": 1,
+      "box": {
+        "left": 465.1,
+        "top": 136.2,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals31": {
+      "type": "text",
+      "label": "Enter the loans disbursed to individuals.",
+      "page": 1,
+      "box": {
+        "left": 465.1,
+        "top": 121.8,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals32": {
+      "type": "text",
+      "label": "Enter the miscellaneous expense (other expenses not listed) (attach addendum).",
+      "page": 1,
+      "box": {
+        "left": 465.1,
+        "top": 107.4,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals33": {
+      "type": "text",
+      "label": "Enter the total cash expenditures (total of lines 19 thru 32).",
+      "page": 1,
+      "box": {
+        "left": 465.1,
+        "top": 93.0,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals34": {
+      "type": "text",
+      "label": "Enter the net worth (cash) at end of period (lines 1 & 16 minus line 33).",
+      "page": 1,
+      "box": {
+        "left": 465.1,
+        "top": 78.6,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals35": {
+      "type": "text",
+      "label": "Enter the net worth (cash) brought forward beginning of period (line1 amount).",
+      "page": 2,
+      "box": {
+        "left": 464.1,
+        "top": 705.7,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals36": {
+      "type": "text",
+      "label": "Enter the total cash receipts (total lines 4 thru 15).",
+      "page": 2,
+      "box": {
+        "left": 464.1,
+        "top": 691.3,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals37": {
+      "type": "text",
+      "label": "Enter the total cash expenditures (total lines 19 thru 32).",
+      "page": 2,
+      "box": {
+        "left": 464.1,
+        "top": 676.9,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals38": {
+      "type": "text",
+      "label": "Enter the total net worth (cash) at end of period (lines 35 & 36 minus line 37, must equal line 43).",
+      "page": 2,
+      "box": {
+        "left": 464.1,
+        "top": 662.5,
+        "width": 78.7,
+        "height": 27.5
+      }
+    },
+    "totals39": {
+      "type": "text",
+      "label": "Enter the net worth for general checking.",
+      "page": 2,
+      "box": {
+        "left": 464.1,
+        "top": 589.7,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals40": {
+      "type": "text",
+      "label": "Enter the net worth for savings.",
+      "page": 2,
+      "box": {
+        "left": 464.1,
+        "top": 575.3,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals41": {
+      "type": "text",
+      "label": "Enter the net worth for petty cash fund.",
+      "page": 2,
+      "box": {
+        "left": 464.1,
+        "top": 560.9,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals42": {
+      "type": "text",
+      "label": "Enter the net worth for undeposited checks and cash on hand.",
+      "page": 2,
+      "box": {
+        "left": 464.1,
+        "top": 546.5,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals43": {
+      "type": "text",
+      "label": "Enter the total net worth (cash) carried forward (must equal the figures on lines 34 & 38).",
+      "page": 2,
+      "box": {
+        "left": 464.1,
+        "top": 532.1,
+        "width": 78.7,
+        "height": 27.5
+      }
+    },
+    "totals44": {
+      "type": "text",
+      "label": "Enter the amount collateralized through bupers (pers-65).",
+      "page": 2,
+      "box": {
+        "left": 464.1,
+        "top": 460.1,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals45": {
+      "type": "text",
+      "label": "Enter the type of insurance of bank account (I.E., FDIC, FSUC, ETC.).",
+      "page": 2,
+      "box": {
+        "left": 464.1,
+        "top": 445.7,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals46A": {
+      "type": "text",
+      "label": "Enter the military paid from nonappropriated funds for full-time.",
+      "page": 2,
+      "box": {
+        "left": 384.1,
+        "top": 388.1,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals46B": {
+      "type": "text",
+      "label": "Enter the military paid from nonappropriated funds for part-time.",
+      "page": 2,
+      "box": {
+        "left": 464.1,
+        "top": 388.1,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals47A": {
+      "type": "text",
+      "label": "Enter the civilians  paid from nonappropriated funds for full-time.",
+      "page": 2,
+      "box": {
+        "left": 384.1,
+        "top": 373.7,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals": {
+      "type": "text",
+      "label": "Enter the civilians  paid from nonappropriated funds for part-time.",
+      "page": 2,
+      "box": {
+        "left": 464.1,
+        "top": 373.7,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals48": {
+      "type": "text",
+      "label": "Enter the activity's authorized military personnel allowance.",
+      "page": 2,
+      "box": {
+        "left": 464.1,
+        "top": 359.3,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals49": {
+      "type": "text",
+      "label": "Enter the activity's actual number of military personnel.",
+      "page": 2,
+      "box": {
+        "left": 464.1,
+        "top": 344.9,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals50": {
+      "type": "text",
+      "label": "Enter the total nonexpendable property (must equal total of property or equipment inventory record).",
+      "page": 2,
+      "box": {
+        "left": 464.1,
+        "top": 330.5,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals51": {
+      "type": "text",
+      "label": "Enter the total optar funds disbursed for recreation during current FY.",
+      "page": 2,
+      "box": {
+        "left": 464.1,
+        "top": 316.1,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "totals52": {
+      "type": "text",
+      "label": "Enter the vehicle inventory record (list all vehicles, camping trailers, boat trailers, etc., on hand).",
+      "page": 2,
+      "box": {
+        "left": 464.1,
+        "top": 298.8,
+        "width": 78.7,
+        "height": 13.1
+      }
+    },
+    "custodianormemberauditboard": {
+      "type": "text",
+      "label": "Enter the signature of custodian or member of audit board.",
+      "page": 2,
+      "box": {
+        "left": 257.5,
+        "top": 138.5,
+        "width": 157.0,
+        "height": 13.1
+      }
+    },
+    "date3": {
+      "type": "text",
+      "label": "Enter the date (DD MMM YYYY).  ",
+      "page": 2,
+      "box": {
+        "left": 440.9,
+        "top": 138.5,
+        "width": 135.0,
+        "height": 13.1
+      }
+    },
+    "commandingofficer": {
+      "type": "text",
+      "label": "Enter the signature of the commanding officer.",
+      "page": 2,
+      "box": {
+        "left": 162.5,
+        "top": 68.5,
+        "width": 251.9,
+        "height": 13.1
+      }
+    },
+    "date4": {
+      "type": "text",
+      "label": "Enter the date (DD MMM YYYY).  ",
+      "page": 2,
+      "box": {
+        "left": 440.9,
+        "top": 68.5,
+        "width": 135.0,
+        "height": 13.1
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 2,
+      "count": 3,
+      "rowStride": 14.4,
+      "editor": "grid",
+      "columns": {
+        "accountNOnameaddressbank": {
+          "type": "text",
+          "label": "Enter the account number and the name and address of the bank for general checking account.",
+          "page": 2,
+          "box": {
+            "left": 164.2,
+            "top": 589.7,
+            "width": 298.6,
+            "height": 13.1
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 2,
+      "count": 6,
+      "rowStride": 14.4,
+      "editor": "grid",
+      "columns": {
+        "make": {
+          "type": "text",
+          "label": "Enter the make of vehicle.",
+          "page": 2,
+          "box": {
+            "left": 66.2,
+            "top": 269.2,
+            "width": 113.1,
+            "height": 13.1
+          }
+        },
+        "model": {
+          "type": "text",
+          "label": "Enter the model of vehicle.",
+          "page": 2,
+          "box": {
+            "left": 181.2,
+            "top": 269.2,
+            "width": 113.1,
+            "height": 13.1
+          }
+        },
+        "year": {
+          "type": "text",
+          "label": "Enter the year of vehicle.",
+          "page": 2,
+          "box": {
+            "left": 296.2,
+            "top": 269.2,
+            "width": 29.7,
+            "height": 13.1
+          }
+        },
+        "serialnumber": {
+          "type": "text",
+          "label": "Enter the serial number of vehicle.",
+          "page": 2,
+          "box": {
+            "left": 328.1,
+            "top": 269.2,
+            "width": 113.1,
+            "height": 13.1
+          }
+        },
+        "uSNregistration": {
+          "type": "text",
+          "label": "Enter the USN registration of vehicle.",
+          "page": 2,
+          "box": {
+            "left": 443.1,
+            "top": 269.2,
+            "width": 132.1,
+            "height": 13.1
+          }
+        }
+      }
+    }
+  }
+}

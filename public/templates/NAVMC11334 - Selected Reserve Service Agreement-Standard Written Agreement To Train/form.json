@@ -1,0 +1,315 @@
+{
+  "id": "navmc11334",
+  "label": "NAVMC 11334 - Selected Reserve Service Agreement-Standard Written Agreement To Train",
+  "directory": "NAVMC11334 - Selected Reserve Service Agreement-Standard Written Agreement To Train",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "nameLFM",
+        "ssn1",
+        "grade1",
+        "mos",
+        "city1",
+        "addSt",
+        "state1",
+        "zip1",
+        "unitAssgn",
+        "dateAssgn",
+        "tONbr",
+        "lineNbr",
+        "bilDesc",
+        "bilMOS",
+        "intReq",
+        "intTrain",
+        "intMOS",
+        "intIMA",
+        "intFail",
+        "signature",
+        "signature2",
+        "dateSig1",
+        "dateSig2"
+      ]
+    }
+  ],
+  "fields": {
+    "nameLFM": {
+      "type": "text",
+      "label": "Name of applicant.  Last name first.  First name second.  Middle name third.",
+      "page": 1,
+      "box": {
+        "left": 28.0,
+        "top": 568.0,
+        "width": 280.0,
+        "height": 17.3
+      }
+    },
+    "ssn1": {
+      "type": "text",
+      "label": "Enter Social Security Number without dashes. ",
+      "page": 1,
+      "box": {
+        "left": 307.3,
+        "top": 568.0,
+        "width": 98.0,
+        "height": 17.3
+      }
+    },
+    "grade1": {
+      "type": "text",
+      "label": "Grade",
+      "page": 1,
+      "box": {
+        "left": 405.6,
+        "top": 568.0,
+        "width": 88.8,
+        "height": 17.3
+      }
+    },
+    "mos": {
+      "type": "text",
+      "label": "M. O. S. - P. R. I. slash S. E. C.   Input slash in appropriate position when entering numbers.",
+      "page": 1,
+      "box": {
+        "left": 496.0,
+        "top": 568.0,
+        "width": 89.3,
+        "height": 17.3
+      }
+    },
+    "city1": {
+      "type": "text",
+      "label": "Address - City",
+      "page": 1,
+      "box": {
+        "left": 288.8,
+        "top": 538.1,
+        "width": 131.2,
+        "height": 19.7
+      }
+    },
+    "addSt": {
+      "type": "text",
+      "label": "Street address.",
+      "page": 1,
+      "box": {
+        "left": 28.3,
+        "top": 535.2,
+        "width": 259.8,
+        "height": 16.8
+      }
+    },
+    "state1": {
+      "type": "text",
+      "label": "Address - State - Two characters allowed.",
+      "page": 1,
+      "box": {
+        "left": 418.4,
+        "top": 535.2,
+        "width": 78.4,
+        "height": 16.8
+      }
+    },
+    "zip1": {
+      "type": "text",
+      "label": "Address - Zip Code.  If  nine digit zip code is entered, enter a dash after the fifth digit.",
+      "page": 1,
+      "box": {
+        "left": 496.0,
+        "top": 535.2,
+        "width": 89.6,
+        "height": 16.8
+      }
+    },
+    "unitAssgn": {
+      "type": "text",
+      "label": "Command or selected reserve unit to which assigned",
+      "page": 1,
+      "box": {
+        "left": 28.0,
+        "top": 504.0,
+        "width": 329.0,
+        "height": 17.0
+      }
+    },
+    "dateAssgn": {
+      "type": "text",
+      "label": "Enter effective date of assignment using format 2003 11 30 .",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 503.6,
+        "width": 218.7,
+        "height": 17.0
+      }
+    },
+    "tONbr": {
+      "type": "text",
+      "label": "T. and or O. number.  Ten characters allowed",
+      "page": 1,
+      "box": {
+        "left": 28.0,
+        "top": 473.3,
+        "width": 92.0,
+        "height": 16.7
+      }
+    },
+    "lineNbr": {
+      "type": "text",
+      "label": "Line number.  Ten characters allowed",
+      "page": 1,
+      "box": {
+        "left": 121.3,
+        "top": 473.3,
+        "width": 94.0,
+        "height": 16.7
+      }
+    },
+    "bilDesc": {
+      "type": "text",
+      "label": "Billet Description",
+      "page": 1,
+      "box": {
+        "left": 216.0,
+        "top": 473.3,
+        "width": 289.3,
+        "height": 16.7
+      }
+    },
+    "bilMOS": {
+      "type": "text",
+      "label": "Billet M. O. S.",
+      "page": 1,
+      "box": {
+        "left": 506.7,
+        "top": 473.3,
+        "width": 78.7,
+        "height": 16.7
+      }
+    },
+    "intReq": {
+      "type": "text",
+      "label": "Initial if statement applies.  ",
+      "page": 1,
+      "box": {
+        "left": 26.7,
+        "top": 416.0,
+        "width": 35.3,
+        "height": 16.7
+      }
+    },
+    "intTrain": {
+      "type": "text",
+      "label": "Initial if statement applies.  ",
+      "page": 1,
+      "box": {
+        "left": 26.7,
+        "top": 291.3,
+        "width": 35.3,
+        "height": 16.7
+      }
+    },
+    "intMOS": {
+      "type": "text",
+      "label": "Initial if statement applies.  ",
+      "page": 1,
+      "box": {
+        "left": 26.7,
+        "top": 260.0,
+        "width": 35.3,
+        "height": 16.7
+      }
+    },
+    "intIMA": {
+      "type": "text",
+      "label": "Initial if statement applies.  ",
+      "page": 1,
+      "box": {
+        "left": 26.7,
+        "top": 229.3,
+        "width": 35.3,
+        "height": 16.7
+      }
+    },
+    "intFail": {
+      "type": "text",
+      "label": "Initial if statement applies.  ",
+      "page": 1,
+      "box": {
+        "left": 26.7,
+        "top": 197.3,
+        "width": 35.3,
+        "height": 16.7
+      }
+    },
+    "signature": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 27.2,
+        "top": 69.3,
+        "width": 188.2,
+        "height": 27.7
+      }
+    },
+    "signature2": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 284.5,
+        "top": 60.5,
+        "width": 235.6,
+        "height": 18.8
+      }
+    },
+    "dateSig1": {
+      "type": "text",
+      "label": "Enter date of signature using format 2003 11 30.",
+      "page": 1,
+      "box": {
+        "left": 217.2,
+        "top": 58.7,
+        "width": 65.5,
+        "height": 16.7
+      }
+    },
+    "dateSig2": {
+      "type": "text",
+      "label": "Enter date of witness's signature using format 2003 11 30.  ",
+      "page": 1,
+      "box": {
+        "left": 522.0,
+        "top": 58.7,
+        "width": 64.0,
+        "height": 16.7
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 31.3,
+      "editor": "grid",
+      "columns": {
+        "intServ": {
+          "type": "text",
+          "label": "Initial if statement applies.  ",
+          "page": 1,
+          "box": {
+            "left": 26.7,
+            "top": 385.3,
+            "width": 35.3,
+            "height": 16.7
+          }
+        }
+      }
+    }
+  }
+}

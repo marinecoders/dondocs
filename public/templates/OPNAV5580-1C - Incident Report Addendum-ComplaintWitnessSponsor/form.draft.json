@@ -1,0 +1,1429 @@
+{
+  "id": "opnav55801c",
+  "label": "OPNAV5580-1C - Incident Report Addendum-ComplaintWitnessSponsor",
+  "directory": "OPNAV5580-1C - Incident Report Addendum-ComplaintWitnessSponsor",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "incinum",
+        "depo",
+        "depo2",
+        "seqnum",
+        "depo7",
+        "depo72",
+        "depo73",
+        "depo4",
+        "depo42",
+        "lastname",
+        "firstname",
+        "middle",
+        "ssn",
+        "alien",
+        "grade",
+        "depo19",
+        "depo192",
+        "depo193",
+        "depo11",
+        "depo112",
+        "depo113",
+        "depo114",
+        "other",
+        "depo194",
+        "depo195",
+        "depo196",
+        "depo115",
+        "depo116",
+        "depo117",
+        "dutystat",
+        "uic",
+        "worktelephone",
+        "address",
+        "city",
+        "state",
+        "zIPCode",
+        "depo29",
+        "depo292",
+        "depo293",
+        "depo26",
+        "depo262",
+        "depo41",
+        "depo412",
+        "depo413",
+        "depo33",
+        "depo332",
+        "depo333",
+        "depo334",
+        "depo414",
+        "depo415",
+        "depo416",
+        "depo335",
+        "depo336",
+        "depo337",
+        "depo51",
+        "depo512",
+        "depo513",
+        "depo48",
+        "depo482",
+        "depo63",
+        "depo632",
+        "depo633",
+        "depo55",
+        "depo552",
+        "depo553",
+        "depo554",
+        "depo634",
+        "depo635",
+        "depo636",
+        "depo555",
+        "depo556",
+        "depo557",
+        "depo732",
+        "depo733",
+        "depo734",
+        "depo70",
+        "depo702",
+        "depo85",
+        "depo852",
+        "depo853",
+        "depo77",
+        "depo772",
+        "depo773",
+        "depo774",
+        "depo854",
+        "depo855",
+        "depo856",
+        "depo775",
+        "depo776",
+        "depo777",
+        "page1",
+        "page2"
+      ]
+    }
+  ],
+  "fields": {
+    "incinum": {
+      "type": "text",
+      "label": "Enter the incident number.",
+      "page": 1,
+      "box": {
+        "left": 352.2,
+        "top": 735.4,
+        "width": 147.0,
+        "height": 22.3
+      }
+    },
+    "depo": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 510.4,
+        "top": 733.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo_0"
+    },
+    "depo2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 510.4,
+        "top": 722.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo_0"
+    },
+    "seqnum": {
+      "type": "text",
+      "label": "Enter the sequence number.",
+      "page": 1,
+      "box": {
+        "left": 37.2,
+        "top": 624.0,
+        "width": 89.3,
+        "height": 17.3
+      }
+    },
+    "depo7": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 190.9,
+        "top": 621.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo7_0"
+    },
+    "depo72": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 279.2,
+        "top": 621.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo7_0"
+    },
+    "depo73": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 347.3,
+        "top": 621.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo7_0"
+    },
+    "depo4": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 408.0,
+        "top": 617.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo4_0"
+    },
+    "depo42": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 449.6,
+        "top": 617.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo4_0"
+    },
+    "lastname": {
+      "type": "text",
+      "label": "Enter the last name (include Jr., Sr,. II, III, etc.)",
+      "page": 1,
+      "box": {
+        "left": 37.2,
+        "top": 595.9,
+        "width": 146.6,
+        "height": 12.8
+      }
+    },
+    "firstname": {
+      "type": "text",
+      "label": "Enter the first name.",
+      "page": 1,
+      "box": {
+        "left": 185.7,
+        "top": 595.9,
+        "width": 112.9,
+        "height": 12.8
+      }
+    },
+    "middle": {
+      "type": "text",
+      "label": "Enter the middle name.",
+      "page": 1,
+      "box": {
+        "left": 300.4,
+        "top": 595.9,
+        "width": 92.1,
+        "height": 12.8
+      }
+    },
+    "ssn": {
+      "type": "text",
+      "label": "Enter the Social Security Number.  ",
+      "page": 1,
+      "box": {
+        "left": 394.1,
+        "top": 595.9,
+        "width": 54.6,
+        "height": 12.8
+      }
+    },
+    "alien": {
+      "type": "text",
+      "label": "Enter the alien REG. number.",
+      "page": 1,
+      "box": {
+        "left": 449.8,
+        "top": 595.9,
+        "width": 56.1,
+        "height": 12.8
+      }
+    },
+    "grade": {
+      "type": "text",
+      "label": "Enter the grade or rank.",
+      "page": 1,
+      "box": {
+        "left": 507.4,
+        "top": 595.9,
+        "width": 67.9,
+        "height": 12.8
+      }
+    },
+    "depo19": {
+      "type": "radio",
+      "label": "3",
+      "page": 1,
+      "box": {
+        "left": 116.7,
+        "top": 575.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo19_0"
+    },
+    "depo192": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 152.7,
+        "top": 575.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo19_0"
+    },
+    "depo193": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 192.0,
+        "top": 575.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo19_0"
+    },
+    "depo11": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 324.8,
+        "top": 575.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo11_0"
+    },
+    "depo112": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 392.3,
+        "top": 575.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo11_0"
+    },
+    "depo113": {
+      "type": "radio",
+      "label": "4",
+      "page": 1,
+      "box": {
+        "left": 447.4,
+        "top": 575.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo11_0"
+    },
+    "depo114": {
+      "type": "radio",
+      "label": "6",
+      "page": 1,
+      "box": {
+        "left": 493.5,
+        "top": 575.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo11_0"
+    },
+    "other": {
+      "type": "text",
+      "label": "Enter the other branch of service.",
+      "page": 1,
+      "box": {
+        "left": 230.7,
+        "top": 564.4,
+        "width": 40.3,
+        "height": 11.6
+      }
+    },
+    "depo194": {
+      "type": "radio",
+      "label": "5",
+      "page": 1,
+      "box": {
+        "left": 40.2,
+        "top": 561.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo19_0"
+    },
+    "depo195": {
+      "type": "radio",
+      "label": "4",
+      "page": 1,
+      "box": {
+        "left": 116.7,
+        "top": 561.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo19_0"
+    },
+    "depo196": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 192.0,
+        "top": 561.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo19_0"
+    },
+    "depo115": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 324.8,
+        "top": 561.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo11_0"
+    },
+    "depo116": {
+      "type": "radio",
+      "label": "3",
+      "page": 1,
+      "box": {
+        "left": 392.3,
+        "top": 561.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo11_0"
+    },
+    "depo117": {
+      "type": "radio",
+      "label": "5",
+      "page": 1,
+      "box": {
+        "left": 462.0,
+        "top": 561.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo11_0"
+    },
+    "dutystat": {
+      "type": "text",
+      "label": "Enter the duty station and/or employer (include department/command/division/unit/etc.).",
+      "page": 1,
+      "box": {
+        "left": 37.2,
+        "top": 539.6,
+        "width": 393.6,
+        "height": 12.8
+      }
+    },
+    "uic": {
+      "type": "text",
+      "label": "Enter the UIC and/or RUC.",
+      "page": 1,
+      "box": {
+        "left": 432.6,
+        "top": 539.6,
+        "width": 64.8,
+        "height": 12.8
+      }
+    },
+    "worktelephone": {
+      "type": "text",
+      "label": "Enter the work telephone number.",
+      "page": 1,
+      "box": {
+        "left": 501.2,
+        "top": 539.5,
+        "width": 72.1,
+        "height": 11.9
+      }
+    },
+    "address": {
+      "type": "text",
+      "label": "Enter the address.",
+      "page": 1,
+      "box": {
+        "left": 37.2,
+        "top": 517.1,
+        "width": 290.6,
+        "height": 12.2
+      }
+    },
+    "city": {
+      "type": "text",
+      "label": "Enter the city.",
+      "page": 1,
+      "box": {
+        "left": 329.7,
+        "top": 517.1,
+        "width": 152.8,
+        "height": 12.2
+      }
+    },
+    "state": {
+      "type": "choice",
+      "label": "Enter the state.",
+      "page": 1,
+      "box": {
+        "left": 484.1,
+        "top": 517.1,
+        "width": 34.6,
+        "height": 12.2
+      },
+      "options": [
+        "AL",
+        "AK",
+        "AS",
+        "AZ",
+        "AR",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "DC",
+        "FL",
+        "GA",
+        "HI",
+        "ID",
+        "IL",
+        "IN",
+        "IA",
+        "KS",
+        "KY",
+        "LA",
+        "ME",
+        "MH",
+        "MD",
+        "MA",
+        "MI",
+        "MN",
+        "MS",
+        "MO",
+        "MT",
+        "NE",
+        "NV",
+        "NH",
+        "NJ",
+        "NM",
+        "NY",
+        "NC",
+        "ND",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "PR",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VT",
+        "VI",
+        "VA",
+        "WA",
+        "WV",
+        "WI",
+        "WY",
+        "   "
+      ]
+    },
+    "zIPCode": {
+      "type": "text",
+      "label": "Enter the 9-digit ZIP Code. ",
+      "page": 1,
+      "box": {
+        "left": 520.4,
+        "top": 517.1,
+        "width": 55.0,
+        "height": 12.2
+      }
+    },
+    "depo29": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 190.9,
+        "top": 474.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo29_0"
+    },
+    "depo292": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 279.2,
+        "top": 474.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo29_0"
+    },
+    "depo293": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 347.3,
+        "top": 474.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo29_0"
+    },
+    "depo26": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 408.0,
+        "top": 471.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo26_0"
+    },
+    "depo262": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 449.6,
+        "top": 471.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo26_0"
+    },
+    "depo41": {
+      "type": "radio",
+      "label": "3",
+      "page": 1,
+      "box": {
+        "left": 116.7,
+        "top": 429.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo41_0"
+    },
+    "depo412": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 152.7,
+        "top": 429.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo41_0"
+    },
+    "depo413": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 192.0,
+        "top": 429.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo41_0"
+    },
+    "depo33": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 324.8,
+        "top": 429.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo33_0"
+    },
+    "depo332": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 392.3,
+        "top": 429.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo33_0"
+    },
+    "depo333": {
+      "type": "radio",
+      "label": "4",
+      "page": 1,
+      "box": {
+        "left": 447.4,
+        "top": 429.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo33_0"
+    },
+    "depo334": {
+      "type": "radio",
+      "label": "6",
+      "page": 1,
+      "box": {
+        "left": 493.5,
+        "top": 429.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo33_0"
+    },
+    "depo414": {
+      "type": "radio",
+      "label": "5",
+      "page": 1,
+      "box": {
+        "left": 40.2,
+        "top": 415.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo41_0"
+    },
+    "depo415": {
+      "type": "radio",
+      "label": "4",
+      "page": 1,
+      "box": {
+        "left": 116.7,
+        "top": 415.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo41_0"
+    },
+    "depo416": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 192.0,
+        "top": 415.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo41_0"
+    },
+    "depo335": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 324.8,
+        "top": 415.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo33_0"
+    },
+    "depo336": {
+      "type": "radio",
+      "label": "3",
+      "page": 1,
+      "box": {
+        "left": 392.3,
+        "top": 415.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo33_0"
+    },
+    "depo337": {
+      "type": "radio",
+      "label": "5",
+      "page": 1,
+      "box": {
+        "left": 462.0,
+        "top": 415.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo33_0"
+    },
+    "depo51": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 190.9,
+        "top": 329.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo51_0"
+    },
+    "depo512": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 279.2,
+        "top": 329.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo51_0"
+    },
+    "depo513": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 347.3,
+        "top": 329.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo51_0"
+    },
+    "depo48": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 408.0,
+        "top": 325.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo48_0"
+    },
+    "depo482": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 449.6,
+        "top": 325.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo48_0"
+    },
+    "depo63": {
+      "type": "radio",
+      "label": "3",
+      "page": 1,
+      "box": {
+        "left": 116.7,
+        "top": 283.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo63_0"
+    },
+    "depo632": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 152.7,
+        "top": 283.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo63_0"
+    },
+    "depo633": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 192.0,
+        "top": 283.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo63_0"
+    },
+    "depo55": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 324.8,
+        "top": 283.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo55_0"
+    },
+    "depo552": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 392.3,
+        "top": 283.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo55_0"
+    },
+    "depo553": {
+      "type": "radio",
+      "label": "4",
+      "page": 1,
+      "box": {
+        "left": 447.4,
+        "top": 283.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo55_0"
+    },
+    "depo554": {
+      "type": "radio",
+      "label": "6",
+      "page": 1,
+      "box": {
+        "left": 493.5,
+        "top": 283.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo55_0"
+    },
+    "depo634": {
+      "type": "radio",
+      "label": "5",
+      "page": 1,
+      "box": {
+        "left": 40.2,
+        "top": 269.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo63_0"
+    },
+    "depo635": {
+      "type": "radio",
+      "label": "4",
+      "page": 1,
+      "box": {
+        "left": 116.7,
+        "top": 269.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo63_0"
+    },
+    "depo636": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 192.0,
+        "top": 269.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo63_0"
+    },
+    "depo555": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 324.8,
+        "top": 269.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo55_0"
+    },
+    "depo556": {
+      "type": "radio",
+      "label": "3",
+      "page": 1,
+      "box": {
+        "left": 392.3,
+        "top": 269.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo55_0"
+    },
+    "depo557": {
+      "type": "radio",
+      "label": "5",
+      "page": 1,
+      "box": {
+        "left": 462.0,
+        "top": 269.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo55_0"
+    },
+    "depo732": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 190.9,
+        "top": 183.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo73_0"
+    },
+    "depo733": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 279.2,
+        "top": 183.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo73_0"
+    },
+    "depo734": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 347.3,
+        "top": 183.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo73_0"
+    },
+    "depo70": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 408.0,
+        "top": 180.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo70_0"
+    },
+    "depo702": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 449.6,
+        "top": 180.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo70_0"
+    },
+    "depo85": {
+      "type": "radio",
+      "label": "3",
+      "page": 1,
+      "box": {
+        "left": 116.7,
+        "top": 138.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo85_0"
+    },
+    "depo852": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 152.7,
+        "top": 138.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo85_0"
+    },
+    "depo853": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 192.0,
+        "top": 138.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo85_0"
+    },
+    "depo77": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 324.8,
+        "top": 138.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo77_0"
+    },
+    "depo772": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 392.3,
+        "top": 138.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo77_0"
+    },
+    "depo773": {
+      "type": "radio",
+      "label": "4",
+      "page": 1,
+      "box": {
+        "left": 447.4,
+        "top": 138.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo77_0"
+    },
+    "depo774": {
+      "type": "radio",
+      "label": "6",
+      "page": 1,
+      "box": {
+        "left": 493.5,
+        "top": 138.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo77_0"
+    },
+    "depo854": {
+      "type": "radio",
+      "label": "5",
+      "page": 1,
+      "box": {
+        "left": 40.2,
+        "top": 123.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo85_0"
+    },
+    "depo855": {
+      "type": "radio",
+      "label": "4",
+      "page": 1,
+      "box": {
+        "left": 116.7,
+        "top": 123.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo85_0"
+    },
+    "depo856": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 192.0,
+        "top": 123.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo85_0"
+    },
+    "depo775": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 324.8,
+        "top": 123.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo77_0"
+    },
+    "depo776": {
+      "type": "radio",
+      "label": "3",
+      "page": 1,
+      "box": {
+        "left": 392.3,
+        "top": 123.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo77_0"
+    },
+    "depo777": {
+      "type": "radio",
+      "label": "5",
+      "page": 1,
+      "box": {
+        "left": 462.0,
+        "top": 123.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo77_0"
+    },
+    "page1": {
+      "type": "text",
+      "label": "Enter the current page number.",
+      "page": 1,
+      "box": {
+        "left": 518.6,
+        "top": 43.0,
+        "width": 11.8,
+        "height": 8.4
+      }
+    },
+    "page2": {
+      "type": "text",
+      "label": "Enter the total page number.",
+      "page": 1,
+      "box": {
+        "left": 543.9,
+        "top": 43.0,
+        "width": 10.1,
+        "height": 8.4
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 145.67,
+      "editor": "grid",
+      "columns": {
+        "address": {
+          "type": "text",
+          "label": "Enter the address.",
+          "page": 1,
+          "box": {
+            "left": 37.2,
+            "top": 370.9,
+            "width": 290.6,
+            "height": 12.2
+          }
+        },
+        "dutystat": {
+          "type": "text",
+          "label": "Enter the duty station and/or employer (include department/command/division/unit/etc.).",
+          "page": 1,
+          "box": {
+            "left": 37.2,
+            "top": 393.4,
+            "width": 393.6,
+            "height": 12.8
+          }
+        },
+        "lastname": {
+          "type": "text",
+          "label": "Enter the last name (include Jr., Sr,. II, III, etc.)",
+          "page": 1,
+          "box": {
+            "left": 37.2,
+            "top": 449.6,
+            "width": 146.6,
+            "height": 12.8
+          }
+        },
+        "seqnum": {
+          "type": "text",
+          "label": "Enter the sequence number.",
+          "page": 1,
+          "box": {
+            "left": 37.2,
+            "top": 477.8,
+            "width": 89.3,
+            "height": 17.3
+          }
+        },
+        "firstname": {
+          "type": "text",
+          "label": "Enter the first name.",
+          "page": 1,
+          "box": {
+            "left": 185.7,
+            "top": 449.6,
+            "width": 112.9,
+            "height": 12.8
+          }
+        },
+        "other": {
+          "type": "text",
+          "label": "Enter the other branch of service.",
+          "page": 1,
+          "box": {
+            "left": 230.7,
+            "top": 418.1,
+            "width": 40.3,
+            "height": 11.6
+          }
+        },
+        "middle": {
+          "type": "text",
+          "label": "Enter the middle name.",
+          "page": 1,
+          "box": {
+            "left": 300.4,
+            "top": 449.6,
+            "width": 92.1,
+            "height": 12.8
+          }
+        },
+        "city": {
+          "type": "text",
+          "label": "Enter the city.",
+          "page": 1,
+          "box": {
+            "left": 329.7,
+            "top": 370.9,
+            "width": 152.8,
+            "height": 12.2
+          }
+        },
+        "ssn": {
+          "type": "text",
+          "label": "Enter the Social Security Number.  ",
+          "page": 1,
+          "box": {
+            "left": 394.1,
+            "top": 449.6,
+            "width": 54.6,
+            "height": 12.8
+          }
+        },
+        "uic": {
+          "type": "text",
+          "label": "Enter the UIC and/or RUC.",
+          "page": 1,
+          "box": {
+            "left": 432.6,
+            "top": 393.4,
+            "width": 64.8,
+            "height": 12.8
+          }
+        },
+        "alien": {
+          "type": "text",
+          "label": "Enter the alien REG. number.",
+          "page": 1,
+          "box": {
+            "left": 449.8,
+            "top": 449.6,
+            "width": 56.1,
+            "height": 12.8
+          }
+        },
+        "state": {
+          "type": "choice",
+          "label": "Enter the state.",
+          "page": 1,
+          "box": {
+            "left": 484.1,
+            "top": 370.9,
+            "width": 34.6,
+            "height": 12.2
+          }
+        },
+        "worktelephone": {
+          "type": "text",
+          "label": "Enter the work telephone number.",
+          "page": 1,
+          "box": {
+            "left": 501.2,
+            "top": 393.2,
+            "width": 72.1,
+            "height": 11.9
+          }
+        },
+        "grade": {
+          "type": "text",
+          "label": "Enter the grade or rank.",
+          "page": 1,
+          "box": {
+            "left": 507.4,
+            "top": 449.6,
+            "width": 67.9,
+            "height": 12.8
+          }
+        },
+        "zIPCode": {
+          "type": "text",
+          "label": "Enter the 9-digit ZIP Code. ",
+          "page": 1,
+          "box": {
+            "left": 520.4,
+            "top": 370.9,
+            "width": 55.0,
+            "height": 12.2
+          }
+        }
+      }
+    }
+  }
+}

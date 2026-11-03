@@ -1,0 +1,330 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "radio": {
+        "left": 47.8,
+        "top": 682.0,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item2",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio2": {
+        "left": 106.3,
+        "top": 682.0,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio3": {
+        "left": 218.9,
+        "top": 682.0,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio4": {
+        "left": 349.4,
+        "top": 682.0,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "hFStmt": {
+        "left": 38.8,
+        "top": 653.7,
+        "width": 534.4,
+        "height": 40.5,
+        "type": "text",
+        "description": "2. Statement (70 character limit)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hFAlys": {
+        "left": 38.8,
+        "top": 599.7,
+        "width": 534.4,
+        "height": 115.4,
+        "type": "text",
+        "description": "3. Analysis (Unlimited character limit)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio5": {
+        "left": 47.8,
+        "top": 461.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "hFAplsto": {
+        "left": 214.4,
+        "top": 461.0,
+        "width": 358.9,
+        "height": 30.7,
+        "type": "text",
+        "description": "REJECTED (If rejected, Stop here)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio6": {
+        "left": 47.8,
+        "top": 447.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "hFACSAtCde": {
+        "left": 124.6,
+        "top": 411.1,
+        "width": 448.7,
+        "height": 12.3,
+        "type": "text",
+        "description": "6a. HFACS Code",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hFACSAtCdeJst": {
+        "left": 38.8,
+        "top": 383.7,
+        "width": 534.4,
+        "height": 146.9,
+        "type": "text",
+        "description": "6b. Justification",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "preHFACSAtCde": {
+        "left": 117.6,
+        "top": 217.6,
+        "width": 455.6,
+        "height": 12.3,
+        "type": "text",
+        "description": "7a. HFACS Code",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "preHFACSAtCdeJst": {
+        "left": 38.8,
+        "top": 190.1,
+        "width": 534.4,
+        "height": 146.9,
+        "type": "text",
+        "description": "7b. Justification",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "supHFACSAtCde": {
+        "left": 116.4,
+        "top": 739.7,
+        "width": 456.9,
+        "height": 12.3,
+        "type": "text",
+        "description": "8a. HFACS Code",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "supHFACSAtCdeJst": {
+        "left": 38.8,
+        "top": 712.2,
+        "width": 534.4,
+        "height": 151.4,
+        "type": "text",
+        "description": "8b. Justification",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "orgHFACSAtCde": {
+        "left": 116.4,
+        "top": 541.6,
+        "width": 456.9,
+        "height": 12.3,
+        "type": "text",
+        "description": "9a. HFACS Code",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "orgHFACSAtCdeJst": {
+        "left": 38.8,
+        "top": 514.2,
+        "width": 534.4,
+        "height": 151.4,
+        "type": "text",
+        "description": "9b. Justification",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rACCde": {
+        "left": 38.8,
+        "top": 344.8,
+        "width": 264.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "10. RAC Code",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio7": {
+        "left": 371.9,
+        "top": 339.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio8": {
+        "left": 461.9,
+        "top": 339.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "actAgy": {
+        "left": 38.8,
+        "top": 295.3,
+        "width": 534.4,
+        "height": 18.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recSta": {
+        "left": 38.8,
+        "top": 262.1,
+        "width": 534.4,
+        "height": 40.5,
+        "type": "text",
+        "description": "2. Statement (70 character limit)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recRem": {
+        "left": 38.8,
+        "top": 208.1,
+        "width": 534.4,
+        "height": 115.4,
+        "type": "text",
+        "description": "3. Remarks (Unlimited character limit)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "whiFac": {
+        "left": 236.9,
+        "top": 76.3,
+        "width": 336.4,
+        "height": 37.6,
+        "type": "text",
+        "description": "COMPLETED OPEN REJECTED",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio9": {
+        "left": 52.3,
+        "top": 65.4,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio10": {
+        "left": 124.4,
+        "top": 65.4,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio11": {
+        "left": 169.4,
+        "top": 65.4,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item2",
+        "options": null,
+        "group": "radio",
+        "required": false
+      }
+    },
+    "page3": {
+      "coOffCom": {
+        "left": 38.8,
+        "top": 743.7,
+        "width": 534.4,
+        "height": 115.4,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

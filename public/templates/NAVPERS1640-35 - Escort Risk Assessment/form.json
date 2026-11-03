@@ -1,0 +1,511 @@
+{
+  "id": "navpers164035",
+  "label": "NAVPERS1640-35 - Escort Risk Assessment",
+  "directory": "NAVPERS1640-35 - Escort Risk Assessment",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "cell1",
+        "cell2",
+        "cell3",
+        "cell4",
+        "cell12",
+        "cell22",
+        "cell23",
+        "cell24",
+        "cell25",
+        "cell26",
+        "cell27",
+        "cell28",
+        "cell29",
+        "cell210",
+        "cell211",
+        "cell212",
+        "cell213",
+        "cell13",
+        "cell214",
+        "dropDownList1",
+        "totalField",
+        "radio",
+        "radio2",
+        "cell14",
+        "cell215",
+        "cell32",
+        "finalDecisionOverrideNo",
+        "finalDecisionOverrideYes",
+        "cell15",
+        "lowRiskCheckBox",
+        "highRiskCheckBox",
+        "row11",
+        "row1",
+        "cell216"
+      ]
+    }
+  ],
+  "fields": {
+    "cell1": {
+      "type": "text",
+      "label": "1. Prisoner Name (Last, First, Middle)",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 694.1,
+        "width": 282.3,
+        "height": 18.0
+      }
+    },
+    "cell2": {
+      "type": "text",
+      "label": "2. Resident Control Number",
+      "page": 1,
+      "box": {
+        "left": 326.9,
+        "top": 694.1,
+        "width": 120.3,
+        "height": 18.0
+      }
+    },
+    "cell3": {
+      "type": "text",
+      "label": "3. Sex",
+      "page": 1,
+      "box": {
+        "left": 452.9,
+        "top": 694.1,
+        "width": 48.2,
+        "height": 18.0
+      }
+    },
+    "cell4": {
+      "type": "text",
+      "label": "4. Date",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 694.1,
+        "width": 66.2,
+        "height": 18.0
+      }
+    },
+    "cell12": {
+      "type": "text",
+      "label": "Offense UCMJ Article(s)",
+      "page": 1,
+      "box": {
+        "left": 147.6,
+        "top": 641.5,
+        "width": 353.6,
+        "height": 12.2
+      }
+    },
+    "cell22": {
+      "type": "choice",
+      "label": "Offense UCMJ Article(s)",
+      "page": 1,
+      "box": {
+        "left": 507.2,
+        "top": 641.3,
+        "width": 65.7,
+        "height": 11.7
+      },
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8"
+      ]
+    },
+    "cell23": {
+      "type": "choice",
+      "label": "4. Date",
+      "page": 1,
+      "box": {
+        "left": 507.2,
+        "top": 623.2,
+        "width": 65.7,
+        "height": 18.9
+      },
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    "cell24": {
+      "type": "choice",
+      "label": "3. History No= of Escape 0 ; Yes = High Risk",
+      "page": 1,
+      "box": {
+        "left": 507.2,
+        "top": 598.0,
+        "width": 65.7,
+        "height": 18.9
+      },
+      "options": [
+        "0",
+        "High Risk"
+      ]
+    },
+    "cell25": {
+      "type": "choice",
+      "label": "4. Date",
+      "page": 1,
+      "box": {
+        "left": 507.2,
+        "top": 572.8,
+        "width": 65.7,
+        "height": 29.7
+      },
+      "options": [
+        "0",
+        "2",
+        "3",
+        "4",
+        "5",
+        "High Risk"
+      ]
+    },
+    "cell26": {
+      "type": "choice",
+      "label": "4. Date",
+      "page": 1,
+      "box": {
+        "left": 507.2,
+        "top": 536.8,
+        "width": 65.7,
+        "height": 18.9
+      },
+      "options": [
+        "0",
+        "1",
+        "2"
+      ]
+    },
+    "cell27": {
+      "type": "choice",
+      "label": "4. Date",
+      "page": 1,
+      "box": {
+        "left": 507.2,
+        "top": 511.6,
+        "width": 65.7,
+        "height": 18.9
+      },
+      "options": [
+        "0",
+        "1",
+        "2",
+        "NA"
+      ]
+    },
+    "cell28": {
+      "type": "choice",
+      "label": "4. Date",
+      "page": 1,
+      "box": {
+        "left": 507.2,
+        "top": 486.4,
+        "width": 65.7,
+        "height": 29.7
+      },
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "High Risk"
+      ]
+    },
+    "cell29": {
+      "type": "choice",
+      "label": "8. Ground GOV Transport = 0; Rental Car = 1",
+      "page": 1,
+      "box": {
+        "left": 507.2,
+        "top": 450.4,
+        "width": 65.7,
+        "height": 18.9
+      },
+      "options": [
+        "0",
+        "1"
+      ]
+    },
+    "cell210": {
+      "type": "choice",
+      "label": "9. Specialized No = Tactical 0; Yes = Training 3 (Prisoner)",
+      "page": 1,
+      "box": {
+        "left": 507.2,
+        "top": 425.2,
+        "width": 65.7,
+        "height": 18.9
+      },
+      "options": [
+        "0",
+        "3"
+      ]
+    },
+    "cell211": {
+      "type": "choice",
+      "label": "Affiliation)",
+      "page": 1,
+      "box": {
+        "left": 507.2,
+        "top": 400.0,
+        "width": 65.7,
+        "height": 18.9
+      },
+      "options": [
+        "0",
+        "High Risk"
+      ]
+    },
+    "cell212": {
+      "type": "choice",
+      "label": "11. Parole/MSR No = 0; Violation Yes = High Risk",
+      "page": 1,
+      "box": {
+        "left": 507.2,
+        "top": 374.8,
+        "width": 65.7,
+        "height": 18.9
+      },
+      "options": [
+        "0",
+        "High Risk"
+      ]
+    },
+    "cell213": {
+      "type": "choice",
+      "label": "12. Custody MAX Classification = High Risk",
+      "page": 1,
+      "box": {
+        "left": 507.2,
+        "top": 349.6,
+        "width": 65.7,
+        "height": 18.9
+      },
+      "options": [
+        "High Risk",
+        "NA"
+      ]
+    },
+    "cell13": {
+      "type": "text",
+      "label": "Offense UCMJ Article(s)",
+      "page": 1,
+      "box": {
+        "left": 147.6,
+        "top": 310.3,
+        "width": 353.6,
+        "height": 12.2
+      }
+    },
+    "cell214": {
+      "type": "choice",
+      "label": "Offense UCMJ Article(s)",
+      "page": 1,
+      "box": {
+        "left": 507.2,
+        "top": 310.0,
+        "width": 65.7,
+        "height": 11.7
+      },
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8"
+      ]
+    },
+    "dropDownList1": {
+      "type": "choice",
+      "label": "Drop Down List 1",
+      "page": 1,
+      "box": {
+        "left": 356.5,
+        "top": 279.3,
+        "width": 92.1,
+        "height": 15.1
+      },
+      "options": [
+        "Armed",
+        "Unarmed"
+      ]
+    },
+    "totalField": {
+      "type": "text",
+      "label": "Total Points",
+      "page": 1,
+      "box": {
+        "left": 520.5,
+        "top": 277.9,
+        "width": 52.7,
+        "height": 12.2
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 276.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 155.9,
+        "top": 276.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "cell14": {
+      "type": "text",
+      "label": "2. Operations Officer Signature",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 204.4,
+        "width": 174.3,
+        "height": 18.0
+      }
+    },
+    "cell215": {
+      "type": "text",
+      "label": "4. Technical Director Signature",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 204.4,
+        "width": 174.3,
+        "height": 18.0
+      }
+    },
+    "cell32": {
+      "type": "text",
+      "label": "6. Executive Officer Signature",
+      "page": 1,
+      "box": {
+        "left": 398.9,
+        "top": 204.4,
+        "width": 174.3,
+        "height": 18.0
+      }
+    },
+    "finalDecisionOverrideNo": {
+      "type": "checkbox",
+      "label": "Override",
+      "page": 1,
+      "box": {
+        "left": 69.4,
+        "top": 159.4,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "finalDecisionOverrideYes": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 249.4,
+        "top": 159.4,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "cell15": {
+      "type": "text",
+      "label": "b. Rationale",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 137.7,
+        "width": 534.3,
+        "height": 36.0
+      },
+      "multiline": true
+    },
+    "lowRiskCheckBox": {
+      "type": "checkbox",
+      "label": "1. Final Decision",
+      "page": 1,
+      "box": {
+        "left": 369.5,
+        "top": 81.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "highRiskCheckBox": {
+      "type": "checkbox",
+      "label": "Low Risk",
+      "page": 1,
+      "box": {
+        "left": 480.6,
+        "top": 81.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "row11": {
+      "type": "text",
+      "label": "4. Date",
+      "page": 1,
+      "box": {
+        "left": 464.5,
+        "top": 58.5,
+        "width": 108.9,
+        "height": 18.0
+      }
+    },
+    "row1": {
+      "type": "text",
+      "label": "2. Commanding Officer Name, Rank",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 58.4,
+        "width": 236.8,
+        "height": 17.9
+      }
+    },
+    "cell216": {
+      "type": "text",
+      "label": "3. Signature",
+      "page": 1,
+      "box": {
+        "left": 281.4,
+        "top": 58.4,
+        "width": 177.4,
+        "height": 17.9
+      }
+    }
+  }
+}

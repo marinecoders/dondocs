@@ -1,0 +1,4109 @@
+{
+  "id": "opnav376071",
+  "label": "OPNAV3760-71 - Carrier Landing Trend Analysis",
+  "directory": "OPNAV3760-71 - Carrier Landing Trend Analysis",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "pilot",
+        "yr",
+        "acft",
+        "ship",
+        "squadron",
+        "dNSDate3",
+        "gr",
+        "aw1",
+        "ot1",
+        "x1",
+        "im1",
+        "ic1",
+        "ar1",
+        "power1",
+        "attitude1",
+        "linupandwings1",
+        "remarks1",
+        "wires1",
+        "im2",
+        "dNSDate32",
+        "gr2",
+        "aw2",
+        "ot2",
+        "x2",
+        "ic2",
+        "ar2",
+        "power2",
+        "attitude2",
+        "linupandwings2",
+        "remarks2",
+        "wires2",
+        "ar3",
+        "dNSDate33",
+        "gr3",
+        "aw3",
+        "ot3",
+        "x3",
+        "im3",
+        "ic3",
+        "power3",
+        "attitude3",
+        "linupandwings3",
+        "remarks3",
+        "wires3",
+        "wires4",
+        "dNSDate34",
+        "gr4",
+        "aw4",
+        "ot4",
+        "x4",
+        "im4",
+        "ic4",
+        "ar4",
+        "power4",
+        "attitude4",
+        "linupandwings4",
+        "remarks4",
+        "wires5",
+        "dNSDate35",
+        "gr5",
+        "aw5",
+        "ot5",
+        "x5",
+        "im5",
+        "ic5",
+        "ar5",
+        "power5",
+        "attitude5",
+        "linupandwings5",
+        "remarks5",
+        "dNSDate36",
+        "gr6",
+        "aw6",
+        "o6",
+        "x6",
+        "im6",
+        "ic6",
+        "ar6",
+        "power6",
+        "attitude6",
+        "linupandwings6",
+        "remarks6",
+        "wires6",
+        "wires7",
+        "dNSDate37",
+        "gr7",
+        "aw7",
+        "ot7",
+        "x7",
+        "im7",
+        "ic7",
+        "ar7",
+        "power",
+        "attitude7",
+        "linupandwings7",
+        "remarks",
+        "wires8",
+        "dNSDate38",
+        "gr8",
+        "aw8",
+        "ot8",
+        "x8",
+        "im8",
+        "ic8",
+        "ar8",
+        "power8",
+        "attitude8",
+        "linupandwings8",
+        "remarks8",
+        "wires9",
+        "dNSDate39",
+        "gr9",
+        "aw9",
+        "ot9",
+        "x9",
+        "im9",
+        "ic9",
+        "ar9",
+        "power9",
+        "attitude9",
+        "linupandwings9",
+        "remarks9",
+        "wires10",
+        "dNSDate310",
+        "gr10",
+        "aw10",
+        "ot10",
+        "x10",
+        "im10",
+        "ic10",
+        "ar10",
+        "power10",
+        "attitude",
+        "linupandwings10",
+        "remarks10",
+        "wires11",
+        "dNSDate311",
+        "gr11",
+        "aw11",
+        "ot11",
+        "x11",
+        "im11",
+        "ic11",
+        "ar11",
+        "power11",
+        "attitude11",
+        "linupandwings11",
+        "remarks11",
+        "wires12",
+        "dNSDate312",
+        "gr12",
+        "aw12",
+        "ot12",
+        "x12",
+        "im12",
+        "ic12",
+        "ar12",
+        "power12",
+        "attitude12",
+        "linupandwings12",
+        "remarks12",
+        "wires13",
+        "dNSDate313",
+        "gr13",
+        "aw103",
+        "ot13",
+        "x13",
+        "im13",
+        "ic13",
+        "ar13",
+        "power13",
+        "attitude13",
+        "linupandwings13",
+        "remarks13",
+        "dNSDate314",
+        "gr14",
+        "aw14",
+        "ot14",
+        "x14",
+        "im14",
+        "ic14",
+        "ar14",
+        "power14",
+        "attitude14",
+        "linupandwings14",
+        "wires14",
+        "remarks14",
+        "dNSDate315",
+        "gr15",
+        "aw15",
+        "ot15",
+        "x15",
+        "im15",
+        "ic15",
+        "ar15",
+        "power15",
+        "attitude15",
+        "linupandwings15",
+        "wires15",
+        "remarks15",
+        "wires16",
+        "dNSDate316",
+        "gr16",
+        "aw16",
+        "ot16",
+        "x",
+        "im16",
+        "ic16",
+        "ar16",
+        "power16",
+        "attitude16",
+        "linupandwings16",
+        "remarks16",
+        "wires17",
+        "dNSDate317",
+        "gr17",
+        "aw17",
+        "ot17",
+        "x17",
+        "im17",
+        "ic17",
+        "ar17",
+        "power17",
+        "attitude17",
+        "linupandwings17",
+        "remarks17",
+        "wires18",
+        "ar18",
+        "dNSDate318",
+        "gr18",
+        "aw18",
+        "ot18",
+        "x18",
+        "im18",
+        "ic18",
+        "power18",
+        "attitude18",
+        "linupandwings18",
+        "remarks18",
+        "wires19",
+        "dNSDate319",
+        "gr19",
+        "aw19",
+        "ot19",
+        "x19",
+        "im19",
+        "ic19",
+        "power19",
+        "attitude19",
+        "linupandwings19",
+        "remarks19",
+        "ar19",
+        "wires20",
+        "dNSDate320",
+        "gr20",
+        "aw20",
+        "ot20",
+        "x20",
+        "im20",
+        "ic20",
+        "ar20",
+        "power20",
+        "attitude20",
+        "linupandwings20",
+        "remarks20",
+        "wires21",
+        "dNSDate321",
+        "gr21",
+        "aw21",
+        "ot21",
+        "x21",
+        "im21",
+        "ic21",
+        "ar21",
+        "power21",
+        "attitude21",
+        "linupandwings21",
+        "remarks21",
+        "wires22",
+        "dNSDate322",
+        "gr22",
+        "aw22",
+        "ot22",
+        "x22",
+        "im22",
+        "ic22",
+        "ar22",
+        "power22",
+        "attitude22",
+        "linupandwings22",
+        "remarks22",
+        "wires23",
+        "attitude23",
+        "dNSDate323",
+        "gr23",
+        "aw23",
+        "ot23",
+        "x23",
+        "im23",
+        "ic23",
+        "ar23",
+        "power23",
+        "linupandwings23",
+        "remarks23",
+        "wires24",
+        "remarks24",
+        "power24",
+        "attitude24",
+        "linupandwings24",
+        "gr24",
+        "aw24",
+        "ot24",
+        "x24",
+        "im24",
+        "ar24",
+        "dNSDate324",
+        "ic24",
+        "dNSDate325",
+        "gr25",
+        "aw25",
+        "ot25",
+        "x25",
+        "im25",
+        "ic25",
+        "ar25",
+        "power25",
+        "attitude25",
+        "linupandwings25",
+        "remarks25"
+      ]
+    }
+  ],
+  "fields": {
+    "pilot": {
+      "type": "text",
+      "label": "Enter pilot's name.",
+      "page": 1,
+      "box": {
+        "left": 268.6,
+        "top": 568.4,
+        "width": 205.7,
+        "height": 19.4
+      }
+    },
+    "yr": {
+      "type": "text",
+      "label": "Enter the year.",
+      "page": 1,
+      "box": {
+        "left": 86.6,
+        "top": 546.6,
+        "width": 126.5,
+        "height": 16.1
+      }
+    },
+    "acft": {
+      "type": "text",
+      "label": "Enter the ACFT value.",
+      "page": 1,
+      "box": {
+        "left": 261.9,
+        "top": 546.6,
+        "width": 126.5,
+        "height": 16.1
+      }
+    },
+    "ship": {
+      "type": "text",
+      "label": "Enter the ship.",
+      "page": 1,
+      "box": {
+        "left": 549.4,
+        "top": 546.6,
+        "width": 171.4,
+        "height": 16.1
+      }
+    },
+    "squadron": {
+      "type": "text",
+      "label": "Enter the squadron.",
+      "page": 1,
+      "box": {
+        "left": 449.8,
+        "top": 544.9,
+        "width": 63.8,
+        "height": 15.2
+      }
+    },
+    "dNSDate3": {
+      "type": "text",
+      "label": "This is row 1 of 25, enter the analysis date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 61.4,
+        "top": 488.0,
+        "width": 54.2,
+        "height": 17.0
+      }
+    },
+    "gr": {
+      "type": "text",
+      "label": "Enter the GR value.",
+      "page": 1,
+      "box": {
+        "left": 148.5,
+        "top": 488.0,
+        "width": 19.0,
+        "height": 17.0
+      }
+    },
+    "aw1": {
+      "type": "text",
+      "label": "Enter the AW value.",
+      "page": 1,
+      "box": {
+        "left": 173.2,
+        "top": 488.0,
+        "width": 23.2,
+        "height": 17.0
+      }
+    },
+    "ot1": {
+      "type": "text",
+      "label": "Enter the OT value.",
+      "page": 1,
+      "box": {
+        "left": 201.6,
+        "top": 488.0,
+        "width": 23.6,
+        "height": 17.0
+      }
+    },
+    "x1": {
+      "type": "text",
+      "label": "Enter the X value.",
+      "page": 1,
+      "box": {
+        "left": 230.1,
+        "top": 488.0,
+        "width": 26.1,
+        "height": 17.0
+      }
+    },
+    "im1": {
+      "type": "text",
+      "label": "Enter the IM value.",
+      "page": 1,
+      "box": {
+        "left": 261.9,
+        "top": 488.0,
+        "width": 25.7,
+        "height": 17.0
+      }
+    },
+    "ic1": {
+      "type": "text",
+      "label": "Enter the IC value.",
+      "page": 1,
+      "box": {
+        "left": 292.9,
+        "top": 488.0,
+        "width": 22.4,
+        "height": 17.0
+      }
+    },
+    "ar1": {
+      "type": "text",
+      "label": "Enter the AR value.",
+      "page": 1,
+      "box": {
+        "left": 321.8,
+        "top": 488.0,
+        "width": 24.9,
+        "height": 17.0
+      }
+    },
+    "power1": {
+      "type": "text",
+      "label": "Enter the power value.",
+      "page": 1,
+      "box": {
+        "left": 352.3,
+        "top": 488.0,
+        "width": 37.4,
+        "height": 17.0
+      }
+    },
+    "attitude1": {
+      "type": "text",
+      "label": "Enter the attitude value.",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 488.0,
+        "width": 45.0,
+        "height": 17.0
+      }
+    },
+    "linupandwings1": {
+      "type": "text",
+      "label": "Enter the line-up and wings value.",
+      "page": 1,
+      "box": {
+        "left": 451.1,
+        "top": 488.0,
+        "width": 58.8,
+        "height": 17.0
+      }
+    },
+    "remarks1": {
+      "type": "text",
+      "label": "Enter the remarks- include use of APC and AWCLS.",
+      "page": 1,
+      "box": {
+        "left": 590.5,
+        "top": 488.0,
+        "width": 145.8,
+        "height": 17.0
+      }
+    },
+    "wires1": {
+      "type": "choice",
+      "label": "Using the drop-down box,  enter the number-1,2,3,4,.",
+      "page": 1,
+      "box": {
+        "left": 517.2,
+        "top": 487.8,
+        "width": 65.9,
+        "height": 16.5
+      },
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    "im2": {
+      "type": "text",
+      "label": "Enter the IM value.",
+      "page": 1,
+      "box": {
+        "left": 261.9,
+        "top": 468.8,
+        "width": 25.7,
+        "height": 14.7
+      }
+    },
+    "dNSDate32": {
+      "type": "text",
+      "label": "This is row 2 of 25, enter the analysis date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 61.4,
+        "top": 467.9,
+        "width": 54.2,
+        "height": 13.9
+      }
+    },
+    "gr2": {
+      "type": "text",
+      "label": "Enter the GR value.",
+      "page": 1,
+      "box": {
+        "left": 148.5,
+        "top": 467.9,
+        "width": 19.0,
+        "height": 13.9
+      }
+    },
+    "aw2": {
+      "type": "text",
+      "label": "Enter the AW value.",
+      "page": 1,
+      "box": {
+        "left": 173.2,
+        "top": 467.9,
+        "width": 23.2,
+        "height": 13.9
+      }
+    },
+    "ot2": {
+      "type": "text",
+      "label": "Enter the OT value.",
+      "page": 1,
+      "box": {
+        "left": 201.6,
+        "top": 467.9,
+        "width": 23.6,
+        "height": 13.9
+      }
+    },
+    "x2": {
+      "type": "text",
+      "label": "Enter the X value.",
+      "page": 1,
+      "box": {
+        "left": 230.1,
+        "top": 467.9,
+        "width": 26.1,
+        "height": 13.9
+      }
+    },
+    "ic2": {
+      "type": "text",
+      "label": "Enter the IC value.",
+      "page": 1,
+      "box": {
+        "left": 292.9,
+        "top": 467.9,
+        "width": 22.4,
+        "height": 13.9
+      }
+    },
+    "ar2": {
+      "type": "text",
+      "label": "Enter the AR value.",
+      "page": 1,
+      "box": {
+        "left": 321.8,
+        "top": 467.9,
+        "width": 24.9,
+        "height": 13.9
+      }
+    },
+    "power2": {
+      "type": "text",
+      "label": "Enter the power value.",
+      "page": 1,
+      "box": {
+        "left": 352.3,
+        "top": 467.9,
+        "width": 37.4,
+        "height": 13.9
+      }
+    },
+    "attitude2": {
+      "type": "text",
+      "label": "Enter the attitude value.",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 467.9,
+        "width": 45.0,
+        "height": 13.9
+      }
+    },
+    "linupandwings2": {
+      "type": "text",
+      "label": "Enter the line-up and wings value.",
+      "page": 1,
+      "box": {
+        "left": 451.1,
+        "top": 467.9,
+        "width": 58.8,
+        "height": 13.9
+      }
+    },
+    "remarks2": {
+      "type": "text",
+      "label": "Enter the remarks- include use of APC and AWCLS.",
+      "page": 1,
+      "box": {
+        "left": 590.5,
+        "top": 467.9,
+        "width": 145.8,
+        "height": 13.9
+      }
+    },
+    "wires2": {
+      "type": "choice",
+      "label": "Using the drop-down box,  enter the number-1,2,3,4,.",
+      "page": 1,
+      "box": {
+        "left": 517.2,
+        "top": 466.9,
+        "width": 66.7,
+        "height": 14.0
+      },
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    "ar3": {
+      "type": "text",
+      "label": "Enter the AR value.",
+      "page": 1,
+      "box": {
+        "left": 321.8,
+        "top": 450.8,
+        "width": 24.9,
+        "height": 14.1
+      }
+    },
+    "dNSDate33": {
+      "type": "text",
+      "label": "This is row 3 of 25, enter the analysis date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 61.4,
+        "top": 450.6,
+        "width": 54.2,
+        "height": 13.4
+      }
+    },
+    "gr3": {
+      "type": "text",
+      "label": "Enter the GR value.",
+      "page": 1,
+      "box": {
+        "left": 148.5,
+        "top": 450.6,
+        "width": 19.0,
+        "height": 13.9
+      }
+    },
+    "aw3": {
+      "type": "text",
+      "label": "Enter the AW value.",
+      "page": 1,
+      "box": {
+        "left": 173.2,
+        "top": 450.6,
+        "width": 23.2,
+        "height": 13.9
+      }
+    },
+    "ot3": {
+      "type": "text",
+      "label": "Enter the OT value.",
+      "page": 1,
+      "box": {
+        "left": 201.6,
+        "top": 450.6,
+        "width": 23.6,
+        "height": 13.9
+      }
+    },
+    "x3": {
+      "type": "text",
+      "label": "Enter the X value.",
+      "page": 1,
+      "box": {
+        "left": 230.1,
+        "top": 450.6,
+        "width": 26.1,
+        "height": 13.9
+      }
+    },
+    "im3": {
+      "type": "text",
+      "label": "Enter the IM value.",
+      "page": 1,
+      "box": {
+        "left": 261.9,
+        "top": 450.6,
+        "width": 25.7,
+        "height": 13.9
+      }
+    },
+    "ic3": {
+      "type": "text",
+      "label": "Enter the IC value.",
+      "page": 1,
+      "box": {
+        "left": 292.9,
+        "top": 450.6,
+        "width": 22.4,
+        "height": 13.9
+      }
+    },
+    "power3": {
+      "type": "text",
+      "label": "Enter the power value.",
+      "page": 1,
+      "box": {
+        "left": 352.3,
+        "top": 450.6,
+        "width": 37.4,
+        "height": 13.9
+      }
+    },
+    "attitude3": {
+      "type": "text",
+      "label": "Enter the attitude value.",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 450.6,
+        "width": 45.0,
+        "height": 13.9
+      }
+    },
+    "linupandwings3": {
+      "type": "text",
+      "label": "Enter the line-up and wings value.",
+      "page": 1,
+      "box": {
+        "left": 451.1,
+        "top": 450.6,
+        "width": 58.8,
+        "height": 13.9
+      }
+    },
+    "remarks3": {
+      "type": "text",
+      "label": "Enter the remarks- include use of APC and AWCLS.",
+      "page": 1,
+      "box": {
+        "left": 590.5,
+        "top": 450.6,
+        "width": 145.8,
+        "height": 13.9
+      }
+    },
+    "wires3": {
+      "type": "choice",
+      "label": "Using the drop-down box,  enter the number-1,2,3,4,.",
+      "page": 1,
+      "box": {
+        "left": 517.2,
+        "top": 450.1,
+        "width": 66.7,
+        "height": 14.0
+      },
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    "wires4": {
+      "type": "choice",
+      "label": "Using the drop-down box,  enter the number-1,2,3,4,.",
+      "page": 1,
+      "box": {
+        "left": 517.2,
+        "top": 433.4,
+        "width": 66.7,
+        "height": 14.0
+      },
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    "dNSDate34": {
+      "type": "text",
+      "label": "This is row 4 of 25, enter the analysis date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 61.4,
+        "top": 433.2,
+        "width": 54.2,
+        "height": 13.9
+      }
+    },
+    "gr4": {
+      "type": "text",
+      "label": "Enter the GR value.",
+      "page": 1,
+      "box": {
+        "left": 148.5,
+        "top": 433.2,
+        "width": 19.0,
+        "height": 13.9
+      }
+    },
+    "aw4": {
+      "type": "text",
+      "label": "Enter the AW value.",
+      "page": 1,
+      "box": {
+        "left": 173.2,
+        "top": 433.2,
+        "width": 23.2,
+        "height": 13.9
+      }
+    },
+    "ot4": {
+      "type": "text",
+      "label": "Enter the OT value.",
+      "page": 1,
+      "box": {
+        "left": 201.6,
+        "top": 433.2,
+        "width": 23.6,
+        "height": 13.9
+      }
+    },
+    "x4": {
+      "type": "text",
+      "label": "Enter the X value.",
+      "page": 1,
+      "box": {
+        "left": 230.1,
+        "top": 433.2,
+        "width": 26.1,
+        "height": 13.9
+      }
+    },
+    "im4": {
+      "type": "text",
+      "label": "Enter the IM value.",
+      "page": 1,
+      "box": {
+        "left": 261.9,
+        "top": 433.2,
+        "width": 25.7,
+        "height": 13.9
+      }
+    },
+    "ic4": {
+      "type": "text",
+      "label": "Enter the IC value.",
+      "page": 1,
+      "box": {
+        "left": 292.9,
+        "top": 433.2,
+        "width": 22.4,
+        "height": 13.9
+      }
+    },
+    "ar4": {
+      "type": "text",
+      "label": "Enter the AR value.",
+      "page": 1,
+      "box": {
+        "left": 321.8,
+        "top": 433.2,
+        "width": 24.9,
+        "height": 13.9
+      }
+    },
+    "power4": {
+      "type": "text",
+      "label": "Enter the power value.",
+      "page": 1,
+      "box": {
+        "left": 352.3,
+        "top": 433.2,
+        "width": 37.4,
+        "height": 13.9
+      }
+    },
+    "attitude4": {
+      "type": "text",
+      "label": "Enter the attitude value.",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 433.2,
+        "width": 45.0,
+        "height": 13.9
+      }
+    },
+    "linupandwings4": {
+      "type": "text",
+      "label": "Enter the line-up and wings value.",
+      "page": 1,
+      "box": {
+        "left": 451.1,
+        "top": 433.2,
+        "width": 58.8,
+        "height": 13.9
+      }
+    },
+    "remarks4": {
+      "type": "text",
+      "label": "Enter the remarks- include use of APC and AWCLS.",
+      "page": 1,
+      "box": {
+        "left": 590.5,
+        "top": 433.2,
+        "width": 145.8,
+        "height": 13.9
+      }
+    },
+    "wires5": {
+      "type": "choice",
+      "label": "Using the drop-down box,  enter the number-1,2,3,4,.",
+      "page": 1,
+      "box": {
+        "left": 517.2,
+        "top": 416.2,
+        "width": 66.7,
+        "height": 14.0
+      },
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    "dNSDate35": {
+      "type": "text",
+      "label": "This is row 5 of 25, enter the analysis date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 61.4,
+        "top": 415.9,
+        "width": 54.2,
+        "height": 13.9
+      }
+    },
+    "gr5": {
+      "type": "text",
+      "label": "Enter the GR value.",
+      "page": 1,
+      "box": {
+        "left": 148.5,
+        "top": 415.9,
+        "width": 19.0,
+        "height": 13.9
+      }
+    },
+    "aw5": {
+      "type": "text",
+      "label": "Enter the AW value.",
+      "page": 1,
+      "box": {
+        "left": 173.2,
+        "top": 415.9,
+        "width": 23.2,
+        "height": 13.9
+      }
+    },
+    "ot5": {
+      "type": "text",
+      "label": "Enter the OT value.",
+      "page": 1,
+      "box": {
+        "left": 201.6,
+        "top": 415.9,
+        "width": 23.6,
+        "height": 13.9
+      }
+    },
+    "x5": {
+      "type": "text",
+      "label": "Enter the X value.",
+      "page": 1,
+      "box": {
+        "left": 230.1,
+        "top": 415.9,
+        "width": 26.1,
+        "height": 13.9
+      }
+    },
+    "im5": {
+      "type": "text",
+      "label": "Enter the IM value.",
+      "page": 1,
+      "box": {
+        "left": 261.9,
+        "top": 415.9,
+        "width": 25.7,
+        "height": 13.9
+      }
+    },
+    "ic5": {
+      "type": "text",
+      "label": "Enter the IC value.",
+      "page": 1,
+      "box": {
+        "left": 292.9,
+        "top": 415.9,
+        "width": 22.4,
+        "height": 13.9
+      }
+    },
+    "ar5": {
+      "type": "text",
+      "label": "Enter the AR value.",
+      "page": 1,
+      "box": {
+        "left": 321.8,
+        "top": 415.9,
+        "width": 24.9,
+        "height": 13.9
+      }
+    },
+    "power5": {
+      "type": "text",
+      "label": "Enter the power value.",
+      "page": 1,
+      "box": {
+        "left": 352.3,
+        "top": 415.9,
+        "width": 37.4,
+        "height": 13.9
+      }
+    },
+    "attitude5": {
+      "type": "text",
+      "label": "Enter the attitude value.",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 415.9,
+        "width": 45.0,
+        "height": 13.9
+      }
+    },
+    "linupandwings5": {
+      "type": "text",
+      "label": "Enter the line-up and wings value.",
+      "page": 1,
+      "box": {
+        "left": 451.1,
+        "top": 415.9,
+        "width": 58.8,
+        "height": 13.9
+      }
+    },
+    "remarks5": {
+      "type": "text",
+      "label": "Enter the remarks- include use of APC and AWCLS.",
+      "page": 1,
+      "box": {
+        "left": 590.5,
+        "top": 415.9,
+        "width": 145.8,
+        "height": 13.9
+      }
+    },
+    "dNSDate36": {
+      "type": "text",
+      "label": "This is row 6 of 25, enter the analysis date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 61.4,
+        "top": 398.5,
+        "width": 54.2,
+        "height": 13.9
+      }
+    },
+    "gr6": {
+      "type": "text",
+      "label": "Enter the GR value.",
+      "page": 1,
+      "box": {
+        "left": 148.5,
+        "top": 398.5,
+        "width": 19.0,
+        "height": 13.9
+      }
+    },
+    "aw6": {
+      "type": "text",
+      "label": "Enter the AW value.",
+      "page": 1,
+      "box": {
+        "left": 173.2,
+        "top": 398.5,
+        "width": 23.2,
+        "height": 13.9
+      }
+    },
+    "o6": {
+      "type": "text",
+      "label": "Enter the OT value.",
+      "page": 1,
+      "box": {
+        "left": 201.6,
+        "top": 398.5,
+        "width": 23.6,
+        "height": 13.9
+      }
+    },
+    "x6": {
+      "type": "text",
+      "label": "Enter the X value.",
+      "page": 1,
+      "box": {
+        "left": 230.1,
+        "top": 398.5,
+        "width": 26.1,
+        "height": 13.9
+      }
+    },
+    "im6": {
+      "type": "text",
+      "label": "Enter the IM value.",
+      "page": 1,
+      "box": {
+        "left": 261.9,
+        "top": 398.5,
+        "width": 25.7,
+        "height": 13.9
+      }
+    },
+    "ic6": {
+      "type": "text",
+      "label": "Enter the IC value.",
+      "page": 1,
+      "box": {
+        "left": 292.9,
+        "top": 398.5,
+        "width": 22.4,
+        "height": 13.9
+      }
+    },
+    "ar6": {
+      "type": "text",
+      "label": "Enter the AR value.",
+      "page": 1,
+      "box": {
+        "left": 321.8,
+        "top": 398.5,
+        "width": 24.9,
+        "height": 13.9
+      }
+    },
+    "power6": {
+      "type": "text",
+      "label": "Enter the power value.",
+      "page": 1,
+      "box": {
+        "left": 352.3,
+        "top": 398.5,
+        "width": 37.4,
+        "height": 13.9
+      }
+    },
+    "attitude6": {
+      "type": "text",
+      "label": "Enter the attitude value.",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 398.5,
+        "width": 45.0,
+        "height": 13.9
+      }
+    },
+    "linupandwings6": {
+      "type": "text",
+      "label": "Enter the line-up and wings value.",
+      "page": 1,
+      "box": {
+        "left": 451.1,
+        "top": 398.5,
+        "width": 58.8,
+        "height": 13.9
+      }
+    },
+    "remarks6": {
+      "type": "text",
+      "label": "Enter the remarks- include use of APC and AWCLS.",
+      "page": 1,
+      "box": {
+        "left": 590.5,
+        "top": 398.5,
+        "width": 145.8,
+        "height": 13.9
+      }
+    },
+    "wires6": {
+      "type": "choice",
+      "label": "Using the drop-down box,  enter the number-1,2,3,4,.",
+      "page": 1,
+      "box": {
+        "left": 517.2,
+        "top": 398.2,
+        "width": 66.7,
+        "height": 14.0
+      },
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    "wires7": {
+      "type": "choice",
+      "label": "Using the drop-down box,  enter the number-1,2,3,4,.",
+      "page": 1,
+      "box": {
+        "left": 517.2,
+        "top": 381.5,
+        "width": 66.7,
+        "height": 14.0
+      },
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    "dNSDate37": {
+      "type": "text",
+      "label": "This is row 7 of 25, enter the analysis date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 61.4,
+        "top": 381.2,
+        "width": 54.2,
+        "height": 14.0
+      }
+    },
+    "gr7": {
+      "type": "text",
+      "label": "Enter the GR value.",
+      "page": 1,
+      "box": {
+        "left": 148.5,
+        "top": 381.2,
+        "width": 19.0,
+        "height": 14.0
+      }
+    },
+    "aw7": {
+      "type": "text",
+      "label": "Enter the AW value.",
+      "page": 1,
+      "box": {
+        "left": 173.2,
+        "top": 381.2,
+        "width": 23.2,
+        "height": 14.0
+      }
+    },
+    "ot7": {
+      "type": "text",
+      "label": "Enter the OT value.",
+      "page": 1,
+      "box": {
+        "left": 201.6,
+        "top": 381.2,
+        "width": 23.6,
+        "height": 14.0
+      }
+    },
+    "x7": {
+      "type": "text",
+      "label": "Enter the X value.",
+      "page": 1,
+      "box": {
+        "left": 230.1,
+        "top": 381.2,
+        "width": 26.1,
+        "height": 14.0
+      }
+    },
+    "im7": {
+      "type": "text",
+      "label": "Enter the IM value.",
+      "page": 1,
+      "box": {
+        "left": 261.9,
+        "top": 381.2,
+        "width": 25.7,
+        "height": 14.0
+      }
+    },
+    "ic7": {
+      "type": "text",
+      "label": "Enter the IC value.",
+      "page": 1,
+      "box": {
+        "left": 292.9,
+        "top": 381.2,
+        "width": 22.4,
+        "height": 14.0
+      }
+    },
+    "ar7": {
+      "type": "text",
+      "label": "Enter the AR value.",
+      "page": 1,
+      "box": {
+        "left": 321.8,
+        "top": 381.2,
+        "width": 24.9,
+        "height": 14.0
+      }
+    },
+    "power": {
+      "type": "text",
+      "label": "Enter the power value.",
+      "page": 1,
+      "box": {
+        "left": 352.3,
+        "top": 381.2,
+        "width": 37.4,
+        "height": 14.0
+      }
+    },
+    "attitude7": {
+      "type": "text",
+      "label": "Enter the attitude value.",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 381.2,
+        "width": 45.0,
+        "height": 14.0
+      }
+    },
+    "linupandwings7": {
+      "type": "text",
+      "label": "Enter the line-up and wings value.",
+      "page": 1,
+      "box": {
+        "left": 451.1,
+        "top": 381.2,
+        "width": 58.8,
+        "height": 14.0
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "Enter the remarks- include use of APC and AWCLS.",
+      "page": 1,
+      "box": {
+        "left": 590.5,
+        "top": 381.2,
+        "width": 145.8,
+        "height": 14.0
+      }
+    },
+    "wires8": {
+      "type": "choice",
+      "label": "Using the drop-down box,  enter the number-1,2,3,4,.",
+      "page": 1,
+      "box": {
+        "left": 517.2,
+        "top": 364.3,
+        "width": 66.7,
+        "height": 14.0
+      },
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    "dNSDate38": {
+      "type": "text",
+      "label": "This is row 8 of 25, enter the analysis date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 61.4,
+        "top": 363.8,
+        "width": 54.2,
+        "height": 14.0
+      }
+    },
+    "gr8": {
+      "type": "text",
+      "label": "Enter the GR value.",
+      "page": 1,
+      "box": {
+        "left": 148.5,
+        "top": 363.8,
+        "width": 19.0,
+        "height": 14.0
+      }
+    },
+    "aw8": {
+      "type": "text",
+      "label": "Enter the AW value.",
+      "page": 1,
+      "box": {
+        "left": 173.2,
+        "top": 363.8,
+        "width": 23.2,
+        "height": 14.0
+      }
+    },
+    "ot8": {
+      "type": "text",
+      "label": "Enter the OT value.",
+      "page": 1,
+      "box": {
+        "left": 201.6,
+        "top": 363.8,
+        "width": 23.6,
+        "height": 14.0
+      }
+    },
+    "x8": {
+      "type": "text",
+      "label": "Enter the X value.",
+      "page": 1,
+      "box": {
+        "left": 230.1,
+        "top": 363.8,
+        "width": 26.1,
+        "height": 14.0
+      }
+    },
+    "im8": {
+      "type": "text",
+      "label": "Enter the IM value.",
+      "page": 1,
+      "box": {
+        "left": 261.9,
+        "top": 363.8,
+        "width": 25.7,
+        "height": 14.0
+      }
+    },
+    "ic8": {
+      "type": "text",
+      "label": "Enter the IC value.",
+      "page": 1,
+      "box": {
+        "left": 292.9,
+        "top": 363.8,
+        "width": 22.4,
+        "height": 14.0
+      }
+    },
+    "ar8": {
+      "type": "text",
+      "label": "Enter the AR value.",
+      "page": 1,
+      "box": {
+        "left": 321.8,
+        "top": 363.8,
+        "width": 24.9,
+        "height": 14.0
+      }
+    },
+    "power8": {
+      "type": "text",
+      "label": "Enter the power value.",
+      "page": 1,
+      "box": {
+        "left": 352.3,
+        "top": 363.8,
+        "width": 37.4,
+        "height": 14.0
+      }
+    },
+    "attitude8": {
+      "type": "text",
+      "label": "Enter the attitude value.",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 363.8,
+        "width": 45.0,
+        "height": 14.0
+      }
+    },
+    "linupandwings8": {
+      "type": "text",
+      "label": "Enter the line-up and wings value.",
+      "page": 1,
+      "box": {
+        "left": 451.1,
+        "top": 363.8,
+        "width": 58.8,
+        "height": 14.0
+      }
+    },
+    "remarks8": {
+      "type": "text",
+      "label": "Enter the remarks- include use of APC and AWCLS.",
+      "page": 1,
+      "box": {
+        "left": 590.5,
+        "top": 363.8,
+        "width": 145.8,
+        "height": 14.0
+      }
+    },
+    "wires9": {
+      "type": "choice",
+      "label": "Using the drop-down box,  enter the number-1,2,3,4,.",
+      "page": 1,
+      "box": {
+        "left": 517.2,
+        "top": 347.2,
+        "width": 66.7,
+        "height": 14.0
+      },
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    "dNSDate39": {
+      "type": "text",
+      "label": "This is row 9 of 25, enter the analysis date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 61.4,
+        "top": 346.4,
+        "width": 54.2,
+        "height": 14.0
+      }
+    },
+    "gr9": {
+      "type": "text",
+      "label": "Enter the GR value.",
+      "page": 1,
+      "box": {
+        "left": 148.5,
+        "top": 346.4,
+        "width": 19.0,
+        "height": 14.0
+      }
+    },
+    "aw9": {
+      "type": "text",
+      "label": "Enter the AW value.",
+      "page": 1,
+      "box": {
+        "left": 173.2,
+        "top": 346.4,
+        "width": 23.2,
+        "height": 14.0
+      }
+    },
+    "ot9": {
+      "type": "text",
+      "label": "Enter the OT value.",
+      "page": 1,
+      "box": {
+        "left": 201.6,
+        "top": 346.4,
+        "width": 23.6,
+        "height": 14.0
+      }
+    },
+    "x9": {
+      "type": "text",
+      "label": "Enter the X value.",
+      "page": 1,
+      "box": {
+        "left": 230.1,
+        "top": 346.4,
+        "width": 26.1,
+        "height": 14.0
+      }
+    },
+    "im9": {
+      "type": "text",
+      "label": "Enter the IM value.",
+      "page": 1,
+      "box": {
+        "left": 261.9,
+        "top": 346.4,
+        "width": 25.7,
+        "height": 14.0
+      }
+    },
+    "ic9": {
+      "type": "text",
+      "label": "Enter the IC value.",
+      "page": 1,
+      "box": {
+        "left": 292.9,
+        "top": 346.4,
+        "width": 22.4,
+        "height": 14.0
+      }
+    },
+    "ar9": {
+      "type": "text",
+      "label": "Enter the AR value.",
+      "page": 1,
+      "box": {
+        "left": 321.8,
+        "top": 346.4,
+        "width": 24.9,
+        "height": 14.0
+      }
+    },
+    "power9": {
+      "type": "text",
+      "label": "Enter the power value.",
+      "page": 1,
+      "box": {
+        "left": 352.3,
+        "top": 346.4,
+        "width": 37.4,
+        "height": 14.0
+      }
+    },
+    "attitude9": {
+      "type": "text",
+      "label": "Enter the attitude value.",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 346.4,
+        "width": 45.0,
+        "height": 14.0
+      }
+    },
+    "linupandwings9": {
+      "type": "text",
+      "label": "Enter the line-up and wings value.",
+      "page": 1,
+      "box": {
+        "left": 451.1,
+        "top": 346.4,
+        "width": 58.8,
+        "height": 14.0
+      }
+    },
+    "remarks9": {
+      "type": "text",
+      "label": "Enter the remarks- include use of APC and AWCLS.",
+      "page": 1,
+      "box": {
+        "left": 590.5,
+        "top": 346.4,
+        "width": 145.8,
+        "height": 14.0
+      }
+    },
+    "wires10": {
+      "type": "choice",
+      "label": "Using the drop-down box,  enter the number-1,2,3,4,.",
+      "page": 1,
+      "box": {
+        "left": 517.2,
+        "top": 329.6,
+        "width": 66.7,
+        "height": 14.0
+      },
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    "dNSDate310": {
+      "type": "text",
+      "label": "This is row 10 of 25, enter the analysis date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 61.4,
+        "top": 329.0,
+        "width": 54.2,
+        "height": 14.0
+      }
+    },
+    "gr10": {
+      "type": "text",
+      "label": "Enter the GR value.",
+      "page": 1,
+      "box": {
+        "left": 148.5,
+        "top": 329.0,
+        "width": 19.0,
+        "height": 14.0
+      }
+    },
+    "aw10": {
+      "type": "text",
+      "label": "Enter the AW value.",
+      "page": 1,
+      "box": {
+        "left": 173.2,
+        "top": 329.0,
+        "width": 23.2,
+        "height": 14.0
+      }
+    },
+    "ot10": {
+      "type": "text",
+      "label": "Enter the OT value.",
+      "page": 1,
+      "box": {
+        "left": 201.6,
+        "top": 329.0,
+        "width": 23.6,
+        "height": 14.0
+      }
+    },
+    "x10": {
+      "type": "text",
+      "label": "Enter the X value.",
+      "page": 1,
+      "box": {
+        "left": 230.1,
+        "top": 329.0,
+        "width": 26.1,
+        "height": 14.0
+      }
+    },
+    "im10": {
+      "type": "text",
+      "label": "Enter the IM value.",
+      "page": 1,
+      "box": {
+        "left": 261.9,
+        "top": 329.0,
+        "width": 25.7,
+        "height": 14.0
+      }
+    },
+    "ic10": {
+      "type": "text",
+      "label": "Enter the IC value.",
+      "page": 1,
+      "box": {
+        "left": 292.9,
+        "top": 329.0,
+        "width": 22.4,
+        "height": 14.0
+      }
+    },
+    "ar10": {
+      "type": "text",
+      "label": "Enter the AR value.",
+      "page": 1,
+      "box": {
+        "left": 321.8,
+        "top": 329.0,
+        "width": 24.9,
+        "height": 14.0
+      }
+    },
+    "power10": {
+      "type": "text",
+      "label": "Enter the power value.",
+      "page": 1,
+      "box": {
+        "left": 352.3,
+        "top": 329.0,
+        "width": 37.4,
+        "height": 14.0
+      }
+    },
+    "attitude": {
+      "type": "text",
+      "label": "Enter the attitude value.",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 329.0,
+        "width": 45.0,
+        "height": 14.0
+      }
+    },
+    "linupandwings10": {
+      "type": "text",
+      "label": "Enter the line-up and wings value.",
+      "page": 1,
+      "box": {
+        "left": 451.1,
+        "top": 329.0,
+        "width": 58.8,
+        "height": 14.0
+      }
+    },
+    "remarks10": {
+      "type": "text",
+      "label": "Enter the remarks- include use of APC and AWCLS.",
+      "page": 1,
+      "box": {
+        "left": 590.5,
+        "top": 329.0,
+        "width": 145.8,
+        "height": 14.0
+      }
+    },
+    "wires11": {
+      "type": "choice",
+      "label": "Using the drop-down box,  enter the number-1,2,3,4,.",
+      "page": 1,
+      "box": {
+        "left": 517.2,
+        "top": 312.4,
+        "width": 66.7,
+        "height": 14.0
+      },
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    "dNSDate311": {
+      "type": "text",
+      "label": "This is row 11 of 25, enter the analysis date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 61.4,
+        "top": 311.6,
+        "width": 54.2,
+        "height": 14.0
+      }
+    },
+    "gr11": {
+      "type": "text",
+      "label": "Enter the GR value.",
+      "page": 1,
+      "box": {
+        "left": 148.5,
+        "top": 311.6,
+        "width": 19.0,
+        "height": 14.0
+      }
+    },
+    "aw11": {
+      "type": "text",
+      "label": "Enter the AW value.",
+      "page": 1,
+      "box": {
+        "left": 173.2,
+        "top": 311.6,
+        "width": 23.2,
+        "height": 14.0
+      }
+    },
+    "ot11": {
+      "type": "text",
+      "label": "Enter the OT value.",
+      "page": 1,
+      "box": {
+        "left": 201.6,
+        "top": 311.6,
+        "width": 23.6,
+        "height": 14.0
+      }
+    },
+    "x11": {
+      "type": "text",
+      "label": "Enter the X value.",
+      "page": 1,
+      "box": {
+        "left": 230.1,
+        "top": 311.6,
+        "width": 26.1,
+        "height": 14.0
+      }
+    },
+    "im11": {
+      "type": "text",
+      "label": "Enter the IM value.",
+      "page": 1,
+      "box": {
+        "left": 261.9,
+        "top": 311.6,
+        "width": 25.7,
+        "height": 14.0
+      }
+    },
+    "ic11": {
+      "type": "text",
+      "label": "Enter the IC value.",
+      "page": 1,
+      "box": {
+        "left": 292.9,
+        "top": 311.6,
+        "width": 22.4,
+        "height": 14.0
+      }
+    },
+    "ar11": {
+      "type": "text",
+      "label": "Enter the AR value.",
+      "page": 1,
+      "box": {
+        "left": 321.8,
+        "top": 311.6,
+        "width": 24.9,
+        "height": 14.0
+      }
+    },
+    "power11": {
+      "type": "text",
+      "label": "Enter the power value.",
+      "page": 1,
+      "box": {
+        "left": 352.3,
+        "top": 311.6,
+        "width": 37.4,
+        "height": 14.0
+      }
+    },
+    "attitude11": {
+      "type": "text",
+      "label": "Enter the attitude value.",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 311.6,
+        "width": 45.0,
+        "height": 14.0
+      }
+    },
+    "linupandwings11": {
+      "type": "text",
+      "label": "Enter the line-up and wings value.",
+      "page": 1,
+      "box": {
+        "left": 451.1,
+        "top": 311.6,
+        "width": 58.8,
+        "height": 14.0
+      }
+    },
+    "remarks11": {
+      "type": "text",
+      "label": "Enter the remarks- include use of APC and AWCLS.",
+      "page": 1,
+      "box": {
+        "left": 590.5,
+        "top": 311.6,
+        "width": 145.8,
+        "height": 14.0
+      }
+    },
+    "wires12": {
+      "type": "choice",
+      "label": "Using the drop-down box,  enter the number-1,2,3,4,.",
+      "page": 1,
+      "box": {
+        "left": 517.2,
+        "top": 295.3,
+        "width": 66.7,
+        "height": 14.0
+      },
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    "dNSDate312": {
+      "type": "text",
+      "label": "This is row 12 of 25, enter the analysis date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 61.4,
+        "top": 294.6,
+        "width": 54.2,
+        "height": 13.8
+      }
+    },
+    "gr12": {
+      "type": "text",
+      "label": "Enter the GR value.",
+      "page": 1,
+      "box": {
+        "left": 148.5,
+        "top": 294.6,
+        "width": 19.0,
+        "height": 13.8
+      }
+    },
+    "aw12": {
+      "type": "text",
+      "label": "Enter the AW value.",
+      "page": 1,
+      "box": {
+        "left": 173.2,
+        "top": 294.6,
+        "width": 23.2,
+        "height": 13.8
+      }
+    },
+    "ot12": {
+      "type": "text",
+      "label": "Enter the OT value.",
+      "page": 1,
+      "box": {
+        "left": 201.6,
+        "top": 294.6,
+        "width": 23.6,
+        "height": 13.8
+      }
+    },
+    "x12": {
+      "type": "text",
+      "label": "Enter the X value.",
+      "page": 1,
+      "box": {
+        "left": 230.1,
+        "top": 294.6,
+        "width": 26.1,
+        "height": 13.8
+      }
+    },
+    "im12": {
+      "type": "text",
+      "label": "Enter the IM value.",
+      "page": 1,
+      "box": {
+        "left": 261.9,
+        "top": 294.6,
+        "width": 25.7,
+        "height": 13.8
+      }
+    },
+    "ic12": {
+      "type": "text",
+      "label": "Enter the IC value.",
+      "page": 1,
+      "box": {
+        "left": 292.9,
+        "top": 294.6,
+        "width": 22.4,
+        "height": 13.8
+      }
+    },
+    "ar12": {
+      "type": "text",
+      "label": "Enter the AR value.",
+      "page": 1,
+      "box": {
+        "left": 321.8,
+        "top": 294.6,
+        "width": 24.9,
+        "height": 13.8
+      }
+    },
+    "power12": {
+      "type": "text",
+      "label": "Enter the power value.",
+      "page": 1,
+      "box": {
+        "left": 352.3,
+        "top": 294.6,
+        "width": 37.4,
+        "height": 13.8
+      }
+    },
+    "attitude12": {
+      "type": "text",
+      "label": "Enter the attitude value.",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 294.6,
+        "width": 45.0,
+        "height": 13.8
+      }
+    },
+    "linupandwings12": {
+      "type": "text",
+      "label": "Enter the line-up and wings value.",
+      "page": 1,
+      "box": {
+        "left": 451.1,
+        "top": 294.6,
+        "width": 58.8,
+        "height": 13.8
+      }
+    },
+    "remarks12": {
+      "type": "text",
+      "label": "Enter the remarks- include use of APC and AWCLS.",
+      "page": 1,
+      "box": {
+        "left": 590.5,
+        "top": 294.6,
+        "width": 145.8,
+        "height": 13.8
+      }
+    },
+    "wires13": {
+      "type": "choice",
+      "label": "Using the drop-down box,  enter the number-1,2,3,4,.",
+      "page": 1,
+      "box": {
+        "left": 517.2,
+        "top": 277.7,
+        "width": 66.7,
+        "height": 14.0
+      },
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    "dNSDate313": {
+      "type": "text",
+      "label": "This is row 13 of 25, enter the analysis date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 61.4,
+        "top": 277.4,
+        "width": 54.2,
+        "height": 13.8
+      }
+    },
+    "gr13": {
+      "type": "text",
+      "label": "Enter the GR value.",
+      "page": 1,
+      "box": {
+        "left": 148.5,
+        "top": 277.4,
+        "width": 19.0,
+        "height": 13.8
+      }
+    },
+    "aw103": {
+      "type": "text",
+      "label": "Enter the AW value.",
+      "page": 1,
+      "box": {
+        "left": 173.2,
+        "top": 277.4,
+        "width": 23.2,
+        "height": 13.8
+      }
+    },
+    "ot13": {
+      "type": "text",
+      "label": "Enter the OT value.",
+      "page": 1,
+      "box": {
+        "left": 201.6,
+        "top": 277.4,
+        "width": 23.6,
+        "height": 13.8
+      }
+    },
+    "x13": {
+      "type": "text",
+      "label": "Enter the X value.",
+      "page": 1,
+      "box": {
+        "left": 230.1,
+        "top": 277.4,
+        "width": 26.1,
+        "height": 13.8
+      }
+    },
+    "im13": {
+      "type": "text",
+      "label": "Enter the IM value.",
+      "page": 1,
+      "box": {
+        "left": 261.9,
+        "top": 277.4,
+        "width": 25.7,
+        "height": 13.8
+      }
+    },
+    "ic13": {
+      "type": "text",
+      "label": "Enter the IC value.",
+      "page": 1,
+      "box": {
+        "left": 292.9,
+        "top": 277.4,
+        "width": 22.4,
+        "height": 13.8
+      }
+    },
+    "ar13": {
+      "type": "text",
+      "label": "Enter the AR value.",
+      "page": 1,
+      "box": {
+        "left": 321.8,
+        "top": 277.4,
+        "width": 24.9,
+        "height": 13.8
+      }
+    },
+    "power13": {
+      "type": "text",
+      "label": "Enter the power value.",
+      "page": 1,
+      "box": {
+        "left": 352.3,
+        "top": 277.4,
+        "width": 37.4,
+        "height": 13.8
+      }
+    },
+    "attitude13": {
+      "type": "text",
+      "label": "Enter the attitude value.",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 277.4,
+        "width": 45.0,
+        "height": 13.8
+      }
+    },
+    "linupandwings13": {
+      "type": "text",
+      "label": "Enter the line-up and wings value.",
+      "page": 1,
+      "box": {
+        "left": 451.1,
+        "top": 277.4,
+        "width": 58.8,
+        "height": 13.8
+      }
+    },
+    "remarks13": {
+      "type": "text",
+      "label": "Enter the remarks- include use of APC and AWCLS.",
+      "page": 1,
+      "box": {
+        "left": 590.5,
+        "top": 277.4,
+        "width": 145.8,
+        "height": 13.8
+      }
+    },
+    "dNSDate314": {
+      "type": "text",
+      "label": "This is row 14 of 25, enter the analysis date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 61.4,
+        "top": 260.1,
+        "width": 54.2,
+        "height": 13.8
+      }
+    },
+    "gr14": {
+      "type": "text",
+      "label": "Enter the GR value.",
+      "page": 1,
+      "box": {
+        "left": 148.5,
+        "top": 260.1,
+        "width": 19.0,
+        "height": 13.8
+      }
+    },
+    "aw14": {
+      "type": "text",
+      "label": "Enter the AW value.",
+      "page": 1,
+      "box": {
+        "left": 173.2,
+        "top": 260.1,
+        "width": 23.2,
+        "height": 13.8
+      }
+    },
+    "ot14": {
+      "type": "text",
+      "label": "Enter the OT value.",
+      "page": 1,
+      "box": {
+        "left": 201.6,
+        "top": 260.1,
+        "width": 23.6,
+        "height": 13.8
+      }
+    },
+    "x14": {
+      "type": "text",
+      "label": "Enter the X value.",
+      "page": 1,
+      "box": {
+        "left": 230.1,
+        "top": 260.1,
+        "width": 26.1,
+        "height": 13.8
+      }
+    },
+    "im14": {
+      "type": "text",
+      "label": "Enter the IM value.",
+      "page": 1,
+      "box": {
+        "left": 261.9,
+        "top": 260.1,
+        "width": 25.7,
+        "height": 13.8
+      }
+    },
+    "ic14": {
+      "type": "text",
+      "label": "Enter the IC value.",
+      "page": 1,
+      "box": {
+        "left": 292.9,
+        "top": 260.1,
+        "width": 22.4,
+        "height": 13.8
+      }
+    },
+    "ar14": {
+      "type": "text",
+      "label": "Enter the AR value.",
+      "page": 1,
+      "box": {
+        "left": 321.8,
+        "top": 260.1,
+        "width": 24.9,
+        "height": 13.8
+      }
+    },
+    "power14": {
+      "type": "text",
+      "label": "Enter the power value.",
+      "page": 1,
+      "box": {
+        "left": 352.3,
+        "top": 260.1,
+        "width": 37.4,
+        "height": 13.8
+      }
+    },
+    "attitude14": {
+      "type": "text",
+      "label": "Enter the attitude value.",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 260.1,
+        "width": 45.0,
+        "height": 13.8
+      }
+    },
+    "linupandwings14": {
+      "type": "text",
+      "label": "Enter the line-up and wings value.",
+      "page": 1,
+      "box": {
+        "left": 451.1,
+        "top": 260.1,
+        "width": 58.8,
+        "height": 13.8
+      }
+    },
+    "wires14": {
+      "type": "choice",
+      "label": "Using the drop-down box,  enter the number-1,2,3,4,.",
+      "page": 1,
+      "box": {
+        "left": 517.2,
+        "top": 260.1,
+        "width": 66.7,
+        "height": 14.0
+      },
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    "remarks14": {
+      "type": "text",
+      "label": "Enter the remarks- include use of APC and AWCLS.",
+      "page": 1,
+      "box": {
+        "left": 590.5,
+        "top": 260.1,
+        "width": 145.8,
+        "height": 13.8
+      }
+    },
+    "dNSDate315": {
+      "type": "text",
+      "label": "This is row 15 of 25, enter the analysis date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 61.4,
+        "top": 242.9,
+        "width": 54.2,
+        "height": 13.8
+      }
+    },
+    "gr15": {
+      "type": "text",
+      "label": "Enter the GR value.",
+      "page": 1,
+      "box": {
+        "left": 148.5,
+        "top": 242.9,
+        "width": 19.0,
+        "height": 13.8
+      }
+    },
+    "aw15": {
+      "type": "text",
+      "label": "Enter the AW value.",
+      "page": 1,
+      "box": {
+        "left": 173.2,
+        "top": 242.9,
+        "width": 23.2,
+        "height": 13.8
+      }
+    },
+    "ot15": {
+      "type": "text",
+      "label": "Enter the OT value.",
+      "page": 1,
+      "box": {
+        "left": 201.6,
+        "top": 242.9,
+        "width": 23.6,
+        "height": 13.8
+      }
+    },
+    "x15": {
+      "type": "text",
+      "label": "Enter the X value.",
+      "page": 1,
+      "box": {
+        "left": 230.1,
+        "top": 242.9,
+        "width": 26.1,
+        "height": 13.8
+      }
+    },
+    "im15": {
+      "type": "text",
+      "label": "Enter the IM value.",
+      "page": 1,
+      "box": {
+        "left": 261.9,
+        "top": 242.9,
+        "width": 25.7,
+        "height": 13.8
+      }
+    },
+    "ic15": {
+      "type": "text",
+      "label": "Enter the IC value.",
+      "page": 1,
+      "box": {
+        "left": 292.9,
+        "top": 242.9,
+        "width": 22.4,
+        "height": 13.8
+      }
+    },
+    "ar15": {
+      "type": "text",
+      "label": "Enter the AR value.",
+      "page": 1,
+      "box": {
+        "left": 321.8,
+        "top": 242.9,
+        "width": 24.9,
+        "height": 13.8
+      }
+    },
+    "power15": {
+      "type": "text",
+      "label": "Enter the power value.",
+      "page": 1,
+      "box": {
+        "left": 352.3,
+        "top": 242.9,
+        "width": 37.4,
+        "height": 13.8
+      }
+    },
+    "attitude15": {
+      "type": "text",
+      "label": "Enter the attitude value.",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 242.9,
+        "width": 45.0,
+        "height": 13.8
+      }
+    },
+    "linupandwings15": {
+      "type": "text",
+      "label": "Enter the line-up and wings value.",
+      "page": 1,
+      "box": {
+        "left": 451.1,
+        "top": 242.9,
+        "width": 58.8,
+        "height": 13.8
+      }
+    },
+    "wires15": {
+      "type": "choice",
+      "label": "Using the drop-down box,  enter the number-1,2,3,4,.",
+      "page": 1,
+      "box": {
+        "left": 517.2,
+        "top": 242.9,
+        "width": 66.7,
+        "height": 14.0
+      },
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    "remarks15": {
+      "type": "text",
+      "label": "Enter the remarks- include use of APC and AWCLS.",
+      "page": 1,
+      "box": {
+        "left": 590.5,
+        "top": 242.9,
+        "width": 145.8,
+        "height": 13.8
+      }
+    },
+    "wires16": {
+      "type": "choice",
+      "label": "Using the drop-down box,  enter the number-1,2,3,4,.",
+      "page": 1,
+      "box": {
+        "left": 517.2,
+        "top": 226.2,
+        "width": 66.7,
+        "height": 14.0
+      },
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    "dNSDate316": {
+      "type": "text",
+      "label": "This is row 16 of 25, enter the analysis date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 61.4,
+        "top": 225.7,
+        "width": 54.2,
+        "height": 13.8
+      }
+    },
+    "gr16": {
+      "type": "text",
+      "label": "Enter the GR value.",
+      "page": 1,
+      "box": {
+        "left": 148.5,
+        "top": 225.7,
+        "width": 19.0,
+        "height": 13.8
+      }
+    },
+    "aw16": {
+      "type": "text",
+      "label": "Enter the AW value.",
+      "page": 1,
+      "box": {
+        "left": 173.2,
+        "top": 225.7,
+        "width": 23.2,
+        "height": 13.8
+      }
+    },
+    "ot16": {
+      "type": "text",
+      "label": "Enter the OT value.",
+      "page": 1,
+      "box": {
+        "left": 201.6,
+        "top": 225.7,
+        "width": 23.6,
+        "height": 13.8
+      }
+    },
+    "x": {
+      "type": "text",
+      "label": "Enter the X value.",
+      "page": 1,
+      "box": {
+        "left": 230.1,
+        "top": 225.7,
+        "width": 26.1,
+        "height": 13.8
+      }
+    },
+    "im16": {
+      "type": "text",
+      "label": "Enter the IM value.",
+      "page": 1,
+      "box": {
+        "left": 261.9,
+        "top": 225.7,
+        "width": 25.7,
+        "height": 13.8
+      }
+    },
+    "ic16": {
+      "type": "text",
+      "label": "Enter the IC value.",
+      "page": 1,
+      "box": {
+        "left": 292.9,
+        "top": 225.7,
+        "width": 22.4,
+        "height": 13.8
+      }
+    },
+    "ar16": {
+      "type": "text",
+      "label": "Enter the AR value.",
+      "page": 1,
+      "box": {
+        "left": 321.8,
+        "top": 225.7,
+        "width": 24.9,
+        "height": 13.8
+      }
+    },
+    "power16": {
+      "type": "text",
+      "label": "Enter the power value.",
+      "page": 1,
+      "box": {
+        "left": 352.3,
+        "top": 225.7,
+        "width": 37.4,
+        "height": 13.8
+      }
+    },
+    "attitude16": {
+      "type": "text",
+      "label": "Enter the attitude value.",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 225.7,
+        "width": 45.0,
+        "height": 13.8
+      }
+    },
+    "linupandwings16": {
+      "type": "text",
+      "label": "Enter the line-up and wings value.",
+      "page": 1,
+      "box": {
+        "left": 451.1,
+        "top": 225.7,
+        "width": 58.8,
+        "height": 13.8
+      }
+    },
+    "remarks16": {
+      "type": "text",
+      "label": "Enter the remarks- include use of APC and AWCLS.",
+      "page": 1,
+      "box": {
+        "left": 590.5,
+        "top": 225.7,
+        "width": 145.8,
+        "height": 13.8
+      }
+    },
+    "wires17": {
+      "type": "choice",
+      "label": "Using the drop-down box,  enter the number-1,2,3,4,.",
+      "page": 1,
+      "box": {
+        "left": 517.2,
+        "top": 208.6,
+        "width": 66.7,
+        "height": 14.0
+      },
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    "dNSDate317": {
+      "type": "text",
+      "label": "This is row 17 of 25, enter the analysis date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 61.4,
+        "top": 208.4,
+        "width": 54.2,
+        "height": 13.3
+      }
+    },
+    "gr17": {
+      "type": "text",
+      "label": "Enter the GR value.",
+      "page": 1,
+      "box": {
+        "left": 148.5,
+        "top": 208.4,
+        "width": 19.0,
+        "height": 13.3
+      }
+    },
+    "aw17": {
+      "type": "text",
+      "label": "Enter the AW value.",
+      "page": 1,
+      "box": {
+        "left": 173.2,
+        "top": 208.4,
+        "width": 23.2,
+        "height": 13.3
+      }
+    },
+    "ot17": {
+      "type": "text",
+      "label": "Enter the OT value.",
+      "page": 1,
+      "box": {
+        "left": 201.6,
+        "top": 208.4,
+        "width": 23.6,
+        "height": 13.3
+      }
+    },
+    "x17": {
+      "type": "text",
+      "label": "Enter the X value.",
+      "page": 1,
+      "box": {
+        "left": 230.1,
+        "top": 208.4,
+        "width": 26.1,
+        "height": 13.3
+      }
+    },
+    "im17": {
+      "type": "text",
+      "label": "Enter the IM value.",
+      "page": 1,
+      "box": {
+        "left": 261.9,
+        "top": 208.4,
+        "width": 25.7,
+        "height": 13.3
+      }
+    },
+    "ic17": {
+      "type": "text",
+      "label": "Enter the IC value.",
+      "page": 1,
+      "box": {
+        "left": 292.9,
+        "top": 208.4,
+        "width": 22.4,
+        "height": 13.3
+      }
+    },
+    "ar17": {
+      "type": "text",
+      "label": "Enter the AR value.",
+      "page": 1,
+      "box": {
+        "left": 321.8,
+        "top": 208.4,
+        "width": 24.9,
+        "height": 13.3
+      }
+    },
+    "power17": {
+      "type": "text",
+      "label": "Enter the power value.",
+      "page": 1,
+      "box": {
+        "left": 352.3,
+        "top": 208.4,
+        "width": 37.4,
+        "height": 13.3
+      }
+    },
+    "attitude17": {
+      "type": "text",
+      "label": "Enter the attitude value.",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 208.4,
+        "width": 45.0,
+        "height": 13.3
+      }
+    },
+    "linupandwings17": {
+      "type": "text",
+      "label": "Enter the line-up and wings value.",
+      "page": 1,
+      "box": {
+        "left": 451.1,
+        "top": 208.4,
+        "width": 58.8,
+        "height": 13.3
+      }
+    },
+    "remarks17": {
+      "type": "text",
+      "label": "Enter the remarks- include use of APC and AWCLS.",
+      "page": 1,
+      "box": {
+        "left": 590.5,
+        "top": 208.4,
+        "width": 145.8,
+        "height": 13.3
+      }
+    },
+    "wires18": {
+      "type": "choice",
+      "label": "Using the drop-down box,  enter the number-1,2,3,4,.",
+      "page": 1,
+      "box": {
+        "left": 517.2,
+        "top": 191.5,
+        "width": 66.7,
+        "height": 14.0
+      },
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    "ar18": {
+      "type": "text",
+      "label": "Enter the AR value.",
+      "page": 1,
+      "box": {
+        "left": 323.4,
+        "top": 191.3,
+        "width": 24.9,
+        "height": 13.3
+      }
+    },
+    "dNSDate318": {
+      "type": "text",
+      "label": "This is row 18 of 25, enter the analysis date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 61.4,
+        "top": 191.0,
+        "width": 54.2,
+        "height": 13.3
+      }
+    },
+    "gr18": {
+      "type": "text",
+      "label": "Enter the GR value.",
+      "page": 1,
+      "box": {
+        "left": 148.5,
+        "top": 191.0,
+        "width": 19.0,
+        "height": 13.3
+      }
+    },
+    "aw18": {
+      "type": "text",
+      "label": "Enter the AW value.",
+      "page": 1,
+      "box": {
+        "left": 173.2,
+        "top": 191.0,
+        "width": 23.2,
+        "height": 13.3
+      }
+    },
+    "ot18": {
+      "type": "text",
+      "label": "Enter the OT value.",
+      "page": 1,
+      "box": {
+        "left": 201.6,
+        "top": 191.0,
+        "width": 23.6,
+        "height": 13.3
+      }
+    },
+    "x18": {
+      "type": "text",
+      "label": "Enter the X value.",
+      "page": 1,
+      "box": {
+        "left": 230.1,
+        "top": 191.0,
+        "width": 26.1,
+        "height": 13.3
+      }
+    },
+    "im18": {
+      "type": "text",
+      "label": "Enter the IM value.",
+      "page": 1,
+      "box": {
+        "left": 261.9,
+        "top": 191.0,
+        "width": 25.7,
+        "height": 13.3
+      }
+    },
+    "ic18": {
+      "type": "text",
+      "label": "Enter the IC value.",
+      "page": 1,
+      "box": {
+        "left": 292.9,
+        "top": 191.0,
+        "width": 22.4,
+        "height": 13.3
+      }
+    },
+    "power18": {
+      "type": "text",
+      "label": "Enter the power value.",
+      "page": 1,
+      "box": {
+        "left": 352.3,
+        "top": 191.0,
+        "width": 37.4,
+        "height": 13.3
+      }
+    },
+    "attitude18": {
+      "type": "text",
+      "label": "Enter the attitude value.",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 191.0,
+        "width": 45.0,
+        "height": 13.3
+      }
+    },
+    "linupandwings18": {
+      "type": "text",
+      "label": "Enter the line-up and wings value.",
+      "page": 1,
+      "box": {
+        "left": 451.1,
+        "top": 191.0,
+        "width": 58.8,
+        "height": 13.3
+      }
+    },
+    "remarks18": {
+      "type": "text",
+      "label": "Enter the remarks- include use of APC and AWCLS.",
+      "page": 1,
+      "box": {
+        "left": 590.5,
+        "top": 191.0,
+        "width": 145.8,
+        "height": 13.3
+      }
+    },
+    "wires19": {
+      "type": "choice",
+      "label": "Using the drop-down box,  enter the number-1,2,3,4,.",
+      "page": 1,
+      "box": {
+        "left": 517.2,
+        "top": 174.3,
+        "width": 66.7,
+        "height": 14.0
+      },
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    "dNSDate319": {
+      "type": "text",
+      "label": "This is row 19 of 25, enter the analysis date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 61.4,
+        "top": 173.6,
+        "width": 54.2,
+        "height": 13.3
+      }
+    },
+    "gr19": {
+      "type": "text",
+      "label": "Enter the GR value.",
+      "page": 1,
+      "box": {
+        "left": 148.5,
+        "top": 173.6,
+        "width": 19.0,
+        "height": 13.3
+      }
+    },
+    "aw19": {
+      "type": "text",
+      "label": "Enter the AW value.",
+      "page": 1,
+      "box": {
+        "left": 173.2,
+        "top": 173.6,
+        "width": 23.2,
+        "height": 13.3
+      }
+    },
+    "ot19": {
+      "type": "text",
+      "label": "Enter the OT value.",
+      "page": 1,
+      "box": {
+        "left": 201.6,
+        "top": 173.6,
+        "width": 23.6,
+        "height": 13.3
+      }
+    },
+    "x19": {
+      "type": "text",
+      "label": "Enter the X value.",
+      "page": 1,
+      "box": {
+        "left": 230.1,
+        "top": 173.6,
+        "width": 26.1,
+        "height": 13.3
+      }
+    },
+    "im19": {
+      "type": "text",
+      "label": "Enter the IM value.",
+      "page": 1,
+      "box": {
+        "left": 261.9,
+        "top": 173.6,
+        "width": 25.7,
+        "height": 13.3
+      }
+    },
+    "ic19": {
+      "type": "text",
+      "label": "Enter the IC value.",
+      "page": 1,
+      "box": {
+        "left": 292.9,
+        "top": 173.6,
+        "width": 22.4,
+        "height": 13.3
+      }
+    },
+    "power19": {
+      "type": "text",
+      "label": "Enter the power value.",
+      "page": 1,
+      "box": {
+        "left": 352.3,
+        "top": 173.6,
+        "width": 37.4,
+        "height": 13.3
+      }
+    },
+    "attitude19": {
+      "type": "text",
+      "label": "Enter the attitude value.",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 173.6,
+        "width": 45.0,
+        "height": 13.3
+      }
+    },
+    "linupandwings19": {
+      "type": "text",
+      "label": "Enter the line-up and wings value.",
+      "page": 1,
+      "box": {
+        "left": 451.1,
+        "top": 173.6,
+        "width": 58.8,
+        "height": 13.3
+      }
+    },
+    "remarks19": {
+      "type": "text",
+      "label": "Enter the remarks- include use of APC and AWCLS.",
+      "page": 1,
+      "box": {
+        "left": 590.5,
+        "top": 173.6,
+        "width": 145.8,
+        "height": 13.3
+      }
+    },
+    "ar19": {
+      "type": "text",
+      "label": "Enter the AR value.",
+      "page": 1,
+      "box": {
+        "left": 323.4,
+        "top": 173.3,
+        "width": 24.9,
+        "height": 13.3
+      }
+    },
+    "wires20": {
+      "type": "choice",
+      "label": "Using the drop-down box,  enter the number-1,2,3,4,.",
+      "page": 1,
+      "box": {
+        "left": 517.2,
+        "top": 157.1,
+        "width": 66.7,
+        "height": 14.0
+      },
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    "dNSDate320": {
+      "type": "text",
+      "label": "This is row 20 of 25, enter the analysis date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 61.4,
+        "top": 156.1,
+        "width": 54.2,
+        "height": 13.3
+      }
+    },
+    "gr20": {
+      "type": "text",
+      "label": "Enter the GR value.",
+      "page": 1,
+      "box": {
+        "left": 148.5,
+        "top": 156.1,
+        "width": 19.0,
+        "height": 13.3
+      }
+    },
+    "aw20": {
+      "type": "text",
+      "label": "Enter the AW value.",
+      "page": 1,
+      "box": {
+        "left": 173.2,
+        "top": 156.1,
+        "width": 23.2,
+        "height": 13.3
+      }
+    },
+    "ot20": {
+      "type": "text",
+      "label": "Enter the OT value.",
+      "page": 1,
+      "box": {
+        "left": 201.6,
+        "top": 156.1,
+        "width": 23.6,
+        "height": 13.3
+      }
+    },
+    "x20": {
+      "type": "text",
+      "label": "Enter the X value.",
+      "page": 1,
+      "box": {
+        "left": 230.1,
+        "top": 156.1,
+        "width": 26.1,
+        "height": 13.3
+      }
+    },
+    "im20": {
+      "type": "text",
+      "label": "Enter the IM value.",
+      "page": 1,
+      "box": {
+        "left": 261.9,
+        "top": 156.1,
+        "width": 25.7,
+        "height": 13.3
+      }
+    },
+    "ic20": {
+      "type": "text",
+      "label": "Enter the IC value.",
+      "page": 1,
+      "box": {
+        "left": 292.9,
+        "top": 156.1,
+        "width": 22.4,
+        "height": 13.3
+      }
+    },
+    "ar20": {
+      "type": "text",
+      "label": "Enter the AR value.",
+      "page": 1,
+      "box": {
+        "left": 321.8,
+        "top": 156.1,
+        "width": 24.9,
+        "height": 13.3
+      }
+    },
+    "power20": {
+      "type": "text",
+      "label": "Enter the power value.",
+      "page": 1,
+      "box": {
+        "left": 352.3,
+        "top": 156.1,
+        "width": 37.4,
+        "height": 13.3
+      }
+    },
+    "attitude20": {
+      "type": "text",
+      "label": "Enter the attitude value.",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 156.1,
+        "width": 45.0,
+        "height": 13.3
+      }
+    },
+    "linupandwings20": {
+      "type": "text",
+      "label": "Enter the line-up and wings value.",
+      "page": 1,
+      "box": {
+        "left": 451.1,
+        "top": 156.1,
+        "width": 58.8,
+        "height": 13.3
+      }
+    },
+    "remarks20": {
+      "type": "text",
+      "label": "Enter the remarks- include use of APC and AWCLS.",
+      "page": 1,
+      "box": {
+        "left": 590.5,
+        "top": 156.1,
+        "width": 145.8,
+        "height": 13.3
+      }
+    },
+    "wires21": {
+      "type": "choice",
+      "label": "Using the drop-down box,  enter the number-1,2,3,4,.",
+      "page": 1,
+      "box": {
+        "left": 517.2,
+        "top": 139.6,
+        "width": 66.7,
+        "height": 14.0
+      },
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    "dNSDate321": {
+      "type": "text",
+      "label": "This is row 21 of 25, enter the analysis date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 61.4,
+        "top": 138.7,
+        "width": 54.2,
+        "height": 13.3
+      }
+    },
+    "gr21": {
+      "type": "text",
+      "label": "Enter the GR value.",
+      "page": 1,
+      "box": {
+        "left": 148.5,
+        "top": 138.7,
+        "width": 19.0,
+        "height": 13.3
+      }
+    },
+    "aw21": {
+      "type": "text",
+      "label": "Enter the AW value.",
+      "page": 1,
+      "box": {
+        "left": 173.2,
+        "top": 138.7,
+        "width": 23.2,
+        "height": 13.3
+      }
+    },
+    "ot21": {
+      "type": "text",
+      "label": "Enter the OT value.",
+      "page": 1,
+      "box": {
+        "left": 201.6,
+        "top": 138.7,
+        "width": 23.6,
+        "height": 13.3
+      }
+    },
+    "x21": {
+      "type": "text",
+      "label": "Enter the X value.",
+      "page": 1,
+      "box": {
+        "left": 230.1,
+        "top": 138.7,
+        "width": 26.1,
+        "height": 13.3
+      }
+    },
+    "im21": {
+      "type": "text",
+      "label": "Enter the IM value.",
+      "page": 1,
+      "box": {
+        "left": 261.9,
+        "top": 138.7,
+        "width": 25.7,
+        "height": 13.3
+      }
+    },
+    "ic21": {
+      "type": "text",
+      "label": "Enter the IC value.",
+      "page": 1,
+      "box": {
+        "left": 292.9,
+        "top": 138.7,
+        "width": 22.4,
+        "height": 13.3
+      }
+    },
+    "ar21": {
+      "type": "text",
+      "label": "Enter the AR value.",
+      "page": 1,
+      "box": {
+        "left": 321.8,
+        "top": 138.7,
+        "width": 24.9,
+        "height": 13.3
+      }
+    },
+    "power21": {
+      "type": "text",
+      "label": "Enter the power value.",
+      "page": 1,
+      "box": {
+        "left": 352.3,
+        "top": 138.7,
+        "width": 37.4,
+        "height": 13.3
+      }
+    },
+    "attitude21": {
+      "type": "text",
+      "label": "Enter the attitude value.",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 138.7,
+        "width": 45.0,
+        "height": 13.3
+      }
+    },
+    "linupandwings21": {
+      "type": "text",
+      "label": "Enter the line-up and wings value.",
+      "page": 1,
+      "box": {
+        "left": 451.1,
+        "top": 138.7,
+        "width": 58.8,
+        "height": 13.3
+      }
+    },
+    "remarks21": {
+      "type": "text",
+      "label": "Enter the remarks- include use of APC and AWCLS.",
+      "page": 1,
+      "box": {
+        "left": 590.5,
+        "top": 138.7,
+        "width": 145.8,
+        "height": 13.3
+      }
+    },
+    "wires22": {
+      "type": "choice",
+      "label": "Using the drop-down box,  enter the number-1,2,3,4,.",
+      "page": 1,
+      "box": {
+        "left": 517.2,
+        "top": 122.4,
+        "width": 66.7,
+        "height": 14.0
+      },
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    "dNSDate322": {
+      "type": "text",
+      "label": "This is row 22 of 25, enter the analysis date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 61.4,
+        "top": 121.3,
+        "width": 54.2,
+        "height": 13.3
+      }
+    },
+    "gr22": {
+      "type": "text",
+      "label": "Enter the GR value.",
+      "page": 1,
+      "box": {
+        "left": 148.5,
+        "top": 121.3,
+        "width": 19.0,
+        "height": 13.3
+      }
+    },
+    "aw22": {
+      "type": "text",
+      "label": "Enter the AW value.",
+      "page": 1,
+      "box": {
+        "left": 173.2,
+        "top": 121.3,
+        "width": 23.2,
+        "height": 13.3
+      }
+    },
+    "ot22": {
+      "type": "text",
+      "label": "Enter the OT value.",
+      "page": 1,
+      "box": {
+        "left": 201.6,
+        "top": 121.3,
+        "width": 23.6,
+        "height": 13.3
+      }
+    },
+    "x22": {
+      "type": "text",
+      "label": "Enter the X value.",
+      "page": 1,
+      "box": {
+        "left": 230.1,
+        "top": 121.3,
+        "width": 26.1,
+        "height": 13.3
+      }
+    },
+    "im22": {
+      "type": "text",
+      "label": "Enter the IM value.",
+      "page": 1,
+      "box": {
+        "left": 261.9,
+        "top": 121.3,
+        "width": 25.7,
+        "height": 13.3
+      }
+    },
+    "ic22": {
+      "type": "text",
+      "label": "Enter the IC value.",
+      "page": 1,
+      "box": {
+        "left": 292.9,
+        "top": 121.3,
+        "width": 22.4,
+        "height": 13.3
+      }
+    },
+    "ar22": {
+      "type": "text",
+      "label": "Enter the AR value.",
+      "page": 1,
+      "box": {
+        "left": 321.8,
+        "top": 121.3,
+        "width": 24.9,
+        "height": 13.3
+      }
+    },
+    "power22": {
+      "type": "text",
+      "label": "Enter the power value.",
+      "page": 1,
+      "box": {
+        "left": 352.3,
+        "top": 121.3,
+        "width": 37.4,
+        "height": 13.3
+      }
+    },
+    "attitude22": {
+      "type": "text",
+      "label": "Enter the attitude value.",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 121.3,
+        "width": 45.0,
+        "height": 13.3
+      }
+    },
+    "linupandwings22": {
+      "type": "text",
+      "label": "Enter the line-up and wings value.",
+      "page": 1,
+      "box": {
+        "left": 451.1,
+        "top": 121.3,
+        "width": 58.8,
+        "height": 13.3
+      }
+    },
+    "remarks22": {
+      "type": "text",
+      "label": "Enter the remarks- include use of APC and AWCLS.",
+      "page": 1,
+      "box": {
+        "left": 590.5,
+        "top": 121.3,
+        "width": 145.8,
+        "height": 13.3
+      }
+    },
+    "wires23": {
+      "type": "choice",
+      "label": "Using the drop-down box,  enter the number-1,2,3,4,.",
+      "page": 1,
+      "box": {
+        "left": 517.2,
+        "top": 105.2,
+        "width": 66.7,
+        "height": 14.0
+      },
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    "attitude23": {
+      "type": "text",
+      "label": "Enter the attitude value.",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 104.6,
+        "width": 45.0,
+        "height": 13.3
+      }
+    },
+    "dNSDate323": {
+      "type": "text",
+      "label": "This is row 23 of 25, enter the analysis date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 61.4,
+        "top": 103.8,
+        "width": 54.2,
+        "height": 13.3
+      }
+    },
+    "gr23": {
+      "type": "text",
+      "label": "Enter the GR value.",
+      "page": 1,
+      "box": {
+        "left": 148.5,
+        "top": 103.8,
+        "width": 19.0,
+        "height": 13.3
+      }
+    },
+    "aw23": {
+      "type": "text",
+      "label": "Enter the AW value.",
+      "page": 1,
+      "box": {
+        "left": 173.2,
+        "top": 103.8,
+        "width": 23.2,
+        "height": 13.3
+      }
+    },
+    "ot23": {
+      "type": "text",
+      "label": "Enter the OT value.",
+      "page": 1,
+      "box": {
+        "left": 201.6,
+        "top": 103.8,
+        "width": 23.6,
+        "height": 13.3
+      }
+    },
+    "x23": {
+      "type": "text",
+      "label": "Enter the X value.",
+      "page": 1,
+      "box": {
+        "left": 230.1,
+        "top": 103.8,
+        "width": 26.1,
+        "height": 13.3
+      }
+    },
+    "im23": {
+      "type": "text",
+      "label": "Enter the IM value.",
+      "page": 1,
+      "box": {
+        "left": 261.9,
+        "top": 103.8,
+        "width": 25.7,
+        "height": 13.3
+      }
+    },
+    "ic23": {
+      "type": "text",
+      "label": "Enter the IC value.",
+      "page": 1,
+      "box": {
+        "left": 292.9,
+        "top": 103.8,
+        "width": 22.4,
+        "height": 13.3
+      }
+    },
+    "ar23": {
+      "type": "text",
+      "label": "Enter the AR value.",
+      "page": 1,
+      "box": {
+        "left": 321.8,
+        "top": 103.8,
+        "width": 24.9,
+        "height": 13.3
+      }
+    },
+    "power23": {
+      "type": "text",
+      "label": "Enter the power value.",
+      "page": 1,
+      "box": {
+        "left": 352.3,
+        "top": 103.8,
+        "width": 37.4,
+        "height": 13.3
+      }
+    },
+    "linupandwings23": {
+      "type": "text",
+      "label": "Enter the line-up and wings value.",
+      "page": 1,
+      "box": {
+        "left": 451.1,
+        "top": 103.8,
+        "width": 58.8,
+        "height": 13.3
+      }
+    },
+    "remarks23": {
+      "type": "text",
+      "label": "Enter the remarks- include use of APC and AWCLS.",
+      "page": 1,
+      "box": {
+        "left": 590.5,
+        "top": 103.8,
+        "width": 145.8,
+        "height": 13.3
+      }
+    },
+    "wires24": {
+      "type": "choice",
+      "label": "Using the drop-down box,  enter the number-1,2,3,4,.",
+      "page": 1,
+      "box": {
+        "left": 516.8,
+        "top": 87.7,
+        "width": 66.7,
+        "height": 14.0
+      },
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    "remarks24": {
+      "type": "text",
+      "label": "Enter the remarks- include use of APC and AWCLS.",
+      "page": 1,
+      "box": {
+        "left": 590.5,
+        "top": 87.5,
+        "width": 145.8,
+        "height": 11.6
+      }
+    },
+    "power24": {
+      "type": "text",
+      "label": "Enter the power value.",
+      "page": 1,
+      "box": {
+        "left": 352.3,
+        "top": 87.0,
+        "width": 37.4,
+        "height": 11.6
+      }
+    },
+    "attitude24": {
+      "type": "text",
+      "label": "Enter the attitude value.",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 87.0,
+        "width": 45.0,
+        "height": 11.6
+      }
+    },
+    "linupandwings24": {
+      "type": "text",
+      "label": "Enter the line-up and wings value.",
+      "page": 1,
+      "box": {
+        "left": 451.1,
+        "top": 87.0,
+        "width": 58.8,
+        "height": 11.6
+      }
+    },
+    "gr24": {
+      "type": "text",
+      "label": "Enter the GR value.",
+      "page": 1,
+      "box": {
+        "left": 148.5,
+        "top": 86.6,
+        "width": 19.0,
+        "height": 11.6
+      }
+    },
+    "aw24": {
+      "type": "text",
+      "label": "Enter the AW value.",
+      "page": 1,
+      "box": {
+        "left": 173.2,
+        "top": 86.6,
+        "width": 23.2,
+        "height": 11.6
+      }
+    },
+    "ot24": {
+      "type": "text",
+      "label": "Enter the OT value.",
+      "page": 1,
+      "box": {
+        "left": 201.6,
+        "top": 86.6,
+        "width": 23.6,
+        "height": 11.6
+      }
+    },
+    "x24": {
+      "type": "text",
+      "label": "Enter the X value.",
+      "page": 1,
+      "box": {
+        "left": 230.1,
+        "top": 86.6,
+        "width": 26.1,
+        "height": 11.6
+      }
+    },
+    "im24": {
+      "type": "text",
+      "label": "Enter the IM value.",
+      "page": 1,
+      "box": {
+        "left": 261.9,
+        "top": 86.6,
+        "width": 25.7,
+        "height": 11.6
+      }
+    },
+    "ar24": {
+      "type": "text",
+      "label": "Enter the AR value.",
+      "page": 1,
+      "box": {
+        "left": 321.8,
+        "top": 86.6,
+        "width": 24.9,
+        "height": 11.6
+      }
+    },
+    "dNSDate324": {
+      "type": "text",
+      "label": "This is row 24 of 25, enter the analysis date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 61.4,
+        "top": 86.2,
+        "width": 54.2,
+        "height": 11.6
+      }
+    },
+    "ic24": {
+      "type": "text",
+      "label": "Enter the IC value.",
+      "page": 1,
+      "box": {
+        "left": 292.9,
+        "top": 86.2,
+        "width": 22.4,
+        "height": 11.6
+      }
+    },
+    "dNSDate325": {
+      "type": "text",
+      "label": "This is row 25 of 25, enter the analysis date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 61.4,
+        "top": 71.3,
+        "width": 54.2,
+        "height": 11.6
+      }
+    },
+    "gr25": {
+      "type": "text",
+      "label": "Enter the GR value.",
+      "page": 1,
+      "box": {
+        "left": 148.5,
+        "top": 71.3,
+        "width": 19.0,
+        "height": 11.6
+      }
+    },
+    "aw25": {
+      "type": "text",
+      "label": "Enter the AW value.",
+      "page": 1,
+      "box": {
+        "left": 173.2,
+        "top": 71.3,
+        "width": 23.2,
+        "height": 11.6
+      }
+    },
+    "ot25": {
+      "type": "text",
+      "label": "Enter the OT value.",
+      "page": 1,
+      "box": {
+        "left": 201.6,
+        "top": 71.3,
+        "width": 23.6,
+        "height": 11.6
+      }
+    },
+    "x25": {
+      "type": "text",
+      "label": "Enter the X value.",
+      "page": 1,
+      "box": {
+        "left": 230.1,
+        "top": 71.3,
+        "width": 26.1,
+        "height": 11.6
+      }
+    },
+    "im25": {
+      "type": "text",
+      "label": "Enter the IM value.",
+      "page": 1,
+      "box": {
+        "left": 261.9,
+        "top": 71.3,
+        "width": 25.7,
+        "height": 11.6
+      }
+    },
+    "ic25": {
+      "type": "text",
+      "label": "Enter the IC value.",
+      "page": 1,
+      "box": {
+        "left": 292.9,
+        "top": 71.3,
+        "width": 22.4,
+        "height": 11.6
+      }
+    },
+    "ar25": {
+      "type": "text",
+      "label": "Enter the AR value.",
+      "page": 1,
+      "box": {
+        "left": 321.8,
+        "top": 71.3,
+        "width": 24.9,
+        "height": 11.6
+      }
+    },
+    "power25": {
+      "type": "text",
+      "label": "Enter the power value.",
+      "page": 1,
+      "box": {
+        "left": 352.3,
+        "top": 71.3,
+        "width": 37.4,
+        "height": 11.6
+      }
+    },
+    "attitude25": {
+      "type": "text",
+      "label": "Enter the attitude value.",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 71.3,
+        "width": 45.0,
+        "height": 11.6
+      }
+    },
+    "linupandwings25": {
+      "type": "text",
+      "label": "Enter the line-up and wings value.",
+      "page": 1,
+      "box": {
+        "left": 451.1,
+        "top": 71.3,
+        "width": 58.8,
+        "height": 11.6
+      }
+    },
+    "remarks25": {
+      "type": "text",
+      "label": "Enter the remarks- include use of APC and AWCLS.",
+      "page": 1,
+      "box": {
+        "left": 590.5,
+        "top": 71.3,
+        "width": 145.8,
+        "height": 11.6
+      }
+    }
+  }
+}

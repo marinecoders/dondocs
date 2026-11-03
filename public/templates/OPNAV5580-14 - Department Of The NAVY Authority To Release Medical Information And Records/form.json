@@ -1,0 +1,77 @@
+{
+  "id": "opnav558014",
+  "label": "OPNAV5580-14 - Department Of The NAVY Authority To Release Medical Information And Records",
+  "directory": "OPNAV5580-14 - Department Of The NAVY Authority To Release Medical Information And Records",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "date",
+        "signatur",
+        "name",
+        "signature2",
+        "witness"
+      ]
+    }
+  ],
+  "fields": {
+    "date": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 418.5,
+        "top": 627.5,
+        "width": 141.9,
+        "height": 16.3
+      }
+    },
+    "signatur": {
+      "type": "text",
+      "label": "Enter the signature.",
+      "page": 1,
+      "box": {
+        "left": 288.7,
+        "top": 538.0,
+        "width": 273.6,
+        "height": 17.6
+      }
+    },
+    "name": {
+      "type": "text",
+      "label": "Enter authorized signature.",
+      "page": 1,
+      "box": {
+        "left": 48.5,
+        "top": 441.7,
+        "width": 514.8,
+        "height": 15.9
+      }
+    },
+    "signature2": {
+      "type": "text",
+      "label": "Enter the signature",
+      "page": 1,
+      "box": {
+        "left": 312.2,
+        "top": 185.1,
+        "width": 251.5,
+        "height": 16.3
+      }
+    },
+    "witness": {
+      "type": "text",
+      "label": "Enter the witness.",
+      "page": 1,
+      "box": {
+        "left": 47.7,
+        "top": 104.3,
+        "width": 172.4,
+        "height": 17.6
+      }
+    }
+  }
+}

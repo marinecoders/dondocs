@@ -1,0 +1,304 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "suggestorName": {
+        "left": 39.8,
+        "top": 537.4,
+        "width": 198.7,
+        "height": 11.1,
+        "type": "text",
+        "description": "1. NAME OF SUGGESTER(S) (last, first, middle initial)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "suggestorTitle": {
+        "left": 245.1,
+        "top": 537.4,
+        "width": 198.7,
+        "height": 11.1,
+        "type": "text",
+        "description": "2. POSITION TITLE &amp; GRADE (or military rank/rate)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "suggestorDoDID": {
+        "left": 449.5,
+        "top": 537.4,
+        "width": 123.8,
+        "height": 11.1,
+        "type": "text",
+        "description": "3. DoD ID NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "suggestorOrg": {
+        "left": 39.8,
+        "top": 502.0,
+        "width": 198.7,
+        "height": 11.8,
+        "type": "text",
+        "description": "bureau, or office)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "orgSubdivision": {
+        "left": 245.1,
+        "top": 502.0,
+        "width": 198.7,
+        "height": 11.8,
+        "type": "text",
+        "description": "division, section, unit, or shop)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "suggestorPhone": {
+        "left": 449.5,
+        "top": 502.0,
+        "width": 123.8,
+        "height": 11.8,
+        "type": "text",
+        "description": "6. PHONE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "adminDateReceived": {
+        "left": 449.7,
+        "top": 459.4,
+        "width": 123.6,
+        "height": 10.0,
+        "type": "text",
+        "description": "DATE RECEIVED",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureSuggestor1": {
+        "left": 39.8,
+        "top": 435.6,
+        "width": 96.4,
+        "height": 11.5,
+        "type": "text",
+        "description": "7. SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateSuggestor1": {
+        "left": 142.0,
+        "top": 435.1,
+        "width": 96.3,
+        "height": 11.0,
+        "type": "text",
+        "description": "8. DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "suggestionNumber": {
+        "left": 449.7,
+        "top": 435.1,
+        "width": 123.6,
+        "height": 11.0,
+        "type": "text",
+        "description": "SUGGESTION NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureSuggestor2": {
+        "left": 244.2,
+        "top": 434.7,
+        "width": 96.4,
+        "height": 10.6,
+        "type": "text",
+        "description": "9. SIGNATURE (if applic.)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateSuggestor2": {
+        "left": 346.3,
+        "top": 434.7,
+        "width": 97.5,
+        "height": 10.6,
+        "type": "text",
+        "description": "10. DATE (if applicable)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "titleSuggestion": {
+        "left": 39.8,
+        "top": 408.9,
+        "width": 533.4,
+        "height": 10.1,
+        "type": "text",
+        "description": "11. TITLE OF SUGGESTION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "suggestionDescription": {
+        "left": 39.8,
+        "top": 340.2,
+        "width": 533.4,
+        "height": 142.9,
+        "type": "text",
+        "description": "(4) Attach drawings and pictures as necessary",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameMILCAP": {
+        "left": 39.8,
+        "top": 170.9,
+        "width": 169.4,
+        "height": 12.5,
+        "type": "text",
+        "description": "a. TYPED NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateMILCAPSig": {
+        "left": 215.0,
+        "top": 170.9,
+        "width": 195.8,
+        "height": 12.5,
+        "type": "text",
+        "description": "b. DATE SIGNED",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sigMILCAP": {
+        "left": 416.3,
+        "top": 170.0,
+        "width": 156.9,
+        "height": 11.6,
+        "type": "text",
+        "description": "c. SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateEvaluatorSig": {
+        "left": 215.0,
+        "top": 131.0,
+        "width": 195.8,
+        "height": 12.5,
+        "type": "text",
+        "description": "b. DATE SIGNED",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameEvaluator": {
+        "left": 39.8,
+        "top": 130.1,
+        "width": 169.4,
+        "height": 11.6,
+        "type": "text",
+        "description": "a. TYPED NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sigEvaluator": {
+        "left": 416.3,
+        "top": 130.1,
+        "width": 156.9,
+        "height": 11.6,
+        "type": "text",
+        "description": "c. SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameApprovingOfficial": {
+        "left": 39.8,
+        "top": 91.1,
+        "width": 169.4,
+        "height": 12.5,
+        "type": "text",
+        "description": "a. TYPED NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateApprovingOfficialSig": {
+        "left": 215.0,
+        "top": 91.1,
+        "width": 195.8,
+        "height": 12.5,
+        "type": "text",
+        "description": "b. DATE SIGNED",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sigApprovingOfficial": {
+        "left": 416.3,
+        "top": 90.2,
+        "width": 156.9,
+        "height": 11.6,
+        "type": "text",
+        "description": "c. SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameAwardsOffice": {
+        "left": 39.8,
+        "top": 52.2,
+        "width": 169.4,
+        "height": 12.5,
+        "type": "text",
+        "description": "a. TYPED NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateAwardsOfficeSig": {
+        "left": 215.0,
+        "top": 52.2,
+        "width": 195.8,
+        "height": 12.5,
+        "type": "text",
+        "description": "b. DATE SIGNED",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sigAwardsOffice": {
+        "left": 416.3,
+        "top": 51.3,
+        "width": 156.9,
+        "height": 11.6,
+        "type": "text",
+        "description": "c. SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

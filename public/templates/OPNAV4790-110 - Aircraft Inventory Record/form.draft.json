@@ -1,0 +1,145 @@
+{
+  "id": "opnav4790110",
+  "label": "OPNAV4790-110 - Aircraft Inventory Record",
+  "directory": "OPNAV4790-110 - Aircraft Inventory Record",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "contractor",
+        "acType",
+        "serialNumber"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "dateP2",
+        "acftType",
+        "serialNumberP2",
+        "contractNo",
+        "contractNo2",
+        "orgUnit",
+        "miscData"
+      ]
+    }
+  ],
+  "fields": {
+    "contractor": {
+      "type": "text",
+      "label": "CONTRACTOR",
+      "page": 1,
+      "box": {
+        "left": 220.0,
+        "top": 369.1,
+        "width": 352.1,
+        "height": 19.7
+      }
+    },
+    "acType": {
+      "type": "text",
+      "label": "A/C TYPE",
+      "page": 1,
+      "box": {
+        "left": 220.0,
+        "top": 328.6,
+        "width": 352.1,
+        "height": 19.7
+      }
+    },
+    "serialNumber": {
+      "type": "text",
+      "label": "SERIAL NUMBER",
+      "page": 1,
+      "box": {
+        "left": 220.0,
+        "top": 288.4,
+        "width": 352.1,
+        "height": 20.0
+      }
+    },
+    "dateP2": {
+      "type": "text",
+      "label": "ACCEPTANCE DATE",
+      "page": 2,
+      "box": {
+        "left": 623.9,
+        "top": 559.2,
+        "width": 129.3,
+        "height": 20.8
+      }
+    },
+    "acftType": {
+      "type": "text",
+      "label": "AIRCRAFT TYPE",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 558.4,
+        "width": 138.3,
+        "height": 20.0
+      }
+    },
+    "serialNumberP2": {
+      "type": "text",
+      "label": "SERIAL NUMBER",
+      "page": 2,
+      "box": {
+        "left": 182.9,
+        "top": 558.4,
+        "width": 129.3,
+        "height": 20.0
+      }
+    },
+    "contractNo": {
+      "type": "text",
+      "label": "CONTRACT NO",
+      "page": 2,
+      "box": {
+        "left": 317.9,
+        "top": 558.1,
+        "width": 133.8,
+        "height": 19.7
+      }
+    },
+    "contractNo2": {
+      "type": "text",
+      "label": "PRIME CONTRACTOR",
+      "page": 2,
+      "box": {
+        "left": 457.4,
+        "top": 558.1,
+        "width": 160.8,
+        "height": 19.7
+      }
+    },
+    "orgUnit": {
+      "type": "text",
+      "label": "EXPLANATION",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 521.0,
+        "width": 273.4,
+        "height": 306.7
+      },
+      "multiline": true
+    },
+    "miscData": {
+      "type": "text",
+      "label": "MISCELLANEOUS DATA",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 197.0,
+        "width": 714.4,
+        "height": 158.2
+      },
+      "multiline": true
+    }
+  }
+}

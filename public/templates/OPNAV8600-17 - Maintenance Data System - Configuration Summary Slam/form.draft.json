@@ -1,0 +1,7344 @@
+{
+  "id": "opnav860017",
+  "label": "OPNAV8600-17 - Maintenance Data System - Configuration Summary Slam",
+  "directory": "OPNAV8600-17 - Maintenance Data System - Configuration Summary Slam",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf",
+    "page5.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "nomenclature",
+        "pn",
+        "sn",
+        "nalc",
+        "uic",
+        "jopwa",
+        "cc",
+        "date1",
+        "timeField",
+        "date2",
+        "waivers",
+        "date3",
+        "date4a",
+        "inspection",
+        "stamp",
+        "tlmcode",
+        "condcode",
+        "localuse",
+        "partno1",
+        "serialno1",
+        "date30",
+        "partno2",
+        "serialno2",
+        "date31",
+        "partno3",
+        "serialno3",
+        "date32",
+        "date4",
+        "partno4",
+        "serialno4",
+        "lotno4",
+        "date33",
+        "partno5",
+        "serialno5",
+        "lotno5",
+        "date5",
+        "date34",
+        "date6",
+        "partno6",
+        "serialno6",
+        "lotno6",
+        "date35",
+        "partno7",
+        "serialno7",
+        "lotno7",
+        "date7",
+        "date36",
+        "partno8",
+        "serialno8",
+        "lotno8",
+        "date8",
+        "date37",
+        "partno9",
+        "serialno9",
+        "date38",
+        "partno10",
+        "serialno10",
+        "date39",
+        "partno11",
+        "serialno11",
+        "date40",
+        "partno12",
+        "date41",
+        "serialno12",
+        "partno13",
+        "serialno13",
+        "date42",
+        "partno14",
+        "serialno14",
+        "date43",
+        "serialno15",
+        "partno15",
+        "date44",
+        "partno16",
+        "serialno16",
+        "date45",
+        "partno17",
+        "serialno17",
+        "lotno17",
+        "date17",
+        "date46",
+        "partno18",
+        "serialno18",
+        "lotno18",
+        "date18",
+        "date47",
+        "serialno19",
+        "lotno19",
+        "date19",
+        "date48",
+        "partno19",
+        "serialno20",
+        "lotno20",
+        "date20",
+        "partno20",
+        "date49",
+        "date21",
+        "partno21",
+        "serialno21",
+        "date50",
+        "lotno21",
+        "partno22",
+        "serialno22",
+        "lotno22",
+        "date22",
+        "date51",
+        "lotno23",
+        "date23",
+        "date52",
+        "partno23",
+        "partno24",
+        "date53",
+        "partno25",
+        "date54",
+        "serialno26",
+        "lotno26",
+        "partno26",
+        "date55",
+        "date26",
+        "partno27",
+        "serialno27",
+        "lotno27",
+        "date27",
+        "date56",
+        "serialno28",
+        "lotno28",
+        "date28",
+        "partno28",
+        "date57",
+        "serialno29",
+        "lotno29",
+        "date29",
+        "date58",
+        "partno29"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "nomenclature2",
+        "serialnumber",
+        "partno110",
+        "date332",
+        "bserialno1",
+        "date24",
+        "partno210",
+        "lotno2",
+        "date342",
+        "date352",
+        "date310",
+        "lotno3",
+        "partno32",
+        "date362",
+        "bserialno4",
+        "lotno42",
+        "date410",
+        "partno42",
+        "date372",
+        "bserialno5",
+        "lotno52",
+        "date59",
+        "partno52",
+        "bserialno6",
+        "lotno62",
+        "partno62",
+        "date62",
+        "date382",
+        "date72",
+        "date392",
+        "partno72",
+        "bserialno7",
+        "lotno72",
+        "lotno82",
+        "date82",
+        "partno82",
+        "bserialno8",
+        "date402",
+        "partno92",
+        "bserialno9",
+        "lotno9",
+        "date9",
+        "date412",
+        "date422",
+        "partno102",
+        "bserialno10",
+        "partno112",
+        "bserialno11",
+        "date432",
+        "partno122",
+        "bserialno12",
+        "date442",
+        "lotno12",
+        "date12",
+        "partno132",
+        "bserialno13",
+        "lotno13",
+        "date13",
+        "date452",
+        "bserialno14",
+        "lotno14",
+        "partno142",
+        "date462",
+        "date14",
+        "partno152",
+        "bserialno15",
+        "lotno15",
+        "date15",
+        "date472",
+        "date482",
+        "partno162",
+        "bserialno16",
+        "partno172",
+        "bserialno17",
+        "date492",
+        "partno182",
+        "lotno182",
+        "date182",
+        "date502",
+        "bserialno18",
+        "partno192",
+        "bserialno19",
+        "lotno192",
+        "date512",
+        "date192",
+        "date202",
+        "date522",
+        "partno202",
+        "bserialno20",
+        "lotno202",
+        "date212",
+        "date532",
+        "partno212",
+        "bserialno21",
+        "lotno212",
+        "partno222",
+        "lotno222",
+        "date222",
+        "bserialno22",
+        "date542",
+        "partno232",
+        "lotno232",
+        "date232",
+        "bserialno23",
+        "date552",
+        "bserialno24",
+        "partno242",
+        "lotno24",
+        "date242",
+        "date562",
+        "partno252",
+        "bserialno25",
+        "lotno25",
+        "date25",
+        "date582",
+        "partno262",
+        "bserialno26",
+        "lotno262",
+        "date262",
+        "date592",
+        "date272",
+        "partno272",
+        "bserialno27",
+        "lotno272",
+        "date60",
+        "partno282",
+        "bserialno28",
+        "date61",
+        "bserialno29",
+        "partno292",
+        "date622",
+        "partno30",
+        "date63",
+        "bserialno30",
+        "date64",
+        "partno31",
+        "bserialno31",
+        "bserialno32",
+        "partno322",
+        "date65"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "nomenclature3",
+        "serialnumber2",
+        "partno111",
+        "serialno110",
+        "date16",
+        "date73",
+        "partno211",
+        "serialno210",
+        "date210",
+        "date83",
+        "partno33",
+        "serialno32",
+        "date92",
+        "date311",
+        "serialno42",
+        "date411",
+        "partno43",
+        "date10",
+        "partno53",
+        "serialno52",
+        "date510",
+        "date11",
+        "partno63",
+        "serialno62",
+        "date66",
+        "date122",
+        "partno83",
+        "serialno82",
+        "date142",
+        "date152",
+        "oillevel",
+        "alttechdirperformed13",
+        "ptno1",
+        "alttechdirperformed17",
+        "ptno2",
+        "alttechdirperformed14",
+        "alttechdirperformed18",
+        "alttechdirperformed15",
+        "alttechdirperformed19",
+        "ptno3",
+        "alttechdirperformed20",
+        "ptno4",
+        "alttechdirperformed16"
+      ]
+    },
+    {
+      "title": "Page 4",
+      "fields": [
+        "nomenclature5",
+        "pn2",
+        "cc2",
+        "uic2",
+        "jopwa2",
+        "sn2",
+        "nalc2",
+        "waivers2",
+        "date1a",
+        "timeField2",
+        "date2a",
+        "date3a",
+        "inspection2",
+        "stamp2",
+        "tlmcode2",
+        "condcode2",
+        "date4a2",
+        "localuse2",
+        "partno113",
+        "serialno111",
+        "date162",
+        "serialno211",
+        "lotno211",
+        "date211",
+        "date172",
+        "partno213",
+        "date312",
+        "date183",
+        "partno34",
+        "lotno33",
+        "serialno33",
+        "partno44",
+        "lotno44",
+        "date413",
+        "date193",
+        "serialno43",
+        "partno54",
+        "serialno53",
+        "lotno54",
+        "date511",
+        "date203",
+        "date213",
+        "partno64",
+        "serialno63",
+        "lotno64",
+        "date67",
+        "partno73",
+        "date223",
+        "serialno72",
+        "lotno73",
+        "date74",
+        "partno84",
+        "serialno83",
+        "lotno83",
+        "date84",
+        "date233",
+        "partno93",
+        "serialno92",
+        "date243",
+        "partno103",
+        "serialno102",
+        "lotno10",
+        "date102",
+        "date252",
+        "date112",
+        "partno114",
+        "serialno112",
+        "lotno11",
+        "date263",
+        "lotno122",
+        "partno123",
+        "serialno122",
+        "date123",
+        "date273",
+        "lotno132",
+        "date132",
+        "date282",
+        "partno133",
+        "serialno132",
+        "lotno142",
+        "date143",
+        "partno143",
+        "serialno142",
+        "date292",
+        "partno153",
+        "date302",
+        "date153",
+        "serialno152",
+        "lotno152",
+        "date322",
+        "partno173",
+        "serialno172",
+        "partno193",
+        "serialno192",
+        "date343",
+        "nomenclature12",
+        "alttechdirperformed162",
+        "alttechdirperformed110",
+        "alttechdirperformed62",
+        "partnumber1",
+        "alttechdirperformed112",
+        "alttechdirperformed172",
+        "nomenclature23",
+        "partnumber2",
+        "alttechdirperformed72",
+        "alttechdirperformed23",
+        "alttechdirperformed122",
+        "partnumber3",
+        "alttechdirperformed32",
+        "alttechdirperformed132",
+        "alttechdirperformed182",
+        "alttechdirperformed82",
+        "nomenclature33",
+        "nomenclature42",
+        "alttechdirperformed92",
+        "alttechdirperformed192",
+        "alttechdirperformed42",
+        "alttechdirperformed142",
+        "partnumber4",
+        "nomenclature52",
+        "partnumber5",
+        "alttechdirperformed52",
+        "alttechdirperformed152",
+        "alttechdirperformed202",
+        "alttechdirperformed102"
+      ]
+    },
+    {
+      "title": "Page 5",
+      "fields": [
+        "misldesgntr",
+        "ptno",
+        "serialno",
+        "testinspresultspassfail1",
+        "operationevent1",
+        "techdirmodincorporated1",
+        "timeField1",
+        "remarks1",
+        "activityuic1",
+        "date110",
+        "testinspresultspassfail2",
+        "remarks2",
+        "operationevent2",
+        "timeField22",
+        "techdirmodincorporated2",
+        "date214",
+        "activityuic2",
+        "date313",
+        "remarks3",
+        "timeField3",
+        "techdirmodincorporated3",
+        "testinspresultspassfail3",
+        "activityuic3",
+        "operationevent3",
+        "operationevent4",
+        "remarks4",
+        "techdirmodincorporated4",
+        "date414",
+        "activityuic4",
+        "testinspresultspassfail4",
+        "timeField4",
+        "date513",
+        "activityuic5",
+        "timeField5",
+        "techdirmodincorporated5",
+        "remarks5",
+        "operationevent5",
+        "testinspresultspassfail5",
+        "testinspresultspassfail6",
+        "date68",
+        "activityuic6",
+        "operationevent6",
+        "timeField6",
+        "techdirmodincorporated6",
+        "remarks6",
+        "date75",
+        "operationevent7",
+        "activityuic7",
+        "testinspresultspassfail7",
+        "timeField7",
+        "techdirmodincorporated7",
+        "remarks7",
+        "operationevent8",
+        "date85",
+        "activityuic8",
+        "remarks8",
+        "testinspresultspassfail8",
+        "timeField8",
+        "techdirmodincorporated8",
+        "operationevent9",
+        "date93",
+        "timeField9",
+        "activityuic9",
+        "testinspresultspassfail9",
+        "techdirmodincorporated9",
+        "remarks9",
+        "date103",
+        "activityuic10",
+        "testinspresultspassfail10",
+        "techdirmodincorporated10",
+        "timeField10",
+        "operationevent10",
+        "remarks10",
+        "date113",
+        "activityuic11",
+        "operationevent11",
+        "timeField11",
+        "techdirmodincorporated11",
+        "testinspresultspassfail11",
+        "remarks11",
+        "remarks12",
+        "date124",
+        "activityuic12",
+        "testinspresultspassfail12",
+        "timeField12",
+        "operationevent12",
+        "techdirmodincorporated12",
+        "timeField13",
+        "operationevent13",
+        "remarks13",
+        "date133",
+        "activityuic13",
+        "testinspresultspassfail13",
+        "techdirmodincorporated13",
+        "operationevent14",
+        "timeField14",
+        "techdirmodincorporated14",
+        "testinspresultspassfail14",
+        "activityuic14",
+        "remarks14",
+        "date144",
+        "date154",
+        "operationevent15",
+        "activityuic15",
+        "testinspresultspassfail15",
+        "techdirmodincorporated15",
+        "timeField15",
+        "remarks15",
+        "techdirmodincorporated16",
+        "date163",
+        "activityuic16",
+        "testinspresultspassfail16",
+        "remarks16",
+        "operationevent16",
+        "timeField16",
+        "techdirmodincorporated17",
+        "remarks17",
+        "operationevent17",
+        "testinspresultspassfail17",
+        "date173",
+        "activityuic17",
+        "timeField17",
+        "date184",
+        "techdirmodincorporated18",
+        "activityuic18",
+        "testinspresultspassfail18",
+        "operationevent18",
+        "timeField18",
+        "remarks18",
+        "activityuic19",
+        "remarks19",
+        "testinspresultspassfail19",
+        "techdirmodincorporated19",
+        "date194",
+        "timeField19",
+        "operationevent19",
+        "date204",
+        "remarks20",
+        "activityuic20",
+        "testinspresultspassfail20",
+        "timeField20",
+        "operationevent20",
+        "techdirmodincorporated20",
+        "date215",
+        "activityuic21",
+        "operationevent21",
+        "testinspresultspassfail21",
+        "timeField21",
+        "techdirmodincorporated21",
+        "remarks21"
+      ]
+    }
+  ],
+  "fields": {
+    "nomenclature": {
+      "type": "text",
+      "label": "Enter the nomenclature.",
+      "page": 1,
+      "box": {
+        "left": 394.2,
+        "top": 713.1,
+        "width": 132.2,
+        "height": 11.5
+      }
+    },
+    "pn": {
+      "type": "text",
+      "label": "Enter the part number.",
+      "page": 1,
+      "box": {
+        "left": 42.6,
+        "top": 688.4,
+        "width": 130.7,
+        "height": 11.2
+      }
+    },
+    "sn": {
+      "type": "text",
+      "label": "Enter the serial number.",
+      "page": 1,
+      "box": {
+        "left": 184.9,
+        "top": 688.4,
+        "width": 85.9,
+        "height": 11.2
+      }
+    },
+    "nalc": {
+      "type": "text",
+      "label": "Enter the Navy ammunition logistics code.",
+      "page": 1,
+      "box": {
+        "left": 279.4,
+        "top": 688.4,
+        "width": 38.7,
+        "height": 11.2
+      }
+    },
+    "uic": {
+      "type": "text",
+      "label": "Enter the unit identification code.",
+      "page": 1,
+      "box": {
+        "left": 326.7,
+        "top": 688.4,
+        "width": 40.0,
+        "height": 11.2
+      }
+    },
+    "jopwa": {
+      "type": "text",
+      "label": "Enter the job order/prod work auth.",
+      "page": 1,
+      "box": {
+        "left": 379.2,
+        "top": 688.4,
+        "width": 116.1,
+        "height": 11.2
+      }
+    },
+    "cc": {
+      "type": "text",
+      "label": "Enter the country code.",
+      "page": 1,
+      "box": {
+        "left": 507.1,
+        "top": 687.8,
+        "width": 69.7,
+        "height": 11.2
+      }
+    },
+    "date1": {
+      "type": "text",
+      "label": "Enter the configuration date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 364.9,
+        "top": 662.3,
+        "width": 51.1,
+        "height": 14.9
+      }
+    },
+    "timeField": {
+      "type": "text",
+      "label": "Enter the configuration time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 420.5,
+        "top": 662.3,
+        "width": 42.8,
+        "height": 14.9
+      }
+    },
+    "date2": {
+      "type": "text",
+      "label": "Enter the maintenance date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 526.8,
+        "top": 662.3,
+        "width": 51.1,
+        "height": 14.9
+      }
+    },
+    "waivers": {
+      "type": "text",
+      "label": "Enter the waivers.",
+      "page": 1,
+      "box": {
+        "left": 43.4,
+        "top": 661.0,
+        "width": 225.7,
+        "height": 12.2
+      }
+    },
+    "date3": {
+      "type": "text",
+      "label": "Enter the date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 87.9,
+        "top": 629.3,
+        "width": 79.1,
+        "height": 11.9
+      }
+    },
+    "date4a": {
+      "type": "text",
+      "label": "Enter the last sys test  date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 221.4,
+        "top": 629.3,
+        "width": 51.1,
+        "height": 11.9
+      }
+    },
+    "inspection": {
+      "type": "text",
+      "label": "Enter the inspector.",
+      "page": 1,
+      "box": {
+        "left": 277.9,
+        "top": 629.3,
+        "width": 64.8,
+        "height": 11.9
+      }
+    },
+    "stamp": {
+      "type": "text",
+      "label": "Enter the stamp.",
+      "page": 1,
+      "box": {
+        "left": 347.7,
+        "top": 629.3,
+        "width": 48.2,
+        "height": 11.9
+      }
+    },
+    "tlmcode": {
+      "type": "text",
+      "label": "Enter the TLM code.",
+      "page": 1,
+      "box": {
+        "left": 398.4,
+        "top": 629.3,
+        "width": 66.1,
+        "height": 11.9
+      }
+    },
+    "condcode": {
+      "type": "text",
+      "label": "Enter the cond code.",
+      "page": 1,
+      "box": {
+        "left": 469.6,
+        "top": 629.3,
+        "width": 107.9,
+        "height": 11.9
+      }
+    },
+    "localuse": {
+      "type": "text",
+      "label": "Enter the local use.",
+      "page": 1,
+      "box": {
+        "left": 96.7,
+        "top": 608.5,
+        "width": 387.3,
+        "height": 13.4
+      }
+    },
+    "partno1": {
+      "type": "text",
+      "label": "This row 1 of 29, enter the part number for the guidance section.",
+      "page": 1,
+      "box": {
+        "left": 249.4,
+        "top": 545.5,
+        "width": 74.1,
+        "height": 11.8
+      }
+    },
+    "serialno1": {
+      "type": "text",
+      "label": "Enter the serial number for the guidance section.",
+      "page": 1,
+      "box": {
+        "left": 331.2,
+        "top": 545.5,
+        "width": 64.5,
+        "height": 11.8
+      }
+    },
+    "date30": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 519.8,
+        "top": 545.2,
+        "width": 55.7,
+        "height": 11.8
+      }
+    },
+    "partno2": {
+      "type": "text",
+      "label": "This row 2 of 29, enter the part number for the target seeker.",
+      "page": 1,
+      "box": {
+        "left": 249.4,
+        "top": 531.2,
+        "width": 74.7,
+        "height": 12.8
+      }
+    },
+    "serialno2": {
+      "type": "text",
+      "label": "Enter the serial number for the target seeker.",
+      "page": 1,
+      "box": {
+        "left": 331.2,
+        "top": 531.2,
+        "width": 64.5,
+        "height": 12.8
+      }
+    },
+    "date31": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 519.8,
+        "top": 530.2,
+        "width": 56.0,
+        "height": 12.3
+      }
+    },
+    "partno3": {
+      "type": "text",
+      "label": "This row 3 of 29, enter the part number for the radome (harp).",
+      "page": 1,
+      "box": {
+        "left": 249.4,
+        "top": 515.1,
+        "width": 74.1,
+        "height": 11.9
+      }
+    },
+    "serialno3": {
+      "type": "text",
+      "label": "Enter the serial number for the radome (harp).",
+      "page": 1,
+      "box": {
+        "left": 331.2,
+        "top": 515.1,
+        "width": 64.5,
+        "height": 11.9
+      }
+    },
+    "date32": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 519.7,
+        "top": 515.1,
+        "width": 57.3,
+        "height": 11.9
+      }
+    },
+    "date4": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 462.4,
+        "top": 501.9,
+        "width": 53.6,
+        "height": 12.0
+      }
+    },
+    "partno4": {
+      "type": "text",
+      "label": "This row 4 of 29, enter the part number for the narrow band antenna.",
+      "page": 1,
+      "box": {
+        "left": 249.4,
+        "top": 500.9,
+        "width": 74.1,
+        "height": 12.0
+      }
+    },
+    "serialno4": {
+      "type": "text",
+      "label": "Enter the serial number for the narrow band antenna.",
+      "page": 1,
+      "box": {
+        "left": 331.2,
+        "top": 500.9,
+        "width": 64.5,
+        "height": 11.7
+      }
+    },
+    "lotno4": {
+      "type": "text",
+      "label": "Enter the lot number for the narrow band antenna.",
+      "page": 1,
+      "box": {
+        "left": 401.7,
+        "top": 500.9,
+        "width": 58.2,
+        "height": 12.0
+      }
+    },
+    "date33": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 519.7,
+        "top": 500.9,
+        "width": 57.3,
+        "height": 11.9
+      }
+    },
+    "partno5": {
+      "type": "text",
+      "label": "This row 5 of 29, enter the part number for the wide band antenna.",
+      "page": 1,
+      "box": {
+        "left": 249.4,
+        "top": 486.2,
+        "width": 74.1,
+        "height": 12.1
+      }
+    },
+    "serialno5": {
+      "type": "text",
+      "label": "Enter the serial number for the wide band antenna.",
+      "page": 1,
+      "box": {
+        "left": 331.2,
+        "top": 486.2,
+        "width": 64.5,
+        "height": 12.1
+      }
+    },
+    "lotno5": {
+      "type": "text",
+      "label": "Enter the lot number for the wide band antenna.",
+      "page": 1,
+      "box": {
+        "left": 401.7,
+        "top": 486.2,
+        "width": 58.2,
+        "height": 12.1
+      }
+    },
+    "date5": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 462.9,
+        "top": 486.2,
+        "width": 54.0,
+        "height": 12.1
+      }
+    },
+    "date34": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 519.7,
+        "top": 486.2,
+        "width": 57.3,
+        "height": 12.1
+      }
+    },
+    "date6": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 462.4,
+        "top": 472.4,
+        "width": 54.0,
+        "height": 12.2
+      }
+    },
+    "partno6": {
+      "type": "text",
+      "label": "This row 6 of 29, enter the part number for the altimeter antenna.",
+      "page": 1,
+      "box": {
+        "left": 249.4,
+        "top": 471.6,
+        "width": 74.6,
+        "height": 11.1
+      }
+    },
+    "serialno6": {
+      "type": "text",
+      "label": "Enter the serial number for the altimeter antenna.",
+      "page": 1,
+      "box": {
+        "left": 331.2,
+        "top": 471.6,
+        "width": 64.5,
+        "height": 11.5
+      }
+    },
+    "lotno6": {
+      "type": "text",
+      "label": "Enter the lot number for the altimeter antenna.",
+      "page": 1,
+      "box": {
+        "left": 403.1,
+        "top": 471.6,
+        "width": 55.4,
+        "height": 11.5
+      }
+    },
+    "date35": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 519.7,
+        "top": 471.6,
+        "width": 57.7,
+        "height": 11.5
+      }
+    },
+    "partno7": {
+      "type": "text",
+      "label": "This row 7 of 29, enter the part number for the fairing.",
+      "page": 1,
+      "box": {
+        "left": 249.4,
+        "top": 457.7,
+        "width": 74.1,
+        "height": 12.1
+      }
+    },
+    "serialno7": {
+      "type": "text",
+      "label": "Enter the serial number for the fairing.",
+      "page": 1,
+      "box": {
+        "left": 331.2,
+        "top": 457.7,
+        "width": 64.5,
+        "height": 12.1
+      }
+    },
+    "lotno7": {
+      "type": "text",
+      "label": "Enter the lot number for the fairing.",
+      "page": 1,
+      "box": {
+        "left": 401.7,
+        "top": 457.7,
+        "width": 58.2,
+        "height": 12.1
+      }
+    },
+    "date7": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 462.4,
+        "top": 457.7,
+        "width": 53.6,
+        "height": 12.1
+      }
+    },
+    "date36": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 519.3,
+        "top": 457.7,
+        "width": 58.5,
+        "height": 12.1
+      }
+    },
+    "partno8": {
+      "type": "text",
+      "label": "This row 8 of 29, enter the part number for the connector cover.",
+      "page": 1,
+      "box": {
+        "left": 249.4,
+        "top": 443.9,
+        "width": 74.1,
+        "height": 11.9
+      }
+    },
+    "serialno8": {
+      "type": "text",
+      "label": "Enter the serial number for the connector cover.",
+      "page": 1,
+      "box": {
+        "left": 331.2,
+        "top": 443.9,
+        "width": 64.5,
+        "height": 11.9
+      }
+    },
+    "lotno8": {
+      "type": "text",
+      "label": "Enter the lot number for the connector cover.",
+      "page": 1,
+      "box": {
+        "left": 401.7,
+        "top": 443.9,
+        "width": 58.2,
+        "height": 11.9
+      }
+    },
+    "date8": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 462.4,
+        "top": 443.9,
+        "width": 54.0,
+        "height": 11.9
+      }
+    },
+    "date37": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 519.7,
+        "top": 443.9,
+        "width": 57.7,
+        "height": 11.9
+      }
+    },
+    "partno9": {
+      "type": "text",
+      "label": "This row 9 of 29, enter the part number for the data link (slam).",
+      "page": 1,
+      "box": {
+        "left": 249.4,
+        "top": 429.5,
+        "width": 74.1,
+        "height": 12.3
+      }
+    },
+    "serialno9": {
+      "type": "text",
+      "label": "Enter the serial number for the data link (slam).",
+      "page": 1,
+      "box": {
+        "left": 331.2,
+        "top": 429.3,
+        "width": 64.5,
+        "height": 12.3
+      }
+    },
+    "date38": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 519.7,
+        "top": 429.3,
+        "width": 58.1,
+        "height": 11.9
+      }
+    },
+    "partno10": {
+      "type": "text",
+      "label": "This row 10 of 29, enter the part number for the GPS RPU (slam).",
+      "page": 1,
+      "box": {
+        "left": 249.4,
+        "top": 415.5,
+        "width": 74.1,
+        "height": 11.5
+      }
+    },
+    "serialno10": {
+      "type": "text",
+      "label": "Enter the serial number for the GPS RPU (slam).",
+      "page": 1,
+      "box": {
+        "left": 331.2,
+        "top": 415.5,
+        "width": 64.5,
+        "height": 11.5
+      }
+    },
+    "date39": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 519.7,
+        "top": 415.1,
+        "width": 58.1,
+        "height": 11.5
+      }
+    },
+    "partno11": {
+      "type": "text",
+      "label": "This row 11 of 29, enter the part number for the midcourse guidance unit.",
+      "page": 1,
+      "box": {
+        "left": 249.4,
+        "top": 400.8,
+        "width": 74.1,
+        "height": 11.1
+      }
+    },
+    "serialno11": {
+      "type": "text",
+      "label": "Enter the serial number for the midcourse guidance unit.",
+      "page": 1,
+      "box": {
+        "left": 331.2,
+        "top": 400.8,
+        "width": 64.5,
+        "height": 11.1
+      }
+    },
+    "date40": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 519.7,
+        "top": 400.6,
+        "width": 58.1,
+        "height": 11.1
+      }
+    },
+    "partno12": {
+      "type": "text",
+      "label": "This row 12 of 29, enter the part number for the attitude refernce assy. (harp)",
+      "page": 1,
+      "box": {
+        "left": 249.4,
+        "top": 387.2,
+        "width": 74.1,
+        "height": 11.9
+      }
+    },
+    "date41": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 519.7,
+        "top": 387.2,
+        "width": 57.2,
+        "height": 11.9
+      }
+    },
+    "serialno12": {
+      "type": "text",
+      "label": "Enter the serial number for the attitude refernce assy. (harp)",
+      "page": 1,
+      "box": {
+        "left": 331.2,
+        "top": 386.8,
+        "width": 64.5,
+        "height": 11.9
+      }
+    },
+    "partno13": {
+      "type": "text",
+      "label": "This row 13 of 29, enter the part number for the digital computer/",
+      "page": 1,
+      "box": {
+        "left": 249.4,
+        "top": 372.6,
+        "width": 74.1,
+        "height": 10.6
+      }
+    },
+    "serialno13": {
+      "type": "text",
+      "label": "Enter the serial number for the digital computer/",
+      "page": 1,
+      "box": {
+        "left": 331.2,
+        "top": 372.6,
+        "width": 64.5,
+        "height": 10.6
+      }
+    },
+    "date42": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 519.7,
+        "top": 372.6,
+        "width": 58.5,
+        "height": 10.6
+      }
+    },
+    "partno14": {
+      "type": "text",
+      "label": "This row 14 of 29, enter the part number for the guidance interface unit (slam).",
+      "page": 1,
+      "box": {
+        "left": 249.4,
+        "top": 359.0,
+        "width": 74.1,
+        "height": 11.5
+      }
+    },
+    "serialno14": {
+      "type": "text",
+      "label": "Enter the serial number for the guidance interface unit (slam).",
+      "page": 1,
+      "box": {
+        "left": 331.2,
+        "top": 359.0,
+        "width": 64.5,
+        "height": 11.8
+      }
+    },
+    "date43": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 519.7,
+        "top": 359.0,
+        "width": 59.0,
+        "height": 12.2
+      }
+    },
+    "serialno15": {
+      "type": "text",
+      "label": "Enter the serial number for the radar altimeter.",
+      "page": 1,
+      "box": {
+        "left": 331.2,
+        "top": 345.0,
+        "width": 64.5,
+        "height": 12.2
+      }
+    },
+    "partno15": {
+      "type": "text",
+      "label": "This row 15 of 29, enter the part number for the radar altimeter.",
+      "page": 1,
+      "box": {
+        "left": 249.4,
+        "top": 344.7,
+        "width": 74.1,
+        "height": 12.2
+      }
+    },
+    "date44": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 519.7,
+        "top": 344.1,
+        "width": 57.7,
+        "height": 12.2
+      }
+    },
+    "partno16": {
+      "type": "text",
+      "label": "This row 16 of 29, enter the part number for the power converter.",
+      "page": 1,
+      "box": {
+        "left": 249.4,
+        "top": 329.9,
+        "width": 74.1,
+        "height": 12.6
+      }
+    },
+    "serialno16": {
+      "type": "text",
+      "label": "Enter the serial number for the power converter.",
+      "page": 1,
+      "box": {
+        "left": 331.2,
+        "top": 329.9,
+        "width": 64.5,
+        "height": 12.6
+      }
+    },
+    "date45": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 519.7,
+        "top": 329.5,
+        "width": 58.1,
+        "height": 11.9
+      }
+    },
+    "partno17": {
+      "type": "text",
+      "label": "This row 17 of 29, enter the part number for the warhead/exercise head.",
+      "page": 1,
+      "box": {
+        "left": 249.4,
+        "top": 314.6,
+        "width": 74.1,
+        "height": 11.9
+      }
+    },
+    "serialno17": {
+      "type": "text",
+      "label": "Enter the serial number for the warhead/exercise head.",
+      "page": 1,
+      "box": {
+        "left": 331.2,
+        "top": 314.6,
+        "width": 64.1,
+        "height": 11.9
+      }
+    },
+    "lotno17": {
+      "type": "text",
+      "label": "Enter the lot number for the warhead/exercise head.",
+      "page": 1,
+      "box": {
+        "left": 402.6,
+        "top": 314.6,
+        "width": 55.4,
+        "height": 11.9
+      }
+    },
+    "date17": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 464.7,
+        "top": 314.6,
+        "width": 49.9,
+        "height": 11.9
+      }
+    },
+    "date46": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 519.7,
+        "top": 314.6,
+        "width": 57.7,
+        "height": 11.9
+      }
+    },
+    "partno18": {
+      "type": "text",
+      "label": "This row 18 of 29, enter the part number for the pressure probe.",
+      "page": 1,
+      "box": {
+        "left": 249.4,
+        "top": 300.0,
+        "width": 73.7,
+        "height": 11.7
+      }
+    },
+    "serialno18": {
+      "type": "text",
+      "label": "Enter the serial number for the pressure probe.",
+      "page": 1,
+      "box": {
+        "left": 331.2,
+        "top": 300.0,
+        "width": 64.0,
+        "height": 11.7
+      }
+    },
+    "lotno18": {
+      "type": "text",
+      "label": "Enter the lot number for the pressure probe.",
+      "page": 1,
+      "box": {
+        "left": 402.6,
+        "top": 300.0,
+        "width": 55.4,
+        "height": 11.7
+      }
+    },
+    "date18": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 464.6,
+        "top": 300.0,
+        "width": 49.2,
+        "height": 11.7
+      }
+    },
+    "date47": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 519.3,
+        "top": 300.0,
+        "width": 58.9,
+        "height": 11.7
+      }
+    },
+    "serialno19": {
+      "type": "text",
+      "label": "Enter the serial number for the altimeter antenna.",
+      "page": 1,
+      "box": {
+        "left": 331.2,
+        "top": 285.7,
+        "width": 65.0,
+        "height": 10.2
+      }
+    },
+    "lotno19": {
+      "type": "text",
+      "label": "Enter the lot number for the altimeter antenna.",
+      "page": 1,
+      "box": {
+        "left": 402.6,
+        "top": 285.7,
+        "width": 55.4,
+        "height": 10.2
+      }
+    },
+    "date19": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 464.6,
+        "top": 285.7,
+        "width": 50.0,
+        "height": 10.2
+      }
+    },
+    "date48": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 520.1,
+        "top": 285.7,
+        "width": 57.8,
+        "height": 10.2
+      }
+    },
+    "partno19": {
+      "type": "text",
+      "label": "This row 19 of 29, enter the part number for the altimeter antenna.",
+      "page": 1,
+      "box": {
+        "left": 249.4,
+        "top": 284.9,
+        "width": 73.7,
+        "height": 10.2
+      }
+    },
+    "serialno20": {
+      "type": "text",
+      "label": "Enter the serial number for the crush sensor probe, RH.",
+      "page": 1,
+      "box": {
+        "left": 331.2,
+        "top": 272.8,
+        "width": 65.0,
+        "height": 11.5
+      }
+    },
+    "lotno20": {
+      "type": "text",
+      "label": "Enter the lot number for the crush sensor probe, RH.",
+      "page": 1,
+      "box": {
+        "left": 402.6,
+        "top": 272.8,
+        "width": 54.6,
+        "height": 12.5
+      }
+    },
+    "date20": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 464.6,
+        "top": 272.2,
+        "width": 49.2,
+        "height": 11.5
+      }
+    },
+    "partno20": {
+      "type": "text",
+      "label": "This row 20 of 29, enter the part number for the crush sensor probe, RH.",
+      "page": 1,
+      "box": {
+        "left": 249.4,
+        "top": 271.9,
+        "width": 74.6,
+        "height": 11.6
+      }
+    },
+    "date49": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 519.3,
+        "top": 271.7,
+        "width": 57.7,
+        "height": 11.5
+      }
+    },
+    "date21": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 464.6,
+        "top": 258.2,
+        "width": 50.0,
+        "height": 12.3
+      }
+    },
+    "partno21": {
+      "type": "text",
+      "label": "This row 21 of 29, enter the part number for the crush sensor probe, LH.",
+      "page": 1,
+      "box": {
+        "left": 249.4,
+        "top": 257.7,
+        "width": 74.6,
+        "height": 12.1
+      }
+    },
+    "serialno21": {
+      "type": "text",
+      "label": "Enter the serial number for the crush sensor probe, LH.",
+      "page": 1,
+      "box": {
+        "left": 331.2,
+        "top": 257.7,
+        "width": 64.7,
+        "height": 12.2
+      }
+    },
+    "date50": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 519.3,
+        "top": 257.7,
+        "width": 58.9,
+        "height": 11.8
+      }
+    },
+    "lotno21": {
+      "type": "text",
+      "label": "Enter the lot number for the crush sensor probe, LH.",
+      "page": 1,
+      "box": {
+        "left": 402.6,
+        "top": 257.3,
+        "width": 55.9,
+        "height": 11.8
+      }
+    },
+    "partno22": {
+      "type": "text",
+      "label": "This row 22 of 29, enter the part number for the safety and arm device/contact fuse.",
+      "page": 1,
+      "box": {
+        "left": 249.4,
+        "top": 243.0,
+        "width": 74.0,
+        "height": 11.8
+      }
+    },
+    "serialno22": {
+      "type": "text",
+      "label": "Enter the serial number for the safety and arm device/contact fuse.",
+      "page": 1,
+      "box": {
+        "left": 331.2,
+        "top": 243.0,
+        "width": 64.7,
+        "height": 11.8
+      }
+    },
+    "lotno22": {
+      "type": "text",
+      "label": "Enter the lot number for the safety and arm device/contact fuse.",
+      "page": 1,
+      "box": {
+        "left": 403.2,
+        "top": 243.0,
+        "width": 55.4,
+        "height": 11.8
+      }
+    },
+    "date22": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 464.6,
+        "top": 243.0,
+        "width": 50.2,
+        "height": 11.8
+      }
+    },
+    "date51": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 519.7,
+        "top": 243.0,
+        "width": 58.9,
+        "height": 11.8
+      }
+    },
+    "lotno23": {
+      "type": "text",
+      "label": "Enter the lot number for the fuze, booster.",
+      "page": 1,
+      "box": {
+        "left": 402.2,
+        "top": 229.3,
+        "width": 58.2,
+        "height": 12.5
+      }
+    },
+    "date23": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 463.2,
+        "top": 229.3,
+        "width": 53.2,
+        "height": 12.5
+      }
+    },
+    "date52": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 520.1,
+        "top": 229.3,
+        "width": 58.1,
+        "height": 12.5
+      }
+    },
+    "partno23": {
+      "type": "text",
+      "label": "This row 23 of 29, enter the part number for the fuze, booster.",
+      "page": 1,
+      "box": {
+        "left": 248.1,
+        "top": 228.5,
+        "width": 76.7,
+        "height": 12.5
+      }
+    },
+    "partno24": {
+      "type": "text",
+      "label": "This row 24 of 29, enter the part number for the telimetry tray (XHD).",
+      "page": 1,
+      "box": {
+        "left": 249.4,
+        "top": 215.0,
+        "width": 74.0,
+        "height": 11.7
+      }
+    },
+    "date53": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 519.7,
+        "top": 214.4,
+        "width": 57.3,
+        "height": 11.5
+      }
+    },
+    "partno25": {
+      "type": "text",
+      "label": "This row 25 of 29, enter the part number for the flight tray (XHD).",
+      "page": 1,
+      "box": {
+        "left": 248.1,
+        "top": 200.9,
+        "width": 76.7,
+        "height": 14.2
+      }
+    },
+    "date54": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 519.7,
+        "top": 199.7,
+        "width": 58.1,
+        "height": 11.9
+      }
+    },
+    "serialno26": {
+      "type": "text",
+      "label": "Enter the serial number for the flight termination oannel (EXER).",
+      "page": 1,
+      "box": {
+        "left": 331.2,
+        "top": 186.1,
+        "width": 64.6,
+        "height": 12.2
+      }
+    },
+    "lotno26": {
+      "type": "text",
+      "label": "Enter the lot number for the flight termination oannel (EXER).",
+      "page": 1,
+      "box": {
+        "left": 402.2,
+        "top": 185.8,
+        "width": 56.9,
+        "height": 12.1
+      }
+    },
+    "partno26": {
+      "type": "text",
+      "label": "This row 26 of 29, enter the part number for the flight termination oannel (EXER).",
+      "page": 1,
+      "box": {
+        "left": 249.4,
+        "top": 185.3,
+        "width": 73.9,
+        "height": 11.3
+      }
+    },
+    "date55": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 519.7,
+        "top": 185.1,
+        "width": 58.5,
+        "height": 10.9
+      }
+    },
+    "date26": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 464.6,
+        "top": 184.9,
+        "width": 50.4,
+        "height": 11.1
+      }
+    },
+    "partno27": {
+      "type": "text",
+      "label": "This row 27 of 29, enter the part number for the antenna (EXER).",
+      "page": 1,
+      "box": {
+        "left": 249.4,
+        "top": 171.5,
+        "width": 73.9,
+        "height": 12.3
+      }
+    },
+    "serialno27": {
+      "type": "text",
+      "label": "Enter the serial number for the antenna (EXER).",
+      "page": 1,
+      "box": {
+        "left": 331.2,
+        "top": 171.5,
+        "width": 64.6,
+        "height": 12.3
+      }
+    },
+    "lotno27": {
+      "type": "text",
+      "label": "Enter the lot number for the antenna (EXER).",
+      "page": 1,
+      "box": {
+        "left": 403.6,
+        "top": 171.5,
+        "width": 54.6,
+        "height": 12.3
+      }
+    },
+    "date27": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 463.2,
+        "top": 171.5,
+        "width": 52.7,
+        "height": 12.3
+      }
+    },
+    "date56": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 519.7,
+        "top": 171.5,
+        "width": 58.1,
+        "height": 12.3
+      }
+    },
+    "serialno28": {
+      "type": "text",
+      "label": "Enter the serial number for the cover (XHD).",
+      "page": 1,
+      "box": {
+        "left": 331.2,
+        "top": 156.4,
+        "width": 64.6,
+        "height": 11.4
+      }
+    },
+    "lotno28": {
+      "type": "text",
+      "label": "Enter the lot number for the cover (XHD).",
+      "page": 1,
+      "box": {
+        "left": 403.2,
+        "top": 156.4,
+        "width": 54.6,
+        "height": 11.4
+      }
+    },
+    "date28": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 464.6,
+        "top": 156.4,
+        "width": 50.0,
+        "height": 11.4
+      }
+    },
+    "partno28": {
+      "type": "text",
+      "label": "This row 28 of 29, enter the part number for the cover (XHD).",
+      "page": 1,
+      "box": {
+        "left": 249.6,
+        "top": 156.0,
+        "width": 73.9,
+        "height": 11.3
+      }
+    },
+    "date57": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 519.7,
+        "top": 156.0,
+        "width": 58.1,
+        "height": 10.9
+      }
+    },
+    "serialno29": {
+      "type": "text",
+      "label": "Enter the serial number for the cover (XHD).",
+      "page": 1,
+      "box": {
+        "left": 331.6,
+        "top": 142.6,
+        "width": 64.6,
+        "height": 11.4
+      }
+    },
+    "lotno29": {
+      "type": "text",
+      "label": "Enter the lot number for the cover (XHD).",
+      "page": 1,
+      "box": {
+        "left": 404.0,
+        "top": 142.6,
+        "width": 54.2,
+        "height": 11.4
+      }
+    },
+    "date29": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).    ",
+      "page": 1,
+      "box": {
+        "left": 465.0,
+        "top": 142.6,
+        "width": 50.0,
+        "height": 11.4
+      }
+    },
+    "date58": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 521.1,
+        "top": 142.6,
+        "width": 55.4,
+        "height": 11.4
+      }
+    },
+    "partno29": {
+      "type": "text",
+      "label": "This row 29 of 29, enter the part number for the cover (XHD).",
+      "page": 1,
+      "box": {
+        "left": 250.0,
+        "top": 142.2,
+        "width": 73.4,
+        "height": 11.4
+      }
+    },
+    "nomenclature2": {
+      "type": "text",
+      "label": "Enter the nomenclature.",
+      "page": 2,
+      "box": {
+        "left": 287.4,
+        "top": 716.9,
+        "width": 132.2,
+        "height": 15.9
+      }
+    },
+    "serialnumber": {
+      "type": "text",
+      "label": "Enter the serial number.",
+      "page": 2,
+      "box": {
+        "left": 477.4,
+        "top": 716.9,
+        "width": 100.4,
+        "height": 15.9
+      }
+    },
+    "partno110": {
+      "type": "text",
+      "label": "This is row 1 of 32, enter the part number for the sustainer section.",
+      "page": 2,
+      "box": {
+        "left": 264.9,
+        "top": 638.8,
+        "width": 61.0,
+        "height": 11.5
+      }
+    },
+    "date332": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 520.7,
+        "top": 638.5,
+        "width": 57.8,
+        "height": 10.6
+      }
+    },
+    "bserialno1": {
+      "type": "text",
+      "label": "Enter the serial number for the sustainer section.",
+      "page": 2,
+      "box": {
+        "left": 330.5,
+        "top": 638.4,
+        "width": 67.8,
+        "height": 11.1
+      }
+    },
+    "date24": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).    ",
+      "page": 2,
+      "box": {
+        "left": 465.4,
+        "top": 625.1,
+        "width": 50.6,
+        "height": 12.6
+      }
+    },
+    "partno210": {
+      "type": "text",
+      "label": "This is row 2 of 32, enter the part number for the fuel (lot#1/mfg).",
+      "page": 2,
+      "box": {
+        "left": 264.7,
+        "top": 625.0,
+        "width": 60.7,
+        "height": 13.0
+      }
+    },
+    "lotno2": {
+      "type": "text",
+      "label": "Enter the lot number for the fuel (lot #1/mfg).",
+      "page": 2,
+      "box": {
+        "left": 402.9,
+        "top": 625.0,
+        "width": 56.5,
+        "height": 12.6
+      }
+    },
+    "date342": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 520.7,
+        "top": 625.0,
+        "width": 58.6,
+        "height": 12.7
+      }
+    },
+    "date352": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 520.7,
+        "top": 610.0,
+        "width": 59.0,
+        "height": 11.9
+      }
+    },
+    "date310": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).    ",
+      "page": 2,
+      "box": {
+        "left": 465.2,
+        "top": 609.6,
+        "width": 51.1,
+        "height": 12.3
+      }
+    },
+    "lotno3": {
+      "type": "text",
+      "label": "Enter the lot number for the fuel (lot#2/mfg).",
+      "page": 2,
+      "box": {
+        "left": 402.4,
+        "top": 609.4,
+        "width": 56.9,
+        "height": 12.3
+      }
+    },
+    "partno32": {
+      "type": "text",
+      "label": "This is row 3 of 32, enter the part number for the fuel (lot#2/mfg).",
+      "page": 2,
+      "box": {
+        "left": 264.8,
+        "top": 609.1,
+        "width": 60.7,
+        "height": 12.3
+      }
+    },
+    "date362": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 520.7,
+        "top": 595.0,
+        "width": 58.2,
+        "height": 12.2
+      }
+    },
+    "bserialno4": {
+      "type": "text",
+      "label": "Enter the serial number for the cover.",
+      "page": 2,
+      "box": {
+        "left": 330.0,
+        "top": 594.9,
+        "width": 68.6,
+        "height": 12.2
+      }
+    },
+    "lotno42": {
+      "type": "text",
+      "label": "Enter the lot number for the cover.",
+      "page": 2,
+      "box": {
+        "left": 402.5,
+        "top": 594.9,
+        "width": 56.9,
+        "height": 12.2
+      }
+    },
+    "date410": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).    ",
+      "page": 2,
+      "box": {
+        "left": 465.2,
+        "top": 594.5,
+        "width": 51.1,
+        "height": 12.2
+      }
+    },
+    "partno42": {
+      "type": "text",
+      "label": "This is row 4 of 32, enter the part number for the cover.",
+      "page": 2,
+      "box": {
+        "left": 264.9,
+        "top": 594.4,
+        "width": 60.9,
+        "height": 12.2
+      }
+    },
+    "date372": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 520.7,
+        "top": 580.3,
+        "width": 58.0,
+        "height": 11.9
+      }
+    },
+    "bserialno5": {
+      "type": "text",
+      "label": "Enter serial number for the cover.",
+      "page": 2,
+      "box": {
+        "left": 330.0,
+        "top": 580.1,
+        "width": 68.3,
+        "height": 12.3
+      }
+    },
+    "lotno52": {
+      "type": "text",
+      "label": "Enter the lot number for the cover.",
+      "page": 2,
+      "box": {
+        "left": 402.4,
+        "top": 580.1,
+        "width": 56.9,
+        "height": 12.3
+      }
+    },
+    "date59": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).    ",
+      "page": 2,
+      "box": {
+        "left": 465.4,
+        "top": 579.9,
+        "width": 51.9,
+        "height": 12.3
+      }
+    },
+    "partno52": {
+      "type": "text",
+      "label": "This is row 5 of 32, enter the part number for the cover.",
+      "page": 2,
+      "box": {
+        "left": 264.9,
+        "top": 579.8,
+        "width": 60.9,
+        "height": 12.3
+      }
+    },
+    "bserialno6": {
+      "type": "text",
+      "label": "Enter the serial number for the cover.",
+      "page": 2,
+      "box": {
+        "left": 330.0,
+        "top": 565.1,
+        "width": 68.6,
+        "height": 12.3
+      }
+    },
+    "lotno62": {
+      "type": "text",
+      "label": "Enter the lot number for the cover.",
+      "page": 2,
+      "box": {
+        "left": 402.5,
+        "top": 565.1,
+        "width": 57.3,
+        "height": 12.3
+      }
+    },
+    "partno62": {
+      "type": "text",
+      "label": "This is row 6 of 32, enter the part number for the cover.",
+      "page": 2,
+      "box": {
+        "left": 264.8,
+        "top": 564.7,
+        "width": 61.1,
+        "height": 12.3
+      }
+    },
+    "date62": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).    ",
+      "page": 2,
+      "box": {
+        "left": 465.4,
+        "top": 564.4,
+        "width": 51.1,
+        "height": 11.9
+      }
+    },
+    "date382": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 520.7,
+        "top": 564.4,
+        "width": 58.0,
+        "height": 11.9
+      }
+    },
+    "date72": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).    ",
+      "page": 2,
+      "box": {
+        "left": 465.2,
+        "top": 549.7,
+        "width": 51.1,
+        "height": 12.0
+      }
+    },
+    "date392": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 520.7,
+        "top": 549.7,
+        "width": 58.8,
+        "height": 12.3
+      }
+    },
+    "partno72": {
+      "type": "text",
+      "label": "This is row 7 of 32, enter the part number for the fairing.",
+      "page": 2,
+      "box": {
+        "left": 265.4,
+        "top": 549.6,
+        "width": 60.4,
+        "height": 12.3
+      }
+    },
+    "bserialno7": {
+      "type": "text",
+      "label": "Enter the serial number  for the fairing.",
+      "page": 2,
+      "box": {
+        "left": 330.0,
+        "top": 549.6,
+        "width": 68.5,
+        "height": 12.3
+      }
+    },
+    "lotno72": {
+      "type": "text",
+      "label": "Enter the lot number  for the fairing.",
+      "page": 2,
+      "box": {
+        "left": 402.5,
+        "top": 549.6,
+        "width": 57.4,
+        "height": 11.8
+      }
+    },
+    "lotno82": {
+      "type": "text",
+      "label": "Enter the lot number for the cover.",
+      "page": 2,
+      "box": {
+        "left": 402.5,
+        "top": 535.0,
+        "width": 57.4,
+        "height": 12.4
+      }
+    },
+    "date82": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).    ",
+      "page": 2,
+      "box": {
+        "left": 465.2,
+        "top": 535.0,
+        "width": 51.9,
+        "height": 12.4
+      }
+    },
+    "partno82": {
+      "type": "text",
+      "label": "This is row 8 of 32, enter the part number for the cover.",
+      "page": 2,
+      "box": {
+        "left": 265.4,
+        "top": 534.9,
+        "width": 60.7,
+        "height": 12.3
+      }
+    },
+    "bserialno8": {
+      "type": "text",
+      "label": "Enter the serial number for the cover.",
+      "page": 2,
+      "box": {
+        "left": 330.0,
+        "top": 534.9,
+        "width": 69.2,
+        "height": 12.3
+      }
+    },
+    "date402": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 520.7,
+        "top": 534.9,
+        "width": 58.2,
+        "height": 11.3
+      }
+    },
+    "partno92": {
+      "type": "text",
+      "label": "This is row 9 of 32, enter the part number for the cover.",
+      "page": 2,
+      "box": {
+        "left": 264.9,
+        "top": 520.0,
+        "width": 60.6,
+        "height": 12.3
+      }
+    },
+    "bserialno9": {
+      "type": "text",
+      "label": "Enter the serial number for the cover.",
+      "page": 2,
+      "box": {
+        "left": 330.0,
+        "top": 520.0,
+        "width": 68.6,
+        "height": 12.3
+      }
+    },
+    "lotno9": {
+      "type": "text",
+      "label": "Enter the lot number for the cover.",
+      "page": 2,
+      "box": {
+        "left": 402.4,
+        "top": 520.0,
+        "width": 57.5,
+        "height": 12.3
+      }
+    },
+    "date9": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).    ",
+      "page": 2,
+      "box": {
+        "left": 465.2,
+        "top": 519.9,
+        "width": 51.9,
+        "height": 12.3
+      }
+    },
+    "date412": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 520.7,
+        "top": 519.6,
+        "width": 58.2,
+        "height": 12.2
+      }
+    },
+    "date422": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 520.7,
+        "top": 504.4,
+        "width": 58.4,
+        "height": 11.9
+      }
+    },
+    "partno102": {
+      "type": "text",
+      "label": "This is row 10 of 32, enter the part number for the turbo jet engine. ",
+      "page": 2,
+      "box": {
+        "left": 265.4,
+        "top": 503.7,
+        "width": 60.7,
+        "height": 11.9
+      }
+    },
+    "bserialno10": {
+      "type": "text",
+      "label": "Enter the serial number  for the turbo jet engine. ",
+      "page": 2,
+      "box": {
+        "left": 330.0,
+        "top": 503.7,
+        "width": 68.4,
+        "height": 11.9
+      }
+    },
+    "partno112": {
+      "type": "text",
+      "label": "This is row 11 of 32, enter the part number for the fuel control electronics.",
+      "page": 2,
+      "box": {
+        "left": 264.9,
+        "top": 489.1,
+        "width": 60.9,
+        "height": 11.9
+      }
+    },
+    "bserialno11": {
+      "type": "text",
+      "label": "Enter the serial number for the fuel control electronics.",
+      "page": 2,
+      "box": {
+        "left": 330.0,
+        "top": 489.1,
+        "width": 68.4,
+        "height": 11.9
+      }
+    },
+    "date432": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 520.7,
+        "top": 489.1,
+        "width": 59.2,
+        "height": 11.0
+      }
+    },
+    "partno122": {
+      "type": "text",
+      "label": "This is row 12 of 32, enter the part number for the initiator, dual bridgewire.",
+      "page": 2,
+      "box": {
+        "left": 264.9,
+        "top": 474.4,
+        "width": 61.1,
+        "height": 11.5
+      }
+    },
+    "bserialno12": {
+      "type": "text",
+      "label": "Enter the serial number for the initiator, dual bridgewire.",
+      "page": 2,
+      "box": {
+        "left": 330.0,
+        "top": 474.4,
+        "width": 68.4,
+        "height": 11.8
+      }
+    },
+    "date442": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 520.7,
+        "top": 474.4,
+        "width": 59.4,
+        "height": 11.8
+      }
+    },
+    "lotno12": {
+      "type": "text",
+      "label": "Enter the lot number for the initiator, dual bridgewire.",
+      "page": 2,
+      "box": {
+        "left": 403.1,
+        "top": 474.0,
+        "width": 57.5,
+        "height": 11.4
+      }
+    },
+    "date12": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).    ",
+      "page": 2,
+      "box": {
+        "left": 465.4,
+        "top": 474.0,
+        "width": 51.1,
+        "height": 11.5
+      }
+    },
+    "partno132": {
+      "type": "text",
+      "label": "This is row 13 of 32, enter the part number for the engine start cartidge.",
+      "page": 2,
+      "box": {
+        "left": 264.9,
+        "top": 460.2,
+        "width": 61.0,
+        "height": 12.3
+      }
+    },
+    "bserialno13": {
+      "type": "text",
+      "label": "Enter the serial number for the engine start cartidge.",
+      "page": 2,
+      "box": {
+        "left": 330.0,
+        "top": 460.2,
+        "width": 68.4,
+        "height": 11.7
+      }
+    },
+    "lotno13": {
+      "type": "text",
+      "label": "Enter the lot number for the engine start cartidge.",
+      "page": 2,
+      "box": {
+        "left": 403.1,
+        "top": 460.2,
+        "width": 57.4,
+        "height": 11.7
+      }
+    },
+    "date13": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).    ",
+      "page": 2,
+      "box": {
+        "left": 465.4,
+        "top": 460.2,
+        "width": 51.1,
+        "height": 12.1
+      }
+    },
+    "date452": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 520.7,
+        "top": 460.2,
+        "width": 59.4,
+        "height": 12.0
+      }
+    },
+    "bserialno14": {
+      "type": "text",
+      "label": "Enter the serial number for the ignitor.",
+      "page": 2,
+      "box": {
+        "left": 330.0,
+        "top": 445.9,
+        "width": 68.8,
+        "height": 12.5
+      }
+    },
+    "lotno14": {
+      "type": "text",
+      "label": "Enter the lot number for the ignitor.",
+      "page": 2,
+      "box": {
+        "left": 403.1,
+        "top": 445.9,
+        "width": 57.5,
+        "height": 12.5
+      }
+    },
+    "partno142": {
+      "type": "text",
+      "label": "This is row 14 of 32, enter the part number for the ignitor.",
+      "page": 2,
+      "box": {
+        "left": 264.9,
+        "top": 445.5,
+        "width": 61.8,
+        "height": 12.5
+      }
+    },
+    "date462": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 520.7,
+        "top": 445.5,
+        "width": 59.4,
+        "height": 12.5
+      }
+    },
+    "date14": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).    ",
+      "page": 2,
+      "box": {
+        "left": 465.2,
+        "top": 445.4,
+        "width": 51.1,
+        "height": 12.2
+      }
+    },
+    "partno152": {
+      "type": "text",
+      "label": "This is row 15 of 32, enter the part number for the ignitor.",
+      "page": 2,
+      "box": {
+        "left": 264.9,
+        "top": 430.7,
+        "width": 61.3,
+        "height": 11.9
+      }
+    },
+    "bserialno15": {
+      "type": "text",
+      "label": "Enter the serial number for the ignitor.",
+      "page": 2,
+      "box": {
+        "left": 330.0,
+        "top": 430.7,
+        "width": 68.4,
+        "height": 11.9
+      }
+    },
+    "lotno15": {
+      "type": "text",
+      "label": "Enter the lot number for the ignitor.",
+      "page": 2,
+      "box": {
+        "left": 403.1,
+        "top": 430.7,
+        "width": 57.3,
+        "height": 11.9
+      }
+    },
+    "date15": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).    ",
+      "page": 2,
+      "box": {
+        "left": 465.2,
+        "top": 430.7,
+        "width": 52.3,
+        "height": 11.9
+      }
+    },
+    "date472": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 520.7,
+        "top": 430.7,
+        "width": 59.4,
+        "height": 11.9
+      }
+    },
+    "date482": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 520.7,
+        "top": 416.1,
+        "width": 58.4,
+        "height": 12.5
+      }
+    },
+    "partno162": {
+      "type": "text",
+      "label": "This is row 16 of 32, enter the part number for the pump valve resistor #1.",
+      "page": 2,
+      "box": {
+        "left": 264.9,
+        "top": 415.8,
+        "width": 61.1,
+        "height": 11.2
+      }
+    },
+    "bserialno16": {
+      "type": "text",
+      "label": "Enter the serial number for the pump valve resistor #1.",
+      "page": 2,
+      "box": {
+        "left": 330.0,
+        "top": 415.8,
+        "width": 68.3,
+        "height": 11.2
+      }
+    },
+    "partno172": {
+      "type": "text",
+      "label": "This is row 17 of 32, enter the part number for the pump valve resistor #2. ",
+      "page": 2,
+      "box": {
+        "left": 264.9,
+        "top": 401.6,
+        "width": 60.9,
+        "height": 12.5
+      }
+    },
+    "bserialno17": {
+      "type": "text",
+      "label": "Enter the serial number for the pump valve resistor #2.",
+      "page": 2,
+      "box": {
+        "left": 330.0,
+        "top": 401.2,
+        "width": 68.3,
+        "height": 12.5
+      }
+    },
+    "date492": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 520.7,
+        "top": 401.1,
+        "width": 58.2,
+        "height": 12.5
+      }
+    },
+    "partno182": {
+      "type": "text",
+      "label": "This is row 17 of 32, enter the part number for the battery primary.",
+      "page": 2,
+      "box": {
+        "left": 264.9,
+        "top": 386.4,
+        "width": 61.4,
+        "height": 11.8
+      }
+    },
+    "lotno182": {
+      "type": "text",
+      "label": "Enter the lot number for the battery primary.",
+      "page": 2,
+      "box": {
+        "left": 402.5,
+        "top": 386.4,
+        "width": 57.5,
+        "height": 12.5
+      }
+    },
+    "date182": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).    ",
+      "page": 2,
+      "box": {
+        "left": 465.2,
+        "top": 386.4,
+        "width": 50.2,
+        "height": 12.5
+      }
+    },
+    "date502": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 520.7,
+        "top": 386.4,
+        "width": 58.0,
+        "height": 12.5
+      }
+    },
+    "bserialno18": {
+      "type": "text",
+      "label": "Enter the serial number for the battery primary.",
+      "page": 2,
+      "box": {
+        "left": 330.0,
+        "top": 386.1,
+        "width": 68.4,
+        "height": 12.5
+      }
+    },
+    "partno192": {
+      "type": "text",
+      "label": "This is row 18 of 32, enter the part number electronic control amplifer.",
+      "page": 2,
+      "box": {
+        "left": 265.4,
+        "top": 371.4,
+        "width": 60.5,
+        "height": 12.1
+      }
+    },
+    "bserialno19": {
+      "type": "text",
+      "label": "Enter the serial number electronic control amplifer.",
+      "page": 2,
+      "box": {
+        "left": 330.6,
+        "top": 371.4,
+        "width": 67.4,
+        "height": 12.1
+      }
+    },
+    "lotno192": {
+      "type": "text",
+      "label": "Enter the lot number electronic control amplifer.",
+      "page": 2,
+      "box": {
+        "left": 402.5,
+        "top": 371.4,
+        "width": 56.1,
+        "height": 12.1
+      }
+    },
+    "date512": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 520.7,
+        "top": 371.0,
+        "width": 58.6,
+        "height": 11.7
+      }
+    },
+    "date192": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).    ",
+      "page": 2,
+      "box": {
+        "left": 465.2,
+        "top": 370.6,
+        "width": 50.2,
+        "height": 11.3
+      }
+    },
+    "date202": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).    ",
+      "page": 2,
+      "box": {
+        "left": 465.2,
+        "top": 356.8,
+        "width": 50.2,
+        "height": 12.3
+      }
+    },
+    "date522": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 520.7,
+        "top": 356.8,
+        "width": 58.4,
+        "height": 12.5
+      }
+    },
+    "partno202": {
+      "type": "text",
+      "label": "This is row 19 of 32, enter the part number for the pyro relay panel.",
+      "page": 2,
+      "box": {
+        "left": 265.4,
+        "top": 356.3,
+        "width": 60.7,
+        "height": 12.5
+      }
+    },
+    "bserialno20": {
+      "type": "text",
+      "label": "Enter the serial number for the pyro relay panel.",
+      "page": 2,
+      "box": {
+        "left": 330.6,
+        "top": 356.3,
+        "width": 67.9,
+        "height": 12.5
+      }
+    },
+    "lotno202": {
+      "type": "text",
+      "label": "Enter the lot number for the pyro relay panel.",
+      "page": 2,
+      "box": {
+        "left": 402.5,
+        "top": 356.3,
+        "width": 57.8,
+        "height": 12.5
+      }
+    },
+    "date212": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).    ",
+      "page": 2,
+      "box": {
+        "left": 465.2,
+        "top": 340.9,
+        "width": 50.0,
+        "height": 11.8
+      }
+    },
+    "date532": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 520.7,
+        "top": 340.9,
+        "width": 58.2,
+        "height": 12.5
+      }
+    },
+    "partno212": {
+      "type": "text",
+      "label": "This is row 20 of 32, enter the part number for the bleed air valve.",
+      "page": 2,
+      "box": {
+        "left": 264.7,
+        "top": 340.5,
+        "width": 61.9,
+        "height": 11.9
+      }
+    },
+    "bserialno21": {
+      "type": "text",
+      "label": "Enter the serial number for the bleed air valve.",
+      "page": 2,
+      "box": {
+        "left": 330.6,
+        "top": 340.5,
+        "width": 67.8,
+        "height": 12.0
+      }
+    },
+    "lotno212": {
+      "type": "text",
+      "label": "Enter the lot number for the bleed air valve.",
+      "page": 2,
+      "box": {
+        "left": 402.5,
+        "top": 340.5,
+        "width": 57.5,
+        "height": 11.2
+      }
+    },
+    "partno222": {
+      "type": "text",
+      "label": "This is row 21 of 32, enter the part number for the initiator, dual bridgewire.",
+      "page": 2,
+      "box": {
+        "left": 264.7,
+        "top": 326.7,
+        "width": 61.5,
+        "height": 12.2
+      }
+    },
+    "lotno222": {
+      "type": "text",
+      "label": "Enter the lot number for the initiator, dual bridgewire.",
+      "page": 2,
+      "box": {
+        "left": 402.5,
+        "top": 326.7,
+        "width": 57.8,
+        "height": 12.3
+      }
+    },
+    "date222": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).    ",
+      "page": 2,
+      "box": {
+        "left": 465.2,
+        "top": 326.7,
+        "width": 50.4,
+        "height": 12.3
+      }
+    },
+    "bserialno22": {
+      "type": "text",
+      "label": "Enter the serial number for the initiator, dual bridgewire.",
+      "page": 2,
+      "box": {
+        "left": 330.7,
+        "top": 326.2,
+        "width": 67.7,
+        "height": 12.3
+      }
+    },
+    "date542": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 520.7,
+        "top": 325.8,
+        "width": 58.6,
+        "height": 12.3
+      }
+    },
+    "partno232": {
+      "type": "text",
+      "label": "This is row 22 of 32, enter the part number for the fuel control valve.",
+      "page": 2,
+      "box": {
+        "left": 264.7,
+        "top": 311.4,
+        "width": 61.5,
+        "height": 11.4
+      }
+    },
+    "lotno232": {
+      "type": "text",
+      "label": "Enter the lot number for the fuel control valve.",
+      "page": 2,
+      "box": {
+        "left": 402.5,
+        "top": 311.4,
+        "width": 57.8,
+        "height": 11.4
+      }
+    },
+    "date232": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).    ",
+      "page": 2,
+      "box": {
+        "left": 465.4,
+        "top": 311.4,
+        "width": 50.4,
+        "height": 11.4
+      }
+    },
+    "bserialno23": {
+      "type": "text",
+      "label": "Enter the serial number for the fuel control valve.",
+      "page": 2,
+      "box": {
+        "left": 330.0,
+        "top": 311.2,
+        "width": 68.4,
+        "height": 11.4
+      }
+    },
+    "date552": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 520.7,
+        "top": 311.1,
+        "width": 58.6,
+        "height": 11.4
+      }
+    },
+    "bserialno24": {
+      "type": "text",
+      "label": "Enter the serial number for the initiator, dual bridgewire.",
+      "page": 2,
+      "box": {
+        "left": 331.4,
+        "top": 297.4,
+        "width": 64.8,
+        "height": 12.9
+      }
+    },
+    "partno242": {
+      "type": "text",
+      "label": "This is row 23 of 32, enter the part number for the initiator, dual bridgewire.",
+      "page": 2,
+      "box": {
+        "left": 266.1,
+        "top": 297.3,
+        "width": 58.8,
+        "height": 12.9
+      }
+    },
+    "lotno24": {
+      "type": "text",
+      "label": "Enter the lot number for the initiator, dual bridgewire.",
+      "page": 2,
+      "box": {
+        "left": 402.4,
+        "top": 297.3,
+        "width": 57.3,
+        "height": 12.9
+      }
+    },
+    "date242": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).    ",
+      "page": 2,
+      "box": {
+        "left": 466.8,
+        "top": 297.3,
+        "width": 47.7,
+        "height": 12.9
+      }
+    },
+    "date562": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 520.7,
+        "top": 297.0,
+        "width": 57.8,
+        "height": 11.5
+      }
+    },
+    "partno252": {
+      "type": "text",
+      "label": "This is row 24 of 32, enter the part number for the initiator, dual bridgewire.",
+      "page": 2,
+      "box": {
+        "left": 266.3,
+        "top": 281.3,
+        "width": 58.6,
+        "height": 11.9
+      }
+    },
+    "bserialno25": {
+      "type": "text",
+      "label": "Enter the serial number for the initiator, dual bridgewire.",
+      "page": 2,
+      "box": {
+        "left": 331.3,
+        "top": 281.3,
+        "width": 65.7,
+        "height": 11.9
+      }
+    },
+    "lotno25": {
+      "type": "text",
+      "label": "Enter the lot number for the initiator, dual bridgewire.",
+      "page": 2,
+      "box": {
+        "left": 403.8,
+        "top": 281.3,
+        "width": 55.1,
+        "height": 11.9
+      }
+    },
+    "date25": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).    ",
+      "page": 2,
+      "box": {
+        "left": 466.8,
+        "top": 281.3,
+        "width": 47.7,
+        "height": 11.9
+      }
+    },
+    "date582": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 520.7,
+        "top": 281.3,
+        "width": 57.8,
+        "height": 11.9
+      }
+    },
+    "partno262": {
+      "type": "text",
+      "label": "This is row 25 of 32, enter the part number for the start tank valve.",
+      "page": 2,
+      "box": {
+        "left": 264.7,
+        "top": 266.4,
+        "width": 61.5,
+        "height": 11.9
+      }
+    },
+    "bserialno26": {
+      "type": "text",
+      "label": "Enter the serial number for the  start tank valve.",
+      "page": 2,
+      "box": {
+        "left": 330.0,
+        "top": 266.4,
+        "width": 68.4,
+        "height": 11.9
+      }
+    },
+    "lotno262": {
+      "type": "text",
+      "label": "Enter the lot number for the start tank valve.",
+      "page": 2,
+      "box": {
+        "left": 402.4,
+        "top": 266.4,
+        "width": 57.8,
+        "height": 11.9
+      }
+    },
+    "date262": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).    ",
+      "page": 2,
+      "box": {
+        "left": 465.4,
+        "top": 266.4,
+        "width": 50.4,
+        "height": 11.9
+      }
+    },
+    "date592": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 520.7,
+        "top": 266.4,
+        "width": 57.8,
+        "height": 11.9
+      }
+    },
+    "date272": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).    ",
+      "page": 2,
+      "box": {
+        "left": 465.4,
+        "top": 252.0,
+        "width": 50.4,
+        "height": 12.3
+      }
+    },
+    "partno272": {
+      "type": "text",
+      "label": "This is row 26 of 32, enter the part number for the initiator, dual bridgewire.",
+      "page": 2,
+      "box": {
+        "left": 264.7,
+        "top": 251.8,
+        "width": 61.5,
+        "height": 12.3
+      }
+    },
+    "bserialno27": {
+      "type": "text",
+      "label": "Enter the serial number for the initiator, dual bridgewire.",
+      "page": 2,
+      "box": {
+        "left": 330.2,
+        "top": 251.8,
+        "width": 68.4,
+        "height": 12.3
+      }
+    },
+    "lotno272": {
+      "type": "text",
+      "label": "Enter the lot number for the initiator, dual bridgewire.",
+      "page": 2,
+      "box": {
+        "left": 402.4,
+        "top": 251.8,
+        "width": 57.8,
+        "height": 12.3
+      }
+    },
+    "date60": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 520.7,
+        "top": 251.8,
+        "width": 58.6,
+        "height": 12.3
+      }
+    },
+    "partno282": {
+      "type": "text",
+      "label": "This is row 28 of 32, enter the part number for the control section (boattail).",
+      "page": 2,
+      "box": {
+        "left": 264.3,
+        "top": 220.8,
+        "width": 61.5,
+        "height": 11.9
+      }
+    },
+    "bserialno28": {
+      "type": "text",
+      "label": "Enter the serial number for the control section (boattail).",
+      "page": 2,
+      "box": {
+        "left": 330.0,
+        "top": 220.8,
+        "width": 68.4,
+        "height": 11.9
+      }
+    },
+    "date61": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 521.1,
+        "top": 220.8,
+        "width": 58.2,
+        "height": 11.9
+      }
+    },
+    "bserialno29": {
+      "type": "text",
+      "label": "Enter the serial number for the control actuator number 1.",
+      "page": 2,
+      "box": {
+        "left": 330.0,
+        "top": 205.7,
+        "width": 68.4,
+        "height": 11.9
+      }
+    },
+    "partno292": {
+      "type": "text",
+      "label": "This is row 29 of 32, enter the part number for the control actuator number 1.",
+      "page": 2,
+      "box": {
+        "left": 264.3,
+        "top": 205.3,
+        "width": 61.5,
+        "height": 11.9
+      }
+    },
+    "date622": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 521.1,
+        "top": 204.9,
+        "width": 58.2,
+        "height": 11.7
+      }
+    },
+    "partno30": {
+      "type": "text",
+      "label": "This is row 30 of 32, enter the part number for the control actuator number 2.",
+      "page": 2,
+      "box": {
+        "left": 264.5,
+        "top": 190.6,
+        "width": 61.5,
+        "height": 11.9
+      }
+    },
+    "date63": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 521.1,
+        "top": 190.6,
+        "width": 58.2,
+        "height": 11.9
+      }
+    },
+    "bserialno30": {
+      "type": "text",
+      "label": "Enter the serial number for the control actuator number 2.",
+      "page": 2,
+      "box": {
+        "left": 330.0,
+        "top": 189.4,
+        "width": 68.4,
+        "height": 11.9
+      }
+    },
+    "date64": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 521.1,
+        "top": 175.5,
+        "width": 58.2,
+        "height": 12.0
+      }
+    },
+    "partno31": {
+      "type": "text",
+      "label": "This is row 31 of 32, enter the part number for the control actuator number 3.",
+      "page": 2,
+      "box": {
+        "left": 264.5,
+        "top": 175.2,
+        "width": 61.5,
+        "height": 11.9
+      }
+    },
+    "bserialno31": {
+      "type": "text",
+      "label": "Enter the serial number for the control actuator number 3.",
+      "page": 2,
+      "box": {
+        "left": 330.0,
+        "top": 174.7,
+        "width": 68.4,
+        "height": 11.9
+      }
+    },
+    "bserialno32": {
+      "type": "text",
+      "label": "Enter the serial number for the control actuator number 4.",
+      "page": 2,
+      "box": {
+        "left": 330.0,
+        "top": 160.5,
+        "width": 68.4,
+        "height": 12.2
+      }
+    },
+    "partno322": {
+      "type": "text",
+      "label": "This is row 32 of 32, enter the part number for the control actuator number 4.",
+      "page": 2,
+      "box": {
+        "left": 264.5,
+        "top": 160.4,
+        "width": 61.5,
+        "height": 12.2
+      }
+    },
+    "date65": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 521.1,
+        "top": 160.4,
+        "width": 58.2,
+        "height": 12.2
+      }
+    },
+    "nomenclature3": {
+      "type": "text",
+      "label": "nomenclature",
+      "page": 3,
+      "box": {
+        "left": 321.0,
+        "top": 733.8,
+        "width": 106.9,
+        "height": 13.7
+      }
+    },
+    "serialnumber2": {
+      "type": "text",
+      "label": "Enter the serial number.",
+      "page": 3,
+      "box": {
+        "left": 460.5,
+        "top": 732.0,
+        "width": 112.8,
+        "height": 11.1
+      }
+    },
+    "partno111": {
+      "type": "text",
+      "label": "This is row 1 of 8, enter the part number for the booster.",
+      "page": 3,
+      "box": {
+        "left": 247.6,
+        "top": 674.3,
+        "width": 73.9,
+        "height": 12.2
+      }
+    },
+    "serialno110": {
+      "type": "text",
+      "label": "Enter the serial number for the booster.",
+      "page": 3,
+      "box": {
+        "left": 328.5,
+        "top": 673.9,
+        "width": 67.7,
+        "height": 12.2
+      }
+    },
+    "date16": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).  ",
+      "page": 3,
+      "box": {
+        "left": 461.4,
+        "top": 673.9,
+        "width": 54.8,
+        "height": 11.5
+      }
+    },
+    "date73": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 3,
+      "box": {
+        "left": 519.4,
+        "top": 673.0,
+        "width": 56.9,
+        "height": 10.7
+      }
+    },
+    "partno211": {
+      "type": "text",
+      "label": "This is row 2 of 8, enter the part number for the seperator.",
+      "page": 3,
+      "box": {
+        "left": 247.6,
+        "top": 659.2,
+        "width": 73.9,
+        "height": 12.2
+      }
+    },
+    "serialno210": {
+      "type": "text",
+      "label": "Enter the serial number for the seperator.",
+      "page": 3,
+      "box": {
+        "left": 328.5,
+        "top": 659.2,
+        "width": 67.7,
+        "height": 12.2
+      }
+    },
+    "date210": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).  ",
+      "page": 3,
+      "box": {
+        "left": 461.4,
+        "top": 658.8,
+        "width": 54.0,
+        "height": 11.8
+      }
+    },
+    "date83": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 3,
+      "box": {
+        "left": 519.1,
+        "top": 658.8,
+        "width": 56.9,
+        "height": 11.4
+      }
+    },
+    "partno33": {
+      "type": "text",
+      "label": "This is row 3 of 8, enter the part number for the motor.",
+      "page": 3,
+      "box": {
+        "left": 247.6,
+        "top": 644.1,
+        "width": 73.9,
+        "height": 11.8
+      }
+    },
+    "serialno32": {
+      "type": "text",
+      "label": "Enter the serial number for the motor.",
+      "page": 3,
+      "box": {
+        "left": 328.5,
+        "top": 644.1,
+        "width": 67.7,
+        "height": 11.4
+      }
+    },
+    "date92": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 3,
+      "box": {
+        "left": 519.1,
+        "top": 644.1,
+        "width": 57.8,
+        "height": 11.8
+      }
+    },
+    "date311": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).  ",
+      "page": 3,
+      "box": {
+        "left": 461.4,
+        "top": 643.7,
+        "width": 53.2,
+        "height": 10.9
+      }
+    },
+    "serialno42": {
+      "type": "text",
+      "label": "Enter the serial number for the arm/fire device.",
+      "page": 3,
+      "box": {
+        "left": 328.5,
+        "top": 629.5,
+        "width": 67.7,
+        "height": 11.9
+      }
+    },
+    "date411": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).  ",
+      "page": 3,
+      "box": {
+        "left": 461.4,
+        "top": 629.5,
+        "width": 54.0,
+        "height": 11.9
+      }
+    },
+    "partno43": {
+      "type": "text",
+      "label": "This is row 4 of 8, enter the part number for the arm/fire device.",
+      "page": 3,
+      "box": {
+        "left": 247.6,
+        "top": 629.1,
+        "width": 73.9,
+        "height": 11.9
+      }
+    },
+    "date10": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 3,
+      "box": {
+        "left": 519.1,
+        "top": 629.1,
+        "width": 56.9,
+        "height": 11.9
+      }
+    },
+    "partno53": {
+      "type": "text",
+      "label": "This is row 5 of 8, enter the part number for the ignitor.",
+      "page": 3,
+      "box": {
+        "left": 247.6,
+        "top": 614.4,
+        "width": 73.9,
+        "height": 12.2
+      }
+    },
+    "serialno52": {
+      "type": "text",
+      "label": "Enter the serial number for the ignitor.",
+      "page": 3,
+      "box": {
+        "left": 328.5,
+        "top": 614.4,
+        "width": 67.7,
+        "height": 12.2
+      }
+    },
+    "date510": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).  ",
+      "page": 3,
+      "box": {
+        "left": 461.4,
+        "top": 614.4,
+        "width": 54.8,
+        "height": 12.2
+      }
+    },
+    "date11": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 3,
+      "box": {
+        "left": 519.1,
+        "top": 614.4,
+        "width": 57.3,
+        "height": 12.2
+      }
+    },
+    "partno63": {
+      "type": "text",
+      "label": "This is row 6 of 8, enter the part number for the accel switch.",
+      "page": 3,
+      "box": {
+        "left": 247.6,
+        "top": 598.9,
+        "width": 73.9,
+        "height": 12.6
+      }
+    },
+    "serialno62": {
+      "type": "text",
+      "label": "Enter the serial number for the accel switch.",
+      "page": 3,
+      "box": {
+        "left": 328.2,
+        "top": 598.9,
+        "width": 68.0,
+        "height": 12.2
+      }
+    },
+    "date66": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).  ",
+      "page": 3,
+      "box": {
+        "left": 461.2,
+        "top": 598.9,
+        "width": 55.0,
+        "height": 11.8
+      }
+    },
+    "date122": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 3,
+      "box": {
+        "left": 519.1,
+        "top": 598.5,
+        "width": 56.5,
+        "height": 12.2
+      }
+    },
+    "partno83": {
+      "type": "text",
+      "label": "This is row 8 of 8, enter the part number for the container.",
+      "page": 3,
+      "box": {
+        "left": 247.6,
+        "top": 568.0,
+        "width": 73.9,
+        "height": 14.0
+      }
+    },
+    "serialno82": {
+      "type": "text",
+      "label": "Enter the serial number for the container.",
+      "page": 3,
+      "box": {
+        "left": 327.6,
+        "top": 568.0,
+        "width": 68.7,
+        "height": 14.0
+      }
+    },
+    "date142": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 3,
+      "box": {
+        "left": 519.0,
+        "top": 568.0,
+        "width": 56.9,
+        "height": 13.2
+      }
+    },
+    "date152": {
+      "type": "text",
+      "label": "Enter the date check of oil (YYYY MM DD).  ",
+      "page": 3,
+      "box": {
+        "left": 524.0,
+        "top": 170.1,
+        "width": 50.2,
+        "height": 13.9
+      }
+    },
+    "oillevel": {
+      "type": "text",
+      "label": "Enter the oil level.",
+      "page": 3,
+      "box": {
+        "left": 296.5,
+        "top": 168.8,
+        "width": 64.3,
+        "height": 12.6
+      }
+    },
+    "alttechdirperformed13": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 3,
+      "box": {
+        "left": 445.5,
+        "top": 124.3,
+        "width": 62.4,
+        "height": 12.8
+      }
+    },
+    "ptno1": {
+      "type": "text",
+      "label": "Enter the part number for the alterations/technical directives.",
+      "page": 3,
+      "box": {
+        "left": 143.3,
+        "top": 123.9,
+        "width": 95.4,
+        "height": 12.3
+      }
+    },
+    "alttechdirperformed17": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 3,
+      "box": {
+        "left": 510.6,
+        "top": 123.9,
+        "width": 64.6,
+        "height": 12.3
+      }
+    },
+    "ptno2": {
+      "type": "text",
+      "label": "Enter the part number for the alterations/technical directives.",
+      "page": 3,
+      "box": {
+        "left": 143.3,
+        "top": 109.7,
+        "width": 95.4,
+        "height": 13.2
+      }
+    },
+    "alttechdirperformed14": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 3,
+      "box": {
+        "left": 445.5,
+        "top": 108.8,
+        "width": 62.2,
+        "height": 12.3
+      }
+    },
+    "alttechdirperformed18": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 3,
+      "box": {
+        "left": 510.6,
+        "top": 108.4,
+        "width": 64.6,
+        "height": 11.1
+      }
+    },
+    "alttechdirperformed15": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 3,
+      "box": {
+        "left": 445.5,
+        "top": 94.2,
+        "width": 62.4,
+        "height": 12.3
+      }
+    },
+    "alttechdirperformed19": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 3,
+      "box": {
+        "left": 510.6,
+        "top": 94.2,
+        "width": 64.6,
+        "height": 12.3
+      }
+    },
+    "ptno3": {
+      "type": "text",
+      "label": "Enter the part number for the alterations/technical directives.",
+      "page": 3,
+      "box": {
+        "left": 143.3,
+        "top": 93.8,
+        "width": 95.4,
+        "height": 12.3
+      }
+    },
+    "alttechdirperformed20": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 3,
+      "box": {
+        "left": 510.6,
+        "top": 79.1,
+        "width": 64.6,
+        "height": 12.8
+      }
+    },
+    "ptno4": {
+      "type": "text",
+      "label": "Enter the part number for the alterations/technical directives.",
+      "page": 3,
+      "box": {
+        "left": 143.3,
+        "top": 78.7,
+        "width": 95.4,
+        "height": 12.3
+      }
+    },
+    "alttechdirperformed16": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 3,
+      "box": {
+        "left": 446.0,
+        "top": 78.3,
+        "width": 61.9,
+        "height": 12.2
+      }
+    },
+    "nomenclature5": {
+      "type": "text",
+      "label": "Enter the nomenclature.",
+      "page": 4,
+      "box": {
+        "left": 409.7,
+        "top": 743.9,
+        "width": 115.9,
+        "height": 14.1
+      }
+    },
+    "pn2": {
+      "type": "text",
+      "label": "Enter the part number.",
+      "page": 4,
+      "box": {
+        "left": 79.7,
+        "top": 720.0,
+        "width": 95.7,
+        "height": 14.4
+      }
+    },
+    "cc2": {
+      "type": "text",
+      "label": "Enter the country code.",
+      "page": 4,
+      "box": {
+        "left": 503.0,
+        "top": 719.6,
+        "width": 75.3,
+        "height": 14.2
+      }
+    },
+    "uic2": {
+      "type": "text",
+      "label": "Enter the unit identification code.",
+      "page": 4,
+      "box": {
+        "left": 321.4,
+        "top": 718.8,
+        "width": 48.2,
+        "height": 12.7
+      }
+    },
+    "jopwa2": {
+      "type": "text",
+      "label": "Enter the job order/prod work auth.",
+      "page": 4,
+      "box": {
+        "left": 375.6,
+        "top": 718.3,
+        "width": 121.8,
+        "height": 12.7
+      }
+    },
+    "sn2": {
+      "type": "text",
+      "label": "Enter the serial number.",
+      "page": 4,
+      "box": {
+        "left": 180.0,
+        "top": 717.9,
+        "width": 90.0,
+        "height": 12.7
+      }
+    },
+    "nalc2": {
+      "type": "text",
+      "label": "Enter the Navy ammunition logistics code.",
+      "page": 4,
+      "box": {
+        "left": 277.5,
+        "top": 717.9,
+        "width": 36.8,
+        "height": 12.0
+      }
+    },
+    "waivers2": {
+      "type": "text",
+      "label": "Enter the waivers.",
+      "page": 4,
+      "box": {
+        "left": 80.4,
+        "top": 689.8,
+        "width": 185.9,
+        "height": 12.2
+      }
+    },
+    "date1a": {
+      "type": "text",
+      "label": "Enter the configuration date (YYYY MM DD).  ",
+      "page": 4,
+      "box": {
+        "left": 353.5,
+        "top": 687.8,
+        "width": 51.1,
+        "height": 11.8
+      }
+    },
+    "timeField2": {
+      "type": "text",
+      "label": "Enter the configuration time using the 24-hour clock (HHMM).  ",
+      "page": 4,
+      "box": {
+        "left": 417.5,
+        "top": 687.8,
+        "width": 42.8,
+        "height": 12.2
+      }
+    },
+    "date2a": {
+      "type": "text",
+      "label": "Enter the maintenance date (YYYY MM DD).  ",
+      "page": 4,
+      "box": {
+        "left": 525.4,
+        "top": 687.4,
+        "width": 51.1,
+        "height": 11.3
+      }
+    },
+    "date3a": {
+      "type": "text",
+      "label": "Enter the date (YYYY MM DD).  ",
+      "page": 4,
+      "box": {
+        "left": 113.0,
+        "top": 660.2,
+        "width": 51.1,
+        "height": 13.2
+      }
+    },
+    "inspection2": {
+      "type": "text",
+      "label": "Enter the inspector.",
+      "page": 4,
+      "box": {
+        "left": 275.2,
+        "top": 659.3,
+        "width": 64.8,
+        "height": 11.9
+      }
+    },
+    "stamp2": {
+      "type": "text",
+      "label": "Enter the stamp.",
+      "page": 4,
+      "box": {
+        "left": 347.1,
+        "top": 659.3,
+        "width": 48.2,
+        "height": 11.9
+      }
+    },
+    "tlmcode2": {
+      "type": "text",
+      "label": "Enter the TLM code.",
+      "page": 4,
+      "box": {
+        "left": 398.2,
+        "top": 659.3,
+        "width": 65.7,
+        "height": 11.9
+      }
+    },
+    "condcode2": {
+      "type": "text",
+      "label": "Enter the cond code.",
+      "page": 4,
+      "box": {
+        "left": 481.9,
+        "top": 659.3,
+        "width": 93.0,
+        "height": 11.9
+      }
+    },
+    "date4a2": {
+      "type": "text",
+      "label": "Enter the last sys test  date (YYYY MM DD).  ",
+      "page": 4,
+      "box": {
+        "left": 222.7,
+        "top": 658.1,
+        "width": 47.7,
+        "height": 11.3
+      }
+    },
+    "localuse2": {
+      "type": "text",
+      "label": "Enter the local use.",
+      "page": 4,
+      "box": {
+        "left": 93.8,
+        "top": 635.5,
+        "width": 387.3,
+        "height": 13.4
+      }
+    },
+    "partno113": {
+      "type": "text",
+      "label": "This is row 1 of 19, enter the part number for the booster rocket motor section.",
+      "page": 4,
+      "box": {
+        "left": 247.9,
+        "top": 572.6,
+        "width": 75.1,
+        "height": 13.2
+      }
+    },
+    "serialno111": {
+      "type": "text",
+      "label": "Enter the serial number for the booster rocket motor section.",
+      "page": 4,
+      "box": {
+        "left": 328.7,
+        "top": 572.6,
+        "width": 67.6,
+        "height": 12.3
+      }
+    },
+    "date162": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 4,
+      "box": {
+        "left": 518.7,
+        "top": 572.6,
+        "width": 57.1,
+        "height": 11.9
+      }
+    },
+    "serialno211": {
+      "type": "text",
+      "label": "Enter the serial number for the rocket motor assembly.",
+      "page": 4,
+      "box": {
+        "left": 328.7,
+        "top": 557.1,
+        "width": 67.6,
+        "height": 13.6
+      }
+    },
+    "lotno211": {
+      "type": "text",
+      "label": "Enter the lot number for the rocket motor assembly.",
+      "page": 4,
+      "box": {
+        "left": 402.4,
+        "top": 557.1,
+        "width": 57.6,
+        "height": 13.4
+      }
+    },
+    "date211": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date as (YYYY MM DD).",
+      "page": 4,
+      "box": {
+        "left": 462.7,
+        "top": 557.1,
+        "width": 52.3,
+        "height": 13.2
+      }
+    },
+    "date172": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 4,
+      "box": {
+        "left": 518.7,
+        "top": 557.1,
+        "width": 57.1,
+        "height": 13.2
+      }
+    },
+    "partno213": {
+      "type": "text",
+      "label": "This is row 2 of 19, enter the part number for the rocket motor assembly.",
+      "page": 4,
+      "box": {
+        "left": 247.9,
+        "top": 556.7,
+        "width": 75.1,
+        "height": 14.0
+      }
+    },
+    "date312": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).    ",
+      "page": 4,
+      "box": {
+        "left": 462.7,
+        "top": 540.3,
+        "width": 52.3,
+        "height": 14.4
+      }
+    },
+    "date183": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 4,
+      "box": {
+        "left": 518.7,
+        "top": 540.3,
+        "width": 57.1,
+        "height": 14.8
+      }
+    },
+    "partno34": {
+      "type": "text",
+      "label": "This is row 3 of 19, enter the part number for the ignitor.",
+      "page": 4,
+      "box": {
+        "left": 247.9,
+        "top": 539.9,
+        "width": 75.1,
+        "height": 14.0
+      }
+    },
+    "lotno33": {
+      "type": "text",
+      "label": "Enter the lot number for the igniter.",
+      "page": 4,
+      "box": {
+        "left": 402.4,
+        "top": 539.9,
+        "width": 57.6,
+        "height": 14.0
+      }
+    },
+    "serialno33": {
+      "type": "text",
+      "label": "Enter serial number for the igniter.",
+      "page": 4,
+      "box": {
+        "left": 328.7,
+        "top": 539.5,
+        "width": 67.6,
+        "height": 13.2
+      }
+    },
+    "partno44": {
+      "type": "text",
+      "label": "This is row 4 of 19, enter the part number for the arm/fire device.",
+      "page": 4,
+      "box": {
+        "left": 247.9,
+        "top": 523.2,
+        "width": 75.1,
+        "height": 14.0
+      }
+    },
+    "lotno44": {
+      "type": "text",
+      "label": "Enter the lot number for the arm/fire device.",
+      "page": 4,
+      "box": {
+        "left": 402.4,
+        "top": 522.8,
+        "width": 57.6,
+        "height": 13.6
+      }
+    },
+    "date413": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).    ",
+      "page": 4,
+      "box": {
+        "left": 462.7,
+        "top": 522.8,
+        "width": 52.3,
+        "height": 13.6
+      }
+    },
+    "date193": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 4,
+      "box": {
+        "left": 518.7,
+        "top": 522.8,
+        "width": 57.1,
+        "height": 13.6
+      }
+    },
+    "serialno43": {
+      "type": "text",
+      "label": "Enter the serial number for the arm/fire device.",
+      "page": 4,
+      "box": {
+        "left": 328.7,
+        "top": 522.4,
+        "width": 67.6,
+        "height": 13.2
+      }
+    },
+    "partno54": {
+      "type": "text",
+      "label": "This is row 5 of 19, enter the part number for the accel switch.",
+      "page": 4,
+      "box": {
+        "left": 247.9,
+        "top": 506.4,
+        "width": 75.1,
+        "height": 13.6
+      }
+    },
+    "serialno53": {
+      "type": "text",
+      "label": "Enter the serial number  for the accel switch",
+      "page": 4,
+      "box": {
+        "left": 328.7,
+        "top": 505.6,
+        "width": 67.6,
+        "height": 12.3
+      }
+    },
+    "lotno54": {
+      "type": "text",
+      "label": "Enter the lot number for the accel switch",
+      "page": 4,
+      "box": {
+        "left": 402.4,
+        "top": 505.6,
+        "width": 57.6,
+        "height": 12.7
+      }
+    },
+    "date511": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).    ",
+      "page": 4,
+      "box": {
+        "left": 462.7,
+        "top": 505.6,
+        "width": 52.3,
+        "height": 12.8
+      }
+    },
+    "date203": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 4,
+      "box": {
+        "left": 518.7,
+        "top": 505.6,
+        "width": 57.1,
+        "height": 13.2
+      }
+    },
+    "date213": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 4,
+      "box": {
+        "left": 518.7,
+        "top": 489.7,
+        "width": 57.1,
+        "height": 13.2
+      }
+    },
+    "partno64": {
+      "type": "text",
+      "label": "This is row 6 of 19, enter the part number for the initiator.",
+      "page": 4,
+      "box": {
+        "left": 247.9,
+        "top": 489.3,
+        "width": 75.1,
+        "height": 12.3
+      }
+    },
+    "serialno63": {
+      "type": "text",
+      "label": "Enter the serial number for the initiator.",
+      "page": 4,
+      "box": {
+        "left": 328.7,
+        "top": 489.3,
+        "width": 67.6,
+        "height": 11.9
+      }
+    },
+    "lotno64": {
+      "type": "text",
+      "label": "Enter the lot number for the initiator.",
+      "page": 4,
+      "box": {
+        "left": 402.4,
+        "top": 489.3,
+        "width": 57.6,
+        "height": 12.3
+      }
+    },
+    "date67": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).    ",
+      "page": 4,
+      "box": {
+        "left": 462.7,
+        "top": 489.3,
+        "width": 52.3,
+        "height": 13.1
+      }
+    },
+    "partno73": {
+      "type": "text",
+      "label": "This is row 7 of 19, enter the part number for the initiator.",
+      "page": 4,
+      "box": {
+        "left": 247.9,
+        "top": 474.2,
+        "width": 75.1,
+        "height": 14.0
+      }
+    },
+    "date223": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 4,
+      "box": {
+        "left": 518.7,
+        "top": 473.8,
+        "width": 57.1,
+        "height": 14.1
+      }
+    },
+    "serialno72": {
+      "type": "text",
+      "label": "Enter the serial number for the initiator.",
+      "page": 4,
+      "box": {
+        "left": 328.7,
+        "top": 473.0,
+        "width": 67.6,
+        "height": 12.3
+      }
+    },
+    "lotno73": {
+      "type": "text",
+      "label": "Enter the lot number for the initiator.",
+      "page": 4,
+      "box": {
+        "left": 402.4,
+        "top": 473.0,
+        "width": 57.6,
+        "height": 12.8
+      }
+    },
+    "date74": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).    ",
+      "page": 4,
+      "box": {
+        "left": 462.7,
+        "top": 472.5,
+        "width": 52.3,
+        "height": 12.3
+      }
+    },
+    "partno84": {
+      "type": "text",
+      "label": "This is row 8 of 19, enter the part number for the seperator pane.",
+      "page": 4,
+      "box": {
+        "left": 247.9,
+        "top": 457.1,
+        "width": 75.1,
+        "height": 13.2
+      }
+    },
+    "serialno83": {
+      "type": "text",
+      "label": "Enter the serial number  for the seperator pane.",
+      "page": 4,
+      "box": {
+        "left": 328.7,
+        "top": 457.1,
+        "width": 67.6,
+        "height": 13.6
+      }
+    },
+    "lotno83": {
+      "type": "text",
+      "label": "Enter the lot number  for the seperator pane.",
+      "page": 4,
+      "box": {
+        "left": 402.4,
+        "top": 457.1,
+        "width": 57.6,
+        "height": 13.6
+      }
+    },
+    "date84": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).    ",
+      "page": 4,
+      "box": {
+        "left": 462.7,
+        "top": 457.1,
+        "width": 52.3,
+        "height": 13.6
+      }
+    },
+    "date233": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 4,
+      "box": {
+        "left": 518.7,
+        "top": 456.2,
+        "width": 57.1,
+        "height": 12.8
+      }
+    },
+    "partno93": {
+      "type": "text",
+      "label": "This is row 9 of 19, enter the part number for the launch kit, missile.",
+      "page": 4,
+      "box": {
+        "left": 247.9,
+        "top": 440.3,
+        "width": 75.1,
+        "height": 13.6
+      }
+    },
+    "serialno92": {
+      "type": "text",
+      "label": "Enter the serial number for the launch kit, missile.",
+      "page": 4,
+      "box": {
+        "left": 328.7,
+        "top": 440.3,
+        "width": 67.6,
+        "height": 13.6
+      }
+    },
+    "date243": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 4,
+      "box": {
+        "left": 518.7,
+        "top": 440.3,
+        "width": 57.1,
+        "height": 13.6
+      }
+    },
+    "partno103": {
+      "type": "text",
+      "label": "This is row 10 of 19, enter the part number for the initiator, dual bridgewire (all).",
+      "page": 4,
+      "box": {
+        "left": 247.9,
+        "top": 424.0,
+        "width": 75.1,
+        "height": 12.3
+      }
+    },
+    "serialno102": {
+      "type": "text",
+      "label": "Enter the serial number for the initiator, dual bridgewire (all).",
+      "page": 4,
+      "box": {
+        "left": 328.7,
+        "top": 424.0,
+        "width": 67.6,
+        "height": 12.3
+      }
+    },
+    "lotno10": {
+      "type": "text",
+      "label": "Enter the lot number for the initiator, dual bridgewire (all).",
+      "page": 4,
+      "box": {
+        "left": 402.4,
+        "top": 423.2,
+        "width": 57.6,
+        "height": 11.5
+      }
+    },
+    "date102": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).    ",
+      "page": 4,
+      "box": {
+        "left": 462.7,
+        "top": 423.2,
+        "width": 52.3,
+        "height": 10.7
+      }
+    },
+    "date252": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 4,
+      "box": {
+        "left": 518.7,
+        "top": 423.2,
+        "width": 57.1,
+        "height": 11.7
+      }
+    },
+    "date112": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).    ",
+      "page": 4,
+      "box": {
+        "left": 462.7,
+        "top": 408.9,
+        "width": 52.3,
+        "height": 14.4
+      }
+    },
+    "partno114": {
+      "type": "text",
+      "label": "This is row 11 of 19, enter the part number for the initiator, dual bridgewire (all).",
+      "page": 4,
+      "box": {
+        "left": 247.9,
+        "top": 408.1,
+        "width": 75.1,
+        "height": 13.6
+      }
+    },
+    "serialno112": {
+      "type": "text",
+      "label": "Enter the serial number for the initiator, dual bridgewire (all).",
+      "page": 4,
+      "box": {
+        "left": 328.7,
+        "top": 408.1,
+        "width": 67.6,
+        "height": 13.6
+      }
+    },
+    "lotno11": {
+      "type": "text",
+      "label": "Enter the lot number for the initiator, dual bridgewire (all).",
+      "page": 4,
+      "box": {
+        "left": 402.4,
+        "top": 408.1,
+        "width": 57.6,
+        "height": 13.6
+      }
+    },
+    "date263": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 4,
+      "box": {
+        "left": 518.7,
+        "top": 408.1,
+        "width": 57.1,
+        "height": 13.6
+      }
+    },
+    "lotno122": {
+      "type": "text",
+      "label": "Enter the lot number for the explosive bolt.",
+      "page": 4,
+      "box": {
+        "left": 402.4,
+        "top": 390.9,
+        "width": 57.6,
+        "height": 12.9
+      }
+    },
+    "partno123": {
+      "type": "text",
+      "label": "This is row 12 of 19, enter the part number for the explosive bolt.",
+      "page": 4,
+      "box": {
+        "left": 247.9,
+        "top": 390.5,
+        "width": 75.1,
+        "height": 12.4
+      }
+    },
+    "serialno122": {
+      "type": "text",
+      "label": "Enter the serial number for the explosive bolt.",
+      "page": 4,
+      "box": {
+        "left": 328.7,
+        "top": 390.5,
+        "width": 67.6,
+        "height": 11.5
+      }
+    },
+    "date123": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).    ",
+      "page": 4,
+      "box": {
+        "left": 462.7,
+        "top": 390.5,
+        "width": 52.3,
+        "height": 12.8
+      }
+    },
+    "date273": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 4,
+      "box": {
+        "left": 518.7,
+        "top": 390.5,
+        "width": 57.1,
+        "height": 12.6
+      }
+    },
+    "lotno132": {
+      "type": "text",
+      "label": "Enter the lot number for the explosive bolt.",
+      "page": 4,
+      "box": {
+        "left": 402.4,
+        "top": 375.9,
+        "width": 57.6,
+        "height": 14.3
+      }
+    },
+    "date132": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).    ",
+      "page": 4,
+      "box": {
+        "left": 462.7,
+        "top": 375.9,
+        "width": 52.3,
+        "height": 14.2
+      }
+    },
+    "date282": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 4,
+      "box": {
+        "left": 518.7,
+        "top": 375.9,
+        "width": 57.1,
+        "height": 14.3
+      }
+    },
+    "partno133": {
+      "type": "text",
+      "label": "This is row 13 of 19, enter the part number for the explosive bolt.",
+      "page": 4,
+      "box": {
+        "left": 247.9,
+        "top": 375.4,
+        "width": 75.1,
+        "height": 14.0
+      }
+    },
+    "serialno132": {
+      "type": "text",
+      "label": "Enter the serial number for the explosive bolt.",
+      "page": 4,
+      "box": {
+        "left": 328.7,
+        "top": 375.4,
+        "width": 67.6,
+        "height": 14.0
+      }
+    },
+    "lotno142": {
+      "type": "text",
+      "label": "Enter the lot number for the plate, electric cover.",
+      "page": 4,
+      "box": {
+        "left": 402.4,
+        "top": 359.1,
+        "width": 57.6,
+        "height": 14.0
+      }
+    },
+    "date143": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).    ",
+      "page": 4,
+      "box": {
+        "left": 462.7,
+        "top": 359.1,
+        "width": 52.3,
+        "height": 14.2
+      }
+    },
+    "partno143": {
+      "type": "text",
+      "label": "This is row 14 of 19, enter the part number for the plate, electric cover.",
+      "page": 4,
+      "box": {
+        "left": 247.9,
+        "top": 358.7,
+        "width": 75.1,
+        "height": 14.0
+      }
+    },
+    "serialno142": {
+      "type": "text",
+      "label": "Enter the serial number for the plate, electric cover.",
+      "page": 4,
+      "box": {
+        "left": 328.7,
+        "top": 358.3,
+        "width": 67.6,
+        "height": 13.6
+      }
+    },
+    "date292": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 4,
+      "box": {
+        "left": 518.7,
+        "top": 358.3,
+        "width": 57.1,
+        "height": 13.3
+      }
+    },
+    "partno153": {
+      "type": "text",
+      "label": "This is row 15 of 19, enter the part number for the cover access (air, asroc).",
+      "page": 4,
+      "box": {
+        "left": 247.9,
+        "top": 342.0,
+        "width": 75.1,
+        "height": 13.8
+      }
+    },
+    "date302": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 4,
+      "box": {
+        "left": 518.7,
+        "top": 342.0,
+        "width": 57.1,
+        "height": 13.7
+      }
+    },
+    "date153": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).    ",
+      "page": 4,
+      "box": {
+        "left": 462.7,
+        "top": 341.5,
+        "width": 52.3,
+        "height": 13.6
+      }
+    },
+    "serialno152": {
+      "type": "text",
+      "label": "Enter the serial number for the cover access (air, asroc).",
+      "page": 4,
+      "box": {
+        "left": 328.7,
+        "top": 341.1,
+        "width": 67.6,
+        "height": 13.2
+      }
+    },
+    "lotno152": {
+      "type": "text",
+      "label": "Enter the lot number for the cover access (air, asroc).",
+      "page": 4,
+      "box": {
+        "left": 402.4,
+        "top": 341.1,
+        "width": 57.6,
+        "height": 14.4
+      }
+    },
+    "date322": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 4,
+      "box": {
+        "left": 518.7,
+        "top": 309.3,
+        "width": 57.1,
+        "height": 15.1
+      }
+    },
+    "partno173": {
+      "type": "text",
+      "label": "This is row 17 of 19, enter the part number for the container.",
+      "page": 4,
+      "box": {
+        "left": 249.3,
+        "top": 308.5,
+        "width": 72.4,
+        "height": 13.8
+      }
+    },
+    "serialno172": {
+      "type": "text",
+      "label": "Enter the serial number for the container.",
+      "page": 4,
+      "box": {
+        "left": 330.1,
+        "top": 308.1,
+        "width": 64.8,
+        "height": 13.8
+      }
+    },
+    "partno193": {
+      "type": "text",
+      "label": "This is row 19 of 19, enter the part number for the flight plug (wired/unwired).",
+      "page": 4,
+      "box": {
+        "left": 249.3,
+        "top": 276.3,
+        "width": 72.4,
+        "height": 14.4
+      }
+    },
+    "serialno192": {
+      "type": "text",
+      "label": "Enter the serial number for the flight plug (wired/unwired).",
+      "page": 4,
+      "box": {
+        "left": 330.1,
+        "top": 275.8,
+        "width": 64.8,
+        "height": 12.2
+      }
+    },
+    "date343": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 4,
+      "box": {
+        "left": 518.7,
+        "top": 275.8,
+        "width": 57.1,
+        "height": 13.8
+      }
+    },
+    "nomenclature12": {
+      "type": "text",
+      "label": "Enter the nomenclature for the alterations/technical directives.",
+      "page": 4,
+      "box": {
+        "left": 35.1,
+        "top": 134.4,
+        "width": 105.7,
+        "height": 11.9
+      }
+    },
+    "alttechdirperformed162": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 4,
+      "box": {
+        "left": 443.0,
+        "top": 134.4,
+        "width": 63.9,
+        "height": 11.8
+      }
+    },
+    "alttechdirperformed110": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 4,
+      "box": {
+        "left": 242.5,
+        "top": 133.9,
+        "width": 65.9,
+        "height": 12.3
+      }
+    },
+    "alttechdirperformed62": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 4,
+      "box": {
+        "left": 311.1,
+        "top": 133.9,
+        "width": 61.9,
+        "height": 11.9
+      }
+    },
+    "partnumber1": {
+      "type": "text",
+      "label": "Enter the part number for the alterations/technical directives.",
+      "page": 4,
+      "box": {
+        "left": 143.7,
+        "top": 133.1,
+        "width": 94.8,
+        "height": 11.1
+      }
+    },
+    "alttechdirperformed112": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 4,
+      "box": {
+        "left": 376.4,
+        "top": 133.1,
+        "width": 63.6,
+        "height": 11.5
+      }
+    },
+    "alttechdirperformed172": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 4,
+      "box": {
+        "left": 443.0,
+        "top": 119.7,
+        "width": 63.9,
+        "height": 12.8
+      }
+    },
+    "nomenclature23": {
+      "type": "text",
+      "label": "Enter the nomenclature for the alterations/technical directives.",
+      "page": 4,
+      "box": {
+        "left": 35.1,
+        "top": 119.3,
+        "width": 105.2,
+        "height": 11.9
+      }
+    },
+    "partnumber2": {
+      "type": "text",
+      "label": "Enter the part number for the alterations/technical directives.",
+      "page": 4,
+      "box": {
+        "left": 143.7,
+        "top": 119.3,
+        "width": 94.8,
+        "height": 12.3
+      }
+    },
+    "alttechdirperformed72": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 4,
+      "box": {
+        "left": 311.2,
+        "top": 119.3,
+        "width": 61.9,
+        "height": 11.9
+      }
+    },
+    "alttechdirperformed23": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 4,
+      "box": {
+        "left": 243.0,
+        "top": 118.5,
+        "width": 65.1,
+        "height": 11.1
+      }
+    },
+    "alttechdirperformed122": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 4,
+      "box": {
+        "left": 376.4,
+        "top": 118.0,
+        "width": 64.5,
+        "height": 11.5
+      }
+    },
+    "partnumber3": {
+      "type": "text",
+      "label": "Enter the part number for the alterations/technical directives.",
+      "page": 4,
+      "box": {
+        "left": 143.7,
+        "top": 104.2,
+        "width": 95.2,
+        "height": 12.3
+      }
+    },
+    "alttechdirperformed32": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 4,
+      "box": {
+        "left": 243.0,
+        "top": 104.2,
+        "width": 65.5,
+        "height": 12.3
+      }
+    },
+    "alttechdirperformed132": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 4,
+      "box": {
+        "left": 376.4,
+        "top": 104.2,
+        "width": 63.6,
+        "height": 12.3
+      }
+    },
+    "alttechdirperformed182": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 4,
+      "box": {
+        "left": 443.0,
+        "top": 104.2,
+        "width": 63.9,
+        "height": 12.3
+      }
+    },
+    "alttechdirperformed82": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 4,
+      "box": {
+        "left": 311.2,
+        "top": 103.8,
+        "width": 61.1,
+        "height": 11.9
+      }
+    },
+    "nomenclature33": {
+      "type": "text",
+      "label": "Enter the nomenclature for the alterations/technical directives.",
+      "page": 4,
+      "box": {
+        "left": 34.9,
+        "top": 103.4,
+        "width": 105.4,
+        "height": 10.2
+      }
+    },
+    "nomenclature42": {
+      "type": "text",
+      "label": "Enter the nomenclature for the alterations/technical directives.",
+      "page": 4,
+      "box": {
+        "left": 34.9,
+        "top": 89.2,
+        "width": 105.0,
+        "height": 13.2
+      }
+    },
+    "alttechdirperformed92": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 4,
+      "box": {
+        "left": 310.7,
+        "top": 89.2,
+        "width": 61.8,
+        "height": 13.2
+      }
+    },
+    "alttechdirperformed192": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 4,
+      "box": {
+        "left": 443.0,
+        "top": 89.2,
+        "width": 64.2,
+        "height": 13.6
+      }
+    },
+    "alttechdirperformed42": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 4,
+      "box": {
+        "left": 243.0,
+        "top": 88.7,
+        "width": 65.5,
+        "height": 12.8
+      }
+    },
+    "alttechdirperformed142": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 4,
+      "box": {
+        "left": 376.4,
+        "top": 88.7,
+        "width": 63.6,
+        "height": 13.2
+      }
+    },
+    "partnumber4": {
+      "type": "text",
+      "label": "Enter the part number for the alterations/technical directives.",
+      "page": 4,
+      "box": {
+        "left": 143.7,
+        "top": 88.3,
+        "width": 95.2,
+        "height": 12.3
+      }
+    },
+    "nomenclature52": {
+      "type": "text",
+      "label": "Enter the nomenclature for the alterations/technical directives.",
+      "page": 4,
+      "box": {
+        "left": 34.7,
+        "top": 72.0,
+        "width": 105.3,
+        "height": 12.8
+      }
+    },
+    "partnumber5": {
+      "type": "text",
+      "label": "Enter the part number for the alterations/technical directives.",
+      "page": 4,
+      "box": {
+        "left": 143.7,
+        "top": 72.0,
+        "width": 94.6,
+        "height": 12.3
+      }
+    },
+    "alttechdirperformed52": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 4,
+      "box": {
+        "left": 243.0,
+        "top": 72.0,
+        "width": 65.5,
+        "height": 12.3
+      }
+    },
+    "alttechdirperformed152": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 4,
+      "box": {
+        "left": 376.4,
+        "top": 72.0,
+        "width": 63.6,
+        "height": 12.3
+      }
+    },
+    "alttechdirperformed202": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 4,
+      "box": {
+        "left": 443.2,
+        "top": 72.0,
+        "width": 64.2,
+        "height": 12.3
+      }
+    },
+    "alttechdirperformed102": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 4,
+      "box": {
+        "left": 311.2,
+        "top": 71.6,
+        "width": 61.8,
+        "height": 11.9
+      }
+    },
+    "misldesgntr": {
+      "type": "text",
+      "label": "Enter the missile designator.",
+      "page": 5,
+      "box": {
+        "left": 275.5,
+        "top": 729.3,
+        "width": 109.7,
+        "height": 12.5
+      }
+    },
+    "ptno": {
+      "type": "text",
+      "label": "Enter the part number.",
+      "page": 5,
+      "box": {
+        "left": 481.0,
+        "top": 729.3,
+        "width": 82.9,
+        "height": 12.5
+      }
+    },
+    "serialno": {
+      "type": "text",
+      "label": "Enter the serial number.",
+      "page": 5,
+      "box": {
+        "left": 389.8,
+        "top": 728.4,
+        "width": 87.1,
+        "height": 12.1
+      }
+    },
+    "testinspresultspassfail1": {
+      "type": "choice",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 5,
+      "box": {
+        "left": 220.6,
+        "top": 666.7,
+        "width": 49.6,
+        "height": 22.0
+      },
+      "options": [
+        "Pass",
+        "Fail"
+      ]
+    },
+    "operationevent1": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 5,
+      "box": {
+        "left": 160.0,
+        "top": 666.3,
+        "width": 56.1,
+        "height": 20.7
+      }
+    },
+    "techdirmodincorporated1": {
+      "type": "text",
+      "label": "Enter the Tech. Dir. Mod. Incorporated.",
+      "page": 5,
+      "box": {
+        "left": 360.5,
+        "top": 665.7,
+        "width": 69.8,
+        "height": 21.5
+      }
+    },
+    "timeField1": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 5,
+      "box": {
+        "left": 278.1,
+        "top": 665.5,
+        "width": 76.3,
+        "height": 20.7
+      }
+    },
+    "remarks1": {
+      "type": "text",
+      "label": "Enter the remarks for the SLAM  Missile log sheet.",
+      "page": 5,
+      "box": {
+        "left": 436.5,
+        "top": 665.5,
+        "width": 126.9,
+        "height": 20.7
+      }
+    },
+    "activityuic1": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 5,
+      "box": {
+        "left": 111.0,
+        "top": 665.1,
+        "width": 43.1,
+        "height": 19.9
+      }
+    },
+    "date110": {
+      "type": "text",
+      "label": "This is row 1 of 21, enter the SLAM Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 5,
+      "box": {
+        "left": 46.2,
+        "top": 664.6,
+        "width": 58.9,
+        "height": 20.3
+      }
+    },
+    "testinspresultspassfail2": {
+      "type": "choice",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 5,
+      "box": {
+        "left": 220.6,
+        "top": 642.1,
+        "width": 49.6,
+        "height": 22.3
+      },
+      "options": [
+        "Pass",
+        "Fail"
+      ]
+    },
+    "remarks2": {
+      "type": "text",
+      "label": "Enter the remarks for the SLAM  Missile log sheet.",
+      "page": 5,
+      "box": {
+        "left": 436.5,
+        "top": 642.1,
+        "width": 126.9,
+        "height": 22.7
+      }
+    },
+    "operationevent2": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 5,
+      "box": {
+        "left": 159.6,
+        "top": 641.4,
+        "width": 56.2,
+        "height": 21.4
+      }
+    },
+    "timeField22": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 5,
+      "box": {
+        "left": 278.1,
+        "top": 641.2,
+        "width": 76.3,
+        "height": 21.0
+      }
+    },
+    "techdirmodincorporated2": {
+      "type": "text",
+      "label": "Enter the Tech. Dir. Mod. Incorporated.",
+      "page": 5,
+      "box": {
+        "left": 360.5,
+        "top": 641.0,
+        "width": 69.8,
+        "height": 21.0
+      }
+    },
+    "date214": {
+      "type": "text",
+      "label": "This is row 2 of 21, enter the SLAM Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 5,
+      "box": {
+        "left": 46.2,
+        "top": 640.8,
+        "width": 58.9,
+        "height": 21.0
+      }
+    },
+    "activityuic2": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 5,
+      "box": {
+        "left": 110.2,
+        "top": 640.8,
+        "width": 43.9,
+        "height": 21.0
+      }
+    },
+    "date313": {
+      "type": "text",
+      "label": "This is row 3 of 21, enter the SLAM Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 5,
+      "box": {
+        "left": 46.2,
+        "top": 616.9,
+        "width": 58.9,
+        "height": 20.6
+      }
+    },
+    "remarks3": {
+      "type": "text",
+      "label": "Enter the remarks for the SLAM  Missile log sheet.",
+      "page": 5,
+      "box": {
+        "left": 436.1,
+        "top": 616.5,
+        "width": 127.1,
+        "height": 19.4
+      }
+    },
+    "timeField3": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 5,
+      "box": {
+        "left": 278.1,
+        "top": 616.1,
+        "width": 76.3,
+        "height": 19.8
+      }
+    },
+    "techdirmodincorporated3": {
+      "type": "text",
+      "label": "Enter the Tech. Dir. Mod. Incorporated.",
+      "page": 5,
+      "box": {
+        "left": 360.8,
+        "top": 615.9,
+        "width": 69.4,
+        "height": 19.4
+      }
+    },
+    "testinspresultspassfail3": {
+      "type": "choice",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 5,
+      "box": {
+        "left": 220.2,
+        "top": 615.7,
+        "width": 51.9,
+        "height": 19.3
+      },
+      "options": [
+        "Pass",
+        "Fail"
+      ]
+    },
+    "activityuic3": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 5,
+      "box": {
+        "left": 110.2,
+        "top": 615.2,
+        "width": 43.9,
+        "height": 18.6
+      }
+    },
+    "operationevent3": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 5,
+      "box": {
+        "left": 159.6,
+        "top": 615.2,
+        "width": 56.2,
+        "height": 17.7
+      }
+    },
+    "operationevent4": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 5,
+      "box": {
+        "left": 159.6,
+        "top": 594.3,
+        "width": 56.2,
+        "height": 22.2
+      }
+    },
+    "remarks4": {
+      "type": "text",
+      "label": "Enter the remarks for the SLAM  Missile log sheet.",
+      "page": 5,
+      "box": {
+        "left": 436.1,
+        "top": 594.3,
+        "width": 127.4,
+        "height": 22.9
+      }
+    },
+    "techdirmodincorporated4": {
+      "type": "text",
+      "label": "Enter the Tech. Dir. Mod. Incorporated.",
+      "page": 5,
+      "box": {
+        "left": 360.8,
+        "top": 594.1,
+        "width": 69.4,
+        "height": 21.8
+      }
+    },
+    "date414": {
+      "type": "text",
+      "label": "This is row 4 of 21, enter the SLAM Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 5,
+      "box": {
+        "left": 46.2,
+        "top": 593.1,
+        "width": 58.9,
+        "height": 21.6
+      }
+    },
+    "activityuic4": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 5,
+      "box": {
+        "left": 110.2,
+        "top": 593.1,
+        "width": 43.9,
+        "height": 20.7
+      }
+    },
+    "testinspresultspassfail4": {
+      "type": "choice",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 5,
+      "box": {
+        "left": 220.2,
+        "top": 593.1,
+        "width": 51.9,
+        "height": 21.6
+      },
+      "options": [
+        "Pass",
+        "Fail"
+      ]
+    },
+    "timeField4": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 5,
+      "box": {
+        "left": 278.1,
+        "top": 593.1,
+        "width": 76.3,
+        "height": 21.6
+      }
+    },
+    "date513": {
+      "type": "text",
+      "label": "This is row 5 of 21, enter the SLAM Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 5,
+      "box": {
+        "left": 46.2,
+        "top": 568.8,
+        "width": 58.9,
+        "height": 21.8
+      }
+    },
+    "activityuic5": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 5,
+      "box": {
+        "left": 110.2,
+        "top": 568.8,
+        "width": 43.9,
+        "height": 21.8
+      }
+    },
+    "timeField5": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 5,
+      "box": {
+        "left": 278.1,
+        "top": 568.8,
+        "width": 76.3,
+        "height": 22.8
+      }
+    },
+    "techdirmodincorporated5": {
+      "type": "text",
+      "label": "Enter the Tech. Dir. Mod. Incorporated.",
+      "page": 5,
+      "box": {
+        "left": 360.8,
+        "top": 568.8,
+        "width": 69.4,
+        "height": 22.8
+      }
+    },
+    "remarks5": {
+      "type": "text",
+      "label": "Enter the remarks for the SLAM  Missile log sheet.",
+      "page": 5,
+      "box": {
+        "left": 436.1,
+        "top": 568.8,
+        "width": 127.4,
+        "height": 22.8
+      }
+    },
+    "operationevent5": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 5,
+      "box": {
+        "left": 159.9,
+        "top": 568.4,
+        "width": 56.1,
+        "height": 21.8
+      }
+    },
+    "testinspresultspassfail5": {
+      "type": "choice",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 5,
+      "box": {
+        "left": 220.2,
+        "top": 568.4,
+        "width": 51.9,
+        "height": 21.8
+      },
+      "options": [
+        "Pass",
+        "Fail"
+      ]
+    },
+    "testinspresultspassfail6": {
+      "type": "choice",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 5,
+      "box": {
+        "left": 220.2,
+        "top": 543.3,
+        "width": 51.9,
+        "height": 21.0
+      },
+      "options": [
+        "Pass",
+        "Fail"
+      ]
+    },
+    "date68": {
+      "type": "text",
+      "label": "This is row 6 of 21, enter the SLAM Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 5,
+      "box": {
+        "left": 46.2,
+        "top": 543.2,
+        "width": 58.9,
+        "height": 20.6
+      }
+    },
+    "activityuic6": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 5,
+      "box": {
+        "left": 110.2,
+        "top": 542.8,
+        "width": 43.9,
+        "height": 19.8
+      }
+    },
+    "operationevent6": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 5,
+      "box": {
+        "left": 159.6,
+        "top": 542.8,
+        "width": 56.2,
+        "height": 19.3
+      }
+    },
+    "timeField6": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 5,
+      "box": {
+        "left": 278.1,
+        "top": 542.8,
+        "width": 76.3,
+        "height": 19.8
+      }
+    },
+    "techdirmodincorporated6": {
+      "type": "text",
+      "label": "Enter the Tech. Dir. Mod. Incorporated.",
+      "page": 5,
+      "box": {
+        "left": 360.8,
+        "top": 542.8,
+        "width": 69.4,
+        "height": 20.6
+      }
+    },
+    "remarks6": {
+      "type": "text",
+      "label": "Enter the remarks for the SLAM  Missile log sheet.",
+      "page": 5,
+      "box": {
+        "left": 436.1,
+        "top": 542.8,
+        "width": 127.4,
+        "height": 20.2
+      }
+    },
+    "date75": {
+      "type": "text",
+      "label": "This is row 7 of 21, enter the SLAM Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 5,
+      "box": {
+        "left": 46.2,
+        "top": 520.2,
+        "width": 58.9,
+        "height": 19.9
+      }
+    },
+    "operationevent7": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 5,
+      "box": {
+        "left": 159.9,
+        "top": 519.6,
+        "width": 56.0,
+        "height": 20.5
+      }
+    },
+    "activityuic7": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 5,
+      "box": {
+        "left": 110.2,
+        "top": 519.4,
+        "width": 43.9,
+        "height": 20.2
+      }
+    },
+    "testinspresultspassfail7": {
+      "type": "choice",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 5,
+      "box": {
+        "left": 220.5,
+        "top": 519.4,
+        "width": 51.7,
+        "height": 20.6
+      },
+      "options": [
+        "Pass",
+        "Fail"
+      ]
+    },
+    "timeField7": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 5,
+      "box": {
+        "left": 278.1,
+        "top": 519.4,
+        "width": 76.3,
+        "height": 20.6
+      }
+    },
+    "techdirmodincorporated7": {
+      "type": "text",
+      "label": "Enter the Tech. Dir. Mod. Incorporated.",
+      "page": 5,
+      "box": {
+        "left": 360.8,
+        "top": 519.4,
+        "width": 69.4,
+        "height": 20.6
+      }
+    },
+    "remarks7": {
+      "type": "text",
+      "label": "Enter the remarks for the SLAM  Missile log sheet.",
+      "page": 5,
+      "box": {
+        "left": 436.1,
+        "top": 519.0,
+        "width": 127.4,
+        "height": 19.3
+      }
+    },
+    "operationevent8": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 5,
+      "box": {
+        "left": 159.9,
+        "top": 496.6,
+        "width": 56.0,
+        "height": 21.3
+      }
+    },
+    "date85": {
+      "type": "text",
+      "label": "This is row 8 of 21, enter the SLAM Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 5,
+      "box": {
+        "left": 46.2,
+        "top": 496.4,
+        "width": 58.9,
+        "height": 22.8
+      }
+    },
+    "activityuic8": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 5,
+      "box": {
+        "left": 110.6,
+        "top": 496.4,
+        "width": 43.5,
+        "height": 22.0
+      }
+    },
+    "remarks8": {
+      "type": "text",
+      "label": "Enter the remarks for the SLAM  Missile log sheet.",
+      "page": 5,
+      "box": {
+        "left": 436.1,
+        "top": 496.4,
+        "width": 127.0,
+        "height": 21.3
+      }
+    },
+    "testinspresultspassfail8": {
+      "type": "choice",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 5,
+      "box": {
+        "left": 220.7,
+        "top": 495.5,
+        "width": 51.7,
+        "height": 21.3
+      },
+      "options": [
+        "Pass",
+        "Fail"
+      ]
+    },
+    "timeField8": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 5,
+      "box": {
+        "left": 278.1,
+        "top": 495.5,
+        "width": 76.3,
+        "height": 20.5
+      }
+    },
+    "techdirmodincorporated8": {
+      "type": "text",
+      "label": "Enter the Tech. Dir. Mod. Incorporated.",
+      "page": 5,
+      "box": {
+        "left": 360.8,
+        "top": 495.1,
+        "width": 69.4,
+        "height": 21.3
+      }
+    },
+    "operationevent9": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 5,
+      "box": {
+        "left": 159.9,
+        "top": 471.9,
+        "width": 56.0,
+        "height": 20.3
+      }
+    },
+    "date93": {
+      "type": "text",
+      "label": "This is row 9 of 21, enter the SLAM Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 5,
+      "box": {
+        "left": 46.2,
+        "top": 471.7,
+        "width": 58.9,
+        "height": 19.3
+      }
+    },
+    "timeField9": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 5,
+      "box": {
+        "left": 278.1,
+        "top": 471.3,
+        "width": 76.3,
+        "height": 18.5
+      }
+    },
+    "activityuic9": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 5,
+      "box": {
+        "left": 110.6,
+        "top": 470.8,
+        "width": 43.5,
+        "height": 18.1
+      }
+    },
+    "testinspresultspassfail9": {
+      "type": "choice",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 5,
+      "box": {
+        "left": 220.5,
+        "top": 470.8,
+        "width": 51.7,
+        "height": 18.5
+      },
+      "options": [
+        "Pass",
+        "Fail"
+      ]
+    },
+    "techdirmodincorporated9": {
+      "type": "text",
+      "label": "Enter the Tech. Dir. Mod. Incorporated.",
+      "page": 5,
+      "box": {
+        "left": 360.8,
+        "top": 470.8,
+        "width": 69.4,
+        "height": 18.1
+      }
+    },
+    "remarks9": {
+      "type": "text",
+      "label": "Enter the remarks for the SLAM  Missile log sheet.",
+      "page": 5,
+      "box": {
+        "left": 436.1,
+        "top": 470.8,
+        "width": 127.4,
+        "height": 18.5
+      }
+    },
+    "date103": {
+      "type": "text",
+      "label": "This is row 10 of 21, enter the SLAM Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 5,
+      "box": {
+        "left": 46.2,
+        "top": 449.1,
+        "width": 58.1,
+        "height": 21.8
+      }
+    },
+    "activityuic10": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 5,
+      "box": {
+        "left": 110.6,
+        "top": 449.1,
+        "width": 43.5,
+        "height": 22.8
+      }
+    },
+    "testinspresultspassfail10": {
+      "type": "choice",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 5,
+      "box": {
+        "left": 220.5,
+        "top": 449.1,
+        "width": 51.7,
+        "height": 21.8
+      },
+      "options": [
+        "Pass",
+        "Fail"
+      ]
+    },
+    "techdirmodincorporated10": {
+      "type": "text",
+      "label": "Enter the Tech. Dir. Mod. Incorporated.",
+      "page": 5,
+      "box": {
+        "left": 360.8,
+        "top": 449.1,
+        "width": 69.4,
+        "height": 22.8
+      }
+    },
+    "timeField10": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 5,
+      "box": {
+        "left": 278.1,
+        "top": 448.7,
+        "width": 76.3,
+        "height": 21.8
+      }
+    },
+    "operationevent10": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 5,
+      "box": {
+        "left": 159.9,
+        "top": 448.0,
+        "width": 56.2,
+        "height": 21.5
+      }
+    },
+    "remarks10": {
+      "type": "text",
+      "label": "Enter the remarks for the SLAM  Missile log sheet.",
+      "page": 5,
+      "box": {
+        "left": 436.1,
+        "top": 448.0,
+        "width": 127.4,
+        "height": 22.0
+      }
+    },
+    "date113": {
+      "type": "text",
+      "label": "This is row 11 of 21, enter the SLAM Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 5,
+      "box": {
+        "left": 46.2,
+        "top": 423.5,
+        "width": 58.9,
+        "height": 20.3
+      }
+    },
+    "activityuic11": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 5,
+      "box": {
+        "left": 110.6,
+        "top": 423.5,
+        "width": 43.5,
+        "height": 19.9
+      }
+    },
+    "operationevent11": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 5,
+      "box": {
+        "left": 159.9,
+        "top": 423.5,
+        "width": 55.8,
+        "height": 21.5
+      }
+    },
+    "timeField11": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 5,
+      "box": {
+        "left": 278.1,
+        "top": 423.5,
+        "width": 76.3,
+        "height": 20.7
+      }
+    },
+    "techdirmodincorporated11": {
+      "type": "text",
+      "label": "Enter the Tech. Dir. Mod. Incorporated.",
+      "page": 5,
+      "box": {
+        "left": 360.8,
+        "top": 423.5,
+        "width": 69.8,
+        "height": 20.7
+      }
+    },
+    "testinspresultspassfail11": {
+      "type": "choice",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 5,
+      "box": {
+        "left": 220.5,
+        "top": 423.1,
+        "width": 51.7,
+        "height": 20.7
+      },
+      "options": [
+        "Pass",
+        "Fail"
+      ]
+    },
+    "remarks11": {
+      "type": "text",
+      "label": "Enter the remarks for the SLAM  Missile log sheet.",
+      "page": 5,
+      "box": {
+        "left": 436.1,
+        "top": 422.1,
+        "width": 127.4,
+        "height": 19.9
+      }
+    },
+    "remarks12": {
+      "type": "text",
+      "label": "Enter the remarks for the SLAM  Missile log sheet.",
+      "page": 5,
+      "box": {
+        "left": 436.2,
+        "top": 399.5,
+        "width": 127.4,
+        "height": 20.6
+      }
+    },
+    "date124": {
+      "type": "text",
+      "label": "This is row 12 of 21, enter the SLAM Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 5,
+      "box": {
+        "left": 46.2,
+        "top": 399.3,
+        "width": 58.1,
+        "height": 21.0
+      }
+    },
+    "activityuic12": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 5,
+      "box": {
+        "left": 110.6,
+        "top": 399.3,
+        "width": 43.5,
+        "height": 22.0
+      }
+    },
+    "testinspresultspassfail12": {
+      "type": "choice",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 5,
+      "box": {
+        "left": 220.5,
+        "top": 399.3,
+        "width": 51.7,
+        "height": 21.0
+      },
+      "options": [
+        "Pass",
+        "Fail"
+      ]
+    },
+    "timeField12": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 5,
+      "box": {
+        "left": 278.1,
+        "top": 399.3,
+        "width": 76.3,
+        "height": 21.0
+      }
+    },
+    "operationevent12": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 5,
+      "box": {
+        "left": 159.9,
+        "top": 398.9,
+        "width": 55.8,
+        "height": 21.0
+      }
+    },
+    "techdirmodincorporated12": {
+      "type": "text",
+      "label": "Enter the Tech. Dir. Mod. Incorporated.",
+      "page": 5,
+      "box": {
+        "left": 360.8,
+        "top": 398.9,
+        "width": 69.8,
+        "height": 20.6
+      }
+    },
+    "timeField13": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 5,
+      "box": {
+        "left": 278.1,
+        "top": 375.0,
+        "width": 76.3,
+        "height": 22.3
+      }
+    },
+    "operationevent13": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 5,
+      "box": {
+        "left": 159.6,
+        "top": 374.6,
+        "width": 56.2,
+        "height": 21.5
+      }
+    },
+    "remarks13": {
+      "type": "text",
+      "label": "Enter the remarks for the SLAM  Missile log sheet.",
+      "page": 5,
+      "box": {
+        "left": 436.2,
+        "top": 374.4,
+        "width": 127.0,
+        "height": 21.6
+      }
+    },
+    "date133": {
+      "type": "text",
+      "label": "This is row 13 of 21, enter the SLAM Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 5,
+      "box": {
+        "left": 46.6,
+        "top": 373.7,
+        "width": 57.7,
+        "height": 20.2
+      }
+    },
+    "activityuic13": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 5,
+      "box": {
+        "left": 110.6,
+        "top": 373.7,
+        "width": 43.5,
+        "height": 21.1
+      }
+    },
+    "testinspresultspassfail13": {
+      "type": "choice",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 5,
+      "box": {
+        "left": 220.7,
+        "top": 373.7,
+        "width": 51.7,
+        "height": 21.3
+      },
+      "options": [
+        "Pass",
+        "Fail"
+      ]
+    },
+    "techdirmodincorporated13": {
+      "type": "text",
+      "label": "Enter the Tech. Dir. Mod. Incorporated.",
+      "page": 5,
+      "box": {
+        "left": 360.8,
+        "top": 373.7,
+        "width": 69.8,
+        "height": 20.6
+      }
+    },
+    "operationevent14": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 5,
+      "box": {
+        "left": 159.9,
+        "top": 349.9,
+        "width": 55.9,
+        "height": 21.8
+      }
+    },
+    "timeField14": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 5,
+      "box": {
+        "left": 278.1,
+        "top": 349.9,
+        "width": 76.3,
+        "height": 21.8
+      }
+    },
+    "techdirmodincorporated14": {
+      "type": "text",
+      "label": "Enter the Tech. Dir. Mod. Incorporated.",
+      "page": 5,
+      "box": {
+        "left": 360.8,
+        "top": 349.9,
+        "width": 69.8,
+        "height": 21.8
+      }
+    },
+    "testinspresultspassfail14": {
+      "type": "choice",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 5,
+      "box": {
+        "left": 220.9,
+        "top": 349.7,
+        "width": 51.7,
+        "height": 21.7
+      },
+      "options": [
+        "Pass",
+        "Fail"
+      ]
+    },
+    "activityuic14": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 5,
+      "box": {
+        "left": 110.6,
+        "top": 349.5,
+        "width": 43.5,
+        "height": 20.3
+      }
+    },
+    "remarks14": {
+      "type": "text",
+      "label": "Enter the remarks for the SLAM  Missile log sheet.",
+      "page": 5,
+      "box": {
+        "left": 436.1,
+        "top": 348.8,
+        "width": 127.0,
+        "height": 20.2
+      }
+    },
+    "date144": {
+      "type": "text",
+      "label": "This is row 14 of 21, enter the SLAM  Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 5,
+      "box": {
+        "left": 46.6,
+        "top": 348.6,
+        "width": 59.3,
+        "height": 20.7
+      }
+    },
+    "date154": {
+      "type": "text",
+      "label": "This is row 15 of 21, enter the SLAM  Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 5,
+      "box": {
+        "left": 46.6,
+        "top": 326.0,
+        "width": 58.9,
+        "height": 20.4
+      }
+    },
+    "operationevent15": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 5,
+      "box": {
+        "left": 159.9,
+        "top": 325.6,
+        "width": 55.9,
+        "height": 20.4
+      }
+    },
+    "activityuic15": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 5,
+      "box": {
+        "left": 111.1,
+        "top": 325.2,
+        "width": 43.0,
+        "height": 19.7
+      }
+    },
+    "testinspresultspassfail15": {
+      "type": "choice",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 5,
+      "box": {
+        "left": 220.9,
+        "top": 325.2,
+        "width": 51.7,
+        "height": 20.4
+      },
+      "options": [
+        "Pass",
+        "Fail"
+      ]
+    },
+    "techdirmodincorporated15": {
+      "type": "text",
+      "label": "Enter the Tech. Dir. Mod. Incorporated.",
+      "page": 5,
+      "box": {
+        "left": 360.8,
+        "top": 325.2,
+        "width": 69.8,
+        "height": 20.4
+      }
+    },
+    "timeField15": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 5,
+      "box": {
+        "left": 278.1,
+        "top": 324.8,
+        "width": 76.3,
+        "height": 20.4
+      }
+    },
+    "remarks15": {
+      "type": "text",
+      "label": "Enter the remarks for the SLAM  Missile log sheet.",
+      "page": 5,
+      "box": {
+        "left": 436.1,
+        "top": 324.8,
+        "width": 127.4,
+        "height": 20.4
+      }
+    },
+    "techdirmodincorporated16": {
+      "type": "text",
+      "label": "Enter the Tech. Dir. Mod. Incorporated.",
+      "page": 5,
+      "box": {
+        "left": 360.8,
+        "top": 302.2,
+        "width": 69.4,
+        "height": 20.4
+      }
+    },
+    "date163": {
+      "type": "text",
+      "label": "This is row 16 of 21, enter the SLAM  Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 5,
+      "box": {
+        "left": 46.2,
+        "top": 301.3,
+        "width": 58.9,
+        "height": 20.4
+      }
+    },
+    "activityuic16": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 5,
+      "box": {
+        "left": 111.1,
+        "top": 301.3,
+        "width": 43.0,
+        "height": 20.4
+      }
+    },
+    "testinspresultspassfail16": {
+      "type": "choice",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 5,
+      "box": {
+        "left": 220.9,
+        "top": 301.3,
+        "width": 51.7,
+        "height": 20.4
+      },
+      "options": [
+        "Pass",
+        "Fail"
+      ]
+    },
+    "remarks16": {
+      "type": "text",
+      "label": "Enter the remarks for the SLAM  Missile log sheet.",
+      "page": 5,
+      "box": {
+        "left": 436.5,
+        "top": 301.1,
+        "width": 126.9,
+        "height": 19.4
+      }
+    },
+    "operationevent16": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 5,
+      "box": {
+        "left": 159.6,
+        "top": 300.9,
+        "width": 56.2,
+        "height": 20.4
+      }
+    },
+    "timeField16": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 5,
+      "box": {
+        "left": 278.1,
+        "top": 300.9,
+        "width": 76.3,
+        "height": 20.4
+      }
+    },
+    "techdirmodincorporated17": {
+      "type": "text",
+      "label": "Enter the Tech. Dir. Mod. Incorporated.",
+      "page": 5,
+      "box": {
+        "left": 360.8,
+        "top": 278.1,
+        "width": 69.4,
+        "height": 20.1
+      }
+    },
+    "remarks17": {
+      "type": "text",
+      "label": "Enter the remarks for the SLAM  Missile log sheet.",
+      "page": 5,
+      "box": {
+        "left": 436.1,
+        "top": 278.1,
+        "width": 127.4,
+        "height": 19.6
+      }
+    },
+    "operationevent17": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 5,
+      "box": {
+        "left": 159.6,
+        "top": 277.9,
+        "width": 56.5,
+        "height": 19.6
+      }
+    },
+    "testinspresultspassfail17": {
+      "type": "choice",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 5,
+      "box": {
+        "left": 220.7,
+        "top": 277.9,
+        "width": 52.4,
+        "height": 19.2
+      },
+      "options": [
+        "Pass",
+        "Fail"
+      ]
+    },
+    "date173": {
+      "type": "text",
+      "label": "This is row 17 of 21, enter the SLAM  Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 5,
+      "box": {
+        "left": 46.2,
+        "top": 277.5,
+        "width": 58.9,
+        "height": 19.6
+      }
+    },
+    "activityuic17": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 5,
+      "box": {
+        "left": 111.1,
+        "top": 277.1,
+        "width": 43.0,
+        "height": 19.0
+      }
+    },
+    "timeField17": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 5,
+      "box": {
+        "left": 278.1,
+        "top": 277.1,
+        "width": 76.3,
+        "height": 19.0
+      }
+    },
+    "date184": {
+      "type": "text",
+      "label": "This is row 18 of 21, enter the SLAM  Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 5,
+      "box": {
+        "left": 46.2,
+        "top": 255.3,
+        "width": 58.9,
+        "height": 22.8
+      }
+    },
+    "techdirmodincorporated18": {
+      "type": "text",
+      "label": "Enter the Tech. Dir. Mod. Incorporated.",
+      "page": 5,
+      "box": {
+        "left": 360.8,
+        "top": 255.1,
+        "width": 69.4,
+        "height": 23.4
+      }
+    },
+    "activityuic18": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 5,
+      "box": {
+        "left": 111.1,
+        "top": 254.9,
+        "width": 43.0,
+        "height": 22.4
+      }
+    },
+    "testinspresultspassfail18": {
+      "type": "choice",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 5,
+      "box": {
+        "left": 220.7,
+        "top": 254.9,
+        "width": 52.4,
+        "height": 22.1
+      },
+      "options": [
+        "Pass",
+        "Fail"
+      ]
+    },
+    "operationevent18": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 5,
+      "box": {
+        "left": 159.6,
+        "top": 254.5,
+        "width": 56.4,
+        "height": 22.4
+      }
+    },
+    "timeField18": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 5,
+      "box": {
+        "left": 278.1,
+        "top": 254.5,
+        "width": 76.3,
+        "height": 22.4
+      }
+    },
+    "remarks18": {
+      "type": "text",
+      "label": "Enter the remarks for the SLAM  Missile log sheet.",
+      "page": 5,
+      "box": {
+        "left": 436.2,
+        "top": 254.2,
+        "width": 126.9,
+        "height": 21.8
+      }
+    },
+    "activityuic19": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 5,
+      "box": {
+        "left": 111.1,
+        "top": 229.8,
+        "width": 43.0,
+        "height": 22.2
+      }
+    },
+    "remarks19": {
+      "type": "text",
+      "label": "Enter the remarks for the SLAM  Missile log sheet.",
+      "page": 5,
+      "box": {
+        "left": 436.2,
+        "top": 229.8,
+        "width": 127.3,
+        "height": 22.2
+      }
+    },
+    "testinspresultspassfail19": {
+      "type": "choice",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 5,
+      "box": {
+        "left": 221.0,
+        "top": 229.3,
+        "width": 52.4,
+        "height": 22.2
+      },
+      "options": [
+        "Pass",
+        "Fail"
+      ]
+    },
+    "techdirmodincorporated19": {
+      "type": "text",
+      "label": "Enter the Tech. Dir. Mod. Incorporated.",
+      "page": 5,
+      "box": {
+        "left": 360.8,
+        "top": 229.1,
+        "width": 69.4,
+        "height": 21.3
+      }
+    },
+    "date194": {
+      "type": "text",
+      "label": "This is row 19 of 21, enter the SLAM  Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 5,
+      "box": {
+        "left": 46.2,
+        "top": 229.0,
+        "width": 58.1,
+        "height": 20.9
+      }
+    },
+    "timeField19": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 5,
+      "box": {
+        "left": 278.1,
+        "top": 228.5,
+        "width": 76.3,
+        "height": 19.6
+      }
+    },
+    "operationevent19": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 5,
+      "box": {
+        "left": 159.6,
+        "top": 227.9,
+        "width": 56.4,
+        "height": 20.3
+      }
+    },
+    "date204": {
+      "type": "text",
+      "label": "This is row 20 of 21, enter the SLAM  Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 5,
+      "box": {
+        "left": 46.2,
+        "top": 205.5,
+        "width": 58.9,
+        "height": 20.2
+      }
+    },
+    "remarks20": {
+      "type": "text",
+      "label": "Enter the remarks for the SLAM  Missile log sheet.",
+      "page": 5,
+      "box": {
+        "left": 436.2,
+        "top": 205.5,
+        "width": 127.3,
+        "height": 21.1
+      }
+    },
+    "activityuic20": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 5,
+      "box": {
+        "left": 110.6,
+        "top": 205.1,
+        "width": 43.5,
+        "height": 20.2
+      }
+    },
+    "testinspresultspassfail20": {
+      "type": "choice",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 5,
+      "box": {
+        "left": 221.0,
+        "top": 205.1,
+        "width": 52.4,
+        "height": 20.2
+      },
+      "options": [
+        "Pass",
+        "Fail"
+      ]
+    },
+    "timeField20": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 5,
+      "box": {
+        "left": 278.1,
+        "top": 205.1,
+        "width": 76.3,
+        "height": 21.5
+      }
+    },
+    "operationevent20": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 5,
+      "box": {
+        "left": 159.6,
+        "top": 204.0,
+        "width": 56.4,
+        "height": 20.3
+      }
+    },
+    "techdirmodincorporated20": {
+      "type": "text",
+      "label": "Enter the Tech. Dir. Mod. Incorporated.",
+      "page": 5,
+      "box": {
+        "left": 360.8,
+        "top": 204.0,
+        "width": 69.4,
+        "height": 20.2
+      }
+    },
+    "date215": {
+      "type": "text",
+      "label": "This is row 21 of 21, enter the SLAM  Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 5,
+      "box": {
+        "left": 46.2,
+        "top": 182.0,
+        "width": 58.9,
+        "height": 21.0
+      }
+    },
+    "activityuic21": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 5,
+      "box": {
+        "left": 110.6,
+        "top": 181.2,
+        "width": 43.5,
+        "height": 21.8
+      }
+    },
+    "operationevent21": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 5,
+      "box": {
+        "left": 159.6,
+        "top": 181.2,
+        "width": 56.4,
+        "height": 22.0
+      }
+    },
+    "testinspresultspassfail21": {
+      "type": "choice",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 5,
+      "box": {
+        "left": 221.0,
+        "top": 181.2,
+        "width": 52.4,
+        "height": 21.8
+      },
+      "options": [
+        "Pass",
+        "Fail"
+      ]
+    },
+    "timeField21": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 5,
+      "box": {
+        "left": 278.1,
+        "top": 181.2,
+        "width": 76.3,
+        "height": 21.1
+      }
+    },
+    "techdirmodincorporated21": {
+      "type": "text",
+      "label": "Enter the Tech. Dir. Mod. Incorporated.",
+      "page": 5,
+      "box": {
+        "left": 360.8,
+        "top": 180.8,
+        "width": 69.4,
+        "height": 21.1
+      }
+    },
+    "remarks21": {
+      "type": "text",
+      "label": "Enter the remarks for the SLAM  Missile log sheet.",
+      "page": 5,
+      "box": {
+        "left": 436.2,
+        "top": 180.4,
+        "width": 126.9,
+        "height": 21.5
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 14.0,
+      "editor": "grid",
+      "columns": {
+        "serialno": {
+          "type": "text",
+          "label": "Enter the serial number for the fuze, booster.",
+          "page": 1,
+          "box": {
+            "left": 329.8,
+            "top": 228.9,
+            "width": 67.5,
+            "height": 12.5
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 3,
+      "count": 4,
+      "rowStride": 15.17,
+      "editor": "grid",
+      "columns": {
+        "nomenclature": {
+          "type": "text",
+          "label": "Enter the nomenclature for the alterations/technical directives.",
+          "page": 3,
+          "box": {
+            "left": 36.2,
+            "top": 124.3,
+            "width": 102.1,
+            "height": 11.9
+          }
+        },
+        "alttechdirperformed": {
+          "type": "text",
+          "label": "Enter what alterations/technicals directives was performed.",
+          "page": 3,
+          "box": {
+            "left": 242.3,
+            "top": 124.3,
+            "width": 62.4,
+            "height": 12.8
+          }
+        },
+        "alttechdirperformed2": {
+          "type": "text",
+          "label": "Enter what alterations/technicals directives was performed.",
+          "page": 3,
+          "box": {
+            "left": 308.9,
+            "top": 123.9,
+            "width": 61.5,
+            "height": 12.3
+          }
+        },
+        "alttechdirperformed3": {
+          "type": "text",
+          "label": "Enter what alterations/technicals directives was performed.",
+          "page": 3,
+          "box": {
+            "left": 373.1,
+            "top": 123.9,
+            "width": 70.2,
+            "height": 12.3
+          }
+        }
+      }
+    },
+    "rows3": {
+      "title": "Rows",
+      "page": 3,
+      "count": 6,
+      "rowStride": 15.08,
+      "editor": "grid",
+      "columns": {
+        "lotno": {
+          "type": "text",
+          "label": "Enter the lot number for the booster.",
+          "page": 3,
+          "box": {
+            "left": 402.1,
+            "top": 674.3,
+            "width": 54.6,
+            "height": 12.2
+          }
+        }
+      }
+    },
+    "rows4": {
+      "title": "Rows",
+      "page": 4,
+      "count": 5,
+      "rowStride": 15.4,
+      "editor": "grid",
+      "columns": {
+        "alttechdirperformed": {
+          "type": "text",
+          "label": "Enter what alterations/technicals directives was performed.",
+          "page": 4,
+          "box": {
+            "left": 510.2,
+            "top": 134.4,
+            "width": 65.6,
+            "height": 12.3
+          }
+        }
+      }
+    }
+  }
+}

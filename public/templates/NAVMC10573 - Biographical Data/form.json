@@ -1,0 +1,1727 @@
+{
+  "id": "navmc10573",
+  "label": "NAVMC 10573 - Biographical Data",
+  "directory": "NAVMC10573 - Biographical Data",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "datePrep",
+        "code1",
+        "radioButtonList",
+        "radioButtonList2",
+        "nameFrm",
+        "grd1",
+        "ssn",
+        "dateAssmDuty",
+        "presDutyStatn1",
+        "presDutyAssn1",
+        "radNegYes",
+        "radNegYes2",
+        "radHQMCNo",
+        "radHQMCNo2",
+        "dateBirth1",
+        "plcBirth1",
+        "fatherAddr1",
+        "nameFather1",
+        "motherAddr1",
+        "nameMother1",
+        "wifeAddr1",
+        "nameWifeMaid",
+        "child1",
+        "child2",
+        "child3",
+        "permHmRec1",
+        "locHomeAddr",
+        "degree2",
+        "major2",
+        "dateDeg2",
+        "serviceSch1",
+        "srvSchCrs1",
+        "srvSchDates1",
+        "serviceSch12",
+        "srvSchCrs12",
+        "srvSchDates12",
+        "serviceSch2",
+        "srvSchCrs2",
+        "srvSchDates2",
+        "serviceSch3",
+        "srvSchCrs3",
+        "srvSchDates3",
+        "serviceSch4",
+        "srvSchCrs4",
+        "srvSchDates4",
+        "serviceSch5",
+        "srvSchCrs5",
+        "srvSchDates5"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "radEnlResv",
+        "radEnlResv2",
+        "enlstDates",
+        "grdPriorComms",
+        "brnchServ",
+        "prevCommOtherBrch",
+        "chkUSMC2Lt",
+        "chkUSMCR2Lt",
+        "dateRnk2Lt",
+        "dateAcpt2Lt",
+        "chkUSMC1Lt",
+        "chkUSMCR1Lt",
+        "dateRnk1Lt",
+        "dateAcpt1Lt",
+        "dateInteg",
+        "chkUSMCCap",
+        "chkUSMCRCap",
+        "dateRnkCap",
+        "dateAcptCap",
+        "dateDesig",
+        "chkUSMCMjr",
+        "chkUSMCRMjr",
+        "dateRnkMjr",
+        "dateAcptMjr",
+        "chkUSMCLtCol",
+        "chkUSMCRLtCol",
+        "dateRnkLtCol",
+        "dateAcptLtCol",
+        "placeDesig",
+        "chkUSMCCol",
+        "chkUSMCRCol",
+        "dateRnkCol",
+        "dateAcptCol",
+        "medalHonor",
+        "medalWW2",
+        "medalPrplHrt",
+        "medalNavyCrs",
+        "medalPrsUntCit",
+        "medalNavyOcc",
+        "medalArmyServCrs",
+        "medalArmyDistCit",
+        "medalChina45",
+        "medalNatlDef",
+        "medalNavyUntCom",
+        "medalArmNavDSM",
+        "kornServStars",
+        "medalGdCond",
+        "medalSivrStr",
+        "medalKornServ",
+        "lignMerit",
+        "medal2NicCmp",
+        "medalLegnMeirt",
+        "medalArmdForcs",
+        "medalFlyCrss",
+        "medalChnServ",
+        "medalMarResRib",
+        "medalNavMarCorp",
+        "medalMarExped",
+        "medalArmdResFrc",
+        "medalUntdNatns",
+        "brzStarMedl",
+        "medalAmrDefServ",
+        "medalBrzStrMetl",
+        "medalAmerCmpgn",
+        "medalAir",
+        "medalOth1",
+        "medalOther1",
+        "naryCommRibbn",
+        "medalAsiaPacif",
+        "asiaPacifStars",
+        "medalNavCmRib",
+        "medalOth2",
+        "medalOther2",
+        "textField1"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "signature"
+      ]
+    }
+  ],
+  "fields": {
+    "datePrep": {
+      "type": "text",
+      "label": "Enter date this form was prepared using format 2 Dec 2002.",
+      "page": 1,
+      "box": {
+        "left": 465.8,
+        "top": 724.9,
+        "width": 111.2,
+        "height": 17.1
+      }
+    },
+    "code1": {
+      "type": "text",
+      "label": "Enter commandant of the marines code.",
+      "page": 1,
+      "box": {
+        "left": 227.8,
+        "top": 718.7,
+        "width": 235.6,
+        "height": 13.2
+      }
+    },
+    "radioButtonList": {
+      "type": "radio",
+      "label": "usmcr",
+      "page": 1,
+      "box": {
+        "left": 368.8,
+        "top": 701.6,
+        "width": 15.2,
+        "height": 15.2
+      },
+      "group": "topmostSubform_0_Page1_0_RadioButtonList_0"
+    },
+    "radioButtonList2": {
+      "type": "radio",
+      "label": "usmc",
+      "page": 1,
+      "box": {
+        "left": 300.8,
+        "top": 700.8,
+        "width": 15.2,
+        "height": 15.2
+      },
+      "group": "topmostSubform_0_Page1_0_RadioButtonList_0"
+    },
+    "nameFrm": {
+      "type": "text",
+      "label": "Enter last name. First name and middle initial of the person this form is from.",
+      "page": 1,
+      "box": {
+        "left": 37.5,
+        "top": 697.9,
+        "width": 250.0,
+        "height": 15.1
+      }
+    },
+    "grd1": {
+      "type": "text",
+      "label": "Enter military grade level.",
+      "page": 1,
+      "box": {
+        "left": 433.6,
+        "top": 697.3,
+        "width": 59.2,
+        "height": 14.5
+      }
+    },
+    "ssn": {
+      "type": "text",
+      "label": "SSN",
+      "page": 1,
+      "box": {
+        "left": 494.2,
+        "top": 697.3,
+        "width": 83.9,
+        "height": 14.4
+      }
+    },
+    "dateAssmDuty": {
+      "type": "text",
+      "label": "Enter date of assumed duty.",
+      "page": 1,
+      "box": {
+        "left": 482.2,
+        "top": 673.6,
+        "width": 94.1,
+        "height": 14.5
+      }
+    },
+    "presDutyStatn1": {
+      "type": "text",
+      "label": "Enter present duty station.",
+      "page": 1,
+      "box": {
+        "left": 37.5,
+        "top": 672.9,
+        "width": 444.1,
+        "height": 14.5
+      }
+    },
+    "presDutyAssn1": {
+      "type": "text",
+      "label": "Enter present duty assignment.",
+      "page": 1,
+      "box": {
+        "left": 37.5,
+        "top": 648.0,
+        "width": 539.5,
+        "height": 13.9
+      }
+    },
+    "radNegYes": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 476.0,
+        "top": 620.8,
+        "width": 15.2,
+        "height": 15.2
+      },
+      "group": "topmostSubform_0_Page1_0_RadNegYes_0"
+    },
+    "radNegYes2": {
+      "type": "radio",
+      "label": "no",
+      "page": 1,
+      "box": {
+        "left": 528.8,
+        "top": 620.8,
+        "width": 15.2,
+        "height": 15.2
+      },
+      "group": "topmostSubform_0_Page1_0_RadNegYes_0"
+    },
+    "radHQMCNo": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 224.0,
+        "top": 620.4,
+        "width": 15.2,
+        "height": 15.2
+      },
+      "group": "topmostSubform_0_Page1_0_RadHQMCNo_0"
+    },
+    "radHQMCNo2": {
+      "type": "radio",
+      "label": "no",
+      "page": 1,
+      "box": {
+        "left": 271.0,
+        "top": 620.4,
+        "width": 15.2,
+        "height": 15.2
+      },
+      "group": "topmostSubform_0_Page1_0_RadHQMCNo_0"
+    },
+    "dateBirth1": {
+      "type": "text",
+      "label": "Enter date of birth.",
+      "page": 1,
+      "box": {
+        "left": 461.8,
+        "top": 595.5,
+        "width": 115.8,
+        "height": 14.6
+      }
+    },
+    "plcBirth1": {
+      "type": "text",
+      "label": "Enter place of birth. City and state.",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 594.8,
+        "width": 423.0,
+        "height": 14.0
+      }
+    },
+    "fatherAddr1": {
+      "type": "text",
+      "label": "Enter fathers address.",
+      "page": 1,
+      "box": {
+        "left": 289.5,
+        "top": 571.8,
+        "width": 287.5,
+        "height": 16.6
+      }
+    },
+    "nameFather1": {
+      "type": "text",
+      "label": "Enter fathers name and indicate if deceased.",
+      "page": 1,
+      "box": {
+        "left": 37.5,
+        "top": 570.5,
+        "width": 250.7,
+        "height": 15.3
+      }
+    },
+    "motherAddr1": {
+      "type": "text",
+      "label": "Enter mothers address.",
+      "page": 1,
+      "box": {
+        "left": 289.5,
+        "top": 546.2,
+        "width": 287.5,
+        "height": 15.4
+      }
+    },
+    "nameMother1": {
+      "type": "text",
+      "label": "Enter mothers name and indicate if deceased.",
+      "page": 1,
+      "box": {
+        "left": 37.5,
+        "top": 544.9,
+        "width": 250.7,
+        "height": 14.1
+      }
+    },
+    "wifeAddr1": {
+      "type": "text",
+      "label": "Enter wifes home town address.",
+      "page": 1,
+      "box": {
+        "left": 289.5,
+        "top": 521.9,
+        "width": 287.5,
+        "height": 14.7
+      }
+    },
+    "nameWifeMaid": {
+      "type": "text",
+      "label": "Enter wifes maiden name.",
+      "page": 1,
+      "box": {
+        "left": 37.5,
+        "top": 521.2,
+        "width": 249.3,
+        "height": 14.1
+      }
+    },
+    "child1": {
+      "type": "text",
+      "label": "Enter childrens names and birth dates for line 1. If you have a daughter that is married give full name.",
+      "page": 1,
+      "box": {
+        "left": 37.5,
+        "top": 497.5,
+        "width": 539.5,
+        "height": 14.1
+      }
+    },
+    "child2": {
+      "type": "text",
+      "label": "Enter childrens names and birth dates for line 2.",
+      "page": 1,
+      "box": {
+        "left": 38.1,
+        "top": 480.1,
+        "width": 539.5,
+        "height": 17.8
+      }
+    },
+    "child3": {
+      "type": "text",
+      "label": "Enter childrens names and birth dates for line 3.",
+      "page": 1,
+      "box": {
+        "left": 37.5,
+        "top": 461.1,
+        "width": 539.5,
+        "height": 17.8
+      }
+    },
+    "permHmRec1": {
+      "type": "text",
+      "label": "Enter permanent home of record.",
+      "page": 1,
+      "box": {
+        "left": 37.5,
+        "top": 440.0,
+        "width": 539.5,
+        "height": 17.8
+      }
+    },
+    "locHomeAddr": {
+      "type": "text",
+      "label": "Enter local home address.",
+      "page": 1,
+      "box": {
+        "left": 37.5,
+        "top": 420.3,
+        "width": 539.5,
+        "height": 17.8
+      }
+    },
+    "degree2": {
+      "type": "text",
+      "label": "Enter second degree attained in college.",
+      "page": 1,
+      "box": {
+        "left": 36.8,
+        "top": 222.3,
+        "width": 290.1,
+        "height": 17.8
+      }
+    },
+    "major2": {
+      "type": "text",
+      "label": "Enter major field of study for second degree attained in college.",
+      "page": 1,
+      "box": {
+        "left": 328.3,
+        "top": 222.3,
+        "width": 171.1,
+        "height": 17.8
+      }
+    },
+    "dateDeg2": {
+      "type": "text",
+      "label": "Enter date of second degree attained in college.",
+      "page": 1,
+      "box": {
+        "left": 500.7,
+        "top": 222.3,
+        "width": 88.8,
+        "height": 17.8
+      }
+    },
+    "serviceSch1": {
+      "type": "text",
+      "label": "Enter name and location of major service school number 1.",
+      "page": 1,
+      "box": {
+        "left": 36.8,
+        "top": 202.1,
+        "width": 289.5,
+        "height": 17.8
+      }
+    },
+    "srvSchCrs1": {
+      "type": "text",
+      "label": "Enter course title at service school number 1.",
+      "page": 1,
+      "box": {
+        "left": 327.6,
+        "top": 202.1,
+        "width": 171.1,
+        "height": 17.8
+      }
+    },
+    "srvSchDates1": {
+      "type": "text",
+      "label": "Enter dates of service school number 1.",
+      "page": 1,
+      "box": {
+        "left": 500.7,
+        "top": 202.1,
+        "width": 90.1,
+        "height": 17.8
+      }
+    },
+    "serviceSch12": {
+      "type": "text",
+      "label": "Enter name and location of major service school number 1.",
+      "page": 1,
+      "box": {
+        "left": 36.8,
+        "top": 184.1,
+        "width": 289.5,
+        "height": 17.8
+      }
+    },
+    "srvSchCrs12": {
+      "type": "text",
+      "label": "Enter course title at service school number 1.",
+      "page": 1,
+      "box": {
+        "left": 327.6,
+        "top": 184.1,
+        "width": 171.1,
+        "height": 17.8
+      }
+    },
+    "srvSchDates12": {
+      "type": "text",
+      "label": "Enter dates of service school number 1.",
+      "page": 1,
+      "box": {
+        "left": 500.7,
+        "top": 184.1,
+        "width": 90.1,
+        "height": 17.8
+      }
+    },
+    "serviceSch2": {
+      "type": "text",
+      "label": "Enter name and location of major service school number 2.",
+      "page": 1,
+      "box": {
+        "left": 36.8,
+        "top": 163.7,
+        "width": 289.5,
+        "height": 17.8
+      }
+    },
+    "srvSchCrs2": {
+      "type": "text",
+      "label": "Enter course title at service school number 2.",
+      "page": 1,
+      "box": {
+        "left": 327.6,
+        "top": 163.7,
+        "width": 171.1,
+        "height": 17.8
+      }
+    },
+    "srvSchDates2": {
+      "type": "text",
+      "label": "Enter dates of service school number 2.",
+      "page": 1,
+      "box": {
+        "left": 500.7,
+        "top": 163.7,
+        "width": 90.1,
+        "height": 17.8
+      }
+    },
+    "serviceSch3": {
+      "type": "text",
+      "label": "Enter name and location of major service school number 3.",
+      "page": 1,
+      "box": {
+        "left": 36.8,
+        "top": 143.3,
+        "width": 289.5,
+        "height": 17.8
+      }
+    },
+    "srvSchCrs3": {
+      "type": "text",
+      "label": "Enter course title at service school number 3.",
+      "page": 1,
+      "box": {
+        "left": 327.6,
+        "top": 143.3,
+        "width": 171.1,
+        "height": 17.8
+      }
+    },
+    "srvSchDates3": {
+      "type": "text",
+      "label": "Enter dates of service school number 3.",
+      "page": 1,
+      "box": {
+        "left": 500.7,
+        "top": 143.3,
+        "width": 90.1,
+        "height": 17.8
+      }
+    },
+    "serviceSch4": {
+      "type": "text",
+      "label": "Enter name and location of major service school number 4.",
+      "page": 1,
+      "box": {
+        "left": 36.8,
+        "top": 122.3,
+        "width": 289.5,
+        "height": 17.8
+      }
+    },
+    "srvSchCrs4": {
+      "type": "text",
+      "label": "Enter course title at service school number 4.",
+      "page": 1,
+      "box": {
+        "left": 327.6,
+        "top": 122.3,
+        "width": 171.1,
+        "height": 17.8
+      }
+    },
+    "srvSchDates4": {
+      "type": "text",
+      "label": "Enter dates of service school number 4.",
+      "page": 1,
+      "box": {
+        "left": 500.7,
+        "top": 122.3,
+        "width": 90.1,
+        "height": 17.8
+      }
+    },
+    "serviceSch5": {
+      "type": "text",
+      "label": "Enter name and location of major service school number 5.",
+      "page": 1,
+      "box": {
+        "left": 36.8,
+        "top": 101.9,
+        "width": 289.5,
+        "height": 17.8
+      }
+    },
+    "srvSchCrs5": {
+      "type": "text",
+      "label": "Enter course title at service school number 5.",
+      "page": 1,
+      "box": {
+        "left": 327.6,
+        "top": 101.9,
+        "width": 171.1,
+        "height": 17.8
+      }
+    },
+    "srvSchDates5": {
+      "type": "text",
+      "label": "Enter dates of service school number 5.",
+      "page": 1,
+      "box": {
+        "left": 500.7,
+        "top": 101.9,
+        "width": 90.1,
+        "height": 17.8
+      }
+    },
+    "radEnlResv": {
+      "type": "radio",
+      "label": "res",
+      "page": 2,
+      "box": {
+        "left": 255.9,
+        "top": 755.2,
+        "width": 15.1,
+        "height": 15.1
+      },
+      "group": "topmostSubform_0_Page2_0_RadEnlResv_0"
+    },
+    "radEnlResv2": {
+      "type": "radio",
+      "label": "reg",
+      "page": 2,
+      "box": {
+        "left": 326.3,
+        "top": 755.2,
+        "width": 15.1,
+        "height": 15.1
+      },
+      "group": "topmostSubform_0_Page2_0_RadEnlResv_0"
+    },
+    "enlstDates": {
+      "type": "text",
+      "label": "Enter enlisted service dates.",
+      "page": 2,
+      "box": {
+        "left": 352.6,
+        "top": 749.8,
+        "width": 98.7,
+        "height": 13.7
+      }
+    },
+    "grdPriorComms": {
+      "type": "text",
+      "label": "Enter grade prior to commissioning.",
+      "page": 2,
+      "box": {
+        "left": 452.0,
+        "top": 749.8,
+        "width": 142.8,
+        "height": 15.1
+      }
+    },
+    "brnchServ": {
+      "type": "text",
+      "label": "Enter branch of service.",
+      "page": 2,
+      "box": {
+        "left": 36.8,
+        "top": 749.1,
+        "width": 169.7,
+        "height": 14.5
+      }
+    },
+    "prevCommOtherBrch": {
+      "type": "text",
+      "label": "Enter previous commission in other branch of service.",
+      "page": 2,
+      "box": {
+        "left": 36.2,
+        "top": 706.0,
+        "width": 131.6,
+        "height": 12.7
+      }
+    },
+    "chkUSMC2Lt": {
+      "type": "checkbox",
+      "label": "Check if promoted to second lieutenant in marine corps.",
+      "page": 2,
+      "box": {
+        "left": 501.3,
+        "top": 702.9,
+        "width": 15.1,
+        "height": 15.1
+      }
+    },
+    "chkUSMCR2Lt": {
+      "type": "checkbox",
+      "label": "Check if promoted to second lieutenant in marine corps reserves.",
+      "page": 2,
+      "box": {
+        "left": 559.2,
+        "top": 702.9,
+        "width": 15.1,
+        "height": 15.1
+      }
+    },
+    "dateRnk2Lt": {
+      "type": "text",
+      "label": "Enter date of promotion to rank of second lieutenant.",
+      "page": 2,
+      "box": {
+        "left": 255.3,
+        "top": 702.5,
+        "width": 112.5,
+        "height": 15.1
+      }
+    },
+    "dateAcpt2Lt": {
+      "type": "text",
+      "label": "Enter date of acceptance to second lieutenant.",
+      "page": 2,
+      "box": {
+        "left": 370.4,
+        "top": 702.5,
+        "width": 106.6,
+        "height": 15.1
+      }
+    },
+    "chkUSMC1Lt": {
+      "type": "checkbox",
+      "label": "Check if promoted to first lieutenant in marine corps.",
+      "page": 2,
+      "box": {
+        "left": 501.3,
+        "top": 688.4,
+        "width": 15.1,
+        "height": 15.1
+      }
+    },
+    "chkUSMCR1Lt": {
+      "type": "checkbox",
+      "label": "Check if promoted to first lieutenant in marine corps reserves.",
+      "page": 2,
+      "box": {
+        "left": 559.2,
+        "top": 688.4,
+        "width": 15.1,
+        "height": 15.1
+      }
+    },
+    "dateRnk1Lt": {
+      "type": "text",
+      "label": "Enter date of promotion to rank of first lieutenant.",
+      "page": 2,
+      "box": {
+        "left": 255.3,
+        "top": 688.1,
+        "width": 112.5,
+        "height": 15.1
+      }
+    },
+    "dateAcpt1Lt": {
+      "type": "text",
+      "label": "Enter date of acceptance to first lieutenant.",
+      "page": 2,
+      "box": {
+        "left": 370.4,
+        "top": 688.1,
+        "width": 106.6,
+        "height": 15.1
+      }
+    },
+    "dateInteg": {
+      "type": "text",
+      "label": "Enter date integrated into regular marine corps.",
+      "page": 2,
+      "box": {
+        "left": 90.3,
+        "top": 684.1,
+        "width": 78.1,
+        "height": 17.1
+      }
+    },
+    "chkUSMCCap": {
+      "type": "checkbox",
+      "label": "Check if promoted to captain in marine corps.",
+      "page": 2,
+      "box": {
+        "left": 501.3,
+        "top": 673.9,
+        "width": 15.1,
+        "height": 15.1
+      }
+    },
+    "chkUSMCRCap": {
+      "type": "checkbox",
+      "label": "Check if promoted to captain in marine corps reserves.",
+      "page": 2,
+      "box": {
+        "left": 559.2,
+        "top": 673.9,
+        "width": 15.1,
+        "height": 15.1
+      }
+    },
+    "dateRnkCap": {
+      "type": "text",
+      "label": "Enter date of promotion to rank of captain.",
+      "page": 2,
+      "box": {
+        "left": 255.3,
+        "top": 673.6,
+        "width": 112.5,
+        "height": 15.1
+      }
+    },
+    "dateAcptCap": {
+      "type": "text",
+      "label": "Enter date of acceptance to captain.",
+      "page": 2,
+      "box": {
+        "left": 370.4,
+        "top": 673.6,
+        "width": 106.6,
+        "height": 15.1
+      }
+    },
+    "dateDesig": {
+      "type": "text",
+      "label": "Enter date designated as a naval aviator.",
+      "page": 2,
+      "box": {
+        "left": 76.2,
+        "top": 658.9,
+        "width": 92.2,
+        "height": 13.6
+      }
+    },
+    "chkUSMCMjr": {
+      "type": "checkbox",
+      "label": "Check if promoted to major in marine corps.",
+      "page": 2,
+      "box": {
+        "left": 501.3,
+        "top": 658.8,
+        "width": 15.1,
+        "height": 15.1
+      }
+    },
+    "chkUSMCRMjr": {
+      "type": "checkbox",
+      "label": "Check if promoted to major in marine corps reserves.",
+      "page": 2,
+      "box": {
+        "left": 559.2,
+        "top": 658.8,
+        "width": 15.1,
+        "height": 15.1
+      }
+    },
+    "dateRnkMjr": {
+      "type": "text",
+      "label": "Enter date of promotion to rank of major.",
+      "page": 2,
+      "box": {
+        "left": 255.3,
+        "top": 658.4,
+        "width": 112.5,
+        "height": 15.1
+      }
+    },
+    "dateAcptMjr": {
+      "type": "text",
+      "label": "Enter date of acceptance to major.",
+      "page": 2,
+      "box": {
+        "left": 370.4,
+        "top": 658.4,
+        "width": 106.6,
+        "height": 15.1
+      }
+    },
+    "chkUSMCLtCol": {
+      "type": "checkbox",
+      "label": "Check if promoted to lieutenant colonel in marine corps.",
+      "page": 2,
+      "box": {
+        "left": 501.3,
+        "top": 644.3,
+        "width": 15.1,
+        "height": 15.1
+      }
+    },
+    "chkUSMCRLtCol": {
+      "type": "checkbox",
+      "label": "Check if promoted to lieutenant colonel in marine corps reserves.",
+      "page": 2,
+      "box": {
+        "left": 559.2,
+        "top": 644.3,
+        "width": 15.1,
+        "height": 15.1
+      }
+    },
+    "dateRnkLtCol": {
+      "type": "text",
+      "label": "Enter date of promotion to rank of lieutenant colonel.",
+      "page": 2,
+      "box": {
+        "left": 255.3,
+        "top": 644.0,
+        "width": 112.5,
+        "height": 15.1
+      }
+    },
+    "dateAcptLtCol": {
+      "type": "text",
+      "label": "Enter date of acceptance to lieutenant colonel.",
+      "page": 2,
+      "box": {
+        "left": 370.4,
+        "top": 644.0,
+        "width": 106.6,
+        "height": 15.1
+      }
+    },
+    "placeDesig": {
+      "type": "text",
+      "label": "Enter place of designation.",
+      "page": 2,
+      "box": {
+        "left": 36.8,
+        "top": 632.8,
+        "width": 131.6,
+        "height": 17.8
+      }
+    },
+    "chkUSMCCol": {
+      "type": "checkbox",
+      "label": "Check if promoted to colonel in marine corps.",
+      "page": 2,
+      "box": {
+        "left": 501.3,
+        "top": 629.8,
+        "width": 15.1,
+        "height": 15.1
+      }
+    },
+    "chkUSMCRCol": {
+      "type": "checkbox",
+      "label": "Check if promoted to colonel in marine corps reserves.",
+      "page": 2,
+      "box": {
+        "left": 559.2,
+        "top": 629.8,
+        "width": 15.1,
+        "height": 15.1
+      }
+    },
+    "dateRnkCol": {
+      "type": "text",
+      "label": "Enter date of promotion to rank of colonel.",
+      "page": 2,
+      "box": {
+        "left": 255.3,
+        "top": 629.5,
+        "width": 112.5,
+        "height": 15.1
+      }
+    },
+    "dateAcptCol": {
+      "type": "text",
+      "label": "Enter date of acceptance to colonel.",
+      "page": 2,
+      "box": {
+        "left": 370.4,
+        "top": 629.5,
+        "width": 106.6,
+        "height": 15.1
+      }
+    },
+    "medalHonor": {
+      "type": "text",
+      "label": "Mark an X for medal of honor. If more than one then indicate number.",
+      "page": 2,
+      "box": {
+        "left": 209.2,
+        "top": 595.9,
+        "width": 18.4,
+        "height": 15.1
+      }
+    },
+    "medalWW2": {
+      "type": "text",
+      "label": "Mark an X for world war two victory. If more than one then indicate number.",
+      "page": 2,
+      "box": {
+        "left": 569.7,
+        "top": 595.9,
+        "width": 18.4,
+        "height": 15.1
+      }
+    },
+    "medalPrplHrt": {
+      "type": "text",
+      "label": "Mark an X for purple heart . If more than one then indicate number.",
+      "page": 2,
+      "box": {
+        "left": 390.8,
+        "top": 595.3,
+        "width": 18.4,
+        "height": 15.1
+      }
+    },
+    "medalNavyCrs": {
+      "type": "text",
+      "label": "Mark an X for navy cross. If more than one then indicate number.",
+      "page": 2,
+      "box": {
+        "left": 209.2,
+        "top": 570.3,
+        "width": 18.4,
+        "height": 15.1
+      }
+    },
+    "medalPrsUntCit": {
+      "type": "text",
+      "label": "Mark an X for presidential unit citation . If more than one then indicate number.",
+      "page": 2,
+      "box": {
+        "left": 390.8,
+        "top": 569.6,
+        "width": 18.4,
+        "height": 15.1
+      }
+    },
+    "medalNavyOcc": {
+      "type": "text",
+      "label": "Mark an X for navy occupancy service. If more than one then indicate number.",
+      "page": 2,
+      "box": {
+        "left": 569.7,
+        "top": 569.0,
+        "width": 18.4,
+        "height": 15.1
+      }
+    },
+    "medalArmyServCrs": {
+      "type": "text",
+      "label": "Mark an X for army distinguished service cross. If more than one then indicate number.",
+      "page": 2,
+      "box": {
+        "left": 209.2,
+        "top": 543.3,
+        "width": 18.4,
+        "height": 15.1
+      }
+    },
+    "medalArmyDistCit": {
+      "type": "text",
+      "label": "Mark an X for army distinguished unit citation . If more than one then indicate number.",
+      "page": 2,
+      "box": {
+        "left": 390.8,
+        "top": 542.7,
+        "width": 18.4,
+        "height": 15.1
+      }
+    },
+    "medalChina45": {
+      "type": "text",
+      "label": "Mark an X for china service 45. If more than one then indicate number.",
+      "page": 2,
+      "box": {
+        "left": 569.7,
+        "top": 542.7,
+        "width": 18.4,
+        "height": 15.1
+      }
+    },
+    "medalNatlDef": {
+      "type": "text",
+      "label": "Mark an X for national defense service. If more than one then indicate number.",
+      "page": 2,
+      "box": {
+        "left": 569.7,
+        "top": 519.0,
+        "width": 18.4,
+        "height": 15.1
+      }
+    },
+    "medalNavyUntCom": {
+      "type": "text",
+      "label": "Mark an X for navy unit commendation. If more than one then indicate number.",
+      "page": 2,
+      "box": {
+        "left": 390.8,
+        "top": 518.3,
+        "width": 18.4,
+        "height": 15.1
+      }
+    },
+    "medalArmNavDSM": {
+      "type": "text",
+      "label": "Mark an X for army navy D S M. If more than one then indicate number.",
+      "page": 2,
+      "box": {
+        "left": 209.2,
+        "top": 517.0,
+        "width": 18.4,
+        "height": 15.1
+      }
+    },
+    "kornServStars": {
+      "type": "text",
+      "label": "Korean service with how many stars.",
+      "page": 2,
+      "box": {
+        "left": 488.8,
+        "top": 497.3,
+        "width": 18.4,
+        "height": 15.1
+      }
+    },
+    "medalGdCond": {
+      "type": "text",
+      "label": "Mark an X for good conduct medal. If more than one then indicate number.",
+      "page": 2,
+      "box": {
+        "left": 390.8,
+        "top": 492.0,
+        "width": 18.4,
+        "height": 15.1
+      }
+    },
+    "medalSivrStr": {
+      "type": "text",
+      "label": "Mark an X for silver star medal. If more than one then indicate number.",
+      "page": 2,
+      "box": {
+        "left": 209.2,
+        "top": 491.3,
+        "width": 18.4,
+        "height": 15.1
+      }
+    },
+    "medalKornServ": {
+      "type": "text",
+      "label": "Mark an X for korean service. If more than one then indicate number.",
+      "page": 2,
+      "box": {
+        "left": 569.7,
+        "top": 491.3,
+        "width": 18.4,
+        "height": 15.1
+      }
+    },
+    "lignMerit": {
+      "type": "text",
+      "label": "Legion of merit with what decorations.",
+      "page": 2,
+      "box": {
+        "left": 114.5,
+        "top": 468.0,
+        "width": 26.3,
+        "height": 15.1
+      }
+    },
+    "medal2NicCmp": {
+      "type": "text",
+      "label": "Mark an X for second nicaraguan campaign. If more than one then indicate number.",
+      "page": 2,
+      "box": {
+        "left": 390.8,
+        "top": 466.3,
+        "width": 18.4,
+        "height": 15.1
+      }
+    },
+    "medalLegnMeirt": {
+      "type": "text",
+      "label": "Mark an X for legion of merit. If more than one then indicate number.",
+      "page": 2,
+      "box": {
+        "left": 209.2,
+        "top": 465.7,
+        "width": 18.4,
+        "height": 15.1
+      }
+    },
+    "medalArmdForcs": {
+      "type": "text",
+      "label": "Mark an X for armed forces medal. If more than one then indicate number.",
+      "page": 2,
+      "box": {
+        "left": 569.7,
+        "top": 465.0,
+        "width": 18.4,
+        "height": 15.1
+      }
+    },
+    "medalFlyCrss": {
+      "type": "text",
+      "label": "Mark an X for flying cross. If more than one then indicate number.",
+      "page": 2,
+      "box": {
+        "left": 209.2,
+        "top": 442.0,
+        "width": 18.4,
+        "height": 15.1
+      }
+    },
+    "medalChnServ": {
+      "type": "text",
+      "label": "Mark an X for china service 37 to 39. If more than one then indicate number.",
+      "page": 2,
+      "box": {
+        "left": 390.8,
+        "top": 440.7,
+        "width": 18.4,
+        "height": 15.1
+      }
+    },
+    "medalMarResRib": {
+      "type": "text",
+      "label": "Mark an X for marine reserves ribbon. If more than one then indicate number.",
+      "page": 2,
+      "box": {
+        "left": 569.7,
+        "top": 440.7,
+        "width": 18.4,
+        "height": 15.1
+      }
+    },
+    "medalNavMarCorp": {
+      "type": "text",
+      "label": "Mark an X for navy marine medal. If more than one then indicate number.",
+      "page": 2,
+      "box": {
+        "left": 209.2,
+        "top": 415.0,
+        "width": 18.4,
+        "height": 15.1
+      }
+    },
+    "medalMarExped": {
+      "type": "text",
+      "label": "Mark an X for marine corps expedient medal. If more than one then indicate number.",
+      "page": 2,
+      "box": {
+        "left": 390.8,
+        "top": 415.0,
+        "width": 18.4,
+        "height": 15.1
+      }
+    },
+    "medalArmdResFrc": {
+      "type": "text",
+      "label": "Mark an X for armed forces reserve medal. If more than one then indicate number.",
+      "page": 2,
+      "box": {
+        "left": 569.7,
+        "top": 415.0,
+        "width": 18.4,
+        "height": 15.1
+      }
+    },
+    "medalUntdNatns": {
+      "type": "text",
+      "label": "Mark an X for united nations service medal. If more than one then indicate number.",
+      "page": 2,
+      "box": {
+        "left": 569.7,
+        "top": 390.7,
+        "width": 18.4,
+        "height": 15.1
+      }
+    },
+    "brzStarMedl": {
+      "type": "text",
+      "label": "Bronze star medal with what decorations.",
+      "page": 2,
+      "box": {
+        "left": 127.6,
+        "top": 390.4,
+        "width": 19.7,
+        "height": 15.1
+      }
+    },
+    "medalAmrDefServ": {
+      "type": "text",
+      "label": "Mark an X for american defense service medal. If more than one then indicate number.",
+      "page": 2,
+      "box": {
+        "left": 390.8,
+        "top": 388.7,
+        "width": 18.4,
+        "height": 15.1
+      }
+    },
+    "medalBrzStrMetl": {
+      "type": "text",
+      "label": "Mark an X for bronze star medal. If more than one then indicate number.",
+      "page": 2,
+      "box": {
+        "left": 209.2,
+        "top": 388.1,
+        "width": 18.4,
+        "height": 15.1
+      }
+    },
+    "medalAmerCmpgn": {
+      "type": "text",
+      "label": "Mark an X for american campaign. If more than one then indicate number.",
+      "page": 2,
+      "box": {
+        "left": 390.8,
+        "top": 364.4,
+        "width": 18.4,
+        "height": 15.1
+      }
+    },
+    "medalAir": {
+      "type": "text",
+      "label": "Mark an X for air medal. If more than one then indicate number.",
+      "page": 2,
+      "box": {
+        "left": 209.2,
+        "top": 362.4,
+        "width": 18.4,
+        "height": 15.1
+      }
+    },
+    "medalOth1": {
+      "type": "text",
+      "label": "Mark an X for other medal line 1. If more than one then indicate number.",
+      "page": 2,
+      "box": {
+        "left": 569.7,
+        "top": 362.4,
+        "width": 18.4,
+        "height": 15.1
+      }
+    },
+    "medalOther1": {
+      "type": "text",
+      "label": "Enter any other medal or decoration not listed for line 1.",
+      "page": 2,
+      "box": {
+        "left": 414.5,
+        "top": 361.7,
+        "width": 153.3,
+        "height": 17.8
+      }
+    },
+    "naryCommRibbn": {
+      "type": "text",
+      "label": "Navy commendation ribbon with what decorations.",
+      "page": 2,
+      "box": {
+        "left": 161.2,
+        "top": 338.3,
+        "width": 19.7,
+        "height": 15.1
+      }
+    },
+    "medalAsiaPacif": {
+      "type": "text",
+      "label": "Mark an X for asiatic pacific campaign. If more than one then indicate number.",
+      "page": 2,
+      "box": {
+        "left": 390.8,
+        "top": 338.1,
+        "width": 18.4,
+        "height": 15.1
+      }
+    },
+    "asiaPacifStars": {
+      "type": "text",
+      "label": "Asiatic pacific campaign with how many stars.",
+      "page": 2,
+      "box": {
+        "left": 338.8,
+        "top": 337.7,
+        "width": 18.4,
+        "height": 15.1
+      }
+    },
+    "medalNavCmRib": {
+      "type": "text",
+      "label": "Mark an X for navy commendation ribbon. If more than one then indicate number.",
+      "page": 2,
+      "box": {
+        "left": 209.2,
+        "top": 337.4,
+        "width": 18.4,
+        "height": 15.1
+      }
+    },
+    "medalOth2": {
+      "type": "text",
+      "label": "Mark an X for other medal line 2. If more than one then indicate number.",
+      "page": 2,
+      "box": {
+        "left": 569.1,
+        "top": 337.4,
+        "width": 18.4,
+        "height": 15.1
+      }
+    },
+    "medalOther2": {
+      "type": "text",
+      "label": "Enter any other medal or decoration not listed for line 2.",
+      "page": 2,
+      "box": {
+        "left": 413.8,
+        "top": 336.1,
+        "width": 153.3,
+        "height": 17.8
+      }
+    },
+    "textField1": {
+      "type": "text",
+      "label": "TextField1",
+      "page": 2,
+      "box": {
+        "left": 37.1,
+        "top": 306.8,
+        "width": 560.1,
+        "height": 210.0
+      },
+      "multiline": true
+    },
+    "signature": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 3,
+      "box": {
+        "left": 15.8,
+        "top": 104.4,
+        "width": 414.4,
+        "height": 23.7
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 22.7,
+      "editor": "grid",
+      "columns": {
+        "college": {
+          "type": "text",
+          "label": "Enter name and location of college number 1.",
+          "page": 1,
+          "box": {
+            "left": 37.5,
+            "top": 315.0,
+            "width": 361.2,
+            "height": 17.8
+          }
+        },
+        "attndDateColl": {
+          "type": "text",
+          "label": "Enter dates of attendance for college number 1.",
+          "page": 1,
+          "box": {
+            "left": 400.0,
+            "top": 315.0,
+            "width": 78.9,
+            "height": 17.8
+          }
+        },
+        "gradColl": {
+          "type": "text",
+          "label": "Did you graduate from college number 1.",
+          "page": 1,
+          "box": {
+            "left": 479.6,
+            "top": 315.0,
+            "width": 63.2,
+            "height": 17.8
+          }
+        },
+        "yearColl": {
+          "type": "text",
+          "label": "Enter year of graduation from college number 1.",
+          "page": 1,
+          "box": {
+            "left": 543.4,
+            "top": 315.0,
+            "width": 34.2,
+            "height": 17.8
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 23.0,
+      "editor": "grid",
+      "columns": {
+        "hghSch": {
+          "type": "text",
+          "label": "Enter name and location of high school number 1.",
+          "page": 1,
+          "box": {
+            "left": 37.5,
+            "top": 383.4,
+            "width": 361.2,
+            "height": 17.8
+          }
+        },
+        "attndDatesHS": {
+          "type": "text",
+          "label": "Enter dates of attendance for high school number 1.",
+          "page": 1,
+          "box": {
+            "left": 400.0,
+            "top": 383.4,
+            "width": 78.9,
+            "height": 17.8
+          }
+        },
+        "gradHS": {
+          "type": "text",
+          "label": "Did you graduate from high school number 1.",
+          "page": 1,
+          "box": {
+            "left": 479.6,
+            "top": 383.4,
+            "width": 63.2,
+            "height": 17.8
+          }
+        },
+        "yearHS": {
+          "type": "text",
+          "label": "Enter year of graduation from high school number 1.",
+          "page": 1,
+          "box": {
+            "left": 543.4,
+            "top": 383.4,
+            "width": 34.2,
+            "height": 17.8
+          }
+        }
+      }
+    },
+    "rows3": {
+      "title": "Rows",
+      "page": 3,
+      "count": 6,
+      "rowStride": 24.36,
+      "editor": "grid",
+      "columns": {
+        "cmbtEngmt": {
+          "type": "text",
+          "label": "Enter combat engagement 1.",
+          "page": 3,
+          "box": {
+            "left": 36.8,
+            "top": 755.2,
+            "width": 134.9,
+            "height": 17.8
+          }
+        },
+        "dateDutyLoc": {
+          "type": "text",
+          "label": "Enter the date. Location and duty performed for combat engagement 1.",
+          "page": 3,
+          "box": {
+            "left": 173.0,
+            "top": 755.2,
+            "width": 269.1,
+            "height": 17.8
+          }
+        },
+        "awrdCit": {
+          "type": "text",
+          "label": "Enter any award or citation for combat engagement 1.",
+          "page": 3,
+          "box": {
+            "left": 444.1,
+            "top": 755.2,
+            "width": 150.0,
+            "height": 17.8
+          }
+        }
+      }
+    },
+    "rows4": {
+      "title": "Rows",
+      "page": 3,
+      "count": 19,
+      "rowStride": 25.48,
+      "editor": "grid",
+      "columns": {
+        "fromTo": {
+          "type": "text",
+          "label": "Enter the dates from and to for marine corps service 1.",
+          "page": 3,
+          "box": {
+            "left": 36.8,
+            "top": 594.0,
+            "width": 134.9,
+            "height": 17.8
+          }
+        },
+        "unLocAssn": {
+          "type": "text",
+          "label": "Enter the unit. Location. Assignment or event duty performed for marine corps service 1.",
+          "page": 3,
+          "box": {
+            "left": 173.0,
+            "top": 594.0,
+            "width": 421.7,
+            "height": 17.8
+          }
+        }
+      }
+    },
+    "rows5": {
+      "title": "Rows",
+      "page": 4,
+      "count": 22,
+      "rowStride": 24.03,
+      "editor": "grid",
+      "columns": {
+        "fromTo": {
+          "type": "text",
+          "label": "Enter the dates from and to for marine corps service 20.",
+          "page": 4,
+          "box": {
+            "left": 36.8,
+            "top": 749.2,
+            "width": 121.7,
+            "height": 17.8
+          }
+        },
+        "unLocAssn": {
+          "type": "text",
+          "label": "Enter the unit. Location. Assignment or event duty performed for marine corps service 20.",
+          "page": 4,
+          "box": {
+            "left": 160.5,
+            "top": 749.2,
+            "width": 434.2,
+            "height": 17.8
+          }
+        }
+      }
+    }
+  }
+}

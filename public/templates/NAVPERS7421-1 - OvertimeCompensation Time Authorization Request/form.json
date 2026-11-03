@@ -1,0 +1,297 @@
+{
+  "id": "navpers74211",
+  "label": "NAVPERS7421-1 - OvertimeCompensation Time Authorization Request",
+  "directory": "NAVPERS7421-1 - OvertimeCompensation Time Authorization Request",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "one",
+        "two",
+        "five",
+        "six",
+        "seven",
+        "cell1",
+        "cell2",
+        "cell3",
+        "cell4",
+        "cell5",
+        "cell6",
+        "cell7",
+        "nine",
+        "eleven",
+        "radio",
+        "radio2",
+        "twelve",
+        "thirteen",
+        "fourteen",
+        "fifteen",
+        "sixteen",
+        "seventeen",
+        "eighteen"
+      ]
+    }
+  ],
+  "fields": {
+    "one": {
+      "type": "text",
+      "label": "1. NAME",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 708.5,
+        "width": 426.3,
+        "height": 21.6
+      }
+    },
+    "two": {
+      "type": "text",
+      "label": "2. DATE",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 708.5,
+        "width": 102.3,
+        "height": 21.6
+      }
+    },
+    "five": {
+      "type": "text",
+      "label": "5. NUMBER OF HOURS",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 636.5,
+        "width": 192.3,
+        "height": 21.6
+      }
+    },
+    "six": {
+      "type": "text",
+      "label": "6. NUMBER OF EMPLOYEES",
+      "page": 1,
+      "box": {
+        "left": 236.9,
+        "top": 636.5,
+        "width": 174.3,
+        "height": 21.6
+      }
+    },
+    "seven": {
+      "type": "text",
+      "label": "7. FOR PAY PERIOD ENDING",
+      "page": 1,
+      "box": {
+        "left": 416.9,
+        "top": 636.5,
+        "width": 156.3,
+        "height": 21.6
+      }
+    },
+    "cell1": {
+      "type": "text",
+      "label": "EMPLOYEE(S) NAME",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 537.1,
+        "width": 174.3,
+        "height": 12.2
+      }
+    },
+    "cell2": {
+      "type": "text",
+      "label": "OF HOURS",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 537.1,
+        "width": 66.2,
+        "height": 12.2
+      }
+    },
+    "cell3": {
+      "type": "text",
+      "label": "OVERTIME",
+      "page": 1,
+      "box": {
+        "left": 290.9,
+        "top": 537.1,
+        "width": 48.2,
+        "height": 12.2
+      }
+    },
+    "cell4": {
+      "type": "text",
+      "label": "COMP TIME",
+      "page": 1,
+      "box": {
+        "left": 344.9,
+        "top": 537.1,
+        "width": 48.2,
+        "height": 12.2
+      }
+    },
+    "cell5": {
+      "type": "text",
+      "label": "COMP TIME",
+      "page": 1,
+      "box": {
+        "left": 398.9,
+        "top": 537.1,
+        "width": 48.2,
+        "height": 12.2
+      }
+    },
+    "cell6": {
+      "type": "text",
+      "label": "GRADE/STEP",
+      "page": 1,
+      "box": {
+        "left": 452.9,
+        "top": 537.1,
+        "width": 66.2,
+        "height": 12.2
+      }
+    },
+    "cell7": {
+      "type": "text",
+      "label": "DEPT",
+      "page": 1,
+      "box": {
+        "left": 524.9,
+        "top": 537.1,
+        "width": 48.2,
+        "height": 12.2
+      }
+    },
+    "nine": {
+      "type": "text",
+      "label": "Nine",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 294.4,
+        "width": 534.3,
+        "height": 75.6
+      },
+      "multiline": true
+    },
+    "eleven": {
+      "type": "text",
+      "label": "DISAPPROVED",
+      "page": 1,
+      "box": {
+        "left": 233.3,
+        "top": 204.4,
+        "width": 339.9,
+        "height": 39.6
+      },
+      "multiline": true
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 53.2,
+        "top": 193.1,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 132.5,
+        "top": 193.1,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "twelve": {
+      "type": "text",
+      "label": "Twelve",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 150.4,
+        "width": 534.3,
+        "height": 21.6
+      }
+    },
+    "thirteen": {
+      "type": "text",
+      "label": "13. APPROVING OFFICIAL: (APPLICABLE ACNPC)",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 114.4,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "fourteen": {
+      "type": "text",
+      "label": "14. APPROVING OFFICIAL SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 114.4,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "fifteen": {
+      "type": "text",
+      "label": "15. DATE",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 114.4,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "sixteen": {
+      "type": "text",
+      "label": "16. AUTHORIZED BY PERS-5",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 60.4,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "seventeen": {
+      "type": "text",
+      "label": "17. PERS-5 SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 60.4,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "eighteen": {
+      "type": "text",
+      "label": "18. DATE",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 60.4,
+        "width": 66.2,
+        "height": 21.6
+      }
+    }
+  }
+}

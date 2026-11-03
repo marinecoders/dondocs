@@ -1,0 +1,193 @@
+{
+  "id": "opnav376032a",
+  "label": "OPNAV3760-32A - Review And Certification Record",
+  "directory": "OPNAV3760-32A - Review And Certification Record",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "doDIDNumber",
+        "name"
+      ]
+    }
+  ],
+  "fields": {
+    "doDIDNumber": {
+      "type": "text",
+      "label": "Enter the DoD ID Number.  ",
+      "page": 1,
+      "box": {
+        "left": 433.4,
+        "top": 716.4,
+        "width": 142.6,
+        "height": 25.2
+      }
+    },
+    "name": {
+      "type": "text",
+      "label": "Enter the name (last, first, middle initial).",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 715.7,
+        "width": 382.3,
+        "height": 23.8
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 4,
+      "rowStride": 28.8,
+      "editor": "grid",
+      "columns": {
+        "unitDC1": {
+          "type": "text",
+          "label": "This is row 1 of 4.  Enter the unit.",
+          "page": 1,
+          "box": {
+            "left": 41.0,
+            "top": 150.5,
+            "width": 54.7,
+            "height": 27.4
+          }
+        },
+        "dateDC1": {
+          "type": "text",
+          "label": "Enter the date using the format DD MMM YYYY.",
+          "page": 1,
+          "box": {
+            "left": 100.8,
+            "top": 150.5,
+            "width": 57.6,
+            "height": 27.4
+          }
+        },
+        "signatureDC1": {
+          "type": "signature",
+          "label": "Enter the signature.",
+          "page": 1,
+          "box": {
+            "left": 163.4,
+            "top": 151.2,
+            "width": 137.5,
+            "height": 28.1
+          }
+        },
+        "unitDC2": {
+          "type": "text",
+          "label": "Enter the unit.",
+          "page": 1,
+          "box": {
+            "left": 311.0,
+            "top": 150.5,
+            "width": 54.7,
+            "height": 27.4
+          }
+        },
+        "dateDC2": {
+          "type": "text",
+          "label": "Enter the date using the format DD MMM YYYY.",
+          "page": 1,
+          "box": {
+            "left": 370.8,
+            "top": 150.5,
+            "width": 57.6,
+            "height": 27.4
+          }
+        },
+        "signatureDC2": {
+          "type": "signature",
+          "label": "Enter the signature.",
+          "page": 1,
+          "box": {
+            "left": 433.4,
+            "top": 151.2,
+            "width": 141.8,
+            "height": 28.1
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 10,
+      "rowStride": 28.8,
+      "editor": "grid",
+      "columns": {
+        "dateRR1": {
+          "type": "text",
+          "label": "This is row 1 of 10.  Enter the date using the format DD MMM YYYY.",
+          "page": 1,
+          "box": {
+            "left": 36.0,
+            "top": 510.5,
+            "width": 57.6,
+            "height": 27.4
+          }
+        },
+        "signatureRR1": {
+          "type": "signature",
+          "label": "Enter the signature.",
+          "page": 1,
+          "box": {
+            "left": 98.6,
+            "top": 511.2,
+            "width": 112.3,
+            "height": 28.1
+          }
+        },
+        "dateRR2": {
+          "type": "text",
+          "label": "Enter the date using the format DD MMM YYYY.",
+          "page": 1,
+          "box": {
+            "left": 216.0,
+            "top": 510.5,
+            "width": 57.6,
+            "height": 27.4
+          }
+        },
+        "signatureRR2": {
+          "type": "signature",
+          "label": "Enter the signature.",
+          "page": 1,
+          "box": {
+            "left": 278.6,
+            "top": 511.2,
+            "width": 112.3,
+            "height": 28.1
+          }
+        },
+        "dateRR3": {
+          "type": "text",
+          "label": "Enter the date using the format DD MMM YYYY.",
+          "page": 1,
+          "box": {
+            "left": 396.0,
+            "top": 510.5,
+            "width": 57.6,
+            "height": 27.4
+          }
+        },
+        "signatureRR3": {
+          "type": "signature",
+          "label": "Enter the signature.",
+          "page": 1,
+          "box": {
+            "left": 458.6,
+            "top": 511.2,
+            "width": 116.6,
+            "height": 28.1
+          }
+        }
+      }
+    }
+  }
+}

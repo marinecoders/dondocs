@@ -1,0 +1,709 @@
+{
+  "id": "navmc11654",
+  "label": "NAVMC 11654 - Unit Personal And Family Readiness Program Contact Authorization",
+  "directory": "NAVMC11654 - Unit Personal And Family Readiness Program Contact Authorization",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "textField3",
+        "textField32",
+        "dateField1",
+        "textField33",
+        "name",
+        "dateField12",
+        "textField34",
+        "textField35",
+        "textField36",
+        "textField37",
+        "textField38",
+        "textField39"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "textField310",
+        "textField312",
+        "textField313",
+        "textField314",
+        "textField316",
+        "textField318",
+        "textField320",
+        "textField321",
+        "textField322",
+        "textField324",
+        "textField326",
+        "textField328",
+        "textField329",
+        "textField330",
+        "textField332",
+        "textField334",
+        "textField336",
+        "textField337",
+        "textField338",
+        "textField340",
+        "name2",
+        "signatureField2",
+        "textField342",
+        "dateField17",
+        "dateField18",
+        "textField343",
+        "dateField19",
+        "radio",
+        "radio2",
+        "radio3",
+        "radio4",
+        "radio5",
+        "radio6",
+        "radio7",
+        "radio8",
+        "textField344",
+        "radio9"
+      ]
+    }
+  ],
+  "fields": {
+    "textField3": {
+      "type": "text",
+      "label": "Unit Designation",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 205.1,
+        "width": 210.4,
+        "height": 22.4
+      }
+    },
+    "textField32": {
+      "type": "text",
+      "label": "Unit DRC, URC, or CR Name",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 205.1,
+        "width": 210.4,
+        "height": 22.4
+      }
+    },
+    "dateField1": {
+      "type": "text",
+      "label": "Date Sponsor Joined Unit",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 205.1,
+        "width": 102.3,
+        "height": 22.4
+      }
+    },
+    "textField33": {
+      "type": "text",
+      "label": "Rank",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 151.1,
+        "width": 66.3,
+        "height": 22.4
+      }
+    },
+    "name": {
+      "type": "text",
+      "label": "Name (Last, First, MI)",
+      "page": 1,
+      "box": {
+        "left": 110.8,
+        "top": 151.1,
+        "width": 354.4,
+        "height": 22.4
+      }
+    },
+    "dateField12": {
+      "type": "text",
+      "label": "Date of Birth",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 151.1,
+        "width": 102.3,
+        "height": 22.4
+      }
+    },
+    "textField34": {
+      "type": "text",
+      "label": "Text Field 34",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 115.1,
+        "width": 264.4,
+        "height": 22.4
+      }
+    },
+    "textField35": {
+      "type": "text",
+      "label": "Current Mailing Address (if different than physical address)",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 115.1,
+        "width": 264.4,
+        "height": 22.4
+      }
+    },
+    "textField36": {
+      "type": "text",
+      "label": "Cell Phone",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 79.1,
+        "width": 129.3,
+        "height": 22.4
+      }
+    },
+    "textField37": {
+      "type": "text",
+      "label": "Cell Carrier",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 79.1,
+        "width": 129.3,
+        "height": 22.4
+      }
+    },
+    "textField38": {
+      "type": "text",
+      "label": "Home Phone",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 79.1,
+        "width": 129.3,
+        "height": 22.4
+      }
+    },
+    "textField39": {
+      "type": "text",
+      "label": "Email Address",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 79.1,
+        "width": 129.3,
+        "height": 22.4
+      }
+    },
+    "textField310": {
+      "type": "text",
+      "label": "Name (Last, First, MI)",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 727.2,
+        "width": 174.4,
+        "height": 22.4
+      }
+    },
+    "textField312": {
+      "type": "text",
+      "label": "Text Field 312",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 691.2,
+        "width": 264.4,
+        "height": 22.4
+      }
+    },
+    "textField313": {
+      "type": "text",
+      "label": "Current Mailing Address (if different than physical address)",
+      "page": 2,
+      "box": {
+        "left": 308.9,
+        "top": 691.2,
+        "width": 264.4,
+        "height": 22.4
+      }
+    },
+    "textField314": {
+      "type": "text",
+      "label": "Cell Phone",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 655.2,
+        "width": 129.3,
+        "height": 22.4
+      }
+    },
+    "textField316": {
+      "type": "text",
+      "label": "Home Phone",
+      "page": 2,
+      "box": {
+        "left": 308.9,
+        "top": 655.2,
+        "width": 129.3,
+        "height": 22.4
+      }
+    },
+    "textField318": {
+      "type": "text",
+      "label": "Name (Last, First, MI)",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 601.2,
+        "width": 174.4,
+        "height": 22.4
+      }
+    },
+    "textField320": {
+      "type": "text",
+      "label": "Text Field 320",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 565.2,
+        "width": 264.4,
+        "height": 22.4
+      }
+    },
+    "textField321": {
+      "type": "text",
+      "label": "Current Mailing Address (if different than physical address)",
+      "page": 2,
+      "box": {
+        "left": 308.9,
+        "top": 565.2,
+        "width": 264.4,
+        "height": 22.4
+      }
+    },
+    "textField322": {
+      "type": "text",
+      "label": "Cell Phone",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 529.2,
+        "width": 129.3,
+        "height": 22.4
+      }
+    },
+    "textField324": {
+      "type": "text",
+      "label": "Home Phone",
+      "page": 2,
+      "box": {
+        "left": 308.9,
+        "top": 529.2,
+        "width": 129.3,
+        "height": 22.4
+      }
+    },
+    "textField326": {
+      "type": "text",
+      "label": "Name (Last, First, MI)",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 475.2,
+        "width": 174.4,
+        "height": 22.4
+      }
+    },
+    "textField328": {
+      "type": "text",
+      "label": "Text Field 328",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 439.2,
+        "width": 264.4,
+        "height": 22.4
+      }
+    },
+    "textField329": {
+      "type": "text",
+      "label": "Current Mailing Address (if different than physical address)",
+      "page": 2,
+      "box": {
+        "left": 308.9,
+        "top": 439.2,
+        "width": 264.4,
+        "height": 22.4
+      }
+    },
+    "textField330": {
+      "type": "text",
+      "label": "Cell Phone",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 403.2,
+        "width": 129.3,
+        "height": 22.4
+      }
+    },
+    "textField332": {
+      "type": "text",
+      "label": "Home Phone",
+      "page": 2,
+      "box": {
+        "left": 308.9,
+        "top": 403.2,
+        "width": 129.3,
+        "height": 22.4
+      }
+    },
+    "textField334": {
+      "type": "text",
+      "label": "Name (Last, First, MI)",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 349.1,
+        "width": 174.4,
+        "height": 22.4
+      }
+    },
+    "textField336": {
+      "type": "text",
+      "label": "Text Field 336",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 313.1,
+        "width": 264.4,
+        "height": 22.4
+      }
+    },
+    "textField337": {
+      "type": "text",
+      "label": "Current Mailing Address (if different than physical address)",
+      "page": 2,
+      "box": {
+        "left": 308.9,
+        "top": 313.1,
+        "width": 264.4,
+        "height": 22.4
+      }
+    },
+    "textField338": {
+      "type": "text",
+      "label": "Cell Phone",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 277.1,
+        "width": 129.3,
+        "height": 22.4
+      }
+    },
+    "textField340": {
+      "type": "text",
+      "label": "Home Phone",
+      "page": 2,
+      "box": {
+        "left": 308.9,
+        "top": 277.1,
+        "width": 129.3,
+        "height": 22.4
+      }
+    },
+    "name2": {
+      "type": "text",
+      "label": "Name (Last, First, MI)",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 223.1,
+        "width": 210.4,
+        "height": 22.4
+      }
+    },
+    "signatureField2": {
+      "type": "text",
+      "label": "Signature",
+      "page": 2,
+      "box": {
+        "left": 254.9,
+        "top": 223.1,
+        "width": 138.3,
+        "height": 22.4
+      }
+    },
+    "textField342": {
+      "type": "text",
+      "label": "Rank",
+      "page": 2,
+      "box": {
+        "left": 398.9,
+        "top": 223.1,
+        "width": 66.3,
+        "height": 22.4
+      }
+    },
+    "dateField17": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 470.9,
+        "top": 223.1,
+        "width": 102.3,
+        "height": 22.4
+      }
+    },
+    "dateField18": {
+      "type": "text",
+      "label": "Date of Check Out",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 169.1,
+        "width": 66.3,
+        "height": 22.4
+      }
+    },
+    "textField343": {
+      "type": "text",
+      "label": "Name of Next/Gaining Command",
+      "page": 2,
+      "box": {
+        "left": 110.8,
+        "top": 169.1,
+        "width": 210.4,
+        "height": 22.4
+      }
+    },
+    "dateField19": {
+      "type": "text",
+      "label": "Date UPFRP Representative of Next/Gaining Command Contacted",
+      "page": 2,
+      "box": {
+        "left": 326.9,
+        "top": 169.1,
+        "width": 246.4,
+        "height": 22.4
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 121.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 173.9,
+        "top": 121.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 308.9,
+        "top": 121.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 2,
+      "box": {
+        "left": 443.9,
+        "top": 121.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 103.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 2,
+      "box": {
+        "left": 173.9,
+        "top": 103.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item5",
+      "page": 2,
+      "box": {
+        "left": 308.9,
+        "top": 103.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item6",
+      "page": 2,
+      "box": {
+        "left": 443.9,
+        "top": 103.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "textField344": {
+      "type": "text",
+      "label": "Other",
+      "page": 2,
+      "box": {
+        "left": 92.8,
+        "top": 87.1,
+        "width": 480.4,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "radio9": {
+      "type": "radio",
+      "label": "Item7",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 76.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 2,
+      "count": 4,
+      "rowStride": 126.03,
+      "editor": "grid",
+      "columns": {
+        "textField3": {
+          "type": "text",
+          "label": "Cell Carrier",
+          "page": 2,
+          "box": {
+            "left": 173.9,
+            "top": 655.2,
+            "width": 129.3,
+            "height": 22.4
+          }
+        },
+        "textField32": {
+          "type": "text",
+          "label": "Relationship",
+          "page": 2,
+          "box": {
+            "left": 218.9,
+            "top": 727.2,
+            "width": 120.3,
+            "height": 22.4
+          }
+        },
+        "dateField1": {
+          "type": "text",
+          "label": "Date",
+          "page": 2,
+          "box": {
+            "left": 363.5,
+            "top": 717.2,
+            "width": 47.7,
+            "height": 12.3
+          }
+        },
+        "checkBox1": {
+          "type": "checkbox",
+          "label": "Date",
+          "page": 2,
+          "box": {
+            "left": 417.9,
+            "top": 715.0,
+            "width": 8.0,
+            "height": 8.0
+          }
+        },
+        "textField33": {
+          "type": "text",
+          "label": "Email Address",
+          "page": 2,
+          "box": {
+            "left": 443.9,
+            "top": 655.2,
+            "width": 129.3,
+            "height": 22.4
+          }
+        },
+        "checkBox12": {
+          "type": "checkbox",
+          "label": "Email",
+          "page": 2,
+          "box": {
+            "left": 471.9,
+            "top": 715.0,
+            "width": 8.0,
+            "height": 8.0
+          }
+        },
+        "checkBox13": {
+          "type": "checkbox",
+          "label": "Phone",
+          "page": 2,
+          "box": {
+            "left": 525.9,
+            "top": 715.0,
+            "width": 8.0,
+            "height": 8.0
+          }
+        }
+      }
+    }
+  }
+}

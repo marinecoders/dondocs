@@ -1,0 +1,465 @@
+{
+  "id": "opnav51009",
+  "label": "OPNAV5100-9 - Medical Referal",
+  "directory": "OPNAV5100-9 - Medical Referal",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "toMedLoc",
+        "dateofReport",
+        "emplName",
+        "timeofInjury",
+        "dateofInjury",
+        "timeLeftJob",
+        "timeReturned",
+        "ssn",
+        "gradeRateJobTitle",
+        "occupationalInjury",
+        "occupationalInjury2",
+        "occupationalInjury3",
+        "reasonForRefferal",
+        "reasonForRefferal2",
+        "reasonForRefferal3",
+        "reasonForRefferal4",
+        "reasonForRefferal5",
+        "remarks",
+        "supSig",
+        "shopOffice",
+        "telephoneOffice",
+        "email",
+        "timeReported",
+        "timeReleased",
+        "occInj",
+        "occInj2",
+        "occInj3",
+        "degreeOfInjury",
+        "degreeOfInjury2",
+        "degreeOfInjury3",
+        "remarks2",
+        "providersSig",
+        "dateOfFollowup",
+        "followUpOnOrBefore",
+        "evalCompleted",
+        "providersTelephone"
+      ]
+    }
+  ],
+  "fields": {
+    "toMedLoc": {
+      "type": "text",
+      "label": "Enter to which medical (location).",
+      "page": 1,
+      "box": {
+        "left": 224.8,
+        "top": 698.8,
+        "width": 166.2,
+        "height": 24.7
+      }
+    },
+    "dateofReport": {
+      "type": "text",
+      "label": "Enter the date of supervisor's report, using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 398.6,
+        "top": 698.8,
+        "width": 166.8,
+        "height": 24.5
+      }
+    },
+    "emplName": {
+      "type": "text",
+      "label": "Enter the employee's name (last, first, middle initial).",
+      "page": 1,
+      "box": {
+        "left": 51.0,
+        "top": 660.0,
+        "width": 167.4,
+        "height": 24.1
+      }
+    },
+    "timeofInjury": {
+      "type": "text",
+      "label": "Enter the time of injury, using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 224.3,
+        "top": 659.4,
+        "width": 45.9,
+        "height": 23.6
+      }
+    },
+    "dateofInjury": {
+      "type": "text",
+      "label": "Enter the date of injury, using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 276.0,
+        "top": 659.4,
+        "width": 115.1,
+        "height": 23.9
+      }
+    },
+    "timeLeftJob": {
+      "type": "text",
+      "label": "Enter the time left job, using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 398.1,
+        "top": 659.4,
+        "width": 84.1,
+        "height": 23.6
+      }
+    },
+    "timeReturned": {
+      "type": "text",
+      "label": "Enter the time returned, using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 489.7,
+        "top": 659.4,
+        "width": 76.3,
+        "height": 23.6
+      }
+    },
+    "ssn": {
+      "type": "text",
+      "label": "Enter the social security number.  ",
+      "page": 1,
+      "box": {
+        "left": 51.0,
+        "top": 621.2,
+        "width": 167.4,
+        "height": 27.0
+      }
+    },
+    "gradeRateJobTitle": {
+      "type": "text",
+      "label": "Enter the grade, rate or job title.",
+      "page": 1,
+      "box": {
+        "left": 224.3,
+        "top": 621.2,
+        "width": 167.4,
+        "height": 27.0
+      }
+    },
+    "occupationalInjury": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 403.6,
+        "top": 608.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_OccupationalInjury_0"
+    },
+    "occupationalInjury2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 445.8,
+        "top": 608.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_OccupationalInjury_0"
+    },
+    "occupationalInjury3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 488.5,
+        "top": 608.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_OccupationalInjury_0"
+    },
+    "reasonForRefferal": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 65.5,
+        "top": 573.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_ReasonForRefferal_0"
+    },
+    "reasonForRefferal2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 147.1,
+        "top": 573.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_ReasonForRefferal_0"
+    },
+    "reasonForRefferal3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 228.6,
+        "top": 573.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_ReasonForRefferal_0"
+    },
+    "reasonForRefferal4": {
+      "type": "radio",
+      "label": "3",
+      "page": 1,
+      "box": {
+        "left": 328.8,
+        "top": 573.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_ReasonForRefferal_0"
+    },
+    "reasonForRefferal5": {
+      "type": "radio",
+      "label": "4",
+      "page": 1,
+      "box": {
+        "left": 448.0,
+        "top": 573.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_ReasonForRefferal_0"
+    },
+    "remarks": {
+      "type": "text",
+      "label": "Enter the remarks for referral.",
+      "page": 1,
+      "box": {
+        "left": 49.9,
+        "top": 542.4,
+        "width": 515.5,
+        "height": 76.3
+      },
+      "multiline": true
+    },
+    "supSig": {
+      "type": "text",
+      "label": "Enter the supervisor's signature.",
+      "page": 1,
+      "box": {
+        "left": 49.9,
+        "top": 450.2,
+        "width": 166.8,
+        "height": 27.9
+      }
+    },
+    "shopOffice": {
+      "type": "text",
+      "label": "Enter the shop or office.",
+      "page": 1,
+      "box": {
+        "left": 223.1,
+        "top": 450.2,
+        "width": 67.8,
+        "height": 27.5
+      }
+    },
+    "telephoneOffice": {
+      "type": "text",
+      "label": "Enter the supervisor's telephone number.",
+      "page": 1,
+      "box": {
+        "left": 296.8,
+        "top": 449.6,
+        "width": 83.0,
+        "height": 27.0
+      }
+    },
+    "email": {
+      "type": "text",
+      "label": "Enter the supervisor's e-mail address.",
+      "page": 1,
+      "box": {
+        "left": 386.8,
+        "top": 449.6,
+        "width": 179.7,
+        "height": 27.3
+      }
+    },
+    "timeReported": {
+      "type": "text",
+      "label": "Enter the time reported, using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 224.3,
+        "top": 402.2,
+        "width": 66.7,
+        "height": 22.3
+      }
+    },
+    "timeReleased": {
+      "type": "text",
+      "label": "Enter the time released, using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 458.2,
+        "top": 402.2,
+        "width": 58.8,
+        "height": 22.3
+      }
+    },
+    "occInj": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 57.7,
+        "top": 354.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_OccInj_0"
+    },
+    "occInj2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 98.7,
+        "top": 354.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_OccInj_0"
+    },
+    "occInj3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 139.2,
+        "top": 354.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_OccInj_0"
+    },
+    "degreeOfInjury": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 233.7,
+        "top": 354.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_DegreeOfInjury_0"
+    },
+    "degreeOfInjury2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 308.5,
+        "top": 354.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_DegreeOfInjury_0"
+    },
+    "degreeOfInjury3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 422.1,
+        "top": 354.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_DegreeOfInjury_0"
+    },
+    "remarks2": {
+      "type": "text",
+      "label": "Enter the remarks for degree of injury.",
+      "page": 1,
+      "box": {
+        "left": 49.9,
+        "top": 326.4,
+        "width": 515.5,
+        "height": 74.6
+      },
+      "multiline": true
+    },
+    "providersSig": {
+      "type": "text",
+      "label": "Enter the provider's signature.",
+      "page": 1,
+      "box": {
+        "left": 49.9,
+        "top": 235.9,
+        "width": 167.9,
+        "height": 25.6
+      }
+    },
+    "dateOfFollowup": {
+      "type": "text",
+      "label": "Enter the follow up date, using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 474.0,
+        "top": 225.2,
+        "width": 86.4,
+        "height": 20.6
+      }
+    },
+    "followUpOnOrBefore": {
+      "type": "checkbox",
+      "label": "Select this checkbox if follow up is on or before.",
+      "page": 1,
+      "box": {
+        "left": 349.3,
+        "top": 214.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "evalCompleted": {
+      "type": "checkbox",
+      "label": "Select this checkbox if evaluation is completed.",
+      "page": 1,
+      "box": {
+        "left": 226.1,
+        "top": 214.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "providersTelephone": {
+      "type": "text",
+      "label": "Enter the provider's telephone number.",
+      "page": 1,
+      "box": {
+        "left": 49.9,
+        "top": 195.9,
+        "width": 166.8,
+        "height": 19.6
+      }
+    }
+  }
+}

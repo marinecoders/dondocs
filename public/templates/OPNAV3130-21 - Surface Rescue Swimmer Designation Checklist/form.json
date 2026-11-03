@@ -1,0 +1,569 @@
+{
+  "id": "opnav313021",
+  "label": "OPNAV3130-21 - Surface Rescue Swimmer Designation Checklist",
+  "directory": "OPNAV3130-21 - Surface Rescue Swimmer Designation Checklist",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "textField1",
+        "textField12",
+        "dateField1",
+        "dateField12",
+        "textField2",
+        "dateField13",
+        "textField11",
+        "dateField14",
+        "textField10",
+        "dateField15",
+        "textField9",
+        "dateField16",
+        "textField8",
+        "dateField17",
+        "textField7",
+        "dateField18",
+        "textField6",
+        "dateField19",
+        "textField5",
+        "dateField110",
+        "textField4",
+        "dateField111",
+        "textField3",
+        "dateField112",
+        "textField18",
+        "dateField113",
+        "textField17",
+        "dateField114",
+        "textField16",
+        "dateField115",
+        "textField15",
+        "dateField116",
+        "textField14",
+        "dateField117",
+        "textField13",
+        "dateField118",
+        "textField122",
+        "dateField119",
+        "textField22",
+        "dateField120",
+        "textField21",
+        "dateField121",
+        "textField20",
+        "dateField122",
+        "textField19",
+        "dateField123"
+      ]
+    }
+  ],
+  "fields": {
+    "textField1": {
+      "type": "text",
+      "label": "COMMAND",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 727.2,
+        "width": 175.7,
+        "height": 18.0
+      }
+    },
+    "textField12": {
+      "type": "text",
+      "label": "NAME",
+      "page": 1,
+      "box": {
+        "left": 222.5,
+        "top": 727.2,
+        "width": 177.9,
+        "height": 18.0
+      }
+    },
+    "dateField1": {
+      "type": "text",
+      "label": "GRADUATION DATE",
+      "page": 1,
+      "box": {
+        "left": 406.1,
+        "top": 727.2,
+        "width": 80.7,
+        "height": 18.0
+      }
+    },
+    "dateField12": {
+      "type": "text",
+      "label": "DATE DUE",
+      "page": 1,
+      "box": {
+        "left": 492.5,
+        "top": 727.2,
+        "width": 80.7,
+        "height": 18.0
+      }
+    },
+    "textField2": {
+      "type": "text",
+      "label": "COMPLETE SURFACE RESCUE SWIMMER SCHOOL",
+      "page": 1,
+      "box": {
+        "left": 425.7,
+        "top": 684.0,
+        "width": 79.3,
+        "height": 18.0
+      }
+    },
+    "dateField13": {
+      "type": "text",
+      "label": "COMPLETE SURFACE RESCUE SWIMMER SCHOOL",
+      "page": 1,
+      "box": {
+        "left": 518.8,
+        "top": 684.0,
+        "width": 54.5,
+        "height": 18.0
+      }
+    },
+    "textField11": {
+      "type": "text",
+      "label": "COMPLETE RESCUE SWIMMER EVALUATION",
+      "page": 1,
+      "box": {
+        "left": 425.7,
+        "top": 662.4,
+        "width": 79.3,
+        "height": 18.0
+      }
+    },
+    "dateField14": {
+      "type": "text",
+      "label": "COMPLETE RESCUE SWIMMER EVALUATION",
+      "page": 1,
+      "box": {
+        "left": 518.8,
+        "top": 662.4,
+        "width": 54.5,
+        "height": 18.0
+      }
+    },
+    "textField10": {
+      "type": "text",
+      "label": "COMPLETE ALL GROUND TRAINING LECTURES",
+      "page": 1,
+      "box": {
+        "left": 425.7,
+        "top": 640.8,
+        "width": 79.3,
+        "height": 18.0
+      }
+    },
+    "dateField15": {
+      "type": "text",
+      "label": "COMPLETE ALL GROUND TRAINING LECTURES",
+      "page": 1,
+      "box": {
+        "left": 518.8,
+        "top": 640.8,
+        "width": 54.5,
+        "height": 18.0
+      }
+    },
+    "textField9": {
+      "type": "text",
+      "label": "COMPLETE SHIPBOARD DEPLOYMENT/RECOVERY",
+      "page": 1,
+      "box": {
+        "left": 425.7,
+        "top": 619.2,
+        "width": 79.3,
+        "height": 18.0
+      }
+    },
+    "dateField16": {
+      "type": "text",
+      "label": "COMPLETE SHIPBOARD DEPLOYMENT/RECOVERY",
+      "page": 1,
+      "box": {
+        "left": 518.8,
+        "top": 619.2,
+        "width": 54.5,
+        "height": 18.0
+      }
+    },
+    "textField8": {
+      "type": "text",
+      "label": "COMPLETE RESCUE BOAT DEPLOYMENT/RECOVERY",
+      "page": 1,
+      "box": {
+        "left": 425.7,
+        "top": 597.6,
+        "width": 79.3,
+        "height": 18.0
+      }
+    },
+    "dateField17": {
+      "type": "text",
+      "label": "COMPLETE RESCUE BOAT DEPLOYMENT/RECOVERY",
+      "page": 1,
+      "box": {
+        "left": 518.8,
+        "top": 597.6,
+        "width": 54.5,
+        "height": 18.0
+      }
+    },
+    "textField7": {
+      "type": "text",
+      "label": "REVIEW NTTP 3-50.1 (SERIES)",
+      "page": 1,
+      "box": {
+        "left": 425.7,
+        "top": 576.0,
+        "width": 79.3,
+        "height": 18.0
+      }
+    },
+    "dateField18": {
+      "type": "text",
+      "label": "REVIEW NTTP 3-50.1 (SERIES)",
+      "page": 1,
+      "box": {
+        "left": 518.8,
+        "top": 576.0,
+        "width": 54.5,
+        "height": 18.0
+      }
+    },
+    "textField6": {
+      "type": "text",
+      "label": "REVIEW NTTP 3-22.5 SAR-TAC",
+      "page": 1,
+      "box": {
+        "left": 425.7,
+        "top": 554.4,
+        "width": 79.3,
+        "height": 18.0
+      }
+    },
+    "dateField19": {
+      "type": "text",
+      "label": "REVIEW NTTP 3-22.5 SAR-TAC",
+      "page": 1,
+      "box": {
+        "left": 518.8,
+        "top": 554.4,
+        "width": 54.5,
+        "height": 18.0
+      }
+    },
+    "textField5": {
+      "type": "text",
+      "label": "REVIEW OPNAVINST 3130.6 (SERIES)",
+      "page": 1,
+      "box": {
+        "left": 425.7,
+        "top": 532.8,
+        "width": 79.3,
+        "height": 18.0
+      }
+    },
+    "dateField110": {
+      "type": "text",
+      "label": "REVIEW OPNAVINST 3130.6 (SERIES)",
+      "page": 1,
+      "box": {
+        "left": 518.8,
+        "top": 532.8,
+        "width": 54.5,
+        "height": 18.0
+      }
+    },
+    "textField4": {
+      "type": "text",
+      "label": "REVIEW UNIT MOB INSTRUCTION",
+      "page": 1,
+      "box": {
+        "left": 425.7,
+        "top": 511.2,
+        "width": 79.3,
+        "height": 18.0
+      }
+    },
+    "dateField111": {
+      "type": "text",
+      "label": "REVIEW UNIT MOB INSTRUCTION",
+      "page": 1,
+      "box": {
+        "left": 518.8,
+        "top": 511.2,
+        "width": 54.5,
+        "height": 18.0
+      }
+    },
+    "textField3": {
+      "type": "text",
+      "label": "CONDUCT INSPECTION OF SURFACE RESCUE SWIMMER EQUIPMENT*",
+      "page": 1,
+      "box": {
+        "left": 425.7,
+        "top": 489.6,
+        "width": 79.3,
+        "height": 18.0
+      }
+    },
+    "dateField112": {
+      "type": "text",
+      "label": "CONDUCT INSPECTION OF SURFACE RESCUE SWIMMER EQUIPMENT*",
+      "page": 1,
+      "box": {
+        "left": 518.8,
+        "top": 489.6,
+        "width": 54.5,
+        "height": 18.0
+      }
+    },
+    "textField18": {
+      "type": "text",
+      "label": "VERIFY SURFACE RESCUE SWIMMER SCHOOL GRADUATION CERTIFICATE",
+      "page": 1,
+      "box": {
+        "left": 425.7,
+        "top": 424.8,
+        "width": 79.3,
+        "height": 18.0
+      }
+    },
+    "dateField113": {
+      "type": "text",
+      "label": "VERIFY SURFACE RESCUE SWIMMER SCHOOL GRADUATION CERTIFICATE",
+      "page": 1,
+      "box": {
+        "left": 518.8,
+        "top": 424.8,
+        "width": 54.5,
+        "height": 18.0
+      }
+    },
+    "textField17": {
+      "type": "text",
+      "label": "VERIFY OPNAV 3130/1 RESCUE SWIMMER EVALUATION REPORT",
+      "page": 1,
+      "box": {
+        "left": 425.7,
+        "top": 403.2,
+        "width": 79.3,
+        "height": 18.0
+      }
+    },
+    "dateField114": {
+      "type": "text",
+      "label": "VERIFY OPNAV 3130/1 RESCUE SWIMMER EVALUATION REPORT",
+      "page": 1,
+      "box": {
+        "left": 518.8,
+        "top": 403.2,
+        "width": 54.5,
+        "height": 18.0
+      }
+    },
+    "textField16": {
+      "type": "text",
+      "label": "VERIFY SHIPBOARD DEPLOYMENT/RECOVERY CONDUCTED",
+      "page": 1,
+      "box": {
+        "left": 425.7,
+        "top": 381.5,
+        "width": 79.3,
+        "height": 18.0
+      }
+    },
+    "dateField115": {
+      "type": "text",
+      "label": "VERIFY SHIPBOARD DEPLOYMENT/RECOVERY CONDUCTED",
+      "page": 1,
+      "box": {
+        "left": 518.8,
+        "top": 381.5,
+        "width": 54.5,
+        "height": 18.0
+      }
+    },
+    "textField15": {
+      "type": "text",
+      "label": "VERIFY SMALL BOAT DEPLYMENT/RECOVERY CONDUCTED",
+      "page": 1,
+      "box": {
+        "left": 425.7,
+        "top": 359.9,
+        "width": 79.3,
+        "height": 18.0
+      }
+    },
+    "dateField116": {
+      "type": "text",
+      "label": "VERIFY SMALL BOAT DEPLYMENT/RECOVERY CONDUCTED",
+      "page": 1,
+      "box": {
+        "left": 518.8,
+        "top": 359.9,
+        "width": 54.5,
+        "height": 18.0
+      }
+    },
+    "textField14": {
+      "type": "text",
+      "label": "UPDATE OPNAV 3130/15 RESCUE SWIMMER PRACTICAL TRAINING FORM",
+      "page": 1,
+      "box": {
+        "left": 425.7,
+        "top": 338.3,
+        "width": 79.3,
+        "height": 18.0
+      }
+    },
+    "dateField117": {
+      "type": "text",
+      "label": "UPDATE OPNAV 3130/15 RESCUE SWIMMER PRACTICAL TRAINING FORM",
+      "page": 1,
+      "box": {
+        "left": 518.8,
+        "top": 338.3,
+        "width": 54.5,
+        "height": 18.0
+      }
+    },
+    "textField13": {
+      "type": "text",
+      "label": "UPDATE OPNAV 3130/22 RESCUE SWIMMER GROUND TRAINING FORM",
+      "page": 1,
+      "box": {
+        "left": 425.7,
+        "top": 316.7,
+        "width": 79.3,
+        "height": 18.0
+      }
+    },
+    "dateField118": {
+      "type": "text",
+      "label": "UPDATE OPNAV 3130/22 RESCUE SWIMMER GROUND TRAINING FORM",
+      "page": 1,
+      "box": {
+        "left": 518.8,
+        "top": 316.7,
+        "width": 54.5,
+        "height": 18.0
+      }
+    },
+    "textField122": {
+      "type": "text",
+      "label": "CONDUCT INSPECTION OF SURFACE RESCUE SWIMMER EQUIPMENT*",
+      "page": 1,
+      "box": {
+        "left": 425.7,
+        "top": 295.1,
+        "width": 79.3,
+        "height": 18.0
+      }
+    },
+    "dateField119": {
+      "type": "text",
+      "label": "CONDUCT INSPECTION OF SURFACE RESCUE SWIMMER EQUIPMENT*",
+      "page": 1,
+      "box": {
+        "left": 518.8,
+        "top": 295.1,
+        "width": 54.5,
+        "height": 18.0
+      }
+    },
+    "textField22": {
+      "type": "text",
+      "label": "SWIMMER EVALUATION (OPNAV 3130/1)",
+      "page": 1,
+      "box": {
+        "left": 425.7,
+        "top": 230.3,
+        "width": 79.3,
+        "height": 18.0
+      }
+    },
+    "dateField120": {
+      "type": "text",
+      "label": "SWIMMER EVALUATION (OPNAV 3130/1)",
+      "page": 1,
+      "box": {
+        "left": 518.8,
+        "top": 230.3,
+        "width": 54.5,
+        "height": 18.0
+      }
+    },
+    "textField21": {
+      "type": "text",
+      "label": "DESIGNATION CHECKLIST (OPNAV 3130/21)",
+      "page": 1,
+      "box": {
+        "left": 425.7,
+        "top": 208.7,
+        "width": 79.3,
+        "height": 18.0
+      }
+    },
+    "dateField121": {
+      "type": "text",
+      "label": "DESIGNATION CHECKLIST (OPNAV 3130/21)",
+      "page": 1,
+      "box": {
+        "left": 518.8,
+        "top": 208.7,
+        "width": 54.5,
+        "height": 18.0
+      }
+    },
+    "textField20": {
+      "type": "text",
+      "label": "DESIGNATION LETTER",
+      "page": 1,
+      "box": {
+        "left": 425.7,
+        "top": 187.1,
+        "width": 79.3,
+        "height": 18.0
+      }
+    },
+    "dateField122": {
+      "type": "text",
+      "label": "DESIGNATION LETTER",
+      "page": 1,
+      "box": {
+        "left": 518.8,
+        "top": 187.1,
+        "width": 54.5,
+        "height": 18.0
+      }
+    },
+    "textField19": {
+      "type": "text",
+      "label": "SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 425.7,
+        "top": 143.9,
+        "width": 79.3,
+        "height": 18.0
+      }
+    },
+    "dateField123": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 518.8,
+        "top": 143.9,
+        "width": 54.5,
+        "height": 18.0
+      }
+    }
+  }
+}

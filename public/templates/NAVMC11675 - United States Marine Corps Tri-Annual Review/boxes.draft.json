@@ -1,0 +1,226 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "day": {
+        "left": 266.6,
+        "top": 735.2,
+        "width": 39.5,
+        "height": 20.2,
+        "type": "choice",
+        "description": "day",
+        "options": [
+          "30",
+          "31"
+        ],
+        "group": null,
+        "required": true
+      },
+      "dropDownList2": {
+        "left": 311.8,
+        "top": 735.2,
+        "width": 57.9,
+        "height": 20.2,
+        "type": "choice",
+        "description": "DropDownList2",
+        "options": [
+          "Jan",
+          "May",
+          "Sept"
+        ],
+        "group": null,
+        "required": true
+      },
+      "dropDownList": {
+        "left": 375.3,
+        "top": 735.2,
+        "width": 57.9,
+        "height": 20.2,
+        "type": "choice",
+        "description": "DropDownList",
+        "options": [
+          "2009",
+          "2010",
+          "2011",
+          "2012"
+        ],
+        "group": null,
+        "required": true
+      },
+      "mri": {
+        "left": 211.5,
+        "top": 668.8,
+        "width": 373.5,
+        "height": 23.0,
+        "type": "choice",
+        "description": "MRI:",
+        "options": [
+          "M00027 - HQMC RFM",
+          "M00027 - HQMC RFO",
+          "M00243 - MCRD San Diego",
+          "M00263 - MCRD Parris Island",
+          "M00264 - MCCDC",
+          "M39878 - MARINE CORP RECRUITING CMD",
+          "M48396 - EFV",
+          "M67004- LOGCOM",
+          "M67009 - MATCOM",
+          "M67023 - MARFOREUR",
+          "M67024 - MARFORSOUTH",
+          "M67025 - MARFORPAC",
+          "M67026 - MARFORCOM",
+          "M67029 - MAR BRKS 8th & I",
+          "M67386 - MCSA, Kansas City MO",
+          "M67854 - MARCORSYSCOM",
+          "M67856 - TECOM",
+          "M67861 - MARFORRES",
+          "M67895 - MARCOR, NCR",
+          "M67898 - MARCENTCOM",
+          "M67902 - MARINE FORCES NORTH",
+          "M67906 - MARSOC",
+          "M95488 - HQMC PP&O",
+          "M95490 - I&L ECIP",
+          "M95490 - I&L HQMC",
+          "M95490 - I&L HPO",
+          "M95520 - MANPOWER RFM",
+          "M95529 - MANPOWER 0100"
+        ],
+        "group": null,
+        "required": true
+      },
+      "fullName": {
+        "left": 210.5,
+        "top": 638.8,
+        "width": 373.1,
+        "height": 23.2,
+        "type": "text",
+        "description": "LAST NAME/RANK/FIRST NAME OF CERTIFYING OFFICIAL:",
+        "options": null,
+        "group": null,
+        "required": true
+      },
+      "eMailAddr": {
+        "left": 210.5,
+        "top": 607.2,
+        "width": 373.1,
+        "height": 18.5,
+        "type": "text",
+        "description": "E-MAIL ADDRESS:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "phone": {
+        "left": 210.3,
+        "top": 581.7,
+        "width": 374.0,
+        "height": 18.5,
+        "type": "text",
+        "description": "TELEPHONE # (COMM AND DSN):",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "dateA": {
+        "left": 83.8,
+        "top": 541.8,
+        "width": 84.3,
+        "height": 12.1,
+        "type": "text",
+        "description": "Click to select date or enter DD MMM YYYY",
+        "options": null,
+        "group": null,
+        "required": true
+      },
+      "percent": {
+        "left": 191.3,
+        "top": 540.4,
+        "width": 35.3,
+        "height": 11.1,
+        "type": "text",
+        "description": "Enter number for percentage",
+        "options": null,
+        "group": null,
+        "required": true
+      },
+      "dateB": {
+        "left": 243.7,
+        "top": 524.7,
+        "width": 84.3,
+        "height": 12.1,
+        "type": "text",
+        "description": "Enter same date as Period Ending: DD MMM YYYY",
+        "options": null,
+        "group": null,
+        "required": true
+      },
+      "noObl2": {
+        "left": 382.3,
+        "top": 420.2,
+        "width": 90.2,
+        "height": 21.3,
+        "type": "text",
+        "description": "1.  Number of Obligation records review:",
+        "options": null,
+        "group": null,
+        "required": true
+      },
+      "totalVal": {
+        "left": 381.6,
+        "top": 393.2,
+        "width": 91.0,
+        "height": 21.3,
+        "type": "text",
+        "description": "2.  Total Value of the obligation records reviewed:",
+        "options": null,
+        "group": null,
+        "required": true
+      },
+      "noAdjust": {
+        "left": 381.6,
+        "top": 366.2,
+        "width": 91.0,
+        "height": 21.3,
+        "type": "text",
+        "description": "3.  No. of Adjusted Records:",
+        "options": null,
+        "group": null,
+        "required": true
+      },
+      "adjustAmt": {
+        "left": 381.6,
+        "top": 339.2,
+        "width": 91.0,
+        "height": 21.3,
+        "type": "text",
+        "description": "4.  Adjusted Amount (Net):",
+        "options": null,
+        "group": null,
+        "required": true
+      },
+      "signatureField1": {
+        "left": 103.0,
+        "top": 245.4,
+        "width": 480.0,
+        "height": 37.8,
+        "type": "signature",
+        "description": "Signature will locked all fields on form",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

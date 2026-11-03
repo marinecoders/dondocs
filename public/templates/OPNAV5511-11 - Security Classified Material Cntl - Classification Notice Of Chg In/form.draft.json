@@ -1,0 +1,152 @@
+{
+  "id": "opnav551111",
+  "label": "OPNAV5511-11 - Security Classified Material Cntl - Classification Notice Of Chg In",
+  "directory": "OPNAV5511-11 - Security Classified Material Cntl - Classification Notice Of Chg In",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "originator",
+        "dNSDate3",
+        "address",
+        "regradedTo",
+        "downgradedTo",
+        "regraded",
+        "downGraded",
+        "declassified",
+        "descriptionOfMaterial",
+        "dNSDate31",
+        "sigOff"
+      ]
+    }
+  ],
+  "fields": {
+    "originator": {
+      "type": "text",
+      "label": "Enter the originator or higher authority having cognizance over subject matter.",
+      "page": 1,
+      "box": {
+        "left": 25.9,
+        "top": 537.7,
+        "width": 415.4,
+        "height": 27.9
+      }
+    },
+    "dNSDate3": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 450.1,
+        "top": 537.7,
+        "width": 102.2,
+        "height": 27.9
+      }
+    },
+    "address": {
+      "type": "text",
+      "label": "Enter the addresses of original distribution (use standard navy distribution list member if applicable.  Additional sheets may be attached if more space is necessary.)",
+      "page": 1,
+      "box": {
+        "left": 28.8,
+        "top": 486.9,
+        "width": 519.4,
+        "height": 89.8
+      },
+      "multiline": true
+    },
+    "regradedTo": {
+      "type": "text",
+      "label": "Enter the value regraded to. ",
+      "page": 1,
+      "box": {
+        "left": 87.1,
+        "top": 359.3,
+        "width": 131.2,
+        "height": 20.0
+      }
+    },
+    "downgradedTo": {
+      "type": "text",
+      "label": "Enter the value downgraded to.",
+      "page": 1,
+      "box": {
+        "left": 302.0,
+        "top": 359.3,
+        "width": 120.7,
+        "height": 20.0
+      }
+    },
+    "regraded": {
+      "type": "checkbox",
+      "label": "Select this checkbox if regraded.",
+      "page": 1,
+      "box": {
+        "left": 25.0,
+        "top": 352.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "downGraded": {
+      "type": "checkbox",
+      "label": "Select this checkbox if downgraded.",
+      "page": 1,
+      "box": {
+        "left": 229.4,
+        "top": 352.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "declassified": {
+      "type": "checkbox",
+      "label": "Select this checkbox if declassified.",
+      "page": 1,
+      "box": {
+        "left": 467.6,
+        "top": 352.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "descriptionOfMaterial": {
+      "type": "text",
+      "label": "Enter the description of material (Avoid identification which would cause this form to be classified).",
+      "page": 1,
+      "box": {
+        "left": 144.1,
+        "top": 310.4,
+        "width": 404.0,
+        "height": 49.0
+      },
+      "multiline": true
+    },
+    "dNSDate31": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 28.8,
+        "top": 309.2,
+        "width": 104.9,
+        "height": 46.9
+      },
+      "multiline": true
+    },
+    "sigOff": {
+      "type": "text",
+      "label": "Enter the signature of the authorizing official.",
+      "page": 1,
+      "box": {
+        "left": 145.3,
+        "top": 247.6,
+        "width": 404.0,
+        "height": 10.4
+      }
+    }
+  }
+}

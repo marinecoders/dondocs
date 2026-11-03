@@ -1,0 +1,159 @@
+{
+  "id": "opnav558020",
+  "label": "OPNAV5580-20 - Department Of The NAVY Field Test Results",
+  "directory": "OPNAV5580-20 - Department Of The NAVY Field Test Results",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "suspect1",
+        "suspect0",
+        "recoveredFrom",
+        "commandAddress",
+        "examinedBy",
+        "dNSDate3"
+      ]
+    }
+  ],
+  "fields": {
+    "suspect1": {
+      "type": "text",
+      "label": "Enter the suspect.",
+      "page": 1,
+      "box": {
+        "left": 40.5,
+        "top": 526.3,
+        "width": 351.1,
+        "height": 34.9
+      },
+      "multiline": true
+    },
+    "suspect0": {
+      "type": "text",
+      "label": "Enter the case control number (ccn).",
+      "page": 1,
+      "box": {
+        "left": 402.0,
+        "top": 526.3,
+        "width": 351.1,
+        "height": 34.9
+      },
+      "multiline": true
+    },
+    "recoveredFrom": {
+      "type": "text",
+      "label": "Indicate where the field test results were recovered from (if other than suspect named above).",
+      "page": 1,
+      "box": {
+        "left": 40.5,
+        "top": 464.5,
+        "width": 351.1,
+        "height": 126.1
+      },
+      "multiline": true
+    },
+    "commandAddress": {
+      "type": "text",
+      "label": "Enter the command address.",
+      "page": 1,
+      "box": {
+        "left": 402.0,
+        "top": 464.5,
+        "width": 351.1,
+        "height": 126.1
+      },
+      "multiline": true
+    },
+    "examinedBy": {
+      "type": "text",
+      "label": "Indicate whom  examined by .",
+      "page": 1,
+      "box": {
+        "left": 41.2,
+        "top": 125.9,
+        "width": 477.0,
+        "height": 28.7
+      }
+    },
+    "dNSDate3": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 527.1,
+        "top": 123.7,
+        "width": 222.3,
+        "height": 24.4
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 50.55,
+      "editor": "grid",
+      "columns": {
+        "itemNumber": {
+          "type": "text",
+          "label": "Enter the item number.",
+          "page": 1,
+          "box": {
+            "left": 39.7,
+            "top": 290.0,
+            "width": 135.8,
+            "height": 42.8
+          }
+        },
+        "desEvid": {
+          "type": "text",
+          "label": "Enter the description of evidence.",
+          "page": 1,
+          "box": {
+            "left": 183.0,
+            "top": 290.0,
+            "width": 208.6,
+            "height": 42.8
+          }
+        },
+        "fieldTestUtilized": {
+          "type": "text",
+          "label": "Enter the field test utilized.",
+          "page": 1,
+          "box": {
+            "left": 399.0,
+            "top": 290.0,
+            "width": 119.6,
+            "height": 42.8
+          }
+        },
+        "results": {
+          "type": "text",
+          "label": "Enter the results.",
+          "page": 1,
+          "box": {
+            "left": 525.7,
+            "top": 290.0,
+            "width": 91.6,
+            "height": 42.8
+          }
+        },
+        "recValue": {
+          "type": "text",
+          "label": "Enter the recovery value.",
+          "page": 1,
+          "box": {
+            "left": 624.8,
+            "top": 290.0,
+            "width": 126.0,
+            "height": 42.8
+          }
+        }
+      }
+    }
+  }
+}

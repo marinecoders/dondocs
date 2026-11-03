@@ -1,0 +1,324 @@
+{
+  "id": "navmc11661",
+  "label": "NAVMC11661 - Mmsb Record Request",
+  "directory": "NAVMC11661 - Mmsb Record Request",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "requestorsName",
+        "grade",
+        "email",
+        "last4SSN",
+        "phoneNumber",
+        "commentMBS",
+        "checkMBS",
+        "commentOMPF",
+        "checkOMPF",
+        "commentRS",
+        "checkRS",
+        "commentRO",
+        "checkRO",
+        "commentDD214",
+        "checkDD214",
+        "mailing",
+        "unit",
+        "state",
+        "city",
+        "zipCode",
+        "signature"
+      ]
+    }
+  ],
+  "fields": {
+    "requestorsName": {
+      "type": "text",
+      "label": "RequestorsName",
+      "page": 1,
+      "box": {
+        "left": 21.6,
+        "top": 637.6,
+        "width": 570.0,
+        "height": 19.0
+      }
+    },
+    "grade": {
+      "type": "text",
+      "label": "Grade",
+      "page": 1,
+      "box": {
+        "left": 22.0,
+        "top": 602.2,
+        "width": 108.2,
+        "height": 19.0
+      }
+    },
+    "email": {
+      "type": "text",
+      "label": "Email",
+      "page": 1,
+      "box": {
+        "left": 358.8,
+        "top": 602.0,
+        "width": 233.1,
+        "height": 19.0
+      }
+    },
+    "last4SSN": {
+      "type": "text",
+      "label": "Last4SSN",
+      "page": 1,
+      "box": {
+        "left": 136.6,
+        "top": 601.8,
+        "width": 87.2,
+        "height": 19.0
+      }
+    },
+    "phoneNumber": {
+      "type": "text",
+      "label": "PhoneNumber",
+      "page": 1,
+      "box": {
+        "left": 230.1,
+        "top": 601.6,
+        "width": 123.3,
+        "height": 19.0
+      }
+    },
+    "commentMBS": {
+      "type": "text",
+      "label": "CommentMBS",
+      "page": 1,
+      "box": {
+        "left": 214.1,
+        "top": 556.2,
+        "width": 325.2,
+        "height": 15.1
+      }
+    },
+    "checkMBS": {
+      "type": "checkbox",
+      "label": "CheckMBS",
+      "page": 1,
+      "box": {
+        "left": 69.4,
+        "top": 552.1,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "commentOMPF": {
+      "type": "text",
+      "label": "CommentOMPF",
+      "page": 1,
+      "box": {
+        "left": 265.1,
+        "top": 532.9,
+        "width": 274.2,
+        "height": 15.1
+      }
+    },
+    "checkOMPF": {
+      "type": "checkbox",
+      "label": "CheckOMPF",
+      "page": 1,
+      "box": {
+        "left": 69.4,
+        "top": 528.8,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "commentRS": {
+      "type": "text",
+      "label": "CommentRS",
+      "page": 1,
+      "box": {
+        "left": 232.5,
+        "top": 509.7,
+        "width": 306.9,
+        "height": 15.1
+      }
+    },
+    "checkRS": {
+      "type": "checkbox",
+      "label": "CheckRS",
+      "page": 1,
+      "box": {
+        "left": 69.4,
+        "top": 505.8,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "commentRO": {
+      "type": "text",
+      "label": "CommentRO",
+      "page": 1,
+      "box": {
+        "left": 237.0,
+        "top": 486.4,
+        "width": 302.1,
+        "height": 15.1
+      }
+    },
+    "checkRO": {
+      "type": "checkbox",
+      "label": "CheckRO",
+      "page": 1,
+      "box": {
+        "left": 69.4,
+        "top": 482.3,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "commentDD214": {
+      "type": "text",
+      "label": "CommentDD214",
+      "page": 1,
+      "box": {
+        "left": 170.0,
+        "top": 462.4,
+        "width": 368.9,
+        "height": 15.1
+      }
+    },
+    "checkDD214": {
+      "type": "checkbox",
+      "label": "CheckDD214",
+      "page": 1,
+      "box": {
+        "left": 69.5,
+        "top": 458.3,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "mailing": {
+      "type": "text",
+      "label": "Mailing",
+      "page": 1,
+      "box": {
+        "left": 20.9,
+        "top": 382.3,
+        "width": 570.9,
+        "height": 41.9
+      },
+      "multiline": true
+    },
+    "unit": {
+      "type": "text",
+      "label": "Unit",
+      "page": 1,
+      "box": {
+        "left": 20.1,
+        "top": 321.6,
+        "width": 570.9,
+        "height": 41.9
+      },
+      "multiline": true
+    },
+    "state": {
+      "type": "choice",
+      "label": "State",
+      "page": 1,
+      "box": {
+        "left": 427.4,
+        "top": 261.2,
+        "width": 93.8,
+        "height": 19.0
+      },
+      "options": [
+        "Alabama",
+        "Alaska",
+        "Arizona",
+        "Arkansas",
+        "California",
+        "Colorado",
+        "Connecticut",
+        "Delaware",
+        "D.C.",
+        "Florida",
+        "Georgia",
+        "Hawaii",
+        "Idaho",
+        "Illinois",
+        "Indiana",
+        "Iowa",
+        "Kansas",
+        "Kentucky",
+        "Louisiana",
+        "Maine",
+        "Maryland",
+        "Massachusetts",
+        "Michigan",
+        "Minnesota",
+        "Mississippi",
+        "Missouri",
+        "Montana",
+        "Nebraska",
+        "Nevada",
+        "New Hampshire",
+        "New Jersey",
+        "New Mexico",
+        "New York",
+        "North Carolina",
+        "North Dakota",
+        "Ohio",
+        "Oklahoma",
+        "Oregon",
+        "Pennsylvania",
+        "Rhode Island",
+        "South Carolina",
+        "South Dakota",
+        "Tennessee",
+        "Texas",
+        "Utah",
+        "Vermont",
+        "Virginia",
+        "Washington",
+        "West Virginia",
+        "Wisconsin",
+        "Wyoming"
+      ]
+    },
+    "city": {
+      "type": "text",
+      "label": "City",
+      "page": 1,
+      "box": {
+        "left": 20.9,
+        "top": 261.1,
+        "width": 402.9,
+        "height": 19.0
+      }
+    },
+    "zipCode": {
+      "type": "text",
+      "label": "ZipCode",
+      "page": 1,
+      "box": {
+        "left": 527.1,
+        "top": 261.1,
+        "width": 63.6,
+        "height": 19.0
+      }
+    },
+    "signature": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 175.1,
+        "top": 214.7,
+        "width": 264.0,
+        "height": 19.3
+      }
+    }
+  }
+}

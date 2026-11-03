@@ -1,0 +1,310 @@
+{
+  "id": "navmc11824",
+  "label": "NAVMC11824 - Real Time Kinematic Rover Stakeout Sheet",
+  "directory": "NAVMC11824 - Real Time Kinematic Rover Stakeout Sheet",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "horz",
+        "utm",
+        "vert",
+        "geoid",
+        "date",
+        "job",
+        "receiver",
+        "handheld",
+        "antenna",
+        "chief",
+        "precision",
+        "elevation",
+        "recorder",
+        "base",
+        "easting",
+        "northing",
+        "remarks"
+      ]
+    }
+  ],
+  "fields": {
+    "horz": {
+      "type": "text",
+      "label": "HORZ. DATUM",
+      "page": 1,
+      "box": {
+        "left": 236.9,
+        "top": 542.5,
+        "width": 102.3,
+        "height": 17.7
+      }
+    },
+    "utm": {
+      "type": "text",
+      "label": "UTM GRID ZONE",
+      "page": 1,
+      "box": {
+        "left": 344.9,
+        "top": 542.5,
+        "width": 102.3,
+        "height": 17.7
+      }
+    },
+    "vert": {
+      "type": "text",
+      "label": "VERT. DATUM",
+      "page": 1,
+      "box": {
+        "left": 452.9,
+        "top": 542.5,
+        "width": 102.3,
+        "height": 17.7
+      }
+    },
+    "geoid": {
+      "type": "text",
+      "label": "GEOID MODEL",
+      "page": 1,
+      "box": {
+        "left": 560.9,
+        "top": 542.5,
+        "width": 102.3,
+        "height": 17.7
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 668.9,
+        "top": 542.5,
+        "width": 102.3,
+        "height": 17.7
+      }
+    },
+    "job": {
+      "type": "text",
+      "label": "JOB NAME",
+      "page": 1,
+      "box": {
+        "left": 20.8,
+        "top": 541.8,
+        "width": 210.4,
+        "height": 16.9
+      }
+    },
+    "receiver": {
+      "type": "text",
+      "label": "RECEIVER TYPE / SERIAL NUMBER",
+      "page": 1,
+      "box": {
+        "left": 236.9,
+        "top": 510.2,
+        "width": 174.4,
+        "height": 16.9
+      }
+    },
+    "handheld": {
+      "type": "text",
+      "label": "HANDHELD TYPE / SERIAL NUMBER",
+      "page": 1,
+      "box": {
+        "left": 416.9,
+        "top": 510.2,
+        "width": 174.4,
+        "height": 16.9
+      }
+    },
+    "antenna": {
+      "type": "text",
+      "label": "ANTENNA TYPE / SERIAL NUMBER",
+      "page": 1,
+      "box": {
+        "left": 596.9,
+        "top": 510.2,
+        "width": 174.4,
+        "height": 16.9
+      }
+    },
+    "chief": {
+      "type": "text",
+      "label": "TEAM CHIEF",
+      "page": 1,
+      "box": {
+        "left": 20.8,
+        "top": 510.0,
+        "width": 210.4,
+        "height": 16.7
+      }
+    },
+    "precision": {
+      "type": "text",
+      "label": "HORZ / VERT PRECISION",
+      "page": 1,
+      "box": {
+        "left": 200.9,
+        "top": 479.4,
+        "width": 138.3,
+        "height": 17.7
+      }
+    },
+    "elevation": {
+      "type": "text",
+      "label": "BASE ELEVATION",
+      "page": 1,
+      "box": {
+        "left": 695.9,
+        "top": 478.8,
+        "width": 75.3,
+        "height": 17.0
+      }
+    },
+    "recorder": {
+      "type": "text",
+      "label": "RECORDER",
+      "page": 1,
+      "box": {
+        "left": 20.8,
+        "top": 478.7,
+        "width": 174.4,
+        "height": 16.9
+      }
+    },
+    "base": {
+      "type": "text",
+      "label": "BASE NAME",
+      "page": 1,
+      "box": {
+        "left": 344.9,
+        "top": 478.7,
+        "width": 88.8,
+        "height": 16.9
+      }
+    },
+    "easting": {
+      "type": "text",
+      "label": "BASE EASTING",
+      "page": 1,
+      "box": {
+        "left": 439.1,
+        "top": 478.7,
+        "width": 122.8,
+        "height": 16.9
+      }
+    },
+    "northing": {
+      "type": "text",
+      "label": "BASE NORTHING",
+      "page": 1,
+      "box": {
+        "left": 567.6,
+        "top": 478.7,
+        "width": 122.8,
+        "height": 16.9
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "REMARKS",
+      "page": 1,
+      "box": {
+        "left": 20.8,
+        "top": 130.2,
+        "width": 750.4,
+        "height": 82.5
+      },
+      "multiline": true
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 16,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "stationName": {
+          "type": "text",
+          "label": "STATION NAME",
+          "page": 1,
+          "box": {
+            "left": 20.8,
+            "top": 429.1,
+            "width": 138.3,
+            "height": 12.3
+          }
+        },
+        "antHt": {
+          "type": "text",
+          "label": "ANT HT",
+          "page": 1,
+          "box": {
+            "left": 164.9,
+            "top": 429.1,
+            "width": 57.3,
+            "height": 12.3
+          }
+        },
+        "easting": {
+          "type": "text",
+          "label": "EASTING",
+          "page": 1,
+          "box": {
+            "left": 227.9,
+            "top": 429.1,
+            "width": 138.3,
+            "height": 12.3
+          }
+        },
+        "northing": {
+          "type": "text",
+          "label": "NORTHING",
+          "page": 1,
+          "box": {
+            "left": 371.9,
+            "top": 429.1,
+            "width": 138.3,
+            "height": 12.3
+          }
+        },
+        "elevation": {
+          "type": "text",
+          "label": "ELEVATION",
+          "page": 1,
+          "box": {
+            "left": 515.9,
+            "top": 429.1,
+            "width": 57.3,
+            "height": 12.3
+          }
+        },
+        "azmk": {
+          "type": "text",
+          "label": "AZMK",
+          "page": 1,
+          "box": {
+            "left": 578.9,
+            "top": 429.1,
+            "width": 57.3,
+            "height": 12.3
+          }
+        },
+        "azimuthToAZMK": {
+          "type": "text",
+          "label": "AZIMUTH TO AZMK",
+          "page": 1,
+          "box": {
+            "left": 641.9,
+            "top": 429.1,
+            "width": 129.3,
+            "height": 12.3
+          }
+        }
+      }
+    }
+  }
+}

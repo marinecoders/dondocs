@@ -1,0 +1,636 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "software": {
+        "left": 170.5,
+        "top": 703.8,
+        "width": 401.9,
+        "height": 18.0,
+        "type": "text",
+        "description": "Survey Software for RPDA Version:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "stationNo1": {
+        "left": 301.5,
+        "top": 660.6,
+        "width": 108.9,
+        "height": 9.0,
+        "type": "text",
+        "description": "STATION #:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "stationNo2": {
+        "left": 463.5,
+        "top": 660.6,
+        "width": 108.9,
+        "height": 9.0,
+        "type": "text",
+        "description": "STATION #:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rearStationName": {
+        "left": 255.6,
+        "top": 644.4,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "RearStationName",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "stationName1": {
+        "left": 255.6,
+        "top": 626.4,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "StationName1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "stationName2": {
+        "left": 417.6,
+        "top": 626.4,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "StationName2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "easting1": {
+        "left": 255.6,
+        "top": 608.4,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Easting1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "easting2": {
+        "left": 417.6,
+        "top": 608.4,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Easting2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "northing1": {
+        "left": 255.6,
+        "top": 590.4,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Northing1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "northing2": {
+        "left": 417.6,
+        "top": 590.4,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Northing2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "elevation1": {
+        "left": 255.6,
+        "top": 572.4,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Elevation1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "elevation2": {
+        "left": 417.6,
+        "top": 572.4,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Elevation2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "aZRear1": {
+        "left": 255.6,
+        "top": 554.4,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "AZRear1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "aZRear2": {
+        "left": 417.6,
+        "top": 554.4,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "AZRear2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "scheme1": {
+        "left": 255.6,
+        "top": 521.2,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "choice",
+        "description": "Scheme1",
+        "options": [
+          "Y",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "scheme2": {
+        "left": 417.6,
+        "top": 521.2,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "choice",
+        "description": "Scheme2",
+        "options": [
+          "Y",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "horz1": {
+        "left": 255.6,
+        "top": 503.2,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Horz1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "horz2": {
+        "left": 417.6,
+        "top": 503.2,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Horz2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "vert1": {
+        "left": 255.6,
+        "top": 485.2,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Vert1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "vert2": {
+        "left": 417.6,
+        "top": 485.2,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Vert2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recip1": {
+        "left": 255.6,
+        "top": 467.2,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "choice",
+        "description": "Recip1",
+        "options": [
+          "Y",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "recip2": {
+        "left": 417.6,
+        "top": 467.2,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "choice",
+        "description": "Recip2",
+        "options": [
+          "Y",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "distance1": {
+        "left": 255.6,
+        "top": 449.2,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Distance1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "distance2": {
+        "left": 417.6,
+        "top": 449.2,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Distance2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "stationNo3": {
+        "left": 301.5,
+        "top": 424.0,
+        "width": 108.9,
+        "height": 9.0,
+        "type": "text",
+        "description": "STATION #:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "stationNo4": {
+        "left": 463.5,
+        "top": 424.0,
+        "width": 108.9,
+        "height": 9.0,
+        "type": "text",
+        "description": "STATION #:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "stationName3": {
+        "left": 255.6,
+        "top": 407.8,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "StationName3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "stationName4": {
+        "left": 417.6,
+        "top": 407.8,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "StationName4",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "easting3": {
+        "left": 255.6,
+        "top": 389.8,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Easting3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "easting4": {
+        "left": 417.6,
+        "top": 389.8,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Easting4",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "northing3": {
+        "left": 255.6,
+        "top": 371.8,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Northing3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "northing4": {
+        "left": 417.6,
+        "top": 371.8,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Northing4",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "elevation3": {
+        "left": 255.6,
+        "top": 353.8,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Elevation3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "elevation4": {
+        "left": 417.6,
+        "top": 353.8,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Elevation4",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "aZRear3": {
+        "left": 255.6,
+        "top": 335.8,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "AZRear3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "aZRear4": {
+        "left": 417.6,
+        "top": 335.8,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "AZRear4",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "scheme3": {
+        "left": 255.6,
+        "top": 302.6,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "choice",
+        "description": "Scheme3",
+        "options": [
+          "Y",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "scheme4": {
+        "left": 417.6,
+        "top": 302.6,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "choice",
+        "description": "Scheme4",
+        "options": [
+          "Y",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "horz3": {
+        "left": 255.6,
+        "top": 284.6,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Horz3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "horz4": {
+        "left": 417.6,
+        "top": 284.6,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Horz4",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "vert3": {
+        "left": 255.6,
+        "top": 266.6,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Vert3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "vert4": {
+        "left": 417.6,
+        "top": 266.6,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Vert4",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recip3": {
+        "left": 255.6,
+        "top": 248.6,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "choice",
+        "description": "Recip3",
+        "options": [
+          "Y",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "recip4": {
+        "left": 417.6,
+        "top": 248.6,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "choice",
+        "description": "Recip4",
+        "options": [
+          "Y",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "distance3": {
+        "left": 255.6,
+        "top": 230.6,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Distance3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "distance4": {
+        "left": 417.6,
+        "top": 230.6,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Distance4",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks": {
+        "left": 39.6,
+        "top": 201.8,
+        "width": 532.8,
+        "height": 99.2,
+        "type": "text",
+        "description": "REMARKS:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "computer": {
+        "left": 90.2,
+        "top": 95.4,
+        "width": 122.2,
+        "height": 10.8,
+        "type": "text",
+        "description": "COMPUTER:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checker": {
+        "left": 261.1,
+        "top": 95.4,
+        "width": 221.3,
+        "height": 10.8,
+        "type": "text",
+        "description": "CHECKER:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date": {
+        "left": 513.7,
+        "top": 95.4,
+        "width": 58.7,
+        "height": 10.8,
+        "type": "text",
+        "description": "DATE:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "locality": {
+        "left": 90.2,
+        "top": 77.4,
+        "width": 122.2,
+        "height": 10.8,
+        "type": "text",
+        "description": "LOCALITY:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fileName": {
+        "left": 301.8,
+        "top": 77.4,
+        "width": 180.6,
+        "height": 10.8,
+        "type": "text",
+        "description": "ARCHIVE FILE NAME:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sheet": {
+        "left": 528.4,
+        "top": 77.4,
+        "width": 10.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Sheet",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "of": {
+        "left": 561.6,
+        "top": 77.4,
+        "width": 10.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Of",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

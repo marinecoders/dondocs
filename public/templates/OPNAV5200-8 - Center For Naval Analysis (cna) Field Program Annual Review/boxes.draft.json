@@ -1,0 +1,493 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "submCmd": {
+        "left": 38.8,
+        "top": 694.2,
+        "width": 439.9,
+        "height": 14.9,
+        "type": "text",
+        "description": "1. Submitting Command",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "submDte": {
+        "left": 481.6,
+        "top": 694.0,
+        "width": 94.5,
+        "height": 17.5,
+        "type": "text",
+        "description": "2. Submission Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cmdPOCNme": {
+        "left": 38.8,
+        "top": 664.1,
+        "width": 229.1,
+        "height": 14.9,
+        "type": "text",
+        "description": "3. Command POC Name and Rank",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pOCCde": {
+        "left": 273.6,
+        "top": 664.1,
+        "width": 55.4,
+        "height": 14.9,
+        "type": "text",
+        "description": "4. POC Code",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pOCPhnNum": {
+        "left": 334.7,
+        "top": 664.1,
+        "width": 116.4,
+        "height": 14.9,
+        "type": "text",
+        "description": "5. POC Telephone Number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pOCFaxNum": {
+        "left": 456.8,
+        "top": 664.1,
+        "width": 116.4,
+        "height": 14.9,
+        "type": "text",
+        "description": "6. POC Fax Number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pOCUnclEml": {
+        "left": 38.9,
+        "top": 634.0,
+        "width": 264.5,
+        "height": 14.9,
+        "type": "text",
+        "description": "7. POC Unclassified E-Mail Address",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pOCClEml": {
+        "left": 308.7,
+        "top": 634.0,
+        "width": 264.5,
+        "height": 14.9,
+        "type": "text",
+        "description": "8. POC Classified E-Mail Address",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio": {
+        "left": 237.5,
+        "top": 585.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio2": {
+        "left": 269.0,
+        "top": 585.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "pOCUnclEml2": {
+        "left": 38.8,
+        "top": 548.3,
+        "width": 534.4,
+        "height": 41.5,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio3": {
+        "left": 191.9,
+        "top": 459.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio4": {
+        "left": 291.5,
+        "top": 459.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio5": {
+        "left": 399.5,
+        "top": 459.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item2",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "uniAnaExp": {
+        "left": 38.8,
+        "top": 431.9,
+        "width": 534.4,
+        "height": 55.6,
+        "type": "text",
+        "description": "11a. Provide Examples",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio6": {
+        "left": 191.9,
+        "top": 355.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio7": {
+        "left": 291.5,
+        "top": 355.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio8": {
+        "left": 399.5,
+        "top": 355.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item2",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "topIssExp": {
+        "left": 38.8,
+        "top": 328.4,
+        "width": 534.4,
+        "height": 60.1,
+        "type": "text",
+        "description": "12a. Provide Examples",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio9": {
+        "left": 191.9,
+        "top": 247.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio10": {
+        "left": 291.5,
+        "top": 247.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio11": {
+        "left": 399.5,
+        "top": 247.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item2",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "impkExp": {
+        "left": 38.8,
+        "top": 220.3,
+        "width": 534.4,
+        "height": 60.1,
+        "type": "text",
+        "description": "13a. Provide Examples",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio12": {
+        "left": 191.9,
+        "top": 139.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio13": {
+        "left": 291.5,
+        "top": 139.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio14": {
+        "left": 399.5,
+        "top": 139.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item2",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "contSupExp": {
+        "left": 38.8,
+        "top": 112.3,
+        "width": 534.4,
+        "height": 60.1,
+        "type": "text",
+        "description": "14a. Provide Examples",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "radio15": {
+        "left": 241.4,
+        "top": 702.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio16": {
+        "left": 345.5,
+        "top": 702.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio17": {
+        "left": 426.5,
+        "top": 702.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "rPExp": {
+        "left": 38.8,
+        "top": 674.9,
+        "width": 534.4,
+        "height": 55.6,
+        "type": "text",
+        "description": "15a. Provide Examples",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio18": {
+        "left": 241.4,
+        "top": 612.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio19": {
+        "left": 345.5,
+        "top": 612.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio20": {
+        "left": 426.5,
+        "top": 612.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item2",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "aEMExp": {
+        "left": 38.8,
+        "top": 584.9,
+        "width": 534.4,
+        "height": 55.6,
+        "type": "text",
+        "description": "16a. Provide Examples",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio21": {
+        "left": 241.4,
+        "top": 522.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio22": {
+        "left": 345.5,
+        "top": 522.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio23": {
+        "left": 426.5,
+        "top": 522.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item2",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "shaDemExp": {
+        "left": 38.8,
+        "top": 494.9,
+        "width": 534.4,
+        "height": 55.6,
+        "type": "text",
+        "description": "17a. Provide Examples",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio24": {
+        "left": 241.4,
+        "top": 432.4,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio25": {
+        "left": 345.5,
+        "top": 432.4,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio26": {
+        "left": 426.5,
+        "top": 432.4,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item2",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "conCapExp": {
+        "left": 38.8,
+        "top": 404.8,
+        "width": 534.4,
+        "height": 55.6,
+        "type": "text",
+        "description": "18a. Provide Examples",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

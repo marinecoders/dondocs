@@ -1,0 +1,344 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "one": {
+        "left": 38.9,
+        "top": 609.1,
+        "width": 267.9,
+        "height": 19.4,
+        "type": "text",
+        "description": "1. Name (Last, First, MI)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "two": {
+        "left": 312.5,
+        "top": 609.1,
+        "width": 159.9,
+        "height": 19.4,
+        "type": "text",
+        "description": "2. Title or Rank/Rate",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "three": {
+        "left": 478.1,
+        "top": 609.1,
+        "width": 95.1,
+        "height": 19.4,
+        "type": "text",
+        "description": "3. Code",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "four": {
+        "left": 38.9,
+        "top": 573.1,
+        "width": 95.1,
+        "height": 19.4,
+        "type": "text",
+        "description": "4. Phone",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "five": {
+        "left": 139.7,
+        "top": 573.1,
+        "width": 231.9,
+        "height": 19.4,
+        "type": "text",
+        "description": "5. Plan/KSA Series/Grade or Rate/Specialty",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "six": {
+        "left": 377.3,
+        "top": 573.1,
+        "width": 195.9,
+        "height": 19.4,
+        "type": "text",
+        "description": "6. Location (Employee Bldg/Room/Cube)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell2": {
+        "left": 56.2,
+        "top": 515.5,
+        "width": 516.3,
+        "height": 12.2,
+        "type": "text",
+        "description": "SHORT RANGE GOALS (0-6 Months)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell22": {
+        "left": 56.2,
+        "top": 497.5,
+        "width": 516.3,
+        "height": 12.2,
+        "type": "text",
+        "description": "SHORT RANGE GOALS (0-6 Months)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell23": {
+        "left": 56.2,
+        "top": 479.5,
+        "width": 516.3,
+        "height": 12.2,
+        "type": "text",
+        "description": "SHORT RANGE GOALS (0-6 Months)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell24": {
+        "left": 56.2,
+        "top": 429.1,
+        "width": 516.3,
+        "height": 12.2,
+        "type": "text",
+        "description": "SHORT RANGE GOALS (0-6 Months)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell25": {
+        "left": 56.2,
+        "top": 411.1,
+        "width": 516.3,
+        "height": 12.2,
+        "type": "text",
+        "description": "SHORT RANGE GOALS (0-6 Months)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell26": {
+        "left": 56.2,
+        "top": 393.1,
+        "width": 516.3,
+        "height": 12.2,
+        "type": "text",
+        "description": "SHORT RANGE GOALS (0-6 Months)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell27": {
+        "left": 56.2,
+        "top": 342.7,
+        "width": 516.3,
+        "height": 12.2,
+        "type": "text",
+        "description": "LONG RANGE GOALS (12-24 Months)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell28": {
+        "left": 56.2,
+        "top": 324.7,
+        "width": 516.3,
+        "height": 12.2,
+        "type": "text",
+        "description": "LONG RANGE GOALS (12-24 Months)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell29": {
+        "left": 56.2,
+        "top": 306.7,
+        "width": 516.3,
+        "height": 12.2,
+        "type": "text",
+        "description": "LONG RANGE GOALS (12-24 Months)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell210": {
+        "left": 56.9,
+        "top": 252.7,
+        "width": 264.3,
+        "height": 12.2,
+        "type": "text",
+        "description": "List the Development Area",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell211": {
+        "left": 506.9,
+        "top": 252.7,
+        "width": 66.2,
+        "height": 12.2,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell212": {
+        "left": 327.2,
+        "top": 252.4,
+        "width": 101.8,
+        "height": 11.7,
+        "type": "choice",
+        "description": "Priority Level",
+        "options": [
+          "Priority 1 Essential",
+          "Priority 2 Needed",
+          "Priority 3 Helpful"
+        ],
+        "group": null,
+        "required": false
+      },
+      "cell213": {
+        "left": 435.2,
+        "top": 252.4,
+        "width": 65.7,
+        "height": 11.7,
+        "type": "choice",
+        "description": "needed)",
+        "options": [
+          "Formal",
+          "Informal"
+        ],
+        "group": null,
+        "required": false
+      },
+      "cell1": {
+        "left": 39.6,
+        "top": 203.7,
+        "width": 227.5,
+        "height": 19.4,
+        "type": "text",
+        "description": "Employee Name (Last, First, MI)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell12": {
+        "left": 272.9,
+        "top": 203.7,
+        "width": 227.5,
+        "height": 19.4,
+        "type": "text",
+        "description": "Employee Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell13": {
+        "left": 506.2,
+        "top": 203.7,
+        "width": 66.2,
+        "height": 19.4,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell14": {
+        "left": 39.6,
+        "top": 167.7,
+        "width": 227.5,
+        "height": 19.4,
+        "type": "text",
+        "description": "Immediate Supervisor Name (Last, First, MI)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell15": {
+        "left": 272.9,
+        "top": 167.7,
+        "width": 227.5,
+        "height": 19.4,
+        "type": "text",
+        "description": "Immediate Supervisor Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell16": {
+        "left": 506.2,
+        "top": 167.7,
+        "width": 66.2,
+        "height": 19.4,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell17": {
+        "left": 56.2,
+        "top": 106.5,
+        "width": 48.2,
+        "height": 12.2,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell214": {
+        "left": 110.2,
+        "top": 106.5,
+        "width": 174.3,
+        "height": 12.2,
+        "type": "text",
+        "description": "Remarks",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell215": {
+        "left": 290.2,
+        "top": 106.5,
+        "width": 138.3,
+        "height": 12.2,
+        "type": "text",
+        "description": "Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell3": {
+        "left": 434.2,
+        "top": 106.5,
+        "width": 138.3,
+        "height": 12.2,
+        "type": "text",
+        "description": "Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

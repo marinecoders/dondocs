@@ -1,0 +1,459 @@
+{
+  "id": "opnav54202",
+  "label": "OPNAV5420-2 - Cno Committee Management Program Data Form",
+  "directory": "OPNAV5420-2 - Cno Committee Management Program Data Form",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "nameOfCommittee",
+        "opnavSponsor",
+        "telephone",
+        "committeePoc",
+        "committeeCode",
+        "establish",
+        "disestablish",
+        "other",
+        "otherExplain",
+        "relatedCommittee",
+        "applicableDirectives",
+        "purposeCommittee",
+        "opnavCosts",
+        "committeeChaiperson",
+        "otherCommitteeMembers"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "frequencyMeetings",
+        "averageDuration",
+        "recordOfMeeting",
+        "travelOpnav",
+        "opnavPerDiem",
+        "miscOpnav",
+        "totalOpnav",
+        "travelOther",
+        "perdiemOther",
+        "miscOther",
+        "totalOther",
+        "misc",
+        "professionalWorkYears",
+        "clericalWorkyears",
+        "dNSDate3",
+        "sig1",
+        "dNSDate21",
+        "title",
+        "code",
+        "sig2",
+        "dNSDate22"
+      ]
+    }
+  ],
+  "fields": {
+    "nameOfCommittee": {
+      "type": "text",
+      "label": "Enter the name of the committee.",
+      "page": 1,
+      "box": {
+        "left": 89.9,
+        "top": 692.0,
+        "width": 433.6,
+        "height": 23.3
+      }
+    },
+    "opnavSponsor": {
+      "type": "text",
+      "label": "Enter the OPNAV sponsor.",
+      "page": 1,
+      "box": {
+        "left": 89.9,
+        "top": 652.2,
+        "width": 433.6,
+        "height": 19.4
+      }
+    },
+    "telephone": {
+      "type": "text",
+      "label": "Enter the committee POC telephone number.",
+      "page": 1,
+      "box": {
+        "left": 390.0,
+        "top": 613.2,
+        "width": 128.4,
+        "height": 22.6
+      }
+    },
+    "committeePoc": {
+      "type": "text",
+      "label": "Enter the committee POC name.",
+      "page": 1,
+      "box": {
+        "left": 89.9,
+        "top": 612.4,
+        "width": 132.6,
+        "height": 21.2
+      }
+    },
+    "committeeCode": {
+      "type": "text",
+      "label": "Enter the committee POC code.",
+      "page": 1,
+      "box": {
+        "left": 238.5,
+        "top": 612.4,
+        "width": 132.6,
+        "height": 21.2
+      }
+    },
+    "establish": {
+      "type": "checkbox",
+      "label": "Select this checkbox if recommended disposition of committee is established.",
+      "page": 1,
+      "box": {
+        "left": 167.0,
+        "top": 559.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "disestablish": {
+      "type": "checkbox",
+      "label": "Select this checkbox if recommended disposition of committee is disestablished. \r\nIf disestablish is recommended, sign item 15a and return without further entries.",
+      "page": 1,
+      "box": {
+        "left": 324.5,
+        "top": 559.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "other": {
+      "type": "checkbox",
+      "label": "Select this checkbox if other is recommended disposition of committee.",
+      "page": 1,
+      "box": {
+        "left": 470.2,
+        "top": 559.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "otherExplain": {
+      "type": "text",
+      "label": "If other is recommended, explain.",
+      "page": 1,
+      "box": {
+        "left": 89.9,
+        "top": 506.4,
+        "width": 433.6,
+        "height": 20.8
+      }
+    },
+    "relatedCommittee": {
+      "type": "text",
+      "label": "Enter related committees (if committee being reported is a superior).",
+      "page": 1,
+      "box": {
+        "left": 89.9,
+        "top": 450.9,
+        "width": 433.6,
+        "height": 42.4
+      },
+      "multiline": true
+    },
+    "applicableDirectives": {
+      "type": "text",
+      "label": "Enter applicable directives (cite directive(s) or attach copy of correspondence pertinent to committee establishment or operation).",
+      "page": 1,
+      "box": {
+        "left": 89.9,
+        "top": 374.7,
+        "width": 433.6,
+        "height": 48.8
+      },
+      "multiline": true
+    },
+    "purposeCommittee": {
+      "type": "text",
+      "label": "Enter the purpose of committee (cite intended work results of committee and indicate basis of committee requirement in terms of inadequacy of regular staff coordination efforts.)",
+      "page": 1,
+      "box": {
+        "left": 89.9,
+        "top": 292.1,
+        "width": 433.6,
+        "height": 70.4
+      },
+      "multiline": true
+    },
+    "opnavCosts": {
+      "type": "text",
+      "label": "Identify the committee chairperson.",
+      "page": 1,
+      "box": {
+        "left": 87.0,
+        "top": 178.3,
+        "width": 433.6,
+        "height": 13.6
+      }
+    },
+    "committeeChaiperson": {
+      "type": "text",
+      "label": "Identify the OPNAV members (codes).",
+      "page": 1,
+      "box": {
+        "left": 87.0,
+        "top": 149.0,
+        "width": 433.6,
+        "height": 11.1
+      }
+    },
+    "otherCommitteeMembers": {
+      "type": "text",
+      "label": "Identify other committee members.",
+      "page": 1,
+      "box": {
+        "left": 87.0,
+        "top": 124.0,
+        "width": 433.6,
+        "height": 11.1
+      }
+    },
+    "frequencyMeetings": {
+      "type": "text",
+      "label": "Enter the frequency of meetings (if as required, cite average number of meetings per year).",
+      "page": 2,
+      "box": {
+        "left": 90.7,
+        "top": 699.9,
+        "width": 433.6,
+        "height": 21.5
+      }
+    },
+    "averageDuration": {
+      "type": "text",
+      "label": "Enter the average duration of meetings.",
+      "page": 2,
+      "box": {
+        "left": 90.7,
+        "top": 664.4,
+        "width": 433.6,
+        "height": 20.8
+      }
+    },
+    "recordOfMeeting": {
+      "type": "text",
+      "label": "Enter the record of meetings (provide dates of all committee meetings held or planned during the current fiscal years).",
+      "page": 2,
+      "box": {
+        "left": 90.7,
+        "top": 615.7,
+        "width": 433.6,
+        "height": 41.1
+      },
+      "multiline": true
+    },
+    "travelOpnav": {
+      "type": "text",
+      "label": "Enter the travel committee cost.",
+      "page": 2,
+      "box": {
+        "left": 175.2,
+        "top": 530.3,
+        "width": 59.8,
+        "height": 12.0
+      }
+    },
+    "opnavPerDiem": {
+      "type": "text",
+      "label": "Enter the per diem committee costs.",
+      "page": 2,
+      "box": {
+        "left": 250.1,
+        "top": 530.3,
+        "width": 59.8,
+        "height": 12.0
+      }
+    },
+    "miscOpnav": {
+      "type": "text",
+      "label": "Enter miscellaneous committee expenses.",
+      "page": 2,
+      "box": {
+        "left": 325.0,
+        "top": 530.3,
+        "width": 77.5,
+        "height": 12.0
+      }
+    },
+    "totalOpnav": {
+      "type": "text",
+      "label": "(Total)",
+      "page": 2,
+      "box": {
+        "left": 418.0,
+        "top": 530.3,
+        "width": 59.8,
+        "height": 12.0
+      }
+    },
+    "travelOther": {
+      "type": "text",
+      "label": "Enter any other travel committee cost.",
+      "page": 2,
+      "box": {
+        "left": 175.2,
+        "top": 504.9,
+        "width": 59.8,
+        "height": 11.2
+      }
+    },
+    "perdiemOther": {
+      "type": "text",
+      "label": "Enter any other per diem committee costs.",
+      "page": 2,
+      "box": {
+        "left": 250.1,
+        "top": 504.9,
+        "width": 59.8,
+        "height": 11.2
+      }
+    },
+    "miscOther": {
+      "type": "text",
+      "label": "Enter any other miscellaneous committee costs.",
+      "page": 2,
+      "box": {
+        "left": 325.0,
+        "top": 504.9,
+        "width": 77.5,
+        "height": 11.2
+      }
+    },
+    "totalOther": {
+      "type": "text",
+      "label": "(Total)",
+      "page": 2,
+      "box": {
+        "left": 418.0,
+        "top": 504.9,
+        "width": 59.8,
+        "height": 11.2
+      }
+    },
+    "misc": {
+      "type": "text",
+      "label": "If miscellaneous costs exceed $5,000 please identify nature of expenses , e.g. rental cars, printing and publication, etc.",
+      "page": 2,
+      "box": {
+        "left": 90.7,
+        "top": 444.8,
+        "width": 433.6,
+        "height": 28.9
+      }
+    },
+    "professionalWorkYears": {
+      "type": "text",
+      "label": "Enter the professional workyears.",
+      "page": 2,
+      "box": {
+        "left": 233.0,
+        "top": 375.2,
+        "width": 292.0,
+        "height": 10.6
+      }
+    },
+    "clericalWorkyears": {
+      "type": "text",
+      "label": "Enter the clerical workyears.",
+      "page": 2,
+      "box": {
+        "left": 233.0,
+        "top": 350.4,
+        "width": 292.0,
+        "height": 10.6
+      }
+    },
+    "dNSDate3": {
+      "type": "text",
+      "label": "Enter the projected committee expiration date using the format DD MMM YYYY.",
+      "page": 2,
+      "box": {
+        "left": 264.0,
+        "top": 329.3,
+        "width": 261.0,
+        "height": 13.5
+      }
+    },
+    "sig1": {
+      "type": "text",
+      "label": "Enter the OPNAV principal official signature.",
+      "page": 2,
+      "box": {
+        "left": 298.3,
+        "top": 253.6,
+        "width": 135.4,
+        "height": 11.6
+      }
+    },
+    "dNSDate21": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 2,
+      "box": {
+        "left": 451.6,
+        "top": 253.6,
+        "width": 81.5,
+        "height": 12.5
+      }
+    },
+    "title": {
+      "type": "text",
+      "label": "Enter the title.",
+      "page": 2,
+      "box": {
+        "left": 298.3,
+        "top": 222.2,
+        "width": 135.4,
+        "height": 11.6
+      }
+    },
+    "code": {
+      "type": "text",
+      "label": "Enter the code.",
+      "page": 2,
+      "box": {
+        "left": 451.6,
+        "top": 222.2,
+        "width": 81.5,
+        "height": 11.6
+      }
+    },
+    "sig2": {
+      "type": "text",
+      "label": "Enter CNO committee management officer, AVCNO (OP-09B).",
+      "page": 2,
+      "box": {
+        "left": 298.3,
+        "top": 190.7,
+        "width": 135.4,
+        "height": 11.6
+      }
+    },
+    "dNSDate22": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 2,
+      "box": {
+        "left": 451.6,
+        "top": 190.6,
+        "width": 81.5,
+        "height": 12.5
+      }
+    }
+  }
+}

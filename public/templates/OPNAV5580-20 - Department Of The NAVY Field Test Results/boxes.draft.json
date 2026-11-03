@@ -1,0 +1,249 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 792,
+    "height": 612
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "suspect1": {
+        "left": 40.5,
+        "top": 526.3,
+        "width": 351.1,
+        "height": 34.9,
+        "type": "text",
+        "description": "Enter the suspect.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "suspect0": {
+        "left": 402.0,
+        "top": 526.3,
+        "width": 351.1,
+        "height": 34.9,
+        "type": "text",
+        "description": "Enter the case control number (ccn).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recoveredFrom": {
+        "left": 40.5,
+        "top": 464.5,
+        "width": 351.1,
+        "height": 126.1,
+        "type": "text",
+        "description": "Indicate where the field test results were recovered from (if other than suspect named above).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "commandAddress": {
+        "left": 402.0,
+        "top": 464.5,
+        "width": 351.1,
+        "height": 126.1,
+        "type": "text",
+        "description": "Enter the command address.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "itemNumber1": {
+        "left": 39.7,
+        "top": 290.0,
+        "width": 135.8,
+        "height": 42.8,
+        "type": "text",
+        "description": "Enter the item number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "desEvid1": {
+        "left": 183.0,
+        "top": 290.0,
+        "width": 208.6,
+        "height": 42.8,
+        "type": "text",
+        "description": "Enter the description of evidence.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fieldTestUtilized1": {
+        "left": 399.0,
+        "top": 290.0,
+        "width": 119.6,
+        "height": 42.8,
+        "type": "text",
+        "description": "Enter the field test utilized.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "results1": {
+        "left": 525.7,
+        "top": 290.0,
+        "width": 91.6,
+        "height": 42.8,
+        "type": "text",
+        "description": "Enter the results.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recValue1": {
+        "left": 624.8,
+        "top": 290.0,
+        "width": 126.0,
+        "height": 42.8,
+        "type": "text",
+        "description": "Enter the recovery value.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "itemNumber2": {
+        "left": 39.7,
+        "top": 239.9,
+        "width": 135.8,
+        "height": 42.8,
+        "type": "text",
+        "description": "Enter the item number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "desEvid2": {
+        "left": 183.0,
+        "top": 239.9,
+        "width": 208.6,
+        "height": 42.8,
+        "type": "text",
+        "description": "Enter the description of evidence.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fieldTestUtilized2": {
+        "left": 399.0,
+        "top": 239.9,
+        "width": 119.6,
+        "height": 42.8,
+        "type": "text",
+        "description": "Enter the field test utilized.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "results2": {
+        "left": 525.7,
+        "top": 239.9,
+        "width": 91.6,
+        "height": 42.8,
+        "type": "text",
+        "description": "Enter the results.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recValue2": {
+        "left": 624.8,
+        "top": 239.9,
+        "width": 126.0,
+        "height": 42.8,
+        "type": "text",
+        "description": "Enter the recovery value.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "itemNumber3": {
+        "left": 39.7,
+        "top": 188.9,
+        "width": 135.8,
+        "height": 42.8,
+        "type": "text",
+        "description": "Enter the item number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "desEvid3": {
+        "left": 183.0,
+        "top": 188.9,
+        "width": 208.6,
+        "height": 42.8,
+        "type": "text",
+        "description": "Enter the description of evidence.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fieldTestUtilized3": {
+        "left": 399.0,
+        "top": 188.9,
+        "width": 119.6,
+        "height": 42.8,
+        "type": "text",
+        "description": "Enter the field test utilized.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "results3": {
+        "left": 525.7,
+        "top": 188.9,
+        "width": 91.6,
+        "height": 42.8,
+        "type": "text",
+        "description": "Enter the results.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recValue3": {
+        "left": 624.8,
+        "top": 188.9,
+        "width": 126.0,
+        "height": 42.8,
+        "type": "text",
+        "description": "Enter the recovery value.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "examinedBy": {
+        "left": 41.2,
+        "top": 125.9,
+        "width": 477.0,
+        "height": 28.7,
+        "type": "text",
+        "description": "Indicate whom  examined by .",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dNSDate3": {
+        "left": 527.1,
+        "top": 123.7,
+        "width": 222.3,
+        "height": 24.4,
+        "type": "text",
+        "description": "Enter the date using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

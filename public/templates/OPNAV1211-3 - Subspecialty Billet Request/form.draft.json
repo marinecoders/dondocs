@@ -1,0 +1,246 @@
+{
+  "id": "opnav12113",
+  "label": "OPNAV1211-3 - Subspecialty Billet Request",
+  "directory": "OPNAV1211-3 - Subspecialty Billet Request",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "5a",
+        "5b",
+        "5c",
+        "6",
+        "6a",
+        "6b",
+        "6c",
+        "7a",
+        "7b",
+        "7c",
+        "8",
+        "9",
+        "9a",
+        "9b"
+      ]
+    }
+  ],
+  "fields": {
+    "1": {
+      "type": "text",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 126.0,
+        "top": 702.0,
+        "width": 441.0,
+        "height": 16.0
+      }
+    },
+    "2": {
+      "type": "text",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 168.0,
+        "top": 677.0,
+        "width": 400.0,
+        "height": 16.0
+      }
+    },
+    "3": {
+      "type": "text",
+      "label": "3",
+      "page": 1,
+      "box": {
+        "left": 133.0,
+        "top": 654.0,
+        "width": 434.0,
+        "height": 15.0
+      }
+    },
+    "4": {
+      "type": "text",
+      "label": "4",
+      "page": 1,
+      "box": {
+        "left": 218.0,
+        "top": 630.0,
+        "width": 349.0,
+        "height": 14.0
+      }
+    },
+    "5": {
+      "type": "text",
+      "label": "5",
+      "page": 1,
+      "box": {
+        "left": 177.0,
+        "top": 605.0,
+        "width": 391.0,
+        "height": 14.0
+      }
+    },
+    "5a": {
+      "type": "text",
+      "label": "5a",
+      "page": 1,
+      "box": {
+        "left": 74.0,
+        "top": 581.0,
+        "width": 493.0,
+        "height": 14.0
+      }
+    },
+    "5b": {
+      "type": "text",
+      "label": "5b",
+      "page": 1,
+      "box": {
+        "left": 76.0,
+        "top": 558.0,
+        "width": 491.0,
+        "height": 14.0
+      }
+    },
+    "5c": {
+      "type": "text",
+      "label": "5c",
+      "page": 1,
+      "box": {
+        "left": 76.0,
+        "top": 534.0,
+        "width": 491.0,
+        "height": 14.0
+      }
+    },
+    "6": {
+      "type": "text",
+      "label": "6",
+      "page": 1,
+      "box": {
+        "left": 202.0,
+        "top": 510.0,
+        "width": 366.0,
+        "height": 13.0
+      }
+    },
+    "6a": {
+      "type": "text",
+      "label": "6a",
+      "page": 1,
+      "box": {
+        "left": 74.0,
+        "top": 462.0,
+        "width": 492.0,
+        "height": 13.0
+      }
+    },
+    "6b": {
+      "type": "text",
+      "label": "6b",
+      "page": 1,
+      "box": {
+        "left": 74.0,
+        "top": 438.0,
+        "width": 492.0,
+        "height": 12.0
+      }
+    },
+    "6c": {
+      "type": "text",
+      "label": "6c",
+      "page": 1,
+      "box": {
+        "left": 75.0,
+        "top": 414.0,
+        "width": 492.0,
+        "height": 12.0
+      }
+    },
+    "7a": {
+      "type": "text",
+      "label": "7a",
+      "page": 1,
+      "box": {
+        "left": 53.0,
+        "top": 357.0,
+        "width": 512.0,
+        "height": 17.0
+      }
+    },
+    "7b": {
+      "type": "text",
+      "label": "7b",
+      "page": 1,
+      "box": {
+        "left": 54.0,
+        "top": 336.0,
+        "width": 512.0,
+        "height": 17.0
+      }
+    },
+    "7c": {
+      "type": "text",
+      "label": "7c",
+      "page": 1,
+      "box": {
+        "left": 54.0,
+        "top": 315.0,
+        "width": 512.0,
+        "height": 17.0
+      }
+    },
+    "8": {
+      "type": "text",
+      "label": "8",
+      "page": 1,
+      "box": {
+        "left": 137.0,
+        "top": 289.0,
+        "width": 429.0,
+        "height": 18.0
+      }
+    },
+    "9": {
+      "type": "text",
+      "label": "9",
+      "page": 1,
+      "box": {
+        "left": 63.0,
+        "top": 218.0,
+        "width": 503.0,
+        "height": 14.0
+      }
+    },
+    "9a": {
+      "type": "text",
+      "label": "9a",
+      "page": 1,
+      "box": {
+        "left": 115.0,
+        "top": 191.0,
+        "width": 83.0,
+        "height": 12.0
+      }
+    },
+    "9b": {
+      "type": "text",
+      "label": "9b",
+      "page": 1,
+      "box": {
+        "left": 49.0,
+        "top": 171.0,
+        "width": 517.0,
+        "height": 90.0
+      },
+      "multiline": true
+    }
+  }
+}

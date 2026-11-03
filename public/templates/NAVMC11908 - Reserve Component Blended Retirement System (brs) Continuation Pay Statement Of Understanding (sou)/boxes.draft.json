@@ -1,0 +1,408 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "name": {
+        "left": 39.8,
+        "top": 488.8,
+        "width": 197.5,
+        "height": 19.9,
+        "type": "text",
+        "description": "1. NAME (Last, First, MI)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "edipi": {
+        "left": 243.0,
+        "top": 488.8,
+        "width": 138.2,
+        "height": 19.8,
+        "type": "text",
+        "description": "2. EDIPI",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pEBDDateField0": {
+        "left": 463.7,
+        "top": 487.8,
+        "width": 108.6,
+        "height": 18.9,
+        "type": "text",
+        "description": "4. PEBD (YYYYMMDD)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rank0": {
+        "left": 386.9,
+        "top": 487.6,
+        "width": 71.1,
+        "height": 18.7,
+        "type": "text",
+        "description": "3. RANK",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField1": {
+        "left": 38.8,
+        "top": 365.1,
+        "width": 42.3,
+        "height": 28.3,
+        "type": "text",
+        "description": "(4) Have",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField12": {
+        "left": 38.8,
+        "top": 319.1,
+        "width": 42.3,
+        "height": 25.3,
+        "type": "text",
+        "description": "(Initials)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField13": {
+        "left": 38.8,
+        "top": 211.1,
+        "width": 44.3,
+        "height": 30.5,
+        "type": "text",
+        "description": "receive Continuation",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dropDownList1": {
+        "left": 257.3,
+        "top": 194.3,
+        "width": 90.5,
+        "height": 11.8,
+        "type": "choice",
+        "description": "understand that I will no longer",
+        "options": [
+          "5.0x (Active Reserves)",
+          "1.0x (SMCR/IMA)"
+        ],
+        "group": null,
+        "required": false
+      },
+      "textField14": {
+        "left": 38.8,
+        "top": 152.1,
+        "width": 44.3,
+        "height": 32.5,
+        "type": "text",
+        "description": "(Initials)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField15": {
+        "left": 38.8,
+        "top": 90.1,
+        "width": 44.3,
+        "height": 30.0,
+        "type": "text",
+        "description": "(Initials)",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "textField16": {
+        "left": 39.8,
+        "top": 753.2,
+        "width": 44.3,
+        "height": 32.3,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField17": {
+        "left": 39.8,
+        "top": 704.2,
+        "width": 44.3,
+        "height": 32.8,
+        "type": "text",
+        "description": "(Initials)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField18": {
+        "left": 39.8,
+        "top": 646.1,
+        "width": 44.3,
+        "height": 31.3,
+        "type": "text",
+        "description": "(Initials)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField19": {
+        "left": 39.8,
+        "top": 598.1,
+        "width": 44.3,
+        "height": 31.0,
+        "type": "text",
+        "description": "(Initials)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField110": {
+        "left": 39.8,
+        "top": 552.1,
+        "width": 44.3,
+        "height": 29.7,
+        "type": "text",
+        "description": "(Initials)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "lumpSum": {
+        "left": 116.7,
+        "top": 484.0,
+        "width": 7.0,
+        "height": 7.0,
+        "type": "checkbox",
+        "description": "(1) Lump Sum",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "twoInstallments": {
+        "left": 268.9,
+        "top": 484.0,
+        "width": 7.0,
+        "height": 7.0,
+        "type": "checkbox",
+        "description": "(2) Two Installments",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "threeInstallments": {
+        "left": 402.1,
+        "top": 484.0,
+        "width": 7.0,
+        "height": 7.0,
+        "type": "checkbox",
+        "description": "(3) Three Installments",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fourInstallments": {
+        "left": 527.7,
+        "top": 484.0,
+        "width": 7.0,
+        "height": 7.0,
+        "type": "checkbox",
+        "description": "(4) Four Installments",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "electionSigField": {
+        "left": 40.8,
+        "top": 425.5,
+        "width": 268.4,
+        "height": 20.6,
+        "type": "text",
+        "description": "b. SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateField1": {
+        "left": 314.9,
+        "top": 425.5,
+        "width": 258.4,
+        "height": 20.6,
+        "type": "text",
+        "description": "c. DATE SIGNED (YYYYMMDD)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateField12": {
+        "left": 313.9,
+        "top": 318.8,
+        "width": 258.7,
+        "height": 27.1,
+        "type": "text",
+        "description": "b. DATE SIGNED (YYYYMMDD)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sec5SignatureField2": {
+        "left": 39.8,
+        "top": 318.3,
+        "width": 267.5,
+        "height": 27.5,
+        "type": "text",
+        "description": "a. SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "section5rank": {
+        "left": 242.8,
+        "top": 245.8,
+        "width": 83.5,
+        "height": 19.8,
+        "type": "text",
+        "description": "b. RANK/PAY GRADE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "section5title": {
+        "left": 331.9,
+        "top": 245.8,
+        "width": 125.6,
+        "height": 19.8,
+        "type": "text",
+        "description": "c. POSITION/DUTY TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "section5org": {
+        "left": 463.1,
+        "top": 245.4,
+        "width": 109.1,
+        "height": 19.7,
+        "type": "text",
+        "description": "d. ORGANIZATION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "section5NAME": {
+        "left": 39.8,
+        "top": 245.1,
+        "width": 197.3,
+        "height": 19.2,
+        "type": "text",
+        "description": "a. PRINTED NAME (Last, First, MI)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateField13": {
+        "left": 314.0,
+        "top": 207.5,
+        "width": 258.2,
+        "height": 20.6,
+        "type": "text",
+        "description": "f. DATE SIGNED (YYYYMMDD)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sec5SignatureField22": {
+        "left": 39.8,
+        "top": 207.3,
+        "width": 268.5,
+        "height": 20.4,
+        "type": "text",
+        "description": "e. SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name2": {
+        "left": 38.8,
+        "top": 143.1,
+        "width": 198.4,
+        "height": 39.4,
+        "type": "text",
+        "description": "a. PRINTED NAME (Last, First, MI)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "edipi2": {
+        "left": 242.9,
+        "top": 142.8,
+        "width": 83.3,
+        "height": 39.1,
+        "type": "text",
+        "description": "b. RANK/PAY GRADE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "section5title2": {
+        "left": 331.9,
+        "top": 142.8,
+        "width": 126.3,
+        "height": 39.0,
+        "type": "text",
+        "description": "c. POSITION/DUTY TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "section5org2": {
+        "left": 463.9,
+        "top": 142.8,
+        "width": 109.0,
+        "height": 39.1,
+        "type": "text",
+        "description": "d. ORGANIZATION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField2": {
+        "left": 38.8,
+        "top": 71.2,
+        "width": 269.3,
+        "height": 32.5,
+        "type": "text",
+        "description": "e. SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateField2": {
+        "left": 313.8,
+        "top": 70.8,
+        "width": 258.4,
+        "height": 32.1,
+        "type": "text",
+        "description": "f. DATE SIGNED (YYYYMMDD)",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

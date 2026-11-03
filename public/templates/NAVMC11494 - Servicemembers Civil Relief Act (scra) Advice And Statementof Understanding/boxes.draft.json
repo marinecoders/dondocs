@@ -1,0 +1,75 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "name": {
+        "left": 65.2,
+        "top": 717.8,
+        "width": 346.7,
+        "height": 15.1,
+        "type": "text",
+        "description": "Fill in last, first, and middle initial",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "signatureA": {
+        "left": 38.2,
+        "top": 573.6,
+        "width": 445.7,
+        "height": 23.2,
+        "type": "text",
+        "description": "16a.  SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateA": {
+        "left": 488.8,
+        "top": 572.9,
+        "width": 84.3,
+        "height": 21.1,
+        "type": "text",
+        "description": "Enter YYYY-MM-DD",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureB": {
+        "left": 263.2,
+        "top": 537.6,
+        "width": 220.7,
+        "height": 32.2,
+        "type": "text",
+        "description": "a.  SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateB": {
+        "left": 488.8,
+        "top": 536.9,
+        "width": 84.3,
+        "height": 30.1,
+        "type": "text",
+        "description": "Enter YYYY-MM-DD",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

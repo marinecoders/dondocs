@@ -1,0 +1,282 @@
+{
+  "id": "navmchq876",
+  "label": "NAVMCHQ876 - Request For Relocation Service",
+  "directory": "NAVMCHQ876 - Request For Relocation Service",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "estValue",
+        "dateWishVacate",
+        "guaranteeHomeSale",
+        "rentPropMgmnt",
+        "mktAsst",
+        "homeSchBuy",
+        "mgtCounsel",
+        "rentalHomeSrch",
+        "emplyCounselSp",
+        "phoneNumWork",
+        "addrPropToSold",
+        "phoneNumCurr",
+        "phoneNumHome",
+        "sigEmp",
+        "dateEmpSig1",
+        "dateCounselSig1",
+        "sigCoun",
+        "sigEmp2",
+        "dateEmpSig2",
+        "sigCoun2",
+        "dateCounselSig2"
+      ]
+    }
+  ],
+  "fields": {
+    "estValue": {
+      "type": "text",
+      "label": "Enter the estimated value of the home.",
+      "page": 1,
+      "box": {
+        "left": 407.2,
+        "top": 633.1,
+        "width": 179.1,
+        "height": 50.9
+      },
+      "multiline": true
+    },
+    "dateWishVacate": {
+      "type": "text",
+      "label": "Enter the date you wish to vacate home using format 2002 12 24.",
+      "page": 1,
+      "box": {
+        "left": 218.6,
+        "top": 631.8,
+        "width": 186.3,
+        "height": 50.9
+      },
+      "multiline": true
+    },
+    "guaranteeHomeSale": {
+      "type": "text",
+      "label": "1. Enter guaranteed home sale.",
+      "page": 1,
+      "box": {
+        "left": 28.0,
+        "top": 631.2,
+        "width": 187.6,
+        "height": 50.3
+      },
+      "multiline": true
+    },
+    "rentPropMgmnt": {
+      "type": "text",
+      "label": "2. Enter the rental property management.",
+      "page": 1,
+      "box": {
+        "left": 27.5,
+        "top": 569.1,
+        "width": 259.5,
+        "height": 71.9
+      },
+      "multiline": true
+    },
+    "mktAsst": {
+      "type": "text",
+      "label": "3. Enter home sale marketing assistance.",
+      "page": 1,
+      "box": {
+        "left": 289.5,
+        "top": 569.1,
+        "width": 296.7,
+        "height": 73.7
+      },
+      "multiline": true
+    },
+    "homeSchBuy": {
+      "type": "text",
+      "label": "Destination area assistance. 4. Enter any home search for the buyer.",
+      "page": 1,
+      "box": {
+        "left": 27.5,
+        "top": 443.9,
+        "width": 259.5,
+        "height": 59.1
+      },
+      "multiline": true
+    },
+    "mgtCounsel": {
+      "type": "text",
+      "label": "Enter any mortgage counseling or finding assistance.",
+      "page": 1,
+      "box": {
+        "left": 289.7,
+        "top": 441.2,
+        "width": 296.7,
+        "height": 56.0
+      },
+      "multiline": true
+    },
+    "rentalHomeSrch": {
+      "type": "text",
+      "label": "Enter any rental home search.",
+      "page": 1,
+      "box": {
+        "left": 27.5,
+        "top": 376.1,
+        "width": 259.5,
+        "height": 39.0
+      },
+      "multiline": true
+    },
+    "emplyCounselSp": {
+      "type": "text",
+      "label": "Enter any employment counseling. 380 dollars at employees expense.",
+      "page": 1,
+      "box": {
+        "left": 289.9,
+        "top": 373.6,
+        "width": 296.7,
+        "height": 37.2
+      },
+      "multiline": true
+    },
+    "phoneNumWork": {
+      "type": "text",
+      "label": "PhoneNumWork",
+      "page": 1,
+      "box": {
+        "left": 257.5,
+        "top": 326.0,
+        "width": 97.4,
+        "height": 36.0
+      },
+      "multiline": true
+    },
+    "addrPropToSold": {
+      "type": "text",
+      "label": "Enter the address of the property to be sold.",
+      "page": 1,
+      "box": {
+        "left": 359.4,
+        "top": 325.2,
+        "width": 226.5,
+        "height": 38.6
+      },
+      "multiline": true
+    },
+    "phoneNumCurr": {
+      "type": "text",
+      "label": "PhoneNumCurr",
+      "page": 1,
+      "box": {
+        "left": 28.0,
+        "top": 324.9,
+        "width": 112.0,
+        "height": 36.0
+      },
+      "multiline": true
+    },
+    "phoneNumHome": {
+      "type": "text",
+      "label": "PhoneNumHome",
+      "page": 1,
+      "box": {
+        "left": 143.7,
+        "top": 324.9,
+        "width": 109.0,
+        "height": 36.0
+      },
+      "multiline": true
+    },
+    "sigEmp": {
+      "type": "signature",
+      "label": "SigEmp",
+      "page": 1,
+      "box": {
+        "left": 62.2,
+        "top": 263.0,
+        "width": 198.6,
+        "height": 19.3
+      }
+    },
+    "dateEmpSig1": {
+      "type": "text",
+      "label": "Enter date of employee signature using format 2002 12 24 verifying the provisions of transportation agreement.",
+      "page": 1,
+      "box": {
+        "left": 324.8,
+        "top": 261.3,
+        "width": 196.7,
+        "height": 15.0
+      }
+    },
+    "dateCounselSig1": {
+      "type": "text",
+      "label": "Enter date of activity relocation service counselor signature using format 2002 12 24 verifying the provisions of transportation agreement.",
+      "page": 1,
+      "box": {
+        "left": 324.8,
+        "top": 218.1,
+        "width": 196.7,
+        "height": 15.0
+      }
+    },
+    "sigCoun": {
+      "type": "signature",
+      "label": "SigCoun",
+      "page": 1,
+      "box": {
+        "left": 59.3,
+        "top": 217.0,
+        "width": 201.5,
+        "height": 19.3
+      }
+    },
+    "sigEmp2": {
+      "type": "signature",
+      "label": "SigEmp2",
+      "page": 1,
+      "box": {
+        "left": 58.8,
+        "top": 147.9,
+        "width": 197.6,
+        "height": 19.3
+      }
+    },
+    "dateEmpSig2": {
+      "type": "text",
+      "label": "Enter date of employee signature using format 2002 12 24 verifying that the employee does not wish to participate in any of the relocation service programs stated.",
+      "page": 1,
+      "box": {
+        "left": 324.8,
+        "top": 144.3,
+        "width": 196.7,
+        "height": 15.0
+      }
+    },
+    "sigCoun2": {
+      "type": "signature",
+      "label": "SigCoun2",
+      "page": 1,
+      "box": {
+        "left": 61.5,
+        "top": 99.0,
+        "width": 196.1,
+        "height": 19.3
+      }
+    },
+    "dateCounselSig2": {
+      "type": "text",
+      "label": "Enter date of activity relocation service counselor signature using format 2002 12 24 verifying that the employee does not wish to participate in any of the relocation service programs stated.",
+      "page": 1,
+      "box": {
+        "left": 324.8,
+        "top": 97.2,
+        "width": 196.7,
+        "height": 15.0
+      }
+    }
+  }
+}

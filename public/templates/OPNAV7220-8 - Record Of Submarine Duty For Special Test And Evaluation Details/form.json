@@ -1,0 +1,575 @@
+{
+  "id": "opnav72208",
+  "label": "OPNAV7220-8 - Record Of Submarine Duty For Special Test And Evaluation Details",
+  "directory": "OPNAV7220-8 - Record Of Submarine Duty For Special Test And Evaluation Details",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "doDID",
+        "rankRate",
+        "textField2",
+        "textField22",
+        "command",
+        "uic",
+        "total",
+        "ssed",
+        "yrtd6",
+        "yrtd8",
+        "yrtd10",
+        "contBy",
+        "cUICat",
+        "ldc",
+        "poc"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "contBy2",
+        "cUICat2",
+        "ldc2",
+        "poc2"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "contBy3",
+        "cUICat3",
+        "ldc3",
+        "poc3"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "1. NAME (Last, First, Middle Initial)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 548.0,
+        "width": 234.1,
+        "height": 12.3
+      }
+    },
+    "doDID": {
+      "type": "text",
+      "label": "2. DoD ID",
+      "page": 1,
+      "box": {
+        "left": 278.6,
+        "top": 548.0,
+        "width": 234.1,
+        "height": 12.3
+      }
+    },
+    "rankRate": {
+      "type": "text",
+      "label": "3. RANK/RATE",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 548.0,
+        "width": 126.8,
+        "height": 12.3
+      }
+    },
+    "textField2": {
+      "type": "text",
+      "label": "SHEET",
+      "page": 1,
+      "box": {
+        "left": 656.8,
+        "top": 546.7,
+        "width": 27.4,
+        "height": 11.0
+      }
+    },
+    "textField22": {
+      "type": "text",
+      "label": "of",
+      "page": 1,
+      "box": {
+        "left": 714.2,
+        "top": 546.7,
+        "width": 27.4,
+        "height": 11.0
+      }
+    },
+    "command": {
+      "type": "text",
+      "label": "5. COMMAND",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 519.4,
+        "width": 234.1,
+        "height": 12.5
+      }
+    },
+    "uic": {
+      "type": "text",
+      "label": "6. UIC",
+      "page": 1,
+      "box": {
+        "left": 278.6,
+        "top": 519.4,
+        "width": 234.1,
+        "height": 12.5
+      }
+    },
+    "total": {
+      "type": "text",
+      "label": "7. TOTAL CAREER TOSS UPON REPORTING*",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 519.4,
+        "width": 234.8,
+        "height": 12.5
+      }
+    },
+    "ssed": {
+      "type": "text",
+      "label": "8. SSED*",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 490.4,
+        "width": 174.4,
+        "height": 12.3
+      }
+    },
+    "yrtd6": {
+      "type": "text",
+      "label": "9. 6 YRTD*",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 490.4,
+        "width": 174.4,
+        "height": 12.3
+      }
+    },
+    "yrtd8": {
+      "type": "text",
+      "label": "10. 8 YRTD*",
+      "page": 1,
+      "box": {
+        "left": 398.9,
+        "top": 490.4,
+        "width": 174.4,
+        "height": 12.3
+      }
+    },
+    "yrtd10": {
+      "type": "text",
+      "label": "11. 10 YRTD*",
+      "page": 1,
+      "box": {
+        "left": 578.9,
+        "top": 490.4,
+        "width": 174.4,
+        "height": 12.3
+      }
+    },
+    "contBy": {
+      "type": "text",
+      "label": "CONTROLLED BY",
+      "page": 1,
+      "box": {
+        "left": 532.1,
+        "top": 33.2,
+        "width": 167.2,
+        "height": 6.6
+      }
+    },
+    "cUICat": {
+      "type": "text",
+      "label": "CUI CATEGORY",
+      "page": 1,
+      "box": {
+        "left": 532.1,
+        "top": 24.4,
+        "width": 167.2,
+        "height": 6.6
+      }
+    },
+    "ldc": {
+      "type": "text",
+      "label": "LDC",
+      "page": 1,
+      "box": {
+        "left": 532.1,
+        "top": 16.6,
+        "width": 167.2,
+        "height": 6.6
+      }
+    },
+    "poc": {
+      "type": "text",
+      "label": "POC",
+      "page": 1,
+      "box": {
+        "left": 532.1,
+        "top": 9.4,
+        "width": 167.2,
+        "height": 6.6
+      }
+    },
+    "contBy2": {
+      "type": "text",
+      "label": "CONTROLLED BY",
+      "page": 2,
+      "box": {
+        "left": 532.1,
+        "top": 33.2,
+        "width": 167.2,
+        "height": 6.6
+      }
+    },
+    "cUICat2": {
+      "type": "text",
+      "label": "CUI CATEGORY",
+      "page": 2,
+      "box": {
+        "left": 532.1,
+        "top": 24.4,
+        "width": 167.2,
+        "height": 6.6
+      }
+    },
+    "ldc2": {
+      "type": "text",
+      "label": "LDC",
+      "page": 2,
+      "box": {
+        "left": 532.1,
+        "top": 16.6,
+        "width": 167.2,
+        "height": 6.6
+      }
+    },
+    "poc2": {
+      "type": "text",
+      "label": "POC",
+      "page": 2,
+      "box": {
+        "left": 532.1,
+        "top": 9.4,
+        "width": 167.2,
+        "height": 6.6
+      }
+    },
+    "contBy3": {
+      "type": "text",
+      "label": "CONTROLLED BY",
+      "page": 3,
+      "box": {
+        "left": 532.1,
+        "top": 33.2,
+        "width": 167.2,
+        "height": 6.6
+      }
+    },
+    "cUICat3": {
+      "type": "text",
+      "label": "CUI CATEGORY",
+      "page": 3,
+      "box": {
+        "left": 532.1,
+        "top": 24.4,
+        "width": 167.2,
+        "height": 6.6
+      }
+    },
+    "ldc3": {
+      "type": "text",
+      "label": "LDC",
+      "page": 3,
+      "box": {
+        "left": 532.1,
+        "top": 16.6,
+        "width": 167.2,
+        "height": 6.6
+      }
+    },
+    "poc3": {
+      "type": "text",
+      "label": "POC",
+      "page": 3,
+      "box": {
+        "left": 532.1,
+        "top": 9.4,
+        "width": 167.2,
+        "height": 6.6
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 6,
+      "rowStride": 20.64,
+      "editor": "grid",
+      "columns": {
+        "row": {
+          "type": "text",
+          "label": "MONTH/YEAR",
+          "page": 1,
+          "box": {
+            "left": 49.2,
+            "top": 190.6,
+            "width": 71.8,
+            "height": 17.8
+          }
+        },
+        "row2": {
+          "type": "text",
+          "label": "DAYS ATTACHED",
+          "page": 1,
+          "box": {
+            "left": 237.8,
+            "top": 190.6,
+            "width": 101.3,
+            "height": 17.8
+          }
+        },
+        "row3": {
+          "type": "text",
+          "label": "EARNED #",
+          "page": 1,
+          "box": {
+            "left": 341.9,
+            "top": 190.6,
+            "width": 100.2,
+            "height": 17.8
+          }
+        },
+        "row4": {
+          "type": "text",
+          "label": "TOSS EARNED IN DAYS*",
+          "page": 1,
+          "box": {
+            "left": 445.0,
+            "top": 190.6,
+            "width": 101.3,
+            "height": 17.8
+          }
+        },
+        "row5": {
+          "type": "text",
+          "label": "MONTHS/DAYS*",
+          "page": 1,
+          "box": {
+            "left": 549.1,
+            "top": 190.6,
+            "width": 101.3,
+            "height": 17.8
+          }
+        },
+        "row6": {
+          "type": "text",
+          "label": "TOTAL CAREER TOSS*",
+          "page": 1,
+          "box": {
+            "left": 653.3,
+            "top": 190.6,
+            "width": 100.7,
+            "height": 17.8
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 12,
+      "rowStride": 20.64,
+      "editor": "grid",
+      "columns": {
+        "cell": {
+          "type": "text",
+          "label": "MONTH/YEAR",
+          "page": 1,
+          "box": {
+            "left": 49.2,
+            "top": 438.2,
+            "width": 71.8,
+            "height": 17.8
+          }
+        },
+        "cell2": {
+          "type": "text",
+          "label": "DAYS ATTACHED",
+          "page": 1,
+          "box": {
+            "left": 237.8,
+            "top": 438.2,
+            "width": 101.3,
+            "height": 17.8
+          }
+        },
+        "cell3": {
+          "type": "text",
+          "label": "EARNED #",
+          "page": 1,
+          "box": {
+            "left": 341.9,
+            "top": 438.2,
+            "width": 100.2,
+            "height": 17.8
+          }
+        },
+        "cell4": {
+          "type": "text",
+          "label": "TOSS EARNED IN DAYS*",
+          "page": 1,
+          "box": {
+            "left": 445.0,
+            "top": 438.2,
+            "width": 101.3,
+            "height": 17.8
+          }
+        },
+        "cell5": {
+          "type": "text",
+          "label": "MONTHS/DAYS*",
+          "page": 1,
+          "box": {
+            "left": 549.1,
+            "top": 438.2,
+            "width": 101.3,
+            "height": 17.8
+          }
+        },
+        "cell6": {
+          "type": "text",
+          "label": "TOTAL CAREER TOSS*",
+          "page": 1,
+          "box": {
+            "left": 653.3,
+            "top": 438.2,
+            "width": 100.7,
+            "height": 17.8
+          }
+        }
+      }
+    },
+    "rows3": {
+      "title": "Rows",
+      "page": 1,
+      "count": 18,
+      "rowStride": 20.64,
+      "editor": "grid",
+      "columns": {
+        "row7": {
+          "type": "text",
+          "label": "SHIP",
+          "page": 1,
+          "box": {
+            "left": 123.8,
+            "top": 438.2,
+            "width": 111.2,
+            "height": 17.8
+          }
+        }
+      }
+    },
+    "rows4": {
+      "title": "Rows",
+      "page": 2,
+      "count": 16,
+      "rowStride": 30.6,
+      "editor": "grid",
+      "columns": {
+        "cell": {
+          "type": "text",
+          "label": "a. 1ST QTR",
+          "page": 2,
+          "box": {
+            "left": 97.9,
+            "top": 524.2,
+            "width": 48.3,
+            "height": 27.8
+          }
+        },
+        "cell2": {
+          "type": "text",
+          "label": "a. 1ST QTR",
+          "page": 2,
+          "box": {
+            "left": 149.1,
+            "top": 524.2,
+            "width": 97.8,
+            "height": 27.8
+          }
+        },
+        "cell3": {
+          "type": "text",
+          "label": "a. 1ST QTR",
+          "page": 2,
+          "box": {
+            "left": 249.7,
+            "top": 524.2,
+            "width": 92.2,
+            "height": 27.8
+          }
+        },
+        "cell4": {
+          "type": "text",
+          "label": "a. 1ST QTR",
+          "page": 2,
+          "box": {
+            "left": 344.8,
+            "top": 524.2,
+            "width": 107.2,
+            "height": 27.8
+          }
+        },
+        "cell5": {
+          "type": "text",
+          "label": "a. 1ST QTR",
+          "page": 2,
+          "box": {
+            "left": 454.8,
+            "top": 524.2,
+            "width": 97.8,
+            "height": 27.8
+          }
+        },
+        "cell6": {
+          "type": "text",
+          "label": "a. 1ST QTR",
+          "page": 2,
+          "box": {
+            "left": 555.5,
+            "top": 524.2,
+            "width": 89.1,
+            "height": 27.8
+          }
+        },
+        "cell7": {
+          "type": "text",
+          "label": "a. 1ST QTR",
+          "page": 2,
+          "box": {
+            "left": 647.3,
+            "top": 524.2,
+            "width": 107.2,
+            "height": 27.8
+          }
+        }
+      }
+    }
+  }
+}

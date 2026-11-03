@@ -1,0 +1,1675 @@
+{
+  "id": "navmc11417",
+  "label": "NAVMC11417 - Marine Corps Bachelor Housing Utilization Report",
+  "directory": "NAVMC11417 - Marine Corps Bachelor Housing Utilization Report",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "dateReport",
+        "fiscalYr",
+        "inventCode",
+        "state1",
+        "zipCode",
+        "nameInstall",
+        "country1",
+        "radC",
+        "radA",
+        "radB",
+        "8f",
+        "8h",
+        "8i",
+        "8j",
+        "8a",
+        "8e",
+        "8g",
+        "8k",
+        "9a",
+        "9b",
+        "9c",
+        "9d",
+        "9g",
+        "9h",
+        "9i",
+        "9j",
+        "9k",
+        "9e",
+        "9f",
+        "10g",
+        "10i",
+        "10j",
+        "10k",
+        "10h",
+        "11a",
+        "11b",
+        "11c",
+        "11d",
+        "11h",
+        "11e",
+        "11k",
+        "12a",
+        "12b",
+        "12c",
+        "12d",
+        "12h",
+        "12k",
+        "12g",
+        "13a",
+        "13b",
+        "13c",
+        "13d",
+        "13h",
+        "13k",
+        "13e",
+        "13g",
+        "13i",
+        "13j",
+        "13f",
+        "14a",
+        "14b",
+        "14RecA",
+        "14RecB",
+        "14c",
+        "14Total",
+        "14RecC",
+        "14RecTotal",
+        "15a",
+        "15b",
+        "15c",
+        "15Total",
+        "15RecA",
+        "15RecB",
+        "15RecC",
+        "15RecTotal",
+        "a0",
+        "e0",
+        "f0",
+        "i0",
+        "j0",
+        "k0",
+        "b0",
+        "g0",
+        "b1",
+        "e1",
+        "f1",
+        "i1",
+        "j1",
+        "a1",
+        "g1",
+        "k1",
+        "a2",
+        "b2",
+        "e2",
+        "f2",
+        "g2",
+        "i2",
+        "j2",
+        "k2",
+        "a3",
+        "g3",
+        "k3",
+        "b3",
+        "a4",
+        "b4",
+        "g4",
+        "k4",
+        "e5",
+        "f5",
+        "i5",
+        "j5",
+        "a5",
+        "g5",
+        "b5",
+        "k5",
+        "a6",
+        "g6",
+        "b6",
+        "k6",
+        "a7",
+        "g7",
+        "k7",
+        "b7",
+        "a8",
+        "g8",
+        "k8",
+        "b8",
+        "signature",
+        "prepBy",
+        "phoneNumCom",
+        "date2",
+        "phoneNumDsn",
+        "eMailAdd",
+        "phoneNumFax"
+      ]
+    }
+  ],
+  "fields": {
+    "dateReport": {
+      "type": "text",
+      "label": "Marine Corps bachelor housing utilization report.  1.  Enter report date using format 2003 12 23",
+      "page": 1,
+      "box": {
+        "left": 204.8,
+        "top": 559.2,
+        "width": 42.4,
+        "height": 8.8
+      }
+    },
+    "fiscalYr": {
+      "type": "text",
+      "label": "Fiscal year.  ",
+      "page": 1,
+      "box": {
+        "left": 247.2,
+        "top": 559.2,
+        "width": 24.0,
+        "height": 8.8
+      }
+    },
+    "inventCode": {
+      "type": "text",
+      "label": "2.  Real property inventory code.",
+      "page": 1,
+      "box": {
+        "left": 204.0,
+        "top": 548.0,
+        "width": 64.8,
+        "height": 9.6
+      }
+    },
+    "state1": {
+      "type": "text",
+      "label": "4.  State.  ",
+      "page": 1,
+      "box": {
+        "left": 760.0,
+        "top": 539.2,
+        "width": 46.4,
+        "height": 9.6
+      }
+    },
+    "zipCode": {
+      "type": "text",
+      "label": "5.  Zip code.",
+      "page": 1,
+      "box": {
+        "left": 867.2,
+        "top": 539.2,
+        "width": 112.8,
+        "height": 9.6
+      }
+    },
+    "nameInstall": {
+      "type": "text",
+      "label": "3.  Installation name.  ",
+      "page": 1,
+      "box": {
+        "left": 204.0,
+        "top": 538.5,
+        "width": 494.4,
+        "height": 9.6
+      }
+    },
+    "country1": {
+      "type": "text",
+      "label": "6.  Country.",
+      "page": 1,
+      "box": {
+        "left": 204.8,
+        "top": 528.0,
+        "width": 125.6,
+        "height": 9.6
+      }
+    },
+    "radC": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 521.6,
+        "top": 517.6,
+        "width": 10.4,
+        "height": 10.4
+      },
+      "group": "topmostSubform_0_Page1_0_RadC_0"
+    },
+    "radA": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 296.0,
+        "top": 516.8,
+        "width": 9.6,
+        "height": 9.6
+      },
+      "group": "topmostSubform_0_Page1_0_RadA_0"
+    },
+    "radB": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 426.4,
+        "top": 516.8,
+        "width": 10.4,
+        "height": 10.4
+      },
+      "group": "topmostSubform_0_Page1_0_RadB_0"
+    },
+    "8f": {
+      "type": "text",
+      "label": "8.  Maximum occupant capacity.  Inadequate barracks by facility condition.  ",
+      "page": 1,
+      "box": {
+        "left": 523.2,
+        "top": 412.8,
+        "width": 74.4,
+        "height": 12.8
+      }
+    },
+    "8h": {
+      "type": "text",
+      "label": "8.  Maximum occupant capacity.  Officer.  Meets or exceeds current assignment standards.  ",
+      "page": 1,
+      "box": {
+        "left": 672.0,
+        "top": 412.8,
+        "width": 72.0,
+        "height": 12.8
+      }
+    },
+    "8i": {
+      "type": "text",
+      "label": "8.  Maximum occupant capacity.  Officer.  Less than current assignment standard.",
+      "page": 1,
+      "box": {
+        "left": 744.0,
+        "top": 412.8,
+        "width": 73.6,
+        "height": 12.8
+      }
+    },
+    "8j": {
+      "type": "text",
+      "label": "8.  Maximum occupant capacity.  Officer.  Inadequate barracks by facility condition.  ",
+      "page": 1,
+      "box": {
+        "left": 820.0,
+        "top": 412.8,
+        "width": 77.6,
+        "height": 12.8
+      }
+    },
+    "8a": {
+      "type": "text",
+      "label": "Permanent party personnel.  Enlisted.  Meets or exceeds current assignment standards.  8.  Maximum occupant capacity.  E1 - E3.",
+      "page": 1,
+      "box": {
+        "left": 202.4,
+        "top": 412.0,
+        "width": 64.8,
+        "height": 12.8
+      }
+    },
+    "8e": {
+      "type": "text",
+      "label": "8.  Maximum occupant capacity.  Less than current assignment standard.  ",
+      "page": 1,
+      "box": {
+        "left": 441.6,
+        "top": 412.0,
+        "width": 79.2,
+        "height": 12.8
+      }
+    },
+    "8g": {
+      "type": "text",
+      "label": "8.  Maximum occupant capacity.  Total.  ",
+      "page": 1,
+      "box": {
+        "left": 599.2,
+        "top": 412.0,
+        "width": 70.4,
+        "height": 12.8
+      }
+    },
+    "8k": {
+      "type": "text",
+      "label": "8.  Maximum occupant capacity.  Officer.  Total.  ",
+      "page": 1,
+      "box": {
+        "left": 900.6,
+        "top": 412.0,
+        "width": 80.8,
+        "height": 12.8
+      }
+    },
+    "9a": {
+      "type": "text",
+      "label": "9.  Personnel actually housed.  E1 - E3.",
+      "page": 1,
+      "box": {
+        "left": 202.4,
+        "top": 399.2,
+        "width": 64.8,
+        "height": 12.8
+      }
+    },
+    "9b": {
+      "type": "text",
+      "label": "9.  Personnel actually housed.  E4.",
+      "page": 1,
+      "box": {
+        "left": 268.0,
+        "top": 399.2,
+        "width": 50.4,
+        "height": 12.8
+      }
+    },
+    "9c": {
+      "type": "text",
+      "label": "9.  Personnel actually housed.  E5.",
+      "page": 1,
+      "box": {
+        "left": 320.0,
+        "top": 399.2,
+        "width": 57.6,
+        "height": 12.8
+      }
+    },
+    "9d": {
+      "type": "text",
+      "label": "9.  Personnel actually housed.  E6 - E9.",
+      "page": 1,
+      "box": {
+        "left": 378.4,
+        "top": 399.2,
+        "width": 61.6,
+        "height": 12.8
+      }
+    },
+    "9g": {
+      "type": "text",
+      "label": "9.  Personnel actually housed.  Total.",
+      "page": 1,
+      "box": {
+        "left": 599.2,
+        "top": 399.2,
+        "width": 70.4,
+        "height": 12.8
+      }
+    },
+    "9h": {
+      "type": "text",
+      "label": "9.  Personnel actually housed.  Officer.   Meets or exceeds current assignment standards.  ",
+      "page": 1,
+      "box": {
+        "left": 672.0,
+        "top": 399.2,
+        "width": 72.0,
+        "height": 12.8
+      }
+    },
+    "9i": {
+      "type": "text",
+      "label": "9.  Personnel actually housed.  Less than current assignment standard.",
+      "page": 1,
+      "box": {
+        "left": 744.0,
+        "top": 399.2,
+        "width": 73.6,
+        "height": 12.8
+      }
+    },
+    "9j": {
+      "type": "text",
+      "label": "9.  Personnel actually housed.  Inadequate barracks by facility condition.",
+      "page": 1,
+      "box": {
+        "left": 820.0,
+        "top": 399.2,
+        "width": 76.8,
+        "height": 12.8
+      }
+    },
+    "9k": {
+      "type": "text",
+      "label": "9.  Personnel actually housed.  Total.",
+      "page": 1,
+      "box": {
+        "left": 899.2,
+        "top": 399.2,
+        "width": 80.8,
+        "height": 12.8
+      }
+    },
+    "9e": {
+      "type": "text",
+      "label": "9.  Personnel actually housed.  Less than current assignment standard.  ",
+      "page": 1,
+      "box": {
+        "left": 443.4,
+        "top": 398.2,
+        "width": 79.2,
+        "height": 12.8
+      }
+    },
+    "9f": {
+      "type": "text",
+      "label": "9.  Personnel actually housed.  Inadequate barracks by facility condition.",
+      "page": 1,
+      "box": {
+        "left": 524.2,
+        "top": 398.2,
+        "width": 73.6,
+        "height": 12.8
+      }
+    },
+    "10g": {
+      "type": "text",
+      "label": "10.  Utilitzation.  Total percent.  ",
+      "page": 1,
+      "box": {
+        "left": 599.2,
+        "top": 384.8,
+        "width": 70.4,
+        "height": 12.8
+      }
+    },
+    "10i": {
+      "type": "text",
+      "label": "10.  Utilization.   Officer.   Less than current assignment standard.",
+      "page": 1,
+      "box": {
+        "left": 744.0,
+        "top": 384.8,
+        "width": 73.6,
+        "height": 12.8
+      }
+    },
+    "10j": {
+      "type": "text",
+      "label": "10.  Utilization.   Officer.   Inadequate barracks by facility condition.",
+      "page": 1,
+      "box": {
+        "left": 819.2,
+        "top": 384.8,
+        "width": 76.8,
+        "height": 12.8
+      }
+    },
+    "10k": {
+      "type": "text",
+      "label": "10.  Utilization.   Officer.    Total.",
+      "page": 1,
+      "box": {
+        "left": 899.2,
+        "top": 384.8,
+        "width": 80.8,
+        "height": 12.8
+      }
+    },
+    "10h": {
+      "type": "text",
+      "label": "10.  Utilization.   Officer.   Meets or exceeds current assignment standards.  ",
+      "page": 1,
+      "box": {
+        "left": 672.0,
+        "top": 383.4,
+        "width": 72.0,
+        "height": 12.8
+      }
+    },
+    "11a": {
+      "type": "text",
+      "label": "11.  Off base with B A H.   E1 - E3.",
+      "page": 1,
+      "box": {
+        "left": 202.4,
+        "top": 371.2,
+        "width": 64.8,
+        "height": 12.8
+      }
+    },
+    "11b": {
+      "type": "text",
+      "label": "11.  Off base with B A H.  E4.",
+      "page": 1,
+      "box": {
+        "left": 268.0,
+        "top": 371.2,
+        "width": 50.4,
+        "height": 12.8
+      }
+    },
+    "11c": {
+      "type": "text",
+      "label": "11.  Off base with B A H.   E5.",
+      "page": 1,
+      "box": {
+        "left": 320.0,
+        "top": 371.2,
+        "width": 57.6,
+        "height": 12.8
+      }
+    },
+    "11d": {
+      "type": "text",
+      "label": "11.  Off base with B A H.   E6 - E9.",
+      "page": 1,
+      "box": {
+        "left": 378.4,
+        "top": 371.2,
+        "width": 61.6,
+        "height": 12.8
+      }
+    },
+    "11h": {
+      "type": "text",
+      "label": "11.  Off base with B A H.   Officer.  Meets or exceeds current assignment standards.  ",
+      "page": 1,
+      "box": {
+        "left": 670.4,
+        "top": 371.2,
+        "width": 72.0,
+        "height": 12.8
+      }
+    },
+    "11e": {
+      "type": "text",
+      "label": "11.  Off base with B A H.  Total.  ",
+      "page": 1,
+      "box": {
+        "left": 599.2,
+        "top": 370.4,
+        "width": 70.4,
+        "height": 12.8
+      }
+    },
+    "11k": {
+      "type": "text",
+      "label": "11.  Off base with B A H.   Officer.    Total.",
+      "page": 1,
+      "box": {
+        "left": 899.2,
+        "top": 370.4,
+        "width": 80.8,
+        "height": 12.8
+      }
+    },
+    "12a": {
+      "type": "text",
+      "label": "12.  Off base without B A H.   E1 - E3.",
+      "page": 1,
+      "box": {
+        "left": 202.4,
+        "top": 356.8,
+        "width": 64.8,
+        "height": 12.8
+      }
+    },
+    "12b": {
+      "type": "text",
+      "label": "12.  Off base without B A H.  E4.",
+      "page": 1,
+      "box": {
+        "left": 268.0,
+        "top": 356.8,
+        "width": 50.4,
+        "height": 12.8
+      }
+    },
+    "12c": {
+      "type": "text",
+      "label": "12.  Off base without B A H.    E5.",
+      "page": 1,
+      "box": {
+        "left": 320.0,
+        "top": 356.8,
+        "width": 57.6,
+        "height": 12.8
+      }
+    },
+    "12d": {
+      "type": "text",
+      "label": "12.  Off base without B A H.  E6 - E9.",
+      "page": 1,
+      "box": {
+        "left": 378.4,
+        "top": 356.8,
+        "width": 61.6,
+        "height": 12.8
+      }
+    },
+    "12h": {
+      "type": "text",
+      "label": "12.  Off base without B A H.   Officer.  Meets or exceeds current assignment standards.  ",
+      "page": 1,
+      "box": {
+        "left": 671.2,
+        "top": 356.8,
+        "width": 72.0,
+        "height": 12.8
+      }
+    },
+    "12k": {
+      "type": "text",
+      "label": "12.  Off base without B A H.   Officer.    Total.",
+      "page": 1,
+      "box": {
+        "left": 899.2,
+        "top": 356.0,
+        "width": 80.8,
+        "height": 12.8
+      }
+    },
+    "12g": {
+      "type": "text",
+      "label": "12.  Off base without B A H.   Total.  ",
+      "page": 1,
+      "box": {
+        "left": 600.1,
+        "top": 354.8,
+        "width": 70.4,
+        "height": 12.8
+      }
+    },
+    "13a": {
+      "type": "text",
+      "label": "13.  Geographic bachelors housed.  E1 - E3.",
+      "page": 1,
+      "box": {
+        "left": 202.4,
+        "top": 343.2,
+        "width": 64.8,
+        "height": 12.8
+      }
+    },
+    "13b": {
+      "type": "text",
+      "label": "13.  Geographic bachelors housed.  E4.",
+      "page": 1,
+      "box": {
+        "left": 268.0,
+        "top": 343.2,
+        "width": 50.4,
+        "height": 12.8
+      }
+    },
+    "13c": {
+      "type": "text",
+      "label": "13.  Geographic bachelors housed.  E5.",
+      "page": 1,
+      "box": {
+        "left": 320.0,
+        "top": 343.2,
+        "width": 57.6,
+        "height": 12.8
+      }
+    },
+    "13d": {
+      "type": "text",
+      "label": "13.  Geographic bachelors housed.  E6 - E9.",
+      "page": 1,
+      "box": {
+        "left": 378.4,
+        "top": 343.2,
+        "width": 61.6,
+        "height": 12.8
+      }
+    },
+    "13h": {
+      "type": "text",
+      "label": "13.  Geographic bachelors housed.  Officer.  Meets or exceeds current assignment standards.  ",
+      "page": 1,
+      "box": {
+        "left": 671.2,
+        "top": 343.2,
+        "width": 72.0,
+        "height": 12.8
+      }
+    },
+    "13k": {
+      "type": "text",
+      "label": "13.  Geographic bachelors housed.   Officer.    Total.",
+      "page": 1,
+      "box": {
+        "left": 899.2,
+        "top": 343.2,
+        "width": 80.8,
+        "height": 12.8
+      }
+    },
+    "13e": {
+      "type": "text",
+      "label": "13.  Geographic bachelors housed.   Less than current assignment standard.  ",
+      "page": 1,
+      "box": {
+        "left": 442.4,
+        "top": 342.4,
+        "width": 79.2,
+        "height": 12.8
+      }
+    },
+    "13g": {
+      "type": "text",
+      "label": "13.  Geographic bachelors housed.  Total.  ",
+      "page": 1,
+      "box": {
+        "left": 599.2,
+        "top": 342.4,
+        "width": 70.4,
+        "height": 12.8
+      }
+    },
+    "13i": {
+      "type": "text",
+      "label": "13.  Geographic bachelors housed.  Officer.  Less than current assignment standard. ",
+      "page": 1,
+      "box": {
+        "left": 744.8,
+        "top": 342.4,
+        "width": 74.4,
+        "height": 12.8
+      }
+    },
+    "13j": {
+      "type": "text",
+      "label": "13.  Geographic bachelors housed.  Officer.  Inadequate barracks by facility condition.  ",
+      "page": 1,
+      "box": {
+        "left": 820.8,
+        "top": 342.4,
+        "width": 76.8,
+        "height": 12.8
+      }
+    },
+    "13f": {
+      "type": "text",
+      "label": "13.  Geographic bachelors housed.  Inadequate barracks by facility condition.",
+      "page": 1,
+      "box": {
+        "left": 523.2,
+        "top": 341.6,
+        "width": 73.6,
+        "height": 12.8
+      }
+    },
+    "14a": {
+      "type": "text",
+      "label": "Open Squad bay.  Student / trainees.  14.  Spaces ( Gross ).  Adequate.  ",
+      "page": 1,
+      "box": {
+        "left": 203.2,
+        "top": 292.0,
+        "width": 72.8,
+        "height": 12.8
+      }
+    },
+    "14b": {
+      "type": "text",
+      "label": "Open Squad bay.  Recruit.  14.  Spaces ( Gross ).   Substandard.",
+      "page": 1,
+      "box": {
+        "left": 278.4,
+        "top": 292.0,
+        "width": 69.6,
+        "height": 12.8
+      }
+    },
+    "14RecA": {
+      "type": "text",
+      "label": "Open Squad bay.  14.  Spaces ( Gross ).  Recruit.  Adequate.  ",
+      "page": 1,
+      "box": {
+        "left": 554.4,
+        "top": 292.0,
+        "width": 74.4,
+        "height": 12.8
+      }
+    },
+    "14RecB": {
+      "type": "text",
+      "label": "Open Squad bay.  Recruit.  14.  Spaces ( Gross ).   Substandard.",
+      "page": 1,
+      "box": {
+        "left": 631.2,
+        "top": 292.0,
+        "width": 80.8,
+        "height": 12.8
+      }
+    },
+    "14c": {
+      "type": "text",
+      "label": "Open Squad bay.  Recruit.  14.  Spaces ( Gross ).    Inadequate.  ",
+      "page": 1,
+      "box": {
+        "left": 348.8,
+        "top": 291.2,
+        "width": 76.8,
+        "height": 12.8
+      }
+    },
+    "14Total": {
+      "type": "text",
+      "label": "Open Squad bay.  Student / trainees.  14.  Spaces ( Gross ).  Total.  ",
+      "page": 1,
+      "box": {
+        "left": 426.4,
+        "top": 291.2,
+        "width": 70.4,
+        "height": 12.8
+      }
+    },
+    "14RecC": {
+      "type": "text",
+      "label": "Open Squad bay.  Recruit.  14.  Spaces ( Gross ).    Inadequate.  ",
+      "page": 1,
+      "box": {
+        "left": 714.4,
+        "top": 291.2,
+        "width": 81.6,
+        "height": 12.8
+      }
+    },
+    "14RecTotal": {
+      "type": "text",
+      "label": "Open Squad bay.  Recruit.  14.  Spaces ( Gross ).   Total.  ",
+      "page": 1,
+      "box": {
+        "left": 796.8,
+        "top": 291.2,
+        "width": 95.2,
+        "height": 12.8
+      }
+    },
+    "15a": {
+      "type": "text",
+      "label": "Open Squad bay.  Student / trainees.  15,  Personnel actually housed.  Adequate.  ",
+      "page": 1,
+      "box": {
+        "left": 203.2,
+        "top": 277.6,
+        "width": 72.8,
+        "height": 12.8
+      }
+    },
+    "15b": {
+      "type": "text",
+      "label": "Open Squad bay.  Student / trainees.  15,  Personnel actually housed.  Substandard.",
+      "page": 1,
+      "box": {
+        "left": 278.4,
+        "top": 277.6,
+        "width": 69.6,
+        "height": 12.8
+      }
+    },
+    "15c": {
+      "type": "text",
+      "label": "Open Squad bay.  Student / trainees.  15,  Personnel actually housed.   Inadequate.  ",
+      "page": 1,
+      "box": {
+        "left": 348.8,
+        "top": 277.6,
+        "width": 76.8,
+        "height": 12.8
+      }
+    },
+    "15Total": {
+      "type": "text",
+      "label": "Open Squad bay.  Student / trainees.  15,  Personnel actually housed.   Recruit.  Total.  ",
+      "page": 1,
+      "box": {
+        "left": 426.4,
+        "top": 277.6,
+        "width": 70.4,
+        "height": 12.8
+      }
+    },
+    "15RecA": {
+      "type": "text",
+      "label": "Open Squad bay.  Student / trainees.  15,  Personnel actually housed.   Recruit.  Adequate.  ",
+      "page": 1,
+      "box": {
+        "left": 554.4,
+        "top": 277.6,
+        "width": 74.4,
+        "height": 12.8
+      }
+    },
+    "15RecB": {
+      "type": "text",
+      "label": "Open Squad bay.  Student / trainees.  15,  Personnel actually housed.   Recruit.  Substandard.",
+      "page": 1,
+      "box": {
+        "left": 631.2,
+        "top": 277.6,
+        "width": 80.8,
+        "height": 12.8
+      }
+    },
+    "15RecC": {
+      "type": "text",
+      "label": "Open Squad bay.  Student / trainees.  15,  Personnel actually housed.   Recruit.   Inadequate.  ",
+      "page": 1,
+      "box": {
+        "left": 714.4,
+        "top": 277.6,
+        "width": 81.6,
+        "height": 12.8
+      }
+    },
+    "15RecTotal": {
+      "type": "text",
+      "label": "Open Squad bay.  Student / trainees.  15,  Personnel actually housed.   Recruit.  Total.  ",
+      "page": 1,
+      "box": {
+        "left": 796.8,
+        "top": 277.6,
+        "width": 95.2,
+        "height": 12.8
+      }
+    },
+    "a0": {
+      "type": "text",
+      "label": "Transient ( on T A D orders ).  Enlisted.  Meets or exceeds current assignment standards.  E1 - E3.  16.  Maximum occupant capacity.  ",
+      "page": 1,
+      "box": {
+        "left": 212.0,
+        "top": 174.4,
+        "width": 56.0,
+        "height": 12.8
+      }
+    },
+    "e0": {
+      "type": "text",
+      "label": "Less than current assignment standard.  16.  Maximum occupant capacity. ",
+      "page": 1,
+      "box": {
+        "left": 442.4,
+        "top": 174.4,
+        "width": 79.2,
+        "height": 12.8
+      }
+    },
+    "f0": {
+      "type": "text",
+      "label": "Inadequate barracks by facility condition.  16.  Maximum occupant capacity. ",
+      "page": 1,
+      "box": {
+        "left": 523.2,
+        "top": 174.4,
+        "width": 73.6,
+        "height": 12.8
+      }
+    },
+    "i0": {
+      "type": "text",
+      "label": "Less than current assignment standard.  16.  Maximum occupant capacity. ",
+      "page": 1,
+      "box": {
+        "left": 744.8,
+        "top": 174.4,
+        "width": 73.6,
+        "height": 12.8
+      }
+    },
+    "j0": {
+      "type": "text",
+      "label": "Inadequate barracks by facility condition.  16.  Maximum occupant capacity. ",
+      "page": 1,
+      "box": {
+        "left": 820.0,
+        "top": 174.4,
+        "width": 76.8,
+        "height": 12.8
+      }
+    },
+    "k0": {
+      "type": "text",
+      "label": "Total.  16.  Maximum occupant capacity. ",
+      "page": 1,
+      "box": {
+        "left": 899.2,
+        "top": 174.4,
+        "width": 80.8,
+        "height": 12.8
+      }
+    },
+    "b0": {
+      "type": "text",
+      "label": "E4.  16.  Maximum occupant capacity. ",
+      "page": 1,
+      "box": {
+        "left": 268.8,
+        "top": 173.6,
+        "width": 50.4,
+        "height": 12.8
+      }
+    },
+    "g0": {
+      "type": "text",
+      "label": "Total.  16.  Maximum occupant capacity. ",
+      "page": 1,
+      "box": {
+        "left": 600.1,
+        "top": 173.5,
+        "width": 70.4,
+        "height": 12.8
+      }
+    },
+    "b1": {
+      "type": "text",
+      "label": "E4.  17.  Personnel actually housed.",
+      "page": 1,
+      "box": {
+        "left": 268.8,
+        "top": 160.8,
+        "width": 50.4,
+        "height": 12.8
+      }
+    },
+    "e1": {
+      "type": "text",
+      "label": "Less than current assignment standard.    17.  Personnel actually housed.",
+      "page": 1,
+      "box": {
+        "left": 442.4,
+        "top": 160.8,
+        "width": 79.2,
+        "height": 12.8
+      }
+    },
+    "f1": {
+      "type": "text",
+      "label": "Inadequate barracks by facility condition.  17.  Personnel actually housed.",
+      "page": 1,
+      "box": {
+        "left": 523.2,
+        "top": 160.8,
+        "width": 73.6,
+        "height": 12.8
+      }
+    },
+    "i1": {
+      "type": "text",
+      "label": "Less than current assignment standard.  17.  Personnel actually housed.",
+      "page": 1,
+      "box": {
+        "left": 744.8,
+        "top": 160.8,
+        "width": 73.6,
+        "height": 12.8
+      }
+    },
+    "j1": {
+      "type": "text",
+      "label": "Inadequate barracks by facility condition.  17.  Personnel actually housed.",
+      "page": 1,
+      "box": {
+        "left": 820.0,
+        "top": 160.8,
+        "width": 76.8,
+        "height": 12.8
+      }
+    },
+    "a1": {
+      "type": "text",
+      "label": "Transient ( on T A D orders ).  Enlisted.  Meets or exceeds current assignment standards.  E1 - E3.  17.  Personnel actually housed.  ",
+      "page": 1,
+      "box": {
+        "left": 212.0,
+        "top": 160.6,
+        "width": 56.0,
+        "height": 12.8
+      }
+    },
+    "g1": {
+      "type": "text",
+      "label": "Total.  17.  Personnel actually housed.",
+      "page": 1,
+      "box": {
+        "left": 599.2,
+        "top": 160.6,
+        "width": 70.4,
+        "height": 12.8
+      }
+    },
+    "k1": {
+      "type": "text",
+      "label": "Total.  17.  Personnel actually housed.",
+      "page": 1,
+      "box": {
+        "left": 899.2,
+        "top": 160.6,
+        "width": 80.8,
+        "height": 12.8
+      }
+    },
+    "a2": {
+      "type": "text",
+      "label": "Transient ( on T A D orders ).  Enlisted.  Meets or exceeds current assignment standards.  E1 - E3.  18.  Utilization.  ",
+      "page": 1,
+      "box": {
+        "left": 212.8,
+        "top": 147.9,
+        "width": 56.0,
+        "height": 12.8
+      }
+    },
+    "b2": {
+      "type": "text",
+      "label": "E4.  18.  Utilization.  ",
+      "page": 1,
+      "box": {
+        "left": 268.8,
+        "top": 147.2,
+        "width": 50.4,
+        "height": 12.8
+      }
+    },
+    "e2": {
+      "type": "text",
+      "label": "Less than current assignment standard.    18.  Utilization.  ",
+      "page": 1,
+      "box": {
+        "left": 442.4,
+        "top": 147.2,
+        "width": 79.2,
+        "height": 12.8
+      }
+    },
+    "f2": {
+      "type": "text",
+      "label": "Inadequate barracks by facility condition.  18.  Utilization.  ",
+      "page": 1,
+      "box": {
+        "left": 523.2,
+        "top": 147.2,
+        "width": 73.6,
+        "height": 12.8
+      }
+    },
+    "g2": {
+      "type": "text",
+      "label": "Total.  18.  Utilization.  ",
+      "page": 1,
+      "box": {
+        "left": 598.4,
+        "top": 147.2,
+        "width": 72.0,
+        "height": 12.8
+      }
+    },
+    "i2": {
+      "type": "text",
+      "label": "Less than current assignment standard.  18.  Utilization.  ",
+      "page": 1,
+      "box": {
+        "left": 744.8,
+        "top": 147.2,
+        "width": 73.6,
+        "height": 12.8
+      }
+    },
+    "j2": {
+      "type": "text",
+      "label": "Inadequate barracks by facility condition.  18.  Utilization.  ",
+      "page": 1,
+      "box": {
+        "left": 820.0,
+        "top": 147.2,
+        "width": 76.8,
+        "height": 12.8
+      }
+    },
+    "k2": {
+      "type": "text",
+      "label": "Total.  18.  Utilization.  ",
+      "page": 1,
+      "box": {
+        "left": 899.6,
+        "top": 146.9,
+        "width": 80.8,
+        "height": 12.8
+      }
+    },
+    "a3": {
+      "type": "text",
+      "label": "Transient ( on T A D orders ).  Enlisted.  Meets or exceeds current assignment standards.  E1 - E3.  19.  Total C N As issued.  ",
+      "page": 1,
+      "box": {
+        "left": 212.0,
+        "top": 133.0,
+        "width": 56.0,
+        "height": 12.8
+      }
+    },
+    "g3": {
+      "type": "text",
+      "label": "Total.  19.  Total C N As issued. ",
+      "page": 1,
+      "box": {
+        "left": 599.2,
+        "top": 133.0,
+        "width": 70.4,
+        "height": 12.8
+      }
+    },
+    "k3": {
+      "type": "text",
+      "label": "Total.  19.  Total C N As issued. ",
+      "page": 1,
+      "box": {
+        "left": 899.2,
+        "top": 133.0,
+        "width": 80.8,
+        "height": 12.8
+      }
+    },
+    "b3": {
+      "type": "text",
+      "label": "E4.  19.  Total C N As issued. ",
+      "page": 1,
+      "box": {
+        "left": 268.8,
+        "top": 132.8,
+        "width": 50.4,
+        "height": 12.8
+      }
+    },
+    "a4": {
+      "type": "text",
+      "label": "Transient ( on T A D orders ).  Enlisted.  Meets or exceeds current assignment standards.  E1 - E3.  20.  Space \"A\" personnel housed.  ",
+      "page": 1,
+      "box": {
+        "left": 212.0,
+        "top": 119.2,
+        "width": 56.0,
+        "height": 12.8
+      }
+    },
+    "b4": {
+      "type": "text",
+      "label": "E4.  20.  Space \"A\" personnel housed. ",
+      "page": 1,
+      "box": {
+        "left": 268.8,
+        "top": 119.2,
+        "width": 50.4,
+        "height": 12.8
+      }
+    },
+    "g4": {
+      "type": "text",
+      "label": "Total.  20.  Space \"A\" personnel housed. ",
+      "page": 1,
+      "box": {
+        "left": 599.2,
+        "top": 119.2,
+        "width": 70.4,
+        "height": 12.8
+      }
+    },
+    "k4": {
+      "type": "text",
+      "label": "Total.  20.  Space \"A\" personnel housed. ",
+      "page": 1,
+      "box": {
+        "left": 899.2,
+        "top": 119.2,
+        "width": 80.8,
+        "height": 12.8
+      }
+    },
+    "e5": {
+      "type": "text",
+      "label": "Less than current assignment standard.    21.  Geographic bachelors housed.",
+      "page": 1,
+      "box": {
+        "left": 442.4,
+        "top": 106.4,
+        "width": 79.2,
+        "height": 12.8
+      }
+    },
+    "f5": {
+      "type": "text",
+      "label": "Inadequate barracks by facility condition.  21.  Geographic bachelors housed.",
+      "page": 1,
+      "box": {
+        "left": 522.4,
+        "top": 106.4,
+        "width": 74.4,
+        "height": 12.8
+      }
+    },
+    "i5": {
+      "type": "text",
+      "label": "Less than current assignment standard.  21.  Geographic bachelors housed.",
+      "page": 1,
+      "box": {
+        "left": 744.8,
+        "top": 105.6,
+        "width": 73.6,
+        "height": 12.8
+      }
+    },
+    "j5": {
+      "type": "text",
+      "label": "Inadequate barracks by facility condition.  21.  Geographic bachelors housed.",
+      "page": 1,
+      "box": {
+        "left": 820.0,
+        "top": 105.6,
+        "width": 76.8,
+        "height": 12.8
+      }
+    },
+    "a5": {
+      "type": "text",
+      "label": "Transient ( on T A D orders ).  Enlisted.  Meets or exceeds current assignment standards.  E1 - E3.  21.  Geographic bachelors housed.  ",
+      "page": 1,
+      "box": {
+        "left": 212.0,
+        "top": 105.4,
+        "width": 56.0,
+        "height": 12.8
+      }
+    },
+    "g5": {
+      "type": "text",
+      "label": "Total.  21.  Geographic bachelors housed.",
+      "page": 1,
+      "box": {
+        "left": 599.2,
+        "top": 105.4,
+        "width": 70.4,
+        "height": 12.8
+      }
+    },
+    "b5": {
+      "type": "text",
+      "label": "E4.  21.  Geographic bachelors housed.",
+      "page": 1,
+      "box": {
+        "left": 268.8,
+        "top": 104.6,
+        "width": 50.4,
+        "height": 12.8
+      }
+    },
+    "k5": {
+      "type": "text",
+      "label": "Total.  21.  Geographic bachelors housed.",
+      "page": 1,
+      "box": {
+        "left": 900.6,
+        "top": 104.6,
+        "width": 80.8,
+        "height": 12.8
+      }
+    },
+    "a6": {
+      "type": "text",
+      "label": "Transient ( on T A D orders ).  Enlisted.  Meets or exceeds current assignment standards.  E1 - E3.  22.  Personnel housed in open bays.  ",
+      "page": 1,
+      "box": {
+        "left": 212.0,
+        "top": 91.6,
+        "width": 56.0,
+        "height": 12.8
+      }
+    },
+    "g6": {
+      "type": "text",
+      "label": "Total.  22.  Personnel housed in open bays.",
+      "page": 1,
+      "box": {
+        "left": 599.2,
+        "top": 91.6,
+        "width": 70.4,
+        "height": 12.8
+      }
+    },
+    "b6": {
+      "type": "text",
+      "label": "E4.  22.  Personnel housed in open bays.",
+      "page": 1,
+      "box": {
+        "left": 268.8,
+        "top": 91.2,
+        "width": 50.4,
+        "height": 12.8
+      }
+    },
+    "k6": {
+      "type": "text",
+      "label": "Total.  22.  Personnel housed in open bays.",
+      "page": 1,
+      "box": {
+        "left": 899.4,
+        "top": 91.2,
+        "width": 80.8,
+        "height": 12.8
+      }
+    },
+    "a7": {
+      "type": "text",
+      "label": "Transient ( on T A D orders ).  Enlisted.  Meets or exceeds current assignment standards.  E1 - E3.  23.  Personnel in leased quarters.  ",
+      "page": 1,
+      "box": {
+        "left": 212.0,
+        "top": 77.8,
+        "width": 56.0,
+        "height": 12.8
+      }
+    },
+    "g7": {
+      "type": "text",
+      "label": "Total.  23.  Personnel in leased quarters. ",
+      "page": 1,
+      "box": {
+        "left": 599.2,
+        "top": 77.8,
+        "width": 70.4,
+        "height": 12.8
+      }
+    },
+    "k7": {
+      "type": "text",
+      "label": "Total.  23.  Personnel in leased quarters. ",
+      "page": 1,
+      "box": {
+        "left": 899.2,
+        "top": 77.8,
+        "width": 80.8,
+        "height": 12.8
+      }
+    },
+    "b7": {
+      "type": "text",
+      "label": "E4.  23.  Personnel in leased quarters. ",
+      "page": 1,
+      "box": {
+        "left": 268.8,
+        "top": 77.0,
+        "width": 50.4,
+        "height": 12.8
+      }
+    },
+    "a8": {
+      "type": "text",
+      "label": "Transient ( on T A D orders ).  Enlisted.  Meets or exceeds current assignment standards.  E1 - E3.  24.  Personnel in contract quarters.  ",
+      "page": 1,
+      "box": {
+        "left": 212.0,
+        "top": 64.0,
+        "width": 56.0,
+        "height": 12.8
+      }
+    },
+    "g8": {
+      "type": "text",
+      "label": "Total.  24.  Personnel in contract quarters.",
+      "page": 1,
+      "box": {
+        "left": 599.2,
+        "top": 64.0,
+        "width": 70.4,
+        "height": 12.8
+      }
+    },
+    "k8": {
+      "type": "text",
+      "label": "Total.  24.  Personnel in contract quarters.",
+      "page": 1,
+      "box": {
+        "left": 899.2,
+        "top": 64.0,
+        "width": 80.8,
+        "height": 12.8
+      }
+    },
+    "b8": {
+      "type": "text",
+      "label": "E4.  24.  Personnel in contract quarters.",
+      "page": 1,
+      "box": {
+        "left": 268.8,
+        "top": 63.2,
+        "width": 50.4,
+        "height": 12.8
+      }
+    },
+    "signature": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 434.5,
+        "top": 48.5,
+        "width": 130.0,
+        "height": 9.3
+      }
+    },
+    "prepBy": {
+      "type": "text",
+      "label": "Prepared by ( typed name and signature ).",
+      "page": 1,
+      "box": {
+        "left": 194.4,
+        "top": 47.2,
+        "width": 238.6,
+        "height": 8.8
+      }
+    },
+    "phoneNumCom": {
+      "type": "text",
+      "label": "Phone numbers.  Commercial.  ",
+      "page": 1,
+      "box": {
+        "left": 646.4,
+        "top": 42.4,
+        "width": 240.0,
+        "height": 9.6
+      }
+    },
+    "date2": {
+      "type": "text",
+      "label": "Enter date using format 2003 12 23",
+      "page": 1,
+      "box": {
+        "left": 194.4,
+        "top": 37.6,
+        "width": 128.8,
+        "height": 9.6
+      }
+    },
+    "phoneNumDsn": {
+      "type": "text",
+      "label": "Phone numbers.  D S N.",
+      "page": 1,
+      "box": {
+        "left": 646.4,
+        "top": 32.0,
+        "width": 240.0,
+        "height": 8.8
+      }
+    },
+    "eMailAdd": {
+      "type": "text",
+      "label": "E - mail address.",
+      "page": 1,
+      "box": {
+        "left": 194.4,
+        "top": 27.2,
+        "width": 308.8,
+        "height": 9.6
+      }
+    },
+    "phoneNumFax": {
+      "type": "text",
+      "label": "Phone numbers.  Fax.",
+      "page": 1,
+      "box": {
+        "left": 646.4,
+        "top": 21.6,
+        "width": 240.0,
+        "height": 7.2
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 9,
+      "rowStride": 13.8,
+      "editor": "grid",
+      "columns": {
+        "c": {
+          "type": "text",
+          "label": "E5.  16.  Maximum occupant capacity. ",
+          "page": 1,
+          "box": {
+            "left": 320.0,
+            "top": 174.4,
+            "width": 57.6,
+            "height": 12.8
+          }
+        },
+        "d": {
+          "type": "text",
+          "label": "E6 - E9.  16.  Maximum occupant capacity. ",
+          "page": 1,
+          "box": {
+            "left": 378.4,
+            "top": 174.4,
+            "width": 61.6,
+            "height": 12.8
+          }
+        },
+        "h": {
+          "type": "text",
+          "label": "Officer.  Meets or exceeds current assignment standards.   16.  Maximum occupant capacity. ",
+          "page": 1,
+          "box": {
+            "left": 672.0,
+            "top": 174.4,
+            "width": 72.0,
+            "height": 12.8
+          }
+        }
+      }
+    }
+  }
+}

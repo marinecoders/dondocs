@@ -1,0 +1,227 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "subjMD": {
+        "left": 194.0,
+        "top": 640.6,
+        "width": 379.2,
+        "height": 12.3,
+        "type": "text",
+        "description": "1. Subject (Medical/Dental)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nmeTrv": {
+        "left": 119.5,
+        "top": 622.6,
+        "width": 453.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "2. Name of Traveler",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "uic": {
+        "left": 231.0,
+        "top": 604.6,
+        "width": 69.7,
+        "height": 12.3,
+        "type": "text",
+        "description": "3. Unit Identification Code (UIC) of Service Member",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "brSer": {
+        "left": 390.3,
+        "top": 604.6,
+        "width": 182.6,
+        "height": 12.3,
+        "type": "text",
+        "description": "4. Branch of Service",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nmeDep": {
+        "left": 263.2,
+        "top": 586.6,
+        "width": 310.0,
+        "height": 12.3,
+        "type": "text",
+        "description": "5. Name of Dependent (Use if dependent must be accompanied)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "natIll": {
+        "left": 38.8,
+        "top": 555.5,
+        "width": 534.4,
+        "height": 71.2,
+        "type": "text",
+        "description": "6. Nature of Illness (Be specific)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dteAppt": {
+        "left": 208.2,
+        "top": 478.6,
+        "width": 365.1,
+        "height": 12.3,
+        "type": "text",
+        "description": "7. Date(s) of Appointment(s) (Be specific)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "desCty": {
+        "left": 116.1,
+        "top": 460.6,
+        "width": 88.9,
+        "height": 12.3,
+        "type": "text",
+        "description": "8. Destination City",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "desSt": {
+        "left": 287.8,
+        "top": 460.6,
+        "width": 88.9,
+        "height": 12.3,
+        "type": "text",
+        "description": "9. Destination State",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "desCtry": {
+        "left": 473.8,
+        "top": 460.6,
+        "width": 99.3,
+        "height": 12.3,
+        "type": "text",
+        "description": "10. Destination Country",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio": {
+        "left": 533.9,
+        "top": 444.0,
+        "width": 14.0,
+        "height": 14.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio2": {
+        "left": 488.9,
+        "top": 443.9,
+        "width": 14.0,
+        "height": 14.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "noOfAttachments": {
+        "left": 537.7,
+        "top": 424.6,
+        "width": 31.0,
+        "height": 12.3,
+        "type": "text",
+        "description": "Number Of Attachments",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "attachmentsList": {
+        "left": 39.6,
+        "top": 395.8,
+        "width": 532.9,
+        "height": 54.8,
+        "type": "choice",
+        "description": "12. List Of Attachments",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "staNA": {
+        "left": 38.8,
+        "top": 321.0,
+        "width": 534.4,
+        "height": 75.3,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "staGTR": {
+        "left": 38.8,
+        "top": 226.7,
+        "width": 534.4,
+        "height": 75.6,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pOCNme": {
+        "left": 38.8,
+        "top": 133.1,
+        "width": 203.2,
+        "height": 12.3,
+        "type": "text",
+        "description": "15. POC Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pOCPh": {
+        "left": 247.6,
+        "top": 133.1,
+        "width": 119.6,
+        "height": 12.3,
+        "type": "text",
+        "description": "16. POC Phone No",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pOCEm": {
+        "left": 372.9,
+        "top": 133.1,
+        "width": 200.3,
+        "height": 12.3,
+        "type": "text",
+        "description": "17. POC E-mail Address",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

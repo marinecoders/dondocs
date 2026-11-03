@@ -1,0 +1,975 @@
+{
+  "id": "navmc11667",
+  "label": "NAVMC 11667 - Reserve Non-Pay Service Initial Orientation Checklist",
+  "directory": "NAVMC11667 - Reserve Non-Pay Service Initial Orientation Checklist",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 2",
+      "fields": [
+        "lastName",
+        "firstName",
+        "nameMI",
+        "ssn",
+        "smcr",
+        "p1mos",
+        "qsn",
+        "shipDate",
+        "mOSschool",
+        "schoolDate",
+        "proUnJoinDate",
+        "bonContrNum",
+        "dEPDate",
+        "date",
+        "assigned",
+        "assigned2",
+        "dateFirIncr",
+        "dateSecIncre",
+        "iiadrt",
+        "iiadrt2",
+        "dateColCom",
+        "dateThirdIncre",
+        "roep",
+        "roep2",
+        "roep3",
+        "roep4",
+        "roep5",
+        "education",
+        "education2",
+        "education3",
+        "education4",
+        "education5",
+        "education6",
+        "education7",
+        "eduOtherCom",
+        "education8",
+        "afqt",
+        "gt",
+        "el",
+        "mm",
+        "cl",
+        "testScoreOther",
+        "dob",
+        "bi",
+        "bi2",
+        "phone",
+        "maritalStat",
+        "numDep",
+        "address",
+        "commute",
+        "employment",
+        "recruiter",
+        "rs",
+        "rsPhone",
+        "istf",
+        "interviewDate",
+        "title",
+        "city",
+        "state",
+        "signatureApp",
+        "signatureRecruiter",
+        "signaturePOC"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "p2q1",
+        "p2q12",
+        "p2q2",
+        "p2q22",
+        "p2q3",
+        "p2q32",
+        "p2q4",
+        "p2q42",
+        "p2q5",
+        "p2q52",
+        "part2sigDate",
+        "signatureCom",
+        "signatureEnlistee"
+      ]
+    }
+  ],
+  "fields": {
+    "lastName": {
+      "type": "text",
+      "label": "LastName",
+      "page": 2,
+      "box": {
+        "left": 88.3,
+        "top": 692.2,
+        "width": 265.2,
+        "height": 15.1
+      }
+    },
+    "firstName": {
+      "type": "text",
+      "label": "FirstName",
+      "page": 2,
+      "box": {
+        "left": 363.1,
+        "top": 692.2,
+        "width": 190.1,
+        "height": 15.1
+      }
+    },
+    "nameMI": {
+      "type": "text",
+      "label": "NameMI",
+      "page": 2,
+      "box": {
+        "left": 562.5,
+        "top": 692.2,
+        "width": 19.7,
+        "height": 15.1
+      }
+    },
+    "ssn": {
+      "type": "text",
+      "label": "SSN",
+      "page": 2,
+      "box": {
+        "left": 43.2,
+        "top": 666.9,
+        "width": 72.6,
+        "height": 15.1
+      }
+    },
+    "smcr": {
+      "type": "text",
+      "label": "SMCR",
+      "page": 2,
+      "box": {
+        "left": 170.5,
+        "top": 666.9,
+        "width": 131.2,
+        "height": 15.1
+      }
+    },
+    "p1mos": {
+      "type": "text",
+      "label": "P1MOS",
+      "page": 2,
+      "box": {
+        "left": 335.6,
+        "top": 666.9,
+        "width": 30.6,
+        "height": 15.1
+      }
+    },
+    "qsn": {
+      "type": "text",
+      "label": "QSN",
+      "page": 2,
+      "box": {
+        "left": 402.5,
+        "top": 666.9,
+        "width": 79.7,
+        "height": 15.1
+      }
+    },
+    "shipDate": {
+      "type": "text",
+      "label": "ShipDate",
+      "page": 2,
+      "box": {
+        "left": 530.8,
+        "top": 666.8,
+        "width": 59.0,
+        "height": 15.1
+      }
+    },
+    "mOSschool": {
+      "type": "text",
+      "label": "MOSschool",
+      "page": 2,
+      "box": {
+        "left": 102.9,
+        "top": 643.7,
+        "width": 232.4,
+        "height": 15.1
+      }
+    },
+    "schoolDate": {
+      "type": "text",
+      "label": "SchoolDate",
+      "page": 2,
+      "box": {
+        "left": 393.5,
+        "top": 643.2,
+        "width": 59.0,
+        "height": 15.1
+      }
+    },
+    "proUnJoinDate": {
+      "type": "text",
+      "label": "ProUnJoinDate",
+      "page": 2,
+      "box": {
+        "left": 531.0,
+        "top": 642.9,
+        "width": 58.8,
+        "height": 15.1
+      }
+    },
+    "bonContrNum": {
+      "type": "text",
+      "label": "BonContrNum",
+      "page": 2,
+      "box": {
+        "left": 156.0,
+        "top": 617.9,
+        "width": 218.2,
+        "height": 15.1
+      }
+    },
+    "dEPDate": {
+      "type": "text",
+      "label": "DEPDate",
+      "page": 2,
+      "box": {
+        "left": 529.7,
+        "top": 617.4,
+        "width": 59.5,
+        "height": 15.1
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 410.4,
+        "top": 617.3,
+        "width": 69.5,
+        "height": 15.1
+      }
+    },
+    "assigned": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 380.6,
+        "top": 582.2,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "form1_0_subform_1_Assigned_0"
+    },
+    "assigned2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 325.3,
+        "top": 582.0,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "form1_0_subform_1_Assigned_0"
+    },
+    "dateFirIncr": {
+      "type": "text",
+      "label": "DateFirIncr",
+      "page": 2,
+      "box": {
+        "left": 302.9,
+        "top": 555.0,
+        "width": 69.5,
+        "height": 14.4
+      }
+    },
+    "dateSecIncre": {
+      "type": "text",
+      "label": "DateSecIncre",
+      "page": 2,
+      "box": {
+        "left": 507.0,
+        "top": 554.8,
+        "width": 69.5,
+        "height": 14.4
+      }
+    },
+    "iiadrt": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 126.0,
+        "top": 553.5,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "form1_0_subform_1_IIADRT_0"
+    },
+    "iiadrt2": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 70.7,
+        "top": 553.3,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "form1_0_subform_1_IIADRT_0"
+    },
+    "dateColCom": {
+      "type": "text",
+      "label": "DateColCom",
+      "page": 2,
+      "box": {
+        "left": 302.9,
+        "top": 536.1,
+        "width": 69.5,
+        "height": 14.4
+      }
+    },
+    "dateThirdIncre": {
+      "type": "text",
+      "label": "DateThirdIncre",
+      "page": 2,
+      "box": {
+        "left": 507.0,
+        "top": 533.9,
+        "width": 69.5,
+        "height": 14.4
+      }
+    },
+    "roep": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 270.8,
+        "top": 505.8,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "form1_0_subform_1_ROEP_0"
+    },
+    "roep2": {
+      "type": "radio",
+      "label": "3",
+      "page": 2,
+      "box": {
+        "left": 381.3,
+        "top": 505.8,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "form1_0_subform_1_ROEP_0"
+    },
+    "roep3": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 215.6,
+        "top": 505.6,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "form1_0_subform_1_ROEP_0"
+    },
+    "roep4": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 326.8,
+        "top": 505.6,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "form1_0_subform_1_ROEP_0"
+    },
+    "roep5": {
+      "type": "radio",
+      "label": "4",
+      "page": 2,
+      "box": {
+        "left": 434.4,
+        "top": 505.6,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "form1_0_subform_1_ROEP_0"
+    },
+    "education": {
+      "type": "radio",
+      "label": "6",
+      "page": 2,
+      "box": {
+        "left": 208.6,
+        "top": 470.7,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "form1_0_subform_1_Education_0"
+    },
+    "education2": {
+      "type": "radio",
+      "label": "7",
+      "page": 2,
+      "box": {
+        "left": 134.9,
+        "top": 470.5,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "form1_0_subform_1_Education_0"
+    },
+    "education3": {
+      "type": "radio",
+      "label": "5",
+      "page": 2,
+      "box": {
+        "left": 320.5,
+        "top": 470.5,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "form1_0_subform_1_Education_0"
+    },
+    "education4": {
+      "type": "radio",
+      "label": "4",
+      "page": 2,
+      "box": {
+        "left": 364.8,
+        "top": 470.5,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "form1_0_subform_1_Education_0"
+    },
+    "education5": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 455.0,
+        "top": 470.1,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "form1_0_subform_1_Education_0"
+    },
+    "education6": {
+      "type": "radio",
+      "label": "3",
+      "page": 2,
+      "box": {
+        "left": 410.9,
+        "top": 469.8,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "form1_0_subform_1_Education_0"
+    },
+    "education7": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 515.5,
+        "top": 469.8,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "form1_0_subform_1_Education_0"
+    },
+    "eduOtherCom": {
+      "type": "text",
+      "label": "EduOtherCom",
+      "page": 2,
+      "box": {
+        "left": 225.9,
+        "top": 454.5,
+        "width": 362.3,
+        "height": 15.1
+      }
+    },
+    "education8": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 135.0,
+        "top": 451.5,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "form1_0_subform_1_Education_0"
+    },
+    "afqt": {
+      "type": "text",
+      "label": "AFQT",
+      "page": 2,
+      "box": {
+        "left": 113.3,
+        "top": 422.0,
+        "width": 27.0,
+        "height": 15.1
+      }
+    },
+    "gt": {
+      "type": "text",
+      "label": "GT",
+      "page": 2,
+      "box": {
+        "left": 169.9,
+        "top": 422.0,
+        "width": 27.0,
+        "height": 15.1
+      }
+    },
+    "el": {
+      "type": "text",
+      "label": "EL",
+      "page": 2,
+      "box": {
+        "left": 226.1,
+        "top": 422.0,
+        "width": 27.0,
+        "height": 15.1
+      }
+    },
+    "mm": {
+      "type": "text",
+      "label": "MM",
+      "page": 2,
+      "box": {
+        "left": 286.3,
+        "top": 422.0,
+        "width": 27.0,
+        "height": 15.1
+      }
+    },
+    "cl": {
+      "type": "text",
+      "label": "CL",
+      "page": 2,
+      "box": {
+        "left": 346.9,
+        "top": 422.0,
+        "width": 27.0,
+        "height": 15.1
+      }
+    },
+    "testScoreOther": {
+      "type": "text",
+      "label": "TestScoreOther",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 422.0,
+        "width": 177.7,
+        "height": 15.1
+      }
+    },
+    "dob": {
+      "type": "text",
+      "label": "DOB",
+      "page": 2,
+      "box": {
+        "left": 121.9,
+        "top": 391.4,
+        "width": 69.5,
+        "height": 15.1
+      }
+    },
+    "bi": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 458.5,
+        "top": 387.6,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "form1_0_subform_1_BI_0"
+    },
+    "bi2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 403.3,
+        "top": 387.4,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "form1_0_subform_1_BI_0"
+    },
+    "phone": {
+      "type": "text",
+      "label": "Phone",
+      "page": 2,
+      "box": {
+        "left": 85.1,
+        "top": 351.8,
+        "width": 169.8,
+        "height": 16.0
+      }
+    },
+    "maritalStat": {
+      "type": "text",
+      "label": "MaritalStat",
+      "page": 2,
+      "box": {
+        "left": 332.1,
+        "top": 351.8,
+        "width": 70.6,
+        "height": 15.1
+      }
+    },
+    "numDep": {
+      "type": "text",
+      "label": "NumDep",
+      "page": 2,
+      "box": {
+        "left": 506.6,
+        "top": 351.8,
+        "width": 30.6,
+        "height": 15.1
+      }
+    },
+    "address": {
+      "type": "text",
+      "label": "Address",
+      "page": 2,
+      "box": {
+        "left": 63.9,
+        "top": 325.0,
+        "width": 523.1,
+        "height": 15.1
+      }
+    },
+    "commute": {
+      "type": "text",
+      "label": "Commute",
+      "page": 2,
+      "box": {
+        "left": 234.2,
+        "top": 282.9,
+        "width": 354.1,
+        "height": 15.1
+      }
+    },
+    "employment": {
+      "type": "text",
+      "label": "Employment",
+      "page": 2,
+      "box": {
+        "left": 74.4,
+        "top": 253.2,
+        "width": 512.9,
+        "height": 15.1
+      }
+    },
+    "recruiter": {
+      "type": "text",
+      "label": "Recruiter",
+      "page": 2,
+      "box": {
+        "left": 64.3,
+        "top": 221.5,
+        "width": 301.3,
+        "height": 15.1
+      }
+    },
+    "rs": {
+      "type": "text",
+      "label": "RS",
+      "page": 2,
+      "box": {
+        "left": 386.7,
+        "top": 221.2,
+        "width": 202.2,
+        "height": 15.1
+      }
+    },
+    "rsPhone": {
+      "type": "text",
+      "label": "rsPhone",
+      "page": 2,
+      "box": {
+        "left": 64.4,
+        "top": 188.9,
+        "width": 169.8,
+        "height": 16.0
+      }
+    },
+    "istf": {
+      "type": "text",
+      "label": "ISTF",
+      "page": 2,
+      "box": {
+        "left": 21.1,
+        "top": 145.7,
+        "width": 451.9,
+        "height": 15.1
+      }
+    },
+    "interviewDate": {
+      "type": "text",
+      "label": "InterviewDate",
+      "page": 2,
+      "box": {
+        "left": 479.1,
+        "top": 144.8,
+        "width": 110.3,
+        "height": 11.9
+      }
+    },
+    "title": {
+      "type": "text",
+      "label": "Title",
+      "page": 2,
+      "box": {
+        "left": 21.1,
+        "top": 114.2,
+        "width": 188.4,
+        "height": 15.1
+      }
+    },
+    "city": {
+      "type": "text",
+      "label": "City",
+      "page": 2,
+      "box": {
+        "left": 215.3,
+        "top": 114.2,
+        "width": 255.7,
+        "height": 15.1
+      }
+    },
+    "state": {
+      "type": "text",
+      "label": "State",
+      "page": 2,
+      "box": {
+        "left": 476.3,
+        "top": 114.2,
+        "width": 116.6,
+        "height": 15.1
+      }
+    },
+    "signatureApp": {
+      "type": "signature",
+      "label": "SignatureApp",
+      "page": 2,
+      "box": {
+        "left": 41.1,
+        "top": 84.6,
+        "width": 150.3,
+        "height": 10.2
+      }
+    },
+    "signatureRecruiter": {
+      "type": "signature",
+      "label": "SignatureRecruiter",
+      "page": 2,
+      "box": {
+        "left": 232.1,
+        "top": 84.6,
+        "width": 150.3,
+        "height": 10.2
+      }
+    },
+    "signaturePOC": {
+      "type": "signature",
+      "label": "SignaturePOC",
+      "page": 2,
+      "box": {
+        "left": 413.9,
+        "top": 84.6,
+        "width": 150.3,
+        "height": 10.2
+      }
+    },
+    "p2q1": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 93.8,
+        "top": 594.1,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "form1_0_subform_2_P2q1_0"
+    },
+    "p2q12": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 38.6,
+        "top": 593.9,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "form1_0_subform_2_P2q1_0"
+    },
+    "p2q2": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 93.7,
+        "top": 535.1,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "form1_0_subform_2_P2q2_0"
+    },
+    "p2q22": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 38.5,
+        "top": 534.9,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "form1_0_subform_2_P2q2_0"
+    },
+    "p2q3": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 93.8,
+        "top": 474.6,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "form1_0_subform_2_P2q3_0"
+    },
+    "p2q32": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 38.6,
+        "top": 474.4,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "form1_0_subform_2_P2q3_0"
+    },
+    "p2q4": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 93.6,
+        "top": 427.4,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "form1_0_subform_2_P2q4_0"
+    },
+    "p2q42": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 38.3,
+        "top": 427.2,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "form1_0_subform_2_P2q4_0"
+    },
+    "p2q5": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 94.3,
+        "top": 368.1,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "form1_0_subform_2_P2q5_0"
+    },
+    "p2q52": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 39.0,
+        "top": 367.9,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "form1_0_subform_2_P2q5_0"
+    },
+    "part2sigDate": {
+      "type": "text",
+      "label": "Part2sigDate",
+      "page": 3,
+      "box": {
+        "left": 495.1,
+        "top": 96.3,
+        "width": 69.5,
+        "height": 15.1
+      }
+    },
+    "signatureCom": {
+      "type": "signature",
+      "label": "SignatureCom",
+      "page": 3,
+      "box": {
+        "left": 263.5,
+        "top": 93.6,
+        "width": 172.1,
+        "height": 10.2
+      }
+    },
+    "signatureEnlistee": {
+      "type": "signature",
+      "label": "SignatureEnlistee",
+      "page": 3,
+      "box": {
+        "left": 49.9,
+        "top": 93.5,
+        "width": 169.9,
+        "height": 10.2
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 3,
+      "count": 6,
+      "rowStride": 26.58,
+      "editor": "grid",
+      "columns": {
+        "init": {
+          "type": "text",
+          "label": "Init1",
+          "page": 3,
+          "box": {
+            "left": 61.0,
+            "top": 323.0,
+            "width": 19.7,
+            "height": 15.1
+          }
+        }
+      }
+    }
+  }
+}

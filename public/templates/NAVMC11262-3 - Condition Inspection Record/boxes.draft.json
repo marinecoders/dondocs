@@ -1,0 +1,502 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "serialNumber": {
+        "left": 20.8,
+        "top": 703.7,
+        "width": 174.4,
+        "height": 12.3,
+        "type": "text",
+        "description": "USMC Serial Number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "type": {
+        "left": 200.9,
+        "top": 703.7,
+        "width": 93.3,
+        "height": 12.3,
+        "type": "text",
+        "description": "Type/Capacity",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "purpose": {
+        "left": 299.9,
+        "top": 703.7,
+        "width": 291.4,
+        "height": 12.3,
+        "type": "text",
+        "description": "Purpose of Inspection",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "inspection": {
+        "left": 254.9,
+        "top": 631.6,
+        "width": 48.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "Bent, cracked, or corroded structural members",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "inspection2": {
+        "left": 542.9,
+        "top": 631.6,
+        "width": 48.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "18 hook load rating data is in view of operator and or",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "inspection3": {
+        "left": 254.9,
+        "top": 604.6,
+        "width": 48.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "Cracked or corroded welds",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "inspection4": {
+        "left": 542.9,
+        "top": 604.6,
+        "width": 48.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "19 safety guards, warning signs, and storage of tools",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "inspection5": {
+        "left": 254.9,
+        "top": 577.6,
+        "width": 48.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "Loose, bolts. broken, missing, or deteriorated rivets or",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "inspection6": {
+        "left": 542.9,
+        "top": 577.6,
+        "width": 48.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "20 safety guards, warning signs, and storage of tools",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "inspection7": {
+        "left": 254.9,
+        "top": 550.6,
+        "width": 48.3,
+        "height": 48.3,
+        "type": "text",
+        "description": "Inspection",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "inspection8": {
+        "left": 542.9,
+        "top": 550.6,
+        "width": 48.3,
+        "height": 48.3,
+        "type": "text",
+        "description": "Inspection",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "inspection9": {
+        "left": 254.9,
+        "top": 496.6,
+        "width": 48.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "distortion. Verify disassembly, inspection and",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "inspection10": {
+        "left": 542.9,
+        "top": 496.6,
+        "width": 48.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "22 protection equipment",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "inspection11": {
+        "left": 254.9,
+        "top": 469.6,
+        "width": 48.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "operation. Spot check components for proper",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "inspection12": {
+        "left": 542.9,
+        "top": 469.6,
+        "width": 48.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "23 boxes, wedges, and cylinder mountings. Check",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "inspection13": {
+        "left": 254.9,
+        "top": 442.6,
+        "width": 48.3,
+        "height": 12.3,
+        "type": "text",
+        "description": "Check operation. all controls for proper condition and",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "inspection14": {
+        "left": 542.9,
+        "top": 442.6,
+        "width": 48.3,
+        "height": 12.3,
+        "type": "text",
+        "description": "Inspection",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "inspection15": {
+        "left": 254.9,
+        "top": 424.6,
+        "width": 48.3,
+        "height": 12.3,
+        "type": "text",
+        "description": "Inspection",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "inspection16": {
+        "left": 542.9,
+        "top": 424.6,
+        "width": 48.3,
+        "height": 12.3,
+        "type": "text",
+        "description": "Inspection",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "inspection17": {
+        "left": 254.9,
+        "top": 406.6,
+        "width": 48.3,
+        "height": 12.3,
+        "type": "text",
+        "description": "Inspection",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "inspection18": {
+        "left": 542.9,
+        "top": 406.6,
+        "width": 48.3,
+        "height": 12.3,
+        "type": "text",
+        "description": "Inspection",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "inspection19": {
+        "left": 254.9,
+        "top": 388.6,
+        "width": 48.3,
+        "height": 12.3,
+        "type": "text",
+        "description": "Inspection",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "inspection20": {
+        "left": 542.9,
+        "top": 388.6,
+        "width": 48.3,
+        "height": 12.3,
+        "type": "text",
+        "description": "Inspection",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "inspection21": {
+        "left": 254.9,
+        "top": 370.6,
+        "width": 48.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "11 Check accuracy. load indicators for condition and working",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "inspection22": {
+        "left": 542.9,
+        "top": 370.6,
+        "width": 48.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "28 other components of air systems for leakage and",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "inspection23": {
+        "left": 254.9,
+        "top": 343.6,
+        "width": 48.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "12 reasonably accessible for wear, cracks, and",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "inspection24": {
+        "left": 542.9,
+        "top": 343.6,
+        "width": 48.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "29 cylinders, and other components of hydraulic",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "inspection25": {
+        "left": 254.9,
+        "top": 316.6,
+        "width": 48.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "13 misaligned bearings, bushings, shafts, pins, and",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "inspection26": {
+        "left": 542.9,
+        "top": 316.6,
+        "width": 48.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "Inspection",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "inspection27": {
+        "left": 254.9,
+        "top": 289.6,
+        "width": 48.3,
+        "height": 12.3,
+        "type": "text",
+        "description": "Inspection",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "inspection28": {
+        "left": 542.9,
+        "top": 289.6,
+        "width": 48.3,
+        "height": 12.3,
+        "type": "text",
+        "description": "Inspection",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "inspection29": {
+        "left": 254.9,
+        "top": 271.6,
+        "width": 48.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "15 turning, and alignment. Gauge sheave",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "inspection30": {
+        "left": 542.9,
+        "top": 271.6,
+        "width": 48.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "Inspection",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "inspection31": {
+        "left": 254.9,
+        "top": 244.6,
+        "width": 48.3,
+        "height": 12.3,
+        "type": "text",
+        "description": "Inspection",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "inspection32": {
+        "left": 542.9,
+        "top": 244.6,
+        "width": 48.3,
+        "height": 12.3,
+        "type": "text",
+        "description": "33 Check tightness. all compartments (voids) for water",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "inspection33": {
+        "left": 254.9,
+        "top": 226.6,
+        "width": 48.3,
+        "height": 12.3,
+        "type": "text",
+        "description": "Inspection",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "inspection34": {
+        "left": 542.9,
+        "top": 226.6,
+        "width": 48.3,
+        "height": 12.3,
+        "type": "text",
+        "description": "Inspection",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks": {
+        "left": 20.8,
+        "top": 190.6,
+        "width": 570.4,
+        "height": 49.7,
+        "type": "text",
+        "description": "Section 3 Remarks",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "inspector": {
+        "left": 110.8,
+        "top": 118.6,
+        "width": 318.4,
+        "height": 12.3,
+        "type": "text",
+        "description": "Load Test Inspector",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateInspector": {
+        "left": 460.4,
+        "top": 118.6,
+        "width": 130.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "director": {
+        "left": 110.8,
+        "top": 100.6,
+        "width": 318.4,
+        "height": 12.3,
+        "type": "text",
+        "description": "Test Director",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateDirector": {
+        "left": 460.4,
+        "top": 100.6,
+        "width": 130.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "official": {
+        "left": 110.8,
+        "top": 82.6,
+        "width": 318.4,
+        "height": 12.3,
+        "type": "text",
+        "description": "Certifying Official",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateOfficial": {
+        "left": 460.4,
+        "top": 82.6,
+        "width": 130.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

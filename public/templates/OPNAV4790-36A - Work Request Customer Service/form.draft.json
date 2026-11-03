@@ -1,0 +1,715 @@
+{
+  "id": "opnav479036a",
+  "label": "OPNAV4790-36A - Work Request Customer Service",
+  "directory": "OPNAV4790-36A - Work Request Customer Service",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "date",
+        "jcn",
+        "issueDocNum",
+        "partNum",
+        "partSerialNum",
+        "manufactureCode",
+        "nomenclature",
+        "natStockNum",
+        "quantity",
+        "typeAircraftEquipment",
+        "buSerNum",
+        "radio",
+        "radio2",
+        "radio3",
+        "radio4",
+        "workRequested",
+        "certDate",
+        "certSign",
+        "forFurtherInfo",
+        "compDate",
+        "authBy",
+        "radio5",
+        "radio6",
+        "radio7",
+        "radio8",
+        "sscSign",
+        "sscDate",
+        "supvDate",
+        "supvSign",
+        "receivedBy",
+        "nadepDate",
+        "pcnWorkOrder",
+        "priority",
+        "dateWorkStarted",
+        "actionTaken",
+        "completedBy",
+        "completedDate",
+        "inspectedBy",
+        "supervisor",
+        "manhours",
+        "emt",
+        "supActNotDate",
+        "time",
+        "chrgtoFan",
+        "by",
+        "personNotified",
+        "radio9",
+        "radio10",
+        "radio11",
+        "recdFromTime",
+        "recdFromSupAct",
+        "recdFromDate",
+        "remarks",
+        "radio12",
+        "receivedBy2",
+        "sscSign2",
+        "radio13"
+      ]
+    }
+  ],
+  "fields": {
+    "date": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 708.9,
+        "width": 129.3,
+        "height": 10.2
+      }
+    },
+    "jcn": {
+      "type": "text",
+      "label": "2. JCN",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 708.9,
+        "width": 187.9,
+        "height": 10.2
+      }
+    },
+    "issueDocNum": {
+      "type": "text",
+      "label": "3. ISSUE DOCUMENT NUMBER",
+      "page": 1,
+      "box": {
+        "left": 367.4,
+        "top": 708.9,
+        "width": 205.9,
+        "height": 10.2
+      }
+    },
+    "partNum": {
+      "type": "text",
+      "label": "4. PART NUMBER",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 680.8,
+        "width": 111.3,
+        "height": 10.9
+      }
+    },
+    "partSerialNum": {
+      "type": "text",
+      "label": "5. PART SERIAL NUMBER",
+      "page": 1,
+      "box": {
+        "left": 155.9,
+        "top": 680.8,
+        "width": 115.8,
+        "height": 10.9
+      }
+    },
+    "manufactureCode": {
+      "type": "text",
+      "label": "6. MANUFACTURE CODE",
+      "page": 1,
+      "box": {
+        "left": 277.4,
+        "top": 680.8,
+        "width": 111.3,
+        "height": 10.9
+      }
+    },
+    "nomenclature": {
+      "type": "text",
+      "label": "7. NOMENCLATURE",
+      "page": 1,
+      "box": {
+        "left": 394.4,
+        "top": 680.8,
+        "width": 178.9,
+        "height": 10.9
+      }
+    },
+    "natStockNum": {
+      "type": "text",
+      "label": "8. NATIONAL STOCK NUMBER",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 652.0,
+        "width": 160.9,
+        "height": 10.9
+      }
+    },
+    "quantity": {
+      "type": "text",
+      "label": "9. QUANTITY",
+      "page": 1,
+      "box": {
+        "left": 205.4,
+        "top": 652.0,
+        "width": 75.3,
+        "height": 10.9
+      }
+    },
+    "typeAircraftEquipment": {
+      "type": "text",
+      "label": "10. TYPE AIRCRAFT/EQUIPMENT",
+      "page": 1,
+      "box": {
+        "left": 286.4,
+        "top": 652.0,
+        "width": 151.9,
+        "height": 10.9
+      }
+    },
+    "buSerNum": {
+      "type": "text",
+      "label": "11. BU/SER NUMBER",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 652.0,
+        "width": 129.3,
+        "height": 10.9
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 622.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 172.1,
+        "top": 622.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 305.3,
+        "top": 622.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 622.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "workRequested": {
+      "type": "text",
+      "label": "Work Requested",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 592.8,
+        "width": 534.4,
+        "height": 22.9
+      }
+    },
+    "certDate": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 434.9,
+        "top": 547.0,
+        "width": 138.3,
+        "height": 17.6
+      }
+    },
+    "certSign": {
+      "type": "text",
+      "label": "SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 545.6,
+        "width": 390.4,
+        "height": 16.2
+      }
+    },
+    "forFurtherInfo": {
+      "type": "text",
+      "label": "For Further Info",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 511.5,
+        "width": 291.4,
+        "height": 22.6
+      }
+    },
+    "compDate": {
+      "type": "text",
+      "label": "16. REQUIRED COMPLETION DATE",
+      "page": 1,
+      "box": {
+        "left": 335.9,
+        "top": 511.5,
+        "width": 138.3,
+        "height": 22.6
+      }
+    },
+    "authBy": {
+      "type": "text",
+      "label": "17. AUTHORIZED BY",
+      "page": 1,
+      "box": {
+        "left": 479.9,
+        "top": 511.5,
+        "width": 93.3,
+        "height": 22.6
+      }
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 446.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 172.1,
+        "top": 446.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 305.3,
+        "top": 446.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 446.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "sscSign": {
+      "type": "text",
+      "label": "SSC SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 412.5,
+        "width": 390.4,
+        "height": 18.1
+      }
+    },
+    "sscDate": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 434.9,
+        "top": 412.5,
+        "width": 138.3,
+        "height": 18.1
+      }
+    },
+    "supvDate": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 434.9,
+        "top": 376.5,
+        "width": 138.3,
+        "height": 36.1
+      },
+      "multiline": true
+    },
+    "supvSign": {
+      "type": "text",
+      "label": "SIGNATURE (Supervisor)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 357.9,
+        "width": 390.4,
+        "height": 17.5
+      }
+    },
+    "receivedBy": {
+      "type": "text",
+      "label": "20 RECEIVED BY",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 304.5,
+        "width": 147.3,
+        "height": 10.9
+      }
+    },
+    "nadepDate": {
+      "type": "text",
+      "label": "20a. DATE",
+      "page": 1,
+      "box": {
+        "left": 191.9,
+        "top": 304.5,
+        "width": 75.3,
+        "height": 10.9
+      }
+    },
+    "pcnWorkOrder": {
+      "type": "text",
+      "label": "20b. PCN/WORK ORDER",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 304.5,
+        "width": 97.8,
+        "height": 10.9
+      }
+    },
+    "priority": {
+      "type": "text",
+      "label": "20c. PRIORITY",
+      "page": 1,
+      "box": {
+        "left": 376.4,
+        "top": 304.5,
+        "width": 79.8,
+        "height": 10.9
+      }
+    },
+    "dateWorkStarted": {
+      "type": "text",
+      "label": "20d. DATE WORK STARTED",
+      "page": 1,
+      "box": {
+        "left": 461.9,
+        "top": 304.5,
+        "width": 111.3,
+        "height": 10.9
+      }
+    },
+    "actionTaken": {
+      "type": "text",
+      "label": "21. ACTION TAKEN",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 276.4,
+        "width": 534.4,
+        "height": 11.7
+      }
+    },
+    "completedBy": {
+      "type": "text",
+      "label": "22a. COMPLETED BY",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 246.9,
+        "width": 102.3,
+        "height": 10.9
+      }
+    },
+    "completedDate": {
+      "type": "text",
+      "label": "22b. DATE",
+      "page": 1,
+      "box": {
+        "left": 146.9,
+        "top": 246.9,
+        "width": 66.3,
+        "height": 10.9
+      }
+    },
+    "inspectedBy": {
+      "type": "text",
+      "label": "22c. INSPECTED BY",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 246.9,
+        "width": 93.3,
+        "height": 10.9
+      }
+    },
+    "supervisor": {
+      "type": "text",
+      "label": "22d. SUPERVISOR",
+      "page": 1,
+      "box": {
+        "left": 317.9,
+        "top": 246.9,
+        "width": 97.8,
+        "height": 10.9
+      }
+    },
+    "manhours": {
+      "type": "text",
+      "label": "22e. MAN-HOURS",
+      "page": 1,
+      "box": {
+        "left": 421.4,
+        "top": 246.9,
+        "width": 70.8,
+        "height": 10.9
+      }
+    },
+    "emt": {
+      "type": "text",
+      "label": "22f. EMT",
+      "page": 1,
+      "box": {
+        "left": 497.9,
+        "top": 246.9,
+        "width": 75.3,
+        "height": 10.9
+      }
+    },
+    "supActNotDate": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 335.9,
+        "top": 218.1,
+        "width": 66.3,
+        "height": 24.4
+      }
+    },
+    "time": {
+      "type": "text",
+      "label": "TIME",
+      "page": 1,
+      "box": {
+        "left": 407.9,
+        "top": 218.1,
+        "width": 57.3,
+        "height": 24.4
+      }
+    },
+    "chrgtoFan": {
+      "type": "text",
+      "label": "CHARGE TO FAN",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 218.1,
+        "width": 102.3,
+        "height": 24.4
+      }
+    },
+    "by": {
+      "type": "text",
+      "label": "BY",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 204.6,
+        "width": 142.8,
+        "height": 10.9
+      }
+    },
+    "personNotified": {
+      "type": "text",
+      "label": "PERSON NOTIFIED",
+      "page": 1,
+      "box": {
+        "left": 187.4,
+        "top": 204.6,
+        "width": 142.8,
+        "height": 10.9
+      }
+    },
+    "radio9": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 168.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio10": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 200.9,
+        "top": 168.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio11": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 168.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "recdFromTime": {
+      "type": "text",
+      "label": "TIME",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 135.3,
+        "width": 66.3,
+        "height": 14.0
+      }
+    },
+    "recdFromSupAct": {
+      "type": "text",
+      "label": "25. RECEIVED FROM SUPPORTING ACTIVITY: BY",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 134.6,
+        "width": 381.4,
+        "height": 13.3
+      }
+    },
+    "recdFromDate": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 425.9,
+        "top": 134.6,
+        "width": 75.3,
+        "height": 13.3
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "26. REMARKS",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 102.7,
+        "width": 534.4,
+        "height": 23.4
+      }
+    },
+    "radio12": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 56.8,
+        "top": 73.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "receivedBy2": {
+      "type": "text",
+      "label": "DISAPPROVED",
+      "page": 1,
+      "box": {
+        "left": 142.4,
+        "top": 61.5,
+        "width": 223.8,
+        "height": 22.6
+      }
+    },
+    "sscSign2": {
+      "type": "text",
+      "label": "DISAPPROVED",
+      "page": 1,
+      "box": {
+        "left": 371.9,
+        "top": 61.5,
+        "width": 201.4,
+        "height": 22.6
+      }
+    },
+    "radio13": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 56.8,
+        "top": 50.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    }
+  }
+}

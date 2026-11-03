@@ -1,0 +1,928 @@
+{
+  "id": "opnav860016",
+  "label": "OPNAV8600-16 - Fleet Configuration Summary HarpoonSlam Missile",
+  "directory": "OPNAV8600-16 - Fleet Configuration Summary HarpoonSlam Missile",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "date",
+        "nomenclature1",
+        "nomenclature2",
+        "nomenclature3",
+        "partNumber",
+        "serialNumber",
+        "nalc",
+        "orgCodeUic",
+        "waivers",
+        "mdd112",
+        "mdd",
+        "tlm",
+        "mdd2359",
+        "inspector",
+        "inspectorStamp",
+        "serialNumber1",
+        "serialNumber2",
+        "serialNumber3",
+        "serialNumber4",
+        "lotNumber4",
+        "serialNumber5",
+        "lotNumber5",
+        "serialNumber6",
+        "serialNumber7",
+        "serialNumber8",
+        "lotNumber9",
+        "lotNumber10",
+        "serialNumber11",
+        "serialNumber12",
+        "serialNumber13",
+        "serialNumber14",
+        "serialNumber15",
+        "serialNumber16",
+        "serialNumber17",
+        "serialNumber18",
+        "serialNumber19",
+        "serialNumber20",
+        "serialNumber21",
+        "serialNumber22",
+        "serialNumber23",
+        "serialNumber24",
+        "serialNumber25",
+        "serialNumber26",
+        "serialNumber27",
+        "serialNumber28",
+        "serialNumber29",
+        "serialNumber30",
+        "alterationsTechnical20l"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "missileDesignator",
+        "serialNumber9",
+        "partNumber31",
+        "activityUIC",
+        "operationEvent",
+        "testInsp",
+        "timeField",
+        "tec",
+        "tec20"
+      ]
+    }
+  ],
+  "fields": {
+    "date": {
+      "type": "text",
+      "label": "Enter the date prepared using the format YYYY MM DD.  ",
+      "page": 1,
+      "box": {
+        "left": 451.5,
+        "top": 747.5,
+        "width": 120.8,
+        "height": 11.3
+      }
+    },
+    "nomenclature1": {
+      "type": "text",
+      "label": "Enter the harpoon/slam.",
+      "page": 1,
+      "box": {
+        "left": 90.9,
+        "top": 726.5,
+        "width": 33.0,
+        "height": 12.0
+      }
+    },
+    "nomenclature2": {
+      "type": "text",
+      "label": "Enter the harpoon/slam.",
+      "page": 1,
+      "box": {
+        "left": 138.6,
+        "top": 726.5,
+        "width": 33.0,
+        "height": 12.0
+      }
+    },
+    "nomenclature3": {
+      "type": "text",
+      "label": "Enter the harpoon/slam.",
+      "page": 1,
+      "box": {
+        "left": 182.0,
+        "top": 726.5,
+        "width": 111.3,
+        "height": 12.0
+      }
+    },
+    "partNumber": {
+      "type": "text",
+      "label": "Enter the part number.",
+      "page": 1,
+      "box": {
+        "left": 319.9,
+        "top": 725.7,
+        "width": 252.4,
+        "height": 12.0
+      }
+    },
+    "serialNumber": {
+      "type": "text",
+      "label": "Enter the serial number.",
+      "page": 1,
+      "box": {
+        "left": 33.7,
+        "top": 703.9,
+        "width": 183.7,
+        "height": 12.0
+      }
+    },
+    "nalc": {
+      "type": "text",
+      "label": "Enter the NALC.",
+      "page": 1,
+      "box": {
+        "left": 221.2,
+        "top": 703.9,
+        "width": 171.0,
+        "height": 12.0
+      }
+    },
+    "orgCodeUic": {
+      "type": "text",
+      "label": "Enter the ORG code and/or UIC.",
+      "page": 1,
+      "box": {
+        "left": 396.0,
+        "top": 703.9,
+        "width": 176.3,
+        "height": 12.0
+      }
+    },
+    "waivers": {
+      "type": "text",
+      "label": "Enter the waivers.",
+      "page": 1,
+      "box": {
+        "left": 33.8,
+        "top": 682.9,
+        "width": 538.5,
+        "height": 12.0
+      }
+    },
+    "mdd112": {
+      "type": "text",
+      "label": "Enter the MMD.",
+      "page": 1,
+      "box": {
+        "left": 33.7,
+        "top": 656.7,
+        "width": 189.8,
+        "height": 12.0
+      }
+    },
+    "mdd": {
+      "type": "text",
+      "label": "Enter the equipment frequency code.",
+      "page": 1,
+      "box": {
+        "left": 227.9,
+        "top": 656.7,
+        "width": 165.1,
+        "height": 12.0
+      }
+    },
+    "tlm": {
+      "type": "text",
+      "label": "Enter the TLM code.",
+      "page": 1,
+      "box": {
+        "left": 397.3,
+        "top": 656.7,
+        "width": 70.0,
+        "height": 12.0
+      }
+    },
+    "mdd2359": {
+      "type": "text",
+      "label": "Enter the condition code.",
+      "page": 1,
+      "box": {
+        "left": 472.5,
+        "top": 656.7,
+        "width": 99.8,
+        "height": 12.0
+      }
+    },
+    "inspector": {
+      "type": "text",
+      "label": "Enter the inspector.",
+      "page": 1,
+      "box": {
+        "left": 33.7,
+        "top": 632.7,
+        "width": 411.7,
+        "height": 12.0
+      }
+    },
+    "inspectorStamp": {
+      "type": "text",
+      "label": "Enter the inspector stamp.",
+      "page": 1,
+      "box": {
+        "left": 451.5,
+        "top": 632.7,
+        "width": 120.8,
+        "height": 12.0
+      }
+    },
+    "serialNumber1": {
+      "type": "text",
+      "label": "Enter the guidance section serial number.",
+      "page": 1,
+      "box": {
+        "left": 330.7,
+        "top": 593.7,
+        "width": 118.6,
+        "height": 10.6
+      }
+    },
+    "serialNumber2": {
+      "type": "text",
+      "label": "Enter the target seeker serial number.",
+      "page": 1,
+      "box": {
+        "left": 330.7,
+        "top": 577.3,
+        "width": 118.6,
+        "height": 10.6
+      }
+    },
+    "serialNumber3": {
+      "type": "text",
+      "label": "Enter the midcourse guidance unit serial number.",
+      "page": 1,
+      "box": {
+        "left": 330.7,
+        "top": 560.9,
+        "width": 118.6,
+        "height": 10.6
+      }
+    },
+    "serialNumber4": {
+      "type": "text",
+      "label": "Enter the warhead/excercise section serial number.",
+      "page": 1,
+      "box": {
+        "left": 330.7,
+        "top": 545.2,
+        "width": 118.6,
+        "height": 10.6
+      }
+    },
+    "lotNumber4": {
+      "type": "text",
+      "label": "Enter the midcourse guidance unit lot number.",
+      "page": 1,
+      "box": {
+        "left": 454.3,
+        "top": 545.2,
+        "width": 118.6,
+        "height": 10.6
+      }
+    },
+    "serialNumber5": {
+      "type": "text",
+      "label": "Enter the fuze, booster serial number.",
+      "page": 1,
+      "box": {
+        "left": 330.7,
+        "top": 528.8,
+        "width": 118.6,
+        "height": 10.6
+      }
+    },
+    "lotNumber5": {
+      "type": "text",
+      "label": "Enter the fuze, booster lot number.",
+      "page": 1,
+      "box": {
+        "left": 454.3,
+        "top": 528.8,
+        "width": 118.6,
+        "height": 10.6
+      }
+    },
+    "serialNumber6": {
+      "type": "text",
+      "label": "Enter the telemetry tray (XHD) serial number.",
+      "page": 1,
+      "box": {
+        "left": 330.7,
+        "top": 513.1,
+        "width": 118.6,
+        "height": 10.6
+      }
+    },
+    "serialNumber7": {
+      "type": "text",
+      "label": "Enter the flight tray (XHD) serial number.",
+      "page": 1,
+      "box": {
+        "left": 330.7,
+        "top": 496.7,
+        "width": 118.6,
+        "height": 10.6
+      }
+    },
+    "serialNumber8": {
+      "type": "text",
+      "label": "Enter the sustainer section serial number.",
+      "page": 1,
+      "box": {
+        "left": 330.7,
+        "top": 480.3,
+        "width": 118.6,
+        "height": 10.6
+      }
+    },
+    "lotNumber9": {
+      "type": "text",
+      "label": "Enter the fuze (LOT #1/MFG) lot number.",
+      "page": 1,
+      "box": {
+        "left": 454.3,
+        "top": 463.9,
+        "width": 118.6,
+        "height": 10.6
+      }
+    },
+    "lotNumber10": {
+      "type": "text",
+      "label": "Enter the fuze (LOT #2/LOAD) lot number.",
+      "page": 1,
+      "box": {
+        "left": 454.3,
+        "top": 448.2,
+        "width": 118.6,
+        "height": 10.6
+      }
+    },
+    "serialNumber11": {
+      "type": "text",
+      "label": "Enter the engine serial number.",
+      "page": 1,
+      "box": {
+        "left": 330.7,
+        "top": 431.8,
+        "width": 118.6,
+        "height": 10.6
+      }
+    },
+    "serialNumber12": {
+      "type": "text",
+      "label": "Enter the control section (boattail) serial number.",
+      "page": 1,
+      "box": {
+        "left": 330.7,
+        "top": 415.4,
+        "width": 118.6,
+        "height": 10.6
+      }
+    },
+    "serialNumber13": {
+      "type": "text",
+      "label": "Enter the launch kit missile serial number.",
+      "page": 1,
+      "box": {
+        "left": 330.7,
+        "top": 399.0,
+        "width": 118.6,
+        "height": 10.6
+      }
+    },
+    "serialNumber14": {
+      "type": "text",
+      "label": "Enter the wing assy serial number.",
+      "page": 1,
+      "box": {
+        "left": 330.7,
+        "top": 383.3,
+        "width": 118.6,
+        "height": 10.6
+      }
+    },
+    "serialNumber15": {
+      "type": "text",
+      "label": "Enter the wing assy serial number.",
+      "page": 1,
+      "box": {
+        "left": 330.7,
+        "top": 366.9,
+        "width": 118.6,
+        "height": 10.6
+      }
+    },
+    "serialNumber16": {
+      "type": "text",
+      "label": "Enter the wing assy serial number.",
+      "page": 1,
+      "box": {
+        "left": 330.7,
+        "top": 351.0,
+        "width": 118.6,
+        "height": 10.6
+      }
+    },
+    "serialNumber17": {
+      "type": "text",
+      "label": "Enter the wing assy serial number.",
+      "page": 1,
+      "box": {
+        "left": 330.7,
+        "top": 334.6,
+        "width": 118.6,
+        "height": 10.6
+      }
+    },
+    "serialNumber18": {
+      "type": "text",
+      "label": "Enter the fin assy serial number.",
+      "page": 1,
+      "box": {
+        "left": 330.7,
+        "top": 318.2,
+        "width": 118.6,
+        "height": 10.6
+      }
+    },
+    "serialNumber19": {
+      "type": "text",
+      "label": "Enter the fin assy serial number.",
+      "page": 1,
+      "box": {
+        "left": 330.7,
+        "top": 302.1,
+        "width": 118.6,
+        "height": 10.6
+      }
+    },
+    "serialNumber20": {
+      "type": "text",
+      "label": "Enter the fin assy serial number.",
+      "page": 1,
+      "box": {
+        "left": 330.7,
+        "top": 285.5,
+        "width": 118.6,
+        "height": 10.6
+      }
+    },
+    "serialNumber21": {
+      "type": "text",
+      "label": "Enter the fin assy serial number.",
+      "page": 1,
+      "box": {
+        "left": 330.7,
+        "top": 269.7,
+        "width": 118.6,
+        "height": 10.6
+      }
+    },
+    "serialNumber22": {
+      "type": "text",
+      "label": "Enter the booster, rocket motor serial number.",
+      "page": 1,
+      "box": {
+        "left": 330.7,
+        "top": 253.8,
+        "width": 118.6,
+        "height": 10.6
+      }
+    },
+    "serialNumber23": {
+      "type": "text",
+      "label": "Enter the serial number.",
+      "page": 1,
+      "box": {
+        "left": 330.7,
+        "top": 237.2,
+        "width": 118.6,
+        "height": 10.6
+      }
+    },
+    "serialNumber24": {
+      "type": "text",
+      "label": "Enter the capsule assembly serial number.",
+      "page": 1,
+      "box": {
+        "left": 330.7,
+        "top": 220.7,
+        "width": 118.6,
+        "height": 10.6
+      }
+    },
+    "serialNumber25": {
+      "type": "text",
+      "label": "Enter the capsule assembly serial number.",
+      "page": 1,
+      "box": {
+        "left": 330.7,
+        "top": 204.8,
+        "width": 118.6,
+        "height": 10.6
+      }
+    },
+    "serialNumber26": {
+      "type": "text",
+      "label": "Enter the canister assembly serial number.",
+      "page": 1,
+      "box": {
+        "left": 330.7,
+        "top": 188.3,
+        "width": 118.6,
+        "height": 10.6
+      }
+    },
+    "serialNumber27": {
+      "type": "text",
+      "label": "Enter the serial number.",
+      "page": 1,
+      "box": {
+        "left": 330.7,
+        "top": 172.2,
+        "width": 118.6,
+        "height": 10.6
+      }
+    },
+    "serialNumber28": {
+      "type": "text",
+      "label": "Enter the serial number.",
+      "page": 1,
+      "box": {
+        "left": 330.7,
+        "top": 155.6,
+        "width": 118.6,
+        "height": 10.6
+      }
+    },
+    "serialNumber29": {
+      "type": "text",
+      "label": "Enter the serial number.",
+      "page": 1,
+      "box": {
+        "left": 330.7,
+        "top": 139.8,
+        "width": 118.6,
+        "height": 10.6
+      }
+    },
+    "serialNumber30": {
+      "type": "text",
+      "label": "Enter the serial number.",
+      "page": 1,
+      "box": {
+        "left": 330.7,
+        "top": 123.2,
+        "width": 118.6,
+        "height": 10.6
+      }
+    },
+    "alterationsTechnical20l": {
+      "type": "text",
+      "label": "Enter the alterations and/or technical directives applied.",
+      "page": 1,
+      "box": {
+        "left": 510.5,
+        "top": 40.0,
+        "width": 62.1,
+        "height": 10.6
+      }
+    },
+    "missileDesignator": {
+      "type": "text",
+      "label": "Enter the missile designator.",
+      "page": 2,
+      "box": {
+        "left": 275.2,
+        "top": 723.5,
+        "width": 105.9,
+        "height": 13.5
+      }
+    },
+    "serialNumber9": {
+      "type": "text",
+      "label": "Enter the serial number.",
+      "page": 2,
+      "box": {
+        "left": 387.7,
+        "top": 723.5,
+        "width": 86.3,
+        "height": 13.5
+      }
+    },
+    "partNumber31": {
+      "type": "text",
+      "label": "Enter the part number.",
+      "page": 2,
+      "box": {
+        "left": 482.3,
+        "top": 723.5,
+        "width": 75.8,
+        "height": 13.5
+      }
+    },
+    "activityUIC": {
+      "type": "text",
+      "label": "Enter the activity UIC.",
+      "page": 2,
+      "box": {
+        "left": 108.0,
+        "top": 656.2,
+        "width": 39.8,
+        "height": 18.8
+      }
+    },
+    "operationEvent": {
+      "type": "text",
+      "label": "Enter the operations and/or event.",
+      "page": 2,
+      "box": {
+        "left": 153.7,
+        "top": 656.2,
+        "width": 59.4,
+        "height": 18.8
+      }
+    },
+    "testInsp": {
+      "type": "text",
+      "label": "Enter the test and/or INSP. results (pass or fail).",
+      "page": 2,
+      "box": {
+        "left": 218.3,
+        "top": 656.2,
+        "width": 50.3,
+        "height": 18.8
+      }
+    },
+    "timeField": {
+      "type": "text",
+      "label": "Enter the captive flight missile ready time using the 24-hour clock (HHMM).  ",
+      "page": 2,
+      "box": {
+        "left": 276.0,
+        "top": 656.2,
+        "width": 77.3,
+        "height": 18.8
+      }
+    },
+    "tec": {
+      "type": "text",
+      "label": "Enter the Tech Dir MOD Incorporated.",
+      "page": 2,
+      "box": {
+        "left": 358.9,
+        "top": 656.2,
+        "width": 68.6,
+        "height": 18.8
+      }
+    },
+    "tec20": {
+      "type": "text",
+      "label": "Enter the Tech Dir MOD Incorporated.",
+      "page": 2,
+      "box": {
+        "left": 357.0,
+        "top": 187.4,
+        "width": 68.6,
+        "height": 18.8
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 16.25,
+      "editor": "grid",
+      "columns": {
+        "alterationsTechnical": {
+          "type": "text",
+          "label": "Enter the alterations and/or technical directives applied.",
+          "page": 1,
+          "box": {
+            "left": 510.5,
+            "top": 89.0,
+            "width": 62.8,
+            "height": 10.6
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 4,
+      "rowStride": 16.33,
+      "editor": "grid",
+      "columns": {
+        "partNumber": {
+          "type": "text",
+          "label": "Enter the nomenclature.",
+          "page": 1,
+          "box": {
+            "left": 32.9,
+            "top": 89.0,
+            "width": 107.4,
+            "height": 10.6
+          }
+        },
+        "partNumber2": {
+          "type": "text",
+          "label": "Enter the part number.",
+          "page": 1,
+          "box": {
+            "left": 143.2,
+            "top": 89.0,
+            "width": 96.0,
+            "height": 10.6
+          }
+        },
+        "alterationsTechnical2": {
+          "type": "text",
+          "label": "Enter the alterations and/or technical directives applied.",
+          "page": 1,
+          "box": {
+            "left": 242.8,
+            "top": 89.0,
+            "width": 62.1,
+            "height": 10.6
+          }
+        },
+        "alterationsTechnical3": {
+          "type": "text",
+          "label": "Enter the alterations and/or technical directives applied.",
+          "page": 1,
+          "box": {
+            "left": 309.7,
+            "top": 89.0,
+            "width": 62.1,
+            "height": 10.6
+          }
+        },
+        "alterationsTechnical4": {
+          "type": "text",
+          "label": "Enter the alterations and/or technical directives applied.",
+          "page": 1,
+          "box": {
+            "left": 376.7,
+            "top": 89.0,
+            "width": 62.1,
+            "height": 10.6
+          }
+        },
+        "alterationsTechnical5": {
+          "type": "text",
+          "label": "Enter the alterations and/or technical directives applied.",
+          "page": 1,
+          "box": {
+            "left": 443.6,
+            "top": 89.0,
+            "width": 62.1,
+            "height": 10.6
+          }
+        }
+      }
+    },
+    "rows3": {
+      "title": "Rows",
+      "page": 1,
+      "count": 30,
+      "rowStride": 16.22,
+      "editor": "grid",
+      "columns": {
+        "partNumber3": {
+          "type": "text",
+          "label": "Enter the guidance section part number.",
+          "page": 1,
+          "box": {
+            "left": 206.2,
+            "top": 593.7,
+            "width": 118.6,
+            "height": 10.6
+          }
+        }
+      }
+    },
+    "rows4": {
+      "title": "Rows",
+      "page": 2,
+      "count": 18,
+      "rowStride": 24.64,
+      "editor": "grid",
+      "columns": {
+        "tec": {
+          "type": "text",
+          "label": "Enter the Tech Dir MOD Incorporated.",
+          "page": 2,
+          "box": {
+            "left": 358.9,
+            "top": 631.0,
+            "width": 68.6,
+            "height": 18.8
+          }
+        }
+      }
+    },
+    "rows5": {
+      "title": "Rows",
+      "page": 2,
+      "count": 19,
+      "rowStride": 24.63,
+      "editor": "grid",
+      "columns": {
+        "activityUIC": {
+          "type": "text",
+          "label": "Enter the activity UIC.",
+          "page": 2,
+          "box": {
+            "left": 108.0,
+            "top": 631.0,
+            "width": 39.8,
+            "height": 18.8
+          }
+        },
+        "operationEvent": {
+          "type": "text",
+          "label": "Enter the operations and/or event.",
+          "page": 2,
+          "box": {
+            "left": 153.7,
+            "top": 631.0,
+            "width": 59.4,
+            "height": 18.8
+          }
+        },
+        "testInsp": {
+          "type": "text",
+          "label": "Enter the test and/or INSP. results (pass or fail).",
+          "page": 2,
+          "box": {
+            "left": 218.3,
+            "top": 631.0,
+            "width": 50.3,
+            "height": 18.8
+          }
+        },
+        "timeField": {
+          "type": "text",
+          "label": "Enter the captive flight missile ready time using the 24-hour clock (HHMM).  ",
+          "page": 2,
+          "box": {
+            "left": 276.0,
+            "top": 631.0,
+            "width": 77.3,
+            "height": 18.8
+          }
+        }
+      }
+    },
+    "rows6": {
+      "title": "Rows",
+      "page": 2,
+      "count": 20,
+      "rowStride": 24.66,
+      "editor": "grid",
+      "columns": {
+        "date": {
+          "type": "text",
+          "label": "This is row 1 of 21.  Enter the date using the format YYYY MM DD.  ",
+          "page": 2,
+          "box": {
+            "left": 45.7,
+            "top": 656.2,
+            "width": 57.4,
+            "height": 18.8
+          }
+        },
+        "partNumber": {
+          "type": "text",
+          "label": "Enter any remarks.",
+          "page": 2,
+          "box": {
+            "left": 432.7,
+            "top": 656.2,
+            "width": 126.9,
+            "height": 18.8
+          }
+        }
+      }
+    }
+  }
+}

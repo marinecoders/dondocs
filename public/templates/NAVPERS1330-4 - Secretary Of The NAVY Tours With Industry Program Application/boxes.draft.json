@@ -1,0 +1,196 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "name": {
+        "left": 38.9,
+        "top": 708.5,
+        "width": 318.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "Name (Last, First, MI)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell2": {
+        "left": 362.9,
+        "top": 708.5,
+        "width": 210.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "Command Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell22": {
+        "left": 38.9,
+        "top": 672.5,
+        "width": 102.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "Rank/Rate",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell3": {
+        "left": 146.9,
+        "top": 672.5,
+        "width": 102.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "Designator/Rating",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell32": {
+        "left": 254.9,
+        "top": 672.5,
+        "width": 102.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "Time In Service",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell33": {
+        "left": 362.9,
+        "top": 672.5,
+        "width": 102.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "PRD",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell4": {
+        "left": 470.9,
+        "top": 672.5,
+        "width": 102.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "EAOS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell1": {
+        "left": 38.9,
+        "top": 630.3,
+        "width": 534.3,
+        "height": 438.2,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "cell12": {
+        "left": 32.0,
+        "top": 697.0,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Applicant",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell13": {
+        "left": 32.0,
+        "top": 679.0,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Applicant",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell14": {
+        "left": 32.0,
+        "top": 661.0,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Applicant",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell15": {
+        "left": 32.0,
+        "top": 643.0,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Applicant",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell16": {
+        "left": 32.0,
+        "top": 619.6,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Applicant",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name2": {
+        "left": 38.9,
+        "top": 589.7,
+        "width": 228.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "Name (Last, First, MI)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell23": {
+        "left": 272.9,
+        "top": 589.7,
+        "width": 228.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell34": {
+        "left": 506.9,
+        "top": 589.7,
+        "width": 66.2,
+        "height": 21.6,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

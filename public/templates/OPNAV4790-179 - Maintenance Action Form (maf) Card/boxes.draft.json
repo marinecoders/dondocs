@@ -1,0 +1,150 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "juliandate2": {
+        "left": 236.8,
+        "top": 739.7,
+        "width": 115.8,
+        "height": 43.6,
+        "type": "text",
+        "description": "ENTER JULIAN DATE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "jsn2": {
+        "left": 358.3,
+        "top": 739.7,
+        "width": 84.3,
+        "height": 33.5,
+        "type": "text",
+        "description": "ENTER JSN.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "wc2": {
+        "left": 448.3,
+        "top": 739.7,
+        "width": 84.3,
+        "height": 33.5,
+        "type": "text",
+        "description": "ENTER W/C.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "middle": {
+        "left": 83.8,
+        "top": 672.2,
+        "width": 448.8,
+        "height": 160.8,
+        "type": "text",
+        "description": "MIDDLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "wc": {
+        "left": 83.8,
+        "top": 474.2,
+        "width": 39.3,
+        "height": 43.6,
+        "type": "text",
+        "description": "ENTER W/C.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "jsn": {
+        "left": 128.8,
+        "top": 474.2,
+        "width": 39.3,
+        "height": 43.6,
+        "type": "text",
+        "description": "ENTER JSN.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "juliandate": {
+        "left": 173.8,
+        "top": 474.2,
+        "width": 57.3,
+        "height": 43.6,
+        "type": "text",
+        "description": "ENTER JULIAN DATE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "qa": {
+        "left": 358.3,
+        "top": 474.2,
+        "width": 39.3,
+        "height": 33.5,
+        "type": "text",
+        "description": "ENTER QA.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ms": {
+        "left": 403.3,
+        "top": 474.2,
+        "width": 39.3,
+        "height": 33.5,
+        "type": "text",
+        "description": "ENTER MS.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dn": {
+        "left": 448.3,
+        "top": 474.2,
+        "width": 39.3,
+        "height": 33.5,
+        "type": "text",
+        "description": "ENTER DN.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "lim": {
+        "left": 493.3,
+        "top": 474.2,
+        "width": 39.3,
+        "height": 33.5,
+        "type": "text",
+        "description": "ENTER LIM.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mrc": {
+        "left": 258.9,
+        "top": 460.1,
+        "width": 93.8,
+        "height": 27.2,
+        "type": "text",
+        "description": "ENTER MRC.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

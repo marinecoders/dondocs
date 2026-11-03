@@ -1,0 +1,307 @@
+{
+  "id": "opnav510024",
+  "label": "OPNAV5100-24 - Working Over The Side Check Sheet (for Ships)",
+  "directory": "OPNAV5100-24 - Working Over The Side Check Sheet (for Ships)",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "uss",
+        "time",
+        "date",
+        "trunk",
+        "location",
+        "textField8",
+        "initial",
+        "initial1",
+        "initial2",
+        "initial3",
+        "initial4",
+        "initial5",
+        "initial6",
+        "initial7",
+        "initial8",
+        "initial9",
+        "initial10",
+        "initial11",
+        "initial12",
+        "theLetter",
+        "extraInitial",
+        "task1",
+        "commenced",
+        "completed"
+      ]
+    }
+  ],
+  "fields": {
+    "uss": {
+      "type": "text",
+      "label": "Enter the ship number.",
+      "page": 1,
+      "box": {
+        "left": 141.8,
+        "top": 727.6,
+        "width": 142.3,
+        "height": 13.6
+      }
+    },
+    "time": {
+      "type": "text",
+      "label": "Enter the start time using the format HHMM.",
+      "page": 1,
+      "box": {
+        "left": 340.8,
+        "top": 727.2,
+        "width": 64.3,
+        "height": 10.8
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "Enter the start date (DD MMM YYYY).  ",
+      "page": 1,
+      "box": {
+        "left": 449.7,
+        "top": 727.2,
+        "width": 64.3,
+        "height": 10.8
+      }
+    },
+    "trunk": {
+      "type": "text",
+      "label": "Trunk",
+      "page": 1,
+      "box": {
+        "left": 116.8,
+        "top": 699.6,
+        "width": 38.3,
+        "height": 13.6
+      }
+    },
+    "location": {
+      "type": "text",
+      "label": "Location",
+      "page": 1,
+      "box": {
+        "left": 321.8,
+        "top": 699.6,
+        "width": 205.3,
+        "height": 13.6
+      }
+    },
+    "textField8": {
+      "type": "text",
+      "label": "Enter the list of work to be peformed. ",
+      "page": 1,
+      "box": {
+        "left": 20.8,
+        "top": 671.6,
+        "width": 570.2,
+        "height": 67.1
+      },
+      "multiline": true
+    },
+    "initial": {
+      "type": "text",
+      "label": "Enter initials or NA.  Initials certify completion of an item.  ",
+      "page": 1,
+      "box": {
+        "left": 21.8,
+        "top": 568.2,
+        "width": 40.3,
+        "height": 10.8
+      }
+    },
+    "initial1": {
+      "type": "text",
+      "label": "Enter initials or NA.  Initials certify completion of an item.  ",
+      "page": 1,
+      "box": {
+        "left": 21.8,
+        "top": 541.2,
+        "width": 40.3,
+        "height": 10.8
+      }
+    },
+    "initial2": {
+      "type": "text",
+      "label": "Enter initials or NA.  Initials certify completion of an item.  ",
+      "page": 1,
+      "box": {
+        "left": 21.8,
+        "top": 483.2,
+        "width": 40.3,
+        "height": 10.8
+      }
+    },
+    "initial3": {
+      "type": "text",
+      "label": "Enter initials or NA.  Initials certify completion of an item.  ",
+      "page": 1,
+      "box": {
+        "left": 21.8,
+        "top": 457.2,
+        "width": 40.3,
+        "height": 10.8
+      }
+    },
+    "initial4": {
+      "type": "text",
+      "label": "Enter initials or NA.  Initials certify completion of an item.  ",
+      "page": 1,
+      "box": {
+        "left": 21.8,
+        "top": 431.2,
+        "width": 40.3,
+        "height": 10.8
+      }
+    },
+    "initial5": {
+      "type": "text",
+      "label": "Enter initials or NA.  Initials certify completion of an item.  ",
+      "page": 1,
+      "box": {
+        "left": 21.8,
+        "top": 413.2,
+        "width": 40.3,
+        "height": 10.8
+      }
+    },
+    "initial6": {
+      "type": "text",
+      "label": "Enter initials or NA.  Initials certify completion of an item.  ",
+      "page": 1,
+      "box": {
+        "left": 21.8,
+        "top": 396.2,
+        "width": 40.3,
+        "height": 10.8
+      }
+    },
+    "initial7": {
+      "type": "text",
+      "label": "Enter initials or NA.  Initials certify completion of an item.  ",
+      "page": 1,
+      "box": {
+        "left": 21.8,
+        "top": 377.2,
+        "width": 40.3,
+        "height": 10.8
+      }
+    },
+    "initial8": {
+      "type": "text",
+      "label": "Enter initials or NA.  Initials certify completion of an item.  ",
+      "page": 1,
+      "box": {
+        "left": 21.8,
+        "top": 356.2,
+        "width": 40.3,
+        "height": 10.8
+      }
+    },
+    "initial9": {
+      "type": "text",
+      "label": "Enter initials or NA.  Initials certify completion of an item.  ",
+      "page": 1,
+      "box": {
+        "left": 21.8,
+        "top": 334.2,
+        "width": 40.3,
+        "height": 10.8
+      }
+    },
+    "initial10": {
+      "type": "text",
+      "label": "Enter initials or NA.  Initials certify completion of an item.  ",
+      "page": 1,
+      "box": {
+        "left": 21.8,
+        "top": 293.1,
+        "width": 40.3,
+        "height": 10.8
+      }
+    },
+    "initial11": {
+      "type": "text",
+      "label": "Enter initials or NA.  Initials certify completion of an item.  ",
+      "page": 1,
+      "box": {
+        "left": 21.8,
+        "top": 275.1,
+        "width": 40.3,
+        "height": 10.8
+      }
+    },
+    "initial12": {
+      "type": "text",
+      "label": "Enter initials or NA.  Initials certify completion of an item.  ",
+      "page": 1,
+      "box": {
+        "left": 21.8,
+        "top": 257.1,
+        "width": 40.3,
+        "height": 10.8
+      }
+    },
+    "theLetter": {
+      "type": "text",
+      "label": "TheLetter",
+      "page": 1,
+      "box": {
+        "left": 75.8,
+        "top": 212.2,
+        "width": 12.7,
+        "height": 19.8
+      }
+    },
+    "extraInitial": {
+      "type": "text",
+      "label": "Enter initials or NA.  Initials certify completion of an item.  ",
+      "page": 1,
+      "box": {
+        "left": 21.8,
+        "top": 209.2,
+        "width": 40.3,
+        "height": 10.8
+      }
+    },
+    "task1": {
+      "type": "text",
+      "label": "Use this space to enter additional tasks. ",
+      "page": 1,
+      "box": {
+        "left": 93.8,
+        "top": 208.2,
+        "width": 493.2,
+        "height": 44.3
+      },
+      "multiline": true
+    },
+    "commenced": {
+      "type": "text",
+      "label": "Enter when work commenced. ",
+      "page": 1,
+      "box": {
+        "left": 186.8,
+        "top": 118.3,
+        "width": 127.3,
+        "height": 10.8
+      }
+    },
+    "completed": {
+      "type": "text",
+      "label": "Enter when work completed.",
+      "page": 1,
+      "box": {
+        "left": 186.8,
+        "top": 97.3,
+        "width": 127.3,
+        "height": 10.8
+      }
+    }
+  }
+}

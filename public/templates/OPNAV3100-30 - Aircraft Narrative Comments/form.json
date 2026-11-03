@@ -1,0 +1,894 @@
+{
+  "id": "opnav310030",
+  "label": "OPNAV3100-30 - Aircraft Narrative Comments",
+  "directory": "OPNAV3100-30 - Aircraft Narrative Comments",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "modexSideNumber",
+        "page",
+        "of",
+        "origLev",
+        "type",
+        "number",
+        "soriteNumber",
+        "zone",
+        "zone2",
+        "zone1",
+        "day",
+        "class",
+        "handle",
+        "timeOfEvent1",
+        "comments1",
+        "timeOfEvent2",
+        "comments2",
+        "timeOfEvent3",
+        "comments3",
+        "timeOfEvent4",
+        "comments4",
+        "timeOfEvent5",
+        "comments5",
+        "timeOfEvent6",
+        "comments6",
+        "timeOfEvent7",
+        "comments7",
+        "timeOfEvent8",
+        "comments8",
+        "timeOfEvent9",
+        "comments9",
+        "timeOfEvent10",
+        "comments10",
+        "timeOfEvent11",
+        "comments11",
+        "timeOfEvent12",
+        "comments12",
+        "timeOfEvent13",
+        "comments13",
+        "timeOfEvent14",
+        "comments14",
+        "timeOfEvent15",
+        "comments15",
+        "timeOfEvent16",
+        "comments16",
+        "timeOfEvent17",
+        "comments17",
+        "timeOfEvent18",
+        "comments18",
+        "timeOfEvent19",
+        "comments19",
+        "timeOfEvent20",
+        "comments20",
+        "timeOfEvent21",
+        "comments21",
+        "timeOfEvent22",
+        "comments22",
+        "timeOfEvent23",
+        "comments23",
+        "timeOfEvent24",
+        "comments24",
+        "timeOfEvent25",
+        "comments25",
+        "timeOfEvent26",
+        "comments26",
+        "timeOfEvent27",
+        "comments27",
+        "timeOfEvent28",
+        "comments28",
+        "timeOfEvent29",
+        "comments29",
+        "timeOfEvent30",
+        "comments30"
+      ]
+    }
+  ],
+  "fields": {
+    "modexSideNumber": {
+      "type": "text",
+      "label": "Enter the modex/side number.",
+      "page": 1,
+      "box": {
+        "left": 428.8,
+        "top": 694.8,
+        "width": 127.9,
+        "height": 12.1
+      }
+    },
+    "page": {
+      "type": "text",
+      "label": "Enter the page number.",
+      "page": 1,
+      "box": {
+        "left": 428.8,
+        "top": 670.6,
+        "width": 61.6,
+        "height": 12.1
+      }
+    },
+    "of": {
+      "type": "text",
+      "label": "Enter the total number of pages.",
+      "page": 1,
+      "box": {
+        "left": 497.4,
+        "top": 670.6,
+        "width": 58.7,
+        "height": 12.1
+      }
+    },
+    "origLev": {
+      "type": "text",
+      "label": "Enter the original level.",
+      "page": 1,
+      "box": {
+        "left": 79.5,
+        "top": 669.6,
+        "width": 12.8,
+        "height": 11.3
+      }
+    },
+    "type": {
+      "type": "text",
+      "label": "Enter the squadron type.",
+      "page": 1,
+      "box": {
+        "left": 98.2,
+        "top": 669.6,
+        "width": 20.3,
+        "height": 11.3
+      }
+    },
+    "number": {
+      "type": "text",
+      "label": "Enter the squadron number.",
+      "page": 1,
+      "box": {
+        "left": 124.5,
+        "top": 669.6,
+        "width": 29.3,
+        "height": 11.3
+      }
+    },
+    "soriteNumber": {
+      "type": "text",
+      "label": "Enter the sorite number.",
+      "page": 1,
+      "box": {
+        "left": 159.7,
+        "top": 669.6,
+        "width": 53.3,
+        "height": 11.3
+      }
+    },
+    "zone": {
+      "type": "text",
+      "label": "Enter the year.",
+      "page": 1,
+      "box": {
+        "left": 218.2,
+        "top": 669.6,
+        "width": 12.8,
+        "height": 11.3
+      }
+    },
+    "zone2": {
+      "type": "text",
+      "label": "Enter the month.",
+      "page": 1,
+      "box": {
+        "left": 237.0,
+        "top": 669.6,
+        "width": 17.3,
+        "height": 11.3
+      }
+    },
+    "zone1": {
+      "type": "text",
+      "label": "Enter the zone.",
+      "page": 1,
+      "box": {
+        "left": 260.2,
+        "top": 669.6,
+        "width": 13.6,
+        "height": 11.3
+      }
+    },
+    "day": {
+      "type": "text",
+      "label": "Enter the day.",
+      "page": 1,
+      "box": {
+        "left": 279.7,
+        "top": 669.6,
+        "width": 17.3,
+        "height": 11.3
+      }
+    },
+    "class": {
+      "type": "text",
+      "label": "Enter the class.",
+      "page": 1,
+      "box": {
+        "left": 343.5,
+        "top": 669.6,
+        "width": 15.1,
+        "height": 11.3
+      }
+    },
+    "handle": {
+      "type": "text",
+      "label": "Enter the handl.",
+      "page": 1,
+      "box": {
+        "left": 363.7,
+        "top": 669.6,
+        "width": 15.8,
+        "height": 11.3
+      }
+    },
+    "timeOfEvent1": {
+      "type": "text",
+      "label": "This is row 1 of 30.  Enter the time of the event using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 44.2,
+        "top": 590.8,
+        "width": 44.2,
+        "height": 12.0
+      }
+    },
+    "comments1": {
+      "type": "text",
+      "label": "Enter COMMENTS:  Actions taken; Reason for Action; Significant Decisions; Operating Conditions;\r\nComments Regarding Negative and Positive Actions of Mission and Other Significant Events;  Etc.",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 590.1,
+        "width": 450.8,
+        "height": 10.6
+      }
+    },
+    "timeOfEvent2": {
+      "type": "text",
+      "label": "This is row 2 of 30.  Enter the time of the event using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 44.2,
+        "top": 574.4,
+        "width": 44.2,
+        "height": 12.0
+      }
+    },
+    "comments2": {
+      "type": "text",
+      "label": "Enter COMMENTS:  Actions taken; Reason for Action; Significant Decisions; Operating Conditions;\r\nComments Regarding Negative and Positive Actions of Mission and Other Significant Events;  Etc.",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 573.7,
+        "width": 450.8,
+        "height": 10.6
+      }
+    },
+    "timeOfEvent3": {
+      "type": "text",
+      "label": "This is row 3 of 30.  Enter the time of the event using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 44.2,
+        "top": 557.9,
+        "width": 44.2,
+        "height": 12.0
+      }
+    },
+    "comments3": {
+      "type": "text",
+      "label": "Enter COMMENTS:  Actions taken; Reason for Action; Significant Decisions; Operating Conditions;\r\nComments Regarding Negative and Positive Actions of Mission and Other Significant Events;  Etc.",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 557.2,
+        "width": 450.8,
+        "height": 10.6
+      }
+    },
+    "timeOfEvent4": {
+      "type": "text",
+      "label": "This is row 4 of 30.  Enter the time of the event using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 44.2,
+        "top": 541.5,
+        "width": 44.2,
+        "height": 12.0
+      }
+    },
+    "comments4": {
+      "type": "text",
+      "label": "Enter COMMENTS:  Actions taken; Reason for Action; Significant Decisions; Operating Conditions;\r\nComments Regarding Negative and Positive Actions of Mission and Other Significant Events;  Etc.",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 540.8,
+        "width": 450.8,
+        "height": 10.6
+      }
+    },
+    "timeOfEvent5": {
+      "type": "text",
+      "label": "This is row 5 of 30.  Enter the time of the event using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 44.2,
+        "top": 525.1,
+        "width": 44.2,
+        "height": 12.0
+      }
+    },
+    "comments5": {
+      "type": "text",
+      "label": "Enter COMMENTS:  Actions taken; Reason for Action; Significant Decisions; Operating Conditions;\r\nComments Regarding Negative and Positive Actions of Mission and Other Significant Events;  Etc.",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 524.3,
+        "width": 450.8,
+        "height": 10.6
+      }
+    },
+    "timeOfEvent6": {
+      "type": "text",
+      "label": "This is row 6 of 30.  Enter the time of the event using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 44.2,
+        "top": 508.6,
+        "width": 44.2,
+        "height": 12.0
+      }
+    },
+    "comments6": {
+      "type": "text",
+      "label": "Enter COMMENTS:  Actions taken; Reason for Action; Significant Decisions; Operating Conditions;\r\nComments Regarding Negative and Positive Actions of Mission and Other Significant Events;  Etc.",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 507.9,
+        "width": 450.8,
+        "height": 10.6
+      }
+    },
+    "timeOfEvent7": {
+      "type": "text",
+      "label": "This is row 7 of 30.  Enter the time of the event using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 44.2,
+        "top": 491.4,
+        "width": 44.2,
+        "height": 12.0
+      }
+    },
+    "comments7": {
+      "type": "text",
+      "label": "Enter COMMENTS:  Actions taken; Reason for Action; Significant Decisions; Operating Conditions;\r\nComments Regarding Negative and Positive Actions of Mission and Other Significant Events;  Etc.",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 490.7,
+        "width": 450.8,
+        "height": 10.6
+      }
+    },
+    "timeOfEvent8": {
+      "type": "text",
+      "label": "This is row 8 of 30.  Enter the time of the event using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 44.2,
+        "top": 475.0,
+        "width": 44.2,
+        "height": 12.0
+      }
+    },
+    "comments8": {
+      "type": "text",
+      "label": "Enter COMMENTS:  Actions taken; Reason for Action; Significant Decisions; Operating Conditions;\r\nComments Regarding Negative and Positive Actions of Mission and Other Significant Events;  Etc.",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 474.3,
+        "width": 450.8,
+        "height": 10.6
+      }
+    },
+    "timeOfEvent9": {
+      "type": "text",
+      "label": "This is row 9 of 30.  Enter the time of the event using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 44.2,
+        "top": 458.6,
+        "width": 44.2,
+        "height": 12.0
+      }
+    },
+    "comments9": {
+      "type": "text",
+      "label": "Enter COMMENTS:  Actions taken; Reason for Action; Significant Decisions; Operating Conditions;\r\nComments Regarding Negative and Positive Actions of Mission and Other Significant Events;  Etc.",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 457.8,
+        "width": 450.8,
+        "height": 10.6
+      }
+    },
+    "timeOfEvent10": {
+      "type": "text",
+      "label": "This is row 10 of 30.  Enter the time of the event using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 44.2,
+        "top": 442.1,
+        "width": 44.2,
+        "height": 12.0
+      }
+    },
+    "comments10": {
+      "type": "text",
+      "label": "Enter COMMENTS:  Actions taken; Reason for Action; Significant Decisions; Operating Conditions;\r\nComments Regarding Negative and Positive Actions of Mission and Other Significant Events;  Etc.",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 441.4,
+        "width": 450.8,
+        "height": 10.6
+      }
+    },
+    "timeOfEvent11": {
+      "type": "text",
+      "label": "This is row 11 of 30.  Enter the time of the event using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 44.2,
+        "top": 424.9,
+        "width": 44.2,
+        "height": 12.0
+      }
+    },
+    "comments11": {
+      "type": "text",
+      "label": "Enter COMMENTS:  Actions taken; Reason for Action; Significant Decisions; Operating Conditions;\r\nComments Regarding Negative and Positive Actions of Mission and Other Significant Events;  Etc.",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 424.2,
+        "width": 450.8,
+        "height": 10.6
+      }
+    },
+    "timeOfEvent12": {
+      "type": "text",
+      "label": "This is row 12 of 30.  Enter the time of the event using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 44.2,
+        "top": 409.2,
+        "width": 44.2,
+        "height": 12.0
+      }
+    },
+    "comments12": {
+      "type": "text",
+      "label": "Enter COMMENTS:  Actions taken; Reason for Action; Significant Decisions; Operating Conditions;\r\nComments Regarding Negative and Positive Actions of Mission and Other Significant Events;  Etc.",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 408.5,
+        "width": 450.8,
+        "height": 10.6
+      }
+    },
+    "timeOfEvent13": {
+      "type": "text",
+      "label": "This is row 13 of 30.  Enter the time of the event using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 44.2,
+        "top": 392.8,
+        "width": 44.2,
+        "height": 12.0
+      }
+    },
+    "comments13": {
+      "type": "text",
+      "label": "Enter COMMENTS:  Actions taken; Reason for Action; Significant Decisions; Operating Conditions;\r\nComments Regarding Negative and Positive Actions of Mission and Other Significant Events;  Etc.",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 392.1,
+        "width": 450.8,
+        "height": 10.6
+      }
+    },
+    "timeOfEvent14": {
+      "type": "text",
+      "label": "This is row 14 of 30.  Enter the time of the event using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 44.2,
+        "top": 376.4,
+        "width": 44.2,
+        "height": 12.0
+      }
+    },
+    "comments14": {
+      "type": "text",
+      "label": "Enter COMMENTS:  Actions taken; Reason for Action; Significant Decisions; Operating Conditions;\r\nComments Regarding Negative and Positive Actions of Mission and Other Significant Events;  Etc.",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 375.6,
+        "width": 450.8,
+        "height": 10.6
+      }
+    },
+    "timeOfEvent15": {
+      "type": "text",
+      "label": "This is row 15 of 30.  Enter the time of the event using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 44.2,
+        "top": 359.2,
+        "width": 44.2,
+        "height": 12.0
+      }
+    },
+    "comments15": {
+      "type": "text",
+      "label": "Enter COMMENTS:  Actions taken; Reason for Action; Significant Decisions; Operating Conditions;\r\nComments Regarding Negative and Positive Actions of Mission and Other Significant Events;  Etc.",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 358.5,
+        "width": 450.8,
+        "height": 10.6
+      }
+    },
+    "timeOfEvent16": {
+      "type": "text",
+      "label": "This is row 16 of 30.  Enter the time of the event using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 44.2,
+        "top": 343.5,
+        "width": 44.2,
+        "height": 12.0
+      }
+    },
+    "comments16": {
+      "type": "text",
+      "label": "Enter COMMENTS:  Actions taken; Reason for Action; Significant Decisions; Operating Conditions;\r\nComments Regarding Negative and Positive Actions of Mission and Other Significant Events;  Etc.",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 342.8,
+        "width": 450.8,
+        "height": 10.6
+      }
+    },
+    "timeOfEvent17": {
+      "type": "text",
+      "label": "This is row 17 of 30.  Enter the time of the event using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 44.2,
+        "top": 326.3,
+        "width": 44.2,
+        "height": 12.0
+      }
+    },
+    "comments17": {
+      "type": "text",
+      "label": "Enter COMMENTS:  Actions taken; Reason for Action; Significant Decisions; Operating Conditions;\r\nComments Regarding Negative and Positive Actions of Mission and Other Significant Events;  Etc.",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 325.6,
+        "width": 450.8,
+        "height": 10.6
+      }
+    },
+    "timeOfEvent18": {
+      "type": "text",
+      "label": "This is row 18 of 30.  Enter the time of the event using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 44.2,
+        "top": 309.9,
+        "width": 44.2,
+        "height": 12.0
+      }
+    },
+    "comments18": {
+      "type": "text",
+      "label": "Enter COMMENTS:  Actions taken; Reason for Action; Significant Decisions; Operating Conditions;\r\nComments Regarding Negative and Positive Actions of Mission and Other Significant Events;  Etc.",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 309.1,
+        "width": 450.8,
+        "height": 10.6
+      }
+    },
+    "timeOfEvent19": {
+      "type": "text",
+      "label": "This is row 19 of 30.  Enter the time of the event using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 44.2,
+        "top": 292.7,
+        "width": 44.2,
+        "height": 12.0
+      }
+    },
+    "comments19": {
+      "type": "text",
+      "label": "Enter COMMENTS:  Actions taken; Reason for Action; Significant Decisions; Operating Conditions;\r\nComments Regarding Negative and Positive Actions of Mission and Other Significant Events;  Etc.",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 292.0,
+        "width": 450.8,
+        "height": 10.6
+      }
+    },
+    "timeOfEvent20": {
+      "type": "text",
+      "label": "This is row 20 of 30.  Enter the time of the event using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 44.2,
+        "top": 276.2,
+        "width": 44.2,
+        "height": 12.0
+      }
+    },
+    "comments20": {
+      "type": "text",
+      "label": "Enter COMMENTS:  Actions taken; Reason for Action; Significant Decisions; Operating Conditions;\r\nComments Regarding Negative and Positive Actions of Mission and Other Significant Events;  Etc.",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 275.5,
+        "width": 450.8,
+        "height": 10.6
+      }
+    },
+    "timeOfEvent21": {
+      "type": "text",
+      "label": "This is row 21 of 30.  Enter the time of the event using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 44.2,
+        "top": 259.8,
+        "width": 44.2,
+        "height": 12.0
+      }
+    },
+    "comments21": {
+      "type": "text",
+      "label": "Enter COMMENTS:  Actions taken; Reason for Action; Significant Decisions; Operating Conditions;\r\nComments Regarding Negative and Positive Actions of Mission and Other Significant Events;  Etc.",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 259.1,
+        "width": 450.8,
+        "height": 10.6
+      }
+    },
+    "timeOfEvent22": {
+      "type": "text",
+      "label": "This is row 22 of 30.  Enter the time of the event using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 44.2,
+        "top": 243.4,
+        "width": 44.2,
+        "height": 12.0
+      }
+    },
+    "comments22": {
+      "type": "text",
+      "label": "Enter COMMENTS:  Actions taken; Reason for Action; Significant Decisions; Operating Conditions;\r\nComments Regarding Negative and Positive Actions of Mission and Other Significant Events;  Etc.",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 242.6,
+        "width": 450.8,
+        "height": 10.6
+      }
+    },
+    "timeOfEvent23": {
+      "type": "text",
+      "label": "This is row 23 of 30.  Enter the time of the event using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 44.2,
+        "top": 227.7,
+        "width": 44.2,
+        "height": 12.0
+      }
+    },
+    "comments23": {
+      "type": "text",
+      "label": "Enter COMMENTS:  Actions taken; Reason for Action; Significant Decisions; Operating Conditions;\r\nComments Regarding Negative and Positive Actions of Mission and Other Significant Events;  Etc.",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 226.9,
+        "width": 450.8,
+        "height": 10.6
+      }
+    },
+    "timeOfEvent24": {
+      "type": "text",
+      "label": "This is row 24 of 30.  Enter the time of the event using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 44.2,
+        "top": 211.2,
+        "width": 44.2,
+        "height": 12.0
+      }
+    },
+    "comments24": {
+      "type": "text",
+      "label": "Enter COMMENTS:  Actions taken; Reason for Action; Significant Decisions; Operating Conditions;\r\nComments Regarding Negative and Positive Actions of Mission and Other Significant Events;  Etc.",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 210.5,
+        "width": 450.8,
+        "height": 10.6
+      }
+    },
+    "timeOfEvent25": {
+      "type": "text",
+      "label": "This is row 25 of 30.  Enter the time of the event using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 44.2,
+        "top": 194.0,
+        "width": 44.2,
+        "height": 12.0
+      }
+    },
+    "comments25": {
+      "type": "text",
+      "label": "Enter COMMENTS:  Actions taken; Reason for Action; Significant Decisions; Operating Conditions;\r\nComments Regarding Negative and Positive Actions of Mission and Other Significant Events;  Etc.",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 193.3,
+        "width": 450.8,
+        "height": 10.6
+      }
+    },
+    "timeOfEvent26": {
+      "type": "text",
+      "label": "This is row 26 of 30.  Enter the time of the event using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 44.2,
+        "top": 177.6,
+        "width": 44.2,
+        "height": 12.0
+      }
+    },
+    "comments26": {
+      "type": "text",
+      "label": "Enter COMMENTS:  Actions taken; Reason for Action; Significant Decisions; Operating Conditions;\r\nComments Regarding Negative and Positive Actions of Mission and Other Significant Events;  Etc.",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 176.9,
+        "width": 450.8,
+        "height": 10.6
+      }
+    },
+    "timeOfEvent27": {
+      "type": "text",
+      "label": "This is row 27 of 30.  Enter the time of the event using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 44.2,
+        "top": 161.9,
+        "width": 44.2,
+        "height": 12.0
+      }
+    },
+    "comments27": {
+      "type": "text",
+      "label": "Enter COMMENTS:  Actions taken; Reason for Action; Significant Decisions; Operating Conditions;\r\nComments Regarding Negative and Positive Actions of Mission and Other Significant Events;  Etc.",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 161.2,
+        "width": 450.8,
+        "height": 10.6
+      }
+    },
+    "timeOfEvent28": {
+      "type": "text",
+      "label": "This is row 28 of 30.  Enter the time of the event using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 44.2,
+        "top": 144.7,
+        "width": 44.2,
+        "height": 12.0
+      }
+    },
+    "comments28": {
+      "type": "text",
+      "label": "Enter COMMENTS:  Actions taken; Reason for Action; Significant Decisions; Operating Conditions;\r\nComments Regarding Negative and Positive Actions of Mission and Other Significant Events;  Etc.",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 144.0,
+        "width": 450.8,
+        "height": 10.6
+      }
+    },
+    "timeOfEvent29": {
+      "type": "text",
+      "label": "This is row 6 of 30.  Enter the time of the event using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 44.2,
+        "top": 128.3,
+        "width": 44.2,
+        "height": 12.0
+      }
+    },
+    "comments29": {
+      "type": "text",
+      "label": "Enter COMMENTS:  Actions taken; Reason for Action; Significant Decisions; Operating Conditions;\r\nComments Regarding Negative and Positive Actions of Mission and Other Significant Events;  Etc.",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 127.5,
+        "width": 450.8,
+        "height": 10.6
+      }
+    },
+    "timeOfEvent30": {
+      "type": "text",
+      "label": "This is row 30 of 30.  Enter the time of the event using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 44.2,
+        "top": 112.6,
+        "width": 44.2,
+        "height": 12.0
+      }
+    },
+    "comments30": {
+      "type": "text",
+      "label": "Enter COMMENTS:  Actions taken; Reason for Action; Significant Decisions; Operating Conditions;\r\nComments Regarding Negative and Positive Actions of Mission and Other Significant Events;  Etc.",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 111.8,
+        "width": 450.8,
+        "height": 10.6
+      }
+    }
+  }
+}

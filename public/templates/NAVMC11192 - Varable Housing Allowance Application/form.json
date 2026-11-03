@@ -1,0 +1,733 @@
+{
+  "id": "navmc11192",
+  "label": "NAVMC 11192 - Varable Housing Allowance Application",
+  "directory": "NAVMC11192 - Varable Housing Allowance Application",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "radEntClm0",
+        "radAppPurp2",
+        "radEntClm02",
+        "radAppPurp22",
+        "radAppPurp23",
+        "radEntClm03",
+        "radAppPurp24",
+        "dateStopEnt",
+        "gradeSM",
+        "sSNumSM",
+        "nameSM",
+        "dutyStat",
+        "nameDep",
+        "relatDep",
+        "residSM",
+        "numSharSM",
+        "dateOccSM",
+        "amtRentSM",
+        "amtIns1SM",
+        "totRentSM",
+        "radUtilSMYes",
+        "radUtilSMYes2",
+        "amtMtg1SM",
+        "amtMtg2SM",
+        "amtIns2SM",
+        "amtTaxSM",
+        "totOwnerSM",
+        "residDep",
+        "numSharDep",
+        "dateOccDep",
+        "amtRentDep",
+        "amtIns1Dep",
+        "totRentDep",
+        "radUtilDepYes",
+        "radUtilDepYes2",
+        "amtMtg1Dep",
+        "amtMtg2Dep",
+        "amtIns2Dep",
+        "amtTaxDep",
+        "totOwnerDep",
+        "dateSigSM",
+        "sigMem",
+        "remarks1",
+        "udNum",
+        "dateEff",
+        "radPurpChg",
+        "radPurpChg2",
+        "dateSigComm",
+        "sigCO"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "numShar0",
+        "nameSp",
+        "servSp",
+        "sSNumSp",
+        "numShar1",
+        "numShar2",
+        "numShar3",
+        "numShar4",
+        "totNumShar"
+      ]
+    }
+  ],
+  "fields": {
+    "radEntClm0": {
+      "type": "radio",
+      "label": "both",
+      "page": 1,
+      "box": {
+        "left": 316.0,
+        "top": 691.2,
+        "width": 17.6,
+        "height": 17.6
+      },
+      "group": "topmostSubform_0_Page1_0_RadEntClm_0_0"
+    },
+    "radAppPurp2": {
+      "type": "radio",
+      "label": "res",
+      "page": 1,
+      "box": {
+        "left": 44.8,
+        "top": 690.4,
+        "width": 17.6,
+        "height": 17.6
+      },
+      "group": "topmostSubform_0_Page1_0_RadAppPurp_2_0"
+    },
+    "radEntClm02": {
+      "type": "radio",
+      "label": "dep",
+      "page": 1,
+      "box": {
+        "left": 316.0,
+        "top": 672.8,
+        "width": 17.6,
+        "height": 17.6
+      },
+      "group": "topmostSubform_0_Page1_0_RadEntClm_0_0"
+    },
+    "radAppPurp22": {
+      "type": "radio",
+      "label": "hou",
+      "page": 1,
+      "box": {
+        "left": 45.6,
+        "top": 672.0,
+        "width": 16.8,
+        "height": 16.8
+      },
+      "group": "topmostSubform_0_Page1_0_RadAppPurp_2_0"
+    },
+    "radAppPurp23": {
+      "type": "radio",
+      "label": "oth",
+      "page": 1,
+      "box": {
+        "left": 44.8,
+        "top": 654.4,
+        "width": 17.6,
+        "height": 17.6
+      },
+      "group": "topmostSubform_0_Page1_0_RadAppPurp_2_0"
+    },
+    "radEntClm03": {
+      "type": "radio",
+      "label": "mar",
+      "page": 1,
+      "box": {
+        "left": 316.0,
+        "top": 654.4,
+        "width": 17.6,
+        "height": 17.6
+      },
+      "group": "topmostSubform_0_Page1_0_RadEntClm_0_0"
+    },
+    "radAppPurp24": {
+      "type": "radio",
+      "label": "num",
+      "page": 1,
+      "box": {
+        "left": 44.8,
+        "top": 636.0,
+        "width": 17.6,
+        "height": 17.6
+      },
+      "group": "topmostSubform_0_Page1_0_RadAppPurp_2_0"
+    },
+    "dateStopEnt": {
+      "type": "text",
+      "label": "Enter stop current VHA Entitlement effective date using format 2002 06 27.",
+      "page": 1,
+      "box": {
+        "left": 300.8,
+        "top": 626.4,
+        "width": 281.6,
+        "height": 16.8
+      }
+    },
+    "gradeSM": {
+      "type": "text",
+      "label": "Pay Grade",
+      "page": 1,
+      "box": {
+        "left": 368.0,
+        "top": 589.6,
+        "width": 76.8,
+        "height": 17.6
+      }
+    },
+    "sSNumSM": {
+      "type": "text",
+      "label": "Enter Service Member's Social Security Number without dashes",
+      "page": 1,
+      "box": {
+        "left": 446.4,
+        "top": 588.8,
+        "width": 137.6,
+        "height": 17.6
+      }
+    },
+    "nameSM": {
+      "type": "text",
+      "label": "Service Member's name. Last, First, Middle Initial.",
+      "page": 1,
+      "box": {
+        "left": 97.6,
+        "top": 585.9,
+        "width": 268.8,
+        "height": 13.9
+      }
+    },
+    "dutyStat": {
+      "type": "text",
+      "label": "Duty Station or Home Port. Station Name, City, State, Zip Code.",
+      "page": 1,
+      "box": {
+        "left": 97.6,
+        "top": 555.2,
+        "width": 486.4,
+        "height": 17.6
+      }
+    },
+    "nameDep": {
+      "type": "text",
+      "label": "Dependent's name. Last, First, Middle Initial.",
+      "page": 1,
+      "box": {
+        "left": 97.6,
+        "top": 527.2,
+        "width": 405.6,
+        "height": 17.6
+      }
+    },
+    "relatDep": {
+      "type": "text",
+      "label": "Dependent's relationship.",
+      "page": 1,
+      "box": {
+        "left": 504.8,
+        "top": 527.2,
+        "width": 78.4,
+        "height": 17.6
+      }
+    },
+    "residSM": {
+      "type": "text",
+      "label": "Service Member's Residence. City, State, Zip Code.",
+      "page": 1,
+      "box": {
+        "left": 97.6,
+        "top": 479.2,
+        "width": 190.4,
+        "height": 17.6
+      }
+    },
+    "numSharSM": {
+      "type": "text",
+      "label": "Number of Sharers, Including Applicant.",
+      "page": 1,
+      "box": {
+        "left": 289.6,
+        "top": 479.2,
+        "width": 129.6,
+        "height": 17.6
+      }
+    },
+    "dateOccSM": {
+      "type": "text",
+      "label": "Enter Date of Occupancy/Effective Date of Change using format 2002 06 27.",
+      "page": 1,
+      "box": {
+        "left": 420.0,
+        "top": 477.6,
+        "width": 164.0,
+        "height": 16.8
+      }
+    },
+    "amtRentSM": {
+      "type": "text",
+      "label": "Service Member's monthly rent payment.",
+      "page": 1,
+      "box": {
+        "left": 135.3,
+        "top": 444.0,
+        "width": 71.3,
+        "height": 17.3
+      }
+    },
+    "amtIns1SM": {
+      "type": "text",
+      "label": "Service Member's monthly insurance payment.",
+      "page": 1,
+      "box": {
+        "left": 228.0,
+        "top": 444.0,
+        "width": 84.0,
+        "height": 17.6
+      }
+    },
+    "totRentSM": {
+      "type": "text",
+      "label": "Service Member's total monthly payments as a renter.",
+      "page": 1,
+      "box": {
+        "left": 332.0,
+        "top": 444.0,
+        "width": 84.8,
+        "height": 17.6
+      }
+    },
+    "radUtilSMYes": {
+      "type": "radio",
+      "label": "y",
+      "page": 1,
+      "box": {
+        "left": 440.8,
+        "top": 442.4,
+        "width": 16.8,
+        "height": 16.8
+      },
+      "group": "topmostSubform_0_Page1_0_RadUtilSMYes_0"
+    },
+    "radUtilSMYes2": {
+      "type": "radio",
+      "label": "n",
+      "page": 1,
+      "box": {
+        "left": 515.6,
+        "top": 442.4,
+        "width": 16.8,
+        "height": 16.8
+      },
+      "group": "topmostSubform_0_Page1_0_RadUtilSMYes_0"
+    },
+    "amtMtg1SM": {
+      "type": "text",
+      "label": "Service Member's monthly mortgage payment.",
+      "page": 1,
+      "box": {
+        "left": 164.0,
+        "top": 406.4,
+        "width": 64.8,
+        "height": 17.6
+      }
+    },
+    "amtMtg2SM": {
+      "type": "text",
+      "label": "Service Member's second monthly mortgage payment.",
+      "page": 1,
+      "box": {
+        "left": 258.4,
+        "top": 406.4,
+        "width": 67.2,
+        "height": 17.6
+      }
+    },
+    "amtIns2SM": {
+      "type": "text",
+      "label": "Service Member's monthly insurance payment.",
+      "page": 1,
+      "box": {
+        "left": 343.2,
+        "top": 406.4,
+        "width": 70.4,
+        "height": 17.6
+      }
+    },
+    "amtTaxSM": {
+      "type": "text",
+      "label": "Service Member's monthly tax payment.",
+      "page": 1,
+      "box": {
+        "left": 429.6,
+        "top": 406.4,
+        "width": 72.0,
+        "height": 17.6
+      }
+    },
+    "totOwnerSM": {
+      "type": "text",
+      "label": "Service Member's total monthly payments as a home owner.",
+      "page": 1,
+      "box": {
+        "left": 520.0,
+        "top": 406.4,
+        "width": 62.4,
+        "height": 17.6
+      }
+    },
+    "residDep": {
+      "type": "text",
+      "label": "Dependent's Residence. City, State, Zip Code.",
+      "page": 1,
+      "box": {
+        "left": 97.3,
+        "top": 370.0,
+        "width": 191.3,
+        "height": 18.0
+      }
+    },
+    "numSharDep": {
+      "type": "text",
+      "label": "Number of Sharers, Including Applicant.",
+      "page": 1,
+      "box": {
+        "left": 289.3,
+        "top": 370.0,
+        "width": 130.0,
+        "height": 18.0
+      }
+    },
+    "dateOccDep": {
+      "type": "text",
+      "label": "Enter Date of Occupancy/Effective Date of Change using format 2002 06 27.",
+      "page": 1,
+      "box": {
+        "left": 420.0,
+        "top": 368.0,
+        "width": 163.3,
+        "height": 16.7
+      }
+    },
+    "amtRentDep": {
+      "type": "text",
+      "label": "Dependent's monthly rent payment.",
+      "page": 1,
+      "box": {
+        "left": 135.3,
+        "top": 334.0,
+        "width": 70.7,
+        "height": 17.3
+      }
+    },
+    "amtIns1Dep": {
+      "type": "text",
+      "label": "Dependent's monthly insurance payment.",
+      "page": 1,
+      "box": {
+        "left": 228.0,
+        "top": 334.0,
+        "width": 84.0,
+        "height": 17.3
+      }
+    },
+    "totRentDep": {
+      "type": "text",
+      "label": "Dependent's total monthly payments as a renter.",
+      "page": 1,
+      "box": {
+        "left": 332.0,
+        "top": 334.0,
+        "width": 84.7,
+        "height": 17.3
+      }
+    },
+    "radUtilDepYes": {
+      "type": "radio",
+      "label": "y",
+      "page": 1,
+      "box": {
+        "left": 441.6,
+        "top": 332.0,
+        "width": 16.8,
+        "height": 16.8
+      },
+      "group": "topmostSubform_0_Page1_0_RadUtilDepYes_0"
+    },
+    "radUtilDepYes2": {
+      "type": "radio",
+      "label": "n",
+      "page": 1,
+      "box": {
+        "left": 516.2,
+        "top": 332.0,
+        "width": 16.8,
+        "height": 16.8
+      },
+      "group": "topmostSubform_0_Page1_0_RadUtilDepYes_0"
+    },
+    "amtMtg1Dep": {
+      "type": "text",
+      "label": "Dependent's monthly mortgage payment.",
+      "page": 1,
+      "box": {
+        "left": 164.0,
+        "top": 296.7,
+        "width": 64.7,
+        "height": 18.0
+      }
+    },
+    "amtMtg2Dep": {
+      "type": "text",
+      "label": "Dependent's second monthly mortgage payment.",
+      "page": 1,
+      "box": {
+        "left": 258.0,
+        "top": 296.7,
+        "width": 67.3,
+        "height": 18.0
+      }
+    },
+    "amtIns2Dep": {
+      "type": "text",
+      "label": "Dependent's monthly insurance payment.",
+      "page": 1,
+      "box": {
+        "left": 343.3,
+        "top": 296.7,
+        "width": 70.0,
+        "height": 18.0
+      }
+    },
+    "amtTaxDep": {
+      "type": "text",
+      "label": "Dependent's monthly tax payment.",
+      "page": 1,
+      "box": {
+        "left": 429.3,
+        "top": 296.7,
+        "width": 72.0,
+        "height": 18.0
+      }
+    },
+    "totOwnerDep": {
+      "type": "text",
+      "label": "Dependent's total monthly payments as a home owner.",
+      "page": 1,
+      "box": {
+        "left": 520.0,
+        "top": 296.7,
+        "width": 62.0,
+        "height": 18.0
+      }
+    },
+    "dateSigSM": {
+      "type": "text",
+      "label": "Enter the date of the Service Member's signature using format 2002 06 27.",
+      "page": 1,
+      "box": {
+        "left": 460.0,
+        "top": 234.4,
+        "width": 116.0,
+        "height": 16.8
+      }
+    },
+    "sigMem": {
+      "type": "signature",
+      "label": "SigMem",
+      "page": 1,
+      "box": {
+        "left": 81.5,
+        "top": 230.9,
+        "width": 334.9,
+        "height": 11.9
+      }
+    },
+    "remarks1": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 1,
+      "box": {
+        "left": 25.6,
+        "top": 196.8,
+        "width": 558.4,
+        "height": 76.8
+      },
+      "multiline": true
+    },
+    "udNum": {
+      "type": "text",
+      "label": "UD Number.",
+      "page": 1,
+      "box": {
+        "left": 454.4,
+        "top": 114.4,
+        "width": 121.6,
+        "height": 17.6
+      }
+    },
+    "dateEff": {
+      "type": "text",
+      "label": "Enter the effective date using format 2002 06 27.",
+      "page": 1,
+      "box": {
+        "left": 321.6,
+        "top": 111.2,
+        "width": 86.4,
+        "height": 16.8
+      }
+    },
+    "radPurpChg": {
+      "type": "radio",
+      "label": "start",
+      "page": 1,
+      "box": {
+        "left": 96.0,
+        "top": 109.6,
+        "width": 15.2,
+        "height": 15.2
+      },
+      "group": "topmostSubform_0_Page1_0_RadPurpChg_0"
+    },
+    "radPurpChg2": {
+      "type": "radio",
+      "label": "change",
+      "page": 1,
+      "box": {
+        "left": 174.4,
+        "top": 108.8,
+        "width": 15.2,
+        "height": 15.2
+      },
+      "group": "topmostSubform_0_Page1_0_RadPurpChg_0"
+    },
+    "dateSigComm": {
+      "type": "text",
+      "label": "Enter the date of the Signature of Commander or Authorized Representative's signature using format 2002 06 27.",
+      "page": 1,
+      "box": {
+        "left": 446.4,
+        "top": 80.0,
+        "width": 135.2,
+        "height": 16.8
+      }
+    },
+    "sigCO": {
+      "type": "signature",
+      "label": "SigCO",
+      "page": 1,
+      "box": {
+        "left": 82.0,
+        "top": 75.8,
+        "width": 329.5,
+        "height": 12.4
+      }
+    },
+    "numShar0": {
+      "type": "text",
+      "label": "Myself",
+      "page": 2,
+      "box": {
+        "left": 548.0,
+        "top": 575.2,
+        "width": 36.0,
+        "height": 17.6
+      }
+    },
+    "nameSp": {
+      "type": "text",
+      "label": "Spouse's Name.",
+      "page": 2,
+      "box": {
+        "left": 261.6,
+        "top": 548.0,
+        "width": 141.6,
+        "height": 17.6
+      }
+    },
+    "servSp": {
+      "type": "text",
+      "label": "Service",
+      "page": 2,
+      "box": {
+        "left": 495.2,
+        "top": 548.0,
+        "width": 51.2,
+        "height": 17.6
+      }
+    },
+    "sSNumSp": {
+      "type": "text",
+      "label": "Enter Spouse's Social Security Number without dashes.",
+      "page": 2,
+      "box": {
+        "left": 404.8,
+        "top": 547.2,
+        "width": 89.6,
+        "height": 17.6
+      }
+    },
+    "numShar1": {
+      "type": "text",
+      "label": "Spouse who is also a Service Member.  Enter 1 and provide data indicated.",
+      "page": 2,
+      "box": {
+        "left": 548.0,
+        "top": 547.2,
+        "width": 36.0,
+        "height": 17.6
+      }
+    },
+    "numShar2": {
+      "type": "text",
+      "label": "Number of spouse or other dependents who are Federal Civilian Employee entitled to a Living Quarters Allowance.",
+      "page": 2,
+      "box": {
+        "left": 548.0,
+        "top": 520.8,
+        "width": 36.0,
+        "height": 17.6
+      }
+    },
+    "numShar3": {
+      "type": "text",
+      "label": "Number of other Service Members entitled to Basic Allowance for Quarters.",
+      "page": 2,
+      "box": {
+        "left": 548.0,
+        "top": 493.6,
+        "width": 36.0,
+        "height": 17.6
+      }
+    },
+    "numShar4": {
+      "type": "text",
+      "label": "Number of any others not covered above who pay a portion of the rent, mortgage and/or utilities.",
+      "page": 2,
+      "box": {
+        "left": 548.0,
+        "top": 467.2,
+        "width": 36.0,
+        "height": 17.6
+      }
+    },
+    "totNumShar": {
+      "type": "text",
+      "label": "Total number of sharers.",
+      "page": 2,
+      "box": {
+        "left": 548.0,
+        "top": 440.8,
+        "width": 36.0,
+        "height": 17.6
+      }
+    }
+  }
+}

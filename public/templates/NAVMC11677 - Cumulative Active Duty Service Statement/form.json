@@ -1,0 +1,114 @@
+{
+  "id": "navmc11677",
+  "label": "NAVMC 11677 - Cumulative Active Duty Service Statement",
+  "directory": "NAVMC11677 - Cumulative Active Duty Service Statement",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 2",
+      "fields": [
+        "name",
+        "grade",
+        "ssn",
+        "mos",
+        "years",
+        "months",
+        "date",
+        "signature"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "Name",
+      "page": 2,
+      "box": {
+        "left": 19.9,
+        "top": 589.7,
+        "width": 418.6,
+        "height": 15.1
+      }
+    },
+    "grade": {
+      "type": "text",
+      "label": "Grade",
+      "page": 2,
+      "box": {
+        "left": 441.4,
+        "top": 589.7,
+        "width": 48.8,
+        "height": 15.1
+      }
+    },
+    "ssn": {
+      "type": "text",
+      "label": "SSN",
+      "page": 2,
+      "box": {
+        "left": 493.3,
+        "top": 589.4,
+        "width": 72.6,
+        "height": 15.1
+      }
+    },
+    "mos": {
+      "type": "text",
+      "label": "MOS",
+      "page": 2,
+      "box": {
+        "left": 568.9,
+        "top": 589.4,
+        "width": 23.1,
+        "height": 15.1
+      }
+    },
+    "years": {
+      "type": "text",
+      "label": "years",
+      "page": 2,
+      "box": {
+        "left": 151.4,
+        "top": 526.5,
+        "width": 36.0,
+        "height": 16.6
+      }
+    },
+    "months": {
+      "type": "text",
+      "label": "months",
+      "page": 2,
+      "box": {
+        "left": 247.6,
+        "top": 526.5,
+        "width": 36.0,
+        "height": 16.6
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 412.0,
+        "top": 443.5,
+        "width": 63.8,
+        "height": 12.1
+      }
+    },
+    "signature": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 2,
+      "box": {
+        "left": 136.1,
+        "top": 442.7,
+        "width": 250.1,
+        "height": 11.4
+      }
+    }
+  }
+}

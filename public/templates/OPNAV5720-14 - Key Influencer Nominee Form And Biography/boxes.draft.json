@@ -1,0 +1,172 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "showSite": {
+        "left": 88.3,
+        "top": 508.3,
+        "width": 484.9,
+        "height": 12.3,
+        "type": "text",
+        "description": "1. Show Site",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nomineeName": {
+        "left": 108.8,
+        "top": 490.3,
+        "width": 302.0,
+        "height": 12.3,
+        "type": "text",
+        "description": "2. Nominee Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "birthDate": {
+        "left": 466.7,
+        "top": 490.3,
+        "width": 106.5,
+        "height": 12.3,
+        "type": "text",
+        "description": "3. Birth Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "primPhone": {
+        "left": 136.4,
+        "top": 472.3,
+        "width": 62.4,
+        "height": 12.3,
+        "type": "text",
+        "description": "4. Primary Phone Number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "altPhone": {
+        "left": 306.0,
+        "top": 472.3,
+        "width": 58.4,
+        "height": 12.3,
+        "type": "text",
+        "description": "5. Alternate Phone Number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "emailAdd": {
+        "left": 434.9,
+        "top": 472.3,
+        "width": 138.3,
+        "height": 12.3,
+        "type": "text",
+        "description": "6. Email Address",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "currentOcc": {
+        "left": 122.6,
+        "top": 454.3,
+        "width": 241.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "7. Current Occupation",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio": {
+        "left": 437.8,
+        "top": 453.2,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio2": {
+        "left": 527.3,
+        "top": 453.2,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio3": {
+        "left": 510.8,
+        "top": 190.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio4": {
+        "left": 546.8,
+        "top": 190.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "affExplan": {
+        "left": 38.8,
+        "top": 159.1,
+        "width": 534.4,
+        "height": 102.3,
+        "type": "text",
+        "description": "10. If yes, please explain affiliation",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio5": {
+        "left": 510.8,
+        "top": 49.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio6": {
+        "left": 546.8,
+        "top": 49.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      }
+    }
+  }
+}

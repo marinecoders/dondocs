@@ -1,0 +1,192 @@
+{
+  "id": "opnav572014",
+  "label": "OPNAV5720-14 - Key Influencer Nominee Form And Biography",
+  "directory": "OPNAV5720-14 - Key Influencer Nominee Form And Biography",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "showSite",
+        "nomineeName",
+        "birthDate",
+        "primPhone",
+        "altPhone",
+        "emailAdd",
+        "currentOcc",
+        "radio",
+        "radio2",
+        "radio3",
+        "radio4",
+        "affExplan",
+        "radio5",
+        "radio6"
+      ]
+    }
+  ],
+  "fields": {
+    "showSite": {
+      "type": "text",
+      "label": "1. Show Site",
+      "page": 1,
+      "box": {
+        "left": 88.3,
+        "top": 508.3,
+        "width": 484.9,
+        "height": 12.3
+      }
+    },
+    "nomineeName": {
+      "type": "text",
+      "label": "2. Nominee Name",
+      "page": 1,
+      "box": {
+        "left": 108.8,
+        "top": 490.3,
+        "width": 302.0,
+        "height": 12.3
+      }
+    },
+    "birthDate": {
+      "type": "text",
+      "label": "3. Birth Date",
+      "page": 1,
+      "box": {
+        "left": 466.7,
+        "top": 490.3,
+        "width": 106.5,
+        "height": 12.3
+      }
+    },
+    "primPhone": {
+      "type": "text",
+      "label": "4. Primary Phone Number",
+      "page": 1,
+      "box": {
+        "left": 136.4,
+        "top": 472.3,
+        "width": 62.4,
+        "height": 12.3
+      }
+    },
+    "altPhone": {
+      "type": "text",
+      "label": "5. Alternate Phone Number",
+      "page": 1,
+      "box": {
+        "left": 306.0,
+        "top": 472.3,
+        "width": 58.4,
+        "height": 12.3
+      }
+    },
+    "emailAdd": {
+      "type": "text",
+      "label": "6. Email Address",
+      "page": 1,
+      "box": {
+        "left": 434.9,
+        "top": 472.3,
+        "width": 138.3,
+        "height": 12.3
+      }
+    },
+    "currentOcc": {
+      "type": "text",
+      "label": "7. Current Occupation",
+      "page": 1,
+      "box": {
+        "left": 122.6,
+        "top": 454.3,
+        "width": 241.8,
+        "height": 12.3
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 437.8,
+        "top": 453.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 527.3,
+        "top": 453.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 510.8,
+        "top": 190.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 546.8,
+        "top": 190.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "affExplan": {
+      "type": "text",
+      "label": "10. If yes, please explain affiliation",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 159.1,
+        "width": 534.4,
+        "height": 102.3
+      },
+      "multiline": true
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 510.8,
+        "top": 49.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 546.8,
+        "top": 49.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    }
+  }
+}

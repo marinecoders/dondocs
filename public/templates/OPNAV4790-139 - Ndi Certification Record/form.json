@@ -1,0 +1,214 @@
+{
+  "id": "opnav4790139",
+  "label": "OPNAV4790-139 - Ndi Certification Record",
+  "directory": "OPNAV4790-139 - Ndi Certification Record",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "nme",
+        "rteRnk",
+        "certAct",
+        "effDte",
+        "recertDte",
+        "rg",
+        "ec",
+        "pt",
+        "us",
+        "mp",
+        "ot",
+        "rmks",
+        "certOffNme",
+        "certOffSig",
+        "certOffSigDte",
+        "orgTo"
+      ]
+    }
+  ],
+  "fields": {
+    "nme": {
+      "type": "text",
+      "label": "1. NAME",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 697.6,
+        "width": 406.6,
+        "height": 23.0
+      }
+    },
+    "rteRnk": {
+      "type": "text",
+      "label": "2. RATE/RANK",
+      "page": 1,
+      "box": {
+        "left": 452.6,
+        "top": 697.6,
+        "width": 122.9,
+        "height": 23.0
+      }
+    },
+    "certAct": {
+      "type": "text",
+      "label": "3. CERTIFYING ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 662.3,
+        "width": 534.5,
+        "height": 23.0
+      }
+    },
+    "effDte": {
+      "type": "text",
+      "label": "4. EFFECTIVE DATE (DD MMM YYYY)",
+      "page": 1,
+      "box": {
+        "left": 41.1,
+        "top": 626.9,
+        "width": 264.9,
+        "height": 23.0
+      }
+    },
+    "recertDte": {
+      "type": "text",
+      "label": "5. RECERTIFICATION DATE (DD MMM YYYY)",
+      "page": 1,
+      "box": {
+        "left": 311.1,
+        "top": 626.9,
+        "width": 264.9,
+        "height": 23.0
+      }
+    },
+    "rg": {
+      "type": "checkbox",
+      "label": "IS CERTIFIED",
+      "page": 1,
+      "box": {
+        "left": 122.9,
+        "top": 550.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "ec": {
+      "type": "checkbox",
+      "label": "RADIOGRAPHIC",
+      "page": 1,
+      "box": {
+        "left": 355.4,
+        "top": 550.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "pt": {
+      "type": "checkbox",
+      "label": "IS CERTIFIED",
+      "page": 1,
+      "box": {
+        "left": 122.9,
+        "top": 484.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "us": {
+      "type": "checkbox",
+      "label": "PENETRANT",
+      "page": 1,
+      "box": {
+        "left": 355.4,
+        "top": 484.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "mp": {
+      "type": "checkbox",
+      "label": "IS CERTIFIED",
+      "page": 1,
+      "box": {
+        "left": 122.9,
+        "top": 398.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "ot": {
+      "type": "checkbox",
+      "label": "MAGNETIC PARTICLE",
+      "page": 1,
+      "box": {
+        "left": 355.4,
+        "top": 398.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "rmks": {
+      "type": "text",
+      "label": "7. REMARKS",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 332.7,
+        "width": 534.5,
+        "height": 178.8
+      },
+      "multiline": true
+    },
+    "certOffNme": {
+      "type": "text",
+      "label": "8. PRINT OR TYPE CERTIFYING OFFICIAL NAME, TITLE",
+      "page": 1,
+      "box": {
+        "left": 41.6,
+        "top": 141.4,
+        "width": 218.4,
+        "height": 39.1
+      },
+      "multiline": true
+    },
+    "certOffSig": {
+      "type": "text",
+      "label": "10. CERTIFYING OFFICIAL SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 357.1,
+        "top": 141.4,
+        "width": 218.4,
+        "height": 39.1
+      },
+      "multiline": true
+    },
+    "certOffSigDte": {
+      "type": "text",
+      "label": "(DD MMM YYYY)",
+      "page": 1,
+      "box": {
+        "left": 265.1,
+        "top": 134.3,
+        "width": 87.0,
+        "height": 32.1
+      },
+      "multiline": true
+    },
+    "orgTo": {
+      "type": "text",
+      "label": "Original to: Individual&apos;s NDI Technician/Operator Log",
+      "page": 1,
+      "box": {
+        "left": 41.6,
+        "top": 90.3,
+        "width": 534.5,
+        "height": 53.6
+      },
+      "multiline": true
+    }
+  }
+}

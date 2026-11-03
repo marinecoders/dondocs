@@ -1,0 +1,291 @@
+{
+  "id": "opnav4790178",
+  "label": "OPNAV4790-178 - Launching Valve Low Pressure Actuation",
+  "directory": "OPNAV4790-178 - Launching Valve Low Pressure Actuation",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "catapultno",
+        "dateTimeField1",
+        "jsn",
+        "shotno",
+        "hitssince",
+        "lvtemp",
+        "lvtemp2",
+        "oPENINGip",
+        "oPENINGrpa",
+        "oPENINGirpd",
+        "oPENINGfp",
+        "oPENINGot",
+        "cLOSINGip",
+        "cLOSINGrpa",
+        "cLOSINGrpd",
+        "cLOSINGfp",
+        "cLOSINGot",
+        "remarks",
+        "maintman",
+        "wc",
+        "qainsp",
+        "maintchief"
+      ]
+    }
+  ],
+  "fields": {
+    "catapultno": {
+      "type": "text",
+      "label": "ENTER ENGINE NUMBER",
+      "page": 1,
+      "box": {
+        "left": 108.2,
+        "top": 735.2,
+        "width": 132.0,
+        "height": 12.3
+      }
+    },
+    "dateTimeField1": {
+      "type": "text",
+      "label": "ENTER DATE.",
+      "page": 1,
+      "box": {
+        "left": 473.2,
+        "top": 735.2,
+        "width": 91.0,
+        "height": 12.3
+      }
+    },
+    "jsn": {
+      "type": "text",
+      "label": "ENTER JSN.",
+      "page": 1,
+      "box": {
+        "left": 282.3,
+        "top": 726.2,
+        "width": 74.9,
+        "height": 12.3
+      }
+    },
+    "shotno": {
+      "type": "text",
+      "label": "ENTER SHOT NUMBER.",
+      "page": 1,
+      "box": {
+        "left": 92.7,
+        "top": 708.2,
+        "width": 147.5,
+        "height": 12.3
+      }
+    },
+    "hitssince": {
+      "type": "text",
+      "label": "ENTER SHOTS SINCE LAST INSPECTION.",
+      "page": 1,
+      "box": {
+        "left": 442.7,
+        "top": 708.2,
+        "width": 121.5,
+        "height": 12.3
+      }
+    },
+    "lvtemp": {
+      "type": "text",
+      "label": "ENTER LAUNCHING VALVE TEMPERATURE.",
+      "page": 1,
+      "box": {
+        "left": 88.3,
+        "top": 654.2,
+        "width": 97.9,
+        "height": 12.3
+      }
+    },
+    "lvtemp2": {
+      "type": "text",
+      "label": "ENTER HYD FLUID TEMPERATURE.",
+      "page": 1,
+      "box": {
+        "left": 290.1,
+        "top": 654.2,
+        "width": 89.6,
+        "height": 12.3
+      }
+    },
+    "oPENINGip": {
+      "type": "text",
+      "label": "ENTER OPENING STROKE INITIAL PRESSURE.",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 564.2,
+        "width": 102.3,
+        "height": 57.3
+      },
+      "multiline": true
+    },
+    "oPENINGrpa": {
+      "type": "text",
+      "label": "ENTER OPENING STROKE RUNNING PRESSURE AMOUNT.",
+      "page": 1,
+      "box": {
+        "left": 146.8,
+        "top": 564.2,
+        "width": 97.8,
+        "height": 57.3
+      },
+      "multiline": true
+    },
+    "oPENINGirpd": {
+      "type": "text",
+      "label": "ENTER OPENING STROKE RUNNING PRESSURE DISTANCE.",
+      "page": 1,
+      "box": {
+        "left": 250.3,
+        "top": 564.2,
+        "width": 97.8,
+        "height": 57.3
+      },
+      "multiline": true
+    },
+    "oPENINGfp": {
+      "type": "text",
+      "label": "ENTER OPENING STROKE FINAL PRESSURE.",
+      "page": 1,
+      "box": {
+        "left": 353.8,
+        "top": 564.2,
+        "width": 106.8,
+        "height": 57.3
+      },
+      "multiline": true
+    },
+    "oPENINGot": {
+      "type": "text",
+      "label": "ENTER OPENING STROKE OPENING TIME.",
+      "page": 1,
+      "box": {
+        "left": 466.3,
+        "top": 564.2,
+        "width": 106.8,
+        "height": 57.3
+      },
+      "multiline": true
+    },
+    "cLOSINGip": {
+      "type": "text",
+      "label": "ENTER CLOSING STROKE INITIAL PRESSURE.",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 433.7,
+        "width": 102.3,
+        "height": 57.3
+      },
+      "multiline": true
+    },
+    "cLOSINGrpa": {
+      "type": "text",
+      "label": "ENTER CLOSING STROKE RUNNING PRESSURE AMOUNT.",
+      "page": 1,
+      "box": {
+        "left": 146.8,
+        "top": 433.7,
+        "width": 97.8,
+        "height": 57.3
+      },
+      "multiline": true
+    },
+    "cLOSINGrpd": {
+      "type": "text",
+      "label": "ENTER CLOSING STROKE RUNNING PRESSURE DISTANCE.",
+      "page": 1,
+      "box": {
+        "left": 250.3,
+        "top": 433.7,
+        "width": 97.8,
+        "height": 57.3
+      },
+      "multiline": true
+    },
+    "cLOSINGfp": {
+      "type": "text",
+      "label": "ENTER CLOSING STROKE FINAL PRESSURE.",
+      "page": 1,
+      "box": {
+        "left": 353.8,
+        "top": 433.7,
+        "width": 106.8,
+        "height": 57.3
+      },
+      "multiline": true
+    },
+    "cLOSINGot": {
+      "type": "text",
+      "label": "ENTER CLOSING STROKE OPENING TIME.",
+      "page": 1,
+      "box": {
+        "left": 466.3,
+        "top": 433.7,
+        "width": 106.8,
+        "height": 57.3
+      },
+      "multiline": true
+    },
+    "remarks": {
+      "type": "text",
+      "label": "ENTER REMARKS.",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 360.4,
+        "width": 534.3,
+        "height": 29.4
+      }
+    },
+    "maintman": {
+      "type": "text",
+      "label": "ENTER MAINTENANCE MANAGER SIGNATURE.",
+      "page": 1,
+      "box": {
+        "left": 93.3,
+        "top": 325.3,
+        "width": 205.3,
+        "height": 12.3
+      }
+    },
+    "wc": {
+      "type": "text",
+      "label": "ENTER W/C SUPERVISOR SIGNATURE.",
+      "page": 1,
+      "box": {
+        "left": 386.9,
+        "top": 325.3,
+        "width": 181.8,
+        "height": 12.3
+      }
+    },
+    "qainsp": {
+      "type": "text",
+      "label": "ENTER QA INSPECTOR SIGNATURE.",
+      "page": 1,
+      "box": {
+        "left": 107.3,
+        "top": 302.8,
+        "width": 191.3,
+        "height": 12.3
+      }
+    },
+    "maintchief": {
+      "type": "text",
+      "label": "ENTER MAINTENANCE CHIEF OFFICER.",
+      "page": 1,
+      "box": {
+        "left": 404.6,
+        "top": 302.8,
+        "width": 164.1,
+        "height": 12.3
+      }
+    }
+  }
+}

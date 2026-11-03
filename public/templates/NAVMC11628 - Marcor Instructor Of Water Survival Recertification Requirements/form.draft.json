@@ -1,0 +1,281 @@
+{
+  "id": "navmc11628",
+  "label": "NAVMC11628 - Marcor Instructor Of Water Survival Recertification Requirements",
+  "directory": "NAVMC11628 - Marcor Instructor Of Water Survival Recertification Requirements",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "nameLast",
+        "nameFirst",
+        "nameMI",
+        "mos",
+        "phoneNumber",
+        "date",
+        "swim500m",
+        "swinUnderWater",
+        "lifeSavingStroke",
+        "rubberDiveBrick",
+        "performAteachback",
+        "cPRAEDPractical",
+        "cPRAEDWrittenExam",
+        "lGWrittenExam",
+        "fIRSTAidWrittenExam",
+        "lGRescuesR06",
+        "spinalManagement",
+        "oxygenAdmin",
+        "copies",
+        "mcitws",
+        "mcitwsSig",
+        "mcitwsDate"
+      ]
+    }
+  ],
+  "fields": {
+    "nameLast": {
+      "type": "text",
+      "label": "nameLast",
+      "page": 1,
+      "box": {
+        "left": 128.1,
+        "top": 620.5,
+        "width": 175.8,
+        "height": 13.1
+      }
+    },
+    "nameFirst": {
+      "type": "text",
+      "label": "nameFirst",
+      "page": 1,
+      "box": {
+        "left": 312.6,
+        "top": 620.5,
+        "width": 142.1,
+        "height": 13.1
+      }
+    },
+    "nameMI": {
+      "type": "text",
+      "label": "nameMI",
+      "page": 1,
+      "box": {
+        "left": 462.8,
+        "top": 620.5,
+        "width": 29.8,
+        "height": 13.1
+      }
+    },
+    "mos": {
+      "type": "text",
+      "label": "MOS",
+      "page": 1,
+      "box": {
+        "left": 128.1,
+        "top": 581.2,
+        "width": 191.6,
+        "height": 13.1
+      }
+    },
+    "phoneNumber": {
+      "type": "text",
+      "label": "PhoneNumber",
+      "page": 1,
+      "box": {
+        "left": 328.8,
+        "top": 581.1,
+        "width": 90.9,
+        "height": 12.7
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 427.6,
+        "top": 581.1,
+        "width": 65.4,
+        "height": 12.6
+      }
+    },
+    "swim500m": {
+      "type": "checkbox",
+      "label": "swim500m",
+      "page": 1,
+      "box": {
+        "left": 104.9,
+        "top": 489.3,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "swinUnderWater": {
+      "type": "checkbox",
+      "label": "swinUnderWater",
+      "page": 1,
+      "box": {
+        "left": 104.7,
+        "top": 445.1,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "lifeSavingStroke": {
+      "type": "checkbox",
+      "label": "lifeSavingStroke",
+      "page": 1,
+      "box": {
+        "left": 104.7,
+        "top": 407.3,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "rubberDiveBrick": {
+      "type": "checkbox",
+      "label": "rubberDiveBrick",
+      "page": 1,
+      "box": {
+        "left": 104.8,
+        "top": 364.7,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "performAteachback": {
+      "type": "checkbox",
+      "label": "performAteachback",
+      "page": 1,
+      "box": {
+        "left": 104.8,
+        "top": 302.3,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "cPRAEDPractical": {
+      "type": "checkbox",
+      "label": "CPRAEDPractical",
+      "page": 1,
+      "box": {
+        "left": 104.8,
+        "top": 278.3,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "cPRAEDWrittenExam": {
+      "type": "checkbox",
+      "label": "CPRAEDWrittenExam",
+      "page": 1,
+      "box": {
+        "left": 104.5,
+        "top": 253.1,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "lGWrittenExam": {
+      "type": "checkbox",
+      "label": "LGWrittenExam",
+      "page": 1,
+      "box": {
+        "left": 104.8,
+        "top": 227.0,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "fIRSTAidWrittenExam": {
+      "type": "checkbox",
+      "label": "FIRSTAidWrittenExam",
+      "page": 1,
+      "box": {
+        "left": 104.7,
+        "top": 201.5,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "lGRescuesR06": {
+      "type": "checkbox",
+      "label": "LGRescuesR06",
+      "page": 1,
+      "box": {
+        "left": 104.5,
+        "top": 177.0,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "spinalManagement": {
+      "type": "checkbox",
+      "label": "SpinalManagement",
+      "page": 1,
+      "box": {
+        "left": 104.8,
+        "top": 151.5,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "oxygenAdmin": {
+      "type": "checkbox",
+      "label": "OxygenAdmin",
+      "page": 1,
+      "box": {
+        "left": 104.8,
+        "top": 126.8,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "copies": {
+      "type": "checkbox",
+      "label": "Copies",
+      "page": 1,
+      "box": {
+        "left": 104.8,
+        "top": 104.7,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "mcitws": {
+      "type": "text",
+      "label": "MCITWS",
+      "page": 1,
+      "box": {
+        "left": 64.8,
+        "top": 78.2,
+        "width": 256.5,
+        "height": 13.1
+      }
+    },
+    "mcitwsSig": {
+      "type": "signature",
+      "label": "mcitwsSig",
+      "page": 1,
+      "box": {
+        "left": 330.7,
+        "top": 78.0,
+        "width": 153.3,
+        "height": 12.1
+      }
+    },
+    "mcitwsDate": {
+      "type": "text",
+      "label": "mcitwsDate",
+      "page": 1,
+      "box": {
+        "left": 493.2,
+        "top": 77.8,
+        "width": 55.3,
+        "height": 11.5
+      }
+    }
+  }
+}

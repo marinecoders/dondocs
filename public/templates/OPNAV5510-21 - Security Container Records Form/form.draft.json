@@ -1,0 +1,704 @@
+{
+  "id": "opnav551021",
+  "label": "OPNAV5510-21 - Security Container Records Form",
+  "directory": "OPNAV5510-21 - Security Container Records Form",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "containerNumber",
+        "location",
+        "officeCode",
+        "typeOfContainer",
+        "dateReceived",
+        "classOfContainer",
+        "classOfContainer2",
+        "classOfContainer3",
+        "classOfContainer4",
+        "classOfContainer5",
+        "classOfVaultDoor",
+        "classOfVaultDoor2",
+        "classOfVaultDoor3",
+        "serialNumber",
+        "quantityOfDocuments",
+        "scopeOfMaterial",
+        "dateOfManfacure",
+        "topSecret",
+        "secret",
+        "confidential",
+        "typeOfLock",
+        "shackle",
+        "lockCase",
+        "remarks"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "inspectedBy1",
+        "condition1",
+        "repairsMakeDrilled1",
+        "dateInspected1",
+        "inspectedBy2",
+        "condition2",
+        "repairsMakeDrilled2",
+        "dateInspected2",
+        "dateInspected3",
+        "inspectedBy3",
+        "condition3",
+        "repairsMakeDrilled3",
+        "dateInspected4",
+        "inspectedBy4",
+        "condition4",
+        "repairsMakeDrilled4",
+        "dateInspected5",
+        "inspectedBy5",
+        "condition5",
+        "repairsMakeDrilled5",
+        "inspectedBy6",
+        "condition6",
+        "repairsMakeDrilled6",
+        "dateInspected6",
+        "dateInspected7",
+        "inspectedBy7",
+        "condition7",
+        "repairsMakeDrilled7",
+        "inspectedBy8",
+        "condition8",
+        "repairsMakeDrilled8",
+        "dateInspected8"
+      ]
+    }
+  ],
+  "fields": {
+    "containerNumber": {
+      "type": "text",
+      "label": "Enter the container number.",
+      "page": 1,
+      "box": {
+        "left": 91.3,
+        "top": 451.5,
+        "width": 127.9,
+        "height": 17.7
+      }
+    },
+    "location": {
+      "type": "text",
+      "label": "Enter the location.",
+      "page": 1,
+      "box": {
+        "left": 226.8,
+        "top": 451.5,
+        "width": 136.4,
+        "height": 17.7
+      }
+    },
+    "officeCode": {
+      "type": "text",
+      "label": "Enter the office code.",
+      "page": 1,
+      "box": {
+        "left": 370.8,
+        "top": 451.5,
+        "width": 108.2,
+        "height": 17.7
+      }
+    },
+    "typeOfContainer": {
+      "type": "text",
+      "label": "Enter the type of container and or vault door (make and size).",
+      "page": 1,
+      "box": {
+        "left": 485.6,
+        "top": 451.5,
+        "width": 196.0,
+        "height": 17.7
+      }
+    },
+    "dateReceived": {
+      "type": "text",
+      "label": "Enter the date received using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 91.3,
+        "top": 409.4,
+        "width": 108.8,
+        "height": 22.7
+      }
+    },
+    "classOfContainer": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 213.4,
+        "top": 408.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_ClassOfContainer_0"
+    },
+    "classOfContainer2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 265.7,
+        "top": 408.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_ClassOfContainer_0"
+    },
+    "classOfContainer3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 323.1,
+        "top": 408.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_ClassOfContainer_0"
+    },
+    "classOfContainer4": {
+      "type": "radio",
+      "label": "3",
+      "page": 1,
+      "box": {
+        "left": 376.0,
+        "top": 408.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_ClassOfContainer_0"
+    },
+    "classOfContainer5": {
+      "type": "radio",
+      "label": "4",
+      "page": 1,
+      "box": {
+        "left": 432.8,
+        "top": 408.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_ClassOfContainer_0"
+    },
+    "classOfVaultDoor": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 488.8,
+        "top": 407.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_ClassOfVaultDoor_0"
+    },
+    "classOfVaultDoor2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 559.1,
+        "top": 407.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_ClassOfVaultDoor_0"
+    },
+    "classOfVaultDoor3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 628.4,
+        "top": 407.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_ClassOfVaultDoor_0"
+    },
+    "serialNumber": {
+      "type": "text",
+      "label": "Enter the serial number.",
+      "page": 1,
+      "box": {
+        "left": 91.3,
+        "top": 362.1,
+        "width": 109.9,
+        "height": 27.8
+      }
+    },
+    "quantityOfDocuments": {
+      "type": "text",
+      "label": "Enter the quantity of documents.",
+      "page": 1,
+      "box": {
+        "left": 369.7,
+        "top": 362.1,
+        "width": 109.9,
+        "height": 27.8
+      }
+    },
+    "scopeOfMaterial": {
+      "type": "text",
+      "label": "Enter the scope of material.",
+      "page": 1,
+      "box": {
+        "left": 485.0,
+        "top": 362.1,
+        "width": 196.5,
+        "height": 27.8
+      }
+    },
+    "dateOfManfacure": {
+      "type": "text",
+      "label": "Enter the date of manufacture (DD MMM YYYY).",
+      "page": 1,
+      "box": {
+        "left": 207.1,
+        "top": 361.5,
+        "width": 156.1,
+        "height": 27.2
+      }
+    },
+    "topSecret": {
+      "type": "text",
+      "label": "Enter the percentage for top secret.",
+      "page": 1,
+      "box": {
+        "left": 140.8,
+        "top": 314.2,
+        "width": 68.3,
+        "height": 19.5
+      }
+    },
+    "secret": {
+      "type": "text",
+      "label": "Enter the percentage for secret.",
+      "page": 1,
+      "box": {
+        "left": 269.6,
+        "top": 314.2,
+        "width": 68.3,
+        "height": 19.5
+      }
+    },
+    "confidential": {
+      "type": "text",
+      "label": "Enter the percentage for confidential.",
+      "page": 1,
+      "box": {
+        "left": 449.0,
+        "top": 314.2,
+        "width": 68.3,
+        "height": 19.5
+      }
+    },
+    "typeOfLock": {
+      "type": "text",
+      "label": "Enter the tyoe of lock (make and model).",
+      "page": 1,
+      "box": {
+        "left": 91.3,
+        "top": 265.9,
+        "width": 307.9,
+        "height": 27.8
+      }
+    },
+    "shackle": {
+      "type": "text",
+      "label": "Enter the shackle.",
+      "page": 1,
+      "box": {
+        "left": 407.9,
+        "top": 254.7,
+        "width": 95.9,
+        "height": 16.6
+      }
+    },
+    "lockCase": {
+      "type": "text",
+      "label": "Enter the lock case.",
+      "page": 1,
+      "box": {
+        "left": 512.6,
+        "top": 254.7,
+        "width": 168.4,
+        "height": 16.6
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "Enter the remarks.",
+      "page": 1,
+      "box": {
+        "left": 91.3,
+        "top": 217.6,
+        "width": 589.7,
+        "height": 84.6
+      },
+      "multiline": true
+    },
+    "inspectedBy1": {
+      "type": "text",
+      "label": "Enter the name of the inspector.",
+      "page": 2,
+      "box": {
+        "left": 227.1,
+        "top": 394.5,
+        "width": 103.7,
+        "height": 27.2
+      }
+    },
+    "condition1": {
+      "type": "text",
+      "label": "Enter the condition.",
+      "page": 2,
+      "box": {
+        "left": 336.3,
+        "top": 394.5,
+        "width": 97.9,
+        "height": 27.2
+      }
+    },
+    "repairsMakeDrilled1": {
+      "type": "text",
+      "label": "Enter the repairs made and or drilled.",
+      "page": 2,
+      "box": {
+        "left": 439.2,
+        "top": 394.5,
+        "width": 252.6,
+        "height": 27.2
+      }
+    },
+    "dateInspected1": {
+      "type": "text",
+      "label": "This is row 1 of 8.  Enter the date inspected using the format DD MMM YYYY.",
+      "page": 2,
+      "box": {
+        "left": 101.2,
+        "top": 393.8,
+        "width": 120.6,
+        "height": 27.2
+      }
+    },
+    "inspectedBy2": {
+      "type": "text",
+      "label": "Enter the name of the inspector.",
+      "page": 2,
+      "box": {
+        "left": 227.1,
+        "top": 362.5,
+        "width": 103.7,
+        "height": 27.2
+      }
+    },
+    "condition2": {
+      "type": "text",
+      "label": "Enter the condition.",
+      "page": 2,
+      "box": {
+        "left": 336.3,
+        "top": 362.5,
+        "width": 97.9,
+        "height": 27.2
+      }
+    },
+    "repairsMakeDrilled2": {
+      "type": "text",
+      "label": "Enter the repairs made and or drilled.",
+      "page": 2,
+      "box": {
+        "left": 439.2,
+        "top": 362.5,
+        "width": 252.6,
+        "height": 27.2
+      }
+    },
+    "dateInspected2": {
+      "type": "text",
+      "label": "This is row 2 of 8.  Enter the date inspected using the format DD MMM YYYY.",
+      "page": 2,
+      "box": {
+        "left": 101.1,
+        "top": 362.4,
+        "width": 120.6,
+        "height": 27.2
+      }
+    },
+    "dateInspected3": {
+      "type": "text",
+      "label": "This is row 3 of 8.  Enter the date inspected using the format DD MMM YYYY.",
+      "page": 2,
+      "box": {
+        "left": 101.1,
+        "top": 330.6,
+        "width": 120.6,
+        "height": 28.0
+      }
+    },
+    "inspectedBy3": {
+      "type": "text",
+      "label": "Enter the name of the inspector.",
+      "page": 2,
+      "box": {
+        "left": 227.1,
+        "top": 330.6,
+        "width": 103.7,
+        "height": 28.0
+      }
+    },
+    "condition3": {
+      "type": "text",
+      "label": "Enter the condition.",
+      "page": 2,
+      "box": {
+        "left": 336.3,
+        "top": 330.6,
+        "width": 97.9,
+        "height": 28.0
+      }
+    },
+    "repairsMakeDrilled3": {
+      "type": "text",
+      "label": "Enter the repairs made and or drilled.",
+      "page": 2,
+      "box": {
+        "left": 439.2,
+        "top": 330.6,
+        "width": 252.6,
+        "height": 28.0
+      }
+    },
+    "dateInspected4": {
+      "type": "text",
+      "label": "This is row 4 of 8.  Enter the date inspected using the format DD MMM YYYY.",
+      "page": 2,
+      "box": {
+        "left": 101.1,
+        "top": 299.6,
+        "width": 120.6,
+        "height": 27.2
+      }
+    },
+    "inspectedBy4": {
+      "type": "text",
+      "label": "Enter the name of the inspector.",
+      "page": 2,
+      "box": {
+        "left": 227.1,
+        "top": 299.6,
+        "width": 103.7,
+        "height": 27.2
+      }
+    },
+    "condition4": {
+      "type": "text",
+      "label": "Enter the condition.",
+      "page": 2,
+      "box": {
+        "left": 336.3,
+        "top": 299.6,
+        "width": 97.9,
+        "height": 27.2
+      }
+    },
+    "repairsMakeDrilled4": {
+      "type": "text",
+      "label": "Enter the repairs made and or drilled.",
+      "page": 2,
+      "box": {
+        "left": 439.2,
+        "top": 299.6,
+        "width": 252.6,
+        "height": 27.2
+      }
+    },
+    "dateInspected5": {
+      "type": "text",
+      "label": "This is row 5 of 8.  Enter the date inspected using the format DD MMM YYYY.",
+      "page": 2,
+      "box": {
+        "left": 101.1,
+        "top": 267.4,
+        "width": 120.6,
+        "height": 27.2
+      }
+    },
+    "inspectedBy5": {
+      "type": "text",
+      "label": "Enter the name of the inspector.",
+      "page": 2,
+      "box": {
+        "left": 227.1,
+        "top": 267.4,
+        "width": 103.7,
+        "height": 27.2
+      }
+    },
+    "condition5": {
+      "type": "text",
+      "label": "Enter the condition.",
+      "page": 2,
+      "box": {
+        "left": 336.3,
+        "top": 267.4,
+        "width": 97.9,
+        "height": 27.2
+      }
+    },
+    "repairsMakeDrilled5": {
+      "type": "text",
+      "label": "Enter the repairs made and or drilled.",
+      "page": 2,
+      "box": {
+        "left": 439.2,
+        "top": 267.4,
+        "width": 252.6,
+        "height": 27.2
+      }
+    },
+    "inspectedBy6": {
+      "type": "text",
+      "label": "Enter the name of the inspector.",
+      "page": 2,
+      "box": {
+        "left": 227.1,
+        "top": 235.4,
+        "width": 103.7,
+        "height": 27.2
+      }
+    },
+    "condition6": {
+      "type": "text",
+      "label": "Enter the condition.",
+      "page": 2,
+      "box": {
+        "left": 336.3,
+        "top": 235.4,
+        "width": 97.9,
+        "height": 27.2
+      }
+    },
+    "repairsMakeDrilled6": {
+      "type": "text",
+      "label": "Enter the repairs made and or drilled.",
+      "page": 2,
+      "box": {
+        "left": 439.2,
+        "top": 235.4,
+        "width": 252.6,
+        "height": 27.2
+      }
+    },
+    "dateInspected6": {
+      "type": "text",
+      "label": "This is row 6 of 8.  Enter the date inspected using the format DD MMM YYYY.",
+      "page": 2,
+      "box": {
+        "left": 101.1,
+        "top": 235.3,
+        "width": 120.6,
+        "height": 27.2
+      }
+    },
+    "dateInspected7": {
+      "type": "text",
+      "label": "This is row 7 of 8.  Enter the date inspected using the format DD MMM YYYY.",
+      "page": 2,
+      "box": {
+        "left": 101.1,
+        "top": 204.4,
+        "width": 120.6,
+        "height": 27.2
+      }
+    },
+    "inspectedBy7": {
+      "type": "text",
+      "label": "Enter the name of the inspector.",
+      "page": 2,
+      "box": {
+        "left": 227.1,
+        "top": 204.4,
+        "width": 103.7,
+        "height": 27.2
+      }
+    },
+    "condition7": {
+      "type": "text",
+      "label": "Enter the condition.",
+      "page": 2,
+      "box": {
+        "left": 336.3,
+        "top": 204.4,
+        "width": 97.9,
+        "height": 27.2
+      }
+    },
+    "repairsMakeDrilled7": {
+      "type": "text",
+      "label": "Enter the repairs made and or drilled.",
+      "page": 2,
+      "box": {
+        "left": 439.2,
+        "top": 204.4,
+        "width": 252.6,
+        "height": 27.2
+      }
+    },
+    "inspectedBy8": {
+      "type": "text",
+      "label": "Enter the name of the inspector.",
+      "page": 2,
+      "box": {
+        "left": 227.1,
+        "top": 172.4,
+        "width": 103.7,
+        "height": 27.2
+      }
+    },
+    "condition8": {
+      "type": "text",
+      "label": "Enter the condition.",
+      "page": 2,
+      "box": {
+        "left": 336.3,
+        "top": 172.4,
+        "width": 97.9,
+        "height": 27.2
+      }
+    },
+    "repairsMakeDrilled8": {
+      "type": "text",
+      "label": "Enter the repairs made and or drilled.",
+      "page": 2,
+      "box": {
+        "left": 439.2,
+        "top": 172.4,
+        "width": 252.6,
+        "height": 27.2
+      }
+    },
+    "dateInspected8": {
+      "type": "text",
+      "label": "This is row 8 of 8.  Enter the date inspected using the format DD MMM YYYY.",
+      "page": 2,
+      "box": {
+        "left": 101.1,
+        "top": 172.3,
+        "width": 120.6,
+        "height": 27.2
+      }
+    }
+  }
+}

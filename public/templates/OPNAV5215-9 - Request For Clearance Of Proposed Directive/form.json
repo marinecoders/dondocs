@@ -1,0 +1,483 @@
+{
+  "id": "opnav52159",
+  "label": "OPNAV5215-9 - Request For Clearance Of Proposed Directive",
+  "directory": "OPNAV5215-9 - Request For Clearance Of Proposed Directive",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "submittedDate",
+        "radio",
+        "radio2",
+        "radio3",
+        "radio4",
+        "radio5",
+        "radio6",
+        "class",
+        "dirNoSubj",
+        "radio7",
+        "radio8",
+        "origOffice",
+        "sponOffice",
+        "forSigBy",
+        "dSCPComm",
+        "dSCPDate",
+        "dSCPSig",
+        "dSCPName",
+        "eAComm",
+        "eaDate",
+        "eAsig",
+        "eaName",
+        "radio9",
+        "radio10",
+        "dteRec",
+        "expDate",
+        "noPages",
+        "dmComment",
+        "dCPName",
+        "dCPDate",
+        "dCPsig"
+      ]
+    }
+  ],
+  "fields": {
+    "submittedDate": {
+      "type": "text",
+      "label": "1. Date",
+      "page": 1,
+      "box": {
+        "left": 74.8,
+        "top": 735.2,
+        "width": 246.4,
+        "height": 12.3
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 377.3,
+        "top": 735.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 735.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 78.4,
+        "top": 717.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 139.7,
+        "top": 717.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 1,
+      "box": {
+        "left": 186.5,
+        "top": 717.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 233.3,
+        "top": 717.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "class": {
+      "type": "choice",
+      "label": "Resubmit",
+      "page": 1,
+      "box": {
+        "left": 435.6,
+        "top": 716.4,
+        "width": 136.8,
+        "height": 10.8
+      },
+      "options": [
+        "Unclassified",
+        "CUI",
+        "Confidential",
+        "Secret",
+        "Confidential/NOFORN",
+        "Secret/NOFORN"
+      ]
+    },
+    "dirNoSubj": {
+      "type": "text",
+      "label": "Dir No Subj",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 688.4,
+        "width": 534.4,
+        "height": 23.1
+      }
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 658.8,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 658.8,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "origOffice": {
+      "type": "text",
+      "label": "7. Originating Office",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 630.7,
+        "width": 138.3,
+        "height": 19.5
+      }
+    },
+    "sponOffice": {
+      "type": "text",
+      "label": "8. Sponsoring Office",
+      "page": 1,
+      "box": {
+        "left": 182.9,
+        "top": 630.7,
+        "width": 138.3,
+        "height": 19.5
+      }
+    },
+    "forSigBy": {
+      "type": "text",
+      "label": "9. For Signature By",
+      "page": 1,
+      "box": {
+        "left": 326.9,
+        "top": 630.7,
+        "width": 246.4,
+        "height": 19.5
+      }
+    },
+    "dSCPComm": {
+      "type": "text",
+      "label": "b. Comments",
+      "page": 1,
+      "box": {
+        "left": 204.5,
+        "top": 273.5,
+        "width": 149.1,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "dSCPDate": {
+      "type": "text",
+      "label": "c. Date",
+      "page": 1,
+      "box": {
+        "left": 359.3,
+        "top": 273.5,
+        "width": 77.1,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "dSCPSig": {
+      "type": "text",
+      "label": "d. Signature",
+      "page": 1,
+      "box": {
+        "left": 442.1,
+        "top": 273.5,
+        "width": 131.1,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "dSCPName": {
+      "type": "text",
+      "label": "Point (DSCP) Name",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 265.9,
+        "width": 160.0,
+        "height": 22.8
+      }
+    },
+    "eAComm": {
+      "type": "text",
+      "label": "b. Comments",
+      "page": 1,
+      "box": {
+        "left": 204.5,
+        "top": 226.7,
+        "width": 149.1,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "eaDate": {
+      "type": "text",
+      "label": "c. Date",
+      "page": 1,
+      "box": {
+        "left": 359.3,
+        "top": 226.7,
+        "width": 77.1,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "eAsig": {
+      "type": "text",
+      "label": "d. Signature",
+      "page": 1,
+      "box": {
+        "left": 442.1,
+        "top": 226.7,
+        "width": 131.1,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "eaName": {
+      "type": "text",
+      "label": "Assistant or Civilian Equivalent Name",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 219.1,
+        "width": 160.0,
+        "height": 22.8
+      }
+    },
+    "radio9": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 235.0,
+        "top": 156.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio10": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 273.8,
+        "top": 156.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "dteRec": {
+      "type": "text",
+      "label": "Control Point (DCP)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 154.3,
+        "width": 160.0,
+        "height": 15.6
+      }
+    },
+    "expDate": {
+      "type": "text",
+      "label": "Yes No",
+      "page": 1,
+      "box": {
+        "left": 359.3,
+        "top": 154.3,
+        "width": 77.1,
+        "height": 15.6
+      }
+    },
+    "noPages": {
+      "type": "text",
+      "label": "Yes No",
+      "page": 1,
+      "box": {
+        "left": 442.1,
+        "top": 154.3,
+        "width": 131.1,
+        "height": 15.6
+      }
+    },
+    "dmComment": {
+      "type": "text",
+      "label": "17. DCP Comments",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 122.3,
+        "width": 534.4,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "dCPName": {
+      "type": "text",
+      "label": "18. DCP Name/Title",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 75.5,
+        "width": 314.8,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "dCPDate": {
+      "type": "text",
+      "label": "19. Date",
+      "page": 1,
+      "box": {
+        "left": 359.3,
+        "top": 75.5,
+        "width": 77.1,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "dCPsig": {
+      "type": "text",
+      "label": "20. Signature",
+      "page": 1,
+      "box": {
+        "left": 442.1,
+        "top": 75.5,
+        "width": 131.1,
+        "height": 30.3
+      },
+      "multiline": true
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 5,
+      "rowStride": 41.2,
+      "editor": "grid",
+      "columns": {
+        "dropDownList1": {
+          "type": "choice",
+          "label": "Adjudicator Review",
+          "page": 1,
+          "box": {
+            "left": 39.6,
+            "top": 543.6,
+            "width": 79.2,
+            "height": 21.6
+          }
+        },
+        "remarks": {
+          "type": "text",
+          "label": "Remarks",
+          "page": 1,
+          "box": {
+            "left": 125.3,
+            "top": 544.3,
+            "width": 123.9,
+            "height": 23.1
+          }
+        },
+        "reviewer": {
+          "type": "text",
+          "label": "Reviewer Name,Title, Organization",
+          "page": 1,
+          "box": {
+            "left": 254.9,
+            "top": 544.3,
+            "width": 127.5,
+            "height": 23.1
+          }
+        },
+        "adjudDate": {
+          "type": "text",
+          "label": "Date",
+          "page": 1,
+          "box": {
+            "left": 388.1,
+            "top": 544.3,
+            "width": 48.3,
+            "height": 24.7
+          }
+        },
+        "from": {
+          "type": "text",
+          "label": "Signature",
+          "page": 1,
+          "box": {
+            "left": 442.1,
+            "top": 544.3,
+            "width": 131.1,
+            "height": 24.7
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,1304 @@
+{
+  "id": "navmc11082",
+  "label": "NAVMC11082 - Financial Statement Remission Of Indebtedness",
+  "directory": "NAVMC11082 - Financial Statement Remission Of Indebtedness",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "socSecNo",
+        "nameMarine",
+        "grdMarine",
+        "enlstExpire",
+        "dateTotServ",
+        "noTitle",
+        "totlDebt",
+        "amtCollct",
+        "balForRemiss",
+        "relatnDep1",
+        "relatnDep2",
+        "relatnDep3",
+        "relatnDep4",
+        "relatnDep5",
+        "relatnDep6",
+        "relatnDep7",
+        "relatnDep8",
+        "relatnDep9",
+        "relatnDep10",
+        "exp1",
+        "basPay",
+        "exp2",
+        "basAllow1",
+        "exp3",
+        "basAllow2",
+        "exp4",
+        "basAllow3",
+        "exp5",
+        "basAllow4",
+        "exp6",
+        "basAllow5",
+        "exp7",
+        "basAllow6",
+        "allowOther",
+        "exp8",
+        "exp9",
+        "basTotl",
+        "exp10",
+        "exp11",
+        "datePymnt1",
+        "pymnt1",
+        "exp12",
+        "datePymnt2",
+        "pymnt2",
+        "dateCrtExpr",
+        "exp13",
+        "datePymnt3",
+        "pymnt3",
+        "datePymnt4",
+        "pymnt4",
+        "exp14",
+        "pymntOther",
+        "exp15",
+        "allowExpns",
+        "pymnt",
+        "expTotl",
+        "remarkMthExp",
+        "itmizMthExp"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "totlGrssIncm",
+        "totlMontlyInstPay",
+        "totlMontlyExpn",
+        "totlMontlyOblig",
+        "marineNetIncm1",
+        "spsMnthGrs",
+        "spsMnthGrsOthr",
+        "spsExpFITW",
+        "spsExpSITW",
+        "spsExpFICA",
+        "spsExpCarMnt",
+        "spsExpOthTrns",
+        "spsExpCarPay",
+        "spsExpChildCr",
+        "spsExpOthr1A",
+        "spsExpOthr1",
+        "spsExpOthr2A",
+        "spsExpOthr2",
+        "spsExpOthr3A",
+        "spsExpOthr3",
+        "spsExpOthr4A",
+        "spsExpOthr4",
+        "spsIncdOthrTotl",
+        "spsExpOthr5A",
+        "spsExpOthr5",
+        "spsExpOthr6A",
+        "spsExpOthr6",
+        "spsExpOthr7A",
+        "spsExpOthr7",
+        "marineNetIncm2",
+        "spsExpOthr8A",
+        "spsExpOthr8",
+        "spsExpOthr9A",
+        "spsExpOthr9",
+        "spsMnthNI2A",
+        "spsMnthExpTot",
+        "otherNetInc",
+        "spsMnthNI1",
+        "diffTotFamly",
+        "listAssets",
+        "dateSign2",
+        "sigMarine"
+      ]
+    }
+  ],
+  "fields": {
+    "socSecNo": {
+      "type": "text",
+      "label": "Enter marines social security number without dashes.",
+      "page": 1,
+      "box": {
+        "left": 255.3,
+        "top": 695.9,
+        "width": 83.6,
+        "height": 17.8
+      }
+    },
+    "nameMarine": {
+      "type": "text",
+      "label": "Enter last name. First name and middle initial of indebted marine.",
+      "page": 1,
+      "box": {
+        "left": 34.9,
+        "top": 695.3,
+        "width": 168.4,
+        "height": 17.1
+      }
+    },
+    "grdMarine": {
+      "type": "text",
+      "label": "Enter the grade of marine.",
+      "page": 1,
+      "box": {
+        "left": 204.6,
+        "top": 695.3,
+        "width": 49.3,
+        "height": 17.1
+      }
+    },
+    "enlstExpire": {
+      "type": "text",
+      "label": "Enter when enlistment expires.",
+      "page": 1,
+      "box": {
+        "left": 469.7,
+        "top": 695.3,
+        "width": 107.2,
+        "height": 17.1
+      }
+    },
+    "dateTotServ": {
+      "type": "text",
+      "label": "Enter date of total service using format 2002 12 25",
+      "page": 1,
+      "box": {
+        "left": 338.8,
+        "top": 692.1,
+        "width": 128.9,
+        "height": 14.6
+      }
+    },
+    "noTitle": {
+      "type": "text",
+      "label": "Enter M O S number and title.",
+      "page": 1,
+      "box": {
+        "left": 35.5,
+        "top": 661.1,
+        "width": 198.7,
+        "height": 17.1
+      }
+    },
+    "totlDebt": {
+      "type": "text",
+      "label": "Enter the amount of the what the total debt is or was.",
+      "page": 1,
+      "box": {
+        "left": 236.8,
+        "top": 661.1,
+        "width": 89.5,
+        "height": 17.1
+      }
+    },
+    "amtCollct": {
+      "type": "text",
+      "label": "Enter the amount collected.",
+      "page": 1,
+      "box": {
+        "left": 329.6,
+        "top": 661.1,
+        "width": 79.6,
+        "height": 17.1
+      }
+    },
+    "balForRemiss": {
+      "type": "text",
+      "label": "Enter the balance for remission consideration.",
+      "page": 1,
+      "box": {
+        "left": 480.9,
+        "top": 661.1,
+        "width": 79.6,
+        "height": 17.1
+      }
+    },
+    "relatnDep1": {
+      "type": "text",
+      "label": "Enter the relationship of dependent 1.",
+      "page": 1,
+      "box": {
+        "left": 324.3,
+        "top": 617.0,
+        "width": 113.8,
+        "height": 13.8
+      }
+    },
+    "relatnDep2": {
+      "type": "text",
+      "label": "Enter the relationship of dependent 2.",
+      "page": 1,
+      "box": {
+        "left": 324.3,
+        "top": 601.9,
+        "width": 113.8,
+        "height": 13.8
+      }
+    },
+    "relatnDep3": {
+      "type": "text",
+      "label": "Enter the relationship of dependent 3.",
+      "page": 1,
+      "box": {
+        "left": 324.3,
+        "top": 587.4,
+        "width": 113.8,
+        "height": 14.5
+      }
+    },
+    "relatnDep4": {
+      "type": "text",
+      "label": "Enter the relationship of dependent 4.",
+      "page": 1,
+      "box": {
+        "left": 324.3,
+        "top": 571.6,
+        "width": 113.8,
+        "height": 13.8
+      }
+    },
+    "relatnDep5": {
+      "type": "text",
+      "label": "Enter the relationship of dependent 5.",
+      "page": 1,
+      "box": {
+        "left": 324.3,
+        "top": 556.5,
+        "width": 113.8,
+        "height": 13.8
+      }
+    },
+    "relatnDep6": {
+      "type": "text",
+      "label": "Enter the relationship of dependent 6.",
+      "page": 1,
+      "box": {
+        "left": 324.3,
+        "top": 541.3,
+        "width": 113.8,
+        "height": 13.8
+      }
+    },
+    "relatnDep7": {
+      "type": "text",
+      "label": "Enter the relationship of dependent 7.",
+      "page": 1,
+      "box": {
+        "left": 324.3,
+        "top": 526.9,
+        "width": 113.8,
+        "height": 14.5
+      }
+    },
+    "relatnDep8": {
+      "type": "text",
+      "label": "Enter the relationship of dependent 8.",
+      "page": 1,
+      "box": {
+        "left": 324.3,
+        "top": 511.1,
+        "width": 113.8,
+        "height": 13.8
+      }
+    },
+    "relatnDep9": {
+      "type": "text",
+      "label": "Enter the relationship of dependent 9.",
+      "page": 1,
+      "box": {
+        "left": 324.3,
+        "top": 495.9,
+        "width": 113.8,
+        "height": 13.8
+      }
+    },
+    "relatnDep10": {
+      "type": "text",
+      "label": "Enter the relationship of dependent 10.",
+      "page": 1,
+      "box": {
+        "left": 324.3,
+        "top": 481.5,
+        "width": 113.8,
+        "height": 14.5
+      }
+    },
+    "exp1": {
+      "type": "text",
+      "label": "Enter monthly expense for federal income tax withheld.",
+      "page": 1,
+      "box": {
+        "left": 527.1,
+        "top": 422.6,
+        "width": 47.6,
+        "height": 13.5
+      }
+    },
+    "basPay": {
+      "type": "text",
+      "label": "Enter monthly basic pay.",
+      "page": 1,
+      "box": {
+        "left": 245.3,
+        "top": 422.0,
+        "width": 51.8,
+        "height": 13.5
+      }
+    },
+    "exp2": {
+      "type": "text",
+      "label": "Enter monthly expense for state income tax withheld.",
+      "page": 1,
+      "box": {
+        "left": 527.1,
+        "top": 407.9,
+        "width": 47.6,
+        "height": 13.5
+      }
+    },
+    "basAllow1": {
+      "type": "text",
+      "label": "Enter monthly allowance for living quarters.",
+      "page": 1,
+      "box": {
+        "left": 245.3,
+        "top": 407.3,
+        "width": 51.8,
+        "height": 13.5
+      }
+    },
+    "exp3": {
+      "type": "text",
+      "label": "Enter monthly expense for F I C A tax.",
+      "page": 1,
+      "box": {
+        "left": 527.1,
+        "top": 393.2,
+        "width": 47.6,
+        "height": 13.5
+      }
+    },
+    "basAllow2": {
+      "type": "text",
+      "label": "Enter monthly allowance for subsistence.",
+      "page": 1,
+      "box": {
+        "left": 245.3,
+        "top": 392.6,
+        "width": 51.8,
+        "height": 13.5
+      }
+    },
+    "exp4": {
+      "type": "text",
+      "label": "Enter monthly expense for rent.",
+      "page": 1,
+      "box": {
+        "left": 527.1,
+        "top": 378.5,
+        "width": 47.6,
+        "height": 13.5
+      }
+    },
+    "basAllow3": {
+      "type": "text",
+      "label": "Enter monthly allowance for clothing allowance.",
+      "page": 1,
+      "box": {
+        "left": 245.3,
+        "top": 377.9,
+        "width": 51.8,
+        "height": 13.5
+      }
+    },
+    "exp5": {
+      "type": "text",
+      "label": "Enter monthly expense for utilities.",
+      "page": 1,
+      "box": {
+        "left": 527.1,
+        "top": 363.8,
+        "width": 47.6,
+        "height": 13.5
+      }
+    },
+    "basAllow4": {
+      "type": "text",
+      "label": "Enter monthly allowance for family separation. F S A.",
+      "page": 1,
+      "box": {
+        "left": 245.3,
+        "top": 363.2,
+        "width": 51.8,
+        "height": 13.5
+      }
+    },
+    "exp6": {
+      "type": "text",
+      "label": "Enter monthly expense for telephone.",
+      "page": 1,
+      "box": {
+        "left": 527.1,
+        "top": 349.1,
+        "width": 47.6,
+        "height": 13.5
+      }
+    },
+    "basAllow5": {
+      "type": "text",
+      "label": "Enter monthly allowance for variable housing. V H A.",
+      "page": 1,
+      "box": {
+        "left": 245.3,
+        "top": 348.5,
+        "width": 51.8,
+        "height": 13.5
+      }
+    },
+    "exp7": {
+      "type": "text",
+      "label": "Enter monthly expense for food.",
+      "page": 1,
+      "box": {
+        "left": 527.1,
+        "top": 328.5,
+        "width": 47.6,
+        "height": 13.5
+      }
+    },
+    "basAllow6": {
+      "type": "text",
+      "label": "Enter other amount of monthly income or allowance specified.",
+      "page": 1,
+      "box": {
+        "left": 245.3,
+        "top": 327.3,
+        "width": 51.8,
+        "height": 13.5
+      }
+    },
+    "allowOther": {
+      "type": "text",
+      "label": "Specify other monthly income or allowance not specified.",
+      "page": 1,
+      "box": {
+        "left": 37.1,
+        "top": 322.8,
+        "width": 204.7,
+        "height": 49.6
+      },
+      "multiline": true
+    },
+    "exp8": {
+      "type": "text",
+      "label": "Enter monthly expense for clothing.",
+      "page": 1,
+      "box": {
+        "left": 527.1,
+        "top": 307.9,
+        "width": 47.6,
+        "height": 13.5
+      }
+    },
+    "exp9": {
+      "type": "text",
+      "label": "Enter monthly expense for insurance.",
+      "page": 1,
+      "box": {
+        "left": 527.1,
+        "top": 287.3,
+        "width": 47.6,
+        "height": 13.5
+      }
+    },
+    "basTotl": {
+      "type": "text",
+      "label": "BasTotl",
+      "page": 1,
+      "box": {
+        "left": 245.9,
+        "top": 270.8,
+        "width": 51.8,
+        "height": 13.5
+      }
+    },
+    "exp10": {
+      "type": "text",
+      "label": "Enter monthly expense for car operation.",
+      "page": 1,
+      "box": {
+        "left": 527.1,
+        "top": 266.7,
+        "width": 47.6,
+        "height": 13.5
+      }
+    },
+    "exp11": {
+      "type": "text",
+      "label": "Enter monthly expense for schooling.",
+      "page": 1,
+      "box": {
+        "left": 527.1,
+        "top": 246.1,
+        "width": 47.6,
+        "height": 13.5
+      }
+    },
+    "datePymnt1": {
+      "type": "text",
+      "label": "Enter expiration date of monthly installment payments for house.",
+      "page": 1,
+      "box": {
+        "left": 136.5,
+        "top": 231.4,
+        "width": 80.0,
+        "height": 14.7
+      }
+    },
+    "pymnt1": {
+      "type": "text",
+      "label": "Enter the amount of monthly installment payment for house.",
+      "page": 1,
+      "box": {
+        "left": 218.8,
+        "top": 231.4,
+        "width": 78.8,
+        "height": 13.5
+      }
+    },
+    "exp12": {
+      "type": "text",
+      "label": "Enter monthly expense for medical or dental.",
+      "page": 1,
+      "box": {
+        "left": 527.1,
+        "top": 225.5,
+        "width": 47.6,
+        "height": 13.5
+      }
+    },
+    "datePymnt2": {
+      "type": "text",
+      "label": "Enter expiration date of monthly installment payments for car.",
+      "page": 1,
+      "box": {
+        "left": 136.5,
+        "top": 217.3,
+        "width": 80.0,
+        "height": 14.7
+      }
+    },
+    "pymnt2": {
+      "type": "text",
+      "label": "Enter the amount of monthly installment payment for car.",
+      "page": 1,
+      "box": {
+        "left": 218.8,
+        "top": 217.3,
+        "width": 78.8,
+        "height": 13.5
+      }
+    },
+    "dateCrtExpr": {
+      "type": "text",
+      "label": "Enter expiration date of court martial or article 15 forfeitures.",
+      "page": 1,
+      "box": {
+        "left": 444.1,
+        "top": 210.2,
+        "width": 71.8,
+        "height": 18.2
+      }
+    },
+    "exp13": {
+      "type": "text",
+      "label": "Enter monthly expense for court martial or article 15 forfeitures.",
+      "page": 1,
+      "box": {
+        "left": 527.1,
+        "top": 204.9,
+        "width": 47.6,
+        "height": 13.5
+      }
+    },
+    "datePymnt3": {
+      "type": "text",
+      "label": "Enter expiration date of monthly installment payments for furniture.",
+      "page": 1,
+      "box": {
+        "left": 136.5,
+        "top": 203.2,
+        "width": 80.0,
+        "height": 14.7
+      }
+    },
+    "pymnt3": {
+      "type": "text",
+      "label": "Enter the amount of monthly installment payment for furniture.",
+      "page": 1,
+      "box": {
+        "left": 218.8,
+        "top": 203.2,
+        "width": 78.8,
+        "height": 13.5
+      }
+    },
+    "datePymnt4": {
+      "type": "text",
+      "label": "Enter expiration date of other monthly installment payments specified.",
+      "page": 1,
+      "box": {
+        "left": 136.5,
+        "top": 185.5,
+        "width": 80.0,
+        "height": 14.7
+      }
+    },
+    "pymnt4": {
+      "type": "text",
+      "label": "Enter the amount of other monthly installment payment specified.",
+      "page": 1,
+      "box": {
+        "left": 218.8,
+        "top": 185.5,
+        "width": 78.8,
+        "height": 13.5
+      }
+    },
+    "exp14": {
+      "type": "text",
+      "label": "Enter monthly expense for child support. Alimony or separate maintenance.",
+      "page": 1,
+      "box": {
+        "left": 527.1,
+        "top": 184.3,
+        "width": 47.6,
+        "height": 13.5
+      }
+    },
+    "pymntOther": {
+      "type": "text",
+      "label": "Specify other monthly installment payments not specified.",
+      "page": 1,
+      "box": {
+        "left": 37.1,
+        "top": 179.4,
+        "width": 99.4,
+        "height": 82.7
+      },
+      "multiline": true
+    },
+    "exp15": {
+      "type": "text",
+      "label": "Enter monthly expense for other monthly expense specified.",
+      "page": 1,
+      "box": {
+        "left": 527.1,
+        "top": 163.8,
+        "width": 47.6,
+        "height": 13.5
+      }
+    },
+    "allowExpns": {
+      "type": "text",
+      "label": "Specify other monthly expense not specified.",
+      "page": 1,
+      "box": {
+        "left": 302.4,
+        "top": 158.9,
+        "width": 222.9,
+        "height": 61.6
+      },
+      "multiline": true
+    },
+    "pymnt": {
+      "type": "text",
+      "label": "Enter the amount of monthly installment payment for ",
+      "page": 1,
+      "box": {
+        "left": 218.8,
+        "top": 99.1,
+        "width": 78.8,
+        "height": 13.5
+      }
+    },
+    "expTotl": {
+      "type": "text",
+      "label": "Enter monthly expense for ",
+      "page": 1,
+      "box": {
+        "left": 527.1,
+        "top": 99.1,
+        "width": 47.6,
+        "height": 13.5
+      }
+    },
+    "remarkMthExp": {
+      "type": "text",
+      "label": "Enter remarks regarding monthly expenses.",
+      "page": 1,
+      "box": {
+        "left": 34.7,
+        "top": 72.5,
+        "width": 285.9,
+        "height": 49.3
+      },
+      "multiline": true
+    },
+    "itmizMthExp": {
+      "type": "text",
+      "label": "Itemize or explain as appropriate.",
+      "page": 1,
+      "box": {
+        "left": 322.4,
+        "top": 62.9,
+        "width": 252.9,
+        "height": 39.7
+      },
+      "multiline": true
+    },
+    "totlGrssIncm": {
+      "type": "text",
+      "label": "Enter marines total gross monthly income.",
+      "page": 2,
+      "box": {
+        "left": 485.6,
+        "top": 729.8,
+        "width": 88.8,
+        "height": 11.8
+      }
+    },
+    "totlMontlyInstPay": {
+      "type": "text",
+      "label": "Enter marines total monthly installment payments.",
+      "page": 2,
+      "box": {
+        "left": 389.5,
+        "top": 717.7,
+        "width": 88.8,
+        "height": 11.8
+      }
+    },
+    "totlMontlyExpn": {
+      "type": "text",
+      "label": "Enter marines total monthly expenses.",
+      "page": 2,
+      "box": {
+        "left": 389.5,
+        "top": 704.5,
+        "width": 88.8,
+        "height": 11.8
+      }
+    },
+    "totlMontlyOblig": {
+      "type": "text",
+      "label": "Enter marines total monthly obligations.",
+      "page": 2,
+      "box": {
+        "left": 484.9,
+        "top": 690.7,
+        "width": 88.8,
+        "height": 11.8
+      }
+    },
+    "marineNetIncm1": {
+      "type": "text",
+      "label": "MarineNetIncm1",
+      "page": 2,
+      "box": {
+        "left": 484.9,
+        "top": 677.5,
+        "width": 88.8,
+        "height": 11.8
+      }
+    },
+    "spsMnthGrs": {
+      "type": "text",
+      "label": "Enter spouses monthly gross income.",
+      "page": 2,
+      "box": {
+        "left": 236.8,
+        "top": 653.2,
+        "width": 71.1,
+        "height": 11.8
+      }
+    },
+    "spsMnthGrsOthr": {
+      "type": "text",
+      "label": "Enter spouses other monthly gross income.",
+      "page": 2,
+      "box": {
+        "left": 502.6,
+        "top": 653.2,
+        "width": 71.1,
+        "height": 11.8
+      }
+    },
+    "spsExpFITW": {
+      "type": "text",
+      "label": "Enter spouses F I T W expenses.",
+      "page": 2,
+      "box": {
+        "left": 236.8,
+        "top": 624.9,
+        "width": 71.1,
+        "height": 9.9
+      }
+    },
+    "spsExpSITW": {
+      "type": "text",
+      "label": "Enter spouses S I T W expenses.",
+      "page": 2,
+      "box": {
+        "left": 236.8,
+        "top": 614.4,
+        "width": 71.1,
+        "height": 9.9
+      }
+    },
+    "spsExpFICA": {
+      "type": "text",
+      "label": "Enter spouses F I C A expenses.",
+      "page": 2,
+      "box": {
+        "left": 236.8,
+        "top": 603.8,
+        "width": 71.1,
+        "height": 9.9
+      }
+    },
+    "spsExpCarMnt": {
+      "type": "text",
+      "label": "Enter spouses car maintnance expenses.",
+      "page": 2,
+      "box": {
+        "left": 236.8,
+        "top": 592.7,
+        "width": 71.1,
+        "height": 9.9
+      }
+    },
+    "spsExpOthTrns": {
+      "type": "text",
+      "label": "Enter spouses other transportation expenses.",
+      "page": 2,
+      "box": {
+        "left": 236.8,
+        "top": 582.1,
+        "width": 71.1,
+        "height": 9.9
+      }
+    },
+    "spsExpCarPay": {
+      "type": "text",
+      "label": "Enter spouses car payment expenses.",
+      "page": 2,
+      "box": {
+        "left": 236.8,
+        "top": 571.6,
+        "width": 71.1,
+        "height": 9.9
+      }
+    },
+    "spsExpChildCr": {
+      "type": "text",
+      "label": "Enter spouses child care expenses.",
+      "page": 2,
+      "box": {
+        "left": 237.1,
+        "top": 560.3,
+        "width": 71.1,
+        "height": 9.9
+      }
+    },
+    "spsExpOthr1A": {
+      "type": "text",
+      "label": "Enter other spouses expense line 1.",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 540.7,
+        "width": 147.4,
+        "height": 9.9
+      }
+    },
+    "spsExpOthr1": {
+      "type": "text",
+      "label": "Enter other spouses expense line 1.",
+      "page": 2,
+      "box": {
+        "left": 236.8,
+        "top": 540.7,
+        "width": 71.1,
+        "height": 9.9
+      }
+    },
+    "spsExpOthr2A": {
+      "type": "text",
+      "label": "Enter other spouses expense line 2.",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 529.5,
+        "width": 147.4,
+        "height": 9.9
+      }
+    },
+    "spsExpOthr2": {
+      "type": "text",
+      "label": "Enter other spouses expense line 2.",
+      "page": 2,
+      "box": {
+        "left": 236.8,
+        "top": 529.5,
+        "width": 71.1,
+        "height": 9.9
+      }
+    },
+    "spsExpOthr3A": {
+      "type": "text",
+      "label": "Enter other spouses expense line 3.",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 518.3,
+        "width": 147.4,
+        "height": 9.9
+      }
+    },
+    "spsExpOthr3": {
+      "type": "text",
+      "label": "Enter other spouses expense line 3.",
+      "page": 2,
+      "box": {
+        "left": 236.8,
+        "top": 518.3,
+        "width": 71.1,
+        "height": 9.9
+      }
+    },
+    "spsExpOthr4A": {
+      "type": "text",
+      "label": "Enter other spouses expense line 4.",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 507.1,
+        "width": 147.4,
+        "height": 9.9
+      }
+    },
+    "spsExpOthr4": {
+      "type": "text",
+      "label": "Enter other spouses expense line 4.",
+      "page": 2,
+      "box": {
+        "left": 237.1,
+        "top": 506.0,
+        "width": 71.1,
+        "height": 9.9
+      }
+    },
+    "spsIncdOthrTotl": {
+      "type": "text",
+      "label": "SpsIncdOthrTotl",
+      "page": 2,
+      "box": {
+        "left": 503.3,
+        "top": 500.6,
+        "width": 71.1,
+        "height": 11.8
+      }
+    },
+    "spsExpOthr5A": {
+      "type": "text",
+      "label": "Enter other spouses expense line 5.",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 495.9,
+        "width": 147.4,
+        "height": 9.9
+      }
+    },
+    "spsExpOthr5": {
+      "type": "text",
+      "label": "Enter other spouses expense line 5.",
+      "page": 2,
+      "box": {
+        "left": 236.8,
+        "top": 495.9,
+        "width": 71.1,
+        "height": 9.9
+      }
+    },
+    "spsExpOthr6A": {
+      "type": "text",
+      "label": "Enter other spouses expense line 6.",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 484.8,
+        "width": 147.4,
+        "height": 9.9
+      }
+    },
+    "spsExpOthr6": {
+      "type": "text",
+      "label": "Enter other spouses expense line 6.",
+      "page": 2,
+      "box": {
+        "left": 236.8,
+        "top": 484.8,
+        "width": 71.1,
+        "height": 9.9
+      }
+    },
+    "spsExpOthr7A": {
+      "type": "text",
+      "label": "Enter other spouses expense line 7.",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 473.6,
+        "width": 147.4,
+        "height": 9.9
+      }
+    },
+    "spsExpOthr7": {
+      "type": "text",
+      "label": "Enter other spouses expense line 7.",
+      "page": 2,
+      "box": {
+        "left": 236.8,
+        "top": 473.6,
+        "width": 71.1,
+        "height": 9.9
+      }
+    },
+    "marineNetIncm2": {
+      "type": "text",
+      "label": "MarineNetIncm2",
+      "page": 2,
+      "box": {
+        "left": 503.9,
+        "top": 469.6,
+        "width": 70.4,
+        "height": 11.8
+      }
+    },
+    "spsExpOthr8A": {
+      "type": "text",
+      "label": "Enter other spouses expense line 8.",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 462.4,
+        "width": 147.4,
+        "height": 9.9
+      }
+    },
+    "spsExpOthr8": {
+      "type": "text",
+      "label": "Enter other spouses expense line 8.",
+      "page": 2,
+      "box": {
+        "left": 236.8,
+        "top": 462.4,
+        "width": 71.1,
+        "height": 9.9
+      }
+    },
+    "spsExpOthr9A": {
+      "type": "text",
+      "label": "Enter other spouses expense line 9.",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 451.2,
+        "width": 147.4,
+        "height": 9.9
+      }
+    },
+    "spsExpOthr9": {
+      "type": "text",
+      "label": "Enter other spouses expense line 9.",
+      "page": 2,
+      "box": {
+        "left": 236.8,
+        "top": 451.2,
+        "width": 71.1,
+        "height": 9.9
+      }
+    },
+    "spsMnthNI2A": {
+      "type": "text",
+      "label": "SpsMnthNI2A",
+      "page": 2,
+      "box": {
+        "left": 503.3,
+        "top": 451.2,
+        "width": 71.1,
+        "height": 11.8
+      }
+    },
+    "spsMnthExpTot": {
+      "type": "text",
+      "label": "SpsMnthExpTot",
+      "page": 2,
+      "box": {
+        "left": 236.8,
+        "top": 432.1,
+        "width": 71.1,
+        "height": 11.8
+      }
+    },
+    "otherNetInc": {
+      "type": "text",
+      "label": "OtherNetInc",
+      "page": 2,
+      "box": {
+        "left": 503.3,
+        "top": 432.1,
+        "width": 71.1,
+        "height": 11.8
+      }
+    },
+    "spsMnthNI1": {
+      "type": "text",
+      "label": "SpsMnthNI1",
+      "page": 2,
+      "box": {
+        "left": 236.8,
+        "top": 413.7,
+        "width": 71.1,
+        "height": 11.8
+      }
+    },
+    "diffTotFamly": {
+      "type": "text",
+      "label": "DiffTotFamly",
+      "page": 2,
+      "box": {
+        "left": 504.6,
+        "top": 413.7,
+        "width": 71.1,
+        "height": 11.8
+      }
+    },
+    "listAssets": {
+      "type": "text",
+      "label": "List present value of and equity in all assets other then household goods and clothing including savings and checking accounts. Stocks and bonds. Real estate property. Automobiles. Boats and businesses.",
+      "page": 2,
+      "box": {
+        "left": 37.5,
+        "top": 357.1,
+        "width": 541.5,
+        "height": 213.0
+      },
+      "multiline": true
+    },
+    "dateSign2": {
+      "type": "text",
+      "label": "Enter date of marine signature.",
+      "page": 2,
+      "box": {
+        "left": 455.3,
+        "top": 95.3,
+        "width": 117.8,
+        "height": 17.8
+      }
+    },
+    "sigMarine": {
+      "type": "signature",
+      "label": "SigMarine",
+      "page": 2,
+      "box": {
+        "left": 161.0,
+        "top": 89.1,
+        "width": 258.3,
+        "height": 21.3
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 10,
+      "rowStride": 15.12,
+      "editor": "grid",
+      "columns": {
+        "nameDep": {
+          "type": "text",
+          "label": "Enter name of dependent 1.",
+          "page": 1,
+          "box": {
+            "left": 35.3,
+            "top": 616.7,
+            "width": 231.2,
+            "height": 13.5
+          }
+        },
+        "ageDep": {
+          "type": "text",
+          "label": "Enter the age of dependent 1.",
+          "page": 1,
+          "box": {
+            "left": 269.7,
+            "top": 617.0,
+            "width": 52.0,
+            "height": 13.8
+          }
+        },
+        "supptDep": {
+          "type": "text",
+          "label": "Enter the percent of support of dependent 1.",
+          "page": 1,
+          "box": {
+            "left": 441.4,
+            "top": 617.0,
+            "width": 132.2,
+            "height": 13.8
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 2,
+      "count": 6,
+      "rowStride": 13.3,
+      "editor": "grid",
+      "columns": {
+        "spsIncidntOthr": {
+          "type": "text",
+          "label": "Enter spouses expenses incident to the operation of a private business or other outside income for line 1.",
+          "page": 2,
+          "box": {
+            "left": 317.1,
+            "top": 584.8,
+            "width": 184.2,
+            "height": 11.8
+          }
+        },
+        "spsIncdOthr": {
+          "type": "text",
+          "label": "Enter spouses other expenses for line 1.",
+          "page": 2,
+          "box": {
+            "left": 503.3,
+            "top": 584.8,
+            "width": 70.7,
+            "height": 11.8
+          }
+        }
+      }
+    }
+  }
+}

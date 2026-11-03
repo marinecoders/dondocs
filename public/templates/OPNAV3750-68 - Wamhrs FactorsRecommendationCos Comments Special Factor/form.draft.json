@@ -1,0 +1,230 @@
+{
+  "id": "opnav375068",
+  "label": "OPNAV3750-68 - Wamhrs FactorsRecommendationCos Comments Special Factor",
+  "directory": "OPNAV3750-68 - Wamhrs FactorsRecommendationCos Comments Special Factor",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "radio",
+        "radio2",
+        "radio3",
+        "radio4",
+        "speStmt",
+        "spcAlys",
+        "radio5",
+        "radio6",
+        "spcActAgy",
+        "spcRecSta",
+        "spcRem",
+        "radio7",
+        "radio8",
+        "radio9",
+        "spcWhiFac"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "spcCoOffCom"
+      ]
+    }
+  ],
+  "fields": {
+    "radio": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 56.8,
+        "top": 682.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 335.7,
+        "top": 682.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 335.7,
+        "top": 668.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 56.8,
+        "top": 668.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "speStmt": {
+      "type": "text",
+      "label": "2. Statement (70 character limit)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 640.2,
+        "width": 534.4,
+        "height": 47.9
+      },
+      "multiline": true
+    },
+    "spcAlys": {
+      "type": "text",
+      "label": "3. Analysis (Unlimited character limit)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 577.2,
+        "width": 534.4,
+        "height": 128.9
+      },
+      "multiline": true
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 88.3,
+        "top": 425.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 88.3,
+        "top": 402.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "spcActAgy": {
+      "type": "text",
+      "label": "Spc Act Agy",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 358.3,
+        "width": 534.4,
+        "height": 18.0
+      }
+    },
+    "spcRecSta": {
+      "type": "text",
+      "label": "6. Statement (70 character limit)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 325.2,
+        "width": 534.4,
+        "height": 40.5
+      },
+      "multiline": true
+    },
+    "spcRem": {
+      "type": "text",
+      "label": "7. Remarks (Unlimited character limit)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 271.1,
+        "width": 534.4,
+        "height": 128.9
+      },
+      "multiline": true
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 52.3,
+        "top": 114.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 124.4,
+        "top": 114.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio9": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 169.4,
+        "top": 114.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "spcWhiFac": {
+      "type": "text",
+      "label": "Spc Whi Fac",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 85.4,
+        "width": 534.4,
+        "height": 46.6
+      },
+      "multiline": true
+    },
+    "spcCoOffCom": {
+      "type": "text",
+      "label": "Spc Co Off Com",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 743.7,
+        "width": 534.4,
+        "height": 705.0
+      },
+      "multiline": true
+    }
+  }
+}

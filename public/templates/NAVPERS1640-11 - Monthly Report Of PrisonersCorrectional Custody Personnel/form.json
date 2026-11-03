@@ -1,0 +1,376 @@
+{
+  "id": "navpers164011",
+  "label": "NAVPERS1640-11 - Monthly Report Of PrisonersCorrectional Custody Personnel",
+  "directory": "NAVPERS1640-11 - Monthly Report Of PrisonersCorrectional Custody Personnel",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "from",
+        "to",
+        "year",
+        "monthend",
+        "navy",
+        "marcor",
+        "cg",
+        "total1",
+        "cell2",
+        "total2",
+        "cell22",
+        "cell23",
+        "cell24",
+        "total3",
+        "cell14",
+        "bOname",
+        "bOsignature",
+        "bOdate"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "cOname",
+        "cOsignature",
+        "cOdate"
+      ]
+    }
+  ],
+  "fields": {
+    "from": {
+      "type": "text",
+      "label": "From",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 708.5,
+        "width": 534.3,
+        "height": 21.6
+      }
+    },
+    "to": {
+      "type": "text",
+      "label": "To",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 672.5,
+        "width": 354.3,
+        "height": 21.6
+      }
+    },
+    "year": {
+      "type": "text",
+      "label": "Calendar Year",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 672.5,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "monthend": {
+      "type": "choice",
+      "label": "Report for Month Ending",
+      "page": 1,
+      "box": {
+        "left": 399.7,
+        "top": 671.7,
+        "width": 100.8,
+        "height": 20.1
+      },
+      "options": [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ]
+    },
+    "navy": {
+      "type": "text",
+      "label": "NAVY",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 618.5,
+        "width": 102.3,
+        "height": 21.6
+      }
+    },
+    "marcor": {
+      "type": "text",
+      "label": "MARCOR",
+      "page": 1,
+      "box": {
+        "left": 146.9,
+        "top": 618.5,
+        "width": 102.3,
+        "height": 21.6
+      }
+    },
+    "cg": {
+      "type": "text",
+      "label": "CG",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 618.5,
+        "width": 102.3,
+        "height": 21.6
+      }
+    },
+    "total1": {
+      "type": "text",
+      "label": "TOTAL",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 618.5,
+        "width": 210.3,
+        "height": 21.6
+      }
+    },
+    "cell2": {
+      "type": "text",
+      "label": "Section Totals",
+      "page": 1,
+      "box": {
+        "left": 200.9,
+        "top": 439.9,
+        "width": 183.3,
+        "height": 12.2
+      }
+    },
+    "total2": {
+      "type": "text",
+      "label": "Section Totals",
+      "page": 1,
+      "box": {
+        "left": 389.9,
+        "top": 439.9,
+        "width": 183.3,
+        "height": 12.2
+      }
+    },
+    "cell22": {
+      "type": "text",
+      "label": "MARCOR CG",
+      "page": 1,
+      "box": {
+        "left": 488.9,
+        "top": 394.5,
+        "width": 84.3,
+        "height": 18.7
+      }
+    },
+    "cell23": {
+      "type": "text",
+      "label": "Transferred to Another Brig/Facility",
+      "page": 1,
+      "box": {
+        "left": 488.9,
+        "top": 371.5,
+        "width": 84.3,
+        "height": 15.8
+      }
+    },
+    "cell24": {
+      "type": "text",
+      "label": "Normal Release",
+      "page": 1,
+      "box": {
+        "left": 488.9,
+        "top": 349.9,
+        "width": 84.3,
+        "height": 15.8
+      }
+    },
+    "total3": {
+      "type": "text",
+      "label": "Total (Total must equal the section III totals)",
+      "page": 1,
+      "box": {
+        "left": 488.9,
+        "top": 328.3,
+        "width": 84.3,
+        "height": 15.8
+      }
+    },
+    "cell14": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 283.6,
+        "width": 534.3,
+        "height": 190.8
+      },
+      "multiline": true
+    },
+    "bOname": {
+      "type": "text",
+      "label": "Name and Rank of Brig Officer",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 78.4,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "bOsignature": {
+      "type": "text",
+      "label": "Brig Officer Signature",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 78.4,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "bOdate": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 78.4,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "cOname": {
+      "type": "text",
+      "label": "Name and Rank of Commanding Officer",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 708.5,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "cOsignature": {
+      "type": "text",
+      "label": "Commanding Officer Signature",
+      "page": 2,
+      "box": {
+        "left": 272.9,
+        "top": 708.5,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "cOdate": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 506.9,
+        "top": 708.5,
+        "width": 66.2,
+        "height": 21.6
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 21.6,
+      "editor": "grid",
+      "columns": {
+        "cell": {
+          "type": "text",
+          "label": "NAVY",
+          "page": 1,
+          "box": {
+            "left": 121.7,
+            "top": 393.1,
+            "width": 73.4,
+            "height": 15.8
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 5,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "cell2": {
+          "type": "text",
+          "label": "General Courts Martial",
+          "page": 1,
+          "box": {
+            "left": 263.9,
+            "top": 547.9,
+            "width": 57.2,
+            "height": 12.2
+          }
+        },
+        "cell3": {
+          "type": "text",
+          "label": "General Courts Martial",
+          "page": 1,
+          "box": {
+            "left": 326.9,
+            "top": 547.9,
+            "width": 57.2,
+            "height": 12.2
+          }
+        },
+        "cell4": {
+          "type": "text",
+          "label": "General Courts Martial",
+          "page": 1,
+          "box": {
+            "left": 389.9,
+            "top": 547.9,
+            "width": 57.2,
+            "height": 12.2
+          }
+        },
+        "cell5": {
+          "type": "text",
+          "label": "General Courts Martial",
+          "page": 1,
+          "box": {
+            "left": 452.9,
+            "top": 547.9,
+            "width": 57.2,
+            "height": 12.2
+          }
+        },
+        "cell6": {
+          "type": "text",
+          "label": "General Courts Martial",
+          "page": 1,
+          "box": {
+            "left": 515.9,
+            "top": 547.9,
+            "width": 57.2,
+            "height": 12.2
+          }
+        }
+      }
+    }
+  }
+}

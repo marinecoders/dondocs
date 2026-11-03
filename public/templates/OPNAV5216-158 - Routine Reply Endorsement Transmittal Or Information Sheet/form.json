@@ -1,0 +1,707 @@
+{
+  "id": "opnav5216158",
+  "label": "OPNAV5216-158 - Routine Reply Endorsement Transmittal Or Information Sheet",
+  "directory": "OPNAV5216-158 - Routine Reply Endorsement Transmittal Or Information Sheet",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "from1",
+        "telephone1",
+        "dNSDate1",
+        "subject1",
+        "serial1",
+        "to1",
+        "reference1",
+        "enclosure1",
+        "via1",
+        "endorsement1",
+        "pickOne1",
+        "pickOne12",
+        "pickOne13",
+        "pickOne14",
+        "pickOne15",
+        "pickOne16",
+        "pickOne17",
+        "pickOne18",
+        "general1",
+        "contact1",
+        "general2",
+        "command1",
+        "contact2",
+        "general3",
+        "approval",
+        "approval2",
+        "contact3",
+        "detached1",
+        "approval22",
+        "approval23",
+        "yesAndNo1",
+        "yesAndNo12",
+        "other1",
+        "general4",
+        "contact4",
+        "general5",
+        "dNSDate2",
+        "contact5",
+        "general6",
+        "contact6",
+        "dNSDate3",
+        "contact7",
+        "general7",
+        "remarks1",
+        "subject12",
+        "subject2",
+        "general8",
+        "general9",
+        "general10",
+        "general11",
+        "general12",
+        "general13",
+        "general14",
+        "title",
+        "reduce1",
+        "copy1"
+      ]
+    }
+  ],
+  "fields": {
+    "from1": {
+      "type": "text",
+      "label": "Enter from whom.",
+      "page": 1,
+      "box": {
+        "left": 41.3,
+        "top": 711.5,
+        "width": 269.3,
+        "height": 16.4
+      }
+    },
+    "telephone1": {
+      "type": "text",
+      "label": "Enter the telephone number.",
+      "page": 1,
+      "box": {
+        "left": 314.9,
+        "top": 711.5,
+        "width": 94.5,
+        "height": 16.4
+      }
+    },
+    "dNSDate1": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 441.2,
+        "top": 708.8,
+        "width": 128.8,
+        "height": 17.9
+      }
+    },
+    "subject1": {
+      "type": "text",
+      "label": "Enter the subject.",
+      "page": 1,
+      "box": {
+        "left": 41.3,
+        "top": 681.8,
+        "width": 368.2,
+        "height": 27.6
+      }
+    },
+    "serial1": {
+      "type": "text",
+      "label": "Enter the serial or file number.",
+      "page": 1,
+      "box": {
+        "left": 417.7,
+        "top": 674.1,
+        "width": 152.3,
+        "height": 19.9
+      }
+    },
+    "to1": {
+      "type": "text",
+      "label": "Enter to whom routine reply, endorsement, transmittal or information is to.",
+      "page": 1,
+      "box": {
+        "left": 41.3,
+        "top": 640.6,
+        "width": 368.2,
+        "height": 106.5
+      },
+      "multiline": true
+    },
+    "reference1": {
+      "type": "text",
+      "label": "Enter the reference.",
+      "page": 1,
+      "box": {
+        "left": 417.7,
+        "top": 639.9,
+        "width": 152.3,
+        "height": 21.8
+      }
+    },
+    "enclosure1": {
+      "type": "text",
+      "label": "Enter the enclosure.",
+      "page": 1,
+      "box": {
+        "left": 417.7,
+        "top": 604.4,
+        "width": 152.3,
+        "height": 106.5
+      },
+      "multiline": true
+    },
+    "via1": {
+      "type": "text",
+      "label": "Indicate the means of way (VIA).",
+      "page": 1,
+      "box": {
+        "left": 41.3,
+        "top": 517.0,
+        "width": 173.1,
+        "height": 19.5
+      }
+    },
+    "endorsement1": {
+      "type": "text",
+      "label": "Enter the endorsement on.",
+      "page": 1,
+      "box": {
+        "left": 220.2,
+        "top": 517.0,
+        "width": 188.5,
+        "height": 19.5
+      }
+    },
+    "pickOne1": {
+      "type": "radio",
+      "label": "7",
+      "page": 1,
+      "box": {
+        "left": 42.7,
+        "top": 489.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_PickOne1_0"
+    },
+    "pickOne12": {
+      "type": "radio",
+      "label": "6",
+      "page": 1,
+      "box": {
+        "left": 122.4,
+        "top": 489.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_PickOne1_0"
+    },
+    "pickOne13": {
+      "type": "radio",
+      "label": "5",
+      "page": 1,
+      "box": {
+        "left": 189.0,
+        "top": 489.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_PickOne1_0"
+    },
+    "pickOne14": {
+      "type": "radio",
+      "label": "4",
+      "page": 1,
+      "box": {
+        "left": 277.5,
+        "top": 489.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_PickOne1_0"
+    },
+    "pickOne15": {
+      "type": "radio",
+      "label": "3",
+      "page": 1,
+      "box": {
+        "left": 353.4,
+        "top": 489.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_PickOne1_0"
+    },
+    "pickOne16": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 411.1,
+        "top": 489.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_PickOne1_0"
+    },
+    "pickOne17": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 470.4,
+        "top": 489.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_PickOne1_0"
+    },
+    "pickOne18": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 523.5,
+        "top": 489.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_PickOne1_0"
+    },
+    "general1": {
+      "type": "checkbox",
+      "label": "Select this checkbox for appropriate action.",
+      "page": 1,
+      "box": {
+        "left": 45.9,
+        "top": 459.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "contact1": {
+      "type": "checkbox",
+      "label": "Select this checkbox for name and location of supplier of subject items.",
+      "page": 1,
+      "box": {
+        "left": 222.2,
+        "top": 448.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "general2": {
+      "type": "checkbox",
+      "label": "Select this checkbox for under your cognizance.",
+      "page": 1,
+      "box": {
+        "left": 45.9,
+        "top": 446.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "command1": {
+      "type": "text",
+      "label": "Indicate the person reported to this command.",
+      "page": 1,
+      "box": {
+        "left": 417.7,
+        "top": 435.8,
+        "width": 146.9,
+        "height": 12.2
+      }
+    },
+    "contact2": {
+      "type": "checkbox",
+      "label": "Slect this checkbox for subcontract number of subject items.",
+      "page": 1,
+      "box": {
+        "left": 222.2,
+        "top": 433.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "general3": {
+      "type": "checkbox",
+      "label": "Select this checkbox for information.",
+      "page": 1,
+      "box": {
+        "left": 45.9,
+        "top": 433.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "approval": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 68.1,
+        "top": 413.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_approval_0"
+    },
+    "approval2": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 118.6,
+        "top": 413.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_approval_0"
+    },
+    "contact3": {
+      "type": "checkbox",
+      "label": "Select this checkbox for appropiration symbol, subhead, and chargeable activity.",
+      "page": 1,
+      "box": {
+        "left": 222.2,
+        "top": 411.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "detached1": {
+      "type": "text",
+      "label": "Indicate the person reported to this command.",
+      "page": 1,
+      "box": {
+        "left": 417.7,
+        "top": 401.6,
+        "width": 146.9,
+        "height": 12.2
+      }
+    },
+    "approval22": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 69.7,
+        "top": 393.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_approval2_0"
+    },
+    "approval23": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 138.2,
+        "top": 393.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_approval2_0"
+    },
+    "yesAndNo1": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 244.4,
+        "top": 390.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_YesAndNo1_0"
+    },
+    "yesAndNo12": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 297.2,
+        "top": 390.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_YesAndNo1_0"
+    },
+    "other1": {
+      "type": "text",
+      "label": "Enter the other information.",
+      "page": 1,
+      "box": {
+        "left": 417.7,
+        "top": 377.3,
+        "width": 146.9,
+        "height": 84.6
+      },
+      "multiline": true
+    },
+    "general4": {
+      "type": "checkbox",
+      "label": "Select this checkbox for comment and/or concurrence.",
+      "page": 1,
+      "box": {
+        "left": 45.9,
+        "top": 374.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "contact4": {
+      "type": "checkbox",
+      "label": "Select this checkbox for a certificate, vice bill of landing.",
+      "page": 1,
+      "box": {
+        "left": 222.2,
+        "top": 364.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "general5": {
+      "type": "checkbox",
+      "label": "Select this checkbox for concur.",
+      "page": 1,
+      "box": {
+        "left": 45.9,
+        "top": 362.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "dNSDate2": {
+      "type": "text",
+      "label": "Enter the date the loan is to be returned  using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 90.9,
+        "top": 342.7,
+        "width": 96.6,
+        "height": 14.0
+      }
+    },
+    "contact5": {
+      "type": "checkbox",
+      "label": "Select this checkbox for a certificate, vice bill of landing.",
+      "page": 1,
+      "box": {
+        "left": 222.2,
+        "top": 339.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "general6": {
+      "type": "checkbox",
+      "label": "Select this checkbox for sign receipt and return.",
+      "page": 1,
+      "box": {
+        "left": 45.9,
+        "top": 327.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "contact6": {
+      "type": "checkbox",
+      "label": "Select this checkbox for change notice to supplier.",
+      "page": 1,
+      "box": {
+        "left": 222.2,
+        "top": 327.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "dNSDate3": {
+      "type": "text",
+      "label": "Enter the date the loan is to be returned  using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 90.9,
+        "top": 307.2,
+        "width": 96.6,
+        "height": 14.0
+      }
+    },
+    "contact7": {
+      "type": "checkbox",
+      "label": "Select this checkbox for status of material on purchase document.",
+      "page": 1,
+      "box": {
+        "left": 222.2,
+        "top": 301.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "general7": {
+      "type": "checkbox",
+      "label": "Select this checkbox if reference was not received.",
+      "page": 1,
+      "box": {
+        "left": 45.9,
+        "top": 290.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "remarks1": {
+      "type": "text",
+      "label": "Enter the remarks (continue on reverse).",
+      "page": 1,
+      "box": {
+        "left": 240.6,
+        "top": 276.0,
+        "width": 324.0,
+        "height": 174.6
+      },
+      "multiline": true
+    },
+    "subject12": {
+      "type": "text",
+      "label": "Enter whom the document was forwarded to.",
+      "page": 1,
+      "box": {
+        "left": 65.5,
+        "top": 269.1,
+        "width": 146.9,
+        "height": 12.2
+      }
+    },
+    "subject2": {
+      "type": "text",
+      "label": "Enter whom the document was returned to.",
+      "page": 1,
+      "box": {
+        "left": 65.5,
+        "top": 245.3,
+        "width": 146.9,
+        "height": 12.2
+      }
+    },
+    "general8": {
+      "type": "checkbox",
+      "label": "Select this checkbox if the subject  document has been requested, and will be forwarded when received.",
+      "page": 1,
+      "box": {
+        "left": 45.9,
+        "top": 206.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "general9": {
+      "type": "checkbox",
+      "label": "Select this checkbox if a copy of this correspondence with your reply.",
+      "page": 1,
+      "box": {
+        "left": 45.9,
+        "top": 182.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "general10": {
+      "type": "checkbox",
+      "label": "Select this checkbox if enclosure was not received.",
+      "page": 1,
+      "box": {
+        "left": 45.9,
+        "top": 169.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "general11": {
+      "type": "checkbox",
+      "label": "Select this checkbox if enclosure was forwarded as requested.",
+      "page": 1,
+      "box": {
+        "left": 45.9,
+        "top": 156.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "general12": {
+      "type": "checkbox",
+      "label": "Select this checkbox if enclosure was returned for correction as indicated.",
+      "page": 1,
+      "box": {
+        "left": 45.9,
+        "top": 133.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "general13": {
+      "type": "checkbox",
+      "label": "Select this checkbox if corrected enclosure as requested.",
+      "page": 1,
+      "box": {
+        "left": 45.9,
+        "top": 120.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "general14": {
+      "type": "checkbox",
+      "label": "Select this checkbox if removed from distribution list.",
+      "page": 1,
+      "box": {
+        "left": 45.9,
+        "top": 107.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "title": {
+      "type": "text",
+      "label": "Enter the signature and title.",
+      "page": 1,
+      "box": {
+        "left": 290.3,
+        "top": 95.1,
+        "width": 275.8,
+        "height": 18.7
+      }
+    },
+    "reduce1": {
+      "type": "text",
+      "label": "Enter the reduced distribution amount.",
+      "page": 1,
+      "box": {
+        "left": 64.7,
+        "top": 87.0,
+        "width": 141.5,
+        "height": 11.8
+      }
+    },
+    "copy1": {
+      "type": "text",
+      "label": "Enter copy to.",
+      "page": 1,
+      "box": {
+        "left": 41.3,
+        "top": 61.6,
+        "width": 367.4,
+        "height": 17.2
+      }
+    }
+  }
+}

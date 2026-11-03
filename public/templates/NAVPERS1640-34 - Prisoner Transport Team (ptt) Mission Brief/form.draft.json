@@ -1,0 +1,729 @@
+{
+  "id": "navpers164034",
+  "label": "NAVPERS1640-34 - Prisoner Transport Team (ptt) Mission Brief",
+  "directory": "NAVPERS1640-34 - Prisoner Transport Team (ptt) Mission Brief",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "prisonerName",
+        "residentControlNumber",
+        "gender",
+        "branch",
+        "riskAssessment",
+        "leadEscort",
+        "secondEscort",
+        "thirdEscort",
+        "departureDate",
+        "return",
+        "currentlyAt",
+        "transferringTo",
+        "departureDate2",
+        "modeOfTravel",
+        "rentalCarAgency",
+        "hotelName",
+        "city",
+        "state1"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "armedMissionsRationaleFreeText",
+        "armedMissionsBUPERSApprovalDateRow",
+        "cell1",
+        "cell12",
+        "cell13",
+        "cell14",
+        "cell15",
+        "cell16",
+        "escportProgramManagerName",
+        "escportProgramManagerSignature",
+        "escportProgramManagerDate",
+        "escortProgramManagerResponse",
+        "officerInChargeName",
+        "officerInChargeSignature",
+        "officerInChargeDate",
+        "officerInChargeResponse",
+        "technicalDirectorName",
+        "technicalDirectorSignature",
+        "technicalDirectorDate",
+        "technicalDirectorResponse",
+        "executiveOfficerName",
+        "executiveOfficerSignature",
+        "executiveOfficerDate",
+        "executiveOfficerResponse",
+        "commandingOfficerName",
+        "commandingOfficerSignature",
+        "commandingOfficerDate",
+        "commandOfficerResponse"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "cell110",
+        "bUPERS00DSignature",
+        "bUPERS00DDate",
+        "bUPERS00DResponse",
+        "cell111"
+      ]
+    }
+  ],
+  "fields": {
+    "prisonerName": {
+      "type": "text",
+      "label": "a. Name",
+      "page": 1,
+      "box": {
+        "left": 85.7,
+        "top": 702.9,
+        "width": 217.5,
+        "height": 21.5
+      }
+    },
+    "residentControlNumber": {
+      "type": "text",
+      "label": "b. Control Resident Number",
+      "page": 1,
+      "box": {
+        "left": 372.0,
+        "top": 702.9,
+        "width": 95.9,
+        "height": 21.5
+      }
+    },
+    "gender": {
+      "type": "choice",
+      "label": "c. Gender",
+      "page": 1,
+      "box": {
+        "left": 528.1,
+        "top": 702.2,
+        "width": 42.9,
+        "height": 20.0
+      },
+      "options": [
+        "Male",
+        "Female"
+      ]
+    },
+    "branch": {
+      "type": "choice",
+      "label": "d. Branch",
+      "page": 1,
+      "box": {
+        "left": 86.4,
+        "top": 674.9,
+        "width": 216.0,
+        "height": 17.1
+      },
+      "options": [
+        "United States Army",
+        "United States Navy",
+        "United States Air Force",
+        "United States Marine Corps",
+        "United States Coast Guard",
+        "United States Space Force"
+      ]
+    },
+    "riskAssessment": {
+      "type": "choice",
+      "label": "e. Risk Assessment",
+      "page": 1,
+      "box": {
+        "left": 399.7,
+        "top": 674.9,
+        "width": 171.3,
+        "height": 17.1
+      },
+      "options": [
+        "Low Risk/Unarmed Escort",
+        "High Risk/Armed Escort"
+      ]
+    },
+    "leadEscort": {
+      "type": "text",
+      "label": "a. Lead Escort",
+      "page": 1,
+      "box": {
+        "left": 110.9,
+        "top": 637.1,
+        "width": 192.3,
+        "height": 15.8
+      }
+    },
+    "secondEscort": {
+      "type": "text",
+      "label": "b. Second Escort",
+      "page": 1,
+      "box": {
+        "left": 380.9,
+        "top": 637.1,
+        "width": 190.8,
+        "height": 15.8
+      }
+    },
+    "thirdEscort": {
+      "type": "text",
+      "label": "c. Third Escort",
+      "page": 1,
+      "box": {
+        "left": 110.9,
+        "top": 615.5,
+        "width": 192.3,
+        "height": 17.6
+      }
+    },
+    "departureDate": {
+      "type": "text",
+      "label": "d. Departure Date",
+      "page": 1,
+      "box": {
+        "left": 381.0,
+        "top": 615.5,
+        "width": 86.8,
+        "height": 17.6
+      }
+    },
+    "return": {
+      "type": "text",
+      "label": "e. Return",
+      "page": 1,
+      "box": {
+        "left": 515.7,
+        "top": 615.5,
+        "width": 58.9,
+        "height": 17.6
+      }
+    },
+    "currentlyAt": {
+      "type": "text",
+      "label": "f. Currently at",
+      "page": 1,
+      "box": {
+        "left": 110.9,
+        "top": 592.1,
+        "width": 192.3,
+        "height": 15.8
+      }
+    },
+    "transferringTo": {
+      "type": "text",
+      "label": "g. Transferring to",
+      "page": 1,
+      "box": {
+        "left": 380.9,
+        "top": 592.1,
+        "width": 190.8,
+        "height": 15.8
+      }
+    },
+    "departureDate2": {
+      "type": "text",
+      "label": "a. Departure Date",
+      "page": 1,
+      "box": {
+        "left": 128.9,
+        "top": 556.3,
+        "width": 174.3,
+        "height": 17.6
+      }
+    },
+    "modeOfTravel": {
+      "type": "text",
+      "label": "b. Mode of Travel",
+      "page": 1,
+      "box": {
+        "left": 380.9,
+        "top": 556.3,
+        "width": 192.3,
+        "height": 17.6
+      }
+    },
+    "rentalCarAgency": {
+      "type": "text",
+      "label": "c. Rental Car Agency",
+      "page": 1,
+      "box": {
+        "left": 128.9,
+        "top": 533.0,
+        "width": 174.3,
+        "height": 15.8
+      }
+    },
+    "hotelName": {
+      "type": "text",
+      "label": "d. Hotel Name",
+      "page": 1,
+      "box": {
+        "left": 380.9,
+        "top": 533.0,
+        "width": 192.3,
+        "height": 15.8
+      }
+    },
+    "city": {
+      "type": "text",
+      "label": "e. City",
+      "page": 1,
+      "box": {
+        "left": 129.1,
+        "top": 511.4,
+        "width": 174.1,
+        "height": 15.8
+      }
+    },
+    "state1": {
+      "type": "text",
+      "label": "f. State",
+      "page": 1,
+      "box": {
+        "left": 380.9,
+        "top": 511.4,
+        "width": 192.3,
+        "height": 15.8
+      }
+    },
+    "armedMissionsRationaleFreeText": {
+      "type": "text",
+      "label": "a. Rationale",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 690.5,
+        "width": 534.4,
+        "height": 101.9
+      },
+      "multiline": true
+    },
+    "armedMissionsBUPERSApprovalDateRow": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 294.2,
+        "top": 584.3,
+        "width": 162.8,
+        "height": 13.4
+      }
+    },
+    "cell1": {
+      "type": "text",
+      "label": "a. Transfer POC at Losing Military Correctional Facility",
+      "page": 2,
+      "box": {
+        "left": 262.1,
+        "top": 548.5,
+        "width": 311.1,
+        "height": 19.2
+      }
+    },
+    "cell12": {
+      "type": "text",
+      "label": "b. Losing MCF Master Control and Commercial Number",
+      "page": 2,
+      "box": {
+        "left": 262.1,
+        "top": 523.6,
+        "width": 311.1,
+        "height": 12.2
+      }
+    },
+    "cell13": {
+      "type": "text",
+      "label": "c. Mission Lead Escort &amp; Duty Cell Phone Number",
+      "page": 2,
+      "box": {
+        "left": 262.1,
+        "top": 505.6,
+        "width": 311.1,
+        "height": 12.2
+      }
+    },
+    "cell14": {
+      "type": "text",
+      "label": "d. Transfer POC at Gaining MCF and Commercial Number",
+      "page": 2,
+      "box": {
+        "left": 262.1,
+        "top": 487.6,
+        "width": 311.1,
+        "height": 12.2
+      }
+    },
+    "cell15": {
+      "type": "text",
+      "label": "e. Gaining MCF Master Control and Commercial Number",
+      "page": 2,
+      "box": {
+        "left": 262.1,
+        "top": 469.6,
+        "width": 311.1,
+        "height": 12.2
+      }
+    },
+    "cell16": {
+      "type": "text",
+      "label": "f. Signal",
+      "page": 2,
+      "box": {
+        "left": 85.7,
+        "top": 451.6,
+        "width": 487.6,
+        "height": 12.2
+      }
+    },
+    "escportProgramManagerName": {
+      "type": "text",
+      "label": "b. Escort Program Manager Name",
+      "page": 2,
+      "box": {
+        "left": 118.1,
+        "top": 309.7,
+        "width": 188.7,
+        "height": 21.6
+      }
+    },
+    "escportProgramManagerSignature": {
+      "type": "text",
+      "label": "c. Signature",
+      "page": 2,
+      "box": {
+        "left": 312.5,
+        "top": 309.7,
+        "width": 188.7,
+        "height": 21.6
+      }
+    },
+    "escportProgramManagerDate": {
+      "type": "text",
+      "label": "d. Date",
+      "page": 2,
+      "box": {
+        "left": 506.9,
+        "top": 309.7,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "escortProgramManagerResponse": {
+      "type": "choice",
+      "label": "a. Response",
+      "page": 2,
+      "box": {
+        "left": 36.3,
+        "top": 309.5,
+        "width": 78.7,
+        "height": 21.2
+      },
+      "options": [
+        "Concur",
+        "Do Not Concur"
+      ]
+    },
+    "officerInChargeName": {
+      "type": "text",
+      "label": "f. Officer In Charge Name",
+      "page": 2,
+      "box": {
+        "left": 118.1,
+        "top": 273.7,
+        "width": 188.7,
+        "height": 21.6
+      }
+    },
+    "officerInChargeSignature": {
+      "type": "text",
+      "label": "g. Signature",
+      "page": 2,
+      "box": {
+        "left": 312.5,
+        "top": 273.7,
+        "width": 188.7,
+        "height": 21.6
+      }
+    },
+    "officerInChargeDate": {
+      "type": "text",
+      "label": "h. Date",
+      "page": 2,
+      "box": {
+        "left": 506.9,
+        "top": 273.7,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "officerInChargeResponse": {
+      "type": "choice",
+      "label": "e. Response",
+      "page": 2,
+      "box": {
+        "left": 36.3,
+        "top": 273.4,
+        "width": 78.7,
+        "height": 21.1
+      },
+      "options": [
+        "Concur",
+        "Do Not Concur"
+      ]
+    },
+    "technicalDirectorName": {
+      "type": "text",
+      "label": "j. Technical Director Name",
+      "page": 2,
+      "box": {
+        "left": 118.1,
+        "top": 237.7,
+        "width": 188.7,
+        "height": 21.6
+      }
+    },
+    "technicalDirectorSignature": {
+      "type": "text",
+      "label": "k. Signature",
+      "page": 2,
+      "box": {
+        "left": 312.5,
+        "top": 237.7,
+        "width": 188.7,
+        "height": 21.6
+      }
+    },
+    "technicalDirectorDate": {
+      "type": "text",
+      "label": "l. Date",
+      "page": 2,
+      "box": {
+        "left": 506.9,
+        "top": 237.7,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "technicalDirectorResponse": {
+      "type": "choice",
+      "label": "i. Response",
+      "page": 2,
+      "box": {
+        "left": 36.3,
+        "top": 237.4,
+        "width": 78.7,
+        "height": 21.1
+      },
+      "options": [
+        "Concur",
+        "Do Not Concur"
+      ]
+    },
+    "executiveOfficerName": {
+      "type": "text",
+      "label": "n. Executive Officer Name",
+      "page": 2,
+      "box": {
+        "left": 118.1,
+        "top": 201.7,
+        "width": 188.7,
+        "height": 21.6
+      }
+    },
+    "executiveOfficerSignature": {
+      "type": "text",
+      "label": "o. Signature",
+      "page": 2,
+      "box": {
+        "left": 312.5,
+        "top": 201.7,
+        "width": 188.7,
+        "height": 21.6
+      }
+    },
+    "executiveOfficerDate": {
+      "type": "text",
+      "label": "p. Date",
+      "page": 2,
+      "box": {
+        "left": 506.9,
+        "top": 201.7,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "executiveOfficerResponse": {
+      "type": "choice",
+      "label": "m. Response",
+      "page": 2,
+      "box": {
+        "left": 36.3,
+        "top": 201.4,
+        "width": 78.7,
+        "height": 21.1
+      },
+      "options": [
+        "Concur",
+        "Do Not Concur"
+      ]
+    },
+    "commandingOfficerName": {
+      "type": "text",
+      "label": "r. Commanding Officer Name",
+      "page": 2,
+      "box": {
+        "left": 118.1,
+        "top": 165.7,
+        "width": 188.7,
+        "height": 21.6
+      }
+    },
+    "commandingOfficerSignature": {
+      "type": "text",
+      "label": "s. Signature",
+      "page": 2,
+      "box": {
+        "left": 312.5,
+        "top": 165.7,
+        "width": 188.7,
+        "height": 21.6
+      }
+    },
+    "commandingOfficerDate": {
+      "type": "text",
+      "label": "t. Date",
+      "page": 2,
+      "box": {
+        "left": 506.9,
+        "top": 165.7,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "commandOfficerResponse": {
+      "type": "choice",
+      "label": "q. Response",
+      "page": 2,
+      "box": {
+        "left": 36.3,
+        "top": 165.2,
+        "width": 78.7,
+        "height": 20.9
+      },
+      "options": [
+        "Concur",
+        "Approved",
+        "Disapproved"
+      ]
+    },
+    "cell110": {
+      "type": "text",
+      "label": "Cell 110",
+      "page": 3,
+      "box": {
+        "left": 38.9,
+        "top": 717.1,
+        "width": 534.3,
+        "height": 196.5
+      },
+      "multiline": true
+    },
+    "bUPERS00DSignature": {
+      "type": "text",
+      "label": "c. Signature",
+      "page": 3,
+      "box": {
+        "left": 312.5,
+        "top": 492.4,
+        "width": 188.7,
+        "height": 21.6
+      }
+    },
+    "bUPERS00DDate": {
+      "type": "text",
+      "label": "d. Date",
+      "page": 3,
+      "box": {
+        "left": 506.9,
+        "top": 492.4,
+        "width": 65.2,
+        "height": 21.6
+      }
+    },
+    "bUPERS00DResponse": {
+      "type": "choice",
+      "label": "a. Decision",
+      "page": 3,
+      "box": {
+        "left": 39.1,
+        "top": 492.2,
+        "width": 72.9,
+        "height": 21.1
+      },
+      "options": [
+        "Approved",
+        "Disapproved"
+      ]
+    },
+    "cell111": {
+      "type": "text",
+      "label": "BUPERS-00D Comments",
+      "page": 3,
+      "box": {
+        "left": 38.9,
+        "top": 450.8,
+        "width": 534.3,
+        "height": 199.7
+      },
+      "multiline": true
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 2,
+      "count": 3,
+      "rowStride": 32.4,
+      "editor": "grid",
+      "columns": {
+        "cell": {
+          "type": "text",
+          "label": "g. Lead Escort Name and Rank or Rating",
+          "page": 2,
+          "box": {
+            "left": 38.9,
+            "top": 424.9,
+            "width": 227.8,
+            "height": 18.0
+          }
+        },
+        "cell2": {
+          "type": "text",
+          "label": "h. Signature",
+          "page": 2,
+          "box": {
+            "left": 272.5,
+            "top": 424.9,
+            "width": 183.0,
+            "height": 18.0
+          }
+        },
+        "cell3": {
+          "type": "text",
+          "label": "i. Date",
+          "page": 2,
+          "box": {
+            "left": 461.2,
+            "top": 424.9,
+            "width": 112.0,
+            "height": 18.0
+          }
+        }
+      }
+    }
+  }
+}

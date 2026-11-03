@@ -1,0 +1,150 @@
+{
+  "id": "navpers128001",
+  "label": "NAVPERS12800-1 - Beneficiary Address And Marital Status Desigination And Change Form",
+  "directory": "NAVPERS12800-1 - Beneficiary Address And Marital Status Desigination And Change Form",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "female",
+        "male",
+        "address1",
+        "address2",
+        "activity",
+        "status1",
+        "status2",
+        "status3",
+        "dob",
+        "ssn"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "ADMINISTRATION OF BENEFIT FUNCTIONS",
+      "page": 1,
+      "box": {
+        "left": 34.4,
+        "top": 658.4,
+        "width": 341.0,
+        "height": 14.8
+      }
+    },
+    "female": {
+      "type": "checkbox",
+      "label": "MALE",
+      "page": 1,
+      "box": {
+        "left": 447.5,
+        "top": 654.3,
+        "width": 10.7,
+        "height": 11.5
+      }
+    },
+    "male": {
+      "type": "checkbox",
+      "label": "SEX",
+      "page": 1,
+      "box": {
+        "left": 388.5,
+        "top": 653.5,
+        "width": 10.7,
+        "height": 11.5
+      }
+    },
+    "address1": {
+      "type": "text",
+      "label": "NAME",
+      "page": 1,
+      "box": {
+        "left": 35.2,
+        "top": 636.3,
+        "width": 268.9,
+        "height": 15.6
+      }
+    },
+    "address2": {
+      "type": "text",
+      "label": "MALE FEMALE",
+      "page": 1,
+      "box": {
+        "left": 309.0,
+        "top": 634.6,
+        "width": 269.7,
+        "height": 14.8
+      }
+    },
+    "activity": {
+      "type": "text",
+      "label": "STREET ADDRESS: CITY, STATE, ZIP CODE",
+      "page": 1,
+      "box": {
+        "left": 36.9,
+        "top": 610.8,
+        "width": 541.0,
+        "height": 16.4
+      }
+    },
+    "status1": {
+      "type": "checkbox",
+      "label": "MARTIAL STATUS",
+      "page": 1,
+      "box": {
+        "left": 395.1,
+        "top": 594.5,
+        "width": 9.0,
+        "height": 9.8
+      }
+    },
+    "status2": {
+      "type": "checkbox",
+      "label": "MARTIAL",
+      "page": 1,
+      "box": {
+        "left": 298.4,
+        "top": 583.8,
+        "width": 10.7,
+        "height": 10.7
+      }
+    },
+    "status3": {
+      "type": "checkbox",
+      "label": "MARRIED",
+      "page": 1,
+      "box": {
+        "left": 369.7,
+        "top": 583.8,
+        "width": 10.7,
+        "height": 10.7
+      }
+    },
+    "dob": {
+      "type": "text",
+      "label": "DATE OF BIRTH (MM/DD/YYYY)",
+      "page": 1,
+      "box": {
+        "left": 39.3,
+        "top": 578.9,
+        "width": 168.0,
+        "height": 15.6
+      }
+    },
+    "ssn": {
+      "type": "text",
+      "label": "SSN",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 578.1,
+        "width": 71.3,
+        "height": 15.6
+      }
+    }
+  }
+}

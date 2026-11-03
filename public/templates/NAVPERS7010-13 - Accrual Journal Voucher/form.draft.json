@@ -1,0 +1,2585 @@
+{
+  "id": "navpers701013",
+  "label": "NAVPERS7010-13 - Accrual Journal Voucher",
+  "directory": "NAVPERS7010-13 - Accrual Journal Voucher",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "fund",
+        "datePrepared",
+        "number",
+        "fundNum",
+        "accNumA1",
+        "accNumB1",
+        "accuNumC1",
+        "amountA1",
+        "amountB1",
+        "amountC1",
+        "accNumA2",
+        "accNumB2",
+        "accuNumC2",
+        "amountA2",
+        "amountB2",
+        "amountC2",
+        "accNumA3",
+        "accNumB3",
+        "accuNumC3",
+        "amountA3",
+        "amountB3",
+        "amountC3",
+        "accNumA4",
+        "accNumB4",
+        "accuNumC4",
+        "amountA4",
+        "amountB4",
+        "amountC4",
+        "accNumA5",
+        "accNumB5",
+        "accuNumC5",
+        "amountA5",
+        "amountB5",
+        "amountC5",
+        "accNumA6",
+        "accNumB6",
+        "accuNumC6",
+        "amountA6",
+        "amountB6",
+        "amountC6",
+        "accNumA7",
+        "accNumB7",
+        "accuNumC7",
+        "amountA7",
+        "amountB7",
+        "amountC7",
+        "accNumA8",
+        "accNumB8",
+        "accuNumC8",
+        "amountA8",
+        "amountB8",
+        "amountC8",
+        "accNumA9",
+        "accNumB9",
+        "accuNumC9",
+        "amountA9",
+        "amountB9",
+        "amountC9",
+        "accNumA10",
+        "accNumB10",
+        "accuNumC10",
+        "amountA10",
+        "amountB10",
+        "amountC10",
+        "accNumA11",
+        "accNumB11",
+        "accuNumC11",
+        "amountA11",
+        "amountB11",
+        "amountC11",
+        "accNumA12",
+        "accNumB12",
+        "accuNumC12",
+        "amountA12",
+        "amountB12",
+        "amountC12",
+        "accNumA13",
+        "accNumB13",
+        "accuNumC13",
+        "amountA13",
+        "amountB13",
+        "amountC13",
+        "accNumA14",
+        "accNumB14",
+        "accuNumC14",
+        "amountA14",
+        "amountB14",
+        "amountC14",
+        "accNumA15",
+        "accNumB15",
+        "accuNumC15",
+        "amountA15",
+        "amountB15",
+        "amountC15",
+        "accNumA16",
+        "accNumB16",
+        "accuNumC16",
+        "amountA16",
+        "amountB16",
+        "amountC16",
+        "accNumA17",
+        "accNumB17",
+        "accuNumC17",
+        "amountA17",
+        "amountB17",
+        "amountC17",
+        "accNumA18",
+        "accNumB18",
+        "accuNumC18",
+        "amountA18",
+        "amountB18",
+        "amountC18",
+        "accNumA19",
+        "accNumB19",
+        "accuNumC19",
+        "amountA19",
+        "amountB19",
+        "amountC19",
+        "accNumA20",
+        "accNumB20",
+        "accuNumC20",
+        "amountA20",
+        "amountB20",
+        "amountC20",
+        "accNumA21",
+        "accNumB21",
+        "accuNumC21",
+        "amountA21",
+        "amountB21",
+        "amountC21",
+        "accNumA22",
+        "accNumB22",
+        "accuNumC22",
+        "amountA22",
+        "amountB22",
+        "amountC22",
+        "accNumA23",
+        "accNumB23",
+        "accuNumC23",
+        "amountA23",
+        "amountB23",
+        "amountC23",
+        "accNumA24",
+        "accNumB24",
+        "accuNumC24",
+        "amountA24",
+        "amountB24",
+        "amountC24",
+        "accNumA25",
+        "accNumB25",
+        "accuNumC25",
+        "amountA25",
+        "amountB25",
+        "amountC25",
+        "accNumA26",
+        "accNumB26",
+        "accuNumC26",
+        "amountA26",
+        "amountB26",
+        "amountC26",
+        "accNumA27",
+        "accNumB27",
+        "accuNumC27",
+        "amountA27",
+        "amountB27",
+        "amountC27",
+        "accNumA28",
+        "accNumB28",
+        "accuNumC28",
+        "amountA28",
+        "amountB28",
+        "amountC28",
+        "accNumA29",
+        "accNumB29",
+        "accuNumC29",
+        "amountA29",
+        "amountB29",
+        "amountC29",
+        "accNumA30",
+        "accNumB30",
+        "accuNumC30",
+        "amountA30",
+        "amountB30",
+        "amountC30",
+        "accNumA31",
+        "accNumB31",
+        "accuNumC31",
+        "amountA31",
+        "amountB31",
+        "amountC31",
+        "accNumA32",
+        "accNumB32",
+        "accuNumC32",
+        "amountA32",
+        "amountB32",
+        "amountC32",
+        "accNumA33",
+        "accNumB33",
+        "accuNumC33",
+        "amountA33",
+        "amountB33",
+        "amountC33",
+        "accNumA34",
+        "accNumB34",
+        "accuNumC34",
+        "amountA34",
+        "amountB34",
+        "amountC34",
+        "totalC",
+        "totalAB",
+        "approve",
+        "prepare",
+        "dateTwo",
+        "dateThree"
+      ]
+    }
+  ],
+  "fields": {
+    "fund": {
+      "type": "text",
+      "label": "For the accrual journal voucher, enter the fund.",
+      "page": 1,
+      "box": {
+        "left": 34.1,
+        "top": 725.2,
+        "width": 286.1,
+        "height": 17.4
+      }
+    },
+    "datePrepared": {
+      "type": "text",
+      "label": "For the accrual journal voucher, enter the date (MM DDD YYYY).",
+      "page": 1,
+      "box": {
+        "left": 439.1,
+        "top": 723.0,
+        "width": 86.9,
+        "height": 14.4
+      }
+    },
+    "number": {
+      "type": "text",
+      "label": "For the accrual journal voucher, enter the number.",
+      "page": 1,
+      "box": {
+        "left": 531.4,
+        "top": 723.0,
+        "width": 44.8,
+        "height": 14.4
+      }
+    },
+    "fundNum": {
+      "type": "text",
+      "label": "For the accrual journal voucher, enter the fund number.",
+      "page": 1,
+      "box": {
+        "left": 366.6,
+        "top": 722.4,
+        "width": 67.3,
+        "height": 15.5
+      }
+    },
+    "accNumA1": {
+      "type": "text",
+      "label": "This is row 1 of 34, for section A, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 35.3,
+        "top": 670.7,
+        "width": 61.1,
+        "height": 14.6
+      }
+    },
+    "accNumB1": {
+      "type": "text",
+      "label": "This is row 1 of 34, for section B, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 213.0,
+        "top": 670.7,
+        "width": 82.4,
+        "height": 14.6
+      }
+    },
+    "accuNumC1": {
+      "type": "text",
+      "label": "This is row 1 of 34, for section C, enter the credits account number.",
+      "page": 1,
+      "box": {
+        "left": 400.3,
+        "top": 670.7,
+        "width": 74.0,
+        "height": 14.6
+      }
+    },
+    "amountA1": {
+      "type": "text",
+      "label": "For section A, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 103.5,
+        "top": 669.9,
+        "width": 102.3,
+        "height": 14.0
+      }
+    },
+    "amountB1": {
+      "type": "text",
+      "label": "For section B, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 669.9,
+        "width": 89.9,
+        "height": 14.0
+      }
+    },
+    "amountC1": {
+      "type": "text",
+      "label": "For section C, enter the credits amount.",
+      "page": 1,
+      "box": {
+        "left": 481.5,
+        "top": 669.9,
+        "width": 93.9,
+        "height": 14.0
+      }
+    },
+    "accNumA2": {
+      "type": "text",
+      "label": "This is row 2 of 34, for section A, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 35.3,
+        "top": 653.4,
+        "width": 61.1,
+        "height": 14.6
+      }
+    },
+    "accNumB2": {
+      "type": "text",
+      "label": "This is row 2 of 34, for section B, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 213.0,
+        "top": 653.4,
+        "width": 82.4,
+        "height": 14.6
+      }
+    },
+    "accuNumC2": {
+      "type": "text",
+      "label": "This is row 2 of 34, for section C, enter the credits account number.",
+      "page": 1,
+      "box": {
+        "left": 400.3,
+        "top": 653.4,
+        "width": 74.0,
+        "height": 14.6
+      }
+    },
+    "amountA2": {
+      "type": "text",
+      "label": "For section A, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 103.5,
+        "top": 652.6,
+        "width": 102.3,
+        "height": 14.0
+      }
+    },
+    "amountB2": {
+      "type": "text",
+      "label": "For section B, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 652.6,
+        "width": 89.9,
+        "height": 14.0
+      }
+    },
+    "amountC2": {
+      "type": "text",
+      "label": "For section C, enter the credits amount.",
+      "page": 1,
+      "box": {
+        "left": 481.5,
+        "top": 652.6,
+        "width": 93.9,
+        "height": 14.0
+      }
+    },
+    "accNumA3": {
+      "type": "text",
+      "label": "This is row 3 of 34, for section A, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 35.3,
+        "top": 636.1,
+        "width": 61.1,
+        "height": 14.6
+      }
+    },
+    "accNumB3": {
+      "type": "text",
+      "label": "This is row 3 of 34, for section B, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 213.0,
+        "top": 636.1,
+        "width": 82.4,
+        "height": 14.6
+      }
+    },
+    "accuNumC3": {
+      "type": "text",
+      "label": "This is row 3 of 34, for section C, enter the credits account number.",
+      "page": 1,
+      "box": {
+        "left": 400.3,
+        "top": 636.1,
+        "width": 74.0,
+        "height": 14.6
+      }
+    },
+    "amountA3": {
+      "type": "text",
+      "label": "For section A, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 103.5,
+        "top": 635.4,
+        "width": 102.3,
+        "height": 14.0
+      }
+    },
+    "amountB3": {
+      "type": "text",
+      "label": "For section B, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 635.4,
+        "width": 89.9,
+        "height": 14.0
+      }
+    },
+    "amountC3": {
+      "type": "text",
+      "label": "For section C, enter the credits amount.",
+      "page": 1,
+      "box": {
+        "left": 481.5,
+        "top": 635.4,
+        "width": 93.9,
+        "height": 14.0
+      }
+    },
+    "accNumA4": {
+      "type": "text",
+      "label": "This is row 4 of 34, for section A, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 35.3,
+        "top": 618.9,
+        "width": 61.1,
+        "height": 14.6
+      }
+    },
+    "accNumB4": {
+      "type": "text",
+      "label": "This is row 4 of 34, for section B, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 213.0,
+        "top": 618.9,
+        "width": 82.4,
+        "height": 14.6
+      }
+    },
+    "accuNumC4": {
+      "type": "text",
+      "label": "This is row 4 of 34, for section C, enter the credits account number.",
+      "page": 1,
+      "box": {
+        "left": 400.3,
+        "top": 618.9,
+        "width": 74.0,
+        "height": 14.6
+      }
+    },
+    "amountA4": {
+      "type": "text",
+      "label": "For section A, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 103.5,
+        "top": 618.1,
+        "width": 102.3,
+        "height": 14.0
+      }
+    },
+    "amountB4": {
+      "type": "text",
+      "label": "For section B, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 618.1,
+        "width": 89.9,
+        "height": 14.0
+      }
+    },
+    "amountC4": {
+      "type": "text",
+      "label": "For section C, enter the credits amount.",
+      "page": 1,
+      "box": {
+        "left": 481.5,
+        "top": 618.1,
+        "width": 93.9,
+        "height": 14.0
+      }
+    },
+    "accNumA5": {
+      "type": "text",
+      "label": "This is row 5 of 34, for section A, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 35.3,
+        "top": 601.6,
+        "width": 61.1,
+        "height": 14.6
+      }
+    },
+    "accNumB5": {
+      "type": "text",
+      "label": "This is row 5 of 34, for section B, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 213.0,
+        "top": 601.6,
+        "width": 82.4,
+        "height": 14.6
+      }
+    },
+    "accuNumC5": {
+      "type": "text",
+      "label": "This is row 5 of 34, for section C, enter the credits account number.",
+      "page": 1,
+      "box": {
+        "left": 400.3,
+        "top": 601.6,
+        "width": 74.0,
+        "height": 14.6
+      }
+    },
+    "amountA5": {
+      "type": "text",
+      "label": "For section A, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 103.5,
+        "top": 600.8,
+        "width": 102.3,
+        "height": 14.0
+      }
+    },
+    "amountB5": {
+      "type": "text",
+      "label": "For section B, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 600.8,
+        "width": 89.9,
+        "height": 14.0
+      }
+    },
+    "amountC5": {
+      "type": "text",
+      "label": "For section C, enter the credits amount.",
+      "page": 1,
+      "box": {
+        "left": 481.5,
+        "top": 600.8,
+        "width": 93.9,
+        "height": 14.0
+      }
+    },
+    "accNumA6": {
+      "type": "text",
+      "label": "This is row 6 of 34, for section A, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 35.3,
+        "top": 584.3,
+        "width": 61.1,
+        "height": 14.6
+      }
+    },
+    "accNumB6": {
+      "type": "text",
+      "label": "This is row 6 of 34, for section B, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 213.0,
+        "top": 584.3,
+        "width": 82.4,
+        "height": 14.6
+      }
+    },
+    "accuNumC6": {
+      "type": "text",
+      "label": "This is row 6 of 34, for section C, enter the credits account number.",
+      "page": 1,
+      "box": {
+        "left": 400.3,
+        "top": 584.3,
+        "width": 74.0,
+        "height": 14.6
+      }
+    },
+    "amountA6": {
+      "type": "text",
+      "label": "For section A, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 103.5,
+        "top": 583.5,
+        "width": 102.3,
+        "height": 14.0
+      }
+    },
+    "amountB6": {
+      "type": "text",
+      "label": "For section B, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 583.5,
+        "width": 89.9,
+        "height": 14.0
+      }
+    },
+    "amountC6": {
+      "type": "text",
+      "label": "For section C, enter the credits amount.",
+      "page": 1,
+      "box": {
+        "left": 481.5,
+        "top": 583.5,
+        "width": 93.9,
+        "height": 14.0
+      }
+    },
+    "accNumA7": {
+      "type": "text",
+      "label": "This is row 7 of 34, for section A, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 35.3,
+        "top": 567.0,
+        "width": 61.1,
+        "height": 14.6
+      }
+    },
+    "accNumB7": {
+      "type": "text",
+      "label": "This is row 7 of 34, for section B, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 213.0,
+        "top": 567.0,
+        "width": 82.4,
+        "height": 14.6
+      }
+    },
+    "accuNumC7": {
+      "type": "text",
+      "label": "This is row 7 of 34, for section C, enter the credits account number.",
+      "page": 1,
+      "box": {
+        "left": 400.3,
+        "top": 567.0,
+        "width": 74.0,
+        "height": 14.6
+      }
+    },
+    "amountA7": {
+      "type": "text",
+      "label": "For section A, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 103.5,
+        "top": 566.2,
+        "width": 102.3,
+        "height": 14.0
+      }
+    },
+    "amountB7": {
+      "type": "text",
+      "label": "For section B, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 566.2,
+        "width": 89.9,
+        "height": 14.0
+      }
+    },
+    "amountC7": {
+      "type": "text",
+      "label": "For section C, enter the credits amount.",
+      "page": 1,
+      "box": {
+        "left": 481.5,
+        "top": 566.2,
+        "width": 93.9,
+        "height": 14.0
+      }
+    },
+    "accNumA8": {
+      "type": "text",
+      "label": "This is row 8 of 34, for section A, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 35.3,
+        "top": 549.7,
+        "width": 61.1,
+        "height": 14.6
+      }
+    },
+    "accNumB8": {
+      "type": "text",
+      "label": "This is row 8 of 34, for section B, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 213.0,
+        "top": 549.7,
+        "width": 82.4,
+        "height": 14.6
+      }
+    },
+    "accuNumC8": {
+      "type": "text",
+      "label": "This is row 8 of 34, for section C, enter the credits account number.",
+      "page": 1,
+      "box": {
+        "left": 400.3,
+        "top": 549.7,
+        "width": 74.0,
+        "height": 14.6
+      }
+    },
+    "amountA8": {
+      "type": "text",
+      "label": "For section A, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 103.5,
+        "top": 549.0,
+        "width": 102.3,
+        "height": 14.0
+      }
+    },
+    "amountB8": {
+      "type": "text",
+      "label": "For section B, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 549.0,
+        "width": 89.9,
+        "height": 14.0
+      }
+    },
+    "amountC8": {
+      "type": "text",
+      "label": "For section C, enter the credits amount.",
+      "page": 1,
+      "box": {
+        "left": 481.5,
+        "top": 549.0,
+        "width": 93.9,
+        "height": 14.0
+      }
+    },
+    "accNumA9": {
+      "type": "text",
+      "label": "This is row 9 of 34, for section A, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 35.3,
+        "top": 532.5,
+        "width": 61.1,
+        "height": 14.6
+      }
+    },
+    "accNumB9": {
+      "type": "text",
+      "label": "This is row 9 of 34, for section B, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 213.0,
+        "top": 532.5,
+        "width": 82.4,
+        "height": 14.6
+      }
+    },
+    "accuNumC9": {
+      "type": "text",
+      "label": "This is row 9 of 34, for section C, enter the credits account number.",
+      "page": 1,
+      "box": {
+        "left": 400.3,
+        "top": 532.5,
+        "width": 74.0,
+        "height": 14.6
+      }
+    },
+    "amountA9": {
+      "type": "text",
+      "label": "For section A, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 103.5,
+        "top": 532.1,
+        "width": 102.3,
+        "height": 14.0
+      }
+    },
+    "amountB9": {
+      "type": "text",
+      "label": "For section B, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 532.1,
+        "width": 89.9,
+        "height": 14.0
+      }
+    },
+    "amountC9": {
+      "type": "text",
+      "label": "For section C, enter the credits amount.",
+      "page": 1,
+      "box": {
+        "left": 481.5,
+        "top": 532.1,
+        "width": 93.9,
+        "height": 14.0
+      }
+    },
+    "accNumA10": {
+      "type": "text",
+      "label": "This is row 10 of 34, for section A, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 35.3,
+        "top": 515.1,
+        "width": 61.1,
+        "height": 12.5
+      }
+    },
+    "accNumB10": {
+      "type": "text",
+      "label": "This is row 10 of 34, for section B, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 213.0,
+        "top": 515.1,
+        "width": 82.4,
+        "height": 12.5
+      }
+    },
+    "accuNumC10": {
+      "type": "text",
+      "label": "This is row 10 of 34, for section C, enter the credits account number.",
+      "page": 1,
+      "box": {
+        "left": 400.3,
+        "top": 515.1,
+        "width": 74.0,
+        "height": 12.5
+      }
+    },
+    "amountA10": {
+      "type": "text",
+      "label": "For section A, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 103.5,
+        "top": 514.9,
+        "width": 102.3,
+        "height": 11.9
+      }
+    },
+    "amountB10": {
+      "type": "text",
+      "label": "For section B, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 514.9,
+        "width": 89.9,
+        "height": 11.9
+      }
+    },
+    "amountC10": {
+      "type": "text",
+      "label": "For section C, enter the credits amount.",
+      "page": 1,
+      "box": {
+        "left": 481.5,
+        "top": 514.9,
+        "width": 93.9,
+        "height": 11.9
+      }
+    },
+    "accNumA11": {
+      "type": "text",
+      "label": "This is row 11 of 34, for section A, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 35.3,
+        "top": 498.0,
+        "width": 61.1,
+        "height": 14.6
+      }
+    },
+    "accNumB11": {
+      "type": "text",
+      "label": "This is row 11 of 34, for section B, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 213.0,
+        "top": 498.0,
+        "width": 82.4,
+        "height": 14.6
+      }
+    },
+    "accuNumC11": {
+      "type": "text",
+      "label": "This is row 11 of 34, for section C, enter the credits account number.",
+      "page": 1,
+      "box": {
+        "left": 400.3,
+        "top": 498.0,
+        "width": 74.0,
+        "height": 14.6
+      }
+    },
+    "amountA11": {
+      "type": "text",
+      "label": "For section A, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 103.5,
+        "top": 497.8,
+        "width": 102.3,
+        "height": 14.0
+      }
+    },
+    "amountB11": {
+      "type": "text",
+      "label": "For section B, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 497.8,
+        "width": 89.9,
+        "height": 14.0
+      }
+    },
+    "amountC11": {
+      "type": "text",
+      "label": "For section C, enter the credits amount.",
+      "page": 1,
+      "box": {
+        "left": 481.5,
+        "top": 497.8,
+        "width": 93.9,
+        "height": 14.0
+      }
+    },
+    "accNumA12": {
+      "type": "text",
+      "label": "This is row 12 of 34, for section A, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 35.3,
+        "top": 481.7,
+        "width": 61.1,
+        "height": 14.3
+      }
+    },
+    "accNumB12": {
+      "type": "text",
+      "label": "This is row 12 of 34, for section B, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 213.0,
+        "top": 481.7,
+        "width": 82.4,
+        "height": 14.3
+      }
+    },
+    "accuNumC12": {
+      "type": "text",
+      "label": "This is row 12 of 34, for section C, enter the credits account number.",
+      "page": 1,
+      "box": {
+        "left": 400.3,
+        "top": 481.7,
+        "width": 74.0,
+        "height": 14.3
+      }
+    },
+    "amountA12": {
+      "type": "text",
+      "label": "For section A, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 103.5,
+        "top": 480.9,
+        "width": 102.3,
+        "height": 13.7
+      }
+    },
+    "amountB12": {
+      "type": "text",
+      "label": "For section B, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 480.9,
+        "width": 89.9,
+        "height": 13.7
+      }
+    },
+    "amountC12": {
+      "type": "text",
+      "label": "For section C, enter the credits amount.",
+      "page": 1,
+      "box": {
+        "left": 481.5,
+        "top": 480.9,
+        "width": 93.9,
+        "height": 13.7
+      }
+    },
+    "accNumA13": {
+      "type": "text",
+      "label": "This is row 13 of 34, for section A, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 35.3,
+        "top": 463.6,
+        "width": 61.1,
+        "height": 14.3
+      }
+    },
+    "accNumB13": {
+      "type": "text",
+      "label": "This is row 13 of 34, for section B, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 213.0,
+        "top": 463.6,
+        "width": 82.4,
+        "height": 14.3
+      }
+    },
+    "accuNumC13": {
+      "type": "text",
+      "label": "This is row 13 of 34, for section C, enter the credits account number.",
+      "page": 1,
+      "box": {
+        "left": 400.3,
+        "top": 463.6,
+        "width": 74.0,
+        "height": 14.3
+      }
+    },
+    "amountA13": {
+      "type": "text",
+      "label": "For section A, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 103.5,
+        "top": 463.2,
+        "width": 102.3,
+        "height": 12.3
+      }
+    },
+    "amountB13": {
+      "type": "text",
+      "label": "For section B, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 463.2,
+        "width": 89.9,
+        "height": 12.3
+      }
+    },
+    "amountC13": {
+      "type": "text",
+      "label": "For section C, enter the credits amount.",
+      "page": 1,
+      "box": {
+        "left": 481.5,
+        "top": 463.2,
+        "width": 93.9,
+        "height": 12.3
+      }
+    },
+    "accNumA14": {
+      "type": "text",
+      "label": "This is row 14 of 34, for section A, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 35.3,
+        "top": 446.6,
+        "width": 61.1,
+        "height": 14.3
+      }
+    },
+    "accNumB14": {
+      "type": "text",
+      "label": "This is row 14 of 34, for section B, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 213.0,
+        "top": 446.6,
+        "width": 82.4,
+        "height": 14.3
+      }
+    },
+    "accuNumC14": {
+      "type": "text",
+      "label": "This is row 14 of 34, for section C, enter the credits account number.",
+      "page": 1,
+      "box": {
+        "left": 400.3,
+        "top": 446.6,
+        "width": 74.0,
+        "height": 14.3
+      }
+    },
+    "amountA14": {
+      "type": "text",
+      "label": "For section A, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 103.5,
+        "top": 445.8,
+        "width": 102.3,
+        "height": 13.7
+      }
+    },
+    "amountB14": {
+      "type": "text",
+      "label": "For section B, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 445.8,
+        "width": 89.9,
+        "height": 13.7
+      }
+    },
+    "amountC14": {
+      "type": "text",
+      "label": "For section C, enter the credits amount.",
+      "page": 1,
+      "box": {
+        "left": 481.5,
+        "top": 445.8,
+        "width": 93.9,
+        "height": 13.7
+      }
+    },
+    "accNumA15": {
+      "type": "text",
+      "label": "This is row 15 of 34, for section A, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 35.3,
+        "top": 429.5,
+        "width": 61.1,
+        "height": 14.3
+      }
+    },
+    "accNumB15": {
+      "type": "text",
+      "label": "This is row 15 of 34, for section B, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 213.0,
+        "top": 429.5,
+        "width": 82.4,
+        "height": 14.3
+      }
+    },
+    "accuNumC15": {
+      "type": "text",
+      "label": "This is row 15 of 34, for section C, enter the credits account number.",
+      "page": 1,
+      "box": {
+        "left": 400.3,
+        "top": 429.5,
+        "width": 74.0,
+        "height": 14.3
+      }
+    },
+    "amountA15": {
+      "type": "text",
+      "label": "For section A, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 103.5,
+        "top": 428.7,
+        "width": 102.3,
+        "height": 13.7
+      }
+    },
+    "amountB15": {
+      "type": "text",
+      "label": "For section B, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 428.7,
+        "width": 89.9,
+        "height": 13.7
+      }
+    },
+    "amountC15": {
+      "type": "text",
+      "label": "For section C, enter the credits amount.",
+      "page": 1,
+      "box": {
+        "left": 481.5,
+        "top": 428.7,
+        "width": 93.9,
+        "height": 13.7
+      }
+    },
+    "accNumA16": {
+      "type": "text",
+      "label": "This is row 16 of 34, for section A, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 35.3,
+        "top": 412.5,
+        "width": 61.1,
+        "height": 14.3
+      }
+    },
+    "accNumB16": {
+      "type": "text",
+      "label": "This is row 16 of 34, for section B, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 213.0,
+        "top": 412.5,
+        "width": 82.4,
+        "height": 14.3
+      }
+    },
+    "accuNumC16": {
+      "type": "text",
+      "label": "This is row 16 of 34, for section C, enter the credits account number.",
+      "page": 1,
+      "box": {
+        "left": 400.3,
+        "top": 412.5,
+        "width": 74.0,
+        "height": 14.3
+      }
+    },
+    "amountA16": {
+      "type": "text",
+      "label": "For section A, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 103.5,
+        "top": 411.7,
+        "width": 102.3,
+        "height": 13.7
+      }
+    },
+    "amountB16": {
+      "type": "text",
+      "label": "For section B, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 411.7,
+        "width": 89.9,
+        "height": 13.7
+      }
+    },
+    "amountC16": {
+      "type": "text",
+      "label": "For section C, enter the credits amount.",
+      "page": 1,
+      "box": {
+        "left": 481.5,
+        "top": 411.7,
+        "width": 93.9,
+        "height": 13.7
+      }
+    },
+    "accNumA17": {
+      "type": "text",
+      "label": "This is row 17 of 34, for section A, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 35.3,
+        "top": 395.4,
+        "width": 61.1,
+        "height": 14.3
+      }
+    },
+    "accNumB17": {
+      "type": "text",
+      "label": "This is row 17 of 34, for section B, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 213.0,
+        "top": 395.4,
+        "width": 82.4,
+        "height": 14.3
+      }
+    },
+    "accuNumC17": {
+      "type": "text",
+      "label": "This is row 17 of 34, for section C, enter the credits account number.",
+      "page": 1,
+      "box": {
+        "left": 400.3,
+        "top": 395.4,
+        "width": 74.0,
+        "height": 14.3
+      }
+    },
+    "amountA17": {
+      "type": "text",
+      "label": "For section A, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 103.5,
+        "top": 394.7,
+        "width": 102.3,
+        "height": 13.7
+      }
+    },
+    "amountB17": {
+      "type": "text",
+      "label": "For section B, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 394.7,
+        "width": 89.9,
+        "height": 13.7
+      }
+    },
+    "amountC17": {
+      "type": "text",
+      "label": "For section C, enter the credits amount.",
+      "page": 1,
+      "box": {
+        "left": 481.5,
+        "top": 394.7,
+        "width": 93.9,
+        "height": 13.7
+      }
+    },
+    "accNumA18": {
+      "type": "text",
+      "label": "This is row 18 of 34, for section A, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 35.3,
+        "top": 378.4,
+        "width": 61.1,
+        "height": 14.3
+      }
+    },
+    "accNumB18": {
+      "type": "text",
+      "label": "This is row 18 of 34, for section B, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 213.0,
+        "top": 378.4,
+        "width": 82.4,
+        "height": 14.3
+      }
+    },
+    "accuNumC18": {
+      "type": "text",
+      "label": "This is row 18 of 34, for section C, enter the credits account number.",
+      "page": 1,
+      "box": {
+        "left": 400.3,
+        "top": 378.4,
+        "width": 74.0,
+        "height": 14.3
+      }
+    },
+    "amountA18": {
+      "type": "text",
+      "label": "For section A, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 103.5,
+        "top": 377.6,
+        "width": 102.3,
+        "height": 13.7
+      }
+    },
+    "amountB18": {
+      "type": "text",
+      "label": "For section B, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 377.6,
+        "width": 89.9,
+        "height": 13.7
+      }
+    },
+    "amountC18": {
+      "type": "text",
+      "label": "For section C, enter the credits amount.",
+      "page": 1,
+      "box": {
+        "left": 481.5,
+        "top": 377.6,
+        "width": 93.9,
+        "height": 13.7
+      }
+    },
+    "accNumA19": {
+      "type": "text",
+      "label": "This is row 19 of 34, for section A, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 35.3,
+        "top": 361.3,
+        "width": 61.1,
+        "height": 14.3
+      }
+    },
+    "accNumB19": {
+      "type": "text",
+      "label": "This is row 19 of 34, for section B, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 213.0,
+        "top": 361.3,
+        "width": 82.4,
+        "height": 14.3
+      }
+    },
+    "accuNumC19": {
+      "type": "text",
+      "label": "This is row 19 of 34, for section C, enter the credits account number.",
+      "page": 1,
+      "box": {
+        "left": 400.3,
+        "top": 361.3,
+        "width": 74.0,
+        "height": 14.3
+      }
+    },
+    "amountA19": {
+      "type": "text",
+      "label": "For section A, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 103.5,
+        "top": 360.6,
+        "width": 102.3,
+        "height": 13.7
+      }
+    },
+    "amountB19": {
+      "type": "text",
+      "label": "For section B, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 360.6,
+        "width": 89.9,
+        "height": 13.7
+      }
+    },
+    "amountC19": {
+      "type": "text",
+      "label": "For section C, enter the credits amount.",
+      "page": 1,
+      "box": {
+        "left": 481.5,
+        "top": 360.6,
+        "width": 93.9,
+        "height": 13.7
+      }
+    },
+    "accNumA20": {
+      "type": "text",
+      "label": "This is row 20 of 34, for section A, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 35.3,
+        "top": 344.3,
+        "width": 61.1,
+        "height": 14.3
+      }
+    },
+    "accNumB20": {
+      "type": "text",
+      "label": "This is row 20 of 34, for section B, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 213.0,
+        "top": 344.3,
+        "width": 82.4,
+        "height": 14.3
+      }
+    },
+    "accuNumC20": {
+      "type": "text",
+      "label": "This is row 20 of 34, for section C, enter the credits account number.",
+      "page": 1,
+      "box": {
+        "left": 400.3,
+        "top": 344.3,
+        "width": 74.0,
+        "height": 14.3
+      }
+    },
+    "amountA20": {
+      "type": "text",
+      "label": "For section A, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 103.5,
+        "top": 343.5,
+        "width": 102.3,
+        "height": 13.7
+      }
+    },
+    "amountB20": {
+      "type": "text",
+      "label": "For section B, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 343.5,
+        "width": 89.9,
+        "height": 13.7
+      }
+    },
+    "amountC20": {
+      "type": "text",
+      "label": "For section C, enter the credits amount.",
+      "page": 1,
+      "box": {
+        "left": 481.5,
+        "top": 343.5,
+        "width": 93.9,
+        "height": 13.7
+      }
+    },
+    "accNumA21": {
+      "type": "text",
+      "label": "This is row 21 of 34, for section A, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 35.3,
+        "top": 327.3,
+        "width": 61.1,
+        "height": 14.3
+      }
+    },
+    "accNumB21": {
+      "type": "text",
+      "label": "This is row 21 of 34, for section B, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 213.0,
+        "top": 327.3,
+        "width": 82.4,
+        "height": 14.3
+      }
+    },
+    "accuNumC21": {
+      "type": "text",
+      "label": "This is row 21 of 34, for section C, enter the credits account number.",
+      "page": 1,
+      "box": {
+        "left": 400.3,
+        "top": 327.3,
+        "width": 74.0,
+        "height": 14.3
+      }
+    },
+    "amountA21": {
+      "type": "text",
+      "label": "For section A, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 103.5,
+        "top": 326.5,
+        "width": 102.3,
+        "height": 13.7
+      }
+    },
+    "amountB21": {
+      "type": "text",
+      "label": "For section B, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 326.5,
+        "width": 89.9,
+        "height": 13.7
+      }
+    },
+    "amountC21": {
+      "type": "text",
+      "label": "For section C, enter the credits amount.",
+      "page": 1,
+      "box": {
+        "left": 481.5,
+        "top": 326.5,
+        "width": 93.9,
+        "height": 13.7
+      }
+    },
+    "accNumA22": {
+      "type": "text",
+      "label": "This is row 22 of 34, for section A, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 35.3,
+        "top": 310.2,
+        "width": 61.1,
+        "height": 14.3
+      }
+    },
+    "accNumB22": {
+      "type": "text",
+      "label": "This is row 22 of 34, for section B, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 213.0,
+        "top": 310.2,
+        "width": 82.4,
+        "height": 14.3
+      }
+    },
+    "accuNumC22": {
+      "type": "text",
+      "label": "This is row 22 of 34, for section C, enter the credits account number.",
+      "page": 1,
+      "box": {
+        "left": 400.3,
+        "top": 310.2,
+        "width": 74.0,
+        "height": 14.3
+      }
+    },
+    "amountA22": {
+      "type": "text",
+      "label": "For section A, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 103.5,
+        "top": 309.4,
+        "width": 102.3,
+        "height": 13.7
+      }
+    },
+    "amountB22": {
+      "type": "text",
+      "label": "For section B, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 309.4,
+        "width": 89.9,
+        "height": 13.7
+      }
+    },
+    "amountC22": {
+      "type": "text",
+      "label": "For section C, enter the credits amount.",
+      "page": 1,
+      "box": {
+        "left": 481.5,
+        "top": 309.4,
+        "width": 93.9,
+        "height": 13.7
+      }
+    },
+    "accNumA23": {
+      "type": "text",
+      "label": "This is row 23 of 34, for section A, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 35.3,
+        "top": 293.2,
+        "width": 61.1,
+        "height": 14.3
+      }
+    },
+    "accNumB23": {
+      "type": "text",
+      "label": "This is row 23 of 34, for section B, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 213.0,
+        "top": 293.2,
+        "width": 82.4,
+        "height": 14.3
+      }
+    },
+    "accuNumC23": {
+      "type": "text",
+      "label": "This is row 23 of 34, for section C, enter the credits account number.",
+      "page": 1,
+      "box": {
+        "left": 400.3,
+        "top": 293.2,
+        "width": 74.0,
+        "height": 14.3
+      }
+    },
+    "amountA23": {
+      "type": "text",
+      "label": "For section A, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 103.5,
+        "top": 292.4,
+        "width": 102.3,
+        "height": 13.7
+      }
+    },
+    "amountB23": {
+      "type": "text",
+      "label": "For section B, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 292.4,
+        "width": 89.9,
+        "height": 13.7
+      }
+    },
+    "amountC23": {
+      "type": "text",
+      "label": "For section C, enter the credits amount.",
+      "page": 1,
+      "box": {
+        "left": 481.5,
+        "top": 292.4,
+        "width": 93.9,
+        "height": 13.7
+      }
+    },
+    "accNumA24": {
+      "type": "text",
+      "label": "This is row 24 of 34, for section A, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 35.3,
+        "top": 276.1,
+        "width": 61.1,
+        "height": 14.3
+      }
+    },
+    "accNumB24": {
+      "type": "text",
+      "label": "This is row 24 of 34, for section B, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 213.0,
+        "top": 276.1,
+        "width": 82.4,
+        "height": 14.3
+      }
+    },
+    "accuNumC24": {
+      "type": "text",
+      "label": "This is row 24 of 34, for section C, enter the credits account number.",
+      "page": 1,
+      "box": {
+        "left": 400.3,
+        "top": 276.1,
+        "width": 74.0,
+        "height": 14.3
+      }
+    },
+    "amountA24": {
+      "type": "text",
+      "label": "For section A, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 103.5,
+        "top": 275.4,
+        "width": 102.3,
+        "height": 13.7
+      }
+    },
+    "amountB24": {
+      "type": "text",
+      "label": "For section B, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 275.4,
+        "width": 89.9,
+        "height": 13.7
+      }
+    },
+    "amountC24": {
+      "type": "text",
+      "label": "For section C, enter the credits amount.",
+      "page": 1,
+      "box": {
+        "left": 481.5,
+        "top": 275.4,
+        "width": 93.9,
+        "height": 13.7
+      }
+    },
+    "accNumA25": {
+      "type": "text",
+      "label": "This is row 25 of 34, for section A, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 35.3,
+        "top": 259.1,
+        "width": 61.1,
+        "height": 14.3
+      }
+    },
+    "accNumB25": {
+      "type": "text",
+      "label": "This is row 25 of 34, for section B, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 213.0,
+        "top": 259.1,
+        "width": 82.4,
+        "height": 14.3
+      }
+    },
+    "accuNumC25": {
+      "type": "text",
+      "label": "This is row 25 of 34, for section C, enter the credits account number.",
+      "page": 1,
+      "box": {
+        "left": 400.3,
+        "top": 259.1,
+        "width": 74.0,
+        "height": 14.3
+      }
+    },
+    "amountA25": {
+      "type": "text",
+      "label": "For section A, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 103.5,
+        "top": 258.3,
+        "width": 102.3,
+        "height": 13.7
+      }
+    },
+    "amountB25": {
+      "type": "text",
+      "label": "For section B, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 258.3,
+        "width": 89.9,
+        "height": 13.7
+      }
+    },
+    "amountC25": {
+      "type": "text",
+      "label": "For section C, enter the credits amount.",
+      "page": 1,
+      "box": {
+        "left": 481.5,
+        "top": 258.3,
+        "width": 93.9,
+        "height": 13.7
+      }
+    },
+    "accNumA26": {
+      "type": "text",
+      "label": "This is row 26 of 34, for section A, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 35.3,
+        "top": 242.0,
+        "width": 61.1,
+        "height": 14.3
+      }
+    },
+    "accNumB26": {
+      "type": "text",
+      "label": "This is row 26 of 34, for section B, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 213.0,
+        "top": 242.0,
+        "width": 82.4,
+        "height": 14.3
+      }
+    },
+    "accuNumC26": {
+      "type": "text",
+      "label": "This is row 26 of 34, for section C, enter the credits account number.",
+      "page": 1,
+      "box": {
+        "left": 400.3,
+        "top": 242.0,
+        "width": 74.0,
+        "height": 14.3
+      }
+    },
+    "amountA26": {
+      "type": "text",
+      "label": "For section A, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 103.5,
+        "top": 241.3,
+        "width": 102.3,
+        "height": 13.7
+      }
+    },
+    "amountB26": {
+      "type": "text",
+      "label": "For section B, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 241.3,
+        "width": 89.9,
+        "height": 13.7
+      }
+    },
+    "amountC26": {
+      "type": "text",
+      "label": "For section C, enter the credits amount.",
+      "page": 1,
+      "box": {
+        "left": 481.5,
+        "top": 241.3,
+        "width": 93.9,
+        "height": 13.7
+      }
+    },
+    "accNumA27": {
+      "type": "text",
+      "label": "This is row 27 of 34, for section A, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 35.3,
+        "top": 225.0,
+        "width": 61.1,
+        "height": 14.3
+      }
+    },
+    "accNumB27": {
+      "type": "text",
+      "label": "This is row 27 of 34, for section B, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 213.0,
+        "top": 225.0,
+        "width": 82.4,
+        "height": 14.3
+      }
+    },
+    "accuNumC27": {
+      "type": "text",
+      "label": "This is row 27 of 34, for section C, enter the credits account number.",
+      "page": 1,
+      "box": {
+        "left": 400.3,
+        "top": 225.0,
+        "width": 74.0,
+        "height": 14.3
+      }
+    },
+    "amountA27": {
+      "type": "text",
+      "label": "For section A, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 103.5,
+        "top": 224.2,
+        "width": 102.3,
+        "height": 13.7
+      }
+    },
+    "amountB27": {
+      "type": "text",
+      "label": "For section B, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 224.2,
+        "width": 89.9,
+        "height": 13.7
+      }
+    },
+    "amountC27": {
+      "type": "text",
+      "label": "For section C, enter the credits amount.",
+      "page": 1,
+      "box": {
+        "left": 481.5,
+        "top": 224.2,
+        "width": 93.9,
+        "height": 13.7
+      }
+    },
+    "accNumA28": {
+      "type": "text",
+      "label": "This is row 28 of 34, for section A, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 35.3,
+        "top": 208.0,
+        "width": 61.1,
+        "height": 14.3
+      }
+    },
+    "accNumB28": {
+      "type": "text",
+      "label": "This is row 28 of 34, for section B, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 213.0,
+        "top": 208.0,
+        "width": 82.4,
+        "height": 14.3
+      }
+    },
+    "accuNumC28": {
+      "type": "text",
+      "label": "This is row 28 of 34, for section C, enter the credits account number.",
+      "page": 1,
+      "box": {
+        "left": 400.3,
+        "top": 208.0,
+        "width": 74.0,
+        "height": 14.3
+      }
+    },
+    "amountA28": {
+      "type": "text",
+      "label": "For section A, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 103.5,
+        "top": 207.2,
+        "width": 102.3,
+        "height": 13.7
+      }
+    },
+    "amountB28": {
+      "type": "text",
+      "label": "For section B, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 207.2,
+        "width": 89.9,
+        "height": 13.7
+      }
+    },
+    "amountC28": {
+      "type": "text",
+      "label": "For section C, enter the credits amount.",
+      "page": 1,
+      "box": {
+        "left": 481.5,
+        "top": 207.2,
+        "width": 93.9,
+        "height": 13.7
+      }
+    },
+    "accNumA29": {
+      "type": "text",
+      "label": "This is row 29 of 34, for section A, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 35.3,
+        "top": 190.9,
+        "width": 61.1,
+        "height": 14.3
+      }
+    },
+    "accNumB29": {
+      "type": "text",
+      "label": "This is row 29 of 34, for section B, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 213.0,
+        "top": 190.9,
+        "width": 82.4,
+        "height": 14.3
+      }
+    },
+    "accuNumC29": {
+      "type": "text",
+      "label": "This is row 29 of 34, for section C, enter the credits account number.",
+      "page": 1,
+      "box": {
+        "left": 400.3,
+        "top": 190.9,
+        "width": 74.0,
+        "height": 14.3
+      }
+    },
+    "amountA29": {
+      "type": "text",
+      "label": "For section A, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 103.5,
+        "top": 190.1,
+        "width": 102.3,
+        "height": 13.7
+      }
+    },
+    "amountB29": {
+      "type": "text",
+      "label": "For section B, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 190.1,
+        "width": 89.9,
+        "height": 13.7
+      }
+    },
+    "amountC29": {
+      "type": "text",
+      "label": "For section C, enter the credits amount.",
+      "page": 1,
+      "box": {
+        "left": 481.5,
+        "top": 190.1,
+        "width": 93.9,
+        "height": 13.7
+      }
+    },
+    "accNumA30": {
+      "type": "text",
+      "label": "This is row 30 of 34, for section A, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 35.3,
+        "top": 173.9,
+        "width": 61.1,
+        "height": 14.3
+      }
+    },
+    "accNumB30": {
+      "type": "text",
+      "label": "This is row 30 of 34, for section B, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 213.0,
+        "top": 173.9,
+        "width": 82.4,
+        "height": 14.3
+      }
+    },
+    "accuNumC30": {
+      "type": "text",
+      "label": "This is row 30 of 34, for section C, enter the credits account number.",
+      "page": 1,
+      "box": {
+        "left": 400.3,
+        "top": 173.9,
+        "width": 74.0,
+        "height": 14.3
+      }
+    },
+    "amountA30": {
+      "type": "text",
+      "label": "For section A, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 103.5,
+        "top": 173.1,
+        "width": 102.3,
+        "height": 13.7
+      }
+    },
+    "amountB30": {
+      "type": "text",
+      "label": "For section B, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 173.1,
+        "width": 89.9,
+        "height": 13.7
+      }
+    },
+    "amountC30": {
+      "type": "text",
+      "label": "For section C, enter the credits amount.",
+      "page": 1,
+      "box": {
+        "left": 481.5,
+        "top": 173.1,
+        "width": 93.9,
+        "height": 13.7
+      }
+    },
+    "accNumA31": {
+      "type": "text",
+      "label": "This is row 31 of 34, for section A, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 35.3,
+        "top": 156.8,
+        "width": 61.1,
+        "height": 14.3
+      }
+    },
+    "accNumB31": {
+      "type": "text",
+      "label": "This is row 31 of 34, for section B, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 213.0,
+        "top": 156.8,
+        "width": 82.4,
+        "height": 14.3
+      }
+    },
+    "accuNumC31": {
+      "type": "text",
+      "label": "This is row 31 of 34, for section C, enter the credits account number.",
+      "page": 1,
+      "box": {
+        "left": 400.3,
+        "top": 156.8,
+        "width": 74.0,
+        "height": 14.3
+      }
+    },
+    "amountA31": {
+      "type": "text",
+      "label": "For section A, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 103.5,
+        "top": 156.1,
+        "width": 102.3,
+        "height": 13.7
+      }
+    },
+    "amountB31": {
+      "type": "text",
+      "label": "For section B, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 156.1,
+        "width": 89.9,
+        "height": 13.7
+      }
+    },
+    "amountC31": {
+      "type": "text",
+      "label": "For section C, enter the credits amount.",
+      "page": 1,
+      "box": {
+        "left": 481.5,
+        "top": 156.1,
+        "width": 93.9,
+        "height": 13.7
+      }
+    },
+    "accNumA32": {
+      "type": "text",
+      "label": "This is row 32 of 34, for section A, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 35.3,
+        "top": 139.8,
+        "width": 61.1,
+        "height": 14.3
+      }
+    },
+    "accNumB32": {
+      "type": "text",
+      "label": "This is row 32 of 34, for section B, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 213.0,
+        "top": 139.8,
+        "width": 82.4,
+        "height": 14.3
+      }
+    },
+    "accuNumC32": {
+      "type": "text",
+      "label": "This is row 32 of 34, for section C, enter the credits account number.",
+      "page": 1,
+      "box": {
+        "left": 400.3,
+        "top": 139.8,
+        "width": 74.0,
+        "height": 14.3
+      }
+    },
+    "amountA32": {
+      "type": "text",
+      "label": "For section A, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 103.5,
+        "top": 139.0,
+        "width": 102.3,
+        "height": 13.7
+      }
+    },
+    "amountB32": {
+      "type": "text",
+      "label": "For section B, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 139.0,
+        "width": 89.9,
+        "height": 13.7
+      }
+    },
+    "amountC32": {
+      "type": "text",
+      "label": "For section C, enter the credits amount.",
+      "page": 1,
+      "box": {
+        "left": 481.5,
+        "top": 139.0,
+        "width": 93.9,
+        "height": 13.7
+      }
+    },
+    "accNumA33": {
+      "type": "text",
+      "label": "This is row 33 of 34, for section A, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 35.3,
+        "top": 122.7,
+        "width": 61.1,
+        "height": 14.3
+      }
+    },
+    "accNumB33": {
+      "type": "text",
+      "label": "This is row 33 of 34, for section B, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 213.0,
+        "top": 122.7,
+        "width": 82.4,
+        "height": 14.3
+      }
+    },
+    "accuNumC33": {
+      "type": "text",
+      "label": "This is row 33 of 34, for section C, enter the credits account number.",
+      "page": 1,
+      "box": {
+        "left": 400.3,
+        "top": 122.7,
+        "width": 74.0,
+        "height": 14.3
+      }
+    },
+    "amountA33": {
+      "type": "text",
+      "label": "For section A, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 103.5,
+        "top": 122.0,
+        "width": 102.3,
+        "height": 13.7
+      }
+    },
+    "amountB33": {
+      "type": "text",
+      "label": "For section B, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 122.0,
+        "width": 89.9,
+        "height": 13.7
+      }
+    },
+    "amountC33": {
+      "type": "text",
+      "label": "For section C, enter the credits amount.",
+      "page": 1,
+      "box": {
+        "left": 481.5,
+        "top": 122.0,
+        "width": 93.9,
+        "height": 13.7
+      }
+    },
+    "accNumA34": {
+      "type": "text",
+      "label": "This is row 34 of 34, for section A, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 35.3,
+        "top": 105.7,
+        "width": 61.1,
+        "height": 14.3
+      }
+    },
+    "accNumB34": {
+      "type": "text",
+      "label": "This is row 34 of 34, for section B, enter the debits account number.",
+      "page": 1,
+      "box": {
+        "left": 213.0,
+        "top": 105.7,
+        "width": 82.4,
+        "height": 14.3
+      }
+    },
+    "accuNumC34": {
+      "type": "text",
+      "label": "This is row 34 of 34, for section C, enter the credits account number.",
+      "page": 1,
+      "box": {
+        "left": 400.3,
+        "top": 105.7,
+        "width": 74.0,
+        "height": 14.3
+      }
+    },
+    "amountA34": {
+      "type": "text",
+      "label": "For section A, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 103.5,
+        "top": 103.6,
+        "width": 102.3,
+        "height": 12.5
+      }
+    },
+    "amountB34": {
+      "type": "text",
+      "label": "For section B, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 103.6,
+        "width": 89.9,
+        "height": 12.5
+      }
+    },
+    "amountC34": {
+      "type": "text",
+      "label": "For section C, enter the credits amount.",
+      "page": 1,
+      "box": {
+        "left": 481.5,
+        "top": 103.6,
+        "width": 93.9,
+        "height": 12.5
+      }
+    },
+    "totalC": {
+      "type": "text",
+      "label": "For section C, enter the credits amount.",
+      "page": 1,
+      "box": {
+        "left": 482.1,
+        "top": 86.6,
+        "width": 93.9,
+        "height": 15.5
+      }
+    },
+    "totalAB": {
+      "type": "text",
+      "label": "For section B, enter the debits amount.",
+      "page": 1,
+      "box": {
+        "left": 303.8,
+        "top": 85.5,
+        "width": 89.9,
+        "height": 15.5
+      }
+    },
+    "approve": {
+      "type": "text",
+      "label": "Enter the name of the approver for the accrual journal voucher ( last, first and middle name).",
+      "page": 1,
+      "box": {
+        "left": 316.1,
+        "top": 55.5,
+        "width": 194.0,
+        "height": 23.3
+      }
+    },
+    "prepare": {
+      "type": "text",
+      "label": "Enter the name of the preparer of the accrual journal voucher ( last, first and middle initial ).",
+      "page": 1,
+      "box": {
+        "left": 35.5,
+        "top": 55.4,
+        "width": 198.8,
+        "height": 23.3
+      }
+    },
+    "dateTwo": {
+      "type": "text",
+      "label": "Enter the date prepared (DD MMM YYYY).",
+      "page": 1,
+      "box": {
+        "left": 241.3,
+        "top": 55.4,
+        "width": 66.9,
+        "height": 23.4
+      }
+    },
+    "dateThree": {
+      "type": "text",
+      "label": "Enter the date approved (DD MMM YYYY).",
+      "page": 1,
+      "box": {
+        "left": 516.9,
+        "top": 55.4,
+        "width": 59.6,
+        "height": 23.4
+      }
+    }
+  }
+}

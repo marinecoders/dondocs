@@ -1,0 +1,244 @@
+{
+  "id": "navmchq344",
+  "label": "NAVMCHQ344 - Research Material Loan Record",
+  "directory": "NAVMCHQ344 - Research Material Loan Record",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "dateReceived",
+        "reference",
+        "radioButtonList",
+        "radioButtonList2",
+        "to",
+        "radioButtonList3",
+        "radioButtonList4",
+        "radioButtonList5",
+        "radioButtonList6",
+        "radioButtonList7",
+        "radioButtonList8",
+        "radioButtonList9",
+        "researchMaterial",
+        "name",
+        "received",
+        "dateReceived2",
+        "signature",
+        "sigDate"
+      ]
+    }
+  ],
+  "fields": {
+    "dateReceived": {
+      "type": "text",
+      "label": "DateReceived",
+      "page": 1,
+      "box": {
+        "left": 425.1,
+        "top": 676.1,
+        "width": 160.6,
+        "height": 11.0
+      }
+    },
+    "reference": {
+      "type": "text",
+      "label": "Reference",
+      "page": 1,
+      "box": {
+        "left": 78.6,
+        "top": 657.3,
+        "width": 301.8,
+        "height": 11.7
+      }
+    },
+    "radioButtonList": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 403.3,
+        "top": 639.0,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_0"
+    },
+    "radioButtonList2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 403.3,
+        "top": 623.4,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_0"
+    },
+    "to": {
+      "type": "text",
+      "label": "To",
+      "page": 1,
+      "box": {
+        "left": 84.1,
+        "top": 618.3,
+        "width": 239.7,
+        "height": 88.5
+      },
+      "multiline": true
+    },
+    "radioButtonList3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 403.3,
+        "top": 607.8,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_0"
+    },
+    "radioButtonList4": {
+      "type": "radio",
+      "label": "3",
+      "page": 1,
+      "box": {
+        "left": 403.3,
+        "top": 592.3,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_0"
+    },
+    "radioButtonList5": {
+      "type": "radio",
+      "label": "4",
+      "page": 1,
+      "box": {
+        "left": 403.3,
+        "top": 576.7,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_0"
+    },
+    "radioButtonList6": {
+      "type": "radio",
+      "label": "5",
+      "page": 1,
+      "box": {
+        "left": 403.3,
+        "top": 560.9,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_0"
+    },
+    "radioButtonList7": {
+      "type": "radio",
+      "label": "6",
+      "page": 1,
+      "box": {
+        "left": 403.3,
+        "top": 545.4,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_0"
+    },
+    "radioButtonList8": {
+      "type": "radio",
+      "label": "7",
+      "page": 1,
+      "box": {
+        "left": 403.3,
+        "top": 529.7,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_0"
+    },
+    "radioButtonList9": {
+      "type": "radio",
+      "label": "8",
+      "page": 1,
+      "box": {
+        "left": 403.3,
+        "top": 513.7,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_0"
+    },
+    "researchMaterial": {
+      "type": "text",
+      "label": "ResearchMaterial",
+      "page": 1,
+      "box": {
+        "left": 21.4,
+        "top": 476.9,
+        "width": 569.8,
+        "height": 352.2
+      },
+      "multiline": true
+    },
+    "name": {
+      "type": "text",
+      "label": "Name",
+      "page": 1,
+      "box": {
+        "left": 336.6,
+        "top": 84.4,
+        "width": 253.8,
+        "height": 10.7
+      }
+    },
+    "received": {
+      "type": "text",
+      "label": "Received",
+      "page": 1,
+      "box": {
+        "left": 75.0,
+        "top": 72.2,
+        "width": 152.8,
+        "height": 12.2
+      }
+    },
+    "dateReceived2": {
+      "type": "text",
+      "label": "DateReceived",
+      "page": 1,
+      "box": {
+        "left": 253.7,
+        "top": 71.0,
+        "width": 47.9,
+        "height": 11.5
+      }
+    },
+    "signature": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 349.7,
+        "top": 69.2,
+        "width": 151.6,
+        "height": 11.3
+      }
+    },
+    "sigDate": {
+      "type": "text",
+      "label": "SigDate",
+      "page": 1,
+      "box": {
+        "left": 531.9,
+        "top": 68.7,
+        "width": 58.5,
+        "height": 10.5
+      }
+    }
+  }
+}

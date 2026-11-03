@@ -1,0 +1,1668 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "marName": {
+        "left": 39.6,
+        "top": 699.8,
+        "width": 327.2,
+        "height": 30.4,
+        "type": "text",
+        "description": "Last Name, First Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mCRank": {
+        "left": 372.6,
+        "top": 699.2,
+        "width": 110.6,
+        "height": 29.8,
+        "type": "choice",
+        "description": "Rank:",
+        "options": [
+          "PFC",
+          "LCpl",
+          "Cpl",
+          "Sgt",
+          "SSgt",
+          "GySgt",
+          "MSgt",
+          "1stSgt",
+          "MGySgt",
+          "SgtMaj",
+          "SMMC",
+          "WO",
+          "Gunner",
+          "CWO2",
+          "CWO3",
+          "CWO4",
+          "CWO5",
+          "2ndLt",
+          "1stLt",
+          "Capt",
+          "Maj",
+          "LtCol",
+          "Col",
+          "BGen",
+          "MajGen",
+          "LtGen",
+          "Gen"
+        ],
+        "group": null,
+        "required": false
+      },
+      "ssn": {
+        "left": 489.6,
+        "top": 699.2,
+        "width": 83.6,
+        "height": 29.9,
+        "type": "text",
+        "description": "SSN",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "oICName": {
+        "left": 91.1,
+        "top": 654.8,
+        "width": 320.8,
+        "height": 23.8,
+        "type": "text",
+        "description": "OIC Name:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "oICPhone": {
+        "left": 451.5,
+        "top": 654.2,
+        "width": 121.7,
+        "height": 21.4,
+        "type": "text",
+        "description": "Phone:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sNCOICName": {
+        "left": 102.8,
+        "top": 627.4,
+        "width": 309.0,
+        "height": 23.8,
+        "type": "text",
+        "description": "SNCOIC Name:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sNCOICPhone": {
+        "left": 451.5,
+        "top": 626.8,
+        "width": 121.7,
+        "height": 21.4,
+        "type": "text",
+        "description": "Phone:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "coWorkName1": {
+        "left": 119.8,
+        "top": 600.0,
+        "width": 292.1,
+        "height": 23.8,
+        "type": "text",
+        "description": "CoWorker - 1 Name:  ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "coWorkPhone1": {
+        "left": 451.5,
+        "top": 599.4,
+        "width": 121.7,
+        "height": 21.4,
+        "type": "text",
+        "description": "Phone:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "coWorkPhone2": {
+        "left": 451.5,
+        "top": 573.2,
+        "width": 121.7,
+        "height": 20.2,
+        "type": "text",
+        "description": "Phone:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "oICName2": {
+        "left": 119.8,
+        "top": 572.6,
+        "width": 292.1,
+        "height": 22.2,
+        "type": "text",
+        "description": "CoWorker - 2 Name:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "oICProfess": {
+        "left": 110.5,
+        "top": 519.8,
+        "width": 463.4,
+        "height": 32.4,
+        "type": "text",
+        "description": "Professionally ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "oICPersonal": {
+        "left": 110.5,
+        "top": 483.8,
+        "width": 463.4,
+        "height": 32.4,
+        "type": "text",
+        "description": "Personally ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sNCOICcProfess": {
+        "left": 110.5,
+        "top": 420.8,
+        "width": 463.4,
+        "height": 32.4,
+        "type": "text",
+        "description": "Professionally ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sNCOICPersonal": {
+        "left": 110.5,
+        "top": 384.8,
+        "width": 463.4,
+        "height": 32.4,
+        "type": "text",
+        "description": "Personally ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "coWorKProfess1": {
+        "left": 110.5,
+        "top": 321.8,
+        "width": 463.4,
+        "height": 32.4,
+        "type": "text",
+        "description": "Professionally ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "coWorkPersonal2": {
+        "left": 110.5,
+        "top": 285.8,
+        "width": 463.4,
+        "height": 32.4,
+        "type": "text",
+        "description": "Personally ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "coWorkProfess2": {
+        "left": 110.5,
+        "top": 222.8,
+        "width": 463.4,
+        "height": 32.4,
+        "type": "text",
+        "description": "Professionally ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "coWorkPersonal22": {
+        "left": 110.5,
+        "top": 186.8,
+        "width": 463.4,
+        "height": 32.4,
+        "type": "text",
+        "description": "Personally ",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "oICBearing": {
+        "left": 239.1,
+        "top": 689.5,
+        "width": 82.5,
+        "height": 17.2,
+        "type": "choice",
+        "description": "OICBearing",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "sNCOICBear": {
+        "left": 324.4,
+        "top": 689.5,
+        "width": 82.5,
+        "height": 17.2,
+        "type": "choice",
+        "description": "SNCOICBear",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "coWorkerBearA": {
+        "left": 409.7,
+        "top": 689.5,
+        "width": 82.5,
+        "height": 17.2,
+        "type": "choice",
+        "description": "CoWorkerBearA",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "coWorkerBearB": {
+        "left": 495.0,
+        "top": 689.5,
+        "width": 79.6,
+        "height": 17.2,
+        "type": "choice",
+        "description": "CoWorkerBearB",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "oICHonesty": {
+        "left": 239.1,
+        "top": 669.5,
+        "width": 82.5,
+        "height": 17.2,
+        "type": "choice",
+        "description": "OICHonesty",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "sNCOICHonest": {
+        "left": 324.4,
+        "top": 669.5,
+        "width": 82.5,
+        "height": 17.2,
+        "type": "choice",
+        "description": "SNCOICHonest",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "cOWorkerHonestA": {
+        "left": 409.7,
+        "top": 669.5,
+        "width": 82.5,
+        "height": 17.2,
+        "type": "choice",
+        "description": "COWorkerHonestA",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "coWorkerHonestB": {
+        "left": 495.0,
+        "top": 669.5,
+        "width": 79.6,
+        "height": 17.2,
+        "type": "choice",
+        "description": "CoWorkerHonestB",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "oICInit": {
+        "left": 239.1,
+        "top": 649.4,
+        "width": 82.5,
+        "height": 17.2,
+        "type": "choice",
+        "description": "OICInit",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "sNCOICInitiat": {
+        "left": 324.4,
+        "top": 649.4,
+        "width": 82.5,
+        "height": 17.2,
+        "type": "choice",
+        "description": "SNCOICInitiat",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "coWorkerIniti": {
+        "left": 409.7,
+        "top": 649.4,
+        "width": 82.5,
+        "height": 17.2,
+        "type": "choice",
+        "description": "CoWorkerIniti",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "coWorkerInitiA": {
+        "left": 495.0,
+        "top": 649.4,
+        "width": 79.6,
+        "height": 17.2,
+        "type": "choice",
+        "description": "CoWorkerInitiA",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "oICInteg": {
+        "left": 239.1,
+        "top": 629.4,
+        "width": 82.5,
+        "height": 17.2,
+        "type": "choice",
+        "description": "OICInteg",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "sNCOICInteg": {
+        "left": 324.4,
+        "top": 629.4,
+        "width": 82.5,
+        "height": 17.2,
+        "type": "choice",
+        "description": "SNCOICInteg",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "coWorkerIntegA": {
+        "left": 409.7,
+        "top": 629.4,
+        "width": 82.5,
+        "height": 17.2,
+        "type": "choice",
+        "description": "CoWorkerIntegA",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "coWorkerIntegB": {
+        "left": 495.0,
+        "top": 629.4,
+        "width": 79.6,
+        "height": 17.2,
+        "type": "choice",
+        "description": "CoWorkerIntegB",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "oICJudge": {
+        "left": 239.1,
+        "top": 609.3,
+        "width": 82.5,
+        "height": 17.2,
+        "type": "choice",
+        "description": "OICJudge",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "sNCOICJudge": {
+        "left": 324.4,
+        "top": 609.3,
+        "width": 82.5,
+        "height": 17.2,
+        "type": "choice",
+        "description": "SNCOICJudge",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "coWorkerJudgeA": {
+        "left": 409.7,
+        "top": 609.3,
+        "width": 82.5,
+        "height": 17.2,
+        "type": "choice",
+        "description": "CoWorkerJudgeA",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "coWorkerJudgeB": {
+        "left": 495.0,
+        "top": 609.3,
+        "width": 79.6,
+        "height": 17.2,
+        "type": "choice",
+        "description": "CoWorkerJudgeB",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "oICLeadA": {
+        "left": 239.1,
+        "top": 589.3,
+        "width": 82.5,
+        "height": 17.2,
+        "type": "choice",
+        "description": "OICLeadA",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "sNCOICLeadA": {
+        "left": 324.4,
+        "top": 589.3,
+        "width": 82.5,
+        "height": 17.2,
+        "type": "choice",
+        "description": "SNCOICLeadA",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "coWorkerLeadA": {
+        "left": 409.7,
+        "top": 589.3,
+        "width": 82.5,
+        "height": 17.2,
+        "type": "choice",
+        "description": "CoWorkerLeadA",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "coWorkerLeadB": {
+        "left": 495.0,
+        "top": 589.3,
+        "width": 79.6,
+        "height": 17.2,
+        "type": "choice",
+        "description": "CoWorkerLeadB",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "oICLoyal": {
+        "left": 239.1,
+        "top": 569.3,
+        "width": 82.5,
+        "height": 17.2,
+        "type": "choice",
+        "description": "OICLoyal",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "sNCOICLoyal": {
+        "left": 324.4,
+        "top": 569.3,
+        "width": 82.5,
+        "height": 17.2,
+        "type": "choice",
+        "description": "SNCOICLoyal",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "coWorkerLoyalA": {
+        "left": 409.7,
+        "top": 569.3,
+        "width": 82.5,
+        "height": 17.2,
+        "type": "choice",
+        "description": "CoWorkerLoyalA",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "coWorkerLoyalB": {
+        "left": 495.0,
+        "top": 569.3,
+        "width": 79.6,
+        "height": 17.2,
+        "type": "choice",
+        "description": "CoWorkerLoyalB",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "oICMat": {
+        "left": 239.1,
+        "top": 549.2,
+        "width": 82.5,
+        "height": 17.2,
+        "type": "choice",
+        "description": "OICMat",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "nCOICMaturity": {
+        "left": 324.4,
+        "top": 549.2,
+        "width": 82.5,
+        "height": 17.2,
+        "type": "choice",
+        "description": "NCOICMaturity",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "coWorkerMatA": {
+        "left": 409.7,
+        "top": 549.2,
+        "width": 82.5,
+        "height": 17.2,
+        "type": "choice",
+        "description": "CoWorkerMatA",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "coWorkerMatB": {
+        "left": 495.0,
+        "top": 549.2,
+        "width": 79.6,
+        "height": 17.2,
+        "type": "choice",
+        "description": "CoWorkerMatB",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "oICReput": {
+        "left": 239.1,
+        "top": 529.2,
+        "width": 82.5,
+        "height": 17.2,
+        "type": "choice",
+        "description": "OICReput",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "sNCOICReput": {
+        "left": 324.4,
+        "top": 529.2,
+        "width": 82.5,
+        "height": 17.2,
+        "type": "choice",
+        "description": "SNCOICReput",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "coWorkerRepA": {
+        "left": 409.7,
+        "top": 529.2,
+        "width": 82.5,
+        "height": 17.2,
+        "type": "choice",
+        "description": "CoWorkerRepA",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "coWorkerRepB": {
+        "left": 495.0,
+        "top": 529.2,
+        "width": 79.6,
+        "height": 17.2,
+        "type": "choice",
+        "description": "CoWorkerRepB",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "oICTact": {
+        "left": 239.1,
+        "top": 509.1,
+        "width": 82.5,
+        "height": 17.2,
+        "type": "choice",
+        "description": "OICTact",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "sNCOICTact": {
+        "left": 324.4,
+        "top": 509.1,
+        "width": 82.5,
+        "height": 17.2,
+        "type": "choice",
+        "description": "SNCOICTact",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "coWorkerTactA": {
+        "left": 409.7,
+        "top": 509.1,
+        "width": 82.5,
+        "height": 17.2,
+        "type": "choice",
+        "description": "CoWorkerTactA",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "coWorkerTactB": {
+        "left": 495.0,
+        "top": 509.1,
+        "width": 79.6,
+        "height": 17.2,
+        "type": "choice",
+        "description": "CoWorkerTactB",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "oICGrowth": {
+        "left": 239.1,
+        "top": 489.1,
+        "width": 82.5,
+        "height": 19.6,
+        "type": "choice",
+        "description": "OICGrowth",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "sNCOICGrowth": {
+        "left": 324.4,
+        "top": 489.1,
+        "width": 82.5,
+        "height": 19.6,
+        "type": "choice",
+        "description": "SNCOICGrowth",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "coWorkerGrowthA": {
+        "left": 409.7,
+        "top": 489.1,
+        "width": 82.5,
+        "height": 19.6,
+        "type": "choice",
+        "description": "CoWorkerGrowthA",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "coWorkerGrowthB": {
+        "left": 495.0,
+        "top": 489.1,
+        "width": 79.6,
+        "height": 19.6,
+        "type": "choice",
+        "description": "CoWorkerGrowthB",
+        "options": [
+          "OS",
+          "EX",
+          "AA",
+          "BA",
+          "UN"
+        ],
+        "group": null,
+        "required": false
+      },
+      "oICForeign": {
+        "left": 239.1,
+        "top": 429.5,
+        "width": 82.5,
+        "height": 16.3,
+        "type": "choice",
+        "description": "OICForeign",
+        "options": [
+          "YES",
+          "NO"
+        ],
+        "group": null,
+        "required": false
+      },
+      "sNCOICForeign": {
+        "left": 324.4,
+        "top": 429.5,
+        "width": 82.5,
+        "height": 16.3,
+        "type": "choice",
+        "description": "SNCOICForeign",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "coWorkerForeignA": {
+        "left": 409.7,
+        "top": 429.5,
+        "width": 82.5,
+        "height": 16.3,
+        "type": "choice",
+        "description": "CoWorkerForeignA",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "coWorkerForeignB": {
+        "left": 495.0,
+        "top": 429.5,
+        "width": 79.6,
+        "height": 16.3,
+        "type": "choice",
+        "description": "CoWorkerForeignB",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "oICfinances": {
+        "left": 239.1,
+        "top": 410.4,
+        "width": 82.5,
+        "height": 15.3,
+        "type": "choice",
+        "description": "OICfinances",
+        "options": [
+          "YES",
+          "NO"
+        ],
+        "group": null,
+        "required": false
+      },
+      "sNCOICFiances": {
+        "left": 324.4,
+        "top": 410.4,
+        "width": 82.5,
+        "height": 15.3,
+        "type": "choice",
+        "description": "SNCOICFiances",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "coWorkerFinancesA": {
+        "left": 409.7,
+        "top": 410.4,
+        "width": 82.5,
+        "height": 15.3,
+        "type": "choice",
+        "description": "CoWorkerFinancesA",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "coWorkerFinancesB": {
+        "left": 495.0,
+        "top": 410.4,
+        "width": 79.6,
+        "height": 15.3,
+        "type": "choice",
+        "description": "CoWorkerFinancesB",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "oICGambling": {
+        "left": 239.1,
+        "top": 392.2,
+        "width": 82.5,
+        "height": 16.3,
+        "type": "choice",
+        "description": "OICGambling",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sNCOICGamlbing": {
+        "left": 324.4,
+        "top": 392.2,
+        "width": 82.5,
+        "height": 16.3,
+        "type": "choice",
+        "description": "SNCOICGamlbing",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "coWorkerGambleA": {
+        "left": 409.7,
+        "top": 392.2,
+        "width": 82.5,
+        "height": 16.3,
+        "type": "choice",
+        "description": "CoWorkerGambleA",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "coWorkerGamblieB": {
+        "left": 495.0,
+        "top": 392.2,
+        "width": 79.6,
+        "height": 16.3,
+        "type": "choice",
+        "description": "CoWorkerGamblieB",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "oICDrugs": {
+        "left": 239.1,
+        "top": 373.1,
+        "width": 82.5,
+        "height": 16.3,
+        "type": "choice",
+        "description": "OICDrugs",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sNCOICDrugs": {
+        "left": 324.4,
+        "top": 373.1,
+        "width": 82.5,
+        "height": 16.3,
+        "type": "choice",
+        "description": "SNCOICDrugs",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "coWorkerDrugsA": {
+        "left": 409.7,
+        "top": 373.1,
+        "width": 82.5,
+        "height": 16.3,
+        "type": "choice",
+        "description": "CoWorkerDrugsA",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "coWorkerDrugsB": {
+        "left": 495.0,
+        "top": 373.1,
+        "width": 79.6,
+        "height": 16.3,
+        "type": "choice",
+        "description": "CoWorkerDrugsB",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "oICAlcohol": {
+        "left": 239.1,
+        "top": 354.1,
+        "width": 82.5,
+        "height": 15.3,
+        "type": "choice",
+        "description": "OICAlcohol",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sNCOICAlcohol": {
+        "left": 324.4,
+        "top": 354.1,
+        "width": 82.5,
+        "height": 15.3,
+        "type": "choice",
+        "description": "SNCOICAlcohol",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "coWorkerAlcoholA": {
+        "left": 409.7,
+        "top": 354.1,
+        "width": 82.5,
+        "height": 15.3,
+        "type": "choice",
+        "description": "CoWorkerAlcoholA",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "coWorkerAlcoholB": {
+        "left": 495.0,
+        "top": 354.1,
+        "width": 79.6,
+        "height": 15.3,
+        "type": "choice",
+        "description": "CoWorkerAlcoholB",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "oICMental": {
+        "left": 239.1,
+        "top": 335.9,
+        "width": 82.5,
+        "height": 16.3,
+        "type": "choice",
+        "description": "OICMental",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sNCOICMental": {
+        "left": 324.4,
+        "top": 335.9,
+        "width": 82.5,
+        "height": 16.3,
+        "type": "choice",
+        "description": "SNCOICMental",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "coWorkerMentalA": {
+        "left": 409.7,
+        "top": 335.9,
+        "width": 82.5,
+        "height": 16.3,
+        "type": "choice",
+        "description": "CoWorkerMentalA",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "coWorkerMentalB": {
+        "left": 495.0,
+        "top": 335.9,
+        "width": 79.6,
+        "height": 16.3,
+        "type": "choice",
+        "description": "CoWorkerMentalB",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "oICStab": {
+        "left": 239.1,
+        "top": 316.8,
+        "width": 82.5,
+        "height": 16.3,
+        "type": "choice",
+        "description": "OICStab",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sNCOICStab": {
+        "left": 324.4,
+        "top": 316.8,
+        "width": 82.5,
+        "height": 16.3,
+        "type": "choice",
+        "description": "SNCOICStab",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "coWorkerStabA": {
+        "left": 409.7,
+        "top": 316.8,
+        "width": 82.5,
+        "height": 16.3,
+        "type": "choice",
+        "description": "CoWorkerStabA",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "coWorkerStabB": {
+        "left": 495.0,
+        "top": 316.8,
+        "width": 79.6,
+        "height": 16.3,
+        "type": "choice",
+        "description": "CoWorkerStabB",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "oICOrg": {
+        "left": 239.1,
+        "top": 297.7,
+        "width": 82.5,
+        "height": 17.3,
+        "type": "choice",
+        "description": "OICOrg",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sNCOICOrg": {
+        "left": 324.4,
+        "top": 297.7,
+        "width": 82.5,
+        "height": 17.3,
+        "type": "choice",
+        "description": "SNCOICOrg",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "coWorkerOrgA": {
+        "left": 409.7,
+        "top": 297.7,
+        "width": 82.5,
+        "height": 17.3,
+        "type": "choice",
+        "description": "CoWorkerOrgA",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "coWorkerOrgB": {
+        "left": 495.0,
+        "top": 297.7,
+        "width": 79.6,
+        "height": 17.3,
+        "type": "choice",
+        "description": "CoWorkerOrgB",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks3": {
+        "left": 38.2,
+        "top": 268.7,
+        "width": 535.7,
+        "height": 42.3,
+        "type": "text",
+        "description": "REMARKS:  ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "notRecA": {
+        "left": 149.4,
+        "top": 197.8,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Not Recommended",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recA": {
+        "left": 293.7,
+        "top": 197.8,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Recommended",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recEnthA": {
+        "left": 438.1,
+        "top": 197.8,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Recommended w/Enthusiasm",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "notRecB": {
+        "left": 149.4,
+        "top": 169.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Not Recommended",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recB": {
+        "left": 293.7,
+        "top": 169.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Recommended",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recEnthB": {
+        "left": 438.1,
+        "top": 169.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Recommended w/Enthusiasm",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "notRecc": {
+        "left": 149.4,
+        "top": 141.2,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Not Recommended",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "notRecC": {
+        "left": 293.7,
+        "top": 141.2,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Recommended",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recEnthC": {
+        "left": 438.1,
+        "top": 141.2,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Recommended w/enthusiasm",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "notRecD": {
+        "left": 293.7,
+        "top": 112.8,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Recommended",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recEnthD": {
+        "left": 438.1,
+        "top": 112.8,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Recommended w/Enthusiasm",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "notRecD2": {
+        "left": 149.9,
+        "top": 112.2,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Not Recommended",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page3": {
+      "oICRemarks5": {
+        "left": 39.6,
+        "top": 700.2,
+        "width": 534.2,
+        "height": 50.8,
+        "type": "text",
+        "description": "OIC:  ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sNCOICRemarks5": {
+        "left": 39.6,
+        "top": 637.2,
+        "width": 534.2,
+        "height": 50.8,
+        "type": "text",
+        "description": "SNCOIC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "coWorkRemarks5": {
+        "left": 39.6,
+        "top": 574.2,
+        "width": 534.2,
+        "height": 50.8,
+        "type": "text",
+        "description": "CO-WORKER 1:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "coWorkRemarks52": {
+        "left": 39.6,
+        "top": 511.2,
+        "width": 534.2,
+        "height": 50.8,
+        "type": "text",
+        "description": "CO-WORKER 2:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "oICRemarks6": {
+        "left": 39.6,
+        "top": 430.2,
+        "width": 534.2,
+        "height": 50.8,
+        "type": "text",
+        "description": "OIC:  ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sNCOICRemarks6": {
+        "left": 39.6,
+        "top": 367.2,
+        "width": 534.2,
+        "height": 50.8,
+        "type": "text",
+        "description": "SNCOIC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "coWorkRemarks6": {
+        "left": 39.6,
+        "top": 304.2,
+        "width": 534.2,
+        "height": 50.8,
+        "type": "text",
+        "description": "CO-WORKER 1:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "coWorkRemarks62": {
+        "left": 39.6,
+        "top": 241.2,
+        "width": 534.2,
+        "height": 50.8,
+        "type": "text",
+        "description": "CO-WORKER 2:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "favorInterview": {
+        "left": 191.8,
+        "top": 180.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[5].FavorInterview[0]",
+        "required": false
+      },
+      "favorInterview2": {
+        "left": 281.8,
+        "top": 180.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[5].FavorInterview[0]",
+        "required": false
+      },
+      "overallRating": {
+        "left": 130.6,
+        "top": 159.2,
+        "width": 442.6,
+        "height": 21.3,
+        "type": "choice",
+        "description": "8.  OVERALL RATING:",
+        "options": [
+          "OUTSTANDING",
+          "EXCELLENT",
+          "ABOVE AVERAGE",
+          "BELOW AVERAGE",
+          "UNSATISFACTORY"
+        ],
+        "group": null,
+        "required": false
+      },
+      "printerName": {
+        "left": 122.6,
+        "top": 131.4,
+        "width": 451.2,
+        "height": 22.0,
+        "type": "text",
+        "description": "PRINTED NAME OF INTERVIEWER:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signDate": {
+        "left": 471.3,
+        "top": 105.2,
+        "width": 101.8,
+        "height": 30.3,
+        "type": "text",
+        "description": "Enter YYYY-MM-DD",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "namePrinted": {
+        "left": 122.6,
+        "top": 104.4,
+        "width": 316.2,
+        "height": 31.0,
+        "type": "signature",
+        "description": "SIGNATURE OF\nINTERVIEWER",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

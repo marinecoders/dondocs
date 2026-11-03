@@ -1,0 +1,305 @@
+{
+  "id": "opnav310098",
+  "label": "OPNAV3100-98 - Ship Deck Log Sheet",
+  "directory": "OPNAV3100-98 - Ship Deck Log Sheet",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "shipname",
+        "hullnum",
+        "division",
+        "squadron",
+        "group",
+        "fleet",
+        "zonetime1",
+        "timeField1",
+        "dNSDate3",
+        "loca1",
+        "dNSDate32",
+        "zone2",
+        "timeField",
+        "loca2",
+        "examinedName",
+        "examinedGrade",
+        "examinedSignature",
+        "approved",
+        "approvedGrade",
+        "approvedSign",
+        "ngas3",
+        "approvedGradeCommanding",
+        "approvedSignCommanding",
+        "dateOfChange"
+      ]
+    }
+  ],
+  "fields": {
+    "shipname": {
+      "type": "text",
+      "label": "Enter the U.S.S.",
+      "page": 1,
+      "box": {
+        "left": 126.9,
+        "top": 539.5,
+        "width": 408.1,
+        "height": 21.3
+      }
+    },
+    "hullnum": {
+      "type": "text",
+      "label": "Enter the ship's hull number.",
+      "page": 1,
+      "box": {
+        "left": 252.9,
+        "top": 504.6,
+        "width": 103.8,
+        "height": 21.3
+      }
+    },
+    "division": {
+      "type": "text",
+      "label": "Enter the division attached to.",
+      "page": 1,
+      "box": {
+        "left": 168.0,
+        "top": 455.7,
+        "width": 324.3,
+        "height": 16.8
+      }
+    },
+    "squadron": {
+      "type": "text",
+      "label": "Enter the squadron attached to.",
+      "page": 1,
+      "box": {
+        "left": 168.6,
+        "top": 433.7,
+        "width": 311.9,
+        "height": 16.8
+      }
+    },
+    "group": {
+      "type": "text",
+      "label": "Enter the group attached to.",
+      "page": 1,
+      "box": {
+        "left": 168.5,
+        "top": 411.8,
+        "width": 332.7,
+        "height": 15.7
+      }
+    },
+    "fleet": {
+      "type": "text",
+      "label": "Enter the fleet attached to.",
+      "page": 1,
+      "box": {
+        "left": 168.5,
+        "top": 389.3,
+        "width": 337.2,
+        "height": 16.8
+      }
+    },
+    "zonetime1": {
+      "type": "text",
+      "label": "Enter the commencing zone.",
+      "page": 1,
+      "box": {
+        "left": 152.0,
+        "top": 352.7,
+        "width": 161.2,
+        "height": 16.8
+      }
+    },
+    "timeField1": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 320.0,
+        "top": 352.7,
+        "width": 81.4,
+        "height": 16.8
+      }
+    },
+    "dNSDate3": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 411.5,
+        "top": 352.7,
+        "width": 122.1,
+        "height": 16.8
+      }
+    },
+    "loca1": {
+      "type": "text",
+      "label": "Enter the location commencing at.",
+      "page": 1,
+      "box": {
+        "left": 94.8,
+        "top": 319.0,
+        "width": 438.7,
+        "height": 16.8
+      }
+    },
+    "dNSDate32": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 412.9,
+        "top": 282.1,
+        "width": 122.1,
+        "height": 16.8
+      }
+    },
+    "zone2": {
+      "type": "text",
+      "label": "Enter the ending zone.",
+      "page": 1,
+      "box": {
+        "left": 120.7,
+        "top": 281.3,
+        "width": 192.5,
+        "height": 16.8
+      }
+    },
+    "timeField": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 320.0,
+        "top": 281.3,
+        "width": 81.4,
+        "height": 16.8
+      }
+    },
+    "loca2": {
+      "type": "text",
+      "label": "Enter the location ending at.",
+      "page": 1,
+      "box": {
+        "left": 93.7,
+        "top": 247.0,
+        "width": 440.3,
+        "height": 16.8
+      }
+    },
+    "examinedName": {
+      "type": "text",
+      "label": "If examined and certified to be correct, enter the navigator's name.",
+      "page": 1,
+      "box": {
+        "left": 169.1,
+        "top": 211.0,
+        "width": 144.1,
+        "height": 16.8
+      }
+    },
+    "examinedGrade": {
+      "type": "text",
+      "label": "Enter the grade.",
+      "page": 1,
+      "box": {
+        "left": 320.0,
+        "top": 211.0,
+        "width": 80.9,
+        "height": 16.8
+      }
+    },
+    "examinedSignature": {
+      "type": "text",
+      "label": "Enter the navigator's signature.",
+      "page": 1,
+      "box": {
+        "left": 408.2,
+        "top": 211.0,
+        "width": 128.3,
+        "height": 16.8
+      }
+    },
+    "approved": {
+      "type": "text",
+      "label": "If approved by commanding officer, enter name.",
+      "page": 1,
+      "box": {
+        "left": 115.7,
+        "top": 175.0,
+        "width": 197.6,
+        "height": 16.8
+      }
+    },
+    "approvedGrade": {
+      "type": "text",
+      "label": "Enter the grade.",
+      "page": 1,
+      "box": {
+        "left": 320.0,
+        "top": 175.0,
+        "width": 80.9,
+        "height": 16.8
+      }
+    },
+    "approvedSign": {
+      "type": "text",
+      "label": "Enter the approving commanding officer's signature.",
+      "page": 1,
+      "box": {
+        "left": 408.2,
+        "top": 175.0,
+        "width": 128.3,
+        "height": 16.8
+      }
+    },
+    "ngas3": {
+      "type": "text",
+      "label": "Enter the name of the relieving commanding officer who approved the ship's deck log.",
+      "page": 1,
+      "box": {
+        "left": 228.1,
+        "top": 112.0,
+        "width": 127.9,
+        "height": 16.8
+      }
+    },
+    "approvedGradeCommanding": {
+      "type": "text",
+      "label": "Enter the grade.",
+      "page": 1,
+      "box": {
+        "left": 362.8,
+        "top": 112.0,
+        "width": 80.9,
+        "height": 16.8
+      }
+    },
+    "approvedSignCommanding": {
+      "type": "text",
+      "label": "Enter the commanding officer's signature.",
+      "page": 1,
+      "box": {
+        "left": 449.9,
+        "top": 112.0,
+        "width": 100.7,
+        "height": 16.8
+      }
+    },
+    "dateOfChange": {
+      "type": "text",
+      "label": "Enter the date of change of command, using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 54.4,
+        "top": 96.7,
+        "width": 75.4,
+        "height": 10.2
+      }
+    }
+  }
+}

@@ -1,0 +1,183 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "branch": {
+        "left": 38.8,
+        "top": 702.9,
+        "width": 264.4,
+        "height": 28.9,
+        "type": "text",
+        "description": "N-Code Requesting",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "bcode": {
+        "left": 308.8,
+        "top": 702.9,
+        "width": 264.4,
+        "height": 28.9,
+        "type": "text",
+        "description": "Requesting Support",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "adt": {
+        "left": 38.8,
+        "top": 667.6,
+        "width": 264.4,
+        "height": 28.9,
+        "type": "text",
+        "description": "Directorate Branch Title",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "reqname": {
+        "left": 308.8,
+        "top": 667.6,
+        "width": 264.4,
+        "height": 28.9,
+        "type": "text",
+        "description": "B-Code Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "oso": {
+        "left": 38.8,
+        "top": 632.4,
+        "width": 264.4,
+        "height": 28.9,
+        "type": "text",
+        "description": "ADT Participant Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "drname": {
+        "left": 308.8,
+        "top": 632.4,
+        "width": 264.4,
+        "height": 28.9,
+        "type": "text",
+        "description": "Requestor Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "stitle": {
+        "left": 38.8,
+        "top": 558.6,
+        "width": 534.4,
+        "height": 28.9,
+        "type": "text",
+        "description": "Project Performance Overview",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "smart": {
+        "left": 38.8,
+        "top": 524.0,
+        "width": 534.4,
+        "height": 28.9,
+        "type": "text",
+        "description": "Short Title",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "scope": {
+        "left": 38.8,
+        "top": 489.5,
+        "width": 534.4,
+        "height": 28.9,
+        "type": "text",
+        "description": "Objective(s) (SMART )",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "deliver": {
+        "left": 38.8,
+        "top": 454.9,
+        "width": 534.4,
+        "height": 28.9,
+        "type": "text",
+        "description": "Action Item(s) Defining Scope of Work",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "state": {
+        "left": 38.8,
+        "top": 420.3,
+        "width": 534.4,
+        "height": 28.9,
+        "type": "text",
+        "description": "Deliverables Completed",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "actualc": {
+        "left": 38.8,
+        "top": 385.8,
+        "width": 534.4,
+        "height": 28.9,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "actualadt": {
+        "left": 38.8,
+        "top": 351.2,
+        "width": 534.4,
+        "height": 28.9,
+        "type": "text",
+        "description": "Actual Costs vs. Budget Variance (provide explanation )",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "drpr": {
+        "left": 38.8,
+        "top": 316.7,
+        "width": 534.4,
+        "height": 28.9,
+        "type": "text",
+        "description": "Actual ADT Dates",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comments": {
+        "left": 38.8,
+        "top": 282.1,
+        "width": 534.4,
+        "height": 241.5,
+        "type": "text",
+        "description": "Direct Report Performance Review",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

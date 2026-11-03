@@ -1,0 +1,365 @@
+{
+  "id": "opnav5510418",
+  "label": "OPNAV5510-418 - Security Indoctrination Certification And Request For Clearance And Special Accesses",
+  "directory": "OPNAV5510-418 - Security Indoctrination Certification And Request For Clearance And Special Accesses",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "frnDte",
+        "frSecCor",
+        "nCde",
+        "rmNum",
+        "ratRnkGde",
+        "offPhn",
+        "subNme",
+        "bSCNbr",
+        "pDNbr",
+        "ts",
+        "sect",
+        "conf",
+        "clrce",
+        "sCIYes",
+        "sCINo",
+        "iLOSig",
+        "bilNbr",
+        "sSOSig",
+        "tSDte",
+        "sBIDte",
+        "cNYes",
+        "cNNo",
+        "sIYes",
+        "sINo",
+        "nSYes",
+        "nSNo",
+        "sCSig",
+        "yrSecCor",
+        "astCor"
+      ]
+    }
+  ],
+  "fields": {
+    "frnDte": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 474.0,
+        "top": 654.2,
+        "width": 69.7,
+        "height": 15.0
+      }
+    },
+    "frSecCor": {
+      "type": "text",
+      "label": "and is to be treated in a confidential manner. Privacy Act",
+      "page": 1,
+      "box": {
+        "left": 157.5,
+        "top": 633.1,
+        "width": 194.3,
+        "height": 18.0
+      }
+    },
+    "nCde": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 420.8,
+        "top": 633.1,
+        "width": 84.0,
+        "height": 18.0
+      }
+    },
+    "rmNum": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 441.7,
+        "top": 598.2,
+        "width": 89.3,
+        "height": 18.0
+      }
+    },
+    "ratRnkGde": {
+      "type": "text",
+      "label": "confidential manner. Privacy Act",
+      "page": 1,
+      "box": {
+        "left": 254.2,
+        "top": 597.7,
+        "width": 89.3,
+        "height": 18.0
+      }
+    },
+    "offPhn": {
+      "type": "text",
+      "label": "N-Code",
+      "page": 1,
+      "box": {
+        "left": 347.2,
+        "top": 597.7,
+        "width": 89.3,
+        "height": 18.0
+      }
+    },
+    "subNme": {
+      "type": "text",
+      "label": "Security Coordinator",
+      "page": 1,
+      "box": {
+        "left": 78.7,
+        "top": 597.1,
+        "width": 172.5,
+        "height": 18.0
+      }
+    },
+    "bSCNbr": {
+      "type": "text",
+      "label": "Last, First, MI",
+      "page": 1,
+      "box": {
+        "left": 78.0,
+        "top": 568.2,
+        "width": 172.5,
+        "height": 18.0
+      }
+    },
+    "pDNbr": {
+      "type": "text",
+      "label": "Rate/Rank/Grade Office Phone",
+      "page": 1,
+      "box": {
+        "left": 264.5,
+        "top": 568.2,
+        "width": 172.5,
+        "height": 18.0
+      }
+    },
+    "ts": {
+      "type": "checkbox",
+      "label": "that",
+      "page": 1,
+      "box": {
+        "left": 104.1,
+        "top": 487.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "sect": {
+      "type": "checkbox",
+      "label": "Top Secret",
+      "page": 1,
+      "box": {
+        "left": 198.7,
+        "top": 487.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "conf": {
+      "type": "checkbox",
+      "label": "Secret",
+      "page": 1,
+      "box": {
+        "left": 293.2,
+        "top": 487.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "clrce": {
+      "type": "checkbox",
+      "label": "Confidential",
+      "page": 1,
+      "box": {
+        "left": 388.7,
+        "top": 487.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "sCIYes": {
+      "type": "checkbox",
+      "label": "b. SCI Access",
+      "page": 1,
+      "box": {
+        "left": 162.7,
+        "top": 473.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "sCINo": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 212.6,
+        "top": 473.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "iLOSig": {
+      "type": "text",
+      "label": "No Clearance",
+      "page": 1,
+      "box": {
+        "left": 392.9,
+        "top": 466.6,
+        "width": 127.7,
+        "height": 20.7
+      }
+    },
+    "bilNbr": {
+      "type": "text",
+      "label": "If Yes",
+      "page": 1,
+      "box": {
+        "left": 186.9,
+        "top": 461.1,
+        "width": 109.3,
+        "height": 18.0
+      }
+    },
+    "sSOSig": {
+      "type": "text",
+      "label": "Clearance",
+      "page": 1,
+      "box": {
+        "left": 441.7,
+        "top": 440.3,
+        "width": 111.2,
+        "height": 20.7
+      }
+    },
+    "tSDte": {
+      "type": "text",
+      "label": "For CNO/SSO Only: TS Date",
+      "page": 1,
+      "box": {
+        "left": 200.5,
+        "top": 431.8,
+        "width": 53.2,
+        "height": 15.0
+      }
+    },
+    "sBIDte": {
+      "type": "text",
+      "label": "SBI Date",
+      "page": 1,
+      "box": {
+        "left": 300.1,
+        "top": 431.8,
+        "width": 53.2,
+        "height": 15.0
+      }
+    },
+    "cNYes": {
+      "type": "checkbox",
+      "label": "c. Critical Nuclear Weapons Design Information (CNWDI)",
+      "page": 1,
+      "box": {
+        "left": 428.1,
+        "top": 404.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cNNo": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 476.9,
+        "top": 404.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "sIYes": {
+      "type": "checkbox",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 428.1,
+        "top": 390.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "sINo": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 476.9,
+        "top": 390.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "nSYes": {
+      "type": "checkbox",
+      "label": "e. NATO Secret",
+      "page": 1,
+      "box": {
+        "left": 428.1,
+        "top": 375.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "nSNo": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 476.9,
+        "top": 375.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "sCSig": {
+      "type": "text",
+      "label": "internal directorate security procedures in accordance",
+      "page": 1,
+      "box": {
+        "left": 326.9,
+        "top": 236.6,
+        "width": 164.6,
+        "height": 26.6
+      }
+    },
+    "yrSecCor": {
+      "type": "text",
+      "label": "series",
+      "page": 1,
+      "box": {
+        "left": 159.1,
+        "top": 172.0,
+        "width": 139.0,
+        "height": 18.0
+      }
+    },
+    "astCor": {
+      "type": "text",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 431.6,
+        "top": 172.0,
+        "width": 137.1,
+        "height": 18.0
+      }
+    }
+  }
+}

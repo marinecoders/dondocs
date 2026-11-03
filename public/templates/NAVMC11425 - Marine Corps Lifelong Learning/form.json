@@ -1,0 +1,169 @@
+{
+  "id": "navmc11425",
+  "label": "NAVMC 11425 - Marine Corps Lifelong Learning",
+  "directory": "NAVMC11425 - Marine Corps Lifelong Learning",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "phoneNum",
+        "nameL",
+        "addEMail",
+        "descProg",
+        "numPartMar",
+        "numPartOthSm",
+        "numPartCiv",
+        "numPartChld"
+      ]
+    }
+  ],
+  "fields": {
+    "phoneNum": {
+      "type": "text",
+      "label": "PhoneNum",
+      "page": 1,
+      "box": {
+        "left": 413.5,
+        "top": 602.0,
+        "width": 176.0,
+        "height": 17.9
+      }
+    },
+    "nameL": {
+      "type": "text",
+      "label": "Last Name",
+      "page": 1,
+      "box": {
+        "left": 21.6,
+        "top": 600.8,
+        "width": 388.8,
+        "height": 16.0
+      }
+    },
+    "addEMail": {
+      "type": "text",
+      "label": "E-Mail Address",
+      "page": 1,
+      "box": {
+        "left": 21.6,
+        "top": 568.0,
+        "width": 568.8,
+        "height": 16.0
+      }
+    },
+    "descProg": {
+      "type": "text",
+      "label": "Brief description of the programs the unit is providing.",
+      "page": 1,
+      "box": {
+        "left": 21.6,
+        "top": 298.4,
+        "width": 568.8,
+        "height": 121.5
+      },
+      "multiline": true
+    },
+    "numPartMar": {
+      "type": "text",
+      "label": "Number of Participants in the Program. Individual Marines.",
+      "page": 1,
+      "box": {
+        "left": 112.8,
+        "top": 151.2,
+        "width": 476.8,
+        "height": 16.0
+      }
+    },
+    "numPartOthSm": {
+      "type": "text",
+      "label": "Number of Participants in the Program. Other Service Members.",
+      "page": 1,
+      "box": {
+        "left": 132.0,
+        "top": 129.6,
+        "width": 457.6,
+        "height": 16.0
+      }
+    },
+    "numPartCiv": {
+      "type": "text",
+      "label": "Number of Participants in the Program. DOD civilians.",
+      "page": 1,
+      "box": {
+        "left": 87.2,
+        "top": 108.8,
+        "width": 502.4,
+        "height": 16.0
+      }
+    },
+    "numPartChld": {
+      "type": "text",
+      "label": "Number of Participants in the Program. Children being reached.",
+      "page": 1,
+      "box": {
+        "left": 133.6,
+        "top": 88.0,
+        "width": 456.0,
+        "height": 16.0
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 8,
+      "rowStride": 23.89,
+      "editor": "grid",
+      "columns": {
+        "schoolName": {
+          "type": "text",
+          "label": "Name of School. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 21.6,
+            "top": 496.0,
+            "width": 210.4,
+            "height": 16.0
+          }
+        },
+        "schoolSt": {
+          "type": "text",
+          "label": "State where School is located. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 233.6,
+            "top": 496.0,
+            "width": 37.6,
+            "height": 16.0
+          }
+        },
+        "schoolUnit": {
+          "type": "text",
+          "label": "School Unit. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 272.8,
+            "top": 496.0,
+            "width": 126.4,
+            "height": 16.0
+          }
+        },
+        "schoolSupUn": {
+          "type": "text",
+          "label": "Unit Supporting School. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 400.8,
+            "top": 496.0,
+            "width": 189.6,
+            "height": 16.0
+          }
+        }
+      }
+    }
+  }
+}

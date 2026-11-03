@@ -1,0 +1,483 @@
+{
+  "id": "opnav35023",
+  "label": "OPNAV3502-3 - Orm Program Assessment Sheet",
+  "directory": "OPNAV3502-3 - Orm Program Assessment Sheet",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "unitGroup",
+        "date",
+        "time",
+        "comment4",
+        "input4",
+        "comment5",
+        "input5",
+        "comment6",
+        "input6",
+        "comment7",
+        "input7",
+        "comment8",
+        "input8",
+        "comment9",
+        "input9",
+        "comment10",
+        "input10",
+        "comment11",
+        "input11",
+        "comment12",
+        "input12",
+        "comment13",
+        "input13",
+        "comment14",
+        "input14",
+        "comment15",
+        "input15",
+        "comment16",
+        "input16",
+        "comment17",
+        "input17"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "additionalFeedback"
+      ]
+    }
+  ],
+  "fields": {
+    "unitGroup": {
+      "type": "text",
+      "label": "1. UNIT/ACTIVITY/GROUP/TYCOMM",
+      "page": 1,
+      "box": {
+        "left": 182.5,
+        "top": 730.9,
+        "width": 155.2,
+        "height": 19.6
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "2. DATE",
+      "page": 1,
+      "box": {
+        "left": 381.3,
+        "top": 730.9,
+        "width": 73.2,
+        "height": 19.6
+      }
+    },
+    "time": {
+      "type": "text",
+      "label": "3. TIME",
+      "page": 1,
+      "box": {
+        "left": 498.1,
+        "top": 730.9,
+        "width": 73.2,
+        "height": 19.6
+      }
+    },
+    "comment4": {
+      "type": "text",
+      "label": "4. the ORM Manager?",
+      "page": 1,
+      "box": {
+        "left": 401.3,
+        "top": 685.4,
+        "width": 170.5,
+        "height": 18.0
+      }
+    },
+    "input4": {
+      "type": "choice",
+      "label": "4. the ORM Manager?",
+      "page": 1,
+      "box": {
+        "left": 344.0,
+        "top": 684.7,
+        "width": 50.8,
+        "height": 16.5
+      },
+      "options": [
+        "Y",
+        "N",
+        "NA"
+      ]
+    },
+    "comment5": {
+      "type": "text",
+      "label": "COMMENT",
+      "page": 1,
+      "box": {
+        "left": 401.3,
+        "top": 661.8,
+        "width": 170.5,
+        "height": 47.5
+      },
+      "multiline": true
+    },
+    "input5": {
+      "type": "choice",
+      "label": "INPUT",
+      "page": 1,
+      "box": {
+        "left": 344.0,
+        "top": 661.1,
+        "width": 50.8,
+        "height": 46.0
+      },
+      "options": [
+        "Y",
+        "N",
+        "NA"
+      ]
+    },
+    "comment6": {
+      "type": "text",
+      "label": "COMMENT",
+      "page": 1,
+      "box": {
+        "left": 401.3,
+        "top": 608.6,
+        "width": 170.5,
+        "height": 54.1
+      },
+      "multiline": true
+    },
+    "input6": {
+      "type": "choice",
+      "label": "INPUT",
+      "page": 1,
+      "box": {
+        "left": 344.0,
+        "top": 607.9,
+        "width": 50.8,
+        "height": 52.6
+      },
+      "options": [
+        "Y",
+        "N",
+        "NA"
+      ]
+    },
+    "comment7": {
+      "type": "text",
+      "label": "COMMENT",
+      "page": 1,
+      "box": {
+        "left": 401.3,
+        "top": 548.9,
+        "width": 170.5,
+        "height": 70.1
+      },
+      "multiline": true
+    },
+    "input7": {
+      "type": "choice",
+      "label": "INPUT",
+      "page": 1,
+      "box": {
+        "left": 344.0,
+        "top": 548.1,
+        "width": 50.8,
+        "height": 68.6
+      },
+      "options": [
+        "Y",
+        "N",
+        "NA"
+      ]
+    },
+    "comment8": {
+      "type": "text",
+      "label": "COMMENT",
+      "page": 1,
+      "box": {
+        "left": 401.3,
+        "top": 473.1,
+        "width": 170.5,
+        "height": 33.7
+      },
+      "multiline": true
+    },
+    "input8": {
+      "type": "choice",
+      "label": "INPUT",
+      "page": 1,
+      "box": {
+        "left": 344.0,
+        "top": 472.3,
+        "width": 50.8,
+        "height": 32.2
+      },
+      "options": [
+        "Y",
+        "N",
+        "NA"
+      ]
+    },
+    "comment9": {
+      "type": "text",
+      "label": "9. or electronic)?",
+      "page": 1,
+      "box": {
+        "left": 401.3,
+        "top": 433.7,
+        "width": 170.5,
+        "height": 18.0
+      }
+    },
+    "input9": {
+      "type": "choice",
+      "label": "9. or electronic)?",
+      "page": 1,
+      "box": {
+        "left": 344.0,
+        "top": 433.0,
+        "width": 50.8,
+        "height": 16.5
+      },
+      "options": [
+        "Y",
+        "N",
+        "NA"
+      ]
+    },
+    "comment10": {
+      "type": "text",
+      "label": "10. controls into briefs, notices, and written plans?",
+      "page": 1,
+      "box": {
+        "left": 401.3,
+        "top": 389.9,
+        "width": 170.5,
+        "height": 18.0
+      }
+    },
+    "input10": {
+      "type": "choice",
+      "label": "10. controls into briefs, notices, and written plans?",
+      "page": 1,
+      "box": {
+        "left": 344.0,
+        "top": 389.2,
+        "width": 50.8,
+        "height": 16.5
+      },
+      "options": [
+        "Y",
+        "N",
+        "NA"
+      ]
+    },
+    "comment11": {
+      "type": "text",
+      "label": "COMMENT",
+      "page": 1,
+      "box": {
+        "left": 401.3,
+        "top": 366.3,
+        "width": 170.5,
+        "height": 36.1
+      },
+      "multiline": true
+    },
+    "input11": {
+      "type": "choice",
+      "label": "INPUT",
+      "page": 1,
+      "box": {
+        "left": 344.0,
+        "top": 365.6,
+        "width": 50.8,
+        "height": 34.6
+      },
+      "options": [
+        "Y",
+        "N",
+        "NA"
+      ]
+    },
+    "comment12": {
+      "type": "text",
+      "label": "12. ORM process application",
+      "page": 1,
+      "box": {
+        "left": 401.3,
+        "top": 324.5,
+        "width": 170.5,
+        "height": 18.0
+      }
+    },
+    "input12": {
+      "type": "choice",
+      "label": "12. ORM process application",
+      "page": 1,
+      "box": {
+        "left": 344.0,
+        "top": 323.8,
+        "width": 50.8,
+        "height": 16.5
+      },
+      "options": [
+        "Y",
+        "N",
+        "NA"
+      ]
+    },
+    "comment13": {
+      "type": "text",
+      "label": "13. during the past year?",
+      "page": 1,
+      "box": {
+        "left": 401.3,
+        "top": 300.9,
+        "width": 170.5,
+        "height": 18.0
+      }
+    },
+    "input13": {
+      "type": "choice",
+      "label": "13. during the past year?",
+      "page": 1,
+      "box": {
+        "left": 344.0,
+        "top": 300.1,
+        "width": 50.8,
+        "height": 16.5
+      },
+      "options": [
+        "Y",
+        "N",
+        "NA"
+      ]
+    },
+    "comment14": {
+      "type": "text",
+      "label": "COMMENT",
+      "page": 1,
+      "box": {
+        "left": 401.3,
+        "top": 277.2,
+        "width": 170.5,
+        "height": 25.7
+      }
+    },
+    "input14": {
+      "type": "choice",
+      "label": "INPUT",
+      "page": 1,
+      "box": {
+        "left": 344.0,
+        "top": 276.5,
+        "width": 50.8,
+        "height": 24.2
+      },
+      "options": [
+        "Y",
+        "N",
+        "NA"
+      ]
+    },
+    "comment15": {
+      "type": "text",
+      "label": "COMMENT",
+      "page": 1,
+      "box": {
+        "left": 401.3,
+        "top": 245.9,
+        "width": 170.5,
+        "height": 18.0
+      }
+    },
+    "input15": {
+      "type": "choice",
+      "label": "INPUT",
+      "page": 1,
+      "box": {
+        "left": 344.0,
+        "top": 245.1,
+        "width": 50.8,
+        "height": 16.5
+      },
+      "options": [
+        "Y",
+        "N",
+        "NA"
+      ]
+    },
+    "comment16": {
+      "type": "text",
+      "label": "COMMENT",
+      "page": 1,
+      "box": {
+        "left": 401.3,
+        "top": 222.2,
+        "width": 170.5,
+        "height": 25.2
+      }
+    },
+    "input16": {
+      "type": "choice",
+      "label": "INPUT",
+      "page": 1,
+      "box": {
+        "left": 344.0,
+        "top": 221.5,
+        "width": 50.8,
+        "height": 23.7
+      },
+      "options": [
+        "Y",
+        "N",
+        "NA"
+      ]
+    },
+    "comment17": {
+      "type": "text",
+      "label": "COMMENT",
+      "page": 1,
+      "box": {
+        "left": 401.3,
+        "top": 191.4,
+        "width": 170.5,
+        "height": 26.6
+      }
+    },
+    "input17": {
+      "type": "choice",
+      "label": "INPUT",
+      "page": 1,
+      "box": {
+        "left": 344.0,
+        "top": 190.6,
+        "width": 50.8,
+        "height": 25.1
+      },
+      "options": [
+        "Y",
+        "N",
+        "NA"
+      ]
+    },
+    "additionalFeedback": {
+      "type": "text",
+      "label": "18. ADDITIONAL FEEDBACK",
+      "page": 2,
+      "box": {
+        "left": 39.8,
+        "top": 738.9,
+        "width": 531.5,
+        "height": 233.0
+      },
+      "multiline": true
+    }
+  }
+}

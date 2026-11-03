@@ -1,0 +1,1097 @@
+{
+  "id": "navmchq973",
+  "label": "NAVMC HQ 973 - Hqmc Combat Camera (comcam) Audio Visual Waiver",
+  "directory": "NAVMCHQ973 - Hqmc Combat Camera (comcam) Audio Visual Waiver",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "fundMgr",
+        "fName",
+        "org",
+        "rank",
+        "lName",
+        "bldg",
+        "room",
+        "signatureField1",
+        "dateReceived",
+        "dateRequest",
+        "phoneNo",
+        "eMailAdr",
+        "cmccsg",
+        "dmcs",
+        "protocol",
+        "spd",
+        "acmc",
+        "smmc",
+        "cmc",
+        "mra",
+        "c4",
+        "aviation",
+        "intel",
+        "pandR",
+        "il",
+        "ar",
+        "igmc",
+        "pao",
+        "ola",
+        "councilLegal",
+        "ppo",
+        "judAD",
+        "healthSvc",
+        "hh",
+        "mbw",
+        "chaplain",
+        "otherUSMC",
+        "otherMil",
+        "otherDoD",
+        "marAidProg",
+        "qtyA",
+        "qtyD",
+        "qtyG",
+        "digCamera",
+        "otherA",
+        "flashes",
+        "qtyB",
+        "qtyE",
+        "cameaLen",
+        "largePrt",
+        "otherBB",
+        "qtyC",
+        "qtyF",
+        "photoPrt",
+        "tripods",
+        "qtyH",
+        "qtyL",
+        "qtyO",
+        "speakers",
+        "projector",
+        "otherB",
+        "qtyI",
+        "qtyM",
+        "projScreen",
+        "microPhone",
+        "otherCC",
+        "qtyJ",
+        "qtyN",
+        "tVDisplay",
+        "videoCam",
+        "qtyK",
+        "cableDrop",
+        "svcsReq",
+        "coordRm",
+        "description",
+        "connectClassified",
+        "connectUnclass",
+        "operational",
+        "nonOperational",
+        "newEquip",
+        "propAcct",
+        "acctNo",
+        "dateInstall",
+        "stateReason",
+        "justification",
+        "notApproved",
+        "recApproval",
+        "cMName",
+        "cMDate",
+        "signatureField2"
+      ]
+    }
+  ],
+  "fields": {
+    "fundMgr": {
+      "type": "text",
+      "label": "Fund Manager or Responsible Officer:",
+      "page": 1,
+      "box": {
+        "left": 99.3,
+        "top": 650.5,
+        "width": 492.6,
+        "height": 24.2
+      }
+    },
+    "fName": {
+      "type": "text",
+      "label": "First Name",
+      "page": 1,
+      "box": {
+        "left": 136.4,
+        "top": 614.4,
+        "width": 109.6,
+        "height": 14.9
+      }
+    },
+    "org": {
+      "type": "text",
+      "label": "Organization",
+      "page": 1,
+      "box": {
+        "left": 248.8,
+        "top": 614.4,
+        "width": 132.2,
+        "height": 15.1
+      }
+    },
+    "rank": {
+      "type": "text",
+      "label": "Rank",
+      "page": 1,
+      "box": {
+        "left": 384.5,
+        "top": 614.4,
+        "width": 69.4,
+        "height": 14.9
+      }
+    },
+    "lName": {
+      "type": "text",
+      "label": "Last Name",
+      "page": 1,
+      "box": {
+        "left": 20.1,
+        "top": 614.0,
+        "width": 114.2,
+        "height": 14.6
+      }
+    },
+    "bldg": {
+      "type": "text",
+      "label": "Bldg:",
+      "page": 1,
+      "box": {
+        "left": 457.3,
+        "top": 614.0,
+        "width": 57.6,
+        "height": 14.4
+      }
+    },
+    "room": {
+      "type": "text",
+      "label": "Room:",
+      "page": 1,
+      "box": {
+        "left": 519.2,
+        "top": 614.0,
+        "width": 73.4,
+        "height": 14.7
+      }
+    },
+    "signatureField1": {
+      "type": "signature",
+      "label": "Signature of the Coordinator:",
+      "page": 1,
+      "box": {
+        "left": 91.9,
+        "top": 594.5,
+        "width": 288.6,
+        "height": 21.1
+      }
+    },
+    "dateReceived": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 1,
+      "box": {
+        "left": 386.5,
+        "top": 586.2,
+        "width": 80.9,
+        "height": 12.8
+      }
+    },
+    "dateRequest": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 1,
+      "box": {
+        "left": 473.1,
+        "top": 586.2,
+        "width": 118.0,
+        "height": 12.8
+      }
+    },
+    "phoneNo": {
+      "type": "text",
+      "label": "Phone:",
+      "page": 1,
+      "box": {
+        "left": 200.7,
+        "top": 561.1,
+        "width": 167.9,
+        "height": 15.4
+      }
+    },
+    "eMailAdr": {
+      "type": "text",
+      "label": "E-mail:",
+      "page": 1,
+      "box": {
+        "left": 373.0,
+        "top": 560.9,
+        "width": 218.8,
+        "height": 15.2
+      }
+    },
+    "cmccsg": {
+      "type": "checkbox",
+      "label": "CMC CSG",
+      "page": 1,
+      "box": {
+        "left": 353.8,
+        "top": 540.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "dmcs": {
+      "type": "checkbox",
+      "label": "DMCS",
+      "page": 1,
+      "box": {
+        "left": 272.8,
+        "top": 540.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "protocol": {
+      "type": "checkbox",
+      "label": "PROTOCOL",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 540.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "spd": {
+      "type": "checkbox",
+      "label": "SPD",
+      "page": 1,
+      "box": {
+        "left": 515.8,
+        "top": 540.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "acmc": {
+      "type": "checkbox",
+      "label": "ACMC",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 539.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "smmc": {
+      "type": "checkbox",
+      "label": "SMMC",
+      "page": 1,
+      "box": {
+        "left": 191.8,
+        "top": 539.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cmc": {
+      "type": "checkbox",
+      "label": "CMC",
+      "page": 1,
+      "box": {
+        "left": 20.9,
+        "top": 539.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "mra": {
+      "type": "checkbox",
+      "label": "M&RA",
+      "page": 1,
+      "box": {
+        "left": 515.8,
+        "top": 525.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "c4": {
+      "type": "checkbox",
+      "label": "C4",
+      "page": 1,
+      "box": {
+        "left": 353.8,
+        "top": 524.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "aviation": {
+      "type": "checkbox",
+      "label": "AVIATION",
+      "page": 1,
+      "box": {
+        "left": 272.8,
+        "top": 524.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "intel": {
+      "type": "checkbox",
+      "label": "INTEL",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 524.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "pandR": {
+      "type": "checkbox",
+      "label": "P&R",
+      "page": 1,
+      "box": {
+        "left": 191.8,
+        "top": 524.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "il": {
+      "type": "checkbox",
+      "label": "I&L",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 523.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "ar": {
+      "type": "checkbox",
+      "label": "AR",
+      "page": 1,
+      "box": {
+        "left": 20.9,
+        "top": 522.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "igmc": {
+      "type": "checkbox",
+      "label": "IGMC",
+      "page": 1,
+      "box": {
+        "left": 353.8,
+        "top": 509.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "pao": {
+      "type": "checkbox",
+      "label": "PAO",
+      "page": 1,
+      "box": {
+        "left": 272.8,
+        "top": 508.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "ola": {
+      "type": "checkbox",
+      "label": "Office of Legislative Affairs",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 508.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "councilLegal": {
+      "type": "checkbox",
+      "label": "Council Legal",
+      "page": 1,
+      "box": {
+        "left": 191.8,
+        "top": 508.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "ppo": {
+      "type": "checkbox",
+      "label": "PP&O",
+      "page": 1,
+      "box": {
+        "left": 21.7,
+        "top": 507.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "judAD": {
+      "type": "checkbox",
+      "label": "Judge Advocate",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 507.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "healthSvc": {
+      "type": "checkbox",
+      "label": "Health Services (USMC)",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 492.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "hh": {
+      "type": "checkbox",
+      "label": "Henderson Hall",
+      "page": 1,
+      "box": {
+        "left": 272.8,
+        "top": 492.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "mbw": {
+      "type": "checkbox",
+      "label": "MBW",
+      "page": 1,
+      "box": {
+        "left": 20.9,
+        "top": 491.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chaplain": {
+      "type": "checkbox",
+      "label": "Religious ( Chaplain of USMC ) ",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 491.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "otherUSMC": {
+      "type": "checkbox",
+      "label": "Other ( USMC )",
+      "page": 1,
+      "box": {
+        "left": 191.8,
+        "top": 476.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "otherMil": {
+      "type": "checkbox",
+      "label": "Other ( Military )",
+      "page": 1,
+      "box": {
+        "left": 272.8,
+        "top": 476.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "otherDoD": {
+      "type": "checkbox",
+      "label": "Other ( DOD )",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 476.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "marAidProg": {
+      "type": "checkbox",
+      "label": "Marine Aid Program ",
+      "page": 1,
+      "box": {
+        "left": 20.8,
+        "top": 475.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "qtyA": {
+      "type": "text",
+      "label": "QtyA",
+      "page": 1,
+      "box": {
+        "left": 126.0,
+        "top": 426.9,
+        "width": 36.0,
+        "height": 18.0
+      }
+    },
+    "qtyD": {
+      "type": "text",
+      "label": "QtyD",
+      "page": 1,
+      "box": {
+        "left": 297.0,
+        "top": 426.9,
+        "width": 36.0,
+        "height": 18.0
+      }
+    },
+    "qtyG": {
+      "type": "text",
+      "label": "QtyG",
+      "page": 1,
+      "box": {
+        "left": 450.0,
+        "top": 426.9,
+        "width": 36.0,
+        "height": 18.0
+      }
+    },
+    "digCamera": {
+      "type": "checkbox",
+      "label": "Digital Camera",
+      "page": 1,
+      "box": {
+        "left": 20.8,
+        "top": 423.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "otherA": {
+      "type": "checkbox",
+      "label": "Other",
+      "page": 1,
+      "box": {
+        "left": 380.8,
+        "top": 423.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "flashes": {
+      "type": "checkbox",
+      "label": " Flashes",
+      "page": 1,
+      "box": {
+        "left": 191.8,
+        "top": 422.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "qtyB": {
+      "type": "text",
+      "label": "QtyB",
+      "page": 1,
+      "box": {
+        "left": 126.0,
+        "top": 408.9,
+        "width": 36.0,
+        "height": 18.0
+      }
+    },
+    "qtyE": {
+      "type": "text",
+      "label": "QtyE",
+      "page": 1,
+      "box": {
+        "left": 297.0,
+        "top": 408.9,
+        "width": 36.0,
+        "height": 18.0
+      }
+    },
+    "cameaLen": {
+      "type": "checkbox",
+      "label": "Camera Lenses",
+      "page": 1,
+      "box": {
+        "left": 20.8,
+        "top": 405.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "largePrt": {
+      "type": "checkbox",
+      "label": " Large Format Printer",
+      "page": 1,
+      "box": {
+        "left": 191.8,
+        "top": 405.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "otherBB": {
+      "type": "text",
+      "label": "OtherBB",
+      "page": 1,
+      "box": {
+        "left": 378.3,
+        "top": 403.8,
+        "width": 187.1,
+        "height": 16.0
+      }
+    },
+    "qtyC": {
+      "type": "text",
+      "label": "QtyC",
+      "page": 1,
+      "box": {
+        "left": 126.0,
+        "top": 390.9,
+        "width": 36.0,
+        "height": 18.0
+      }
+    },
+    "qtyF": {
+      "type": "text",
+      "label": "QtyF",
+      "page": 1,
+      "box": {
+        "left": 297.0,
+        "top": 390.9,
+        "width": 36.0,
+        "height": 18.0
+      }
+    },
+    "photoPrt": {
+      "type": "checkbox",
+      "label": "Photo Printer",
+      "page": 1,
+      "box": {
+        "left": 20.8,
+        "top": 387.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "tripods": {
+      "type": "checkbox",
+      "label": "Tripods",
+      "page": 1,
+      "box": {
+        "left": 191.8,
+        "top": 386.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "qtyH": {
+      "type": "text",
+      "label": "QtyH",
+      "page": 1,
+      "box": {
+        "left": 126.0,
+        "top": 345.9,
+        "width": 36.0,
+        "height": 18.0
+      }
+    },
+    "qtyL": {
+      "type": "text",
+      "label": "QtyL",
+      "page": 1,
+      "box": {
+        "left": 297.0,
+        "top": 345.9,
+        "width": 36.0,
+        "height": 18.0
+      }
+    },
+    "qtyO": {
+      "type": "text",
+      "label": "QtyO",
+      "page": 1,
+      "box": {
+        "left": 450.0,
+        "top": 345.9,
+        "width": 36.0,
+        "height": 18.0
+      }
+    },
+    "speakers": {
+      "type": "checkbox",
+      "label": "  Speakers",
+      "page": 1,
+      "box": {
+        "left": 191.8,
+        "top": 342.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "projector": {
+      "type": "checkbox",
+      "label": "Projector",
+      "page": 1,
+      "box": {
+        "left": 20.8,
+        "top": 341.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "otherB": {
+      "type": "checkbox",
+      "label": "Other",
+      "page": 1,
+      "box": {
+        "left": 380.8,
+        "top": 341.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "qtyI": {
+      "type": "text",
+      "label": "QtyI",
+      "page": 1,
+      "box": {
+        "left": 126.0,
+        "top": 327.9,
+        "width": 36.0,
+        "height": 18.0
+      }
+    },
+    "qtyM": {
+      "type": "text",
+      "label": "QtyM",
+      "page": 1,
+      "box": {
+        "left": 297.0,
+        "top": 327.9,
+        "width": 36.0,
+        "height": 18.0
+      }
+    },
+    "projScreen": {
+      "type": "checkbox",
+      "label": "Projector Screen",
+      "page": 1,
+      "box": {
+        "left": 20.8,
+        "top": 324.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "microPhone": {
+      "type": "checkbox",
+      "label": "  Microphones",
+      "page": 1,
+      "box": {
+        "left": 191.8,
+        "top": 323.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "otherCC": {
+      "type": "text",
+      "label": "OtherCC",
+      "page": 1,
+      "box": {
+        "left": 379.7,
+        "top": 321.5,
+        "width": 187.1,
+        "height": 16.0
+      }
+    },
+    "qtyJ": {
+      "type": "text",
+      "label": "QtyJ",
+      "page": 1,
+      "box": {
+        "left": 126.0,
+        "top": 309.9,
+        "width": 36.0,
+        "height": 18.0
+      }
+    },
+    "qtyN": {
+      "type": "text",
+      "label": "QtyN",
+      "page": 1,
+      "box": {
+        "left": 297.0,
+        "top": 309.9,
+        "width": 36.0,
+        "height": 18.0
+      }
+    },
+    "tVDisplay": {
+      "type": "checkbox",
+      "label": "TV/Display",
+      "page": 1,
+      "box": {
+        "left": 20.8,
+        "top": 306.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "videoCam": {
+      "type": "checkbox",
+      "label": " Video Cameras",
+      "page": 1,
+      "box": {
+        "left": 191.8,
+        "top": 306.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "qtyK": {
+      "type": "text",
+      "label": "QtyK",
+      "page": 1,
+      "box": {
+        "left": 126.0,
+        "top": 291.9,
+        "width": 36.0,
+        "height": 18.0
+      }
+    },
+    "cableDrop": {
+      "type": "checkbox",
+      "label": "Cable Drop",
+      "page": 1,
+      "box": {
+        "left": 20.8,
+        "top": 288.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "svcsReq": {
+      "type": "text",
+      "label": "Services being requested:  ",
+      "page": 1,
+      "box": {
+        "left": 78.7,
+        "top": 266.0,
+        "width": 348.3,
+        "height": 20.8
+      }
+    },
+    "coordRm": {
+      "type": "text",
+      "label": "Coordinators Room:",
+      "page": 1,
+      "box": {
+        "left": 483.1,
+        "top": 266.0,
+        "width": 108.8,
+        "height": 20.8
+      }
+    },
+    "description": {
+      "type": "text",
+      "label": "Description of item requesting Waiver:  (Include Part number/item nomenclature and estimated price)",
+      "page": 1,
+      "box": {
+        "left": 20.5,
+        "top": 232.5,
+        "width": 571.3,
+        "height": 19.4
+      }
+    },
+    "connectClassified": {
+      "type": "checkbox",
+      "label": "Will be connected to Classified System",
+      "page": 1,
+      "box": {
+        "left": 245.8,
+        "top": 196.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "connectUnclass": {
+      "type": "checkbox",
+      "label": "Will be connected to Unclassified System",
+      "page": 1,
+      "box": {
+        "left": 20.8,
+        "top": 196.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "operational": {
+      "type": "checkbox",
+      "label": "Operational",
+      "page": 1,
+      "box": {
+        "left": 344.8,
+        "top": 182.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "nonOperational": {
+      "type": "checkbox",
+      "label": "Non-operational",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 181.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "newEquip": {
+      "type": "checkbox",
+      "label": "New equipment",
+      "page": 1,
+      "box": {
+        "left": 245.8,
+        "top": 181.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "propAcct": {
+      "type": "checkbox",
+      "label": "Property Account #",
+      "page": 1,
+      "box": {
+        "left": 20.8,
+        "top": 168.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "acctNo": {
+      "type": "text",
+      "label": "AcctNo",
+      "page": 1,
+      "box": {
+        "left": 128.0,
+        "top": 168.4,
+        "width": 111.0,
+        "height": 11.2
+      }
+    },
+    "dateInstall": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 1,
+      "box": {
+        "left": 237.3,
+        "top": 152.9,
+        "width": 113.5,
+        "height": 12.0
+      }
+    },
+    "stateReason": {
+      "type": "text",
+      "label": "If non-operational state reason:   ",
+      "page": 1,
+      "box": {
+        "left": 20.5,
+        "top": 126.7,
+        "width": 571.3,
+        "height": 13.1
+      }
+    },
+    "justification": {
+      "type": "text",
+      "label": "Justification:  (Why is the gear required):",
+      "page": 1,
+      "box": {
+        "left": 20.2,
+        "top": 100.7,
+        "width": 571.7,
+        "height": 23.3
+      }
+    },
+    "notApproved": {
+      "type": "checkbox",
+      "label": "Not Recommended Approval",
+      "page": 1,
+      "box": {
+        "left": 434.9,
+        "top": 74.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "recApproval": {
+      "type": "checkbox",
+      "label": "Recommended Approval",
+      "page": 1,
+      "box": {
+        "left": 245.9,
+        "top": 73.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cMName": {
+      "type": "text",
+      "label": "CMName",
+      "page": 1,
+      "box": {
+        "left": 21.3,
+        "top": 43.2,
+        "width": 165.6,
+        "height": 19.8
+      }
+    },
+    "cMDate": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 1,
+      "box": {
+        "left": 482.3,
+        "top": 42.3,
+        "width": 106.8,
+        "height": 16.8
+      }
+    },
+    "signatureField2": {
+      "type": "signature",
+      "label": "SignatureField2",
+      "page": 1,
+      "box": {
+        "left": 194.8,
+        "top": 41.4,
+        "width": 276.5,
+        "height": 15.9
+      }
+    }
+  }
+}

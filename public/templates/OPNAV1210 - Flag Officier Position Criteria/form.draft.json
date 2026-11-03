@@ -1,0 +1,574 @@
+{
+  "id": "opnav1210",
+  "label": "OPNAV1210 - Flag Officier Position Criteria",
+  "directory": "OPNAV1210 - Flag Officier Position Criteria",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf",
+    "page5.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "activity",
+        "billAct",
+        "binNum",
+        "bsc",
+        "uic",
+        "natA1",
+        "natType",
+        "natScope",
+        "natLevel",
+        "natA2",
+        "natSup",
+        "natPrinSub",
+        "natLatCor",
+        "natMilStru",
+        "natA3",
+        "natProx",
+        "natDegr"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "natA4",
+        "natNat",
+        "natExt",
+        "natLev",
+        "natA5",
+        "natA6",
+        "mag1",
+        "mag2",
+        "magMilFor",
+        "magPer",
+        "magValEqu",
+        "magTotObl",
+        "magOth",
+        "mag3",
+        "mag4",
+        "mag5",
+        "mag6",
+        "mag7"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "dNSDate3",
+        "appBy"
+      ]
+    }
+  ],
+  "fields": {
+    "activity": {
+      "type": "text",
+      "label": "ACTIVITY:",
+      "page": 1,
+      "box": {
+        "left": 104.6,
+        "top": 660.6,
+        "width": 447.0,
+        "height": 20.1
+      }
+    },
+    "billAct": {
+      "type": "text",
+      "label": "BILLET TITLE:",
+      "page": 1,
+      "box": {
+        "left": 115.1,
+        "top": 636.7,
+        "width": 436.5,
+        "height": 20.1
+      }
+    },
+    "binNum": {
+      "type": "text",
+      "label": "BIN #:",
+      "page": 1,
+      "box": {
+        "left": 85.4,
+        "top": 612.8,
+        "width": 102.6,
+        "height": 20.1
+      }
+    },
+    "bsc": {
+      "type": "text",
+      "label": "BSC:",
+      "page": 1,
+      "box": {
+        "left": 268.5,
+        "top": 612.8,
+        "width": 107.4,
+        "height": 20.1
+      }
+    },
+    "uic": {
+      "type": "text",
+      "label": "UIC:",
+      "page": 1,
+      "box": {
+        "left": 440.4,
+        "top": 612.8,
+        "width": 110.3,
+        "height": 20.1
+      }
+    },
+    "natA1": {
+      "type": "text",
+      "label": "NatA1",
+      "page": 1,
+      "box": {
+        "left": 88.1,
+        "top": 563.8,
+        "width": 17.4,
+        "height": 12.6
+      }
+    },
+    "natType": {
+      "type": "text",
+      "label": "NatType",
+      "page": 1,
+      "box": {
+        "left": 84.4,
+        "top": 534.0,
+        "width": 472.6,
+        "height": 36.0
+      },
+      "multiline": true
+    },
+    "natScope": {
+      "type": "text",
+      "label": "NatScope",
+      "page": 1,
+      "box": {
+        "left": 84.4,
+        "top": 481.8,
+        "width": 472.6,
+        "height": 36.0
+      },
+      "multiline": true
+    },
+    "natLevel": {
+      "type": "text",
+      "label": "NatLevel",
+      "page": 1,
+      "box": {
+        "left": 84.4,
+        "top": 433.6,
+        "width": 472.6,
+        "height": 36.0
+      },
+      "multiline": true
+    },
+    "natA2": {
+      "type": "text",
+      "label": "NatA2",
+      "page": 1,
+      "box": {
+        "left": 88.1,
+        "top": 393.8,
+        "width": 17.4,
+        "height": 12.6
+      }
+    },
+    "natSup": {
+      "type": "text",
+      "label": "NatSup",
+      "page": 1,
+      "box": {
+        "left": 84.4,
+        "top": 364.7,
+        "width": 472.6,
+        "height": 36.0
+      },
+      "multiline": true
+    },
+    "natPrinSub": {
+      "type": "text",
+      "label": "NatPrinSub",
+      "page": 1,
+      "box": {
+        "left": 84.4,
+        "top": 316.5,
+        "width": 472.6,
+        "height": 36.0
+      },
+      "multiline": true
+    },
+    "natLatCor": {
+      "type": "text",
+      "label": "NatLatCor",
+      "page": 1,
+      "box": {
+        "left": 84.4,
+        "top": 266.4,
+        "width": 472.6,
+        "height": 36.0
+      },
+      "multiline": true
+    },
+    "natMilStru": {
+      "type": "text",
+      "label": "NatMilStru",
+      "page": 1,
+      "box": {
+        "left": 84.4,
+        "top": 218.2,
+        "width": 472.6,
+        "height": 36.0
+      },
+      "multiline": true
+    },
+    "natA3": {
+      "type": "text",
+      "label": "NatA3",
+      "page": 1,
+      "box": {
+        "left": 88.1,
+        "top": 177.0,
+        "width": 17.4,
+        "height": 12.6
+      }
+    },
+    "natProx": {
+      "type": "text",
+      "label": "NatProx",
+      "page": 1,
+      "box": {
+        "left": 84.4,
+        "top": 147.4,
+        "width": 472.6,
+        "height": 36.0
+      },
+      "multiline": true
+    },
+    "natDegr": {
+      "type": "text",
+      "label": "NatDegr",
+      "page": 1,
+      "box": {
+        "left": 84.4,
+        "top": 97.3,
+        "width": 472.6,
+        "height": 36.0
+      },
+      "multiline": true
+    },
+    "natA4": {
+      "type": "text",
+      "label": "NatA4",
+      "page": 2,
+      "box": {
+        "left": 88.1,
+        "top": 720.9,
+        "width": 17.4,
+        "height": 12.6
+      }
+    },
+    "natNat": {
+      "type": "text",
+      "label": "NatNat",
+      "page": 2,
+      "box": {
+        "left": 84.4,
+        "top": 690.3,
+        "width": 472.6,
+        "height": 36.0
+      },
+      "multiline": true
+    },
+    "natExt": {
+      "type": "text",
+      "label": "NatExt",
+      "page": 2,
+      "box": {
+        "left": 84.4,
+        "top": 640.3,
+        "width": 472.6,
+        "height": 36.0
+      },
+      "multiline": true
+    },
+    "natLev": {
+      "type": "text",
+      "label": "NatLev",
+      "page": 2,
+      "box": {
+        "left": 84.4,
+        "top": 590.2,
+        "width": 472.6,
+        "height": 36.0
+      },
+      "multiline": true
+    },
+    "natA5": {
+      "type": "text",
+      "label": "NatA5",
+      "page": 2,
+      "box": {
+        "left": 88.1,
+        "top": 551.8,
+        "width": 17.4,
+        "height": 12.6
+      }
+    },
+    "natA6": {
+      "type": "text",
+      "label": "NatA6",
+      "page": 2,
+      "box": {
+        "left": 88.1,
+        "top": 533.3,
+        "width": 17.4,
+        "height": 12.6
+      }
+    },
+    "mag1": {
+      "type": "text",
+      "label": "Mag1",
+      "page": 2,
+      "box": {
+        "left": 88.1,
+        "top": 498.0,
+        "width": 17.4,
+        "height": 12.6
+      }
+    },
+    "mag2": {
+      "type": "text",
+      "label": "Mag2",
+      "page": 2,
+      "box": {
+        "left": 88.1,
+        "top": 481.4,
+        "width": 17.4,
+        "height": 12.6
+      }
+    },
+    "magMilFor": {
+      "type": "text",
+      "label": "MagMilFor",
+      "page": 2,
+      "box": {
+        "left": 84.4,
+        "top": 453.7,
+        "width": 472.6,
+        "height": 36.0
+      },
+      "multiline": true
+    },
+    "magPer": {
+      "type": "text",
+      "label": "MagPer",
+      "page": 2,
+      "box": {
+        "left": 84.4,
+        "top": 402.6,
+        "width": 472.6,
+        "height": 36.0
+      },
+      "multiline": true
+    },
+    "magValEqu": {
+      "type": "text",
+      "label": "MagValEqu",
+      "page": 2,
+      "box": {
+        "left": 84.4,
+        "top": 353.5,
+        "width": 472.6,
+        "height": 36.0
+      },
+      "multiline": true
+    },
+    "magTotObl": {
+      "type": "text",
+      "label": "MagTotObl",
+      "page": 2,
+      "box": {
+        "left": 84.4,
+        "top": 303.4,
+        "width": 472.6,
+        "height": 36.0
+      },
+      "multiline": true
+    },
+    "magOth": {
+      "type": "text",
+      "label": "MagOth",
+      "page": 2,
+      "box": {
+        "left": 84.4,
+        "top": 254.3,
+        "width": 472.6,
+        "height": 36.0
+      },
+      "multiline": true
+    },
+    "mag3": {
+      "type": "text",
+      "label": "Mag3",
+      "page": 2,
+      "box": {
+        "left": 88.1,
+        "top": 215.0,
+        "width": 17.4,
+        "height": 12.6
+      }
+    },
+    "mag4": {
+      "type": "text",
+      "label": "Mag4",
+      "page": 2,
+      "box": {
+        "left": 88.1,
+        "top": 198.4,
+        "width": 17.4,
+        "height": 12.6
+      }
+    },
+    "mag5": {
+      "type": "text",
+      "label": "Mag5",
+      "page": 2,
+      "box": {
+        "left": 88.1,
+        "top": 181.8,
+        "width": 17.4,
+        "height": 12.6
+      }
+    },
+    "mag6": {
+      "type": "text",
+      "label": "Mag6",
+      "page": 2,
+      "box": {
+        "left": 88.1,
+        "top": 165.2,
+        "width": 17.4,
+        "height": 12.6
+      }
+    },
+    "mag7": {
+      "type": "text",
+      "label": "Mag7",
+      "page": 2,
+      "box": {
+        "left": 88.1,
+        "top": 148.7,
+        "width": 17.4,
+        "height": 12.6
+      }
+    },
+    "dNSDate3": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 3,
+      "box": {
+        "left": 162.0,
+        "top": 407.5,
+        "width": 109.3,
+        "height": 24.9
+      }
+    },
+    "appBy": {
+      "type": "text",
+      "label": "Approved By:",
+      "page": 3,
+      "box": {
+        "left": 162.8,
+        "top": 362.0,
+        "width": 146.3,
+        "height": 19.2
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 2,
+      "count": 3,
+      "rowStride": 16.55,
+      "editor": "grid",
+      "columns": {
+        "sig": {
+          "type": "text",
+          "label": "Sig1",
+          "page": 2,
+          "box": {
+            "left": 88.1,
+            "top": 112.0,
+            "width": 17.4,
+            "height": 12.6
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 3,
+      "count": 3,
+      "rowStride": 19.0,
+      "editor": "grid",
+      "columns": {
+        "recapC": {
+          "type": "text",
+          "label": "RecapC1",
+          "page": 3,
+          "box": {
+            "left": 381.8,
+            "top": 608.1,
+            "width": 17.4,
+            "height": 12.6
+          }
+        }
+      }
+    },
+    "rows3": {
+      "title": "Rows",
+      "page": 3,
+      "count": 6,
+      "rowStride": 18.9,
+      "editor": "grid",
+      "columns": {
+        "recapA": {
+          "type": "text",
+          "label": "RecapA1",
+          "page": 3,
+          "box": {
+            "left": 143.9,
+            "top": 608.1,
+            "width": 17.4,
+            "height": 12.6
+          }
+        }
+      }
+    },
+    "rows4": {
+      "title": "Rows",
+      "page": 3,
+      "count": 7,
+      "rowStride": 18.83,
+      "editor": "grid",
+      "columns": {
+        "recapB": {
+          "type": "text",
+          "label": "RecapB1",
+          "page": 3,
+          "box": {
+            "left": 262.8,
+            "top": 608.1,
+            "width": 17.4,
+            "height": 12.6
+          }
+        }
+      }
+    }
+  }
+}

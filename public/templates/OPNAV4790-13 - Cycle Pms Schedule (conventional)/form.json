@@ -1,0 +1,253 @@
+{
+  "id": "opnav479013",
+  "label": "OPNAV4790-13 - Cycle Pms Schedule (conventional)",
+  "directory": "OPNAV4790-13 - Cycle Pms Schedule (conventional)",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "textField1",
+        "textField12",
+        "textField3",
+        "signatureField1",
+        "dateField1"
+      ]
+    }
+  ],
+  "fields": {
+    "textField1": {
+      "type": "text",
+      "label": "SHIP",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 726.9,
+        "width": 99.2,
+        "height": 66.4
+      },
+      "multiline": true
+    },
+    "textField12": {
+      "type": "text",
+      "label": "WORK CENTER",
+      "page": 1,
+      "box": {
+        "left": 143.7,
+        "top": 726.9,
+        "width": 99.2,
+        "height": 66.4
+      },
+      "multiline": true
+    },
+    "textField3": {
+      "type": "text",
+      "label": "PRINTED NAME",
+      "page": 1,
+      "box": {
+        "left": 469.7,
+        "top": 726.9,
+        "width": 103.5,
+        "height": 12.3
+      }
+    },
+    "signatureField1": {
+      "type": "text",
+      "label": "APPROVAL SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 469.7,
+        "top": 700.1,
+        "width": 103.5,
+        "height": 12.3
+      }
+    },
+    "dateField1": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 469.7,
+        "top": 673.5,
+        "width": 103.5,
+        "height": 12.3
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 5,
+      "rowStride": 17.28,
+      "editor": "grid",
+      "columns": {
+        "cell": {
+          "type": "text",
+          "label": "MIP",
+          "page": 1,
+          "box": {
+            "left": 37.4,
+            "top": 639.7,
+            "width": 102.1,
+            "height": 14.4
+          }
+        },
+        "cell2": {
+          "type": "text",
+          "label": "COMPONENT",
+          "page": 1,
+          "box": {
+            "left": 142.3,
+            "top": 639.7,
+            "width": 102.1,
+            "height": 14.4
+          }
+        },
+        "cell3": {
+          "type": "text",
+          "label": "Cell 3",
+          "page": 1,
+          "box": {
+            "left": 247.2,
+            "top": 639.7,
+            "width": 53.1,
+            "height": 14.4
+          }
+        },
+        "cell4": {
+          "type": "text",
+          "label": "Cell 4",
+          "page": 1,
+          "box": {
+            "left": 303.1,
+            "top": 639.7,
+            "width": 52.3,
+            "height": 14.4
+          }
+        },
+        "cell5": {
+          "type": "text",
+          "label": "Cell 5",
+          "page": 1,
+          "box": {
+            "left": 358.3,
+            "top": 639.7,
+            "width": 52.3,
+            "height": 14.4
+          }
+        },
+        "cell6": {
+          "type": "text",
+          "label": "Cell 6",
+          "page": 1,
+          "box": {
+            "left": 413.4,
+            "top": 639.7,
+            "width": 52.3,
+            "height": 14.4
+          }
+        },
+        "cell7": {
+          "type": "text",
+          "label": "EACH QUARTER",
+          "page": 1,
+          "box": {
+            "left": 468.6,
+            "top": 639.7,
+            "width": 106.4,
+            "height": 14.4
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 30,
+      "rowStride": 17.28,
+      "editor": "grid",
+      "columns": {
+        "row5": {
+          "type": "text",
+          "label": "MIP",
+          "page": 1,
+          "box": {
+            "left": 37.4,
+            "top": 553.3,
+            "width": 102.1,
+            "height": 14.4
+          }
+        },
+        "row51": {
+          "type": "text",
+          "label": "COMPONENT",
+          "page": 1,
+          "box": {
+            "left": 142.3,
+            "top": 553.3,
+            "width": 102.1,
+            "height": 14.4
+          }
+        },
+        "row52": {
+          "type": "text",
+          "label": "Row 52",
+          "page": 1,
+          "box": {
+            "left": 247.2,
+            "top": 553.3,
+            "width": 53.1,
+            "height": 14.4
+          }
+        },
+        "row53": {
+          "type": "text",
+          "label": "Row 53",
+          "page": 1,
+          "box": {
+            "left": 303.1,
+            "top": 553.3,
+            "width": 52.3,
+            "height": 14.4
+          }
+        },
+        "row54": {
+          "type": "text",
+          "label": "Row 54",
+          "page": 1,
+          "box": {
+            "left": 358.3,
+            "top": 553.3,
+            "width": 52.3,
+            "height": 14.4
+          }
+        },
+        "row55": {
+          "type": "text",
+          "label": "Row 55",
+          "page": 1,
+          "box": {
+            "left": 413.4,
+            "top": 553.3,
+            "width": 52.3,
+            "height": 14.4
+          }
+        },
+        "row56": {
+          "type": "text",
+          "label": "EACH QUARTER",
+          "page": 1,
+          "box": {
+            "left": 468.6,
+            "top": 553.3,
+            "width": 106.4,
+            "height": 14.4
+          }
+        }
+      }
+    }
+  }
+}

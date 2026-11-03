@@ -1,0 +1,390 @@
+{
+  "id": "navpers10001",
+  "label": "NAVPERS1000-1 - Pseudofolliculitis Barbae (pfb) Shaving WaiverEvaluationDisposition",
+  "directory": "NAVPERS1000-1 - Pseudofolliculitis Barbae (pfb) Shaving WaiverEvaluationDisposition",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "doDID",
+        "cell1",
+        "cell2",
+        "cell12",
+        "cell13",
+        "table3Number",
+        "cell14",
+        "table3Date",
+        "cell15",
+        "hCPname",
+        "hCPsign",
+        "hCPdate",
+        "cOname",
+        "cOsign",
+        "cOdate",
+        "cell16",
+        "cell17",
+        "cell22",
+        "cell23",
+        "cell18",
+        "cell24",
+        "cell25",
+        "cell19",
+        "cell110",
+        "hCPname2",
+        "hCPsign2",
+        "hCPdate2",
+        "cOname2",
+        "cOsign2",
+        "cOdate2"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "Name (Last, First, MI)",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 708.5,
+        "width": 444.3,
+        "height": 21.6
+      }
+    },
+    "doDID": {
+      "type": "text",
+      "label": "DoD ID Number",
+      "page": 1,
+      "box": {
+        "left": 488.9,
+        "top": 708.5,
+        "width": 84.3,
+        "height": 21.6
+      }
+    },
+    "cell1": {
+      "type": "checkbox",
+      "label": "Name",
+      "page": 1,
+      "box": {
+        "left": 50.0,
+        "top": 661.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell2": {
+      "type": "text",
+      "label": "Other",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 645.1,
+        "width": 300.3,
+        "height": 18.0
+      }
+    },
+    "cell12": {
+      "type": "checkbox",
+      "label": "Name",
+      "page": 1,
+      "box": {
+        "left": 50.0,
+        "top": 639.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell13": {
+      "type": "checkbox",
+      "label": "Name",
+      "page": 1,
+      "box": {
+        "left": 50.0,
+        "top": 587.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "table3Number": {
+      "type": "text",
+      "label": "GROOMING",
+      "page": 1,
+      "box": {
+        "left": 395.7,
+        "top": 538.5,
+        "width": 10.8,
+        "height": 13.0
+      }
+    },
+    "cell14": {
+      "type": "checkbox",
+      "label": "Name",
+      "page": 1,
+      "box": {
+        "left": 50.0,
+        "top": 529.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "table3Date": {
+      "type": "text",
+      "label": "operational",
+      "page": 1,
+      "box": {
+        "left": 68.4,
+        "top": 529.2,
+        "width": 41.4,
+        "height": 13.0
+      }
+    },
+    "cell15": {
+      "type": "text",
+      "label": "Cell 15",
+      "page": 1,
+      "box": {
+        "left": 72.0,
+        "top": 496.0,
+        "width": 501.2,
+        "height": 39.6
+      },
+      "multiline": true
+    },
+    "hCPname": {
+      "type": "text",
+      "label": "Health Care Provider Name and Rank",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 384.4,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "hCPsign": {
+      "type": "text",
+      "label": "Health Care Provider Signature",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 384.4,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "hCPdate": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 384.4,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "cOname": {
+      "type": "text",
+      "label": "Commanding Officer Name and Rank",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 348.4,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "cOsign": {
+      "type": "text",
+      "label": "Commanding Officer Signature",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 348.4,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "cOdate": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 348.4,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "cell16": {
+      "type": "checkbox",
+      "label": "Commanding",
+      "page": 1,
+      "box": {
+        "left": 50.0,
+        "top": 300.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell17": {
+      "type": "checkbox",
+      "label": "Commanding",
+      "page": 1,
+      "box": {
+        "left": 50.0,
+        "top": 282.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell22": {
+      "type": "checkbox",
+      "label": "Treatment",
+      "page": 1,
+      "box": {
+        "left": 84.2,
+        "top": 264.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell23": {
+      "type": "checkbox",
+      "label": "Treatment",
+      "page": 1,
+      "box": {
+        "left": 84.2,
+        "top": 246.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell18": {
+      "type": "checkbox",
+      "label": "Commanding",
+      "page": 1,
+      "box": {
+        "left": 50.0,
+        "top": 228.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell24": {
+      "type": "checkbox",
+      "label": "Treatment",
+      "page": 1,
+      "box": {
+        "left": 84.2,
+        "top": 210.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell25": {
+      "type": "checkbox",
+      "label": "Treatment",
+      "page": 1,
+      "box": {
+        "left": 84.2,
+        "top": 192.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell19": {
+      "type": "checkbox",
+      "label": "Commanding",
+      "page": 1,
+      "box": {
+        "left": 50.0,
+        "top": 162.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell110": {
+      "type": "checkbox",
+      "label": "Commanding",
+      "page": 1,
+      "box": {
+        "left": 50.0,
+        "top": 126.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "hCPname2": {
+      "type": "text",
+      "label": "Health Care Provider Name and Rank",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 96.4,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "hCPsign2": {
+      "type": "text",
+      "label": "Health Care Provider Signature",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 96.4,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "hCPdate2": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 96.4,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "cOname2": {
+      "type": "text",
+      "label": "Commanding Officer Name and Rank",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 60.4,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "cOsign2": {
+      "type": "text",
+      "label": "Commanding Officer Signature",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 60.4,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "cOdate2": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 60.4,
+        "width": 66.2,
+        "height": 21.6
+      }
+    }
+  }
+}

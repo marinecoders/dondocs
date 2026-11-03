@@ -1,0 +1,1295 @@
+{
+  "id": "navpers130029",
+  "label": "NAVPERS1300-29 - NAVY Reserve Definite Recall Application",
+  "directory": "NAVPERS1300-29 - NAVY Reserve Definite Recall Application",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "rr",
+        "cell2",
+        "cell3",
+        "cell4",
+        "cell1",
+        "cell12",
+        "cell22",
+        "cell32",
+        "cell42",
+        "cell13",
+        "cell23",
+        "cell33",
+        "cell14",
+        "cell8",
+        "s",
+        "m",
+        "d",
+        "cell15",
+        "cell24",
+        "cell16",
+        "cell17",
+        "cell25",
+        "cell34",
+        "cell43",
+        "cell5",
+        "cell6",
+        "cell7",
+        "cell82",
+        "cell18",
+        "a",
+        "at",
+        "adt",
+        "adsw",
+        "m2",
+        "dr",
+        "yes",
+        "no",
+        "yes2",
+        "no2",
+        "yes3",
+        "no3",
+        "yes4",
+        "no4",
+        "yes5",
+        "no5",
+        "dateField1",
+        "yes9",
+        "no9",
+        "yes10",
+        "no10",
+        "yes11",
+        "no11",
+        "dateField2",
+        "yes12",
+        "no12",
+        "yes13",
+        "no13",
+        "yes14",
+        "no14",
+        "yes15",
+        "no15"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "cell19",
+        "memName",
+        "memSig",
+        "memSigDate",
+        "yes16",
+        "no16",
+        "yes17",
+        "no17",
+        "cell114",
+        "cell26",
+        "repDate",
+        "dropDownList1",
+        "dateField3"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "cell27",
+        "securityDate",
+        "cell115",
+        "yes18",
+        "no18",
+        "cell116",
+        "a2",
+        "d2",
+        "cell117",
+        "uMUICDate",
+        "cell28",
+        "yes19",
+        "no19",
+        "cell118",
+        "a3",
+        "d3",
+        "cell119",
+        "cell29",
+        "cODate",
+        "yes20",
+        "no20"
+      ]
+    },
+    {
+      "title": "Page 4",
+      "fields": [
+        "cell120",
+        "cell210",
+        "pERSDate"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "Full Name (Last, First Middle)",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 654.5,
+        "width": 426.3,
+        "height": 21.6
+      }
+    },
+    "rr": {
+      "type": "text",
+      "label": "Rank/Rating/Designator",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 654.5,
+        "width": 102.2,
+        "height": 21.6
+      }
+    },
+    "cell2": {
+      "type": "text",
+      "label": "Requested Assignment (UIC)(BSC)",
+      "page": 1,
+      "box": {
+        "left": 182.9,
+        "top": 618.5,
+        "width": 172.9,
+        "height": 21.6
+      }
+    },
+    "cell3": {
+      "type": "text",
+      "label": "Requested Start Date",
+      "page": 1,
+      "box": {
+        "left": 361.5,
+        "top": 618.5,
+        "width": 103.5,
+        "height": 21.6
+      }
+    },
+    "cell4": {
+      "type": "text",
+      "label": "Requested Length",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 618.5,
+        "width": 102.1,
+        "height": 21.6
+      }
+    },
+    "cell1": {
+      "type": "choice",
+      "label": "Recall Program",
+      "page": 1,
+      "box": {
+        "left": 39.1,
+        "top": 618.2,
+        "width": 137.8,
+        "height": 21.1
+      },
+      "options": [
+        "Officer MPN",
+        "Officer RPN",
+        "Officer Recruiting",
+        "Enlisted MPN",
+        "Enlisted RPN/AWS",
+        "Enlisted Recruiting"
+      ]
+    },
+    "cell12": {
+      "type": "text",
+      "label": "Street Address",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 568.1,
+        "width": 282.3,
+        "height": 21.6
+      }
+    },
+    "cell22": {
+      "type": "text",
+      "label": "City",
+      "page": 1,
+      "box": {
+        "left": 326.9,
+        "top": 568.1,
+        "width": 102.3,
+        "height": 21.6
+      }
+    },
+    "cell32": {
+      "type": "text",
+      "label": "State",
+      "page": 1,
+      "box": {
+        "left": 434.9,
+        "top": 568.1,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "cell42": {
+      "type": "text",
+      "label": "Zip Code",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 568.1,
+        "width": 65.8,
+        "height": 21.6
+      }
+    },
+    "cell13": {
+      "type": "text",
+      "label": "Primary Phone Number",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 532.0,
+        "width": 102.3,
+        "height": 21.6
+      }
+    },
+    "cell23": {
+      "type": "text",
+      "label": "E-mail Address",
+      "page": 1,
+      "box": {
+        "left": 146.9,
+        "top": 532.0,
+        "width": 318.3,
+        "height": 21.6
+      }
+    },
+    "cell33": {
+      "type": "text",
+      "label": "Date of Birth",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 532.0,
+        "width": 102.3,
+        "height": 21.6
+      }
+    },
+    "cell14": {
+      "type": "text",
+      "label": "Secondary Phone Number",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 493.9,
+        "width": 102.3,
+        "height": 19.4
+      }
+    },
+    "cell8": {
+      "type": "text",
+      "label": "Divorced",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 493.9,
+        "width": 102.3,
+        "height": 19.4
+      }
+    },
+    "s": {
+      "type": "checkbox",
+      "label": "Marital Status",
+      "page": 1,
+      "box": {
+        "left": 168.1,
+        "top": 488.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "m": {
+      "type": "checkbox",
+      "label": "Single",
+      "page": 1,
+      "box": {
+        "left": 276.2,
+        "top": 488.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "d": {
+      "type": "checkbox",
+      "label": "Married",
+      "page": 1,
+      "box": {
+        "left": 384.2,
+        "top": 488.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell15": {
+      "type": "text",
+      "label": "DoD ID Number",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 445.6,
+        "width": 203.1,
+        "height": 21.6
+      }
+    },
+    "cell24": {
+      "type": "text",
+      "label": "Date of Rank/Rate",
+      "page": 1,
+      "box": {
+        "left": 247.7,
+        "top": 445.6,
+        "width": 109.5,
+        "height": 21.6
+      }
+    },
+    "cell16": {
+      "type": "text",
+      "label": "ERN",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 445.6,
+        "width": 210.1,
+        "height": 21.6
+      }
+    },
+    "cell17": {
+      "type": "text",
+      "label": "Drilling NRC",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 407.5,
+        "width": 73.4,
+        "height": 19.4
+      }
+    },
+    "cell25": {
+      "type": "text",
+      "label": "NRC UIC",
+      "page": 1,
+      "box": {
+        "left": 118.1,
+        "top": 407.5,
+        "width": 66.2,
+        "height": 19.4
+      }
+    },
+    "cell34": {
+      "type": "text",
+      "label": "Total Active",
+      "page": 1,
+      "box": {
+        "left": 190.1,
+        "top": 407.5,
+        "width": 23.0,
+        "height": 19.4
+      }
+    },
+    "cell43": {
+      "type": "text",
+      "label": "Service",
+      "page": 1,
+      "box": {
+        "left": 247.7,
+        "top": 407.5,
+        "width": 23.0,
+        "height": 19.4
+      }
+    },
+    "cell5": {
+      "type": "text",
+      "label": "Rank/Rate",
+      "page": 1,
+      "box": {
+        "left": 305.3,
+        "top": 407.5,
+        "width": 23.0,
+        "height": 19.4
+      }
+    },
+    "cell6": {
+      "type": "text",
+      "label": "Total Inactive",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 407.5,
+        "width": 37.4,
+        "height": 19.4
+      }
+    },
+    "cell7": {
+      "type": "text",
+      "label": "Service",
+      "page": 1,
+      "box": {
+        "left": 434.9,
+        "top": 407.5,
+        "width": 30.2,
+        "height": 19.4
+      }
+    },
+    "cell82": {
+      "type": "text",
+      "label": "of Dependents",
+      "page": 1,
+      "box": {
+        "left": 499.7,
+        "top": 407.5,
+        "width": 44.2,
+        "height": 19.4
+      }
+    },
+    "cell18": {
+      "type": "text",
+      "label": "Date of Last Release from Active Duty",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 371.5,
+        "width": 145.5,
+        "height": 19.4
+      }
+    },
+    "a": {
+      "type": "checkbox",
+      "label": "Last",
+      "page": 1,
+      "box": {
+        "left": 191.1,
+        "top": 365.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "at": {
+      "type": "checkbox",
+      "label": "Active",
+      "page": 1,
+      "box": {
+        "left": 248.7,
+        "top": 365.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "adt": {
+      "type": "checkbox",
+      "label": "AT",
+      "page": 1,
+      "box": {
+        "left": 306.3,
+        "top": 365.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "adsw": {
+      "type": "checkbox",
+      "label": "ADT",
+      "page": 1,
+      "box": {
+        "left": 363.9,
+        "top": 365.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "m2": {
+      "type": "checkbox",
+      "label": "ADSW/ADOS",
+      "page": 1,
+      "box": {
+        "left": 435.9,
+        "top": 365.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "dr": {
+      "type": "checkbox",
+      "label": "ADSW/ADOS Mobilization",
+      "page": 1,
+      "box": {
+        "left": 500.7,
+        "top": 365.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "yes": {
+      "type": "checkbox",
+      "label": "1. Are you currently in a selected or frocked status?",
+      "page": 1,
+      "box": {
+        "left": 471.9,
+        "top": 343.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 525.9,
+        "top": 343.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "yes2": {
+      "type": "checkbox",
+      "label": "2. Are you eligible for promotion or advancement?",
+      "page": 1,
+      "box": {
+        "left": 471.9,
+        "top": 325.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no2": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 525.9,
+        "top": 325.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "yes3": {
+      "type": "checkbox",
+      "label": "Mobilization",
+      "page": 1,
+      "box": {
+        "left": 471.9,
+        "top": 307.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no3": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 525.9,
+        "top": 307.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "yes4": {
+      "type": "checkbox",
+      "label": "Mobilization",
+      "page": 1,
+      "box": {
+        "left": 471.9,
+        "top": 290.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no4": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 525.9,
+        "top": 290.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "yes5": {
+      "type": "checkbox",
+      "label": "Mobilization",
+      "page": 1,
+      "box": {
+        "left": 471.9,
+        "top": 267.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no5": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 525.9,
+        "top": 267.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "dateField1": {
+      "type": "text",
+      "label": "Exp. Date",
+      "page": 1,
+      "box": {
+        "left": 403.8,
+        "top": 193.5,
+        "width": 61.4,
+        "height": 20.1
+      }
+    },
+    "yes9": {
+      "type": "checkbox",
+      "label": "Exp. Date",
+      "page": 1,
+      "box": {
+        "left": 471.9,
+        "top": 187.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no9": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 525.9,
+        "top": 187.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "yes10": {
+      "type": "checkbox",
+      "label": "Mobilization",
+      "page": 1,
+      "box": {
+        "left": 471.9,
+        "top": 165.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no10": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 525.9,
+        "top": 165.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "yes11": {
+      "type": "checkbox",
+      "label": "Mobilization",
+      "page": 1,
+      "box": {
+        "left": 471.9,
+        "top": 146.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no11": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 525.9,
+        "top": 146.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "dateField2": {
+      "type": "text",
+      "label": "Last PHA",
+      "page": 1,
+      "box": {
+        "left": 420.4,
+        "top": 129.3,
+        "width": 44.8,
+        "height": 10.6
+      }
+    },
+    "yes12": {
+      "type": "checkbox",
+      "label": "Last PHA",
+      "page": 1,
+      "box": {
+        "left": 471.9,
+        "top": 128.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no12": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 525.9,
+        "top": 128.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "yes13": {
+      "type": "checkbox",
+      "label": "Mobilization",
+      "page": 1,
+      "box": {
+        "left": 471.9,
+        "top": 104.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no13": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 525.9,
+        "top": 104.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "yes14": {
+      "type": "checkbox",
+      "label": "Mobilization",
+      "page": 1,
+      "box": {
+        "left": 471.9,
+        "top": 76.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no14": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 525.9,
+        "top": 76.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "yes15": {
+      "type": "checkbox",
+      "label": "Mobilization",
+      "page": 1,
+      "box": {
+        "left": 471.9,
+        "top": 52.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no15": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 525.9,
+        "top": 52.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell19": {
+      "type": "text",
+      "label": "Cell 19",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 635.3,
+        "width": 534.3,
+        "height": 264.3
+      },
+      "multiline": true
+    },
+    "memName": {
+      "type": "text",
+      "label": "Full Name (Last, First Middle)",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 217.7,
+        "width": 228.3,
+        "height": 19.4
+      }
+    },
+    "memSig": {
+      "type": "text",
+      "label": "Service Member Signature",
+      "page": 2,
+      "box": {
+        "left": 272.9,
+        "top": 217.7,
+        "width": 228.3,
+        "height": 19.4
+      }
+    },
+    "memSigDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 506.9,
+        "top": 217.7,
+        "width": 66.2,
+        "height": 19.4
+      }
+    },
+    "yes16": {
+      "type": "checkbox",
+      "label": "termination",
+      "page": 2,
+      "box": {
+        "left": 471.9,
+        "top": 172.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no16": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 2,
+      "box": {
+        "left": 525.9,
+        "top": 172.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "yes17": {
+      "type": "checkbox",
+      "label": "2. Is the Service member in Dental Class I or II?",
+      "page": 2,
+      "box": {
+        "left": 471.9,
+        "top": 149.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no17": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 2,
+      "box": {
+        "left": 525.9,
+        "top": 149.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell114": {
+      "type": "text",
+      "label": "Medical/Dental Representative Name and Rank/Rating",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 120.5,
+        "width": 228.3,
+        "height": 19.4
+      }
+    },
+    "cell26": {
+      "type": "text",
+      "label": "Medical/Dental Representative Signature",
+      "page": 2,
+      "box": {
+        "left": 272.9,
+        "top": 120.5,
+        "width": 228.3,
+        "height": 19.4
+      }
+    },
+    "repDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 506.9,
+        "top": 120.5,
+        "width": 66.2,
+        "height": 19.4
+      }
+    },
+    "dropDownList1": {
+      "type": "choice",
+      "label": "1. Security clearance",
+      "page": 2,
+      "box": {
+        "left": 122.4,
+        "top": 78.4,
+        "width": 378.1,
+        "height": 19.8
+      },
+      "options": [
+        "Favorably Adjudicated NACLC / No Clearance Granted (Explanation required)",
+        "Secret",
+        "Secret (Out of Scope / Reinvestigation Open)",
+        "Top Secret",
+        "Top Secret (Out of Scope / Reinvestigation Open)",
+        "No favorable investigation and/or Secret/TS clearance (Explanation required)"
+      ]
+    },
+    "dateField3": {
+      "type": "text",
+      "label": "1. Security clearance",
+      "page": 2,
+      "box": {
+        "left": 506.9,
+        "top": 70.5,
+        "width": 65.2,
+        "height": 12.7
+      }
+    },
+    "cell27": {
+      "type": "text",
+      "label": "Security Manager Signature",
+      "page": 3,
+      "box": {
+        "left": 272.9,
+        "top": 706.3,
+        "width": 228.3,
+        "height": 23.0
+      }
+    },
+    "securityDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 3,
+      "box": {
+        "left": 506.9,
+        "top": 706.3,
+        "width": 66.2,
+        "height": 23.0
+      }
+    },
+    "cell115": {
+      "type": "text",
+      "label": "Security Manager Name and Rank/Rating",
+      "page": 3,
+      "box": {
+        "left": 38.9,
+        "top": 705.7,
+        "width": 228.3,
+        "height": 22.4
+      }
+    },
+    "yes18": {
+      "type": "checkbox",
+      "label": "endorsement",
+      "page": 3,
+      "box": {
+        "left": 471.9,
+        "top": 659.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no18": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 3,
+      "box": {
+        "left": 525.9,
+        "top": 659.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell116": {
+      "type": "text",
+      "label": "Unit Endorsement Explanations",
+      "page": 3,
+      "box": {
+        "left": 38.9,
+        "top": 630.7,
+        "width": 534.3,
+        "height": 145.5
+      },
+      "multiline": true
+    },
+    "a2": {
+      "type": "checkbox",
+      "label": "Recommendation",
+      "page": 3,
+      "box": {
+        "left": 39.9,
+        "top": 466.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "d2": {
+      "type": "checkbox",
+      "label": "Approval",
+      "page": 3,
+      "box": {
+        "left": 111.9,
+        "top": 466.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell117": {
+      "type": "text",
+      "label": "Name, Rank, and Title",
+      "page": 3,
+      "box": {
+        "left": 38.9,
+        "top": 439.9,
+        "width": 228.3,
+        "height": 19.4
+      }
+    },
+    "uMUICDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 3,
+      "box": {
+        "left": 506.9,
+        "top": 439.9,
+        "width": 66.2,
+        "height": 19.4
+      }
+    },
+    "cell28": {
+      "type": "text",
+      "label": "UMUIC Representative Signature",
+      "page": 3,
+      "box": {
+        "left": 272.9,
+        "top": 439.8,
+        "width": 228.3,
+        "height": 19.4
+      }
+    },
+    "yes19": {
+      "type": "checkbox",
+      "label": "endorsement",
+      "page": 3,
+      "box": {
+        "left": 471.9,
+        "top": 392.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no19": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 3,
+      "box": {
+        "left": 525.9,
+        "top": 392.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell118": {
+      "type": "text",
+      "label": "Activity Endorsement Explanations",
+      "page": 3,
+      "box": {
+        "left": 38.9,
+        "top": 366.4,
+        "width": 534.3,
+        "height": 147.6
+      },
+      "multiline": true
+    },
+    "a3": {
+      "type": "checkbox",
+      "label": "Recommendation",
+      "page": 3,
+      "box": {
+        "left": 39.9,
+        "top": 200.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "d3": {
+      "type": "checkbox",
+      "label": "Approval",
+      "page": 3,
+      "box": {
+        "left": 111.9,
+        "top": 200.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell119": {
+      "type": "text",
+      "label": "CO or Designee Name and Rank",
+      "page": 3,
+      "box": {
+        "left": 38.9,
+        "top": 141.0,
+        "width": 228.3,
+        "height": 19.4
+      }
+    },
+    "cell29": {
+      "type": "text",
+      "label": "CO or Designee Signature",
+      "page": 3,
+      "box": {
+        "left": 272.9,
+        "top": 141.0,
+        "width": 228.3,
+        "height": 19.4
+      }
+    },
+    "cODate": {
+      "type": "text",
+      "label": "Date",
+      "page": 3,
+      "box": {
+        "left": 506.9,
+        "top": 141.0,
+        "width": 66.2,
+        "height": 19.4
+      }
+    },
+    "yes20": {
+      "type": "checkbox",
+      "label": "COMMAND",
+      "page": 3,
+      "box": {
+        "left": 471.9,
+        "top": 92.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no20": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 3,
+      "box": {
+        "left": 525.9,
+        "top": 92.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell120": {
+      "type": "text",
+      "label": "Name and Rank",
+      "page": 4,
+      "box": {
+        "left": 38.9,
+        "top": 706.3,
+        "width": 228.3,
+        "height": 26.4
+      }
+    },
+    "cell210": {
+      "type": "text",
+      "label": "Signature",
+      "page": 4,
+      "box": {
+        "left": 272.9,
+        "top": 706.3,
+        "width": 228.3,
+        "height": 26.4
+      }
+    },
+    "pERSDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 4,
+      "box": {
+        "left": 506.9,
+        "top": 706.3,
+        "width": 66.2,
+        "height": 26.4
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 17.65,
+      "editor": "grid",
+      "columns": {
+        "yes": {
+          "type": "checkbox",
+          "label": "6. Are you willing to PCS?",
+          "page": 1,
+          "box": {
+            "left": 471.9,
+            "top": 244.4,
+            "width": 8.0,
+            "height": 8.0
+          }
+        },
+        "no": {
+          "type": "checkbox",
+          "label": "Yes",
+          "page": 1,
+          "box": {
+            "left": 525.9,
+            "top": 244.4,
+            "width": 8.0,
+            "height": 8.0
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 2,
+      "count": 4,
+      "rowStride": 30.6,
+      "editor": "grid",
+      "columns": {
+        "cell": {
+          "type": "checkbox",
+          "label": "Cell",
+          "page": 2,
+          "box": {
+            "left": 42.1,
+            "top": 345.2,
+            "width": 8.0,
+            "height": 8.0
+          }
+        }
+      }
+    }
+  }
+}

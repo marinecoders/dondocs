@@ -1,0 +1,62 @@
+{
+  "template": "page2.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page2": {
+      "name": {
+        "left": 223.1,
+        "top": 298.3,
+        "width": 244.8,
+        "height": 11.1,
+        "type": "text",
+        "description": "Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "parentA": {
+        "left": 72.7,
+        "top": 218.1,
+        "width": 375.3,
+        "height": 20.1,
+        "type": "text",
+        "description": "Parent/Guardian Name ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "parentB": {
+        "left": 72.7,
+        "top": 181.1,
+        "width": 359.3,
+        "height": 20.4,
+        "type": "text",
+        "description": "Parent/Guardian Signature ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateA": {
+        "left": 441.7,
+        "top": 178.3,
+        "width": 94.1,
+        "height": 17.6,
+        "type": "text",
+        "description": "Enter YYYY-MM-DD",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

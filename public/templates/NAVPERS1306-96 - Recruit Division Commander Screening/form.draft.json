@@ -1,0 +1,1385 @@
+{
+  "id": "navpers130696",
+  "label": "NAVPERS1306-96 - Recruit Division Commander Screening",
+  "directory": "NAVPERS1306-96 - Recruit Division Commander Screening",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "rankRate",
+        "dutyPreference",
+        "proposedDetachDate",
+        "cell2",
+        "cell3",
+        "cell22",
+        "cell32",
+        "cell23",
+        "cell33",
+        "cell24",
+        "cell34",
+        "cell25",
+        "cell35",
+        "cell26",
+        "cell36",
+        "cell27",
+        "cell37",
+        "field1",
+        "cell28",
+        "cell38",
+        "cell29",
+        "cell39",
+        "cell210",
+        "cell310",
+        "field12",
+        "cell211",
+        "cell311",
+        "cell212",
+        "cell312",
+        "cell1",
+        "cell213",
+        "cell313",
+        "cell214",
+        "cell314",
+        "cell215",
+        "cell315",
+        "cell216",
+        "cell316",
+        "cell217",
+        "cell317",
+        "cell218",
+        "cell318",
+        "cell12",
+        "cell219",
+        "cell319",
+        "cell13",
+        "cell220",
+        "cell320",
+        "cell221",
+        "cell321",
+        "cell14",
+        "cell222",
+        "cell322"
+      ],
+      "editor": "checklist"
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "cell223",
+        "cell323",
+        "cell224",
+        "cell324",
+        "cell15",
+        "cell225",
+        "cell325",
+        "cell226",
+        "cell326",
+        "cell16",
+        "cell227",
+        "cell327",
+        "cell228",
+        "cell328",
+        "cell229",
+        "cell329",
+        "cell17",
+        "cell230",
+        "cell330",
+        "cell231",
+        "cell331",
+        "cell18",
+        "cell232",
+        "cell332",
+        "cell233",
+        "cell333",
+        "cell234",
+        "cell334",
+        "cell19",
+        "cell235",
+        "cell335",
+        "cell110",
+        "cell236",
+        "cell336",
+        "cell237",
+        "cell337",
+        "cell238",
+        "cell338"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "cell111",
+        "cell239",
+        "cell339",
+        "cell112",
+        "cell240",
+        "cell340",
+        "cell241",
+        "cell341",
+        "cell113",
+        "cell114",
+        "cell242",
+        "cell115",
+        "cell243",
+        "cell342",
+        "cell116",
+        "cell244",
+        "cell117",
+        "cell245",
+        "cell343"
+      ]
+    },
+    {
+      "title": "Page 4",
+      "fields": [
+        "listBox1"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "Name (Last, First, Middle Initial)",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 708.5,
+        "width": 426.3,
+        "height": 21.6
+      }
+    },
+    "rankRate": {
+      "type": "text",
+      "label": "Rating",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 708.5,
+        "width": 102.3,
+        "height": 21.6
+      }
+    },
+    "dutyPreference": {
+      "type": "text",
+      "label": "Proposed Duty Station",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 672.5,
+        "width": 426.3,
+        "height": 21.6
+      }
+    },
+    "proposedDetachDate": {
+      "type": "text",
+      "label": "Proposed Detach Date",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 672.5,
+        "width": 102.3,
+        "height": 21.6
+      }
+    },
+    "cell2": {
+      "type": "checkbox",
+      "label": "Certification",
+      "page": 1,
+      "box": {
+        "left": 507.9,
+        "top": 608.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell3": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 543.9,
+        "top": 608.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell22": {
+      "type": "checkbox",
+      "label": "Certification",
+      "page": 1,
+      "box": {
+        "left": 507.9,
+        "top": 589.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell32": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 543.9,
+        "top": 589.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell23": {
+      "type": "checkbox",
+      "label": "involvement",
+      "page": 1,
+      "box": {
+        "left": 507.9,
+        "top": 558.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell33": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 543.9,
+        "top": 558.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell24": {
+      "type": "checkbox",
+      "label": "Certification",
+      "page": 1,
+      "box": {
+        "left": 507.9,
+        "top": 527.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell34": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 543.9,
+        "top": 527.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell25": {
+      "type": "checkbox",
+      "label": "Certification",
+      "page": 1,
+      "box": {
+        "left": 507.9,
+        "top": 497.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell35": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 543.9,
+        "top": 497.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell26": {
+      "type": "checkbox",
+      "label": "Certification",
+      "page": 1,
+      "box": {
+        "left": 507.9,
+        "top": 466.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell36": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 543.9,
+        "top": 466.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell27": {
+      "type": "checkbox",
+      "label": "Certification",
+      "page": 1,
+      "box": {
+        "left": 507.9,
+        "top": 446.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell37": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 543.9,
+        "top": 446.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "field1": {
+      "type": "text",
+      "label": "Category",
+      "page": 1,
+      "box": {
+        "left": 92.9,
+        "top": 432.7,
+        "width": 123.1,
+        "height": 14.0
+      }
+    },
+    "cell28": {
+      "type": "checkbox",
+      "label": "Certification",
+      "page": 1,
+      "box": {
+        "left": 507.9,
+        "top": 411.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell38": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 543.9,
+        "top": 411.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell29": {
+      "type": "checkbox",
+      "label": "Certification",
+      "page": 1,
+      "box": {
+        "left": 507.9,
+        "top": 397.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell39": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 543.9,
+        "top": 397.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell210": {
+      "type": "checkbox",
+      "label": "Certification",
+      "page": 1,
+      "box": {
+        "left": 507.9,
+        "top": 383.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell310": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 543.9,
+        "top": 383.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "field12": {
+      "type": "text",
+      "label": "Point Waiver",
+      "page": 1,
+      "box": {
+        "left": 107.3,
+        "top": 369.7,
+        "width": 108.7,
+        "height": 14.0
+      }
+    },
+    "cell211": {
+      "type": "checkbox",
+      "label": "Certification",
+      "page": 1,
+      "box": {
+        "left": 507.9,
+        "top": 348.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell311": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 543.9,
+        "top": 348.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell212": {
+      "type": "checkbox",
+      "label": "Certification",
+      "page": 1,
+      "box": {
+        "left": 507.9,
+        "top": 334.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell312": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 543.9,
+        "top": 334.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell1": {
+      "type": "text",
+      "label": "13. Personnel Officer Name and Rank",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 312.4,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "cell213": {
+      "type": "text",
+      "label": "14. Personnel Officer Signature",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 312.4,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "cell313": {
+      "type": "text",
+      "label": "15. Date",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 312.4,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "cell214": {
+      "type": "checkbox",
+      "label": "Cell 214",
+      "page": 1,
+      "box": {
+        "left": 507.9,
+        "top": 266.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell314": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 543.9,
+        "top": 266.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell215": {
+      "type": "checkbox",
+      "label": "Cell 215",
+      "page": 1,
+      "box": {
+        "left": 507.9,
+        "top": 251.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell315": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 543.9,
+        "top": 251.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell216": {
+      "type": "checkbox",
+      "label": "Cell 216",
+      "page": 1,
+      "box": {
+        "left": 507.9,
+        "top": 237.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell316": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 543.9,
+        "top": 237.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell217": {
+      "type": "checkbox",
+      "label": "Cell 217",
+      "page": 1,
+      "box": {
+        "left": 507.9,
+        "top": 218.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell317": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 543.9,
+        "top": 218.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell218": {
+      "type": "checkbox",
+      "label": "5. Is member a Dental Class I or II for PCS orders?",
+      "page": 1,
+      "box": {
+        "left": 507.9,
+        "top": 197.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell318": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 543.9,
+        "top": 197.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell12": {
+      "type": "text",
+      "label": "6. Medical Officer Name and Rank",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 175.6,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "cell219": {
+      "type": "text",
+      "label": "7. Medical Officer Signature",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 175.6,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "cell319": {
+      "type": "text",
+      "label": "8. Date",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 175.6,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "cell13": {
+      "type": "text",
+      "label": "9. Dental Officer Name and Rank",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 139.6,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "cell220": {
+      "type": "text",
+      "label": "10. Dental Officer Signature",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 139.6,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "cell320": {
+      "type": "text",
+      "label": "11. Date",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 139.6,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "cell221": {
+      "type": "checkbox",
+      "label": "Cell 221",
+      "page": 1,
+      "box": {
+        "left": 507.9,
+        "top": 88.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell321": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 543.9,
+        "top": 88.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell14": {
+      "type": "text",
+      "label": "2. Command Financial Specialist Name and Rank",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 60.4,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "cell222": {
+      "type": "text",
+      "label": "3. Command Financial Specialist Signature",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 60.4,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "cell322": {
+      "type": "text",
+      "label": "4. Date",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 60.4,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "cell223": {
+      "type": "checkbox",
+      "label": "MILPERSMAN",
+      "page": 2,
+      "box": {
+        "left": 507.9,
+        "top": 695.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell323": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 2,
+      "box": {
+        "left": 543.9,
+        "top": 695.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell224": {
+      "type": "checkbox",
+      "label": "MILPERSMAN",
+      "page": 2,
+      "box": {
+        "left": 507.9,
+        "top": 671.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell324": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 2,
+      "box": {
+        "left": 543.9,
+        "top": 671.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell15": {
+      "type": "text",
+      "label": "3. Command DAPA Name and Rank",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 643.7,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "cell225": {
+      "type": "text",
+      "label": "4. Command DAPA Signature",
+      "page": 2,
+      "box": {
+        "left": 272.9,
+        "top": 643.7,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "cell325": {
+      "type": "text",
+      "label": "5. Date",
+      "page": 2,
+      "box": {
+        "left": 506.9,
+        "top": 643.7,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "cell226": {
+      "type": "checkbox",
+      "label": "Cell 226",
+      "page": 2,
+      "box": {
+        "left": 507.9,
+        "top": 592.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell326": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 2,
+      "box": {
+        "left": 543.9,
+        "top": 592.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell16": {
+      "type": "text",
+      "label": "2. CMEO Name and Rank",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 564.5,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "cell227": {
+      "type": "text",
+      "label": "3. CMEO Signature",
+      "page": 2,
+      "box": {
+        "left": 272.9,
+        "top": 564.5,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "cell327": {
+      "type": "text",
+      "label": "4. Date",
+      "page": 2,
+      "box": {
+        "left": 506.9,
+        "top": 564.5,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "cell228": {
+      "type": "checkbox",
+      "label": "Cell 228",
+      "page": 2,
+      "box": {
+        "left": 507.9,
+        "top": 513.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell328": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 2,
+      "box": {
+        "left": 543.9,
+        "top": 513.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell229": {
+      "type": "checkbox",
+      "label": "Cell 229",
+      "page": 2,
+      "box": {
+        "left": 507.9,
+        "top": 488.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell329": {
+      "type": "checkbox",
+      "label": "Cell 329",
+      "page": 2,
+      "box": {
+        "left": 543.9,
+        "top": 488.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell17": {
+      "type": "text",
+      "label": "3. Command FAP Representative Name and Rank",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 460.0,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "cell230": {
+      "type": "text",
+      "label": "4. Command FAP Representative Signature",
+      "page": 2,
+      "box": {
+        "left": 272.9,
+        "top": 460.0,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "cell330": {
+      "type": "text",
+      "label": "5. Date",
+      "page": 2,
+      "box": {
+        "left": 506.9,
+        "top": 460.0,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "cell231": {
+      "type": "checkbox",
+      "label": "Cell 231",
+      "page": 2,
+      "box": {
+        "left": 507.9,
+        "top": 410.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell331": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 2,
+      "box": {
+        "left": 543.9,
+        "top": 410.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell18": {
+      "type": "text",
+      "label": "(Inches) Height",
+      "page": 2,
+      "box": {
+        "left": 92.9,
+        "top": 393.1,
+        "width": 120.3,
+        "height": 30.2
+      },
+      "multiline": true
+    },
+    "cell232": {
+      "type": "text",
+      "label": "(Pounds) Weight",
+      "page": 2,
+      "box": {
+        "left": 272.9,
+        "top": 393.1,
+        "width": 120.3,
+        "height": 30.2
+      },
+      "multiline": true
+    },
+    "cell332": {
+      "type": "text",
+      "label": "(Percentage) Body Fat",
+      "page": 2,
+      "box": {
+        "left": 452.9,
+        "top": 393.1,
+        "width": 120.3,
+        "height": 30.2
+      },
+      "multiline": true
+    },
+    "cell233": {
+      "type": "checkbox",
+      "label": "Cell 233",
+      "page": 2,
+      "box": {
+        "left": 507.9,
+        "top": 353.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell333": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 2,
+      "box": {
+        "left": 543.9,
+        "top": 353.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell234": {
+      "type": "checkbox",
+      "label": "Cell 234",
+      "page": 2,
+      "box": {
+        "left": 507.9,
+        "top": 331.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell334": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 2,
+      "box": {
+        "left": 543.9,
+        "top": 331.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell19": {
+      "type": "text",
+      "label": "4. Command Fitness Leader Name and Rank",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 305.2,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "cell235": {
+      "type": "text",
+      "label": "5. Command Fitness Leader Signature",
+      "page": 2,
+      "box": {
+        "left": 272.9,
+        "top": 305.2,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "cell335": {
+      "type": "text",
+      "label": "6. Date",
+      "page": 2,
+      "box": {
+        "left": 506.9,
+        "top": 305.2,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "cell110": {
+      "type": "text",
+      "label": "1. Member Name and Rank",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 133.1,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "cell236": {
+      "type": "text",
+      "label": "2. Member Signature",
+      "page": 2,
+      "box": {
+        "left": 272.9,
+        "top": 133.1,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "cell336": {
+      "type": "text",
+      "label": "3. Date",
+      "page": 2,
+      "box": {
+        "left": 506.9,
+        "top": 133.1,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "cell237": {
+      "type": "checkbox",
+      "label": "Cell 237",
+      "page": 2,
+      "box": {
+        "left": 507.9,
+        "top": 80.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell337": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 2,
+      "box": {
+        "left": 543.9,
+        "top": 80.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell238": {
+      "type": "checkbox",
+      "label": "Cell 238",
+      "page": 2,
+      "box": {
+        "left": 507.9,
+        "top": 55.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell338": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 2,
+      "box": {
+        "left": 543.9,
+        "top": 55.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell111": {
+      "type": "text",
+      "label": "3. CMC Additional Comments",
+      "page": 3,
+      "box": {
+        "left": 38.9,
+        "top": 708.5,
+        "width": 534.3,
+        "height": 115.2
+      },
+      "multiline": true
+    },
+    "cell239": {
+      "type": "text",
+      "label": "5. CMC Signature",
+      "page": 3,
+      "box": {
+        "left": 272.9,
+        "top": 578.9,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "cell339": {
+      "type": "text",
+      "label": "6. Date",
+      "page": 3,
+      "box": {
+        "left": 506.9,
+        "top": 578.9,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "cell112": {
+      "type": "text",
+      "label": "4. CMC Name",
+      "page": 3,
+      "box": {
+        "left": 38.9,
+        "top": 578.4,
+        "width": 228.3,
+        "height": 21.2
+      }
+    },
+    "cell240": {
+      "type": "checkbox",
+      "label": "Cell 240",
+      "page": 3,
+      "box": {
+        "left": 507.9,
+        "top": 522.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell340": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 3,
+      "box": {
+        "left": 543.9,
+        "top": 522.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell241": {
+      "type": "checkbox",
+      "label": "Cell 241",
+      "page": 3,
+      "box": {
+        "left": 507.9,
+        "top": 493.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell341": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 3,
+      "box": {
+        "left": 543.9,
+        "top": 493.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell113": {
+      "type": "text",
+      "label": "3. CO/OIC Additional Comments",
+      "page": 3,
+      "box": {
+        "left": 38.9,
+        "top": 463.5,
+        "width": 534.3,
+        "height": 129.6
+      },
+      "multiline": true
+    },
+    "cell114": {
+      "type": "checkbox",
+      "label": "Cell 114",
+      "page": 3,
+      "box": {
+        "left": 39.9,
+        "top": 326.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell242": {
+      "type": "checkbox",
+      "label": "Approved",
+      "page": 3,
+      "box": {
+        "left": 156.9,
+        "top": 326.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell115": {
+      "type": "text",
+      "label": "4. CO/OIC Name and Rank",
+      "page": 3,
+      "box": {
+        "left": 38.9,
+        "top": 301.7,
+        "width": 228.3,
+        "height": 21.8
+      }
+    },
+    "cell243": {
+      "type": "text",
+      "label": "5. CO/OIC Signature",
+      "page": 3,
+      "box": {
+        "left": 272.9,
+        "top": 301.5,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "cell342": {
+      "type": "text",
+      "label": "6. Date",
+      "page": 3,
+      "box": {
+        "left": 506.9,
+        "top": 301.5,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "cell116": {
+      "type": "checkbox",
+      "label": "Approval",
+      "page": 3,
+      "box": {
+        "left": 39.9,
+        "top": 221.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell244": {
+      "type": "checkbox",
+      "label": "Approved",
+      "page": 3,
+      "box": {
+        "left": 156.9,
+        "top": 221.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell117": {
+      "type": "text",
+      "label": "1. CO/OIC Name and Rank",
+      "page": 3,
+      "box": {
+        "left": 38.9,
+        "top": 197.0,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "cell245": {
+      "type": "text",
+      "label": "2. CO/OIC Signature",
+      "page": 3,
+      "box": {
+        "left": 272.9,
+        "top": 197.0,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "cell343": {
+      "type": "text",
+      "label": "3. Date",
+      "page": 3,
+      "box": {
+        "left": 506.9,
+        "top": 197.0,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "listBox1": {
+      "type": "choice",
+      "label": "FRONT SIDE",
+      "page": 4,
+      "box": {
+        "left": 39.6,
+        "top": 280.7,
+        "width": 532.8,
+        "height": 241.2
+      }
+    }
+  }
+}

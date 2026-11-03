@@ -1,0 +1,238 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 792,
+    "height": 612
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "serialNumber": {
+        "left": 623.4,
+        "top": 515.3,
+        "width": 129.9,
+        "height": 17.4,
+        "type": "text",
+        "description": "3. SERIAL NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "tms": {
+        "left": 501.9,
+        "top": 513.9,
+        "width": 115.8,
+        "height": 16.0,
+        "type": "text",
+        "description": "2. T / M / S",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "equipment": {
+        "left": 38.8,
+        "top": 511.6,
+        "width": 457.3,
+        "height": 13.7,
+        "type": "text",
+        "description": "1. EQUIPMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "aTxt": {
+        "left": 216.3,
+        "top": 474.2,
+        "width": 37.3,
+        "height": 16.8,
+        "type": "text",
+        "description": "MONTH",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "bTxt": {
+        "left": 297.4,
+        "top": 474.2,
+        "width": 37.3,
+        "height": 16.8,
+        "type": "text",
+        "description": "MONTH",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cTxt": {
+        "left": 377.4,
+        "top": 474.2,
+        "width": 38.3,
+        "height": 16.8,
+        "type": "text",
+        "description": "MONTH",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dTxt": {
+        "left": 457.5,
+        "top": 474.2,
+        "width": 39.2,
+        "height": 16.8,
+        "type": "text",
+        "description": "MONTH",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateField": {
+        "left": 38.8,
+        "top": 429.2,
+        "width": 43.8,
+        "height": 18.1,
+        "type": "text",
+        "description": "4. DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "col2": {
+        "left": 88.3,
+        "top": 429.2,
+        "width": 39.3,
+        "height": 18.1,
+        "type": "text",
+        "description": "MONTH",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "col3": {
+        "left": 133.4,
+        "top": 429.2,
+        "width": 39.3,
+        "height": 18.1,
+        "type": "text",
+        "description": "b. ACCUM",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "col4": {
+        "left": 178.4,
+        "top": 429.2,
+        "width": 34.8,
+        "height": 18.1,
+        "type": "text",
+        "description": "MONTH",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "col5": {
+        "left": 218.9,
+        "top": 429.2,
+        "width": 34.8,
+        "height": 18.1,
+        "type": "text",
+        "description": "ACCUM",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "col6": {
+        "left": 259.4,
+        "top": 429.2,
+        "width": 34.8,
+        "height": 18.1,
+        "type": "text",
+        "description": "MONTH",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "col7": {
+        "left": 299.9,
+        "top": 429.2,
+        "width": 34.8,
+        "height": 18.1,
+        "type": "text",
+        "description": "ACCUM",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "col8": {
+        "left": 340.4,
+        "top": 429.2,
+        "width": 34.8,
+        "height": 18.1,
+        "type": "text",
+        "description": "MONTH",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "col9": {
+        "left": 380.9,
+        "top": 429.2,
+        "width": 34.8,
+        "height": 18.1,
+        "type": "text",
+        "description": "ACCUM",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "col10": {
+        "left": 421.4,
+        "top": 429.2,
+        "width": 34.8,
+        "height": 18.1,
+        "type": "text",
+        "description": "MONTH",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "col11": {
+        "left": 461.9,
+        "top": 429.2,
+        "width": 34.8,
+        "height": 18.1,
+        "type": "text",
+        "description": "ACCUM",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "col12": {
+        "left": 502.4,
+        "top": 429.2,
+        "width": 79.8,
+        "height": 18.1,
+        "type": "text",
+        "description": "7. ACTIVITY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "col113": {
+        "left": 587.9,
+        "top": 429.2,
+        "width": 165.4,
+        "height": 18.1,
+        "type": "text",
+        "description": "8. REMARKS",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

@@ -1,0 +1,333 @@
+{
+  "id": "navmchq888",
+  "label": "NAVMCHQ888 - Sample Privacy Act Release",
+  "directory": "NAVMCHQ888 - Sample Privacy Act Release",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "date1",
+        "addOff",
+        "reqst",
+        "affil",
+        "phoneNum1",
+        "ssn1",
+        "dateBir",
+        "nameFull",
+        "grade1",
+        "dateDor",
+        "plcEnt",
+        "dateDisch",
+        "homeRec",
+        "dutyStat",
+        "pastPresDutStat",
+        "dischTyp",
+        "dateAfadBase",
+        "dateEcc",
+        "milEdu",
+        "medDec",
+        "combServ",
+        "promSeq",
+        "commSrc",
+        "additInf",
+        "signature",
+        "dateRelsd"
+      ]
+    }
+  ],
+  "fields": {
+    "date1": {
+      "type": "text",
+      "label": "Enter date using format 2002 12 24.",
+      "page": 1,
+      "box": {
+        "left": 415.2,
+        "top": 732.8,
+        "width": 174.4,
+        "height": 14.4
+      }
+    },
+    "addOff": {
+      "type": "text",
+      "label": "Office Address",
+      "page": 1,
+      "box": {
+        "left": 24.8,
+        "top": 731.3,
+        "width": 221.6,
+        "height": 83.5
+      },
+      "multiline": true
+    },
+    "reqst": {
+      "type": "text",
+      "label": "Requester:",
+      "page": 1,
+      "box": {
+        "left": 448.8,
+        "top": 715.2,
+        "width": 140.8,
+        "height": 16.8
+      }
+    },
+    "affil": {
+      "type": "text",
+      "label": "Affiliation:",
+      "page": 1,
+      "box": {
+        "left": 448.8,
+        "top": 694.4,
+        "width": 140.8,
+        "height": 16.8
+      }
+    },
+    "phoneNum1": {
+      "type": "text",
+      "label": "PhoneNum1",
+      "page": 1,
+      "box": {
+        "left": 422.4,
+        "top": 672.0,
+        "width": 167.2,
+        "height": 15.2
+      }
+    },
+    "ssn1": {
+      "type": "text",
+      "label": "Enter Social Security Number without dashes.",
+      "page": 1,
+      "box": {
+        "left": 144.0,
+        "top": 587.2,
+        "width": 157.6,
+        "height": 15.2
+      }
+    },
+    "dateBir": {
+      "type": "text",
+      "label": "Enter date of birth using format 2002 12 24.",
+      "page": 1,
+      "box": {
+        "left": 303.2,
+        "top": 586.4,
+        "width": 157.6,
+        "height": 14.4
+      }
+    },
+    "nameFull": {
+      "type": "text",
+      "label": "Name",
+      "page": 1,
+      "box": {
+        "left": 22.4,
+        "top": 541.6,
+        "width": 288.8,
+        "height": 16.8
+      }
+    },
+    "grade1": {
+      "type": "text",
+      "label": "Grade",
+      "page": 1,
+      "box": {
+        "left": 312.8,
+        "top": 541.6,
+        "width": 160.8,
+        "height": 16.8
+      }
+    },
+    "dateDor": {
+      "type": "text",
+      "label": "Enter DOR using format 2002 12 24.",
+      "page": 1,
+      "box": {
+        "left": 475.2,
+        "top": 538.4,
+        "width": 115.2,
+        "height": 14.4
+      }
+    },
+    "plcEnt": {
+      "type": "text",
+      "label": "Date/Place of Entry",
+      "page": 1,
+      "box": {
+        "left": 22.4,
+        "top": 515.2,
+        "width": 409.6,
+        "height": 16.8
+      }
+    },
+    "dateDisch": {
+      "type": "text",
+      "label": "Enter date of discharge using format 2002 12 24.",
+      "page": 1,
+      "box": {
+        "left": 433.6,
+        "top": 512.0,
+        "width": 156.8,
+        "height": 14.4
+      }
+    },
+    "homeRec": {
+      "type": "text",
+      "label": "Home of Record",
+      "page": 1,
+      "box": {
+        "left": 22.4,
+        "top": 488.0,
+        "width": 568.0,
+        "height": 16.8
+      }
+    },
+    "dutyStat": {
+      "type": "text",
+      "label": "Duty Status/MOS",
+      "page": 1,
+      "box": {
+        "left": 22.4,
+        "top": 461.6,
+        "width": 568.0,
+        "height": 16.8
+      }
+    },
+    "pastPresDutStat": {
+      "type": "text",
+      "label": "Past/Present Duty Stations",
+      "page": 1,
+      "box": {
+        "left": 22.4,
+        "top": 435.2,
+        "width": 568.0,
+        "height": 35.2
+      },
+      "multiline": true
+    },
+    "dischTyp": {
+      "type": "text",
+      "label": "Discharge Type.  Punitive is releasable; administrative is not releaseable",
+      "page": 1,
+      "box": {
+        "left": 22.4,
+        "top": 392.0,
+        "width": 568.0,
+        "height": 16.8
+      }
+    },
+    "dateAfadBase": {
+      "type": "text",
+      "label": "Enter Armed Forces Active Duty Base Date using format 2002 12 24.",
+      "page": 1,
+      "box": {
+        "left": 22.4,
+        "top": 363.2,
+        "width": 283.2,
+        "height": 16.8
+      }
+    },
+    "dateEcc": {
+      "type": "text",
+      "label": "Enter date of End of Current Contract using format 2002 12 24.",
+      "page": 1,
+      "box": {
+        "left": 307.2,
+        "top": 363.2,
+        "width": 283.2,
+        "height": 16.8
+      }
+    },
+    "milEdu": {
+      "type": "text",
+      "label": "Military Education",
+      "page": 1,
+      "box": {
+        "left": 22.4,
+        "top": 337.6,
+        "width": 568.0,
+        "height": 16.8
+      }
+    },
+    "medDec": {
+      "type": "text",
+      "label": "Medals and Decorations.",
+      "page": 1,
+      "box": {
+        "left": 22.4,
+        "top": 316.8,
+        "width": 568.0,
+        "height": 33.6
+      },
+      "multiline": true
+    },
+    "combServ": {
+      "type": "text",
+      "label": "Combat Service and Dates",
+      "page": 1,
+      "box": {
+        "left": 22.4,
+        "top": 275.2,
+        "width": 568.0,
+        "height": 16.8
+      }
+    },
+    "promSeq": {
+      "type": "text",
+      "label": "Promotional Sequence Number",
+      "page": 1,
+      "box": {
+        "left": 22.4,
+        "top": 245.6,
+        "width": 283.2,
+        "height": 16.8
+      }
+    },
+    "commSrc": {
+      "type": "text",
+      "label": "Commission Source",
+      "page": 1,
+      "box": {
+        "left": 307.2,
+        "top": 245.6,
+        "width": 283.2,
+        "height": 16.8
+      }
+    },
+    "additInf": {
+      "type": "text",
+      "label": "Additional Information",
+      "page": 1,
+      "box": {
+        "left": 22.4,
+        "top": 215.2,
+        "width": 568.0,
+        "height": 121.6
+      },
+      "multiline": true
+    },
+    "signature": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 22.2,
+        "top": 83.2,
+        "width": 417.4,
+        "height": 19.3
+      }
+    },
+    "dateRelsd": {
+      "type": "text",
+      "label": "Enter date released using format 2002 12 24.",
+      "page": 1,
+      "box": {
+        "left": 442.4,
+        "top": 78.4,
+        "width": 148.0,
+        "height": 14.4
+      }
+    }
+  }
+}

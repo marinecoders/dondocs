@@ -1,0 +1,84 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "radio": {
+        "left": 41.6,
+        "top": 749.7,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio2": {
+        "left": 98.6,
+        "top": 749.7,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio3": {
+        "left": 160.0,
+        "top": 749.7,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "supSigDtd": {
+        "left": 495.9,
+        "top": 731.9,
+        "width": 76.9,
+        "height": 18.3,
+        "type": "text",
+        "description": "DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "subBy": {
+        "left": 122.4,
+        "top": 731.2,
+        "width": 207.9,
+        "height": 17.0,
+        "type": "text",
+        "description": "BY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "subBy2": {
+        "left": 374.1,
+        "top": 731.2,
+        "width": 60.8,
+        "height": 17.0,
+        "type": "text",
+        "description": "CODE",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

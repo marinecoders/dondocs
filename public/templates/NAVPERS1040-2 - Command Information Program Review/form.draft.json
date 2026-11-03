@@ -1,0 +1,56 @@
+{
+  "id": "navpers10402",
+  "label": "NAVPERS1040-2 - Command Information Program Review",
+  "directory": "NAVPERS1040-2 - Command Information Program Review",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "radio",
+        "radio2",
+        "radio3"
+      ]
+    }
+  ],
+  "fields": {
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 75.6,
+        "top": 701.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 245.7,
+        "top": 701.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 425.9,
+        "top": 701.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    }
+  }
+}

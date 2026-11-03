@@ -1,0 +1,458 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "postStation": {
+        "left": 25.0,
+        "top": 688.7,
+        "width": 557.9,
+        "height": 32.2,
+        "type": "text",
+        "description": "Enter the post or station where this clothing issue transmittal is coming from.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateTrans": {
+        "left": 388.8,
+        "top": 645.9,
+        "width": 194.7,
+        "height": 17.8,
+        "type": "text",
+        "description": "Enter date of this transmittal using format 2002 12 25 for december twentyfifth 2002.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameFrom": {
+        "left": 61.2,
+        "top": 599.2,
+        "width": 298.7,
+        "height": 17.1,
+        "type": "text",
+        "description": "Enter who this transmittal is from.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameTo": {
+        "left": 61.2,
+        "top": 572.9,
+        "width": 298.7,
+        "height": 17.1,
+        "type": "text",
+        "description": "Enter who this transmittal is going to.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "noPersonnel": {
+        "left": 155.9,
+        "top": 554.5,
+        "width": 57.9,
+        "height": 13.2,
+        "type": "text",
+        "description": "Enter the number of enlisted personnel transmitted here.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "amount1": {
+        "left": 270.4,
+        "top": 504.5,
+        "width": 74.6,
+        "height": 31.1,
+        "type": "text",
+        "description": "Enter amount for clothing issue for enlisted personnel number 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "grade1": {
+        "left": 213.8,
+        "top": 503.9,
+        "width": 55.3,
+        "height": 30.0,
+        "type": "text",
+        "description": "Enter grade of enlisted personnel number 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks1": {
+        "left": 348.7,
+        "top": 503.9,
+        "width": 235.5,
+        "height": 33.7,
+        "type": "text",
+        "description": "Enter remarks regarding clothing issue for enlisted personnel number 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name1": {
+        "left": 93.5,
+        "top": 502.0,
+        "width": 117.4,
+        "height": 32.2,
+        "type": "text",
+        "description": "Enter the name of enlisted personnel number 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ssn": {
+        "left": 22.1,
+        "top": 501.2,
+        "width": 69.7,
+        "height": 27.2,
+        "type": "text",
+        "description": "SSN",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks2": {
+        "left": 348.7,
+        "top": 469.3,
+        "width": 235.5,
+        "height": 41.0,
+        "type": "text",
+        "description": "Enter remarks regarding clothing issue for enlisted personnel number 2.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ssn2": {
+        "left": 21.5,
+        "top": 468.4,
+        "width": 69.7,
+        "height": 33.8,
+        "type": "text",
+        "description": "SSN",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name2": {
+        "left": 93.5,
+        "top": 468.0,
+        "width": 119.1,
+        "height": 36.8,
+        "type": "text",
+        "description": "Enter the name of enlisted personnel number 2.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "grade2": {
+        "left": 213.8,
+        "top": 467.7,
+        "width": 55.3,
+        "height": 33.6,
+        "type": "text",
+        "description": "Enter grade of enlisted personnel number 2.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "amount2": {
+        "left": 270.4,
+        "top": 467.0,
+        "width": 74.6,
+        "height": 33.6,
+        "type": "text",
+        "description": "Enter amount for clothing issue for enlisted personnel number 2.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks3": {
+        "left": 348.7,
+        "top": 430.0,
+        "width": 235.5,
+        "height": 40.7,
+        "type": "text",
+        "description": "Enter remarks regarding clothing issue for enlisted personnel number 3.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ssn3": {
+        "left": 20.9,
+        "top": 427.9,
+        "width": 69.7,
+        "height": 33.3,
+        "type": "text",
+        "description": "SSN",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "amount3": {
+        "left": 270.4,
+        "top": 427.6,
+        "width": 74.6,
+        "height": 34.6,
+        "type": "text",
+        "description": "Enter amount for clothing issue for enlisted personnel number 3.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name3": {
+        "left": 93.5,
+        "top": 427.5,
+        "width": 119.1,
+        "height": 35.9,
+        "type": "text",
+        "description": "Enter the name of enlisted personnel number 3.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "grade3": {
+        "left": 213.8,
+        "top": 426.6,
+        "width": 55.3,
+        "height": 33.6,
+        "type": "text",
+        "description": "Enter grade of enlisted personnel number 3.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "amount4": {
+        "left": 270.4,
+        "top": 389.5,
+        "width": 76.3,
+        "height": 37.7,
+        "type": "text",
+        "description": "Enter amount for clothing issue for enlisted personnel number 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks4": {
+        "left": 348.7,
+        "top": 388.9,
+        "width": 235.5,
+        "height": 41.6,
+        "type": "text",
+        "description": "Enter remarks regarding clothing issue for enlisted personnel number 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name4": {
+        "left": 93.5,
+        "top": 386.8,
+        "width": 119.1,
+        "height": 36.8,
+        "type": "text",
+        "description": "Enter the name of enlisted personnel number 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "grade4": {
+        "left": 213.8,
+        "top": 386.1,
+        "width": 55.3,
+        "height": 33.6,
+        "type": "text",
+        "description": "Enter grade of enlisted personnel number 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ssn4": {
+        "left": 21.8,
+        "top": 385.6,
+        "width": 69.7,
+        "height": 33.5,
+        "type": "text",
+        "description": "SSN",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "grade5": {
+        "left": 213.8,
+        "top": 349.3,
+        "width": 55.3,
+        "height": 33.6,
+        "type": "text",
+        "description": "Enter grade of enlisted personnel number 5.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks5": {
+        "left": 348.7,
+        "top": 348.6,
+        "width": 235.5,
+        "height": 40.4,
+        "type": "text",
+        "description": "Enter remarks regarding clothing issue for enlisted personnel number 5.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name5": {
+        "left": 93.5,
+        "top": 347.1,
+        "width": 119.1,
+        "height": 35.3,
+        "type": "text",
+        "description": "Enter the name of enlisted personnel number 5.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "amount5": {
+        "left": 270.4,
+        "top": 347.1,
+        "width": 76.3,
+        "height": 33.6,
+        "type": "text",
+        "description": "Enter amount for clothing issue for enlisted personnel number 5.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ssn5": {
+        "left": 21.6,
+        "top": 343.3,
+        "width": 69.7,
+        "height": 28.0,
+        "type": "text",
+        "description": "SSN",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "grade6": {
+        "left": 213.8,
+        "top": 314.1,
+        "width": 55.3,
+        "height": 33.6,
+        "type": "text",
+        "description": "Enter grade of enlisted personnel number 6.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks6": {
+        "left": 348.7,
+        "top": 313.3,
+        "width": 235.5,
+        "height": 35.8,
+        "type": "text",
+        "description": "Enter remarks regarding clothing issue for enlisted personnel number 6.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "amount6": {
+        "left": 270.4,
+        "top": 312.0,
+        "width": 76.3,
+        "height": 30.8,
+        "type": "text",
+        "description": "Enter amount for clothing issue for enlisted personnel number 6.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name6": {
+        "left": 93.5,
+        "top": 310.4,
+        "width": 119.1,
+        "height": 32.6,
+        "type": "text",
+        "description": "Enter the name of enlisted personnel number 6.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ssn6": {
+        "left": 21.6,
+        "top": 309.7,
+        "width": 69.7,
+        "height": 27.2,
+        "type": "text",
+        "description": "SSN",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature": {
+        "left": 346.3,
+        "top": 270.4,
+        "width": 237.1,
+        "height": 19.3,
+        "type": "signature",
+        "description": "Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameCtrlOfficer": {
+        "left": 348.0,
+        "top": 228.9,
+        "width": 186.8,
+        "height": 17.1,
+        "type": "text",
+        "description": "Enter name of supply or property control officer.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateCrtlOff": {
+        "left": 349.3,
+        "top": 208.4,
+        "width": 234.2,
+        "height": 17.8,
+        "type": "text",
+        "description": "Enter date of issue using format 2002 12 25 for december twentyfifth 2002.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature2": {
+        "left": 397.6,
+        "top": 128.6,
+        "width": 186.2,
+        "height": 19.3,
+        "type": "signature",
+        "description": "Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameCommandOfficer": {
+        "left": 394.1,
+        "top": 86.7,
+        "width": 140.8,
+        "height": 17.1,
+        "type": "text",
+        "description": "Enter name of commanding officer.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

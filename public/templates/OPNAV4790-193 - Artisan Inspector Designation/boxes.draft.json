@@ -1,0 +1,238 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "artIspNme": {
+        "left": 39.6,
+        "top": 651.0,
+        "width": 174.0,
+        "height": 24.9,
+        "type": "text",
+        "description": "1. ARTISAN INSPECTOR&apos;S NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "artRteGde": {
+        "left": 219.3,
+        "top": 651.0,
+        "width": 174.0,
+        "height": 24.9,
+        "type": "text",
+        "description": "2. RATE/GRADE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "artPatNum": {
+        "left": 399.0,
+        "top": 651.0,
+        "width": 174.0,
+        "height": 24.9,
+        "type": "text",
+        "description": "3. PAY NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "artIspDepDiv": {
+        "left": 39.6,
+        "top": 606.3,
+        "width": 174.0,
+        "height": 24.9,
+        "type": "text",
+        "description": "4. DEPARTMENT/DIVISION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "artAcTMS": {
+        "left": 219.3,
+        "top": 606.3,
+        "width": 174.0,
+        "height": 24.9,
+        "type": "text",
+        "description": "5. AIRCRAFT T/M/S",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "artTde": {
+        "left": 399.0,
+        "top": 606.3,
+        "width": 174.0,
+        "height": 24.9,
+        "type": "text",
+        "description": "6. TRADE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sigArtInsp": {
+        "left": 39.6,
+        "top": 530.9,
+        "width": 418.6,
+        "height": 24.9,
+        "type": "text",
+        "description": "7. SIGNATURE OF ARTISAN INSPECTOR",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "artIspSigDte": {
+        "left": 464.2,
+        "top": 530.9,
+        "width": 108.8,
+        "height": 24.9,
+        "type": "text",
+        "description": "8. SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "prgMgrNme": {
+        "left": 39.6,
+        "top": 426.3,
+        "width": 418.6,
+        "height": 24.9,
+        "type": "text",
+        "description": "9. PROGRAM MANAGER&apos;S NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pMCde": {
+        "left": 464.2,
+        "top": 426.3,
+        "width": 108.8,
+        "height": 24.9,
+        "type": "text",
+        "description": "10. CODE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sigPM": {
+        "left": 39.6,
+        "top": 381.0,
+        "width": 418.6,
+        "height": 24.9,
+        "type": "text",
+        "description": "11. SIGNATURE OF PROGRAM MANAGER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pmSigDte": {
+        "left": 464.2,
+        "top": 381.0,
+        "width": 108.8,
+        "height": 24.9,
+        "type": "text",
+        "description": "12. SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dirQltyNme": {
+        "left": 39.6,
+        "top": 260.5,
+        "width": 418.6,
+        "height": 24.9,
+        "type": "text",
+        "description": "13. DIRECTOR OF QUALITY&apos;S NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dirQltyCde": {
+        "left": 464.2,
+        "top": 260.5,
+        "width": 108.8,
+        "height": 24.9,
+        "type": "text",
+        "description": "14. CODE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sigDirQlty": {
+        "left": 39.6,
+        "top": 215.2,
+        "width": 418.6,
+        "height": 24.9,
+        "type": "text",
+        "description": "15. SIGNATURE OF DIRECTOR OF QUALITY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dirQltySigDte": {
+        "left": 464.2,
+        "top": 215.2,
+        "width": 108.8,
+        "height": 24.9,
+        "type": "text",
+        "description": "16. SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cONme": {
+        "left": 39.6,
+        "top": 109.9,
+        "width": 418.6,
+        "height": 24.9,
+        "type": "text",
+        "description": "17. COMMANDING OFFICER&apos;S NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cOCde": {
+        "left": 464.2,
+        "top": 109.9,
+        "width": 108.8,
+        "height": 24.9,
+        "type": "text",
+        "description": "18. CODE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sigCO": {
+        "left": 39.6,
+        "top": 64.6,
+        "width": 418.6,
+        "height": 25.4,
+        "type": "text",
+        "description": "19. SIGNATURE OF COMMANDING OFFICER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cOSigDte": {
+        "left": 464.2,
+        "top": 64.6,
+        "width": 108.8,
+        "height": 25.4,
+        "type": "text",
+        "description": "20. SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

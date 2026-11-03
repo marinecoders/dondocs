@@ -1,0 +1,150 @@
+{
+  "id": "opnav4790112",
+  "label": "OPNAV4790-112 - Aircraft Inventory Record Shortages",
+  "directory": "OPNAV4790-112 - Aircraft Inventory Record Shortages",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "govtSerialNo",
+        "acftType",
+        "itemNoFill",
+        "nomenclatureFill",
+        "quantityShortFill",
+        "authorityFill",
+        "remarksFill",
+        "transferRecAct",
+        "equipCkNoCertNo",
+        "transferRecAct2",
+        "signatureField1"
+      ]
+    }
+  ],
+  "fields": {
+    "govtSerialNo": {
+      "type": "text",
+      "label": "SHORTAGES",
+      "page": 1,
+      "box": {
+        "left": 290.9,
+        "top": 563.4,
+        "width": 228.4,
+        "height": 16.0
+      }
+    },
+    "acftType": {
+      "type": "text",
+      "label": "SHORTAGES",
+      "page": 1,
+      "box": {
+        "left": 524.9,
+        "top": 563.4,
+        "width": 228.4,
+        "height": 16.0
+      }
+    },
+    "itemNoFill": {
+      "type": "text",
+      "label": "Item No Fill",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 511.7,
+        "width": 25.8,
+        "height": 19.7
+      }
+    },
+    "nomenclatureFill": {
+      "type": "text",
+      "label": "Nomenclature Fill",
+      "page": 1,
+      "box": {
+        "left": 70.3,
+        "top": 511.7,
+        "width": 250.9,
+        "height": 19.7
+      }
+    },
+    "quantityShortFill": {
+      "type": "text",
+      "label": "Quantity Short Fill",
+      "page": 1,
+      "box": {
+        "left": 326.9,
+        "top": 511.7,
+        "width": 43.8,
+        "height": 19.7
+      }
+    },
+    "authorityFill": {
+      "type": "text",
+      "label": "Authority Fill",
+      "page": 1,
+      "box": {
+        "left": 376.4,
+        "top": 511.7,
+        "width": 201.4,
+        "height": 19.7
+      }
+    },
+    "remarksFill": {
+      "type": "text",
+      "label": "Remarks Fill",
+      "page": 1,
+      "box": {
+        "left": 583.4,
+        "top": 511.7,
+        "width": 169.8,
+        "height": 19.7
+      }
+    },
+    "transferRecAct": {
+      "type": "text",
+      "label": "NAME OF TRANSFERRING/RECEIVING ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 239.1,
+        "top": 489.2,
+        "width": 514.2,
+        "height": 16.8
+      }
+    },
+    "equipCkNoCertNo": {
+      "type": "text",
+      "label": "EQUIPMENT CHECK #/CERTIFICATION #",
+      "page": 1,
+      "box": {
+        "left": 239.1,
+        "top": 466.7,
+        "width": 514.2,
+        "height": 16.8
+      }
+    },
+    "transferRecAct2": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 75.2,
+        "top": 444.2,
+        "width": 678.1,
+        "height": 16.8
+      }
+    },
+    "signatureField1": {
+      "type": "text",
+      "label": "Signature Field 1",
+      "page": 1,
+      "box": {
+        "left": 305.6,
+        "top": 421.7,
+        "width": 447.7,
+        "height": 31.8
+      },
+      "multiline": true
+    }
+  }
+}

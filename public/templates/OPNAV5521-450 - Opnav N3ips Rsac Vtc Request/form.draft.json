@@ -1,0 +1,723 @@
+{
+  "id": "opnav5521450",
+  "label": "OPNAV5521-450 - Opnav N3ips Rsac Vtc Request",
+  "directory": "OPNAV5521-450 - Opnav N3ips Rsac Vtc Request",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "class",
+        "confdte",
+        "rsac",
+        "class2",
+        "rsac2",
+        "codec",
+        "codec2",
+        "statim",
+        "endtim",
+        "rspeed",
+        "senatt",
+        "subfie",
+        "skedte",
+        "exclGroup",
+        "exclGroup2",
+        "dsn",
+        "sites",
+        "poc",
+        "dianum",
+        "comm",
+        "dsn1",
+        "sites1",
+        "poc1",
+        "dianum1",
+        "comm1",
+        "dsn2",
+        "poc2",
+        "dianum2",
+        "sites2",
+        "comm2",
+        "dsn3",
+        "sites3",
+        "poc3",
+        "dianum3",
+        "comm3",
+        "dsn4",
+        "sites4",
+        "poc4",
+        "dianum4",
+        "comm4",
+        "dsn5",
+        "sites5",
+        "poc5",
+        "dianum5",
+        "comm5",
+        "dsn6",
+        "count",
+        "sites6",
+        "poc6",
+        "dianum6",
+        "comm6",
+        "count2",
+        "dsn62",
+        "sites62",
+        "poc62",
+        "dianum62",
+        "comm62",
+        "addCom"
+      ]
+    }
+  ],
+  "fields": {
+    "class": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 107.9,
+        "top": 700.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_Static1_0_CLASS_0"
+    },
+    "confdte": {
+      "type": "text",
+      "label": "CONFDTE",
+      "page": 1,
+      "box": {
+        "left": 454.4,
+        "top": 699.7,
+        "width": 116.3,
+        "height": 52.4
+      },
+      "multiline": true
+    },
+    "rsac": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 419.9,
+        "top": 699.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_Static1_0_RSAC_0"
+    },
+    "class2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 107.9,
+        "top": 688.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_Static1_0_CLASS_0"
+    },
+    "rsac2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 419.9,
+        "top": 686.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_Static1_0_RSAC_0"
+    },
+    "codec": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 79.7,
+        "top": 659.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_Static1_0_CODEC_0"
+    },
+    "codec2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 146.0,
+        "top": 659.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_Static1_0_CODEC_0"
+    },
+    "statim": {
+      "type": "text",
+      "label": "STATIM",
+      "page": 1,
+      "box": {
+        "left": 251.9,
+        "top": 627.0,
+        "width": 155.4,
+        "height": 21.6
+      }
+    },
+    "endtim": {
+      "type": "text",
+      "label": "ENDTIM",
+      "page": 1,
+      "box": {
+        "left": 413.9,
+        "top": 627.0,
+        "width": 155.4,
+        "height": 21.6
+      }
+    },
+    "rspeed": {
+      "type": "text",
+      "label": "RSPEED",
+      "page": 1,
+      "box": {
+        "left": 41.3,
+        "top": 626.3,
+        "width": 81.0,
+        "height": 19.1
+      }
+    },
+    "senatt": {
+      "type": "text",
+      "label": "SENIOR ATTENDEE:",
+      "page": 1,
+      "box": {
+        "left": 122.9,
+        "top": 602.1,
+        "width": 444.7,
+        "height": 16.3
+      }
+    },
+    "subfie": {
+      "type": "text",
+      "label": "SUBFIE",
+      "page": 1,
+      "box": {
+        "left": 40.6,
+        "top": 564.0,
+        "width": 219.7,
+        "height": 17.3
+      }
+    },
+    "skedte": {
+      "type": "text",
+      "label": "SKEDTE",
+      "page": 1,
+      "box": {
+        "left": 265.6,
+        "top": 564.0,
+        "width": 86.2,
+        "height": 18.6
+      }
+    },
+    "exclGroup": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 495.4,
+        "top": 559.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_Static1_0_exclGroup_3"
+    },
+    "exclGroup2": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 433.8,
+        "top": 558.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_Static1_0_exclGroup_3"
+    },
+    "dsn": {
+      "type": "text",
+      "label": "DSN",
+      "page": 1,
+      "box": {
+        "left": 481.6,
+        "top": 524.9,
+        "width": 87.0,
+        "height": 13.4
+      }
+    },
+    "sites": {
+      "type": "text",
+      "label": "SITES",
+      "page": 1,
+      "box": {
+        "left": 42.6,
+        "top": 519.9,
+        "width": 123.3,
+        "height": 20.7
+      }
+    },
+    "poc": {
+      "type": "text",
+      "label": "POC",
+      "page": 1,
+      "box": {
+        "left": 251.1,
+        "top": 519.9,
+        "width": 85.1,
+        "height": 20.7
+      }
+    },
+    "dianum": {
+      "type": "text",
+      "label": "DIANUM",
+      "page": 1,
+      "box": {
+        "left": 351.5,
+        "top": 519.9,
+        "width": 85.1,
+        "height": 20.7
+      }
+    },
+    "comm": {
+      "type": "text",
+      "label": "COMM",
+      "page": 1,
+      "box": {
+        "left": 481.6,
+        "top": 509.1,
+        "width": 87.0,
+        "height": 13.4
+      }
+    },
+    "dsn1": {
+      "type": "text",
+      "label": "DSN1",
+      "page": 1,
+      "box": {
+        "left": 481.6,
+        "top": 492.1,
+        "width": 87.0,
+        "height": 13.4
+      }
+    },
+    "sites1": {
+      "type": "text",
+      "label": "SITES1",
+      "page": 1,
+      "box": {
+        "left": 42.6,
+        "top": 486.8,
+        "width": 123.3,
+        "height": 20.7
+      }
+    },
+    "poc1": {
+      "type": "text",
+      "label": "POC1",
+      "page": 1,
+      "box": {
+        "left": 251.1,
+        "top": 486.8,
+        "width": 85.1,
+        "height": 20.7
+      }
+    },
+    "dianum1": {
+      "type": "text",
+      "label": "DIANUM1",
+      "page": 1,
+      "box": {
+        "left": 351.5,
+        "top": 486.8,
+        "width": 85.1,
+        "height": 20.7
+      }
+    },
+    "comm1": {
+      "type": "text",
+      "label": "COMM1",
+      "page": 1,
+      "box": {
+        "left": 481.6,
+        "top": 477.0,
+        "width": 87.0,
+        "height": 13.4
+      }
+    },
+    "dsn2": {
+      "type": "text",
+      "label": "DSN2",
+      "page": 1,
+      "box": {
+        "left": 481.6,
+        "top": 460.7,
+        "width": 87.0,
+        "height": 13.4
+      }
+    },
+    "poc2": {
+      "type": "text",
+      "label": "POC2",
+      "page": 1,
+      "box": {
+        "left": 251.1,
+        "top": 457.2,
+        "width": 85.1,
+        "height": 20.7
+      }
+    },
+    "dianum2": {
+      "type": "text",
+      "label": "DIANUM2",
+      "page": 1,
+      "box": {
+        "left": 351.5,
+        "top": 457.2,
+        "width": 85.1,
+        "height": 20.7
+      }
+    },
+    "sites2": {
+      "type": "text",
+      "label": "SITES2",
+      "page": 1,
+      "box": {
+        "left": 42.6,
+        "top": 456.7,
+        "width": 123.3,
+        "height": 20.7
+      }
+    },
+    "comm2": {
+      "type": "text",
+      "label": "COMM2",
+      "page": 1,
+      "box": {
+        "left": 481.6,
+        "top": 445.7,
+        "width": 87.0,
+        "height": 13.4
+      }
+    },
+    "dsn3": {
+      "type": "text",
+      "label": "DSN3",
+      "page": 1,
+      "box": {
+        "left": 481.6,
+        "top": 430.1,
+        "width": 87.0,
+        "height": 13.4
+      }
+    },
+    "sites3": {
+      "type": "text",
+      "label": "SITES3",
+      "page": 1,
+      "box": {
+        "left": 42.6,
+        "top": 426.5,
+        "width": 123.3,
+        "height": 20.7
+      }
+    },
+    "poc3": {
+      "type": "text",
+      "label": "POC3",
+      "page": 1,
+      "box": {
+        "left": 251.1,
+        "top": 426.5,
+        "width": 85.1,
+        "height": 20.7
+      }
+    },
+    "dianum3": {
+      "type": "text",
+      "label": "DIANUM3",
+      "page": 1,
+      "box": {
+        "left": 351.5,
+        "top": 426.5,
+        "width": 85.1,
+        "height": 20.7
+      }
+    },
+    "comm3": {
+      "type": "text",
+      "label": "COMM3",
+      "page": 1,
+      "box": {
+        "left": 481.6,
+        "top": 415.0,
+        "width": 87.0,
+        "height": 13.4
+      }
+    },
+    "dsn4": {
+      "type": "text",
+      "label": "DSN4",
+      "page": 1,
+      "box": {
+        "left": 481.6,
+        "top": 400.2,
+        "width": 87.0,
+        "height": 13.4
+      }
+    },
+    "sites4": {
+      "type": "text",
+      "label": "SITES4",
+      "page": 1,
+      "box": {
+        "left": 42.6,
+        "top": 396.4,
+        "width": 123.3,
+        "height": 20.7
+      }
+    },
+    "poc4": {
+      "type": "text",
+      "label": "POC4",
+      "page": 1,
+      "box": {
+        "left": 251.1,
+        "top": 396.4,
+        "width": 85.1,
+        "height": 20.7
+      }
+    },
+    "dianum4": {
+      "type": "text",
+      "label": "DIANUM4",
+      "page": 1,
+      "box": {
+        "left": 351.5,
+        "top": 396.4,
+        "width": 85.1,
+        "height": 20.7
+      }
+    },
+    "comm4": {
+      "type": "text",
+      "label": "COMM4",
+      "page": 1,
+      "box": {
+        "left": 481.6,
+        "top": 385.2,
+        "width": 87.0,
+        "height": 13.4
+      }
+    },
+    "dsn5": {
+      "type": "text",
+      "label": "DSN5",
+      "page": 1,
+      "box": {
+        "left": 481.6,
+        "top": 371.0,
+        "width": 87.0,
+        "height": 13.4
+      }
+    },
+    "sites5": {
+      "type": "text",
+      "label": "SITES5",
+      "page": 1,
+      "box": {
+        "left": 42.6,
+        "top": 366.2,
+        "width": 123.3,
+        "height": 20.7
+      }
+    },
+    "poc5": {
+      "type": "text",
+      "label": "POC5",
+      "page": 1,
+      "box": {
+        "left": 251.1,
+        "top": 366.2,
+        "width": 85.1,
+        "height": 20.7
+      }
+    },
+    "dianum5": {
+      "type": "text",
+      "label": "DIANUM5",
+      "page": 1,
+      "box": {
+        "left": 351.5,
+        "top": 366.2,
+        "width": 85.1,
+        "height": 20.7
+      }
+    },
+    "comm5": {
+      "type": "text",
+      "label": "COMM5",
+      "page": 1,
+      "box": {
+        "left": 481.6,
+        "top": 356.0,
+        "width": 87.0,
+        "height": 13.4
+      }
+    },
+    "dsn6": {
+      "type": "text",
+      "label": "DSN6",
+      "page": 1,
+      "box": {
+        "left": 481.6,
+        "top": 339.7,
+        "width": 87.0,
+        "height": 13.4
+      }
+    },
+    "count": {
+      "type": "text",
+      "label": "PARTICIPANT",
+      "page": 1,
+      "box": {
+        "left": 427.9,
+        "top": 337.7,
+        "width": 30.3,
+        "height": 19.8
+      }
+    },
+    "sites6": {
+      "type": "text",
+      "label": "SITES6",
+      "page": 1,
+      "box": {
+        "left": 42.6,
+        "top": 336.1,
+        "width": 123.3,
+        "height": 20.7
+      }
+    },
+    "poc6": {
+      "type": "text",
+      "label": "POC6",
+      "page": 1,
+      "box": {
+        "left": 251.1,
+        "top": 336.1,
+        "width": 85.1,
+        "height": 20.7
+      }
+    },
+    "dianum6": {
+      "type": "text",
+      "label": "DIANUM6",
+      "page": 1,
+      "box": {
+        "left": 351.5,
+        "top": 336.1,
+        "width": 85.1,
+        "height": 20.7
+      }
+    },
+    "comm6": {
+      "type": "text",
+      "label": "COMM6",
+      "page": 1,
+      "box": {
+        "left": 481.6,
+        "top": 324.6,
+        "width": 87.0,
+        "height": 13.4
+      }
+    },
+    "count2": {
+      "type": "text",
+      "label": "REQUIRED",
+      "page": 1,
+      "box": {
+        "left": 440.7,
+        "top": 306.1,
+        "width": 10.1,
+        "height": 19.8
+      }
+    },
+    "dsn62": {
+      "type": "text",
+      "label": "DSN6",
+      "page": 1,
+      "box": {
+        "left": 481.6,
+        "top": 301.5,
+        "width": 87.0,
+        "height": 13.4
+      }
+    },
+    "sites62": {
+      "type": "text",
+      "label": "SITES6",
+      "page": 1,
+      "box": {
+        "left": 42.6,
+        "top": 297.8,
+        "width": 123.3,
+        "height": 20.7
+      }
+    },
+    "poc62": {
+      "type": "text",
+      "label": "POC6",
+      "page": 1,
+      "box": {
+        "left": 251.1,
+        "top": 297.8,
+        "width": 85.1,
+        "height": 20.7
+      }
+    },
+    "dianum62": {
+      "type": "text",
+      "label": "DIANUM6",
+      "page": 1,
+      "box": {
+        "left": 351.5,
+        "top": 297.8,
+        "width": 85.1,
+        "height": 20.7
+      }
+    },
+    "comm62": {
+      "type": "text",
+      "label": "Delete the last row o the table.",
+      "page": 1,
+      "box": {
+        "left": 481.6,
+        "top": 286.4,
+        "width": 87.0,
+        "height": 13.4
+      }
+    },
+    "addCom": {
+      "type": "text",
+      "label": "ADDITIONAL COMMENTS:",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 252.8,
+        "width": 534.0,
+        "height": 86.0
+      },
+      "multiline": true
+    }
+  }
+}

@@ -1,0 +1,448 @@
+{
+  "id": "navpers130034",
+  "label": "NAVPERS1300-34 - NAVY Canvasser Recruiter Pre-Screen",
+  "directory": "NAVPERS1300-34 - NAVY Canvasser Recruiter Pre-Screen",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "rr",
+        "cell2",
+        "cell3",
+        "cell1",
+        "cell22",
+        "cell32",
+        "cell4",
+        "row1",
+        "cell12",
+        "cell23",
+        "cell13",
+        "cell33",
+        "yes",
+        "no",
+        "yes2",
+        "no2",
+        "cell14",
+        "cell24",
+        "cell34",
+        "cell15",
+        "cell25",
+        "cell35",
+        "cell16",
+        "cell26",
+        "cell36",
+        "yes3",
+        "no3",
+        "yes4",
+        "no4",
+        "cell17"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "cell18",
+        "verSig",
+        "verDate",
+        "verName"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "Full Name (Last, First Middle)",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 645.5,
+        "width": 426.2,
+        "height": 18.0
+      }
+    },
+    "rr": {
+      "type": "text",
+      "label": "Rank/Rating/Designator",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 645.5,
+        "width": 102.2,
+        "height": 18.0
+      }
+    },
+    "cell2": {
+      "type": "text",
+      "label": "Desired Ultimate Duty Assignment (UDA)(UIC)(BSC)",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 613.1,
+        "width": 426.3,
+        "height": 18.0
+      }
+    },
+    "cell3": {
+      "type": "text",
+      "label": "Requested Start Date",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 613.1,
+        "width": 102.3,
+        "height": 18.0
+      }
+    },
+    "cell1": {
+      "type": "text",
+      "label": "Street Address",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 566.3,
+        "width": 282.3,
+        "height": 18.0
+      }
+    },
+    "cell22": {
+      "type": "text",
+      "label": "City",
+      "page": 1,
+      "box": {
+        "left": 326.9,
+        "top": 566.3,
+        "width": 102.3,
+        "height": 18.0
+      }
+    },
+    "cell32": {
+      "type": "text",
+      "label": "State",
+      "page": 1,
+      "box": {
+        "left": 434.9,
+        "top": 566.3,
+        "width": 66.2,
+        "height": 18.0
+      }
+    },
+    "cell4": {
+      "type": "text",
+      "label": "Zip Code",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 566.3,
+        "width": 66.2,
+        "height": 18.0
+      }
+    },
+    "row1": {
+      "type": "text",
+      "label": "Driver License (State/Number/Expiration)",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 533.8,
+        "width": 534.3,
+        "height": 21.6
+      }
+    },
+    "cell12": {
+      "type": "text",
+      "label": "Primary Phone Number",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 497.8,
+        "width": 102.3,
+        "height": 18.0
+      }
+    },
+    "cell23": {
+      "type": "text",
+      "label": "E-mail Address",
+      "page": 1,
+      "box": {
+        "left": 146.9,
+        "top": 497.8,
+        "width": 426.3,
+        "height": 18.0
+      }
+    },
+    "cell13": {
+      "type": "text",
+      "label": "DoD ID Number",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 451.0,
+        "width": 174.3,
+        "height": 21.6
+      }
+    },
+    "cell33": {
+      "type": "text",
+      "label": "BSC/BIN/UIC",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 451.0,
+        "width": 354.3,
+        "height": 21.6
+      }
+    },
+    "yes": {
+      "type": "checkbox",
+      "label": "1. Does the applicant reside within 50 miles of UDA?",
+      "page": 1,
+      "box": {
+        "left": 471.9,
+        "top": 421.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 525.9,
+        "top": 421.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "yes2": {
+      "type": "checkbox",
+      "label": "2. Does the applicant have a security clearance?",
+      "page": 1,
+      "box": {
+        "left": 471.9,
+        "top": 403.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no2": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 525.9,
+        "top": 403.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell14": {
+      "type": "text",
+      "label": "Name",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 310.6,
+        "width": 166.1,
+        "height": 18.0
+      }
+    },
+    "cell24": {
+      "type": "text",
+      "label": "E-mail",
+      "page": 1,
+      "box": {
+        "left": 210.7,
+        "top": 310.6,
+        "width": 228.3,
+        "height": 18.0
+      }
+    },
+    "cell34": {
+      "type": "text",
+      "label": "Phone",
+      "page": 1,
+      "box": {
+        "left": 444.8,
+        "top": 310.6,
+        "width": 127.8,
+        "height": 18.0
+      }
+    },
+    "cell15": {
+      "type": "text",
+      "label": "EAOS",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 258.1,
+        "width": 174.2,
+        "height": 19.4
+      }
+    },
+    "cell25": {
+      "type": "text",
+      "label": "EREN",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 258.1,
+        "width": 174.2,
+        "height": 19.4
+      }
+    },
+    "cell35": {
+      "type": "text",
+      "label": "PRIMS",
+      "page": 1,
+      "box": {
+        "left": 398.9,
+        "top": 258.1,
+        "width": 174.2,
+        "height": 19.4
+      }
+    },
+    "cell16": {
+      "type": "text",
+      "label": "Security Clearance Code",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 222.1,
+        "width": 174.2,
+        "height": 19.4
+      }
+    },
+    "cell26": {
+      "type": "text",
+      "label": "IMS Code",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 222.1,
+        "width": 174.2,
+        "height": 19.4
+      }
+    },
+    "cell36": {
+      "type": "text",
+      "label": "MAS Code",
+      "page": 1,
+      "box": {
+        "left": 398.9,
+        "top": 222.1,
+        "width": 174.3,
+        "height": 19.4
+      }
+    },
+    "yes3": {
+      "type": "checkbox",
+      "label": "1. Is the applicant currently on active duty?",
+      "page": 1,
+      "box": {
+        "left": 471.9,
+        "top": 194.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no3": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 525.9,
+        "top": 194.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "yes4": {
+      "type": "checkbox",
+      "label": "Requested",
+      "page": 1,
+      "box": {
+        "left": 471.9,
+        "top": 176.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no4": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 525.9,
+        "top": 176.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell17": {
+      "type": "choice",
+      "label": "Applicant is eligible or ineligible to apply",
+      "page": 1,
+      "box": {
+        "left": 189.2,
+        "top": 160.6,
+        "width": 383.8,
+        "height": 9.9
+      },
+      "options": [
+        "Eligible",
+        "Ineligible"
+      ]
+    },
+    "cell18": {
+      "type": "text",
+      "label": "Comments",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 708.5,
+        "width": 534.3,
+        "height": 111.6
+      },
+      "multiline": true
+    },
+    "verSig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 2,
+      "box": {
+        "left": 211.7,
+        "top": 582.5,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "verDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 445.7,
+        "top": 582.5,
+        "width": 127.8,
+        "height": 21.6
+      }
+    },
+    "verName": {
+      "type": "text",
+      "label": "Verified by",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 582.0,
+        "width": 167.1,
+        "height": 21.2
+      }
+    }
+  }
+}

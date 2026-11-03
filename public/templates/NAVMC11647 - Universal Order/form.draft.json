@@ -1,0 +1,947 @@
+{
+  "id": "navmc11647",
+  "label": "NAVMC11647 - Universal Order",
+  "directory": "NAVMC11647 - Universal Order",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf",
+    "page5.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "projectOrder",
+        "economyAct",
+        "directCitation",
+        "other",
+        "docNum",
+        "amendNum",
+        "prepDate",
+        "completeDate",
+        "contact",
+        "from",
+        "to",
+        "mailTo",
+        "expiration",
+        "grade5",
+        "total",
+        "cumulative",
+        "radioButtonList",
+        "radioButtonList2",
+        "radioButtonList3",
+        "radioButtonList4",
+        "remarks"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "ref1",
+        "ref2",
+        "ref3",
+        "ref4",
+        "totalEst",
+        "ref5",
+        "item5",
+        "estimate5",
+        "ref9",
+        "item9",
+        "estimate9",
+        "ref6",
+        "item6",
+        "ref10",
+        "item10",
+        "estimate10",
+        "estimate6",
+        "ref7",
+        "item7",
+        "estimate7",
+        "ref11",
+        "item11",
+        "estimate11",
+        "ref8",
+        "item8",
+        "estimate8",
+        "item12",
+        "estimate12",
+        "ref12",
+        "funds",
+        "procured",
+        "authorizedDate",
+        "authorized",
+        "authorizedSig",
+        "radioButtonList5",
+        "radioButtonList6",
+        "radioButtonList7",
+        "dateTimeField1",
+        "accepting",
+        "acceptingSig",
+        "officeSymbol",
+        "contactPhone",
+        "contactName"
+      ]
+    }
+  ],
+  "fields": {
+    "projectOrder": {
+      "type": "checkbox",
+      "label": "ProjectOrder",
+      "page": 1,
+      "box": {
+        "left": 406.4,
+        "top": 663.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "economyAct": {
+      "type": "checkbox",
+      "label": "EconomyAct",
+      "page": 1,
+      "box": {
+        "left": 102.4,
+        "top": 662.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "directCitation": {
+      "type": "checkbox",
+      "label": "DirectCitation",
+      "page": 1,
+      "box": {
+        "left": 406.3,
+        "top": 641.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "other": {
+      "type": "checkbox",
+      "label": "Other",
+      "page": 1,
+      "box": {
+        "left": 102.6,
+        "top": 640.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "docNum": {
+      "type": "text",
+      "label": "DocNum",
+      "page": 1,
+      "box": {
+        "left": 23.8,
+        "top": 596.5,
+        "width": 157.5,
+        "height": 16.5
+      }
+    },
+    "amendNum": {
+      "type": "text",
+      "label": "AmendNum",
+      "page": 1,
+      "box": {
+        "left": 458.8,
+        "top": 596.5,
+        "width": 131.2,
+        "height": 16.5
+      }
+    },
+    "prepDate": {
+      "type": "text",
+      "label": "PrepDate",
+      "page": 1,
+      "box": {
+        "left": 191.2,
+        "top": 596.1,
+        "width": 110.1,
+        "height": 17.1
+      }
+    },
+    "completeDate": {
+      "type": "text",
+      "label": "CompleteDate",
+      "page": 1,
+      "box": {
+        "left": 311.2,
+        "top": 595.8,
+        "width": 137.7,
+        "height": 17.1
+      }
+    },
+    "contact": {
+      "type": "text",
+      "label": "Contact",
+      "page": 1,
+      "box": {
+        "left": 311.8,
+        "top": 550.4,
+        "width": 275.7,
+        "height": 36.9
+      },
+      "multiline": true
+    },
+    "from": {
+      "type": "text",
+      "label": "From",
+      "page": 1,
+      "box": {
+        "left": 24.4,
+        "top": 550.3,
+        "width": 275.7,
+        "height": 36.9
+      },
+      "multiline": true
+    },
+    "to": {
+      "type": "text",
+      "label": "To",
+      "page": 1,
+      "box": {
+        "left": 24.6,
+        "top": 489.2,
+        "width": 275.7,
+        "height": 36.9
+      },
+      "multiline": true
+    },
+    "mailTo": {
+      "type": "text",
+      "label": "MailTo",
+      "page": 1,
+      "box": {
+        "left": 311.8,
+        "top": 488.5,
+        "width": 275.7,
+        "height": 36.9
+      },
+      "multiline": true
+    },
+    "expiration": {
+      "type": "text",
+      "label": "Expiration",
+      "page": 1,
+      "box": {
+        "left": 429.5,
+        "top": 425.0,
+        "width": 155.0,
+        "height": 11.6
+      }
+    },
+    "grade5": {
+      "type": "text",
+      "label": "Grade",
+      "page": 1,
+      "box": {
+        "left": 85.0,
+        "top": 285.1,
+        "width": 311.1,
+        "height": 12.3
+      }
+    },
+    "total": {
+      "type": "text",
+      "label": "Total",
+      "page": 1,
+      "box": {
+        "left": 517.8,
+        "top": 285.1,
+        "width": 70.8,
+        "height": 12.3
+      }
+    },
+    "cumulative": {
+      "type": "text",
+      "label": "Cumulative",
+      "page": 1,
+      "box": {
+        "left": 517.1,
+        "top": 264.7,
+        "width": 72.1,
+        "height": 12.3
+      }
+    },
+    "radioButtonList": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 169.8,
+        "top": 229.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_1"
+    },
+    "radioButtonList2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 217.8,
+        "top": 229.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_1"
+    },
+    "radioButtonList3": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 247.3,
+        "top": 201.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_0"
+    },
+    "radioButtonList4": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 169.6,
+        "top": 201.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_0"
+    },
+    "remarks": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 1,
+      "box": {
+        "left": 24.9,
+        "top": 157.5,
+        "width": 563.8,
+        "height": 86.6
+      },
+      "multiline": true
+    },
+    "ref1": {
+      "type": "text",
+      "label": "REF1",
+      "page": 2,
+      "box": {
+        "left": 24.7,
+        "top": 691.3,
+        "width": 19.8,
+        "height": 12.3
+      }
+    },
+    "ref2": {
+      "type": "text",
+      "label": "REF2",
+      "page": 2,
+      "box": {
+        "left": 25.0,
+        "top": 671.4,
+        "width": 19.0,
+        "height": 12.3
+      }
+    },
+    "ref3": {
+      "type": "text",
+      "label": "REF3",
+      "page": 2,
+      "box": {
+        "left": 25.4,
+        "top": 650.9,
+        "width": 19.2,
+        "height": 12.3
+      }
+    },
+    "ref4": {
+      "type": "text",
+      "label": "REF4",
+      "page": 2,
+      "box": {
+        "left": 25.2,
+        "top": 630.9,
+        "width": 18.8,
+        "height": 12.3
+      }
+    },
+    "totalEst": {
+      "type": "text",
+      "label": "TotalEst",
+      "page": 2,
+      "box": {
+        "left": 530.8,
+        "top": 610.8,
+        "width": 60.3,
+        "height": 12.3
+      }
+    },
+    "ref5": {
+      "type": "text",
+      "label": "REF5",
+      "page": 2,
+      "box": {
+        "left": 23.8,
+        "top": 534.3,
+        "width": 82.1,
+        "height": 12.3
+      }
+    },
+    "item5": {
+      "type": "text",
+      "label": "Item5",
+      "page": 2,
+      "box": {
+        "left": 115.8,
+        "top": 534.1,
+        "width": 80.9,
+        "height": 12.3
+      }
+    },
+    "estimate5": {
+      "type": "text",
+      "label": "Estimate5",
+      "page": 2,
+      "box": {
+        "left": 206.1,
+        "top": 534.0,
+        "width": 91.5,
+        "height": 12.3
+      }
+    },
+    "ref9": {
+      "type": "text",
+      "label": "REF9",
+      "page": 2,
+      "box": {
+        "left": 311.1,
+        "top": 533.9,
+        "width": 83.6,
+        "height": 12.3
+      }
+    },
+    "item9": {
+      "type": "text",
+      "label": "Item9",
+      "page": 2,
+      "box": {
+        "left": 408.3,
+        "top": 533.7,
+        "width": 80.9,
+        "height": 12.3
+      }
+    },
+    "estimate9": {
+      "type": "text",
+      "label": "Estimate9",
+      "page": 2,
+      "box": {
+        "left": 498.6,
+        "top": 533.6,
+        "width": 91.2,
+        "height": 12.3
+      }
+    },
+    "ref6": {
+      "type": "text",
+      "label": "REF6",
+      "page": 2,
+      "box": {
+        "left": 24.1,
+        "top": 514.5,
+        "width": 81.8,
+        "height": 12.3
+      }
+    },
+    "item6": {
+      "type": "text",
+      "label": "Item6",
+      "page": 2,
+      "box": {
+        "left": 116.0,
+        "top": 514.3,
+        "width": 80.6,
+        "height": 12.3
+      }
+    },
+    "ref10": {
+      "type": "text",
+      "label": "REF10",
+      "page": 2,
+      "box": {
+        "left": 310.3,
+        "top": 514.1,
+        "width": 84.4,
+        "height": 12.3
+      }
+    },
+    "item10": {
+      "type": "text",
+      "label": "Item10",
+      "page": 2,
+      "box": {
+        "left": 408.5,
+        "top": 513.9,
+        "width": 80.6,
+        "height": 12.3
+      }
+    },
+    "estimate10": {
+      "type": "text",
+      "label": "Estimate10",
+      "page": 2,
+      "box": {
+        "left": 499.4,
+        "top": 513.7,
+        "width": 91.0,
+        "height": 12.3
+      }
+    },
+    "estimate6": {
+      "type": "text",
+      "label": "Estimate6",
+      "page": 2,
+      "box": {
+        "left": 206.4,
+        "top": 513.4,
+        "width": 92.1,
+        "height": 12.3
+      }
+    },
+    "ref7": {
+      "type": "text",
+      "label": "REF7",
+      "page": 2,
+      "box": {
+        "left": 24.5,
+        "top": 493.9,
+        "width": 81.4,
+        "height": 12.3
+      }
+    },
+    "item7": {
+      "type": "text",
+      "label": "Item7",
+      "page": 2,
+      "box": {
+        "left": 116.5,
+        "top": 493.7,
+        "width": 80.9,
+        "height": 12.3
+      }
+    },
+    "estimate7": {
+      "type": "text",
+      "label": "Estimate7",
+      "page": 2,
+      "box": {
+        "left": 206.1,
+        "top": 493.6,
+        "width": 92.1,
+        "height": 12.3
+      }
+    },
+    "ref11": {
+      "type": "text",
+      "label": "REF11",
+      "page": 2,
+      "box": {
+        "left": 309.6,
+        "top": 493.5,
+        "width": 85.1,
+        "height": 12.3
+      }
+    },
+    "item11": {
+      "type": "text",
+      "label": "Item11",
+      "page": 2,
+      "box": {
+        "left": 408.9,
+        "top": 493.3,
+        "width": 80.9,
+        "height": 12.3
+      }
+    },
+    "estimate11": {
+      "type": "text",
+      "label": "Estimate11",
+      "page": 2,
+      "box": {
+        "left": 498.6,
+        "top": 493.2,
+        "width": 90.0,
+        "height": 12.3
+      }
+    },
+    "ref8": {
+      "type": "text",
+      "label": "REF8",
+      "page": 2,
+      "box": {
+        "left": 24.3,
+        "top": 472.5,
+        "width": 81.6,
+        "height": 12.3
+      }
+    },
+    "item8": {
+      "type": "text",
+      "label": "Item8",
+      "page": 2,
+      "box": {
+        "left": 116.3,
+        "top": 472.3,
+        "width": 80.4,
+        "height": 12.3
+      }
+    },
+    "estimate8": {
+      "type": "text",
+      "label": "Estimate8",
+      "page": 2,
+      "box": {
+        "left": 206.1,
+        "top": 472.1,
+        "width": 92.1,
+        "height": 12.3
+      }
+    },
+    "item12": {
+      "type": "text",
+      "label": "Item12",
+      "page": 2,
+      "box": {
+        "left": 408.8,
+        "top": 471.9,
+        "width": 80.4,
+        "height": 12.3
+      }
+    },
+    "estimate12": {
+      "type": "text",
+      "label": "Estimate12",
+      "page": 2,
+      "box": {
+        "left": 499.4,
+        "top": 471.7,
+        "width": 89.9,
+        "height": 12.3
+      }
+    },
+    "ref12": {
+      "type": "text",
+      "label": "REF12",
+      "page": 2,
+      "box": {
+        "left": 308.8,
+        "top": 471.3,
+        "width": 85.9,
+        "height": 12.3
+      }
+    },
+    "funds": {
+      "type": "text",
+      "label": "Funds",
+      "page": 2,
+      "box": {
+        "left": 498.6,
+        "top": 447.5,
+        "width": 90.6,
+        "height": 12.3
+      }
+    },
+    "procured": {
+      "type": "text",
+      "label": "Procured",
+      "page": 2,
+      "box": {
+        "left": 498.8,
+        "top": 423.1,
+        "width": 90.4,
+        "height": 12.3
+      }
+    },
+    "authorizedDate": {
+      "type": "text",
+      "label": "AuthorizedDate",
+      "page": 2,
+      "box": {
+        "left": 491.0,
+        "top": 376.2,
+        "width": 90.1,
+        "height": 12.2
+      }
+    },
+    "authorized": {
+      "type": "text",
+      "label": "Authorized",
+      "page": 2,
+      "box": {
+        "left": 25.0,
+        "top": 375.6,
+        "width": 302.1,
+        "height": 11.8
+      }
+    },
+    "authorizedSig": {
+      "type": "signature",
+      "label": "AuthorizedSig",
+      "page": 2,
+      "box": {
+        "left": 337.8,
+        "top": 374.8,
+        "width": 141.3,
+        "height": 11.0
+      }
+    },
+    "radioButtonList5": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 101.2,
+        "top": 312.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_1_RadioButtonList_2"
+    },
+    "radioButtonList6": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 101.5,
+        "top": 289.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_1_RadioButtonList_2"
+    },
+    "radioButtonList7": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 101.0,
+        "top": 266.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_1_RadioButtonList_2"
+    },
+    "dateTimeField1": {
+      "type": "text",
+      "label": "DateTimeField1",
+      "page": 2,
+      "box": {
+        "left": 494.3,
+        "top": 246.8,
+        "width": 90.1,
+        "height": 12.2
+      }
+    },
+    "accepting": {
+      "type": "text",
+      "label": "Accepting",
+      "page": 2,
+      "box": {
+        "left": 28.3,
+        "top": 246.2,
+        "width": 302.1,
+        "height": 11.8
+      }
+    },
+    "acceptingSig": {
+      "type": "signature",
+      "label": "AcceptingSig",
+      "page": 2,
+      "box": {
+        "left": 341.7,
+        "top": 245.7,
+        "width": 141.3,
+        "height": 11.0
+      }
+    },
+    "officeSymbol": {
+      "type": "text",
+      "label": "OfficeSymbol",
+      "page": 2,
+      "box": {
+        "left": 250.2,
+        "top": 185.5,
+        "width": 179.1,
+        "height": 11.8
+      }
+    },
+    "contactPhone": {
+      "type": "text",
+      "label": "ContactPhone",
+      "page": 2,
+      "box": {
+        "left": 439.8,
+        "top": 185.5,
+        "width": 148.5,
+        "height": 11.8
+      }
+    },
+    "contactName": {
+      "type": "text",
+      "label": "ContactName",
+      "page": 2,
+      "box": {
+        "left": 26.7,
+        "top": 185.4,
+        "width": 213.3,
+        "height": 11.8
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 4,
+      "rowStride": 20.13,
+      "editor": "grid",
+      "columns": {
+        "appropriation": {
+          "type": "text",
+          "label": "Appropriation1",
+          "page": 1,
+          "box": {
+            "left": 22.6,
+            "top": 365.5,
+            "width": 87.9,
+            "height": 12.3
+          }
+        },
+        "limit": {
+          "type": "text",
+          "label": "Limit1",
+          "page": 1,
+          "box": {
+            "left": 119.0,
+            "top": 365.3,
+            "width": 62.4,
+            "height": 12.3
+          }
+        },
+        "supplemental": {
+          "type": "text",
+          "label": "Supplemental1",
+          "page": 1,
+          "box": {
+            "left": 190.7,
+            "top": 365.2,
+            "width": 240.3,
+            "height": 12.3
+          }
+        },
+        "grade": {
+          "type": "text",
+          "label": "Grade",
+          "page": 1,
+          "box": {
+            "left": 440.9,
+            "top": 365.6,
+            "width": 67.4,
+            "height": 12.3
+          }
+        },
+        "amount": {
+          "type": "text",
+          "label": "Amount1",
+          "page": 1,
+          "box": {
+            "left": 517.0,
+            "top": 365.3,
+            "width": 72.8,
+            "height": 12.3
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 2,
+      "count": 4,
+      "rowStride": 20.13,
+      "editor": "grid",
+      "columns": {
+        "item": {
+          "type": "text",
+          "label": "Item1",
+          "page": 2,
+          "box": {
+            "left": 54.0,
+            "top": 691.1,
+            "width": 21.7,
+            "height": 12.3
+          }
+        },
+        "grade": {
+          "type": "text",
+          "label": "Grade",
+          "page": 2,
+          "box": {
+            "left": 85.9,
+            "top": 691.0,
+            "width": 223.8,
+            "height": 12.3
+          }
+        },
+        "qty": {
+          "type": "text",
+          "label": "Qty1",
+          "page": 2,
+          "box": {
+            "left": 321.3,
+            "top": 691.0,
+            "width": 92.2,
+            "height": 12.3
+          }
+        },
+        "unit": {
+          "type": "text",
+          "label": "Unit1",
+          "page": 2,
+          "box": {
+            "left": 424.7,
+            "top": 691.0,
+            "width": 43.5,
+            "height": 12.3
+          }
+        },
+        "unitPrice": {
+          "type": "text",
+          "label": "UnitPrice1",
+          "page": 2,
+          "box": {
+            "left": 478.0,
+            "top": 691.3,
+            "width": 43.5,
+            "height": 12.3
+          }
+        },
+        "estimate": {
+          "type": "text",
+          "label": "Estimate1",
+          "page": 2,
+          "box": {
+            "left": 531.4,
+            "top": 691.1,
+            "width": 58.9,
+            "height": 12.3
+          }
+        }
+      }
+    }
+  }
+}

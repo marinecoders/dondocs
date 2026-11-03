@@ -1,0 +1,128 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "originatingActivity": {
+        "left": 48.0,
+        "top": 726.0,
+        "width": 248.3,
+        "height": 14.3,
+        "type": "text",
+        "description": "Enter the originating activity.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dNSDate3": {
+        "left": 310.5,
+        "top": 726.0,
+        "width": 87.7,
+        "height": 14.3,
+        "type": "text",
+        "description": "Enter the date using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "maintenance": {
+        "left": 417.0,
+        "top": 726.0,
+        "width": 156.8,
+        "height": 14.3,
+        "type": "text",
+        "description": "Enter the maintenance instruction number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "subject": {
+        "left": 48.0,
+        "top": 702.7,
+        "width": 525.0,
+        "height": 14.3,
+        "type": "text",
+        "description": "Enter the subject.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "reference": {
+        "left": 48.0,
+        "top": 679.5,
+        "width": 525.0,
+        "height": 14.3,
+        "type": "text",
+        "description": "Enter the reference.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "applicableWorkCenter": {
+        "left": 48.0,
+        "top": 655.5,
+        "width": 525.0,
+        "height": 14.3,
+        "type": "text",
+        "description": "Enter the applicable work centers.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action1": {
+        "left": 48.0,
+        "top": 633.7,
+        "width": 525.0,
+        "height": 14.3,
+        "type": "text",
+        "description": "Enter the action.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action": {
+        "left": 48.0,
+        "top": 615.3,
+        "width": 525.0,
+        "height": 525.3,
+        "type": "text",
+        "description": "Enter the action.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "submittedBy": {
+        "left": 48.0,
+        "top": 73.5,
+        "width": 246.8,
+        "height": 14.3,
+        "type": "text",
+        "description": "Enter by whom it was submitted (signature of Division Officer).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "approvedBy": {
+        "left": 311.2,
+        "top": 73.5,
+        "width": 261.8,
+        "height": 14.3,
+        "type": "text",
+        "description": "Enter by whom it was approved (signature of Maintenance Officer).",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

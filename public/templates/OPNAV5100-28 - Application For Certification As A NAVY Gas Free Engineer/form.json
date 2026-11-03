@@ -1,0 +1,743 @@
+{
+  "id": "opnav510028",
+  "label": "OPNAV5100-28 - Application For Certification As A NAVY Gas Free Engineer",
+  "directory": "OPNAV5100-28 - Application For Certification As A NAVY Gas Free Engineer",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "certNme",
+        "certPhn",
+        "certAct",
+        "certCde",
+        "certDegDtd",
+        "certDeg",
+        "certMgr",
+        "certIns",
+        "certDegDtd1",
+        "certDeg1",
+        "certMgr1",
+        "certIns1",
+        "certDegDtd2",
+        "certDeg2",
+        "certMgr2",
+        "certIns2",
+        "certColCrs",
+        "othCollCrs",
+        "othCrs",
+        "oSHCreDate",
+        "oSHCreScr"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "count",
+        "fulExpTrn",
+        "empl",
+        "loca",
+        "perEmp",
+        "dutLev",
+        "equIns",
+        "empl1",
+        "loca1",
+        "perEmp1",
+        "dutLev1",
+        "equIns1",
+        "empl2",
+        "loca2",
+        "perEmp2",
+        "dutLev2",
+        "equIns2",
+        "count2",
+        "oGTTrnNme",
+        "mariFac",
+        "totOJTCmp",
+        "dNSDate3",
+        "signatureField1",
+        "checkBox1",
+        "checkBox12",
+        "checkBox13",
+        "brdCmt"
+      ]
+    }
+  ],
+  "fields": {
+    "certNme": {
+      "type": "text",
+      "label": "1.  Name:",
+      "page": 1,
+      "box": {
+        "left": 81.3,
+        "top": 620.1,
+        "width": 312.3,
+        "height": 16.3
+      }
+    },
+    "certPhn": {
+      "type": "text",
+      "label": "2.  Phone:",
+      "page": 1,
+      "box": {
+        "left": 454.3,
+        "top": 620.1,
+        "width": 111.7,
+        "height": 16.3
+      }
+    },
+    "certAct": {
+      "type": "text",
+      "label": "3. Activity:",
+      "page": 1,
+      "box": {
+        "left": 82.3,
+        "top": 584.4,
+        "width": 311.3,
+        "height": 16.3
+      }
+    },
+    "certCde": {
+      "type": "text",
+      "label": "4.  Code:",
+      "page": 1,
+      "box": {
+        "left": 454.3,
+        "top": 584.4,
+        "width": 111.7,
+        "height": 16.3
+      }
+    },
+    "certDegDtd": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 492.3,
+        "top": 505.1,
+        "width": 75.0,
+        "height": 13.3
+      }
+    },
+    "certDeg": {
+      "type": "text",
+      "label": "Degree",
+      "page": 1,
+      "box": {
+        "left": 43.3,
+        "top": 502.3,
+        "width": 111.3,
+        "height": 12.2
+      }
+    },
+    "certMgr": {
+      "type": "text",
+      "label": "Major",
+      "page": 1,
+      "box": {
+        "left": 166.0,
+        "top": 502.3,
+        "width": 153.7,
+        "height": 12.2
+      }
+    },
+    "certIns": {
+      "type": "text",
+      "label": "Institution",
+      "page": 1,
+      "box": {
+        "left": 332.1,
+        "top": 502.3,
+        "width": 153.7,
+        "height": 11.8
+      }
+    },
+    "certDegDtd1": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 492.3,
+        "top": 471.6,
+        "width": 75.0,
+        "height": 13.3
+      }
+    },
+    "certDeg1": {
+      "type": "text",
+      "label": "Degree",
+      "page": 1,
+      "box": {
+        "left": 43.3,
+        "top": 468.7,
+        "width": 111.3,
+        "height": 12.2
+      }
+    },
+    "certMgr1": {
+      "type": "text",
+      "label": "Major",
+      "page": 1,
+      "box": {
+        "left": 166.0,
+        "top": 468.7,
+        "width": 153.7,
+        "height": 12.2
+      }
+    },
+    "certIns1": {
+      "type": "text",
+      "label": "Institution",
+      "page": 1,
+      "box": {
+        "left": 332.1,
+        "top": 468.7,
+        "width": 153.7,
+        "height": 11.8
+      }
+    },
+    "certDegDtd2": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 492.3,
+        "top": 438.2,
+        "width": 74.8,
+        "height": 13.3
+      }
+    },
+    "certDeg2": {
+      "type": "text",
+      "label": "Degree",
+      "page": 1,
+      "box": {
+        "left": 43.3,
+        "top": 435.4,
+        "width": 111.3,
+        "height": 12.2
+      }
+    },
+    "certMgr2": {
+      "type": "text",
+      "label": "Major",
+      "page": 1,
+      "box": {
+        "left": 166.0,
+        "top": 435.4,
+        "width": 153.7,
+        "height": 12.2
+      }
+    },
+    "certIns2": {
+      "type": "text",
+      "label": "Institution",
+      "page": 1,
+      "box": {
+        "left": 332.1,
+        "top": 435.4,
+        "width": 153.7,
+        "height": 11.8
+      }
+    },
+    "certColCrs": {
+      "type": "text",
+      "label": "b.  College-Level Chemistry Courses:  (List by name/number (if known) include lecture/lab).",
+      "page": 1,
+      "box": {
+        "left": 56.8,
+        "top": 383.7,
+        "width": 506.3,
+        "height": 71.6
+      },
+      "multiline": true
+    },
+    "othCollCrs": {
+      "type": "text",
+      "label": "c.  Other College Courses (List courses in such related areas as fire sciences, industrial hygiene, engineering, or safety).",
+      "page": 1,
+      "box": {
+        "left": 56.8,
+        "top": 289.9,
+        "width": 506.3,
+        "height": 68.8
+      },
+      "multiline": true
+    },
+    "othCrs": {
+      "type": "text",
+      "label": "d.  Other Training (List other pertinent training courses completed such as NFPA Marine Chemist Modules, DOL/OSHA).",
+      "page": 1,
+      "box": {
+        "left": 56.8,
+        "top": 202.6,
+        "width": 506.3,
+        "height": 72.5
+      },
+      "multiline": true
+    },
+    "oSHCreDate": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 184.1,
+        "top": 106.0,
+        "width": 82.9,
+        "height": 20.1
+      }
+    },
+    "oSHCreScr": {
+      "type": "text",
+      "label": "Score:",
+      "page": 1,
+      "box": {
+        "left": 403.1,
+        "top": 104.4,
+        "width": 71.0,
+        "height": 14.4
+      }
+    },
+    "count": {
+      "type": "text",
+      "label": "Count",
+      "page": 2,
+      "box": {
+        "left": 39.0,
+        "top": 735.5,
+        "width": 9.7,
+        "height": 18.0
+      }
+    },
+    "fulExpTrn": {
+      "type": "text",
+      "label": "Name of Trainee:",
+      "page": 2,
+      "box": {
+        "left": 109.8,
+        "top": 690.7,
+        "width": 459.3,
+        "height": 11.3
+      }
+    },
+    "empl": {
+      "type": "text",
+      "label": "Empl",
+      "page": 2,
+      "box": {
+        "left": 42.8,
+        "top": 648.9,
+        "width": 61.3,
+        "height": 23.0
+      }
+    },
+    "loca": {
+      "type": "text",
+      "label": "Loca",
+      "page": 2,
+      "box": {
+        "left": 109.8,
+        "top": 648.9,
+        "width": 61.3,
+        "height": 23.0
+      }
+    },
+    "perEmp": {
+      "type": "text",
+      "label": "PerEmp",
+      "page": 2,
+      "box": {
+        "left": 176.8,
+        "top": 648.9,
+        "width": 61.3,
+        "height": 23.0
+      }
+    },
+    "dutLev": {
+      "type": "text",
+      "label": "DutLev",
+      "page": 2,
+      "box": {
+        "left": 243.9,
+        "top": 648.9,
+        "width": 229.3,
+        "height": 23.0
+      }
+    },
+    "equIns": {
+      "type": "text",
+      "label": "EquIns",
+      "page": 2,
+      "box": {
+        "left": 478.8,
+        "top": 648.9,
+        "width": 90.0,
+        "height": 23.0
+      }
+    },
+    "empl1": {
+      "type": "text",
+      "label": "Empl1",
+      "page": 2,
+      "box": {
+        "left": 42.8,
+        "top": 619.5,
+        "width": 61.3,
+        "height": 23.0
+      }
+    },
+    "loca1": {
+      "type": "text",
+      "label": "Loca1",
+      "page": 2,
+      "box": {
+        "left": 109.8,
+        "top": 619.5,
+        "width": 61.3,
+        "height": 23.0
+      }
+    },
+    "perEmp1": {
+      "type": "text",
+      "label": "PerEmp1",
+      "page": 2,
+      "box": {
+        "left": 176.8,
+        "top": 619.5,
+        "width": 61.3,
+        "height": 23.0
+      }
+    },
+    "dutLev1": {
+      "type": "text",
+      "label": "DutLev1",
+      "page": 2,
+      "box": {
+        "left": 243.9,
+        "top": 619.5,
+        "width": 229.3,
+        "height": 23.0
+      }
+    },
+    "equIns1": {
+      "type": "text",
+      "label": "EquIns1",
+      "page": 2,
+      "box": {
+        "left": 478.8,
+        "top": 619.5,
+        "width": 90.0,
+        "height": 23.0
+      }
+    },
+    "empl2": {
+      "type": "text",
+      "label": "Empl2",
+      "page": 2,
+      "box": {
+        "left": 42.8,
+        "top": 590.1,
+        "width": 61.3,
+        "height": 23.0
+      }
+    },
+    "loca2": {
+      "type": "text",
+      "label": "Loca2",
+      "page": 2,
+      "box": {
+        "left": 109.8,
+        "top": 590.1,
+        "width": 61.3,
+        "height": 23.0
+      }
+    },
+    "perEmp2": {
+      "type": "text",
+      "label": "PerEmp2",
+      "page": 2,
+      "box": {
+        "left": 176.8,
+        "top": 590.1,
+        "width": 61.3,
+        "height": 23.0
+      }
+    },
+    "dutLev2": {
+      "type": "text",
+      "label": "DutLev2",
+      "page": 2,
+      "box": {
+        "left": 243.9,
+        "top": 590.1,
+        "width": 229.3,
+        "height": 23.0
+      }
+    },
+    "equIns2": {
+      "type": "text",
+      "label": "EquIns2",
+      "page": 2,
+      "box": {
+        "left": 478.8,
+        "top": 590.1,
+        "width": 90.0,
+        "height": 23.0
+      }
+    },
+    "count2": {
+      "type": "text",
+      "label": "result/action",
+      "page": 2,
+      "box": {
+        "left": 45.8,
+        "top": 517.6,
+        "width": 4.0,
+        "height": 18.3
+      }
+    },
+    "oGTTrnNme": {
+      "type": "text",
+      "label": "Name of trainee:",
+      "page": 2,
+      "box": {
+        "left": 107.6,
+        "top": 495.7,
+        "width": 462.6,
+        "height": 11.3
+      }
+    },
+    "mariFac": {
+      "type": "text",
+      "label": "Name of maritime facility where training occurred:",
+      "page": 2,
+      "box": {
+        "left": 225.7,
+        "top": 478.7,
+        "width": 344.5,
+        "height": 11.3
+      }
+    },
+    "totOJTCmp": {
+      "type": "text",
+      "label": "TotOJTCmp",
+      "page": 2,
+      "box": {
+        "left": 202.5,
+        "top": 285.2,
+        "width": 21.3,
+        "height": 11.3
+      }
+    },
+    "dNSDate3": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 2,
+      "box": {
+        "left": 150.0,
+        "top": 130.0,
+        "width": 84.0,
+        "height": 17.0
+      }
+    },
+    "signatureField1": {
+      "type": "signature",
+      "label": "Signature:",
+      "page": 2,
+      "box": {
+        "left": 344.8,
+        "top": 127.1,
+        "width": 135.3,
+        "height": 12.3
+      }
+    },
+    "checkBox1": {
+      "type": "checkbox",
+      "label": "Approved:",
+      "page": 2,
+      "box": {
+        "left": 168.8,
+        "top": 82.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox12": {
+      "type": "checkbox",
+      "label": "Disapproved:",
+      "page": 2,
+      "box": {
+        "left": 306.4,
+        "top": 82.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox13": {
+      "type": "checkbox",
+      "label": "More Information Needed:",
+      "page": 2,
+      "box": {
+        "left": 472.8,
+        "top": 82.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "brdCmt": {
+      "type": "text",
+      "label": "Comments:",
+      "page": 2,
+      "box": {
+        "left": 40.0,
+        "top": 55.1,
+        "width": 534.0,
+        "height": 16.7
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 2,
+      "count": 3,
+      "rowStride": 27.95,
+      "editor": "grid",
+      "columns": {
+        "fullNme": {
+          "type": "text",
+          "label": "FullNme",
+          "page": 2,
+          "box": {
+            "left": 42.1,
+            "top": 238.1,
+            "width": 165.6,
+            "height": 22.3
+          }
+        },
+        "tPhn": {
+          "type": "text",
+          "label": "TPhn",
+          "page": 2,
+          "box": {
+            "left": 213.3,
+            "top": 238.1,
+            "width": 165.6,
+            "height": 22.3
+          }
+        },
+        "addr": {
+          "type": "text",
+          "label": "Addr",
+          "page": 2,
+          "box": {
+            "left": 381.7,
+            "top": 240.9,
+            "width": 190.4,
+            "height": 28.0
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 2,
+      "count": 3,
+      "rowStride": 50.0,
+      "editor": "grid",
+      "columns": {
+        "oJTTrnDate": {
+          "type": "text",
+          "label": "Enter the date using the format DD MMM YYYY.",
+          "page": 2,
+          "box": {
+            "left": 38.1,
+            "top": 441.7,
+            "width": 44.5,
+            "height": 50.0
+          }
+        },
+        "nmeShp": {
+          "type": "text",
+          "label": "NmeShp",
+          "page": 2,
+          "box": {
+            "left": 85.4,
+            "top": 438.8,
+            "width": 49.8,
+            "height": 44.3
+          }
+        },
+        "iDTnk": {
+          "type": "text",
+          "label": "IDTnk",
+          "page": 2,
+          "box": {
+            "left": 140.8,
+            "top": 438.8,
+            "width": 59.2,
+            "height": 44.3
+          }
+        },
+        "tydWrk": {
+          "type": "text",
+          "label": "TydWrk",
+          "page": 2,
+          "box": {
+            "left": 205.9,
+            "top": 438.8,
+            "width": 102.8,
+            "height": 44.3
+          }
+        },
+        "tstPer": {
+          "type": "text",
+          "label": "TstPer",
+          "page": 2,
+          "box": {
+            "left": 315.0,
+            "top": 438.8,
+            "width": 100.2,
+            "height": 44.3
+          }
+        },
+        "isrUd": {
+          "type": "text",
+          "label": "IsrUd",
+          "page": 2,
+          "box": {
+            "left": 420.9,
+            "top": 438.8,
+            "width": 47.9,
+            "height": 44.3
+          }
+        },
+        "nmeGFE": {
+          "type": "text",
+          "label": "NmeGFE",
+          "page": 2,
+          "box": {
+            "left": 475.0,
+            "top": 438.8,
+            "width": 47.1,
+            "height": 44.3
+          }
+        },
+        "totTme": {
+          "type": "text",
+          "label": "TotTme",
+          "page": 2,
+          "box": {
+            "left": 528.3,
+            "top": 438.8,
+            "width": 41.9,
+            "height": 44.3
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,709 @@
+{
+  "id": "opnav479051",
+  "label": "OPNAV4790-51 - Support Equipment Custody  Maintenance History Record",
+  "directory": "OPNAV4790-51 - Support Equipment Custody  Maintenance History Record",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "nomenclature",
+        "modelType",
+        "serialNumber",
+        "manufacturer",
+        "dateField",
+        "fromField",
+        "toField",
+        "authField",
+        "remarksField",
+        "receivedField",
+        "dateInductedField",
+        "dateCompletedField",
+        "descriptionField",
+        "authorizationField",
+        "activityField",
+        "signatureField"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "remarksSecVField",
+        "dateCompSecVField",
+        "nextPMDueSecVField",
+        "activitySecVField",
+        "signatureSecVField"
+      ]
+    }
+  ],
+  "fields": {
+    "nomenclature": {
+      "type": "text",
+      "label": "1. NOMENCLATURE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 548.7,
+        "width": 219.4,
+        "height": 10.3
+      }
+    },
+    "modelType": {
+      "type": "text",
+      "label": "2. MODEL / TYPE",
+      "page": 1,
+      "box": {
+        "left": 263.9,
+        "top": 548.7,
+        "width": 165.4,
+        "height": 10.3
+      }
+    },
+    "serialNumber": {
+      "type": "text",
+      "label": "3. SERIAL NUMBER",
+      "page": 1,
+      "box": {
+        "left": 434.9,
+        "top": 548.7,
+        "width": 147.3,
+        "height": 10.3
+      }
+    },
+    "manufacturer": {
+      "type": "text",
+      "label": "4. MANUFACTURER",
+      "page": 1,
+      "box": {
+        "left": 587.9,
+        "top": 548.7,
+        "width": 165.4,
+        "height": 10.3
+      }
+    },
+    "dateField": {
+      "type": "text",
+      "label": "TRANSFERRED",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 497.1,
+        "width": 78.2,
+        "height": 10.7
+      }
+    },
+    "fromField": {
+      "type": "text",
+      "label": "B. FROM",
+      "page": 1,
+      "box": {
+        "left": 119.8,
+        "top": 497.1,
+        "width": 127.7,
+        "height": 10.7
+      }
+    },
+    "toField": {
+      "type": "text",
+      "label": "C. TO",
+      "page": 1,
+      "box": {
+        "left": 250.4,
+        "top": 497.1,
+        "width": 127.7,
+        "height": 10.7
+      }
+    },
+    "authField": {
+      "type": "text",
+      "label": "D. AUTHORITY",
+      "page": 1,
+      "box": {
+        "left": 380.9,
+        "top": 497.1,
+        "width": 127.7,
+        "height": 10.7
+      }
+    },
+    "remarksField": {
+      "type": "text",
+      "label": "E. REMARKS",
+      "page": 1,
+      "box": {
+        "left": 511.4,
+        "top": 497.1,
+        "width": 145.7,
+        "height": 10.7
+      }
+    },
+    "receivedField": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 1,
+      "box": {
+        "left": 659.9,
+        "top": 497.1,
+        "width": 96.2,
+        "height": 10.7
+      }
+    },
+    "dateInductedField": {
+      "type": "text",
+      "label": "INDUCTED",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 449.2,
+        "width": 57.3,
+        "height": 15.2
+      }
+    },
+    "dateCompletedField": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 449.2,
+        "width": 61.8,
+        "height": 15.2
+      }
+    },
+    "descriptionField": {
+      "type": "text",
+      "label": "C. DESCRIPTION OF WORK",
+      "page": 1,
+      "box": {
+        "left": 169.4,
+        "top": 449.2,
+        "width": 250.9,
+        "height": 15.2
+      }
+    },
+    "authorizationField": {
+      "type": "text",
+      "label": "D. AUTHORIZATION",
+      "page": 1,
+      "box": {
+        "left": 425.9,
+        "top": 449.2,
+        "width": 93.3,
+        "height": 15.2
+      }
+    },
+    "activityField": {
+      "type": "text",
+      "label": "E. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 524.9,
+        "top": 449.2,
+        "width": 84.3,
+        "height": 15.2
+      }
+    },
+    "signatureField": {
+      "type": "text",
+      "label": "F. SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 614.9,
+        "top": 449.2,
+        "width": 138.3,
+        "height": 12.3
+      }
+    },
+    "remarksSecVField": {
+      "type": "text",
+      "label": "A. TYPE INSPECTION",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 537.2,
+        "width": 294.1,
+        "height": 12.3
+      }
+    },
+    "dateCompSecVField": {
+      "type": "text",
+      "label": "B. DATE COMPLETED",
+      "page": 3,
+      "box": {
+        "left": 338.6,
+        "top": 537.2,
+        "width": 84.3,
+        "height": 15.2
+      }
+    },
+    "nextPMDueSecVField": {
+      "type": "text",
+      "label": "C. NEXT DUE",
+      "page": 3,
+      "box": {
+        "left": 428.6,
+        "top": 537.2,
+        "width": 84.3,
+        "height": 15.2
+      }
+    },
+    "activitySecVField": {
+      "type": "text",
+      "label": "D. ACTIVITY",
+      "page": 3,
+      "box": {
+        "left": 518.6,
+        "top": 537.2,
+        "width": 120.3,
+        "height": 12.3
+      }
+    },
+    "signatureSecVField": {
+      "type": "text",
+      "label": "E. SIGNATURE",
+      "page": 3,
+      "box": {
+        "left": 644.7,
+        "top": 537.2,
+        "width": 106.8,
+        "height": 12.3
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 7,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "datePresvField": {
+          "type": "text",
+          "label": "PRESV",
+          "page": 1,
+          "box": {
+            "left": 38.8,
+            "top": 270.8,
+            "width": 57.3,
+            "height": 15.2
+          }
+        },
+        "rePresvDueDateField": {
+          "type": "text",
+          "label": "DUE DATE",
+          "page": 1,
+          "box": {
+            "left": 101.8,
+            "top": 270.8,
+            "width": 61.8,
+            "height": 15.2
+          }
+        },
+        "typeField": {
+          "type": "text",
+          "label": "C. TYPE",
+          "page": 1,
+          "box": {
+            "left": 169.4,
+            "top": 270.8,
+            "width": 39.3,
+            "height": 15.2
+          }
+        },
+        "dateDePresvField": {
+          "type": "text",
+          "label": "D. DATE DE-PRESV",
+          "page": 1,
+          "box": {
+            "left": 214.4,
+            "top": 270.8,
+            "width": 79.8,
+            "height": 15.2
+          }
+        },
+        "directCompWithField": {
+          "type": "text",
+          "label": "E. DIRECTIVE COMPLIED WITH",
+          "page": 1,
+          "box": {
+            "left": 299.9,
+            "top": 270.8,
+            "width": 120.3,
+            "height": 15.2
+          }
+        },
+        "reasonInactiveField": {
+          "type": "text",
+          "label": "INACTIVE STATUS",
+          "page": 1,
+          "box": {
+            "left": 425.9,
+            "top": 270.8,
+            "width": 93.3,
+            "height": 15.2
+          }
+        },
+        "activityFieldPtII": {
+          "type": "text",
+          "label": "G. ACTIVITY",
+          "page": 1,
+          "box": {
+            "left": 524.9,
+            "top": 270.8,
+            "width": 84.3,
+            "height": 15.2
+          }
+        },
+        "signatureFieldPtII": {
+          "type": "text",
+          "label": "H. SIGNATURE",
+          "page": 1,
+          "box": {
+            "left": 614.9,
+            "top": 270.8,
+            "width": 138.3,
+            "height": 12.3
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 7,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "dateInductedField": {
+          "type": "text",
+          "label": "INDUCTED",
+          "page": 1,
+          "box": {
+            "left": 38.8,
+            "top": 431.2,
+            "width": 57.3,
+            "height": 15.2
+          }
+        },
+        "dateCompletedField": {
+          "type": "text",
+          "label": "COMPLETED",
+          "page": 1,
+          "box": {
+            "left": 101.8,
+            "top": 431.2,
+            "width": 61.8,
+            "height": 15.2
+          }
+        },
+        "descriptionField": {
+          "type": "text",
+          "label": "C. DESCRIPTION OF WORK",
+          "page": 1,
+          "box": {
+            "left": 169.4,
+            "top": 431.2,
+            "width": 250.9,
+            "height": 15.2
+          }
+        },
+        "authorizationField": {
+          "type": "text",
+          "label": "D. AUTHORIZATION",
+          "page": 1,
+          "box": {
+            "left": 425.9,
+            "top": 431.2,
+            "width": 93.3,
+            "height": 15.2
+          }
+        },
+        "activityField": {
+          "type": "text",
+          "label": "E. ACTIVITY",
+          "page": 1,
+          "box": {
+            "left": 524.9,
+            "top": 431.2,
+            "width": 84.3,
+            "height": 15.2
+          }
+        },
+        "signatureField": {
+          "type": "text",
+          "label": "F. SIGNATURE",
+          "page": 1,
+          "box": {
+            "left": 614.9,
+            "top": 431.2,
+            "width": 138.3,
+            "height": 12.3
+          }
+        }
+      }
+    },
+    "rows3": {
+      "title": "Rows",
+      "page": 2,
+      "count": 27,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "code": {
+          "type": "text",
+          "label": "CODE",
+          "page": 2,
+          "box": {
+            "left": 38.8,
+            "top": 519.2,
+            "width": 21.3,
+            "height": 12.3
+          }
+        },
+        "basic": {
+          "type": "text",
+          "label": "BASIC",
+          "page": 2,
+          "box": {
+            "left": 65.8,
+            "top": 519.2,
+            "width": 21.3,
+            "height": 12.3
+          }
+        },
+        "int": {
+          "type": "text",
+          "label": "INT",
+          "page": 2,
+          "box": {
+            "left": 92.8,
+            "top": 519.2,
+            "width": 21.3,
+            "height": 12.3
+          }
+        },
+        "rev": {
+          "type": "text",
+          "label": "REV",
+          "page": 2,
+          "box": {
+            "left": 119.8,
+            "top": 519.2,
+            "width": 21.3,
+            "height": 12.3
+          }
+        },
+        "am": {
+          "type": "text",
+          "label": "AM",
+          "page": 2,
+          "box": {
+            "left": 146.9,
+            "top": 519.2,
+            "width": 21.3,
+            "height": 12.3
+          }
+        },
+        "pt": {
+          "type": "text",
+          "label": "PT",
+          "page": 2,
+          "box": {
+            "left": 173.9,
+            "top": 519.2,
+            "width": 21.3,
+            "height": 12.3
+          }
+        },
+        "kit": {
+          "type": "text",
+          "label": "KIT",
+          "page": 2,
+          "box": {
+            "left": 200.9,
+            "top": 519.2,
+            "width": 21.3,
+            "height": 12.3
+          }
+        },
+        "pri": {
+          "type": "text",
+          "label": "PRI",
+          "page": 2,
+          "box": {
+            "left": 227.9,
+            "top": 519.2,
+            "width": 21.3,
+            "height": 12.3
+          }
+        },
+        "status": {
+          "type": "choice",
+          "label": "B. STATUS",
+          "page": 2,
+          "box": {
+            "left": 255.6,
+            "top": 518.5,
+            "width": 51.3,
+            "height": 10.8
+          }
+        },
+        "titleRemarks": {
+          "type": "text",
+          "label": "C. TITLE/REMARKS",
+          "page": 2,
+          "box": {
+            "left": 313.4,
+            "top": 519.2,
+            "width": 115.8,
+            "height": 12.3
+          }
+        },
+        "activity": {
+          "type": "text",
+          "label": "BY (Activity)",
+          "page": 2,
+          "box": {
+            "left": 434.9,
+            "top": 519.2,
+            "width": 70.8,
+            "height": 12.3
+          }
+        },
+        "date": {
+          "type": "text",
+          "label": "DATE",
+          "page": 2,
+          "box": {
+            "left": 511.4,
+            "top": 519.2,
+            "width": 70.8,
+            "height": 12.3
+          }
+        },
+        "signature": {
+          "type": "text",
+          "label": "E. SIGNATURE",
+          "page": 2,
+          "box": {
+            "left": 587.9,
+            "top": 519.2,
+            "width": 165.4,
+            "height": 12.3
+          }
+        }
+      }
+    },
+    "rows4": {
+      "title": "Rows",
+      "page": 3,
+      "count": 27,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "remarksSecVField": {
+          "type": "text",
+          "label": "A. TYPE INSPECTION",
+          "page": 3,
+          "box": {
+            "left": 38.8,
+            "top": 519.2,
+            "width": 294.1,
+            "height": 12.3
+          }
+        },
+        "dateCompSecVField": {
+          "type": "text",
+          "label": "B. DATE COMPLETED",
+          "page": 3,
+          "box": {
+            "left": 338.6,
+            "top": 519.2,
+            "width": 84.3,
+            "height": 15.2
+          }
+        },
+        "nextPMDueSecVField": {
+          "type": "text",
+          "label": "C. NEXT DUE",
+          "page": 3,
+          "box": {
+            "left": 428.6,
+            "top": 519.2,
+            "width": 84.3,
+            "height": 15.2
+          }
+        },
+        "activitySecVField": {
+          "type": "text",
+          "label": "D. ACTIVITY",
+          "page": 3,
+          "box": {
+            "left": 518.6,
+            "top": 519.2,
+            "width": 120.3,
+            "height": 12.3
+          }
+        },
+        "signatureSecVField": {
+          "type": "text",
+          "label": "E. SIGNATURE",
+          "page": 3,
+          "box": {
+            "left": 644.7,
+            "top": 519.2,
+            "width": 106.8,
+            "height": 12.3
+          }
+        }
+      }
+    },
+    "rows5": {
+      "title": "Rows",
+      "page": 4,
+      "count": 28,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "dateSecVIField": {
+          "type": "text",
+          "label": "A. DATE",
+          "page": 4,
+          "box": {
+            "left": 38.8,
+            "top": 537.2,
+            "width": 66.3,
+            "height": 15.2
+          }
+        },
+        "remarksSecVIField": {
+          "type": "text",
+          "label": "B. REMARKS",
+          "page": 4,
+          "box": {
+            "left": 110.8,
+            "top": 537.2,
+            "width": 467.2,
+            "height": 12.3
+          }
+        },
+        "remarksSecVIField2": {
+          "type": "text",
+          "label": "C. SIGNATURE",
+          "page": 4,
+          "box": {
+            "left": 583.7,
+            "top": 537.2,
+            "width": 168.1,
+            "height": 12.3
+          }
+        }
+      }
+    }
+  }
+}

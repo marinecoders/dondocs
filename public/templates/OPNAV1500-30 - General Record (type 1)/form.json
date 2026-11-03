@@ -1,0 +1,1645 @@
+{
+  "id": "opnav150030",
+  "label": "OPNAV1500-30 - General Record (type 1)",
+  "directory": "OPNAV1500-30 - General Record (type 1)",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "dNSDate31",
+        "dNSDate32",
+        "title",
+        "pct1",
+        "pct2",
+        "pct3",
+        "pct4",
+        "pccolcap",
+        "pccolcap1",
+        "pccolcap2",
+        "pccolcap3",
+        "columncaptions",
+        "titlecolumncaps4",
+        "titlecolumncaps9",
+        "titlecolumncaps14",
+        "titlecolumncaps19",
+        "titlecolumncaps24",
+        "titlecolumncaps29",
+        "titlecolumncaps34",
+        "titlecolumncaps39",
+        "titlecolumncaps44",
+        "titlecolumncaps49",
+        "titlecolumncaps54",
+        "titlecolumncaps59",
+        "titlecolumncaps64",
+        "titlecolumncaps69",
+        "titlecolumncaps74",
+        "titlecolumncaps79",
+        "titlecolumncaps84",
+        "titlecolumncaps89",
+        "titlecolumncaps94",
+        "titlecolumncaps99",
+        "titlecolumncaps104",
+        "titlecolumncaps109",
+        "titlecolumncaps114",
+        "titlecolumncaps119",
+        "titlecolumncaps124",
+        "titlecolumncaps129"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "dNSDate311",
+        "dNSDate322",
+        "title2",
+        "pct12",
+        "pct22",
+        "pct32",
+        "pct42",
+        "pccolcap131",
+        "pccolcap132",
+        "pccolcap133",
+        "pccolcap134",
+        "columncaptions2",
+        "titlecolumncaps135",
+        "titlecolumncaps137",
+        "titlecolumncaps138",
+        "titlecolumncaps140",
+        "titlecolumncaps142",
+        "titlecolumncaps143",
+        "titlecolumncaps145",
+        "titlecolumncaps147",
+        "titlecolumncaps148",
+        "titlecolumncaps150",
+        "titlecolumncaps153",
+        "titlecolumncaps152",
+        "titlecolumncaps155",
+        "titlecolumncaps157",
+        "titlecolumncaps158",
+        "titlecolumncaps160",
+        "titlecolumncaps162",
+        "titlecolumncaps163",
+        "titlecolumncaps165",
+        "titlecolumncaps167",
+        "titlecolumncaps168",
+        "titlecolumncaps170",
+        "titlecolumncaps172",
+        "titlecolumncaps173",
+        "titlecolumncaps175",
+        "titlecolumncaps177",
+        "titlecolumncaps178",
+        "titlecolumncaps180",
+        "titlecolumncaps182",
+        "titlecolumncaps183",
+        "titlecolumncaps185",
+        "titlecolumncaps187",
+        "titlecolumncaps188",
+        "titlecolumncaps190",
+        "titlecolumncaps192",
+        "titlecolumncaps193",
+        "titlecolumncaps195",
+        "titlecolumncaps197",
+        "titlecolumncaps198",
+        "titlecolumncaps200",
+        "titlecolumncaps202",
+        "titlecolumncaps203",
+        "titlecolumncaps205",
+        "titlecolumncaps207",
+        "titlecolumncaps208",
+        "titlecolumncaps210",
+        "titlecolumncaps212",
+        "titlecolumncaps213",
+        "titlecolumncaps215",
+        "titlecolumncaps217",
+        "titlecolumncaps218",
+        "titlecolumncaps220",
+        "titlecolumncaps222",
+        "titlecolumncaps223",
+        "titlecolumncaps225",
+        "titlecolumncaps227",
+        "titlecolumncaps228",
+        "titlecolumncaps230",
+        "titlecolumncaps232",
+        "titlecolumncaps233",
+        "titlecolumncaps237",
+        "titlecolumncaps238",
+        "titlecolumncaps235",
+        "titlecolumncaps240",
+        "titlecolumncaps242",
+        "titlecolumncaps243",
+        "titlecolumncaps245",
+        "titlecolumncaps247",
+        "titlecolumncaps248",
+        "titlecolumncaps250",
+        "titlecolumncaps252",
+        "titlecolumncaps253",
+        "titlecolumncaps255",
+        "titlecolumncaps257",
+        "titlecolumncaps258",
+        "titlecolumncaps260",
+        "titlecolumncaps262",
+        "titlecolumncaps263"
+      ]
+    }
+  ],
+  "fields": {
+    "dNSDate31": {
+      "type": "text",
+      "label": "Enter the starting date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 353.6,
+        "top": 737.4,
+        "width": 91.3,
+        "height": 22.7
+      }
+    },
+    "dNSDate32": {
+      "type": "text",
+      "label": "Enter the ending date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 489.6,
+        "top": 737.4,
+        "width": 81.0,
+        "height": 22.7
+      }
+    },
+    "title": {
+      "type": "text",
+      "label": "Enter the title.",
+      "page": 1,
+      "box": {
+        "left": 81.5,
+        "top": 710.8,
+        "width": 126.5,
+        "height": 21.0
+      }
+    },
+    "pct1": {
+      "type": "text",
+      "label": "Enter the item value.",
+      "page": 1,
+      "box": {
+        "left": 264.0,
+        "top": 710.8,
+        "width": 69.2,
+        "height": 21.0
+      }
+    },
+    "pct2": {
+      "type": "text",
+      "label": "Enter the item value.",
+      "page": 1,
+      "box": {
+        "left": 341.0,
+        "top": 710.8,
+        "width": 67.6,
+        "height": 21.0
+      }
+    },
+    "pct3": {
+      "type": "text",
+      "label": "Enter the item value.",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 710.8,
+        "width": 72.6,
+        "height": 21.0
+      }
+    },
+    "pct4": {
+      "type": "text",
+      "label": "Enter the item value.",
+      "page": 1,
+      "box": {
+        "left": 495.9,
+        "top": 710.8,
+        "width": 76.8,
+        "height": 21.0
+      }
+    },
+    "pccolcap": {
+      "type": "text",
+      "label": "Enter the item value.",
+      "page": 1,
+      "box": {
+        "left": 264.0,
+        "top": 687.0,
+        "width": 69.2,
+        "height": 21.0
+      }
+    },
+    "pccolcap1": {
+      "type": "text",
+      "label": "Enter the item value.",
+      "page": 1,
+      "box": {
+        "left": 341.0,
+        "top": 687.0,
+        "width": 67.6,
+        "height": 21.0
+      }
+    },
+    "pccolcap2": {
+      "type": "text",
+      "label": "Enter the item value.",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 687.0,
+        "width": 72.6,
+        "height": 21.0
+      }
+    },
+    "pccolcap3": {
+      "type": "text",
+      "label": "Enter the item value.",
+      "page": 1,
+      "box": {
+        "left": 495.9,
+        "top": 687.0,
+        "width": 76.8,
+        "height": 21.0
+      }
+    },
+    "columncaptions": {
+      "type": "text",
+      "label": "Enter the column captions.",
+      "page": 1,
+      "box": {
+        "left": 128.0,
+        "top": 686.6,
+        "width": 126.5,
+        "height": 20.6
+      }
+    },
+    "titlecolumncaps4": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 662.8,
+        "width": 72.6,
+        "height": 21.3
+      }
+    },
+    "titlecolumncaps9": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 638.7,
+        "width": 72.6,
+        "height": 21.3
+      }
+    },
+    "titlecolumncaps14": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 614.6,
+        "width": 72.6,
+        "height": 21.3
+      }
+    },
+    "titlecolumncaps19": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 590.5,
+        "width": 72.6,
+        "height": 21.3
+      }
+    },
+    "titlecolumncaps24": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 566.4,
+        "width": 72.6,
+        "height": 21.3
+      }
+    },
+    "titlecolumncaps29": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 542.3,
+        "width": 72.6,
+        "height": 21.3
+      }
+    },
+    "titlecolumncaps34": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 518.2,
+        "width": 72.6,
+        "height": 21.3
+      }
+    },
+    "titlecolumncaps39": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 494.1,
+        "width": 72.6,
+        "height": 21.3
+      }
+    },
+    "titlecolumncaps44": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 470.0,
+        "width": 72.6,
+        "height": 21.3
+      }
+    },
+    "titlecolumncaps49": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 445.9,
+        "width": 72.6,
+        "height": 21.3
+      }
+    },
+    "titlecolumncaps54": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 421.8,
+        "width": 72.6,
+        "height": 21.3
+      }
+    },
+    "titlecolumncaps59": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 397.7,
+        "width": 72.6,
+        "height": 21.3
+      }
+    },
+    "titlecolumncaps64": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 373.6,
+        "width": 72.6,
+        "height": 21.3
+      }
+    },
+    "titlecolumncaps69": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 349.5,
+        "width": 72.6,
+        "height": 21.3
+      }
+    },
+    "titlecolumncaps74": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 325.4,
+        "width": 72.6,
+        "height": 21.3
+      }
+    },
+    "titlecolumncaps79": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 301.3,
+        "width": 72.6,
+        "height": 21.3
+      }
+    },
+    "titlecolumncaps84": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 277.2,
+        "width": 72.6,
+        "height": 21.3
+      }
+    },
+    "titlecolumncaps89": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 253.1,
+        "width": 72.6,
+        "height": 21.3
+      }
+    },
+    "titlecolumncaps94": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 229.0,
+        "width": 72.6,
+        "height": 21.3
+      }
+    },
+    "titlecolumncaps99": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 204.9,
+        "width": 72.6,
+        "height": 21.3
+      }
+    },
+    "titlecolumncaps104": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 1,
+      "box": {
+        "left": 419.3,
+        "top": 180.2,
+        "width": 72.6,
+        "height": 21.3
+      }
+    },
+    "titlecolumncaps109": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 156.7,
+        "width": 72.6,
+        "height": 21.3
+      }
+    },
+    "titlecolumncaps114": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 132.6,
+        "width": 72.6,
+        "height": 21.3
+      }
+    },
+    "titlecolumncaps119": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 108.5,
+        "width": 72.6,
+        "height": 21.3
+      }
+    },
+    "titlecolumncaps124": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 84.4,
+        "width": 72.6,
+        "height": 21.3
+      }
+    },
+    "titlecolumncaps129": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 60.3,
+        "width": 72.6,
+        "height": 21.3
+      }
+    },
+    "dNSDate311": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 2,
+      "box": {
+        "left": 344.8,
+        "top": 746.9,
+        "width": 99.2,
+        "height": 19.8
+      }
+    },
+    "dNSDate322": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 2,
+      "box": {
+        "left": 480.4,
+        "top": 746.9,
+        "width": 91.4,
+        "height": 19.8
+      }
+    },
+    "title2": {
+      "type": "text",
+      "label": "Enter the title.",
+      "page": 2,
+      "box": {
+        "left": 81.1,
+        "top": 720.9,
+        "width": 126.5,
+        "height": 21.1
+      }
+    },
+    "pct12": {
+      "type": "text",
+      "label": "Enter the item value.",
+      "page": 2,
+      "box": {
+        "left": 263.6,
+        "top": 720.9,
+        "width": 69.2,
+        "height": 21.1
+      }
+    },
+    "pct22": {
+      "type": "text",
+      "label": "Enter the item value.",
+      "page": 2,
+      "box": {
+        "left": 340.6,
+        "top": 720.9,
+        "width": 67.6,
+        "height": 21.1
+      }
+    },
+    "pct32": {
+      "type": "text",
+      "label": "Enter the item value.",
+      "page": 2,
+      "box": {
+        "left": 416.3,
+        "top": 720.9,
+        "width": 72.6,
+        "height": 21.1
+      }
+    },
+    "pct42": {
+      "type": "text",
+      "label": "Enter the item value.",
+      "page": 2,
+      "box": {
+        "left": 495.5,
+        "top": 720.9,
+        "width": 76.8,
+        "height": 21.1
+      }
+    },
+    "pccolcap131": {
+      "type": "text",
+      "label": "Enter the item value.",
+      "page": 2,
+      "box": {
+        "left": 263.6,
+        "top": 697.1,
+        "width": 69.2,
+        "height": 21.1
+      }
+    },
+    "pccolcap132": {
+      "type": "text",
+      "label": "Enter the item value.",
+      "page": 2,
+      "box": {
+        "left": 340.6,
+        "top": 697.1,
+        "width": 67.6,
+        "height": 21.1
+      }
+    },
+    "pccolcap133": {
+      "type": "text",
+      "label": "Enter the item value.",
+      "page": 2,
+      "box": {
+        "left": 416.3,
+        "top": 697.1,
+        "width": 72.6,
+        "height": 21.1
+      }
+    },
+    "pccolcap134": {
+      "type": "text",
+      "label": "Enter the item value.",
+      "page": 2,
+      "box": {
+        "left": 495.5,
+        "top": 697.1,
+        "width": 76.8,
+        "height": 21.1
+      }
+    },
+    "columncaptions2": {
+      "type": "text",
+      "label": "Enter the column captions.",
+      "page": 2,
+      "box": {
+        "left": 127.6,
+        "top": 696.6,
+        "width": 126.5,
+        "height": 20.7
+      }
+    },
+    "titlecolumncaps135": {
+      "type": "text",
+      "label": "This is row 1 of 26, enter the item value.",
+      "page": 2,
+      "box": {
+        "left": 40.9,
+        "top": 672.8,
+        "width": 214.1,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps137": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 672.8,
+        "width": 67.2,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps138": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 416.3,
+        "top": 672.8,
+        "width": 72.6,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps140": {
+      "type": "text",
+      "label": "This is row 2 of 26, enter the item value.",
+      "page": 2,
+      "box": {
+        "left": 40.9,
+        "top": 648.6,
+        "width": 214.1,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps142": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 648.6,
+        "width": 67.2,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps143": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 416.3,
+        "top": 648.6,
+        "width": 72.6,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps145": {
+      "type": "text",
+      "label": "This is row 3 of 26, enter the item value.",
+      "page": 2,
+      "box": {
+        "left": 40.9,
+        "top": 624.4,
+        "width": 214.1,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps147": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 624.4,
+        "width": 67.2,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps148": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 416.3,
+        "top": 624.4,
+        "width": 72.6,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps150": {
+      "type": "text",
+      "label": "This is row 4 of 26, enter the item value.",
+      "page": 2,
+      "box": {
+        "left": 40.9,
+        "top": 600.2,
+        "width": 214.1,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps153": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 416.3,
+        "top": 600.2,
+        "width": 72.6,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps152": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 599.4,
+        "width": 67.2,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps155": {
+      "type": "text",
+      "label": "This is row 5 of 26, enter the item value.",
+      "page": 2,
+      "box": {
+        "left": 40.9,
+        "top": 576.0,
+        "width": 214.1,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps157": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 576.0,
+        "width": 67.2,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps158": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 416.3,
+        "top": 576.0,
+        "width": 72.6,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps160": {
+      "type": "text",
+      "label": "This is row 6 of 26, enter the item value.",
+      "page": 2,
+      "box": {
+        "left": 40.9,
+        "top": 551.8,
+        "width": 214.1,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps162": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 551.8,
+        "width": 67.2,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps163": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 416.3,
+        "top": 551.8,
+        "width": 72.6,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps165": {
+      "type": "text",
+      "label": "This is row 7 of 26, enter the item value.",
+      "page": 2,
+      "box": {
+        "left": 40.9,
+        "top": 527.6,
+        "width": 214.1,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps167": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 527.6,
+        "width": 67.2,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps168": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 416.3,
+        "top": 527.6,
+        "width": 72.6,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps170": {
+      "type": "text",
+      "label": "This is row 8 of 26, enter the item value.",
+      "page": 2,
+      "box": {
+        "left": 40.9,
+        "top": 503.4,
+        "width": 214.1,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps172": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 503.4,
+        "width": 67.2,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps173": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 416.3,
+        "top": 503.4,
+        "width": 72.6,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps175": {
+      "type": "text",
+      "label": "This is row 9 of 26, enter the item value.",
+      "page": 2,
+      "box": {
+        "left": 40.9,
+        "top": 479.1,
+        "width": 214.1,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps177": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 479.1,
+        "width": 67.2,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps178": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 416.3,
+        "top": 479.1,
+        "width": 72.6,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps180": {
+      "type": "text",
+      "label": "This is row 10 of 26, enter the item value.",
+      "page": 2,
+      "box": {
+        "left": 40.9,
+        "top": 454.9,
+        "width": 214.1,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps182": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 454.9,
+        "width": 67.2,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps183": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 416.3,
+        "top": 454.9,
+        "width": 72.6,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps185": {
+      "type": "text",
+      "label": "This is row 11 of 26, enter the item value.",
+      "page": 2,
+      "box": {
+        "left": 40.9,
+        "top": 430.7,
+        "width": 214.1,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps187": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 430.7,
+        "width": 67.2,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps188": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 416.3,
+        "top": 430.7,
+        "width": 72.6,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps190": {
+      "type": "text",
+      "label": "This is row 12 of 26, enter the item value.",
+      "page": 2,
+      "box": {
+        "left": 40.9,
+        "top": 406.5,
+        "width": 214.1,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps192": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 406.5,
+        "width": 67.2,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps193": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 416.3,
+        "top": 406.5,
+        "width": 72.6,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps195": {
+      "type": "text",
+      "label": "This is row 13 of 26, enter the item value.",
+      "page": 2,
+      "box": {
+        "left": 40.9,
+        "top": 382.3,
+        "width": 214.1,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps197": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 382.3,
+        "width": 67.2,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps198": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 416.3,
+        "top": 382.3,
+        "width": 72.6,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps200": {
+      "type": "text",
+      "label": "This is row 14 of 26, enter the item value.",
+      "page": 2,
+      "box": {
+        "left": 40.9,
+        "top": 358.1,
+        "width": 214.1,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps202": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 358.1,
+        "width": 67.2,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps203": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 416.3,
+        "top": 358.1,
+        "width": 72.6,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps205": {
+      "type": "text",
+      "label": "This is row 15 of 26, enter the item value.",
+      "page": 2,
+      "box": {
+        "left": 40.9,
+        "top": 333.9,
+        "width": 214.1,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps207": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 333.9,
+        "width": 67.2,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps208": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 416.3,
+        "top": 333.9,
+        "width": 72.6,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps210": {
+      "type": "text",
+      "label": "This is row 16 of 26, enter the item value.",
+      "page": 2,
+      "box": {
+        "left": 40.9,
+        "top": 309.7,
+        "width": 214.1,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps212": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 309.7,
+        "width": 67.2,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps213": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 416.3,
+        "top": 309.7,
+        "width": 72.6,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps215": {
+      "type": "text",
+      "label": "This is row 17 of 26, enter the item value.",
+      "page": 2,
+      "box": {
+        "left": 40.9,
+        "top": 285.5,
+        "width": 214.1,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps217": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 285.5,
+        "width": 67.2,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps218": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 416.3,
+        "top": 285.5,
+        "width": 72.6,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps220": {
+      "type": "text",
+      "label": "This is row 18 of 26, enter the item value.",
+      "page": 2,
+      "box": {
+        "left": 40.9,
+        "top": 261.3,
+        "width": 214.1,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps222": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 261.3,
+        "width": 67.2,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps223": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 416.3,
+        "top": 261.3,
+        "width": 72.6,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps225": {
+      "type": "text",
+      "label": "This is row 19 of 26, enter the item value.",
+      "page": 2,
+      "box": {
+        "left": 40.9,
+        "top": 237.1,
+        "width": 214.1,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps227": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 237.1,
+        "width": 67.2,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps228": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 416.3,
+        "top": 237.1,
+        "width": 72.6,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps230": {
+      "type": "text",
+      "label": "This is row 20 of 26, enter the item value.",
+      "page": 2,
+      "box": {
+        "left": 40.9,
+        "top": 212.9,
+        "width": 214.1,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps232": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 212.9,
+        "width": 67.2,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps233": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 416.3,
+        "top": 212.9,
+        "width": 72.6,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps237": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 188.7,
+        "width": 67.2,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps238": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 415.9,
+        "top": 188.1,
+        "width": 72.6,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps235": {
+      "type": "text",
+      "label": "This is row 21 of 26, enter the item value.",
+      "page": 2,
+      "box": {
+        "left": 42.6,
+        "top": 187.9,
+        "width": 214.1,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps240": {
+      "type": "text",
+      "label": "This is row 22 of 26, enter the item value.",
+      "page": 2,
+      "box": {
+        "left": 40.9,
+        "top": 164.5,
+        "width": 214.1,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps242": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 164.5,
+        "width": 67.2,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps243": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 416.3,
+        "top": 164.5,
+        "width": 72.6,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps245": {
+      "type": "text",
+      "label": "This is row 23 of 26, enter the item value.",
+      "page": 2,
+      "box": {
+        "left": 40.9,
+        "top": 140.3,
+        "width": 214.1,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps247": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 140.3,
+        "width": 67.2,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps248": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 416.3,
+        "top": 140.3,
+        "width": 72.6,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps250": {
+      "type": "text",
+      "label": "This is row 24 of 26, enter the item value.",
+      "page": 2,
+      "box": {
+        "left": 40.9,
+        "top": 116.1,
+        "width": 214.1,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps252": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 116.1,
+        "width": 67.2,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps253": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 416.3,
+        "top": 116.1,
+        "width": 72.6,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps255": {
+      "type": "text",
+      "label": "This is row 25 of 26, enter the item value.",
+      "page": 2,
+      "box": {
+        "left": 40.9,
+        "top": 91.9,
+        "width": 214.1,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps257": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 91.9,
+        "width": 67.2,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps258": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 416.3,
+        "top": 91.9,
+        "width": 72.6,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps260": {
+      "type": "text",
+      "label": "This is row 26 of 26, enter the item value.",
+      "page": 2,
+      "box": {
+        "left": 40.9,
+        "top": 67.7,
+        "width": 214.1,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps262": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 67.7,
+        "width": 67.2,
+        "height": 21.5
+      }
+    },
+    "titlecolumncaps263": {
+      "type": "text",
+      "label": "Enter the general record item value.",
+      "page": 2,
+      "box": {
+        "left": 416.3,
+        "top": 67.7,
+        "width": 72.6,
+        "height": 21.5
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 26,
+      "rowStride": 24.1,
+      "editor": "grid",
+      "columns": {
+        "titlecolumncaps": {
+          "type": "text",
+          "label": "This is row 1 of 26, enter the item value.",
+          "page": 1,
+          "box": {
+            "left": 41.3,
+            "top": 662.8,
+            "width": 214.1,
+            "height": 21.3
+          }
+        },
+        "titlecolumncaps2": {
+          "type": "text",
+          "label": "Enter the general record item value.",
+          "page": 1,
+          "box": {
+            "left": 263.2,
+            "top": 662.8,
+            "width": 70.1,
+            "height": 21.3
+          }
+        },
+        "titlecolumncaps3": {
+          "type": "text",
+          "label": "Enter the general record item value.",
+          "page": 1,
+          "box": {
+            "left": 341.4,
+            "top": 662.8,
+            "width": 67.2,
+            "height": 21.3
+          }
+        },
+        "titlecolumncaps4": {
+          "type": "text",
+          "label": "Enter the general record item value.",
+          "page": 1,
+          "box": {
+            "left": 496.3,
+            "top": 662.8,
+            "width": 77.2,
+            "height": 21.3
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 2,
+      "count": 26,
+      "rowStride": 24.2,
+      "editor": "grid",
+      "columns": {
+        "titlecolumncaps": {
+          "type": "text",
+          "label": "Enter the general record item value.",
+          "page": 2,
+          "box": {
+            "left": 262.7,
+            "top": 672.8,
+            "width": 70.1,
+            "height": 21.5
+          }
+        },
+        "titlecolumncaps2": {
+          "type": "text",
+          "label": "Enter the general record item value.",
+          "page": 2,
+          "box": {
+            "left": 495.9,
+            "top": 672.8,
+            "width": 77.2,
+            "height": 21.5
+          }
+        }
+      }
+    }
+  }
+}

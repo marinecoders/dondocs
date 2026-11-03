@@ -1,0 +1,343 @@
+{
+  "id": "navmc11813",
+  "label": "NAVMC118(13) - Record Of Conviction By Court-Martial",
+  "directory": "NAVMC118(13) - Record Of Conviction By Court-Martial",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "orgztn",
+        "radio",
+        "radio2",
+        "radio3",
+        "date1",
+        "arcl",
+        "signature",
+        "sigAccused",
+        "dateAccSig",
+        "sumCh",
+        "dateTrl",
+        "fiChSpec",
+        "radio4",
+        "radio5",
+        "radio6",
+        "senAdj",
+        "conAuth",
+        "dateAct",
+        "unDiaNu",
+        "date2",
+        "titOrg",
+        "sigConvAuth",
+        "grd",
+        "edipi",
+        "nameLFM",
+        "grd2"
+      ]
+    }
+  ],
+  "fields": {
+    "orgztn": {
+      "type": "text",
+      "label": "1. ORGANIZATION",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 706.6,
+        "width": 559.3,
+        "height": 35.6
+      },
+      "multiline": true
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 98.0,
+        "top": 658.5,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 423.8,
+        "top": 658.5,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 258.8,
+        "top": 657.7,
+        "width": 9.0,
+        "height": 9.0
+      },
+      "group": "radio"
+    },
+    "date1": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 492.1,
+        "top": 626.6,
+        "width": 91.3,
+        "height": 18.8
+      }
+    },
+    "arcl": {
+      "type": "text",
+      "label": "pending SCM for violation of Article (s)",
+      "page": 1,
+      "box": {
+        "left": 138.4,
+        "top": 614.0,
+        "width": 117.3,
+        "height": 11.3
+      }
+    },
+    "signature": {
+      "type": "text",
+      "label": "SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 492.8,
+        "top": 592.0,
+        "width": 91.6,
+        "height": 38.5
+      },
+      "multiline": true
+    },
+    "sigAccused": {
+      "type": "text",
+      "label": "Sig Accused",
+      "page": 1,
+      "box": {
+        "left": 27.0,
+        "top": 581.5,
+        "width": 303.7,
+        "height": 16.7
+      }
+    },
+    "dateAccSig": {
+      "type": "text",
+      "label": "administrative action against me",
+      "page": 1,
+      "box": {
+        "left": 334.8,
+        "top": 580.2,
+        "width": 154.0,
+        "height": 15.3
+      }
+    },
+    "sumCh": {
+      "type": "text",
+      "label": "Sum Ch",
+      "page": 1,
+      "box": {
+        "left": 28.1,
+        "top": 540.4,
+        "width": 462.7,
+        "height": 74.5
+      },
+      "multiline": true
+    },
+    "dateTrl": {
+      "type": "text",
+      "label": "DATE OF TRIAL",
+      "page": 1,
+      "box": {
+        "left": 494.3,
+        "top": 519.1,
+        "width": 88.4,
+        "height": 15.3
+      }
+    },
+    "fiChSpec": {
+      "type": "text",
+      "label": "4. FINDINGS FOR EACH CHARGE AND SPECIFICATION",
+      "page": 1,
+      "box": {
+        "left": 27.3,
+        "top": 454.6,
+        "width": 552.0,
+        "height": 49.2
+      },
+      "multiline": true
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 253.5,
+        "top": 396.5,
+        "width": 12.2,
+        "height": 12.2
+      },
+      "group": "radio"
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 106.1,
+        "top": 396.3,
+        "width": 12.2,
+        "height": 12.2
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 423.6,
+        "top": 395.9,
+        "width": 12.2,
+        "height": 12.2
+      },
+      "group": "radio"
+    },
+    "senAdj": {
+      "type": "text",
+      "label": "5. SENTENCE ADJUDGED",
+      "page": 1,
+      "box": {
+        "left": 24.9,
+        "top": 364.4,
+        "width": 555.7,
+        "height": 72.0
+      },
+      "multiline": true
+    },
+    "conAuth": {
+      "type": "text",
+      "label": "5. SENTENCE ADJUDGED",
+      "page": 1,
+      "box": {
+        "left": 24.4,
+        "top": 280.3,
+        "width": 463.4,
+        "height": 76.5
+      },
+      "multiline": true
+    },
+    "dateAct": {
+      "type": "text",
+      "label": "DATE OF ACTION",
+      "page": 1,
+      "box": {
+        "left": 487.8,
+        "top": 218.9,
+        "width": 94.0,
+        "height": 15.9
+      }
+    },
+    "unDiaNu": {
+      "type": "text",
+      "label": "UNIT DIARY #",
+      "page": 1,
+      "box": {
+        "left": 100.7,
+        "top": 190.4,
+        "width": 126.0,
+        "height": 15.3
+      }
+    },
+    "date2": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 438.7,
+        "top": 190.4,
+        "width": 128.0,
+        "height": 15.3
+      }
+    },
+    "titOrg": {
+      "type": "text",
+      "label": "10. TITLE AND ORGANIZATION",
+      "page": 1,
+      "box": {
+        "left": 315.8,
+        "top": 160.5,
+        "width": 268.3,
+        "height": 46.6
+      },
+      "multiline": true
+    },
+    "sigConvAuth": {
+      "type": "text",
+      "label": "AUTHORIZED TO SIGN BY DIRECTION",
+      "page": 1,
+      "box": {
+        "left": 26.1,
+        "top": 152.9,
+        "width": 209.7,
+        "height": 38.2
+      },
+      "multiline": true
+    },
+    "grd": {
+      "type": "text",
+      "label": "9. GRADE",
+      "page": 1,
+      "box": {
+        "left": 240.0,
+        "top": 134.7,
+        "width": 71.4,
+        "height": 17.6
+      }
+    },
+    "edipi": {
+      "type": "text",
+      "label": "10. TITLE AND ORGANIZATION",
+      "page": 1,
+      "box": {
+        "left": 316.5,
+        "top": 107.5,
+        "width": 134.0,
+        "height": 16.2
+      }
+    },
+    "nameLFM": {
+      "type": "text",
+      "label": "AUTHORIZED TO SIGN BY DIRECTION",
+      "page": 1,
+      "box": {
+        "left": 24.6,
+        "top": 106.8,
+        "width": 282.4,
+        "height": 15.5
+      }
+    },
+    "grd2": {
+      "type": "text",
+      "label": "ORGANIZATION",
+      "page": 1,
+      "box": {
+        "left": 455.0,
+        "top": 106.8,
+        "width": 127.0,
+        "height": 15.5
+      }
+    }
+  }
+}

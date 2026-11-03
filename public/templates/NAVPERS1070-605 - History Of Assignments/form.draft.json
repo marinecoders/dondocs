@@ -1,0 +1,130 @@
+{
+  "id": "navpers1070605",
+  "label": "NAVPERS1070-605 - History Of Assignments",
+  "directory": "NAVPERS1070-605 - History Of Assignments",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "textField1",
+        "textField3",
+        "textField2"
+      ]
+    }
+  ],
+  "fields": {
+    "textField1": {
+      "type": "text",
+      "label": "1. Name (Last, First Middle)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 55.8,
+        "width": 336.4,
+        "height": 17.0
+      }
+    },
+    "textField3": {
+      "type": "text",
+      "label": "2. Social Security Number",
+      "page": 1,
+      "box": {
+        "left": 380.9,
+        "top": 55.8,
+        "width": 102.3,
+        "height": 17.0
+      }
+    },
+    "textField2": {
+      "type": "text",
+      "label": "3. Rank/Rate",
+      "page": 1,
+      "box": {
+        "left": 488.9,
+        "top": 55.8,
+        "width": 84.3,
+        "height": 17.0
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 21,
+      "rowStride": 28.35,
+      "editor": "grid",
+      "columns": {
+        "dateField1": {
+          "type": "text",
+          "label": "DATE GAINED",
+          "page": 1,
+          "box": {
+            "left": 38.8,
+            "top": 688.8,
+            "width": 63.0,
+            "height": 22.7
+          }
+        },
+        "cell2": {
+          "type": "text",
+          "label": "TYPE GAIN",
+          "page": 1,
+          "box": {
+            "left": 106.1,
+            "top": 690.2,
+            "width": 64.2,
+            "height": 25.5
+          }
+        },
+        "cell3": {
+          "type": "text",
+          "label": "ACTIVITY",
+          "page": 1,
+          "box": {
+            "left": 173.1,
+            "top": 690.2,
+            "width": 214.6,
+            "height": 25.5
+          }
+        },
+        "cell4": {
+          "type": "text",
+          "label": "UIC",
+          "page": 1,
+          "box": {
+            "left": 390.6,
+            "top": 690.2,
+            "width": 48.8,
+            "height": 25.5
+          }
+        },
+        "cell5": {
+          "type": "text",
+          "label": "DATE OF LOSS",
+          "page": 1,
+          "box": {
+            "left": 442.3,
+            "top": 690.2,
+            "width": 65.3,
+            "height": 25.5
+          }
+        },
+        "cell6": {
+          "type": "text",
+          "label": "TYPE LOSS",
+          "page": 1,
+          "box": {
+            "left": 510.4,
+            "top": 690.2,
+            "width": 64.2,
+            "height": 25.5
+          }
+        }
+      }
+    }
+  }
+}

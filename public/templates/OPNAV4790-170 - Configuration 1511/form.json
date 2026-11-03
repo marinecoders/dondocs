@@ -1,0 +1,534 @@
+{
+  "id": "opnav4790170",
+  "label": "OPNAV4790-170 - Configuration 1511",
+  "directory": "OPNAV4790-170 - Configuration 1511",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "ship",
+        "date",
+        "servicechange",
+        "dateINCORP",
+        "checkBox1",
+        "checkBox12",
+        "checkBox13",
+        "checkBox14",
+        "checkBox15",
+        "checkBox16",
+        "checkBox17",
+        "checkBox18",
+        "checkBox19",
+        "checkBox110",
+        "checkBox111",
+        "checkBox112",
+        "checkBox113",
+        "checkBox114",
+        "checkBox115",
+        "checkBox116",
+        "checkBox117",
+        "checkBox118",
+        "checkBox119",
+        "checkBox120",
+        "checkBox121",
+        "checkBox122",
+        "checkBox123",
+        "checkBox124",
+        "checkBox125",
+        "checkBox126",
+        "checkBox127",
+        "checkBox128",
+        "checkBox129",
+        "checkBox130",
+        "checkBox131",
+        "checkBox132",
+        "checkBox133",
+        "checkBox134",
+        "checkBox135",
+        "checkBox136",
+        "checkBox137",
+        "checkBox138",
+        "textField1"
+      ],
+      "editor": "checklist"
+    }
+  ],
+  "fields": {
+    "ship": {
+      "type": "text",
+      "label": "ENTER SHIP.",
+      "page": 1,
+      "box": {
+        "left": 108.1,
+        "top": 708.2,
+        "width": 204.0,
+        "height": 12.3
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "ENTER DATE.",
+      "page": 1,
+      "box": {
+        "left": 108.1,
+        "top": 690.2,
+        "width": 204.0,
+        "height": 12.3
+      }
+    },
+    "servicechange": {
+      "type": "text",
+      "label": "ENTER SERVICE CHANGE NUMBER.",
+      "page": 1,
+      "box": {
+        "left": 151.7,
+        "top": 672.2,
+        "width": 160.4,
+        "height": 12.3
+      }
+    },
+    "dateINCORP": {
+      "type": "text",
+      "label": "ENTER DATE INCORPORATED.",
+      "page": 1,
+      "box": {
+        "left": 150.9,
+        "top": 654.2,
+        "width": 161.3,
+        "height": 12.3
+      }
+    },
+    "checkBox1": {
+      "type": "checkbox",
+      "label": "SELECT A/G MK7 RECOVERY 1.",
+      "page": 1,
+      "box": {
+        "left": 191.8,
+        "top": 572.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox12": {
+      "type": "checkbox",
+      "label": "SELECT A/G MK7 RECOVERY 2.",
+      "page": 1,
+      "box": {
+        "left": 236.8,
+        "top": 572.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox13": {
+      "type": "checkbox",
+      "label": "SELECT A/G MK7 RECOVERY 3.",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 572.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox14": {
+      "type": "checkbox",
+      "label": "SELECT A/G MK7 RECOVERY 4.",
+      "page": 1,
+      "box": {
+        "left": 326.8,
+        "top": 572.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox15": {
+      "type": "checkbox",
+      "label": "SELECT A/G MK7 RECOVERY 5.",
+      "page": 1,
+      "box": {
+        "left": 371.8,
+        "top": 572.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox16": {
+      "type": "checkbox",
+      "label": "SELECT TC-7 LAUNCHER 1.",
+      "page": 1,
+      "box": {
+        "left": 191.8,
+        "top": 527.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox17": {
+      "type": "checkbox",
+      "label": "SELECT TC-7 LAUNCHER 2.",
+      "page": 1,
+      "box": {
+        "left": 236.8,
+        "top": 527.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox18": {
+      "type": "checkbox",
+      "label": "SELECT TC-7 LAUNCHER 3.",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 527.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox19": {
+      "type": "checkbox",
+      "label": "SELECT TC-7 LAUNCHER 4.",
+      "page": 1,
+      "box": {
+        "left": 326.8,
+        "top": 527.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox110": {
+      "type": "checkbox",
+      "label": "SELECT C13 LAUNCHER 1.",
+      "page": 1,
+      "box": {
+        "left": 191.8,
+        "top": 509.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox111": {
+      "type": "checkbox",
+      "label": "SELECT C13 LAUNCHER 2.",
+      "page": 1,
+      "box": {
+        "left": 236.8,
+        "top": 509.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox112": {
+      "type": "checkbox",
+      "label": "SELECT C13 LAUNCHER 3.",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 509.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox113": {
+      "type": "checkbox",
+      "label": "SELECT C13 LAUNCHER 4.",
+      "page": 1,
+      "box": {
+        "left": 326.8,
+        "top": 509.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox114": {
+      "type": "checkbox",
+      "label": "SELECT C13-1 LAUNCHER 1.",
+      "page": 1,
+      "box": {
+        "left": 191.8,
+        "top": 491.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox115": {
+      "type": "checkbox",
+      "label": "SELECT C13-1 LAUNCHER 2.",
+      "page": 1,
+      "box": {
+        "left": 236.8,
+        "top": 491.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox116": {
+      "type": "checkbox",
+      "label": "SELECT C13-1 LAUNCHER 3.",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 491.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox117": {
+      "type": "checkbox",
+      "label": "SELECT C13-1 LAUNCHER 4.",
+      "page": 1,
+      "box": {
+        "left": 326.8,
+        "top": 491.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox118": {
+      "type": "checkbox",
+      "label": "SELECT C13-2 LAUNCHER 1.",
+      "page": 1,
+      "box": {
+        "left": 191.8,
+        "top": 473.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox119": {
+      "type": "checkbox",
+      "label": "SELECT C13-2 LAUNCHER 2.",
+      "page": 1,
+      "box": {
+        "left": 236.8,
+        "top": 473.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox120": {
+      "type": "checkbox",
+      "label": "SELECT C13-2 LAUNCHER 3.",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 473.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox121": {
+      "type": "checkbox",
+      "label": "SELECT C13-2 LAUNCHER 4.",
+      "page": 1,
+      "box": {
+        "left": 326.8,
+        "top": 473.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox122": {
+      "type": "checkbox",
+      "label": "SELECT CDGA LAUNCHER 1.",
+      "page": 1,
+      "box": {
+        "left": 191.8,
+        "top": 455.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox123": {
+      "type": "checkbox",
+      "label": "SELECT JBD LAUNCHER 1.",
+      "page": 1,
+      "box": {
+        "left": 191.8,
+        "top": 437.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox124": {
+      "type": "checkbox",
+      "label": "SELECT JBD LAUNCHER 2.",
+      "page": 1,
+      "box": {
+        "left": 236.8,
+        "top": 437.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox125": {
+      "type": "checkbox",
+      "label": "SELECT JBD LAUNCHER 3.",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 437.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox126": {
+      "type": "checkbox",
+      "label": "SELECT JBD LAUNCHER 4.",
+      "page": 1,
+      "box": {
+        "left": 326.8,
+        "top": 437.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox127": {
+      "type": "checkbox",
+      "label": "SELECT ADMAC/ISIS VISUAL LANDING AID 1.",
+      "page": 1,
+      "box": {
+        "left": 191.8,
+        "top": 392.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox128": {
+      "type": "checkbox",
+      "label": "SELECT FLOLS VISUAL LANDING AID 1.",
+      "page": 1,
+      "box": {
+        "left": 191.8,
+        "top": 374.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox129": {
+      "type": "checkbox",
+      "label": "SELECT IFLOLS VISUAL LANDING AID 1.",
+      "page": 1,
+      "box": {
+        "left": 191.8,
+        "top": 356.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox130": {
+      "type": "checkbox",
+      "label": "SELECT ILARTS VISUAL LANDING AID 1.",
+      "page": 1,
+      "box": {
+        "left": 191.8,
+        "top": 338.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox131": {
+      "type": "checkbox",
+      "label": "SELECT LRLS VISUAL LANDING AID 1.",
+      "page": 1,
+      "box": {
+        "left": 191.8,
+        "top": 320.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox132": {
+      "type": "checkbox",
+      "label": "SELECT LSO HUD VISUAL LANDING AID 1.",
+      "page": 1,
+      "box": {
+        "left": 191.8,
+        "top": 302.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox133": {
+      "type": "checkbox",
+      "label": "SELECT MOVLAS VISUAL LANDING AID 1.",
+      "page": 1,
+      "box": {
+        "left": 191.8,
+        "top": 284.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox134": {
+      "type": "checkbox",
+      "label": "SELECT VLA VISUAL LANDING AID 1.",
+      "page": 1,
+      "box": {
+        "left": 191.8,
+        "top": 266.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox135": {
+      "type": "checkbox",
+      "label": "SELECT WMIS MISCELLANEOUS ITEM 1.",
+      "page": 1,
+      "box": {
+        "left": 191.8,
+        "top": 221.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox136": {
+      "type": "checkbox",
+      "label": "SELECT LSO WORKSTATION MISCELLANEOUS ITEM 1.",
+      "page": 1,
+      "box": {
+        "left": 191.8,
+        "top": 203.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox137": {
+      "type": "checkbox",
+      "label": "SELECT MORIAH MISCELLANEOUS ITEM 1.",
+      "page": 1,
+      "box": {
+        "left": 191.8,
+        "top": 185.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox138": {
+      "type": "checkbox",
+      "label": "SELECT VISUAL MISCELLANEOUS ITEM 1.",
+      "page": 1,
+      "box": {
+        "left": 191.8,
+        "top": 167.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "textField1": {
+      "type": "text",
+      "label": "ENTER ENGINEERING OFFICER/V-2 MAINTENANCE OFFICER",
+      "page": 1,
+      "box": {
+        "left": 56.8,
+        "top": 123.2,
+        "width": 246.3,
+        "height": 16.1
+      }
+    }
+  }
+}

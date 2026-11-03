@@ -1,0 +1,359 @@
+{
+  "id": "navmc11036",
+  "label": "NAVMC11036 -",
+  "directory": "NAVMC11036 -",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "daT",
+        "chkAc",
+        "chkRe",
+        "naM",
+        "ssn1",
+        "grD",
+        "yrSv",
+        "dep",
+        "ruc",
+        "unPa",
+        "faPa",
+        "pamt",
+        "bous",
+        "le1",
+        "le2",
+        "le3",
+        "le4",
+        "lev",
+        "faiAd",
+        "diOfAd",
+        "pfMaCo",
+        "pfMaDe",
+        "peMai",
+        "reKs",
+        "daT2",
+        "frM",
+        "signature",
+        "exM"
+      ]
+    }
+  ],
+  "fields": {
+    "daT": {
+      "type": "text",
+      "label": "Enter date using format 2002 12 24",
+      "page": 1,
+      "box": {
+        "left": 486.7,
+        "top": 719.2,
+        "width": 108.2,
+        "height": 17.1
+      }
+    },
+    "chkAc": {
+      "type": "checkbox",
+      "label": "Disbursing on - site examination discrepancy notice - disbursing phase ( east coast team ). Check if active.",
+      "page": 1,
+      "box": {
+        "left": 358.2,
+        "top": 717.9,
+        "width": 10.8,
+        "height": 10.8
+      }
+    },
+    "chkRe": {
+      "type": "checkbox",
+      "label": "Check if reserve.",
+      "page": 1,
+      "box": {
+        "left": 444.9,
+        "top": 717.9,
+        "width": 10.8,
+        "height": 10.8
+      }
+    },
+    "naM": {
+      "type": "text",
+      "label": "Name",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 683.1,
+        "width": 225.3,
+        "height": 17.7
+      }
+    },
+    "ssn1": {
+      "type": "text",
+      "label": "Enter Social Security Number without dashes",
+      "page": 1,
+      "box": {
+        "left": 250.6,
+        "top": 683.1,
+        "width": 109.5,
+        "height": 17.7
+      }
+    },
+    "grD": {
+      "type": "text",
+      "label": "Grade",
+      "page": 1,
+      "box": {
+        "left": 360.8,
+        "top": 683.1,
+        "width": 51.3,
+        "height": 17.7
+      }
+    },
+    "yrSv": {
+      "type": "text",
+      "label": "Y R S  S V",
+      "page": 1,
+      "box": {
+        "left": 412.7,
+        "top": 683.1,
+        "width": 50.6,
+        "height": 17.7
+      }
+    },
+    "dep": {
+      "type": "text",
+      "label": "D E P",
+      "page": 1,
+      "box": {
+        "left": 463.9,
+        "top": 683.1,
+        "width": 41.8,
+        "height": 17.7
+      }
+    },
+    "ruc": {
+      "type": "text",
+      "label": "R U C",
+      "page": 1,
+      "box": {
+        "left": 507.0,
+        "top": 683.1,
+        "width": 86.7,
+        "height": 17.7
+      }
+    },
+    "unPa": {
+      "type": "checkbox",
+      "label": "Payments.  Check if unauthorized payment. ",
+      "page": 1,
+      "box": {
+        "left": 211.4,
+        "top": 588.2,
+        "width": 15.2,
+        "height": 15.2
+      }
+    },
+    "faPa": {
+      "type": "checkbox",
+      "label": "Check if failure to deduct / notify D F A S of non - posted payments.",
+      "page": 1,
+      "box": {
+        "left": 550.0,
+        "top": 588.2,
+        "width": 15.2,
+        "height": 15.2
+      }
+    },
+    "pamt": {
+      "type": "text",
+      "label": "Details of payments discrepency.",
+      "page": 1,
+      "box": {
+        "left": 88.6,
+        "top": 578.7,
+        "width": 510.8,
+        "height": 36.1
+      },
+      "multiline": true
+    },
+    "bous": {
+      "type": "text",
+      "label": "Bonus.  Entitlement / not entitled.",
+      "page": 1,
+      "box": {
+        "left": 88.0,
+        "top": 532.7,
+        "width": 510.4,
+        "height": 28.7
+      }
+    },
+    "le1": {
+      "type": "checkbox",
+      "label": "Leave.  Check if delay / leave not / incorrectly reported.",
+      "page": 1,
+      "box": {
+        "left": 277.6,
+        "top": 504.8,
+        "width": 15.2,
+        "height": 15.2
+      }
+    },
+    "le2": {
+      "type": "checkbox",
+      "label": "Check if L S L / Career L S L",
+      "page": 1,
+      "box": {
+        "left": 376.8,
+        "top": 504.8,
+        "width": 15.2,
+        "height": 15.2
+      }
+    },
+    "le3": {
+      "type": "checkbox",
+      "label": "Check if excess leave.",
+      "page": 1,
+      "box": {
+        "left": 468.0,
+        "top": 504.8,
+        "width": 15.2,
+        "height": 15.2
+      }
+    },
+    "le4": {
+      "type": "checkbox",
+      "label": "Check if leave balance.",
+      "page": 1,
+      "box": {
+        "left": 573.6,
+        "top": 504.8,
+        "width": 15.2,
+        "height": 15.2
+      }
+    },
+    "lev": {
+      "type": "text",
+      "label": "Details of leave discrepency.",
+      "page": 1,
+      "box": {
+        "left": 88.6,
+        "top": 494.3,
+        "width": 510.8,
+        "height": 36.7
+      },
+      "multiline": true
+    },
+    "faiAd": {
+      "type": "text",
+      "label": "Failure to adjust computer program deficiencies.",
+      "page": 1,
+      "box": {
+        "left": 88.0,
+        "top": 457.2,
+        "width": 510.8,
+        "height": 52.5
+      },
+      "multiline": true
+    },
+    "diOfAd": {
+      "type": "text",
+      "label": "Disbursing officer adjustments.",
+      "page": 1,
+      "box": {
+        "left": 88.0,
+        "top": 404.7,
+        "width": 510.8,
+        "height": 68.4
+      },
+      "multiline": true
+    },
+    "pfMaCo": {
+      "type": "checkbox",
+      "label": "P F R Maintenance.  Check if copy of travel itinerary not on file.  ",
+      "page": 1,
+      "box": {
+        "left": 277.6,
+        "top": 336.0,
+        "width": 15.2,
+        "height": 15.2
+      }
+    },
+    "pfMaDe": {
+      "type": "checkbox",
+      "label": "Check if D E P N   T V L  record not on file / endorsed.",
+      "page": 1,
+      "box": {
+        "left": 547.2,
+        "top": 336.0,
+        "width": 15.2,
+        "height": 15.2
+      }
+    },
+    "peMai": {
+      "type": "text",
+      "label": "Details of P F R maintenance discrepancy.",
+      "page": 1,
+      "box": {
+        "left": 88.6,
+        "top": 326.2,
+        "width": 510.8,
+        "height": 32.3
+      },
+      "multiline": true
+    },
+    "reKs": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 1,
+      "box": {
+        "left": 88.0,
+        "top": 292.6,
+        "width": 510.8,
+        "height": 103.8
+      },
+      "multiline": true
+    },
+    "daT2": {
+      "type": "text",
+      "label": "Enter date using format 2002 12 24",
+      "page": 1,
+      "box": {
+        "left": 469.6,
+        "top": 188.2,
+        "width": 118.4,
+        "height": 15.8
+      }
+    },
+    "frM": {
+      "type": "text",
+      "label": "From",
+      "page": 1,
+      "box": {
+        "left": 291.1,
+        "top": 98.3,
+        "width": 308.2,
+        "height": 17.1
+      }
+    },
+    "signature": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 291.4,
+        "top": 46.6,
+        "width": 299.3,
+        "height": 21.3
+      }
+    },
+    "exM": {
+      "type": "text",
+      "label": "Examiner",
+      "page": 1,
+      "box": {
+        "left": 25.3,
+        "top": 42.0,
+        "width": 263.3,
+        "height": 17.1
+      }
+    }
+  }
+}

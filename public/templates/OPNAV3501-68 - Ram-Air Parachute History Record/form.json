@@ -1,0 +1,1614 @@
+{
+  "id": "opnav350168",
+  "label": "OPNAV3501-68 - Ram-Air Parachute History Record",
+  "directory": "OPNAV3501-68 - Ram-Air Parachute History Record",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "r1aPart",
+        "r1aSerial",
+        "r1aCon",
+        "r1aDOM",
+        "r1aDPIS",
+        "r1aFSD",
+        "r1aRemarks",
+        "r1bPart",
+        "r1bSerial",
+        "r1bCon",
+        "r1bDOM",
+        "r1bDPIS",
+        "r1bFSD",
+        "r1bRemarks",
+        "r1cPart",
+        "r1cSerial",
+        "r1cCon",
+        "r1dom",
+        "r1cDPIS",
+        "r1cFSD",
+        "r1cRemarks",
+        "r1dPart",
+        "r1dSerial",
+        "r1dCon",
+        "r1dDOM",
+        "r1dDPIS",
+        "r1dFSD",
+        "r1dRemarks",
+        "r2aPart",
+        "r2aSerial",
+        "r2aCon",
+        "r2aDOM",
+        "r2aDPIS",
+        "r2aFSD",
+        "r2aRemarks",
+        "r2bPart",
+        "r2bSerial",
+        "r2bCon",
+        "r2bDOM",
+        "r2bDPIS",
+        "r2bFSD",
+        "r2bRemarks",
+        "r2cPart",
+        "r2cSerial",
+        "r2cCon",
+        "r2cDOM",
+        "r2cDPIS",
+        "r2cFSD",
+        "r2cRemarks",
+        "r3aPart",
+        "r3aSerial",
+        "r3aCon",
+        "r3aDOM",
+        "r3aDPIS",
+        "r3aFSD",
+        "r3aRemarks",
+        "r3bPart",
+        "r3bSerial",
+        "r3bCon",
+        "r3bDOM",
+        "r3bDPIS",
+        "r3bFSD",
+        "r3bRemarks",
+        "r3cPart",
+        "r3cSerial",
+        "r3cCon",
+        "r3cDOM",
+        "r3cDPIS",
+        "r3cFSD",
+        "r3cRemarks",
+        "r3dPart",
+        "r3dSerial",
+        "r3dCon",
+        "r3dDOM",
+        "r3dDPIS",
+        "r3dFSD",
+        "r3dRemarks",
+        "r3ePart",
+        "r3eSerial",
+        "r3eCon",
+        "r3eDOM",
+        "r3eDPIS",
+        "r3eFSD",
+        "r3eRemarks",
+        "r4aSerial",
+        "r4aDOM",
+        "r1",
+        "r2",
+        "r4bSerial",
+        "rework1E",
+        "rework2E",
+        "r4cSerial",
+        "r4cFSD",
+        "rework1L",
+        "rework2L",
+        "q5aDB",
+        "q5aAB",
+        "q5aBC",
+        "q5aCD",
+        "q5aFF",
+        "q5bDB",
+        "q5bAB",
+        "q5bBC",
+        "q5bCD",
+        "q5bFF",
+        "r6aDate",
+        "r6aDes",
+        "r6aIns",
+        "r6bDate",
+        "r6bDes",
+        "r6bIns",
+        "r6cDate",
+        "r6cDes",
+        "r6cIns",
+        "r6dDate",
+        "r6dDes",
+        "r6dIns",
+        "r6eDate",
+        "r6eDes",
+        "r6eIns",
+        "r6fDate",
+        "r6fDes",
+        "r6fIns",
+        "q7",
+        "q8",
+        "q9",
+        "q10",
+        "q11",
+        "q12",
+        "q13",
+        "q14",
+        "q15",
+        "q16"
+      ]
+    }
+  ],
+  "fields": {
+    "r1aPart": {
+      "type": "text",
+      "label": "a. PACK/HARNESS ASSEMBLY",
+      "page": 1,
+      "box": {
+        "left": 184.5,
+        "top": 716.1,
+        "width": 50.3,
+        "height": 16.0
+      }
+    },
+    "r1aSerial": {
+      "type": "text",
+      "label": "a. PACK/HARNESS ASSEMBLY",
+      "page": 1,
+      "box": {
+        "left": 237.6,
+        "top": 716.1,
+        "width": 53.0,
+        "height": 16.0
+      }
+    },
+    "r1aCon": {
+      "type": "text",
+      "label": "a. PACK/HARNESS ASSEMBLY",
+      "page": 1,
+      "box": {
+        "left": 293.5,
+        "top": 716.1,
+        "width": 87.2,
+        "height": 16.0
+      }
+    },
+    "r1aDOM": {
+      "type": "text",
+      "label": "a. PACK/HARNESS ASSEMBLY",
+      "page": 1,
+      "box": {
+        "left": 383.5,
+        "top": 716.1,
+        "width": 28.3,
+        "height": 16.0
+      }
+    },
+    "r1aDPIS": {
+      "type": "text",
+      "label": "a. PACK/HARNESS ASSEMBLY",
+      "page": 1,
+      "box": {
+        "left": 414.6,
+        "top": 716.1,
+        "width": 29.2,
+        "height": 16.0
+      }
+    },
+    "r1aFSD": {
+      "type": "text",
+      "label": "a. PACK/HARNESS ASSEMBLY",
+      "page": 1,
+      "box": {
+        "left": 446.6,
+        "top": 716.1,
+        "width": 28.3,
+        "height": 16.0
+      }
+    },
+    "r1aRemarks": {
+      "type": "text",
+      "label": "a. PACK/HARNESS ASSEMBLY",
+      "page": 1,
+      "box": {
+        "left": 477.8,
+        "top": 716.1,
+        "width": 96.5,
+        "height": 16.0
+      }
+    },
+    "r1bPart": {
+      "type": "text",
+      "label": "b. RESERVE STATIC LINE",
+      "page": 1,
+      "box": {
+        "left": 184.5,
+        "top": 697.3,
+        "width": 50.3,
+        "height": 15.2
+      }
+    },
+    "r1bSerial": {
+      "type": "text",
+      "label": "b. RESERVE STATIC LINE",
+      "page": 1,
+      "box": {
+        "left": 237.6,
+        "top": 697.3,
+        "width": 53.0,
+        "height": 15.2
+      }
+    },
+    "r1bCon": {
+      "type": "text",
+      "label": "b. RESERVE STATIC LINE",
+      "page": 1,
+      "box": {
+        "left": 293.5,
+        "top": 697.3,
+        "width": 87.2,
+        "height": 15.2
+      }
+    },
+    "r1bDOM": {
+      "type": "text",
+      "label": "b. RESERVE STATIC LINE",
+      "page": 1,
+      "box": {
+        "left": 383.5,
+        "top": 697.3,
+        "width": 28.3,
+        "height": 15.2
+      }
+    },
+    "r1bDPIS": {
+      "type": "text",
+      "label": "b. RESERVE STATIC LINE",
+      "page": 1,
+      "box": {
+        "left": 414.6,
+        "top": 697.3,
+        "width": 29.2,
+        "height": 15.2
+      }
+    },
+    "r1bFSD": {
+      "type": "text",
+      "label": "b. RESERVE STATIC LINE",
+      "page": 1,
+      "box": {
+        "left": 446.6,
+        "top": 697.3,
+        "width": 28.3,
+        "height": 15.2
+      }
+    },
+    "r1bRemarks": {
+      "type": "text",
+      "label": "b. RESERVE STATIC LINE",
+      "page": 1,
+      "box": {
+        "left": 477.8,
+        "top": 697.3,
+        "width": 96.5,
+        "height": 15.2
+      }
+    },
+    "r1cPart": {
+      "type": "text",
+      "label": "c. CUTAWAY HANDLE",
+      "page": 1,
+      "box": {
+        "left": 184.5,
+        "top": 679.3,
+        "width": 50.3,
+        "height": 15.2
+      }
+    },
+    "r1cSerial": {
+      "type": "text",
+      "label": "c. CUTAWAY HANDLE",
+      "page": 1,
+      "box": {
+        "left": 237.6,
+        "top": 679.3,
+        "width": 53.0,
+        "height": 15.2
+      }
+    },
+    "r1cCon": {
+      "type": "text",
+      "label": "c. CUTAWAY HANDLE",
+      "page": 1,
+      "box": {
+        "left": 293.5,
+        "top": 679.3,
+        "width": 87.2,
+        "height": 15.2
+      }
+    },
+    "r1dom": {
+      "type": "text",
+      "label": "c. CUTAWAY HANDLE",
+      "page": 1,
+      "box": {
+        "left": 383.5,
+        "top": 679.3,
+        "width": 28.3,
+        "height": 15.2
+      }
+    },
+    "r1cDPIS": {
+      "type": "text",
+      "label": "c. CUTAWAY HANDLE",
+      "page": 1,
+      "box": {
+        "left": 414.6,
+        "top": 679.3,
+        "width": 29.2,
+        "height": 15.2
+      }
+    },
+    "r1cFSD": {
+      "type": "text",
+      "label": "c. CUTAWAY HANDLE",
+      "page": 1,
+      "box": {
+        "left": 446.6,
+        "top": 679.3,
+        "width": 28.3,
+        "height": 15.2
+      }
+    },
+    "r1cRemarks": {
+      "type": "text",
+      "label": "c. CUTAWAY HANDLE",
+      "page": 1,
+      "box": {
+        "left": 477.8,
+        "top": 679.3,
+        "width": 96.5,
+        "height": 15.2
+      }
+    },
+    "r1dPart": {
+      "type": "text",
+      "label": "d. MAIN CANOPY RISERS",
+      "page": 1,
+      "box": {
+        "left": 184.5,
+        "top": 661.3,
+        "width": 50.3,
+        "height": 15.2
+      }
+    },
+    "r1dSerial": {
+      "type": "text",
+      "label": "d. MAIN CANOPY RISERS",
+      "page": 1,
+      "box": {
+        "left": 237.6,
+        "top": 661.3,
+        "width": 53.0,
+        "height": 15.2
+      }
+    },
+    "r1dCon": {
+      "type": "text",
+      "label": "d. MAIN CANOPY RISERS",
+      "page": 1,
+      "box": {
+        "left": 293.5,
+        "top": 661.3,
+        "width": 87.2,
+        "height": 15.2
+      }
+    },
+    "r1dDOM": {
+      "type": "text",
+      "label": "d. MAIN CANOPY RISERS",
+      "page": 1,
+      "box": {
+        "left": 383.5,
+        "top": 661.3,
+        "width": 28.3,
+        "height": 15.2
+      }
+    },
+    "r1dDPIS": {
+      "type": "text",
+      "label": "d. MAIN CANOPY RISERS",
+      "page": 1,
+      "box": {
+        "left": 414.6,
+        "top": 661.3,
+        "width": 29.2,
+        "height": 15.2
+      }
+    },
+    "r1dFSD": {
+      "type": "text",
+      "label": "d. MAIN CANOPY RISERS",
+      "page": 1,
+      "box": {
+        "left": 446.6,
+        "top": 661.3,
+        "width": 28.3,
+        "height": 15.2
+      }
+    },
+    "r1dRemarks": {
+      "type": "text",
+      "label": "d. MAIN CANOPY RISERS",
+      "page": 1,
+      "box": {
+        "left": 477.8,
+        "top": 661.3,
+        "width": 96.5,
+        "height": 15.2
+      }
+    },
+    "r2aPart": {
+      "type": "text",
+      "label": "a. RESERVE DEPLOYMENT SYSTEM",
+      "page": 1,
+      "box": {
+        "left": 184.5,
+        "top": 625.3,
+        "width": 50.3,
+        "height": 15.2
+      }
+    },
+    "r2aSerial": {
+      "type": "text",
+      "label": "a. RESERVE DEPLOYMENT SYSTEM",
+      "page": 1,
+      "box": {
+        "left": 237.6,
+        "top": 625.3,
+        "width": 53.0,
+        "height": 15.2
+      }
+    },
+    "r2aCon": {
+      "type": "text",
+      "label": "a. RESERVE DEPLOYMENT SYSTEM",
+      "page": 1,
+      "box": {
+        "left": 293.5,
+        "top": 625.3,
+        "width": 87.2,
+        "height": 15.2
+      }
+    },
+    "r2aDOM": {
+      "type": "text",
+      "label": "a. RESERVE DEPLOYMENT SYSTEM",
+      "page": 1,
+      "box": {
+        "left": 383.5,
+        "top": 625.3,
+        "width": 28.3,
+        "height": 15.2
+      }
+    },
+    "r2aDPIS": {
+      "type": "text",
+      "label": "a. RESERVE DEPLOYMENT SYSTEM",
+      "page": 1,
+      "box": {
+        "left": 414.6,
+        "top": 625.3,
+        "width": 29.2,
+        "height": 15.2
+      }
+    },
+    "r2aFSD": {
+      "type": "text",
+      "label": "a. RESERVE DEPLOYMENT SYSTEM",
+      "page": 1,
+      "box": {
+        "left": 446.6,
+        "top": 625.3,
+        "width": 28.3,
+        "height": 15.2
+      }
+    },
+    "r2aRemarks": {
+      "type": "text",
+      "label": "a. RESERVE DEPLOYMENT SYSTEM",
+      "page": 1,
+      "box": {
+        "left": 477.8,
+        "top": 625.3,
+        "width": 96.5,
+        "height": 15.2
+      }
+    },
+    "r2bPart": {
+      "type": "text",
+      "label": "b. RESERVE CANOPY",
+      "page": 1,
+      "box": {
+        "left": 184.5,
+        "top": 607.3,
+        "width": 50.3,
+        "height": 15.2
+      }
+    },
+    "r2bSerial": {
+      "type": "text",
+      "label": "b. RESERVE CANOPY",
+      "page": 1,
+      "box": {
+        "left": 237.6,
+        "top": 607.3,
+        "width": 53.0,
+        "height": 15.2
+      }
+    },
+    "r2bCon": {
+      "type": "text",
+      "label": "b. RESERVE CANOPY",
+      "page": 1,
+      "box": {
+        "left": 293.5,
+        "top": 607.3,
+        "width": 87.2,
+        "height": 15.2
+      }
+    },
+    "r2bDOM": {
+      "type": "text",
+      "label": "b. RESERVE CANOPY",
+      "page": 1,
+      "box": {
+        "left": 383.5,
+        "top": 607.3,
+        "width": 28.3,
+        "height": 15.2
+      }
+    },
+    "r2bDPIS": {
+      "type": "text",
+      "label": "b. RESERVE CANOPY",
+      "page": 1,
+      "box": {
+        "left": 414.6,
+        "top": 607.3,
+        "width": 29.2,
+        "height": 15.2
+      }
+    },
+    "r2bFSD": {
+      "type": "text",
+      "label": "b. RESERVE CANOPY",
+      "page": 1,
+      "box": {
+        "left": 446.6,
+        "top": 607.3,
+        "width": 28.3,
+        "height": 15.2
+      }
+    },
+    "r2bRemarks": {
+      "type": "text",
+      "label": "b. RESERVE CANOPY",
+      "page": 1,
+      "box": {
+        "left": 477.8,
+        "top": 607.3,
+        "width": 96.5,
+        "height": 15.2
+      }
+    },
+    "r2cPart": {
+      "type": "text",
+      "label": "c. RESERVE SLIDER",
+      "page": 1,
+      "box": {
+        "left": 184.5,
+        "top": 589.3,
+        "width": 50.3,
+        "height": 15.2
+      }
+    },
+    "r2cSerial": {
+      "type": "text",
+      "label": "c. RESERVE SLIDER",
+      "page": 1,
+      "box": {
+        "left": 237.6,
+        "top": 589.3,
+        "width": 53.0,
+        "height": 15.2
+      }
+    },
+    "r2cCon": {
+      "type": "text",
+      "label": "c. RESERVE SLIDER",
+      "page": 1,
+      "box": {
+        "left": 293.5,
+        "top": 589.3,
+        "width": 87.2,
+        "height": 15.2
+      }
+    },
+    "r2cDOM": {
+      "type": "text",
+      "label": "c. RESERVE SLIDER",
+      "page": 1,
+      "box": {
+        "left": 383.5,
+        "top": 589.3,
+        "width": 28.3,
+        "height": 15.2
+      }
+    },
+    "r2cDPIS": {
+      "type": "text",
+      "label": "c. RESERVE SLIDER",
+      "page": 1,
+      "box": {
+        "left": 414.6,
+        "top": 589.3,
+        "width": 29.2,
+        "height": 15.2
+      }
+    },
+    "r2cFSD": {
+      "type": "text",
+      "label": "c. RESERVE SLIDER",
+      "page": 1,
+      "box": {
+        "left": 446.6,
+        "top": 589.3,
+        "width": 28.3,
+        "height": 15.2
+      }
+    },
+    "r2cRemarks": {
+      "type": "text",
+      "label": "c. RESERVE SLIDER",
+      "page": 1,
+      "box": {
+        "left": 477.8,
+        "top": 589.3,
+        "width": 96.5,
+        "height": 15.2
+      }
+    },
+    "r3aPart": {
+      "type": "text",
+      "label": "a. MAIN PILOT CHUTE",
+      "page": 1,
+      "box": {
+        "left": 184.5,
+        "top": 553.3,
+        "width": 50.3,
+        "height": 15.2
+      }
+    },
+    "r3aSerial": {
+      "type": "text",
+      "label": "a. MAIN PILOT CHUTE",
+      "page": 1,
+      "box": {
+        "left": 237.6,
+        "top": 553.3,
+        "width": 53.0,
+        "height": 15.2
+      }
+    },
+    "r3aCon": {
+      "type": "text",
+      "label": "a. MAIN PILOT CHUTE",
+      "page": 1,
+      "box": {
+        "left": 293.5,
+        "top": 553.3,
+        "width": 87.2,
+        "height": 15.2
+      }
+    },
+    "r3aDOM": {
+      "type": "text",
+      "label": "a. MAIN PILOT CHUTE",
+      "page": 1,
+      "box": {
+        "left": 383.5,
+        "top": 553.3,
+        "width": 28.3,
+        "height": 15.2
+      }
+    },
+    "r3aDPIS": {
+      "type": "text",
+      "label": "a. MAIN PILOT CHUTE",
+      "page": 1,
+      "box": {
+        "left": 414.6,
+        "top": 553.3,
+        "width": 29.2,
+        "height": 15.2
+      }
+    },
+    "r3aFSD": {
+      "type": "text",
+      "label": "a. MAIN PILOT CHUTE",
+      "page": 1,
+      "box": {
+        "left": 446.6,
+        "top": 553.3,
+        "width": 28.3,
+        "height": 15.2
+      }
+    },
+    "r3aRemarks": {
+      "type": "text",
+      "label": "a. MAIN PILOT CHUTE",
+      "page": 1,
+      "box": {
+        "left": 477.8,
+        "top": 553.3,
+        "width": 96.5,
+        "height": 15.2
+      }
+    },
+    "r3bPart": {
+      "type": "text",
+      "label": "b. MAIN BRIDLE",
+      "page": 1,
+      "box": {
+        "left": 184.5,
+        "top": 535.3,
+        "width": 50.3,
+        "height": 15.2
+      }
+    },
+    "r3bSerial": {
+      "type": "text",
+      "label": "b. MAIN BRIDLE",
+      "page": 1,
+      "box": {
+        "left": 237.6,
+        "top": 535.3,
+        "width": 53.0,
+        "height": 15.2
+      }
+    },
+    "r3bCon": {
+      "type": "text",
+      "label": "b. MAIN BRIDLE",
+      "page": 1,
+      "box": {
+        "left": 293.5,
+        "top": 535.3,
+        "width": 87.2,
+        "height": 15.2
+      }
+    },
+    "r3bDOM": {
+      "type": "text",
+      "label": "b. MAIN BRIDLE",
+      "page": 1,
+      "box": {
+        "left": 383.5,
+        "top": 535.3,
+        "width": 28.3,
+        "height": 15.2
+      }
+    },
+    "r3bDPIS": {
+      "type": "text",
+      "label": "b. MAIN BRIDLE",
+      "page": 1,
+      "box": {
+        "left": 414.6,
+        "top": 535.3,
+        "width": 29.2,
+        "height": 15.2
+      }
+    },
+    "r3bFSD": {
+      "type": "text",
+      "label": "b. MAIN BRIDLE",
+      "page": 1,
+      "box": {
+        "left": 446.6,
+        "top": 535.3,
+        "width": 28.3,
+        "height": 15.2
+      }
+    },
+    "r3bRemarks": {
+      "type": "text",
+      "label": "b. MAIN BRIDLE",
+      "page": 1,
+      "box": {
+        "left": 477.8,
+        "top": 535.3,
+        "width": 96.5,
+        "height": 15.2
+      }
+    },
+    "r3cPart": {
+      "type": "text",
+      "label": "c. MAIN DEPLOYMENT BAG",
+      "page": 1,
+      "box": {
+        "left": 184.5,
+        "top": 517.3,
+        "width": 50.3,
+        "height": 15.2
+      }
+    },
+    "r3cSerial": {
+      "type": "text",
+      "label": "c. MAIN DEPLOYMENT BAG",
+      "page": 1,
+      "box": {
+        "left": 237.6,
+        "top": 517.3,
+        "width": 53.0,
+        "height": 15.2
+      }
+    },
+    "r3cCon": {
+      "type": "text",
+      "label": "c. MAIN DEPLOYMENT BAG",
+      "page": 1,
+      "box": {
+        "left": 293.5,
+        "top": 517.3,
+        "width": 87.2,
+        "height": 15.2
+      }
+    },
+    "r3cDOM": {
+      "type": "text",
+      "label": "c. MAIN DEPLOYMENT BAG",
+      "page": 1,
+      "box": {
+        "left": 383.5,
+        "top": 517.3,
+        "width": 28.3,
+        "height": 15.2
+      }
+    },
+    "r3cDPIS": {
+      "type": "text",
+      "label": "c. MAIN DEPLOYMENT BAG",
+      "page": 1,
+      "box": {
+        "left": 414.6,
+        "top": 517.3,
+        "width": 29.2,
+        "height": 15.2
+      }
+    },
+    "r3cFSD": {
+      "type": "text",
+      "label": "c. MAIN DEPLOYMENT BAG",
+      "page": 1,
+      "box": {
+        "left": 446.6,
+        "top": 517.3,
+        "width": 28.3,
+        "height": 15.2
+      }
+    },
+    "r3cRemarks": {
+      "type": "text",
+      "label": "c. MAIN DEPLOYMENT BAG",
+      "page": 1,
+      "box": {
+        "left": 477.8,
+        "top": 517.3,
+        "width": 96.5,
+        "height": 15.2
+      }
+    },
+    "r3dPart": {
+      "type": "text",
+      "label": "d. MAIN CANOPY",
+      "page": 1,
+      "box": {
+        "left": 184.5,
+        "top": 499.3,
+        "width": 50.3,
+        "height": 15.2
+      }
+    },
+    "r3dSerial": {
+      "type": "text",
+      "label": "d. MAIN CANOPY",
+      "page": 1,
+      "box": {
+        "left": 237.6,
+        "top": 499.3,
+        "width": 53.0,
+        "height": 15.2
+      }
+    },
+    "r3dCon": {
+      "type": "text",
+      "label": "d. MAIN CANOPY",
+      "page": 1,
+      "box": {
+        "left": 293.5,
+        "top": 499.3,
+        "width": 87.2,
+        "height": 15.2
+      }
+    },
+    "r3dDOM": {
+      "type": "text",
+      "label": "d. MAIN CANOPY",
+      "page": 1,
+      "box": {
+        "left": 383.5,
+        "top": 499.3,
+        "width": 28.3,
+        "height": 15.2
+      }
+    },
+    "r3dDPIS": {
+      "type": "text",
+      "label": "d. MAIN CANOPY",
+      "page": 1,
+      "box": {
+        "left": 414.6,
+        "top": 499.3,
+        "width": 29.2,
+        "height": 15.2
+      }
+    },
+    "r3dFSD": {
+      "type": "text",
+      "label": "d. MAIN CANOPY",
+      "page": 1,
+      "box": {
+        "left": 446.6,
+        "top": 499.3,
+        "width": 28.3,
+        "height": 15.2
+      }
+    },
+    "r3dRemarks": {
+      "type": "text",
+      "label": "d. MAIN CANOPY",
+      "page": 1,
+      "box": {
+        "left": 477.8,
+        "top": 499.3,
+        "width": 96.5,
+        "height": 15.2
+      }
+    },
+    "r3ePart": {
+      "type": "text",
+      "label": "e. MAIN SLIDER",
+      "page": 1,
+      "box": {
+        "left": 184.5,
+        "top": 481.3,
+        "width": 50.3,
+        "height": 15.2
+      }
+    },
+    "r3eSerial": {
+      "type": "text",
+      "label": "e. MAIN SLIDER",
+      "page": 1,
+      "box": {
+        "left": 237.6,
+        "top": 481.3,
+        "width": 53.0,
+        "height": 15.2
+      }
+    },
+    "r3eCon": {
+      "type": "text",
+      "label": "e. MAIN SLIDER",
+      "page": 1,
+      "box": {
+        "left": 293.5,
+        "top": 481.3,
+        "width": 87.2,
+        "height": 15.2
+      }
+    },
+    "r3eDOM": {
+      "type": "text",
+      "label": "e. MAIN SLIDER",
+      "page": 1,
+      "box": {
+        "left": 383.5,
+        "top": 481.3,
+        "width": 28.3,
+        "height": 15.2
+      }
+    },
+    "r3eDPIS": {
+      "type": "text",
+      "label": "e. MAIN SLIDER",
+      "page": 1,
+      "box": {
+        "left": 414.6,
+        "top": 481.3,
+        "width": 29.2,
+        "height": 15.2
+      }
+    },
+    "r3eFSD": {
+      "type": "text",
+      "label": "e. MAIN SLIDER",
+      "page": 1,
+      "box": {
+        "left": 446.6,
+        "top": 481.3,
+        "width": 28.3,
+        "height": 15.2
+      }
+    },
+    "r3eRemarks": {
+      "type": "text",
+      "label": "e. MAIN SLIDER",
+      "page": 1,
+      "box": {
+        "left": 477.8,
+        "top": 481.3,
+        "width": 96.5,
+        "height": 15.2
+      }
+    },
+    "r4aSerial": {
+      "type": "text",
+      "label": "AAD2C2M1535A",
+      "page": 1,
+      "box": {
+        "left": 197.8,
+        "top": 428.1,
+        "width": 57.2,
+        "height": 15.2
+      }
+    },
+    "r4aDOM": {
+      "type": "text",
+      "label": "AAD2C2M1535A",
+      "page": 1,
+      "box": {
+        "left": 257.8,
+        "top": 428.1,
+        "width": 57.2,
+        "height": 15.2
+      }
+    },
+    "r1": {
+      "type": "text",
+      "label": "(a) 1ST REWORK",
+      "page": 1,
+      "box": {
+        "left": 387.4,
+        "top": 428.1,
+        "width": 57.2,
+        "height": 15.2
+      }
+    },
+    "r2": {
+      "type": "text",
+      "label": "(d) 2ND REWORK",
+      "page": 1,
+      "box": {
+        "left": 517.0,
+        "top": 428.1,
+        "width": 57.2,
+        "height": 15.2
+      }
+    },
+    "r4bSerial": {
+      "type": "text",
+      "label": "b. CYPRES CUTTER #1 AADCC2FRG",
+      "page": 1,
+      "box": {
+        "left": 197.8,
+        "top": 410.1,
+        "width": 57.2,
+        "height": 15.2
+      }
+    },
+    "rework1E": {
+      "type": "text",
+      "label": "FSD (b) EARLIEST",
+      "page": 1,
+      "box": {
+        "left": 387.4,
+        "top": 410.1,
+        "width": 57.2,
+        "height": 15.2
+      }
+    },
+    "rework2E": {
+      "type": "text",
+      "label": "(e) EARLIEST",
+      "page": 1,
+      "box": {
+        "left": 517.0,
+        "top": 410.1,
+        "width": 57.2,
+        "height": 15.2
+      }
+    },
+    "r4cSerial": {
+      "type": "text",
+      "label": "c. CYPRES CUTTER #2 AADCC2FRG",
+      "page": 1,
+      "box": {
+        "left": 197.8,
+        "top": 392.1,
+        "width": 57.2,
+        "height": 15.2
+      }
+    },
+    "r4cFSD": {
+      "type": "text",
+      "label": "c. CYPRES CUTTER #2 AADCC2FRG",
+      "page": 1,
+      "box": {
+        "left": 257.8,
+        "top": 392.1,
+        "width": 57.2,
+        "height": 15.2
+      }
+    },
+    "rework1L": {
+      "type": "text",
+      "label": "(c) LATEST",
+      "page": 1,
+      "box": {
+        "left": 387.4,
+        "top": 392.1,
+        "width": 57.2,
+        "height": 15.2
+      }
+    },
+    "rework2L": {
+      "type": "text",
+      "label": "(f) LATEST",
+      "page": 1,
+      "box": {
+        "left": 517.0,
+        "top": 392.1,
+        "width": 57.2,
+        "height": 15.2
+      }
+    },
+    "q5aDB": {
+      "type": "text",
+      "label": "TRIM",
+      "page": 1,
+      "box": {
+        "left": 110.4,
+        "top": 342.3,
+        "width": 34.1,
+        "height": 18.0
+      }
+    },
+    "q5aAB": {
+      "type": "text",
+      "label": "TRIM",
+      "page": 1,
+      "box": {
+        "left": 150.1,
+        "top": 342.3,
+        "width": 34.1,
+        "height": 18.0
+      }
+    },
+    "q5aBC": {
+      "type": "text",
+      "label": "TRIM",
+      "page": 1,
+      "box": {
+        "left": 189.9,
+        "top": 342.3,
+        "width": 34.1,
+        "height": 18.0
+      }
+    },
+    "q5aCD": {
+      "type": "text",
+      "label": "TRIM",
+      "page": 1,
+      "box": {
+        "left": 229.7,
+        "top": 342.3,
+        "width": 34.1,
+        "height": 18.0
+      }
+    },
+    "q5aFF": {
+      "type": "text",
+      "label": "TRIM",
+      "page": 1,
+      "box": {
+        "left": 269.5,
+        "top": 342.3,
+        "width": 34.1,
+        "height": 18.0
+      }
+    },
+    "q5bDB": {
+      "type": "text",
+      "label": "CANOPY TRIM",
+      "page": 1,
+      "box": {
+        "left": 380.7,
+        "top": 342.3,
+        "width": 34.0,
+        "height": 18.0
+      }
+    },
+    "q5bAB": {
+      "type": "text",
+      "label": "CANOPY TRIM",
+      "page": 1,
+      "box": {
+        "left": 420.3,
+        "top": 342.3,
+        "width": 34.0,
+        "height": 18.0
+      }
+    },
+    "q5bBC": {
+      "type": "text",
+      "label": "CANOPY TRIM",
+      "page": 1,
+      "box": {
+        "left": 460.0,
+        "top": 342.3,
+        "width": 34.0,
+        "height": 18.0
+      }
+    },
+    "q5bCD": {
+      "type": "text",
+      "label": "CANOPY TRIM",
+      "page": 1,
+      "box": {
+        "left": 499.6,
+        "top": 342.3,
+        "width": 34.0,
+        "height": 18.0
+      }
+    },
+    "q5bFF": {
+      "type": "text",
+      "label": "CANOPY TRIM",
+      "page": 1,
+      "box": {
+        "left": 539.3,
+        "top": 342.3,
+        "width": 34.0,
+        "height": 18.0
+      }
+    },
+    "r6aDate": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 51.8,
+        "top": 289.3,
+        "width": 55.1,
+        "height": 15.2
+      }
+    },
+    "r6aDes": {
+      "type": "text",
+      "label": "DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 109.7,
+        "top": 289.3,
+        "width": 381.1,
+        "height": 15.2
+      }
+    },
+    "r6aIns": {
+      "type": "text",
+      "label": "INSPECTOR",
+      "page": 1,
+      "box": {
+        "left": 493.6,
+        "top": 289.3,
+        "width": 81.0,
+        "height": 15.2
+      }
+    },
+    "r6bDate": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 51.8,
+        "top": 271.3,
+        "width": 55.1,
+        "height": 15.2
+      }
+    },
+    "r6bDes": {
+      "type": "text",
+      "label": "DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 109.7,
+        "top": 271.3,
+        "width": 381.1,
+        "height": 15.2
+      }
+    },
+    "r6bIns": {
+      "type": "text",
+      "label": "INSPECTOR",
+      "page": 1,
+      "box": {
+        "left": 493.6,
+        "top": 271.3,
+        "width": 81.0,
+        "height": 15.2
+      }
+    },
+    "r6cDate": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 51.8,
+        "top": 253.3,
+        "width": 55.1,
+        "height": 15.2
+      }
+    },
+    "r6cDes": {
+      "type": "text",
+      "label": "DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 109.7,
+        "top": 253.3,
+        "width": 381.1,
+        "height": 15.2
+      }
+    },
+    "r6cIns": {
+      "type": "text",
+      "label": "INSPECTOR",
+      "page": 1,
+      "box": {
+        "left": 493.6,
+        "top": 253.3,
+        "width": 81.0,
+        "height": 15.2
+      }
+    },
+    "r6dDate": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 51.8,
+        "top": 235.3,
+        "width": 55.1,
+        "height": 15.2
+      }
+    },
+    "r6dDes": {
+      "type": "text",
+      "label": "DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 109.7,
+        "top": 235.3,
+        "width": 381.1,
+        "height": 15.2
+      }
+    },
+    "r6dIns": {
+      "type": "text",
+      "label": "INSPECTOR",
+      "page": 1,
+      "box": {
+        "left": 493.6,
+        "top": 235.3,
+        "width": 81.0,
+        "height": 15.2
+      }
+    },
+    "r6eDate": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 51.8,
+        "top": 217.3,
+        "width": 55.1,
+        "height": 15.2
+      }
+    },
+    "r6eDes": {
+      "type": "text",
+      "label": "DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 109.7,
+        "top": 217.3,
+        "width": 381.1,
+        "height": 15.2
+      }
+    },
+    "r6eIns": {
+      "type": "text",
+      "label": "INSPECTOR",
+      "page": 1,
+      "box": {
+        "left": 493.6,
+        "top": 217.3,
+        "width": 81.0,
+        "height": 15.2
+      }
+    },
+    "r6fDate": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 51.8,
+        "top": 199.3,
+        "width": 55.1,
+        "height": 15.2
+      }
+    },
+    "r6fDes": {
+      "type": "text",
+      "label": "DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 109.7,
+        "top": 199.3,
+        "width": 381.1,
+        "height": 15.2
+      }
+    },
+    "r6fIns": {
+      "type": "text",
+      "label": "INSPECTOR",
+      "page": 1,
+      "box": {
+        "left": 493.6,
+        "top": 199.3,
+        "width": 81.0,
+        "height": 15.2
+      }
+    },
+    "q7": {
+      "type": "text",
+      "label": "7. REMARKS",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 167.5,
+        "width": 534.4,
+        "height": 53.9
+      },
+      "multiline": true
+    },
+    "q8": {
+      "type": "text",
+      "label": "8. FIELD NUMBER",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 89.4,
+        "width": 129.3,
+        "height": 13.1
+      }
+    },
+    "q9": {
+      "type": "text",
+      "label": "9. TYPE ASSEMBLY",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 89.4,
+        "width": 129.3,
+        "height": 13.1
+      }
+    },
+    "q10": {
+      "type": "text",
+      "label": "10. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 89.4,
+        "width": 129.3,
+        "height": 13.1
+      }
+    },
+    "q11": {
+      "type": "text",
+      "label": "11. WATER JUMPS",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 89.4,
+        "width": 129.3,
+        "height": 13.1
+      }
+    },
+    "q12": {
+      "type": "text",
+      "label": "applicable)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 51.8,
+        "width": 129.3,
+        "height": 13.1
+      }
+    },
+    "q13": {
+      "type": "text",
+      "label": "13. PACKER",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 51.8,
+        "width": 129.3,
+        "height": 13.1
+      }
+    },
+    "q14": {
+      "type": "text",
+      "label": "14. QAI",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 51.8,
+        "width": 129.3,
+        "height": 13.1
+      }
+    },
+    "q15": {
+      "type": "text",
+      "label": "REPACKED",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 51.8,
+        "width": 61.8,
+        "height": 13.1
+      }
+    },
+    "q16": {
+      "type": "text",
+      "label": "DUE",
+      "page": 1,
+      "box": {
+        "left": 511.4,
+        "top": 51.8,
+        "width": 61.8,
+        "height": 13.1
+      }
+    }
+  }
+}

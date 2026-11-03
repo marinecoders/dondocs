@@ -1,0 +1,510 @@
+{
+  "id": "navpers126301",
+  "label": "NAVPERS12630-1 - Naf Request For Leave Or Approved Absence",
+  "directory": "NAVPERS12630-1 - Naf Request For Leave Or Approved Absence",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "ssn",
+        "org",
+        "d1",
+        "d2",
+        "t1",
+        "t2",
+        "t3",
+        "t5",
+        "d3",
+        "d4",
+        "t4",
+        "t6",
+        "t7",
+        "d5",
+        "t8",
+        "t9",
+        "d6",
+        "t11",
+        "d7",
+        "d8",
+        "t12",
+        "t10",
+        "t14",
+        "t15",
+        "d9",
+        "d10",
+        "t13",
+        "d11",
+        "t18",
+        "d12",
+        "t16",
+        "t17",
+        "d13",
+        "d14",
+        "t19",
+        "t21",
+        "t20",
+        "remarks",
+        "d15",
+        "d16"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "NAF Request for Leave or Approved",
+      "page": 1,
+      "box": {
+        "left": 31.1,
+        "top": 705.9,
+        "width": 367.2,
+        "height": 13.9
+      }
+    },
+    "ssn": {
+      "type": "text",
+      "label": "SUPPORTING DOCUMENTATION BUPERSINST 5300.10A",
+      "page": 1,
+      "box": {
+        "left": 400.0,
+        "top": 705.9,
+        "width": 182.8,
+        "height": 13.9
+      }
+    },
+    "org": {
+      "type": "text",
+      "label": "3. Organization",
+      "page": 1,
+      "box": {
+        "left": 141.0,
+        "top": 690.4,
+        "width": 441.8,
+        "height": 11.5
+      }
+    },
+    "d1": {
+      "type": "text",
+      "label": "Accrued Annual Leave",
+      "page": 1,
+      "box": {
+        "left": 280.3,
+        "top": 627.2,
+        "width": 55.7,
+        "height": 13.9
+      }
+    },
+    "d2": {
+      "type": "text",
+      "label": "Accrued Annual Leave",
+      "page": 1,
+      "box": {
+        "left": 344.3,
+        "top": 627.2,
+        "width": 58.2,
+        "height": 13.1
+      }
+    },
+    "t1": {
+      "type": "text",
+      "label": "Accrued Annual Leave",
+      "page": 1,
+      "box": {
+        "left": 406.6,
+        "top": 627.2,
+        "width": 43.4,
+        "height": 13.1
+      }
+    },
+    "t2": {
+      "type": "text",
+      "label": "Accrued Annual Leave",
+      "page": 1,
+      "box": {
+        "left": 457.4,
+        "top": 626.4,
+        "width": 46.7,
+        "height": 12.3
+      }
+    },
+    "t3": {
+      "type": "text",
+      "label": "Accrued Annual Leave",
+      "page": 1,
+      "box": {
+        "left": 512.3,
+        "top": 626.4,
+        "width": 62.3,
+        "height": 13.9
+      }
+    },
+    "t5": {
+      "type": "text",
+      "label": "documentation if required)",
+      "page": 1,
+      "box": {
+        "left": 458.2,
+        "top": 595.3,
+        "width": 43.4,
+        "height": 16.4
+      }
+    },
+    "d3": {
+      "type": "text",
+      "label": "documentation if required)",
+      "page": 1,
+      "box": {
+        "left": 280.3,
+        "top": 593.6,
+        "width": 57.4,
+        "height": 13.9
+      }
+    },
+    "d4": {
+      "type": "text",
+      "label": "documentation if required)",
+      "page": 1,
+      "box": {
+        "left": 343.4,
+        "top": 593.6,
+        "width": 53.3,
+        "height": 14.8
+      }
+    },
+    "t4": {
+      "type": "text",
+      "label": "documentation if required)",
+      "page": 1,
+      "box": {
+        "left": 406.6,
+        "top": 593.6,
+        "width": 45.1,
+        "height": 13.9
+      }
+    },
+    "t6": {
+      "type": "text",
+      "label": "documentation if required)",
+      "page": 1,
+      "box": {
+        "left": 512.3,
+        "top": 591.2,
+        "width": 65.6,
+        "height": 11.5
+      }
+    },
+    "t7": {
+      "type": "text",
+      "label": "documentation if required)",
+      "page": 1,
+      "box": {
+        "left": 408.2,
+        "top": 561.7,
+        "width": 41.8,
+        "height": 16.4
+      }
+    },
+    "d5": {
+      "type": "text",
+      "label": "documentation if required)",
+      "page": 1,
+      "box": {
+        "left": 280.3,
+        "top": 560.8,
+        "width": 59.0,
+        "height": 15.6
+      }
+    },
+    "t8": {
+      "type": "text",
+      "label": "documentation if required)",
+      "page": 1,
+      "box": {
+        "left": 458.2,
+        "top": 560.8,
+        "width": 43.4,
+        "height": 14.8
+      }
+    },
+    "t9": {
+      "type": "text",
+      "label": "documentation if required)",
+      "page": 1,
+      "box": {
+        "left": 513.9,
+        "top": 560.8,
+        "width": 64.8,
+        "height": 14.8
+      }
+    },
+    "d6": {
+      "type": "text",
+      "label": "documentation if required)",
+      "page": 1,
+      "box": {
+        "left": 345.1,
+        "top": 560.0,
+        "width": 53.3,
+        "height": 13.9
+      }
+    },
+    "t11": {
+      "type": "text",
+      "label": "documentation)",
+      "page": 1,
+      "box": {
+        "left": 459.8,
+        "top": 526.4,
+        "width": 41.0,
+        "height": 16.4
+      }
+    },
+    "d7": {
+      "type": "text",
+      "label": "documentation)",
+      "page": 1,
+      "box": {
+        "left": 281.2,
+        "top": 525.6,
+        "width": 57.4,
+        "height": 14.8
+      }
+    },
+    "d8": {
+      "type": "text",
+      "label": "documentation)",
+      "page": 1,
+      "box": {
+        "left": 346.7,
+        "top": 525.6,
+        "width": 52.5,
+        "height": 16.4
+      }
+    },
+    "t12": {
+      "type": "text",
+      "label": "documentation)",
+      "page": 1,
+      "box": {
+        "left": 514.8,
+        "top": 525.6,
+        "width": 65.6,
+        "height": 15.6
+      }
+    },
+    "t10": {
+      "type": "text",
+      "label": "documentation)",
+      "page": 1,
+      "box": {
+        "left": 406.6,
+        "top": 524.8,
+        "width": 45.1,
+        "height": 13.9
+      }
+    },
+    "t14": {
+      "type": "text",
+      "label": "in remarks)",
+      "page": 1,
+      "box": {
+        "left": 456.6,
+        "top": 457.6,
+        "width": 44.3,
+        "height": 13.9
+      }
+    },
+    "t15": {
+      "type": "text",
+      "label": "in remarks)",
+      "page": 1,
+      "box": {
+        "left": 509.8,
+        "top": 457.6,
+        "width": 72.1,
+        "height": 15.6
+      }
+    },
+    "d9": {
+      "type": "text",
+      "label": "in remarks)",
+      "page": 1,
+      "box": {
+        "left": 281.2,
+        "top": 456.7,
+        "width": 56.6,
+        "height": 14.8
+      }
+    },
+    "d10": {
+      "type": "text",
+      "label": "in remarks)",
+      "page": 1,
+      "box": {
+        "left": 344.3,
+        "top": 456.7,
+        "width": 56.6,
+        "height": 13.9
+      }
+    },
+    "t13": {
+      "type": "text",
+      "label": "in remarks)",
+      "page": 1,
+      "box": {
+        "left": 408.2,
+        "top": 456.7,
+        "width": 42.6,
+        "height": 13.9
+      }
+    },
+    "d11": {
+      "type": "text",
+      "label": "Compensatory time off",
+      "page": 1,
+      "box": {
+        "left": 282.0,
+        "top": 430.5,
+        "width": 53.3,
+        "height": 15.6
+      }
+    },
+    "t18": {
+      "type": "text",
+      "label": "Compensatory time off",
+      "page": 1,
+      "box": {
+        "left": 509.8,
+        "top": 430.5,
+        "width": 73.0,
+        "height": 15.6
+      }
+    },
+    "d12": {
+      "type": "text",
+      "label": "Compensatory time off",
+      "page": 1,
+      "box": {
+        "left": 344.3,
+        "top": 428.9,
+        "width": 56.6,
+        "height": 13.9
+      }
+    },
+    "t16": {
+      "type": "text",
+      "label": "Compensatory time off",
+      "page": 1,
+      "box": {
+        "left": 409.8,
+        "top": 428.9,
+        "width": 41.8,
+        "height": 13.1
+      }
+    },
+    "t17": {
+      "type": "text",
+      "label": "Compensatory time off",
+      "page": 1,
+      "box": {
+        "left": 457.4,
+        "top": 428.9,
+        "width": 41.8,
+        "height": 13.9
+      }
+    },
+    "d13": {
+      "type": "text",
+      "label": "remarks, e.g. time off award)",
+      "page": 1,
+      "box": {
+        "left": 282.0,
+        "top": 407.6,
+        "width": 53.3,
+        "height": 17.2
+      }
+    },
+    "d14": {
+      "type": "text",
+      "label": "remarks, e.g. time off award)",
+      "page": 1,
+      "box": {
+        "left": 348.4,
+        "top": 405.9,
+        "width": 49.2,
+        "height": 13.9
+      }
+    },
+    "t19": {
+      "type": "text",
+      "label": "remarks, e.g. time off award)",
+      "page": 1,
+      "box": {
+        "left": 409.8,
+        "top": 405.9,
+        "width": 40.2,
+        "height": 14.8
+      }
+    },
+    "t21": {
+      "type": "text",
+      "label": "remarks, e.g. time off award)",
+      "page": 1,
+      "box": {
+        "left": 510.7,
+        "top": 405.9,
+        "width": 70.5,
+        "height": 14.8
+      }
+    },
+    "t20": {
+      "type": "text",
+      "label": "remarks, e.g. time off award)",
+      "page": 1,
+      "box": {
+        "left": 459.8,
+        "top": 405.1,
+        "width": 38.5,
+        "height": 13.9
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "remarks, e.g. time off award)",
+      "page": 1,
+      "box": {
+        "left": 27.0,
+        "top": 378.9,
+        "width": 550.0,
+        "height": 47.5
+      },
+      "multiline": true
+    },
+    "d15": {
+      "type": "text",
+      "label": "grounds for disciplinary",
+      "page": 1,
+      "box": {
+        "left": 441.0,
+        "top": 272.3,
+        "width": 137.7,
+        "height": 13.9
+      }
+    },
+    "d16": {
+      "type": "text",
+      "label": "6b. Date Signed",
+      "page": 1,
+      "box": {
+        "left": 441.0,
+        "top": 227.2,
+        "width": 141.0,
+        "height": 14.8
+      }
+    }
+  }
+}

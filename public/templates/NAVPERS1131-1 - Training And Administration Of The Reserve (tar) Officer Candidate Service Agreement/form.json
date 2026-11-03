@@ -1,0 +1,247 @@
+{
+  "id": "navpers11311",
+  "label": "NAVPERS1131-1 - Training And Administration Of The Reserve (tar) Officer Candidate Service Agreement",
+  "directory": "NAVPERS1131-1 - Training And Administration Of The Reserve (tar) Officer Candidate Service Agreement",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "dropDownList1",
+        "name",
+        "designator",
+        "textField1",
+        "textField12",
+        "textField13",
+        "textField14",
+        "textField2",
+        "dateField2"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "textField15",
+        "textField16",
+        "textField17",
+        "signatureField2",
+        "signatureField1",
+        "dateField1",
+        "name2",
+        "name3"
+      ]
+    }
+  ],
+  "fields": {
+    "dropDownList1": {
+      "type": "choice",
+      "label": "DropDownList1",
+      "page": 1,
+      "box": {
+        "left": 372.2,
+        "top": 568.3,
+        "width": 193.9,
+        "height": 8.1
+      },
+      "options": [
+        "TAR Aerospace Engineering Duty Officer (1527)",
+        "TAR Human Resources Officer (1207)",
+        "TAR Permanent Professional Recruiter Officer (1287)",
+        "TAR Supply Corps Officer (3107)",
+        "TAR Surface Warfare Officer (1167)"
+      ]
+    },
+    "name": {
+      "type": "text",
+      "label": "NAME: (LAST, FIRST, MIDDLE)",
+      "page": 1,
+      "box": {
+        "left": 40.8,
+        "top": 489.3,
+        "width": 327.3,
+        "height": 20.9
+      },
+      "required": true
+    },
+    "designator": {
+      "type": "text",
+      "label": "DoDID NUMBER:",
+      "page": 1,
+      "box": {
+        "left": 373.6,
+        "top": 489.3,
+        "width": 199.9,
+        "height": 21.0
+      },
+      "required": true
+    },
+    "textField1": {
+      "type": "text",
+      "label": "example: TAR Surface Warfare Officer ",
+      "page": 1,
+      "box": {
+        "left": 139.6,
+        "top": 457.4,
+        "width": 236.1,
+        "height": 10.1
+      },
+      "required": true
+    },
+    "textField12": {
+      "type": "text",
+      "label": "example: Surface Warfare Officer",
+      "page": 1,
+      "box": {
+        "left": 59.3,
+        "top": 445.9,
+        "width": 223.6,
+        "height": 10.1
+      },
+      "required": true
+    },
+    "textField13": {
+      "type": "text",
+      "label": "example: TAR SWO - Trainee (1167)",
+      "page": 1,
+      "box": {
+        "left": 149.0,
+        "top": 312.2,
+        "width": 134.8,
+        "height": 10.1
+      },
+      "required": true
+    },
+    "textField14": {
+      "type": "text",
+      "label": "example: 1167",
+      "page": 1,
+      "box": {
+        "left": 316.4,
+        "top": 234.8,
+        "width": 37.0,
+        "height": 10.1
+      },
+      "required": true
+    },
+    "textField2": {
+      "type": "text",
+      "label": "Initials:",
+      "page": 1,
+      "box": {
+        "left": 267.9,
+        "top": 52.8,
+        "width": 31.6,
+        "height": 19.8
+      }
+    },
+    "dateField2": {
+      "type": "text",
+      "label": "Date:",
+      "page": 1,
+      "box": {
+        "left": 330.8,
+        "top": 52.8,
+        "width": 37.6,
+        "height": 19.8
+      }
+    },
+    "textField15": {
+      "type": "text",
+      "label": "example: TAR SWO - Trainee (1167)",
+      "page": 2,
+      "box": {
+        "left": 393.4,
+        "top": 581.9,
+        "width": 126.9,
+        "height": 10.1
+      },
+      "required": true
+    },
+    "textField16": {
+      "type": "text",
+      "label": "example: TAR Surface Warfare Officer",
+      "page": 2,
+      "box": {
+        "left": 216.7,
+        "top": 533.2,
+        "width": 166.0,
+        "height": 10.1
+      },
+      "required": true
+    },
+    "textField17": {
+      "type": "text",
+      "label": "example: TAR SWO - Trainee Program",
+      "page": 2,
+      "box": {
+        "left": 259.0,
+        "top": 301.2,
+        "width": 133.3,
+        "height": 10.1
+      },
+      "required": true
+    },
+    "signatureField2": {
+      "type": "signature",
+      "label": "SIGNATURE OF APPLICANT",
+      "page": 2,
+      "box": {
+        "left": 100.0,
+        "top": 88.6,
+        "width": 174.0,
+        "height": 27.2
+      }
+    },
+    "signatureField1": {
+      "type": "signature",
+      "label": "SIGNATURE OF WITNESSING OFFICER",
+      "page": 2,
+      "box": {
+        "left": 338.8,
+        "top": 88.6,
+        "width": 159.2,
+        "height": 27.2
+      }
+    },
+    "dateField1": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 502.2,
+        "top": 71.2,
+        "width": 70.2,
+        "height": 38.3
+      },
+      "multiline": true,
+      "required": true
+    },
+    "name2": {
+      "type": "text",
+      "label": "TYPED NAME OF APPLICANT",
+      "page": 2,
+      "box": {
+        "left": 40.0,
+        "top": 49.0,
+        "width": 232.6,
+        "height": 15.8
+      },
+      "required": true
+    },
+    "name3": {
+      "type": "text",
+      "label": "TYPED NAME OF WITNESSING OFFICER",
+      "page": 2,
+      "box": {
+        "left": 278.5,
+        "top": 48.5,
+        "width": 218.0,
+        "height": 15.5
+      },
+      "required": true
+    }
+  }
+}

@@ -1,0 +1,868 @@
+{
+  "id": "navmc11753",
+  "label": "NAVMC 11753 - Commanders Financial Screening Worksheet (active Reserve Applicant)",
+  "directory": "NAVMC11753 - Commanders Financial Screening Worksheet (active Reserve Applicant)",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "mos",
+        "mCRank",
+        "unit",
+        "noChild",
+        "married",
+        "numBaseA",
+        "numBaseB",
+        "numBaseC",
+        "textField1",
+        "totalMonIncome",
+        "fedTax",
+        "sSNDed",
+        "medicare",
+        "stateTax",
+        "dental",
+        "medIns",
+        "sgli",
+        "childSupport",
+        "otherB",
+        "otherA",
+        "totalManMonDed"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "car1",
+        "carPayA",
+        "car2",
+        "carPayB",
+        "carIns",
+        "lifeIns",
+        "creditCardA",
+        "creditCard1",
+        "creditCard2",
+        "creditCardB",
+        "creditCard3",
+        "creditCardC",
+        "creditCard4",
+        "creditCardD",
+        "mortgage",
+        "monMortPay",
+        "mortBal",
+        "estiEquity",
+        "purchDate",
+        "sellRent",
+        "loan1",
+        "loansA",
+        "loan2",
+        "loansB",
+        "otherH1",
+        "otherH2",
+        "totalCreditPay",
+        "totalMonIncome2",
+        "totalManMonDed2",
+        "totalCreditPay2",
+        "netFundsAvail",
+        "savings",
+        "checking",
+        "investments",
+        "totalAssets",
+        "spouseOccu",
+        "spouseNetIncome"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "signatureField1",
+        "marineDateCert",
+        "cOPSRCmts",
+        "cOPSRName",
+        "cOPSRSign",
+        "cOSignDate",
+        "cOPSRSignA",
+        "cOSignDateA"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "NAME",
+      "page": 1,
+      "box": {
+        "left": 155.2,
+        "top": 517.1,
+        "width": 346.7,
+        "height": 20.6
+      }
+    },
+    "mos": {
+      "type": "text",
+      "label": "MOS",
+      "page": 1,
+      "box": {
+        "left": 506.2,
+        "top": 517.1,
+        "width": 67.7,
+        "height": 20.6
+      }
+    },
+    "mCRank": {
+      "type": "choice",
+      "label": "RANK",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 516.8,
+        "width": 111.3,
+        "height": 19.0
+      },
+      "options": [
+        "PFC",
+        "LCpl",
+        "Cpl",
+        "Sgt",
+        "SSgt",
+        "GySgt",
+        "MSgt",
+        "1stSgt",
+        "MGySgt",
+        "SgtMaj",
+        "SMMC",
+        "WO",
+        "Gunner",
+        "CWO2",
+        "CWO3",
+        "CWO4",
+        "CWO5",
+        "2ndLt",
+        "1stLt",
+        "Capt",
+        "Maj",
+        "LtCol",
+        "Col",
+        "BGen",
+        "MajGen",
+        "LtGen",
+        "Gen"
+      ]
+    },
+    "unit": {
+      "type": "text",
+      "label": "UNIT",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 484.4,
+        "width": 535.7,
+        "height": 23.9
+      }
+    },
+    "noChild": {
+      "type": "text",
+      "label": "Number of Children/Dependents:\n(excluding spouse)",
+      "page": 1,
+      "box": {
+        "left": 254.6,
+        "top": 438.8,
+        "width": 76.2,
+        "height": 23.4
+      }
+    },
+    "married": {
+      "type": "checkbox",
+      "label": "Married",
+      "page": 1,
+      "box": {
+        "left": 97.4,
+        "top": 433.0,
+        "width": 11.0,
+        "height": 11.0
+      }
+    },
+    "numBaseA": {
+      "type": "text",
+      "label": "NumBaseA",
+      "page": 1,
+      "box": {
+        "left": 488.8,
+        "top": 393.2,
+        "width": 84.3,
+        "height": 12.3
+      }
+    },
+    "numBaseB": {
+      "type": "text",
+      "label": "NumBaseB",
+      "page": 1,
+      "box": {
+        "left": 488.8,
+        "top": 375.2,
+        "width": 84.3,
+        "height": 12.3
+      }
+    },
+    "numBaseC": {
+      "type": "text",
+      "label": "NumBaseC",
+      "page": 1,
+      "box": {
+        "left": 488.8,
+        "top": 357.2,
+        "width": 84.3,
+        "height": 21.3
+      }
+    },
+    "textField1": {
+      "type": "text",
+      "label": " c. Investment Income +\n Describe",
+      "page": 1,
+      "box": {
+        "left": 140.6,
+        "top": 357.1,
+        "width": 343.7,
+        "height": 22.7
+      }
+    },
+    "totalMonIncome": {
+      "type": "text",
+      "label": "TotalMonIncome",
+      "page": 1,
+      "box": {
+        "left": 488.8,
+        "top": 330.2,
+        "width": 83.8,
+        "height": 13.9
+      }
+    },
+    "fedTax": {
+      "type": "text",
+      "label": "FedTax",
+      "page": 1,
+      "box": {
+        "left": 488.2,
+        "top": 292.7,
+        "width": 84.3,
+        "height": 12.3
+      }
+    },
+    "sSNDed": {
+      "type": "text",
+      "label": "SSNDed",
+      "page": 1,
+      "box": {
+        "left": 488.2,
+        "top": 274.7,
+        "width": 84.3,
+        "height": 12.3
+      }
+    },
+    "medicare": {
+      "type": "text",
+      "label": "Medicare",
+      "page": 1,
+      "box": {
+        "left": 488.2,
+        "top": 256.7,
+        "width": 84.3,
+        "height": 12.3
+      }
+    },
+    "stateTax": {
+      "type": "text",
+      "label": "StateTax",
+      "page": 1,
+      "box": {
+        "left": 488.8,
+        "top": 238.2,
+        "width": 84.3,
+        "height": 12.3
+      }
+    },
+    "dental": {
+      "type": "text",
+      "label": "Dental",
+      "page": 1,
+      "box": {
+        "left": 488.2,
+        "top": 220.7,
+        "width": 84.3,
+        "height": 12.3
+      }
+    },
+    "medIns": {
+      "type": "text",
+      "label": "MedIns",
+      "page": 1,
+      "box": {
+        "left": 488.2,
+        "top": 202.7,
+        "width": 84.3,
+        "height": 12.3
+      }
+    },
+    "sgli": {
+      "type": "text",
+      "label": "SGLI",
+      "page": 1,
+      "box": {
+        "left": 488.2,
+        "top": 184.7,
+        "width": 84.3,
+        "height": 12.3
+      }
+    },
+    "childSupport": {
+      "type": "text",
+      "label": "ChildSupport",
+      "page": 1,
+      "box": {
+        "left": 488.2,
+        "top": 166.7,
+        "width": 84.3,
+        "height": 12.3
+      }
+    },
+    "otherB": {
+      "type": "text",
+      "label": "OtherB",
+      "page": 1,
+      "box": {
+        "left": 488.2,
+        "top": 148.7,
+        "width": 84.3,
+        "height": 19.9
+      }
+    },
+    "otherA": {
+      "type": "text",
+      "label": " i. Other +\n Explain ",
+      "page": 1,
+      "box": {
+        "left": 98.5,
+        "top": 148.0,
+        "width": 385.2,
+        "height": 20.6
+      }
+    },
+    "totalManMonDed": {
+      "type": "text",
+      "label": "TotalManMonDed",
+      "page": 1,
+      "box": {
+        "left": 488.2,
+        "top": 123.2,
+        "width": 84.3,
+        "height": 12.3
+      }
+    },
+    "car1": {
+      "type": "text",
+      "label": "     a.  Car #1:  Yr/Miles:  ",
+      "page": 2,
+      "box": {
+        "left": 146.6,
+        "top": 708.8,
+        "width": 337.2,
+        "height": 18.1
+      }
+    },
+    "carPayA": {
+      "type": "text",
+      "label": "CarPayA",
+      "page": 2,
+      "box": {
+        "left": 488.2,
+        "top": 708.8,
+        "width": 85.7,
+        "height": 18.5
+      }
+    },
+    "car2": {
+      "type": "text",
+      "label": "     b.  Car #2:  Yr/Miles:  +",
+      "page": 2,
+      "box": {
+        "left": 146.6,
+        "top": 687.9,
+        "width": 337.2,
+        "height": 20.5
+      }
+    },
+    "carPayB": {
+      "type": "text",
+      "label": "CarPayB",
+      "page": 2,
+      "box": {
+        "left": 488.2,
+        "top": 686.7,
+        "width": 85.7,
+        "height": 18.7
+      }
+    },
+    "carIns": {
+      "type": "text",
+      "label": "CarIns",
+      "page": 2,
+      "box": {
+        "left": 487.8,
+        "top": 663.7,
+        "width": 85.7,
+        "height": 17.8
+      }
+    },
+    "lifeIns": {
+      "type": "text",
+      "label": "LifeIns",
+      "page": 2,
+      "box": {
+        "left": 488.2,
+        "top": 641.7,
+        "width": 85.7,
+        "height": 16.1
+      }
+    },
+    "creditCardA": {
+      "type": "text",
+      "label": "CreditCardA",
+      "page": 2,
+      "box": {
+        "left": 487.9,
+        "top": 622.3,
+        "width": 85.7,
+        "height": 19.1
+      }
+    },
+    "creditCard1": {
+      "type": "text",
+      "label": "CreditCard1",
+      "page": 2,
+      "box": {
+        "left": 168.0,
+        "top": 621.3,
+        "width": 315.8,
+        "height": 17.4
+      }
+    },
+    "creditCard2": {
+      "type": "text",
+      "label": "CreditCard2",
+      "page": 2,
+      "box": {
+        "left": 167.8,
+        "top": 600.8,
+        "width": 316.0,
+        "height": 19.0
+      }
+    },
+    "creditCardB": {
+      "type": "text",
+      "label": "CreditCardB",
+      "page": 2,
+      "box": {
+        "left": 488.2,
+        "top": 600.8,
+        "width": 85.7,
+        "height": 19.0
+      }
+    },
+    "creditCard3": {
+      "type": "text",
+      "label": "CreditCard3",
+      "page": 2,
+      "box": {
+        "left": 167.8,
+        "top": 578.2,
+        "width": 316.0,
+        "height": 19.0
+      }
+    },
+    "creditCardC": {
+      "type": "text",
+      "label": "CreditCardC",
+      "page": 2,
+      "box": {
+        "left": 488.2,
+        "top": 578.2,
+        "width": 85.7,
+        "height": 19.0
+      }
+    },
+    "creditCard4": {
+      "type": "text",
+      "label": "CreditCard4",
+      "page": 2,
+      "box": {
+        "left": 167.8,
+        "top": 555.6,
+        "width": 316.0,
+        "height": 19.0
+      }
+    },
+    "creditCardD": {
+      "type": "text",
+      "label": "CreditCardD",
+      "page": 2,
+      "box": {
+        "left": 488.2,
+        "top": 555.6,
+        "width": 85.7,
+        "height": 19.0
+      }
+    },
+    "mortgage": {
+      "type": "text",
+      "label": "Mortgage",
+      "page": 2,
+      "box": {
+        "left": 488.2,
+        "top": 533.0,
+        "width": 85.7,
+        "height": 19.0
+      }
+    },
+    "monMortPay": {
+      "type": "text",
+      "label": "     f.  If homeowner, monthly mortgage payment: +",
+      "page": 2,
+      "box": {
+        "left": 230.7,
+        "top": 529.4,
+        "width": 251.7,
+        "height": 15.7
+      }
+    },
+    "mortBal": {
+      "type": "text",
+      "label": "MortBal",
+      "page": 2,
+      "box": {
+        "left": 182.2,
+        "top": 509.6,
+        "width": 117.8,
+        "height": 13.2
+      }
+    },
+    "estiEquity": {
+      "type": "text",
+      "label": "EstiEquity",
+      "page": 2,
+      "box": {
+        "left": 182.2,
+        "top": 492.8,
+        "width": 117.8,
+        "height": 13.2
+      }
+    },
+    "purchDate": {
+      "type": "text",
+      "label": "PurchDate",
+      "page": 2,
+      "box": {
+        "left": 182.2,
+        "top": 476.1,
+        "width": 117.8,
+        "height": 13.7
+      }
+    },
+    "sellRent": {
+      "type": "choice",
+      "label": "SellRent",
+      "page": 2,
+      "box": {
+        "left": 182.2,
+        "top": 458.8,
+        "width": 117.8,
+        "height": 14.2
+      },
+      "options": [
+        "Sell",
+        "Rent",
+        "N/A"
+      ]
+    },
+    "loan1": {
+      "type": "text",
+      "label": "Loan1",
+      "page": 2,
+      "box": {
+        "left": 167.1,
+        "top": 440.5,
+        "width": 316.8,
+        "height": 17.6
+      }
+    },
+    "loansA": {
+      "type": "text",
+      "label": "LoansA",
+      "page": 2,
+      "box": {
+        "left": 487.2,
+        "top": 440.5,
+        "width": 85.7,
+        "height": 17.6
+      }
+    },
+    "loan2": {
+      "type": "text",
+      "label": "Loan2",
+      "page": 2,
+      "box": {
+        "left": 166.9,
+        "top": 419.4,
+        "width": 317.0,
+        "height": 19.0
+      }
+    },
+    "loansB": {
+      "type": "text",
+      "label": "LoansB",
+      "page": 2,
+      "box": {
+        "left": 487.2,
+        "top": 419.4,
+        "width": 85.7,
+        "height": 19.0
+      }
+    },
+    "otherH1": {
+      "type": "text",
+      "label": "OtherH1",
+      "page": 2,
+      "box": {
+        "left": 166.9,
+        "top": 396.7,
+        "width": 317.0,
+        "height": 19.0
+      }
+    },
+    "otherH2": {
+      "type": "text",
+      "label": "OtherH2",
+      "page": 2,
+      "box": {
+        "left": 487.2,
+        "top": 396.7,
+        "width": 85.7,
+        "height": 19.0
+      }
+    },
+    "totalCreditPay": {
+      "type": "text",
+      "label": "TotalCreditPay",
+      "page": 2,
+      "box": {
+        "left": 487.2,
+        "top": 374.1,
+        "width": 85.7,
+        "height": 19.0
+      }
+    },
+    "totalMonIncome2": {
+      "type": "text",
+      "label": "TotalMonIncome",
+      "page": 2,
+      "box": {
+        "left": 488.8,
+        "top": 330.2,
+        "width": 84.3,
+        "height": 13.0
+      }
+    },
+    "totalManMonDed2": {
+      "type": "text",
+      "label": "TotalManMonDed",
+      "page": 2,
+      "box": {
+        "left": 488.8,
+        "top": 311.5,
+        "width": 84.3,
+        "height": 13.0
+      }
+    },
+    "totalCreditPay2": {
+      "type": "text",
+      "label": "TotalCreditPay",
+      "page": 2,
+      "box": {
+        "left": 488.8,
+        "top": 292.9,
+        "width": 84.3,
+        "height": 13.0
+      }
+    },
+    "netFundsAvail": {
+      "type": "text",
+      "label": "NetFundsAvail",
+      "page": 2,
+      "box": {
+        "left": 488.8,
+        "top": 274.3,
+        "width": 84.3,
+        "height": 16.1
+      }
+    },
+    "savings": {
+      "type": "text",
+      "label": "Savings",
+      "page": 2,
+      "box": {
+        "left": 487.7,
+        "top": 231.2,
+        "width": 84.3,
+        "height": 12.3
+      }
+    },
+    "checking": {
+      "type": "text",
+      "label": "Checking",
+      "page": 2,
+      "box": {
+        "left": 488.8,
+        "top": 213.2,
+        "width": 83.2,
+        "height": 12.3
+      }
+    },
+    "investments": {
+      "type": "text",
+      "label": "Investments",
+      "page": 2,
+      "box": {
+        "left": 489.3,
+        "top": 195.2,
+        "width": 82.7,
+        "height": 12.3
+      }
+    },
+    "totalAssets": {
+      "type": "text",
+      "label": "TotalAssets",
+      "page": 2,
+      "box": {
+        "left": 489.3,
+        "top": 177.2,
+        "width": 82.7,
+        "height": 12.3
+      }
+    },
+    "spouseOccu": {
+      "type": "text",
+      "label": "             Spouse Occupation:",
+      "page": 2,
+      "box": {
+        "left": 144.2,
+        "top": 128.0,
+        "width": 311.4,
+        "height": 15.4
+      }
+    },
+    "spouseNetIncome": {
+      "type": "text",
+      "label": "SpouseNetIncome",
+      "page": 2,
+      "box": {
+        "left": 492.8,
+        "top": 110.0,
+        "width": 81.8,
+        "height": 16.4
+      }
+    },
+    "signatureField1": {
+      "type": "signature",
+      "label": "Signature of Marine",
+      "page": 3,
+      "box": {
+        "left": 39.6,
+        "top": 681.2,
+        "width": 380.6,
+        "height": 15.2
+      }
+    },
+    "marineDateCert": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 3,
+      "box": {
+        "left": 443.8,
+        "top": 681.2,
+        "width": 129.3,
+        "height": 15.7
+      }
+    },
+    "cOPSRCmts": {
+      "type": "text",
+      "label": "Based on my assessment, I find this Marine financially QUALIFIED / UNQUALIFIED.  The finding of UNQUALIFIED is amplified in the remarks below:",
+      "page": 3,
+      "box": {
+        "left": 38.2,
+        "top": 632.7,
+        "width": 535.7,
+        "height": 91.3
+      },
+      "multiline": true
+    },
+    "cOPSRName": {
+      "type": "text",
+      "label": "Commanding Officer's or PSR OIC's Printed Name/Rank/Billet",
+      "page": 3,
+      "box": {
+        "left": 38.2,
+        "top": 537.8,
+        "width": 535.7,
+        "height": 18.4
+      }
+    },
+    "cOPSRSign": {
+      "type": "text",
+      "label": "Commanding Officer's or PSR OIC's Signature",
+      "page": 3,
+      "box": {
+        "left": 38.2,
+        "top": 501.8,
+        "width": 445.7,
+        "height": 18.4
+      }
+    },
+    "cOSignDate": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 3,
+      "box": {
+        "left": 488.8,
+        "top": 501.2,
+        "width": 84.3,
+        "height": 17.8
+      }
+    },
+    "cOPSRSignA": {
+      "type": "text",
+      "label": "Commanding Officer's or PSR OIC's Signature",
+      "page": 3,
+      "box": {
+        "left": 37.7,
+        "top": 402.1,
+        "width": 445.7,
+        "height": 18.4
+      }
+    },
+    "cOSignDateA": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 3,
+      "box": {
+        "left": 488.3,
+        "top": 401.4,
+        "width": 84.3,
+        "height": 17.8
+      }
+    }
+  }
+}

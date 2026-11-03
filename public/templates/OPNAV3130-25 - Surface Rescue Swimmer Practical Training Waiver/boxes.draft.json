@@ -1,0 +1,117 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "date": {
+        "left": 430.2,
+        "top": 720.8,
+        "width": 143.1,
+        "height": 15.9,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cmdOfficer": {
+        "left": 154.1,
+        "top": 674.0,
+        "width": 203.2,
+        "height": 15.9,
+        "type": "text",
+        "description": "From: Commanding Officer,",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "searchRescueOfficer": {
+        "left": 154.1,
+        "top": 652.3,
+        "width": 203.2,
+        "height": 15.9,
+        "type": "text",
+        "description": "To: Search and Rescue Officer,",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rate": {
+        "left": 67.6,
+        "top": 533.5,
+        "width": 91.5,
+        "height": 15.9,
+        "type": "text",
+        "description": "RATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name": {
+        "left": 254.9,
+        "top": 533.5,
+        "width": 318.4,
+        "height": 15.9,
+        "type": "text",
+        "description": "NAME (Last, First, MI)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "deployStartDate": {
+        "left": 128.9,
+        "top": 504.7,
+        "width": 192.4,
+        "height": 15.9,
+        "type": "text",
+        "description": "Deployment Start Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "deployEndtDate": {
+        "left": 128.9,
+        "top": 483.1,
+        "width": 192.4,
+        "height": 15.9,
+        "type": "text",
+        "description": "Deployment End Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "waiverExpireDate": {
+        "left": 128.9,
+        "top": 461.5,
+        "width": 192.4,
+        "height": 15.9,
+        "type": "text",
+        "description": "Waiver Expiration Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField1": {
+        "left": 312.5,
+        "top": 360.7,
+        "width": 228.4,
+        "height": 37.5,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

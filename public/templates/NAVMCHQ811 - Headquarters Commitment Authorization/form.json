@@ -1,0 +1,272 @@
+{
+  "id": "navmchq811",
+  "label": "NAVMC HQ 811 - Headquarters Commitment Authorization",
+  "directory": "NAVMCHQ811 - Headquarters Commitment Authorization",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "authNum",
+        "amndNum",
+        "date1",
+        "from1",
+        "prevAmt",
+        "incrDecr",
+        "to1",
+        "newTot",
+        "appr",
+        "objCls",
+        "bcn1",
+        "subAlt",
+        "aaan1",
+        "tranTypCd",
+        "paan1",
+        "costCd",
+        "subHd",
+        "desc1",
+        "reqstBy",
+        "signature"
+      ]
+    }
+  ],
+  "fields": {
+    "authNum": {
+      "type": "text",
+      "label": "Authorization Number",
+      "page": 1,
+      "box": {
+        "left": 317.6,
+        "top": 754.4,
+        "width": 264.8,
+        "height": 34.4
+      },
+      "multiline": true
+    },
+    "amndNum": {
+      "type": "text",
+      "label": "Amendment Number.",
+      "page": 1,
+      "box": {
+        "left": 380.0,
+        "top": 715.2,
+        "width": 207.2,
+        "height": 16.0
+      }
+    },
+    "date1": {
+      "type": "text",
+      "label": "Enter date using format 2002 06 27.",
+      "page": 1,
+      "box": {
+        "left": 159.2,
+        "top": 714.4,
+        "width": 156.8,
+        "height": 16.0
+      }
+    },
+    "from1": {
+      "type": "text",
+      "label": "From:",
+      "page": 1,
+      "box": {
+        "left": 24.8,
+        "top": 685.6,
+        "width": 291.2,
+        "height": 48.8
+      },
+      "multiline": true
+    },
+    "prevAmt": {
+      "type": "text",
+      "label": "Previous Amount",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 676.8,
+        "width": 260.2,
+        "height": 18.4
+      }
+    },
+    "incrDecr": {
+      "type": "text",
+      "label": "Increase/Decrease",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 646.2,
+        "width": 262.6,
+        "height": 22.2
+      }
+    },
+    "to1": {
+      "type": "text",
+      "label": "To:",
+      "page": 1,
+      "box": {
+        "left": 24.8,
+        "top": 624.0,
+        "width": 291.2,
+        "height": 48.8
+      },
+      "multiline": true
+    },
+    "newTot": {
+      "type": "text",
+      "label": "New Total",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 608.4,
+        "width": 266.0,
+        "height": 32.2
+      },
+      "multiline": true
+    },
+    "appr": {
+      "type": "text",
+      "label": "Appropriation",
+      "page": 1,
+      "box": {
+        "left": 27.2,
+        "top": 502.8,
+        "width": 68.8,
+        "height": 46.0
+      },
+      "multiline": true
+    },
+    "objCls": {
+      "type": "text",
+      "label": "Object Class",
+      "page": 1,
+      "box": {
+        "left": 144.8,
+        "top": 502.8,
+        "width": 44.8,
+        "height": 46.0
+      },
+      "multiline": true
+    },
+    "bcn1": {
+      "type": "text",
+      "label": "BCN",
+      "page": 1,
+      "box": {
+        "left": 192.0,
+        "top": 502.8,
+        "width": 48.0,
+        "height": 46.0
+      },
+      "multiline": true
+    },
+    "subAlt": {
+      "type": "text",
+      "label": "Sub Allot",
+      "page": 1,
+      "box": {
+        "left": 242.4,
+        "top": 502.8,
+        "width": 44.8,
+        "height": 46.0
+      },
+      "multiline": true
+    },
+    "aaan1": {
+      "type": "text",
+      "label": "AAAN",
+      "page": 1,
+      "box": {
+        "left": 288.8,
+        "top": 502.8,
+        "width": 59.2,
+        "height": 46.0
+      },
+      "multiline": true
+    },
+    "tranTypCd": {
+      "type": "text",
+      "label": "Trans Type Code",
+      "page": 1,
+      "box": {
+        "left": 350.4,
+        "top": 502.8,
+        "width": 48.0,
+        "height": 46.0
+      },
+      "multiline": true
+    },
+    "paan1": {
+      "type": "text",
+      "label": "PAAN",
+      "page": 1,
+      "box": {
+        "left": 400.8,
+        "top": 502.2,
+        "width": 48.0,
+        "height": 45.4
+      },
+      "multiline": true
+    },
+    "costCd": {
+      "type": "text",
+      "label": "Cost Code",
+      "page": 1,
+      "box": {
+        "left": 451.2,
+        "top": 502.2,
+        "width": 136.0,
+        "height": 45.4
+      },
+      "multiline": true
+    },
+    "subHd": {
+      "type": "text",
+      "label": "Subhead",
+      "page": 1,
+      "box": {
+        "left": 98.4,
+        "top": 501.6,
+        "width": 44.8,
+        "height": 44.8
+      },
+      "multiline": true
+    },
+    "desc1": {
+      "type": "text",
+      "label": "Description. Specs, Refs, Encls.",
+      "page": 1,
+      "box": {
+        "left": 25.6,
+        "top": 443.2,
+        "width": 564.0,
+        "height": 299.2
+      },
+      "multiline": true
+    },
+    "reqstBy": {
+      "type": "text",
+      "label": "Requested By.  Branch or Section Head.",
+      "page": 1,
+      "box": {
+        "left": 25.6,
+        "top": 129.6,
+        "width": 564.0,
+        "height": 30.6
+      },
+      "multiline": true
+    },
+    "signature": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 25.2,
+        "top": 81.7,
+        "width": 565.6,
+        "height": 26.7
+      }
+    }
+  }
+}

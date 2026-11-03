@@ -1,0 +1,249 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "a": {
+        "left": 479.3,
+        "top": 634.2,
+        "width": 22.4,
+        "height": 22.4,
+        "type": "radio",
+        "description": "Yes",
+        "options": null,
+        "group": "a",
+        "required": false
+      },
+      "a2": {
+        "left": 516.0,
+        "top": 634.0,
+        "width": 22.7,
+        "height": 22.0,
+        "type": "radio",
+        "description": "no",
+        "options": null,
+        "group": "a",
+        "required": false
+      },
+      "b": {
+        "left": 479.3,
+        "top": 587.3,
+        "width": 22.7,
+        "height": 22.0,
+        "type": "radio",
+        "description": "Yes",
+        "options": null,
+        "group": "b",
+        "required": false
+      },
+      "b2": {
+        "left": 516.0,
+        "top": 587.3,
+        "width": 22.7,
+        "height": 22.0,
+        "type": "radio",
+        "description": "no",
+        "options": null,
+        "group": "b",
+        "required": false
+      },
+      "c": {
+        "left": 479.3,
+        "top": 541.3,
+        "width": 22.7,
+        "height": 22.0,
+        "type": "radio",
+        "description": "Yes",
+        "options": null,
+        "group": "c",
+        "required": false
+      },
+      "c2": {
+        "left": 516.0,
+        "top": 541.3,
+        "width": 22.7,
+        "height": 22.0,
+        "type": "radio",
+        "description": "no",
+        "options": null,
+        "group": "c",
+        "required": false
+      },
+      "d": {
+        "left": 479.3,
+        "top": 498.0,
+        "width": 22.7,
+        "height": 22.0,
+        "type": "radio",
+        "description": "Yes",
+        "options": null,
+        "group": "d",
+        "required": false
+      },
+      "d2": {
+        "left": 516.0,
+        "top": 498.0,
+        "width": 22.7,
+        "height": 22.0,
+        "type": "radio",
+        "description": "no",
+        "options": null,
+        "group": "d",
+        "required": false
+      },
+      "e": {
+        "left": 479.3,
+        "top": 455.3,
+        "width": 22.7,
+        "height": 22.0,
+        "type": "radio",
+        "description": "Yes",
+        "options": null,
+        "group": "e",
+        "required": false
+      },
+      "e2": {
+        "left": 516.0,
+        "top": 455.3,
+        "width": 22.7,
+        "height": 22.0,
+        "type": "radio",
+        "description": "no",
+        "options": null,
+        "group": "e",
+        "required": false
+      },
+      "f": {
+        "left": 479.3,
+        "top": 412.0,
+        "width": 22.7,
+        "height": 22.0,
+        "type": "radio",
+        "description": "Yes",
+        "options": null,
+        "group": "f",
+        "required": false
+      },
+      "f2": {
+        "left": 516.0,
+        "top": 412.0,
+        "width": 22.7,
+        "height": 22.0,
+        "type": "radio",
+        "description": "no",
+        "options": null,
+        "group": "f",
+        "required": false
+      },
+      "g": {
+        "left": 222.0,
+        "top": 380.0,
+        "width": 323.3,
+        "height": 26.7,
+        "type": "text",
+        "description": "EMPLOYEE\u0092S NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "h": {
+        "left": 222.0,
+        "top": 352.7,
+        "width": 323.3,
+        "height": 26.7,
+        "type": "text",
+        "description": "COMPNENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "i": {
+        "left": 222.0,
+        "top": 326.0,
+        "width": 323.3,
+        "height": 26.7,
+        "type": "text",
+        "description": "POSITION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "j": {
+        "left": 222.0,
+        "top": 303.3,
+        "width": 323.3,
+        "height": 73.3,
+        "type": "text",
+        "description": "ADDRESS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "k": {
+        "left": 294.0,
+        "top": 230.7,
+        "width": 251.3,
+        "height": 26.7,
+        "type": "text",
+        "description": "LOCATION OF DESIGNATED HOME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "l": {
+        "left": 222.0,
+        "top": 202.7,
+        "width": 323.3,
+        "height": 26.7,
+        "type": "text",
+        "description": "HOME TELEPHONE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "m": {
+        "left": 222.0,
+        "top": 176.0,
+        "width": 323.3,
+        "height": 26.7,
+        "type": "text",
+        "description": "SUPERVISOR\u0092S NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "n": {
+        "left": 72.7,
+        "top": 128.7,
+        "width": 337.3,
+        "height": 26.7,
+        "type": "text",
+        "description": "SUPERVISOR\u0092S NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "o": {
+        "left": 421.3,
+        "top": 128.7,
+        "width": 114.0,
+        "height": 26.7,
+        "type": "text",
+        "description": "secured under a",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 792,
+    "height": 612
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "dNSDate3": {
+        "left": 68.8,
+        "top": 504.9,
+        "width": 57.6,
+        "height": 16.5,
+        "type": "text",
+        "description": "Enter the date using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "from": {
+        "left": 68.8,
+        "top": 461.2,
+        "width": 396.0,
+        "height": 16.5,
+        "type": "text",
+        "description": "Enter from whom.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "to": {
+        "left": 68.8,
+        "top": 398.2,
+        "width": 396.0,
+        "height": 16.5,
+        "type": "text",
+        "description": "Enter to whom.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "subject": {
+        "left": 71.7,
+        "top": 349.6,
+        "width": 660.2,
+        "height": 291.6,
+        "type": "text",
+        "description": "Enter the subject.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

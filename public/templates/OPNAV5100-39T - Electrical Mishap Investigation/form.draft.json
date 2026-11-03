@@ -1,0 +1,3228 @@
+{
+  "id": "opnav510039t",
+  "label": "OPNAV5100-39T - Electrical Mishap Investigation",
+  "directory": "OPNAV5100-39T - Electrical Mishap Investigation",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf",
+    "page5.pdf",
+    "page6.pdf",
+    "page7.pdf",
+    "page8.pdf",
+    "page9.pdf",
+    "page10.pdf",
+    "page11.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "nmeInves",
+        "emlInves",
+        "dteInit",
+        "dteCmp",
+        "nmeInj",
+        "jobTle",
+        "radio",
+        "radio2",
+        "othInvExp",
+        "milCivCon",
+        "conOco",
+        "injKil",
+        "radio3",
+        "radio4",
+        "proDmgVlu",
+        "dteMsh",
+        "locMsh",
+        "radio5",
+        "radio6",
+        "radio7",
+        "radio8",
+        "confLimExp",
+        "radio9",
+        "radio10",
+        "haxExtLst"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "approxTemp",
+        "radio11",
+        "radio12",
+        "approxHum",
+        "radio13",
+        "radio14",
+        "descrpMis",
+        "contEPL",
+        "contECE",
+        "solWndBat",
+        "radio15",
+        "radio16",
+        "radio17",
+        "radio18",
+        "tmeOfAcc",
+        "radio19",
+        "radio20",
+        "radio21",
+        "radio22",
+        "radio23",
+        "radio24",
+        "radio25",
+        "radio26",
+        "radio27",
+        "radio28",
+        "wrkDoing"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "radio29",
+        "radio30",
+        "loToUseExp",
+        "radio31",
+        "radio32",
+        "radio33",
+        "radio34",
+        "radio35",
+        "radio36",
+        "radio37",
+        "radio38",
+        "radio39",
+        "radio40",
+        "tstLabSpec",
+        "radio41",
+        "radio42",
+        "checkBox2",
+        "radio43",
+        "radio44",
+        "iSInstDoc",
+        "radio45",
+        "radio46",
+        "radio47",
+        "radio48",
+        "radio49",
+        "radio50",
+        "posContPts",
+        "lstContPntsSc"
+      ]
+    },
+    {
+      "title": "Page 4",
+      "fields": [
+        "durSec",
+        "durMin",
+        "static10a",
+        "radio51",
+        "radio52",
+        "wrkInjdExp",
+        "propDmg",
+        "causFacFl",
+        "volt",
+        "transSize",
+        "radio53",
+        "radio54",
+        "radio55",
+        "radio56",
+        "radio57",
+        "radio58",
+        "radio59",
+        "radio60",
+        "wrkFllExp",
+        "radio61",
+        "radio62",
+        "radio63",
+        "radio64",
+        "fllHigt",
+        "injRstFll",
+        "radio65",
+        "radio66",
+        "radio67",
+        "radio68",
+        "elecGlvWrnExp"
+      ]
+    },
+    {
+      "title": "Page 5",
+      "fields": [
+        "radio69",
+        "radio70",
+        "radio71",
+        "radio72",
+        "elecGlvNo",
+        "radio73",
+        "radio74",
+        "pPEArcProtExp",
+        "radio75",
+        "radio76",
+        "wrkDoing2",
+        "wrkDoing3",
+        "wrkDoing4",
+        "radio77",
+        "radio78",
+        "dzdConfExp",
+        "radio79",
+        "radio80",
+        "medTrtExp",
+        "radio81",
+        "radio82",
+        "cPRExp"
+      ]
+    },
+    {
+      "title": "Page 6",
+      "fields": [
+        "radio83",
+        "radio84",
+        "aEDExp",
+        "radio85",
+        "radio86",
+        "radio87",
+        "intBrnExp",
+        "radio88",
+        "radio89",
+        "radio90",
+        "extBrnExp",
+        "radio91",
+        "radio92",
+        "furInfoNme",
+        "furInfoEml",
+        "furInfoTn",
+        "radio93",
+        "radio94",
+        "extCirExp"
+      ]
+    },
+    {
+      "title": "Page 7",
+      "fields": [
+        "radio95",
+        "radio96",
+        "radio97",
+        "radio98",
+        "radio99",
+        "radio100",
+        "radio101",
+        "radio102",
+        "radio103",
+        "radio104",
+        "radio105",
+        "radio106",
+        "radio107",
+        "radio108",
+        "radio109",
+        "radio110",
+        "radio111",
+        "radio112",
+        "radio113",
+        "radio114",
+        "radio115",
+        "radio116",
+        "wrkDoing5"
+      ]
+    },
+    {
+      "title": "Page 8",
+      "fields": [
+        "attachmentsList"
+      ]
+    },
+    {
+      "title": "Page 9",
+      "fields": [
+        "radio117",
+        "radio118",
+        "radio119",
+        "radio120",
+        "radio121",
+        "radio122",
+        "radio123",
+        "radio124",
+        "radio125",
+        "dCVolt",
+        "dCVoltUk",
+        "dcscc",
+        "dCSCCUk",
+        "dCDurExp",
+        "dCDurExpUk",
+        "radio126",
+        "radio127",
+        "radio128",
+        "radio129",
+        "capVal",
+        "capValUk",
+        "capVolt",
+        "capVoltUk",
+        "radio130",
+        "radio131",
+        "radio132",
+        "radio133",
+        "laBat",
+        "la",
+        "lIBat",
+        "li",
+        "capOtr",
+        "capOtrBat",
+        "checkBox1",
+        "batSysDes"
+      ]
+    },
+    {
+      "title": "Page 10",
+      "fields": [
+        "mutBatCong",
+        "batSCC",
+        "batSCCUk",
+        "batVolt",
+        "batVoltUk",
+        "batDurExp",
+        "batDurExpUk",
+        "radio134",
+        "radio135",
+        "pSWFreq",
+        "pSWVolt",
+        "pswssc",
+        "pSWSSCUk",
+        "pSWDurExp",
+        "pSWDurExpUk",
+        "radio136",
+        "radio137",
+        "radio138",
+        "radio139",
+        "radio140",
+        "radio141",
+        "acDcWeld",
+        "opnCirCur",
+        "setWeldMach",
+        "maxCurWeldMach",
+        "strCirc",
+        "rFSys",
+        "rFSysFreq",
+        "rFVolt",
+        "powAvail",
+        "powAvailUk",
+        "pVSys",
+        "pVVolt",
+        "pVPowOp"
+      ]
+    },
+    {
+      "title": "Page 11",
+      "fields": [
+        "wndSys",
+        "wndVolt",
+        "wndWF",
+        "wntPowOP",
+        "wrkDoing6"
+      ]
+    }
+  ],
+  "fields": {
+    "nmeInves": {
+      "type": "text",
+      "label": "1. Names(s) of Investigator(s)",
+      "page": 1,
+      "box": {
+        "left": 41.6,
+        "top": 586.9,
+        "width": 264.3,
+        "height": 20.5
+      }
+    },
+    "emlInves": {
+      "type": "text",
+      "label": "2. Investigator&apos;s E-Mail",
+      "page": 1,
+      "box": {
+        "left": 310.6,
+        "top": 586.9,
+        "width": 264.3,
+        "height": 20.5
+      }
+    },
+    "dteInit": {
+      "type": "text",
+      "label": "3. Date Form Initiated",
+      "page": 1,
+      "box": {
+        "left": 41.6,
+        "top": 551.2,
+        "width": 264.3,
+        "height": 20.5
+      }
+    },
+    "dteCmp": {
+      "type": "text",
+      "label": "4. Date Form Completed",
+      "page": 1,
+      "box": {
+        "left": 310.6,
+        "top": 551.2,
+        "width": 264.3,
+        "height": 20.5
+      }
+    },
+    "nmeInj": {
+      "type": "text",
+      "label": "5. Name of Injured Worker",
+      "page": 1,
+      "box": {
+        "left": 41.6,
+        "top": 489.8,
+        "width": 264.3,
+        "height": 24.0
+      }
+    },
+    "jobTle": {
+      "type": "text",
+      "label": "6. Job Title of Injured Worker",
+      "page": 1,
+      "box": {
+        "left": 310.6,
+        "top": 489.8,
+        "width": 264.3,
+        "height": 24.0
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 368.7,
+        "top": 462.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 408.7,
+        "top": 462.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "othInvExp": {
+      "type": "text",
+      "label": "If &quot;YES&quot;, please explain",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 434.9,
+        "width": 533.9,
+        "height": 54.2
+      },
+      "multiline": true
+    },
+    "milCivCon": {
+      "type": "text",
+      "label": "8. Was the worker military, civilian, or a contractor?",
+      "page": 1,
+      "box": {
+        "left": 41.6,
+        "top": 362.7,
+        "width": 264.3,
+        "height": 20.5
+      }
+    },
+    "conOco": {
+      "type": "text",
+      "label": "9. Was the worker working CONUS or OCONUS?",
+      "page": 1,
+      "box": {
+        "left": 310.7,
+        "top": 362.7,
+        "width": 264.3,
+        "height": 20.5
+      }
+    },
+    "injKil": {
+      "type": "text",
+      "label": "10. Was the worker(s) injured or killed?",
+      "page": 1,
+      "box": {
+        "left": 41.6,
+        "top": 327.6,
+        "width": 264.3,
+        "height": 51.4
+      },
+      "multiline": true
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 351.4,
+        "top": 326.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 391.3,
+        "top": 326.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "proDmgVlu": {
+      "type": "text",
+      "label": "If &quot;YES&quot;, what was the estimated damage value?",
+      "page": 1,
+      "box": {
+        "left": 310.7,
+        "top": 296.5,
+        "width": 264.3,
+        "height": 20.4
+      }
+    },
+    "dteMsh": {
+      "type": "text",
+      "label": "12. Date and Time of MISHAP",
+      "page": 1,
+      "box": {
+        "left": 41.6,
+        "top": 260.4,
+        "width": 144.7,
+        "height": 20.5
+      }
+    },
+    "locMsh": {
+      "type": "text",
+      "label": "13. Location of MISHAP",
+      "page": 1,
+      "box": {
+        "left": 191.2,
+        "top": 260.3,
+        "width": 383.9,
+        "height": 20.5
+      }
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 353.9,
+        "top": 235.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 426.3,
+        "top": 235.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 368.4,
+        "top": 216.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 408.3,
+        "top": 216.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "confLimExp": {
+      "type": "text",
+      "label": "If &quot;YES&quot;, please explain with details",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 186.5,
+        "width": 533.9,
+        "height": 50.4
+      },
+      "multiline": true
+    },
+    "radio9": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 266.5,
+        "top": 119.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio10": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 306.4,
+        "top": 119.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "haxExtLst": {
+      "type": "text",
+      "label": "If &quot;YES&quot;, please list",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 92.0,
+        "width": 533.9,
+        "height": 52.1
+      },
+      "multiline": true
+    },
+    "approxTemp": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 311.5,
+        "top": 741.6,
+        "width": 264.3,
+        "height": 20.5
+      }
+    },
+    "radio11": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 115.7,
+        "top": 738.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio12": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 178.4,
+        "top": 738.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "approxHum": {
+      "type": "text",
+      "label": "21. What was the approximate humidity level?",
+      "page": 2,
+      "box": {
+        "left": 41.6,
+        "top": 705.3,
+        "width": 264.8,
+        "height": 19.6
+      }
+    },
+    "radio13": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 373.0,
+        "top": 700.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio14": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 435.7,
+        "top": 700.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "descrpMis": {
+      "type": "text",
+      "label": "Descrp Mis",
+      "page": 2,
+      "box": {
+        "left": 41.6,
+        "top": 660.6,
+        "width": 531.7,
+        "height": 170.4
+      },
+      "multiline": true
+    },
+    "contEPL": {
+      "type": "checkbox",
+      "label": "the",
+      "page": 2,
+      "box": {
+        "left": 71.9,
+        "top": 447.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "contECE": {
+      "type": "checkbox",
+      "label": "the",
+      "page": 2,
+      "box": {
+        "left": 71.9,
+        "top": 428.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "solWndBat": {
+      "type": "checkbox",
+      "label": "the",
+      "page": 2,
+      "box": {
+        "left": 71.9,
+        "top": 409.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "radio15": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 182.7,
+        "top": 392.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio16": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 217.2,
+        "top": 392.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio17": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 324.0,
+        "top": 352.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio18": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 363.9,
+        "top": 352.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "tmeOfAcc": {
+      "type": "text",
+      "label": "Tme Of Acc",
+      "page": 2,
+      "box": {
+        "left": 41.6,
+        "top": 320.0,
+        "width": 531.7,
+        "height": 59.8
+      },
+      "multiline": true
+    },
+    "radio19": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 471.6,
+        "top": 250.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio20": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 511.6,
+        "top": 250.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio21": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 71.6,
+        "top": 212.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio22": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 71.6,
+        "top": 194.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio23": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 2,
+      "box": {
+        "left": 71.6,
+        "top": 177.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio24": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 2,
+      "box": {
+        "left": 71.6,
+        "top": 159.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio25": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 311.7,
+        "top": 138.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio26": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 346.2,
+        "top": 138.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio27": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 223.2,
+        "top": 119.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio28": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 257.7,
+        "top": 119.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "wrkDoing": {
+      "type": "text",
+      "label": "Wrk Doing",
+      "page": 2,
+      "box": {
+        "left": 41.6,
+        "top": 97.4,
+        "width": 534.6,
+        "height": 58.1
+      },
+      "multiline": true
+    },
+    "radio29": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 208.9,
+        "top": 752.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio30": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 243.4,
+        "top": 752.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "loToUseExp": {
+      "type": "text",
+      "label": "If &quot;NO&quot;, Explain why",
+      "page": 3,
+      "box": {
+        "left": 41.6,
+        "top": 732.0,
+        "width": 534.6,
+        "height": 67.2
+      },
+      "multiline": true
+    },
+    "radio31": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 385.0,
+        "top": 657.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio32": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 425.0,
+        "top": 657.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio33": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 259.0,
+        "top": 631.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio34": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 299.0,
+        "top": 631.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio35": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 283.7,
+        "top": 606.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio36": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 323.7,
+        "top": 606.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio37": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 402.5,
+        "top": 581.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio38": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 442.5,
+        "top": 581.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio39": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 289.1,
+        "top": 556.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio40": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 329.4,
+        "top": 556.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "tstLabSpec": {
+      "type": "text",
+      "label": "Tst Lab Spec",
+      "page": 3,
+      "box": {
+        "left": 41.6,
+        "top": 538.5,
+        "width": 534.6,
+        "height": 70.8
+      },
+      "multiline": true
+    },
+    "radio41": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 345.4,
+        "top": 465.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio42": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 385.4,
+        "top": 465.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "checkBox2": {
+      "type": "checkbox",
+      "label": "jurisdiction?",
+      "page": 3,
+      "box": {
+        "left": 319.6,
+        "top": 454.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "radio43": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 202.1,
+        "top": 431.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio44": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 237.3,
+        "top": 431.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "iSInstDoc": {
+      "type": "text",
+      "label": "Upload the work control document in last field in PART A",
+      "page": 3,
+      "box": {
+        "left": 41.6,
+        "top": 408.5,
+        "width": 534.6,
+        "height": 63.0
+      },
+      "multiline": true
+    },
+    "radio45": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 238.3,
+        "top": 331.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio46": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 278.9,
+        "top": 331.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio47": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 349.3,
+        "top": 308.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio48": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 389.9,
+        "top": 308.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio49": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 165.0,
+        "top": 281.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio50": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 205.5,
+        "top": 281.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "posContPts": {
+      "type": "text",
+      "label": "Pos Cont Pts",
+      "page": 3,
+      "box": {
+        "left": 41.6,
+        "top": 246.2,
+        "width": 531.7,
+        "height": 87.7
+      },
+      "multiline": true
+    },
+    "lstContPntsSc": {
+      "type": "text",
+      "label": "Lst Cont Pnts Sc",
+      "page": 3,
+      "box": {
+        "left": 39.4,
+        "top": 118.7,
+        "width": 533.9,
+        "height": 78.7
+      },
+      "multiline": true
+    },
+    "durSec": {
+      "type": "text",
+      "label": "44. What was the estimated duration of the shock?",
+      "page": 4,
+      "box": {
+        "left": 233.2,
+        "top": 756.8,
+        "width": 35.1,
+        "height": 15.3
+      }
+    },
+    "durMin": {
+      "type": "text",
+      "label": "Seconds",
+      "page": 4,
+      "box": {
+        "left": 314.6,
+        "top": 756.8,
+        "width": 29.0,
+        "height": 15.3
+      }
+    },
+    "static10a": {
+      "type": "checkbox",
+      "label": "Minutes",
+      "page": 4,
+      "box": {
+        "left": 393.2,
+        "top": 752.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "radio51": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 148.6,
+        "top": 733.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio52": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 189.1,
+        "top": 733.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "wrkInjdExp": {
+      "type": "text",
+      "label": "a. Were workers injured? Please explain",
+      "page": 4,
+      "box": {
+        "left": 41.6,
+        "top": 703.9,
+        "width": 534.6,
+        "height": 70.1
+      },
+      "multiline": true
+    },
+    "propDmg": {
+      "type": "text",
+      "label": "Prop Dmg",
+      "page": 4,
+      "box": {
+        "left": 41.6,
+        "top": 619.6,
+        "width": 534.6,
+        "height": 76.1
+      },
+      "multiline": true
+    },
+    "causFacFl": {
+      "type": "text",
+      "label": "46. List all known causal factors of the arc flash mishap",
+      "page": 4,
+      "box": {
+        "left": 41.6,
+        "top": 529.4,
+        "width": 534.6,
+        "height": 76.1
+      },
+      "multiline": true
+    },
+    "volt": {
+      "type": "text",
+      "label": "47. What was the voltage?",
+      "page": 4,
+      "box": {
+        "left": 41.6,
+        "top": 438.1,
+        "width": 264.4,
+        "height": 20.5
+      }
+    },
+    "transSize": {
+      "type": "text",
+      "label": "Trans Size",
+      "page": 4,
+      "box": {
+        "left": 311.1,
+        "top": 438.1,
+        "width": 264.4,
+        "height": 20.5
+      }
+    },
+    "radio53": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 70.5,
+        "top": 395.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio54": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 133.2,
+        "top": 395.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio55": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 4,
+      "box": {
+        "left": 200.4,
+        "top": 395.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio56": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 339.2,
+        "top": 395.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio57": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 401.9,
+        "top": 395.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio58": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 4,
+      "box": {
+        "left": 469.1,
+        "top": 395.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio59": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 134.4,
+        "top": 374.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio60": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 174.9,
+        "top": 374.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "wrkFllExp": {
+      "type": "text",
+      "label": "Wrk Fll Exp",
+      "page": 4,
+      "box": {
+        "left": 41.6,
+        "top": 348.0,
+        "width": 534.6,
+        "height": 62.7
+      },
+      "multiline": true
+    },
+    "radio61": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 384.4,
+        "top": 263.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio62": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 424.9,
+        "top": 263.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio63": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 105.2,
+        "top": 262.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio64": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 145.8,
+        "top": 262.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "fllHigt": {
+      "type": "text",
+      "label": "54. What was the height of the fall (if known) ?",
+      "page": 4,
+      "box": {
+        "left": 207.4,
+        "top": 241.0,
+        "width": 368.8,
+        "height": 20.5
+      }
+    },
+    "injRstFll": {
+      "type": "text",
+      "label": "55. What injuries resulted from the fall (if known) ?",
+      "page": 4,
+      "box": {
+        "left": 41.6,
+        "top": 207.3,
+        "width": 534.6,
+        "height": 53.6
+      },
+      "multiline": true
+    },
+    "radio65": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 296.4,
+        "top": 148.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio66": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 336.9,
+        "top": 148.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio67": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 248.9,
+        "top": 129.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio68": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 289.5,
+        "top": 129.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "elecGlvWrnExp": {
+      "type": "text",
+      "label": "Elec Glv Wrn Exp",
+      "page": 4,
+      "box": {
+        "left": 41.6,
+        "top": 101.9,
+        "width": 534.6,
+        "height": 65.4
+      },
+      "multiline": true
+    },
+    "radio69": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 296.1,
+        "top": 751.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio70": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 336.7,
+        "top": 751.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio71": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 5,
+      "box": {
+        "left": 339.6,
+        "top": 732.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio72": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 380.2,
+        "top": 732.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "elecGlvNo": {
+      "type": "text",
+      "label": "past six months? YES NO",
+      "page": 5,
+      "box": {
+        "left": 274.9,
+        "top": 718.2,
+        "width": 301.3,
+        "height": 20.5
+      }
+    },
+    "radio73": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 5,
+      "box": {
+        "left": 262.2,
+        "top": 692.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio74": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 302.8,
+        "top": 692.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "pPEArcProtExp": {
+      "type": "text",
+      "label": "P PE Arc Prot Exp",
+      "page": 5,
+      "box": {
+        "left": 41.6,
+        "top": 664.6,
+        "width": 534.6,
+        "height": 61.8
+      },
+      "multiline": true
+    },
+    "radio75": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 5,
+      "box": {
+        "left": 403.4,
+        "top": 597.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio76": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 444.0,
+        "top": 597.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "wrkDoing2": {
+      "type": "text",
+      "label": "If &quot;YES&quot;, please describe",
+      "page": 5,
+      "box": {
+        "left": 41.6,
+        "top": 568.1,
+        "width": 534.6,
+        "height": 65.7
+      },
+      "multiline": true
+    },
+    "wrkDoing3": {
+      "type": "text",
+      "label": "hood, rubber insulated gloves, etc.)",
+      "page": 5,
+      "box": {
+        "left": 41.6,
+        "top": 481.5,
+        "width": 534.6,
+        "height": 61.2
+      },
+      "multiline": true
+    },
+    "wrkDoing4": {
+      "type": "text",
+      "label": "Wrk Doing 4",
+      "page": 5,
+      "box": {
+        "left": 41.6,
+        "top": 401.9,
+        "width": 534.6,
+        "height": 56.4
+      },
+      "multiline": true
+    },
+    "radio77": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 5,
+      "box": {
+        "left": 427.7,
+        "top": 339.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio78": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 468.3,
+        "top": 339.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "dzdConfExp": {
+      "type": "text",
+      "label": "If &quot;YES&quot;, please explain",
+      "page": 5,
+      "box": {
+        "left": 41.6,
+        "top": 308.2,
+        "width": 534.6,
+        "height": 67.0
+      },
+      "multiline": true
+    },
+    "radio79": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 5,
+      "box": {
+        "left": 306.0,
+        "top": 235.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio80": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 412.2,
+        "top": 235.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "medTrtExp": {
+      "type": "text",
+      "label": "Med Trt Exp",
+      "page": 5,
+      "box": {
+        "left": 41.6,
+        "top": 201.4,
+        "width": 534.6,
+        "height": 62.6
+      },
+      "multiline": true
+    },
+    "radio81": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 5,
+      "box": {
+        "left": 177.2,
+        "top": 133.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio82": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 221.9,
+        "top": 133.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "cPRExp": {
+      "type": "text",
+      "label": "If &quot;YES&quot;, please explain",
+      "page": 5,
+      "box": {
+        "left": 41.6,
+        "top": 105.3,
+        "width": 534.6,
+        "height": 67.4
+      },
+      "multiline": true
+    },
+    "radio83": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 6,
+      "box": {
+        "left": 266.1,
+        "top": 751.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio84": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 6,
+      "box": {
+        "left": 310.6,
+        "top": 751.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "aEDExp": {
+      "type": "text",
+      "label": "If &quot;YES&quot;, please explain",
+      "page": 6,
+      "box": {
+        "left": 41.6,
+        "top": 722.5,
+        "width": 534.6,
+        "height": 97.5
+      },
+      "multiline": true
+    },
+    "radio85": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 6,
+      "box": {
+        "left": 177.2,
+        "top": 619.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio86": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 6,
+      "box": {
+        "left": 221.9,
+        "top": 619.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio87": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 6,
+      "box": {
+        "left": 261.2,
+        "top": 619.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "intBrnExp": {
+      "type": "text",
+      "label": "If &quot;YES&quot;, please explain",
+      "page": 6,
+      "box": {
+        "left": 41.6,
+        "top": 590.2,
+        "width": 534.6,
+        "height": 90.4
+      },
+      "multiline": true
+    },
+    "radio88": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 6,
+      "box": {
+        "left": 177.2,
+        "top": 494.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio89": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 6,
+      "box": {
+        "left": 221.9,
+        "top": 494.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio90": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 6,
+      "box": {
+        "left": 261.2,
+        "top": 494.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "extBrnExp": {
+      "type": "text",
+      "label": "Ext Brn Exp",
+      "page": 6,
+      "box": {
+        "left": 41.6,
+        "top": 464.9,
+        "width": 534.6,
+        "height": 92.4
+      },
+      "multiline": true
+    },
+    "radio91": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 6,
+      "box": {
+        "left": 343.7,
+        "top": 366.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio92": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 6,
+      "box": {
+        "left": 388.5,
+        "top": 366.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "furInfoNme": {
+      "type": "text",
+      "label": "Name",
+      "page": 6,
+      "box": {
+        "left": 131.1,
+        "top": 322.1,
+        "width": 420.8,
+        "height": 18.6
+      }
+    },
+    "furInfoEml": {
+      "type": "text",
+      "label": "E-Mail",
+      "page": 6,
+      "box": {
+        "left": 131.1,
+        "top": 296.8,
+        "width": 420.8,
+        "height": 18.6
+      }
+    },
+    "furInfoTn": {
+      "type": "text",
+      "label": "Telephone Number",
+      "page": 6,
+      "box": {
+        "left": 154.4,
+        "top": 272.9,
+        "width": 397.5,
+        "height": 18.6
+      }
+    },
+    "radio93": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 6,
+      "box": {
+        "left": 265.1,
+        "top": 183.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio94": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 6,
+      "box": {
+        "left": 309.9,
+        "top": 183.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "extCirExp": {
+      "type": "text",
+      "label": "If &quot;YES&quot;, please list circumstances",
+      "page": 6,
+      "box": {
+        "left": 41.6,
+        "top": 155.2,
+        "width": 534.6,
+        "height": 103.3
+      },
+      "multiline": true
+    },
+    "radio95": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 7,
+      "box": {
+        "left": 384.4,
+        "top": 743.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio96": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 7,
+      "box": {
+        "left": 424.9,
+        "top": 743.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio97": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 7,
+      "box": {
+        "left": 392.2,
+        "top": 730.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio98": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 7,
+      "box": {
+        "left": 432.7,
+        "top": 730.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio99": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 7,
+      "box": {
+        "left": 105.2,
+        "top": 729.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio100": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 7,
+      "box": {
+        "left": 145.8,
+        "top": 729.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio101": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 7,
+      "box": {
+        "left": 105.2,
+        "top": 688.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio102": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 7,
+      "box": {
+        "left": 145.8,
+        "top": 688.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio103": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 7,
+      "box": {
+        "left": 374.7,
+        "top": 688.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio104": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 7,
+      "box": {
+        "left": 415.2,
+        "top": 688.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio105": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 7,
+      "box": {
+        "left": 105.2,
+        "top": 649.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio106": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 7,
+      "box": {
+        "left": 145.8,
+        "top": 649.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio107": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 7,
+      "box": {
+        "left": 374.7,
+        "top": 649.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio108": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 7,
+      "box": {
+        "left": 415.2,
+        "top": 649.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio109": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 7,
+      "box": {
+        "left": 105.2,
+        "top": 610.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio110": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 7,
+      "box": {
+        "left": 145.8,
+        "top": 610.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio111": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 7,
+      "box": {
+        "left": 374.7,
+        "top": 610.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio112": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 7,
+      "box": {
+        "left": 415.2,
+        "top": 610.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio113": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 7,
+      "box": {
+        "left": 105.2,
+        "top": 570.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio114": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 7,
+      "box": {
+        "left": 145.8,
+        "top": 570.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio115": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 7,
+      "box": {
+        "left": 374.7,
+        "top": 570.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio116": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 7,
+      "box": {
+        "left": 415.2,
+        "top": 570.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "wrkDoing5": {
+      "type": "text",
+      "label": "83. Part A Notes",
+      "page": 7,
+      "box": {
+        "left": 41.6,
+        "top": 538.6,
+        "width": 534.6,
+        "height": 502.8
+      },
+      "multiline": true
+    },
+    "attachmentsList": {
+      "type": "choice",
+      "label": "List Of Attachments",
+      "page": 8,
+      "box": {
+        "left": 40.2,
+        "top": 719.9,
+        "width": 532.9,
+        "height": 22.2
+      }
+    },
+    "radio117": {
+      "type": "radio",
+      "label": "Item5",
+      "page": 9,
+      "box": {
+        "left": 326.8,
+        "top": 671.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio118": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 9,
+      "box": {
+        "left": 55.9,
+        "top": 671.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio119": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 9,
+      "box": {
+        "left": 55.9,
+        "top": 653.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio120": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 9,
+      "box": {
+        "left": 326.8,
+        "top": 653.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio121": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 9,
+      "box": {
+        "left": 55.9,
+        "top": 636.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio122": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 9,
+      "box": {
+        "left": 326.8,
+        "top": 636.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio123": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 9,
+      "box": {
+        "left": 55.9,
+        "top": 618.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio124": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 9,
+      "box": {
+        "left": 237.7,
+        "top": 574.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio125": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 9,
+      "box": {
+        "left": 282.4,
+        "top": 574.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "dCVolt": {
+      "type": "text",
+      "label": "86. What was the DC voltage?",
+      "page": 9,
+      "box": {
+        "left": 158.3,
+        "top": 556.3,
+        "width": 171.5,
+        "height": 15.4
+      }
+    },
+    "dCVoltUk": {
+      "type": "checkbox",
+      "label": "86. What was the DC voltage?",
+      "page": 9,
+      "box": {
+        "left": 335.6,
+        "top": 552.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "dcscc": {
+      "type": "text",
+      "label": "87. What was the short circuit current?",
+      "page": 9,
+      "box": {
+        "left": 187.1,
+        "top": 535.2,
+        "width": 142.7,
+        "height": 15.4
+      }
+    },
+    "dCSCCUk": {
+      "type": "checkbox",
+      "label": "87. What was the short circuit current?",
+      "page": 9,
+      "box": {
+        "left": 335.6,
+        "top": 531.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "dCDurExp": {
+      "type": "text",
+      "label": "88. What was the duration of exposure (in seconds) ?",
+      "page": 9,
+      "box": {
+        "left": 231.0,
+        "top": 514.2,
+        "width": 98.8,
+        "height": 15.4
+      }
+    },
+    "dCDurExpUk": {
+      "type": "checkbox",
+      "label": "88. What was the duration of exposure (in seconds) ?",
+      "page": 9,
+      "box": {
+        "left": 335.6,
+        "top": 510.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "radio126": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 9,
+      "box": {
+        "left": 60.1,
+        "top": 475.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio127": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 9,
+      "box": {
+        "left": 60.1,
+        "top": 457.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio128": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 9,
+      "box": {
+        "left": 60.1,
+        "top": 439.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio129": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 9,
+      "box": {
+        "left": 60.1,
+        "top": 421.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "capVal": {
+      "type": "text",
+      "label": "SECTION II - CAPACITOR",
+      "page": 9,
+      "box": {
+        "left": 265.8,
+        "top": 380.7,
+        "width": 62.7,
+        "height": 15.4
+      }
+    },
+    "capValUk": {
+      "type": "checkbox",
+      "label": "CAPACITOR",
+      "page": 9,
+      "box": {
+        "left": 335.7,
+        "top": 377.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "capVolt": {
+      "type": "text",
+      "label": "91. What was the voltage (AC or DCV) ?",
+      "page": 9,
+      "box": {
+        "left": 231.1,
+        "top": 359.7,
+        "width": 97.4,
+        "height": 15.4
+      }
+    },
+    "capVoltUk": {
+      "type": "checkbox",
+      "label": "91. What was the voltage (AC or DCV) ?",
+      "page": 9,
+      "box": {
+        "left": 335.7,
+        "top": 356.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "radio130": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 9,
+      "box": {
+        "left": 59.8,
+        "top": 321.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio131": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 9,
+      "box": {
+        "left": 62.0,
+        "top": 301.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio132": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 9,
+      "box": {
+        "left": 59.8,
+        "top": 285.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio133": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 9,
+      "box": {
+        "left": 59.8,
+        "top": 267.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "laBat": {
+      "type": "text",
+      "label": "Number of batteries",
+      "page": 9,
+      "box": {
+        "left": 383.2,
+        "top": 210.2,
+        "width": 190.2,
+        "height": 11.8
+      }
+    },
+    "la": {
+      "type": "checkbox",
+      "label": "What",
+      "page": 9,
+      "box": {
+        "left": 61.7,
+        "top": 208.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "lIBat": {
+      "type": "text",
+      "label": "Number of batteries",
+      "page": 9,
+      "box": {
+        "left": 383.2,
+        "top": 192.8,
+        "width": 190.2,
+        "height": 11.8
+      }
+    },
+    "li": {
+      "type": "checkbox",
+      "label": "What",
+      "page": 9,
+      "box": {
+        "left": 61.7,
+        "top": 190.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "capOtr": {
+      "type": "text",
+      "label": "Other (specify)",
+      "page": 9,
+      "box": {
+        "left": 136.2,
+        "top": 175.3,
+        "width": 162.4,
+        "height": 11.8
+      }
+    },
+    "capOtrBat": {
+      "type": "text",
+      "label": "Number of batteries",
+      "page": 9,
+      "box": {
+        "left": 383.2,
+        "top": 175.3,
+        "width": 190.2,
+        "height": 11.8
+      }
+    },
+    "checkBox1": {
+      "type": "checkbox",
+      "label": "What",
+      "page": 9,
+      "box": {
+        "left": 61.7,
+        "top": 173.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "batSysDes": {
+      "type": "text",
+      "label": "Bat Sys Des",
+      "page": 9,
+      "box": {
+        "left": 41.6,
+        "top": 142.3,
+        "width": 534.6,
+        "height": 104.7
+      },
+      "multiline": true
+    },
+    "mutBatCong": {
+      "type": "text",
+      "label": "Mut Bat Cong",
+      "page": 10,
+      "box": {
+        "left": 41.6,
+        "top": 738.4,
+        "width": 534.6,
+        "height": 41.4
+      },
+      "multiline": true
+    },
+    "batSCC": {
+      "type": "text",
+      "label": "96. What was the short circuit current (amps) ?",
+      "page": 10,
+      "box": {
+        "left": 210.8,
+        "top": 694.2,
+        "width": 119.1,
+        "height": 15.4
+      }
+    },
+    "batSCCUk": {
+      "type": "checkbox",
+      "label": "96. What was the short circuit current (amps) ?",
+      "page": 10,
+      "box": {
+        "left": 337.0,
+        "top": 690.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "batVolt": {
+      "type": "text",
+      "label": "97. What was the DC voltage?",
+      "page": 10,
+      "box": {
+        "left": 158.3,
+        "top": 673.2,
+        "width": 171.5,
+        "height": 15.4
+      }
+    },
+    "batVoltUk": {
+      "type": "checkbox",
+      "label": "97. What was the DC voltage?",
+      "page": 10,
+      "box": {
+        "left": 337.0,
+        "top": 669.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "batDurExp": {
+      "type": "text",
+      "label": "98. What was the duration of exposure (in seconds) ?",
+      "page": 10,
+      "box": {
+        "left": 231.1,
+        "top": 652.1,
+        "width": 98.8,
+        "height": 15.4
+      }
+    },
+    "batDurExpUk": {
+      "type": "checkbox",
+      "label": "98. What was the duration of exposure (in seconds) ?",
+      "page": 10,
+      "box": {
+        "left": 337.0,
+        "top": 648.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "radio134": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 10,
+      "box": {
+        "left": 59.5,
+        "top": 613.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio135": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 10,
+      "box": {
+        "left": 59.5,
+        "top": 595.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "pSWFreq": {
+      "type": "text",
+      "label": "100. What was the frequency?",
+      "page": 10,
+      "box": {
+        "left": 158.3,
+        "top": 559.0,
+        "width": 415.1,
+        "height": 15.4
+      }
+    },
+    "pSWVolt": {
+      "type": "text",
+      "label": "101. What was the voltage?",
+      "page": 10,
+      "box": {
+        "left": 158.3,
+        "top": 537.9,
+        "width": 415.1,
+        "height": 15.4
+      }
+    },
+    "pswssc": {
+      "type": "text",
+      "label": "102. What was the short circuit current (amps) ?",
+      "page": 10,
+      "box": {
+        "left": 210.8,
+        "top": 516.9,
+        "width": 119.1,
+        "height": 15.4
+      }
+    },
+    "pSWSSCUk": {
+      "type": "checkbox",
+      "label": "102. What was the short circuit current (amps) ?",
+      "page": 10,
+      "box": {
+        "left": 337.0,
+        "top": 513.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "pSWDurExp": {
+      "type": "text",
+      "label": "103. What was the duration of exposure (in seconds) ?",
+      "page": 10,
+      "box": {
+        "left": 231.1,
+        "top": 495.8,
+        "width": 98.8,
+        "height": 15.4
+      }
+    },
+    "pSWDurExpUk": {
+      "type": "checkbox",
+      "label": "103. What was the duration of exposure (in seconds) ?",
+      "page": 10,
+      "box": {
+        "left": 337.0,
+        "top": 492.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "radio136": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 10,
+      "box": {
+        "left": 59.5,
+        "top": 456.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio137": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 10,
+      "box": {
+        "left": 59.5,
+        "top": 437.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio138": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 10,
+      "box": {
+        "left": 59.5,
+        "top": 420.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio139": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 10,
+      "box": {
+        "left": 59.5,
+        "top": 402.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio140": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 10,
+      "box": {
+        "left": 259.4,
+        "top": 382.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio141": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 10,
+      "box": {
+        "left": 304.2,
+        "top": 382.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "acDcWeld": {
+      "type": "text",
+      "label": "106. Wave form - AC or DC welder?",
+      "page": 10,
+      "box": {
+        "left": 176.0,
+        "top": 364.3,
+        "width": 397.4,
+        "height": 15.4
+      }
+    },
+    "opnCirCur": {
+      "type": "text",
+      "label": "107. What was the open circuit volt (provide a number) ?",
+      "page": 10,
+      "box": {
+        "left": 238.9,
+        "top": 343.6,
+        "width": 334.5,
+        "height": 15.4
+      }
+    },
+    "setWeldMach": {
+      "type": "text",
+      "label": "108. What were the settings on the welding machine?",
+      "page": 10,
+      "box": {
+        "left": 238.9,
+        "top": 322.5,
+        "width": 334.5,
+        "height": 15.4
+      }
+    },
+    "maxCurWeldMach": {
+      "type": "text",
+      "label": "109. What is the max current for the welding machine?",
+      "page": 10,
+      "box": {
+        "left": 238.9,
+        "top": 301.5,
+        "width": 334.5,
+        "height": 15.4
+      }
+    },
+    "strCirc": {
+      "type": "text",
+      "label": "110. Describe the starting circuit to strike the arc",
+      "page": 10,
+      "box": {
+        "left": 224.5,
+        "top": 280.4,
+        "width": 348.9,
+        "height": 15.4
+      }
+    },
+    "rFSys": {
+      "type": "text",
+      "label": "V - RF (3kHz - 100MHz)",
+      "page": 10,
+      "box": {
+        "left": 283.5,
+        "top": 238.7,
+        "width": 289.9,
+        "height": 15.4
+      }
+    },
+    "rFSysFreq": {
+      "type": "text",
+      "label": "112. What was the system frequency?",
+      "page": 10,
+      "box": {
+        "left": 184.5,
+        "top": 217.6,
+        "width": 388.9,
+        "height": 15.4
+      }
+    },
+    "rFVolt": {
+      "type": "text",
+      "label": "113. What was the system voltage?",
+      "page": 10,
+      "box": {
+        "left": 176.6,
+        "top": 196.6,
+        "width": 396.7,
+        "height": 15.4
+      }
+    },
+    "powAvail": {
+      "type": "text",
+      "label": "114. What was the Power available (in watts) ?",
+      "page": 10,
+      "box": {
+        "left": 210.8,
+        "top": 175.1,
+        "width": 119.1,
+        "height": 15.4
+      }
+    },
+    "powAvailUk": {
+      "type": "checkbox",
+      "label": "114. What was the Power available (in watts) ?",
+      "page": 10,
+      "box": {
+        "left": 337.0,
+        "top": 171.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "pVSys": {
+      "type": "text",
+      "label": "P V Sys",
+      "page": 10,
+      "box": {
+        "left": 41.6,
+        "top": 118.5,
+        "width": 531.7,
+        "height": 35.5
+      },
+      "multiline": true
+    },
+    "pVVolt": {
+      "type": "text",
+      "label": "116. What was the system voltage?",
+      "page": 10,
+      "box": {
+        "left": 176.6,
+        "top": 77.4,
+        "width": 396.7,
+        "height": 15.4
+      }
+    },
+    "pVPowOp": {
+      "type": "text",
+      "label": "117. What was the power output (in watts) ?",
+      "page": 10,
+      "box": {
+        "left": 198.2,
+        "top": 56.4,
+        "width": 375.1,
+        "height": 15.4
+      }
+    },
+    "wndSys": {
+      "type": "text",
+      "label": "118 Describe the system?",
+      "page": 11,
+      "box": {
+        "left": 41.6,
+        "top": 718.5,
+        "width": 531.7,
+        "height": 29.5
+      }
+    },
+    "wndVolt": {
+      "type": "text",
+      "label": "119. What was the system voltage?",
+      "page": 11,
+      "box": {
+        "left": 184.5,
+        "top": 683.4,
+        "width": 388.9,
+        "height": 15.4
+      }
+    },
+    "wndWF": {
+      "type": "text",
+      "label": "SECTION VII - WIND",
+      "page": 11,
+      "box": {
+        "left": 270.3,
+        "top": 661.7,
+        "width": 303.0,
+        "height": 15.4
+      }
+    },
+    "wntPowOP": {
+      "type": "text",
+      "label": "121. What was the power output?",
+      "page": 11,
+      "box": {
+        "left": 168.1,
+        "top": 641.3,
+        "width": 405.3,
+        "height": 15.4
+      }
+    },
+    "wrkDoing6": {
+      "type": "text",
+      "label": "122. Part B Notes",
+      "page": 11,
+      "box": {
+        "left": 41.6,
+        "top": 608.6,
+        "width": 534.5,
+        "height": 485.7
+      },
+      "multiline": true
+    }
+  }
+}

@@ -1,0 +1,743 @@
+{
+  "id": "opnav120003",
+  "label": "OPNAV12000-3 - Work Schedule Request",
+  "directory": "OPNAV12000-3 - Work Schedule Request",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "reqname",
+        "reqcode",
+        "dateTimeField1",
+        "supcode",
+        "supname",
+        "wkselection",
+        "wkselection2",
+        "wkselection3",
+        "sw1",
+        "mw1",
+        "tw1",
+        "ww1",
+        "thw1",
+        "fw1",
+        "saw1",
+        "w1ttl",
+        "startS1",
+        "startM1",
+        "startT1",
+        "startW1",
+        "startTH1",
+        "startF1",
+        "startSA1",
+        "stopS1",
+        "stopM1",
+        "stopT1",
+        "stopW1",
+        "stopTH1",
+        "stopF1",
+        "stopSA1",
+        "sw2",
+        "mw2",
+        "tw2",
+        "ww2",
+        "thw2",
+        "fw2",
+        "saw2",
+        "w2ttl",
+        "startS2",
+        "startM2",
+        "startT2",
+        "startW2",
+        "startTH2",
+        "startF2",
+        "startSA2",
+        "stopS2",
+        "stopM2",
+        "stopT2",
+        "stopW2",
+        "stopTH2",
+        "stopF2",
+        "stopSA2",
+        "ttl",
+        "supname1",
+        "reqname1",
+        "approvedeny",
+        "approvedeny2",
+        "justification",
+        "dateTimeField12",
+        "signatureRF"
+      ]
+    }
+  ],
+  "fields": {
+    "reqname": {
+      "type": "text",
+      "label": "ENTER REQUESTOR NAME",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 705.1,
+        "width": 300.3,
+        "height": 18.3
+      }
+    },
+    "reqcode": {
+      "type": "text",
+      "label": "ENTER REQUESTOR CODE",
+      "page": 1,
+      "box": {
+        "left": 344.8,
+        "top": 704.2,
+        "width": 120.3,
+        "height": 17.3
+      }
+    },
+    "dateTimeField1": {
+      "type": "text",
+      "label": "ENTER DATE FORM IS FILLED OUT ",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 704.2,
+        "width": 102.3,
+        "height": 17.3
+      }
+    },
+    "supcode": {
+      "type": "text",
+      "label": "ENTER SUPERVISOR CODE",
+      "page": 1,
+      "box": {
+        "left": 398.8,
+        "top": 669.1,
+        "width": 174.3,
+        "height": 18.3
+      }
+    },
+    "supname": {
+      "type": "text",
+      "label": "ENTER SUPERVISOR'S NAME",
+      "page": 1,
+      "box": {
+        "left": 39.0,
+        "top": 668.7,
+        "width": 354.3,
+        "height": 18.3
+      }
+    },
+    "wkselection": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 83.8,
+        "top": 599.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_wkselection_0"
+    },
+    "wkselection2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 83.8,
+        "top": 581.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_wkselection_0"
+    },
+    "wkselection3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 83.8,
+        "top": 563.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_wkselection_0"
+    },
+    "sw1": {
+      "type": "text",
+      "label": "ENTER HOURS FOR WEEK 1- SUNDAY",
+      "page": 1,
+      "box": {
+        "left": 162.0,
+        "top": 522.0,
+        "width": 45.0,
+        "height": 18.0
+      }
+    },
+    "mw1": {
+      "type": "text",
+      "label": "ENTER HOURS FOR WEEK 1 - MONDAY",
+      "page": 1,
+      "box": {
+        "left": 207.0,
+        "top": 522.0,
+        "width": 45.0,
+        "height": 18.0
+      }
+    },
+    "tw1": {
+      "type": "text",
+      "label": "ENTER HOURS FOR WEEK 1 - TUESDAY",
+      "page": 1,
+      "box": {
+        "left": 252.0,
+        "top": 522.0,
+        "width": 45.0,
+        "height": 18.0
+      }
+    },
+    "ww1": {
+      "type": "text",
+      "label": "ENTER HOURS FOR WEEK 1 - WEDNESDAY",
+      "page": 1,
+      "box": {
+        "left": 297.0,
+        "top": 522.0,
+        "width": 63.0,
+        "height": 18.0
+      }
+    },
+    "thw1": {
+      "type": "text",
+      "label": "ENTER HOURS FOR WEEK 1 - THURSDAY",
+      "page": 1,
+      "box": {
+        "left": 360.0,
+        "top": 522.0,
+        "width": 54.0,
+        "height": 18.0
+      }
+    },
+    "fw1": {
+      "type": "text",
+      "label": "ENTER HOURS FOR WEEK 1 - FRIDAY",
+      "page": 1,
+      "box": {
+        "left": 414.1,
+        "top": 522.0,
+        "width": 44.9,
+        "height": 18.0
+      }
+    },
+    "saw1": {
+      "type": "text",
+      "label": "ENTER HOURS FOR WEEK 1 - SATURDAY",
+      "page": 1,
+      "box": {
+        "left": 459.0,
+        "top": 522.0,
+        "width": 54.0,
+        "height": 18.0
+      }
+    },
+    "w1ttl": {
+      "type": "text",
+      "label": "W1TTL",
+      "page": 1,
+      "box": {
+        "left": 515.8,
+        "top": 519.2,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "startS1": {
+      "type": "text",
+      "label": "ENTER START TIME FOR WEEK 1 - SUNDAY",
+      "page": 1,
+      "box": {
+        "left": 164.8,
+        "top": 501.2,
+        "width": 39.3,
+        "height": 12.3
+      }
+    },
+    "startM1": {
+      "type": "text",
+      "label": "ENTER START TIME FOR WEEK 1 - MONDAY",
+      "page": 1,
+      "box": {
+        "left": 209.8,
+        "top": 501.2,
+        "width": 39.3,
+        "height": 12.3
+      }
+    },
+    "startT1": {
+      "type": "text",
+      "label": "ENTER START TIME FOR WEEK 1 - TUESDAY",
+      "page": 1,
+      "box": {
+        "left": 254.8,
+        "top": 501.2,
+        "width": 39.3,
+        "height": 12.3
+      }
+    },
+    "startW1": {
+      "type": "text",
+      "label": "ENTER START TIME FOR WEEK 1 - WEDNESDAY",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 501.2,
+        "width": 57.7,
+        "height": 12.3
+      }
+    },
+    "startTH1": {
+      "type": "text",
+      "label": "ENTER START TIME FOR WEEK 1 - THURSDAY",
+      "page": 1,
+      "box": {
+        "left": 362.8,
+        "top": 501.2,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "startF1": {
+      "type": "text",
+      "label": "ENTER START TIME FOR WEEK 1 - FRIDAY",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 501.2,
+        "width": 39.3,
+        "height": 12.3
+      }
+    },
+    "startSA1": {
+      "type": "text",
+      "label": "ENTER START TIME FOR WEEK 1 - SATURDAY",
+      "page": 1,
+      "box": {
+        "left": 461.8,
+        "top": 501.2,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "stopS1": {
+      "type": "text",
+      "label": "ENTER STOP TIME FOR WEEK 1 - SUNDAY",
+      "page": 1,
+      "box": {
+        "left": 164.8,
+        "top": 483.2,
+        "width": 39.3,
+        "height": 12.3
+      }
+    },
+    "stopM1": {
+      "type": "text",
+      "label": "ENTER STOP TIME FOR WEEK 1 - MONDAY",
+      "page": 1,
+      "box": {
+        "left": 209.8,
+        "top": 483.2,
+        "width": 39.3,
+        "height": 12.3
+      }
+    },
+    "stopT1": {
+      "type": "text",
+      "label": "ENTER STOP TIME FOR WEEK 1 - TUESDAY",
+      "page": 1,
+      "box": {
+        "left": 254.8,
+        "top": 483.2,
+        "width": 39.3,
+        "height": 12.3
+      }
+    },
+    "stopW1": {
+      "type": "text",
+      "label": "ENTER STOP TIME FOR WEEK 1 - WEDNESDAY",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 483.2,
+        "width": 57.7,
+        "height": 12.3
+      }
+    },
+    "stopTH1": {
+      "type": "text",
+      "label": "ENTER STOP TIME FOR WEEK 1 - THURSDAY",
+      "page": 1,
+      "box": {
+        "left": 362.8,
+        "top": 483.2,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "stopF1": {
+      "type": "text",
+      "label": "ENTER STOP TIME FOR WEEK 1 - FRIDAY",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 483.2,
+        "width": 39.3,
+        "height": 12.3
+      }
+    },
+    "stopSA1": {
+      "type": "text",
+      "label": "ENTER STOP TIME FOR WEEK 1 - SATURDAY",
+      "page": 1,
+      "box": {
+        "left": 461.8,
+        "top": 483.2,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "sw2": {
+      "type": "text",
+      "label": "ENTER HOURS FOR WEEK 2 - SUNDAY",
+      "page": 1,
+      "box": {
+        "left": 164.8,
+        "top": 438.2,
+        "width": 39.3,
+        "height": 12.3
+      }
+    },
+    "mw2": {
+      "type": "text",
+      "label": "ENTER HOURS FOR WEEK 2 - MONDAY",
+      "page": 1,
+      "box": {
+        "left": 209.8,
+        "top": 438.2,
+        "width": 39.3,
+        "height": 12.3
+      }
+    },
+    "tw2": {
+      "type": "text",
+      "label": "ENTER HOURS FOR WEEK 2 - TUESDAY",
+      "page": 1,
+      "box": {
+        "left": 254.8,
+        "top": 438.2,
+        "width": 39.3,
+        "height": 12.3
+      }
+    },
+    "ww2": {
+      "type": "text",
+      "label": "ENTER HOURS FOR WEEK 2 - WEDNESDAY",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 438.2,
+        "width": 57.3,
+        "height": 12.3
+      }
+    },
+    "thw2": {
+      "type": "text",
+      "label": "ENTER HOURS FOR WEEK 2 - THURSDAY",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 438.2,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "fw2": {
+      "type": "text",
+      "label": "ENTER HOURS FOR WEEK 2 - FRIDAY",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 438.2,
+        "width": 39.3,
+        "height": 12.3
+      }
+    },
+    "saw2": {
+      "type": "text",
+      "label": "ENTER HOURS FOR WEEK 2 - SATURDAY",
+      "page": 1,
+      "box": {
+        "left": 461.8,
+        "top": 438.2,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "w2ttl": {
+      "type": "text",
+      "label": "W2TTL",
+      "page": 1,
+      "box": {
+        "left": 515.8,
+        "top": 438.2,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "startS2": {
+      "type": "text",
+      "label": "ENTER START TIME FOR WEEK 2 - SUNDAY",
+      "page": 1,
+      "box": {
+        "left": 164.8,
+        "top": 420.2,
+        "width": 39.3,
+        "height": 12.3
+      }
+    },
+    "startM2": {
+      "type": "text",
+      "label": "ENTER START TIME FOR WEEK 2 - MONDAY",
+      "page": 1,
+      "box": {
+        "left": 209.8,
+        "top": 420.2,
+        "width": 39.3,
+        "height": 12.3
+      }
+    },
+    "startT2": {
+      "type": "text",
+      "label": "ENTER START TIME FOR WEEK 2 - TUESDAY",
+      "page": 1,
+      "box": {
+        "left": 254.8,
+        "top": 420.2,
+        "width": 39.3,
+        "height": 12.3
+      }
+    },
+    "startW2": {
+      "type": "text",
+      "label": "ENTER START TIME FOR WEEK 2 - WEDNESDAY",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 420.2,
+        "width": 57.7,
+        "height": 12.3
+      }
+    },
+    "startTH2": {
+      "type": "text",
+      "label": "ENTER START TIME FOR WEEK 2 - THURSDAY",
+      "page": 1,
+      "box": {
+        "left": 362.8,
+        "top": 420.2,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "startF2": {
+      "type": "text",
+      "label": "ENTER START TIME FOR WEEK 2 - FRIDAY",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 420.2,
+        "width": 39.3,
+        "height": 12.3
+      }
+    },
+    "startSA2": {
+      "type": "text",
+      "label": "ENTER START TIME FOR WEEK 2 - SATURDAY",
+      "page": 1,
+      "box": {
+        "left": 461.8,
+        "top": 420.2,
+        "width": 48.4,
+        "height": 12.3
+      }
+    },
+    "stopS2": {
+      "type": "text",
+      "label": "ENTER STOP TIME FOR WEEK 2 - SUNDAY",
+      "page": 1,
+      "box": {
+        "left": 164.8,
+        "top": 402.2,
+        "width": 39.3,
+        "height": 12.3
+      }
+    },
+    "stopM2": {
+      "type": "text",
+      "label": "ENTER STOP TIME FOR WEEK 2 - MONDAY",
+      "page": 1,
+      "box": {
+        "left": 209.8,
+        "top": 402.2,
+        "width": 39.3,
+        "height": 12.3
+      }
+    },
+    "stopT2": {
+      "type": "text",
+      "label": "ENTER STOP TIME FOR WEEK 2 - TUESDAY",
+      "page": 1,
+      "box": {
+        "left": 254.8,
+        "top": 402.2,
+        "width": 39.3,
+        "height": 12.3
+      }
+    },
+    "stopW2": {
+      "type": "text",
+      "label": "ENTER STOP TIME FOR WEEK 2 - WEDNESDAY",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 402.2,
+        "width": 57.7,
+        "height": 12.3
+      }
+    },
+    "stopTH2": {
+      "type": "text",
+      "label": "ENTER STOP TIME FOR WEEK 2 - THURSDAY",
+      "page": 1,
+      "box": {
+        "left": 362.8,
+        "top": 402.2,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "stopF2": {
+      "type": "text",
+      "label": "ENTER STOP TIME FOR WEEK 2 - FRIDAY",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 402.2,
+        "width": 39.3,
+        "height": 12.3
+      }
+    },
+    "stopSA2": {
+      "type": "text",
+      "label": "ENTER STOP TIME FOR WEEK 2 - SATURDAY",
+      "page": 1,
+      "box": {
+        "left": 461.8,
+        "top": 402.2,
+        "width": 48.4,
+        "height": 12.3
+      }
+    },
+    "ttl": {
+      "type": "text",
+      "label": "TTL",
+      "page": 1,
+      "box": {
+        "left": 515.8,
+        "top": 375.2,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "supname1": {
+      "type": "text",
+      "label": "ENTER SUPERVISOR'S NAME",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 282.1,
+        "width": 264.3,
+        "height": 18.3
+      }
+    },
+    "reqname1": {
+      "type": "text",
+      "label": "ENTER REQUESTEE'S NAME",
+      "page": 1,
+      "box": {
+        "left": 308.8,
+        "top": 282.1,
+        "width": 264.3,
+        "height": 18.3
+      }
+    },
+    "approvedeny": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 92.8,
+        "top": 248.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_APPROVEDENY_0"
+    },
+    "approvedeny2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 92.8,
+        "top": 221.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_APPROVEDENY_0"
+    },
+    "justification": {
+      "type": "text",
+      "label": "ENTER JUSTIFICATION FOR DENIAL OF REQUEST FOR COMPRESSED OR FLEXIBLE WORK SCHEDULE.",
+      "page": 1,
+      "box": {
+        "left": 153.7,
+        "top": 204.2,
+        "width": 410.5,
+        "height": 75.3
+      },
+      "multiline": true
+    },
+    "dateTimeField12": {
+      "type": "text",
+      "label": "ENTER DATE OF APPROVING OFFICIAL'S SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 389.8,
+        "top": 110.2,
+        "width": 183.3,
+        "height": 17.3
+      }
+    },
+    "signatureRF": {
+      "type": "signature",
+      "label": "DIGITAL SIGNATURE OF APPROVING OFFICIAL",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 109.8,
+        "width": 345.3,
+        "height": 17.0
+      }
+    }
+  }
+}

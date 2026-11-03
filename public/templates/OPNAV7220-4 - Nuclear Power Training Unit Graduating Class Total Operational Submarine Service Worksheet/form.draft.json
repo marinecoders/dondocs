@@ -1,0 +1,473 @@
+{
+  "id": "opnav72204",
+  "label": "OPNAV7220-4 - Nuclear Power Training Unit Graduating Class Total Operational Submarine Service Worksheet",
+  "directory": "OPNAV7220-4 - Nuclear Power Training Unit Graduating Class Total Operational Submarine Service Worksheet",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "doDID",
+        "dutyStation",
+        "cLCVNDate4a",
+        "gradDate4a",
+        "thisAct4a",
+        "careerTot4a",
+        "cLCVNDate4b",
+        "gradDate4b",
+        "thisAct4b",
+        "careerTot4b",
+        "cLCVNDate4c",
+        "gradDate4c",
+        "thisAct4c",
+        "careerTot4c",
+        "cLCVNDate4d",
+        "gradDate4d",
+        "thisAct4d",
+        "careerTot4d",
+        "cLCVNDate4e",
+        "gradDate4e",
+        "thisAct4e",
+        "careerTot4e",
+        "f",
+        "cLCVNDate4f",
+        "gradDate4f",
+        "actName4f",
+        "thisAct4f",
+        "careerTot4f",
+        "dateA5a",
+        "dateB5a",
+        "dateA5b",
+        "dateB5b",
+        "prepBy",
+        "dsn",
+        "memPrintName",
+        "memSig",
+        "memSigDate"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "1. NAME (Last, First, Middle Initial)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 688.4,
+        "width": 164.6,
+        "height": 26.7
+      }
+    },
+    "doDID": {
+      "type": "text",
+      "label": "2. DoD ID",
+      "page": 1,
+      "box": {
+        "left": 209.1,
+        "top": 688.4,
+        "width": 135.4,
+        "height": 26.7
+      }
+    },
+    "dutyStation": {
+      "type": "text",
+      "label": "3. ULTIMATE DUTY STATION",
+      "page": 1,
+      "box": {
+        "left": 350.2,
+        "top": 688.4,
+        "width": 223.0,
+        "height": 26.7
+      }
+    },
+    "cLCVNDate4a": {
+      "type": "text",
+      "label": "CLCVN DATE",
+      "page": 1,
+      "box": {
+        "left": 50.6,
+        "top": 610.6,
+        "width": 66.2,
+        "height": 26.0
+      }
+    },
+    "gradDate4a": {
+      "type": "text",
+      "label": "GRAD DATE",
+      "page": 1,
+      "box": {
+        "left": 119.6,
+        "top": 610.6,
+        "width": 66.2,
+        "height": 26.0
+      }
+    },
+    "thisAct4a": {
+      "type": "text",
+      "label": "Nuclear Field &quot;A&quot; School",
+      "page": 1,
+      "box": {
+        "left": 329.9,
+        "top": 610.6,
+        "width": 138.4,
+        "height": 26.0
+      }
+    },
+    "careerTot4a": {
+      "type": "text",
+      "label": "Nuclear Field &quot;A&quot; School",
+      "page": 1,
+      "box": {
+        "left": 471.4,
+        "top": 610.6,
+        "width": 102.5,
+        "height": 26.0
+      }
+    },
+    "cLCVNDate4b": {
+      "type": "text",
+      "label": "CLCVN DATE",
+      "page": 1,
+      "box": {
+        "left": 50.6,
+        "top": 581.8,
+        "width": 66.2,
+        "height": 26.0
+      }
+    },
+    "gradDate4b": {
+      "type": "text",
+      "label": "GRAD DATE",
+      "page": 1,
+      "box": {
+        "left": 119.6,
+        "top": 581.8,
+        "width": 66.2,
+        "height": 26.0
+      }
+    },
+    "thisAct4b": {
+      "type": "text",
+      "label": "Nuclear Power School",
+      "page": 1,
+      "box": {
+        "left": 329.9,
+        "top": 581.8,
+        "width": 138.4,
+        "height": 26.0
+      }
+    },
+    "careerTot4b": {
+      "type": "text",
+      "label": "Nuclear Power School",
+      "page": 1,
+      "box": {
+        "left": 471.4,
+        "top": 581.8,
+        "width": 102.5,
+        "height": 26.0
+      }
+    },
+    "cLCVNDate4c": {
+      "type": "text",
+      "label": "CLCVN DATE",
+      "page": 1,
+      "box": {
+        "left": 50.6,
+        "top": 553.0,
+        "width": 66.2,
+        "height": 26.0
+      }
+    },
+    "gradDate4c": {
+      "type": "text",
+      "label": "GRAD DATE",
+      "page": 1,
+      "box": {
+        "left": 119.6,
+        "top": 553.0,
+        "width": 66.2,
+        "height": 26.0
+      }
+    },
+    "thisAct4c": {
+      "type": "text",
+      "label": "Nuclear Power Training Unit",
+      "page": 1,
+      "box": {
+        "left": 329.9,
+        "top": 553.0,
+        "width": 138.4,
+        "height": 26.0
+      }
+    },
+    "careerTot4c": {
+      "type": "text",
+      "label": "Nuclear Power Training Unit",
+      "page": 1,
+      "box": {
+        "left": 471.4,
+        "top": 553.0,
+        "width": 102.5,
+        "height": 26.0
+      }
+    },
+    "cLCVNDate4d": {
+      "type": "text",
+      "label": "CLCVN DATE",
+      "page": 1,
+      "box": {
+        "left": 50.6,
+        "top": 524.1,
+        "width": 66.2,
+        "height": 26.0
+      }
+    },
+    "gradDate4d": {
+      "type": "text",
+      "label": "GRAD DATE",
+      "page": 1,
+      "box": {
+        "left": 119.6,
+        "top": 524.1,
+        "width": 66.2,
+        "height": 26.0
+      }
+    },
+    "thisAct4d": {
+      "type": "text",
+      "label": "(if applicable)",
+      "page": 1,
+      "box": {
+        "left": 329.9,
+        "top": 524.1,
+        "width": 138.4,
+        "height": 26.0
+      }
+    },
+    "careerTot4d": {
+      "type": "text",
+      "label": "(if applicable)",
+      "page": 1,
+      "box": {
+        "left": 471.4,
+        "top": 524.1,
+        "width": 102.5,
+        "height": 26.0
+      }
+    },
+    "cLCVNDate4e": {
+      "type": "text",
+      "label": "CLCVN DATE",
+      "page": 1,
+      "box": {
+        "left": 50.6,
+        "top": 495.3,
+        "width": 66.2,
+        "height": 26.0
+      }
+    },
+    "gradDate4e": {
+      "type": "text",
+      "label": "GRAD DATE",
+      "page": 1,
+      "box": {
+        "left": 119.6,
+        "top": 495.3,
+        "width": 66.2,
+        "height": 26.0
+      }
+    },
+    "thisAct4e": {
+      "type": "text",
+      "label": "(if applicable)",
+      "page": 1,
+      "box": {
+        "left": 329.9,
+        "top": 495.3,
+        "width": 138.4,
+        "height": 26.0
+      }
+    },
+    "careerTot4e": {
+      "type": "text",
+      "label": "(if applicable)",
+      "page": 1,
+      "box": {
+        "left": 471.4,
+        "top": 495.3,
+        "width": 102.5,
+        "height": 26.0
+      }
+    },
+    "f": {
+      "type": "text",
+      "label": "F",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 466.5,
+        "width": 10.3,
+        "height": 26.0
+      }
+    },
+    "cLCVNDate4f": {
+      "type": "text",
+      "label": "CLCVN DATE",
+      "page": 1,
+      "box": {
+        "left": 50.6,
+        "top": 466.5,
+        "width": 66.2,
+        "height": 26.0
+      }
+    },
+    "gradDate4f": {
+      "type": "text",
+      "label": "GRAD DATE",
+      "page": 1,
+      "box": {
+        "left": 119.6,
+        "top": 466.5,
+        "width": 66.2,
+        "height": 26.0
+      }
+    },
+    "actName4f": {
+      "type": "text",
+      "label": "(if applicable)",
+      "page": 1,
+      "box": {
+        "left": 188.6,
+        "top": 466.5,
+        "width": 138.4,
+        "height": 26.0
+      }
+    },
+    "thisAct4f": {
+      "type": "text",
+      "label": "THIS ACTIVITY**",
+      "page": 1,
+      "box": {
+        "left": 329.9,
+        "top": 466.5,
+        "width": 138.4,
+        "height": 26.0
+      }
+    },
+    "careerTot4f": {
+      "type": "text",
+      "label": "CAREER TOTAL**",
+      "page": 1,
+      "box": {
+        "left": 471.4,
+        "top": 466.5,
+        "width": 102.5,
+        "height": 26.0
+      }
+    },
+    "dateA5a": {
+      "type": "text",
+      "label": "YY MM DD",
+      "page": 1,
+      "box": {
+        "left": 82.0,
+        "top": 407.5,
+        "width": 59.1,
+        "height": 26.7
+      }
+    },
+    "dateB5a": {
+      "type": "text",
+      "label": "YY MM DD",
+      "page": 1,
+      "box": {
+        "left": 244.1,
+        "top": 407.5,
+        "width": 59.1,
+        "height": 26.7
+      }
+    },
+    "dateA5b": {
+      "type": "text",
+      "label": "YY MM DD",
+      "page": 1,
+      "box": {
+        "left": 352.1,
+        "top": 407.5,
+        "width": 59.1,
+        "height": 26.7
+      }
+    },
+    "dateB5b": {
+      "type": "text",
+      "label": "YY MM DD",
+      "page": 1,
+      "box": {
+        "left": 514.1,
+        "top": 407.5,
+        "width": 59.1,
+        "height": 26.7
+      }
+    },
+    "prepBy": {
+      "type": "text",
+      "label": "6. PREPARED BY (typed named)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 366.9,
+        "width": 354.4,
+        "height": 29.4
+      }
+    },
+    "dsn": {
+      "type": "text",
+      "label": "7. DSN",
+      "page": 1,
+      "box": {
+        "left": 398.9,
+        "top": 366.9,
+        "width": 174.4,
+        "height": 29.4
+      }
+    },
+    "memPrintName": {
+      "type": "text",
+      "label": "8. MEMBER&apos;S PRINTED NAME",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 323.7,
+        "width": 174.4,
+        "height": 29.4
+      }
+    },
+    "memSig": {
+      "type": "text",
+      "label": "9. MEMBER&apos;S SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 323.7,
+        "width": 174.4,
+        "height": 29.4
+      }
+    },
+    "memSigDate": {
+      "type": "text",
+      "label": "10. MEMBER&apos;S SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 398.9,
+        "top": 323.7,
+        "width": 174.4,
+        "height": 29.4
+      }
+    }
+  }
+}

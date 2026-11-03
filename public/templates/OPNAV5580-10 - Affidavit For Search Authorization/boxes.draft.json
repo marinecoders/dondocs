@@ -1,0 +1,150 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "who": {
+        "left": 232.5,
+        "top": 671.4,
+        "width": 151.7,
+        "height": 14.2,
+        "type": "text",
+        "description": "Enter who versus U.S.A.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "personbytitle": {
+        "left": 131.4,
+        "top": 655.7,
+        "width": 102.6,
+        "height": 14.9,
+        "type": "text",
+        "description": "Enter the person by title and command.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unassigned": {
+        "left": 78.7,
+        "top": 584.3,
+        "width": 487.6,
+        "height": 63.6,
+        "type": "text",
+        "description": "Identify the person and/or describe the premises with particularity and in detail.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "property": {
+        "left": 78.7,
+        "top": 477.0,
+        "width": 487.6,
+        "height": 63.6,
+        "type": "text",
+        "description": "Describe the property.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "auth": {
+        "left": 78.7,
+        "top": 373.6,
+        "width": 487.6,
+        "height": 36.1,
+        "type": "text",
+        "description": "Indicate the request of authorization to search and seize is made in connection with an investigation into the offense(s).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "request": {
+        "left": 78.7,
+        "top": 276.0,
+        "width": 487.6,
+        "height": 42.2,
+        "type": "text",
+        "description": "Enter the request of authorization to search and seize is made in connection with an investigation into the offense(s) of",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rank": {
+        "left": 369.7,
+        "top": 207.1,
+        "width": 199.6,
+        "height": 19.8,
+        "type": "text",
+        "description": "Enter the signature od the affiant.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "day": {
+        "left": 349.6,
+        "top": 150.9,
+        "width": 81.6,
+        "height": 14.1,
+        "type": "text",
+        "description": "Enter the day.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "month": {
+        "left": 467.2,
+        "top": 150.9,
+        "width": 64.7,
+        "height": 14.1,
+        "type": "text",
+        "description": "Enter the month.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "year": {
+        "left": 538.5,
+        "top": 150.9,
+        "width": 36.4,
+        "height": 14.1,
+        "type": "text",
+        "description": "Enter the year using the format YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "addOath": {
+        "left": 369.7,
+        "top": 121.7,
+        "width": 199.6,
+        "height": 19.8,
+        "type": "text",
+        "description": "Enter the signature of the Person Administering Oath.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sigAff": {
+        "left": 369.7,
+        "top": 82.8,
+        "width": 199.6,
+        "height": 19.8,
+        "type": "text",
+        "description": "Enter the rank, service and title.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

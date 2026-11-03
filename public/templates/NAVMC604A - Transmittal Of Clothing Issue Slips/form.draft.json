@@ -1,0 +1,525 @@
+{
+  "id": "navmc604a",
+  "label": "NAVMC604A - Transmittal Of Clothing Issue Slips",
+  "directory": "NAVMC604A - Transmittal Of Clothing Issue Slips",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "postStation",
+        "dateTrans",
+        "nameFrom",
+        "nameTo",
+        "noPersonnel",
+        "amount1",
+        "grade1",
+        "remarks1",
+        "name1",
+        "ssn",
+        "remarks2",
+        "ssn2",
+        "name2",
+        "grade2",
+        "amount2",
+        "remarks3",
+        "ssn3",
+        "amount3",
+        "name3",
+        "grade3",
+        "amount4",
+        "remarks4",
+        "name4",
+        "grade4",
+        "ssn4",
+        "grade5",
+        "remarks5",
+        "name5",
+        "amount5",
+        "ssn5",
+        "grade6",
+        "remarks6",
+        "amount6",
+        "name6",
+        "ssn6",
+        "signature",
+        "nameCtrlOfficer",
+        "dateCrtlOff",
+        "signature2",
+        "nameCommandOfficer"
+      ]
+    }
+  ],
+  "fields": {
+    "postStation": {
+      "type": "text",
+      "label": "Enter the post or station where this clothing issue transmittal is coming from.",
+      "page": 1,
+      "box": {
+        "left": 25.0,
+        "top": 688.7,
+        "width": 557.9,
+        "height": 32.2
+      },
+      "multiline": true
+    },
+    "dateTrans": {
+      "type": "text",
+      "label": "Enter date of this transmittal using format 2002 12 25 for december twentyfifth 2002.",
+      "page": 1,
+      "box": {
+        "left": 388.8,
+        "top": 645.9,
+        "width": 194.7,
+        "height": 17.8
+      }
+    },
+    "nameFrom": {
+      "type": "text",
+      "label": "Enter who this transmittal is from.",
+      "page": 1,
+      "box": {
+        "left": 61.2,
+        "top": 599.2,
+        "width": 298.7,
+        "height": 17.1
+      }
+    },
+    "nameTo": {
+      "type": "text",
+      "label": "Enter who this transmittal is going to.",
+      "page": 1,
+      "box": {
+        "left": 61.2,
+        "top": 572.9,
+        "width": 298.7,
+        "height": 17.1
+      }
+    },
+    "noPersonnel": {
+      "type": "text",
+      "label": "Enter the number of enlisted personnel transmitted here.",
+      "page": 1,
+      "box": {
+        "left": 155.9,
+        "top": 554.5,
+        "width": 57.9,
+        "height": 13.2
+      }
+    },
+    "amount1": {
+      "type": "text",
+      "label": "Enter amount for clothing issue for enlisted personnel number 1.",
+      "page": 1,
+      "box": {
+        "left": 270.4,
+        "top": 504.5,
+        "width": 74.6,
+        "height": 31.1
+      },
+      "multiline": true
+    },
+    "grade1": {
+      "type": "text",
+      "label": "Enter grade of enlisted personnel number 1.",
+      "page": 1,
+      "box": {
+        "left": 213.8,
+        "top": 503.9,
+        "width": 55.3,
+        "height": 30.0
+      }
+    },
+    "remarks1": {
+      "type": "text",
+      "label": "Enter remarks regarding clothing issue for enlisted personnel number 1.",
+      "page": 1,
+      "box": {
+        "left": 348.7,
+        "top": 503.9,
+        "width": 235.5,
+        "height": 33.7
+      },
+      "multiline": true
+    },
+    "name1": {
+      "type": "text",
+      "label": "Enter the name of enlisted personnel number 1.",
+      "page": 1,
+      "box": {
+        "left": 93.5,
+        "top": 502.0,
+        "width": 117.4,
+        "height": 32.2
+      },
+      "multiline": true
+    },
+    "ssn": {
+      "type": "text",
+      "label": "SSN",
+      "page": 1,
+      "box": {
+        "left": 22.1,
+        "top": 501.2,
+        "width": 69.7,
+        "height": 27.2
+      }
+    },
+    "remarks2": {
+      "type": "text",
+      "label": "Enter remarks regarding clothing issue for enlisted personnel number 2.",
+      "page": 1,
+      "box": {
+        "left": 348.7,
+        "top": 469.3,
+        "width": 235.5,
+        "height": 41.0
+      },
+      "multiline": true
+    },
+    "ssn2": {
+      "type": "text",
+      "label": "SSN",
+      "page": 1,
+      "box": {
+        "left": 21.5,
+        "top": 468.4,
+        "width": 69.7,
+        "height": 33.8
+      },
+      "multiline": true
+    },
+    "name2": {
+      "type": "text",
+      "label": "Enter the name of enlisted personnel number 2.",
+      "page": 1,
+      "box": {
+        "left": 93.5,
+        "top": 468.0,
+        "width": 119.1,
+        "height": 36.8
+      },
+      "multiline": true
+    },
+    "grade2": {
+      "type": "text",
+      "label": "Enter grade of enlisted personnel number 2.",
+      "page": 1,
+      "box": {
+        "left": 213.8,
+        "top": 467.7,
+        "width": 55.3,
+        "height": 33.6
+      },
+      "multiline": true
+    },
+    "amount2": {
+      "type": "text",
+      "label": "Enter amount for clothing issue for enlisted personnel number 2.",
+      "page": 1,
+      "box": {
+        "left": 270.4,
+        "top": 467.0,
+        "width": 74.6,
+        "height": 33.6
+      },
+      "multiline": true
+    },
+    "remarks3": {
+      "type": "text",
+      "label": "Enter remarks regarding clothing issue for enlisted personnel number 3.",
+      "page": 1,
+      "box": {
+        "left": 348.7,
+        "top": 430.0,
+        "width": 235.5,
+        "height": 40.7
+      },
+      "multiline": true
+    },
+    "ssn3": {
+      "type": "text",
+      "label": "SSN",
+      "page": 1,
+      "box": {
+        "left": 20.9,
+        "top": 427.9,
+        "width": 69.7,
+        "height": 33.3
+      },
+      "multiline": true
+    },
+    "amount3": {
+      "type": "text",
+      "label": "Enter amount for clothing issue for enlisted personnel number 3.",
+      "page": 1,
+      "box": {
+        "left": 270.4,
+        "top": 427.6,
+        "width": 74.6,
+        "height": 34.6
+      },
+      "multiline": true
+    },
+    "name3": {
+      "type": "text",
+      "label": "Enter the name of enlisted personnel number 3.",
+      "page": 1,
+      "box": {
+        "left": 93.5,
+        "top": 427.5,
+        "width": 119.1,
+        "height": 35.9
+      },
+      "multiline": true
+    },
+    "grade3": {
+      "type": "text",
+      "label": "Enter grade of enlisted personnel number 3.",
+      "page": 1,
+      "box": {
+        "left": 213.8,
+        "top": 426.6,
+        "width": 55.3,
+        "height": 33.6
+      },
+      "multiline": true
+    },
+    "amount4": {
+      "type": "text",
+      "label": "Enter amount for clothing issue for enlisted personnel number 4.",
+      "page": 1,
+      "box": {
+        "left": 270.4,
+        "top": 389.5,
+        "width": 76.3,
+        "height": 37.7
+      },
+      "multiline": true
+    },
+    "remarks4": {
+      "type": "text",
+      "label": "Enter remarks regarding clothing issue for enlisted personnel number 4.",
+      "page": 1,
+      "box": {
+        "left": 348.7,
+        "top": 388.9,
+        "width": 235.5,
+        "height": 41.6
+      },
+      "multiline": true
+    },
+    "name4": {
+      "type": "text",
+      "label": "Enter the name of enlisted personnel number 4.",
+      "page": 1,
+      "box": {
+        "left": 93.5,
+        "top": 386.8,
+        "width": 119.1,
+        "height": 36.8
+      },
+      "multiline": true
+    },
+    "grade4": {
+      "type": "text",
+      "label": "Enter grade of enlisted personnel number 4.",
+      "page": 1,
+      "box": {
+        "left": 213.8,
+        "top": 386.1,
+        "width": 55.3,
+        "height": 33.6
+      },
+      "multiline": true
+    },
+    "ssn4": {
+      "type": "text",
+      "label": "SSN",
+      "page": 1,
+      "box": {
+        "left": 21.8,
+        "top": 385.6,
+        "width": 69.7,
+        "height": 33.5
+      },
+      "multiline": true
+    },
+    "grade5": {
+      "type": "text",
+      "label": "Enter grade of enlisted personnel number 5.",
+      "page": 1,
+      "box": {
+        "left": 213.8,
+        "top": 349.3,
+        "width": 55.3,
+        "height": 33.6
+      },
+      "multiline": true
+    },
+    "remarks5": {
+      "type": "text",
+      "label": "Enter remarks regarding clothing issue for enlisted personnel number 5.",
+      "page": 1,
+      "box": {
+        "left": 348.7,
+        "top": 348.6,
+        "width": 235.5,
+        "height": 40.4
+      },
+      "multiline": true
+    },
+    "name5": {
+      "type": "text",
+      "label": "Enter the name of enlisted personnel number 5.",
+      "page": 1,
+      "box": {
+        "left": 93.5,
+        "top": 347.1,
+        "width": 119.1,
+        "height": 35.3
+      },
+      "multiline": true
+    },
+    "amount5": {
+      "type": "text",
+      "label": "Enter amount for clothing issue for enlisted personnel number 5.",
+      "page": 1,
+      "box": {
+        "left": 270.4,
+        "top": 347.1,
+        "width": 76.3,
+        "height": 33.6
+      },
+      "multiline": true
+    },
+    "ssn5": {
+      "type": "text",
+      "label": "SSN",
+      "page": 1,
+      "box": {
+        "left": 21.6,
+        "top": 343.3,
+        "width": 69.7,
+        "height": 28.0
+      }
+    },
+    "grade6": {
+      "type": "text",
+      "label": "Enter grade of enlisted personnel number 6.",
+      "page": 1,
+      "box": {
+        "left": 213.8,
+        "top": 314.1,
+        "width": 55.3,
+        "height": 33.6
+      },
+      "multiline": true
+    },
+    "remarks6": {
+      "type": "text",
+      "label": "Enter remarks regarding clothing issue for enlisted personnel number 6.",
+      "page": 1,
+      "box": {
+        "left": 348.7,
+        "top": 313.3,
+        "width": 235.5,
+        "height": 35.8
+      },
+      "multiline": true
+    },
+    "amount6": {
+      "type": "text",
+      "label": "Enter amount for clothing issue for enlisted personnel number 6.",
+      "page": 1,
+      "box": {
+        "left": 270.4,
+        "top": 312.0,
+        "width": 76.3,
+        "height": 30.8
+      },
+      "multiline": true
+    },
+    "name6": {
+      "type": "text",
+      "label": "Enter the name of enlisted personnel number 6.",
+      "page": 1,
+      "box": {
+        "left": 93.5,
+        "top": 310.4,
+        "width": 119.1,
+        "height": 32.6
+      },
+      "multiline": true
+    },
+    "ssn6": {
+      "type": "text",
+      "label": "SSN",
+      "page": 1,
+      "box": {
+        "left": 21.6,
+        "top": 309.7,
+        "width": 69.7,
+        "height": 27.2
+      }
+    },
+    "signature": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 346.3,
+        "top": 270.4,
+        "width": 237.1,
+        "height": 19.3
+      }
+    },
+    "nameCtrlOfficer": {
+      "type": "text",
+      "label": "Enter name of supply or property control officer.",
+      "page": 1,
+      "box": {
+        "left": 348.0,
+        "top": 228.9,
+        "width": 186.8,
+        "height": 17.1
+      }
+    },
+    "dateCrtlOff": {
+      "type": "text",
+      "label": "Enter date of issue using format 2002 12 25 for december twentyfifth 2002.",
+      "page": 1,
+      "box": {
+        "left": 349.3,
+        "top": 208.4,
+        "width": 234.2,
+        "height": 17.8
+      }
+    },
+    "signature2": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 397.6,
+        "top": 128.6,
+        "width": 186.2,
+        "height": 19.3
+      }
+    },
+    "nameCommandOfficer": {
+      "type": "text",
+      "label": "Enter name of commanding officer.",
+      "page": 1,
+      "box": {
+        "left": 394.1,
+        "top": 86.7,
+        "width": 140.8,
+        "height": 17.1
+      }
+    }
+  }
+}

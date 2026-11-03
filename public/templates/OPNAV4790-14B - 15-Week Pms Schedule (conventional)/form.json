@@ -1,0 +1,323 @@
+{
+  "id": "opnav479014b",
+  "label": "OPNAV4790-14B - 15-Week Pms Schedule (conventional)",
+  "directory": "OPNAV4790-14B - 15-Week Pms Schedule (conventional)",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "textField1",
+        "textField12",
+        "textField13",
+        "textField5",
+        "signatureField1",
+        "dateField1",
+        "textField14",
+        "textField15",
+        "textField16"
+      ]
+    }
+  ],
+  "fields": {
+    "textField1": {
+      "type": "text",
+      "label": "WORK CENTER",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 544.4,
+        "width": 171.5,
+        "height": 19.5
+      }
+    },
+    "textField12": {
+      "type": "text",
+      "label": "YEAR",
+      "page": 1,
+      "box": {
+        "left": 216.0,
+        "top": 544.4,
+        "width": 46.9,
+        "height": 19.5
+      }
+    },
+    "textField13": {
+      "type": "text",
+      "label": "QUARTER AFTER OVERHAUL",
+      "page": 1,
+      "box": {
+        "left": 268.5,
+        "top": 544.4,
+        "width": 204.6,
+        "height": 19.5
+      }
+    },
+    "textField5": {
+      "type": "text",
+      "label": "PRINTED NAME",
+      "page": 1,
+      "box": {
+        "left": 478.8,
+        "top": 544.4,
+        "width": 204.6,
+        "height": 19.5
+      }
+    },
+    "signatureField1": {
+      "type": "text",
+      "label": "APPROVAL SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 689.1,
+        "top": 544.4,
+        "width": 204.6,
+        "height": 19.5
+      }
+    },
+    "dateField1": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 899.3,
+        "top": 544.4,
+        "width": 69.9,
+        "height": 19.5
+      }
+    },
+    "textField14": {
+      "type": "text",
+      "label": "MONTH",
+      "page": 1,
+      "box": {
+        "left": 145.3,
+        "top": 519.2,
+        "width": 222.7,
+        "height": 10.2
+      }
+    },
+    "textField15": {
+      "type": "text",
+      "label": "MONTH",
+      "page": 1,
+      "box": {
+        "left": 408.1,
+        "top": 519.2,
+        "width": 222.7,
+        "height": 10.2
+      }
+    },
+    "textField16": {
+      "type": "text",
+      "label": "MONTH",
+      "page": 1,
+      "box": {
+        "left": 671.0,
+        "top": 519.2,
+        "width": 222.7,
+        "height": 10.2
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 35,
+      "rowStride": 13.09,
+      "editor": "grid",
+      "columns": {
+        "cell": {
+          "type": "text",
+          "label": "MIP",
+          "page": 1,
+          "box": {
+            "left": 37.4,
+            "top": 493.3,
+            "width": 69.2,
+            "height": 10.3
+          }
+        },
+        "cell2": {
+          "type": "text",
+          "label": "MONTH",
+          "page": 1,
+          "box": {
+            "left": 109.4,
+            "top": 493.3,
+            "width": 49.7,
+            "height": 10.3
+          }
+        },
+        "cell3": {
+          "type": "text",
+          "label": "Cell 3",
+          "page": 1,
+          "box": {
+            "left": 162.0,
+            "top": 493.3,
+            "width": 49.7,
+            "height": 10.3
+          }
+        },
+        "cell4": {
+          "type": "text",
+          "label": "YEAR",
+          "page": 1,
+          "box": {
+            "left": 214.6,
+            "top": 493.3,
+            "width": 49.7,
+            "height": 10.3
+          }
+        },
+        "cell5": {
+          "type": "text",
+          "label": "QUARTER AFTER",
+          "page": 1,
+          "box": {
+            "left": 267.1,
+            "top": 493.3,
+            "width": 49.7,
+            "height": 10.3
+          }
+        },
+        "cell6": {
+          "type": "text",
+          "label": "AFTER OVERHAUL",
+          "page": 1,
+          "box": {
+            "left": 319.7,
+            "top": 493.3,
+            "width": 49.7,
+            "height": 10.3
+          }
+        },
+        "cell7": {
+          "type": "text",
+          "label": "MONTH",
+          "page": 1,
+          "box": {
+            "left": 372.3,
+            "top": 493.3,
+            "width": 49.7,
+            "height": 10.3
+          }
+        },
+        "cell8": {
+          "type": "text",
+          "label": "15-WEEK PMS SCHEDULE",
+          "page": 1,
+          "box": {
+            "left": 424.8,
+            "top": 493.3,
+            "width": 49.7,
+            "height": 10.3
+          }
+        },
+        "cell9": {
+          "type": "text",
+          "label": "PRINTED NAME",
+          "page": 1,
+          "box": {
+            "left": 477.4,
+            "top": 493.3,
+            "width": 49.7,
+            "height": 10.3
+          }
+        },
+        "cell10": {
+          "type": "text",
+          "label": "NAME",
+          "page": 1,
+          "box": {
+            "left": 530.0,
+            "top": 493.3,
+            "width": 49.7,
+            "height": 10.3
+          }
+        },
+        "cell11": {
+          "type": "text",
+          "label": "(CONVENTIONAL)",
+          "page": 1,
+          "box": {
+            "left": 582.5,
+            "top": 493.3,
+            "width": 49.7,
+            "height": 10.3
+          }
+        },
+        "cell12": {
+          "type": "text",
+          "label": "MONTH",
+          "page": 1,
+          "box": {
+            "left": 635.1,
+            "top": 493.3,
+            "width": 49.7,
+            "height": 10.3
+          }
+        },
+        "cell13": {
+          "type": "text",
+          "label": "APPROVAL SIGNATURE",
+          "page": 1,
+          "box": {
+            "left": 687.7,
+            "top": 493.3,
+            "width": 49.7,
+            "height": 10.3
+          }
+        },
+        "cell14": {
+          "type": "text",
+          "label": "SIGNATURE",
+          "page": 1,
+          "box": {
+            "left": 740.2,
+            "top": 493.3,
+            "width": 49.7,
+            "height": 10.3
+          }
+        },
+        "row": {
+          "type": "text",
+          "label": "Row",
+          "page": 1,
+          "box": {
+            "left": 792.8,
+            "top": 493.3,
+            "width": 49.7,
+            "height": 10.3
+          }
+        },
+        "row2": {
+          "type": "text",
+          "label": "NAVSEAINST",
+          "page": 1,
+          "box": {
+            "left": 845.4,
+            "top": 493.3,
+            "width": 49.7,
+            "height": 10.3
+          }
+        },
+        "cell15": {
+          "type": "text",
+          "label": "RESCHEDULE",
+          "page": 1,
+          "box": {
+            "left": 897.9,
+            "top": 493.3,
+            "width": 72.8,
+            "height": 10.3
+          }
+        }
+      }
+    }
+  }
+}

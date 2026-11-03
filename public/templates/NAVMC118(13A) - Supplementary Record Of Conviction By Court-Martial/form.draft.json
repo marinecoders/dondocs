@@ -1,0 +1,390 @@
+{
+  "id": "navmc11813a",
+  "label": "NAVMC118(13A) - Supplementary Record Of Conviction By Court-Martial",
+  "directory": "NAVMC118(13A) - Supplementary Record Of Conviction By Court-Martial",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "organztion",
+        "rad2No",
+        "rad2No2",
+        "dateTrial",
+        "boardDec",
+        "dateDecision",
+        "dateDecRec",
+        "dateAction",
+        "actionJag",
+        "certServ",
+        "officerNot",
+        "rad7B",
+        "rad7B2",
+        "appealExp",
+        "titleOrg1",
+        "grade1",
+        "signature",
+        "decAppeal",
+        "rad12B",
+        "rad12B2",
+        "dateAction2",
+        "actionAppeal",
+        "signature2",
+        "grade2",
+        "titleOrg2",
+        "nameLast",
+        "nameFirst",
+        "nameMiddle",
+        "edipiDODID",
+        "checkBox1"
+      ]
+    }
+  ],
+  "fields": {
+    "organztion": {
+      "type": "text",
+      "label": "Supplemental record of conviction by court - martial.  1. Organization.",
+      "page": 1,
+      "box": {
+        "left": 37.2,
+        "top": 691.8,
+        "width": 538.8,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "rad2No": {
+      "type": "radio",
+      "label": "special",
+      "page": 1,
+      "box": {
+        "left": 163.2,
+        "top": 650.1,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "topmostSubform_0_Page1_0_Rad2No_0"
+    },
+    "rad2No2": {
+      "type": "radio",
+      "label": "general",
+      "page": 1,
+      "box": {
+        "left": 322.7,
+        "top": 650.1,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "topmostSubform_0_Page1_0_Rad2No_0"
+    },
+    "dateTrial": {
+      "type": "text",
+      "label": "Enter date of trial using format 2002 12 24",
+      "page": 1,
+      "box": {
+        "left": 490.1,
+        "top": 649.0,
+        "width": 85.9,
+        "height": 20.6
+      }
+    },
+    "boardDec": {
+      "type": "text",
+      "label": "3.  Board of review decision.",
+      "page": 1,
+      "box": {
+        "left": 36.4,
+        "top": 616.7,
+        "width": 405.8,
+        "height": 72.7
+      },
+      "multiline": true
+    },
+    "dateDecision": {
+      "type": "text",
+      "label": "Enter date of decision using format 2002 12 24",
+      "page": 1,
+      "box": {
+        "left": 448.1,
+        "top": 612.0,
+        "width": 129.9,
+        "height": 68.0
+      },
+      "multiline": true
+    },
+    "dateDecRec": {
+      "type": "text",
+      "label": "Enter date of decision receipted using format 2002 12 24",
+      "page": 1,
+      "box": {
+        "left": 166.9,
+        "top": 539.1,
+        "width": 86.0,
+        "height": 14.9
+      }
+    },
+    "dateAction": {
+      "type": "text",
+      "label": "Enter date of action using format 2002 12 24",
+      "page": 1,
+      "box": {
+        "left": 449.6,
+        "top": 507.7,
+        "width": 126.4,
+        "height": 68.6
+      },
+      "multiline": true
+    },
+    "actionJag": {
+      "type": "text",
+      "label": "5.  Action of SE C N A V or J A G.",
+      "page": 1,
+      "box": {
+        "left": 38.0,
+        "top": 507.1,
+        "width": 405.8,
+        "height": 68.8
+      },
+      "multiline": true
+    },
+    "certServ": {
+      "type": "text",
+      "label": "6.  Enter Certificate of attempted service executed date using format 2002 12 24",
+      "page": 1,
+      "box": {
+        "left": 246.3,
+        "top": 435.2,
+        "width": 86.0,
+        "height": 14.9
+      }
+    },
+    "officerNot": {
+      "type": "text",
+      "label": "7.  Enter date when disbursing officer was notified using format 2002 12 24",
+      "page": 1,
+      "box": {
+        "left": 286.0,
+        "top": 401.1,
+        "width": 85.9,
+        "height": 14.9
+      }
+    },
+    "rad7B": {
+      "type": "radio",
+      "label": "notified",
+      "page": 1,
+      "box": {
+        "left": 135.1,
+        "top": 400.9,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "topmostSubform_0_Page1_0_Rad7B_0"
+    },
+    "rad7B2": {
+      "type": "radio",
+      "label": "unaffected",
+      "page": 1,
+      "box": {
+        "left": 421.8,
+        "top": 400.9,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "topmostSubform_0_Page1_0_Rad7B_0"
+    },
+    "appealExp": {
+      "type": "text",
+      "label": "8. Enter date appeals period expires using format 2002 12 24",
+      "page": 1,
+      "box": {
+        "left": 165.3,
+        "top": 376.3,
+        "width": 86.0,
+        "height": 14.9
+      }
+    },
+    "titleOrg1": {
+      "type": "text",
+      "label": "11.  Title and organization.",
+      "page": 1,
+      "box": {
+        "left": 343.8,
+        "top": 346.5,
+        "width": 234.7,
+        "height": 27.2
+      }
+    },
+    "grade1": {
+      "type": "text",
+      "label": "10.  Grade.",
+      "page": 1,
+      "box": {
+        "left": 271.9,
+        "top": 345.9,
+        "width": 71.1,
+        "height": 26.6
+      }
+    },
+    "signature": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 36.0,
+        "top": 344.7,
+        "width": 233.6,
+        "height": 24.0
+      }
+    },
+    "decAppeal": {
+      "type": "text",
+      "label": "12.  Enter date of decision appealed using format 2002 12 24",
+      "page": 1,
+      "box": {
+        "left": 258.0,
+        "top": 311.1,
+        "width": 86.0,
+        "height": 14.9
+      }
+    },
+    "rad12B": {
+      "type": "radio",
+      "label": "no",
+      "page": 1,
+      "box": {
+        "left": 132.6,
+        "top": 307.9,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "topmostSubform_0_Page1_0_Rad12B_0"
+    },
+    "rad12B2": {
+      "type": "radio",
+      "label": "yes",
+      "page": 1,
+      "box": {
+        "left": 196.3,
+        "top": 307.9,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "topmostSubform_0_Page1_0_Rad12B_0"
+    },
+    "dateAction2": {
+      "type": "text",
+      "label": "Enter date of action using format 2002 12 24",
+      "page": 1,
+      "box": {
+        "left": 458.2,
+        "top": 281.3,
+        "width": 116.7,
+        "height": 69.3
+      },
+      "multiline": true
+    },
+    "actionAppeal": {
+      "type": "text",
+      "label": "13.  Action on appeal.",
+      "page": 1,
+      "box": {
+        "left": 35.5,
+        "top": 280.8,
+        "width": 418.2,
+        "height": 70.6
+      },
+      "multiline": true
+    },
+    "signature2": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 35.1,
+        "top": 198.2,
+        "width": 233.1,
+        "height": 27.6
+      }
+    },
+    "grade2": {
+      "type": "text",
+      "label": "15.  Grade.",
+      "page": 1,
+      "box": {
+        "left": 271.9,
+        "top": 198.2,
+        "width": 71.1,
+        "height": 29.3
+      }
+    },
+    "titleOrg2": {
+      "type": "text",
+      "label": "16.  Title and organization.",
+      "page": 1,
+      "box": {
+        "left": 343.8,
+        "top": 198.2,
+        "width": 234.7,
+        "height": 29.3
+      }
+    },
+    "nameLast": {
+      "type": "text",
+      "label": "Enter last name. ",
+      "page": 1,
+      "box": {
+        "left": 25.8,
+        "top": 94.4,
+        "width": 130.4,
+        "height": 23.1
+      }
+    },
+    "nameFirst": {
+      "type": "text",
+      "label": "Enter first name.",
+      "page": 1,
+      "box": {
+        "left": 160.0,
+        "top": 93.8,
+        "width": 102.8,
+        "height": 22.5
+      }
+    },
+    "nameMiddle": {
+      "type": "text",
+      "label": "Enter middle name.",
+      "page": 1,
+      "box": {
+        "left": 262.8,
+        "top": 93.2,
+        "width": 81.8,
+        "height": 21.9
+      }
+    },
+    "edipiDODID": {
+      "type": "text",
+      "label": "EDIPI-DODID",
+      "page": 1,
+      "box": {
+        "left": 346.0,
+        "top": 91.6,
+        "width": 82.4,
+        "height": 19.5
+      }
+    },
+    "checkBox1": {
+      "type": "checkbox",
+      "label": "CheckBox1",
+      "page": 1,
+      "box": {
+        "left": 367.2,
+        "top": 55.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    }
+  }
+}

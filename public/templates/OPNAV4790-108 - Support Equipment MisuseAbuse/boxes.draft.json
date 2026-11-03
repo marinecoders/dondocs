@@ -1,0 +1,361 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "controlNo": {
+        "left": 471.8,
+        "top": 753.2,
+        "width": 101.5,
+        "height": 34.8,
+        "type": "text",
+        "description": "CONTROL NO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "from": {
+        "left": 38.8,
+        "top": 700.2,
+        "width": 264.4,
+        "height": 57.7,
+        "type": "text",
+        "description": "FROM",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "to": {
+        "left": 308.9,
+        "top": 700.2,
+        "width": 264.4,
+        "height": 57.7,
+        "type": "text",
+        "description": "TO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name": {
+        "left": 181.5,
+        "top": 618.8,
+        "width": 247.8,
+        "height": 17.5,
+        "type": "text",
+        "description": "SUBMITTED IN REGARDS TO A REPORT OF MISUSE/ABUSE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rankRate": {
+        "left": 434.9,
+        "top": 607.3,
+        "width": 138.3,
+        "height": 10.4,
+        "type": "text",
+        "description": "RANK/RATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "orgUnit": {
+        "left": 232.1,
+        "top": 595.6,
+        "width": 197.2,
+        "height": 52.8,
+        "type": "text",
+        "description": "EQUIPMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "seLicenseNo": {
+        "left": 434.9,
+        "top": 581.0,
+        "width": 138.3,
+        "height": 11.2,
+        "type": "text",
+        "description": "MISUSED/ABUSED",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "govtOptLicenseNo": {
+        "left": 434.9,
+        "top": 555.6,
+        "width": 138.3,
+        "height": 12.8,
+        "type": "text",
+        "description": "GOVT OPERATOR LICENSE NO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "location": {
+        "left": 168.9,
+        "top": 537.1,
+        "width": 138.8,
+        "height": 76.0,
+        "type": "text",
+        "description": "EQUIPMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "typeEquip": {
+        "left": 313.4,
+        "top": 526.2,
+        "width": 115.8,
+        "height": 24.3,
+        "type": "text",
+        "description": "LOCATION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "time": {
+        "left": 434.9,
+        "top": 526.1,
+        "width": 138.3,
+        "height": 11.0,
+        "type": "text",
+        "description": "TIME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date": {
+        "left": 434.9,
+        "top": 500.9,
+        "width": 138.3,
+        "height": 12.8,
+        "type": "text",
+        "description": "EQUIPMENT SERIAL NO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "equipSerialNo": {
+        "left": 313.4,
+        "top": 485.7,
+        "width": 115.8,
+        "height": 24.3,
+        "type": "text",
+        "description": "EQUIPMENT SERIAL NO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "jcn": {
+        "left": 434.9,
+        "top": 473.3,
+        "width": 138.3,
+        "height": 12.2,
+        "type": "text",
+        "description": "JCN",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "orgUnit2": {
+        "left": 38.8,
+        "top": 443.7,
+        "width": 534.4,
+        "height": 251.3,
+        "type": "text",
+        "description": "NARRATIVE DESCRIPTION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name2": {
+        "left": 149.4,
+        "top": 186.8,
+        "width": 279.9,
+        "height": 21.3,
+        "type": "text",
+        "description": "EQUIPMENT SERIAL NO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rankRate2": {
+        "left": 434.9,
+        "top": 176.7,
+        "width": 138.3,
+        "height": 11.2,
+        "type": "text",
+        "description": "PERSON",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "orgUnit22": {
+        "left": 217.9,
+        "top": 159.8,
+        "width": 355.4,
+        "height": 34.8,
+        "type": "text",
+        "description": "ABUSE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio": {
+        "left": 268.4,
+        "top": 115.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio2": {
+        "left": 308.9,
+        "top": 115.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "remarks": {
+        "left": 344.9,
+        "top": 107.9,
+        "width": 228.4,
+        "height": 27.9,
+        "type": "text",
+        "description": "REMARKS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "seLicenseConfiscated": {
+        "left": 38.8,
+        "top": 100.6,
+        "width": 223.9,
+        "height": 20.6,
+        "type": "text",
+        "description": "IF YES, LICENSE IS BEING HELD BY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField1": {
+        "left": 268.4,
+        "top": 96.8,
+        "width": 70.8,
+        "height": 16.8,
+        "type": "text",
+        "description": "YES NO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date2": {
+        "left": 434.9,
+        "top": 61.1,
+        "width": 138.3,
+        "height": 21.7,
+        "type": "text",
+        "description": "DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureRptingOfficial": {
+        "left": 38.8,
+        "top": 61.0,
+        "width": 390.4,
+        "height": 21.6,
+        "type": "text",
+        "description": "SIGNATURE AND TITLE OF REPORTING OFFICIAL",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "datePg2": {
+        "left": 434.9,
+        "top": 740.7,
+        "width": 138.3,
+        "height": 22.4,
+        "type": "text",
+        "description": "DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "from2": {
+        "left": 82.5,
+        "top": 712.7,
+        "width": 490.8,
+        "height": 17.5,
+        "type": "text",
+        "description": "ENDORSEMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "to2": {
+        "left": 82.5,
+        "top": 689.5,
+        "width": 490.8,
+        "height": 17.5,
+        "type": "text",
+        "description": "ENDORSEMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "via": {
+        "left": 82.5,
+        "top": 666.3,
+        "width": 490.8,
+        "height": 17.5,
+        "type": "text",
+        "description": "ENDORSEMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "actionTaken": {
+        "left": 38.8,
+        "top": 608.2,
+        "width": 534.4,
+        "height": 524.4,
+        "type": "text",
+        "description": "ACTION TAKEN / RECOMMENDATIONS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureAndTitle": {
+        "left": 38.8,
+        "top": 64.8,
+        "width": 534.4,
+        "height": 25.6,
+        "type": "text",
+        "description": "SIGNATURE AND TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

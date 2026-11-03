@@ -1,0 +1,66 @@
+{
+  "id": "opnav5216144a",
+  "label": "OPNAV5216-144A - Department Of The NAVY Memorandum",
+  "directory": "OPNAV5216-144A - Department Of The NAVY Memorandum",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "dNSDate3",
+        "from",
+        "to",
+        "subject"
+      ]
+    }
+  ],
+  "fields": {
+    "dNSDate3": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 75.6,
+        "top": 704.2,
+        "width": 308.4,
+        "height": 19.8
+      }
+    },
+    "from": {
+      "type": "text",
+      "label": "Enter from whom.",
+      "page": 1,
+      "box": {
+        "left": 75.6,
+        "top": 671.1,
+        "width": 308.4,
+        "height": 19.8
+      }
+    },
+    "to": {
+      "type": "text",
+      "label": "Enter to whom.",
+      "page": 1,
+      "box": {
+        "left": 75.6,
+        "top": 629.3,
+        "width": 308.4,
+        "height": 19.8
+      }
+    },
+    "subject": {
+      "type": "text",
+      "label": "Enter the subject of the memorandum.",
+      "page": 1,
+      "box": {
+        "left": 40.3,
+        "top": 566.0,
+        "width": 532.2,
+        "height": 513.5
+      },
+      "multiline": true
+    }
+  }
+}

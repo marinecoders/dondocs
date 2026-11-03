@@ -1,0 +1,667 @@
+{
+  "id": "opnav37107",
+  "label": "OPNAV3710-7 - Natops Evaluation Report",
+  "directory": "OPNAV3710-7 - Natops Evaluation Report",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "rank",
+        "eDIPINo",
+        "dteLstEval",
+        "crewPos",
+        "unit",
+        "hrsMdl",
+        "dteChkFlt",
+        "arcftBuno",
+        "fltDur",
+        "expDte",
+        "tleFltHrs",
+        "arcftMdl",
+        "opnBkExamReq",
+        "opnBkExamDte",
+        "opnBkExamQ",
+        "opnBkExamCQ",
+        "opnBkExamU",
+        "clsdBkExamReq",
+        "clsdBkExamDte",
+        "clsdBkExamQ",
+        "clsdBkExamCQ",
+        "clsdBkExamU",
+        "oralExamReq",
+        "orlExamDte",
+        "orlExamExamQ",
+        "orlExamCQ",
+        "orlExamU",
+        "evalFltReg",
+        "evalFltDte",
+        "evalFltQ",
+        "evalFltCQ",
+        "evalFltU",
+        "addCat",
+        "addCatReq",
+        "addCatDte",
+        "addCatQ",
+        "addCatCQ",
+        "addCatU",
+        "ovrFnlGrde",
+        "evalInstRmks",
+        "sigNmeEval",
+        "dteSigNmeEvalee",
+        "prntNmeEvalee",
+        "evaleRnk",
+        "evaleeRnk",
+        "prntNmeEVAL",
+        "dteSigEVAL",
+        "sigRnkNmeEVAL",
+        "untCmdRmks",
+        "dteSigUntCmd",
+        "sigUntCmd",
+        "prntNmeUntCmd",
+        "untCmdRnk"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "1. NAME (Last, first, middle initial)",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 724.8,
+        "width": 247.0,
+        "height": 20.1
+      }
+    },
+    "rank": {
+      "type": "text",
+      "label": "2. RANK",
+      "page": 1,
+      "box": {
+        "left": 293.1,
+        "top": 724.8,
+        "width": 62.5,
+        "height": 20.1
+      }
+    },
+    "eDIPINo": {
+      "type": "text",
+      "label": "3. EDIPI NUMBER",
+      "page": 1,
+      "box": {
+        "left": 360.6,
+        "top": 724.8,
+        "width": 85.0,
+        "height": 20.1
+      }
+    },
+    "dteLstEval": {
+      "type": "text",
+      "label": "4. DATE OF LAST EVALUATION",
+      "page": 1,
+      "box": {
+        "left": 448.4,
+        "top": 724.4,
+        "width": 124.9,
+        "height": 17.0
+      }
+    },
+    "crewPos": {
+      "type": "text",
+      "label": "6. CREW POSITION &amp; QUALIFICATIONS",
+      "page": 1,
+      "box": {
+        "left": 149.1,
+        "top": 691.1,
+        "width": 206.5,
+        "height": 20.0
+      }
+    },
+    "unit": {
+      "type": "text",
+      "label": "5. UNIT",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 690.9,
+        "width": 103.0,
+        "height": 19.7
+      }
+    },
+    "hrsMdl": {
+      "type": "text",
+      "label": "7. HOURS IN MODEL",
+      "page": 1,
+      "box": {
+        "left": 360.6,
+        "top": 690.9,
+        "width": 85.0,
+        "height": 19.7
+      }
+    },
+    "dteChkFlt": {
+      "type": "text",
+      "label": "8. DATE OF CHECK FLIGHT",
+      "page": 1,
+      "box": {
+        "left": 450.6,
+        "top": 690.9,
+        "width": 125.5,
+        "height": 19.7
+      }
+    },
+    "arcftBuno": {
+      "type": "text",
+      "label": "11. AIRCRAFT BUNO",
+      "page": 1,
+      "box": {
+        "left": 252.6,
+        "top": 657.6,
+        "width": 94.0,
+        "height": 20.0
+      }
+    },
+    "fltDur": {
+      "type": "text",
+      "label": "12. FLIGHT DURATION",
+      "page": 1,
+      "box": {
+        "left": 351.6,
+        "top": 657.6,
+        "width": 94.0,
+        "height": 20.0
+      }
+    },
+    "expDte": {
+      "type": "text",
+      "label": "13. EXPIRATION DATE",
+      "page": 1,
+      "box": {
+        "left": 450.6,
+        "top": 657.6,
+        "width": 125.5,
+        "height": 20.0
+      }
+    },
+    "tleFltHrs": {
+      "type": "text",
+      "label": "9. TOTAL FLIGHT HOURS",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 657.4,
+        "width": 103.0,
+        "height": 19.7
+      }
+    },
+    "arcftMdl": {
+      "type": "text",
+      "label": "10. AIRCRAFT MODEL",
+      "page": 1,
+      "box": {
+        "left": 149.1,
+        "top": 656.9,
+        "width": 98.5,
+        "height": 19.2
+      }
+    },
+    "opnBkExamReq": {
+      "type": "text",
+      "label": "OPEN BOOK EXAMINATION",
+      "page": 1,
+      "box": {
+        "left": 179.7,
+        "top": 579.2,
+        "width": 126.3,
+        "height": 18.1
+      }
+    },
+    "opnBkExamDte": {
+      "type": "text",
+      "label": "OPEN BOOK EXAMINATION",
+      "page": 1,
+      "box": {
+        "left": 311.1,
+        "top": 579.2,
+        "width": 103.0,
+        "height": 18.1
+      }
+    },
+    "opnBkExamQ": {
+      "type": "text",
+      "label": "OPEN BOOK EXAMINATION",
+      "page": 1,
+      "box": {
+        "left": 419.1,
+        "top": 579.2,
+        "width": 49.0,
+        "height": 18.1
+      }
+    },
+    "opnBkExamCQ": {
+      "type": "text",
+      "label": "OPEN BOOK EXAMINATION",
+      "page": 1,
+      "box": {
+        "left": 473.1,
+        "top": 579.2,
+        "width": 49.0,
+        "height": 18.1
+      }
+    },
+    "opnBkExamU": {
+      "type": "text",
+      "label": "OPEN BOOK EXAMINATION",
+      "page": 1,
+      "box": {
+        "left": 527.1,
+        "top": 579.2,
+        "width": 49.0,
+        "height": 18.1
+      }
+    },
+    "clsdBkExamReq": {
+      "type": "text",
+      "label": "CLOSED BOOK EXAMINATION",
+      "page": 1,
+      "box": {
+        "left": 180.1,
+        "top": 561.1,
+        "width": 125.9,
+        "height": 18.0
+      }
+    },
+    "clsdBkExamDte": {
+      "type": "text",
+      "label": "CLOSED BOOK EXAMINATION",
+      "page": 1,
+      "box": {
+        "left": 311.1,
+        "top": 561.1,
+        "width": 103.0,
+        "height": 18.0
+      }
+    },
+    "clsdBkExamQ": {
+      "type": "text",
+      "label": "CLOSED BOOK EXAMINATION",
+      "page": 1,
+      "box": {
+        "left": 419.1,
+        "top": 561.1,
+        "width": 49.0,
+        "height": 18.0
+      }
+    },
+    "clsdBkExamCQ": {
+      "type": "text",
+      "label": "CLOSED BOOK EXAMINATION",
+      "page": 1,
+      "box": {
+        "left": 473.1,
+        "top": 561.1,
+        "width": 49.0,
+        "height": 18.0
+      }
+    },
+    "clsdBkExamU": {
+      "type": "text",
+      "label": "CLOSED BOOK EXAMINATION",
+      "page": 1,
+      "box": {
+        "left": 527.1,
+        "top": 561.1,
+        "width": 49.0,
+        "height": 18.0
+      }
+    },
+    "oralExamReq": {
+      "type": "text",
+      "label": "ORAL EXAMINATION",
+      "page": 1,
+      "box": {
+        "left": 180.1,
+        "top": 543.1,
+        "width": 125.9,
+        "height": 18.0
+      }
+    },
+    "orlExamDte": {
+      "type": "text",
+      "label": "ORAL EXAMINATION",
+      "page": 1,
+      "box": {
+        "left": 311.1,
+        "top": 543.1,
+        "width": 103.0,
+        "height": 18.0
+      }
+    },
+    "orlExamExamQ": {
+      "type": "text",
+      "label": "ORAL EXAMINATION",
+      "page": 1,
+      "box": {
+        "left": 419.1,
+        "top": 543.1,
+        "width": 49.0,
+        "height": 18.0
+      }
+    },
+    "orlExamCQ": {
+      "type": "text",
+      "label": "ORAL EXAMINATION",
+      "page": 1,
+      "box": {
+        "left": 473.1,
+        "top": 543.1,
+        "width": 49.0,
+        "height": 18.0
+      }
+    },
+    "orlExamU": {
+      "type": "text",
+      "label": "ORAL EXAMINATION",
+      "page": 1,
+      "box": {
+        "left": 527.1,
+        "top": 543.1,
+        "width": 49.0,
+        "height": 18.0
+      }
+    },
+    "evalFltReg": {
+      "type": "text",
+      "label": "EVALUATION FLIGHT",
+      "page": 1,
+      "box": {
+        "left": 179.7,
+        "top": 525.1,
+        "width": 126.3,
+        "height": 18.0
+      }
+    },
+    "evalFltDte": {
+      "type": "text",
+      "label": "EVALUATION FLIGHT",
+      "page": 1,
+      "box": {
+        "left": 311.1,
+        "top": 525.1,
+        "width": 103.0,
+        "height": 18.0
+      }
+    },
+    "evalFltQ": {
+      "type": "text",
+      "label": "EVALUATION FLIGHT",
+      "page": 1,
+      "box": {
+        "left": 419.1,
+        "top": 525.1,
+        "width": 49.0,
+        "height": 18.0
+      }
+    },
+    "evalFltCQ": {
+      "type": "text",
+      "label": "EVALUATION FLIGHT",
+      "page": 1,
+      "box": {
+        "left": 473.1,
+        "top": 525.1,
+        "width": 49.0,
+        "height": 18.0
+      }
+    },
+    "evalFltU": {
+      "type": "text",
+      "label": "EVALUATION FLIGHT",
+      "page": 1,
+      "box": {
+        "left": 527.1,
+        "top": 525.1,
+        "width": 49.0,
+        "height": 18.0
+      }
+    },
+    "addCat": {
+      "type": "text",
+      "label": "EVALUATION FLIGHT",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 507.1,
+        "width": 139.0,
+        "height": 18.0
+      }
+    },
+    "addCatReq": {
+      "type": "text",
+      "label": "REQUIREMENT",
+      "page": 1,
+      "box": {
+        "left": 185.1,
+        "top": 507.1,
+        "width": 121.0,
+        "height": 18.0
+      }
+    },
+    "addCatDte": {
+      "type": "text",
+      "label": "DATE COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 311.1,
+        "top": 507.1,
+        "width": 103.0,
+        "height": 18.0
+      }
+    },
+    "addCatQ": {
+      "type": "text",
+      "label": "Add Cat Q",
+      "page": 1,
+      "box": {
+        "left": 419.1,
+        "top": 507.1,
+        "width": 49.0,
+        "height": 18.0
+      }
+    },
+    "addCatCQ": {
+      "type": "text",
+      "label": "CQ",
+      "page": 1,
+      "box": {
+        "left": 473.1,
+        "top": 507.1,
+        "width": 49.0,
+        "height": 18.0
+      }
+    },
+    "addCatU": {
+      "type": "text",
+      "label": "Add Cat U",
+      "page": 1,
+      "box": {
+        "left": 527.1,
+        "top": 507.1,
+        "width": 49.0,
+        "height": 18.0
+      }
+    },
+    "ovrFnlGrde": {
+      "type": "text",
+      "label": "OVERALL FINAL GRADE",
+      "page": 1,
+      "box": {
+        "left": 169.3,
+        "top": 489.1,
+        "width": 406.8,
+        "height": 18.0
+      }
+    },
+    "evalInstRmks": {
+      "type": "text",
+      "label": "14d. REMARKS OF EVALUATOR",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 456.8,
+        "width": 535.0,
+        "height": 195.5
+      },
+      "multiline": true
+    },
+    "sigNmeEval": {
+      "type": "text",
+      "label": "15d. SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 383.1,
+        "top": 247.6,
+        "width": 193.0,
+        "height": 22.3
+      }
+    },
+    "dteSigNmeEvalee": {
+      "type": "text",
+      "label": "15c. DATE",
+      "page": 1,
+      "box": {
+        "left": 311.1,
+        "top": 247.3,
+        "width": 67.0,
+        "height": 22.3
+      }
+    },
+    "prntNmeEvalee": {
+      "type": "text",
+      "label": "15a. PRINT NAME OF EVALUEE",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 247.2,
+        "width": 193.0,
+        "height": 21.8
+      }
+    },
+    "evaleRnk": {
+      "type": "text",
+      "label": "15b. RANK",
+      "page": 1,
+      "box": {
+        "left": 236.9,
+        "top": 247.1,
+        "width": 66.3,
+        "height": 19.5
+      }
+    },
+    "evaleeRnk": {
+      "type": "text",
+      "label": "16b. RANK",
+      "page": 1,
+      "box": {
+        "left": 236.9,
+        "top": 212.8,
+        "width": 66.3,
+        "height": 19.2
+      }
+    },
+    "prntNmeEVAL": {
+      "type": "text",
+      "label": "16a. PRINT NAME OF EVALUATOR",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 212.5,
+        "width": 193.0,
+        "height": 21.7
+      }
+    },
+    "dteSigEVAL": {
+      "type": "text",
+      "label": "16c. DATE",
+      "page": 1,
+      "box": {
+        "left": 311.1,
+        "top": 212.3,
+        "width": 67.0,
+        "height": 21.5
+      }
+    },
+    "sigRnkNmeEVAL": {
+      "type": "text",
+      "label": "16d. SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 383.1,
+        "top": 212.3,
+        "width": 193.0,
+        "height": 21.5
+      }
+    },
+    "untCmdRmks": {
+      "type": "text",
+      "label": "17. REMARKS OF UNIT COMMANDER",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 176.1,
+        "width": 535.1,
+        "height": 103.9
+      },
+      "multiline": true
+    },
+    "dteSigUntCmd": {
+      "type": "text",
+      "label": "18c. DATE",
+      "page": 1,
+      "box": {
+        "left": 311.1,
+        "top": 58.8,
+        "width": 67.0,
+        "height": 22.9
+      }
+    },
+    "sigUntCmd": {
+      "type": "text",
+      "label": "18d. SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 383.1,
+        "top": 58.8,
+        "width": 193.0,
+        "height": 22.9
+      }
+    },
+    "prntNmeUntCmd": {
+      "type": "text",
+      "label": "18a. UNIT COMMANDER",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 58.3,
+        "width": 193.0,
+        "height": 22.4
+      }
+    },
+    "untCmdRnk": {
+      "type": "text",
+      "label": "18b. RANK",
+      "page": 1,
+      "box": {
+        "left": 236.9,
+        "top": 58.2,
+        "width": 66.3,
+        "height": 19.5
+      }
+    }
+  }
+}

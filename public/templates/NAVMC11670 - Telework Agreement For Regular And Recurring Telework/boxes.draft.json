@@ -1,0 +1,370 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "nameA": {
+        "left": 20.8,
+        "top": 632.4,
+        "width": 570.3,
+        "height": 26.6,
+        "type": "text",
+        "description": "1.  YOUR NAME:",
+        "options": null,
+        "group": null,
+        "required": true
+      },
+      "titleA": {
+        "left": 20.8,
+        "top": 587.4,
+        "width": 570.3,
+        "height": 26.6,
+        "type": "text",
+        "description": "2.  TITLE/SERIES/GRADE:",
+        "options": null,
+        "group": null,
+        "required": true
+      },
+      "orgA": {
+        "left": 20.8,
+        "top": 542.4,
+        "width": 570.3,
+        "height": 44.6,
+        "type": "text",
+        "description": "3.  ORGANIZATION:",
+        "options": null,
+        "group": null,
+        "required": true
+      },
+      "sunday1": {
+        "left": 106.5,
+        "top": 443.0,
+        "width": 160.1,
+        "height": 20.7,
+        "type": "text",
+        "description": "Sunday1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sunday2": {
+        "left": 269.5,
+        "top": 443.0,
+        "width": 160.1,
+        "height": 20.7,
+        "type": "text",
+        "description": "Sunday2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sunday3": {
+        "left": 432.5,
+        "top": 443.0,
+        "width": 160.1,
+        "height": 20.7,
+        "type": "text",
+        "description": "Sunday3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "monday1": {
+        "left": 106.5,
+        "top": 419.4,
+        "width": 160.1,
+        "height": 20.7,
+        "type": "text",
+        "description": "Monday1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "monday2": {
+        "left": 269.5,
+        "top": 419.4,
+        "width": 160.1,
+        "height": 20.7,
+        "type": "text",
+        "description": "Monday2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "monday3": {
+        "left": 432.5,
+        "top": 419.4,
+        "width": 160.1,
+        "height": 20.7,
+        "type": "text",
+        "description": "Monday3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "tuesday1": {
+        "left": 106.5,
+        "top": 395.9,
+        "width": 160.1,
+        "height": 20.7,
+        "type": "text",
+        "description": "Tuesday1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "tuesday2": {
+        "left": 269.5,
+        "top": 395.9,
+        "width": 160.1,
+        "height": 20.7,
+        "type": "text",
+        "description": "Tuesday2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "tuesday3": {
+        "left": 432.5,
+        "top": 395.9,
+        "width": 160.1,
+        "height": 20.7,
+        "type": "text",
+        "description": "Tuesday3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "wed1": {
+        "left": 106.5,
+        "top": 372.3,
+        "width": 160.1,
+        "height": 16.2,
+        "type": "text",
+        "description": "Wed1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "wed2": {
+        "left": 269.5,
+        "top": 372.3,
+        "width": 160.1,
+        "height": 16.2,
+        "type": "text",
+        "description": "Wed2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "wed3": {
+        "left": 432.5,
+        "top": 372.3,
+        "width": 160.1,
+        "height": 16.2,
+        "type": "text",
+        "description": "Wed3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "thur1": {
+        "left": 106.5,
+        "top": 353.3,
+        "width": 160.1,
+        "height": 20.7,
+        "type": "text",
+        "description": "Thur1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "thur2": {
+        "left": 269.5,
+        "top": 353.3,
+        "width": 160.1,
+        "height": 20.7,
+        "type": "text",
+        "description": "Thur2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "thur3": {
+        "left": 432.5,
+        "top": 353.3,
+        "width": 160.1,
+        "height": 20.7,
+        "type": "text",
+        "description": "Thur3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fri1": {
+        "left": 106.5,
+        "top": 329.7,
+        "width": 160.1,
+        "height": 20.7,
+        "type": "text",
+        "description": "Fri1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fri2": {
+        "left": 269.5,
+        "top": 329.7,
+        "width": 160.1,
+        "height": 20.7,
+        "type": "text",
+        "description": "Fri2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fri3": {
+        "left": 432.5,
+        "top": 329.7,
+        "width": 160.1,
+        "height": 20.7,
+        "type": "text",
+        "description": "Fri3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sat1": {
+        "left": 106.5,
+        "top": 306.1,
+        "width": 160.1,
+        "height": 21.1,
+        "type": "text",
+        "description": "Sat1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sat2": {
+        "left": 269.5,
+        "top": 306.1,
+        "width": 160.1,
+        "height": 21.1,
+        "type": "text",
+        "description": "Sat2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sat3": {
+        "left": 432.5,
+        "top": 306.1,
+        "width": 160.1,
+        "height": 21.1,
+        "type": "text",
+        "description": "Sat3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "gSACtr": {
+        "left": 77.2,
+        "top": 258.1,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "GSA TELECENTER OR",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "other": {
+        "left": 266.0,
+        "top": 258.1,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "OTHER APPROVED WORKSITE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "address": {
+        "left": 77.2,
+        "top": 231.2,
+        "width": 513.9,
+        "height": 22.4,
+        "type": "text",
+        "description": "ADDRESS:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "faxNum": {
+        "left": 369.6,
+        "top": 204.3,
+        "width": 221.6,
+        "height": 17.2,
+        "type": "text",
+        "description": "Enter (999) 999-9999",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "phoneNum": {
+        "left": 112.0,
+        "top": 202.6,
+        "width": 200.9,
+        "height": 17.2,
+        "type": "text",
+        "description": "Enter (999) 999-9999",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "email": {
+        "left": 105.1,
+        "top": 182.7,
+        "width": 488.9,
+        "height": 20.5,
+        "type": "text",
+        "description": " E-MAIL ADDRESS:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "homeOffice": {
+        "left": 53.0,
+        "top": 118.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "CHECK HERE if the alternate worksite is the employee's home.  If this box is checked, describe specific location within the home that will be used as the official worksite.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "medical": {
+        "left": 53.0,
+        "top": 85.6,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "CHECK HERE if the Telework arrangement is based on medical reasons or as an accommodation for a disability.  Attach medical documentation that supports the Telework arrangement.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

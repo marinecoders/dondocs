@@ -1,0 +1,150 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "name": {
+        "left": 38.8,
+        "top": 695.6,
+        "width": 278.3,
+        "height": 12.3,
+        "type": "text",
+        "description": "1. NAME (Last, First, Middle Initial)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "doDID": {
+        "left": 323.1,
+        "top": 695.6,
+        "width": 250.2,
+        "height": 12.3,
+        "type": "text",
+        "description": "2. DoD ID",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell3": {
+        "left": 491.9,
+        "top": 617.8,
+        "width": 82.2,
+        "height": 26.0,
+        "type": "text",
+        "description": "earliest event that",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell32": {
+        "left": 491.9,
+        "top": 589.0,
+        "width": 82.2,
+        "height": 26.0,
+        "type": "text",
+        "description": "earliest event that",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell33": {
+        "left": 491.9,
+        "top": 560.2,
+        "width": 82.2,
+        "height": 26.0,
+        "type": "text",
+        "description": "c. Report date to first submarine, or;",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell34": {
+        "left": 491.9,
+        "top": 531.4,
+        "width": 82.2,
+        "height": 26.0,
+        "type": "text",
+        "description": "earliest event that",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell35": {
+        "left": 491.9,
+        "top": 485.3,
+        "width": 82.2,
+        "height": 26.0,
+        "type": "text",
+        "description": "earliest event that",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell36": {
+        "left": 491.9,
+        "top": 456.5,
+        "width": 82.2,
+        "height": 26.0,
+        "type": "text",
+        "description": "b. Report date to first submarine, or;",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell37": {
+        "left": 491.9,
+        "top": 427.7,
+        "width": 82.2,
+        "height": 26.0,
+        "type": "text",
+        "description": "c. Designated &quot;SU&quot; by CNPC (PERS-403) letter",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell38": {
+        "left": 491.9,
+        "top": 370.0,
+        "width": 82.2,
+        "height": 26.0,
+        "type": "text",
+        "description": "a. Class convening date of BESS, or;",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell39": {
+        "left": 491.9,
+        "top": 341.2,
+        "width": 82.2,
+        "height": 26.0,
+        "type": "text",
+        "description": "earliest event that",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell310": {
+        "left": 491.9,
+        "top": 312.4,
+        "width": 82.2,
+        "height": 26.0,
+        "type": "text",
+        "description": "c. Report date to first submarine",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

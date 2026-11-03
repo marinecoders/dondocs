@@ -1,0 +1,455 @@
+{
+  "id": "navmc10683",
+  "label": "NAVMC 10683 - Request For Engineering Drawings",
+  "directory": "NAVMC10683 - Request For Engineering Drawings",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "reqNo",
+        "dateReq",
+        "nameFrm",
+        "priority",
+        "poc",
+        "dateNeeded",
+        "radOrder",
+        "radOrder2",
+        "radOrder3",
+        "justEmergReq",
+        "radPayOrderNot",
+        "radPayOrderNot2",
+        "remarks",
+        "dateAuth",
+        "signature",
+        "shipTo",
+        "dateReqRevc",
+        "radOnFile",
+        "radOnFile2",
+        "radMissShipNot",
+        "radShipPart",
+        "missDwgBy",
+        "radShipPart2",
+        "radMissShipNot2",
+        "nameReqHandl",
+        "dateAction",
+        "signature2"
+      ]
+    }
+  ],
+  "fields": {
+    "reqNo": {
+      "type": "text",
+      "label": "Enter requisition number of this request for engineering drawings.",
+      "page": 1,
+      "box": {
+        "left": 14.4,
+        "top": 731.2,
+        "width": 129.6,
+        "height": 17.6
+      }
+    },
+    "dateReq": {
+      "type": "text",
+      "label": "Enter date of request using format 2 Dec 2002.",
+      "page": 1,
+      "box": {
+        "left": 144.8,
+        "top": 731.2,
+        "width": 128.8,
+        "height": 17.6
+      }
+    },
+    "nameFrm": {
+      "type": "text",
+      "label": "Enter the name of who this drawing request is from.",
+      "page": 1,
+      "box": {
+        "left": 275.2,
+        "top": 731.2,
+        "width": 309.6,
+        "height": 17.6
+      }
+    },
+    "priority": {
+      "type": "text",
+      "label": "Enter the priority of this drawing request.",
+      "page": 1,
+      "box": {
+        "left": 14.4,
+        "top": 703.7,
+        "width": 56.8,
+        "height": 15.7
+      }
+    },
+    "poc": {
+      "type": "text",
+      "label": "Enter the P. O. C at requesting activity.",
+      "page": 1,
+      "box": {
+        "left": 144.8,
+        "top": 702.4,
+        "width": 440.0,
+        "height": 14.4
+      }
+    },
+    "dateNeeded": {
+      "type": "text",
+      "label": "Enter the date the requested drawings are needed.",
+      "page": 1,
+      "box": {
+        "left": 73.6,
+        "top": 701.7,
+        "width": 68.8,
+        "height": 13.7
+      }
+    },
+    "radOrder": {
+      "type": "radio",
+      "label": "other",
+      "page": 1,
+      "box": {
+        "left": 474.4,
+        "top": 644.8,
+        "width": 15.2,
+        "height": 15.2
+      },
+      "group": "topmostSubform_0_Page1_0_RadOrder_0"
+    },
+    "radOrder2": {
+      "type": "radio",
+      "label": "n",
+      "page": 1,
+      "box": {
+        "left": 386.4,
+        "top": 644.4,
+        "width": 15.2,
+        "height": 15.2
+      },
+      "group": "topmostSubform_0_Page1_0_RadOrder_0"
+    },
+    "radOrder3": {
+      "type": "radio",
+      "label": "y",
+      "page": 1,
+      "box": {
+        "left": 386.4,
+        "top": 619.2,
+        "width": 15.2,
+        "height": 15.2
+      },
+      "group": "topmostSubform_0_Page1_0_RadOrder_0"
+    },
+    "justEmergReq": {
+      "type": "text",
+      "label": "Enter the justification for urgency.",
+      "page": 1,
+      "box": {
+        "left": 14.4,
+        "top": 591.2,
+        "width": 344.8,
+        "height": 60.0
+      },
+      "multiline": true
+    },
+    "radPayOrderNot": {
+      "type": "radio",
+      "label": "n",
+      "page": 1,
+      "box": {
+        "left": 387.2,
+        "top": 569.2,
+        "width": 15.2,
+        "height": 15.2
+      },
+      "group": "topmostSubform_0_Page1_0_RadPayOrderNot_0"
+    },
+    "radPayOrderNot2": {
+      "type": "radio",
+      "label": "y",
+      "page": 1,
+      "box": {
+        "left": 485.6,
+        "top": 569.2,
+        "width": 15.2,
+        "height": 15.2
+      },
+      "group": "topmostSubform_0_Page1_0_RadPayOrderNot_0"
+    },
+    "remarks": {
+      "type": "text",
+      "label": "Enter any remarks.",
+      "page": 1,
+      "box": {
+        "left": 12.7,
+        "top": 311.2,
+        "width": 571.3,
+        "height": 97.2
+      },
+      "multiline": true
+    },
+    "dateAuth": {
+      "type": "text",
+      "label": "Enter the date of authorization.",
+      "page": 1,
+      "box": {
+        "left": 215.2,
+        "top": 205.6,
+        "width": 68.8,
+        "height": 17.6
+      }
+    },
+    "signature": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 14.3,
+        "top": 204.2,
+        "width": 199.6,
+        "height": 16.3
+      }
+    },
+    "shipTo": {
+      "type": "text",
+      "label": "Enter where the requested drawings are to be shipped to.",
+      "page": 1,
+      "box": {
+        "left": 13.3,
+        "top": 178.0,
+        "width": 270.7,
+        "height": 142.0
+      },
+      "multiline": true
+    },
+    "dateReqRevc": {
+      "type": "text",
+      "label": "Enter the date this request was recieved.",
+      "page": 1,
+      "box": {
+        "left": 286.7,
+        "top": 176.7,
+        "width": 144.0,
+        "height": 18.0
+      }
+    },
+    "radOnFile": {
+      "type": "radio",
+      "label": "order",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 175.2,
+        "width": 15.2,
+        "height": 15.2
+      },
+      "group": "topmostSubform_0_Page1_0_RadOnFile_0"
+    },
+    "radOnFile2": {
+      "type": "radio",
+      "label": "file",
+      "page": 1,
+      "box": {
+        "left": 514.4,
+        "top": 175.2,
+        "width": 15.2,
+        "height": 15.2
+      },
+      "group": "topmostSubform_0_Page1_0_RadOnFile_0"
+    },
+    "radMissShipNot": {
+      "type": "radio",
+      "label": "y",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 144.8,
+        "width": 15.2,
+        "height": 15.2
+      },
+      "group": "topmostSubform_0_Page1_0_RadMissShipNot_0"
+    },
+    "radShipPart": {
+      "type": "radio",
+      "label": "c",
+      "page": 1,
+      "box": {
+        "left": 288.0,
+        "top": 144.7,
+        "width": 15.3,
+        "height": 15.3
+      },
+      "group": "topmostSubform_0_Page1_0_RadShipPart_0"
+    },
+    "missDwgBy": {
+      "type": "text",
+      "label": "Enter how the missing drawings are to be shipped by.",
+      "page": 1,
+      "box": {
+        "left": 461.6,
+        "top": 132.8,
+        "width": 116.8,
+        "height": 17.6
+      }
+    },
+    "radShipPart2": {
+      "type": "radio",
+      "label": "p",
+      "page": 1,
+      "box": {
+        "left": 288.0,
+        "top": 126.7,
+        "width": 15.3,
+        "height": 15.3
+      },
+      "group": "topmostSubform_0_Page1_0_RadShipPart_0"
+    },
+    "radMissShipNot2": {
+      "type": "radio",
+      "label": "n",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 108.0,
+        "width": 15.2,
+        "height": 15.2
+      },
+      "group": "topmostSubform_0_Page1_0_RadMissShipNot_0"
+    },
+    "nameReqHandl": {
+      "type": "text",
+      "label": "Enter the name of the person handling this request.",
+      "page": 1,
+      "box": {
+        "left": 286.0,
+        "top": 90.0,
+        "width": 146.7,
+        "height": 17.3
+      }
+    },
+    "dateAction": {
+      "type": "text",
+      "label": "Enter the date of action for this request.",
+      "page": 1,
+      "box": {
+        "left": 436.0,
+        "top": 55.3,
+        "width": 144.0,
+        "height": 18.0
+      }
+    },
+    "signature2": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 284.5,
+        "top": 51.6,
+        "width": 147.2,
+        "height": 14.9
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 9,
+      "rowStride": 18.66,
+      "editor": "grid",
+      "columns": {
+        "itm": {
+          "type": "text",
+          "label": "Enter item number for request 1.",
+          "page": 1,
+          "box": {
+            "left": 12.7,
+            "top": 495.3,
+            "width": 40.0,
+            "height": 17.3
+          }
+        },
+        "dwgNo": {
+          "type": "text",
+          "label": "Enter drawing number for request 1.",
+          "page": 1,
+          "box": {
+            "left": 54.7,
+            "top": 495.3,
+            "width": 106.7,
+            "height": 17.3
+          }
+        },
+        "rev": {
+          "type": "text",
+          "label": "Enter drawing revision number for request 1.",
+          "page": 1,
+          "box": {
+            "left": 163.3,
+            "top": 495.3,
+            "width": 47.3,
+            "height": 17.3
+          }
+        },
+        "mfgCode": {
+          "type": "text",
+          "label": "Enter manufacturer code or name for request 1.",
+          "page": 1,
+          "box": {
+            "left": 214.0,
+            "top": 495.3,
+            "width": 126.7,
+            "height": 17.3
+          }
+        },
+        "subt": {
+          "type": "text",
+          "label": "Enter subtier drawings for request 1.",
+          "page": 1,
+          "box": {
+            "left": 343.3,
+            "top": 495.3,
+            "width": 58.7,
+            "height": 17.3
+          }
+        },
+        "nomn": {
+          "type": "text",
+          "label": "Enter nomenclature for request 1.",
+          "page": 1,
+          "box": {
+            "left": 404.7,
+            "top": 495.3,
+            "width": 116.7,
+            "height": 17.3
+          }
+        },
+        "cpyFm": {
+          "type": "text",
+          "label": "Enter the copy form for request 1.",
+          "page": 1,
+          "box": {
+            "left": 522.7,
+            "top": 495.3,
+            "width": 35.3,
+            "height": 17.3
+          }
+        },
+        "qt": {
+          "type": "text",
+          "label": "Enter the number of copies needed for request 1.",
+          "page": 1,
+          "box": {
+            "left": 559.3,
+            "top": 495.3,
+            "width": 25.3,
+            "height": 17.3
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,766 @@
+{
+  "id": "opnav50904",
+  "label": "OPNAV5090-4 - Preliminary Impact And Exposure Report (pier)",
+  "directory": "OPNAV5090-4 - Preliminary Impact And Exposure Report (pier)",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "nmeSur",
+        "rnkRteGde",
+        "commNme",
+        "surCde",
+        "surPhn",
+        "aseImmDgrPlc",
+        "aseImmDgrWl",
+        "senAraCall",
+        "tmeSpl",
+        "locSpl",
+        "dteSpl",
+        "supSor",
+        "estAmt",
+        "lkySor",
+        "proxSre",
+        "desVisImp",
+        "desSplPth",
+        "at",
+        "wt",
+        "wh",
+        "wp",
+        "wd",
+        "ws",
+        "tef",
+        "cds",
+        "odors",
+        "wits"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "rs",
+        "bluff",
+        "bches",
+        "rSh",
+        "rb",
+        "manGrv",
+        "tdlFlt",
+        "marsh",
+        "othVeg",
+        "sw",
+        "bw",
+        "pr",
+        "rt",
+        "othStr",
+        "odb",
+        "df",
+        "sb",
+        "mm",
+        "ar",
+        "os",
+        "roo",
+        "nrl",
+        "surPntNme",
+        "tmeSgn",
+        "surSig",
+        "surSgnDte",
+        "rECOPntNme",
+        "rECOTmeSgn",
+        "rEOSig",
+        "rECOSgnDte",
+        "radio",
+        "radio2",
+        "recOffNme",
+        "recOffDte"
+      ]
+    }
+  ],
+  "fields": {
+    "nmeSur": {
+      "type": "text",
+      "label": "1. Name of Surveyor (Last, First, MI)",
+      "page": 1,
+      "box": {
+        "left": 39.0,
+        "top": 711.3,
+        "width": 264.4,
+        "height": 13.3
+      }
+    },
+    "rnkRteGde": {
+      "type": "text",
+      "label": "2. Rank/Rate/Grade",
+      "page": 1,
+      "box": {
+        "left": 309.0,
+        "top": 711.3,
+        "width": 264.4,
+        "height": 13.3
+      }
+    },
+    "commNme": {
+      "type": "text",
+      "label": "3. Command",
+      "page": 1,
+      "box": {
+        "left": 39.0,
+        "top": 682.1,
+        "width": 322.7,
+        "height": 13.3
+      }
+    },
+    "surCde": {
+      "type": "text",
+      "label": "4. Code",
+      "page": 1,
+      "box": {
+        "left": 367.4,
+        "top": 682.1,
+        "width": 97.8,
+        "height": 13.3
+      }
+    },
+    "surPhn": {
+      "type": "text",
+      "label": "5. Phone",
+      "page": 1,
+      "box": {
+        "left": 471.0,
+        "top": 682.1,
+        "width": 102.2,
+        "height": 13.3
+      }
+    },
+    "aseImmDgrPlc": {
+      "type": "text",
+      "label": "Ase Imm Dgr Plc",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 638.0,
+        "width": 534.4,
+        "height": 50.5
+      },
+      "multiline": true
+    },
+    "aseImmDgrWl": {
+      "type": "text",
+      "label": "Ase Imm Dgr Wl",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 571.5,
+        "width": 534.4,
+        "height": 50.5
+      },
+      "multiline": true
+    },
+    "senAraCall": {
+      "type": "text",
+      "label": "marshes, hatcheries, rookeries)",
+      "page": 1,
+      "box": {
+        "left": 384.9,
+        "top": 515.3,
+        "width": 188.4,
+        "height": 11.0
+      }
+    },
+    "tmeSpl": {
+      "type": "text",
+      "label": "7b. Time of Spill",
+      "page": 1,
+      "box": {
+        "left": 200.8,
+        "top": 472.8,
+        "width": 156.3,
+        "height": 13.3
+      }
+    },
+    "locSpl": {
+      "type": "text",
+      "label": "7c. Location of Spill",
+      "page": 1,
+      "box": {
+        "left": 362.7,
+        "top": 472.8,
+        "width": 210.5,
+        "height": 13.3
+      }
+    },
+    "dteSpl": {
+      "type": "text",
+      "label": "7a. Date of Spill (DD MMM YYYY)",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 472.2,
+        "width": 159.1,
+        "height": 15.5
+      }
+    },
+    "supSor": {
+      "type": "text",
+      "label": "7d. Suspected Substance",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 442.7,
+        "width": 264.4,
+        "height": 13.3
+      }
+    },
+    "estAmt": {
+      "type": "text",
+      "label": "7e. Estimated Amount",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 442.7,
+        "width": 264.4,
+        "height": 13.3
+      }
+    },
+    "lkySor": {
+      "type": "text",
+      "label": "7f. Likely Source",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 413.5,
+        "width": 264.4,
+        "height": 13.3
+      }
+    },
+    "proxSre": {
+      "type": "text",
+      "label": "7g. Proximity of Slick Edge to Nearest Shoreline",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 413.5,
+        "width": 264.4,
+        "height": 13.3
+      }
+    },
+    "desVisImp": {
+      "type": "text",
+      "label": "Des Vis Imp",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 384.2,
+        "width": 534.4,
+        "height": 48.8
+      },
+      "multiline": true
+    },
+    "desSplPth": {
+      "type": "text",
+      "label": "Des Spl Pth",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 319.4,
+        "width": 534.4,
+        "height": 48.8
+      },
+      "multiline": true
+    },
+    "at": {
+      "type": "text",
+      "label": "8a. Air Temperature",
+      "page": 1,
+      "box": {
+        "left": 123.0,
+        "top": 250.3,
+        "width": 180.2,
+        "height": 12.3
+      }
+    },
+    "wt": {
+      "type": "text",
+      "label": "8b. Water Temperature",
+      "page": 1,
+      "box": {
+        "left": 400.8,
+        "top": 249.9,
+        "width": 172.5,
+        "height": 12.3
+      }
+    },
+    "wh": {
+      "type": "text",
+      "label": "8c. Wave Height",
+      "page": 1,
+      "box": {
+        "left": 123.5,
+        "top": 232.0,
+        "width": 179.7,
+        "height": 12.3
+      }
+    },
+    "wp": {
+      "type": "text",
+      "label": "8d. Wave Period",
+      "page": 1,
+      "box": {
+        "left": 401.3,
+        "top": 232.0,
+        "width": 171.9,
+        "height": 12.3
+      }
+    },
+    "wd": {
+      "type": "text",
+      "label": "8e. Wind Direction",
+      "page": 1,
+      "box": {
+        "left": 123.0,
+        "top": 213.6,
+        "width": 180.2,
+        "height": 12.3
+      }
+    },
+    "ws": {
+      "type": "text",
+      "label": "8f. Wind Speed",
+      "page": 1,
+      "box": {
+        "left": 402.0,
+        "top": 213.6,
+        "width": 171.3,
+        "height": 12.3
+      }
+    },
+    "tef": {
+      "type": "text",
+      "label": "8g. Ebb/Flood: Tide",
+      "page": 1,
+      "box": {
+        "left": 123.0,
+        "top": 195.1,
+        "width": 180.2,
+        "height": 20.1
+      }
+    },
+    "cds": {
+      "type": "text",
+      "label": "8h. Direction/Speed: Current",
+      "page": 1,
+      "box": {
+        "left": 401.9,
+        "top": 195.1,
+        "width": 171.3,
+        "height": 20.1
+      }
+    },
+    "odors": {
+      "type": "text",
+      "label": "9. ODORS - Describe odors observed",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 156.8,
+        "width": 534.4,
+        "height": 48.3
+      },
+      "multiline": true
+    },
+    "wits": {
+      "type": "text",
+      "label": "Wits",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 92.4,
+        "width": 534.4,
+        "height": 50.5
+      },
+      "multiline": true
+    },
+    "rs": {
+      "type": "text",
+      "label": "11a. Reef Structure",
+      "page": 2,
+      "box": {
+        "left": 123.0,
+        "top": 737.8,
+        "width": 450.3,
+        "height": 10.1
+      }
+    },
+    "bluff": {
+      "type": "text",
+      "label": "11b. Bluffs",
+      "page": 2,
+      "box": {
+        "left": 123.0,
+        "top": 721.9,
+        "width": 450.3,
+        "height": 10.1
+      }
+    },
+    "bches": {
+      "type": "text",
+      "label": "11c. Beaches",
+      "page": 2,
+      "box": {
+        "left": 123.0,
+        "top": 706.1,
+        "width": 450.3,
+        "height": 10.1
+      }
+    },
+    "rSh": {
+      "type": "text",
+      "label": "11d. Rocky Shoreline",
+      "page": 2,
+      "box": {
+        "left": 123.0,
+        "top": 690.3,
+        "width": 450.3,
+        "height": 10.1
+      }
+    },
+    "rb": {
+      "type": "text",
+      "label": "11e. River Banks",
+      "page": 2,
+      "box": {
+        "left": 123.0,
+        "top": 674.5,
+        "width": 450.3,
+        "height": 10.1
+      }
+    },
+    "manGrv": {
+      "type": "text",
+      "label": "11f. Mangroves",
+      "page": 2,
+      "box": {
+        "left": 123.0,
+        "top": 658.7,
+        "width": 450.3,
+        "height": 10.1
+      }
+    },
+    "tdlFlt": {
+      "type": "text",
+      "label": "11g. Tidal Flats",
+      "page": 2,
+      "box": {
+        "left": 123.0,
+        "top": 642.8,
+        "width": 450.3,
+        "height": 10.1
+      }
+    },
+    "marsh": {
+      "type": "text",
+      "label": "11h. Marshes",
+      "page": 2,
+      "box": {
+        "left": 123.0,
+        "top": 627.0,
+        "width": 450.3,
+        "height": 10.1
+      }
+    },
+    "othVeg": {
+      "type": "text",
+      "label": "11i. Other Vegetation",
+      "page": 2,
+      "box": {
+        "left": 123.0,
+        "top": 611.2,
+        "width": 450.3,
+        "height": 10.1
+      }
+    },
+    "sw": {
+      "type": "text",
+      "label": "12a. Seawalls",
+      "page": 2,
+      "box": {
+        "left": 123.0,
+        "top": 580.1,
+        "width": 450.3,
+        "height": 10.1
+      }
+    },
+    "bw": {
+      "type": "text",
+      "label": "12b. Breakwaters",
+      "page": 2,
+      "box": {
+        "left": 123.0,
+        "top": 564.3,
+        "width": 450.3,
+        "height": 10.1
+      }
+    },
+    "pr": {
+      "type": "text",
+      "label": "12c. Piers",
+      "page": 2,
+      "box": {
+        "left": 123.0,
+        "top": 548.5,
+        "width": 450.3,
+        "height": 10.1
+      }
+    },
+    "rt": {
+      "type": "text",
+      "label": "12d. Riprap",
+      "page": 2,
+      "box": {
+        "left": 123.0,
+        "top": 532.6,
+        "width": 450.3,
+        "height": 10.1
+      }
+    },
+    "othStr": {
+      "type": "text",
+      "label": "12e. Other structure",
+      "page": 2,
+      "box": {
+        "left": 123.0,
+        "top": 516.8,
+        "width": 450.3,
+        "height": 10.1
+      }
+    },
+    "odb": {
+      "type": "text",
+      "label": "13a. Oiled or dead birds",
+      "page": 2,
+      "box": {
+        "left": 131.9,
+        "top": 485.6,
+        "width": 441.3,
+        "height": 10.1
+      }
+    },
+    "df": {
+      "type": "text",
+      "label": "13b. Dead fish/fish pens/fishing grounds",
+      "page": 2,
+      "box": {
+        "left": 188.6,
+        "top": 469.8,
+        "width": 384.7,
+        "height": 10.1
+      }
+    },
+    "sb": {
+      "type": "text",
+      "label": "13c. Shellfish beds",
+      "page": 2,
+      "box": {
+        "left": 123.0,
+        "top": 454.0,
+        "width": 450.3,
+        "height": 10.1
+      }
+    },
+    "mm": {
+      "type": "text",
+      "label": "13d. Marine Mammals",
+      "page": 2,
+      "box": {
+        "left": 123.0,
+        "top": 438.1,
+        "width": 450.3,
+        "height": 10.1
+      }
+    },
+    "ar": {
+      "type": "text",
+      "label": "13e. Amphibians/reptiles",
+      "page": 2,
+      "box": {
+        "left": 136.1,
+        "top": 422.3,
+        "width": 437.2,
+        "height": 10.1
+      }
+    },
+    "os": {
+      "type": "text",
+      "label": "13f. Other structure",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 395.0,
+        "width": 533.4,
+        "height": 53.0
+      },
+      "multiline": true
+    },
+    "roo": {
+      "type": "text",
+      "label": "Roo",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 310.7,
+        "width": 534.4,
+        "height": 55.2
+      },
+      "multiline": true
+    },
+    "nrl": {
+      "type": "text",
+      "label": "Nrl",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 239.5,
+        "width": 534.4,
+        "height": 53.2
+      },
+      "multiline": true
+    },
+    "surPntNme": {
+      "type": "text",
+      "label": "Printed Name of Surveyor",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 155.6,
+        "width": 180.3,
+        "height": 17.5
+      }
+    },
+    "tmeSgn": {
+      "type": "text",
+      "label": "Time Signed",
+      "page": 2,
+      "box": {
+        "left": 225.6,
+        "top": 155.6,
+        "width": 70.1,
+        "height": 17.5
+      }
+    },
+    "surSig": {
+      "type": "text",
+      "label": "Health Care Professional&apos;s Signature",
+      "page": 2,
+      "box": {
+        "left": 376.4,
+        "top": 155.6,
+        "width": 196.9,
+        "height": 17.5
+      }
+    },
+    "surSgnDte": {
+      "type": "text",
+      "label": "(DD MMM YYYY)",
+      "page": 2,
+      "box": {
+        "left": 298.0,
+        "top": 149.9,
+        "width": 75.8,
+        "height": 14.7
+      }
+    },
+    "rECOPntNme": {
+      "type": "text",
+      "label": "Printed Name of Reviewing REC Officer",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 122.9,
+        "width": 180.3,
+        "height": 17.5
+      }
+    },
+    "rECOTmeSgn": {
+      "type": "text",
+      "label": "Time Signed",
+      "page": 2,
+      "box": {
+        "left": 225.6,
+        "top": 122.9,
+        "width": 70.1,
+        "height": 17.5
+      }
+    },
+    "rEOSig": {
+      "type": "text",
+      "label": "Reviewing REC Officer Signature",
+      "page": 2,
+      "box": {
+        "left": 376.4,
+        "top": 122.9,
+        "width": 196.9,
+        "height": 17.5
+      }
+    },
+    "rECOSgnDte": {
+      "type": "text",
+      "label": "(DD MMM YYYY)",
+      "page": 2,
+      "box": {
+        "left": 298.0,
+        "top": 117.2,
+        "width": 75.8,
+        "height": 14.7
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 296.9,
+        "top": 84.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 330.9,
+        "top": 84.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "recOffNme": {
+      "type": "text",
+      "label": "Receiving Natural Resource Officer",
+      "page": 2,
+      "box": {
+        "left": 39.3,
+        "top": 60.8,
+        "width": 456.0,
+        "height": 17.5
+      }
+    },
+    "recOffDte": {
+      "type": "text",
+      "label": "(DD MMM YYYY)",
+      "page": 2,
+      "box": {
+        "left": 499.3,
+        "top": 55.2,
+        "width": 75.2,
+        "height": 14.7
+      }
+    }
+  }
+}

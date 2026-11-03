@@ -1,0 +1,414 @@
+{
+  "template": "page2.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page2": {
+      "dateApplic": {
+        "left": 437.9,
+        "top": 747.1,
+        "width": 129.6,
+        "height": 16.9,
+        "type": "text",
+        "description": "Enter date of this application using format yyyy mm dd.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameFrm": {
+        "left": 100.0,
+        "top": 701.3,
+        "width": 257.6,
+        "height": 16.9,
+        "type": "text",
+        "description": "Enter the name of the person this application is from.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ssn1": {
+        "left": 361.6,
+        "top": 701.3,
+        "width": 66.5,
+        "height": 16.9,
+        "type": "text",
+        "description": "Enter Social Security Number without dashes",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "brnchFrm": {
+        "left": 428.0,
+        "top": 701.3,
+        "width": 154.9,
+        "height": 16.9,
+        "type": "text",
+        "description": "Enter the branch of service of the person this is from.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField1": {
+        "left": 55.8,
+        "top": 701.0,
+        "width": 42.0,
+        "height": 17.0,
+        "type": "text",
+        "description": "TextField1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "officerTo": {
+        "left": 141.0,
+        "top": 667.1,
+        "width": 442.1,
+        "height": 17.8,
+        "type": "text",
+        "description": "Enter the name of the commanding officer this application is to.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radioButtonList": {
+        "left": 37.9,
+        "top": 612.6,
+        "width": 15.5,
+        "height": 15.5,
+        "type": "radio",
+        "description": "A",
+        "options": null,
+        "group": "topmostSubform[0].Page2[0].RadioButtonList[1]",
+        "required": false
+      },
+      "resideFam1": {
+        "left": 221.0,
+        "top": 611.2,
+        "width": 359.2,
+        "height": 14.1,
+        "type": "text",
+        "description": "Enter the address where the applicant and family reside. Line 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "resideFam2": {
+        "left": 57.6,
+        "top": 596.4,
+        "width": 522.5,
+        "height": 14.1,
+        "type": "text",
+        "description": "Enter the address where the applicant and family reside. Line 2.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "resideRelNm": {
+        "left": 256.2,
+        "top": 580.9,
+        "width": 149.3,
+        "height": 15.5,
+        "type": "text",
+        "description": "Enter the relationship of the applicant.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radioButtonList2": {
+        "left": 37.9,
+        "top": 580.2,
+        "width": 15.5,
+        "height": 15.5,
+        "type": "radio",
+        "description": "B",
+        "options": null,
+        "group": "topmostSubform[0].Page2[0].RadioButtonList[1]",
+        "required": false
+      },
+      "resideRel1": {
+        "left": 415.4,
+        "top": 579.5,
+        "width": 164.8,
+        "height": 14.1,
+        "type": "text",
+        "description": "Enter the address where the applicant and relationship reside. Line 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "resideRel2": {
+        "left": 57.6,
+        "top": 564.0,
+        "width": 522.5,
+        "height": 14.1,
+        "type": "text",
+        "description": "Enter the address where the applicant and relationship reside. Line 2.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radioButtonList3": {
+        "left": 37.6,
+        "top": 546.5,
+        "width": 15.5,
+        "height": 15.5,
+        "type": "radio",
+        "description": "C",
+        "options": null,
+        "group": "topmostSubform[0].Page2[0].RadioButtonList[1]",
+        "required": false
+      },
+      "reqOther1": {
+        "left": 99.4,
+        "top": 545.0,
+        "width": 481.4,
+        "height": 14.1,
+        "type": "text",
+        "description": "Enter the reason for this request other than listed. Line 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "reqOther2": {
+        "left": 57.6,
+        "top": 530.2,
+        "width": 522.5,
+        "height": 14.1,
+        "type": "text",
+        "description": "Enter the reason for this request other than listed. Line 2.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature": {
+        "left": 370.5,
+        "top": 475.1,
+        "width": 178.3,
+        "height": 11.6,
+        "type": "signature",
+        "description": "Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateAppv": {
+        "left": 464.7,
+        "top": 438.6,
+        "width": 118.3,
+        "height": 15.4,
+        "type": "text",
+        "description": "Enter date of approval or disapproval .",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "appvOffFrm": {
+        "left": 153.4,
+        "top": 422.5,
+        "width": 429.6,
+        "height": 16.9,
+        "type": "text",
+        "description": "Enter the name of the commanding officer that the approval or disapproval is from.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "appvOffTo": {
+        "left": 43.5,
+        "top": 396.4,
+        "width": 538.0,
+        "height": 18.3,
+        "type": "text",
+        "description": "Enter the name of the commanding officer that the approval or disapproval is to.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radioButtonList4": {
+        "left": 39.6,
+        "top": 365.9,
+        "width": 15.5,
+        "height": 15.5,
+        "type": "radio",
+        "description": "D",
+        "options": null,
+        "group": "topmostSubform[0].Page2[0].RadioButtonList[0]",
+        "required": false
+      },
+      "apprvEffect": {
+        "left": 135.1,
+        "top": 364.0,
+        "width": 446.5,
+        "height": 16.9,
+        "type": "text",
+        "description": "Enter the date and hour this application has been approved effective.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "disapprvReason1": {
+        "left": 192.2,
+        "top": 334.4,
+        "width": 391.6,
+        "height": 14.1,
+        "type": "text",
+        "description": "Enter the reason this application was disapproved. Line 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radioButtonList5": {
+        "left": 39.7,
+        "top": 332.8,
+        "width": 15.5,
+        "height": 15.5,
+        "type": "radio",
+        "description": "E",
+        "options": null,
+        "group": "topmostSubform[0].Page2[0].RadioButtonList[0]",
+        "required": false
+      },
+      "disapprvReason2": {
+        "left": 66.1,
+        "top": 317.7,
+        "width": 516.9,
+        "height": 15.5,
+        "type": "text",
+        "description": "Enter the reason this application was disapproved. Line 2.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "disapprvReason3": {
+        "left": 66.1,
+        "top": 302.9,
+        "width": 516.9,
+        "height": 15.5,
+        "type": "text",
+        "description": "Enter the reason this application was disapproved. Line 3.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature2": {
+        "left": 355.2,
+        "top": 254.8,
+        "width": 153.1,
+        "height": 12.6,
+        "type": "signature",
+        "description": "Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateTerm": {
+        "left": 450.6,
+        "top": 224.6,
+        "width": 129.6,
+        "height": 16.9,
+        "type": "text",
+        "description": "Enter date of termination of authority to recieve rations.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "termOffFrm": {
+        "left": 121.5,
+        "top": 202.2,
+        "width": 459.2,
+        "height": 15.5,
+        "type": "text",
+        "description": "Enter the name of the commanding officer that is terminating the reciept of rations is to.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "termOffTo": {
+        "left": 42.1,
+        "top": 186.6,
+        "width": 538.0,
+        "height": 14.1,
+        "type": "text",
+        "description": "Enter the name of the commanding officer that is terminating the reciept of rations is to.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "termDateTime": {
+        "left": 429.4,
+        "top": 173.9,
+        "width": 150.7,
+        "height": 14.1,
+        "type": "text",
+        "description": "Enter the date and hour this application has been terminated.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "termReason1": {
+        "left": 23.8,
+        "top": 148.5,
+        "width": 557.8,
+        "height": 15.5,
+        "type": "text",
+        "description": "Enter the reason this application was terminated. Line 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "termReason2": {
+        "left": 23.8,
+        "top": 133.0,
+        "width": 557.8,
+        "height": 15.5,
+        "type": "text",
+        "description": "Enter the reason this application was terminated. Line 2.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "termReason3": {
+        "left": 23.8,
+        "top": 116.1,
+        "width": 557.8,
+        "height": 14.1,
+        "type": "text",
+        "description": "Enter the reason this application was terminated. Line 3.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature3": {
+        "left": 330.0,
+        "top": 99.9,
+        "width": 171.4,
+        "height": 14.3,
+        "type": "signature",
+        "description": "Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dist": {
+        "left": 215.4,
+        "top": 75.8,
+        "width": 364.8,
+        "height": 33.9,
+        "type": "text",
+        "description": "Enter the distribution of this form.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

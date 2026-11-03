@@ -1,0 +1,1519 @@
+{
+  "id": "navmc11632",
+  "label": "NAVMC 11632 - Emergency Response Drill",
+  "directory": "NAVMC11632 - Emergency Response Drill",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "timeOfERPactivation",
+        "whomActivated",
+        "radioButtonList",
+        "radioButtonList2",
+        "description",
+        "victimName",
+        "victimUnit",
+        "headBoardman",
+        "primaryRes",
+        "secondaryRes",
+        "radioButtonList3",
+        "radioButtonList4",
+        "radioButtonList5",
+        "radioButtonList6",
+        "radioButtonList7",
+        "radioButtonList8",
+        "radioButtonList9",
+        "explainOther",
+        "headBoardman2",
+        "headBoardman3",
+        "radioButtonList10",
+        "radioButtonList11",
+        "radioButtonList12",
+        "radioButtonList13",
+        "symptoms",
+        "allergies",
+        "pastMedHistory",
+        "medications",
+        "lastOralIntake",
+        "eventsLeadingUp",
+        "startRescueBreath",
+        "c11",
+        "b11",
+        "movement9",
+        "c12",
+        "b12",
+        "breathing9",
+        "movement1",
+        "breathing1",
+        "pulse9",
+        "c13",
+        "b13",
+        "pulse1",
+        "b14",
+        "c14",
+        "movement10",
+        "b15",
+        "c15",
+        "breathing10",
+        "movement2",
+        "b16",
+        "c16",
+        "pulse10",
+        "breathing2",
+        "b17",
+        "c17",
+        "pulse2",
+        "b18",
+        "c18",
+        "movement11",
+        "breathing11",
+        "movement",
+        "pulse11",
+        "breathing",
+        "pulse",
+        "appliedAED",
+        "movement12",
+        "breathing12",
+        "movement4",
+        "radioButtonList14",
+        "radioButtonList15",
+        "pulse12",
+        "breathing4",
+        "pulse4",
+        "shock1",
+        "radioButtonList16",
+        "radioButtonList17",
+        "movement5",
+        "breathing5",
+        "radioButtonList18",
+        "radioButtonList19",
+        "pulse5",
+        "startedCPR",
+        "radioButtonList20",
+        "radioButtonList21",
+        "b1",
+        "c1",
+        "movement6",
+        "breathing6",
+        "shock2",
+        "b2",
+        "c2",
+        "pulse6",
+        "b3",
+        "c3",
+        "radioButtonList22",
+        "radioButtonList23",
+        "b4",
+        "c4",
+        "radioButtonList24",
+        "radioButtonList25",
+        "movement7",
+        "b5",
+        "c5",
+        "breathing7",
+        "b6",
+        "c6",
+        "pulse7",
+        "arriveEMS",
+        "b7",
+        "c7",
+        "arrivePMO",
+        "b8",
+        "movement8",
+        "c8",
+        "departEMS",
+        "breathing8",
+        "b9",
+        "c9",
+        "departPMO",
+        "pulse8",
+        "b10",
+        "c10"
+      ]
+    }
+  ],
+  "fields": {
+    "timeOfERPactivation": {
+      "type": "text",
+      "label": "TimeOfERPactivation",
+      "page": 1,
+      "box": {
+        "left": 269.2,
+        "top": 741.5,
+        "width": 61.5,
+        "height": 10.9
+      }
+    },
+    "whomActivated": {
+      "type": "text",
+      "label": "WhomActivated",
+      "page": 1,
+      "box": {
+        "left": 421.0,
+        "top": 740.3,
+        "width": 156.3,
+        "height": 10.9
+      }
+    },
+    "radioButtonList": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 24.3,
+        "top": 740.1,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_0"
+    },
+    "radioButtonList2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 87.6,
+        "top": 739.5,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_0"
+    },
+    "description": {
+      "type": "text",
+      "label": "description",
+      "page": 1,
+      "box": {
+        "left": 23.5,
+        "top": 722.7,
+        "width": 555.9,
+        "height": 42.8
+      },
+      "multiline": true
+    },
+    "victimName": {
+      "type": "text",
+      "label": "VictimName",
+      "page": 1,
+      "box": {
+        "left": 86.2,
+        "top": 670.4,
+        "width": 241.5,
+        "height": 10.9
+      }
+    },
+    "victimUnit": {
+      "type": "text",
+      "label": "VictimUnit",
+      "page": 1,
+      "box": {
+        "left": 403.6,
+        "top": 669.4,
+        "width": 176.3,
+        "height": 10.9
+      }
+    },
+    "headBoardman": {
+      "type": "text",
+      "label": "HeadBoardman",
+      "page": 1,
+      "box": {
+        "left": 501.9,
+        "top": 647.1,
+        "width": 77.3,
+        "height": 10.9
+      }
+    },
+    "primaryRes": {
+      "type": "text",
+      "label": "PrimaryRes",
+      "page": 1,
+      "box": {
+        "left": 85.0,
+        "top": 647.0,
+        "width": 128.7,
+        "height": 10.9
+      }
+    },
+    "secondaryRes": {
+      "type": "text",
+      "label": "SecondaryRes",
+      "page": 1,
+      "box": {
+        "left": 291.9,
+        "top": 646.4,
+        "width": 128.7,
+        "height": 10.9
+      }
+    },
+    "radioButtonList3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 145.4,
+        "top": 620.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_9"
+    },
+    "radioButtonList4": {
+      "type": "radio",
+      "label": "3",
+      "page": 1,
+      "box": {
+        "left": 342.3,
+        "top": 620.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_9"
+    },
+    "radioButtonList5": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 400.7,
+        "top": 620.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_9"
+    },
+    "radioButtonList6": {
+      "type": "radio",
+      "label": "4",
+      "page": 1,
+      "box": {
+        "left": 93.5,
+        "top": 620.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_9"
+    },
+    "radioButtonList7": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 204.7,
+        "top": 620.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_9"
+    },
+    "radioButtonList8": {
+      "type": "radio",
+      "label": "5",
+      "page": 1,
+      "box": {
+        "left": 280.6,
+        "top": 620.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_9"
+    },
+    "radioButtonList9": {
+      "type": "radio",
+      "label": "6",
+      "page": 1,
+      "box": {
+        "left": 464.4,
+        "top": 620.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_9"
+    },
+    "explainOther": {
+      "type": "text",
+      "label": "ExplainOther",
+      "page": 1,
+      "box": {
+        "left": 501.9,
+        "top": 620.5,
+        "width": 77.3,
+        "height": 10.9
+      }
+    },
+    "headBoardman2": {
+      "type": "text",
+      "label": "HeadBoardman",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 597.8,
+        "width": 77.3,
+        "height": 10.3
+      }
+    },
+    "headBoardman3": {
+      "type": "text",
+      "label": "HeadBoardman",
+      "page": 1,
+      "box": {
+        "left": 367.1,
+        "top": 596.6,
+        "width": 77.3,
+        "height": 10.3
+      }
+    },
+    "radioButtonList10": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 247.3,
+        "top": 595.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_2"
+    },
+    "radioButtonList11": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 280.1,
+        "top": 595.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_2"
+    },
+    "radioButtonList12": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 124.6,
+        "top": 594.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_1"
+    },
+    "radioButtonList13": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 156.7,
+        "top": 594.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_1"
+    },
+    "symptoms": {
+      "type": "text",
+      "label": "Symptoms",
+      "page": 1,
+      "box": {
+        "left": 158.8,
+        "top": 570.8,
+        "width": 226.9,
+        "height": 10.9
+      }
+    },
+    "allergies": {
+      "type": "text",
+      "label": "Allergies",
+      "page": 1,
+      "box": {
+        "left": 433.2,
+        "top": 569.8,
+        "width": 151.9,
+        "height": 10.9
+      }
+    },
+    "pastMedHistory": {
+      "type": "text",
+      "label": "PastMedHistory",
+      "page": 1,
+      "box": {
+        "left": 401.0,
+        "top": 550.7,
+        "width": 184.5,
+        "height": 10.9
+      }
+    },
+    "medications": {
+      "type": "text",
+      "label": "Medications",
+      "page": 1,
+      "box": {
+        "left": 90.1,
+        "top": 550.4,
+        "width": 226.9,
+        "height": 10.9
+      }
+    },
+    "lastOralIntake": {
+      "type": "text",
+      "label": "LastOralIntake",
+      "page": 1,
+      "box": {
+        "left": 102.4,
+        "top": 528.8,
+        "width": 226.9,
+        "height": 10.9
+      }
+    },
+    "eventsLeadingUp": {
+      "type": "text",
+      "label": "EventsLeadingUp",
+      "page": 1,
+      "box": {
+        "left": 426.4,
+        "top": 528.3,
+        "width": 155.5,
+        "height": 10.9
+      }
+    },
+    "startRescueBreath": {
+      "type": "text",
+      "label": "startRescueBreath",
+      "page": 1,
+      "box": {
+        "left": 83.0,
+        "top": 494.9,
+        "width": 40.8,
+        "height": 9.3
+      }
+    },
+    "c11": {
+      "type": "checkbox",
+      "label": "c11",
+      "page": 1,
+      "box": {
+        "left": 436.1,
+        "top": 486.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "b11": {
+      "type": "checkbox",
+      "label": "b11",
+      "page": 1,
+      "box": {
+        "left": 452.1,
+        "top": 485.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "movement9": {
+      "type": "text",
+      "label": "Movement9",
+      "page": 1,
+      "box": {
+        "left": 223.6,
+        "top": 479.7,
+        "width": 23.8,
+        "height": 9.3
+      }
+    },
+    "c12": {
+      "type": "checkbox",
+      "label": "c12",
+      "page": 1,
+      "box": {
+        "left": 436.1,
+        "top": 468.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "b12": {
+      "type": "checkbox",
+      "label": "b12",
+      "page": 1,
+      "box": {
+        "left": 452.3,
+        "top": 468.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "breathing9": {
+      "type": "text",
+      "label": "Breathing9",
+      "page": 1,
+      "box": {
+        "left": 223.6,
+        "top": 467.9,
+        "width": 23.8,
+        "height": 9.3
+      }
+    },
+    "movement1": {
+      "type": "text",
+      "label": "Movement1",
+      "page": 1,
+      "box": {
+        "left": 28.6,
+        "top": 467.4,
+        "width": 23.8,
+        "height": 9.3
+      }
+    },
+    "breathing1": {
+      "type": "text",
+      "label": "Breathing1",
+      "page": 1,
+      "box": {
+        "left": 28.6,
+        "top": 455.7,
+        "width": 23.8,
+        "height": 9.3
+      }
+    },
+    "pulse9": {
+      "type": "text",
+      "label": "Pulse9",
+      "page": 1,
+      "box": {
+        "left": 223.3,
+        "top": 454.9,
+        "width": 23.9,
+        "height": 9.3
+      }
+    },
+    "c13": {
+      "type": "checkbox",
+      "label": "c13",
+      "page": 1,
+      "box": {
+        "left": 436.5,
+        "top": 452.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "b13": {
+      "type": "checkbox",
+      "label": "b13",
+      "page": 1,
+      "box": {
+        "left": 452.3,
+        "top": 452.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "pulse1": {
+      "type": "text",
+      "label": "Pulse1",
+      "page": 1,
+      "box": {
+        "left": 28.3,
+        "top": 442.7,
+        "width": 23.9,
+        "height": 9.3
+      }
+    },
+    "b14": {
+      "type": "checkbox",
+      "label": "b14",
+      "page": 1,
+      "box": {
+        "left": 452.5,
+        "top": 436.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "c14": {
+      "type": "checkbox",
+      "label": "c14",
+      "page": 1,
+      "box": {
+        "left": 436.5,
+        "top": 436.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "movement10": {
+      "type": "text",
+      "label": "Movement10",
+      "page": 1,
+      "box": {
+        "left": 223.1,
+        "top": 426.7,
+        "width": 23.8,
+        "height": 9.3
+      }
+    },
+    "b15": {
+      "type": "checkbox",
+      "label": "b15",
+      "page": 1,
+      "box": {
+        "left": 452.1,
+        "top": 421.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "c15": {
+      "type": "checkbox",
+      "label": "c15",
+      "page": 1,
+      "box": {
+        "left": 436.1,
+        "top": 421.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "breathing10": {
+      "type": "text",
+      "label": "Breathing10",
+      "page": 1,
+      "box": {
+        "left": 223.1,
+        "top": 414.9,
+        "width": 23.8,
+        "height": 9.3
+      }
+    },
+    "movement2": {
+      "type": "text",
+      "label": "Movement2",
+      "page": 1,
+      "box": {
+        "left": 30.1,
+        "top": 413.2,
+        "width": 23.8,
+        "height": 9.3
+      }
+    },
+    "b16": {
+      "type": "checkbox",
+      "label": "b16",
+      "page": 1,
+      "box": {
+        "left": 452.1,
+        "top": 405.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "c16": {
+      "type": "checkbox",
+      "label": "c16",
+      "page": 1,
+      "box": {
+        "left": 436.1,
+        "top": 405.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "pulse10": {
+      "type": "text",
+      "label": "Pulse10",
+      "page": 1,
+      "box": {
+        "left": 222.8,
+        "top": 401.9,
+        "width": 23.9,
+        "height": 9.3
+      }
+    },
+    "breathing2": {
+      "type": "text",
+      "label": "Breathing2",
+      "page": 1,
+      "box": {
+        "left": 30.1,
+        "top": 401.4,
+        "width": 23.8,
+        "height": 9.3
+      }
+    },
+    "b17": {
+      "type": "checkbox",
+      "label": "b17",
+      "page": 1,
+      "box": {
+        "left": 451.8,
+        "top": 390.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "c17": {
+      "type": "checkbox",
+      "label": "c17",
+      "page": 1,
+      "box": {
+        "left": 436.5,
+        "top": 390.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "pulse2": {
+      "type": "text",
+      "label": "Pulse2",
+      "page": 1,
+      "box": {
+        "left": 29.8,
+        "top": 388.4,
+        "width": 23.9,
+        "height": 9.3
+      }
+    },
+    "b18": {
+      "type": "checkbox",
+      "label": "b18",
+      "page": 1,
+      "box": {
+        "left": 451.9,
+        "top": 374.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "c18": {
+      "type": "checkbox",
+      "label": "c18",
+      "page": 1,
+      "box": {
+        "left": 436.6,
+        "top": 373.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "movement11": {
+      "type": "text",
+      "label": "Movement11",
+      "page": 1,
+      "box": {
+        "left": 224.1,
+        "top": 372.2,
+        "width": 23.8,
+        "height": 9.3
+      }
+    },
+    "breathing11": {
+      "type": "text",
+      "label": "Breathing11",
+      "page": 1,
+      "box": {
+        "left": 224.1,
+        "top": 360.4,
+        "width": 23.8,
+        "height": 9.3
+      }
+    },
+    "movement": {
+      "type": "text",
+      "label": "Movement",
+      "page": 1,
+      "box": {
+        "left": 29.6,
+        "top": 357.2,
+        "width": 23.8,
+        "height": 9.3
+      }
+    },
+    "pulse11": {
+      "type": "text",
+      "label": "Pulse11",
+      "page": 1,
+      "box": {
+        "left": 223.8,
+        "top": 347.4,
+        "width": 23.9,
+        "height": 9.3
+      }
+    },
+    "breathing": {
+      "type": "text",
+      "label": "Breathing",
+      "page": 1,
+      "box": {
+        "left": 29.6,
+        "top": 345.4,
+        "width": 23.8,
+        "height": 9.3
+      }
+    },
+    "pulse": {
+      "type": "text",
+      "label": "Pulse",
+      "page": 1,
+      "box": {
+        "left": 29.3,
+        "top": 332.4,
+        "width": 23.9,
+        "height": 9.3
+      }
+    },
+    "appliedAED": {
+      "type": "text",
+      "label": "appliedAED",
+      "page": 1,
+      "box": {
+        "left": 526.6,
+        "top": 324.4,
+        "width": 40.8,
+        "height": 9.3
+      }
+    },
+    "movement12": {
+      "type": "text",
+      "label": "Movement12",
+      "page": 1,
+      "box": {
+        "left": 224.6,
+        "top": 317.7,
+        "width": 23.8,
+        "height": 9.3
+      }
+    },
+    "breathing12": {
+      "type": "text",
+      "label": "Breathing12",
+      "page": 1,
+      "box": {
+        "left": 224.6,
+        "top": 305.9,
+        "width": 23.8,
+        "height": 9.3
+      }
+    },
+    "movement4": {
+      "type": "text",
+      "label": "Movement4",
+      "page": 1,
+      "box": {
+        "left": 29.6,
+        "top": 304.2,
+        "width": 23.8,
+        "height": 9.3
+      }
+    },
+    "radioButtonList14": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 526.8,
+        "top": 296.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_3"
+    },
+    "radioButtonList15": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 559.7,
+        "top": 296.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_3"
+    },
+    "pulse12": {
+      "type": "text",
+      "label": "Pulse12",
+      "page": 1,
+      "box": {
+        "left": 224.3,
+        "top": 292.9,
+        "width": 23.9,
+        "height": 9.3
+      }
+    },
+    "breathing4": {
+      "type": "text",
+      "label": "Breathing4",
+      "page": 1,
+      "box": {
+        "left": 29.6,
+        "top": 292.4,
+        "width": 23.8,
+        "height": 9.3
+      }
+    },
+    "pulse4": {
+      "type": "text",
+      "label": "Pulse4",
+      "page": 1,
+      "box": {
+        "left": 29.3,
+        "top": 279.4,
+        "width": 23.9,
+        "height": 9.3
+      }
+    },
+    "shock1": {
+      "type": "checkbox",
+      "label": "Shock",
+      "page": 1,
+      "box": {
+        "left": 497.8,
+        "top": 276.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "radioButtonList16": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 502.2,
+        "top": 253.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_5"
+    },
+    "radioButtonList17": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 535.0,
+        "top": 253.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_5"
+    },
+    "movement5": {
+      "type": "text",
+      "label": "Movement5",
+      "page": 1,
+      "box": {
+        "left": 29.6,
+        "top": 247.2,
+        "width": 23.8,
+        "height": 9.3
+      }
+    },
+    "breathing5": {
+      "type": "text",
+      "label": "Breathing5",
+      "page": 1,
+      "box": {
+        "left": 29.6,
+        "top": 235.4,
+        "width": 23.8,
+        "height": 9.3
+      }
+    },
+    "radioButtonList18": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 502.3,
+        "top": 234.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_8"
+    },
+    "radioButtonList19": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 535.1,
+        "top": 234.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_8"
+    },
+    "pulse5": {
+      "type": "text",
+      "label": "Pulse5",
+      "page": 1,
+      "box": {
+        "left": 29.3,
+        "top": 222.4,
+        "width": 23.9,
+        "height": 9.3
+      }
+    },
+    "startedCPR": {
+      "type": "text",
+      "label": "startedCPR",
+      "page": 1,
+      "box": {
+        "left": 280.1,
+        "top": 212.2,
+        "width": 40.8,
+        "height": 9.3
+      }
+    },
+    "radioButtonList20": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 526.5,
+        "top": 199.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_4"
+    },
+    "radioButtonList21": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 559.3,
+        "top": 199.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_4"
+    },
+    "b1": {
+      "type": "checkbox",
+      "label": "b1",
+      "page": 1,
+      "box": {
+        "left": 224.8,
+        "top": 192.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "c1": {
+      "type": "checkbox",
+      "label": "c1",
+      "page": 1,
+      "box": {
+        "left": 208.0,
+        "top": 191.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "movement6": {
+      "type": "text",
+      "label": "Movement6",
+      "page": 1,
+      "box": {
+        "left": 29.6,
+        "top": 189.7,
+        "width": 23.8,
+        "height": 9.3
+      }
+    },
+    "breathing6": {
+      "type": "text",
+      "label": "Breathing6",
+      "page": 1,
+      "box": {
+        "left": 29.6,
+        "top": 177.9,
+        "width": 23.8,
+        "height": 9.3
+      }
+    },
+    "shock2": {
+      "type": "checkbox",
+      "label": "Shock",
+      "page": 1,
+      "box": {
+        "left": 497.8,
+        "top": 177.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "b2": {
+      "type": "checkbox",
+      "label": "b2",
+      "page": 1,
+      "box": {
+        "left": 224.8,
+        "top": 174.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "c2": {
+      "type": "checkbox",
+      "label": "c2",
+      "page": 1,
+      "box": {
+        "left": 208.0,
+        "top": 174.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "pulse6": {
+      "type": "text",
+      "label": "Pulse6",
+      "page": 1,
+      "box": {
+        "left": 29.3,
+        "top": 164.9,
+        "width": 23.9,
+        "height": 9.3
+      }
+    },
+    "b3": {
+      "type": "checkbox",
+      "label": "b3",
+      "page": 1,
+      "box": {
+        "left": 224.4,
+        "top": 158.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "c3": {
+      "type": "checkbox",
+      "label": "c3",
+      "page": 1,
+      "box": {
+        "left": 207.6,
+        "top": 158.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "radioButtonList22": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 503.6,
+        "top": 155.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_6"
+    },
+    "radioButtonList23": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 536.5,
+        "top": 155.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_6"
+    },
+    "b4": {
+      "type": "checkbox",
+      "label": "b4",
+      "page": 1,
+      "box": {
+        "left": 224.4,
+        "top": 142.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "c4": {
+      "type": "checkbox",
+      "label": "c4",
+      "page": 1,
+      "box": {
+        "left": 207.6,
+        "top": 142.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "radioButtonList24": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 504.3,
+        "top": 135.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_7"
+    },
+    "radioButtonList25": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 537.2,
+        "top": 135.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_7"
+    },
+    "movement7": {
+      "type": "text",
+      "label": "Movement7",
+      "page": 1,
+      "box": {
+        "left": 29.6,
+        "top": 133.7,
+        "width": 23.8,
+        "height": 9.3
+      }
+    },
+    "b5": {
+      "type": "checkbox",
+      "label": "b5",
+      "page": 1,
+      "box": {
+        "left": 224.8,
+        "top": 127.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "c5": {
+      "type": "checkbox",
+      "label": "c5",
+      "page": 1,
+      "box": {
+        "left": 208.0,
+        "top": 127.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "breathing7": {
+      "type": "text",
+      "label": "Breathing7",
+      "page": 1,
+      "box": {
+        "left": 29.6,
+        "top": 121.9,
+        "width": 23.8,
+        "height": 9.3
+      }
+    },
+    "b6": {
+      "type": "checkbox",
+      "label": "b6",
+      "page": 1,
+      "box": {
+        "left": 224.8,
+        "top": 111.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "c6": {
+      "type": "checkbox",
+      "label": "c6",
+      "page": 1,
+      "box": {
+        "left": 208.0,
+        "top": 111.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "pulse7": {
+      "type": "text",
+      "label": "Pulse7",
+      "page": 1,
+      "box": {
+        "left": 29.3,
+        "top": 108.9,
+        "width": 23.9,
+        "height": 9.3
+      }
+    },
+    "arriveEMS": {
+      "type": "text",
+      "label": "arriveEMS",
+      "page": 1,
+      "box": {
+        "left": 540.4,
+        "top": 98.8,
+        "width": 27.3,
+        "height": 9.3
+      }
+    },
+    "b7": {
+      "type": "checkbox",
+      "label": "b7",
+      "page": 1,
+      "box": {
+        "left": 224.4,
+        "top": 96.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "c7": {
+      "type": "checkbox",
+      "label": "c7",
+      "page": 1,
+      "box": {
+        "left": 207.6,
+        "top": 96.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "arrivePMO": {
+      "type": "text",
+      "label": "arrivePMO",
+      "page": 1,
+      "box": {
+        "left": 540.4,
+        "top": 87.2,
+        "width": 27.3,
+        "height": 9.3
+      }
+    },
+    "b8": {
+      "type": "checkbox",
+      "label": "b8",
+      "page": 1,
+      "box": {
+        "left": 224.4,
+        "top": 79.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "movement8": {
+      "type": "text",
+      "label": "Movement8",
+      "page": 1,
+      "box": {
+        "left": 29.1,
+        "top": 79.2,
+        "width": 23.8,
+        "height": 9.3
+      }
+    },
+    "c8": {
+      "type": "checkbox",
+      "label": "c8",
+      "page": 1,
+      "box": {
+        "left": 207.6,
+        "top": 79.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "departEMS": {
+      "type": "text",
+      "label": "departEMS",
+      "page": 1,
+      "box": {
+        "left": 540.4,
+        "top": 75.5,
+        "width": 27.3,
+        "height": 9.3
+      }
+    },
+    "breathing8": {
+      "type": "text",
+      "label": "Breathing8",
+      "page": 1,
+      "box": {
+        "left": 29.1,
+        "top": 67.4,
+        "width": 23.8,
+        "height": 9.3
+      }
+    },
+    "b9": {
+      "type": "checkbox",
+      "label": "b9",
+      "page": 1,
+      "box": {
+        "left": 224.4,
+        "top": 64.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "c9": {
+      "type": "checkbox",
+      "label": "c9",
+      "page": 1,
+      "box": {
+        "left": 207.6,
+        "top": 63.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "departPMO": {
+      "type": "text",
+      "label": "departPMO",
+      "page": 1,
+      "box": {
+        "left": 540.2,
+        "top": 62.5,
+        "width": 27.3,
+        "height": 9.3
+      }
+    },
+    "pulse8": {
+      "type": "text",
+      "label": "Pulse8",
+      "page": 1,
+      "box": {
+        "left": 28.8,
+        "top": 54.4,
+        "width": 23.9,
+        "height": 9.3
+      }
+    },
+    "b10": {
+      "type": "checkbox",
+      "label": "b10",
+      "page": 1,
+      "box": {
+        "left": 224.4,
+        "top": 48.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "c10": {
+      "type": "checkbox",
+      "label": "c10",
+      "page": 1,
+      "box": {
+        "left": 207.6,
+        "top": 48.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    }
+  }
+}

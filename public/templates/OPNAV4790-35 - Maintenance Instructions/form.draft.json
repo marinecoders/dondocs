@@ -1,0 +1,138 @@
+{
+  "id": "opnav479035",
+  "label": "OPNAV4790-35 - Maintenance Instructions",
+  "directory": "OPNAV4790-35 - Maintenance Instructions",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "originatingActivity",
+        "dNSDate3",
+        "maintenance",
+        "subject",
+        "reference",
+        "applicableWorkCenter",
+        "action1",
+        "action",
+        "submittedBy",
+        "approvedBy"
+      ]
+    }
+  ],
+  "fields": {
+    "originatingActivity": {
+      "type": "text",
+      "label": "Enter the originating activity.",
+      "page": 1,
+      "box": {
+        "left": 48.0,
+        "top": 726.0,
+        "width": 248.3,
+        "height": 14.3
+      }
+    },
+    "dNSDate3": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 310.5,
+        "top": 726.0,
+        "width": 87.7,
+        "height": 14.3
+      }
+    },
+    "maintenance": {
+      "type": "text",
+      "label": "Enter the maintenance instruction number.",
+      "page": 1,
+      "box": {
+        "left": 417.0,
+        "top": 726.0,
+        "width": 156.8,
+        "height": 14.3
+      }
+    },
+    "subject": {
+      "type": "text",
+      "label": "Enter the subject.",
+      "page": 1,
+      "box": {
+        "left": 48.0,
+        "top": 702.7,
+        "width": 525.0,
+        "height": 14.3
+      }
+    },
+    "reference": {
+      "type": "text",
+      "label": "Enter the reference.",
+      "page": 1,
+      "box": {
+        "left": 48.0,
+        "top": 679.5,
+        "width": 525.0,
+        "height": 14.3
+      }
+    },
+    "applicableWorkCenter": {
+      "type": "text",
+      "label": "Enter the applicable work centers.",
+      "page": 1,
+      "box": {
+        "left": 48.0,
+        "top": 655.5,
+        "width": 525.0,
+        "height": 14.3
+      }
+    },
+    "action1": {
+      "type": "text",
+      "label": "Enter the action.",
+      "page": 1,
+      "box": {
+        "left": 48.0,
+        "top": 633.7,
+        "width": 525.0,
+        "height": 14.3
+      }
+    },
+    "action": {
+      "type": "text",
+      "label": "Enter the action.",
+      "page": 1,
+      "box": {
+        "left": 48.0,
+        "top": 615.3,
+        "width": 525.0,
+        "height": 525.3
+      },
+      "multiline": true
+    },
+    "submittedBy": {
+      "type": "text",
+      "label": "Enter by whom it was submitted (signature of Division Officer).",
+      "page": 1,
+      "box": {
+        "left": 48.0,
+        "top": 73.5,
+        "width": 246.8,
+        "height": 14.3
+      }
+    },
+    "approvedBy": {
+      "type": "text",
+      "label": "Enter by whom it was approved (signature of Maintenance Officer).",
+      "page": 1,
+      "box": {
+        "left": 311.2,
+        "top": 73.5,
+        "width": 261.8,
+        "height": 14.3
+      }
+    }
+  }
+}

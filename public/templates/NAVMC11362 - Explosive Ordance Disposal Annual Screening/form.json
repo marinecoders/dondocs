@@ -1,0 +1,467 @@
+{
+  "id": "navmc11362",
+  "label": "NAVMC 11362 - Explosive Ordance Disposal Annual Screening",
+  "directory": "NAVMC11362 - Explosive Ordance Disposal Annual Screening",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "rank",
+        "billet",
+        "medYES",
+        "medNO",
+        "dateTimeField1",
+        "medYES2",
+        "medNO2",
+        "medOfcr",
+        "medOfcrSig",
+        "dateI",
+        "noIncident",
+        "attDocs",
+        "dateII",
+        "orIYES",
+        "orINO",
+        "orIIYES",
+        "orIINO",
+        "orIIIYES",
+        "orIIINO",
+        "orIVYES",
+        "orIVNO",
+        "orVYES",
+        "orVNO",
+        "orVIYES",
+        "orVINO",
+        "noDays"
+      ],
+      "editor": "checklist"
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "commentII",
+        "name2",
+        "rank2",
+        "billetB",
+        "sigScreen",
+        "dateIV",
+        "marSigScreen",
+        "dateIII"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "Name (Last, First MI):",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 566.2,
+        "width": 427.7,
+        "height": 19.9
+      }
+    },
+    "rank": {
+      "type": "text",
+      "label": "Rank:",
+      "page": 1,
+      "box": {
+        "left": 470.2,
+        "top": 566.2,
+        "width": 103.7,
+        "height": 19.9
+      }
+    },
+    "billet": {
+      "type": "text",
+      "label": "Billet:",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 532.3,
+        "width": 535.7,
+        "height": 18.4
+      }
+    },
+    "medYES": {
+      "type": "checkbox",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 517.0,
+        "top": 495.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "medNO": {
+      "type": "checkbox",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 556.6,
+        "top": 495.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "dateTimeField1": {
+      "type": "text",
+      "label": "Date:",
+      "page": 1,
+      "box": {
+        "left": 486.2,
+        "top": 479.7,
+        "width": 87.0,
+        "height": 15.6
+      }
+    },
+    "medYES2": {
+      "type": "checkbox",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 490.9,
+        "top": 450.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "medNO2": {
+      "type": "checkbox",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 545.7,
+        "top": 450.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "medOfcr": {
+      "type": "text",
+      "label": "Rank/ Name of Medical Officer or IDC:",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 418.1,
+        "width": 226.1,
+        "height": 19.9
+      }
+    },
+    "medOfcrSig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 268.6,
+        "top": 418.1,
+        "width": 197.3,
+        "height": 19.9
+      }
+    },
+    "dateI": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 1,
+      "box": {
+        "left": 470.2,
+        "top": 418.1,
+        "width": 103.7,
+        "height": 19.9
+      }
+    },
+    "noIncident": {
+      "type": "checkbox",
+      "label": "No Incidents",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 380.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "attDocs": {
+      "type": "checkbox",
+      "label": "See Attached Documents",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 380.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "dateII": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 1,
+      "box": {
+        "left": 470.2,
+        "top": 356.9,
+        "width": 103.7,
+        "height": 19.9
+      }
+    },
+    "orIYES": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 539.2,
+        "top": 302.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "orINO": {
+      "type": "checkbox",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 560.8,
+        "top": 302.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "orIIYES": {
+      "type": "checkbox",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 539.2,
+        "top": 268.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "orIINO": {
+      "type": "checkbox",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 560.8,
+        "top": 268.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "orIIIYES": {
+      "type": "checkbox",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 539.2,
+        "top": 236.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "orIIINO": {
+      "type": "checkbox",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 560.8,
+        "top": 236.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "orIVYES": {
+      "type": "checkbox",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 539.2,
+        "top": 204.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "orIVNO": {
+      "type": "checkbox",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 560.8,
+        "top": 204.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "orVYES": {
+      "type": "checkbox",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 539.2,
+        "top": 171.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "orVNO": {
+      "type": "checkbox",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 560.8,
+        "top": 171.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "orVIYES": {
+      "type": "checkbox",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 539.2,
+        "top": 139.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "orVINO": {
+      "type": "checkbox",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 560.8,
+        "top": 139.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "noDays": {
+      "type": "text",
+      "label": "NoDays",
+      "page": 1,
+      "box": {
+        "left": 104.4,
+        "top": 75.6,
+        "width": 25.0,
+        "height": 12.6
+      }
+    },
+    "commentII": {
+      "type": "text",
+      "label": "REMARKS: (All disqualifying marks MUST be explained below)",
+      "page": 2,
+      "box": {
+        "left": 39.6,
+        "top": 739.4,
+        "width": 535.4,
+        "height": 522.4
+      },
+      "multiline": true
+    },
+    "name2": {
+      "type": "text",
+      "label": "Name (Last, First, MI):",
+      "page": 2,
+      "box": {
+        "left": 38.2,
+        "top": 176.2,
+        "width": 427.7,
+        "height": 19.9
+      }
+    },
+    "rank2": {
+      "type": "text",
+      "label": "Rank:",
+      "page": 2,
+      "box": {
+        "left": 470.2,
+        "top": 176.2,
+        "width": 103.7,
+        "height": 19.9
+      }
+    },
+    "billetB": {
+      "type": "text",
+      "label": "Billet:",
+      "page": 2,
+      "box": {
+        "left": 38.2,
+        "top": 143.8,
+        "width": 535.7,
+        "height": 19.9
+      }
+    },
+    "sigScreen": {
+      "type": "text",
+      "label": "Signature:",
+      "page": 2,
+      "box": {
+        "left": 38.2,
+        "top": 111.4,
+        "width": 427.7,
+        "height": 19.9
+      }
+    },
+    "dateIV": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 2,
+      "box": {
+        "left": 470.2,
+        "top": 111.4,
+        "width": 103.7,
+        "height": 19.9
+      }
+    },
+    "marSigScreen": {
+      "type": "text",
+      "label": "Signature of Marine being screened:",
+      "page": 2,
+      "box": {
+        "left": 38.2,
+        "top": 68.2,
+        "width": 427.7,
+        "height": 19.9
+      }
+    },
+    "dateIII": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 2,
+      "box": {
+        "left": 470.2,
+        "top": 68.2,
+        "width": 103.7,
+        "height": 19.9
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 19.8,
+      "editor": "grid",
+      "columns": {
+        "qualifiedSNM": {
+          "type": "checkbox",
+          "label": "Qualified:  Meets the annual screening requirements to continue performance of EOD duties.",
+          "page": 1,
+          "box": {
+            "left": 38.9,
+            "top": 98.6,
+            "width": 10.0,
+            "height": 10.0
+          }
+        }
+      }
+    }
+  }
+}

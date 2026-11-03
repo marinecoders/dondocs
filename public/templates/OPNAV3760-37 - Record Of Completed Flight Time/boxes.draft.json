@@ -1,0 +1,304 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "toPA": {
+        "left": 41.0,
+        "top": 658.8,
+        "width": 260.0,
+        "height": 59.0,
+        "type": "text",
+        "description": "TO: (Pilot&apos;s activity)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "from": {
+        "left": 311.1,
+        "top": 658.8,
+        "width": 265.0,
+        "height": 59.0,
+        "type": "text",
+        "description": "FROM (Aircraft Custodian)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature": {
+        "left": 41.0,
+        "top": 572.4,
+        "width": 198.7,
+        "height": 13.0,
+        "type": "text",
+        "description": "PILOT (Name - Last, First, Middle)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rank": {
+        "left": 249.9,
+        "top": 572.4,
+        "width": 105.1,
+        "height": 13.0,
+        "type": "text",
+        "description": "RANK",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "doDID": {
+        "left": 365.1,
+        "top": 572.4,
+        "width": 105.1,
+        "height": 13.0,
+        "type": "text",
+        "description": "DoD ID Number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "designator": {
+        "left": 480.3,
+        "top": 572.4,
+        "width": 95.8,
+        "height": 14.4,
+        "type": "text",
+        "description": "DESIGNATOR",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date": {
+        "left": 41.0,
+        "top": 547.2,
+        "width": 67.0,
+        "height": 25.2,
+        "type": "text",
+        "description": "DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature2": {
+        "left": 113.1,
+        "top": 547.2,
+        "width": 242.0,
+        "height": 25.2,
+        "type": "text",
+        "description": "SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "actiondate": {
+        "left": 37.4,
+        "top": 470.8,
+        "width": 43.9,
+        "height": 13.0,
+        "type": "text",
+        "description": "DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mac": {
+        "left": 91.5,
+        "top": 470.8,
+        "width": 40.3,
+        "height": 13.0,
+        "type": "text",
+        "description": "A/C",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "acserno": {
+        "left": 141.9,
+        "top": 470.8,
+        "width": 40.3,
+        "height": 13.0,
+        "type": "text",
+        "description": "(BUNO)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fpc": {
+        "left": 192.3,
+        "top": 470.8,
+        "width": 22.3,
+        "height": 13.0,
+        "type": "text",
+        "description": "CODE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "tpt": {
+        "left": 224.7,
+        "top": 470.8,
+        "width": 33.1,
+        "height": 13.0,
+        "type": "text",
+        "description": "PILOT TIM",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fp": {
+        "left": 267.9,
+        "top": 470.8,
+        "width": 18.7,
+        "height": 13.0,
+        "type": "text",
+        "description": "FP",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cp": {
+        "left": 296.7,
+        "top": 470.8,
+        "width": 18.7,
+        "height": 13.0,
+        "type": "text",
+        "description": "CP",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "instp": {
+        "left": 325.5,
+        "top": 470.8,
+        "width": 33.1,
+        "height": 13.0,
+        "type": "text",
+        "description": "A/C COMM",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sc": {
+        "left": 368.7,
+        "top": 470.8,
+        "width": 18.7,
+        "height": 13.0,
+        "type": "text",
+        "description": "CSC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "act": {
+        "left": 397.5,
+        "top": 470.8,
+        "width": 25.9,
+        "height": 13.0,
+        "type": "text",
+        "description": "ACT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sim": {
+        "left": 433.5,
+        "top": 470.8,
+        "width": 18.7,
+        "height": 13.0,
+        "type": "text",
+        "description": "SIM",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "night": {
+        "left": 462.3,
+        "top": 470.8,
+        "width": 18.7,
+        "height": 13.0,
+        "type": "text",
+        "description": "NIGHT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ldg": {
+        "left": 491.1,
+        "top": 470.8,
+        "width": 22.3,
+        "height": 13.0,
+        "type": "text",
+        "description": "LDG",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "instrumapr": {
+        "left": 523.5,
+        "top": 470.8,
+        "width": 52.6,
+        "height": 13.0,
+        "type": "text",
+        "description": "APPROACHES",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarktxtf": {
+        "left": 41.0,
+        "top": 446.4,
+        "width": 530.0,
+        "height": 129.6,
+        "type": "text",
+        "description": "REMARKS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "title": {
+        "left": 41.0,
+        "top": 266.5,
+        "width": 242.0,
+        "height": 23.9,
+        "type": "text",
+        "description": "NAME, RANK, TITLE (Type or print)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date2": {
+        "left": 288.0,
+        "top": 266.3,
+        "width": 72.0,
+        "height": 23.8,
+        "type": "text",
+        "description": "DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature3": {
+        "left": 365.1,
+        "top": 266.3,
+        "width": 205.9,
+        "height": 25.2,
+        "type": "text",
+        "description": "SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

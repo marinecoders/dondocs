@@ -1,0 +1,1405 @@
+{
+  "id": "navpers17707",
+  "label": "NAVPERS1770-7 - Casualty Assistance Calls Program",
+  "directory": "NAVPERS1770-7 - Casualty Assistance Calls Program",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "x1",
+        "x2",
+        "x5",
+        "x3",
+        "x7",
+        "x6",
+        "x8",
+        "x10",
+        "x9",
+        "x12",
+        "x11",
+        "x13",
+        "x14",
+        "x15",
+        "x16",
+        "x17",
+        "x18",
+        "x19",
+        "x21",
+        "x20",
+        "x22",
+        "x23",
+        "x24",
+        "x25",
+        "x26",
+        "x27",
+        "x28",
+        "x29",
+        "x30",
+        "x31",
+        "x32",
+        "x33",
+        "x34",
+        "x36",
+        "x35",
+        "x37",
+        "x38",
+        "x39",
+        "x40",
+        "x41",
+        "x42",
+        "x43",
+        "x44",
+        "x45"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "x47",
+        "x48",
+        "x46",
+        "x50",
+        "x49",
+        "x51",
+        "x52",
+        "x53",
+        "x54",
+        "x55",
+        "x56",
+        "x57",
+        "x59",
+        "x60",
+        "x58",
+        "x62",
+        "x63",
+        "x61",
+        "x65",
+        "x66",
+        "x64",
+        "x67",
+        "x68",
+        "x69",
+        "x72",
+        "x71",
+        "x70",
+        "x73",
+        "x74",
+        "x75",
+        "x76",
+        "x77",
+        "x78",
+        "x79",
+        "x80",
+        "x81",
+        "x84",
+        "x82",
+        "x83",
+        "x86",
+        "x87",
+        "x85",
+        "x88",
+        "x89",
+        "x90",
+        "x92",
+        "x91",
+        "x93",
+        "x94",
+        "x95",
+        "x96",
+        "x97",
+        "x99",
+        "x98",
+        "x100",
+        "x101",
+        "x102"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "textField1",
+        "x107",
+        "x105",
+        "x106",
+        "x110",
+        "x109",
+        "x108",
+        "x112",
+        "x111",
+        "x114",
+        "x113",
+        "x115",
+        "x116"
+      ]
+    }
+  ],
+  "fields": {
+    "x1": {
+      "type": "text",
+      "label": "Please enter current date",
+      "page": 1,
+      "box": {
+        "left": 439.3,
+        "top": 718.9,
+        "width": 141.6,
+        "height": 14.6
+      }
+    },
+    "x2": {
+      "type": "text",
+      "label": "Please enter name of deceased",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 613.9,
+        "width": 241.0,
+        "height": 18.0
+      }
+    },
+    "x5": {
+      "type": "text",
+      "label": "Please enter date of death of deceased",
+      "page": 1,
+      "box": {
+        "left": 466.5,
+        "top": 613.9,
+        "width": 113.2,
+        "height": 18.5
+      }
+    },
+    "x3": {
+      "type": "text",
+      "label": "Please enter rank or rate of deceased",
+      "page": 1,
+      "box": {
+        "left": 279.8,
+        "top": 612.7,
+        "width": 83.1,
+        "height": 17.9
+      }
+    },
+    "x7": {
+      "type": "text",
+      "label": "Please enter address of person being assisted",
+      "page": 1,
+      "box": {
+        "left": 280.9,
+        "top": 588.6,
+        "width": 300.0,
+        "height": 32.6
+      },
+      "multiline": true
+    },
+    "x6": {
+      "type": "text",
+      "label": "Please enter name and relationship of person being assisted",
+      "page": 1,
+      "box": {
+        "left": 37.0,
+        "top": 574.0,
+        "width": 242.1,
+        "height": 16.8
+      }
+    },
+    "x8": {
+      "type": "text",
+      "label": "Please enter date BUPERS benefits package received",
+      "page": 1,
+      "box": {
+        "left": 37.0,
+        "top": 531.3,
+        "width": 160.1,
+        "height": 28.1
+      }
+    },
+    "x10": {
+      "type": "text",
+      "label": "Please enter date and time of personal notification",
+      "page": 1,
+      "box": {
+        "left": 410.1,
+        "top": 521.7,
+        "width": 169.6,
+        "height": 18.5
+      }
+    },
+    "x9": {
+      "type": "text",
+      "label": "Please enter date command letter of condolence/circumstances received",
+      "page": 1,
+      "box": {
+        "left": 198.3,
+        "top": 520.6,
+        "width": 210.7,
+        "height": 18.6
+      }
+    },
+    "x12": {
+      "type": "text",
+      "label": "x12",
+      "page": 1,
+      "box": {
+        "left": 526.4,
+        "top": 471.7,
+        "width": 53.9,
+        "height": 20.8
+      }
+    },
+    "x11": {
+      "type": "text",
+      "label": "Please enter date report of casualty received",
+      "page": 1,
+      "box": {
+        "left": 464.0,
+        "top": 471.2,
+        "width": 61.8,
+        "height": 20.2
+      }
+    },
+    "x13": {
+      "type": "text",
+      "label": "Please enter date applied for burial entitlements ",
+      "page": 1,
+      "box": {
+        "left": 391.5,
+        "top": 426.2,
+        "width": 71.4,
+        "height": 20.8
+      }
+    },
+    "x14": {
+      "type": "text",
+      "label": "Please enter date burial entitlements received",
+      "page": 1,
+      "box": {
+        "left": 463.5,
+        "top": 426.2,
+        "width": 62.9,
+        "height": 20.8
+      }
+    },
+    "x15": {
+      "type": "text",
+      "label": "x15",
+      "page": 1,
+      "box": {
+        "left": 525.2,
+        "top": 426.2,
+        "width": 54.5,
+        "height": 20.8
+      }
+    },
+    "x16": {
+      "type": "text",
+      "label": "Please enter date applied for death gratuity",
+      "page": 1,
+      "box": {
+        "left": 392.1,
+        "top": 403.8,
+        "width": 71.4,
+        "height": 20.8
+      }
+    },
+    "x17": {
+      "type": "text",
+      "label": "Please enter date death gratuity received",
+      "page": 1,
+      "box": {
+        "left": 464.0,
+        "top": 403.8,
+        "width": 62.4,
+        "height": 20.8
+      }
+    },
+    "x18": {
+      "type": "text",
+      "label": "x18",
+      "page": 1,
+      "box": {
+        "left": 526.4,
+        "top": 403.8,
+        "width": 53.9,
+        "height": 20.8
+      }
+    },
+    "x19": {
+      "type": "text",
+      "label": "Please enter date applied for unpaid compensation",
+      "page": 1,
+      "box": {
+        "left": 392.1,
+        "top": 382.4,
+        "width": 71.4,
+        "height": 21.9
+      }
+    },
+    "x21": {
+      "type": "text",
+      "label": "x21",
+      "page": 1,
+      "box": {
+        "left": 526.9,
+        "top": 381.8,
+        "width": 52.8,
+        "height": 21.3
+      }
+    },
+    "x20": {
+      "type": "text",
+      "label": "Please enter date unpaid compensation received",
+      "page": 1,
+      "box": {
+        "left": 464.3,
+        "top": 381.7,
+        "width": 61.2,
+        "height": 21.3
+      }
+    },
+    "x22": {
+      "type": "text",
+      "label": "Please enter date applied for survivor benefit plan annuity",
+      "page": 1,
+      "box": {
+        "left": 392.1,
+        "top": 350.4,
+        "width": 70.8,
+        "height": 21.4
+      }
+    },
+    "x23": {
+      "type": "text",
+      "label": "Please enter date survivor benefit plan annuity received",
+      "page": 1,
+      "box": {
+        "left": 464.0,
+        "top": 349.8,
+        "width": 62.4,
+        "height": 20.2
+      }
+    },
+    "x24": {
+      "type": "text",
+      "label": "x24",
+      "page": 1,
+      "box": {
+        "left": 526.4,
+        "top": 349.3,
+        "width": 53.4,
+        "height": 20.2
+      }
+    },
+    "x25": {
+      "type": "text",
+      "label": "Please enter date applied for Servicemember's Group Life Insurance",
+      "page": 1,
+      "box": {
+        "left": 392.1,
+        "top": 321.8,
+        "width": 71.4,
+        "height": 19.7
+      }
+    },
+    "x26": {
+      "type": "text",
+      "label": "Please enter date Servicemember's Group Life Insurance received",
+      "page": 1,
+      "box": {
+        "left": 462.9,
+        "top": 321.2,
+        "width": 62.9,
+        "height": 19.2
+      }
+    },
+    "x27": {
+      "type": "text",
+      "label": "x27",
+      "page": 1,
+      "box": {
+        "left": 526.4,
+        "top": 320.6,
+        "width": 53.9,
+        "height": 18.6
+      }
+    },
+    "x28": {
+      "type": "text",
+      "label": "Please enter date applied for commercial life insurance application",
+      "page": 1,
+      "box": {
+        "left": 391.5,
+        "top": 286.9,
+        "width": 71.9,
+        "height": 20.8
+      }
+    },
+    "x29": {
+      "type": "text",
+      "label": "Please enter date commercial life insurance application received",
+      "page": 1,
+      "box": {
+        "left": 463.5,
+        "top": 286.9,
+        "width": 62.9,
+        "height": 20.2
+      }
+    },
+    "x30": {
+      "type": "text",
+      "label": "x30",
+      "page": 1,
+      "box": {
+        "left": 525.2,
+        "top": 286.9,
+        "width": 54.5,
+        "height": 20.8
+      }
+    },
+    "x31": {
+      "type": "text",
+      "label": "Please enter date applied for Uniformed Services Identification and Priviledge C ard (DD Form 1173)",
+      "page": 1,
+      "box": {
+        "left": 392.1,
+        "top": 255.5,
+        "width": 70.8,
+        "height": 21.4
+      }
+    },
+    "x32": {
+      "type": "text",
+      "label": "Please enter date Uniformed Services Identification and Priviledge Card received",
+      "page": 1,
+      "box": {
+        "left": 463.5,
+        "top": 254.9,
+        "width": 62.9,
+        "height": 20.2
+      }
+    },
+    "x33": {
+      "type": "text",
+      "label": "x33",
+      "page": 1,
+      "box": {
+        "left": 526.9,
+        "top": 254.3,
+        "width": 53.4,
+        "height": 19.7
+      }
+    },
+    "x34": {
+      "type": "text",
+      "label": "Please enter date applied for funeral travel",
+      "page": 1,
+      "box": {
+        "left": 392.1,
+        "top": 215.0,
+        "width": 71.4,
+        "height": 20.8
+      }
+    },
+    "x36": {
+      "type": "text",
+      "label": "x36",
+      "page": 1,
+      "box": {
+        "left": 526.9,
+        "top": 214.4,
+        "width": 52.8,
+        "height": 19.7
+      }
+    },
+    "x35": {
+      "type": "text",
+      "label": "Please enter date funeral travel completed",
+      "page": 1,
+      "box": {
+        "left": 464.0,
+        "top": 213.8,
+        "width": 62.4,
+        "height": 19.7
+      }
+    },
+    "x37": {
+      "type": "text",
+      "label": "Please enter date applied for bedside travel",
+      "page": 1,
+      "box": {
+        "left": 392.1,
+        "top": 192.5,
+        "width": 71.4,
+        "height": 20.2
+      }
+    },
+    "x38": {
+      "type": "text",
+      "label": "Please enter date bedside travel completed",
+      "page": 1,
+      "box": {
+        "left": 464.5,
+        "top": 192.5,
+        "width": 61.3,
+        "height": 20.2
+      }
+    },
+    "x39": {
+      "type": "text",
+      "label": "x39",
+      "page": 1,
+      "box": {
+        "left": 526.4,
+        "top": 192.0,
+        "width": 53.9,
+        "height": 20.2
+      }
+    },
+    "x40": {
+      "type": "text",
+      "label": "Please enter date applied for transportation of household goods/personal effects",
+      "page": 1,
+      "box": {
+        "left": 392.1,
+        "top": 164.4,
+        "width": 70.8,
+        "height": 19.1
+      }
+    },
+    "x41": {
+      "type": "text",
+      "label": "Please enter date transportation of household goods/personal effects completed",
+      "page": 1,
+      "box": {
+        "left": 464.0,
+        "top": 163.9,
+        "width": 61.2,
+        "height": 18.5
+      }
+    },
+    "x42": {
+      "type": "text",
+      "label": "x42",
+      "page": 1,
+      "box": {
+        "left": 526.4,
+        "top": 163.9,
+        "width": 53.4,
+        "height": 19.1
+      }
+    },
+    "x43": {
+      "type": "text",
+      "label": "Please enter date applied for Social Security Survivor Benefits",
+      "page": 1,
+      "box": {
+        "left": 391.5,
+        "top": 126.2,
+        "width": 71.9,
+        "height": 23.5
+      }
+    },
+    "x44": {
+      "type": "text",
+      "label": "Please enter date Social Security Survivor Benefits received",
+      "page": 1,
+      "box": {
+        "left": 464.0,
+        "top": 124.6,
+        "width": 61.2,
+        "height": 22.5
+      }
+    },
+    "x45": {
+      "type": "text",
+      "label": "x45",
+      "page": 1,
+      "box": {
+        "left": 526.9,
+        "top": 123.4,
+        "width": 52.8,
+        "height": 20.7
+      }
+    },
+    "x47": {
+      "type": "text",
+      "label": "Please enter date financial counseling received",
+      "page": 2,
+      "box": {
+        "left": 464.5,
+        "top": 689.2,
+        "width": 61.8,
+        "height": 19.2
+      }
+    },
+    "x48": {
+      "type": "text",
+      "label": "x48",
+      "page": 2,
+      "box": {
+        "left": 526.4,
+        "top": 688.6,
+        "width": 53.4,
+        "height": 19.1
+      }
+    },
+    "x46": {
+      "type": "text",
+      "label": "Please enter date applied for financial counseling",
+      "page": 2,
+      "box": {
+        "left": 391.5,
+        "top": 688.0,
+        "width": 70.8,
+        "height": 18.5
+      }
+    },
+    "x50": {
+      "type": "text",
+      "label": "Please enter date Thrift Saving Plan refund received",
+      "page": 2,
+      "box": {
+        "left": 464.0,
+        "top": 669.5,
+        "width": 62.4,
+        "height": 19.7
+      }
+    },
+    "x49": {
+      "type": "text",
+      "label": "Please enter date applied for Tfrift Saving Plan refund",
+      "page": 2,
+      "box": {
+        "left": 392.1,
+        "top": 669.0,
+        "width": 70.8,
+        "height": 18.6
+      }
+    },
+    "x51": {
+      "type": "text",
+      "label": "x51",
+      "page": 2,
+      "box": {
+        "left": 526.4,
+        "top": 669.0,
+        "width": 53.9,
+        "height": 19.2
+      }
+    },
+    "x52": {
+      "type": "text",
+      "label": "Please enter date applied for Flag Case",
+      "page": 2,
+      "box": {
+        "left": 392.1,
+        "top": 650.4,
+        "width": 70.8,
+        "height": 19.1
+      }
+    },
+    "x53": {
+      "type": "text",
+      "label": "Please enter date Flag Case received",
+      "page": 2,
+      "box": {
+        "left": 464.5,
+        "top": 650.4,
+        "width": 61.8,
+        "height": 19.1
+      }
+    },
+    "x54": {
+      "type": "text",
+      "label": "x54",
+      "page": 2,
+      "box": {
+        "left": 526.9,
+        "top": 649.3,
+        "width": 53.4,
+        "height": 18.0
+      }
+    },
+    "x55": {
+      "type": "text",
+      "label": "Please enter date applied for Spouse's Dependency and Indemnity Compensation",
+      "page": 2,
+      "box": {
+        "left": 391.5,
+        "top": 603.8,
+        "width": 71.9,
+        "height": 12.4
+      }
+    },
+    "x56": {
+      "type": "text",
+      "label": "Please enter date Spouse's Dependency and Indemnity Compensation received",
+      "page": 2,
+      "box": {
+        "left": 464.0,
+        "top": 603.2,
+        "width": 62.4,
+        "height": 11.8
+      }
+    },
+    "x57": {
+      "type": "text",
+      "label": "x57",
+      "page": 2,
+      "box": {
+        "left": 526.4,
+        "top": 602.6,
+        "width": 53.9,
+        "height": 11.8
+      }
+    },
+    "x59": {
+      "type": "text",
+      "label": "Please enter date children's  Dependency and Indemnity Compensation received",
+      "page": 2,
+      "box": {
+        "left": 464.0,
+        "top": 592.6,
+        "width": 62.4,
+        "height": 11.8
+      }
+    },
+    "x60": {
+      "type": "text",
+      "label": "x60",
+      "page": 2,
+      "box": {
+        "left": 525.8,
+        "top": 592.6,
+        "width": 53.9,
+        "height": 11.8
+      }
+    },
+    "x58": {
+      "type": "text",
+      "label": "Please enter date applied for Children's Dependency and Indemnity Compensation",
+      "page": 2,
+      "box": {
+        "left": 392.1,
+        "top": 592.0,
+        "width": 71.4,
+        "height": 11.8
+      }
+    },
+    "x62": {
+      "type": "text",
+      "label": "Please enter date parent's Dependency and Indemnity Compensation received",
+      "page": 2,
+      "box": {
+        "left": 464.0,
+        "top": 581.3,
+        "width": 62.4,
+        "height": 11.2
+      }
+    },
+    "x63": {
+      "type": "text",
+      "label": "x63",
+      "page": 2,
+      "box": {
+        "left": 526.9,
+        "top": 581.3,
+        "width": 53.4,
+        "height": 11.2
+      }
+    },
+    "x61": {
+      "type": "text",
+      "label": "Please enter date applied for Parent's Dependency and Indemnity Compensation",
+      "page": 2,
+      "box": {
+        "left": 392.1,
+        "top": 580.2,
+        "width": 71.4,
+        "height": 10.7
+      }
+    },
+    "x65": {
+      "type": "text",
+      "label": "Please enter date government headstone or marker received",
+      "page": 2,
+      "box": {
+        "left": 463.5,
+        "top": 550.4,
+        "width": 62.9,
+        "height": 16.8
+      }
+    },
+    "x66": {
+      "type": "text",
+      "label": "x66",
+      "page": 2,
+      "box": {
+        "left": 526.9,
+        "top": 550.4,
+        "width": 53.4,
+        "height": 15.7
+      }
+    },
+    "x64": {
+      "type": "text",
+      "label": "Please enter date applied for government headstone or marker",
+      "page": 2,
+      "box": {
+        "left": 391.5,
+        "top": 549.9,
+        "width": 71.9,
+        "height": 16.3
+      }
+    },
+    "x67": {
+      "type": "text",
+      "label": "Please enter date applied for Montgomery G I Bill and Veterans Educational Assistance Program",
+      "page": 2,
+      "box": {
+        "left": 390.4,
+        "top": 527.3,
+        "width": 72.5,
+        "height": 17.9
+      }
+    },
+    "x68": {
+      "type": "text",
+      "label": "Please enter date Montgomery G I Bill and Veterans Educational Assistance Program received",
+      "page": 2,
+      "box": {
+        "left": 463.5,
+        "top": 526.2,
+        "width": 62.4,
+        "height": 16.8
+      }
+    },
+    "x69": {
+      "type": "text",
+      "label": "x69",
+      "page": 2,
+      "box": {
+        "left": 526.9,
+        "top": 526.2,
+        "width": 53.4,
+        "height": 16.8
+      }
+    },
+    "x72": {
+      "type": "text",
+      "label": "x72",
+      "page": 2,
+      "box": {
+        "left": 526.4,
+        "top": 510.0,
+        "width": 53.9,
+        "height": 19.2
+      }
+    },
+    "x71": {
+      "type": "text",
+      "label": "Please enter date Presidential Memorial Certificate received",
+      "page": 2,
+      "box": {
+        "left": 464.0,
+        "top": 509.4,
+        "width": 62.4,
+        "height": 18.0
+      }
+    },
+    "x70": {
+      "type": "text",
+      "label": "Please enter date applied for Presidential Memorial Certificate",
+      "page": 2,
+      "box": {
+        "left": 391.5,
+        "top": 508.8,
+        "width": 71.4,
+        "height": 17.4
+      }
+    },
+    "x73": {
+      "type": "text",
+      "label": "Please enter date applied for Veteran's Affairs Educational Benefits",
+      "page": 2,
+      "box": {
+        "left": 391.0,
+        "top": 488.0,
+        "width": 72.5,
+        "height": 16.8
+      }
+    },
+    "x74": {
+      "type": "text",
+      "label": "Please enter date Veteran's Affairs Educational Benefits received",
+      "page": 2,
+      "box": {
+        "left": 463.5,
+        "top": 488.0,
+        "width": 62.4,
+        "height": 16.8
+      }
+    },
+    "x75": {
+      "type": "text",
+      "label": "x75",
+      "page": 2,
+      "box": {
+        "left": 526.9,
+        "top": 488.0,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "x76": {
+      "type": "text",
+      "label": "Please enter date applied for assistance in grief counseling",
+      "page": 2,
+      "box": {
+        "left": 391.5,
+        "top": 454.3,
+        "width": 71.4,
+        "height": 19.7
+      }
+    },
+    "x77": {
+      "type": "text",
+      "label": "Please enter date assistance in grief counseling received",
+      "page": 2,
+      "box": {
+        "left": 464.0,
+        "top": 454.3,
+        "width": 61.8,
+        "height": 20.2
+      }
+    },
+    "x78": {
+      "type": "text",
+      "label": "x78",
+      "page": 2,
+      "box": {
+        "left": 526.4,
+        "top": 454.3,
+        "width": 53.9,
+        "height": 20.2
+      }
+    },
+    "x79": {
+      "type": "text",
+      "label": "Please enter date applied for assistane with Income Tax W-2",
+      "page": 2,
+      "box": {
+        "left": 392.1,
+        "top": 418.4,
+        "width": 70.8,
+        "height": 22.0
+      }
+    },
+    "x80": {
+      "type": "text",
+      "label": "Please enter date assistane with Income Tax W-2 received",
+      "page": 2,
+      "box": {
+        "left": 464.0,
+        "top": 418.4,
+        "width": 62.4,
+        "height": 21.4
+      }
+    },
+    "x81": {
+      "type": "text",
+      "label": "x81",
+      "page": 2,
+      "box": {
+        "left": 526.4,
+        "top": 417.2,
+        "width": 53.4,
+        "height": 19.7
+      }
+    },
+    "x84": {
+      "type": "text",
+      "label": "x84",
+      "page": 2,
+      "box": {
+        "left": 525.8,
+        "top": 390.8,
+        "width": 54.5,
+        "height": 20.2
+      }
+    },
+    "x82": {
+      "type": "text",
+      "label": "Please enter date applied for assistance with bank accounts, savings bonds, securities, real estate and will",
+      "page": 2,
+      "box": {
+        "left": 392.1,
+        "top": 390.3,
+        "width": 70.8,
+        "height": 20.2
+      }
+    },
+    "x83": {
+      "type": "text",
+      "label": "Please enter date assistance with bank accounts, savings bonds, securities, real estate and will received",
+      "page": 2,
+      "box": {
+        "left": 464.0,
+        "top": 390.3,
+        "width": 61.8,
+        "height": 20.2
+      }
+    },
+    "x86": {
+      "type": "text",
+      "label": "Please enter date JAGMAN Investigation Report received",
+      "page": 2,
+      "box": {
+        "left": 464.0,
+        "top": 356.5,
+        "width": 62.9,
+        "height": 21.9
+      }
+    },
+    "x87": {
+      "type": "text",
+      "label": "x87",
+      "page": 2,
+      "box": {
+        "left": 526.9,
+        "top": 356.5,
+        "width": 53.4,
+        "height": 21.9
+      }
+    },
+    "x85": {
+      "type": "text",
+      "label": "Please enter date applied for JAGMAN Investigation Report",
+      "page": 2,
+      "box": {
+        "left": 392.1,
+        "top": 356.0,
+        "width": 70.8,
+        "height": 20.8
+      }
+    },
+    "x88": {
+      "type": "text",
+      "label": "Please enter date applied for N C I S Investigation Report",
+      "page": 2,
+      "box": {
+        "left": 391.5,
+        "top": 336.3,
+        "width": 71.9,
+        "height": 23.0
+      }
+    },
+    "x89": {
+      "type": "text",
+      "label": "Please enter date N C I S Investigation Report received",
+      "page": 2,
+      "box": {
+        "left": 463.5,
+        "top": 335.2,
+        "width": 62.4,
+        "height": 22.5
+      }
+    },
+    "x90": {
+      "type": "text",
+      "label": "x90",
+      "page": 2,
+      "box": {
+        "left": 526.4,
+        "top": 335.2,
+        "width": 53.9,
+        "height": 21.9
+      }
+    },
+    "x92": {
+      "type": "text",
+      "label": "Please enter date Aircraft Mishap Investigation Report received",
+      "page": 2,
+      "box": {
+        "left": 462.9,
+        "top": 313.8,
+        "width": 63.5,
+        "height": 21.3
+      }
+    },
+    "x91": {
+      "type": "text",
+      "label": "Please enter date applied for Aircraft Mishap Investigation Report",
+      "page": 2,
+      "box": {
+        "left": 391.5,
+        "top": 313.3,
+        "width": 71.4,
+        "height": 20.2
+      }
+    },
+    "x93": {
+      "type": "text",
+      "label": "x93",
+      "page": 2,
+      "box": {
+        "left": 526.9,
+        "top": 313.3,
+        "width": 53.4,
+        "height": 20.8
+      }
+    },
+    "x94": {
+      "type": "text",
+      "label": "Please enter date applied for Line of Duty Investigation ",
+      "page": 2,
+      "box": {
+        "left": 392.1,
+        "top": 294.2,
+        "width": 71.9,
+        "height": 23.0
+      }
+    },
+    "x95": {
+      "type": "text",
+      "label": "Please enter date Line of Duty Investigation received",
+      "page": 2,
+      "box": {
+        "left": 464.5,
+        "top": 294.2,
+        "width": 61.8,
+        "height": 23.5
+      }
+    },
+    "x96": {
+      "type": "text",
+      "label": "x96",
+      "page": 2,
+      "box": {
+        "left": 526.9,
+        "top": 293.1,
+        "width": 53.4,
+        "height": 22.0
+      }
+    },
+    "x97": {
+      "type": "checkbox",
+      "label": "Please mark if initial",
+      "page": 2,
+      "box": {
+        "left": 92.7,
+        "top": 267.3,
+        "width": 11.8,
+        "height": 11.8
+      }
+    },
+    "x99": {
+      "type": "checkbox",
+      "label": "Please mark if final",
+      "page": 2,
+      "box": {
+        "left": 462.9,
+        "top": 266.7,
+        "width": 11.2,
+        "height": 11.2
+      }
+    },
+    "x98": {
+      "type": "checkbox",
+      "label": "Please mark if interim",
+      "page": 2,
+      "box": {
+        "left": 274.1,
+        "top": 266.1,
+        "width": 11.2,
+        "height": 11.2
+      }
+    },
+    "x100": {
+      "type": "text",
+      "label": "Please list any special request made by beneficiary",
+      "page": 2,
+      "box": {
+        "left": 37.6,
+        "top": 240.7,
+        "width": 541.6,
+        "height": 50.5
+      },
+      "multiline": true
+    },
+    "x101": {
+      "type": "text",
+      "label": "Please enter actions taken by CACO",
+      "page": 2,
+      "box": {
+        "left": 37.6,
+        "top": 178.5,
+        "width": 541.6,
+        "height": 50.0
+      },
+      "multiline": true
+    },
+    "x102": {
+      "type": "text",
+      "label": "Please enter action desired by N P C",
+      "page": 2,
+      "box": {
+        "left": 37.0,
+        "top": 118.5,
+        "width": 542.2,
+        "height": 50.1
+      },
+      "multiline": true
+    },
+    "textField1": {
+      "type": "text",
+      "label": "GENERAL REMARKS (INCLUDE LIAISON AND CONTACTS WITH AGENCIES, INDIVIDUALS AND RELATIVES, COMMENTS, OBSERVATIONS, RECOMMENDATIONS AND COMMENTS OF NEXT OF KIN):",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 690.2,
+        "width": 538.1,
+        "height": 395.6
+      },
+      "multiline": true
+    },
+    "x107": {
+      "type": "text",
+      "label": "Please enter Next of Kin's new address",
+      "page": 3,
+      "box": {
+        "left": 227.5,
+        "top": 292.8,
+        "width": 187.1,
+        "height": 36.9
+      },
+      "multiline": true
+    },
+    "x105": {
+      "type": "checkbox",
+      "label": "Please mark if there is no change to address of Next of Kin",
+      "page": 3,
+      "box": {
+        "left": 42.7,
+        "top": 275.0,
+        "width": 9.5,
+        "height": 9.5
+      }
+    },
+    "x106": {
+      "type": "checkbox",
+      "label": "Please mark if Next of Kin has new address",
+      "page": 3,
+      "box": {
+        "left": 123.6,
+        "top": 273.6,
+        "width": 8.4,
+        "height": 8.4
+      }
+    },
+    "x110": {
+      "type": "text",
+      "label": "Please enter CACO D S N/commercial phone numbers",
+      "page": 3,
+      "box": {
+        "left": 415.2,
+        "top": 260.2,
+        "width": 164.6,
+        "height": 19.7
+      }
+    },
+    "x109": {
+      "type": "text",
+      "label": "Please enter Next of Kin's e-mail address",
+      "page": 3,
+      "box": {
+        "left": 97.1,
+        "top": 258.5,
+        "width": 316.3,
+        "height": 18.6
+      }
+    },
+    "x108": {
+      "type": "checkbox",
+      "label": "Please mark if Next of Kin has an e-mail address",
+      "page": 3,
+      "box": {
+        "left": 42.6,
+        "top": 251.7,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "x112": {
+      "type": "text",
+      "label": "Please enter the activity CACO is attached",
+      "page": 3,
+      "box": {
+        "left": 333.6,
+        "top": 232.1,
+        "width": 246.7,
+        "height": 33.1
+      },
+      "multiline": true
+    },
+    "x111": {
+      "type": "text",
+      "label": "Please enter rank or rate of CACO making this report",
+      "page": 3,
+      "box": {
+        "left": 37.0,
+        "top": 218.0,
+        "width": 296.1,
+        "height": 18.6
+      }
+    },
+    "x114": {
+      "type": "text",
+      "label": "Please enter date forwarded to CAC/FHS Program Manger",
+      "page": 3,
+      "box": {
+        "left": 413.4,
+        "top": 198.4,
+        "width": 165.2,
+        "height": 14.0
+      }
+    },
+    "x113": {
+      "type": "checkbox",
+      "label": "Please mark when forwarded to CAC/FHS Program Manger",
+      "page": 3,
+      "box": {
+        "left": 42.6,
+        "top": 197.2,
+        "width": 11.8,
+        "height": 11.8
+      }
+    },
+    "x115": {
+      "type": "text",
+      "label": "Please enter the date first endorsement signed",
+      "page": 3,
+      "box": {
+        "left": 487.6,
+        "top": 170.3,
+        "width": 91.6,
+        "height": 18.6
+      }
+    },
+    "x116": {
+      "type": "text",
+      "label": "x116",
+      "page": 3,
+      "box": {
+        "left": 324.6,
+        "top": 100.6,
+        "width": 247.8,
+        "height": 31.5
+      },
+      "multiline": true
+    }
+  }
+}

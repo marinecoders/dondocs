@@ -1,0 +1,572 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "from": {
+        "left": 38.9,
+        "top": 708.5,
+        "width": 534.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "to": {
+        "left": 38.9,
+        "top": 672.5,
+        "width": 354.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "To",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "year": {
+        "left": 506.9,
+        "top": 672.5,
+        "width": 66.2,
+        "height": 21.6,
+        "type": "text",
+        "description": "Calendar Year",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "monthend": {
+        "left": 399.7,
+        "top": 671.7,
+        "width": 100.8,
+        "height": 20.1,
+        "type": "choice",
+        "description": "Report for Month Ending",
+        "options": [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December"
+        ],
+        "group": null,
+        "required": false
+      },
+      "navy": {
+        "left": 38.9,
+        "top": 618.5,
+        "width": 102.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "NAVY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "marcor": {
+        "left": 146.9,
+        "top": 618.5,
+        "width": 102.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "MARCOR",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cg": {
+        "left": 254.9,
+        "top": 618.5,
+        "width": 102.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "CG",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "total1": {
+        "left": 362.9,
+        "top": 618.5,
+        "width": 210.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "TOTAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell3": {
+        "left": 263.9,
+        "top": 547.9,
+        "width": 57.2,
+        "height": 12.2,
+        "type": "text",
+        "description": "General Courts Martial",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell4": {
+        "left": 326.9,
+        "top": 547.9,
+        "width": 57.2,
+        "height": 12.2,
+        "type": "text",
+        "description": "General Courts Martial",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell5": {
+        "left": 389.9,
+        "top": 547.9,
+        "width": 57.2,
+        "height": 12.2,
+        "type": "text",
+        "description": "General Courts Martial",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell6": {
+        "left": 452.9,
+        "top": 547.9,
+        "width": 57.2,
+        "height": 12.2,
+        "type": "text",
+        "description": "General Courts Martial",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell7": {
+        "left": 515.9,
+        "top": 547.9,
+        "width": 57.2,
+        "height": 12.2,
+        "type": "text",
+        "description": "General Courts Martial",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell32": {
+        "left": 263.9,
+        "top": 529.9,
+        "width": 57.2,
+        "height": 12.2,
+        "type": "text",
+        "description": "Special Courts Martial",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell42": {
+        "left": 326.9,
+        "top": 529.9,
+        "width": 57.2,
+        "height": 12.2,
+        "type": "text",
+        "description": "Special Courts Martial",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell52": {
+        "left": 389.9,
+        "top": 529.9,
+        "width": 57.2,
+        "height": 12.2,
+        "type": "text",
+        "description": "Special Courts Martial",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell62": {
+        "left": 452.9,
+        "top": 529.9,
+        "width": 57.2,
+        "height": 12.2,
+        "type": "text",
+        "description": "Special Courts Martial",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell72": {
+        "left": 515.9,
+        "top": 529.9,
+        "width": 57.2,
+        "height": 12.2,
+        "type": "text",
+        "description": "Special Courts Martial",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell33": {
+        "left": 263.9,
+        "top": 511.9,
+        "width": 57.2,
+        "height": 12.2,
+        "type": "text",
+        "description": "Summary Courts Martial",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell43": {
+        "left": 326.9,
+        "top": 511.9,
+        "width": 57.2,
+        "height": 12.2,
+        "type": "text",
+        "description": "Summary Courts Martial",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell53": {
+        "left": 389.9,
+        "top": 511.9,
+        "width": 57.2,
+        "height": 12.2,
+        "type": "text",
+        "description": "Summary Courts Martial",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell63": {
+        "left": 452.9,
+        "top": 511.9,
+        "width": 57.2,
+        "height": 12.2,
+        "type": "text",
+        "description": "Summary Courts Martial",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell73": {
+        "left": 515.9,
+        "top": 511.9,
+        "width": 57.2,
+        "height": 12.2,
+        "type": "text",
+        "description": "Summary Courts Martial",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell34": {
+        "left": 263.9,
+        "top": 493.9,
+        "width": 57.2,
+        "height": 12.2,
+        "type": "text",
+        "description": "Pre-Trial",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell44": {
+        "left": 326.9,
+        "top": 493.9,
+        "width": 57.2,
+        "height": 12.2,
+        "type": "text",
+        "description": "Pre-Trial",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell54": {
+        "left": 389.9,
+        "top": 493.9,
+        "width": 57.2,
+        "height": 12.2,
+        "type": "text",
+        "description": "Pre-Trial",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell64": {
+        "left": 452.9,
+        "top": 493.9,
+        "width": 57.2,
+        "height": 12.2,
+        "type": "text",
+        "description": "Pre-Trial",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell74": {
+        "left": 515.9,
+        "top": 493.9,
+        "width": 57.2,
+        "height": 12.2,
+        "type": "text",
+        "description": "Pre-Trial",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell35": {
+        "left": 263.9,
+        "top": 475.9,
+        "width": 57.2,
+        "height": 12.2,
+        "type": "text",
+        "description": "3 Days NJP Confinement",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell45": {
+        "left": 326.9,
+        "top": 475.9,
+        "width": 57.2,
+        "height": 12.2,
+        "type": "text",
+        "description": "3 Days NJP Confinement",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell55": {
+        "left": 389.9,
+        "top": 475.9,
+        "width": 57.2,
+        "height": 12.2,
+        "type": "text",
+        "description": "3 Days NJP Confinement",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell65": {
+        "left": 452.9,
+        "top": 475.9,
+        "width": 57.2,
+        "height": 12.2,
+        "type": "text",
+        "description": "3 Days NJP Confinement",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell75": {
+        "left": 515.9,
+        "top": 475.9,
+        "width": 57.2,
+        "height": 12.2,
+        "type": "text",
+        "description": "3 Days NJP Confinement",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell2": {
+        "left": 200.9,
+        "top": 439.9,
+        "width": 183.3,
+        "height": 12.2,
+        "type": "text",
+        "description": "Section Totals",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "total2": {
+        "left": 389.9,
+        "top": 439.9,
+        "width": 183.3,
+        "height": 12.2,
+        "type": "text",
+        "description": "Section Totals",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell22": {
+        "left": 488.9,
+        "top": 394.5,
+        "width": 84.3,
+        "height": 18.7,
+        "type": "text",
+        "description": "MARCOR CG",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell1": {
+        "left": 121.7,
+        "top": 393.1,
+        "width": 73.4,
+        "height": 15.8,
+        "type": "text",
+        "description": "NAVY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell12": {
+        "left": 121.7,
+        "top": 371.5,
+        "width": 73.4,
+        "height": 15.8,
+        "type": "text",
+        "description": "MARCOR",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell23": {
+        "left": 488.9,
+        "top": 371.5,
+        "width": 84.3,
+        "height": 15.8,
+        "type": "text",
+        "description": "Transferred to Another Brig/Facility",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell13": {
+        "left": 121.7,
+        "top": 349.9,
+        "width": 73.4,
+        "height": 15.8,
+        "type": "text",
+        "description": "CG",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell24": {
+        "left": 488.9,
+        "top": 349.9,
+        "width": 84.3,
+        "height": 15.8,
+        "type": "text",
+        "description": "Normal Release",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "total3": {
+        "left": 488.9,
+        "top": 328.3,
+        "width": 84.3,
+        "height": 15.8,
+        "type": "text",
+        "description": "Total (Total must equal the section III totals)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell14": {
+        "left": 38.9,
+        "top": 283.6,
+        "width": 534.3,
+        "height": 190.8,
+        "type": "text",
+        "description": "Remarks",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "bOname": {
+        "left": 38.9,
+        "top": 78.4,
+        "width": 228.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "Name and Rank of Brig Officer",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "bOsignature": {
+        "left": 272.9,
+        "top": 78.4,
+        "width": 228.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "Brig Officer Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "bOdate": {
+        "left": 506.9,
+        "top": 78.4,
+        "width": 66.2,
+        "height": 21.6,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "cOname": {
+        "left": 38.9,
+        "top": 708.5,
+        "width": 228.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "Name and Rank of Commanding Officer",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cOsignature": {
+        "left": 272.9,
+        "top": 708.5,
+        "width": 228.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "Commanding Officer Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cOdate": {
+        "left": 506.9,
+        "top": 708.5,
+        "width": 66.2,
+        "height": 21.6,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

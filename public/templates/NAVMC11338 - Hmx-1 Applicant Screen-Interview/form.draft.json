@@ -1,0 +1,4099 @@
+{
+  "id": "navmc11338",
+  "label": "NAVMC11338 - Hmx-1 Applicant Screen-Interview",
+  "directory": "NAVMC11338 - Hmx-1 Applicant Screen-Interview",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf",
+    "page5.pdf",
+    "page6.pdf",
+    "page7.pdf",
+    "page8.pdf",
+    "page9.pdf",
+    "page10.pdf",
+    "page11.pdf",
+    "page12.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "lstNa",
+        "ftNa",
+        "mi",
+        "dob",
+        "ssn",
+        "rk",
+        "mos",
+        "por",
+        "ctz",
+        "interViewer",
+        "applicant",
+        "inSigDa",
+        "apSigDa"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "yes",
+        "no",
+        "yes2",
+        "no2",
+        "yes3",
+        "no3",
+        "yes4",
+        "no4",
+        "yes5",
+        "no5",
+        "yes6",
+        "no6",
+        "yes7",
+        "no7",
+        "yes8",
+        "no8",
+        "yes9",
+        "no9",
+        "yes10",
+        "no10",
+        "yes11",
+        "no11",
+        "yes12",
+        "no12",
+        "yes13",
+        "no13",
+        "yes14",
+        "no14",
+        "yes15",
+        "no15",
+        "reks"
+      ],
+      "editor": "checklist"
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "yes16",
+        "no16",
+        "yes17",
+        "no17",
+        "no18",
+        "yes18",
+        "yes19",
+        "no19",
+        "yes20",
+        "no20",
+        "yes21",
+        "no21",
+        "yes22",
+        "no22",
+        "yes23",
+        "no23",
+        "yes24",
+        "no24",
+        "no25",
+        "yes25",
+        "yes26",
+        "no26",
+        "yes27",
+        "no27",
+        "yes28",
+        "no28",
+        "yes29",
+        "no29",
+        "yes30",
+        "no30",
+        "yes31",
+        "no31",
+        "no32",
+        "yes32",
+        "yes33",
+        "no33",
+        "yes34",
+        "no34",
+        "yes35",
+        "no35",
+        "yes36",
+        "no36",
+        "reks2"
+      ],
+      "editor": "checklist"
+    },
+    {
+      "title": "Page 4",
+      "fields": [
+        "no37",
+        "yes37",
+        "yes38",
+        "no38",
+        "yes39",
+        "no39",
+        "yes40",
+        "no40",
+        "yes41",
+        "no41",
+        "yes42",
+        "no42",
+        "yes43",
+        "no43",
+        "no44",
+        "yes44",
+        "yes45",
+        "no45",
+        "yes46",
+        "no46",
+        "yes47",
+        "no47",
+        "yes48",
+        "no48",
+        "yes49",
+        "no49",
+        "yes50",
+        "no50",
+        "yes51",
+        "no51",
+        "yes52",
+        "no52",
+        "yes53",
+        "no53",
+        "yes54",
+        "no54",
+        "reks4"
+      ],
+      "editor": "checklist"
+    },
+    {
+      "title": "Page 5",
+      "fields": [
+        "yes55",
+        "no55",
+        "yes56",
+        "no56",
+        "yes57",
+        "no57",
+        "yes58",
+        "no58",
+        "yes59",
+        "no59",
+        "yes60",
+        "no60",
+        "yes61",
+        "no61",
+        "yes62",
+        "no62",
+        "yes63",
+        "no63",
+        "yes64",
+        "no64",
+        "yes65",
+        "no65",
+        "yes66",
+        "no66",
+        "yes67",
+        "no67",
+        "reks5"
+      ],
+      "editor": "checklist"
+    },
+    {
+      "title": "Page 6",
+      "fields": [
+        "yes68",
+        "no68",
+        "yes69",
+        "no69",
+        "yes70",
+        "no70",
+        "yes71",
+        "no71",
+        "yes72",
+        "no72",
+        "yes73",
+        "no73",
+        "yes74",
+        "no74",
+        "yes75",
+        "no75",
+        "yes76",
+        "no76",
+        "yes77",
+        "no77",
+        "yes78",
+        "no78",
+        "yes79",
+        "no79",
+        "yes80",
+        "no80",
+        "yes81",
+        "no81",
+        "yes82",
+        "no82",
+        "yes83",
+        "no83",
+        "yes84",
+        "no84",
+        "yes85",
+        "no85",
+        "reks6"
+      ],
+      "editor": "checklist"
+    },
+    {
+      "title": "Page 7",
+      "fields": [
+        "yes86",
+        "no86",
+        "yes87",
+        "no87",
+        "yes88",
+        "no88",
+        "yes89",
+        "no89",
+        "yes90",
+        "no90",
+        "yes91",
+        "no91",
+        "yes92",
+        "no92",
+        "yes93",
+        "no93",
+        "yes94",
+        "no94",
+        "yes95",
+        "no95",
+        "yes96",
+        "no96",
+        "yes97",
+        "no97",
+        "yes98",
+        "no98",
+        "yes99",
+        "no99",
+        "reks7"
+      ],
+      "editor": "checklist"
+    },
+    {
+      "title": "Page 8",
+      "fields": [
+        "yes100",
+        "no100",
+        "yes101",
+        "no101",
+        "yes102",
+        "no102",
+        "yes103",
+        "no103",
+        "yes104",
+        "no104",
+        "yes105",
+        "no105",
+        "yes106",
+        "no106",
+        "yes107",
+        "no107",
+        "yes108",
+        "no108",
+        "yes109",
+        "no109",
+        "yes110",
+        "no110",
+        "yes111",
+        "no111",
+        "yes112",
+        "no112",
+        "yes113",
+        "no113",
+        "yes114",
+        "no114",
+        "reks8"
+      ],
+      "editor": "checklist"
+    },
+    {
+      "title": "Page 9",
+      "fields": [
+        "yes115",
+        "no115",
+        "yes116",
+        "no116",
+        "yes117",
+        "no117",
+        "yes118",
+        "no118",
+        "yes119",
+        "no119",
+        "yes120",
+        "no120",
+        "yes121",
+        "no121",
+        "yes122",
+        "no122",
+        "yes123",
+        "no123",
+        "yes124",
+        "no124",
+        "yes125",
+        "no125",
+        "yes126",
+        "no126",
+        "yes127",
+        "no127",
+        "reks9"
+      ],
+      "editor": "checklist"
+    },
+    {
+      "title": "Page 10",
+      "fields": [
+        "yes128",
+        "no128",
+        "yes129",
+        "no129",
+        "yes130",
+        "no130",
+        "yes131",
+        "no131",
+        "yes132",
+        "no132",
+        "yes133",
+        "no133",
+        "yes134",
+        "no134",
+        "yes135",
+        "no135",
+        "yes136",
+        "no136",
+        "yes137",
+        "no137",
+        "yes138",
+        "no138",
+        "yes139",
+        "no139",
+        "yes140",
+        "no140",
+        "yes141",
+        "no141",
+        "yes142",
+        "no142",
+        "yes143",
+        "no143",
+        "reks10"
+      ],
+      "editor": "checklist"
+    },
+    {
+      "title": "Page 11",
+      "fields": [
+        "yes144",
+        "no144",
+        "yes145",
+        "no145",
+        "yes146",
+        "no146",
+        "yes147",
+        "no147",
+        "yes148",
+        "no148",
+        "yes149",
+        "no149",
+        "yes150",
+        "no150",
+        "reks11"
+      ],
+      "editor": "checklist"
+    },
+    {
+      "title": "Page 12",
+      "fields": [
+        "apFuNa",
+        "cuMaAd1",
+        "cuMaAd2",
+        "ssn2",
+        "cuMaAd3",
+        "applicant2nd",
+        "cuPhNu",
+        "inFuNa",
+        "inTelNu",
+        "interviewer2nd"
+      ]
+    }
+  ],
+  "fields": {
+    "lstNa": {
+      "type": "text",
+      "label": "Applicant screening interview form.  Last name. ",
+      "page": 1,
+      "box": {
+        "left": 38.3,
+        "top": 674.5,
+        "width": 260.8,
+        "height": 17.7
+      }
+    },
+    "ftNa": {
+      "type": "text",
+      "label": "First name.",
+      "page": 1,
+      "box": {
+        "left": 303.3,
+        "top": 674.5,
+        "width": 199.5,
+        "height": 17.7
+      }
+    },
+    "mi": {
+      "type": "text",
+      "label": "Middle Initial",
+      "page": 1,
+      "box": {
+        "left": 507.3,
+        "top": 674.5,
+        "width": 68.0,
+        "height": 17.7
+      }
+    },
+    "dob": {
+      "type": "text",
+      "label": "DOB",
+      "page": 1,
+      "box": {
+        "left": 375.6,
+        "top": 645.5,
+        "width": 66.2,
+        "height": 20.0
+      }
+    },
+    "ssn": {
+      "type": "text",
+      "label": "SSN",
+      "page": 1,
+      "box": {
+        "left": 174.8,
+        "top": 644.1,
+        "width": 124.8,
+        "height": 18.4
+      }
+    },
+    "rk": {
+      "type": "text",
+      "label": "Rank",
+      "page": 1,
+      "box": {
+        "left": 37.7,
+        "top": 643.3,
+        "width": 133.6,
+        "height": 18.0
+      }
+    },
+    "mos": {
+      "type": "text",
+      "label": "M O S",
+      "page": 1,
+      "box": {
+        "left": 303.2,
+        "top": 643.3,
+        "width": 72.0,
+        "height": 18.0
+      }
+    },
+    "por": {
+      "type": "text",
+      "label": "P O R",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 643.3,
+        "width": 65.4,
+        "height": 18.0
+      }
+    },
+    "ctz": {
+      "type": "text",
+      "label": "Citizenship.",
+      "page": 1,
+      "box": {
+        "left": 512.7,
+        "top": 643.3,
+        "width": 62.6,
+        "height": 18.0
+      }
+    },
+    "interViewer": {
+      "type": "signature",
+      "label": "InterViewer",
+      "page": 1,
+      "box": {
+        "left": 318.1,
+        "top": 134.1,
+        "width": 153.6,
+        "height": 19.3
+      }
+    },
+    "applicant": {
+      "type": "signature",
+      "label": "Applicant",
+      "page": 1,
+      "box": {
+        "left": 73.1,
+        "top": 133.3,
+        "width": 150.7,
+        "height": 19.3
+      }
+    },
+    "inSigDa": {
+      "type": "text",
+      "label": "Interviewer signature and date.  Enter date using format 2002 12 02.",
+      "page": 1,
+      "box": {
+        "left": 472.7,
+        "top": 131.3,
+        "width": 79.2,
+        "height": 16.8
+      }
+    },
+    "apSigDa": {
+      "type": "text",
+      "label": "Applicant signature and date. Enter date using format 2002 12 02.",
+      "page": 1,
+      "box": {
+        "left": 224.8,
+        "top": 131.2,
+        "width": 79.2,
+        "height": 16.8
+      }
+    },
+    "yes": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 2,
+      "box": {
+        "left": 519.4,
+        "top": 673.2,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 2,
+      "box": {
+        "left": 552.5,
+        "top": 672.9,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes2": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 2,
+      "box": {
+        "left": 519.1,
+        "top": 638.3,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no2": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 2,
+      "box": {
+        "left": 552.1,
+        "top": 638.0,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes3": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 2,
+      "box": {
+        "left": 519.4,
+        "top": 603.4,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no3": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 2,
+      "box": {
+        "left": 552.5,
+        "top": 603.1,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes4": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 2,
+      "box": {
+        "left": 519.1,
+        "top": 567.8,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no4": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 2,
+      "box": {
+        "left": 552.1,
+        "top": 567.5,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes5": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 2,
+      "box": {
+        "left": 519.4,
+        "top": 532.9,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no5": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 2,
+      "box": {
+        "left": 552.4,
+        "top": 532.6,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes6": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 2,
+      "box": {
+        "left": 519.1,
+        "top": 497.3,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no6": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 2,
+      "box": {
+        "left": 552.1,
+        "top": 496.9,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes7": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 2,
+      "box": {
+        "left": 519.4,
+        "top": 462.4,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no7": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 2,
+      "box": {
+        "left": 552.4,
+        "top": 462.0,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes8": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 2,
+      "box": {
+        "left": 519.0,
+        "top": 426.7,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no8": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 2,
+      "box": {
+        "left": 552.1,
+        "top": 426.4,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes9": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 2,
+      "box": {
+        "left": 519.5,
+        "top": 392.3,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no9": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 2,
+      "box": {
+        "left": 552.5,
+        "top": 392.0,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes10": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 2,
+      "box": {
+        "left": 519.1,
+        "top": 357.4,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no10": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 2,
+      "box": {
+        "left": 552.2,
+        "top": 357.1,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes11": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 2,
+      "box": {
+        "left": 519.4,
+        "top": 322.5,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no11": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 2,
+      "box": {
+        "left": 552.5,
+        "top": 322.2,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes12": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 2,
+      "box": {
+        "left": 519.1,
+        "top": 286.9,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no12": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 2,
+      "box": {
+        "left": 552.2,
+        "top": 286.6,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes13": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 2,
+      "box": {
+        "left": 519.4,
+        "top": 252.0,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no13": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 2,
+      "box": {
+        "left": 552.5,
+        "top": 251.7,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes14": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 2,
+      "box": {
+        "left": 519.1,
+        "top": 216.4,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no14": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 2,
+      "box": {
+        "left": 552.1,
+        "top": 216.0,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes15": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 2,
+      "box": {
+        "left": 519.4,
+        "top": 181.5,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no15": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 2,
+      "box": {
+        "left": 552.4,
+        "top": 181.1,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "reks": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 2,
+      "box": {
+        "left": 36.1,
+        "top": 120.2,
+        "width": 539.2,
+        "height": 81.3
+      },
+      "multiline": true
+    },
+    "yes16": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 3,
+      "box": {
+        "left": 519.6,
+        "top": 677.7,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no16": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 3,
+      "box": {
+        "left": 552.6,
+        "top": 677.4,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes17": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 3,
+      "box": {
+        "left": 519.2,
+        "top": 653.1,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no17": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 3,
+      "box": {
+        "left": 552.3,
+        "top": 652.8,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no18": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 3,
+      "box": {
+        "left": 552.6,
+        "top": 603.1,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes18": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 3,
+      "box": {
+        "left": 519.5,
+        "top": 602.7,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes19": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 3,
+      "box": {
+        "left": 519.2,
+        "top": 577.4,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no19": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 3,
+      "box": {
+        "left": 552.3,
+        "top": 577.1,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes20": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 3,
+      "box": {
+        "left": 519.5,
+        "top": 552.1,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no20": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 3,
+      "box": {
+        "left": 552.6,
+        "top": 551.8,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes21": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 3,
+      "box": {
+        "left": 519.2,
+        "top": 526.8,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no21": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 3,
+      "box": {
+        "left": 552.2,
+        "top": 526.5,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes22": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 3,
+      "box": {
+        "left": 519.5,
+        "top": 501.5,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no22": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 3,
+      "box": {
+        "left": 552.5,
+        "top": 501.1,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes23": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 3,
+      "box": {
+        "left": 519.2,
+        "top": 476.9,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no23": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 3,
+      "box": {
+        "left": 552.2,
+        "top": 476.6,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes24": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 3,
+      "box": {
+        "left": 519.6,
+        "top": 451.3,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no24": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 3,
+      "box": {
+        "left": 552.6,
+        "top": 451.0,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no25": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 3,
+      "box": {
+        "left": 552.5,
+        "top": 426.6,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes25": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 3,
+      "box": {
+        "left": 519.5,
+        "top": 426.2,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes26": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 3,
+      "box": {
+        "left": 519.1,
+        "top": 400.9,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no26": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 3,
+      "box": {
+        "left": 552.2,
+        "top": 400.6,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes27": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 3,
+      "box": {
+        "left": 519.4,
+        "top": 375.6,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no27": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 3,
+      "box": {
+        "left": 552.5,
+        "top": 375.2,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes28": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 3,
+      "box": {
+        "left": 519.1,
+        "top": 350.3,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no28": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 3,
+      "box": {
+        "left": 552.1,
+        "top": 349.9,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes29": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 3,
+      "box": {
+        "left": 519.4,
+        "top": 325.0,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no29": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 3,
+      "box": {
+        "left": 552.5,
+        "top": 324.6,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes30": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 3,
+      "box": {
+        "left": 519.1,
+        "top": 300.4,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no30": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 3,
+      "box": {
+        "left": 552.1,
+        "top": 300.0,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes31": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 3,
+      "box": {
+        "left": 519.5,
+        "top": 275.5,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no31": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 3,
+      "box": {
+        "left": 552.5,
+        "top": 275.2,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no32": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 3,
+      "box": {
+        "left": 552.7,
+        "top": 249.8,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes32": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 3,
+      "box": {
+        "left": 519.7,
+        "top": 249.5,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes33": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 3,
+      "box": {
+        "left": 519.3,
+        "top": 224.9,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no33": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 3,
+      "box": {
+        "left": 552.4,
+        "top": 224.5,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes34": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 3,
+      "box": {
+        "left": 519.6,
+        "top": 199.6,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no34": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 3,
+      "box": {
+        "left": 552.7,
+        "top": 199.2,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes35": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 3,
+      "box": {
+        "left": 519.3,
+        "top": 174.3,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no35": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 3,
+      "box": {
+        "left": 552.4,
+        "top": 173.9,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes36": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 3,
+      "box": {
+        "left": 519.6,
+        "top": 148.9,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no36": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 3,
+      "box": {
+        "left": 552.7,
+        "top": 148.6,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "reks2": {
+      "type": "text",
+      "label": "Remarks.",
+      "page": 3,
+      "box": {
+        "left": 36.7,
+        "top": 111.2,
+        "width": 538.0,
+        "height": 71.7
+      },
+      "multiline": true
+    },
+    "no37": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 4,
+      "box": {
+        "left": 551.8,
+        "top": 676.6,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes37": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 4,
+      "box": {
+        "left": 521.0,
+        "top": 676.2,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes38": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 4,
+      "box": {
+        "left": 520.6,
+        "top": 649.4,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no38": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 4,
+      "box": {
+        "left": 551.5,
+        "top": 649.1,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes39": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 4,
+      "box": {
+        "left": 520.9,
+        "top": 621.9,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no39": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 4,
+      "box": {
+        "left": 551.8,
+        "top": 621.6,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes40": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 4,
+      "box": {
+        "left": 520.6,
+        "top": 595.1,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no40": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 4,
+      "box": {
+        "left": 551.4,
+        "top": 594.8,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes41": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 4,
+      "box": {
+        "left": 520.9,
+        "top": 566.8,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no41": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 4,
+      "box": {
+        "left": 551.8,
+        "top": 566.5,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes42": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 4,
+      "box": {
+        "left": 520.6,
+        "top": 539.3,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no42": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 4,
+      "box": {
+        "left": 551.4,
+        "top": 539.0,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes43": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 4,
+      "box": {
+        "left": 521.0,
+        "top": 511.5,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no43": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 4,
+      "box": {
+        "left": 551.8,
+        "top": 511.2,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no44": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 4,
+      "box": {
+        "left": 552.5,
+        "top": 483.4,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes44": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 4,
+      "box": {
+        "left": 519.4,
+        "top": 483.0,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes45": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 4,
+      "box": {
+        "left": 519.1,
+        "top": 456.2,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no45": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 4,
+      "box": {
+        "left": 552.2,
+        "top": 455.9,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes46": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 4,
+      "box": {
+        "left": 520.6,
+        "top": 399.7,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no46": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 4,
+      "box": {
+        "left": 552.1,
+        "top": 399.4,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes47": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 4,
+      "box": {
+        "left": 520.9,
+        "top": 372.2,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no47": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 4,
+      "box": {
+        "left": 552.4,
+        "top": 371.8,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes48": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 4,
+      "box": {
+        "left": 520.5,
+        "top": 344.6,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no48": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 4,
+      "box": {
+        "left": 552.1,
+        "top": 344.3,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes49": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 4,
+      "box": {
+        "left": 521.0,
+        "top": 316.9,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no49": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 4,
+      "box": {
+        "left": 552.5,
+        "top": 316.5,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes50": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 4,
+      "box": {
+        "left": 521.4,
+        "top": 289.2,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no50": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 4,
+      "box": {
+        "left": 552.9,
+        "top": 288.8,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes51": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 4,
+      "box": {
+        "left": 521.7,
+        "top": 261.6,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no51": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 4,
+      "box": {
+        "left": 553.2,
+        "top": 261.3,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes52": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 4,
+      "box": {
+        "left": 521.3,
+        "top": 234.9,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no52": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 4,
+      "box": {
+        "left": 552.9,
+        "top": 234.5,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes53": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 4,
+      "box": {
+        "left": 521.8,
+        "top": 207.8,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no53": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 4,
+      "box": {
+        "left": 553.3,
+        "top": 207.5,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes54": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 4,
+      "box": {
+        "left": 521.1,
+        "top": 179.7,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no54": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 4,
+      "box": {
+        "left": 552.7,
+        "top": 179.4,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "reks4": {
+      "type": "text",
+      "label": "Remarks.",
+      "page": 4,
+      "box": {
+        "left": 36.1,
+        "top": 130.3,
+        "width": 539.9,
+        "height": 94.7
+      },
+      "multiline": true
+    },
+    "yes55": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 5,
+      "box": {
+        "left": 519.8,
+        "top": 672.2,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no55": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 5,
+      "box": {
+        "left": 552.1,
+        "top": 671.9,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes56": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 5,
+      "box": {
+        "left": 520.2,
+        "top": 635.1,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no56": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 5,
+      "box": {
+        "left": 552.5,
+        "top": 634.8,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes57": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 5,
+      "box": {
+        "left": 519.8,
+        "top": 598.0,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no57": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 5,
+      "box": {
+        "left": 552.1,
+        "top": 597.7,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes58": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 5,
+      "box": {
+        "left": 520.2,
+        "top": 561.4,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no58": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 5,
+      "box": {
+        "left": 552.5,
+        "top": 561.0,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes59": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 5,
+      "box": {
+        "left": 520.6,
+        "top": 524.1,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no59": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 5,
+      "box": {
+        "left": 552.9,
+        "top": 523.8,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes60": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 5,
+      "box": {
+        "left": 520.9,
+        "top": 486.3,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no60": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 5,
+      "box": {
+        "left": 553.3,
+        "top": 485.9,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes61": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 5,
+      "box": {
+        "left": 520.6,
+        "top": 449.9,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no61": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 5,
+      "box": {
+        "left": 552.9,
+        "top": 449.6,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes62": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 5,
+      "box": {
+        "left": 521.0,
+        "top": 411.8,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no62": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 5,
+      "box": {
+        "left": 553.3,
+        "top": 411.4,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes63": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 5,
+      "box": {
+        "left": 520.4,
+        "top": 375.6,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no63": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 5,
+      "box": {
+        "left": 552.7,
+        "top": 375.2,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes64": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 5,
+      "box": {
+        "left": 520.6,
+        "top": 337.7,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no64": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 5,
+      "box": {
+        "left": 552.9,
+        "top": 337.3,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes65": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 5,
+      "box": {
+        "left": 520.3,
+        "top": 299.1,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no65": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 5,
+      "box": {
+        "left": 552.6,
+        "top": 298.8,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes66": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 5,
+      "box": {
+        "left": 520.7,
+        "top": 263.9,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no66": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 5,
+      "box": {
+        "left": 553.0,
+        "top": 263.6,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes67": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 5,
+      "box": {
+        "left": 520.0,
+        "top": 227.0,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no67": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 5,
+      "box": {
+        "left": 552.3,
+        "top": 226.7,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "reks5": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 5,
+      "box": {
+        "left": 36.7,
+        "top": 156.1,
+        "width": 538.6,
+        "height": 119.8
+      },
+      "multiline": true
+    },
+    "yes68": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 6,
+      "box": {
+        "left": 520.1,
+        "top": 676.7,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no68": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 6,
+      "box": {
+        "left": 552.4,
+        "top": 676.4,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes69": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 6,
+      "box": {
+        "left": 519.8,
+        "top": 649.2,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no69": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 6,
+      "box": {
+        "left": 552.1,
+        "top": 648.9,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes70": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 6,
+      "box": {
+        "left": 520.2,
+        "top": 621.4,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no70": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 6,
+      "box": {
+        "left": 552.5,
+        "top": 621.1,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes71": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 6,
+      "box": {
+        "left": 519.6,
+        "top": 594.1,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no71": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 6,
+      "box": {
+        "left": 551.9,
+        "top": 593.7,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes72": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 6,
+      "box": {
+        "left": 520.7,
+        "top": 566.5,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no72": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 6,
+      "box": {
+        "left": 553.0,
+        "top": 566.1,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes73": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 6,
+      "box": {
+        "left": 520.3,
+        "top": 539.7,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no73": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 6,
+      "box": {
+        "left": 552.6,
+        "top": 539.3,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes74": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 6,
+      "box": {
+        "left": 520.8,
+        "top": 511.9,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no74": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 6,
+      "box": {
+        "left": 553.1,
+        "top": 511.5,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes75": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 6,
+      "box": {
+        "left": 520.1,
+        "top": 484.5,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no75": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 6,
+      "box": {
+        "left": 552.4,
+        "top": 484.2,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes76": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 6,
+      "box": {
+        "left": 520.4,
+        "top": 456.4,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no76": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 6,
+      "box": {
+        "left": 552.7,
+        "top": 456.1,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes77": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 6,
+      "box": {
+        "left": 520.1,
+        "top": 428.9,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no77": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 6,
+      "box": {
+        "left": 552.4,
+        "top": 428.6,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes78": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 6,
+      "box": {
+        "left": 520.5,
+        "top": 401.1,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no78": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 6,
+      "box": {
+        "left": 552.8,
+        "top": 400.8,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes79": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 6,
+      "box": {
+        "left": 519.8,
+        "top": 373.8,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no79": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 6,
+      "box": {
+        "left": 552.1,
+        "top": 373.4,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes80": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 6,
+      "box": {
+        "left": 520.9,
+        "top": 345.4,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no80": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 6,
+      "box": {
+        "left": 553.2,
+        "top": 345.1,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes81": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 6,
+      "box": {
+        "left": 520.6,
+        "top": 318.7,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no81": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 6,
+      "box": {
+        "left": 552.9,
+        "top": 318.3,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes82": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 6,
+      "box": {
+        "left": 521.0,
+        "top": 290.9,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no82": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 6,
+      "box": {
+        "left": 553.3,
+        "top": 290.5,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes83": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 6,
+      "box": {
+        "left": 520.3,
+        "top": 263.5,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no83": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 6,
+      "box": {
+        "left": 552.6,
+        "top": 263.2,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes84": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 6,
+      "box": {
+        "left": 520.0,
+        "top": 235.4,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no84": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 6,
+      "box": {
+        "left": 552.3,
+        "top": 235.1,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes85": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 6,
+      "box": {
+        "left": 519.3,
+        "top": 208.1,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no85": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 6,
+      "box": {
+        "left": 551.6,
+        "top": 207.7,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "reks6": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 6,
+      "box": {
+        "left": 38.5,
+        "top": 146.5,
+        "width": 537.2,
+        "height": 101.9
+      },
+      "multiline": true
+    },
+    "yes86": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 7,
+      "box": {
+        "left": 520.3,
+        "top": 638.2,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no86": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 7,
+      "box": {
+        "left": 552.6,
+        "top": 637.8,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes87": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 7,
+      "box": {
+        "left": 520.0,
+        "top": 603.3,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no87": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 7,
+      "box": {
+        "left": 552.3,
+        "top": 603.0,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes88": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 7,
+      "box": {
+        "left": 520.4,
+        "top": 567.4,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no88": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 7,
+      "box": {
+        "left": 552.7,
+        "top": 567.1,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes89": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 7,
+      "box": {
+        "left": 519.7,
+        "top": 532.7,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no89": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 7,
+      "box": {
+        "left": 552.0,
+        "top": 532.3,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes90": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 7,
+      "box": {
+        "left": 519.9,
+        "top": 497.7,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no90": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 7,
+      "box": {
+        "left": 552.2,
+        "top": 497.4,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes91": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 7,
+      "box": {
+        "left": 519.6,
+        "top": 462.1,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no91": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 7,
+      "box": {
+        "left": 551.9,
+        "top": 461.7,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes92": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 7,
+      "box": {
+        "left": 520.0,
+        "top": 427.7,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no92": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 7,
+      "box": {
+        "left": 552.3,
+        "top": 427.3,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes93": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 7,
+      "box": {
+        "left": 519.4,
+        "top": 392.2,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no93": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 7,
+      "box": {
+        "left": 551.7,
+        "top": 391.9,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes94": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 7,
+      "box": {
+        "left": 520.9,
+        "top": 356.7,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no94": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 7,
+      "box": {
+        "left": 553.2,
+        "top": 356.4,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes95": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 7,
+      "box": {
+        "left": 520.2,
+        "top": 322.0,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no95": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 7,
+      "box": {
+        "left": 552.5,
+        "top": 321.6,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes96": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 7,
+      "box": {
+        "left": 520.4,
+        "top": 287.0,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no96": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 7,
+      "box": {
+        "left": 552.7,
+        "top": 286.7,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes97": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 7,
+      "box": {
+        "left": 520.1,
+        "top": 251.4,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no97": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 7,
+      "box": {
+        "left": 552.4,
+        "top": 251.0,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes98": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 7,
+      "box": {
+        "left": 520.5,
+        "top": 217.0,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no98": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 7,
+      "box": {
+        "left": 552.8,
+        "top": 216.6,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes99": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 7,
+      "box": {
+        "left": 519.9,
+        "top": 181.5,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no99": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 7,
+      "box": {
+        "left": 552.2,
+        "top": 181.2,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "reks7": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 7,
+      "box": {
+        "left": 36.0,
+        "top": 126.2,
+        "width": 539.9,
+        "height": 88.4
+      },
+      "multiline": true
+    },
+    "yes100": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 8,
+      "box": {
+        "left": 520.6,
+        "top": 650.9,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no100": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 8,
+      "box": {
+        "left": 552.9,
+        "top": 650.6,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes101": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 8,
+      "box": {
+        "left": 520.0,
+        "top": 625.0,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no101": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 8,
+      "box": {
+        "left": 552.3,
+        "top": 624.7,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes102": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 8,
+      "box": {
+        "left": 520.2,
+        "top": 598.9,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no102": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 8,
+      "box": {
+        "left": 552.5,
+        "top": 598.6,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes103": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 8,
+      "box": {
+        "left": 519.9,
+        "top": 573.6,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no103": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 8,
+      "box": {
+        "left": 552.2,
+        "top": 573.3,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes104": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 8,
+      "box": {
+        "left": 520.3,
+        "top": 546.6,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no104": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 8,
+      "box": {
+        "left": 552.6,
+        "top": 546.2,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes105": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 8,
+      "box": {
+        "left": 519.6,
+        "top": 519.9,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no105": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 8,
+      "box": {
+        "left": 551.9,
+        "top": 519.6,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes106": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 8,
+      "box": {
+        "left": 519.3,
+        "top": 494.7,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no106": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 8,
+      "box": {
+        "left": 551.6,
+        "top": 494.4,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes107": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 8,
+      "box": {
+        "left": 519.7,
+        "top": 468.4,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no107": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 8,
+      "box": {
+        "left": 552.0,
+        "top": 468.0,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes108": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 8,
+      "box": {
+        "left": 519.0,
+        "top": 442.5,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no108": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 8,
+      "box": {
+        "left": 551.3,
+        "top": 442.2,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes109": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 8,
+      "box": {
+        "left": 520.2,
+        "top": 328.2,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no109": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 8,
+      "box": {
+        "left": 551.7,
+        "top": 327.8,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes110": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 8,
+      "box": {
+        "left": 520.6,
+        "top": 301.1,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no110": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 8,
+      "box": {
+        "left": 552.1,
+        "top": 300.8,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes111": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 8,
+      "box": {
+        "left": 519.9,
+        "top": 273.8,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no111": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 8,
+      "box": {
+        "left": 551.5,
+        "top": 273.4,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes112": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 8,
+      "box": {
+        "left": 519.6,
+        "top": 247.1,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no112": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 8,
+      "box": {
+        "left": 551.1,
+        "top": 246.7,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes113": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 8,
+      "box": {
+        "left": 520.0,
+        "top": 219.3,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no113": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 8,
+      "box": {
+        "left": 551.6,
+        "top": 218.9,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes114": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 8,
+      "box": {
+        "left": 519.3,
+        "top": 191.9,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no114": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 8,
+      "box": {
+        "left": 550.9,
+        "top": 191.6,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "reks8": {
+      "type": "text",
+      "label": "Remarks.",
+      "page": 8,
+      "box": {
+        "left": 36.8,
+        "top": 130.3,
+        "width": 538.6,
+        "height": 94.0
+      },
+      "multiline": true
+    },
+    "yes115": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 9,
+      "box": {
+        "left": 520.2,
+        "top": 692.0,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no115": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 9,
+      "box": {
+        "left": 552.5,
+        "top": 691.6,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes116": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 9,
+      "box": {
+        "left": 519.6,
+        "top": 649.1,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no116": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 9,
+      "box": {
+        "left": 551.9,
+        "top": 648.8,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes117": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 9,
+      "box": {
+        "left": 521.1,
+        "top": 604.8,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no117": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 9,
+      "box": {
+        "left": 553.4,
+        "top": 604.4,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes118": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 9,
+      "box": {
+        "left": 520.4,
+        "top": 562.7,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no118": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 9,
+      "box": {
+        "left": 552.7,
+        "top": 562.3,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes119": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 9,
+      "box": {
+        "left": 520.6,
+        "top": 518.9,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no119": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 9,
+      "box": {
+        "left": 552.9,
+        "top": 518.5,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes120": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 9,
+      "box": {
+        "left": 520.3,
+        "top": 475.9,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no120": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 9,
+      "box": {
+        "left": 552.6,
+        "top": 475.5,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes121": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 9,
+      "box": {
+        "left": 520.2,
+        "top": 382.2,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no121": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 9,
+      "box": {
+        "left": 552.5,
+        "top": 381.9,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes122": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 9,
+      "box": {
+        "left": 519.5,
+        "top": 344.6,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no122": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 9,
+      "box": {
+        "left": 551.9,
+        "top": 344.2,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes123": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 9,
+      "box": {
+        "left": 521.0,
+        "top": 306.1,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no123": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 9,
+      "box": {
+        "left": 553.3,
+        "top": 305.8,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes124": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 9,
+      "box": {
+        "left": 520.4,
+        "top": 270.6,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no124": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 9,
+      "box": {
+        "left": 552.7,
+        "top": 270.3,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes125": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 9,
+      "box": {
+        "left": 520.6,
+        "top": 234.2,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no125": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 9,
+      "box": {
+        "left": 552.9,
+        "top": 233.9,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes126": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 9,
+      "box": {
+        "left": 520.3,
+        "top": 198.6,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no126": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 9,
+      "box": {
+        "left": 552.6,
+        "top": 198.2,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes127": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 9,
+      "box": {
+        "left": 519.9,
+        "top": 161.0,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no127": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 9,
+      "box": {
+        "left": 552.2,
+        "top": 160.7,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "reks9": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 9,
+      "box": {
+        "left": 38.0,
+        "top": 108.2,
+        "width": 538.0,
+        "height": 72.5
+      },
+      "multiline": true
+    },
+    "yes128": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 10,
+      "box": {
+        "left": 520.0,
+        "top": 674.7,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no128": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 10,
+      "box": {
+        "left": 552.3,
+        "top": 674.3,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes129": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 10,
+      "box": {
+        "left": 520.1,
+        "top": 643.6,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no129": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 10,
+      "box": {
+        "left": 552.4,
+        "top": 643.3,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes130": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 10,
+      "box": {
+        "left": 520.8,
+        "top": 613.3,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no130": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 10,
+      "box": {
+        "left": 553.1,
+        "top": 612.9,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes131": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 10,
+      "box": {
+        "left": 520.2,
+        "top": 582.2,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no131": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 10,
+      "box": {
+        "left": 552.5,
+        "top": 581.9,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes132": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 10,
+      "box": {
+        "left": 520.4,
+        "top": 551.0,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no132": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 10,
+      "box": {
+        "left": 552.7,
+        "top": 550.6,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes133": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 10,
+      "box": {
+        "left": 520.1,
+        "top": 519.0,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no133": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 10,
+      "box": {
+        "left": 552.4,
+        "top": 518.7,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes134": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 10,
+      "box": {
+        "left": 519.7,
+        "top": 488.1,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no134": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 10,
+      "box": {
+        "left": 552.0,
+        "top": 487.7,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes135": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 10,
+      "box": {
+        "left": 519.9,
+        "top": 456.7,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no135": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 10,
+      "box": {
+        "left": 552.2,
+        "top": 456.4,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes136": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 10,
+      "box": {
+        "left": 520.0,
+        "top": 426.4,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no136": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 10,
+      "box": {
+        "left": 552.3,
+        "top": 426.1,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes137": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 10,
+      "box": {
+        "left": 520.7,
+        "top": 396.1,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no137": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 10,
+      "box": {
+        "left": 553.0,
+        "top": 395.7,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes138": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 10,
+      "box": {
+        "left": 520.1,
+        "top": 365.0,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no138": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 10,
+      "box": {
+        "left": 552.4,
+        "top": 364.7,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes139": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 10,
+      "box": {
+        "left": 520.3,
+        "top": 333.8,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no139": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 10,
+      "box": {
+        "left": 552.6,
+        "top": 333.4,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes140": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 10,
+      "box": {
+        "left": 520.0,
+        "top": 301.8,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no140": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 10,
+      "box": {
+        "left": 552.3,
+        "top": 301.5,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes141": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 10,
+      "box": {
+        "left": 519.6,
+        "top": 270.9,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no141": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 10,
+      "box": {
+        "left": 551.9,
+        "top": 270.5,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes142": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 10,
+      "box": {
+        "left": 520.5,
+        "top": 239.5,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no142": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 10,
+      "box": {
+        "left": 552.8,
+        "top": 239.1,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes143": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 10,
+      "box": {
+        "left": 520.1,
+        "top": 209.2,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no143": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 10,
+      "box": {
+        "left": 552.4,
+        "top": 208.9,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "reks10": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 10,
+      "box": {
+        "left": 37.7,
+        "top": 144.1,
+        "width": 537.5,
+        "height": 107.8
+      },
+      "multiline": true
+    },
+    "yes144": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 11,
+      "box": {
+        "left": 520.8,
+        "top": 671.3,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no144": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 11,
+      "box": {
+        "left": 553.1,
+        "top": 670.9,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes145": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 11,
+      "box": {
+        "left": 520.1,
+        "top": 635.1,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no145": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 11,
+      "box": {
+        "left": 552.4,
+        "top": 634.7,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes146": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 11,
+      "box": {
+        "left": 520.3,
+        "top": 597.9,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no146": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 11,
+      "box": {
+        "left": 552.6,
+        "top": 597.5,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes147": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 11,
+      "box": {
+        "left": 520.0,
+        "top": 560.1,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no147": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 11,
+      "box": {
+        "left": 552.3,
+        "top": 559.7,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes148": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 11,
+      "box": {
+        "left": 519.6,
+        "top": 522.5,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no148": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 11,
+      "box": {
+        "left": 551.9,
+        "top": 522.1,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes149": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 11,
+      "box": {
+        "left": 520.5,
+        "top": 485.9,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no149": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 11,
+      "box": {
+        "left": 552.8,
+        "top": 485.5,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes150": {
+      "type": "checkbox",
+      "label": "Are you a U. S. citizen?  Check if yes.",
+      "page": 11,
+      "box": {
+        "left": 520.1,
+        "top": 448.3,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "no150": {
+      "type": "checkbox",
+      "label": "Check if no.",
+      "page": 11,
+      "box": {
+        "left": 552.4,
+        "top": 448.0,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "reks11": {
+      "type": "text",
+      "label": "Remarks.",
+      "page": 11,
+      "box": {
+        "left": 38.0,
+        "top": 346.9,
+        "width": 536.4,
+        "height": 280.9
+      },
+      "multiline": true
+    },
+    "apFuNa": {
+      "type": "text",
+      "label": "Applicant's full printed name.",
+      "page": 12,
+      "box": {
+        "left": 35.4,
+        "top": 459.2,
+        "width": 257.6,
+        "height": 17.7
+      }
+    },
+    "cuMaAd1": {
+      "type": "text",
+      "label": "Current Mailing address.  Line 1.",
+      "page": 12,
+      "box": {
+        "left": 320.3,
+        "top": 459.2,
+        "width": 257.6,
+        "height": 17.7
+      }
+    },
+    "cuMaAd2": {
+      "type": "text",
+      "label": "Current Mailing address.  Line 2",
+      "page": 12,
+      "box": {
+        "left": 320.3,
+        "top": 413.7,
+        "width": 257.6,
+        "height": 17.7
+      }
+    },
+    "ssn2": {
+      "type": "text",
+      "label": "SSN",
+      "page": 12,
+      "box": {
+        "left": 35.9,
+        "top": 407.3,
+        "width": 256.6,
+        "height": 25.5
+      }
+    },
+    "cuMaAd3": {
+      "type": "text",
+      "label": "Current Mailing address.  Line 3.",
+      "page": 12,
+      "box": {
+        "left": 320.3,
+        "top": 370.5,
+        "width": 257.6,
+        "height": 17.7
+      }
+    },
+    "applicant2nd": {
+      "type": "signature",
+      "label": "Applicant2nd",
+      "page": 12,
+      "box": {
+        "left": 35.1,
+        "top": 345.0,
+        "width": 256.3,
+        "height": 19.3
+      }
+    },
+    "cuPhNu": {
+      "type": "text",
+      "label": "CuPhNu",
+      "page": 12,
+      "box": {
+        "left": 320.1,
+        "top": 327.5,
+        "width": 256.8,
+        "height": 18.3
+      }
+    },
+    "inFuNa": {
+      "type": "text",
+      "label": "Interviewer's full printed name",
+      "page": 12,
+      "box": {
+        "left": 182.3,
+        "top": 208.7,
+        "width": 257.6,
+        "height": 17.7
+      }
+    },
+    "inTelNu": {
+      "type": "text",
+      "label": "InTelNu",
+      "page": 12,
+      "box": {
+        "left": 181.1,
+        "top": 155.1,
+        "width": 258.5,
+        "height": 18.3
+      }
+    },
+    "interviewer2nd": {
+      "type": "signature",
+      "label": "Interviewer2nd",
+      "page": 12,
+      "box": {
+        "left": 182.3,
+        "top": 98.0,
+        "width": 256.4,
+        "height": 19.3
+      }
+    }
+  }
+}

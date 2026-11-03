@@ -1,0 +1,498 @@
+{
+  "id": "navmc538",
+  "label": "NAVMC538 - Certificate Of Proof Of Citizenship Of Foreign Born Applicants For Enlistment",
+  "directory": "NAVMC538 - Certificate Of Proof Of Citizenship Of Foreign Born Applicants For Enlistment",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "textField2",
+        "textField3",
+        "textField1",
+        "nameAppl",
+        "nameAppl1",
+        "textField6",
+        "textField5",
+        "county1",
+        "textField4",
+        "textField9",
+        "textField7",
+        "textField8",
+        "certNum1",
+        "chkCitzMeth0",
+        "textField12",
+        "textField11",
+        "textField10",
+        "nameAppl2",
+        "distCtLocApp",
+        "certNum2",
+        "chkCitzMeth1",
+        "textField13",
+        "textField14",
+        "textField15",
+        "nameMoth",
+        "distCtLocMoth",
+        "certNum3",
+        "chkCitzMeth2",
+        "textField16",
+        "textField17",
+        "textField18",
+        "nameFath",
+        "distCtLocAppFath",
+        "chkCitzMeth3",
+        "chkCitzMeth4",
+        "chkCitzMeth5",
+        "oth1",
+        "signature",
+        "grade1",
+        "usmc1"
+      ]
+    }
+  ],
+  "fields": {
+    "textField2": {
+      "type": "text",
+      "label": "TextField2",
+      "page": 1,
+      "box": {
+        "left": 190.2,
+        "top": 588.5,
+        "width": 46.9,
+        "height": 16.6
+      }
+    },
+    "textField3": {
+      "type": "text",
+      "label": "TextField3",
+      "page": 1,
+      "box": {
+        "left": 239.6,
+        "top": 588.0,
+        "width": 46.9,
+        "height": 17.8
+      }
+    },
+    "textField1": {
+      "type": "text",
+      "label": "TextField1",
+      "page": 1,
+      "box": {
+        "left": 121.0,
+        "top": 587.5,
+        "width": 43.5,
+        "height": 16.6
+      }
+    },
+    "nameAppl": {
+      "type": "text",
+      "label": "City",
+      "page": 1,
+      "box": {
+        "left": 480.7,
+        "top": 566.0,
+        "width": 92.7,
+        "height": 17.3
+      }
+    },
+    "nameAppl1": {
+      "type": "text",
+      "label": "name of applicant",
+      "page": 1,
+      "box": {
+        "left": 71.3,
+        "top": 560.9,
+        "width": 262.0,
+        "height": 13.6
+      }
+    },
+    "textField6": {
+      "type": "text",
+      "label": "TextField6",
+      "page": 1,
+      "box": {
+        "left": 327.5,
+        "top": 542.1,
+        "width": 71.6,
+        "height": 21.1
+      }
+    },
+    "textField5": {
+      "type": "text",
+      "label": "TextField5",
+      "page": 1,
+      "box": {
+        "left": 248.9,
+        "top": 541.6,
+        "width": 73.6,
+        "height": 20.1
+      }
+    },
+    "county1": {
+      "type": "text",
+      "label": "County",
+      "page": 1,
+      "box": {
+        "left": 17.1,
+        "top": 540.7,
+        "width": 115.8,
+        "height": 17.7
+      }
+    },
+    "textField4": {
+      "type": "text",
+      "label": "TextField4",
+      "page": 1,
+      "box": {
+        "left": 163.5,
+        "top": 538.6,
+        "width": 75.6,
+        "height": 18.1
+      }
+    },
+    "textField9": {
+      "type": "text",
+      "label": "TextField9",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 511.9,
+        "width": 88.4,
+        "height": 22.1
+      }
+    },
+    "textField7": {
+      "type": "text",
+      "label": "TextField7",
+      "page": 1,
+      "box": {
+        "left": 16.8,
+        "top": 510.9,
+        "width": 116.1,
+        "height": 19.6
+      }
+    },
+    "textField8": {
+      "type": "text",
+      "label": "TextField8",
+      "page": 1,
+      "box": {
+        "left": 136.3,
+        "top": 510.9,
+        "width": 95.8,
+        "height": 20.3
+      }
+    },
+    "certNum1": {
+      "type": "text",
+      "label": "Certificate of Naturalization/Certificate of Citizenship number.",
+      "page": 1,
+      "box": {
+        "left": 464.8,
+        "top": 464.0,
+        "width": 111.2,
+        "height": 17.6
+      }
+    },
+    "chkCitzMeth0": {
+      "type": "checkbox",
+      "label": "Check for United States citizenship by virtue of naturalization in his/her own right.",
+      "page": 1,
+      "box": {
+        "left": 38.0,
+        "top": 462.0,
+        "width": 16.7,
+        "height": 16.7
+      }
+    },
+    "textField12": {
+      "type": "text",
+      "label": "TextField12",
+      "page": 1,
+      "box": {
+        "left": 435.7,
+        "top": 445.2,
+        "width": 77.6,
+        "height": 21.1
+      }
+    },
+    "textField11": {
+      "type": "text",
+      "label": "TextField11",
+      "page": 1,
+      "box": {
+        "left": 351.7,
+        "top": 444.8,
+        "width": 80.5,
+        "height": 20.6
+      }
+    },
+    "textField10": {
+      "type": "text",
+      "label": "TextField10",
+      "page": 1,
+      "box": {
+        "left": 249.9,
+        "top": 443.8,
+        "width": 83.0,
+        "height": 20.6
+      }
+    },
+    "nameAppl2": {
+      "type": "text",
+      "label": "Name of applicant",
+      "page": 1,
+      "box": {
+        "left": 63.2,
+        "top": 442.4,
+        "width": 159.2,
+        "height": 17.6
+      }
+    },
+    "distCtLocApp": {
+      "type": "text",
+      "label": "Location of District Court.",
+      "page": 1,
+      "box": {
+        "left": 115.2,
+        "top": 409.6,
+        "width": 461.6,
+        "height": 17.6
+      }
+    },
+    "certNum2": {
+      "type": "text",
+      "label": "Certificate of Naturalization number.",
+      "page": 1,
+      "box": {
+        "left": 418.4,
+        "top": 384.8,
+        "width": 109.6,
+        "height": 17.6
+      }
+    },
+    "chkCitzMeth1": {
+      "type": "checkbox",
+      "label": "Check for United States citizenship by virtue of naturalization of the applicant's mother.",
+      "page": 1,
+      "box": {
+        "left": 36.7,
+        "top": 382.7,
+        "width": 17.3,
+        "height": 17.3
+      }
+    },
+    "textField13": {
+      "type": "text",
+      "label": "TextField13",
+      "page": 1,
+      "box": {
+        "left": 245.5,
+        "top": 365.2,
+        "width": 92.9,
+        "height": 21.6
+      }
+    },
+    "textField14": {
+      "type": "text",
+      "label": "TextField14",
+      "page": 1,
+      "box": {
+        "left": 352.7,
+        "top": 363.8,
+        "width": 79.5,
+        "height": 19.6
+      }
+    },
+    "textField15": {
+      "type": "text",
+      "label": "TextField15",
+      "page": 1,
+      "box": {
+        "left": 433.7,
+        "top": 363.8,
+        "width": 82.5,
+        "height": 19.1
+      }
+    },
+    "nameMoth": {
+      "type": "text",
+      "label": "Name of applicants mother.",
+      "page": 1,
+      "box": {
+        "left": 22.4,
+        "top": 363.2,
+        "width": 194.4,
+        "height": 17.6
+      }
+    },
+    "distCtLocMoth": {
+      "type": "text",
+      "label": "Location of District Court.",
+      "page": 1,
+      "box": {
+        "left": 117.6,
+        "top": 330.4,
+        "width": 458.4,
+        "height": 17.6
+      }
+    },
+    "certNum3": {
+      "type": "text",
+      "label": "Certificate of Naturalization number.",
+      "page": 1,
+      "box": {
+        "left": 418.4,
+        "top": 308.8,
+        "width": 109.6,
+        "height": 17.6
+      }
+    },
+    "chkCitzMeth2": {
+      "type": "checkbox",
+      "label": "Check for United States citizenship by virtue of naturalization of the applicant's father.",
+      "page": 1,
+      "box": {
+        "left": 37.3,
+        "top": 307.3,
+        "width": 16.7,
+        "height": 16.7
+      }
+    },
+    "textField16": {
+      "type": "text",
+      "label": "TextField16",
+      "page": 1,
+      "box": {
+        "left": 245.0,
+        "top": 290.1,
+        "width": 92.4,
+        "height": 22.0
+      }
+    },
+    "textField17": {
+      "type": "text",
+      "label": "TextField17",
+      "page": 1,
+      "box": {
+        "left": 351.2,
+        "top": 289.2,
+        "width": 79.0,
+        "height": 19.1
+      }
+    },
+    "textField18": {
+      "type": "text",
+      "label": "TextField18",
+      "page": 1,
+      "box": {
+        "left": 434.2,
+        "top": 288.2,
+        "width": 78.0,
+        "height": 19.1
+      }
+    },
+    "nameFath": {
+      "type": "text",
+      "label": "Name of applicants father.",
+      "page": 1,
+      "box": {
+        "left": 22.4,
+        "top": 286.4,
+        "width": 194.4,
+        "height": 17.6
+      }
+    },
+    "distCtLocAppFath": {
+      "type": "text",
+      "label": "Location of District Court.",
+      "page": 1,
+      "box": {
+        "left": 117.6,
+        "top": 255.2,
+        "width": 458.4,
+        "height": 17.6
+      }
+    },
+    "chkCitzMeth3": {
+      "type": "checkbox",
+      "label": "Check for United States citizenship by virtue of mother being a native-born citizen of the United States at the time of applicant's birth.",
+      "page": 1,
+      "box": {
+        "left": 39.2,
+        "top": 230.6,
+        "width": 17.1,
+        "height": 17.1
+      }
+    },
+    "chkCitzMeth4": {
+      "type": "checkbox",
+      "label": "Check for United States citizenship by virtue of father being a native-born citizen of the United States at the time of applicant's birth.",
+      "page": 1,
+      "box": {
+        "left": 39.3,
+        "top": 202.7,
+        "width": 16.7,
+        "height": 16.7
+      }
+    },
+    "chkCitzMeth5": {
+      "type": "checkbox",
+      "label": "Check for United States citizenship by virtue of other reason.",
+      "page": 1,
+      "box": {
+        "left": 39.1,
+        "top": 172.7,
+        "width": 16.7,
+        "height": 16.7
+      }
+    },
+    "oth1": {
+      "type": "text",
+      "label": "Explanation of other reason.",
+      "page": 1,
+      "box": {
+        "left": 60.0,
+        "top": 159.6,
+        "width": 516.0,
+        "height": 80.9
+      },
+      "multiline": true
+    },
+    "signature": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 224.2,
+        "top": 80.7,
+        "width": 189.2,
+        "height": 19.3
+      }
+    },
+    "grade1": {
+      "type": "text",
+      "label": "Grade",
+      "page": 1,
+      "box": {
+        "left": 420.7,
+        "top": 80.7,
+        "width": 58.7,
+        "height": 17.3
+      }
+    },
+    "usmc1": {
+      "type": "text",
+      "label": "U.S.M.C.",
+      "page": 1,
+      "box": {
+        "left": 531.3,
+        "top": 80.7,
+        "width": 44.0,
+        "height": 17.3
+      }
+    }
+  }
+}

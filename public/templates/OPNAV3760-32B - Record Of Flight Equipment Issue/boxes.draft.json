@@ -1,0 +1,3057 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "doDIDNumber": {
+        "left": 437.0,
+        "top": 697.8,
+        "width": 137.8,
+        "height": 20.3,
+        "type": "text",
+        "description": "Enter the DoD ID Number.  ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name": {
+        "left": 41.0,
+        "top": 697.7,
+        "width": 385.9,
+        "height": 20.2,
+        "type": "text",
+        "description": "Enter the name (last, first, middle initial).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate": {
+        "left": 216.6,
+        "top": 621.7,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Safety, Flying Boots) Flight Equipment was Issued for line 1 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action": {
+        "left": 324.6,
+        "top": 621.7,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued": {
+        "left": 408.2,
+        "top": 621.7,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate2": {
+        "left": 216.6,
+        "top": 608.7,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Safety, Flying Boots) Flight Equipment was Issued for line 2 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action2": {
+        "left": 324.6,
+        "top": 608.7,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued2": {
+        "left": 408.2,
+        "top": 608.7,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate3": {
+        "left": 216.6,
+        "top": 595.8,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Safety, Flying Boots) Flight Equipment was Issued for line 3 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action3": {
+        "left": 324.6,
+        "top": 595.8,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued3": {
+        "left": 408.2,
+        "top": 595.8,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate4": {
+        "left": 216.6,
+        "top": 582.8,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Safety, Flying Boots) Flight Equipment was Issued for line 4 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action4": {
+        "left": 324.6,
+        "top": 582.8,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued4": {
+        "left": 408.2,
+        "top": 582.8,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate5": {
+        "left": 216.6,
+        "top": 569.9,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Anti-G Type Coveralls) Flight Equipment was Issued for line 1 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action5": {
+        "left": 324.6,
+        "top": 569.9,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued5": {
+        "left": 408.2,
+        "top": 569.9,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate6": {
+        "left": 216.6,
+        "top": 556.9,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Anti-G Type Coveralls) Flight Equipment was Issued for line 2 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action6": {
+        "left": 324.6,
+        "top": 556.9,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued6": {
+        "left": 408.2,
+        "top": 556.9,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate7": {
+        "left": 216.6,
+        "top": 543.9,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Anti-G Type Coveralls) Flight Equipment was Issued for line 3 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action7": {
+        "left": 324.6,
+        "top": 543.9,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued7": {
+        "left": 408.2,
+        "top": 543.9,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate8": {
+        "left": 216.6,
+        "top": 531.0,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Anti-G Type Coveralls) Flight Equipment was Issued for line 4 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action8": {
+        "left": 324.6,
+        "top": 531.0,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued8": {
+        "left": 408.2,
+        "top": 531.0,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate9": {
+        "left": 216.6,
+        "top": 518.0,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Assy Coveralls) Flight Equipment was Issued for line 1 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action9": {
+        "left": 324.6,
+        "top": 518.0,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued9": {
+        "left": 408.2,
+        "top": 518.0,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate10": {
+        "left": 216.6,
+        "top": 505.1,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Assy Coveralls) Flight Equipment was Issued for line 2 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action10": {
+        "left": 324.6,
+        "top": 505.1,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued10": {
+        "left": 408.2,
+        "top": 505.1,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate11": {
+        "left": 216.6,
+        "top": 492.1,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Assy Coveralls) Flight Equipment was Issued for line 3 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action11": {
+        "left": 324.6,
+        "top": 492.1,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued11": {
+        "left": 408.2,
+        "top": 492.1,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate12": {
+        "left": 216.6,
+        "top": 479.1,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Assy Coveralls) Flight Equipment was Issued for line 4 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action12": {
+        "left": 324.6,
+        "top": 479.1,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued12": {
+        "left": 408.2,
+        "top": 479.1,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate13": {
+        "left": 216.6,
+        "top": 466.2,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Summer Flying Coveralls) Flight Equipment was Issued for line 1 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action13": {
+        "left": 324.6,
+        "top": 466.2,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued13": {
+        "left": 408.2,
+        "top": 466.2,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate14": {
+        "left": 216.6,
+        "top": 453.2,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Summer Flying Coveralls) Flight Equipment was Issued for line 2 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action14": {
+        "left": 324.6,
+        "top": 453.2,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued14": {
+        "left": 408.2,
+        "top": 453.2,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate15": {
+        "left": 216.6,
+        "top": 440.3,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Summer Flying Coveralls) Flight Equipment was Issued for line 3 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action15": {
+        "left": 324.6,
+        "top": 440.3,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued15": {
+        "left": 408.2,
+        "top": 440.3,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate16": {
+        "left": 216.6,
+        "top": 427.3,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Summer Flying Coveralls) Flight Equipment was Issued for line 4 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action16": {
+        "left": 324.6,
+        "top": 427.3,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued16": {
+        "left": 408.2,
+        "top": 427.3,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate17": {
+        "left": 216.6,
+        "top": 414.3,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Officers Landing Signal Coveralls) Flight Equipment was Issued for line 1 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action17": {
+        "left": 324.6,
+        "top": 414.3,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued17": {
+        "left": 408.2,
+        "top": 414.3,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate18": {
+        "left": 216.6,
+        "top": 401.4,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Officers Landing Signal Coveralls) Flight Equipment was Issued for line 2 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action18": {
+        "left": 324.6,
+        "top": 401.4,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued18": {
+        "left": 408.2,
+        "top": 401.4,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate19": {
+        "left": 216.6,
+        "top": 388.4,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Officers Landing Signal Coveralls) Flight Equipment was Issued for line 3 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action19": {
+        "left": 324.6,
+        "top": 388.4,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued19": {
+        "left": 408.2,
+        "top": 388.4,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate20": {
+        "left": 216.6,
+        "top": 375.5,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Officers Landing Signal Coveralls) Flight Equipment was Issued for line 4 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action20": {
+        "left": 324.6,
+        "top": 375.5,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued20": {
+        "left": 408.2,
+        "top": 375.5,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate21": {
+        "left": 216.6,
+        "top": 362.5,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Navigation Computer) Flight Equipment was Issued for line 1 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action21": {
+        "left": 324.6,
+        "top": 362.5,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued21": {
+        "left": 408.2,
+        "top": 362.5,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate22": {
+        "left": 216.6,
+        "top": 349.5,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Navigation Computer) Flight Equipment was Issued for line 2 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action22": {
+        "left": 324.6,
+        "top": 349.5,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued22": {
+        "left": 408.2,
+        "top": 349.5,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate23": {
+        "left": 216.6,
+        "top": 336.6,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Navigation Computer) Flight Equipment was Issued for line 3 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action23": {
+        "left": 324.6,
+        "top": 336.6,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued23": {
+        "left": 408.2,
+        "top": 336.6,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate24": {
+        "left": 216.6,
+        "top": 323.6,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Navigation Computer) Flight Equipment was Issued for line 4 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action24": {
+        "left": 324.6,
+        "top": 323.6,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued24": {
+        "left": 408.2,
+        "top": 323.6,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate25": {
+        "left": 216.6,
+        "top": 310.7,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Sun Glasses) Flight Equipment was Issued for line 1 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action25": {
+        "left": 324.6,
+        "top": 310.7,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued25": {
+        "left": 408.2,
+        "top": 310.7,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate26": {
+        "left": 216.6,
+        "top": 297.7,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Sun Glasses) Flight Equipment was Issued for line 2 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action26": {
+        "left": 324.6,
+        "top": 297.7,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued26": {
+        "left": 408.2,
+        "top": 297.7,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate27": {
+        "left": 216.6,
+        "top": 284.7,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Sun Glasses) Flight Equipment was Issued for line 3 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action27": {
+        "left": 324.6,
+        "top": 284.7,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued27": {
+        "left": 408.2,
+        "top": 284.7,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate28": {
+        "left": 216.6,
+        "top": 271.8,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Sun Glasses) Flight Equipment was Issued for line 4 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action28": {
+        "left": 324.6,
+        "top": 271.8,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued28": {
+        "left": 408.2,
+        "top": 271.8,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate29": {
+        "left": 216.6,
+        "top": 258.8,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Flying Summer Gloves) Flight Equipment was Issued for line 1 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action29": {
+        "left": 324.6,
+        "top": 258.8,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued29": {
+        "left": 408.2,
+        "top": 258.8,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate30": {
+        "left": 216.6,
+        "top": 245.9,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Flying Summer Gloves) Flight Equipment was Issued for line 2 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action30": {
+        "left": 324.6,
+        "top": 245.9,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued30": {
+        "left": 408.2,
+        "top": 245.9,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate31": {
+        "left": 216.6,
+        "top": 232.9,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Flying Summer Gloves) Flight Equipment was Issued for line 3 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action31": {
+        "left": 324.6,
+        "top": 232.9,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued31": {
+        "left": 408.2,
+        "top": 232.9,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate32": {
+        "left": 216.6,
+        "top": 219.9,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Flying Summer Gloves) Flight Equipment was Issued for line 4 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action32": {
+        "left": 324.6,
+        "top": 219.9,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued32": {
+        "left": 408.2,
+        "top": 219.9,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate33": {
+        "left": 216.6,
+        "top": 207.0,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Pilot's Protective Helmet) Flight Equipment was Issued for line 1 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action33": {
+        "left": 324.6,
+        "top": 207.0,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued33": {
+        "left": 408.2,
+        "top": 207.0,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate34": {
+        "left": 216.6,
+        "top": 194.0,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Pilot's Protective Helmet) Flight Equipment was Issued for line 2 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action34": {
+        "left": 324.6,
+        "top": 194.0,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued34": {
+        "left": 408.2,
+        "top": 194.0,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate35": {
+        "left": 216.6,
+        "top": 181.1,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Pilot's Protective Helmet) Flight Equipment was Issued for line 3 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action35": {
+        "left": 324.6,
+        "top": 181.1,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued35": {
+        "left": 408.2,
+        "top": 181.1,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate36": {
+        "left": 216.6,
+        "top": 168.1,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Pilot's Protective Helmet) Flight Equipment was Issued for line 4 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action36": {
+        "left": 324.6,
+        "top": 168.1,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued36": {
+        "left": 408.2,
+        "top": 168.1,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate37": {
+        "left": 216.6,
+        "top": 155.1,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Winter Hood) Flight Equipment was Issued for line 1 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action37": {
+        "left": 324.6,
+        "top": 155.1,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued37": {
+        "left": 408.2,
+        "top": 155.1,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate38": {
+        "left": 216.6,
+        "top": 142.2,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Winter Hood) Flight Equipment was Issued for line 2 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action38": {
+        "left": 324.6,
+        "top": 142.2,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued38": {
+        "left": 408.2,
+        "top": 142.2,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate39": {
+        "left": 216.6,
+        "top": 129.2,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Winter Hood) Flight Equipment was Issued for line 3 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action39": {
+        "left": 324.6,
+        "top": 129.2,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued39": {
+        "left": 408.2,
+        "top": 129.2,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate40": {
+        "left": 216.6,
+        "top": 116.3,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Winter Hood) Flight Equipment was Issued for line 4 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action40": {
+        "left": 324.6,
+        "top": 116.3,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued40": {
+        "left": 408.2,
+        "top": 116.3,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate41": {
+        "left": 216.6,
+        "top": 103.3,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Flight Leather Intermediate Jacket) Flight Equipment was Issued for line 1 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action41": {
+        "left": 324.6,
+        "top": 103.3,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued41": {
+        "left": 408.2,
+        "top": 103.3,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate42": {
+        "left": 216.6,
+        "top": 90.3,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Flight Leather Intermediate Jacket) Flight Equipment was Issued for line 2 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action42": {
+        "left": 324.6,
+        "top": 90.3,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued42": {
+        "left": 408.2,
+        "top": 90.3,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate43": {
+        "left": 216.6,
+        "top": 77.4,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Flight Leather Intermediate Jacket) Flight Equipment was Issued for line 3 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action43": {
+        "left": 324.6,
+        "top": 77.4,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued43": {
+        "left": 408.2,
+        "top": 77.4,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate44": {
+        "left": 216.6,
+        "top": 64.4,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Flight Leather Intermediate Jacket) Flight Equipment was Issued for line 4 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action44": {
+        "left": 324.6,
+        "top": 64.4,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued44": {
+        "left": 408.2,
+        "top": 64.4,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "compdate45": {
+        "left": 216.6,
+        "top": 726.7,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Winter Jacket) Flight Equipment was Issued for line 1 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action45": {
+        "left": 324.6,
+        "top": 726.7,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued45": {
+        "left": 408.2,
+        "top": 726.7,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate46": {
+        "left": 216.6,
+        "top": 713.7,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Winter Jacket) Flight Equipment was Issued for line 2 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action46": {
+        "left": 324.6,
+        "top": 713.7,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued46": {
+        "left": 408.2,
+        "top": 713.7,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate47": {
+        "left": 216.6,
+        "top": 700.8,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Winter Jacket) Flight Equipment was Issued for line 3 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action47": {
+        "left": 324.6,
+        "top": 700.8,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued47": {
+        "left": 408.2,
+        "top": 700.8,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate48": {
+        "left": 216.6,
+        "top": 687.8,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Winter Jacket) Flight Equipment was Issued for line 4 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action48": {
+        "left": 324.6,
+        "top": 687.8,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued48": {
+        "left": 408.2,
+        "top": 687.8,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate49": {
+        "left": 216.6,
+        "top": 674.9,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Knife & Sheath) Flight Equipment was Issued for line 1 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action49": {
+        "left": 324.6,
+        "top": 674.9,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued49": {
+        "left": 408.2,
+        "top": 674.9,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate50": {
+        "left": 216.6,
+        "top": 661.9,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Knife & Sheath) Flight Equipment was Issued for line 2 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action50": {
+        "left": 324.6,
+        "top": 661.9,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued50": {
+        "left": 408.2,
+        "top": 661.9,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate51": {
+        "left": 216.6,
+        "top": 648.9,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Knife & Sheath) Flight Equipment was Issued for line 3 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action51": {
+        "left": 324.6,
+        "top": 648.9,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued51": {
+        "left": 408.2,
+        "top": 648.9,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate52": {
+        "left": 216.6,
+        "top": 636.0,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Knife & Sheath) Flight Equipment was Issued for line 4 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action52": {
+        "left": 324.6,
+        "top": 636.0,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued52": {
+        "left": 408.2,
+        "top": 636.0,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate53": {
+        "left": 216.6,
+        "top": 623.0,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Oxygen Mask) Flight Equipment was Issued for line 1 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action53": {
+        "left": 324.6,
+        "top": 623.0,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued53": {
+        "left": 408.2,
+        "top": 623.0,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate54": {
+        "left": 216.6,
+        "top": 610.1,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Oxygen Mask) Flight Equipment was Issued for line 2 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action54": {
+        "left": 324.6,
+        "top": 610.1,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued54": {
+        "left": 408.2,
+        "top": 610.1,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate55": {
+        "left": 216.6,
+        "top": 597.1,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Oxygen Mask) Flight Equipment was Issued for line 3 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action55": {
+        "left": 324.6,
+        "top": 597.1,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued55": {
+        "left": 408.2,
+        "top": 597.1,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate56": {
+        "left": 216.6,
+        "top": 584.1,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Oxygen Mask) Flight Equipment was Issued for line 4 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action56": {
+        "left": 324.6,
+        "top": 584.1,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued56": {
+        "left": 408.2,
+        "top": 584.1,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate57": {
+        "left": 216.6,
+        "top": 571.2,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Torso Harness Assembly Parachute) Flight Equipment was Issued for line 1 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action57": {
+        "left": 324.6,
+        "top": 571.2,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued57": {
+        "left": 408.2,
+        "top": 571.2,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate58": {
+        "left": 216.6,
+        "top": 558.2,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Torso Harness Assembly Parachute) Flight Equipment was Issued for line 2 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action58": {
+        "left": 324.6,
+        "top": 558.2,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued58": {
+        "left": 408.2,
+        "top": 558.2,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate59": {
+        "left": 216.6,
+        "top": 545.3,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Torso Harness Assembly Parachute) Flight Equipment was Issued for line 3 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action59": {
+        "left": 324.6,
+        "top": 545.3,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued59": {
+        "left": 408.2,
+        "top": 545.3,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate60": {
+        "left": 216.6,
+        "top": 532.3,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Torso Harness Assembly Parachute) Flight Equipment was Issued for line 4 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action60": {
+        "left": 324.6,
+        "top": 532.3,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued60": {
+        "left": 408.2,
+        "top": 532.3,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate61": {
+        "left": 216.6,
+        "top": 519.3,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Shroud Cutter) Flight Equipment was Issued for line 1 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action61": {
+        "left": 324.6,
+        "top": 519.3,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued61": {
+        "left": 408.2,
+        "top": 519.3,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate62": {
+        "left": 216.6,
+        "top": 506.4,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Shroud Cutter) Flight Equipment was Issued for line 2 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action62": {
+        "left": 324.6,
+        "top": 506.4,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued62": {
+        "left": 408.2,
+        "top": 506.4,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate63": {
+        "left": 216.6,
+        "top": 493.4,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Shroud Cutter) Flight Equipment was Issued for line 3 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action63": {
+        "left": 324.6,
+        "top": 493.4,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued63": {
+        "left": 408.2,
+        "top": 493.4,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate64": {
+        "left": 216.6,
+        "top": 480.5,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Shroud Cutter) Flight Equipment was Issued for line 4 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action64": {
+        "left": 324.6,
+        "top": 480.5,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued64": {
+        "left": 408.2,
+        "top": 480.5,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate65": {
+        "left": 216.6,
+        "top": 467.5,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Wrist Watch) Flight Equipment was Issued for line 1 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action65": {
+        "left": 324.6,
+        "top": 467.5,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued65": {
+        "left": 408.2,
+        "top": 467.5,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate66": {
+        "left": 216.6,
+        "top": 454.5,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Wrist Watch) Flight Equipment was Issued for line 2 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action66": {
+        "left": 324.6,
+        "top": 454.5,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued66": {
+        "left": 408.2,
+        "top": 454.5,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate67": {
+        "left": 216.6,
+        "top": 441.6,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Wrist Watch) Flight Equipment was Issued for line 3 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action67": {
+        "left": 324.6,
+        "top": 441.6,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued67": {
+        "left": 408.2,
+        "top": 441.6,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate68": {
+        "left": 216.6,
+        "top": 428.6,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items (Wrist Watch) Flight Equipment was Issued for line 4 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action68": {
+        "left": 324.6,
+        "top": 428.6,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued68": {
+        "left": 408.2,
+        "top": 428.6,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate69": {
+        "left": 216.6,
+        "top": 415.7,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items Flight Equipment was Issued for line 1 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action69": {
+        "left": 324.6,
+        "top": 415.7,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued69": {
+        "left": 408.2,
+        "top": 415.7,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "item3": {
+        "left": 38.8,
+        "top": 414.8,
+        "width": 174.3,
+        "height": 49.1,
+        "type": "text",
+        "description": "Enter any additional items on line 1 of 3.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate70": {
+        "left": 216.6,
+        "top": 402.7,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items Flight Equipment was Issued for line 2 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action70": {
+        "left": 324.6,
+        "top": 402.7,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued70": {
+        "left": 408.2,
+        "top": 402.7,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate71": {
+        "left": 216.6,
+        "top": 389.7,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items Flight Equipment was Issued for line 3 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action71": {
+        "left": 324.6,
+        "top": 389.7,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued71": {
+        "left": 408.2,
+        "top": 389.7,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate72": {
+        "left": 216.6,
+        "top": 376.8,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items Flight Equipment was Issued for line 4 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action72": {
+        "left": 324.6,
+        "top": 376.8,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued72": {
+        "left": 408.2,
+        "top": 376.8,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate73": {
+        "left": 216.6,
+        "top": 363.8,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items Flight Equipment was Issued for line 1 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action73": {
+        "left": 324.6,
+        "top": 363.8,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued73": {
+        "left": 408.2,
+        "top": 363.8,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "item32": {
+        "left": 38.8,
+        "top": 363.0,
+        "width": 174.3,
+        "height": 49.1,
+        "type": "text",
+        "description": "Enter any additional items on line 2 of 3.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate74": {
+        "left": 216.6,
+        "top": 350.9,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items Flight Equipment was Issued for line 2 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action74": {
+        "left": 324.6,
+        "top": 350.9,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued74": {
+        "left": 408.2,
+        "top": 350.9,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate75": {
+        "left": 216.6,
+        "top": 337.9,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items Flight Equipment was Issued for line 3 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action75": {
+        "left": 324.6,
+        "top": 337.9,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued75": {
+        "left": 408.2,
+        "top": 337.9,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate76": {
+        "left": 216.6,
+        "top": 324.9,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items Flight Equipment was Issued for line 4 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action76": {
+        "left": 324.6,
+        "top": 324.9,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued76": {
+        "left": 408.2,
+        "top": 324.9,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate77": {
+        "left": 216.6,
+        "top": 312.0,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items Flight Equipment was Issued for line 1 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action77": {
+        "left": 324.6,
+        "top": 312.0,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued77": {
+        "left": 408.2,
+        "top": 312.0,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "item33": {
+        "left": 38.8,
+        "top": 311.1,
+        "width": 174.3,
+        "height": 49.1,
+        "type": "text",
+        "description": "Enter any additional items on line 3 of 3.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate78": {
+        "left": 216.6,
+        "top": 299.0,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items Flight Equipment was Issued for line 2 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action78": {
+        "left": 324.6,
+        "top": 299.0,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued78": {
+        "left": 408.2,
+        "top": 299.0,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate79": {
+        "left": 216.6,
+        "top": 286.1,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items Flight Equipment was Issued for line 3 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action79": {
+        "left": 324.6,
+        "top": 286.1,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued79": {
+        "left": 408.2,
+        "top": 286.1,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "compdate80": {
+        "left": 216.6,
+        "top": 273.1,
+        "width": 106.7,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY) the items Flight Equipment was Issued for line 4 of 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "action80": {
+        "left": 324.6,
+        "top": 273.1,
+        "width": 77.9,
+        "height": 12.0,
+        "type": "choice",
+        "description": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+        "options": [
+          "O",
+          "R",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "issued80": {
+        "left": 408.2,
+        "top": 273.1,
+        "width": 167.1,
+        "height": 12.0,
+        "type": "text",
+        "description": "Enter who issued or received.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "anything": {
+        "left": 41.0,
+        "top": 243.4,
+        "width": 535.0,
+        "height": 170.1,
+        "type": "text",
+        "description": "Enter any additional information.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sig": {
+        "left": 329.0,
+        "top": 59.8,
+        "width": 247.0,
+        "height": 22.5,
+        "type": "signature",
+        "description": "Enter the signature of the C.O. or Authorized Deputy.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

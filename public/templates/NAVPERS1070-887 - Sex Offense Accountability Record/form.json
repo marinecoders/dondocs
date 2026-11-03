@@ -1,0 +1,232 @@
+{
+  "id": "navpers1070887",
+  "label": "NAVPERS1070-887 - Sex Offense Accountability Record",
+  "directory": "NAVPERS1070-887 - Sex Offense Accountability Record",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "shipStation",
+        "date",
+        "radioButtonList1",
+        "radioButtonList12",
+        "radioButtonList13",
+        "radioButtonList14",
+        "radioButtonList15",
+        "voName",
+        "voSign",
+        "voRankGradeTitle",
+        "voDate",
+        "name",
+        "ssn",
+        "branchClass"
+      ]
+    }
+  ],
+  "fields": {
+    "shipStation": {
+      "type": "text",
+      "label": "SHIP OR STATION",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 706.3,
+        "width": 417.2,
+        "height": 19.4
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "DATE ACTION WAS TAKEN ",
+      "page": 1,
+      "box": {
+        "left": 461.9,
+        "top": 706.3,
+        "width": 111.2,
+        "height": 19.4
+      }
+    },
+    "radioButtonList1": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 56.8,
+        "top": 653.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_p1_0_Action_0_RadioButtonList1_0"
+    },
+    "radioButtonList12": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 56.8,
+        "top": 626.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_p1_0_Action_0_RadioButtonList1_0"
+    },
+    "radioButtonList13": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 56.8,
+        "top": 599.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_p1_0_Action_0_RadioButtonList1_0"
+    },
+    "radioButtonList14": {
+      "type": "radio",
+      "label": "3",
+      "page": 1,
+      "box": {
+        "left": 56.8,
+        "top": 572.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_p1_0_Action_0_RadioButtonList1_0"
+    },
+    "radioButtonList15": {
+      "type": "radio",
+      "label": "4",
+      "page": 1,
+      "box": {
+        "left": 56.8,
+        "top": 545.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_p1_0_Action_0_RadioButtonList1_0"
+    },
+    "voName": {
+      "type": "text",
+      "label": "NAME OF VERIFYING OFFICIAL",
+      "page": 1,
+      "box": {
+        "left": 263.9,
+        "top": 231.1,
+        "width": 290.9,
+        "height": 19.4
+      }
+    },
+    "voSign": {
+      "type": "text",
+      "label": "SIGNATURE OF VERIFYING OFFICIAL",
+      "page": 1,
+      "box": {
+        "left": 264.2,
+        "top": 194.7,
+        "width": 290.9,
+        "height": 19.4
+      }
+    },
+    "voRankGradeTitle": {
+      "type": "text",
+      "label": "VERIFYING OFFICIAL RANK OR GRADE/TITLE",
+      "page": 1,
+      "box": {
+        "left": 263.9,
+        "top": 159.1,
+        "width": 290.9,
+        "height": 19.4
+      }
+    },
+    "voDate": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 263.9,
+        "top": 123.1,
+        "width": 290.9,
+        "height": 19.4
+      }
+    },
+    "name": {
+      "type": "text",
+      "label": "NAME (LAST, FIRST, MIDDLE)",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 58.5,
+        "width": 237.2,
+        "height": 19.6
+      }
+    },
+    "ssn": {
+      "type": "text",
+      "label": "SOCIAL SECURITY NUMBER ",
+      "page": 1,
+      "box": {
+        "left": 281.9,
+        "top": 58.3,
+        "width": 192.2,
+        "height": 19.4
+      }
+    },
+    "branchClass": {
+      "type": "text",
+      "label": "BRANCH AND CLASS",
+      "page": 1,
+      "box": {
+        "left": 479.9,
+        "top": 58.3,
+        "width": 93.2,
+        "height": 19.4
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 24.45,
+      "editor": "grid",
+      "columns": {
+        "checkBox1": {
+          "type": "checkbox",
+          "label": "ARTICLE 117 - Provoking speeches or gestures",
+          "page": 1,
+          "box": {
+            "left": 56.8,
+            "top": 473.5,
+            "width": 10.0,
+            "height": 10.0
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 5,
+      "rowStride": 24.42,
+      "editor": "grid",
+      "columns": {
+        "checkBox12": {
+          "type": "checkbox",
+          "label": "ARTICLE 120a - Mails: deposit of obscene matter",
+          "page": 1,
+          "box": {
+            "left": 56.8,
+            "top": 400.2,
+            "width": 10.0,
+            "height": 10.0
+          }
+        }
+      }
+    }
+  }
+}

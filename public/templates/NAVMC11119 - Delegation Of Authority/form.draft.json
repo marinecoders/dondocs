@@ -1,0 +1,185 @@
+{
+  "id": "navmc11119",
+  "label": "NAVMC11119 - Delegation Of Authority",
+  "directory": "NAVMC11119 - Delegation Of Authority",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "nameLFM",
+        "grd",
+        "ssn1",
+        "ruc",
+        "sig1",
+        "dateEff",
+        "chkA",
+        "chkB",
+        "sig2",
+        "orgnzn",
+        "nameLFM2",
+        "grd2",
+        "ssn2",
+        "ruc2"
+      ]
+    }
+  ],
+  "fields": {
+    "nameLFM": {
+      "type": "text",
+      "label": "Enter last name, first name, middle initial",
+      "page": 1,
+      "box": {
+        "left": 28.8,
+        "top": 356.3,
+        "width": 216.8,
+        "height": 16.3
+      }
+    },
+    "grd": {
+      "type": "text",
+      "label": "Grade",
+      "page": 1,
+      "box": {
+        "left": 248.0,
+        "top": 355.2,
+        "width": 59.2,
+        "height": 15.2
+      }
+    },
+    "ssn1": {
+      "type": "text",
+      "label": "Enter Social Security Number without dashes",
+      "page": 1,
+      "box": {
+        "left": 308.0,
+        "top": 355.2,
+        "width": 165.6,
+        "height": 15.2
+      }
+    },
+    "ruc": {
+      "type": "text",
+      "label": "R U C",
+      "page": 1,
+      "box": {
+        "left": 475.2,
+        "top": 355.2,
+        "width": 102.4,
+        "height": 15.2
+      }
+    },
+    "sig1": {
+      "type": "signature",
+      "label": "Sig1",
+      "page": 1,
+      "box": {
+        "left": 125.5,
+        "top": 320.5,
+        "width": 359.1,
+        "height": 33.4
+      }
+    },
+    "dateEff": {
+      "type": "text",
+      "label": "Enter date using format 2002 12 24",
+      "page": 1,
+      "box": {
+        "left": 80.8,
+        "top": 286.4,
+        "width": 90.4,
+        "height": 11.2
+      }
+    },
+    "chkA": {
+      "type": "checkbox",
+      "label": "Check if authorized to sign documents affecting pay and allowances for memebers of this command or organization.",
+      "page": 1,
+      "box": {
+        "left": 36.8,
+        "top": 254.4,
+        "width": 8.8,
+        "height": 8.8
+      }
+    },
+    "chkB": {
+      "type": "checkbox",
+      "label": "Check if authorized to receipt for checks for members of this organization for delivery to the payee.  ",
+      "page": 1,
+      "box": {
+        "left": 36.0,
+        "top": 221.6,
+        "width": 8.8,
+        "height": 8.8
+      }
+    },
+    "sig2": {
+      "type": "signature",
+      "label": "Sig2",
+      "page": 1,
+      "box": {
+        "left": 29.1,
+        "top": 157.9,
+        "width": 253.4,
+        "height": 33.1
+      }
+    },
+    "orgnzn": {
+      "type": "text",
+      "label": "Organization",
+      "page": 1,
+      "box": {
+        "left": 284.8,
+        "top": 147.2,
+        "width": 292.0,
+        "height": 24.0
+      }
+    },
+    "nameLFM2": {
+      "type": "text",
+      "label": "Enter last name, first name, middle initial",
+      "page": 1,
+      "box": {
+        "left": 28.8,
+        "top": 75.2,
+        "width": 189.6,
+        "height": 15.2
+      }
+    },
+    "grd2": {
+      "type": "text",
+      "label": "Grade",
+      "page": 1,
+      "box": {
+        "left": 220.0,
+        "top": 75.2,
+        "width": 72.8,
+        "height": 15.2
+      }
+    },
+    "ssn2": {
+      "type": "text",
+      "label": "Enter Social Security Number without dashes",
+      "page": 1,
+      "box": {
+        "left": 293.6,
+        "top": 75.2,
+        "width": 145.6,
+        "height": 15.2
+      }
+    },
+    "ruc2": {
+      "type": "text",
+      "label": "R U C",
+      "page": 1,
+      "box": {
+        "left": 440.0,
+        "top": 75.2,
+        "width": 135.2,
+        "height": 15.2
+      }
+    }
+  }
+}

@@ -1,0 +1,469 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "employeeName": {
+        "left": 38.9,
+        "top": 630.7,
+        "width": 174.3,
+        "height": 12.2,
+        "type": "text",
+        "description": "1. Employee Name (First MI Last)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell2": {
+        "left": 218.9,
+        "top": 630.7,
+        "width": 174.3,
+        "height": 12.2,
+        "type": "text",
+        "description": "2. Position, Title, Grade",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell4": {
+        "left": 470.9,
+        "top": 630.7,
+        "width": 30.2,
+        "height": 12.2,
+        "type": "text",
+        "description": "Loan",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell6": {
+        "left": 542.9,
+        "top": 630.7,
+        "width": 30.2,
+        "height": 12.2,
+        "type": "text",
+        "description": "of",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell1": {
+        "left": 110.9,
+        "top": 612.7,
+        "width": 102.3,
+        "height": 12.2,
+        "type": "text",
+        "description": "4. Phone Number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell22": {
+        "left": 272.9,
+        "top": 612.7,
+        "width": 300.3,
+        "height": 12.2,
+        "type": "text",
+        "description": "5. Agency",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell12": {
+        "left": 38.9,
+        "top": 586.1,
+        "width": 174.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "6. Unpaid Balance of Loan(s) (Approximate)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell23": {
+        "left": 218.9,
+        "top": 586.1,
+        "width": 174.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "7. Amount Requested to be Repaid by Agency",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell3": {
+        "left": 398.9,
+        "top": 586.1,
+        "width": 174.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "8. Loan Account Number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell13": {
+        "left": 38.9,
+        "top": 553.7,
+        "width": 354.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "9. Name of Lender",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell24": {
+        "left": 398.9,
+        "top": 553.7,
+        "width": 174.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "10. Phone Number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell14": {
+        "left": 38.9,
+        "top": 521.2,
+        "width": 534.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "11. Address",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "employeeName2": {
+        "left": 38.9,
+        "top": 460.0,
+        "width": 174.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "12. Employee Name (First MI Last)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell25": {
+        "left": 218.9,
+        "top": 460.0,
+        "width": 282.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "13. Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell32": {
+        "left": 506.9,
+        "top": 460.0,
+        "width": 66.2,
+        "height": 18.0,
+        "type": "text",
+        "description": "14. Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell15": {
+        "left": 38.9,
+        "top": 402.4,
+        "width": 534.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "Please return form to",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell16": {
+        "left": 44.6,
+        "top": 352.5,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "1. Status",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell26": {
+        "left": 170.6,
+        "top": 352.5,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "In Default",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell42": {
+        "left": 440.7,
+        "top": 352.5,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Balance",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell5": {
+        "left": 512.7,
+        "top": 352.5,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Yes",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell33": {
+        "left": 320.4,
+        "top": 339.1,
+        "width": 108.7,
+        "height": 8.6,
+        "type": "text",
+        "description": "Public Health Services Act",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell17": {
+        "left": 44.6,
+        "top": 338.1,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "1. Status",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell27": {
+        "left": 170.6,
+        "top": 338.1,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Payments Being Made",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell43": {
+        "left": 446.5,
+        "top": 324.7,
+        "width": 118.8,
+        "height": 8.6,
+        "type": "text",
+        "description": "Deferred",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell18": {
+        "left": 44.6,
+        "top": 323.7,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "1. Status",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell19": {
+        "left": 38.9,
+        "top": 283.6,
+        "width": 318.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "1. Name of Institution",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell28": {
+        "left": 362.9,
+        "top": 283.6,
+        "width": 210.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "2. Phone Number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell110": {
+        "left": 38.9,
+        "top": 251.2,
+        "width": 534.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "3. Address",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell111": {
+        "left": 114.5,
+        "top": 227.4,
+        "width": 98.7,
+        "height": 12.2,
+        "type": "text",
+        "description": "4. Routing Number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell29": {
+        "left": 298.1,
+        "top": 227.4,
+        "width": 275.1,
+        "height": 12.2,
+        "type": "text",
+        "description": "5. Account Number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell112": {
+        "left": 38.9,
+        "top": 200.8,
+        "width": 534.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "6. Additional Information",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell113": {
+        "left": 38.9,
+        "top": 139.6,
+        "width": 174.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "7. Name and Title",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell210": {
+        "left": 218.9,
+        "top": 139.6,
+        "width": 282.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "8. Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell34": {
+        "left": 506.9,
+        "top": 139.6,
+        "width": 66.2,
+        "height": 18.0,
+        "type": "text",
+        "description": "9. Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell114": {
+        "left": 38.9,
+        "top": 89.2,
+        "width": 129.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "1. Effective Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell211": {
+        "left": 173.9,
+        "top": 89.2,
+        "width": 129.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "2. Annual Amount",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell35": {
+        "left": 308.9,
+        "top": 89.2,
+        "width": 129.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "3. Number of Years",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell44": {
+        "left": 443.9,
+        "top": 89.2,
+        "width": 129.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "4. Total Repayment Amount",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell115": {
+        "left": 38.9,
+        "top": 56.8,
+        "width": 174.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "5. BUPERS-05 Representative Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell212": {
+        "left": 218.9,
+        "top": 56.8,
+        "width": 282.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "6. Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell36": {
+        "left": 506.9,
+        "top": 56.8,
+        "width": 66.2,
+        "height": 18.0,
+        "type": "text",
+        "description": "7. Date",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

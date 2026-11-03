@@ -1,0 +1,374 @@
+{
+  "id": "opnav479074a",
+  "label": "OPNAV4790-74A - Mobile Facility Inventory Record - Equipment List",
+  "directory": "OPNAV4790-74A - Mobile Facility Inventory Record - Equipment List",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "mfSerialNo",
+        "mmfModelType",
+        "itemNoFill",
+        "equipNomModTypeFill",
+        "serialNoFill",
+        "locationRemarksFill",
+        "checkOff1",
+        "checkOff2",
+        "checkOff3",
+        "checkOf4",
+        "checkOf5",
+        "checkOf6",
+        "checkOf7",
+        "checkOf8",
+        "checkOf9",
+        "checkOf10",
+        "checkOf11",
+        "checkOf12",
+        "checkOf13",
+        "checkOf14",
+        "checkOf15",
+        "checkOf16",
+        "signatureField51",
+        "signatureField61",
+        "signatureField71",
+        "signatureField81"
+      ],
+      "editor": "checklist"
+    }
+  ],
+  "fields": {
+    "mfSerialNo": {
+      "type": "text",
+      "label": "MF SERIAL NO",
+      "page": 1,
+      "box": {
+        "left": 100.4,
+        "top": 546.2,
+        "width": 292.9,
+        "height": 11.4
+      }
+    },
+    "mmfModelType": {
+      "type": "text",
+      "label": "MF MODEL/TYPE",
+      "page": 1,
+      "box": {
+        "left": 479.9,
+        "top": 546.2,
+        "width": 273.4,
+        "height": 11.4
+      }
+    },
+    "itemNoFill": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 492.8,
+        "width": 24.2,
+        "height": 18.8
+      }
+    },
+    "equipNomModTypeFill": {
+      "type": "text",
+      "label": "MODEL AND TYPE",
+      "page": 1,
+      "box": {
+        "left": 64.4,
+        "top": 492.8,
+        "width": 213.2,
+        "height": 18.8
+      }
+    },
+    "serialNoFill": {
+      "type": "text",
+      "label": "SERIAL NO",
+      "page": 1,
+      "box": {
+        "left": 280.5,
+        "top": 492.8,
+        "width": 51.2,
+        "height": 18.8
+      }
+    },
+    "locationRemarksFill": {
+      "type": "text",
+      "label": "LOCATION OR REMARKS",
+      "page": 1,
+      "box": {
+        "left": 622.5,
+        "top": 492.8,
+        "width": 132.2,
+        "height": 18.8
+      }
+    },
+    "checkOff1": {
+      "type": "checkbox",
+      "label": "Check Off 1",
+      "page": 1,
+      "box": {
+        "left": 339.2,
+        "top": 487.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkOff2": {
+      "type": "checkbox",
+      "label": "Check Off 2",
+      "page": 1,
+      "box": {
+        "left": 357.2,
+        "top": 487.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkOff3": {
+      "type": "checkbox",
+      "label": "Check Off 3",
+      "page": 1,
+      "box": {
+        "left": 375.2,
+        "top": 487.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkOf4": {
+      "type": "checkbox",
+      "label": "Check Of 4",
+      "page": 1,
+      "box": {
+        "left": 393.2,
+        "top": 487.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkOf5": {
+      "type": "checkbox",
+      "label": "Check Of 5",
+      "page": 1,
+      "box": {
+        "left": 411.2,
+        "top": 487.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkOf6": {
+      "type": "checkbox",
+      "label": "Check Of 6",
+      "page": 1,
+      "box": {
+        "left": 429.2,
+        "top": 487.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkOf7": {
+      "type": "checkbox",
+      "label": "Check Of 7",
+      "page": 1,
+      "box": {
+        "left": 447.2,
+        "top": 487.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkOf8": {
+      "type": "checkbox",
+      "label": "Check Of 8",
+      "page": 1,
+      "box": {
+        "left": 465.2,
+        "top": 487.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkOf9": {
+      "type": "checkbox",
+      "label": "Check Of 9",
+      "page": 1,
+      "box": {
+        "left": 483.2,
+        "top": 487.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkOf10": {
+      "type": "checkbox",
+      "label": "Check Of 10",
+      "page": 1,
+      "box": {
+        "left": 501.2,
+        "top": 487.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkOf11": {
+      "type": "checkbox",
+      "label": "Check Of 11",
+      "page": 1,
+      "box": {
+        "left": 519.2,
+        "top": 487.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkOf12": {
+      "type": "checkbox",
+      "label": "Check Of 12",
+      "page": 1,
+      "box": {
+        "left": 537.2,
+        "top": 487.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkOf13": {
+      "type": "checkbox",
+      "label": "Check Of 13",
+      "page": 1,
+      "box": {
+        "left": 555.2,
+        "top": 487.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkOf14": {
+      "type": "checkbox",
+      "label": "Check Of 14",
+      "page": 1,
+      "box": {
+        "left": 573.2,
+        "top": 487.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkOf15": {
+      "type": "checkbox",
+      "label": "Check Of 15",
+      "page": 1,
+      "box": {
+        "left": 591.2,
+        "top": 487.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkOf16": {
+      "type": "checkbox",
+      "label": "Check Of 16",
+      "page": 1,
+      "box": {
+        "left": 609.2,
+        "top": 487.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "signatureField51": {
+      "type": "text",
+      "label": "CHECK 5 BY",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 456.6,
+        "width": 174.4,
+        "height": 17.2
+      }
+    },
+    "signatureField61": {
+      "type": "text",
+      "label": "CHECK 6 BY",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 421.6,
+        "width": 174.4,
+        "height": 18.2
+      }
+    },
+    "signatureField71": {
+      "type": "text",
+      "label": "CHECK 7 BY",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 384.3,
+        "width": 174.4,
+        "height": 17.0
+      }
+    },
+    "signatureField81": {
+      "type": "text",
+      "label": "CHECK 8 BY",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 348.3,
+        "width": 174.4,
+        "height": 17.0
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 4,
+      "rowStride": 36.03,
+      "editor": "grid",
+      "columns": {
+        "signatureField": {
+          "type": "text",
+          "label": "CHECK 1 BY",
+          "page": 1,
+          "box": {
+            "left": 38.8,
+            "top": 456.4,
+            "width": 174.4,
+            "height": 17.0
+          }
+        },
+        "signatureField2": {
+          "type": "text",
+          "label": "CHECK 9 BY",
+          "page": 1,
+          "box": {
+            "left": 398.9,
+            "top": 456.4,
+            "width": 174.4,
+            "height": 17.0
+          }
+        },
+        "signatureField3": {
+          "type": "text",
+          "label": "CHECK 13 BY",
+          "page": 1,
+          "box": {
+            "left": 578.9,
+            "top": 456.4,
+            "width": 174.4,
+            "height": 17.0
+          }
+        }
+      }
+    }
+  }
+}

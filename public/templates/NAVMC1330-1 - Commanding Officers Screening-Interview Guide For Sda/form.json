@@ -1,0 +1,6644 @@
+{
+  "id": "navmc13301",
+  "label": "NAVMC 1330-1 - Commanding Officers Screening-Interview Guide For Sda",
+  "directory": "NAVMC1330-1 - Commanding Officers Screening-Interview Guide For Sda",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf",
+    "page5.pdf",
+    "page6.pdf",
+    "page7.pdf",
+    "page8.pdf",
+    "page9.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 2",
+      "fields": [
+        "name",
+        "edipi",
+        "mcc",
+        "textField6",
+        "textField7",
+        "rank",
+        "textField1",
+        "textField2",
+        "textField3",
+        "dateTimeField1",
+        "textField8",
+        "ordersType",
+        "dateTimeField2",
+        "dateTimeField3",
+        "dateTimeField4",
+        "textField9",
+        "textField10",
+        "textField11",
+        "dateTimeField12",
+        "textField82",
+        "ordersType2",
+        "dateTimeField22",
+        "dateTimeField32",
+        "dateTimeField42",
+        "dateTimeField5",
+        "dateTimeField6",
+        "dateTimeField7",
+        "textField14",
+        "dateTimeField8"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "name2",
+        "edipi2",
+        "rank2",
+        "radio",
+        "radio2",
+        "radio3",
+        "radio4",
+        "radio5",
+        "radio6",
+        "radio7",
+        "radio8",
+        "radio9",
+        "radio10",
+        "radio11",
+        "radio12",
+        "radio13",
+        "radio14",
+        "radio15",
+        "radio16",
+        "radio17",
+        "radio18",
+        "radio19",
+        "radio20",
+        "radio21",
+        "radio22",
+        "radio23",
+        "radio24",
+        "radio25",
+        "radio26",
+        "radio27",
+        "radio28",
+        "radio29",
+        "radio30",
+        "radio31",
+        "radio32",
+        "radio33",
+        "radio34",
+        "textField12",
+        "textField122",
+        "textField123",
+        "radio35",
+        "radio36",
+        "radio37",
+        "radio38",
+        "radio39",
+        "radio40",
+        "textField124",
+        "textField125",
+        "textField126",
+        "radio41",
+        "radio42",
+        "radio43",
+        "radio44",
+        "radio45",
+        "radio46",
+        "radio47",
+        "radio48",
+        "radio49",
+        "radio50",
+        "radio51",
+        "radio52",
+        "radio53",
+        "radio54",
+        "radio55",
+        "radio56",
+        "radio57",
+        "radio58",
+        "radio59",
+        "radio60",
+        "radio61",
+        "radio62",
+        "radio63",
+        "radio64",
+        "radio65",
+        "radio66",
+        "radio67",
+        "radio68",
+        "radio69",
+        "radio70",
+        "radio71",
+        "radio72",
+        "radio73",
+        "radio74",
+        "radio75",
+        "radio76",
+        "radio77",
+        "radio78",
+        "radio79",
+        "radio80",
+        "radio81",
+        "radio82",
+        "radio83",
+        "radio84",
+        "radio85",
+        "radio86",
+        "radio87",
+        "radio88",
+        "radio89",
+        "radio90",
+        "radio91",
+        "radio92"
+      ]
+    },
+    {
+      "title": "Page 4",
+      "fields": [
+        "name3",
+        "edipi3",
+        "rank3",
+        "radio93",
+        "radio94",
+        "radio95",
+        "radio96",
+        "radio97",
+        "radio98",
+        "radio99",
+        "radio100",
+        "radio101",
+        "radio102",
+        "radio103",
+        "radio104",
+        "radio105",
+        "radio106",
+        "radio107",
+        "radio108",
+        "radio109",
+        "radio110",
+        "radio111",
+        "radio112",
+        "radio113",
+        "radio114",
+        "radio115",
+        "radio116",
+        "radio117",
+        "radio118",
+        "radio119",
+        "radio120",
+        "radio121",
+        "radio122",
+        "radio123",
+        "radio124",
+        "radio125",
+        "radio126",
+        "radio127",
+        "radio128",
+        "radio129",
+        "radio130",
+        "radio131",
+        "radio132",
+        "radio133",
+        "radio134",
+        "radio135",
+        "radio136",
+        "radio137",
+        "radio138",
+        "radio139",
+        "radio140",
+        "radio141",
+        "radio142",
+        "radio143",
+        "radio144",
+        "textField13",
+        "textField132",
+        "radio145",
+        "radio146",
+        "radio147",
+        "radio148",
+        "textField133",
+        "textField134",
+        "radio149",
+        "radio150",
+        "radio151",
+        "radio152",
+        "radio153",
+        "radio154",
+        "textField135",
+        "textField136",
+        "textField137",
+        "radio155",
+        "radio156",
+        "radio157",
+        "radio158",
+        "radio159",
+        "radio160",
+        "textField138",
+        "textField139",
+        "textField1310",
+        "radio161",
+        "radio162",
+        "textField1311",
+        "radio163",
+        "radio164",
+        "textField1312"
+      ]
+    },
+    {
+      "title": "Page 5",
+      "fields": [
+        "name4",
+        "edipi4",
+        "rank4",
+        "radio165",
+        "radio166",
+        "radio167",
+        "radio168",
+        "radio169",
+        "radio170",
+        "radio171",
+        "radio172",
+        "radio173",
+        "radio174",
+        "radio175",
+        "radio176",
+        "radio177",
+        "radio178",
+        "radio179",
+        "radio180",
+        "radio181",
+        "radio182",
+        "radio183",
+        "radio184",
+        "radio185",
+        "radio186",
+        "radio187",
+        "radio188",
+        "radio189",
+        "radio190",
+        "radio191",
+        "radio192",
+        "radio193",
+        "radio194",
+        "radio195",
+        "radio196",
+        "radio197",
+        "radio198",
+        "tatts",
+        "radio199",
+        "radio200",
+        "radio201",
+        "radio202",
+        "radio203",
+        "radio204",
+        "textField1313",
+        "textField1314",
+        "textField1315",
+        "radio205",
+        "radio206",
+        "radio207",
+        "radio208",
+        "radio209",
+        "radio210",
+        "radio211",
+        "radio212",
+        "radio213",
+        "radio214",
+        "radio215",
+        "radio216",
+        "textField15",
+        "signatureField1",
+        "dateTimeField9"
+      ]
+    },
+    {
+      "title": "Page 6",
+      "fields": [
+        "name5",
+        "edipi5",
+        "rank5",
+        "radio217",
+        "radio218",
+        "radio219",
+        "radio220",
+        "radio221",
+        "radio222",
+        "textField1316",
+        "textField1317",
+        "textField1318",
+        "textField1319",
+        "textField1320",
+        "textField1321",
+        "textField1322",
+        "textField1323",
+        "textField1324",
+        "textField1325",
+        "textField1326",
+        "textField1327",
+        "radio223",
+        "radio224",
+        "radio225",
+        "radio226",
+        "radio227",
+        "radio228",
+        "textField1328",
+        "textField1329",
+        "textField1330",
+        "textField1331",
+        "textField1332",
+        "textField1333",
+        "textField1334",
+        "textField1335",
+        "textField1336",
+        "textField1337",
+        "textField1338",
+        "textField1339",
+        "radio229",
+        "radio230",
+        "radio231",
+        "radio232",
+        "radio233",
+        "radio234",
+        "textField1340",
+        "textField1341",
+        "textField1342",
+        "textField1343",
+        "textField1344",
+        "textField1345",
+        "radio235",
+        "radio236",
+        "radio237",
+        "radio238",
+        "radio239",
+        "radio240",
+        "textField1346",
+        "textField1347",
+        "textField1348",
+        "textField1349",
+        "textField1350",
+        "textField1351",
+        "radio241",
+        "radio242",
+        "radio243",
+        "radio244",
+        "radio245",
+        "radio246",
+        "textField1352",
+        "textField1353",
+        "textField1354",
+        "textField1355",
+        "textField1356",
+        "textField1357",
+        "radio247",
+        "radio248",
+        "radio249",
+        "radio250",
+        "radio251",
+        "radio252",
+        "textField1358",
+        "textField1359",
+        "textField1360",
+        "textField1361",
+        "textField1362",
+        "textField1363",
+        "radio253",
+        "radio254",
+        "radio255",
+        "radio256",
+        "radio257",
+        "radio258",
+        "radio259",
+        "radio260",
+        "radio261",
+        "radio262",
+        "radio263",
+        "radio264",
+        "textField152",
+        "signatureField12",
+        "dateTimeField92"
+      ]
+    },
+    {
+      "title": "Page 7",
+      "fields": [
+        "name6",
+        "edipi6",
+        "rank6",
+        "radio265",
+        "radio266",
+        "radio267",
+        "radio268",
+        "textField1364",
+        "textField1365",
+        "radio269",
+        "radio270",
+        "radio271",
+        "radio272",
+        "textField1366",
+        "textField1367",
+        "radio273",
+        "radio274",
+        "radio275",
+        "radio276",
+        "textField1368",
+        "textField1369",
+        "textField153",
+        "signatureField13",
+        "dateTimeField93",
+        "textField154",
+        "signatureField14",
+        "dateTimeField94"
+      ]
+    },
+    {
+      "title": "Page 8",
+      "fields": [
+        "name7",
+        "edipi7",
+        "rank7",
+        "radio277",
+        "radio278",
+        "radio279",
+        "radio280",
+        "radio281",
+        "radio282",
+        "textField1370",
+        "textField1371",
+        "textField1372",
+        "textField1373",
+        "textField1374",
+        "textField1375",
+        "radio283",
+        "radio284",
+        "radio285",
+        "radio286",
+        "radio287",
+        "radio288",
+        "textField1376",
+        "textField1377",
+        "textField1378",
+        "textField1379",
+        "textField1380",
+        "textField1381",
+        "textField155",
+        "signatureField15",
+        "dateTimeField95",
+        "textField156",
+        "signatureField16",
+        "dateTimeField96",
+        "radio289",
+        "radio290",
+        "radio291",
+        "radio292",
+        "radio293",
+        "radio294",
+        "textField1382",
+        "textField1383",
+        "textField1384",
+        "radio295",
+        "radio296",
+        "radio297",
+        "radio298",
+        "radio299",
+        "radio300",
+        "textField1385",
+        "textField1386",
+        "textField1387",
+        "radio301",
+        "radio302",
+        "radio303",
+        "radio304",
+        "radio305",
+        "radio306",
+        "radio307",
+        "radio308",
+        "radio309",
+        "radio310",
+        "radio311",
+        "radio312",
+        "radio313",
+        "radio314",
+        "radio315",
+        "radio316",
+        "textField157",
+        "signatureField17",
+        "dateTimeField97"
+      ]
+    },
+    {
+      "title": "Page 9",
+      "fields": [
+        "radio317",
+        "radio318",
+        "a",
+        "radio319",
+        "radio320",
+        "b",
+        "textField158",
+        "signatureField18",
+        "dateTimeField98",
+        "textField159",
+        "signatureField19",
+        "dateTimeField99",
+        "textField1510",
+        "signatureField110",
+        "dateTimeField910",
+        "textField1511",
+        "signatureField111",
+        "dateTimeField911",
+        "textField1512",
+        "signatureField112",
+        "dateTimeField912",
+        "radio321",
+        "radio322",
+        "radio323",
+        "radio324",
+        "textField1513",
+        "signatureField113",
+        "dateTimeField913",
+        "textField1514",
+        "signatureField114",
+        "dateTimeField914"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "2. Name (Last, First, Middle)",
+      "page": 2,
+      "box": {
+        "left": 128.8,
+        "top": 573.1,
+        "width": 219.4,
+        "height": 12.3
+      }
+    },
+    "edipi": {
+      "type": "text",
+      "label": "3. EDIPI",
+      "page": 2,
+      "box": {
+        "left": 353.9,
+        "top": 573.1,
+        "width": 84.3,
+        "height": 12.3
+      }
+    },
+    "mcc": {
+      "type": "text",
+      "label": "4. MOS",
+      "page": 2,
+      "box": {
+        "left": 443.9,
+        "top": 573.1,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "textField6": {
+      "type": "text",
+      "label": "5. MCC",
+      "page": 2,
+      "box": {
+        "left": 479.9,
+        "top": 573.1,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "textField7": {
+      "type": "text",
+      "label": "6. RUC",
+      "page": 2,
+      "box": {
+        "left": 515.9,
+        "top": 573.1,
+        "width": 57.3,
+        "height": 12.3
+      }
+    },
+    "rank": {
+      "type": "choice",
+      "label": "1. Rank",
+      "page": 2,
+      "box": {
+        "left": 39.6,
+        "top": 572.4,
+        "width": 82.8,
+        "height": 10.8
+      },
+      "options": [
+        "PVT",
+        "PFC",
+        "LCPL",
+        "CPL",
+        "SGT",
+        "SSGT",
+        "GYSGT",
+        "MSGT",
+        "1STSGT",
+        "MGYSGT",
+        "SGTMAJ"
+      ]
+    },
+    "textField1": {
+      "type": "text",
+      "label": "7. Unit Name",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 537.1,
+        "width": 282.4,
+        "height": 12.3
+      }
+    },
+    "textField2": {
+      "type": "text",
+      "label": "8. Phone",
+      "page": 2,
+      "box": {
+        "left": 326.9,
+        "top": 537.1,
+        "width": 102.3,
+        "height": 12.3
+      }
+    },
+    "textField3": {
+      "type": "text",
+      "label": "9. Career Planner Name",
+      "page": 2,
+      "box": {
+        "left": 434.9,
+        "top": 537.1,
+        "width": 138.3,
+        "height": 12.3
+      }
+    },
+    "dateTimeField1": {
+      "type": "text",
+      "label": "Date Issued",
+      "page": 2,
+      "box": {
+        "left": 273.8,
+        "top": 429.1,
+        "width": 119.4,
+        "height": 12.3
+      }
+    },
+    "textField8": {
+      "type": "text",
+      "label": "Class Number",
+      "page": 2,
+      "box": {
+        "left": 462.2,
+        "top": 429.1,
+        "width": 111.0,
+        "height": 12.3
+      }
+    },
+    "ordersType": {
+      "type": "choice",
+      "label": "Type of Orders",
+      "page": 2,
+      "box": {
+        "left": 105.1,
+        "top": 428.4,
+        "width": 107.3,
+        "height": 10.8
+      },
+      "options": [
+        "PCA",
+        "PCS",
+        "TAD",
+        "TEMINS",
+        "OTHER"
+      ]
+    },
+    "dateTimeField2": {
+      "type": "text",
+      "label": "Report Date",
+      "page": 2,
+      "box": {
+        "left": 104.4,
+        "top": 411.1,
+        "width": 108.8,
+        "height": 12.3
+      }
+    },
+    "dateTimeField3": {
+      "type": "text",
+      "label": "Grad Date",
+      "page": 2,
+      "box": {
+        "left": 273.8,
+        "top": 411.1,
+        "width": 119.4,
+        "height": 12.3
+      }
+    },
+    "dateTimeField4": {
+      "type": "text",
+      "label": "EAS Cutoff",
+      "page": 2,
+      "box": {
+        "left": 462.8,
+        "top": 411.1,
+        "width": 110.5,
+        "height": 12.3
+      }
+    },
+    "textField9": {
+      "type": "text",
+      "label": "Nav MSG DTG",
+      "page": 2,
+      "box": {
+        "left": 104.4,
+        "top": 375.1,
+        "width": 108.8,
+        "height": 12.3
+      }
+    },
+    "textField10": {
+      "type": "text",
+      "label": "Requested Change",
+      "page": 2,
+      "box": {
+        "left": 301.6,
+        "top": 375.1,
+        "width": 91.6,
+        "height": 12.3
+      }
+    },
+    "textField11": {
+      "type": "text",
+      "label": "HQMC Response DTG",
+      "page": 2,
+      "box": {
+        "left": 492.2,
+        "top": 375.1,
+        "width": 81.0,
+        "height": 12.3
+      }
+    },
+    "dateTimeField12": {
+      "type": "text",
+      "label": "Date Issued",
+      "page": 2,
+      "box": {
+        "left": 273.8,
+        "top": 339.1,
+        "width": 119.4,
+        "height": 12.3
+      }
+    },
+    "textField82": {
+      "type": "text",
+      "label": "Class Number",
+      "page": 2,
+      "box": {
+        "left": 462.2,
+        "top": 339.1,
+        "width": 111.0,
+        "height": 12.3
+      }
+    },
+    "ordersType2": {
+      "type": "choice",
+      "label": "Type of Orders",
+      "page": 2,
+      "box": {
+        "left": 105.1,
+        "top": 338.4,
+        "width": 107.3,
+        "height": 10.8
+      },
+      "options": [
+        "PCA",
+        "PCS",
+        "TAD",
+        "TEMINS",
+        "OTHER"
+      ]
+    },
+    "dateTimeField22": {
+      "type": "text",
+      "label": "Report Date",
+      "page": 2,
+      "box": {
+        "left": 104.4,
+        "top": 321.1,
+        "width": 108.8,
+        "height": 12.3
+      }
+    },
+    "dateTimeField32": {
+      "type": "text",
+      "label": "Grad Date",
+      "page": 2,
+      "box": {
+        "left": 273.3,
+        "top": 321.1,
+        "width": 119.9,
+        "height": 12.3
+      }
+    },
+    "dateTimeField42": {
+      "type": "text",
+      "label": "EAS Cutoff",
+      "page": 2,
+      "box": {
+        "left": 462.8,
+        "top": 321.1,
+        "width": 110.5,
+        "height": 12.3
+      }
+    },
+    "dateTimeField5": {
+      "type": "text",
+      "label": "Date to begin Recertification",
+      "page": 2,
+      "box": {
+        "left": 149.9,
+        "top": 285.1,
+        "width": 63.3,
+        "height": 12.3
+      }
+    },
+    "dateTimeField6": {
+      "type": "text",
+      "label": "Marine Notified on",
+      "page": 2,
+      "box": {
+        "left": 290.9,
+        "top": 285.1,
+        "width": 102.3,
+        "height": 12.3
+      }
+    },
+    "dateTimeField7": {
+      "type": "text",
+      "label": "PFT Date",
+      "page": 2,
+      "box": {
+        "left": 445.0,
+        "top": 285.1,
+        "width": 128.3,
+        "height": 12.3
+      }
+    },
+    "textField14": {
+      "type": "text",
+      "label": "Career Planner Re-Certifying",
+      "page": 2,
+      "box": {
+        "left": 149.2,
+        "top": 267.1,
+        "width": 208.0,
+        "height": 12.3
+      }
+    },
+    "dateTimeField8": {
+      "type": "text",
+      "label": "Re-Certification Completed on",
+      "page": 2,
+      "box": {
+        "left": 478.4,
+        "top": 267.1,
+        "width": 94.8,
+        "height": 12.3
+      }
+    },
+    "name2": {
+      "type": "text",
+      "label": "Name",
+      "page": 3,
+      "box": {
+        "left": 164.9,
+        "top": 756.4,
+        "width": 282.4,
+        "height": 12.3
+      }
+    },
+    "edipi2": {
+      "type": "text",
+      "label": "EDIPI",
+      "page": 3,
+      "box": {
+        "left": 452.9,
+        "top": 756.4,
+        "width": 138.3,
+        "height": 12.3
+      }
+    },
+    "rank2": {
+      "type": "choice",
+      "label": "Rank",
+      "page": 3,
+      "box": {
+        "left": 21.6,
+        "top": 755.6,
+        "width": 136.8,
+        "height": 10.8
+      },
+      "options": [
+        "PVT",
+        "PFC",
+        "LCPL",
+        "CPL",
+        "SGT",
+        "SSGT",
+        "GYSGT",
+        "MSGT",
+        "1STSGT",
+        "MGYSGT",
+        "SGTMAJ"
+      ]
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 283.1,
+        "top": 680.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 324.8,
+        "top": 680.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 391.1,
+        "top": 680.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 432.8,
+        "top": 680.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 496.9,
+        "top": 680.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 538.6,
+        "top": 680.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 281.9,
+        "top": 644.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 323.6,
+        "top": 644.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio9": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 389.9,
+        "top": 644.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio10": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 431.6,
+        "top": 644.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio11": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 497.9,
+        "top": 644.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio12": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 539.6,
+        "top": 644.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio13": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 282.6,
+        "top": 608.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio14": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 324.3,
+        "top": 608.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio15": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 391.1,
+        "top": 608.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio16": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 432.8,
+        "top": 608.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio17": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 499.1,
+        "top": 608.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio18": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 539.9,
+        "top": 608.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio19": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 281.9,
+        "top": 572.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio20": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 323.6,
+        "top": 572.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio21": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 389.9,
+        "top": 572.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio22": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 431.6,
+        "top": 572.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio23": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 497.9,
+        "top": 572.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio24": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 539.6,
+        "top": 572.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio25": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 281.9,
+        "top": 527.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio26": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 323.6,
+        "top": 527.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio27": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 281.9,
+        "top": 473.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio28": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 323.6,
+        "top": 473.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio29": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 281.9,
+        "top": 437.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio30": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 323.6,
+        "top": 437.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio31": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 389.9,
+        "top": 437.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio32": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 431.6,
+        "top": 437.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio33": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 497.9,
+        "top": 437.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio34": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 538.6,
+        "top": 437.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "textField12": {
+      "type": "text",
+      "label": "Must be 90 or above. (May be waived by MMEA, Score",
+      "page": 3,
+      "box": {
+        "left": 323.5,
+        "top": 421.9,
+        "width": 37.1,
+        "height": 12.2
+      }
+    },
+    "textField122": {
+      "type": "text",
+      "label": "Score",
+      "page": 3,
+      "box": {
+        "left": 427.9,
+        "top": 421.9,
+        "width": 37.1,
+        "height": 12.2
+      }
+    },
+    "textField123": {
+      "type": "text",
+      "label": "Score",
+      "page": 3,
+      "box": {
+        "left": 532.2,
+        "top": 421.9,
+        "width": 37.1,
+        "height": 12.2
+      }
+    },
+    "radio35": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 281.9,
+        "top": 383.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio36": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 323.6,
+        "top": 383.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio37": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 389.9,
+        "top": 383.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio38": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 431.6,
+        "top": 383.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio39": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 497.9,
+        "top": 383.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio40": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 538.6,
+        "top": 383.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "textField124": {
+      "type": "text",
+      "label": "Score",
+      "page": 3,
+      "box": {
+        "left": 323.0,
+        "top": 365.2,
+        "width": 37.1,
+        "height": 12.2
+      }
+    },
+    "textField125": {
+      "type": "text",
+      "label": "Score",
+      "page": 3,
+      "box": {
+        "left": 427.3,
+        "top": 365.2,
+        "width": 37.1,
+        "height": 12.2
+      }
+    },
+    "textField126": {
+      "type": "text",
+      "label": "Score",
+      "page": 3,
+      "box": {
+        "left": 531.6,
+        "top": 365.2,
+        "width": 37.1,
+        "height": 12.2
+      }
+    },
+    "radio41": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 281.9,
+        "top": 320.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio42": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 323.6,
+        "top": 320.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio43": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 389.9,
+        "top": 320.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio44": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 431.6,
+        "top": 320.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio45": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 497.9,
+        "top": 320.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio46": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 538.6,
+        "top": 320.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio47": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 281.9,
+        "top": 297.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio48": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 323.6,
+        "top": 297.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio49": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 389.9,
+        "top": 297.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio50": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 431.6,
+        "top": 297.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio51": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 497.9,
+        "top": 297.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio52": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 538.6,
+        "top": 297.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio53": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 281.9,
+        "top": 275.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio54": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 323.6,
+        "top": 275.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio55": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 389.9,
+        "top": 275.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio56": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 431.6,
+        "top": 275.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio57": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 497.9,
+        "top": 275.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio58": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 538.6,
+        "top": 275.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio59": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 281.9,
+        "top": 248.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio60": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 323.6,
+        "top": 248.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio61": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 389.9,
+        "top": 248.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio62": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 431.6,
+        "top": 248.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio63": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 497.9,
+        "top": 248.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio64": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 538.6,
+        "top": 248.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio65": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 283.1,
+        "top": 203.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio66": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 324.8,
+        "top": 203.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio67": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 389.9,
+        "top": 203.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio68": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 431.6,
+        "top": 203.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio69": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 497.9,
+        "top": 203.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio70": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 538.6,
+        "top": 203.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio71": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 281.9,
+        "top": 178.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio72": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 323.6,
+        "top": 178.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio73": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 389.9,
+        "top": 178.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio74": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 431.6,
+        "top": 178.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio75": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 497.9,
+        "top": 178.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio76": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 538.6,
+        "top": 178.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio77": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 281.9,
+        "top": 155.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio78": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 323.6,
+        "top": 155.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio79": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 389.9,
+        "top": 155.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio80": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 431.6,
+        "top": 155.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio81": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 497.9,
+        "top": 155.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio82": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 538.6,
+        "top": 155.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio83": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 281.9,
+        "top": 131.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio84": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 323.6,
+        "top": 131.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio85": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 389.9,
+        "top": 131.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio86": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 431.6,
+        "top": 131.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio87": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 497.9,
+        "top": 131.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio88": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 538.6,
+        "top": 131.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio89": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 281.9,
+        "top": 91.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio90": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 323.6,
+        "top": 91.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio91": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 281.9,
+        "top": 66.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio92": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 323.6,
+        "top": 66.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "name3": {
+      "type": "text",
+      "label": "Name",
+      "page": 4,
+      "box": {
+        "left": 164.9,
+        "top": 756.4,
+        "width": 282.4,
+        "height": 12.3
+      }
+    },
+    "edipi3": {
+      "type": "text",
+      "label": "EDIPI",
+      "page": 4,
+      "box": {
+        "left": 452.9,
+        "top": 756.4,
+        "width": 138.3,
+        "height": 12.3
+      }
+    },
+    "rank3": {
+      "type": "choice",
+      "label": "Rank",
+      "page": 4,
+      "box": {
+        "left": 21.6,
+        "top": 755.6,
+        "width": 136.8,
+        "height": 10.8
+      },
+      "options": [
+        "PVT",
+        "PFC",
+        "LCPL",
+        "CPL",
+        "SGT",
+        "SSGT",
+        "GYSGT",
+        "MSGT",
+        "1STSGT",
+        "MGYSGT",
+        "SGTMAJ"
+      ]
+    },
+    "radio93": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 281.9,
+        "top": 707.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio94": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 323.6,
+        "top": 707.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio95": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 389.9,
+        "top": 707.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio96": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 431.6,
+        "top": 707.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio97": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 497.9,
+        "top": 707.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio98": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 538.6,
+        "top": 707.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio99": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 281.9,
+        "top": 671.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio100": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 323.6,
+        "top": 671.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio101": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 389.9,
+        "top": 671.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio102": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 431.6,
+        "top": 671.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio103": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 497.9,
+        "top": 671.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio104": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 538.6,
+        "top": 671.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio105": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 281.9,
+        "top": 626.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio106": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 323.6,
+        "top": 626.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio107": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 389.9,
+        "top": 626.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio108": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 431.6,
+        "top": 626.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio109": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 497.9,
+        "top": 626.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio110": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 538.6,
+        "top": 626.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio111": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 281.9,
+        "top": 602.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio112": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 323.6,
+        "top": 602.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio113": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 389.9,
+        "top": 602.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio114": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 431.6,
+        "top": 602.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio115": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 497.9,
+        "top": 602.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio116": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 538.6,
+        "top": 602.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio117": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 281.9,
+        "top": 579.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio118": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 323.6,
+        "top": 579.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio119": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 389.9,
+        "top": 579.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio120": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 431.6,
+        "top": 579.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio121": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 497.9,
+        "top": 579.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio122": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 538.6,
+        "top": 579.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio123": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 281.9,
+        "top": 529.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio124": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 323.6,
+        "top": 529.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio125": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 389.9,
+        "top": 529.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio126": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 431.6,
+        "top": 529.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio127": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 497.9,
+        "top": 529.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio128": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 538.6,
+        "top": 529.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio129": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 281.9,
+        "top": 505.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio130": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 323.6,
+        "top": 505.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio131": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 389.9,
+        "top": 505.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio132": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 431.6,
+        "top": 505.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio133": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 497.9,
+        "top": 505.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio134": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 538.6,
+        "top": 505.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio135": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 281.9,
+        "top": 481.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio136": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 323.6,
+        "top": 481.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio137": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 389.9,
+        "top": 481.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio138": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 431.6,
+        "top": 481.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio139": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 497.9,
+        "top": 481.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio140": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 538.6,
+        "top": 481.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio141": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 281.9,
+        "top": 446.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio142": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 323.6,
+        "top": 446.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio143": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 389.9,
+        "top": 446.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio144": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 431.6,
+        "top": 446.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "textField13": {
+      "type": "text",
+      "label": "Net Funds",
+      "page": 4,
+      "box": {
+        "left": 323.0,
+        "top": 425.5,
+        "width": 49.3,
+        "height": 12.2
+      }
+    },
+    "textField132": {
+      "type": "text",
+      "label": "Net Funds",
+      "page": 4,
+      "box": {
+        "left": 427.3,
+        "top": 425.5,
+        "width": 49.3,
+        "height": 12.2
+      }
+    },
+    "radio145": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 281.9,
+        "top": 374.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio146": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 323.6,
+        "top": 374.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio147": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 389.9,
+        "top": 374.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio148": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 431.6,
+        "top": 374.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "textField133": {
+      "type": "text",
+      "label": "Net Funds",
+      "page": 4,
+      "box": {
+        "left": 324.1,
+        "top": 353.5,
+        "width": 49.3,
+        "height": 12.2
+      }
+    },
+    "textField134": {
+      "type": "text",
+      "label": "Net Funds",
+      "page": 4,
+      "box": {
+        "left": 428.4,
+        "top": 353.5,
+        "width": 49.3,
+        "height": 12.2
+      }
+    },
+    "radio149": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 281.9,
+        "top": 320.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio150": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 323.6,
+        "top": 320.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio151": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 389.9,
+        "top": 320.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio152": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 431.6,
+        "top": 320.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio153": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 497.9,
+        "top": 320.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio154": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 538.6,
+        "top": 320.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "textField135": {
+      "type": "text",
+      "label": "for duty. Consideration must be given to serious EFMP Cat",
+      "page": 4,
+      "box": {
+        "left": 323.0,
+        "top": 300.5,
+        "width": 49.3,
+        "height": 12.2
+      }
+    },
+    "textField136": {
+      "type": "text",
+      "label": "EFMP Cat",
+      "page": 4,
+      "box": {
+        "left": 427.3,
+        "top": 300.5,
+        "width": 49.3,
+        "height": 12.2
+      }
+    },
+    "textField137": {
+      "type": "text",
+      "label": "EFMP Cat",
+      "page": 4,
+      "box": {
+        "left": 531.7,
+        "top": 300.5,
+        "width": 49.3,
+        "height": 12.2
+      }
+    },
+    "radio155": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 281.9,
+        "top": 248.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio156": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 323.6,
+        "top": 248.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio157": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 389.9,
+        "top": 248.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio158": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 431.6,
+        "top": 248.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio159": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 497.9,
+        "top": 248.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio160": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 538.6,
+        "top": 248.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "textField138": {
+      "type": "text",
+      "label": "Each EFMP Marine screened will be approved by EFMP Cat",
+      "page": 4,
+      "box": {
+        "left": 324.1,
+        "top": 226.7,
+        "width": 49.3,
+        "height": 12.2
+      }
+    },
+    "textField139": {
+      "type": "text",
+      "label": "EFMP Cat",
+      "page": 4,
+      "box": {
+        "left": 428.4,
+        "top": 226.7,
+        "width": 49.3,
+        "height": 12.2
+      }
+    },
+    "textField1310": {
+      "type": "text",
+      "label": "EFMP Cat",
+      "page": 4,
+      "box": {
+        "left": 532.8,
+        "top": 226.7,
+        "width": 49.3,
+        "height": 12.2
+      }
+    },
+    "radio161": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 281.9,
+        "top": 167.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio162": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 323.6,
+        "top": 167.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "textField1311": {
+      "type": "text",
+      "label": "stations and substations are far removed from # Fam Mbrs",
+      "page": 4,
+      "box": {
+        "left": 330.2,
+        "top": 148.3,
+        "width": 42.1,
+        "height": 12.2
+      }
+    },
+    "radio163": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 281.9,
+        "top": 95.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio164": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 323.6,
+        "top": 95.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "textField1312": {
+      "type": "text",
+      "label": "# Fam Mbrs",
+      "page": 4,
+      "box": {
+        "left": 329.1,
+        "top": 76.1,
+        "width": 44.9,
+        "height": 12.2
+      }
+    },
+    "name4": {
+      "type": "text",
+      "label": "Name",
+      "page": 5,
+      "box": {
+        "left": 164.9,
+        "top": 756.4,
+        "width": 282.4,
+        "height": 15.2
+      }
+    },
+    "edipi4": {
+      "type": "text",
+      "label": "EDIPI",
+      "page": 5,
+      "box": {
+        "left": 452.9,
+        "top": 756.4,
+        "width": 138.3,
+        "height": 15.2
+      }
+    },
+    "rank4": {
+      "type": "choice",
+      "label": "Rank",
+      "page": 5,
+      "box": {
+        "left": 21.6,
+        "top": 755.6,
+        "width": 136.8,
+        "height": 13.7
+      },
+      "options": [
+        "PVT",
+        "PFC",
+        "LCPL",
+        "CPL",
+        "SGT",
+        "SSGT",
+        "GYSGT",
+        "MSGT",
+        "1STSGT",
+        "MGYSGT",
+        "SGTMAJ"
+      ]
+    },
+    "radio165": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 281.9,
+        "top": 698.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio166": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 323.6,
+        "top": 698.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio167": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 390.4,
+        "top": 698.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio168": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 5,
+      "box": {
+        "left": 432.1,
+        "top": 698.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio169": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 493.9,
+        "top": 698.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio170": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 5,
+      "box": {
+        "left": 535.6,
+        "top": 698.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio171": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 281.9,
+        "top": 653.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio172": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 5,
+      "box": {
+        "left": 323.6,
+        "top": 653.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio173": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 390.4,
+        "top": 653.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio174": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 5,
+      "box": {
+        "left": 432.1,
+        "top": 653.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio175": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 493.9,
+        "top": 653.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio176": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 5,
+      "box": {
+        "left": 535.6,
+        "top": 653.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio177": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 281.9,
+        "top": 599.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio178": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 5,
+      "box": {
+        "left": 323.6,
+        "top": 599.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio179": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 390.4,
+        "top": 599.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio180": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 5,
+      "box": {
+        "left": 432.1,
+        "top": 599.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio181": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 493.9,
+        "top": 599.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio182": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 5,
+      "box": {
+        "left": 535.6,
+        "top": 599.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio183": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 281.9,
+        "top": 554.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio184": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 5,
+      "box": {
+        "left": 323.6,
+        "top": 554.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio185": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 390.4,
+        "top": 554.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio186": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 5,
+      "box": {
+        "left": 432.1,
+        "top": 554.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio187": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 493.9,
+        "top": 554.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio188": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 5,
+      "box": {
+        "left": 535.6,
+        "top": 554.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio189": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 281.9,
+        "top": 518.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio190": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 5,
+      "box": {
+        "left": 323.6,
+        "top": 518.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio191": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 281.9,
+        "top": 482.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio192": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 5,
+      "box": {
+        "left": 323.6,
+        "top": 482.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio193": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 281.9,
+        "top": 450.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio194": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 5,
+      "box": {
+        "left": 323.6,
+        "top": 450.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio195": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 389.9,
+        "top": 450.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio196": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 5,
+      "box": {
+        "left": 431.6,
+        "top": 450.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio197": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 492.5,
+        "top": 450.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio198": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 5,
+      "box": {
+        "left": 534.2,
+        "top": 450.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "tatts": {
+      "type": "text",
+      "label": "current guidelines)",
+      "page": 5,
+      "box": {
+        "left": 102.6,
+        "top": 410.4,
+        "width": 169.2,
+        "height": 118.1
+      },
+      "multiline": true
+    },
+    "radio199": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 281.9,
+        "top": 329.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio200": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 5,
+      "box": {
+        "left": 323.6,
+        "top": 329.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio201": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 389.9,
+        "top": 329.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio202": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 5,
+      "box": {
+        "left": 431.6,
+        "top": 329.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio203": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 492.5,
+        "top": 329.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio204": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 5,
+      "box": {
+        "left": 534.2,
+        "top": 329.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "textField1313": {
+      "type": "text",
+      "label": "TSR Ref #",
+      "page": 5,
+      "box": {
+        "left": 323.0,
+        "top": 309.3,
+        "width": 51.0,
+        "height": 12.2
+      }
+    },
+    "textField1314": {
+      "type": "text",
+      "label": "TSR Ref #",
+      "page": 5,
+      "box": {
+        "left": 427.3,
+        "top": 309.3,
+        "width": 51.0,
+        "height": 12.2
+      }
+    },
+    "textField1315": {
+      "type": "text",
+      "label": "TSR Ref #",
+      "page": 5,
+      "box": {
+        "left": 531.6,
+        "top": 309.3,
+        "width": 51.0,
+        "height": 12.2
+      }
+    },
+    "radio205": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 281.9,
+        "top": 266.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio206": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 5,
+      "box": {
+        "left": 323.6,
+        "top": 266.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio207": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 389.9,
+        "top": 266.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio208": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 5,
+      "box": {
+        "left": 431.6,
+        "top": 266.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio209": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 492.5,
+        "top": 266.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio210": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 5,
+      "box": {
+        "left": 534.2,
+        "top": 266.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio211": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 281.9,
+        "top": 131.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio212": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 5,
+      "box": {
+        "left": 323.6,
+        "top": 131.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio213": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 389.9,
+        "top": 131.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio214": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 5,
+      "box": {
+        "left": 431.6,
+        "top": 131.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio215": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 492.5,
+        "top": 131.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio216": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 5,
+      "box": {
+        "left": 534.2,
+        "top": 131.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "textField15": {
+      "type": "text",
+      "label": "16. SNCOIC Printed Name and Rank",
+      "page": 5,
+      "box": {
+        "left": 20.8,
+        "top": 75.8,
+        "width": 282.4,
+        "height": 12.3
+      }
+    },
+    "signatureField1": {
+      "type": "text",
+      "label": "17. SNCOIC Signature",
+      "page": 5,
+      "box": {
+        "left": 308.9,
+        "top": 75.8,
+        "width": 174.4,
+        "height": 12.3
+      }
+    },
+    "dateTimeField9": {
+      "type": "text",
+      "label": "18. Date Completed",
+      "page": 5,
+      "box": {
+        "left": 488.9,
+        "top": 75.8,
+        "width": 102.3,
+        "height": 12.3
+      }
+    },
+    "name5": {
+      "type": "text",
+      "label": "Name",
+      "page": 6,
+      "box": {
+        "left": 164.9,
+        "top": 756.4,
+        "width": 282.4,
+        "height": 15.9
+      }
+    },
+    "edipi5": {
+      "type": "text",
+      "label": "EDIPI",
+      "page": 6,
+      "box": {
+        "left": 452.9,
+        "top": 756.4,
+        "width": 138.3,
+        "height": 15.9
+      }
+    },
+    "rank5": {
+      "type": "choice",
+      "label": "Rank",
+      "page": 6,
+      "box": {
+        "left": 21.6,
+        "top": 755.6,
+        "width": 136.8,
+        "height": 14.4
+      },
+      "options": [
+        "PVT",
+        "PFC",
+        "LCPL",
+        "CPL",
+        "SGT",
+        "SSGT",
+        "GYSGT",
+        "MSGT",
+        "1STSGT",
+        "MGYSGT",
+        "SGTMAJ"
+      ]
+    },
+    "radio217": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 6,
+      "box": {
+        "left": 281.9,
+        "top": 689.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio218": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 6,
+      "box": {
+        "left": 323.6,
+        "top": 689.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio219": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 6,
+      "box": {
+        "left": 389.9,
+        "top": 689.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio220": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 6,
+      "box": {
+        "left": 431.6,
+        "top": 689.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio221": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 6,
+      "box": {
+        "left": 492.5,
+        "top": 689.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio222": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 6,
+      "box": {
+        "left": 534.2,
+        "top": 689.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "textField1316": {
+      "type": "text",
+      "label": "Height",
+      "page": 6,
+      "box": {
+        "left": 308.7,
+        "top": 668.3,
+        "width": 20.4,
+        "height": 12.2
+      }
+    },
+    "textField1317": {
+      "type": "text",
+      "label": "Weight",
+      "page": 6,
+      "box": {
+        "left": 360.3,
+        "top": 668.3,
+        "width": 20.4,
+        "height": 12.2
+      }
+    },
+    "textField1318": {
+      "type": "text",
+      "label": "Height",
+      "page": 6,
+      "box": {
+        "left": 413.1,
+        "top": 668.3,
+        "width": 20.4,
+        "height": 12.2
+      }
+    },
+    "textField1319": {
+      "type": "text",
+      "label": "Weight",
+      "page": 6,
+      "box": {
+        "left": 464.6,
+        "top": 668.3,
+        "width": 20.4,
+        "height": 12.2
+      }
+    },
+    "textField1320": {
+      "type": "text",
+      "label": "Height",
+      "page": 6,
+      "box": {
+        "left": 517.4,
+        "top": 668.3,
+        "width": 20.4,
+        "height": 12.2
+      }
+    },
+    "textField1321": {
+      "type": "text",
+      "label": "Weight",
+      "page": 6,
+      "box": {
+        "left": 569.0,
+        "top": 668.3,
+        "width": 20.4,
+        "height": 12.2
+      }
+    },
+    "textField1322": {
+      "type": "text",
+      "label": "height and weight standards IAW MCO 6110.3. Max Wt",
+      "page": 6,
+      "box": {
+        "left": 308.7,
+        "top": 652.2,
+        "width": 20.4,
+        "height": 12.2
+      }
+    },
+    "textField1323": {
+      "type": "text",
+      "label": "BF %",
+      "page": 6,
+      "box": {
+        "left": 360.3,
+        "top": 652.2,
+        "width": 20.4,
+        "height": 12.2
+      }
+    },
+    "textField1324": {
+      "type": "text",
+      "label": "Max Wt",
+      "page": 6,
+      "box": {
+        "left": 413.1,
+        "top": 652.2,
+        "width": 20.4,
+        "height": 12.2
+      }
+    },
+    "textField1325": {
+      "type": "text",
+      "label": "BF %",
+      "page": 6,
+      "box": {
+        "left": 464.6,
+        "top": 652.2,
+        "width": 20.4,
+        "height": 12.2
+      }
+    },
+    "textField1326": {
+      "type": "text",
+      "label": "Max Wt",
+      "page": 6,
+      "box": {
+        "left": 517.4,
+        "top": 652.2,
+        "width": 20.4,
+        "height": 12.2
+      }
+    },
+    "textField1327": {
+      "type": "text",
+      "label": "BF %",
+      "page": 6,
+      "box": {
+        "left": 569.0,
+        "top": 652.2,
+        "width": 20.4,
+        "height": 12.2
+      }
+    },
+    "radio223": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 6,
+      "box": {
+        "left": 281.9,
+        "top": 581.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio224": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 6,
+      "box": {
+        "left": 323.6,
+        "top": 581.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio225": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 6,
+      "box": {
+        "left": 389.9,
+        "top": 581.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio226": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 6,
+      "box": {
+        "left": 431.6,
+        "top": 581.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio227": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 6,
+      "box": {
+        "left": 492.5,
+        "top": 581.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio228": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 6,
+      "box": {
+        "left": 534.2,
+        "top": 581.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "textField1328": {
+      "type": "text",
+      "label": "Height",
+      "page": 6,
+      "box": {
+        "left": 308.7,
+        "top": 561.1,
+        "width": 20.4,
+        "height": 12.2
+      }
+    },
+    "textField1329": {
+      "type": "text",
+      "label": "Weight",
+      "page": 6,
+      "box": {
+        "left": 360.3,
+        "top": 561.1,
+        "width": 20.4,
+        "height": 12.2
+      }
+    },
+    "textField1330": {
+      "type": "text",
+      "label": "Height",
+      "page": 6,
+      "box": {
+        "left": 413.1,
+        "top": 561.1,
+        "width": 20.4,
+        "height": 12.2
+      }
+    },
+    "textField1331": {
+      "type": "text",
+      "label": "Weight",
+      "page": 6,
+      "box": {
+        "left": 464.6,
+        "top": 561.1,
+        "width": 20.4,
+        "height": 12.2
+      }
+    },
+    "textField1332": {
+      "type": "text",
+      "label": "Height",
+      "page": 6,
+      "box": {
+        "left": 517.4,
+        "top": 561.1,
+        "width": 20.4,
+        "height": 12.2
+      }
+    },
+    "textField1333": {
+      "type": "text",
+      "label": "Weight",
+      "page": 6,
+      "box": {
+        "left": 569.0,
+        "top": 561.1,
+        "width": 20.4,
+        "height": 12.2
+      }
+    },
+    "textField1334": {
+      "type": "text",
+      "label": "Max Wt",
+      "page": 6,
+      "box": {
+        "left": 308.7,
+        "top": 545.0,
+        "width": 20.4,
+        "height": 12.2
+      }
+    },
+    "textField1335": {
+      "type": "text",
+      "label": "BF %",
+      "page": 6,
+      "box": {
+        "left": 360.3,
+        "top": 545.0,
+        "width": 20.4,
+        "height": 12.2
+      }
+    },
+    "textField1336": {
+      "type": "text",
+      "label": "Max Wt",
+      "page": 6,
+      "box": {
+        "left": 413.1,
+        "top": 545.0,
+        "width": 20.4,
+        "height": 12.2
+      }
+    },
+    "textField1337": {
+      "type": "text",
+      "label": "BF %",
+      "page": 6,
+      "box": {
+        "left": 464.6,
+        "top": 545.0,
+        "width": 20.4,
+        "height": 12.2
+      }
+    },
+    "textField1338": {
+      "type": "text",
+      "label": "Max Wt",
+      "page": 6,
+      "box": {
+        "left": 517.4,
+        "top": 545.0,
+        "width": 20.4,
+        "height": 12.2
+      }
+    },
+    "textField1339": {
+      "type": "text",
+      "label": "BF %",
+      "page": 6,
+      "box": {
+        "left": 569.0,
+        "top": 545.0,
+        "width": 20.4,
+        "height": 12.2
+      }
+    },
+    "radio229": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 6,
+      "box": {
+        "left": 281.9,
+        "top": 509.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio230": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 6,
+      "box": {
+        "left": 323.6,
+        "top": 509.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio231": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 6,
+      "box": {
+        "left": 389.9,
+        "top": 509.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio232": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 6,
+      "box": {
+        "left": 431.6,
+        "top": 509.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio233": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 6,
+      "box": {
+        "left": 492.5,
+        "top": 509.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio234": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 6,
+      "box": {
+        "left": 534.2,
+        "top": 509.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "textField1340": {
+      "type": "text",
+      "label": "Not Qual",
+      "page": 6,
+      "box": {
+        "left": 327.0,
+        "top": 492.8,
+        "width": 42.1,
+        "height": 12.2
+      }
+    },
+    "textField1341": {
+      "type": "text",
+      "label": "PFT Score",
+      "page": 6,
+      "box": {
+        "left": 431.4,
+        "top": 492.8,
+        "width": 42.1,
+        "height": 12.2
+      }
+    },
+    "textField1342": {
+      "type": "text",
+      "label": "PFT Score",
+      "page": 6,
+      "box": {
+        "left": 535.7,
+        "top": 492.8,
+        "width": 42.1,
+        "height": 12.2
+      }
+    },
+    "textField1343": {
+      "type": "text",
+      "label": "PFT Date",
+      "page": 6,
+      "box": {
+        "left": 327.0,
+        "top": 477.3,
+        "width": 42.1,
+        "height": 12.2
+      }
+    },
+    "textField1344": {
+      "type": "text",
+      "label": "PFT Date",
+      "page": 6,
+      "box": {
+        "left": 431.4,
+        "top": 477.3,
+        "width": 42.1,
+        "height": 12.2
+      }
+    },
+    "textField1345": {
+      "type": "text",
+      "label": "PFT Date",
+      "page": 6,
+      "box": {
+        "left": 535.7,
+        "top": 477.3,
+        "width": 42.1,
+        "height": 12.2
+      }
+    },
+    "radio235": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 6,
+      "box": {
+        "left": 281.9,
+        "top": 383.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio236": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 6,
+      "box": {
+        "left": 323.6,
+        "top": 383.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio237": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 6,
+      "box": {
+        "left": 389.9,
+        "top": 383.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio238": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 6,
+      "box": {
+        "left": 431.6,
+        "top": 383.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio239": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 6,
+      "box": {
+        "left": 492.5,
+        "top": 383.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio240": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 6,
+      "box": {
+        "left": 534.2,
+        "top": 383.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "textField1346": {
+      "type": "text",
+      "label": "PFT Score",
+      "page": 6,
+      "box": {
+        "left": 328.2,
+        "top": 362.9,
+        "width": 42.1,
+        "height": 12.2
+      }
+    },
+    "textField1347": {
+      "type": "text",
+      "label": "PFT Score",
+      "page": 6,
+      "box": {
+        "left": 432.5,
+        "top": 362.9,
+        "width": 42.1,
+        "height": 12.2
+      }
+    },
+    "textField1348": {
+      "type": "text",
+      "label": "PFT Score",
+      "page": 6,
+      "box": {
+        "left": 536.8,
+        "top": 362.9,
+        "width": 42.1,
+        "height": 12.2
+      }
+    },
+    "textField1349": {
+      "type": "text",
+      "label": "PFT Date",
+      "page": 6,
+      "box": {
+        "left": 328.2,
+        "top": 347.3,
+        "width": 42.1,
+        "height": 12.2
+      }
+    },
+    "textField1350": {
+      "type": "text",
+      "label": "PFT Date",
+      "page": 6,
+      "box": {
+        "left": 432.5,
+        "top": 347.3,
+        "width": 42.1,
+        "height": 12.2
+      }
+    },
+    "textField1351": {
+      "type": "text",
+      "label": "PFT Date",
+      "page": 6,
+      "box": {
+        "left": 536.8,
+        "top": 347.3,
+        "width": 42.1,
+        "height": 12.2
+      }
+    },
+    "radio241": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 6,
+      "box": {
+        "left": 281.9,
+        "top": 311.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio242": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 6,
+      "box": {
+        "left": 323.6,
+        "top": 311.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio243": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 6,
+      "box": {
+        "left": 389.9,
+        "top": 311.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio244": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 6,
+      "box": {
+        "left": 431.6,
+        "top": 311.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio245": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 6,
+      "box": {
+        "left": 492.5,
+        "top": 311.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio246": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 6,
+      "box": {
+        "left": 534.2,
+        "top": 311.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "textField1352": {
+      "type": "text",
+      "label": "Swim Qual",
+      "page": 6,
+      "box": {
+        "left": 327.0,
+        "top": 296.2,
+        "width": 42.1,
+        "height": 12.2
+      }
+    },
+    "textField1353": {
+      "type": "text",
+      "label": "Swim Qual",
+      "page": 6,
+      "box": {
+        "left": 431.4,
+        "top": 296.2,
+        "width": 42.1,
+        "height": 12.2
+      }
+    },
+    "textField1354": {
+      "type": "text",
+      "label": "Swim Qual",
+      "page": 6,
+      "box": {
+        "left": 535.7,
+        "top": 296.2,
+        "width": 42.1,
+        "height": 12.2
+      }
+    },
+    "textField1355": {
+      "type": "text",
+      "label": "Requal Date",
+      "page": 6,
+      "box": {
+        "left": 327.0,
+        "top": 280.7,
+        "width": 42.1,
+        "height": 12.2
+      }
+    },
+    "textField1356": {
+      "type": "text",
+      "label": "Requal Date",
+      "page": 6,
+      "box": {
+        "left": 431.4,
+        "top": 280.7,
+        "width": 42.1,
+        "height": 12.2
+      }
+    },
+    "textField1357": {
+      "type": "text",
+      "label": "Requal Date",
+      "page": 6,
+      "box": {
+        "left": 535.7,
+        "top": 280.7,
+        "width": 42.1,
+        "height": 12.2
+      }
+    },
+    "radio247": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 6,
+      "box": {
+        "left": 281.9,
+        "top": 239.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio248": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 6,
+      "box": {
+        "left": 323.6,
+        "top": 239.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio249": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 6,
+      "box": {
+        "left": 389.9,
+        "top": 239.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio250": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 6,
+      "box": {
+        "left": 431.6,
+        "top": 239.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio251": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 6,
+      "box": {
+        "left": 492.5,
+        "top": 239.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio252": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 6,
+      "box": {
+        "left": 534.2,
+        "top": 239.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "textField1358": {
+      "type": "text",
+      "label": "Swim Qual",
+      "page": 6,
+      "box": {
+        "left": 328.2,
+        "top": 220.1,
+        "width": 42.1,
+        "height": 12.2
+      }
+    },
+    "textField1359": {
+      "type": "text",
+      "label": "Swim Qual",
+      "page": 6,
+      "box": {
+        "left": 432.5,
+        "top": 220.1,
+        "width": 42.1,
+        "height": 12.2
+      }
+    },
+    "textField1360": {
+      "type": "text",
+      "label": "Swim Qual",
+      "page": 6,
+      "box": {
+        "left": 536.9,
+        "top": 220.1,
+        "width": 42.1,
+        "height": 12.2
+      }
+    },
+    "textField1361": {
+      "type": "text",
+      "label": "Requal Date",
+      "page": 6,
+      "box": {
+        "left": 328.2,
+        "top": 204.5,
+        "width": 42.1,
+        "height": 12.2
+      }
+    },
+    "textField1362": {
+      "type": "text",
+      "label": "Requal Date",
+      "page": 6,
+      "box": {
+        "left": 432.5,
+        "top": 204.5,
+        "width": 42.1,
+        "height": 12.2
+      }
+    },
+    "textField1363": {
+      "type": "text",
+      "label": "Requal Date",
+      "page": 6,
+      "box": {
+        "left": 536.9,
+        "top": 204.5,
+        "width": 42.1,
+        "height": 12.2
+      }
+    },
+    "radio253": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 6,
+      "box": {
+        "left": 281.9,
+        "top": 167.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio254": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 6,
+      "box": {
+        "left": 323.6,
+        "top": 167.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio255": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 6,
+      "box": {
+        "left": 389.9,
+        "top": 167.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio256": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 6,
+      "box": {
+        "left": 431.6,
+        "top": 167.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio257": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 6,
+      "box": {
+        "left": 492.5,
+        "top": 167.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio258": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 6,
+      "box": {
+        "left": 534.2,
+        "top": 167.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio259": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 6,
+      "box": {
+        "left": 281.9,
+        "top": 131.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio260": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 6,
+      "box": {
+        "left": 323.6,
+        "top": 131.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio261": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 6,
+      "box": {
+        "left": 389.9,
+        "top": 131.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio262": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 6,
+      "box": {
+        "left": 431.6,
+        "top": 131.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio263": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 6,
+      "box": {
+        "left": 492.5,
+        "top": 131.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio264": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 6,
+      "box": {
+        "left": 534.2,
+        "top": 131.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "textField152": {
+      "type": "text",
+      "label": "20. Training Chief or Officer Printed Name and Rank",
+      "page": 6,
+      "box": {
+        "left": 20.8,
+        "top": 96.1,
+        "width": 246.4,
+        "height": 12.3
+      }
+    },
+    "signatureField12": {
+      "type": "text",
+      "label": "21. Training Chief or Officer Signature",
+      "page": 6,
+      "box": {
+        "left": 272.9,
+        "top": 96.1,
+        "width": 210.4,
+        "height": 12.3
+      }
+    },
+    "dateTimeField92": {
+      "type": "text",
+      "label": "22. Date Completed",
+      "page": 6,
+      "box": {
+        "left": 488.9,
+        "top": 96.1,
+        "width": 102.3,
+        "height": 12.3
+      }
+    },
+    "name6": {
+      "type": "text",
+      "label": "Name",
+      "page": 7,
+      "box": {
+        "left": 164.9,
+        "top": 756.4,
+        "width": 282.4,
+        "height": 15.9
+      }
+    },
+    "edipi6": {
+      "type": "text",
+      "label": "EDIPI",
+      "page": 7,
+      "box": {
+        "left": 452.9,
+        "top": 756.4,
+        "width": 138.3,
+        "height": 15.9
+      }
+    },
+    "rank6": {
+      "type": "choice",
+      "label": "Rank",
+      "page": 7,
+      "box": {
+        "left": 21.6,
+        "top": 755.6,
+        "width": 136.8,
+        "height": 14.4
+      },
+      "options": [
+        "PVT",
+        "PFC",
+        "LCPL",
+        "CPL",
+        "SGT",
+        "SSGT",
+        "GYSGT",
+        "MSGT",
+        "1STSGT",
+        "MGYSGT",
+        "SGTMAJ"
+      ]
+    },
+    "radio265": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 7,
+      "box": {
+        "left": 326.9,
+        "top": 488.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio266": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 7,
+      "box": {
+        "left": 368.6,
+        "top": 488.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio267": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 7,
+      "box": {
+        "left": 470.9,
+        "top": 488.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio268": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 7,
+      "box": {
+        "left": 512.6,
+        "top": 488.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "textField1364": {
+      "type": "text",
+      "label": "Last Physical Date",
+      "page": 7,
+      "box": {
+        "left": 375.7,
+        "top": 463.8,
+        "width": 67.6,
+        "height": 12.2
+      }
+    },
+    "textField1365": {
+      "type": "text",
+      "label": "Last Physical Date",
+      "page": 7,
+      "box": {
+        "left": 519.3,
+        "top": 463.8,
+        "width": 67.6,
+        "height": 12.2
+      }
+    },
+    "radio269": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 7,
+      "box": {
+        "left": 326.9,
+        "top": 392.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio270": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 7,
+      "box": {
+        "left": 368.6,
+        "top": 392.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio271": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 7,
+      "box": {
+        "left": 470.9,
+        "top": 392.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio272": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 7,
+      "box": {
+        "left": 512.6,
+        "top": 392.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "textField1366": {
+      "type": "text",
+      "label": "Last Physical Date",
+      "page": 7,
+      "box": {
+        "left": 373.0,
+        "top": 368.7,
+        "width": 67.6,
+        "height": 12.2
+      }
+    },
+    "textField1367": {
+      "type": "text",
+      "label": "Last Physical Date",
+      "page": 7,
+      "box": {
+        "left": 516.9,
+        "top": 368.7,
+        "width": 67.6,
+        "height": 12.2
+      }
+    },
+    "radio273": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 7,
+      "box": {
+        "left": 326.9,
+        "top": 275.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio274": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 7,
+      "box": {
+        "left": 368.6,
+        "top": 275.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio275": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 7,
+      "box": {
+        "left": 470.9,
+        "top": 275.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio276": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 7,
+      "box": {
+        "left": 512.6,
+        "top": 275.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "textField1368": {
+      "type": "text",
+      "label": "Last Physical Date",
+      "page": 7,
+      "box": {
+        "left": 375.7,
+        "top": 252.0,
+        "width": 67.6,
+        "height": 12.2
+      }
+    },
+    "textField1369": {
+      "type": "text",
+      "label": "Last Physical Date",
+      "page": 7,
+      "box": {
+        "left": 519.3,
+        "top": 252.0,
+        "width": 67.6,
+        "height": 12.2
+      }
+    },
+    "textField153": {
+      "type": "text",
+      "label": "24. Initial Screening - Medical Officer Printed Name",
+      "page": 7,
+      "box": {
+        "left": 20.8,
+        "top": 204.1,
+        "width": 246.4,
+        "height": 12.3
+      }
+    },
+    "signatureField13": {
+      "type": "text",
+      "label": "25. Initial Screening - Medical Officer Signature",
+      "page": 7,
+      "box": {
+        "left": 272.9,
+        "top": 204.1,
+        "width": 210.4,
+        "height": 12.3
+      }
+    },
+    "dateTimeField93": {
+      "type": "text",
+      "label": "26. Date Completed",
+      "page": 7,
+      "box": {
+        "left": 488.9,
+        "top": 204.1,
+        "width": 102.3,
+        "height": 12.3
+      }
+    },
+    "textField154": {
+      "type": "text",
+      "label": "27. Recertification - Medical Officer Printed Name",
+      "page": 7,
+      "box": {
+        "left": 20.8,
+        "top": 168.1,
+        "width": 246.4,
+        "height": 12.3
+      }
+    },
+    "signatureField14": {
+      "type": "text",
+      "label": "28. Recertification - Medical Officer Signature",
+      "page": 7,
+      "box": {
+        "left": 272.9,
+        "top": 168.1,
+        "width": 210.4,
+        "height": 12.3
+      }
+    },
+    "dateTimeField94": {
+      "type": "text",
+      "label": "29. Date Completed",
+      "page": 7,
+      "box": {
+        "left": 488.9,
+        "top": 168.1,
+        "width": 102.3,
+        "height": 12.3
+      }
+    },
+    "name7": {
+      "type": "text",
+      "label": "Name",
+      "page": 8,
+      "box": {
+        "left": 164.9,
+        "top": 756.4,
+        "width": 282.4,
+        "height": 15.9
+      }
+    },
+    "edipi7": {
+      "type": "text",
+      "label": "EDIPI",
+      "page": 8,
+      "box": {
+        "left": 452.9,
+        "top": 756.4,
+        "width": 138.3,
+        "height": 15.9
+      }
+    },
+    "rank7": {
+      "type": "choice",
+      "label": "Rank",
+      "page": 8,
+      "box": {
+        "left": 21.6,
+        "top": 755.6,
+        "width": 136.8,
+        "height": 14.4
+      },
+      "options": [
+        "PVT",
+        "PFC",
+        "LCPL",
+        "CPL",
+        "SGT",
+        "SSGT",
+        "GYSGT",
+        "MSGT",
+        "1STSGT",
+        "MGYSGT",
+        "SGTMAJ"
+      ]
+    },
+    "radio277": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 8,
+      "box": {
+        "left": 281.9,
+        "top": 680.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio278": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 8,
+      "box": {
+        "left": 323.6,
+        "top": 680.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio279": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 8,
+      "box": {
+        "left": 389.9,
+        "top": 680.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio280": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 8,
+      "box": {
+        "left": 431.6,
+        "top": 680.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio281": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 8,
+      "box": {
+        "left": 497.9,
+        "top": 680.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio282": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 8,
+      "box": {
+        "left": 539.6,
+        "top": 680.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "textField1370": {
+      "type": "text",
+      "label": "Exam Date",
+      "page": 8,
+      "box": {
+        "left": 326.3,
+        "top": 663.3,
+        "width": 42.1,
+        "height": 12.0
+      }
+    },
+    "textField1371": {
+      "type": "text",
+      "label": "Exam Date",
+      "page": 8,
+      "box": {
+        "left": 430.7,
+        "top": 663.3,
+        "width": 42.1,
+        "height": 12.0
+      }
+    },
+    "textField1372": {
+      "type": "text",
+      "label": "Exam Date",
+      "page": 8,
+      "box": {
+        "left": 535.0,
+        "top": 663.3,
+        "width": 42.1,
+        "height": 12.0
+      }
+    },
+    "textField1373": {
+      "type": "text",
+      "label": "Class",
+      "page": 8,
+      "box": {
+        "left": 326.3,
+        "top": 647.7,
+        "width": 42.1,
+        "height": 12.0
+      }
+    },
+    "textField1374": {
+      "type": "text",
+      "label": "Class",
+      "page": 8,
+      "box": {
+        "left": 430.7,
+        "top": 647.7,
+        "width": 42.1,
+        "height": 12.0
+      }
+    },
+    "textField1375": {
+      "type": "text",
+      "label": "Class",
+      "page": 8,
+      "box": {
+        "left": 535.0,
+        "top": 647.7,
+        "width": 42.1,
+        "height": 12.0
+      }
+    },
+    "radio283": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 8,
+      "box": {
+        "left": 281.9,
+        "top": 608.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio284": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 8,
+      "box": {
+        "left": 323.6,
+        "top": 608.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio285": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 8,
+      "box": {
+        "left": 389.9,
+        "top": 608.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio286": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 8,
+      "box": {
+        "left": 431.6,
+        "top": 608.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio287": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 8,
+      "box": {
+        "left": 497.9,
+        "top": 608.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio288": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 8,
+      "box": {
+        "left": 539.6,
+        "top": 608.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "textField1376": {
+      "type": "text",
+      "label": "Exam Date",
+      "page": 8,
+      "box": {
+        "left": 327.4,
+        "top": 587.2,
+        "width": 42.1,
+        "height": 12.0
+      }
+    },
+    "textField1377": {
+      "type": "text",
+      "label": "Exam Date",
+      "page": 8,
+      "box": {
+        "left": 431.8,
+        "top": 587.2,
+        "width": 42.1,
+        "height": 12.0
+      }
+    },
+    "textField1378": {
+      "type": "text",
+      "label": "Exam Date",
+      "page": 8,
+      "box": {
+        "left": 536.1,
+        "top": 587.2,
+        "width": 42.1,
+        "height": 12.0
+      }
+    },
+    "textField1379": {
+      "type": "text",
+      "label": "Class",
+      "page": 8,
+      "box": {
+        "left": 327.4,
+        "top": 571.6,
+        "width": 42.1,
+        "height": 12.0
+      }
+    },
+    "textField1380": {
+      "type": "text",
+      "label": "Class",
+      "page": 8,
+      "box": {
+        "left": 431.8,
+        "top": 571.6,
+        "width": 42.1,
+        "height": 12.0
+      }
+    },
+    "textField1381": {
+      "type": "text",
+      "label": "Class",
+      "page": 8,
+      "box": {
+        "left": 536.1,
+        "top": 571.6,
+        "width": 42.1,
+        "height": 12.0
+      }
+    },
+    "textField155": {
+      "type": "text",
+      "label": "31. Initial Screening - Dental Officer Printed Name",
+      "page": 8,
+      "box": {
+        "left": 20.8,
+        "top": 528.1,
+        "width": 246.4,
+        "height": 12.3
+      }
+    },
+    "signatureField15": {
+      "type": "text",
+      "label": "32. Initial Screening - Dental Officer Signature",
+      "page": 8,
+      "box": {
+        "left": 272.9,
+        "top": 528.1,
+        "width": 210.4,
+        "height": 12.3
+      }
+    },
+    "dateTimeField95": {
+      "type": "text",
+      "label": "33. Date Completed",
+      "page": 8,
+      "box": {
+        "left": 488.9,
+        "top": 528.1,
+        "width": 102.3,
+        "height": 12.3
+      }
+    },
+    "textField156": {
+      "type": "text",
+      "label": "34. Recertification - Dental Officer Printed Name",
+      "page": 8,
+      "box": {
+        "left": 20.8,
+        "top": 492.1,
+        "width": 246.4,
+        "height": 12.3
+      }
+    },
+    "signatureField16": {
+      "type": "text",
+      "label": "35. Recertification - Dental Officer Signature",
+      "page": 8,
+      "box": {
+        "left": 272.9,
+        "top": 492.1,
+        "width": 210.4,
+        "height": 12.3
+      }
+    },
+    "dateTimeField96": {
+      "type": "text",
+      "label": "36. Date Completed",
+      "page": 8,
+      "box": {
+        "left": 488.9,
+        "top": 492.1,
+        "width": 102.3,
+        "height": 12.3
+      }
+    },
+    "radio289": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 8,
+      "box": {
+        "left": 281.9,
+        "top": 419.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio290": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 8,
+      "box": {
+        "left": 323.6,
+        "top": 419.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio291": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 8,
+      "box": {
+        "left": 389.9,
+        "top": 419.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio292": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 8,
+      "box": {
+        "left": 431.6,
+        "top": 419.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio293": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 8,
+      "box": {
+        "left": 497.9,
+        "top": 419.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio294": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 8,
+      "box": {
+        "left": 539.6,
+        "top": 419.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "textField1382": {
+      "type": "text",
+      "label": "EAS",
+      "page": 8,
+      "box": {
+        "left": 300.4,
+        "top": 402.3,
+        "width": 68.7,
+        "height": 12.0
+      }
+    },
+    "textField1383": {
+      "type": "text",
+      "label": "EAS",
+      "page": 8,
+      "box": {
+        "left": 404.7,
+        "top": 402.3,
+        "width": 68.7,
+        "height": 12.0
+      }
+    },
+    "textField1384": {
+      "type": "text",
+      "label": "EAS",
+      "page": 8,
+      "box": {
+        "left": 509.1,
+        "top": 402.3,
+        "width": 68.7,
+        "height": 12.0
+      }
+    },
+    "radio295": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 8,
+      "box": {
+        "left": 281.9,
+        "top": 360.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio296": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 8,
+      "box": {
+        "left": 323.6,
+        "top": 360.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio297": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 8,
+      "box": {
+        "left": 389.9,
+        "top": 360.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio298": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 8,
+      "box": {
+        "left": 431.6,
+        "top": 360.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio299": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 8,
+      "box": {
+        "left": 497.9,
+        "top": 360.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio300": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 8,
+      "box": {
+        "left": 539.6,
+        "top": 360.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "textField1385": {
+      "type": "text",
+      "label": "EAS",
+      "page": 8,
+      "box": {
+        "left": 302.1,
+        "top": 343.4,
+        "width": 68.2,
+        "height": 12.0
+      }
+    },
+    "textField1386": {
+      "type": "text",
+      "label": "EAS",
+      "page": 8,
+      "box": {
+        "left": 406.4,
+        "top": 343.4,
+        "width": 68.2,
+        "height": 12.0
+      }
+    },
+    "textField1387": {
+      "type": "text",
+      "label": "EAS",
+      "page": 8,
+      "box": {
+        "left": 510.7,
+        "top": 343.4,
+        "width": 68.2,
+        "height": 12.0
+      }
+    },
+    "radio301": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 8,
+      "box": {
+        "left": 389.9,
+        "top": 306.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio302": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 8,
+      "box": {
+        "left": 431.6,
+        "top": 306.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio303": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 8,
+      "box": {
+        "left": 389.9,
+        "top": 270.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio304": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 8,
+      "box": {
+        "left": 431.6,
+        "top": 270.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio305": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 8,
+      "box": {
+        "left": 281.9,
+        "top": 230.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio306": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 8,
+      "box": {
+        "left": 323.6,
+        "top": 230.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio307": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 8,
+      "box": {
+        "left": 389.9,
+        "top": 230.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio308": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 8,
+      "box": {
+        "left": 431.6,
+        "top": 230.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio309": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 8,
+      "box": {
+        "left": 497.9,
+        "top": 230.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio310": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 8,
+      "box": {
+        "left": 539.6,
+        "top": 230.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio311": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 8,
+      "box": {
+        "left": 281.9,
+        "top": 162.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio312": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 8,
+      "box": {
+        "left": 323.6,
+        "top": 162.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio313": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 8,
+      "box": {
+        "left": 389.9,
+        "top": 162.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio314": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 8,
+      "box": {
+        "left": 431.6,
+        "top": 162.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio315": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 8,
+      "box": {
+        "left": 497.9,
+        "top": 162.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio316": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 8,
+      "box": {
+        "left": 539.6,
+        "top": 162.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "textField157": {
+      "type": "text",
+      "label": "38. Career Planner Printed Name and Rank",
+      "page": 8,
+      "box": {
+        "left": 20.8,
+        "top": 96.1,
+        "width": 246.4,
+        "height": 12.3
+      }
+    },
+    "signatureField17": {
+      "type": "text",
+      "label": "39. Career Planner Signature",
+      "page": 8,
+      "box": {
+        "left": 272.9,
+        "top": 96.1,
+        "width": 210.4,
+        "height": 12.3
+      }
+    },
+    "dateTimeField97": {
+      "type": "text",
+      "label": "40. Date Completed",
+      "page": 8,
+      "box": {
+        "left": 488.9,
+        "top": 96.1,
+        "width": 102.3,
+        "height": 12.3
+      }
+    },
+    "radio317": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 9,
+      "box": {
+        "left": 79.9,
+        "top": 749.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio318": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 9,
+      "box": {
+        "left": 121.6,
+        "top": 749.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "a": {
+      "type": "text",
+      "label": "A",
+      "page": 9,
+      "box": {
+        "left": 27.0,
+        "top": 735.1,
+        "width": 558.1,
+        "height": 85.7
+      },
+      "multiline": true
+    },
+    "radio319": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 9,
+      "box": {
+        "left": 191.9,
+        "top": 642.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio320": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 9,
+      "box": {
+        "left": 233.6,
+        "top": 642.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "b": {
+      "type": "text",
+      "label": "B",
+      "page": 9,
+      "box": {
+        "left": 27.0,
+        "top": 627.8,
+        "width": 558.1,
+        "height": 85.7
+      },
+      "multiline": true
+    },
+    "textField158": {
+      "type": "text",
+      "label": "42. Battalion/Squadron SgtMaj Printed Name",
+      "page": 9,
+      "box": {
+        "left": 20.8,
+        "top": 519.1,
+        "width": 246.4,
+        "height": 12.3
+      }
+    },
+    "signatureField18": {
+      "type": "text",
+      "label": "43. Battalion/Squadron SgtMaj Signature",
+      "page": 9,
+      "box": {
+        "left": 272.9,
+        "top": 519.1,
+        "width": 210.4,
+        "height": 12.3
+      }
+    },
+    "dateTimeField98": {
+      "type": "text",
+      "label": "44. Date Completed",
+      "page": 9,
+      "box": {
+        "left": 488.9,
+        "top": 519.1,
+        "width": 102.3,
+        "height": 12.3
+      }
+    },
+    "textField159": {
+      "type": "text",
+      "label": "45. Battalion/Squadron Commander Printed Name",
+      "page": 9,
+      "box": {
+        "left": 20.8,
+        "top": 483.1,
+        "width": 246.4,
+        "height": 12.3
+      }
+    },
+    "signatureField19": {
+      "type": "text",
+      "label": "46. Battalion/Squadron Commander Signature",
+      "page": 9,
+      "box": {
+        "left": 272.9,
+        "top": 483.1,
+        "width": 210.4,
+        "height": 12.3
+      }
+    },
+    "dateTimeField99": {
+      "type": "text",
+      "label": "47. Date Completed",
+      "page": 9,
+      "box": {
+        "left": 488.9,
+        "top": 483.1,
+        "width": 102.3,
+        "height": 12.3
+      }
+    },
+    "textField1510": {
+      "type": "text",
+      "label": "49. SNCOIC Printed Name and Rank",
+      "page": 9,
+      "box": {
+        "left": 20.8,
+        "top": 375.1,
+        "width": 246.4,
+        "height": 12.3
+      }
+    },
+    "signatureField110": {
+      "type": "text",
+      "label": "50. SNCOIC Signature",
+      "page": 9,
+      "box": {
+        "left": 272.9,
+        "top": 375.1,
+        "width": 210.4,
+        "height": 12.3
+      }
+    },
+    "dateTimeField910": {
+      "type": "text",
+      "label": "51. Date Completed",
+      "page": 9,
+      "box": {
+        "left": 488.9,
+        "top": 375.1,
+        "width": 102.3,
+        "height": 12.3
+      }
+    },
+    "textField1511": {
+      "type": "text",
+      "label": "52. Training Chief or Officer Printed Name and Rank",
+      "page": 9,
+      "box": {
+        "left": 20.8,
+        "top": 339.1,
+        "width": 246.4,
+        "height": 12.3
+      }
+    },
+    "signatureField111": {
+      "type": "text",
+      "label": "53. Training Chief or Officer Signature",
+      "page": 9,
+      "box": {
+        "left": 272.9,
+        "top": 339.1,
+        "width": 210.4,
+        "height": 12.3
+      }
+    },
+    "dateTimeField911": {
+      "type": "text",
+      "label": "54. Date Completed",
+      "page": 9,
+      "box": {
+        "left": 488.9,
+        "top": 339.1,
+        "width": 102.3,
+        "height": 12.3
+      }
+    },
+    "textField1512": {
+      "type": "text",
+      "label": "55. Career Planner Printed Name and Rank",
+      "page": 9,
+      "box": {
+        "left": 20.8,
+        "top": 303.1,
+        "width": 246.4,
+        "height": 12.3
+      }
+    },
+    "signatureField112": {
+      "type": "text",
+      "label": "56. Career Planner Signature",
+      "page": 9,
+      "box": {
+        "left": 272.9,
+        "top": 303.1,
+        "width": 210.4,
+        "height": 12.3
+      }
+    },
+    "dateTimeField912": {
+      "type": "text",
+      "label": "57. Date Completed",
+      "page": 9,
+      "box": {
+        "left": 488.9,
+        "top": 303.1,
+        "width": 102.3,
+        "height": 12.3
+      }
+    },
+    "radio321": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 9,
+      "box": {
+        "left": 123.1,
+        "top": 248.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio322": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 9,
+      "box": {
+        "left": 164.8,
+        "top": 248.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio323": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 9,
+      "box": {
+        "left": 74.8,
+        "top": 218.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio324": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 9,
+      "box": {
+        "left": 116.5,
+        "top": 218.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "textField1513": {
+      "type": "text",
+      "label": "59. Battalion/Squadron SgtMaj Printed Name",
+      "page": 9,
+      "box": {
+        "left": 20.8,
+        "top": 168.1,
+        "width": 246.4,
+        "height": 12.3
+      }
+    },
+    "signatureField113": {
+      "type": "text",
+      "label": "60. Battalion/Squadron SgtMaj Signature",
+      "page": 9,
+      "box": {
+        "left": 272.9,
+        "top": 168.1,
+        "width": 210.4,
+        "height": 12.3
+      }
+    },
+    "dateTimeField913": {
+      "type": "text",
+      "label": "61. Date Completed",
+      "page": 9,
+      "box": {
+        "left": 488.9,
+        "top": 168.1,
+        "width": 102.3,
+        "height": 12.3
+      }
+    },
+    "textField1514": {
+      "type": "text",
+      "label": "62. Battalion/Squadron Commander Printed Name",
+      "page": 9,
+      "box": {
+        "left": 20.8,
+        "top": 132.1,
+        "width": 246.4,
+        "height": 12.3
+      }
+    },
+    "signatureField114": {
+      "type": "text",
+      "label": "63. Battalion/Squadron Commander Signature",
+      "page": 9,
+      "box": {
+        "left": 272.9,
+        "top": 132.1,
+        "width": 210.4,
+        "height": 12.3
+      }
+    },
+    "dateTimeField914": {
+      "type": "text",
+      "label": "64. Date Completed",
+      "page": 9,
+      "box": {
+        "left": 488.9,
+        "top": 132.1,
+        "width": 102.3,
+        "height": 12.3
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 2,
+      "count": 3,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "dropDownList": {
+          "type": "choice",
+          "label": "Preference",
+          "page": 2,
+          "box": {
+            "left": 129.6,
+            "top": 500.4,
+            "width": 83.4,
+            "height": 10.8
+          }
+        },
+        "textField5": {
+          "type": "text",
+          "label": "Class Number Preference",
+          "page": 2,
+          "box": {
+            "left": 332.7,
+            "top": 501.1,
+            "width": 60.5,
+            "height": 12.3
+          }
+        },
+        "textField52": {
+          "type": "text",
+          "label": "Second Class Preference",
+          "page": 2,
+          "box": {
+            "left": 508.9,
+            "top": 501.0,
+            "width": 64.4,
+            "height": 12.3
+          }
+        }
+      }
+    }
+  }
+}

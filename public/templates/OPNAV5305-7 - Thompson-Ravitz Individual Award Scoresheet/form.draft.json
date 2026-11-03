@@ -1,0 +1,457 @@
+{
+  "id": "opnav53057",
+  "label": "OPNAV5305-7 - Thompson-Ravitz Individual Award Scoresheet",
+  "directory": "OPNAV5305-7 - Thompson-Ravitz Individual Award Scoresheet",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf",
+    "page5.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "commandname",
+        "catergory",
+        "nomNme",
+        "commandpao",
+        "pocphone",
+        "pocemail",
+        "totMaxPt",
+        "jdgeID",
+        "ovrAllComm"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "aScr",
+        "bScr",
+        "cScr",
+        "dScr",
+        "eScr",
+        "fScr",
+        "gScr",
+        "resTotPts",
+        "resJgeFB"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "a2Scr",
+        "b2Scr",
+        "plnTotPts",
+        "plnJgeFB",
+        "a3Scr",
+        "b3Scr",
+        "c3Scr",
+        "d3Scr",
+        "impTotPts",
+        "impJgeFB"
+      ]
+    },
+    {
+      "title": "Page 4",
+      "fields": [
+        "a4Scr",
+        "b4Scr",
+        "c4Scr",
+        "d4Scr",
+        "evaTotPts",
+        "evaJgeFB"
+      ]
+    }
+  ],
+  "fields": {
+    "commandname": {
+      "type": "text",
+      "label": "ENTER COMMAND NAME",
+      "page": 1,
+      "box": {
+        "left": 127.2,
+        "top": 741.2,
+        "width": 448.8,
+        "height": 20.2
+      }
+    },
+    "catergory": {
+      "type": "choice",
+      "label": " 2. CATEGORY:\n (Choose only one)",
+      "page": 1,
+      "box": {
+        "left": 106.5,
+        "top": 721.0,
+        "width": 469.5,
+        "height": 20.2
+      },
+      "options": [
+        "  ",
+        "Junior Public Affairs Officer of the Year",
+        "Junior Reserve Public Affairs Officer of the Year",
+        "Junior Civilian Public Affairs Specialist of the Year",
+        "Junior Collateral Duty Public Affairs Officers of the Year",
+        "Enlisted Public Affairs Officer of the Year"
+      ]
+    },
+    "nomNme": {
+      "type": "text",
+      "label": "ENTER COMMAND NAME",
+      "page": 1,
+      "box": {
+        "left": 106.9,
+        "top": 700.8,
+        "width": 469.1,
+        "height": 20.2
+      }
+    },
+    "commandpao": {
+      "type": "text",
+      "label": "ENTER COMMAND NAME",
+      "page": 1,
+      "box": {
+        "left": 116.4,
+        "top": 680.6,
+        "width": 459.6,
+        "height": 20.2
+      }
+    },
+    "pocphone": {
+      "type": "text",
+      "label": "ENTER POC PHONE NUMBER",
+      "page": 1,
+      "box": {
+        "left": 368.3,
+        "top": 648.5,
+        "width": 204.3,
+        "height": 12.3
+      }
+    },
+    "pocemail": {
+      "type": "text",
+      "label": "ENTER POC EMAIL ADDRESS",
+      "page": 1,
+      "box": {
+        "left": 39.0,
+        "top": 646.5,
+        "width": 324.3,
+        "height": 10.3
+      }
+    },
+    "totMaxPt": {
+      "type": "text",
+      "label": "Enter the Points Awarded",
+      "page": 1,
+      "box": {
+        "left": 36.1,
+        "top": 518.0,
+        "width": 269.8,
+        "height": 21.9
+      }
+    },
+    "jdgeID": {
+      "type": "text",
+      "label": " 8.  JUDGE ID#:",
+      "page": 1,
+      "box": {
+        "left": 308.5,
+        "top": 518.0,
+        "width": 264.1,
+        "height": 19.2
+      }
+    },
+    "ovrAllComm": {
+      "type": "text",
+      "label": "ENTER COMMAND NAME",
+      "page": 1,
+      "box": {
+        "left": 36.0,
+        "top": 481.6,
+        "width": 540.0,
+        "height": 444.8
+      },
+      "multiline": true
+    },
+    "aScr": {
+      "type": "text",
+      "label": "Enter the Points Awarded",
+      "page": 2,
+      "box": {
+        "left": 495.0,
+        "top": 717.2,
+        "width": 81.0,
+        "height": 17.5
+      }
+    },
+    "bScr": {
+      "type": "text",
+      "label": "Enter the Points Awarded",
+      "page": 2,
+      "box": {
+        "left": 495.0,
+        "top": 699.0,
+        "width": 81.0,
+        "height": 23.1
+      }
+    },
+    "cScr": {
+      "type": "text",
+      "label": "Enter the Points Awarded",
+      "page": 2,
+      "box": {
+        "left": 495.0,
+        "top": 675.6,
+        "width": 81.0,
+        "height": 17.5
+      }
+    },
+    "dScr": {
+      "type": "text",
+      "label": "Enter the Points Awarded",
+      "page": 2,
+      "box": {
+        "left": 495.0,
+        "top": 658.1,
+        "width": 81.0,
+        "height": 17.5
+      }
+    },
+    "eScr": {
+      "type": "text",
+      "label": "Enter the Points Awarded",
+      "page": 2,
+      "box": {
+        "left": 495.0,
+        "top": 640.1,
+        "width": 81.0,
+        "height": 23.1
+      }
+    },
+    "fScr": {
+      "type": "text",
+      "label": "Enter the Points Awarded",
+      "page": 2,
+      "box": {
+        "left": 495.0,
+        "top": 617.0,
+        "width": 81.0,
+        "height": 17.5
+      }
+    },
+    "gScr": {
+      "type": "text",
+      "label": "Enter the Points Awarded",
+      "page": 2,
+      "box": {
+        "left": 495.0,
+        "top": 599.4,
+        "width": 81.0,
+        "height": 17.5
+      }
+    },
+    "resTotPts": {
+      "type": "text",
+      "label": "Enter the Points Awarded",
+      "page": 2,
+      "box": {
+        "left": 495.0,
+        "top": 581.8,
+        "width": 81.0,
+        "height": 17.5
+      }
+    },
+    "resJgeFB": {
+      "type": "text",
+      "label": "ENTER COMMAND NAME",
+      "page": 2,
+      "box": {
+        "left": 36.0,
+        "top": 550.4,
+        "width": 540.0,
+        "height": 513.8
+      },
+      "multiline": true
+    },
+    "a2Scr": {
+      "type": "text",
+      "label": "Enter the Points Awarded",
+      "page": 3,
+      "box": {
+        "left": 495.0,
+        "top": 733.5,
+        "width": 81.0,
+        "height": 17.5
+      }
+    },
+    "b2Scr": {
+      "type": "text",
+      "label": "Enter the Points Awarded",
+      "page": 3,
+      "box": {
+        "left": 495.0,
+        "top": 715.9,
+        "width": 81.0,
+        "height": 17.5
+      }
+    },
+    "plnTotPts": {
+      "type": "text",
+      "label": "Enter the Points Awarded",
+      "page": 3,
+      "box": {
+        "left": 495.0,
+        "top": 698.3,
+        "width": 81.0,
+        "height": 17.5
+      }
+    },
+    "plnJgeFB": {
+      "type": "text",
+      "label": "ENTER COMMAND NAME",
+      "page": 3,
+      "box": {
+        "left": 36.0,
+        "top": 666.1,
+        "width": 540.0,
+        "height": 252.7
+      },
+      "multiline": true
+    },
+    "a3Scr": {
+      "type": "text",
+      "label": "Enter the Points Awarded",
+      "page": 3,
+      "box": {
+        "left": 495.0,
+        "top": 390.6,
+        "width": 81.0,
+        "height": 16.6
+      }
+    },
+    "b3Scr": {
+      "type": "text",
+      "label": "Enter the Points Awarded",
+      "page": 3,
+      "box": {
+        "left": 495.0,
+        "top": 373.9,
+        "width": 81.0,
+        "height": 14.8
+      }
+    },
+    "c3Scr": {
+      "type": "text",
+      "label": "Enter the Points Awarded",
+      "page": 3,
+      "box": {
+        "left": 495.0,
+        "top": 358.9,
+        "width": 81.0,
+        "height": 16.6
+      }
+    },
+    "d3Scr": {
+      "type": "text",
+      "label": "Enter the Points Awarded",
+      "page": 3,
+      "box": {
+        "left": 495.0,
+        "top": 342.1,
+        "width": 81.0,
+        "height": 23.1
+      }
+    },
+    "impTotPts": {
+      "type": "text",
+      "label": "Enter the Points Awarded",
+      "page": 3,
+      "box": {
+        "left": 495.0,
+        "top": 319.1,
+        "width": 81.0,
+        "height": 17.5
+      }
+    },
+    "impJgeFB": {
+      "type": "text",
+      "label": "ENTER COMMAND NAME",
+      "page": 3,
+      "box": {
+        "left": 36.0,
+        "top": 288.3,
+        "width": 540.0,
+        "height": 251.7
+      },
+      "multiline": true
+    },
+    "a4Scr": {
+      "type": "text",
+      "label": "Enter the Points Awarded",
+      "page": 4,
+      "box": {
+        "left": 495.0,
+        "top": 733.3,
+        "width": 81.0,
+        "height": 22.6
+      }
+    },
+    "b4Scr": {
+      "type": "text",
+      "label": "Enter the Points Awarded",
+      "page": 4,
+      "box": {
+        "left": 495.0,
+        "top": 710.2,
+        "width": 81.0,
+        "height": 16.6
+      }
+    },
+    "c4Scr": {
+      "type": "text",
+      "label": "Enter the Points Awarded",
+      "page": 4,
+      "box": {
+        "left": 495.0,
+        "top": 693.5,
+        "width": 81.0,
+        "height": 22.6
+      }
+    },
+    "d4Scr": {
+      "type": "text",
+      "label": "Enter the Points Awarded",
+      "page": 4,
+      "box": {
+        "left": 495.0,
+        "top": 670.7,
+        "width": 81.0,
+        "height": 17.5
+      }
+    },
+    "evaTotPts": {
+      "type": "text",
+      "label": "Enter the Points Awarded",
+      "page": 4,
+      "box": {
+        "left": 495.0,
+        "top": 653.4,
+        "width": 81.0,
+        "height": 17.5
+      }
+    },
+    "evaJgeFB": {
+      "type": "text",
+      "label": "ENTER COMMAND NAME",
+      "page": 4,
+      "box": {
+        "left": 36.0,
+        "top": 621.6,
+        "width": 540.0,
+        "height": 585.6
+      },
+      "multiline": true
+    }
+  }
+}

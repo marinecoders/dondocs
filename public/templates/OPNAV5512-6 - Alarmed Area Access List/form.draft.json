@@ -1,0 +1,532 @@
+{
+  "id": "opnav55126",
+  "label": "OPNAV5512-6 - Alarmed Area Access List",
+  "directory": "OPNAV5512-6 - Alarmed Area Access List",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "areanumber",
+        "date",
+        "officecode",
+        "alternatecustodian1a",
+        "rankrategrade1a",
+        "cardnumber1a",
+        "alternatecustodian2a",
+        "rankrategrade2a",
+        "cardnumber2a",
+        "alternatecustodian3a",
+        "rankrategrade3a",
+        "cardnumber3a",
+        "alternatecustodian4a",
+        "rankrategrade4a",
+        "cardnumber4a",
+        "alternatecustodian5a",
+        "rankrategrade5a",
+        "cardnumber5a",
+        "alternatecustodian6a",
+        "rankrategrade6a",
+        "cardnumber6a",
+        "alternatecustodian7a",
+        "rankrategrade7a",
+        "cardnumber7a",
+        "alternatecustodian8a",
+        "rankrategrade8a",
+        "cardnumber8a",
+        "custodianstypednameandsignature",
+        "officephonenumber1",
+        "homephonenumber",
+        "alternatecustodianstypedname",
+        "officephonenumber2",
+        "homephonenumber2",
+        "areaNO",
+        "zoneNOs",
+        "roomnumbers",
+        "accessthrough",
+        "remarks"
+      ]
+    }
+  ],
+  "fields": {
+    "areanumber": {
+      "type": "text",
+      "label": "Enter the area number.",
+      "page": 1,
+      "box": {
+        "left": 267.8,
+        "top": 489.3,
+        "width": 144.3,
+        "height": 21.1
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "Enter the date using the format MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 414.9,
+        "top": 489.3,
+        "width": 149.0,
+        "height": 21.1
+      }
+    },
+    "officecode": {
+      "type": "text",
+      "label": "Enter the office code.",
+      "page": 1,
+      "box": {
+        "left": 566.7,
+        "top": 489.3,
+        "width": 150.0,
+        "height": 21.1
+      }
+    },
+    "alternatecustodian1a": {
+      "type": "text",
+      "label": "Enter the alternate custodian's; name, last, first, M.I., SSN.",
+      "page": 1,
+      "box": {
+        "left": 399.8,
+        "top": 443.4,
+        "width": 183.9,
+        "height": 22.1
+      }
+    },
+    "rankrategrade1a": {
+      "type": "text",
+      "label": "Enter the rank, rate or grade.",
+      "page": 1,
+      "box": {
+        "left": 585.5,
+        "top": 443.4,
+        "width": 73.3,
+        "height": 22.1
+      }
+    },
+    "cardnumber1a": {
+      "type": "text",
+      "label": "Enter the card number.",
+      "page": 1,
+      "box": {
+        "left": 661.2,
+        "top": 443.4,
+        "width": 55.0,
+        "height": 22.1
+      }
+    },
+    "alternatecustodian2a": {
+      "type": "text",
+      "label": "Enter the alternate custodian's; name, last, first, M.I., SSN.",
+      "page": 1,
+      "box": {
+        "left": 399.8,
+        "top": 419.7,
+        "width": 183.9,
+        "height": 22.1
+      }
+    },
+    "rankrategrade2a": {
+      "type": "text",
+      "label": "Enter the rank, rate or grade.",
+      "page": 1,
+      "box": {
+        "left": 585.5,
+        "top": 419.7,
+        "width": 73.3,
+        "height": 22.1
+      }
+    },
+    "cardnumber2a": {
+      "type": "text",
+      "label": "Enter the card number.",
+      "page": 1,
+      "box": {
+        "left": 661.2,
+        "top": 419.7,
+        "width": 55.0,
+        "height": 22.1
+      }
+    },
+    "alternatecustodian3a": {
+      "type": "text",
+      "label": "Enter the alternate custodian's; name, last, first, M.I., SSN.",
+      "page": 1,
+      "box": {
+        "left": 399.8,
+        "top": 396.0,
+        "width": 183.9,
+        "height": 22.1
+      }
+    },
+    "rankrategrade3a": {
+      "type": "text",
+      "label": "Enter the rank, rate or grade.",
+      "page": 1,
+      "box": {
+        "left": 585.5,
+        "top": 396.0,
+        "width": 73.3,
+        "height": 22.1
+      }
+    },
+    "cardnumber3a": {
+      "type": "text",
+      "label": "Enter the card number.",
+      "page": 1,
+      "box": {
+        "left": 661.2,
+        "top": 396.0,
+        "width": 55.0,
+        "height": 22.1
+      }
+    },
+    "alternatecustodian4a": {
+      "type": "text",
+      "label": "Enter the alternate custodian's; name, last, first, M.I., SSN.",
+      "page": 1,
+      "box": {
+        "left": 399.8,
+        "top": 372.3,
+        "width": 183.9,
+        "height": 22.1
+      }
+    },
+    "rankrategrade4a": {
+      "type": "text",
+      "label": "Enter the rank, rate or grade.",
+      "page": 1,
+      "box": {
+        "left": 585.5,
+        "top": 372.3,
+        "width": 73.3,
+        "height": 22.1
+      }
+    },
+    "cardnumber4a": {
+      "type": "text",
+      "label": "Enter the card number.",
+      "page": 1,
+      "box": {
+        "left": 661.2,
+        "top": 372.3,
+        "width": 55.0,
+        "height": 22.1
+      }
+    },
+    "alternatecustodian5a": {
+      "type": "text",
+      "label": "Enter the alternate custodian's; name, last, first, M.I., SSN.",
+      "page": 1,
+      "box": {
+        "left": 399.8,
+        "top": 348.6,
+        "width": 183.9,
+        "height": 22.1
+      }
+    },
+    "rankrategrade5a": {
+      "type": "text",
+      "label": "Enter the rank, rate or grade.",
+      "page": 1,
+      "box": {
+        "left": 585.5,
+        "top": 348.6,
+        "width": 73.3,
+        "height": 22.1
+      }
+    },
+    "cardnumber5a": {
+      "type": "text",
+      "label": "Enter the card number.",
+      "page": 1,
+      "box": {
+        "left": 661.2,
+        "top": 348.6,
+        "width": 55.0,
+        "height": 22.1
+      }
+    },
+    "alternatecustodian6a": {
+      "type": "text",
+      "label": "Enter the alternate custodian's; name, last, first, M.I., SSN.",
+      "page": 1,
+      "box": {
+        "left": 399.8,
+        "top": 324.9,
+        "width": 183.9,
+        "height": 22.1
+      }
+    },
+    "rankrategrade6a": {
+      "type": "text",
+      "label": "Enter the rank, rate or grade.",
+      "page": 1,
+      "box": {
+        "left": 585.5,
+        "top": 324.9,
+        "width": 73.3,
+        "height": 22.1
+      }
+    },
+    "cardnumber6a": {
+      "type": "text",
+      "label": "Enter the card number.",
+      "page": 1,
+      "box": {
+        "left": 661.2,
+        "top": 324.9,
+        "width": 55.0,
+        "height": 22.1
+      }
+    },
+    "alternatecustodian7a": {
+      "type": "text",
+      "label": "Enter the alternate custodian's; name, last, first, M.I., SSN.",
+      "page": 1,
+      "box": {
+        "left": 399.8,
+        "top": 301.2,
+        "width": 183.9,
+        "height": 22.1
+      }
+    },
+    "rankrategrade7a": {
+      "type": "text",
+      "label": "Enter the rank, rate or grade.",
+      "page": 1,
+      "box": {
+        "left": 585.5,
+        "top": 301.2,
+        "width": 73.3,
+        "height": 22.1
+      }
+    },
+    "cardnumber7a": {
+      "type": "text",
+      "label": "Enter the card number.",
+      "page": 1,
+      "box": {
+        "left": 661.2,
+        "top": 301.2,
+        "width": 55.0,
+        "height": 22.1
+      }
+    },
+    "alternatecustodian8a": {
+      "type": "text",
+      "label": "Enter the alternate custodian's; name, last, first, M.I., SSN.",
+      "page": 1,
+      "box": {
+        "left": 399.8,
+        "top": 277.4,
+        "width": 183.9,
+        "height": 22.1
+      }
+    },
+    "rankrategrade8a": {
+      "type": "text",
+      "label": "Enter the rank, rate or grade.",
+      "page": 1,
+      "box": {
+        "left": 585.5,
+        "top": 277.4,
+        "width": 73.3,
+        "height": 22.1
+      }
+    },
+    "cardnumber8a": {
+      "type": "text",
+      "label": "Enter the card number.",
+      "page": 1,
+      "box": {
+        "left": 661.2,
+        "top": 277.4,
+        "width": 55.0,
+        "height": 22.1
+      }
+    },
+    "custodianstypednameandsignature": {
+      "type": "text",
+      "label": "Enter the custodian's typed name and signature.",
+      "page": 1,
+      "box": {
+        "left": 75.8,
+        "top": 240.5,
+        "width": 396.2,
+        "height": 33.1
+      },
+      "multiline": true
+    },
+    "officephonenumber1": {
+      "type": "text",
+      "label": "Enter the custodian's office telephone number.",
+      "page": 1,
+      "box": {
+        "left": 473.8,
+        "top": 240.5,
+        "width": 118.7,
+        "height": 33.1
+      },
+      "multiline": true
+    },
+    "homephonenumber": {
+      "type": "text",
+      "label": "Enter the custodian's home telephone number.",
+      "page": 1,
+      "box": {
+        "left": 594.9,
+        "top": 240.5,
+        "width": 121.3,
+        "height": 33.1
+      },
+      "multiline": true
+    },
+    "alternatecustodianstypedname": {
+      "type": "text",
+      "label": "Enter the alternate custodians typed name.",
+      "page": 1,
+      "box": {
+        "left": 75.8,
+        "top": 192.5,
+        "width": 396.2,
+        "height": 33.1
+      },
+      "multiline": true
+    },
+    "officephonenumber2": {
+      "type": "text",
+      "label": "Enter the alternate custodian's office telephone number.",
+      "page": 1,
+      "box": {
+        "left": 473.8,
+        "top": 192.5,
+        "width": 118.7,
+        "height": 33.1
+      },
+      "multiline": true
+    },
+    "homephonenumber2": {
+      "type": "text",
+      "label": "Enter the alternate custodian's home telephone number.",
+      "page": 1,
+      "box": {
+        "left": 594.9,
+        "top": 192.5,
+        "width": 121.3,
+        "height": 33.1
+      },
+      "multiline": true
+    },
+    "areaNO": {
+      "type": "text",
+      "label": "Enter the area number.",
+      "page": 1,
+      "box": {
+        "left": 75.8,
+        "top": 146.1,
+        "width": 74.9,
+        "height": 22.6
+      }
+    },
+    "zoneNOs": {
+      "type": "text",
+      "label": "Enter the zone numbers.",
+      "page": 1,
+      "box": {
+        "left": 153.0,
+        "top": 146.1,
+        "width": 78.0,
+        "height": 22.6
+      }
+    },
+    "roomnumbers": {
+      "type": "text",
+      "label": "Enter the room numbers.",
+      "page": 1,
+      "box": {
+        "left": 232.8,
+        "top": 146.1,
+        "width": 78.0,
+        "height": 22.6
+      }
+    },
+    "accessthrough": {
+      "type": "text",
+      "label": "Enter who access if through.",
+      "page": 1,
+      "box": {
+        "left": 312.6,
+        "top": 146.1,
+        "width": 90.0,
+        "height": 22.6
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "Enter the remarks, list personnel names alphabetically.",
+      "page": 1,
+      "box": {
+        "left": 403.9,
+        "top": 146.1,
+        "width": 312.3,
+        "height": 22.6
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 6,
+      "rowStride": 23.72,
+      "editor": "grid",
+      "columns": {
+        "alternatecustodian": {
+          "type": "text",
+          "label": "Enter the alternate custodian's; name, last, first, M.I., SSN.",
+          "page": 1,
+          "box": {
+            "left": 75.8,
+            "top": 395.9,
+            "width": 189.7,
+            "height": 22.1
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 8,
+      "rowStride": 23.71,
+      "editor": "grid",
+      "columns": {
+        "rankrategrade": {
+          "type": "text",
+          "label": "Enter the rank, rate or grade.",
+          "page": 1,
+          "box": {
+            "left": 267.8,
+            "top": 443.4,
+            "width": 72.3,
+            "height": 22.1
+          }
+        },
+        "cardnumber": {
+          "type": "text",
+          "label": "Enter the card number.",
+          "page": 1,
+          "box": {
+            "left": 342.4,
+            "top": 443.4,
+            "width": 55.0,
+            "height": 22.1
+          }
+        }
+      }
+    }
+  }
+}

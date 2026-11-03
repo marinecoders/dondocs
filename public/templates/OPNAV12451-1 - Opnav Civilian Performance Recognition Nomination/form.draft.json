@@ -1,0 +1,188 @@
+{
+  "id": "opnav124511",
+  "label": "OPNAV12451-1 - Opnav Civilian Performance Recognition Nomination",
+  "directory": "OPNAV12451-1 - Opnav Civilian Performance Recognition Nomination",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "textField1",
+        "radio",
+        "radio2",
+        "radio3",
+        "radio4",
+        "textField15",
+        "textField16",
+        "dateTimeField1",
+        "signatureField1",
+        "textField17",
+        "dateTimeField12",
+        "signatureField12"
+      ]
+    }
+  ],
+  "fields": {
+    "textField1": {
+      "type": "text",
+      "label": "FY",
+      "page": 1,
+      "box": {
+        "left": 357.3,
+        "top": 654.2,
+        "width": 44.9,
+        "height": 12.1
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 133.4,
+        "top": 619.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 344.9,
+        "top": 619.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 133.4,
+        "top": 605.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 344.9,
+        "top": 605.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "textField15": {
+      "type": "text",
+      "label": "Justification",
+      "page": 1,
+      "box": {
+        "left": 52.3,
+        "top": 503.5,
+        "width": 493.9,
+        "height": 370.3
+      },
+      "multiline": true
+    },
+    "textField16": {
+      "type": "text",
+      "label": "Justification",
+      "page": 1,
+      "box": {
+        "left": 52.3,
+        "top": 123.1,
+        "width": 169.9,
+        "height": 21.3
+      }
+    },
+    "dateTimeField1": {
+      "type": "text",
+      "label": "Q3/Q4",
+      "page": 1,
+      "box": {
+        "left": 259.4,
+        "top": 123.1,
+        "width": 84.3,
+        "height": 21.3
+      }
+    },
+    "signatureField1": {
+      "type": "text",
+      "label": "Senior Nominee",
+      "page": 1,
+      "box": {
+        "left": 381.2,
+        "top": 123.1,
+        "width": 167.9,
+        "height": 21.4
+      }
+    },
+    "textField17": {
+      "type": "text",
+      "label": "Nominator Name, Code, Title",
+      "page": 1,
+      "box": {
+        "left": 52.3,
+        "top": 83.8,
+        "width": 169.9,
+        "height": 21.3
+      }
+    },
+    "dateTimeField12": {
+      "type": "text",
+      "label": "Signature Date",
+      "page": 1,
+      "box": {
+        "left": 259.4,
+        "top": 83.8,
+        "width": 84.3,
+        "height": 21.3
+      }
+    },
+    "signatureField12": {
+      "type": "text",
+      "label": "Nominator Signature",
+      "page": 1,
+      "box": {
+        "left": 381.2,
+        "top": 83.8,
+        "width": 167.9,
+        "height": 21.4
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "textField1": {
+          "type": "text",
+          "label": "Directorate",
+          "page": 1,
+          "box": {
+            "left": 198.4,
+            "top": 582.1,
+            "width": 336.6,
+            "height": 12.3
+          }
+        }
+      }
+    }
+  }
+}

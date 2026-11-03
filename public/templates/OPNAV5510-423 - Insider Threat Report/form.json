@@ -1,0 +1,331 @@
+{
+  "id": "opnav5510423",
+  "label": "OPNAV5510-423 - Insider Threat Report",
+  "directory": "OPNAV5510-423 - Insider Threat Report",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "dteSub",
+        "subName",
+        "subPhone",
+        "subEmail",
+        "subPos",
+        "subComm",
+        "chainComm",
+        "dteChain",
+        "number",
+        "subjName",
+        "subjDOB",
+        "subjID",
+        "subjSSN",
+        "act",
+        "res",
+        "cont",
+        "civ",
+        "subjPos",
+        "subjClear",
+        "subjComm",
+        "refNar",
+        "mitAct",
+        "contBy",
+        "cUICat",
+        "ldc",
+        "poc"
+      ]
+    }
+  ],
+  "fields": {
+    "dteSub": {
+      "type": "text",
+      "label": "1. DATE OF SUBMISSION",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 422.0,
+        "width": 169.0,
+        "height": 12.3
+      }
+    },
+    "subName": {
+      "type": "text",
+      "label": "2. NAME OF SUBMITTER",
+      "page": 1,
+      "box": {
+        "left": 213.5,
+        "top": 422.0,
+        "width": 169.0,
+        "height": 12.3
+      }
+    },
+    "subPhone": {
+      "type": "text",
+      "label": "3. PHONE NUMBER",
+      "page": 1,
+      "box": {
+        "left": 388.1,
+        "top": 422.0,
+        "width": 185.2,
+        "height": 12.3
+      }
+    },
+    "subEmail": {
+      "type": "text",
+      "label": "4. EMAIL ADDRESS",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 393.2,
+        "width": 169.0,
+        "height": 12.3
+      }
+    },
+    "subPos": {
+      "type": "text",
+      "label": "5. POSITION",
+      "page": 1,
+      "box": {
+        "left": 213.5,
+        "top": 393.2,
+        "width": 169.0,
+        "height": 12.3
+      }
+    },
+    "subComm": {
+      "type": "text",
+      "label": "6. COMMAND/UNIT",
+      "page": 1,
+      "box": {
+        "left": 388.1,
+        "top": 393.2,
+        "width": 185.2,
+        "height": 12.3
+      }
+    },
+    "chainComm": {
+      "type": "text",
+      "label": "7. WHO, IF ANYONE, IN THE CHAIN OF COMMAND IS AWARE?",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 364.4,
+        "width": 343.6,
+        "height": 12.3
+      }
+    },
+    "dteChain": {
+      "type": "text",
+      "label": "8. DATE CHAIN OF COMMAND WAS INFORMED",
+      "page": 1,
+      "box": {
+        "left": 388.1,
+        "top": 364.4,
+        "width": 185.2,
+        "height": 12.3
+      }
+    },
+    "number": {
+      "type": "text",
+      "label": "SUBJECT #",
+      "page": 1,
+      "box": {
+        "left": 92.8,
+        "top": 310.4,
+        "width": 12.3,
+        "height": 12.3
+      }
+    },
+    "subjName": {
+      "type": "text",
+      "label": "a. NAME",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 283.1,
+        "width": 169.0,
+        "height": 13.9
+      }
+    },
+    "subjDOB": {
+      "type": "text",
+      "label": "b. DATE OF BIRTH",
+      "page": 1,
+      "box": {
+        "left": 213.5,
+        "top": 281.6,
+        "width": 84.3,
+        "height": 12.3
+      }
+    },
+    "subjID": {
+      "type": "text",
+      "label": "c. DoD ID",
+      "page": 1,
+      "box": {
+        "left": 303.5,
+        "top": 281.6,
+        "width": 132.0,
+        "height": 12.3
+      }
+    },
+    "subjSSN": {
+      "type": "text",
+      "label": "d. SOCIAL SECURITY NUMBER",
+      "page": 1,
+      "box": {
+        "left": 441.2,
+        "top": 281.6,
+        "width": 132.0,
+        "height": 12.3
+      }
+    },
+    "act": {
+      "type": "checkbox",
+      "label": "e. STATUS (Check all that are apply)",
+      "page": 1,
+      "box": {
+        "left": 221.7,
+        "top": 261.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "res": {
+      "type": "checkbox",
+      "label": "ACTIVE",
+      "page": 1,
+      "box": {
+        "left": 301.1,
+        "top": 261.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cont": {
+      "type": "checkbox",
+      "label": "CIVILIAN",
+      "page": 1,
+      "box": {
+        "left": 380.4,
+        "top": 261.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "civ": {
+      "type": "checkbox",
+      "label": "CONTRACTOR",
+      "page": 1,
+      "box": {
+        "left": 459.8,
+        "top": 261.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "subjPos": {
+      "type": "text",
+      "label": "f. POSITION",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 234.8,
+        "width": 169.0,
+        "height": 12.3
+      }
+    },
+    "subjClear": {
+      "type": "text",
+      "label": "g. SECURITY CLEARANCE AND ACCESS",
+      "page": 1,
+      "box": {
+        "left": 213.5,
+        "top": 234.8,
+        "width": 169.0,
+        "height": 12.3
+      }
+    },
+    "subjComm": {
+      "type": "text",
+      "label": "h. COMMAND/UNIT",
+      "page": 1,
+      "box": {
+        "left": 388.1,
+        "top": 234.8,
+        "width": 185.2,
+        "height": 12.3
+      }
+    },
+    "refNar": {
+      "type": "text",
+      "label": "Provide or attach any available supporting documentation.)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 180.8,
+        "width": 534.4,
+        "height": 42.9
+      },
+      "multiline": true
+    },
+    "mitAct": {
+      "type": "text",
+      "label": "reported.)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 85.4,
+        "width": 534.4,
+        "height": 46.5
+      },
+      "multiline": true
+    },
+    "contBy": {
+      "type": "text",
+      "label": "CONTROLLED BY",
+      "page": 1,
+      "box": {
+        "left": 406.1,
+        "top": 32.5,
+        "width": 108.1,
+        "height": 6.6
+      }
+    },
+    "cUICat": {
+      "type": "text",
+      "label": "CUI (when filled in) CUI CATEGORY",
+      "page": 1,
+      "box": {
+        "left": 406.1,
+        "top": 24.0,
+        "width": 108.1,
+        "height": 6.6
+      }
+    },
+    "ldc": {
+      "type": "text",
+      "label": "LDC",
+      "page": 1,
+      "box": {
+        "left": 406.1,
+        "top": 17.4,
+        "width": 108.1,
+        "height": 6.6
+      }
+    },
+    "poc": {
+      "type": "text",
+      "label": "POC",
+      "page": 1,
+      "box": {
+        "left": 406.1,
+        "top": 9.4,
+        "width": 108.1,
+        "height": 6.6
+      }
+    }
+  }
+}

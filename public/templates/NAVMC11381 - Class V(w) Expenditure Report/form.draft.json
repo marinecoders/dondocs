@@ -1,0 +1,1099 @@
+{
+  "id": "navmc11381",
+  "label": "NAVMC11381 - Class V(w) Expenditure Report",
+  "directory": "NAVMC11381 - Class V(w) Expenditure Report",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "unit",
+        "name",
+        "from",
+        "uic",
+        "rank",
+        "phoneNumber",
+        "dateRange",
+        "range",
+        "docNum1",
+        "dodic1",
+        "nomenclature1",
+        "lotNum1",
+        "qtyRec1",
+        "qtyExt1",
+        "qtyServ1",
+        "qtyUnServ1",
+        "docNum2",
+        "dodic2",
+        "nomenclature2",
+        "lotNum2",
+        "qtyRec2",
+        "qtyExt2",
+        "qtyServ2",
+        "qtyUnServ2",
+        "docNum3",
+        "dodic3",
+        "nomenclature3",
+        "lotNum3",
+        "qtyRec3",
+        "qtyExt3",
+        "qtyServ3",
+        "qtyUnServ3",
+        "docNum4",
+        "dodic4",
+        "nomenclature4",
+        "lotNum4",
+        "qtyRec4",
+        "qtyExt4",
+        "qtyServ4",
+        "qtyUnServ4",
+        "docNum5",
+        "dodic5",
+        "nomenclature5",
+        "lotNum5",
+        "qtyRec5",
+        "qtyExt5",
+        "qtyServ5",
+        "qtyUnServ5",
+        "docNum6",
+        "dodic6",
+        "nomenclature6",
+        "lotNum6",
+        "qtyRec6",
+        "qtyExt6",
+        "qtyServ6",
+        "qtyUnServ6",
+        "docNum7",
+        "dodic7",
+        "nomenclature7",
+        "lotNum7",
+        "qtyRec7",
+        "qtyExt7",
+        "qtyServ7",
+        "qtyUnServ7",
+        "docNum8",
+        "dodic8",
+        "nomenclature8",
+        "lotNum8",
+        "qtyRec8",
+        "qtyExt8",
+        "qtyServ8",
+        "qtyUnServ8",
+        "increments",
+        "signaturePC",
+        "pc",
+        "techName",
+        "unitName",
+        "techPhone",
+        "dateOIC",
+        "signatureOIC",
+        "dateTech",
+        "signatureTech",
+        "rad1Yes",
+        "rad1Yes2",
+        "signatureVO",
+        "nameVO",
+        "dateVO",
+        "pageAdd",
+        "pageThis",
+        "pagesTotal"
+      ]
+    }
+  ],
+  "fields": {
+    "unit": {
+      "type": "text",
+      "label": "Unit:",
+      "page": 1,
+      "box": {
+        "left": 516.1,
+        "top": 561.6,
+        "width": 255.7,
+        "height": 15.4
+      }
+    },
+    "name": {
+      "type": "text",
+      "label": "Print Name:",
+      "page": 1,
+      "box": {
+        "left": 93.3,
+        "top": 560.8,
+        "width": 290.8,
+        "height": 29.7
+      }
+    },
+    "from": {
+      "type": "text",
+      "label": "From:  (OIC/EOD)",
+      "page": 1,
+      "box": {
+        "left": 20.9,
+        "top": 560.2,
+        "width": 65.8,
+        "height": 29.1
+      }
+    },
+    "uic": {
+      "type": "text",
+      "label": "UIC:",
+      "page": 1,
+      "box": {
+        "left": 457.5,
+        "top": 559.5,
+        "width": 53.5,
+        "height": 27.1
+      }
+    },
+    "rank": {
+      "type": "text",
+      "label": "Rank",
+      "page": 1,
+      "box": {
+        "left": 389.8,
+        "top": 557.8,
+        "width": 62.8,
+        "height": 26.0
+      }
+    },
+    "phoneNumber": {
+      "type": "text",
+      "label": "Enter Phone Number plus area code",
+      "page": 1,
+      "box": {
+        "left": 578.1,
+        "top": 540.1,
+        "width": 193.7,
+        "height": 8.6
+      }
+    },
+    "dateRange": {
+      "type": "text",
+      "label": "DateRange",
+      "page": 1,
+      "box": {
+        "left": 390.6,
+        "top": 487.2,
+        "width": 73.4,
+        "height": 14.4
+      }
+    },
+    "range": {
+      "type": "text",
+      "label": "Range",
+      "page": 1,
+      "box": {
+        "left": 111.9,
+        "top": 485.3,
+        "width": 235.1,
+        "height": 12.1
+      }
+    },
+    "docNum1": {
+      "type": "text",
+      "label": "DocNum1",
+      "page": 1,
+      "box": {
+        "left": 22.3,
+        "top": 429.2,
+        "width": 120.3,
+        "height": 11.2
+      }
+    },
+    "dodic1": {
+      "type": "text",
+      "label": "DODIC1",
+      "page": 1,
+      "box": {
+        "left": 152.1,
+        "top": 429.2,
+        "width": 39.3,
+        "height": 11.2
+      }
+    },
+    "nomenclature1": {
+      "type": "text",
+      "label": "Nomenclature1",
+      "page": 1,
+      "box": {
+        "left": 200.9,
+        "top": 429.2,
+        "width": 144.3,
+        "height": 11.2
+      }
+    },
+    "lotNum1": {
+      "type": "text",
+      "label": "LotNum1",
+      "page": 1,
+      "box": {
+        "left": 350.8,
+        "top": 429.2,
+        "width": 163.8,
+        "height": 11.2
+      }
+    },
+    "qtyRec1": {
+      "type": "text",
+      "label": "QtyRec1",
+      "page": 1,
+      "box": {
+        "left": 520.2,
+        "top": 429.2,
+        "width": 50.3,
+        "height": 11.2
+      }
+    },
+    "qtyExt1": {
+      "type": "text",
+      "label": "QtyExt1",
+      "page": 1,
+      "box": {
+        "left": 576.1,
+        "top": 429.2,
+        "width": 50.3,
+        "height": 11.2
+      }
+    },
+    "qtyServ1": {
+      "type": "text",
+      "label": "QtyServ1",
+      "page": 1,
+      "box": {
+        "left": 632.1,
+        "top": 429.2,
+        "width": 61.2,
+        "height": 11.2
+      }
+    },
+    "qtyUnServ1": {
+      "type": "text",
+      "label": "QtyUnServ1",
+      "page": 1,
+      "box": {
+        "left": 700.3,
+        "top": 429.2,
+        "width": 69.3,
+        "height": 11.2
+      }
+    },
+    "docNum2": {
+      "type": "text",
+      "label": "DocNum2",
+      "page": 1,
+      "box": {
+        "left": 22.3,
+        "top": 409.8,
+        "width": 120.3,
+        "height": 12.4
+      }
+    },
+    "dodic2": {
+      "type": "text",
+      "label": "DODIC2",
+      "page": 1,
+      "box": {
+        "left": 152.1,
+        "top": 409.8,
+        "width": 39.3,
+        "height": 12.4
+      }
+    },
+    "nomenclature2": {
+      "type": "text",
+      "label": "Nomenclature2",
+      "page": 1,
+      "box": {
+        "left": 200.8,
+        "top": 409.8,
+        "width": 144.3,
+        "height": 12.4
+      }
+    },
+    "lotNum2": {
+      "type": "text",
+      "label": "LotNum2",
+      "page": 1,
+      "box": {
+        "left": 350.8,
+        "top": 409.8,
+        "width": 163.8,
+        "height": 12.4
+      }
+    },
+    "qtyRec2": {
+      "type": "text",
+      "label": "QtyRec2",
+      "page": 1,
+      "box": {
+        "left": 520.2,
+        "top": 409.8,
+        "width": 50.3,
+        "height": 12.4
+      }
+    },
+    "qtyExt2": {
+      "type": "text",
+      "label": "QtyExt2",
+      "page": 1,
+      "box": {
+        "left": 576.1,
+        "top": 409.8,
+        "width": 50.3,
+        "height": 12.4
+      }
+    },
+    "qtyServ2": {
+      "type": "text",
+      "label": "QtyServ2",
+      "page": 1,
+      "box": {
+        "left": 632.1,
+        "top": 409.8,
+        "width": 61.2,
+        "height": 12.4
+      }
+    },
+    "qtyUnServ2": {
+      "type": "text",
+      "label": "QtyUnServ2",
+      "page": 1,
+      "box": {
+        "left": 700.3,
+        "top": 409.8,
+        "width": 69.3,
+        "height": 12.4
+      }
+    },
+    "docNum3": {
+      "type": "text",
+      "label": "DocNum3",
+      "page": 1,
+      "box": {
+        "left": 22.3,
+        "top": 389.5,
+        "width": 120.3,
+        "height": 12.4
+      }
+    },
+    "dodic3": {
+      "type": "text",
+      "label": "DODIC3",
+      "page": 1,
+      "box": {
+        "left": 152.1,
+        "top": 389.5,
+        "width": 39.3,
+        "height": 12.4
+      }
+    },
+    "nomenclature3": {
+      "type": "text",
+      "label": "Nomenclature3",
+      "page": 1,
+      "box": {
+        "left": 200.8,
+        "top": 389.5,
+        "width": 144.3,
+        "height": 12.4
+      }
+    },
+    "lotNum3": {
+      "type": "text",
+      "label": "LotNum3",
+      "page": 1,
+      "box": {
+        "left": 350.8,
+        "top": 389.5,
+        "width": 163.8,
+        "height": 12.4
+      }
+    },
+    "qtyRec3": {
+      "type": "text",
+      "label": "QtyRec3",
+      "page": 1,
+      "box": {
+        "left": 520.2,
+        "top": 389.5,
+        "width": 50.3,
+        "height": 12.4
+      }
+    },
+    "qtyExt3": {
+      "type": "text",
+      "label": "QtyExt3",
+      "page": 1,
+      "box": {
+        "left": 576.1,
+        "top": 389.5,
+        "width": 50.3,
+        "height": 12.4
+      }
+    },
+    "qtyServ3": {
+      "type": "text",
+      "label": "QtyServ3",
+      "page": 1,
+      "box": {
+        "left": 632.4,
+        "top": 389.5,
+        "width": 61.2,
+        "height": 12.4
+      }
+    },
+    "qtyUnServ3": {
+      "type": "text",
+      "label": "QtyUnServ3",
+      "page": 1,
+      "box": {
+        "left": 700.3,
+        "top": 389.5,
+        "width": 69.3,
+        "height": 12.4
+      }
+    },
+    "docNum4": {
+      "type": "text",
+      "label": "DocNum4",
+      "page": 1,
+      "box": {
+        "left": 22.4,
+        "top": 370.1,
+        "width": 120.3,
+        "height": 12.4
+      }
+    },
+    "dodic4": {
+      "type": "text",
+      "label": "DODIC4",
+      "page": 1,
+      "box": {
+        "left": 152.1,
+        "top": 370.1,
+        "width": 39.3,
+        "height": 12.4
+      }
+    },
+    "nomenclature4": {
+      "type": "text",
+      "label": "Nomenclature4",
+      "page": 1,
+      "box": {
+        "left": 200.8,
+        "top": 370.1,
+        "width": 144.3,
+        "height": 12.4
+      }
+    },
+    "lotNum4": {
+      "type": "text",
+      "label": "LotNum4",
+      "page": 1,
+      "box": {
+        "left": 350.8,
+        "top": 370.1,
+        "width": 163.8,
+        "height": 12.4
+      }
+    },
+    "qtyRec4": {
+      "type": "text",
+      "label": "QtyRec4",
+      "page": 1,
+      "box": {
+        "left": 520.2,
+        "top": 370.1,
+        "width": 50.3,
+        "height": 12.4
+      }
+    },
+    "qtyExt4": {
+      "type": "text",
+      "label": "QtyExt4",
+      "page": 1,
+      "box": {
+        "left": 576.1,
+        "top": 370.1,
+        "width": 50.3,
+        "height": 12.4
+      }
+    },
+    "qtyServ4": {
+      "type": "text",
+      "label": "QtyServ4",
+      "page": 1,
+      "box": {
+        "left": 632.1,
+        "top": 370.1,
+        "width": 61.2,
+        "height": 12.4
+      }
+    },
+    "qtyUnServ4": {
+      "type": "text",
+      "label": "QtyUnServ4",
+      "page": 1,
+      "box": {
+        "left": 700.3,
+        "top": 370.1,
+        "width": 69.3,
+        "height": 12.4
+      }
+    },
+    "docNum5": {
+      "type": "text",
+      "label": "DocNum5",
+      "page": 1,
+      "box": {
+        "left": 22.4,
+        "top": 350.3,
+        "width": 120.3,
+        "height": 12.4
+      }
+    },
+    "dodic5": {
+      "type": "text",
+      "label": "DODIC5",
+      "page": 1,
+      "box": {
+        "left": 152.1,
+        "top": 350.3,
+        "width": 39.3,
+        "height": 12.4
+      }
+    },
+    "nomenclature5": {
+      "type": "text",
+      "label": "Nomenclature5",
+      "page": 1,
+      "box": {
+        "left": 200.9,
+        "top": 350.3,
+        "width": 144.3,
+        "height": 12.4
+      }
+    },
+    "lotNum5": {
+      "type": "text",
+      "label": "LotNum5",
+      "page": 1,
+      "box": {
+        "left": 350.7,
+        "top": 350.3,
+        "width": 163.8,
+        "height": 12.4
+      }
+    },
+    "qtyRec5": {
+      "type": "text",
+      "label": "QtyRec5",
+      "page": 1,
+      "box": {
+        "left": 520.2,
+        "top": 350.3,
+        "width": 50.3,
+        "height": 12.4
+      }
+    },
+    "qtyExt5": {
+      "type": "text",
+      "label": "QtyExt5",
+      "page": 1,
+      "box": {
+        "left": 576.1,
+        "top": 350.3,
+        "width": 50.3,
+        "height": 12.4
+      }
+    },
+    "qtyServ5": {
+      "type": "text",
+      "label": "QtyServ5",
+      "page": 1,
+      "box": {
+        "left": 632.1,
+        "top": 350.3,
+        "width": 61.2,
+        "height": 12.4
+      }
+    },
+    "qtyUnServ5": {
+      "type": "text",
+      "label": "QtyUnServ5",
+      "page": 1,
+      "box": {
+        "left": 700.3,
+        "top": 350.3,
+        "width": 69.3,
+        "height": 12.4
+      }
+    },
+    "docNum6": {
+      "type": "text",
+      "label": "DocNum6",
+      "page": 1,
+      "box": {
+        "left": 22.4,
+        "top": 330.3,
+        "width": 120.3,
+        "height": 12.4
+      }
+    },
+    "dodic6": {
+      "type": "text",
+      "label": "DODIC6",
+      "page": 1,
+      "box": {
+        "left": 152.1,
+        "top": 330.3,
+        "width": 39.3,
+        "height": 12.4
+      }
+    },
+    "nomenclature6": {
+      "type": "text",
+      "label": "Nomenclature6",
+      "page": 1,
+      "box": {
+        "left": 200.9,
+        "top": 330.3,
+        "width": 144.3,
+        "height": 12.4
+      }
+    },
+    "lotNum6": {
+      "type": "text",
+      "label": "LotNum6",
+      "page": 1,
+      "box": {
+        "left": 350.7,
+        "top": 330.3,
+        "width": 163.8,
+        "height": 12.4
+      }
+    },
+    "qtyRec6": {
+      "type": "text",
+      "label": "QtyRec6",
+      "page": 1,
+      "box": {
+        "left": 520.2,
+        "top": 330.3,
+        "width": 50.3,
+        "height": 12.4
+      }
+    },
+    "qtyExt6": {
+      "type": "text",
+      "label": "QtyExt6",
+      "page": 1,
+      "box": {
+        "left": 576.1,
+        "top": 330.3,
+        "width": 50.3,
+        "height": 12.4
+      }
+    },
+    "qtyServ6": {
+      "type": "text",
+      "label": "QtyServ6",
+      "page": 1,
+      "box": {
+        "left": 632.1,
+        "top": 330.3,
+        "width": 61.2,
+        "height": 12.4
+      }
+    },
+    "qtyUnServ6": {
+      "type": "text",
+      "label": "QtyUnServ6",
+      "page": 1,
+      "box": {
+        "left": 700.3,
+        "top": 330.3,
+        "width": 69.3,
+        "height": 12.4
+      }
+    },
+    "docNum7": {
+      "type": "text",
+      "label": "DocNum7",
+      "page": 1,
+      "box": {
+        "left": 22.4,
+        "top": 310.7,
+        "width": 120.3,
+        "height": 12.4
+      }
+    },
+    "dodic7": {
+      "type": "text",
+      "label": "DODIC7",
+      "page": 1,
+      "box": {
+        "left": 152.1,
+        "top": 310.7,
+        "width": 39.3,
+        "height": 12.4
+      }
+    },
+    "nomenclature7": {
+      "type": "text",
+      "label": "Nomenclature7",
+      "page": 1,
+      "box": {
+        "left": 200.8,
+        "top": 310.7,
+        "width": 144.3,
+        "height": 12.4
+      }
+    },
+    "lotNum7": {
+      "type": "text",
+      "label": "LotNum7",
+      "page": 1,
+      "box": {
+        "left": 350.8,
+        "top": 310.7,
+        "width": 163.8,
+        "height": 12.4
+      }
+    },
+    "qtyRec7": {
+      "type": "text",
+      "label": "QtyRec7",
+      "page": 1,
+      "box": {
+        "left": 520.2,
+        "top": 310.7,
+        "width": 50.3,
+        "height": 12.4
+      }
+    },
+    "qtyExt7": {
+      "type": "text",
+      "label": "QtyExt7",
+      "page": 1,
+      "box": {
+        "left": 576.1,
+        "top": 310.7,
+        "width": 50.3,
+        "height": 12.4
+      }
+    },
+    "qtyServ7": {
+      "type": "text",
+      "label": "QtyServ7",
+      "page": 1,
+      "box": {
+        "left": 632.1,
+        "top": 310.7,
+        "width": 61.2,
+        "height": 12.4
+      }
+    },
+    "qtyUnServ7": {
+      "type": "text",
+      "label": "QtyUnServ7",
+      "page": 1,
+      "box": {
+        "left": 700.3,
+        "top": 310.7,
+        "width": 69.3,
+        "height": 12.4
+      }
+    },
+    "docNum8": {
+      "type": "text",
+      "label": "DocNum8",
+      "page": 1,
+      "box": {
+        "left": 22.4,
+        "top": 289.9,
+        "width": 120.3,
+        "height": 12.4
+      }
+    },
+    "dodic8": {
+      "type": "text",
+      "label": "DODIC8",
+      "page": 1,
+      "box": {
+        "left": 152.1,
+        "top": 289.9,
+        "width": 39.3,
+        "height": 12.4
+      }
+    },
+    "nomenclature8": {
+      "type": "text",
+      "label": "Nomenclature8",
+      "page": 1,
+      "box": {
+        "left": 200.8,
+        "top": 289.9,
+        "width": 144.3,
+        "height": 12.4
+      }
+    },
+    "lotNum8": {
+      "type": "text",
+      "label": "LotNum8",
+      "page": 1,
+      "box": {
+        "left": 350.8,
+        "top": 289.9,
+        "width": 163.8,
+        "height": 12.4
+      }
+    },
+    "qtyRec8": {
+      "type": "text",
+      "label": "QtyRec8",
+      "page": 1,
+      "box": {
+        "left": 520.2,
+        "top": 289.9,
+        "width": 50.3,
+        "height": 12.4
+      }
+    },
+    "qtyExt8": {
+      "type": "text",
+      "label": "QtyExt8",
+      "page": 1,
+      "box": {
+        "left": 576.1,
+        "top": 289.9,
+        "width": 50.3,
+        "height": 12.4
+      }
+    },
+    "qtyServ8": {
+      "type": "text",
+      "label": "QtyServ8",
+      "page": 1,
+      "box": {
+        "left": 632.1,
+        "top": 289.9,
+        "width": 61.2,
+        "height": 12.4
+      }
+    },
+    "qtyUnServ8": {
+      "type": "text",
+      "label": "QtyUnServ8",
+      "page": 1,
+      "box": {
+        "left": 700.3,
+        "top": 289.9,
+        "width": 69.3,
+        "height": 12.4
+      }
+    },
+    "increments": {
+      "type": "text",
+      "label": "Increments",
+      "page": 1,
+      "box": {
+        "left": 75.5,
+        "top": 269.1,
+        "width": 35.6,
+        "height": 9.4
+      }
+    },
+    "signaturePC": {
+      "type": "signature",
+      "label": "SignaturePC",
+      "page": 1,
+      "box": {
+        "left": 253.1,
+        "top": 246.0,
+        "width": 108.5,
+        "height": 12.6
+      }
+    },
+    "pc": {
+      "type": "text",
+      "label": "PC",
+      "page": 1,
+      "box": {
+        "left": 106.4,
+        "top": 245.3,
+        "width": 136.7,
+        "height": 12.1
+      }
+    },
+    "techName": {
+      "type": "text",
+      "label": "TechName",
+      "page": 1,
+      "box": {
+        "left": 479.1,
+        "top": 223.1,
+        "width": 282.9,
+        "height": 10.7
+      }
+    },
+    "unitName": {
+      "type": "text",
+      "label": "UnitName",
+      "page": 1,
+      "box": {
+        "left": 454.4,
+        "top": 207.4,
+        "width": 308.5,
+        "height": 10.7
+      }
+    },
+    "techPhone": {
+      "type": "text",
+      "label": "TechPhone",
+      "page": 1,
+      "box": {
+        "left": 468.6,
+        "top": 190.9,
+        "width": 165.4,
+        "height": 10.1
+      }
+    },
+    "dateOIC": {
+      "type": "text",
+      "label": "DateOIC",
+      "page": 1,
+      "box": {
+        "left": 232.6,
+        "top": 178.3,
+        "width": 61.4,
+        "height": 12.1
+      }
+    },
+    "signatureOIC": {
+      "type": "signature",
+      "label": "SignatureOIC",
+      "page": 1,
+      "box": {
+        "left": 85.4,
+        "top": 178.1,
+        "width": 108.5,
+        "height": 12.4
+      }
+    },
+    "dateTech": {
+      "type": "text",
+      "label": "DateTech",
+      "page": 1,
+      "box": {
+        "left": 671.3,
+        "top": 175.1,
+        "width": 61.4,
+        "height": 10.6
+      }
+    },
+    "signatureTech": {
+      "type": "signature",
+      "label": "SignatureTech",
+      "page": 1,
+      "box": {
+        "left": 462.6,
+        "top": 174.3,
+        "width": 169.1,
+        "height": 10.5
+      }
+    },
+    "rad1Yes": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 572.0,
+        "top": 103.3,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_0"
+    },
+    "rad1Yes2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 620.4,
+        "top": 103.3,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_0"
+    },
+    "signatureVO": {
+      "type": "signature",
+      "label": "SignatureVO",
+      "page": 1,
+      "box": {
+        "left": 537.2,
+        "top": 84.0,
+        "width": 108.5,
+        "height": 16.3
+      }
+    },
+    "nameVO": {
+      "type": "text",
+      "label": "NameVO",
+      "page": 1,
+      "box": {
+        "left": 319.5,
+        "top": 83.5,
+        "width": 210.0,
+        "height": 15.9
+      }
+    },
+    "dateVO": {
+      "type": "text",
+      "label": "DateVO",
+      "page": 1,
+      "box": {
+        "left": 685.7,
+        "top": 82.2,
+        "width": 73.4,
+        "height": 14.4
+      }
+    },
+    "pageAdd": {
+      "type": "checkbox",
+      "label": "PageAdd",
+      "page": 1,
+      "box": {
+        "left": 643.9,
+        "top": 49.0,
+        "width": 14.0,
+        "height": 14.0
+      }
+    },
+    "pageThis": {
+      "type": "text",
+      "label": "PageThis",
+      "page": 1,
+      "box": {
+        "left": 521.3,
+        "top": 34.4,
+        "width": 18.8,
+        "height": 12.9
+      }
+    },
+    "pagesTotal": {
+      "type": "text",
+      "label": "PagesTotal",
+      "page": 1,
+      "box": {
+        "left": 560.9,
+        "top": 34.4,
+        "width": 18.8,
+        "height": 12.9
+      }
+    }
+  }
+}

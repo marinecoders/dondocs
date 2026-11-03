@@ -1,0 +1,473 @@
+{
+  "id": "opnav479026a",
+  "label": "OPNAV4790-26A - Installed Explosive Device Record",
+  "directory": "OPNAV4790-26A - Installed Explosive Device Record",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "aircraftype",
+        "buSER",
+        "partNumber",
+        "sn",
+        "code",
+        "lotNum",
+        "serial",
+        "org",
+        "dNSDate1",
+        "co",
+        "instl",
+        "espire",
+        "info2",
+        "dNSDate3",
+        "dNSDate4",
+        "dNSDate5",
+        "dNSDate6",
+        "dNSDate7",
+        "dNSDate8",
+        "dNSDate9",
+        "dNSDate10",
+        "dNSDate11",
+        "dNSDate12",
+        "dNSDate13",
+        "dNSDate14",
+        "dNSDate15",
+        "dNSDate16",
+        "locUse"
+      ]
+    }
+  ],
+  "fields": {
+    "aircraftype": {
+      "type": "text",
+      "label": "A1. Enter the type of aircraft.",
+      "page": 1,
+      "box": {
+        "left": 182.1,
+        "top": 541.3,
+        "width": 89.8,
+        "height": 15.5
+      }
+    },
+    "buSER": {
+      "type": "text",
+      "label": "A2. Enter the BU/SER number.",
+      "page": 1,
+      "box": {
+        "left": 279.6,
+        "top": 541.3,
+        "width": 81.4,
+        "height": 15.5
+      }
+    },
+    "partNumber": {
+      "type": "text",
+      "label": "A3. Enter the assembly part number.",
+      "page": 1,
+      "box": {
+        "left": 370.4,
+        "top": 541.3,
+        "width": 124.9,
+        "height": 15.5
+      }
+    },
+    "sn": {
+      "type": "text",
+      "label": "A4. Enter the assemby S/N infomation.",
+      "page": 1,
+      "box": {
+        "left": 505.6,
+        "top": 541.3,
+        "width": 124.9,
+        "height": 15.5
+      }
+    },
+    "code": {
+      "type": "text",
+      "label": "A5. Enter the ORG code.",
+      "page": 1,
+      "box": {
+        "left": 641.2,
+        "top": 541.3,
+        "width": 100.6,
+        "height": 15.5
+      }
+    },
+    "lotNum": {
+      "type": "text",
+      "label": "B4. Enter the lot number.",
+      "page": 1,
+      "box": {
+        "left": 354.2,
+        "top": 475.3,
+        "width": 93.8,
+        "height": 18.8
+      }
+    },
+    "serial": {
+      "type": "text",
+      "label": "B5. Enter the serial information.",
+      "page": 1,
+      "box": {
+        "left": 450.9,
+        "top": 475.3,
+        "width": 43.5,
+        "height": 18.8
+      }
+    },
+    "org": {
+      "type": "text",
+      "label": "B6. Enter the ORG information.",
+      "page": 1,
+      "box": {
+        "left": 497.8,
+        "top": 475.3,
+        "width": 23.9,
+        "height": 18.8
+      }
+    },
+    "dNSDate1": {
+      "type": "text",
+      "label": "B7. Enter the MFG date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 524.5,
+        "top": 475.3,
+        "width": 53.2,
+        "height": 18.8
+      }
+    },
+    "co": {
+      "type": "text",
+      "label": "B8. Enter the C/O date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 581.5,
+        "top": 475.3,
+        "width": 53.2,
+        "height": 18.8
+      }
+    },
+    "instl": {
+      "type": "text",
+      "label": "B9. Enter the INSTL date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 636.7,
+        "top": 475.3,
+        "width": 53.2,
+        "height": 18.8
+      }
+    },
+    "espire": {
+      "type": "text",
+      "label": "B10. Enter the expiration date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 693.2,
+        "top": 475.3,
+        "width": 53.2,
+        "height": 18.8
+      }
+    },
+    "info2": {
+      "type": "text",
+      "label": "B7. Enter the MFG date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 524.5,
+        "top": 452.5,
+        "width": 53.2,
+        "height": 18.8
+      }
+    },
+    "dNSDate3": {
+      "type": "text",
+      "label": "B7. Enter the MFG date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 524.5,
+        "top": 429.6,
+        "width": 53.2,
+        "height": 18.8
+      }
+    },
+    "dNSDate4": {
+      "type": "text",
+      "label": "B7. Enter the MFG date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 524.5,
+        "top": 406.7,
+        "width": 53.2,
+        "height": 18.8
+      }
+    },
+    "dNSDate5": {
+      "type": "text",
+      "label": "B7. Enter the MFG date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 524.5,
+        "top": 383.8,
+        "width": 53.2,
+        "height": 18.8
+      }
+    },
+    "dNSDate6": {
+      "type": "text",
+      "label": "B7. Enter the MFG date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 524.5,
+        "top": 360.9,
+        "width": 53.2,
+        "height": 18.8
+      }
+    },
+    "dNSDate7": {
+      "type": "text",
+      "label": "B7. Enter the MFG date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 524.5,
+        "top": 338.0,
+        "width": 53.2,
+        "height": 18.8
+      }
+    },
+    "dNSDate8": {
+      "type": "text",
+      "label": "B7. Enter the MFG date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 524.5,
+        "top": 315.2,
+        "width": 53.2,
+        "height": 18.8
+      }
+    },
+    "dNSDate9": {
+      "type": "text",
+      "label": "B7. Enter the MFG date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 524.5,
+        "top": 292.3,
+        "width": 53.2,
+        "height": 18.8
+      }
+    },
+    "dNSDate10": {
+      "type": "text",
+      "label": "B7. Enter the MFG date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 524.5,
+        "top": 269.4,
+        "width": 53.2,
+        "height": 18.8
+      }
+    },
+    "dNSDate11": {
+      "type": "text",
+      "label": "B7. Enter the MFG date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 524.5,
+        "top": 246.5,
+        "width": 53.2,
+        "height": 18.8
+      }
+    },
+    "dNSDate12": {
+      "type": "text",
+      "label": "B7. Enter the MFG date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 524.5,
+        "top": 223.6,
+        "width": 53.2,
+        "height": 18.8
+      }
+    },
+    "dNSDate13": {
+      "type": "text",
+      "label": "B7. Enter the MFG date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 524.5,
+        "top": 200.8,
+        "width": 53.2,
+        "height": 18.8
+      }
+    },
+    "dNSDate14": {
+      "type": "text",
+      "label": "B7. Enter the MFG date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 524.5,
+        "top": 177.9,
+        "width": 53.2,
+        "height": 18.8
+      }
+    },
+    "dNSDate15": {
+      "type": "text",
+      "label": "B7. Enter the MFG date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 524.5,
+        "top": 155.0,
+        "width": 53.2,
+        "height": 18.8
+      }
+    },
+    "dNSDate16": {
+      "type": "text",
+      "label": "B7. Enter the MFG date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 524.5,
+        "top": 132.1,
+        "width": 53.2,
+        "height": 18.8
+      }
+    },
+    "locUse": {
+      "type": "text",
+      "label": "Enter the local use information.",
+      "page": 1,
+      "box": {
+        "left": 47.7,
+        "top": 98.4,
+        "width": 692.0,
+        "height": 41.0
+      },
+      "multiline": true
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 15,
+      "rowStride": 22.89,
+      "editor": "grid",
+      "columns": {
+        "lotNum": {
+          "type": "text",
+          "label": "B4. Enter the lot number.",
+          "page": 1,
+          "box": {
+            "left": 354.2,
+            "top": 452.5,
+            "width": 93.8,
+            "height": 18.8
+          }
+        },
+        "serial": {
+          "type": "text",
+          "label": "B5. Enter the serial information.",
+          "page": 1,
+          "box": {
+            "left": 450.9,
+            "top": 452.5,
+            "width": 43.5,
+            "height": 18.8
+          }
+        },
+        "org": {
+          "type": "text",
+          "label": "B6. Enter the ORG information.",
+          "page": 1,
+          "box": {
+            "left": 497.8,
+            "top": 452.5,
+            "width": 23.9,
+            "height": 18.8
+          }
+        },
+        "co": {
+          "type": "text",
+          "label": "B8. Enter the C/O date using the format DD MMM YYYY.",
+          "page": 1,
+          "box": {
+            "left": 581.5,
+            "top": 452.5,
+            "width": 53.2,
+            "height": 18.8
+          }
+        },
+        "instl": {
+          "type": "text",
+          "label": "B9. Enter the INSTL date using the format DD MMM YYYY.",
+          "page": 1,
+          "box": {
+            "left": 636.7,
+            "top": 452.5,
+            "width": 53.2,
+            "height": 18.8
+          }
+        },
+        "espire": {
+          "type": "text",
+          "label": "B10. Enter the expiration date using the format DD MMM YYYY.",
+          "page": 1,
+          "box": {
+            "left": 693.2,
+            "top": 452.5,
+            "width": 53.2,
+            "height": 18.8
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 16,
+      "rowStride": 22.88,
+      "editor": "grid",
+      "columns": {
+        "dodic": {
+          "type": "text",
+          "label": "B1. This is 1 of 16. Enter the DODIC information.",
+          "page": 1,
+          "box": {
+            "left": 44.9,
+            "top": 475.3,
+            "width": 49.8,
+            "height": 18.8
+          }
+        },
+        "nomLoc": {
+          "type": "text",
+          "label": "B2. Enter the nomenclature/location information.",
+          "page": 1,
+          "box": {
+            "left": 97.6,
+            "top": 475.3,
+            "width": 159.0,
+            "height": 18.8
+          }
+        },
+        "partNum": {
+          "type": "text",
+          "label": "B3. Enter the part number.",
+          "page": 1,
+          "box": {
+            "left": 258.8,
+            "top": 475.3,
+            "width": 91.7,
+            "height": 18.8
+          }
+        }
+      }
+    }
+  }
+}

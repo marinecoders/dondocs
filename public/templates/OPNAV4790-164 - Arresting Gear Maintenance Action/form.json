@@ -1,0 +1,137 @@
+{
+  "id": "opnav4790164",
+  "label": "OPNAV4790-164 - Arresting Gear Maintenance Action",
+  "directory": "OPNAV4790-164 - Arresting Gear Maintenance Action",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "catapultno",
+        "dateTimeField1",
+        "jsn",
+        "shotno",
+        "hitssince",
+        "remarks",
+        "maintman",
+        "wc",
+        "qainsp",
+        "maintchief"
+      ]
+    }
+  ],
+  "fields": {
+    "catapultno": {
+      "type": "text",
+      "label": "ENTER CATAPULT NUMBER.",
+      "page": 1,
+      "box": {
+        "left": 108.2,
+        "top": 731.6,
+        "width": 132.0,
+        "height": 12.3
+      }
+    },
+    "dateTimeField1": {
+      "type": "text",
+      "label": "ENTER DATE.",
+      "page": 1,
+      "box": {
+        "left": 473.2,
+        "top": 731.6,
+        "width": 91.0,
+        "height": 12.3
+      }
+    },
+    "jsn": {
+      "type": "text",
+      "label": "ENTER JSN.",
+      "page": 1,
+      "box": {
+        "left": 282.3,
+        "top": 722.6,
+        "width": 74.9,
+        "height": 12.3
+      }
+    },
+    "shotno": {
+      "type": "text",
+      "label": "ENTER SHOT NUMBER.",
+      "page": 1,
+      "box": {
+        "left": 92.7,
+        "top": 704.6,
+        "width": 147.5,
+        "height": 12.3
+      }
+    },
+    "hitssince": {
+      "type": "text",
+      "label": "ENTER HITS SINCE LAST INSPECTION.",
+      "page": 1,
+      "box": {
+        "left": 442.7,
+        "top": 704.6,
+        "width": 121.5,
+        "height": 12.3
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "ENTER REMARKS.",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 289.3,
+        "width": 534.3,
+        "height": 29.4
+      }
+    },
+    "maintman": {
+      "type": "text",
+      "label": "ENTER MAINTENANCE MANAGER SIGNATURE.",
+      "page": 1,
+      "box": {
+        "left": 93.3,
+        "top": 254.2,
+        "width": 205.3,
+        "height": 12.3
+      }
+    },
+    "wc": {
+      "type": "text",
+      "label": "ENTER A/G LPO/CPO SIGNATURE.",
+      "page": 1,
+      "box": {
+        "left": 386.9,
+        "top": 254.2,
+        "width": 181.8,
+        "height": 12.3
+      }
+    },
+    "qainsp": {
+      "type": "text",
+      "label": "ENTER QA INSPECTOR SIGNATURE.",
+      "page": 1,
+      "box": {
+        "left": 107.3,
+        "top": 231.7,
+        "width": 191.3,
+        "height": 12.3
+      }
+    },
+    "maintchief": {
+      "type": "text",
+      "label": "ENTER MAINTENANCE CHIEF OFFICER.",
+      "page": 1,
+      "box": {
+        "left": 404.6,
+        "top": 231.7,
+        "width": 164.1,
+        "height": 12.3
+      }
+    }
+  }
+}

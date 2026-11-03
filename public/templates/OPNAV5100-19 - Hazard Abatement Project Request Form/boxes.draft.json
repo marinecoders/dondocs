@@ -1,0 +1,326 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "datesubmitted1": {
+        "left": 315.8,
+        "top": 685.7,
+        "width": 253.8,
+        "height": 13.1,
+        "type": "text",
+        "description": "Enter the date submitted using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "address1": {
+        "left": 43.7,
+        "top": 685.0,
+        "width": 265.7,
+        "height": 76.3,
+        "type": "text",
+        "description": "Enter the activity name and address.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "activity1": {
+        "left": 315.8,
+        "top": 653.4,
+        "width": 253.8,
+        "height": 13.1,
+        "type": "text",
+        "description": "Enter the activity UIC.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "major1": {
+        "left": 315.8,
+        "top": 621.8,
+        "width": 253.8,
+        "height": 13.1,
+        "type": "text",
+        "description": "Enter the major claimant.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "project1": {
+        "left": 43.6,
+        "top": 563.1,
+        "width": 524.7,
+        "height": 14.5,
+        "type": "text",
+        "description": "Enter the porject title describe action to abate or eliminate the hazard.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "code1": {
+        "left": 441.9,
+        "top": 543.8,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[0].code1[0]",
+        "required": false
+      },
+      "code12": {
+        "left": 506.2,
+        "top": 543.8,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[0].code1[0]",
+        "required": false
+      },
+      "assessment1": {
+        "left": 346.5,
+        "top": 534.5,
+        "width": 21.0,
+        "height": 12.6,
+        "type": "text",
+        "description": "Enter the risk assessment code.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "assessment2": {
+        "left": 374.2,
+        "top": 534.5,
+        "width": 21.0,
+        "height": 12.6,
+        "type": "text",
+        "description": "Enter the risk assessment code.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "number1": {
+        "left": 43.6,
+        "top": 529.2,
+        "width": 99.0,
+        "height": 14.5,
+        "type": "text",
+        "description": "Enter the project number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "estimated1": {
+        "left": 149.5,
+        "top": 529.2,
+        "width": 111.7,
+        "height": 14.5,
+        "type": "text",
+        "description": "Enter the estimated cost.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "problem1": {
+        "left": 43.6,
+        "top": 494.9,
+        "width": 524.7,
+        "height": 67.6,
+        "type": "text",
+        "description": "Enter the problem and the number of people regularly exposed to the hazard.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "proposed1": {
+        "left": 43.6,
+        "top": 407.9,
+        "width": 524.7,
+        "height": 64.5,
+        "type": "text",
+        "description": "Enter the proposed corrective action.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "applicable1": {
+        "left": 43.7,
+        "top": 323.6,
+        "width": 524.7,
+        "height": 33.0,
+        "type": "text",
+        "description": "Enter the applicable standards or regulations.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "citation1": {
+        "left": 43.7,
+        "top": 271.3,
+        "width": 524.7,
+        "height": 33.0,
+        "type": "text",
+        "description": "Enter the citation (OSHA, state agencies, NOIU, ECT).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "interim1": {
+        "left": 43.7,
+        "top": 218.9,
+        "width": 524.7,
+        "height": 39.9,
+        "type": "text",
+        "description": "Enter the interim controls.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "navosh1": {
+        "left": 95.4,
+        "top": 141.1,
+        "width": 126.1,
+        "height": 15.3,
+        "type": "text",
+        "description": "Enter the point of contact for NAVOSH.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "telephone1": {
+        "left": 243.7,
+        "top": 141.1,
+        "width": 120.7,
+        "height": 15.3,
+        "type": "text",
+        "description": "Enter the telephone number for point of contact (NAVOSH).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fax1": {
+        "left": 378.4,
+        "top": 141.1,
+        "width": 91.4,
+        "height": 15.3,
+        "type": "text",
+        "description": "Enter the fax number for point of contact (NAVOSH).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "email": {
+        "left": 475.4,
+        "top": 141.1,
+        "width": 93.0,
+        "height": 15.3,
+        "type": "text",
+        "description": "Enter the e-mail address.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "facility1": {
+        "left": 95.4,
+        "top": 124.1,
+        "width": 126.1,
+        "height": 16.0,
+        "type": "text",
+        "description": "Enter the point of contact for facilities.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "telephone2": {
+        "left": 243.7,
+        "top": 123.4,
+        "width": 120.7,
+        "height": 15.3,
+        "type": "text",
+        "description": "Enter the telephone number for point of contact (facilities).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fax2": {
+        "left": 378.4,
+        "top": 123.4,
+        "width": 91.4,
+        "height": 15.3,
+        "type": "text",
+        "description": "Enter the fax number for point of contact (facilities).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "email2": {
+        "left": 475.4,
+        "top": 123.4,
+        "width": 93.0,
+        "height": 15.3,
+        "type": "text",
+        "description": "Enter the e-mail address.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "climant1": {
+        "left": 95.4,
+        "top": 105.7,
+        "width": 126.1,
+        "height": 15.6,
+        "type": "text",
+        "description": "Enter the point of contact for claimant.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "telephone3": {
+        "left": 243.7,
+        "top": 105.3,
+        "width": 120.7,
+        "height": 15.3,
+        "type": "text",
+        "description": "Enter the telephone number for point of contact (claimant).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fax3": {
+        "left": 378.4,
+        "top": 105.3,
+        "width": 91.4,
+        "height": 15.3,
+        "type": "text",
+        "description": "Enter the fax number for point of contact (claimant).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "emai3": {
+        "left": 475.4,
+        "top": 105.3,
+        "width": 93.0,
+        "height": 15.3,
+        "type": "text",
+        "description": "Enter the e-mail address.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

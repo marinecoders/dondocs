@@ -1,0 +1,348 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "ssn": {
+        "left": 335.4,
+        "top": 708.8,
+        "width": 167.1,
+        "height": 18.4,
+        "type": "text",
+        "description": "SSN",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameLast": {
+        "left": 24.3,
+        "top": 706.6,
+        "width": 145.1,
+        "height": 17.4,
+        "type": "text",
+        "description": "Last name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameFirst": {
+        "left": 169.4,
+        "top": 706.6,
+        "width": 145.1,
+        "height": 17.4,
+        "type": "text",
+        "description": "First name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameMid": {
+        "left": 314.6,
+        "top": 706.6,
+        "width": 18.1,
+        "height": 17.4,
+        "type": "text",
+        "description": "Middle initial",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "codeNum": {
+        "left": 25.7,
+        "top": 669.8,
+        "width": 306.9,
+        "height": 17.4,
+        "type": "text",
+        "description": "Officer selection Officer location/Account Code Number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mCDist": {
+        "left": 334.0,
+        "top": 669.8,
+        "width": 169.1,
+        "height": 17.4,
+        "type": "text",
+        "description": "Responsible Marine Corps District",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "officerCandidateCourse": {
+        "left": 68.8,
+        "top": 628.8,
+        "width": 17.6,
+        "height": 17.6,
+        "type": "checkbox",
+        "description": "Check to request Officer Candidate Course, Quantico, VA.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "classSel0": {
+        "left": 93.3,
+        "top": 628.7,
+        "width": 44.7,
+        "height": 17.3,
+        "type": "text",
+        "description": "Officer Candidate Course you are requesting.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "aviationofficercandidatecourse": {
+        "left": 68.8,
+        "top": 604.8,
+        "width": 17.6,
+        "height": 17.6,
+        "type": "checkbox",
+        "description": "Check to request Aviation Officer Candidate Course, Quantico, VA.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "classSel1": {
+        "left": 93.3,
+        "top": 604.5,
+        "width": 44.7,
+        "height": 17.3,
+        "type": "text",
+        "description": "Aviation Officer Candidate Course you are requesting.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "classSel2": {
+        "left": 93.3,
+        "top": 580.3,
+        "width": 44.7,
+        "height": 17.3,
+        "type": "text",
+        "description": "Naval Flight Officer Course you are requesting.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "navalflightofficercourse": {
+        "left": 69.6,
+        "top": 580.0,
+        "width": 16.8,
+        "height": 16.8,
+        "type": "checkbox",
+        "description": "Check to request Naval Flight Officer Course, Quantico, VA.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "platoonleadersclasswoman": {
+        "left": 69.6,
+        "top": 556.8,
+        "width": 16.8,
+        "height": 16.8,
+        "type": "checkbox",
+        "description": "Check to request Woman Platoon Leaders Class for College Juniors, Quantico, VA.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "classSel3": {
+        "left": 93.3,
+        "top": 556.2,
+        "width": 44.7,
+        "height": 17.3,
+        "type": "text",
+        "description": "Woman Platoon Leaders Class for College Juniors you are requesting.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "womanofficercandidatecourse": {
+        "left": 68.8,
+        "top": 532.0,
+        "width": 17.6,
+        "height": 17.6,
+        "type": "checkbox",
+        "description": "Check to request Woman Officer Candidate Course for College Seniors and Graduates, Quantico, VA.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "classSel4": {
+        "left": 93.3,
+        "top": 532.0,
+        "width": 44.7,
+        "height": 17.3,
+        "type": "text",
+        "description": "Woman Platoon Leaders Class for College Seniors and Graduates you are requesting.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "platoonleadersclass": {
+        "left": 68.8,
+        "top": 474.4,
+        "width": 17.3,
+        "height": 17.3,
+        "type": "checkbox",
+        "description": "Check to request Platoon Leaders Class. Ground, Air, or Law.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "firstincrementjuniorcourse": {
+        "left": 68.8,
+        "top": 449.6,
+        "width": 17.3,
+        "height": 17.3,
+        "type": "checkbox",
+        "description": "Check to request First Increment, Junior Course, Quantico, VA.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "secondincrementjuniorcourse": {
+        "left": 68.8,
+        "top": 424.8,
+        "width": 17.3,
+        "height": 17.3,
+        "type": "checkbox",
+        "description": "Check to request Second Increment, Junior Course, Quantico, VA.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "firstincrementseniorcourse": {
+        "left": 68.8,
+        "top": 400.8,
+        "width": 17.3,
+        "height": 17.3,
+        "type": "checkbox",
+        "description": "Check to request First Increment, Senior Course, Quantico, VA.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "secondincrementseniorcourse": {
+        "left": 68.8,
+        "top": 374.4,
+        "width": 17.3,
+        "height": 17.3,
+        "type": "checkbox",
+        "description": "Check to request Second Increment, Senior Course, Quantico, VA.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "combinedcourse": {
+        "left": 68.8,
+        "top": 349.6,
+        "width": 17.3,
+        "height": 17.3,
+        "type": "checkbox",
+        "description": "Check to request Combined Course, Quantico, VA.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radioButtonList": {
+        "left": 381.6,
+        "top": 289.6,
+        "width": 17.6,
+        "height": 17.6,
+        "type": "radio",
+        "description": "home",
+        "options": null,
+        "group": "topmostSubform[0].Page1[0].RadioButtonList[0]",
+        "required": false
+      },
+      "radioButtonList2": {
+        "left": 310.4,
+        "top": 288.8,
+        "width": 17.6,
+        "height": 17.6,
+        "type": "radio",
+        "description": "school",
+        "options": null,
+        "group": "topmostSubform[0].Page1[0].RadioButtonList[0]",
+        "required": false
+      },
+      "radioButtonList3": {
+        "left": 382.4,
+        "top": 268.0,
+        "width": 17.6,
+        "height": 17.6,
+        "type": "radio",
+        "description": "home",
+        "options": null,
+        "group": "topmostSubform[0].Page1[0].RadioButtonList[1]",
+        "required": false
+      },
+      "radioButtonList4": {
+        "left": 309.8,
+        "top": 267.3,
+        "width": 17.6,
+        "height": 17.6,
+        "type": "radio",
+        "description": "school",
+        "options": null,
+        "group": "topmostSubform[0].Page1[0].RadioButtonList[1]",
+        "required": false
+      },
+      "addrCurr": {
+        "left": 24.8,
+        "top": 230.6,
+        "width": 564.0,
+        "height": 47.4,
+        "type": "text",
+        "description": "Current or School address. Include number and street, city, state, and zip code.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "addrHome": {
+        "left": 24.8,
+        "top": 170.4,
+        "width": 564.0,
+        "height": 84.8,
+        "type": "text",
+        "description": "Home or Record as defined in MCO P1070.12, IRAM, PAR>4005.3a. Include number and street, city, state, and zip code.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField1": {
+        "left": 218.3,
+        "top": 75.3,
+        "width": 371.4,
+        "height": 16.1,
+        "type": "signature",
+        "description": "SignatureField1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateSig": {
+        "left": 24.8,
+        "top": 75.2,
+        "width": 187.7,
+        "height": 17.6,
+        "type": "text",
+        "description": "Enter signature date using format 2002 06 27.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

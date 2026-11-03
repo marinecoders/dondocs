@@ -1,0 +1,158 @@
+{
+  "id": "opnav28101",
+  "label": "OPNAV2810-1 - Radio Log",
+  "directory": "OPNAV2810-1 - Radio Log",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "page",
+        "of",
+        "commandName",
+        "location",
+        "dNSDate3",
+        "operator",
+        "watch",
+        "circuit",
+        "frequency"
+      ]
+    }
+  ],
+  "fields": {
+    "page": {
+      "type": "text",
+      "label": " Enter the page number.",
+      "page": 1,
+      "box": {
+        "left": 73.7,
+        "top": 735.2,
+        "width": 30.4,
+        "height": 18.0
+      }
+    },
+    "of": {
+      "type": "text",
+      "label": "Enter the total number of pages.",
+      "page": 1,
+      "box": {
+        "left": 129.9,
+        "top": 735.2,
+        "width": 30.4,
+        "height": 18.0
+      }
+    },
+    "commandName": {
+      "type": "text",
+      "label": "Enter the command name.",
+      "page": 1,
+      "box": {
+        "left": 171.6,
+        "top": 735.2,
+        "width": 201.9,
+        "height": 18.0
+      }
+    },
+    "location": {
+      "type": "text",
+      "label": "Enter the location.",
+      "page": 1,
+      "box": {
+        "left": 380.8,
+        "top": 735.2,
+        "width": 84.9,
+        "height": 18.0
+      }
+    },
+    "dNSDate3": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 501.7,
+        "top": 735.2,
+        "width": 69.7,
+        "height": 18.0
+      }
+    },
+    "operator": {
+      "type": "text",
+      "label": "Enter the operator.",
+      "page": 1,
+      "box": {
+        "left": 92.2,
+        "top": 676.1,
+        "width": 128.8,
+        "height": 18.0
+      }
+    },
+    "watch": {
+      "type": "text",
+      "label": "Enter the watch.",
+      "page": 1,
+      "box": {
+        "left": 269.4,
+        "top": 676.1,
+        "width": 54.0,
+        "height": 18.0
+      }
+    },
+    "circuit": {
+      "type": "text",
+      "label": "Enter the circuit.",
+      "page": 1,
+      "box": {
+        "left": 371.2,
+        "top": 676.1,
+        "width": 54.0,
+        "height": 18.0
+      }
+    },
+    "frequency": {
+      "type": "text",
+      "label": "Enter the frequency and kcs.",
+      "page": 1,
+      "box": {
+        "left": 492.2,
+        "top": 676.1,
+        "width": 63.0,
+        "height": 18.0
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 23,
+      "rowStride": 25.2,
+      "editor": "grid",
+      "columns": {
+        "time": {
+          "type": "text",
+          "label": "This is row 1 of 23.  Enter the time using the 24-hour clock (HHMM).  ",
+          "page": 1,
+          "box": {
+            "left": 29.7,
+            "top": 612.0,
+            "width": 40.6,
+            "height": 20.8
+          }
+        },
+        "transmission": {
+          "type": "text",
+          "label": "Enter the transmission.",
+          "page": 1,
+          "box": {
+            "left": 74.6,
+            "top": 612.0,
+            "width": 506.4,
+            "height": 20.8
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,258 @@
+{
+  "id": "navpers161020",
+  "label": "NAVPERS1610-20 - Mid-Term Performance Counseling Checklist",
+  "directory": "NAVPERS1610-20 - Mid-Term Performance Counseling Checklist",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "cell1",
+        "cell12",
+        "cell13",
+        "cell14",
+        "cell15",
+        "cell16",
+        "cell17",
+        "cell18",
+        "cell19",
+        "cell110",
+        "cell111",
+        "cell112",
+        "cell113",
+        "cell114",
+        "cell115",
+        "cell116",
+        "cell117",
+        "cell118",
+        "cell119",
+        "cell120"
+      ],
+      "editor": "checklist"
+    }
+  ],
+  "fields": {
+    "cell1": {
+      "type": "checkbox",
+      "label": "Before",
+      "page": 1,
+      "box": {
+        "left": 50.6,
+        "top": 667.2,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "cell12": {
+      "type": "checkbox",
+      "label": "Before",
+      "page": 1,
+      "box": {
+        "left": 50.6,
+        "top": 638.4,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "cell13": {
+      "type": "checkbox",
+      "label": "Before",
+      "page": 1,
+      "box": {
+        "left": 50.6,
+        "top": 609.6,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "cell14": {
+      "type": "checkbox",
+      "label": "Before",
+      "page": 1,
+      "box": {
+        "left": 50.6,
+        "top": 580.8,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "cell15": {
+      "type": "checkbox",
+      "label": "Before",
+      "page": 1,
+      "box": {
+        "left": 50.6,
+        "top": 555.6,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "cell16": {
+      "type": "checkbox",
+      "label": "During",
+      "page": 1,
+      "box": {
+        "left": 50.6,
+        "top": 512.4,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "cell17": {
+      "type": "checkbox",
+      "label": "During",
+      "page": 1,
+      "box": {
+        "left": 50.6,
+        "top": 487.2,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "cell18": {
+      "type": "checkbox",
+      "label": "During",
+      "page": 1,
+      "box": {
+        "left": 50.6,
+        "top": 462.0,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "cell19": {
+      "type": "checkbox",
+      "label": "During",
+      "page": 1,
+      "box": {
+        "left": 50.6,
+        "top": 433.2,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "cell110": {
+      "type": "checkbox",
+      "label": "During",
+      "page": 1,
+      "box": {
+        "left": 50.6,
+        "top": 400.8,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "cell111": {
+      "type": "checkbox",
+      "label": "Before",
+      "page": 1,
+      "box": {
+        "left": 50.6,
+        "top": 328.7,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "cell112": {
+      "type": "checkbox",
+      "label": "Before",
+      "page": 1,
+      "box": {
+        "left": 50.6,
+        "top": 299.9,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "cell113": {
+      "type": "checkbox",
+      "label": "Before",
+      "page": 1,
+      "box": {
+        "left": 50.6,
+        "top": 271.1,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "cell114": {
+      "type": "checkbox",
+      "label": "Before",
+      "page": 1,
+      "box": {
+        "left": 50.6,
+        "top": 242.3,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "cell115": {
+      "type": "checkbox",
+      "label": "Before",
+      "page": 1,
+      "box": {
+        "left": 50.6,
+        "top": 217.1,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "cell116": {
+      "type": "checkbox",
+      "label": "During",
+      "page": 1,
+      "box": {
+        "left": 50.6,
+        "top": 173.9,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "cell117": {
+      "type": "checkbox",
+      "label": "During",
+      "page": 1,
+      "box": {
+        "left": 50.6,
+        "top": 148.7,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "cell118": {
+      "type": "checkbox",
+      "label": "During",
+      "page": 1,
+      "box": {
+        "left": 50.6,
+        "top": 119.9,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "cell119": {
+      "type": "checkbox",
+      "label": "During",
+      "page": 1,
+      "box": {
+        "left": 50.6,
+        "top": 91.1,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "cell120": {
+      "type": "checkbox",
+      "label": "During",
+      "page": 1,
+      "box": {
+        "left": 50.6,
+        "top": 61.2,
+        "width": 6.0,
+        "height": 6.0
+      }
+    }
+  }
+}

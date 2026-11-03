@@ -1,0 +1,53 @@
+{
+  "id": "navmchq803",
+  "label": "NAVMC HQ 803 - Assignment To Active Duty For Training In Platoon Leaders Class (law) Program",
+  "directory": "NAVMCHQ803 - Assignment To Active Duty For Training In Platoon Leaders Class (law) Program",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "pebd",
+        "hor",
+        "reportDate"
+      ]
+    }
+  ],
+  "fields": {
+    "pebd": {
+      "type": "text",
+      "label": "PEBD",
+      "page": 1,
+      "box": {
+        "left": 121.2,
+        "top": 577.6,
+        "width": 111.0,
+        "height": 15.8
+      }
+    },
+    "hor": {
+      "type": "text",
+      "label": "HOR",
+      "page": 1,
+      "box": {
+        "left": 269.1,
+        "top": 576.1,
+        "width": 236.1,
+        "height": 14.4
+      }
+    },
+    "reportDate": {
+      "type": "text",
+      "label": "ReportDate",
+      "page": 1,
+      "box": {
+        "left": 72.4,
+        "top": 399.2,
+        "width": 64.5,
+        "height": 13.5
+      }
+    }
+  }
+}

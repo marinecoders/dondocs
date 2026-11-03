@@ -1,0 +1,501 @@
+{
+  "id": "opnav53701",
+  "label": "OPNAV5370-1 - Gifts Of Travel From Non-Federal Sources Worksheet",
+  "directory": "OPNAV5370-1 - Gifts Of Travel From Non-Federal Sources Worksheet",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "accOff",
+        "empInfo",
+        "datTrl",
+        "accpSps",
+        "locFun",
+        "fundSour",
+        "natFun",
+        "tranAmt",
+        "check2",
+        "transRB",
+        "transRB2",
+        "lodamt",
+        "check3",
+        "lodRB",
+        "lodRB2",
+        "meaAmt",
+        "check4",
+        "mealsRB",
+        "mealsRB2",
+        "confAmt",
+        "confRB",
+        "confRB2",
+        "check1",
+        "otherHolder1",
+        "oEAmt",
+        "check5",
+        "othRB",
+        "othRB2",
+        "otherHolder12",
+        "oEAmt2",
+        "check6",
+        "othRB22",
+        "othRB23",
+        "totInKind",
+        "totAmt",
+        "othFac",
+        "ptsCon"
+      ]
+    }
+  ],
+  "fields": {
+    "accOff": {
+      "type": "text",
+      "label": "Name and title of Acceptance Official",
+      "page": 1,
+      "box": {
+        "left": 39.1,
+        "top": 644.5,
+        "width": 264.3,
+        "height": 30.8
+      },
+      "multiline": true
+    },
+    "empInfo": {
+      "type": "text",
+      "label": "Name, Title, Position of DoD employee",
+      "page": 1,
+      "box": {
+        "left": 309.5,
+        "top": 644.5,
+        "width": 264.3,
+        "height": 30.8
+      },
+      "multiline": true
+    },
+    "datTrl": {
+      "type": "text",
+      "label": "Date (s) of Travel (Indicate date of spouse's travel if different)",
+      "page": 1,
+      "box": {
+        "left": 309.5,
+        "top": 598.1,
+        "width": 264.3,
+        "height": 30.0
+      }
+    },
+    "accpSps": {
+      "type": "text",
+      "label": "Enter name of accompany spouse if applicable.  Note: Spouse must be an official participant",
+      "page": 1,
+      "box": {
+        "left": 39.1,
+        "top": 589.8,
+        "width": 264.3,
+        "height": 21.7
+      }
+    },
+    "locFun": {
+      "type": "text",
+      "label": "Location of meeting/function",
+      "page": 1,
+      "box": {
+        "left": 309.5,
+        "top": 553.2,
+        "width": 264.3,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "fundSour": {
+      "type": "text",
+      "label": "Name of Non-Federal source providing travel/lodging and/or expenses",
+      "page": 1,
+      "box": {
+        "left": 39.1,
+        "top": 543.4,
+        "width": 264.3,
+        "height": 21.7
+      }
+    },
+    "natFun": {
+      "type": "text",
+      "label": "Nature of meeting/function and date (s)",
+      "page": 1,
+      "box": {
+        "left": 39.1,
+        "top": 505.3,
+        "width": 533.9,
+        "height": 63.3
+      },
+      "multiline": true
+    },
+    "tranAmt": {
+      "type": "text",
+      "label": "Transportation amount",
+      "page": 1,
+      "box": {
+        "left": 399.4,
+        "top": 401.1,
+        "width": 55.8,
+        "height": 18.0
+      }
+    },
+    "check2": {
+      "type": "text",
+      "label": "Transportation",
+      "page": 1,
+      "box": {
+        "left": 524.1,
+        "top": 398.0,
+        "width": 40.8,
+        "height": 14.3
+      }
+    },
+    "transRB": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 249.2,
+        "top": 396.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TransRB_0"
+    },
+    "transRB2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 330.9,
+        "top": 396.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TransRB_0"
+    },
+    "lodamt": {
+      "type": "text",
+      "label": "Lodging Amount",
+      "page": 1,
+      "box": {
+        "left": 399.4,
+        "top": 379.9,
+        "width": 55.9,
+        "height": 18.0
+      }
+    },
+    "check3": {
+      "type": "text",
+      "label": "Lodging",
+      "page": 1,
+      "box": {
+        "left": 522.6,
+        "top": 378.3,
+        "width": 40.8,
+        "height": 14.3
+      }
+    },
+    "lodRB": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 249.2,
+        "top": 375.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_LodRB_0"
+    },
+    "lodRB2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 331.0,
+        "top": 375.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_LodRB_0"
+    },
+    "meaAmt": {
+      "type": "text",
+      "label": "Meals Amount",
+      "page": 1,
+      "box": {
+        "left": 399.4,
+        "top": 359.4,
+        "width": 55.9,
+        "height": 18.0
+      }
+    },
+    "check4": {
+      "type": "text",
+      "label": "Meals",
+      "page": 1,
+      "box": {
+        "left": 522.7,
+        "top": 356.7,
+        "width": 40.8,
+        "height": 14.3
+      }
+    },
+    "mealsRB": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 249.2,
+        "top": 353.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_MealsRB_0"
+    },
+    "mealsRB2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 330.9,
+        "top": 353.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_MealsRB_0"
+    },
+    "confAmt": {
+      "type": "text",
+      "label": "Conference fee amount.",
+      "page": 1,
+      "box": {
+        "left": 398.4,
+        "top": 338.6,
+        "width": 55.8,
+        "height": 18.0
+      }
+    },
+    "confRB": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 249.1,
+        "top": 333.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_ConfRB_0"
+    },
+    "confRB2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 330.4,
+        "top": 333.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_ConfRB_0"
+    },
+    "check1": {
+      "type": "text",
+      "label": "Conference Fee",
+      "page": 1,
+      "box": {
+        "left": 523.2,
+        "top": 333.5,
+        "width": 40.8,
+        "height": 14.3
+      }
+    },
+    "otherHolder1": {
+      "type": "text",
+      "label": "Enter the type of other expense.",
+      "page": 1,
+      "box": {
+        "left": 132.1,
+        "top": 318.0,
+        "width": 93.8,
+        "height": 18.1
+      }
+    },
+    "oEAmt": {
+      "type": "text",
+      "label": "Other Expenses Amount",
+      "page": 1,
+      "box": {
+        "left": 399.4,
+        "top": 317.5,
+        "width": 55.9,
+        "height": 18.0
+      }
+    },
+    "check5": {
+      "type": "text",
+      "label": "Other Expenses",
+      "page": 1,
+      "box": {
+        "left": 522.6,
+        "top": 314.3,
+        "width": 40.8,
+        "height": 14.3
+      }
+    },
+    "othRB": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 249.2,
+        "top": 313.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_OthRB_0"
+    },
+    "othRB2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 330.9,
+        "top": 313.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_OthRB_0"
+    },
+    "otherHolder12": {
+      "type": "text",
+      "label": "Enter the type of other expense.",
+      "page": 1,
+      "box": {
+        "left": 131.1,
+        "top": 297.8,
+        "width": 93.8,
+        "height": 18.1
+      }
+    },
+    "oEAmt2": {
+      "type": "text",
+      "label": "Other Expenses Amount",
+      "page": 1,
+      "box": {
+        "left": 399.4,
+        "top": 296.6,
+        "width": 55.9,
+        "height": 18.0
+      }
+    },
+    "check6": {
+      "type": "text",
+      "label": "Other Expenses",
+      "page": 1,
+      "box": {
+        "left": 522.6,
+        "top": 293.3,
+        "width": 40.8,
+        "height": 14.3
+      }
+    },
+    "othRB22": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 249.2,
+        "top": 292.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_OthRB2_0"
+    },
+    "othRB23": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 330.9,
+        "top": 292.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_OthRB2_0"
+    },
+    "totInKind": {
+      "type": "text",
+      "label": "Total In Kind",
+      "page": 1,
+      "box": {
+        "left": 229.1,
+        "top": 241.0,
+        "width": 72.0,
+        "height": 18.0
+      }
+    },
+    "totAmt": {
+      "type": "text",
+      "label": "Total Amount of Cash",
+      "page": 1,
+      "box": {
+        "left": 414.8,
+        "top": 241.0,
+        "width": 72.0,
+        "height": 18.0
+      }
+    },
+    "othFac": {
+      "type": "text",
+      "label": "Enter other facts/information (may attach invitation or other pertinent information)",
+      "page": 1,
+      "box": {
+        "left": 39.1,
+        "top": 172.8,
+        "width": 533.9,
+        "height": 59.4
+      },
+      "multiline": true
+    },
+    "ptsCon": {
+      "type": "text",
+      "label": "Enter Point of Contact (s) and Telephone number (s)",
+      "page": 1,
+      "box": {
+        "left": 39.1,
+        "top": 96.7,
+        "width": 533.9,
+        "height": 54.7
+      },
+      "multiline": true
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 6,
+      "rowStride": 21.24,
+      "editor": "grid",
+      "columns": {
+        "cash": {
+          "type": "text",
+          "label": "Transportation",
+          "page": 1,
+          "box": {
+            "left": 471.6,
+            "top": 398.0,
+            "width": 40.8,
+            "height": 14.3
+          }
+        }
+      }
+    }
+  }
+}

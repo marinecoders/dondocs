@@ -1,0 +1,131 @@
+{
+  "id": "opnav51024",
+  "label": "OPNAV5102-4 - Safetygram",
+  "directory": "OPNAV5102-4 - Safetygram",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "typeOfCommand",
+        "typeOfCommand2",
+        "typeOfCommand3",
+        "typeOfCommand4",
+        "typeOfCommand5",
+        "cssc",
+        "rpntm",
+        "corrected",
+        "sig"
+      ]
+    }
+  ],
+  "fields": {
+    "typeOfCommand": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 79.6,
+        "top": 637.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfCommand_0"
+    },
+    "typeOfCommand2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 175.8,
+        "top": 637.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfCommand_0"
+    },
+    "typeOfCommand3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 259.6,
+        "top": 637.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfCommand_0"
+    },
+    "typeOfCommand4": {
+      "type": "radio",
+      "label": "3",
+      "page": 1,
+      "box": {
+        "left": 357.5,
+        "top": 637.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfCommand_0"
+    },
+    "typeOfCommand5": {
+      "type": "radio",
+      "label": "4",
+      "page": 1,
+      "box": {
+        "left": 433.4,
+        "top": 637.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_TypeOfCommand_0"
+    },
+    "cssc": {
+      "type": "text",
+      "label": "Enter the command, ship or ship class.",
+      "page": 1,
+      "box": {
+        "left": 218.6,
+        "top": 622.1,
+        "width": 316.4,
+        "height": 12.1
+      }
+    },
+    "rpntm": {
+      "type": "text",
+      "label": "Enter the references (Plan No/Tech Manual/etc.).",
+      "page": 1,
+      "box": {
+        "left": 261.4,
+        "top": 606.4,
+        "width": 273.7,
+        "height": 12.1
+      }
+    },
+    "corrected": {
+      "type": "text",
+      "label": "Enter the statement (what, why; how it can be prevented or corrected).",
+      "page": 1,
+      "box": {
+        "left": 79.1,
+        "top": 574.9,
+        "width": 455.9,
+        "height": 387.9
+      },
+      "multiline": true
+    },
+    "sig": {
+      "type": "text",
+      "label": "Enter the signature of the commander.",
+      "page": 1,
+      "box": {
+        "left": 79.1,
+        "top": 181.1,
+        "width": 301.8,
+        "height": 14.4
+      }
+    }
+  }
+}

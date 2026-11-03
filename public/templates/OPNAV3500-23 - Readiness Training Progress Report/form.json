@@ -1,0 +1,5471 @@
+{
+  "id": "opnav350023",
+  "label": "OPNAV3500-23 - Readiness Training Progress Report",
+  "directory": "OPNAV3500-23 - Readiness Training Progress Report",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "squadron",
+        "month",
+        "year",
+        "p1inputRPIplanned",
+        "p1inputRPIIplanned",
+        "p1inputRPIIIplanned",
+        "p1inputRPIVplanned",
+        "p1inputRPVplanned",
+        "p2onboardRPIplanned",
+        "p2onboardRPIIplanned",
+        "p2onboardRPIIIplanned",
+        "p2onboardRPIVplanned",
+        "p2onboardRPVplanned",
+        "p3attritesdelaysRPIplanned",
+        "p3attritesdelaysRPIIplanned",
+        "p3attritesdelaysRPIIIplanned",
+        "p3attritesdelaysRPIVplanned",
+        "forfutureuseRPIplanned",
+        "forfutureuseRPIIplanned",
+        "forfutureuseRPIIIplanned",
+        "forfutureuseRPIVplanned",
+        "forfutureuseRPVplanned",
+        "p1inputRPIactual",
+        "p1inputRPIIactual",
+        "p1inputRPIIIactual",
+        "p1inputRPIVactual",
+        "p1inputRPVactual",
+        "p2onboardRPIactual",
+        "p2onboardRPIIactual",
+        "p2onboardRPIIIactual",
+        "p2onboardRPIVactual",
+        "p2onboardRPVactual",
+        "p3attritesdelaysRPIactual",
+        "p3attritesdelaysRPIIactual",
+        "p3attritesdelaysRPIIIactual",
+        "p3attritesdelaysRPIVactual",
+        "forfutureuseRPIactual",
+        "forfutureuseRPIIactual",
+        "forfutureuseRPIIIactual",
+        "forfutureuseRPIVactual",
+        "forfutureuseRPVactual",
+        "p1inputRPIfiscalYR",
+        "p1inputRPIIfiscalYR",
+        "p1inputRPIIIfiscalYR",
+        "p1inputRPIVfiscalYR",
+        "p1inputRPVfiscalYR",
+        "p2onboardRPIfiscalYR",
+        "p2onboardRPIIfiscalYR",
+        "p2onboardRPIIIfiscalYR",
+        "p2onboardRPIVfiscalYR",
+        "p2onboardRPVfiscalYR",
+        "p3attritesdelaysRPIfiscalYR",
+        "p3attritesdelaysRPIIfiscalYR",
+        "p3attritesdelaysRPIIIfiscalYR",
+        "p3attritesdelaysRPIVfiscalYR",
+        "forfutureuseRPIfiscalYR",
+        "forfutureuseRPIIfiscalYR",
+        "forfutureuseRPIIIfiscalYR",
+        "forfutureuseRPIVfiscalYR",
+        "forfutureuseRPVfiscalYR",
+        "p1inputRNFOIplanned",
+        "p1inputRNFOIIplanned",
+        "p1inputRNFOIIIplanned",
+        "p1inputRNFOIVplanned",
+        "p1inputRNFOVplanned",
+        "p2onboardRNFOIplanned",
+        "p2onboardRNFOIIplanned",
+        "p2onboardRNFOIIIplanned",
+        "p2onboardRNFOIVplanned",
+        "p2onboardRNFOVplanned",
+        "p3attritesdelaysRNFOIplanned",
+        "p3attritesdelaysRNFOIIplanned",
+        "p3attritesdelaysRNFOIIIplanned",
+        "p3attritesdelaysRNFOIVplanned",
+        "forfutureuseRNFOIplanned",
+        "forfutureuseRNFOIIplanned",
+        "forfutureuseRNFOIIIplanned",
+        "forfutureuseRNFOIVplanned",
+        "forfutureuseRNFOVplanned",
+        "p1inputRNFOIactual",
+        "p1inputRNFOIIactual",
+        "p1inputRNFOIIIactual",
+        "p1inputRNFOIVactual",
+        "p1inputRNFOVactual",
+        "p2onboardRNFOIactual",
+        "p2onboardRNFOIIactual",
+        "p2onboardRNFOIIIactual",
+        "p2onboardRNFOIVactual",
+        "p2onboardRNFOVactual",
+        "p3attritesdelaysRNFOIactual",
+        "p3attritesdelaysRNFOIIactual",
+        "p3attritesdelaysRNFOIIIactual",
+        "p3attritesdelaysRNFOIVactual",
+        "forfutureuseRNFOIactual",
+        "forfutureuseRNFOIIactual",
+        "forfutureuseRNFOIIIactual",
+        "forfutureuseRNFOIVactual",
+        "forfutureuseRNFOVactual",
+        "p1inputRNFOIfiscalYR",
+        "p1inputRNFOIIfiscalYR",
+        "p1inputRNFOIIIfiscalYR",
+        "p1inputRNFOIVfiscalYR",
+        "p1inputRNFOVfiscalYR",
+        "p2onboardRNFOIfiscalYR",
+        "p2onboardRNFOIIfiscalYR",
+        "p2onboardRNFOIIIfiscalYR",
+        "p2onboardRNFOIVfiscalYR",
+        "p2onboardRNFOVfiscalYR",
+        "p3attritesdelaysRNFOIfiscalYR",
+        "p3attritesdelaysRNFOIIfiscalYR",
+        "p3attritesdelaysRNFOIIIfiscalYR",
+        "p3attritesdelaysRNFOIVfiscalYR",
+        "forfutureuseRNFOIfiscalYR",
+        "forfutureuseRNFOIIfiscalYR",
+        "forfutureuseRNFOIIIfiscalYR",
+        "forfutureuseRNFOIVfiscalYR",
+        "forfutureuseRNFOVfiscalYR",
+        "p1inputRACIplanned",
+        "p1inputRACIIplanned",
+        "p1inputRACIIIplanned",
+        "p1inputRACIVplanned",
+        "p1inputRACVplanned",
+        "p2onboardRACIplanned",
+        "p2onboardRACIIplanned",
+        "p2onboardRACIIIplanned",
+        "p2onboardRACIVplanned",
+        "p2onboardRACVplanned",
+        "p3attritesdelaysRACIplanned",
+        "p3attritesdelaysRACIIplanned",
+        "p3attritesdelaysRACIIIplanned",
+        "p3attritesdelaysRACIVplanned",
+        "forfutureuseRACIplanned",
+        "forfutureuseRACIIplanned",
+        "forfutureuseRACIIIplanned",
+        "forfutureuseRACIVplanned",
+        "forfutureuseRACVplanned",
+        "p1inputRACIactual",
+        "p1inputRACIIactual",
+        "p1inputRACIIIactual",
+        "p1inputRACIVactual",
+        "p1inputRACVactual",
+        "p2onboardRACIactual",
+        "p2onboardRACIIactual",
+        "p2onboardRACIIIactual",
+        "p2onboardRACIVactual",
+        "p2onboardRACVactual",
+        "p3attritesdelaysRACIactual",
+        "p3attritesdelaysRACIIactual",
+        "p3attritesdelaysRACIIIactual",
+        "p3attritesdelaysRACIVactual",
+        "forfutureuseRACIactual",
+        "forfutureuseRACIIactual",
+        "forfutureuseRACIIIactual",
+        "forfutureuseRACIVactual",
+        "forfutureuseRACVactual",
+        "p1inputRACIfiscalYR",
+        "p1inputRACIIfiscalYR",
+        "p1inputRACIIIfiscalYR",
+        "p1inputRACIVfiscalYR",
+        "p1inputRACVfiscalYR",
+        "p2onboardRACIfiscalYR",
+        "p2onboardRACIIfiscalYR",
+        "p2onboardRACIIIfiscalYR",
+        "p2onboardRACIVfiscalYR",
+        "p2onboardRACVfiscalYR",
+        "p3attritesdelaysRACIfiscalYR",
+        "p3attritesdelaysRACIIfiscalYR",
+        "p3attritesdelaysRACIIIfiscalYR",
+        "p3attritesdelaysRACIVfiscalYR",
+        "forfutureuseRACIfiscalYR",
+        "forfutureuseRACIIfiscalYR",
+        "forfutureuseRACIIIfiscalYR",
+        "forfutureuseRACIVfiscalYR",
+        "forfutureuseRACVfiscalYR",
+        "p4graduatesRPIplanned",
+        "p4graduatesRPIIplanned",
+        "p4graduatesRPIIIplanned",
+        "p4graduatesRPIVplanned",
+        "p4graduatesRPVplanned",
+        "p5avgwksonboardincourseRPIIIplanned",
+        "p5avgwksonboardincourseRPIVplanned",
+        "p5avgwksonboardincourseRPVplanned",
+        "p6avghourspergradRPIplanned",
+        "p6avghourspergradRPIIplanned",
+        "p6avghourspergradRPIIIplanned",
+        "p6avghourspergradRPIVplanned",
+        "p6avghourspergradRPVplanned",
+        "p4graduatesRPIactual",
+        "p4graduatesRPIIactual",
+        "p4graduatesRPIIIactual",
+        "p4graduatesRPIVactual",
+        "p4graduatesRPVactual",
+        "p5avgwksonboardincourseRPIIIactual",
+        "p5avgwksonboardincourseRPIVactual",
+        "p5avgwksonboardincourseRPVactual",
+        "p6avghourspergradRPIactual",
+        "p6avghourspergradRPIIactual",
+        "p6avghourspergradRPIIIactual",
+        "p6avghourspergradRPIVactual",
+        "p6avghourspergradRPVactual",
+        "p4graduatesRPIfiscalYR",
+        "p4graduatesRPIIfiscalYR",
+        "p4graduatesRPIIIfiscalYR",
+        "p4graduatesRPIVfiscalYR",
+        "p4graduatesRPVfiscalYR",
+        "p5avgwksonboardincourseRPIIIfiscalYR",
+        "p5avgwksonboardincourseRPIVfiscalYR",
+        "p5avgwksonboardincourseRPVfiscalYR",
+        "p6avghourspergradRPIfiscalYR",
+        "p6avghourspergradRPIIfiscalYR",
+        "p6avghourspergradRPIIIfiscalYR",
+        "p6avghourspergradRPIVfiscalYR",
+        "p6avghourspergradRPVfiscalYR",
+        "p4graduatesRNFOIplanned",
+        "p4graduatesRNFOIIplanned",
+        "p4graduatesRNFOIIIplanned",
+        "p4graduatesRNFOIVplanned",
+        "p4graduatesRNFOVplanned",
+        "p5avgwksonboardincourseRNFOIIIplanned",
+        "p5avgwksonboardincourseRNFOIVplanned",
+        "p5avgwksonboardincourseRNFOVplanned",
+        "p6avghourspergradRNFOIplanned",
+        "p6avghourspergradRNFOIIplanned",
+        "p6avghourspergradRNFOIIIplanned",
+        "p6avghourspergradRNFOIVplanned",
+        "p6avghourspergradRNFOVplanned",
+        "p4graduatesRNFOIactual",
+        "p4graduatesRNFOIIactual",
+        "p4graduatesRNFOIIIactual",
+        "p4graduatesRNFOIVactual",
+        "p4graduatesRNFOVactual",
+        "p5avgwksonboardincourseRNFOIIIactual",
+        "p5avgwksonboardincourseRNFOIVactual",
+        "p5avgwksonboardincourseRNFOVactual",
+        "p6avghourspergradRNFOIactual",
+        "p6avghourspergradRNFOIIactual",
+        "p6avghourspergradRNFOIIIactual",
+        "p6avghourspergradRNFOIVactual",
+        "p6avghourspergradRNFOVactual",
+        "p4graduatesRNFOIfiscalYR",
+        "p4graduatesRNFOIIfiscalYR",
+        "p4graduatesRNFOIIIfiscalYR",
+        "p4graduatesRNFOIVfiscalYR",
+        "p4graduatesRNFOVfiscalYR",
+        "p5avgwksonboardincourseRNFOIIIfiscalYR",
+        "p5avgwksonboardincourseRNFOIVfiscalYR",
+        "p5avgwksonboardincourseRNFOVfiscalYR",
+        "p6avghourspergradRNFOIfiscalYR",
+        "p6avghourspergradRNFOIIfiscalYR",
+        "p6avghourspergradRNFOIIIfiscalYR",
+        "p6avghourspergradRNFOIVfiscalYR",
+        "p6avghourspergradRNFOVfiscalYR",
+        "p4graduatesRACIplanned",
+        "p4graduatesRACIIplanned",
+        "p4graduatesRACIIIplanned",
+        "p4graduatesRACIVplanned",
+        "p4graduatesRACVplanned",
+        "p5avgwksonboardincourseRACIIIplanned",
+        "p5avgwksonboardincourseRACIVplanned",
+        "p5avgwksonboardincourseRACVplanned",
+        "p6avghourspergradRACIplanned",
+        "p6avghourspergradRACIIplanned",
+        "p6avghourspergradRACIIIplanned",
+        "p6avghourspergradRACIVplanned",
+        "p6avghourspergradRACVplanned",
+        "p4graduatesRACIactual",
+        "p4graduatesRACIIactual",
+        "p4graduatesRACIIIactual",
+        "p4graduatesRACIVactual",
+        "p4graduatesRACVactual",
+        "p5avgwksonboardincourseRACIIIactual",
+        "p5avgwksonboardincourseRACIVactual",
+        "p5avgwksonboardincourseRACVactual",
+        "p6avghourspergradRACIactual",
+        "p6avghourspergradRACIIactual",
+        "p6avghourspergradRACIIIactual",
+        "p6avghourspergradRACIVactual",
+        "p6avghourspergradRACVactual",
+        "p4graduatesRACIfiscalYR",
+        "p4graduatesRACIIfiscalYR",
+        "p4graduatesRACIIIfiscalYR",
+        "p4graduatesRACIVfiscalYR",
+        "p4graduatesRACVfiscalYR",
+        "p5avgwksonboardincourseRACIIIfiscalYR",
+        "p5avgwksonboardincourseRACIVfiscalYR",
+        "p5avgwksonboardincourseRACVfiscalYR",
+        "p6avghourspergradRACIfiscalYR",
+        "p6avghourspergradRACIIfiscalYR",
+        "p6avghourspergradRACIIIfiscalYR",
+        "p6avghourspergradRACIVfiscalYR",
+        "p6avghourspergradRACVfiscalYR"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "squadron2",
+        "month2",
+        "year2",
+        "a1assignedaircraftmodel1",
+        "a1assignedaircraftmodel2",
+        "a1assignedaircraftmodel3",
+        "a1assignedaircraftmodel4",
+        "a1assignedaircraftmodel5",
+        "a2aircraftinreportingstatusmodel1",
+        "a2aircraftinreportingstatusmodel2",
+        "a2aircraftinreportingstatusmodel3",
+        "a2aircraftinreportingstatusmodel4",
+        "a2aircraftinreportingstatusmodel5",
+        "a3aircraftutilizationmodel1",
+        "a3aircraftutilizationmodel2",
+        "a3aircraftutilizationmodel3",
+        "a3aircraftutilizationmodel4",
+        "a3aircraftutilizationmodel5",
+        "forfutureusemodel1",
+        "forfutureusemodel2",
+        "forfutureusemodel3",
+        "forfutureusemodel4",
+        "forfutureusemodel5",
+        "a1assignedaircraftplanned1",
+        "a1assignedaircraftplanned2",
+        "a1assignedaircraftplanned3",
+        "a1assignedaircraftplanned4",
+        "a1assignedaircraftplanned5",
+        "a2aircraftinreportingstatusplanned1",
+        "a2aircraftinreportingstatusplanned2",
+        "a2aircraftinreportingstatusplanned3",
+        "a2aircraftinreportingstatusplanned4",
+        "a2aircraftinreportingstatusplanned5",
+        "a3aircraftutilizationplanned1",
+        "a3aircraftutilizationplanned2",
+        "a3aircraftutilizationplanned3",
+        "a3aircraftutilizationplanned4",
+        "a3aircraftutilizationplanned5",
+        "forfutureuseplanned1",
+        "forfutureuseplanned2",
+        "forfutureuseplanned3",
+        "forfutureuseplanned4",
+        "forfutureuseplanned5",
+        "a1assignedaircraftactual1",
+        "a1assignedaircraftactual2",
+        "a1assignedaircraftactual3",
+        "a1assignedaircraftactual4",
+        "a1assignedaircraftactual5",
+        "a2aircraftinreportingstatusactual1",
+        "a2aircraftinreportingstatusactual2",
+        "a2aircraftinreportingstatusactual3",
+        "a2aircraftinreportingstatusactual4",
+        "a2aircraftinreportingstatusactual5",
+        "a3aircraftutilizationactual1",
+        "a3aircraftutilizationactual2",
+        "a3aircraftutilizationactual3",
+        "a3aircraftutilizationactual4",
+        "a3aircraftutilizationactual5",
+        "forfutureuseactual1",
+        "forfutureuseactual2",
+        "forfutureuseactual3",
+        "forfutureuseactual4",
+        "forfutureuseactual5",
+        "a1assignedaircraftfiscalYR1",
+        "a1assignedaircraftfiscalYR2",
+        "a1assignedaircraftfiscalYR3",
+        "a1assignedaircraftfiscalYR4",
+        "a1assignedaircraftfiscalYR5",
+        "a2aircraftinreportingstatusfiscalYR1",
+        "a2aircraftinreportingstatusfiscalYR2",
+        "a2aircraftinreportingstatusfiscalYR3",
+        "a2aircraftinreportingstatusfiscalYR4",
+        "a2aircraftinreportingstatusfiscalYR5",
+        "a3aircraftutilizationfiscalYR1",
+        "a3aircraftutilizationfiscalYR2",
+        "a3aircraftutilizationfiscalYR3",
+        "a3aircraftutilizationfiscalYR4",
+        "a3aircraftutilizationfiscalYR5",
+        "forfutureusefiscalYR1",
+        "forfutureusefiscalYR2",
+        "forfutureusefiscalYR3",
+        "forfutureusefiscalYR4",
+        "forfutureusefiscalYR5",
+        "i1instructorsonboardIPplanned",
+        "i1instructorsonboardINFOplanned",
+        "i1instructorsonboardIACplanned",
+        "i1instructorsonboardIPactual",
+        "i1instructorsonboardINFOactual",
+        "i1instructorsonboardIACactual",
+        "i2instructorsavailableIPactual",
+        "i2instructorsavailableINFOactual",
+        "i2instructorsavailableIACactual",
+        "i1instructorflighthoursIPactual",
+        "i3instructorflighthoursINFOactual",
+        "i3instructorflighthoursIACactual",
+        "i4IUTonboardIPactual",
+        "i4IUTonboardINFOactual",
+        "i4IUTonboardIACactual",
+        "i1instructorsonboardIPfiscalYR",
+        "i1instructorsonboardINFOfiscalYR",
+        "i1instructorsonboardIACfiscalYR",
+        "i2instructorsavailableIPfiscalYR",
+        "i2instructorsavailableINFOfiscalYR",
+        "i2instructorsavailableIACfiscalYR",
+        "i3instructorflighthoursIPfiscalYR",
+        "i3instructorflighthoursINFOfiscalYR",
+        "i3instructorflighthoursIACfiscalYR",
+        "i4IUTonboardIPfiscalYR",
+        "i4IUTonboardINFOfiscalYR",
+        "i4IUTonboardIACfiscalYR",
+        "forfutureusemodel",
+        "forfutureuseplanned",
+        "h1completedsyllabushoursRPplanned",
+        "h1completedsyllabushoursRNFOplanned",
+        "h1completedsyllabushoursRACplanned",
+        "h1AsyllabussupporthoursRPplanned",
+        "h1AsyllabussupporthoursRNFOplanned",
+        "h1AsyllabussupporthoursRACplanned",
+        "h1completedsyllabushoursRPactual",
+        "h1completedsyllabushoursRNFOactual",
+        "h1completedsyllabushoursRACactual",
+        "h1AsyllabussupporthoursRPactual",
+        "h1AsyllabussupporthoursRNFOactual",
+        "h1AsyllabussupporthoursRACactual",
+        "h2incompleteABORThoursRPactual",
+        "h2incompleteABORThoursRNFOactual",
+        "h2incompleteABORThoursRACactual",
+        "h3IUThoursRPactual",
+        "h3IUThoursRNFOactual",
+        "h3IUThoursRACactual",
+        "forfutureuseactual",
+        "h1completedsyllabushoursRPfiscalYR",
+        "h1completedsyllabushoursRNFOfiscalYR",
+        "h1completedsyllabushoursRACfiscalYR",
+        "h1AsyllabussupporthoursRPfiscalYR",
+        "h1AsyllabussupporthoursRNFOfiscalYR",
+        "h1AsyllabussupporthoursRACfiscalYR",
+        "h2incompleteABORThoursRPfiscalYR",
+        "h2incompleteABORThoursRNFOfiscalYR",
+        "h2incompleteABORThoursRACfiscalYR",
+        "h3IUThoursRPfiscalYR",
+        "h3IUThoursRNFOfiscalYR",
+        "h3IUThoursRACfiscalYR",
+        "forfutureusefiscalYR",
+        "h9overheadhoursplanned",
+        "h10overheadPERCplanned",
+        "h11totalhoursplanned",
+        "h4ferryactual",
+        "h5testactual",
+        "h6serviceactual",
+        "h7logisticsactual",
+        "h8STANSTASHactual",
+        "h9overheadhoursactual",
+        "h10overheadPERCactual",
+        "h11totalhoursactual",
+        "h4ferryfiscalYR",
+        "h5testfiscalYR",
+        "h6servicefiscalYR",
+        "h7logisticsfiscalYR",
+        "h8STANSTASHfiscalYR",
+        "h9overheadhoursfiscalYR",
+        "h10overheadPERCfiscalYR",
+        "h11totalhoursfiscalYR"
+      ]
+    }
+  ],
+  "fields": {
+    "squadron": {
+      "type": "text",
+      "label": "Enter the squadron.",
+      "page": 1,
+      "box": {
+        "left": 347.3,
+        "top": 548.6,
+        "width": 183.8,
+        "height": 11.9
+      }
+    },
+    "month": {
+      "type": "text",
+      "label": "Enter the month.",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 524.6,
+        "width": 88.5,
+        "height": 11.9
+      }
+    },
+    "year": {
+      "type": "text",
+      "label": "Enter the year.",
+      "page": 1,
+      "box": {
+        "left": 453.4,
+        "top": 524.6,
+        "width": 77.7,
+        "height": 11.9
+      }
+    },
+    "p1inputRPIplanned": {
+      "type": "text",
+      "label": "Enter the P-I input category RP planned I.",
+      "page": 1,
+      "box": {
+        "left": 111.4,
+        "top": 436.9,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRPIIplanned": {
+      "type": "text",
+      "label": "Enter the P-I input category RP planned II.",
+      "page": 1,
+      "box": {
+        "left": 143.7,
+        "top": 436.9,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRPIIIplanned": {
+      "type": "text",
+      "label": "Enter the P-I input category RP planned III.",
+      "page": 1,
+      "box": {
+        "left": 175.9,
+        "top": 436.9,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRPIVplanned": {
+      "type": "text",
+      "label": "Enter the P-I input category RP planned IV.",
+      "page": 1,
+      "box": {
+        "left": 208.2,
+        "top": 436.9,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRPVplanned": {
+      "type": "text",
+      "label": "Enter the P-I input category RP planned V.",
+      "page": 1,
+      "box": {
+        "left": 240.5,
+        "top": 436.9,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRPIplanned": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RP planned I.",
+      "page": 1,
+      "box": {
+        "left": 273.2,
+        "top": 436.9,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRPIIplanned": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RP planned II.",
+      "page": 1,
+      "box": {
+        "left": 305.1,
+        "top": 436.9,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRPIIIplanned": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RP planned III.",
+      "page": 1,
+      "box": {
+        "left": 337.6,
+        "top": 436.9,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRPIVplanned": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RP planned IV.",
+      "page": 1,
+      "box": {
+        "left": 370.1,
+        "top": 436.9,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRPVplanned": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RP planned V.",
+      "page": 1,
+      "box": {
+        "left": 402.0,
+        "top": 436.9,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p3attritesdelaysRPIplanned": {
+      "type": "text",
+      "label": "Enter the P-3 attrites/delays category RP planned I.",
+      "page": 1,
+      "box": {
+        "left": 434.5,
+        "top": 436.9,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p3attritesdelaysRPIIplanned": {
+      "type": "text",
+      "label": "Enter the P-3 attrites/delays category RP planned II.",
+      "page": 1,
+      "box": {
+        "left": 466.9,
+        "top": 436.9,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p3attritesdelaysRPIIIplanned": {
+      "type": "text",
+      "label": "Enter the P-3 attrites/delays category RP planned III.",
+      "page": 1,
+      "box": {
+        "left": 498.9,
+        "top": 436.9,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p3attritesdelaysRPIVplanned": {
+      "type": "text",
+      "label": "Enter the P-3 attrites/delays category RP planned IV.",
+      "page": 1,
+      "box": {
+        "left": 531.3,
+        "top": 436.9,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRPIplanned": {
+      "type": "text",
+      "label": "Enter the for future use category RP planned I.",
+      "page": 1,
+      "box": {
+        "left": 596.3,
+        "top": 436.9,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRPIIplanned": {
+      "type": "text",
+      "label": "Enter the for future use category RP planned II.",
+      "page": 1,
+      "box": {
+        "left": 628.5,
+        "top": 436.9,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRPIIIplanned": {
+      "type": "text",
+      "label": "Enter the for future use category RP planned III.",
+      "page": 1,
+      "box": {
+        "left": 660.8,
+        "top": 436.9,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRPIVplanned": {
+      "type": "text",
+      "label": "Enter the for future use category RP planned IV.",
+      "page": 1,
+      "box": {
+        "left": 693.1,
+        "top": 436.9,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRPVplanned": {
+      "type": "text",
+      "label": "Enter the for future use category RP planned V.",
+      "page": 1,
+      "box": {
+        "left": 725.3,
+        "top": 436.9,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRPIactual": {
+      "type": "text",
+      "label": "Enter the P-I input category RP actual I.",
+      "page": 1,
+      "box": {
+        "left": 111.4,
+        "top": 424.2,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRPIIactual": {
+      "type": "text",
+      "label": "Enter the P-I input category RP actual II.",
+      "page": 1,
+      "box": {
+        "left": 143.7,
+        "top": 424.2,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRPIIIactual": {
+      "type": "text",
+      "label": "Enter the P-I input category RP actual III.",
+      "page": 1,
+      "box": {
+        "left": 175.9,
+        "top": 424.2,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRPIVactual": {
+      "type": "text",
+      "label": "Enter the P-I input category RP actual IV.",
+      "page": 1,
+      "box": {
+        "left": 208.2,
+        "top": 424.2,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRPVactual": {
+      "type": "text",
+      "label": "Enter the P-I input category RP actual V.",
+      "page": 1,
+      "box": {
+        "left": 240.5,
+        "top": 424.2,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRPIactual": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RP actual I.",
+      "page": 1,
+      "box": {
+        "left": 273.2,
+        "top": 424.2,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRPIIactual": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RP actual II.",
+      "page": 1,
+      "box": {
+        "left": 305.1,
+        "top": 424.2,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRPIIIactual": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RP actual III.",
+      "page": 1,
+      "box": {
+        "left": 337.6,
+        "top": 424.2,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRPIVactual": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RP actual IV.",
+      "page": 1,
+      "box": {
+        "left": 370.1,
+        "top": 424.2,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRPVactual": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RP actual V.",
+      "page": 1,
+      "box": {
+        "left": 402.0,
+        "top": 424.2,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p3attritesdelaysRPIactual": {
+      "type": "text",
+      "label": "Enter the P-3 attrites/delays category RP actual I.",
+      "page": 1,
+      "box": {
+        "left": 434.5,
+        "top": 424.2,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p3attritesdelaysRPIIactual": {
+      "type": "text",
+      "label": "Enter the P-3 attrites/delays category RP actual II.",
+      "page": 1,
+      "box": {
+        "left": 466.9,
+        "top": 424.2,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p3attritesdelaysRPIIIactual": {
+      "type": "text",
+      "label": "Enter the P-3 attrites/delays category RP actual III.",
+      "page": 1,
+      "box": {
+        "left": 498.9,
+        "top": 424.2,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p3attritesdelaysRPIVactual": {
+      "type": "text",
+      "label": "Enter the P-3 attrites/delays category RP actual IV.",
+      "page": 1,
+      "box": {
+        "left": 531.3,
+        "top": 424.2,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRPIactual": {
+      "type": "text",
+      "label": "Enter the for future use category RP actual I.",
+      "page": 1,
+      "box": {
+        "left": 596.3,
+        "top": 424.2,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRPIIactual": {
+      "type": "text",
+      "label": "Enter the for future use category RP actual II.",
+      "page": 1,
+      "box": {
+        "left": 628.5,
+        "top": 424.2,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRPIIIactual": {
+      "type": "text",
+      "label": "Enter the for future use category RP actual III.",
+      "page": 1,
+      "box": {
+        "left": 660.8,
+        "top": 424.2,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRPIVactual": {
+      "type": "text",
+      "label": "Enter the for future use category RP actual IV.",
+      "page": 1,
+      "box": {
+        "left": 693.1,
+        "top": 424.2,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRPVactual": {
+      "type": "text",
+      "label": "Enter the for future use category RP actual V.",
+      "page": 1,
+      "box": {
+        "left": 725.3,
+        "top": 424.2,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRPIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-I input category RP fiscal YR I.",
+      "page": 1,
+      "box": {
+        "left": 111.4,
+        "top": 411.5,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRPIIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-I input category RP fiscal YR II.",
+      "page": 1,
+      "box": {
+        "left": 143.7,
+        "top": 411.5,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRPIIIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-I input category RP fiscal YR III.",
+      "page": 1,
+      "box": {
+        "left": 175.9,
+        "top": 411.5,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRPIVfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-I input category RP fiscal YR IV.",
+      "page": 1,
+      "box": {
+        "left": 208.2,
+        "top": 411.5,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRPVfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-I input category RP fiscal YR V.",
+      "page": 1,
+      "box": {
+        "left": 240.5,
+        "top": 411.5,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRPIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RP fiscal YR I.",
+      "page": 1,
+      "box": {
+        "left": 273.2,
+        "top": 411.5,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRPIIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RP fiscal YR II.",
+      "page": 1,
+      "box": {
+        "left": 305.1,
+        "top": 411.5,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRPIIIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RP fiscal YR III.",
+      "page": 1,
+      "box": {
+        "left": 337.6,
+        "top": 411.5,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRPIVfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RP fiscal YR IV.",
+      "page": 1,
+      "box": {
+        "left": 370.1,
+        "top": 411.5,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRPVfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RP fiscal YR V.",
+      "page": 1,
+      "box": {
+        "left": 402.0,
+        "top": 411.5,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p3attritesdelaysRPIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-3 attrites/delays category RP fiscal YR I.",
+      "page": 1,
+      "box": {
+        "left": 434.5,
+        "top": 411.5,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p3attritesdelaysRPIIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-3 attrites/delays category RP fiscal YR II.",
+      "page": 1,
+      "box": {
+        "left": 466.9,
+        "top": 411.5,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p3attritesdelaysRPIIIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-3 attrites/delays category RP fiscal YR III.",
+      "page": 1,
+      "box": {
+        "left": 498.9,
+        "top": 411.5,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p3attritesdelaysRPIVfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-3 attrites/delays category RP fiscal YR IV.",
+      "page": 1,
+      "box": {
+        "left": 531.3,
+        "top": 411.5,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRPIfiscalYR": {
+      "type": "text",
+      "label": "Enter the for future use category RP fiscal YR I.",
+      "page": 1,
+      "box": {
+        "left": 596.3,
+        "top": 411.5,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRPIIfiscalYR": {
+      "type": "text",
+      "label": "Enter the for future use category RP fiscal YR II.",
+      "page": 1,
+      "box": {
+        "left": 628.5,
+        "top": 411.5,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRPIIIfiscalYR": {
+      "type": "text",
+      "label": "Enter the for future use category RP fiscal YR III.",
+      "page": 1,
+      "box": {
+        "left": 660.8,
+        "top": 411.5,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRPIVfiscalYR": {
+      "type": "text",
+      "label": "Enter the for future use category RP fiscal YR IV.",
+      "page": 1,
+      "box": {
+        "left": 693.1,
+        "top": 411.5,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRPVfiscalYR": {
+      "type": "text",
+      "label": "Enter the for future use category RP fiscal YR V.",
+      "page": 1,
+      "box": {
+        "left": 725.3,
+        "top": 411.5,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRNFOIplanned": {
+      "type": "text",
+      "label": "Enter the P-I input category RNFO planned I.",
+      "page": 1,
+      "box": {
+        "left": 111.4,
+        "top": 386.0,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRNFOIIplanned": {
+      "type": "text",
+      "label": "Enter the P-I input category RNFO planned II.",
+      "page": 1,
+      "box": {
+        "left": 143.7,
+        "top": 386.0,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRNFOIIIplanned": {
+      "type": "text",
+      "label": "Enter the P-I input category RNFO planned III.",
+      "page": 1,
+      "box": {
+        "left": 175.9,
+        "top": 386.0,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRNFOIVplanned": {
+      "type": "text",
+      "label": "Enter the P-I input category RNFO planned IV.",
+      "page": 1,
+      "box": {
+        "left": 208.2,
+        "top": 386.0,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRNFOVplanned": {
+      "type": "text",
+      "label": "Enter the P-I input category RNFO planned V.",
+      "page": 1,
+      "box": {
+        "left": 240.5,
+        "top": 386.0,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRNFOIplanned": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RNFO planned I.",
+      "page": 1,
+      "box": {
+        "left": 273.2,
+        "top": 386.0,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRNFOIIplanned": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RNFO planned II.",
+      "page": 1,
+      "box": {
+        "left": 305.1,
+        "top": 386.0,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRNFOIIIplanned": {
+      "type": "text",
+      "label": "Enter the P-2 on board categor RNFO planned III.",
+      "page": 1,
+      "box": {
+        "left": 337.6,
+        "top": 386.0,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRNFOIVplanned": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RNFO planned IV.",
+      "page": 1,
+      "box": {
+        "left": 370.1,
+        "top": 386.0,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRNFOVplanned": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RNFO planned V.",
+      "page": 1,
+      "box": {
+        "left": 402.0,
+        "top": 386.0,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p3attritesdelaysRNFOIplanned": {
+      "type": "text",
+      "label": "Enter the P-3 attrites/delays category RNFO planned I.",
+      "page": 1,
+      "box": {
+        "left": 434.5,
+        "top": 386.0,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p3attritesdelaysRNFOIIplanned": {
+      "type": "text",
+      "label": "Enter the P-3 attrites/delays category RNFO planned II.",
+      "page": 1,
+      "box": {
+        "left": 466.9,
+        "top": 386.0,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p3attritesdelaysRNFOIIIplanned": {
+      "type": "text",
+      "label": "Enter the P-3 attrites/delays category RNFO planned III.",
+      "page": 1,
+      "box": {
+        "left": 498.9,
+        "top": 386.0,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p3attritesdelaysRNFOIVplanned": {
+      "type": "text",
+      "label": "Enter the P-3 attrites/delays category RNFO planned IV.",
+      "page": 1,
+      "box": {
+        "left": 531.3,
+        "top": 386.0,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRNFOIplanned": {
+      "type": "text",
+      "label": "Enter the for future use category RNFO planned I.",
+      "page": 1,
+      "box": {
+        "left": 596.3,
+        "top": 386.0,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRNFOIIplanned": {
+      "type": "text",
+      "label": "Enter the for future use category RNFO planned II.",
+      "page": 1,
+      "box": {
+        "left": 628.5,
+        "top": 386.0,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRNFOIIIplanned": {
+      "type": "text",
+      "label": "Enter the for future use category RNFO planned III.",
+      "page": 1,
+      "box": {
+        "left": 660.8,
+        "top": 386.0,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRNFOIVplanned": {
+      "type": "text",
+      "label": "Enter the for future use category RNFO planned IV.",
+      "page": 1,
+      "box": {
+        "left": 693.1,
+        "top": 386.0,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRNFOVplanned": {
+      "type": "text",
+      "label": "Enter the for future use category RNFO planned V.",
+      "page": 1,
+      "box": {
+        "left": 725.3,
+        "top": 386.0,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRNFOIactual": {
+      "type": "text",
+      "label": "Enter the P-I input category RNFO actual I.",
+      "page": 1,
+      "box": {
+        "left": 111.4,
+        "top": 373.3,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRNFOIIactual": {
+      "type": "text",
+      "label": "Enter the P-I input category RNFO actual II.",
+      "page": 1,
+      "box": {
+        "left": 143.7,
+        "top": 373.3,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRNFOIIIactual": {
+      "type": "text",
+      "label": "Enter the P-I input category RNFO actual III.",
+      "page": 1,
+      "box": {
+        "left": 175.9,
+        "top": 373.3,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRNFOIVactual": {
+      "type": "text",
+      "label": "Enter the P-I input category RNFO actual IV.",
+      "page": 1,
+      "box": {
+        "left": 208.2,
+        "top": 373.3,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRNFOVactual": {
+      "type": "text",
+      "label": "Enter the P-I input category RNFO actual V.",
+      "page": 1,
+      "box": {
+        "left": 240.5,
+        "top": 373.3,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRNFOIactual": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RNFO actual I.",
+      "page": 1,
+      "box": {
+        "left": 273.2,
+        "top": 373.3,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRNFOIIactual": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RNFO actual II.",
+      "page": 1,
+      "box": {
+        "left": 305.1,
+        "top": 373.3,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRNFOIIIactual": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RNFO actual III.",
+      "page": 1,
+      "box": {
+        "left": 337.6,
+        "top": 373.3,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRNFOIVactual": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RNFO actual IV.",
+      "page": 1,
+      "box": {
+        "left": 370.1,
+        "top": 373.3,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRNFOVactual": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RNFO actual V.",
+      "page": 1,
+      "box": {
+        "left": 402.0,
+        "top": 373.3,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p3attritesdelaysRNFOIactual": {
+      "type": "text",
+      "label": "Enter the P-3 attrites/delays category RNFO actual I.",
+      "page": 1,
+      "box": {
+        "left": 434.5,
+        "top": 373.3,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p3attritesdelaysRNFOIIactual": {
+      "type": "text",
+      "label": "Enter the P-3 attrites/delays category RNFO actual II.",
+      "page": 1,
+      "box": {
+        "left": 466.9,
+        "top": 373.3,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p3attritesdelaysRNFOIIIactual": {
+      "type": "text",
+      "label": "Enter the P-3 attrites/delays category RNFO actual III.",
+      "page": 1,
+      "box": {
+        "left": 498.9,
+        "top": 373.3,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p3attritesdelaysRNFOIVactual": {
+      "type": "text",
+      "label": "Enter the P-3 attrites/delays category RNFO actual IV.",
+      "page": 1,
+      "box": {
+        "left": 531.3,
+        "top": 373.3,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRNFOIactual": {
+      "type": "text",
+      "label": "Enter the for future use category RNFO actual I.",
+      "page": 1,
+      "box": {
+        "left": 596.3,
+        "top": 373.3,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRNFOIIactual": {
+      "type": "text",
+      "label": "Enter the for future use category RNFO actual II.",
+      "page": 1,
+      "box": {
+        "left": 628.5,
+        "top": 373.3,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRNFOIIIactual": {
+      "type": "text",
+      "label": "Enter the for future use category RNFO actual III.",
+      "page": 1,
+      "box": {
+        "left": 660.8,
+        "top": 373.3,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRNFOIVactual": {
+      "type": "text",
+      "label": "Enter the for future use category RNFO actual IV.",
+      "page": 1,
+      "box": {
+        "left": 693.1,
+        "top": 373.3,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRNFOVactual": {
+      "type": "text",
+      "label": "Enter the for future use category RNFO actual V.",
+      "page": 1,
+      "box": {
+        "left": 725.3,
+        "top": 373.3,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRNFOIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-I input category RNFO fiscal YR I.",
+      "page": 1,
+      "box": {
+        "left": 111.4,
+        "top": 360.6,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRNFOIIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-I input category RNFO fiscal YR II.",
+      "page": 1,
+      "box": {
+        "left": 143.7,
+        "top": 360.6,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRNFOIIIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-I input category RNFO fiscal YR III.",
+      "page": 1,
+      "box": {
+        "left": 175.9,
+        "top": 360.6,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRNFOIVfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-I input category RNFO fiscal YR IV.",
+      "page": 1,
+      "box": {
+        "left": 208.2,
+        "top": 360.6,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRNFOVfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-I input category RNFO fiscal YR V.",
+      "page": 1,
+      "box": {
+        "left": 240.5,
+        "top": 360.6,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRNFOIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RNFO fiscal YR I.",
+      "page": 1,
+      "box": {
+        "left": 273.2,
+        "top": 360.6,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRNFOIIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RNFO fiscal YR II.",
+      "page": 1,
+      "box": {
+        "left": 305.1,
+        "top": 360.6,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRNFOIIIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RNFO fiscal YR III.",
+      "page": 1,
+      "box": {
+        "left": 337.6,
+        "top": 360.6,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRNFOIVfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RNFO fiscal YR IV.",
+      "page": 1,
+      "box": {
+        "left": 370.1,
+        "top": 360.6,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRNFOVfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RNFO fiscal YR V.",
+      "page": 1,
+      "box": {
+        "left": 402.0,
+        "top": 360.6,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p3attritesdelaysRNFOIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-3 attrites/delays category RNFO fiscal YR I.",
+      "page": 1,
+      "box": {
+        "left": 434.5,
+        "top": 360.6,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p3attritesdelaysRNFOIIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-3 attrites/delays category RNFO fiscal YR II.",
+      "page": 1,
+      "box": {
+        "left": 466.9,
+        "top": 360.6,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p3attritesdelaysRNFOIIIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-3 attrites/delays category RNFO fiscal YR III.",
+      "page": 1,
+      "box": {
+        "left": 498.9,
+        "top": 360.6,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p3attritesdelaysRNFOIVfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-3 attrites/delays category RNFO fiscal YR IV.",
+      "page": 1,
+      "box": {
+        "left": 531.3,
+        "top": 360.6,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRNFOIfiscalYR": {
+      "type": "text",
+      "label": "Enter the for future use category RNFO fiscal YR I.",
+      "page": 1,
+      "box": {
+        "left": 596.3,
+        "top": 360.6,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRNFOIIfiscalYR": {
+      "type": "text",
+      "label": "Enter the for future use category RNFO fiscal YR II.",
+      "page": 1,
+      "box": {
+        "left": 628.5,
+        "top": 360.6,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRNFOIIIfiscalYR": {
+      "type": "text",
+      "label": "Enter the for future use category RNFO fiscal YR III.",
+      "page": 1,
+      "box": {
+        "left": 660.8,
+        "top": 360.6,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRNFOIVfiscalYR": {
+      "type": "text",
+      "label": "Enter the for future use category RNFO fiscal YR IV.",
+      "page": 1,
+      "box": {
+        "left": 693.1,
+        "top": 360.6,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRNFOVfiscalYR": {
+      "type": "text",
+      "label": "Enter the for future use category RNFO fiscal YR V.",
+      "page": 1,
+      "box": {
+        "left": 725.3,
+        "top": 360.6,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRACIplanned": {
+      "type": "text",
+      "label": "Enter the P-I input category RAC planned I.",
+      "page": 1,
+      "box": {
+        "left": 111.4,
+        "top": 335.1,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRACIIplanned": {
+      "type": "text",
+      "label": "Enter the P-I input category RAC planned II.",
+      "page": 1,
+      "box": {
+        "left": 143.7,
+        "top": 335.1,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRACIIIplanned": {
+      "type": "text",
+      "label": "Enter the P-I input category RAC planned III.",
+      "page": 1,
+      "box": {
+        "left": 175.9,
+        "top": 335.1,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRACIVplanned": {
+      "type": "text",
+      "label": "Enter the P-I input category RAC planned IV.",
+      "page": 1,
+      "box": {
+        "left": 208.2,
+        "top": 335.1,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRACVplanned": {
+      "type": "text",
+      "label": "Enter the P-I input category RAC planned V.",
+      "page": 1,
+      "box": {
+        "left": 240.5,
+        "top": 335.1,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRACIplanned": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RAC planned I.",
+      "page": 1,
+      "box": {
+        "left": 273.2,
+        "top": 335.1,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRACIIplanned": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RAC planned II.",
+      "page": 1,
+      "box": {
+        "left": 305.1,
+        "top": 335.1,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRACIIIplanned": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RAC planned III.",
+      "page": 1,
+      "box": {
+        "left": 337.6,
+        "top": 335.1,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRACIVplanned": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RAC planned IV.",
+      "page": 1,
+      "box": {
+        "left": 370.1,
+        "top": 335.1,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRACVplanned": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RAC planned V.",
+      "page": 1,
+      "box": {
+        "left": 402.0,
+        "top": 335.1,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p3attritesdelaysRACIplanned": {
+      "type": "text",
+      "label": "Enter the P-3 attrites/delays category RAC planned I.",
+      "page": 1,
+      "box": {
+        "left": 434.5,
+        "top": 335.1,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p3attritesdelaysRACIIplanned": {
+      "type": "text",
+      "label": "Enter the P-3 attrites/delays category RAC planned II.",
+      "page": 1,
+      "box": {
+        "left": 466.9,
+        "top": 335.1,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p3attritesdelaysRACIIIplanned": {
+      "type": "text",
+      "label": "Enter the P-3 attrites/delays category RAC planned III.",
+      "page": 1,
+      "box": {
+        "left": 498.9,
+        "top": 335.1,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p3attritesdelaysRACIVplanned": {
+      "type": "text",
+      "label": "Enter the P-3 attrites/delays category RAC planned IV.",
+      "page": 1,
+      "box": {
+        "left": 531.3,
+        "top": 335.1,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRACIplanned": {
+      "type": "text",
+      "label": "Enter the for future use category RAC planned I.",
+      "page": 1,
+      "box": {
+        "left": 596.3,
+        "top": 335.1,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRACIIplanned": {
+      "type": "text",
+      "label": "Enter the for future use category RAC planned II.",
+      "page": 1,
+      "box": {
+        "left": 628.5,
+        "top": 335.1,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRACIIIplanned": {
+      "type": "text",
+      "label": "Enter the for future use category RAC planned III.",
+      "page": 1,
+      "box": {
+        "left": 660.8,
+        "top": 335.1,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRACIVplanned": {
+      "type": "text",
+      "label": "Enter the for future use category RAC planned IV.",
+      "page": 1,
+      "box": {
+        "left": 693.1,
+        "top": 335.1,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRACVplanned": {
+      "type": "text",
+      "label": "Enter the for future use category RAC planned V.",
+      "page": 1,
+      "box": {
+        "left": 725.3,
+        "top": 335.1,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRACIactual": {
+      "type": "text",
+      "label": "Enter the P-I input category RAC actual I.",
+      "page": 1,
+      "box": {
+        "left": 111.4,
+        "top": 322.4,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRACIIactual": {
+      "type": "text",
+      "label": "Enter the P-I input category RAC actual II.",
+      "page": 1,
+      "box": {
+        "left": 143.7,
+        "top": 322.4,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRACIIIactual": {
+      "type": "text",
+      "label": "Enter the P-I input category RAC actual III.",
+      "page": 1,
+      "box": {
+        "left": 175.9,
+        "top": 322.4,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRACIVactual": {
+      "type": "text",
+      "label": "Enter the P-I input category RAC actual IV.",
+      "page": 1,
+      "box": {
+        "left": 208.2,
+        "top": 322.4,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRACVactual": {
+      "type": "text",
+      "label": "Enter the P-I input category RAC actual V.",
+      "page": 1,
+      "box": {
+        "left": 240.5,
+        "top": 322.4,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRACIactual": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RAC actual I.",
+      "page": 1,
+      "box": {
+        "left": 273.2,
+        "top": 322.4,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRACIIactual": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RAC actual II.",
+      "page": 1,
+      "box": {
+        "left": 305.1,
+        "top": 322.4,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRACIIIactual": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RAC actual III.",
+      "page": 1,
+      "box": {
+        "left": 337.6,
+        "top": 322.4,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRACIVactual": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RAC actual IV.",
+      "page": 1,
+      "box": {
+        "left": 370.1,
+        "top": 322.4,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRACVactual": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RAC actual V.",
+      "page": 1,
+      "box": {
+        "left": 402.0,
+        "top": 322.4,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p3attritesdelaysRACIactual": {
+      "type": "text",
+      "label": "Enter the P-3 attrites/delays category RAC actual I.",
+      "page": 1,
+      "box": {
+        "left": 434.5,
+        "top": 322.4,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p3attritesdelaysRACIIactual": {
+      "type": "text",
+      "label": "Enter the P-3 attrites/delays category RAC actual II.",
+      "page": 1,
+      "box": {
+        "left": 466.9,
+        "top": 322.4,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p3attritesdelaysRACIIIactual": {
+      "type": "text",
+      "label": "Enter the P-3 attrites/delays category RAC actual III.",
+      "page": 1,
+      "box": {
+        "left": 498.9,
+        "top": 322.4,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p3attritesdelaysRACIVactual": {
+      "type": "text",
+      "label": "Enter the P-3 attrites/delays category RAC actual IV.",
+      "page": 1,
+      "box": {
+        "left": 531.3,
+        "top": 322.4,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRACIactual": {
+      "type": "text",
+      "label": "Enter the for future use category RAC actual I.",
+      "page": 1,
+      "box": {
+        "left": 596.3,
+        "top": 322.4,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRACIIactual": {
+      "type": "text",
+      "label": "Enter the for future use category RAC actual II.",
+      "page": 1,
+      "box": {
+        "left": 628.5,
+        "top": 322.4,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRACIIIactual": {
+      "type": "text",
+      "label": "Enter the for future use category RAC actual III.",
+      "page": 1,
+      "box": {
+        "left": 660.8,
+        "top": 322.4,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRACIVactual": {
+      "type": "text",
+      "label": "Enter the for future use category RAC actual IV.",
+      "page": 1,
+      "box": {
+        "left": 693.1,
+        "top": 322.4,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRACVactual": {
+      "type": "text",
+      "label": "Enter the for future use category RAC actual V.",
+      "page": 1,
+      "box": {
+        "left": 725.3,
+        "top": 322.4,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRACIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-I input category RAC fiscal YR I.",
+      "page": 1,
+      "box": {
+        "left": 111.4,
+        "top": 309.7,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRACIIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-I input category RAC fiscal YR II.",
+      "page": 1,
+      "box": {
+        "left": 143.7,
+        "top": 309.7,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRACIIIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-I input categoryRAC fiscal YR III.",
+      "page": 1,
+      "box": {
+        "left": 175.9,
+        "top": 309.7,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRACIVfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-I input category RAC fiscal YR IV.",
+      "page": 1,
+      "box": {
+        "left": 208.2,
+        "top": 309.7,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p1inputRACVfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-I input category RAC fiscal YR V.",
+      "page": 1,
+      "box": {
+        "left": 240.5,
+        "top": 309.7,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRACIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RAC fiscal YR I.",
+      "page": 1,
+      "box": {
+        "left": 273.2,
+        "top": 309.7,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRACIIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RAC fiscal YR II.",
+      "page": 1,
+      "box": {
+        "left": 305.1,
+        "top": 309.7,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRACIIIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RAC fiscal YR III.",
+      "page": 1,
+      "box": {
+        "left": 337.6,
+        "top": 309.7,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRACIVfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RAC fiscal YR IV.",
+      "page": 1,
+      "box": {
+        "left": 370.1,
+        "top": 309.7,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p2onboardRACVfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-2 on board category RAC fiscal YR V.",
+      "page": 1,
+      "box": {
+        "left": 402.0,
+        "top": 309.7,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p3attritesdelaysRACIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-3 attrites/delays category RAC fiscal YR I.",
+      "page": 1,
+      "box": {
+        "left": 434.5,
+        "top": 309.7,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p3attritesdelaysRACIIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-3 attrites/delays category RAC fiscal YR II.",
+      "page": 1,
+      "box": {
+        "left": 466.9,
+        "top": 309.7,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p3attritesdelaysRACIIIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-3 attrites/delays category RAC fiscal YR III.",
+      "page": 1,
+      "box": {
+        "left": 498.9,
+        "top": 309.7,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p3attritesdelaysRACIVfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-3 attrites/delays category RAC fiscal YR IV.",
+      "page": 1,
+      "box": {
+        "left": 531.3,
+        "top": 309.7,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRACIfiscalYR": {
+      "type": "text",
+      "label": "Enter the for future use category RAC fiscal YR I.",
+      "page": 1,
+      "box": {
+        "left": 596.3,
+        "top": 309.7,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRACIIfiscalYR": {
+      "type": "text",
+      "label": "Enter the for future use category RAC fiscal YR II.",
+      "page": 1,
+      "box": {
+        "left": 628.5,
+        "top": 309.7,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRACIIIfiscalYR": {
+      "type": "text",
+      "label": "Enter the for future use category RAC fiscal YR III.",
+      "page": 1,
+      "box": {
+        "left": 660.8,
+        "top": 309.7,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRACIVfiscalYR": {
+      "type": "text",
+      "label": "Enter the for future use category RAC fiscal YR IV.",
+      "page": 1,
+      "box": {
+        "left": 693.1,
+        "top": 309.7,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "forfutureuseRACVfiscalYR": {
+      "type": "text",
+      "label": "Enter the for future use category RAC fiscal YR V.",
+      "page": 1,
+      "box": {
+        "left": 725.3,
+        "top": 309.7,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRPIplanned": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RP planned I.",
+      "page": 1,
+      "box": {
+        "left": 111.4,
+        "top": 192.8,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRPIIplanned": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RP planned II.",
+      "page": 1,
+      "box": {
+        "left": 143.7,
+        "top": 192.8,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRPIIIplanned": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RP planned III.",
+      "page": 1,
+      "box": {
+        "left": 175.9,
+        "top": 192.8,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRPIVplanned": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RP planned IV.",
+      "page": 1,
+      "box": {
+        "left": 208.2,
+        "top": 192.8,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRPVplanned": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RP planned V.",
+      "page": 1,
+      "box": {
+        "left": 240.5,
+        "top": 192.8,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p5avgwksonboardincourseRPIIIplanned": {
+      "type": "text",
+      "label": "Enter the P-5 average weeks on board or in course category RP planned III.",
+      "page": 1,
+      "box": {
+        "left": 402.2,
+        "top": 192.8,
+        "width": 63.2,
+        "height": 11.4
+      }
+    },
+    "p5avgwksonboardincourseRPIVplanned": {
+      "type": "text",
+      "label": "Enter the P-5 average weeks on board or in course category RP planned IV.",
+      "page": 1,
+      "box": {
+        "left": 466.8,
+        "top": 192.8,
+        "width": 63.2,
+        "height": 11.4
+      }
+    },
+    "p5avgwksonboardincourseRPVplanned": {
+      "type": "text",
+      "label": "Enter the P-5 average weeks on board or in course category RP planned V.",
+      "page": 1,
+      "box": {
+        "left": 531.3,
+        "top": 192.8,
+        "width": 63.2,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRPIplanned": {
+      "type": "text",
+      "label": "Enter the P-6 average hours per graduate category RP planned I.",
+      "page": 1,
+      "box": {
+        "left": 596.3,
+        "top": 192.8,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRPIIplanned": {
+      "type": "text",
+      "label": "Enter the P-6 average hours per graduate category RP planned II.",
+      "page": 1,
+      "box": {
+        "left": 628.5,
+        "top": 192.8,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRPIIIplanned": {
+      "type": "text",
+      "label": "Enter the P-6 average hours per graduate category RP planned III.",
+      "page": 1,
+      "box": {
+        "left": 660.8,
+        "top": 192.8,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRPIVplanned": {
+      "type": "text",
+      "label": "Enter the P-6 average hours per graduate category RP planned IV.",
+      "page": 1,
+      "box": {
+        "left": 693.1,
+        "top": 192.8,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRPVplanned": {
+      "type": "text",
+      "label": "Enter the P-6 average hours per graduate category RP planned V.",
+      "page": 1,
+      "box": {
+        "left": 725.3,
+        "top": 192.8,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRPIactual": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RP actual I.",
+      "page": 1,
+      "box": {
+        "left": 111.4,
+        "top": 180.0,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRPIIactual": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RP actual II.",
+      "page": 1,
+      "box": {
+        "left": 143.7,
+        "top": 180.0,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRPIIIactual": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RP actual III.",
+      "page": 1,
+      "box": {
+        "left": 175.9,
+        "top": 180.0,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRPIVactual": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RP actual IV.",
+      "page": 1,
+      "box": {
+        "left": 208.2,
+        "top": 180.0,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRPVactual": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RP actual V.",
+      "page": 1,
+      "box": {
+        "left": 240.5,
+        "top": 180.0,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p5avgwksonboardincourseRPIIIactual": {
+      "type": "text",
+      "label": "Enter the P-5 average weeks on board or in course category RP actual III.",
+      "page": 1,
+      "box": {
+        "left": 402.2,
+        "top": 180.0,
+        "width": 63.2,
+        "height": 11.4
+      }
+    },
+    "p5avgwksonboardincourseRPIVactual": {
+      "type": "text",
+      "label": "Enter the P-5 average weeks on board or in course category RP actual IV.",
+      "page": 1,
+      "box": {
+        "left": 466.8,
+        "top": 180.0,
+        "width": 63.2,
+        "height": 11.4
+      }
+    },
+    "p5avgwksonboardincourseRPVactual": {
+      "type": "text",
+      "label": "Enter the P-5 average weeks on board or in course category RP actual V.",
+      "page": 1,
+      "box": {
+        "left": 531.3,
+        "top": 180.0,
+        "width": 63.2,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRPIactual": {
+      "type": "text",
+      "label": "Enter the P-6 average hours per graduate category RP actual I.",
+      "page": 1,
+      "box": {
+        "left": 596.3,
+        "top": 180.0,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRPIIactual": {
+      "type": "text",
+      "label": "Enter the P-6 average hours per graduate category RP actual II.",
+      "page": 1,
+      "box": {
+        "left": 628.5,
+        "top": 180.0,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRPIIIactual": {
+      "type": "text",
+      "label": "Enter the P-6 average hours per graduate category RP actual III.",
+      "page": 1,
+      "box": {
+        "left": 660.8,
+        "top": 180.0,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRPIVactual": {
+      "type": "text",
+      "label": "Enter the P-6 average hours per graduate category RP actual IV.",
+      "page": 1,
+      "box": {
+        "left": 693.1,
+        "top": 180.0,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRPVactual": {
+      "type": "text",
+      "label": "Enter the P-6 average hours per graduate category RP actual V.",
+      "page": 1,
+      "box": {
+        "left": 725.3,
+        "top": 180.0,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRPIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RP fiscal YR I.",
+      "page": 1,
+      "box": {
+        "left": 111.4,
+        "top": 167.3,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRPIIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RP fiscal YR II.",
+      "page": 1,
+      "box": {
+        "left": 143.7,
+        "top": 167.3,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRPIIIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RP fiscal YR III.",
+      "page": 1,
+      "box": {
+        "left": 175.9,
+        "top": 167.3,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRPIVfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RP fiscal YR IV.",
+      "page": 1,
+      "box": {
+        "left": 208.2,
+        "top": 167.3,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRPVfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RP fiscal YR V.",
+      "page": 1,
+      "box": {
+        "left": 240.5,
+        "top": 167.3,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p5avgwksonboardincourseRPIIIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-5 average weeks on board or in course category RP fiscal YR III.",
+      "page": 1,
+      "box": {
+        "left": 402.2,
+        "top": 167.3,
+        "width": 63.2,
+        "height": 11.4
+      }
+    },
+    "p5avgwksonboardincourseRPIVfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-5 average weeks on board or in course category RP fiscal YR IV.",
+      "page": 1,
+      "box": {
+        "left": 466.8,
+        "top": 167.3,
+        "width": 63.2,
+        "height": 11.4
+      }
+    },
+    "p5avgwksonboardincourseRPVfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-5 average weeks on board or in course category RP fiscal YR V.",
+      "page": 1,
+      "box": {
+        "left": 531.3,
+        "top": 167.3,
+        "width": 63.2,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRPIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-6 average hours per graduate category RP fiscal YR I.",
+      "page": 1,
+      "box": {
+        "left": 596.3,
+        "top": 167.3,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRPIIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-6 average hours per graduate category RP fiscal YR II.",
+      "page": 1,
+      "box": {
+        "left": 628.5,
+        "top": 167.3,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRPIIIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-6 average hours per graduate category RP fiscal YR III.",
+      "page": 1,
+      "box": {
+        "left": 660.8,
+        "top": 167.3,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRPIVfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-6 average hours per graduate category RP fiscal YR IV.",
+      "page": 1,
+      "box": {
+        "left": 693.1,
+        "top": 167.3,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRPVfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-6 average hours per graduate category RP fiscal YR V.",
+      "page": 1,
+      "box": {
+        "left": 725.3,
+        "top": 167.3,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRNFOIplanned": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RNFO planned I.",
+      "page": 1,
+      "box": {
+        "left": 111.4,
+        "top": 141.9,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRNFOIIplanned": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RNFO planned II.",
+      "page": 1,
+      "box": {
+        "left": 143.7,
+        "top": 141.9,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRNFOIIIplanned": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RNFO planned III.",
+      "page": 1,
+      "box": {
+        "left": 175.9,
+        "top": 141.9,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRNFOIVplanned": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RNFO planned IV.",
+      "page": 1,
+      "box": {
+        "left": 208.2,
+        "top": 141.9,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRNFOVplanned": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RNFO planned V.",
+      "page": 1,
+      "box": {
+        "left": 240.5,
+        "top": 141.9,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p5avgwksonboardincourseRNFOIIIplanned": {
+      "type": "text",
+      "label": "Enter the P-5 average weeks on board or in course category RNFO planned III.",
+      "page": 1,
+      "box": {
+        "left": 402.2,
+        "top": 141.9,
+        "width": 63.2,
+        "height": 11.4
+      }
+    },
+    "p5avgwksonboardincourseRNFOIVplanned": {
+      "type": "text",
+      "label": "Enter the P-5 average weeks on board or in course category RNFO planned IV.",
+      "page": 1,
+      "box": {
+        "left": 466.8,
+        "top": 141.9,
+        "width": 63.2,
+        "height": 11.4
+      }
+    },
+    "p5avgwksonboardincourseRNFOVplanned": {
+      "type": "text",
+      "label": "Enter the P-5 average weeks on board or in course category RNFO planned V.",
+      "page": 1,
+      "box": {
+        "left": 531.3,
+        "top": 141.9,
+        "width": 63.2,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRNFOIplanned": {
+      "type": "text",
+      "label": "Enter the P-6 average hours per graduate category RNFO planned I.",
+      "page": 1,
+      "box": {
+        "left": 596.3,
+        "top": 141.9,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRNFOIIplanned": {
+      "type": "text",
+      "label": "Enter the P-6 average hours per graduate category RNFO planned II.",
+      "page": 1,
+      "box": {
+        "left": 628.5,
+        "top": 141.9,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRNFOIIIplanned": {
+      "type": "text",
+      "label": "Enter the P-6 average hours per graduate category RNFO planned III.",
+      "page": 1,
+      "box": {
+        "left": 660.8,
+        "top": 141.9,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRNFOIVplanned": {
+      "type": "text",
+      "label": "Enter the P-6 average hours per graduate category RNFO planned IV.",
+      "page": 1,
+      "box": {
+        "left": 693.1,
+        "top": 141.9,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRNFOVplanned": {
+      "type": "text",
+      "label": "Enter the P-6 average hours per graduate category RNFO planned V.",
+      "page": 1,
+      "box": {
+        "left": 725.3,
+        "top": 141.9,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRNFOIactual": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RNFO actual I.",
+      "page": 1,
+      "box": {
+        "left": 111.4,
+        "top": 129.1,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRNFOIIactual": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RNFO actual II.",
+      "page": 1,
+      "box": {
+        "left": 143.7,
+        "top": 129.1,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRNFOIIIactual": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RNFO actual III.",
+      "page": 1,
+      "box": {
+        "left": 175.9,
+        "top": 129.1,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRNFOIVactual": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RNFO actual IV.",
+      "page": 1,
+      "box": {
+        "left": 208.2,
+        "top": 129.1,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRNFOVactual": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RNFO actual V.",
+      "page": 1,
+      "box": {
+        "left": 240.5,
+        "top": 129.1,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p5avgwksonboardincourseRNFOIIIactual": {
+      "type": "text",
+      "label": "Enter the P-5 average weeks on board or in course category RNFO actual III.",
+      "page": 1,
+      "box": {
+        "left": 402.2,
+        "top": 129.1,
+        "width": 63.2,
+        "height": 11.4
+      }
+    },
+    "p5avgwksonboardincourseRNFOIVactual": {
+      "type": "text",
+      "label": "Enter the P-5 average weeks on board or in course category RNFO actual IV.",
+      "page": 1,
+      "box": {
+        "left": 466.8,
+        "top": 129.1,
+        "width": 63.2,
+        "height": 11.4
+      }
+    },
+    "p5avgwksonboardincourseRNFOVactual": {
+      "type": "text",
+      "label": "Enter the P-5 average weeks on board or in course category RNFO actual V.",
+      "page": 1,
+      "box": {
+        "left": 531.3,
+        "top": 129.1,
+        "width": 63.2,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRNFOIactual": {
+      "type": "text",
+      "label": "Enter the P-6 average hours per graduate category RNFO actual I.",
+      "page": 1,
+      "box": {
+        "left": 596.3,
+        "top": 129.1,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRNFOIIactual": {
+      "type": "text",
+      "label": "Enter the P-6 average hours per graduate category RNFO actual II.",
+      "page": 1,
+      "box": {
+        "left": 628.5,
+        "top": 129.1,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRNFOIIIactual": {
+      "type": "text",
+      "label": "Enter the P-6 average hours per graduate category RNFO actual III.",
+      "page": 1,
+      "box": {
+        "left": 660.8,
+        "top": 129.1,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRNFOIVactual": {
+      "type": "text",
+      "label": "Enter the P-6 average hours per graduate category RNFO actual IV.",
+      "page": 1,
+      "box": {
+        "left": 693.1,
+        "top": 129.1,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRNFOVactual": {
+      "type": "text",
+      "label": "Enter the P-6 average hours per graduate category RNFO actual V.",
+      "page": 1,
+      "box": {
+        "left": 725.3,
+        "top": 129.1,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRNFOIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RNFO fiscal YR I.",
+      "page": 1,
+      "box": {
+        "left": 111.4,
+        "top": 116.4,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRNFOIIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RNFO fiscal YR II.",
+      "page": 1,
+      "box": {
+        "left": 143.7,
+        "top": 116.4,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRNFOIIIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RNFO fiscal YR III.",
+      "page": 1,
+      "box": {
+        "left": 175.9,
+        "top": 116.4,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRNFOIVfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RNFO fiscal YR IV.",
+      "page": 1,
+      "box": {
+        "left": 208.2,
+        "top": 116.4,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRNFOVfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RNFO fiscal YR V.",
+      "page": 1,
+      "box": {
+        "left": 240.5,
+        "top": 116.4,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p5avgwksonboardincourseRNFOIIIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-5 average weeks on board or in course category RNFO fiscal YR III.",
+      "page": 1,
+      "box": {
+        "left": 402.2,
+        "top": 116.4,
+        "width": 63.2,
+        "height": 11.4
+      }
+    },
+    "p5avgwksonboardincourseRNFOIVfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-5 average weeks on board or in course category RNFO fiscal YR IV.",
+      "page": 1,
+      "box": {
+        "left": 466.8,
+        "top": 116.4,
+        "width": 63.2,
+        "height": 11.4
+      }
+    },
+    "p5avgwksonboardincourseRNFOVfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-5 average weeks on board or in course category RNFO fiscal YR V.",
+      "page": 1,
+      "box": {
+        "left": 531.3,
+        "top": 116.4,
+        "width": 63.2,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRNFOIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-6 average hours per graduate category RNFO fiscal YR I.",
+      "page": 1,
+      "box": {
+        "left": 596.3,
+        "top": 116.4,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRNFOIIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-6 average hours per graduate category RNFO fiscal YR II.",
+      "page": 1,
+      "box": {
+        "left": 628.5,
+        "top": 116.4,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRNFOIIIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-6 average hours per graduate category RNFO fiscal YR III.",
+      "page": 1,
+      "box": {
+        "left": 660.8,
+        "top": 116.4,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRNFOIVfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-6 average hours per graduate category RNFO fiscal YR IV.",
+      "page": 1,
+      "box": {
+        "left": 693.1,
+        "top": 116.4,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRNFOVfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-6 average hours per graduate category RNFO fiscal YR V.",
+      "page": 1,
+      "box": {
+        "left": 725.3,
+        "top": 116.4,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRACIplanned": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RAC planned I.",
+      "page": 1,
+      "box": {
+        "left": 111.4,
+        "top": 90.9,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRACIIplanned": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RAC planned II.",
+      "page": 1,
+      "box": {
+        "left": 143.7,
+        "top": 90.9,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRACIIIplanned": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RAC planned III.",
+      "page": 1,
+      "box": {
+        "left": 175.9,
+        "top": 90.9,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRACIVplanned": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RAC planned IV.",
+      "page": 1,
+      "box": {
+        "left": 208.2,
+        "top": 90.9,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRACVplanned": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RAC planned V.",
+      "page": 1,
+      "box": {
+        "left": 240.5,
+        "top": 90.9,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p5avgwksonboardincourseRACIIIplanned": {
+      "type": "text",
+      "label": "Enter the P-5 average weeks on board or in course category RAC planned III.",
+      "page": 1,
+      "box": {
+        "left": 402.2,
+        "top": 90.9,
+        "width": 63.2,
+        "height": 11.4
+      }
+    },
+    "p5avgwksonboardincourseRACIVplanned": {
+      "type": "text",
+      "label": "Enter the P-5 average weeks on board or in course category RAC planned IV.",
+      "page": 1,
+      "box": {
+        "left": 466.8,
+        "top": 90.9,
+        "width": 63.2,
+        "height": 11.4
+      }
+    },
+    "p5avgwksonboardincourseRACVplanned": {
+      "type": "text",
+      "label": "Enter the P-5 average weeks on board or in course category RAC planned V.",
+      "page": 1,
+      "box": {
+        "left": 531.3,
+        "top": 90.9,
+        "width": 63.2,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRACIplanned": {
+      "type": "text",
+      "label": "Enter the P-6 average hours per graduate category RAC planned I.",
+      "page": 1,
+      "box": {
+        "left": 596.3,
+        "top": 90.9,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRACIIplanned": {
+      "type": "text",
+      "label": "Enter the P-6 average hours per graduate category RAC planned II.",
+      "page": 1,
+      "box": {
+        "left": 628.5,
+        "top": 90.9,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRACIIIplanned": {
+      "type": "text",
+      "label": "Enter the P-6 average hours per graduate category RAC planned III.",
+      "page": 1,
+      "box": {
+        "left": 660.8,
+        "top": 90.9,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRACIVplanned": {
+      "type": "text",
+      "label": "Enter the P-6 average hours per graduate category RAC planned IV.",
+      "page": 1,
+      "box": {
+        "left": 693.1,
+        "top": 90.9,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRACVplanned": {
+      "type": "text",
+      "label": "Enter the P-6 average hours per graduate category RAC planned V.",
+      "page": 1,
+      "box": {
+        "left": 725.3,
+        "top": 90.9,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRACIactual": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RAC actual I.",
+      "page": 1,
+      "box": {
+        "left": 111.4,
+        "top": 78.2,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRACIIactual": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RAC actual II.",
+      "page": 1,
+      "box": {
+        "left": 143.7,
+        "top": 78.2,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRACIIIactual": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RAC actual III.",
+      "page": 1,
+      "box": {
+        "left": 175.9,
+        "top": 78.2,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRACIVactual": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RAC actual IV.",
+      "page": 1,
+      "box": {
+        "left": 208.2,
+        "top": 78.2,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRACVactual": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RAC actual V.",
+      "page": 1,
+      "box": {
+        "left": 240.5,
+        "top": 78.2,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p5avgwksonboardincourseRACIIIactual": {
+      "type": "text",
+      "label": "Enter the P-5 average weeks on board or in course category RAC actual III.",
+      "page": 1,
+      "box": {
+        "left": 402.2,
+        "top": 78.2,
+        "width": 63.2,
+        "height": 11.4
+      }
+    },
+    "p5avgwksonboardincourseRACIVactual": {
+      "type": "text",
+      "label": "Enter the P-5 average weeks on board or in course category RAC actual IV.",
+      "page": 1,
+      "box": {
+        "left": 466.8,
+        "top": 78.2,
+        "width": 63.2,
+        "height": 11.4
+      }
+    },
+    "p5avgwksonboardincourseRACVactual": {
+      "type": "text",
+      "label": "Enter the P-5 average weeks on board or in course category RAC actual V.",
+      "page": 1,
+      "box": {
+        "left": 531.3,
+        "top": 78.2,
+        "width": 63.2,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRACIactual": {
+      "type": "text",
+      "label": "Enter the for future use category RAC actual I.",
+      "page": 1,
+      "box": {
+        "left": 596.3,
+        "top": 78.2,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRACIIactual": {
+      "type": "text",
+      "label": "Enter the for future use category RAC actual II.",
+      "page": 1,
+      "box": {
+        "left": 628.5,
+        "top": 78.2,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRACIIIactual": {
+      "type": "text",
+      "label": "Enter the for future use category RAC actual III.",
+      "page": 1,
+      "box": {
+        "left": 660.8,
+        "top": 78.2,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRACIVactual": {
+      "type": "text",
+      "label": "Enter the for future use category RAC actual IV.",
+      "page": 1,
+      "box": {
+        "left": 693.1,
+        "top": 78.2,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRACVactual": {
+      "type": "text",
+      "label": "Enter the for future use category RAC actual V.",
+      "page": 1,
+      "box": {
+        "left": 725.3,
+        "top": 78.2,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRACIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RAC fiscal YR I.",
+      "page": 1,
+      "box": {
+        "left": 111.4,
+        "top": 65.5,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRACIIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RAC fiscal YR II.",
+      "page": 1,
+      "box": {
+        "left": 143.7,
+        "top": 65.5,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRACIIIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-4 graduates categoryRAC fiscal YR III.",
+      "page": 1,
+      "box": {
+        "left": 175.9,
+        "top": 65.5,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRACIVfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RAC fiscal YR IV.",
+      "page": 1,
+      "box": {
+        "left": 208.2,
+        "top": 65.5,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p4graduatesRACVfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-4 graduates category RAC fiscal YR V.",
+      "page": 1,
+      "box": {
+        "left": 240.5,
+        "top": 65.5,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p5avgwksonboardincourseRACIIIfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-5 average weeks on board or in course category RAC fiscal YR III.",
+      "page": 1,
+      "box": {
+        "left": 402.2,
+        "top": 65.5,
+        "width": 63.2,
+        "height": 11.4
+      }
+    },
+    "p5avgwksonboardincourseRACIVfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-5 average weeks on board or in course category RAC fiscal YR IV.",
+      "page": 1,
+      "box": {
+        "left": 466.8,
+        "top": 65.5,
+        "width": 63.2,
+        "height": 11.4
+      }
+    },
+    "p5avgwksonboardincourseRACVfiscalYR": {
+      "type": "text",
+      "label": "Enter the P-5 average weeks on board or in course category RAC fiscal YR V.",
+      "page": 1,
+      "box": {
+        "left": 531.3,
+        "top": 65.5,
+        "width": 63.2,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRACIfiscalYR": {
+      "type": "text",
+      "label": "Enter the for future use category RAC fiscal YR I.",
+      "page": 1,
+      "box": {
+        "left": 596.3,
+        "top": 65.5,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRACIIfiscalYR": {
+      "type": "text",
+      "label": "Enter the for future use category RAC fiscal YR II.",
+      "page": 1,
+      "box": {
+        "left": 628.5,
+        "top": 65.5,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRACIIIfiscalYR": {
+      "type": "text",
+      "label": "Enter the for future use category RAC fiscal YR III.",
+      "page": 1,
+      "box": {
+        "left": 660.8,
+        "top": 65.5,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRACIVfiscalYR": {
+      "type": "text",
+      "label": "Enter the for future use category RAC fiscal YR IV.",
+      "page": 1,
+      "box": {
+        "left": 693.1,
+        "top": 65.5,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "p6avghourspergradRACVfiscalYR": {
+      "type": "text",
+      "label": "Enter the for future use category RAC fiscal YR V.",
+      "page": 1,
+      "box": {
+        "left": 725.3,
+        "top": 65.5,
+        "width": 31.0,
+        "height": 11.4
+      }
+    },
+    "squadron2": {
+      "type": "text",
+      "label": "Enter the squadron.",
+      "page": 2,
+      "box": {
+        "left": 346.9,
+        "top": 551.2,
+        "width": 185.3,
+        "height": 12.0
+      }
+    },
+    "month2": {
+      "type": "text",
+      "label": "Enter the month.",
+      "page": 2,
+      "box": {
+        "left": 326.4,
+        "top": 527.5,
+        "width": 87.2,
+        "height": 12.0
+      }
+    },
+    "year2": {
+      "type": "text",
+      "label": "Enter the year.",
+      "page": 2,
+      "box": {
+        "left": 455.4,
+        "top": 527.5,
+        "width": 76.9,
+        "height": 12.0
+      }
+    },
+    "a1assignedaircraftmodel1": {
+      "type": "text",
+      "label": "Enter the A-1 assigned aircraft model.",
+      "page": 2,
+      "box": {
+        "left": 112.8,
+        "top": 462.3,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a1assignedaircraftmodel2": {
+      "type": "text",
+      "label": "Enter the A-1 assigned aircraft model.",
+      "page": 2,
+      "box": {
+        "left": 145.0,
+        "top": 462.3,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a1assignedaircraftmodel3": {
+      "type": "text",
+      "label": "Enter the A-1 assigned aircraft model.",
+      "page": 2,
+      "box": {
+        "left": 177.2,
+        "top": 462.3,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a1assignedaircraftmodel4": {
+      "type": "text",
+      "label": "Enter the A-1 assigned aircraft model.",
+      "page": 2,
+      "box": {
+        "left": 209.3,
+        "top": 462.3,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a1assignedaircraftmodel5": {
+      "type": "text",
+      "label": "Enter the A-1 assigned aircraft model.",
+      "page": 2,
+      "box": {
+        "left": 241.5,
+        "top": 462.3,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a2aircraftinreportingstatusmodel1": {
+      "type": "text",
+      "label": "Enter the A-2 aircraft in reporting status model.",
+      "page": 2,
+      "box": {
+        "left": 273.8,
+        "top": 462.3,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a2aircraftinreportingstatusmodel2": {
+      "type": "text",
+      "label": "Enter the A-2 aircraft in reporting status model.",
+      "page": 2,
+      "box": {
+        "left": 305.9,
+        "top": 462.3,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a2aircraftinreportingstatusmodel3": {
+      "type": "text",
+      "label": "Enter the A-2 aircraft in reporting status model.",
+      "page": 2,
+      "box": {
+        "left": 338.1,
+        "top": 462.3,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a2aircraftinreportingstatusmodel4": {
+      "type": "text",
+      "label": "Enter the A-2 aircraft in reporting status model.",
+      "page": 2,
+      "box": {
+        "left": 370.3,
+        "top": 462.3,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a2aircraftinreportingstatusmodel5": {
+      "type": "text",
+      "label": "Enter the A-2 aircraft in reporting status model.",
+      "page": 2,
+      "box": {
+        "left": 402.4,
+        "top": 462.3,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a3aircraftutilizationmodel1": {
+      "type": "text",
+      "label": "Enter the A-3 aircraft utilization model.",
+      "page": 2,
+      "box": {
+        "left": 434.7,
+        "top": 462.3,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a3aircraftutilizationmodel2": {
+      "type": "text",
+      "label": "Enter the A-3 aircraft utilization model.",
+      "page": 2,
+      "box": {
+        "left": 466.9,
+        "top": 462.3,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a3aircraftutilizationmodel3": {
+      "type": "text",
+      "label": "Enter the A-3 aircraft utilization model.",
+      "page": 2,
+      "box": {
+        "left": 499.1,
+        "top": 462.3,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a3aircraftutilizationmodel4": {
+      "type": "text",
+      "label": "Enter the A-3 aircraft utilization model.",
+      "page": 2,
+      "box": {
+        "left": 531.2,
+        "top": 462.3,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a3aircraftutilizationmodel5": {
+      "type": "text",
+      "label": "Enter the A-3 aircraft utilization model.",
+      "page": 2,
+      "box": {
+        "left": 563.4,
+        "top": 462.3,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "forfutureusemodel1": {
+      "type": "text",
+      "label": "Enter the for future use model.",
+      "page": 2,
+      "box": {
+        "left": 595.7,
+        "top": 462.3,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "forfutureusemodel2": {
+      "type": "text",
+      "label": "Enter the for future use model.",
+      "page": 2,
+      "box": {
+        "left": 627.8,
+        "top": 462.3,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "forfutureusemodel3": {
+      "type": "text",
+      "label": "Enter the for future use model.",
+      "page": 2,
+      "box": {
+        "left": 660.0,
+        "top": 462.3,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "forfutureusemodel4": {
+      "type": "text",
+      "label": "Enter the for future use model.",
+      "page": 2,
+      "box": {
+        "left": 692.2,
+        "top": 462.3,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "forfutureusemodel5": {
+      "type": "text",
+      "label": "Enter the for future use model.",
+      "page": 2,
+      "box": {
+        "left": 724.3,
+        "top": 462.3,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a1assignedaircraftplanned1": {
+      "type": "text",
+      "label": "Enter the planned A-1 assigned aircraft model.",
+      "page": 2,
+      "box": {
+        "left": 112.8,
+        "top": 449.5,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a1assignedaircraftplanned2": {
+      "type": "text",
+      "label": "Enter the planned A-1 assigned aircraft model.",
+      "page": 2,
+      "box": {
+        "left": 145.0,
+        "top": 449.5,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a1assignedaircraftplanned3": {
+      "type": "text",
+      "label": "Enter the planned A-1 assigned aircraft model.",
+      "page": 2,
+      "box": {
+        "left": 177.2,
+        "top": 449.5,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a1assignedaircraftplanned4": {
+      "type": "text",
+      "label": "Enter the planned A-1 assigned aircraft model.",
+      "page": 2,
+      "box": {
+        "left": 209.3,
+        "top": 449.5,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a1assignedaircraftplanned5": {
+      "type": "text",
+      "label": "Enter the planned A-1 assigned aircraft model.",
+      "page": 2,
+      "box": {
+        "left": 241.5,
+        "top": 449.5,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a2aircraftinreportingstatusplanned1": {
+      "type": "text",
+      "label": "Enter the planned A-2 aircraft in reporting status model.",
+      "page": 2,
+      "box": {
+        "left": 273.8,
+        "top": 449.5,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a2aircraftinreportingstatusplanned2": {
+      "type": "text",
+      "label": "Enter the planned A-2 aircraft in reporting status model.",
+      "page": 2,
+      "box": {
+        "left": 305.9,
+        "top": 449.5,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a2aircraftinreportingstatusplanned3": {
+      "type": "text",
+      "label": "Enter the planned A-2 aircraft in reporting status model.",
+      "page": 2,
+      "box": {
+        "left": 338.1,
+        "top": 449.5,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a2aircraftinreportingstatusplanned4": {
+      "type": "text",
+      "label": "Enter the planned A-2 aircraft in reporting status model.",
+      "page": 2,
+      "box": {
+        "left": 370.3,
+        "top": 449.5,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a2aircraftinreportingstatusplanned5": {
+      "type": "text",
+      "label": "Enter the planned A-2 aircraft in reporting status model.",
+      "page": 2,
+      "box": {
+        "left": 402.4,
+        "top": 449.5,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a3aircraftutilizationplanned1": {
+      "type": "text",
+      "label": "Enter the planned A-3 aircraft utilization model.",
+      "page": 2,
+      "box": {
+        "left": 434.7,
+        "top": 449.5,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a3aircraftutilizationplanned2": {
+      "type": "text",
+      "label": "Enter the planned A-3 aircraft utilization model.",
+      "page": 2,
+      "box": {
+        "left": 466.9,
+        "top": 449.5,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a3aircraftutilizationplanned3": {
+      "type": "text",
+      "label": "Enter the planned A-3 aircraft utilization model.",
+      "page": 2,
+      "box": {
+        "left": 499.1,
+        "top": 449.5,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a3aircraftutilizationplanned4": {
+      "type": "text",
+      "label": "Enter the planned A-3 aircraft utilization model.",
+      "page": 2,
+      "box": {
+        "left": 531.2,
+        "top": 449.5,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a3aircraftutilizationplanned5": {
+      "type": "text",
+      "label": "Enter the planned A-3 aircraft utilization model.",
+      "page": 2,
+      "box": {
+        "left": 563.4,
+        "top": 449.5,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "forfutureuseplanned1": {
+      "type": "text",
+      "label": "Enter the planned for future use model.",
+      "page": 2,
+      "box": {
+        "left": 595.7,
+        "top": 449.5,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "forfutureuseplanned2": {
+      "type": "text",
+      "label": "Enter the planned for future use model.",
+      "page": 2,
+      "box": {
+        "left": 627.8,
+        "top": 449.5,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "forfutureuseplanned3": {
+      "type": "text",
+      "label": "Enter the planned for future use model.",
+      "page": 2,
+      "box": {
+        "left": 660.0,
+        "top": 449.5,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "forfutureuseplanned4": {
+      "type": "text",
+      "label": "Enter the planned for future use model.",
+      "page": 2,
+      "box": {
+        "left": 692.2,
+        "top": 449.5,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "forfutureuseplanned5": {
+      "type": "text",
+      "label": "Enter the planned for future use model.",
+      "page": 2,
+      "box": {
+        "left": 724.3,
+        "top": 449.5,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a1assignedaircraftactual1": {
+      "type": "text",
+      "label": "Enter the actual A-1 assigned aircraft model.",
+      "page": 2,
+      "box": {
+        "left": 112.8,
+        "top": 436.8,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a1assignedaircraftactual2": {
+      "type": "text",
+      "label": "Enter the actual A-1 assigned aircraft model.",
+      "page": 2,
+      "box": {
+        "left": 145.0,
+        "top": 436.8,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a1assignedaircraftactual3": {
+      "type": "text",
+      "label": "Enter the actual A-1 assigned aircraft model.",
+      "page": 2,
+      "box": {
+        "left": 177.2,
+        "top": 436.8,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a1assignedaircraftactual4": {
+      "type": "text",
+      "label": "Enter the actual A-1 assigned aircraft model.",
+      "page": 2,
+      "box": {
+        "left": 209.3,
+        "top": 436.8,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a1assignedaircraftactual5": {
+      "type": "text",
+      "label": "Enter the actual A-1 assigned aircraft model.",
+      "page": 2,
+      "box": {
+        "left": 241.5,
+        "top": 436.8,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a2aircraftinreportingstatusactual1": {
+      "type": "text",
+      "label": "Enter the actual A-2 aircraft in reporting status model.",
+      "page": 2,
+      "box": {
+        "left": 273.8,
+        "top": 436.8,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a2aircraftinreportingstatusactual2": {
+      "type": "text",
+      "label": "Enter the actual A-2 aircraft in reporting status model.",
+      "page": 2,
+      "box": {
+        "left": 305.9,
+        "top": 436.8,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a2aircraftinreportingstatusactual3": {
+      "type": "text",
+      "label": "Enter the actual A-2 aircraft in reporting status model.",
+      "page": 2,
+      "box": {
+        "left": 338.1,
+        "top": 436.8,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a2aircraftinreportingstatusactual4": {
+      "type": "text",
+      "label": "Enter the actual A-2 aircraft in reporting status model.",
+      "page": 2,
+      "box": {
+        "left": 370.3,
+        "top": 436.8,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a2aircraftinreportingstatusactual5": {
+      "type": "text",
+      "label": "Enter the actual A-2 aircraft in reporting status model.",
+      "page": 2,
+      "box": {
+        "left": 402.4,
+        "top": 436.8,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a3aircraftutilizationactual1": {
+      "type": "text",
+      "label": "Enter the actual A-3 aircraft utilization model.",
+      "page": 2,
+      "box": {
+        "left": 434.7,
+        "top": 436.8,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a3aircraftutilizationactual2": {
+      "type": "text",
+      "label": "Enter the actual A-3 aircraft utilization model.",
+      "page": 2,
+      "box": {
+        "left": 466.9,
+        "top": 436.8,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a3aircraftutilizationactual3": {
+      "type": "text",
+      "label": "Enter the actual A-3 aircraft utilization model.",
+      "page": 2,
+      "box": {
+        "left": 499.1,
+        "top": 436.8,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a3aircraftutilizationactual4": {
+      "type": "text",
+      "label": "Enter the actual A-3 aircraft utilization model.",
+      "page": 2,
+      "box": {
+        "left": 531.2,
+        "top": 436.8,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a3aircraftutilizationactual5": {
+      "type": "text",
+      "label": "Enter the actual A-3 aircraft utilization model.",
+      "page": 2,
+      "box": {
+        "left": 563.4,
+        "top": 436.8,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "forfutureuseactual1": {
+      "type": "text",
+      "label": "Enter the actual for future use model.",
+      "page": 2,
+      "box": {
+        "left": 595.7,
+        "top": 436.8,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "forfutureuseactual2": {
+      "type": "text",
+      "label": "Enter the actual for future use model.",
+      "page": 2,
+      "box": {
+        "left": 627.8,
+        "top": 436.8,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "forfutureuseactual3": {
+      "type": "text",
+      "label": "Enter the actual for future use model.",
+      "page": 2,
+      "box": {
+        "left": 660.0,
+        "top": 436.8,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "forfutureuseactual4": {
+      "type": "text",
+      "label": "Enter the actual for future use model.",
+      "page": 2,
+      "box": {
+        "left": 692.2,
+        "top": 436.8,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "forfutureuseactual5": {
+      "type": "text",
+      "label": "Enter the actual for future use model.",
+      "page": 2,
+      "box": {
+        "left": 724.3,
+        "top": 436.8,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a1assignedaircraftfiscalYR1": {
+      "type": "text",
+      "label": "Enter the fiscal YR A-1 assigned aircraft model.",
+      "page": 2,
+      "box": {
+        "left": 112.8,
+        "top": 424.0,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a1assignedaircraftfiscalYR2": {
+      "type": "text",
+      "label": "Enter the fiscal YR A-1 assigned aircraft model.",
+      "page": 2,
+      "box": {
+        "left": 145.0,
+        "top": 424.0,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a1assignedaircraftfiscalYR3": {
+      "type": "text",
+      "label": "Enter the fiscal YR A-1 assigned aircraft model.",
+      "page": 2,
+      "box": {
+        "left": 177.2,
+        "top": 424.0,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a1assignedaircraftfiscalYR4": {
+      "type": "text",
+      "label": "Enter the fiscal YR A-1 assigned aircraft model.",
+      "page": 2,
+      "box": {
+        "left": 209.3,
+        "top": 424.0,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a1assignedaircraftfiscalYR5": {
+      "type": "text",
+      "label": "Enter the fiscal YR A-1 assigned aircraft model.",
+      "page": 2,
+      "box": {
+        "left": 241.5,
+        "top": 424.0,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a2aircraftinreportingstatusfiscalYR1": {
+      "type": "text",
+      "label": "Enter the fiscal YR A-2 aircraft in reporting status model.",
+      "page": 2,
+      "box": {
+        "left": 273.8,
+        "top": 424.0,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a2aircraftinreportingstatusfiscalYR2": {
+      "type": "text",
+      "label": "Enter the fiscal YR A-2 aircraft in reporting status model.",
+      "page": 2,
+      "box": {
+        "left": 305.9,
+        "top": 424.0,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a2aircraftinreportingstatusfiscalYR3": {
+      "type": "text",
+      "label": "Enter the fiscal YR A-2 aircraft in reporting status model.",
+      "page": 2,
+      "box": {
+        "left": 338.1,
+        "top": 424.0,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a2aircraftinreportingstatusfiscalYR4": {
+      "type": "text",
+      "label": "Enter the fiscal YR A-2 aircraft in reporting status model.",
+      "page": 2,
+      "box": {
+        "left": 370.3,
+        "top": 424.0,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a2aircraftinreportingstatusfiscalYR5": {
+      "type": "text",
+      "label": "Enter the fiscal YR A-2 aircraft in reporting status model.",
+      "page": 2,
+      "box": {
+        "left": 402.4,
+        "top": 424.0,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a3aircraftutilizationfiscalYR1": {
+      "type": "text",
+      "label": "Enter the fiscal YR A-3 aircraft utilization model.",
+      "page": 2,
+      "box": {
+        "left": 434.7,
+        "top": 424.0,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a3aircraftutilizationfiscalYR2": {
+      "type": "text",
+      "label": "Enter the fiscal YR A-3 aircraft utilization model.",
+      "page": 2,
+      "box": {
+        "left": 466.9,
+        "top": 424.0,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a3aircraftutilizationfiscalYR3": {
+      "type": "text",
+      "label": "Enter the fiscal YR A-3 aircraft utilization model.",
+      "page": 2,
+      "box": {
+        "left": 499.1,
+        "top": 424.0,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a3aircraftutilizationfiscalYR4": {
+      "type": "text",
+      "label": "Enter the fiscal YR A-3 aircraft utilization model.",
+      "page": 2,
+      "box": {
+        "left": 531.2,
+        "top": 424.0,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "a3aircraftutilizationfiscalYR5": {
+      "type": "text",
+      "label": "Enter the fiscal YR A-3 aircraft utilization model.",
+      "page": 2,
+      "box": {
+        "left": 563.4,
+        "top": 424.0,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "forfutureusefiscalYR1": {
+      "type": "text",
+      "label": "Enter the fiscal YR for future use model.",
+      "page": 2,
+      "box": {
+        "left": 595.7,
+        "top": 424.0,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "forfutureusefiscalYR2": {
+      "type": "text",
+      "label": "Enter the fiscal YR for future use model.",
+      "page": 2,
+      "box": {
+        "left": 627.8,
+        "top": 424.0,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "forfutureusefiscalYR3": {
+      "type": "text",
+      "label": "Enter the fiscal YR for future use model.",
+      "page": 2,
+      "box": {
+        "left": 660.0,
+        "top": 424.0,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "forfutureusefiscalYR4": {
+      "type": "text",
+      "label": "Enter the fiscal YR for future use model.",
+      "page": 2,
+      "box": {
+        "left": 692.2,
+        "top": 424.0,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "forfutureusefiscalYR5": {
+      "type": "text",
+      "label": "Enter the fiscal YR for future use model.",
+      "page": 2,
+      "box": {
+        "left": 724.3,
+        "top": 424.0,
+        "width": 30.9,
+        "height": 11.5
+      }
+    },
+    "i1instructorsonboardIPplanned": {
+      "type": "text",
+      "label": "Enter the IP planned I-1 instructors on board.",
+      "page": 2,
+      "box": {
+        "left": 112.8,
+        "top": 324.3,
+        "width": 52.3,
+        "height": 11.5
+      }
+    },
+    "i1instructorsonboardINFOplanned": {
+      "type": "text",
+      "label": "Enter the INFO planned I-1 instructors on board.",
+      "page": 2,
+      "box": {
+        "left": 166.4,
+        "top": 324.3,
+        "width": 52.3,
+        "height": 11.5
+      }
+    },
+    "i1instructorsonboardIACplanned": {
+      "type": "text",
+      "label": "Enter the IAC planned I-1 instructors on board.",
+      "page": 2,
+      "box": {
+        "left": 220.0,
+        "top": 324.3,
+        "width": 52.3,
+        "height": 11.5
+      }
+    },
+    "i1instructorsonboardIPactual": {
+      "type": "text",
+      "label": "Enter the IP actual I-1 instructors on board.",
+      "page": 2,
+      "box": {
+        "left": 112.8,
+        "top": 311.6,
+        "width": 52.3,
+        "height": 11.5
+      }
+    },
+    "i1instructorsonboardINFOactual": {
+      "type": "text",
+      "label": "Enter the INFO actual I-1 instructors on board.",
+      "page": 2,
+      "box": {
+        "left": 166.4,
+        "top": 311.6,
+        "width": 52.3,
+        "height": 11.5
+      }
+    },
+    "i1instructorsonboardIACactual": {
+      "type": "text",
+      "label": "Enter the IAC actual I-1 instructors on board.",
+      "page": 2,
+      "box": {
+        "left": 220.0,
+        "top": 311.6,
+        "width": 52.3,
+        "height": 11.5
+      }
+    },
+    "i2instructorsavailableIPactual": {
+      "type": "text",
+      "label": "Enter the IP actual I-2 instructors available.",
+      "page": 2,
+      "box": {
+        "left": 273.8,
+        "top": 311.6,
+        "width": 52.3,
+        "height": 11.5
+      }
+    },
+    "i2instructorsavailableINFOactual": {
+      "type": "text",
+      "label": "Enter the INFO actual I-2 instructors available.",
+      "page": 2,
+      "box": {
+        "left": 327.4,
+        "top": 311.6,
+        "width": 52.3,
+        "height": 11.5
+      }
+    },
+    "i2instructorsavailableIACactual": {
+      "type": "text",
+      "label": "Enter the IAC actual I-2 instructors available.",
+      "page": 2,
+      "box": {
+        "left": 381.0,
+        "top": 311.6,
+        "width": 52.3,
+        "height": 11.5
+      }
+    },
+    "i1instructorflighthoursIPactual": {
+      "type": "text",
+      "label": "Enter the IP actual I-3 instructor flight hours.",
+      "page": 2,
+      "box": {
+        "left": 434.7,
+        "top": 311.6,
+        "width": 52.3,
+        "height": 11.5
+      }
+    },
+    "i3instructorflighthoursINFOactual": {
+      "type": "text",
+      "label": "Enter the INFO actual I-3 instructor flight hours.",
+      "page": 2,
+      "box": {
+        "left": 488.3,
+        "top": 311.6,
+        "width": 52.3,
+        "height": 11.5
+      }
+    },
+    "i3instructorflighthoursIACactual": {
+      "type": "text",
+      "label": "Enter the IAC actual I-3  instructor flight hours.",
+      "page": 2,
+      "box": {
+        "left": 541.9,
+        "top": 311.6,
+        "width": 52.3,
+        "height": 11.5
+      }
+    },
+    "i4IUTonboardIPactual": {
+      "type": "text",
+      "label": "Enter the IP actual I-4 IUT on board.",
+      "page": 2,
+      "box": {
+        "left": 595.7,
+        "top": 311.6,
+        "width": 52.3,
+        "height": 11.5
+      }
+    },
+    "i4IUTonboardINFOactual": {
+      "type": "text",
+      "label": "Enter the INFO actual I-4 IUT on board.",
+      "page": 2,
+      "box": {
+        "left": 649.3,
+        "top": 311.6,
+        "width": 52.3,
+        "height": 11.5
+      }
+    },
+    "i4IUTonboardIACactual": {
+      "type": "text",
+      "label": "Enter the IAC actual I-4 IUT on board.",
+      "page": 2,
+      "box": {
+        "left": 702.9,
+        "top": 311.6,
+        "width": 52.3,
+        "height": 11.5
+      }
+    },
+    "i1instructorsonboardIPfiscalYR": {
+      "type": "text",
+      "label": "Enter the IP fiscal YR I-1 instructors on board.",
+      "page": 2,
+      "box": {
+        "left": 112.8,
+        "top": 298.8,
+        "width": 52.3,
+        "height": 11.5
+      }
+    },
+    "i1instructorsonboardINFOfiscalYR": {
+      "type": "text",
+      "label": "Enter the INFO fiscal YR I-1 instructors on board.",
+      "page": 2,
+      "box": {
+        "left": 166.4,
+        "top": 298.8,
+        "width": 52.3,
+        "height": 11.5
+      }
+    },
+    "i1instructorsonboardIACfiscalYR": {
+      "type": "text",
+      "label": "Enter the IAC fiscal YR I-1 instructors on board.",
+      "page": 2,
+      "box": {
+        "left": 220.0,
+        "top": 298.8,
+        "width": 52.3,
+        "height": 11.5
+      }
+    },
+    "i2instructorsavailableIPfiscalYR": {
+      "type": "text",
+      "label": "Enter the IP fiscal YR I-2 instructors available.",
+      "page": 2,
+      "box": {
+        "left": 273.8,
+        "top": 298.8,
+        "width": 52.3,
+        "height": 11.5
+      }
+    },
+    "i2instructorsavailableINFOfiscalYR": {
+      "type": "text",
+      "label": "Enter the INFO fiscal YR I-2 instructors available.",
+      "page": 2,
+      "box": {
+        "left": 327.4,
+        "top": 298.8,
+        "width": 52.3,
+        "height": 11.5
+      }
+    },
+    "i2instructorsavailableIACfiscalYR": {
+      "type": "text",
+      "label": "Enter the IAC fiscal YR I-2 instructors available.",
+      "page": 2,
+      "box": {
+        "left": 381.0,
+        "top": 298.8,
+        "width": 52.3,
+        "height": 11.5
+      }
+    },
+    "i3instructorflighthoursIPfiscalYR": {
+      "type": "text",
+      "label": "Enter the IP fiscal YR I-3 instructor flight hours.",
+      "page": 2,
+      "box": {
+        "left": 434.7,
+        "top": 298.8,
+        "width": 52.3,
+        "height": 11.5
+      }
+    },
+    "i3instructorflighthoursINFOfiscalYR": {
+      "type": "text",
+      "label": "Enter the INFO fiscal YR I-3 instructor flight hours.",
+      "page": 2,
+      "box": {
+        "left": 488.3,
+        "top": 298.8,
+        "width": 52.3,
+        "height": 11.5
+      }
+    },
+    "i3instructorflighthoursIACfiscalYR": {
+      "type": "text",
+      "label": "Enter the IAC fiscal YR I-3 instructor flight hours.",
+      "page": 2,
+      "box": {
+        "left": 541.9,
+        "top": 298.8,
+        "width": 52.3,
+        "height": 11.5
+      }
+    },
+    "i4IUTonboardIPfiscalYR": {
+      "type": "text",
+      "label": "Enter the IP fiscal YR I-4 IUT on board.",
+      "page": 2,
+      "box": {
+        "left": 595.7,
+        "top": 298.8,
+        "width": 52.3,
+        "height": 11.5
+      }
+    },
+    "i4IUTonboardINFOfiscalYR": {
+      "type": "text",
+      "label": "Enter the INFO fiscal YR I-4 IUT on board.",
+      "page": 2,
+      "box": {
+        "left": 649.3,
+        "top": 298.8,
+        "width": 52.3,
+        "height": 11.5
+      }
+    },
+    "i4IUTonboardIACfiscalYR": {
+      "type": "text",
+      "label": "Enter the IAC fiscal YR I-4 IUT on board.",
+      "page": 2,
+      "box": {
+        "left": 702.9,
+        "top": 298.8,
+        "width": 52.3,
+        "height": 11.5
+      }
+    },
+    "forfutureusemodel": {
+      "type": "text",
+      "label": "Enter the for future use model.",
+      "page": 2,
+      "box": {
+        "left": 622.0,
+        "top": 212.0,
+        "width": 133.5,
+        "height": 11.5
+      }
+    },
+    "forfutureuseplanned": {
+      "type": "text",
+      "label": "Enter the for future use planned.",
+      "page": 2,
+      "box": {
+        "left": 622.0,
+        "top": 199.2,
+        "width": 133.5,
+        "height": 11.5
+      }
+    },
+    "h1completedsyllabushoursRPplanned": {
+      "type": "text",
+      "label": "Enter the RP planned H-1 completed syllabus hours.",
+      "page": 2,
+      "box": {
+        "left": 112.8,
+        "top": 199.1,
+        "width": 41.1,
+        "height": 11.5
+      }
+    },
+    "h1completedsyllabushoursRNFOplanned": {
+      "type": "text",
+      "label": "Enter the RNFO planned H-1 completed syllabus hours.",
+      "page": 2,
+      "box": {
+        "left": 155.3,
+        "top": 199.1,
+        "width": 41.1,
+        "height": 11.5
+      }
+    },
+    "h1completedsyllabushoursRACplanned": {
+      "type": "text",
+      "label": "Enter the RAC planned H-1 completed syllabus hours.",
+      "page": 2,
+      "box": {
+        "left": 197.7,
+        "top": 199.1,
+        "width": 41.1,
+        "height": 11.5
+      }
+    },
+    "h1AsyllabussupporthoursRPplanned": {
+      "type": "text",
+      "label": "Enter the RP planned H-1A syllabus support hours.",
+      "page": 2,
+      "box": {
+        "left": 240.1,
+        "top": 199.1,
+        "width": 41.1,
+        "height": 11.5
+      }
+    },
+    "h1AsyllabussupporthoursRNFOplanned": {
+      "type": "text",
+      "label": "Enter the RNFO planned H-1A syllabus support hours.",
+      "page": 2,
+      "box": {
+        "left": 282.6,
+        "top": 199.1,
+        "width": 41.1,
+        "height": 11.5
+      }
+    },
+    "h1AsyllabussupporthoursRACplanned": {
+      "type": "text",
+      "label": "Enter the RAC planned H-1A syllabus support hours.",
+      "page": 2,
+      "box": {
+        "left": 325.0,
+        "top": 199.1,
+        "width": 41.1,
+        "height": 11.5
+      }
+    },
+    "h1completedsyllabushoursRPactual": {
+      "type": "text",
+      "label": "Enter the RP actual H-1 completed syllabus hours.",
+      "page": 2,
+      "box": {
+        "left": 112.8,
+        "top": 186.4,
+        "width": 41.1,
+        "height": 11.5
+      }
+    },
+    "h1completedsyllabushoursRNFOactual": {
+      "type": "text",
+      "label": "Enter the RNFO actual H-1 completed syllabus hours.",
+      "page": 2,
+      "box": {
+        "left": 155.3,
+        "top": 186.4,
+        "width": 41.1,
+        "height": 11.5
+      }
+    },
+    "h1completedsyllabushoursRACactual": {
+      "type": "text",
+      "label": "Enter the RAC actual H-1 completed syllabus hours.",
+      "page": 2,
+      "box": {
+        "left": 197.7,
+        "top": 186.4,
+        "width": 41.1,
+        "height": 11.5
+      }
+    },
+    "h1AsyllabussupporthoursRPactual": {
+      "type": "text",
+      "label": "Enter the RP actual H-1A syllabus support hours.",
+      "page": 2,
+      "box": {
+        "left": 240.1,
+        "top": 186.4,
+        "width": 41.1,
+        "height": 11.5
+      }
+    },
+    "h1AsyllabussupporthoursRNFOactual": {
+      "type": "text",
+      "label": "Enter the RNFO actual H-1A syllabus support hours.",
+      "page": 2,
+      "box": {
+        "left": 282.6,
+        "top": 186.4,
+        "width": 41.1,
+        "height": 11.5
+      }
+    },
+    "h1AsyllabussupporthoursRACactual": {
+      "type": "text",
+      "label": "Enter the RAC actual H-1A syllabus support hours.",
+      "page": 2,
+      "box": {
+        "left": 325.0,
+        "top": 186.4,
+        "width": 41.1,
+        "height": 11.5
+      }
+    },
+    "h2incompleteABORThoursRPactual": {
+      "type": "text",
+      "label": "Enter the RP actual H-2 incomplete or ABORT hours.",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 186.4,
+        "width": 41.1,
+        "height": 11.5
+      }
+    },
+    "h2incompleteABORThoursRNFOactual": {
+      "type": "text",
+      "label": "Enter the RNFO actual H-2 incomplete or ABORT hours.",
+      "page": 2,
+      "box": {
+        "left": 409.9,
+        "top": 186.4,
+        "width": 41.1,
+        "height": 11.5
+      }
+    },
+    "h2incompleteABORThoursRACactual": {
+      "type": "text",
+      "label": "Enter the RAC actual H-2 incomplete or ABORT hours.",
+      "page": 2,
+      "box": {
+        "left": 452.3,
+        "top": 186.4,
+        "width": 41.1,
+        "height": 11.5
+      }
+    },
+    "h3IUThoursRPactual": {
+      "type": "text",
+      "label": "Enter the RP actual H-2 incomplete or ABORT hours.",
+      "page": 2,
+      "box": {
+        "left": 494.7,
+        "top": 186.4,
+        "width": 41.1,
+        "height": 11.5
+      }
+    },
+    "h3IUThoursRNFOactual": {
+      "type": "text",
+      "label": "Enter the RNFO actual H-2 incomplete or ABORT hours.",
+      "page": 2,
+      "box": {
+        "left": 537.2,
+        "top": 186.4,
+        "width": 41.1,
+        "height": 11.5
+      }
+    },
+    "h3IUThoursRACactual": {
+      "type": "text",
+      "label": "Enter the RAC actual H-2 incomplete or ABORT hours.",
+      "page": 2,
+      "box": {
+        "left": 579.6,
+        "top": 186.4,
+        "width": 41.1,
+        "height": 11.5
+      }
+    },
+    "forfutureuseactual": {
+      "type": "text",
+      "label": "Enter the for future use actual.",
+      "page": 2,
+      "box": {
+        "left": 622.0,
+        "top": 186.4,
+        "width": 133.5,
+        "height": 11.5
+      }
+    },
+    "h1completedsyllabushoursRPfiscalYR": {
+      "type": "text",
+      "label": "Enter the RP fiscal YR H-1 completed syllabus hours.",
+      "page": 2,
+      "box": {
+        "left": 112.8,
+        "top": 173.6,
+        "width": 41.1,
+        "height": 11.5
+      }
+    },
+    "h1completedsyllabushoursRNFOfiscalYR": {
+      "type": "text",
+      "label": "Enter the RNFO fiscal YR H-1 completed syllabus hours.",
+      "page": 2,
+      "box": {
+        "left": 155.3,
+        "top": 173.6,
+        "width": 41.1,
+        "height": 11.5
+      }
+    },
+    "h1completedsyllabushoursRACfiscalYR": {
+      "type": "text",
+      "label": "Enter the RAC fiscal YR H-1 completed syllabus hours.",
+      "page": 2,
+      "box": {
+        "left": 197.7,
+        "top": 173.6,
+        "width": 41.1,
+        "height": 11.5
+      }
+    },
+    "h1AsyllabussupporthoursRPfiscalYR": {
+      "type": "text",
+      "label": "Enter the RP fiscal YR H-1A syllabus support hours.",
+      "page": 2,
+      "box": {
+        "left": 240.1,
+        "top": 173.6,
+        "width": 41.1,
+        "height": 11.5
+      }
+    },
+    "h1AsyllabussupporthoursRNFOfiscalYR": {
+      "type": "text",
+      "label": "Enter the RNFO fiscal YR H-1A syllabus support hours.",
+      "page": 2,
+      "box": {
+        "left": 282.6,
+        "top": 173.6,
+        "width": 41.1,
+        "height": 11.5
+      }
+    },
+    "h1AsyllabussupporthoursRACfiscalYR": {
+      "type": "text",
+      "label": "Enter the RAC fiscal YR H-1A syllabus support hours.",
+      "page": 2,
+      "box": {
+        "left": 325.0,
+        "top": 173.6,
+        "width": 41.1,
+        "height": 11.5
+      }
+    },
+    "h2incompleteABORThoursRPfiscalYR": {
+      "type": "text",
+      "label": "Enter the RP fiscal YR H-2 incomplete or ABORT hours.",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 173.6,
+        "width": 41.1,
+        "height": 11.5
+      }
+    },
+    "h2incompleteABORThoursRNFOfiscalYR": {
+      "type": "text",
+      "label": "Enter the RNFO fiscal YR H-2 incomplete or ABORT hours.",
+      "page": 2,
+      "box": {
+        "left": 409.9,
+        "top": 173.6,
+        "width": 41.1,
+        "height": 11.5
+      }
+    },
+    "h2incompleteABORThoursRACfiscalYR": {
+      "type": "text",
+      "label": "Enter the RAC fiscal YR H-2 incomplete or ABORT hours.",
+      "page": 2,
+      "box": {
+        "left": 452.3,
+        "top": 173.6,
+        "width": 41.1,
+        "height": 11.5
+      }
+    },
+    "h3IUThoursRPfiscalYR": {
+      "type": "text",
+      "label": "Enter the RP fiscal YR H-2 incomplete or ABORT hours.",
+      "page": 2,
+      "box": {
+        "left": 494.7,
+        "top": 173.6,
+        "width": 41.1,
+        "height": 11.5
+      }
+    },
+    "h3IUThoursRNFOfiscalYR": {
+      "type": "text",
+      "label": "Enter the RNFO fiscal YR H-2 incomplete or ABORT hours.",
+      "page": 2,
+      "box": {
+        "left": 537.2,
+        "top": 173.6,
+        "width": 41.1,
+        "height": 11.5
+      }
+    },
+    "h3IUThoursRACfiscalYR": {
+      "type": "text",
+      "label": "Enter the RAC fiscal YR H-2 incomplete or ABORT hours.",
+      "page": 2,
+      "box": {
+        "left": 579.6,
+        "top": 173.6,
+        "width": 41.1,
+        "height": 11.5
+      }
+    },
+    "forfutureusefiscalYR": {
+      "type": "text",
+      "label": "Enter the for future use fiscal YR.",
+      "page": 2,
+      "box": {
+        "left": 622.0,
+        "top": 173.6,
+        "width": 133.5,
+        "height": 11.5
+      }
+    },
+    "h9overheadhoursplanned": {
+      "type": "text",
+      "label": "Enter the planned H-9 overhead hours.",
+      "page": 2,
+      "box": {
+        "left": 395.4,
+        "top": 86.8,
+        "width": 83.2,
+        "height": 11.5
+      }
+    },
+    "h10overheadPERCplanned": {
+      "type": "text",
+      "label": "Enter the planned H-10 overhead %.",
+      "page": 2,
+      "box": {
+        "left": 479.8,
+        "top": 86.8,
+        "width": 83.2,
+        "height": 11.5
+      }
+    },
+    "h11totalhoursplanned": {
+      "type": "text",
+      "label": "Enter the planned H-11 total hours.",
+      "page": 2,
+      "box": {
+        "left": 564.3,
+        "top": 86.8,
+        "width": 83.2,
+        "height": 11.5
+      }
+    },
+    "h4ferryactual": {
+      "type": "text",
+      "label": "Enter the actual H-4 ferry.",
+      "page": 2,
+      "box": {
+        "left": 112.8,
+        "top": 74.0,
+        "width": 55.2,
+        "height": 11.5
+      }
+    },
+    "h5testactual": {
+      "type": "text",
+      "label": "Enter the actual H-5 test.",
+      "page": 2,
+      "box": {
+        "left": 169.3,
+        "top": 74.0,
+        "width": 55.2,
+        "height": 11.5
+      }
+    },
+    "h6serviceactual": {
+      "type": "text",
+      "label": "Enter the actual H-6 service.",
+      "page": 2,
+      "box": {
+        "left": 225.8,
+        "top": 74.0,
+        "width": 55.2,
+        "height": 11.5
+      }
+    },
+    "h7logisticsactual": {
+      "type": "text",
+      "label": "Enter the actual H-7 logistics.",
+      "page": 2,
+      "box": {
+        "left": 282.3,
+        "top": 74.0,
+        "width": 55.2,
+        "height": 11.5
+      }
+    },
+    "h8STANSTASHactual": {
+      "type": "text",
+      "label": "Enter the actual H-8 STAN or STASH.",
+      "page": 2,
+      "box": {
+        "left": 338.9,
+        "top": 74.0,
+        "width": 55.2,
+        "height": 11.5
+      }
+    },
+    "h9overheadhoursactual": {
+      "type": "text",
+      "label": "Enter the actual H-9 overhead hours.",
+      "page": 2,
+      "box": {
+        "left": 395.4,
+        "top": 74.0,
+        "width": 83.2,
+        "height": 11.5
+      }
+    },
+    "h10overheadPERCactual": {
+      "type": "text",
+      "label": "Enter the actual H-10 overhead %.",
+      "page": 2,
+      "box": {
+        "left": 479.8,
+        "top": 74.0,
+        "width": 83.2,
+        "height": 11.5
+      }
+    },
+    "h11totalhoursactual": {
+      "type": "text",
+      "label": "Enter the actual H-11 total hours.",
+      "page": 2,
+      "box": {
+        "left": 564.3,
+        "top": 74.0,
+        "width": 83.2,
+        "height": 11.5
+      }
+    },
+    "h4ferryfiscalYR": {
+      "type": "text",
+      "label": "Enter the fiscal YR H-4 ferry.",
+      "page": 2,
+      "box": {
+        "left": 112.8,
+        "top": 61.3,
+        "width": 55.2,
+        "height": 11.5
+      }
+    },
+    "h5testfiscalYR": {
+      "type": "text",
+      "label": "Enter the fiscal YR H-5 test.",
+      "page": 2,
+      "box": {
+        "left": 169.3,
+        "top": 61.3,
+        "width": 55.2,
+        "height": 11.5
+      }
+    },
+    "h6servicefiscalYR": {
+      "type": "text",
+      "label": "Enter the fiscal YR H-6 service.",
+      "page": 2,
+      "box": {
+        "left": 225.8,
+        "top": 61.3,
+        "width": 55.2,
+        "height": 11.5
+      }
+    },
+    "h7logisticsfiscalYR": {
+      "type": "text",
+      "label": "Enter the fiscal YR H-7 logistics.",
+      "page": 2,
+      "box": {
+        "left": 282.3,
+        "top": 61.3,
+        "width": 55.2,
+        "height": 11.5
+      }
+    },
+    "h8STANSTASHfiscalYR": {
+      "type": "text",
+      "label": "Enter the fiscal YR H-8 STAN or STASH.",
+      "page": 2,
+      "box": {
+        "left": 338.9,
+        "top": 61.3,
+        "width": 55.2,
+        "height": 11.5
+      }
+    },
+    "h9overheadhoursfiscalYR": {
+      "type": "text",
+      "label": "Enter the fiscal YR H-9 overhead hours.",
+      "page": 2,
+      "box": {
+        "left": 395.4,
+        "top": 61.3,
+        "width": 83.2,
+        "height": 11.5
+      }
+    },
+    "h10overheadPERCfiscalYR": {
+      "type": "text",
+      "label": "Enter the fiscal YR H-10 overhead %.",
+      "page": 2,
+      "box": {
+        "left": 479.8,
+        "top": 61.3,
+        "width": 83.2,
+        "height": 11.5
+      }
+    },
+    "h11totalhoursfiscalYR": {
+      "type": "text",
+      "label": "Enter the fiscal YR H-11 total hours.",
+      "page": 2,
+      "box": {
+        "left": 564.3,
+        "top": 61.3,
+        "width": 83.2,
+        "height": 11.5
+      }
+    }
+  }
+}

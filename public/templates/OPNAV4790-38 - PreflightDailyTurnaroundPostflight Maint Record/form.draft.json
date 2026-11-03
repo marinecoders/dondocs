@@ -1,0 +1,3264 @@
+{
+  "id": "opnav479038",
+  "label": "OPNAV4790-38 - PreflightDailyTurnaroundPostflight Maint Record",
+  "directory": "OPNAV4790-38 - PreflightDailyTurnaroundPostflight Maint Record",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "radio",
+        "radio2",
+        "radio3",
+        "radio4",
+        "tms",
+        "buno",
+        "sideNo",
+        "activity",
+        "started",
+        "completed",
+        "discrepancyJONField1",
+        "radio5",
+        "radio6",
+        "discrepancyJONField2",
+        "radio7",
+        "radio8",
+        "discrepancyJONField3",
+        "radio9",
+        "radio10",
+        "discrepancyJONField4",
+        "radio11",
+        "radio12",
+        "discrepancyJONField5",
+        "radio13",
+        "radio14",
+        "discrepancyJONField6",
+        "radio15",
+        "radio16",
+        "discrepancyJONFiel7",
+        "radio17",
+        "radio18",
+        "discrepancyJONField8",
+        "radio19",
+        "radio20",
+        "discrepancyJONField9",
+        "radio21",
+        "radio22",
+        "discrepancyJONField10",
+        "radio23",
+        "radio24",
+        "discrepancyJONField11",
+        "radio25",
+        "radio26",
+        "discrepancyJONField12",
+        "radio27",
+        "radio28",
+        "discrepancyJONField13",
+        "radio29",
+        "radio30",
+        "discrepancyJONField14",
+        "radio31",
+        "radio32",
+        "discrepancyJONField15",
+        "radio33",
+        "radio34",
+        "discrepancyJONField16",
+        "radio35",
+        "radio36",
+        "discrepancyJONField17",
+        "radio37",
+        "radio38",
+        "discrepancyJONField18",
+        "radio39",
+        "radio40",
+        "discrepancyJONField19",
+        "radio41",
+        "radio42",
+        "discrepancyJONField20",
+        "radio43",
+        "radio44",
+        "discrepancyJONField21",
+        "radio45",
+        "radio46",
+        "discrepancyJONField22",
+        "radio47",
+        "radio48",
+        "signatureField23"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "cardNumField110",
+        "toolContNumField110",
+        "discrepancyJONField110",
+        "signatureField110",
+        "radio49",
+        "radio50",
+        "cardNumField23",
+        "toolContNumField23",
+        "discrepancyJONField23",
+        "signatureField24",
+        "radio51",
+        "radio52",
+        "cardNumField32",
+        "toolContNumField32",
+        "discrepancyJONField32",
+        "signatureField32",
+        "radio53",
+        "radio54",
+        "cardNumField42",
+        "toolContNumField42",
+        "discrepancyJONField42",
+        "signatureField42",
+        "radio55",
+        "radio56",
+        "cardNumField52",
+        "toolContNumField52",
+        "discrepancyJONField52",
+        "signatureField52",
+        "radio57",
+        "radio58",
+        "cardNumField62",
+        "toolContNumField62",
+        "discrepancyJONField62",
+        "signatureField62",
+        "radio59",
+        "radio60",
+        "cardNumField72",
+        "toolContNumField72",
+        "discrepancyJONFiel72",
+        "signatureField72",
+        "radio61",
+        "radio62",
+        "cardNumField82",
+        "toolContNumField82",
+        "discrepancyJONField82",
+        "signatureField82",
+        "radio63",
+        "radio64",
+        "cardNumField92",
+        "toolContNumField92",
+        "discrepancyJONField92",
+        "signatureField92",
+        "radio65",
+        "radio66",
+        "cardNumField102",
+        "toolContNumField102",
+        "discrepancyJONField102",
+        "signatureField102",
+        "radio67",
+        "radio68",
+        "cardNumField112",
+        "toolContNumField112",
+        "discrepancyJONField112",
+        "signatureField112",
+        "radio69",
+        "radio70",
+        "cardNumField122",
+        "toolContNumField122",
+        "discrepancyJONField122",
+        "signatureField122",
+        "radio71",
+        "radio72",
+        "cardNumField132",
+        "toolContNumField132",
+        "discrepancyJONField132",
+        "signatureField132",
+        "radio73",
+        "radio74",
+        "cardNumField142",
+        "toolContNumField142",
+        "discrepancyJONField142",
+        "signatureField142",
+        "radio75",
+        "radio76",
+        "cardNumField152",
+        "toolContNumField152",
+        "discrepancyJONField152",
+        "signatureField152",
+        "radio77",
+        "radio78",
+        "cardNumField162",
+        "toolContNumField162",
+        "discrepancyJONField162",
+        "signatureField162",
+        "radio79",
+        "radio80",
+        "cardNumField172",
+        "toolContNumField172",
+        "discrepancyJONField172",
+        "signatureField172",
+        "radio81",
+        "radio82",
+        "cardNumField182",
+        "toolContNumField182",
+        "discrepancyJONField182",
+        "signatureField182",
+        "radio83",
+        "radio84",
+        "cardNumField192",
+        "toolContNumField192",
+        "discrepancyJONField192",
+        "signatureField192",
+        "radio85",
+        "radio86",
+        "cardNumField202",
+        "toolContNumField202",
+        "discrepancyJONField202",
+        "signatureField202",
+        "radio87",
+        "radio88",
+        "cardNumField212",
+        "toolContNumField212",
+        "discrepancyJONField212",
+        "signatureField212",
+        "radio89",
+        "radio90",
+        "cardNumField222",
+        "toolContNumField222",
+        "discrepancyJONField222",
+        "signatureField222",
+        "radio91",
+        "radio92",
+        "cardNumField232",
+        "toolContNumField232",
+        "discrepancyJONField232",
+        "signatureField232",
+        "radio93",
+        "radio94",
+        "cardNumField24",
+        "toolContNumField24",
+        "discrepancyJONField24",
+        "signatureField242",
+        "radio95",
+        "radio96",
+        "cardNumField25",
+        "toolContNumField25",
+        "discrepancyJONField25",
+        "signatureField25",
+        "radio97",
+        "radio98",
+        "cardNumField26",
+        "toolContNumField26",
+        "discrepancyJONField26",
+        "signatureField26",
+        "radio99",
+        "radio100",
+        "cardNumField27",
+        "toolContNumField27",
+        "discrepancyJONField27",
+        "signatureField27",
+        "radio101",
+        "radio102",
+        "cardNumField28",
+        "toolContNumField28",
+        "discrepancyJONField28",
+        "signatureField28",
+        "radio103",
+        "radio104",
+        "cardNumField29",
+        "toolContNumField29",
+        "discrepancyJONField29",
+        "signatureField29",
+        "radio105",
+        "radio106",
+        "cardNumField30",
+        "toolContNumField30",
+        "discrepancyJONField30",
+        "signatureField30",
+        "radio107",
+        "radio108"
+      ]
+    }
+  ],
+  "fields": {
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 52.3,
+        "top": 712.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 178.4,
+        "top": 712.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 304.4,
+        "top": 712.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 443.0,
+        "top": 712.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "tms": {
+      "type": "text",
+      "label": "3. T/M/S",
+      "page": 1,
+      "box": {
+        "left": 196.4,
+        "top": 678.2,
+        "width": 75.3,
+        "height": 31.9
+      },
+      "multiline": true
+    },
+    "buno": {
+      "type": "text",
+      "label": "4. BUNO",
+      "page": 1,
+      "box": {
+        "left": 277.4,
+        "top": 678.2,
+        "width": 75.3,
+        "height": 31.9
+      },
+      "multiline": true
+    },
+    "sideNo": {
+      "type": "text",
+      "label": "5. SIDE NO",
+      "page": 1,
+      "box": {
+        "left": 358.4,
+        "top": 678.2,
+        "width": 75.3,
+        "height": 31.9
+      },
+      "multiline": true
+    },
+    "activity": {
+      "type": "text",
+      "label": "6. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 439.4,
+        "top": 678.2,
+        "width": 133.8,
+        "height": 31.9
+      },
+      "multiline": true
+    },
+    "started": {
+      "type": "text",
+      "label": "STARTED",
+      "page": 1,
+      "box": {
+        "left": 94.0,
+        "top": 677.6,
+        "width": 96.7,
+        "height": 12.3
+      }
+    },
+    "completed": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 94.0,
+        "top": 658.6,
+        "width": 96.7,
+        "height": 12.3
+      }
+    },
+    "discrepancyJONField1": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 1,
+      "box": {
+        "left": 155.9,
+        "top": 605.5,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 374.2,
+        "top": 602.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 423.7,
+        "top": 602.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "discrepancyJONField2": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 1,
+      "box": {
+        "left": 155.9,
+        "top": 583.0,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 374.2,
+        "top": 579.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 423.7,
+        "top": 579.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "discrepancyJONField3": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 1,
+      "box": {
+        "left": 155.9,
+        "top": 560.5,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "radio9": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 374.2,
+        "top": 557.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio10": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 423.7,
+        "top": 557.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "discrepancyJONField4": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 1,
+      "box": {
+        "left": 155.9,
+        "top": 538.0,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "radio11": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 374.2,
+        "top": 534.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio12": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 423.7,
+        "top": 534.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "discrepancyJONField5": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 1,
+      "box": {
+        "left": 155.9,
+        "top": 515.5,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "radio13": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 374.2,
+        "top": 512.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio14": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 423.7,
+        "top": 512.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "discrepancyJONField6": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 1,
+      "box": {
+        "left": 155.9,
+        "top": 493.0,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "radio15": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 374.2,
+        "top": 489.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio16": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 423.7,
+        "top": 489.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "discrepancyJONFiel7": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 1,
+      "box": {
+        "left": 155.9,
+        "top": 470.5,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "radio17": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 374.2,
+        "top": 467.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio18": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 423.7,
+        "top": 467.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "discrepancyJONField8": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 1,
+      "box": {
+        "left": 155.9,
+        "top": 448.0,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "radio19": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 374.2,
+        "top": 444.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio20": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 423.7,
+        "top": 444.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "discrepancyJONField9": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 1,
+      "box": {
+        "left": 155.9,
+        "top": 425.5,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "radio21": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 374.2,
+        "top": 422.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio22": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 423.7,
+        "top": 422.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "discrepancyJONField10": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 1,
+      "box": {
+        "left": 155.9,
+        "top": 403.0,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "radio23": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 374.2,
+        "top": 399.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio24": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 423.7,
+        "top": 399.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "discrepancyJONField11": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 1,
+      "box": {
+        "left": 155.9,
+        "top": 380.5,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "radio25": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 374.2,
+        "top": 377.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio26": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 423.7,
+        "top": 377.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "discrepancyJONField12": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 1,
+      "box": {
+        "left": 155.9,
+        "top": 358.0,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "radio27": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 374.2,
+        "top": 354.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio28": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 423.7,
+        "top": 354.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "discrepancyJONField13": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 1,
+      "box": {
+        "left": 155.9,
+        "top": 335.5,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "radio29": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 374.2,
+        "top": 332.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio30": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 423.7,
+        "top": 332.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "discrepancyJONField14": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 1,
+      "box": {
+        "left": 155.9,
+        "top": 313.0,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "radio31": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 374.2,
+        "top": 309.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio32": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 423.7,
+        "top": 309.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "discrepancyJONField15": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 1,
+      "box": {
+        "left": 155.9,
+        "top": 290.5,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "radio33": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 374.2,
+        "top": 287.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio34": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 423.7,
+        "top": 287.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "discrepancyJONField16": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 1,
+      "box": {
+        "left": 155.9,
+        "top": 268.0,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "radio35": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 374.2,
+        "top": 264.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio36": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 423.7,
+        "top": 264.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "discrepancyJONField17": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 1,
+      "box": {
+        "left": 155.9,
+        "top": 245.5,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "radio37": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 374.2,
+        "top": 242.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio38": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 423.7,
+        "top": 242.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "discrepancyJONField18": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 1,
+      "box": {
+        "left": 155.9,
+        "top": 223.0,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "radio39": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 374.2,
+        "top": 219.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio40": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 423.7,
+        "top": 219.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "discrepancyJONField19": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 1,
+      "box": {
+        "left": 155.9,
+        "top": 200.5,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "radio41": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 374.2,
+        "top": 197.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio42": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 423.7,
+        "top": 197.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "discrepancyJONField20": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 1,
+      "box": {
+        "left": 155.9,
+        "top": 178.0,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "radio43": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 374.2,
+        "top": 174.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio44": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 423.7,
+        "top": 174.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "discrepancyJONField21": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 1,
+      "box": {
+        "left": 155.9,
+        "top": 155.5,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "radio45": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 374.2,
+        "top": 152.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio46": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 423.8,
+        "top": 152.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "discrepancyJONField22": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 1,
+      "box": {
+        "left": 155.9,
+        "top": 133.0,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "radio47": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 374.2,
+        "top": 129.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio48": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 423.8,
+        "top": 129.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "signatureField23": {
+      "type": "text",
+      "label": "(Signature and rate/rank)",
+      "page": 1,
+      "box": {
+        "left": 340.4,
+        "top": 84.8,
+        "width": 232.9,
+        "height": 31.6
+      },
+      "multiline": true
+    },
+    "cardNumField110": {
+      "type": "text",
+      "label": "RTG/MOS",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 718.2,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "toolContNumField110": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 2,
+      "box": {
+        "left": 97.3,
+        "top": 718.2,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "discrepancyJONField110": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 2,
+      "box": {
+        "left": 155.9,
+        "top": 718.2,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "signatureField110": {
+      "type": "text",
+      "label": "AND RATE / MOS **",
+      "page": 2,
+      "box": {
+        "left": 439.4,
+        "top": 718.2,
+        "width": 133.8,
+        "height": 16.8
+      }
+    },
+    "radio49": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 374.2,
+        "top": 714.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio50": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 423.7,
+        "top": 714.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "cardNumField23": {
+      "type": "text",
+      "label": "RTG/MOS",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 695.7,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "toolContNumField23": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 2,
+      "box": {
+        "left": 97.3,
+        "top": 695.7,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "discrepancyJONField23": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 2,
+      "box": {
+        "left": 155.9,
+        "top": 695.7,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "signatureField24": {
+      "type": "text",
+      "label": "AND RATE / MOS **",
+      "page": 2,
+      "box": {
+        "left": 439.4,
+        "top": 695.7,
+        "width": 133.8,
+        "height": 16.8
+      }
+    },
+    "radio51": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 374.2,
+        "top": 692.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio52": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 423.7,
+        "top": 692.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "cardNumField32": {
+      "type": "text",
+      "label": "RTG/MOS",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 673.2,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "toolContNumField32": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 2,
+      "box": {
+        "left": 97.3,
+        "top": 673.2,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "discrepancyJONField32": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 2,
+      "box": {
+        "left": 155.9,
+        "top": 673.2,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "signatureField32": {
+      "type": "text",
+      "label": "AND RATE / MOS **",
+      "page": 2,
+      "box": {
+        "left": 439.4,
+        "top": 673.2,
+        "width": 133.8,
+        "height": 16.8
+      }
+    },
+    "radio53": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 374.2,
+        "top": 669.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio54": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 423.7,
+        "top": 669.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "cardNumField42": {
+      "type": "text",
+      "label": "RTG/MOS",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 650.7,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "toolContNumField42": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 2,
+      "box": {
+        "left": 97.3,
+        "top": 650.7,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "discrepancyJONField42": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 2,
+      "box": {
+        "left": 155.9,
+        "top": 650.7,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "signatureField42": {
+      "type": "text",
+      "label": "AND RATE / MOS **",
+      "page": 2,
+      "box": {
+        "left": 439.4,
+        "top": 650.7,
+        "width": 133.8,
+        "height": 16.8
+      }
+    },
+    "radio55": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 374.2,
+        "top": 647.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio56": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 423.7,
+        "top": 647.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "cardNumField52": {
+      "type": "text",
+      "label": "RTG/MOS",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 628.2,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "toolContNumField52": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 2,
+      "box": {
+        "left": 97.3,
+        "top": 628.2,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "discrepancyJONField52": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 2,
+      "box": {
+        "left": 155.9,
+        "top": 628.2,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "signatureField52": {
+      "type": "text",
+      "label": "AND RATE / MOS **",
+      "page": 2,
+      "box": {
+        "left": 439.4,
+        "top": 628.2,
+        "width": 133.8,
+        "height": 16.8
+      }
+    },
+    "radio57": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 374.2,
+        "top": 624.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio58": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 423.7,
+        "top": 624.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "cardNumField62": {
+      "type": "text",
+      "label": "RTG/MOS",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 605.7,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "toolContNumField62": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 2,
+      "box": {
+        "left": 97.3,
+        "top": 605.7,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "discrepancyJONField62": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 2,
+      "box": {
+        "left": 155.9,
+        "top": 605.7,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "signatureField62": {
+      "type": "text",
+      "label": "AND RATE / MOS **",
+      "page": 2,
+      "box": {
+        "left": 439.4,
+        "top": 605.7,
+        "width": 133.8,
+        "height": 16.8
+      }
+    },
+    "radio59": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 374.2,
+        "top": 602.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio60": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 423.7,
+        "top": 602.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "cardNumField72": {
+      "type": "text",
+      "label": "RTG/MOS",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 583.2,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "toolContNumField72": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 2,
+      "box": {
+        "left": 97.3,
+        "top": 583.2,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "discrepancyJONFiel72": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 2,
+      "box": {
+        "left": 155.9,
+        "top": 583.2,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "signatureField72": {
+      "type": "text",
+      "label": "AND RATE / MOS **",
+      "page": 2,
+      "box": {
+        "left": 439.4,
+        "top": 583.2,
+        "width": 133.8,
+        "height": 16.8
+      }
+    },
+    "radio61": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 374.2,
+        "top": 579.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio62": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 423.7,
+        "top": 579.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "cardNumField82": {
+      "type": "text",
+      "label": "RTG/MOS",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 560.7,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "toolContNumField82": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 2,
+      "box": {
+        "left": 97.3,
+        "top": 560.7,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "discrepancyJONField82": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 2,
+      "box": {
+        "left": 155.9,
+        "top": 560.7,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "signatureField82": {
+      "type": "text",
+      "label": "AND RATE / MOS **",
+      "page": 2,
+      "box": {
+        "left": 439.4,
+        "top": 560.7,
+        "width": 133.8,
+        "height": 16.8
+      }
+    },
+    "radio63": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 374.2,
+        "top": 557.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio64": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 423.7,
+        "top": 557.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "cardNumField92": {
+      "type": "text",
+      "label": "RTG/MOS",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 538.2,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "toolContNumField92": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 2,
+      "box": {
+        "left": 97.3,
+        "top": 538.2,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "discrepancyJONField92": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 2,
+      "box": {
+        "left": 155.9,
+        "top": 538.2,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "signatureField92": {
+      "type": "text",
+      "label": "AND RATE / MOS **",
+      "page": 2,
+      "box": {
+        "left": 439.4,
+        "top": 538.2,
+        "width": 133.8,
+        "height": 16.8
+      }
+    },
+    "radio65": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 374.2,
+        "top": 534.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio66": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 423.7,
+        "top": 534.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "cardNumField102": {
+      "type": "text",
+      "label": "RTG/MOS",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 515.7,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "toolContNumField102": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 2,
+      "box": {
+        "left": 97.3,
+        "top": 515.7,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "discrepancyJONField102": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 2,
+      "box": {
+        "left": 155.9,
+        "top": 515.7,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "signatureField102": {
+      "type": "text",
+      "label": "AND RATE / MOS **",
+      "page": 2,
+      "box": {
+        "left": 439.4,
+        "top": 515.7,
+        "width": 133.8,
+        "height": 16.8
+      }
+    },
+    "radio67": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 374.2,
+        "top": 512.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio68": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 423.7,
+        "top": 512.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "cardNumField112": {
+      "type": "text",
+      "label": "RTG/MOS",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 493.2,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "toolContNumField112": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 2,
+      "box": {
+        "left": 97.3,
+        "top": 493.2,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "discrepancyJONField112": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 2,
+      "box": {
+        "left": 155.9,
+        "top": 493.2,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "signatureField112": {
+      "type": "text",
+      "label": "AND RATE / MOS **",
+      "page": 2,
+      "box": {
+        "left": 439.4,
+        "top": 493.2,
+        "width": 133.8,
+        "height": 16.8
+      }
+    },
+    "radio69": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 374.2,
+        "top": 489.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio70": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 423.7,
+        "top": 489.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "cardNumField122": {
+      "type": "text",
+      "label": "RTG/MOS",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 470.7,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "toolContNumField122": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 2,
+      "box": {
+        "left": 97.3,
+        "top": 470.7,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "discrepancyJONField122": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 2,
+      "box": {
+        "left": 155.9,
+        "top": 470.7,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "signatureField122": {
+      "type": "text",
+      "label": "AND RATE / MOS **",
+      "page": 2,
+      "box": {
+        "left": 439.4,
+        "top": 470.7,
+        "width": 133.8,
+        "height": 16.8
+      }
+    },
+    "radio71": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 374.2,
+        "top": 467.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio72": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 423.7,
+        "top": 467.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "cardNumField132": {
+      "type": "text",
+      "label": "RTG/MOS",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 448.2,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "toolContNumField132": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 2,
+      "box": {
+        "left": 97.3,
+        "top": 448.2,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "discrepancyJONField132": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 2,
+      "box": {
+        "left": 155.9,
+        "top": 448.2,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "signatureField132": {
+      "type": "text",
+      "label": "AND RATE / MOS **",
+      "page": 2,
+      "box": {
+        "left": 439.4,
+        "top": 448.2,
+        "width": 133.8,
+        "height": 16.8
+      }
+    },
+    "radio73": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 374.2,
+        "top": 444.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio74": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 423.7,
+        "top": 444.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "cardNumField142": {
+      "type": "text",
+      "label": "RTG/MOS",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 425.7,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "toolContNumField142": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 2,
+      "box": {
+        "left": 97.3,
+        "top": 425.7,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "discrepancyJONField142": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 2,
+      "box": {
+        "left": 155.9,
+        "top": 425.7,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "signatureField142": {
+      "type": "text",
+      "label": "AND RATE / MOS **",
+      "page": 2,
+      "box": {
+        "left": 439.4,
+        "top": 425.7,
+        "width": 133.8,
+        "height": 16.8
+      }
+    },
+    "radio75": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 374.2,
+        "top": 422.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio76": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 423.7,
+        "top": 422.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "cardNumField152": {
+      "type": "text",
+      "label": "RTG/MOS",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 403.2,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "toolContNumField152": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 2,
+      "box": {
+        "left": 97.3,
+        "top": 403.2,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "discrepancyJONField152": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 2,
+      "box": {
+        "left": 155.9,
+        "top": 403.2,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "signatureField152": {
+      "type": "text",
+      "label": "AND RATE / MOS **",
+      "page": 2,
+      "box": {
+        "left": 439.4,
+        "top": 403.2,
+        "width": 133.8,
+        "height": 16.8
+      }
+    },
+    "radio77": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 374.2,
+        "top": 399.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio78": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 423.7,
+        "top": 399.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "cardNumField162": {
+      "type": "text",
+      "label": "RTG/MOS",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 380.7,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "toolContNumField162": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 2,
+      "box": {
+        "left": 97.3,
+        "top": 380.7,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "discrepancyJONField162": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 2,
+      "box": {
+        "left": 155.9,
+        "top": 380.7,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "signatureField162": {
+      "type": "text",
+      "label": "AND RATE / MOS **",
+      "page": 2,
+      "box": {
+        "left": 439.4,
+        "top": 380.7,
+        "width": 133.8,
+        "height": 16.8
+      }
+    },
+    "radio79": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 374.2,
+        "top": 377.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio80": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 423.7,
+        "top": 377.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "cardNumField172": {
+      "type": "text",
+      "label": "RTG/MOS",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 358.2,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "toolContNumField172": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 2,
+      "box": {
+        "left": 97.3,
+        "top": 358.2,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "discrepancyJONField172": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 2,
+      "box": {
+        "left": 155.9,
+        "top": 358.2,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "signatureField172": {
+      "type": "text",
+      "label": "AND RATE / MOS **",
+      "page": 2,
+      "box": {
+        "left": 439.4,
+        "top": 358.2,
+        "width": 133.8,
+        "height": 16.8
+      }
+    },
+    "radio81": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 374.2,
+        "top": 354.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio82": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 423.7,
+        "top": 354.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "cardNumField182": {
+      "type": "text",
+      "label": "RTG/MOS",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 335.7,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "toolContNumField182": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 2,
+      "box": {
+        "left": 97.3,
+        "top": 335.7,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "discrepancyJONField182": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 2,
+      "box": {
+        "left": 155.9,
+        "top": 335.7,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "signatureField182": {
+      "type": "text",
+      "label": "AND RATE / MOS **",
+      "page": 2,
+      "box": {
+        "left": 439.4,
+        "top": 335.7,
+        "width": 133.8,
+        "height": 16.8
+      }
+    },
+    "radio83": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 374.2,
+        "top": 332.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio84": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 423.7,
+        "top": 332.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "cardNumField192": {
+      "type": "text",
+      "label": "RTG/MOS",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 313.2,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "toolContNumField192": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 2,
+      "box": {
+        "left": 97.3,
+        "top": 313.2,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "discrepancyJONField192": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 2,
+      "box": {
+        "left": 155.9,
+        "top": 313.2,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "signatureField192": {
+      "type": "text",
+      "label": "AND RATE / MOS **",
+      "page": 2,
+      "box": {
+        "left": 439.4,
+        "top": 313.2,
+        "width": 133.8,
+        "height": 16.8
+      }
+    },
+    "radio85": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 374.2,
+        "top": 309.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio86": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 423.7,
+        "top": 309.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "cardNumField202": {
+      "type": "text",
+      "label": "RTG/MOS",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 290.7,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "toolContNumField202": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 2,
+      "box": {
+        "left": 97.3,
+        "top": 290.7,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "discrepancyJONField202": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 2,
+      "box": {
+        "left": 155.9,
+        "top": 290.7,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "signatureField202": {
+      "type": "text",
+      "label": "AND RATE / MOS **",
+      "page": 2,
+      "box": {
+        "left": 439.4,
+        "top": 290.7,
+        "width": 133.8,
+        "height": 16.8
+      }
+    },
+    "radio87": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 374.2,
+        "top": 287.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio88": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 423.7,
+        "top": 287.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "cardNumField212": {
+      "type": "text",
+      "label": "RTG/MOS",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 268.2,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "toolContNumField212": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 2,
+      "box": {
+        "left": 97.3,
+        "top": 268.2,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "discrepancyJONField212": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 2,
+      "box": {
+        "left": 155.9,
+        "top": 268.2,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "signatureField212": {
+      "type": "text",
+      "label": "AND RATE / MOS **",
+      "page": 2,
+      "box": {
+        "left": 439.4,
+        "top": 268.2,
+        "width": 133.8,
+        "height": 16.8
+      }
+    },
+    "radio89": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 374.2,
+        "top": 264.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio90": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 423.8,
+        "top": 264.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "cardNumField222": {
+      "type": "text",
+      "label": "RTG/MOS",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 245.7,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "toolContNumField222": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 2,
+      "box": {
+        "left": 97.3,
+        "top": 245.7,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "discrepancyJONField222": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 2,
+      "box": {
+        "left": 155.9,
+        "top": 245.7,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "signatureField222": {
+      "type": "text",
+      "label": "AND RATE / MOS **",
+      "page": 2,
+      "box": {
+        "left": 439.4,
+        "top": 245.7,
+        "width": 133.8,
+        "height": 16.8
+      }
+    },
+    "radio91": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 374.2,
+        "top": 242.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio92": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 423.8,
+        "top": 242.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "cardNumField232": {
+      "type": "text",
+      "label": "RTG/MOS",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 222.2,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "toolContNumField232": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 2,
+      "box": {
+        "left": 97.3,
+        "top": 222.2,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "discrepancyJONField232": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 2,
+      "box": {
+        "left": 155.9,
+        "top": 222.2,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "signatureField232": {
+      "type": "text",
+      "label": "AND RATE / MOS **",
+      "page": 2,
+      "box": {
+        "left": 439.4,
+        "top": 222.2,
+        "width": 133.8,
+        "height": 16.8
+      }
+    },
+    "radio93": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 374.2,
+        "top": 218.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio94": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 423.8,
+        "top": 218.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "cardNumField24": {
+      "type": "text",
+      "label": "RTG/MOS",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 199.7,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "toolContNumField24": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 2,
+      "box": {
+        "left": 97.3,
+        "top": 199.7,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "discrepancyJONField24": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 2,
+      "box": {
+        "left": 155.9,
+        "top": 199.7,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "signatureField242": {
+      "type": "text",
+      "label": "AND RATE / MOS **",
+      "page": 2,
+      "box": {
+        "left": 439.4,
+        "top": 199.7,
+        "width": 133.8,
+        "height": 16.8
+      }
+    },
+    "radio95": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 374.2,
+        "top": 196.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio96": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 423.8,
+        "top": 196.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "cardNumField25": {
+      "type": "text",
+      "label": "RTG/MOS",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 177.2,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "toolContNumField25": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 2,
+      "box": {
+        "left": 97.3,
+        "top": 177.2,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "discrepancyJONField25": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 2,
+      "box": {
+        "left": 155.9,
+        "top": 177.2,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "signatureField25": {
+      "type": "text",
+      "label": "AND RATE / MOS **",
+      "page": 2,
+      "box": {
+        "left": 439.4,
+        "top": 177.2,
+        "width": 133.8,
+        "height": 16.8
+      }
+    },
+    "radio97": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 374.2,
+        "top": 173.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio98": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 423.8,
+        "top": 173.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "cardNumField26": {
+      "type": "text",
+      "label": "RTG/MOS",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 154.7,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "toolContNumField26": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 2,
+      "box": {
+        "left": 97.3,
+        "top": 154.7,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "discrepancyJONField26": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 2,
+      "box": {
+        "left": 155.9,
+        "top": 154.7,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "signatureField26": {
+      "type": "text",
+      "label": "AND RATE / MOS **",
+      "page": 2,
+      "box": {
+        "left": 439.4,
+        "top": 154.7,
+        "width": 133.8,
+        "height": 16.8
+      }
+    },
+    "radio99": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 374.2,
+        "top": 151.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio100": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 423.8,
+        "top": 151.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "cardNumField27": {
+      "type": "text",
+      "label": "RTG/MOS",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 132.2,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "toolContNumField27": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 2,
+      "box": {
+        "left": 97.3,
+        "top": 132.2,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "discrepancyJONField27": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 2,
+      "box": {
+        "left": 155.9,
+        "top": 132.2,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "signatureField27": {
+      "type": "text",
+      "label": "AND RATE / MOS **",
+      "page": 2,
+      "box": {
+        "left": 439.4,
+        "top": 132.2,
+        "width": 133.8,
+        "height": 16.8
+      }
+    },
+    "radio101": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 374.2,
+        "top": 128.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio102": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 423.8,
+        "top": 128.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "cardNumField28": {
+      "type": "text",
+      "label": "RTG/MOS",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 109.7,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "toolContNumField28": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 2,
+      "box": {
+        "left": 97.3,
+        "top": 109.7,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "discrepancyJONField28": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 2,
+      "box": {
+        "left": 155.9,
+        "top": 109.7,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "signatureField28": {
+      "type": "text",
+      "label": "AND RATE / MOS **",
+      "page": 2,
+      "box": {
+        "left": 439.4,
+        "top": 109.7,
+        "width": 133.8,
+        "height": 16.8
+      }
+    },
+    "radio103": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 374.2,
+        "top": 106.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio104": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 423.8,
+        "top": 106.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "cardNumField29": {
+      "type": "text",
+      "label": "RTG/MOS",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 87.2,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "toolContNumField29": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 2,
+      "box": {
+        "left": 97.3,
+        "top": 87.2,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "discrepancyJONField29": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 2,
+      "box": {
+        "left": 155.9,
+        "top": 87.2,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "signatureField29": {
+      "type": "text",
+      "label": "AND RATE / MOS **",
+      "page": 2,
+      "box": {
+        "left": 439.4,
+        "top": 87.2,
+        "width": 133.8,
+        "height": 16.8
+      }
+    },
+    "radio105": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 374.2,
+        "top": 83.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio106": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 423.8,
+        "top": 83.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "cardNumField30": {
+      "type": "text",
+      "label": "RTG/MOS",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 64.7,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "toolContNumField30": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 2,
+      "box": {
+        "left": 97.3,
+        "top": 64.7,
+        "width": 52.8,
+        "height": 16.8
+      }
+    },
+    "discrepancyJONField30": {
+      "type": "text",
+      "label": "9. DISCREPANCY / JCN *",
+      "page": 2,
+      "box": {
+        "left": 155.9,
+        "top": 64.7,
+        "width": 178.8,
+        "height": 16.8
+      }
+    },
+    "signatureField30": {
+      "type": "text",
+      "label": "AND RATE / MOS **",
+      "page": 2,
+      "box": {
+        "left": 439.4,
+        "top": 64.7,
+        "width": 133.8,
+        "height": 16.8
+      }
+    },
+    "radio107": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 374.2,
+        "top": 61.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio108": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 423.8,
+        "top": 61.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 22,
+      "rowStride": 22.5,
+      "editor": "grid",
+      "columns": {
+        "cardNumField": {
+          "type": "text",
+          "label": "RTG/MOS",
+          "page": 1,
+          "box": {
+            "left": 38.8,
+            "top": 605.5,
+            "width": 52.8,
+            "height": 16.8
+          }
+        },
+        "toolContNumField": {
+          "type": "text",
+          "label": "NUMBER",
+          "page": 1,
+          "box": {
+            "left": 97.3,
+            "top": 605.5,
+            "width": 52.8,
+            "height": 16.8
+          }
+        },
+        "signatureField": {
+          "type": "text",
+          "label": "AND RATE / MOS **",
+          "page": 1,
+          "box": {
+            "left": 439.4,
+            "top": 605.5,
+            "width": 133.8,
+            "height": 16.8
+          }
+        }
+      }
+    }
+  }
+}

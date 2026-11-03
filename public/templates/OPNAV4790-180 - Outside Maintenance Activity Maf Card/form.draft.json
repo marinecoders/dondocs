@@ -1,0 +1,257 @@
+{
+  "id": "opnav4790180",
+  "label": "OPNAV4790-180 - Outside Maintenance Activity Maf Card",
+  "directory": "OPNAV4790-180 - Outside Maintenance Activity Maf Card",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "eswibs",
+        "checkBox1",
+        "checkBox12",
+        "itemno",
+        "checkBox13",
+        "checkBox14",
+        "location",
+        "checkBox15",
+        "checkBox16",
+        "poc",
+        "checkBox17",
+        "checkBox18",
+        "phone",
+        "checkBox19",
+        "checkBox110",
+        "wc",
+        "jsn",
+        "jobdesc",
+        "qa",
+        "activity"
+      ]
+    }
+  ],
+  "fields": {
+    "eswibs": {
+      "type": "text",
+      "label": "ENTER ESWIBS NUMBER.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 718.1,
+        "width": 147.3,
+        "height": 13.2
+      }
+    },
+    "checkBox1": {
+      "type": "checkbox",
+      "label": "CHECK TO DESIGNATE REQUIRED.",
+      "page": 1,
+      "box": {
+        "left": 304.0,
+        "top": 694.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox12": {
+      "type": "checkbox",
+      "label": "CHECK TO DESIGNATE SUBMITTED.",
+      "page": 1,
+      "box": {
+        "left": 430.0,
+        "top": 694.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "itemno": {
+      "type": "text",
+      "label": "ENTER ITEM NUMBER.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 690.3,
+        "width": 147.3,
+        "height": 12.5
+      }
+    },
+    "checkBox13": {
+      "type": "checkbox",
+      "label": "CHECK TO DESIGNATE REQUIRED.",
+      "page": 1,
+      "box": {
+        "left": 304.0,
+        "top": 667.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox14": {
+      "type": "checkbox",
+      "label": "CHECK TO DESIGNATE SUBMITTED.",
+      "page": 1,
+      "box": {
+        "left": 430.0,
+        "top": 667.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "location": {
+      "type": "text",
+      "label": "ENTER LOCATION.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 664.1,
+        "width": 147.3,
+        "height": 13.2
+      }
+    },
+    "checkBox15": {
+      "type": "checkbox",
+      "label": "CHECK TO DESIGNATE REQUIRED.",
+      "page": 1,
+      "box": {
+        "left": 304.0,
+        "top": 640.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox16": {
+      "type": "checkbox",
+      "label": "CHECK TO DESIGNATE SUBMITTED.",
+      "page": 1,
+      "box": {
+        "left": 430.0,
+        "top": 640.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "poc": {
+      "type": "text",
+      "label": "ENTER POC.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 637.1,
+        "width": 147.3,
+        "height": 13.2
+      }
+    },
+    "checkBox17": {
+      "type": "checkbox",
+      "label": "CHECK TO DESIGNATE REQUIRED.",
+      "page": 1,
+      "box": {
+        "left": 304.0,
+        "top": 612.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox18": {
+      "type": "checkbox",
+      "label": "CHECK TO DESIGNATE SUBMITTED.",
+      "page": 1,
+      "box": {
+        "left": 430.0,
+        "top": 612.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "phone": {
+      "type": "text",
+      "label": "ENTER PHONE NUMBER.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 610.1,
+        "width": 147.3,
+        "height": 13.2
+      }
+    },
+    "checkBox19": {
+      "type": "checkbox",
+      "label": "CHECK TO DESIGNATE REQUIRED.",
+      "page": 1,
+      "box": {
+        "left": 304.0,
+        "top": 586.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox110": {
+      "type": "checkbox",
+      "label": "CHECK TO DESIGNATE SUBMITTED.",
+      "page": 1,
+      "box": {
+        "left": 430.0,
+        "top": 586.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "wc": {
+      "type": "text",
+      "label": "ENTER W/C.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 556.1,
+        "width": 30.3,
+        "height": 13.2
+      }
+    },
+    "jsn": {
+      "type": "text",
+      "label": "ENTER JSN.",
+      "page": 1,
+      "box": {
+        "left": 164.8,
+        "top": 556.1,
+        "width": 57.3,
+        "height": 13.2
+      }
+    },
+    "jobdesc": {
+      "type": "text",
+      "label": "ENTER JOB DESCRIPTION.",
+      "page": 1,
+      "box": {
+        "left": 227.8,
+        "top": 556.1,
+        "width": 120.3,
+        "height": 13.2
+      }
+    },
+    "qa": {
+      "type": "text",
+      "label": "ENTER QA.",
+      "page": 1,
+      "box": {
+        "left": 353.8,
+        "top": 556.1,
+        "width": 21.3,
+        "height": 13.2
+      }
+    },
+    "activity": {
+      "type": "text",
+      "label": "ENTER ACTIVITY.",
+      "page": 1,
+      "box": {
+        "left": 380.8,
+        "top": 556.1,
+        "width": 84.3,
+        "height": 13.2
+      }
+    }
+  }
+}

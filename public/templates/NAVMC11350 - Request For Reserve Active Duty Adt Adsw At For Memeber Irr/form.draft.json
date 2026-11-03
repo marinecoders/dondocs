@@ -1,0 +1,1841 @@
+{
+  "id": "navmc11350",
+  "label": "NAVMC11350 - Request For Reserve Active Duty Adt Adsw At For Memeber Irr",
+  "directory": "NAVMC11350 - Request For Reserve Active Duty Adt Adsw At For Memeber Irr",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "radioButtonList",
+        "radioButtonList2",
+        "from1",
+        "to1",
+        "phonePoc",
+        "namePoc",
+        "ssn",
+        "nameReqInd",
+        "grade1",
+        "addPermHome",
+        "addCurr",
+        "phoneWk",
+        "phoneHome",
+        "eligRuc1",
+        "eligMcc1",
+        "eligPlatCode",
+        "eligTrainGrp",
+        "eligTo",
+        "eligToLineNum",
+        "eligBillTitl",
+        "eligPmos",
+        "eligResCompCd",
+        "eligReenlstCd",
+        "dateEligBir",
+        "eligMarStat",
+        "eligResEcc",
+        "eligEas",
+        "eligAfadbd",
+        "dateEligPebd",
+        "eligAcduPts",
+        "eligAcduYr",
+        "dateEligPhys",
+        "dateEligHiv",
+        "eligSecClear",
+        "eligBirthCitStat",
+        "eligRecstat",
+        "chkOrdElig3",
+        "chkOrdElig7",
+        "chkOrdElig5",
+        "chkOrdElig4",
+        "chkOrdElig6",
+        "chkOrdElig8"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "chkAdswCat7",
+        "chkAdswCat0",
+        "chkAdswCat8",
+        "chkAdswCat1",
+        "chkAdswCat9",
+        "chkAdswCat10",
+        "chkAdswCat2",
+        "chkAdswCat11",
+        "chkAdswCat3",
+        "chkAdswCat12",
+        "chkAdswCat13",
+        "chkAdswCat4",
+        "chkAdswCat14",
+        "chkAdswCat5",
+        "chkAdswCat6",
+        "chkAdswCat16",
+        "chkAdswCat15",
+        "chkAdswCat17",
+        "dateStart",
+        "dateRep",
+        "dateEnd",
+        "totDaysReq",
+        "addReport",
+        "reptTo",
+        "dutyWith",
+        "mcc1",
+        "ruc1",
+        "radioButtonList3",
+        "radioButtonList4",
+        "radioButtonList5",
+        "radioButtonList6",
+        "chkTravMode0",
+        "chkDelivType0",
+        "chkBilletAvail0",
+        "chkMessAvail0",
+        "chkReqOrd0",
+        "chkTravMode1",
+        "chkDelivType1",
+        "chkBilletAvail1",
+        "chkMessAvail1",
+        "chkReqOrd1",
+        "chkTravMode2",
+        "chkDelivType2",
+        "dailyCost1",
+        "dailyCost2",
+        "chkExBagAuth0",
+        "chkConfFeeAuth0",
+        "chkRntCarAuth0",
+        "chkVarAuth0",
+        "chkDlLodgAuth0",
+        "chkExBagAuth1",
+        "chkConfFeeAuth1",
+        "chkRntCarAuth1",
+        "chkVarAuth1",
+        "chkDlLodgAuth1",
+        "numPieces",
+        "amount",
+        "depAirport",
+        "arrAirport",
+        "plad1",
+        "chkPcsMove0",
+        "addDeliv",
+        "chkPcsMove1",
+        "chkPcsMove2"
+      ],
+      "editor": "checklist"
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "fundSrc",
+        "stdDocNum",
+        "travOrdNum",
+        "estPayAllow",
+        "estPerD",
+        "estGovtTvl",
+        "estOth",
+        "estMisc",
+        "estTotCost",
+        "advAuth",
+        "specInst",
+        "datePrevFrom0",
+        "datePrevTo0",
+        "totDays0",
+        "suppComm0",
+        "dutyPerf0",
+        "datePrevFrom1",
+        "datePrevTo1",
+        "totDays1",
+        "suppComm1",
+        "dutyPerf1",
+        "justif1",
+        "textField1",
+        "sigRA",
+        "dateSigReqAuth",
+        "radioButtonList7",
+        "radioButtonList8",
+        "radioButtonList9",
+        "textField2",
+        "sigAA",
+        "textField3",
+        "dateTimeField1"
+      ]
+    }
+  ],
+  "fields": {
+    "radioButtonList": {
+      "type": "radio",
+      "label": "or",
+      "page": 1,
+      "box": {
+        "left": 40.9,
+        "top": 560.0,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "topmostSubform_0_Page1_0_RadioButtonList_0"
+    },
+    "radioButtonList2": {
+      "type": "radio",
+      "label": "mod",
+      "page": 1,
+      "box": {
+        "left": 356.3,
+        "top": 560.0,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "topmostSubform_0_Page1_0_RadioButtonList_0"
+    },
+    "from1": {
+      "type": "text",
+      "label": "From. Initiating Command. Include address.",
+      "page": 1,
+      "box": {
+        "left": 25.6,
+        "top": 517.4,
+        "width": 294.4,
+        "height": 39.2
+      },
+      "multiline": true
+    },
+    "to1": {
+      "type": "text",
+      "label": "To. Approval Authority or Order Writing Authority.",
+      "page": 1,
+      "box": {
+        "left": 321.6,
+        "top": 516.9,
+        "width": 268.0,
+        "height": 38.6
+      },
+      "multiline": true
+    },
+    "phonePoc": {
+      "type": "text",
+      "label": "PhonePoc",
+      "page": 1,
+      "box": {
+        "left": 325.3,
+        "top": 462.6,
+        "width": 262.7,
+        "height": 18.3
+      }
+    },
+    "namePoc": {
+      "type": "text",
+      "label": "POC. Rank and Name.",
+      "page": 1,
+      "box": {
+        "left": 26.4,
+        "top": 460.8,
+        "width": 293.6,
+        "height": 16.0
+      }
+    },
+    "ssn": {
+      "type": "text",
+      "label": "SSN",
+      "page": 1,
+      "box": {
+        "left": 473.8,
+        "top": 431.3,
+        "width": 113.3,
+        "height": 20.8
+      }
+    },
+    "nameReqInd": {
+      "type": "text",
+      "label": "Requested Individual's name. Last, First, Middle Initial.",
+      "page": 1,
+      "box": {
+        "left": 26.4,
+        "top": 426.4,
+        "width": 293.6,
+        "height": 16.0
+      }
+    },
+    "grade1": {
+      "type": "text",
+      "label": "Grade",
+      "page": 1,
+      "box": {
+        "left": 321.6,
+        "top": 426.4,
+        "width": 149.6,
+        "height": 16.0
+      }
+    },
+    "addPermHome": {
+      "type": "text",
+      "label": "Permanent Home address.",
+      "page": 1,
+      "box": {
+        "left": 26.4,
+        "top": 399.8,
+        "width": 293.6,
+        "height": 42.2
+      },
+      "multiline": true
+    },
+    "addCurr": {
+      "type": "text",
+      "label": "Current address.",
+      "page": 1,
+      "box": {
+        "left": 321.6,
+        "top": 399.2,
+        "width": 268.0,
+        "height": 41.6
+      },
+      "multiline": true
+    },
+    "phoneWk": {
+      "type": "text",
+      "label": "PhoneWk",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 345.7,
+        "width": 263.4,
+        "height": 18.3
+      }
+    },
+    "phoneHome": {
+      "type": "text",
+      "label": "PhoneHome",
+      "page": 1,
+      "box": {
+        "left": 31.0,
+        "top": 345.0,
+        "width": 286.7,
+        "height": 18.3
+      }
+    },
+    "eligRuc1": {
+      "type": "text",
+      "label": "RUC",
+      "page": 1,
+      "box": {
+        "left": 25.6,
+        "top": 300.0,
+        "width": 162.4,
+        "height": 12.8
+      }
+    },
+    "eligMcc1": {
+      "type": "text",
+      "label": "MCC",
+      "page": 1,
+      "box": {
+        "left": 189.6,
+        "top": 300.0,
+        "width": 140.0,
+        "height": 12.8
+      }
+    },
+    "eligPlatCode": {
+      "type": "text",
+      "label": "Platoon Code",
+      "page": 1,
+      "box": {
+        "left": 330.4,
+        "top": 300.0,
+        "width": 116.0,
+        "height": 12.8
+      }
+    },
+    "eligTrainGrp": {
+      "type": "text",
+      "label": "Training Group",
+      "page": 1,
+      "box": {
+        "left": 448.0,
+        "top": 300.0,
+        "width": 141.6,
+        "height": 12.8
+      }
+    },
+    "eligTo": {
+      "type": "text",
+      "label": "T/O",
+      "page": 1,
+      "box": {
+        "left": 25.6,
+        "top": 278.4,
+        "width": 162.4,
+        "height": 12.8
+      }
+    },
+    "eligToLineNum": {
+      "type": "text",
+      "label": "T/O Line Number",
+      "page": 1,
+      "box": {
+        "left": 189.6,
+        "top": 278.4,
+        "width": 140.0,
+        "height": 12.8
+      }
+    },
+    "eligBillTitl": {
+      "type": "text",
+      "label": "Billet Title",
+      "page": 1,
+      "box": {
+        "left": 330.4,
+        "top": 278.4,
+        "width": 116.0,
+        "height": 12.8
+      }
+    },
+    "eligPmos": {
+      "type": "text",
+      "label": "PMOS",
+      "page": 1,
+      "box": {
+        "left": 448.0,
+        "top": 278.4,
+        "width": 141.6,
+        "height": 12.8
+      }
+    },
+    "eligResCompCd": {
+      "type": "text",
+      "label": "Reserve Component Code",
+      "page": 1,
+      "box": {
+        "left": 25.6,
+        "top": 256.0,
+        "width": 162.4,
+        "height": 12.8
+      }
+    },
+    "eligReenlstCd": {
+      "type": "text",
+      "label": "Reenlistment Code",
+      "page": 1,
+      "box": {
+        "left": 189.6,
+        "top": 256.0,
+        "width": 140.0,
+        "height": 12.8
+      }
+    },
+    "dateEligBir": {
+      "type": "text",
+      "label": "Enter date of birth using format 2002 06 27.",
+      "page": 1,
+      "box": {
+        "left": 448.0,
+        "top": 255.2,
+        "width": 141.6,
+        "height": 12.8
+      }
+    },
+    "eligMarStat": {
+      "type": "text",
+      "label": "Marital Status",
+      "page": 1,
+      "box": {
+        "left": 330.4,
+        "top": 254.1,
+        "width": 116.0,
+        "height": 10.9
+      }
+    },
+    "eligResEcc": {
+      "type": "text",
+      "label": "Reserve ECC",
+      "page": 1,
+      "box": {
+        "left": 25.6,
+        "top": 233.6,
+        "width": 162.4,
+        "height": 12.8
+      }
+    },
+    "eligEas": {
+      "type": "text",
+      "label": "EAS",
+      "page": 1,
+      "box": {
+        "left": 189.6,
+        "top": 233.6,
+        "width": 140.0,
+        "height": 12.8
+      }
+    },
+    "eligAfadbd": {
+      "type": "text",
+      "label": "AFADBD",
+      "page": 1,
+      "box": {
+        "left": 448.0,
+        "top": 233.6,
+        "width": 141.6,
+        "height": 12.8
+      }
+    },
+    "dateEligPebd": {
+      "type": "text",
+      "label": "Enter PEBD date using format 99 06 27.",
+      "page": 1,
+      "box": {
+        "left": 330.4,
+        "top": 232.8,
+        "width": 116.0,
+        "height": 12.8
+      }
+    },
+    "eligAcduPts": {
+      "type": "text",
+      "label": "ACDU Points",
+      "page": 1,
+      "box": {
+        "left": 25.6,
+        "top": 211.2,
+        "width": 162.4,
+        "height": 12.8
+      }
+    },
+    "eligAcduYr": {
+      "type": "text",
+      "label": "ACDU Years",
+      "page": 1,
+      "box": {
+        "left": 189.6,
+        "top": 211.2,
+        "width": 140.0,
+        "height": 12.8
+      }
+    },
+    "dateEligPhys": {
+      "type": "text",
+      "label": "Enter date or last physical using format 2002 06 27.",
+      "page": 1,
+      "box": {
+        "left": 330.4,
+        "top": 210.4,
+        "width": 116.0,
+        "height": 12.8
+      }
+    },
+    "dateEligHiv": {
+      "type": "text",
+      "label": "Enter date of HIV test using format 2002 06 27.",
+      "page": 1,
+      "box": {
+        "left": 448.0,
+        "top": 210.4,
+        "width": 141.6,
+        "height": 12.8
+      }
+    },
+    "eligSecClear": {
+      "type": "text",
+      "label": "Security Clearance",
+      "page": 1,
+      "box": {
+        "left": 25.6,
+        "top": 187.2,
+        "width": 162.4,
+        "height": 12.8
+      }
+    },
+    "eligBirthCitStat": {
+      "type": "text",
+      "label": "Birth City/State",
+      "page": 1,
+      "box": {
+        "left": 189.6,
+        "top": 187.2,
+        "width": 140.0,
+        "height": 12.8
+      }
+    },
+    "eligRecstat": {
+      "type": "text",
+      "label": "Reserve RECSTAT",
+      "page": 1,
+      "box": {
+        "left": 330.4,
+        "top": 187.2,
+        "width": 116.0,
+        "height": 12.8
+      }
+    },
+    "chkOrdElig3": {
+      "type": "checkbox",
+      "label": "Check for ADSW. Non-Paid.",
+      "page": 1,
+      "box": {
+        "left": 226.4,
+        "top": 143.2,
+        "width": 19.2,
+        "height": 19.2
+      }
+    },
+    "chkOrdElig7": {
+      "type": "checkbox",
+      "label": "Check for ATP",
+      "page": 1,
+      "box": {
+        "left": 472.8,
+        "top": 143.2,
+        "width": 19.2,
+        "height": 19.2
+      }
+    },
+    "chkOrdElig5": {
+      "type": "checkbox",
+      "label": "Check for RCT",
+      "page": 1,
+      "box": {
+        "left": 375.2,
+        "top": 142.4,
+        "width": 19.2,
+        "height": 19.2
+      }
+    },
+    "chkOrdElig4": {
+      "type": "checkbox",
+      "label": "Check for Associate Duty",
+      "page": 1,
+      "box": {
+        "left": 225.6,
+        "top": 122.4,
+        "width": 19.2,
+        "height": 19.2
+      }
+    },
+    "chkOrdElig6": {
+      "type": "checkbox",
+      "label": "Check for AT",
+      "page": 1,
+      "box": {
+        "left": 375.2,
+        "top": 122.4,
+        "width": 19.2,
+        "height": 19.2
+      }
+    },
+    "chkOrdElig8": {
+      "type": "checkbox",
+      "label": "Check for Off-Site Drills",
+      "page": 1,
+      "box": {
+        "left": 472.8,
+        "top": 122.4,
+        "width": 19.2,
+        "height": 19.2
+      }
+    },
+    "chkAdswCat7": {
+      "type": "checkbox",
+      "label": "Check for ADSW-GO. General Officer Short Tours",
+      "page": 2,
+      "box": {
+        "left": 328.0,
+        "top": 724.8,
+        "width": 12.8,
+        "height": 12.8
+      }
+    },
+    "chkAdswCat0": {
+      "type": "checkbox",
+      "label": "Check for ADSW-AC. Short Tours/OP Tempo Relief",
+      "page": 2,
+      "box": {
+        "left": 27.9,
+        "top": 718.8,
+        "width": 13.4,
+        "height": 13.4
+      }
+    },
+    "chkAdswCat8": {
+      "type": "checkbox",
+      "label": "Check for ADSW-RC. Short Tours",
+      "page": 2,
+      "box": {
+        "left": 328.0,
+        "top": 709.6,
+        "width": 12.8,
+        "height": 12.8
+      }
+    },
+    "chkAdswCat1": {
+      "type": "checkbox",
+      "label": "Check for ADSW-ES. Exercise Support",
+      "page": 2,
+      "box": {
+        "left": 28.0,
+        "top": 694.8,
+        "width": 14.4,
+        "height": 14.4
+      }
+    },
+    "chkAdswCat9": {
+      "type": "checkbox",
+      "label": "Check for ADSW-EP. Exercise Participation",
+      "page": 2,
+      "box": {
+        "left": 327.1,
+        "top": 694.6,
+        "width": 13.4,
+        "height": 13.4
+      }
+    },
+    "chkAdswCat10": {
+      "type": "checkbox",
+      "label": "Check for ADSW-RR. Recruiting and Retention",
+      "page": 2,
+      "box": {
+        "left": 327.1,
+        "top": 678.6,
+        "width": 13.4,
+        "height": 13.4
+      }
+    },
+    "chkAdswCat2": {
+      "type": "checkbox",
+      "label": "Check for ADSW-TCA. Traditional CINC Activities",
+      "page": 2,
+      "box": {
+        "left": 27.2,
+        "top": 674.0,
+        "width": 15.2,
+        "height": 15.2
+      }
+    },
+    "chkAdswCat11": {
+      "type": "checkbox",
+      "label": "Check for ADSW-CD. Counterdrug",
+      "page": 2,
+      "box": {
+        "left": 327.2,
+        "top": 664.0,
+        "width": 13.6,
+        "height": 13.6
+      }
+    },
+    "chkAdswCat3": {
+      "type": "checkbox",
+      "label": "Check for ADSW-CO. Contngency Operation",
+      "page": 2,
+      "box": {
+        "left": 27.2,
+        "top": 650.0,
+        "width": 15.2,
+        "height": 15.2
+      }
+    },
+    "chkAdswCat12": {
+      "type": "checkbox",
+      "label": "Check for ADSW-DD. Demand Drug Reduction Task Force",
+      "page": 2,
+      "box": {
+        "left": 327.1,
+        "top": 649.8,
+        "width": 13.4,
+        "height": 13.4
+      }
+    },
+    "chkAdswCat13": {
+      "type": "checkbox",
+      "label": "Check for ADSW-CM. Civil Military",
+      "page": 2,
+      "box": {
+        "left": 327.1,
+        "top": 635.9,
+        "width": 13.4,
+        "height": 13.4
+      }
+    },
+    "chkAdswCat4": {
+      "type": "checkbox",
+      "label": "Check for Involuntary. IMA",
+      "page": 2,
+      "box": {
+        "left": 44.6,
+        "top": 633.6,
+        "width": 15.2,
+        "height": 15.2
+      }
+    },
+    "chkAdswCat14": {
+      "type": "checkbox",
+      "label": "Check for ADSW. C4I Reserve Intelligence Programs",
+      "page": 2,
+      "box": {
+        "left": 326.8,
+        "top": 620.8,
+        "width": 13.4,
+        "height": 13.4
+      }
+    },
+    "chkAdswCat5": {
+      "type": "checkbox",
+      "label": "Check for Voluntary. SMCR/IRR",
+      "page": 2,
+      "box": {
+        "left": 44.8,
+        "top": 616.0,
+        "width": 15.2,
+        "height": 15.2
+      }
+    },
+    "chkAdswCat6": {
+      "type": "checkbox",
+      "label": "Check for ADSW-NC. Unexpected Non-Contingency.",
+      "page": 2,
+      "box": {
+        "left": 28.8,
+        "top": 596.4,
+        "width": 15.2,
+        "height": 15.2
+      }
+    },
+    "chkAdswCat16": {
+      "type": "checkbox",
+      "label": "Check for ADSW-JMIP",
+      "page": 2,
+      "box": {
+        "left": 422.4,
+        "top": 592.0,
+        "width": 13.6,
+        "height": 13.6
+      }
+    },
+    "chkAdswCat15": {
+      "type": "checkbox",
+      "label": "Check for ADSW-GDIP",
+      "page": 2,
+      "box": {
+        "left": 349.6,
+        "top": 591.2,
+        "width": 13.6,
+        "height": 13.6
+      }
+    },
+    "chkAdswCat17": {
+      "type": "checkbox",
+      "label": "Check for ADSW-TIARA",
+      "page": 2,
+      "box": {
+        "left": 502.7,
+        "top": 590.4,
+        "width": 13.4,
+        "height": 13.4
+      }
+    },
+    "dateStart": {
+      "type": "text",
+      "label": "Enter start date using format 2002 06 27.",
+      "page": 2,
+      "box": {
+        "left": 25.6,
+        "top": 564.8,
+        "width": 124.8,
+        "height": 16.0
+      }
+    },
+    "dateRep": {
+      "type": "text",
+      "label": "Enter report date and time using format 2002 06 27 13:30.",
+      "page": 2,
+      "box": {
+        "left": 152.0,
+        "top": 564.8,
+        "width": 166.4,
+        "height": 16.0
+      }
+    },
+    "dateEnd": {
+      "type": "text",
+      "label": "Enter end date using format 2002 06 27.",
+      "page": 2,
+      "box": {
+        "left": 320.0,
+        "top": 564.8,
+        "width": 125.6,
+        "height": 16.0
+      }
+    },
+    "totDaysReq": {
+      "type": "text",
+      "label": "Total Days Requested.",
+      "page": 2,
+      "box": {
+        "left": 446.4,
+        "top": 564.7,
+        "width": 143.2,
+        "height": 15.1
+      }
+    },
+    "addReport": {
+      "type": "text",
+      "label": "Reporting Address",
+      "page": 2,
+      "box": {
+        "left": 320.0,
+        "top": 539.7,
+        "width": 269.6,
+        "height": 35.2
+      },
+      "multiline": true
+    },
+    "reptTo": {
+      "type": "text",
+      "label": "Report to",
+      "page": 2,
+      "box": {
+        "left": 25.6,
+        "top": 538.9,
+        "width": 292.8,
+        "height": 35.2
+      },
+      "multiline": true
+    },
+    "dutyWith": {
+      "type": "text",
+      "label": "For Duty With",
+      "page": 2,
+      "box": {
+        "left": 25.6,
+        "top": 490.4,
+        "width": 229.6,
+        "height": 23.2
+      }
+    },
+    "mcc1": {
+      "type": "text",
+      "label": "MCC. Gaining Command",
+      "page": 2,
+      "box": {
+        "left": 400.0,
+        "top": 488.7,
+        "width": 189.6,
+        "height": 21.5
+      }
+    },
+    "ruc1": {
+      "type": "text",
+      "label": "RUC. Gaining Command",
+      "page": 2,
+      "box": {
+        "left": 256.8,
+        "top": 488.1,
+        "width": 141.6,
+        "height": 20.9
+      }
+    },
+    "radioButtonList3": {
+      "type": "radio",
+      "label": "top",
+      "page": 2,
+      "box": {
+        "left": 356.5,
+        "top": 460.3,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page2_0_RadioButtonList_0"
+    },
+    "radioButtonList4": {
+      "type": "radio",
+      "label": "sci",
+      "page": 2,
+      "box": {
+        "left": 465.4,
+        "top": 460.3,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page2_0_RadioButtonList_0"
+    },
+    "radioButtonList5": {
+      "type": "radio",
+      "label": "none",
+      "page": 2,
+      "box": {
+        "left": 196.8,
+        "top": 459.5,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page2_0_RadioButtonList_0"
+    },
+    "radioButtonList6": {
+      "type": "radio",
+      "label": "sec",
+      "page": 2,
+      "box": {
+        "left": 263.8,
+        "top": 459.5,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page2_0_RadioButtonList_0"
+    },
+    "chkTravMode0": {
+      "type": "checkbox",
+      "label": "Check for Commercial Air",
+      "page": 2,
+      "box": {
+        "left": 241.6,
+        "top": 422.4,
+        "width": 19.2,
+        "height": 19.2
+      }
+    },
+    "chkDelivType0": {
+      "type": "checkbox",
+      "label": "Check for Pick-Up in Person",
+      "page": 2,
+      "box": {
+        "left": 126.4,
+        "top": 420.8,
+        "width": 19.2,
+        "height": 19.2
+      }
+    },
+    "chkBilletAvail0": {
+      "type": "checkbox",
+      "label": "Check for Billeting available",
+      "page": 2,
+      "box": {
+        "left": 357.6,
+        "top": 420.8,
+        "width": 19.2,
+        "height": 19.2
+      }
+    },
+    "chkMessAvail0": {
+      "type": "checkbox",
+      "label": "Check for Messing available",
+      "page": 2,
+      "box": {
+        "left": 485.6,
+        "top": 420.8,
+        "width": 19.2,
+        "height": 19.2
+      }
+    },
+    "chkReqOrd0": {
+      "type": "checkbox",
+      "label": "Check for Letterhead.",
+      "page": 2,
+      "box": {
+        "left": 35.2,
+        "top": 418.4,
+        "width": 19.2,
+        "height": 19.2
+      }
+    },
+    "chkTravMode1": {
+      "type": "checkbox",
+      "label": "Check for POV",
+      "page": 2,
+      "box": {
+        "left": 241.6,
+        "top": 400.8,
+        "width": 19.2,
+        "height": 19.2
+      }
+    },
+    "chkDelivType1": {
+      "type": "checkbox",
+      "label": "Check for Mail",
+      "page": 2,
+      "box": {
+        "left": 126.4,
+        "top": 399.2,
+        "width": 19.2,
+        "height": 19.2
+      }
+    },
+    "chkBilletAvail1": {
+      "type": "checkbox",
+      "label": "Check for Billeting not available",
+      "page": 2,
+      "box": {
+        "left": 357.6,
+        "top": 399.2,
+        "width": 19.2,
+        "height": 19.2
+      }
+    },
+    "chkMessAvail1": {
+      "type": "checkbox",
+      "label": "Check for Messing not available",
+      "page": 2,
+      "box": {
+        "left": 485.6,
+        "top": 399.2,
+        "width": 19.2,
+        "height": 19.2
+      }
+    },
+    "chkReqOrd1": {
+      "type": "checkbox",
+      "label": "Check for Message.",
+      "page": 2,
+      "box": {
+        "left": 35.2,
+        "top": 397.6,
+        "width": 19.2,
+        "height": 19.2
+      }
+    },
+    "chkTravMode2": {
+      "type": "checkbox",
+      "label": "Check for Government Transportation",
+      "page": 2,
+      "box": {
+        "left": 241.6,
+        "top": 380.8,
+        "width": 19.2,
+        "height": 19.2
+      }
+    },
+    "chkDelivType2": {
+      "type": "checkbox",
+      "label": "Check for Federal Express",
+      "page": 2,
+      "box": {
+        "left": 126.4,
+        "top": 379.2,
+        "width": 19.2,
+        "height": 19.2
+      }
+    },
+    "dailyCost1": {
+      "type": "text",
+      "label": "DailyCost1",
+      "page": 2,
+      "box": {
+        "left": 414.4,
+        "top": 376.8,
+        "width": 60.0,
+        "height": 15.2
+      }
+    },
+    "dailyCost2": {
+      "type": "text",
+      "label": "DailyCost2",
+      "page": 2,
+      "box": {
+        "left": 538.4,
+        "top": 376.8,
+        "width": 49.6,
+        "height": 15.2
+      }
+    },
+    "chkExBagAuth0": {
+      "type": "checkbox",
+      "label": "Check for Excess Baggage authorized",
+      "page": 2,
+      "box": {
+        "left": 364.8,
+        "top": 340.0,
+        "width": 16.8,
+        "height": 16.8
+      }
+    },
+    "chkConfFeeAuth0": {
+      "type": "checkbox",
+      "label": "Check for Conference Fee authorized",
+      "page": 2,
+      "box": {
+        "left": 512.8,
+        "top": 333.6,
+        "width": 16.8,
+        "height": 16.8
+      }
+    },
+    "chkRntCarAuth0": {
+      "type": "checkbox",
+      "label": "Check for Rental Car authorized",
+      "page": 2,
+      "box": {
+        "left": 46.4,
+        "top": 327.2,
+        "width": 16.8,
+        "height": 16.8
+      }
+    },
+    "chkVarAuth0": {
+      "type": "checkbox",
+      "label": "Check for Variation of Itinerary authorized",
+      "page": 2,
+      "box": {
+        "left": 241.6,
+        "top": 327.2,
+        "width": 16.8,
+        "height": 16.8
+      }
+    },
+    "chkDlLodgAuth0": {
+      "type": "checkbox",
+      "label": "Check for Dual Lodging authorized",
+      "page": 2,
+      "box": {
+        "left": 128.0,
+        "top": 326.4,
+        "width": 16.8,
+        "height": 16.8
+      }
+    },
+    "chkExBagAuth1": {
+      "type": "checkbox",
+      "label": "Check for Excess Baggage not authorized",
+      "page": 2,
+      "box": {
+        "left": 364.8,
+        "top": 320.0,
+        "width": 16.8,
+        "height": 16.8
+      }
+    },
+    "chkConfFeeAuth1": {
+      "type": "checkbox",
+      "label": "Check for Conference Fee not authorized",
+      "page": 2,
+      "box": {
+        "left": 512.8,
+        "top": 313.6,
+        "width": 16.8,
+        "height": 16.8
+      }
+    },
+    "chkRntCarAuth1": {
+      "type": "checkbox",
+      "label": "Check for Rental Car not authorized",
+      "page": 2,
+      "box": {
+        "left": 46.4,
+        "top": 307.2,
+        "width": 16.8,
+        "height": 16.8
+      }
+    },
+    "chkVarAuth1": {
+      "type": "checkbox",
+      "label": "Check for Variation of Itinerary not authorized",
+      "page": 2,
+      "box": {
+        "left": 241.6,
+        "top": 307.2,
+        "width": 16.8,
+        "height": 16.8
+      }
+    },
+    "chkDlLodgAuth1": {
+      "type": "checkbox",
+      "label": "Check for Dual Lodging not authorized",
+      "page": 2,
+      "box": {
+        "left": 127.2,
+        "top": 305.6,
+        "width": 16.8,
+        "height": 16.8
+      }
+    },
+    "numPieces": {
+      "type": "text",
+      "label": "Marital Status",
+      "page": 2,
+      "box": {
+        "left": 422.4,
+        "top": 300.9,
+        "width": 55.6,
+        "height": 12.8
+      }
+    },
+    "amount": {
+      "type": "text",
+      "label": "Marital Status",
+      "page": 2,
+      "box": {
+        "left": 536.0,
+        "top": 300.9,
+        "width": 49.0,
+        "height": 12.8
+      }
+    },
+    "depAirport": {
+      "type": "text",
+      "label": "Departing Airport",
+      "page": 2,
+      "box": {
+        "left": 26.4,
+        "top": 273.6,
+        "width": 276.0,
+        "height": 16.0
+      }
+    },
+    "arrAirport": {
+      "type": "text",
+      "label": "Arrival Airport",
+      "page": 2,
+      "box": {
+        "left": 304.0,
+        "top": 273.6,
+        "width": 285.6,
+        "height": 16.0
+      }
+    },
+    "plad1": {
+      "type": "text",
+      "label": "PLAD of MSG Type Orders",
+      "page": 2,
+      "box": {
+        "left": 141.9,
+        "top": 243.9,
+        "width": 193.1,
+        "height": 46.1
+      },
+      "multiline": true
+    },
+    "chkPcsMove0": {
+      "type": "checkbox",
+      "label": "Check for Marine Declines Movement of Household Effects",
+      "page": 2,
+      "box": {
+        "left": 338.4,
+        "top": 224.8,
+        "width": 17.6,
+        "height": 17.6
+      }
+    },
+    "addDeliv": {
+      "type": "text",
+      "label": "Address/Location for Order/Ticket Deliver Pick-Up",
+      "page": 2,
+      "box": {
+        "left": 25.6,
+        "top": 184.5,
+        "width": 310.4,
+        "height": 94.9
+      },
+      "multiline": true
+    },
+    "chkPcsMove1": {
+      "type": "checkbox",
+      "label": "Check for Marine Desires Movement of Household Effects",
+      "page": 2,
+      "box": {
+        "left": 339.2,
+        "top": 180.4,
+        "width": 17.6,
+        "height": 17.6
+      }
+    },
+    "chkPcsMove2": {
+      "type": "checkbox",
+      "label": "Check for Dependents Travel",
+      "page": 2,
+      "box": {
+        "left": 340.8,
+        "top": 137.6,
+        "width": 17.6,
+        "height": 17.6
+      }
+    },
+    "fundSrc": {
+      "type": "text",
+      "label": "Funding Source",
+      "page": 3,
+      "box": {
+        "left": 25.6,
+        "top": 683.2,
+        "width": 208.0,
+        "height": 16.0
+      }
+    },
+    "stdDocNum": {
+      "type": "text",
+      "label": "Standard Document Number",
+      "page": 3,
+      "box": {
+        "left": 235.2,
+        "top": 683.2,
+        "width": 172.8,
+        "height": 16.0
+      }
+    },
+    "travOrdNum": {
+      "type": "text",
+      "label": "Travel Order Number",
+      "page": 3,
+      "box": {
+        "left": 408.8,
+        "top": 683.2,
+        "width": 180.8,
+        "height": 16.0
+      }
+    },
+    "estPayAllow": {
+      "type": "text",
+      "label": "Cost estimate for Pay and Allowances",
+      "page": 3,
+      "box": {
+        "left": 25.6,
+        "top": 643.2,
+        "width": 98.4,
+        "height": 12.8
+      }
+    },
+    "estPerD": {
+      "type": "text",
+      "label": "Cost estimate for Per Diem",
+      "page": 3,
+      "box": {
+        "left": 124.8,
+        "top": 643.2,
+        "width": 68.0,
+        "height": 12.8
+      }
+    },
+    "estGovtTvl": {
+      "type": "text",
+      "label": "Cost estimate for Government Travle",
+      "page": 3,
+      "box": {
+        "left": 194.4,
+        "top": 643.2,
+        "width": 84.8,
+        "height": 12.8
+      }
+    },
+    "estOth": {
+      "type": "text",
+      "label": "Cost estimate for Other",
+      "page": 3,
+      "box": {
+        "left": 280.8,
+        "top": 643.2,
+        "width": 77.6,
+        "height": 12.8
+      }
+    },
+    "estMisc": {
+      "type": "text",
+      "label": "Cost estimate for Miscellaneous",
+      "page": 3,
+      "box": {
+        "left": 360.0,
+        "top": 643.2,
+        "width": 72.0,
+        "height": 12.8
+      }
+    },
+    "estTotCost": {
+      "type": "text",
+      "label": "Total Cost Estimate",
+      "page": 3,
+      "box": {
+        "left": 433.6,
+        "top": 643.2,
+        "width": 72.8,
+        "height": 12.8
+      }
+    },
+    "advAuth": {
+      "type": "text",
+      "label": "Advance Authorization",
+      "page": 3,
+      "box": {
+        "left": 508.9,
+        "top": 642.8,
+        "width": 81.6,
+        "height": 12.8
+      }
+    },
+    "specInst": {
+      "type": "text",
+      "label": "Special Instructions.",
+      "page": 3,
+      "box": {
+        "left": 60.0,
+        "top": 619.1,
+        "width": 528.8,
+        "height": 37.9
+      },
+      "multiline": true
+    },
+    "datePrevFrom0": {
+      "type": "text",
+      "label": "Enter starting  date using format 27 Jun 2002. Line 1.",
+      "page": 3,
+      "box": {
+        "left": 25.6,
+        "top": 538.4,
+        "width": 68.8,
+        "height": 12.8
+      }
+    },
+    "datePrevTo0": {
+      "type": "text",
+      "label": "Enter ending date using format 27 Jun 2002. Line 1.",
+      "page": 3,
+      "box": {
+        "left": 96.0,
+        "top": 538.4,
+        "width": 64.8,
+        "height": 12.8
+      }
+    },
+    "totDays0": {
+      "type": "text",
+      "label": "Total Days. Line 1.",
+      "page": 3,
+      "box": {
+        "left": 161.6,
+        "top": 538.4,
+        "width": 69.6,
+        "height": 12.8
+      }
+    },
+    "suppComm0": {
+      "type": "text",
+      "label": "Supported Command. Line 1.",
+      "page": 3,
+      "box": {
+        "left": 232.8,
+        "top": 538.4,
+        "width": 170.4,
+        "height": 12.8
+      }
+    },
+    "dutyPerf0": {
+      "type": "text",
+      "label": "Duty Performed. Line 1.",
+      "page": 3,
+      "box": {
+        "left": 404.8,
+        "top": 538.4,
+        "width": 184.8,
+        "height": 12.8
+      }
+    },
+    "datePrevFrom1": {
+      "type": "text",
+      "label": "Enter starting  date using format 27 Jun 2002. Line 2.",
+      "page": 3,
+      "box": {
+        "left": 25.6,
+        "top": 520.8,
+        "width": 68.8,
+        "height": 12.8
+      }
+    },
+    "datePrevTo1": {
+      "type": "text",
+      "label": "Enter ending date using format 27 Jun 2002. Line 2.",
+      "page": 3,
+      "box": {
+        "left": 96.0,
+        "top": 520.8,
+        "width": 64.8,
+        "height": 12.8
+      }
+    },
+    "totDays1": {
+      "type": "text",
+      "label": "Total Days. Line 2.",
+      "page": 3,
+      "box": {
+        "left": 161.6,
+        "top": 520.8,
+        "width": 69.6,
+        "height": 12.8
+      }
+    },
+    "suppComm1": {
+      "type": "text",
+      "label": "Supported Command. Line 2.",
+      "page": 3,
+      "box": {
+        "left": 232.8,
+        "top": 520.8,
+        "width": 170.4,
+        "height": 12.8
+      }
+    },
+    "dutyPerf1": {
+      "type": "text",
+      "label": "Duty Performed. Line 2.",
+      "page": 3,
+      "box": {
+        "left": 406.0,
+        "top": 520.3,
+        "width": 184.8,
+        "height": 12.8
+      }
+    },
+    "justif1": {
+      "type": "text",
+      "label": "Justification and brief description of duty to be performed this period.",
+      "page": 3,
+      "box": {
+        "left": 25.6,
+        "top": 496.2,
+        "width": 564.0,
+        "height": 104.5
+      },
+      "multiline": true
+    },
+    "textField1": {
+      "type": "text",
+      "label": "TextField1",
+      "page": 3,
+      "box": {
+        "left": 25.7,
+        "top": 380.5,
+        "width": 205.5,
+        "height": 34.4
+      },
+      "multiline": true
+    },
+    "sigRA": {
+      "type": "signature",
+      "label": "SigRA",
+      "page": 3,
+      "box": {
+        "left": 232.1,
+        "top": 379.1,
+        "width": 157.1,
+        "height": 33.4
+      }
+    },
+    "dateSigReqAuth": {
+      "type": "text",
+      "label": "Enter signature date using format 2002 06 27.",
+      "page": 3,
+      "box": {
+        "left": 392.0,
+        "top": 378.7,
+        "width": 197.6,
+        "height": 33.9
+      },
+      "multiline": true
+    },
+    "radioButtonList7": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 38.4,
+        "top": 319.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "topmostSubform_0_Page3_0_RadioButtonList_0"
+    },
+    "radioButtonList8": {
+      "type": "radio",
+      "label": "3",
+      "page": 3,
+      "box": {
+        "left": 461.2,
+        "top": 319.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "topmostSubform_0_Page3_0_RadioButtonList_0"
+    },
+    "radioButtonList9": {
+      "type": "radio",
+      "label": "2",
+      "page": 3,
+      "box": {
+        "left": 224.6,
+        "top": 319.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "topmostSubform_0_Page3_0_RadioButtonList_0"
+    },
+    "textField2": {
+      "type": "text",
+      "label": "TextField2",
+      "page": 3,
+      "box": {
+        "left": 27.2,
+        "top": 283.7,
+        "width": 561.6,
+        "height": 146.2
+      },
+      "multiline": true
+    },
+    "sigAA": {
+      "type": "signature",
+      "label": "SigAA",
+      "page": 3,
+      "box": {
+        "left": 321.7,
+        "top": 125.6,
+        "width": 135.4,
+        "height": 35.1
+      }
+    },
+    "textField3": {
+      "type": "text",
+      "label": "TextField3",
+      "page": 3,
+      "box": {
+        "left": 26.7,
+        "top": 125.2,
+        "width": 291.5,
+        "height": 34.1
+      },
+      "multiline": true
+    },
+    "dateTimeField1": {
+      "type": "text",
+      "label": "DateTimeField1",
+      "page": 3,
+      "box": {
+        "left": 460.6,
+        "top": 124.4,
+        "width": 129.0,
+        "height": 33.6
+      },
+      "multiline": true
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 21.2,
+      "editor": "grid",
+      "columns": {
+        "chkOrdElig": {
+          "type": "checkbox",
+          "label": "Check for ADSW",
+          "page": 1,
+          "box": {
+            "left": 52.3,
+            "top": 143.2,
+            "width": 19.0,
+            "height": 19.0
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 3,
+      "count": 3,
+      "rowStride": 11.6,
+      "editor": "grid",
+      "columns": {
+        "apprAcrn": {
+          "type": "text",
+          "label": "ACRN. Line 1.",
+          "page": 3,
+          "box": {
+            "left": 25.6,
+            "top": 727.2,
+            "width": 45.6,
+            "height": 10.4
+          }
+        },
+        "apprAppn": {
+          "type": "text",
+          "label": "APPN/SH. Line 1.",
+          "page": 3,
+          "box": {
+            "left": 72.8,
+            "top": 727.2,
+            "width": 142.4,
+            "height": 10.4
+          }
+        },
+        "apprObj": {
+          "type": "text",
+          "label": "OBJ/CL. Line 1.",
+          "page": 3,
+          "box": {
+            "left": 216.8,
+            "top": 727.2,
+            "width": 44.0,
+            "height": 10.4
+          }
+        },
+        "apprBcn": {
+          "type": "text",
+          "label": "BCN. Line 1.",
+          "page": 3,
+          "box": {
+            "left": 261.6,
+            "top": 727.2,
+            "width": 44.0,
+            "height": 10.4
+          }
+        },
+        "apprSa": {
+          "type": "text",
+          "label": "S/A. Line 1.",
+          "page": 3,
+          "box": {
+            "left": 307.2,
+            "top": 727.2,
+            "width": 44.0,
+            "height": 10.4
+          }
+        },
+        "apprAaa": {
+          "type": "text",
+          "label": "AAA. Line 1.",
+          "page": 3,
+          "box": {
+            "left": 352.8,
+            "top": 727.2,
+            "width": 43.2,
+            "height": 10.4
+          }
+        },
+        "apprTt": {
+          "type": "text",
+          "label": "TT. Line 1.",
+          "page": 3,
+          "box": {
+            "left": 397.6,
+            "top": 727.2,
+            "width": 44.0,
+            "height": 10.4
+          }
+        },
+        "apprPaan": {
+          "type": "text",
+          "label": "PAAN. Line 1.",
+          "page": 3,
+          "box": {
+            "left": 443.2,
+            "top": 727.2,
+            "width": 44.0,
+            "height": 10.4
+          }
+        },
+        "apprCostCd": {
+          "type": "text",
+          "label": "Costcode. Line 1.",
+          "page": 3,
+          "box": {
+            "left": 488.0,
+            "top": 727.2,
+            "width": 101.6,
+            "height": 10.4
+          }
+        }
+      }
+    }
+  }
+}

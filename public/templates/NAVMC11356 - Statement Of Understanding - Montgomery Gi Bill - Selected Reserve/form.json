@@ -1,0 +1,145 @@
+{
+  "id": "navmc11356",
+  "label": "NAVMC 11356 - Statement Of Understanding - Montgomery Gi Bill - Selected Reserve",
+  "directory": "NAVMC11356 - Statement Of Understanding - Montgomery Gi Bill - Selected Reserve",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "sSNMembr",
+        "nameMembr",
+        "addrSMCR",
+        "nameB1",
+        "b2d"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "sigMem",
+        "dateSigMembr",
+        "nameGrdWitnss",
+        "sigWit",
+        "dateSigWitnss"
+      ]
+    }
+  ],
+  "fields": {
+    "sSNMembr": {
+      "type": "text",
+      "label": "SSNMembr",
+      "page": 1,
+      "box": {
+        "left": 479.2,
+        "top": 542.2,
+        "width": 106.8,
+        "height": 16.4
+      }
+    },
+    "nameMembr": {
+      "type": "text",
+      "label": "Enter the members last name followed by first name and middle initial.",
+      "page": 1,
+      "box": {
+        "left": 25.5,
+        "top": 541.7,
+        "width": 452.9,
+        "height": 15.0
+      }
+    },
+    "addrSMCR": {
+      "type": "text",
+      "label": "Enter the address of members S M C R.",
+      "page": 1,
+      "box": {
+        "left": 26.1,
+        "top": 516.7,
+        "width": 558.8,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "nameB1": {
+      "type": "text",
+      "label": "Enter name of enlisted marine.",
+      "page": 1,
+      "box": {
+        "left": 50.3,
+        "top": 458.8,
+        "width": 226.8,
+        "height": 15.0
+      }
+    },
+    "b2d": {
+      "type": "text",
+      "label": "Enter agreed date marine will remain a member of reserves to qualify for M G I B. S R benefits.",
+      "page": 1,
+      "box": {
+        "left": 232.0,
+        "top": 267.8,
+        "width": 136.6,
+        "height": 15.0
+      }
+    },
+    "sigMem": {
+      "type": "signature",
+      "label": "SigMem",
+      "page": 2,
+      "box": {
+        "left": 27.2,
+        "top": 271.4,
+        "width": 331.9,
+        "height": 38.6
+      }
+    },
+    "dateSigMembr": {
+      "type": "text",
+      "label": "Enter the date of members signature using format 2 Dec 2002.",
+      "page": 2,
+      "box": {
+        "left": 360.8,
+        "top": 252.3,
+        "width": 223.5,
+        "height": 19.8
+      }
+    },
+    "nameGrdWitnss": {
+      "type": "text",
+      "label": "Enter the name and grade of witnessing official.",
+      "page": 2,
+      "box": {
+        "left": 27.5,
+        "top": 221.6,
+        "width": 558.2,
+        "height": 45.5
+      },
+      "multiline": true
+    },
+    "sigWit": {
+      "type": "signature",
+      "label": "SigWit",
+      "page": 2,
+      "box": {
+        "left": 27.2,
+        "top": 164.2,
+        "width": 331.9,
+        "height": 48.4
+      }
+    },
+    "dateSigWitnss": {
+      "type": "text",
+      "label": "Enter the date of witness signature.",
+      "page": 2,
+      "box": {
+        "left": 361.4,
+        "top": 130.6,
+        "width": 223.5,
+        "height": 15.0
+      }
+    }
+  }
+}

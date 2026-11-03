@@ -1,0 +1,1280 @@
+{
+  "id": "navmc11754",
+  "label": "NAVMC11754 - Co-Psr Oic Screening-Interview Guide For The Active Reserve (ar) Program",
+  "directory": "NAVMC11754 - Co-Psr Oic Screening-Interview Guide For The Active Reserve (ar) Program",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf",
+    "page5.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "mos",
+        "mCRank",
+        "intQualA",
+        "intNotQualA",
+        "intQualB",
+        "intNotQuaB",
+        "intQualC",
+        "noFamilyMbrs",
+        "intNotQuaC",
+        "intQualD",
+        "intNotQuaD",
+        "intQualE",
+        "intNotQualE"
+      ],
+      "editor": "checklist"
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "actDutySpouse",
+        "actDutyRank",
+        "intQualF",
+        "intNotQualF",
+        "actDutyRank2",
+        "actDutyBrSvc",
+        "dateTourBegan",
+        "easECC",
+        "actDutyMOS",
+        "activeSvc",
+        "recertQualG",
+        "jointYes",
+        "jointNo",
+        "spouseSSN",
+        "recertNotG",
+        "recertQualH",
+        "recertNotH",
+        "financeYes",
+        "financeNo",
+        "intQualI",
+        "intNotQualI",
+        "intQualJ",
+        "intNotQualJ",
+        "intQualK",
+        "intNotQualK",
+        "intQualJL",
+        "intNotQualL",
+        "intQualM",
+        "intNotQualKM"
+      ],
+      "editor": "checklist"
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "recertQualN",
+        "dentalDate",
+        "recertNotN",
+        "medOfcrD",
+        "medOfSignD",
+        "dentalRankD",
+        "dentalfDateD",
+        "lastPhysical",
+        "intQualR",
+        "intNotQualR",
+        "datePHA",
+        "dateHIV",
+        "recertQualO",
+        "eASSvc",
+        "recertNotO",
+        "height",
+        "recertQualP",
+        "weight",
+        "recertNotP",
+        "weight2",
+        "recentPFT",
+        "intQualQ",
+        "intNotQualQ",
+        "recentCFT"
+      ]
+    },
+    {
+      "title": "Page 4",
+      "fields": [
+        "intQualS",
+        "intNotQualS",
+        "intQualT",
+        "intNotQualT",
+        "nAQualT",
+        "intQualU",
+        "intNotQualU",
+        "intQualV",
+        "intNotQualV",
+        "intQualW",
+        "intNotQualW",
+        "intQualX",
+        "intNotQualX",
+        "intQualY",
+        "intNotQualY",
+        "textField1",
+        "iniCertDate",
+        "initalName",
+        "mCRank2"
+      ],
+      "editor": "checklist"
+    },
+    {
+      "title": "Page 5",
+      "fields": [
+        "waiver1",
+        "waiver2",
+        "waiver3",
+        "waiver4",
+        "cOSig",
+        "notMeet",
+        "bNSgtMaj",
+        "bNSgtMaj2",
+        "bNSqDateA",
+        "cOPSRName",
+        "cOPSRSign",
+        "cOSignC"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "NAME",
+      "page": 1,
+      "box": {
+        "left": 155.9,
+        "top": 429.8,
+        "width": 310.0,
+        "height": 19.3
+      }
+    },
+    "mos": {
+      "type": "text",
+      "label": "MOS",
+      "page": 1,
+      "box": {
+        "left": 470.2,
+        "top": 429.8,
+        "width": 103.7,
+        "height": 19.3
+      }
+    },
+    "mCRank": {
+      "type": "choice",
+      "label": "RANK",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 429.2,
+        "width": 111.3,
+        "height": 18.3
+      },
+      "options": [
+        "PFC",
+        "LCpl",
+        "Cpl",
+        "Sgt",
+        "SSgt",
+        "GySgt",
+        "MSgt",
+        "1stSgt",
+        "MGySgt",
+        "SgtMaj",
+        "SMMC",
+        "WO",
+        "Gunner",
+        "CWO2",
+        "CWO3",
+        "CWO4",
+        "CWO5",
+        "2ndLt",
+        "1stLt",
+        "Capt",
+        "Maj",
+        "LtCol",
+        "Col",
+        "BGen",
+        "MajGen",
+        "LtGen",
+        "Gen"
+      ]
+    },
+    "intQualA": {
+      "type": "checkbox",
+      "label": "QUAL",
+      "page": 1,
+      "box": {
+        "left": 497.9,
+        "top": 363.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "intNotQualA": {
+      "type": "checkbox",
+      "label": "NOT QUAL",
+      "page": 1,
+      "box": {
+        "left": 497.9,
+        "top": 345.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "intQualB": {
+      "type": "checkbox",
+      "label": "QUAL",
+      "page": 1,
+      "box": {
+        "left": 497.9,
+        "top": 305.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "intNotQuaB": {
+      "type": "checkbox",
+      "label": "NOT QUAL",
+      "page": 1,
+      "box": {
+        "left": 497.9,
+        "top": 287.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "intQualC": {
+      "type": "checkbox",
+      "label": "QUAL",
+      "page": 1,
+      "box": {
+        "left": 497.9,
+        "top": 234.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "noFamilyMbrs": {
+      "type": "text",
+      "label": "NUMBER OF FAMILY MEMBERS:",
+      "page": 1,
+      "box": {
+        "left": 89.1,
+        "top": 225.8,
+        "width": 46.0,
+        "height": 32.7
+      },
+      "multiline": true
+    },
+    "intNotQuaC": {
+      "type": "checkbox",
+      "label": "NOT QUAL",
+      "page": 1,
+      "box": {
+        "left": 497.9,
+        "top": 216.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "intQualD": {
+      "type": "checkbox",
+      "label": "QUAL",
+      "page": 1,
+      "box": {
+        "left": 497.9,
+        "top": 161.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "intNotQuaD": {
+      "type": "checkbox",
+      "label": "NOT QUAL",
+      "page": 1,
+      "box": {
+        "left": 497.9,
+        "top": 143.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "intQualE": {
+      "type": "checkbox",
+      "label": "QUAL",
+      "page": 1,
+      "box": {
+        "left": 498.2,
+        "top": 103.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "intNotQualE": {
+      "type": "checkbox",
+      "label": "NOT QUAL",
+      "page": 1,
+      "box": {
+        "left": 498.2,
+        "top": 85.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "actDutySpouse": {
+      "type": "text",
+      "label": "Spouse Name:",
+      "page": 2,
+      "box": {
+        "left": 199.6,
+        "top": 685.5,
+        "width": 166.7,
+        "height": 18.5
+      }
+    },
+    "actDutyRank": {
+      "type": "text",
+      "label": "Rank:",
+      "page": 2,
+      "box": {
+        "left": 397.0,
+        "top": 685.5,
+        "width": 59.8,
+        "height": 18.5
+      }
+    },
+    "intQualF": {
+      "type": "checkbox",
+      "label": "QUAL",
+      "page": 2,
+      "box": {
+        "left": 497.9,
+        "top": 683.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "intNotQualF": {
+      "type": "checkbox",
+      "label": "NOT QUAL",
+      "page": 2,
+      "box": {
+        "left": 497.9,
+        "top": 665.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "actDutyRank2": {
+      "type": "text",
+      "label": "Current Duty Station:",
+      "page": 2,
+      "box": {
+        "left": 311.1,
+        "top": 663.8,
+        "width": 154.8,
+        "height": 18.5
+      }
+    },
+    "actDutyBrSvc": {
+      "type": "text",
+      "label": "Branch of Service:",
+      "page": 2,
+      "box": {
+        "left": 205.4,
+        "top": 663.4,
+        "width": 53.5,
+        "height": 18.5
+      }
+    },
+    "dateTourBegan": {
+      "type": "text",
+      "label": "Date Current Tour Began:",
+      "page": 2,
+      "box": {
+        "left": 215.4,
+        "top": 641.3,
+        "width": 61.4,
+        "height": 18.5
+      }
+    },
+    "easECC": {
+      "type": "text",
+      "label": "EAS/ECC:",
+      "page": 2,
+      "box": {
+        "left": 321.7,
+        "top": 641.3,
+        "width": 72.1,
+        "height": 18.5
+      }
+    },
+    "actDutyMOS": {
+      "type": "text",
+      "label": "MOS:",
+      "page": 2,
+      "box": {
+        "left": 422.6,
+        "top": 641.3,
+        "width": 42.8,
+        "height": 18.5
+      }
+    },
+    "activeSvc": {
+      "type": "text",
+      "label": "Active duty spouse service ",
+      "page": 2,
+      "box": {
+        "left": 251.7,
+        "top": 582.8,
+        "width": 115.2,
+        "height": 14.4
+      }
+    },
+    "recertQualG": {
+      "type": "checkbox",
+      "label": "QUAL",
+      "page": 2,
+      "box": {
+        "left": 488.9,
+        "top": 581.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "jointYes": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 2,
+      "box": {
+        "left": 47.9,
+        "top": 568.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "jointNo": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 92.9,
+        "top": 568.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "spouseSSN": {
+      "type": "text",
+      "label": "Spouse SSN/MOS",
+      "page": 2,
+      "box": {
+        "left": 251.7,
+        "top": 564.8,
+        "width": 115.2,
+        "height": 14.4
+      }
+    },
+    "recertNotG": {
+      "type": "checkbox",
+      "label": "NOT QUAL",
+      "page": 2,
+      "box": {
+        "left": 488.9,
+        "top": 563.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "recertQualH": {
+      "type": "checkbox",
+      "label": "QUAL",
+      "page": 2,
+      "box": {
+        "left": 488.9,
+        "top": 518.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "recertNotH": {
+      "type": "checkbox",
+      "label": "NOT QUAL",
+      "page": 2,
+      "box": {
+        "left": 488.9,
+        "top": 500.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "financeYes": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 2,
+      "box": {
+        "left": 47.9,
+        "top": 491.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "financeNo": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 92.9,
+        "top": 491.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "intQualI": {
+      "type": "checkbox",
+      "label": "QUAL",
+      "page": 2,
+      "box": {
+        "left": 497.9,
+        "top": 437.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "intNotQualI": {
+      "type": "checkbox",
+      "label": "NOT QUAL",
+      "page": 2,
+      "box": {
+        "left": 497.9,
+        "top": 419.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "intQualJ": {
+      "type": "checkbox",
+      "label": "QUAL",
+      "page": 2,
+      "box": {
+        "left": 497.9,
+        "top": 383.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "intNotQualJ": {
+      "type": "checkbox",
+      "label": "NOT QUAL",
+      "page": 2,
+      "box": {
+        "left": 497.9,
+        "top": 365.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "intQualK": {
+      "type": "checkbox",
+      "label": "QUAL",
+      "page": 2,
+      "box": {
+        "left": 497.9,
+        "top": 329.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "intNotQualK": {
+      "type": "checkbox",
+      "label": "NOT QUAL",
+      "page": 2,
+      "box": {
+        "left": 497.9,
+        "top": 311.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "intQualJL": {
+      "type": "checkbox",
+      "label": "QUAL",
+      "page": 2,
+      "box": {
+        "left": 497.9,
+        "top": 275.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "intNotQualL": {
+      "type": "checkbox",
+      "label": "NOT QUAL",
+      "page": 2,
+      "box": {
+        "left": 497.9,
+        "top": 257.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "intQualM": {
+      "type": "checkbox",
+      "label": "QUAL",
+      "page": 2,
+      "box": {
+        "left": 497.9,
+        "top": 221.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "intNotQualKM": {
+      "type": "checkbox",
+      "label": "NOT QUAL",
+      "page": 2,
+      "box": {
+        "left": 497.9,
+        "top": 203.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "recertQualN": {
+      "type": "checkbox",
+      "label": "QUAL",
+      "page": 3,
+      "box": {
+        "left": 490.1,
+        "top": 662.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "dentalDate": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 3,
+      "box": {
+        "left": 47.8,
+        "top": 654.2,
+        "width": 75.0,
+        "height": 12.3
+      }
+    },
+    "recertNotN": {
+      "type": "checkbox",
+      "label": "NOT QUAL",
+      "page": 3,
+      "box": {
+        "left": 490.1,
+        "top": 644.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "medOfcrD": {
+      "type": "text",
+      "label": "Dental Officer\u2029(PRINTED NAME)",
+      "page": 3,
+      "box": {
+        "left": 182.2,
+        "top": 627.8,
+        "width": 265.7,
+        "height": 14.4
+      }
+    },
+    "medOfSignD": {
+      "type": "text",
+      "label": "MedOfSignD",
+      "page": 3,
+      "box": {
+        "left": 182.2,
+        "top": 592.2,
+        "width": 265.7,
+        "height": 16.3
+      }
+    },
+    "dentalRankD": {
+      "type": "text",
+      "label": "Rank",
+      "page": 3,
+      "box": {
+        "left": 182.2,
+        "top": 555.8,
+        "width": 103.3,
+        "height": 20.5
+      }
+    },
+    "dentalfDateD": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 3,
+      "box": {
+        "left": 362.8,
+        "top": 555.2,
+        "width": 82.1,
+        "height": 19.9
+      }
+    },
+    "lastPhysical": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 3,
+      "box": {
+        "left": 48.3,
+        "top": 456.8,
+        "width": 83.9,
+        "height": 13.0
+      }
+    },
+    "intQualR": {
+      "type": "checkbox",
+      "label": "QUAL",
+      "page": 3,
+      "box": {
+        "left": 497.9,
+        "top": 455.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "intNotQualR": {
+      "type": "checkbox",
+      "label": "NOT QUAL",
+      "page": 3,
+      "box": {
+        "left": 497.9,
+        "top": 437.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "datePHA": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 3,
+      "box": {
+        "left": 47.8,
+        "top": 428.7,
+        "width": 83.9,
+        "height": 11.8
+      }
+    },
+    "dateHIV": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 3,
+      "box": {
+        "left": 47.8,
+        "top": 399.5,
+        "width": 83.9,
+        "height": 11.5
+      }
+    },
+    "recertQualO": {
+      "type": "checkbox",
+      "label": "QUAL",
+      "page": 3,
+      "box": {
+        "left": 488.9,
+        "top": 365.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "eASSvc": {
+      "type": "text",
+      "label": "RECC",
+      "page": 3,
+      "box": {
+        "left": 71.2,
+        "top": 354.0,
+        "width": 70.7,
+        "height": 18.9
+      }
+    },
+    "recertNotO": {
+      "type": "checkbox",
+      "label": "NOT QUAL",
+      "page": 3,
+      "box": {
+        "left": 488.9,
+        "top": 347.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "height": {
+      "type": "text",
+      "label": "HT:  ",
+      "page": 3,
+      "box": {
+        "left": 69.7,
+        "top": 294.8,
+        "width": 72.2,
+        "height": 14.4
+      }
+    },
+    "recertQualP": {
+      "type": "checkbox",
+      "label": "QUAL",
+      "page": 3,
+      "box": {
+        "left": 488.9,
+        "top": 284.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "weight": {
+      "type": "text",
+      "label": "WT:",
+      "page": 3,
+      "box": {
+        "left": 69.7,
+        "top": 276.8,
+        "width": 72.2,
+        "height": 14.4
+      }
+    },
+    "recertNotP": {
+      "type": "checkbox",
+      "label": "NOT QUAL",
+      "page": 3,
+      "box": {
+        "left": 488.9,
+        "top": 266.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "weight2": {
+      "type": "text",
+      "label": "BODY FAT:",
+      "page": 3,
+      "box": {
+        "left": 92.7,
+        "top": 246.0,
+        "width": 49.2,
+        "height": 14.4
+      }
+    },
+    "recentPFT": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 3,
+      "box": {
+        "left": 48.6,
+        "top": 204.8,
+        "width": 94.1,
+        "height": 13.3
+      }
+    },
+    "intQualQ": {
+      "type": "checkbox",
+      "label": "QUAL",
+      "page": 3,
+      "box": {
+        "left": 497.9,
+        "top": 203.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "intNotQualQ": {
+      "type": "checkbox",
+      "label": "NOT QUAL",
+      "page": 3,
+      "box": {
+        "left": 497.9,
+        "top": 185.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "recentCFT": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 3,
+      "box": {
+        "left": 48.3,
+        "top": 171.9,
+        "width": 93.0,
+        "height": 15.2
+      }
+    },
+    "intQualS": {
+      "type": "checkbox",
+      "label": "QUAL",
+      "page": 4,
+      "box": {
+        "left": 497.9,
+        "top": 680.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "intNotQualS": {
+      "type": "checkbox",
+      "label": "NOT QUAL",
+      "page": 4,
+      "box": {
+        "left": 497.9,
+        "top": 662.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "intQualT": {
+      "type": "checkbox",
+      "label": "QUAL",
+      "page": 4,
+      "box": {
+        "left": 497.9,
+        "top": 626.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "intNotQualT": {
+      "type": "checkbox",
+      "label": "NOT QUAL",
+      "page": 4,
+      "box": {
+        "left": 497.9,
+        "top": 608.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "nAQualT": {
+      "type": "checkbox",
+      "label": "N/A",
+      "page": 4,
+      "box": {
+        "left": 497.9,
+        "top": 590.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "intQualU": {
+      "type": "checkbox",
+      "label": "QUAL",
+      "page": 4,
+      "box": {
+        "left": 497.9,
+        "top": 554.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "intNotQualU": {
+      "type": "checkbox",
+      "label": "NOT QUAL",
+      "page": 4,
+      "box": {
+        "left": 497.9,
+        "top": 536.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "intQualV": {
+      "type": "checkbox",
+      "label": "QUAL",
+      "page": 4,
+      "box": {
+        "left": 497.9,
+        "top": 500.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "intNotQualV": {
+      "type": "checkbox",
+      "label": "NOT QUAL",
+      "page": 4,
+      "box": {
+        "left": 497.9,
+        "top": 482.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "intQualW": {
+      "type": "checkbox",
+      "label": "QUAL",
+      "page": 4,
+      "box": {
+        "left": 497.9,
+        "top": 446.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "intNotQualW": {
+      "type": "checkbox",
+      "label": "NOT QUAL",
+      "page": 4,
+      "box": {
+        "left": 497.9,
+        "top": 428.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "intQualX": {
+      "type": "checkbox",
+      "label": "QUAL",
+      "page": 4,
+      "box": {
+        "left": 497.9,
+        "top": 392.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "intNotQualX": {
+      "type": "checkbox",
+      "label": "NOT QUAL",
+      "page": 4,
+      "box": {
+        "left": 497.9,
+        "top": 374.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "intQualY": {
+      "type": "checkbox",
+      "label": "QUAL",
+      "page": 4,
+      "box": {
+        "left": 497.9,
+        "top": 338.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "intNotQualY": {
+      "type": "checkbox",
+      "label": "NOT QUAL",
+      "page": 4,
+      "box": {
+        "left": 497.9,
+        "top": 320.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "textField1": {
+      "type": "text",
+      "label": "SNM Signature",
+      "page": 4,
+      "box": {
+        "left": 137.2,
+        "top": 229.5,
+        "width": 328.7,
+        "height": 16.9
+      }
+    },
+    "iniCertDate": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 4,
+      "box": {
+        "left": 470.8,
+        "top": 228.8,
+        "width": 102.3,
+        "height": 16.3
+      }
+    },
+    "initalName": {
+      "type": "text",
+      "label": "NAME",
+      "page": 4,
+      "box": {
+        "left": 128.2,
+        "top": 193.5,
+        "width": 445.7,
+        "height": 19.4
+      }
+    },
+    "mCRank2": {
+      "type": "choice",
+      "label": "Rank:",
+      "page": 4,
+      "box": {
+        "left": 38.8,
+        "top": 192.8,
+        "width": 84.3,
+        "height": 22.2
+      },
+      "options": [
+        "PFC",
+        "LCpl",
+        "Cpl",
+        "Sgt",
+        "SSgt",
+        "GySgt",
+        "MSgt",
+        "1stSgt",
+        "MGySgt",
+        "SgtMaj",
+        "SMMC",
+        "WO",
+        "Gunner",
+        "CWO2",
+        "CWO3",
+        "CWO4",
+        "CWO5",
+        "2ndLt",
+        "1stLt",
+        "Capt",
+        "Maj",
+        "LtCol",
+        "Col",
+        "BGen",
+        "MajGen",
+        "LtGen",
+        "Gen"
+      ]
+    },
+    "waiver1": {
+      "type": "text",
+      "label": "Waiver1",
+      "page": 5,
+      "box": {
+        "left": 67.9,
+        "top": 709.6,
+        "width": 506.2,
+        "height": 17.3
+      }
+    },
+    "waiver2": {
+      "type": "text",
+      "label": "Waiver2",
+      "page": 5,
+      "box": {
+        "left": 67.9,
+        "top": 689.4,
+        "width": 506.2,
+        "height": 16.1
+      }
+    },
+    "waiver3": {
+      "type": "text",
+      "label": "Waiver3",
+      "page": 5,
+      "box": {
+        "left": 67.9,
+        "top": 670.5,
+        "width": 506.2,
+        "height": 17.3
+      }
+    },
+    "waiver4": {
+      "type": "text",
+      "label": "Waiver4",
+      "page": 5,
+      "box": {
+        "left": 67.9,
+        "top": 650.3,
+        "width": 506.2,
+        "height": 19.1
+      }
+    },
+    "cOSig": {
+      "type": "text",
+      "label": "Grade                            First Name                               MI                   Last Name                                                                                           MOS",
+      "page": 5,
+      "box": {
+        "left": 38.2,
+        "top": 582.8,
+        "width": 535.7,
+        "height": 18.9
+      }
+    },
+    "notMeet": {
+      "type": "text",
+      "label": "This Marine does/does not meet the requirements listed in this checklist.  (If the Marines does not meet the requirements, explain below.)",
+      "page": 5,
+      "box": {
+        "left": 38.2,
+        "top": 533.7,
+        "width": 535.7,
+        "height": 244.3
+      },
+      "multiline": true
+    },
+    "bNSgtMaj": {
+      "type": "text",
+      "label": "Battalion/Squadron SgtMaj or PSR Area SNCOIC  Printed Name/Unit",
+      "page": 5,
+      "box": {
+        "left": 38.2,
+        "top": 285.8,
+        "width": 535.7,
+        "height": 18.4
+      }
+    },
+    "bNSgtMaj2": {
+      "type": "text",
+      "label": "Battalion/Squadron SgtMaj or PSR Area SNCOIC Signature",
+      "page": 5,
+      "box": {
+        "left": 38.2,
+        "top": 249.8,
+        "width": 445.7,
+        "height": 18.4
+      }
+    },
+    "bNSqDateA": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 5,
+      "box": {
+        "left": 488.8,
+        "top": 249.2,
+        "width": 84.0,
+        "height": 17.8
+      }
+    },
+    "cOPSRName": {
+      "type": "text",
+      "label": "Commanding Officer's or PSR OIC's Printed Name/Unit",
+      "page": 5,
+      "box": {
+        "left": 38.2,
+        "top": 213.8,
+        "width": 535.7,
+        "height": 18.4
+      }
+    },
+    "cOPSRSign": {
+      "type": "text",
+      "label": "Commanding Officer's or PSR OIC's Signature",
+      "page": 5,
+      "box": {
+        "left": 38.2,
+        "top": 177.8,
+        "width": 445.7,
+        "height": 18.4
+      }
+    },
+    "cOSignC": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 5,
+      "box": {
+        "left": 488.8,
+        "top": 177.2,
+        "width": 84.3,
+        "height": 17.8
+      }
+    }
+  }
+}

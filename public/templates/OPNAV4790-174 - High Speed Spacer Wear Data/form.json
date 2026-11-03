@@ -1,0 +1,714 @@
+{
+  "id": "opnav4790174",
+  "label": "OPNAV4790-174 - High Speed Spacer Wear Data",
+  "directory": "OPNAV4790-174 - High Speed Spacer Wear Data",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "engineno",
+        "dateTimeField1",
+        "jsn",
+        "hitno",
+        "hitssince",
+        "fb1",
+        "fb2",
+        "fb3",
+        "fb4",
+        "fd1",
+        "fd2",
+        "fd3",
+        "fd4",
+        "ff1",
+        "ff2",
+        "ff3",
+        "ff4",
+        "ft1",
+        "ft2",
+        "ft3",
+        "ft4",
+        "fw1",
+        "fw2",
+        "fw3",
+        "fw4",
+        "fl1",
+        "fl2",
+        "fl3",
+        "fl4",
+        "cb1",
+        "cb2",
+        "cb3",
+        "cb4",
+        "cd1",
+        "cd2",
+        "cd3",
+        "cd4",
+        "cf1",
+        "cf2",
+        "cf3",
+        "cf4",
+        "ct1",
+        "ct2",
+        "ct3",
+        "ct4",
+        "cw1",
+        "cw2",
+        "cw3",
+        "cw4",
+        "cl1",
+        "cl2",
+        "cl3",
+        "cl4",
+        "remarks",
+        "maintman",
+        "aglpocpo",
+        "qainspector",
+        "maintcpo"
+      ]
+    }
+  ],
+  "fields": {
+    "engineno": {
+      "type": "text",
+      "label": "ENTER ENGINE NUMBER",
+      "page": 1,
+      "box": {
+        "left": 96.5,
+        "top": 726.2,
+        "width": 89.7,
+        "height": 12.3
+      }
+    },
+    "dateTimeField1": {
+      "type": "text",
+      "label": "ENTER DATE.",
+      "page": 1,
+      "box": {
+        "left": 473.2,
+        "top": 726.2,
+        "width": 91.0,
+        "height": 12.3
+      }
+    },
+    "jsn": {
+      "type": "text",
+      "label": "ENTER JSN.",
+      "page": 1,
+      "box": {
+        "left": 282.3,
+        "top": 717.2,
+        "width": 65.9,
+        "height": 12.3
+      }
+    },
+    "hitno": {
+      "type": "text",
+      "label": "ENTER HIT NUMBER.",
+      "page": 1,
+      "box": {
+        "left": 81.4,
+        "top": 699.2,
+        "width": 104.8,
+        "height": 12.3
+      }
+    },
+    "hitssince": {
+      "type": "text",
+      "label": "ENTER HITS SINCE LAST INSPECTION.",
+      "page": 1,
+      "box": {
+        "left": 491.9,
+        "top": 699.2,
+        "width": 72.3,
+        "height": 12.3
+      }
+    },
+    "fb1": {
+      "type": "text",
+      "label": "ENTER 28\" SHEAVE ASSEMBLY BASIC MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 137.8,
+        "top": 618.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "fb2": {
+      "type": "text",
+      "label": "ENTER 28\" SHEAVE ASSEMBLY BASIC MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 227.8,
+        "top": 618.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "fb3": {
+      "type": "text",
+      "label": "ENTER 33\" SHEAVE ASSEMBLY BASIC MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 362.8,
+        "top": 618.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "fb4": {
+      "type": "text",
+      "label": "ENTER 33\" SHEAVE ASSEMBLY BASIC MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 452.8,
+        "top": 618.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "fd1": {
+      "type": "text",
+      "label": "ENTER 28\" SHEAVE ASSEMBLY DEPTH GAGE MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 137.8,
+        "top": 600.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "fd2": {
+      "type": "text",
+      "label": "ENTER 28\" SHEAVE ASSEMBLY DEPTH GAGE MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 227.8,
+        "top": 600.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "fd3": {
+      "type": "text",
+      "label": "ENTER 33\" SHEAVE ASSEMBLY  DEPTH GAGE MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 362.8,
+        "top": 600.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "fd4": {
+      "type": "text",
+      "label": "ENTER 33\" SHEAVE ASSEMBLY  DEPTH GAGE MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 452.8,
+        "top": 600.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "ff1": {
+      "type": "text",
+      "label": "ENTER 28\" SHEAVE ASSEMBLY FEELER GAGE MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 137.8,
+        "top": 582.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "ff2": {
+      "type": "text",
+      "label": "ENTER 28\" SHEAVE ASSEMBLY FEELER GAGE MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 227.8,
+        "top": 582.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "ff3": {
+      "type": "text",
+      "label": "ENTER 33\" SHEAVE ASSEMBLY FEELER GAGE MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 362.8,
+        "top": 582.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "ff4": {
+      "type": "text",
+      "label": "ENTER 33\" SHEAVE ASSEMBLY FEELER GAGE MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 452.8,
+        "top": 582.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "ft1": {
+      "type": "text",
+      "label": "ENTER 28\" SHEAVE ASSEMBLY THICKNESS MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 137.8,
+        "top": 564.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "ft2": {
+      "type": "text",
+      "label": "ENTER 28\" SHEAVE ASSEMBLY THICKNESS MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 227.8,
+        "top": 564.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "ft3": {
+      "type": "text",
+      "label": "ENTER 33\" SHEAVE ASSEMBLY THICKNESS MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 362.8,
+        "top": 564.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "ft4": {
+      "type": "text",
+      "label": "ENTER 33\" SHEAVE ASSEMBLY THICKNESS MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 452.8,
+        "top": 564.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "fw1": {
+      "type": "text",
+      "label": "ENTER 28\" SHEAVE ASSEMBLY WEAR MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 137.8,
+        "top": 546.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "fw2": {
+      "type": "text",
+      "label": "ENTER 28\" SHEAVE ASSEMBLY WEAR MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 227.8,
+        "top": 546.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "fw3": {
+      "type": "text",
+      "label": "ENTER 33\" SHEAVE ASSEMBLY WEAR MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 362.8,
+        "top": 546.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "fw4": {
+      "type": "text",
+      "label": "ENTER 33\" SHEAVE ASSEMBLY WEAR MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 452.8,
+        "top": 546.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "fl1": {
+      "type": "text",
+      "label": "ENTER 28\" SHEAVE ASSEMBLY LATERAL STACK MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 137.8,
+        "top": 528.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "fl2": {
+      "type": "text",
+      "label": "ENTER 28\" SHEAVE ASSEMBLY LATERAL STACK MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 227.8,
+        "top": 528.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "fl3": {
+      "type": "text",
+      "label": "ENTER 33\" SHEAVE ASSEMBLY LATERAL STACK MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 362.8,
+        "top": 528.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "fl4": {
+      "type": "text",
+      "label": "ENTER 33\" SHEAVE ASSEMBLY LATERAL STACK MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 452.8,
+        "top": 528.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "cb1": {
+      "type": "text",
+      "label": "ENTER 28\" CROSSHEAD ASSEMBLY BASIC MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 137.8,
+        "top": 465.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "cb2": {
+      "type": "text",
+      "label": "ENTER 28\" CROSSHEAD ASSEMBLY BASIC MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 227.8,
+        "top": 465.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "cb3": {
+      "type": "text",
+      "label": "ENTER 33\" CROSSHEAD ASSEMBLY BASIC MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 362.8,
+        "top": 465.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "cb4": {
+      "type": "text",
+      "label": "ENTER 33\" CROSSHEAD ASSEMBLY BASIC MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 452.8,
+        "top": 465.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "cd1": {
+      "type": "text",
+      "label": "ENTER 28\" CROSSHEAD ASSEMBLY DEPTH GAGE MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 137.8,
+        "top": 447.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "cd2": {
+      "type": "text",
+      "label": "ENTER 28\" CROSSHEAD ASSEMBLY DEPTH GAGE MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 227.8,
+        "top": 447.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "cd3": {
+      "type": "text",
+      "label": "ENTER 33\" CROSSHEAD ASSEMBLY DEPTH GAGE MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 362.8,
+        "top": 447.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "cd4": {
+      "type": "text",
+      "label": "ENTER 33\" CROSSHEAD ASSEMBLY DEPTH GAGE MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 452.8,
+        "top": 447.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "cf1": {
+      "type": "text",
+      "label": "ENTER 28\" CROSSHEAD ASSEMBLY FEELER GAGE MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 137.8,
+        "top": 429.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "cf2": {
+      "type": "text",
+      "label": "ENTER 28\" CROSSHEAD ASSEMBLY FEELER GAGE MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 227.8,
+        "top": 429.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "cf3": {
+      "type": "text",
+      "label": "ENTER 33\" CROSSHEAD ASSEMBLY FEELER GAGE MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 362.8,
+        "top": 429.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "cf4": {
+      "type": "text",
+      "label": "ENTER 33\" CROSSHEAD ASSEMBLY FEELER GAGE MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 452.8,
+        "top": 429.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "ct1": {
+      "type": "text",
+      "label": "ENTER 28\" CROSSHEAD ASSEMBLY THICKNESS MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 137.8,
+        "top": 411.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "ct2": {
+      "type": "text",
+      "label": "ENTER 28\" CROSSHEAD ASSEMBLY THICKNESS MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 227.8,
+        "top": 411.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "ct3": {
+      "type": "text",
+      "label": "ENTER 33\" CROSSHEAD ASSEMBLY THICKNESS MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 362.8,
+        "top": 411.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "ct4": {
+      "type": "text",
+      "label": "ENTER 33\" CROSSHEAD ASSEMBLY THICKNESS MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 452.8,
+        "top": 411.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "cw1": {
+      "type": "text",
+      "label": "ENTER 28\" CROSSHEAD ASSEMBLY WEAR MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 137.8,
+        "top": 393.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "cw2": {
+      "type": "text",
+      "label": "ENTER 28\" CROSSHEAD ASSEMBLY WEAR MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 227.8,
+        "top": 393.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "cw3": {
+      "type": "text",
+      "label": "ENTER 33\" CROSSHEAD ASSEMBLY WEAR MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 362.8,
+        "top": 393.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "cw4": {
+      "type": "text",
+      "label": "ENTER 33\" CROSSHEAD ASSEMBLY WEAR MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 452.8,
+        "top": 393.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "cl1": {
+      "type": "text",
+      "label": "ENTER 28\" CROSSHEAD ASSEMBLY LATERAL STACK MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 137.8,
+        "top": 375.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "cl2": {
+      "type": "text",
+      "label": "ENTER 28\" CROSSHEAD ASSEMBLY LATERAL STACK MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 227.8,
+        "top": 375.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "cl3": {
+      "type": "text",
+      "label": "ENTER 33\" CROSSHEAD ASSEMBLY LATERAL STACK MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 362.8,
+        "top": 375.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "cl4": {
+      "type": "text",
+      "label": "ENTER 33\" CROSSHEAD ASSEMBLY LATERAL STACK MEASUREMENT.",
+      "page": 1,
+      "box": {
+        "left": 452.8,
+        "top": 375.2,
+        "width": 75.3,
+        "height": 12.3
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "ENTER REMARKS.",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 285.2,
+        "width": 534.3,
+        "height": 39.3
+      },
+      "multiline": true
+    },
+    "maintman": {
+      "type": "text",
+      "label": "ENTER MAINT. MAN.",
+      "page": 1,
+      "box": {
+        "left": 96.5,
+        "top": 231.2,
+        "width": 161.7,
+        "height": 12.3
+      }
+    },
+    "aglpocpo": {
+      "type": "text",
+      "label": "ENTER A/G LPO/BRANCH CHIEF.",
+      "page": 1,
+      "box": {
+        "left": 448.4,
+        "top": 231.2,
+        "width": 106.7,
+        "height": 12.3
+      }
+    },
+    "qainspector": {
+      "type": "text",
+      "label": "ENTER QA INSPECTOR.",
+      "page": 1,
+      "box": {
+        "left": 115.7,
+        "top": 195.2,
+        "width": 142.4,
+        "height": 12.3
+      }
+    },
+    "maintcpo": {
+      "type": "text",
+      "label": "ENTER MAINT. CPO/OFFICER.",
+      "page": 1,
+      "box": {
+        "left": 441.9,
+        "top": 195.2,
+        "width": 113.3,
+        "height": 12.3
+      }
+    }
+  }
+}

@@ -1,0 +1,125 @@
+{
+  "id": "opnav510018",
+  "label": "OPNAV5100-18 - Used Hazardous Material",
+  "directory": "OPNAV5100-18 - Used Hazardous Material",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "ship",
+        "workcenter",
+        "nameofMaterial",
+        "process",
+        "process2",
+        "impurities",
+        "specialStowageReq",
+        "disOffSig",
+        "dNSDate3"
+      ]
+    }
+  ],
+  "fields": {
+    "ship": {
+      "type": "text",
+      "label": "Enter the ship.",
+      "page": 1,
+      "box": {
+        "left": 165.0,
+        "top": 656.2,
+        "width": 136.5,
+        "height": 19.5
+      }
+    },
+    "workcenter": {
+      "type": "text",
+      "label": "Enter the work center.",
+      "page": 1,
+      "box": {
+        "left": 374.3,
+        "top": 656.2,
+        "width": 96.2,
+        "height": 19.5
+      }
+    },
+    "nameofMaterial": {
+      "type": "text",
+      "label": "Enter the name of the material.",
+      "page": 1,
+      "box": {
+        "left": 224.2,
+        "top": 632.3,
+        "width": 246.2,
+        "height": 18.0
+      }
+    },
+    "process": {
+      "type": "text",
+      "label": "Enter the process in which the material was used.",
+      "page": 1,
+      "box": {
+        "left": 289.5,
+        "top": 608.3,
+        "width": 181.0,
+        "height": 18.0
+      }
+    },
+    "process2": {
+      "type": "text",
+      "label": "Enter the process in which the material was used.",
+      "page": 1,
+      "box": {
+        "left": 135.3,
+        "top": 587.3,
+        "width": 335.2,
+        "height": 18.0
+      }
+    },
+    "impurities": {
+      "type": "text",
+      "label": "Enter any known impurities.",
+      "page": 1,
+      "box": {
+        "left": 238.5,
+        "top": 563.3,
+        "width": 232.0,
+        "height": 18.0
+      }
+    },
+    "specialStowageReq": {
+      "type": "text",
+      "label": "Enter the special stowage requirements.",
+      "page": 1,
+      "box": {
+        "left": 280.5,
+        "top": 534.1,
+        "width": 190.0,
+        "height": 18.0
+      }
+    },
+    "disOffSig": {
+      "type": "text",
+      "label": "Enter the division officers signature.",
+      "page": 1,
+      "box": {
+        "left": 249.0,
+        "top": 505.6,
+        "width": 120.8,
+        "height": 18.0
+      }
+    },
+    "dNSDate3": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 405.2,
+        "top": 505.6,
+        "width": 65.3,
+        "height": 18.0
+      }
+    }
+  }
+}

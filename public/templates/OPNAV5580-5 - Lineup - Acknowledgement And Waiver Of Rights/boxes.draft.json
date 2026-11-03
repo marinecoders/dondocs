@@ -1,0 +1,117 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "place": {
+        "left": 342.7,
+        "top": 668.9,
+        "width": 195.5,
+        "height": 19.8,
+        "type": "text",
+        "description": "Enter the place.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date": {
+        "left": 342.7,
+        "top": 639.9,
+        "width": 195.5,
+        "height": 19.8,
+        "type": "text",
+        "description": "Enter the date (DD MMM YYYY).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "advisedBy": {
+        "left": 53.8,
+        "top": 584.8,
+        "width": 391.2,
+        "height": 14.5,
+        "type": "text",
+        "description": "Name the advised individual. ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "adviser": {
+        "left": 44.1,
+        "top": 560.7,
+        "width": 134.4,
+        "height": 14.5,
+        "type": "text",
+        "description": "Name the advising individual.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "thatthe": {
+        "left": 225.4,
+        "top": 560.7,
+        "width": 339.0,
+        "height": 14.5,
+        "type": "text",
+        "description": "Name the facility conducting the investigation.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "offenses": {
+        "left": 44.1,
+        "top": 518.1,
+        "width": 520.3,
+        "height": 19.8,
+        "type": "text",
+        "description": "Name the offenses(s).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sig": {
+        "left": 374.7,
+        "top": 230.8,
+        "width": 179.7,
+        "height": 19.8,
+        "type": "text",
+        "description": "Enter the signature.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "time": {
+        "left": 360.4,
+        "top": 201.8,
+        "width": 196.2,
+        "height": 19.8,
+        "type": "text",
+        "description": "Enter the time using the 24-hour clock (HHMM).  ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "witSig": {
+        "left": 43.2,
+        "top": 78.5,
+        "width": 179.7,
+        "height": 22.4,
+        "type": "text",
+        "description": "Enter the witness signature.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

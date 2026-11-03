@@ -1,0 +1,345 @@
+{
+  "id": "opnav34304",
+  "label": "OPNAV3430-4 - Electronic Warfare Reprogrammable Library Feedback Report",
+  "directory": "OPNAV3430-4 - Electronic Warfare Reprogrammable Library Feedback Report",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "class",
+        "unitReport",
+        "unit",
+        "dNSDate3",
+        "mailingInstructions1",
+        "systemName",
+        "reportedBy1",
+        "reportedBy",
+        "mailingInstructions2",
+        "deletions",
+        "mailingInstructions3",
+        "mailingInstructions4",
+        "mailingInstructions5",
+        "description",
+        "mailingInstructions6",
+        "mailingInstructions7",
+        "recommendation",
+        "mailingInstructions8",
+        "mailingInstructions9",
+        "correctedImpact",
+        "mailingInstructions10",
+        "mailingInstructions11",
+        "mailingInstructions12",
+        "mailingInstructions13",
+        "mailingInstructions14",
+        "mailingInstructions15",
+        "class2"
+      ]
+    }
+  ],
+  "fields": {
+    "class": {
+      "type": "text",
+      "label": "Enter the classification.",
+      "page": 1,
+      "box": {
+        "left": 89.0,
+        "top": 741.0,
+        "width": 82.1,
+        "height": 20.7
+      }
+    },
+    "unitReport": {
+      "type": "text",
+      "label": "Enter the unit report number.",
+      "page": 1,
+      "box": {
+        "left": 292.1,
+        "top": 630.4,
+        "width": 106.2,
+        "height": 16.5
+      }
+    },
+    "unit": {
+      "type": "text",
+      "label": "Enter the unit.",
+      "page": 1,
+      "box": {
+        "left": 43.3,
+        "top": 629.7,
+        "width": 115.2,
+        "height": 16.5
+      }
+    },
+    "dNSDate3": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 169.4,
+        "top": 629.7,
+        "width": 112.0,
+        "height": 16.5
+      }
+    },
+    "mailingInstructions1": {
+      "type": "checkbox",
+      "label": "Select this checkbox for officer in charge.",
+      "page": 1,
+      "box": {
+        "left": 413.2,
+        "top": 614.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "systemName": {
+      "type": "text",
+      "label": "Enter the system name.",
+      "page": 1,
+      "box": {
+        "left": 43.3,
+        "top": 594.2,
+        "width": 115.2,
+        "height": 16.5
+      }
+    },
+    "reportedBy1": {
+      "type": "text",
+      "label": "Enter whom reported by.",
+      "page": 1,
+      "box": {
+        "left": 169.4,
+        "top": 594.2,
+        "width": 112.0,
+        "height": 16.5
+      }
+    },
+    "reportedBy": {
+      "type": "text",
+      "label": "Enter the library designator.",
+      "page": 1,
+      "box": {
+        "left": 292.1,
+        "top": 594.2,
+        "width": 106.2,
+        "height": 16.5
+      }
+    },
+    "mailingInstructions2": {
+      "type": "checkbox",
+      "label": "Select this checkbox for officer in charge.",
+      "page": 1,
+      "box": {
+        "left": 413.2,
+        "top": 570.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "deletions": {
+      "type": "text",
+      "label": "Enter the recommended additions and/or deletions.",
+      "page": 1,
+      "box": {
+        "left": 43.7,
+        "top": 555.1,
+        "width": 353.3,
+        "height": 65.9
+      },
+      "multiline": true
+    },
+    "mailingInstructions3": {
+      "type": "checkbox",
+      "label": "Select this checkbox for commander in chief.",
+      "page": 1,
+      "box": {
+        "left": 413.2,
+        "top": 540.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "mailingInstructions4": {
+      "type": "checkbox",
+      "label": "Select this checkbox for commander.",
+      "page": 1,
+      "box": {
+        "left": 413.2,
+        "top": 509.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "mailingInstructions5": {
+      "type": "checkbox",
+      "label": "Select this checkbox for commander.",
+      "page": 1,
+      "box": {
+        "left": 413.2,
+        "top": 471.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "description": {
+      "type": "text",
+      "label": "Enter the operating enviroment description.",
+      "page": 1,
+      "box": {
+        "left": 43.7,
+        "top": 466.0,
+        "width": 353.3,
+        "height": 65.9
+      },
+      "multiline": true
+    },
+    "mailingInstructions6": {
+      "type": "checkbox",
+      "label": "Select this checkbox for Naval Research Laboratory.",
+      "page": 1,
+      "box": {
+        "left": 413.2,
+        "top": 427.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "mailingInstructions7": {
+      "type": "checkbox",
+      "label": "Select this checkbox for Naval Electronic Systems.",
+      "page": 1,
+      "box": {
+        "left": 413.2,
+        "top": 395.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "recommendation": {
+      "type": "text",
+      "label": "Enter the description of difficulty, action taken and recommendation.",
+      "page": 1,
+      "box": {
+        "left": 43.7,
+        "top": 377.6,
+        "width": 353.3,
+        "height": 65.9
+      },
+      "multiline": true
+    },
+    "mailingInstructions8": {
+      "type": "checkbox",
+      "label": "Select this checkbox for Naval Air Warfare Center.",
+      "page": 1,
+      "box": {
+        "left": 413.2,
+        "top": 359.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "mailingInstructions9": {
+      "type": "checkbox",
+      "label": "Select this checkbox for Naval Electronic System.",
+      "page": 1,
+      "box": {
+        "left": 413.2,
+        "top": 322.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "correctedImpact": {
+      "type": "text",
+      "label": "Enter the impact if not corrected.",
+      "page": 1,
+      "box": {
+        "left": 43.7,
+        "top": 287.8,
+        "width": 353.3,
+        "height": 149.2
+      },
+      "multiline": true
+    },
+    "mailingInstructions10": {
+      "type": "checkbox",
+      "label": "Select this checkbox for Naval Air Warefare Center.",
+      "page": 1,
+      "box": {
+        "left": 413.2,
+        "top": 283.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "mailingInstructions11": {
+      "type": "checkbox",
+      "label": "Select this checkbox for Navelex Charleston (Code 043/40).",
+      "page": 1,
+      "box": {
+        "left": 413.2,
+        "top": 255.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "mailingInstructions12": {
+      "type": "checkbox",
+      "label": "Select this checkbox for Fleet Combat Direction Systems.",
+      "page": 1,
+      "box": {
+        "left": 413.2,
+        "top": 225.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "mailingInstructions13": {
+      "type": "checkbox",
+      "label": "Select this checkbox for Naval Avionics Center.",
+      "page": 1,
+      "box": {
+        "left": 413.2,
+        "top": 194.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "mailingInstructions14": {
+      "type": "checkbox",
+      "label": "Select this checkbox for Naval Air Development Center.",
+      "page": 1,
+      "box": {
+        "left": 413.2,
+        "top": 165.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "mailingInstructions15": {
+      "type": "checkbox",
+      "label": "Select this checkbox for Ships.",
+      "page": 1,
+      "box": {
+        "left": 413.2,
+        "top": 138.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "class2": {
+      "type": "text",
+      "label": "Enter the classification.",
+      "page": 1,
+      "box": {
+        "left": 102.9,
+        "top": 98.0,
+        "width": 82.1,
+        "height": 20.7
+      }
+    }
+  }
+}

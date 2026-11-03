@@ -1,0 +1,183 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "textField1": {
+        "left": 357.3,
+        "top": 654.2,
+        "width": 44.9,
+        "height": 12.1,
+        "type": "text",
+        "description": "FY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio": {
+        "left": 133.4,
+        "top": 619.2,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio2": {
+        "left": 344.9,
+        "top": 619.2,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio3": {
+        "left": 133.4,
+        "top": 605.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio4": {
+        "left": 344.9,
+        "top": 605.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "textField12": {
+        "left": 198.4,
+        "top": 582.1,
+        "width": 336.6,
+        "height": 12.3,
+        "type": "text",
+        "description": "Directorate",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField13": {
+        "left": 198.1,
+        "top": 564.2,
+        "width": 339.2,
+        "height": 12.3,
+        "type": "text",
+        "description": "Division",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField14": {
+        "left": 198.5,
+        "top": 546.1,
+        "width": 338.7,
+        "height": 12.3,
+        "type": "text",
+        "description": "Nominee Name/Grade",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField15": {
+        "left": 52.3,
+        "top": 503.5,
+        "width": 493.9,
+        "height": 370.3,
+        "type": "text",
+        "description": "Justification",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField16": {
+        "left": 52.3,
+        "top": 123.1,
+        "width": 169.9,
+        "height": 21.3,
+        "type": "text",
+        "description": "Justification",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateTimeField1": {
+        "left": 259.4,
+        "top": 123.1,
+        "width": 84.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "Q3/Q4",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField1": {
+        "left": 381.2,
+        "top": 123.1,
+        "width": 167.9,
+        "height": 21.4,
+        "type": "text",
+        "description": "Senior Nominee",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField17": {
+        "left": 52.3,
+        "top": 83.8,
+        "width": 169.9,
+        "height": 21.3,
+        "type": "text",
+        "description": "Nominator Name, Code, Title",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateTimeField12": {
+        "left": 259.4,
+        "top": 83.8,
+        "width": 84.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "Signature Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField12": {
+        "left": 381.2,
+        "top": 83.8,
+        "width": 167.9,
+        "height": 21.4,
+        "type": "text",
+        "description": "Nominator Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

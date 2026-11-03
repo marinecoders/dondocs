@@ -1,0 +1,929 @@
+{
+  "id": "navpers17407",
+  "label": "NAVPERS1740-7 - Family Care Plan Arrangements",
+  "directory": "NAVPERS1740-7 - Family Care Plan Arrangements",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "checkBox1",
+        "checkBox12",
+        "checkBox13",
+        "checkBox14",
+        "checkBox15",
+        "textField1",
+        "checkBox16",
+        "checkBox17",
+        "checkBox18",
+        "checkBox19",
+        "checkBox110",
+        "checkBox111",
+        "checkBox112",
+        "checkBox113",
+        "textField2",
+        "dateTimeField2",
+        "checkBox114",
+        "textField22",
+        "checkBox115",
+        "checkBox116",
+        "checkBox117",
+        "checkBox118",
+        "checkBox119",
+        "checkBox120",
+        "checkBox121",
+        "textField23",
+        "textField24",
+        "textField25",
+        "textField26",
+        "textField27",
+        "textField12"
+      ],
+      "editor": "checklist"
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "checkBox122",
+        "checkBox123",
+        "checkBox124",
+        "checkBox125",
+        "textField28",
+        "textField29",
+        "textField210",
+        "checkBox126",
+        "textField211",
+        "textField212",
+        "textField13",
+        "checkBox127",
+        "textField213",
+        "textField214",
+        "textField215",
+        "textField216",
+        "checkBox128",
+        "checkBox129",
+        "checkBox130",
+        "checkBox131",
+        "textField14",
+        "checkBox132",
+        "checkBox133",
+        "textField217",
+        "textField218",
+        "textField219",
+        "checkBox134",
+        "textField220",
+        "checkBox135",
+        "checkBox136",
+        "textField221",
+        "textField222",
+        "textField223",
+        "textField224",
+        "textField225",
+        "checkBox137",
+        "textField226",
+        "textField227",
+        "textField228",
+        "checkBox138",
+        "textField15",
+        "textField3",
+        "signatureField1",
+        "dateField1"
+      ]
+    }
+  ],
+  "fields": {
+    "checkBox1": {
+      "type": "checkbox",
+      "label": "FINANCIAL",
+      "page": 1,
+      "box": {
+        "left": 48.8,
+        "top": 579.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox12": {
+      "type": "checkbox",
+      "label": "FINANCIAL",
+      "page": 1,
+      "box": {
+        "left": 48.8,
+        "top": 563.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox13": {
+      "type": "checkbox",
+      "label": "FINANCIAL",
+      "page": 1,
+      "box": {
+        "left": 48.8,
+        "top": 547.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox14": {
+      "type": "checkbox",
+      "label": "FINANCIAL",
+      "page": 1,
+      "box": {
+        "left": 48.8,
+        "top": 531.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox15": {
+      "type": "checkbox",
+      "label": "FINANCIAL",
+      "page": 1,
+      "box": {
+        "left": 48.8,
+        "top": 514.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "textField1": {
+      "type": "text",
+      "label": "ADDITIONAL COMMENTS",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 488.5,
+        "width": 534.4,
+        "height": 53.7
+      },
+      "multiline": true
+    },
+    "checkBox16": {
+      "type": "checkbox",
+      "label": "LOGISTICAL",
+      "page": 1,
+      "box": {
+        "left": 47.9,
+        "top": 416.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox17": {
+      "type": "checkbox",
+      "label": "MOVEMENT",
+      "page": 1,
+      "box": {
+        "left": 66.9,
+        "top": 401.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox18": {
+      "type": "checkbox",
+      "label": "MOVEMENT",
+      "page": 1,
+      "box": {
+        "left": 66.9,
+        "top": 385.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox19": {
+      "type": "checkbox",
+      "label": "MOVEMENT",
+      "page": 1,
+      "box": {
+        "left": 66.9,
+        "top": 369.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox110": {
+      "type": "checkbox",
+      "label": "MOVEMENT",
+      "page": 1,
+      "box": {
+        "left": 66.9,
+        "top": 353.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox111": {
+      "type": "checkbox",
+      "label": "MOVEMENT",
+      "page": 1,
+      "box": {
+        "left": 66.9,
+        "top": 337.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox112": {
+      "type": "checkbox",
+      "label": "LOGISTICAL",
+      "page": 1,
+      "box": {
+        "left": 47.9,
+        "top": 321.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox113": {
+      "type": "checkbox",
+      "label": "METHOD",
+      "page": 1,
+      "box": {
+        "left": 66.9,
+        "top": 305.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "textField2": {
+      "type": "text",
+      "label": "AIRLINES",
+      "page": 1,
+      "box": {
+        "left": 177.5,
+        "top": 304.5,
+        "width": 198.7,
+        "height": 11.5
+      }
+    },
+    "dateTimeField2": {
+      "type": "text",
+      "label": "DATE DEPARTURE",
+      "page": 1,
+      "box": {
+        "left": 471.0,
+        "top": 304.5,
+        "width": 73.2,
+        "height": 11.5
+      }
+    },
+    "checkBox114": {
+      "type": "checkbox",
+      "label": "METHOD",
+      "page": 1,
+      "box": {
+        "left": 66.9,
+        "top": 289.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "textField22": {
+      "type": "text",
+      "label": "GROUND VEHICLE",
+      "page": 1,
+      "box": {
+        "left": 177.5,
+        "top": 288.1,
+        "width": 198.7,
+        "height": 11.5
+      }
+    },
+    "checkBox115": {
+      "type": "checkbox",
+      "label": "METHOD",
+      "page": 1,
+      "box": {
+        "left": 66.9,
+        "top": 273.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox116": {
+      "type": "checkbox",
+      "label": "LOGISTICAL",
+      "page": 1,
+      "box": {
+        "left": 47.9,
+        "top": 257.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox117": {
+      "type": "checkbox",
+      "label": "LOGISTICAL",
+      "page": 1,
+      "box": {
+        "left": 47.9,
+        "top": 241.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox118": {
+      "type": "checkbox",
+      "label": "LOGISTICAL",
+      "page": 1,
+      "box": {
+        "left": 47.9,
+        "top": 225.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox119": {
+      "type": "checkbox",
+      "label": "LOGISTICAL",
+      "page": 1,
+      "box": {
+        "left": 47.9,
+        "top": 210.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox120": {
+      "type": "checkbox",
+      "label": "LOGISTICAL",
+      "page": 1,
+      "box": {
+        "left": 47.9,
+        "top": 194.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox121": {
+      "type": "checkbox",
+      "label": "LOGISTICAL",
+      "page": 1,
+      "box": {
+        "left": 47.9,
+        "top": 178.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "textField23": {
+      "type": "text",
+      "label": "NAME",
+      "page": 1,
+      "box": {
+        "left": 98.2,
+        "top": 163.2,
+        "width": 182.0,
+        "height": 11.5
+      }
+    },
+    "textField24": {
+      "type": "text",
+      "label": "PHONE",
+      "page": 1,
+      "box": {
+        "left": 332.7,
+        "top": 158.7,
+        "width": 73.5,
+        "height": 11.5
+      }
+    },
+    "textField25": {
+      "type": "text",
+      "label": "CELL PHONE",
+      "page": 1,
+      "box": {
+        "left": 470.4,
+        "top": 158.7,
+        "width": 75.7,
+        "height": 11.5
+      }
+    },
+    "textField26": {
+      "type": "text",
+      "label": "ADDRESS",
+      "page": 1,
+      "box": {
+        "left": 112.4,
+        "top": 147.3,
+        "width": 431.8,
+        "height": 11.5
+      }
+    },
+    "textField27": {
+      "type": "text",
+      "label": "E-MAIL",
+      "page": 1,
+      "box": {
+        "left": 101.9,
+        "top": 131.4,
+        "width": 442.3,
+        "height": 11.5
+      }
+    },
+    "textField12": {
+      "type": "text",
+      "label": "ADDITIONAL COMMENTS",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 103.6,
+        "width": 534.4,
+        "height": 64.9
+      },
+      "multiline": true
+    },
+    "checkBox122": {
+      "type": "checkbox",
+      "label": "MEDICAL/HEALTH",
+      "page": 2,
+      "box": {
+        "left": 47.9,
+        "top": 706.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox123": {
+      "type": "checkbox",
+      "label": "MEDICAL/HEALTH",
+      "page": 2,
+      "box": {
+        "left": 47.9,
+        "top": 690.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox124": {
+      "type": "checkbox",
+      "label": "MEDICAL/HEALTH",
+      "page": 2,
+      "box": {
+        "left": 47.9,
+        "top": 674.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox125": {
+      "type": "checkbox",
+      "label": "PROVIDED LOCATION OF MEDICAL FACILITIES",
+      "page": 2,
+      "box": {
+        "left": 309.9,
+        "top": 674.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "textField28": {
+      "type": "text",
+      "label": "NAME OF FACILITY",
+      "page": 2,
+      "box": {
+        "left": 128.6,
+        "top": 659.1,
+        "width": 284.5,
+        "height": 11.5
+      }
+    },
+    "textField29": {
+      "type": "text",
+      "label": "PHONE",
+      "page": 2,
+      "box": {
+        "left": 483.7,
+        "top": 659.1,
+        "width": 73.5,
+        "height": 11.5
+      }
+    },
+    "textField210": {
+      "type": "text",
+      "label": "ADDRESS",
+      "page": 2,
+      "box": {
+        "left": 112.4,
+        "top": 642.9,
+        "width": 439.8,
+        "height": 11.5
+      }
+    },
+    "checkBox126": {
+      "type": "checkbox",
+      "label": "NAME",
+      "page": 2,
+      "box": {
+        "left": 47.9,
+        "top": 625.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "textField211": {
+      "type": "text",
+      "label": "DOCTOR",
+      "page": 2,
+      "box": {
+        "left": 108.6,
+        "top": 610.5,
+        "width": 191.5,
+        "height": 11.5
+      }
+    },
+    "textField212": {
+      "type": "text",
+      "label": "DENTIST",
+      "page": 2,
+      "box": {
+        "left": 361.7,
+        "top": 610.5,
+        "width": 195.5,
+        "height": 11.5
+      }
+    },
+    "textField13": {
+      "type": "text",
+      "label": "ADDITIONAL COMMENTS",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 584.3,
+        "width": 534.4,
+        "height": 41.4
+      },
+      "multiline": true
+    },
+    "checkBox127": {
+      "type": "checkbox",
+      "label": "EDUCATIONAL",
+      "page": 2,
+      "box": {
+        "left": 47.9,
+        "top": 526.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "textField213": {
+      "type": "text",
+      "label": "PHONE",
+      "page": 2,
+      "box": {
+        "left": 478.7,
+        "top": 514.0,
+        "width": 73.5,
+        "height": 11.5
+      }
+    },
+    "textField214": {
+      "type": "text",
+      "label": "NAME OF SCHOOL",
+      "page": 2,
+      "box": {
+        "left": 156.6,
+        "top": 511.9,
+        "width": 275.5,
+        "height": 11.5
+      }
+    },
+    "textField215": {
+      "type": "text",
+      "label": "PRINCIPAL",
+      "page": 2,
+      "box": {
+        "left": 420.2,
+        "top": 497.8,
+        "width": 132.0,
+        "height": 11.5
+      }
+    },
+    "textField216": {
+      "type": "text",
+      "label": "ADDRESS",
+      "page": 2,
+      "box": {
+        "left": 112.4,
+        "top": 496.0,
+        "width": 251.8,
+        "height": 11.5
+      }
+    },
+    "checkBox128": {
+      "type": "checkbox",
+      "label": "EDUCATIONAL",
+      "page": 2,
+      "box": {
+        "left": 47.9,
+        "top": 479.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox129": {
+      "type": "checkbox",
+      "label": "EDUCATIONAL",
+      "page": 2,
+      "box": {
+        "left": 47.9,
+        "top": 463.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox130": {
+      "type": "checkbox",
+      "label": "POWER OF ATTORNEY",
+      "page": 2,
+      "box": {
+        "left": 174.9,
+        "top": 448.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox131": {
+      "type": "checkbox",
+      "label": "EDUCATIONAL",
+      "page": 2,
+      "box": {
+        "left": 47.8,
+        "top": 446.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "textField14": {
+      "type": "text",
+      "label": "ADDITIONAL COMMENTS",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 418.5,
+        "width": 534.4,
+        "height": 46.7
+      },
+      "multiline": true
+    },
+    "checkBox132": {
+      "type": "checkbox",
+      "label": "LEGAL",
+      "page": 2,
+      "box": {
+        "left": 47.9,
+        "top": 357.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox133": {
+      "type": "checkbox",
+      "label": "LEGAL",
+      "page": 2,
+      "box": {
+        "left": 47.9,
+        "top": 341.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "textField217": {
+      "type": "text",
+      "label": "NAME OF COURT",
+      "page": 2,
+      "box": {
+        "left": 141.6,
+        "top": 325.4,
+        "width": 162.5,
+        "height": 11.5
+      }
+    },
+    "textField218": {
+      "type": "text",
+      "label": "LOCATION",
+      "page": 2,
+      "box": {
+        "left": 363.7,
+        "top": 325.4,
+        "width": 193.5,
+        "height": 11.5
+      }
+    },
+    "textField219": {
+      "type": "text",
+      "label": "PENDING CIVIL MATTERS FOR OTHER ISSUES",
+      "page": 2,
+      "box": {
+        "left": 254.9,
+        "top": 308.9,
+        "width": 300.3,
+        "height": 11.5
+      }
+    },
+    "checkBox134": {
+      "type": "checkbox",
+      "label": "LEGAL",
+      "page": 2,
+      "box": {
+        "left": 47.9,
+        "top": 307.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "textField220": {
+      "type": "text",
+      "label": "PENDING CIVIL MATTERS FOR OTHER ISSUES",
+      "page": 2,
+      "box": {
+        "left": 46.9,
+        "top": 292.3,
+        "width": 507.3,
+        "height": 11.5
+      }
+    },
+    "checkBox135": {
+      "type": "checkbox",
+      "label": "LEGAL",
+      "page": 2,
+      "box": {
+        "left": 47.9,
+        "top": 274.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox136": {
+      "type": "checkbox",
+      "label": "LEGAL",
+      "page": 2,
+      "box": {
+        "left": 47.9,
+        "top": 258.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "textField221": {
+      "type": "text",
+      "label": "NAME",
+      "page": 2,
+      "box": {
+        "left": 97.4,
+        "top": 242.6,
+        "width": 330.8,
+        "height": 11.5
+      }
+    },
+    "textField222": {
+      "type": "text",
+      "label": "PHONE",
+      "page": 2,
+      "box": {
+        "left": 483.7,
+        "top": 242.6,
+        "width": 65.5,
+        "height": 11.5
+      }
+    },
+    "textField223": {
+      "type": "text",
+      "label": "ADDRESS",
+      "page": 2,
+      "box": {
+        "left": 112.4,
+        "top": 226.1,
+        "width": 435.8,
+        "height": 11.5
+      }
+    },
+    "textField224": {
+      "type": "text",
+      "label": "E-MAIL",
+      "page": 2,
+      "box": {
+        "left": 101.9,
+        "top": 209.5,
+        "width": 446.3,
+        "height": 11.5
+      }
+    },
+    "textField225": {
+      "type": "text",
+      "label": "PHONE",
+      "page": 2,
+      "box": {
+        "left": 483.7,
+        "top": 196.5,
+        "width": 65.5,
+        "height": 11.5
+      }
+    },
+    "checkBox137": {
+      "type": "checkbox",
+      "label": "LEGAL",
+      "page": 2,
+      "box": {
+        "left": 51.9,
+        "top": 192.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "textField226": {
+      "type": "text",
+      "label": "PHONE",
+      "page": 2,
+      "box": {
+        "left": 483.7,
+        "top": 177.4,
+        "width": 65.5,
+        "height": 11.5
+      }
+    },
+    "textField227": {
+      "type": "text",
+      "label": "ATTORNEY",
+      "page": 2,
+      "box": {
+        "left": 116.9,
+        "top": 176.4,
+        "width": 315.3,
+        "height": 11.5
+      }
+    },
+    "textField228": {
+      "type": "text",
+      "label": "LEGAL SERVICE OFFICE",
+      "page": 2,
+      "box": {
+        "left": 168.7,
+        "top": 159.9,
+        "width": 263.5,
+        "height": 11.5
+      }
+    },
+    "checkBox138": {
+      "type": "checkbox",
+      "label": "LEGAL",
+      "page": 2,
+      "box": {
+        "left": 47.9,
+        "top": 142.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "textField15": {
+      "type": "text",
+      "label": "ADDITIONAL COMMENTS",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 116.0,
+        "width": 534.4,
+        "height": 41.3
+      },
+      "multiline": true
+    },
+    "textField3": {
+      "type": "text",
+      "label": "TYPED OR PRINTED NAME OF MEMBER",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 60.1,
+        "width": 255.4,
+        "height": 21.3
+      }
+    },
+    "signatureField1": {
+      "type": "text",
+      "label": "MEMBER\u2019S SIGNATURE",
+      "page": 2,
+      "box": {
+        "left": 299.9,
+        "top": 60.1,
+        "width": 192.4,
+        "height": 21.3
+      }
+    },
+    "dateField1": {
+      "type": "text",
+      "label": "DATE (YYYMMDD)",
+      "page": 2,
+      "box": {
+        "left": 497.9,
+        "top": 60.1,
+        "width": 75.3,
+        "height": 21.3
+      }
+    }
+  }
+}

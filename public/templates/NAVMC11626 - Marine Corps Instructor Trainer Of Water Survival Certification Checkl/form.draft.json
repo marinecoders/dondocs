@@ -1,0 +1,269 @@
+{
+  "id": "navmc11626",
+  "label": "NAVMC11626 - Marine Corps Instructor Trainer Of Water Survival Certification Checkl",
+  "directory": "NAVMC11626 - Marine Corps Instructor Trainer Of Water Survival Certification Checkl",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "nameLast",
+        "nameFirst",
+        "nameMI",
+        "phoneNumber",
+        "mos",
+        "date",
+        "requirement2part1",
+        "requirement2part2",
+        "requirement2part3",
+        "requirement2part4",
+        "requirement3",
+        "requirement4",
+        "requirement5",
+        "mentorName",
+        "mentorPhone",
+        "mentorDate",
+        "mentorSig",
+        "directorName",
+        "directorDate",
+        "directorPhone",
+        "directorSig"
+      ]
+    }
+  ],
+  "fields": {
+    "nameLast": {
+      "type": "text",
+      "label": "nameLast",
+      "page": 1,
+      "box": {
+        "left": 128.1,
+        "top": 580.7,
+        "width": 175.8,
+        "height": 13.1
+      }
+    },
+    "nameFirst": {
+      "type": "text",
+      "label": "nameFirst",
+      "page": 1,
+      "box": {
+        "left": 312.6,
+        "top": 580.7,
+        "width": 142.1,
+        "height": 13.1
+      }
+    },
+    "nameMI": {
+      "type": "text",
+      "label": "nameMI",
+      "page": 1,
+      "box": {
+        "left": 462.8,
+        "top": 580.7,
+        "width": 29.8,
+        "height": 13.1
+      }
+    },
+    "phoneNumber": {
+      "type": "text",
+      "label": "PhoneNumber",
+      "page": 1,
+      "box": {
+        "left": 328.2,
+        "top": 539.5,
+        "width": 92.1,
+        "height": 12.7
+      }
+    },
+    "mos": {
+      "type": "text",
+      "label": "MOS",
+      "page": 1,
+      "box": {
+        "left": 128.1,
+        "top": 539.4,
+        "width": 191.6,
+        "height": 13.1
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 427.6,
+        "top": 539.1,
+        "width": 65.4,
+        "height": 12.6
+      }
+    },
+    "requirement2part1": {
+      "type": "checkbox",
+      "label": "requirement2part1",
+      "page": 1,
+      "box": {
+        "left": 104.7,
+        "top": 464.0,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "requirement2part2": {
+      "type": "checkbox",
+      "label": "requirement2part2",
+      "page": 1,
+      "box": {
+        "left": 104.7,
+        "top": 414.4,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "requirement2part3": {
+      "type": "checkbox",
+      "label": "requirement2part3",
+      "page": 1,
+      "box": {
+        "left": 104.8,
+        "top": 379.2,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "requirement2part4": {
+      "type": "checkbox",
+      "label": "requirement2part4",
+      "page": 1,
+      "box": {
+        "left": 104.8,
+        "top": 334.0,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "requirement3": {
+      "type": "checkbox",
+      "label": "requirement3",
+      "page": 1,
+      "box": {
+        "left": 104.8,
+        "top": 241.4,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "requirement4": {
+      "type": "checkbox",
+      "label": "requirement4",
+      "page": 1,
+      "box": {
+        "left": 104.5,
+        "top": 209.3,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "requirement5": {
+      "type": "checkbox",
+      "label": "requirement5",
+      "page": 1,
+      "box": {
+        "left": 104.8,
+        "top": 174.9,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "mentorName": {
+      "type": "text",
+      "label": "mentorName",
+      "page": 1,
+      "box": {
+        "left": 65.3,
+        "top": 125.2,
+        "width": 180.3,
+        "height": 13.1
+      }
+    },
+    "mentorPhone": {
+      "type": "text",
+      "label": "mentorPhone",
+      "page": 1,
+      "box": {
+        "left": 479.6,
+        "top": 125.2,
+        "width": 69.5,
+        "height": 12.7
+      }
+    },
+    "mentorDate": {
+      "type": "text",
+      "label": "mentorDate",
+      "page": 1,
+      "box": {
+        "left": 416.6,
+        "top": 125.1,
+        "width": 55.0,
+        "height": 12.6
+      }
+    },
+    "mentorSig": {
+      "type": "signature",
+      "label": "mentorSig",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 124.7,
+        "width": 153.3,
+        "height": 12.1
+      }
+    },
+    "directorName": {
+      "type": "text",
+      "label": "directorName",
+      "page": 1,
+      "box": {
+        "left": 64.8,
+        "top": 80.7,
+        "width": 181.3,
+        "height": 13.1
+      }
+    },
+    "directorDate": {
+      "type": "text",
+      "label": "directorDate",
+      "page": 1,
+      "box": {
+        "left": 416.6,
+        "top": 80.7,
+        "width": 55.0,
+        "height": 12.6
+      }
+    },
+    "directorPhone": {
+      "type": "text",
+      "label": "directorPhone",
+      "page": 1,
+      "box": {
+        "left": 479.6,
+        "top": 80.7,
+        "width": 68.4,
+        "height": 12.7
+      }
+    },
+    "directorSig": {
+      "type": "signature",
+      "label": "directorSig",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 80.4,
+        "width": 153.3,
+        "height": 12.1
+      }
+    }
+  }
+}

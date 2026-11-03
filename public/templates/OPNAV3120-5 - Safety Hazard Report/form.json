@@ -1,0 +1,387 @@
+{
+  "id": "opnav31205",
+  "label": "OPNAV3120-5 - Safety Hazard Report",
+  "directory": "OPNAV3120-5 - Safety Hazard Report",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "idnumber",
+        "issuer",
+        "issuee",
+        "aDate",
+        "risk",
+        "btime",
+        "locationhazard",
+        "natureofhazard",
+        "coration",
+        "cormeasures",
+        "nAMERANKb3",
+        "sIGNATUREb4",
+        "aDateb5",
+        "explanation",
+        "actaken",
+        "actaken2",
+        "nAMERANKc3",
+        "sIGNATUREc4",
+        "aDatec5",
+        "rs2",
+        "rs22",
+        "jsn",
+        "sOinit",
+        "dateinitialedso",
+        "dHinit",
+        "dateinitialeddh",
+        "cOinit",
+        "dateinitialedco",
+        "aCdate",
+        "sAFsig"
+      ]
+    }
+  ],
+  "fields": {
+    "idnumber": {
+      "type": "text",
+      "label": "Enter the id number.",
+      "page": 1,
+      "box": {
+        "left": 417.0,
+        "top": 720.3,
+        "width": 141.7,
+        "height": 16.6
+      }
+    },
+    "issuer": {
+      "type": "text",
+      "label": "Enter the issuer.",
+      "page": 1,
+      "box": {
+        "left": 53.2,
+        "top": 676.9,
+        "width": 251.3,
+        "height": 16.6
+      }
+    },
+    "issuee": {
+      "type": "text",
+      "label": "Enter whom will receive this report.",
+      "page": 1,
+      "box": {
+        "left": 308.8,
+        "top": 676.9,
+        "width": 249.9,
+        "height": 16.6
+      }
+    },
+    "aDate": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 91.4,
+        "top": 639.5,
+        "width": 59.3,
+        "height": 16.5
+      }
+    },
+    "risk": {
+      "type": "text",
+      "label": "Enter the risk assessment code (see explanation on back before completing",
+      "page": 1,
+      "box": {
+        "left": 308.1,
+        "top": 637.1,
+        "width": 251.3,
+        "height": 16.6
+      }
+    },
+    "btime": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 236.1,
+        "top": 636.3,
+        "width": 65.6,
+        "height": 14.5
+      }
+    },
+    "locationhazard": {
+      "type": "text",
+      "label": "Enter the location of the hazard.",
+      "page": 1,
+      "box": {
+        "left": 53.2,
+        "top": 607.1,
+        "width": 251.3,
+        "height": 36.7
+      },
+      "multiline": true
+    },
+    "natureofhazard": {
+      "type": "text",
+      "label": "Enter the nature of hazard.",
+      "page": 1,
+      "box": {
+        "left": 308.8,
+        "top": 607.1,
+        "width": 250.6,
+        "height": 36.7
+      },
+      "multiline": true
+    },
+    "coration": {
+      "type": "text",
+      "label": "Enter the action.",
+      "page": 1,
+      "box": {
+        "left": 53.2,
+        "top": 546.3,
+        "width": 506.2,
+        "height": 78.0
+      },
+      "multiline": true
+    },
+    "cormeasures": {
+      "type": "text",
+      "label": "Enter the interim corrective measures.",
+      "page": 1,
+      "box": {
+        "left": 53.2,
+        "top": 454.2,
+        "width": 506.2,
+        "height": 75.8
+      },
+      "multiline": true
+    },
+    "nAMERANKb3": {
+      "type": "text",
+      "label": "Enter the name, rank and title.",
+      "page": 1,
+      "box": {
+        "left": 53.2,
+        "top": 365.6,
+        "width": 164.9,
+        "height": 16.6
+      }
+    },
+    "sIGNATUREb4": {
+      "type": "text",
+      "label": "Enter the signature.",
+      "page": 1,
+      "box": {
+        "left": 221.9,
+        "top": 365.6,
+        "width": 166.6,
+        "height": 16.6
+      }
+    },
+    "aDateb5": {
+      "type": "text",
+      "label": "Enter the date forwarded using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 396.6,
+        "top": 365.6,
+        "width": 59.3,
+        "height": 16.5
+      }
+    },
+    "explanation": {
+      "type": "text",
+      "label": "Enter the explanation of action taken.",
+      "page": 1,
+      "box": {
+        "left": 308.8,
+        "top": 325.1,
+        "width": 251.6,
+        "height": 59.3
+      },
+      "multiline": true
+    },
+    "actaken": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 66.0,
+        "top": 315.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_ACTAKEN_0"
+    },
+    "actaken2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 66.0,
+        "top": 292.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_ACTAKEN_0"
+    },
+    "nAMERANKc3": {
+      "type": "text",
+      "label": "Enter the name, rank and title department head.",
+      "page": 1,
+      "box": {
+        "left": 53.2,
+        "top": 252.8,
+        "width": 164.9,
+        "height": 16.6
+      }
+    },
+    "sIGNATUREc4": {
+      "type": "text",
+      "label": "Enter the signature department head.",
+      "page": 1,
+      "box": {
+        "left": 221.9,
+        "top": 252.8,
+        "width": 166.6,
+        "height": 16.6
+      }
+    },
+    "aDatec5": {
+      "type": "text",
+      "label": "Enter the date signed by department\r\n head using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 396.6,
+        "top": 252.8,
+        "width": 59.3,
+        "height": 16.5
+      }
+    },
+    "rs2": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 339.1,
+        "top": 200.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_RS2_0"
+    },
+    "rs22": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 429.2,
+        "top": 200.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_RS2_0"
+    },
+    "jsn": {
+      "type": "text",
+      "label": "Enter the JSN for 4790/2K.",
+      "page": 1,
+      "box": {
+        "left": 400.4,
+        "top": 172.2,
+        "width": 112.7,
+        "height": 16.6
+      }
+    },
+    "sOinit": {
+      "type": "text",
+      "label": "Enter the safety officer's initials.",
+      "page": 1,
+      "box": {
+        "left": 155.2,
+        "top": 165.8,
+        "width": 35.3,
+        "height": 16.6
+      }
+    },
+    "dateinitialedso": {
+      "type": "text",
+      "label": "Enter the date initialed using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 195.5,
+        "top": 165.8,
+        "width": 59.3,
+        "height": 16.5
+      }
+    },
+    "dHinit": {
+      "type": "text",
+      "label": "Enter the department head's initials.",
+      "page": 1,
+      "box": {
+        "left": 155.2,
+        "top": 148.1,
+        "width": 35.3,
+        "height": 16.6
+      }
+    },
+    "dateinitialeddh": {
+      "type": "text",
+      "label": "Enter the date initialed using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 195.5,
+        "top": 148.1,
+        "width": 59.3,
+        "height": 16.5
+      }
+    },
+    "cOinit": {
+      "type": "text",
+      "label": "Enter the commanding officer's initials.",
+      "page": 1,
+      "box": {
+        "left": 155.2,
+        "top": 130.1,
+        "width": 35.3,
+        "height": 16.6
+      }
+    },
+    "dateinitialedco": {
+      "type": "text",
+      "label": "Enter the date initialed using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 195.5,
+        "top": 130.1,
+        "width": 59.3,
+        "height": 16.5
+      }
+    },
+    "aCdate": {
+      "type": "text",
+      "label": "Enter the date action complete using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 424.2,
+        "top": 125.7,
+        "width": 59.3,
+        "height": 16.5
+      }
+    },
+    "sAFsig": {
+      "type": "text",
+      "label": "Enter the signature of the safety officer.",
+      "page": 1,
+      "box": {
+        "left": 393.0,
+        "top": 96.6,
+        "width": 112.7,
+        "height": 16.6
+      }
+    }
+  }
+}

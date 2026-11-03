@@ -1,0 +1,396 @@
+{
+  "id": "opnav211037",
+  "label": "OPNAV2110-37 - Request For Change Of Action Or Extended Distribution",
+  "directory": "OPNAV2110-37 - Request For Change Of Action Or Extended Distribution",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "to",
+        "date",
+        "changeactionorcognizance",
+        "actionrequested",
+        "extendeddistributiion",
+        "includerequestorINFORDIST",
+        "notencluded",
+        "additionalcopies",
+        "originator",
+        "datetimegroup",
+        "messagecontrolNOMCN",
+        "requestor",
+        "requestorofficeN",
+        "typednameundersignature",
+        "rank1",
+        "requestortelephone",
+        "actionorCOGofficeN",
+        "acceptedby",
+        "rank2",
+        "actionorCOGchangetelephone",
+        "additionalcopiesarerequiredby",
+        "extendinternaldistributionto",
+        "received",
+        "actiontaken",
+        "routes",
+        "approved",
+        "time1",
+        "time2",
+        "routes2",
+        "by1",
+        "by2"
+      ]
+    }
+  ],
+  "fields": {
+    "to": {
+      "type": "text",
+      "label": "Enter who the request for change of action or extended distribution is to. Enter the recipient address.",
+      "page": 1,
+      "box": {
+        "left": 486.9,
+        "top": 532.6,
+        "width": 120.8,
+        "height": 39.4
+      },
+      "multiline": true
+    },
+    "date": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 611.1,
+        "top": 496.6,
+        "width": 143.7,
+        "height": 24.2
+      }
+    },
+    "changeactionorcognizance": {
+      "type": "checkbox",
+      "label": "Select this checkbox if change action or cognizance.",
+      "page": 1,
+      "box": {
+        "left": 478.9,
+        "top": 463.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "actionrequested": {
+      "type": "text",
+      "label": "Enter the action requested.",
+      "page": 1,
+      "box": {
+        "left": 36.6,
+        "top": 454.8,
+        "width": 197.0,
+        "height": 84.3
+      },
+      "multiline": true
+    },
+    "extendeddistributiion": {
+      "type": "checkbox",
+      "label": "Select this checkbox if extended distribution.",
+      "page": 1,
+      "box": {
+        "left": 266.0,
+        "top": 453.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "includerequestorINFORDIST": {
+      "type": "checkbox",
+      "label": "Select this checkbox if including requestor in information distribution.",
+      "page": 1,
+      "box": {
+        "left": 478.9,
+        "top": 439.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "notencluded": {
+      "type": "checkbox",
+      "label": "Select this checkbox if not including requestor in re-issue distribution but return this request when requested action has been taken.",
+      "page": 1,
+      "box": {
+        "left": 478.9,
+        "top": 412.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "additionalcopies": {
+      "type": "checkbox",
+      "label": "Select this checkbox if additional copies.",
+      "page": 1,
+      "box": {
+        "left": 266.5,
+        "top": 402.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "originator": {
+      "type": "text",
+      "label": "Enter the originator.",
+      "page": 1,
+      "box": {
+        "left": 139.4,
+        "top": 354.7,
+        "width": 304.4,
+        "height": 19.1
+      }
+    },
+    "datetimegroup": {
+      "type": "text",
+      "label": "Enter the date, time and group information.",
+      "page": 1,
+      "box": {
+        "left": 448.3,
+        "top": 354.7,
+        "width": 157.8,
+        "height": 19.1
+      }
+    },
+    "messagecontrolNOMCN": {
+      "type": "text",
+      "label": "Enter the message control number (MCN).",
+      "page": 1,
+      "box": {
+        "left": 645.0,
+        "top": 354.7,
+        "width": 109.8,
+        "height": 19.1
+      }
+    },
+    "requestor": {
+      "type": "text",
+      "label": "Enter the requestor.",
+      "page": 1,
+      "box": {
+        "left": 36.6,
+        "top": 318.7,
+        "width": 99.4,
+        "height": 19.1
+      }
+    },
+    "requestorofficeN": {
+      "type": "text",
+      "label": "Enter the requestor office N.",
+      "page": 1,
+      "box": {
+        "left": 153.5,
+        "top": 318.7,
+        "width": 78.5,
+        "height": 19.1
+      }
+    },
+    "typednameundersignature": {
+      "type": "text",
+      "label": "Enter the typed name under signature.",
+      "page": 1,
+      "box": {
+        "left": 235.4,
+        "top": 318.7,
+        "width": 297.1,
+        "height": 19.1
+      }
+    },
+    "rank1": {
+      "type": "text",
+      "label": "Enter the rank.",
+      "page": 1,
+      "box": {
+        "left": 535.9,
+        "top": 318.7,
+        "width": 70.7,
+        "height": 19.1
+      }
+    },
+    "requestortelephone": {
+      "type": "text",
+      "label": "Enter the requestor's telephone number.",
+      "page": 1,
+      "box": {
+        "left": 609.0,
+        "top": 318.7,
+        "width": 145.8,
+        "height": 19.1
+      }
+    },
+    "actionorCOGofficeN": {
+      "type": "text",
+      "label": "Enter the requestor office N.",
+      "page": 1,
+      "box": {
+        "left": 153.5,
+        "top": 282.2,
+        "width": 78.5,
+        "height": 19.1
+      }
+    },
+    "acceptedby": {
+      "type": "text",
+      "label": "Enter whom action or COG change is accepted by.",
+      "page": 1,
+      "box": {
+        "left": 235.4,
+        "top": 282.2,
+        "width": 297.1,
+        "height": 19.1
+      }
+    },
+    "rank2": {
+      "type": "text",
+      "label": "Enter the rank.",
+      "page": 1,
+      "box": {
+        "left": 535.9,
+        "top": 282.2,
+        "width": 70.7,
+        "height": 19.1
+      }
+    },
+    "actionorCOGchangetelephone": {
+      "type": "text",
+      "label": "Enter the action or COG change telephone number.",
+      "page": 1,
+      "box": {
+        "left": 609.0,
+        "top": 282.2,
+        "width": 145.8,
+        "height": 19.1
+      }
+    },
+    "additionalcopiesarerequiredby": {
+      "type": "text",
+      "label": "Enter who additional copies are required by.",
+      "page": 1,
+      "box": {
+        "left": 36.6,
+        "top": 244.1,
+        "width": 718.1,
+        "height": 34.2
+      },
+      "multiline": true
+    },
+    "extendinternaldistributionto": {
+      "type": "text",
+      "label": "Enter who the extended internal distribution is to.",
+      "page": 1,
+      "box": {
+        "left": 36.6,
+        "top": 190.9,
+        "width": 718.1,
+        "height": 34.2
+      },
+      "multiline": true
+    },
+    "received": {
+      "type": "text",
+      "label": "Enter when received.",
+      "page": 1,
+      "box": {
+        "left": 193.2,
+        "top": 153.3,
+        "width": 95.7,
+        "height": 13.1
+      }
+    },
+    "actiontaken": {
+      "type": "text",
+      "label": "Enter the action taken.",
+      "page": 1,
+      "box": {
+        "left": 528.1,
+        "top": 153.3,
+        "width": 70.7,
+        "height": 13.1
+      }
+    },
+    "routes": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 624.0,
+        "top": 146.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_Routes_0"
+    },
+    "approved": {
+      "type": "text",
+      "label": "Enter who approved.",
+      "page": 1,
+      "box": {
+        "left": 293.3,
+        "top": 137.1,
+        "width": 150.0,
+        "height": 38.1
+      },
+      "multiline": true
+    },
+    "time1": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 193.2,
+        "top": 134.5,
+        "width": 95.7,
+        "height": 13.1
+      }
+    },
+    "time2": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 503.1,
+        "top": 134.5,
+        "width": 95.7,
+        "height": 13.1
+      }
+    },
+    "routes2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 624.0,
+        "top": 120.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_Routes_0"
+    },
+    "by1": {
+      "type": "text",
+      "label": "Enter who received by.",
+      "page": 1,
+      "box": {
+        "left": 135.8,
+        "top": 112.1,
+        "width": 153.1,
+        "height": 13.1
+      }
+    },
+    "by2": {
+      "type": "text",
+      "label": "Enter who action taken by.",
+      "page": 1,
+      "box": {
+        "left": 445.7,
+        "top": 112.1,
+        "width": 153.1,
+        "height": 13.1
+      }
+    }
+  }
+}

@@ -1,0 +1,584 @@
+{
+  "id": "opnav42004t",
+  "label": "OPNAV4200-4T - Opnav Requirement Review Board (orrb) Input",
+  "directory": "OPNAV4200-4T - Opnav Requirement Review Board (orrb) Input",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "ncode",
+        "ornno",
+        "reqtle",
+        "serno",
+        "cotno",
+        "tono",
+        "newReq",
+        "reqsum",
+        "imprsk",
+        "rikmit",
+        "gvtexp",
+        "radio",
+        "radio2",
+        "suminhergov",
+        "lstorrb",
+        "lSTSerial",
+        "apnyr1",
+        "apnyr2",
+        "perper1",
+        "perper2",
+        "radio3",
+        "radio4",
+        "radio5",
+        "radio6",
+        "radio7",
+        "valfndreq",
+        "radio8",
+        "radio9",
+        "resfnd",
+        "optper",
+        "optperto",
+        "soucss",
+        "gvtexp2",
+        "lngtrm",
+        "plaper",
+        "corloc",
+        "nomcor",
+        "fte",
+        "osfte",
+        "ftenmci"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "bgrcon",
+        "odc",
+        "checkBox1",
+        "subadd"
+      ],
+      "editor": "checklist"
+    }
+  ],
+  "fields": {
+    "ncode": {
+      "type": "text",
+      "label": "N-CODE",
+      "page": 1,
+      "box": {
+        "left": 100.1,
+        "top": 550.7,
+        "width": 45.6,
+        "height": 21.3
+      }
+    },
+    "ornno": {
+      "type": "text",
+      "label": "ORRB #",
+      "page": 1,
+      "box": {
+        "left": 652.3,
+        "top": 550.4,
+        "width": 92.4,
+        "height": 21.3
+      }
+    },
+    "reqtle": {
+      "type": "text",
+      "label": "OPNAV REQUIREMENT REVIEW BOARD (ORRB) INPUT",
+      "page": 1,
+      "box": {
+        "left": 182.0,
+        "top": 538.7,
+        "width": 428.1,
+        "height": 18.1
+      }
+    },
+    "serno": {
+      "type": "text",
+      "label": "Seri #: al",
+      "page": 1,
+      "box": {
+        "left": 653.5,
+        "top": 523.4,
+        "width": 91.2,
+        "height": 21.3
+      }
+    },
+    "cotno": {
+      "type": "text",
+      "label": "REQUIREMENT",
+      "page": 1,
+      "box": {
+        "left": 182.9,
+        "top": 514.7,
+        "width": 169.9,
+        "height": 16.1
+      }
+    },
+    "tono": {
+      "type": "text",
+      "label": "REQUIREMENT TITLE",
+      "page": 1,
+      "box": {
+        "left": 367.4,
+        "top": 514.7,
+        "width": 142.8,
+        "height": 16.1
+      }
+    },
+    "newReq": {
+      "type": "choice",
+      "label": "(ORRB) INPUT",
+      "page": 1,
+      "box": {
+        "left": 525.7,
+        "top": 514.0,
+        "width": 82.8,
+        "height": 14.6
+      },
+      "options": [
+        "Yes",
+        "No"
+      ]
+    },
+    "reqsum": {
+      "type": "text",
+      "label": "Requirements Summary",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 471.5,
+        "width": 714.4,
+        "height": 36.6
+      },
+      "multiline": true
+    },
+    "imprsk": {
+      "type": "text",
+      "label": "Impact/Risk if not Approved",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 418.0,
+        "width": 714.4,
+        "height": 37.1
+      },
+      "multiline": true
+    },
+    "rikmit": {
+      "type": "text",
+      "label": "Risk Mitigations if not Approved",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 367.1,
+        "width": 714.4,
+        "height": 40.3
+      },
+      "multiline": true
+    },
+    "gvtexp": {
+      "type": "text",
+      "label": "Gvtexp",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 311.8,
+        "width": 714.4,
+        "height": 38.9
+      },
+      "multiline": true
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 217.3,
+        "top": 266.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 248.8,
+        "top": 266.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "suminhergov": {
+      "type": "text",
+      "label": "Suminhergov",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 249.2,
+        "width": 714.4,
+        "height": 21.9
+      }
+    },
+    "lstorrb": {
+      "type": "text",
+      "label": "Last ORRB #",
+      "page": 1,
+      "box": {
+        "left": 92.8,
+        "top": 210.9,
+        "width": 120.3,
+        "height": 13.5
+      }
+    },
+    "lSTSerial": {
+      "type": "text",
+      "label": "Last Serial #",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 210.9,
+        "width": 120.3,
+        "height": 13.5
+      }
+    },
+    "apnyr1": {
+      "type": "choice",
+      "label": "Appn Year",
+      "page": 1,
+      "box": {
+        "left": 448.9,
+        "top": 210.2,
+        "width": 87.6,
+        "height": 14.3
+      },
+      "options": [
+        "FY 2026",
+        "FY 2027",
+        "FY 2028",
+        "FY 2029",
+        "FY 2030"
+      ]
+    },
+    "apnyr2": {
+      "type": "choice",
+      "label": "To",
+      "page": 1,
+      "box": {
+        "left": 558.1,
+        "top": 210.2,
+        "width": 86.4,
+        "height": 14.3
+      },
+      "options": [
+        "FY 2026",
+        "FY 2027",
+        "FY 2028",
+        "FY 2029",
+        "FY 2030"
+      ]
+    },
+    "perper1": {
+      "type": "text",
+      "label": "Current Period of Performance",
+      "page": 1,
+      "box": {
+        "left": 154.1,
+        "top": 197.4,
+        "width": 122.1,
+        "height": 13.5
+      }
+    },
+    "perper2": {
+      "type": "text",
+      "label": "to",
+      "page": 1,
+      "box": {
+        "left": 296.3,
+        "top": 197.4,
+        "width": 96.9,
+        "height": 13.5
+      }
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 504.8,
+        "top": 192.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 578.0,
+        "top": 192.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 641.0,
+        "top": 192.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 133.5,
+        "top": 182.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 165.0,
+        "top": 182.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "valfndreq": {
+      "type": "text",
+      "label": "Other",
+      "page": 1,
+      "box": {
+        "left": 672.0,
+        "top": 179.4,
+        "width": 80.7,
+        "height": 15.8
+      }
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 110.2,
+        "top": 168.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio9": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 141.7,
+        "top": 168.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "resfnd": {
+      "type": "text",
+      "label": "Last ORRB Resulted in Funds Obligation of : $",
+      "page": 1,
+      "box": {
+        "left": 569.9,
+        "top": 163.4,
+        "width": 183.0,
+        "height": 15.8
+      }
+    },
+    "optper": {
+      "type": "text",
+      "label": "If Yes to either, period performance",
+      "page": 1,
+      "box": {
+        "left": 170.9,
+        "top": 156.9,
+        "width": 87.3,
+        "height": 13.5
+      }
+    },
+    "optperto": {
+      "type": "text",
+      "label": "to",
+      "page": 1,
+      "box": {
+        "left": 278.3,
+        "top": 156.9,
+        "width": 96.9,
+        "height": 13.5
+      }
+    },
+    "soucss": {
+      "type": "text",
+      "label": "Requirement has been sourced w/CSS for",
+      "page": 1,
+      "box": {
+        "left": 196.4,
+        "top": 143.4,
+        "width": 23.7,
+        "height": 13.5
+      }
+    },
+    "gvtexp2": {
+      "type": "text",
+      "label": "General Notes",
+      "page": 1,
+      "box": {
+        "left": 398.9,
+        "top": 135.4,
+        "width": 354.4,
+        "height": 52.2
+      },
+      "multiline": true
+    },
+    "lngtrm": {
+      "type": "text",
+      "label": "Lngtrm",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 118.4,
+        "width": 354.4,
+        "height": 21.7
+      }
+    },
+    "plaper": {
+      "type": "text",
+      "label": "Place of Performance",
+      "page": 1,
+      "box": {
+        "left": 118.0,
+        "top": 93.9,
+        "width": 274.9,
+        "height": 13.5
+      }
+    },
+    "corloc": {
+      "type": "text",
+      "label": "COR location",
+      "page": 1,
+      "box": {
+        "left": 89.2,
+        "top": 80.4,
+        "width": 123.4,
+        "height": 13.5
+      }
+    },
+    "nomcor": {
+      "type": "text",
+      "label": "COR Name",
+      "page": 1,
+      "box": {
+        "left": 267.5,
+        "top": 80.4,
+        "width": 124.5,
+        "height": 13.5
+      }
+    },
+    "fte": {
+      "type": "text",
+      "label": "Total FTEs",
+      "page": 1,
+      "box": {
+        "left": 84.4,
+        "top": 64.1,
+        "width": 49.8,
+        "height": 12.3
+      }
+    },
+    "osfte": {
+      "type": "text",
+      "label": "# On-Site FTE",
+      "page": 1,
+      "box": {
+        "left": 196.9,
+        "top": 64.1,
+        "width": 50.6,
+        "height": 12.3
+      }
+    },
+    "ftenmci": {
+      "type": "text",
+      "label": "# w/NMCI access",
+      "page": 1,
+      "box": {
+        "left": 339.6,
+        "top": 64.1,
+        "width": 52.4,
+        "height": 12.3
+      }
+    },
+    "bgrcon": {
+      "type": "checkbox",
+      "label": "TRIPWIRES (Check those that DO apply)",
+      "page": 2,
+      "box": {
+        "left": 566.4,
+        "top": 570.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "odc": {
+      "type": "checkbox",
+      "label": "Bridge Contract",
+      "page": 2,
+      "box": {
+        "left": 656.4,
+        "top": 570.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox1": {
+      "type": "checkbox",
+      "label": "Approval",
+      "page": 2,
+      "box": {
+        "left": 566.4,
+        "top": 552.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "subadd": {
+      "type": "checkbox",
+      "label": "Labor Rate &gt;$300K",
+      "page": 2,
+      "box": {
+        "left": 656.4,
+        "top": 552.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    }
+  }
+}

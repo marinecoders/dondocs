@@ -1,0 +1,108 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "trueCopies": {
+        "left": 40.3,
+        "top": 528.9,
+        "width": 539.6,
+        "height": 304.8,
+        "type": "text",
+        "description": "TrueCopies",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "day": {
+        "left": 236.6,
+        "top": 183.1,
+        "width": 83.0,
+        "height": 20.1,
+        "type": "text",
+        "description": "Insert day of month",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "month": {
+        "left": 380.1,
+        "top": 178.0,
+        "width": 99.3,
+        "height": 16.8,
+        "type": "choice",
+        "description": "Click to insert month",
+        "options": [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December"
+        ],
+        "group": null,
+        "required": false
+      },
+      "year": {
+        "left": 501.6,
+        "top": 175.2,
+        "width": 73.9,
+        "height": 12.4,
+        "type": "text",
+        "description": "Insert applicable year, i.e. 2006",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField1": {
+        "left": 291.2,
+        "top": 142.0,
+        "width": 279.3,
+        "height": 23.8,
+        "type": "signature",
+        "description": "SignatureField1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name": {
+        "left": 292.3,
+        "top": 110.7,
+        "width": 279.8,
+        "height": 14.6,
+        "type": "text",
+        "description": "Insert name of signer",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sign": {
+        "left": 291.6,
+        "top": 90.5,
+        "width": 280.1,
+        "height": 15.4,
+        "type": "text",
+        "description": "Click to designate title of signer",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

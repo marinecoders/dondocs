@@ -1,0 +1,29 @@
+{
+  "id": "navpers1306101",
+  "label": "NAVPERS1306-101 - NAVY Drug And Alcohol Counselor School Interview",
+  "directory": "NAVPERS1306-101 - NAVY Drug And Alcohol Counselor School Interview",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "instructionstext1"
+      ]
+    }
+  ],
+  "fields": {
+    "instructionstext1": {
+      "type": "text",
+      "label": "Instructionstext 1",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 717.1,
+        "width": 534.3,
+        "height": 12.2
+      }
+    }
+  }
+}

@@ -1,0 +1,449 @@
+{
+  "id": "navmchq962",
+  "label": "NAVMC HQ 962 - Nomination For An Extraordinary Performance Recognition Award",
+  "directory": "NAVMCHQ962 - Nomination For An Extraordinary Performance Recognition Award",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "lastName",
+        "firstName",
+        "nameMI",
+        "title",
+        "series",
+        "title2",
+        "grade",
+        "grade2",
+        "bonusRec",
+        "payAndAwards",
+        "salaryIncRec",
+        "bonusRec2",
+        "nameRateOff",
+        "signatureSigRateOff",
+        "dateRateOff",
+        "nameRevOff",
+        "signatureSigRevOff",
+        "dateRevOff",
+        "finalRating",
+        "salaryCurPer",
+        "bonusCurPer",
+        "salaryIncEPR",
+        "bonusEPR",
+        "r28b",
+        "r28b2",
+        "namePPM",
+        "signatureSigPPM",
+        "datePPM",
+        "amount",
+        "bonus",
+        "r28b3",
+        "r28b4",
+        "signatureChairman",
+        "dateChairman"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "justification"
+      ]
+    }
+  ],
+  "fields": {
+    "lastName": {
+      "type": "text",
+      "label": "LastName",
+      "page": 1,
+      "box": {
+        "left": 21.6,
+        "top": 659.1,
+        "width": 285.6,
+        "height": 15.1
+      }
+    },
+    "firstName": {
+      "type": "text",
+      "label": "FirstName",
+      "page": 1,
+      "box": {
+        "left": 311.9,
+        "top": 659.1,
+        "width": 255.1,
+        "height": 15.1
+      }
+    },
+    "nameMI": {
+      "type": "text",
+      "label": "NameMI",
+      "page": 1,
+      "box": {
+        "left": 570.6,
+        "top": 658.8,
+        "width": 19.7,
+        "height": 15.1
+      }
+    },
+    "title": {
+      "type": "text",
+      "label": "Title",
+      "page": 1,
+      "box": {
+        "left": 20.9,
+        "top": 628.6,
+        "width": 142.6,
+        "height": 15.1
+      }
+    },
+    "series": {
+      "type": "text",
+      "label": "Series",
+      "page": 1,
+      "box": {
+        "left": 170.2,
+        "top": 628.6,
+        "width": 420.7,
+        "height": 15.1
+      }
+    },
+    "title2": {
+      "type": "text",
+      "label": "Title",
+      "page": 1,
+      "box": {
+        "left": 20.9,
+        "top": 597.6,
+        "width": 135.9,
+        "height": 15.1
+      }
+    },
+    "grade": {
+      "type": "text",
+      "label": "Grade",
+      "page": 1,
+      "box": {
+        "left": 241.2,
+        "top": 597.6,
+        "width": 159.3,
+        "height": 15.1
+      }
+    },
+    "grade2": {
+      "type": "text",
+      "label": "Grade",
+      "page": 1,
+      "box": {
+        "left": 405.7,
+        "top": 597.6,
+        "width": 185.4,
+        "height": 15.1
+      }
+    },
+    "bonusRec": {
+      "type": "text",
+      "label": "BonusRec",
+      "page": 1,
+      "box": {
+        "left": 163.0,
+        "top": 597.1,
+        "width": 73.3,
+        "height": 15.9
+      }
+    },
+    "payAndAwards": {
+      "type": "text",
+      "label": "PayAndAwards",
+      "page": 1,
+      "box": {
+        "left": 150.8,
+        "top": 578.2,
+        "width": 440.2,
+        "height": 40.5
+      },
+      "multiline": true
+    },
+    "salaryIncRec": {
+      "type": "text",
+      "label": "SalaryIncRec",
+      "page": 1,
+      "box": {
+        "left": 367.4,
+        "top": 470.0,
+        "width": 56.2,
+        "height": 15.9
+      }
+    },
+    "bonusRec2": {
+      "type": "text",
+      "label": "BonusRec",
+      "page": 1,
+      "box": {
+        "left": 479.7,
+        "top": 470.0,
+        "width": 56.2,
+        "height": 15.9
+      }
+    },
+    "nameRateOff": {
+      "type": "text",
+      "label": "NameRateOff",
+      "page": 1,
+      "box": {
+        "left": 77.6,
+        "top": 418.5,
+        "width": 201.4,
+        "height": 10.2
+      }
+    },
+    "signatureSigRateOff": {
+      "type": "signature",
+      "label": "SignatureSigRateOff",
+      "page": 1,
+      "box": {
+        "left": 291.5,
+        "top": 418.5,
+        "width": 150.3,
+        "height": 10.2
+      }
+    },
+    "dateRateOff": {
+      "type": "text",
+      "label": "DateRateOff",
+      "page": 1,
+      "box": {
+        "left": 456.0,
+        "top": 418.5,
+        "width": 77.6,
+        "height": 10.2
+      }
+    },
+    "nameRevOff": {
+      "type": "text",
+      "label": "NameRevOff",
+      "page": 1,
+      "box": {
+        "left": 77.6,
+        "top": 374.3,
+        "width": 201.4,
+        "height": 10.2
+      }
+    },
+    "signatureSigRevOff": {
+      "type": "signature",
+      "label": "SignatureSigRevOff",
+      "page": 1,
+      "box": {
+        "left": 291.5,
+        "top": 374.3,
+        "width": 150.3,
+        "height": 10.2
+      }
+    },
+    "dateRevOff": {
+      "type": "text",
+      "label": "DateRevOff",
+      "page": 1,
+      "box": {
+        "left": 456.1,
+        "top": 374.3,
+        "width": 77.6,
+        "height": 10.2
+      }
+    },
+    "finalRating": {
+      "type": "text",
+      "label": "FinalRating",
+      "page": 1,
+      "box": {
+        "left": 147.7,
+        "top": 306.8,
+        "width": 135.9,
+        "height": 10.2
+      }
+    },
+    "salaryCurPer": {
+      "type": "text",
+      "label": "SalaryCurPer",
+      "page": 1,
+      "box": {
+        "left": 305.4,
+        "top": 281.2,
+        "width": 56.2,
+        "height": 15.9
+      }
+    },
+    "bonusCurPer": {
+      "type": "text",
+      "label": "BonusCurPer",
+      "page": 1,
+      "box": {
+        "left": 411.8,
+        "top": 281.2,
+        "width": 56.2,
+        "height": 15.9
+      }
+    },
+    "salaryIncEPR": {
+      "type": "text",
+      "label": "SalaryIncEPR",
+      "page": 1,
+      "box": {
+        "left": 373.1,
+        "top": 249.4,
+        "width": 56.2,
+        "height": 15.9
+      }
+    },
+    "bonusEPR": {
+      "type": "text",
+      "label": "BonusEPR",
+      "page": 1,
+      "box": {
+        "left": 479.5,
+        "top": 249.4,
+        "width": 56.2,
+        "height": 15.9
+      }
+    },
+    "r28b": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 145.1,
+        "top": 244.5,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "form1_0_subform_0_r28b_1"
+    },
+    "r28b2": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 214.1,
+        "top": 244.3,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "form1_0_subform_0_r28b_1"
+    },
+    "namePPM": {
+      "type": "text",
+      "label": "NamePPM",
+      "page": 1,
+      "box": {
+        "left": 77.6,
+        "top": 204.4,
+        "width": 201.4,
+        "height": 10.2
+      }
+    },
+    "signatureSigPPM": {
+      "type": "signature",
+      "label": "SignatureSigPPM",
+      "page": 1,
+      "box": {
+        "left": 291.5,
+        "top": 204.4,
+        "width": 150.3,
+        "height": 10.2
+      }
+    },
+    "datePPM": {
+      "type": "text",
+      "label": "DatePPM",
+      "page": 1,
+      "box": {
+        "left": 456.1,
+        "top": 204.4,
+        "width": 77.6,
+        "height": 10.2
+      }
+    },
+    "amount": {
+      "type": "text",
+      "label": "Amount",
+      "page": 1,
+      "box": {
+        "left": 395.3,
+        "top": 153.1,
+        "width": 56.2,
+        "height": 15.9
+      }
+    },
+    "bonus": {
+      "type": "text",
+      "label": "Bonus",
+      "page": 1,
+      "box": {
+        "left": 497.3,
+        "top": 153.1,
+        "width": 56.2,
+        "height": 15.9
+      }
+    },
+    "r28b3": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 82.4,
+        "top": 148.6,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "form1_0_subform_0_r28b_0"
+    },
+    "r28b4": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 82.9,
+        "top": 124.1,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "form1_0_subform_0_r28b_0"
+    },
+    "signatureChairman": {
+      "type": "signature",
+      "label": "SignatureChairman",
+      "page": 1,
+      "box": {
+        "left": 185.0,
+        "top": 114.7,
+        "width": 150.3,
+        "height": 10.2
+      }
+    },
+    "dateChairman": {
+      "type": "text",
+      "label": "DateChairman",
+      "page": 1,
+      "box": {
+        "left": 349.6,
+        "top": 114.7,
+        "width": 77.6,
+        "height": 10.2
+      }
+    },
+    "justification": {
+      "type": "text",
+      "label": "Justification",
+      "page": 2,
+      "box": {
+        "left": 57.3,
+        "top": 620.9,
+        "width": 497.1,
+        "height": 441.5
+      },
+      "multiline": true
+    }
+  }
+}

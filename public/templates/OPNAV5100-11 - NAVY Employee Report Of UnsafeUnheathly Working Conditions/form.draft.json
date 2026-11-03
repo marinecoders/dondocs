@@ -1,0 +1,296 @@
+{
+  "id": "opnav510011",
+  "label": "OPNAV5100-11 - NAVY Employee Report Of UnsafeUnheathly Working Conditions",
+  "directory": "OPNAV5100-11 - NAVY Employee Report Of UnsafeUnheathly Working Conditions",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "undersigned",
+        "undersigned2",
+        "navy1",
+        "building1",
+        "name1",
+        "telephone1",
+        "yesAndNo1",
+        "yesAndNo12",
+        "brife1",
+        "list1",
+        "yesAndNo2",
+        "yesAndNo22",
+        "knowledge1",
+        "employee1",
+        "signed1",
+        "address2",
+        "telephoneCaption1",
+        "yesAndNo4",
+        "yesAndNo42",
+        "yesAndNo3",
+        "yesAndNo32",
+        "dNSDate2"
+      ]
+    }
+  ],
+  "fields": {
+    "undersigned": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 252.3,
+        "top": 669.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_UNDERSIGNED_0"
+    },
+    "undersigned2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 368.6,
+        "top": 669.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_UNDERSIGNED_0"
+    },
+    "navy1": {
+      "type": "text",
+      "label": "Enter the navy installation or activity and mailing address.",
+      "page": 1,
+      "box": {
+        "left": 58.8,
+        "top": 610.6,
+        "width": 495.2,
+        "height": 40.3
+      },
+      "multiline": true
+    },
+    "building1": {
+      "type": "text",
+      "label": "Enter the building or worksite where alleged violation is located including address.",
+      "page": 1,
+      "box": {
+        "left": 58.8,
+        "top": 558.2,
+        "width": 495.2,
+        "height": 40.3
+      },
+      "multiline": true
+    },
+    "name1": {
+      "type": "text",
+      "label": "Enter the name of government supervisor at site of violation.",
+      "page": 1,
+      "box": {
+        "left": 58.8,
+        "top": 501.6,
+        "width": 380.4,
+        "height": 13.5
+      }
+    },
+    "telephone1": {
+      "type": "text",
+      "label": "Enter the telephone number of government supervisor at site of violation.",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 501.6,
+        "width": 106.0,
+        "height": 13.5
+      }
+    },
+    "yesAndNo1": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 427.3,
+        "top": 475.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_YesAndNo1_0"
+    },
+    "yesAndNo12": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 472.7,
+        "top": 475.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_YesAndNo1_0"
+    },
+    "brife1": {
+      "type": "text",
+      "label": "Enter a brief description for the hazard which exists including the approximate number of employees exposed\r\n to or threatened by such hazard.",
+      "page": 1,
+      "box": {
+        "left": 58.8,
+        "top": 435.4,
+        "width": 495.2,
+        "height": 54.9
+      },
+      "multiline": true
+    },
+    "list1": {
+      "type": "text",
+      "label": "If known, list by number and or by name, the particular standard (or standards) issued by the agency which you clam has been violated.",
+      "page": 1,
+      "box": {
+        "left": 58.8,
+        "top": 352.3,
+        "width": 495.2,
+        "height": 54.9
+      },
+      "multiline": true
+    },
+    "yesAndNo2": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 136.4,
+        "top": 269.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_YesAndNo2_0"
+    },
+    "yesAndNo22": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 250.3,
+        "top": 269.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_YesAndNo2_0"
+    },
+    "knowledge1": {
+      "type": "text",
+      "label": "List results, including any efforts by management to correct violation.",
+      "page": 1,
+      "box": {
+        "left": 58.8,
+        "top": 254.9,
+        "width": 495.2,
+        "height": 44.1
+      },
+      "multiline": true
+    },
+    "employee1": {
+      "type": "text",
+      "label": "Enter the employee typed or printed name.",
+      "page": 1,
+      "box": {
+        "left": 58.3,
+        "top": 191.4,
+        "width": 256.1,
+        "height": 19.8
+      }
+    },
+    "signed1": {
+      "type": "text",
+      "label": "Enter the employee's signature.",
+      "page": 1,
+      "box": {
+        "left": 320.0,
+        "top": 191.4,
+        "width": 235.3,
+        "height": 19.8
+      }
+    },
+    "address2": {
+      "type": "text",
+      "label": "Enter the employee's address.",
+      "page": 1,
+      "box": {
+        "left": 58.3,
+        "top": 152.6,
+        "width": 256.1,
+        "height": 19.8
+      }
+    },
+    "telephoneCaption1": {
+      "type": "text",
+      "label": "Enter the employee's telephone number.",
+      "page": 1,
+      "box": {
+        "left": 320.0,
+        "top": 152.6,
+        "width": 235.3,
+        "height": 19.8
+      }
+    },
+    "yesAndNo4": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 86.7,
+        "top": 112.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_YesAndNo4_0"
+    },
+    "yesAndNo42": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 161.8,
+        "top": 112.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_YesAndNo4_0"
+    },
+    "yesAndNo3": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 348.5,
+        "top": 112.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_YesAndNo3_0"
+    },
+    "yesAndNo32": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 423.5,
+        "top": 112.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_YesAndNo3_0"
+    },
+    "dNSDate2": {
+      "type": "text",
+      "label": "Enter the date filed (DD MMM YYYY).",
+      "page": 1,
+      "box": {
+        "left": 58.3,
+        "top": 73.2,
+        "width": 497.1,
+        "height": 19.8
+      }
+    }
+  }
+}

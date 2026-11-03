@@ -1,0 +1,413 @@
+{
+  "id": "opnav313012",
+  "label": "OPNAV3130-12 - Hoist Operator And Hira Crewchief Practical Training Form",
+  "directory": "OPNAV3130-12 - Hoist Operator And Hira Crewchief Practical Training Form",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "calYr",
+        "jan2",
+        "feb2",
+        "mar2",
+        "april2",
+        "may2",
+        "june2",
+        "july2",
+        "aug2",
+        "sept2",
+        "oct2",
+        "nov2",
+        "dec2",
+        "jan8",
+        "apr8",
+        "jul8",
+        "oct8",
+        "jan9",
+        "apr9",
+        "jul9",
+        "oct9",
+        "janJun10",
+        "julDec10",
+        "janJun11",
+        "julDec11",
+        "janDec5",
+        "janDec10",
+        "janDec6",
+        "name",
+        "rankRate"
+      ]
+    }
+  ],
+  "fields": {
+    "calYr": {
+      "type": "text",
+      "label": "CalYr",
+      "page": 1,
+      "box": {
+        "left": 457.3,
+        "top": 555.2,
+        "width": 66.3,
+        "height": 12.3
+      }
+    },
+    "jan2": {
+      "type": "text",
+      "label": "jan2",
+      "page": 1,
+      "box": {
+        "left": 547.3,
+        "top": 472.5,
+        "width": 9.8,
+        "height": 18.0
+      }
+    },
+    "feb2": {
+      "type": "text",
+      "label": "feb2",
+      "page": 1,
+      "box": {
+        "left": 565.3,
+        "top": 472.5,
+        "width": 9.8,
+        "height": 18.0
+      }
+    },
+    "mar2": {
+      "type": "text",
+      "label": "mar2",
+      "page": 1,
+      "box": {
+        "left": 583.3,
+        "top": 472.5,
+        "width": 9.8,
+        "height": 18.0
+      }
+    },
+    "april2": {
+      "type": "text",
+      "label": "april2",
+      "page": 1,
+      "box": {
+        "left": 601.3,
+        "top": 472.5,
+        "width": 9.8,
+        "height": 18.0
+      }
+    },
+    "may2": {
+      "type": "text",
+      "label": "may2",
+      "page": 1,
+      "box": {
+        "left": 619.3,
+        "top": 472.5,
+        "width": 9.8,
+        "height": 18.0
+      }
+    },
+    "june2": {
+      "type": "text",
+      "label": "june2",
+      "page": 1,
+      "box": {
+        "left": 637.3,
+        "top": 472.5,
+        "width": 9.8,
+        "height": 18.0
+      }
+    },
+    "july2": {
+      "type": "text",
+      "label": "july2",
+      "page": 1,
+      "box": {
+        "left": 655.3,
+        "top": 472.5,
+        "width": 9.8,
+        "height": 18.0
+      }
+    },
+    "aug2": {
+      "type": "text",
+      "label": "aug2",
+      "page": 1,
+      "box": {
+        "left": 673.3,
+        "top": 472.5,
+        "width": 9.8,
+        "height": 18.0
+      }
+    },
+    "sept2": {
+      "type": "text",
+      "label": "sept2",
+      "page": 1,
+      "box": {
+        "left": 691.3,
+        "top": 472.5,
+        "width": 9.8,
+        "height": 18.0
+      }
+    },
+    "oct2": {
+      "type": "text",
+      "label": "oct2",
+      "page": 1,
+      "box": {
+        "left": 709.3,
+        "top": 472.5,
+        "width": 9.8,
+        "height": 18.0
+      }
+    },
+    "nov2": {
+      "type": "text",
+      "label": "nov2",
+      "page": 1,
+      "box": {
+        "left": 727.3,
+        "top": 472.5,
+        "width": 9.8,
+        "height": 18.0
+      }
+    },
+    "dec2": {
+      "type": "text",
+      "label": "dec2",
+      "page": 1,
+      "box": {
+        "left": 743.4,
+        "top": 472.5,
+        "width": 9.8,
+        "height": 18.0
+      }
+    },
+    "jan8": {
+      "type": "text",
+      "label": "jan8",
+      "page": 1,
+      "box": {
+        "left": 545.9,
+        "top": 417.1,
+        "width": 51.2,
+        "height": 15.2
+      }
+    },
+    "apr8": {
+      "type": "text",
+      "label": "apr8",
+      "page": 1,
+      "box": {
+        "left": 599.9,
+        "top": 417.1,
+        "width": 51.2,
+        "height": 15.2
+      }
+    },
+    "jul8": {
+      "type": "text",
+      "label": "jul8",
+      "page": 1,
+      "box": {
+        "left": 653.9,
+        "top": 417.1,
+        "width": 51.2,
+        "height": 15.2
+      }
+    },
+    "oct8": {
+      "type": "text",
+      "label": "oct8",
+      "page": 1,
+      "box": {
+        "left": 707.9,
+        "top": 417.1,
+        "width": 46.7,
+        "height": 15.2
+      }
+    },
+    "jan9": {
+      "type": "text",
+      "label": "jan9",
+      "page": 1,
+      "box": {
+        "left": 545.9,
+        "top": 399.1,
+        "width": 51.2,
+        "height": 15.2
+      }
+    },
+    "apr9": {
+      "type": "text",
+      "label": "apr9",
+      "page": 1,
+      "box": {
+        "left": 599.9,
+        "top": 399.1,
+        "width": 51.2,
+        "height": 15.2
+      }
+    },
+    "jul9": {
+      "type": "text",
+      "label": "jul9",
+      "page": 1,
+      "box": {
+        "left": 653.9,
+        "top": 399.1,
+        "width": 51.2,
+        "height": 15.2
+      }
+    },
+    "oct9": {
+      "type": "text",
+      "label": "oct9",
+      "page": 1,
+      "box": {
+        "left": 707.9,
+        "top": 399.1,
+        "width": 46.7,
+        "height": 15.2
+      }
+    },
+    "janJun10": {
+      "type": "text",
+      "label": "jan_jun10",
+      "page": 1,
+      "box": {
+        "left": 545.9,
+        "top": 327.1,
+        "width": 105.2,
+        "height": 24.2
+      }
+    },
+    "julDec10": {
+      "type": "text",
+      "label": "jul_dec10",
+      "page": 1,
+      "box": {
+        "left": 653.9,
+        "top": 327.1,
+        "width": 100.7,
+        "height": 24.2
+      }
+    },
+    "janJun11": {
+      "type": "text",
+      "label": "jan_jun11",
+      "page": 1,
+      "box": {
+        "left": 545.9,
+        "top": 300.1,
+        "width": 105.2,
+        "height": 24.2
+      }
+    },
+    "julDec11": {
+      "type": "text",
+      "label": "jul_dec11",
+      "page": 1,
+      "box": {
+        "left": 653.9,
+        "top": 300.1,
+        "width": 100.7,
+        "height": 24.2
+      }
+    },
+    "janDec5": {
+      "type": "text",
+      "label": "jan_dec5",
+      "page": 1,
+      "box": {
+        "left": 302.9,
+        "top": 237.1,
+        "width": 82.7,
+        "height": 15.2
+      }
+    },
+    "janDec10": {
+      "type": "text",
+      "label": "jan_dec10",
+      "page": 1,
+      "box": {
+        "left": 653.9,
+        "top": 237.1,
+        "width": 100.7,
+        "height": 33.2
+      },
+      "multiline": true
+    },
+    "janDec6": {
+      "type": "text",
+      "label": "jan_dec6",
+      "page": 1,
+      "box": {
+        "left": 302.9,
+        "top": 219.1,
+        "width": 82.7,
+        "height": 15.2
+      }
+    },
+    "name": {
+      "type": "text",
+      "label": " NAME  (LAST, FIRST, MI, SUFFIX): ",
+      "page": 1,
+      "box": {
+        "left": 188.3,
+        "top": 199.7,
+        "width": 195.9,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "rankRate": {
+      "type": "text",
+      "label": " RANK/RATE:",
+      "page": 1,
+      "box": {
+        "left": 474.2,
+        "top": 199.7,
+        "width": 279.0,
+        "height": 30.3
+      },
+      "multiline": true
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 4,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "janJuns": {
+          "type": "text",
+          "label": "jan_juns1",
+          "page": 1,
+          "box": {
+            "left": 221.9,
+            "top": 345.1,
+            "width": 78.2,
+            "height": 15.2
+          }
+        },
+        "julDecs": {
+          "type": "text",
+          "label": "jul_decs1",
+          "page": 1,
+          "box": {
+            "left": 302.9,
+            "top": 345.1,
+            "width": 82.7,
+            "height": 15.2
+          }
+        }
+      }
+    }
+  }
+}

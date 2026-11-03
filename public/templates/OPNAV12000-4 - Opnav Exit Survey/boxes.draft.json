@@ -1,0 +1,504 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "name": {
+        "left": 38.8,
+        "top": 727.4,
+        "width": 174.4,
+        "height": 15.6,
+        "type": "text",
+        "description": "1. NAME (optional)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "race": {
+        "left": 219.6,
+        "top": 726.7,
+        "width": 172.9,
+        "height": 14.1,
+        "type": "choice",
+        "description": "2. RACE",
+        "options": [
+          "White",
+          "Black or African American",
+          "Hispanic or Latino",
+          "Asian or Pacific Islander",
+          "American Indian or Alaska Native",
+          "Two or more races"
+        ],
+        "group": null,
+        "required": false
+      },
+      "sex": {
+        "left": 399.6,
+        "top": 726.7,
+        "width": 172.9,
+        "height": 14.1,
+        "type": "choice",
+        "description": "3. SEX",
+        "options": [
+          "Male",
+          "Female"
+        ],
+        "group": null,
+        "required": false
+      },
+      "command": {
+        "left": 255.9,
+        "top": 694.3,
+        "width": 137.4,
+        "height": 15.6,
+        "type": "text",
+        "description": "5. COMMAND/ORGANIZATION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sepDate": {
+        "left": 398.9,
+        "top": 694.3,
+        "width": 174.4,
+        "height": 15.6,
+        "type": "text",
+        "description": "6. SEPARATION DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "disability": {
+        "left": 39.6,
+        "top": 693.6,
+        "width": 209.8,
+        "height": 14.1,
+        "type": "choice",
+        "description": "4. ARE YOU AN INDIVIDUAL WITH A DISABILITY (IWD)?",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "group": null,
+        "required": false
+      },
+      "position": {
+        "left": 38.8,
+        "top": 662.2,
+        "width": 174.4,
+        "height": 15.6,
+        "type": "text",
+        "description": "7. POSITION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "series": {
+        "left": 218.9,
+        "top": 662.2,
+        "width": 174.4,
+        "height": 15.6,
+        "type": "text",
+        "description": "8. SERIES/GRADE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "lenServ": {
+        "left": 398.9,
+        "top": 662.2,
+        "width": 174.4,
+        "height": 15.6,
+        "type": "text",
+        "description": "9. LENGTH OF SERVICE WITH COMMAND",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio": {
+        "left": 56.8,
+        "top": 628.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio2": {
+        "left": 308.9,
+        "top": 628.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item2",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio3": {
+        "left": 56.8,
+        "top": 611.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio4": {
+        "left": 308.9,
+        "top": 611.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item3",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio5": {
+        "left": 56.8,
+        "top": 594.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio6": {
+        "left": 308.9,
+        "top": 594.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item4",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "otherExpl1": {
+        "left": 38.8,
+        "top": 578.5,
+        "width": 534.4,
+        "height": 30.3,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "jobSat": {
+        "left": 58.3,
+        "top": 520.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "below)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sched": {
+        "left": 234.8,
+        "top": 520.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Job satisfaction",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "salary": {
+        "left": 457.3,
+        "top": 520.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Work schedule/hours",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "morale": {
+        "left": 58.3,
+        "top": 503.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "below)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "edu": {
+        "left": 234.8,
+        "top": 503.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Morale",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "training": {
+        "left": 457.3,
+        "top": 503.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Better educational benefits",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "amount": {
+        "left": 58.3,
+        "top": 486.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "below)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "prom": {
+        "left": 234.8,
+        "top": 486.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Amount of work",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "workLife": {
+        "left": 457.3,
+        "top": 486.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Promotion",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "office": {
+        "left": 58.3,
+        "top": 469.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "below)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sup": {
+        "left": 234.8,
+        "top": 469.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Office environment",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "travel": {
+        "left": 457.3,
+        "top": 469.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Supervisor/management relationship",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "opport": {
+        "left": 58.3,
+        "top": 452.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "below)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recog": {
+        "left": 234.8,
+        "top": 452.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Lack of opportunities",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "broaden": {
+        "left": 457.3,
+        "top": 452.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Lack of recognition",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "other7": {
+        "left": 58.3,
+        "top": 435.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "below)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "otherExpl2": {
+        "left": 38.8,
+        "top": 420.0,
+        "width": 534.4,
+        "height": 114.7,
+        "type": "text",
+        "description": "Other",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio7": {
+        "left": 92.4,
+        "top": 287.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio8": {
+        "left": 182.9,
+        "top": 287.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio9": {
+        "left": 273.6,
+        "top": 287.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item2",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio10": {
+        "left": 362.9,
+        "top": 287.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item3",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio11": {
+        "left": 452.9,
+        "top": 287.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item4",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "q13": {
+        "left": 38.8,
+        "top": 259.8,
+        "width": 534.4,
+        "height": 26.4,
+        "type": "text",
+        "description": "13. WHAT COULD MANAGEMENT HAVE DONE TO RETAIN YOU?",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "q14": {
+        "left": 38.8,
+        "top": 209.3,
+        "width": 534.4,
+        "height": 19.1,
+        "type": "text",
+        "description": "CLIMATE?",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "q15": {
+        "left": 38.8,
+        "top": 173.4,
+        "width": 534.4,
+        "height": 26.4,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "q16": {
+        "left": 38.8,
+        "top": 130.2,
+        "width": 534.4,
+        "height": 26.4,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "q17": {
+        "left": 38.8,
+        "top": 87.0,
+        "width": 534.4,
+        "height": 26.4,
+        "type": "text",
+        "description": "17. ANY ADDITIONAL COMMENTS OR CONCERNS?",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

@@ -1,0 +1,3298 @@
+{
+  "id": "navpers701010",
+  "label": "NAVPERS7010-10 - Payroll Summary",
+  "directory": "NAVPERS7010-10 - Payroll Summary",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "fundno",
+        "month",
+        "day",
+        "year",
+        "number",
+        "fund",
+        "activ1",
+        "dept1",
+        "amount1",
+        "acctsalaries1",
+        "acctemployers1",
+        "acctannual1",
+        "acctsick1",
+        "activ2",
+        "dept2",
+        "amount2",
+        "acctsalaries2",
+        "acctemployers2",
+        "acctannual2",
+        "acctsick2",
+        "activ3",
+        "dept3",
+        "amount3",
+        "acctsalaries3",
+        "acctemployers3",
+        "acctannual3",
+        "acctsick3",
+        "activ4",
+        "dept4",
+        "amount4",
+        "acctsalaries4",
+        "acctemployers4",
+        "acctannual4",
+        "acctsick4",
+        "activ5",
+        "dept5",
+        "amount5",
+        "acctsalaries5",
+        "acctemployers5",
+        "acctannual5",
+        "acctsick5",
+        "activ6",
+        "dept6",
+        "amount6",
+        "acctsalaries6",
+        "acctemployers6",
+        "acctannual6",
+        "acctsick6",
+        "activ7",
+        "dept7",
+        "amount7",
+        "acctsalaries7",
+        "acctemployers7",
+        "acctannual7",
+        "acctsick7",
+        "activ8",
+        "dept8",
+        "amount8",
+        "acctsalaries8",
+        "acctemployers8",
+        "acctannual8",
+        "acctsick8",
+        "amount9",
+        "activ9",
+        "dept9",
+        "acctsalaries9",
+        "acctemployers9",
+        "acctannual9",
+        "acctsick9",
+        "activ10",
+        "dept10",
+        "totaldebits",
+        "acctsalaries10",
+        "acctemployers10",
+        "acctannual10",
+        "acctsick10",
+        "activ11",
+        "dept11",
+        "acctsalaries11",
+        "acctemployers11",
+        "acctannual11",
+        "acctsick11",
+        "activ12",
+        "dept12",
+        "credits1",
+        "acctsalaries12",
+        "acctemployers12",
+        "acctannual12",
+        "acctsick12",
+        "credits2",
+        "activ13",
+        "dept13",
+        "acctsalaries13",
+        "acctemployers13",
+        "acctannual13",
+        "acctsick13",
+        "credits3",
+        "activ14",
+        "dept14",
+        "acctsalaries14",
+        "acctemployers14",
+        "acctannual14",
+        "acctsick14",
+        "credits4",
+        "activ15",
+        "dept15",
+        "acctsalaries15",
+        "acctemployers15",
+        "acctannual15",
+        "acctsick15",
+        "activ16",
+        "dept16",
+        "credits5",
+        "acctsalaries16",
+        "acctemployers16",
+        "acctannual16",
+        "acctsick16",
+        "activ17",
+        "dept17",
+        "credits6",
+        "acctsalaries17",
+        "acctemployers17",
+        "acctannual17",
+        "acctsick17",
+        "activ18",
+        "dept18",
+        "credits7",
+        "acctsalaries18",
+        "acctemployers18",
+        "acctannual18",
+        "acctsick18",
+        "activ19",
+        "dept19",
+        "credits8",
+        "acctsalaries19",
+        "acctemployers19",
+        "acctannual19",
+        "acctsick19",
+        "activ20",
+        "dept20",
+        "credits9",
+        "acctsalaries20",
+        "acctemployers20",
+        "acctannual20",
+        "acctsick20",
+        "credits10",
+        "activ21",
+        "dept21",
+        "acctsalaries21",
+        "acctemployers21",
+        "acctannual21",
+        "acctsick21",
+        "credits11",
+        "activ22",
+        "dept22",
+        "acctsalaries22",
+        "acctemployers22",
+        "acctannual22",
+        "acctsick22",
+        "credits12",
+        "activ23",
+        "dept23",
+        "acctsalaries23",
+        "acctemployers23",
+        "acctannual23",
+        "acctsick23",
+        "activ24",
+        "dept24",
+        "credits13",
+        "acctsalaries24",
+        "acctemployers24",
+        "acctannual24",
+        "acctsick24",
+        "activ25",
+        "dept25",
+        "credits14",
+        "acctsalaries25",
+        "acctemployers25",
+        "acctannual25",
+        "acctsick25",
+        "activ26",
+        "dept26",
+        "credits15",
+        "acctsalaries26",
+        "acctemployers26",
+        "acctannual26",
+        "acctsick26",
+        "activ27",
+        "dept27",
+        "netwages",
+        "acctsalaries27",
+        "acctemployers27",
+        "acctannual27",
+        "acctsick27",
+        "activ28",
+        "dept28",
+        "totalcredits",
+        "acctsalaries28",
+        "acctemployers28",
+        "acctannual28",
+        "acctsick28",
+        "activ29",
+        "dept29",
+        "acctsalaries29",
+        "acctemployers29",
+        "acctannual29",
+        "acctsick29",
+        "activ30",
+        "dept30",
+        "acctsalaries30",
+        "acctemployers30",
+        "acctannual30",
+        "acctsick30",
+        "payRoll",
+        "payrolEnd",
+        "activ31",
+        "dept31",
+        "acctsalaries31",
+        "acctemployers31",
+        "acctannual31",
+        "acctsick31",
+        "checksfrom",
+        "checksto",
+        "activ32",
+        "dept32",
+        "acctsalaries32",
+        "acctemployers32",
+        "acctannual32",
+        "acctsick32",
+        "activ33",
+        "dept33",
+        "acctsalaries33",
+        "acctemployers33",
+        "acctannual33",
+        "acctsick33",
+        "remarks",
+        "activ34",
+        "dept34",
+        "acctsalaries34",
+        "acctemployers34",
+        "acctannual34",
+        "acctsick34",
+        "activ35",
+        "dept35",
+        "acctsalaries35",
+        "acctemployers35",
+        "acctannual35",
+        "acctsick35",
+        "activ36",
+        "dept36",
+        "acctsalaries36",
+        "acctemployers36",
+        "acctannual36",
+        "acctsick36",
+        "prep",
+        "prepdate",
+        "activ37",
+        "dept37",
+        "acctsalaries37",
+        "acctemployers37",
+        "acctannual37",
+        "acctsick37",
+        "totals",
+        "acctemployers",
+        "acctannual",
+        "acctsick",
+        "approve",
+        "approvedate"
+      ]
+    }
+  ],
+  "fields": {
+    "fundno": {
+      "type": "text",
+      "label": "Enter the fund number.",
+      "page": 1,
+      "box": {
+        "left": 331.9,
+        "top": 730.0,
+        "width": 75.3,
+        "height": 29.6
+      }
+    },
+    "month": {
+      "type": "text",
+      "label": "Enter the month.",
+      "page": 1,
+      "box": {
+        "left": 413.4,
+        "top": 730.0,
+        "width": 31.5,
+        "height": 29.1
+      }
+    },
+    "day": {
+      "type": "text",
+      "label": "Enter the day.",
+      "page": 1,
+      "box": {
+        "left": 450.6,
+        "top": 730.0,
+        "width": 30.9,
+        "height": 29.1
+      }
+    },
+    "year": {
+      "type": "text",
+      "label": "Enter the year.",
+      "page": 1,
+      "box": {
+        "left": 487.1,
+        "top": 730.0,
+        "width": 26.4,
+        "height": 29.1
+      }
+    },
+    "number": {
+      "type": "text",
+      "label": "Enter the number.",
+      "page": 1,
+      "box": {
+        "left": 519.7,
+        "top": 730.0,
+        "width": 53.4,
+        "height": 29.1
+      }
+    },
+    "fund": {
+      "type": "text",
+      "label": "For the payroll summary enter the funds.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 728.2,
+        "width": 254.2,
+        "height": 26.0
+      }
+    },
+    "activ1": {
+      "type": "text",
+      "label": "Enter line 1 of 37 for the activity.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 680.0,
+        "width": 23.6,
+        "height": 15.6
+      }
+    },
+    "dept1": {
+      "type": "text",
+      "label": "Enter line 1 of 37 for the department.",
+      "page": 1,
+      "box": {
+        "left": 69.2,
+        "top": 680.0,
+        "width": 26.4,
+        "height": 15.6
+      }
+    },
+    "amount1": {
+      "type": "text",
+      "label": "Enter the miscellaneous debits amount for gratuities.",
+      "page": 1,
+      "box": {
+        "left": 492.7,
+        "top": 680.0,
+        "width": 80.4,
+        "height": 15.6
+      }
+    },
+    "acctsalaries1": {
+      "type": "text",
+      "label": "For the ACCT 601 salaries enter the value for line 1 of 37.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 679.3,
+        "width": 52.3,
+        "height": 14.1
+      }
+    },
+    "acctemployers1": {
+      "type": "text",
+      "label": "For the ACCT 621 employers FICA enter the value for line 1 of 37.",
+      "page": 1,
+      "box": {
+        "left": 160.5,
+        "top": 679.3,
+        "width": 68.1,
+        "height": 14.1
+      }
+    },
+    "acctannual1": {
+      "type": "text",
+      "label": "For the ACCT 622 annual leave enter the value for line 1 of 37.",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 679.3,
+        "width": 59.0,
+        "height": 14.1
+      }
+    },
+    "acctsick1": {
+      "type": "text",
+      "label": "For the ACCT 623 sick leave enter the value for line 1 of 37.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 679.3,
+        "width": 60.7,
+        "height": 14.1
+      }
+    },
+    "activ2": {
+      "type": "text",
+      "label": "Enter line 2 of 37 for the activity.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 662.5,
+        "width": 23.6,
+        "height": 14.6
+      }
+    },
+    "dept2": {
+      "type": "text",
+      "label": "Enter line 2 of 37 for the department.",
+      "page": 1,
+      "box": {
+        "left": 69.2,
+        "top": 662.5,
+        "width": 26.4,
+        "height": 14.6
+      }
+    },
+    "amount2": {
+      "type": "text",
+      "label": "Enter the miscellaneous debits amount for service charges.",
+      "page": 1,
+      "box": {
+        "left": 492.7,
+        "top": 662.0,
+        "width": 80.4,
+        "height": 14.5
+      }
+    },
+    "acctsalaries2": {
+      "type": "text",
+      "label": "For the ACCT 601 salaries enter the value for line 2 of 37.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 661.8,
+        "width": 52.3,
+        "height": 13.2
+      }
+    },
+    "acctemployers2": {
+      "type": "text",
+      "label": "For the ACCT 621 employers FICA enter the value for line 2 of 37.",
+      "page": 1,
+      "box": {
+        "left": 160.5,
+        "top": 661.8,
+        "width": 68.1,
+        "height": 13.2
+      }
+    },
+    "acctannual2": {
+      "type": "text",
+      "label": "For the ACCT 622 annual leave enter the value for line 2 of 37.",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 661.8,
+        "width": 59.0,
+        "height": 13.2
+      }
+    },
+    "acctsick2": {
+      "type": "text",
+      "label": "For the ACCT 623 sick leave enter the value for line 2 of 37.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 661.8,
+        "width": 60.7,
+        "height": 13.2
+      }
+    },
+    "activ3": {
+      "type": "text",
+      "label": "Enter line 3 of 37 for the activity.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 645.7,
+        "width": 23.6,
+        "height": 14.6
+      }
+    },
+    "dept3": {
+      "type": "text",
+      "label": "Enter line 3 of 37 for the department.",
+      "page": 1,
+      "box": {
+        "left": 69.2,
+        "top": 645.7,
+        "width": 26.4,
+        "height": 14.6
+      }
+    },
+    "amount3": {
+      "type": "text",
+      "label": "Enter the miscellaneous debits amount for annual leave accounts payable.",
+      "page": 1,
+      "box": {
+        "left": 492.7,
+        "top": 645.7,
+        "width": 80.4,
+        "height": 14.5
+      }
+    },
+    "acctsalaries3": {
+      "type": "text",
+      "label": "For the ACCT 601 salaries enter the value for line 3 of 37.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 645.0,
+        "width": 52.3,
+        "height": 13.2
+      }
+    },
+    "acctemployers3": {
+      "type": "text",
+      "label": "For the ACCT 621 employers FICA enter the value for line 3 of 37.",
+      "page": 1,
+      "box": {
+        "left": 160.5,
+        "top": 645.0,
+        "width": 68.1,
+        "height": 13.2
+      }
+    },
+    "acctannual3": {
+      "type": "text",
+      "label": "For the ACCT 622 annual leave enter the value for line 3 of 37.",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 645.0,
+        "width": 59.0,
+        "height": 13.2
+      }
+    },
+    "acctsick3": {
+      "type": "text",
+      "label": "For the ACCT 623 sick leave enter the value for line 3 of 37.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 645.0,
+        "width": 60.7,
+        "height": 13.2
+      }
+    },
+    "activ4": {
+      "type": "text",
+      "label": "Enter line 4 of 37 for the activity.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 628.8,
+        "width": 23.6,
+        "height": 14.6
+      }
+    },
+    "dept4": {
+      "type": "text",
+      "label": "Enter line 4 of 37 for the department.",
+      "page": 1,
+      "box": {
+        "left": 69.2,
+        "top": 628.8,
+        "width": 26.4,
+        "height": 14.6
+      }
+    },
+    "amount4": {
+      "type": "text",
+      "label": "Enter the miscellaneous debits amount for other accounts and receivable on line 1 of 5.",
+      "page": 1,
+      "box": {
+        "left": 492.7,
+        "top": 628.8,
+        "width": 80.4,
+        "height": 14.5
+      }
+    },
+    "acctsalaries4": {
+      "type": "text",
+      "label": "For the ACCT 601 salaries enter the value for line 4 of 37.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 628.1,
+        "width": 52.3,
+        "height": 13.2
+      }
+    },
+    "acctemployers4": {
+      "type": "text",
+      "label": "For the ACCT 621 employers FICA enter the value for line 4 of 37.",
+      "page": 1,
+      "box": {
+        "left": 160.5,
+        "top": 628.1,
+        "width": 68.1,
+        "height": 13.2
+      }
+    },
+    "acctannual4": {
+      "type": "text",
+      "label": "For the ACCT 622 annual leave enter the value for line 4 of 37.",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 628.1,
+        "width": 59.0,
+        "height": 13.2
+      }
+    },
+    "acctsick4": {
+      "type": "text",
+      "label": "For the ACCT 623 sick leave enter the value for line 4 of 37.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 628.1,
+        "width": 60.7,
+        "height": 13.2
+      }
+    },
+    "activ5": {
+      "type": "text",
+      "label": "Enter line 5 of 37 for the activity.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 612.5,
+        "width": 23.6,
+        "height": 14.6
+      }
+    },
+    "dept5": {
+      "type": "text",
+      "label": "Enter line 5 of 37 for the department.",
+      "page": 1,
+      "box": {
+        "left": 69.2,
+        "top": 612.5,
+        "width": 26.4,
+        "height": 14.6
+      }
+    },
+    "amount5": {
+      "type": "text",
+      "label": "Enter the miscellaneous debits amount for other accounts and receivable on line 1 of 5.",
+      "page": 1,
+      "box": {
+        "left": 492.7,
+        "top": 612.5,
+        "width": 80.4,
+        "height": 15.0
+      }
+    },
+    "acctsalaries5": {
+      "type": "text",
+      "label": "For the ACCT 601 salaries enter the value for line 5 of 37.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 611.8,
+        "width": 52.3,
+        "height": 13.2
+      }
+    },
+    "acctemployers5": {
+      "type": "text",
+      "label": "For the ACCT 621 employers FICA enter the value for line 5 of 37.",
+      "page": 1,
+      "box": {
+        "left": 160.5,
+        "top": 611.8,
+        "width": 68.1,
+        "height": 13.2
+      }
+    },
+    "acctannual5": {
+      "type": "text",
+      "label": "For the ACCT 622 annual leave enter the value for line 5 of 37.",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 611.8,
+        "width": 59.0,
+        "height": 13.2
+      }
+    },
+    "acctsick5": {
+      "type": "text",
+      "label": "For the ACCT 623 sick leave enter the value for line 5 of 37.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 611.8,
+        "width": 60.7,
+        "height": 13.2
+      }
+    },
+    "activ6": {
+      "type": "text",
+      "label": "Enter line 6 of 37 for the activity.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 595.6,
+        "width": 23.6,
+        "height": 15.2
+      }
+    },
+    "dept6": {
+      "type": "text",
+      "label": "Enter line 6 of 37 for the department.",
+      "page": 1,
+      "box": {
+        "left": 69.2,
+        "top": 595.6,
+        "width": 26.4,
+        "height": 15.2
+      }
+    },
+    "amount6": {
+      "type": "text",
+      "label": "Enter the miscellaneous debits amount for other accounts and receivable on line 2 of 5.",
+      "page": 1,
+      "box": {
+        "left": 492.7,
+        "top": 595.6,
+        "width": 80.4,
+        "height": 15.0
+      }
+    },
+    "acctsalaries6": {
+      "type": "text",
+      "label": "For the ACCT 601 salaries enter the value for line 6 of 37.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 594.9,
+        "width": 52.3,
+        "height": 13.8
+      }
+    },
+    "acctemployers6": {
+      "type": "text",
+      "label": "For the ACCT 621 employers FICA enter the value for line 6 of 37.",
+      "page": 1,
+      "box": {
+        "left": 160.5,
+        "top": 594.9,
+        "width": 68.1,
+        "height": 13.8
+      }
+    },
+    "acctannual6": {
+      "type": "text",
+      "label": "For the ACCT 622 annual leave enter the value for line 6 of 37.",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 594.9,
+        "width": 59.0,
+        "height": 13.8
+      }
+    },
+    "acctsick6": {
+      "type": "text",
+      "label": "For the ACCT 623 sick leave enter the value for line 6 of 37.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 594.9,
+        "width": 60.7,
+        "height": 13.8
+      }
+    },
+    "activ7": {
+      "type": "text",
+      "label": "Enter line 7 of 37 for the activity.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 578.7,
+        "width": 23.6,
+        "height": 14.6
+      }
+    },
+    "dept7": {
+      "type": "text",
+      "label": "Enter line 7 of 37 for the department.",
+      "page": 1,
+      "box": {
+        "left": 69.2,
+        "top": 578.7,
+        "width": 26.4,
+        "height": 14.6
+      }
+    },
+    "amount7": {
+      "type": "text",
+      "label": "Enter the miscellaneous debits amount for other accounts and receivable on line 3 of 5.",
+      "page": 1,
+      "box": {
+        "left": 492.7,
+        "top": 578.7,
+        "width": 80.4,
+        "height": 15.0
+      }
+    },
+    "acctsalaries7": {
+      "type": "text",
+      "label": "For the ACCT 601 salaries enter the value for line 7 of 37.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 578.0,
+        "width": 52.3,
+        "height": 13.2
+      }
+    },
+    "acctemployers7": {
+      "type": "text",
+      "label": "For the ACCT 621 employers FICA enter the value for line 7 of 37.",
+      "page": 1,
+      "box": {
+        "left": 160.5,
+        "top": 578.0,
+        "width": 68.1,
+        "height": 13.2
+      }
+    },
+    "acctannual7": {
+      "type": "text",
+      "label": "For the ACCT 622 annual leave enter the value for line 7 of 37.",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 578.0,
+        "width": 59.0,
+        "height": 13.2
+      }
+    },
+    "acctsick7": {
+      "type": "text",
+      "label": "For the ACCT 623 sick leave enter the value for line 7 of 37.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 578.0,
+        "width": 60.7,
+        "height": 13.2
+      }
+    },
+    "activ8": {
+      "type": "text",
+      "label": "Enter line 8 of 37 for the activity.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 561.9,
+        "width": 23.6,
+        "height": 14.6
+      }
+    },
+    "dept8": {
+      "type": "text",
+      "label": "Enter line 8 of 37 for the department.",
+      "page": 1,
+      "box": {
+        "left": 69.2,
+        "top": 561.9,
+        "width": 26.4,
+        "height": 14.6
+      }
+    },
+    "amount8": {
+      "type": "text",
+      "label": "Enter the miscellaneous debits amount for other accounts and receivable on line 4 of 5.",
+      "page": 1,
+      "box": {
+        "left": 492.7,
+        "top": 561.9,
+        "width": 80.4,
+        "height": 14.5
+      }
+    },
+    "acctsalaries8": {
+      "type": "text",
+      "label": "For the ACCT 601 salaries enter the value for line 8 of 37.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 561.1,
+        "width": 52.3,
+        "height": 13.2
+      }
+    },
+    "acctemployers8": {
+      "type": "text",
+      "label": "For the ACCT 621 employers FICA enter the value for line 8 of 37.",
+      "page": 1,
+      "box": {
+        "left": 160.5,
+        "top": 561.1,
+        "width": 68.1,
+        "height": 13.2
+      }
+    },
+    "acctannual8": {
+      "type": "text",
+      "label": "For the ACCT 622 annual leave enter the value for line 8 of 37.",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 561.1,
+        "width": 59.0,
+        "height": 13.2
+      }
+    },
+    "acctsick8": {
+      "type": "text",
+      "label": "For the ACCT 623 sick leave enter the value for line 8 of 37.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 561.1,
+        "width": 60.7,
+        "height": 13.2
+      }
+    },
+    "amount9": {
+      "type": "text",
+      "label": "Enter the miscellaneous debits amount for other accounts and receivable on line 5 of 5.",
+      "page": 1,
+      "box": {
+        "left": 492.7,
+        "top": 545.6,
+        "width": 80.4,
+        "height": 15.0
+      }
+    },
+    "activ9": {
+      "type": "text",
+      "label": "Enter line 9 of 37 for the activity.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 545.5,
+        "width": 23.6,
+        "height": 15.1
+      }
+    },
+    "dept9": {
+      "type": "text",
+      "label": "Enter line 9 of 37 for the department.",
+      "page": 1,
+      "box": {
+        "left": 69.2,
+        "top": 545.5,
+        "width": 26.4,
+        "height": 15.1
+      }
+    },
+    "acctsalaries9": {
+      "type": "text",
+      "label": "For the ACCT 601 salaries enter the value for line 9 of 37.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 544.8,
+        "width": 52.3,
+        "height": 13.7
+      }
+    },
+    "acctemployers9": {
+      "type": "text",
+      "label": "For the ACCT 621 employers FICA enter the value for line 9 of 37.",
+      "page": 1,
+      "box": {
+        "left": 160.5,
+        "top": 544.8,
+        "width": 68.1,
+        "height": 13.7
+      }
+    },
+    "acctannual9": {
+      "type": "text",
+      "label": "For the ACCT 622 annual leave enter the value for line 9 of 37.",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 544.8,
+        "width": 59.0,
+        "height": 13.7
+      }
+    },
+    "acctsick9": {
+      "type": "text",
+      "label": "For the ACCT 623 sick leave enter the value for line 9 of 37.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 544.8,
+        "width": 60.7,
+        "height": 13.7
+      }
+    },
+    "activ10": {
+      "type": "text",
+      "label": "Enter line 10 of 37 for the activity.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 528.7,
+        "width": 23.6,
+        "height": 13.1
+      }
+    },
+    "dept10": {
+      "type": "text",
+      "label": "Enter line 10 of 37 for the department.",
+      "page": 1,
+      "box": {
+        "left": 69.2,
+        "top": 528.7,
+        "width": 26.4,
+        "height": 13.1
+      }
+    },
+    "totaldebits": {
+      "type": "text",
+      "label": "Enter the total debits for column ABCD and D.",
+      "page": 1,
+      "box": {
+        "left": 492.7,
+        "top": 528.7,
+        "width": 80.4,
+        "height": 13.3
+      }
+    },
+    "acctsalaries10": {
+      "type": "text",
+      "label": "For the ACCT 601 salaries enter the value for line 10 of 37.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 528.0,
+        "width": 52.3,
+        "height": 11.6
+      }
+    },
+    "acctemployers10": {
+      "type": "text",
+      "label": "For the ACCT 621 employers FICA enter the value for line 10 of 37.",
+      "page": 1,
+      "box": {
+        "left": 160.5,
+        "top": 528.0,
+        "width": 68.1,
+        "height": 11.6
+      }
+    },
+    "acctannual10": {
+      "type": "text",
+      "label": "For the ACCT 622 annual leave enter the value for line 10 of 37.",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 528.0,
+        "width": 59.0,
+        "height": 11.6
+      }
+    },
+    "acctsick10": {
+      "type": "text",
+      "label": "For the ACCT 623 sick leave enter the value for line 10 of 37.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 528.0,
+        "width": 60.7,
+        "height": 11.6
+      }
+    },
+    "activ11": {
+      "type": "text",
+      "label": "Enter line 11 of 37 for the activity.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 513.5,
+        "width": 23.6,
+        "height": 16.3
+      }
+    },
+    "dept11": {
+      "type": "text",
+      "label": "Enter line 11 of 37 for the department.",
+      "page": 1,
+      "box": {
+        "left": 69.2,
+        "top": 513.5,
+        "width": 26.4,
+        "height": 16.3
+      }
+    },
+    "acctsalaries11": {
+      "type": "text",
+      "label": "For the ACCT 601 salaries enter the value for line 11 of 37.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 512.8,
+        "width": 52.3,
+        "height": 14.8
+      }
+    },
+    "acctemployers11": {
+      "type": "text",
+      "label": "For the ACCT 621 employers FICA enter the value for line 11 of 37.",
+      "page": 1,
+      "box": {
+        "left": 160.5,
+        "top": 512.8,
+        "width": 68.1,
+        "height": 14.8
+      }
+    },
+    "acctannual11": {
+      "type": "text",
+      "label": "For the ACCT 622 annual leave enter the value for line 11 of 37.",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 512.8,
+        "width": 59.0,
+        "height": 14.8
+      }
+    },
+    "acctsick11": {
+      "type": "text",
+      "label": "For the ACCT 623 sick leave enter the value for line 11 of 37.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 512.8,
+        "width": 60.7,
+        "height": 14.8
+      }
+    },
+    "activ12": {
+      "type": "text",
+      "label": "Enter line 12 of 37 for the activity.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 495.5,
+        "width": 23.6,
+        "height": 15.0
+      }
+    },
+    "dept12": {
+      "type": "text",
+      "label": "Enter line 12 of 37 for the department.",
+      "page": 1,
+      "box": {
+        "left": 69.2,
+        "top": 495.5,
+        "width": 26.4,
+        "height": 15.0
+      }
+    },
+    "credits1": {
+      "type": "text",
+      "label": "Enter the amount for annual leave payable.",
+      "page": 1,
+      "box": {
+        "left": 492.7,
+        "top": 495.5,
+        "width": 80.4,
+        "height": 15.1
+      }
+    },
+    "acctsalaries12": {
+      "type": "text",
+      "label": "For the ACCT 601 salaries enter the value for line 12 of 37.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 494.8,
+        "width": 52.3,
+        "height": 13.5
+      }
+    },
+    "acctemployers12": {
+      "type": "text",
+      "label": "For the ACCT 621 employers FICA enter the value for line 12 of 37.",
+      "page": 1,
+      "box": {
+        "left": 160.5,
+        "top": 494.8,
+        "width": 68.1,
+        "height": 13.5
+      }
+    },
+    "acctannual12": {
+      "type": "text",
+      "label": "For the ACCT 622 annual leave enter the value for line 12 of 37.",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 494.8,
+        "width": 59.0,
+        "height": 13.5
+      }
+    },
+    "acctsick12": {
+      "type": "text",
+      "label": "For the ACCT 623 sick leave enter the value for line 12 of 37.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 494.8,
+        "width": 60.7,
+        "height": 13.5
+      }
+    },
+    "credits2": {
+      "type": "text",
+      "label": "Enter the amount for federal withholding.",
+      "page": 1,
+      "box": {
+        "left": 492.7,
+        "top": 478.6,
+        "width": 80.4,
+        "height": 15.1
+      }
+    },
+    "activ13": {
+      "type": "text",
+      "label": "Enter line 13 of 37 for the activity.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 478.1,
+        "width": 23.6,
+        "height": 14.2
+      }
+    },
+    "dept13": {
+      "type": "text",
+      "label": "Enter line 13 of 37 for the department.",
+      "page": 1,
+      "box": {
+        "left": 69.2,
+        "top": 478.1,
+        "width": 26.4,
+        "height": 14.2
+      }
+    },
+    "acctsalaries13": {
+      "type": "text",
+      "label": "For the ACCT 601 salaries enter the value for line 13 of 37.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 477.3,
+        "width": 52.3,
+        "height": 12.8
+      }
+    },
+    "acctemployers13": {
+      "type": "text",
+      "label": "For the ACCT 621 employers FICA enter the value for line 13 of 37.",
+      "page": 1,
+      "box": {
+        "left": 160.5,
+        "top": 477.3,
+        "width": 68.1,
+        "height": 12.8
+      }
+    },
+    "acctannual13": {
+      "type": "text",
+      "label": "For the ACCT 622 annual leave enter the value for line 13 of 37.",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 477.3,
+        "width": 59.0,
+        "height": 12.8
+      }
+    },
+    "acctsick13": {
+      "type": "text",
+      "label": "For the ACCT 623 sick leave enter the value for line 13 of 37.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 477.3,
+        "width": 60.7,
+        "height": 12.8
+      }
+    },
+    "credits3": {
+      "type": "text",
+      "label": "Enter the amount for FICA pay.",
+      "page": 1,
+      "box": {
+        "left": 492.7,
+        "top": 461.7,
+        "width": 80.4,
+        "height": 15.0
+      }
+    },
+    "activ14": {
+      "type": "text",
+      "label": "Enter line 14 of 37 for the activity.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 461.5,
+        "width": 23.6,
+        "height": 14.3
+      }
+    },
+    "dept14": {
+      "type": "text",
+      "label": "Enter line 14 of 37 for the department.",
+      "page": 1,
+      "box": {
+        "left": 69.2,
+        "top": 461.5,
+        "width": 26.4,
+        "height": 14.3
+      }
+    },
+    "acctsalaries14": {
+      "type": "text",
+      "label": "For the ACCT 601 salaries enter the value for line 14 of 37.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 460.8,
+        "width": 52.3,
+        "height": 12.9
+      }
+    },
+    "acctemployers14": {
+      "type": "text",
+      "label": "For the ACCT 621 employers FICA enter the value for line 14 of 37.",
+      "page": 1,
+      "box": {
+        "left": 160.5,
+        "top": 460.8,
+        "width": 68.1,
+        "height": 12.9
+      }
+    },
+    "acctannual14": {
+      "type": "text",
+      "label": "For the ACCT 622 annual leave enter the value for line 14 of 37.",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 460.8,
+        "width": 59.0,
+        "height": 12.9
+      }
+    },
+    "acctsick14": {
+      "type": "text",
+      "label": "For the ACCT 623 sick leave enter the value for line 14 of 37.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 460.8,
+        "width": 60.7,
+        "height": 12.9
+      }
+    },
+    "credits4": {
+      "type": "text",
+      "label": "Enter the amount for state withholding.",
+      "page": 1,
+      "box": {
+        "left": 492.7,
+        "top": 444.9,
+        "width": 80.4,
+        "height": 15.1
+      }
+    },
+    "activ15": {
+      "type": "text",
+      "label": "Enter line 15 of 37 for the activity.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 444.8,
+        "width": 23.6,
+        "height": 15.4
+      }
+    },
+    "dept15": {
+      "type": "text",
+      "label": "Enter line 15 of 37 for the department.",
+      "page": 1,
+      "box": {
+        "left": 69.2,
+        "top": 444.8,
+        "width": 26.4,
+        "height": 15.4
+      }
+    },
+    "acctsalaries15": {
+      "type": "text",
+      "label": "For the ACCT 601 salaries enter the value for line 15 of 37.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 444.1,
+        "width": 52.3,
+        "height": 13.9
+      }
+    },
+    "acctemployers15": {
+      "type": "text",
+      "label": "For the ACCT 621 employers FICA enter the value for line 15 of 37.",
+      "page": 1,
+      "box": {
+        "left": 160.5,
+        "top": 444.1,
+        "width": 68.1,
+        "height": 13.9
+      }
+    },
+    "acctannual15": {
+      "type": "text",
+      "label": "For the ACCT 622 annual leave enter the value for line 15 of 37.",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 444.1,
+        "width": 59.0,
+        "height": 13.9
+      }
+    },
+    "acctsick15": {
+      "type": "text",
+      "label": "For the ACCT 623 sick leave enter the value for line 15 of 37.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 444.1,
+        "width": 60.7,
+        "height": 13.9
+      }
+    },
+    "activ16": {
+      "type": "text",
+      "label": "Enter line 16 of 37 for the activity.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 428.0,
+        "width": 23.6,
+        "height": 15.0
+      }
+    },
+    "dept16": {
+      "type": "text",
+      "label": "Enter line 16 of 37 for the department.",
+      "page": 1,
+      "box": {
+        "left": 69.2,
+        "top": 428.0,
+        "width": 26.4,
+        "height": 15.0
+      }
+    },
+    "credits5": {
+      "type": "text",
+      "label": "Enter the amount for saving bonds.",
+      "page": 1,
+      "box": {
+        "left": 492.7,
+        "top": 428.0,
+        "width": 80.4,
+        "height": 15.1
+      }
+    },
+    "acctsalaries16": {
+      "type": "text",
+      "label": "For the ACCT 601 salaries enter the value for line 16 of 37.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 427.3,
+        "width": 52.3,
+        "height": 13.6
+      }
+    },
+    "acctemployers16": {
+      "type": "text",
+      "label": "For the ACCT 621 employers FICA enter the value for line 16 of 37.",
+      "page": 1,
+      "box": {
+        "left": 160.5,
+        "top": 427.3,
+        "width": 68.1,
+        "height": 13.6
+      }
+    },
+    "acctannual16": {
+      "type": "text",
+      "label": "For the ACCT 622 annual leave enter the value for line 16 of 37.",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 427.3,
+        "width": 59.0,
+        "height": 13.6
+      }
+    },
+    "acctsick16": {
+      "type": "text",
+      "label": "For the ACCT 623 sick leave enter the value for line 16 of 37.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 427.3,
+        "width": 60.7,
+        "height": 13.6
+      }
+    },
+    "activ17": {
+      "type": "text",
+      "label": "Enter line 17 of 37 for the activity.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 411.1,
+        "width": 23.6,
+        "height": 14.3
+      }
+    },
+    "dept17": {
+      "type": "text",
+      "label": "Enter line 17 of 37 for the department.",
+      "page": 1,
+      "box": {
+        "left": 69.2,
+        "top": 411.1,
+        "width": 26.4,
+        "height": 14.3
+      }
+    },
+    "credits6": {
+      "type": "text",
+      "label": "Enter the amount for retirement.",
+      "page": 1,
+      "box": {
+        "left": 492.7,
+        "top": 411.1,
+        "width": 80.4,
+        "height": 14.5
+      }
+    },
+    "acctsalaries17": {
+      "type": "text",
+      "label": "For the ACCT 601 salaries enter the value for line 17 of 37.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 410.4,
+        "width": 52.3,
+        "height": 12.9
+      }
+    },
+    "acctemployers17": {
+      "type": "text",
+      "label": "For the ACCT 621 employers FICA enter the value for line 17 of 37.",
+      "page": 1,
+      "box": {
+        "left": 160.5,
+        "top": 410.4,
+        "width": 68.1,
+        "height": 12.9
+      }
+    },
+    "acctannual17": {
+      "type": "text",
+      "label": "For the ACCT 622 annual leave enter the value for line 17 of 37.",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 410.4,
+        "width": 59.0,
+        "height": 12.9
+      }
+    },
+    "acctsick17": {
+      "type": "text",
+      "label": "For the ACCT 623 sick leave enter the value for line 17 of 37.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 410.4,
+        "width": 60.7,
+        "height": 12.9
+      }
+    },
+    "activ18": {
+      "type": "text",
+      "label": "Enter line 18 of 37 for the activity.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 394.8,
+        "width": 23.6,
+        "height": 15.5
+      }
+    },
+    "dept18": {
+      "type": "text",
+      "label": "Enter line 18 of 37 for the department.",
+      "page": 1,
+      "box": {
+        "left": 69.2,
+        "top": 394.8,
+        "width": 26.4,
+        "height": 15.5
+      }
+    },
+    "credits7": {
+      "type": "text",
+      "label": "Enter the amount for life insurance.",
+      "page": 1,
+      "box": {
+        "left": 492.7,
+        "top": 394.8,
+        "width": 80.4,
+        "height": 15.6
+      }
+    },
+    "acctsalaries18": {
+      "type": "text",
+      "label": "For the ACCT 601 salaries enter the value for line 18 of 37.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 394.1,
+        "width": 52.3,
+        "height": 14.1
+      }
+    },
+    "acctemployers18": {
+      "type": "text",
+      "label": "For the ACCT 621 employers FICA enter the value for line 18 of 37.",
+      "page": 1,
+      "box": {
+        "left": 160.5,
+        "top": 394.1,
+        "width": 68.1,
+        "height": 14.1
+      }
+    },
+    "acctannual18": {
+      "type": "text",
+      "label": "For the ACCT 622 annual leave enter the value for line 18 of 37.",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 394.1,
+        "width": 59.0,
+        "height": 14.1
+      }
+    },
+    "acctsick18": {
+      "type": "text",
+      "label": "For the ACCT 623 sick leave enter the value for line 18 of 37.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 394.1,
+        "width": 60.7,
+        "height": 14.1
+      }
+    },
+    "activ19": {
+      "type": "text",
+      "label": "Enter line 19 of 37 for the activity.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 377.4,
+        "width": 23.6,
+        "height": 14.9
+      }
+    },
+    "dept19": {
+      "type": "text",
+      "label": "Enter line 19 of 37 for the department.",
+      "page": 1,
+      "box": {
+        "left": 69.2,
+        "top": 377.4,
+        "width": 26.4,
+        "height": 14.9
+      }
+    },
+    "credits8": {
+      "type": "text",
+      "label": "Enter the amount for medicacl insurance.",
+      "page": 1,
+      "box": {
+        "left": 492.7,
+        "top": 377.4,
+        "width": 80.4,
+        "height": 14.5
+      }
+    },
+    "acctsalaries19": {
+      "type": "text",
+      "label": "For the ACCT 601 salaries enter the value for line 19 of 37.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 376.7,
+        "width": 52.3,
+        "height": 13.5
+      }
+    },
+    "acctemployers19": {
+      "type": "text",
+      "label": "For the ACCT 621 employers FICA enter the value for line 19 of 37.",
+      "page": 1,
+      "box": {
+        "left": 160.5,
+        "top": 376.7,
+        "width": 68.1,
+        "height": 13.5
+      }
+    },
+    "acctannual19": {
+      "type": "text",
+      "label": "For the ACCT 622 annual leave enter the value for line 19 of 37.",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 376.7,
+        "width": 59.0,
+        "height": 13.5
+      }
+    },
+    "acctsick19": {
+      "type": "text",
+      "label": "For the ACCT 623 sick leave enter the value for line 19 of 37.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 376.7,
+        "width": 60.7,
+        "height": 13.5
+      }
+    },
+    "activ20": {
+      "type": "text",
+      "label": "Enter line 20 of 37 for the activity.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 360.9,
+        "width": 23.6,
+        "height": 15.2
+      }
+    },
+    "dept20": {
+      "type": "text",
+      "label": "Enter line 20 of 37 for the department.",
+      "page": 1,
+      "box": {
+        "left": 69.2,
+        "top": 360.9,
+        "width": 26.4,
+        "height": 15.2
+      }
+    },
+    "credits9": {
+      "type": "text",
+      "label": "Enter the amount for health maintenance.",
+      "page": 1,
+      "box": {
+        "left": 492.7,
+        "top": 360.5,
+        "width": 80.4,
+        "height": 15.0
+      }
+    },
+    "acctsalaries20": {
+      "type": "text",
+      "label": "For the ACCT 601 salaries enter the value for line 20 of 37.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 360.2,
+        "width": 52.3,
+        "height": 13.8
+      }
+    },
+    "acctemployers20": {
+      "type": "text",
+      "label": "For the ACCT 621 employers FICA enter the value for line 20 of 37.",
+      "page": 1,
+      "box": {
+        "left": 160.5,
+        "top": 360.2,
+        "width": 68.1,
+        "height": 13.8
+      }
+    },
+    "acctannual20": {
+      "type": "text",
+      "label": "For the ACCT 622 annual leave enter the value for line 20 of 37.",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 360.2,
+        "width": 59.0,
+        "height": 13.8
+      }
+    },
+    "acctsick20": {
+      "type": "text",
+      "label": "For the ACCT 623 sick leave enter the value for line 20 of 37.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 360.2,
+        "width": 60.7,
+        "height": 13.8
+      }
+    },
+    "credits10": {
+      "type": "text",
+      "label": "Enter the amount for disability insurance.",
+      "page": 1,
+      "box": {
+        "left": 492.7,
+        "top": 343.6,
+        "width": 80.4,
+        "height": 15.0
+      }
+    },
+    "activ21": {
+      "type": "text",
+      "label": "Enter line 21 of 37 for the activity.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 343.5,
+        "width": 23.6,
+        "height": 14.8
+      }
+    },
+    "dept21": {
+      "type": "text",
+      "label": "Enter line 21 of 37 for the department.",
+      "page": 1,
+      "box": {
+        "left": 69.2,
+        "top": 343.5,
+        "width": 26.4,
+        "height": 14.8
+      }
+    },
+    "acctsalaries21": {
+      "type": "text",
+      "label": "For the ACCT 601 salaries enter the value for line 21 of 37.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 342.8,
+        "width": 52.3,
+        "height": 13.3
+      }
+    },
+    "acctemployers21": {
+      "type": "text",
+      "label": "For the ACCT 621 employers FICA enter the value for line 21 of 37.",
+      "page": 1,
+      "box": {
+        "left": 160.5,
+        "top": 342.8,
+        "width": 68.1,
+        "height": 13.3
+      }
+    },
+    "acctannual21": {
+      "type": "text",
+      "label": "For the ACCT 622 annual leave enter the value for line 21 of 37.",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 342.8,
+        "width": 59.0,
+        "height": 13.3
+      }
+    },
+    "acctsick21": {
+      "type": "text",
+      "label": "For the ACCT 623 sick leave enter the value for line 21 of 37.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 342.8,
+        "width": 60.7,
+        "height": 13.3
+      }
+    },
+    "credits11": {
+      "type": "text",
+      "label": "Enter the amount for foreign national.",
+      "page": 1,
+      "box": {
+        "left": 492.7,
+        "top": 326.8,
+        "width": 80.4,
+        "height": 14.3
+      }
+    },
+    "activ22": {
+      "type": "text",
+      "label": "Enter line 22 of 37 for the activity.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 326.6,
+        "width": 23.6,
+        "height": 14.5
+      }
+    },
+    "dept22": {
+      "type": "text",
+      "label": "Enter line 22 of 37 for the department.",
+      "page": 1,
+      "box": {
+        "left": 69.2,
+        "top": 326.6,
+        "width": 26.4,
+        "height": 14.5
+      }
+    },
+    "acctsalaries22": {
+      "type": "text",
+      "label": "For the ACCT 601 salaries enter the value for line 22 of 37.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 325.9,
+        "width": 52.3,
+        "height": 13.1
+      }
+    },
+    "acctemployers22": {
+      "type": "text",
+      "label": "For the ACCT 621 employers FICA enter the value for line 22 of 37.",
+      "page": 1,
+      "box": {
+        "left": 160.5,
+        "top": 325.9,
+        "width": 68.1,
+        "height": 13.1
+      }
+    },
+    "acctannual22": {
+      "type": "text",
+      "label": "For the ACCT 622 annual leave enter the value for line 22 of 37.",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 325.9,
+        "width": 59.0,
+        "height": 13.1
+      }
+    },
+    "acctsick22": {
+      "type": "text",
+      "label": "For the ACCT 623 sick leave enter the value for line 22 of 37.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 325.9,
+        "width": 60.7,
+        "height": 13.1
+      }
+    },
+    "credits12": {
+      "type": "text",
+      "label": "Enter the amount for other deductions on line 1 of 4.",
+      "page": 1,
+      "box": {
+        "left": 492.7,
+        "top": 310.4,
+        "width": 80.4,
+        "height": 15.0
+      }
+    },
+    "activ23": {
+      "type": "text",
+      "label": "Enter line 23 of 37 for the activity.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 310.1,
+        "width": 23.6,
+        "height": 14.3
+      }
+    },
+    "dept23": {
+      "type": "text",
+      "label": "Enter line 23 of 37 for the department.",
+      "page": 1,
+      "box": {
+        "left": 69.2,
+        "top": 310.1,
+        "width": 26.4,
+        "height": 14.3
+      }
+    },
+    "acctsalaries23": {
+      "type": "text",
+      "label": "For the ACCT 601 salaries enter the value for line 23 of 37.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 309.4,
+        "width": 52.3,
+        "height": 12.9
+      }
+    },
+    "acctemployers23": {
+      "type": "text",
+      "label": "For the ACCT 621 employers FICA enter the value for line 23 of 37.",
+      "page": 1,
+      "box": {
+        "left": 160.5,
+        "top": 309.4,
+        "width": 68.1,
+        "height": 12.9
+      }
+    },
+    "acctannual23": {
+      "type": "text",
+      "label": "For the ACCT 622 annual leave enter the value for line 23 of 37.",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 309.4,
+        "width": 59.0,
+        "height": 12.9
+      }
+    },
+    "acctsick23": {
+      "type": "text",
+      "label": "For the ACCT 623 sick leave enter the value for line 23 of 37.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 309.4,
+        "width": 60.7,
+        "height": 12.9
+      }
+    },
+    "activ24": {
+      "type": "text",
+      "label": "Enter line 24 of 37 for the activity.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 293.8,
+        "width": 23.6,
+        "height": 15.1
+      }
+    },
+    "dept24": {
+      "type": "text",
+      "label": "Enter line 24 of 37 for the department.",
+      "page": 1,
+      "box": {
+        "left": 69.2,
+        "top": 293.8,
+        "width": 26.4,
+        "height": 15.1
+      }
+    },
+    "credits13": {
+      "type": "text",
+      "label": "Enter the amount for other deductions on line 2 of 4.",
+      "page": 1,
+      "box": {
+        "left": 492.7,
+        "top": 293.6,
+        "width": 80.4,
+        "height": 15.0
+      }
+    },
+    "acctsalaries24": {
+      "type": "text",
+      "label": "For the ACCT 601 salaries enter the value for line 24 of 37.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 293.0,
+        "width": 52.3,
+        "height": 13.6
+      }
+    },
+    "acctemployers24": {
+      "type": "text",
+      "label": "For the ACCT 621 employers FICA enter the value for line 24 of 37.",
+      "page": 1,
+      "box": {
+        "left": 160.5,
+        "top": 293.0,
+        "width": 68.1,
+        "height": 13.6
+      }
+    },
+    "acctannual24": {
+      "type": "text",
+      "label": "For the ACCT 622 annual leave enter the value for line 24 of 37.",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 293.0,
+        "width": 59.0,
+        "height": 13.6
+      }
+    },
+    "acctsick24": {
+      "type": "text",
+      "label": "For the ACCT 623 sick leave enter the value for line 24 of 37.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 293.0,
+        "width": 60.7,
+        "height": 13.6
+      }
+    },
+    "activ25": {
+      "type": "text",
+      "label": "Enter line 25 of 37 for the activity.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 276.1,
+        "width": 23.6,
+        "height": 14.3
+      }
+    },
+    "dept25": {
+      "type": "text",
+      "label": "Enter line 25 of 37 for the department.",
+      "page": 1,
+      "box": {
+        "left": 69.2,
+        "top": 276.1,
+        "width": 26.4,
+        "height": 14.3
+      }
+    },
+    "credits14": {
+      "type": "text",
+      "label": "Enter the amount for other deductions on line 3 of 4.",
+      "page": 1,
+      "box": {
+        "left": 492.7,
+        "top": 276.1,
+        "width": 80.4,
+        "height": 14.3
+      }
+    },
+    "acctsalaries25": {
+      "type": "text",
+      "label": "For the ACCT 601 salaries enter the value for line 25 of 37.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 275.4,
+        "width": 52.3,
+        "height": 12.9
+      }
+    },
+    "acctemployers25": {
+      "type": "text",
+      "label": "For the ACCT 621 employers FICA enter the value for line 25 of 37.",
+      "page": 1,
+      "box": {
+        "left": 160.5,
+        "top": 275.4,
+        "width": 68.1,
+        "height": 12.9
+      }
+    },
+    "acctannual25": {
+      "type": "text",
+      "label": "For the ACCT 622 annual leave enter the value for line 25 of 37.",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 275.4,
+        "width": 59.0,
+        "height": 12.9
+      }
+    },
+    "acctsick25": {
+      "type": "text",
+      "label": "For the ACCT 623 sick leave enter the value for line 25 of 37.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 275.4,
+        "width": 60.7,
+        "height": 12.9
+      }
+    },
+    "activ26": {
+      "type": "text",
+      "label": "Enter line 26 of 37 for the activity.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 260.0,
+        "width": 23.6,
+        "height": 15.1
+      }
+    },
+    "dept26": {
+      "type": "text",
+      "label": "Enter line 26 of 37 for the department.",
+      "page": 1,
+      "box": {
+        "left": 69.2,
+        "top": 260.0,
+        "width": 26.4,
+        "height": 15.1
+      }
+    },
+    "credits15": {
+      "type": "text",
+      "label": "Enter the amount for other deductions on line 4 of 4.",
+      "page": 1,
+      "box": {
+        "left": 492.7,
+        "top": 259.8,
+        "width": 80.4,
+        "height": 14.6
+      }
+    },
+    "acctsalaries26": {
+      "type": "text",
+      "label": "For the ACCT 601 salaries enter the value for line 26 of 37.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 259.3,
+        "width": 52.3,
+        "height": 13.7
+      }
+    },
+    "acctemployers26": {
+      "type": "text",
+      "label": "For the ACCT 621 employers FICA enter the value for line 26 of 37.",
+      "page": 1,
+      "box": {
+        "left": 160.5,
+        "top": 259.3,
+        "width": 68.1,
+        "height": 13.7
+      }
+    },
+    "acctannual26": {
+      "type": "text",
+      "label": "For the ACCT 622 annual leave enter the value for line 26 of 37.",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 259.3,
+        "width": 59.0,
+        "height": 13.7
+      }
+    },
+    "acctsick26": {
+      "type": "text",
+      "label": "For the ACCT 623 sick leave enter the value for line 26 of 37.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 259.3,
+        "width": 60.7,
+        "height": 13.7
+      }
+    },
+    "activ27": {
+      "type": "text",
+      "label": "Enter line 27 of 37 for the activity.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 243.5,
+        "width": 23.6,
+        "height": 14.4
+      }
+    },
+    "dept27": {
+      "type": "text",
+      "label": "Enter line 27 of 37 for the department.",
+      "page": 1,
+      "box": {
+        "left": 69.2,
+        "top": 243.5,
+        "width": 26.4,
+        "height": 14.4
+      }
+    },
+    "netwages": {
+      "type": "text",
+      "label": "Enter the net wages.",
+      "page": 1,
+      "box": {
+        "left": 492.7,
+        "top": 243.5,
+        "width": 80.4,
+        "height": 14.5
+      }
+    },
+    "acctsalaries27": {
+      "type": "text",
+      "label": "For the ACCT 601 salaries enter the value for line 27 of 37.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 242.8,
+        "width": 52.3,
+        "height": 13.0
+      }
+    },
+    "acctemployers27": {
+      "type": "text",
+      "label": "For the ACCT 621 employers FICA enter the value for line 27 of 37.",
+      "page": 1,
+      "box": {
+        "left": 160.5,
+        "top": 242.8,
+        "width": 68.1,
+        "height": 13.0
+      }
+    },
+    "acctannual27": {
+      "type": "text",
+      "label": "For the ACCT 622 annual leave enter the value for line 27 of 37.",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 242.8,
+        "width": 59.0,
+        "height": 13.0
+      }
+    },
+    "acctsick27": {
+      "type": "text",
+      "label": "For the ACCT 623 sick leave enter the value for line 27 of 37.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 242.8,
+        "width": 60.7,
+        "height": 13.0
+      }
+    },
+    "activ28": {
+      "type": "text",
+      "label": "Enter line 28 of 37 for the activity.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 227.4,
+        "width": 23.6,
+        "height": 14.3
+      }
+    },
+    "dept28": {
+      "type": "text",
+      "label": "Enter line 28 of 37 for the department.",
+      "page": 1,
+      "box": {
+        "left": 69.2,
+        "top": 227.4,
+        "width": 26.4,
+        "height": 14.3
+      }
+    },
+    "totalcredits": {
+      "type": "text",
+      "label": "Enter the total credits.",
+      "page": 1,
+      "box": {
+        "left": 492.7,
+        "top": 227.2,
+        "width": 80.4,
+        "height": 13.9
+      }
+    },
+    "acctsalaries28": {
+      "type": "text",
+      "label": "For the ACCT 601 salaries enter the value for line 28 of 37.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 226.7,
+        "width": 52.3,
+        "height": 12.9
+      }
+    },
+    "acctemployers28": {
+      "type": "text",
+      "label": "For the ACCT 621 employers FICA enter the value for line 28 of 37.",
+      "page": 1,
+      "box": {
+        "left": 160.5,
+        "top": 226.7,
+        "width": 68.1,
+        "height": 12.9
+      }
+    },
+    "acctannual28": {
+      "type": "text",
+      "label": "For the ACCT 622 annual leave enter the value for line 28 of 37.",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 226.7,
+        "width": 59.0,
+        "height": 12.9
+      }
+    },
+    "acctsick28": {
+      "type": "text",
+      "label": "For the ACCT 623 sick leave enter the value for line 28 of 37.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 226.7,
+        "width": 60.7,
+        "height": 12.9
+      }
+    },
+    "activ29": {
+      "type": "text",
+      "label": "Enter line 29 of 37 for the activity.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 211.5,
+        "width": 23.6,
+        "height": 15.7
+      }
+    },
+    "dept29": {
+      "type": "text",
+      "label": "Enter line 29 of 37 for the department.",
+      "page": 1,
+      "box": {
+        "left": 69.2,
+        "top": 211.5,
+        "width": 26.4,
+        "height": 15.7
+      }
+    },
+    "acctsalaries29": {
+      "type": "text",
+      "label": "For the ACCT 601 salaries enter the value for line 29 of 37.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 210.8,
+        "width": 52.3,
+        "height": 14.3
+      }
+    },
+    "acctemployers29": {
+      "type": "text",
+      "label": "For the ACCT 621 employers FICA enter the value for line 29 of 37.",
+      "page": 1,
+      "box": {
+        "left": 160.5,
+        "top": 210.8,
+        "width": 68.1,
+        "height": 14.3
+      }
+    },
+    "acctannual29": {
+      "type": "text",
+      "label": "For the ACCT 622 annual leave enter the value for line 29 of 37.",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 210.8,
+        "width": 59.0,
+        "height": 14.3
+      }
+    },
+    "acctsick29": {
+      "type": "text",
+      "label": "For the ACCT 623 sick leave enter the value for line 29 of 37.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 210.8,
+        "width": 60.7,
+        "height": 14.3
+      }
+    },
+    "activ30": {
+      "type": "text",
+      "label": "Enter line 30 of 37 for the activity.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 194.0,
+        "width": 23.6,
+        "height": 15.6
+      }
+    },
+    "dept30": {
+      "type": "text",
+      "label": "Enter line 30 of 37 for the department.",
+      "page": 1,
+      "box": {
+        "left": 69.2,
+        "top": 194.0,
+        "width": 26.4,
+        "height": 15.6
+      }
+    },
+    "acctsalaries30": {
+      "type": "text",
+      "label": "For the ACCT 601 salaries enter the value for line 30 of 37.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 193.3,
+        "width": 52.3,
+        "height": 14.1
+      }
+    },
+    "acctemployers30": {
+      "type": "text",
+      "label": "For the ACCT 621 employers FICA enter the value for line 30 of 37.",
+      "page": 1,
+      "box": {
+        "left": 160.5,
+        "top": 193.3,
+        "width": 68.1,
+        "height": 14.1
+      }
+    },
+    "acctannual30": {
+      "type": "text",
+      "label": "For the ACCT 622 annual leave enter the value for line 30 of 37.",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 193.3,
+        "width": 59.0,
+        "height": 14.1
+      }
+    },
+    "acctsick30": {
+      "type": "text",
+      "label": "For the ACCT 623 sick leave enter the value for line 30 of 37.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 193.3,
+        "width": 60.7,
+        "height": 14.1
+      }
+    },
+    "payRoll": {
+      "type": "text",
+      "label": "Enter the date (DD MMM YYYY) the payroll period started.",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 187.8,
+        "width": 52.0,
+        "height": 9.3
+      }
+    },
+    "payrolEnd": {
+      "type": "text",
+      "label": "Enter the date (DD MMM YYYY) the payroll period ended.",
+      "page": 1,
+      "box": {
+        "left": 493.3,
+        "top": 187.8,
+        "width": 80.0,
+        "height": 9.3
+      }
+    },
+    "activ31": {
+      "type": "text",
+      "label": "Enter line 31 of 37 for the activity.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 176.6,
+        "width": 23.6,
+        "height": 14.2
+      }
+    },
+    "dept31": {
+      "type": "text",
+      "label": "Enter line 31 of 37 for the department.",
+      "page": 1,
+      "box": {
+        "left": 69.2,
+        "top": 176.6,
+        "width": 26.4,
+        "height": 14.2
+      }
+    },
+    "acctsalaries31": {
+      "type": "text",
+      "label": "For the ACCT 601 salaries enter the value for line 31 of 37.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 175.9,
+        "width": 52.3,
+        "height": 12.8
+      }
+    },
+    "acctemployers31": {
+      "type": "text",
+      "label": "For the ACCT 621 employers FICA enter the value for line 31 of 37.",
+      "page": 1,
+      "box": {
+        "left": 160.5,
+        "top": 175.9,
+        "width": 68.1,
+        "height": 12.8
+      }
+    },
+    "acctannual31": {
+      "type": "text",
+      "label": "For the ACCT 622 annual leave enter the value for line 31 of 37.",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 175.9,
+        "width": 59.0,
+        "height": 12.8
+      }
+    },
+    "acctsick31": {
+      "type": "text",
+      "label": "For the ACCT 623 sick leave enter the value for line 31 of 37.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 175.9,
+        "width": 60.7,
+        "height": 12.8
+      }
+    },
+    "checksfrom": {
+      "type": "text",
+      "label": "Enter the check number from.",
+      "page": 1,
+      "box": {
+        "left": 435.4,
+        "top": 164.6,
+        "width": 51.7,
+        "height": 19.1
+      }
+    },
+    "checksto": {
+      "type": "text",
+      "label": "Enter the check number to.",
+      "page": 1,
+      "box": {
+        "left": 493.6,
+        "top": 164.6,
+        "width": 79.5,
+        "height": 19.1
+      }
+    },
+    "activ32": {
+      "type": "text",
+      "label": "Enter line 32 of 37 for the activity.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 160.8,
+        "width": 23.6,
+        "height": 15.7
+      }
+    },
+    "dept32": {
+      "type": "text",
+      "label": "Enter line 32 of 37 for the department.",
+      "page": 1,
+      "box": {
+        "left": 69.2,
+        "top": 160.8,
+        "width": 26.4,
+        "height": 15.7
+      }
+    },
+    "acctsalaries32": {
+      "type": "text",
+      "label": "For the ACCT 601 salaries enter the value for line 32 of 37.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 160.1,
+        "width": 52.3,
+        "height": 14.3
+      }
+    },
+    "acctemployers32": {
+      "type": "text",
+      "label": "For the ACCT 621 employers FICA enter the value for line 32 of 37.",
+      "page": 1,
+      "box": {
+        "left": 160.5,
+        "top": 160.1,
+        "width": 68.1,
+        "height": 14.3
+      }
+    },
+    "acctannual32": {
+      "type": "text",
+      "label": "For the ACCT 622 annual leave enter the value for line 32 of 37.",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 160.1,
+        "width": 59.0,
+        "height": 14.3
+      }
+    },
+    "acctsick32": {
+      "type": "text",
+      "label": "For the ACCT 623 sick leave enter the value for line 32 of 37.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 160.1,
+        "width": 60.7,
+        "height": 14.3
+      }
+    },
+    "activ33": {
+      "type": "text",
+      "label": "Enter line 33 of 37 for the activity.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 142.9,
+        "width": 23.6,
+        "height": 14.7
+      }
+    },
+    "dept33": {
+      "type": "text",
+      "label": "Enter line 33 of 37 for the department.",
+      "page": 1,
+      "box": {
+        "left": 69.2,
+        "top": 142.9,
+        "width": 26.4,
+        "height": 14.7
+      }
+    },
+    "acctsalaries33": {
+      "type": "text",
+      "label": "For the ACCT 601 salaries enter the value for line 33 of 37.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 142.1,
+        "width": 52.3,
+        "height": 13.3
+      }
+    },
+    "acctemployers33": {
+      "type": "text",
+      "label": "For the ACCT 621 employers FICA enter the value for line 33 of 37.",
+      "page": 1,
+      "box": {
+        "left": 160.5,
+        "top": 142.1,
+        "width": 68.1,
+        "height": 13.3
+      }
+    },
+    "acctannual33": {
+      "type": "text",
+      "label": "For the ACCT 622 annual leave enter the value for line 33 of 37.",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 142.1,
+        "width": 59.0,
+        "height": 13.3
+      }
+    },
+    "acctsick33": {
+      "type": "text",
+      "label": "For the ACCT 623 sick leave enter the value for line 33 of 37.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 142.1,
+        "width": 60.7,
+        "height": 13.3
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "Enter the remarks and or void checks.",
+      "page": 1,
+      "box": {
+        "left": 366.7,
+        "top": 133.7,
+        "width": 206.4,
+        "height": 37.2
+      },
+      "multiline": true
+    },
+    "activ34": {
+      "type": "text",
+      "label": "Enter line 34 of 37 for the activity.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 126.5,
+        "width": 23.6,
+        "height": 14.7
+      }
+    },
+    "dept34": {
+      "type": "text",
+      "label": "Enter line 34 of 37 for the department.",
+      "page": 1,
+      "box": {
+        "left": 69.2,
+        "top": 126.5,
+        "width": 26.4,
+        "height": 14.7
+      }
+    },
+    "acctsalaries34": {
+      "type": "text",
+      "label": "For the ACCT 601 salaries enter the value for line 34 of 37.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 125.8,
+        "width": 52.3,
+        "height": 13.3
+      }
+    },
+    "acctemployers34": {
+      "type": "text",
+      "label": "For the ACCT 621 employers FICA enter the value for line 34 of 37.",
+      "page": 1,
+      "box": {
+        "left": 160.5,
+        "top": 125.8,
+        "width": 68.1,
+        "height": 13.3
+      }
+    },
+    "acctannual34": {
+      "type": "text",
+      "label": "For the ACCT 622 annual leave enter the value for line 34 of 37.",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 125.8,
+        "width": 59.0,
+        "height": 13.3
+      }
+    },
+    "acctsick34": {
+      "type": "text",
+      "label": "For the ACCT 623 sick leave enter the value for line 34 of 37.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 125.8,
+        "width": 60.7,
+        "height": 13.3
+      }
+    },
+    "activ35": {
+      "type": "text",
+      "label": "Enter line 35 of 37 for the activity.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 109.7,
+        "width": 23.6,
+        "height": 14.3
+      }
+    },
+    "dept35": {
+      "type": "text",
+      "label": "Enter line 35 of 37 for the department.",
+      "page": 1,
+      "box": {
+        "left": 69.2,
+        "top": 109.7,
+        "width": 26.4,
+        "height": 14.3
+      }
+    },
+    "acctsalaries35": {
+      "type": "text",
+      "label": "For the ACCT 601 salaries enter the value for line 35 of 37.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 109.0,
+        "width": 52.3,
+        "height": 12.9
+      }
+    },
+    "acctemployers35": {
+      "type": "text",
+      "label": "For the ACCT 621 employers FICA enter the value for line 35 of 37.",
+      "page": 1,
+      "box": {
+        "left": 160.5,
+        "top": 109.0,
+        "width": 68.1,
+        "height": 12.9
+      }
+    },
+    "acctannual35": {
+      "type": "text",
+      "label": "For the ACCT 622 annual leave enter the value for line 35 of 37.",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 109.0,
+        "width": 59.0,
+        "height": 12.9
+      }
+    },
+    "acctsick35": {
+      "type": "text",
+      "label": "For the ACCT 623 sick leave enter the value for line 35 of 37.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 109.0,
+        "width": 60.7,
+        "height": 12.9
+      }
+    },
+    "activ36": {
+      "type": "text",
+      "label": "Enter line 36 of 37 for the activity.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 93.9,
+        "width": 23.6,
+        "height": 14.9
+      }
+    },
+    "dept36": {
+      "type": "text",
+      "label": "Enter line 36 of 37 for the department.",
+      "page": 1,
+      "box": {
+        "left": 69.2,
+        "top": 93.9,
+        "width": 26.4,
+        "height": 14.9
+      }
+    },
+    "acctsalaries36": {
+      "type": "text",
+      "label": "For the ACCT 601 salaries enter the value for line 36 of 37.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 93.2,
+        "width": 52.3,
+        "height": 13.5
+      }
+    },
+    "acctemployers36": {
+      "type": "text",
+      "label": "For the ACCT 621 employers FICA enter the value for line 36 of 37.",
+      "page": 1,
+      "box": {
+        "left": 160.5,
+        "top": 93.2,
+        "width": 68.1,
+        "height": 13.5
+      }
+    },
+    "acctannual36": {
+      "type": "text",
+      "label": "For the ACCT 622 annual leave enter the value for line 36 of 37.",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 93.2,
+        "width": 59.0,
+        "height": 13.5
+      }
+    },
+    "acctsick36": {
+      "type": "text",
+      "label": "For the ACCT 623 sick leave enter the value for line 36 of 37.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 93.2,
+        "width": 60.7,
+        "height": 13.5
+      }
+    },
+    "prep": {
+      "type": "text",
+      "label": "Enter the preparer's name.",
+      "page": 1,
+      "box": {
+        "left": 366.7,
+        "top": 85.9,
+        "width": 120.3,
+        "height": 11.9
+      }
+    },
+    "prepdate": {
+      "type": "text",
+      "label": "Enter the date (DD MMM YYYY) this was prepared.",
+      "page": 1,
+      "box": {
+        "left": 493.3,
+        "top": 85.9,
+        "width": 79.9,
+        "height": 11.9
+      }
+    },
+    "activ37": {
+      "type": "text",
+      "label": "Enter line 37 of 37 for the activity.",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 77.0,
+        "width": 23.6,
+        "height": 13.5
+      }
+    },
+    "dept37": {
+      "type": "text",
+      "label": "Enter line 37 of 37 for the department.",
+      "page": 1,
+      "box": {
+        "left": 69.2,
+        "top": 77.0,
+        "width": 26.4,
+        "height": 13.5
+      }
+    },
+    "acctsalaries37": {
+      "type": "text",
+      "label": "For the ACCT 601 salaries enter the value for line 37 of 37.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 76.3,
+        "width": 52.3,
+        "height": 12.0
+      }
+    },
+    "acctemployers37": {
+      "type": "text",
+      "label": "For the ACCT 621 employers FICA enter the value for line 37 of 37.",
+      "page": 1,
+      "box": {
+        "left": 160.5,
+        "top": 76.3,
+        "width": 68.1,
+        "height": 12.0
+      }
+    },
+    "acctannual37": {
+      "type": "text",
+      "label": "For the ACCT 622 annual leave enter the value for line 37 of 37.",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 76.3,
+        "width": 59.0,
+        "height": 12.0
+      }
+    },
+    "acctsick37": {
+      "type": "text",
+      "label": "For the ACCT 623 sick leave enter the value for line 37 of 37.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 76.3,
+        "width": 60.7,
+        "height": 12.0
+      }
+    },
+    "totals": {
+      "type": "text",
+      "label": "Enter the totals ACCT 601 salaries.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 61.8,
+        "width": 52.3,
+        "height": 13.3
+      }
+    },
+    "acctemployers": {
+      "type": "text",
+      "label": "Enter the total for ACCT 621 employers FICA.",
+      "page": 1,
+      "box": {
+        "left": 160.5,
+        "top": 61.1,
+        "width": 68.1,
+        "height": 12.7
+      }
+    },
+    "acctannual": {
+      "type": "text",
+      "label": "Enter the total for ACCT 622 annual leave.",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 61.1,
+        "width": 59.0,
+        "height": 12.7
+      }
+    },
+    "acctsick": {
+      "type": "text",
+      "label": "Enter the total for ACCT 623 sick leave.",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 61.1,
+        "width": 60.7,
+        "height": 12.7
+      }
+    },
+    "approve": {
+      "type": "text",
+      "label": "Enter the approver's name.",
+      "page": 1,
+      "box": {
+        "left": 366.7,
+        "top": 61.1,
+        "width": 120.3,
+        "height": 12.5
+      }
+    },
+    "approvedate": {
+      "type": "text",
+      "label": "Enter the date (DD MMM YYYY) this was approved.",
+      "page": 1,
+      "box": {
+        "left": 493.3,
+        "top": 61.1,
+        "width": 79.9,
+        "height": 12.5
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 16.9,
+      "editor": "grid",
+      "columns": {
+        "otherdeduct": {
+          "type": "text",
+          "label": "Enter the other deductions for line 1 of 3.",
+          "page": 1,
+          "box": {
+            "left": 366.7,
+            "top": 292.9,
+            "width": 59.6,
+            "height": 13.7
+          }
+        },
+        "deductaccount": {
+          "type": "text",
+          "label": "Enter the other account numbers for the other deductions on line 1 of 3.",
+          "page": 1,
+          "box": {
+            "left": 432.6,
+            "top": 292.9,
+            "width": 54.1,
+            "height": 13.7
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 5,
+      "rowStride": 16.75,
+      "editor": "grid",
+      "columns": {
+        "otheraccts": {
+          "type": "text",
+          "label": "Enter other accounts receivable for line 1 of 5.",
+          "page": 1,
+          "box": {
+            "left": 366.8,
+            "top": 611.8,
+            "width": 59.9,
+            "height": 13.6
+          }
+        },
+        "accountno": {
+          "type": "text",
+          "label": "Enter the account number for the other accounts receivable on line 1 of 5.",
+          "page": 1,
+          "box": {
+            "left": 432.6,
+            "top": 611.8,
+            "width": 54.0,
+            "height": 13.6
+          }
+        }
+      }
+    }
+  }
+}

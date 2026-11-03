@@ -1,0 +1,227 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 610,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "1": {
+        "left": 126.0,
+        "top": 702.0,
+        "width": 441.0,
+        "height": 16.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "2": {
+        "left": 168.0,
+        "top": 677.0,
+        "width": 400.0,
+        "height": 16.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "3": {
+        "left": 133.0,
+        "top": 654.0,
+        "width": 434.0,
+        "height": 15.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "4": {
+        "left": 218.0,
+        "top": 630.0,
+        "width": 349.0,
+        "height": 14.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "5": {
+        "left": 177.0,
+        "top": 605.0,
+        "width": 391.0,
+        "height": 14.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "5a": {
+        "left": 74.0,
+        "top": 581.0,
+        "width": 493.0,
+        "height": 14.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "5b": {
+        "left": 76.0,
+        "top": 558.0,
+        "width": 491.0,
+        "height": 14.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "5c": {
+        "left": 76.0,
+        "top": 534.0,
+        "width": 491.0,
+        "height": 14.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "6": {
+        "left": 202.0,
+        "top": 510.0,
+        "width": 366.0,
+        "height": 13.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "6a": {
+        "left": 74.0,
+        "top": 462.0,
+        "width": 492.0,
+        "height": 13.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "6b": {
+        "left": 74.0,
+        "top": 438.0,
+        "width": 492.0,
+        "height": 12.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "6c": {
+        "left": 75.0,
+        "top": 414.0,
+        "width": 492.0,
+        "height": 12.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "7a": {
+        "left": 53.0,
+        "top": 357.0,
+        "width": 512.0,
+        "height": 17.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "7b": {
+        "left": 54.0,
+        "top": 336.0,
+        "width": 512.0,
+        "height": 17.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "7c": {
+        "left": 54.0,
+        "top": 315.0,
+        "width": 512.0,
+        "height": 17.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "8": {
+        "left": 137.0,
+        "top": 289.0,
+        "width": 429.0,
+        "height": 18.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "9": {
+        "left": 63.0,
+        "top": 218.0,
+        "width": 503.0,
+        "height": 14.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "9a": {
+        "left": 115.0,
+        "top": 191.0,
+        "width": 83.0,
+        "height": 12.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "9b": {
+        "left": 49.0,
+        "top": 171.0,
+        "width": 517.0,
+        "height": 90.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

@@ -1,0 +1,262 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "origName": {
+        "left": 38.2,
+        "top": 588.3,
+        "width": 166.7,
+        "height": 20.9,
+        "type": "text",
+        "description": "Initial)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "origPhone": {
+        "left": 209.2,
+        "top": 588.3,
+        "width": 108.2,
+        "height": 20.9,
+        "type": "text",
+        "description": "NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "origEmail": {
+        "left": 321.7,
+        "top": 588.3,
+        "width": 184.7,
+        "height": 20.9,
+        "type": "text",
+        "description": "3. ORIGINATOR E-MAIL ADDRESS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date1": {
+        "left": 510.7,
+        "top": 588.3,
+        "width": 63.2,
+        "height": 20.9,
+        "type": "text",
+        "description": "PREPARED",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "award": {
+        "left": 38.2,
+        "top": 545.1,
+        "width": 166.7,
+        "height": 20.9,
+        "type": "text",
+        "description": "5. AWARD CATEGORY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "organization": {
+        "left": 209.2,
+        "top": 545.1,
+        "width": 108.2,
+        "height": 20.9,
+        "type": "text",
+        "description": "6. ORGANIZATION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "subdivision": {
+        "left": 321.7,
+        "top": 545.1,
+        "width": 112.7,
+        "height": 20.9,
+        "type": "text",
+        "description": "SUBDIVISION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "echelon2Contact": {
+        "left": 438.7,
+        "top": 545.1,
+        "width": 135.2,
+        "height": 20.9,
+        "type": "text",
+        "description": "CONTACT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pSDName": {
+        "left": 38.2,
+        "top": 501.9,
+        "width": 166.7,
+        "height": 20.9,
+        "type": "text",
+        "description": "9. COMPTROLLER/SERVICING PSD NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pSDPhone": {
+        "left": 209.2,
+        "top": 501.9,
+        "width": 180.2,
+        "height": 20.9,
+        "type": "text",
+        "description": "NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pSDEmail": {
+        "left": 393.7,
+        "top": 501.9,
+        "width": 180.2,
+        "height": 20.9,
+        "type": "text",
+        "description": "ADDRESS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nominee": {
+        "left": 38.2,
+        "top": 444.3,
+        "width": 125.3,
+        "height": 13.7,
+        "type": "text",
+        "description": "NAME (Last, First, Middle Initial)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nomineePhone": {
+        "left": 167.8,
+        "top": 444.3,
+        "width": 82.1,
+        "height": 13.7,
+        "type": "text",
+        "description": "PHONE NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nomineeEmail": {
+        "left": 254.2,
+        "top": 444.3,
+        "width": 135.2,
+        "height": 13.7,
+        "type": "text",
+        "description": "E-MAIL ADDRESS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "position": {
+        "left": 393.7,
+        "top": 444.3,
+        "width": 87.9,
+        "height": 13.7,
+        "type": "text",
+        "description": "POSITION TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rank": {
+        "left": 38.2,
+        "top": 426.3,
+        "width": 87.9,
+        "height": 13.7,
+        "type": "text",
+        "description": "NAME (Last, First, Middle",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "citation": {
+        "left": 38.8,
+        "top": 395.6,
+        "width": 534.4,
+        "height": 54.3,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "contBy": {
+        "left": 406.1,
+        "top": 33.1,
+        "width": 98.7,
+        "height": 6.6,
+        "type": "text",
+        "description": "CONTROLLED BY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cUICat": {
+        "left": 406.1,
+        "top": 24.6,
+        "width": 98.7,
+        "height": 6.6,
+        "type": "text",
+        "description": "CUI (when filled in) CUI CATEGORY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ldc": {
+        "left": 406.1,
+        "top": 17.0,
+        "width": 98.7,
+        "height": 6.6,
+        "type": "text",
+        "description": "LDC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "poc": {
+        "left": 406.1,
+        "top": 9.4,
+        "width": 98.7,
+        "height": 6.6,
+        "type": "text",
+        "description": "POC",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "details": {
+        "left": 38.8,
+        "top": 655.9,
+        "width": 534.4,
+        "height": 217.6,
+        "type": "text",
+        "description": "(5) Impact joint operations",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

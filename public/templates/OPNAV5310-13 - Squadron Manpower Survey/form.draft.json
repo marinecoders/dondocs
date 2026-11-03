@@ -1,0 +1,232 @@
+{
+  "id": "opnav531013",
+  "label": "OPNAV5310-13 - Squadron Manpower Survey",
+  "directory": "OPNAV5310-13 - Squadron Manpower Survey",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "rocpoedue",
+        "rcvd",
+        "remarks",
+        "ladtSurveyDNSDate3",
+        "pGgraphic",
+        "finalTRWDP",
+        "sndl9",
+        "smooth10",
+        "ladtSurveyDNSDate32",
+        "ladtSurveyDNSDate33",
+        "by1",
+        "currentNumber",
+        "by2",
+        "newDocNumber",
+        "survey",
+        "unit"
+      ]
+    }
+  ],
+  "fields": {
+    "rocpoedue": {
+      "type": "text",
+      "label": "Enter the ROC/POE due.",
+      "page": 1,
+      "box": {
+        "left": 162.0,
+        "top": 530.3,
+        "width": 142.6,
+        "height": 12.8
+      }
+    },
+    "rcvd": {
+      "type": "text",
+      "label": "Enter the RCVD.",
+      "page": 1,
+      "box": {
+        "left": 372.0,
+        "top": 529.5,
+        "width": 86.4,
+        "height": 12.8
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "Enter the remarks.",
+      "page": 1,
+      "box": {
+        "left": 490.5,
+        "top": 519.2,
+        "width": 278.3,
+        "height": 366.3
+      },
+      "multiline": true
+    },
+    "ladtSurveyDNSDate3": {
+      "type": "text",
+      "label": "Enter the final review date, using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 372.0,
+        "top": 512.1,
+        "width": 86.4,
+        "height": 12.8
+      }
+    },
+    "pGgraphic": {
+      "type": "text",
+      "label": "Enter the title PG to graphics.",
+      "page": 1,
+      "box": {
+        "left": 372.0,
+        "top": 426.8,
+        "width": 86.4,
+        "height": 12.8
+      }
+    },
+    "finalTRWDP": {
+      "type": "text",
+      "label": "Enter the final LTR WDP ID number.",
+      "page": 1,
+      "box": {
+        "left": 372.0,
+        "top": 409.5,
+        "width": 86.4,
+        "height": 12.8
+      }
+    },
+    "sndl9": {
+      "type": "text",
+      "label": "Enter the SNDL Ck. to P-GON.",
+      "page": 1,
+      "box": {
+        "left": 372.0,
+        "top": 392.3,
+        "width": 86.4,
+        "height": 12.8
+      }
+    },
+    "smooth10": {
+      "type": "text",
+      "label": "Enter smooth print RVCD.",
+      "page": 1,
+      "box": {
+        "left": 372.0,
+        "top": 374.3,
+        "width": 86.4,
+        "height": 12.8
+      }
+    },
+    "ladtSurveyDNSDate32": {
+      "type": "text",
+      "label": "Enter the last survey date, using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 179.2,
+        "top": 320.4,
+        "width": 126.8,
+        "height": 13.6
+      }
+    },
+    "ladtSurveyDNSDate33": {
+      "type": "text",
+      "label": "Enter the last survey date, using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 179.2,
+        "top": 301.5,
+        "width": 126.8,
+        "height": 13.6
+      }
+    },
+    "by1": {
+      "type": "text",
+      "label": "Enter by whom.",
+      "page": 1,
+      "box": {
+        "left": 50.2,
+        "top": 266.3,
+        "width": 72.1,
+        "height": 12.8
+      }
+    },
+    "currentNumber": {
+      "type": "text",
+      "label": "Enter the current number.",
+      "page": 1,
+      "box": {
+        "left": 252.7,
+        "top": 266.3,
+        "width": 142.6,
+        "height": 12.8
+      }
+    },
+    "by2": {
+      "type": "text",
+      "label": "Enter by whom.",
+      "page": 1,
+      "box": {
+        "left": 50.2,
+        "top": 246.7,
+        "width": 72.1,
+        "height": 12.8
+      }
+    },
+    "newDocNumber": {
+      "type": "text",
+      "label": "Enter the document number.",
+      "page": 1,
+      "box": {
+        "left": 306.7,
+        "top": 246.7,
+        "width": 88.6,
+        "height": 12.8
+      }
+    },
+    "survey": {
+      "type": "text",
+      "label": "Enter the survey.",
+      "page": 1,
+      "box": {
+        "left": 379.5,
+        "top": 74.3,
+        "width": 212.3,
+        "height": 27.4
+      }
+    },
+    "unit": {
+      "type": "text",
+      "label": "Enter the unit.",
+      "page": 1,
+      "box": {
+        "left": 80.2,
+        "top": 72.7,
+        "width": 212.3,
+        "height": 27.4
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 4,
+      "rowStride": 17.2,
+      "editor": "grid",
+      "columns": {
+        "a": {
+          "type": "text",
+          "label": "Enter all reviews RCVD.",
+          "page": 1,
+          "box": {
+            "left": 372.0,
+            "top": 494.1,
+            "width": 86.4,
+            "height": 12.8
+          }
+        }
+      }
+    }
+  }
+}

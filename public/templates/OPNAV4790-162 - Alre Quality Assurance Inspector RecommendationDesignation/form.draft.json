@@ -1,0 +1,462 @@
+{
+  "id": "opnav4790162",
+  "label": "OPNAV4790-162 - Alre Quality Assurance Inspector RecommendationDesignation",
+  "directory": "OPNAV4790-162 - Alre Quality Assurance Inspector RecommendationDesignation",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "candname",
+        "rate",
+        "rec",
+        "rec2",
+        "rec3",
+        "wcdate",
+        "wcsig",
+        "wcsupervisor",
+        "qaSIG",
+        "qaDATE",
+        "qaSUPERVISOR",
+        "approval",
+        "approval2",
+        "mosupervisor",
+        "mosig",
+        "modate",
+        "do",
+        "do2",
+        "dosupervisor",
+        "dosig",
+        "dodate",
+        "ao2",
+        "ao22",
+        "ao",
+        "ao3",
+        "aosupervisor",
+        "aosig",
+        "aodate",
+        "co",
+        "co2",
+        "cosupervisor",
+        "cosig",
+        "codate",
+        "ca",
+        "casig",
+        "cadate"
+      ]
+    }
+  ],
+  "fields": {
+    "candname": {
+      "type": "text",
+      "label": "ENTER CANDIDATE'S NAME.",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 726.3,
+        "width": 219.3,
+        "height": 12.5
+      }
+    },
+    "rate": {
+      "type": "text",
+      "label": "ENTER CANDIDATE'S RATE.",
+      "page": 1,
+      "box": {
+        "left": 263.8,
+        "top": 726.3,
+        "width": 183.3,
+        "height": 12.5
+      }
+    },
+    "rec": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 155.8,
+        "top": 679.5,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "form1_0_subform_0_REC_0"
+    },
+    "rec2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 679.5,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "form1_0_subform_0_REC_0"
+    },
+    "rec3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 425.8,
+        "top": 679.5,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "form1_0_subform_0_REC_0"
+    },
+    "wcdate": {
+      "type": "text",
+      "label": "ENTER DATE.",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 609.3,
+        "width": 102.3,
+        "height": 12.5
+      }
+    },
+    "wcsig": {
+      "type": "text",
+      "label": "ENTER SIGNATURE.",
+      "page": 1,
+      "box": {
+        "left": 308.8,
+        "top": 609.2,
+        "width": 156.3,
+        "height": 12.3
+      }
+    },
+    "wcsupervisor": {
+      "type": "text",
+      "label": "ENTER W/C SUPERVISOR'S NAME.",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 608.1,
+        "width": 264.3,
+        "height": 11.3
+      }
+    },
+    "qaSIG": {
+      "type": "text",
+      "label": "ENTER SIGNATURE.",
+      "page": 1,
+      "box": {
+        "left": 308.8,
+        "top": 546.3,
+        "width": 156.3,
+        "height": 12.5
+      }
+    },
+    "qaDATE": {
+      "type": "text",
+      "label": "ENTER DATE.",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 546.3,
+        "width": 102.3,
+        "height": 12.5
+      }
+    },
+    "qaSUPERVISOR": {
+      "type": "text",
+      "label": "ENTER QA SUPERVISOR TYPED NAME AND RANK.",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 545.1,
+        "width": 264.3,
+        "height": 11.3
+      }
+    },
+    "approval": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 402.4,
+        "top": 508.5,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "form1_0_subform_0_APPROVAL_0"
+    },
+    "approval2": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 479.2,
+        "top": 508.5,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "form1_0_subform_0_APPROVAL_0"
+    },
+    "mosupervisor": {
+      "type": "text",
+      "label": "ENTER MAINTENANCE OFFICER TYPED NAME AND RANK.",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 483.3,
+        "width": 264.3,
+        "height": 12.5
+      }
+    },
+    "mosig": {
+      "type": "text",
+      "label": "ENTER SIGNATURE.",
+      "page": 1,
+      "box": {
+        "left": 308.8,
+        "top": 483.3,
+        "width": 156.3,
+        "height": 12.5
+      }
+    },
+    "modate": {
+      "type": "text",
+      "label": "ENTER DATE.",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 483.3,
+        "width": 102.3,
+        "height": 12.5
+      }
+    },
+    "do": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 402.4,
+        "top": 445.5,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "form1_0_subform_0_DO_0"
+    },
+    "do2": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 479.2,
+        "top": 445.5,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "form1_0_subform_0_DO_0"
+    },
+    "dosupervisor": {
+      "type": "text",
+      "label": "ENTER V-2 OFFICER TYPED NAME AND RANK.",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 420.3,
+        "width": 264.3,
+        "height": 12.5
+      }
+    },
+    "dosig": {
+      "type": "text",
+      "label": "ENTER SIGNATURE.",
+      "page": 1,
+      "box": {
+        "left": 308.8,
+        "top": 420.3,
+        "width": 156.3,
+        "height": 12.5
+      }
+    },
+    "dodate": {
+      "type": "text",
+      "label": "ENTER DATE.",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 420.3,
+        "width": 102.3,
+        "height": 12.5
+      }
+    },
+    "ao2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 382.5,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "form1_0_subform_0_AO2_0"
+    },
+    "ao22": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 209.8,
+        "top": 382.5,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "form1_0_subform_0_AO2_0"
+    },
+    "ao": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 326.8,
+        "top": 382.5,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "form1_0_subform_0_AO_0"
+    },
+    "ao3": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 443.8,
+        "top": 382.5,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "form1_0_subform_0_AO_0"
+    },
+    "aosupervisor": {
+      "type": "text",
+      "label": "ENTER AIR OFFICER TYPED NAME AND RANK.",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 357.3,
+        "width": 264.3,
+        "height": 12.5
+      }
+    },
+    "aosig": {
+      "type": "text",
+      "label": "ENTER SIGNATURE.",
+      "page": 1,
+      "box": {
+        "left": 308.8,
+        "top": 357.3,
+        "width": 156.3,
+        "height": 12.5
+      }
+    },
+    "aodate": {
+      "type": "text",
+      "label": "ENTER DATE.",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 357.3,
+        "width": 102.3,
+        "height": 12.5
+      }
+    },
+    "co": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 200.8,
+        "top": 319.5,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "form1_0_subform_0_CO_0"
+    },
+    "co2": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 317.8,
+        "top": 319.5,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "form1_0_subform_0_CO_0"
+    },
+    "cosupervisor": {
+      "type": "text",
+      "label": "ENTER COMMANDING OFFICER TYPED NAME AND RANK.",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 294.3,
+        "width": 264.3,
+        "height": 12.5
+      }
+    },
+    "cosig": {
+      "type": "text",
+      "label": "ENTER SIGNATURE.",
+      "page": 1,
+      "box": {
+        "left": 308.8,
+        "top": 294.3,
+        "width": 156.3,
+        "height": 12.5
+      }
+    },
+    "codate": {
+      "type": "text",
+      "label": "ENTER DATE.",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 294.3,
+        "width": 102.3,
+        "height": 12.5
+      }
+    },
+    "ca": {
+      "type": "text",
+      "label": "ENTER CANDIDATE TYPED NAME",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 168.3,
+        "width": 264.3,
+        "height": 12.5
+      }
+    },
+    "casig": {
+      "type": "text",
+      "label": "ENTER SIGNATURE.",
+      "page": 1,
+      "box": {
+        "left": 308.8,
+        "top": 168.3,
+        "width": 156.3,
+        "height": 12.5
+      }
+    },
+    "cadate": {
+      "type": "text",
+      "label": "ENTER DATE.",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 168.3,
+        "width": 102.3,
+        "height": 12.5
+      }
+    }
+  }
+}

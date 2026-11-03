@@ -1,0 +1,89 @@
+{
+  "id": "opnav5510422",
+  "label": "OPNAV5510-422 - Instruction Brief For Couriers Of Nato Classified Documents Certification",
+  "directory": "OPNAV5510-422 - Instruction Brief For Couriers Of Nato Classified Documents Certification",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "iAMAppDtd",
+        "iAMAppSig",
+        "prtNme",
+        "iAMAppDtd2",
+        "iAMAppSig2",
+        "prtNme2"
+      ]
+    }
+  ],
+  "fields": {
+    "iAMAppDtd": {
+      "type": "text",
+      "label": "attention of this office so that",
+      "page": 1,
+      "box": {
+        "left": 254.2,
+        "top": 258.8,
+        "width": 103.7,
+        "height": 26.2
+      }
+    },
+    "iAMAppSig": {
+      "type": "text",
+      "label": "remedies may be worked out for the benefit of other",
+      "page": 1,
+      "box": {
+        "left": 389.2,
+        "top": 258.8,
+        "width": 175.7,
+        "height": 25.7
+      }
+    },
+    "prtNme": {
+      "type": "text",
+      "label": "NATO travelers",
+      "page": 1,
+      "box": {
+        "left": 47.8,
+        "top": 258.1,
+        "width": 174.4,
+        "height": 26.3
+      }
+    },
+    "iAMAppDtd2": {
+      "type": "text",
+      "label": "instructions set forth above which pertain",
+      "page": 1,
+      "box": {
+        "left": 254.2,
+        "top": 114.8,
+        "width": 103.7,
+        "height": 25.6
+      }
+    },
+    "iAMAppSig2": {
+      "type": "text",
+      "label": "the handling of NATO classified documents in",
+      "page": 1,
+      "box": {
+        "left": 389.2,
+        "top": 114.8,
+        "width": 175.7,
+        "height": 25.7
+      }
+    },
+    "prtNme2": {
+      "type": "text",
+      "label": "my custody while I am an official courier",
+      "page": 1,
+      "box": {
+        "left": 47.8,
+        "top": 114.1,
+        "width": 174.4,
+        "height": 23.7
+      }
+    }
+  }
+}

@@ -1,0 +1,425 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 792,
+    "height": 612
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "month": {
+        "left": 327.6,
+        "top": 568.5,
+        "width": 242.6,
+        "height": 24.1,
+        "type": "text",
+        "description": "Enter the month.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "month1": {
+        "left": 632.8,
+        "top": 568.5,
+        "width": 64.8,
+        "height": 24.1,
+        "type": "text",
+        "description": "Enter the year.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sunday1": {
+        "left": 30.6,
+        "top": 491.4,
+        "width": 95.6,
+        "height": 78.3,
+        "type": "text",
+        "description": "Enter the notes for Sunday.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "monday1": {
+        "left": 136.2,
+        "top": 491.4,
+        "width": 95.6,
+        "height": 78.3,
+        "type": "text",
+        "description": "Enter the notes for Monday.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "tuesday1": {
+        "left": 241.9,
+        "top": 491.4,
+        "width": 95.6,
+        "height": 78.3,
+        "type": "text",
+        "description": "Enter the notes for Tuesday.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "wednesday1": {
+        "left": 347.6,
+        "top": 491.4,
+        "width": 95.6,
+        "height": 78.3,
+        "type": "text",
+        "description": "Enter the notes for Wednesday.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "thursday1": {
+        "left": 453.3,
+        "top": 491.4,
+        "width": 95.6,
+        "height": 78.3,
+        "type": "text",
+        "description": "Enter the notes for Thursday.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "friday1": {
+        "left": 559.7,
+        "top": 491.4,
+        "width": 95.6,
+        "height": 78.3,
+        "type": "text",
+        "description": "Enter the notes for Friday.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "saturday1": {
+        "left": 665.3,
+        "top": 491.4,
+        "width": 95.6,
+        "height": 78.3,
+        "type": "text",
+        "description": "Enter the notes for Saturday.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sunday2": {
+        "left": 30.6,
+        "top": 400.8,
+        "width": 95.6,
+        "height": 78.3,
+        "type": "text",
+        "description": "Enter the notes for Sunday.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "monday2": {
+        "left": 136.2,
+        "top": 400.8,
+        "width": 95.6,
+        "height": 78.3,
+        "type": "text",
+        "description": "Enter the notes for Monday.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "tuesday2": {
+        "left": 241.9,
+        "top": 400.8,
+        "width": 95.6,
+        "height": 78.3,
+        "type": "text",
+        "description": "Enter the notes for Tuesday.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "wednesday2": {
+        "left": 347.6,
+        "top": 400.8,
+        "width": 95.6,
+        "height": 78.3,
+        "type": "text",
+        "description": "Enter the notes for Wednesday.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "thursday2": {
+        "left": 453.3,
+        "top": 400.8,
+        "width": 95.6,
+        "height": 78.3,
+        "type": "text",
+        "description": "Enter the notes for Thursday.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "friday2": {
+        "left": 559.7,
+        "top": 400.8,
+        "width": 95.6,
+        "height": 78.3,
+        "type": "text",
+        "description": "Enter the notes for Friday.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "saturday2": {
+        "left": 665.3,
+        "top": 400.8,
+        "width": 95.6,
+        "height": 78.3,
+        "type": "text",
+        "description": "Enter the notes for Saturday.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sunday3": {
+        "left": 30.6,
+        "top": 310.9,
+        "width": 95.6,
+        "height": 78.3,
+        "type": "text",
+        "description": "Enter the notes for Sunday.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "monday3": {
+        "left": 136.2,
+        "top": 310.9,
+        "width": 95.6,
+        "height": 78.3,
+        "type": "text",
+        "description": "Enter the notes for Monday.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "tuesday3": {
+        "left": 241.9,
+        "top": 310.9,
+        "width": 95.6,
+        "height": 78.3,
+        "type": "text",
+        "description": "Enter the notes for Tuesday.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "wednesday3": {
+        "left": 347.6,
+        "top": 310.9,
+        "width": 95.6,
+        "height": 78.3,
+        "type": "text",
+        "description": "Enter the notes for Wednesday.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "thursday3": {
+        "left": 453.3,
+        "top": 310.9,
+        "width": 95.6,
+        "height": 78.3,
+        "type": "text",
+        "description": "Enter the notes for Thursday.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "friday3": {
+        "left": 559.7,
+        "top": 310.9,
+        "width": 95.6,
+        "height": 78.3,
+        "type": "text",
+        "description": "Enter the notes for Friday.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "saturday3": {
+        "left": 665.3,
+        "top": 310.9,
+        "width": 95.6,
+        "height": 78.3,
+        "type": "text",
+        "description": "Enter the notes for Saturday.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sunday4": {
+        "left": 30.6,
+        "top": 221.0,
+        "width": 95.6,
+        "height": 78.3,
+        "type": "text",
+        "description": "Enter the notes for Sunday.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "monday4": {
+        "left": 136.2,
+        "top": 221.0,
+        "width": 95.6,
+        "height": 78.3,
+        "type": "text",
+        "description": "Enter the notes for Monday.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "tuesday4": {
+        "left": 241.9,
+        "top": 221.0,
+        "width": 95.6,
+        "height": 78.3,
+        "type": "text",
+        "description": "Enter the notes for Tuesday.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "wednesday4": {
+        "left": 347.6,
+        "top": 221.0,
+        "width": 95.6,
+        "height": 78.3,
+        "type": "text",
+        "description": "Enter the notes for Wednesday.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "thursday4": {
+        "left": 453.3,
+        "top": 221.0,
+        "width": 95.6,
+        "height": 78.3,
+        "type": "text",
+        "description": "Enter the notes for Thursday.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "friday4": {
+        "left": 559.7,
+        "top": 221.0,
+        "width": 95.6,
+        "height": 78.3,
+        "type": "text",
+        "description": "Enter the notes for Friday.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "saturday4": {
+        "left": 665.3,
+        "top": 221.0,
+        "width": 95.6,
+        "height": 78.3,
+        "type": "text",
+        "description": "Enter the notes for Saturday.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sunday5": {
+        "left": 30.6,
+        "top": 129.7,
+        "width": 95.6,
+        "height": 78.3,
+        "type": "text",
+        "description": "Enter the notes for Sunday.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "monday5": {
+        "left": 136.2,
+        "top": 129.7,
+        "width": 95.6,
+        "height": 78.3,
+        "type": "text",
+        "description": "Enter the notes for Monday.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "tuesday5": {
+        "left": 241.9,
+        "top": 129.7,
+        "width": 95.6,
+        "height": 78.3,
+        "type": "text",
+        "description": "Enter the notes for Tuesday.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "wednesday5": {
+        "left": 347.6,
+        "top": 129.7,
+        "width": 95.6,
+        "height": 78.3,
+        "type": "text",
+        "description": "Enter the notes for Wednesday.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "thursday5": {
+        "left": 453.3,
+        "top": 129.7,
+        "width": 95.6,
+        "height": 78.3,
+        "type": "text",
+        "description": "Enter the notes for Thursday.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "friday5": {
+        "left": 559.7,
+        "top": 129.7,
+        "width": 95.6,
+        "height": 78.3,
+        "type": "text",
+        "description": "Enter the notes for Friday.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "saturday5": {
+        "left": 665.3,
+        "top": 129.7,
+        "width": 95.6,
+        "height": 78.3,
+        "type": "text",
+        "description": "Enter the notes for Saturday.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

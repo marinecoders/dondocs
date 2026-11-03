@@ -1,0 +1,260 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "textField1": {
+        "left": 330.6,
+        "top": 484.7,
+        "width": 143.6,
+        "height": 16.8,
+        "type": "text",
+        "description": "TextField1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField12": {
+        "left": 47.1,
+        "top": 483.9,
+        "width": 276.3,
+        "height": 16.8,
+        "type": "text",
+        "description": "TextField1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField13": {
+        "left": 479.1,
+        "top": 483.9,
+        "width": 90.4,
+        "height": 17.7,
+        "type": "text",
+        "description": "TextField1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField14": {
+        "left": 330.6,
+        "top": 462.2,
+        "width": 143.6,
+        "height": 16.8,
+        "type": "text",
+        "description": "TextField1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField15": {
+        "left": 47.1,
+        "top": 461.4,
+        "width": 276.3,
+        "height": 14.6,
+        "type": "text",
+        "description": "TextField1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField16": {
+        "left": 479.1,
+        "top": 460.5,
+        "width": 90.4,
+        "height": 13.0,
+        "type": "text",
+        "description": "TextField1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField17": {
+        "left": 479.1,
+        "top": 441.9,
+        "width": 90.4,
+        "height": 17.6,
+        "type": "text",
+        "description": "TextField1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField18": {
+        "left": 330.6,
+        "top": 439.7,
+        "width": 143.6,
+        "height": 16.8,
+        "type": "text",
+        "description": "TextField1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField19": {
+        "left": 47.1,
+        "top": 438.9,
+        "width": 276.3,
+        "height": 16.8,
+        "type": "text",
+        "description": "TextField1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField110": {
+        "left": 479.1,
+        "top": 417.9,
+        "width": 90.4,
+        "height": 15.3,
+        "type": "text",
+        "description": "TextField1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField111": {
+        "left": 330.6,
+        "top": 417.2,
+        "width": 143.6,
+        "height": 16.8,
+        "type": "text",
+        "description": "TextField1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField112": {
+        "left": 47.1,
+        "top": 416.5,
+        "width": 276.3,
+        "height": 13.9,
+        "type": "text",
+        "description": "TextField1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField113": {
+        "left": 479.1,
+        "top": 396.2,
+        "width": 90.4,
+        "height": 16.8,
+        "type": "text",
+        "description": "TextField1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField114": {
+        "left": 330.6,
+        "top": 394.8,
+        "width": 143.6,
+        "height": 16.8,
+        "type": "text",
+        "description": "TextField1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField115": {
+        "left": 47.1,
+        "top": 394.0,
+        "width": 276.3,
+        "height": 16.8,
+        "type": "text",
+        "description": "TextField1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField116": {
+        "left": 47.1,
+        "top": 372.9,
+        "width": 276.3,
+        "height": 20.6,
+        "type": "text",
+        "description": "TextField1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField117": {
+        "left": 330.6,
+        "top": 372.3,
+        "width": 143.6,
+        "height": 17.7,
+        "type": "text",
+        "description": "TextField1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField118": {
+        "left": 479.1,
+        "top": 371.4,
+        "width": 90.4,
+        "height": 18.3,
+        "type": "text",
+        "description": "TextField1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField119": {
+        "left": 47.1,
+        "top": 332.7,
+        "width": 372.3,
+        "height": 20.6,
+        "type": "text",
+        "description": "TextField1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField120": {
+        "left": 425.1,
+        "top": 330.2,
+        "width": 143.6,
+        "height": 18.3,
+        "type": "text",
+        "description": "TextField1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField121": {
+        "left": 47.1,
+        "top": 132.9,
+        "width": 427.1,
+        "height": 11.6,
+        "type": "text",
+        "description": "TextField1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField122": {
+        "left": 479.1,
+        "top": 132.9,
+        "width": 90.3,
+        "height": 10.8,
+        "type": "text",
+        "description": "TextField1",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

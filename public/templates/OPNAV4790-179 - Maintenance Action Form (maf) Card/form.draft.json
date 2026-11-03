@@ -1,0 +1,172 @@
+{
+  "id": "opnav4790179",
+  "label": "OPNAV4790-179 - Maintenance Action Form (maf) Card",
+  "directory": "OPNAV4790-179 - Maintenance Action Form (maf) Card",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "juliandate2",
+        "jsn2",
+        "wc2",
+        "middle",
+        "wc",
+        "jsn",
+        "juliandate",
+        "qa",
+        "ms",
+        "dn",
+        "lim",
+        "mrc"
+      ]
+    }
+  ],
+  "fields": {
+    "juliandate2": {
+      "type": "text",
+      "label": "ENTER JULIAN DATE.",
+      "page": 1,
+      "box": {
+        "left": 236.8,
+        "top": 739.7,
+        "width": 115.8,
+        "height": 43.6
+      },
+      "multiline": true
+    },
+    "jsn2": {
+      "type": "text",
+      "label": "ENTER JSN.",
+      "page": 1,
+      "box": {
+        "left": 358.3,
+        "top": 739.7,
+        "width": 84.3,
+        "height": 33.5
+      },
+      "multiline": true
+    },
+    "wc2": {
+      "type": "text",
+      "label": "ENTER W/C.",
+      "page": 1,
+      "box": {
+        "left": 448.3,
+        "top": 739.7,
+        "width": 84.3,
+        "height": 33.5
+      },
+      "multiline": true
+    },
+    "middle": {
+      "type": "text",
+      "label": "MIDDLE",
+      "page": 1,
+      "box": {
+        "left": 83.8,
+        "top": 672.2,
+        "width": 448.8,
+        "height": 160.8
+      },
+      "multiline": true
+    },
+    "wc": {
+      "type": "text",
+      "label": "ENTER W/C.",
+      "page": 1,
+      "box": {
+        "left": 83.8,
+        "top": 474.2,
+        "width": 39.3,
+        "height": 43.6
+      },
+      "multiline": true
+    },
+    "jsn": {
+      "type": "text",
+      "label": "ENTER JSN.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 474.2,
+        "width": 39.3,
+        "height": 43.6
+      },
+      "multiline": true
+    },
+    "juliandate": {
+      "type": "text",
+      "label": "ENTER JULIAN DATE.",
+      "page": 1,
+      "box": {
+        "left": 173.8,
+        "top": 474.2,
+        "width": 57.3,
+        "height": 43.6
+      },
+      "multiline": true
+    },
+    "qa": {
+      "type": "text",
+      "label": "ENTER QA.",
+      "page": 1,
+      "box": {
+        "left": 358.3,
+        "top": 474.2,
+        "width": 39.3,
+        "height": 33.5
+      },
+      "multiline": true
+    },
+    "ms": {
+      "type": "text",
+      "label": "ENTER MS.",
+      "page": 1,
+      "box": {
+        "left": 403.3,
+        "top": 474.2,
+        "width": 39.3,
+        "height": 33.5
+      },
+      "multiline": true
+    },
+    "dn": {
+      "type": "text",
+      "label": "ENTER DN.",
+      "page": 1,
+      "box": {
+        "left": 448.3,
+        "top": 474.2,
+        "width": 39.3,
+        "height": 33.5
+      },
+      "multiline": true
+    },
+    "lim": {
+      "type": "text",
+      "label": "ENTER LIM.",
+      "page": 1,
+      "box": {
+        "left": 493.3,
+        "top": 474.2,
+        "width": 39.3,
+        "height": 33.5
+      },
+      "multiline": true
+    },
+    "mrc": {
+      "type": "text",
+      "label": "ENTER MRC.",
+      "page": 1,
+      "box": {
+        "left": 258.9,
+        "top": 460.1,
+        "width": 93.8,
+        "height": 27.2
+      }
+    }
+  }
+}

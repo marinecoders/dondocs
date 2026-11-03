@@ -1,0 +1,1205 @@
+{
+  "id": "navmc11009a",
+  "label": "NAVMC11009A - Kd Course Qualification-Requalification Pit Score Card - Permanent",
+  "directory": "NAVMC11009A - Kd Course Qualification-Requalification Pit Score Card - Permanent",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "naLaFi",
+        "grD",
+        "orGa",
+        "ssn",
+        "weFi",
+        "daT",
+        "raNg",
+        "reLy",
+        "fiPt",
+        "slFiSi5",
+        "slFiSi1",
+        "slFiSi2",
+        "slFiSi3",
+        "slFiSi4",
+        "slFiSiTo",
+        "slFiKn1",
+        "slFiKn2",
+        "slFiKn3",
+        "slFiKn4",
+        "slFiKn5",
+        "slFiKnTo",
+        "slFiSt1",
+        "slFiSt4",
+        "slFiSt5",
+        "slFiSt2",
+        "slFiSt3",
+        "slFiStTo",
+        "raFiSi1",
+        "raFiSi2",
+        "raFiSi3",
+        "raFiSi4",
+        "raFiSi5",
+        "raFiSi6",
+        "raFiSi7",
+        "raFiSi8",
+        "raFiSi9",
+        "raFiSi10",
+        "raFiSiTo",
+        "3SlFiSi1",
+        "3SlFiSi3",
+        "3SlFiSi4",
+        "3SlFiSi5",
+        "3SlFiSiTo",
+        "3SlFiSi2",
+        "3RaFiPr2",
+        "3RaFiPr3",
+        "3RaFiPr4",
+        "3RaFiPr5",
+        "3RaFiPr6",
+        "3RaFiPr7",
+        "3RaFiPr8",
+        "3RaFiPr9",
+        "3RaFiPr10",
+        "3RaFiPr1",
+        "raFiPrTo",
+        "5SlFiPr1",
+        "5SlFiPr3",
+        "5SlFiPr4",
+        "5SlFiPr5",
+        "5SlFiPr6",
+        "5SlFiPr7",
+        "5SlFiPr8",
+        "5SlFiPr9",
+        "5SlFiPr10",
+        "5SlFiPrTo",
+        "5SlFiPr2",
+        "chkA",
+        "chkA1",
+        "chkA2",
+        "chkA4",
+        "enToSc",
+        "orgNz",
+        "signature",
+        "orGa2",
+        "signature2",
+        "stFi1a",
+        "stFi1",
+        "stFi2",
+        "stFi3",
+        "stFi4",
+        "stFi5",
+        "stFi6",
+        "stFi7",
+        "stFi8",
+        "stFi9",
+        "stFi10",
+        "stFiTo",
+        "stFi2a",
+        "2StFi1",
+        "2StFi2",
+        "2StFi3",
+        "2StFi4",
+        "2StFi5",
+        "2StFi6",
+        "2StFi7",
+        "2StFi8",
+        "2StFi9",
+        "2StFi10",
+        "stFiTo2"
+      ]
+    }
+  ],
+  "fields": {
+    "naLaFi": {
+      "type": "text",
+      "label": "\"K D\" course qualification / requalification line scorecard - permanent ( 3591 ).  Enter last name, first, middle initial.",
+      "page": 1,
+      "box": {
+        "left": 24.1,
+        "top": 684.7,
+        "width": 408.2,
+        "height": 17.7
+      }
+    },
+    "grD": {
+      "type": "text",
+      "label": "Grade",
+      "page": 1,
+      "box": {
+        "left": 433.6,
+        "top": 684.0,
+        "width": 150.6,
+        "height": 17.7
+      }
+    },
+    "orGa": {
+      "type": "text",
+      "label": "Organization",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 656.1,
+        "width": 407.6,
+        "height": 23.9
+      }
+    },
+    "ssn": {
+      "type": "text",
+      "label": "SSN",
+      "page": 1,
+      "box": {
+        "left": 434.4,
+        "top": 649.0,
+        "width": 149.0,
+        "height": 16.4
+      }
+    },
+    "weFi": {
+      "type": "text",
+      "label": "Weapon fired.",
+      "page": 1,
+      "box": {
+        "left": 433.8,
+        "top": 620.2,
+        "width": 150.6,
+        "height": 24.1
+      }
+    },
+    "daT": {
+      "type": "text",
+      "label": "Enter date using format 2002 12 24",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 614.5,
+        "width": 101.3,
+        "height": 17.1
+      }
+    },
+    "raNg": {
+      "type": "text",
+      "label": "Range",
+      "page": 1,
+      "box": {
+        "left": 127.8,
+        "top": 614.5,
+        "width": 98.4,
+        "height": 17.7
+      }
+    },
+    "reLy": {
+      "type": "text",
+      "label": "Relay",
+      "page": 1,
+      "box": {
+        "left": 228.5,
+        "top": 614.5,
+        "width": 100.3,
+        "height": 17.7
+      }
+    },
+    "fiPt": {
+      "type": "text",
+      "label": "Firting Pt.",
+      "page": 1,
+      "box": {
+        "left": 330.4,
+        "top": 614.5,
+        "width": 101.0,
+        "height": 17.7
+      }
+    },
+    "slFiSi5": {
+      "type": "text",
+      "label": "Enter round 5",
+      "page": 1,
+      "box": {
+        "left": 306.6,
+        "top": 498.5,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "slFiSi1": {
+      "type": "text",
+      "label": "200 Yards / meters.  Slow fire sitting.  Five rounds in five minutes.  Enter round 1",
+      "page": 1,
+      "box": {
+        "left": 194.3,
+        "top": 498.3,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "slFiSi2": {
+      "type": "text",
+      "label": "Enter round 2",
+      "page": 1,
+      "box": {
+        "left": 223.4,
+        "top": 498.3,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "slFiSi3": {
+      "type": "text",
+      "label": "Enter round 3",
+      "page": 1,
+      "box": {
+        "left": 251.3,
+        "top": 498.3,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "slFiSi4": {
+      "type": "text",
+      "label": "Enter round 4",
+      "page": 1,
+      "box": {
+        "left": 279.1,
+        "top": 498.3,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "slFiSiTo": {
+      "type": "text",
+      "label": "Enter total.",
+      "page": 1,
+      "box": {
+        "left": 477.7,
+        "top": 497.8,
+        "width": 105.8,
+        "height": 17.4
+      }
+    },
+    "slFiKn1": {
+      "type": "text",
+      "label": "200 Yards / meters.  Slow fire Kneeling.  Five rounds in five minutes.  Enter round 1",
+      "page": 1,
+      "box": {
+        "left": 194.3,
+        "top": 475.5,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "slFiKn2": {
+      "type": "text",
+      "label": "Enter round 2",
+      "page": 1,
+      "box": {
+        "left": 223.4,
+        "top": 475.5,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "slFiKn3": {
+      "type": "text",
+      "label": "Enter round 3",
+      "page": 1,
+      "box": {
+        "left": 251.3,
+        "top": 475.5,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "slFiKn4": {
+      "type": "text",
+      "label": "Enter round 4",
+      "page": 1,
+      "box": {
+        "left": 279.8,
+        "top": 475.5,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "slFiKn5": {
+      "type": "text",
+      "label": "Enter round 5",
+      "page": 1,
+      "box": {
+        "left": 307.0,
+        "top": 475.5,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "slFiKnTo": {
+      "type": "text",
+      "label": "Enter total.",
+      "page": 1,
+      "box": {
+        "left": 477.2,
+        "top": 474.9,
+        "width": 105.1,
+        "height": 17.7
+      }
+    },
+    "slFiSt1": {
+      "type": "text",
+      "label": "200 Yards / meters.  Slow fire standing.  Five rounds in five minutes.  Enter round 1",
+      "page": 1,
+      "box": {
+        "left": 194.3,
+        "top": 452.8,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "slFiSt4": {
+      "type": "text",
+      "label": "Enter round 4",
+      "page": 1,
+      "box": {
+        "left": 278.5,
+        "top": 452.8,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "slFiSt5": {
+      "type": "text",
+      "label": "Enter round 5",
+      "page": 1,
+      "box": {
+        "left": 307.0,
+        "top": 452.8,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "slFiSt2": {
+      "type": "text",
+      "label": "Enter round 2",
+      "page": 1,
+      "box": {
+        "left": 223.4,
+        "top": 452.1,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "slFiSt3": {
+      "type": "text",
+      "label": "Enter round 3",
+      "page": 1,
+      "box": {
+        "left": 251.3,
+        "top": 452.1,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "slFiStTo": {
+      "type": "text",
+      "label": "Enter total.",
+      "page": 1,
+      "box": {
+        "left": 477.2,
+        "top": 452.1,
+        "width": 105.1,
+        "height": 17.7
+      }
+    },
+    "raFiSi1": {
+      "type": "text",
+      "label": "200 Yards / meters.  Rapid fire sitting.  Ten rounds in sixty seconds.  Enter round 1",
+      "page": 1,
+      "box": {
+        "left": 194.3,
+        "top": 430.6,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "raFiSi2": {
+      "type": "text",
+      "label": " Enter round 2",
+      "page": 1,
+      "box": {
+        "left": 223.4,
+        "top": 430.6,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "raFiSi3": {
+      "type": "text",
+      "label": " Enter round 3",
+      "page": 1,
+      "box": {
+        "left": 251.3,
+        "top": 430.6,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "raFiSi4": {
+      "type": "text",
+      "label": " Enter round 4",
+      "page": 1,
+      "box": {
+        "left": 279.8,
+        "top": 430.6,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "raFiSi5": {
+      "type": "text",
+      "label": " Enter round 5",
+      "page": 1,
+      "box": {
+        "left": 307.0,
+        "top": 430.6,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "raFiSi6": {
+      "type": "text",
+      "label": " Enter round 6",
+      "page": 1,
+      "box": {
+        "left": 335.4,
+        "top": 430.6,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "raFiSi7": {
+      "type": "text",
+      "label": " Enter round 7",
+      "page": 1,
+      "box": {
+        "left": 362.7,
+        "top": 430.6,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "raFiSi8": {
+      "type": "text",
+      "label": " Enter round 8",
+      "page": 1,
+      "box": {
+        "left": 391.1,
+        "top": 430.6,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "raFiSi9": {
+      "type": "text",
+      "label": " Enter round 9",
+      "page": 1,
+      "box": {
+        "left": 419.6,
+        "top": 430.6,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "raFiSi10": {
+      "type": "text",
+      "label": " Enter round 10",
+      "page": 1,
+      "box": {
+        "left": 447.5,
+        "top": 430.6,
+        "width": 26.5,
+        "height": 17.7
+      }
+    },
+    "raFiSiTo": {
+      "type": "text",
+      "label": "Enter total.",
+      "page": 1,
+      "box": {
+        "left": 477.2,
+        "top": 430.6,
+        "width": 105.1,
+        "height": 17.7
+      }
+    },
+    "3SlFiSi1": {
+      "type": "text",
+      "label": "300 Yards / meters.  Slow fire sitting.  Five rounds in five minutes.  Enter round 1",
+      "page": 1,
+      "box": {
+        "left": 194.2,
+        "top": 391.4,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "3SlFiSi3": {
+      "type": "text",
+      "label": "Enter round 3",
+      "page": 1,
+      "box": {
+        "left": 251.2,
+        "top": 391.4,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "3SlFiSi4": {
+      "type": "text",
+      "label": "Enter round 4",
+      "page": 1,
+      "box": {
+        "left": 279.0,
+        "top": 391.4,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "3SlFiSi5": {
+      "type": "text",
+      "label": "Enter round 5",
+      "page": 1,
+      "box": {
+        "left": 306.9,
+        "top": 391.4,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "3SlFiSiTo": {
+      "type": "text",
+      "label": "Enter total.",
+      "page": 1,
+      "box": {
+        "left": 478.0,
+        "top": 391.4,
+        "width": 105.1,
+        "height": 17.7
+      }
+    },
+    "3SlFiSi2": {
+      "type": "text",
+      "label": "Enter round 2",
+      "page": 1,
+      "box": {
+        "left": 223.7,
+        "top": 390.7,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "3RaFiPr2": {
+      "type": "text",
+      "label": "Enter round 2",
+      "page": 1,
+      "box": {
+        "left": 222.7,
+        "top": 369.8,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "3RaFiPr3": {
+      "type": "text",
+      "label": "Enter round 3",
+      "page": 1,
+      "box": {
+        "left": 250.5,
+        "top": 369.8,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "3RaFiPr4": {
+      "type": "text",
+      "label": "Enter round 4",
+      "page": 1,
+      "box": {
+        "left": 279.0,
+        "top": 369.8,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "3RaFiPr5": {
+      "type": "text",
+      "label": "Enter round 5",
+      "page": 1,
+      "box": {
+        "left": 306.9,
+        "top": 369.8,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "3RaFiPr6": {
+      "type": "text",
+      "label": "Enter round 6",
+      "page": 1,
+      "box": {
+        "left": 334.7,
+        "top": 369.8,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "3RaFiPr7": {
+      "type": "text",
+      "label": "Enter round 7",
+      "page": 1,
+      "box": {
+        "left": 363.2,
+        "top": 369.8,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "3RaFiPr8": {
+      "type": "text",
+      "label": "Enter round 8",
+      "page": 1,
+      "box": {
+        "left": 391.0,
+        "top": 369.8,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "3RaFiPr9": {
+      "type": "text",
+      "label": "Enter round 9",
+      "page": 1,
+      "box": {
+        "left": 419.5,
+        "top": 369.8,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "3RaFiPr10": {
+      "type": "text",
+      "label": "Enter round 10",
+      "page": 1,
+      "box": {
+        "left": 448.0,
+        "top": 369.8,
+        "width": 25.3,
+        "height": 17.7
+      }
+    },
+    "3RaFiPr1": {
+      "type": "text",
+      "label": "300 Yards / meters.  Rapid fire prone.  Ten rounds in sixty seconds.  Enter round 1",
+      "page": 1,
+      "box": {
+        "left": 193.9,
+        "top": 369.5,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "raFiPrTo": {
+      "type": "text",
+      "label": "Enter total.",
+      "page": 1,
+      "box": {
+        "left": 477.7,
+        "top": 367.9,
+        "width": 105.1,
+        "height": 17.7
+      }
+    },
+    "5SlFiPr1": {
+      "type": "text",
+      "label": "500 Yards / meters.  Slow fire prone.  Ten rounds in sixty seconds.  Enter round 1",
+      "page": 1,
+      "box": {
+        "left": 194.2,
+        "top": 326.8,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "5SlFiPr3": {
+      "type": "text",
+      "label": "Enter round 3",
+      "page": 1,
+      "box": {
+        "left": 249.9,
+        "top": 326.8,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "5SlFiPr4": {
+      "type": "text",
+      "label": "Enter round 4",
+      "page": 1,
+      "box": {
+        "left": 278.4,
+        "top": 326.8,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "5SlFiPr5": {
+      "type": "text",
+      "label": "Enter round 5",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 326.8,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "5SlFiPr6": {
+      "type": "text",
+      "label": "Enter round 6",
+      "page": 1,
+      "box": {
+        "left": 335.3,
+        "top": 326.8,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "5SlFiPr7": {
+      "type": "text",
+      "label": "Enter round 7",
+      "page": 1,
+      "box": {
+        "left": 362.6,
+        "top": 326.8,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "5SlFiPr8": {
+      "type": "text",
+      "label": "Enter round 8",
+      "page": 1,
+      "box": {
+        "left": 392.3,
+        "top": 326.8,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "5SlFiPr9": {
+      "type": "text",
+      "label": "Enter round 9",
+      "page": 1,
+      "box": {
+        "left": 420.8,
+        "top": 326.8,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "5SlFiPr10": {
+      "type": "text",
+      "label": "Enter round 10",
+      "page": 1,
+      "box": {
+        "left": 447.4,
+        "top": 326.8,
+        "width": 25.9,
+        "height": 17.7
+      }
+    },
+    "5SlFiPrTo": {
+      "type": "text",
+      "label": "Enter total.",
+      "page": 1,
+      "box": {
+        "left": 477.2,
+        "top": 326.8,
+        "width": 105.1,
+        "height": 17.7
+      }
+    },
+    "5SlFiPr2": {
+      "type": "text",
+      "label": "Enter round 2",
+      "page": 1,
+      "box": {
+        "left": 223.1,
+        "top": 325.7,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "chkA": {
+      "type": "checkbox",
+      "label": "Check appropriate block.  Check if E X",
+      "page": 1,
+      "box": {
+        "left": 201.9,
+        "top": 291.7,
+        "width": 15.2,
+        "height": 15.2
+      }
+    },
+    "chkA1": {
+      "type": "checkbox",
+      "label": "Check if S S",
+      "page": 1,
+      "box": {
+        "left": 229.1,
+        "top": 291.7,
+        "width": 15.2,
+        "height": 15.2
+      }
+    },
+    "chkA2": {
+      "type": "checkbox",
+      "label": "Check if M M",
+      "page": 1,
+      "box": {
+        "left": 257.6,
+        "top": 291.7,
+        "width": 15.2,
+        "height": 15.2
+      }
+    },
+    "chkA4": {
+      "type": "checkbox",
+      "label": "Check if U N O",
+      "page": 1,
+      "box": {
+        "left": 286.7,
+        "top": 291.7,
+        "width": 15.2,
+        "height": 15.2
+      }
+    },
+    "enToSc": {
+      "type": "text",
+      "label": "Enter total score here.",
+      "page": 1,
+      "box": {
+        "left": 477.7,
+        "top": 285.6,
+        "width": 105.1,
+        "height": 17.7
+      }
+    },
+    "orgNz": {
+      "type": "text",
+      "label": "Organization",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 257.5,
+        "width": 276.0,
+        "height": 22.5
+      }
+    },
+    "signature": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 25.4,
+        "top": 255.0,
+        "width": 279.7,
+        "height": 19.3
+      }
+    },
+    "orGa2": {
+      "type": "text",
+      "label": "Organization",
+      "page": 1,
+      "box": {
+        "left": 308.2,
+        "top": 224.0,
+        "width": 276.0,
+        "height": 22.5
+      }
+    },
+    "signature2": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 26.0,
+        "top": 221.5,
+        "width": 280.3,
+        "height": 19.3
+      }
+    },
+    "stFi1a": {
+      "type": "text",
+      "label": "Alibi records results.  Stage of fire - yard / meter line.  ",
+      "page": 1,
+      "box": {
+        "left": 23.2,
+        "top": 132.5,
+        "width": 171.5,
+        "height": 17.1
+      }
+    },
+    "stFi1": {
+      "type": "text",
+      "label": "Alibi records results.  Stage of fire - yard / meter line.  Enter score 1.",
+      "page": 1,
+      "box": {
+        "left": 194.8,
+        "top": 132.5,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "stFi2": {
+      "type": "text",
+      "label": "Enter score 2",
+      "page": 1,
+      "box": {
+        "left": 222.7,
+        "top": 132.5,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "stFi3": {
+      "type": "text",
+      "label": "Enter score 3",
+      "page": 1,
+      "box": {
+        "left": 251.2,
+        "top": 132.5,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "stFi4": {
+      "type": "text",
+      "label": "Enter score 4",
+      "page": 1,
+      "box": {
+        "left": 279.0,
+        "top": 132.5,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "stFi5": {
+      "type": "text",
+      "label": "Enter score 5",
+      "page": 1,
+      "box": {
+        "left": 306.9,
+        "top": 132.5,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "stFi6": {
+      "type": "text",
+      "label": "Enter score 6",
+      "page": 1,
+      "box": {
+        "left": 335.3,
+        "top": 132.5,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "stFi7": {
+      "type": "text",
+      "label": "Enter score 7",
+      "page": 1,
+      "box": {
+        "left": 363.2,
+        "top": 132.5,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "stFi8": {
+      "type": "text",
+      "label": "Enter score 8",
+      "page": 1,
+      "box": {
+        "left": 391.0,
+        "top": 132.5,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "stFi9": {
+      "type": "text",
+      "label": "Enter score 9",
+      "page": 1,
+      "box": {
+        "left": 419.5,
+        "top": 132.5,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "stFi10": {
+      "type": "text",
+      "label": "Enter score 10",
+      "page": 1,
+      "box": {
+        "left": 447.4,
+        "top": 132.5,
+        "width": 26.5,
+        "height": 17.7
+      }
+    },
+    "stFiTo": {
+      "type": "text",
+      "label": "Enter total score.",
+      "page": 1,
+      "box": {
+        "left": 477.9,
+        "top": 132.5,
+        "width": 105.7,
+        "height": 17.7
+      }
+    },
+    "stFi2a": {
+      "type": "text",
+      "label": "Enter score 2",
+      "page": 1,
+      "box": {
+        "left": 23.2,
+        "top": 80.0,
+        "width": 171.5,
+        "height": 17.1
+      }
+    },
+    "2StFi1": {
+      "type": "text",
+      "label": "Alibi records results.  Stage of fire - yard / meter line.  Enter score 1.",
+      "page": 1,
+      "box": {
+        "left": 195.5,
+        "top": 80.0,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "2StFi2": {
+      "type": "text",
+      "label": "Enter score 2",
+      "page": 1,
+      "box": {
+        "left": 223.3,
+        "top": 80.0,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "2StFi3": {
+      "type": "text",
+      "label": "Enter score 3",
+      "page": 1,
+      "box": {
+        "left": 251.8,
+        "top": 80.0,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "2StFi4": {
+      "type": "text",
+      "label": "Enter score 4",
+      "page": 1,
+      "box": {
+        "left": 279.6,
+        "top": 80.0,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "2StFi5": {
+      "type": "text",
+      "label": "Enter score 5",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 80.0,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "2StFi6": {
+      "type": "text",
+      "label": "Enter score 6",
+      "page": 1,
+      "box": {
+        "left": 336.0,
+        "top": 80.0,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "2StFi7": {
+      "type": "text",
+      "label": "Enter score 7",
+      "page": 1,
+      "box": {
+        "left": 363.8,
+        "top": 80.0,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "2StFi8": {
+      "type": "text",
+      "label": "Enter score 8",
+      "page": 1,
+      "box": {
+        "left": 391.7,
+        "top": 80.0,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "2StFi9": {
+      "type": "text",
+      "label": "Enter score 9",
+      "page": 1,
+      "box": {
+        "left": 420.2,
+        "top": 80.0,
+        "width": 28.5,
+        "height": 17.7
+      }
+    },
+    "2StFi10": {
+      "type": "text",
+      "label": "Enter score 10",
+      "page": 1,
+      "box": {
+        "left": 448.0,
+        "top": 80.0,
+        "width": 25.9,
+        "height": 17.7
+      }
+    },
+    "stFiTo2": {
+      "type": "text",
+      "label": "Enter total score.",
+      "page": 1,
+      "box": {
+        "left": 477.9,
+        "top": 80.0,
+        "width": 105.7,
+        "height": 17.7
+      }
+    }
+  }
+}

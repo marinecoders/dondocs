@@ -1,0 +1,618 @@
+{
+  "id": "opnav55808",
+  "label": "OPNAV5580-8 - Telephonic Threat Complaint",
+  "directory": "OPNAV5580-8 - Telephonic Threat Complaint",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "nameadd",
+        "telephone",
+        "comname",
+        "place",
+        "pername",
+        "date1",
+        "commname",
+        "worktelephone",
+        "hometelephone",
+        "areatelephone",
+        "loco",
+        "phonelist1",
+        "phonelist2",
+        "phonelist3",
+        "other",
+        "phonelist4",
+        "phonelist5",
+        "date2",
+        "days",
+        "hourtime",
+        "contextname1",
+        "contextname2",
+        "contextname3",
+        "contextname4",
+        "contextname5",
+        "contextname6",
+        "background",
+        "sex",
+        "age",
+        "race",
+        "accent",
+        "edulevel",
+        "attitude",
+        "other1",
+        "depo",
+        "depo3",
+        "witname",
+        "identname",
+        "depo2",
+        "depo32",
+        "noteauth1",
+        "noteauth2",
+        "noteauth3",
+        "noteauth4",
+        "noteauth5",
+        "noteauth6",
+        "noteauth7",
+        "noteauth8"
+      ]
+    }
+  ],
+  "fields": {
+    "nameadd": {
+      "type": "text",
+      "label": "Enter the name (last, first, middle initial) and address.",
+      "page": 1,
+      "box": {
+        "left": 37.2,
+        "top": 641.2,
+        "width": 415.2,
+        "height": 21.8
+      }
+    },
+    "telephone": {
+      "type": "text",
+      "label": "Enter the telephone number.",
+      "page": 1,
+      "box": {
+        "left": 454.6,
+        "top": 641.2,
+        "width": 120.8,
+        "height": 21.7
+      }
+    },
+    "comname": {
+      "type": "text",
+      "label": "Enter the name (last, first, middle initial) of the complainant.",
+      "page": 1,
+      "box": {
+        "left": 37.2,
+        "top": 597.9,
+        "width": 538.1,
+        "height": 12.2
+      }
+    },
+    "place": {
+      "type": "text",
+      "label": "Enter the place of birth.",
+      "page": 1,
+      "box": {
+        "left": 410.7,
+        "top": 564.1,
+        "width": 164.4,
+        "height": 12.8
+      }
+    },
+    "pername": {
+      "type": "text",
+      "label": "Enter the name (last, first, middle initial) of the person receiving the call.",
+      "page": 1,
+      "box": {
+        "left": 37.2,
+        "top": 563.6,
+        "width": 272.1,
+        "height": 12.2
+      }
+    },
+    "date1": {
+      "type": "text",
+      "label": "Enter the date (DD MMM YYYY).  ",
+      "page": 1,
+      "box": {
+        "left": 311.1,
+        "top": 563.6,
+        "width": 97.7,
+        "height": 12.2
+      }
+    },
+    "commname": {
+      "type": "text",
+      "label": "Enter the command name and address.",
+      "page": 1,
+      "box": {
+        "left": 37.2,
+        "top": 537.7,
+        "width": 272.1,
+        "height": 30.8
+      },
+      "multiline": true
+    },
+    "worktelephone": {
+      "type": "text",
+      "label": "Enter the work telephone number.",
+      "page": 1,
+      "box": {
+        "left": 311.1,
+        "top": 528.7,
+        "width": 141.6,
+        "height": 21.7
+      }
+    },
+    "hometelephone": {
+      "type": "text",
+      "label": "Enter the home telephone number.",
+      "page": 1,
+      "box": {
+        "left": 454.6,
+        "top": 528.7,
+        "width": 120.8,
+        "height": 21.7
+      }
+    },
+    "areatelephone": {
+      "type": "text",
+      "label": "Enter the telephone number for the call received on.",
+      "page": 1,
+      "box": {
+        "left": 37.2,
+        "top": 485.4,
+        "width": 272.1,
+        "height": 13.9
+      }
+    },
+    "loco": {
+      "type": "text",
+      "label": "Enter the location.",
+      "page": 1,
+      "box": {
+        "left": 311.1,
+        "top": 485.4,
+        "width": 264.0,
+        "height": 13.9
+      }
+    },
+    "phonelist1": {
+      "type": "checkbox",
+      "label": "Select Command Directory for the phone number listed in.",
+      "page": 1,
+      "box": {
+        "left": 270.8,
+        "top": 457.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "phonelist2": {
+      "type": "checkbox",
+      "label": "Select Base Directory for the phone number listed in.",
+      "page": 1,
+      "box": {
+        "left": 384.0,
+        "top": 457.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "phonelist3": {
+      "type": "checkbox",
+      "label": "Select Local Directory for the phone number listed in.",
+      "page": 1,
+      "box": {
+        "left": 494.1,
+        "top": 457.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "other": {
+      "type": "text",
+      "label": "Enter the other telephone listing.",
+      "page": 1,
+      "box": {
+        "left": 239.7,
+        "top": 442.6,
+        "width": 335.6,
+        "height": 15.0
+      }
+    },
+    "phonelist4": {
+      "type": "checkbox",
+      "label": "Select Unlisted for the phone number listed in.",
+      "page": 1,
+      "box": {
+        "left": 70.0,
+        "top": 438.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "phonelist5": {
+      "type": "checkbox",
+      "label": "Select Other for the phone number listed in.",
+      "page": 1,
+      "box": {
+        "left": 194.3,
+        "top": 438.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "date2": {
+      "type": "text",
+      "label": "Enter the date (DD MMM YYYY) for the details of the call.  ",
+      "page": 1,
+      "box": {
+        "left": 37.2,
+        "top": 406.1,
+        "width": 219.2,
+        "height": 11.1
+      }
+    },
+    "days": {
+      "type": "choice",
+      "label": "Enter the day of the week.",
+      "page": 1,
+      "box": {
+        "left": 258.3,
+        "top": 406.1,
+        "width": 189.9,
+        "height": 11.1
+      },
+      "options": [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+      ]
+    },
+    "hourtime": {
+      "type": "text",
+      "label": "Enter the time using the 24 hour clock.  ",
+      "page": 1,
+      "box": {
+        "left": 450.1,
+        "top": 406.1,
+        "width": 125.3,
+        "height": 11.1
+      }
+    },
+    "contextname1": {
+      "type": "text",
+      "label": "Enter the Context of the Conversation for the Recipient.",
+      "page": 1,
+      "box": {
+        "left": 92.5,
+        "top": 380.8,
+        "width": 451.3,
+        "height": 20.1
+      }
+    },
+    "contextname2": {
+      "type": "text",
+      "label": "Enter the Context of the Conversation for the Caller.",
+      "page": 1,
+      "box": {
+        "left": 92.5,
+        "top": 358.3,
+        "width": 451.3,
+        "height": 20.8
+      }
+    },
+    "contextname3": {
+      "type": "text",
+      "label": "Enter the Context of the Conversation for the Recipient.",
+      "page": 1,
+      "box": {
+        "left": 92.5,
+        "top": 335.8,
+        "width": 451.3,
+        "height": 20.3
+      }
+    },
+    "contextname4": {
+      "type": "text",
+      "label": "Enter the Context of the Conversation for the Caller.",
+      "page": 1,
+      "box": {
+        "left": 92.5,
+        "top": 313.3,
+        "width": 451.3,
+        "height": 20.7
+      }
+    },
+    "contextname5": {
+      "type": "text",
+      "label": "Enter the Context of the Conversation for the Recipient.",
+      "page": 1,
+      "box": {
+        "left": 92.5,
+        "top": 290.2,
+        "width": 451.3,
+        "height": 20.1
+      }
+    },
+    "contextname6": {
+      "type": "text",
+      "label": "Enter the Context of the Conversation for the Caller.",
+      "page": 1,
+      "box": {
+        "left": 92.5,
+        "top": 268.3,
+        "width": 451.3,
+        "height": 20.7
+      }
+    },
+    "background": {
+      "type": "text",
+      "label": "Enter the Background Noises (Describe street sounds, voices, music, etc. \r\nIf more space is needed continue on reverse.).",
+      "page": 1,
+      "box": {
+        "left": 37.2,
+        "top": 233.3,
+        "width": 538.1,
+        "height": 18.9
+      }
+    },
+    "sex": {
+      "type": "choice",
+      "label": "Enter the sex Male/Female; for information about the Caller/Voice Characteristics.",
+      "page": 1,
+      "box": {
+        "left": 37.2,
+        "top": 190.7,
+        "width": 117.9,
+        "height": 11.7
+      },
+      "options": [
+        "Male",
+        "Female"
+      ]
+    },
+    "age": {
+      "type": "text",
+      "label": "Enter the age for information about the Caller/Voice Characteristics.",
+      "page": 1,
+      "box": {
+        "left": 157.0,
+        "top": 190.7,
+        "width": 153.5,
+        "height": 11.7
+      }
+    },
+    "race": {
+      "type": "choice",
+      "label": "Enter the Race for information about the Caller/Voice Characteristics.",
+      "page": 1,
+      "box": {
+        "left": 312.3,
+        "top": 190.7,
+        "width": 153.4,
+        "height": 11.7
+      },
+      "options": [
+        "White",
+        "Black",
+        "American Indian-Alaskan Native",
+        "Asian",
+        "Pacific Islander"
+      ]
+    },
+    "accent": {
+      "type": "text",
+      "label": "Enter the Accent for information about the Caller/Voice Characteristics.",
+      "page": 1,
+      "box": {
+        "left": 467.5,
+        "top": 190.7,
+        "width": 107.8,
+        "height": 11.7
+      }
+    },
+    "edulevel": {
+      "type": "text",
+      "label": "Enter the Education Level for information about the Caller/Voice Characteristics.",
+      "page": 1,
+      "box": {
+        "left": 37.2,
+        "top": 169.8,
+        "width": 273.3,
+        "height": 12.8
+      }
+    },
+    "attitude": {
+      "type": "text",
+      "label": "Enter the Attitude (calm, nervous, serious, Etc.) for information about the Caller/Voice Characteristics.",
+      "page": 1,
+      "box": {
+        "left": 312.3,
+        "top": 169.8,
+        "width": 263.1,
+        "height": 12.7
+      }
+    },
+    "other1": {
+      "type": "text",
+      "label": "Enter any other information about the Caller/Voice Characteristics.",
+      "page": 1,
+      "box": {
+        "left": 37.2,
+        "top": 147.9,
+        "width": 538.1,
+        "height": 10.5
+      }
+    },
+    "depo": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 162.2,
+        "top": 129.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo_0"
+    },
+    "depo3": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 477.2,
+        "top": 129.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo3_0"
+    },
+    "witname": {
+      "type": "text",
+      "label": "Enter the name (last, first, middle initial) if yes was selected for any witnesses to the call.",
+      "page": 1,
+      "box": {
+        "left": 115.3,
+        "top": 114.7,
+        "width": 192.9,
+        "height": 15.6
+      }
+    },
+    "identname": {
+      "type": "text",
+      "label": "Enter the name (last, first, middle initial) if yes was selected for the identity of the caller.",
+      "page": 1,
+      "box": {
+        "left": 393.7,
+        "top": 114.7,
+        "width": 179.2,
+        "height": 15.6
+      }
+    },
+    "depo2": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 51.4,
+        "top": 109.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo_0"
+    },
+    "depo32": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 331.5,
+        "top": 109.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo3_0"
+    },
+    "noteauth1": {
+      "type": "checkbox",
+      "label": "Select CO for the Notification of Authority.",
+      "page": 1,
+      "box": {
+        "left": 45.2,
+        "top": 73.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "noteauth2": {
+      "type": "checkbox",
+      "label": "Select XO for the Notification of Authority.",
+      "page": 1,
+      "box": {
+        "left": 97.0,
+        "top": 73.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "noteauth3": {
+      "type": "checkbox",
+      "label": "Select OCD for the Notification of Authority.",
+      "page": 1,
+      "box": {
+        "left": 151.0,
+        "top": 73.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "noteauth4": {
+      "type": "checkbox",
+      "label": "Select Security for the Notification of Authority.",
+      "page": 1,
+      "box": {
+        "left": 208.3,
+        "top": 73.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "noteauth5": {
+      "type": "checkbox",
+      "label": "Select NISRA for the Notification of Authority.",
+      "page": 1,
+      "box": {
+        "left": 274.1,
+        "top": 73.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "noteauth6": {
+      "type": "checkbox",
+      "label": "Select Telephone Company for the Notification of Authority.",
+      "page": 1,
+      "box": {
+        "left": 334.9,
+        "top": 73.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "noteauth7": {
+      "type": "checkbox",
+      "label": "Select EOD for the Notification of Authority.",
+      "page": 1,
+      "box": {
+        "left": 438.9,
+        "top": 73.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "noteauth8": {
+      "type": "checkbox",
+      "label": "Select Fire Department for the Notification of Authority.",
+      "page": 1,
+      "box": {
+        "left": 494.1,
+        "top": 73.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    }
+  }
+}

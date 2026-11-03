@@ -1,0 +1,183 @@
+{
+  "id": "navmc11503",
+  "label": "NAVMC 11503 - Request For Exemption (rfe)",
+  "directory": "NAVMC11503 - Request For Exemption (rfe)",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "rFETitle",
+        "textField1",
+        "address",
+        "affectedSys",
+        "routine",
+        "references",
+        "priority",
+        "urgent",
+        "exception",
+        "justification",
+        "impactA",
+        "impactB",
+        "other"
+      ]
+    }
+  ],
+  "fields": {
+    "rFETitle": {
+      "type": "text",
+      "label": "RFE TITLE:  Fill in Short Title Describing Nature of this RFE.",
+      "page": 1,
+      "box": {
+        "left": 116.8,
+        "top": 690.2,
+        "width": 294.3,
+        "height": 66.3
+      },
+      "multiline": true
+    },
+    "textField1": {
+      "type": "text",
+      "label": "RFE NUMBER:  Unique ID Number (Entered by System Engineering Integration).",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 657.8,
+        "width": 147.3,
+        "height": 33.9
+      },
+      "multiline": true
+    },
+    "address": {
+      "type": "text",
+      "label": "ORIGINATOR \nAND ADDRESS: \nProvide Title, Address and Phone Number:",
+      "page": 1,
+      "box": {
+        "left": 116.8,
+        "top": 618.2,
+        "width": 267.3,
+        "height": 84.3
+      },
+      "multiline": true
+    },
+    "affectedSys": {
+      "type": "text",
+      "label": "AFFECTED SYSTEMS:  List all Systems affected by this RFE.",
+      "page": 1,
+      "box": {
+        "left": 440.2,
+        "top": 618.2,
+        "width": 123.9,
+        "height": 84.3
+      },
+      "multiline": true
+    },
+    "routine": {
+      "type": "checkbox",
+      "label": "Routine",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 518.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "references": {
+      "type": "text",
+      "label": "REFERENCES:  List all pertinent references:  ",
+      "page": 1,
+      "box": {
+        "left": 254.8,
+        "top": 512.0,
+        "width": 309.3,
+        "height": 50.1
+      },
+      "multiline": true
+    },
+    "priority": {
+      "type": "checkbox",
+      "label": "Priority",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 501.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "urgent": {
+      "type": "checkbox",
+      "label": "Urgent",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 484.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "exception": {
+      "type": "text",
+      "label": "EXCEPTION:  Provide a specific description of the requested exception. ",
+      "page": 1,
+      "box": {
+        "left": 47.8,
+        "top": 440.0,
+        "width": 516.3,
+        "height": 32.1
+      },
+      "multiline": true
+    },
+    "justification": {
+      "type": "text",
+      "label": "JUSTIFICATION FOR RFE:  Provide brief statement of the problem with specific justification for requesting the RFE.  This justification should include exactly when and how the system will deviate from a scheduled implementation.",
+      "page": 1,
+      "box": {
+        "left": 47.8,
+        "top": 379.1,
+        "width": 516.3,
+        "height": 61.3
+      },
+      "multiline": true
+    },
+    "impactA": {
+      "type": "text",
+      "label": "IMPACT ON SYSTEM:  State the anticipated impact of approval/disapproval of this RFE on this particular system.",
+      "page": 1,
+      "box": {
+        "left": 47.8,
+        "top": 296.0,
+        "width": 516.3,
+        "height": 68.1
+      },
+      "multiline": true
+    },
+    "impactB": {
+      "type": "text",
+      "label": "IMPACT ON INTEROPERABILITY/OPERATIONS.  State the anticipated impact of approval/disapproval of this RFE on other affected systems.",
+      "page": 1,
+      "box": {
+        "left": 47.8,
+        "top": 201.8,
+        "width": 516.3,
+        "height": 63.9
+      },
+      "multiline": true
+    },
+    "other": {
+      "type": "text",
+      "label": "OTHER CONSIDERATIONS:  Provide any other additional supporting information not provided elsewhere in this RFE.",
+      "page": 1,
+      "box": {
+        "left": 47.8,
+        "top": 116.0,
+        "width": 516.3,
+        "height": 68.1
+      },
+      "multiline": true
+    }
+  }
+}

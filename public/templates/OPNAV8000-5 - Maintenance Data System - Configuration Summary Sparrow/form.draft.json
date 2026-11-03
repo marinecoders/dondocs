@@ -1,0 +1,1445 @@
+{
+  "id": "opnav80005",
+  "label": "OPNAV8000-5 - Maintenance Data System - Configuration Summary Sparrow",
+  "directory": "OPNAV8000-5 - Maintenance Data System - Configuration Summary Sparrow",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "nomen",
+        "ptNo",
+        "serNo",
+        "nalc",
+        "uic",
+        "jobno",
+        "ccode",
+        "wavr",
+        "cfdate",
+        "mdate",
+        "dndate",
+        "sydate",
+        "insp",
+        "stamp",
+        "tlm",
+        "cdcode",
+        "lous",
+        "mk",
+        "pn",
+        "sn",
+        "wed",
+        "ln1",
+        "lcf1",
+        "ln2",
+        "lcf2",
+        "blka",
+        "ln4",
+        "lcf4",
+        "ln5",
+        "lcf5",
+        "blkb",
+        "ln6",
+        "lcf6",
+        "ln7",
+        "lcf7",
+        "blkc",
+        "ln8",
+        "lcf8",
+        "ln9",
+        "lcf9",
+        "bfkd",
+        "ln10",
+        "lcf10",
+        "textField1",
+        "ln12",
+        "lcf12",
+        "blke",
+        "ln122",
+        "lcf122",
+        "blk",
+        "ln13",
+        "lcf13",
+        "ln14",
+        "lcf14",
+        "ln16",
+        "lcf16",
+        "ln17",
+        "lcf17",
+        "ln18",
+        "lcf18",
+        "ln19",
+        "lcf19",
+        "ln20",
+        "lcf20",
+        "ln21",
+        "lcf21",
+        "ln22",
+        "lcf22",
+        "ln23",
+        "lcf23",
+        "ln24",
+        "lcf24",
+        "ln25",
+        "lcf25",
+        "ln26",
+        "lcf26",
+        "ln27",
+        "lcf27",
+        "nmcl",
+        "prtn"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "serNo2",
+        "serNo3",
+        "ptNo2",
+        "hLSDate",
+        "uica",
+        "opEvt",
+        "tstInsp",
+        "capFlt",
+        "tecMod",
+        "rmks"
+      ]
+    }
+  ],
+  "fields": {
+    "nomen": {
+      "type": "text",
+      "label": "1. NOMENCLATURE:",
+      "page": 1,
+      "box": {
+        "left": 396.9,
+        "top": 746.4,
+        "width": 176.5,
+        "height": 12.4
+      }
+    },
+    "ptNo": {
+      "type": "text",
+      "label": " 2. PART NUMBER:",
+      "page": 1,
+      "box": {
+        "left": 36.0,
+        "top": 722.8,
+        "width": 101.3,
+        "height": 15.5
+      }
+    },
+    "serNo": {
+      "type": "text",
+      "label": "3.  SERIAL  NUMBER:",
+      "page": 1,
+      "box": {
+        "left": 140.1,
+        "top": 722.8,
+        "width": 102.2,
+        "height": 15.5
+      }
+    },
+    "nalc": {
+      "type": "text",
+      "label": " 4.  NALC:",
+      "page": 1,
+      "box": {
+        "left": 244.2,
+        "top": 722.8,
+        "width": 41.0,
+        "height": 15.5
+      }
+    },
+    "uic": {
+      "type": "text",
+      "label": " 5.  UIC/CAGE:",
+      "page": 1,
+      "box": {
+        "left": 287.2,
+        "top": 722.8,
+        "width": 58.4,
+        "height": 15.5
+      }
+    },
+    "jobno": {
+      "type": "text",
+      "label": " 6.  JOB ORDER/PROD WORK AUTH:",
+      "page": 1,
+      "box": {
+        "left": 347.3,
+        "top": 722.8,
+        "width": 141.9,
+        "height": 15.5
+      }
+    },
+    "ccode": {
+      "type": "text",
+      "label": " 7.  COUNTRY CODE:",
+      "page": 1,
+      "box": {
+        "left": 490.6,
+        "top": 722.8,
+        "width": 84.5,
+        "height": 15.5
+      }
+    },
+    "wavr": {
+      "type": "text",
+      "label": " 8.  WAIVERS:",
+      "page": 1,
+      "box": {
+        "left": 36.0,
+        "top": 696.4,
+        "width": 206.0,
+        "height": 26.1
+      }
+    },
+    "cfdate": {
+      "type": "text",
+      "label": " 9.  CONFIGURATION DATE-TIME\n (DDMMYYYY -HHMM):",
+      "page": 1,
+      "box": {
+        "left": 245.5,
+        "top": 687.0,
+        "width": 202.6,
+        "height": 16.7
+      }
+    },
+    "mdate": {
+      "type": "text",
+      "label": "10.  MAINTENANCE DUE DATE\n (DDMMMYYYY):",
+      "page": 1,
+      "box": {
+        "left": 450.3,
+        "top": 685.3,
+        "width": 125.7,
+        "height": 15.0
+      }
+    },
+    "dndate": {
+      "type": "text",
+      "label": " 11.  DO NOT ISSUES AFTER            DATE (DDMMMYYYY):",
+      "page": 1,
+      "box": {
+        "left": 36.0,
+        "top": 648.0,
+        "width": 100.9,
+        "height": 15.0
+      }
+    },
+    "sydate": {
+      "type": "text",
+      "label": "12.  LAST SYS TEST DATE\n(DDMMMYYYY):",
+      "page": 1,
+      "box": {
+        "left": 140.1,
+        "top": 648.0,
+        "width": 102.7,
+        "height": 15.0
+      }
+    },
+    "insp": {
+      "type": "text",
+      "label": "13.  INSPECTOR:",
+      "page": 1,
+      "box": {
+        "left": 245.5,
+        "top": 648.0,
+        "width": 91.0,
+        "height": 15.0
+      }
+    },
+    "stamp": {
+      "type": "text",
+      "label": "13a.  STAMP:",
+      "page": 1,
+      "box": {
+        "left": 339.1,
+        "top": 648.0,
+        "width": 56.6,
+        "height": 15.0
+      }
+    },
+    "tlm": {
+      "type": "text",
+      "label": "14.  TLM CODE:",
+      "page": 1,
+      "box": {
+        "left": 398.8,
+        "top": 648.0,
+        "width": 88.5,
+        "height": 15.0
+      }
+    },
+    "cdcode": {
+      "type": "text",
+      "label": "15.  COND CODE:",
+      "page": 1,
+      "box": {
+        "left": 490.7,
+        "top": 648.0,
+        "width": 84.4,
+        "height": 15.0
+      }
+    },
+    "lous": {
+      "type": "text",
+      "label": " 16.  LOCAL USE:",
+      "page": 1,
+      "box": {
+        "left": 36.0,
+        "top": 620.9,
+        "width": 539.1,
+        "height": 15.9
+      }
+    },
+    "mk": {
+      "type": "text",
+      "label": "MK",
+      "page": 1,
+      "box": {
+        "left": 182.2,
+        "top": 558.8,
+        "width": 66.7,
+        "height": 12.0
+      }
+    },
+    "pn": {
+      "type": "text",
+      "label": "PN",
+      "page": 1,
+      "box": {
+        "left": 250.1,
+        "top": 558.8,
+        "width": 77.3,
+        "height": 12.0
+      }
+    },
+    "sn": {
+      "type": "text",
+      "label": "SN",
+      "page": 1,
+      "box": {
+        "left": 327.4,
+        "top": 558.8,
+        "width": 77.3,
+        "height": 12.0
+      }
+    },
+    "wed": {
+      "type": "text",
+      "label": "WED",
+      "page": 1,
+      "box": {
+        "left": 514.8,
+        "top": 558.8,
+        "width": 61.1,
+        "height": 12.0
+      }
+    },
+    "ln1": {
+      "type": "text",
+      "label": "LN1",
+      "page": 1,
+      "box": {
+        "left": 404.7,
+        "top": 546.8,
+        "width": 49.4,
+        "height": 12.0
+      }
+    },
+    "lcf1": {
+      "type": "text",
+      "label": "lcf1",
+      "page": 1,
+      "box": {
+        "left": 453.8,
+        "top": 546.8,
+        "width": 61.1,
+        "height": 12.0
+      }
+    },
+    "ln2": {
+      "type": "text",
+      "label": "LN2",
+      "page": 1,
+      "box": {
+        "left": 404.7,
+        "top": 534.8,
+        "width": 49.4,
+        "height": 12.0
+      }
+    },
+    "lcf2": {
+      "type": "text",
+      "label": "lcf2",
+      "page": 1,
+      "box": {
+        "left": 453.8,
+        "top": 534.8,
+        "width": 61.1,
+        "height": 12.0
+      }
+    },
+    "blka": {
+      "type": "text",
+      "label": "blka",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 521.4,
+        "width": 143.1,
+        "height": 9.3
+      }
+    },
+    "ln4": {
+      "type": "text",
+      "label": "LN4",
+      "page": 1,
+      "box": {
+        "left": 404.7,
+        "top": 510.7,
+        "width": 49.4,
+        "height": 12.0
+      }
+    },
+    "lcf4": {
+      "type": "text",
+      "label": "lcf4",
+      "page": 1,
+      "box": {
+        "left": 453.8,
+        "top": 510.7,
+        "width": 61.1,
+        "height": 12.0
+      }
+    },
+    "ln5": {
+      "type": "text",
+      "label": "LN5",
+      "page": 1,
+      "box": {
+        "left": 404.7,
+        "top": 498.7,
+        "width": 49.4,
+        "height": 12.0
+      }
+    },
+    "lcf5": {
+      "type": "text",
+      "label": "LCF5",
+      "page": 1,
+      "box": {
+        "left": 453.8,
+        "top": 498.7,
+        "width": 61.1,
+        "height": 12.0
+      }
+    },
+    "blkb": {
+      "type": "text",
+      "label": "BLKB",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 497.3,
+        "width": 143.1,
+        "height": 9.4
+      }
+    },
+    "ln6": {
+      "type": "text",
+      "label": "LN6",
+      "page": 1,
+      "box": {
+        "left": 404.7,
+        "top": 486.7,
+        "width": 49.4,
+        "height": 12.0
+      }
+    },
+    "lcf6": {
+      "type": "text",
+      "label": "LCF6",
+      "page": 1,
+      "box": {
+        "left": 453.8,
+        "top": 486.7,
+        "width": 61.1,
+        "height": 12.0
+      }
+    },
+    "ln7": {
+      "type": "text",
+      "label": "LN7",
+      "page": 1,
+      "box": {
+        "left": 404.7,
+        "top": 474.7,
+        "width": 49.4,
+        "height": 12.0
+      }
+    },
+    "lcf7": {
+      "type": "text",
+      "label": "LCF7",
+      "page": 1,
+      "box": {
+        "left": 453.8,
+        "top": 474.7,
+        "width": 61.1,
+        "height": 12.0
+      }
+    },
+    "blkc": {
+      "type": "text",
+      "label": "BLKC",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 473.5,
+        "width": 143.1,
+        "height": 9.5
+      }
+    },
+    "ln8": {
+      "type": "text",
+      "label": "LN8",
+      "page": 1,
+      "box": {
+        "left": 404.7,
+        "top": 462.6,
+        "width": 49.4,
+        "height": 12.0
+      }
+    },
+    "lcf8": {
+      "type": "text",
+      "label": "LCF8",
+      "page": 1,
+      "box": {
+        "left": 453.8,
+        "top": 462.6,
+        "width": 61.1,
+        "height": 12.0
+      }
+    },
+    "ln9": {
+      "type": "text",
+      "label": "LN9",
+      "page": 1,
+      "box": {
+        "left": 404.7,
+        "top": 450.6,
+        "width": 49.4,
+        "height": 12.0
+      }
+    },
+    "lcf9": {
+      "type": "text",
+      "label": "LCF9",
+      "page": 1,
+      "box": {
+        "left": 453.8,
+        "top": 450.6,
+        "width": 61.1,
+        "height": 12.0
+      }
+    },
+    "bfkd": {
+      "type": "text",
+      "label": "BFKD",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 449.6,
+        "width": 143.1,
+        "height": 9.3
+      }
+    },
+    "ln10": {
+      "type": "text",
+      "label": "LN10",
+      "page": 1,
+      "box": {
+        "left": 404.7,
+        "top": 438.6,
+        "width": 49.4,
+        "height": 12.0
+      }
+    },
+    "lcf10": {
+      "type": "text",
+      "label": "LCF10",
+      "page": 1,
+      "box": {
+        "left": 453.8,
+        "top": 438.6,
+        "width": 61.1,
+        "height": 12.0
+      }
+    },
+    "textField1": {
+      "type": "text",
+      "label": "TextField1",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 437.2,
+        "width": 143.1,
+        "height": 9.3
+      }
+    },
+    "ln12": {
+      "type": "text",
+      "label": "LN12",
+      "page": 1,
+      "box": {
+        "left": 404.7,
+        "top": 426.6,
+        "width": 49.4,
+        "height": 12.0
+      }
+    },
+    "lcf12": {
+      "type": "text",
+      "label": "LCF12",
+      "page": 1,
+      "box": {
+        "left": 453.8,
+        "top": 426.6,
+        "width": 61.1,
+        "height": 12.0
+      }
+    },
+    "blke": {
+      "type": "text",
+      "label": "BLKE",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 425.4,
+        "width": 143.1,
+        "height": 9.3
+      }
+    },
+    "ln122": {
+      "type": "text",
+      "label": "LN12",
+      "page": 1,
+      "box": {
+        "left": 404.7,
+        "top": 414.6,
+        "width": 49.4,
+        "height": 12.0
+      }
+    },
+    "lcf122": {
+      "type": "text",
+      "label": "LCF12",
+      "page": 1,
+      "box": {
+        "left": 453.8,
+        "top": 414.6,
+        "width": 61.1,
+        "height": 12.0
+      }
+    },
+    "blk": {
+      "type": "text",
+      "label": "BLK",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 413.2,
+        "width": 143.1,
+        "height": 9.2
+      }
+    },
+    "ln13": {
+      "type": "text",
+      "label": "LN13",
+      "page": 1,
+      "box": {
+        "left": 404.7,
+        "top": 402.5,
+        "width": 49.4,
+        "height": 12.0
+      }
+    },
+    "lcf13": {
+      "type": "text",
+      "label": "LCF13",
+      "page": 1,
+      "box": {
+        "left": 453.8,
+        "top": 402.5,
+        "width": 61.1,
+        "height": 12.0
+      }
+    },
+    "ln14": {
+      "type": "text",
+      "label": "LN14",
+      "page": 1,
+      "box": {
+        "left": 404.7,
+        "top": 390.5,
+        "width": 49.4,
+        "height": 12.0
+      }
+    },
+    "lcf14": {
+      "type": "text",
+      "label": "LCF14",
+      "page": 1,
+      "box": {
+        "left": 453.8,
+        "top": 390.5,
+        "width": 61.1,
+        "height": 12.0
+      }
+    },
+    "ln16": {
+      "type": "text",
+      "label": "LN16",
+      "page": 1,
+      "box": {
+        "left": 404.7,
+        "top": 366.5,
+        "width": 49.4,
+        "height": 12.0
+      }
+    },
+    "lcf16": {
+      "type": "text",
+      "label": "LCF16",
+      "page": 1,
+      "box": {
+        "left": 453.8,
+        "top": 366.5,
+        "width": 61.1,
+        "height": 12.0
+      }
+    },
+    "ln17": {
+      "type": "text",
+      "label": "LN17",
+      "page": 1,
+      "box": {
+        "left": 404.7,
+        "top": 354.5,
+        "width": 49.4,
+        "height": 12.0
+      }
+    },
+    "lcf17": {
+      "type": "text",
+      "label": "LCF17",
+      "page": 1,
+      "box": {
+        "left": 453.8,
+        "top": 354.5,
+        "width": 61.1,
+        "height": 12.0
+      }
+    },
+    "ln18": {
+      "type": "text",
+      "label": "LN18",
+      "page": 1,
+      "box": {
+        "left": 404.7,
+        "top": 342.4,
+        "width": 49.4,
+        "height": 12.0
+      }
+    },
+    "lcf18": {
+      "type": "text",
+      "label": "LCF18",
+      "page": 1,
+      "box": {
+        "left": 453.8,
+        "top": 342.1,
+        "width": 61.1,
+        "height": 11.7
+      }
+    },
+    "ln19": {
+      "type": "text",
+      "label": "LN19",
+      "page": 1,
+      "box": {
+        "left": 404.7,
+        "top": 330.4,
+        "width": 49.4,
+        "height": 12.0
+      }
+    },
+    "lcf19": {
+      "type": "text",
+      "label": "LCF19",
+      "page": 1,
+      "box": {
+        "left": 453.8,
+        "top": 330.4,
+        "width": 61.1,
+        "height": 12.0
+      }
+    },
+    "ln20": {
+      "type": "text",
+      "label": "LN20",
+      "page": 1,
+      "box": {
+        "left": 404.7,
+        "top": 318.4,
+        "width": 49.4,
+        "height": 12.0
+      }
+    },
+    "lcf20": {
+      "type": "text",
+      "label": "LCF20",
+      "page": 1,
+      "box": {
+        "left": 453.8,
+        "top": 318.4,
+        "width": 61.1,
+        "height": 12.0
+      }
+    },
+    "ln21": {
+      "type": "text",
+      "label": "LN21",
+      "page": 1,
+      "box": {
+        "left": 404.7,
+        "top": 306.4,
+        "width": 49.4,
+        "height": 12.0
+      }
+    },
+    "lcf21": {
+      "type": "text",
+      "label": "LCF21",
+      "page": 1,
+      "box": {
+        "left": 453.8,
+        "top": 306.4,
+        "width": 61.1,
+        "height": 12.0
+      }
+    },
+    "ln22": {
+      "type": "text",
+      "label": "LN22",
+      "page": 1,
+      "box": {
+        "left": 404.7,
+        "top": 294.4,
+        "width": 49.4,
+        "height": 12.0
+      }
+    },
+    "lcf22": {
+      "type": "text",
+      "label": "LCF22",
+      "page": 1,
+      "box": {
+        "left": 453.8,
+        "top": 294.4,
+        "width": 61.1,
+        "height": 12.0
+      }
+    },
+    "ln23": {
+      "type": "text",
+      "label": "LN23",
+      "page": 1,
+      "box": {
+        "left": 404.7,
+        "top": 282.3,
+        "width": 49.4,
+        "height": 12.0
+      }
+    },
+    "lcf23": {
+      "type": "text",
+      "label": "LCF23",
+      "page": 1,
+      "box": {
+        "left": 453.8,
+        "top": 282.3,
+        "width": 61.1,
+        "height": 12.0
+      }
+    },
+    "ln24": {
+      "type": "text",
+      "label": "LN24",
+      "page": 1,
+      "box": {
+        "left": 404.7,
+        "top": 270.3,
+        "width": 49.4,
+        "height": 12.0
+      }
+    },
+    "lcf24": {
+      "type": "text",
+      "label": "LCF24",
+      "page": 1,
+      "box": {
+        "left": 453.8,
+        "top": 270.3,
+        "width": 61.1,
+        "height": 12.0
+      }
+    },
+    "ln25": {
+      "type": "text",
+      "label": "LN25",
+      "page": 1,
+      "box": {
+        "left": 404.7,
+        "top": 258.3,
+        "width": 49.4,
+        "height": 12.0
+      }
+    },
+    "lcf25": {
+      "type": "text",
+      "label": "LCF25",
+      "page": 1,
+      "box": {
+        "left": 453.8,
+        "top": 258.3,
+        "width": 61.1,
+        "height": 12.0
+      }
+    },
+    "ln26": {
+      "type": "text",
+      "label": "LN26",
+      "page": 1,
+      "box": {
+        "left": 404.7,
+        "top": 246.3,
+        "width": 49.4,
+        "height": 12.0
+      }
+    },
+    "lcf26": {
+      "type": "text",
+      "label": "LCF26",
+      "page": 1,
+      "box": {
+        "left": 453.8,
+        "top": 246.3,
+        "width": 61.1,
+        "height": 12.0
+      }
+    },
+    "ln27": {
+      "type": "text",
+      "label": "LN27",
+      "page": 1,
+      "box": {
+        "left": 404.7,
+        "top": 234.3,
+        "width": 49.4,
+        "height": 12.0
+      }
+    },
+    "lcf27": {
+      "type": "text",
+      "label": "LCF27",
+      "page": 1,
+      "box": {
+        "left": 453.8,
+        "top": 234.3,
+        "width": 61.1,
+        "height": 12.0
+      }
+    },
+    "nmcl": {
+      "type": "text",
+      "label": "NMCL",
+      "page": 1,
+      "box": {
+        "left": 36.0,
+        "top": 85.1,
+        "width": 69.6,
+        "height": 12.3
+      }
+    },
+    "prtn": {
+      "type": "text",
+      "label": "PRTN",
+      "page": 1,
+      "box": {
+        "left": 105.6,
+        "top": 85.1,
+        "width": 78.4,
+        "height": 12.3
+      }
+    },
+    "serNo2": {
+      "type": "text",
+      "label": "A.  MISSILE DESIGNATOR:",
+      "page": 2,
+      "box": {
+        "left": 264.6,
+        "top": 746.3,
+        "width": 102.2,
+        "height": 14.6
+      }
+    },
+    "serNo3": {
+      "type": "text",
+      "label": "B.  SERIAL  NUMBER:",
+      "page": 2,
+      "box": {
+        "left": 369.0,
+        "top": 746.3,
+        "width": 102.2,
+        "height": 14.6
+      }
+    },
+    "ptNo2": {
+      "type": "text",
+      "label": " C. PART NUMBER:",
+      "page": 2,
+      "box": {
+        "left": 473.5,
+        "top": 746.3,
+        "width": 101.3,
+        "height": 14.6
+      }
+    },
+    "hLSDate": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 2,
+      "box": {
+        "left": 37.5,
+        "top": 684.0,
+        "width": 57.0,
+        "height": 12.8
+      }
+    },
+    "uica": {
+      "type": "text",
+      "label": "UICA",
+      "page": 2,
+      "box": {
+        "left": 96.4,
+        "top": 684.0,
+        "width": 55.9,
+        "height": 12.8
+      }
+    },
+    "opEvt": {
+      "type": "text",
+      "label": "OpEvt",
+      "page": 2,
+      "box": {
+        "left": 153.9,
+        "top": 684.0,
+        "width": 55.9,
+        "height": 12.8
+      }
+    },
+    "tstInsp": {
+      "type": "text",
+      "label": "TstInsp",
+      "page": 2,
+      "box": {
+        "left": 211.3,
+        "top": 684.0,
+        "width": 55.9,
+        "height": 12.8
+      }
+    },
+    "capFlt": {
+      "type": "text",
+      "label": "CapFlt",
+      "page": 2,
+      "box": {
+        "left": 268.7,
+        "top": 684.0,
+        "width": 62.5,
+        "height": 12.8
+      }
+    },
+    "tecMod": {
+      "type": "text",
+      "label": "TecMod",
+      "page": 2,
+      "box": {
+        "left": 332.7,
+        "top": 684.0,
+        "width": 62.5,
+        "height": 12.8
+      }
+    },
+    "rmks": {
+      "type": "text",
+      "label": "Rmks",
+      "page": 2,
+      "box": {
+        "left": 396.7,
+        "top": 684.0,
+        "width": 177.8,
+        "height": 12.8
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 12.3,
+      "editor": "grid",
+      "columns": {
+        "nmcl": {
+          "type": "text",
+          "label": "NMCL1",
+          "page": 1,
+          "box": {
+            "left": 36.0,
+            "top": 72.8,
+            "width": 69.6,
+            "height": 12.3
+          }
+        },
+        "prtn": {
+          "type": "text",
+          "label": "PRTN1",
+          "page": 1,
+          "box": {
+            "left": 105.6,
+            "top": 72.8,
+            "width": 78.4,
+            "height": 12.3
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 4,
+      "rowStride": 12.3,
+      "editor": "grid",
+      "columns": {
+        "prtn2": {
+          "type": "text",
+          "label": "PRTN",
+          "page": 1,
+          "box": {
+            "left": 184.0,
+            "top": 85.1,
+            "width": 78.4,
+            "height": 12.3
+          }
+        },
+        "prtn3": {
+          "type": "text",
+          "label": "PRTN",
+          "page": 1,
+          "box": {
+            "left": 262.5,
+            "top": 85.1,
+            "width": 78.4,
+            "height": 12.3
+          }
+        },
+        "prtn4": {
+          "type": "text",
+          "label": "PRTN",
+          "page": 1,
+          "box": {
+            "left": 340.9,
+            "top": 85.1,
+            "width": 78.4,
+            "height": 12.3
+          }
+        },
+        "prtn5": {
+          "type": "text",
+          "label": "PRTN",
+          "page": 1,
+          "box": {
+            "left": 419.3,
+            "top": 85.1,
+            "width": 78.4,
+            "height": 12.3
+          }
+        },
+        "prtn6": {
+          "type": "text",
+          "label": "PRTN",
+          "page": 1,
+          "box": {
+            "left": 497.8,
+            "top": 85.1,
+            "width": 78.4,
+            "height": 12.3
+          }
+        }
+      }
+    },
+    "rows3": {
+      "title": "Rows",
+      "page": 1,
+      "count": 9,
+      "rowStride": 12.1,
+      "editor": "grid",
+      "columns": {
+        "blk16": {
+          "type": "text",
+          "label": "BLK16",
+          "page": 1,
+          "box": {
+            "left": 37.4,
+            "top": 220.8,
+            "width": 143.1,
+            "height": 9.0
+          }
+        },
+        "mk28": {
+          "type": "text",
+          "label": "MK28",
+          "page": 1,
+          "box": {
+            "left": 182.2,
+            "top": 222.2,
+            "width": 66.7,
+            "height": 12.0
+          }
+        },
+        "pn28": {
+          "type": "text",
+          "label": "PN28",
+          "page": 1,
+          "box": {
+            "left": 250.1,
+            "top": 222.2,
+            "width": 77.3,
+            "height": 12.0
+          }
+        },
+        "sn28": {
+          "type": "text",
+          "label": "SN28",
+          "page": 1,
+          "box": {
+            "left": 327.4,
+            "top": 222.2,
+            "width": 77.3,
+            "height": 12.0
+          }
+        },
+        "ln28": {
+          "type": "text",
+          "label": "LN28",
+          "page": 1,
+          "box": {
+            "left": 404.7,
+            "top": 222.2,
+            "width": 49.4,
+            "height": 12.0
+          }
+        },
+        "lcf28": {
+          "type": "text",
+          "label": "LCF28",
+          "page": 1,
+          "box": {
+            "left": 453.8,
+            "top": 222.2,
+            "width": 61.1,
+            "height": 12.0
+          }
+        },
+        "wed28": {
+          "type": "text",
+          "label": "WED28",
+          "page": 1,
+          "box": {
+            "left": 514.8,
+            "top": 222.2,
+            "width": 61.1,
+            "height": 12.0
+          }
+        }
+      }
+    },
+    "rows4": {
+      "title": "Rows",
+      "page": 1,
+      "count": 15,
+      "rowStride": 12.02,
+      "editor": "grid",
+      "columns": {
+        "blk": {
+          "type": "text",
+          "label": "BLK1",
+          "page": 1,
+          "box": {
+            "left": 37.4,
+            "top": 401.1,
+            "width": 143.1,
+            "height": 9.2
+          }
+        }
+      }
+    },
+    "rows5": {
+      "title": "Rows",
+      "page": 1,
+      "count": 27,
+      "rowStride": 12.02,
+      "editor": "grid",
+      "columns": {
+        "mk": {
+          "type": "text",
+          "label": "MK1",
+          "page": 1,
+          "box": {
+            "left": 182.2,
+            "top": 546.8,
+            "width": 66.7,
+            "height": 12.0
+          }
+        },
+        "pn": {
+          "type": "text",
+          "label": "PN1",
+          "page": 1,
+          "box": {
+            "left": 250.1,
+            "top": 546.8,
+            "width": 77.3,
+            "height": 12.0
+          }
+        },
+        "sn": {
+          "type": "text",
+          "label": "SN1",
+          "page": 1,
+          "box": {
+            "left": 327.4,
+            "top": 546.8,
+            "width": 77.3,
+            "height": 12.0
+          }
+        },
+        "wed": {
+          "type": "text",
+          "label": "WED1",
+          "page": 1,
+          "box": {
+            "left": 514.8,
+            "top": 546.8,
+            "width": 61.1,
+            "height": 12.0
+          }
+        }
+      }
+    },
+    "rows6": {
+      "title": "Rows",
+      "page": 2,
+      "count": 40,
+      "rowStride": 14.36,
+      "editor": "grid",
+      "columns": {
+        "hLSDate": {
+          "type": "text",
+          "label": "Enter the date using the format DD MMM YYYY.",
+          "page": 2,
+          "box": {
+            "left": 37.5,
+            "top": 669.7,
+            "width": 57.0,
+            "height": 12.8
+          }
+        },
+        "uic": {
+          "type": "text",
+          "label": "UIC40",
+          "page": 2,
+          "box": {
+            "left": 96.4,
+            "top": 669.6,
+            "width": 55.9,
+            "height": 12.8
+          }
+        },
+        "opEvt": {
+          "type": "text",
+          "label": "OpEvt1",
+          "page": 2,
+          "box": {
+            "left": 153.9,
+            "top": 669.6,
+            "width": 55.9,
+            "height": 12.8
+          }
+        },
+        "tstInsp": {
+          "type": "text",
+          "label": "TstInsp1",
+          "page": 2,
+          "box": {
+            "left": 211.3,
+            "top": 669.6,
+            "width": 55.9,
+            "height": 12.8
+          }
+        },
+        "capFlt": {
+          "type": "text",
+          "label": "CapFlt1",
+          "page": 2,
+          "box": {
+            "left": 268.7,
+            "top": 669.6,
+            "width": 62.5,
+            "height": 12.8
+          }
+        },
+        "tecMod": {
+          "type": "text",
+          "label": "TecMod1",
+          "page": 2,
+          "box": {
+            "left": 332.7,
+            "top": 669.6,
+            "width": 62.5,
+            "height": 12.8
+          }
+        },
+        "rmks": {
+          "type": "text",
+          "label": "Rmks1",
+          "page": 2,
+          "box": {
+            "left": 396.7,
+            "top": 669.6,
+            "width": 177.8,
+            "height": 12.8
+          }
+        }
+      }
+    }
+  }
+}

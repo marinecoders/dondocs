@@ -1,0 +1,723 @@
+{
+  "id": "navpers130695",
+  "label": "NAVPERS1306-95 - Command Senior Enlisted Leader Selection Nomination",
+  "directory": "NAVPERS1306-95 - Command Senior Enlisted Leader Selection Nomination",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "commandName",
+        "commandUIC",
+        "appName",
+        "appRate",
+        "appAdvDate",
+        "appCat",
+        "appADSD",
+        "appPRD",
+        "appEAOS",
+        "appHYT",
+        "tIStime",
+        "eligAYes",
+        "eligANo",
+        "eligBYes",
+        "eligBNo",
+        "eligCDate",
+        "eligCYes",
+        "eligCNo",
+        "eligDYes",
+        "eligDNo",
+        "eligDNA",
+        "adminAYes",
+        "adminANo",
+        "adminBYes",
+        "adminBNo",
+        "adminCYes",
+        "adminCNo",
+        "adminExp",
+        "cMCName",
+        "cMCSig",
+        "cMCDate",
+        "iSICName",
+        "iSICSig",
+        "radio",
+        "radio2",
+        "cMDCM1Name",
+        "cMDCM1Sig",
+        "radio3",
+        "radio4",
+        "cMDCM2Name",
+        "cMDCM2Sig",
+        "radio5",
+        "radio6",
+        "radio7",
+        "radio8",
+        "radio9",
+        "screeningComments",
+        "tierCMCName",
+        "tierCMCSig",
+        "t2CMCDate",
+        "radio10",
+        "radio11",
+        "cOEndorsName",
+        "cOEndorsSig",
+        "cODate",
+        "radio12",
+        "radio13"
+      ]
+    }
+  ],
+  "fields": {
+    "commandName": {
+      "type": "text",
+      "label": "1. Command Name",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 708.5,
+        "width": 390.3,
+        "height": 16.2
+      }
+    },
+    "commandUIC": {
+      "type": "text",
+      "label": "2. Unit Identification Code (UIC)",
+      "page": 1,
+      "box": {
+        "left": 434.9,
+        "top": 708.5,
+        "width": 138.3,
+        "height": 16.2
+      }
+    },
+    "appName": {
+      "type": "text",
+      "label": "3. Name (Last, First, MI)",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 663.5,
+        "width": 264.3,
+        "height": 16.2
+      }
+    },
+    "appRate": {
+      "type": "text",
+      "label": "5. Rating/Rate",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 663.5,
+        "width": 102.3,
+        "height": 16.2
+      }
+    },
+    "appAdvDate": {
+      "type": "text",
+      "label": "6. Advancement Date",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 663.5,
+        "width": 102.3,
+        "height": 16.2
+      }
+    },
+    "appCat": {
+      "type": "choice",
+      "label": "4. Category",
+      "page": 1,
+      "box": {
+        "left": 309.7,
+        "top": 662.7,
+        "width": 46.7,
+        "height": 14.7
+      },
+      "options": [
+        "Active",
+        "SELRES",
+        "TAR"
+      ]
+    },
+    "appADSD": {
+      "type": "text",
+      "label": "7. ADSD",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 632.9,
+        "width": 129.3,
+        "height": 18.0
+      }
+    },
+    "appPRD": {
+      "type": "text",
+      "label": "8. PRD",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 632.9,
+        "width": 129.3,
+        "height": 18.0
+      }
+    },
+    "appEAOS": {
+      "type": "text",
+      "label": "9. EAOS",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 632.9,
+        "width": 129.3,
+        "height": 18.0
+      }
+    },
+    "appHYT": {
+      "type": "text",
+      "label": "10. HYT Date",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 632.9,
+        "width": 129.3,
+        "height": 18.0
+      }
+    },
+    "tIStime": {
+      "type": "text",
+      "label": "Yes No TIS as of",
+      "page": 1,
+      "box": {
+        "left": 505.2,
+        "top": 582.1,
+        "width": 69.4,
+        "height": 21.2
+      }
+    },
+    "eligAYes": {
+      "type": "checkbox",
+      "label": "Rating/Rate",
+      "page": 1,
+      "box": {
+        "left": 390.9,
+        "top": 575.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "eligANo": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 426.9,
+        "top": 575.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "eligBYes": {
+      "type": "checkbox",
+      "label": "Rating/Rate",
+      "page": 1,
+      "box": {
+        "left": 390.9,
+        "top": 553.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "eligBNo": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 426.9,
+        "top": 553.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "eligCDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 506.1,
+        "top": 537.1,
+        "width": 68.5,
+        "height": 12.2
+      }
+    },
+    "eligCYes": {
+      "type": "checkbox",
+      "label": "Rating/Rate",
+      "page": 1,
+      "box": {
+        "left": 390.9,
+        "top": 535.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "eligCNo": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 426.9,
+        "top": 535.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "eligDYes": {
+      "type": "checkbox",
+      "label": "Rating/Rate",
+      "page": 1,
+      "box": {
+        "left": 390.9,
+        "top": 517.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "eligDNo": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 426.9,
+        "top": 517.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "eligDNA": {
+      "type": "checkbox",
+      "label": "Yes No",
+      "page": 1,
+      "box": {
+        "left": 462.9,
+        "top": 517.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "adminAYes": {
+      "type": "checkbox",
+      "label": "a. In the last 5 years: BCA Failure",
+      "page": 1,
+      "box": {
+        "left": 390.9,
+        "top": 486.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "adminANo": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 426.9,
+        "top": 486.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "adminBYes": {
+      "type": "checkbox",
+      "label": "b. In the last 5 years: PRT Failure",
+      "page": 1,
+      "box": {
+        "left": 390.9,
+        "top": 468.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "adminBNo": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 426.9,
+        "top": 468.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "adminCYes": {
+      "type": "checkbox",
+      "label": "c. In the last 5 years: Adverse Material",
+      "page": 1,
+      "box": {
+        "left": 390.9,
+        "top": 450.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "adminCNo": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 426.9,
+        "top": 450.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "adminExp": {
+      "type": "text",
+      "label": "If yes to 12c, briefly explain",
+      "page": 1,
+      "box": {
+        "left": 142.5,
+        "top": 435.9,
+        "width": 432.1,
+        "height": 20.5
+      }
+    },
+    "cMCName": {
+      "type": "text",
+      "label": "13. Command Master Chief (CMDCM) Name",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 402.4,
+        "width": 228.3,
+        "height": 16.2
+      }
+    },
+    "cMCSig": {
+      "type": "text",
+      "label": "14. Signature",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 402.4,
+        "width": 219.3,
+        "height": 16.2
+      }
+    },
+    "cMCDate": {
+      "type": "text",
+      "label": "15. Date",
+      "page": 1,
+      "box": {
+        "left": 497.9,
+        "top": 402.4,
+        "width": 75.2,
+        "height": 16.2
+      }
+    },
+    "iSICName": {
+      "type": "text",
+      "label": "16. ISIC CMDCM Name and Command",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 357.4,
+        "width": 228.3,
+        "height": 22.1
+      }
+    },
+    "iSICSig": {
+      "type": "text",
+      "label": "17. ISIC CMDCM Signature",
+      "page": 1,
+      "box": {
+        "left": 273.0,
+        "top": 357.4,
+        "width": 219.2,
+        "height": 22.1
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 503.3,
+        "top": 352.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 539.4,
+        "top": 352.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "cMDCM1Name": {
+      "type": "text",
+      "label": "19. CMDCM Name and Command",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 321.4,
+        "width": 228.3,
+        "height": 22.1
+      }
+    },
+    "cMDCM1Sig": {
+      "type": "text",
+      "label": "20. CMDCM Signature",
+      "page": 1,
+      "box": {
+        "left": 273.0,
+        "top": 321.4,
+        "width": 219.2,
+        "height": 22.1
+      }
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 503.3,
+        "top": 316.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 539.4,
+        "top": 316.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "cMDCM2Name": {
+      "type": "text",
+      "label": "22. CMDCM Name and Command",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 285.4,
+        "width": 228.3,
+        "height": 22.1
+      }
+    },
+    "cMDCM2Sig": {
+      "type": "text",
+      "label": "23. CMDCM Signature",
+      "page": 1,
+      "box": {
+        "left": 273.0,
+        "top": 285.4,
+        "width": 219.2,
+        "height": 22.1
+      }
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 503.3,
+        "top": 280.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 539.4,
+        "top": 280.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 110.9,
+        "top": 253.4,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 250.5,
+        "top": 253.4,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio9": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 435.0,
+        "top": 253.4,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "screeningComments": {
+      "type": "text",
+      "label": "26. Screening Board Comments",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 222.4,
+        "width": 534.3,
+        "height": 73.8
+      },
+      "multiline": true
+    },
+    "tierCMCName": {
+      "type": "text",
+      "label": "Yes No",
+      "page": 1,
+      "box": {
+        "left": 119.9,
+        "top": 119.8,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "tierCMCSig": {
+      "type": "text",
+      "label": "Yes No",
+      "page": 1,
+      "box": {
+        "left": 353.9,
+        "top": 119.8,
+        "width": 156.3,
+        "height": 21.6
+      }
+    },
+    "t2CMCDate": {
+      "type": "text",
+      "label": "Yes No",
+      "page": 1,
+      "box": {
+        "left": 515.9,
+        "top": 119.8,
+        "width": 57.2,
+        "height": 21.6
+      }
+    },
+    "radio10": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 43.4,
+        "top": 114.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio11": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 79.4,
+        "top": 114.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "cOEndorsName": {
+      "type": "text",
+      "label": "Yes No",
+      "page": 1,
+      "box": {
+        "left": 119.9,
+        "top": 69.4,
+        "width": 228.3,
+        "height": 30.6
+      },
+      "multiline": true
+    },
+    "cOEndorsSig": {
+      "type": "text",
+      "label": "Yes No",
+      "page": 1,
+      "box": {
+        "left": 353.9,
+        "top": 69.4,
+        "width": 156.3,
+        "height": 30.6
+      },
+      "multiline": true
+    },
+    "cODate": {
+      "type": "text",
+      "label": "Yes No",
+      "page": 1,
+      "box": {
+        "left": 515.9,
+        "top": 69.4,
+        "width": 57.2,
+        "height": 30.6
+      },
+      "multiline": true
+    },
+    "radio12": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 43.4,
+        "top": 58.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio13": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 79.4,
+        "top": 58.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    }
+  }
+}

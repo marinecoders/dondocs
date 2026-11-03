@@ -1,0 +1,5813 @@
+{
+  "id": "opnav150032",
+  "label": "OPNAV1500-32 - General Record (type Iii)",
+  "directory": "OPNAV1500-32 - General Record (type Iii)",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "dNSDate3From",
+        "dNSDate3To",
+        "title",
+        "jan1",
+        "feb1",
+        "mar1",
+        "apr1",
+        "may1",
+        "jun1",
+        "jul1",
+        "aug1",
+        "sep1",
+        "oct1",
+        "nov1",
+        "dec1",
+        "jan2",
+        "feb2",
+        "mar2",
+        "apr2",
+        "may2",
+        "jun2",
+        "jul2",
+        "aug2",
+        "sep2",
+        "oct2",
+        "nov2",
+        "dec2",
+        "jan3",
+        "feb3",
+        "mar3",
+        "apr3",
+        "may3",
+        "jun3",
+        "jul3",
+        "aug3",
+        "sep3",
+        "oct3",
+        "nov3",
+        "dec3",
+        "jan4",
+        "feb4",
+        "mar4",
+        "apr4",
+        "may4",
+        "jun4",
+        "jul4",
+        "aug4",
+        "sep4",
+        "oct4",
+        "nov4",
+        "dec4",
+        "jan5",
+        "feb5",
+        "mar5",
+        "apr5",
+        "may5",
+        "jun5",
+        "jul5",
+        "aug5",
+        "sep5",
+        "oct5",
+        "nov5",
+        "dec5",
+        "jan6",
+        "feb6",
+        "mar6",
+        "apr6",
+        "may6",
+        "jun6",
+        "jul6",
+        "aug6",
+        "sep6",
+        "oct6",
+        "nov6",
+        "dec6",
+        "jan7",
+        "feb7",
+        "mar7",
+        "apr7",
+        "may7",
+        "jun7",
+        "jul7",
+        "aug7",
+        "sep7",
+        "oct7",
+        "nov7",
+        "dec7",
+        "jan8",
+        "feb8",
+        "mar8",
+        "apr8",
+        "may8",
+        "jun8",
+        "jul8",
+        "aug8",
+        "sep8",
+        "oct8",
+        "nov8",
+        "dec8",
+        "jan9",
+        "feb9",
+        "mar9",
+        "apr9",
+        "may9",
+        "jun9",
+        "jul9",
+        "aug9",
+        "sep9",
+        "oct9",
+        "nov9",
+        "dec9",
+        "jan10",
+        "feb10",
+        "mar10",
+        "apr10",
+        "may10",
+        "jun10",
+        "jul10",
+        "aug10",
+        "sep10",
+        "oct10",
+        "nov10",
+        "dec10",
+        "jan11",
+        "feb11",
+        "mar11",
+        "apr11",
+        "may11",
+        "jun11",
+        "jul11",
+        "aug11",
+        "sep11",
+        "oct11",
+        "nov11",
+        "dec11",
+        "jan12",
+        "feb12",
+        "mar12",
+        "apr12",
+        "may12",
+        "jun12",
+        "jul12",
+        "aug12",
+        "sep12",
+        "oct12",
+        "nov12",
+        "dec12",
+        "jan13",
+        "feb13",
+        "mar13",
+        "apr13",
+        "may13",
+        "jun13",
+        "jul13",
+        "aug13",
+        "sep13",
+        "oct13",
+        "nov13",
+        "dec13",
+        "jan14",
+        "feb14",
+        "mar14",
+        "apr14",
+        "may14",
+        "jun14",
+        "jul14",
+        "aug14",
+        "sep14",
+        "oct14",
+        "nov14",
+        "dec14",
+        "jan15",
+        "feb15",
+        "mar15",
+        "apr15",
+        "may15",
+        "jun15",
+        "jul15",
+        "aug15",
+        "sep15",
+        "oct15",
+        "nov15",
+        "dec15",
+        "jan16",
+        "feb16",
+        "mar16",
+        "apr16",
+        "may16",
+        "jun16",
+        "jul16",
+        "aug16",
+        "sep16",
+        "oct16",
+        "nov16",
+        "dec16",
+        "jan17",
+        "feb17",
+        "mar17",
+        "apr17",
+        "may17",
+        "jun17",
+        "jul17",
+        "aug17",
+        "sep17",
+        "oct17",
+        "nov17",
+        "dec17",
+        "jan18",
+        "feb18",
+        "mar18",
+        "apr18",
+        "may18",
+        "jun18",
+        "jul18",
+        "aug18",
+        "sep18",
+        "oct18",
+        "nov18",
+        "dec18",
+        "jan19",
+        "feb19",
+        "mar19",
+        "apr19",
+        "may19",
+        "jun19",
+        "jul19",
+        "aug19",
+        "sep19",
+        "oct19",
+        "nov19",
+        "dec19",
+        "jan20",
+        "feb20",
+        "mar20",
+        "apr20",
+        "may20",
+        "jun20",
+        "jul20",
+        "aug20",
+        "sep20",
+        "oct20",
+        "nov20",
+        "dec20",
+        "jan21",
+        "feb21",
+        "mar21",
+        "apr21",
+        "may21",
+        "jun21",
+        "jul21",
+        "aug21",
+        "sep21",
+        "oct21",
+        "nov21",
+        "dec21",
+        "jan22",
+        "feb22",
+        "mar22",
+        "apr22",
+        "may22",
+        "jun22",
+        "jul22",
+        "aug22",
+        "sep22",
+        "oct22",
+        "nov22",
+        "dec22",
+        "jan23",
+        "feb23",
+        "mar23",
+        "apr23",
+        "may23",
+        "jun23",
+        "jul23",
+        "aug23",
+        "sep23",
+        "oct23",
+        "nov23",
+        "dec23",
+        "jan24",
+        "feb24",
+        "mar24",
+        "apr24",
+        "may24",
+        "jun24",
+        "jul24",
+        "aug24",
+        "sep24",
+        "oct24",
+        "nov24",
+        "dec24",
+        "jan25",
+        "feb25",
+        "mar25",
+        "apr25",
+        "may25",
+        "jun25",
+        "jul25",
+        "aug25",
+        "sep25",
+        "oct25",
+        "nov25",
+        "dec25",
+        "jan26",
+        "feb26",
+        "mar26",
+        "apr26",
+        "may26",
+        "jun26",
+        "jul26",
+        "aug26",
+        "sep26",
+        "oct26",
+        "nov26",
+        "dec26",
+        "jan27",
+        "feb27",
+        "mar27",
+        "apr27",
+        "may27",
+        "jun27",
+        "jul27",
+        "aug27",
+        "sep27",
+        "oct27",
+        "nov27",
+        "dec27",
+        "jan28",
+        "feb28",
+        "mar28",
+        "apr28",
+        "may28",
+        "jun28",
+        "jul28",
+        "aug28",
+        "sep28",
+        "oct28",
+        "nov28",
+        "dec28",
+        "jan29",
+        "feb29",
+        "mar29",
+        "apr29",
+        "may29",
+        "jun29",
+        "jul29",
+        "aug29",
+        "sep29",
+        "oct29",
+        "nov29",
+        "dec29",
+        "jan30",
+        "feb30",
+        "mar30",
+        "apr30",
+        "may30",
+        "jun30",
+        "jul30",
+        "aug30",
+        "sep30",
+        "oct30",
+        "nov30",
+        "dec30",
+        "jan31",
+        "feb31",
+        "mar31",
+        "apr31",
+        "may31",
+        "jun31",
+        "jul31",
+        "aug31",
+        "sep31",
+        "oct31",
+        "nov31",
+        "dec31",
+        "jan1st",
+        "feb1st",
+        "mar1st",
+        "apr1st",
+        "may1st",
+        "jun1st",
+        "jul1st",
+        "aug1st",
+        "sep1st",
+        "oct1st",
+        "nov1st",
+        "dec1st",
+        "jan2nd",
+        "feb2nd",
+        "mar2nd",
+        "apr2nd",
+        "may2nd",
+        "jun2nd",
+        "jul2nd",
+        "aug2nd",
+        "sep2nd",
+        "oct2nd",
+        "nov2nd",
+        "dec2nd",
+        "jan3rd",
+        "feb3rd",
+        "mar3rd",
+        "apr3rd",
+        "may3rd",
+        "jun3rd",
+        "jul3rd",
+        "aug3rd",
+        "sep3rd",
+        "oct3rd",
+        "nov3rd",
+        "dec3rd",
+        "jan4th",
+        "feb4th",
+        "mar4th",
+        "apr4th",
+        "may4th",
+        "jun4th",
+        "jul4th",
+        "aug4th",
+        "sep4th",
+        "oct4th",
+        "nov4th",
+        "dec4th",
+        "jan5th",
+        "feb5th",
+        "mar5th",
+        "apr5th",
+        "may5th",
+        "jun5th",
+        "jul5th",
+        "aug5th",
+        "sep5th",
+        "oct5th",
+        "nov5th",
+        "dec5th",
+        "janMon",
+        "febMon",
+        "marMon",
+        "aprMon",
+        "mayMon",
+        "junMon",
+        "julMon",
+        "augMon",
+        "sepMon",
+        "octMon",
+        "novMon",
+        "decMon",
+        "janQua",
+        "febQua",
+        "marQua",
+        "aprQua",
+        "mayQua",
+        "junQua",
+        "julQua",
+        "augQua",
+        "sepQua",
+        "octQua",
+        "novQua",
+        "decQua",
+        "janSemi",
+        "febSemi",
+        "marSemi",
+        "aprSemi",
+        "maySemi",
+        "junSemi",
+        "julSemi",
+        "augSemi",
+        "sepSemi",
+        "octSemi",
+        "novSemi",
+        "decSemi",
+        "janAnn",
+        "febAnn",
+        "marAnn",
+        "aprAnn",
+        "mayAnn",
+        "junAnn",
+        "julAnn",
+        "augAnn",
+        "sepAnn",
+        "octAnn",
+        "novAnn",
+        "decAnn"
+      ]
+    }
+  ],
+  "fields": {
+    "dNSDate3From": {
+      "type": "text",
+      "label": "Enter the period begining date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 365.8,
+        "top": 740.5,
+        "width": 63.3,
+        "height": 19.8
+      }
+    },
+    "dNSDate3To": {
+      "type": "text",
+      "label": "Enter the period ending date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 457.7,
+        "top": 740.5,
+        "width": 63.3,
+        "height": 19.8
+      }
+    },
+    "title": {
+      "type": "text",
+      "label": "Enter the title.",
+      "page": 1,
+      "box": {
+        "left": 31.0,
+        "top": 699.8,
+        "width": 551.1,
+        "height": 18.8
+      }
+    },
+    "jan1": {
+      "type": "text",
+      "label": "Enter the general record for January 1st.",
+      "page": 1,
+      "box": {
+        "left": 136.6,
+        "top": 641.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "feb1": {
+      "type": "text",
+      "label": "Enter the general record for February 1st.",
+      "page": 1,
+      "box": {
+        "left": 174.8,
+        "top": 641.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "mar1": {
+      "type": "text",
+      "label": "Enter the general record for March 1st.",
+      "page": 1,
+      "box": {
+        "left": 211.5,
+        "top": 641.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "apr1": {
+      "type": "text",
+      "label": "Enter the general record for April 1st.",
+      "page": 1,
+      "box": {
+        "left": 248.9,
+        "top": 641.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "may1": {
+      "type": "text",
+      "label": "Enter the general record for May 1st.",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 641.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jun1": {
+      "type": "text",
+      "label": "Enter the general record for June 1st.",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 641.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jul1": {
+      "type": "text",
+      "label": "Enter the general record for July 1st.",
+      "page": 1,
+      "box": {
+        "left": 362.0,
+        "top": 641.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "aug1": {
+      "type": "text",
+      "label": "Enter the general record for August 1st.",
+      "page": 1,
+      "box": {
+        "left": 400.2,
+        "top": 641.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "sep1": {
+      "type": "text",
+      "label": "Enter the general record for September 1st.",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 641.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "oct1": {
+      "type": "text",
+      "label": "Enter the general record for October 1st.",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 641.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "nov1": {
+      "type": "text",
+      "label": "Enter the general record for November 1st.",
+      "page": 1,
+      "box": {
+        "left": 512.5,
+        "top": 641.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "dec1": {
+      "type": "text",
+      "label": "Enter the general record for December 1st.",
+      "page": 1,
+      "box": {
+        "left": 550.0,
+        "top": 641.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jan2": {
+      "type": "text",
+      "label": "Enter the general record for January 2nd.",
+      "page": 1,
+      "box": {
+        "left": 136.6,
+        "top": 625.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "feb2": {
+      "type": "text",
+      "label": "Enter the general record for February 2nd.",
+      "page": 1,
+      "box": {
+        "left": 174.8,
+        "top": 625.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "mar2": {
+      "type": "text",
+      "label": "Enter the general record for March 2nd.",
+      "page": 1,
+      "box": {
+        "left": 211.5,
+        "top": 625.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "apr2": {
+      "type": "text",
+      "label": "Enter the general record for April 2nd.",
+      "page": 1,
+      "box": {
+        "left": 248.9,
+        "top": 625.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "may2": {
+      "type": "text",
+      "label": "Enter the general record for May 2nd.",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 625.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jun2": {
+      "type": "text",
+      "label": "Enter the general record for June 2nd.",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 625.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jul2": {
+      "type": "text",
+      "label": "Enter the general record for July 2nd.",
+      "page": 1,
+      "box": {
+        "left": 362.0,
+        "top": 625.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "aug2": {
+      "type": "text",
+      "label": "Enter the general record for August 2nd.",
+      "page": 1,
+      "box": {
+        "left": 400.2,
+        "top": 625.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "sep2": {
+      "type": "text",
+      "label": "Enter the general record for September 2nd.",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 625.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "oct2": {
+      "type": "text",
+      "label": "Enter the general record for October 2nd.",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 625.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "nov2": {
+      "type": "text",
+      "label": "Enter the general record for November 2nd.",
+      "page": 1,
+      "box": {
+        "left": 512.5,
+        "top": 625.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "dec2": {
+      "type": "text",
+      "label": "Enter the general record for December 2nd.",
+      "page": 1,
+      "box": {
+        "left": 550.0,
+        "top": 625.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jan3": {
+      "type": "text",
+      "label": "Enter the general record for January 3rd.",
+      "page": 1,
+      "box": {
+        "left": 136.6,
+        "top": 610.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "feb3": {
+      "type": "text",
+      "label": "Enter the general record for February 3rd.",
+      "page": 1,
+      "box": {
+        "left": 174.8,
+        "top": 610.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "mar3": {
+      "type": "text",
+      "label": "Enter the general record for March 3rd.",
+      "page": 1,
+      "box": {
+        "left": 211.5,
+        "top": 610.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "apr3": {
+      "type": "text",
+      "label": "Enter the general record for April 3rd.",
+      "page": 1,
+      "box": {
+        "left": 248.9,
+        "top": 610.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "may3": {
+      "type": "text",
+      "label": "Enter the general record for May 3rd.",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 610.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jun3": {
+      "type": "text",
+      "label": "Enter the general record for June 3rd.",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 610.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jul3": {
+      "type": "text",
+      "label": "Enter the general record for July 3rd.",
+      "page": 1,
+      "box": {
+        "left": 362.0,
+        "top": 610.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "aug3": {
+      "type": "text",
+      "label": "Enter the general record for August 3rd.",
+      "page": 1,
+      "box": {
+        "left": 400.2,
+        "top": 610.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "sep3": {
+      "type": "text",
+      "label": "Enter the general record for September 3rd.",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 610.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "oct3": {
+      "type": "text",
+      "label": "Enter the general record for October 3rd.",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 610.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "nov3": {
+      "type": "text",
+      "label": "Enter the general record for November 3rd.",
+      "page": 1,
+      "box": {
+        "left": 512.5,
+        "top": 610.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "dec3": {
+      "type": "text",
+      "label": "Enter the general record for December 3rd.",
+      "page": 1,
+      "box": {
+        "left": 550.0,
+        "top": 610.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jan4": {
+      "type": "text",
+      "label": "Enter the general record for January 4th.",
+      "page": 1,
+      "box": {
+        "left": 136.6,
+        "top": 595.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "feb4": {
+      "type": "text",
+      "label": "Enter the general record for February 4th.",
+      "page": 1,
+      "box": {
+        "left": 174.8,
+        "top": 595.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "mar4": {
+      "type": "text",
+      "label": "Enter the general record for March 4th.",
+      "page": 1,
+      "box": {
+        "left": 211.5,
+        "top": 595.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "apr4": {
+      "type": "text",
+      "label": "Enter the general record for April 4th.",
+      "page": 1,
+      "box": {
+        "left": 248.9,
+        "top": 595.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "may4": {
+      "type": "text",
+      "label": "Enter the general record for May 4th.",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 595.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jun4": {
+      "type": "text",
+      "label": "Enter the general record for June 4th.",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 595.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jul4": {
+      "type": "text",
+      "label": "Enter the general record for July 4th.",
+      "page": 1,
+      "box": {
+        "left": 362.0,
+        "top": 595.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "aug4": {
+      "type": "text",
+      "label": "Enter the general record for August 4th.",
+      "page": 1,
+      "box": {
+        "left": 400.2,
+        "top": 595.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "sep4": {
+      "type": "text",
+      "label": "Enter the general record for September 4th.",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 595.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "oct4": {
+      "type": "text",
+      "label": "Enter the general record for October 4th.",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 595.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "nov4": {
+      "type": "text",
+      "label": "Enter the general record for November 4th.",
+      "page": 1,
+      "box": {
+        "left": 512.5,
+        "top": 595.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "dec4": {
+      "type": "text",
+      "label": "Enter the general record for December 4th.",
+      "page": 1,
+      "box": {
+        "left": 550.0,
+        "top": 595.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jan5": {
+      "type": "text",
+      "label": "Enter the general record for January 5th.",
+      "page": 1,
+      "box": {
+        "left": 136.6,
+        "top": 580.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "feb5": {
+      "type": "text",
+      "label": "Enter the general record for February 5th.",
+      "page": 1,
+      "box": {
+        "left": 174.8,
+        "top": 580.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "mar5": {
+      "type": "text",
+      "label": "Enter the general record for March 5th.",
+      "page": 1,
+      "box": {
+        "left": 211.5,
+        "top": 580.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "apr5": {
+      "type": "text",
+      "label": "Enter the general record for April 5th.",
+      "page": 1,
+      "box": {
+        "left": 248.9,
+        "top": 580.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "may5": {
+      "type": "text",
+      "label": "Enter the general record for May 5th.",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 580.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jun5": {
+      "type": "text",
+      "label": "Enter the general record for June 5th.",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 580.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jul5": {
+      "type": "text",
+      "label": "Enter the general record for July 5th.",
+      "page": 1,
+      "box": {
+        "left": 362.0,
+        "top": 580.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "aug5": {
+      "type": "text",
+      "label": "Enter the general record for August 5th.",
+      "page": 1,
+      "box": {
+        "left": 400.2,
+        "top": 580.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "sep5": {
+      "type": "text",
+      "label": "Enter the general record for September 5th.",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 580.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "oct5": {
+      "type": "text",
+      "label": "Enter the general record for October 5th.",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 580.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "nov5": {
+      "type": "text",
+      "label": "Enter the general record for November 5th.",
+      "page": 1,
+      "box": {
+        "left": 512.5,
+        "top": 580.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "dec5": {
+      "type": "text",
+      "label": "Enter the general record for December 5th.",
+      "page": 1,
+      "box": {
+        "left": 550.0,
+        "top": 580.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jan6": {
+      "type": "text",
+      "label": "Enter the general record for January 6th.",
+      "page": 1,
+      "box": {
+        "left": 136.6,
+        "top": 565.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "feb6": {
+      "type": "text",
+      "label": "Enter the general record for February 6th.",
+      "page": 1,
+      "box": {
+        "left": 174.8,
+        "top": 565.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "mar6": {
+      "type": "text",
+      "label": "Enter the general record for March 6th.",
+      "page": 1,
+      "box": {
+        "left": 211.5,
+        "top": 565.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "apr6": {
+      "type": "text",
+      "label": "Enter the general record for April 6th.",
+      "page": 1,
+      "box": {
+        "left": 248.9,
+        "top": 565.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "may6": {
+      "type": "text",
+      "label": "Enter the general record for May 6th.",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 565.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jun6": {
+      "type": "text",
+      "label": "Enter the general record for June 6th.",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 565.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jul6": {
+      "type": "text",
+      "label": "Enter the general record for July 6th.",
+      "page": 1,
+      "box": {
+        "left": 362.0,
+        "top": 565.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "aug6": {
+      "type": "text",
+      "label": "Enter the general record for August 6th.",
+      "page": 1,
+      "box": {
+        "left": 400.2,
+        "top": 565.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "sep6": {
+      "type": "text",
+      "label": "Enter the general record for September 6th.",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 565.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "oct6": {
+      "type": "text",
+      "label": "Enter the general record for October 6th.",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 565.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "nov6": {
+      "type": "text",
+      "label": "Enter the general record for November 6th.",
+      "page": 1,
+      "box": {
+        "left": 512.5,
+        "top": 565.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "dec6": {
+      "type": "text",
+      "label": "Enter the general record for December 6th.",
+      "page": 1,
+      "box": {
+        "left": 550.0,
+        "top": 565.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jan7": {
+      "type": "text",
+      "label": "Enter the general record for January 7th.",
+      "page": 1,
+      "box": {
+        "left": 136.6,
+        "top": 550.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "feb7": {
+      "type": "text",
+      "label": "Enter the general record for February 7th.",
+      "page": 1,
+      "box": {
+        "left": 174.8,
+        "top": 550.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "mar7": {
+      "type": "text",
+      "label": "Enter the general record for March 7th.",
+      "page": 1,
+      "box": {
+        "left": 211.5,
+        "top": 550.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "apr7": {
+      "type": "text",
+      "label": "Enter the general record for April 7th.",
+      "page": 1,
+      "box": {
+        "left": 248.9,
+        "top": 550.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "may7": {
+      "type": "text",
+      "label": "Enter the general record for May 7th.",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 550.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jun7": {
+      "type": "text",
+      "label": "Enter the general record for June 7th.",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 550.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jul7": {
+      "type": "text",
+      "label": "Enter the general record for July 7th.",
+      "page": 1,
+      "box": {
+        "left": 362.0,
+        "top": 550.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "aug7": {
+      "type": "text",
+      "label": "Enter the general record for August 7th.",
+      "page": 1,
+      "box": {
+        "left": 400.2,
+        "top": 550.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "sep7": {
+      "type": "text",
+      "label": "Enter the general record for September v.",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 550.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "oct7": {
+      "type": "text",
+      "label": "Enter the general record for October 7th.",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 550.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "nov7": {
+      "type": "text",
+      "label": "Enter the general record for November 7th.",
+      "page": 1,
+      "box": {
+        "left": 512.5,
+        "top": 550.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "dec7": {
+      "type": "text",
+      "label": "Enter the general record for December 7th.",
+      "page": 1,
+      "box": {
+        "left": 550.0,
+        "top": 550.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jan8": {
+      "type": "text",
+      "label": "Enter the general record for January 8th.",
+      "page": 1,
+      "box": {
+        "left": 136.6,
+        "top": 534.7,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "feb8": {
+      "type": "text",
+      "label": "Enter the general record for February 8th.",
+      "page": 1,
+      "box": {
+        "left": 174.8,
+        "top": 534.7,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "mar8": {
+      "type": "text",
+      "label": "Enter the general record for March 8th.",
+      "page": 1,
+      "box": {
+        "left": 211.5,
+        "top": 534.7,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "apr8": {
+      "type": "text",
+      "label": "Enter the general record for April 8th.",
+      "page": 1,
+      "box": {
+        "left": 248.9,
+        "top": 534.7,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "may8": {
+      "type": "text",
+      "label": "Enter the general record for May 8th.",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 534.7,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jun8": {
+      "type": "text",
+      "label": "Enter the general record for June 8th.",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 534.7,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jul8": {
+      "type": "text",
+      "label": "Enter the general record for July 8th.",
+      "page": 1,
+      "box": {
+        "left": 362.0,
+        "top": 534.7,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "aug8": {
+      "type": "text",
+      "label": "Enter the general record for August 8th.",
+      "page": 1,
+      "box": {
+        "left": 400.2,
+        "top": 534.7,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "sep8": {
+      "type": "text",
+      "label": "Enter the general record for September 8th.",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 534.7,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "oct8": {
+      "type": "text",
+      "label": "Enter the general record for October 8th.",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 534.7,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "nov8": {
+      "type": "text",
+      "label": "Enter the general record for November 8th.",
+      "page": 1,
+      "box": {
+        "left": 512.5,
+        "top": 534.7,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "dec8": {
+      "type": "text",
+      "label": "Enter the general record for December 8th.",
+      "page": 1,
+      "box": {
+        "left": 550.0,
+        "top": 534.7,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jan9": {
+      "type": "text",
+      "label": "Enter the general record for January 9th.",
+      "page": 1,
+      "box": {
+        "left": 136.6,
+        "top": 519.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "feb9": {
+      "type": "text",
+      "label": "Enter the general record for February 9th.",
+      "page": 1,
+      "box": {
+        "left": 174.8,
+        "top": 519.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "mar9": {
+      "type": "text",
+      "label": "Enter the general record for March 9th.",
+      "page": 1,
+      "box": {
+        "left": 211.5,
+        "top": 519.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "apr9": {
+      "type": "text",
+      "label": "Enter the general record for April 9th.",
+      "page": 1,
+      "box": {
+        "left": 248.9,
+        "top": 519.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "may9": {
+      "type": "text",
+      "label": "Enter the general record for May 9th.",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 519.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jun9": {
+      "type": "text",
+      "label": "Enter the general record for June 9th.",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 519.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jul9": {
+      "type": "text",
+      "label": "Enter the general record for July 9th.",
+      "page": 1,
+      "box": {
+        "left": 362.0,
+        "top": 519.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "aug9": {
+      "type": "text",
+      "label": "Enter the general record for August 9th.",
+      "page": 1,
+      "box": {
+        "left": 400.2,
+        "top": 519.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "sep9": {
+      "type": "text",
+      "label": "Enter the general record for September 9th.",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 519.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "oct9": {
+      "type": "text",
+      "label": "Enter the general record for October 9th.",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 519.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "nov9": {
+      "type": "text",
+      "label": "Enter the general record for November 9th.",
+      "page": 1,
+      "box": {
+        "left": 512.5,
+        "top": 519.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "dec9": {
+      "type": "text",
+      "label": "Enter the general record for December 9th.",
+      "page": 1,
+      "box": {
+        "left": 550.0,
+        "top": 519.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jan10": {
+      "type": "text",
+      "label": "Enter the general record for January 10th.",
+      "page": 1,
+      "box": {
+        "left": 136.6,
+        "top": 504.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "feb10": {
+      "type": "text",
+      "label": "Enter the general record for February 10th.",
+      "page": 1,
+      "box": {
+        "left": 174.8,
+        "top": 504.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "mar10": {
+      "type": "text",
+      "label": "Enter the general record for March 10th.",
+      "page": 1,
+      "box": {
+        "left": 211.5,
+        "top": 504.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "apr10": {
+      "type": "text",
+      "label": "Enter the general record for April 10th.",
+      "page": 1,
+      "box": {
+        "left": 248.9,
+        "top": 504.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "may10": {
+      "type": "text",
+      "label": "Enter the general record for May 10th.",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 504.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jun10": {
+      "type": "text",
+      "label": "Enter the general record for June 10th.",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 504.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jul10": {
+      "type": "text",
+      "label": "Enter the general record for July 10th.",
+      "page": 1,
+      "box": {
+        "left": 362.0,
+        "top": 504.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "aug10": {
+      "type": "text",
+      "label": "Enter the general record for August 10th.",
+      "page": 1,
+      "box": {
+        "left": 400.2,
+        "top": 504.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "sep10": {
+      "type": "text",
+      "label": "Enter the general record for September 10th.",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 504.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "oct10": {
+      "type": "text",
+      "label": "Enter the general record for October 10th.",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 504.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "nov10": {
+      "type": "text",
+      "label": "Enter the general record for November 10th.",
+      "page": 1,
+      "box": {
+        "left": 512.5,
+        "top": 504.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "dec10": {
+      "type": "text",
+      "label": "Enter the general record for December 10th.",
+      "page": 1,
+      "box": {
+        "left": 550.0,
+        "top": 504.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jan11": {
+      "type": "text",
+      "label": "Enter the general record for January 11th.",
+      "page": 1,
+      "box": {
+        "left": 136.6,
+        "top": 489.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "feb11": {
+      "type": "text",
+      "label": "Enter the general record for February 11th.",
+      "page": 1,
+      "box": {
+        "left": 174.8,
+        "top": 489.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "mar11": {
+      "type": "text",
+      "label": "Enter the general record for March 11th.",
+      "page": 1,
+      "box": {
+        "left": 211.5,
+        "top": 489.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "apr11": {
+      "type": "text",
+      "label": "Enter the general record for April 11th.",
+      "page": 1,
+      "box": {
+        "left": 248.9,
+        "top": 489.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "may11": {
+      "type": "text",
+      "label": "Enter the general record for May 11th.",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 489.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jun11": {
+      "type": "text",
+      "label": "Enter the general record for June 11th.",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 489.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jul11": {
+      "type": "text",
+      "label": "Enter the general record for July 11th.",
+      "page": 1,
+      "box": {
+        "left": 362.0,
+        "top": 489.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "aug11": {
+      "type": "text",
+      "label": "Enter the general record for August 11th.",
+      "page": 1,
+      "box": {
+        "left": 400.2,
+        "top": 489.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "sep11": {
+      "type": "text",
+      "label": "Enter the general record for September 11th.",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 489.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "oct11": {
+      "type": "text",
+      "label": "Enter the general record for October 11th.",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 489.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "nov11": {
+      "type": "text",
+      "label": "Enter the general record for November 11th.",
+      "page": 1,
+      "box": {
+        "left": 512.5,
+        "top": 489.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "dec11": {
+      "type": "text",
+      "label": "Enter the general record for December 11th.",
+      "page": 1,
+      "box": {
+        "left": 550.0,
+        "top": 489.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jan12": {
+      "type": "text",
+      "label": "Enter the general record for January 12th.",
+      "page": 1,
+      "box": {
+        "left": 136.6,
+        "top": 474.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "feb12": {
+      "type": "text",
+      "label": "Enter the general record for February 12th.",
+      "page": 1,
+      "box": {
+        "left": 174.8,
+        "top": 474.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "mar12": {
+      "type": "text",
+      "label": "Enter the general record for March 12th.",
+      "page": 1,
+      "box": {
+        "left": 211.5,
+        "top": 474.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "apr12": {
+      "type": "text",
+      "label": "Enter the general record for April 12th.",
+      "page": 1,
+      "box": {
+        "left": 248.9,
+        "top": 474.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "may12": {
+      "type": "text",
+      "label": "Enter the general record for May 12th.",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 474.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jun12": {
+      "type": "text",
+      "label": "Enter the general record for June 12th.",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 474.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jul12": {
+      "type": "text",
+      "label": "Enter the general record for July 12th.",
+      "page": 1,
+      "box": {
+        "left": 362.0,
+        "top": 474.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "aug12": {
+      "type": "text",
+      "label": "Enter the general record for August 12th.",
+      "page": 1,
+      "box": {
+        "left": 400.2,
+        "top": 474.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "sep12": {
+      "type": "text",
+      "label": "Enter the general record for September 12th.",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 474.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "oct12": {
+      "type": "text",
+      "label": "Enter the general record for October 12th.",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 474.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "nov12": {
+      "type": "text",
+      "label": "Enter the general record for November 12th.",
+      "page": 1,
+      "box": {
+        "left": 512.5,
+        "top": 474.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "dec12": {
+      "type": "text",
+      "label": "Enter the general record for December 12th.",
+      "page": 1,
+      "box": {
+        "left": 550.0,
+        "top": 474.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jan13": {
+      "type": "text",
+      "label": "Enter the general record for January 13th.",
+      "page": 1,
+      "box": {
+        "left": 136.6,
+        "top": 458.8,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "feb13": {
+      "type": "text",
+      "label": "Enter the general record for February 13th.",
+      "page": 1,
+      "box": {
+        "left": 174.8,
+        "top": 458.8,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "mar13": {
+      "type": "text",
+      "label": "Enter the general record for March 13th.",
+      "page": 1,
+      "box": {
+        "left": 211.5,
+        "top": 458.8,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "apr13": {
+      "type": "text",
+      "label": "Enter the general record for April 13th.",
+      "page": 1,
+      "box": {
+        "left": 248.9,
+        "top": 458.8,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "may13": {
+      "type": "text",
+      "label": "Enter the general record for May 13th.",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 458.8,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jun13": {
+      "type": "text",
+      "label": "Enter the general record for June 13th.",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 458.8,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jul13": {
+      "type": "text",
+      "label": "Enter the general record for July 13th.",
+      "page": 1,
+      "box": {
+        "left": 362.0,
+        "top": 458.8,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "aug13": {
+      "type": "text",
+      "label": "Enter the general record for August 13th.",
+      "page": 1,
+      "box": {
+        "left": 400.2,
+        "top": 458.8,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "sep13": {
+      "type": "text",
+      "label": "Enter the general record for September 13th.",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 458.8,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "oct13": {
+      "type": "text",
+      "label": "Enter the general record for October 13th.",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 458.8,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "nov13": {
+      "type": "text",
+      "label": "Enter the general record for November 13th.",
+      "page": 1,
+      "box": {
+        "left": 512.5,
+        "top": 458.8,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "dec13": {
+      "type": "text",
+      "label": "Enter the general record for December 13th.",
+      "page": 1,
+      "box": {
+        "left": 550.0,
+        "top": 458.8,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jan14": {
+      "type": "text",
+      "label": "Enter the general record for January 14th.",
+      "page": 1,
+      "box": {
+        "left": 136.6,
+        "top": 443.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "feb14": {
+      "type": "text",
+      "label": "Enter the general record for February 14th.",
+      "page": 1,
+      "box": {
+        "left": 174.8,
+        "top": 443.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "mar14": {
+      "type": "text",
+      "label": "Enter the general record for March 14th.",
+      "page": 1,
+      "box": {
+        "left": 211.5,
+        "top": 443.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "apr14": {
+      "type": "text",
+      "label": "Enter the general record for April 14th.",
+      "page": 1,
+      "box": {
+        "left": 248.9,
+        "top": 443.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "may14": {
+      "type": "text",
+      "label": "Enter the general record for May 14th.",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 443.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jun14": {
+      "type": "text",
+      "label": "Enter the general record for June 14th.",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 443.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jul14": {
+      "type": "text",
+      "label": "Enter the general record for July 14th.",
+      "page": 1,
+      "box": {
+        "left": 362.0,
+        "top": 443.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "aug14": {
+      "type": "text",
+      "label": "Enter the general record for August 14th.",
+      "page": 1,
+      "box": {
+        "left": 400.2,
+        "top": 443.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "sep14": {
+      "type": "text",
+      "label": "Enter the general record for September 14th.",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 443.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "oct14": {
+      "type": "text",
+      "label": "Enter the general record for October 14th.",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 443.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "nov14": {
+      "type": "text",
+      "label": "Enter the general record for November 14th.",
+      "page": 1,
+      "box": {
+        "left": 512.5,
+        "top": 443.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "dec14": {
+      "type": "text",
+      "label": "Enter the general record for December 14th.",
+      "page": 1,
+      "box": {
+        "left": 550.0,
+        "top": 443.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jan15": {
+      "type": "text",
+      "label": "Enter the general record for January 15th.",
+      "page": 1,
+      "box": {
+        "left": 136.6,
+        "top": 428.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "feb15": {
+      "type": "text",
+      "label": "Enter the general record for February 15th.",
+      "page": 1,
+      "box": {
+        "left": 174.8,
+        "top": 428.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "mar15": {
+      "type": "text",
+      "label": "Enter the general record for March 15th.",
+      "page": 1,
+      "box": {
+        "left": 211.5,
+        "top": 428.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "apr15": {
+      "type": "text",
+      "label": "Enter the general record for April 15th.",
+      "page": 1,
+      "box": {
+        "left": 248.9,
+        "top": 428.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "may15": {
+      "type": "text",
+      "label": "Enter the general record for May 15th.",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 428.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jun15": {
+      "type": "text",
+      "label": "Enter the general record for June 15th.",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 428.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jul15": {
+      "type": "text",
+      "label": "Enter the general record for July 15th.",
+      "page": 1,
+      "box": {
+        "left": 362.0,
+        "top": 428.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "aug15": {
+      "type": "text",
+      "label": "Enter the general record for August 15th.",
+      "page": 1,
+      "box": {
+        "left": 400.2,
+        "top": 428.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "sep15": {
+      "type": "text",
+      "label": "Enter the general record for September 15th.",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 428.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "oct15": {
+      "type": "text",
+      "label": "Enter the general record for October 15th.",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 428.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "nov15": {
+      "type": "text",
+      "label": "Enter the general record for November 15th.",
+      "page": 1,
+      "box": {
+        "left": 512.5,
+        "top": 428.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "dec15": {
+      "type": "text",
+      "label": "Enter the general record for December 15th.",
+      "page": 1,
+      "box": {
+        "left": 550.0,
+        "top": 428.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jan16": {
+      "type": "text",
+      "label": "Enter the general record for January 16th.",
+      "page": 1,
+      "box": {
+        "left": 136.6,
+        "top": 413.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "feb16": {
+      "type": "text",
+      "label": "Enter the general record for February 16th.",
+      "page": 1,
+      "box": {
+        "left": 174.8,
+        "top": 413.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "mar16": {
+      "type": "text",
+      "label": "Enter the general record for March 16th.",
+      "page": 1,
+      "box": {
+        "left": 211.5,
+        "top": 413.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "apr16": {
+      "type": "text",
+      "label": "Enter the general record for April 16th.",
+      "page": 1,
+      "box": {
+        "left": 248.9,
+        "top": 413.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "may16": {
+      "type": "text",
+      "label": "Enter the general record for May 16th.",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 413.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jun16": {
+      "type": "text",
+      "label": "Enter the general record for June 16th.",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 413.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jul16": {
+      "type": "text",
+      "label": "Enter the general record for July 16th.",
+      "page": 1,
+      "box": {
+        "left": 362.0,
+        "top": 413.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "aug16": {
+      "type": "text",
+      "label": "Enter the general record for August 16th.",
+      "page": 1,
+      "box": {
+        "left": 400.2,
+        "top": 413.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "sep16": {
+      "type": "text",
+      "label": "Enter the general record for September 16th.",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 413.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "oct16": {
+      "type": "text",
+      "label": "Enter the general record for October 16th.",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 413.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "nov16": {
+      "type": "text",
+      "label": "Enter the general record for November 16th.",
+      "page": 1,
+      "box": {
+        "left": 512.5,
+        "top": 413.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "dec16": {
+      "type": "text",
+      "label": "Enter the general record for December 16th.",
+      "page": 1,
+      "box": {
+        "left": 550.0,
+        "top": 413.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jan17": {
+      "type": "text",
+      "label": "Enter the general record for January 17th.",
+      "page": 1,
+      "box": {
+        "left": 136.6,
+        "top": 398.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "feb17": {
+      "type": "text",
+      "label": "Enter the general record for February 17th.",
+      "page": 1,
+      "box": {
+        "left": 174.8,
+        "top": 398.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "mar17": {
+      "type": "text",
+      "label": "Enter the general record for March 17th.",
+      "page": 1,
+      "box": {
+        "left": 211.5,
+        "top": 398.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "apr17": {
+      "type": "text",
+      "label": "Enter the general record for April 17th.",
+      "page": 1,
+      "box": {
+        "left": 248.9,
+        "top": 398.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "may17": {
+      "type": "text",
+      "label": "Enter the general record for May 17th.",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 398.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jun17": {
+      "type": "text",
+      "label": "Enter the general record for June 17th.",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 398.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jul17": {
+      "type": "text",
+      "label": "Enter the general record for July 17th.",
+      "page": 1,
+      "box": {
+        "left": 362.0,
+        "top": 398.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "aug17": {
+      "type": "text",
+      "label": "Enter the general record for August 17th.",
+      "page": 1,
+      "box": {
+        "left": 400.2,
+        "top": 398.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "sep17": {
+      "type": "text",
+      "label": "Enter the general record for September 17th.",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 398.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "oct17": {
+      "type": "text",
+      "label": "Enter the general record for October 17th.",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 398.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "nov17": {
+      "type": "text",
+      "label": "Enter the general record for November 17th.",
+      "page": 1,
+      "box": {
+        "left": 512.5,
+        "top": 398.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "dec17": {
+      "type": "text",
+      "label": "Enter the general record for December 17th.",
+      "page": 1,
+      "box": {
+        "left": 550.0,
+        "top": 398.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jan18": {
+      "type": "text",
+      "label": "Enter the general record for January 18th.",
+      "page": 1,
+      "box": {
+        "left": 136.6,
+        "top": 382.8,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "feb18": {
+      "type": "text",
+      "label": "Enter the general record for February 18th.",
+      "page": 1,
+      "box": {
+        "left": 174.8,
+        "top": 382.8,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "mar18": {
+      "type": "text",
+      "label": "Enter the general record for March 18th.",
+      "page": 1,
+      "box": {
+        "left": 211.5,
+        "top": 382.8,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "apr18": {
+      "type": "text",
+      "label": "Enter the general record for April 18th.",
+      "page": 1,
+      "box": {
+        "left": 248.9,
+        "top": 382.8,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "may18": {
+      "type": "text",
+      "label": "Enter the general record for May 18th.",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 382.8,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jun18": {
+      "type": "text",
+      "label": "Enter the general record for June 18th.",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 382.8,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jul18": {
+      "type": "text",
+      "label": "Enter the general record for July 18th.",
+      "page": 1,
+      "box": {
+        "left": 362.0,
+        "top": 382.8,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "aug18": {
+      "type": "text",
+      "label": "Enter the general record for August 18th.",
+      "page": 1,
+      "box": {
+        "left": 400.2,
+        "top": 382.8,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "sep18": {
+      "type": "text",
+      "label": "Enter the general record for September 18th.",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 382.8,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "oct18": {
+      "type": "text",
+      "label": "Enter the general record for October 18th.",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 382.8,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "nov18": {
+      "type": "text",
+      "label": "Enter the general record for November 18th.",
+      "page": 1,
+      "box": {
+        "left": 512.5,
+        "top": 382.8,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "dec18": {
+      "type": "text",
+      "label": "Enter the general record for December 18th.",
+      "page": 1,
+      "box": {
+        "left": 550.0,
+        "top": 382.8,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jan19": {
+      "type": "text",
+      "label": "Enter the general record for January 19th.",
+      "page": 1,
+      "box": {
+        "left": 136.6,
+        "top": 367.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "feb19": {
+      "type": "text",
+      "label": "Enter the general record for February 19th.",
+      "page": 1,
+      "box": {
+        "left": 174.8,
+        "top": 367.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "mar19": {
+      "type": "text",
+      "label": "Enter the general record for March 19th.",
+      "page": 1,
+      "box": {
+        "left": 211.5,
+        "top": 367.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "apr19": {
+      "type": "text",
+      "label": "Enter the general record for April 19th.",
+      "page": 1,
+      "box": {
+        "left": 248.9,
+        "top": 367.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "may19": {
+      "type": "text",
+      "label": "Enter the general record for May 19th.",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 367.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jun19": {
+      "type": "text",
+      "label": "Enter the general record for June 19th.",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 367.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jul19": {
+      "type": "text",
+      "label": "Enter the general record for July 19th.",
+      "page": 1,
+      "box": {
+        "left": 362.0,
+        "top": 367.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "aug19": {
+      "type": "text",
+      "label": "Enter the general record for August 19th.",
+      "page": 1,
+      "box": {
+        "left": 400.2,
+        "top": 367.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "sep19": {
+      "type": "text",
+      "label": "Enter the general record for September 19th.",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 367.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "oct19": {
+      "type": "text",
+      "label": "Enter the general record for October 19th.",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 367.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "nov19": {
+      "type": "text",
+      "label": "Enter the general record for November 19th.",
+      "page": 1,
+      "box": {
+        "left": 512.5,
+        "top": 367.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "dec19": {
+      "type": "text",
+      "label": "Enter the general record for December 19th.",
+      "page": 1,
+      "box": {
+        "left": 550.0,
+        "top": 367.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jan20": {
+      "type": "text",
+      "label": "Enter the general record for January 20th.",
+      "page": 1,
+      "box": {
+        "left": 136.6,
+        "top": 352.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "feb20": {
+      "type": "text",
+      "label": "Enter the general record for February 20th.",
+      "page": 1,
+      "box": {
+        "left": 174.8,
+        "top": 352.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "mar20": {
+      "type": "text",
+      "label": "Enter the general record for March 20th.",
+      "page": 1,
+      "box": {
+        "left": 211.5,
+        "top": 352.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "apr20": {
+      "type": "text",
+      "label": "Enter the general record for April 20th.",
+      "page": 1,
+      "box": {
+        "left": 248.9,
+        "top": 352.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "may20": {
+      "type": "text",
+      "label": "Enter the general record for May 20th.",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 352.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jun20": {
+      "type": "text",
+      "label": "Enter the general record for June 20th.",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 352.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jul20": {
+      "type": "text",
+      "label": "Enter the general record for July 20th.",
+      "page": 1,
+      "box": {
+        "left": 362.0,
+        "top": 352.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "aug20": {
+      "type": "text",
+      "label": "Enter the general record for August 20th.",
+      "page": 1,
+      "box": {
+        "left": 400.2,
+        "top": 352.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "sep20": {
+      "type": "text",
+      "label": "Enter the general record for September 20th.",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 352.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "oct20": {
+      "type": "text",
+      "label": "Enter the general record for October 20th.",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 352.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "nov20": {
+      "type": "text",
+      "label": "Enter the general record for November 20th.",
+      "page": 1,
+      "box": {
+        "left": 512.5,
+        "top": 352.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "dec20": {
+      "type": "text",
+      "label": "Enter the general record for December 20th.",
+      "page": 1,
+      "box": {
+        "left": 550.0,
+        "top": 352.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jan21": {
+      "type": "text",
+      "label": "Enter the general record for January 21st.",
+      "page": 1,
+      "box": {
+        "left": 136.6,
+        "top": 337.6,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "feb21": {
+      "type": "text",
+      "label": "Enter the general record for February 21st.",
+      "page": 1,
+      "box": {
+        "left": 174.8,
+        "top": 337.6,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "mar21": {
+      "type": "text",
+      "label": "Enter the general record for March 21st.",
+      "page": 1,
+      "box": {
+        "left": 211.5,
+        "top": 337.6,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "apr21": {
+      "type": "text",
+      "label": "Enter the general record for April 21st.",
+      "page": 1,
+      "box": {
+        "left": 248.9,
+        "top": 337.6,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "may21": {
+      "type": "text",
+      "label": "Enter the general record for May 21st.",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 337.6,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jun21": {
+      "type": "text",
+      "label": "Enter the general record for June 21st.",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 337.6,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jul21": {
+      "type": "text",
+      "label": "Enter the general record for July 21st.",
+      "page": 1,
+      "box": {
+        "left": 362.0,
+        "top": 337.6,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "aug21": {
+      "type": "text",
+      "label": "Enter the general record for August 21st.",
+      "page": 1,
+      "box": {
+        "left": 400.2,
+        "top": 337.6,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "sep21": {
+      "type": "text",
+      "label": "Enter the general record for September 21st.",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 337.6,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "oct21": {
+      "type": "text",
+      "label": "Enter the general record for October 21st.",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 337.6,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "nov21": {
+      "type": "text",
+      "label": "Enter the general record for November 21st.",
+      "page": 1,
+      "box": {
+        "left": 512.5,
+        "top": 337.6,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "dec21": {
+      "type": "text",
+      "label": "Enter the general record for December 21st.",
+      "page": 1,
+      "box": {
+        "left": 550.0,
+        "top": 337.6,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jan22": {
+      "type": "text",
+      "label": "Enter the general record for January 22nd.",
+      "page": 1,
+      "box": {
+        "left": 136.6,
+        "top": 322.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "feb22": {
+      "type": "text",
+      "label": "Enter the general record for February 22nd.",
+      "page": 1,
+      "box": {
+        "left": 174.8,
+        "top": 322.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "mar22": {
+      "type": "text",
+      "label": "Enter the general record for March 22nd.",
+      "page": 1,
+      "box": {
+        "left": 211.5,
+        "top": 322.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "apr22": {
+      "type": "text",
+      "label": "Enter the general record for April 22nd.",
+      "page": 1,
+      "box": {
+        "left": 248.9,
+        "top": 322.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "may22": {
+      "type": "text",
+      "label": "Enter the general record for May 22nd.",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 322.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jun22": {
+      "type": "text",
+      "label": "Enter the general record for June 22nd.",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 322.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jul22": {
+      "type": "text",
+      "label": "Enter the general record for July 22nd.",
+      "page": 1,
+      "box": {
+        "left": 362.0,
+        "top": 322.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "aug22": {
+      "type": "text",
+      "label": "Enter the general record for August 22nd.",
+      "page": 1,
+      "box": {
+        "left": 400.2,
+        "top": 322.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "sep22": {
+      "type": "text",
+      "label": "Enter the general record for September 22nd.         ",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 322.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "oct22": {
+      "type": "text",
+      "label": "Enter the general record for October 22nd.",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 322.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "nov22": {
+      "type": "text",
+      "label": "Enter the general record for November 22nd.",
+      "page": 1,
+      "box": {
+        "left": 512.5,
+        "top": 322.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "dec22": {
+      "type": "text",
+      "label": "Enter the general record for December 22nd.",
+      "page": 1,
+      "box": {
+        "left": 550.0,
+        "top": 322.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jan23": {
+      "type": "text",
+      "label": "Enter the general record for January 23rd.",
+      "page": 1,
+      "box": {
+        "left": 136.6,
+        "top": 306.9,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "feb23": {
+      "type": "text",
+      "label": "Enter the general record for February 23rd.",
+      "page": 1,
+      "box": {
+        "left": 174.8,
+        "top": 306.9,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "mar23": {
+      "type": "text",
+      "label": "Enter the general record for March 23rd.",
+      "page": 1,
+      "box": {
+        "left": 211.5,
+        "top": 306.9,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "apr23": {
+      "type": "text",
+      "label": "Enter the general record for April 23rd.",
+      "page": 1,
+      "box": {
+        "left": 248.9,
+        "top": 306.9,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "may23": {
+      "type": "text",
+      "label": "Enter the general record for May 23rd.",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 306.9,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jun23": {
+      "type": "text",
+      "label": "Enter the general record for June 23rd.",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 306.9,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jul23": {
+      "type": "text",
+      "label": "Enter the general record for July 23rd.",
+      "page": 1,
+      "box": {
+        "left": 362.0,
+        "top": 306.9,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "aug23": {
+      "type": "text",
+      "label": "Enter the general record for August 23rd.",
+      "page": 1,
+      "box": {
+        "left": 400.2,
+        "top": 306.9,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "sep23": {
+      "type": "text",
+      "label": "Enter the general record for September 23rd.",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 306.9,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "oct23": {
+      "type": "text",
+      "label": "Enter the general record for October 23rd.",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 306.9,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "nov23": {
+      "type": "text",
+      "label": "Enter the general record for November 23rd.",
+      "page": 1,
+      "box": {
+        "left": 512.5,
+        "top": 306.9,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "dec23": {
+      "type": "text",
+      "label": "Enter the general record for December 23rd.",
+      "page": 1,
+      "box": {
+        "left": 550.0,
+        "top": 306.9,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jan24": {
+      "type": "text",
+      "label": "Enter the general record for January 24th.",
+      "page": 1,
+      "box": {
+        "left": 136.6,
+        "top": 291.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "feb24": {
+      "type": "text",
+      "label": "Enter the general record for February 24th.",
+      "page": 1,
+      "box": {
+        "left": 174.8,
+        "top": 291.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "mar24": {
+      "type": "text",
+      "label": "Enter the general record for March 24th.",
+      "page": 1,
+      "box": {
+        "left": 211.5,
+        "top": 291.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "apr24": {
+      "type": "text",
+      "label": "Enter the general record for April 24th.",
+      "page": 1,
+      "box": {
+        "left": 248.9,
+        "top": 291.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "may24": {
+      "type": "text",
+      "label": "Enter the general record for May 24th.",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 291.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jun24": {
+      "type": "text",
+      "label": "Enter the general record for June 24th.",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 291.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jul24": {
+      "type": "text",
+      "label": "Enter the general record for July 24th.",
+      "page": 1,
+      "box": {
+        "left": 362.0,
+        "top": 291.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "aug24": {
+      "type": "text",
+      "label": "Enter the general record for August 24th.",
+      "page": 1,
+      "box": {
+        "left": 400.2,
+        "top": 291.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "sep24": {
+      "type": "text",
+      "label": "Enter the general record for September 24th.",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 291.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "oct24": {
+      "type": "text",
+      "label": "Enter the general record for October 24th.",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 291.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "nov24": {
+      "type": "text",
+      "label": "Enter the general record for November 24th.",
+      "page": 1,
+      "box": {
+        "left": 512.5,
+        "top": 291.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "dec24": {
+      "type": "text",
+      "label": "Enter the general record for December 24th.",
+      "page": 1,
+      "box": {
+        "left": 550.0,
+        "top": 291.5,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jan25": {
+      "type": "text",
+      "label": "Enter the general record for January 25th.",
+      "page": 1,
+      "box": {
+        "left": 136.6,
+        "top": 276.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "feb25": {
+      "type": "text",
+      "label": "Enter the general record for February 25th.",
+      "page": 1,
+      "box": {
+        "left": 174.8,
+        "top": 276.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "mar25": {
+      "type": "text",
+      "label": "Enter the general record for March 25th.",
+      "page": 1,
+      "box": {
+        "left": 211.5,
+        "top": 276.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "apr25": {
+      "type": "text",
+      "label": "Enter the general record for April 25th.",
+      "page": 1,
+      "box": {
+        "left": 248.9,
+        "top": 276.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "may25": {
+      "type": "text",
+      "label": "Enter the general record for May 25th.",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 276.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jun25": {
+      "type": "text",
+      "label": "Enter the general record for June 25th.",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 276.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jul25": {
+      "type": "text",
+      "label": "Enter the general record for July 25th.",
+      "page": 1,
+      "box": {
+        "left": 362.0,
+        "top": 276.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "aug25": {
+      "type": "text",
+      "label": "Enter the general record for August 25th.",
+      "page": 1,
+      "box": {
+        "left": 400.2,
+        "top": 276.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "sep25": {
+      "type": "text",
+      "label": "Enter the general record for September 25th.",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 276.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "oct25": {
+      "type": "text",
+      "label": "Enter the general record for October 25th.",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 276.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "nov25": {
+      "type": "text",
+      "label": "Enter the general record for November 25th.",
+      "page": 1,
+      "box": {
+        "left": 512.5,
+        "top": 276.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "dec25": {
+      "type": "text",
+      "label": "Enter the general record for December 25th.",
+      "page": 1,
+      "box": {
+        "left": 550.0,
+        "top": 276.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jan26": {
+      "type": "text",
+      "label": "Enter the general record for January 26th.",
+      "page": 1,
+      "box": {
+        "left": 136.6,
+        "top": 261.6,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "feb26": {
+      "type": "text",
+      "label": "Enter the general record for February 26th.",
+      "page": 1,
+      "box": {
+        "left": 174.8,
+        "top": 261.6,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "mar26": {
+      "type": "text",
+      "label": "Enter the general record for March 26th.",
+      "page": 1,
+      "box": {
+        "left": 211.5,
+        "top": 261.6,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "apr26": {
+      "type": "text",
+      "label": "Enter the general record for April 26th.",
+      "page": 1,
+      "box": {
+        "left": 248.9,
+        "top": 261.6,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "may26": {
+      "type": "text",
+      "label": "Enter the general record for May 26th.",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 261.6,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jun26": {
+      "type": "text",
+      "label": "Enter the general record for June 26th.",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 261.6,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jul26": {
+      "type": "text",
+      "label": "Enter the general record for July 26th.",
+      "page": 1,
+      "box": {
+        "left": 362.0,
+        "top": 261.6,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "aug26": {
+      "type": "text",
+      "label": "Enter the general record for August 26th.",
+      "page": 1,
+      "box": {
+        "left": 400.2,
+        "top": 261.6,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "sep26": {
+      "type": "text",
+      "label": "Enter the general record for September 26th.",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 261.6,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "oct26": {
+      "type": "text",
+      "label": "Enter the general record for October 26th.",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 261.6,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "nov26": {
+      "type": "text",
+      "label": "Enter the general record for November 26th.",
+      "page": 1,
+      "box": {
+        "left": 512.5,
+        "top": 261.6,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "dec26": {
+      "type": "text",
+      "label": "Enter the general record for December 26th.",
+      "page": 1,
+      "box": {
+        "left": 550.0,
+        "top": 261.6,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jan27": {
+      "type": "text",
+      "label": "Enter the general record for January 27th.",
+      "page": 1,
+      "box": {
+        "left": 136.6,
+        "top": 246.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "feb27": {
+      "type": "text",
+      "label": "Enter the general record for February 27th.",
+      "page": 1,
+      "box": {
+        "left": 174.8,
+        "top": 246.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "mar27": {
+      "type": "text",
+      "label": "Enter the general record for March 27th.",
+      "page": 1,
+      "box": {
+        "left": 211.5,
+        "top": 246.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "apr27": {
+      "type": "text",
+      "label": "Enter the general record for April 27th.",
+      "page": 1,
+      "box": {
+        "left": 248.9,
+        "top": 246.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "may27": {
+      "type": "text",
+      "label": "Enter the general record for May 27th.",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 246.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jun27": {
+      "type": "text",
+      "label": "Enter the general record for June 27th.",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 246.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jul27": {
+      "type": "text",
+      "label": "Enter the general record for July 27th.",
+      "page": 1,
+      "box": {
+        "left": 362.0,
+        "top": 246.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "aug27": {
+      "type": "text",
+      "label": "Enter the general record for August 27th.",
+      "page": 1,
+      "box": {
+        "left": 400.2,
+        "top": 246.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "sep27": {
+      "type": "text",
+      "label": "Enter the general record for September 27th.",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 246.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "oct27": {
+      "type": "text",
+      "label": "Enter the general record for October 27th.",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 246.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "nov27": {
+      "type": "text",
+      "label": "Enter the general record for November 27th.",
+      "page": 1,
+      "box": {
+        "left": 512.5,
+        "top": 246.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "dec27": {
+      "type": "text",
+      "label": "Enter the general record for December 27th.",
+      "page": 1,
+      "box": {
+        "left": 550.0,
+        "top": 246.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jan28": {
+      "type": "text",
+      "label": "Enter the general record for January 28th.",
+      "page": 1,
+      "box": {
+        "left": 136.6,
+        "top": 230.9,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "feb28": {
+      "type": "text",
+      "label": "Enter the general record for February 28th.",
+      "page": 1,
+      "box": {
+        "left": 174.8,
+        "top": 230.9,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "mar28": {
+      "type": "text",
+      "label": "Enter the general record for March 28th.",
+      "page": 1,
+      "box": {
+        "left": 211.5,
+        "top": 230.9,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "apr28": {
+      "type": "text",
+      "label": "Enter the general record for April 28th.",
+      "page": 1,
+      "box": {
+        "left": 248.9,
+        "top": 230.9,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "may28": {
+      "type": "text",
+      "label": "Enter the general record for May 28th.",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 230.9,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jun28": {
+      "type": "text",
+      "label": "Enter the general record for June 28th.",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 230.9,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jul28": {
+      "type": "text",
+      "label": "Enter the general record for July 28th.",
+      "page": 1,
+      "box": {
+        "left": 362.0,
+        "top": 230.9,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "aug28": {
+      "type": "text",
+      "label": "Enter the general record for August 28th.",
+      "page": 1,
+      "box": {
+        "left": 400.2,
+        "top": 230.9,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "sep28": {
+      "type": "text",
+      "label": "Enter the general record for September 28th.",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 230.9,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "oct28": {
+      "type": "text",
+      "label": "Enter the general record for October 28th.",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 230.9,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "nov28": {
+      "type": "text",
+      "label": "Enter the general record for November 28th.",
+      "page": 1,
+      "box": {
+        "left": 512.5,
+        "top": 230.9,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "dec28": {
+      "type": "text",
+      "label": "Enter the general record for December 28th.",
+      "page": 1,
+      "box": {
+        "left": 550.0,
+        "top": 230.9,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jan29": {
+      "type": "text",
+      "label": "Enter the general record for January 29th.",
+      "page": 1,
+      "box": {
+        "left": 136.6,
+        "top": 216.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "feb29": {
+      "type": "text",
+      "label": "Enter the general record for February 29th.",
+      "page": 1,
+      "box": {
+        "left": 174.8,
+        "top": 216.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "mar29": {
+      "type": "text",
+      "label": "Enter the general record for March 29th.",
+      "page": 1,
+      "box": {
+        "left": 211.5,
+        "top": 216.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "apr29": {
+      "type": "text",
+      "label": "Enter the general record for April 29th.",
+      "page": 1,
+      "box": {
+        "left": 248.9,
+        "top": 216.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "may29": {
+      "type": "text",
+      "label": "Enter the general record for May 29th.",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 216.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jun29": {
+      "type": "text",
+      "label": "Enter the general record for June 29th.",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 216.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jul29": {
+      "type": "text",
+      "label": "Enter the general record for July 29th.",
+      "page": 1,
+      "box": {
+        "left": 362.0,
+        "top": 216.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "aug29": {
+      "type": "text",
+      "label": "Enter the general record for August 29th.",
+      "page": 1,
+      "box": {
+        "left": 400.2,
+        "top": 216.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "sep29": {
+      "type": "text",
+      "label": "Enter the general record for September 29th.",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 216.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "oct29": {
+      "type": "text",
+      "label": "Enter the general record for October 29th.",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 216.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "nov29": {
+      "type": "text",
+      "label": "Enter the general record for November 29th.",
+      "page": 1,
+      "box": {
+        "left": 512.5,
+        "top": 216.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "dec29": {
+      "type": "text",
+      "label": "Enter the general record for December 29th.",
+      "page": 1,
+      "box": {
+        "left": 550.0,
+        "top": 216.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jan30": {
+      "type": "text",
+      "label": "Enter the general record for January 30th.",
+      "page": 1,
+      "box": {
+        "left": 136.6,
+        "top": 200.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "feb30": {
+      "type": "text",
+      "label": "Enter the general record for February 30th.",
+      "page": 1,
+      "box": {
+        "left": 174.8,
+        "top": 200.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "mar30": {
+      "type": "text",
+      "label": "Enter the general record for March 30th.",
+      "page": 1,
+      "box": {
+        "left": 211.5,
+        "top": 200.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "apr30": {
+      "type": "text",
+      "label": "Enter the general record for April 30th.",
+      "page": 1,
+      "box": {
+        "left": 248.9,
+        "top": 200.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "may30": {
+      "type": "text",
+      "label": "Enter the general record for May 30th.",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 200.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jun30": {
+      "type": "text",
+      "label": "Enter the general record for June 30th.",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 200.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jul30": {
+      "type": "text",
+      "label": "Enter the general record for July 30th.",
+      "page": 1,
+      "box": {
+        "left": 362.0,
+        "top": 200.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "aug30": {
+      "type": "text",
+      "label": "Enter the general record for August 30th.",
+      "page": 1,
+      "box": {
+        "left": 400.2,
+        "top": 200.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "sep30": {
+      "type": "text",
+      "label": "Enter the general record for September 30th.",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 200.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "oct30": {
+      "type": "text",
+      "label": "Enter the general record for October 30th.",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 200.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "nov30": {
+      "type": "text",
+      "label": "Enter the general record for November 30th.",
+      "page": 1,
+      "box": {
+        "left": 512.5,
+        "top": 200.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "dec30": {
+      "type": "text",
+      "label": "Enter the general record for December 30th.",
+      "page": 1,
+      "box": {
+        "left": 550.0,
+        "top": 200.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jan31": {
+      "type": "text",
+      "label": "Enter the general record for January 31st.",
+      "page": 1,
+      "box": {
+        "left": 136.6,
+        "top": 185.7,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "feb31": {
+      "type": "text",
+      "label": "Enter the general record for February 31st.",
+      "page": 1,
+      "box": {
+        "left": 174.8,
+        "top": 185.7,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "mar31": {
+      "type": "text",
+      "label": "Enter the general record for March 31st.",
+      "page": 1,
+      "box": {
+        "left": 211.5,
+        "top": 185.7,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "apr31": {
+      "type": "text",
+      "label": "Enter the general record for April 31st.",
+      "page": 1,
+      "box": {
+        "left": 248.9,
+        "top": 185.7,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "may31": {
+      "type": "text",
+      "label": "Enter the general record for May 31st.",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 185.7,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jun31": {
+      "type": "text",
+      "label": "Enter the general record for June 31st.",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 185.7,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jul31": {
+      "type": "text",
+      "label": "Enter the general record for July 31st.",
+      "page": 1,
+      "box": {
+        "left": 362.0,
+        "top": 185.7,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "aug31": {
+      "type": "text",
+      "label": "Enter the general record for August 31st.",
+      "page": 1,
+      "box": {
+        "left": 400.2,
+        "top": 185.7,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "sep31": {
+      "type": "text",
+      "label": "Enter the general record for September 31st.",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 185.7,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "oct31": {
+      "type": "text",
+      "label": "Enter the general record for October 31st.",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 185.7,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "nov31": {
+      "type": "text",
+      "label": "Enter the general record for November 31st.",
+      "page": 1,
+      "box": {
+        "left": 512.5,
+        "top": 185.7,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "dec31": {
+      "type": "text",
+      "label": "Enter the general record for December 31st.",
+      "page": 1,
+      "box": {
+        "left": 550.0,
+        "top": 185.7,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jan1st": {
+      "type": "text",
+      "label": "Enter the general record for January.",
+      "page": 1,
+      "box": {
+        "left": 136.6,
+        "top": 170.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "feb1st": {
+      "type": "text",
+      "label": "Enter the general record for February.",
+      "page": 1,
+      "box": {
+        "left": 174.8,
+        "top": 170.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "mar1st": {
+      "type": "text",
+      "label": "Enter the general record for March.",
+      "page": 1,
+      "box": {
+        "left": 211.5,
+        "top": 170.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "apr1st": {
+      "type": "text",
+      "label": "Enter the general record for April.",
+      "page": 1,
+      "box": {
+        "left": 248.9,
+        "top": 170.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "may1st": {
+      "type": "text",
+      "label": "Enter the general record for May.",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 170.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jun1st": {
+      "type": "text",
+      "label": "Enter the general record for June.",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 170.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jul1st": {
+      "type": "text",
+      "label": "Enter the general record for July.",
+      "page": 1,
+      "box": {
+        "left": 362.0,
+        "top": 170.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "aug1st": {
+      "type": "text",
+      "label": "Enter the general record for August.",
+      "page": 1,
+      "box": {
+        "left": 400.2,
+        "top": 170.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "sep1st": {
+      "type": "text",
+      "label": "Enter the general record for September.",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 170.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "oct1st": {
+      "type": "text",
+      "label": "Enter the general record for October.",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 170.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "nov1st": {
+      "type": "text",
+      "label": "Enter the general record for November.",
+      "page": 1,
+      "box": {
+        "left": 512.5,
+        "top": 170.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "dec1st": {
+      "type": "text",
+      "label": "Enter the general record for December.",
+      "page": 1,
+      "box": {
+        "left": 550.0,
+        "top": 170.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jan2nd": {
+      "type": "text",
+      "label": "Enter the general record for January.",
+      "page": 1,
+      "box": {
+        "left": 136.6,
+        "top": 155.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "feb2nd": {
+      "type": "text",
+      "label": "Enter the general record for February.",
+      "page": 1,
+      "box": {
+        "left": 174.8,
+        "top": 155.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "mar2nd": {
+      "type": "text",
+      "label": "Enter the general record for March.",
+      "page": 1,
+      "box": {
+        "left": 211.5,
+        "top": 155.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "apr2nd": {
+      "type": "text",
+      "label": "Enter the general record for April.",
+      "page": 1,
+      "box": {
+        "left": 248.9,
+        "top": 155.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "may2nd": {
+      "type": "text",
+      "label": "Enter the general record for May.",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 155.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jun2nd": {
+      "type": "text",
+      "label": "Enter the general record for June.",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 155.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jul2nd": {
+      "type": "text",
+      "label": "Enter the general record for July.",
+      "page": 1,
+      "box": {
+        "left": 362.0,
+        "top": 155.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "aug2nd": {
+      "type": "text",
+      "label": "Enter the general record for August.",
+      "page": 1,
+      "box": {
+        "left": 400.2,
+        "top": 155.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "sep2nd": {
+      "type": "text",
+      "label": "Enter the general record for September.",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 155.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "oct2nd": {
+      "type": "text",
+      "label": "Enter the general record for October.",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 155.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "nov2nd": {
+      "type": "text",
+      "label": "Enter the general record for November.",
+      "page": 1,
+      "box": {
+        "left": 512.5,
+        "top": 155.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "dec2nd": {
+      "type": "text",
+      "label": "Enter the general record for December.",
+      "page": 1,
+      "box": {
+        "left": 550.0,
+        "top": 155.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jan3rd": {
+      "type": "text",
+      "label": "Enter the general record for January.",
+      "page": 1,
+      "box": {
+        "left": 136.6,
+        "top": 139.7,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "feb3rd": {
+      "type": "text",
+      "label": "Enter the general record for February.",
+      "page": 1,
+      "box": {
+        "left": 174.8,
+        "top": 139.7,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "mar3rd": {
+      "type": "text",
+      "label": "Enter the general record for March.",
+      "page": 1,
+      "box": {
+        "left": 211.5,
+        "top": 139.7,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "apr3rd": {
+      "type": "text",
+      "label": "Enter the general record for April.",
+      "page": 1,
+      "box": {
+        "left": 248.9,
+        "top": 139.7,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "may3rd": {
+      "type": "text",
+      "label": "Enter the general record for May.",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 139.7,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jun3rd": {
+      "type": "text",
+      "label": "Enter the general record for June.",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 139.7,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jul3rd": {
+      "type": "text",
+      "label": "Enter the general record for July.",
+      "page": 1,
+      "box": {
+        "left": 362.0,
+        "top": 139.7,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "aug3rd": {
+      "type": "text",
+      "label": "Enter the general record for August.",
+      "page": 1,
+      "box": {
+        "left": 400.2,
+        "top": 139.7,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "sep3rd": {
+      "type": "text",
+      "label": "Enter the general record for September.",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 139.7,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "oct3rd": {
+      "type": "text",
+      "label": "Enter the general record for October.",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 139.7,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "nov3rd": {
+      "type": "text",
+      "label": "Enter the general record for November.",
+      "page": 1,
+      "box": {
+        "left": 512.5,
+        "top": 139.7,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "dec3rd": {
+      "type": "text",
+      "label": "Enter the general record for December.",
+      "page": 1,
+      "box": {
+        "left": 550.0,
+        "top": 139.7,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jan4th": {
+      "type": "text",
+      "label": "Enter the general record for January.",
+      "page": 1,
+      "box": {
+        "left": 136.6,
+        "top": 124.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "feb4th": {
+      "type": "text",
+      "label": "Enter the general record for February.",
+      "page": 1,
+      "box": {
+        "left": 174.8,
+        "top": 124.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "mar4th": {
+      "type": "text",
+      "label": "Enter the general record for March.",
+      "page": 1,
+      "box": {
+        "left": 211.5,
+        "top": 124.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "apr4th": {
+      "type": "text",
+      "label": "Enter the general record for April.",
+      "page": 1,
+      "box": {
+        "left": 248.9,
+        "top": 124.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "may4th": {
+      "type": "text",
+      "label": "Enter the general record for May.",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 124.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jun4th": {
+      "type": "text",
+      "label": "Enter the general record for June.",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 124.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jul4th": {
+      "type": "text",
+      "label": "Enter the general record for July.",
+      "page": 1,
+      "box": {
+        "left": 362.0,
+        "top": 124.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "aug4th": {
+      "type": "text",
+      "label": "Enter the general record for August.",
+      "page": 1,
+      "box": {
+        "left": 400.2,
+        "top": 124.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "sep4th": {
+      "type": "text",
+      "label": "Enter the general record for September.",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 124.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "oct4th": {
+      "type": "text",
+      "label": "Enter the general record for October.",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 124.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "nov4th": {
+      "type": "text",
+      "label": "Enter the general record for November.",
+      "page": 1,
+      "box": {
+        "left": 512.5,
+        "top": 124.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "dec4th": {
+      "type": "text",
+      "label": "Enter the general record for December.",
+      "page": 1,
+      "box": {
+        "left": 550.0,
+        "top": 124.3,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jan5th": {
+      "type": "text",
+      "label": "Enter the general record for January.",
+      "page": 1,
+      "box": {
+        "left": 136.6,
+        "top": 109.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "feb5th": {
+      "type": "text",
+      "label": "Enter the general record for February.",
+      "page": 1,
+      "box": {
+        "left": 174.8,
+        "top": 109.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "mar5th": {
+      "type": "text",
+      "label": "Enter the general record for March.",
+      "page": 1,
+      "box": {
+        "left": 211.5,
+        "top": 109.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "apr5th": {
+      "type": "text",
+      "label": "Enter the general record for April.",
+      "page": 1,
+      "box": {
+        "left": 248.9,
+        "top": 109.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "may5th": {
+      "type": "text",
+      "label": "Enter the general record for May.",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 109.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jun5th": {
+      "type": "text",
+      "label": "Enter the general record for June.",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 109.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "jul5th": {
+      "type": "text",
+      "label": "Enter the general record for July.",
+      "page": 1,
+      "box": {
+        "left": 362.0,
+        "top": 109.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "aug5th": {
+      "type": "text",
+      "label": "Enter the general record for August.",
+      "page": 1,
+      "box": {
+        "left": 400.2,
+        "top": 109.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "sep5th": {
+      "type": "text",
+      "label": "Enter the general record for September.",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 109.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "oct5th": {
+      "type": "text",
+      "label": "Enter the general record for October.",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 109.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "nov5th": {
+      "type": "text",
+      "label": "Enter the general record for November.",
+      "page": 1,
+      "box": {
+        "left": 512.5,
+        "top": 109.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "dec5th": {
+      "type": "text",
+      "label": "Enter the general record for December.",
+      "page": 1,
+      "box": {
+        "left": 550.0,
+        "top": 109.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "janMon": {
+      "type": "text",
+      "label": "Enter the monthly general record for January. ",
+      "page": 1,
+      "box": {
+        "left": 136.6,
+        "top": 94.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "febMon": {
+      "type": "text",
+      "label": "Enter the monthly general record for February.",
+      "page": 1,
+      "box": {
+        "left": 174.8,
+        "top": 94.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "marMon": {
+      "type": "text",
+      "label": "Enter the monthly general record for  March.",
+      "page": 1,
+      "box": {
+        "left": 211.5,
+        "top": 94.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "aprMon": {
+      "type": "text",
+      "label": "Enter the monthly general record for April. ",
+      "page": 1,
+      "box": {
+        "left": 248.9,
+        "top": 94.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "mayMon": {
+      "type": "text",
+      "label": "Enter the monthly general record for May.",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 94.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "junMon": {
+      "type": "text",
+      "label": "Enter the monthly general record for  June. ",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 94.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "julMon": {
+      "type": "text",
+      "label": "Enter the monthly general record for July.",
+      "page": 1,
+      "box": {
+        "left": 362.0,
+        "top": 94.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "augMon": {
+      "type": "text",
+      "label": "Enter the monthly general record for  August.",
+      "page": 1,
+      "box": {
+        "left": 400.2,
+        "top": 94.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "sepMon": {
+      "type": "text",
+      "label": "Enter the monthly general record for September.",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 94.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "octMon": {
+      "type": "text",
+      "label": "Enter the monthly general record for October.",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 94.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "novMon": {
+      "type": "text",
+      "label": "Enter the monthly general record for November.",
+      "page": 1,
+      "box": {
+        "left": 512.5,
+        "top": 94.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "decMon": {
+      "type": "text",
+      "label": "Enter the monthly general record for December.",
+      "page": 1,
+      "box": {
+        "left": 550.0,
+        "top": 94.4,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "janQua": {
+      "type": "text",
+      "label": "Enter the quarterly general record for January.",
+      "page": 1,
+      "box": {
+        "left": 136.6,
+        "top": 79.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "febQua": {
+      "type": "text",
+      "label": "Enter the quarterly general record for February.",
+      "page": 1,
+      "box": {
+        "left": 174.8,
+        "top": 79.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "marQua": {
+      "type": "text",
+      "label": "Enter the quarterly general record for  March.",
+      "page": 1,
+      "box": {
+        "left": 211.5,
+        "top": 79.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "aprQua": {
+      "type": "text",
+      "label": "Enter the quarterly general record for April.",
+      "page": 1,
+      "box": {
+        "left": 248.9,
+        "top": 79.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "mayQua": {
+      "type": "text",
+      "label": "Enter the quarterly general record for May.",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 79.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "junQua": {
+      "type": "text",
+      "label": "Enter the quarterly general record for  June.",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 79.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "julQua": {
+      "type": "text",
+      "label": "Enter the quarterly general record for July.",
+      "page": 1,
+      "box": {
+        "left": 362.0,
+        "top": 79.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "augQua": {
+      "type": "text",
+      "label": "Enter the quarterly general record for  August.",
+      "page": 1,
+      "box": {
+        "left": 400.2,
+        "top": 79.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "sepQua": {
+      "type": "text",
+      "label": "Enter the quarterly general record for September.",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 79.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "octQua": {
+      "type": "text",
+      "label": "Enter the quarterly general record for October.",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 79.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "novQua": {
+      "type": "text",
+      "label": "Enter the quarterly general record for November.",
+      "page": 1,
+      "box": {
+        "left": 512.5,
+        "top": 79.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "decQua": {
+      "type": "text",
+      "label": "Enter the quarterly general record for December.",
+      "page": 1,
+      "box": {
+        "left": 550.0,
+        "top": 79.0,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "janSemi": {
+      "type": "text",
+      "label": "Enter the semi-annual general record for January.",
+      "page": 1,
+      "box": {
+        "left": 136.6,
+        "top": 65.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "febSemi": {
+      "type": "text",
+      "label": "Enter the semi-annual general record for February.",
+      "page": 1,
+      "box": {
+        "left": 174.8,
+        "top": 65.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "marSemi": {
+      "type": "text",
+      "label": "Enter the semi-annual general record for  March.",
+      "page": 1,
+      "box": {
+        "left": 211.5,
+        "top": 65.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "aprSemi": {
+      "type": "text",
+      "label": "Enter the semi-annual general record for April.",
+      "page": 1,
+      "box": {
+        "left": 248.9,
+        "top": 65.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "maySemi": {
+      "type": "text",
+      "label": "Enter the semi-annual general record for May.",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 65.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "junSemi": {
+      "type": "text",
+      "label": "Enter the semi-annual general record for  June.",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 65.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "julSemi": {
+      "type": "text",
+      "label": "Enter the semi-annual general record for July.",
+      "page": 1,
+      "box": {
+        "left": 362.0,
+        "top": 65.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "augSemi": {
+      "type": "text",
+      "label": "Enter the semi-annual general record for  August.",
+      "page": 1,
+      "box": {
+        "left": 400.2,
+        "top": 65.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "sepSemi": {
+      "type": "text",
+      "label": "Enter the semi-annual general record for September.",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 65.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "octSemi": {
+      "type": "text",
+      "label": "Enter the semi-annual general record for October.",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 65.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "novSemi": {
+      "type": "text",
+      "label": "Enter the semi-annual general record for November.",
+      "page": 1,
+      "box": {
+        "left": 512.5,
+        "top": 65.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "decSemi": {
+      "type": "text",
+      "label": "Enter the semi-annual general record for December.",
+      "page": 1,
+      "box": {
+        "left": 550.0,
+        "top": 65.2,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "janAnn": {
+      "type": "text",
+      "label": "Enter the annual general record for January.",
+      "page": 1,
+      "box": {
+        "left": 136.6,
+        "top": 49.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "febAnn": {
+      "type": "text",
+      "label": "Enter the annual general record for February.",
+      "page": 1,
+      "box": {
+        "left": 174.8,
+        "top": 49.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "marAnn": {
+      "type": "text",
+      "label": "Enter the annual general record for  March.",
+      "page": 1,
+      "box": {
+        "left": 211.5,
+        "top": 49.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "aprAnn": {
+      "type": "text",
+      "label": "Enter the annual general record for April.",
+      "page": 1,
+      "box": {
+        "left": 248.9,
+        "top": 49.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "mayAnn": {
+      "type": "text",
+      "label": "Enter the annual general record for May.",
+      "page": 1,
+      "box": {
+        "left": 287.1,
+        "top": 49.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "junAnn": {
+      "type": "text",
+      "label": "Enter the annual general record for  June.",
+      "page": 1,
+      "box": {
+        "left": 324.6,
+        "top": 49.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "julAnn": {
+      "type": "text",
+      "label": "Enter the annual general record for July.",
+      "page": 1,
+      "box": {
+        "left": 362.0,
+        "top": 49.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "augAnn": {
+      "type": "text",
+      "label": "Enter the annual general record for  August.",
+      "page": 1,
+      "box": {
+        "left": 400.2,
+        "top": 49.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "sepAnn": {
+      "type": "text",
+      "label": "Enter the annual general record for September.",
+      "page": 1,
+      "box": {
+        "left": 437.6,
+        "top": 49.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "octAnn": {
+      "type": "text",
+      "label": "Enter the annual general record for October.",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 49.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "novAnn": {
+      "type": "text",
+      "label": "Enter the annual general record for November.",
+      "page": 1,
+      "box": {
+        "left": 512.5,
+        "top": 49.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    },
+    "decAnn": {
+      "type": "text",
+      "label": "Enter the annual general record for December.",
+      "page": 1,
+      "box": {
+        "left": 550.0,
+        "top": 49.1,
+        "width": 32.3,
+        "height": 9.8
+      }
+    }
+  }
+}

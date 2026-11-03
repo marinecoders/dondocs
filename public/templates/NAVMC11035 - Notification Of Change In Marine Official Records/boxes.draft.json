@@ -1,0 +1,263 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "date": {
+        "left": 524.9,
+        "top": 734.3,
+        "width": 66.3,
+        "height": 11.4,
+        "type": "text",
+        "description": "NOTIFICATION OF CHANGE IN MARINE&apos;S OFFICIAL RECORDS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "to": {
+        "left": 21.6,
+        "top": 707.4,
+        "width": 280.8,
+        "height": 68.1,
+        "type": "text",
+        "description": "TO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "from": {
+        "left": 309.6,
+        "top": 707.4,
+        "width": 280.8,
+        "height": 68.1,
+        "type": "text",
+        "description": "FROM",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "component": {
+        "left": 453.7,
+        "top": 626.7,
+        "width": 136.8,
+        "height": 11.1,
+        "type": "text",
+        "description": "XXX-XX-",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name": {
+        "left": 21.6,
+        "top": 626.4,
+        "width": 253.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "NAME (Last, First, Middle)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ssn4": {
+        "left": 336.6,
+        "top": 626.4,
+        "width": 19.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "XXX-XX-",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rank": {
+        "left": 382.4,
+        "top": 625.3,
+        "width": 63.3,
+        "height": 9.0,
+        "type": "choice",
+        "description": "XXX-XX-",
+        "options": [
+          "E-1",
+          "E-2",
+          "E-3",
+          "E-4",
+          "E-5",
+          "E-6",
+          "E-7",
+          "E-8",
+          "E-9",
+          "W-1",
+          "W-2",
+          "W-3",
+          "W-4",
+          "W-5",
+          "O-1",
+          "O-2",
+          "O-3",
+          "O-4",
+          "O-5",
+          "O-6",
+          "O-7",
+          "O-8",
+          "O-9",
+          "O-10"
+        ],
+        "group": null,
+        "required": false
+      },
+      "ref": {
+        "left": 21.6,
+        "top": 599.4,
+        "width": 568.9,
+        "height": 23.1,
+        "type": "text",
+        "description": "REF",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "encl": {
+        "left": 21.6,
+        "top": 563.4,
+        "width": 568.9,
+        "height": 23.1,
+        "type": "text",
+        "description": "ENCL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dDform4": {
+        "left": 324.6,
+        "top": 527.4,
+        "width": 256.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "DD FORM 4 OR 4C - ENLISTMENT OR REENLISTMENT AGREEMENT OF",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dDform4chk": {
+        "left": 32.2,
+        "top": 527.0,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "ENCL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dDform1966": {
+        "left": 324.3,
+        "top": 509.4,
+        "width": 257.2,
+        "height": 10.8,
+        "type": "text",
+        "description": "DD FORM 1966 - APPLICATION FOR ENLISTMENT OF",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dDform1966chk": {
+        "left": 32.2,
+        "top": 509.0,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "ENCL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "navmc321a": {
+        "left": 324.6,
+        "top": 491.4,
+        "width": 256.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "NAVMC 321A - AGREEMENT TO EXTEND ENLISTMENT OF",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nAVMC321Achk": {
+        "left": 32.2,
+        "top": 491.0,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "ENCL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "navmc763": {
+        "left": 324.3,
+        "top": 473.4,
+        "width": 257.2,
+        "height": 10.8,
+        "type": "text",
+        "description": "NAVMC 763 - APPOINTMENT ACCEPTANCE RECORD OF",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nAVMC763chk": {
+        "left": 32.2,
+        "top": 473.0,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "ENCL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "other": {
+        "left": 80.4,
+        "top": 455.4,
+        "width": 501.1,
+        "height": 10.8,
+        "type": "text",
+        "description": "OTHER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nAVMC763chk2": {
+        "left": 32.2,
+        "top": 455.0,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "ENCL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comments": {
+        "left": 21.6,
+        "top": 419.4,
+        "width": 568.9,
+        "height": 365.1,
+        "type": "text",
+        "description": "COMMENTS",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

@@ -1,0 +1,329 @@
+{
+  "id": "navpers12001",
+  "label": "NAVPERS1200-1 - Ready Reserve Transfer Request Service Agreement",
+  "directory": "NAVPERS1200-1 - Ready Reserve Transfer Request Service Agreement",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "textField1",
+        "textField12",
+        "dateField1",
+        "textField13",
+        "textField14",
+        "dateField12",
+        "dateField13",
+        "dateField14",
+        "textField15",
+        "textField16",
+        "textField17",
+        "dateField15",
+        "textField18",
+        "textField19",
+        "textField110",
+        "checkBox1",
+        "checkBox12",
+        "signatureField1",
+        "dateField16",
+        "signatureField12",
+        "dateField17",
+        "checkBox2",
+        "checkBox22",
+        "dateField18",
+        "dateField19",
+        "signatureField13"
+      ]
+    }
+  ],
+  "fields": {
+    "textField1": {
+      "type": "text",
+      "label": "1. Name: (Last, First MI)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 564.6,
+        "width": 336.4,
+        "height": 19.6
+      }
+    },
+    "textField12": {
+      "type": "text",
+      "label": "2. SSN",
+      "page": 1,
+      "box": {
+        "left": 380.9,
+        "top": 564.6,
+        "width": 93.3,
+        "height": 19.6
+      }
+    },
+    "dateField1": {
+      "type": "text",
+      "label": "3. Date of Birth",
+      "page": 1,
+      "box": {
+        "left": 479.9,
+        "top": 564.5,
+        "width": 93.3,
+        "height": 19.6
+      }
+    },
+    "textField13": {
+      "type": "text",
+      "label": "4. Pay Grade",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 530.8,
+        "width": 75.3,
+        "height": 19.6
+      }
+    },
+    "textField14": {
+      "type": "text",
+      "label": "5. Designator/Rating",
+      "page": 1,
+      "box": {
+        "left": 119.8,
+        "top": 530.8,
+        "width": 102.3,
+        "height": 19.6
+      }
+    },
+    "dateField12": {
+      "type": "text",
+      "label": "6. Date of Physical Exam",
+      "page": 1,
+      "box": {
+        "left": 227.9,
+        "top": 530.8,
+        "width": 120.3,
+        "height": 19.6
+      }
+    },
+    "dateField13": {
+      "type": "text",
+      "label": "7. Date of Request",
+      "page": 1,
+      "box": {
+        "left": 353.9,
+        "top": 530.8,
+        "width": 111.3,
+        "height": 19.6
+      }
+    },
+    "dateField14": {
+      "type": "text",
+      "label": "8. Mailing address",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 497.0,
+        "width": 255.4,
+        "height": 19.6
+      }
+    },
+    "textField15": {
+      "type": "text",
+      "label": "City",
+      "page": 1,
+      "box": {
+        "left": 299.9,
+        "top": 497.0,
+        "width": 120.3,
+        "height": 19.6
+      }
+    },
+    "textField16": {
+      "type": "text",
+      "label": "State",
+      "page": 1,
+      "box": {
+        "left": 425.9,
+        "top": 497.0,
+        "width": 39.3,
+        "height": 19.6
+      }
+    },
+    "textField17": {
+      "type": "text",
+      "label": "Zip Code",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 497.0,
+        "width": 102.3,
+        "height": 19.6
+      }
+    },
+    "dateField15": {
+      "type": "text",
+      "label": "Date Field 15",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 463.3,
+        "width": 534.4,
+        "height": 19.6
+      }
+    },
+    "textField18": {
+      "type": "text",
+      "label": "Assignment",
+      "page": 1,
+      "box": {
+        "left": 309.8,
+        "top": 433.8,
+        "width": 93.8,
+        "height": 15.1
+      }
+    },
+    "textField19": {
+      "type": "text",
+      "label": "RBSC",
+      "page": 1,
+      "box": {
+        "left": 472.8,
+        "top": 433.8,
+        "width": 98.2,
+        "height": 15.1
+      }
+    },
+    "textField110": {
+      "type": "text",
+      "label": "1) NAME OF UNIT",
+      "page": 1,
+      "box": {
+        "left": 129.1,
+        "top": 403.5,
+        "width": 200.7,
+        "height": 15.1
+      }
+    },
+    "checkBox1": {
+      "type": "checkbox",
+      "label": "1) NAME OF UNIT",
+      "page": 1,
+      "box": {
+        "left": 363.9,
+        "top": 403.0,
+        "width": 14.0,
+        "height": 14.0
+      }
+    },
+    "checkBox12": {
+      "type": "checkbox",
+      "label": "DP",
+      "page": 1,
+      "box": {
+        "left": 407.1,
+        "top": 403.0,
+        "width": 14.0,
+        "height": 14.0
+      }
+    },
+    "signatureField1": {
+      "type": "text",
+      "label": "11. Applicant\u2019s Signature",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 222.6,
+        "width": 435.4,
+        "height": 21.8
+      }
+    },
+    "dateField16": {
+      "type": "text",
+      "label": "12. Date",
+      "page": 1,
+      "box": {
+        "left": 479.9,
+        "top": 222.6,
+        "width": 93.3,
+        "height": 21.8
+      }
+    },
+    "signatureField12": {
+      "type": "text",
+      "label": "Signature Field 12",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 186.6,
+        "width": 435.4,
+        "height": 21.8
+      }
+    },
+    "dateField17": {
+      "type": "text",
+      "label": "14. Date",
+      "page": 1,
+      "box": {
+        "left": 479.9,
+        "top": 186.6,
+        "width": 93.3,
+        "height": 21.8
+      }
+    },
+    "checkBox2": {
+      "type": "checkbox",
+      "label": "15. Approval Determination",
+      "page": 1,
+      "box": {
+        "left": 165.9,
+        "top": 134.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox22": {
+      "type": "checkbox",
+      "label": "Approved",
+      "page": 1,
+      "box": {
+        "left": 228.9,
+        "top": 134.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "dateField18": {
+      "type": "text",
+      "label": "Disapproved",
+      "page": 1,
+      "box": {
+        "left": 479.9,
+        "top": 132.6,
+        "width": 93.3,
+        "height": 12.8
+      }
+    },
+    "dateField19": {
+      "type": "text",
+      "label": "18. Date",
+      "page": 1,
+      "box": {
+        "left": 479.9,
+        "top": 105.6,
+        "width": 93.3,
+        "height": 21.8
+      }
+    },
+    "signatureField13": {
+      "type": "text",
+      "label": "17. Signature",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 105.5,
+        "width": 435.4,
+        "height": 21.8
+      }
+    }
+  }
+}

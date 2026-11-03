@@ -1,0 +1,2180 @@
+{
+  "id": "opnav51196",
+  "label": "OPNAV5119-6 - Ashore Conus Monthly Postal Facility Inspection Checklist",
+  "directory": "OPNAV5119-6 - Ashore Conus Monthly Postal Facility Inspection Checklist",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "siteInspec",
+        "inspecDate",
+        "headerRow1",
+        "headerRow11",
+        "headerRow12",
+        "headerRow13",
+        "cell7",
+        "textField4",
+        "textField5",
+        "textField6",
+        "cell72",
+        "textField7",
+        "textField8",
+        "textField9",
+        "cell73",
+        "textField10",
+        "textField11",
+        "textField12",
+        "cell74",
+        "textField13",
+        "textField14",
+        "textField15",
+        "cell75",
+        "textField16",
+        "textField17",
+        "textField18",
+        "cell76",
+        "textField24",
+        "textField23",
+        "textField22",
+        "cell77",
+        "textField242",
+        "textField232",
+        "textField222",
+        "cell78",
+        "textField27",
+        "textField26",
+        "textField25",
+        "cell79",
+        "textField30",
+        "textField29",
+        "textField28",
+        "textField362",
+        "textField363",
+        "textField365",
+        "textField366",
+        "textField35",
+        "textField34",
+        "cell713",
+        "textField39",
+        "textField38",
+        "textField37",
+        "row11",
+        "row111",
+        "row112",
+        "row113",
+        "row114",
+        "row1112",
+        "row1122",
+        "row1132",
+        "cell714",
+        "textField42",
+        "textField43",
+        "textField44",
+        "cell715",
+        "textField45",
+        "textField46",
+        "textField47",
+        "cell716",
+        "textField48",
+        "textField49",
+        "textField410",
+        "cell717",
+        "textField411",
+        "textField412",
+        "textField413",
+        "cell718",
+        "textField414",
+        "textField415",
+        "textField416",
+        "cell719",
+        "textField417",
+        "textField418",
+        "textField419",
+        "row115",
+        "cell720",
+        "textField420",
+        "textField421",
+        "textField422"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "cell721",
+        "textField423",
+        "textField424",
+        "textField425",
+        "cell722",
+        "textField426",
+        "textField427",
+        "textField428",
+        "textField64",
+        "textField65",
+        "textField66",
+        "textField73",
+        "textField67",
+        "textField68",
+        "textField69",
+        "textField74",
+        "textField70",
+        "textField71",
+        "textField72",
+        "textField75",
+        "textField702",
+        "textField703",
+        "textField704",
+        "textField752",
+        "textField705",
+        "textField706",
+        "textField707",
+        "textField753",
+        "textField708",
+        "textField709",
+        "textField7010",
+        "textField754",
+        "textField7011",
+        "textField7012",
+        "textField7013",
+        "textField755",
+        "textField7014",
+        "textField7015",
+        "textField7016",
+        "textField756",
+        "row4",
+        "textField7017",
+        "textField7018",
+        "textField7019",
+        "textField757",
+        "textField7020",
+        "textField7021",
+        "textField7022",
+        "textField758",
+        "textField7023",
+        "textField7024",
+        "textField7025",
+        "textField759",
+        "textField7026",
+        "textField7027",
+        "textField7028",
+        "textField7510",
+        "textField7029",
+        "textField7030",
+        "textField7031",
+        "textField7511",
+        "textField7032",
+        "textField7033",
+        "textField7034",
+        "textField7512",
+        "textField7035",
+        "textField7036",
+        "textField7037",
+        "textField7513",
+        "textField7038",
+        "textField7039",
+        "textField7040",
+        "textField7514",
+        "textField7041",
+        "textField7042",
+        "textField7043",
+        "textField7515"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "textField78",
+        "inpecComByName",
+        "inspecComDate",
+        "inspecComSig",
+        "revByName",
+        "revByDate",
+        "revBySig",
+        "orgUnitRevName",
+        "orgUnitRevDate",
+        "orgUnitRevSig"
+      ]
+    }
+  ],
+  "fields": {
+    "siteInspec": {
+      "type": "text",
+      "label": "1. SITE INSPECTED",
+      "page": 1,
+      "box": {
+        "left": 117.4,
+        "top": 737.6,
+        "width": 241.8,
+        "height": 18.9
+      }
+    },
+    "inspecDate": {
+      "type": "text",
+      "label": "2. INSPECTION: DATE OF LAST ANNUAL",
+      "page": 1,
+      "box": {
+        "left": 469.4,
+        "top": 737.6,
+        "width": 102.0,
+        "height": 18.9
+      }
+    },
+    "headerRow1": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 363.8,
+        "top": 698.8,
+        "width": 17.0,
+        "height": 16.0
+      }
+    },
+    "headerRow11": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 383.7,
+        "top": 698.8,
+        "width": 17.0,
+        "height": 16.0
+      }
+    },
+    "headerRow12": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 403.6,
+        "top": 698.8,
+        "width": 17.0,
+        "height": 16.0
+      }
+    },
+    "headerRow13": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 1,
+      "box": {
+        "left": 423.4,
+        "top": 698.8,
+        "width": 149.7,
+        "height": 16.0
+      }
+    },
+    "cell7": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 1,
+      "box": {
+        "left": 423.4,
+        "top": 645.5,
+        "width": 149.7,
+        "height": 28.0
+      }
+    },
+    "textField4": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 365.3,
+        "top": 644.1,
+        "width": 14.2,
+        "height": 25.2
+      }
+    },
+    "textField5": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 385.1,
+        "top": 644.1,
+        "width": 14.2,
+        "height": 25.2
+      }
+    },
+    "textField6": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 405.0,
+        "top": 644.1,
+        "width": 14.2,
+        "height": 25.2
+      }
+    },
+    "cell72": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 1,
+      "box": {
+        "left": 423.4,
+        "top": 614.7,
+        "width": 149.7,
+        "height": 18.9
+      }
+    },
+    "textField7": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 365.3,
+        "top": 613.2,
+        "width": 14.2,
+        "height": 16.1
+      }
+    },
+    "textField8": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 385.1,
+        "top": 613.2,
+        "width": 14.2,
+        "height": 16.1
+      }
+    },
+    "textField9": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 405.0,
+        "top": 613.2,
+        "width": 14.2,
+        "height": 16.1
+      }
+    },
+    "cell73": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 1,
+      "box": {
+        "left": 423.4,
+        "top": 592.9,
+        "width": 149.7,
+        "height": 18.9
+      }
+    },
+    "textField10": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 365.3,
+        "top": 591.5,
+        "width": 14.2,
+        "height": 16.1
+      }
+    },
+    "textField11": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 385.1,
+        "top": 591.5,
+        "width": 14.2,
+        "height": 16.1
+      }
+    },
+    "textField12": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 405.0,
+        "top": 591.5,
+        "width": 14.2,
+        "height": 16.1
+      }
+    },
+    "cell74": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 1,
+      "box": {
+        "left": 423.4,
+        "top": 571.1,
+        "width": 149.7,
+        "height": 26.2
+      }
+    },
+    "textField13": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 365.3,
+        "top": 569.7,
+        "width": 14.2,
+        "height": 23.4
+      }
+    },
+    "textField14": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 385.1,
+        "top": 569.7,
+        "width": 14.2,
+        "height": 23.4
+      }
+    },
+    "textField15": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 405.0,
+        "top": 569.7,
+        "width": 14.2,
+        "height": 23.4
+      }
+    },
+    "cell75": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 1,
+      "box": {
+        "left": 423.4,
+        "top": 542.1,
+        "width": 149.7,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "textField16": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 365.3,
+        "top": 540.7,
+        "width": 14.2,
+        "height": 27.4
+      }
+    },
+    "textField17": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 385.1,
+        "top": 540.7,
+        "width": 14.2,
+        "height": 27.4
+      }
+    },
+    "textField18": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 405.0,
+        "top": 540.7,
+        "width": 14.2,
+        "height": 27.4
+      }
+    },
+    "cell76": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 1,
+      "box": {
+        "left": 423.4,
+        "top": 509.0,
+        "width": 149.7,
+        "height": 18.6
+      }
+    },
+    "textField24": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 365.3,
+        "top": 507.5,
+        "width": 14.2,
+        "height": 15.7
+      }
+    },
+    "textField23": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 385.1,
+        "top": 507.5,
+        "width": 14.2,
+        "height": 15.7
+      }
+    },
+    "textField22": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 405.0,
+        "top": 507.5,
+        "width": 14.2,
+        "height": 15.7
+      }
+    },
+    "cell77": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 1,
+      "box": {
+        "left": 423.4,
+        "top": 487.5,
+        "width": 149.7,
+        "height": 18.9
+      }
+    },
+    "textField242": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 365.3,
+        "top": 486.1,
+        "width": 14.2,
+        "height": 16.1
+      }
+    },
+    "textField232": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 385.1,
+        "top": 486.1,
+        "width": 14.2,
+        "height": 16.1
+      }
+    },
+    "textField222": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 405.0,
+        "top": 486.1,
+        "width": 14.2,
+        "height": 16.1
+      }
+    },
+    "cell78": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 1,
+      "box": {
+        "left": 423.4,
+        "top": 465.8,
+        "width": 149.7,
+        "height": 17.2
+      }
+    },
+    "textField27": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 365.3,
+        "top": 464.4,
+        "width": 14.2,
+        "height": 14.4
+      }
+    },
+    "textField26": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 385.1,
+        "top": 464.4,
+        "width": 14.2,
+        "height": 14.4
+      }
+    },
+    "textField25": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 405.0,
+        "top": 464.4,
+        "width": 14.2,
+        "height": 14.4
+      }
+    },
+    "cell79": {
+      "type": "text",
+      "label": "12. OPNAV 5218.7 (Series) Is mail being X-rayed?",
+      "page": 1,
+      "box": {
+        "left": 423.4,
+        "top": 445.7,
+        "width": 149.7,
+        "height": 18.5
+      }
+    },
+    "textField30": {
+      "type": "text",
+      "label": "12. OPNAV 5218.7 (Series) Is mail being X-rayed?",
+      "page": 1,
+      "box": {
+        "left": 365.3,
+        "top": 444.3,
+        "width": 14.2,
+        "height": 15.7
+      }
+    },
+    "textField29": {
+      "type": "text",
+      "label": "12. OPNAV 5218.7 (Series) Is mail being X-rayed?",
+      "page": 1,
+      "box": {
+        "left": 385.1,
+        "top": 444.3,
+        "width": 14.2,
+        "height": 15.7
+      }
+    },
+    "textField28": {
+      "type": "text",
+      "label": "12. OPNAV 5218.7 (Series) Is mail being X-rayed?",
+      "page": 1,
+      "box": {
+        "left": 405.0,
+        "top": 444.3,
+        "width": 14.2,
+        "height": 15.7
+      }
+    },
+    "textField362": {
+      "type": "text",
+      "label": "13. NAVSUPINST 5530.1E Are PPE items readily available?",
+      "page": 1,
+      "box": {
+        "left": 385.1,
+        "top": 422.9,
+        "width": 14.2,
+        "height": 16.1
+      }
+    },
+    "textField363": {
+      "type": "text",
+      "label": "13. NAVSUPINST 5530.1E Are PPE items readily available?",
+      "page": 1,
+      "box": {
+        "left": 405.0,
+        "top": 422.9,
+        "width": 14.2,
+        "height": 16.1
+      }
+    },
+    "textField365": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 385.1,
+        "top": 401.2,
+        "width": 14.2,
+        "height": 16.1
+      }
+    },
+    "textField366": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 405.0,
+        "top": 401.2,
+        "width": 14.2,
+        "height": 16.1
+      }
+    },
+    "textField35": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 385.1,
+        "top": 379.4,
+        "width": 14.2,
+        "height": 16.1
+      }
+    },
+    "textField34": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 405.0,
+        "top": 379.4,
+        "width": 14.2,
+        "height": 16.1
+      }
+    },
+    "cell713": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 1,
+      "box": {
+        "left": 423.4,
+        "top": 359.0,
+        "width": 149.7,
+        "height": 18.9
+      }
+    },
+    "textField39": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 365.3,
+        "top": 357.6,
+        "width": 14.2,
+        "height": 16.1
+      }
+    },
+    "textField38": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 385.1,
+        "top": 357.6,
+        "width": 14.2,
+        "height": 16.1
+      }
+    },
+    "textField37": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 405.0,
+        "top": 357.6,
+        "width": 14.2,
+        "height": 16.1
+      }
+    },
+    "row11": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 363.8,
+        "top": 337.2,
+        "width": 17.0,
+        "height": 18.9
+      }
+    },
+    "row111": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 383.7,
+        "top": 337.2,
+        "width": 17.0,
+        "height": 18.9
+      }
+    },
+    "row112": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 403.6,
+        "top": 337.2,
+        "width": 17.0,
+        "height": 18.9
+      }
+    },
+    "row113": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 1,
+      "box": {
+        "left": 423.4,
+        "top": 337.2,
+        "width": 149.7,
+        "height": 18.9
+      }
+    },
+    "row114": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 363.8,
+        "top": 315.5,
+        "width": 17.0,
+        "height": 20.1
+      }
+    },
+    "row1112": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 383.7,
+        "top": 315.5,
+        "width": 17.0,
+        "height": 20.1
+      }
+    },
+    "row1122": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 403.6,
+        "top": 315.5,
+        "width": 17.0,
+        "height": 20.1
+      }
+    },
+    "row1132": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 1,
+      "box": {
+        "left": 423.4,
+        "top": 315.5,
+        "width": 149.7,
+        "height": 20.1
+      }
+    },
+    "cell714": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 1,
+      "box": {
+        "left": 423.4,
+        "top": 257.2,
+        "width": 149.7,
+        "height": 28.1
+      }
+    },
+    "textField42": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 365.3,
+        "top": 255.8,
+        "width": 14.2,
+        "height": 25.3
+      }
+    },
+    "textField43": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 385.1,
+        "top": 255.8,
+        "width": 14.2,
+        "height": 25.3
+      }
+    },
+    "textField44": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 405.0,
+        "top": 255.8,
+        "width": 14.2,
+        "height": 25.3
+      }
+    },
+    "cell715": {
+      "type": "text",
+      "label": "DoDI 4525.08 Is unauthorized use of official mail reported?",
+      "page": 1,
+      "box": {
+        "left": 423.4,
+        "top": 226.3,
+        "width": 149.7,
+        "height": 18.9
+      }
+    },
+    "textField45": {
+      "type": "text",
+      "label": "DoDI 4525.08 Is unauthorized use of official mail reported?",
+      "page": 1,
+      "box": {
+        "left": 365.3,
+        "top": 224.9,
+        "width": 14.2,
+        "height": 16.1
+      }
+    },
+    "textField46": {
+      "type": "text",
+      "label": "DoDI 4525.08 Is unauthorized use of official mail reported?",
+      "page": 1,
+      "box": {
+        "left": 385.1,
+        "top": 224.9,
+        "width": 14.2,
+        "height": 16.1
+      }
+    },
+    "textField47": {
+      "type": "text",
+      "label": "DoDI 4525.08 Is unauthorized use of official mail reported?",
+      "page": 1,
+      "box": {
+        "left": 405.0,
+        "top": 224.9,
+        "width": 14.2,
+        "height": 16.1
+      }
+    },
+    "cell716": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 1,
+      "box": {
+        "left": 423.4,
+        "top": 204.5,
+        "width": 149.7,
+        "height": 18.9
+      }
+    },
+    "textField48": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 365.3,
+        "top": 203.1,
+        "width": 14.2,
+        "height": 16.1
+      }
+    },
+    "textField49": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 385.1,
+        "top": 203.1,
+        "width": 14.2,
+        "height": 16.1
+      }
+    },
+    "textField410": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 405.0,
+        "top": 203.1,
+        "width": 14.2,
+        "height": 16.1
+      }
+    },
+    "cell717": {
+      "type": "text",
+      "label": "Is mail properly endorsed?",
+      "page": 1,
+      "box": {
+        "left": 423.4,
+        "top": 182.7,
+        "width": 149.7,
+        "height": 18.9
+      }
+    },
+    "textField411": {
+      "type": "text",
+      "label": "Is mail properly endorsed?",
+      "page": 1,
+      "box": {
+        "left": 365.3,
+        "top": 181.3,
+        "width": 14.2,
+        "height": 16.1
+      }
+    },
+    "textField412": {
+      "type": "text",
+      "label": "Is mail properly endorsed?",
+      "page": 1,
+      "box": {
+        "left": 385.1,
+        "top": 181.3,
+        "width": 14.2,
+        "height": 16.1
+      }
+    },
+    "textField413": {
+      "type": "text",
+      "label": "Is mail properly endorsed?",
+      "page": 1,
+      "box": {
+        "left": 405.0,
+        "top": 181.3,
+        "width": 14.2,
+        "height": 16.1
+      }
+    },
+    "cell718": {
+      "type": "text",
+      "label": "Is maximum use of mail consolidation used?",
+      "page": 1,
+      "box": {
+        "left": 423.4,
+        "top": 160.9,
+        "width": 149.7,
+        "height": 18.9
+      }
+    },
+    "textField414": {
+      "type": "text",
+      "label": "Is maximum use of mail consolidation used?",
+      "page": 1,
+      "box": {
+        "left": 365.3,
+        "top": 159.5,
+        "width": 14.2,
+        "height": 16.1
+      }
+    },
+    "textField415": {
+      "type": "text",
+      "label": "Is maximum use of mail consolidation used?",
+      "page": 1,
+      "box": {
+        "left": 385.1,
+        "top": 159.5,
+        "width": 14.2,
+        "height": 16.1
+      }
+    },
+    "textField416": {
+      "type": "text",
+      "label": "Is maximum use of mail consolidation used?",
+      "page": 1,
+      "box": {
+        "left": 405.0,
+        "top": 159.5,
+        "width": 14.2,
+        "height": 16.1
+      }
+    },
+    "cell719": {
+      "type": "text",
+      "label": "Verify latest date of Consolidated Mailings?",
+      "page": 1,
+      "box": {
+        "left": 423.4,
+        "top": 139.2,
+        "width": 149.7,
+        "height": 18.9
+      }
+    },
+    "textField417": {
+      "type": "text",
+      "label": "Verify latest date of Consolidated Mailings?",
+      "page": 1,
+      "box": {
+        "left": 365.3,
+        "top": 137.8,
+        "width": 14.2,
+        "height": 16.1
+      }
+    },
+    "textField418": {
+      "type": "text",
+      "label": "Verify latest date of Consolidated Mailings?",
+      "page": 1,
+      "box": {
+        "left": 385.1,
+        "top": 137.8,
+        "width": 14.2,
+        "height": 16.1
+      }
+    },
+    "textField419": {
+      "type": "text",
+      "label": "Verify latest date of Consolidated Mailings?",
+      "page": 1,
+      "box": {
+        "left": 405.0,
+        "top": 137.8,
+        "width": 14.2,
+        "height": 16.1
+      }
+    },
+    "row115": {
+      "type": "text",
+      "label": "POSTAGE &amp; EQUIPMENT INITIALS OF INSPECTEE",
+      "page": 1,
+      "box": {
+        "left": 247.7,
+        "top": 117.4,
+        "width": 113.3,
+        "height": 18.9
+      }
+    },
+    "cell720": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 1,
+      "box": {
+        "left": 423.4,
+        "top": 77.0,
+        "width": 149.7,
+        "height": 26.9
+      }
+    },
+    "textField420": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 365.3,
+        "top": 75.6,
+        "width": 14.2,
+        "height": 24.1
+      }
+    },
+    "textField421": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 385.1,
+        "top": 75.6,
+        "width": 14.2,
+        "height": 24.1
+      }
+    },
+    "textField422": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 405.0,
+        "top": 75.6,
+        "width": 14.2,
+        "height": 24.1
+      }
+    },
+    "cell721": {
+      "type": "text",
+      "label": "OPNAVINST 5112.6 (Series)",
+      "page": 2,
+      "box": {
+        "left": 423.4,
+        "top": 754.6,
+        "width": 149.7,
+        "height": 18.9
+      }
+    },
+    "textField423": {
+      "type": "text",
+      "label": "Text Field 423",
+      "page": 2,
+      "box": {
+        "left": 365.3,
+        "top": 753.2,
+        "width": 14.2,
+        "height": 16.1
+      }
+    },
+    "textField424": {
+      "type": "text",
+      "label": "Text Field 424",
+      "page": 2,
+      "box": {
+        "left": 385.1,
+        "top": 753.2,
+        "width": 14.2,
+        "height": 16.1
+      }
+    },
+    "textField425": {
+      "type": "text",
+      "label": "Text Field 425",
+      "page": 2,
+      "box": {
+        "left": 405.0,
+        "top": 753.2,
+        "width": 14.2,
+        "height": 16.1
+      }
+    },
+    "cell722": {
+      "type": "text",
+      "label": "OPNAVINST 5112.6 (Series)",
+      "page": 2,
+      "box": {
+        "left": 423.4,
+        "top": 732.8,
+        "width": 149.7,
+        "height": 18.9
+      }
+    },
+    "textField426": {
+      "type": "text",
+      "label": "Text Field 426",
+      "page": 2,
+      "box": {
+        "left": 365.3,
+        "top": 731.4,
+        "width": 14.2,
+        "height": 16.1
+      }
+    },
+    "textField427": {
+      "type": "text",
+      "label": "Text Field 427",
+      "page": 2,
+      "box": {
+        "left": 385.1,
+        "top": 731.4,
+        "width": 14.2,
+        "height": 16.1
+      }
+    },
+    "textField428": {
+      "type": "text",
+      "label": "Text Field 428",
+      "page": 2,
+      "box": {
+        "left": 405.0,
+        "top": 731.4,
+        "width": 14.2,
+        "height": 16.1
+      }
+    },
+    "textField64": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 365.3,
+        "top": 664.2,
+        "width": 14.2,
+        "height": 17.0
+      }
+    },
+    "textField65": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 385.2,
+        "top": 664.2,
+        "width": 14.2,
+        "height": 17.0
+      }
+    },
+    "textField66": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 405.0,
+        "top": 664.2,
+        "width": 14.2,
+        "height": 17.0
+      }
+    },
+    "textField73": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 2,
+      "box": {
+        "left": 424.9,
+        "top": 664.2,
+        "width": 146.1,
+        "height": 17.0
+      }
+    },
+    "textField67": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 365.3,
+        "top": 641.5,
+        "width": 14.2,
+        "height": 17.0
+      }
+    },
+    "textField68": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 385.2,
+        "top": 641.5,
+        "width": 14.2,
+        "height": 17.0
+      }
+    },
+    "textField69": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 405.0,
+        "top": 641.5,
+        "width": 14.2,
+        "height": 17.0
+      }
+    },
+    "textField74": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 2,
+      "box": {
+        "left": 424.9,
+        "top": 641.5,
+        "width": 146.1,
+        "height": 17.0
+      }
+    },
+    "textField70": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 365.3,
+        "top": 618.8,
+        "width": 14.2,
+        "height": 17.5
+      }
+    },
+    "textField71": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 385.2,
+        "top": 618.8,
+        "width": 14.2,
+        "height": 17.5
+      }
+    },
+    "textField72": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 405.0,
+        "top": 618.8,
+        "width": 14.2,
+        "height": 17.5
+      }
+    },
+    "textField75": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 2,
+      "box": {
+        "left": 424.9,
+        "top": 618.8,
+        "width": 146.1,
+        "height": 17.5
+      }
+    },
+    "textField702": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 365.3,
+        "top": 550.3,
+        "width": 14.2,
+        "height": 26.7
+      }
+    },
+    "textField703": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 385.2,
+        "top": 550.3,
+        "width": 14.2,
+        "height": 26.7
+      }
+    },
+    "textField704": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 405.0,
+        "top": 550.3,
+        "width": 14.2,
+        "height": 26.7
+      }
+    },
+    "textField752": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 2,
+      "box": {
+        "left": 424.9,
+        "top": 550.3,
+        "width": 146.1,
+        "height": 26.7
+      }
+    },
+    "textField705": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 365.3,
+        "top": 518.0,
+        "width": 14.2,
+        "height": 17.0
+      }
+    },
+    "textField706": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 385.2,
+        "top": 518.0,
+        "width": 14.2,
+        "height": 17.0
+      }
+    },
+    "textField707": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 405.0,
+        "top": 518.0,
+        "width": 14.2,
+        "height": 17.0
+      }
+    },
+    "textField753": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 2,
+      "box": {
+        "left": 424.9,
+        "top": 518.0,
+        "width": 146.1,
+        "height": 17.0
+      }
+    },
+    "textField708": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 365.3,
+        "top": 495.3,
+        "width": 14.2,
+        "height": 17.0
+      }
+    },
+    "textField709": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 385.2,
+        "top": 495.3,
+        "width": 14.2,
+        "height": 17.0
+      }
+    },
+    "textField7010": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 405.0,
+        "top": 495.3,
+        "width": 14.2,
+        "height": 17.0
+      }
+    },
+    "textField754": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 2,
+      "box": {
+        "left": 424.9,
+        "top": 495.3,
+        "width": 146.1,
+        "height": 17.0
+      }
+    },
+    "textField7011": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 365.3,
+        "top": 449.9,
+        "width": 14.2,
+        "height": 17.0
+      }
+    },
+    "textField7012": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 385.2,
+        "top": 449.9,
+        "width": 14.2,
+        "height": 17.0
+      }
+    },
+    "textField7013": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 405.0,
+        "top": 449.9,
+        "width": 14.2,
+        "height": 17.0
+      }
+    },
+    "textField755": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 2,
+      "box": {
+        "left": 424.9,
+        "top": 449.9,
+        "width": 146.1,
+        "height": 17.0
+      }
+    },
+    "textField7014": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 365.3,
+        "top": 427.2,
+        "width": 14.2,
+        "height": 17.0
+      }
+    },
+    "textField7015": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 385.2,
+        "top": 427.2,
+        "width": 14.2,
+        "height": 17.0
+      }
+    },
+    "textField7016": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 405.0,
+        "top": 427.2,
+        "width": 14.2,
+        "height": 17.0
+      }
+    },
+    "textField756": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 2,
+      "box": {
+        "left": 424.9,
+        "top": 427.2,
+        "width": 146.1,
+        "height": 17.0
+      }
+    },
+    "row4": {
+      "type": "text",
+      "label": "INITIALS OF INSPECTEE",
+      "page": 2,
+      "box": {
+        "left": 258.7,
+        "top": 406.0,
+        "width": 102.3,
+        "height": 19.9
+      }
+    },
+    "textField7017": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 365.3,
+        "top": 359.2,
+        "width": 14.2,
+        "height": 17.0
+      }
+    },
+    "textField7018": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 385.2,
+        "top": 359.2,
+        "width": 14.2,
+        "height": 17.0
+      }
+    },
+    "textField7019": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 405.0,
+        "top": 359.2,
+        "width": 14.2,
+        "height": 17.0
+      }
+    },
+    "textField757": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 2,
+      "box": {
+        "left": 424.9,
+        "top": 359.2,
+        "width": 146.1,
+        "height": 17.0
+      }
+    },
+    "textField7020": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 365.3,
+        "top": 336.5,
+        "width": 14.2,
+        "height": 17.0
+      }
+    },
+    "textField7021": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 385.2,
+        "top": 336.5,
+        "width": 14.2,
+        "height": 17.0
+      }
+    },
+    "textField7022": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 405.0,
+        "top": 336.5,
+        "width": 14.2,
+        "height": 17.0
+      }
+    },
+    "textField758": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 2,
+      "box": {
+        "left": 424.9,
+        "top": 336.5,
+        "width": 146.1,
+        "height": 17.0
+      }
+    },
+    "textField7023": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 365.3,
+        "top": 313.8,
+        "width": 14.2,
+        "height": 17.0
+      }
+    },
+    "textField7024": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 385.2,
+        "top": 313.8,
+        "width": 14.2,
+        "height": 17.0
+      }
+    },
+    "textField7025": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 405.0,
+        "top": 313.8,
+        "width": 14.2,
+        "height": 17.0
+      }
+    },
+    "textField759": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 2,
+      "box": {
+        "left": 424.9,
+        "top": 313.8,
+        "width": 146.1,
+        "height": 17.0
+      }
+    },
+    "textField7026": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 365.3,
+        "top": 268.4,
+        "width": 14.2,
+        "height": 33.3
+      },
+      "multiline": true
+    },
+    "textField7027": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 385.2,
+        "top": 268.4,
+        "width": 14.2,
+        "height": 33.3
+      },
+      "multiline": true
+    },
+    "textField7028": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 405.0,
+        "top": 268.4,
+        "width": 14.2,
+        "height": 33.3
+      },
+      "multiline": true
+    },
+    "textField7510": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 2,
+      "box": {
+        "left": 424.9,
+        "top": 268.4,
+        "width": 146.1,
+        "height": 33.3
+      },
+      "multiline": true
+    },
+    "textField7029": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 365.3,
+        "top": 206.7,
+        "width": 14.2,
+        "height": 17.0
+      }
+    },
+    "textField7030": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 385.2,
+        "top": 206.7,
+        "width": 14.2,
+        "height": 17.0
+      }
+    },
+    "textField7031": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 405.0,
+        "top": 206.7,
+        "width": 14.2,
+        "height": 17.0
+      }
+    },
+    "textField7511": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 2,
+      "box": {
+        "left": 424.9,
+        "top": 206.7,
+        "width": 146.1,
+        "height": 17.0
+      }
+    },
+    "textField7032": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 365.3,
+        "top": 184.0,
+        "width": 14.2,
+        "height": 26.6
+      }
+    },
+    "textField7033": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 385.2,
+        "top": 184.0,
+        "width": 14.2,
+        "height": 26.6
+      }
+    },
+    "textField7034": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 405.0,
+        "top": 184.0,
+        "width": 14.2,
+        "height": 26.6
+      }
+    },
+    "textField7512": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 2,
+      "box": {
+        "left": 424.9,
+        "top": 184.0,
+        "width": 146.1,
+        "height": 26.6
+      }
+    },
+    "textField7035": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 365.3,
+        "top": 151.8,
+        "width": 14.2,
+        "height": 17.0
+      }
+    },
+    "textField7036": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 385.2,
+        "top": 151.8,
+        "width": 14.2,
+        "height": 17.0
+      }
+    },
+    "textField7037": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 405.0,
+        "top": 151.8,
+        "width": 14.2,
+        "height": 17.0
+      }
+    },
+    "textField7513": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 2,
+      "box": {
+        "left": 424.9,
+        "top": 151.8,
+        "width": 146.1,
+        "height": 17.0
+      }
+    },
+    "textField7038": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 365.3,
+        "top": 129.1,
+        "width": 14.2,
+        "height": 17.0
+      }
+    },
+    "textField7039": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 385.2,
+        "top": 129.1,
+        "width": 14.2,
+        "height": 17.0
+      }
+    },
+    "textField7040": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 405.0,
+        "top": 129.1,
+        "width": 14.2,
+        "height": 17.0
+      }
+    },
+    "textField7514": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 2,
+      "box": {
+        "left": 424.9,
+        "top": 129.1,
+        "width": 146.1,
+        "height": 17.0
+      }
+    },
+    "textField7041": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 365.3,
+        "top": 83.7,
+        "width": 14.2,
+        "height": 26.6
+      }
+    },
+    "textField7042": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 385.2,
+        "top": 83.7,
+        "width": 14.2,
+        "height": 26.6
+      }
+    },
+    "textField7043": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 405.0,
+        "top": 83.7,
+        "width": 14.2,
+        "height": 26.6
+      }
+    },
+    "textField7515": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 2,
+      "box": {
+        "left": 424.9,
+        "top": 83.7,
+        "width": 146.1,
+        "height": 26.6
+      }
+    },
+    "textField78": {
+      "type": "text",
+      "label": "45. COMMENTS",
+      "page": 3,
+      "box": {
+        "left": 36.9,
+        "top": 741.2,
+        "width": 534.4,
+        "height": 163.4
+      },
+      "multiline": true
+    },
+    "inpecComByName": {
+      "type": "text",
+      "label": "BY",
+      "page": 3,
+      "box": {
+        "left": 119.6,
+        "top": 560.2,
+        "width": 194.8,
+        "height": 16.5
+      }
+    },
+    "inspecComDate": {
+      "type": "text",
+      "label": "BY",
+      "page": 3,
+      "box": {
+        "left": 320.0,
+        "top": 560.2,
+        "width": 87.7,
+        "height": 16.5
+      }
+    },
+    "inspecComSig": {
+      "type": "text",
+      "label": "BY",
+      "page": 3,
+      "box": {
+        "left": 413.5,
+        "top": 560.2,
+        "width": 157.8,
+        "height": 16.5
+      }
+    },
+    "revByName": {
+      "type": "text",
+      "label": "a. PRINTED NAME (SITE DIRECTOR)",
+      "page": 3,
+      "box": {
+        "left": 119.6,
+        "top": 526.2,
+        "width": 194.8,
+        "height": 16.5
+      }
+    },
+    "revByDate": {
+      "type": "text",
+      "label": "b. DATE REVIEWED",
+      "page": 3,
+      "box": {
+        "left": 320.0,
+        "top": 526.2,
+        "width": 87.7,
+        "height": 16.5
+      }
+    },
+    "revBySig": {
+      "type": "text",
+      "label": "c. SIGNATURE",
+      "page": 3,
+      "box": {
+        "left": 413.5,
+        "top": 526.2,
+        "width": 157.8,
+        "height": 16.5
+      }
+    },
+    "orgUnitRevName": {
+      "type": "text",
+      "label": "a. PRINTED NAME (REGIONAL POSTAL MGR)",
+      "page": 3,
+      "box": {
+        "left": 119.6,
+        "top": 492.1,
+        "width": 194.8,
+        "height": 16.5
+      }
+    },
+    "orgUnitRevDate": {
+      "type": "text",
+      "label": "b. DATE REVIEWED",
+      "page": 3,
+      "box": {
+        "left": 320.0,
+        "top": 492.1,
+        "width": 87.7,
+        "height": 16.5
+      }
+    },
+    "orgUnitRevSig": {
+      "type": "text",
+      "label": "c. SIGNATURE",
+      "page": 3,
+      "box": {
+        "left": 413.5,
+        "top": 492.1,
+        "width": 157.8,
+        "height": 16.5
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 21.77,
+      "editor": "grid",
+      "columns": {
+        "textField36": {
+          "type": "text",
+          "label": "13. NAVSUPINST 5530.1E Are PPE items readily available?",
+          "page": 1,
+          "box": {
+            "left": 365.3,
+            "top": 422.9,
+            "width": 14.2,
+            "height": 16.1
+          }
+        },
+        "cell7": {
+          "type": "text",
+          "label": "13. NAVSUPINST 5530.1E Are PPE items readily available?",
+          "page": 1,
+          "box": {
+            "left": 423.4,
+            "top": 424.4,
+            "width": 149.7,
+            "height": 18.9
+          }
+        }
+      }
+    }
+  }
+}

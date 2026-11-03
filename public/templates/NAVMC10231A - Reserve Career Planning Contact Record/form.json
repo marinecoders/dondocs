@@ -1,0 +1,840 @@
+{
+  "id": "navmc10231a",
+  "label": "NAVMC 10231A - Reserve Career Planning Contact Record",
+  "directory": "NAVMC10231A - Reserve Career Planning Contact Record",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "mco",
+        "afadbd",
+        "name",
+        "rank",
+        "satYrs",
+        "last4",
+        "recc",
+        "mcc",
+        "org",
+        "ruc",
+        "pmos",
+        "bmos",
+        "date",
+        "rtd",
+        "dctb",
+        "radioButtonList",
+        "radioButtonList2",
+        "iIsummary",
+        "iICPSignature",
+        "iIMarineSig",
+        "iICPSignatureDate",
+        "iIMarineSigDate",
+        "iIIsummaryA",
+        "iIICPSignatureA",
+        "iIIMarineSigA",
+        "iIICPSignatureADate",
+        "iIIMarineSigADate",
+        "iIIsummaryB",
+        "iIICOSignature",
+        "iIICOSignatureDate",
+        "iIIMarineSigB",
+        "iIIMarineSigBDate",
+        "iVsummary",
+        "iVCPSignatureDate",
+        "iVMarineSig",
+        "iVCPSignature",
+        "iVMarineSigDate"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "vsummaryA",
+        "vCPSignatureA",
+        "vMarineSigA",
+        "vCPSignatureADate",
+        "vMarineSigADate",
+        "vsummaryB",
+        "vCOSignature",
+        "vCOSignatureDate",
+        "vMarineSigB",
+        "vMarineSigBDate",
+        "vIsummaryA",
+        "vICPSignature",
+        "vIMarineSig",
+        "vICPSignatureDate",
+        "vIMarineSigDate",
+        "vIICPSignature",
+        "type",
+        "reCode",
+        "vIICPSignature2",
+        "vIIMarineSigA",
+        "vIICPSignatureDate",
+        "vIIMarineSigADate",
+        "radioButtonList3",
+        "radioButtonList4",
+        "vIIsummaryB",
+        "code",
+        "vIICOSignature",
+        "vIICOSignatureDate",
+        "vIIMarineSigB",
+        "vIIMarineSigBDate"
+      ]
+    }
+  ],
+  "fields": {
+    "mco": {
+      "type": "text",
+      "label": "MCO",
+      "page": 1,
+      "box": {
+        "left": 532.2,
+        "top": 710.9,
+        "width": 27.1,
+        "height": 8.6
+      }
+    },
+    "afadbd": {
+      "type": "text",
+      "label": "afadbd",
+      "page": 1,
+      "box": {
+        "left": 490.4,
+        "top": 659.8,
+        "width": 99.6,
+        "height": 17.1
+      }
+    },
+    "name": {
+      "type": "text",
+      "label": "Name",
+      "page": 1,
+      "box": {
+        "left": 22.6,
+        "top": 659.6,
+        "width": 205.5,
+        "height": 17.1
+      }
+    },
+    "rank": {
+      "type": "text",
+      "label": "Rank",
+      "page": 1,
+      "box": {
+        "left": 298.6,
+        "top": 659.6,
+        "width": 98.7,
+        "height": 17.1
+      }
+    },
+    "satYrs": {
+      "type": "text",
+      "label": "SatYrs",
+      "page": 1,
+      "box": {
+        "left": 405.4,
+        "top": 659.0,
+        "width": 76.5,
+        "height": 17.1
+      }
+    },
+    "last4": {
+      "type": "text",
+      "label": "Last4",
+      "page": 1,
+      "box": {
+        "left": 237.3,
+        "top": 658.4,
+        "width": 52.8,
+        "height": 15.6
+      }
+    },
+    "recc": {
+      "type": "text",
+      "label": "RECC",
+      "page": 1,
+      "box": {
+        "left": 298.1,
+        "top": 616.9,
+        "width": 98.7,
+        "height": 17.1
+      }
+    },
+    "mcc": {
+      "type": "text",
+      "label": "MCC",
+      "page": 1,
+      "box": {
+        "left": 490.1,
+        "top": 616.8,
+        "width": 99.6,
+        "height": 17.1
+      }
+    },
+    "org": {
+      "type": "text",
+      "label": "Org",
+      "page": 1,
+      "box": {
+        "left": 22.5,
+        "top": 616.5,
+        "width": 268.1,
+        "height": 17.1
+      }
+    },
+    "ruc": {
+      "type": "text",
+      "label": "RUC",
+      "page": 1,
+      "box": {
+        "left": 405.3,
+        "top": 616.3,
+        "width": 76.5,
+        "height": 17.1
+      }
+    },
+    "pmos": {
+      "type": "text",
+      "label": "PMOS",
+      "page": 1,
+      "box": {
+        "left": 22.5,
+        "top": 571.1,
+        "width": 53.9,
+        "height": 17.1
+      }
+    },
+    "bmos": {
+      "type": "text",
+      "label": "BMOS",
+      "page": 1,
+      "box": {
+        "left": 84.4,
+        "top": 571.1,
+        "width": 53.9,
+        "height": 17.1
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 298.9,
+        "top": 571.0,
+        "width": 97.3,
+        "height": 16.5
+      }
+    },
+    "rtd": {
+      "type": "text",
+      "label": "RTD",
+      "page": 1,
+      "box": {
+        "left": 489.6,
+        "top": 571.0,
+        "width": 100.3,
+        "height": 16.5
+      }
+    },
+    "dctb": {
+      "type": "text",
+      "label": "DCTB",
+      "page": 1,
+      "box": {
+        "left": 405.8,
+        "top": 569.9,
+        "width": 77.1,
+        "height": 16.5
+      }
+    },
+    "radioButtonList": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 253.6,
+        "top": 569.7,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_0"
+    },
+    "radioButtonList2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 176.0,
+        "top": 569.4,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_0"
+    },
+    "iIsummary": {
+      "type": "text",
+      "label": "IIsummary",
+      "page": 1,
+      "box": {
+        "left": 26.5,
+        "top": 517.0,
+        "width": 561.9,
+        "height": 42.3
+      },
+      "multiline": true
+    },
+    "iICPSignature": {
+      "type": "signature",
+      "label": "IICPSignature",
+      "page": 1,
+      "box": {
+        "left": 27.1,
+        "top": 463.6,
+        "width": 162.9,
+        "height": 13.6
+      }
+    },
+    "iIMarineSig": {
+      "type": "signature",
+      "label": "IIMarineSig",
+      "page": 1,
+      "box": {
+        "left": 354.8,
+        "top": 463.5,
+        "width": 162.9,
+        "height": 13.6
+      }
+    },
+    "iICPSignatureDate": {
+      "type": "text",
+      "label": "IICPSignatureDate",
+      "page": 1,
+      "box": {
+        "left": 204.6,
+        "top": 461.9,
+        "width": 53.1,
+        "height": 11.2
+      }
+    },
+    "iIMarineSigDate": {
+      "type": "text",
+      "label": "IIMarineSigDate",
+      "page": 1,
+      "box": {
+        "left": 533.2,
+        "top": 461.9,
+        "width": 53.1,
+        "height": 11.4
+      }
+    },
+    "iIIsummaryA": {
+      "type": "text",
+      "label": "IIIsummaryA",
+      "page": 1,
+      "box": {
+        "left": 25.5,
+        "top": 377.0,
+        "width": 561.9,
+        "height": 42.3
+      },
+      "multiline": true
+    },
+    "iIICPSignatureA": {
+      "type": "signature",
+      "label": "IIICPSignatureA",
+      "page": 1,
+      "box": {
+        "left": 26.9,
+        "top": 322.6,
+        "width": 162.9,
+        "height": 13.6
+      }
+    },
+    "iIIMarineSigA": {
+      "type": "signature",
+      "label": "IIIMarineSigA",
+      "page": 1,
+      "box": {
+        "left": 354.8,
+        "top": 322.4,
+        "width": 162.9,
+        "height": 13.6
+      }
+    },
+    "iIICPSignatureADate": {
+      "type": "text",
+      "label": "IIICPSignatureADate",
+      "page": 1,
+      "box": {
+        "left": 204.8,
+        "top": 322.2,
+        "width": 53.1,
+        "height": 12.1
+      }
+    },
+    "iIIMarineSigADate": {
+      "type": "text",
+      "label": "IIIMarineSigADate",
+      "page": 1,
+      "box": {
+        "left": 533.4,
+        "top": 322.2,
+        "width": 53.1,
+        "height": 12.3
+      }
+    },
+    "iIIsummaryB": {
+      "type": "text",
+      "label": "IIIsummaryB",
+      "page": 1,
+      "box": {
+        "left": 25.1,
+        "top": 254.0,
+        "width": 561.9,
+        "height": 42.3
+      },
+      "multiline": true
+    },
+    "iIICOSignature": {
+      "type": "signature",
+      "label": "IIICOSignature",
+      "page": 1,
+      "box": {
+        "left": 26.9,
+        "top": 199.4,
+        "width": 162.9,
+        "height": 13.6
+      }
+    },
+    "iIICOSignatureDate": {
+      "type": "text",
+      "label": "IIICOSignatureDate",
+      "page": 1,
+      "box": {
+        "left": 205.0,
+        "top": 199.0,
+        "width": 53.1,
+        "height": 12.1
+      }
+    },
+    "iIIMarineSigB": {
+      "type": "signature",
+      "label": "IIIMarineSigB",
+      "page": 1,
+      "box": {
+        "left": 355.6,
+        "top": 199.0,
+        "width": 162.9,
+        "height": 13.6
+      }
+    },
+    "iIIMarineSigBDate": {
+      "type": "text",
+      "label": "IIIMarineSigBDate",
+      "page": 1,
+      "box": {
+        "left": 533.6,
+        "top": 199.0,
+        "width": 53.1,
+        "height": 12.3
+      }
+    },
+    "iVsummary": {
+      "type": "text",
+      "label": "IVsummary",
+      "page": 1,
+      "box": {
+        "left": 25.0,
+        "top": 129.4,
+        "width": 561.9,
+        "height": 42.3
+      },
+      "multiline": true
+    },
+    "iVCPSignatureDate": {
+      "type": "text",
+      "label": "IVCPSignatureDate",
+      "page": 1,
+      "box": {
+        "left": 205.4,
+        "top": 75.5,
+        "width": 53.1,
+        "height": 12.3
+      }
+    },
+    "iVMarineSig": {
+      "type": "signature",
+      "label": "IVMarineSig",
+      "page": 1,
+      "box": {
+        "left": 355.0,
+        "top": 75.5,
+        "width": 162.9,
+        "height": 13.6
+      }
+    },
+    "iVCPSignature": {
+      "type": "signature",
+      "label": "IVCPSignature",
+      "page": 1,
+      "box": {
+        "left": 27.6,
+        "top": 74.7,
+        "width": 162.9,
+        "height": 13.6
+      }
+    },
+    "iVMarineSigDate": {
+      "type": "text",
+      "label": "IVMarineSigDate",
+      "page": 1,
+      "box": {
+        "left": 534.0,
+        "top": 74.7,
+        "width": 53.1,
+        "height": 12.5
+      }
+    },
+    "vsummaryA": {
+      "type": "text",
+      "label": "VsummaryA",
+      "page": 2,
+      "box": {
+        "left": 25.5,
+        "top": 716.9,
+        "width": 561.9,
+        "height": 42.3
+      },
+      "multiline": true
+    },
+    "vCPSignatureA": {
+      "type": "signature",
+      "label": "VCPSignatureA",
+      "page": 2,
+      "box": {
+        "left": 26.9,
+        "top": 662.4,
+        "width": 162.9,
+        "height": 13.6
+      }
+    },
+    "vMarineSigA": {
+      "type": "signature",
+      "label": "VMarineSigA",
+      "page": 2,
+      "box": {
+        "left": 354.8,
+        "top": 662.3,
+        "width": 162.9,
+        "height": 13.6
+      }
+    },
+    "vCPSignatureADate": {
+      "type": "text",
+      "label": "VCPSignatureADate",
+      "page": 2,
+      "box": {
+        "left": 204.8,
+        "top": 662.0,
+        "width": 53.1,
+        "height": 12.1
+      }
+    },
+    "vMarineSigADate": {
+      "type": "text",
+      "label": "VMarineSigADate",
+      "page": 2,
+      "box": {
+        "left": 533.4,
+        "top": 662.0,
+        "width": 53.1,
+        "height": 12.3
+      }
+    },
+    "vsummaryB": {
+      "type": "text",
+      "label": "VsummaryB",
+      "page": 2,
+      "box": {
+        "left": 25.1,
+        "top": 593.8,
+        "width": 561.9,
+        "height": 42.3
+      },
+      "multiline": true
+    },
+    "vCOSignature": {
+      "type": "signature",
+      "label": "VCOSignature",
+      "page": 2,
+      "box": {
+        "left": 26.9,
+        "top": 539.2,
+        "width": 162.9,
+        "height": 13.6
+      }
+    },
+    "vCOSignatureDate": {
+      "type": "text",
+      "label": "VCOSignatureDate",
+      "page": 2,
+      "box": {
+        "left": 205.0,
+        "top": 538.8,
+        "width": 53.1,
+        "height": 12.1
+      }
+    },
+    "vMarineSigB": {
+      "type": "signature",
+      "label": "VMarineSigB",
+      "page": 2,
+      "box": {
+        "left": 355.6,
+        "top": 538.8,
+        "width": 162.9,
+        "height": 13.6
+      }
+    },
+    "vMarineSigBDate": {
+      "type": "text",
+      "label": "VMarineSigBDate",
+      "page": 2,
+      "box": {
+        "left": 533.6,
+        "top": 538.8,
+        "width": 53.1,
+        "height": 12.3
+      }
+    },
+    "vIsummaryA": {
+      "type": "text",
+      "label": "VIsummaryA",
+      "page": 2,
+      "box": {
+        "left": 25.5,
+        "top": 450.3,
+        "width": 561.9,
+        "height": 42.3
+      },
+      "multiline": true
+    },
+    "vICPSignature": {
+      "type": "signature",
+      "label": "VICPSignature",
+      "page": 2,
+      "box": {
+        "left": 26.9,
+        "top": 395.9,
+        "width": 162.9,
+        "height": 13.6
+      }
+    },
+    "vIMarineSig": {
+      "type": "signature",
+      "label": "VIMarineSig",
+      "page": 2,
+      "box": {
+        "left": 354.8,
+        "top": 395.8,
+        "width": 162.9,
+        "height": 13.6
+      }
+    },
+    "vICPSignatureDate": {
+      "type": "text",
+      "label": "VICPSignatureDate",
+      "page": 2,
+      "box": {
+        "left": 204.8,
+        "top": 395.5,
+        "width": 53.1,
+        "height": 12.1
+      }
+    },
+    "vIMarineSigDate": {
+      "type": "text",
+      "label": "VIMarineSigDate",
+      "page": 2,
+      "box": {
+        "left": 533.4,
+        "top": 395.5,
+        "width": 53.1,
+        "height": 12.3
+      }
+    },
+    "vIICPSignature": {
+      "type": "text",
+      "label": "VIICPSignature",
+      "page": 2,
+      "box": {
+        "left": 24.6,
+        "top": 296.0,
+        "width": 422.0,
+        "height": 63.4
+      },
+      "multiline": true
+    },
+    "type": {
+      "type": "text",
+      "label": "Type",
+      "page": 2,
+      "box": {
+        "left": 455.1,
+        "top": 284.8,
+        "width": 61.5,
+        "height": 11.7
+      }
+    },
+    "reCode": {
+      "type": "text",
+      "label": "ReCode",
+      "page": 2,
+      "box": {
+        "left": 524.5,
+        "top": 284.8,
+        "width": 65.2,
+        "height": 11.7
+      }
+    },
+    "vIICPSignature2": {
+      "type": "signature",
+      "label": "VIICPSignature",
+      "page": 2,
+      "box": {
+        "left": 26.9,
+        "top": 224.1,
+        "width": 162.9,
+        "height": 13.6
+      }
+    },
+    "vIIMarineSigA": {
+      "type": "signature",
+      "label": "VIIMarineSigA",
+      "page": 2,
+      "box": {
+        "left": 354.8,
+        "top": 223.9,
+        "width": 162.9,
+        "height": 13.6
+      }
+    },
+    "vIICPSignatureDate": {
+      "type": "text",
+      "label": "VIICPSignatureDate",
+      "page": 2,
+      "box": {
+        "left": 204.8,
+        "top": 223.7,
+        "width": 53.1,
+        "height": 12.1
+      }
+    },
+    "vIIMarineSigADate": {
+      "type": "text",
+      "label": "VIIMarineSigADate",
+      "page": 2,
+      "box": {
+        "left": 533.4,
+        "top": 223.7,
+        "width": 53.1,
+        "height": 12.3
+      }
+    },
+    "radioButtonList3": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 529.2,
+        "top": 167.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_1_RadioButtonList_1"
+    },
+    "radioButtonList4": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 462.7,
+        "top": 167.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_1_RadioButtonList_1"
+    },
+    "vIIsummaryB": {
+      "type": "text",
+      "label": "VIIsummaryB",
+      "page": 2,
+      "box": {
+        "left": 25.1,
+        "top": 150.3,
+        "width": 561.9,
+        "height": 42.3
+      },
+      "multiline": true
+    },
+    "code": {
+      "type": "text",
+      "label": "Code",
+      "page": 2,
+      "box": {
+        "left": 442.0,
+        "top": 94.8,
+        "width": 49.5,
+        "height": 11.7
+      }
+    },
+    "vIICOSignature": {
+      "type": "signature",
+      "label": "VIICOSignature",
+      "page": 2,
+      "box": {
+        "left": 26.9,
+        "top": 73.6,
+        "width": 162.9,
+        "height": 13.6
+      }
+    },
+    "vIICOSignatureDate": {
+      "type": "text",
+      "label": "VIICOSignatureDate",
+      "page": 2,
+      "box": {
+        "left": 205.0,
+        "top": 73.2,
+        "width": 53.1,
+        "height": 12.1
+      }
+    },
+    "vIIMarineSigB": {
+      "type": "signature",
+      "label": "VIIMarineSigB",
+      "page": 2,
+      "box": {
+        "left": 355.6,
+        "top": 73.2,
+        "width": 162.9,
+        "height": 13.6
+      }
+    },
+    "vIIMarineSigBDate": {
+      "type": "text",
+      "label": "VIIMarineSigBDate",
+      "page": 2,
+      "box": {
+        "left": 533.6,
+        "top": 73.2,
+        "width": 53.1,
+        "height": 12.3
+      }
+    }
+  }
+}

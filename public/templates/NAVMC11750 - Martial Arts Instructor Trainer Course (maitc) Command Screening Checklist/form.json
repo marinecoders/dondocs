@@ -1,0 +1,794 @@
+{
+  "id": "navmc11750",
+  "label": "NAVMC 11750 - Martial Arts Instructor Trainer Course (maitc) Command Screening Checklist",
+  "directory": "NAVMC11750 - Martial Arts Instructor Trainer Course (maitc) Command Screening Checklist",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "mCRank",
+        "unit",
+        "cmts1",
+        "yes1",
+        "no1",
+        "cmts2",
+        "aboveLvl",
+        "yes2",
+        "no2",
+        "dateInstr",
+        "cmts3",
+        "yes3",
+        "no3",
+        "eas",
+        "cmts4",
+        "prog",
+        "yes4",
+        "no4",
+        "prog2",
+        "cmts5",
+        "yes5",
+        "no5",
+        "cmts6",
+        "yes6",
+        "no6",
+        "cmts7",
+        "yes7",
+        "no7",
+        "cmts8",
+        "certBy",
+        "yes8",
+        "no8",
+        "datePFT",
+        "dateCFT",
+        "cmts9",
+        "weighInDate",
+        "height",
+        "yes9",
+        "no9",
+        "weight",
+        "bodyFat",
+        "cmts10",
+        "physicalDate",
+        "medOfcrName",
+        "no10",
+        "yes10",
+        "medOfcrBillet",
+        "medOfcSignature"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "cmts11",
+        "no11",
+        "yes11",
+        "currentPHA",
+        "cmts12",
+        "no12",
+        "yes12",
+        "dateComC",
+        "addlCmts",
+        "cOSign",
+        "cOPhone",
+        "cODate"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "NAME:  ",
+      "page": 1,
+      "box": {
+        "left": 70.4,
+        "top": 708.4,
+        "width": 377.0,
+        "height": 14.0
+      }
+    },
+    "mCRank": {
+      "type": "choice",
+      "label": "Rank:",
+      "page": 1,
+      "box": {
+        "left": 478.8,
+        "top": 708.2,
+        "width": 94.4,
+        "height": 12.3
+      },
+      "options": [
+        "PFC",
+        "LCpl",
+        "Cpl",
+        "Sgt",
+        "SSgt",
+        "GySgt",
+        "MSgt",
+        "1stSgt",
+        "MGySgt",
+        "SgtMaj",
+        "SMMC",
+        "WO",
+        "Gunner",
+        "CWO2",
+        "CWO3",
+        "CWO4",
+        "CWO5",
+        "2ndLt",
+        "1stLt",
+        "Capt",
+        "Maj",
+        "LtCol",
+        "Col",
+        "BGen",
+        "MajGen",
+        "LtGen",
+        "Gen",
+        " "
+      ]
+    },
+    "unit": {
+      "type": "text",
+      "label": "UNIT NAME \u2029AND ADDRESS:  ",
+      "page": 1,
+      "box": {
+        "left": 104.9,
+        "top": 689.4,
+        "width": 469.0,
+        "height": 31.0
+      },
+      "multiline": true
+    },
+    "cmts1": {
+      "type": "text",
+      "label": "Cmts1",
+      "page": 1,
+      "box": {
+        "left": 362.2,
+        "top": 636.3,
+        "width": 211.7,
+        "height": 14.3
+      }
+    },
+    "yes1": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 281.9,
+        "top": 635.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "no1": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 321.7,
+        "top": 635.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cmts2": {
+      "type": "text",
+      "label": "Cmts2",
+      "page": 1,
+      "box": {
+        "left": 362.2,
+        "top": 618.2,
+        "width": 211.8,
+        "height": 50.3
+      },
+      "multiline": true
+    },
+    "aboveLvl": {
+      "type": "text",
+      "label": "AboveLvl",
+      "page": 1,
+      "box": {
+        "left": 65.1,
+        "top": 607.8,
+        "width": 85.7,
+        "height": 11.9
+      }
+    },
+    "yes2": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 281.9,
+        "top": 598.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "no2": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 321.7,
+        "top": 598.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "dateInstr": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 1,
+      "box": {
+        "left": 151.8,
+        "top": 587.2,
+        "width": 103.8,
+        "height": 12.8
+      }
+    },
+    "cmts3": {
+      "type": "text",
+      "label": "Cmts3",
+      "page": 1,
+      "box": {
+        "left": 362.2,
+        "top": 564.1,
+        "width": 211.7,
+        "height": 29.8
+      }
+    },
+    "yes3": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 281.9,
+        "top": 554.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "no3": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 321.7,
+        "top": 554.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "eas": {
+      "type": "text",
+      "label": "EAS",
+      "page": 1,
+      "box": {
+        "left": 132.9,
+        "top": 551.9,
+        "width": 108.4,
+        "height": 12.5
+      }
+    },
+    "cmts4": {
+      "type": "text",
+      "label": "Cmts4",
+      "page": 1,
+      "box": {
+        "left": 362.2,
+        "top": 530.7,
+        "width": 211.7,
+        "height": 41.0
+      },
+      "multiline": true
+    },
+    "prog": {
+      "type": "text",
+      "label": "Prog",
+      "page": 1,
+      "box": {
+        "left": 83.2,
+        "top": 519.0,
+        "width": 158.9,
+        "height": 10.9
+      }
+    },
+    "yes4": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 281.9,
+        "top": 515.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "no4": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 321.7,
+        "top": 515.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "prog2": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 1,
+      "box": {
+        "left": 106.2,
+        "top": 504.5,
+        "width": 94.4,
+        "height": 10.9
+      }
+    },
+    "cmts5": {
+      "type": "text",
+      "label": "Cmts5",
+      "page": 1,
+      "box": {
+        "left": 362.2,
+        "top": 486.5,
+        "width": 211.7,
+        "height": 23.5
+      }
+    },
+    "yes5": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 281.9,
+        "top": 480.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "no5": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 321.7,
+        "top": 480.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cmts6": {
+      "type": "text",
+      "label": "Cmts6",
+      "page": 1,
+      "box": {
+        "left": 362.3,
+        "top": 459.4,
+        "width": 211.6,
+        "height": 23.6
+      }
+    },
+    "yes6": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 282.6,
+        "top": 453.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "no6": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 322.2,
+        "top": 453.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cmts7": {
+      "type": "text",
+      "label": "Cmts7",
+      "page": 1,
+      "box": {
+        "left": 362.3,
+        "top": 432.5,
+        "width": 211.2,
+        "height": 24.9
+      }
+    },
+    "yes7": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 282.1,
+        "top": 425.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "no7": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 321.9,
+        "top": 425.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cmts8": {
+      "type": "text",
+      "label": "Cmts8",
+      "page": 1,
+      "box": {
+        "left": 362.2,
+        "top": 402.8,
+        "width": 211.2,
+        "height": 77.4
+      },
+      "multiline": true
+    },
+    "certBy": {
+      "type": "text",
+      "label": "CertBy",
+      "page": 1,
+      "box": {
+        "left": 89.6,
+        "top": 372.4,
+        "width": 170.8,
+        "height": 11.7
+      }
+    },
+    "yes8": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 280.9,
+        "top": 369.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "no8": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 322.3,
+        "top": 369.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "datePFT": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 1,
+      "box": {
+        "left": 131.5,
+        "top": 358.6,
+        "width": 67.0,
+        "height": 10.2
+      }
+    },
+    "dateCFT": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 1,
+      "box": {
+        "left": 131.5,
+        "top": 344.8,
+        "width": 67.0,
+        "height": 10.2
+      }
+    },
+    "cmts9": {
+      "type": "text",
+      "label": "Cmts9",
+      "page": 1,
+      "box": {
+        "left": 362.2,
+        "top": 321.8,
+        "width": 211.2,
+        "height": 59.4
+      },
+      "multiline": true
+    },
+    "weighInDate": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 1,
+      "box": {
+        "left": 107.5,
+        "top": 313.8,
+        "width": 67.0,
+        "height": 10.2
+      }
+    },
+    "height": {
+      "type": "text",
+      "label": "Height",
+      "page": 1,
+      "box": {
+        "left": 56.9,
+        "top": 300.3,
+        "width": 67.0,
+        "height": 10.2
+      }
+    },
+    "yes9": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 282.4,
+        "top": 297.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "no9": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 322.3,
+        "top": 297.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "weight": {
+      "type": "text",
+      "label": "Weight",
+      "page": 1,
+      "box": {
+        "left": 56.9,
+        "top": 288.7,
+        "width": 67.0,
+        "height": 10.2
+      }
+    },
+    "bodyFat": {
+      "type": "text",
+      "label": "BodyFat",
+      "page": 1,
+      "box": {
+        "left": 116.6,
+        "top": 277.1,
+        "width": 67.0,
+        "height": 10.2
+      }
+    },
+    "cmts10": {
+      "type": "text",
+      "label": "Cmts10",
+      "page": 1,
+      "box": {
+        "left": 362.2,
+        "top": 258.8,
+        "width": 211.2,
+        "height": 129.9
+      },
+      "multiline": true
+    },
+    "physicalDate": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 1,
+      "box": {
+        "left": 108.3,
+        "top": 214.5,
+        "width": 67.0,
+        "height": 10.2
+      }
+    },
+    "medOfcrName": {
+      "type": "text",
+      "label": "MedOfcrName",
+      "page": 1,
+      "box": {
+        "left": 131.4,
+        "top": 201.3,
+        "width": 141.3,
+        "height": 10.2
+      }
+    },
+    "no10": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 322.3,
+        "top": 199.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "yes10": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 282.4,
+        "top": 198.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "medOfcrBillet": {
+      "type": "text",
+      "label": "MedOfcrBillet",
+      "page": 1,
+      "box": {
+        "left": 130.4,
+        "top": 189.7,
+        "width": 142.3,
+        "height": 10.2
+      }
+    },
+    "medOfcSignature": {
+      "type": "text",
+      "label": "MedOfcSignature",
+      "page": 1,
+      "box": {
+        "left": 40.8,
+        "top": 167.2,
+        "width": 231.5,
+        "height": 10.2
+      }
+    },
+    "cmts11": {
+      "type": "text",
+      "label": "Cmts11",
+      "page": 2,
+      "box": {
+        "left": 361.8,
+        "top": 726.7,
+        "width": 212.0,
+        "height": 34.0
+      },
+      "multiline": true
+    },
+    "no11": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 321.9,
+        "top": 715.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "yes11": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 2,
+      "box": {
+        "left": 282.1,
+        "top": 715.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "currentPHA": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 2,
+      "box": {
+        "left": 76.6,
+        "top": 709.4,
+        "width": 115.4,
+        "height": 10.7
+      }
+    },
+    "cmts12": {
+      "type": "text",
+      "label": "Cmts12",
+      "page": 2,
+      "box": {
+        "left": 361.8,
+        "top": 689.5,
+        "width": 212.0,
+        "height": 42.3
+      },
+      "multiline": true
+    },
+    "no12": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 321.9,
+        "top": 673.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "yes12": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 2,
+      "box": {
+        "left": 282.1,
+        "top": 673.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "dateComC": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 2,
+      "box": {
+        "left": 134.1,
+        "top": 665.5,
+        "width": 108.3,
+        "height": 12.0
+      }
+    },
+    "addlCmts": {
+      "type": "text",
+      "label": "ADDITIONAL COMMENTS:",
+      "page": 2,
+      "box": {
+        "left": 38.2,
+        "top": 630.1,
+        "width": 535.7,
+        "height": 439.7
+      },
+      "multiline": true
+    },
+    "cOSign": {
+      "type": "text",
+      "label": "SIGNATURE OF COMMANDING OFFICER",
+      "page": 2,
+      "box": {
+        "left": 38.1,
+        "top": 137.1,
+        "width": 310.6,
+        "height": 20.9
+      }
+    },
+    "cOPhone": {
+      "type": "text",
+      "label": "PHONE NUMBER",
+      "page": 2,
+      "box": {
+        "left": 352.5,
+        "top": 137.1,
+        "width": 127.2,
+        "height": 21.0
+      }
+    },
+    "cODate": {
+      "type": "text",
+      "label": "DATE",
+      "page": 2,
+      "box": {
+        "left": 484.1,
+        "top": 137.1,
+        "width": 90.2,
+        "height": 21.1
+      }
+    }
+  }
+}

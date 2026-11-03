@@ -1,0 +1,307 @@
+{
+  "id": "opnav52164",
+  "label": "OPNAV5216-4 - Outgoing Mail Record",
+  "directory": "OPNAV5216-4 - Outgoing Mail Record",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "classification",
+        "controllNumber",
+        "code",
+        "cno",
+        "type",
+        "date2",
+        "regNumber",
+        "addressee",
+        "keyWord1",
+        "keyWord2",
+        "keyWord3",
+        "keyWord4",
+        "ssci",
+        "declass",
+        "date1",
+        "internationalMail",
+        "clearance",
+        "originatorName",
+        "typedBy",
+        "comments",
+        "mailer",
+        "filer",
+        "foila",
+        "classification2"
+      ]
+    }
+  ],
+  "fields": {
+    "classification": {
+      "type": "text",
+      "label": "Enter the classification (of the attached material).",
+      "page": 1,
+      "box": {
+        "left": 64.1,
+        "top": 622.8,
+        "width": 483.1,
+        "height": 11.3
+      }
+    },
+    "controllNumber": {
+      "type": "text",
+      "label": "Enter the control number.",
+      "page": 1,
+      "box": {
+        "left": 64.8,
+        "top": 587.5,
+        "width": 110.2,
+        "height": 13.4
+      }
+    },
+    "code": {
+      "type": "text",
+      "label": "Enter the code ORIG.",
+      "page": 1,
+      "box": {
+        "left": 179.3,
+        "top": 587.5,
+        "width": 77.0,
+        "height": 13.4
+      }
+    },
+    "cno": {
+      "type": "text",
+      "label": "Enter the CNO serial number.",
+      "page": 1,
+      "box": {
+        "left": 261.4,
+        "top": 587.5,
+        "width": 145.4,
+        "height": 13.4
+      }
+    },
+    "type": {
+      "type": "text",
+      "label": "Enter the type.",
+      "page": 1,
+      "box": {
+        "left": 482.4,
+        "top": 587.5,
+        "width": 65.5,
+        "height": 13.4
+      }
+    },
+    "date2": {
+      "type": "text",
+      "label": "Enter the CNO date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 412.6,
+        "top": 586.8,
+        "width": 65.5,
+        "height": 12.7
+      }
+    },
+    "regNumber": {
+      "type": "text",
+      "label": "Enter thr REG. number.",
+      "page": 1,
+      "box": {
+        "left": 260.6,
+        "top": 558.7,
+        "width": 287.3,
+        "height": 12.0
+      }
+    },
+    "addressee": {
+      "type": "text",
+      "label": "Enter the addressee (CMR action).",
+      "page": 1,
+      "box": {
+        "left": 64.1,
+        "top": 558.0,
+        "width": 191.5,
+        "height": 12.0
+      }
+    },
+    "keyWord1": {
+      "type": "text",
+      "label": "Enter the key word.",
+      "page": 1,
+      "box": {
+        "left": 64.8,
+        "top": 532.8,
+        "width": 191.5,
+        "height": 10.8
+      }
+    },
+    "keyWord2": {
+      "type": "text",
+      "label": "Enter the key word.",
+      "page": 1,
+      "box": {
+        "left": 260.6,
+        "top": 532.8,
+        "width": 116.6,
+        "height": 10.8
+      }
+    },
+    "keyWord3": {
+      "type": "text",
+      "label": "Enter the key word.",
+      "page": 1,
+      "box": {
+        "left": 382.3,
+        "top": 532.8,
+        "width": 164.9,
+        "height": 10.8
+      }
+    },
+    "keyWord4": {
+      "type": "text",
+      "label": "Enter the key word.",
+      "page": 1,
+      "box": {
+        "left": 64.1,
+        "top": 506.9,
+        "width": 191.5,
+        "height": 11.3
+      }
+    },
+    "ssci": {
+      "type": "text",
+      "label": "Enter the SSIC.",
+      "page": 1,
+      "box": {
+        "left": 260.6,
+        "top": 506.9,
+        "width": 116.6,
+        "height": 11.3
+      }
+    },
+    "declass": {
+      "type": "text",
+      "label": "Enter the declass/review.",
+      "page": 1,
+      "box": {
+        "left": 382.3,
+        "top": 506.9,
+        "width": 164.9,
+        "height": 11.3
+      }
+    },
+    "date1": {
+      "type": "text",
+      "label": "Enter the required retention date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 65.5,
+        "top": 480.2,
+        "width": 225.4,
+        "height": 11.3
+      }
+    },
+    "internationalMail": {
+      "type": "text",
+      "label": "Enter the internal mail dalivery.",
+      "page": 1,
+      "box": {
+        "left": 298.1,
+        "top": 480.2,
+        "width": 249.8,
+        "height": 11.3
+      }
+    },
+    "clearance": {
+      "type": "text",
+      "label": "Enter the clearance ladder.",
+      "page": 1,
+      "box": {
+        "left": 63.4,
+        "top": 456.5,
+        "width": 484.6,
+        "height": 35.3
+      },
+      "multiline": true
+    },
+    "originatorName": {
+      "type": "text",
+      "label": "Enter the originator's name and/or code.",
+      "page": 1,
+      "box": {
+        "left": 190.8,
+        "top": 343.4,
+        "width": 357.1,
+        "height": 11.5
+      }
+    },
+    "typedBy": {
+      "type": "text",
+      "label": "Enter whom typed by.",
+      "page": 1,
+      "box": {
+        "left": 112.3,
+        "top": 311.8,
+        "width": 434.9,
+        "height": 12.0
+      }
+    },
+    "comments": {
+      "type": "text",
+      "label": "Enter the comments that should become a permant part of this action for retention in the CMR files.",
+      "page": 1,
+      "box": {
+        "left": 67.7,
+        "top": 293.0,
+        "width": 478.1,
+        "height": 162.7
+      },
+      "multiline": true
+    },
+    "mailer": {
+      "type": "text",
+      "label": "Enter the mailer. ",
+      "page": 1,
+      "box": {
+        "left": 65.5,
+        "top": 111.6,
+        "width": 77.0,
+        "height": 12.0
+      }
+    },
+    "filer": {
+      "type": "text",
+      "label": "Enter the filer.",
+      "page": 1,
+      "box": {
+        "left": 146.9,
+        "top": 111.6,
+        "width": 80.6,
+        "height": 12.0
+      }
+    },
+    "foila": {
+      "type": "text",
+      "label": "Enter the FOIA.",
+      "page": 1,
+      "box": {
+        "left": 231.1,
+        "top": 111.6,
+        "width": 128.9,
+        "height": 12.0
+      }
+    },
+    "classification2": {
+      "type": "text",
+      "label": "Enter the classification (of attached material).",
+      "page": 1,
+      "box": {
+        "left": 365.0,
+        "top": 111.6,
+        "width": 182.2,
+        "height": 12.0
+      }
+    }
+  }
+}

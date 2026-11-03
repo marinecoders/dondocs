@@ -1,0 +1,342 @@
+{
+  "id": "opnav479034",
+  "label": "OPNAV4790-34 - Required Reading  Maintenance Information Record",
+  "directory": "OPNAV4790-34 - Required Reading  Maintenance Information Record",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "division",
+        "col1",
+        "col2",
+        "col3",
+        "col4",
+        "col5",
+        "col6",
+        "col7",
+        "col8",
+        "col9",
+        "col10",
+        "col11",
+        "col12",
+        "nameField",
+        "rateField",
+        "col1Field",
+        "col2Field",
+        "col3Field",
+        "col4Field",
+        "col5Field",
+        "col6Field",
+        "col7Field",
+        "col8Field",
+        "col9Field",
+        "col10Field",
+        "col11Field",
+        "col12Field"
+      ]
+    }
+  ],
+  "fields": {
+    "division": {
+      "type": "text",
+      "label": "DIVISION",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 720.9,
+        "width": 210.4,
+        "height": 41.1
+      },
+      "multiline": true
+    },
+    "col1": {
+      "type": "text",
+      "label": "Col 1",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 651.7,
+        "width": 60.6,
+        "height": 21.3
+      }
+    },
+    "col2": {
+      "type": "text",
+      "label": "Col 2",
+      "page": 1,
+      "box": {
+        "left": 281.9,
+        "top": 651.7,
+        "width": 60.6,
+        "height": 21.3
+      }
+    },
+    "col3": {
+      "type": "text",
+      "label": "Col 3",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 651.7,
+        "width": 60.6,
+        "height": 21.3
+      }
+    },
+    "col4": {
+      "type": "text",
+      "label": "SUBJECT",
+      "page": 1,
+      "box": {
+        "left": 335.9,
+        "top": 651.7,
+        "width": 60.6,
+        "height": 21.3
+      }
+    },
+    "col5": {
+      "type": "text",
+      "label": "SUBJECT",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 651.7,
+        "width": 60.6,
+        "height": 21.3
+      }
+    },
+    "col6": {
+      "type": "text",
+      "label": "SUBJECT",
+      "page": 1,
+      "box": {
+        "left": 389.9,
+        "top": 651.7,
+        "width": 60.6,
+        "height": 21.3
+      }
+    },
+    "col7": {
+      "type": "text",
+      "label": "SUBJECT",
+      "page": 1,
+      "box": {
+        "left": 416.9,
+        "top": 651.7,
+        "width": 60.6,
+        "height": 21.3
+      }
+    },
+    "col8": {
+      "type": "text",
+      "label": "COMNAVAIRFORINST",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 651.7,
+        "width": 60.6,
+        "height": 21.3
+      }
+    },
+    "col9": {
+      "type": "text",
+      "label": "COMNAVAIRFORINST",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 651.7,
+        "width": 60.6,
+        "height": 21.3
+      }
+    },
+    "col10": {
+      "type": "text",
+      "label": "COMNAVAIRFORINST 4790.2",
+      "page": 1,
+      "box": {
+        "left": 497.9,
+        "top": 651.7,
+        "width": 60.6,
+        "height": 21.3
+      }
+    },
+    "col11": {
+      "type": "text",
+      "label": "COMNAVAIRFORINST 4790.2",
+      "page": 1,
+      "box": {
+        "left": 524.9,
+        "top": 651.7,
+        "width": 60.6,
+        "height": 21.3
+      }
+    },
+    "col12": {
+      "type": "text",
+      "label": "Col 12",
+      "page": 1,
+      "box": {
+        "left": 551.9,
+        "top": 651.7,
+        "width": 60.6,
+        "height": 21.3
+      }
+    },
+    "nameField": {
+      "type": "text",
+      "label": "NAME",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 624.7,
+        "width": 156.4,
+        "height": 15.6
+      }
+    },
+    "rateField": {
+      "type": "text",
+      "label": "RATE",
+      "page": 1,
+      "box": {
+        "left": 200.9,
+        "top": 624.7,
+        "width": 48.3,
+        "height": 15.6
+      }
+    },
+    "col1Field": {
+      "type": "text",
+      "label": "Col 1 Field",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 624.7,
+        "width": 21.3,
+        "height": 15.6
+      }
+    },
+    "col2Field": {
+      "type": "text",
+      "label": "Col 2 Field",
+      "page": 1,
+      "box": {
+        "left": 281.9,
+        "top": 624.7,
+        "width": 21.3,
+        "height": 15.6
+      }
+    },
+    "col3Field": {
+      "type": "text",
+      "label": "Col 3 Field",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 624.7,
+        "width": 21.3,
+        "height": 15.6
+      }
+    },
+    "col4Field": {
+      "type": "text",
+      "label": "Col 4 Field",
+      "page": 1,
+      "box": {
+        "left": 335.9,
+        "top": 624.7,
+        "width": 21.3,
+        "height": 15.6
+      }
+    },
+    "col5Field": {
+      "type": "text",
+      "label": "Col 5 Field",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 624.7,
+        "width": 21.3,
+        "height": 15.6
+      }
+    },
+    "col6Field": {
+      "type": "text",
+      "label": "SUBJECT",
+      "page": 1,
+      "box": {
+        "left": 389.9,
+        "top": 624.7,
+        "width": 21.3,
+        "height": 15.6
+      }
+    },
+    "col7Field": {
+      "type": "text",
+      "label": "SUBJECT",
+      "page": 1,
+      "box": {
+        "left": 416.9,
+        "top": 624.7,
+        "width": 21.3,
+        "height": 15.6
+      }
+    },
+    "col8Field": {
+      "type": "text",
+      "label": "COMNAVAIRFORINST",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 624.7,
+        "width": 21.3,
+        "height": 15.6
+      }
+    },
+    "col9Field": {
+      "type": "text",
+      "label": "COMNAVAIRFORINST",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 624.7,
+        "width": 21.3,
+        "height": 15.6
+      }
+    },
+    "col10Field": {
+      "type": "text",
+      "label": "COMNAVAIRFORINST",
+      "page": 1,
+      "box": {
+        "left": 497.9,
+        "top": 624.7,
+        "width": 21.3,
+        "height": 15.6
+      }
+    },
+    "col11Field": {
+      "type": "text",
+      "label": "COMNAVAIRFORINST",
+      "page": 1,
+      "box": {
+        "left": 524.9,
+        "top": 624.7,
+        "width": 21.3,
+        "height": 15.6
+      }
+    },
+    "col12Field": {
+      "type": "text",
+      "label": "Col 12 Field",
+      "page": 1,
+      "box": {
+        "left": 551.9,
+        "top": 624.7,
+        "width": 21.3,
+        "height": 15.6
+      }
+    }
+  }
+}

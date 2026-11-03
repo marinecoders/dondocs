@@ -1,0 +1,151 @@
+{
+  "id": "opnav55809",
+  "label": "OPNAV5580-9 - Command Authorization For Search And Seizure",
+  "directory": "OPNAV5580-9 - Command Authorization For Search And Seizure",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "nameOfPerson",
+        "to",
+        "affidavit",
+        "premisisDetail",
+        "describeProperty",
+        "day",
+        "month",
+        "year",
+        "signatureAuthorization",
+        "rankSerTitle",
+        "command"
+      ]
+    }
+  ],
+  "fields": {
+    "nameOfPerson": {
+      "type": "text",
+      "label": "Enter the defendant's name (last, first, MI).",
+      "page": 1,
+      "box": {
+        "left": 184.3,
+        "top": 640.3,
+        "width": 243.3,
+        "height": 21.7
+      }
+    },
+    "to": {
+      "type": "text",
+      "label": "Enter the defendant's name (last, first, MI).",
+      "page": 1,
+      "box": {
+        "left": 67.5,
+        "top": 608.2,
+        "width": 251.5,
+        "height": 21.3
+      }
+    },
+    "affidavit": {
+      "type": "text",
+      "label": "Enter by whom the affidavit(s) was made by before you (last, first, MI).",
+      "page": 1,
+      "box": {
+        "left": 53.3,
+        "top": 561.0,
+        "width": 516.1,
+        "height": 21.3
+      }
+    },
+    "premisisDetail": {
+      "type": "text",
+      "label": "Identify the person and/or describe the premisis with particularity and in detail.",
+      "page": 1,
+      "box": {
+        "left": 53.3,
+        "top": 513.2,
+        "width": 516.1,
+        "height": 56.0
+      },
+      "multiline": true
+    },
+    "describeProperty": {
+      "type": "text",
+      "label": "Here describe the property.",
+      "page": 1,
+      "box": {
+        "left": 53.3,
+        "top": 424.9,
+        "width": 516.1,
+        "height": 52.1
+      },
+      "multiline": true
+    },
+    "day": {
+      "type": "text",
+      "label": "Enter the day.",
+      "page": 1,
+      "box": {
+        "left": 98.3,
+        "top": 228.0,
+        "width": 39.7,
+        "height": 21.3
+      }
+    },
+    "month": {
+      "type": "text",
+      "label": "Enter the month.",
+      "page": 1,
+      "box": {
+        "left": 175.3,
+        "top": 228.0,
+        "width": 98.8,
+        "height": 21.3
+      }
+    },
+    "year": {
+      "type": "text",
+      "label": "Enter the last two digits of the year.",
+      "page": 1,
+      "box": {
+        "left": 291.8,
+        "top": 228.0,
+        "width": 22.8,
+        "height": 21.3
+      }
+    },
+    "signatureAuthorization": {
+      "type": "text",
+      "label": "Enter the signature of person authorizing the search.",
+      "page": 1,
+      "box": {
+        "left": 326.6,
+        "top": 190.3,
+        "width": 221.9,
+        "height": 21.3
+      }
+    },
+    "rankSerTitle": {
+      "type": "text",
+      "label": "Enter rank, service and/or title.",
+      "page": 1,
+      "box": {
+        "left": 326.6,
+        "top": 156.0,
+        "width": 220.8,
+        "height": 20.1
+      }
+    },
+    "command": {
+      "type": "text",
+      "label": "Enter the command.",
+      "page": 1,
+      "box": {
+        "left": 326.6,
+        "top": 123.4,
+        "width": 220.2,
+        "height": 20.1
+      }
+    }
+  }
+}

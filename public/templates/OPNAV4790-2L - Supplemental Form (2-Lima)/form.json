@@ -1,0 +1,179 @@
+{
+  "id": "opnav47902l",
+  "label": "OPNAV4790-2L - Supplemental Form (2-Lima)",
+  "directory": "OPNAV4790-2L - Supplemental Form (2-Lima)",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "shipName",
+        "hullNumber",
+        "shipUIC",
+        "workCenter",
+        "jobSeqNum",
+        "radio",
+        "radio2",
+        "radio3",
+        "remarks",
+        "contact1",
+        "date1",
+        "contact2",
+        "date2"
+      ]
+    }
+  ],
+  "fields": {
+    "shipName": {
+      "type": "text",
+      "label": "1. SHIP&apos;S NAME",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 706.4,
+        "width": 217.6,
+        "height": 41.1
+      },
+      "multiline": true
+    },
+    "hullNumber": {
+      "type": "text",
+      "label": "2. HULL NUMBER",
+      "page": 1,
+      "box": {
+        "left": 262.1,
+        "top": 706.4,
+        "width": 73.5,
+        "height": 41.1
+      },
+      "multiline": true
+    },
+    "shipUIC": {
+      "type": "text",
+      "label": "3. SHIP&apos;S UIC",
+      "page": 1,
+      "box": {
+        "left": 341.3,
+        "top": 692.0,
+        "width": 73.5,
+        "height": 12.3
+      }
+    },
+    "workCenter": {
+      "type": "text",
+      "label": "4. WORK CENTER",
+      "page": 1,
+      "box": {
+        "left": 420.5,
+        "top": 692.0,
+        "width": 73.5,
+        "height": 12.3
+      }
+    },
+    "jobSeqNum": {
+      "type": "text",
+      "label": "5. JOB SEQ. NO",
+      "page": 1,
+      "box": {
+        "left": 499.7,
+        "top": 692.0,
+        "width": 73.5,
+        "height": 12.3
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 436.9,
+        "top": 674.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 466.0,
+        "top": 674.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 495.2,
+        "top": 674.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "remarks": {
+      "type": "text",
+      "label": "7. REMARKS",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 630.7,
+        "width": 534.4,
+        "height": 139.5
+      },
+      "multiline": true
+    },
+    "contact1": {
+      "type": "text",
+      "label": "9. FIRST CONTACT/MAINTENANCE MAN (Print)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 51.3,
+        "width": 192.4,
+        "height": 12.3
+      }
+    },
+    "date1": {
+      "type": "text",
+      "label": "10. DATE",
+      "page": 1,
+      "box": {
+        "left": 236.9,
+        "top": 51.3,
+        "width": 66.3,
+        "height": 12.3
+      }
+    },
+    "contact2": {
+      "type": "text",
+      "label": "11. SECOND CONTACT/SUPERVISOR (Print)",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 51.3,
+        "width": 192.4,
+        "height": 12.3
+      }
+    },
+    "date2": {
+      "type": "text",
+      "label": "12. DATE",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 51.3,
+        "width": 66.3,
+        "height": 12.3
+      }
+    }
+  }
+}

@@ -1,0 +1,458 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "phoneNum": {
+        "left": 413.5,
+        "top": 602.0,
+        "width": 176.0,
+        "height": 17.9,
+        "type": "text",
+        "description": "PhoneNum",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameL": {
+        "left": 21.6,
+        "top": 600.8,
+        "width": 388.8,
+        "height": 16.0,
+        "type": "text",
+        "description": "Last Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "addEMail": {
+        "left": 21.6,
+        "top": 568.0,
+        "width": 568.8,
+        "height": 16.0,
+        "type": "text",
+        "description": "E-Mail Address",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolName0": {
+        "left": 21.6,
+        "top": 496.0,
+        "width": 210.4,
+        "height": 16.0,
+        "type": "text",
+        "description": "Name of School. Line 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolSt0": {
+        "left": 233.6,
+        "top": 496.0,
+        "width": 37.6,
+        "height": 16.0,
+        "type": "text",
+        "description": "State where School is located. Line 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolUnit0": {
+        "left": 272.8,
+        "top": 496.0,
+        "width": 126.4,
+        "height": 16.0,
+        "type": "text",
+        "description": "School Unit. Line 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolSupUn0": {
+        "left": 400.8,
+        "top": 496.0,
+        "width": 189.6,
+        "height": 16.0,
+        "type": "text",
+        "description": "Unit Supporting School. Line 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolName1": {
+        "left": 21.6,
+        "top": 472.0,
+        "width": 210.4,
+        "height": 16.0,
+        "type": "text",
+        "description": "Name of School. Line 2.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolSt1": {
+        "left": 233.6,
+        "top": 472.0,
+        "width": 37.6,
+        "height": 16.0,
+        "type": "text",
+        "description": "State where School is located. Line 2.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolUnit1": {
+        "left": 272.8,
+        "top": 472.0,
+        "width": 126.4,
+        "height": 16.0,
+        "type": "text",
+        "description": "School Unit. Line 2.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolSupUn1": {
+        "left": 400.8,
+        "top": 472.0,
+        "width": 189.6,
+        "height": 16.0,
+        "type": "text",
+        "description": "Unit Supporting School. Line 2.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolName2": {
+        "left": 21.6,
+        "top": 448.0,
+        "width": 210.4,
+        "height": 16.0,
+        "type": "text",
+        "description": "Name of School. Line 3.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolSt2": {
+        "left": 233.6,
+        "top": 448.0,
+        "width": 37.6,
+        "height": 16.0,
+        "type": "text",
+        "description": "State where School is located. Line 3.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolUnit2": {
+        "left": 272.8,
+        "top": 448.0,
+        "width": 126.4,
+        "height": 16.0,
+        "type": "text",
+        "description": "School Unit. Line 3.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolSupUn2": {
+        "left": 400.8,
+        "top": 448.0,
+        "width": 189.6,
+        "height": 16.0,
+        "type": "text",
+        "description": "Unit Supporting School. Line 3.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolName3": {
+        "left": 21.6,
+        "top": 424.0,
+        "width": 210.4,
+        "height": 16.0,
+        "type": "text",
+        "description": "Name of School. Line 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolSt3": {
+        "left": 233.6,
+        "top": 424.0,
+        "width": 37.6,
+        "height": 16.0,
+        "type": "text",
+        "description": "State where School is located. Line 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolUnit3": {
+        "left": 272.8,
+        "top": 424.0,
+        "width": 126.4,
+        "height": 16.0,
+        "type": "text",
+        "description": "School Unit. Line 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolSupUn3": {
+        "left": 400.8,
+        "top": 424.0,
+        "width": 189.6,
+        "height": 16.0,
+        "type": "text",
+        "description": "Unit Supporting School. Line 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolName4": {
+        "left": 21.6,
+        "top": 400.0,
+        "width": 210.4,
+        "height": 16.0,
+        "type": "text",
+        "description": "Name of School. Line 5.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolSt4": {
+        "left": 233.6,
+        "top": 400.0,
+        "width": 37.6,
+        "height": 16.0,
+        "type": "text",
+        "description": "State where School is located. Line 5.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolUnit4": {
+        "left": 272.8,
+        "top": 400.0,
+        "width": 126.4,
+        "height": 16.0,
+        "type": "text",
+        "description": "School Unit. Line 5.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolSupUn4": {
+        "left": 400.8,
+        "top": 400.0,
+        "width": 189.6,
+        "height": 16.0,
+        "type": "text",
+        "description": "Unit Supporting School. Line 5.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolName5": {
+        "left": 21.6,
+        "top": 376.0,
+        "width": 210.4,
+        "height": 16.0,
+        "type": "text",
+        "description": "Name of School. Line 6.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolSt5": {
+        "left": 233.6,
+        "top": 376.0,
+        "width": 37.6,
+        "height": 16.0,
+        "type": "text",
+        "description": "State where School is located. Line 6.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolUnit5": {
+        "left": 272.8,
+        "top": 376.0,
+        "width": 126.4,
+        "height": 16.0,
+        "type": "text",
+        "description": "School Unit. Line 6.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolSupUn5": {
+        "left": 400.8,
+        "top": 376.0,
+        "width": 189.6,
+        "height": 16.0,
+        "type": "text",
+        "description": "Unit Supporting School. Line 6.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolName6": {
+        "left": 21.6,
+        "top": 352.8,
+        "width": 210.4,
+        "height": 16.0,
+        "type": "text",
+        "description": "Name of School. Line 7.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolSt6": {
+        "left": 233.6,
+        "top": 352.8,
+        "width": 37.6,
+        "height": 16.0,
+        "type": "text",
+        "description": "State where School is located. Line 7.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolUnit6": {
+        "left": 272.8,
+        "top": 352.8,
+        "width": 126.4,
+        "height": 16.0,
+        "type": "text",
+        "description": "School Unit. Line 7.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolSupUn6": {
+        "left": 400.8,
+        "top": 352.8,
+        "width": 189.6,
+        "height": 16.0,
+        "type": "text",
+        "description": "Unit Supporting School. Line 7.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolName7": {
+        "left": 21.6,
+        "top": 328.8,
+        "width": 210.4,
+        "height": 16.0,
+        "type": "text",
+        "description": "Name of School. Line 8.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolSt7": {
+        "left": 233.6,
+        "top": 328.8,
+        "width": 37.6,
+        "height": 16.0,
+        "type": "text",
+        "description": "State where School is located. Line 8.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolUnit7": {
+        "left": 272.8,
+        "top": 328.8,
+        "width": 126.4,
+        "height": 16.0,
+        "type": "text",
+        "description": "School Unit. Line 8.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolSupUn7": {
+        "left": 400.8,
+        "top": 328.8,
+        "width": 189.6,
+        "height": 16.0,
+        "type": "text",
+        "description": "Unit Supporting School. Line 8.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "descProg": {
+        "left": 21.6,
+        "top": 298.4,
+        "width": 568.8,
+        "height": 121.5,
+        "type": "text",
+        "description": "Brief description of the programs the unit is providing.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "numPartMar": {
+        "left": 112.8,
+        "top": 151.2,
+        "width": 476.8,
+        "height": 16.0,
+        "type": "text",
+        "description": "Number of Participants in the Program. Individual Marines.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "numPartOthSm": {
+        "left": 132.0,
+        "top": 129.6,
+        "width": 457.6,
+        "height": 16.0,
+        "type": "text",
+        "description": "Number of Participants in the Program. Other Service Members.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "numPartCiv": {
+        "left": 87.2,
+        "top": 108.8,
+        "width": 502.4,
+        "height": 16.0,
+        "type": "text",
+        "description": "Number of Participants in the Program. DOD civilians.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "numPartChld": {
+        "left": 133.6,
+        "top": 88.0,
+        "width": 456.0,
+        "height": 16.0,
+        "type": "text",
+        "description": "Number of Participants in the Program. Children being reached.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

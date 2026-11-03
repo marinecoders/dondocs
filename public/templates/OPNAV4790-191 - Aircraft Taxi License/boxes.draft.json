@@ -1,0 +1,271 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "name": {
+        "left": 40.9,
+        "top": 688.4,
+        "width": 238.8,
+        "height": 18.9,
+        "type": "text",
+        "description": "1. NAME - LAST, FIRST, MIDDLE INITIAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "jobTle": {
+        "left": 284.7,
+        "top": 688.4,
+        "width": 143.3,
+        "height": 18.9,
+        "type": "text",
+        "description": "2. JOB TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "depDiv": {
+        "left": 433.0,
+        "top": 688.4,
+        "width": 143.3,
+        "height": 18.9,
+        "type": "text",
+        "description": "3. DEPARTMENT/DIVISION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "acftTyMdSer": {
+        "left": 40.8,
+        "top": 655.9,
+        "width": 175.0,
+        "height": 18.9,
+        "type": "text",
+        "description": "4. AIRCRAFT TYPE/MODEL/SERIES",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unit": {
+        "left": 220.8,
+        "top": 655.9,
+        "width": 175.0,
+        "height": 18.9,
+        "type": "text",
+        "description": "5. UNIT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "typLic": {
+        "left": 400.9,
+        "top": 655.9,
+        "width": 175.0,
+        "height": 18.9,
+        "type": "text",
+        "description": "6. TYPE OF LICENSE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dteWrtExm": {
+        "left": 40.8,
+        "top": 623.6,
+        "width": 138.6,
+        "height": 34.2,
+        "type": "text",
+        "description": "7a. DATE OF WRITTEN EXAM(S)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rslts": {
+        "left": 184.3,
+        "top": 623.6,
+        "width": 87.0,
+        "height": 34.2,
+        "type": "text",
+        "description": "7b. RESULTS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "admBy": {
+        "left": 276.4,
+        "top": 623.6,
+        "width": 147.0,
+        "height": 34.2,
+        "type": "text",
+        "description": "8a. ADMINISTERED BY (Print Name)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "admBySig": {
+        "left": 428.5,
+        "top": 623.6,
+        "width": 147.0,
+        "height": 34.2,
+        "type": "text",
+        "description": "8b. ADMINISTERED BY SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dteOprExm": {
+        "left": 40.8,
+        "top": 575.8,
+        "width": 138.6,
+        "height": 34.2,
+        "type": "text",
+        "description": "9a. DATE OF OPERATIONAL EXAM",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rsltsA": {
+        "left": 184.3,
+        "top": 575.8,
+        "width": 87.0,
+        "height": 34.2,
+        "type": "text",
+        "description": "9b. RESULTS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "admByA": {
+        "left": 276.4,
+        "top": 575.8,
+        "width": 147.0,
+        "height": 34.2,
+        "type": "text",
+        "description": "10a. ADMINISTERED BY (Print Name)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "admBySigA": {
+        "left": 428.5,
+        "top": 575.8,
+        "width": 147.0,
+        "height": 34.2,
+        "type": "text",
+        "description": "10b. ADMINISTERED BY SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "prtNmeInd": {
+        "left": 41.0,
+        "top": 481.4,
+        "width": 213.7,
+        "height": 34.2,
+        "type": "text",
+        "description": "11a. PRINTED NAME OF INDIVIDUAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "indSigDte": {
+        "left": 259.7,
+        "top": 481.4,
+        "width": 97.7,
+        "height": 34.2,
+        "type": "text",
+        "description": "11b. SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "indSig": {
+        "left": 363.0,
+        "top": 481.4,
+        "width": 213.7,
+        "height": 34.2,
+        "type": "text",
+        "description": "11c. SIGNATURE OF INDIVIDUAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "prtNmeMO": {
+        "left": 41.0,
+        "top": 413.9,
+        "width": 213.7,
+        "height": 34.2,
+        "type": "text",
+        "description": "12a. PRINTED NAME OF MAINTENACE OFFICER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mOSigDte": {
+        "left": 259.7,
+        "top": 413.9,
+        "width": 97.7,
+        "height": 34.2,
+        "type": "text",
+        "description": "12b. SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mOSig": {
+        "left": 363.0,
+        "top": 413.9,
+        "width": 213.7,
+        "height": 34.2,
+        "type": "text",
+        "description": "12c. SIGNATURE OF INDIVIDUAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "prtNmeCO": {
+        "left": 41.0,
+        "top": 320.1,
+        "width": 213.7,
+        "height": 34.2,
+        "type": "text",
+        "description": "13a. PRINTED NAME OF COMMANDING OFFICER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cOSigDte": {
+        "left": 259.7,
+        "top": 320.1,
+        "width": 97.7,
+        "height": 34.2,
+        "type": "text",
+        "description": "13b. SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cOSig": {
+        "left": 363.0,
+        "top": 320.1,
+        "width": 213.7,
+        "height": 34.2,
+        "type": "text",
+        "description": "13c. SIGNATURE OF COMMANDING OFFICER",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

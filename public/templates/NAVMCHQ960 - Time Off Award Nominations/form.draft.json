@@ -1,0 +1,329 @@
+{
+  "id": "navmchq960",
+  "label": "NAVMCHQ960 - Time Off Award Nominations",
+  "directory": "NAVMCHQ960 - Time Off Award Nominations",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "lastName",
+        "firstName",
+        "nameMI",
+        "grade",
+        "title",
+        "series",
+        "title2",
+        "series2",
+        "grade2",
+        "justification",
+        "titleRO1",
+        "signatureSigRO1",
+        "dateRO1",
+        "titleRO2",
+        "signatureSigRO2",
+        "dateRO2",
+        "r28b",
+        "r28b2",
+        "otherHours",
+        "titleAO",
+        "signatureAO",
+        "dateAO",
+        "forHROMuseOnly"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "employees",
+        "timeOffHours"
+      ]
+    }
+  ],
+  "fields": {
+    "lastName": {
+      "type": "text",
+      "label": "LastName",
+      "page": 1,
+      "box": {
+        "left": 21.6,
+        "top": 659.1,
+        "width": 285.6,
+        "height": 15.1
+      }
+    },
+    "firstName": {
+      "type": "text",
+      "label": "FirstName",
+      "page": 1,
+      "box": {
+        "left": 311.9,
+        "top": 659.1,
+        "width": 255.1,
+        "height": 15.1
+      }
+    },
+    "nameMI": {
+      "type": "text",
+      "label": "NameMI",
+      "page": 1,
+      "box": {
+        "left": 570.6,
+        "top": 658.8,
+        "width": 19.7,
+        "height": 15.1
+      }
+    },
+    "grade": {
+      "type": "text",
+      "label": "Grade",
+      "page": 1,
+      "box": {
+        "left": 479.3,
+        "top": 611.7,
+        "width": 112.5,
+        "height": 15.1
+      }
+    },
+    "title": {
+      "type": "text",
+      "label": "Title",
+      "page": 1,
+      "box": {
+        "left": 20.9,
+        "top": 611.6,
+        "width": 191.4,
+        "height": 15.1
+      }
+    },
+    "series": {
+      "type": "text",
+      "label": "Series",
+      "page": 1,
+      "box": {
+        "left": 216.8,
+        "top": 611.6,
+        "width": 258.7,
+        "height": 15.1
+      }
+    },
+    "title2": {
+      "type": "text",
+      "label": "Title",
+      "page": 1,
+      "box": {
+        "left": 20.9,
+        "top": 563.7,
+        "width": 191.4,
+        "height": 15.1
+      }
+    },
+    "series2": {
+      "type": "text",
+      "label": "Series",
+      "page": 1,
+      "box": {
+        "left": 218.2,
+        "top": 563.7,
+        "width": 168.5,
+        "height": 15.1
+      }
+    },
+    "grade2": {
+      "type": "text",
+      "label": "Grade",
+      "page": 1,
+      "box": {
+        "left": 394.5,
+        "top": 563.7,
+        "width": 197.3,
+        "height": 15.1
+      }
+    },
+    "justification": {
+      "type": "text",
+      "label": "Justification",
+      "page": 1,
+      "box": {
+        "left": 21.7,
+        "top": 483.8,
+        "width": 569.3,
+        "height": 117.0
+      },
+      "multiline": true
+    },
+    "titleRO1": {
+      "type": "text",
+      "label": "TitleRO1",
+      "page": 1,
+      "box": {
+        "left": 102.1,
+        "top": 315.8,
+        "width": 150.2,
+        "height": 10.2
+      }
+    },
+    "signatureSigRO1": {
+      "type": "signature",
+      "label": "SignatureSigRO1",
+      "page": 1,
+      "box": {
+        "left": 264.9,
+        "top": 315.8,
+        "width": 150.3,
+        "height": 10.2
+      }
+    },
+    "dateRO1": {
+      "type": "text",
+      "label": "DateRO1",
+      "page": 1,
+      "box": {
+        "left": 429.5,
+        "top": 315.8,
+        "width": 77.6,
+        "height": 10.2
+      }
+    },
+    "titleRO2": {
+      "type": "text",
+      "label": "TitleRO2",
+      "page": 1,
+      "box": {
+        "left": 102.1,
+        "top": 276.8,
+        "width": 150.8,
+        "height": 10.2
+      }
+    },
+    "signatureSigRO2": {
+      "type": "signature",
+      "label": "SignatureSigRO2",
+      "page": 1,
+      "box": {
+        "left": 265.0,
+        "top": 276.8,
+        "width": 150.3,
+        "height": 10.2
+      }
+    },
+    "dateRO2": {
+      "type": "text",
+      "label": "DateRO2",
+      "page": 1,
+      "box": {
+        "left": 429.5,
+        "top": 276.8,
+        "width": 77.6,
+        "height": 10.2
+      }
+    },
+    "r28b": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 82.1,
+        "top": 220.9,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "form1_0_subform_0_r28b_0"
+    },
+    "r28b2": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 180.9,
+        "top": 220.6,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "form1_0_subform_0_r28b_0"
+    },
+    "otherHours": {
+      "type": "text",
+      "label": "OtherHours",
+      "page": 1,
+      "box": {
+        "left": 504.1,
+        "top": 219.7,
+        "width": 29.6,
+        "height": 10.2
+      }
+    },
+    "titleAO": {
+      "type": "text",
+      "label": "TitleAO",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 186.9,
+        "width": 150.8,
+        "height": 10.2
+      }
+    },
+    "signatureAO": {
+      "type": "signature",
+      "label": "SignatureAO",
+      "page": 1,
+      "box": {
+        "left": 264.6,
+        "top": 186.9,
+        "width": 150.3,
+        "height": 10.2
+      }
+    },
+    "dateAO": {
+      "type": "text",
+      "label": "DateAO",
+      "page": 1,
+      "box": {
+        "left": 429.2,
+        "top": 186.9,
+        "width": 77.6,
+        "height": 10.2
+      }
+    },
+    "forHROMuseOnly": {
+      "type": "text",
+      "label": "forHROMuseOnly",
+      "page": 1,
+      "box": {
+        "left": 21.1,
+        "top": 140.2,
+        "width": 569.3,
+        "height": 54.7
+      },
+      "multiline": true
+    },
+    "employees": {
+      "type": "text",
+      "label": "Employees",
+      "page": 2,
+      "box": {
+        "left": 58.5,
+        "top": 717.5,
+        "width": 342.0,
+        "height": 515.0
+      },
+      "multiline": true
+    },
+    "timeOffHours": {
+      "type": "text",
+      "label": "TimeOffHours",
+      "page": 2,
+      "box": {
+        "left": 409.6,
+        "top": 717.5,
+        "width": 146.2,
+        "height": 515.0
+      },
+      "multiline": true
+    }
+  }
+}

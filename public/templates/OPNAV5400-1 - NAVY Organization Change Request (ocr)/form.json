@@ -1,0 +1,2225 @@
+{
+  "id": "opnav54001",
+  "label": "OPNAV5400-1 - NAVY Organization Change Request (ocr)",
+  "directory": "OPNAV5400-1 - NAVY Organization Change Request (ocr)",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf",
+    "page5.pdf",
+    "page6.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "classification1a",
+        "dateReq",
+        "classification1a2",
+        "approvalAuth1b",
+        "origComm",
+        "pOCname",
+        "telephone",
+        "clasEmail",
+        "unclasEmail",
+        "dNS2d",
+        "dnsext",
+        "yesOrNo",
+        "hrrca",
+        "actNum",
+        "typeOfAction",
+        "currActNam",
+        "proActNam",
+        "currLoc",
+        "proLoc",
+        "currEch2Comm",
+        "coorEch2Comm",
+        "dateEff",
+        "dateIssu",
+        "reasForAct",
+        "currMissStmnt",
+        "revMissStmnt",
+        "classification1a3"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "classification1a4",
+        "dateO",
+        "dateE",
+        "dateC",
+        "date4",
+        "funO",
+        "funE",
+        "funCiv",
+        "funCon",
+        "selO",
+        "selE",
+        "totO",
+        "totE",
+        "totCiv",
+        "totCon",
+        "antO",
+        "antE",
+        "antCiv",
+        "antCon",
+        "antAO",
+        "antAE",
+        "antECiv",
+        "antECon",
+        "actInO",
+        "actInE",
+        "actInCiv",
+        "actInCon",
+        "actOO",
+        "actOE",
+        "actOCiv",
+        "actOCon",
+        "proO",
+        "proE",
+        "curSalO",
+        "curSalE",
+        "curSalCiv",
+        "curSalCon",
+        "netGLO",
+        "netGLE",
+        "netGLCiv",
+        "netGLCon",
+        "poam",
+        "laborgaff",
+        "lndarea",
+        "bldgaccval",
+        "eqaccval",
+        "efwhyzero",
+        "fy1",
+        "fy2",
+        "addoccinfo",
+        "invimp",
+        "classification1a5"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "classification1a6",
+        "pladex",
+        "pladpro",
+        "mladdex",
+        "mladdpro",
+        "milcivex",
+        "milcivPRO",
+        "proUIC",
+        "uic",
+        "currSNDLcode",
+        "proCurrSNDLcode",
+        "uic2",
+        "extEch1",
+        "commName1",
+        "uic3",
+        "extEch2",
+        "commName2",
+        "uic4",
+        "extEch3",
+        "commName3",
+        "uic5",
+        "extEch4",
+        "commName4",
+        "uic6",
+        "extEch5",
+        "commName5",
+        "uic7",
+        "extEch6",
+        "commName6",
+        "uic8",
+        "extEch7",
+        "commName7",
+        "uic9",
+        "extEch8",
+        "commName8",
+        "lcjCommImpac",
+        "actNum2",
+        "pocName1",
+        "leadComm",
+        "classification1a7"
+      ]
+    },
+    {
+      "title": "Page 4",
+      "fields": [
+        "classification1a8",
+        "pocTelephone1",
+        "dNS9d",
+        "dSNextension",
+        "unclasemail1",
+        "clasemail1",
+        "radio",
+        "radio2",
+        "radio3",
+        "radio4",
+        "finRevName1",
+        "rankGrade1",
+        "posi1",
+        "sigTextField1",
+        "sigTextField2",
+        "dateSig1",
+        "comm1",
+        "typeOfComm",
+        "pocName2",
+        "pocTelephone2",
+        "dNS10d",
+        "unclasemail2",
+        "clasemail2",
+        "radio5",
+        "radio6",
+        "radio7",
+        "radio8",
+        "finRevName2",
+        "rankGradeEnd1",
+        "posi2",
+        "signature2",
+        "dateSig2",
+        "comm2",
+        "classification1a9"
+      ]
+    },
+    {
+      "title": "Page 5",
+      "fields": [
+        "classification1a10",
+        "classification1a11"
+      ]
+    },
+    {
+      "title": "Page 6",
+      "fields": [
+        "classification1a12",
+        "classification1a13"
+      ]
+    }
+  ],
+  "fields": {
+    "classification1a": {
+      "type": "choice",
+      "label": "Classification 1a",
+      "page": 1,
+      "box": {
+        "left": 263.9,
+        "top": 771.3,
+        "width": 84.3,
+        "height": 12.3
+      },
+      "options": [
+        "CUI",
+        "CONFIDENTIAL",
+        "SECRET",
+        "TOP SECRET"
+      ]
+    },
+    "dateReq": {
+      "type": "text",
+      "label": "c. DATE OF REQUEST",
+      "page": 1,
+      "box": {
+        "left": 491.7,
+        "top": 718.0,
+        "width": 82.2,
+        "height": 13.8
+      }
+    },
+    "classification1a2": {
+      "type": "choice",
+      "label": "a. CLASSIFICATION",
+      "page": 1,
+      "box": {
+        "left": 128.9,
+        "top": 717.3,
+        "width": 84.3,
+        "height": 12.3
+      },
+      "options": [
+        "CUI",
+        "Confidential",
+        "Secret",
+        "Top Secret"
+      ]
+    },
+    "approvalAuth1b": {
+      "type": "choice",
+      "label": "b. APPROVAL AUTHORITY",
+      "page": 1,
+      "box": {
+        "left": 330.5,
+        "top": 717.3,
+        "width": 62.7,
+        "height": 12.3
+      },
+      "options": [
+        "SECNAV",
+        "CNO",
+        "CMC",
+        "FLEET"
+      ]
+    },
+    "origComm": {
+      "type": "text",
+      "label": "a. ORIGINATING COMMAND",
+      "page": 1,
+      "box": {
+        "left": 38.1,
+        "top": 674.8,
+        "width": 265.9,
+        "height": 13.8
+      }
+    },
+    "pOCname": {
+      "type": "text",
+      "label": "b. POC NAME",
+      "page": 1,
+      "box": {
+        "left": 308.1,
+        "top": 674.8,
+        "width": 265.9,
+        "height": 13.8
+      }
+    },
+    "telephone": {
+      "type": "text",
+      "label": "c. PHONE",
+      "page": 1,
+      "box": {
+        "left": 80.5,
+        "top": 656.8,
+        "width": 55.4,
+        "height": 10.2
+      }
+    },
+    "clasEmail": {
+      "type": "text",
+      "label": "EXT",
+      "page": 1,
+      "box": {
+        "left": 394.7,
+        "top": 646.0,
+        "width": 179.3,
+        "height": 13.8
+      }
+    },
+    "unclasEmail": {
+      "type": "text",
+      "label": "EXT",
+      "page": 1,
+      "box": {
+        "left": 216.1,
+        "top": 645.9,
+        "width": 174.3,
+        "height": 13.6
+      }
+    },
+    "dNS2d": {
+      "type": "text",
+      "label": "d. DSN",
+      "page": 1,
+      "box": {
+        "left": 70.5,
+        "top": 642.4,
+        "width": 65.4,
+        "height": 10.2
+      }
+    },
+    "dnsext": {
+      "type": "text",
+      "label": "EXT",
+      "page": 1,
+      "box": {
+        "left": 162.0,
+        "top": 642.4,
+        "width": 49.9,
+        "height": 10.1
+      }
+    },
+    "yesOrNo": {
+      "type": "choice",
+      "label": "OPNAVINST 5400.44 (Series)",
+      "page": 1,
+      "box": {
+        "left": 488.9,
+        "top": 627.2,
+        "width": 83.6,
+        "height": 8.7
+      },
+      "options": [
+        "Yes",
+        "No"
+      ]
+    },
+    "hrrca": {
+      "type": "text",
+      "label": "Hrrca",
+      "page": 1,
+      "box": {
+        "left": 38.1,
+        "top": 613.6,
+        "width": 535.9,
+        "height": 40.8
+      },
+      "multiline": true
+    },
+    "actNum": {
+      "type": "text",
+      "label": "ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 303.9,
+        "top": 570.7,
+        "width": 15.1,
+        "height": 15.8
+      },
+      "required": true
+    },
+    "typeOfAction": {
+      "type": "choice",
+      "label": "DATA",
+      "page": 1,
+      "box": {
+        "left": 316.1,
+        "top": 549.8,
+        "width": 149.1,
+        "height": 12.3
+      },
+      "options": [
+        "Establishment",
+        "Disestablishment",
+        "Homeport Change",
+        "Decommissioning",
+        "Relocation",
+        "Renaming",
+        "Consolidation",
+        "Modification",
+        "ISIC Change",
+        "Permanent Duty Station",
+        "Initial Homeport Assignment",
+        "TYCOM",
+        "Other"
+      ]
+    },
+    "currActNam": {
+      "type": "text",
+      "label": "a. CURRENT ACTIVITY LONG NAME",
+      "page": 1,
+      "box": {
+        "left": 38.1,
+        "top": 521.8,
+        "width": 535.9,
+        "height": 13.8
+      }
+    },
+    "proActNam": {
+      "type": "text",
+      "label": "b. PROPOSED ACTIVITY LONG NAME",
+      "page": 1,
+      "box": {
+        "left": 38.1,
+        "top": 493.0,
+        "width": 535.9,
+        "height": 13.8
+      }
+    },
+    "currLoc": {
+      "type": "text",
+      "label": "c. CURRENT LOCATION",
+      "page": 1,
+      "box": {
+        "left": 38.1,
+        "top": 464.2,
+        "width": 265.9,
+        "height": 13.8
+      }
+    },
+    "proLoc": {
+      "type": "text",
+      "label": "d. PROPOSED LOCATION",
+      "page": 1,
+      "box": {
+        "left": 308.1,
+        "top": 464.2,
+        "width": 265.9,
+        "height": 13.8
+      }
+    },
+    "currEch2Comm": {
+      "type": "choice",
+      "label": "e. CURRENT ECHELON 2 COMMAND",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 434.6,
+        "width": 264.4,
+        "height": 12.3
+      },
+      "options": [
+        "BUMED (Bureau of Medicine and Surgery)",
+        "CNIC (Navy Installations)",
+        "CNP (Chief of Naval Personnel)",
+        "CNRF (Navy Reserve Force)",
+        "CPF (U. S. Pacific Fleet)",
+        "FSA (Field Support Activity)",
+        "NAVAIR (Naval Air Systems Command)",
+        "NAVCENT (U.S. Naval Forces Central Command)",
+        "NAVEUR/NAVAF (U. S. Naval Forces Europe-Africa)",
+        "NAVFAC (Naval Facilities Engineering Systems Command)",
+        "NAVSEA (Naval Sea Systems Command)",
+        "NAVSUP (Naval Supply Command)",
+        "NAVWAR (Naval Information Warfare Systems Command)",
+        "NDW (Naval District Washington)",
+        "NETC (Naval Education and Training Command)",
+        "NIA (Naval Intelligence Activity)",
+        "NPS (Naval Postgraduate School)",
+        "NSWC (Naval Special Warfare Command)",
+        "Other",
+        "SAFCOM (Safety Command)",
+        "SSP (Strategic Systems Program)",
+        "US Navy Music",
+        "USFLTFORCOM (U. S. Fleet Forces Command)"
+      ]
+    },
+    "coorEch2Comm": {
+      "type": "choice",
+      "label": "f. PROPOSED ECHELON COMMAND",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 434.6,
+        "width": 264.4,
+        "height": 12.3
+      },
+      "options": [
+        "BUMED (Bureau of Medicine and Surgery)",
+        "CNIC (Navy Installations)",
+        "CNP (Chief of Naval Personnel)",
+        "CNRF (Navy Reserve Force)",
+        "CPF (U. S. Pacific Fleet)",
+        "FSA (Field Support Activity)",
+        "NAVAIR (Naval Air Systems Command)",
+        "NAVCENT (U.S. Naval Forces Central Command)",
+        "NAVEUR/NAVAF (U. S. Naval Forces Europe-Africa)",
+        "NAVFAC (Naval Facilities Engineering Systems Command)",
+        "NAVSEA (Naval Sea Systems Command)",
+        "NAVSUP (Naval Supply Command)",
+        "NAVWAR (Naval Information Warfare Systems Command)",
+        "NDW (Naval District Washington)",
+        "NETC (Naval Education and Training Command)",
+        "NIA (Naval Intelligence Activity)",
+        "NPS (Naval Postgraduate School)",
+        "NSWC (Naval Special Warfare Command)",
+        "Other",
+        "SAFCOM (Safety Command)",
+        "SSP (Strategic Systems Program)",
+        "US Navy Music",
+        "USFLTFORCOM (U. S. Fleet Forces Command)"
+      ]
+    },
+    "dateEff": {
+      "type": "text",
+      "label": "g. EFFECTIVE DATE",
+      "page": 1,
+      "box": {
+        "left": 146.1,
+        "top": 417.4,
+        "width": 157.8,
+        "height": 13.8
+      }
+    },
+    "dateIssu": {
+      "type": "text",
+      "label": "h. ISSUANCE DATE",
+      "page": 1,
+      "box": {
+        "left": 416.1,
+        "top": 417.4,
+        "width": 157.8,
+        "height": 13.8
+      }
+    },
+    "reasForAct": {
+      "type": "text",
+      "label": "Reas For Act",
+      "page": 1,
+      "box": {
+        "left": 38.1,
+        "top": 380.1,
+        "width": 535.9,
+        "height": 84.6
+      },
+      "multiline": true
+    },
+    "currMissStmnt": {
+      "type": "text",
+      "label": "j. CURRENT MISSION STATEMENT",
+      "page": 1,
+      "box": {
+        "left": 38.1,
+        "top": 280.5,
+        "width": 535.9,
+        "height": 94.8
+      },
+      "multiline": true
+    },
+    "revMissStmnt": {
+      "type": "text",
+      "label": "k. REVISED MISSION STATEMENT",
+      "page": 1,
+      "box": {
+        "left": 38.1,
+        "top": 170.7,
+        "width": 535.9,
+        "height": 96.6
+      },
+      "multiline": true
+    },
+    "classification1a3": {
+      "type": "choice",
+      "label": "OPNAV 5400/1 (REV. JUL-2025)",
+      "page": 1,
+      "box": {
+        "left": 263.9,
+        "top": 69.2,
+        "width": 84.3,
+        "height": 12.3
+      },
+      "options": [
+        "CUI",
+        "CONFIDENTIAL",
+        "SECRET",
+        "TOP SECRET"
+      ]
+    },
+    "classification1a4": {
+      "type": "choice",
+      "label": "Classification 1a 4",
+      "page": 2,
+      "box": {
+        "left": 263.9,
+        "top": 771.3,
+        "width": 84.3,
+        "height": 12.3
+      },
+      "options": [
+        "CUI",
+        "CONFIDENTIAL",
+        "SECRET",
+        "TOP SECRET"
+      ]
+    },
+    "dateO": {
+      "type": "text",
+      "label": "SNAPSHOT DATE",
+      "page": 2,
+      "box": {
+        "left": 290.1,
+        "top": 721.6,
+        "width": 67.8,
+        "height": 10.2
+      }
+    },
+    "dateE": {
+      "type": "text",
+      "label": "SNAPSHOT DATE",
+      "page": 2,
+      "box": {
+        "left": 362.1,
+        "top": 721.6,
+        "width": 67.8,
+        "height": 10.2
+      }
+    },
+    "dateC": {
+      "type": "text",
+      "label": "SNAPSHOT DATE",
+      "page": 2,
+      "box": {
+        "left": 434.1,
+        "top": 721.6,
+        "width": 67.8,
+        "height": 10.2
+      }
+    },
+    "date4": {
+      "type": "text",
+      "label": "SNAPSHOT DATE",
+      "page": 2,
+      "box": {
+        "left": 506.2,
+        "top": 721.6,
+        "width": 67.8,
+        "height": 10.2
+      }
+    },
+    "funO": {
+      "type": "text",
+      "label": "FUNDED BILLETS",
+      "page": 2,
+      "box": {
+        "left": 290.1,
+        "top": 707.2,
+        "width": 67.8,
+        "height": 10.2
+      }
+    },
+    "funE": {
+      "type": "text",
+      "label": "FUNDED BILLETS",
+      "page": 2,
+      "box": {
+        "left": 362.1,
+        "top": 707.2,
+        "width": 67.8,
+        "height": 10.2
+      }
+    },
+    "funCiv": {
+      "type": "text",
+      "label": "FUNDED BILLETS",
+      "page": 2,
+      "box": {
+        "left": 434.1,
+        "top": 707.2,
+        "width": 67.8,
+        "height": 10.2
+      }
+    },
+    "funCon": {
+      "type": "text",
+      "label": "FUNDED BILLETS",
+      "page": 2,
+      "box": {
+        "left": 506.2,
+        "top": 707.2,
+        "width": 67.8,
+        "height": 10.2
+      }
+    },
+    "selO": {
+      "type": "text",
+      "label": "SELRES MANNING",
+      "page": 2,
+      "box": {
+        "left": 290.1,
+        "top": 692.8,
+        "width": 67.8,
+        "height": 10.2
+      }
+    },
+    "selE": {
+      "type": "text",
+      "label": "SELRES MANNING",
+      "page": 2,
+      "box": {
+        "left": 362.1,
+        "top": 692.8,
+        "width": 67.8,
+        "height": 10.2
+      }
+    },
+    "totO": {
+      "type": "text",
+      "label": "TOTAL ONBOARD",
+      "page": 2,
+      "box": {
+        "left": 290.1,
+        "top": 678.4,
+        "width": 67.8,
+        "height": 10.2
+      }
+    },
+    "totE": {
+      "type": "text",
+      "label": "TOTAL ONBOARD",
+      "page": 2,
+      "box": {
+        "left": 362.1,
+        "top": 678.4,
+        "width": 67.8,
+        "height": 10.2
+      }
+    },
+    "totCiv": {
+      "type": "text",
+      "label": "TOTAL ONBOARD",
+      "page": 2,
+      "box": {
+        "left": 434.1,
+        "top": 678.4,
+        "width": 67.8,
+        "height": 10.2
+      }
+    },
+    "totCon": {
+      "type": "text",
+      "label": "TOTAL ONBOARD",
+      "page": 2,
+      "box": {
+        "left": 506.2,
+        "top": 678.4,
+        "width": 67.8,
+        "height": 10.2
+      }
+    },
+    "antO": {
+      "type": "text",
+      "label": "ANTICIPATED RIF",
+      "page": 2,
+      "box": {
+        "left": 290.1,
+        "top": 664.0,
+        "width": 67.8,
+        "height": 10.2
+      }
+    },
+    "antE": {
+      "type": "text",
+      "label": "ANTICIPATED RIF",
+      "page": 2,
+      "box": {
+        "left": 362.1,
+        "top": 664.0,
+        "width": 67.8,
+        "height": 10.2
+      }
+    },
+    "antCiv": {
+      "type": "text",
+      "label": "ANTICIPATED RIF",
+      "page": 2,
+      "box": {
+        "left": 434.1,
+        "top": 664.0,
+        "width": 67.8,
+        "height": 10.2
+      }
+    },
+    "antCon": {
+      "type": "text",
+      "label": "ANTICIPATED RIF",
+      "page": 2,
+      "box": {
+        "left": 506.2,
+        "top": 664.0,
+        "width": 67.8,
+        "height": 10.2
+      }
+    },
+    "antAO": {
+      "type": "text",
+      "label": "ANTICIPATED ATTRITION",
+      "page": 2,
+      "box": {
+        "left": 290.1,
+        "top": 649.6,
+        "width": 67.8,
+        "height": 10.2
+      }
+    },
+    "antAE": {
+      "type": "text",
+      "label": "ANTICIPATED ATTRITION",
+      "page": 2,
+      "box": {
+        "left": 362.1,
+        "top": 649.6,
+        "width": 67.8,
+        "height": 10.2
+      }
+    },
+    "antECiv": {
+      "type": "text",
+      "label": "ANTICIPATED ATTRITION",
+      "page": 2,
+      "box": {
+        "left": 434.1,
+        "top": 649.6,
+        "width": 67.8,
+        "height": 10.2
+      }
+    },
+    "antECon": {
+      "type": "text",
+      "label": "ANTICIPATED ATTRITION",
+      "page": 2,
+      "box": {
+        "left": 506.2,
+        "top": 649.6,
+        "width": 67.8,
+        "height": 10.2
+      }
+    },
+    "actInO": {
+      "type": "text",
+      "label": "XFERRED TO OTHER ACTIVITY IN THE AREA",
+      "page": 2,
+      "box": {
+        "left": 290.1,
+        "top": 635.2,
+        "width": 67.8,
+        "height": 10.2
+      }
+    },
+    "actInE": {
+      "type": "text",
+      "label": "XFERRED TO OTHER ACTIVITY IN THE AREA",
+      "page": 2,
+      "box": {
+        "left": 362.1,
+        "top": 635.2,
+        "width": 67.8,
+        "height": 10.2
+      }
+    },
+    "actInCiv": {
+      "type": "text",
+      "label": "XFERRED TO OTHER ACTIVITY IN THE AREA",
+      "page": 2,
+      "box": {
+        "left": 434.1,
+        "top": 635.2,
+        "width": 67.8,
+        "height": 10.2
+      }
+    },
+    "actInCon": {
+      "type": "text",
+      "label": "XFERRED TO OTHER ACTIVITY IN THE AREA",
+      "page": 2,
+      "box": {
+        "left": 506.2,
+        "top": 635.2,
+        "width": 67.8,
+        "height": 10.2
+      }
+    },
+    "actOO": {
+      "type": "text",
+      "label": "XFERRED TO OTHER ACTIVITY OUTSIDE THE AREA",
+      "page": 2,
+      "box": {
+        "left": 290.1,
+        "top": 620.8,
+        "width": 67.8,
+        "height": 10.2
+      }
+    },
+    "actOE": {
+      "type": "text",
+      "label": "XFERRED TO OTHER ACTIVITY OUTSIDE THE AREA",
+      "page": 2,
+      "box": {
+        "left": 362.1,
+        "top": 620.8,
+        "width": 67.8,
+        "height": 10.2
+      }
+    },
+    "actOCiv": {
+      "type": "text",
+      "label": "XFERRED TO OTHER ACTIVITY OUTSIDE THE AREA",
+      "page": 2,
+      "box": {
+        "left": 434.1,
+        "top": 620.8,
+        "width": 67.8,
+        "height": 10.2
+      }
+    },
+    "actOCon": {
+      "type": "text",
+      "label": "XFERRED TO OTHER ACTIVITY OUTSIDE THE AREA",
+      "page": 2,
+      "box": {
+        "left": 506.2,
+        "top": 620.8,
+        "width": 67.8,
+        "height": 10.2
+      }
+    },
+    "proO": {
+      "type": "text",
+      "label": "PROGRAMMING RATE",
+      "page": 2,
+      "box": {
+        "left": 290.1,
+        "top": 606.4,
+        "width": 67.8,
+        "height": 10.2
+      }
+    },
+    "proE": {
+      "type": "text",
+      "label": "PROGRAMMING RATE",
+      "page": 2,
+      "box": {
+        "left": 362.1,
+        "top": 606.4,
+        "width": 67.8,
+        "height": 10.2
+      }
+    },
+    "curSalO": {
+      "type": "text",
+      "label": "CURRENT TOTAL SALARY ($)",
+      "page": 2,
+      "box": {
+        "left": 290.1,
+        "top": 592.0,
+        "width": 67.8,
+        "height": 10.2
+      }
+    },
+    "curSalE": {
+      "type": "text",
+      "label": "CURRENT TOTAL SALARY ($)",
+      "page": 2,
+      "box": {
+        "left": 362.1,
+        "top": 592.0,
+        "width": 67.8,
+        "height": 10.2
+      }
+    },
+    "curSalCiv": {
+      "type": "text",
+      "label": "CURRENT TOTAL SALARY ($)",
+      "page": 2,
+      "box": {
+        "left": 434.1,
+        "top": 592.0,
+        "width": 67.8,
+        "height": 10.2
+      }
+    },
+    "curSalCon": {
+      "type": "text",
+      "label": "CURRENT TOTAL SALARY ($)",
+      "page": 2,
+      "box": {
+        "left": 506.2,
+        "top": 592.0,
+        "width": 67.8,
+        "height": 10.2
+      }
+    },
+    "netGLO": {
+      "type": "text",
+      "label": "NET GAIN/LOSS ($)",
+      "page": 2,
+      "box": {
+        "left": 290.1,
+        "top": 577.6,
+        "width": 67.8,
+        "height": 10.2
+      }
+    },
+    "netGLE": {
+      "type": "text",
+      "label": "NET GAIN/LOSS ($)",
+      "page": 2,
+      "box": {
+        "left": 362.1,
+        "top": 577.6,
+        "width": 67.8,
+        "height": 10.2
+      }
+    },
+    "netGLCiv": {
+      "type": "text",
+      "label": "NET GAIN/LOSS ($)",
+      "page": 2,
+      "box": {
+        "left": 434.1,
+        "top": 577.6,
+        "width": 67.8,
+        "height": 10.2
+      }
+    },
+    "netGLCon": {
+      "type": "text",
+      "label": "NET GAIN/LOSS ($)",
+      "page": 2,
+      "box": {
+        "left": 506.2,
+        "top": 577.6,
+        "width": 67.8,
+        "height": 10.2
+      }
+    },
+    "poam": {
+      "type": "text",
+      "label": "b. GENERAL MANNING INFORMATION",
+      "page": 2,
+      "box": {
+        "left": 38.1,
+        "top": 552.4,
+        "width": 535.9,
+        "height": 103.8
+      },
+      "multiline": true
+    },
+    "laborgaff": {
+      "type": "text",
+      "label": "c. DETAILS FOR RIF/LABOR ORGANIZATION (s) AFFECTED",
+      "page": 2,
+      "box": {
+        "left": 38.1,
+        "top": 433.6,
+        "width": 535.9,
+        "height": 103.8
+      },
+      "multiline": true
+    },
+    "lndarea": {
+      "type": "text",
+      "label": "a. LAND AREA (SQ FT)",
+      "page": 2,
+      "box": {
+        "left": 148.7,
+        "top": 307.6,
+        "width": 155.2,
+        "height": 13.8
+      }
+    },
+    "bldgaccval": {
+      "type": "text",
+      "label": "b. BUILDING ACCOUNT VALUE ($K)",
+      "page": 2,
+      "box": {
+        "left": 452.1,
+        "top": 307.6,
+        "width": 121.8,
+        "height": 13.8
+      }
+    },
+    "eqaccval": {
+      "type": "text",
+      "label": "c. EQUIPMENT ACCOUNT VALUE ($K)",
+      "page": 2,
+      "box": {
+        "left": 38.1,
+        "top": 278.7,
+        "width": 265.9,
+        "height": 13.8
+      }
+    },
+    "efwhyzero": {
+      "type": "text",
+      "label": "FY0",
+      "page": 2,
+      "box": {
+        "left": 346.5,
+        "top": 275.1,
+        "width": 47.4,
+        "height": 10.2
+      }
+    },
+    "fy1": {
+      "type": "text",
+      "label": "FY1",
+      "page": 2,
+      "box": {
+        "left": 440.3,
+        "top": 275.1,
+        "width": 43.6,
+        "height": 10.2
+      }
+    },
+    "fy2": {
+      "type": "text",
+      "label": "FY2",
+      "page": 2,
+      "box": {
+        "left": 528.4,
+        "top": 275.1,
+        "width": 45.6,
+        "height": 10.2
+      }
+    },
+    "addoccinfo": {
+      "type": "text",
+      "label": "e. ADDITIONAL OCCUPATION INFORMATION",
+      "page": 2,
+      "box": {
+        "left": 38.1,
+        "top": 249.9,
+        "width": 535.9,
+        "height": 96.6
+      },
+      "multiline": true
+    },
+    "invimp": {
+      "type": "text",
+      "label": "f. ENVIRONMENTAL IMPACT",
+      "page": 2,
+      "box": {
+        "left": 38.1,
+        "top": 138.3,
+        "width": 535.9,
+        "height": 100.2
+      },
+      "multiline": true
+    },
+    "classification1a5": {
+      "type": "choice",
+      "label": "OPNAV 5400/1 (REV. JUL-2025)",
+      "page": 2,
+      "box": {
+        "left": 263.9,
+        "top": 33.2,
+        "width": 84.3,
+        "height": 12.3
+      },
+      "options": [
+        "CUI",
+        "CONFIDENTIAL",
+        "SECRET",
+        "TOP SECRET"
+      ]
+    },
+    "classification1a6": {
+      "type": "choice",
+      "label": "Classification 1a 6",
+      "page": 3,
+      "box": {
+        "left": 263.9,
+        "top": 771.3,
+        "width": 84.3,
+        "height": 12.3
+      },
+      "options": [
+        "CUI",
+        "CONFIDENTIAL",
+        "SECRET",
+        "TOP SECRET"
+      ]
+    },
+    "pladex": {
+      "type": "text",
+      "label": "a. PLAIN LANGUAGE ADDRESS (PLAD) - CURRENT",
+      "page": 3,
+      "box": {
+        "left": 38.1,
+        "top": 725.2,
+        "width": 265.9,
+        "height": 13.8
+      }
+    },
+    "pladpro": {
+      "type": "text",
+      "label": "b. PLAIN LANGUAGE ADDRESS (PLAD) - PROPOSED",
+      "page": 3,
+      "box": {
+        "left": 308.1,
+        "top": 725.2,
+        "width": 265.9,
+        "height": 13.8
+      }
+    },
+    "mladdex": {
+      "type": "text",
+      "label": "c. MAILING ADDRESS - CURRENT",
+      "page": 3,
+      "box": {
+        "left": 38.1,
+        "top": 696.4,
+        "width": 265.9,
+        "height": 60.6
+      },
+      "multiline": true
+    },
+    "mladdpro": {
+      "type": "text",
+      "label": "d. MAILING ADDRESS - PROPOSED",
+      "page": 3,
+      "box": {
+        "left": 308.1,
+        "top": 696.4,
+        "width": 265.9,
+        "height": 60.6
+      },
+      "multiline": true
+    },
+    "milcivex": {
+      "type": "choice",
+      "label": "e. TITLE OF MILITARY/CIVILIAN HEAD OF ACTIVITY - CURRENT",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 620.0,
+        "width": 264.4,
+        "height": 12.3
+      },
+      "options": [
+        "COMMANDER",
+        "COMMANDING OFFICER",
+        "DIRECTOR",
+        "OFFICER-IN-CHARGE",
+        "CHIEF PETTY OFFICER-IN-CHARGE",
+        "PETTY OFFICER-IN-CHARGE",
+        "OTHER (PROVIDE TITLE IN 7c)"
+      ]
+    },
+    "milcivPRO": {
+      "type": "choice",
+      "label": "f. TITLE OF MILITARY/CIVILIAN HEAD OF ACTIVITY - PROPOSED",
+      "page": 3,
+      "box": {
+        "left": 308.9,
+        "top": 620.0,
+        "width": 264.4,
+        "height": 12.3
+      },
+      "options": [
+        "COMMANDER",
+        "COMMANDING OFFICER",
+        "DIRECTOR",
+        "OFFICER-IN-CHARGE",
+        "CHIEF PETTY OFFICER-IN-CHARGE",
+        "PETTY OFFICER-IN-CHARGE",
+        "OTHER (PROVIDE TITLE IN 7d)"
+      ]
+    },
+    "proUIC": {
+      "type": "text",
+      "label": "h. PROPOSED UIC (ORIGINATOR/DNS-12 ACTION)",
+      "page": 3,
+      "box": {
+        "left": 308.1,
+        "top": 592.0,
+        "width": 265.9,
+        "height": 13.8
+      }
+    },
+    "uic": {
+      "type": "text",
+      "label": "g. CURRENT UNIT IDENTIFICATION CODE (UIC)",
+      "page": 3,
+      "box": {
+        "left": 38.1,
+        "top": 591.3,
+        "width": 265.9,
+        "height": 13.1
+      }
+    },
+    "currSNDLcode": {
+      "type": "text",
+      "label": "i. CURRENT SNDL CODE",
+      "page": 3,
+      "box": {
+        "left": 38.1,
+        "top": 563.2,
+        "width": 265.9,
+        "height": 13.8
+      }
+    },
+    "proCurrSNDLcode": {
+      "type": "text",
+      "label": "j. PROPOSED SNDL CODE (ORIGINATOR/DNS-12 ACTION)",
+      "page": 3,
+      "box": {
+        "left": 308.1,
+        "top": 563.2,
+        "width": 265.9,
+        "height": 13.8
+      }
+    },
+    "uic2": {
+      "type": "text",
+      "label": "UIC",
+      "page": 3,
+      "box": {
+        "left": 530.0,
+        "top": 513.4,
+        "width": 44.7,
+        "height": 15.8
+      }
+    },
+    "extEch1": {
+      "type": "text",
+      "label": "k. CURRENT ECHELON",
+      "page": 3,
+      "box": {
+        "left": 38.1,
+        "top": 512.8,
+        "width": 93.8,
+        "height": 14.5
+      }
+    },
+    "commName1": {
+      "type": "text",
+      "label": "CURRENT COMMAND NAME",
+      "page": 3,
+      "box": {
+        "left": 136.0,
+        "top": 512.8,
+        "width": 390.4,
+        "height": 14.5
+      }
+    },
+    "uic3": {
+      "type": "text",
+      "label": "UIC",
+      "page": 3,
+      "box": {
+        "left": 530.0,
+        "top": 494.8,
+        "width": 44.7,
+        "height": 12.6
+      }
+    },
+    "extEch2": {
+      "type": "text",
+      "label": "k. CURRENT ECHELON",
+      "page": 3,
+      "box": {
+        "left": 38.1,
+        "top": 494.1,
+        "width": 93.8,
+        "height": 11.2
+      }
+    },
+    "commName2": {
+      "type": "text",
+      "label": "CURRENT COMMAND NAME",
+      "page": 3,
+      "box": {
+        "left": 136.0,
+        "top": 494.1,
+        "width": 390.4,
+        "height": 11.2
+      }
+    },
+    "uic4": {
+      "type": "text",
+      "label": "UIC",
+      "page": 3,
+      "box": {
+        "left": 530.0,
+        "top": 479.4,
+        "width": 44.7,
+        "height": 12.6
+      }
+    },
+    "extEch3": {
+      "type": "text",
+      "label": "k. CURRENT ECHELON",
+      "page": 3,
+      "box": {
+        "left": 38.1,
+        "top": 478.7,
+        "width": 93.8,
+        "height": 11.2
+      }
+    },
+    "commName3": {
+      "type": "text",
+      "label": "CURRENT COMMAND NAME",
+      "page": 3,
+      "box": {
+        "left": 136.0,
+        "top": 478.7,
+        "width": 390.4,
+        "height": 11.2
+      }
+    },
+    "uic5": {
+      "type": "text",
+      "label": "UIC",
+      "page": 3,
+      "box": {
+        "left": 530.0,
+        "top": 464.0,
+        "width": 44.7,
+        "height": 12.6
+      }
+    },
+    "extEch4": {
+      "type": "text",
+      "label": "k. CURRENT ECHELON",
+      "page": 3,
+      "box": {
+        "left": 38.1,
+        "top": 463.3,
+        "width": 93.8,
+        "height": 11.2
+      }
+    },
+    "commName4": {
+      "type": "text",
+      "label": "CURRENT COMMAND NAME",
+      "page": 3,
+      "box": {
+        "left": 136.0,
+        "top": 463.3,
+        "width": 390.4,
+        "height": 11.2
+      }
+    },
+    "uic6": {
+      "type": "text",
+      "label": "UIC",
+      "page": 3,
+      "box": {
+        "left": 530.0,
+        "top": 448.6,
+        "width": 44.7,
+        "height": 12.6
+      }
+    },
+    "extEch5": {
+      "type": "text",
+      "label": "k. CURRENT ECHELON",
+      "page": 3,
+      "box": {
+        "left": 38.1,
+        "top": 447.9,
+        "width": 93.8,
+        "height": 11.2
+      }
+    },
+    "commName5": {
+      "type": "text",
+      "label": "CURRENT COMMAND NAME",
+      "page": 3,
+      "box": {
+        "left": 136.0,
+        "top": 447.9,
+        "width": 390.4,
+        "height": 11.2
+      }
+    },
+    "uic7": {
+      "type": "text",
+      "label": "UIC",
+      "page": 3,
+      "box": {
+        "left": 530.0,
+        "top": 433.2,
+        "width": 44.7,
+        "height": 12.6
+      }
+    },
+    "extEch6": {
+      "type": "text",
+      "label": "k. CURRENT ECHELON",
+      "page": 3,
+      "box": {
+        "left": 38.1,
+        "top": 432.5,
+        "width": 93.8,
+        "height": 11.2
+      }
+    },
+    "commName6": {
+      "type": "text",
+      "label": "CURRENT COMMAND NAME",
+      "page": 3,
+      "box": {
+        "left": 136.0,
+        "top": 432.5,
+        "width": 390.4,
+        "height": 11.2
+      }
+    },
+    "uic8": {
+      "type": "text",
+      "label": "UIC",
+      "page": 3,
+      "box": {
+        "left": 530.0,
+        "top": 417.8,
+        "width": 44.7,
+        "height": 12.6
+      }
+    },
+    "extEch7": {
+      "type": "text",
+      "label": "k. CURRENT ECHELON",
+      "page": 3,
+      "box": {
+        "left": 38.1,
+        "top": 417.1,
+        "width": 93.8,
+        "height": 11.2
+      }
+    },
+    "commName7": {
+      "type": "text",
+      "label": "CURRENT COMMAND NAME",
+      "page": 3,
+      "box": {
+        "left": 136.0,
+        "top": 417.1,
+        "width": 390.4,
+        "height": 11.2
+      }
+    },
+    "uic9": {
+      "type": "text",
+      "label": "UIC",
+      "page": 3,
+      "box": {
+        "left": 530.0,
+        "top": 402.4,
+        "width": 44.7,
+        "height": 12.6
+      }
+    },
+    "extEch8": {
+      "type": "text",
+      "label": "k. CURRENT ECHELON",
+      "page": 3,
+      "box": {
+        "left": 38.1,
+        "top": 401.7,
+        "width": 93.8,
+        "height": 11.2
+      }
+    },
+    "commName8": {
+      "type": "text",
+      "label": "CURRENT COMMAND NAME",
+      "page": 3,
+      "box": {
+        "left": 136.0,
+        "top": 401.7,
+        "width": 390.4,
+        "height": 11.2
+      }
+    },
+    "lcjCommImpac": {
+      "type": "text",
+      "label": "a. LEGISLATORS/COUNTRIES/JOINT COMMANDS IMPACTED",
+      "page": 3,
+      "box": {
+        "left": 38.1,
+        "top": 209.9,
+        "width": 535.9,
+        "height": 82.2
+      },
+      "multiline": true
+    },
+    "actNum2": {
+      "type": "text",
+      "label": "9. ENDORSER",
+      "page": 3,
+      "box": {
+        "left": 100.0,
+        "top": 104.7,
+        "width": 12.3,
+        "height": 12.3
+      }
+    },
+    "pocName1": {
+      "type": "text",
+      "label": "b. POC NAME",
+      "page": 3,
+      "box": {
+        "left": 308.1,
+        "top": 76.6,
+        "width": 265.9,
+        "height": 13.8
+      }
+    },
+    "leadComm": {
+      "type": "choice",
+      "label": "a. COMMAND",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 75.9,
+        "width": 264.4,
+        "height": 12.3
+      },
+      "options": [
+        "Commander, U. S. Fleet Forces Command",
+        "Commander, U. S. Pacific Fleet",
+        "Commander, U. S. Naval Forces Europe-Africa",
+        "Commander, U.S. Naval Forces Central Command",
+        "Commander, Navy Reserve Force",
+        "Commander, Naval Special Warfare Command",
+        "Commander, Naval Air Systems Command",
+        "Commander, Naval District Washington",
+        "Commander, Naval Education and Training Command",
+        "Commander, Naval Facilities Engineering Systems Command",
+        "Commander, Field Support Activity",
+        "Commander, Navy Installations",
+        "Commander, Naval Intelligence Activity",
+        "Commander, Chief of Naval Personnel",
+        "Commander, Naval Sea Systems Command",
+        "Commander, Naval Information Warfare Systems Command",
+        "Commander, Naval Supply Command",
+        "Commander, Bureau of Medicine and Surgery",
+        "Commander, Naval Postgraduate School",
+        "Commander, Safety Command",
+        "Commander, Strategic Systems Program",
+        "Commander, US Navy Music",
+        "Other"
+      ]
+    },
+    "classification1a7": {
+      "type": "choice",
+      "label": "OPNAV 5400/1 (REV. JUL-2025)",
+      "page": 3,
+      "box": {
+        "left": 263.9,
+        "top": 33.2,
+        "width": 84.3,
+        "height": 12.3
+      },
+      "options": [
+        "CUI",
+        "CONFIDENTIAL",
+        "SECRET",
+        "TOP SECRET"
+      ]
+    },
+    "classification1a8": {
+      "type": "choice",
+      "label": "Classification 1a 8",
+      "page": 4,
+      "box": {
+        "left": 263.9,
+        "top": 771.3,
+        "width": 84.3,
+        "height": 12.3
+      },
+      "options": [
+        "CUI",
+        "CONFIDENTIAL",
+        "SECRET",
+        "TOP SECRET"
+      ]
+    },
+    "pocTelephone1": {
+      "type": "text",
+      "label": "c. POC TELEPHONE NUMBER",
+      "page": 4,
+      "box": {
+        "left": 38.1,
+        "top": 743.2,
+        "width": 265.9,
+        "height": 13.8
+      }
+    },
+    "dNS9d": {
+      "type": "text",
+      "label": "d. DSN",
+      "page": 4,
+      "box": {
+        "left": 308.1,
+        "top": 743.2,
+        "width": 196.7,
+        "height": 13.8
+      }
+    },
+    "dSNextension": {
+      "type": "text",
+      "label": "EXTENSION",
+      "page": 4,
+      "box": {
+        "left": 509.8,
+        "top": 743.2,
+        "width": 63.5,
+        "height": 13.8
+      }
+    },
+    "unclasemail1": {
+      "type": "text",
+      "label": "e. UNCLASSIFIED EMAIL",
+      "page": 4,
+      "box": {
+        "left": 38.1,
+        "top": 714.4,
+        "width": 265.9,
+        "height": 13.8
+      }
+    },
+    "clasemail1": {
+      "type": "text",
+      "label": "f. CLASSIFIED EMAIL",
+      "page": 4,
+      "box": {
+        "left": 308.1,
+        "top": 714.4,
+        "width": 265.9,
+        "height": 13.8
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 162.0,
+        "top": 696.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 219.6,
+        "top": 696.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 338.4,
+        "top": 696.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 4,
+      "box": {
+        "left": 410.5,
+        "top": 696.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "finRevName1": {
+      "type": "text",
+      "label": "h. FINAL REVIEWER NAME",
+      "page": 4,
+      "box": {
+        "left": 38.1,
+        "top": 671.2,
+        "width": 265.9,
+        "height": 13.8
+      }
+    },
+    "rankGrade1": {
+      "type": "choice",
+      "label": "i. RANK/GRADE",
+      "page": 4,
+      "box": {
+        "left": 308.9,
+        "top": 670.4,
+        "width": 264.4,
+        "height": 12.3
+      },
+      "options": [
+        "ADM",
+        "VADM",
+        "RADM",
+        "RDML",
+        "CAPT",
+        "CDR",
+        "LCDR",
+        "LT",
+        "SES",
+        "GS15",
+        "GS14",
+        "GS13",
+        "GS12",
+        "GS11"
+      ]
+    },
+    "posi1": {
+      "type": "text",
+      "label": "j. POSITION",
+      "page": 4,
+      "box": {
+        "left": 38.1,
+        "top": 642.4,
+        "width": 265.9,
+        "height": 21.0
+      }
+    },
+    "sigTextField1": {
+      "type": "text",
+      "label": "k. SIGNATURE AND DATE",
+      "page": 4,
+      "box": {
+        "left": 306.8,
+        "top": 642.3,
+        "width": 89.3,
+        "height": 23.0
+      }
+    },
+    "sigTextField2": {
+      "type": "text",
+      "label": "DATE",
+      "page": 4,
+      "box": {
+        "left": 396.2,
+        "top": 642.3,
+        "width": 108.0,
+        "height": 23.0
+      }
+    },
+    "dateSig1": {
+      "type": "text",
+      "label": "EXTENSION",
+      "page": 4,
+      "box": {
+        "left": 504.1,
+        "top": 642.3,
+        "width": 72.0,
+        "height": 23.0
+      }
+    },
+    "comm1": {
+      "type": "text",
+      "label": "l. COMMENTS",
+      "page": 4,
+      "box": {
+        "left": 38.1,
+        "top": 606.4,
+        "width": 535.9,
+        "height": 31.8
+      },
+      "multiline": true
+    },
+    "typeOfComm": {
+      "type": "text",
+      "label": "a. COMMAND",
+      "page": 4,
+      "box": {
+        "left": 38.1,
+        "top": 527.2,
+        "width": 265.9,
+        "height": 13.8
+      }
+    },
+    "pocName2": {
+      "type": "text",
+      "label": "b. POC NAME",
+      "page": 4,
+      "box": {
+        "left": 308.1,
+        "top": 527.2,
+        "width": 265.9,
+        "height": 13.8
+      }
+    },
+    "pocTelephone2": {
+      "type": "text",
+      "label": "c. POC PHONE",
+      "page": 4,
+      "box": {
+        "left": 38.1,
+        "top": 498.4,
+        "width": 265.9,
+        "height": 13.8
+      }
+    },
+    "dNS10d": {
+      "type": "text",
+      "label": "d. DSN",
+      "page": 4,
+      "box": {
+        "left": 308.1,
+        "top": 498.4,
+        "width": 265.1,
+        "height": 13.8
+      }
+    },
+    "unclasemail2": {
+      "type": "text",
+      "label": "e. UNCLASSIFIED EMAIL",
+      "page": 4,
+      "box": {
+        "left": 38.1,
+        "top": 469.6,
+        "width": 265.9,
+        "height": 13.8
+      }
+    },
+    "clasemail2": {
+      "type": "text",
+      "label": "f. CLASSIFIED EMAIL",
+      "page": 4,
+      "box": {
+        "left": 308.1,
+        "top": 469.6,
+        "width": 265.9,
+        "height": 13.8
+      }
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 162.0,
+        "top": 451.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 223.2,
+        "top": 451.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 4,
+      "box": {
+        "left": 345.6,
+        "top": 451.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 4,
+      "box": {
+        "left": 421.3,
+        "top": 451.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "finRevName2": {
+      "type": "text",
+      "label": "h. FINAL REVIEWER NAME",
+      "page": 4,
+      "box": {
+        "left": 38.1,
+        "top": 426.4,
+        "width": 265.9,
+        "height": 13.8
+      }
+    },
+    "rankGradeEnd1": {
+      "type": "choice",
+      "label": "i. RANK/GRADE",
+      "page": 4,
+      "box": {
+        "left": 308.9,
+        "top": 425.6,
+        "width": 264.4,
+        "height": 12.3
+      },
+      "options": [
+        "ADM",
+        "VADM",
+        "RADM",
+        "RDML",
+        "CAPT",
+        "CDR",
+        "LCDR",
+        "LT",
+        "SES",
+        "GS15",
+        "GS14",
+        "GS13",
+        "GS12",
+        "GS11"
+      ]
+    },
+    "posi2": {
+      "type": "text",
+      "label": "j. POSITION",
+      "page": 4,
+      "box": {
+        "left": 38.1,
+        "top": 397.6,
+        "width": 265.9,
+        "height": 21.0
+      }
+    },
+    "signature2": {
+      "type": "text",
+      "label": "k. SIGNATURE AND DATE",
+      "page": 4,
+      "box": {
+        "left": 306.0,
+        "top": 397.5,
+        "width": 198.0,
+        "height": 23.0
+      }
+    },
+    "dateSig2": {
+      "type": "text",
+      "label": "EXTENSION",
+      "page": 4,
+      "box": {
+        "left": 504.1,
+        "top": 397.5,
+        "width": 72.0,
+        "height": 23.0
+      }
+    },
+    "comm2": {
+      "type": "text",
+      "label": "l. COMMENTS",
+      "page": 4,
+      "box": {
+        "left": 38.1,
+        "top": 361.6,
+        "width": 535.9,
+        "height": 49.8
+      },
+      "multiline": true
+    },
+    "classification1a9": {
+      "type": "choice",
+      "label": "OPNAV 5400/1 (REV. JUL-2025)",
+      "page": 4,
+      "box": {
+        "left": 263.9,
+        "top": 33.2,
+        "width": 84.3,
+        "height": 12.3
+      },
+      "options": [
+        "CUI",
+        "CONFIDENTIAL",
+        "SECRET",
+        "TOP SECRET"
+      ]
+    },
+    "classification1a10": {
+      "type": "choice",
+      "label": "Classification 1a 10",
+      "page": 5,
+      "box": {
+        "left": 263.9,
+        "top": 771.3,
+        "width": 84.3,
+        "height": 12.3
+      },
+      "options": [
+        "CUI",
+        "CONFIDENTIAL",
+        "SECRET",
+        "TOP SECRET"
+      ]
+    },
+    "classification1a11": {
+      "type": "choice",
+      "label": "OPNAV 5400/1 (REV. JUL-2025)",
+      "page": 5,
+      "box": {
+        "left": 263.9,
+        "top": 33.2,
+        "width": 84.3,
+        "height": 12.3
+      },
+      "options": [
+        "CUI",
+        "CONFIDENTIAL",
+        "SECRET",
+        "TOP SECRET"
+      ]
+    },
+    "classification1a12": {
+      "type": "choice",
+      "label": "Classification 1a 12",
+      "page": 6,
+      "box": {
+        "left": 263.9,
+        "top": 771.3,
+        "width": 84.3,
+        "height": 12.3
+      },
+      "options": [
+        "CUI",
+        "CONFIDENTIAL",
+        "SECRET",
+        "TOP SECRET"
+      ]
+    },
+    "classification1a13": {
+      "type": "choice",
+      "label": "OPNAV 5400/1 (REV. JUL-2025)",
+      "page": 6,
+      "box": {
+        "left": 263.9,
+        "top": 33.2,
+        "width": 84.3,
+        "height": 12.3
+      },
+      "options": [
+        "CUI",
+        "CONFIDENTIAL",
+        "SECRET",
+        "TOP SECRET"
+      ]
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 3,
+      "count": 8,
+      "rowStride": 14.4,
+      "editor": "grid",
+      "columns": {
+        "proEch": {
+          "type": "text",
+          "label": "l. PROPOSED ECHELON",
+          "page": 3,
+          "box": {
+            "left": 38.1,
+            "top": 371.9,
+            "width": 93.8,
+            "height": 10.2
+          }
+        },
+        "proCommName": {
+          "type": "text",
+          "label": "PROPOSED COMMAND NAME",
+          "page": 3,
+          "box": {
+            "left": 136.0,
+            "top": 371.9,
+            "width": 390.4,
+            "height": 10.2
+          }
+        },
+        "uic": {
+          "type": "text",
+          "label": "UIC",
+          "page": 3,
+          "box": {
+            "left": 530.0,
+            "top": 372.6,
+            "width": 44.7,
+            "height": 11.6
+          }
+        }
+      }
+    }
+  }
+}

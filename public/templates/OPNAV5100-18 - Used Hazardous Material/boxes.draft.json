@@ -1,0 +1,117 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "ship": {
+        "left": 165.0,
+        "top": 656.2,
+        "width": 136.5,
+        "height": 19.5,
+        "type": "text",
+        "description": "Enter the ship.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "workcenter": {
+        "left": 374.3,
+        "top": 656.2,
+        "width": 96.2,
+        "height": 19.5,
+        "type": "text",
+        "description": "Enter the work center.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameofMaterial": {
+        "left": 224.2,
+        "top": 632.3,
+        "width": 246.2,
+        "height": 18.0,
+        "type": "text",
+        "description": "Enter the name of the material.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "process": {
+        "left": 289.5,
+        "top": 608.3,
+        "width": 181.0,
+        "height": 18.0,
+        "type": "text",
+        "description": "Enter the process in which the material was used.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "process2": {
+        "left": 135.3,
+        "top": 587.3,
+        "width": 335.2,
+        "height": 18.0,
+        "type": "text",
+        "description": "Enter the process in which the material was used.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "impurities": {
+        "left": 238.5,
+        "top": 563.3,
+        "width": 232.0,
+        "height": 18.0,
+        "type": "text",
+        "description": "Enter any known impurities.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "specialStowageReq": {
+        "left": 280.5,
+        "top": 534.1,
+        "width": 190.0,
+        "height": 18.0,
+        "type": "text",
+        "description": "Enter the special stowage requirements.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "disOffSig": {
+        "left": 249.0,
+        "top": 505.6,
+        "width": 120.8,
+        "height": 18.0,
+        "type": "text",
+        "description": "Enter the division officers signature.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dNSDate3": {
+        "left": 405.2,
+        "top": 505.6,
+        "width": 65.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "Enter the date using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

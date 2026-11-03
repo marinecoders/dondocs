@@ -1,0 +1,321 @@
+{
+  "id": "navmchq991",
+  "label": "NAVMCHQ991 - USMC Space Request",
+  "directory": "NAVMCHQ991 - USMC Space Request",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "dateTimeField1",
+        "textField2",
+        "textField22",
+        "textField23",
+        "textField24",
+        "textField25",
+        "textField26",
+        "textField27",
+        "textField28",
+        "textField29",
+        "textField210",
+        "textField211",
+        "textField212",
+        "textField8",
+        "dateTimeField12",
+        "radio",
+        "radio2",
+        "dateTimeField2",
+        "textField213",
+        "civilian",
+        "numofPersTOTAL",
+        "military",
+        "contractor",
+        "textField214",
+        "textField215"
+      ]
+    }
+  ],
+  "fields": {
+    "dateTimeField1": {
+      "type": "text",
+      "label": "Date of Request",
+      "page": 1,
+      "box": {
+        "left": 510.3,
+        "top": 717.2,
+        "width": 62.9,
+        "height": 18.9
+      }
+    },
+    "textField2": {
+      "type": "text",
+      "label": "Agency Information",
+      "page": 1,
+      "box": {
+        "left": 121.3,
+        "top": 665.2,
+        "width": 302.0,
+        "height": 20.2
+      }
+    },
+    "textField22": {
+      "type": "text",
+      "label": "Department/Agency",
+      "page": 1,
+      "box": {
+        "left": 93.1,
+        "top": 643.0,
+        "width": 330.2,
+        "height": 20.2
+      }
+    },
+    "textField23": {
+      "type": "text",
+      "label": "Department/Agency",
+      "page": 1,
+      "box": {
+        "left": 93.1,
+        "top": 621.4,
+        "width": 330.2,
+        "height": 20.2
+      }
+    },
+    "textField24": {
+      "type": "text",
+      "label": "Department/Agency",
+      "page": 1,
+      "box": {
+        "left": 103.9,
+        "top": 599.8,
+        "width": 319.4,
+        "height": 20.2
+      }
+    },
+    "textField25": {
+      "type": "text",
+      "label": "Agency Information",
+      "page": 1,
+      "box": {
+        "left": 135.9,
+        "top": 578.2,
+        "width": 35.1,
+        "height": 20.7
+      }
+    },
+    "textField26": {
+      "type": "text",
+      "label": "Information",
+      "page": 1,
+      "box": {
+        "left": 177.9,
+        "top": 578.2,
+        "width": 141.6,
+        "height": 20.7
+      }
+    },
+    "textField27": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 326.9,
+        "top": 578.2,
+        "width": 64.7,
+        "height": 20.7
+      }
+    },
+    "textField28": {
+      "type": "text",
+      "label": "Date of Request",
+      "page": 1,
+      "box": {
+        "left": 401.5,
+        "top": 578.2,
+        "width": 163.3,
+        "height": 20.7
+      }
+    },
+    "textField29": {
+      "type": "text",
+      "label": "Rank/Grade",
+      "page": 1,
+      "box": {
+        "left": 125.7,
+        "top": 549.0,
+        "width": 40.9,
+        "height": 20.7
+      }
+    },
+    "textField210": {
+      "type": "text",
+      "label": "E-mail",
+      "page": 1,
+      "box": {
+        "left": 401.5,
+        "top": 549.0,
+        "width": 165.3,
+        "height": 20.7
+      }
+    },
+    "textField211": {
+      "type": "text",
+      "label": "Name",
+      "page": 1,
+      "box": {
+        "left": 171.7,
+        "top": 548.9,
+        "width": 147.8,
+        "height": 20.7
+      }
+    },
+    "textField212": {
+      "type": "text",
+      "label": "Phone Number",
+      "page": 1,
+      "box": {
+        "left": 326.9,
+        "top": 548.9,
+        "width": 64.7,
+        "height": 20.7
+      }
+    },
+    "textField8": {
+      "type": "text",
+      "label": "Dates",
+      "page": 1,
+      "box": {
+        "left": 469.5,
+        "top": 480.0,
+        "width": 80.2,
+        "height": 17.6
+      }
+    },
+    "dateTimeField12": {
+      "type": "text",
+      "label": "Dates",
+      "page": 1,
+      "box": {
+        "left": 387.2,
+        "top": 478.6,
+        "width": 60.0,
+        "height": 16.1
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 198.1,
+        "top": 475.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 263.4,
+        "top": 475.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "dateTimeField2": {
+      "type": "text",
+      "label": "Date Space Required",
+      "page": 1,
+      "box": {
+        "left": 123.6,
+        "top": 445.5,
+        "width": 61.0,
+        "height": 14.4
+      }
+    },
+    "textField213": {
+      "type": "text",
+      "label": "Classification of Space",
+      "page": 1,
+      "box": {
+        "left": 299.4,
+        "top": 445.5,
+        "width": 254.2,
+        "height": 14.4
+      }
+    },
+    "civilian": {
+      "type": "text",
+      "label": "Number of Personnel",
+      "page": 1,
+      "box": {
+        "left": 212.3,
+        "top": 420.0,
+        "width": 27.8,
+        "height": 16.6
+      }
+    },
+    "numofPersTOTAL": {
+      "type": "text",
+      "label": "Number of Personnel",
+      "page": 1,
+      "box": {
+        "left": 123.6,
+        "top": 419.9,
+        "width": 43.3,
+        "height": 16.6
+      }
+    },
+    "military": {
+      "type": "text",
+      "label": "Number of Personnel",
+      "page": 1,
+      "box": {
+        "left": 176.6,
+        "top": 419.9,
+        "width": 27.8,
+        "height": 16.6
+      }
+    },
+    "contractor": {
+      "type": "text",
+      "label": "Number of Personnel",
+      "page": 1,
+      "box": {
+        "left": 251.3,
+        "top": 419.9,
+        "width": 27.8,
+        "height": 16.6
+      }
+    },
+    "textField214": {
+      "type": "text",
+      "label": "Total Military Civilian Contractors",
+      "page": 1,
+      "box": {
+        "left": 43.2,
+        "top": 379.9,
+        "width": 525.6,
+        "height": 120.6
+      },
+      "multiline": true
+    },
+    "textField215": {
+      "type": "text",
+      "label": "Space Request Justification",
+      "page": 1,
+      "box": {
+        "left": 43.7,
+        "top": 235.9,
+        "width": 525.6,
+        "height": 125.1
+      },
+      "multiline": true
+    }
+  }
+}

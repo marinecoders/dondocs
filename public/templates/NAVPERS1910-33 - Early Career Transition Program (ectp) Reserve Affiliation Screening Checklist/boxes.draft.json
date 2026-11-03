@@ -1,0 +1,592 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "textField1": {
+        "left": 38.8,
+        "top": 657.1,
+        "width": 246.3,
+        "height": 27.8,
+        "type": "text",
+        "description": "1. NAME:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField12": {
+        "left": 290.8,
+        "top": 657.1,
+        "width": 131.1,
+        "height": 27.8,
+        "type": "text",
+        "description": "2. RATE:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateTimeField1": {
+        "left": 427.6,
+        "top": 657.1,
+        "width": 145.5,
+        "height": 27.8,
+        "type": "text",
+        "description": "3.  DESIRED TRANSITION DATE:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateTimeField12": {
+        "left": 38.8,
+        "top": 614.2,
+        "width": 145.5,
+        "height": 27.9,
+        "type": "text",
+        "description": "4.  EAOS:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField13": {
+        "left": 190.0,
+        "top": 613.9,
+        "width": 383.1,
+        "height": 27.6,
+        "type": "text",
+        "description": "5.  PROPOSED NAVY RESERVE ACTIVITY:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField2": {
+        "left": 514.0,
+        "top": 529.9,
+        "width": 59.1,
+        "height": 30.3,
+        "type": "text",
+        "description": "INTERVIEWER'S INITIALS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radioButtonList": {
+        "left": 427.6,
+        "top": 520.8,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[0].RadioButtonList[0]",
+        "required": false
+      },
+      "radioButtonList2": {
+        "left": 470.8,
+        "top": 520.8,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[0].RadioButtonList[0]",
+        "required": false
+      },
+      "textField22": {
+        "left": 514.0,
+        "top": 493.9,
+        "width": 59.1,
+        "height": 30.3,
+        "type": "text",
+        "description": "INTERVIEWER'S INITIALS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radioButtonList3": {
+        "left": 427.6,
+        "top": 484.8,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[0].RadioButtonList[1]",
+        "required": false
+      },
+      "radioButtonList4": {
+        "left": 470.8,
+        "top": 484.8,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[0].RadioButtonList[1]",
+        "required": false
+      },
+      "textField23": {
+        "left": 514.0,
+        "top": 457.9,
+        "width": 59.1,
+        "height": 30.1,
+        "type": "text",
+        "description": "INTERVIEWER'S INITIALS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radioButtonList5": {
+        "left": 427.6,
+        "top": 448.9,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[0].RadioButtonList[2]",
+        "required": false
+      },
+      "radioButtonList6": {
+        "left": 470.8,
+        "top": 448.9,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[0].RadioButtonList[2]",
+        "required": false
+      },
+      "textField24": {
+        "left": 514.0,
+        "top": 421.9,
+        "width": 59.1,
+        "height": 44.2,
+        "type": "text",
+        "description": "INTERVIEWER'S INITIALS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radioButtonList7": {
+        "left": 427.6,
+        "top": 405.9,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[0].RadioButtonList[3]",
+        "required": false
+      },
+      "radioButtonList8": {
+        "left": 470.8,
+        "top": 405.9,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[0].RadioButtonList[3]",
+        "required": false
+      },
+      "textField3": {
+        "left": 74.8,
+        "top": 400.7,
+        "width": 37.5,
+        "height": 12.6,
+        "type": "text",
+        "description": "TextField3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField32": {
+        "left": 197.2,
+        "top": 400.7,
+        "width": 37.5,
+        "height": 12.6,
+        "type": "text",
+        "description": "TextField3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField33": {
+        "left": 326.8,
+        "top": 400.7,
+        "width": 37.5,
+        "height": 12.6,
+        "type": "text",
+        "description": "TextField3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField25": {
+        "left": 514.0,
+        "top": 371.5,
+        "width": 59.1,
+        "height": 37.6,
+        "type": "text",
+        "description": "INTERVIEWER'S INITIALS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radioButtonList9": {
+        "left": 427.6,
+        "top": 358.7,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[0].RadioButtonList[4]",
+        "required": false
+      },
+      "radioButtonList10": {
+        "left": 470.8,
+        "top": 358.7,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[0].RadioButtonList[4]",
+        "required": false
+      },
+      "textField14": {
+        "left": 38.8,
+        "top": 318.6,
+        "width": 224.7,
+        "height": 27.8,
+        "type": "text",
+        "description": " 6.  ADMIN OFFICER'S NAME AND RANK:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField1": {
+        "left": 269.2,
+        "top": 318.6,
+        "width": 188.7,
+        "height": 27.8,
+        "type": "signature",
+        "description": " 7.  ADMIN OFFICER'S SIGNATURE:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateTimeField13": {
+        "left": 463.6,
+        "top": 318.6,
+        "width": 109.5,
+        "height": 27.8,
+        "type": "text",
+        "description": "8.  DATE:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField26": {
+        "left": 514.0,
+        "top": 263.6,
+        "width": 59.1,
+        "height": 30.1,
+        "type": "text",
+        "description": "INTERVIEWER'S INITIALS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radioButtonList11": {
+        "left": 427.6,
+        "top": 254.5,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[0].RadioButtonList[5]",
+        "required": false
+      },
+      "radioButtonList12": {
+        "left": 470.8,
+        "top": 254.5,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[0].RadioButtonList[5]",
+        "required": false
+      },
+      "textField27": {
+        "left": 514.0,
+        "top": 227.6,
+        "width": 59.1,
+        "height": 37.2,
+        "type": "text",
+        "description": "INTERVIEWER'S INITIALS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radioButtonList13": {
+        "left": 427.6,
+        "top": 215.0,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[0].RadioButtonList[6]",
+        "required": false
+      },
+      "radioButtonList14": {
+        "left": 470.8,
+        "top": 215.0,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[0].RadioButtonList[6]",
+        "required": false
+      },
+      "dateTimeField2": {
+        "left": 312.4,
+        "top": 213.2,
+        "width": 51.9,
+        "height": 12.6,
+        "type": "text",
+        "description": "DateTimeField2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField15": {
+        "left": 38.8,
+        "top": 174.7,
+        "width": 224.7,
+        "height": 28.1,
+        "type": "text",
+        "description": " 3.  MEDICAL OFFICER'S NAME AND RANK:\t\t",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField12": {
+        "left": 269.2,
+        "top": 174.7,
+        "width": 188.7,
+        "height": 28.1,
+        "type": "signature",
+        "description": " 4.  MEDICAL OFFICER'S SIGNATURE:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateTimeField14": {
+        "left": 463.6,
+        "top": 174.7,
+        "width": 109.5,
+        "height": 28.1,
+        "type": "text",
+        "description": " 5.  DATE:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField16": {
+        "left": 38.8,
+        "top": 88.3,
+        "width": 239.1,
+        "height": 28.1,
+        "type": "text",
+        "description": " 1.  MEMBER'S NAME AND RANK:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField2": {
+        "left": 283.6,
+        "top": 88.3,
+        "width": 203.1,
+        "height": 28.1,
+        "type": "signature",
+        "description": "  2.   MEMBER'S SIGNATURE:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateTimeField15": {
+        "left": 492.4,
+        "top": 88.3,
+        "width": 80.7,
+        "height": 28.1,
+        "type": "text",
+        "description": "3.  DATE:",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "radioButtonList15": {
+        "left": 492.4,
+        "top": 679.4,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[1].RadioButtonList[7]",
+        "required": false
+      },
+      "radioButtonList16": {
+        "left": 535.6,
+        "top": 679.4,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[1].RadioButtonList[7]",
+        "required": false
+      },
+      "textField17": {
+        "left": 38.8,
+        "top": 584.4,
+        "width": 534.3,
+        "height": 164.0,
+        "type": "text",
+        "description": " 2. Command Endorsement: (A summary statement evaluating the applicant is required. Provide written recommendation from Commanding Officer \n indicating member's potential to perform and excel in the Navy Reserve.)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radioButtonList17": {
+        "left": 384.4,
+        "top": 409.3,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[1].RadioButtonList[8]",
+        "required": false
+      },
+      "radioButtonList18": {
+        "left": 463.6,
+        "top": 409.3,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[1].RadioButtonList[8]",
+        "required": false
+      },
+      "textField18": {
+        "left": 38.8,
+        "top": 376.3,
+        "width": 231.9,
+        "height": 27.9,
+        "type": "text",
+        "description": " 4.  NAME AND RANK:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField3": {
+        "left": 276.4,
+        "top": 376.3,
+        "width": 195.9,
+        "height": 27.9,
+        "type": "signature",
+        "description": " 5.  SIGNATURE:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateTimeField16": {
+        "left": 478.0,
+        "top": 376.3,
+        "width": 95.1,
+        "height": 27.9,
+        "type": "text",
+        "description": " 6.  DATE:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radioButtonList19": {
+        "left": 110.8,
+        "top": 286.9,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[1].RadioButtonList[9]",
+        "required": false
+      },
+      "radioButtonList20": {
+        "left": 240.4,
+        "top": 286.9,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[1].RadioButtonList[9]",
+        "required": false
+      },
+      "textField19": {
+        "left": 38.8,
+        "top": 246.7,
+        "width": 231.9,
+        "height": 27.9,
+        "type": "text",
+        "description": " NAME AND RANK:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField4": {
+        "left": 276.4,
+        "top": 246.7,
+        "width": 195.9,
+        "height": 27.9,
+        "type": "signature",
+        "description": " SIGNATURE:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateTimeField17": {
+        "left": 478.0,
+        "top": 246.7,
+        "width": 95.1,
+        "height": 27.9,
+        "type": "text",
+        "description": " DATE:",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

@@ -1,0 +1,3470 @@
+{
+  "id": "navpers53503",
+  "label": "NAVPERS5350-3 - Dapa Admin Screening Form",
+  "directory": "NAVPERS5350-3 - Dapa Admin Screening Form",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf",
+    "page5.pdf",
+    "page6.pdf",
+    "page7.pdf",
+    "page8.pdf",
+    "page9.pdf",
+    "page10.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "servicemember",
+        "dateCompleted1",
+        "comments1",
+        "comments2",
+        "dateCompleted2",
+        "comments3",
+        "dateCompleted3",
+        "comments4",
+        "dateCompleted4",
+        "dateCompleted5",
+        "comments5",
+        "dateCompleted6",
+        "comments6",
+        "comments7",
+        "dateCompleted7",
+        "comments8",
+        "dateCompleted8",
+        "dateCompleted9",
+        "comments9",
+        "dateCompleted10",
+        "comments10",
+        "comments11",
+        "dateCompleted11",
+        "comments12",
+        "dateCompleted12",
+        "comments13",
+        "dateCompleted13",
+        "dateCompleted14",
+        "comments14",
+        "comments15",
+        "dateCompleted15",
+        "dateCompleted16",
+        "comments16",
+        "dateCompleted17",
+        "comments17",
+        "comments18",
+        "dateCompleted18",
+        "comments19",
+        "dateCompleted19"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "servicemember2",
+        "dateAdminScreeningCmplted",
+        "textField1",
+        "rateRank",
+        "radioButtonC",
+        "radioButtonC2",
+        "age",
+        "birthDate",
+        "commanUIC",
+        "commandAddress",
+        "divisionTelephone",
+        "divisionWorkCenter",
+        "supervisorTelephone",
+        "supervisorName",
+        "radioButtonList",
+        "dateMemberSelfreferred",
+        "radioButtonList2",
+        "dateCommandReferredReceived",
+        "radioButtonList3",
+        "dateIncidentOccurred",
+        "radioButtonC3",
+        "radioButtonC4",
+        "radioButtonC5",
+        "radioButtonC6",
+        "typeofillicitdrug",
+        "textField2",
+        "textField3",
+        "results",
+        "radioButtonC7",
+        "radioButtonC8",
+        "dapaname",
+        "dAPAPhoneNum"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "servicemember3",
+        "dateConducted",
+        "radioButtonG",
+        "radioButtonG2",
+        "describeindetailpg3",
+        "radioButtonG3",
+        "radioButtonG4",
+        "textField5",
+        "dNSDate3",
+        "activedutyservicedate",
+        "dNSDate32",
+        "timeinservice",
+        "dateReportedthisCommand",
+        "dNSDate33",
+        "radioButtonG5",
+        "radioButtonG6",
+        "waiver1",
+        "radioButtonG7",
+        "radioButtonG8",
+        "radioButtonG9",
+        "radioButtonG10",
+        "nextofKin",
+        "waiver",
+        "highestGrade",
+        "datesofhighschool",
+        "radioButtonG11",
+        "radioButtonG12",
+        "dateAwarded",
+        "radioButtonG13",
+        "radioButtonG14",
+        "radioButtonG15",
+        "radioButtonG16",
+        "dateCompleted",
+        "advancementPromotion",
+        "dapaname2",
+        "dAPAPhoneNum2"
+      ]
+    },
+    {
+      "title": "Page 4",
+      "fields": [
+        "servicemember4",
+        "dateofReduction",
+        "payGrade1",
+        "reductionpaygrade",
+        "previousdutystation",
+        "reported",
+        "detached",
+        "location",
+        "radioButtonG17",
+        "radioButtonG18",
+        "evidence",
+        "nJPcaptainsmast",
+        "courtsmemoranda",
+        "civilarrests",
+        "unauthorized",
+        "additionalcomments",
+        "dapaname3",
+        "dAPAPhoneNum3"
+      ]
+    },
+    {
+      "title": "Page 5",
+      "fields": [
+        "servicemember5",
+        "enlistedEvaluationsDate5a",
+        "enlistedevaluationstype5",
+        "command1",
+        "professionalknowledgea",
+        "professionalexpertise",
+        "personalJobAccomplishmentInitativea",
+        "missionAccoplishmentInitiativea",
+        "leadershipa",
+        "militaryBearingCharactera",
+        "individualTraitAveragea",
+        "radioButtonG19",
+        "radioButtonG20",
+        "alcoholdrugrelatedentries",
+        "enlistedEvaluationsDate5a2",
+        "enlistedevaluationstype52",
+        "command12",
+        "professionalknowledgea2",
+        "professionalexpertise2",
+        "personalJobAccomplishmentInitativea2",
+        "missionAccoplishmentInitiativea2",
+        "leadershipa2",
+        "militaryBearingCharactera2",
+        "individualTraitAveragea2",
+        "radioButtonG21",
+        "radioButtonG22",
+        "alcoholdrugrelatedentries2",
+        "dAPAPhoneNum4",
+        "dapaname4"
+      ]
+    },
+    {
+      "title": "Page 6",
+      "fields": [
+        "servicemember6",
+        "enlistedEvaluationsDate5a3",
+        "enlistedevaluationstype53",
+        "command13",
+        "professionalknowledgea3",
+        "personalJobAccomplishmentInitativea3",
+        "militaryBearingCharactera3",
+        "individualTraitAveragea3",
+        "radioButtonG23",
+        "radioButtonG24",
+        "alcoholdrugrelatedentries3",
+        "enlistedEvaluationsDate5a4",
+        "enlistedevaluationstype54",
+        "command14",
+        "professionalknowledgea4",
+        "personalJobAccomplishmentInitativea4",
+        "militaryBearingCharactera4",
+        "individualTraitAveragea4",
+        "radioButtonG25",
+        "radioButtonG26",
+        "alcoholdrugrelatedentries4",
+        "dapaname5",
+        "dAPAPhoneNum5"
+      ]
+    },
+    {
+      "title": "Page 7",
+      "fields": [
+        "servicemember7",
+        "radioButtonG27",
+        "radioButtonG28",
+        "radioButtonG29",
+        "radioButtonG30",
+        "radioButtonG31",
+        "radioButtonG32",
+        "radioButtonG33",
+        "radioButtonG34",
+        "radioButtonG35",
+        "radioButtonG36",
+        "radioButtonG37",
+        "radioButtonG38",
+        "radioButtonG39",
+        "radioButtonG40",
+        "radioButtonG41",
+        "radioButtonG42",
+        "evidenceofattendance",
+        "radioButtonG43",
+        "radioButtonG44",
+        "radioButtonG45",
+        "radioButtonG46",
+        "field",
+        "radioButtonG47",
+        "radioButtonG48",
+        "civialemployment",
+        "preServiceArrests",
+        "additionalinfofoundondd1966",
+        "dapaname6",
+        "dAPAPhoneNum6"
+      ]
+    },
+    {
+      "title": "Page 8",
+      "fields": [
+        "servicemember8",
+        "summaryforeview",
+        "commandingofficercomments",
+        "dapaname7",
+        "dAPAPhoneNum7"
+      ]
+    },
+    {
+      "title": "Page 9",
+      "fields": [
+        "servicemember9",
+        "dAPAadminScreeningFormSerNm9",
+        "adminScrnIRT",
+        "reference1",
+        "supervisedMember",
+        "radioButtonG49",
+        "radioButtonG50",
+        "radioButtonG51",
+        "radioButtonG52",
+        "radioButtonG53",
+        "radioButtonG54",
+        "radioButtonG55",
+        "radioButtonG56",
+        "radioButtonG57",
+        "radioButtonG58",
+        "radioButtonG59",
+        "radioButtonG60",
+        "radioButtonG61",
+        "radioButtonG62",
+        "radioButtonG63",
+        "radioButtonG64",
+        "radioButtonG65",
+        "radioButtonG66",
+        "radioButtonG67",
+        "radioButtonG68",
+        "radioButtonG69",
+        "radioButtonG70",
+        "radioButtonG71",
+        "radioButtonG72",
+        "additionalcommentsaboutmarkings",
+        "dAPAPhoneNum8",
+        "dapaname8"
+      ]
+    },
+    {
+      "title": "Page 10",
+      "fields": [
+        "servicemember10",
+        "remedialcounseling",
+        "remedialcounseling2",
+        "njp",
+        "njp2",
+        "civilactions",
+        "civilactions2",
+        "awareprev",
+        "awareprev2",
+        "monFriAbs",
+        "monFriAbs2",
+        "firstarr",
+        "firstarr2",
+        "longLunch",
+        "longLunch2",
+        "markedyesforefghij",
+        "choiceconttowork",
+        "choiceconttowork2",
+        "servicemembercontinueworking",
+        "daterequired",
+        "dAPAsname",
+        "location2",
+        "telephone10",
+        "dateTimeField1",
+        "textField6",
+        "dateTimeField12",
+        "textField62",
+        "dapaname9",
+        "dAPAPhoneNum9"
+      ]
+    }
+  ],
+  "fields": {
+    "servicemember": {
+      "type": "text",
+      "label": "Enter the servicemember's name.",
+      "page": 1,
+      "box": {
+        "left": 223.3,
+        "top": 735.7,
+        "width": 285.1,
+        "height": 13.7
+      }
+    },
+    "dateCompleted1": {
+      "type": "text",
+      "label": "This is row 1 of 19, enter when the date (DD MMM YYYY), was completed.",
+      "page": 1,
+      "box": {
+        "left": 239.1,
+        "top": 637.9,
+        "width": 129.9,
+        "height": 8.4
+      }
+    },
+    "comments1": {
+      "type": "text",
+      "label": "For the administrative screening check list enter the comments.",
+      "page": 1,
+      "box": {
+        "left": 378.0,
+        "top": 637.9,
+        "width": 145.6,
+        "height": 9.5
+      }
+    },
+    "comments2": {
+      "type": "text",
+      "label": "For the administrative screening check list enter the comments.",
+      "page": 1,
+      "box": {
+        "left": 376.9,
+        "top": 623.8,
+        "width": 145.6,
+        "height": 11.2
+      }
+    },
+    "dateCompleted2": {
+      "type": "text",
+      "label": "This is row 2 of 19, enter when the date (DD MMM YYYY),  was completed.",
+      "page": 1,
+      "box": {
+        "left": 239.1,
+        "top": 622.7,
+        "width": 129.9,
+        "height": 10.7
+      }
+    },
+    "comments3": {
+      "type": "text",
+      "label": "For the administrative screening check list enter the comments.",
+      "page": 1,
+      "box": {
+        "left": 376.3,
+        "top": 608.6,
+        "width": 147.9,
+        "height": 11.2
+      }
+    },
+    "dateCompleted3": {
+      "type": "text",
+      "label": "This is row 3 of 19, enter when the date (DD MMM YYYY), was completed.",
+      "page": 1,
+      "box": {
+        "left": 239.1,
+        "top": 607.5,
+        "width": 129.9,
+        "height": 10.1
+      }
+    },
+    "comments4": {
+      "type": "text",
+      "label": "For the administrative screening check list enter the comments.",
+      "page": 1,
+      "box": {
+        "left": 376.3,
+        "top": 593.4,
+        "width": 147.9,
+        "height": 22.5
+      }
+    },
+    "dateCompleted4": {
+      "type": "text",
+      "label": "This is row 4 of 19, enter when the date (DD MMM YYYY), was completed.",
+      "page": 1,
+      "box": {
+        "left": 239.1,
+        "top": 591.2,
+        "width": 129.9,
+        "height": 19.7
+      }
+    },
+    "dateCompleted5": {
+      "type": "text",
+      "label": "This is row 5 of 19, enter when the date (DD MMM YYYY),  was completed.",
+      "page": 1,
+      "box": {
+        "left": 239.1,
+        "top": 567.0,
+        "width": 129.9,
+        "height": 11.8
+      }
+    },
+    "comments5": {
+      "type": "text",
+      "label": "For the administrative screening check list enter the comments.",
+      "page": 1,
+      "box": {
+        "left": 376.9,
+        "top": 567.0,
+        "width": 147.3,
+        "height": 11.8
+      }
+    },
+    "dateCompleted6": {
+      "type": "text",
+      "label": "This is row 6 of 19, enter when the date (DD MMM YYYY),  was completed.",
+      "page": 1,
+      "box": {
+        "left": 240.8,
+        "top": 547.9,
+        "width": 129.9,
+        "height": 18.0
+      }
+    },
+    "comments6": {
+      "type": "text",
+      "label": "For the administrative screening check list enter the comments.",
+      "page": 1,
+      "box": {
+        "left": 378.0,
+        "top": 547.9,
+        "width": 145.6,
+        "height": 18.5
+      }
+    },
+    "comments7": {
+      "type": "text",
+      "label": "For the administrative screening check list enter the comments.",
+      "page": 1,
+      "box": {
+        "left": 378.0,
+        "top": 511.9,
+        "width": 145.6,
+        "height": 19.6
+      }
+    },
+    "dateCompleted7": {
+      "type": "text",
+      "label": "This is row 7 of 19, enter when the date (DD MMM YYYY), was completed.",
+      "page": 1,
+      "box": {
+        "left": 239.6,
+        "top": 510.8,
+        "width": 129.9,
+        "height": 18.6
+      }
+    },
+    "comments8": {
+      "type": "text",
+      "label": "For the administrative screening checklilst enter the comments.",
+      "page": 1,
+      "box": {
+        "left": 376.3,
+        "top": 488.8,
+        "width": 145.6,
+        "height": 12.9
+      }
+    },
+    "dateCompleted8": {
+      "type": "text",
+      "label": "This is row 8 of 19, enter when the date (DD MMM YYYY), was completed.",
+      "page": 1,
+      "box": {
+        "left": 239.1,
+        "top": 487.7,
+        "width": 129.9,
+        "height": 11.3
+      }
+    },
+    "dateCompleted9": {
+      "type": "text",
+      "label": "This is row 9 of 19, enter when the date (DD MMM YYYY), was completed.",
+      "page": 1,
+      "box": {
+        "left": 239.6,
+        "top": 473.1,
+        "width": 129.9,
+        "height": 22.5
+      }
+    },
+    "comments9": {
+      "type": "text",
+      "label": "For the administrative screening check list enter the comments.",
+      "page": 1,
+      "box": {
+        "left": 378.0,
+        "top": 471.9,
+        "width": 145.6,
+        "height": 19.6
+      }
+    },
+    "dateCompleted10": {
+      "type": "text",
+      "label": "This is row 10 of 19, enter when the date (DD MMM YYYY),  was completed.",
+      "page": 1,
+      "box": {
+        "left": 240.8,
+        "top": 447.8,
+        "width": 129.9,
+        "height": 12.4
+      }
+    },
+    "comments10": {
+      "type": "text",
+      "label": "For the administrative screening check list enter the comments.",
+      "page": 1,
+      "box": {
+        "left": 378.0,
+        "top": 446.6,
+        "width": 145.6,
+        "height": 11.2
+      }
+    },
+    "comments11": {
+      "type": "text",
+      "label": "For the administrative screening check list enter the comments.",
+      "page": 1,
+      "box": {
+        "left": 379.1,
+        "top": 416.8,
+        "width": 145.6,
+        "height": 18.5
+      }
+    },
+    "dateCompleted11": {
+      "type": "text",
+      "label": "This is row 11 of 19, enter when the date (DD MMM YYYY),  was completed.",
+      "page": 1,
+      "box": {
+        "left": 239.6,
+        "top": 415.2,
+        "width": 129.9,
+        "height": 16.9
+      }
+    },
+    "comments12": {
+      "type": "text",
+      "label": "For the administrative screening check list enter the comments.",
+      "page": 1,
+      "box": {
+        "left": 378.6,
+        "top": 388.1,
+        "width": 145.6,
+        "height": 17.4
+      }
+    },
+    "dateCompleted12": {
+      "type": "text",
+      "label": "This is row 12 of 19, enter when the date (DD MMM YYYY),  was completed.",
+      "page": 1,
+      "box": {
+        "left": 238.5,
+        "top": 387.6,
+        "width": 129.9,
+        "height": 16.9
+      }
+    },
+    "comments13": {
+      "type": "text",
+      "label": "For the administrative screening check list enter the comments.",
+      "page": 1,
+      "box": {
+        "left": 378.6,
+        "top": 366.2,
+        "width": 144.5,
+        "height": 20.2
+      }
+    },
+    "dateCompleted13": {
+      "type": "text",
+      "label": "This is row 13 of 19, enter when the date (DD MMM YYYY),  was completed.",
+      "page": 1,
+      "box": {
+        "left": 239.6,
+        "top": 365.7,
+        "width": 129.9,
+        "height": 20.3
+      }
+    },
+    "dateCompleted14": {
+      "type": "text",
+      "label": "This is row 14 of 19, enter when the date (DD MMM YYYY),  was completed.",
+      "page": 1,
+      "box": {
+        "left": 239.1,
+        "top": 343.7,
+        "width": 129.9,
+        "height": 13.5
+      }
+    },
+    "comments14": {
+      "type": "text",
+      "label": "For the administrative screening check list enter the comments.",
+      "page": 1,
+      "box": {
+        "left": 378.6,
+        "top": 342.0,
+        "width": 145.6,
+        "height": 11.2
+      }
+    },
+    "comments15": {
+      "type": "text",
+      "label": "For the administrative screening check list enter the comments.",
+      "page": 1,
+      "box": {
+        "left": 378.6,
+        "top": 324.0,
+        "width": 145.6,
+        "height": 19.1
+      }
+    },
+    "dateCompleted15": {
+      "type": "text",
+      "label": "This is row 15 of 19, enter when the date (DD MMM YYYY),  was completed.",
+      "page": 1,
+      "box": {
+        "left": 239.1,
+        "top": 322.3,
+        "width": 129.9,
+        "height": 16.9
+      }
+    },
+    "dateCompleted16": {
+      "type": "text",
+      "label": "This is row 16 of 19, enter when the date (DD MMM YYYY),  was completed.",
+      "page": 1,
+      "box": {
+        "left": 239.6,
+        "top": 287.5,
+        "width": 128.8,
+        "height": 20.8
+      }
+    },
+    "comments16": {
+      "type": "text",
+      "label": "For the administrative screening check list enter the comments.",
+      "page": 1,
+      "box": {
+        "left": 378.0,
+        "top": 285.8,
+        "width": 145.6,
+        "height": 19.1
+      }
+    },
+    "dateCompleted17": {
+      "type": "text",
+      "label": "This is row 17 of 19, enter when the date (DD MMM YYYY),  was completed.",
+      "page": 1,
+      "box": {
+        "left": 240.8,
+        "top": 247.5,
+        "width": 129.9,
+        "height": 19.7
+      }
+    },
+    "comments17": {
+      "type": "text",
+      "label": "For the administrative screening check list enter the comments.",
+      "page": 1,
+      "box": {
+        "left": 378.0,
+        "top": 247.5,
+        "width": 145.6,
+        "height": 20.2
+      }
+    },
+    "comments18": {
+      "type": "text",
+      "label": "For the administrative screening check list enter the comments.",
+      "page": 1,
+      "box": {
+        "left": 378.0,
+        "top": 209.3,
+        "width": 145.6,
+        "height": 17.4
+      }
+    },
+    "dateCompleted18": {
+      "type": "text",
+      "label": "This is row 18 of 19, enter when the date (DD MMM YYYY),  was completed.",
+      "page": 1,
+      "box": {
+        "left": 240.2,
+        "top": 208.7,
+        "width": 128.2,
+        "height": 16.9
+      }
+    },
+    "comments19": {
+      "type": "text",
+      "label": "For the administrative screening check list enter the comments.",
+      "page": 1,
+      "box": {
+        "left": 377.4,
+        "top": 177.2,
+        "width": 145.6,
+        "height": 18.0
+      }
+    },
+    "dateCompleted19": {
+      "type": "text",
+      "label": "This is row 19 of 19, enter when the date (DD MMM YYYY),  was completed.",
+      "page": 1,
+      "box": {
+        "left": 239.6,
+        "top": 175.5,
+        "width": 128.8,
+        "height": 16.9
+      }
+    },
+    "servicemember2": {
+      "type": "text",
+      "label": "Enter the servicemember's name.",
+      "page": 2,
+      "box": {
+        "left": 219.4,
+        "top": 741.4,
+        "width": 282.3,
+        "height": 15.1
+      }
+    },
+    "dateAdminScreeningCmplted": {
+      "type": "text",
+      "label": "Enter the date (DD MMM YYYY),  when the administrative screening was completed.",
+      "page": 2,
+      "box": {
+        "left": 330.2,
+        "top": 611.5,
+        "width": 173.2,
+        "height": 17.1
+      }
+    },
+    "textField1": {
+      "type": "text",
+      "label": "Servicemember Name (Last, First, MI)",
+      "page": 2,
+      "box": {
+        "left": 90.6,
+        "top": 568.2,
+        "width": 426.3,
+        "height": 15.8
+      }
+    },
+    "rateRank": {
+      "type": "text",
+      "label": "Enter the rate and rank of the servicemember.",
+      "page": 2,
+      "box": {
+        "left": 147.4,
+        "top": 537.2,
+        "width": 105.1,
+        "height": 16.8
+      }
+    },
+    "radioButtonC": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 342.0,
+        "top": 530.3,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P2_0_RadioButtonC_0"
+    },
+    "radioButtonC2": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 378.8,
+        "top": 530.3,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P2_0_RadioButtonC_0"
+    },
+    "age": {
+      "type": "text",
+      "label": "Enter the age of the servicemember.",
+      "page": 2,
+      "box": {
+        "left": 300.4,
+        "top": 504.6,
+        "width": 105.1,
+        "height": 16.8
+      }
+    },
+    "birthDate": {
+      "type": "text",
+      "label": "Enter the birth date of the servicemember. ",
+      "page": 2,
+      "box": {
+        "left": 145.7,
+        "top": 502.3,
+        "width": 118.1,
+        "height": 12.9
+      }
+    },
+    "commanUIC": {
+      "type": "text",
+      "label": "Enter the commanding officer and UIC.",
+      "page": 2,
+      "box": {
+        "left": 170.4,
+        "top": 482.1,
+        "width": 289.1,
+        "height": 16.8
+      }
+    },
+    "commandAddress": {
+      "type": "text",
+      "label": "Enter the commanding officer's address.",
+      "page": 2,
+      "box": {
+        "left": 192.9,
+        "top": 451.7,
+        "width": 327.3,
+        "height": 15.7
+      }
+    },
+    "divisionTelephone": {
+      "type": "text",
+      "label": "Enter the division and work centers telephone number.",
+      "page": 2,
+      "box": {
+        "left": 410.1,
+        "top": 423.0,
+        "width": 102.3,
+        "height": 15.8
+      }
+    },
+    "divisionWorkCenter": {
+      "type": "text",
+      "label": "Enter the division and work center.",
+      "page": 2,
+      "box": {
+        "left": 196.9,
+        "top": 421.3,
+        "width": 123.7,
+        "height": 14.2
+      }
+    },
+    "supervisorTelephone": {
+      "type": "text",
+      "label": "Enter the supervisor's  telephone number.",
+      "page": 2,
+      "box": {
+        "left": 413.4,
+        "top": 394.3,
+        "width": 97.3,
+        "height": 17.4
+      }
+    },
+    "supervisorName": {
+      "type": "text",
+      "label": "Enter the supervisor's name.",
+      "page": 2,
+      "box": {
+        "left": 180.6,
+        "top": 391.5,
+        "width": 148.4,
+        "height": 14.6
+      }
+    },
+    "radioButtonList": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 163.1,
+        "top": 325.3,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "F_0_P2_0_RadioButtonList_0"
+    },
+    "dateMemberSelfreferred": {
+      "type": "text",
+      "label": "Enter the date of when the member was self-referred.",
+      "page": 2,
+      "box": {
+        "left": 327.9,
+        "top": 319.0,
+        "width": 93.4,
+        "height": 9.8
+      }
+    },
+    "radioButtonList2": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 191.3,
+        "top": 295.5,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "F_0_P2_0_RadioButtonList_1"
+    },
+    "dateCommandReferredReceived": {
+      "type": "text",
+      "label": "Enter the date when the command referral received the screening.",
+      "page": 2,
+      "box": {
+        "left": 383.6,
+        "top": 290.8,
+        "width": 93.4,
+        "height": 10.3
+      }
+    },
+    "radioButtonList3": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 180.0,
+        "top": 266.3,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "F_0_P2_0_RadioButtonList_2"
+    },
+    "dateIncidentOccurred": {
+      "type": "text",
+      "label": "Enter the date when the incident occurred.",
+      "page": 2,
+      "box": {
+        "left": 332.4,
+        "top": 263.3,
+        "width": 93.4,
+        "height": 9.8
+      }
+    },
+    "radioButtonC3": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 288.0,
+        "top": 235.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P2_0_RadioButtonC_1"
+    },
+    "radioButtonC4": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 324.8,
+        "top": 235.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P2_0_RadioButtonC_1"
+    },
+    "radioButtonC5": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 437.1,
+        "top": 235.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P2_0_RadioButtonC_2"
+    },
+    "radioButtonC6": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 473.9,
+        "top": 235.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P2_0_RadioButtonC_2"
+    },
+    "typeofillicitdrug": {
+      "type": "text",
+      "label": "Enter the type of illicit drugs which were involved.",
+      "page": 2,
+      "box": {
+        "left": 353.8,
+        "top": 208.7,
+        "width": 149.0,
+        "height": 16.8
+      }
+    },
+    "textField2": {
+      "type": "text",
+      "label": "Was member arrested for Driving under the influence or driving while intoxicated.",
+      "page": 2,
+      "box": {
+        "left": 294.8,
+        "top": 185.1,
+        "width": 170.1,
+        "height": 19.8
+      }
+    },
+    "textField3": {
+      "type": "text",
+      "label": "How many DUI's or DWI's has the member incurred during career.",
+      "page": 2,
+      "box": {
+        "left": 402.2,
+        "top": 156.4,
+        "width": 82.1,
+        "height": 19.8
+      }
+    },
+    "results": {
+      "type": "text",
+      "label": "Enter the results of the Blood Alcohol Content.",
+      "page": 2,
+      "box": {
+        "left": 466.9,
+        "top": 122.1,
+        "width": 56.2,
+        "height": 13.5
+      }
+    },
+    "radioButtonC7": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 355.5,
+        "top": 120.8,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P2_0_RadioButtonC_3"
+    },
+    "radioButtonC8": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 392.3,
+        "top": 120.8,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P2_0_RadioButtonC_3"
+    },
+    "dapaname": {
+      "type": "text",
+      "label": "Name of DAPA.",
+      "page": 2,
+      "box": {
+        "left": 161.2,
+        "top": 101.8,
+        "width": 189.8,
+        "height": 19.8
+      }
+    },
+    "dAPAPhoneNum": {
+      "type": "text",
+      "label": "Enter phone number of DAPA office using the 9 digit number without dashes or parenthesis.  When message comes up just click ok.",
+      "page": 2,
+      "box": {
+        "left": 439.0,
+        "top": 101.3,
+        "width": 86.3,
+        "height": 19.7
+      }
+    },
+    "servicemember3": {
+      "type": "text",
+      "label": "Enter the servicemember's name.",
+      "page": 3,
+      "box": {
+        "left": 218.8,
+        "top": 743.0,
+        "width": 280.6,
+        "height": 16.8
+      }
+    },
+    "dateConducted": {
+      "type": "text",
+      "label": "Enter the date when the urinalysis test was done.",
+      "page": 3,
+      "box": {
+        "left": 446.1,
+        "top": 715.5,
+        "width": 78.7,
+        "height": 8.6
+      }
+    },
+    "radioButtonG": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 265.5,
+        "top": 714.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_RadioButtonG_0"
+    },
+    "radioButtonG2": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 302.3,
+        "top": 714.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_RadioButtonG_0"
+    },
+    "describeindetailpg3": {
+      "type": "text",
+      "label": "Describe, in detail, incident or facts of referral. ",
+      "page": 3,
+      "box": {
+        "left": 91.1,
+        "top": 667.1,
+        "width": 429.1,
+        "height": 77.6
+      },
+      "multiline": true
+    },
+    "radioButtonG3": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 288.6,
+        "top": 565.7,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P3_0_RadioButtonG_1"
+    },
+    "radioButtonG4": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 325.4,
+        "top": 565.7,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P3_0_RadioButtonG_1"
+    },
+    "textField5": {
+      "type": "text",
+      "label": "Name of Command member is going to.",
+      "page": 3,
+      "box": {
+        "left": 278.2,
+        "top": 547.3,
+        "width": 242.6,
+        "height": 27.5
+      }
+    },
+    "dNSDate3": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 3,
+      "box": {
+        "left": 433.1,
+        "top": 502.3,
+        "width": 80.4,
+        "height": 17.0
+      }
+    },
+    "activedutyservicedate": {
+      "type": "text",
+      "label": "Enter the active duty service date.",
+      "page": 3,
+      "box": {
+        "left": 223.3,
+        "top": 498.4,
+        "width": 86.0,
+        "height": 13.7
+      }
+    },
+    "dNSDate32": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 3,
+      "box": {
+        "left": 315.0,
+        "top": 472.5,
+        "width": 99.2,
+        "height": 16.8
+      }
+    },
+    "timeinservice": {
+      "type": "text",
+      "label": "Enter the servicemember's time in service.",
+      "page": 3,
+      "box": {
+        "left": 173.3,
+        "top": 471.9,
+        "width": 101.2,
+        "height": 16.8
+      }
+    },
+    "dateReportedthisCommand": {
+      "type": "text",
+      "label": "Enter the date when it was reported to this command.",
+      "page": 3,
+      "box": {
+        "left": 238.5,
+        "top": 442.2,
+        "width": 118.1,
+        "height": 14.3
+      }
+    },
+    "dNSDate33": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 3,
+      "box": {
+        "left": 390.4,
+        "top": 442.1,
+        "width": 112.4,
+        "height": 14.8
+      }
+    },
+    "radioButtonG5": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 203.6,
+        "top": 416.0,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "F_0_P3_0_RadioButtonG_2"
+    },
+    "radioButtonG6": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 240.5,
+        "top": 416.0,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "F_0_P3_0_RadioButtonG_2"
+    },
+    "waiver1": {
+      "type": "text",
+      "label": "If selected yes, provide the details of waiver.",
+      "page": 3,
+      "box": {
+        "left": 86.6,
+        "top": 393.2,
+        "width": 432.5,
+        "height": 37.1
+      },
+      "multiline": true
+    },
+    "radioButtonG7": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 142.3,
+        "top": 340.0,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "F_0_P3_0_RadioButtonG_3"
+    },
+    "radioButtonG8": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 210.9,
+        "top": 340.0,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "F_0_P3_0_RadioButtonG_3"
+    },
+    "radioButtonG9": {
+      "type": "radio",
+      "label": "2",
+      "page": 3,
+      "box": {
+        "left": 291.9,
+        "top": 339.5,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "F_0_P3_0_RadioButtonG_3"
+    },
+    "radioButtonG10": {
+      "type": "radio",
+      "label": "3",
+      "page": 3,
+      "box": {
+        "left": 361.1,
+        "top": 339.5,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "F_0_P3_0_RadioButtonG_3"
+    },
+    "nextofKin": {
+      "type": "text",
+      "label": "Enter the next of kin listed in the service record.",
+      "page": 3,
+      "box": {
+        "left": 265.5,
+        "top": 313.9,
+        "width": 252.5,
+        "height": 11.2
+      }
+    },
+    "waiver": {
+      "type": "text",
+      "label": "Enter additional comments for the servicemember.",
+      "page": 3,
+      "box": {
+        "left": 90.6,
+        "top": 272.3,
+        "width": 430.8,
+        "height": 46.1
+      },
+      "multiline": true
+    },
+    "highestGrade": {
+      "type": "text",
+      "label": "Enter the highest grade completed.",
+      "page": 3,
+      "box": {
+        "left": 227.3,
+        "top": 211.5,
+        "width": 42.1,
+        "height": 12.0
+      }
+    },
+    "datesofhighschool": {
+      "type": "text",
+      "label": "Enter the dates of high school.",
+      "page": 3,
+      "box": {
+        "left": 389.2,
+        "top": 210.4,
+        "width": 114.1,
+        "height": 12.0
+      }
+    },
+    "radioButtonG11": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 131.6,
+        "top": 192.8,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P3_0_RadioButtonG_4"
+    },
+    "radioButtonG12": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 168.5,
+        "top": 192.8,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P3_0_RadioButtonG_4"
+    },
+    "dateAwarded": {
+      "type": "text",
+      "label": "Enter the  when the GED date (DD MMM YYYY),  was awarded.",
+      "page": 3,
+      "box": {
+        "left": 334.1,
+        "top": 191.3,
+        "width": 93.4,
+        "height": 10.3
+      }
+    },
+    "radioButtonG13": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 206.4,
+        "top": 166.4,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P3_0_subform_0_RadioButtonG_5"
+    },
+    "radioButtonG14": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 243.3,
+        "top": 166.4,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P3_0_subform_0_RadioButtonG_5"
+    },
+    "radioButtonG15": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 407.2,
+        "top": 166.4,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P3_0_RadioButtonG_6"
+    },
+    "radioButtonG16": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 444.1,
+        "top": 166.4,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P3_0_RadioButtonG_6"
+    },
+    "dateCompleted": {
+      "type": "text",
+      "label": "Enter the date (DD MMM YYYY),  completed college.",
+      "page": 3,
+      "box": {
+        "left": 177.2,
+        "top": 148.0,
+        "width": 93.4,
+        "height": 9.8
+      }
+    },
+    "advancementPromotion": {
+      "type": "text",
+      "label": "Enter the date of the most recent advancement and promotion.",
+      "page": 3,
+      "box": {
+        "left": 321.2,
+        "top": 127.2,
+        "width": 93.4,
+        "height": 9.8
+      }
+    },
+    "dapaname2": {
+      "type": "text",
+      "label": "Name of DAPA.",
+      "page": 3,
+      "box": {
+        "left": 161.2,
+        "top": 100.7,
+        "width": 189.8,
+        "height": 19.8
+      }
+    },
+    "dAPAPhoneNum2": {
+      "type": "text",
+      "label": "Enter phone number of DAPA office using the 9 digit number without dashes or parenthesis.  When message comes up just click ok.",
+      "page": 3,
+      "box": {
+        "left": 439.6,
+        "top": 100.7,
+        "width": 86.3,
+        "height": 19.9
+      }
+    },
+    "servicemember4": {
+      "type": "text",
+      "label": "Enter the servicemember's name.",
+      "page": 4,
+      "box": {
+        "left": 217.1,
+        "top": 738.0,
+        "width": 280.6,
+        "height": 13.5
+      }
+    },
+    "dateofReduction": {
+      "type": "text",
+      "label": "Enter the date of reduction in paygrade.",
+      "page": 4,
+      "box": {
+        "left": 255.4,
+        "top": 710.1,
+        "width": 65.2,
+        "height": 16.5
+      }
+    },
+    "payGrade1": {
+      "type": "text",
+      "label": "Enter from what the paygrade was reducted.",
+      "page": 4,
+      "box": {
+        "left": 441.6,
+        "top": 705.6,
+        "width": 78.1,
+        "height": 11.8
+      }
+    },
+    "reductionpaygrade": {
+      "type": "text",
+      "label": "Enter the details of the reduction in the paygrade.",
+      "page": 4,
+      "box": {
+        "left": 88.9,
+        "top": 663.7,
+        "width": 431.9,
+        "height": 45.5
+      },
+      "multiline": true
+    },
+    "previousdutystation": {
+      "type": "text",
+      "label": "Enter the previous duty station.",
+      "page": 4,
+      "box": {
+        "left": 217.1,
+        "top": 594.0,
+        "width": 280.6,
+        "height": 13.5
+      }
+    },
+    "reported": {
+      "type": "text",
+      "label": "For the previous duty station enter the when reported.",
+      "page": 4,
+      "box": {
+        "left": 278.4,
+        "top": 572.6,
+        "width": 79.8,
+        "height": 15.1
+      }
+    },
+    "detached": {
+      "type": "text",
+      "label": "Enter the previous duty station detached.",
+      "page": 4,
+      "box": {
+        "left": 429.7,
+        "top": 572.6,
+        "width": 66.3,
+        "height": 15.1
+      }
+    },
+    "location": {
+      "type": "text",
+      "label": "Enter the previous duty station location.",
+      "page": 4,
+      "box": {
+        "left": 140.1,
+        "top": 570.9,
+        "width": 73.6,
+        "height": 13.5
+      }
+    },
+    "radioButtonG17": {
+      "type": "radio",
+      "label": "0",
+      "page": 4,
+      "box": {
+        "left": 335.3,
+        "top": 541.5,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P4_0_RadioButtonG_0"
+    },
+    "radioButtonG18": {
+      "type": "radio",
+      "label": "1",
+      "page": 4,
+      "box": {
+        "left": 372.1,
+        "top": 541.5,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P4_0_RadioButtonG_0"
+    },
+    "evidence": {
+      "type": "text",
+      "label": "If yes, to evidence of previous drug or alcohol treatment, provide details.",
+      "page": 4,
+      "box": {
+        "left": 90.6,
+        "top": 511.3,
+        "width": 431.4,
+        "height": 43.8
+      },
+      "multiline": true
+    },
+    "nJPcaptainsmast": {
+      "type": "text",
+      "label": "If there is evidence of NJP or Captains Mast provide the details.",
+      "page": 4,
+      "box": {
+        "left": 93.4,
+        "top": 402.2,
+        "width": 408.3,
+        "height": 37.6
+      },
+      "multiline": true
+    },
+    "courtsmemoranda": {
+      "type": "text",
+      "label": "If there is a courts memoranda, provide the details.",
+      "page": 4,
+      "box": {
+        "left": 97.3,
+        "top": 338.6,
+        "width": 421.8,
+        "height": 41.0
+      },
+      "multiline": true
+    },
+    "civilarrests": {
+      "type": "text",
+      "label": "If there is evidence of civil arrests, provide the details.",
+      "page": 4,
+      "box": {
+        "left": 94.0,
+        "top": 277.9,
+        "width": 417.9,
+        "height": 42.1
+      },
+      "multiline": true
+    },
+    "unauthorized": {
+      "type": "text",
+      "label": "If there are unauthorized absences, provide the details.",
+      "page": 4,
+      "box": {
+        "left": 98.5,
+        "top": 213.8,
+        "width": 412.8,
+        "height": 36.5
+      },
+      "multiline": true
+    },
+    "additionalcomments": {
+      "type": "text",
+      "label": "Enter additional comments on the history of disciplinary actions.",
+      "page": 4,
+      "box": {
+        "left": 96.8,
+        "top": 158.6,
+        "width": 417.9,
+        "height": 47.8
+      },
+      "multiline": true
+    },
+    "dapaname3": {
+      "type": "text",
+      "label": "Name of DAPA.",
+      "page": 4,
+      "box": {
+        "left": 161.2,
+        "top": 101.3,
+        "width": 189.8,
+        "height": 19.8
+      }
+    },
+    "dAPAPhoneNum3": {
+      "type": "text",
+      "label": "Enter phone number of DAPA office using the 9 digit number without dashes or parenthesis.  When message comes up just click ok.",
+      "page": 4,
+      "box": {
+        "left": 438.5,
+        "top": 101.3,
+        "width": 87.5,
+        "height": 19.9
+      }
+    },
+    "servicemember5": {
+      "type": "text",
+      "label": "Enter the servicemember's name.",
+      "page": 5,
+      "box": {
+        "left": 219.4,
+        "top": 739.7,
+        "width": 280.6,
+        "height": 13.5
+      }
+    },
+    "enlistedEvaluationsDate5a": {
+      "type": "text",
+      "label": "Enter the date for the enlisted evaluations.",
+      "page": 5,
+      "box": {
+        "left": 305.4,
+        "top": 663.8,
+        "width": 93.4,
+        "height": 21.0
+      }
+    },
+    "enlistedevaluationstype5": {
+      "type": "text",
+      "label": "Enter the type value.",
+      "page": 5,
+      "box": {
+        "left": 436.5,
+        "top": 659.8,
+        "width": 83.2,
+        "height": 16.8
+      }
+    },
+    "command1": {
+      "type": "text",
+      "label": "Enter the command value.",
+      "page": 5,
+      "box": {
+        "left": 149.6,
+        "top": 654.7,
+        "width": 116.9,
+        "height": 13.5
+      }
+    },
+    "professionalknowledgea": {
+      "type": "text",
+      "label": "Enter any professional knowledge for E1-E6.",
+      "page": 5,
+      "box": {
+        "left": 213.2,
+        "top": 629.4,
+        "width": 106.3,
+        "height": 16.8
+      }
+    },
+    "professionalexpertise": {
+      "type": "text",
+      "label": "Enter the professional expertise for 01-06.",
+      "page": 5,
+      "box": {
+        "left": 446.1,
+        "top": 629.4,
+        "width": 74.8,
+        "height": 16.8
+      }
+    },
+    "personalJobAccomplishmentInitativea": {
+      "type": "text",
+      "label": "Enter the personal job accomplishment and initiative for E1-E6. ",
+      "page": 5,
+      "box": {
+        "left": 144.0,
+        "top": 572.1,
+        "width": 127.6,
+        "height": 14.0
+      }
+    },
+    "missionAccoplishmentInitiativea": {
+      "type": "text",
+      "label": "Enter the mission accomplishment and initiative for 01-06.",
+      "page": 5,
+      "box": {
+        "left": 377.4,
+        "top": 572.1,
+        "width": 112.4,
+        "height": 14.0
+      }
+    },
+    "leadershipa": {
+      "type": "text",
+      "label": "Enter the leadership for 01-06.",
+      "page": 5,
+      "box": {
+        "left": 390.4,
+        "top": 536.6,
+        "width": 101.2,
+        "height": 14.0
+      }
+    },
+    "militaryBearingCharactera": {
+      "type": "text",
+      "label": "Enter the military bearing and character for E1-E6.",
+      "page": 5,
+      "box": {
+        "left": 225.6,
+        "top": 536.1,
+        "width": 89.9,
+        "height": 14.0
+      }
+    },
+    "individualTraitAveragea": {
+      "type": "text",
+      "label": "Enter the individual trait average for E1-E6.",
+      "page": 5,
+      "box": {
+        "left": 223.3,
+        "top": 497.2,
+        "width": 101.2,
+        "height": 14.0
+      }
+    },
+    "radioButtonG19": {
+      "type": "radio",
+      "label": "0",
+      "page": 5,
+      "box": {
+        "left": 254.3,
+        "top": 457.7,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P5_0_RadioButtonG_0"
+    },
+    "radioButtonG20": {
+      "type": "radio",
+      "label": "1",
+      "page": 5,
+      "box": {
+        "left": 291.1,
+        "top": 457.7,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P5_0_RadioButtonG_0"
+    },
+    "alcoholdrugrelatedentries": {
+      "type": "text",
+      "label": "Provide the details of alcohol or drug related entries if answered yes.",
+      "page": 5,
+      "box": {
+        "left": 92.3,
+        "top": 436.5,
+        "width": 426.3,
+        "height": 34.8
+      },
+      "multiline": true
+    },
+    "enlistedEvaluationsDate5a2": {
+      "type": "text",
+      "label": "Enter the date for the enlisted evaluations.",
+      "page": 5,
+      "box": {
+        "left": 304.3,
+        "top": 388.7,
+        "width": 93.4,
+        "height": 21.0
+      }
+    },
+    "enlistedevaluationstype52": {
+      "type": "text",
+      "label": "Enter the type value.",
+      "page": 5,
+      "box": {
+        "left": 435.4,
+        "top": 384.8,
+        "width": 83.2,
+        "height": 16.8
+      }
+    },
+    "command12": {
+      "type": "text",
+      "label": "Enter the command value.",
+      "page": 5,
+      "box": {
+        "left": 147.4,
+        "top": 381.4,
+        "width": 116.9,
+        "height": 13.5
+      }
+    },
+    "professionalknowledgea2": {
+      "type": "text",
+      "label": "Enter any professional knowledge for E1-E6.",
+      "page": 5,
+      "box": {
+        "left": 212.1,
+        "top": 354.4,
+        "width": 106.3,
+        "height": 16.8
+      }
+    },
+    "professionalexpertise2": {
+      "type": "text",
+      "label": "Enter the professional expertise for 01-06.",
+      "page": 5,
+      "box": {
+        "left": 444.9,
+        "top": 354.4,
+        "width": 74.8,
+        "height": 16.8
+      }
+    },
+    "personalJobAccomplishmentInitativea2": {
+      "type": "text",
+      "label": "Enter the personal job accomplishment and initiative for E1-E6. ",
+      "page": 5,
+      "box": {
+        "left": 142.9,
+        "top": 297.0,
+        "width": 127.6,
+        "height": 14.0
+      }
+    },
+    "missionAccoplishmentInitiativea2": {
+      "type": "text",
+      "label": "Enter the mission accomplishment and initiative for 01-06.",
+      "page": 5,
+      "box": {
+        "left": 376.3,
+        "top": 297.0,
+        "width": 112.4,
+        "height": 14.0
+      }
+    },
+    "leadershipa2": {
+      "type": "text",
+      "label": "Enter the leadership for 01-06.",
+      "page": 5,
+      "box": {
+        "left": 389.2,
+        "top": 261.6,
+        "width": 101.2,
+        "height": 14.0
+      }
+    },
+    "militaryBearingCharactera2": {
+      "type": "text",
+      "label": "Enter the military bearing and character for E1-E6.",
+      "page": 5,
+      "box": {
+        "left": 224.4,
+        "top": 261.0,
+        "width": 89.9,
+        "height": 14.0
+      }
+    },
+    "individualTraitAveragea2": {
+      "type": "text",
+      "label": "Enter the individual trait average for E1-06.",
+      "page": 5,
+      "box": {
+        "left": 222.2,
+        "top": 222.2,
+        "width": 101.2,
+        "height": 14.0
+      }
+    },
+    "radioButtonG21": {
+      "type": "radio",
+      "label": "0",
+      "page": 5,
+      "box": {
+        "left": 253.1,
+        "top": 182.7,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P5_0_RadioButtonG_1"
+    },
+    "radioButtonG22": {
+      "type": "radio",
+      "label": "1",
+      "page": 5,
+      "box": {
+        "left": 289.9,
+        "top": 182.7,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P5_0_RadioButtonG_1"
+    },
+    "alcoholdrugrelatedentries2": {
+      "type": "text",
+      "label": "Provide the details of alcohol or drug related entries if answered yes.",
+      "page": 5,
+      "box": {
+        "left": 92.3,
+        "top": 160.9,
+        "width": 426.3,
+        "height": 34.8
+      },
+      "multiline": true
+    },
+    "dAPAPhoneNum4": {
+      "type": "text",
+      "label": "Enter phone number of DAPA office using the 9 digit number without dashes or parenthesis.  When message comes up just click ok.",
+      "page": 5,
+      "box": {
+        "left": 439.0,
+        "top": 101.9,
+        "width": 86.3,
+        "height": 19.9
+      }
+    },
+    "dapaname4": {
+      "type": "text",
+      "label": "Name of DAPA.",
+      "page": 5,
+      "box": {
+        "left": 161.2,
+        "top": 101.8,
+        "width": 189.8,
+        "height": 19.8
+      }
+    },
+    "servicemember6": {
+      "type": "text",
+      "label": "Enter the servicemember's name.",
+      "page": 6,
+      "box": {
+        "left": 218.8,
+        "top": 740.0,
+        "width": 280.6,
+        "height": 13.5
+      }
+    },
+    "enlistedEvaluationsDate5a3": {
+      "type": "text",
+      "label": "Enter the date for the enlisted evaluations.",
+      "page": 6,
+      "box": {
+        "left": 306.0,
+        "top": 663.0,
+        "width": 93.4,
+        "height": 21.0
+      }
+    },
+    "enlistedevaluationstype53": {
+      "type": "text",
+      "label": "Enter the type value.",
+      "page": 6,
+      "box": {
+        "left": 437.1,
+        "top": 659.0,
+        "width": 83.2,
+        "height": 16.8
+      }
+    },
+    "command13": {
+      "type": "text",
+      "label": "Enter the command value.",
+      "page": 6,
+      "box": {
+        "left": 149.1,
+        "top": 655.6,
+        "width": 116.9,
+        "height": 13.5
+      }
+    },
+    "professionalknowledgea3": {
+      "type": "text",
+      "label": "Enter institutional and technical expertise for E7 - E9.",
+      "page": 6,
+      "box": {
+        "left": 263.8,
+        "top": 628.6,
+        "width": 163.6,
+        "height": 16.8
+      }
+    },
+    "personalJobAccomplishmentInitativea3": {
+      "type": "text",
+      "label": "Enter character initiative for E7-E9. ",
+      "page": 6,
+      "box": {
+        "left": 156.9,
+        "top": 590.1,
+        "width": 269.9,
+        "height": 14.0
+      }
+    },
+    "militaryBearingCharactera3": {
+      "type": "text",
+      "label": "Enter deck place leadership for E7-E9.",
+      "page": 6,
+      "box": {
+        "left": 214.3,
+        "top": 541.1,
+        "width": 214.3,
+        "height": 14.0
+      }
+    },
+    "individualTraitAveragea3": {
+      "type": "text",
+      "label": "Enter the individual trait average for E1-06.",
+      "page": 6,
+      "box": {
+        "left": 225.0,
+        "top": 496.5,
+        "width": 203.0,
+        "height": 14.0
+      }
+    },
+    "radioButtonG23": {
+      "type": "radio",
+      "label": "0",
+      "page": 6,
+      "box": {
+        "left": 254.8,
+        "top": 456.9,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P6_0_RadioButtonG_0"
+    },
+    "radioButtonG24": {
+      "type": "radio",
+      "label": "1",
+      "page": 6,
+      "box": {
+        "left": 291.6,
+        "top": 456.9,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P6_0_RadioButtonG_0"
+    },
+    "alcoholdrugrelatedentries3": {
+      "type": "text",
+      "label": "Provide the details of alcohol or drug related entries if answered yes.",
+      "page": 6,
+      "box": {
+        "left": 92.8,
+        "top": 435.7,
+        "width": 426.3,
+        "height": 47.0
+      },
+      "multiline": true
+    },
+    "enlistedEvaluationsDate5a4": {
+      "type": "text",
+      "label": "Enter the date for the enlisted evaluations.",
+      "page": 6,
+      "box": {
+        "left": 304.3,
+        "top": 387.0,
+        "width": 93.4,
+        "height": 21.0
+      }
+    },
+    "enlistedevaluationstype54": {
+      "type": "text",
+      "label": "Enter the type value.",
+      "page": 6,
+      "box": {
+        "left": 435.4,
+        "top": 383.1,
+        "width": 83.2,
+        "height": 16.8
+      }
+    },
+    "command14": {
+      "type": "text",
+      "label": "Enter the command value.",
+      "page": 6,
+      "box": {
+        "left": 147.4,
+        "top": 379.7,
+        "width": 116.9,
+        "height": 13.5
+      }
+    },
+    "professionalknowledgea4": {
+      "type": "text",
+      "label": "Enter institutional and technical expertise for E7-E9.",
+      "page": 6,
+      "box": {
+        "left": 262.1,
+        "top": 352.7,
+        "width": 163.6,
+        "height": 16.8
+      }
+    },
+    "personalJobAccomplishmentInitativea4": {
+      "type": "text",
+      "label": "Enter character initiative for E7-E9. ",
+      "page": 6,
+      "box": {
+        "left": 150.2,
+        "top": 314.1,
+        "width": 275.0,
+        "height": 14.0
+      }
+    },
+    "militaryBearingCharactera4": {
+      "type": "text",
+      "label": "Enter deck plate leadership for E7-E9.",
+      "page": 6,
+      "box": {
+        "left": 212.6,
+        "top": 265.2,
+        "width": 214.3,
+        "height": 14.0
+      }
+    },
+    "individualTraitAveragea4": {
+      "type": "text",
+      "label": "Enter the individual trait average for E1-06.",
+      "page": 6,
+      "box": {
+        "left": 223.3,
+        "top": 220.5,
+        "width": 203.0,
+        "height": 14.0
+      }
+    },
+    "radioButtonG25": {
+      "type": "radio",
+      "label": "0",
+      "page": 6,
+      "box": {
+        "left": 253.1,
+        "top": 181.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P6_0_RadioButtonG_1"
+    },
+    "radioButtonG26": {
+      "type": "radio",
+      "label": "1",
+      "page": 6,
+      "box": {
+        "left": 290.0,
+        "top": 181.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P6_0_RadioButtonG_1"
+    },
+    "alcoholdrugrelatedentries4": {
+      "type": "text",
+      "label": "Provide the details of alcohol or drug related entries if answered yes.",
+      "page": 6,
+      "box": {
+        "left": 91.1,
+        "top": 159.8,
+        "width": 426.3,
+        "height": 47.8
+      },
+      "multiline": true
+    },
+    "dapaname5": {
+      "type": "text",
+      "label": "Name of DAPA.",
+      "page": 6,
+      "box": {
+        "left": 161.7,
+        "top": 101.0,
+        "width": 189.8,
+        "height": 19.8
+      }
+    },
+    "dAPAPhoneNum5": {
+      "type": "text",
+      "label": "Enter phone number of DAPA office using the 9 digit number without dashes or parenthesis.  When message comes up just click ok.",
+      "page": 6,
+      "box": {
+        "left": 439.6,
+        "top": 100.5,
+        "width": 86.3,
+        "height": 19.9
+      }
+    },
+    "servicemember7": {
+      "type": "text",
+      "label": "Enter the servicemember's name.",
+      "page": 7,
+      "box": {
+        "left": 217.7,
+        "top": 741.9,
+        "width": 280.6,
+        "height": 14.0
+      }
+    },
+    "radioButtonG27": {
+      "type": "radio",
+      "label": "0",
+      "page": 7,
+      "box": {
+        "left": 141.2,
+        "top": 660.2,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P7_0_RadioButtonG_0"
+    },
+    "radioButtonG28": {
+      "type": "radio",
+      "label": "1",
+      "page": 7,
+      "box": {
+        "left": 178.0,
+        "top": 660.2,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P7_0_RadioButtonG_0"
+    },
+    "radioButtonG29": {
+      "type": "radio",
+      "label": "0",
+      "page": 7,
+      "box": {
+        "left": 356.6,
+        "top": 659.6,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P7_0_RadioButtonG_1"
+    },
+    "radioButtonG30": {
+      "type": "radio",
+      "label": "1",
+      "page": 7,
+      "box": {
+        "left": 393.4,
+        "top": 659.6,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P7_0_RadioButtonG_1"
+    },
+    "radioButtonG31": {
+      "type": "radio",
+      "label": "0",
+      "page": 7,
+      "box": {
+        "left": 155.3,
+        "top": 630.9,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P7_0_RadioButtonG_2"
+    },
+    "radioButtonG32": {
+      "type": "radio",
+      "label": "1",
+      "page": 7,
+      "box": {
+        "left": 192.1,
+        "top": 630.9,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P7_0_RadioButtonG_2"
+    },
+    "radioButtonG33": {
+      "type": "radio",
+      "label": "0",
+      "page": 7,
+      "box": {
+        "left": 392.0,
+        "top": 630.9,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P7_0_RadioButtonG_3"
+    },
+    "radioButtonG34": {
+      "type": "radio",
+      "label": "1",
+      "page": 7,
+      "box": {
+        "left": 428.9,
+        "top": 630.9,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P7_0_RadioButtonG_3"
+    },
+    "radioButtonG35": {
+      "type": "radio",
+      "label": "0",
+      "page": 7,
+      "box": {
+        "left": 406.1,
+        "top": 603.4,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P7_0_RadioButtonG_5"
+    },
+    "radioButtonG36": {
+      "type": "radio",
+      "label": "1",
+      "page": 7,
+      "box": {
+        "left": 442.9,
+        "top": 603.4,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P7_0_RadioButtonG_5"
+    },
+    "radioButtonG37": {
+      "type": "radio",
+      "label": "0",
+      "page": 7,
+      "box": {
+        "left": 206.4,
+        "top": 602.3,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P7_0_RadioButtonG_4"
+    },
+    "radioButtonG38": {
+      "type": "radio",
+      "label": "1",
+      "page": 7,
+      "box": {
+        "left": 243.3,
+        "top": 602.3,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P7_0_RadioButtonG_4"
+    },
+    "radioButtonG39": {
+      "type": "radio",
+      "label": "0",
+      "page": 7,
+      "box": {
+        "left": 147.4,
+        "top": 577.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P7_0_RadioButtonG_6"
+    },
+    "radioButtonG40": {
+      "type": "radio",
+      "label": "1",
+      "page": 7,
+      "box": {
+        "left": 184.2,
+        "top": 577.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P7_0_RadioButtonG_6"
+    },
+    "radioButtonG41": {
+      "type": "radio",
+      "label": "0",
+      "page": 7,
+      "box": {
+        "left": 401.1,
+        "top": 577.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P7_0_RadioButtonG_7"
+    },
+    "radioButtonG42": {
+      "type": "radio",
+      "label": "1",
+      "page": 7,
+      "box": {
+        "left": 437.9,
+        "top": 577.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P7_0_RadioButtonG_7"
+    },
+    "evidenceofattendance": {
+      "type": "text",
+      "label": "If yes to any course, provide details including date, location and if member           attended due to alcohol related incident.   ",
+      "page": 7,
+      "box": {
+        "left": 90.6,
+        "top": 522.0,
+        "width": 428.0,
+        "height": 36.0
+      },
+      "multiline": true
+    },
+    "radioButtonG43": {
+      "type": "radio",
+      "label": "0",
+      "page": 7,
+      "box": {
+        "left": 92.3,
+        "top": 443.0,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "F_0_P7_0_RadioButtonG_8"
+    },
+    "radioButtonG44": {
+      "type": "radio",
+      "label": "1",
+      "page": 7,
+      "box": {
+        "left": 184.5,
+        "top": 443.0,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "F_0_P7_0_RadioButtonG_8"
+    },
+    "radioButtonG45": {
+      "type": "radio",
+      "label": "2",
+      "page": 7,
+      "box": {
+        "left": 260.4,
+        "top": 443.0,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "F_0_P7_0_RadioButtonG_8"
+    },
+    "radioButtonG46": {
+      "type": "radio",
+      "label": "3",
+      "page": 7,
+      "box": {
+        "left": 361.1,
+        "top": 443.0,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "F_0_P7_0_RadioButtonG_8"
+    },
+    "field": {
+      "type": "text",
+      "label": "For the security clearance and if any of these, describe the circumstances.",
+      "page": 7,
+      "box": {
+        "left": 88.3,
+        "top": 393.2,
+        "width": 433.1,
+        "height": 34.8
+      },
+      "multiline": true
+    },
+    "radioButtonG47": {
+      "type": "radio",
+      "label": "0",
+      "page": 7,
+      "box": {
+        "left": 306.0,
+        "top": 339.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P7_0_RadioButtonG_9"
+    },
+    "radioButtonG48": {
+      "type": "radio",
+      "label": "1",
+      "page": 7,
+      "box": {
+        "left": 342.8,
+        "top": 339.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P7_0_RadioButtonG_9"
+    },
+    "civialemployment": {
+      "type": "text",
+      "label": "For the DD-1966,  list prior civilian employment including dates of employment.",
+      "page": 7,
+      "box": {
+        "left": 87.8,
+        "top": 297.0,
+        "width": 433.1,
+        "height": 50.0
+      },
+      "multiline": true
+    },
+    "preServiceArrests": {
+      "type": "text",
+      "label": "For the DD-1966,  list prior civilian employment including dates of employment.",
+      "page": 7,
+      "box": {
+        "left": 87.8,
+        "top": 215.9,
+        "width": 433.1,
+        "height": 34.8
+      },
+      "multiline": true
+    },
+    "additionalinfofoundondd1966": {
+      "type": "text",
+      "label": "Enter any additional information found on DD-1966.",
+      "page": 7,
+      "box": {
+        "left": 90.0,
+        "top": 164.2,
+        "width": 433.1,
+        "height": 53.4
+      },
+      "multiline": true
+    },
+    "dapaname6": {
+      "type": "text",
+      "label": "Name of DAPA.",
+      "page": 7,
+      "box": {
+        "left": 161.2,
+        "top": 101.3,
+        "width": 189.8,
+        "height": 19.8
+      }
+    },
+    "dAPAPhoneNum6": {
+      "type": "text",
+      "label": "Enter phone number of DAPA office using the 9 digit number without dashes or parenthesis.  When message comes up just click ok.",
+      "page": 7,
+      "box": {
+        "left": 439.0,
+        "top": 101.3,
+        "width": 86.3,
+        "height": 19.9
+      }
+    },
+    "servicemember8": {
+      "type": "text",
+      "label": "Enter the servicemember's name.",
+      "page": 8,
+      "box": {
+        "left": 219.4,
+        "top": 739.1,
+        "width": 280.6,
+        "height": 13.5
+      }
+    },
+    "summaryforeview": {
+      "type": "text",
+      "label": "Enter the summary of review.",
+      "page": 8,
+      "box": {
+        "left": 91.1,
+        "top": 689.0,
+        "width": 428.6,
+        "height": 301.4
+      },
+      "multiline": true
+    },
+    "commandingofficercomments": {
+      "type": "text",
+      "label": "The commanding officer can enter comments (if so desired).",
+      "page": 8,
+      "box": {
+        "left": 96.8,
+        "top": 354.4,
+        "width": 420.7,
+        "height": 241.8
+      },
+      "multiline": true
+    },
+    "dapaname7": {
+      "type": "text",
+      "label": "Name of DAPA.",
+      "page": 8,
+      "box": {
+        "left": 161.2,
+        "top": 100.7,
+        "width": 189.8,
+        "height": 19.8
+      }
+    },
+    "dAPAPhoneNum7": {
+      "type": "text",
+      "label": "Enter phone number of DAPA office using the 9 digit number without dashes or parenthesis.  When message comes up just click ok.",
+      "page": 8,
+      "box": {
+        "left": 439.0,
+        "top": 100.7,
+        "width": 86.3,
+        "height": 19.9
+      }
+    },
+    "servicemember9": {
+      "type": "text",
+      "label": "Enter the servicemember's name.",
+      "page": 9,
+      "box": {
+        "left": 217.1,
+        "top": 743.6,
+        "width": 280.6,
+        "height": 16.8
+      }
+    },
+    "dAPAadminScreeningFormSerNm9": {
+      "type": "text",
+      "label": "Enter the supervisor's name, work center and division.",
+      "page": 9,
+      "box": {
+        "left": 115.9,
+        "top": 693.0,
+        "width": 402.1,
+        "height": 18.5
+      }
+    },
+    "adminScrnIRT": {
+      "type": "text",
+      "label": "Enter the ADMINISTRATIVE SCREENING IRT value.",
+      "page": 9,
+      "box": {
+        "left": 326.3,
+        "top": 644.0,
+        "width": 176.6,
+        "height": 10.1
+      }
+    },
+    "reference1": {
+      "type": "text",
+      "label": "Enter the servicemember rate, rank, name, work center and division.",
+      "page": 9,
+      "box": {
+        "left": 105.8,
+        "top": 623.2,
+        "width": 416.7,
+        "height": 12.3
+      }
+    },
+    "supervisedMember": {
+      "type": "text",
+      "label": "Enter how long you have supervised the member.",
+      "page": 9,
+      "box": {
+        "left": 354.4,
+        "top": 504.6,
+        "width": 153.5,
+        "height": 17.4
+      }
+    },
+    "radioButtonG49": {
+      "type": "radio",
+      "label": "2",
+      "page": 9,
+      "box": {
+        "left": 294.8,
+        "top": 408.3,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "F_0_P9_0_RadioButtonG_0"
+    },
+    "radioButtonG50": {
+      "type": "radio",
+      "label": "4",
+      "page": 9,
+      "box": {
+        "left": 412.3,
+        "top": 408.3,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "F_0_P9_0_RadioButtonG_0"
+    },
+    "radioButtonG51": {
+      "type": "radio",
+      "label": "0",
+      "page": 9,
+      "box": {
+        "left": 154.7,
+        "top": 407.2,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "F_0_P9_0_RadioButtonG_0"
+    },
+    "radioButtonG52": {
+      "type": "radio",
+      "label": "5",
+      "page": 9,
+      "box": {
+        "left": 412.3,
+        "top": 394.8,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "F_0_P9_0_RadioButtonG_0"
+    },
+    "radioButtonG53": {
+      "type": "radio",
+      "label": "1",
+      "page": 9,
+      "box": {
+        "left": 154.7,
+        "top": 393.7,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "F_0_P9_0_RadioButtonG_0"
+    },
+    "radioButtonG54": {
+      "type": "radio",
+      "label": "3",
+      "page": 9,
+      "box": {
+        "left": 294.2,
+        "top": 393.7,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "F_0_P9_0_RadioButtonG_0"
+    },
+    "radioButtonG55": {
+      "type": "radio",
+      "label": "0",
+      "page": 9,
+      "box": {
+        "left": 154.1,
+        "top": 346.9,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "F_0_P9_0_RadioButtonG_1"
+    },
+    "radioButtonG56": {
+      "type": "radio",
+      "label": "2",
+      "page": 9,
+      "box": {
+        "left": 294.2,
+        "top": 346.9,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "F_0_P9_0_RadioButtonG_1"
+    },
+    "radioButtonG57": {
+      "type": "radio",
+      "label": "4",
+      "page": 9,
+      "box": {
+        "left": 412.9,
+        "top": 346.9,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "F_0_P9_0_RadioButtonG_1"
+    },
+    "radioButtonG58": {
+      "type": "radio",
+      "label": "1",
+      "page": 9,
+      "box": {
+        "left": 154.1,
+        "top": 333.4,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "F_0_P9_0_RadioButtonG_1"
+    },
+    "radioButtonG59": {
+      "type": "radio",
+      "label": "3",
+      "page": 9,
+      "box": {
+        "left": 294.2,
+        "top": 333.4,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "F_0_P9_0_RadioButtonG_1"
+    },
+    "radioButtonG60": {
+      "type": "radio",
+      "label": "5",
+      "page": 9,
+      "box": {
+        "left": 413.4,
+        "top": 333.4,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "F_0_P9_0_RadioButtonG_1"
+    },
+    "radioButtonG61": {
+      "type": "radio",
+      "label": "2",
+      "page": 9,
+      "box": {
+        "left": 294.2,
+        "top": 284.5,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "F_0_P9_0_RadioButtonG_2"
+    },
+    "radioButtonG62": {
+      "type": "radio",
+      "label": "0",
+      "page": 9,
+      "box": {
+        "left": 154.1,
+        "top": 283.9,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "F_0_P9_0_RadioButtonG_2"
+    },
+    "radioButtonG63": {
+      "type": "radio",
+      "label": "4",
+      "page": 9,
+      "box": {
+        "left": 412.3,
+        "top": 283.9,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "F_0_P9_0_RadioButtonG_2"
+    },
+    "radioButtonG64": {
+      "type": "radio",
+      "label": "3",
+      "page": 9,
+      "box": {
+        "left": 294.2,
+        "top": 271.0,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "F_0_P9_0_RadioButtonG_2"
+    },
+    "radioButtonG65": {
+      "type": "radio",
+      "label": "1",
+      "page": 9,
+      "box": {
+        "left": 154.1,
+        "top": 270.4,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "F_0_P9_0_RadioButtonG_2"
+    },
+    "radioButtonG66": {
+      "type": "radio",
+      "label": "5",
+      "page": 9,
+      "box": {
+        "left": 412.3,
+        "top": 270.4,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "F_0_P9_0_RadioButtonG_2"
+    },
+    "radioButtonG67": {
+      "type": "radio",
+      "label": "2",
+      "page": 9,
+      "box": {
+        "left": 294.2,
+        "top": 220.4,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "F_0_P9_0_RadioButtonG_3"
+    },
+    "radioButtonG68": {
+      "type": "radio",
+      "label": "4",
+      "page": 9,
+      "box": {
+        "left": 411.7,
+        "top": 220.4,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "F_0_P9_0_RadioButtonG_3"
+    },
+    "radioButtonG69": {
+      "type": "radio",
+      "label": "0",
+      "page": 9,
+      "box": {
+        "left": 154.1,
+        "top": 220.1,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "F_0_P9_0_RadioButtonG_3"
+    },
+    "radioButtonG70": {
+      "type": "radio",
+      "label": "1",
+      "page": 9,
+      "box": {
+        "left": 154.1,
+        "top": 207.2,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "F_0_P9_0_RadioButtonG_3"
+    },
+    "radioButtonG71": {
+      "type": "radio",
+      "label": "3",
+      "page": 9,
+      "box": {
+        "left": 294.2,
+        "top": 206.9,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "F_0_P9_0_RadioButtonG_3"
+    },
+    "radioButtonG72": {
+      "type": "radio",
+      "label": "5",
+      "page": 9,
+      "box": {
+        "left": 411.7,
+        "top": 206.9,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "F_0_P9_0_RadioButtonG_3"
+    },
+    "additionalcommentsaboutmarkings": {
+      "type": "text",
+      "label": "Provide additional comments about the above markings here.",
+      "page": 9,
+      "box": {
+        "left": 92.3,
+        "top": 157.8,
+        "width": 428.6,
+        "height": 46.6
+      },
+      "multiline": true
+    },
+    "dAPAPhoneNum8": {
+      "type": "text",
+      "label": "Enter phone number of DAPA office using the 9 digit number without dashes or parenthesis.  When message comes up just click ok.",
+      "page": 9,
+      "box": {
+        "left": 439.0,
+        "top": 102.4,
+        "width": 86.3,
+        "height": 19.9
+      }
+    },
+    "dapaname8": {
+      "type": "text",
+      "label": "Name of DAPA.",
+      "page": 9,
+      "box": {
+        "left": 161.2,
+        "top": 101.3,
+        "width": 189.8,
+        "height": 19.8
+      }
+    },
+    "servicemember10": {
+      "type": "text",
+      "label": "Enter the servicemember's name.",
+      "page": 10,
+      "box": {
+        "left": 219.4,
+        "top": 739.7,
+        "width": 280.6,
+        "height": 11.2
+      }
+    },
+    "remedialcounseling": {
+      "type": "radio",
+      "label": "0",
+      "page": 10,
+      "box": {
+        "left": 464.3,
+        "top": 706.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P10_0_Remedialcounseling_0"
+    },
+    "remedialcounseling2": {
+      "type": "radio",
+      "label": "1",
+      "page": 10,
+      "box": {
+        "left": 508.7,
+        "top": 706.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P10_0_Remedialcounseling_0"
+    },
+    "njp": {
+      "type": "radio",
+      "label": "0",
+      "page": 10,
+      "box": {
+        "left": 465.4,
+        "top": 668.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P10_0_NJP_0"
+    },
+    "njp2": {
+      "type": "radio",
+      "label": "1",
+      "page": 10,
+      "box": {
+        "left": 509.8,
+        "top": 668.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P10_0_NJP_0"
+    },
+    "civilactions": {
+      "type": "radio",
+      "label": "0",
+      "page": 10,
+      "box": {
+        "left": 465.4,
+        "top": 631.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P10_0_Civilactions_0"
+    },
+    "civilactions2": {
+      "type": "radio",
+      "label": "1",
+      "page": 10,
+      "box": {
+        "left": 509.8,
+        "top": 631.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P10_0_Civilactions_0"
+    },
+    "awareprev": {
+      "type": "radio",
+      "label": "0",
+      "page": 10,
+      "box": {
+        "left": 466.5,
+        "top": 603.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P10_0_Awareprev_0"
+    },
+    "awareprev2": {
+      "type": "radio",
+      "label": "1",
+      "page": 10,
+      "box": {
+        "left": 511.0,
+        "top": 603.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P10_0_Awareprev_0"
+    },
+    "monFriAbs": {
+      "type": "radio",
+      "label": "0",
+      "page": 10,
+      "box": {
+        "left": 467.6,
+        "top": 567.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P10_0_MonFriAbs_0"
+    },
+    "monFriAbs2": {
+      "type": "radio",
+      "label": "1",
+      "page": 10,
+      "box": {
+        "left": 509.8,
+        "top": 566.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P10_0_MonFriAbs_0"
+    },
+    "firstarr": {
+      "type": "radio",
+      "label": "0",
+      "page": 10,
+      "box": {
+        "left": 467.1,
+        "top": 538.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P10_0_Firstarr_0"
+    },
+    "firstarr2": {
+      "type": "radio",
+      "label": "1",
+      "page": 10,
+      "box": {
+        "left": 509.8,
+        "top": 538.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P10_0_Firstarr_0"
+    },
+    "longLunch": {
+      "type": "radio",
+      "label": "0",
+      "page": 10,
+      "box": {
+        "left": 467.1,
+        "top": 503.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P10_0_LongLunch_0"
+    },
+    "longLunch2": {
+      "type": "radio",
+      "label": "1",
+      "page": 10,
+      "box": {
+        "left": 509.8,
+        "top": 503.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P10_0_LongLunch_0"
+    },
+    "markedyesforefghij": {
+      "type": "text",
+      "label": "If marked yes for e, f, g, h, i  or j, explain in detail.",
+      "page": 10,
+      "box": {
+        "left": 90.0,
+        "top": 459.6,
+        "width": 429.1,
+        "height": 41.0
+      },
+      "multiline": true
+    },
+    "choiceconttowork": {
+      "type": "radio",
+      "label": "0",
+      "page": 10,
+      "box": {
+        "left": 466.5,
+        "top": 400.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P10_0_Choiceconttowork_0"
+    },
+    "choiceconttowork2": {
+      "type": "radio",
+      "label": "1",
+      "page": 10,
+      "box": {
+        "left": 508.7,
+        "top": 399.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P10_0_Choiceconttowork_0"
+    },
+    "servicemembercontinueworking": {
+      "type": "text",
+      "label": "If a choice was to be made would this servicemember still be working, provide the details on why or why not.",
+      "page": 10,
+      "box": {
+        "left": 91.1,
+        "top": 352.1,
+        "width": 430.2,
+        "height": 45.0
+      },
+      "multiline": true
+    },
+    "daterequired": {
+      "type": "text",
+      "label": "Enter the required date(DD MMM YYYY).",
+      "page": 10,
+      "box": {
+        "left": 380.2,
+        "top": 308.8,
+        "width": 105.2,
+        "height": 17.4
+      }
+    },
+    "dAPAsname": {
+      "type": "text",
+      "label": "Enter the DAPA's name.",
+      "page": 10,
+      "box": {
+        "left": 117.6,
+        "top": 279.6,
+        "width": 101.2,
+        "height": 16.8
+      }
+    },
+    "location2": {
+      "type": "text",
+      "label": "Enter the room, building, and the compartment number.",
+      "page": 10,
+      "box": {
+        "left": 304.9,
+        "top": 277.3,
+        "width": 190.1,
+        "height": 14.6
+      }
+    },
+    "telephone10": {
+      "type": "text",
+      "label": "Enter the telephone number.",
+      "page": 10,
+      "box": {
+        "left": 200.3,
+        "top": 225.6,
+        "width": 108.0,
+        "height": 13.7
+      }
+    },
+    "dateTimeField1": {
+      "type": "text",
+      "label": "DateTimeField1",
+      "page": 10,
+      "box": {
+        "left": 371.8,
+        "top": 188.5,
+        "width": 104.0,
+        "height": 19.8
+      }
+    },
+    "textField6": {
+      "type": "text",
+      "label": "TextField6",
+      "page": 10,
+      "box": {
+        "left": 121.0,
+        "top": 182.3,
+        "width": 231.4,
+        "height": 14.2
+      }
+    },
+    "dateTimeField12": {
+      "type": "text",
+      "label": "DateTimeField1",
+      "page": 10,
+      "box": {
+        "left": 371.8,
+        "top": 144.6,
+        "width": 104.0,
+        "height": 19.8
+      }
+    },
+    "textField62": {
+      "type": "text",
+      "label": "TextField6",
+      "page": 10,
+      "box": {
+        "left": 121.0,
+        "top": 139.0,
+        "width": 231.4,
+        "height": 14.2
+      }
+    },
+    "dapaname9": {
+      "type": "text",
+      "label": "Name of DAPA.",
+      "page": 10,
+      "box": {
+        "left": 161.2,
+        "top": 100.7,
+        "width": 189.8,
+        "height": 19.8
+      }
+    },
+    "dAPAPhoneNum9": {
+      "type": "text",
+      "label": "Enter phone number of DAPA office using the 9 digit number without dashes or parenthesis.  When message comes up just click ok.",
+      "page": 10,
+      "box": {
+        "left": 439.0,
+        "top": 100.2,
+        "width": 86.3,
+        "height": 19.9
+      }
+    }
+  }
+}

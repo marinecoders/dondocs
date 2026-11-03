@@ -1,0 +1,469 @@
+{
+  "id": "opnav35022",
+  "label": "OPNAV3502-2 - Tailorable Evolution Orm Assessment Sheet",
+  "directory": "OPNAV3502-2 - Tailorable Evolution Orm Assessment Sheet",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "unitGroup",
+        "evolutionEvent",
+        "date",
+        "time",
+        "grading5",
+        "comment5",
+        "grading6",
+        "comment6",
+        "grading7",
+        "comment7",
+        "grading8",
+        "comment8",
+        "grading9",
+        "comment9",
+        "grading10",
+        "ques10",
+        "grading11",
+        "comment11",
+        "grading12",
+        "comment12",
+        "grading13",
+        "comment13",
+        "grading14",
+        "comment14",
+        "grading15",
+        "comment15"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "grading16",
+        "comment16",
+        "grading17",
+        "comment17",
+        "grading18",
+        "comment18",
+        "grading19",
+        "comment19",
+        "grading20",
+        "comment20"
+      ]
+    }
+  ],
+  "fields": {
+    "unitGroup": {
+      "type": "text",
+      "label": "1. UNIT/GROUP",
+      "page": 1,
+      "box": {
+        "left": 106.1,
+        "top": 730.9,
+        "width": 79.8,
+        "height": 20.6
+      }
+    },
+    "evolutionEvent": {
+      "type": "text",
+      "label": "2. EVOLUTION/EVENT",
+      "page": 1,
+      "box": {
+        "left": 284.0,
+        "top": 730.9,
+        "width": 83.9,
+        "height": 20.6
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "3. DATE",
+      "page": 1,
+      "box": {
+        "left": 411.5,
+        "top": 730.9,
+        "width": 65.4,
+        "height": 20.6
+      }
+    },
+    "time": {
+      "type": "text",
+      "label": "4. TIME",
+      "page": 1,
+      "box": {
+        "left": 517.6,
+        "top": 730.9,
+        "width": 53.7,
+        "height": 20.6
+      }
+    },
+    "grading5": {
+      "type": "text",
+      "label": "GRADING",
+      "page": 1,
+      "box": {
+        "left": 311.1,
+        "top": 677.7,
+        "width": 57.0,
+        "height": 62.1
+      },
+      "multiline": true
+    },
+    "comment5": {
+      "type": "text",
+      "label": "COMMENT",
+      "page": 1,
+      "box": {
+        "left": 373.8,
+        "top": 677.7,
+        "width": 197.3,
+        "height": 62.1
+      },
+      "multiline": true
+    },
+    "grading6": {
+      "type": "text",
+      "label": "GRADING",
+      "page": 1,
+      "box": {
+        "left": 309.7,
+        "top": 611.4,
+        "width": 59.8,
+        "height": 64.9
+      },
+      "multiline": true
+    },
+    "comment6": {
+      "type": "text",
+      "label": "COMMENT",
+      "page": 1,
+      "box": {
+        "left": 373.8,
+        "top": 609.9,
+        "width": 197.3,
+        "height": 62.1
+      },
+      "multiline": true
+    },
+    "grading7": {
+      "type": "text",
+      "label": "GRADING",
+      "page": 1,
+      "box": {
+        "left": 309.7,
+        "top": 543.6,
+        "width": 59.8,
+        "height": 40.9
+      },
+      "multiline": true
+    },
+    "comment7": {
+      "type": "text",
+      "label": "COMMENT",
+      "page": 1,
+      "box": {
+        "left": 373.8,
+        "top": 542.2,
+        "width": 197.3,
+        "height": 38.1
+      },
+      "multiline": true
+    },
+    "grading8": {
+      "type": "text",
+      "label": "GRADING",
+      "page": 1,
+      "box": {
+        "left": 311.1,
+        "top": 498.4,
+        "width": 57.0,
+        "height": 70.1
+      },
+      "multiline": true
+    },
+    "comment8": {
+      "type": "text",
+      "label": "COMMENT",
+      "page": 1,
+      "box": {
+        "left": 373.8,
+        "top": 498.4,
+        "width": 197.3,
+        "height": 70.1
+      },
+      "multiline": true
+    },
+    "grading9": {
+      "type": "text",
+      "label": "GRADING",
+      "page": 1,
+      "box": {
+        "left": 309.7,
+        "top": 424.0,
+        "width": 59.8,
+        "height": 48.9
+      },
+      "multiline": true
+    },
+    "comment9": {
+      "type": "text",
+      "label": "COMMENT",
+      "page": 1,
+      "box": {
+        "left": 373.8,
+        "top": 422.6,
+        "width": 197.3,
+        "height": 46.1
+      },
+      "multiline": true
+    },
+    "grading10": {
+      "type": "text",
+      "label": "GRADING",
+      "page": 1,
+      "box": {
+        "left": 309.7,
+        "top": 372.3,
+        "width": 59.8,
+        "height": 88.9
+      },
+      "multiline": true
+    },
+    "ques10": {
+      "type": "text",
+      "label": "COMMENT",
+      "page": 1,
+      "box": {
+        "left": 373.8,
+        "top": 370.9,
+        "width": 197.3,
+        "height": 86.1
+      },
+      "multiline": true
+    },
+    "grading11": {
+      "type": "text",
+      "label": "11. communicated to supporting/supported functional entities",
+      "page": 1,
+      "box": {
+        "left": 309.7,
+        "top": 254.0,
+        "width": 59.8,
+        "height": 29.8
+      }
+    },
+    "comment11": {
+      "type": "text",
+      "label": "11. communicated to supporting/supported functional entities",
+      "page": 1,
+      "box": {
+        "left": 373.8,
+        "top": 252.6,
+        "width": 197.3,
+        "height": 27.0
+      }
+    },
+    "grading12": {
+      "type": "text",
+      "label": "12. by participants during execution",
+      "page": 1,
+      "box": {
+        "left": 309.7,
+        "top": 221.4,
+        "width": 59.8,
+        "height": 29.8
+      }
+    },
+    "comment12": {
+      "type": "text",
+      "label": "12. by participants during execution",
+      "page": 1,
+      "box": {
+        "left": 373.8,
+        "top": 219.9,
+        "width": 197.3,
+        "height": 27.0
+      }
+    },
+    "grading13": {
+      "type": "text",
+      "label": "13. ID, RCAs, or RCA supervision)",
+      "page": 1,
+      "box": {
+        "left": 309.7,
+        "top": 188.7,
+        "width": 59.8,
+        "height": 29.8
+      }
+    },
+    "comment13": {
+      "type": "text",
+      "label": "13. ID, RCAs, or RCA supervision)",
+      "page": 1,
+      "box": {
+        "left": 373.8,
+        "top": 187.3,
+        "width": 197.3,
+        "height": 27.0
+      }
+    },
+    "grading14": {
+      "type": "text",
+      "label": "14. /extreme&quot; and &quot;serious/high&quot; risks",
+      "page": 1,
+      "box": {
+        "left": 309.7,
+        "top": 156.1,
+        "width": 59.8,
+        "height": 29.8
+      }
+    },
+    "comment14": {
+      "type": "text",
+      "label": "14. /extreme&quot; and &quot;serious/high&quot; risks",
+      "page": 1,
+      "box": {
+        "left": 373.8,
+        "top": 154.6,
+        "width": 197.3,
+        "height": 27.0
+      }
+    },
+    "grading15": {
+      "type": "text",
+      "label": "15. attended debrief",
+      "page": 1,
+      "box": {
+        "left": 309.7,
+        "top": 96.9,
+        "width": 59.8,
+        "height": 29.8
+      }
+    },
+    "comment15": {
+      "type": "text",
+      "label": "15. attended debrief",
+      "page": 1,
+      "box": {
+        "left": 373.8,
+        "top": 95.5,
+        "width": 197.3,
+        "height": 27.0
+      }
+    },
+    "grading16": {
+      "type": "text",
+      "label": "16. necessary participants",
+      "page": 2,
+      "box": {
+        "left": 309.7,
+        "top": 753.7,
+        "width": 59.8,
+        "height": 29.8
+      }
+    },
+    "comment16": {
+      "type": "text",
+      "label": "16. necessary participants",
+      "page": 2,
+      "box": {
+        "left": 373.8,
+        "top": 752.3,
+        "width": 197.3,
+        "height": 27.0
+      }
+    },
+    "grading17": {
+      "type": "text",
+      "label": "Grading 17",
+      "page": 2,
+      "box": {
+        "left": 309.7,
+        "top": 721.0,
+        "width": 59.8,
+        "height": 29.8
+      }
+    },
+    "comment17": {
+      "type": "text",
+      "label": "OPNAVINST 3500.39 (Series)",
+      "page": 2,
+      "box": {
+        "left": 373.8,
+        "top": 719.6,
+        "width": 197.3,
+        "height": 27.0
+      }
+    },
+    "grading18": {
+      "type": "text",
+      "label": "Grading 18",
+      "page": 2,
+      "box": {
+        "left": 309.7,
+        "top": 688.4,
+        "width": 59.8,
+        "height": 29.8
+      }
+    },
+    "comment18": {
+      "type": "text",
+      "label": "OPNAVINST 3500.39 (Series)",
+      "page": 2,
+      "box": {
+        "left": 373.8,
+        "top": 687.0,
+        "width": 197.3,
+        "height": 27.0
+      }
+    },
+    "grading19": {
+      "type": "text",
+      "label": "GRADING",
+      "page": 2,
+      "box": {
+        "left": 309.7,
+        "top": 629.3,
+        "width": 59.8,
+        "height": 29.8
+      }
+    },
+    "comment19": {
+      "type": "text",
+      "label": "COMMENT",
+      "page": 2,
+      "box": {
+        "left": 373.8,
+        "top": 627.8,
+        "width": 197.3,
+        "height": 27.0
+      }
+    },
+    "grading20": {
+      "type": "text",
+      "label": "GRADE",
+      "page": 2,
+      "box": {
+        "left": 309.7,
+        "top": 570.1,
+        "width": 59.8,
+        "height": 29.8
+      }
+    },
+    "comment20": {
+      "type": "text",
+      "label": "COMMENT",
+      "page": 2,
+      "box": {
+        "left": 373.8,
+        "top": 568.7,
+        "width": 197.3,
+        "height": 27.0
+      }
+    }
+  }
+}

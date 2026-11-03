@@ -1,0 +1,183 @@
+{
+  "template": "page2.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page2": {
+      "dateFrom": {
+        "left": 315.7,
+        "top": 662.1,
+        "width": 63.8,
+        "height": 12.1,
+        "type": "text",
+        "description": "DateFrom",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateTo": {
+        "left": 429.5,
+        "top": 662.1,
+        "width": 63.8,
+        "height": 12.1,
+        "type": "text",
+        "description": "DateTo",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "grade": {
+        "left": 46.3,
+        "top": 430.3,
+        "width": 48.8,
+        "height": 15.1,
+        "type": "text",
+        "description": "Grade",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name": {
+        "left": 99.5,
+        "top": 430.3,
+        "width": 363.1,
+        "height": 15.1,
+        "type": "text",
+        "description": "Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mos": {
+        "left": 467.2,
+        "top": 430.3,
+        "width": 23.1,
+        "height": 15.1,
+        "type": "text",
+        "description": "MOS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initial1": {
+        "left": 36.0,
+        "top": 358.8,
+        "width": 28.5,
+        "height": 16.6,
+        "type": "text",
+        "description": "Initial1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initial2": {
+        "left": 36.0,
+        "top": 323.6,
+        "width": 28.5,
+        "height": 16.6,
+        "type": "text",
+        "description": "Initial2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initial3": {
+        "left": 36.0,
+        "top": 285.3,
+        "width": 28.5,
+        "height": 16.6,
+        "type": "text",
+        "description": "Initial3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initial4": {
+        "left": 36.0,
+        "top": 259.8,
+        "width": 28.5,
+        "height": 16.6,
+        "type": "text",
+        "description": "Initial4",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initial5": {
+        "left": 36.0,
+        "top": 223.0,
+        "width": 28.5,
+        "height": 16.6,
+        "type": "text",
+        "description": "Initial5",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initial6": {
+        "left": 36.0,
+        "top": 186.3,
+        "width": 28.5,
+        "height": 16.6,
+        "type": "text",
+        "description": "Initial6",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initial7": {
+        "left": 36.0,
+        "top": 145.0,
+        "width": 28.5,
+        "height": 16.6,
+        "type": "text",
+        "description": "Initial7",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initial8": {
+        "left": 36.0,
+        "top": 109.0,
+        "width": 28.5,
+        "height": 16.6,
+        "type": "text",
+        "description": "Initial8",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sigDate": {
+        "left": 412.0,
+        "top": 68.3,
+        "width": 63.8,
+        "height": 12.1,
+        "type": "text",
+        "description": "SigDate",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "marinesSignature": {
+        "left": 136.1,
+        "top": 67.6,
+        "width": 250.1,
+        "height": 11.4,
+        "type": "signature",
+        "description": "MarinesSignature",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

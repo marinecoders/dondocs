@@ -1,0 +1,260 @@
+{
+  "id": "opnav510012",
+  "label": "OPNAV5100-12 - Osh Deficiency Notice",
+  "directory": "OPNAV5100-12 - Osh Deficiency Notice",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "organization",
+        "location",
+        "iDNo",
+        "desOfHaz",
+        "standViola",
+        "rac",
+        "oSHofficial",
+        "oSHofficial2",
+        "date1",
+        "secBInterControls",
+        "proDes",
+        "actTaken",
+        "costEst",
+        "dateCompleEst",
+        "corrMade",
+        "date2",
+        "laborCost",
+        "matCost",
+        "comments"
+      ]
+    }
+  ],
+  "fields": {
+    "organization": {
+      "type": "text",
+      "label": "Enter the organization, building number, department and/or code, as appropriate.",
+      "page": 1,
+      "box": {
+        "left": 39.2,
+        "top": 707.2,
+        "width": 191.2,
+        "height": 33.4
+      },
+      "multiline": true
+    },
+    "location": {
+      "type": "text",
+      "label": "Enter the specific location of the deficiency noted.",
+      "page": 1,
+      "box": {
+        "left": 236.6,
+        "top": 707.2,
+        "width": 189.3,
+        "height": 33.4
+      },
+      "multiline": true
+    },
+    "iDNo": {
+      "type": "text",
+      "label": "Enter the the identification number or serial number assigned to the deficiency.",
+      "page": 1,
+      "box": {
+        "left": 430.7,
+        "top": 707.2,
+        "width": 143.2,
+        "height": 33.4
+      },
+      "multiline": true
+    },
+    "desOfHaz": {
+      "type": "text",
+      "label": "Enter the description of hazard.",
+      "page": 1,
+      "box": {
+        "left": 39.2,
+        "top": 658.7,
+        "width": 533.3,
+        "height": 84.3
+      },
+      "multiline": true
+    },
+    "standViola": {
+      "type": "text",
+      "label": "Enter the standard violated.",
+      "page": 1,
+      "box": {
+        "left": 39.2,
+        "top": 559.0,
+        "width": 265.0,
+        "height": 34.4
+      },
+      "multiline": true
+    },
+    "rac": {
+      "type": "text",
+      "label": "Enter the risk assessment code (RAC) assigned to this deficiency..",
+      "page": 1,
+      "box": {
+        "left": 308.8,
+        "top": 559.0,
+        "width": 265.1,
+        "height": 34.4
+      },
+      "multiline": true
+    },
+    "oSHofficial": {
+      "type": "text",
+      "label": "Enter the OSH official's name (last, first, middle initial).",
+      "page": 1,
+      "box": {
+        "left": 39.2,
+        "top": 512.2,
+        "width": 193.1,
+        "height": 33.7
+      },
+      "multiline": true
+    },
+    "oSHofficial2": {
+      "type": "text",
+      "label": "Enter the OSH official's telephone number.",
+      "page": 1,
+      "box": {
+        "left": 238.3,
+        "top": 512.2,
+        "width": 121.8,
+        "height": 33.7
+      },
+      "multiline": true
+    },
+    "date1": {
+      "type": "text",
+      "label": " Date Hazard Reported:",
+      "page": 1,
+      "box": {
+        "left": 365.7,
+        "top": 511.5,
+        "width": 208.2,
+        "height": 31.0
+      },
+      "multiline": true
+    },
+    "secBInterControls": {
+      "type": "text",
+      "label": "For section B, enter the interim controls.",
+      "page": 1,
+      "box": {
+        "left": 39.2,
+        "top": 450.6,
+        "width": 533.3,
+        "height": 76.4
+      },
+      "multiline": true
+    },
+    "proDes": {
+      "type": "text",
+      "label": "Under Abatement project initiated, Enter the project description.",
+      "page": 1,
+      "box": {
+        "left": 39.2,
+        "top": 343.0,
+        "width": 265.0,
+        "height": 88.0
+      },
+      "multiline": true
+    },
+    "actTaken": {
+      "type": "text",
+      "label": "Under Abatement project initiated, Enter the action taken (include work rders/purchase request numbers and date as appropriate).",
+      "page": 1,
+      "box": {
+        "left": 308.8,
+        "top": 333.5,
+        "width": 265.1,
+        "height": 34.9
+      },
+      "multiline": true
+    },
+    "costEst": {
+      "type": "text",
+      "label": "Under Abatement project initiated, Enter the cost estimate.",
+      "page": 1,
+      "box": {
+        "left": 308.8,
+        "top": 283.1,
+        "width": 130.7,
+        "height": 27.3
+      }
+    },
+    "dateCompleEst": {
+      "type": "text",
+      "label": "Under Abatement project initiated, Enter the completion date (est), using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 443.2,
+        "top": 283.1,
+        "width": 130.7,
+        "height": 27.3
+      }
+    },
+    "corrMade": {
+      "type": "text",
+      "label": "Under deficiency corrected, Enter the deficiency corrections made.",
+      "page": 1,
+      "box": {
+        "left": 39.2,
+        "top": 226.2,
+        "width": 265.1,
+        "height": 88.8
+      },
+      "multiline": true
+    },
+    "date2": {
+      "type": "text",
+      "label": "Under deficiency corrected, Enter the completion date (est), using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 308.8,
+        "top": 224.7,
+        "width": 265.1,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "laborCost": {
+      "type": "text",
+      "label": "Under deficiency corrected, Enter the cost of labor.",
+      "page": 1,
+      "box": {
+        "left": 308.8,
+        "top": 162.8,
+        "width": 130.7,
+        "height": 24.3
+      }
+    },
+    "matCost": {
+      "type": "text",
+      "label": "Under deficiency corrected, Enter the cost of material.",
+      "page": 1,
+      "box": {
+        "left": 443.2,
+        "top": 162.4,
+        "width": 130.7,
+        "height": 24.0
+      }
+    },
+    "comments": {
+      "type": "text",
+      "label": "For section C, enter comments.",
+      "page": 1,
+      "box": {
+        "left": 39.2,
+        "top": 114.4,
+        "width": 535.2,
+        "height": 71.2
+      },
+      "multiline": true
+    }
+  }
+}

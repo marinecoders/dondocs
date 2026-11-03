@@ -1,0 +1,201 @@
+{
+  "id": "opnav55856",
+  "label": "OPNAV5585-6 - Canine Validity Test Data",
+  "directory": "OPNAV5585-6 - Canine Validity Test Data",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "typeoftest",
+        "datetested",
+        "locationoftest",
+        "performingtest",
+        "handler"
+      ]
+    }
+  ],
+  "fields": {
+    "typeoftest": {
+      "type": "text",
+      "label": "Enter the type of test.",
+      "page": 1,
+      "box": {
+        "left": 35.1,
+        "top": 716.1,
+        "width": 149.5,
+        "height": 31.0
+      },
+      "multiline": true
+    },
+    "datetested": {
+      "type": "text",
+      "label": "Enter the date tested using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 189.5,
+        "top": 716.1,
+        "width": 146.3,
+        "height": 31.0
+      },
+      "multiline": true
+    },
+    "locationoftest": {
+      "type": "text",
+      "label": "Enter the location of test.",
+      "page": 1,
+      "box": {
+        "left": 340.8,
+        "top": 716.1,
+        "width": 238.2,
+        "height": 31.0
+      },
+      "multiline": true
+    },
+    "performingtest": {
+      "type": "text",
+      "label": "Enter the name and command of person performing test.",
+      "page": 1,
+      "box": {
+        "left": 35.1,
+        "top": 669.3,
+        "width": 270.5,
+        "height": 31.1
+      },
+      "multiline": true
+    },
+    "handler": {
+      "type": "text",
+      "label": "Enter the name and command of handler.",
+      "page": 1,
+      "box": {
+        "left": 308.5,
+        "top": 669.3,
+        "width": 270.5,
+        "height": 31.1
+      },
+      "multiline": true
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 10,
+      "rowStride": 37.73,
+      "editor": "grid",
+      "columns": {
+        "nameofdog": {
+          "type": "text",
+          "label": "This is row 1 of 10. Enter the name of dog.",
+          "page": 1,
+          "box": {
+            "left": 35.1,
+            "top": 425.5,
+            "width": 150.5,
+            "height": 35.4
+          }
+        },
+        "tattoo": {
+          "type": "text",
+          "label": "Enter the tattoo.",
+          "page": 1,
+          "box": {
+            "left": 188.5,
+            "top": 425.5,
+            "width": 63.5,
+            "height": 35.4
+          }
+        },
+        "timeA": {
+          "type": "text",
+          "label": "Enter the time using the 24-hour clock (HHMM).  ",
+          "page": 1,
+          "box": {
+            "left": 255.7,
+            "top": 425.5,
+            "width": 50.4,
+            "height": 35.4
+          }
+        },
+        "responses": {
+          "type": "text",
+          "label": "Enter the responses.",
+          "page": 1,
+          "box": {
+            "left": 308.5,
+            "top": 425.5,
+            "width": 270.5,
+            "height": 35.4
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 15,
+      "rowStride": 12.32,
+      "editor": "grid",
+      "columns": {
+        "testsampleNO": {
+          "type": "text",
+          "label": "This is row 1 of 15. Enter the test sample number.",
+          "page": 1,
+          "box": {
+            "left": 35.1,
+            "top": 622.5,
+            "width": 89.0,
+            "height": 10.7
+          }
+        },
+        "height": {
+          "type": "text",
+          "label": "Enter the height.",
+          "page": 1,
+          "box": {
+            "left": 128.5,
+            "top": 622.5,
+            "width": 57.7,
+            "height": 10.7
+          }
+        },
+        "quantity": {
+          "type": "text",
+          "label": "Enter the quantity.",
+          "page": 1,
+          "box": {
+            "left": 188.5,
+            "top": 622.5,
+            "width": 63.4,
+            "height": 10.7
+          }
+        },
+        "time": {
+          "type": "text",
+          "label": "Enter the time using the 24-hour clock (HHMM).  ",
+          "page": 1,
+          "box": {
+            "left": 255.7,
+            "top": 622.5,
+            "width": 50.4,
+            "height": 10.7
+          }
+        },
+        "handler": {
+          "type": "text",
+          "label": "Enter the diagram of sample planted in test area.",
+          "page": 1,
+          "box": {
+            "left": 308.5,
+            "top": 622.5,
+            "width": 270.5,
+            "height": 10.7
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,425 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "name": {
+        "left": 40.6,
+        "top": 704.5,
+        "width": 252.5,
+        "height": 22.0,
+        "type": "text",
+        "description": "1. NAME - LAST, FIRST, MIDDLE INITIAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rate": {
+        "left": 298.5,
+        "top": 704.4,
+        "width": 91.6,
+        "height": 22.0,
+        "type": "text",
+        "description": "2. RATE/GRADE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "deptDiv": {
+        "left": 395.1,
+        "top": 704.4,
+        "width": 181.0,
+        "height": 22.0,
+        "type": "text",
+        "description": "3. DEPARTMENT/DIVISION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "aCRFTTypMod": {
+        "left": 40.6,
+        "top": 670.0,
+        "width": 252.5,
+        "height": 22.0,
+        "type": "text",
+        "description": "4. AIRCRAT TYPE MODEL/SERIES",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio": {
+        "left": 319.8,
+        "top": 664.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio2": {
+        "left": 444.5,
+        "top": 664.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "wrtExmDte": {
+        "left": 40.6,
+        "top": 635.6,
+        "width": 130.0,
+        "height": 22.0,
+        "type": "text",
+        "description": "6a. DATE OF WRITTEN EXAM",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "wrtExmGde": {
+        "left": 175.6,
+        "top": 635.6,
+        "width": 130.0,
+        "height": 22.0,
+        "type": "text",
+        "description": "6b. GRADE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pracExmDte": {
+        "left": 310.7,
+        "top": 635.6,
+        "width": 130.0,
+        "height": 22.0,
+        "type": "text",
+        "description": "7a. DATE OF PRACTICAL EXAM",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pracExmGde": {
+        "left": 445.7,
+        "top": 635.6,
+        "width": 130.4,
+        "height": 22.0,
+        "type": "text",
+        "description": "7b. GRADE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "aCRFTTypMod2": {
+        "left": 40.6,
+        "top": 568.6,
+        "width": 215.3,
+        "height": 31.6,
+        "type": "text",
+        "description": "8a. PRINTED NAME OF MEMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "wrtExmDte2": {
+        "left": 260.5,
+        "top": 568.6,
+        "width": 97.0,
+        "height": 31.6,
+        "type": "text",
+        "description": "8b. SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mebSig": {
+        "left": 363.0,
+        "top": 568.6,
+        "width": 213.1,
+        "height": 31.6,
+        "type": "text",
+        "description": "8c. SIGNATURE OF MEMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "wrtExmDte3": {
+        "left": 260.5,
+        "top": 524.6,
+        "width": 97.0,
+        "height": 31.6,
+        "type": "text",
+        "description": "9b. SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "aCRFTTypMod3": {
+        "left": 40.6,
+        "top": 518.1,
+        "width": 215.3,
+        "height": 25.1,
+        "type": "text",
+        "description": "RECOMMENDING DESIGNATION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "offRecSig": {
+        "left": 363.0,
+        "top": 518.1,
+        "width": 213.1,
+        "height": 25.1,
+        "type": "text",
+        "description": "RECOMMENDING DESIGNATION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pneCapProMonSigDte": {
+        "left": 260.9,
+        "top": 432.7,
+        "width": 97.0,
+        "height": 31.6,
+        "type": "text",
+        "description": "10b. SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "prtPneCapProMon": {
+        "left": 41.0,
+        "top": 426.2,
+        "width": 215.3,
+        "height": 25.1,
+        "type": "text",
+        "description": "PLANE CAPTAIN PROGRAM MONITOR",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sigPneCapProMon": {
+        "left": 363.0,
+        "top": 426.2,
+        "width": 213.1,
+        "height": 25.1,
+        "type": "text",
+        "description": "PLANE CAPTAIN PROGRAM MONITOR",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pCBrSuprSigDte": {
+        "left": 260.9,
+        "top": 388.7,
+        "width": 97.0,
+        "height": 31.6,
+        "type": "text",
+        "description": "11b. SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "prtPCBrSupr": {
+        "left": 41.0,
+        "top": 382.2,
+        "width": 215.3,
+        "height": 25.1,
+        "type": "text",
+        "description": "SUPERVISOR",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sigPCBrSupr": {
+        "left": 363.0,
+        "top": 382.2,
+        "width": 213.1,
+        "height": 25.1,
+        "type": "text",
+        "description": "SUPERVISOR",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pCQlePrgMgrSigDte": {
+        "left": 260.9,
+        "top": 344.7,
+        "width": 97.0,
+        "height": 31.6,
+        "type": "text",
+        "description": "12b. SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "prtPCQlePrgMgr": {
+        "left": 41.0,
+        "top": 338.2,
+        "width": 215.3,
+        "height": 25.1,
+        "type": "text",
+        "description": "QUALIFICATION PROGRAM MANAGER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sigPCQlePrgMgr": {
+        "left": 363.0,
+        "top": 338.2,
+        "width": 213.1,
+        "height": 25.1,
+        "type": "text",
+        "description": "QUALIFICATION PROGRAM MANAGER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "prtNmeSftyOff": {
+        "left": 41.0,
+        "top": 300.7,
+        "width": 215.3,
+        "height": 31.6,
+        "type": "text",
+        "description": "13a. PRINTED NAME OF SAFETY OFFICER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nmeSftyOffSigDte": {
+        "left": 260.9,
+        "top": 300.7,
+        "width": 97.0,
+        "height": 31.6,
+        "type": "text",
+        "description": "13b. SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sigNmeSftyOff": {
+        "left": 363.0,
+        "top": 300.7,
+        "width": 213.1,
+        "height": 31.6,
+        "type": "text",
+        "description": "13c. SIGNATURE OF SAFETY OFFICER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "prtNmeMaitOff": {
+        "left": 41.0,
+        "top": 256.7,
+        "width": 215.3,
+        "height": 31.6,
+        "type": "text",
+        "description": "14a. PRINTED NAME OF MAINTENANCE OFFICER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nmeMaitOffSigDte": {
+        "left": 260.9,
+        "top": 256.7,
+        "width": 97.0,
+        "height": 31.6,
+        "type": "text",
+        "description": "14b. SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sigNmeMaitOff": {
+        "left": 363.0,
+        "top": 256.7,
+        "width": 213.1,
+        "height": 31.6,
+        "type": "text",
+        "description": "14c. SIGNATURE OF MAINTENANCE OFFICER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "prtNmeCmdOff": {
+        "left": 40.4,
+        "top": 171.4,
+        "width": 215.3,
+        "height": 31.6,
+        "type": "text",
+        "description": "15a. PRINTED NAME OF COMMANDING OFFICER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nmeCmdOffSigDte": {
+        "left": 260.3,
+        "top": 171.4,
+        "width": 97.0,
+        "height": 31.6,
+        "type": "text",
+        "description": "15b. SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sigNmeCmdOff": {
+        "left": 362.8,
+        "top": 171.4,
+        "width": 213.1,
+        "height": 31.6,
+        "type": "text",
+        "description": "15c. SIGNATURE OF COMMANDING OFFICER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "wrtExmDte4": {
+        "left": 260.3,
+        "top": 94.8,
+        "width": 97.0,
+        "height": 31.6,
+        "type": "text",
+        "description": "16b. SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField1": {
+        "left": 363.0,
+        "top": 94.7,
+        "width": 213.1,
+        "height": 31.6,
+        "type": "text",
+        "description": "16c. SIGNATURE OF MILITARY PERSONNEL OFFICER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "aCRFTTypMod4": {
+        "left": 40.4,
+        "top": 88.3,
+        "width": 215.3,
+        "height": 25.1,
+        "type": "text",
+        "description": "OFFICER",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

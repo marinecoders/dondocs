@@ -1,0 +1,429 @@
+{
+  "id": "navmchq464",
+  "label": "NAVMCHQ464 - Message Distribution Form",
+  "directory": "NAVMCHQ464 - Message Distribution Form",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "eName",
+        "signature",
+        "officeCode",
+        "phoneNumE",
+        "dateReq",
+        "originatorChg",
+        "mCNNo",
+        "officeCodeChg",
+        "coordinateWith",
+        "messagePrecedChg",
+        "origDTGChg",
+        "addInfoCode",
+        "classChg",
+        "originatorSerReq",
+        "mCNNoRevReq",
+        "messagePrecSerReq",
+        "origDTGSer",
+        "radServYes",
+        "radServYes2",
+        "radRetransYes",
+        "radRetransYes2",
+        "reasonServReq",
+        "classServReq",
+        "originatorCopies",
+        "mCNNoCopies",
+        "origDTGCopies",
+        "classCopies",
+        "messagePrecedCopie",
+        "copiesRequest",
+        "reasonReqCopie",
+        "chopTC",
+        "chopSVC",
+        "chopMRC",
+        "remarksChop"
+      ]
+    }
+  ],
+  "fields": {
+    "eName": {
+      "type": "text",
+      "label": "Section A. Enter the name of the requester.",
+      "page": 1,
+      "box": {
+        "left": 32.7,
+        "top": 612.7,
+        "width": 223.5,
+        "height": 15.0
+      }
+    },
+    "signature": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 32.9,
+        "top": 595.8,
+        "width": 221.9,
+        "height": 19.3
+      }
+    },
+    "officeCode": {
+      "type": "text",
+      "label": "Enter the office code.",
+      "page": 1,
+      "box": {
+        "left": 258.8,
+        "top": 591.3,
+        "width": 92.8,
+        "height": 15.0
+      }
+    },
+    "phoneNumE": {
+      "type": "text",
+      "label": "Enter the requester phone number.",
+      "page": 1,
+      "box": {
+        "left": 352.9,
+        "top": 591.3,
+        "width": 119.6,
+        "height": 15.0
+      }
+    },
+    "dateReq": {
+      "type": "text",
+      "label": "Enter the date of request using format 2 Dec 2002.",
+      "page": 1,
+      "box": {
+        "left": 474.5,
+        "top": 591.3,
+        "width": 108.5,
+        "height": 15.0
+      }
+    },
+    "originatorChg": {
+      "type": "text",
+      "label": "Section B. Change action. Info. Enter the change action originator.",
+      "page": 1,
+      "box": {
+        "left": 32.7,
+        "top": 511.0,
+        "width": 222.9,
+        "height": 15.0
+      }
+    },
+    "mCNNo": {
+      "type": "text",
+      "label": "Enter the change action M C N number.",
+      "page": 1,
+      "box": {
+        "left": 257.5,
+        "top": 511.0,
+        "width": 94.1,
+        "height": 15.0
+      }
+    },
+    "officeCodeChg": {
+      "type": "text",
+      "label": "Enter the change action to office code.",
+      "page": 1,
+      "box": {
+        "left": 353.6,
+        "top": 511.0,
+        "width": 86.3,
+        "height": 15.0
+      }
+    },
+    "coordinateWith": {
+      "type": "text",
+      "label": "Enter the name and phone number with whom this change is coordinated with.",
+      "page": 1,
+      "box": {
+        "left": 442.5,
+        "top": 511.0,
+        "width": 139.2,
+        "height": 15.0
+      }
+    },
+    "messagePrecedChg": {
+      "type": "text",
+      "label": "Enter the change action message precedence.",
+      "page": 1,
+      "box": {
+        "left": 32.7,
+        "top": 463.2,
+        "width": 222.9,
+        "height": 15.0
+      }
+    },
+    "origDTGChg": {
+      "type": "text",
+      "label": "Enter the original change action D T G month and year.",
+      "page": 1,
+      "box": {
+        "left": 257.5,
+        "top": 463.2,
+        "width": 94.1,
+        "height": 15.0
+      }
+    },
+    "addInfoCode": {
+      "type": "text",
+      "label": "Enter additional information to code.",
+      "page": 1,
+      "box": {
+        "left": 353.6,
+        "top": 463.2,
+        "width": 86.3,
+        "height": 15.0
+      }
+    },
+    "classChg": {
+      "type": "text",
+      "label": "Enter the change action classification.",
+      "page": 1,
+      "box": {
+        "left": 442.5,
+        "top": 463.2,
+        "width": 139.2,
+        "height": 15.0
+      }
+    },
+    "originatorSerReq": {
+      "type": "text",
+      "label": "Section C. Service request. Enter the service request originator.",
+      "page": 1,
+      "box": {
+        "left": 33.3,
+        "top": 382.9,
+        "width": 221.6,
+        "height": 15.0
+      }
+    },
+    "mCNNoRevReq": {
+      "type": "text",
+      "label": "Enter the service request M C N number.",
+      "page": 1,
+      "box": {
+        "left": 257.5,
+        "top": 382.9,
+        "width": 92.2,
+        "height": 15.0
+      }
+    },
+    "messagePrecSerReq": {
+      "type": "text",
+      "label": "Enter the service message request.",
+      "page": 1,
+      "box": {
+        "left": 352.9,
+        "top": 382.9,
+        "width": 85.0,
+        "height": 15.0
+      }
+    },
+    "origDTGSer": {
+      "type": "text",
+      "label": "Enter the original service request D T G month and year.",
+      "page": 1,
+      "box": {
+        "left": 439.9,
+        "top": 382.9,
+        "width": 141.8,
+        "height": 15.0
+      }
+    },
+    "radServYes": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 68.6,
+        "top": 341.7,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_RadServYes_0"
+    },
+    "radServYes2": {
+      "type": "radio",
+      "label": "no",
+      "page": 1,
+      "box": {
+        "left": 157.5,
+        "top": 341.7,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_RadServYes_0"
+    },
+    "radRetransYes": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 260.1,
+        "top": 341.7,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_RadRetransYes_0"
+    },
+    "radRetransYes2": {
+      "type": "radio",
+      "label": "no",
+      "page": 1,
+      "box": {
+        "left": 309.1,
+        "top": 341.7,
+        "width": 15.0,
+        "height": 15.0
+      },
+      "group": "topmostSubform_0_Page1_0_RadRetransYes_0"
+    },
+    "reasonServReq": {
+      "type": "text",
+      "label": "Enter the reason for service request.",
+      "page": 1,
+      "box": {
+        "left": 352.3,
+        "top": 327.3,
+        "width": 86.3,
+        "height": 15.0
+      }
+    },
+    "classServReq": {
+      "type": "text",
+      "label": "Enter the service request classification.",
+      "page": 1,
+      "box": {
+        "left": 440.5,
+        "top": 327.3,
+        "width": 141.2,
+        "height": 15.0
+      }
+    },
+    "originatorCopies": {
+      "type": "text",
+      "label": "Section D. Request for copies. Enter the request for copies originator.",
+      "page": 1,
+      "box": {
+        "left": 33.3,
+        "top": 223.4,
+        "width": 220.3,
+        "height": 15.0
+      }
+    },
+    "mCNNoCopies": {
+      "type": "text",
+      "label": "Enter the request for copies M C N number.",
+      "page": 1,
+      "box": {
+        "left": 256.9,
+        "top": 223.4,
+        "width": 92.8,
+        "height": 15.0
+      }
+    },
+    "origDTGCopies": {
+      "type": "text",
+      "label": "Enter the original request for copies D T G month and year.",
+      "page": 1,
+      "box": {
+        "left": 351.6,
+        "top": 223.4,
+        "width": 85.0,
+        "height": 15.0
+      }
+    },
+    "classCopies": {
+      "type": "text",
+      "label": "Enter the request for copies classification.",
+      "page": 1,
+      "box": {
+        "left": 439.9,
+        "top": 223.4,
+        "width": 141.8,
+        "height": 15.0
+      }
+    },
+    "messagePrecedCopie": {
+      "type": "text",
+      "label": "Enter the request for copies message precedence.",
+      "page": 1,
+      "box": {
+        "left": 33.3,
+        "top": 151.5,
+        "width": 220.3,
+        "height": 15.0
+      }
+    },
+    "copiesRequest": {
+      "type": "text",
+      "label": "Enter the number of copies requested.",
+      "page": 1,
+      "box": {
+        "left": 256.9,
+        "top": 151.5,
+        "width": 92.8,
+        "height": 15.0
+      }
+    },
+    "reasonReqCopie": {
+      "type": "text",
+      "label": "Enter the reason for the request for copies.",
+      "page": 1,
+      "box": {
+        "left": 351.6,
+        "top": 151.5,
+        "width": 230.1,
+        "height": 15.0
+      }
+    },
+    "chopTC": {
+      "type": "text",
+      "label": "For communication center use only. Enter the T C chop.",
+      "page": 1,
+      "box": {
+        "left": 34.0,
+        "top": 76.3,
+        "width": 74.5,
+        "height": 15.0
+      }
+    },
+    "chopSVC": {
+      "type": "text",
+      "label": "Enter the S V C chop.",
+      "page": 1,
+      "box": {
+        "left": 111.1,
+        "top": 76.3,
+        "width": 87.6,
+        "height": 15.0
+      }
+    },
+    "chopMRC": {
+      "type": "text",
+      "label": "Enter the M R C chop.",
+      "page": 1,
+      "box": {
+        "left": 201.3,
+        "top": 76.3,
+        "width": 124.8,
+        "height": 15.0
+      }
+    },
+    "remarksChop": {
+      "type": "text",
+      "label": "Enter any remarks.",
+      "page": 1,
+      "box": {
+        "left": 328.8,
+        "top": 76.3,
+        "width": 253.6,
+        "height": 15.0
+      }
+    }
+  }
+}

@@ -1,0 +1,928 @@
+{
+  "id": "opnav375065",
+  "label": "OPNAV3750-65 - Wamhrs Bash Information",
+  "directory": "OPNAV3750-65 - Wamhrs Bash Information",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "radio",
+        "radio2",
+        "radio3",
+        "radio4",
+        "radio5",
+        "radio6",
+        "radio7",
+        "radio8",
+        "radio9",
+        "radio10",
+        "radio11",
+        "radio12",
+        "radio13",
+        "radio14",
+        "radio15",
+        "radio16",
+        "radio17",
+        "radio18",
+        "radio19",
+        "radio20",
+        "radio21",
+        "radio22",
+        "radio23",
+        "runDisMar",
+        "radio24",
+        "radio25",
+        "radio26",
+        "radio27",
+        "radio28",
+        "radio29",
+        "radio30",
+        "radio31",
+        "radio32",
+        "radio33",
+        "radio34",
+        "radio35",
+        "radio36",
+        "radio37",
+        "amtWlObs",
+        "radio38",
+        "radio39",
+        "radio40",
+        "radio41",
+        "radio42",
+        "cnpy",
+        "emcPodPyl",
+        "eng",
+        "radio43",
+        "extFlTnk",
+        "fulg",
+        "intLt",
+        "radio44",
+        "intRt",
+        "lndGr",
+        "lights",
+        "mnFwdRtr",
+        "multImp",
+        "nose",
+        "radio45",
+        "na",
+        "othrStr",
+        "othrRad",
+        "radio46",
+        "propr",
+        "tail",
+        "tailAftRtr",
+        "unkn",
+        "wpnsPod",
+        "wndShld",
+        "wgLt",
+        "wgRt",
+        "decBdAnOth"
+      ]
+    }
+  ],
+  "fields": {
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 196.4,
+        "top": 727.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 259.4,
+        "top": 727.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 317.9,
+        "top": 727.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 1,
+      "box": {
+        "left": 61.3,
+        "top": 695.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 198.7,
+        "top": 695.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item6",
+      "page": 1,
+      "box": {
+        "left": 347.3,
+        "top": 695.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 1,
+      "box": {
+        "left": 491.3,
+        "top": 695.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 198.7,
+        "top": 682.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio9": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 61.3,
+        "top": 681.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio10": {
+      "type": "radio",
+      "label": "Item5",
+      "page": 1,
+      "box": {
+        "left": 347.3,
+        "top": 681.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio11": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 54.3,
+        "top": 646.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio12": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 100.6,
+        "top": 646.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio13": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 141.7,
+        "top": 646.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio14": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 234.2,
+        "top": 646.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio15": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 280.5,
+        "top": 646.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio16": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 321.7,
+        "top": 646.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio17": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 414.2,
+        "top": 646.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio18": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 460.5,
+        "top": 646.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio19": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 501.6,
+        "top": 646.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio20": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 335.9,
+        "top": 610.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio21": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 394.4,
+        "top": 610.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio22": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 448.4,
+        "top": 610.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio23": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 1,
+      "box": {
+        "left": 520.4,
+        "top": 610.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "runDisMar": {
+      "type": "text",
+      "label": "found?",
+      "page": 1,
+      "box": {
+        "left": 36.0,
+        "top": 609.5,
+        "width": 270.1,
+        "height": 20.0
+      }
+    },
+    "radio24": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 1,
+      "box": {
+        "left": 61.3,
+        "top": 569.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio25": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 198.7,
+        "top": 569.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio26": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 394.4,
+        "top": 569.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio27": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 457.4,
+        "top": 569.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio28": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 61.3,
+        "top": 555.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio29": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 198.7,
+        "top": 555.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio30": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 394.4,
+        "top": 555.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio31": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 1,
+      "box": {
+        "left": 457.4,
+        "top": 555.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio32": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 182.9,
+        "top": 525.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio33": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 232.4,
+        "top": 525.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio34": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 525.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio35": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 353.9,
+        "top": 525.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio36": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 435.1,
+        "top": 525.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio37": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 525.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "amtWlObs": {
+      "type": "text",
+      "label": "10. Amount of wildlife observed?",
+      "page": 1,
+      "box": {
+        "left": 36.0,
+        "top": 519.5,
+        "width": 130.5,
+        "height": 20.0
+      }
+    },
+    "radio38": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 514.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio39": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 1,
+      "box": {
+        "left": 353.9,
+        "top": 514.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio40": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 435.1,
+        "top": 514.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio41": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 514.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio42": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 182.9,
+        "top": 514.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "cnpy": {
+      "type": "checkbox",
+      "label": "Select",
+      "page": 1,
+      "box": {
+        "left": 62.3,
+        "top": 478.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "emcPodPyl": {
+      "type": "checkbox",
+      "label": "CANOPY",
+      "page": 1,
+      "box": {
+        "left": 179.2,
+        "top": 478.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "eng": {
+      "type": "checkbox",
+      "label": "EMC POD/PYLONS",
+      "page": 1,
+      "box": {
+        "left": 296.3,
+        "top": 478.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "radio43": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 462.1,
+        "top": 472.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "extFlTnk": {
+      "type": "checkbox",
+      "label": "Select",
+      "page": 1,
+      "box": {
+        "left": 62.3,
+        "top": 465.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "fulg": {
+      "type": "checkbox",
+      "label": "EXT FUEL TANK",
+      "page": 1,
+      "box": {
+        "left": 179.2,
+        "top": 465.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "intLt": {
+      "type": "checkbox",
+      "label": "FUSELAGE",
+      "page": 1,
+      "box": {
+        "left": 296.3,
+        "top": 465.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "radio44": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 462.1,
+        "top": 452.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "intRt": {
+      "type": "checkbox",
+      "label": "Select",
+      "page": 1,
+      "box": {
+        "left": 62.3,
+        "top": 451.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "lndGr": {
+      "type": "checkbox",
+      "label": "INTAKE RIGHT",
+      "page": 1,
+      "box": {
+        "left": 179.2,
+        "top": 451.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "lights": {
+      "type": "checkbox",
+      "label": "LANDING GEAR",
+      "page": 1,
+      "box": {
+        "left": 296.2,
+        "top": 451.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "mnFwdRtr": {
+      "type": "checkbox",
+      "label": "Select",
+      "page": 1,
+      "box": {
+        "left": 62.3,
+        "top": 438.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "multImp": {
+      "type": "checkbox",
+      "label": "MAIN/FWD ROTOR",
+      "page": 1,
+      "box": {
+        "left": 179.2,
+        "top": 438.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "nose": {
+      "type": "checkbox",
+      "label": "MULTIPLE IMPACT",
+      "page": 1,
+      "box": {
+        "left": 296.3,
+        "top": 438.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "radio45": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 461.9,
+        "top": 432.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "na": {
+      "type": "checkbox",
+      "label": "Select",
+      "page": 1,
+      "box": {
+        "left": 62.3,
+        "top": 424.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "othrStr": {
+      "type": "checkbox",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 179.2,
+        "top": 424.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "othrRad": {
+      "type": "checkbox",
+      "label": "OTHER",
+      "page": 1,
+      "box": {
+        "left": 296.3,
+        "top": 424.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "radio46": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 1,
+      "box": {
+        "left": 461.9,
+        "top": 412.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "propr": {
+      "type": "checkbox",
+      "label": "Select",
+      "page": 1,
+      "box": {
+        "left": 62.3,
+        "top": 411.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "tail": {
+      "type": "checkbox",
+      "label": "PROPELLOR",
+      "page": 1,
+      "box": {
+        "left": 179.2,
+        "top": 411.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "tailAftRtr": {
+      "type": "checkbox",
+      "label": "TAIL",
+      "page": 1,
+      "box": {
+        "left": 296.3,
+        "top": 411.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "unkn": {
+      "type": "checkbox",
+      "label": "Select",
+      "page": 1,
+      "box": {
+        "left": 62.3,
+        "top": 397.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "wpnsPod": {
+      "type": "checkbox",
+      "label": "UNKNOWN",
+      "page": 1,
+      "box": {
+        "left": 179.2,
+        "top": 397.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "wndShld": {
+      "type": "checkbox",
+      "label": "WEAPONS POD",
+      "page": 1,
+      "box": {
+        "left": 296.3,
+        "top": 397.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "wgLt": {
+      "type": "checkbox",
+      "label": "Select",
+      "page": 1,
+      "box": {
+        "left": 62.3,
+        "top": 384.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "wgRt": {
+      "type": "checkbox",
+      "label": "WING LEFT",
+      "page": 1,
+      "box": {
+        "left": 179.2,
+        "top": 384.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "decBdAnOth": {
+      "type": "text",
+      "label": "16. Describe type bird/animal/other",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 356.6,
+        "width": 534.4,
+        "height": 313.4
+      },
+      "multiline": true
+    }
+  }
+}

@@ -1,0 +1,1431 @@
+{
+  "id": "opnav44404",
+  "label": "OPNAV4440-4 - Operating Materials And Supplies Quarterly Oversight Report",
+  "directory": "OPNAV4440-4 - Operating Materials And Supplies Quarterly Oversight Report",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "subBy",
+        "org",
+        "siteLoc",
+        "uic",
+        "plant",
+        "date",
+        "a7Ae",
+        "a7Ac",
+        "a7Be",
+        "a7Bc",
+        "a7Ce",
+        "a7Cc",
+        "a7De",
+        "a7Dc",
+        "a7Ee",
+        "a7Ec",
+        "a7Fe",
+        "a7Fc",
+        "a8Ae",
+        "a8Ac",
+        "a8Be",
+        "a8Bc",
+        "a8Ce",
+        "a8Cc",
+        "a8De",
+        "a8Dc",
+        "a8Ee",
+        "a8Ec",
+        "a8Fe",
+        "a8Fc",
+        "a9Ae",
+        "a9Ac",
+        "a9Be",
+        "a9Bc",
+        "a9Ce",
+        "a9Cc",
+        "a9De",
+        "a9Dc",
+        "a9Ee",
+        "a9Ec",
+        "a9Fe",
+        "a9Fc",
+        "a10Ae",
+        "a10Ac",
+        "a10Be",
+        "a10Bc",
+        "a10Ce",
+        "a10Cc",
+        "a10De",
+        "a10Dc",
+        "a10Ee",
+        "a10Ec",
+        "a10Fe",
+        "a10Fc",
+        "a11Ae",
+        "a11Ac",
+        "a11Be",
+        "a11Bc",
+        "a11Ce",
+        "a11Cc",
+        "a11De",
+        "a11Dc",
+        "a11Ee",
+        "a11Ec",
+        "a11Fe",
+        "a11Fc"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "totSam12",
+        "noExc12",
+        "withExc12",
+        "testAcc12",
+        "totSam12a",
+        "noExc12a",
+        "withExc12a",
+        "testAcc12a",
+        "totSam12b",
+        "noExc12b",
+        "withExc12b",
+        "testAcc12b",
+        "totSam12c",
+        "noExc12c",
+        "withExc12c",
+        "testAcc12c",
+        "totSam12d",
+        "noExc12d",
+        "withExc12d",
+        "testAcc12d",
+        "totSam12e",
+        "noExc12e",
+        "withExc12e",
+        "testAcc12e",
+        "totSam12f",
+        "noExc12f",
+        "withExc12f",
+        "testAcc12f",
+        "totSam12g",
+        "noExc12g",
+        "withExc12g",
+        "testAcc12g",
+        "totSam12h",
+        "noExc12h",
+        "withExc12h",
+        "testAcc12h",
+        "totSam12i",
+        "noExc12i",
+        "withExc12i",
+        "testAcc12i",
+        "exceptions",
+        "internalControls",
+        "corActions",
+        "policiesProc"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "impAcct",
+        "it",
+        "misc",
+        "bSOPrintName",
+        "bSOSig",
+        "bSOSigDte"
+      ]
+    }
+  ],
+  "fields": {
+    "subBy": {
+      "type": "text",
+      "label": "1. SUBMITTED BY",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 730.1,
+        "width": 174.4,
+        "height": 10.9
+      }
+    },
+    "org": {
+      "type": "text",
+      "label": "2. ORGANIZATION",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 730.1,
+        "width": 174.4,
+        "height": 10.9
+      }
+    },
+    "siteLoc": {
+      "type": "text",
+      "label": "3. SITE LOCATION",
+      "page": 1,
+      "box": {
+        "left": 398.7,
+        "top": 730.1,
+        "width": 174.4,
+        "height": 10.9
+      }
+    },
+    "uic": {
+      "type": "text",
+      "label": "4. UNIT IDENTIFICATION CODE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 704.9,
+        "width": 174.4,
+        "height": 10.9
+      }
+    },
+    "plant": {
+      "type": "text",
+      "label": "5. PLANT",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 704.9,
+        "width": 174.4,
+        "height": 10.9
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "6. DATE",
+      "page": 1,
+      "box": {
+        "left": 398.9,
+        "top": 704.9,
+        "width": 174.4,
+        "height": 10.9
+      }
+    },
+    "a7Ae": {
+      "type": "text",
+      "label": "a. TOTAL LINE ITEMS COUNTED",
+      "page": 1,
+      "box": {
+        "left": 433.5,
+        "top": 635.0,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a7Ac": {
+      "type": "text",
+      "label": "a. TOTAL LINE ITEMS COUNTED",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 635.0,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a7Be": {
+      "type": "text",
+      "label": "b. TOTAL QUANTITY (IN ITEMS)",
+      "page": 1,
+      "box": {
+        "left": 433.5,
+        "top": 617.0,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a7Bc": {
+      "type": "text",
+      "label": "b. TOTAL QUANTITY (IN ITEMS)",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 617.0,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a7Ce": {
+      "type": "text",
+      "label": "c. TOTAL INCORRECT QUANTIY (IN ITEMS*)",
+      "page": 1,
+      "box": {
+        "left": 433.5,
+        "top": 599.0,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a7Cc": {
+      "type": "text",
+      "label": "c. TOTAL INCORRECT QUANTIY (IN ITEMS*)",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 599.0,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a7De": {
+      "type": "text",
+      "label": "d. TOTAL INCORRECT CONDITION CODES (IN ITEMS*)",
+      "page": 1,
+      "box": {
+        "left": 433.5,
+        "top": 581.0,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a7Dc": {
+      "type": "text",
+      "label": "d. TOTAL INCORRECT CONDITION CODES (IN ITEMS*)",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 581.0,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a7Ee": {
+      "type": "text",
+      "label": "e. TOTAL EXCEPTIONS (IN ITEMS)",
+      "page": 1,
+      "box": {
+        "left": 433.5,
+        "top": 563.0,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a7Ec": {
+      "type": "text",
+      "label": "e. TOTAL EXCEPTIONS (IN ITEMS)",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 563.0,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a7Fe": {
+      "type": "text",
+      "label": "f. TOTAL INVENTORY ACCURACY RATE (1-(EXCEPTIONS/QUANTITY))",
+      "page": 1,
+      "box": {
+        "left": 433.5,
+        "top": 545.0,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a7Fc": {
+      "type": "text",
+      "label": "f. TOTAL INVENTORY ACCURACY RATE (1-(EXCEPTIONS/QUANTITY))",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 545.0,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a8Ae": {
+      "type": "text",
+      "label": "a. REMAINDER LINE ITEMS COUNTED",
+      "page": 1,
+      "box": {
+        "left": 433.5,
+        "top": 515.5,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a8Ac": {
+      "type": "text",
+      "label": "a. REMAINDER LINE ITEMS COUNTED",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 515.5,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a8Be": {
+      "type": "text",
+      "label": "b. REMAINDER QUANTITY (IN ITEMS)",
+      "page": 1,
+      "box": {
+        "left": 433.5,
+        "top": 497.5,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a8Bc": {
+      "type": "text",
+      "label": "b. REMAINDER QUANTITY (IN ITEMS)",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 497.5,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a8Ce": {
+      "type": "text",
+      "label": "c. REMAINDER INCORRECT QUANTITY (IN ITEMS*)",
+      "page": 1,
+      "box": {
+        "left": 433.5,
+        "top": 479.5,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a8Cc": {
+      "type": "text",
+      "label": "c. REMAINDER INCORRECT QUANTITY (IN ITEMS*)",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 479.5,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a8De": {
+      "type": "text",
+      "label": "d. REMAINDER INCORRECT CONDITION CODES (IN ITEMS*)",
+      "page": 1,
+      "box": {
+        "left": 433.5,
+        "top": 461.5,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a8Dc": {
+      "type": "text",
+      "label": "d. REMAINDER INCORRECT CONDITION CODES (IN ITEMS*)",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 461.5,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a8Ee": {
+      "type": "text",
+      "label": "e. REMAINDER EXCEPTIONS (IN ITEMS)",
+      "page": 1,
+      "box": {
+        "left": 433.5,
+        "top": 443.5,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a8Ec": {
+      "type": "text",
+      "label": "e. REMAINDER EXCEPTIONS (IN ITEMS)",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 443.5,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a8Fe": {
+      "type": "text",
+      "label": "(E)",
+      "page": 1,
+      "box": {
+        "left": 433.5,
+        "top": 425.5,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a8Fc": {
+      "type": "text",
+      "label": "(C)",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 425.5,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a9Ae": {
+      "type": "text",
+      "label": "a. UAE LINE ITEMS COUNTED",
+      "page": 1,
+      "box": {
+        "left": 433.5,
+        "top": 396.0,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a9Ac": {
+      "type": "text",
+      "label": "a. UAE LINE ITEMS COUNTED",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 396.0,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a9Be": {
+      "type": "text",
+      "label": "b. UAE QUANTITY (IN ITEMS)",
+      "page": 1,
+      "box": {
+        "left": 433.5,
+        "top": 378.0,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a9Bc": {
+      "type": "text",
+      "label": "b. UAE QUANTITY (IN ITEMS)",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 378.0,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a9Ce": {
+      "type": "text",
+      "label": "c. UAE INCORRECT QUANTITY (IN ITEMS*)",
+      "page": 1,
+      "box": {
+        "left": 433.5,
+        "top": 360.0,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a9Cc": {
+      "type": "text",
+      "label": "c. UAE INCORRECT QUANTITY (IN ITEMS*)",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 360.0,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a9De": {
+      "type": "text",
+      "label": "d. UAE INCORRECT CONDITION CODES (IN ITEMS*)",
+      "page": 1,
+      "box": {
+        "left": 433.5,
+        "top": 342.0,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a9Dc": {
+      "type": "text",
+      "label": "d. UAE INCORRECT CONDITION CODES (IN ITEMS*)",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 342.0,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a9Ee": {
+      "type": "text",
+      "label": "e. UAE EXCEPTIONS (IN ITEMS)",
+      "page": 1,
+      "box": {
+        "left": 433.5,
+        "top": 324.0,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a9Ec": {
+      "type": "text",
+      "label": "e. UAE EXCEPTIONS (IN ITEMS)",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 324.0,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a9Fe": {
+      "type": "text",
+      "label": "f. UAE INVENTORY ACCURACY RATE (1-(EXCEPTIONS/QUANTITY))",
+      "page": 1,
+      "box": {
+        "left": 433.5,
+        "top": 306.0,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a9Fc": {
+      "type": "text",
+      "label": "f. UAE INVENTORY ACCURACY RATE (1-(EXCEPTIONS/QUANTITY))",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 306.0,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a10Ae": {
+      "type": "text",
+      "label": "a. TRIDENT LINE ITEMS COUNTED",
+      "page": 1,
+      "box": {
+        "left": 433.5,
+        "top": 276.4,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a10Ac": {
+      "type": "text",
+      "label": "a. TRIDENT LINE ITEMS COUNTED",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 276.4,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a10Be": {
+      "type": "text",
+      "label": "b. TRIDENT QUANTITY (IN ITEMS)",
+      "page": 1,
+      "box": {
+        "left": 433.5,
+        "top": 258.4,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a10Bc": {
+      "type": "text",
+      "label": "b. TRIDENT QUANTITY (IN ITEMS)",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 258.4,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a10Ce": {
+      "type": "text",
+      "label": "TRIDENT c. TRIDENT INCORRECT QUANTITY (IN ITEMS*)",
+      "page": 1,
+      "box": {
+        "left": 433.5,
+        "top": 240.4,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a10Cc": {
+      "type": "text",
+      "label": "TRIDENT c. TRIDENT INCORRECT QUANTITY (IN ITEMS*)",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 240.4,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a10De": {
+      "type": "text",
+      "label": "MATERIAL d. TRIDENT INCORRECT CONDITION CODES (IN ITEMS*)",
+      "page": 1,
+      "box": {
+        "left": 433.5,
+        "top": 222.4,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a10Dc": {
+      "type": "text",
+      "label": "MATERIAL d. TRIDENT INCORRECT CONDITION CODES (IN ITEMS*)",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 222.4,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a10Ee": {
+      "type": "text",
+      "label": "e. TRIDENT EXCEPTIONS (IN ITEMS)",
+      "page": 1,
+      "box": {
+        "left": 433.5,
+        "top": 204.4,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a10Ec": {
+      "type": "text",
+      "label": "e. TRIDENT EXCEPTIONS (IN ITEMS)",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 204.4,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a10Fe": {
+      "type": "text",
+      "label": "f. TRIDENT INVENTORY ACCURACY RATE (1-(EXCEPTIONS/QUANTITY))",
+      "page": 1,
+      "box": {
+        "left": 433.5,
+        "top": 186.4,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a10Fc": {
+      "type": "text",
+      "label": "f. TRIDENT INVENTORY ACCURACY RATE (1-(EXCEPTIONS/QUANTITY))",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 186.4,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a11Ae": {
+      "type": "text",
+      "label": "a. ORDNANCE LINE ITEMS COUNTED",
+      "page": 1,
+      "box": {
+        "left": 433.5,
+        "top": 156.9,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a11Ac": {
+      "type": "text",
+      "label": "a. ORDNANCE LINE ITEMS COUNTED",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 156.9,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a11Be": {
+      "type": "text",
+      "label": "b. ORDNANCE QUANTITY (IN ITEMS)",
+      "page": 1,
+      "box": {
+        "left": 433.5,
+        "top": 138.9,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a11Bc": {
+      "type": "text",
+      "label": "b. ORDNANCE QUANTITY (IN ITEMS)",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 138.9,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a11Ce": {
+      "type": "text",
+      "label": "c. ORDNANCE INCORRECT QUANTITY (IN ITEMS*)",
+      "page": 1,
+      "box": {
+        "left": 433.5,
+        "top": 120.9,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a11Cc": {
+      "type": "text",
+      "label": "c. ORDNANCE INCORRECT QUANTITY (IN ITEMS*)",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 120.9,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a11De": {
+      "type": "text",
+      "label": "d. ORDNANCE INCORRECT CONDITION CODES (IN ITEMS*)",
+      "page": 1,
+      "box": {
+        "left": 433.5,
+        "top": 102.9,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a11Dc": {
+      "type": "text",
+      "label": "d. ORDNANCE INCORRECT CONDITION CODES (IN ITEMS*)",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 102.9,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a11Ee": {
+      "type": "text",
+      "label": "e. ORDNANCE EXCEPTIONS (IN ITEMS)",
+      "page": 1,
+      "box": {
+        "left": 433.5,
+        "top": 84.9,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a11Ec": {
+      "type": "text",
+      "label": "e. ORDNANCE EXCEPTIONS (IN ITEMS)",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 84.9,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a11Fe": {
+      "type": "text",
+      "label": "(E)",
+      "page": 1,
+      "box": {
+        "left": 433.5,
+        "top": 66.9,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "a11Fc": {
+      "type": "text",
+      "label": "(C)",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 66.9,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "totSam12": {
+      "type": "text",
+      "label": "12. NUMBER OF TRANSACTION SAMPLES",
+      "page": 2,
+      "box": {
+        "left": 289.5,
+        "top": 718.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "noExc12": {
+      "type": "text",
+      "label": "12. NUMBER OF TRANSACTION SAMPLES",
+      "page": 2,
+      "box": {
+        "left": 361.5,
+        "top": 718.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "withExc12": {
+      "type": "text",
+      "label": "12. NUMBER OF TRANSACTION SAMPLES",
+      "page": 2,
+      "box": {
+        "left": 433.5,
+        "top": 718.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "testAcc12": {
+      "type": "text",
+      "label": "12. NUMBER OF TRANSACTION SAMPLES",
+      "page": 2,
+      "box": {
+        "left": 505.5,
+        "top": 718.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "totSam12a": {
+      "type": "text",
+      "label": "a. Receiving of Material (Delivery)",
+      "page": 2,
+      "box": {
+        "left": 289.3,
+        "top": 682.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "noExc12a": {
+      "type": "text",
+      "label": "a. Receiving of Material (Delivery)",
+      "page": 2,
+      "box": {
+        "left": 361.4,
+        "top": 682.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "withExc12a": {
+      "type": "text",
+      "label": "a. Receiving of Material (Delivery)",
+      "page": 2,
+      "box": {
+        "left": 433.4,
+        "top": 682.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "testAcc12a": {
+      "type": "text",
+      "label": "a. Receiving of Material (Delivery)",
+      "page": 2,
+      "box": {
+        "left": 505.4,
+        "top": 682.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "totSam12b": {
+      "type": "text",
+      "label": "b. Receipt of Material",
+      "page": 2,
+      "box": {
+        "left": 289.3,
+        "top": 664.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "noExc12b": {
+      "type": "text",
+      "label": "b. Receipt of Material",
+      "page": 2,
+      "box": {
+        "left": 361.4,
+        "top": 664.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "withExc12b": {
+      "type": "text",
+      "label": "b. Receipt of Material",
+      "page": 2,
+      "box": {
+        "left": 433.4,
+        "top": 664.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "testAcc12b": {
+      "type": "text",
+      "label": "b. Receipt of Material",
+      "page": 2,
+      "box": {
+        "left": 505.4,
+        "top": 664.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "totSam12c": {
+      "type": "text",
+      "label": "c. Acceptance of Material",
+      "page": 2,
+      "box": {
+        "left": 289.3,
+        "top": 646.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "noExc12c": {
+      "type": "text",
+      "label": "c. Acceptance of Material",
+      "page": 2,
+      "box": {
+        "left": 361.4,
+        "top": 646.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "withExc12c": {
+      "type": "text",
+      "label": "c. Acceptance of Material",
+      "page": 2,
+      "box": {
+        "left": 433.4,
+        "top": 646.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "testAcc12c": {
+      "type": "text",
+      "label": "c. Acceptance of Material",
+      "page": 2,
+      "box": {
+        "left": 505.4,
+        "top": 646.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "totSam12d": {
+      "type": "text",
+      "label": "d. Acceptance of Material (Sampling)",
+      "page": 2,
+      "box": {
+        "left": 289.3,
+        "top": 628.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "noExc12d": {
+      "type": "text",
+      "label": "d. Acceptance of Material (Sampling)",
+      "page": 2,
+      "box": {
+        "left": 361.4,
+        "top": 628.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "withExc12d": {
+      "type": "text",
+      "label": "d. Acceptance of Material (Sampling)",
+      "page": 2,
+      "box": {
+        "left": 433.4,
+        "top": 628.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "testAcc12d": {
+      "type": "text",
+      "label": "d. Acceptance of Material (Sampling)",
+      "page": 2,
+      "box": {
+        "left": 505.4,
+        "top": 628.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "totSam12e": {
+      "type": "text",
+      "label": "e. Inventory Management",
+      "page": 2,
+      "box": {
+        "left": 289.3,
+        "top": 610.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "noExc12e": {
+      "type": "text",
+      "label": "e. Inventory Management",
+      "page": 2,
+      "box": {
+        "left": 361.4,
+        "top": 610.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "withExc12e": {
+      "type": "text",
+      "label": "e. Inventory Management",
+      "page": 2,
+      "box": {
+        "left": 433.4,
+        "top": 610.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "testAcc12e": {
+      "type": "text",
+      "label": "e. Inventory Management",
+      "page": 2,
+      "box": {
+        "left": 505.4,
+        "top": 610.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "totSam12f": {
+      "type": "text",
+      "label": "f. Physical Inventory",
+      "page": 2,
+      "box": {
+        "left": 289.3,
+        "top": 592.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "noExc12f": {
+      "type": "text",
+      "label": "f. Physical Inventory",
+      "page": 2,
+      "box": {
+        "left": 361.4,
+        "top": 592.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "withExc12f": {
+      "type": "text",
+      "label": "f. Physical Inventory",
+      "page": 2,
+      "box": {
+        "left": 433.4,
+        "top": 592.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "testAcc12f": {
+      "type": "text",
+      "label": "f. Physical Inventory",
+      "page": 2,
+      "box": {
+        "left": 505.4,
+        "top": 592.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "totSam12g": {
+      "type": "text",
+      "label": "g. Issuance of Material",
+      "page": 2,
+      "box": {
+        "left": 289.3,
+        "top": 574.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "noExc12g": {
+      "type": "text",
+      "label": "g. Issuance of Material",
+      "page": 2,
+      "box": {
+        "left": 361.4,
+        "top": 574.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "withExc12g": {
+      "type": "text",
+      "label": "g. Issuance of Material",
+      "page": 2,
+      "box": {
+        "left": 433.4,
+        "top": 574.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "testAcc12g": {
+      "type": "text",
+      "label": "g. Issuance of Material",
+      "page": 2,
+      "box": {
+        "left": 505.4,
+        "top": 574.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "totSam12h": {
+      "type": "text",
+      "label": "h. Financial Reporting",
+      "page": 2,
+      "box": {
+        "left": 289.3,
+        "top": 556.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "noExc12h": {
+      "type": "text",
+      "label": "h. Financial Reporting",
+      "page": 2,
+      "box": {
+        "left": 361.4,
+        "top": 556.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "withExc12h": {
+      "type": "text",
+      "label": "h. Financial Reporting",
+      "page": 2,
+      "box": {
+        "left": 433.4,
+        "top": 556.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "testAcc12h": {
+      "type": "text",
+      "label": "h. Financial Reporting",
+      "page": 2,
+      "box": {
+        "left": 505.4,
+        "top": 556.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "totSam12i": {
+      "type": "text",
+      "label": "i. Proper Classification of Material",
+      "page": 2,
+      "box": {
+        "left": 289.3,
+        "top": 538.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "noExc12i": {
+      "type": "text",
+      "label": "i. Proper Classification of Material",
+      "page": 2,
+      "box": {
+        "left": 361.4,
+        "top": 538.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "withExc12i": {
+      "type": "text",
+      "label": "i. Proper Classification of Material",
+      "page": 2,
+      "box": {
+        "left": 433.4,
+        "top": 538.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "testAcc12i": {
+      "type": "text",
+      "label": "i. Proper Classification of Material",
+      "page": 2,
+      "box": {
+        "left": 505.4,
+        "top": 538.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "exceptions": {
+      "type": "text",
+      "label": "Exceptions",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 508.3,
+        "width": 534.4,
+        "height": 98.7
+      },
+      "multiline": true
+    },
+    "internalControls": {
+      "type": "text",
+      "label": "Internal Controls",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 393.1,
+        "width": 534.4,
+        "height": 98.7
+      },
+      "multiline": true
+    },
+    "corActions": {
+      "type": "text",
+      "label": "testing team.)",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 267.1,
+        "width": 534.4,
+        "height": 87.9
+      },
+      "multiline": true
+    },
+    "policiesProc": {
+      "type": "text",
+      "label": "a. POLICIES &amp; PROCEDURES",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 130.3,
+        "width": 534.4,
+        "height": 91.5
+      },
+      "multiline": true
+    },
+    "impAcct": {
+      "type": "text",
+      "label": "b. POLICY IMPLEMENTATION &amp; ACCOUNTABILITY",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 742.4,
+        "width": 534.4,
+        "height": 91.5
+      },
+      "multiline": true
+    },
+    "it": {
+      "type": "text",
+      "label": "c. IT &amp; SYSTEMS",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 634.3,
+        "width": 534.4,
+        "height": 91.5
+      },
+      "multiline": true
+    },
+    "misc": {
+      "type": "text",
+      "label": "d. MISCELLANEOUS",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 526.3,
+        "width": 534.4,
+        "height": 91.5
+      },
+      "multiline": true
+    },
+    "bSOPrintName": {
+      "type": "text",
+      "label": "DESIGNATED BSO PERSONNEL PRINTED NAME",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 407.5,
+        "width": 217.6,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "bSOSig": {
+      "type": "text",
+      "label": "SIGNATURE",
+      "page": 3,
+      "box": {
+        "left": 262.0,
+        "top": 407.5,
+        "width": 210.4,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "bSOSigDte": {
+      "type": "text",
+      "label": "19. SIGNATURE DATE",
+      "page": 3,
+      "box": {
+        "left": 478.0,
+        "top": 407.5,
+        "width": 95.1,
+        "height": 30.3
+      },
+      "multiline": true
+    }
+  }
+}

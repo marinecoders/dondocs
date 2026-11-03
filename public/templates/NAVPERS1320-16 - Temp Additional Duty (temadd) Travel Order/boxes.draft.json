@@ -1,0 +1,491 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "text1": {
+        "left": 40.0,
+        "top": 744.3,
+        "width": 389.6,
+        "height": 27.3,
+        "type": "text",
+        "description": "Text1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x2": {
+        "left": 451.2,
+        "top": 741.8,
+        "width": 129.7,
+        "height": 19.7,
+        "type": "text",
+        "description": "x2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x4": {
+        "left": 450.7,
+        "top": 706.0,
+        "width": 129.1,
+        "height": 14.1,
+        "type": "text",
+        "description": "x4",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x3": {
+        "left": 41.3,
+        "top": 703.9,
+        "width": 390.1,
+        "height": 68.3,
+        "type": "text",
+        "description": "x3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x5": {
+        "left": 451.8,
+        "top": 682.3,
+        "width": 129.2,
+        "height": 16.1,
+        "type": "text",
+        "description": "x5",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x6": {
+        "left": 451.7,
+        "top": 655.5,
+        "width": 129.1,
+        "height": 19.6,
+        "type": "text",
+        "description": "x6",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "text109": {
+        "left": 449.5,
+        "top": 627.0,
+        "width": 141.0,
+        "height": 22.5,
+        "type": "text",
+        "description": "Text109",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x7": {
+        "left": 36.4,
+        "top": 622.7,
+        "width": 397.4,
+        "height": 19.6,
+        "type": "text",
+        "description": "x7",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x11": {
+        "left": 347.0,
+        "top": 591.0,
+        "width": 87.2,
+        "height": 20.9,
+        "type": "text",
+        "description": "x11",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x12": {
+        "left": 445.5,
+        "top": 590.5,
+        "width": 143.1,
+        "height": 20.9,
+        "type": "text",
+        "description": "x12",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x9": {
+        "left": 30.4,
+        "top": 590.4,
+        "width": 115.1,
+        "height": 20.9,
+        "type": "text",
+        "description": "x9",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x10": {
+        "left": 194.9,
+        "top": 590.0,
+        "width": 105.2,
+        "height": 20.9,
+        "type": "text",
+        "description": "x10",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox122": {
+        "left": 383.0,
+        "top": 562.4,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "F[0].P1[0].Check_Box122[0]",
+        "required": false
+      },
+      "checkBox1222": {
+        "left": 447.0,
+        "top": 561.9,
+        "width": 11.0,
+        "height": 11.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "F[0].P1[0].Check_Box122[0]",
+        "required": false
+      },
+      "checkBox1223": {
+        "left": 526.5,
+        "top": 561.9,
+        "width": 11.0,
+        "height": 11.0,
+        "type": "radio",
+        "description": "2",
+        "options": null,
+        "group": "F[0].P1[0].Check_Box122[0]",
+        "required": false
+      },
+      "text2": {
+        "left": 31.8,
+        "top": 555.6,
+        "width": 324.8,
+        "height": 82.7,
+        "type": "text",
+        "description": "Text2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x15": {
+        "left": 361.4,
+        "top": 534.0,
+        "width": 230.5,
+        "height": 28.8,
+        "type": "text",
+        "description": "x15",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox123": {
+        "left": 398.7,
+        "top": 492.5,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "Check_Box123",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x20": {
+        "left": 419.8,
+        "top": 401.2,
+        "width": 78.7,
+        "height": 42.0,
+        "type": "text",
+        "description": "x20",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x21": {
+        "left": 500.9,
+        "top": 400.7,
+        "width": 91.7,
+        "height": 41.5,
+        "type": "text",
+        "description": "x21",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x17a": {
+        "left": 19.5,
+        "top": 400.5,
+        "width": 51.5,
+        "height": 42.0,
+        "type": "text",
+        "description": "x17a",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x17b": {
+        "left": 73.7,
+        "top": 400.5,
+        "width": 51.0,
+        "height": 41.5,
+        "type": "text",
+        "description": "x17b",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x18": {
+        "left": 168.6,
+        "top": 400.5,
+        "width": 50.7,
+        "height": 42.5,
+        "type": "text",
+        "description": "x18",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x19": {
+        "left": 289.4,
+        "top": 400.5,
+        "width": 64.7,
+        "height": 41.5,
+        "type": "text",
+        "description": "x19",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x24": {
+        "left": 127.9,
+        "top": 400.2,
+        "width": 38.0,
+        "height": 41.5,
+        "type": "text",
+        "description": "x24",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x25": {
+        "left": 222.1,
+        "top": 400.2,
+        "width": 63.7,
+        "height": 42.5,
+        "type": "text",
+        "description": "x25",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x26": {
+        "left": 356.3,
+        "top": 400.2,
+        "width": 61.2,
+        "height": 42.5,
+        "type": "text",
+        "description": "x26",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x28": {
+        "left": 418.5,
+        "top": 341.0,
+        "width": 174.0,
+        "height": 29.2,
+        "type": "text",
+        "description": "x28",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "text110": {
+        "left": 126.4,
+        "top": 328.5,
+        "width": 85.0,
+        "height": 17.0,
+        "type": "text",
+        "description": "Text110",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "text112": {
+        "left": 315.0,
+        "top": 328.5,
+        "width": 102.5,
+        "height": 17.0,
+        "type": "text",
+        "description": "Text112",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "text111": {
+        "left": 221.0,
+        "top": 328.0,
+        "width": 84.0,
+        "height": 16.0,
+        "type": "text",
+        "description": "Text111",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x23": {
+        "left": 31.6,
+        "top": 327.3,
+        "width": 84.6,
+        "height": 16.2,
+        "type": "text",
+        "description": "x23",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x27": {
+        "left": 23.0,
+        "top": 297.9,
+        "width": 569.3,
+        "height": 35.7,
+        "type": "text",
+        "description": "x27",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "text113": {
+        "left": 23.0,
+        "top": 231.0,
+        "width": 434.5,
+        "height": 115.5,
+        "type": "text",
+        "description": "Text113",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "text118": {
+        "left": 497.4,
+        "top": 217.4,
+        "width": 83.5,
+        "height": 15.0,
+        "type": "text",
+        "description": "Text118",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "text116": {
+        "left": 463.0,
+        "top": 201.5,
+        "width": 120.5,
+        "height": 14.0,
+        "type": "text",
+        "description": "Text116",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "text117": {
+        "left": 491.5,
+        "top": 187.0,
+        "width": 94.5,
+        "height": 13.5,
+        "type": "text",
+        "description": "Text117",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "text119": {
+        "left": 513.4,
+        "top": 172.9,
+        "width": 72.5,
+        "height": 14.0,
+        "type": "text",
+        "description": "Text119",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "text120": {
+        "left": 475.5,
+        "top": 157.5,
+        "width": 109.9,
+        "height": 13.0,
+        "type": "text",
+        "description": "Text120",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "text121": {
+        "left": 487.9,
+        "top": 142.5,
+        "width": 96.6,
+        "height": 12.0,
+        "type": "text",
+        "description": "Text121",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField1": {
+        "left": 29.8,
+        "top": 100.7,
+        "width": 556.8,
+        "height": 13.8,
+        "type": "text",
+        "description": "TextField1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "text114": {
+        "left": 21.5,
+        "top": 70.5,
+        "width": 570.5,
+        "height": 29.5,
+        "type": "text",
+        "description": "Text114",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "text115": {
+        "left": 270.4,
+        "top": 37.9,
+        "width": 322.6,
+        "height": 12.5,
+        "type": "text",
+        "description": "Text115",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

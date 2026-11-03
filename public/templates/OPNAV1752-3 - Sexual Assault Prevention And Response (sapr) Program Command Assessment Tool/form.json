@@ -1,0 +1,1102 @@
+{
+  "id": "opnav17523",
+  "label": "OPNAV1752-3 - Sexual Assault Prevention And Response (sapr) Program Command Assessment Tool",
+  "directory": "OPNAV1752-3 - Sexual Assault Prevention And Response (sapr) Program Command Assessment Tool",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "asumCmd",
+        "recCOTk",
+        "radio",
+        "radio2",
+        "radio3",
+        "radio4",
+        "recMR",
+        "radio5",
+        "radio6",
+        "sHDate",
+        "folUpAssm",
+        "numMil",
+        "numCiv",
+        "numUnrRpt",
+        "numVic",
+        "numOff",
+        "trends",
+        "radio7",
+        "radio8",
+        "persAwrSARC",
+        "persAwrHL"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "persAwrFD",
+        "radio9",
+        "radio10",
+        "radio11",
+        "radio12",
+        "ongAsmtHow",
+        "ongAsmtHowOft",
+        "radio13",
+        "radio14",
+        "radio15",
+        "radio16",
+        "radio17",
+        "radio18",
+        "radio19",
+        "radio20",
+        "numPMAsgn",
+        "radio21",
+        "radio22",
+        "radio23",
+        "radio24",
+        "radio25",
+        "radio26",
+        "radio27",
+        "radio28",
+        "recCOTk2",
+        "numUVAasgn",
+        "radio29",
+        "radio30",
+        "radio31",
+        "radio32",
+        "radio33",
+        "radio34",
+        "untVAsCertCredExp"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "radio35",
+        "radio36",
+        "untVAsCertRvkExp",
+        "radio37",
+        "radio38",
+        "sAPRPOCRecTrng",
+        "radio39",
+        "radio40",
+        "radio41",
+        "radio42",
+        "radio43",
+        "radio44",
+        "radio45",
+        "radio46",
+        "radio47",
+        "radio48",
+        "cOAtnCMGMtgExp",
+        "radio49",
+        "radio50",
+        "cOCstNCISExp",
+        "cOEnsInfo",
+        "cOCorBet",
+        "cOConsJdg"
+      ]
+    },
+    {
+      "title": "Page 4",
+      "fields": [
+        "radio51",
+        "radio52",
+        "radio53",
+        "radio54",
+        "radio55",
+        "radio56"
+      ]
+    }
+  ],
+  "fields": {
+    "asumCmd": {
+      "type": "text",
+      "label": "1. When did the Commanding Officer (CO) assume command?",
+      "page": 1,
+      "box": {
+        "left": 475.3,
+        "top": 690.1,
+        "width": 96.6,
+        "height": 17.1
+      }
+    },
+    "recCOTk": {
+      "type": "text",
+      "label": "OPNAVINST 1752.1",
+      "page": 1,
+      "box": {
+        "left": 475.3,
+        "top": 667.0,
+        "width": 96.6,
+        "height": 17.1
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 484.5,
+        "top": 613.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 524.5,
+        "top": 613.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 484.5,
+        "top": 585.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 524.5,
+        "top": 585.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "recMR": {
+      "type": "text",
+      "label": "YES NO",
+      "page": 1,
+      "box": {
+        "left": 475.3,
+        "top": 565.8,
+        "width": 96.6,
+        "height": 24.7
+      }
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 483.3,
+        "top": 532.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 523.3,
+        "top": 532.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "sHDate": {
+      "type": "text",
+      "label": "a. Date most recent command climate assessment completed?",
+      "page": 1,
+      "box": {
+        "left": 320.4,
+        "top": 512.8,
+        "width": 94.4,
+        "height": 17.1
+      }
+    },
+    "folUpAssm": {
+      "type": "text",
+      "label": "Fol Up Assm",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 475.3,
+        "width": 534.3,
+        "height": 55.3
+      },
+      "multiline": true
+    },
+    "numMil": {
+      "type": "text",
+      "label": "Military",
+      "page": 1,
+      "box": {
+        "left": 473.0,
+        "top": 383.2,
+        "width": 51.2,
+        "height": 17.8
+      }
+    },
+    "numCiv": {
+      "type": "text",
+      "label": "Civilian",
+      "page": 1,
+      "box": {
+        "left": 524.2,
+        "top": 383.2,
+        "width": 51.2,
+        "height": 17.8
+      }
+    },
+    "numUnrRpt": {
+      "type": "text",
+      "label": "Military Civilian",
+      "page": 1,
+      "box": {
+        "left": 476.0,
+        "top": 363.0,
+        "width": 96.6,
+        "height": 17.1
+      }
+    },
+    "numVic": {
+      "type": "text",
+      "label": "Military Civilian",
+      "page": 1,
+      "box": {
+        "left": 476.0,
+        "top": 340.5,
+        "width": 96.6,
+        "height": 17.1
+      }
+    },
+    "numOff": {
+      "type": "text",
+      "label": "Military Civilian",
+      "page": 1,
+      "box": {
+        "left": 476.0,
+        "top": 318.2,
+        "width": 96.6,
+        "height": 17.1
+      }
+    },
+    "trends": {
+      "type": "text",
+      "label": "Trends",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 280.6,
+        "width": 534.3,
+        "height": 66.4
+      },
+      "multiline": true
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 483.3,
+        "top": 198.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 523.3,
+        "top": 198.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "persAwrSARC": {
+      "type": "text",
+      "label": "Pers Awr SARC",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 139.2,
+        "width": 534.3,
+        "height": 41.6
+      },
+      "multiline": true
+    },
+    "persAwrHL": {
+      "type": "text",
+      "label": "b. DoD Safe Helpline",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 81.4,
+        "width": 534.3,
+        "height": 41.5
+      },
+      "multiline": true
+    },
+    "persAwrFD": {
+      "type": "text",
+      "label": "Pers Awr FD",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 740.7,
+        "width": 534.3,
+        "height": 54.7
+      },
+      "multiline": true
+    },
+    "radio9": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 483.3,
+        "top": 672.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio10": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 523.3,
+        "top": 672.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio11": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 485.2,
+        "top": 643.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio12": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 525.2,
+        "top": 643.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "ongAsmtHow": {
+      "type": "text",
+      "label": "a. Who conducts the assessment?",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 607.9,
+        "width": 534.3,
+        "height": 56.2
+      },
+      "multiline": true
+    },
+    "ongAsmtHowOft": {
+      "type": "text",
+      "label": "b. How often is the assessment conducted?",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 532.3,
+        "width": 534.3,
+        "height": 57.9
+      },
+      "multiline": true
+    },
+    "radio13": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 485.1,
+        "top": 464.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio14": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 525.0,
+        "top": 464.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio15": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 485.1,
+        "top": 442.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio16": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 525.0,
+        "top": 442.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio17": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 485.1,
+        "top": 419.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio18": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 525.0,
+        "top": 419.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio19": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 485.1,
+        "top": 396.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio20": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 525.0,
+        "top": 396.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "numPMAsgn": {
+      "type": "text",
+      "label": "How many?",
+      "page": 2,
+      "box": {
+        "left": 107.9,
+        "top": 377.5,
+        "width": 96.6,
+        "height": 17.1
+      }
+    },
+    "radio21": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 485.1,
+        "top": 346.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio22": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 525.0,
+        "top": 346.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio23": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 485.1,
+        "top": 317.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio24": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 525.0,
+        "top": 317.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio25": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 485.1,
+        "top": 291.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio26": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 525.0,
+        "top": 291.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio27": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 485.1,
+        "top": 259.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio28": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 525.0,
+        "top": 259.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "recCOTk2": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 89.7,
+        "top": 234.0,
+        "width": 96.6,
+        "height": 17.1
+      }
+    },
+    "numUVAasgn": {
+      "type": "text",
+      "label": "YES NO",
+      "page": 2,
+      "box": {
+        "left": 476.2,
+        "top": 209.9,
+        "width": 96.6,
+        "height": 17.1
+      }
+    },
+    "radio29": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 485.1,
+        "top": 182.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio30": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 525.0,
+        "top": 182.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio31": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 485.1,
+        "top": 159.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio32": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 525.0,
+        "top": 159.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio33": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 485.1,
+        "top": 137.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio34": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 525.0,
+        "top": 137.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "untVAsCertCredExp": {
+      "type": "text",
+      "label": "If not, explain why",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 105.0,
+        "width": 534.3,
+        "height": 66.4
+      },
+      "multiline": true
+    },
+    "radio35": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 485.2,
+        "top": 748.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio36": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 525.2,
+        "top": 748.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "untVAsCertRvkExp": {
+      "type": "text",
+      "label": "If yes, explain why",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 716.3,
+        "width": 534.3,
+        "height": 42.7
+      },
+      "multiline": true
+    },
+    "radio37": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 485.2,
+        "top": 663.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio38": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 525.2,
+        "top": 663.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "sAPRPOCRecTrng": {
+      "type": "text",
+      "label": "29. How and when did SAPR POCs receive training",
+      "page": 3,
+      "box": {
+        "left": 41.0,
+        "top": 631.1,
+        "width": 532.1,
+        "height": 53.2
+      },
+      "multiline": true
+    },
+    "radio39": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 484.9,
+        "top": 561.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio40": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 524.8,
+        "top": 561.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio41": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 484.9,
+        "top": 535.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio42": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 524.8,
+        "top": 535.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio43": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 484.9,
+        "top": 507.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio44": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 524.8,
+        "top": 507.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio45": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 484.9,
+        "top": 458.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio46": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 524.8,
+        "top": 458.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio47": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 484.9,
+        "top": 431.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio48": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 524.8,
+        "top": 431.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "cOAtnCMGMtgExp": {
+      "type": "text",
+      "label": "Explain, if no",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 393.3,
+        "width": 534.3,
+        "height": 38.0
+      },
+      "multiline": true
+    },
+    "radio49": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 485.2,
+        "top": 341.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio50": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 525.2,
+        "top": 341.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "cOCstNCISExp": {
+      "type": "text",
+      "label": "Elaborate, if possible",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 302.4,
+        "width": 534.3,
+        "height": 39.7
+      },
+      "multiline": true
+    },
+    "cOEnsInfo": {
+      "type": "text",
+      "label": "C O Ens Info",
+      "page": 3,
+      "box": {
+        "left": 41.0,
+        "top": 243.2,
+        "width": 532.1,
+        "height": 50.2
+      },
+      "multiline": true
+    },
+    "cOCorBet": {
+      "type": "text",
+      "label": "C O Cor Bet",
+      "page": 3,
+      "box": {
+        "left": 41.0,
+        "top": 173.5,
+        "width": 532.1,
+        "height": 52.0
+      },
+      "multiline": true
+    },
+    "cOConsJdg": {
+      "type": "text",
+      "label": "action?",
+      "page": 3,
+      "box": {
+        "left": 41.0,
+        "top": 94.9,
+        "width": 532.1,
+        "height": 55.0
+      },
+      "multiline": true
+    },
+    "radio51": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 485.2,
+        "top": 749.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio52": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 525.2,
+        "top": 749.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio53": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 484.7,
+        "top": 726.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio54": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 524.7,
+        "top": 726.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio55": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 484.7,
+        "top": 703.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio56": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 524.7,
+        "top": 703.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    }
+  }
+}

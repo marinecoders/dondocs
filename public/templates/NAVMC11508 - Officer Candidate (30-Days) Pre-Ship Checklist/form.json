@@ -1,0 +1,2313 @@
+{
+  "id": "navmc11508",
+  "label": "NAVMC 11508 - Officer Candidate (30-Days) Pre-Ship Checklist",
+  "directory": "NAVMC11508 - Officer Candidate (30-Days) Pre-Ship Checklist",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf",
+    "page5.pdf",
+    "page6.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "oso",
+        "dist",
+        "unit",
+        "rs",
+        "mcp",
+        "ecp",
+        "sPRC",
+        "rotc",
+        "recp",
+        "jPLC",
+        "mcep",
+        "occ",
+        "combPLC",
+        "radioButtonList",
+        "radioButtonList2",
+        "comments1",
+        "radioButtonList3",
+        "radioButtonList4",
+        "comments2",
+        "radioButtonList5",
+        "radioButtonList6",
+        "comments3",
+        "radioButtonList7",
+        "radioButtonList8",
+        "radioButtonList9",
+        "radioButtonList10",
+        "radioButtonList11",
+        "comments5",
+        "radioButtonList12",
+        "radioButtonList13",
+        "radioButtonList14",
+        "comments6",
+        "radioButtonList15",
+        "radioButtonList16",
+        "radioButtonList17",
+        "radioButtonList18",
+        "radioButtonList19",
+        "comments8"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "radioButtonList20",
+        "radioButtonList21",
+        "radioButtonList22",
+        "comments9",
+        "radioButtonList23",
+        "radioButtonList24",
+        "radioButtonList25",
+        "comments10",
+        "radioButtonList26",
+        "radioButtonList27",
+        "radioButtonList28",
+        "comments11",
+        "radioButtonList29",
+        "radioButtonList30",
+        "radioButtonList31",
+        "comments12",
+        "radioButtonList32",
+        "radioButtonList33",
+        "comments13",
+        "radioButtonList34",
+        "radioButtonList35",
+        "comments14",
+        "radioButtonList36",
+        "radioButtonList37",
+        "comments15",
+        "radioButtonList38",
+        "radioButtonList39",
+        "radioButtonList40",
+        "comments16",
+        "radioButtonList41",
+        "radioButtonList42",
+        "comments17"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "radioButtonList43",
+        "radioButtonList44",
+        "radioButtonList45",
+        "comments18",
+        "radioButtonList46",
+        "radioButtonList47",
+        "radioButtonList48",
+        "comments19",
+        "radioButtonList49",
+        "radioButtonList50",
+        "comments20",
+        "radioButtonList51",
+        "radioButtonList52",
+        "radioButtonList53",
+        "comments21",
+        "radioButtonList54",
+        "radioButtonList55",
+        "radioButtonList56",
+        "comments22",
+        "radioButtonList57",
+        "radioButtonList58",
+        "month23",
+        "year23",
+        "radioButtonList59",
+        "radioButtonList60",
+        "dateRemoval",
+        "radioButtonList61",
+        "radioButtonList62",
+        "comments25"
+      ]
+    },
+    {
+      "title": "Page 4",
+      "fields": [
+        "radioButtonList63",
+        "radioButtonList64",
+        "comments26",
+        "radioButtonList65",
+        "radioButtonList66",
+        "comments27",
+        "radioButtonList67",
+        "radioButtonList68",
+        "comments28",
+        "radioButtonList69",
+        "radioButtonList70",
+        "radioButtonList71",
+        "comments29",
+        "radioButtonList72",
+        "radioButtonList73",
+        "radioButtonList74",
+        "comments30",
+        "radioButtonList75",
+        "radioButtonList76",
+        "comments31",
+        "radioButtonList77",
+        "radioButtonList78",
+        "comments32",
+        "radioButtonList79",
+        "radioButtonList80",
+        "comments33",
+        "radioButtonList81",
+        "radioButtonList82",
+        "comments34"
+      ]
+    },
+    {
+      "title": "Page 5",
+      "fields": [
+        "radioButtonList83",
+        "radioButtonList84",
+        "comments35",
+        "ht",
+        "wt",
+        "bodyFat",
+        "date37",
+        "crunches",
+        "pullups",
+        "run",
+        "score",
+        "radioButtonList85",
+        "radioButtonList86",
+        "comments38",
+        "radioButtonList87",
+        "radioButtonList88",
+        "radioButtonList89",
+        "comments39",
+        "radioButtonList90",
+        "radioButtonList91",
+        "radioButtonList92",
+        "comments40",
+        "radioButtonList93",
+        "radioButtonList94",
+        "radioButtonList95",
+        "comments41",
+        "dateTransfer",
+        "unitDairyNum",
+        "yes1",
+        "yes12",
+        "yes13",
+        "yes14",
+        "comments43"
+      ]
+    },
+    {
+      "title": "Page 6",
+      "fields": [
+        "radioButtonList96",
+        "radioButtonList97",
+        "radioButtonList98",
+        "comments44",
+        "radioButtonList99",
+        "radioButtonList100",
+        "radioButtonList101",
+        "comments45",
+        "radioButtonList102",
+        "radioButtonList103",
+        "comments47",
+        "candidateDate",
+        "candidateSig",
+        "cODate",
+        "cOSig"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "Name",
+      "page": 1,
+      "box": {
+        "left": 24.4,
+        "top": 696.4,
+        "width": 280.2,
+        "height": 10.6
+      }
+    },
+    "oso": {
+      "type": "text",
+      "label": "OSO",
+      "page": 1,
+      "box": {
+        "left": 314.2,
+        "top": 696.2,
+        "width": 96.9,
+        "height": 10.3
+      }
+    },
+    "dist": {
+      "type": "text",
+      "label": "DIST",
+      "page": 1,
+      "box": {
+        "left": 470.5,
+        "top": 696.2,
+        "width": 31.9,
+        "height": 10.3
+      }
+    },
+    "unit": {
+      "type": "text",
+      "label": "UNIT",
+      "page": 1,
+      "box": {
+        "left": 511.4,
+        "top": 695.8,
+        "width": 79.8,
+        "height": 10.3
+      }
+    },
+    "rs": {
+      "type": "text",
+      "label": "RS",
+      "page": 1,
+      "box": {
+        "left": 420.4,
+        "top": 694.7,
+        "width": 41.4,
+        "height": 10.3
+      }
+    },
+    "mcp": {
+      "type": "checkbox",
+      "label": "MCP",
+      "page": 1,
+      "box": {
+        "left": 101.6,
+        "top": 662.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "ecp": {
+      "type": "checkbox",
+      "label": "ECP",
+      "page": 1,
+      "box": {
+        "left": 43.0,
+        "top": 662.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "sPRC": {
+      "type": "checkbox",
+      "label": "sPRC",
+      "page": 1,
+      "box": {
+        "left": 285.7,
+        "top": 662.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "rotc": {
+      "type": "checkbox",
+      "label": "ROTC",
+      "page": 1,
+      "box": {
+        "left": 489.1,
+        "top": 662.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "recp": {
+      "type": "checkbox",
+      "label": "RECP",
+      "page": 1,
+      "box": {
+        "left": 158.0,
+        "top": 662.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "jPLC": {
+      "type": "checkbox",
+      "label": "jPLC",
+      "page": 1,
+      "box": {
+        "left": 217.4,
+        "top": 662.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "mcep": {
+      "type": "checkbox",
+      "label": "MCEP",
+      "page": 1,
+      "box": {
+        "left": 543.8,
+        "top": 662.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "occ": {
+      "type": "checkbox",
+      "label": "OCC",
+      "page": 1,
+      "box": {
+        "left": 434.3,
+        "top": 661.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "combPLC": {
+      "type": "checkbox",
+      "label": "combPLC",
+      "page": 1,
+      "box": {
+        "left": 354.5,
+        "top": 661.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "radioButtonList": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 214.8,
+        "top": 572.2,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_0"
+    },
+    "radioButtonList2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 266.7,
+        "top": 572.1,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_0"
+    },
+    "comments1": {
+      "type": "text",
+      "label": "comments1",
+      "page": 1,
+      "box": {
+        "left": 22.0,
+        "top": 550.2,
+        "width": 569.1,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "radioButtonList3": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 292.0,
+        "top": 510.2,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_7"
+    },
+    "radioButtonList4": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 343.9,
+        "top": 510.1,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_7"
+    },
+    "comments2": {
+      "type": "text",
+      "label": "comments2",
+      "page": 1,
+      "box": {
+        "left": 22.0,
+        "top": 489.2,
+        "width": 569.1,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "radioButtonList5": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 256.2,
+        "top": 448.2,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_1"
+    },
+    "radioButtonList6": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 308.1,
+        "top": 448.1,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_1"
+    },
+    "comments3": {
+      "type": "text",
+      "label": "comments3",
+      "page": 1,
+      "box": {
+        "left": 22.0,
+        "top": 426.1,
+        "width": 569.1,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "radioButtonList7": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 255.3,
+        "top": 375.6,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_2"
+    },
+    "radioButtonList8": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 307.2,
+        "top": 375.5,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_2"
+    },
+    "radioButtonList9": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 370.4,
+        "top": 334.6,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_3"
+    },
+    "radioButtonList10": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 475.6,
+        "top": 334.6,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_3"
+    },
+    "radioButtonList11": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 422.2,
+        "top": 334.5,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_3"
+    },
+    "comments5": {
+      "type": "text",
+      "label": "comments5",
+      "page": 1,
+      "box": {
+        "left": 22.0,
+        "top": 312.3,
+        "width": 569.1,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "radioButtonList12": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 58.6,
+        "top": 236.8,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_4"
+    },
+    "radioButtonList13": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 110.5,
+        "top": 236.7,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_4"
+    },
+    "radioButtonList14": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 163.8,
+        "top": 236.7,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_4"
+    },
+    "comments6": {
+      "type": "text",
+      "label": "comments6",
+      "page": 1,
+      "box": {
+        "left": 22.0,
+        "top": 215.0,
+        "width": 569.1,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "radioButtonList15": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 92.4,
+        "top": 148.9,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_6"
+    },
+    "radioButtonList16": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 144.3,
+        "top": 148.8,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_6"
+    },
+    "radioButtonList17": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 197.6,
+        "top": 148.8,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_6"
+    },
+    "radioButtonList18": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 467.0,
+        "top": 120.5,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_5"
+    },
+    "radioButtonList19": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 516.2,
+        "top": 120.4,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_5"
+    },
+    "comments8": {
+      "type": "text",
+      "label": "comments8",
+      "page": 1,
+      "box": {
+        "left": 22.0,
+        "top": 98.5,
+        "width": 569.1,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "radioButtonList20": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 50.7,
+        "top": 730.7,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_1_RadioButtonList_16"
+    },
+    "radioButtonList21": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 155.9,
+        "top": 730.7,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_1_RadioButtonList_16"
+    },
+    "radioButtonList22": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 102.5,
+        "top": 730.6,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_1_RadioButtonList_16"
+    },
+    "comments9": {
+      "type": "text",
+      "label": "comments9",
+      "page": 2,
+      "box": {
+        "left": 22.0,
+        "top": 709.5,
+        "width": 569.1,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "radioButtonList23": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 53.3,
+        "top": 652.8,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_1_RadioButtonList_8"
+    },
+    "radioButtonList24": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 158.5,
+        "top": 652.8,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_1_RadioButtonList_8"
+    },
+    "radioButtonList25": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 105.2,
+        "top": 652.7,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_1_RadioButtonList_8"
+    },
+    "comments10": {
+      "type": "text",
+      "label": "comments10",
+      "page": 2,
+      "box": {
+        "left": 22.0,
+        "top": 631.9,
+        "width": 569.1,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "radioButtonList26": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 50.7,
+        "top": 575.4,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_1_RadioButtonList_9"
+    },
+    "radioButtonList27": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 102.6,
+        "top": 575.3,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_1_RadioButtonList_9"
+    },
+    "radioButtonList28": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 155.9,
+        "top": 575.3,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_1_RadioButtonList_9"
+    },
+    "comments11": {
+      "type": "text",
+      "label": "comments11",
+      "page": 2,
+      "box": {
+        "left": 22.0,
+        "top": 552.9,
+        "width": 569.1,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "radioButtonList29": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 50.7,
+        "top": 494.8,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_1_RadioButtonList_10"
+    },
+    "radioButtonList30": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 155.9,
+        "top": 494.8,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_1_RadioButtonList_10"
+    },
+    "radioButtonList31": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 102.6,
+        "top": 494.7,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_1_RadioButtonList_10"
+    },
+    "comments12": {
+      "type": "text",
+      "label": "comments12",
+      "page": 2,
+      "box": {
+        "left": 22.0,
+        "top": 474.1,
+        "width": 569.1,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "radioButtonList32": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 227.8,
+        "top": 423.4,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_1_RadioButtonList_11"
+    },
+    "radioButtonList33": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 279.7,
+        "top": 423.3,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_1_RadioButtonList_11"
+    },
+    "comments13": {
+      "type": "text",
+      "label": "comments13",
+      "page": 2,
+      "box": {
+        "left": 22.0,
+        "top": 403.2,
+        "width": 569.1,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "radioButtonList34": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 296.1,
+        "top": 352.5,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_1_RadioButtonList_12"
+    },
+    "radioButtonList35": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 347.9,
+        "top": 352.4,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_1_RadioButtonList_12"
+    },
+    "comments14": {
+      "type": "text",
+      "label": "comments14",
+      "page": 2,
+      "box": {
+        "left": 22.0,
+        "top": 333.1,
+        "width": 569.1,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "radioButtonList36": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 50.7,
+        "top": 274.3,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_1_RadioButtonList_13"
+    },
+    "radioButtonList37": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 102.6,
+        "top": 274.2,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_1_RadioButtonList_13"
+    },
+    "comments15": {
+      "type": "text",
+      "label": "comments15",
+      "page": 2,
+      "box": {
+        "left": 22.0,
+        "top": 253.1,
+        "width": 569.1,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "radioButtonList38": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 52.5,
+        "top": 193.7,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_1_RadioButtonList_15"
+    },
+    "radioButtonList39": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 157.7,
+        "top": 193.7,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_1_RadioButtonList_15"
+    },
+    "radioButtonList40": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 104.4,
+        "top": 193.6,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_1_RadioButtonList_15"
+    },
+    "comments16": {
+      "type": "text",
+      "label": "comments16",
+      "page": 2,
+      "box": {
+        "left": 22.0,
+        "top": 173.2,
+        "width": 569.1,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "radioButtonList41": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 48.0,
+        "top": 109.5,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_1_RadioButtonList_14"
+    },
+    "radioButtonList42": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 99.9,
+        "top": 109.4,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_1_RadioButtonList_14"
+    },
+    "comments17": {
+      "type": "text",
+      "label": "comments17",
+      "page": 2,
+      "box": {
+        "left": 22.0,
+        "top": 87.1,
+        "width": 569.1,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "radioButtonList43": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 337.3,
+        "top": 726.3,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_2_RadioButtonList_24"
+    },
+    "radioButtonList44": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 389.2,
+        "top": 726.2,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_2_RadioButtonList_24"
+    },
+    "radioButtonList45": {
+      "type": "radio",
+      "label": "2",
+      "page": 3,
+      "box": {
+        "left": 444.2,
+        "top": 726.2,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_2_RadioButtonList_24"
+    },
+    "comments18": {
+      "type": "text",
+      "label": "comments18",
+      "page": 3,
+      "box": {
+        "left": 22.0,
+        "top": 706.0,
+        "width": 569.1,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "radioButtonList46": {
+      "type": "radio",
+      "label": "2",
+      "page": 3,
+      "box": {
+        "left": 267.6,
+        "top": 635.6,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_2_RadioButtonList_17"
+    },
+    "radioButtonList47": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 319.5,
+        "top": 635.6,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_2_RadioButtonList_17"
+    },
+    "radioButtonList48": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 372.9,
+        "top": 635.6,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_2_RadioButtonList_17"
+    },
+    "comments19": {
+      "type": "text",
+      "label": "comments19",
+      "page": 3,
+      "box": {
+        "left": 22.0,
+        "top": 614.7,
+        "width": 569.1,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "radioButtonList49": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 125.1,
+        "top": 556.8,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_2_RadioButtonList_18"
+    },
+    "radioButtonList50": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 177.0,
+        "top": 556.7,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_2_RadioButtonList_18"
+    },
+    "comments20": {
+      "type": "text",
+      "label": "comments20",
+      "page": 3,
+      "box": {
+        "left": 22.0,
+        "top": 535.0,
+        "width": 569.1,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "radioButtonList51": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 381.1,
+        "top": 483.6,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_2_RadioButtonList_19"
+    },
+    "radioButtonList52": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 432.9,
+        "top": 483.6,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_2_RadioButtonList_19"
+    },
+    "radioButtonList53": {
+      "type": "radio",
+      "label": "2",
+      "page": 3,
+      "box": {
+        "left": 486.3,
+        "top": 483.6,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_2_RadioButtonList_19"
+    },
+    "comments21": {
+      "type": "text",
+      "label": "comments21",
+      "page": 3,
+      "box": {
+        "left": 22.0,
+        "top": 462.6,
+        "width": 569.1,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "radioButtonList54": {
+      "type": "radio",
+      "label": "2",
+      "page": 3,
+      "box": {
+        "left": 53.4,
+        "top": 371.7,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_2_RadioButtonList_20"
+    },
+    "radioButtonList55": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 105.3,
+        "top": 371.6,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_2_RadioButtonList_20"
+    },
+    "radioButtonList56": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 158.6,
+        "top": 371.6,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_2_RadioButtonList_20"
+    },
+    "comments22": {
+      "type": "text",
+      "label": "comments22",
+      "page": 3,
+      "box": {
+        "left": 22.0,
+        "top": 351.1,
+        "width": 569.1,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "radioButtonList57": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 426.3,
+        "top": 268.4,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_2_RadioButtonList_21"
+    },
+    "radioButtonList58": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 478.2,
+        "top": 268.3,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_2_RadioButtonList_21"
+    },
+    "month23": {
+      "type": "text",
+      "label": "Month23",
+      "page": 3,
+      "box": {
+        "left": 101.9,
+        "top": 254.7,
+        "width": 73.6,
+        "height": 15.9
+      }
+    },
+    "year23": {
+      "type": "text",
+      "label": "Year23",
+      "page": 3,
+      "box": {
+        "left": 204.4,
+        "top": 254.5,
+        "width": 32.6,
+        "height": 15.9
+      }
+    },
+    "radioButtonList59": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 295.1,
+        "top": 202.0,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_2_RadioButtonList_22"
+    },
+    "radioButtonList60": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 347.0,
+        "top": 201.9,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_2_RadioButtonList_22"
+    },
+    "dateRemoval": {
+      "type": "text",
+      "label": "DateRemoval",
+      "page": 3,
+      "box": {
+        "left": 314.2,
+        "top": 180.2,
+        "width": 99.2,
+        "height": 16.2
+      }
+    },
+    "radioButtonList61": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 93.2,
+        "top": 129.9,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_2_RadioButtonList_23"
+    },
+    "radioButtonList62": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 145.1,
+        "top": 129.8,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_2_RadioButtonList_23"
+    },
+    "comments25": {
+      "type": "text",
+      "label": "comments25",
+      "page": 3,
+      "box": {
+        "left": 22.0,
+        "top": 109.7,
+        "width": 569.1,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "radioButtonList63": {
+      "type": "radio",
+      "label": "0",
+      "page": 4,
+      "box": {
+        "left": 265.5,
+        "top": 745.5,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_3_RadioButtonList_33"
+    },
+    "radioButtonList64": {
+      "type": "radio",
+      "label": "1",
+      "page": 4,
+      "box": {
+        "left": 317.4,
+        "top": 745.4,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_3_RadioButtonList_33"
+    },
+    "comments26": {
+      "type": "text",
+      "label": "comments26",
+      "page": 4,
+      "box": {
+        "left": 22.0,
+        "top": 724.7,
+        "width": 569.1,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "radioButtonList65": {
+      "type": "radio",
+      "label": "0",
+      "page": 4,
+      "box": {
+        "left": 50.7,
+        "top": 666.5,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_3_RadioButtonList_26"
+    },
+    "radioButtonList66": {
+      "type": "radio",
+      "label": "1",
+      "page": 4,
+      "box": {
+        "left": 102.6,
+        "top": 666.4,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_3_RadioButtonList_26"
+    },
+    "comments27": {
+      "type": "text",
+      "label": "comments27",
+      "page": 4,
+      "box": {
+        "left": 22.0,
+        "top": 645.6,
+        "width": 569.1,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "radioButtonList67": {
+      "type": "radio",
+      "label": "1",
+      "page": 4,
+      "box": {
+        "left": 368.4,
+        "top": 604.7,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_3_RadioButtonList_25"
+    },
+    "radioButtonList68": {
+      "type": "radio",
+      "label": "0",
+      "page": 4,
+      "box": {
+        "left": 420.3,
+        "top": 604.6,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_3_RadioButtonList_25"
+    },
+    "comments28": {
+      "type": "text",
+      "label": "comments28",
+      "page": 4,
+      "box": {
+        "left": 22.0,
+        "top": 579.5,
+        "width": 569.1,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "radioButtonList69": {
+      "type": "radio",
+      "label": "0",
+      "page": 4,
+      "box": {
+        "left": 49.8,
+        "top": 518.5,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_3_RadioButtonList_31"
+    },
+    "radioButtonList70": {
+      "type": "radio",
+      "label": "2",
+      "page": 4,
+      "box": {
+        "left": 155.0,
+        "top": 518.5,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_3_RadioButtonList_31"
+    },
+    "radioButtonList71": {
+      "type": "radio",
+      "label": "1",
+      "page": 4,
+      "box": {
+        "left": 101.6,
+        "top": 518.4,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_3_RadioButtonList_31"
+    },
+    "comments29": {
+      "type": "text",
+      "label": "comments29",
+      "page": 4,
+      "box": {
+        "left": 22.0,
+        "top": 496.5,
+        "width": 569.1,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "radioButtonList72": {
+      "type": "radio",
+      "label": "0",
+      "page": 4,
+      "box": {
+        "left": 48.1,
+        "top": 422.9,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_3_RadioButtonList_32"
+    },
+    "radioButtonList73": {
+      "type": "radio",
+      "label": "1",
+      "page": 4,
+      "box": {
+        "left": 99.9,
+        "top": 422.8,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_3_RadioButtonList_32"
+    },
+    "radioButtonList74": {
+      "type": "radio",
+      "label": "2",
+      "page": 4,
+      "box": {
+        "left": 153.3,
+        "top": 422.8,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_3_RadioButtonList_32"
+    },
+    "comments30": {
+      "type": "text",
+      "label": "comments30",
+      "page": 4,
+      "box": {
+        "left": 22.0,
+        "top": 401.7,
+        "width": 569.1,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "radioButtonList75": {
+      "type": "radio",
+      "label": "1",
+      "page": 4,
+      "box": {
+        "left": 50.7,
+        "top": 342.3,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_3_RadioButtonList_27"
+    },
+    "radioButtonList76": {
+      "type": "radio",
+      "label": "0",
+      "page": 4,
+      "box": {
+        "left": 102.6,
+        "top": 342.2,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_3_RadioButtonList_27"
+    },
+    "comments31": {
+      "type": "text",
+      "label": "comments31",
+      "page": 4,
+      "box": {
+        "left": 22.0,
+        "top": 319.8,
+        "width": 569.1,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "radioButtonList77": {
+      "type": "radio",
+      "label": "0",
+      "page": 4,
+      "box": {
+        "left": 49.8,
+        "top": 260.8,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_3_RadioButtonList_28"
+    },
+    "radioButtonList78": {
+      "type": "radio",
+      "label": "1",
+      "page": 4,
+      "box": {
+        "left": 101.7,
+        "top": 260.7,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_3_RadioButtonList_28"
+    },
+    "comments32": {
+      "type": "text",
+      "label": "comments32",
+      "page": 4,
+      "box": {
+        "left": 22.0,
+        "top": 239.4,
+        "width": 569.1,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "radioButtonList79": {
+      "type": "radio",
+      "label": "0",
+      "page": 4,
+      "box": {
+        "left": 51.7,
+        "top": 180.2,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_3_RadioButtonList_29"
+    },
+    "radioButtonList80": {
+      "type": "radio",
+      "label": "1",
+      "page": 4,
+      "box": {
+        "left": 103.6,
+        "top": 180.1,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_3_RadioButtonList_29"
+    },
+    "comments33": {
+      "type": "text",
+      "label": "comments33",
+      "page": 4,
+      "box": {
+        "left": 22.0,
+        "top": 158.6,
+        "width": 569.1,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "radioButtonList81": {
+      "type": "radio",
+      "label": "0",
+      "page": 4,
+      "box": {
+        "left": 414.7,
+        "top": 114.0,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_3_RadioButtonList_30"
+    },
+    "radioButtonList82": {
+      "type": "radio",
+      "label": "1",
+      "page": 4,
+      "box": {
+        "left": 466.6,
+        "top": 114.0,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_3_RadioButtonList_30"
+    },
+    "comments34": {
+      "type": "text",
+      "label": "comments34",
+      "page": 4,
+      "box": {
+        "left": 22.0,
+        "top": 88.0,
+        "width": 569.1,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "radioButtonList83": {
+      "type": "radio",
+      "label": "1",
+      "page": 5,
+      "box": {
+        "left": 436.1,
+        "top": 740.5,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_4_RadioButtonList_34"
+    },
+    "radioButtonList84": {
+      "type": "radio",
+      "label": "0",
+      "page": 5,
+      "box": {
+        "left": 487.9,
+        "top": 740.4,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_4_RadioButtonList_34"
+    },
+    "comments35": {
+      "type": "text",
+      "label": "comments35",
+      "page": 5,
+      "box": {
+        "left": 22.0,
+        "top": 716.6,
+        "width": 569.1,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "ht": {
+      "type": "text",
+      "label": "HT",
+      "page": 5,
+      "box": {
+        "left": 344.6,
+        "top": 637.9,
+        "width": 39.0,
+        "height": 15.9
+      }
+    },
+    "wt": {
+      "type": "text",
+      "label": "WT",
+      "page": 5,
+      "box": {
+        "left": 411.8,
+        "top": 637.9,
+        "width": 47.5,
+        "height": 15.9
+      }
+    },
+    "bodyFat": {
+      "type": "text",
+      "label": "BodyFat",
+      "page": 5,
+      "box": {
+        "left": 524.2,
+        "top": 637.9,
+        "width": 33.1,
+        "height": 15.9
+      }
+    },
+    "date37": {
+      "type": "text",
+      "label": "Date37",
+      "page": 5,
+      "box": {
+        "left": 477.7,
+        "top": 600.6,
+        "width": 80.3,
+        "height": 19.8
+      }
+    },
+    "crunches": {
+      "type": "text",
+      "label": "Crunches",
+      "page": 5,
+      "box": {
+        "left": 232.5,
+        "top": 597.2,
+        "width": 39.0,
+        "height": 16.2
+      }
+    },
+    "pullups": {
+      "type": "text",
+      "label": "Pullups",
+      "page": 5,
+      "box": {
+        "left": 130.8,
+        "top": 596.9,
+        "width": 39.0,
+        "height": 15.9
+      }
+    },
+    "run": {
+      "type": "text",
+      "label": "Run",
+      "page": 5,
+      "box": {
+        "left": 311.6,
+        "top": 596.9,
+        "width": 39.0,
+        "height": 15.9
+      }
+    },
+    "score": {
+      "type": "text",
+      "label": "Score",
+      "page": 5,
+      "box": {
+        "left": 394.3,
+        "top": 596.9,
+        "width": 39.0,
+        "height": 15.9
+      }
+    },
+    "radioButtonList85": {
+      "type": "radio",
+      "label": "0",
+      "page": 5,
+      "box": {
+        "left": 107.3,
+        "top": 552.0,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_4_RadioButtonList_38"
+    },
+    "radioButtonList86": {
+      "type": "radio",
+      "label": "1",
+      "page": 5,
+      "box": {
+        "left": 159.2,
+        "top": 551.9,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_4_RadioButtonList_38"
+    },
+    "comments38": {
+      "type": "text",
+      "label": "comments38",
+      "page": 5,
+      "box": {
+        "left": 21.1,
+        "top": 529.8,
+        "width": 569.1,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "radioButtonList87": {
+      "type": "radio",
+      "label": "2",
+      "page": 5,
+      "box": {
+        "left": 55.2,
+        "top": 459.7,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_4_RadioButtonList_35"
+    },
+    "radioButtonList88": {
+      "type": "radio",
+      "label": "0",
+      "page": 5,
+      "box": {
+        "left": 160.4,
+        "top": 459.7,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_4_RadioButtonList_35"
+    },
+    "radioButtonList89": {
+      "type": "radio",
+      "label": "1",
+      "page": 5,
+      "box": {
+        "left": 107.1,
+        "top": 459.6,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_4_RadioButtonList_35"
+    },
+    "comments39": {
+      "type": "text",
+      "label": "comments39",
+      "page": 5,
+      "box": {
+        "left": 21.1,
+        "top": 437.5,
+        "width": 569.1,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "radioButtonList90": {
+      "type": "radio",
+      "label": "2",
+      "page": 5,
+      "box": {
+        "left": 400.5,
+        "top": 366.7,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_4_RadioButtonList_36"
+    },
+    "radioButtonList91": {
+      "type": "radio",
+      "label": "0",
+      "page": 5,
+      "box": {
+        "left": 505.7,
+        "top": 366.7,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_4_RadioButtonList_36"
+    },
+    "radioButtonList92": {
+      "type": "radio",
+      "label": "1",
+      "page": 5,
+      "box": {
+        "left": 452.4,
+        "top": 366.6,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_4_RadioButtonList_36"
+    },
+    "comments40": {
+      "type": "text",
+      "label": "comments40",
+      "page": 5,
+      "box": {
+        "left": 21.1,
+        "top": 345.2,
+        "width": 569.1,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "radioButtonList93": {
+      "type": "radio",
+      "label": "2",
+      "page": 5,
+      "box": {
+        "left": 167.5,
+        "top": 273.1,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_4_RadioButtonList_37"
+    },
+    "radioButtonList94": {
+      "type": "radio",
+      "label": "1",
+      "page": 5,
+      "box": {
+        "left": 219.4,
+        "top": 273.0,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_4_RadioButtonList_37"
+    },
+    "radioButtonList95": {
+      "type": "radio",
+      "label": "0",
+      "page": 5,
+      "box": {
+        "left": 272.7,
+        "top": 273.0,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_4_RadioButtonList_37"
+    },
+    "comments41": {
+      "type": "text",
+      "label": "comments41",
+      "page": 5,
+      "box": {
+        "left": 21.1,
+        "top": 250.2,
+        "width": 569.1,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "dateTransfer": {
+      "type": "text",
+      "label": "DateTransfer",
+      "page": 5,
+      "box": {
+        "left": 336.8,
+        "top": 183.8,
+        "width": 80.3,
+        "height": 19.8
+      }
+    },
+    "unitDairyNum": {
+      "type": "text",
+      "label": "UnitDairyNum",
+      "page": 5,
+      "box": {
+        "left": 171.3,
+        "top": 183.3,
+        "width": 86.8,
+        "height": 15.9
+      }
+    },
+    "yes1": {
+      "type": "checkbox",
+      "label": "yes1",
+      "page": 5,
+      "box": {
+        "left": 51.8,
+        "top": 182.7,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes12": {
+      "type": "checkbox",
+      "label": "yes1",
+      "page": 5,
+      "box": {
+        "left": 103.5,
+        "top": 117.0,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes13": {
+      "type": "checkbox",
+      "label": "yes1",
+      "page": 5,
+      "box": {
+        "left": 159.8,
+        "top": 117.0,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "yes14": {
+      "type": "checkbox",
+      "label": "yes1",
+      "page": 5,
+      "box": {
+        "left": 50.9,
+        "top": 116.9,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "comments43": {
+      "type": "text",
+      "label": "comments43",
+      "page": 5,
+      "box": {
+        "left": 22.0,
+        "top": 94.5,
+        "width": 569.1,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "radioButtonList96": {
+      "type": "radio",
+      "label": "0",
+      "page": 6,
+      "box": {
+        "left": 53.3,
+        "top": 695.9,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_5_RadioButtonList_41"
+    },
+    "radioButtonList97": {
+      "type": "radio",
+      "label": "1",
+      "page": 6,
+      "box": {
+        "left": 105.2,
+        "top": 695.8,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_5_RadioButtonList_41"
+    },
+    "radioButtonList98": {
+      "type": "radio",
+      "label": "2",
+      "page": 6,
+      "box": {
+        "left": 158.5,
+        "top": 695.8,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_5_RadioButtonList_41"
+    },
+    "comments44": {
+      "type": "text",
+      "label": "comments44",
+      "page": 6,
+      "box": {
+        "left": 21.6,
+        "top": 673.6,
+        "width": 569.1,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "radioButtonList99": {
+      "type": "radio",
+      "label": "2",
+      "page": 6,
+      "box": {
+        "left": 54.3,
+        "top": 607.3,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_5_RadioButtonList_39"
+    },
+    "radioButtonList100": {
+      "type": "radio",
+      "label": "0",
+      "page": 6,
+      "box": {
+        "left": 159.5,
+        "top": 607.3,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_5_RadioButtonList_39"
+    },
+    "radioButtonList101": {
+      "type": "radio",
+      "label": "1",
+      "page": 6,
+      "box": {
+        "left": 106.1,
+        "top": 607.2,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_5_RadioButtonList_39"
+    },
+    "comments45": {
+      "type": "text",
+      "label": "comments45",
+      "page": 6,
+      "box": {
+        "left": 22.0,
+        "top": 585.6,
+        "width": 569.1,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "radioButtonList102": {
+      "type": "radio",
+      "label": "1",
+      "page": 6,
+      "box": {
+        "left": 52.5,
+        "top": 471.8,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_5_RadioButtonList_40"
+    },
+    "radioButtonList103": {
+      "type": "radio",
+      "label": "0",
+      "page": 6,
+      "box": {
+        "left": 104.4,
+        "top": 471.7,
+        "width": 16.0,
+        "height": 16.0
+      },
+      "group": "form1_0_subform_5_RadioButtonList_40"
+    },
+    "comments47": {
+      "type": "text",
+      "label": "comments47",
+      "page": 6,
+      "box": {
+        "left": 22.0,
+        "top": 452.1,
+        "width": 569.1,
+        "height": 31.5
+      },
+      "multiline": true
+    },
+    "candidateDate": {
+      "type": "text",
+      "label": "CandidateDate",
+      "page": 6,
+      "box": {
+        "left": 314.2,
+        "top": 301.8,
+        "width": 80.3,
+        "height": 19.8
+      }
+    },
+    "candidateSig": {
+      "type": "signature",
+      "label": "CandidateSig",
+      "page": 6,
+      "box": {
+        "left": 125.5,
+        "top": 298.8,
+        "width": 151.0,
+        "height": 13.6
+      }
+    },
+    "cODate": {
+      "type": "text",
+      "label": "CODate",
+      "page": 6,
+      "box": {
+        "left": 314.2,
+        "top": 261.2,
+        "width": 80.3,
+        "height": 19.8
+      }
+    },
+    "cOSig": {
+      "type": "signature",
+      "label": "COSig",
+      "page": 6,
+      "box": {
+        "left": 133.1,
+        "top": 259.0,
+        "width": 144.0,
+        "height": 13.6
+      }
+    }
+  }
+}

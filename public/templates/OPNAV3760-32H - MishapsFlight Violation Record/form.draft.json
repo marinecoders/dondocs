@@ -1,0 +1,1193 @@
+{
+  "id": "opnav376032h",
+  "label": "OPNAV3760-32H - MishapsFlight Violation Record",
+  "directory": "OPNAV3760-32H - MishapsFlight Violation Record",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "lFMname",
+        "doDID",
+        "cOSignature",
+        "dNSDate",
+        "unit",
+        "mishapDesc",
+        "cOSignature2",
+        "dNSDate2",
+        "unit2",
+        "mishapDesc2",
+        "cOSignature3",
+        "dNSDate3",
+        "unit3",
+        "mishapDesc3",
+        "cOSignature4",
+        "dNSDate4",
+        "unit4",
+        "mishapDesc4",
+        "cOSignature5",
+        "dNSDate5",
+        "unit5",
+        "mishapDesc5",
+        "cOSignature6",
+        "dNSDate6",
+        "unit6",
+        "mishapDesc6",
+        "cOSignature7",
+        "dNSDate7",
+        "unit7",
+        "mishapDesc7",
+        "cOSignature8",
+        "dNSDate8",
+        "unit8",
+        "mishapDesc8",
+        "cOSignature9",
+        "dNSDate9",
+        "unit9",
+        "mishapDesc9",
+        "cOSignature10",
+        "dNSDate10",
+        "unit10",
+        "mishapDesc10",
+        "cOSignature11",
+        "dNSDate11",
+        "unit11",
+        "mishapDesc11",
+        "cOSignature12",
+        "dNSDate12",
+        "unit12",
+        "mishapDesc12",
+        "cOSignature13",
+        "dNSDate13",
+        "unit13",
+        "mishapDesc13",
+        "cOSignature14",
+        "dNSDate14",
+        "unit14",
+        "mishapDesc14",
+        "cOSignature15",
+        "dNSDate15",
+        "unit15",
+        "mishapDesc15",
+        "cOSignature16",
+        "dNSDate16",
+        "unit16",
+        "mishapDesc16",
+        "cOSignature17",
+        "dNSDate17",
+        "unit17",
+        "mishapDesc17",
+        "cOSignature18",
+        "dNSDate18",
+        "unit18",
+        "mishapDesc18",
+        "cOSignature19",
+        "dNSDate19",
+        "unit19",
+        "mishapDesc19",
+        "cOSignature20",
+        "dNSDate20",
+        "unit20",
+        "mishapDesc20",
+        "cOSignature21",
+        "dNSDate21",
+        "unit21",
+        "mishapDesc21",
+        "cOSignature22",
+        "dNSDate22",
+        "unit22",
+        "mishapDesc22",
+        "cOSignature23",
+        "dNSDate23",
+        "unit23",
+        "mishapDesc23",
+        "cOSignature24",
+        "dNSDate24",
+        "unit24",
+        "mishapDesc24"
+      ]
+    }
+  ],
+  "fields": {
+    "lFMname": {
+      "type": "text",
+      "label": "NAME (Last, First, Middle Initial)",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 712.8,
+        "width": 386.0,
+        "height": 13.7
+      }
+    },
+    "doDID": {
+      "type": "text",
+      "label": "DoD ID Number",
+      "page": 1,
+      "box": {
+        "left": 437.1,
+        "top": 712.8,
+        "width": 133.9,
+        "height": 13.7
+      }
+    },
+    "cOSignature": {
+      "type": "text",
+      "label": "OFFICER&apos;S SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 437.1,
+        "top": 672.5,
+        "width": 139.0,
+        "height": 25.2
+      }
+    },
+    "dNSDate": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 671.8,
+        "width": 59.1,
+        "height": 23.9
+      }
+    },
+    "unit": {
+      "type": "text",
+      "label": "UNIT",
+      "page": 1,
+      "box": {
+        "left": 105.9,
+        "top": 671.7,
+        "width": 40.3,
+        "height": 23.8
+      }
+    },
+    "mishapDesc": {
+      "type": "text",
+      "label": "MISHAP DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 156.3,
+        "top": 671.7,
+        "width": 270.8,
+        "height": 23.8
+      }
+    },
+    "cOSignature2": {
+      "type": "text",
+      "label": "OFFICER&apos;S SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 437.1,
+        "top": 645.8,
+        "width": 139.0,
+        "height": 25.2
+      }
+    },
+    "dNSDate2": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 645.2,
+        "width": 59.1,
+        "height": 23.9
+      }
+    },
+    "unit2": {
+      "type": "text",
+      "label": "UNIT",
+      "page": 1,
+      "box": {
+        "left": 105.9,
+        "top": 645.1,
+        "width": 40.3,
+        "height": 23.8
+      }
+    },
+    "mishapDesc2": {
+      "type": "text",
+      "label": "MISHAP DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 156.3,
+        "top": 645.1,
+        "width": 270.8,
+        "height": 23.8
+      }
+    },
+    "cOSignature3": {
+      "type": "text",
+      "label": "OFFICER&apos;S SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 437.1,
+        "top": 619.2,
+        "width": 139.0,
+        "height": 25.2
+      }
+    },
+    "dNSDate3": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 618.5,
+        "width": 59.1,
+        "height": 23.9
+      }
+    },
+    "unit3": {
+      "type": "text",
+      "label": "UNIT",
+      "page": 1,
+      "box": {
+        "left": 105.9,
+        "top": 618.5,
+        "width": 40.3,
+        "height": 23.8
+      }
+    },
+    "mishapDesc3": {
+      "type": "text",
+      "label": "MISHAP DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 156.3,
+        "top": 618.5,
+        "width": 270.8,
+        "height": 23.8
+      }
+    },
+    "cOSignature4": {
+      "type": "text",
+      "label": "OFFICER&apos;S SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 437.1,
+        "top": 592.5,
+        "width": 139.0,
+        "height": 25.2
+      }
+    },
+    "dNSDate4": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 591.9,
+        "width": 59.1,
+        "height": 23.9
+      }
+    },
+    "unit4": {
+      "type": "text",
+      "label": "UNIT",
+      "page": 1,
+      "box": {
+        "left": 105.9,
+        "top": 591.8,
+        "width": 40.3,
+        "height": 23.8
+      }
+    },
+    "mishapDesc4": {
+      "type": "text",
+      "label": "MISHAP DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 156.3,
+        "top": 591.8,
+        "width": 270.8,
+        "height": 23.8
+      }
+    },
+    "cOSignature5": {
+      "type": "text",
+      "label": "OFFICER&apos;S SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 437.1,
+        "top": 565.9,
+        "width": 139.0,
+        "height": 25.2
+      }
+    },
+    "dNSDate5": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 565.2,
+        "width": 59.1,
+        "height": 23.9
+      }
+    },
+    "unit5": {
+      "type": "text",
+      "label": "UNIT",
+      "page": 1,
+      "box": {
+        "left": 105.9,
+        "top": 565.2,
+        "width": 40.3,
+        "height": 23.8
+      }
+    },
+    "mishapDesc5": {
+      "type": "text",
+      "label": "MISHAP DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 156.3,
+        "top": 565.2,
+        "width": 270.8,
+        "height": 23.8
+      }
+    },
+    "cOSignature6": {
+      "type": "text",
+      "label": "OFFICER&apos;S SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 437.1,
+        "top": 539.2,
+        "width": 139.0,
+        "height": 25.2
+      }
+    },
+    "dNSDate6": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 538.6,
+        "width": 59.1,
+        "height": 23.9
+      }
+    },
+    "unit6": {
+      "type": "text",
+      "label": "UNIT",
+      "page": 1,
+      "box": {
+        "left": 105.9,
+        "top": 538.5,
+        "width": 40.3,
+        "height": 23.8
+      }
+    },
+    "mishapDesc6": {
+      "type": "text",
+      "label": "MISHAP DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 156.3,
+        "top": 538.5,
+        "width": 270.8,
+        "height": 23.8
+      }
+    },
+    "cOSignature7": {
+      "type": "text",
+      "label": "OFFICER&apos;S SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 437.1,
+        "top": 512.6,
+        "width": 139.0,
+        "height": 25.2
+      }
+    },
+    "dNSDate7": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 512.0,
+        "width": 59.1,
+        "height": 23.9
+      }
+    },
+    "unit7": {
+      "type": "text",
+      "label": "UNIT",
+      "page": 1,
+      "box": {
+        "left": 105.9,
+        "top": 511.9,
+        "width": 40.3,
+        "height": 23.8
+      }
+    },
+    "mishapDesc7": {
+      "type": "text",
+      "label": "MISHAP DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 156.3,
+        "top": 511.9,
+        "width": 270.8,
+        "height": 23.8
+      }
+    },
+    "cOSignature8": {
+      "type": "text",
+      "label": "OFFICER&apos;S SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 437.1,
+        "top": 486.0,
+        "width": 139.0,
+        "height": 25.2
+      }
+    },
+    "dNSDate8": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 485.3,
+        "width": 59.1,
+        "height": 23.9
+      }
+    },
+    "unit8": {
+      "type": "text",
+      "label": "UNIT",
+      "page": 1,
+      "box": {
+        "left": 105.9,
+        "top": 485.2,
+        "width": 40.3,
+        "height": 23.8
+      }
+    },
+    "mishapDesc8": {
+      "type": "text",
+      "label": "MISHAP DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 156.3,
+        "top": 485.2,
+        "width": 270.8,
+        "height": 23.8
+      }
+    },
+    "cOSignature9": {
+      "type": "text",
+      "label": "OFFICER&apos;S SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 437.1,
+        "top": 459.3,
+        "width": 139.0,
+        "height": 25.2
+      }
+    },
+    "dNSDate9": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 458.7,
+        "width": 59.1,
+        "height": 23.9
+      }
+    },
+    "unit9": {
+      "type": "text",
+      "label": "UNIT",
+      "page": 1,
+      "box": {
+        "left": 105.9,
+        "top": 458.6,
+        "width": 40.3,
+        "height": 23.8
+      }
+    },
+    "mishapDesc9": {
+      "type": "text",
+      "label": "MISHAP DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 156.3,
+        "top": 458.6,
+        "width": 270.8,
+        "height": 23.8
+      }
+    },
+    "cOSignature10": {
+      "type": "text",
+      "label": "OFFICER&apos;S SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 437.1,
+        "top": 432.7,
+        "width": 139.0,
+        "height": 25.2
+      }
+    },
+    "dNSDate10": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 432.0,
+        "width": 59.1,
+        "height": 23.9
+      }
+    },
+    "unit10": {
+      "type": "text",
+      "label": "UNIT",
+      "page": 1,
+      "box": {
+        "left": 105.9,
+        "top": 432.0,
+        "width": 40.3,
+        "height": 23.8
+      }
+    },
+    "mishapDesc10": {
+      "type": "text",
+      "label": "MISHAP DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 156.3,
+        "top": 432.0,
+        "width": 270.8,
+        "height": 23.8
+      }
+    },
+    "cOSignature11": {
+      "type": "text",
+      "label": "OFFICER&apos;S SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 437.1,
+        "top": 406.0,
+        "width": 139.0,
+        "height": 25.2
+      }
+    },
+    "dNSDate11": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 405.4,
+        "width": 59.1,
+        "height": 23.9
+      }
+    },
+    "unit11": {
+      "type": "text",
+      "label": "UNIT",
+      "page": 1,
+      "box": {
+        "left": 105.9,
+        "top": 405.3,
+        "width": 40.3,
+        "height": 23.8
+      }
+    },
+    "mishapDesc11": {
+      "type": "text",
+      "label": "MISHAP DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 156.3,
+        "top": 405.3,
+        "width": 270.8,
+        "height": 23.8
+      }
+    },
+    "cOSignature12": {
+      "type": "text",
+      "label": "OFFICER&apos;S SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 437.1,
+        "top": 379.4,
+        "width": 139.0,
+        "height": 25.2
+      }
+    },
+    "dNSDate12": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 378.7,
+        "width": 59.1,
+        "height": 23.9
+      }
+    },
+    "unit12": {
+      "type": "text",
+      "label": "UNIT",
+      "page": 1,
+      "box": {
+        "left": 105.9,
+        "top": 378.7,
+        "width": 40.3,
+        "height": 23.8
+      }
+    },
+    "mishapDesc12": {
+      "type": "text",
+      "label": "MISHAP DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 156.3,
+        "top": 378.7,
+        "width": 270.8,
+        "height": 23.8
+      }
+    },
+    "cOSignature13": {
+      "type": "text",
+      "label": "OFFICER&apos;S SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 437.1,
+        "top": 352.7,
+        "width": 139.0,
+        "height": 25.2
+      }
+    },
+    "dNSDate13": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 352.1,
+        "width": 59.1,
+        "height": 23.9
+      }
+    },
+    "unit13": {
+      "type": "text",
+      "label": "UNIT",
+      "page": 1,
+      "box": {
+        "left": 105.9,
+        "top": 352.0,
+        "width": 40.3,
+        "height": 23.8
+      }
+    },
+    "mishapDesc13": {
+      "type": "text",
+      "label": "MISHAP DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 156.3,
+        "top": 352.0,
+        "width": 270.8,
+        "height": 23.8
+      }
+    },
+    "cOSignature14": {
+      "type": "text",
+      "label": "OFFICER&apos;S SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 437.1,
+        "top": 327.4,
+        "width": 139.0,
+        "height": 25.2
+      }
+    },
+    "dNSDate14": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 326.7,
+        "width": 59.1,
+        "height": 23.9
+      }
+    },
+    "unit14": {
+      "type": "text",
+      "label": "UNIT",
+      "page": 1,
+      "box": {
+        "left": 105.9,
+        "top": 326.7,
+        "width": 40.3,
+        "height": 23.8
+      }
+    },
+    "mishapDesc14": {
+      "type": "text",
+      "label": "MISHAP DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 156.3,
+        "top": 326.7,
+        "width": 270.8,
+        "height": 23.8
+      }
+    },
+    "cOSignature15": {
+      "type": "text",
+      "label": "OFFICER&apos;S SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 437.1,
+        "top": 301.8,
+        "width": 139.0,
+        "height": 25.2
+      }
+    },
+    "dNSDate15": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 301.2,
+        "width": 59.1,
+        "height": 23.9
+      }
+    },
+    "unit15": {
+      "type": "text",
+      "label": "UNIT",
+      "page": 1,
+      "box": {
+        "left": 105.9,
+        "top": 301.1,
+        "width": 40.3,
+        "height": 23.8
+      }
+    },
+    "mishapDesc15": {
+      "type": "text",
+      "label": "MISHAP DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 156.3,
+        "top": 301.1,
+        "width": 270.8,
+        "height": 23.8
+      }
+    },
+    "cOSignature16": {
+      "type": "text",
+      "label": "OFFICER&apos;S SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 437.1,
+        "top": 276.3,
+        "width": 139.0,
+        "height": 25.2
+      }
+    },
+    "dNSDate16": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 275.6,
+        "width": 59.1,
+        "height": 23.9
+      }
+    },
+    "unit16": {
+      "type": "text",
+      "label": "UNIT",
+      "page": 1,
+      "box": {
+        "left": 105.9,
+        "top": 275.6,
+        "width": 40.3,
+        "height": 23.8
+      }
+    },
+    "mishapDesc16": {
+      "type": "text",
+      "label": "MISHAP DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 156.3,
+        "top": 275.6,
+        "width": 270.8,
+        "height": 23.8
+      }
+    },
+    "cOSignature17": {
+      "type": "text",
+      "label": "OFFICER&apos;S SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 437.1,
+        "top": 250.7,
+        "width": 139.0,
+        "height": 25.2
+      }
+    },
+    "dNSDate17": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 250.1,
+        "width": 59.1,
+        "height": 23.9
+      }
+    },
+    "unit17": {
+      "type": "text",
+      "label": "UNIT",
+      "page": 1,
+      "box": {
+        "left": 105.9,
+        "top": 250.0,
+        "width": 40.3,
+        "height": 23.8
+      }
+    },
+    "mishapDesc17": {
+      "type": "text",
+      "label": "MISHAP DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 156.3,
+        "top": 250.0,
+        "width": 270.8,
+        "height": 23.8
+      }
+    },
+    "cOSignature18": {
+      "type": "text",
+      "label": "OFFICER&apos;S SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 437.1,
+        "top": 225.2,
+        "width": 139.0,
+        "height": 25.2
+      }
+    },
+    "dNSDate18": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 224.5,
+        "width": 59.1,
+        "height": 23.9
+      }
+    },
+    "unit18": {
+      "type": "text",
+      "label": "UNIT",
+      "page": 1,
+      "box": {
+        "left": 105.9,
+        "top": 224.5,
+        "width": 40.3,
+        "height": 23.8
+      }
+    },
+    "mishapDesc18": {
+      "type": "text",
+      "label": "MISHAP DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 156.3,
+        "top": 224.5,
+        "width": 270.8,
+        "height": 23.8
+      }
+    },
+    "cOSignature19": {
+      "type": "text",
+      "label": "OFFICER&apos;S SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 437.1,
+        "top": 199.6,
+        "width": 139.0,
+        "height": 25.2
+      }
+    },
+    "dNSDate19": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 199.0,
+        "width": 59.1,
+        "height": 23.9
+      }
+    },
+    "unit19": {
+      "type": "text",
+      "label": "UNIT",
+      "page": 1,
+      "box": {
+        "left": 105.9,
+        "top": 198.9,
+        "width": 40.3,
+        "height": 23.8
+      }
+    },
+    "mishapDesc19": {
+      "type": "text",
+      "label": "MISHAP DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 156.3,
+        "top": 198.9,
+        "width": 270.8,
+        "height": 23.8
+      }
+    },
+    "cOSignature20": {
+      "type": "text",
+      "label": "OFFICER&apos;S SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 437.1,
+        "top": 174.1,
+        "width": 139.0,
+        "height": 25.2
+      }
+    },
+    "dNSDate20": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 173.4,
+        "width": 59.1,
+        "height": 23.9
+      }
+    },
+    "unit20": {
+      "type": "text",
+      "label": "UNIT",
+      "page": 1,
+      "box": {
+        "left": 105.9,
+        "top": 173.4,
+        "width": 40.3,
+        "height": 23.8
+      }
+    },
+    "mishapDesc20": {
+      "type": "text",
+      "label": "MISHAP DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 156.3,
+        "top": 173.4,
+        "width": 270.8,
+        "height": 23.8
+      }
+    },
+    "cOSignature21": {
+      "type": "text",
+      "label": "OFFICER&apos;S SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 437.1,
+        "top": 147.5,
+        "width": 139.0,
+        "height": 25.2
+      }
+    },
+    "dNSDate21": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 146.9,
+        "width": 59.1,
+        "height": 23.9
+      }
+    },
+    "unit21": {
+      "type": "text",
+      "label": "UNIT",
+      "page": 1,
+      "box": {
+        "left": 105.9,
+        "top": 146.8,
+        "width": 40.3,
+        "height": 23.8
+      }
+    },
+    "mishapDesc21": {
+      "type": "text",
+      "label": "MISHAP DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 156.3,
+        "top": 146.8,
+        "width": 270.8,
+        "height": 23.8
+      }
+    },
+    "cOSignature22": {
+      "type": "text",
+      "label": "OFFICER&apos;S SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 437.1,
+        "top": 121.6,
+        "width": 139.0,
+        "height": 25.2
+      }
+    },
+    "dNSDate22": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 120.9,
+        "width": 59.1,
+        "height": 23.9
+      }
+    },
+    "unit22": {
+      "type": "text",
+      "label": "UNIT",
+      "page": 1,
+      "box": {
+        "left": 105.9,
+        "top": 120.9,
+        "width": 40.3,
+        "height": 23.8
+      }
+    },
+    "mishapDesc22": {
+      "type": "text",
+      "label": "MISHAP DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 156.3,
+        "top": 120.9,
+        "width": 270.8,
+        "height": 23.8
+      }
+    },
+    "cOSignature23": {
+      "type": "text",
+      "label": "OFFICER&apos;S SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 437.1,
+        "top": 95.0,
+        "width": 139.0,
+        "height": 25.2
+      }
+    },
+    "dNSDate23": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 94.3,
+        "width": 59.1,
+        "height": 23.9
+      }
+    },
+    "unit23": {
+      "type": "text",
+      "label": "UNIT",
+      "page": 1,
+      "box": {
+        "left": 105.9,
+        "top": 94.2,
+        "width": 40.3,
+        "height": 23.8
+      }
+    },
+    "mishapDesc23": {
+      "type": "text",
+      "label": "MISHAP DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 156.3,
+        "top": 94.2,
+        "width": 270.8,
+        "height": 23.8
+      }
+    },
+    "cOSignature24": {
+      "type": "text",
+      "label": "OFFICER&apos;S SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 437.1,
+        "top": 68.3,
+        "width": 139.0,
+        "height": 25.2
+      }
+    },
+    "dNSDate24": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 67.7,
+        "width": 59.1,
+        "height": 23.9
+      }
+    },
+    "unit24": {
+      "type": "text",
+      "label": "UNIT",
+      "page": 1,
+      "box": {
+        "left": 105.9,
+        "top": 67.6,
+        "width": 40.3,
+        "height": 23.8
+      }
+    },
+    "mishapDesc24": {
+      "type": "text",
+      "label": "MISHAP DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 156.3,
+        "top": 67.6,
+        "width": 270.8,
+        "height": 23.8
+      }
+    }
+  }
+}

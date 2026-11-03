@@ -1,0 +1,2653 @@
+{
+  "id": "navpers701014",
+  "label": "NAVPERS7010-14 - Resale Department Inventory Summary",
+  "directory": "NAVPERS7010-14 - Resale Department Inventory Summary",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "fund",
+        "fundNum",
+        "dateSub1",
+        "number",
+        "accNumB1",
+        "accNumB1b",
+        "accNumC1",
+        "accNumC1c",
+        "accNumA1",
+        "accNumA1a",
+        "accNumA2",
+        "accNumA2a",
+        "accNumB2",
+        "accNumB2b",
+        "accNumC2",
+        "accNumC2c",
+        "accNumA3",
+        "accNumA3a",
+        "accNumB3",
+        "accNumB3b",
+        "accNumC3",
+        "accNumC3c",
+        "accNumB4",
+        "accNumB4b",
+        "accNumC4",
+        "accNumC4c",
+        "accNumA4",
+        "accNumA4a",
+        "accNumC5c",
+        "accNumB5",
+        "accNumB5b",
+        "accNumC5",
+        "accNumA5",
+        "accNumA5a",
+        "accNumC6",
+        "accNumC6c",
+        "accNumA6",
+        "accNumA6a",
+        "accNumB6",
+        "accNumB6b",
+        "accNumB7",
+        "accNumB7b",
+        "accNumC7",
+        "accNumC7c",
+        "accNumA7",
+        "accNumA7a",
+        "accNumA8",
+        "accNumA8a",
+        "accNumB8",
+        "accNumB8b",
+        "accNumC8",
+        "accNumC8c",
+        "accNumA9",
+        "accNumA9a",
+        "accNumC9",
+        "accNumC9c",
+        "accNumB9",
+        "accNumB9b",
+        "accNumC10",
+        "accNumC10c",
+        "accNumB10",
+        "accNumB10b",
+        "accNumA10",
+        "accNumA10a",
+        "accNumA11",
+        "accNumA11a",
+        "accNumC11",
+        "accNumC11c",
+        "accNumB11",
+        "accNumB11b",
+        "accNumA12",
+        "accNumA12a",
+        "accNumB12",
+        "accNumB12b",
+        "accNumC12",
+        "accNumC12c",
+        "accNumA13",
+        "accNumA13a",
+        "accNumB13",
+        "accNumB13b",
+        "accNumC13",
+        "accNumC13c",
+        "accNumA14",
+        "accNumA14a",
+        "accNumB14",
+        "accNumB14b",
+        "accNumC14",
+        "accNumC14c",
+        "accNumA15",
+        "accNumA15a",
+        "accNumC15",
+        "accNumC15c",
+        "accNumB15",
+        "accNumB15b",
+        "accNumC16",
+        "accNumC16c",
+        "accNumA16",
+        "accNumA16a",
+        "accNumB16",
+        "accNumB16b",
+        "accNumA17",
+        "accNumA17a",
+        "accNumB17",
+        "accNumB17b",
+        "accNumC17",
+        "accNumC17c",
+        "accNumB18",
+        "accNumB18b",
+        "accNumA18",
+        "accNumA18a",
+        "accNumC18",
+        "accNumC18c",
+        "accNumA19",
+        "accNumA19a",
+        "accNumB19",
+        "accNumB19b",
+        "accNumC19",
+        "accNumC19c",
+        "accNumA20",
+        "accNumA20a",
+        "accNumC20",
+        "accNumC20c",
+        "accNumB20",
+        "accNumB20b",
+        "accNumA21",
+        "accNumA21a",
+        "accNumB21",
+        "accNumB21b",
+        "accNumC21",
+        "accNumC21c",
+        "accNumA22",
+        "accNumA22a",
+        "accNumB22",
+        "accNumB22b",
+        "accNumC22",
+        "accNumC22c",
+        "accNumA23",
+        "accNumA23a",
+        "accNumB23",
+        "accNumB23b",
+        "accNumC23",
+        "accNumC23c",
+        "accNumA24",
+        "accNumA24a",
+        "accNumB24",
+        "accNumB24b",
+        "accNumC24",
+        "accNumC24c",
+        "accNumA25",
+        "accNumA25a",
+        "accNumC25",
+        "accNumC25c",
+        "accNumB25",
+        "accNumB25b",
+        "accNumB26",
+        "accNumB26b",
+        "accNumA26",
+        "accNumA26a",
+        "accNumC26",
+        "accNumC26c",
+        "accNumA27",
+        "accNumA27a",
+        "accNumB27",
+        "accNumB27b",
+        "accNumC27",
+        "accNumC27c",
+        "accNumB28",
+        "accNumB28b",
+        "accNumC28",
+        "accNumC28c",
+        "accNumA28",
+        "accNumA28a",
+        "accNumA29",
+        "accNumA29a",
+        "accNumB29",
+        "accNumB29b",
+        "accNumC29",
+        "accNumC29c",
+        "accNumA30",
+        "accNumA30a",
+        "accNumB30",
+        "accNumB30b",
+        "accNumC30",
+        "accNumC30c",
+        "accNumA31",
+        "accNumA31a",
+        "accNumB31",
+        "accNumB31b",
+        "accNumC31",
+        "accNumC31c",
+        "accNumB32",
+        "accNumB32b",
+        "accNumC32",
+        "accNumC32c",
+        "accNumA32",
+        "accNumA32a",
+        "accNumB33",
+        "accNumB33b",
+        "accNumC33",
+        "accNumC33c",
+        "accNumA33",
+        "accNumA33a",
+        "accNumA34",
+        "accNumA34a",
+        "accNumB34",
+        "accNumB34b",
+        "accNumC34",
+        "accNumC34c",
+        "totColABC",
+        "preparer",
+        "date2",
+        "approver",
+        "date3",
+        "numericField1",
+        "numericField2",
+        "numericField3"
+      ]
+    }
+  ],
+  "fields": {
+    "fund": {
+      "type": "text",
+      "label": "Enter the fund.",
+      "page": 1,
+      "box": {
+        "left": 38.1,
+        "top": 726.9,
+        "width": 283.2,
+        "height": 18.9
+      }
+    },
+    "fundNum": {
+      "type": "text",
+      "label": "Enter the fund number.",
+      "page": 1,
+      "box": {
+        "left": 364.3,
+        "top": 722.4,
+        "width": 69.5,
+        "height": 13.8
+      }
+    },
+    "dateSub1": {
+      "type": "text",
+      "label": "Enter the date as DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 439.1,
+        "top": 722.4,
+        "width": 86.6,
+        "height": 13.3
+      }
+    },
+    "number": {
+      "type": "text",
+      "label": "Enter the number.",
+      "page": 1,
+      "box": {
+        "left": 530.8,
+        "top": 722.4,
+        "width": 45.3,
+        "height": 13.3
+      }
+    },
+    "accNumB1": {
+      "type": "text",
+      "label": "Section B, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 228.8,
+        "top": 685.7,
+        "width": 32.2,
+        "height": 13.9
+      }
+    },
+    "accNumB1b": {
+      "type": "text",
+      "label": "Section B, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 685.7,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumC1": {
+      "type": "text",
+      "label": "Section C, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 406.5,
+        "top": 685.7,
+        "width": 28.8,
+        "height": 13.9
+      }
+    },
+    "accNumC1c": {
+      "type": "text",
+      "label": "Section C, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 450.4,
+        "top": 685.7,
+        "width": 30.7,
+        "height": 13.9
+      }
+    },
+    "accNumA1": {
+      "type": "text",
+      "label": "This is row 1 of 34, section A, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 54.4,
+        "top": 684.2,
+        "width": 30.9,
+        "height": 12.6
+      }
+    },
+    "accNumA1a": {
+      "type": "text",
+      "label": "Section A, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 99.4,
+        "top": 684.2,
+        "width": 29.0,
+        "height": 12.6
+      }
+    },
+    "accNumA2": {
+      "type": "text",
+      "label": "This is row 1 of 34, section A, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 54.4,
+        "top": 668.3,
+        "width": 30.9,
+        "height": 13.9
+      }
+    },
+    "accNumA2a": {
+      "type": "text",
+      "label": "Section A, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 99.4,
+        "top": 668.3,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumB2": {
+      "type": "text",
+      "label": "Section B, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 228.8,
+        "top": 668.3,
+        "width": 32.2,
+        "height": 13.9
+      }
+    },
+    "accNumB2b": {
+      "type": "text",
+      "label": "Section B, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 668.3,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumC2": {
+      "type": "text",
+      "label": "Section C, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 406.5,
+        "top": 668.3,
+        "width": 28.8,
+        "height": 13.9
+      }
+    },
+    "accNumC2c": {
+      "type": "text",
+      "label": "Section C, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 450.4,
+        "top": 668.3,
+        "width": 30.7,
+        "height": 13.9
+      }
+    },
+    "accNumA3": {
+      "type": "text",
+      "label": "This is row 1 of 34, section A, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 54.4,
+        "top": 651.1,
+        "width": 30.9,
+        "height": 13.9
+      }
+    },
+    "accNumA3a": {
+      "type": "text",
+      "label": "Section A, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 99.4,
+        "top": 651.1,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumB3": {
+      "type": "text",
+      "label": "Section B, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 228.8,
+        "top": 650.3,
+        "width": 32.2,
+        "height": 13.9
+      }
+    },
+    "accNumB3b": {
+      "type": "text",
+      "label": "Section B, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 650.3,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumC3": {
+      "type": "text",
+      "label": "Section C, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 406.5,
+        "top": 650.3,
+        "width": 28.8,
+        "height": 13.9
+      }
+    },
+    "accNumC3c": {
+      "type": "text",
+      "label": "Section C, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 450.4,
+        "top": 650.3,
+        "width": 30.7,
+        "height": 13.9
+      }
+    },
+    "accNumB4": {
+      "type": "text",
+      "label": "Section B, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 228.8,
+        "top": 633.4,
+        "width": 32.2,
+        "height": 13.9
+      }
+    },
+    "accNumB4b": {
+      "type": "text",
+      "label": "Section B, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 633.4,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumC4": {
+      "type": "text",
+      "label": "Section C, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 406.5,
+        "top": 633.4,
+        "width": 28.8,
+        "height": 13.9
+      }
+    },
+    "accNumC4c": {
+      "type": "text",
+      "label": "Section C, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 450.4,
+        "top": 633.4,
+        "width": 30.7,
+        "height": 13.9
+      }
+    },
+    "accNumA4": {
+      "type": "text",
+      "label": "This is row 1 of 34, section A, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 54.4,
+        "top": 633.3,
+        "width": 30.9,
+        "height": 12.6
+      }
+    },
+    "accNumA4a": {
+      "type": "text",
+      "label": "Section A, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 99.4,
+        "top": 633.3,
+        "width": 29.0,
+        "height": 12.6
+      }
+    },
+    "accNumC5c": {
+      "type": "text",
+      "label": "Section C, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 450.4,
+        "top": 616.8,
+        "width": 30.7,
+        "height": 13.9
+      }
+    },
+    "accNumB5": {
+      "type": "text",
+      "label": "Section B, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 228.8,
+        "top": 616.5,
+        "width": 32.2,
+        "height": 13.9
+      }
+    },
+    "accNumB5b": {
+      "type": "text",
+      "label": "Section B, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 616.5,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumC5": {
+      "type": "text",
+      "label": "Section C, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 406.5,
+        "top": 616.3,
+        "width": 28.8,
+        "height": 13.9
+      }
+    },
+    "accNumA5": {
+      "type": "text",
+      "label": "This is row 1 of 34, section A, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 54.4,
+        "top": 614.8,
+        "width": 30.9,
+        "height": 11.9
+      }
+    },
+    "accNumA5a": {
+      "type": "text",
+      "label": "Section A, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 99.4,
+        "top": 614.8,
+        "width": 29.0,
+        "height": 11.9
+      }
+    },
+    "accNumC6": {
+      "type": "text",
+      "label": "Section C, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 406.5,
+        "top": 599.6,
+        "width": 28.8,
+        "height": 13.9
+      }
+    },
+    "accNumC6c": {
+      "type": "text",
+      "label": "Section C, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 450.4,
+        "top": 599.6,
+        "width": 30.7,
+        "height": 13.9
+      }
+    },
+    "accNumA6": {
+      "type": "text",
+      "label": "This is row 1 of 34, section A, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 54.4,
+        "top": 599.5,
+        "width": 30.9,
+        "height": 13.9
+      }
+    },
+    "accNumA6a": {
+      "type": "text",
+      "label": "Section A, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 99.4,
+        "top": 599.5,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumB6": {
+      "type": "text",
+      "label": "Section B, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 228.8,
+        "top": 599.2,
+        "width": 32.2,
+        "height": 13.9
+      }
+    },
+    "accNumB6b": {
+      "type": "text",
+      "label": "Section B, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 599.2,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumB7": {
+      "type": "text",
+      "label": "Section B, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 228.8,
+        "top": 582.8,
+        "width": 32.2,
+        "height": 13.9
+      }
+    },
+    "accNumB7b": {
+      "type": "text",
+      "label": "Section B, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 582.8,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumC7": {
+      "type": "text",
+      "label": "Section C, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 406.5,
+        "top": 582.8,
+        "width": 28.8,
+        "height": 13.9
+      }
+    },
+    "accNumC7c": {
+      "type": "text",
+      "label": "Section C, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 450.4,
+        "top": 582.8,
+        "width": 30.7,
+        "height": 13.9
+      }
+    },
+    "accNumA7": {
+      "type": "text",
+      "label": "This is row 1 of 34, section A, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 54.4,
+        "top": 581.1,
+        "width": 30.9,
+        "height": 12.2
+      }
+    },
+    "accNumA7a": {
+      "type": "text",
+      "label": "Section A, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 99.4,
+        "top": 581.1,
+        "width": 29.0,
+        "height": 12.2
+      }
+    },
+    "accNumA8": {
+      "type": "text",
+      "label": "This is row 1 of 34, section A, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 54.4,
+        "top": 565.9,
+        "width": 30.9,
+        "height": 13.9
+      }
+    },
+    "accNumA8a": {
+      "type": "text",
+      "label": "Section A, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 99.4,
+        "top": 565.9,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumB8": {
+      "type": "text",
+      "label": "Section B, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 228.8,
+        "top": 565.9,
+        "width": 32.2,
+        "height": 13.9
+      }
+    },
+    "accNumB8b": {
+      "type": "text",
+      "label": "Section B, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 565.9,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumC8": {
+      "type": "text",
+      "label": "Section C, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 406.5,
+        "top": 565.9,
+        "width": 28.8,
+        "height": 13.9
+      }
+    },
+    "accNumC8c": {
+      "type": "text",
+      "label": "Section C, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 450.4,
+        "top": 565.9,
+        "width": 30.7,
+        "height": 13.9
+      }
+    },
+    "accNumA9": {
+      "type": "text",
+      "label": "This is row 1 of 34, section A, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 54.4,
+        "top": 548.9,
+        "width": 30.9,
+        "height": 13.9
+      }
+    },
+    "accNumA9a": {
+      "type": "text",
+      "label": "Section A, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 99.4,
+        "top": 548.9,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumC9": {
+      "type": "text",
+      "label": "Section C, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 406.5,
+        "top": 548.2,
+        "width": 28.8,
+        "height": 13.9
+      }
+    },
+    "accNumC9c": {
+      "type": "text",
+      "label": "Section C, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 450.4,
+        "top": 548.2,
+        "width": 30.7,
+        "height": 13.9
+      }
+    },
+    "accNumB9": {
+      "type": "text",
+      "label": "Section B, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 228.8,
+        "top": 548.0,
+        "width": 32.2,
+        "height": 13.9
+      }
+    },
+    "accNumB9b": {
+      "type": "text",
+      "label": "Section B, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 548.0,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumC10": {
+      "type": "text",
+      "label": "Section C, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 406.5,
+        "top": 531.1,
+        "width": 28.8,
+        "height": 13.9
+      }
+    },
+    "accNumC10c": {
+      "type": "text",
+      "label": "Section C, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 450.4,
+        "top": 531.1,
+        "width": 30.7,
+        "height": 13.9
+      }
+    },
+    "accNumB10": {
+      "type": "text",
+      "label": "Section B, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 228.8,
+        "top": 531.0,
+        "width": 32.2,
+        "height": 13.9
+      }
+    },
+    "accNumB10b": {
+      "type": "text",
+      "label": "Section B, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 531.0,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumA10": {
+      "type": "text",
+      "label": "This is row 1 of 34, section A, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 54.4,
+        "top": 530.5,
+        "width": 30.9,
+        "height": 13.3
+      }
+    },
+    "accNumA10a": {
+      "type": "text",
+      "label": "Section A, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 99.4,
+        "top": 530.5,
+        "width": 29.0,
+        "height": 13.3
+      }
+    },
+    "accNumA11": {
+      "type": "text",
+      "label": "This is row 1 of 34, section A, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 54.4,
+        "top": 514.5,
+        "width": 30.9,
+        "height": 13.9
+      }
+    },
+    "accNumA11a": {
+      "type": "text",
+      "label": "Section A, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 99.4,
+        "top": 514.5,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumC11": {
+      "type": "text",
+      "label": "Section C, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 406.5,
+        "top": 514.0,
+        "width": 28.8,
+        "height": 13.9
+      }
+    },
+    "accNumC11c": {
+      "type": "text",
+      "label": "Section C, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 450.4,
+        "top": 514.0,
+        "width": 30.7,
+        "height": 13.9
+      }
+    },
+    "accNumB11": {
+      "type": "text",
+      "label": "Section B, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 228.8,
+        "top": 513.9,
+        "width": 32.2,
+        "height": 13.9
+      }
+    },
+    "accNumB11b": {
+      "type": "text",
+      "label": "Section B, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 513.9,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumA12": {
+      "type": "text",
+      "label": "This is row 1 of 34, section A, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 54.4,
+        "top": 496.9,
+        "width": 30.9,
+        "height": 13.9
+      }
+    },
+    "accNumA12a": {
+      "type": "text",
+      "label": "Section A, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 99.4,
+        "top": 496.9,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumB12": {
+      "type": "text",
+      "label": "Section B, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 228.8,
+        "top": 496.1,
+        "width": 32.2,
+        "height": 13.9
+      }
+    },
+    "accNumB12b": {
+      "type": "text",
+      "label": "Section B, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 496.1,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumC12": {
+      "type": "text",
+      "label": "Section C, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 406.5,
+        "top": 496.1,
+        "width": 28.8,
+        "height": 13.9
+      }
+    },
+    "accNumC12c": {
+      "type": "text",
+      "label": "Section C, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 450.4,
+        "top": 496.1,
+        "width": 30.7,
+        "height": 13.9
+      }
+    },
+    "accNumA13": {
+      "type": "text",
+      "label": "This is row 1 of 34, section A, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 54.4,
+        "top": 479.2,
+        "width": 30.9,
+        "height": 12.4
+      }
+    },
+    "accNumA13a": {
+      "type": "text",
+      "label": "Section A, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 99.4,
+        "top": 479.2,
+        "width": 29.0,
+        "height": 12.4
+      }
+    },
+    "accNumB13": {
+      "type": "text",
+      "label": "Section B, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 228.8,
+        "top": 478.9,
+        "width": 32.2,
+        "height": 12.4
+      }
+    },
+    "accNumB13b": {
+      "type": "text",
+      "label": "Section B, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 478.9,
+        "width": 29.0,
+        "height": 12.4
+      }
+    },
+    "accNumC13": {
+      "type": "text",
+      "label": "Section C, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 406.5,
+        "top": 478.9,
+        "width": 28.8,
+        "height": 12.4
+      }
+    },
+    "accNumC13c": {
+      "type": "text",
+      "label": "Section C, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 450.4,
+        "top": 478.9,
+        "width": 30.7,
+        "height": 12.4
+      }
+    },
+    "accNumA14": {
+      "type": "text",
+      "label": "This is row 1 of 34, section A, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 54.4,
+        "top": 463.0,
+        "width": 30.9,
+        "height": 13.9
+      }
+    },
+    "accNumA14a": {
+      "type": "text",
+      "label": "Section A, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 99.4,
+        "top": 463.0,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumB14": {
+      "type": "text",
+      "label": "Section B, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 228.8,
+        "top": 463.0,
+        "width": 32.2,
+        "height": 13.9
+      }
+    },
+    "accNumB14b": {
+      "type": "text",
+      "label": "Section B, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 463.0,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumC14": {
+      "type": "text",
+      "label": "Section C, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 406.5,
+        "top": 462.9,
+        "width": 28.8,
+        "height": 13.9
+      }
+    },
+    "accNumC14c": {
+      "type": "text",
+      "label": "Section C, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 450.4,
+        "top": 462.9,
+        "width": 30.7,
+        "height": 13.9
+      }
+    },
+    "accNumA15": {
+      "type": "text",
+      "label": "This is row 1 of 34, section A, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 54.4,
+        "top": 446.1,
+        "width": 30.9,
+        "height": 13.9
+      }
+    },
+    "accNumA15a": {
+      "type": "text",
+      "label": "Section A, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 99.4,
+        "top": 446.1,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumC15": {
+      "type": "text",
+      "label": "Section C, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 406.5,
+        "top": 445.8,
+        "width": 28.8,
+        "height": 13.9
+      }
+    },
+    "accNumC15c": {
+      "type": "text",
+      "label": "Section C, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 450.4,
+        "top": 445.8,
+        "width": 30.7,
+        "height": 13.9
+      }
+    },
+    "accNumB15": {
+      "type": "text",
+      "label": "Section B, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 228.8,
+        "top": 445.6,
+        "width": 32.2,
+        "height": 13.9
+      }
+    },
+    "accNumB15b": {
+      "type": "text",
+      "label": "Section B, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 445.6,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumC16": {
+      "type": "text",
+      "label": "Section C, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 406.5,
+        "top": 428.8,
+        "width": 28.8,
+        "height": 13.9
+      }
+    },
+    "accNumC16c": {
+      "type": "text",
+      "label": "Section C, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 450.4,
+        "top": 428.8,
+        "width": 30.7,
+        "height": 13.9
+      }
+    },
+    "accNumA16": {
+      "type": "text",
+      "label": "This is row 1 of 34, section A, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 54.4,
+        "top": 428.6,
+        "width": 30.9,
+        "height": 13.9
+      }
+    },
+    "accNumA16a": {
+      "type": "text",
+      "label": "Section A, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 99.4,
+        "top": 428.6,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumB16": {
+      "type": "text",
+      "label": "Section B, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 228.8,
+        "top": 428.5,
+        "width": 32.2,
+        "height": 13.9
+      }
+    },
+    "accNumB16b": {
+      "type": "text",
+      "label": "Section B, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 428.5,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumA17": {
+      "type": "text",
+      "label": "This is row 1 of 34, section A, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 54.4,
+        "top": 411.2,
+        "width": 30.9,
+        "height": 13.9
+      }
+    },
+    "accNumA17a": {
+      "type": "text",
+      "label": "Section A, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 99.4,
+        "top": 411.2,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumB17": {
+      "type": "text",
+      "label": "Section B, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 228.8,
+        "top": 410.6,
+        "width": 32.2,
+        "height": 13.9
+      }
+    },
+    "accNumB17b": {
+      "type": "text",
+      "label": "Section B, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 410.6,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumC17": {
+      "type": "text",
+      "label": "Section C, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 406.5,
+        "top": 410.6,
+        "width": 28.8,
+        "height": 13.9
+      }
+    },
+    "accNumC17c": {
+      "type": "text",
+      "label": "Section C, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 450.4,
+        "top": 410.6,
+        "width": 30.7,
+        "height": 13.9
+      }
+    },
+    "accNumB18": {
+      "type": "text",
+      "label": "Section B, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 228.8,
+        "top": 394.4,
+        "width": 32.2,
+        "height": 13.9
+      }
+    },
+    "accNumB18b": {
+      "type": "text",
+      "label": "Section B, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 394.4,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumA18": {
+      "type": "text",
+      "label": "This is row 1 of 34, section A, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 54.4,
+        "top": 394.3,
+        "width": 30.9,
+        "height": 13.9
+      }
+    },
+    "accNumA18a": {
+      "type": "text",
+      "label": "Section A, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 99.4,
+        "top": 394.3,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumC18": {
+      "type": "text",
+      "label": "Section C, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 406.5,
+        "top": 394.3,
+        "width": 28.8,
+        "height": 13.9
+      }
+    },
+    "accNumC18c": {
+      "type": "text",
+      "label": "Section C, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 450.4,
+        "top": 394.3,
+        "width": 30.7,
+        "height": 13.9
+      }
+    },
+    "accNumA19": {
+      "type": "text",
+      "label": "This is row 1 of 34, section A, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 54.4,
+        "top": 377.5,
+        "width": 30.9,
+        "height": 13.9
+      }
+    },
+    "accNumA19a": {
+      "type": "text",
+      "label": "Section A, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 99.4,
+        "top": 377.5,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumB19": {
+      "type": "text",
+      "label": "Section B, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 228.8,
+        "top": 377.3,
+        "width": 32.2,
+        "height": 13.9
+      }
+    },
+    "accNumB19b": {
+      "type": "text",
+      "label": "Section B, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 377.3,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumC19": {
+      "type": "text",
+      "label": "Section C, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 406.5,
+        "top": 376.0,
+        "width": 28.8,
+        "height": 12.2
+      }
+    },
+    "accNumC19c": {
+      "type": "text",
+      "label": "Section C, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 450.4,
+        "top": 376.0,
+        "width": 30.7,
+        "height": 12.2
+      }
+    },
+    "accNumA20": {
+      "type": "text",
+      "label": "This is row 1 of 34, section A, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 54.4,
+        "top": 360.6,
+        "width": 30.9,
+        "height": 13.9
+      }
+    },
+    "accNumA20a": {
+      "type": "text",
+      "label": "Section A, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 99.4,
+        "top": 360.6,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumC20": {
+      "type": "text",
+      "label": "Section C, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 406.5,
+        "top": 360.6,
+        "width": 28.8,
+        "height": 13.9
+      }
+    },
+    "accNumC20c": {
+      "type": "text",
+      "label": "Section C, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 450.4,
+        "top": 360.6,
+        "width": 30.7,
+        "height": 13.9
+      }
+    },
+    "accNumB20": {
+      "type": "text",
+      "label": "Section B, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 228.8,
+        "top": 360.3,
+        "width": 32.2,
+        "height": 13.9
+      }
+    },
+    "accNumB20b": {
+      "type": "text",
+      "label": "Section B, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 360.3,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumA21": {
+      "type": "text",
+      "label": "This is row 1 of 34, section A, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 54.4,
+        "top": 343.2,
+        "width": 30.9,
+        "height": 13.9
+      }
+    },
+    "accNumA21a": {
+      "type": "text",
+      "label": "Section A, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 99.4,
+        "top": 343.2,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumB21": {
+      "type": "text",
+      "label": "Section B, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 228.8,
+        "top": 343.2,
+        "width": 32.2,
+        "height": 13.9
+      }
+    },
+    "accNumB21b": {
+      "type": "text",
+      "label": "Section B, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 343.2,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumC21": {
+      "type": "text",
+      "label": "Section C, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 406.5,
+        "top": 343.2,
+        "width": 28.8,
+        "height": 13.9
+      }
+    },
+    "accNumC21c": {
+      "type": "text",
+      "label": "Section C, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 450.4,
+        "top": 343.2,
+        "width": 30.7,
+        "height": 13.9
+      }
+    },
+    "accNumA22": {
+      "type": "text",
+      "label": "This is row 1 of 34, section A, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 54.4,
+        "top": 325.7,
+        "width": 30.9,
+        "height": 13.9
+      }
+    },
+    "accNumA22a": {
+      "type": "text",
+      "label": "Section A, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 99.4,
+        "top": 325.7,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumB22": {
+      "type": "text",
+      "label": "Section B, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 228.8,
+        "top": 325.2,
+        "width": 32.2,
+        "height": 13.9
+      }
+    },
+    "accNumB22b": {
+      "type": "text",
+      "label": "Section B, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 325.2,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumC22": {
+      "type": "text",
+      "label": "Section C, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 406.5,
+        "top": 325.2,
+        "width": 28.8,
+        "height": 13.9
+      }
+    },
+    "accNumC22c": {
+      "type": "text",
+      "label": "Section C, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 450.4,
+        "top": 325.2,
+        "width": 30.7,
+        "height": 13.9
+      }
+    },
+    "accNumA23": {
+      "type": "text",
+      "label": "This is row 1 of 34, section A, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 54.4,
+        "top": 309.2,
+        "width": 30.9,
+        "height": 13.9
+      }
+    },
+    "accNumA23a": {
+      "type": "text",
+      "label": "Section A, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 99.4,
+        "top": 309.2,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumB23": {
+      "type": "text",
+      "label": "Section B, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 228.8,
+        "top": 308.8,
+        "width": 32.2,
+        "height": 13.9
+      }
+    },
+    "accNumB23b": {
+      "type": "text",
+      "label": "Section B, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 308.8,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumC23": {
+      "type": "text",
+      "label": "Section C, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 406.5,
+        "top": 308.8,
+        "width": 28.8,
+        "height": 13.9
+      }
+    },
+    "accNumC23c": {
+      "type": "text",
+      "label": "Section C, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 450.4,
+        "top": 308.8,
+        "width": 30.7,
+        "height": 13.9
+      }
+    },
+    "accNumA24": {
+      "type": "text",
+      "label": "This is row 1 of 34, section A, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 54.4,
+        "top": 291.4,
+        "width": 30.9,
+        "height": 13.9
+      }
+    },
+    "accNumA24a": {
+      "type": "text",
+      "label": "Section A, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 99.4,
+        "top": 291.4,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumB24": {
+      "type": "text",
+      "label": "Section B, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 228.8,
+        "top": 291.4,
+        "width": 32.2,
+        "height": 13.9
+      }
+    },
+    "accNumB24b": {
+      "type": "text",
+      "label": "Section B, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 291.4,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumC24": {
+      "type": "text",
+      "label": "Section C, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 406.5,
+        "top": 291.4,
+        "width": 28.8,
+        "height": 13.9
+      }
+    },
+    "accNumC24c": {
+      "type": "text",
+      "label": "Section C, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 450.4,
+        "top": 291.4,
+        "width": 30.7,
+        "height": 13.9
+      }
+    },
+    "accNumA25": {
+      "type": "text",
+      "label": "This is row 1 of 34, section A, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 54.4,
+        "top": 273.7,
+        "width": 30.9,
+        "height": 12.0
+      }
+    },
+    "accNumA25a": {
+      "type": "text",
+      "label": "Section A, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 99.4,
+        "top": 273.7,
+        "width": 29.0,
+        "height": 12.0
+      }
+    },
+    "accNumC25": {
+      "type": "text",
+      "label": "Section C, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 406.5,
+        "top": 273.2,
+        "width": 28.8,
+        "height": 12.0
+      }
+    },
+    "accNumC25c": {
+      "type": "text",
+      "label": "Section C, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 450.4,
+        "top": 273.2,
+        "width": 30.7,
+        "height": 12.0
+      }
+    },
+    "accNumB25": {
+      "type": "text",
+      "label": "Section B, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 228.8,
+        "top": 273.0,
+        "width": 32.2,
+        "height": 12.0
+      }
+    },
+    "accNumB25b": {
+      "type": "text",
+      "label": "Section B, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 273.0,
+        "width": 29.0,
+        "height": 12.0
+      }
+    },
+    "accNumB26": {
+      "type": "text",
+      "label": "Section B, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 228.8,
+        "top": 257.9,
+        "width": 32.2,
+        "height": 13.9
+      }
+    },
+    "accNumB26b": {
+      "type": "text",
+      "label": "Section B, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 257.9,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumA26": {
+      "type": "text",
+      "label": "This is row 1 of 34, section A, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 54.4,
+        "top": 257.7,
+        "width": 30.9,
+        "height": 13.9
+      }
+    },
+    "accNumA26a": {
+      "type": "text",
+      "label": "Section A, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 99.4,
+        "top": 257.7,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumC26": {
+      "type": "text",
+      "label": "Section C, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 406.5,
+        "top": 257.7,
+        "width": 28.8,
+        "height": 13.9
+      }
+    },
+    "accNumC26c": {
+      "type": "text",
+      "label": "Section C, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 450.4,
+        "top": 257.7,
+        "width": 30.7,
+        "height": 13.9
+      }
+    },
+    "accNumA27": {
+      "type": "text",
+      "label": "This is row 1 of 34, section A, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 54.4,
+        "top": 240.2,
+        "width": 30.9,
+        "height": 13.9
+      }
+    },
+    "accNumA27a": {
+      "type": "text",
+      "label": "Section A, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 99.4,
+        "top": 240.2,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumB27": {
+      "type": "text",
+      "label": "Section B, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 228.8,
+        "top": 239.7,
+        "width": 32.2,
+        "height": 13.9
+      }
+    },
+    "accNumB27b": {
+      "type": "text",
+      "label": "Section B, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 239.7,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumC27": {
+      "type": "text",
+      "label": "Section C, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 406.5,
+        "top": 239.7,
+        "width": 28.8,
+        "height": 13.9
+      }
+    },
+    "accNumC27c": {
+      "type": "text",
+      "label": "Section C, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 450.4,
+        "top": 239.7,
+        "width": 30.7,
+        "height": 13.9
+      }
+    },
+    "accNumB28": {
+      "type": "text",
+      "label": "Section B, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 228.8,
+        "top": 223.3,
+        "width": 32.2,
+        "height": 13.9
+      }
+    },
+    "accNumB28b": {
+      "type": "text",
+      "label": "Section B, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 223.3,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumC28": {
+      "type": "text",
+      "label": "Section C, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 406.5,
+        "top": 223.3,
+        "width": 28.8,
+        "height": 13.9
+      }
+    },
+    "accNumC28c": {
+      "type": "text",
+      "label": "Section C, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 450.4,
+        "top": 223.3,
+        "width": 30.7,
+        "height": 13.9
+      }
+    },
+    "accNumA28": {
+      "type": "text",
+      "label": "This is row 1 of 34, section A, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 54.4,
+        "top": 221.7,
+        "width": 30.9,
+        "height": 12.5
+      }
+    },
+    "accNumA28a": {
+      "type": "text",
+      "label": "Section A, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 99.4,
+        "top": 221.7,
+        "width": 29.0,
+        "height": 12.5
+      }
+    },
+    "accNumA29": {
+      "type": "text",
+      "label": "This is row 1 of 34, section A, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 54.4,
+        "top": 205.9,
+        "width": 30.9,
+        "height": 13.9
+      }
+    },
+    "accNumA29a": {
+      "type": "text",
+      "label": "Section A, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 99.4,
+        "top": 205.9,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumB29": {
+      "type": "text",
+      "label": "Section B, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 228.8,
+        "top": 205.9,
+        "width": 32.2,
+        "height": 13.9
+      }
+    },
+    "accNumB29b": {
+      "type": "text",
+      "label": "Section B, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 205.9,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumC29": {
+      "type": "text",
+      "label": "Section C, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 406.5,
+        "top": 205.9,
+        "width": 28.8,
+        "height": 13.9
+      }
+    },
+    "accNumC29c": {
+      "type": "text",
+      "label": "Section C, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 450.4,
+        "top": 205.9,
+        "width": 30.7,
+        "height": 13.9
+      }
+    },
+    "accNumA30": {
+      "type": "text",
+      "label": "This is row 1 of 34, section A, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 54.4,
+        "top": 188.5,
+        "width": 30.9,
+        "height": 13.9
+      }
+    },
+    "accNumA30a": {
+      "type": "text",
+      "label": "Section A, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 99.4,
+        "top": 188.5,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumB30": {
+      "type": "text",
+      "label": "Section B, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 228.8,
+        "top": 187.9,
+        "width": 32.2,
+        "height": 13.9
+      }
+    },
+    "accNumB30b": {
+      "type": "text",
+      "label": "Section B, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 187.9,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumC30": {
+      "type": "text",
+      "label": "Section C, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 406.5,
+        "top": 187.9,
+        "width": 28.8,
+        "height": 13.9
+      }
+    },
+    "accNumC30c": {
+      "type": "text",
+      "label": "Section C, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 450.4,
+        "top": 187.9,
+        "width": 30.7,
+        "height": 13.9
+      }
+    },
+    "accNumA31": {
+      "type": "text",
+      "label": "This is row 1 of 34, section A, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 54.4,
+        "top": 170.7,
+        "width": 30.9,
+        "height": 12.5
+      }
+    },
+    "accNumA31a": {
+      "type": "text",
+      "label": "Section A, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 99.4,
+        "top": 170.7,
+        "width": 29.0,
+        "height": 12.5
+      }
+    },
+    "accNumB31": {
+      "type": "text",
+      "label": "Section B, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 228.8,
+        "top": 170.7,
+        "width": 32.2,
+        "height": 12.5
+      }
+    },
+    "accNumB31b": {
+      "type": "text",
+      "label": "Section B, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 170.7,
+        "width": 29.0,
+        "height": 12.5
+      }
+    },
+    "accNumC31": {
+      "type": "text",
+      "label": "Section C, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 406.5,
+        "top": 170.7,
+        "width": 28.8,
+        "height": 12.4
+      }
+    },
+    "accNumC31c": {
+      "type": "text",
+      "label": "Section C, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 450.4,
+        "top": 170.7,
+        "width": 30.7,
+        "height": 12.4
+      }
+    },
+    "accNumB32": {
+      "type": "text",
+      "label": "Section B, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 228.8,
+        "top": 155.1,
+        "width": 32.2,
+        "height": 13.9
+      }
+    },
+    "accNumB32b": {
+      "type": "text",
+      "label": "Section B, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 155.1,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumC32": {
+      "type": "text",
+      "label": "Section C, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 406.5,
+        "top": 154.7,
+        "width": 28.8,
+        "height": 13.9
+      }
+    },
+    "accNumC32c": {
+      "type": "text",
+      "label": "Section C, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 450.4,
+        "top": 154.7,
+        "width": 30.7,
+        "height": 13.9
+      }
+    },
+    "accNumA32": {
+      "type": "text",
+      "label": "This is row 1 of 34, section A, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 54.4,
+        "top": 154.6,
+        "width": 30.9,
+        "height": 12.6
+      }
+    },
+    "accNumA32a": {
+      "type": "text",
+      "label": "Section A, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 99.4,
+        "top": 154.6,
+        "width": 29.0,
+        "height": 12.6
+      }
+    },
+    "accNumB33": {
+      "type": "text",
+      "label": "Section B, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 228.8,
+        "top": 137.9,
+        "width": 32.2,
+        "height": 13.9
+      }
+    },
+    "accNumB33b": {
+      "type": "text",
+      "label": "Section B, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 137.9,
+        "width": 29.0,
+        "height": 13.9
+      }
+    },
+    "accNumC33": {
+      "type": "text",
+      "label": "Section C, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 406.5,
+        "top": 137.9,
+        "width": 28.8,
+        "height": 13.9
+      }
+    },
+    "accNumC33c": {
+      "type": "text",
+      "label": "Section C, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 450.4,
+        "top": 137.9,
+        "width": 30.7,
+        "height": 13.9
+      }
+    },
+    "accNumA33": {
+      "type": "text",
+      "label": "This is row 1 of 34, section A, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 54.4,
+        "top": 137.0,
+        "width": 30.9,
+        "height": 12.4
+      }
+    },
+    "accNumA33a": {
+      "type": "text",
+      "label": "Section A, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 99.4,
+        "top": 137.0,
+        "width": 29.0,
+        "height": 12.4
+      }
+    },
+    "accNumA34": {
+      "type": "text",
+      "label": "This is row 1 of 34, section A, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 54.4,
+        "top": 119.6,
+        "width": 30.9,
+        "height": 13.0
+      }
+    },
+    "accNumA34a": {
+      "type": "text",
+      "label": "Section A, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 99.4,
+        "top": 119.6,
+        "width": 29.0,
+        "height": 13.0
+      }
+    },
+    "accNumB34": {
+      "type": "text",
+      "label": "Section B, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 228.8,
+        "top": 119.2,
+        "width": 32.2,
+        "height": 13.2
+      }
+    },
+    "accNumB34b": {
+      "type": "text",
+      "label": "Section B, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 119.2,
+        "width": 29.0,
+        "height": 13.2
+      }
+    },
+    "accNumC34": {
+      "type": "text",
+      "label": "Section C, enter the account numbers prior to 151.",
+      "page": 1,
+      "box": {
+        "left": 406.5,
+        "top": 119.2,
+        "width": 28.8,
+        "height": 13.2
+      }
+    },
+    "accNumC34c": {
+      "type": "text",
+      "label": "Section C, enter the account numbers after 151.",
+      "page": 1,
+      "box": {
+        "left": 450.4,
+        "top": 119.2,
+        "width": 30.7,
+        "height": 13.2
+      }
+    },
+    "totColABC": {
+      "type": "text",
+      "label": "Enter the end of month inventory totals for columns A, B and C.",
+      "page": 1,
+      "box": {
+        "left": 484.1,
+        "top": 99.2,
+        "width": 94.3,
+        "height": 29.6
+      }
+    },
+    "preparer": {
+      "type": "text",
+      "label": "Enter the preparer's  name (last, first and middle initial).",
+      "page": 1,
+      "box": {
+        "left": 38.1,
+        "top": 54.8,
+        "width": 197.7,
+        "height": 21.3
+      }
+    },
+    "date2": {
+      "type": "text",
+      "label": "Enter the date prepared (DD MMM YYYY).",
+      "page": 1,
+      "box": {
+        "left": 240.6,
+        "top": 54.8,
+        "width": 67.8,
+        "height": 21.3
+      }
+    },
+    "approver": {
+      "type": "text",
+      "label": "Enter the approver's name (last, first and middle initial).",
+      "page": 1,
+      "box": {
+        "left": 313.1,
+        "top": 54.8,
+        "width": 197.7,
+        "height": 21.3
+      }
+    },
+    "date3": {
+      "type": "text",
+      "label": "Enter the date approved (DD MMM YYYY).",
+      "page": 1,
+      "box": {
+        "left": 515.1,
+        "top": 54.8,
+        "width": 63.3,
+        "height": 21.3
+      }
+    },
+    "numericField1": {
+      "type": "text",
+      "label": "Navpers 7010/14",
+      "page": 1,
+      "box": {
+        "left": 86.1,
+        "top": 28.7,
+        "width": 50.3,
+        "height": 7.5
+      }
+    },
+    "numericField2": {
+      "type": "text",
+      "label": "Navpers 7010/14 (REV . 9-88) S/N 0106-LF-070-1072",
+      "page": 1,
+      "box": {
+        "left": 279.0,
+        "top": 28.7,
+        "width": 50.3,
+        "height": 7.5
+      }
+    },
+    "numericField3": {
+      "type": "text",
+      "label": "Navpers 7010/14 (REV . 9-88) S/N 0106-LF-070-1072",
+      "page": 1,
+      "box": {
+        "left": 473.1,
+        "top": 28.7,
+        "width": 50.3,
+        "height": 7.5
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 34,
+      "rowStride": 17.14,
+      "editor": "grid",
+      "columns": {
+        "endAmountA": {
+          "type": "text",
+          "label": "Section A, enter the end of month amount.",
+          "page": 1,
+          "box": {
+            "left": 132.6,
+            "top": 684.7,
+            "width": 81.3,
+            "height": 14.4
+          }
+        },
+        "endAmountB": {
+          "type": "text",
+          "label": "Section B, enter the end of month amount.",
+          "page": 1,
+          "box": {
+            "left": 325.5,
+            "top": 684.7,
+            "width": 76.8,
+            "height": 14.4
+          }
+        },
+        "endAmountC": {
+          "type": "text",
+          "label": "Section C, enter the end of month amount.",
+          "page": 1,
+          "box": {
+            "left": 484.1,
+            "top": 684.7,
+            "width": 74.0,
+            "height": 14.4
+          }
+        }
+      }
+    }
+  }
+}

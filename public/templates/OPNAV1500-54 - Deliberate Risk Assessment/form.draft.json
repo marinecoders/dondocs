@@ -1,0 +1,428 @@
+{
+  "id": "opnav150054",
+  "label": "OPNAV1500-54 - Deliberate Risk Assessment",
+  "directory": "OPNAV1500-54 - Deliberate Risk Assessment",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "date",
+        "prepBy",
+        "school",
+        "email",
+        "uic",
+        "tele",
+        "cin",
+        "revBy",
+        "lesson",
+        "appBy",
+        "evolution",
+        "obj",
+        "ops",
+        "potHaz"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "probability",
+        "severity",
+        "iRAC",
+        "controls",
+        "prob2",
+        "sev2",
+        "rRAC",
+        "implement",
+        "supervision",
+        "remarks3",
+        "checkBox1"
+      ]
+    }
+  ],
+  "fields": {
+    "date": {
+      "type": "text",
+      "label": "1. Date",
+      "page": 1,
+      "box": {
+        "left": 109.7,
+        "top": 575.1,
+        "width": 193.5,
+        "height": 13.1
+      }
+    },
+    "prepBy": {
+      "type": "text",
+      "label": "6. Prepared by",
+      "page": 1,
+      "box": {
+        "left": 370.8,
+        "top": 575.1,
+        "width": 202.1,
+        "height": 13.1
+      }
+    },
+    "school": {
+      "type": "text",
+      "label": "2. Command/School/Unit",
+      "page": 1,
+      "box": {
+        "left": 132.7,
+        "top": 556.4,
+        "width": 170.5,
+        "height": 13.1
+      }
+    },
+    "email": {
+      "type": "text",
+      "label": "7. Email",
+      "page": 1,
+      "box": {
+        "left": 370.8,
+        "top": 556.4,
+        "width": 202.1,
+        "height": 13.1
+      }
+    },
+    "uic": {
+      "type": "text",
+      "label": "3. UIC",
+      "page": 1,
+      "box": {
+        "left": 109.7,
+        "top": 537.7,
+        "width": 193.5,
+        "height": 13.1
+      }
+    },
+    "tele": {
+      "type": "text",
+      "label": "8. Telephone",
+      "page": 1,
+      "box": {
+        "left": 370.8,
+        "top": 537.7,
+        "width": 202.1,
+        "height": 13.1
+      }
+    },
+    "cin": {
+      "type": "text",
+      "label": "4. CIN",
+      "page": 1,
+      "box": {
+        "left": 109.7,
+        "top": 518.9,
+        "width": 193.5,
+        "height": 13.1
+      }
+    },
+    "revBy": {
+      "type": "text",
+      "label": "9. Reviewed by",
+      "page": 1,
+      "box": {
+        "left": 370.8,
+        "top": 518.9,
+        "width": 202.1,
+        "height": 13.1
+      }
+    },
+    "lesson": {
+      "type": "text",
+      "label": "5. Lesson/Mission",
+      "page": 1,
+      "box": {
+        "left": 109.7,
+        "top": 500.2,
+        "width": 193.5,
+        "height": 13.1
+      }
+    },
+    "appBy": {
+      "type": "text",
+      "label": "10. Approved by",
+      "page": 1,
+      "box": {
+        "left": 370.8,
+        "top": 500.2,
+        "width": 202.1,
+        "height": 13.1
+      }
+    },
+    "evolution": {
+      "type": "text",
+      "label": "11. Event/Evolution Title",
+      "page": 1,
+      "box": {
+        "left": 131.4,
+        "top": 481.8,
+        "width": 441.8,
+        "height": 13.1
+      }
+    },
+    "obj": {
+      "type": "text",
+      "label": "Obj",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 421.9,
+        "width": 534.4,
+        "height": 117.0
+      },
+      "multiline": true
+    },
+    "ops": {
+      "type": "text",
+      "label": "Ops",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 288.8,
+        "width": 534.4,
+        "height": 116.1
+      },
+      "multiline": true
+    },
+    "potHaz": {
+      "type": "text",
+      "label": "Pot Haz",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 156.6,
+        "width": 534.4,
+        "height": 116.1
+      },
+      "multiline": true
+    },
+    "probability": {
+      "type": "text",
+      "label": "a. Probability",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 717.1,
+        "width": 173.7,
+        "height": 12.9
+      }
+    },
+    "severity": {
+      "type": "text",
+      "label": "b. Severity",
+      "page": 2,
+      "box": {
+        "left": 218.7,
+        "top": 717.1,
+        "width": 173.7,
+        "height": 12.9
+      }
+    },
+    "iRAC": {
+      "type": "text",
+      "label": "c. INITIAL RAC",
+      "page": 2,
+      "box": {
+        "left": 397.1,
+        "top": 716.8,
+        "width": 176.5,
+        "height": 14.0
+      }
+    },
+    "controls": {
+      "type": "text",
+      "label": "Controls",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 652.8,
+        "width": 534.4,
+        "height": 84.0
+      },
+      "multiline": true
+    },
+    "prob2": {
+      "type": "text",
+      "label": "a. Probability",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 537.0,
+        "width": 173.7,
+        "height": 12.9
+      }
+    },
+    "sev2": {
+      "type": "text",
+      "label": "b. Severity",
+      "page": 2,
+      "box": {
+        "left": 218.7,
+        "top": 537.0,
+        "width": 173.7,
+        "height": 12.9
+      }
+    },
+    "rRAC": {
+      "type": "text",
+      "label": "c. RESIDUAL RAC",
+      "page": 2,
+      "box": {
+        "left": 398.0,
+        "top": 537.0,
+        "width": 173.7,
+        "height": 12.9
+      }
+    },
+    "implement": {
+      "type": "text",
+      "label": "Implement",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 478.6,
+        "width": 534.4,
+        "height": 88.3
+      },
+      "multiline": true
+    },
+    "supervision": {
+      "type": "text",
+      "label": "Supervision",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 337.0,
+        "width": 534.4,
+        "height": 91.1
+      },
+      "multiline": true
+    },
+    "remarks3": {
+      "type": "text",
+      "label": "Remarks 3",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 226.5,
+        "width": 534.4,
+        "height": 85.8
+      },
+      "multiline": true
+    },
+    "checkBox1": {
+      "type": "checkbox",
+      "label": "Remarks",
+      "page": 2,
+      "box": {
+        "left": 57.3,
+        "top": 130.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 4,
+      "rowStride": 20.4,
+      "editor": "grid",
+      "columns": {
+        "a": {
+          "type": "text",
+          "label": "I Death, Loss of Asset",
+          "page": 1,
+          "box": {
+            "left": 154.8,
+            "top": 671.9,
+            "width": 98.1,
+            "height": 13.0
+          }
+        },
+        "b": {
+          "type": "text",
+          "label": "I Death, Loss of Asset",
+          "page": 1,
+          "box": {
+            "left": 260.7,
+            "top": 671.9,
+            "width": 98.1,
+            "height": 13.0
+          }
+        },
+        "c": {
+          "type": "text",
+          "label": "I Death, Loss of Asset",
+          "page": 1,
+          "box": {
+            "left": 366.8,
+            "top": 671.9,
+            "width": 98.1,
+            "height": 13.0
+          }
+        },
+        "d": {
+          "type": "text",
+          "label": "I Death, Loss of Asset",
+          "page": 1,
+          "box": {
+            "left": 473.6,
+            "top": 671.9,
+            "width": 98.1,
+            "height": 13.0
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 2,
+      "count": 3,
+      "rowStride": 16.95,
+      "editor": "grid",
+      "columns": {
+        "revDte": {
+          "type": "text",
+          "label": "Review Date",
+          "page": 2,
+          "box": {
+            "left": 37.5,
+            "top": 86.8,
+            "width": 124.3,
+            "height": 14.9
+          }
+        },
+        "textField1": {
+          "type": "text",
+          "label": "Printed Name",
+          "page": 2,
+          "box": {
+            "left": 167.1,
+            "top": 86.8,
+            "width": 202.3,
+            "height": 14.9
+          }
+        },
+        "signatureField1": {
+          "type": "text",
+          "label": "Signature of Reviewing Official",
+          "page": 2,
+          "box": {
+            "left": 375.8,
+            "top": 86.8,
+            "width": 197.0,
+            "height": 14.9
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "name": {
+        "left": 65.2,
+        "top": 92.6,
+        "width": 481.7,
+        "height": 28.3,
+        "type": "text",
+        "description": "Last Name, First Name, and Middle Initial of Applicant",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "typeWit": {
+        "left": 65.2,
+        "top": 411.8,
+        "width": 229.7,
+        "height": 32.4,
+        "type": "text",
+        "description": "Signature of Witnessing Officer",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "typeApplicant": {
+        "left": 317.2,
+        "top": 411.8,
+        "width": 229.7,
+        "height": 32.4,
+        "type": "text",
+        "description": "Signature of Applicant",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateSigned": {
+        "left": 317.9,
+        "top": 339.1,
+        "width": 228.4,
+        "height": 21.3,
+        "type": "text",
+        "description": "Typed Full Name of Applicant",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

@@ -1,0 +1,251 @@
+{
+  "id": "opnav72001",
+  "label": "OPNAV7200-1 - Routine Acute MedicalDental Request Saos And Daos",
+  "directory": "OPNAV7200-1 - Routine Acute MedicalDental Request Saos And Daos",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "subjMD",
+        "nmeTrv",
+        "uic",
+        "brSer",
+        "nmeDep",
+        "natIll",
+        "dteAppt",
+        "desCty",
+        "desSt",
+        "desCtry",
+        "radio",
+        "radio2",
+        "noOfAttachments",
+        "attachmentsList",
+        "staNA",
+        "staGTR",
+        "pOCNme",
+        "pOCPh",
+        "pOCEm"
+      ]
+    }
+  ],
+  "fields": {
+    "subjMD": {
+      "type": "text",
+      "label": "1. Subject (Medical/Dental)",
+      "page": 1,
+      "box": {
+        "left": 194.0,
+        "top": 640.6,
+        "width": 379.2,
+        "height": 12.3
+      }
+    },
+    "nmeTrv": {
+      "type": "text",
+      "label": "2. Name of Traveler",
+      "page": 1,
+      "box": {
+        "left": 119.5,
+        "top": 622.6,
+        "width": 453.8,
+        "height": 12.3
+      }
+    },
+    "uic": {
+      "type": "text",
+      "label": "3. Unit Identification Code (UIC) of Service Member",
+      "page": 1,
+      "box": {
+        "left": 231.0,
+        "top": 604.6,
+        "width": 69.7,
+        "height": 12.3
+      }
+    },
+    "brSer": {
+      "type": "text",
+      "label": "4. Branch of Service",
+      "page": 1,
+      "box": {
+        "left": 390.3,
+        "top": 604.6,
+        "width": 182.6,
+        "height": 12.3
+      }
+    },
+    "nmeDep": {
+      "type": "text",
+      "label": "5. Name of Dependent (Use if dependent must be accompanied)",
+      "page": 1,
+      "box": {
+        "left": 263.2,
+        "top": 586.6,
+        "width": 310.0,
+        "height": 12.3
+      }
+    },
+    "natIll": {
+      "type": "text",
+      "label": "6. Nature of Illness (Be specific)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 555.5,
+        "width": 534.4,
+        "height": 71.2
+      },
+      "multiline": true
+    },
+    "dteAppt": {
+      "type": "text",
+      "label": "7. Date(s) of Appointment(s) (Be specific)",
+      "page": 1,
+      "box": {
+        "left": 208.2,
+        "top": 478.6,
+        "width": 365.1,
+        "height": 12.3
+      }
+    },
+    "desCty": {
+      "type": "text",
+      "label": "8. Destination City",
+      "page": 1,
+      "box": {
+        "left": 116.1,
+        "top": 460.6,
+        "width": 88.9,
+        "height": 12.3
+      }
+    },
+    "desSt": {
+      "type": "text",
+      "label": "9. Destination State",
+      "page": 1,
+      "box": {
+        "left": 287.8,
+        "top": 460.6,
+        "width": 88.9,
+        "height": 12.3
+      }
+    },
+    "desCtry": {
+      "type": "text",
+      "label": "10. Destination Country",
+      "page": 1,
+      "box": {
+        "left": 473.8,
+        "top": 460.6,
+        "width": 99.3,
+        "height": 12.3
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 533.9,
+        "top": 444.0,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 488.9,
+        "top": 443.9,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "noOfAttachments": {
+      "type": "text",
+      "label": "Number Of Attachments",
+      "page": 1,
+      "box": {
+        "left": 537.7,
+        "top": 424.6,
+        "width": 31.0,
+        "height": 12.3
+      }
+    },
+    "attachmentsList": {
+      "type": "choice",
+      "label": "12. List Of Attachments",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 395.8,
+        "width": 532.9,
+        "height": 54.8
+      }
+    },
+    "staNA": {
+      "type": "text",
+      "label": "Sta NA",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 321.0,
+        "width": 534.4,
+        "height": 75.3
+      },
+      "multiline": true
+    },
+    "staGTR": {
+      "type": "text",
+      "label": "Sta GTR",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 226.7,
+        "width": 534.4,
+        "height": 75.6
+      },
+      "multiline": true
+    },
+    "pOCNme": {
+      "type": "text",
+      "label": "15. POC Name",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 133.1,
+        "width": 203.2,
+        "height": 12.3
+      }
+    },
+    "pOCPh": {
+      "type": "text",
+      "label": "16. POC Phone No",
+      "page": 1,
+      "box": {
+        "left": 247.6,
+        "top": 133.1,
+        "width": 119.6,
+        "height": 12.3
+      }
+    },
+    "pOCEm": {
+      "type": "text",
+      "label": "17. POC E-mail Address",
+      "page": 1,
+      "box": {
+        "left": 372.9,
+        "top": 133.1,
+        "width": 200.3,
+        "height": 12.3
+      }
+    }
+  }
+}

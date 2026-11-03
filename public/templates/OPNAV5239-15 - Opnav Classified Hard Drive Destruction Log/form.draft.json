@@ -1,0 +1,384 @@
+{
+  "id": "opnav523915",
+  "label": "OPNAV5239-15 - Opnav Classified Hard Drive Destruction Log",
+  "directory": "OPNAV5239-15 - Opnav Classified Hard Drive Destruction Log",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "serNo",
+        "typMod",
+        "class",
+        "compNme",
+        "astTag",
+        "useNme",
+        "ncode",
+        "cordNme",
+        "sntDte",
+        "brnSerNo"
+      ]
+    }
+  ],
+  "fields": {
+    "serNo": {
+      "type": "text",
+      "label": "SerNo",
+      "page": 1,
+      "box": {
+        "left": 35.8,
+        "top": 506.5,
+        "width": 99.3,
+        "height": 20.8
+      }
+    },
+    "typMod": {
+      "type": "text",
+      "label": "TypMod",
+      "page": 1,
+      "box": {
+        "left": 135.8,
+        "top": 506.5,
+        "width": 85.9,
+        "height": 20.8
+      }
+    },
+    "class": {
+      "type": "choice",
+      "label": "Class",
+      "page": 1,
+      "box": {
+        "left": 223.4,
+        "top": 506.5,
+        "width": 46.3,
+        "height": 20.8
+      },
+      "options": [
+        "UNCLASS",
+        "CONF",
+        "SECRET",
+        "TS",
+        "SCI"
+      ]
+    },
+    "compNme": {
+      "type": "text",
+      "label": "CompNme",
+      "page": 1,
+      "box": {
+        "left": 270.1,
+        "top": 506.5,
+        "width": 67.0,
+        "height": 20.8
+      }
+    },
+    "astTag": {
+      "type": "text",
+      "label": "AstTag",
+      "page": 1,
+      "box": {
+        "left": 337.1,
+        "top": 506.5,
+        "width": 66.9,
+        "height": 20.8
+      }
+    },
+    "useNme": {
+      "type": "text",
+      "label": "UseNme",
+      "page": 1,
+      "box": {
+        "left": 405.4,
+        "top": 506.5,
+        "width": 88.4,
+        "height": 20.8
+      }
+    },
+    "ncode": {
+      "type": "text",
+      "label": "NCODE",
+      "page": 1,
+      "box": {
+        "left": 493.8,
+        "top": 506.5,
+        "width": 40.8,
+        "height": 20.8
+      }
+    },
+    "cordNme": {
+      "type": "text",
+      "label": "CordNme",
+      "page": 1,
+      "box": {
+        "left": 535.5,
+        "top": 506.5,
+        "width": 88.4,
+        "height": 20.8
+      }
+    },
+    "sntDte": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 625.0,
+        "top": 506.5,
+        "width": 63.2,
+        "height": 20.8
+      }
+    },
+    "brnSerNo": {
+      "type": "text",
+      "label": "BrnSerNo",
+      "page": 1,
+      "box": {
+        "left": 688.2,
+        "top": 506.5,
+        "width": 66.2,
+        "height": 20.8
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 10,
+      "rowStride": 21.33,
+      "editor": "grid",
+      "columns": {
+        "serNo12": {
+          "type": "text",
+          "label": "SerNo12",
+          "page": 1,
+          "box": {
+            "left": 35.8,
+            "top": 249.6,
+            "width": 99.3,
+            "height": 20.8
+          }
+        },
+        "typMod12": {
+          "type": "text",
+          "label": "TypMod12",
+          "page": 1,
+          "box": {
+            "left": 135.8,
+            "top": 249.6,
+            "width": 85.9,
+            "height": 20.8
+          }
+        },
+        "class12": {
+          "type": "choice",
+          "label": "Class12",
+          "page": 1,
+          "box": {
+            "left": 223.4,
+            "top": 249.6,
+            "width": 46.3,
+            "height": 20.8
+          }
+        },
+        "compNme12": {
+          "type": "text",
+          "label": "CompNme12",
+          "page": 1,
+          "box": {
+            "left": 270.1,
+            "top": 249.6,
+            "width": 67.0,
+            "height": 20.8
+          }
+        },
+        "astTag12": {
+          "type": "text",
+          "label": "AstTag12",
+          "page": 1,
+          "box": {
+            "left": 337.1,
+            "top": 249.6,
+            "width": 66.9,
+            "height": 20.8
+          }
+        },
+        "useNme12": {
+          "type": "text",
+          "label": "UseNme12",
+          "page": 1,
+          "box": {
+            "left": 405.4,
+            "top": 249.6,
+            "width": 88.4,
+            "height": 20.8
+          }
+        },
+        "ncode12": {
+          "type": "text",
+          "label": "NCODE12",
+          "page": 1,
+          "box": {
+            "left": 493.8,
+            "top": 249.6,
+            "width": 40.8,
+            "height": 20.8
+          }
+        },
+        "cordNme12": {
+          "type": "text",
+          "label": "CordNme12",
+          "page": 1,
+          "box": {
+            "left": 535.5,
+            "top": 249.6,
+            "width": 88.4,
+            "height": 20.8
+          }
+        },
+        "sntDte12": {
+          "type": "text",
+          "label": "Enter the date using the format DD MMM YYYY.",
+          "page": 1,
+          "box": {
+            "left": 625.0,
+            "top": 249.6,
+            "width": 63.2,
+            "height": 20.8
+          }
+        },
+        "brnSerNo12": {
+          "type": "text",
+          "label": "BrnSerNo12",
+          "page": 1,
+          "box": {
+            "left": 688.2,
+            "top": 249.6,
+            "width": 66.2,
+            "height": 20.8
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 11,
+      "rowStride": 21.4,
+      "editor": "grid",
+      "columns": {
+        "serNo": {
+          "type": "text",
+          "label": "SerNo1",
+          "page": 1,
+          "box": {
+            "left": 35.8,
+            "top": 485.1,
+            "width": 99.3,
+            "height": 20.8
+          }
+        },
+        "typMod": {
+          "type": "text",
+          "label": "TypMod1",
+          "page": 1,
+          "box": {
+            "left": 135.8,
+            "top": 485.1,
+            "width": 85.9,
+            "height": 20.8
+          }
+        },
+        "class": {
+          "type": "choice",
+          "label": "Class1",
+          "page": 1,
+          "box": {
+            "left": 223.4,
+            "top": 485.1,
+            "width": 46.3,
+            "height": 20.8
+          }
+        },
+        "compNme": {
+          "type": "text",
+          "label": "CompNme1",
+          "page": 1,
+          "box": {
+            "left": 270.1,
+            "top": 485.0,
+            "width": 67.0,
+            "height": 20.8
+          }
+        },
+        "astTag": {
+          "type": "text",
+          "label": "AstTag1",
+          "page": 1,
+          "box": {
+            "left": 337.1,
+            "top": 485.0,
+            "width": 66.9,
+            "height": 20.8
+          }
+        },
+        "useNme": {
+          "type": "text",
+          "label": "UseNme1",
+          "page": 1,
+          "box": {
+            "left": 405.4,
+            "top": 485.1,
+            "width": 88.4,
+            "height": 20.8
+          }
+        },
+        "ncode": {
+          "type": "text",
+          "label": "NCODE1",
+          "page": 1,
+          "box": {
+            "left": 493.8,
+            "top": 485.0,
+            "width": 40.8,
+            "height": 20.8
+          }
+        },
+        "cordNme": {
+          "type": "text",
+          "label": "CordNme1",
+          "page": 1,
+          "box": {
+            "left": 535.5,
+            "top": 485.0,
+            "width": 88.4,
+            "height": 20.8
+          }
+        },
+        "sntDte": {
+          "type": "text",
+          "label": "Enter the date using the format DD MMM YYYY.",
+          "page": 1,
+          "box": {
+            "left": 625.0,
+            "top": 485.0,
+            "width": 63.2,
+            "height": 20.8
+          }
+        },
+        "brnSerNo": {
+          "type": "text",
+          "label": "BrnSerNo1",
+          "page": 1,
+          "box": {
+            "left": 688.2,
+            "top": 485.0,
+            "width": 66.2,
+            "height": 20.8
+          }
+        }
+      }
+    }
+  }
+}

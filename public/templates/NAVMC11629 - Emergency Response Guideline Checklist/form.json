@@ -1,0 +1,269 @@
+{
+  "id": "navmc11629",
+  "label": "NAVMC 11629 - Emergency Response Guideline Checklist",
+  "directory": "NAVMC11629 - Emergency Response Guideline Checklist",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "nameLast",
+        "nameFirst",
+        "nameMI",
+        "mos",
+        "phoneNumber",
+        "date",
+        "wsso",
+        "corpsman",
+        "mciwsMCITWS",
+        "ert",
+        "safetyVehicle",
+        "aed",
+        "poolDeck",
+        "date2",
+        "completion",
+        "nameMCIWSorMCITWS",
+        "mciwsMCITWSSig",
+        "mciwsMCITWSPhone",
+        "nameWSSO",
+        "wSSOSig",
+        "wSSOphone"
+      ]
+    }
+  ],
+  "fields": {
+    "nameLast": {
+      "type": "text",
+      "label": "nameLast",
+      "page": 1,
+      "box": {
+        "left": 21.7,
+        "top": 647.0,
+        "width": 142.5,
+        "height": 17.3
+      }
+    },
+    "nameFirst": {
+      "type": "text",
+      "label": "nameFirst",
+      "page": 1,
+      "box": {
+        "left": 168.6,
+        "top": 647.0,
+        "width": 134.8,
+        "height": 17.3
+      }
+    },
+    "nameMI": {
+      "type": "text",
+      "label": "nameMI",
+      "page": 1,
+      "box": {
+        "left": 306.3,
+        "top": 647.0,
+        "width": 28.3,
+        "height": 17.3
+      }
+    },
+    "mos": {
+      "type": "text",
+      "label": "MOS",
+      "page": 1,
+      "box": {
+        "left": 338.8,
+        "top": 647.0,
+        "width": 79.5,
+        "height": 17.3
+      }
+    },
+    "phoneNumber": {
+      "type": "text",
+      "label": "PhoneNumber",
+      "page": 1,
+      "box": {
+        "left": 421.6,
+        "top": 647.0,
+        "width": 98.6,
+        "height": 17.3
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 522.2,
+        "top": 647.0,
+        "width": 68.8,
+        "height": 17.3
+      }
+    },
+    "wsso": {
+      "type": "checkbox",
+      "label": "WSSO",
+      "page": 1,
+      "box": {
+        "left": 36.8,
+        "top": 557.0,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "corpsman": {
+      "type": "checkbox",
+      "label": "Corpsman",
+      "page": 1,
+      "box": {
+        "left": 36.8,
+        "top": 510.8,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "mciwsMCITWS": {
+      "type": "checkbox",
+      "label": "MCIWS-MCITWS",
+      "page": 1,
+      "box": {
+        "left": 36.8,
+        "top": 466.1,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "ert": {
+      "type": "checkbox",
+      "label": "ERT",
+      "page": 1,
+      "box": {
+        "left": 36.8,
+        "top": 429.7,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "safetyVehicle": {
+      "type": "checkbox",
+      "label": "SafetyVehicle",
+      "page": 1,
+      "box": {
+        "left": 36.8,
+        "top": 385.8,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "aed": {
+      "type": "checkbox",
+      "label": "AED",
+      "page": 1,
+      "box": {
+        "left": 36.8,
+        "top": 345.5,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "poolDeck": {
+      "type": "checkbox",
+      "label": "PoolDeck",
+      "page": 1,
+      "box": {
+        "left": 36.8,
+        "top": 301.6,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "date2": {
+      "type": "text",
+      "label": "date2",
+      "page": 1,
+      "box": {
+        "left": 407.9,
+        "top": 222.3,
+        "width": 61.1,
+        "height": 13.6
+      }
+    },
+    "completion": {
+      "type": "checkbox",
+      "label": "Completion",
+      "page": 1,
+      "box": {
+        "left": 36.8,
+        "top": 221.2,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "nameMCIWSorMCITWS": {
+      "type": "text",
+      "label": "NameMCIWSorMCITWS",
+      "page": 1,
+      "box": {
+        "left": 38.7,
+        "top": 152.1,
+        "width": 254.9,
+        "height": 16.6
+      }
+    },
+    "mciwsMCITWSSig": {
+      "type": "signature",
+      "label": "MCIWS-MCITWSSig",
+      "page": 1,
+      "box": {
+        "left": 297.4,
+        "top": 152.1,
+        "width": 152.1,
+        "height": 16.6
+      }
+    },
+    "mciwsMCITWSPhone": {
+      "type": "text",
+      "label": "MCIWS-MCITWSPhone",
+      "page": 1,
+      "box": {
+        "left": 455.0,
+        "top": 152.1,
+        "width": 90.7,
+        "height": 16.6
+      }
+    },
+    "nameWSSO": {
+      "type": "text",
+      "label": "NameWSSO",
+      "page": 1,
+      "box": {
+        "left": 38.7,
+        "top": 108.4,
+        "width": 254.9,
+        "height": 16.6
+      }
+    },
+    "wSSOSig": {
+      "type": "signature",
+      "label": "WSSOSig",
+      "page": 1,
+      "box": {
+        "left": 297.4,
+        "top": 108.4,
+        "width": 152.1,
+        "height": 16.6
+      }
+    },
+    "wSSOphone": {
+      "type": "text",
+      "label": "WSSOphone",
+      "page": 1,
+      "box": {
+        "left": 455.0,
+        "top": 108.3,
+        "width": 90.7,
+        "height": 16.6
+      }
+    }
+  }
+}

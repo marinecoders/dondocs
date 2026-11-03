@@ -1,0 +1,421 @@
+{
+  "id": "navpers14205",
+  "label": "NAVPERS1420-5 - LdoCwo Eligibility Checklist",
+  "directory": "NAVPERS1420-5 - LdoCwo Eligibility Checklist",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "memName",
+        "memRate",
+        "des1",
+        "des2",
+        "cell3",
+        "cell4",
+        "cell32",
+        "cell42",
+        "cell33",
+        "cell43",
+        "cell34",
+        "cell44",
+        "cell35",
+        "cell45",
+        "cell36",
+        "cell46",
+        "cell37",
+        "cell47",
+        "cell38",
+        "cell48",
+        "cell39",
+        "cell49",
+        "cell310",
+        "cell410",
+        "cell311",
+        "cell411",
+        "cell312",
+        "cell412",
+        "cell2",
+        "cell313",
+        "comCorEmail",
+        "comCorName",
+        "comCorSig"
+      ]
+    }
+  ],
+  "fields": {
+    "memName": {
+      "type": "text",
+      "label": "Name (Last, First, MI)",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 673.9,
+        "width": 246.3,
+        "height": 20.9
+      }
+    },
+    "memRate": {
+      "type": "text",
+      "label": "Rating",
+      "page": 1,
+      "box": {
+        "left": 290.9,
+        "top": 673.9,
+        "width": 66.2,
+        "height": 20.9
+      }
+    },
+    "des1": {
+      "type": "text",
+      "label": "Designator Choice 1",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 673.9,
+        "width": 102.3,
+        "height": 20.9
+      }
+    },
+    "des2": {
+      "type": "text",
+      "label": "Designator Choice 2",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 673.9,
+        "width": 102.3,
+        "height": 20.9
+      }
+    },
+    "cell3": {
+      "type": "text",
+      "label": "Command",
+      "page": 1,
+      "box": {
+        "left": 492.5,
+        "top": 628.5,
+        "width": 37.4,
+        "height": 33.1
+      },
+      "multiline": true
+    },
+    "cell4": {
+      "type": "text",
+      "label": "PERS-803",
+      "page": 1,
+      "box": {
+        "left": 535.7,
+        "top": 628.5,
+        "width": 37.4,
+        "height": 33.1
+      },
+      "multiline": true
+    },
+    "cell32": {
+      "type": "text",
+      "label": "1 October 2019 - 1 October 2011",
+      "page": 1,
+      "box": {
+        "left": 492.5,
+        "top": 592.5,
+        "width": 37.4,
+        "height": 72.9
+      },
+      "multiline": true
+    },
+    "cell42": {
+      "type": "text",
+      "label": "1 October 2019 - 1 October 2011",
+      "page": 1,
+      "box": {
+        "left": 535.7,
+        "top": 592.5,
+        "width": 37.4,
+        "height": 72.9
+      },
+      "multiline": true
+    },
+    "cell33": {
+      "type": "text",
+      "label": "Command",
+      "page": 1,
+      "box": {
+        "left": 492.5,
+        "top": 516.8,
+        "width": 37.4,
+        "height": 22.3
+      }
+    },
+    "cell43": {
+      "type": "text",
+      "label": "PERS-803",
+      "page": 1,
+      "box": {
+        "left": 535.7,
+        "top": 516.8,
+        "width": 37.4,
+        "height": 22.3
+      }
+    },
+    "cell34": {
+      "type": "text",
+      "label": "Command",
+      "page": 1,
+      "box": {
+        "left": 492.5,
+        "top": 491.6,
+        "width": 37.4,
+        "height": 22.3
+      }
+    },
+    "cell44": {
+      "type": "text",
+      "label": "PERS-803",
+      "page": 1,
+      "box": {
+        "left": 535.7,
+        "top": 491.6,
+        "width": 37.4,
+        "height": 22.3
+      }
+    },
+    "cell35": {
+      "type": "text",
+      "label": "Command",
+      "page": 1,
+      "box": {
+        "left": 492.5,
+        "top": 466.4,
+        "width": 37.4,
+        "height": 25.9
+      }
+    },
+    "cell45": {
+      "type": "text",
+      "label": "PERS-803",
+      "page": 1,
+      "box": {
+        "left": 535.7,
+        "top": 466.4,
+        "width": 37.4,
+        "height": 25.9
+      }
+    },
+    "cell36": {
+      "type": "text",
+      "label": "Applicant signed the application",
+      "page": 1,
+      "box": {
+        "left": 492.5,
+        "top": 437.6,
+        "width": 37.4,
+        "height": 25.9
+      }
+    },
+    "cell46": {
+      "type": "text",
+      "label": "Applicant signed the application",
+      "page": 1,
+      "box": {
+        "left": 535.7,
+        "top": 437.6,
+        "width": 37.4,
+        "height": 25.9
+      }
+    },
+    "cell37": {
+      "type": "text",
+      "label": "Command",
+      "page": 1,
+      "box": {
+        "left": 492.5,
+        "top": 408.8,
+        "width": 37.4,
+        "height": 40.3
+      },
+      "multiline": true
+    },
+    "cell47": {
+      "type": "text",
+      "label": "PERS-803",
+      "page": 1,
+      "box": {
+        "left": 535.7,
+        "top": 408.8,
+        "width": 37.4,
+        "height": 40.3
+      },
+      "multiline": true
+    },
+    "cell38": {
+      "type": "text",
+      "label": "concerning the applicant and must address any",
+      "page": 1,
+      "box": {
+        "left": 492.5,
+        "top": 365.6,
+        "width": 37.4,
+        "height": 22.3
+      }
+    },
+    "cell48": {
+      "type": "text",
+      "label": "concerning the applicant and must address any",
+      "page": 1,
+      "box": {
+        "left": 535.7,
+        "top": 365.6,
+        "width": 37.4,
+        "height": 22.3
+      }
+    },
+    "cell39": {
+      "type": "text",
+      "label": "Command",
+      "page": 1,
+      "box": {
+        "left": 492.5,
+        "top": 340.4,
+        "width": 37.4,
+        "height": 22.3
+      }
+    },
+    "cell49": {
+      "type": "text",
+      "label": "PERS-803",
+      "page": 1,
+      "box": {
+        "left": 535.7,
+        "top": 340.4,
+        "width": 37.4,
+        "height": 22.3
+      }
+    },
+    "cell310": {
+      "type": "text",
+      "label": "Command",
+      "page": 1,
+      "box": {
+        "left": 492.5,
+        "top": 315.2,
+        "width": 37.4,
+        "height": 22.3
+      }
+    },
+    "cell410": {
+      "type": "text",
+      "label": "PERS-803",
+      "page": 1,
+      "box": {
+        "left": 535.7,
+        "top": 315.2,
+        "width": 37.4,
+        "height": 22.3
+      }
+    },
+    "cell311": {
+      "type": "text",
+      "label": "Command",
+      "page": 1,
+      "box": {
+        "left": 492.5,
+        "top": 290.0,
+        "width": 37.4,
+        "height": 40.3
+      },
+      "multiline": true
+    },
+    "cell411": {
+      "type": "text",
+      "label": "PERS-803",
+      "page": 1,
+      "box": {
+        "left": 535.7,
+        "top": 290.0,
+        "width": 37.4,
+        "height": 40.3
+      },
+      "multiline": true
+    },
+    "cell312": {
+      "type": "text",
+      "label": "Command",
+      "page": 1,
+      "box": {
+        "left": 492.5,
+        "top": 246.8,
+        "width": 37.4,
+        "height": 25.9
+      }
+    },
+    "cell412": {
+      "type": "text",
+      "label": "PERS-803",
+      "page": 1,
+      "box": {
+        "left": 535.7,
+        "top": 246.8,
+        "width": 37.4,
+        "height": 25.9
+      }
+    },
+    "cell2": {
+      "type": "text",
+      "label": "Reviewers\u2019 initials",
+      "page": 1,
+      "box": {
+        "left": 492.5,
+        "top": 217.9,
+        "width": 37.4,
+        "height": 18.3
+      }
+    },
+    "cell313": {
+      "type": "text",
+      "label": "Reviewers\u2019 initials",
+      "page": 1,
+      "box": {
+        "left": 535.7,
+        "top": 217.9,
+        "width": 37.4,
+        "height": 18.3
+      }
+    },
+    "comCorEmail": {
+      "type": "text",
+      "label": "Command Coordinator E-mail Address",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 158.2,
+        "width": 534.3,
+        "height": 20.9
+      }
+    },
+    "comCorName": {
+      "type": "text",
+      "label": "Command Coordinator Name and Grade",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 125.8,
+        "width": 228.3,
+        "height": 20.9
+      }
+    },
+    "comCorSig": {
+      "type": "text",
+      "label": "Command Coordinator Signature",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 125.8,
+        "width": 228.3,
+        "height": 20.9
+      }
+    }
+  }
+}

@@ -1,0 +1,139 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 792,
+    "height": 612
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "originator": {
+        "left": 25.9,
+        "top": 537.7,
+        "width": 415.4,
+        "height": 27.9,
+        "type": "text",
+        "description": "Enter the originator or higher authority having cognizance over subject matter.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dNSDate3": {
+        "left": 450.1,
+        "top": 537.7,
+        "width": 102.2,
+        "height": 27.9,
+        "type": "text",
+        "description": "Enter the date using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "address": {
+        "left": 28.8,
+        "top": 486.9,
+        "width": 519.4,
+        "height": 89.8,
+        "type": "text",
+        "description": "Enter the addresses of original distribution (use standard navy distribution list member if applicable.  Additional sheets may be attached if more space is necessary.)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "regradedTo": {
+        "left": 87.1,
+        "top": 359.3,
+        "width": 131.2,
+        "height": 20.0,
+        "type": "text",
+        "description": "Enter the value regraded to. ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "downgradedTo": {
+        "left": 302.0,
+        "top": 359.3,
+        "width": 120.7,
+        "height": 20.0,
+        "type": "text",
+        "description": "Enter the value downgraded to.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "regraded": {
+        "left": 25.0,
+        "top": 352.6,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if regraded.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "downGraded": {
+        "left": 229.4,
+        "top": 352.6,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if downgraded.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "declassified": {
+        "left": 467.6,
+        "top": 352.6,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox if declassified.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "descriptionOfMaterial": {
+        "left": 144.1,
+        "top": 310.4,
+        "width": 404.0,
+        "height": 49.0,
+        "type": "text",
+        "description": "Enter the description of material (Avoid identification which would cause this form to be classified).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dNSDate31": {
+        "left": 28.8,
+        "top": 309.2,
+        "width": 104.9,
+        "height": 46.9,
+        "type": "text",
+        "description": "Enter the date using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sigOff": {
+        "left": 145.3,
+        "top": 247.6,
+        "width": 404.0,
+        "height": 10.4,
+        "type": "text",
+        "description": "Enter the signature of the authorizing official.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

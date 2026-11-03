@@ -1,0 +1,189 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "commandname": {
+        "left": 130.6,
+        "top": 738.6,
+        "width": 348.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "1. COMMAND NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cmdUIC": {
+        "left": 520.8,
+        "top": 738.6,
+        "width": 54.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "2. UIC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mailing": {
+        "left": 145.0,
+        "top": 720.0,
+        "width": 431.1,
+        "height": 18.0,
+        "type": "text",
+        "description": "3. COMMAND ADDRESS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "phone": {
+        "left": 193.2,
+        "top": 702.0,
+        "width": 75.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "4. COMMAND POC PHONE NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "email": {
+        "left": 387.9,
+        "top": 702.0,
+        "width": 188.2,
+        "height": 18.0,
+        "type": "text",
+        "description": "5. COMMAND POC EMAIL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "srcommandname": {
+        "left": 189.8,
+        "top": 684.0,
+        "width": 386.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "6. NEXT SENIOR COMMAND NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "srmailing": {
+        "left": 206.3,
+        "top": 666.0,
+        "width": 369.8,
+        "height": 16.3,
+        "type": "text",
+        "description": "7. NEXT SENIOR COMMAND ADDRESS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "category": {
+        "left": 108.6,
+        "top": 648.7,
+        "width": 466.8,
+        "height": 16.5,
+        "type": "choice",
+        "description": "8. CATEGORY",
+        "options": [
+          "Junior Public Affairs Officer of the Year",
+          "Junior Reserve Public Affairs Officer of the Year",
+          "Junior Civilian Public Affairs Specialist of the Year",
+          "Junior Collateral Duty Public Affairs Officer of the Year",
+          "Enlisted Public Affairs Officer of the Year"
+        ],
+        "group": null,
+        "required": false
+      },
+      "radio": {
+        "left": 147.0,
+        "top": 625.7,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio2": {
+        "left": 196.1,
+        "top": 625.7,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio3": {
+        "left": 376.8,
+        "top": 625.7,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio4": {
+        "left": 474.8,
+        "top": 625.7,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "pocname": {
+        "left": 41.0,
+        "top": 596.8,
+        "width": 202.0,
+        "height": 17.7,
+        "type": "text",
+        "description": "11. NOMINEE&apos;S NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pocrank": {
+        "left": 248.1,
+        "top": 596.8,
+        "width": 88.6,
+        "height": 17.7,
+        "type": "text",
+        "description": "12. NOMINEE&apos;S RANK",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pocphone": {
+        "left": 342.3,
+        "top": 596.8,
+        "width": 233.8,
+        "height": 17.7,
+        "type": "text",
+        "description": "13. NOMINEE&apos;S LENGTH OF PUBLIC AFFAIRS EXPERIENCE",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

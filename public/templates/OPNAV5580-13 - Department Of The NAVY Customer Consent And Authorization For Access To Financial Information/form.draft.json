@@ -1,0 +1,193 @@
+{
+  "id": "opnav558013",
+  "label": "OPNAV5580-13 - Department Of The NAVY Customer Consent And Authorization For Access To Financial Information",
+  "directory": "OPNAV5580-13 - Department Of The NAVY Customer Consent And Authorization For Access To Financial Information",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "signature",
+        "signature1",
+        "authorizedsignature1",
+        "financialrecords",
+        "authorizedind",
+        "date",
+        "signature2",
+        "typedname",
+        "address",
+        "witnesses"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "additionalinfor",
+        "name",
+        "telephone",
+        "componentactivandaddress"
+      ]
+    }
+  ],
+  "fields": {
+    "signature": {
+      "type": "text",
+      "label": "Enter the signature.",
+      "page": 1,
+      "box": {
+        "left": 448.2,
+        "top": 662.8,
+        "width": 111.4,
+        "height": 14.0
+      }
+    },
+    "signature1": {
+      "type": "text",
+      "label": "Enter the signature.",
+      "page": 1,
+      "box": {
+        "left": 75.6,
+        "top": 638.1,
+        "width": 104.7,
+        "height": 14.0
+      }
+    },
+    "authorizedsignature1": {
+      "type": "text",
+      "label": "Enter and indicate the authorized individual.",
+      "page": 1,
+      "box": {
+        "left": 104.6,
+        "top": 620.1,
+        "width": 454.7,
+        "height": 17.5
+      }
+    },
+    "financialrecords": {
+      "type": "text",
+      "label": "Enter the financial records.",
+      "page": 1,
+      "box": {
+        "left": 251.1,
+        "top": 591.7,
+        "width": 308.5,
+        "height": 18.4
+      }
+    },
+    "authorizedind": {
+      "type": "text",
+      "label": "Enter and indicate the authorized individual signature.",
+      "page": 1,
+      "box": {
+        "left": 88.3,
+        "top": 546.2,
+        "width": 305.9,
+        "height": 16.0
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 339.0,
+        "top": 380.0,
+        "width": 68.1,
+        "height": 14.5
+      }
+    },
+    "signature2": {
+      "type": "text",
+      "label": "Enter the signature.",
+      "page": 1,
+      "box": {
+        "left": 375.4,
+        "top": 348.0,
+        "width": 184.6,
+        "height": 16.3
+      }
+    },
+    "typedname": {
+      "type": "text",
+      "label": "Enter the typed name.",
+      "page": 1,
+      "box": {
+        "left": 380.8,
+        "top": 314.6,
+        "width": 179.1,
+        "height": 17.3
+      }
+    },
+    "address": {
+      "type": "text",
+      "label": "Enter the address of the customer.",
+      "page": 1,
+      "box": {
+        "left": 286.7,
+        "top": 241.9,
+        "width": 273.7,
+        "height": 102.4
+      },
+      "multiline": true
+    },
+    "witnesses": {
+      "type": "text",
+      "label": "Enter the witnesses signature.",
+      "page": 1,
+      "box": {
+        "left": 370.8,
+        "top": 122.6,
+        "width": 189.2,
+        "height": 22.0
+      }
+    },
+    "additionalinfor": {
+      "type": "text",
+      "label": "Enter additional information how to consent to release your financial records, please call the official whose name and telephone number appears below:",
+      "page": 2,
+      "box": {
+        "left": 58.0,
+        "top": 164.7,
+        "width": 502.3,
+        "height": 18.8
+      }
+    },
+    "name": {
+      "type": "text",
+      "label": "Enter the name and title (last, first, MI).",
+      "page": 2,
+      "box": {
+        "left": 57.4,
+        "top": 131.8,
+        "width": 355.7,
+        "height": 17.6
+      }
+    },
+    "telephone": {
+      "type": "text",
+      "label": "Enter the telephone number.",
+      "page": 2,
+      "box": {
+        "left": 418.4,
+        "top": 131.8,
+        "width": 138.9,
+        "height": 17.8
+      }
+    },
+    "componentactivandaddress": {
+      "type": "text",
+      "label": "Enter the component activity and address.",
+      "page": 2,
+      "box": {
+        "left": 59.4,
+        "top": 101.5,
+        "width": 511.0,
+        "height": 56.9
+      },
+      "multiline": true
+    }
+  }
+}

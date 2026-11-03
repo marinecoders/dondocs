@@ -1,0 +1,374 @@
+{
+  "id": "opnav479066",
+  "label": "OPNAV4790-66 - Tech Publications Deficiency Rpt",
+  "directory": "OPNAV4790-66 - Tech Publications Deficiency Rpt",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "a",
+        "b",
+        "c",
+        "repact",
+        "repconum",
+        "datereport",
+        "wsa4",
+        "discode",
+        "dNSDate7",
+        "tmn",
+        "dNSDate8",
+        "wpno",
+        "secpagno",
+        "parano",
+        "figTblno",
+        "cartno",
+        "dNSDate14",
+        "frame",
+        "deficiency",
+        "recommendation",
+        "impact",
+        "mediaEval19",
+        "mediaEval192",
+        "mediaEval193",
+        "remarks",
+        "reportedby",
+        "dNS3reported",
+        "releasedby",
+        "dNS3released"
+      ]
+    }
+  ],
+  "fields": {
+    "a": {
+      "type": "text",
+      "label": "Enter the QA sequence number.",
+      "page": 1,
+      "box": {
+        "left": 253.3,
+        "top": 711.8,
+        "width": 114.2,
+        "height": 14.5
+      }
+    },
+    "b": {
+      "type": "text",
+      "label": "Enter the data manager code.",
+      "page": 1,
+      "box": {
+        "left": 375.6,
+        "top": 711.8,
+        "width": 109.7,
+        "height": 14.5
+      }
+    },
+    "c": {
+      "type": "text",
+      "label": "Enter the FST/prime code.",
+      "page": 1,
+      "box": {
+        "left": 492.6,
+        "top": 711.8,
+        "width": 96.2,
+        "height": 14.5
+      }
+    },
+    "repact": {
+      "type": "text",
+      "label": "Enter the reporting activity.",
+      "page": 1,
+      "box": {
+        "left": 26.1,
+        "top": 683.6,
+        "width": 219.9,
+        "height": 53.3
+      },
+      "multiline": true
+    },
+    "repconum": {
+      "type": "text",
+      "label": "Enter the reporting control number.",
+      "page": 1,
+      "box": {
+        "left": 252.6,
+        "top": 678.0,
+        "width": 336.9,
+        "height": 14.5
+      }
+    },
+    "datereport": {
+      "type": "text",
+      "label": "Enter the date as YY MM DD.",
+      "page": 1,
+      "box": {
+        "left": 252.6,
+        "top": 644.8,
+        "width": 54.8,
+        "height": 14.5
+      }
+    },
+    "wsa4": {
+      "type": "text",
+      "label": "Enter the weapon system application.",
+      "page": 1,
+      "box": {
+        "left": 342.6,
+        "top": 644.8,
+        "width": 174.9,
+        "height": 14.5
+      }
+    },
+    "discode": {
+      "type": "text",
+      "label": "Enter the discrepancy code (see page 2).",
+      "page": 1,
+      "box": {
+        "left": 523.3,
+        "top": 644.8,
+        "width": 66.2,
+        "height": 14.5
+      }
+    },
+    "dNSDate7": {
+      "type": "text",
+      "label": "Enter the technical manual date using the format YY MM DD.",
+      "page": 1,
+      "box": {
+        "left": 293.0,
+        "top": 612.5,
+        "width": 106.2,
+        "height": 14.0
+      }
+    },
+    "tmn": {
+      "type": "text",
+      "label": "Enter the technical manual number.",
+      "page": 1,
+      "box": {
+        "left": 27.3,
+        "top": 612.1,
+        "width": 257.0,
+        "height": 14.5
+      }
+    },
+    "dNSDate8": {
+      "type": "text",
+      "label": "Enter the change number date using the format YY MM DD.",
+      "page": 1,
+      "box": {
+        "left": 411.6,
+        "top": 612.1,
+        "width": 54.8,
+        "height": 14.5
+      }
+    },
+    "wpno": {
+      "type": "text",
+      "label": "Enter the W/P number.",
+      "page": 1,
+      "box": {
+        "left": 523.3,
+        "top": 612.1,
+        "width": 66.9,
+        "height": 14.5
+      }
+    },
+    "secpagno": {
+      "type": "text",
+      "label": "Enter the section and page numbers.",
+      "page": 1,
+      "box": {
+        "left": 26.1,
+        "top": 580.5,
+        "width": 80.4,
+        "height": 14.5
+      }
+    },
+    "parano": {
+      "type": "text",
+      "label": "Enter the paragraph number.",
+      "page": 1,
+      "box": {
+        "left": 113.1,
+        "top": 580.5,
+        "width": 77.4,
+        "height": 14.5
+      }
+    },
+    "figTblno": {
+      "type": "text",
+      "label": "Enter the figure or table number.",
+      "page": 1,
+      "box": {
+        "left": 197.1,
+        "top": 580.5,
+        "width": 146.4,
+        "height": 14.5
+      }
+    },
+    "cartno": {
+      "type": "text",
+      "label": "Enter the cart Number.",
+      "page": 1,
+      "box": {
+        "left": 349.3,
+        "top": 580.5,
+        "width": 69.2,
+        "height": 14.5
+      }
+    },
+    "dNSDate14": {
+      "type": "text",
+      "label": "Enter the cart date using the format YY MM DD.",
+      "page": 1,
+      "box": {
+        "left": 430.4,
+        "top": 580.5,
+        "width": 54.8,
+        "height": 14.4
+      }
+    },
+    "frame": {
+      "type": "text",
+      "label": "Enter the frame number.",
+      "page": 1,
+      "box": {
+        "left": 507.6,
+        "top": 580.5,
+        "width": 82.7,
+        "height": 14.5
+      }
+    },
+    "deficiency": {
+      "type": "text",
+      "label": "Enter the deficiency.",
+      "page": 1,
+      "box": {
+        "left": 26.9,
+        "top": 552.8,
+        "width": 562.6,
+        "height": 165.0
+      },
+      "multiline": true
+    },
+    "recommendation": {
+      "type": "text",
+      "label": "Enter the recommendation.",
+      "page": 1,
+      "box": {
+        "left": 26.9,
+        "top": 372.0,
+        "width": 562.6,
+        "height": 63.8
+      },
+      "multiline": true
+    },
+    "impact": {
+      "type": "text",
+      "label": "Enter the impact.",
+      "page": 1,
+      "box": {
+        "left": 26.9,
+        "top": 296.2,
+        "width": 562.6,
+        "height": 65.3
+      },
+      "multiline": true
+    },
+    "mediaEval19": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 67.0,
+        "top": 199.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_MediaEval19_0"
+    },
+    "mediaEval192": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 144.0,
+        "top": 199.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_MediaEval19_0"
+    },
+    "mediaEval193": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 217.3,
+        "top": 199.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_MediaEval19_0"
+    },
+    "remarks": {
+      "type": "text",
+      "label": "Enter the remarks.",
+      "page": 1,
+      "box": {
+        "left": 26.9,
+        "top": 172.5,
+        "width": 562.6,
+        "height": 68.2
+      },
+      "multiline": true
+    },
+    "reportedby": {
+      "type": "text",
+      "label": "Enter whom report by (name, rate/rank).",
+      "page": 1,
+      "box": {
+        "left": 26.9,
+        "top": 82.5,
+        "width": 210.2,
+        "height": 14.5
+      }
+    },
+    "dNS3reported": {
+      "type": "text",
+      "label": "Enter the DSN number.",
+      "page": 1,
+      "box": {
+        "left": 241.3,
+        "top": 82.5,
+        "width": 72.2,
+        "height": 14.5
+      }
+    },
+    "releasedby": {
+      "type": "text",
+      "label": "Enter whom released by (name, rate/rank).",
+      "page": 1,
+      "box": {
+        "left": 320.8,
+        "top": 82.5,
+        "width": 187.7,
+        "height": 14.5
+      }
+    },
+    "dNS3released": {
+      "type": "text",
+      "label": "Enter the DSN number.",
+      "page": 1,
+      "box": {
+        "left": 511.3,
+        "top": 82.5,
+        "width": 78.2,
+        "height": 14.6
+      }
+    }
+  }
+}

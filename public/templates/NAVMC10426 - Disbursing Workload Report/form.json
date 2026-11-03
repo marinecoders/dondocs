@@ -1,0 +1,3631 @@
+{
+  "id": "navmc10426",
+  "label": "NAVMC 10426 - Disbursing Workload Report",
+  "directory": "NAVMC10426 - Disbursing Workload Report",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "from1",
+        "signatureField1",
+        "symbNum",
+        "dateSub",
+        "chkWut0",
+        "chkWut2",
+        "chkWut4",
+        "chkWut6",
+        "chkWut8",
+        "chkWut10",
+        "chkWut1",
+        "chkWut3",
+        "chkWut5",
+        "chkWut7",
+        "chkWut9",
+        "chkWut11",
+        "fmfAcct0",
+        "fmfAcct1",
+        "fmfAcct2",
+        "fmfAcct3",
+        "fmfAcct4",
+        "fmfAcct5",
+        "fmfTot",
+        "fmfAssgWt",
+        "fmfWtTot",
+        "fMFWtMnthAv",
+        "nonFmfAcct0",
+        "nonFmfAcct1",
+        "nonFmfAcct2",
+        "nonFmfAcct3",
+        "nonFmfAcct4",
+        "nonFmfAcct5",
+        "nonFmfTot",
+        "nonFmfAssgWt",
+        "nonFmfWtTot",
+        "nonFMFWtMnthAv",
+        "travAdv0",
+        "travAdv1",
+        "travAdv2",
+        "travAdv3",
+        "travAdv4",
+        "travAdv5",
+        "travAdv6",
+        "travAdv7",
+        "travAdv8",
+        "travAdvSep7",
+        "travAdvSep8",
+        "travAdvSep0",
+        "travAdvSep1",
+        "travAdvSep2",
+        "travAdvSep3",
+        "travAdvSep4",
+        "travAdvSep5",
+        "travAdvSep6",
+        "pCSSett0",
+        "pCSSett1",
+        "pCSSett2",
+        "pCSSett3",
+        "pCSSett4",
+        "pCSSett5",
+        "pCSSett6",
+        "pCSSett7",
+        "pCSSett8",
+        "tempAddDut0",
+        "tempAddDut1",
+        "tempAddDut2",
+        "tempAddDut3",
+        "tempAddDut4",
+        "tempAddDut5",
+        "tempAddDut6",
+        "tempAddDut7",
+        "tempAddDut8",
+        "depdTrav0",
+        "depdTrav1",
+        "depdTrav2",
+        "depdTrav3",
+        "depdTrav4",
+        "depdTrav5",
+        "depdTrav6",
+        "depdTrav7",
+        "depdTrav8",
+        "travOth7",
+        "travOth8",
+        "travOth0",
+        "travOth1",
+        "travOth2",
+        "travOth3",
+        "travOth4",
+        "travOth5",
+        "travOth6",
+        "travDiscNot0",
+        "travDiscNot1",
+        "travDiscNot2",
+        "travDiscNot3",
+        "travDiscNot4",
+        "travDiscNot5",
+        "travDiscNot6",
+        "travDiscNot7",
+        "travDiscNot8",
+        "travVouchTot8",
+        "travVouchTot1",
+        "travVouchTot2",
+        "travVouchTot3",
+        "travVouchTot4",
+        "travVouchTot5",
+        "travVouchTot6",
+        "travVouchTot0",
+        "travVouchTot7",
+        "blPurAgr0",
+        "blPurAgr1",
+        "blPurAgr2",
+        "blPurAgr3",
+        "blPurAgr4",
+        "blPurAgr5",
+        "blPurAgr6",
+        "blPurAgr7",
+        "blPurAgr8",
+        "pubVchDisb0",
+        "pubVchDisb1",
+        "pubVchDisb2",
+        "pubVchDisb3",
+        "pubVchDisb4",
+        "pubVchDisb5",
+        "pubVchDisb6",
+        "pubVchDisb7",
+        "pubVchDisb8",
+        "pubVchOut0",
+        "pubVchOut1",
+        "pubVchOut2",
+        "pubVchOut3",
+        "pubVchOut4",
+        "pubVchOut5",
+        "pubVchOut6",
+        "pubVchOut7",
+        "pubVchOut8",
+        "noCheck0",
+        "noCheck1",
+        "noCheck2",
+        "noCheck3",
+        "noCheck4",
+        "noCheck5",
+        "noCheck6",
+        "noCheck7",
+        "noCheck8",
+        "pubVchFor0",
+        "pubVchFor1",
+        "pubVchFor2",
+        "pubVchFor3",
+        "pubVchFor4",
+        "pubVchFor5",
+        "pubVchFor6",
+        "pubVchFor7",
+        "pubVchFor8",
+        "vchColl0",
+        "vchColl1",
+        "vchColl2",
+        "vchColl3",
+        "vchColl4",
+        "vchColl5",
+        "vchColl6",
+        "vchColl7",
+        "vchColl8",
+        "unVchColl0",
+        "unVchColl1",
+        "unVchColl2",
+        "unVchColl3",
+        "unVchColl4",
+        "unVchColl5",
+        "unVchColl6",
+        "unVchColl7",
+        "unVchColl8",
+        "disHonCheck0",
+        "disHonCheck1",
+        "disHonCheck2",
+        "disHonCheck3",
+        "disHonCheck4",
+        "disHonCheck5",
+        "disHonCheck6",
+        "disHonCheck7",
+        "disHonCheck8",
+        "pubDiscNot0",
+        "pubDiscNot1",
+        "pubDiscNot2",
+        "pubDiscNot3",
+        "pubDiscNot4",
+        "pubDiscNot5",
+        "pubDiscNot6",
+        "pubDiscNot7",
+        "pubDiscNot8",
+        "pubVouchTot0",
+        "pubVouchTot1",
+        "pubVouchTot2",
+        "pubVouchTot3",
+        "pubVouchTot4",
+        "pubVouchTot5",
+        "pubVouchTot6",
+        "pubVouchTot7",
+        "pubVouchTot8"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "disbPerMilOff0",
+        "disbPerMilE90",
+        "disbPerMilE80",
+        "disbPerMilE70",
+        "disbPerMilE60",
+        "disbPerMilE50",
+        "disbPerMilE40",
+        "disbPerMilE30",
+        "disbPerMilE20",
+        "disbPerMilE10",
+        "disbPerMilTot0",
+        "disbPerMilOff1",
+        "disbPerMilE91",
+        "disbPerMilE81",
+        "disbPerMilE71",
+        "disbPerMilE61",
+        "disbPerMilE51",
+        "disbPerMilE41",
+        "disbPerMilE31",
+        "disbPerMilE21",
+        "disbPerMilE11",
+        "disbPerMilTot1",
+        "disbPerMilOff2",
+        "disbPerMilE92",
+        "disbPerMilE82",
+        "disbPerMilE72",
+        "disbPerMilE62",
+        "disbPerMilE52",
+        "disbPerMilE42",
+        "disbPerMilE32",
+        "disbPerMilE22",
+        "disbPerMilE12",
+        "disbPerMilTot2",
+        "disbPerMilOff3",
+        "disbPerMilE93",
+        "disbPerMilE83",
+        "disbPerMilE73",
+        "disbPerMilE63",
+        "disbPerMilE53",
+        "disbPerMilE43",
+        "disbPerMilE33",
+        "disbPerMilE23",
+        "disbPerMilE13",
+        "disbPerMilTot3",
+        "disbPerMilOff4",
+        "disbPerMilE94",
+        "disbPerMilE84",
+        "disbPerMilE74",
+        "disbPerMilE64",
+        "disbPerMilE54",
+        "disbPerMilE44",
+        "disbPerMilE34",
+        "disbPerMilE24",
+        "disbPerMilE14",
+        "disbPerMilTot4",
+        "disbPerMilOff5",
+        "disbPerMilE95",
+        "disbPerMilE85",
+        "disbPerMilE75",
+        "disbPerMilE65",
+        "disbPerMilE55",
+        "disbPerMilE45",
+        "disbPerMilE35",
+        "disbPerMilE25",
+        "disbPerMilE15",
+        "disbPerMilTot5",
+        "disbPerMilOff6",
+        "disbPerMilE96",
+        "disbPerMilE86",
+        "disbPerMilE76",
+        "disbPerMilE66",
+        "disbPerMilE56",
+        "disbPerMilE46",
+        "disbPerMilE36",
+        "disbPerMilE26",
+        "disbPerMilE16",
+        "disbPerMilTot6",
+        "officTot",
+        "e9Tot",
+        "e8Tot",
+        "e7Tot",
+        "e6Tot",
+        "e5Tot",
+        "e4Tot",
+        "e3Tot",
+        "e2Tot",
+        "e1Tot",
+        "milPersTot",
+        "disbPerCivAdm",
+        "disbPerCivPay",
+        "disbPerCivTrav",
+        "disbPerCivVch",
+        "disbPerCivOth",
+        "disbPerCivTot",
+        "remarks1",
+        "orgPd"
+      ]
+    }
+  ],
+  "fields": {
+    "from1": {
+      "type": "text",
+      "label": "From, Post or Station",
+      "page": 1,
+      "box": {
+        "left": 17.2,
+        "top": 503.4,
+        "width": 270.7,
+        "height": 36.2
+      },
+      "multiline": true
+    },
+    "signatureField1": {
+      "type": "signature",
+      "label": "SignatureField1",
+      "page": 1,
+      "box": {
+        "left": 288.9,
+        "top": 503.3,
+        "width": 487.7,
+        "height": 10.8
+      }
+    },
+    "symbNum": {
+      "type": "text",
+      "label": "Symbol Number",
+      "page": 1,
+      "box": {
+        "left": 550.9,
+        "top": 486.1,
+        "width": 224.1,
+        "height": 17.2
+      }
+    },
+    "dateSub": {
+      "type": "text",
+      "label": "Enter submission date using format 2002 06 27.",
+      "page": 1,
+      "box": {
+        "left": 364.7,
+        "top": 485.3,
+        "width": 132.8,
+        "height": 17.2
+      }
+    },
+    "chkWut0": {
+      "type": "checkbox",
+      "label": "Check for 30 April.",
+      "page": 1,
+      "box": {
+        "left": 219.2,
+        "top": 458.4,
+        "width": 14.4,
+        "height": 14.4
+      }
+    },
+    "chkWut2": {
+      "type": "checkbox",
+      "label": "Check for 31 May.",
+      "page": 1,
+      "box": {
+        "left": 276.0,
+        "top": 458.4,
+        "width": 14.4,
+        "height": 14.4
+      }
+    },
+    "chkWut4": {
+      "type": "checkbox",
+      "label": "Check for 30 June.",
+      "page": 1,
+      "box": {
+        "left": 332.0,
+        "top": 458.4,
+        "width": 14.4,
+        "height": 14.4
+      }
+    },
+    "chkWut6": {
+      "type": "checkbox",
+      "label": "Check for 31 July.",
+      "page": 1,
+      "box": {
+        "left": 388.0,
+        "top": 458.4,
+        "width": 14.4,
+        "height": 14.4
+      }
+    },
+    "chkWut8": {
+      "type": "checkbox",
+      "label": "Check for 31 August.",
+      "page": 1,
+      "box": {
+        "left": 444.0,
+        "top": 458.4,
+        "width": 14.4,
+        "height": 14.4
+      }
+    },
+    "chkWut10": {
+      "type": "checkbox",
+      "label": "Check for 30 September.",
+      "page": 1,
+      "box": {
+        "left": 500.8,
+        "top": 458.4,
+        "width": 14.4,
+        "height": 14.4
+      }
+    },
+    "chkWut1": {
+      "type": "checkbox",
+      "label": "Check for 31 October.",
+      "page": 1,
+      "box": {
+        "left": 219.2,
+        "top": 443.2,
+        "width": 14.4,
+        "height": 14.4
+      }
+    },
+    "chkWut3": {
+      "type": "checkbox",
+      "label": "Check for 30 November.",
+      "page": 1,
+      "box": {
+        "left": 276.0,
+        "top": 443.2,
+        "width": 14.4,
+        "height": 14.4
+      }
+    },
+    "chkWut5": {
+      "type": "checkbox",
+      "label": "Check for 31 December.",
+      "page": 1,
+      "box": {
+        "left": 332.0,
+        "top": 443.2,
+        "width": 14.4,
+        "height": 14.4
+      }
+    },
+    "chkWut7": {
+      "type": "checkbox",
+      "label": "Check for 31 January.",
+      "page": 1,
+      "box": {
+        "left": 388.0,
+        "top": 443.2,
+        "width": 14.4,
+        "height": 14.4
+      }
+    },
+    "chkWut9": {
+      "type": "checkbox",
+      "label": "Check for 28 February.",
+      "page": 1,
+      "box": {
+        "left": 444.0,
+        "top": 443.2,
+        "width": 14.4,
+        "height": 14.4
+      }
+    },
+    "chkWut11": {
+      "type": "checkbox",
+      "label": "Check for 31 March.",
+      "page": 1,
+      "box": {
+        "left": 500.8,
+        "top": 443.2,
+        "width": 14.4,
+        "height": 14.4
+      }
+    },
+    "fmfAcct0": {
+      "type": "text",
+      "label": "FMF Account. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 216.8,
+        "top": 419.2,
+        "width": 55.2,
+        "height": 17.6
+      }
+    },
+    "fmfAcct1": {
+      "type": "text",
+      "label": "FMF Account. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 272.8,
+        "top": 419.1,
+        "width": 55.4,
+        "height": 17.6
+      }
+    },
+    "fmfAcct2": {
+      "type": "text",
+      "label": "FMF Account. Line 3.",
+      "page": 1,
+      "box": {
+        "left": 329.0,
+        "top": 419.1,
+        "width": 55.6,
+        "height": 17.6
+      }
+    },
+    "fmfAcct3": {
+      "type": "text",
+      "label": "FMF Account. Line 4.",
+      "page": 1,
+      "box": {
+        "left": 385.3,
+        "top": 419.1,
+        "width": 55.6,
+        "height": 17.6
+      }
+    },
+    "fmfAcct4": {
+      "type": "text",
+      "label": "FMF Account. Line 5.",
+      "page": 1,
+      "box": {
+        "left": 441.5,
+        "top": 419.1,
+        "width": 55.6,
+        "height": 17.6
+      }
+    },
+    "fmfAcct5": {
+      "type": "text",
+      "label": "FMF Account. Line 6.",
+      "page": 1,
+      "box": {
+        "left": 497.8,
+        "top": 419.1,
+        "width": 55.6,
+        "height": 17.6
+      }
+    },
+    "fmfTot": {
+      "type": "text",
+      "label": "FMF Account Total.",
+      "page": 1,
+      "box": {
+        "left": 554.0,
+        "top": 419.1,
+        "width": 55.6,
+        "height": 17.6
+      }
+    },
+    "fmfAssgWt": {
+      "type": "text",
+      "label": "FMF Assigned Weight.",
+      "page": 1,
+      "box": {
+        "left": 610.3,
+        "top": 419.1,
+        "width": 55.6,
+        "height": 17.6
+      }
+    },
+    "fmfWtTot": {
+      "type": "text",
+      "label": "FMF Weight Total.",
+      "page": 1,
+      "box": {
+        "left": 666.5,
+        "top": 419.1,
+        "width": 55.6,
+        "height": 17.6
+      }
+    },
+    "fMFWtMnthAv": {
+      "type": "text",
+      "label": "FMF Weighted Monthly Average",
+      "page": 1,
+      "box": {
+        "left": 722.8,
+        "top": 419.1,
+        "width": 51.6,
+        "height": 17.6
+      }
+    },
+    "nonFmfAcct0": {
+      "type": "text",
+      "label": "Non FMF Account. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 216.5,
+        "top": 395.3,
+        "width": 55.4,
+        "height": 17.6
+      }
+    },
+    "nonFmfAcct1": {
+      "type": "text",
+      "label": "Non FMF Account. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 272.8,
+        "top": 395.3,
+        "width": 55.4,
+        "height": 17.6
+      }
+    },
+    "nonFmfAcct2": {
+      "type": "text",
+      "label": "Non FMF Account. Line 3.",
+      "page": 1,
+      "box": {
+        "left": 329.0,
+        "top": 395.3,
+        "width": 55.6,
+        "height": 17.6
+      }
+    },
+    "nonFmfAcct3": {
+      "type": "text",
+      "label": "Non FMF Account. Line 4.",
+      "page": 1,
+      "box": {
+        "left": 385.3,
+        "top": 395.3,
+        "width": 55.6,
+        "height": 17.6
+      }
+    },
+    "nonFmfAcct4": {
+      "type": "text",
+      "label": "Non FMF Account. Line 5.",
+      "page": 1,
+      "box": {
+        "left": 441.5,
+        "top": 395.3,
+        "width": 55.6,
+        "height": 17.6
+      }
+    },
+    "nonFmfAcct5": {
+      "type": "text",
+      "label": "Non FMF Account. Line 6.",
+      "page": 1,
+      "box": {
+        "left": 497.8,
+        "top": 395.3,
+        "width": 55.4,
+        "height": 17.6
+      }
+    },
+    "nonFmfTot": {
+      "type": "text",
+      "label": "Non FMF Account Total.",
+      "page": 1,
+      "box": {
+        "left": 554.0,
+        "top": 395.3,
+        "width": 55.6,
+        "height": 17.6
+      }
+    },
+    "nonFmfAssgWt": {
+      "type": "text",
+      "label": "Non FMF Assigned Weight.",
+      "page": 1,
+      "box": {
+        "left": 610.3,
+        "top": 395.3,
+        "width": 55.6,
+        "height": 17.6
+      }
+    },
+    "nonFmfWtTot": {
+      "type": "text",
+      "label": "Non FMF Weight Total.",
+      "page": 1,
+      "box": {
+        "left": 666.5,
+        "top": 395.3,
+        "width": 55.6,
+        "height": 17.6
+      }
+    },
+    "nonFMFWtMnthAv": {
+      "type": "text",
+      "label": "Non FMF Weighted Monthly Average.",
+      "page": 1,
+      "box": {
+        "left": 722.8,
+        "top": 395.3,
+        "width": 51.6,
+        "height": 17.6
+      }
+    },
+    "travAdv0": {
+      "type": "text",
+      "label": "Travel Advances except for separation travel. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 216.5,
+        "top": 351.4,
+        "width": 55.8,
+        "height": 12.8
+      }
+    },
+    "travAdv1": {
+      "type": "text",
+      "label": "Travel Advances except for separation travel. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 351.4,
+        "width": 55.1,
+        "height": 12.3
+      }
+    },
+    "travAdv2": {
+      "type": "text",
+      "label": "Travel Advances except for separation travel. Line 3.",
+      "page": 1,
+      "box": {
+        "left": 329.2,
+        "top": 351.4,
+        "width": 55.1,
+        "height": 12.3
+      }
+    },
+    "travAdv3": {
+      "type": "text",
+      "label": "Travel Advances except for separation travel. Line 4.",
+      "page": 1,
+      "box": {
+        "left": 385.2,
+        "top": 351.4,
+        "width": 55.5,
+        "height": 12.3
+      }
+    },
+    "travAdv4": {
+      "type": "text",
+      "label": "Travel Advances except for separation travel. Line 5.",
+      "page": 1,
+      "box": {
+        "left": 441.5,
+        "top": 351.4,
+        "width": 55.5,
+        "height": 12.3
+      }
+    },
+    "travAdv5": {
+      "type": "text",
+      "label": "Travel Advances except for separation travel. Line 6.",
+      "page": 1,
+      "box": {
+        "left": 497.9,
+        "top": 351.4,
+        "width": 55.1,
+        "height": 12.3
+      }
+    },
+    "travAdv6": {
+      "type": "text",
+      "label": "Total for Travel Advances except for separation travel.",
+      "page": 1,
+      "box": {
+        "left": 553.8,
+        "top": 351.4,
+        "width": 55.5,
+        "height": 12.3
+      }
+    },
+    "travAdv7": {
+      "type": "text",
+      "label": "Weight Total for Travel Advances except for separation travel.",
+      "page": 1,
+      "box": {
+        "left": 667.2,
+        "top": 351.2,
+        "width": 54.4,
+        "height": 12.0
+      }
+    },
+    "travAdv8": {
+      "type": "text",
+      "label": "Weighted Monthly Average for Travel Advances except for separation travel.",
+      "page": 1,
+      "box": {
+        "left": 723.2,
+        "top": 351.2,
+        "width": 55.2,
+        "height": 12.0
+      }
+    },
+    "travAdvSep7": {
+      "type": "text",
+      "label": "Weight Total for Travel Advances for separation.",
+      "page": 1,
+      "box": {
+        "left": 667.2,
+        "top": 339.2,
+        "width": 54.4,
+        "height": 12.0
+      }
+    },
+    "travAdvSep8": {
+      "type": "text",
+      "label": "Weighted Monthly Average for Travel Advances for separation.",
+      "page": 1,
+      "box": {
+        "left": 723.2,
+        "top": 339.2,
+        "width": 56.0,
+        "height": 12.0
+      }
+    },
+    "travAdvSep0": {
+      "type": "text",
+      "label": "Travel Advances for separation. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 216.5,
+        "top": 338.7,
+        "width": 55.8,
+        "height": 12.4
+      }
+    },
+    "travAdvSep1": {
+      "type": "text",
+      "label": "Travel Advances for separation. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 338.7,
+        "width": 55.1,
+        "height": 11.9
+      }
+    },
+    "travAdvSep2": {
+      "type": "text",
+      "label": "Travel Advances for separation. Line 3.",
+      "page": 1,
+      "box": {
+        "left": 329.2,
+        "top": 338.7,
+        "width": 55.1,
+        "height": 11.9
+      }
+    },
+    "travAdvSep3": {
+      "type": "text",
+      "label": "Travel Advances for separation. Line 4.",
+      "page": 1,
+      "box": {
+        "left": 385.2,
+        "top": 338.7,
+        "width": 55.5,
+        "height": 11.9
+      }
+    },
+    "travAdvSep4": {
+      "type": "text",
+      "label": "Travel Advances for separation. Line 5.",
+      "page": 1,
+      "box": {
+        "left": 441.5,
+        "top": 338.7,
+        "width": 55.5,
+        "height": 11.9
+      }
+    },
+    "travAdvSep5": {
+      "type": "text",
+      "label": "Travel Advances for separation. Line 6.",
+      "page": 1,
+      "box": {
+        "left": 497.9,
+        "top": 338.7,
+        "width": 55.1,
+        "height": 11.9
+      }
+    },
+    "travAdvSep6": {
+      "type": "text",
+      "label": "Total for Travel Advances for separation.",
+      "page": 1,
+      "box": {
+        "left": 553.8,
+        "top": 338.7,
+        "width": 55.5,
+        "height": 11.9
+      }
+    },
+    "pCSSett0": {
+      "type": "text",
+      "label": "All Types of PCS Settlements. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 216.5,
+        "top": 326.8,
+        "width": 55.8,
+        "height": 12.0
+      }
+    },
+    "pCSSett1": {
+      "type": "text",
+      "label": "All Types of PCS Settlements. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 326.8,
+        "width": 55.1,
+        "height": 12.3
+      }
+    },
+    "pCSSett2": {
+      "type": "text",
+      "label": "All Types of PCS Settlements. Line 3.",
+      "page": 1,
+      "box": {
+        "left": 329.2,
+        "top": 326.8,
+        "width": 55.1,
+        "height": 12.3
+      }
+    },
+    "pCSSett3": {
+      "type": "text",
+      "label": "All Types of PCS Settlements. Line 4.",
+      "page": 1,
+      "box": {
+        "left": 385.2,
+        "top": 326.8,
+        "width": 55.5,
+        "height": 12.3
+      }
+    },
+    "pCSSett4": {
+      "type": "text",
+      "label": "All Types of PCS Settlements. Line 5.",
+      "page": 1,
+      "box": {
+        "left": 441.5,
+        "top": 326.8,
+        "width": 55.5,
+        "height": 12.3
+      }
+    },
+    "pCSSett5": {
+      "type": "text",
+      "label": "All Types of PCS Settlements. Line 6.",
+      "page": 1,
+      "box": {
+        "left": 497.9,
+        "top": 326.8,
+        "width": 55.1,
+        "height": 12.3
+      }
+    },
+    "pCSSett6": {
+      "type": "text",
+      "label": "Total for All Types of PCS Settlements.",
+      "page": 1,
+      "box": {
+        "left": 553.8,
+        "top": 326.8,
+        "width": 55.5,
+        "height": 12.3
+      }
+    },
+    "pCSSett7": {
+      "type": "text",
+      "label": "Weight Total for All Types of PCS Settlements.",
+      "page": 1,
+      "box": {
+        "left": 667.2,
+        "top": 326.4,
+        "width": 54.4,
+        "height": 12.0
+      }
+    },
+    "pCSSett8": {
+      "type": "text",
+      "label": "Weighted Monthly Average for All Types of PCS Settlements.",
+      "page": 1,
+      "box": {
+        "left": 723.2,
+        "top": 326.4,
+        "width": 56.0,
+        "height": 12.0
+      }
+    },
+    "tempAddDut0": {
+      "type": "text",
+      "label": "Temporary Additional Duty. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 216.5,
+        "top": 314.5,
+        "width": 55.8,
+        "height": 12.0
+      }
+    },
+    "tempAddDut1": {
+      "type": "text",
+      "label": "Temporary Additional Duty. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 314.5,
+        "width": 55.1,
+        "height": 12.3
+      }
+    },
+    "tempAddDut2": {
+      "type": "text",
+      "label": "Temporary Additional Duty. Line 3.",
+      "page": 1,
+      "box": {
+        "left": 329.2,
+        "top": 314.5,
+        "width": 55.1,
+        "height": 12.3
+      }
+    },
+    "tempAddDut3": {
+      "type": "text",
+      "label": "Temporary Additional Duty. Line 4.",
+      "page": 1,
+      "box": {
+        "left": 385.2,
+        "top": 314.5,
+        "width": 55.5,
+        "height": 12.3
+      }
+    },
+    "tempAddDut4": {
+      "type": "text",
+      "label": "Temporary Additional Duty. Line 5.",
+      "page": 1,
+      "box": {
+        "left": 441.5,
+        "top": 314.5,
+        "width": 55.5,
+        "height": 12.3
+      }
+    },
+    "tempAddDut5": {
+      "type": "text",
+      "label": "Temporary Additional Duty. Line 6.",
+      "page": 1,
+      "box": {
+        "left": 497.9,
+        "top": 314.5,
+        "width": 55.1,
+        "height": 12.3
+      }
+    },
+    "tempAddDut6": {
+      "type": "text",
+      "label": "Total for Temporary Additional Duty.",
+      "page": 1,
+      "box": {
+        "left": 553.8,
+        "top": 314.5,
+        "width": 55.5,
+        "height": 12.3
+      }
+    },
+    "tempAddDut7": {
+      "type": "text",
+      "label": "Weight Total for Temporary Additional Duty.",
+      "page": 1,
+      "box": {
+        "left": 667.2,
+        "top": 314.4,
+        "width": 54.4,
+        "height": 12.0
+      }
+    },
+    "tempAddDut8": {
+      "type": "text",
+      "label": "Weighted Monthly Average for Temporary Additional Duty.",
+      "page": 1,
+      "box": {
+        "left": 723.2,
+        "top": 314.4,
+        "width": 56.0,
+        "height": 12.0
+      }
+    },
+    "depdTrav0": {
+      "type": "text",
+      "label": "Dependent Travel Settlement ONLY. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 216.5,
+        "top": 301.8,
+        "width": 55.8,
+        "height": 12.0
+      }
+    },
+    "depdTrav1": {
+      "type": "text",
+      "label": "Dependent Travel Settlement ONLY. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 301.8,
+        "width": 55.1,
+        "height": 11.9
+      }
+    },
+    "depdTrav2": {
+      "type": "text",
+      "label": "Dependent Travel Settlement ONLY. Line 3.",
+      "page": 1,
+      "box": {
+        "left": 329.2,
+        "top": 301.8,
+        "width": 55.1,
+        "height": 11.9
+      }
+    },
+    "depdTrav3": {
+      "type": "text",
+      "label": "Dependent Travel Settlement ONLY. Line 4.",
+      "page": 1,
+      "box": {
+        "left": 385.2,
+        "top": 301.8,
+        "width": 55.5,
+        "height": 11.9
+      }
+    },
+    "depdTrav4": {
+      "type": "text",
+      "label": "Dependent Travel Settlement ONLY. Line 5.",
+      "page": 1,
+      "box": {
+        "left": 441.5,
+        "top": 301.8,
+        "width": 55.5,
+        "height": 11.9
+      }
+    },
+    "depdTrav5": {
+      "type": "text",
+      "label": "Dependent Travel Settlement ONLY. Line 6.",
+      "page": 1,
+      "box": {
+        "left": 497.9,
+        "top": 301.8,
+        "width": 55.1,
+        "height": 11.9
+      }
+    },
+    "depdTrav6": {
+      "type": "text",
+      "label": "Total for Dependent Travel Settlement ONLY.",
+      "page": 1,
+      "box": {
+        "left": 553.8,
+        "top": 301.8,
+        "width": 55.5,
+        "height": 11.9
+      }
+    },
+    "depdTrav7": {
+      "type": "text",
+      "label": "Weight Total for Dependent Travel Settlement ONLY.",
+      "page": 1,
+      "box": {
+        "left": 667.2,
+        "top": 301.6,
+        "width": 54.4,
+        "height": 12.0
+      }
+    },
+    "depdTrav8": {
+      "type": "text",
+      "label": "Weighted Monthly Average for Dependent Travel Settlement ONLY.",
+      "page": 1,
+      "box": {
+        "left": 723.2,
+        "top": 301.6,
+        "width": 56.0,
+        "height": 12.0
+      }
+    },
+    "travOth7": {
+      "type": "text",
+      "label": "Weight Total for All other types of Travel Vouchers.",
+      "page": 1,
+      "box": {
+        "left": 667.2,
+        "top": 289.6,
+        "width": 54.4,
+        "height": 12.0
+      }
+    },
+    "travOth8": {
+      "type": "text",
+      "label": "Weighted Monthly Average for All other types of Travel Vouchers.",
+      "page": 1,
+      "box": {
+        "left": 723.2,
+        "top": 289.6,
+        "width": 56.0,
+        "height": 12.0
+      }
+    },
+    "travOth0": {
+      "type": "text",
+      "label": "All other types of Travel Vouchers. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 216.5,
+        "top": 289.5,
+        "width": 55.8,
+        "height": 12.4
+      }
+    },
+    "travOth1": {
+      "type": "text",
+      "label": "All other types of Travel Vouchers. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 289.5,
+        "width": 55.1,
+        "height": 11.9
+      }
+    },
+    "travOth2": {
+      "type": "text",
+      "label": "All other types of Travel Vouchers. Line 3.",
+      "page": 1,
+      "box": {
+        "left": 329.2,
+        "top": 289.5,
+        "width": 55.1,
+        "height": 11.9
+      }
+    },
+    "travOth3": {
+      "type": "text",
+      "label": "All other types of Travel Vouchers. Line 4.",
+      "page": 1,
+      "box": {
+        "left": 385.2,
+        "top": 289.5,
+        "width": 55.5,
+        "height": 11.9
+      }
+    },
+    "travOth4": {
+      "type": "text",
+      "label": "All other types of Travel Vouchers. Line 5.",
+      "page": 1,
+      "box": {
+        "left": 441.5,
+        "top": 289.5,
+        "width": 55.5,
+        "height": 11.9
+      }
+    },
+    "travOth5": {
+      "type": "text",
+      "label": "All other types of Travel Vouchers. Line 6.",
+      "page": 1,
+      "box": {
+        "left": 497.9,
+        "top": 289.5,
+        "width": 55.1,
+        "height": 11.9
+      }
+    },
+    "travOth6": {
+      "type": "text",
+      "label": "Total for All other types of Travel Vouchers.",
+      "page": 1,
+      "box": {
+        "left": 553.8,
+        "top": 289.5,
+        "width": 55.5,
+        "height": 11.9
+      }
+    },
+    "travDiscNot0": {
+      "type": "text",
+      "label": "Travel Discrepancy Notices/Travel Related Correspondence issued. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 216.5,
+        "top": 277.2,
+        "width": 55.8,
+        "height": 12.8
+      }
+    },
+    "travDiscNot1": {
+      "type": "text",
+      "label": "Travel Discrepancy Notices/Travel Related Correspondence issued. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 277.2,
+        "width": 55.1,
+        "height": 12.3
+      }
+    },
+    "travDiscNot2": {
+      "type": "text",
+      "label": "Travel Discrepancy Notices/Travel Related Correspondence issued. Line 3.",
+      "page": 1,
+      "box": {
+        "left": 329.2,
+        "top": 277.2,
+        "width": 55.1,
+        "height": 12.3
+      }
+    },
+    "travDiscNot3": {
+      "type": "text",
+      "label": "Travel Discrepancy Notices/Travel Related Correspondence issued. Line 4.",
+      "page": 1,
+      "box": {
+        "left": 385.2,
+        "top": 277.2,
+        "width": 55.5,
+        "height": 12.3
+      }
+    },
+    "travDiscNot4": {
+      "type": "text",
+      "label": "Travel Discrepancy Notices/Travel Related Correspondence issued. Line 5.",
+      "page": 1,
+      "box": {
+        "left": 441.5,
+        "top": 277.2,
+        "width": 55.5,
+        "height": 12.3
+      }
+    },
+    "travDiscNot5": {
+      "type": "text",
+      "label": "Travel Discrepancy Notices/Travel Related Correspondence issued. Line 6.",
+      "page": 1,
+      "box": {
+        "left": 497.9,
+        "top": 277.2,
+        "width": 55.1,
+        "height": 12.3
+      }
+    },
+    "travDiscNot6": {
+      "type": "text",
+      "label": "Total for Travel Discrepancy Notices/Travel Related Correspondence issued.",
+      "page": 1,
+      "box": {
+        "left": 553.8,
+        "top": 277.2,
+        "width": 55.5,
+        "height": 12.3
+      }
+    },
+    "travDiscNot7": {
+      "type": "text",
+      "label": "Weight Total for Travel Discrepancy Notices/Travel Related Correspondence issued.",
+      "page": 1,
+      "box": {
+        "left": 667.2,
+        "top": 276.8,
+        "width": 54.4,
+        "height": 12.0
+      }
+    },
+    "travDiscNot8": {
+      "type": "text",
+      "label": "Weighted Monthly Average for Travel Discrepancy Notices/Travel Related Correspondence issued.",
+      "page": 1,
+      "box": {
+        "left": 723.2,
+        "top": 276.8,
+        "width": 56.0,
+        "height": 12.0
+      }
+    },
+    "travVouchTot8": {
+      "type": "text",
+      "label": "Weighted Monthly Average for Total for Travel Vouchers.",
+      "page": 1,
+      "box": {
+        "left": 723.2,
+        "top": 265.6,
+        "width": 56.0,
+        "height": 12.0
+      }
+    },
+    "travVouchTot1": {
+      "type": "text",
+      "label": "Total for Travel Vouchers. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 265.0,
+        "width": 55.1,
+        "height": 11.9
+      }
+    },
+    "travVouchTot2": {
+      "type": "text",
+      "label": "Total for Travel Vouchers. Line 3.",
+      "page": 1,
+      "box": {
+        "left": 329.2,
+        "top": 265.0,
+        "width": 55.1,
+        "height": 11.9
+      }
+    },
+    "travVouchTot3": {
+      "type": "text",
+      "label": "Total for Travel Vouchers. Line 4.",
+      "page": 1,
+      "box": {
+        "left": 385.2,
+        "top": 265.0,
+        "width": 55.5,
+        "height": 11.9
+      }
+    },
+    "travVouchTot4": {
+      "type": "text",
+      "label": "Total for Travel Vouchers. Line 5.",
+      "page": 1,
+      "box": {
+        "left": 441.5,
+        "top": 265.0,
+        "width": 55.5,
+        "height": 11.9
+      }
+    },
+    "travVouchTot5": {
+      "type": "text",
+      "label": "Total for Travel Vouchers. Line 6.",
+      "page": 1,
+      "box": {
+        "left": 497.9,
+        "top": 265.0,
+        "width": 55.1,
+        "height": 11.9
+      }
+    },
+    "travVouchTot6": {
+      "type": "text",
+      "label": "Grand Total for Travel Vouchers.",
+      "page": 1,
+      "box": {
+        "left": 553.8,
+        "top": 265.0,
+        "width": 55.5,
+        "height": 11.9
+      }
+    },
+    "travVouchTot0": {
+      "type": "text",
+      "label": "Total for Travel Vouchers. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 216.5,
+        "top": 264.9,
+        "width": 55.8,
+        "height": 11.9
+      }
+    },
+    "travVouchTot7": {
+      "type": "text",
+      "label": "Weight Total for Total for Travel Vouchers.",
+      "page": 1,
+      "box": {
+        "left": 667.2,
+        "top": 264.8,
+        "width": 54.4,
+        "height": 12.0
+      }
+    },
+    "blPurAgr0": {
+      "type": "text",
+      "label": "Blanket Purchase Agreement. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 216.5,
+        "top": 221.1,
+        "width": 55.8,
+        "height": 12.8
+      }
+    },
+    "blPurAgr1": {
+      "type": "text",
+      "label": "Blanket Purchase Agreement. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 221.1,
+        "width": 55.8,
+        "height": 12.8
+      }
+    },
+    "blPurAgr2": {
+      "type": "text",
+      "label": "Blanket Purchase Agreement. Line 3.",
+      "page": 1,
+      "box": {
+        "left": 329.2,
+        "top": 221.1,
+        "width": 55.8,
+        "height": 12.8
+      }
+    },
+    "blPurAgr3": {
+      "type": "text",
+      "label": "Blanket Purchase Agreement. Line 4.",
+      "page": 1,
+      "box": {
+        "left": 385.2,
+        "top": 221.1,
+        "width": 55.8,
+        "height": 12.8
+      }
+    },
+    "blPurAgr4": {
+      "type": "text",
+      "label": "Blanket Purchase Agreement. Line 5.",
+      "page": 1,
+      "box": {
+        "left": 441.5,
+        "top": 221.1,
+        "width": 55.8,
+        "height": 12.8
+      }
+    },
+    "blPurAgr5": {
+      "type": "text",
+      "label": "Blanket Purchase Agreement. Line 6.",
+      "page": 1,
+      "box": {
+        "left": 497.9,
+        "top": 221.1,
+        "width": 55.8,
+        "height": 12.8
+      }
+    },
+    "blPurAgr6": {
+      "type": "text",
+      "label": "Total for Blanket Purchase Agreement.",
+      "page": 1,
+      "box": {
+        "left": 553.8,
+        "top": 221.1,
+        "width": 55.8,
+        "height": 12.8
+      }
+    },
+    "blPurAgr7": {
+      "type": "text",
+      "label": "Weight Total for Blanket Purchase Agreement.",
+      "page": 1,
+      "box": {
+        "left": 667.2,
+        "top": 221.1,
+        "width": 55.8,
+        "height": 12.8
+      }
+    },
+    "blPurAgr8": {
+      "type": "text",
+      "label": "Weighted Monthly Average for Blanket Purchase Agreement.",
+      "page": 1,
+      "box": {
+        "left": 723.2,
+        "top": 221.1,
+        "width": 55.8,
+        "height": 12.8
+      }
+    },
+    "pubVchDisb0": {
+      "type": "text",
+      "label": "Public Vouchers prepared in the Disbursing Office. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 216.5,
+        "top": 202.9,
+        "width": 55.8,
+        "height": 12.4
+      }
+    },
+    "pubVchDisb1": {
+      "type": "text",
+      "label": "Public Vouchers prepared in the Disbursing Office. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 202.9,
+        "width": 55.8,
+        "height": 12.4
+      }
+    },
+    "pubVchDisb2": {
+      "type": "text",
+      "label": "Public Vouchers prepared in the Disbursing Office. Line 3.",
+      "page": 1,
+      "box": {
+        "left": 329.2,
+        "top": 202.9,
+        "width": 55.8,
+        "height": 12.4
+      }
+    },
+    "pubVchDisb3": {
+      "type": "text",
+      "label": "Public Vouchers prepared in the Disbursing Office. Line 4.",
+      "page": 1,
+      "box": {
+        "left": 385.2,
+        "top": 202.9,
+        "width": 55.8,
+        "height": 12.4
+      }
+    },
+    "pubVchDisb4": {
+      "type": "text",
+      "label": "Public Vouchers prepared in the Disbursing Office. Line 5.",
+      "page": 1,
+      "box": {
+        "left": 441.5,
+        "top": 202.9,
+        "width": 55.8,
+        "height": 12.4
+      }
+    },
+    "pubVchDisb5": {
+      "type": "text",
+      "label": "Public Vouchers prepared in the Disbursing Office. Line 6.",
+      "page": 1,
+      "box": {
+        "left": 497.9,
+        "top": 202.9,
+        "width": 55.8,
+        "height": 12.4
+      }
+    },
+    "pubVchDisb6": {
+      "type": "text",
+      "label": "Total for Public Vouchers prepared in the Disbursing Office.",
+      "page": 1,
+      "box": {
+        "left": 553.8,
+        "top": 202.9,
+        "width": 55.8,
+        "height": 12.4
+      }
+    },
+    "pubVchDisb7": {
+      "type": "text",
+      "label": "Weight Total for Public Vouchers prepared in the Disbursing Office.",
+      "page": 1,
+      "box": {
+        "left": 667.2,
+        "top": 202.9,
+        "width": 55.8,
+        "height": 12.4
+      }
+    },
+    "pubVchDisb8": {
+      "type": "text",
+      "label": "Weighted Monthly Average for Public Vouchers prepared in the Disbursing Office.",
+      "page": 1,
+      "box": {
+        "left": 723.2,
+        "top": 202.9,
+        "width": 55.8,
+        "height": 12.4
+      }
+    },
+    "pubVchOut0": {
+      "type": "text",
+      "label": "Public Vouchers prepared outside the Disbursing Office and processed for Payment. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 216.5,
+        "top": 184.7,
+        "width": 55.8,
+        "height": 12.0
+      }
+    },
+    "pubVchOut1": {
+      "type": "text",
+      "label": "Public Vouchers prepared outside the Disbursing Office and processed for Payment. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 184.7,
+        "width": 55.8,
+        "height": 12.0
+      }
+    },
+    "pubVchOut2": {
+      "type": "text",
+      "label": "Public Vouchers prepared outside the Disbursing Office and processed for Payment. Line 3.",
+      "page": 1,
+      "box": {
+        "left": 329.2,
+        "top": 184.7,
+        "width": 55.8,
+        "height": 12.0
+      }
+    },
+    "pubVchOut3": {
+      "type": "text",
+      "label": "Public Vouchers prepared outside the Disbursing Office and processed for Payment. Line 4.",
+      "page": 1,
+      "box": {
+        "left": 385.2,
+        "top": 184.7,
+        "width": 55.8,
+        "height": 12.0
+      }
+    },
+    "pubVchOut4": {
+      "type": "text",
+      "label": "Public Vouchers prepared outside the Disbursing Office and processed for Payment. Line 5.",
+      "page": 1,
+      "box": {
+        "left": 441.5,
+        "top": 184.7,
+        "width": 55.8,
+        "height": 12.0
+      }
+    },
+    "pubVchOut5": {
+      "type": "text",
+      "label": "Public Vouchers prepared outside the Disbursing Office and processed for Payment. Line 6.",
+      "page": 1,
+      "box": {
+        "left": 497.9,
+        "top": 184.7,
+        "width": 55.8,
+        "height": 12.0
+      }
+    },
+    "pubVchOut6": {
+      "type": "text",
+      "label": "Total for Public Vouchers prepared outside the Disbursing Office and processed for Payment.",
+      "page": 1,
+      "box": {
+        "left": 553.8,
+        "top": 184.7,
+        "width": 55.8,
+        "height": 12.0
+      }
+    },
+    "pubVchOut7": {
+      "type": "text",
+      "label": "Weight Total for Public Vouchers prepared outside the Disbursing Office and processed for Payment.",
+      "page": 1,
+      "box": {
+        "left": 667.2,
+        "top": 184.7,
+        "width": 55.8,
+        "height": 12.0
+      }
+    },
+    "pubVchOut8": {
+      "type": "text",
+      "label": "Weighted Monthly Average for Public Vouchers prepared outside the Disbursing Office and processed for Payment.",
+      "page": 1,
+      "box": {
+        "left": 723.2,
+        "top": 184.7,
+        "width": 55.8,
+        "height": 12.0
+      }
+    },
+    "noCheck0": {
+      "type": "text",
+      "label": "No - Check 2277. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 216.5,
+        "top": 167.4,
+        "width": 55.8,
+        "height": 12.0
+      }
+    },
+    "noCheck1": {
+      "type": "text",
+      "label": "No - Check 2277. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 167.4,
+        "width": 55.8,
+        "height": 12.0
+      }
+    },
+    "noCheck2": {
+      "type": "text",
+      "label": "No - Check 2277. Line 3.",
+      "page": 1,
+      "box": {
+        "left": 329.2,
+        "top": 167.4,
+        "width": 55.8,
+        "height": 12.0
+      }
+    },
+    "noCheck3": {
+      "type": "text",
+      "label": "No - Check 2277. Line 4.",
+      "page": 1,
+      "box": {
+        "left": 385.2,
+        "top": 167.4,
+        "width": 55.8,
+        "height": 12.0
+      }
+    },
+    "noCheck4": {
+      "type": "text",
+      "label": "No - Check 2277. Line 5.",
+      "page": 1,
+      "box": {
+        "left": 441.5,
+        "top": 167.4,
+        "width": 55.8,
+        "height": 12.0
+      }
+    },
+    "noCheck5": {
+      "type": "text",
+      "label": "No - Check 2277. Line 6.",
+      "page": 1,
+      "box": {
+        "left": 497.9,
+        "top": 167.4,
+        "width": 55.8,
+        "height": 12.0
+      }
+    },
+    "noCheck6": {
+      "type": "text",
+      "label": "Total for No - Check 2277.",
+      "page": 1,
+      "box": {
+        "left": 553.8,
+        "top": 167.4,
+        "width": 55.8,
+        "height": 12.0
+      }
+    },
+    "noCheck7": {
+      "type": "text",
+      "label": "Weight Total for No - Check 2277.",
+      "page": 1,
+      "box": {
+        "left": 667.2,
+        "top": 167.4,
+        "width": 55.8,
+        "height": 12.0
+      }
+    },
+    "noCheck8": {
+      "type": "text",
+      "label": "Weighted Monthly Average for No - Check 2277.",
+      "page": 1,
+      "box": {
+        "left": 723.2,
+        "top": 167.4,
+        "width": 55.8,
+        "height": 12.0
+      }
+    },
+    "pubVchFor0": {
+      "type": "text",
+      "label": "Public Voucher paid on Foreign Currency Accounts. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 216.5,
+        "top": 149.6,
+        "width": 55.8,
+        "height": 12.0
+      }
+    },
+    "pubVchFor1": {
+      "type": "text",
+      "label": "Public Voucher paid on Foreign Currency Accounts. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 149.6,
+        "width": 55.8,
+        "height": 12.0
+      }
+    },
+    "pubVchFor2": {
+      "type": "text",
+      "label": "Public Voucher paid on Foreign Currency Accounts. Line 3.",
+      "page": 1,
+      "box": {
+        "left": 329.2,
+        "top": 149.6,
+        "width": 55.8,
+        "height": 12.0
+      }
+    },
+    "pubVchFor3": {
+      "type": "text",
+      "label": "Public Voucher paid on Foreign Currency Accounts. Line 4.",
+      "page": 1,
+      "box": {
+        "left": 385.2,
+        "top": 149.6,
+        "width": 55.8,
+        "height": 12.0
+      }
+    },
+    "pubVchFor4": {
+      "type": "text",
+      "label": "Public Voucher paid on Foreign Currency Accounts. Line 5.",
+      "page": 1,
+      "box": {
+        "left": 441.5,
+        "top": 149.6,
+        "width": 55.8,
+        "height": 12.0
+      }
+    },
+    "pubVchFor5": {
+      "type": "text",
+      "label": "Public Voucher paid on Foreign Currency Accounts. Line 6.",
+      "page": 1,
+      "box": {
+        "left": 497.9,
+        "top": 149.6,
+        "width": 55.8,
+        "height": 12.0
+      }
+    },
+    "pubVchFor6": {
+      "type": "text",
+      "label": "Total for Public Voucher paid on Foreign Currency Accounts.",
+      "page": 1,
+      "box": {
+        "left": 553.8,
+        "top": 149.6,
+        "width": 55.8,
+        "height": 12.0
+      }
+    },
+    "pubVchFor7": {
+      "type": "text",
+      "label": "Weight Total for Public Voucher paid on Foreign Currency Accounts.",
+      "page": 1,
+      "box": {
+        "left": 667.2,
+        "top": 149.6,
+        "width": 55.8,
+        "height": 12.0
+      }
+    },
+    "pubVchFor8": {
+      "type": "text",
+      "label": "Weighted Monthly Average for Public Voucher paid on Foreign Currency Accounts.",
+      "page": 1,
+      "box": {
+        "left": 723.2,
+        "top": 149.6,
+        "width": 55.8,
+        "height": 12.0
+      }
+    },
+    "vchColl0": {
+      "type": "text",
+      "label": "Vouchered Collections excluding travel related CV'S. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 216.5,
+        "top": 132.2,
+        "width": 55.8,
+        "height": 12.4
+      }
+    },
+    "vchColl1": {
+      "type": "text",
+      "label": "Vouchered Collections excluding travel related CV'S. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 132.2,
+        "width": 55.8,
+        "height": 12.4
+      }
+    },
+    "vchColl2": {
+      "type": "text",
+      "label": "Vouchered Collections excluding travel related CV'S. Line 3.",
+      "page": 1,
+      "box": {
+        "left": 329.2,
+        "top": 132.2,
+        "width": 55.8,
+        "height": 12.4
+      }
+    },
+    "vchColl3": {
+      "type": "text",
+      "label": "Vouchered Collections excluding travel related CV'S. Line 4.",
+      "page": 1,
+      "box": {
+        "left": 385.2,
+        "top": 132.2,
+        "width": 55.8,
+        "height": 12.4
+      }
+    },
+    "vchColl4": {
+      "type": "text",
+      "label": "Vouchered Collections excluding travel related CV'S. Line 5.",
+      "page": 1,
+      "box": {
+        "left": 441.5,
+        "top": 132.2,
+        "width": 55.8,
+        "height": 12.4
+      }
+    },
+    "vchColl5": {
+      "type": "text",
+      "label": "Vouchered Collections excluding travel related CV'S. Line 6.",
+      "page": 1,
+      "box": {
+        "left": 497.9,
+        "top": 132.2,
+        "width": 55.8,
+        "height": 12.4
+      }
+    },
+    "vchColl6": {
+      "type": "text",
+      "label": "Total for Vouchered Collections excluding travel related CV'S.",
+      "page": 1,
+      "box": {
+        "left": 553.8,
+        "top": 132.2,
+        "width": 55.8,
+        "height": 12.4
+      }
+    },
+    "vchColl7": {
+      "type": "text",
+      "label": "Weight Total for Vouchered Collections excluding travel related CV'S.",
+      "page": 1,
+      "box": {
+        "left": 667.2,
+        "top": 132.2,
+        "width": 55.8,
+        "height": 12.4
+      }
+    },
+    "vchColl8": {
+      "type": "text",
+      "label": "Weighted Monthly Average for Vouchered Collections excluding travel related CV'S.",
+      "page": 1,
+      "box": {
+        "left": 723.2,
+        "top": 132.2,
+        "width": 55.8,
+        "height": 12.4
+      }
+    },
+    "unVchColl0": {
+      "type": "text",
+      "label": "Unvouchered Collections. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 216.5,
+        "top": 114.9,
+        "width": 55.8,
+        "height": 12.8
+      }
+    },
+    "unVchColl1": {
+      "type": "text",
+      "label": "Unvouchered Collections. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 114.9,
+        "width": 55.8,
+        "height": 12.8
+      }
+    },
+    "unVchColl2": {
+      "type": "text",
+      "label": "Unvouchered Collections. Line 3.",
+      "page": 1,
+      "box": {
+        "left": 329.2,
+        "top": 114.9,
+        "width": 55.8,
+        "height": 12.8
+      }
+    },
+    "unVchColl3": {
+      "type": "text",
+      "label": "Unvouchered Collections. Line 4.",
+      "page": 1,
+      "box": {
+        "left": 385.2,
+        "top": 114.9,
+        "width": 55.8,
+        "height": 12.8
+      }
+    },
+    "unVchColl4": {
+      "type": "text",
+      "label": "Unvouchered Collections. Line 5.",
+      "page": 1,
+      "box": {
+        "left": 441.5,
+        "top": 114.9,
+        "width": 55.8,
+        "height": 12.8
+      }
+    },
+    "unVchColl5": {
+      "type": "text",
+      "label": "Unvouchered Collections. Line 6.",
+      "page": 1,
+      "box": {
+        "left": 497.9,
+        "top": 114.9,
+        "width": 55.8,
+        "height": 12.8
+      }
+    },
+    "unVchColl6": {
+      "type": "text",
+      "label": "Total for Unvouchered Collections.",
+      "page": 1,
+      "box": {
+        "left": 553.8,
+        "top": 114.9,
+        "width": 55.8,
+        "height": 12.8
+      }
+    },
+    "unVchColl7": {
+      "type": "text",
+      "label": "Weight Total for Unvouchered Collections.",
+      "page": 1,
+      "box": {
+        "left": 667.2,
+        "top": 114.9,
+        "width": 55.8,
+        "height": 12.8
+      }
+    },
+    "unVchColl8": {
+      "type": "text",
+      "label": "Weighted Monthly Average for Unvouchered Collections.",
+      "page": 1,
+      "box": {
+        "left": 723.2,
+        "top": 114.9,
+        "width": 55.8,
+        "height": 12.8
+      }
+    },
+    "disHonCheck0": {
+      "type": "text",
+      "label": "Dishonered Checks and NAFI Debts. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 216.5,
+        "top": 95.5,
+        "width": 55.8,
+        "height": 11.2
+      }
+    },
+    "disHonCheck1": {
+      "type": "text",
+      "label": "Dishonered Checks and NAFI Debts. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 95.5,
+        "width": 55.8,
+        "height": 11.2
+      }
+    },
+    "disHonCheck2": {
+      "type": "text",
+      "label": "Dishonered Checks and NAFI Debts. Line 3.",
+      "page": 1,
+      "box": {
+        "left": 329.2,
+        "top": 95.5,
+        "width": 55.8,
+        "height": 11.2
+      }
+    },
+    "disHonCheck3": {
+      "type": "text",
+      "label": "Dishonered Checks and NAFI Debts. Line 4.",
+      "page": 1,
+      "box": {
+        "left": 385.2,
+        "top": 95.5,
+        "width": 55.8,
+        "height": 11.2
+      }
+    },
+    "disHonCheck4": {
+      "type": "text",
+      "label": "Dishonered Checks and NAFI Debts. Line 5.",
+      "page": 1,
+      "box": {
+        "left": 441.5,
+        "top": 95.5,
+        "width": 55.8,
+        "height": 11.2
+      }
+    },
+    "disHonCheck5": {
+      "type": "text",
+      "label": "Dishonered Checks and NAFI Debts. Line 6.",
+      "page": 1,
+      "box": {
+        "left": 497.9,
+        "top": 95.5,
+        "width": 55.8,
+        "height": 11.2
+      }
+    },
+    "disHonCheck6": {
+      "type": "text",
+      "label": "Total for Dishonered Checks and NAFI Debts.",
+      "page": 1,
+      "box": {
+        "left": 553.8,
+        "top": 95.5,
+        "width": 55.8,
+        "height": 11.2
+      }
+    },
+    "disHonCheck7": {
+      "type": "text",
+      "label": "Weight Total for Dishonered Checks and NAFI Debts.",
+      "page": 1,
+      "box": {
+        "left": 667.2,
+        "top": 95.5,
+        "width": 55.8,
+        "height": 11.2
+      }
+    },
+    "disHonCheck8": {
+      "type": "text",
+      "label": "Weighted Monthly Average for Dishonered Checks and NAFI Debts.",
+      "page": 1,
+      "box": {
+        "left": 723.2,
+        "top": 95.5,
+        "width": 55.8,
+        "height": 11.2
+      }
+    },
+    "pubDiscNot0": {
+      "type": "text",
+      "label": "Discrepancy Notices/Public Voucher Correspondence Line 1.",
+      "page": 1,
+      "box": {
+        "left": 216.5,
+        "top": 77.7,
+        "width": 55.8,
+        "height": 11.2
+      }
+    },
+    "pubDiscNot1": {
+      "type": "text",
+      "label": "Discrepancy Notices/Public Voucher Correspondence Line 2.",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 77.7,
+        "width": 55.8,
+        "height": 11.2
+      }
+    },
+    "pubDiscNot2": {
+      "type": "text",
+      "label": "Discrepancy Notices/Public Voucher Correspondence Line 3.",
+      "page": 1,
+      "box": {
+        "left": 329.2,
+        "top": 77.7,
+        "width": 55.8,
+        "height": 11.2
+      }
+    },
+    "pubDiscNot3": {
+      "type": "text",
+      "label": "Discrepancy Notices/Public Voucher Correspondence Line 4.",
+      "page": 1,
+      "box": {
+        "left": 385.2,
+        "top": 77.7,
+        "width": 55.8,
+        "height": 11.2
+      }
+    },
+    "pubDiscNot4": {
+      "type": "text",
+      "label": "Discrepancy Notices/Public Voucher Correspondence Line 5.",
+      "page": 1,
+      "box": {
+        "left": 441.5,
+        "top": 77.7,
+        "width": 55.8,
+        "height": 11.2
+      }
+    },
+    "pubDiscNot5": {
+      "type": "text",
+      "label": "Discrepancy Notices/Public Voucher Correspondence Line 6.",
+      "page": 1,
+      "box": {
+        "left": 497.9,
+        "top": 77.7,
+        "width": 55.8,
+        "height": 11.2
+      }
+    },
+    "pubDiscNot6": {
+      "type": "text",
+      "label": "Total for Discrepancy Notices/Public Voucher Correspondence",
+      "page": 1,
+      "box": {
+        "left": 553.8,
+        "top": 77.7,
+        "width": 55.8,
+        "height": 11.2
+      }
+    },
+    "pubDiscNot7": {
+      "type": "text",
+      "label": "Weight Total for Discrepancy Notices/Public Voucher Correspondence",
+      "page": 1,
+      "box": {
+        "left": 667.2,
+        "top": 77.7,
+        "width": 55.8,
+        "height": 11.2
+      }
+    },
+    "pubDiscNot8": {
+      "type": "text",
+      "label": "Weighted Monthly Average for Discrepancy Notices/Public Voucher Correspondence",
+      "page": 1,
+      "box": {
+        "left": 723.2,
+        "top": 77.7,
+        "width": 55.8,
+        "height": 11.2
+      }
+    },
+    "pubVouchTot0": {
+      "type": "text",
+      "label": "Total of Public Vouchers Line 1.",
+      "page": 1,
+      "box": {
+        "left": 216.6,
+        "top": 61.3,
+        "width": 55.8,
+        "height": 11.3
+      }
+    },
+    "pubVouchTot1": {
+      "type": "text",
+      "label": "Total of Public Vouchers Line 2.",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 61.2,
+        "width": 55.8,
+        "height": 11.2
+      }
+    },
+    "pubVouchTot2": {
+      "type": "text",
+      "label": "Total of Public Vouchers Line 3.",
+      "page": 1,
+      "box": {
+        "left": 329.2,
+        "top": 61.2,
+        "width": 55.8,
+        "height": 11.2
+      }
+    },
+    "pubVouchTot3": {
+      "type": "text",
+      "label": "Total of Public Vouchers Line 4.",
+      "page": 1,
+      "box": {
+        "left": 385.2,
+        "top": 61.2,
+        "width": 55.8,
+        "height": 11.2
+      }
+    },
+    "pubVouchTot4": {
+      "type": "text",
+      "label": "Total of Public Vouchers Line 5.",
+      "page": 1,
+      "box": {
+        "left": 441.5,
+        "top": 61.2,
+        "width": 55.8,
+        "height": 11.2
+      }
+    },
+    "pubVouchTot5": {
+      "type": "text",
+      "label": "Total of Public Vouchers Line 6.",
+      "page": 1,
+      "box": {
+        "left": 497.9,
+        "top": 61.2,
+        "width": 55.8,
+        "height": 11.2
+      }
+    },
+    "pubVouchTot6": {
+      "type": "text",
+      "label": "Grand Total of Public Vouchers",
+      "page": 1,
+      "box": {
+        "left": 553.8,
+        "top": 61.2,
+        "width": 55.8,
+        "height": 11.2
+      }
+    },
+    "pubVouchTot7": {
+      "type": "text",
+      "label": "Weight Total for Total of Public Vouchers",
+      "page": 1,
+      "box": {
+        "left": 667.2,
+        "top": 61.2,
+        "width": 55.8,
+        "height": 11.2
+      }
+    },
+    "pubVouchTot8": {
+      "type": "text",
+      "label": "Weighted Monthly Average for Total of Public Vouchers",
+      "page": 1,
+      "box": {
+        "left": 723.2,
+        "top": 61.2,
+        "width": 55.8,
+        "height": 11.2
+      }
+    },
+    "disbPerMilOff0": {
+      "type": "text",
+      "label": "Number of Officer Disbursing Personnel. MOS A 3401",
+      "page": 2,
+      "box": {
+        "left": 211.9,
+        "top": 511.4,
+        "width": 57.9,
+        "height": 11.9
+      }
+    },
+    "disbPerMilE90": {
+      "type": "text",
+      "label": "Number of E-9 Disbursing Personnel. MOS A 3401",
+      "page": 2,
+      "box": {
+        "left": 270.6,
+        "top": 511.4,
+        "width": 42.1,
+        "height": 11.9
+      }
+    },
+    "disbPerMilE80": {
+      "type": "text",
+      "label": "Number of E-8 Disbursing Personnel. MOS A 3401",
+      "page": 2,
+      "box": {
+        "left": 313.4,
+        "top": 511.4,
+        "width": 50.7,
+        "height": 11.9
+      }
+    },
+    "disbPerMilE70": {
+      "type": "text",
+      "label": "Number of E-7 Disbursing Personnel. MOS A 3401",
+      "page": 2,
+      "box": {
+        "left": 365.0,
+        "top": 511.4,
+        "width": 48.7,
+        "height": 11.9
+      }
+    },
+    "disbPerMilE60": {
+      "type": "text",
+      "label": "Number of E-6 Disbursing Personnel. MOS A 3401",
+      "page": 2,
+      "box": {
+        "left": 414.5,
+        "top": 511.4,
+        "width": 41.8,
+        "height": 11.9
+      }
+    },
+    "disbPerMilE50": {
+      "type": "text",
+      "label": "Number of E-5 Disbursing Personnel. MOS A 3401",
+      "page": 2,
+      "box": {
+        "left": 457.3,
+        "top": 511.4,
+        "width": 46.6,
+        "height": 11.9
+      }
+    },
+    "disbPerMilE40": {
+      "type": "text",
+      "label": "Number of E-4 Disbursing Personnel. MOS A 3401",
+      "page": 2,
+      "box": {
+        "left": 504.5,
+        "top": 511.4,
+        "width": 46.6,
+        "height": 11.9
+      }
+    },
+    "disbPerMilE30": {
+      "type": "text",
+      "label": "Number of E-3 Disbursing Personnel. MOS A 3401",
+      "page": 2,
+      "box": {
+        "left": 551.9,
+        "top": 511.4,
+        "width": 53.1,
+        "height": 11.9
+      }
+    },
+    "disbPerMilE20": {
+      "type": "text",
+      "label": "Number of E-2 Disbursing Personnel. MOS A 3401",
+      "page": 2,
+      "box": {
+        "left": 605.9,
+        "top": 511.4,
+        "width": 55.5,
+        "height": 11.9
+      }
+    },
+    "disbPerMilE10": {
+      "type": "text",
+      "label": "Number of E-1 Disbursing Personnel. MOS A 3401",
+      "page": 2,
+      "box": {
+        "left": 662.0,
+        "top": 511.4,
+        "width": 59.9,
+        "height": 11.9
+      }
+    },
+    "disbPerMilTot0": {
+      "type": "text",
+      "label": "Total number of Disbursing Personnel. MOS A 3401",
+      "page": 2,
+      "box": {
+        "left": 722.9,
+        "top": 511.4,
+        "width": 53.7,
+        "height": 11.9
+      }
+    },
+    "disbPerMilOff1": {
+      "type": "text",
+      "label": "Number of Officer Disbursing Personnel. MOS B 3402",
+      "page": 2,
+      "box": {
+        "left": 212.0,
+        "top": 498.0,
+        "width": 58.0,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE91": {
+      "type": "text",
+      "label": "Number of E-9 Disbursing Personnel. MOS B 3402",
+      "page": 2,
+      "box": {
+        "left": 270.7,
+        "top": 498.0,
+        "width": 42.0,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE81": {
+      "type": "text",
+      "label": "Number of E-8 Disbursing Personnel. MOS B 3402",
+      "page": 2,
+      "box": {
+        "left": 313.3,
+        "top": 498.0,
+        "width": 50.7,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE71": {
+      "type": "text",
+      "label": "Number of E-7 Disbursing Personnel. MOS B 3402",
+      "page": 2,
+      "box": {
+        "left": 364.7,
+        "top": 498.0,
+        "width": 48.7,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE61": {
+      "type": "text",
+      "label": "Number of E-6 Disbursing Personnel. MOS B 3402",
+      "page": 2,
+      "box": {
+        "left": 414.7,
+        "top": 498.0,
+        "width": 42.0,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE51": {
+      "type": "text",
+      "label": "Number of E-5 Disbursing Personnel. MOS B 3402",
+      "page": 2,
+      "box": {
+        "left": 457.3,
+        "top": 498.0,
+        "width": 46.7,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE41": {
+      "type": "text",
+      "label": "Number of E-4 Disbursing Personnel. MOS B 3402",
+      "page": 2,
+      "box": {
+        "left": 504.7,
+        "top": 498.0,
+        "width": 46.7,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE31": {
+      "type": "text",
+      "label": "Number of E-3 Disbursing Personnel. MOS B 3402",
+      "page": 2,
+      "box": {
+        "left": 552.0,
+        "top": 498.0,
+        "width": 53.3,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE21": {
+      "type": "text",
+      "label": "Number of E-2 Disbursing Personnel. MOS B 3402",
+      "page": 2,
+      "box": {
+        "left": 606.0,
+        "top": 498.0,
+        "width": 55.3,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE11": {
+      "type": "text",
+      "label": "Number of E-1 Disbursing Personnel. MOS B 3402",
+      "page": 2,
+      "box": {
+        "left": 662.0,
+        "top": 498.0,
+        "width": 60.0,
+        "height": 12.0
+      }
+    },
+    "disbPerMilTot1": {
+      "type": "text",
+      "label": "Total number of Disbursing Personnel. MOS B 3402",
+      "page": 2,
+      "box": {
+        "left": 722.7,
+        "top": 498.0,
+        "width": 54.0,
+        "height": 12.0
+      }
+    },
+    "disbPerMilOff2": {
+      "type": "text",
+      "label": "Number of Officer Disbursing Personnel. MOS C 3432",
+      "page": 2,
+      "box": {
+        "left": 212.0,
+        "top": 483.3,
+        "width": 58.0,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE92": {
+      "type": "text",
+      "label": "Number of E-9 Disbursing Personnel. MOS C 3432",
+      "page": 2,
+      "box": {
+        "left": 270.7,
+        "top": 483.3,
+        "width": 42.0,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE82": {
+      "type": "text",
+      "label": "Number of E-8 Disbursing Personnel. MOS C 3432",
+      "page": 2,
+      "box": {
+        "left": 313.3,
+        "top": 483.3,
+        "width": 50.7,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE72": {
+      "type": "text",
+      "label": "Number of E-7 Disbursing Personnel. MOS C 3432",
+      "page": 2,
+      "box": {
+        "left": 364.7,
+        "top": 483.3,
+        "width": 48.7,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE62": {
+      "type": "text",
+      "label": "Number of E-6 Disbursing Personnel. MOS C 3432",
+      "page": 2,
+      "box": {
+        "left": 414.7,
+        "top": 483.3,
+        "width": 42.0,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE52": {
+      "type": "text",
+      "label": "Number of E-5 Disbursing Personnel. MOS C 3432",
+      "page": 2,
+      "box": {
+        "left": 457.3,
+        "top": 483.3,
+        "width": 46.7,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE42": {
+      "type": "text",
+      "label": "Number of E-4 Disbursing Personnel. MOS C 3432",
+      "page": 2,
+      "box": {
+        "left": 504.7,
+        "top": 483.3,
+        "width": 46.7,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE32": {
+      "type": "text",
+      "label": "Number of E-3 Disbursing Personnel. MOS C 3432",
+      "page": 2,
+      "box": {
+        "left": 552.0,
+        "top": 483.3,
+        "width": 53.3,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE22": {
+      "type": "text",
+      "label": "Number of E-2 Disbursing Personnel. MOS C 3432",
+      "page": 2,
+      "box": {
+        "left": 606.0,
+        "top": 483.3,
+        "width": 55.3,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE12": {
+      "type": "text",
+      "label": "Number of E-1 Disbursing Personnel. MOS C 3432",
+      "page": 2,
+      "box": {
+        "left": 662.0,
+        "top": 483.3,
+        "width": 60.0,
+        "height": 12.0
+      }
+    },
+    "disbPerMilTot2": {
+      "type": "text",
+      "label": "Total number of Disbursing Personnel. MOS C 3432",
+      "page": 2,
+      "box": {
+        "left": 722.7,
+        "top": 483.3,
+        "width": 54.0,
+        "height": 12.0
+      }
+    },
+    "disbPerMilOff3": {
+      "type": "text",
+      "label": "Number of Officer Disbursing Personnel. MOS D 3431",
+      "page": 2,
+      "box": {
+        "left": 212.0,
+        "top": 468.7,
+        "width": 58.0,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE93": {
+      "type": "text",
+      "label": "Number of E-9 Disbursing Personnel. MOS D 3431",
+      "page": 2,
+      "box": {
+        "left": 270.7,
+        "top": 468.7,
+        "width": 42.0,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE83": {
+      "type": "text",
+      "label": "Number of E-8 Disbursing Personnel. MOS D 3431",
+      "page": 2,
+      "box": {
+        "left": 313.3,
+        "top": 468.7,
+        "width": 50.7,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE73": {
+      "type": "text",
+      "label": "Number of E-7 Disbursing Personnel. MOS D 3431",
+      "page": 2,
+      "box": {
+        "left": 364.7,
+        "top": 468.7,
+        "width": 48.7,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE63": {
+      "type": "text",
+      "label": "Number of E-6 Disbursing Personnel. MOS D 3431",
+      "page": 2,
+      "box": {
+        "left": 414.7,
+        "top": 468.7,
+        "width": 42.0,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE53": {
+      "type": "text",
+      "label": "Number of E-5 Disbursing Personnel. MOS D 3431",
+      "page": 2,
+      "box": {
+        "left": 457.3,
+        "top": 468.7,
+        "width": 46.7,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE43": {
+      "type": "text",
+      "label": "Number of E-4 Disbursing Personnel. MOS D 3431",
+      "page": 2,
+      "box": {
+        "left": 504.7,
+        "top": 468.7,
+        "width": 46.7,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE33": {
+      "type": "text",
+      "label": "Number of E-3 Disbursing Personnel. MOS D 3431",
+      "page": 2,
+      "box": {
+        "left": 552.0,
+        "top": 468.7,
+        "width": 53.3,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE23": {
+      "type": "text",
+      "label": "Number of E-2 Disbursing Personnel. MOS D 3431",
+      "page": 2,
+      "box": {
+        "left": 606.0,
+        "top": 468.7,
+        "width": 55.3,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE13": {
+      "type": "text",
+      "label": "Number of E-1 Disbursing Personnel. MOS D 3431",
+      "page": 2,
+      "box": {
+        "left": 662.0,
+        "top": 468.7,
+        "width": 60.0,
+        "height": 12.0
+      }
+    },
+    "disbPerMilTot3": {
+      "type": "text",
+      "label": "Total number of Disbursing Personnel. MOS D 3431",
+      "page": 2,
+      "box": {
+        "left": 722.7,
+        "top": 468.7,
+        "width": 54.0,
+        "height": 12.0
+      }
+    },
+    "disbPerMilOff4": {
+      "type": "text",
+      "label": "Number of Officer Disbursing Personnel. MOS E 3421",
+      "page": 2,
+      "box": {
+        "left": 212.0,
+        "top": 454.0,
+        "width": 58.0,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE94": {
+      "type": "text",
+      "label": "Number of E-9 Disbursing Personnel. MOS E 3421",
+      "page": 2,
+      "box": {
+        "left": 270.7,
+        "top": 454.0,
+        "width": 42.0,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE84": {
+      "type": "text",
+      "label": "Number of E-8 Disbursing Personnel. MOS E 3421",
+      "page": 2,
+      "box": {
+        "left": 313.3,
+        "top": 454.0,
+        "width": 50.7,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE74": {
+      "type": "text",
+      "label": "Number of E-7 Disbursing Personnel. MOS E 3421",
+      "page": 2,
+      "box": {
+        "left": 364.7,
+        "top": 454.0,
+        "width": 48.7,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE64": {
+      "type": "text",
+      "label": "Number of E-6 Disbursing Personnel. MOS E 3421",
+      "page": 2,
+      "box": {
+        "left": 414.7,
+        "top": 454.0,
+        "width": 42.0,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE54": {
+      "type": "text",
+      "label": "Number of E-5 Disbursing Personnel. MOS E 3421",
+      "page": 2,
+      "box": {
+        "left": 457.3,
+        "top": 454.0,
+        "width": 46.7,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE44": {
+      "type": "text",
+      "label": "Number of E-4 Disbursing Personnel. MOS E 3421",
+      "page": 2,
+      "box": {
+        "left": 504.7,
+        "top": 454.0,
+        "width": 46.7,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE34": {
+      "type": "text",
+      "label": "Number of E-3 Disbursing Personnel. MOS E 3421",
+      "page": 2,
+      "box": {
+        "left": 552.0,
+        "top": 454.0,
+        "width": 53.3,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE24": {
+      "type": "text",
+      "label": "Number of E-2 Disbursing Personnel. MOS E 3421",
+      "page": 2,
+      "box": {
+        "left": 606.0,
+        "top": 454.0,
+        "width": 55.3,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE14": {
+      "type": "text",
+      "label": "Number of E-1 Disbursing Personnel. MOS E 3421",
+      "page": 2,
+      "box": {
+        "left": 662.0,
+        "top": 454.0,
+        "width": 60.0,
+        "height": 12.0
+      }
+    },
+    "disbPerMilTot4": {
+      "type": "text",
+      "label": "Total number of Disbursing Personnel. MOS E 3421",
+      "page": 2,
+      "box": {
+        "left": 722.7,
+        "top": 454.0,
+        "width": 54.0,
+        "height": 12.0
+      }
+    },
+    "disbPerMilOff5": {
+      "type": "text",
+      "label": "Number of Officer Disbursing Personnel. MOS F 3400",
+      "page": 2,
+      "box": {
+        "left": 212.0,
+        "top": 439.3,
+        "width": 58.0,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE95": {
+      "type": "text",
+      "label": "Number of E-9 Disbursing Personnel. MOS F 3400",
+      "page": 2,
+      "box": {
+        "left": 270.7,
+        "top": 439.3,
+        "width": 42.0,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE85": {
+      "type": "text",
+      "label": "Number of E-8 Disbursing Personnel. MOS F 3400",
+      "page": 2,
+      "box": {
+        "left": 313.3,
+        "top": 439.3,
+        "width": 50.7,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE75": {
+      "type": "text",
+      "label": "Number of E-7 Disbursing Personnel. MOS F 3400",
+      "page": 2,
+      "box": {
+        "left": 364.7,
+        "top": 439.3,
+        "width": 48.7,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE65": {
+      "type": "text",
+      "label": "Number of E-6 Disbursing Personnel. MOS F 3400",
+      "page": 2,
+      "box": {
+        "left": 414.7,
+        "top": 439.3,
+        "width": 42.0,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE55": {
+      "type": "text",
+      "label": "Number of E-5 Disbursing Personnel. MOS F 3400",
+      "page": 2,
+      "box": {
+        "left": 457.3,
+        "top": 439.3,
+        "width": 46.7,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE45": {
+      "type": "text",
+      "label": "Number of E-4 Disbursing Personnel. MOS F 3400",
+      "page": 2,
+      "box": {
+        "left": 504.7,
+        "top": 439.3,
+        "width": 46.7,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE35": {
+      "type": "text",
+      "label": "Number of E-3 Disbursing Personnel. MOS F 3400",
+      "page": 2,
+      "box": {
+        "left": 552.0,
+        "top": 439.3,
+        "width": 53.3,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE25": {
+      "type": "text",
+      "label": "Number of E-2 Disbursing Personnel. MOS F 3400",
+      "page": 2,
+      "box": {
+        "left": 606.0,
+        "top": 439.3,
+        "width": 55.3,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE15": {
+      "type": "text",
+      "label": "Number of E-1 Disbursing Personnel. MOS F 3400",
+      "page": 2,
+      "box": {
+        "left": 662.0,
+        "top": 439.3,
+        "width": 60.0,
+        "height": 12.0
+      }
+    },
+    "disbPerMilTot5": {
+      "type": "text",
+      "label": "Total number of Disbursing Personnel. MOS F 3400",
+      "page": 2,
+      "box": {
+        "left": 722.7,
+        "top": 439.3,
+        "width": 54.0,
+        "height": 12.0
+      }
+    },
+    "disbPerMilOff6": {
+      "type": "text",
+      "label": "Number of Officer Disbursing Personnel. MOS G 3404",
+      "page": 2,
+      "box": {
+        "left": 212.0,
+        "top": 424.7,
+        "width": 58.0,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE96": {
+      "type": "text",
+      "label": "Number of E-9 Disbursing Personnel. MOS G 3404",
+      "page": 2,
+      "box": {
+        "left": 270.7,
+        "top": 424.7,
+        "width": 42.0,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE86": {
+      "type": "text",
+      "label": "Number of E-8 Disbursing Personnel. MOS G 3404",
+      "page": 2,
+      "box": {
+        "left": 313.3,
+        "top": 424.7,
+        "width": 50.7,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE76": {
+      "type": "text",
+      "label": "Number of E-7 Disbursing Personnel. MOS G 3404",
+      "page": 2,
+      "box": {
+        "left": 364.7,
+        "top": 424.7,
+        "width": 48.7,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE66": {
+      "type": "text",
+      "label": "Number of E-6 Disbursing Personnel. MOS G 3404",
+      "page": 2,
+      "box": {
+        "left": 414.7,
+        "top": 424.7,
+        "width": 42.0,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE56": {
+      "type": "text",
+      "label": "Number of E-5 Disbursing Personnel. MOS G 3404",
+      "page": 2,
+      "box": {
+        "left": 457.3,
+        "top": 424.7,
+        "width": 46.7,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE46": {
+      "type": "text",
+      "label": "Number of E-4 Disbursing Personnel. MOS G 3404",
+      "page": 2,
+      "box": {
+        "left": 504.7,
+        "top": 424.7,
+        "width": 46.7,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE36": {
+      "type": "text",
+      "label": "Number of E-3 Disbursing Personnel. MOS G 3404",
+      "page": 2,
+      "box": {
+        "left": 552.0,
+        "top": 424.7,
+        "width": 53.3,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE26": {
+      "type": "text",
+      "label": "Number of E-2 Disbursing Personnel. MOS G 3404",
+      "page": 2,
+      "box": {
+        "left": 606.0,
+        "top": 424.7,
+        "width": 55.3,
+        "height": 12.0
+      }
+    },
+    "disbPerMilE16": {
+      "type": "text",
+      "label": "Number of E-1 Disbursing Personnel. MOS G 3404",
+      "page": 2,
+      "box": {
+        "left": 662.0,
+        "top": 424.7,
+        "width": 60.0,
+        "height": 12.0
+      }
+    },
+    "disbPerMilTot6": {
+      "type": "text",
+      "label": "Total number of Disbursing Personnel. MOS G 3404",
+      "page": 2,
+      "box": {
+        "left": 722.7,
+        "top": 424.7,
+        "width": 54.0,
+        "height": 12.0
+      }
+    },
+    "officTot": {
+      "type": "text",
+      "label": "Total Officers.",
+      "page": 2,
+      "box": {
+        "left": 212.0,
+        "top": 410.0,
+        "width": 58.0,
+        "height": 12.0
+      }
+    },
+    "e9Tot": {
+      "type": "text",
+      "label": "Total E9 Disbursing Personnel.",
+      "page": 2,
+      "box": {
+        "left": 270.7,
+        "top": 410.0,
+        "width": 42.0,
+        "height": 12.0
+      }
+    },
+    "e8Tot": {
+      "type": "text",
+      "label": "Total E8 Disbursing Personnel.",
+      "page": 2,
+      "box": {
+        "left": 313.3,
+        "top": 410.0,
+        "width": 50.7,
+        "height": 12.0
+      }
+    },
+    "e7Tot": {
+      "type": "text",
+      "label": "Total E7 Disbursing Personnel.",
+      "page": 2,
+      "box": {
+        "left": 364.7,
+        "top": 410.0,
+        "width": 48.7,
+        "height": 12.0
+      }
+    },
+    "e6Tot": {
+      "type": "text",
+      "label": "Total E6 Disbursing Personnel.",
+      "page": 2,
+      "box": {
+        "left": 414.7,
+        "top": 410.0,
+        "width": 42.0,
+        "height": 12.0
+      }
+    },
+    "e5Tot": {
+      "type": "text",
+      "label": "Total E5 Disbursing Personnel.",
+      "page": 2,
+      "box": {
+        "left": 457.3,
+        "top": 410.0,
+        "width": 46.7,
+        "height": 12.0
+      }
+    },
+    "e4Tot": {
+      "type": "text",
+      "label": "Total E4 Disbursing Personnel.",
+      "page": 2,
+      "box": {
+        "left": 504.7,
+        "top": 410.0,
+        "width": 46.7,
+        "height": 12.0
+      }
+    },
+    "e3Tot": {
+      "type": "text",
+      "label": "Total E3 Disbursing Personnel.",
+      "page": 2,
+      "box": {
+        "left": 552.0,
+        "top": 410.0,
+        "width": 53.3,
+        "height": 12.0
+      }
+    },
+    "e2Tot": {
+      "type": "text",
+      "label": "Total E2 Disbursing Personnel.",
+      "page": 2,
+      "box": {
+        "left": 606.0,
+        "top": 410.0,
+        "width": 55.3,
+        "height": 12.0
+      }
+    },
+    "e1Tot": {
+      "type": "text",
+      "label": "Total E1 Disbursing Personnel.",
+      "page": 2,
+      "box": {
+        "left": 662.0,
+        "top": 410.0,
+        "width": 60.0,
+        "height": 12.0
+      }
+    },
+    "milPersTot": {
+      "type": "text",
+      "label": "Grand total of all Military Disbursing Personnel.",
+      "page": 2,
+      "box": {
+        "left": 722.7,
+        "top": 410.0,
+        "width": 54.0,
+        "height": 12.0
+      }
+    },
+    "disbPerCivAdm": {
+      "type": "text",
+      "label": "Civilian Administration Personnel.",
+      "page": 2,
+      "box": {
+        "left": 142.4,
+        "top": 339.2,
+        "width": 86.4,
+        "height": 13.6
+      }
+    },
+    "disbPerCivPay": {
+      "type": "text",
+      "label": "Civilian Payroll Personnel.",
+      "page": 2,
+      "box": {
+        "left": 230.4,
+        "top": 339.2,
+        "width": 77.6,
+        "height": 14.4
+      }
+    },
+    "disbPerCivTrav": {
+      "type": "text",
+      "label": "Civilian Travel Expenses.",
+      "page": 2,
+      "box": {
+        "left": 308.8,
+        "top": 339.2,
+        "width": 100.0,
+        "height": 14.4
+      }
+    },
+    "disbPerCivVch": {
+      "type": "text",
+      "label": "Civilian Accountability Vouchers and Checks",
+      "page": 2,
+      "box": {
+        "left": 410.4,
+        "top": 339.2,
+        "width": 185.6,
+        "height": 14.4
+      }
+    },
+    "disbPerCivOth": {
+      "type": "text",
+      "label": "Other Civilian Disbursing Personnel.",
+      "page": 2,
+      "box": {
+        "left": 596.8,
+        "top": 339.2,
+        "width": 64.0,
+        "height": 14.4
+      }
+    },
+    "disbPerCivTot": {
+      "type": "text",
+      "label": "Total Civilian Disbursing Personnel.",
+      "page": 2,
+      "box": {
+        "left": 662.4,
+        "top": 339.2,
+        "width": 110.4,
+        "height": 14.4
+      }
+    },
+    "remarks1": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 2,
+      "box": {
+        "left": 19.7,
+        "top": 240.9,
+        "width": 757.3,
+        "height": 86.1
+      },
+      "multiline": true
+    },
+    "orgPd": {
+      "type": "text",
+      "label": "Organizations paid by disbursing.",
+      "page": 2,
+      "box": {
+        "left": 17.9,
+        "top": 145.6,
+        "width": 757.3,
+        "height": 84.9
+      },
+      "multiline": true
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 2,
+      "count": 3,
+      "rowStride": 14.99,
+      "editor": "grid",
+      "columns": {
+        "disbPerAutTO": {
+          "type": "text",
+          "label": "Number of Authorized T/O Disbursing Personnel. Line 1.",
+          "page": 2,
+          "box": {
+            "left": 142.3,
+            "top": 296.4,
+            "width": 86.4,
+            "height": 13.6
+          }
+        },
+        "disbPerAutOff": {
+          "type": "text",
+          "label": "Number of Authorized Officer Disbursing Personnel. Line 1.",
+          "page": 2,
+          "box": {
+            "left": 230.0,
+            "top": 296.5,
+            "width": 77.5,
+            "height": 14.6
+          }
+        },
+        "disbPerAutSnco": {
+          "type": "text",
+          "label": "Number of Authorized SNCO Disbursing Personnel. Line 1.",
+          "page": 2,
+          "box": {
+            "left": 308.9,
+            "top": 296.5,
+            "width": 100.0,
+            "height": 14.6
+          }
+        },
+        "disbPerAutEnl": {
+          "type": "text",
+          "label": "Number of Authorized Enlisted Disbursing Personnel. Line 1.",
+          "page": 2,
+          "box": {
+            "left": 410.3,
+            "top": 296.5,
+            "width": 185.4,
+            "height": 14.6
+          }
+        },
+        "disbPerAutCiv": {
+          "type": "text",
+          "label": "Number of Authorized Civilian Disbursing Personnel. Line 1.",
+          "page": 2,
+          "box": {
+            "left": 596.7,
+            "top": 296.5,
+            "width": 64.3,
+            "height": 14.6
+          }
+        },
+        "disbPerAutTot": {
+          "type": "text",
+          "label": "Total number of Authorized Disbursing Personnel. Line 1.",
+          "page": 2,
+          "box": {
+            "left": 662.4,
+            "top": 296.5,
+            "width": 112.2,
+            "height": 14.6
+          }
+        }
+      }
+    }
+  }
+}

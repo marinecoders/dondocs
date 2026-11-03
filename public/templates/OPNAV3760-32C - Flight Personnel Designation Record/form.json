@@ -1,0 +1,118 @@
+{
+  "id": "opnav376032c",
+  "label": "OPNAV3760-32C - Flight Personnel Designation Record",
+  "directory": "OPNAV3760-32C - Flight Personnel Designation Record",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "doDIDNumber"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "Enter the name (last, first, middle initial).",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 706.0,
+        "width": 407.5,
+        "height": 11.5
+      }
+    },
+    "doDIDNumber": {
+      "type": "text",
+      "label": "Enter the DoD ID Number.  ",
+      "page": 1,
+      "box": {
+        "left": 458.6,
+        "top": 706.0,
+        "width": 112.3,
+        "height": 11.5
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 25,
+      "rowStride": 25.2,
+      "editor": "grid",
+      "columns": {
+        "date": {
+          "type": "text",
+          "label": "This is row 1 of 25.  Enter the date using the format DD MMM YYYY.",
+          "page": 1,
+          "box": {
+            "left": 36.0,
+            "top": 666.4,
+            "width": 57.6,
+            "height": 22.3
+          }
+        },
+        "designation": {
+          "type": "text",
+          "label": "Enter the designation.",
+          "page": 1,
+          "box": {
+            "left": 98.6,
+            "top": 666.4,
+            "width": 97.9,
+            "height": 22.3
+          }
+        },
+        "model": {
+          "type": "text",
+          "label": "Enter the model.",
+          "page": 1,
+          "box": {
+            "left": 206.6,
+            "top": 666.4,
+            "width": 54.7,
+            "height": 22.3
+          }
+        },
+        "unit": {
+          "type": "text",
+          "label": "Enter the unit.",
+          "page": 1,
+          "box": {
+            "left": 271.4,
+            "top": 666.4,
+            "width": 54.7,
+            "height": 22.3
+          }
+        },
+        "promulgationBy": {
+          "type": "text",
+          "label": "Enter whom the promulgation is by.",
+          "page": 1,
+          "box": {
+            "left": 336.2,
+            "top": 666.4,
+            "width": 112.3,
+            "height": 22.3
+          }
+        },
+        "verified": {
+          "type": "text",
+          "label": "Enter whom it was verified by.",
+          "page": 1,
+          "box": {
+            "left": 458.6,
+            "top": 666.4,
+            "width": 117.4,
+            "height": 22.3
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,166 @@
+{
+  "id": "opnav521080",
+  "label": "OPNAV5210-80 - Opnav Unauthorized Disposition Report",
+  "directory": "OPNAV5210-80 - Opnav Unauthorized Disposition Report",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "class",
+        "class2",
+        "dateField1",
+        "class3",
+        "class4",
+        "dirNoSubj",
+        "origOffice",
+        "sponOffice",
+        "sponOffice2",
+        "dirNoSubj2",
+        "dirNoSubj3",
+        "dirNoSubj4"
+      ]
+    }
+  ],
+  "fields": {
+    "class": {
+      "type": "text",
+      "label": "1: Command Records Manager (CRM) Name",
+      "page": 1,
+      "box": {
+        "left": 203.6,
+        "top": 735.2,
+        "width": 133.3,
+        "height": 12.3
+      }
+    },
+    "class2": {
+      "type": "text",
+      "label": "2: Command",
+      "page": 1,
+      "box": {
+        "left": 396.2,
+        "top": 735.2,
+        "width": 80.2,
+        "height": 12.3
+      }
+    },
+    "dateField1": {
+      "type": "text",
+      "label": "3. Date",
+      "page": 1,
+      "box": {
+        "left": 511.6,
+        "top": 735.2,
+        "width": 61.6,
+        "height": 12.3
+      }
+    },
+    "class3": {
+      "type": "text",
+      "label": "4: SSIC",
+      "page": 1,
+      "box": {
+        "left": 92.5,
+        "top": 717.2,
+        "width": 108.4,
+        "height": 12.3
+      }
+    },
+    "class4": {
+      "type": "text",
+      "label": "5. Records Series Title",
+      "page": 1,
+      "box": {
+        "left": 376.7,
+        "top": 717.2,
+        "width": 196.5,
+        "height": 12.3
+      }
+    },
+    "dirNoSubj": {
+      "type": "text",
+      "label": "6. Description of Records",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 688.4,
+        "width": 534.4,
+        "height": 46.5
+      },
+      "multiline": true
+    },
+    "origOffice": {
+      "type": "text",
+      "label": "7. Disposition Authority",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 626.1,
+        "width": 203.6,
+        "height": 14.9
+      }
+    },
+    "sponOffice": {
+      "type": "text",
+      "label": "8. Time Period of Records (MMM/YY - MMM/YY)",
+      "page": 1,
+      "box": {
+        "left": 248.1,
+        "top": 625.3,
+        "width": 184.5,
+        "height": 14.1
+      }
+    },
+    "sponOffice2": {
+      "type": "text",
+      "label": "9. Volume of Records",
+      "page": 1,
+      "box": {
+        "left": 438.3,
+        "top": 625.3,
+        "width": 135.0,
+        "height": 14.1
+      }
+    },
+    "dirNoSubj2": {
+      "type": "text",
+      "label": "10. Cause of Unauthorized Disposition",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 594.7,
+        "width": 533.3,
+        "height": 71.4
+      },
+      "multiline": true
+    },
+    "dirNoSubj3": {
+      "type": "text",
+      "label": "11. Action Taken to Salvage or Reconstruct Records",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 506.9,
+        "width": 534.4,
+        "height": 75.5
+      },
+      "multiline": true
+    },
+    "dirNoSubj4": {
+      "type": "text",
+      "label": "12. Establish Command Safeguards",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 414.9,
+        "width": 534.4,
+        "height": 106.1
+      },
+      "multiline": true
+    }
+  }
+}

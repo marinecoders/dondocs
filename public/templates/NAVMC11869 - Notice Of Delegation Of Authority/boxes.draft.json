@@ -1,0 +1,392 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "orgiDate": {
+        "left": 470.6,
+        "top": 734.3,
+        "width": 102.3,
+        "height": 23.8,
+        "type": "text",
+        "description": "DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "org": {
+        "left": 38.8,
+        "top": 678.3,
+        "width": 192.4,
+        "height": 23.3,
+        "type": "text",
+        "description": "AUTHORIZED",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "loc": {
+        "left": 236.9,
+        "top": 678.3,
+        "width": 336.4,
+        "height": 23.3,
+        "type": "text",
+        "description": "AUTHORIZED REPRESENTATIVE(S)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameA": {
+        "left": 38.8,
+        "top": 623.4,
+        "width": 236.6,
+        "height": 23.1,
+        "type": "text",
+        "description": "4. LAST NAME, FIRST NAME, MI",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "reqA": {
+        "left": 281.5,
+        "top": 623.4,
+        "width": 48.3,
+        "height": 23.1,
+        "type": "text",
+        "description": "5. REQ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recA": {
+        "left": 335.5,
+        "top": 623.4,
+        "width": 48.3,
+        "height": 23.1,
+        "type": "text",
+        "description": "6. REC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "turnInA": {
+        "left": 389.5,
+        "top": 623.4,
+        "width": 48.3,
+        "height": 23.1,
+        "type": "text",
+        "description": "7. TURN IN",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField1": {
+        "left": 444.9,
+        "top": 622.6,
+        "width": 127.8,
+        "height": 21.6,
+        "type": "text",
+        "description": "8. SIGNATURE AND INITIALS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameB": {
+        "left": 38.8,
+        "top": 594.6,
+        "width": 236.6,
+        "height": 23.1,
+        "type": "text",
+        "description": "4. LAST NAME, FIRST NAME, MI",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "reqB": {
+        "left": 281.5,
+        "top": 594.6,
+        "width": 48.3,
+        "height": 23.1,
+        "type": "text",
+        "description": "5. REQ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recB": {
+        "left": 335.5,
+        "top": 594.6,
+        "width": 48.3,
+        "height": 23.1,
+        "type": "text",
+        "description": "6. REC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "turnInB": {
+        "left": 389.5,
+        "top": 594.6,
+        "width": 48.3,
+        "height": 23.1,
+        "type": "text",
+        "description": "7. TURN IN",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField12": {
+        "left": 444.9,
+        "top": 593.8,
+        "width": 127.8,
+        "height": 21.6,
+        "type": "text",
+        "description": "8. SIGNATURE AND INITIALS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameC": {
+        "left": 38.8,
+        "top": 565.8,
+        "width": 236.6,
+        "height": 23.1,
+        "type": "text",
+        "description": "4. LAST NAME, FIRST NAME, MI",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "reqC": {
+        "left": 281.5,
+        "top": 565.8,
+        "width": 48.3,
+        "height": 23.1,
+        "type": "text",
+        "description": "5. REQ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recC": {
+        "left": 335.5,
+        "top": 565.8,
+        "width": 48.3,
+        "height": 23.1,
+        "type": "text",
+        "description": "6. REC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "turnInC": {
+        "left": 389.5,
+        "top": 565.8,
+        "width": 48.3,
+        "height": 23.1,
+        "type": "text",
+        "description": "7. TURN IN",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField13": {
+        "left": 444.9,
+        "top": 565.0,
+        "width": 127.8,
+        "height": 21.6,
+        "type": "text",
+        "description": "8. SIGNATURE AND INITIALS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameCD": {
+        "left": 38.8,
+        "top": 537.0,
+        "width": 236.6,
+        "height": 23.1,
+        "type": "text",
+        "description": "4. LAST NAME, FIRST NAME, MI",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "reqD": {
+        "left": 281.5,
+        "top": 537.0,
+        "width": 48.3,
+        "height": 23.1,
+        "type": "text",
+        "description": "5. REQ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recD": {
+        "left": 335.5,
+        "top": 537.0,
+        "width": 48.3,
+        "height": 23.1,
+        "type": "text",
+        "description": "6. REC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "turnInD": {
+        "left": 389.5,
+        "top": 537.0,
+        "width": 48.3,
+        "height": 23.1,
+        "type": "text",
+        "description": "7. TURN IN",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField14": {
+        "left": 444.9,
+        "top": 536.2,
+        "width": 127.8,
+        "height": 21.6,
+        "type": "text",
+        "description": "8. SIGNATURE AND INITIALS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio": {
+        "left": 200.1,
+        "top": 490.4,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio2": {
+        "left": 307.7,
+        "top": 490.4,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "authorityTo": {
+        "left": 127.6,
+        "top": 474.5,
+        "width": 445.6,
+        "height": 11.6,
+        "type": "text",
+        "description": "THE AUTHORITY TO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks": {
+        "left": 38.8,
+        "top": 442.7,
+        "width": 534.4,
+        "height": 37.7,
+        "type": "text",
+        "description": "THE AUTHORITY TO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unitID": {
+        "left": 38.8,
+        "top": 372.5,
+        "width": 192.4,
+        "height": 12.9,
+        "type": "text",
+        "description": "I ASSUME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "aCCnUM": {
+        "left": 236.9,
+        "top": 372.1,
+        "width": 336.4,
+        "height": 12.5,
+        "type": "text",
+        "description": "ASSUME FULL RESPONSIBILITY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "phoneNum": {
+        "left": 395.3,
+        "top": 344.5,
+        "width": 84.4,
+        "height": 13.7,
+        "type": "text",
+        "description": "15. PHONE NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "expDate": {
+        "left": 485.3,
+        "top": 344.5,
+        "width": 87.9,
+        "height": 13.7,
+        "type": "text",
+        "description": "16. EXPIRATION DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "grade": {
+        "left": 323.3,
+        "top": 344.4,
+        "width": 66.3,
+        "height": 13.6,
+        "type": "text",
+        "description": "ACCOUNT NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name": {
+        "left": 38.8,
+        "top": 343.3,
+        "width": 278.8,
+        "height": 12.5,
+        "type": "text",
+        "description": "11. UNIT IDENTIFICATION CODE 12. DODAAC / ACCOUNT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField15": {
+        "left": 39.6,
+        "top": 316.3,
+        "width": 532.9,
+        "height": 16.9,
+        "type": "text",
+        "description": "17. SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

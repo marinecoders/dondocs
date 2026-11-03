@@ -1,0 +1,675 @@
+{
+  "id": "navpers191033",
+  "label": "NAVPERS1910-33 - Early Career Transition Program (ectp) Reserve Affiliation Screening Checklist",
+  "directory": "NAVPERS1910-33 - Early Career Transition Program (ectp) Reserve Affiliation Screening Checklist",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "textField1",
+        "textField12",
+        "dateTimeField1",
+        "dateTimeField12",
+        "textField13",
+        "textField2",
+        "radioButtonList",
+        "radioButtonList2",
+        "textField22",
+        "radioButtonList3",
+        "radioButtonList4",
+        "textField23",
+        "radioButtonList5",
+        "radioButtonList6",
+        "textField24",
+        "radioButtonList7",
+        "radioButtonList8",
+        "textField3",
+        "textField32",
+        "textField33",
+        "textField25",
+        "radioButtonList9",
+        "radioButtonList10",
+        "textField14",
+        "signatureField1",
+        "dateTimeField13",
+        "textField26",
+        "radioButtonList11",
+        "radioButtonList12",
+        "textField27",
+        "radioButtonList13",
+        "radioButtonList14",
+        "dateTimeField2",
+        "textField15",
+        "signatureField12",
+        "dateTimeField14",
+        "textField16",
+        "signatureField2",
+        "dateTimeField15"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "radioButtonList15",
+        "radioButtonList16",
+        "textField17",
+        "radioButtonList17",
+        "radioButtonList18",
+        "textField18",
+        "signatureField3",
+        "dateTimeField16",
+        "radioButtonList19",
+        "radioButtonList20",
+        "textField19",
+        "signatureField4",
+        "dateTimeField17"
+      ]
+    }
+  ],
+  "fields": {
+    "textField1": {
+      "type": "text",
+      "label": "1. NAME:",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 657.1,
+        "width": 246.3,
+        "height": 27.8
+      }
+    },
+    "textField12": {
+      "type": "text",
+      "label": "2. RATE:",
+      "page": 1,
+      "box": {
+        "left": 290.8,
+        "top": 657.1,
+        "width": 131.1,
+        "height": 27.8
+      }
+    },
+    "dateTimeField1": {
+      "type": "text",
+      "label": "3.  DESIRED TRANSITION DATE:",
+      "page": 1,
+      "box": {
+        "left": 427.6,
+        "top": 657.1,
+        "width": 145.5,
+        "height": 27.8
+      }
+    },
+    "dateTimeField12": {
+      "type": "text",
+      "label": "4.  EAOS:",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 614.2,
+        "width": 145.5,
+        "height": 27.9
+      }
+    },
+    "textField13": {
+      "type": "text",
+      "label": "5.  PROPOSED NAVY RESERVE ACTIVITY:",
+      "page": 1,
+      "box": {
+        "left": 190.0,
+        "top": 613.9,
+        "width": 383.1,
+        "height": 27.6
+      }
+    },
+    "textField2": {
+      "type": "text",
+      "label": "INTERVIEWER'S INITIALS",
+      "page": 1,
+      "box": {
+        "left": 514.0,
+        "top": 529.9,
+        "width": 59.1,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "radioButtonList": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 427.6,
+        "top": 520.8,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_0"
+    },
+    "radioButtonList2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 520.8,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_0"
+    },
+    "textField22": {
+      "type": "text",
+      "label": "INTERVIEWER'S INITIALS",
+      "page": 1,
+      "box": {
+        "left": 514.0,
+        "top": 493.9,
+        "width": 59.1,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "radioButtonList3": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 427.6,
+        "top": 484.8,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_1"
+    },
+    "radioButtonList4": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 484.8,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_1"
+    },
+    "textField23": {
+      "type": "text",
+      "label": "INTERVIEWER'S INITIALS",
+      "page": 1,
+      "box": {
+        "left": 514.0,
+        "top": 457.9,
+        "width": 59.1,
+        "height": 30.1
+      },
+      "multiline": true
+    },
+    "radioButtonList5": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 427.6,
+        "top": 448.9,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_2"
+    },
+    "radioButtonList6": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 448.9,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_2"
+    },
+    "textField24": {
+      "type": "text",
+      "label": "INTERVIEWER'S INITIALS",
+      "page": 1,
+      "box": {
+        "left": 514.0,
+        "top": 421.9,
+        "width": 59.1,
+        "height": 44.2
+      },
+      "multiline": true
+    },
+    "radioButtonList7": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 427.6,
+        "top": 405.9,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_3"
+    },
+    "radioButtonList8": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 405.9,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_3"
+    },
+    "textField3": {
+      "type": "text",
+      "label": "TextField3",
+      "page": 1,
+      "box": {
+        "left": 74.8,
+        "top": 400.7,
+        "width": 37.5,
+        "height": 12.6
+      }
+    },
+    "textField32": {
+      "type": "text",
+      "label": "TextField3",
+      "page": 1,
+      "box": {
+        "left": 197.2,
+        "top": 400.7,
+        "width": 37.5,
+        "height": 12.6
+      }
+    },
+    "textField33": {
+      "type": "text",
+      "label": "TextField3",
+      "page": 1,
+      "box": {
+        "left": 326.8,
+        "top": 400.7,
+        "width": 37.5,
+        "height": 12.6
+      }
+    },
+    "textField25": {
+      "type": "text",
+      "label": "INTERVIEWER'S INITIALS",
+      "page": 1,
+      "box": {
+        "left": 514.0,
+        "top": 371.5,
+        "width": 59.1,
+        "height": 37.6
+      },
+      "multiline": true
+    },
+    "radioButtonList9": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 427.6,
+        "top": 358.7,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_4"
+    },
+    "radioButtonList10": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 358.7,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_4"
+    },
+    "textField14": {
+      "type": "text",
+      "label": " 6.  ADMIN OFFICER'S NAME AND RANK:",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 318.6,
+        "width": 224.7,
+        "height": 27.8
+      }
+    },
+    "signatureField1": {
+      "type": "signature",
+      "label": " 7.  ADMIN OFFICER'S SIGNATURE:",
+      "page": 1,
+      "box": {
+        "left": 269.2,
+        "top": 318.6,
+        "width": 188.7,
+        "height": 27.8
+      }
+    },
+    "dateTimeField13": {
+      "type": "text",
+      "label": "8.  DATE:",
+      "page": 1,
+      "box": {
+        "left": 463.6,
+        "top": 318.6,
+        "width": 109.5,
+        "height": 27.8
+      }
+    },
+    "textField26": {
+      "type": "text",
+      "label": "INTERVIEWER'S INITIALS",
+      "page": 1,
+      "box": {
+        "left": 514.0,
+        "top": 263.6,
+        "width": 59.1,
+        "height": 30.1
+      },
+      "multiline": true
+    },
+    "radioButtonList11": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 427.6,
+        "top": 254.5,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_5"
+    },
+    "radioButtonList12": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 254.5,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_5"
+    },
+    "textField27": {
+      "type": "text",
+      "label": "INTERVIEWER'S INITIALS",
+      "page": 1,
+      "box": {
+        "left": 514.0,
+        "top": 227.6,
+        "width": 59.1,
+        "height": 37.2
+      },
+      "multiline": true
+    },
+    "radioButtonList13": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 427.6,
+        "top": 215.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_6"
+    },
+    "radioButtonList14": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 215.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_6"
+    },
+    "dateTimeField2": {
+      "type": "text",
+      "label": "DateTimeField2",
+      "page": 1,
+      "box": {
+        "left": 312.4,
+        "top": 213.2,
+        "width": 51.9,
+        "height": 12.6
+      }
+    },
+    "textField15": {
+      "type": "text",
+      "label": " 3.  MEDICAL OFFICER'S NAME AND RANK:\t\t",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 174.7,
+        "width": 224.7,
+        "height": 28.1
+      }
+    },
+    "signatureField12": {
+      "type": "signature",
+      "label": " 4.  MEDICAL OFFICER'S SIGNATURE:",
+      "page": 1,
+      "box": {
+        "left": 269.2,
+        "top": 174.7,
+        "width": 188.7,
+        "height": 28.1
+      }
+    },
+    "dateTimeField14": {
+      "type": "text",
+      "label": " 5.  DATE:",
+      "page": 1,
+      "box": {
+        "left": 463.6,
+        "top": 174.7,
+        "width": 109.5,
+        "height": 28.1
+      }
+    },
+    "textField16": {
+      "type": "text",
+      "label": " 1.  MEMBER'S NAME AND RANK:",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 88.3,
+        "width": 239.1,
+        "height": 28.1
+      }
+    },
+    "signatureField2": {
+      "type": "signature",
+      "label": "  2.   MEMBER'S SIGNATURE:",
+      "page": 1,
+      "box": {
+        "left": 283.6,
+        "top": 88.3,
+        "width": 203.1,
+        "height": 28.1
+      }
+    },
+    "dateTimeField15": {
+      "type": "text",
+      "label": "3.  DATE:",
+      "page": 1,
+      "box": {
+        "left": 492.4,
+        "top": 88.3,
+        "width": 80.7,
+        "height": 28.1
+      }
+    },
+    "radioButtonList15": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 492.4,
+        "top": 679.4,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_RadioButtonList_7"
+    },
+    "radioButtonList16": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 535.6,
+        "top": 679.4,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_RadioButtonList_7"
+    },
+    "textField17": {
+      "type": "text",
+      "label": " 2. Command Endorsement: (A summary statement evaluating the applicant is required. Provide written recommendation from Commanding Officer \n indicating member's potential to perform and excel in the Navy Reserve.)",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 584.4,
+        "width": 534.3,
+        "height": 164.0
+      },
+      "multiline": true
+    },
+    "radioButtonList17": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 384.4,
+        "top": 409.3,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_RadioButtonList_8"
+    },
+    "radioButtonList18": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 463.6,
+        "top": 409.3,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_RadioButtonList_8"
+    },
+    "textField18": {
+      "type": "text",
+      "label": " 4.  NAME AND RANK:",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 376.3,
+        "width": 231.9,
+        "height": 27.9
+      }
+    },
+    "signatureField3": {
+      "type": "signature",
+      "label": " 5.  SIGNATURE:",
+      "page": 2,
+      "box": {
+        "left": 276.4,
+        "top": 376.3,
+        "width": 195.9,
+        "height": 27.9
+      }
+    },
+    "dateTimeField16": {
+      "type": "text",
+      "label": " 6.  DATE:",
+      "page": 2,
+      "box": {
+        "left": 478.0,
+        "top": 376.3,
+        "width": 95.1,
+        "height": 27.9
+      }
+    },
+    "radioButtonList19": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 110.8,
+        "top": 286.9,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_RadioButtonList_9"
+    },
+    "radioButtonList20": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 240.4,
+        "top": 286.9,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_1_RadioButtonList_9"
+    },
+    "textField19": {
+      "type": "text",
+      "label": " NAME AND RANK:",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 246.7,
+        "width": 231.9,
+        "height": 27.9
+      }
+    },
+    "signatureField4": {
+      "type": "signature",
+      "label": " SIGNATURE:",
+      "page": 2,
+      "box": {
+        "left": 276.4,
+        "top": 246.7,
+        "width": 195.9,
+        "height": 27.9
+      }
+    },
+    "dateTimeField17": {
+      "type": "text",
+      "label": " DATE:",
+      "page": 2,
+      "box": {
+        "left": 478.0,
+        "top": 246.7,
+        "width": 95.1,
+        "height": 27.9
+      }
+    }
+  }
+}

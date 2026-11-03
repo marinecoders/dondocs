@@ -1,0 +1,380 @@
+{
+  "id": "opnav126003",
+  "label": "OPNAV12600-3 - Paid Parental Leave Request",
+  "directory": "OPNAV12600-3 - Paid Parental Leave Request",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "1EMPLOYEENAME",
+        "2NAMEOFORGANIZATIONIeAgencyOfficeDivisionBranchEtc",
+        "3PERSONALPHONENUMBER",
+        "4WORKPHONENUMBER",
+        "5PERSONALEMAILADDRESS",
+        "6WORKEMAILADDRESS",
+        "birthOFACHILD",
+        "placementFORADOPTION",
+        "fosterCAREPLACEMENT",
+        "anticipated8DATEOFBIRTHORPLACEMENT",
+        "actual8DATEOFBIRTHORPLACEMENT",
+        "anticipated9DATEUSEOFPPLBEGINS",
+        "actual9DATEUSEOFPPLBEGINS",
+        "anticipated10DATEUSEOFPPLCONCLUDES",
+        "actual10DATEUSEOFPPLCONCLUDES",
+        "anticipated11DATEOFPLANNEDRETURNTODUTYAfterUseOfOtherTypesOfLeave",
+        "actual11DATEOFPLANNEDRETURNTODUTYAfterUseOfOtherTypesOfLeave",
+        "continuousUSE",
+        "intermittentUSE",
+        "13REASONSINTERMITTENTLEAVEISBEINGREQUESTED",
+        "14DESCRIBEPLANSFORUSINGPPLONANINTERMITTENTBASIS",
+        "initialA",
+        "initialB",
+        "initialC",
+        "initialD",
+        "initialE",
+        "initialF",
+        "employeeSignature",
+        "16EMPLOYEEPRINTEDNAMELastFirstMI",
+        "17SIGNATUREDATE"
+      ]
+    }
+  ],
+  "fields": {
+    "1EMPLOYEENAME": {
+      "type": "text",
+      "label": "1 EMPLOYEENAME",
+      "page": 1,
+      "box": {
+        "left": 37.0,
+        "top": 597.5,
+        "width": 268.0,
+        "height": 18.0
+      }
+    },
+    "2NAMEOFORGANIZATIONIeAgencyOfficeDivisionBranchEtc": {
+      "type": "text",
+      "label": "information may delay or prevent action on the application",
+      "page": 1,
+      "box": {
+        "left": 306.5,
+        "top": 597.5,
+        "width": 268.0,
+        "height": 18.0
+      }
+    },
+    "3PERSONALPHONENUMBER": {
+      "type": "text",
+      "label": "1. EMPLOYEE NAME",
+      "page": 1,
+      "box": {
+        "left": 37.0,
+        "top": 568.7,
+        "width": 268.0,
+        "height": 18.0
+      }
+    },
+    "4WORKPHONENUMBER": {
+      "type": "text",
+      "label": "4 WORKPHONENUMBER",
+      "page": 1,
+      "box": {
+        "left": 306.5,
+        "top": 568.7,
+        "width": 268.0,
+        "height": 18.0
+      }
+    },
+    "5PERSONALEMAILADDRESS": {
+      "type": "text",
+      "label": "3. PERSONAL PHONE NUMBER",
+      "page": 1,
+      "box": {
+        "left": 37.0,
+        "top": 539.9,
+        "width": 268.0,
+        "height": 17.6
+      }
+    },
+    "6WORKEMAILADDRESS": {
+      "type": "text",
+      "label": "4. WORK PHONE NUMBER",
+      "page": 1,
+      "box": {
+        "left": 306.5,
+        "top": 539.9,
+        "width": 268.0,
+        "height": 17.6
+      }
+    },
+    "birthOFACHILD": {
+      "type": "checkbox",
+      "label": "7. REASON FMLA IS BEING REQUESTED",
+      "page": 1,
+      "box": {
+        "left": 219.5,
+        "top": 504.7,
+        "width": 8.6,
+        "height": 8.6
+      }
+    },
+    "placementFORADOPTION": {
+      "type": "checkbox",
+      "label": "BIRTH OF A CHILD",
+      "page": 1,
+      "box": {
+        "left": 309.5,
+        "top": 504.7,
+        "width": 8.6,
+        "height": 8.6
+      }
+    },
+    "fosterCAREPLACEMENT": {
+      "type": "checkbox",
+      "label": "BIRTH OF A CHILD PLACEMENT FOR ADOPTION",
+      "page": 1,
+      "box": {
+        "left": 443.0,
+        "top": 504.7,
+        "width": 8.6,
+        "height": 8.6
+      }
+    },
+    "anticipated8DATEOFBIRTHORPLACEMENT": {
+      "type": "text",
+      "label": "8. DATE OF BIRTH OR PLACEMENT",
+      "page": 1,
+      "box": {
+        "left": 360.5,
+        "top": 474.0,
+        "width": 106.4,
+        "height": 16.8
+      }
+    },
+    "actual8DATEOFBIRTHORPLACEMENT": {
+      "type": "text",
+      "label": "8. DATE OF BIRTH OR PLACEMENT",
+      "page": 1,
+      "box": {
+        "left": 468.5,
+        "top": 474.0,
+        "width": 106.0,
+        "height": 16.8
+      }
+    },
+    "anticipated9DATEUSEOFPPLBEGINS": {
+      "type": "text",
+      "label": "9. DATE USE OF PPL BEGINS",
+      "page": 1,
+      "box": {
+        "left": 360.5,
+        "top": 456.0,
+        "width": 106.4,
+        "height": 16.8
+      }
+    },
+    "actual9DATEUSEOFPPLBEGINS": {
+      "type": "text",
+      "label": "9. DATE USE OF PPL BEGINS",
+      "page": 1,
+      "box": {
+        "left": 468.5,
+        "top": 456.0,
+        "width": 106.0,
+        "height": 16.8
+      }
+    },
+    "anticipated10DATEUSEOFPPLCONCLUDES": {
+      "type": "text",
+      "label": "10. DATE USE OF PPL CONCLUDES",
+      "page": 1,
+      "box": {
+        "left": 360.5,
+        "top": 438.0,
+        "width": 106.4,
+        "height": 16.8
+      }
+    },
+    "actual10DATEUSEOFPPLCONCLUDES": {
+      "type": "text",
+      "label": "10. DATE USE OF PPL CONCLUDES",
+      "page": 1,
+      "box": {
+        "left": 468.5,
+        "top": 438.0,
+        "width": 106.0,
+        "height": 16.8
+      }
+    },
+    "anticipated11DATEOFPLANNEDRETURNTODUTYAfterUseOfOtherTypesOfLeave": {
+      "type": "text",
+      "label": "ANTICIPATED",
+      "page": 1,
+      "box": {
+        "left": 360.5,
+        "top": 420.0,
+        "width": 106.4,
+        "height": 16.8
+      }
+    },
+    "actual11DATEOFPLANNEDRETURNTODUTYAfterUseOfOtherTypesOfLeave": {
+      "type": "text",
+      "label": "ACTUAL",
+      "page": 1,
+      "box": {
+        "left": 468.5,
+        "top": 420.0,
+        "width": 106.0,
+        "height": 16.8
+      }
+    },
+    "continuousUSE": {
+      "type": "checkbox",
+      "label": "12. REQUESTED METHOD OF USING PPL",
+      "page": 1,
+      "box": {
+        "left": 219.6,
+        "top": 400.5,
+        "width": 8.4,
+        "height": 8.4
+      }
+    },
+    "intermittentUSE": {
+      "type": "checkbox",
+      "label": "CONTINUOUS USE",
+      "page": 1,
+      "box": {
+        "left": 327.6,
+        "top": 400.5,
+        "width": 8.4,
+        "height": 8.4
+      }
+    },
+    "13REASONSINTERMITTENTLEAVEISBEINGREQUESTED": {
+      "type": "text",
+      "label": "13 REASONSINTERMITTENTLEAVEISBEINGREQUESTED",
+      "page": 1,
+      "box": {
+        "left": 37.6,
+        "top": 377.4,
+        "width": 536.3,
+        "height": 60.6
+      },
+      "multiline": true
+    },
+    "14DESCRIBEPLANSFORUSINGPPLONANINTERMITTENTBASIS": {
+      "type": "text",
+      "label": "13. *REASON(S) INTERMITTENT LEAVE IS BEING REQUESTED",
+      "page": 1,
+      "box": {
+        "left": 37.6,
+        "top": 305.4,
+        "width": 536.3,
+        "height": 60.4
+      },
+      "multiline": true
+    },
+    "initialA": {
+      "type": "text",
+      "label": "EMPLOYEE",
+      "page": 1,
+      "box": {
+        "left": 64.3,
+        "top": 213.4,
+        "width": 34.3,
+        "height": 22.0
+      }
+    },
+    "initialB": {
+      "type": "text",
+      "label": "EMPLOYEE CERTIFICATION",
+      "page": 1,
+      "box": {
+        "left": 65.1,
+        "top": 189.7,
+        "width": 33.8,
+        "height": 16.2
+      }
+    },
+    "initialC": {
+      "type": "text",
+      "label": "EMPLOYEE CERTIFICATION",
+      "page": 1,
+      "box": {
+        "left": 64.6,
+        "top": 170.9,
+        "width": 34.3,
+        "height": 31.9
+      },
+      "multiline": true
+    },
+    "initialD": {
+      "type": "text",
+      "label": "EMPLOYEE CERTIFICATION",
+      "page": 1,
+      "box": {
+        "left": 64.5,
+        "top": 135.3,
+        "width": 34.3,
+        "height": 16.2
+      }
+    },
+    "initialE": {
+      "type": "text",
+      "label": "EMPLOYEE CERTIFICATION",
+      "page": 1,
+      "box": {
+        "left": 65.1,
+        "top": 116.8,
+        "width": 34.3,
+        "height": 15.7
+      }
+    },
+    "initialF": {
+      "type": "text",
+      "label": "EMPLOYEE CERTIFICATION",
+      "page": 1,
+      "box": {
+        "left": 65.1,
+        "top": 100.0,
+        "width": 34.3,
+        "height": 15.7
+      }
+    },
+    "employeeSignature": {
+      "type": "text",
+      "label": "18. EMPLOYEE SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 364.5,
+        "top": 65.7,
+        "width": 203.9,
+        "height": 28.9
+      }
+    },
+    "16EMPLOYEEPRINTEDNAMELastFirstMI": {
+      "type": "text",
+      "label": "16. EMPLOYEE PRINTED NAME (Last, First, MI)",
+      "page": 1,
+      "box": {
+        "left": 37.3,
+        "top": 65.4,
+        "width": 213.2,
+        "height": 28.8
+      }
+    },
+    "17SIGNATUREDATE": {
+      "type": "text",
+      "label": "17. SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 252.8,
+        "top": 65.4,
+        "width": 105.7,
+        "height": 28.8
+      }
+    }
+  }
+}

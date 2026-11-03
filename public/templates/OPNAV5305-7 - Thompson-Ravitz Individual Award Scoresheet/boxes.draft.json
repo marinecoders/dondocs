@@ -1,0 +1,405 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "commandname": {
+        "left": 127.2,
+        "top": 741.2,
+        "width": 448.8,
+        "height": 20.2,
+        "type": "text",
+        "description": "ENTER COMMAND NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "catergory": {
+        "left": 106.5,
+        "top": 721.0,
+        "width": 469.5,
+        "height": 20.2,
+        "type": "choice",
+        "description": " 2. CATEGORY:\n (Choose only one)",
+        "options": [
+          "  ",
+          "Junior Public Affairs Officer of the Year",
+          "Junior Reserve Public Affairs Officer of the Year",
+          "Junior Civilian Public Affairs Specialist of the Year",
+          "Junior Collateral Duty Public Affairs Officers of the Year",
+          "Enlisted Public Affairs Officer of the Year"
+        ],
+        "group": null,
+        "required": false
+      },
+      "nomNme": {
+        "left": 106.9,
+        "top": 700.8,
+        "width": 469.1,
+        "height": 20.2,
+        "type": "text",
+        "description": "ENTER COMMAND NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "commandpao": {
+        "left": 116.4,
+        "top": 680.6,
+        "width": 459.6,
+        "height": 20.2,
+        "type": "text",
+        "description": "ENTER COMMAND NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pocphone": {
+        "left": 368.3,
+        "top": 648.5,
+        "width": 204.3,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER POC PHONE NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pocemail": {
+        "left": 39.0,
+        "top": 646.5,
+        "width": 324.3,
+        "height": 10.3,
+        "type": "text",
+        "description": "ENTER POC EMAIL ADDRESS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "totMaxPt": {
+        "left": 36.1,
+        "top": 518.0,
+        "width": 269.8,
+        "height": 21.9,
+        "type": "text",
+        "description": "Enter the Points Awarded",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "jdgeID": {
+        "left": 308.5,
+        "top": 518.0,
+        "width": 264.1,
+        "height": 19.2,
+        "type": "text",
+        "description": " 8.  JUDGE ID#:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ovrAllComm": {
+        "left": 36.0,
+        "top": 481.6,
+        "width": 540.0,
+        "height": 444.8,
+        "type": "text",
+        "description": "ENTER COMMAND NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "aScr": {
+        "left": 495.0,
+        "top": 717.2,
+        "width": 81.0,
+        "height": 17.5,
+        "type": "text",
+        "description": "Enter the Points Awarded",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "bScr": {
+        "left": 495.0,
+        "top": 699.0,
+        "width": 81.0,
+        "height": 23.1,
+        "type": "text",
+        "description": "Enter the Points Awarded",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cScr": {
+        "left": 495.0,
+        "top": 675.6,
+        "width": 81.0,
+        "height": 17.5,
+        "type": "text",
+        "description": "Enter the Points Awarded",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dScr": {
+        "left": 495.0,
+        "top": 658.1,
+        "width": 81.0,
+        "height": 17.5,
+        "type": "text",
+        "description": "Enter the Points Awarded",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "eScr": {
+        "left": 495.0,
+        "top": 640.1,
+        "width": 81.0,
+        "height": 23.1,
+        "type": "text",
+        "description": "Enter the Points Awarded",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fScr": {
+        "left": 495.0,
+        "top": 617.0,
+        "width": 81.0,
+        "height": 17.5,
+        "type": "text",
+        "description": "Enter the Points Awarded",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "gScr": {
+        "left": 495.0,
+        "top": 599.4,
+        "width": 81.0,
+        "height": 17.5,
+        "type": "text",
+        "description": "Enter the Points Awarded",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "resTotPts": {
+        "left": 495.0,
+        "top": 581.8,
+        "width": 81.0,
+        "height": 17.5,
+        "type": "text",
+        "description": "Enter the Points Awarded",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "resJgeFB": {
+        "left": 36.0,
+        "top": 550.4,
+        "width": 540.0,
+        "height": 513.8,
+        "type": "text",
+        "description": "ENTER COMMAND NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page3": {
+      "a2Scr": {
+        "left": 495.0,
+        "top": 733.5,
+        "width": 81.0,
+        "height": 17.5,
+        "type": "text",
+        "description": "Enter the Points Awarded",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "b2Scr": {
+        "left": 495.0,
+        "top": 715.9,
+        "width": 81.0,
+        "height": 17.5,
+        "type": "text",
+        "description": "Enter the Points Awarded",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "plnTotPts": {
+        "left": 495.0,
+        "top": 698.3,
+        "width": 81.0,
+        "height": 17.5,
+        "type": "text",
+        "description": "Enter the Points Awarded",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "plnJgeFB": {
+        "left": 36.0,
+        "top": 666.1,
+        "width": 540.0,
+        "height": 252.7,
+        "type": "text",
+        "description": "ENTER COMMAND NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "a3Scr": {
+        "left": 495.0,
+        "top": 390.6,
+        "width": 81.0,
+        "height": 16.6,
+        "type": "text",
+        "description": "Enter the Points Awarded",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "b3Scr": {
+        "left": 495.0,
+        "top": 373.9,
+        "width": 81.0,
+        "height": 14.8,
+        "type": "text",
+        "description": "Enter the Points Awarded",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "c3Scr": {
+        "left": 495.0,
+        "top": 358.9,
+        "width": 81.0,
+        "height": 16.6,
+        "type": "text",
+        "description": "Enter the Points Awarded",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "d3Scr": {
+        "left": 495.0,
+        "top": 342.1,
+        "width": 81.0,
+        "height": 23.1,
+        "type": "text",
+        "description": "Enter the Points Awarded",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "impTotPts": {
+        "left": 495.0,
+        "top": 319.1,
+        "width": 81.0,
+        "height": 17.5,
+        "type": "text",
+        "description": "Enter the Points Awarded",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "impJgeFB": {
+        "left": 36.0,
+        "top": 288.3,
+        "width": 540.0,
+        "height": 251.7,
+        "type": "text",
+        "description": "ENTER COMMAND NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page4": {
+      "a4Scr": {
+        "left": 495.0,
+        "top": 733.3,
+        "width": 81.0,
+        "height": 22.6,
+        "type": "text",
+        "description": "Enter the Points Awarded",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "b4Scr": {
+        "left": 495.0,
+        "top": 710.2,
+        "width": 81.0,
+        "height": 16.6,
+        "type": "text",
+        "description": "Enter the Points Awarded",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "c4Scr": {
+        "left": 495.0,
+        "top": 693.5,
+        "width": 81.0,
+        "height": 22.6,
+        "type": "text",
+        "description": "Enter the Points Awarded",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "d4Scr": {
+        "left": 495.0,
+        "top": 670.7,
+        "width": 81.0,
+        "height": 17.5,
+        "type": "text",
+        "description": "Enter the Points Awarded",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "evaTotPts": {
+        "left": 495.0,
+        "top": 653.4,
+        "width": 81.0,
+        "height": 17.5,
+        "type": "text",
+        "description": "Enter the Points Awarded",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "evaJgeFB": {
+        "left": 36.0,
+        "top": 621.6,
+        "width": 540.0,
+        "height": 585.6,
+        "type": "text",
+        "description": "ENTER COMMAND NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

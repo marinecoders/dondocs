@@ -1,0 +1,483 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "lNme": {
+        "left": 38.9,
+        "top": 548.3,
+        "width": 147.4,
+        "height": 14.5,
+        "type": "text",
+        "description": "1. Last Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fNme": {
+        "left": 191.9,
+        "top": 548.3,
+        "width": 147.4,
+        "height": 14.5,
+        "type": "text",
+        "description": "2. First Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mi": {
+        "left": 344.9,
+        "top": 548.3,
+        "width": 57.3,
+        "height": 14.5,
+        "type": "text",
+        "description": "3. Middle Initial",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "gdr": {
+        "left": 407.9,
+        "top": 548.3,
+        "width": 70.8,
+        "height": 14.5,
+        "type": "text",
+        "description": "4. Sex",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "socSer": {
+        "left": 484.4,
+        "top": 548.3,
+        "width": 88.8,
+        "height": 14.5,
+        "type": "text",
+        "description": "5. SSN/DoDID",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dob": {
+        "left": 39.6,
+        "top": 517.1,
+        "width": 108.9,
+        "height": 17.7,
+        "type": "text",
+        "description": "6. Date of Birth",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rpt": {
+        "left": 327.6,
+        "top": 517.1,
+        "width": 108.9,
+        "height": 17.7,
+        "type": "text",
+        "description": "9. Report Date (RPT)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "prd": {
+        "left": 440.2,
+        "top": 517.1,
+        "width": 135.9,
+        "height": 17.7,
+        "type": "text",
+        "description": "10. Projected Rotation Date (PRD)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rnk": {
+        "left": 239.2,
+        "top": 516.2,
+        "width": 82.0,
+        "height": 13.9,
+        "type": "text",
+        "description": "8. Rank",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "srev": {
+        "left": 152.1,
+        "top": 516.1,
+        "width": 80.6,
+        "height": 13.0,
+        "type": "choice",
+        "description": "7. Service",
+        "options": [
+          "USN",
+          "USMC"
+        ],
+        "group": null,
+        "required": false
+      },
+      "bseLoc": {
+        "left": 38.8,
+        "top": 485.3,
+        "width": 268.9,
+        "height": 14.5,
+        "type": "text",
+        "description": "11. Base Location",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "bldg": {
+        "left": 313.4,
+        "top": 484.7,
+        "width": 82.0,
+        "height": 13.9,
+        "type": "text",
+        "description": "12. Building",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cde": {
+        "left": 401.1,
+        "top": 484.7,
+        "width": 82.1,
+        "height": 13.9,
+        "type": "text",
+        "description": "13. Code",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "uic": {
+        "left": 488.9,
+        "top": 484.7,
+        "width": 84.3,
+        "height": 13.9,
+        "type": "text",
+        "description": "14. UIC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nmwImmSup": {
+        "left": 38.8,
+        "top": 453.8,
+        "width": 345.4,
+        "height": 14.5,
+        "type": "text",
+        "description": "15. Name of Immediate Supervisor",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "immSupPhn": {
+        "left": 389.9,
+        "top": 453.2,
+        "width": 183.4,
+        "height": 13.9,
+        "type": "text",
+        "description": "16. Immediate Supervisor Phone",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "wrkPhn": {
+        "left": 38.8,
+        "top": 403.7,
+        "width": 102.4,
+        "height": 13.9,
+        "type": "text",
+        "description": "17. Work Phone",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "wrkCellPhn": {
+        "left": 146.9,
+        "top": 403.7,
+        "width": 102.4,
+        "height": 13.9,
+        "type": "text",
+        "description": "18. Work Cell Phone",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hmePhn": {
+        "left": 254.9,
+        "top": 403.7,
+        "width": 102.4,
+        "height": 13.9,
+        "type": "text",
+        "description": "19. Home Phone",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hmeCellPhn": {
+        "left": 363.0,
+        "top": 403.7,
+        "width": 102.4,
+        "height": 13.9,
+        "type": "text",
+        "description": "20. Home Cell Phone",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "bBPhn": {
+        "left": 471.1,
+        "top": 403.7,
+        "width": 102.4,
+        "height": 13.9,
+        "type": "text",
+        "description": "20. Blackberry Number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "wrkEmlAcct": {
+        "left": 38.8,
+        "top": 372.2,
+        "width": 174.3,
+        "height": 13.9,
+        "type": "text",
+        "description": "21. Work E-Mail Address",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sIPREmlAcct": {
+        "left": 218.7,
+        "top": 372.2,
+        "width": 174.3,
+        "height": 13.9,
+        "type": "text",
+        "description": "22. SIPRET E-Mail Address",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hmeEmlAcct": {
+        "left": 398.7,
+        "top": 372.2,
+        "width": 174.3,
+        "height": 13.9,
+        "type": "text",
+        "description": "23. Home E-Mail Address",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "address": {
+        "left": 38.8,
+        "top": 340.7,
+        "width": 534.4,
+        "height": 54.4,
+        "type": "text",
+        "description": "24. Address",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "eCLNme": {
+        "left": 38.9,
+        "top": 251.3,
+        "width": 187.8,
+        "height": 14.5,
+        "type": "text",
+        "description": "25. Last Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "eCFNme": {
+        "left": 232.3,
+        "top": 251.3,
+        "width": 187.8,
+        "height": 14.5,
+        "type": "text",
+        "description": "26. First Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "relShp": {
+        "left": 425.8,
+        "top": 251.3,
+        "width": 147.4,
+        "height": 14.5,
+        "type": "text",
+        "description": "27. Relationship",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "eCWrkPhn": {
+        "left": 38.8,
+        "top": 219.1,
+        "width": 102.4,
+        "height": 13.9,
+        "type": "text",
+        "description": "28. Work Phone",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "eCHmePhn": {
+        "left": 146.9,
+        "top": 219.1,
+        "width": 102.4,
+        "height": 13.9,
+        "type": "text",
+        "description": "29. Home Phone",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "eCHmeCellPhn": {
+        "left": 255.0,
+        "top": 219.1,
+        "width": 102.4,
+        "height": 13.9,
+        "type": "text",
+        "description": "30. Home Cell Phone",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "eCEmlAcct": {
+        "left": 362.9,
+        "top": 219.1,
+        "width": 210.3,
+        "height": 13.9,
+        "type": "text",
+        "description": "31. Emergency Contact E-Mail Address",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "eCAddress": {
+        "left": 38.8,
+        "top": 187.6,
+        "width": 534.4,
+        "height": 54.4,
+        "type": "text",
+        "description": "32. Emergency Contact Home Address",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio": {
+        "left": 250.4,
+        "top": 126.4,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio2": {
+        "left": 295.4,
+        "top": 126.4,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio3": {
+        "left": 200.9,
+        "top": 108.4,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio4": {
+        "left": 245.9,
+        "top": 108.4,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "nfaas": {
+        "left": 204.5,
+        "top": 71.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "NFAAS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "twms": {
+        "left": 258.5,
+        "top": 71.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "TWMS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "esams": {
+        "left": 317.0,
+        "top": 71.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "ESAMS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dirtry": {
+        "left": 393.5,
+        "top": 71.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "DIRECTORY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ia": {
+        "left": 429.5,
+        "top": 71.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "IA",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

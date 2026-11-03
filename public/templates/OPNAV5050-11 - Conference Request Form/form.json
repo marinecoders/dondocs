@@ -1,0 +1,2389 @@
+{
+  "id": "opnav505011",
+  "label": "OPNAV5050-11 - Conference Request Form",
+  "directory": "OPNAV5050-11 - Conference Request Form",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf",
+    "page5.pdf",
+    "page6.pdf",
+    "page7.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "dteReq",
+        "radio",
+        "radio2",
+        "radio3",
+        "radio4",
+        "radio5",
+        "regOrgCmd",
+        "confTle",
+        "toCfDte",
+        "frmCfDte",
+        "confHst",
+        "confLoc",
+        "purConfTarAud",
+        "radio6",
+        "radio7",
+        "agdExp",
+        "confURL",
+        "locDON",
+        "taddon",
+        "totDON",
+        "toTAF",
+        "toTArmy",
+        "toTOthDoD",
+        "othAge",
+        "othAgeToT",
+        "othAgeA",
+        "othAgeAToT",
+        "othAgeB",
+        "othAgeBToT",
+        "othAgeC",
+        "othAgeCToT",
+        "toTAtt",
+        "textField2",
+        "attNme",
+        "jobTle",
+        "jobTle2",
+        "role",
+        "trlCom",
+        "frmTrvDurDte",
+        "toTrvDurDte",
+        "justSpecs"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "attNme2",
+        "jobTle3",
+        "jobTle4",
+        "role2",
+        "trlCom2",
+        "frmTrvDurDte2",
+        "toTrvDurDte2",
+        "justSpecs2",
+        "item",
+        "attNme3",
+        "jobTle5",
+        "jobTle6",
+        "role3",
+        "trlCom3",
+        "frmTrvDurDte3",
+        "toTrvDurDte3",
+        "justSpecs3",
+        "radio8",
+        "radio9",
+        "lodLoc",
+        "lodRate",
+        "perDiemRate",
+        "justPD",
+        "mealsProv",
+        "dspFeeB",
+        "cstPerAtt",
+        "numAtt",
+        "toTFeeCst",
+        "dspFeeB2",
+        "cstPerAtt2",
+        "numAtt2",
+        "toTFeeCst2",
+        "dspFeeB3",
+        "cstPerAtt3",
+        "numAtt3",
+        "toTFeeCst3",
+        "cmtAddFee",
+        "totAFCst",
+        "aFCom",
+        "totBFCst",
+        "bFCom",
+        "totPOVCst",
+        "pOVCom",
+        "totLodCst",
+        "lodCom"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "totMICst",
+        "mICom",
+        "totGTCst",
+        "gTCom",
+        "grdDrp",
+        "addGrdTrnsCst",
+        "addGrdTrnsCom",
+        "addGrdDp",
+        "totPrkCst",
+        "pKCom",
+        "prkDd",
+        "otrGrdTransCst",
+        "otrGrdTransCom",
+        "totCnfFeeCst",
+        "cFCom",
+        "totConfMatCst",
+        "confMat",
+        "totBthCst",
+        "bthCom",
+        "totIOCst",
+        "iOCom",
+        "totFacRentCst",
+        "fRCom",
+        "spkrFeeCst",
+        "spkrFeeCom",
+        "totPntCst",
+        "pNTCom",
+        "totAVCst",
+        "aVCom",
+        "catCst",
+        "catCom",
+        "totAdvCst",
+        "row20",
+        "othExpA",
+        "totOTCstA",
+        "oEACom",
+        "row22",
+        "totOTCstB",
+        "oEBCom",
+        "totCS",
+        "tSCom",
+        "cstRec",
+        "cstRecCom",
+        "finCst",
+        "finCstCom",
+        "attCst",
+        "cACom",
+        "cstPerConfDy",
+        "cCDCom",
+        "effortsReduceCost",
+        "radio10",
+        "radio11",
+        "gftDon",
+        "gftAmt",
+        "gftDon2",
+        "radio12",
+        "radio13",
+        "radio14",
+        "radio15",
+        "radio16",
+        "radio17",
+        "radio18",
+        "radio19",
+        "radio20",
+        "radio21",
+        "radio22",
+        "radio23",
+        "plnCtInfo",
+        "expEstCst"
+      ]
+    },
+    {
+      "title": "Page 4",
+      "fields": [
+        "addCmt",
+        "regPrtNme",
+        "regSigDte",
+        "regSig",
+        "regPh",
+        "regEml",
+        "redCstImp",
+        "cmplyRegs",
+        "agdRev",
+        "legCsl",
+        "misCrit",
+        "othMeans",
+        "advDON",
+        "certPrtNme",
+        "certSigDte",
+        "certSig",
+        "certCom",
+        "recPrtNme",
+        "recSig",
+        "recSigDte",
+        "lRPrtNme",
+        "lRSigDte",
+        "lRSig",
+        "radio24",
+        "radio25",
+        "genCmts"
+      ]
+    },
+    {
+      "title": "Page 5",
+      "fields": [
+        "t2PrtNme",
+        "t2SigDte",
+        "t2Sig",
+        "radio26",
+        "radio27",
+        "approvalAuthority",
+        "attachmentsList"
+      ]
+    }
+  ],
+  "fields": {
+    "dteReq": {
+      "type": "text",
+      "label": "OTHER",
+      "page": 1,
+      "box": {
+        "left": 400.8,
+        "top": 594.0,
+        "width": 172.0,
+        "height": 14.7
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 52.3,
+        "top": 592.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 128.9,
+        "top": 592.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 230.5,
+        "top": 592.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 287.3,
+        "top": 592.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 344.9,
+        "top": 592.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "regOrgCmd": {
+      "type": "text",
+      "label": "4. REQUESTING ORGANIZATION/COMMAND/DIVISION",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 562.5,
+        "width": 532.2,
+        "height": 19.2
+      }
+    },
+    "confTle": {
+      "type": "text",
+      "label": "5. CONFERENCE TITLE",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 526.5,
+        "width": 361.2,
+        "height": 19.2
+      }
+    },
+    "toCfDte": {
+      "type": "text",
+      "label": "To (DDMMMYYYY)",
+      "page": 1,
+      "box": {
+        "left": 495.6,
+        "top": 519.9,
+        "width": 77.6,
+        "height": 12.3
+      }
+    },
+    "frmCfDte": {
+      "type": "text",
+      "label": "From (DDMMMYYYY)",
+      "page": 1,
+      "box": {
+        "left": 410.1,
+        "top": 519.8,
+        "width": 77.6,
+        "height": 12.3
+      }
+    },
+    "confHst": {
+      "type": "text",
+      "label": "7. CONFERENCE HOST AND/OR CO-SPONSOR",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 490.5,
+        "width": 239.7,
+        "height": 28.2
+      }
+    },
+    "confLoc": {
+      "type": "text",
+      "label": "Conf Loc",
+      "page": 1,
+      "box": {
+        "left": 288.6,
+        "top": 490.5,
+        "width": 284.7,
+        "height": 28.2
+      }
+    },
+    "purConfTarAud": {
+      "type": "text",
+      "label": "9. PURPOSE OF CONFERENCE AND TARGET AUDIENCE",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 445.5,
+        "width": 532.2,
+        "height": 55.2
+      },
+      "multiline": true
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 202.5,
+        "top": 385.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 238.5,
+        "top": 385.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "agdExp": {
+      "type": "text",
+      "label": "Explanation",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 364.3,
+        "width": 532.2,
+        "height": 45.8
+      },
+      "multiline": true
+    },
+    "confURL": {
+      "type": "text",
+      "label": "9b. CONFERENCE WEBSITE URL (If applicable)",
+      "page": 1,
+      "box": {
+        "left": 223.3,
+        "top": 312.4,
+        "width": 349.0,
+        "height": 14.1
+      }
+    },
+    "locDON": {
+      "type": "text",
+      "label": "Local DON",
+      "page": 1,
+      "box": {
+        "left": 149.4,
+        "top": 282.2,
+        "width": 39.6,
+        "height": 14.2
+      }
+    },
+    "taddon": {
+      "type": "text",
+      "label": "TAD DON",
+      "page": 1,
+      "box": {
+        "left": 259.5,
+        "top": 282.2,
+        "width": 42.1,
+        "height": 14.2
+      }
+    },
+    "totDON": {
+      "type": "text",
+      "label": "Total DON",
+      "page": 1,
+      "box": {
+        "left": 398.8,
+        "top": 282.2,
+        "width": 46.8,
+        "height": 14.2
+      }
+    },
+    "toTAF": {
+      "type": "text",
+      "label": "Total Air Force",
+      "page": 1,
+      "box": {
+        "left": 149.8,
+        "top": 255.9,
+        "width": 39.3,
+        "height": 14.2
+      }
+    },
+    "toTArmy": {
+      "type": "text",
+      "label": "Total Army",
+      "page": 1,
+      "box": {
+        "left": 259.3,
+        "top": 255.9,
+        "width": 42.3,
+        "height": 14.2
+      }
+    },
+    "toTOthDoD": {
+      "type": "text",
+      "label": "Total Other DoD",
+      "page": 1,
+      "box": {
+        "left": 399.9,
+        "top": 255.9,
+        "width": 45.6,
+        "height": 14.2
+      }
+    },
+    "othAge": {
+      "type": "text",
+      "label": "Other Agency Name",
+      "page": 1,
+      "box": {
+        "left": 168.2,
+        "top": 241.7,
+        "width": 83.9,
+        "height": 14.2
+      }
+    },
+    "othAgeToT": {
+      "type": "text",
+      "label": "Total",
+      "page": 1,
+      "box": {
+        "left": 275.7,
+        "top": 241.7,
+        "width": 43.7,
+        "height": 14.2
+      }
+    },
+    "othAgeA": {
+      "type": "text",
+      "label": "Other Agency Name",
+      "page": 1,
+      "box": {
+        "left": 415.7,
+        "top": 241.7,
+        "width": 83.9,
+        "height": 14.2
+      }
+    },
+    "othAgeAToT": {
+      "type": "text",
+      "label": "Total",
+      "page": 1,
+      "box": {
+        "left": 523.2,
+        "top": 241.7,
+        "width": 43.6,
+        "height": 14.2
+      }
+    },
+    "othAgeB": {
+      "type": "text",
+      "label": "Other Agency Name",
+      "page": 1,
+      "box": {
+        "left": 168.2,
+        "top": 227.5,
+        "width": 83.9,
+        "height": 14.2
+      }
+    },
+    "othAgeBToT": {
+      "type": "text",
+      "label": "Total",
+      "page": 1,
+      "box": {
+        "left": 275.7,
+        "top": 227.5,
+        "width": 43.7,
+        "height": 14.2
+      }
+    },
+    "othAgeC": {
+      "type": "text",
+      "label": "Other Agency Name",
+      "page": 1,
+      "box": {
+        "left": 415.7,
+        "top": 227.5,
+        "width": 83.9,
+        "height": 14.2
+      }
+    },
+    "othAgeCToT": {
+      "type": "text",
+      "label": "Total",
+      "page": 1,
+      "box": {
+        "left": 523.2,
+        "top": 227.5,
+        "width": 43.6,
+        "height": 14.2
+      }
+    },
+    "toTAtt": {
+      "type": "text",
+      "label": "Total Number of Attendees at Conference",
+      "page": 1,
+      "box": {
+        "left": 337.2,
+        "top": 210.9,
+        "width": 58.4,
+        "height": 14.2
+      }
+    },
+    "textField2": {
+      "type": "text",
+      "label": "11. ATTENDEE JUSTIFICATION (See instructions)",
+      "page": 1,
+      "box": {
+        "left": 240.1,
+        "top": 189.4,
+        "width": 12.3,
+        "height": 7.8
+      }
+    },
+    "attNme": {
+      "type": "text",
+      "label": "ATTENDEE/GROUP NAME",
+      "page": 1,
+      "box": {
+        "left": 100.4,
+        "top": 164.4,
+        "width": 122.6,
+        "height": 12.0
+      }
+    },
+    "jobTle": {
+      "type": "text",
+      "label": "JOB TITLE",
+      "page": 1,
+      "box": {
+        "left": 231.5,
+        "top": 164.4,
+        "width": 143.8,
+        "height": 12.0
+      }
+    },
+    "jobTle2": {
+      "type": "text",
+      "label": "ORIGINATING CITY",
+      "page": 1,
+      "box": {
+        "left": 382.1,
+        "top": 164.4,
+        "width": 83.5,
+        "height": 12.0
+      }
+    },
+    "role": {
+      "type": "choice",
+      "label": "ROLE AT CONFERENCE",
+      "page": 1,
+      "box": {
+        "left": 473.8,
+        "top": 163.7,
+        "width": 98.6,
+        "height": 10.5
+      },
+      "options": [
+        "Presenter",
+        "Session Chair",
+        "Learning Credits",
+        "Conference Organizer",
+        "Attendee",
+        "Other:"
+      ]
+    },
+    "trlCom": {
+      "type": "text",
+      "label": "From (DDMMMYYYY) : To (DDMMMYYYY)",
+      "page": 1,
+      "box": {
+        "left": 212.1,
+        "top": 136.3,
+        "width": 361.2,
+        "height": 28.1
+      }
+    },
+    "frmTrvDurDte": {
+      "type": "text",
+      "label": "From (DDMMMYYYY)",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 119.1,
+        "width": 77.6,
+        "height": 11.7
+      }
+    },
+    "toTrvDurDte": {
+      "type": "text",
+      "label": "To (DDMMMYYYY)",
+      "page": 1,
+      "box": {
+        "left": 126.6,
+        "top": 119.1,
+        "width": 77.6,
+        "height": 11.7
+      }
+    },
+    "justSpecs": {
+      "type": "text",
+      "label": "Just Specs",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 90.5,
+        "width": 532.2,
+        "height": 50.4
+      },
+      "multiline": true
+    },
+    "attNme2": {
+      "type": "text",
+      "label": "ATTENDEE/GROUP NAME",
+      "page": 2,
+      "box": {
+        "left": 100.4,
+        "top": 742.0,
+        "width": 124.0,
+        "height": 11.4
+      }
+    },
+    "jobTle3": {
+      "type": "text",
+      "label": "JOB TITLE",
+      "page": 2,
+      "box": {
+        "left": 231.5,
+        "top": 742.0,
+        "width": 143.8,
+        "height": 11.4
+      }
+    },
+    "jobTle4": {
+      "type": "text",
+      "label": "ORIGINATING CITY",
+      "page": 2,
+      "box": {
+        "left": 382.1,
+        "top": 742.0,
+        "width": 83.5,
+        "height": 11.4
+      }
+    },
+    "role2": {
+      "type": "choice",
+      "label": "ROLE AT CONFERENCE",
+      "page": 2,
+      "box": {
+        "left": 473.8,
+        "top": 741.2,
+        "width": 98.6,
+        "height": 9.9
+      },
+      "options": [
+        "Presenter",
+        "Session Chair",
+        "Learning Credits",
+        "Conference Organizer",
+        "Attendee",
+        "Other:"
+      ]
+    },
+    "trlCom2": {
+      "type": "text",
+      "label": "From (DDMMMYYYY) : To (DDMMMYYYY)",
+      "page": 2,
+      "box": {
+        "left": 212.1,
+        "top": 714.5,
+        "width": 361.2,
+        "height": 28.2
+      }
+    },
+    "frmTrvDurDte2": {
+      "type": "text",
+      "label": "From (DDMMMYYYY)",
+      "page": 2,
+      "box": {
+        "left": 41.0,
+        "top": 698.0,
+        "width": 77.6,
+        "height": 12.4
+      }
+    },
+    "toTrvDurDte2": {
+      "type": "text",
+      "label": "To (DDMMMYYYY)",
+      "page": 2,
+      "box": {
+        "left": 126.6,
+        "top": 697.3,
+        "width": 77.6,
+        "height": 11.7
+      }
+    },
+    "justSpecs2": {
+      "type": "text",
+      "label": "Just Specs 2",
+      "page": 2,
+      "box": {
+        "left": 41.0,
+        "top": 668.8,
+        "width": 532.2,
+        "height": 56.0
+      },
+      "multiline": true
+    },
+    "item": {
+      "type": "text",
+      "label": "Justification",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 607.1,
+        "width": 21.0,
+        "height": 23.1
+      }
+    },
+    "attNme3": {
+      "type": "text",
+      "label": "ATTENDEE/GROUP NAME",
+      "page": 2,
+      "box": {
+        "left": 100.4,
+        "top": 596.0,
+        "width": 124.0,
+        "height": 12.0
+      }
+    },
+    "jobTle5": {
+      "type": "text",
+      "label": "JOB TITLE",
+      "page": 2,
+      "box": {
+        "left": 231.5,
+        "top": 596.0,
+        "width": 143.8,
+        "height": 12.0
+      }
+    },
+    "jobTle6": {
+      "type": "text",
+      "label": "ORIGINATING CITY",
+      "page": 2,
+      "box": {
+        "left": 382.1,
+        "top": 596.0,
+        "width": 83.5,
+        "height": 12.0
+      }
+    },
+    "role3": {
+      "type": "choice",
+      "label": "ROLE AT CONFERENCE",
+      "page": 2,
+      "box": {
+        "left": 472.4,
+        "top": 595.2,
+        "width": 98.6,
+        "height": 10.5
+      },
+      "options": [
+        "Presenter",
+        "Session Chair",
+        "Learning Credits",
+        "Conference Organizer",
+        "Attendee",
+        "Other:"
+      ]
+    },
+    "trlCom3": {
+      "type": "text",
+      "label": "From (DDMMMYYYY) : To (DDMMMYYYY)",
+      "page": 2,
+      "box": {
+        "left": 212.1,
+        "top": 567.8,
+        "width": 361.2,
+        "height": 28.8
+      }
+    },
+    "frmTrvDurDte3": {
+      "type": "text",
+      "label": "From (DDMMMYYYY)",
+      "page": 2,
+      "box": {
+        "left": 41.0,
+        "top": 550.7,
+        "width": 77.6,
+        "height": 11.7
+      }
+    },
+    "toTrvDurDte3": {
+      "type": "text",
+      "label": "To (DDMMMYYYY)",
+      "page": 2,
+      "box": {
+        "left": 126.6,
+        "top": 550.7,
+        "width": 77.6,
+        "height": 11.7
+      }
+    },
+    "justSpecs3": {
+      "type": "text",
+      "label": "Just Specs 3",
+      "page": 2,
+      "box": {
+        "left": 41.0,
+        "top": 522.1,
+        "width": 532.2,
+        "height": 55.2
+      },
+      "multiline": true
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 435.6,
+        "top": 461.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio9": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 471.7,
+        "top": 461.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "lodLoc": {
+      "type": "text",
+      "label": "a. Location (Name of hotel and city)",
+      "page": 2,
+      "box": {
+        "left": 41.0,
+        "top": 429.8,
+        "width": 343.0,
+        "height": 19.5
+      }
+    },
+    "lodRate": {
+      "type": "text",
+      "label": "Rate",
+      "page": 2,
+      "box": {
+        "left": 392.0,
+        "top": 429.8,
+        "width": 91.0,
+        "height": 19.5
+      }
+    },
+    "perDiemRate": {
+      "type": "text",
+      "label": "Lodging Rate",
+      "page": 2,
+      "box": {
+        "left": 490.9,
+        "top": 429.8,
+        "width": 82.3,
+        "height": 19.5
+      }
+    },
+    "justPD": {
+      "type": "text",
+      "label": "d. Justification if above maximum authorized lodging rate",
+      "page": 2,
+      "box": {
+        "left": 41.0,
+        "top": 394.1,
+        "width": 532.2,
+        "height": 29.7
+      }
+    },
+    "mealsProv": {
+      "type": "text",
+      "label": "Meals Prov",
+      "page": 2,
+      "box": {
+        "left": 41.0,
+        "top": 348.2,
+        "width": 532.2,
+        "height": 55.8
+      },
+      "multiline": true
+    },
+    "dspFeeB": {
+      "type": "text",
+      "label": "a. Description of Fee",
+      "page": 2,
+      "box": {
+        "left": 41.0,
+        "top": 259.7,
+        "width": 275.6,
+        "height": 12.3
+      }
+    },
+    "cstPerAtt": {
+      "type": "text",
+      "label": "Cost per Attendee ($)",
+      "page": 2,
+      "box": {
+        "left": 322.3,
+        "top": 259.7,
+        "width": 79.8,
+        "height": 12.3
+      }
+    },
+    "numAtt": {
+      "type": "text",
+      "label": "Number of Attendees",
+      "page": 2,
+      "box": {
+        "left": 407.8,
+        "top": 259.7,
+        "width": 79.8,
+        "height": 12.3
+      }
+    },
+    "toTFeeCst": {
+      "type": "text",
+      "label": "Total Cost ($)",
+      "page": 2,
+      "box": {
+        "left": 493.3,
+        "top": 259.7,
+        "width": 79.8,
+        "height": 12.3
+      }
+    },
+    "dspFeeB2": {
+      "type": "text",
+      "label": "a. Description of Fee",
+      "page": 2,
+      "box": {
+        "left": 41.0,
+        "top": 241.7,
+        "width": 275.6,
+        "height": 12.3
+      }
+    },
+    "cstPerAtt2": {
+      "type": "text",
+      "label": "Cost per Attendee ($)",
+      "page": 2,
+      "box": {
+        "left": 322.3,
+        "top": 241.7,
+        "width": 79.8,
+        "height": 12.3
+      }
+    },
+    "numAtt2": {
+      "type": "text",
+      "label": "Number of Attendees",
+      "page": 2,
+      "box": {
+        "left": 407.8,
+        "top": 241.7,
+        "width": 79.8,
+        "height": 12.3
+      }
+    },
+    "toTFeeCst2": {
+      "type": "text",
+      "label": "Total Cost ($)",
+      "page": 2,
+      "box": {
+        "left": 493.3,
+        "top": 241.7,
+        "width": 79.8,
+        "height": 12.3
+      }
+    },
+    "dspFeeB3": {
+      "type": "text",
+      "label": "a. Description of Fee",
+      "page": 2,
+      "box": {
+        "left": 41.0,
+        "top": 223.7,
+        "width": 275.6,
+        "height": 12.3
+      }
+    },
+    "cstPerAtt3": {
+      "type": "text",
+      "label": "Cost per Attendee ($)",
+      "page": 2,
+      "box": {
+        "left": 322.3,
+        "top": 223.7,
+        "width": 79.8,
+        "height": 12.3
+      }
+    },
+    "numAtt3": {
+      "type": "text",
+      "label": "Number of Attendees",
+      "page": 2,
+      "box": {
+        "left": 407.8,
+        "top": 223.7,
+        "width": 79.8,
+        "height": 12.3
+      }
+    },
+    "toTFeeCst3": {
+      "type": "text",
+      "label": "Total Cost ($)",
+      "page": 2,
+      "box": {
+        "left": 493.3,
+        "top": 223.7,
+        "width": 79.8,
+        "height": 12.3
+      }
+    },
+    "cmtAddFee": {
+      "type": "text",
+      "label": "b. Comments",
+      "page": 2,
+      "box": {
+        "left": 41.0,
+        "top": 195.2,
+        "width": 532.2,
+        "height": 55.8
+      },
+      "multiline": true
+    },
+    "totAFCst": {
+      "type": "text",
+      "label": "Total Cost ($)",
+      "page": 2,
+      "box": {
+        "left": 307.4,
+        "top": 118.3,
+        "width": 60.2,
+        "height": 15.5
+      }
+    },
+    "aFCom": {
+      "type": "text",
+      "label": "Comments",
+      "page": 2,
+      "box": {
+        "left": 374.0,
+        "top": 118.3,
+        "width": 199.8,
+        "height": 15.5
+      }
+    },
+    "totBFCst": {
+      "type": "text",
+      "label": "b. Baggage Fees",
+      "page": 2,
+      "box": {
+        "left": 307.4,
+        "top": 99.9,
+        "width": 60.2,
+        "height": 15.5
+      }
+    },
+    "bFCom": {
+      "type": "text",
+      "label": "b. Baggage Fees",
+      "page": 2,
+      "box": {
+        "left": 370.4,
+        "top": 99.9,
+        "width": 203.4,
+        "height": 15.5
+      }
+    },
+    "totPOVCst": {
+      "type": "text",
+      "label": "c. POV Mileage Cost",
+      "page": 2,
+      "box": {
+        "left": 307.4,
+        "top": 81.6,
+        "width": 60.2,
+        "height": 15.5
+      }
+    },
+    "pOVCom": {
+      "type": "text",
+      "label": "c. POV Mileage Cost",
+      "page": 2,
+      "box": {
+        "left": 374.0,
+        "top": 81.6,
+        "width": 199.8,
+        "height": 15.5
+      }
+    },
+    "totLodCst": {
+      "type": "text",
+      "label": "d. Lodging",
+      "page": 2,
+      "box": {
+        "left": 307.4,
+        "top": 63.3,
+        "width": 60.2,
+        "height": 14.0
+      }
+    },
+    "lodCom": {
+      "type": "text",
+      "label": "d. Lodging",
+      "page": 2,
+      "box": {
+        "left": 374.0,
+        "top": 63.3,
+        "width": 199.8,
+        "height": 14.0
+      }
+    },
+    "totMICst": {
+      "type": "text",
+      "label": "criminal and civil penalties",
+      "page": 3,
+      "box": {
+        "left": 307.4,
+        "top": 754.6,
+        "width": 60.2,
+        "height": 14.0
+      }
+    },
+    "mICom": {
+      "type": "text",
+      "label": "DON Conference Management Guide - 01/2017",
+      "page": 3,
+      "box": {
+        "left": 374.0,
+        "top": 754.6,
+        "width": 199.8,
+        "height": 14.0
+      }
+    },
+    "totGTCst": {
+      "type": "text",
+      "label": "f. Ground Transportation",
+      "page": 3,
+      "box": {
+        "left": 307.4,
+        "top": 737.8,
+        "width": 60.2,
+        "height": 14.0
+      }
+    },
+    "gTCom": {
+      "type": "text",
+      "label": "f. Ground Transportation",
+      "page": 3,
+      "box": {
+        "left": 374.0,
+        "top": 737.8,
+        "width": 199.8,
+        "height": 14.0
+      }
+    },
+    "grdDrp": {
+      "type": "choice",
+      "label": "f. Ground Transportation",
+      "page": 3,
+      "box": {
+        "left": 175.3,
+        "top": 737.5,
+        "width": 129.0,
+        "height": 13.5
+      },
+      "options": [
+        "Taxi",
+        "Shuttle",
+        "Rental Car (Comment Required)",
+        "Government Vehicle",
+        "Other (Comment Required)"
+      ]
+    },
+    "addGrdTrnsCst": {
+      "type": "text",
+      "label": "g. Additional Ground Transportation",
+      "page": 3,
+      "box": {
+        "left": 307.4,
+        "top": 721.0,
+        "width": 60.2,
+        "height": 21.1
+      }
+    },
+    "addGrdTrnsCom": {
+      "type": "text",
+      "label": "g. Additional Ground Transportation",
+      "page": 3,
+      "box": {
+        "left": 374.0,
+        "top": 721.0,
+        "width": 199.8,
+        "height": 21.1
+      }
+    },
+    "addGrdDp": {
+      "type": "choice",
+      "label": "g. Additional Ground Transportation",
+      "page": 3,
+      "box": {
+        "left": 175.3,
+        "top": 720.7,
+        "width": 129.0,
+        "height": 20.6
+      },
+      "options": [
+        "Taxi",
+        "Shuttle",
+        "Rental Car (Comment Required)",
+        "Government Vehicle",
+        "Other (Comment Required)"
+      ]
+    },
+    "totPrkCst": {
+      "type": "text",
+      "label": "h. Parking",
+      "page": 3,
+      "box": {
+        "left": 307.4,
+        "top": 697.0,
+        "width": 60.2,
+        "height": 17.2
+      }
+    },
+    "pKCom": {
+      "type": "text",
+      "label": "h. Parking",
+      "page": 3,
+      "box": {
+        "left": 374.0,
+        "top": 697.0,
+        "width": 199.8,
+        "height": 17.2
+      }
+    },
+    "prkDd": {
+      "type": "choice",
+      "label": "h. Parking",
+      "page": 3,
+      "box": {
+        "left": 175.3,
+        "top": 696.8,
+        "width": 129.0,
+        "height": 16.7
+      },
+      "options": [
+        "Airport",
+        "Hotel",
+        "Other (Comment Required)"
+      ]
+    },
+    "otrGrdTransCst": {
+      "type": "text",
+      "label": "criminal and civil penalties",
+      "page": 3,
+      "box": {
+        "left": 307.4,
+        "top": 676.9,
+        "width": 60.2,
+        "height": 15.5
+      }
+    },
+    "otrGrdTransCom": {
+      "type": "text",
+      "label": "DON Conference Management Guide - 01/2017",
+      "page": 3,
+      "box": {
+        "left": 374.0,
+        "top": 676.9,
+        "width": 199.8,
+        "height": 15.5
+      }
+    },
+    "totCnfFeeCst": {
+      "type": "text",
+      "label": "criminal and civil penalties",
+      "page": 3,
+      "box": {
+        "left": 307.4,
+        "top": 658.6,
+        "width": 60.2,
+        "height": 14.0
+      }
+    },
+    "cFCom": {
+      "type": "text",
+      "label": "DON Conference Management Guide - 01/2017",
+      "page": 3,
+      "box": {
+        "left": 374.0,
+        "top": 658.6,
+        "width": 199.8,
+        "height": 14.0
+      }
+    },
+    "totConfMatCst": {
+      "type": "text",
+      "label": "k. Conference Materials (books, tools, etc.)",
+      "page": 3,
+      "box": {
+        "left": 307.4,
+        "top": 641.8,
+        "width": 60.2,
+        "height": 14.0
+      }
+    },
+    "confMat": {
+      "type": "text",
+      "label": "k. Conference Materials (books, tools, etc.)",
+      "page": 3,
+      "box": {
+        "left": 370.4,
+        "top": 641.8,
+        "width": 203.4,
+        "height": 14.0
+      }
+    },
+    "totBthCst": {
+      "type": "text",
+      "label": "l. Booth Fees (if applicable)",
+      "page": 3,
+      "box": {
+        "left": 307.4,
+        "top": 625.0,
+        "width": 60.2,
+        "height": 14.0
+      }
+    },
+    "bthCom": {
+      "type": "text",
+      "label": "l. Booth Fees (if applicable)",
+      "page": 3,
+      "box": {
+        "left": 374.0,
+        "top": 625.0,
+        "width": 199.8,
+        "height": 14.0
+      }
+    },
+    "totIOCst": {
+      "type": "text",
+      "label": "criminal and civil penalties",
+      "page": 3,
+      "box": {
+        "left": 307.4,
+        "top": 608.2,
+        "width": 60.2,
+        "height": 14.0
+      }
+    },
+    "iOCom": {
+      "type": "text",
+      "label": "DON Conference Management Guide - 01/2017",
+      "page": 3,
+      "box": {
+        "left": 370.4,
+        "top": 608.2,
+        "width": 203.4,
+        "height": 14.0
+      }
+    },
+    "totFacRentCst": {
+      "type": "text",
+      "label": "n. Facility Rental (hosting request only)",
+      "page": 3,
+      "box": {
+        "left": 307.4,
+        "top": 591.4,
+        "width": 60.2,
+        "height": 14.0
+      }
+    },
+    "fRCom": {
+      "type": "text",
+      "label": "n. Facility Rental (hosting request only)",
+      "page": 3,
+      "box": {
+        "left": 374.0,
+        "top": 591.4,
+        "width": 199.8,
+        "height": 14.0
+      }
+    },
+    "spkrFeeCst": {
+      "type": "text",
+      "label": "o. Speaker Fees (hosting request only)",
+      "page": 3,
+      "box": {
+        "left": 307.4,
+        "top": 574.6,
+        "width": 60.2,
+        "height": 14.0
+      }
+    },
+    "spkrFeeCom": {
+      "type": "text",
+      "label": "o. Speaker Fees (hosting request only)",
+      "page": 3,
+      "box": {
+        "left": 374.0,
+        "top": 574.6,
+        "width": 199.8,
+        "height": 14.0
+      }
+    },
+    "totPntCst": {
+      "type": "text",
+      "label": "p. Printing (hosting request only)",
+      "page": 3,
+      "box": {
+        "left": 307.4,
+        "top": 557.7,
+        "width": 60.2,
+        "height": 14.0
+      }
+    },
+    "pNTCom": {
+      "type": "text",
+      "label": "p. Printing (hosting request only)",
+      "page": 3,
+      "box": {
+        "left": 374.0,
+        "top": 557.7,
+        "width": 199.8,
+        "height": 14.0
+      }
+    },
+    "totAVCst": {
+      "type": "text",
+      "label": "q. Audio/Visual Support (hosting request only)",
+      "page": 3,
+      "box": {
+        "left": 307.4,
+        "top": 540.9,
+        "width": 60.2,
+        "height": 11.7
+      }
+    },
+    "aVCom": {
+      "type": "text",
+      "label": "q. Audio/Visual Support (hosting request only)",
+      "page": 3,
+      "box": {
+        "left": 374.0,
+        "top": 540.9,
+        "width": 199.8,
+        "height": 11.7
+      }
+    },
+    "catCst": {
+      "type": "text",
+      "label": "r. Catering (hosting request only; if legally appropriate)",
+      "page": 3,
+      "box": {
+        "left": 307.4,
+        "top": 526.4,
+        "width": 60.2,
+        "height": 14.0
+      }
+    },
+    "catCom": {
+      "type": "text",
+      "label": "r. Catering (hosting request only; if legally appropriate)",
+      "page": 3,
+      "box": {
+        "left": 374.0,
+        "top": 526.4,
+        "width": 199.8,
+        "height": 14.0
+      }
+    },
+    "totAdvCst": {
+      "type": "text",
+      "label": "s. Advertising (hosting request only)",
+      "page": 3,
+      "box": {
+        "left": 307.4,
+        "top": 509.6,
+        "width": 60.2,
+        "height": 14.0
+      }
+    },
+    "row20": {
+      "type": "text",
+      "label": "s. Advertising (hosting request only)",
+      "page": 3,
+      "box": {
+        "left": 370.4,
+        "top": 509.6,
+        "width": 203.4,
+        "height": 14.0
+      }
+    },
+    "othExpA": {
+      "type": "text",
+      "label": "t. Other Expense (specify)",
+      "page": 3,
+      "box": {
+        "left": 138.9,
+        "top": 492.7,
+        "width": 165.6,
+        "height": 15.2
+      }
+    },
+    "totOTCstA": {
+      "type": "text",
+      "label": "t. Other Expense (specify)",
+      "page": 3,
+      "box": {
+        "left": 307.4,
+        "top": 492.7,
+        "width": 60.2,
+        "height": 15.2
+      }
+    },
+    "oEACom": {
+      "type": "text",
+      "label": "t. Other Expense (specify)",
+      "page": 3,
+      "box": {
+        "left": 374.0,
+        "top": 492.7,
+        "width": 199.8,
+        "height": 15.2
+      }
+    },
+    "row22": {
+      "type": "text",
+      "label": "u. Other Expense (specify)",
+      "page": 3,
+      "box": {
+        "left": 138.9,
+        "top": 474.7,
+        "width": 165.6,
+        "height": 15.2
+      }
+    },
+    "totOTCstB": {
+      "type": "text",
+      "label": "u. Other Expense (specify)",
+      "page": 3,
+      "box": {
+        "left": 307.4,
+        "top": 474.7,
+        "width": 60.2,
+        "height": 15.2
+      }
+    },
+    "oEBCom": {
+      "type": "text",
+      "label": "u. Other Expense (specify)",
+      "page": 3,
+      "box": {
+        "left": 374.0,
+        "top": 474.7,
+        "width": 199.8,
+        "height": 15.2
+      }
+    },
+    "totCS": {
+      "type": "text",
+      "label": "v. Subtotal",
+      "page": 3,
+      "box": {
+        "left": 307.4,
+        "top": 456.7,
+        "width": 60.2,
+        "height": 15.2
+      }
+    },
+    "tSCom": {
+      "type": "text",
+      "label": "v. Subtotal",
+      "page": 3,
+      "box": {
+        "left": 374.0,
+        "top": 456.7,
+        "width": 199.8,
+        "height": 15.2
+      }
+    },
+    "cstRec": {
+      "type": "text",
+      "label": "w. Cost Recoveries",
+      "page": 3,
+      "box": {
+        "left": 307.4,
+        "top": 438.7,
+        "width": 60.2,
+        "height": 15.2
+      }
+    },
+    "cstRecCom": {
+      "type": "text",
+      "label": "w. Cost Recoveries",
+      "page": 3,
+      "box": {
+        "left": 374.0,
+        "top": 438.7,
+        "width": 199.8,
+        "height": 15.2
+      }
+    },
+    "finCst": {
+      "type": "text",
+      "label": "x. Final Cost to the DON/DoD",
+      "page": 3,
+      "box": {
+        "left": 307.4,
+        "top": 420.7,
+        "width": 60.2,
+        "height": 15.2
+      }
+    },
+    "finCstCom": {
+      "type": "text",
+      "label": "x. Final Cost to the DON/DoD",
+      "page": 3,
+      "box": {
+        "left": 374.0,
+        "top": 420.7,
+        "width": 199.8,
+        "height": 15.2
+      }
+    },
+    "attCst": {
+      "type": "text",
+      "label": "y. Cost per attendee*",
+      "page": 3,
+      "box": {
+        "left": 307.4,
+        "top": 402.7,
+        "width": 60.2,
+        "height": 15.2
+      }
+    },
+    "cACom": {
+      "type": "text",
+      "label": "y. Cost per attendee*",
+      "page": 3,
+      "box": {
+        "left": 374.0,
+        "top": 402.7,
+        "width": 199.8,
+        "height": 15.2
+      }
+    },
+    "cstPerConfDy": {
+      "type": "text",
+      "label": "z. Cost per attendee per attended conference day*",
+      "page": 3,
+      "box": {
+        "left": 307.4,
+        "top": 384.7,
+        "width": 60.2,
+        "height": 15.2
+      }
+    },
+    "cCDCom": {
+      "type": "text",
+      "label": "z. Cost per attendee per attended conference day*",
+      "page": 3,
+      "box": {
+        "left": 374.0,
+        "top": 384.7,
+        "width": 199.8,
+        "height": 15.2
+      }
+    },
+    "effortsReduceCost": {
+      "type": "text",
+      "label": "16. EFFORTS TO REDUCE COSTS",
+      "page": 3,
+      "box": {
+        "left": 41.0,
+        "top": 341.3,
+        "width": 532.2,
+        "height": 37.6
+      },
+      "multiline": true
+    },
+    "radio10": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 222.6,
+        "top": 299.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio11": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 282.1,
+        "top": 299.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "gftDon": {
+      "type": "text",
+      "label": "16b. Gift Donor",
+      "page": 3,
+      "box": {
+        "left": 105.8,
+        "top": 288.8,
+        "width": 200.2,
+        "height": 12.0
+      }
+    },
+    "gftAmt": {
+      "type": "text",
+      "label": "16c. Gift Amount",
+      "page": 3,
+      "box": {
+        "left": 383.8,
+        "top": 288.8,
+        "width": 191.8,
+        "height": 12.0
+      }
+    },
+    "gftDon2": {
+      "type": "text",
+      "label": "16d. Gift Description",
+      "page": 3,
+      "box": {
+        "left": 41.0,
+        "top": 263.8,
+        "width": 533.3,
+        "height": 43.5
+      },
+      "multiline": true
+    },
+    "radio12": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 484.4,
+        "top": 193.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio13": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 515.9,
+        "top": 193.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio14": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 3,
+      "box": {
+        "left": 547.4,
+        "top": 193.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio15": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 484.4,
+        "top": 164.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio16": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 515.9,
+        "top": 164.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio17": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 3,
+      "box": {
+        "left": 547.4,
+        "top": 164.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio18": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 484.4,
+        "top": 139.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio19": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 515.9,
+        "top": 139.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio20": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 3,
+      "box": {
+        "left": 547.4,
+        "top": 139.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio21": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 484.4,
+        "top": 125.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio22": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 515.9,
+        "top": 125.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio23": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 3,
+      "box": {
+        "left": 547.4,
+        "top": 125.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "plnCtInfo": {
+      "type": "text",
+      "label": "If &quot;Yes&quot;, provide name and contact information",
+      "page": 3,
+      "box": {
+        "left": 231.0,
+        "top": 113.5,
+        "width": 344.8,
+        "height": 12.0
+      }
+    },
+    "expEstCst": {
+      "type": "text",
+      "label": "Exp Est Cst",
+      "page": 3,
+      "box": {
+        "left": 41.0,
+        "top": 83.3,
+        "width": 534.7,
+        "height": 46.0
+      },
+      "multiline": true
+    },
+    "addCmt": {
+      "type": "text",
+      "label": "18. ADDITIONAL COMMENTS",
+      "page": 4,
+      "box": {
+        "left": 41.0,
+        "top": 738.8,
+        "width": 532.2,
+        "height": 51.9
+      },
+      "multiline": true
+    },
+    "regPrtNme": {
+      "type": "text",
+      "label": "19. REQUESTOR&apos;S PRINTED NAME &amp; TITLE",
+      "page": 4,
+      "box": {
+        "left": 41.0,
+        "top": 670.0,
+        "width": 185.8,
+        "height": 28.1
+      }
+    },
+    "regSigDte": {
+      "type": "text",
+      "label": "b. SIGNATURE DATE (DDMMMYYYY",
+      "page": 4,
+      "box": {
+        "left": 234.7,
+        "top": 670.0,
+        "width": 145.1,
+        "height": 28.1
+      }
+    },
+    "regSig": {
+      "type": "text",
+      "label": "a. REQUESTOR&apos;S SIGNATURE",
+      "page": 4,
+      "box": {
+        "left": 387.6,
+        "top": 670.0,
+        "width": 185.6,
+        "height": 28.1
+      }
+    },
+    "regPh": {
+      "type": "text",
+      "label": "c. REQUESTOR&apos;S PHONE NUMBER",
+      "page": 4,
+      "box": {
+        "left": 41.0,
+        "top": 625.1,
+        "width": 185.8,
+        "height": 28.1
+      }
+    },
+    "regEml": {
+      "type": "text",
+      "label": "d. REQUESTOR&apos;S E-MAIL ADDRESS",
+      "page": 4,
+      "box": {
+        "left": 234.7,
+        "top": 625.1,
+        "width": 338.5,
+        "height": 28.1
+      }
+    },
+    "redCstImp": {
+      "type": "checkbox",
+      "label": "- All cost reduction measures have been implemented",
+      "page": 4,
+      "box": {
+        "left": 476.1,
+        "top": 529.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cmplyRegs": {
+      "type": "checkbox",
+      "label": "(check as",
+      "page": 4,
+      "box": {
+        "left": 476.1,
+        "top": 510.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "agdRev": {
+      "type": "checkbox",
+      "label": "(check as",
+      "page": 4,
+      "box": {
+        "left": 477.0,
+        "top": 490.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "legCsl": {
+      "type": "checkbox",
+      "label": "(check as",
+      "page": 4,
+      "box": {
+        "left": 476.1,
+        "top": 471.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "misCrit": {
+      "type": "checkbox",
+      "label": "(check as",
+      "page": 4,
+      "box": {
+        "left": 476.1,
+        "top": 453.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "othMeans": {
+      "type": "checkbox",
+      "label": "(check as",
+      "page": 4,
+      "box": {
+        "left": 476.1,
+        "top": 433.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "advDON": {
+      "type": "checkbox",
+      "label": "(check as",
+      "page": 4,
+      "box": {
+        "left": 476.1,
+        "top": 414.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "certPrtNme": {
+      "type": "text",
+      "label": "a. PRINTED NAME &amp; TITLE",
+      "page": 4,
+      "box": {
+        "left": 42.3,
+        "top": 380.2,
+        "width": 185.8,
+        "height": 30.0
+      }
+    },
+    "certSigDte": {
+      "type": "text",
+      "label": "b. SIGNATURE DATE (DDMMMYYYY )",
+      "page": 4,
+      "box": {
+        "left": 234.6,
+        "top": 380.2,
+        "width": 145.1,
+        "height": 30.0
+      }
+    },
+    "certSig": {
+      "type": "text",
+      "label": "c. SIGNATURE",
+      "page": 4,
+      "box": {
+        "left": 387.6,
+        "top": 380.2,
+        "width": 185.6,
+        "height": 30.0
+      }
+    },
+    "certCom": {
+      "type": "text",
+      "label": "d. COMMENTS",
+      "page": 4,
+      "box": {
+        "left": 41.1,
+        "top": 333.4,
+        "width": 532.2,
+        "height": 55.2
+      },
+      "multiline": true
+    },
+    "recPrtNme": {
+      "type": "text",
+      "label": "21. RECEIVING OFFICIAL PRINTED NAME &amp; TITLE",
+      "page": 4,
+      "box": {
+        "left": 41.0,
+        "top": 221.3,
+        "width": 203.7,
+        "height": 28.1
+      }
+    },
+    "recSig": {
+      "type": "text",
+      "label": "b. RECEIVING OFFICIAL SIGNATURE",
+      "page": 4,
+      "box": {
+        "left": 360.6,
+        "top": 221.3,
+        "width": 212.6,
+        "height": 28.1
+      }
+    },
+    "recSigDte": {
+      "type": "text",
+      "label": "(DDMMMYYYY )",
+      "page": 4,
+      "box": {
+        "left": 252.6,
+        "top": 214.7,
+        "width": 100.1,
+        "height": 21.5
+      }
+    },
+    "lRPrtNme": {
+      "type": "text",
+      "label": "NAME &amp; TITLE",
+      "page": 4,
+      "box": {
+        "left": 41.0,
+        "top": 169.1,
+        "width": 172.1,
+        "height": 36.2
+      },
+      "multiline": true
+    },
+    "lRSigDte": {
+      "type": "text",
+      "label": "(DDMMMYYYY )",
+      "page": 4,
+      "box": {
+        "left": 221.1,
+        "top": 169.1,
+        "width": 84.3,
+        "height": 36.2
+      },
+      "multiline": true
+    },
+    "lRSig": {
+      "type": "text",
+      "label": "b. LEGAL REVIEWER SIGNATURE",
+      "page": 4,
+      "box": {
+        "left": 313.2,
+        "top": 169.1,
+        "width": 172.1,
+        "height": 36.2
+      },
+      "multiline": true
+    },
+    "radio24": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 497.3,
+        "top": 163.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio25": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 497.1,
+        "top": 146.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "genCmts": {
+      "type": "text",
+      "label": "d. COMMENTS BY LEGAL REVIEWER",
+      "page": 4,
+      "box": {
+        "left": 41.1,
+        "top": 116.1,
+        "width": 532.2,
+        "height": 55.2
+      },
+      "multiline": true
+    },
+    "t2PrtNme": {
+      "type": "text",
+      "label": "NAME &amp; TITLE",
+      "page": 5,
+      "box": {
+        "left": 158.1,
+        "top": 735.4,
+        "width": 167.6,
+        "height": 48.6
+      },
+      "multiline": true
+    },
+    "t2SigDte": {
+      "type": "text",
+      "label": "(DDMMMYYYY )",
+      "page": 5,
+      "box": {
+        "left": 333.7,
+        "top": 735.4,
+        "width": 86.6,
+        "height": 48.6
+      },
+      "multiline": true
+    },
+    "t2Sig": {
+      "type": "text",
+      "label": "SIGNATURE",
+      "page": 5,
+      "box": {
+        "left": 428.1,
+        "top": 735.4,
+        "width": 145.1,
+        "height": 48.6
+      },
+      "multiline": true
+    },
+    "radio26": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 43.3,
+        "top": 726.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio27": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 42.5,
+        "top": 698.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "approvalAuthority": {
+      "type": "text",
+      "label": "d. COMMENTS BY APPROVAL AUTHORITY",
+      "page": 5,
+      "box": {
+        "left": 41.0,
+        "top": 669.1,
+        "width": 532.2,
+        "height": 55.2
+      },
+      "multiline": true
+    },
+    "attachmentsList": {
+      "type": "choice",
+      "label": "Attachments List",
+      "page": 5,
+      "box": {
+        "left": 39.6,
+        "top": 553.6,
+        "width": 532.9,
+        "height": 54.0
+      }
+    }
+  }
+}

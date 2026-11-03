@@ -1,0 +1,654 @@
+{
+  "id": "opnav479011",
+  "label": "OPNAV4790-11 - Material Requisition Register",
+  "directory": "OPNAV4790-11 - Material Requisition Register",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "tfaDoc",
+        "tF1Rout",
+        "tf2ms",
+        "tfbOrig",
+        "tf3fsc",
+        "tf4NIIN",
+        "tf5ADDT",
+        "tf6UI",
+        "tfcQUANT",
+        "stat",
+        "tfdPCN",
+        "tfeMFG",
+        "tffPARTNO",
+        "tfgREF",
+        "tfhDOCNO",
+        "tfiJCNO",
+        "tf7DM",
+        "tf8SA",
+        "tf9SIG",
+        "tfjTYPEQUIP",
+        "timeFieldM",
+        "tfkBURSERNO",
+        "tflWUC",
+        "tfm",
+        "tfnRIC",
+        "tfoFc",
+        "tf10DIST",
+        "tfp",
+        "tfqPRI",
+        "tfrRDD",
+        "tf76",
+        "tf65",
+        "tf66",
+        "tf67",
+        "tf68",
+        "tf69",
+        "tf70",
+        "tf71",
+        "tf72",
+        "tf73",
+        "tf74",
+        "tf75",
+        "tf77",
+        "tf78",
+        "tf79",
+        "tf80",
+        "nfup",
+        "tfcc",
+        "tFRemark1",
+        "tFRemark2",
+        "tfrecdelby",
+        "daterecdel",
+        "time"
+      ]
+    }
+  ],
+  "fields": {
+    "tfaDoc": {
+      "type": "text",
+      "label": "Enter the document identification.",
+      "page": 1,
+      "box": {
+        "left": 27.0,
+        "top": 338.8,
+        "width": 97.7,
+        "height": 14.5
+      }
+    },
+    "tF1Rout": {
+      "type": "text",
+      "label": "Enter the ROUT identification.",
+      "page": 1,
+      "box": {
+        "left": 133.5,
+        "top": 338.8,
+        "width": 139.6,
+        "height": 14.5
+      }
+    },
+    "tf2ms": {
+      "type": "text",
+      "label": "Enter the M/S.",
+      "page": 1,
+      "box": {
+        "left": 281.2,
+        "top": 338.8,
+        "width": 82.5,
+        "height": 14.5
+      }
+    },
+    "tfbOrig": {
+      "type": "text",
+      "label": "Enter the ORIG/SS/REC.",
+      "page": 1,
+      "box": {
+        "left": 371.7,
+        "top": 338.8,
+        "width": 172.6,
+        "height": 14.5
+      }
+    },
+    "tf3fsc": {
+      "type": "text",
+      "label": "Enter the FSC.",
+      "page": 1,
+      "box": {
+        "left": 27.0,
+        "top": 315.4,
+        "width": 97.7,
+        "height": 14.5
+      }
+    },
+    "tf4NIIN": {
+      "type": "text",
+      "label": "Enter the N I I N.",
+      "page": 1,
+      "box": {
+        "left": 133.5,
+        "top": 315.4,
+        "width": 139.6,
+        "height": 14.5
+      }
+    },
+    "tf5ADDT": {
+      "type": "text",
+      "label": "Enter the ADDT.",
+      "page": 1,
+      "box": {
+        "left": 281.2,
+        "top": 315.4,
+        "width": 82.5,
+        "height": 8.0
+      }
+    },
+    "tf6UI": {
+      "type": "text",
+      "label": "Enter the U/I.",
+      "page": 1,
+      "box": {
+        "left": 371.7,
+        "top": 315.4,
+        "width": 172.6,
+        "height": 8.0
+      }
+    },
+    "tfcQUANT": {
+      "type": "text",
+      "label": "Enter the quantity.",
+      "page": 1,
+      "box": {
+        "left": 27.0,
+        "top": 292.4,
+        "width": 97.7,
+        "height": 14.5
+      }
+    },
+    "stat": {
+      "type": "text",
+      "label": "Enter the status.",
+      "page": 1,
+      "box": {
+        "left": 131.3,
+        "top": 292.4,
+        "width": 233.9,
+        "height": 14.5
+      }
+    },
+    "tfdPCN": {
+      "type": "text",
+      "label": "Enter the PCN.",
+      "page": 1,
+      "box": {
+        "left": 369.5,
+        "top": 292.4,
+        "width": 177.8,
+        "height": 14.5
+      }
+    },
+    "tfeMFG": {
+      "type": "text",
+      "label": "Enter the MFG code.",
+      "page": 1,
+      "box": {
+        "left": 27.0,
+        "top": 267.5,
+        "width": 99.2,
+        "height": 14.5
+      }
+    },
+    "tffPARTNO": {
+      "type": "text",
+      "label": "Enter the part number.",
+      "page": 1,
+      "box": {
+        "left": 130.5,
+        "top": 267.5,
+        "width": 416.8,
+        "height": 14.5
+      }
+    },
+    "tfgREF": {
+      "type": "text",
+      "label": "Enter the reference",
+      "page": 1,
+      "box": {
+        "left": 27.0,
+        "top": 243.4,
+        "width": 520.4,
+        "height": 14.5
+      }
+    },
+    "tfhDOCNO": {
+      "type": "text",
+      "label": "Enter the document number.",
+      "page": 1,
+      "box": {
+        "left": 27.2,
+        "top": 220.0,
+        "width": 247.2,
+        "height": 14.5
+      }
+    },
+    "tfiJCNO": {
+      "type": "text",
+      "label": "Enter the job control number.",
+      "page": 1,
+      "box": {
+        "left": 279.7,
+        "top": 220.0,
+        "width": 267.6,
+        "height": 14.5
+      }
+    },
+    "tf7DM": {
+      "type": "text",
+      "label": "Enter the DM.",
+      "page": 1,
+      "box": {
+        "left": 27.2,
+        "top": 195.5,
+        "width": 99.0,
+        "height": 14.5
+      }
+    },
+    "tf8SA": {
+      "type": "text",
+      "label": "Enter the supply address",
+      "page": 1,
+      "box": {
+        "left": 130.5,
+        "top": 195.5,
+        "width": 145.6,
+        "height": 14.5
+      }
+    },
+    "tf9SIG": {
+      "type": "text",
+      "label": "Enter the SIG",
+      "page": 1,
+      "box": {
+        "left": 280.4,
+        "top": 195.5,
+        "width": 84.7,
+        "height": 14.5
+      }
+    },
+    "tfjTYPEQUIP": {
+      "type": "text",
+      "label": "Enter the equipment type.",
+      "page": 1,
+      "box": {
+        "left": 370.3,
+        "top": 195.5,
+        "width": 177.1,
+        "height": 14.5
+      }
+    },
+    "timeFieldM": {
+      "type": "text",
+      "label": "Enter the time of request using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 492.6,
+        "top": 172.2,
+        "width": 54.8,
+        "height": 14.5
+      }
+    },
+    "tfkBURSERNO": {
+      "type": "text",
+      "label": "Enter the bureau/serial number.",
+      "page": 1,
+      "box": {
+        "left": 27.0,
+        "top": 172.1,
+        "width": 164.9,
+        "height": 14.5
+      }
+    },
+    "tflWUC": {
+      "type": "text",
+      "label": "Enter the work unit code.",
+      "page": 1,
+      "box": {
+        "left": 195.5,
+        "top": 172.1,
+        "width": 169.7,
+        "height": 14.5
+      }
+    },
+    "tfm": {
+      "type": "text",
+      "label": "Enter who made this request.",
+      "page": 1,
+      "box": {
+        "left": 369.5,
+        "top": 172.1,
+        "width": 118.1,
+        "height": 14.5
+      }
+    },
+    "tfnRIC": {
+      "type": "text",
+      "label": "Enter the RIC",
+      "page": 1,
+      "box": {
+        "left": 27.0,
+        "top": 149.1,
+        "width": 99.2,
+        "height": 14.5
+      }
+    },
+    "tfoFc": {
+      "type": "text",
+      "label": "Enter the FC.",
+      "page": 1,
+      "box": {
+        "left": 132.0,
+        "top": 149.1,
+        "width": 59.8,
+        "height": 14.5
+      }
+    },
+    "tf10DIST": {
+      "type": "text",
+      "label": "Enter the DISTR.",
+      "page": 1,
+      "box": {
+        "left": 196.6,
+        "top": 149.1,
+        "width": 78.0,
+        "height": 14.5
+      }
+    },
+    "tfp": {
+      "type": "text",
+      "label": "Enter the PROJ.",
+      "page": 1,
+      "box": {
+        "left": 280.4,
+        "top": 149.1,
+        "width": 83.2,
+        "height": 14.5
+      }
+    },
+    "tfqPRI": {
+      "type": "text",
+      "label": "Enter the PRI.",
+      "page": 1,
+      "box": {
+        "left": 369.5,
+        "top": 149.1,
+        "width": 87.3,
+        "height": 14.5
+      }
+    },
+    "tfrRDD": {
+      "type": "text",
+      "label": "Enter the RDD.",
+      "page": 1,
+      "box": {
+        "left": 460.4,
+        "top": 149.1,
+        "width": 86.2,
+        "height": 14.5
+      }
+    },
+    "tf76": {
+      "type": "text",
+      "label": "Enter the information for 76.",
+      "page": 1,
+      "box": {
+        "left": 292.3,
+        "top": 125.0,
+        "width": 22.0,
+        "height": 14.5
+      }
+    },
+    "tf65": {
+      "type": "text",
+      "label": "Enter the Information for 65.",
+      "page": 1,
+      "box": {
+        "left": 27.0,
+        "top": 124.3,
+        "width": 20.9,
+        "height": 14.5
+      }
+    },
+    "tf66": {
+      "type": "text",
+      "label": "Enter the information for 66",
+      "page": 1,
+      "box": {
+        "left": 50.7,
+        "top": 124.3,
+        "width": 21.2,
+        "height": 14.5
+      }
+    },
+    "tf67": {
+      "type": "text",
+      "label": "Enter the information for 67.",
+      "page": 1,
+      "box": {
+        "left": 74.9,
+        "top": 124.3,
+        "width": 21.2,
+        "height": 14.5
+      }
+    },
+    "tf68": {
+      "type": "text",
+      "label": "Enter the information for 68.",
+      "page": 1,
+      "box": {
+        "left": 99.0,
+        "top": 124.3,
+        "width": 21.6,
+        "height": 14.5
+      }
+    },
+    "tf69": {
+      "type": "text",
+      "label": "Enter the information for 69.",
+      "page": 1,
+      "box": {
+        "left": 123.5,
+        "top": 124.3,
+        "width": 20.5,
+        "height": 14.5
+      }
+    },
+    "tf70": {
+      "type": "text",
+      "label": "Enter the information for 70.",
+      "page": 1,
+      "box": {
+        "left": 147.6,
+        "top": 124.3,
+        "width": 20.5,
+        "height": 14.5
+      }
+    },
+    "tf71": {
+      "type": "text",
+      "label": "Enter the information for 71.",
+      "page": 1,
+      "box": {
+        "left": 171.7,
+        "top": 124.3,
+        "width": 20.9,
+        "height": 14.5
+      }
+    },
+    "tf72": {
+      "type": "text",
+      "label": "Enter the information for 72.",
+      "page": 1,
+      "box": {
+        "left": 195.5,
+        "top": 124.3,
+        "width": 22.0,
+        "height": 14.5
+      }
+    },
+    "tf73": {
+      "type": "text",
+      "label": "Enter the information for 73.",
+      "page": 1,
+      "box": {
+        "left": 220.3,
+        "top": 124.3,
+        "width": 20.5,
+        "height": 14.5
+      }
+    },
+    "tf74": {
+      "type": "text",
+      "label": "Enter the information for 74.",
+      "page": 1,
+      "box": {
+        "left": 244.5,
+        "top": 124.3,
+        "width": 20.9,
+        "height": 14.5
+      }
+    },
+    "tf75": {
+      "type": "text",
+      "label": "Enter the information for 75.",
+      "page": 1,
+      "box": {
+        "left": 267.5,
+        "top": 124.3,
+        "width": 21.2,
+        "height": 14.5
+      }
+    },
+    "tf77": {
+      "type": "text",
+      "label": "Enter the information for 77.",
+      "page": 1,
+      "box": {
+        "left": 317.2,
+        "top": 124.3,
+        "width": 21.2,
+        "height": 14.5
+      }
+    },
+    "tf78": {
+      "type": "text",
+      "label": "Enter the information for 78.",
+      "page": 1,
+      "box": {
+        "left": 341.3,
+        "top": 124.3,
+        "width": 20.1,
+        "height": 14.5
+      }
+    },
+    "tf79": {
+      "type": "text",
+      "label": "Enter the information for 79.",
+      "page": 1,
+      "box": {
+        "left": 365.1,
+        "top": 124.3,
+        "width": 21.2,
+        "height": 14.5
+      }
+    },
+    "tf80": {
+      "type": "text",
+      "label": "Enter the information for 80.",
+      "page": 1,
+      "box": {
+        "left": 389.2,
+        "top": 124.3,
+        "width": 157.4,
+        "height": 14.5
+      }
+    },
+    "nfup": {
+      "type": "text",
+      "label": "Enter the unit price.",
+      "page": 1,
+      "box": {
+        "left": 26.7,
+        "top": 101.3,
+        "width": 165.1,
+        "height": 14.5
+      }
+    },
+    "tfcc": {
+      "type": "text",
+      "label": "Enter the card code.",
+      "page": 1,
+      "box": {
+        "left": 196.6,
+        "top": 100.1,
+        "width": 350.8,
+        "height": 14.5
+      }
+    },
+    "tFRemark1": {
+      "type": "text",
+      "label": "Enter the remarks (nomenclature. etc).",
+      "page": 1,
+      "box": {
+        "left": 27.0,
+        "top": 77.5,
+        "width": 519.6,
+        "height": 14.5
+      }
+    },
+    "tFRemark2": {
+      "type": "text",
+      "label": "Enter the remarks (continued).",
+      "page": 1,
+      "box": {
+        "left": 26.3,
+        "top": 53.0,
+        "width": 521.8,
+        "height": 14.5
+      }
+    },
+    "tfrecdelby": {
+      "type": "text",
+      "label": "Enter who received or delivered this requisition.",
+      "page": 1,
+      "box": {
+        "left": 27.0,
+        "top": 28.9,
+        "width": 338.2,
+        "height": 14.5
+      }
+    },
+    "daterecdel": {
+      "type": "text",
+      "label": "Enter the requisition date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 374.7,
+        "top": 28.9,
+        "width": 54.8,
+        "height": 14.5
+      }
+    },
+    "time": {
+      "type": "text",
+      "label": "Enter the requisition time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 464.9,
+        "top": 28.9,
+        "width": 54.8,
+        "height": 14.5
+      }
+    }
+  }
+}

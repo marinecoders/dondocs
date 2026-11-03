@@ -1,0 +1,576 @@
+{
+  "id": "opnav507011",
+  "label": "OPNAV5070-11 - Nwpl Catalog Card",
+  "directory": "OPNAV5070-11 - Nwpl Catalog Card",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "shorttitle",
+        "classification",
+        "copy1",
+        "copy2",
+        "copy3",
+        "copy4",
+        "copy5",
+        "copy6",
+        "longtitle",
+        "effective",
+        "change"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "location",
+        "copy",
+        "holder",
+        "recdate",
+        "retdate",
+        "date",
+        "authority",
+        "authority2",
+        "authority3",
+        "authority4",
+        "authority5",
+        "authority6",
+        "authority7",
+        "authority8",
+        "authority9",
+        "authority10",
+        "remarks"
+      ]
+    }
+  ],
+  "fields": {
+    "shorttitle": {
+      "type": "text",
+      "label": "Enter the short title.",
+      "page": 1,
+      "box": {
+        "left": 15.6,
+        "top": 359.6,
+        "width": 171.5,
+        "height": 14.5
+      }
+    },
+    "classification": {
+      "type": "text",
+      "label": "Enter the classification of publication.",
+      "page": 1,
+      "box": {
+        "left": 516.6,
+        "top": 359.6,
+        "width": 78.0,
+        "height": 14.5
+      }
+    },
+    "copy1": {
+      "type": "text",
+      "label": "Enter the copy number on hand.",
+      "page": 1,
+      "box": {
+        "left": 194.9,
+        "top": 358.9,
+        "width": 12.0,
+        "height": 12.6
+      }
+    },
+    "copy2": {
+      "type": "text",
+      "label": "Enter the copy number on hand.",
+      "page": 1,
+      "box": {
+        "left": 235.3,
+        "top": 358.9,
+        "width": 12.0,
+        "height": 12.6
+      }
+    },
+    "copy3": {
+      "type": "text",
+      "label": "Enter the copy number on hand.",
+      "page": 1,
+      "box": {
+        "left": 276.5,
+        "top": 358.9,
+        "width": 13.5,
+        "height": 12.6
+      }
+    },
+    "copy4": {
+      "type": "text",
+      "label": "Enter the copy number on hand.",
+      "page": 1,
+      "box": {
+        "left": 318.5,
+        "top": 358.9,
+        "width": 12.0,
+        "height": 12.6
+      }
+    },
+    "copy5": {
+      "type": "text",
+      "label": "Enter the copy number on hand.",
+      "page": 1,
+      "box": {
+        "left": 361.1,
+        "top": 358.9,
+        "width": 11.6,
+        "height": 12.6
+      }
+    },
+    "copy6": {
+      "type": "text",
+      "label": "Enter the copy number on hand.",
+      "page": 1,
+      "box": {
+        "left": 403.1,
+        "top": 358.9,
+        "width": 12.3,
+        "height": 12.6
+      }
+    },
+    "longtitle": {
+      "type": "text",
+      "label": "Enter the long title.",
+      "page": 1,
+      "box": {
+        "left": 17.0,
+        "top": 318.8,
+        "width": 445.4,
+        "height": 8.0
+      }
+    },
+    "effective": {
+      "type": "text",
+      "label": "Enter the effective date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 466.2,
+        "top": 318.5,
+        "width": 54.2,
+        "height": 14.5
+      }
+    },
+    "change": {
+      "type": "text",
+      "label": "This is line 1 of 10, enter the change or correction.",
+      "page": 1,
+      "box": {
+        "left": 15.7,
+        "top": 272.2,
+        "width": 130.3,
+        "height": 22.3
+      }
+    },
+    "location": {
+      "type": "text",
+      "label": "Enter the location.",
+      "page": 2,
+      "box": {
+        "left": 228.1,
+        "top": 327.2,
+        "width": 104.4,
+        "height": 18.1
+      }
+    },
+    "copy": {
+      "type": "text",
+      "label": "This is line 1 of 10, enter the copy number.",
+      "page": 2,
+      "box": {
+        "left": 19.7,
+        "top": 323.7,
+        "width": 28.2,
+        "height": 14.5
+      }
+    },
+    "holder": {
+      "type": "text",
+      "label": "Enter the holder's signature.",
+      "page": 2,
+      "box": {
+        "left": 52.2,
+        "top": 323.7,
+        "width": 172.6,
+        "height": 14.5
+      }
+    },
+    "recdate": {
+      "type": "text",
+      "label": "Enter the Received date using the format DD MMM YYYY.",
+      "page": 2,
+      "box": {
+        "left": 335.1,
+        "top": 323.7,
+        "width": 42.7,
+        "height": 14.5
+      }
+    },
+    "retdate": {
+      "type": "text",
+      "label": "Enter the Return date using the format DD MMM YYYY.",
+      "page": 2,
+      "box": {
+        "left": 380.7,
+        "top": 323.7,
+        "width": 42.7,
+        "height": 14.5
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "Enter the date signed using the format DD MMM YYYY.",
+      "page": 2,
+      "box": {
+        "left": 425.7,
+        "top": 323.7,
+        "width": 42.7,
+        "height": 14.5
+      }
+    },
+    "authority": {
+      "type": "text",
+      "label": "Enter the signature of the authority authorizing destruction.",
+      "page": 2,
+      "box": {
+        "left": 471.0,
+        "top": 323.7,
+        "width": 125.1,
+        "height": 14.5
+      }
+    },
+    "authority2": {
+      "type": "text",
+      "label": "Enter the signature of the authority authorizing destruction.",
+      "page": 2,
+      "box": {
+        "left": 471.0,
+        "top": 303.3,
+        "width": 125.1,
+        "height": 14.5
+      }
+    },
+    "authority3": {
+      "type": "text",
+      "label": "Enter the signature of the authority authorizing destruction.",
+      "page": 2,
+      "box": {
+        "left": 471.0,
+        "top": 282.9,
+        "width": 125.1,
+        "height": 14.5
+      }
+    },
+    "authority4": {
+      "type": "text",
+      "label": "Enter the signature of the authority authorizing destruction.",
+      "page": 2,
+      "box": {
+        "left": 471.0,
+        "top": 262.5,
+        "width": 125.1,
+        "height": 14.5
+      }
+    },
+    "authority5": {
+      "type": "text",
+      "label": "Enter the signature of the authority authorizing destruction.",
+      "page": 2,
+      "box": {
+        "left": 471.0,
+        "top": 242.2,
+        "width": 125.1,
+        "height": 14.5
+      }
+    },
+    "authority6": {
+      "type": "text",
+      "label": "Enter the signature of the authority authorizing destruction.",
+      "page": 2,
+      "box": {
+        "left": 471.0,
+        "top": 221.8,
+        "width": 125.1,
+        "height": 14.5
+      }
+    },
+    "authority7": {
+      "type": "text",
+      "label": "Enter the signature of the authority authorizing destruction.",
+      "page": 2,
+      "box": {
+        "left": 471.0,
+        "top": 201.4,
+        "width": 125.1,
+        "height": 14.5
+      }
+    },
+    "authority8": {
+      "type": "text",
+      "label": "Enter the signature of the authority authorizing destruction.",
+      "page": 2,
+      "box": {
+        "left": 471.0,
+        "top": 181.0,
+        "width": 125.1,
+        "height": 14.5
+      }
+    },
+    "authority9": {
+      "type": "text",
+      "label": "Enter the signature of the authority authorizing destruction.",
+      "page": 2,
+      "box": {
+        "left": 471.0,
+        "top": 160.7,
+        "width": 125.1,
+        "height": 14.5
+      }
+    },
+    "authority10": {
+      "type": "text",
+      "label": "Enter the signature of the authority authorizing destruction.",
+      "page": 2,
+      "box": {
+        "left": 471.6,
+        "top": 138.1,
+        "width": 125.1,
+        "height": 14.5
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "Enter the remarks.",
+      "page": 2,
+      "box": {
+        "left": 20.3,
+        "top": 113.2,
+        "width": 576.0,
+        "height": 87.6
+      },
+      "multiline": true
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 9,
+      "rowStride": 24.99,
+      "editor": "grid",
+      "columns": {
+        "change": {
+          "type": "text",
+          "label": "This is line 2 of 10, enter the change or correction.",
+          "page": 1,
+          "box": {
+            "left": 15.7,
+            "top": 247.2,
+            "width": 130.3,
+            "height": 22.3
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 10,
+      "rowStride": 24.98,
+      "editor": "grid",
+      "columns": {
+        "date1L": {
+          "type": "text",
+          "label": "Enter the date of entry by copy number for 1, using the format DD MMM YYYY.",
+          "page": 1,
+          "box": {
+            "left": 149.3,
+            "top": 264.3,
+            "width": 43.1,
+            "height": 14.5
+          }
+        },
+        "date2L": {
+          "type": "text",
+          "label": "Enter the date of entry by copy number for 2, using the format DD MMM YYYY.",
+          "page": 1,
+          "box": {
+            "left": 194.4,
+            "top": 264.3,
+            "width": 43.1,
+            "height": 14.5
+          }
+        },
+        "date3L": {
+          "type": "text",
+          "label": "Enter the date of entry by copy number for 3, using the format DD MMM YYYY.",
+          "page": 1,
+          "box": {
+            "left": 239.4,
+            "top": 264.3,
+            "width": 43.1,
+            "height": 14.5
+          }
+        },
+        "date4L": {
+          "type": "text",
+          "label": "Enter the date of entry by copy number for 4, using the format DD MMM YYYY.",
+          "page": 1,
+          "box": {
+            "left": 284.4,
+            "top": 264.3,
+            "width": 43.1,
+            "height": 14.5
+          }
+        },
+        "date5L": {
+          "type": "text",
+          "label": "Enter the date of entry by copy number for 5, using the format DD MMM YYYY.",
+          "page": 1,
+          "box": {
+            "left": 329.4,
+            "top": 264.3,
+            "width": 43.1,
+            "height": 14.5
+          }
+        },
+        "date6L": {
+          "type": "text",
+          "label": "Enter the date of entry by copy number for 6, using the format DD MMM YYYY.",
+          "page": 1,
+          "box": {
+            "left": 374.4,
+            "top": 264.3,
+            "width": 43.1,
+            "height": 14.5
+          }
+        },
+        "date7L": {
+          "type": "text",
+          "label": "Enter the date of entry by copy number for 7, using the format DD MMM YYYY.",
+          "page": 1,
+          "box": {
+            "left": 419.4,
+            "top": 264.3,
+            "width": 43.1,
+            "height": 14.5
+          }
+        },
+        "date8L": {
+          "type": "text",
+          "label": "Enter the date of entry by copy number for 8, using the format DD MMM YYYY.",
+          "page": 1,
+          "box": {
+            "left": 464.4,
+            "top": 264.3,
+            "width": 43.1,
+            "height": 14.5
+          }
+        },
+        "date9L": {
+          "type": "text",
+          "label": "Enter the date of entry by copy number for 9, using the format DD MMM YYYY.",
+          "page": 1,
+          "box": {
+            "left": 509.4,
+            "top": 264.3,
+            "width": 43.1,
+            "height": 14.5
+          }
+        },
+        "date10L": {
+          "type": "text",
+          "label": "Enter the date of entry by copy number for 10, using the format DD MMM YYYY.",
+          "page": 1,
+          "box": {
+            "left": 554.5,
+            "top": 264.3,
+            "width": 43.1,
+            "height": 14.5
+          }
+        }
+      }
+    },
+    "rows3": {
+      "title": "Rows",
+      "page": 2,
+      "count": 9,
+      "rowStride": 20.38,
+      "editor": "grid",
+      "columns": {
+        "copy": {
+          "type": "text",
+          "label": "This is line 2 of 10, enter the copy number.",
+          "page": 2,
+          "box": {
+            "left": 19.7,
+            "top": 303.3,
+            "width": 28.2,
+            "height": 14.5
+          }
+        },
+        "holder": {
+          "type": "text",
+          "label": "Enter the holder's signature.",
+          "page": 2,
+          "box": {
+            "left": 52.2,
+            "top": 303.3,
+            "width": 172.6,
+            "height": 14.5
+          }
+        },
+        "location": {
+          "type": "text",
+          "label": "Enter the location.",
+          "page": 2,
+          "box": {
+            "left": 228.1,
+            "top": 306.9,
+            "width": 104.4,
+            "height": 18.1
+          }
+        },
+        "recdate": {
+          "type": "text",
+          "label": "Enter the Received date using the format DD MMM YYYY.",
+          "page": 2,
+          "box": {
+            "left": 335.1,
+            "top": 303.3,
+            "width": 42.7,
+            "height": 14.5
+          }
+        },
+        "retdate": {
+          "type": "text",
+          "label": "Enter the Return date using the format DD MMM YYYY.",
+          "page": 2,
+          "box": {
+            "left": 380.7,
+            "top": 303.3,
+            "width": 42.7,
+            "height": 14.5
+          }
+        },
+        "date": {
+          "type": "text",
+          "label": "Enter the date signed using the format DD MMM YYYY.",
+          "page": 2,
+          "box": {
+            "left": 425.7,
+            "top": 303.3,
+            "width": 42.7,
+            "height": 14.5
+          }
+        }
+      }
+    }
+  }
+}

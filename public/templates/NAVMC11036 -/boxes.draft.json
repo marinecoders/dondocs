@@ -1,0 +1,326 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "daT": {
+        "left": 486.7,
+        "top": 719.2,
+        "width": 108.2,
+        "height": 17.1,
+        "type": "text",
+        "description": "Enter date using format 2002 12 24",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkAc": {
+        "left": 358.2,
+        "top": 717.9,
+        "width": 10.8,
+        "height": 10.8,
+        "type": "checkbox",
+        "description": "Disbursing on - site examination discrepancy notice - disbursing phase ( east coast team ). Check if active.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkRe": {
+        "left": 444.9,
+        "top": 717.9,
+        "width": 10.8,
+        "height": 10.8,
+        "type": "checkbox",
+        "description": "Check if reserve.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "naM": {
+        "left": 24.7,
+        "top": 683.1,
+        "width": 225.3,
+        "height": 17.7,
+        "type": "text",
+        "description": "Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ssn1": {
+        "left": 250.6,
+        "top": 683.1,
+        "width": 109.5,
+        "height": 17.7,
+        "type": "text",
+        "description": "Enter Social Security Number without dashes",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "grD": {
+        "left": 360.8,
+        "top": 683.1,
+        "width": 51.3,
+        "height": 17.7,
+        "type": "text",
+        "description": "Grade",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "yrSv": {
+        "left": 412.7,
+        "top": 683.1,
+        "width": 50.6,
+        "height": 17.7,
+        "type": "text",
+        "description": "Y R S  S V",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dep": {
+        "left": 463.9,
+        "top": 683.1,
+        "width": 41.8,
+        "height": 17.7,
+        "type": "text",
+        "description": "D E P",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ruc": {
+        "left": 507.0,
+        "top": 683.1,
+        "width": 86.7,
+        "height": 17.7,
+        "type": "text",
+        "description": "R U C",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unPa": {
+        "left": 211.4,
+        "top": 588.2,
+        "width": 15.2,
+        "height": 15.2,
+        "type": "checkbox",
+        "description": "Payments.  Check if unauthorized payment. ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "faPa": {
+        "left": 550.0,
+        "top": 588.2,
+        "width": 15.2,
+        "height": 15.2,
+        "type": "checkbox",
+        "description": "Check if failure to deduct / notify D F A S of non - posted payments.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pamt": {
+        "left": 88.6,
+        "top": 578.7,
+        "width": 510.8,
+        "height": 36.1,
+        "type": "text",
+        "description": "Details of payments discrepency.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "bous": {
+        "left": 88.0,
+        "top": 532.7,
+        "width": 510.4,
+        "height": 28.7,
+        "type": "text",
+        "description": "Bonus.  Entitlement / not entitled.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "le1": {
+        "left": 277.6,
+        "top": 504.8,
+        "width": 15.2,
+        "height": 15.2,
+        "type": "checkbox",
+        "description": "Leave.  Check if delay / leave not / incorrectly reported.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "le2": {
+        "left": 376.8,
+        "top": 504.8,
+        "width": 15.2,
+        "height": 15.2,
+        "type": "checkbox",
+        "description": "Check if L S L / Career L S L",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "le3": {
+        "left": 468.0,
+        "top": 504.8,
+        "width": 15.2,
+        "height": 15.2,
+        "type": "checkbox",
+        "description": "Check if excess leave.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "le4": {
+        "left": 573.6,
+        "top": 504.8,
+        "width": 15.2,
+        "height": 15.2,
+        "type": "checkbox",
+        "description": "Check if leave balance.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "lev": {
+        "left": 88.6,
+        "top": 494.3,
+        "width": 510.8,
+        "height": 36.7,
+        "type": "text",
+        "description": "Details of leave discrepency.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "faiAd": {
+        "left": 88.0,
+        "top": 457.2,
+        "width": 510.8,
+        "height": 52.5,
+        "type": "text",
+        "description": "Failure to adjust computer program deficiencies.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "diOfAd": {
+        "left": 88.0,
+        "top": 404.7,
+        "width": 510.8,
+        "height": 68.4,
+        "type": "text",
+        "description": "Disbursing officer adjustments.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pfMaCo": {
+        "left": 277.6,
+        "top": 336.0,
+        "width": 15.2,
+        "height": 15.2,
+        "type": "checkbox",
+        "description": "P F R Maintenance.  Check if copy of travel itinerary not on file.  ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pfMaDe": {
+        "left": 547.2,
+        "top": 336.0,
+        "width": 15.2,
+        "height": 15.2,
+        "type": "checkbox",
+        "description": "Check if D E P N   T V L  record not on file / endorsed.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "peMai": {
+        "left": 88.6,
+        "top": 326.2,
+        "width": 510.8,
+        "height": 32.3,
+        "type": "text",
+        "description": "Details of P F R maintenance discrepancy.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "reKs": {
+        "left": 88.0,
+        "top": 292.6,
+        "width": 510.8,
+        "height": 103.8,
+        "type": "text",
+        "description": "Remarks",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "daT2": {
+        "left": 469.6,
+        "top": 188.2,
+        "width": 118.4,
+        "height": 15.8,
+        "type": "text",
+        "description": "Enter date using format 2002 12 24",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "frM": {
+        "left": 291.1,
+        "top": 98.3,
+        "width": 308.2,
+        "height": 17.1,
+        "type": "text",
+        "description": "From",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature": {
+        "left": 291.4,
+        "top": 46.6,
+        "width": 299.3,
+        "height": 21.3,
+        "type": "signature",
+        "description": "Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "exM": {
+        "left": 25.3,
+        "top": 42.0,
+        "width": 263.3,
+        "height": 17.1,
+        "type": "text",
+        "description": "Examiner",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

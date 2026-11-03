@@ -1,0 +1,106 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 610,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "svnumber1": {
+        "left": 427.7,
+        "top": 746.5,
+        "width": 146.9,
+        "height": 17.9,
+        "type": "text",
+        "description": "Enter the SV number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "to1": {
+        "left": 52.0,
+        "top": 680.6,
+        "width": 522.6,
+        "height": 39.1,
+        "type": "text",
+        "description": "Enter the recipient address.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "roomNumber1": {
+        "left": 37.0,
+        "top": 613.7,
+        "width": 171.5,
+        "height": 19.9,
+        "type": "text",
+        "description": "Enter the room number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "assignedTo1": {
+        "left": 215.6,
+        "top": 613.7,
+        "width": 171.5,
+        "height": 19.9,
+        "type": "text",
+        "description": "Enter whom it was assigned to (OP).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "equipment1": {
+        "left": 394.6,
+        "top": 613.7,
+        "width": 180.0,
+        "height": 19.9,
+        "type": "text",
+        "description": "Enter the equipment number (if applicable).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "statement1": {
+        "left": 37.0,
+        "top": 580.2,
+        "width": 536.8,
+        "height": 446.1,
+        "type": "text",
+        "description": "Enter the statement of circumstances surrounding the incident.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature1": {
+        "left": 34.7,
+        "top": 87.4,
+        "width": 391.3,
+        "height": 21.0,
+        "type": "text",
+        "description": "Enter the signature.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dNSDate1": {
+        "left": 432.7,
+        "top": 87.4,
+        "width": 140.3,
+        "height": 21.0,
+        "type": "text",
+        "description": "Enter the date using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

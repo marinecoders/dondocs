@@ -1,0 +1,134 @@
+{
+  "id": "navpers130021",
+  "label": "NAVPERS1300-21 - Medical Suitability Certification",
+  "directory": "NAVPERS1300-21 - Medical Suitability Certification",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "staticText22",
+        "staticText23",
+        "staticText20",
+        "staticText21",
+        "staticText19",
+        "textField1",
+        "staticText24",
+        "staticText26",
+        "staticText25"
+      ]
+    }
+  ],
+  "fields": {
+    "staticText22": {
+      "type": "text",
+      "label": " 1. MEMBER NAME  (Last, First, MI, Rank/Rate)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 677.5,
+        "width": 397.5,
+        "height": 33.9
+      },
+      "multiline": true
+    },
+    "staticText23": {
+      "type": "text",
+      "label": "2.  DATE",
+      "page": 1,
+      "box": {
+        "left": 442.0,
+        "top": 676.8,
+        "width": 131.1,
+        "height": 33.1
+      },
+      "multiline": true
+    },
+    "staticText20": {
+      "type": "text",
+      "label": " 4. UIC",
+      "page": 1,
+      "box": {
+        "left": 254.8,
+        "top": 627.2,
+        "width": 116.7,
+        "height": 33.9
+      },
+      "multiline": true
+    },
+    "staticText21": {
+      "type": "text",
+      "label": " 3. PRESENT SHIP/STATION",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 627.1,
+        "width": 210.3,
+        "height": 33.8
+      },
+      "multiline": true
+    },
+    "staticText19": {
+      "type": "text",
+      "label": " 5. IA/GSA LOCATION",
+      "page": 1,
+      "box": {
+        "left": 377.2,
+        "top": 627.1,
+        "width": 195.9,
+        "height": 33.8
+      },
+      "multiline": true
+    },
+    "textField1": {
+      "type": "text",
+      "label": "6. MEMBER DOES / DOES NOT MEET EXPEDITIONARY SUITABILITY REQUIREMENTS. ",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 537.9,
+        "width": 534.3,
+        "height": 189.5
+      },
+      "multiline": true,
+      "required": true
+    },
+    "staticText24": {
+      "type": "text",
+      "label": " 7. COMMANDING OFFICER OR DESIGNEE  (NAME, RANK)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 329.6,
+        "width": 224.7,
+        "height": 38.8
+      },
+      "multiline": true
+    },
+    "staticText26": {
+      "type": "text",
+      "label": " 9. DATE",
+      "page": 1,
+      "box": {
+        "left": 478.0,
+        "top": 328.7,
+        "width": 95.1,
+        "height": 37.9
+      },
+      "multiline": true
+    },
+    "staticText25": {
+      "type": "signature",
+      "label": " 8. COMMANDING OFFICER OR DESIGNEE \n  (SIGNATURE)",
+      "page": 1,
+      "box": {
+        "left": 269.2,
+        "top": 324.2,
+        "width": 203.1,
+        "height": 33.4
+      }
+    }
+  }
+}

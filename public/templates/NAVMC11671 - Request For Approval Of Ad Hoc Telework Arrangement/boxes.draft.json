@@ -1,0 +1,172 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "nameEmp": {
+        "left": 151.9,
+        "top": 627.2,
+        "width": 412.3,
+        "height": 30.3,
+        "type": "text",
+        "description": "1.  NAME OF EMPLOYEE:",
+        "options": null,
+        "group": null,
+        "required": true
+      },
+      "title": {
+        "left": 132.3,
+        "top": 591.2,
+        "width": 431.9,
+        "height": 30.3,
+        "type": "text",
+        "description": "TITLE/SERIES/GRADE:",
+        "options": null,
+        "group": null,
+        "required": true
+      },
+      "empOrg": {
+        "left": 117.2,
+        "top": 555.2,
+        "width": 446.9,
+        "height": 57.3,
+        "type": "text",
+        "description": "ORGANIZATION:",
+        "options": null,
+        "group": null,
+        "required": true
+      },
+      "dateWork": {
+        "left": 163.2,
+        "top": 492.2,
+        "width": 401.0,
+        "height": 30.3,
+        "type": "text",
+        "description": "Enter dates you wish to Telework",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "descrip": {
+        "left": 38.8,
+        "top": 438.1,
+        "width": 525.3,
+        "height": 75.2,
+        "type": "text",
+        "description": "3.  BRIEFLY DESCRIBE WHAT YOU EXPECT TO ACCOMPLISH WHILE IN A TELEWORK STATUS:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "address": {
+        "left": 85.6,
+        "top": 321.2,
+        "width": 478.6,
+        "height": 39.4,
+        "type": "text",
+        "description": "Please enter street, city, state and zip code",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "phoneNumA": {
+        "left": 109.7,
+        "top": 276.2,
+        "width": 188.9,
+        "height": 21.4,
+        "type": "text",
+        "description": "Enter numbers only",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "phoneNumB": {
+        "left": 414.9,
+        "top": 276.2,
+        "width": 148.9,
+        "height": 21.4,
+        "type": "text",
+        "description": "Enter numbers only",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "email": {
+        "left": 140.1,
+        "top": 252.0,
+        "width": 426.9,
+        "height": 27.0,
+        "type": "text",
+        "description": "  E-MAIL (IF AVAILABLE):",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField1": {
+        "left": 109.7,
+        "top": 222.2,
+        "width": 328.5,
+        "height": 30.3,
+        "type": "signature",
+        "description": "SIGNATURE OF EMPLOYEE:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateTimeField1": {
+        "left": 475.5,
+        "top": 222.2,
+        "width": 88.7,
+        "height": 30.3,
+        "type": "text",
+        "description": "DATE:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "approved": {
+        "left": 227.8,
+        "top": 176.0,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "APPROVED",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "disapproved": {
+        "left": 416.8,
+        "top": 176.0,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "DISAPPROVED",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "reasons": {
+        "left": 123.2,
+        "top": 150.2,
+        "width": 440.9,
+        "height": 66.3,
+        "type": "text",
+        "description": "IF DISAPPROVED, STATE REASONS:",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

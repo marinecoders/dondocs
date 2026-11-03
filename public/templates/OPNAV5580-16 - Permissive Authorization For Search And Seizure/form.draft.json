@@ -1,0 +1,233 @@
+{
+  "id": "opnav558016",
+  "label": "OPNAV5580-16 - Permissive Authorization For Search And Seizure",
+  "directory": "OPNAV5580-16 - Permissive Authorization For Search And Seizure",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "fillIn1",
+        "fillIn2",
+        "fillIn3",
+        "fillIn4",
+        "fillIn5",
+        "fillIn6",
+        "fillIn7",
+        "fillIn8",
+        "fillIn9",
+        "fillIn10",
+        "dNSDate1",
+        "by",
+        "dNSDate12",
+        "dNSDate13",
+        "witnessesSig",
+        "witnessesSig2",
+        "start",
+        "end"
+      ]
+    }
+  ],
+  "fields": {
+    "fillIn1": {
+      "type": "text",
+      "label": "Enter the name (last, first, MI).",
+      "page": 1,
+      "box": {
+        "left": 122.9,
+        "top": 685.4,
+        "width": 450.9,
+        "height": 19.9
+      }
+    },
+    "fillIn2": {
+      "type": "text",
+      "label": "Indicate whom advised by.",
+      "page": 1,
+      "box": {
+        "left": 143.9,
+        "top": 660.9,
+        "width": 429.9,
+        "height": 19.9
+      }
+    },
+    "fillIn3": {
+      "type": "text",
+      "label": "Indicate what was advised.",
+      "page": 1,
+      "box": {
+        "left": 78.7,
+        "top": 636.4,
+        "width": 495.2,
+        "height": 19.9
+      }
+    },
+    "fillIn4": {
+      "type": "text",
+      "label": "This is line 1 of 2. Indicate the offense(s).",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 611.9,
+        "width": 300.9,
+        "height": 19.9
+      }
+    },
+    "fillIn5": {
+      "type": "text",
+      "label": "This is line 2 of 2. Indicate the offense(s).",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 588.1,
+        "width": 536.5,
+        "height": 19.9
+      }
+    },
+    "fillIn6": {
+      "type": "text",
+      "label": "This is line 1 of 5. Indicate the search.",
+      "page": 1,
+      "box": {
+        "left": 250.4,
+        "top": 562.9,
+        "width": 323.4,
+        "height": 19.9
+      }
+    },
+    "fillIn7": {
+      "type": "text",
+      "label": "This is line 2 of 5. Indicate the search.",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 538.3,
+        "width": 536.5,
+        "height": 19.9
+      }
+    },
+    "fillIn8": {
+      "type": "text",
+      "label": "This is line 3 of 5. Indicate the search.",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 513.5,
+        "width": 536.5,
+        "height": 19.9
+      }
+    },
+    "fillIn9": {
+      "type": "text",
+      "label": "This is line 4 of 5. Indicate the search.",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 488.2,
+        "width": 536.5,
+        "height": 19.1
+      }
+    },
+    "fillIn10": {
+      "type": "text",
+      "label": "This is line 5 of 5. Indicate the search.",
+      "page": 1,
+      "box": {
+        "left": 37.3,
+        "top": 462.1,
+        "width": 536.6,
+        "height": 21.5
+      }
+    },
+    "dNSDate1": {
+      "type": "text",
+      "label": "Enter the date search may be conducted, using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 260.2,
+        "top": 332.9,
+        "width": 315.0,
+        "height": 22.6
+      }
+    },
+    "by": {
+      "type": "text",
+      "label": "Indicate the name of the person doing the search.",
+      "page": 1,
+      "box": {
+        "left": 64.8,
+        "top": 305.5,
+        "width": 508.4,
+        "height": 19.8
+      }
+    },
+    "dNSDate12": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 37.7,
+        "top": 155.5,
+        "width": 265.9,
+        "height": 15.2
+      }
+    },
+    "dNSDate13": {
+      "type": "text",
+      "label": "Enter the signature.",
+      "page": 1,
+      "box": {
+        "left": 309.3,
+        "top": 155.5,
+        "width": 265.0,
+        "height": 15.2
+      }
+    },
+    "witnessesSig": {
+      "type": "text",
+      "label": "Enter the witnesses signature.",
+      "page": 1,
+      "box": {
+        "left": 37.7,
+        "top": 107.6,
+        "width": 265.9,
+        "height": 15.2
+      }
+    },
+    "witnessesSig2": {
+      "type": "text",
+      "label": "Enter the witnesses signature.",
+      "page": 1,
+      "box": {
+        "left": 309.3,
+        "top": 107.6,
+        "width": 265.0,
+        "height": 15.2
+      }
+    },
+    "start": {
+      "type": "text",
+      "label": "Enter the start time of the search using the 24-hour clock (HHMM).",
+      "page": 1,
+      "box": {
+        "left": 37.7,
+        "top": 60.5,
+        "width": 265.9,
+        "height": 15.2
+      }
+    },
+    "end": {
+      "type": "text",
+      "label": "Enter the end time of the search using the 24-hour clock (HHMM).",
+      "page": 1,
+      "box": {
+        "left": 309.3,
+        "top": 60.5,
+        "width": 265.0,
+        "height": 15.2
+      }
+    }
+  }
+}

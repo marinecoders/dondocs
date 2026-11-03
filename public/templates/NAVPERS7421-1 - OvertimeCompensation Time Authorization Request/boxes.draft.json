@@ -1,0 +1,271 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "one": {
+        "left": 38.9,
+        "top": 708.5,
+        "width": 426.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "1. NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "two": {
+        "left": 470.9,
+        "top": 708.5,
+        "width": 102.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "2. DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "five": {
+        "left": 38.9,
+        "top": 636.5,
+        "width": 192.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "5. NUMBER OF HOURS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "six": {
+        "left": 236.9,
+        "top": 636.5,
+        "width": 174.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "6. NUMBER OF EMPLOYEES",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "seven": {
+        "left": 416.9,
+        "top": 636.5,
+        "width": 156.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "7. FOR PAY PERIOD ENDING",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell1": {
+        "left": 38.9,
+        "top": 537.1,
+        "width": 174.3,
+        "height": 12.2,
+        "type": "text",
+        "description": "EMPLOYEE(S) NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell2": {
+        "left": 218.9,
+        "top": 537.1,
+        "width": 66.2,
+        "height": 12.2,
+        "type": "text",
+        "description": "OF HOURS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell3": {
+        "left": 290.9,
+        "top": 537.1,
+        "width": 48.2,
+        "height": 12.2,
+        "type": "text",
+        "description": "OVERTIME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell4": {
+        "left": 344.9,
+        "top": 537.1,
+        "width": 48.2,
+        "height": 12.2,
+        "type": "text",
+        "description": "COMP TIME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell5": {
+        "left": 398.9,
+        "top": 537.1,
+        "width": 48.2,
+        "height": 12.2,
+        "type": "text",
+        "description": "COMP TIME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell6": {
+        "left": 452.9,
+        "top": 537.1,
+        "width": 66.2,
+        "height": 12.2,
+        "type": "text",
+        "description": "GRADE/STEP",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell7": {
+        "left": 524.9,
+        "top": 537.1,
+        "width": 48.2,
+        "height": 12.2,
+        "type": "text",
+        "description": "DEPT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nine": {
+        "left": 38.9,
+        "top": 294.4,
+        "width": 534.3,
+        "height": 75.6,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "eleven": {
+        "left": 233.3,
+        "top": 204.4,
+        "width": 339.9,
+        "height": 39.6,
+        "type": "text",
+        "description": "DISAPPROVED",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio": {
+        "left": 53.2,
+        "top": 193.1,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio2": {
+        "left": 132.5,
+        "top": 193.1,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "twelve": {
+        "left": 38.9,
+        "top": 150.4,
+        "width": 534.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "thirteen": {
+        "left": 38.9,
+        "top": 114.4,
+        "width": 228.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "13. APPROVING OFFICIAL: (APPLICABLE ACNPC)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fourteen": {
+        "left": 272.9,
+        "top": 114.4,
+        "width": 228.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "14. APPROVING OFFICIAL SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fifteen": {
+        "left": 506.9,
+        "top": 114.4,
+        "width": 66.2,
+        "height": 21.6,
+        "type": "text",
+        "description": "15. DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sixteen": {
+        "left": 38.9,
+        "top": 60.4,
+        "width": 228.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "16. AUTHORIZED BY PERS-5",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "seventeen": {
+        "left": 272.9,
+        "top": 60.4,
+        "width": 228.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "17. PERS-5 SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "eighteen": {
+        "left": 506.9,
+        "top": 60.4,
+        "width": 66.2,
+        "height": 21.6,
+        "type": "text",
+        "description": "18. DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

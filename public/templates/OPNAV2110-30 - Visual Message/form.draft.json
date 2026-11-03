@@ -1,0 +1,1040 @@
+{
+  "id": "opnav211030",
+  "label": "OPNAV2110-30 - Visual Message",
+  "directory": "OPNAV2110-30 - Visual Message",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "visualmessage",
+        "callup",
+        "heading",
+        "iNFO1a",
+        "iNFO1b",
+        "iNFO1c",
+        "iNFO1d",
+        "iNFO1e",
+        "iNFO2a",
+        "iNFO2b",
+        "iNFO2c",
+        "iNFO2d",
+        "iNFO2e",
+        "iNFO3a",
+        "iNFO3b",
+        "iNFO3c",
+        "iNFO3d",
+        "iNFO3e",
+        "iNFO4a",
+        "iNFO4b",
+        "iNFO4c",
+        "iNFO4d",
+        "iNFO4e",
+        "iNFO5a",
+        "iNFO5b",
+        "iNFO5c",
+        "iNFO5d",
+        "iNFO5e",
+        "iNFO6b",
+        "iNFO6c",
+        "iNFO6d",
+        "iNFO6e",
+        "iNFO6a",
+        "iNFO7a",
+        "iNFO7b",
+        "iNFO7c",
+        "iNFO7d",
+        "iNFO7e",
+        "iNFO8a",
+        "iNFO8b",
+        "iNFO8c",
+        "iNFO8d",
+        "iNFO8e",
+        "iNFO9a",
+        "iNFO9b",
+        "iNFO9c",
+        "iNFO9d",
+        "iNFO9e",
+        "iNFO10a",
+        "iNFO10b",
+        "iNFO10c",
+        "iNFO10d",
+        "iNFO10e",
+        "iNFO11a",
+        "iNFO11b",
+        "iNFO11c",
+        "iNFO11d",
+        "iNFO11e",
+        "iNFO12a",
+        "iNFO12b",
+        "iNFO12c",
+        "iNFO12d",
+        "iNFO12e",
+        "from",
+        "date",
+        "releasedby",
+        "system",
+        "precedence",
+        "to",
+        "operator",
+        "supervisor",
+        "tor",
+        "visualNR",
+        "info11a",
+        "tod",
+        "flag",
+        "cofS",
+        "capt",
+        "ood",
+        "commcen",
+        "iNFOa",
+        "iNFOb",
+        "iNFOc",
+        "dtg",
+        "remarks"
+      ]
+    }
+  ],
+  "fields": {
+    "visualmessage": {
+      "type": "text",
+      "label": "Enter the visual message.",
+      "page": 1,
+      "box": {
+        "left": 26.7,
+        "top": 755.4,
+        "width": 555.4,
+        "height": 60.3
+      },
+      "multiline": true
+    },
+    "callup": {
+      "type": "text",
+      "label": "Enter the call up.",
+      "page": 1,
+      "box": {
+        "left": 77.3,
+        "top": 692.2,
+        "width": 504.8,
+        "height": 19.6
+      }
+    },
+    "heading": {
+      "type": "text",
+      "label": "Enter the heading.",
+      "page": 1,
+      "box": {
+        "left": 26.7,
+        "top": 657.8,
+        "width": 555.4,
+        "height": 49.8
+      },
+      "multiline": true
+    },
+    "iNFO1a": {
+      "type": "text",
+      "label": "This is row 1 of 12. Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 25.8,
+        "top": 606.7,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO1b": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 131.8,
+        "top": 606.7,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO1c": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 237.7,
+        "top": 606.7,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO1d": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 343.6,
+        "top": 606.7,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO1e": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 449.5,
+        "top": 606.7,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO2a": {
+      "type": "text",
+      "label": "This is row 2 of 12. Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 25.8,
+        "top": 590.7,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO2b": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 131.8,
+        "top": 590.7,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO2c": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 237.7,
+        "top": 590.7,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO2d": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 343.6,
+        "top": 590.7,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO2e": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 449.5,
+        "top": 590.7,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO3a": {
+      "type": "text",
+      "label": "This is row 3 of 12. Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 25.8,
+        "top": 574.7,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO3b": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 131.8,
+        "top": 574.7,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO3c": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 237.7,
+        "top": 574.7,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO3d": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 343.6,
+        "top": 574.7,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO3e": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 449.5,
+        "top": 574.7,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO4a": {
+      "type": "text",
+      "label": "This is row 4 of 12. Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 25.8,
+        "top": 558.7,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO4b": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 131.8,
+        "top": 558.7,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO4c": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 237.7,
+        "top": 558.7,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO4d": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 343.6,
+        "top": 558.7,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO4e": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 449.5,
+        "top": 558.7,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO5a": {
+      "type": "text",
+      "label": "This is row 5 of 12. Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 25.8,
+        "top": 542.7,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO5b": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 131.8,
+        "top": 542.7,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO5c": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 237.7,
+        "top": 542.7,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO5d": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 343.6,
+        "top": 542.7,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO5e": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 449.5,
+        "top": 542.7,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO6b": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 131.8,
+        "top": 526.7,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO6c": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 237.7,
+        "top": 526.7,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO6d": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 343.6,
+        "top": 526.7,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO6e": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 449.5,
+        "top": 526.7,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO6a": {
+      "type": "text",
+      "label": "This is row 6 of 12. Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 25.8,
+        "top": 526.5,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO7a": {
+      "type": "text",
+      "label": "This is row 7 of 12. Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 25.8,
+        "top": 510.8,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO7b": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 131.8,
+        "top": 510.8,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO7c": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 237.7,
+        "top": 510.8,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO7d": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 343.6,
+        "top": 510.8,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO7e": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 449.5,
+        "top": 510.8,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO8a": {
+      "type": "text",
+      "label": "This is row 8 of 12. Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 25.8,
+        "top": 494.4,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO8b": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 131.8,
+        "top": 494.4,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO8c": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 237.7,
+        "top": 494.4,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO8d": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 343.6,
+        "top": 494.4,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO8e": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 449.5,
+        "top": 494.4,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO9a": {
+      "type": "text",
+      "label": "This is row 9 of 12. Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 25.8,
+        "top": 478.5,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO9b": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 131.8,
+        "top": 478.5,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO9c": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 237.7,
+        "top": 478.5,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO9d": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 343.6,
+        "top": 478.5,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO9e": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 449.5,
+        "top": 478.5,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO10a": {
+      "type": "text",
+      "label": "This is row 10 of 12. Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 25.8,
+        "top": 462.5,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO10b": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 131.8,
+        "top": 462.5,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO10c": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 237.7,
+        "top": 462.5,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO10d": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 343.6,
+        "top": 462.5,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO10e": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 449.5,
+        "top": 462.5,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO11a": {
+      "type": "text",
+      "label": "This is row 11 of 12. Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 25.8,
+        "top": 446.5,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO11b": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 131.8,
+        "top": 446.5,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO11c": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 237.7,
+        "top": 446.5,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO11d": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 343.6,
+        "top": 446.5,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO11e": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 449.5,
+        "top": 446.5,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO12a": {
+      "type": "text",
+      "label": "This is row 12 of 12. Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 25.8,
+        "top": 430.6,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO12b": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 131.8,
+        "top": 430.6,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO12c": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 237.7,
+        "top": 430.6,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO12d": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 343.6,
+        "top": 430.6,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "iNFO12e": {
+      "type": "text",
+      "label": "Enter the information. ",
+      "page": 1,
+      "box": {
+        "left": 449.5,
+        "top": 430.6,
+        "width": 104.0,
+        "height": 14.5
+      }
+    },
+    "from": {
+      "type": "text",
+      "label": "Enter who the visual message is from.",
+      "page": 1,
+      "box": {
+        "left": 25.7,
+        "top": 406.9,
+        "width": 314.8,
+        "height": 10.7
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 343.9,
+        "top": 406.9,
+        "width": 118.2,
+        "height": 10.7
+      }
+    },
+    "releasedby": {
+      "type": "text",
+      "label": "Enter who released.",
+      "page": 1,
+      "box": {
+        "left": 465.0,
+        "top": 406.9,
+        "width": 116.6,
+        "height": 10.7
+      }
+    },
+    "system": {
+      "type": "text",
+      "label": "Enter the system.",
+      "page": 1,
+      "box": {
+        "left": 343.9,
+        "top": 388.1,
+        "width": 118.2,
+        "height": 8.1
+      }
+    },
+    "precedence": {
+      "type": "text",
+      "label": "Enter the precedence.",
+      "page": 1,
+      "box": {
+        "left": 465.0,
+        "top": 388.1,
+        "width": 116.6,
+        "height": 8.1
+      }
+    },
+    "to": {
+      "type": "text",
+      "label": "Enter who the visual message is to.",
+      "page": 1,
+      "box": {
+        "left": 25.7,
+        "top": 386.5,
+        "width": 314.8,
+        "height": 25.9
+      }
+    },
+    "operator": {
+      "type": "text",
+      "label": "Enter the operator.",
+      "page": 1,
+      "box": {
+        "left": 343.9,
+        "top": 371.4,
+        "width": 118.2,
+        "height": 10.7
+      }
+    },
+    "supervisor": {
+      "type": "text",
+      "label": "Enter the supervisor.",
+      "page": 1,
+      "box": {
+        "left": 465.0,
+        "top": 371.4,
+        "width": 116.6,
+        "height": 10.7
+      }
+    },
+    "tor": {
+      "type": "text",
+      "label": "Enter the TOR.",
+      "page": 1,
+      "box": {
+        "left": 372.1,
+        "top": 358.3,
+        "width": 118.2,
+        "height": 10.7
+      }
+    },
+    "visualNR": {
+      "type": "text",
+      "label": "Enter the visual NR.",
+      "page": 1,
+      "box": {
+        "left": 494.2,
+        "top": 351.0,
+        "width": 87.4,
+        "height": 15.9
+      }
+    },
+    "info11a": {
+      "type": "text",
+      "label": "Enter the information.",
+      "page": 1,
+      "box": {
+        "left": 25.7,
+        "top": 350.5,
+        "width": 314.8,
+        "height": 14.9
+      }
+    },
+    "tod": {
+      "type": "text",
+      "label": "Enter the TOD.",
+      "page": 1,
+      "box": {
+        "left": 372.1,
+        "top": 345.8,
+        "width": 118.2,
+        "height": 10.7
+      }
+    },
+    "flag": {
+      "type": "text",
+      "label": "Enter the flag.",
+      "page": 1,
+      "box": {
+        "left": 25.7,
+        "top": 325.5,
+        "width": 36.8,
+        "height": 20.3
+      }
+    },
+    "cofS": {
+      "type": "text",
+      "label": "Enter the C of S.",
+      "page": 1,
+      "box": {
+        "left": 65.3,
+        "top": 325.5,
+        "width": 36.8,
+        "height": 20.3
+      }
+    },
+    "capt": {
+      "type": "text",
+      "label": "Enter the CAPT.",
+      "page": 1,
+      "box": {
+        "left": 105.0,
+        "top": 325.5,
+        "width": 36.8,
+        "height": 20.3
+      }
+    },
+    "ood": {
+      "type": "text",
+      "label": "Enter the OOD.",
+      "page": 1,
+      "box": {
+        "left": 144.6,
+        "top": 325.5,
+        "width": 36.8,
+        "height": 20.3
+      }
+    },
+    "commcen": {
+      "type": "text",
+      "label": "Enter the COMM. CEN.",
+      "page": 1,
+      "box": {
+        "left": 183.8,
+        "top": 325.5,
+        "width": 36.8,
+        "height": 20.3
+      }
+    },
+    "iNFOa": {
+      "type": "text",
+      "label": "Enter the information.",
+      "page": 1,
+      "box": {
+        "left": 223.4,
+        "top": 325.5,
+        "width": 36.8,
+        "height": 20.3
+      }
+    },
+    "iNFOb": {
+      "type": "text",
+      "label": "Enter the information.",
+      "page": 1,
+      "box": {
+        "left": 263.1,
+        "top": 325.5,
+        "width": 36.8,
+        "height": 20.3
+      }
+    },
+    "iNFOc": {
+      "type": "text",
+      "label": "Enter the information.",
+      "page": 1,
+      "box": {
+        "left": 302.2,
+        "top": 325.5,
+        "width": 38.1,
+        "height": 20.3
+      }
+    },
+    "dtg": {
+      "type": "text",
+      "label": "Enter the DTG.",
+      "page": 1,
+      "box": {
+        "left": 343.9,
+        "top": 324.3,
+        "width": 237.6,
+        "height": 19.2
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "Enter the remarks.",
+      "page": 1,
+      "box": {
+        "left": 25.7,
+        "top": 302.5,
+        "width": 556.9,
+        "height": 263.7
+      },
+      "multiline": true
+    }
+  }
+}

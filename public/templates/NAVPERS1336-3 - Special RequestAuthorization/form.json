@@ -1,0 +1,516 @@
+{
+  "id": "navpers13363",
+  "label": "NAVPERS1336-3 - Special RequestAuthorization",
+  "directory": "NAVPERS1336-3 - Special RequestAuthorization",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "rate",
+        "shiporStation",
+        "dateofRequest",
+        "deptDiv",
+        "dutySection",
+        "specialLiberty",
+        "checkBox1",
+        "commutedRations",
+        "other",
+        "from",
+        "to",
+        "numberDays",
+        "leaveAddress",
+        "phoneNumber",
+        "reason",
+        "applicantSignature",
+        "signatureStandby",
+        "dutyStation",
+        "signature",
+        "signature2",
+        "yes",
+        "no",
+        "signature4",
+        "signature1",
+        "signature6",
+        "signature22",
+        "signature8",
+        "signature42",
+        "signature52",
+        "signature11",
+        "signature12",
+        "signature62",
+        "divOffSignature",
+        "disapproved",
+        "approved",
+        "disapprovalReason"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "1. NAME",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 645.9,
+        "width": 390.4,
+        "height": 13.1
+      }
+    },
+    "rate": {
+      "type": "text",
+      "label": "2. RATE",
+      "page": 1,
+      "box": {
+        "left": 434.9,
+        "top": 645.9,
+        "width": 137.7,
+        "height": 13.1
+      }
+    },
+    "shiporStation": {
+      "type": "text",
+      "label": "3. SHIP OR STATION",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 618.9,
+        "width": 390.4,
+        "height": 13.1
+      }
+    },
+    "dateofRequest": {
+      "type": "text",
+      "label": "4. DATE OF REQUEST: (YYYYMMDD)",
+      "page": 1,
+      "box": {
+        "left": 434.9,
+        "top": 618.9,
+        "width": 138.3,
+        "height": 13.1
+      }
+    },
+    "deptDiv": {
+      "type": "text",
+      "label": "5. DEPARTMENT/DIVISION",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 591.9,
+        "width": 336.4,
+        "height": 13.1
+      }
+    },
+    "dutySection": {
+      "type": "text",
+      "label": "6. DUTY SECTION/GROUP",
+      "page": 1,
+      "box": {
+        "left": 380.9,
+        "top": 591.9,
+        "width": 192.4,
+        "height": 13.1
+      }
+    },
+    "specialLiberty": {
+      "type": "checkbox",
+      "label": "however,",
+      "page": 1,
+      "box": {
+        "left": 147.9,
+        "top": 566.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox1": {
+      "type": "checkbox",
+      "label": "SPECIAL LIBERTY",
+      "page": 1,
+      "box": {
+        "left": 249.9,
+        "top": 566.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "commutedRations": {
+      "type": "checkbox",
+      "label": "SPECIAL PAY",
+      "page": 1,
+      "box": {
+        "left": 342.9,
+        "top": 566.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "other": {
+      "type": "checkbox",
+      "label": "COMMUTED RATIONS",
+      "page": 1,
+      "box": {
+        "left": 462.9,
+        "top": 566.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "from": {
+      "type": "text",
+      "label": "FROM (DATE AND TIME)",
+      "page": 1,
+      "box": {
+        "left": 200.9,
+        "top": 537.9,
+        "width": 183.4,
+        "height": 13.1
+      }
+    },
+    "to": {
+      "type": "text",
+      "label": "TO (DATE AND TIME)",
+      "page": 1,
+      "box": {
+        "left": 389.9,
+        "top": 537.9,
+        "width": 183.4,
+        "height": 13.1
+      }
+    },
+    "numberDays": {
+      "type": "text",
+      "label": "8. NO. OF DAYS REQUESTED",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 537.7,
+        "width": 156.4,
+        "height": 12.9
+      }
+    },
+    "leaveAddress": {
+      "type": "text",
+      "label": "9. LIBERTY ADDRESS",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 510.9,
+        "width": 417.4,
+        "height": 13.1
+      }
+    },
+    "phoneNumber": {
+      "type": "text",
+      "label": "10. TELEPHONE NUMBER",
+      "page": 1,
+      "box": {
+        "left": 461.9,
+        "top": 510.9,
+        "width": 111.3,
+        "height": 13.1
+      }
+    },
+    "reason": {
+      "type": "text",
+      "label": "11. REASON FOR REQUEST",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 483.8,
+        "width": 534.4,
+        "height": 76.1
+      },
+      "multiline": true
+    },
+    "applicantSignature": {
+      "type": "text",
+      "label": "12. SIGNATURE OF APPLICANT: (Use CAC for digital signature)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 393.8,
+        "width": 534.4,
+        "height": 22.1
+      }
+    },
+    "signatureStandby": {
+      "type": "text",
+      "label": "perform all duties of person making",
+      "page": 1,
+      "box": {
+        "left": 209.9,
+        "top": 357.8,
+        "width": 197.8,
+        "height": 22.1
+      }
+    },
+    "dutyStation": {
+      "type": "text",
+      "label": "perform all duties of person making",
+      "page": 1,
+      "box": {
+        "left": 413.3,
+        "top": 357.8,
+        "width": 160.0,
+        "height": 22.1
+      }
+    },
+    "signature": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 321.8,
+        "width": 138.3,
+        "height": 14.9
+      }
+    },
+    "signature2": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 317.9,
+        "top": 321.8,
+        "width": 183.4,
+        "height": 14.9
+      }
+    },
+    "yes": {
+      "type": "checkbox",
+      "label": "RECOMMEND",
+      "page": 1,
+      "box": {
+        "left": 57.8,
+        "top": 318.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no": {
+      "type": "checkbox",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 111.8,
+        "top": 318.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "signature4": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 293.0,
+        "width": 138.3,
+        "height": 14.9
+      }
+    },
+    "signature1": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 317.9,
+        "top": 293.0,
+        "width": 183.4,
+        "height": 14.9
+      }
+    },
+    "signature6": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 264.2,
+        "width": 138.3,
+        "height": 14.9
+      }
+    },
+    "signature22": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 317.9,
+        "top": 263.6,
+        "width": 183.4,
+        "height": 14.2
+      }
+    },
+    "signature8": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 235.4,
+        "width": 138.3,
+        "height": 14.9
+      }
+    },
+    "signature42": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 317.9,
+        "top": 235.4,
+        "width": 183.4,
+        "height": 14.9
+      }
+    },
+    "signature52": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 317.9,
+        "top": 206.6,
+        "width": 183.4,
+        "height": 14.9
+      }
+    },
+    "signature11": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 205.9,
+        "width": 138.3,
+        "height": 14.2
+      }
+    },
+    "signature12": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 177.8,
+        "width": 138.3,
+        "height": 14.9
+      }
+    },
+    "signature62": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 317.9,
+        "top": 177.8,
+        "width": 183.4,
+        "height": 14.9
+      }
+    },
+    "divOffSignature": {
+      "type": "text",
+      "label": "APPROVED",
+      "page": 1,
+      "box": {
+        "left": 245.9,
+        "top": 149.0,
+        "width": 327.4,
+        "height": 20.3
+      }
+    },
+    "disapproved": {
+      "type": "checkbox",
+      "label": "RECOMMEND",
+      "page": 1,
+      "box": {
+        "left": 57.8,
+        "top": 146.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "approved": {
+      "type": "checkbox",
+      "label": "DISAPPROVED",
+      "page": 1,
+      "box": {
+        "left": 165.9,
+        "top": 146.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "disapprovalReason": {
+      "type": "text",
+      "label": "21. REASON FOR DISAPPROVAL",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 114.8,
+        "width": 534.4,
+        "height": 76.1
+      },
+      "multiline": true
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 5,
+      "rowStride": 28.8,
+      "editor": "grid",
+      "columns": {
+        "yes": {
+          "type": "checkbox",
+          "label": "RECOMMEND",
+          "page": 1,
+          "box": {
+            "left": 57.8,
+            "top": 290.1,
+            "width": 8.0,
+            "height": 8.0
+          }
+        },
+        "no": {
+          "type": "checkbox",
+          "label": "YES",
+          "page": 1,
+          "box": {
+            "left": 111.8,
+            "top": 290.1,
+            "width": 8.0,
+            "height": 8.0
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 6,
+      "rowStride": 28.8,
+      "editor": "grid",
+      "columns": {
+        "signature": {
+          "type": "text",
+          "label": "NO",
+          "page": 1,
+          "box": {
+            "left": 506.9,
+            "top": 321.8,
+            "width": 66.3,
+            "height": 14.9
+          }
+        }
+      }
+    }
+  }
+}

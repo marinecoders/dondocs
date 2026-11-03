@@ -1,0 +1,2803 @@
+{
+  "id": "opnav51198",
+  "label": "OPNAV5119-8 - Ashore Oconus Weekly Inspection Checklist",
+  "directory": "OPNAV5119-8 - Ashore Oconus Weekly Inspection Checklist",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "row1",
+        "row11",
+        "row12",
+        "row14",
+        "row112",
+        "row122",
+        "dateField1",
+        "row16",
+        "row113",
+        "row123",
+        "dateField12",
+        "row18",
+        "row114",
+        "row124",
+        "row19",
+        "row115",
+        "row125",
+        "row110",
+        "row116",
+        "row126",
+        "row111",
+        "row117",
+        "row127",
+        "row118",
+        "row119",
+        "row128",
+        "textField99",
+        "row121",
+        "row1110",
+        "row129",
+        "textField992",
+        "row131",
+        "row1111",
+        "row1210",
+        "dateField13",
+        "row141",
+        "row1112",
+        "row1211",
+        "row142",
+        "row1113",
+        "row1212",
+        "row143",
+        "row1114",
+        "row1213",
+        "row144",
+        "row1115",
+        "row1214",
+        "row145",
+        "row1116",
+        "row1215",
+        "row146",
+        "row1117",
+        "row1216",
+        "row147",
+        "row1118",
+        "row1217",
+        "row148",
+        "row1119",
+        "row1218",
+        "row149",
+        "row1120",
+        "row1219",
+        "row150",
+        "row1121",
+        "row1220",
+        "row151",
+        "row1122",
+        "row1221",
+        "row152",
+        "row1123",
+        "row1222",
+        "dateField14",
+        "row154",
+        "row1124",
+        "row1223",
+        "textField107",
+        "textField1072"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "row157",
+        "row1125",
+        "row1224",
+        "row1324",
+        "row158",
+        "row1126",
+        "row1225",
+        "row1325",
+        "row159",
+        "row1127",
+        "row1226",
+        "row1326",
+        "row160",
+        "row1128",
+        "row1227",
+        "row1327",
+        "row164",
+        "row1132",
+        "row1228",
+        "row1328",
+        "row165",
+        "row1133",
+        "row1229",
+        "row1329",
+        "row166",
+        "row1134",
+        "row1230",
+        "row1330",
+        "row167",
+        "row1135",
+        "row1231",
+        "row1331",
+        "row168",
+        "row1136",
+        "row1232",
+        "row1332",
+        "row169",
+        "row1137",
+        "row1233",
+        "row1333",
+        "row170",
+        "row1138",
+        "row1234",
+        "row1334",
+        "row171",
+        "row1139",
+        "row1235",
+        "row1335",
+        "row172",
+        "row1140",
+        "row1236",
+        "row1336",
+        "row173",
+        "row1141",
+        "row1237",
+        "row1337",
+        "row174",
+        "row1142",
+        "row1238",
+        "row1338",
+        "row175",
+        "row1143",
+        "row1239",
+        "row1339",
+        "row176",
+        "row1144",
+        "row1240",
+        "row1340",
+        "row177",
+        "row1145",
+        "row1241",
+        "row1341",
+        "row178",
+        "dateField15",
+        "row179",
+        "row1146",
+        "row1242",
+        "row1342",
+        "row180",
+        "row1147",
+        "row1243",
+        "row1343",
+        "row181",
+        "row1148",
+        "row1244",
+        "row1344",
+        "row182",
+        "row1149",
+        "row1245",
+        "row1345",
+        "row183",
+        "dateField16",
+        "row184",
+        "row1150",
+        "row1246",
+        "row1346",
+        "row185",
+        "row1151",
+        "row1247",
+        "row1347",
+        "row186",
+        "row1152",
+        "row1248",
+        "row1348"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "row187",
+        "row1153",
+        "row1249",
+        "row188",
+        "row1154",
+        "row1250",
+        "row189",
+        "row1155",
+        "row1251",
+        "row190",
+        "row1156",
+        "row1252",
+        "row191",
+        "row1157",
+        "row1253",
+        "dateField17",
+        "row193",
+        "row1158",
+        "row1254",
+        "row194",
+        "row1159",
+        "row1255",
+        "row195",
+        "row1160",
+        "row1256",
+        "row196",
+        "row1161",
+        "row1257",
+        "row197",
+        "row1162",
+        "row1258",
+        "row198",
+        "row1163",
+        "row1259",
+        "remarks",
+        "postalOfficerName",
+        "postalSigDate",
+        "postalSig",
+        "siteDirName",
+        "siteDirSigDate",
+        "siteDirSig",
+        "regMgrName",
+        "regMgrSigDate",
+        "regMgrSig"
+      ]
+    }
+  ],
+  "fields": {
+    "row1": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 409.5,
+        "top": 702.1,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row11": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 428.4,
+        "top": 702.1,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row12": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 447.4,
+        "top": 702.1,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row14": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 409.5,
+        "top": 681.0,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row112": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 428.4,
+        "top": 681.0,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row122": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 447.4,
+        "top": 681.0,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "dateField1": {
+      "type": "text",
+      "label": "Effective date",
+      "page": 1,
+      "box": {
+        "left": 267.1,
+        "top": 658.5,
+        "width": 138.1,
+        "height": 15.4
+      }
+    },
+    "row16": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 409.5,
+        "top": 638.8,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row113": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 428.4,
+        "top": 638.8,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row123": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 447.4,
+        "top": 638.8,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "dateField12": {
+      "type": "text",
+      "label": "Date verified",
+      "page": 1,
+      "box": {
+        "left": 267.1,
+        "top": 616.2,
+        "width": 138.1,
+        "height": 15.4
+      }
+    },
+    "row18": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 409.5,
+        "top": 596.5,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row114": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 428.4,
+        "top": 596.5,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row124": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 447.4,
+        "top": 596.5,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row19": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 409.5,
+        "top": 575.4,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row115": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 428.4,
+        "top": 575.4,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row125": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 447.4,
+        "top": 575.4,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row110": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 409.5,
+        "top": 554.3,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row116": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 428.4,
+        "top": 554.3,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row126": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 447.4,
+        "top": 554.3,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row111": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 409.5,
+        "top": 533.2,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row117": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 428.4,
+        "top": 533.2,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row127": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 447.4,
+        "top": 533.2,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row118": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 409.5,
+        "top": 512.1,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row119": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 428.4,
+        "top": 512.1,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row128": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 447.4,
+        "top": 512.1,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "textField99": {
+      "type": "text",
+      "label": "9. 5112.1 NAVSUPINST (Series) Weekly PTR Ratio",
+      "page": 1,
+      "box": {
+        "left": 267.1,
+        "top": 489.6,
+        "width": 138.1,
+        "height": 15.4
+      }
+    },
+    "row121": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 409.5,
+        "top": 469.9,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1110": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 428.4,
+        "top": 469.9,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row129": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 447.4,
+        "top": 469.9,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "textField992": {
+      "type": "text",
+      "label": "List mail: organizations that did not pick up",
+      "page": 1,
+      "box": {
+        "left": 267.1,
+        "top": 447.3,
+        "width": 138.1,
+        "height": 15.4
+      }
+    },
+    "row131": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 409.5,
+        "top": 427.6,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1111": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 428.4,
+        "top": 427.6,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1210": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 447.4,
+        "top": 427.6,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "dateField13": {
+      "type": "text",
+      "label": "Oldest date on mail",
+      "page": 1,
+      "box": {
+        "left": 267.1,
+        "top": 405.1,
+        "width": 138.1,
+        "height": 15.4
+      }
+    },
+    "row141": {
+      "type": "text",
+      "label": "12. 5112.1 NAVSUPINST (Series) postmarked upon receipt?",
+      "page": 1,
+      "box": {
+        "left": 409.5,
+        "top": 385.4,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1112": {
+      "type": "text",
+      "label": "12. 5112.1 NAVSUPINST (Series) postmarked upon receipt?",
+      "page": 1,
+      "box": {
+        "left": 428.4,
+        "top": 385.4,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1211": {
+      "type": "text",
+      "label": "12. 5112.1 NAVSUPINST (Series) postmarked upon receipt?",
+      "page": 1,
+      "box": {
+        "left": 447.4,
+        "top": 385.4,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row142": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 409.5,
+        "top": 364.3,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1113": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 428.4,
+        "top": 364.3,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1212": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 447.4,
+        "top": 364.3,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row143": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 409.5,
+        "top": 343.2,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1114": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 428.4,
+        "top": 343.2,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1213": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 447.4,
+        "top": 343.2,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row144": {
+      "type": "text",
+      "label": "15. 5112.1 NAVSUPINST (Series)",
+      "page": 1,
+      "box": {
+        "left": 409.5,
+        "top": 322.1,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1115": {
+      "type": "text",
+      "label": "15. 5112.1 NAVSUPINST (Series)",
+      "page": 1,
+      "box": {
+        "left": 428.4,
+        "top": 322.1,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1214": {
+      "type": "text",
+      "label": "15. 5112.1 NAVSUPINST (Series)",
+      "page": 1,
+      "box": {
+        "left": 447.4,
+        "top": 322.1,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row145": {
+      "type": "text",
+      "label": "16. 5112.1 NAVSUPINST (Series) Is nesting accomplished?",
+      "page": 1,
+      "box": {
+        "left": 409.5,
+        "top": 301.0,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1116": {
+      "type": "text",
+      "label": "16. 5112.1 NAVSUPINST (Series) Is nesting accomplished?",
+      "page": 1,
+      "box": {
+        "left": 428.4,
+        "top": 301.0,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1215": {
+      "type": "text",
+      "label": "16. 5112.1 NAVSUPINST (Series) Is nesting accomplished?",
+      "page": 1,
+      "box": {
+        "left": 447.4,
+        "top": 301.0,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row146": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 409.5,
+        "top": 279.8,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1117": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 428.4,
+        "top": 279.8,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1216": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 447.4,
+        "top": 279.8,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row147": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 409.5,
+        "top": 258.7,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1118": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 428.4,
+        "top": 258.7,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1217": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 447.4,
+        "top": 258.7,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row148": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 409.5,
+        "top": 237.6,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1119": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 428.4,
+        "top": 237.6,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1218": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 447.4,
+        "top": 237.6,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row149": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 409.5,
+        "top": 216.5,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1120": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 428.4,
+        "top": 216.5,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1219": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 447.4,
+        "top": 216.5,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row150": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 409.5,
+        "top": 195.4,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1121": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 428.4,
+        "top": 195.4,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1220": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 447.4,
+        "top": 195.4,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row151": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 409.5,
+        "top": 174.3,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1122": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 428.4,
+        "top": 174.3,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1221": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 447.4,
+        "top": 174.3,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row152": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 409.5,
+        "top": 153.2,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1123": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 428.4,
+        "top": 153.2,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1222": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 447.4,
+        "top": 153.2,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "dateField14": {
+      "type": "text",
+      "label": "24. 5112.1 NAVSUPINST (Series) Date last audit conducted",
+      "page": 1,
+      "box": {
+        "left": 267.1,
+        "top": 130.6,
+        "width": 138.1,
+        "height": 15.4
+      }
+    },
+    "row154": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 409.5,
+        "top": 111.0,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1124": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 428.4,
+        "top": 111.0,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1223": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 447.4,
+        "top": 111.0,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "textField107": {
+      "type": "text",
+      "label": "Transit time for last order",
+      "page": 1,
+      "box": {
+        "left": 267.1,
+        "top": 88.4,
+        "width": 138.1,
+        "height": 15.4
+      }
+    },
+    "textField1072": {
+      "type": "text",
+      "label": "monthly basis?",
+      "page": 1,
+      "box": {
+        "left": 267.1,
+        "top": 67.3,
+        "width": 138.1,
+        "height": 15.4
+      }
+    },
+    "row157": {
+      "type": "text",
+      "label": "27. 5112.1 NAVSUPINST (Series) Is off sale stock returned?",
+      "page": 2,
+      "box": {
+        "left": 409.5,
+        "top": 749.7,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1125": {
+      "type": "text",
+      "label": "27. 5112.1 NAVSUPINST (Series) Is off sale stock returned?",
+      "page": 2,
+      "box": {
+        "left": 428.4,
+        "top": 749.7,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1224": {
+      "type": "text",
+      "label": "27. 5112.1 NAVSUPINST (Series) Is off sale stock returned?",
+      "page": 2,
+      "box": {
+        "left": 447.4,
+        "top": 749.7,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1324": {
+      "type": "text",
+      "label": "27. 5112.1 NAVSUPINST (Series) Is off sale stock returned?",
+      "page": 2,
+      "box": {
+        "left": 466.4,
+        "top": 749.7,
+        "width": 107.8,
+        "height": 18.3
+      }
+    },
+    "row158": {
+      "type": "text",
+      "label": "Row 158",
+      "page": 2,
+      "box": {
+        "left": 409.5,
+        "top": 728.6,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1126": {
+      "type": "text",
+      "label": "Row 1126",
+      "page": 2,
+      "box": {
+        "left": 428.4,
+        "top": 728.6,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1225": {
+      "type": "text",
+      "label": "Row 1225",
+      "page": 2,
+      "box": {
+        "left": 447.4,
+        "top": 728.6,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1325": {
+      "type": "text",
+      "label": "OPNAVINST 5112.6 (Series)",
+      "page": 2,
+      "box": {
+        "left": 466.4,
+        "top": 728.6,
+        "width": 107.8,
+        "height": 18.3
+      }
+    },
+    "row159": {
+      "type": "text",
+      "label": "Row 159",
+      "page": 2,
+      "box": {
+        "left": 409.5,
+        "top": 707.5,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1127": {
+      "type": "text",
+      "label": "Row 1127",
+      "page": 2,
+      "box": {
+        "left": 428.4,
+        "top": 707.5,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1226": {
+      "type": "text",
+      "label": "Row 1226",
+      "page": 2,
+      "box": {
+        "left": 447.4,
+        "top": 707.5,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1326": {
+      "type": "text",
+      "label": "OPNAVINST 5112.6 (Series)",
+      "page": 2,
+      "box": {
+        "left": 466.4,
+        "top": 707.5,
+        "width": 107.8,
+        "height": 18.3
+      }
+    },
+    "row160": {
+      "type": "text",
+      "label": "Row 160",
+      "page": 2,
+      "box": {
+        "left": 409.5,
+        "top": 686.4,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1128": {
+      "type": "text",
+      "label": "Row 1128",
+      "page": 2,
+      "box": {
+        "left": 428.4,
+        "top": 686.4,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1227": {
+      "type": "text",
+      "label": "Row 1227",
+      "page": 2,
+      "box": {
+        "left": 447.4,
+        "top": 686.4,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1327": {
+      "type": "text",
+      "label": "OPNAVINST 5112.6 (Series)",
+      "page": 2,
+      "box": {
+        "left": 466.4,
+        "top": 686.4,
+        "width": 107.8,
+        "height": 18.3
+      }
+    },
+    "row164": {
+      "type": "text",
+      "label": "Row 164",
+      "page": 2,
+      "box": {
+        "left": 409.5,
+        "top": 601.9,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1132": {
+      "type": "text",
+      "label": "Row 1132",
+      "page": 2,
+      "box": {
+        "left": 428.4,
+        "top": 601.9,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1228": {
+      "type": "text",
+      "label": "Row 1228",
+      "page": 2,
+      "box": {
+        "left": 447.4,
+        "top": 601.9,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1328": {
+      "type": "text",
+      "label": "OPNAVINST 5112.6 (Series)",
+      "page": 2,
+      "box": {
+        "left": 466.4,
+        "top": 601.9,
+        "width": 107.8,
+        "height": 18.3
+      }
+    },
+    "row165": {
+      "type": "text",
+      "label": "Row 165",
+      "page": 2,
+      "box": {
+        "left": 409.5,
+        "top": 580.8,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1133": {
+      "type": "text",
+      "label": "Row 1133",
+      "page": 2,
+      "box": {
+        "left": 428.4,
+        "top": 580.8,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1229": {
+      "type": "text",
+      "label": "Row 1229",
+      "page": 2,
+      "box": {
+        "left": 447.4,
+        "top": 580.8,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1329": {
+      "type": "text",
+      "label": "OPNAVINST 5112.6 (Series)",
+      "page": 2,
+      "box": {
+        "left": 466.4,
+        "top": 580.8,
+        "width": 107.8,
+        "height": 18.3
+      }
+    },
+    "row166": {
+      "type": "text",
+      "label": "Row 166",
+      "page": 2,
+      "box": {
+        "left": 409.5,
+        "top": 559.7,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1134": {
+      "type": "text",
+      "label": "Row 1134",
+      "page": 2,
+      "box": {
+        "left": 428.4,
+        "top": 559.7,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1230": {
+      "type": "text",
+      "label": "Row 1230",
+      "page": 2,
+      "box": {
+        "left": 447.4,
+        "top": 559.7,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1330": {
+      "type": "text",
+      "label": "OPNAVINST 5112.6 (Series)",
+      "page": 2,
+      "box": {
+        "left": 466.4,
+        "top": 559.7,
+        "width": 107.8,
+        "height": 18.3
+      }
+    },
+    "row167": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 409.5,
+        "top": 517.5,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1135": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 428.4,
+        "top": 517.5,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1231": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 447.4,
+        "top": 517.5,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1331": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 2,
+      "box": {
+        "left": 466.4,
+        "top": 517.5,
+        "width": 107.8,
+        "height": 18.3
+      }
+    },
+    "row168": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 409.5,
+        "top": 496.4,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1136": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 428.4,
+        "top": 496.4,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1232": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 447.4,
+        "top": 496.4,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1332": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 2,
+      "box": {
+        "left": 466.4,
+        "top": 496.4,
+        "width": 107.8,
+        "height": 18.3
+      }
+    },
+    "row169": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 409.5,
+        "top": 475.3,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1137": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 428.4,
+        "top": 475.3,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1233": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 447.4,
+        "top": 475.3,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1333": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 2,
+      "box": {
+        "left": 466.4,
+        "top": 475.3,
+        "width": 107.8,
+        "height": 18.3
+      }
+    },
+    "row170": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 409.5,
+        "top": 454.1,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1138": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 428.4,
+        "top": 454.1,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1234": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 447.4,
+        "top": 454.1,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1334": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 2,
+      "box": {
+        "left": 466.4,
+        "top": 454.1,
+        "width": 107.8,
+        "height": 18.3
+      }
+    },
+    "row171": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 409.5,
+        "top": 433.0,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1139": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 428.4,
+        "top": 433.0,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1235": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 447.4,
+        "top": 433.0,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1335": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 2,
+      "box": {
+        "left": 466.4,
+        "top": 433.0,
+        "width": 107.8,
+        "height": 18.3
+      }
+    },
+    "row172": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 409.5,
+        "top": 411.9,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1140": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 428.4,
+        "top": 411.9,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1236": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 447.4,
+        "top": 411.9,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1336": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 2,
+      "box": {
+        "left": 466.4,
+        "top": 411.9,
+        "width": 107.8,
+        "height": 18.3
+      }
+    },
+    "row173": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 409.5,
+        "top": 368.5,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1141": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 428.4,
+        "top": 368.5,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1237": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 447.4,
+        "top": 368.5,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1337": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 2,
+      "box": {
+        "left": 466.4,
+        "top": 368.5,
+        "width": 107.8,
+        "height": 18.3
+      }
+    },
+    "row174": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 409.5,
+        "top": 347.4,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1142": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 428.4,
+        "top": 347.4,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1238": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 447.4,
+        "top": 347.4,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1338": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 2,
+      "box": {
+        "left": 466.4,
+        "top": 347.4,
+        "width": 107.8,
+        "height": 18.3
+      }
+    },
+    "row175": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 409.5,
+        "top": 326.3,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1143": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 428.4,
+        "top": 326.3,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1239": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 447.4,
+        "top": 326.3,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1339": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 2,
+      "box": {
+        "left": 466.4,
+        "top": 326.3,
+        "width": 107.8,
+        "height": 18.3
+      }
+    },
+    "row176": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 409.5,
+        "top": 305.1,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1144": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 428.4,
+        "top": 305.1,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1240": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 447.4,
+        "top": 305.1,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1340": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 2,
+      "box": {
+        "left": 466.4,
+        "top": 305.1,
+        "width": 107.8,
+        "height": 18.3
+      }
+    },
+    "row177": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 409.5,
+        "top": 284.0,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1145": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 428.4,
+        "top": 284.0,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1241": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 447.4,
+        "top": 284.0,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1341": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 2,
+      "box": {
+        "left": 466.4,
+        "top": 284.0,
+        "width": 107.8,
+        "height": 18.3
+      }
+    },
+    "row178": {
+      "type": "text",
+      "label": "Next available delivery/dispatch date",
+      "page": 2,
+      "box": {
+        "left": 466.4,
+        "top": 262.9,
+        "width": 107.8,
+        "height": 18.3
+      }
+    },
+    "dateField15": {
+      "type": "text",
+      "label": "Next available delivery/dispatch date",
+      "page": 2,
+      "box": {
+        "left": 267.1,
+        "top": 261.5,
+        "width": 138.1,
+        "height": 15.4
+      }
+    },
+    "row179": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 409.5,
+        "top": 241.8,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1146": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 428.4,
+        "top": 241.8,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1242": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 447.4,
+        "top": 241.8,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1342": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 2,
+      "box": {
+        "left": 466.4,
+        "top": 241.8,
+        "width": 107.8,
+        "height": 18.3
+      }
+    },
+    "row180": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 409.5,
+        "top": 220.7,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1147": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 428.4,
+        "top": 220.7,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1243": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 447.4,
+        "top": 220.7,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1343": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 2,
+      "box": {
+        "left": 466.4,
+        "top": 220.7,
+        "width": 107.8,
+        "height": 18.3
+      }
+    },
+    "row181": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 409.5,
+        "top": 199.6,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1148": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 428.4,
+        "top": 199.6,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1244": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 447.4,
+        "top": 199.6,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1344": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 2,
+      "box": {
+        "left": 466.4,
+        "top": 199.6,
+        "width": 107.8,
+        "height": 18.3
+      }
+    },
+    "row182": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 409.5,
+        "top": 178.5,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1149": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 428.4,
+        "top": 178.5,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1245": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 447.4,
+        "top": 178.5,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1345": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 2,
+      "box": {
+        "left": 466.4,
+        "top": 178.5,
+        "width": 107.8,
+        "height": 18.3
+      }
+    },
+    "row183": {
+      "type": "text",
+      "label": "Date review: of last DD Form 2261 records",
+      "page": 2,
+      "box": {
+        "left": 466.4,
+        "top": 157.4,
+        "width": 107.8,
+        "height": 18.3
+      }
+    },
+    "dateField16": {
+      "type": "text",
+      "label": "Date review: of last DD Form 2261 records",
+      "page": 2,
+      "box": {
+        "left": 267.1,
+        "top": 155.9,
+        "width": 138.1,
+        "height": 15.4
+      }
+    },
+    "row184": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 409.5,
+        "top": 113.9,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1150": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 428.4,
+        "top": 113.9,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1246": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 447.4,
+        "top": 113.9,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1346": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 2,
+      "box": {
+        "left": 466.4,
+        "top": 113.9,
+        "width": 107.8,
+        "height": 18.3
+      }
+    },
+    "row185": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 409.5,
+        "top": 92.8,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1151": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 428.4,
+        "top": 92.8,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1247": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 447.4,
+        "top": 92.8,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1347": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 2,
+      "box": {
+        "left": 466.4,
+        "top": 92.8,
+        "width": 107.8,
+        "height": 18.3
+      }
+    },
+    "row186": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 409.5,
+        "top": 71.7,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1152": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 428.4,
+        "top": 71.7,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1248": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 447.4,
+        "top": 71.7,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1348": {
+      "type": "text",
+      "label": "NOTES",
+      "page": 2,
+      "box": {
+        "left": 466.4,
+        "top": 71.7,
+        "width": 107.8,
+        "height": 18.3
+      }
+    },
+    "row187": {
+      "type": "text",
+      "label": "Row 187",
+      "page": 3,
+      "box": {
+        "left": 409.5,
+        "top": 749.7,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1153": {
+      "type": "text",
+      "label": "Row 1153",
+      "page": 3,
+      "box": {
+        "left": 428.4,
+        "top": 749.7,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1249": {
+      "type": "text",
+      "label": "Row 1249",
+      "page": 3,
+      "box": {
+        "left": 447.4,
+        "top": 749.7,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row188": {
+      "type": "text",
+      "label": "Row 188",
+      "page": 3,
+      "box": {
+        "left": 409.5,
+        "top": 728.6,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1154": {
+      "type": "text",
+      "label": "Row 1154",
+      "page": 3,
+      "box": {
+        "left": 428.4,
+        "top": 728.6,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1250": {
+      "type": "text",
+      "label": "Row 1250",
+      "page": 3,
+      "box": {
+        "left": 447.4,
+        "top": 728.6,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row189": {
+      "type": "text",
+      "label": "Row 189",
+      "page": 3,
+      "box": {
+        "left": 409.5,
+        "top": 707.5,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1155": {
+      "type": "text",
+      "label": "Row 1155",
+      "page": 3,
+      "box": {
+        "left": 428.4,
+        "top": 707.5,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1251": {
+      "type": "text",
+      "label": "Row 1251",
+      "page": 3,
+      "box": {
+        "left": 447.4,
+        "top": 707.5,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row190": {
+      "type": "text",
+      "label": "Row 190",
+      "page": 3,
+      "box": {
+        "left": 409.5,
+        "top": 686.4,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1156": {
+      "type": "text",
+      "label": "Row 1156",
+      "page": 3,
+      "box": {
+        "left": 428.4,
+        "top": 686.4,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1252": {
+      "type": "text",
+      "label": "Row 1252",
+      "page": 3,
+      "box": {
+        "left": 447.4,
+        "top": 686.4,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row191": {
+      "type": "text",
+      "label": "Row 191",
+      "page": 3,
+      "box": {
+        "left": 409.5,
+        "top": 665.3,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1157": {
+      "type": "text",
+      "label": "Row 1157",
+      "page": 3,
+      "box": {
+        "left": 428.4,
+        "top": 665.3,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1253": {
+      "type": "text",
+      "label": "Row 1253",
+      "page": 3,
+      "box": {
+        "left": 447.4,
+        "top": 665.3,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "dateField17": {
+      "type": "text",
+      "label": "Date of last change",
+      "page": 3,
+      "box": {
+        "left": 267.1,
+        "top": 642.7,
+        "width": 138.1,
+        "height": 15.4
+      }
+    },
+    "row193": {
+      "type": "text",
+      "label": "60. 5112.1 NAVSUPINST (Series) Is SF 700 properly completed?",
+      "page": 3,
+      "box": {
+        "left": 409.5,
+        "top": 623.0,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1158": {
+      "type": "text",
+      "label": "60. 5112.1 NAVSUPINST (Series) Is SF 700 properly completed?",
+      "page": 3,
+      "box": {
+        "left": 428.4,
+        "top": 623.0,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1254": {
+      "type": "text",
+      "label": "60. 5112.1 NAVSUPINST (Series) Is SF 700 properly completed?",
+      "page": 3,
+      "box": {
+        "left": 447.4,
+        "top": 623.0,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row194": {
+      "type": "text",
+      "label": "Row 194",
+      "page": 3,
+      "box": {
+        "left": 409.5,
+        "top": 601.9,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1159": {
+      "type": "text",
+      "label": "Row 1159",
+      "page": 3,
+      "box": {
+        "left": 428.4,
+        "top": 601.9,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1255": {
+      "type": "text",
+      "label": "Row 1255",
+      "page": 3,
+      "box": {
+        "left": 447.4,
+        "top": 601.9,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row195": {
+      "type": "text",
+      "label": "Row 195",
+      "page": 3,
+      "box": {
+        "left": 409.5,
+        "top": 580.8,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1160": {
+      "type": "text",
+      "label": "Row 1160",
+      "page": 3,
+      "box": {
+        "left": 428.4,
+        "top": 580.8,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1256": {
+      "type": "text",
+      "label": "Row 1256",
+      "page": 3,
+      "box": {
+        "left": 447.4,
+        "top": 580.8,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row196": {
+      "type": "text",
+      "label": "63. 5112.1 NAVSUPINST (Series) Is SF 702 maintained?",
+      "page": 3,
+      "box": {
+        "left": 409.5,
+        "top": 559.7,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1161": {
+      "type": "text",
+      "label": "63. 5112.1 NAVSUPINST (Series) Is SF 702 maintained?",
+      "page": 3,
+      "box": {
+        "left": 428.4,
+        "top": 559.7,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1257": {
+      "type": "text",
+      "label": "63. 5112.1 NAVSUPINST (Series) Is SF 702 maintained?",
+      "page": 3,
+      "box": {
+        "left": 447.4,
+        "top": 559.7,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row197": {
+      "type": "text",
+      "label": "Row 197",
+      "page": 3,
+      "box": {
+        "left": 409.5,
+        "top": 538.6,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1162": {
+      "type": "text",
+      "label": "Row 1162",
+      "page": 3,
+      "box": {
+        "left": 428.4,
+        "top": 538.6,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1258": {
+      "type": "text",
+      "label": "Row 1258",
+      "page": 3,
+      "box": {
+        "left": 447.4,
+        "top": 538.6,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row198": {
+      "type": "text",
+      "label": "Row 198",
+      "page": 3,
+      "box": {
+        "left": 409.5,
+        "top": 517.5,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1163": {
+      "type": "text",
+      "label": "Row 1163",
+      "page": 3,
+      "box": {
+        "left": 428.4,
+        "top": 517.5,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "row1259": {
+      "type": "text",
+      "label": "Row 1259",
+      "page": 3,
+      "box": {
+        "left": 447.4,
+        "top": 517.5,
+        "width": 16.1,
+        "height": 18.3
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 3,
+      "box": {
+        "left": 42.7,
+        "top": 481.6,
+        "width": 530.5,
+        "height": 91.0
+      },
+      "multiline": true
+    },
+    "postalOfficerName": {
+      "type": "text",
+      "label": "a. Name",
+      "page": 3,
+      "box": {
+        "left": 197.7,
+        "top": 385.0,
+        "width": 109.9,
+        "height": 12.3
+      }
+    },
+    "postalSigDate": {
+      "type": "text",
+      "label": "b. Date",
+      "page": 3,
+      "box": {
+        "left": 350.4,
+        "top": 385.0,
+        "width": 57.1,
+        "height": 12.3
+      }
+    },
+    "postalSig": {
+      "type": "text",
+      "label": "c. Signature",
+      "page": 3,
+      "box": {
+        "left": 467.6,
+        "top": 385.0,
+        "width": 105.6,
+        "height": 12.3
+      }
+    },
+    "siteDirName": {
+      "type": "text",
+      "label": "a. Name",
+      "page": 3,
+      "box": {
+        "left": 197.7,
+        "top": 367.5,
+        "width": 109.9,
+        "height": 12.3
+      }
+    },
+    "siteDirSigDate": {
+      "type": "text",
+      "label": "b. Date",
+      "page": 3,
+      "box": {
+        "left": 350.4,
+        "top": 367.5,
+        "width": 57.1,
+        "height": 12.3
+      }
+    },
+    "siteDirSig": {
+      "type": "text",
+      "label": "c. Signature",
+      "page": 3,
+      "box": {
+        "left": 467.6,
+        "top": 367.5,
+        "width": 105.6,
+        "height": 12.3
+      }
+    },
+    "regMgrName": {
+      "type": "text",
+      "label": "69. REGION POSTAL MGR: a. Name",
+      "page": 3,
+      "box": {
+        "left": 197.7,
+        "top": 349.9,
+        "width": 109.9,
+        "height": 12.3
+      }
+    },
+    "regMgrSigDate": {
+      "type": "text",
+      "label": "b. Date",
+      "page": 3,
+      "box": {
+        "left": 350.4,
+        "top": 349.9,
+        "width": 57.1,
+        "height": 12.3
+      }
+    },
+    "regMgrSig": {
+      "type": "text",
+      "label": "c. Signature",
+      "page": 3,
+      "box": {
+        "left": 467.6,
+        "top": 349.9,
+        "width": 105.6,
+        "height": 12.3
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 31,
+      "rowStride": 21.11,
+      "editor": "grid",
+      "columns": {
+        "row": {
+          "type": "text",
+          "label": "NOTES",
+          "page": 1,
+          "box": {
+            "left": 466.4,
+            "top": 702.1,
+            "width": 107.8,
+            "height": 18.3
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 2,
+      "count": 3,
+      "rowStride": 21.15,
+      "editor": "grid",
+      "columns": {
+        "row1": {
+          "type": "text",
+          "label": "standards adhered to?",
+          "page": 2,
+          "box": {
+            "left": 265.7,
+            "top": 665.3,
+            "width": 140.9,
+            "height": 18.3
+          }
+        },
+        "row11": {
+          "type": "text",
+          "label": "OPNAVINST 5112.6 (Series)",
+          "page": 2,
+          "box": {
+            "left": 466.4,
+            "top": 665.3,
+            "width": 107.8,
+            "height": 18.3
+          }
+        }
+      }
+    },
+    "rows3": {
+      "title": "Rows",
+      "page": 3,
+      "count": 12,
+      "rowStride": 21.11,
+      "editor": "grid",
+      "columns": {
+        "row": {
+          "type": "text",
+          "label": "OPNAVINST 5112.6 (Series)",
+          "page": 3,
+          "box": {
+            "left": 466.4,
+            "top": 749.7,
+            "width": 107.8,
+            "height": 18.3
+          }
+        }
+      }
+    }
+  }
+}

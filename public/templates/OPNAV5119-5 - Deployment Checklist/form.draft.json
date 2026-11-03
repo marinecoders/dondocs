@@ -1,0 +1,3348 @@
+{
+  "id": "opnav51195",
+  "label": "OPNAV5119-5 - Deployment Checklist",
+  "directory": "OPNAV5119-5 - Deployment Checklist",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "preDep",
+        "dateField1",
+        "dateField12",
+        "dateField13",
+        "textField2",
+        "textField22",
+        "row3",
+        "row4",
+        "dateField14",
+        "dateField15",
+        "dateField16",
+        "textField23",
+        "textField24",
+        "dateField17",
+        "dateField18",
+        "dateField19",
+        "textField25",
+        "textField26",
+        "dateField110",
+        "dateField111",
+        "dateField112",
+        "textField27",
+        "textField28",
+        "dateField113",
+        "dateField114",
+        "dateField115",
+        "textField29",
+        "textField210",
+        "cell2",
+        "dateField116",
+        "dateField117",
+        "dateField118",
+        "textField211",
+        "textField212",
+        "row10",
+        "dateField119",
+        "dateField120",
+        "dateField121",
+        "textField213",
+        "textField214",
+        "dateField122",
+        "dateField123",
+        "dateField124",
+        "textField215",
+        "textField216",
+        "dateField125",
+        "dateField126",
+        "dateField127",
+        "textField217",
+        "textField218",
+        "dateField128",
+        "dateField129",
+        "dateField130",
+        "textField219",
+        "textField220",
+        "dateField131",
+        "dateField132",
+        "dateField133",
+        "textField221",
+        "textField222",
+        "dateField134",
+        "dateField135",
+        "dateField136",
+        "textField223",
+        "textField224",
+        "dateField137",
+        "dateField138",
+        "dateField139",
+        "textField225",
+        "textField226",
+        "dateField140",
+        "dateField141",
+        "dateField142",
+        "textField227",
+        "textField228",
+        "dateField143",
+        "dateField144",
+        "dateField145",
+        "textField229",
+        "textField230",
+        "dateField146",
+        "dateField147",
+        "dateField148",
+        "textField231",
+        "textField232",
+        "dateField149",
+        "dateField150",
+        "dateField151",
+        "textField233",
+        "textField234",
+        "dateField152",
+        "dateField153",
+        "textField235",
+        "textField236",
+        "dateField154",
+        "dateField155",
+        "dateField156",
+        "textField237",
+        "textField238",
+        "dateField157",
+        "dateField158",
+        "dateField159",
+        "textField239",
+        "textField240"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "dateField160",
+        "dateField161",
+        "dateField162",
+        "textField241",
+        "textField242",
+        "dateField163",
+        "dateField164",
+        "dateField165",
+        "textField243",
+        "textField244",
+        "dateField166",
+        "dateField167",
+        "dateField168",
+        "textField245",
+        "textField246",
+        "dateField169",
+        "dateField170",
+        "dateField171",
+        "textField247",
+        "textField248",
+        "dateField172",
+        "dateField173",
+        "dateField174",
+        "textField249",
+        "textField250",
+        "dateField175",
+        "dateField176",
+        "dateField177",
+        "textField251",
+        "textField252",
+        "dateField178",
+        "dateField179",
+        "dateField180",
+        "textField253",
+        "textField254",
+        "dateField181",
+        "dateField182",
+        "dateField183",
+        "textField255",
+        "textField256",
+        "dateField184",
+        "dateField185",
+        "dateField186",
+        "textField257",
+        "textField258",
+        "dateField187",
+        "dateField188",
+        "dateField189",
+        "textField259",
+        "textField260",
+        "dateField190",
+        "dateField191",
+        "dateField192",
+        "textField261",
+        "textField262",
+        "dateField193",
+        "dateField194",
+        "dateField195",
+        "textField263",
+        "textField264",
+        "dateField196",
+        "dateField197",
+        "dateField198",
+        "textField265",
+        "textField266",
+        "dateField199",
+        "dateField1100",
+        "dateField1101",
+        "textField267",
+        "textField268",
+        "dateField1102",
+        "dateField1103",
+        "dateField1104",
+        "textField269",
+        "textField270",
+        "dateField1105",
+        "dateField1106",
+        "dateField1107",
+        "textField271",
+        "textField272",
+        "comments",
+        "postalOfficerName",
+        "postalSigDate",
+        "postalSig",
+        "suppoName",
+        "suppoSigDate",
+        "suppoSig",
+        "tYCOMPOName",
+        "tYCOMPOSigDate",
+        "tYCOMPOSig",
+        "fleetPOName",
+        "fleetPOSigDate",
+        "fleetPOSig"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "depCheck",
+        "dateField3",
+        "dateField32",
+        "dateField33",
+        "textField6",
+        "dateField34",
+        "dateField35",
+        "dateField36",
+        "textField7",
+        "dateField37",
+        "dateField38",
+        "dateField39",
+        "textField8",
+        "dateField310",
+        "dateField311",
+        "dateField312",
+        "textField9",
+        "dateField313",
+        "dateField314",
+        "dateField315",
+        "textField10",
+        "dateField316",
+        "dateField317",
+        "dateField318",
+        "textField11",
+        "dateField319",
+        "dateField320",
+        "dateField321",
+        "textField12",
+        "pOName",
+        "pOSigDate",
+        "pOSig",
+        "sUPPOName",
+        "sUPPOSigDate",
+        "sUPPOSig",
+        "postDep",
+        "dateField322",
+        "dateField323",
+        "dateField324",
+        "textField14",
+        "textField13",
+        "dateField325",
+        "dateField326",
+        "dateField327",
+        "textField15",
+        "textField16",
+        "dateField328",
+        "dateField329",
+        "dateField330",
+        "textField17",
+        "textField18",
+        "dateField331",
+        "dateField332",
+        "dateField333",
+        "textField19",
+        "textField20",
+        "dateField334",
+        "dateField335",
+        "dateField336",
+        "textField21",
+        "textField2210",
+        "dateField337",
+        "dateField338",
+        "dateField339",
+        "textField2310",
+        "textField2410",
+        "comments2",
+        "pOName2",
+        "pOSigDate2",
+        "pOSig2",
+        "sUPPOName2",
+        "sUPPOSigDate2",
+        "sUPPOSig2",
+        "tYCOMPOName2",
+        "tYCOMPOSigDate2",
+        "tYCOMPOSig2",
+        "fLEETPOName",
+        "fLEETPOSigDate",
+        "fLEETPOSig"
+      ]
+    }
+  ],
+  "fields": {
+    "preDep": {
+      "type": "text",
+      "label": "POSTAL PRE-DEPLOYMENT CHECKLIST USS/USNS",
+      "page": 1,
+      "box": {
+        "left": 252.7,
+        "top": 736.6,
+        "width": 319.5,
+        "height": 15.7
+      }
+    },
+    "dateField1": {
+      "type": "text",
+      "label": "(NLT)",
+      "page": 1,
+      "box": {
+        "left": 261.1,
+        "top": 681.2,
+        "width": 74.3,
+        "height": 16.1
+      }
+    },
+    "dateField12": {
+      "type": "text",
+      "label": "SCHEDULED",
+      "page": 1,
+      "box": {
+        "left": 341.1,
+        "top": 681.2,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "dateField13": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 401.3,
+        "top": 681.2,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "textField2": {
+      "type": "text",
+      "label": "INITIALS",
+      "page": 1,
+      "box": {
+        "left": 461.4,
+        "top": 681.2,
+        "width": 37.1,
+        "height": 16.1
+      }
+    },
+    "textField22": {
+      "type": "text",
+      "label": "VERIFIED INITIAL",
+      "page": 1,
+      "box": {
+        "left": 504.2,
+        "top": 681.2,
+        "width": 68.5,
+        "height": 16.1
+      }
+    },
+    "row3": {
+      "type": "text",
+      "label": "PO Name",
+      "page": 1,
+      "box": {
+        "left": 100.0,
+        "top": 660.9,
+        "width": 156.8,
+        "height": 15.2
+      }
+    },
+    "row4": {
+      "type": "text",
+      "label": "Email",
+      "page": 1,
+      "box": {
+        "left": 100.0,
+        "top": 642.9,
+        "width": 156.8,
+        "height": 15.2
+      }
+    },
+    "dateField14": {
+      "type": "text",
+      "label": "2. Provide postal advisor deployment date",
+      "page": 1,
+      "box": {
+        "left": 261.1,
+        "top": 623.5,
+        "width": 74.3,
+        "height": 16.1
+      }
+    },
+    "dateField15": {
+      "type": "text",
+      "label": "2. Provide postal advisor deployment date",
+      "page": 1,
+      "box": {
+        "left": 341.1,
+        "top": 623.5,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "dateField16": {
+      "type": "text",
+      "label": "2. Provide postal advisor deployment date",
+      "page": 1,
+      "box": {
+        "left": 401.3,
+        "top": 623.5,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "textField23": {
+      "type": "text",
+      "label": "2. Provide postal advisor deployment date",
+      "page": 1,
+      "box": {
+        "left": 461.4,
+        "top": 623.5,
+        "width": 37.1,
+        "height": 16.1
+      }
+    },
+    "textField24": {
+      "type": "text",
+      "label": "2. Provide postal advisor deployment date",
+      "page": 1,
+      "box": {
+        "left": 504.2,
+        "top": 623.5,
+        "width": 68.5,
+        "height": 16.1
+      }
+    },
+    "dateField17": {
+      "type": "text",
+      "label": "(NLT)",
+      "page": 1,
+      "box": {
+        "left": 261.1,
+        "top": 601.7,
+        "width": 74.3,
+        "height": 16.1
+      }
+    },
+    "dateField18": {
+      "type": "text",
+      "label": "SCHEDULED",
+      "page": 1,
+      "box": {
+        "left": 341.1,
+        "top": 601.7,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "dateField19": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 401.3,
+        "top": 601.7,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "textField25": {
+      "type": "text",
+      "label": "INITIALS",
+      "page": 1,
+      "box": {
+        "left": 461.4,
+        "top": 601.7,
+        "width": 37.1,
+        "height": 16.1
+      }
+    },
+    "textField26": {
+      "type": "text",
+      "label": "VERIFIED INITIAL",
+      "page": 1,
+      "box": {
+        "left": 504.2,
+        "top": 601.7,
+        "width": 68.5,
+        "height": 16.1
+      }
+    },
+    "dateField110": {
+      "type": "text",
+      "label": "4. and directory stamp are in serviceable condition and",
+      "page": 1,
+      "box": {
+        "left": 261.1,
+        "top": 579.9,
+        "width": 74.3,
+        "height": 24.7
+      }
+    },
+    "dateField111": {
+      "type": "text",
+      "label": "4. and directory stamp are in serviceable condition and",
+      "page": 1,
+      "box": {
+        "left": 341.1,
+        "top": 579.9,
+        "width": 54.5,
+        "height": 24.7
+      }
+    },
+    "dateField112": {
+      "type": "text",
+      "label": "4. and directory stamp are in serviceable condition and",
+      "page": 1,
+      "box": {
+        "left": 401.3,
+        "top": 579.9,
+        "width": 54.5,
+        "height": 24.7
+      }
+    },
+    "textField27": {
+      "type": "text",
+      "label": "4. and directory stamp are in serviceable condition and",
+      "page": 1,
+      "box": {
+        "left": 461.4,
+        "top": 579.9,
+        "width": 37.1,
+        "height": 24.7
+      }
+    },
+    "textField28": {
+      "type": "text",
+      "label": "4. and directory stamp are in serviceable condition and",
+      "page": 1,
+      "box": {
+        "left": 504.2,
+        "top": 579.9,
+        "width": 68.5,
+        "height": 24.7
+      }
+    },
+    "dateField113": {
+      "type": "text",
+      "label": "5. petty officers (1 COPE/1 MPC) with NEC S12A and PQS",
+      "page": 1,
+      "box": {
+        "left": 261.1,
+        "top": 549.5,
+        "width": 74.3,
+        "height": 25.1
+      }
+    },
+    "dateField114": {
+      "type": "text",
+      "label": "5. petty officers (1 COPE/1 MPC) with NEC S12A and PQS",
+      "page": 1,
+      "box": {
+        "left": 341.1,
+        "top": 549.5,
+        "width": 54.5,
+        "height": 25.1
+      }
+    },
+    "dateField115": {
+      "type": "text",
+      "label": "5. petty officers (1 COPE/1 MPC) with NEC S12A and PQS",
+      "page": 1,
+      "box": {
+        "left": 401.3,
+        "top": 549.5,
+        "width": 54.5,
+        "height": 25.1
+      }
+    },
+    "textField29": {
+      "type": "text",
+      "label": "5. petty officers (1 COPE/1 MPC) with NEC S12A and PQS",
+      "page": 1,
+      "box": {
+        "left": 461.4,
+        "top": 549.5,
+        "width": 37.1,
+        "height": 25.1
+      }
+    },
+    "textField210": {
+      "type": "text",
+      "label": "5. petty officers (1 COPE/1 MPC) with NEC S12A and PQS",
+      "page": 1,
+      "box": {
+        "left": 504.2,
+        "top": 549.5,
+        "width": 68.5,
+        "height": 25.1
+      }
+    },
+    "cell2": {
+      "type": "text",
+      "label": "6. PPO PRD",
+      "page": 1,
+      "box": {
+        "left": 100.0,
+        "top": 520.2,
+        "width": 156.8,
+        "height": 18.9
+      }
+    },
+    "dateField116": {
+      "type": "text",
+      "label": "6. PPO PRD",
+      "page": 1,
+      "box": {
+        "left": 261.1,
+        "top": 518.8,
+        "width": 74.3,
+        "height": 16.1
+      }
+    },
+    "dateField117": {
+      "type": "text",
+      "label": "6. PPO PRD",
+      "page": 1,
+      "box": {
+        "left": 341.1,
+        "top": 518.8,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "dateField118": {
+      "type": "text",
+      "label": "6. PPO PRD",
+      "page": 1,
+      "box": {
+        "left": 401.3,
+        "top": 518.8,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "textField211": {
+      "type": "text",
+      "label": "6. PPO PRD",
+      "page": 1,
+      "box": {
+        "left": 461.4,
+        "top": 518.8,
+        "width": 37.1,
+        "height": 16.1
+      }
+    },
+    "textField212": {
+      "type": "text",
+      "label": "6. PPO PRD",
+      "page": 1,
+      "box": {
+        "left": 504.2,
+        "top": 518.8,
+        "width": 68.5,
+        "height": 16.1
+      }
+    },
+    "row10": {
+      "type": "text",
+      "label": "APPO PRD",
+      "page": 1,
+      "box": {
+        "left": 100.0,
+        "top": 498.4,
+        "width": 156.8,
+        "height": 18.9
+      }
+    },
+    "dateField119": {
+      "type": "text",
+      "label": "7. Attend postal pre-deployment brief",
+      "page": 1,
+      "box": {
+        "left": 261.1,
+        "top": 420.4,
+        "width": 74.3,
+        "height": 16.1
+      }
+    },
+    "dateField120": {
+      "type": "text",
+      "label": "7. Attend postal pre-deployment brief",
+      "page": 1,
+      "box": {
+        "left": 341.1,
+        "top": 420.4,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "dateField121": {
+      "type": "text",
+      "label": "7. Attend postal pre-deployment brief",
+      "page": 1,
+      "box": {
+        "left": 401.3,
+        "top": 420.4,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "textField213": {
+      "type": "text",
+      "label": "7. Attend postal pre-deployment brief",
+      "page": 1,
+      "box": {
+        "left": 461.4,
+        "top": 420.4,
+        "width": 37.1,
+        "height": 16.1
+      }
+    },
+    "textField214": {
+      "type": "text",
+      "label": "7. Attend postal pre-deployment brief",
+      "page": 1,
+      "box": {
+        "left": 504.2,
+        "top": 420.4,
+        "width": 68.5,
+        "height": 16.1
+      }
+    },
+    "dateField122": {
+      "type": "text",
+      "label": "8. units (correspond with PA on any unique port and",
+      "page": 1,
+      "box": {
+        "left": 261.1,
+        "top": 398.7,
+        "width": 74.3,
+        "height": 25.1
+      }
+    },
+    "dateField123": {
+      "type": "text",
+      "label": "8. units (correspond with PA on any unique port and",
+      "page": 1,
+      "box": {
+        "left": 341.1,
+        "top": 398.7,
+        "width": 54.5,
+        "height": 25.1
+      }
+    },
+    "dateField124": {
+      "type": "text",
+      "label": "8. units (correspond with PA on any unique port and",
+      "page": 1,
+      "box": {
+        "left": 401.3,
+        "top": 398.7,
+        "width": 54.5,
+        "height": 25.1
+      }
+    },
+    "textField215": {
+      "type": "text",
+      "label": "8. units (correspond with PA on any unique port and",
+      "page": 1,
+      "box": {
+        "left": 461.4,
+        "top": 398.7,
+        "width": 37.1,
+        "height": 25.1
+      }
+    },
+    "textField216": {
+      "type": "text",
+      "label": "8. units (correspond with PA on any unique port and",
+      "page": 1,
+      "box": {
+        "left": 504.2,
+        "top": 398.7,
+        "width": 68.5,
+        "height": 25.1
+      }
+    },
+    "dateField125": {
+      "type": "text",
+      "label": "(NLT)",
+      "page": 1,
+      "box": {
+        "left": 261.1,
+        "top": 367.9,
+        "width": 74.3,
+        "height": 16.1
+      }
+    },
+    "dateField126": {
+      "type": "text",
+      "label": "SCHEDULED",
+      "page": 1,
+      "box": {
+        "left": 341.1,
+        "top": 367.9,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "dateField127": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 401.3,
+        "top": 367.9,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "textField217": {
+      "type": "text",
+      "label": "INITIALS",
+      "page": 1,
+      "box": {
+        "left": 461.4,
+        "top": 367.9,
+        "width": 37.1,
+        "height": 16.1
+      }
+    },
+    "textField218": {
+      "type": "text",
+      "label": "VERIFIED INITIAL",
+      "page": 1,
+      "box": {
+        "left": 504.2,
+        "top": 367.9,
+        "width": 68.5,
+        "height": 16.1
+      }
+    },
+    "dateField128": {
+      "type": "text",
+      "label": "10. and operations access. Verify all POC information is",
+      "page": 1,
+      "box": {
+        "left": 261.1,
+        "top": 346.1,
+        "width": 74.3,
+        "height": 26.1
+      }
+    },
+    "dateField129": {
+      "type": "text",
+      "label": "10. and operations access. Verify all POC information is",
+      "page": 1,
+      "box": {
+        "left": 341.1,
+        "top": 346.1,
+        "width": 54.5,
+        "height": 26.1
+      }
+    },
+    "dateField130": {
+      "type": "text",
+      "label": "10. and operations access. Verify all POC information is",
+      "page": 1,
+      "box": {
+        "left": 401.3,
+        "top": 346.1,
+        "width": 54.5,
+        "height": 26.1
+      }
+    },
+    "textField219": {
+      "type": "text",
+      "label": "10. and operations access. Verify all POC information is",
+      "page": 1,
+      "box": {
+        "left": 461.4,
+        "top": 346.1,
+        "width": 37.1,
+        "height": 26.1
+      }
+    },
+    "textField220": {
+      "type": "text",
+      "label": "10. and operations access. Verify all POC information is",
+      "page": 1,
+      "box": {
+        "left": 504.2,
+        "top": 346.1,
+        "width": 68.5,
+        "height": 26.1
+      }
+    },
+    "dateField131": {
+      "type": "text",
+      "label": "11. Complete AMPS nesting training",
+      "page": 1,
+      "box": {
+        "left": 261.1,
+        "top": 314.3,
+        "width": 74.3,
+        "height": 16.1
+      }
+    },
+    "dateField132": {
+      "type": "text",
+      "label": "11. Complete AMPS nesting training",
+      "page": 1,
+      "box": {
+        "left": 341.1,
+        "top": 314.3,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "dateField133": {
+      "type": "text",
+      "label": "11. Complete AMPS nesting training",
+      "page": 1,
+      "box": {
+        "left": 401.3,
+        "top": 314.3,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "textField221": {
+      "type": "text",
+      "label": "11. Complete AMPS nesting training",
+      "page": 1,
+      "box": {
+        "left": 461.4,
+        "top": 314.3,
+        "width": 37.1,
+        "height": 16.1
+      }
+    },
+    "textField222": {
+      "type": "text",
+      "label": "11. Complete AMPS nesting training",
+      "page": 1,
+      "box": {
+        "left": 504.2,
+        "top": 314.3,
+        "width": 68.5,
+        "height": 16.1
+      }
+    },
+    "dateField134": {
+      "type": "text",
+      "label": "12. Complete AMPS dangerous goods training",
+      "page": 1,
+      "box": {
+        "left": 261.1,
+        "top": 292.6,
+        "width": 74.3,
+        "height": 16.1
+      }
+    },
+    "dateField135": {
+      "type": "text",
+      "label": "12. Complete AMPS dangerous goods training",
+      "page": 1,
+      "box": {
+        "left": 341.1,
+        "top": 292.6,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "dateField136": {
+      "type": "text",
+      "label": "12. Complete AMPS dangerous goods training",
+      "page": 1,
+      "box": {
+        "left": 401.3,
+        "top": 292.6,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "textField223": {
+      "type": "text",
+      "label": "12. Complete AMPS dangerous goods training",
+      "page": 1,
+      "box": {
+        "left": 461.4,
+        "top": 292.6,
+        "width": 37.1,
+        "height": 16.1
+      }
+    },
+    "textField224": {
+      "type": "text",
+      "label": "12. Complete AMPS dangerous goods training",
+      "page": 1,
+      "box": {
+        "left": 504.2,
+        "top": 292.6,
+        "width": 68.5,
+        "height": 16.1
+      }
+    },
+    "dateField137": {
+      "type": "text",
+      "label": "(NLT)",
+      "page": 1,
+      "box": {
+        "left": 261.1,
+        "top": 237.8,
+        "width": 74.3,
+        "height": 16.6
+      }
+    },
+    "dateField138": {
+      "type": "text",
+      "label": "SCHEDULED",
+      "page": 1,
+      "box": {
+        "left": 341.1,
+        "top": 237.8,
+        "width": 54.5,
+        "height": 16.6
+      }
+    },
+    "dateField139": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 401.3,
+        "top": 237.8,
+        "width": 54.5,
+        "height": 16.6
+      }
+    },
+    "textField225": {
+      "type": "text",
+      "label": "INITIALS",
+      "page": 1,
+      "box": {
+        "left": 461.4,
+        "top": 237.8,
+        "width": 37.1,
+        "height": 16.6
+      }
+    },
+    "textField226": {
+      "type": "text",
+      "label": "VERIFIED INITIAL",
+      "page": 1,
+      "box": {
+        "left": 504.2,
+        "top": 237.8,
+        "width": 68.5,
+        "height": 16.6
+      }
+    },
+    "dateField140": {
+      "type": "text",
+      "label": "(NLT)",
+      "page": 1,
+      "box": {
+        "left": 261.1,
+        "top": 215.6,
+        "width": 74.3,
+        "height": 16.1
+      }
+    },
+    "dateField141": {
+      "type": "text",
+      "label": "SCHEDULED",
+      "page": 1,
+      "box": {
+        "left": 341.1,
+        "top": 215.6,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "dateField142": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 401.3,
+        "top": 215.6,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "textField227": {
+      "type": "text",
+      "label": "INITIALS",
+      "page": 1,
+      "box": {
+        "left": 461.4,
+        "top": 215.6,
+        "width": 37.1,
+        "height": 16.1
+      }
+    },
+    "textField228": {
+      "type": "text",
+      "label": "VERIFIED INITIAL",
+      "page": 1,
+      "box": {
+        "left": 504.2,
+        "top": 215.6,
+        "width": 68.5,
+        "height": 16.1
+      }
+    },
+    "dateField143": {
+      "type": "text",
+      "label": "(NLT)",
+      "page": 1,
+      "box": {
+        "left": 261.1,
+        "top": 160.8,
+        "width": 74.3,
+        "height": 16.1
+      }
+    },
+    "dateField144": {
+      "type": "text",
+      "label": "SCHEDULED",
+      "page": 1,
+      "box": {
+        "left": 341.1,
+        "top": 160.8,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "dateField145": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 401.3,
+        "top": 160.8,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "textField229": {
+      "type": "text",
+      "label": "INITIALS",
+      "page": 1,
+      "box": {
+        "left": 461.4,
+        "top": 160.8,
+        "width": 37.1,
+        "height": 16.1
+      }
+    },
+    "textField230": {
+      "type": "text",
+      "label": "VERIFIED INITIAL",
+      "page": 1,
+      "box": {
+        "left": 504.2,
+        "top": 160.8,
+        "width": 68.5,
+        "height": 16.1
+      }
+    },
+    "dateField146": {
+      "type": "text",
+      "label": "(NLT)",
+      "page": 1,
+      "box": {
+        "left": 261.1,
+        "top": 139.0,
+        "width": 74.3,
+        "height": 16.1
+      }
+    },
+    "dateField147": {
+      "type": "text",
+      "label": "SCHEDULED",
+      "page": 1,
+      "box": {
+        "left": 341.1,
+        "top": 139.0,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "dateField148": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 401.3,
+        "top": 139.0,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "textField231": {
+      "type": "text",
+      "label": "INITIALS",
+      "page": 1,
+      "box": {
+        "left": 461.4,
+        "top": 139.0,
+        "width": 37.1,
+        "height": 16.1
+      }
+    },
+    "textField232": {
+      "type": "text",
+      "label": "VERIFIED INITIAL",
+      "page": 1,
+      "box": {
+        "left": 504.2,
+        "top": 139.0,
+        "width": 68.5,
+        "height": 16.1
+      }
+    },
+    "dateField149": {
+      "type": "text",
+      "label": "(NLT)",
+      "page": 1,
+      "box": {
+        "left": 261.1,
+        "top": 117.2,
+        "width": 74.3,
+        "height": 15.7
+      }
+    },
+    "dateField150": {
+      "type": "text",
+      "label": "SCHEDULED",
+      "page": 1,
+      "box": {
+        "left": 341.1,
+        "top": 117.2,
+        "width": 54.5,
+        "height": 15.7
+      }
+    },
+    "dateField151": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 401.3,
+        "top": 117.2,
+        "width": 54.5,
+        "height": 15.7
+      }
+    },
+    "textField233": {
+      "type": "text",
+      "label": "INITIALS",
+      "page": 1,
+      "box": {
+        "left": 461.4,
+        "top": 117.2,
+        "width": 37.1,
+        "height": 15.7
+      }
+    },
+    "textField234": {
+      "type": "text",
+      "label": "VERIFIED INITIAL",
+      "page": 1,
+      "box": {
+        "left": 504.2,
+        "top": 117.2,
+        "width": 68.5,
+        "height": 15.7
+      }
+    },
+    "dateField152": {
+      "type": "text",
+      "label": "18. procedures for replenishing supplies while deployed",
+      "page": 1,
+      "box": {
+        "left": 341.1,
+        "top": 95.9,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "dateField153": {
+      "type": "text",
+      "label": "18. procedures for replenishing supplies while deployed",
+      "page": 1,
+      "box": {
+        "left": 401.3,
+        "top": 95.9,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "textField235": {
+      "type": "text",
+      "label": "18. procedures for replenishing supplies while deployed",
+      "page": 1,
+      "box": {
+        "left": 461.4,
+        "top": 95.9,
+        "width": 37.1,
+        "height": 16.1
+      }
+    },
+    "textField236": {
+      "type": "text",
+      "label": "18. procedures for replenishing supplies while deployed",
+      "page": 1,
+      "box": {
+        "left": 504.2,
+        "top": 95.9,
+        "width": 68.5,
+        "height": 16.1
+      }
+    },
+    "dateField154": {
+      "type": "text",
+      "label": "19. Obtain 1590. meter from servicing PFO and sign PS Form",
+      "page": 1,
+      "box": {
+        "left": 261.1,
+        "top": 74.1,
+        "width": 74.3,
+        "height": 16.1
+      }
+    },
+    "dateField155": {
+      "type": "text",
+      "label": "19. Obtain 1590. meter from servicing PFO and sign PS Form",
+      "page": 1,
+      "box": {
+        "left": 341.1,
+        "top": 74.1,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "dateField156": {
+      "type": "text",
+      "label": "19. Obtain 1590. meter from servicing PFO and sign PS Form",
+      "page": 1,
+      "box": {
+        "left": 401.3,
+        "top": 74.1,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "textField237": {
+      "type": "text",
+      "label": "19. Obtain 1590. meter from servicing PFO and sign PS Form",
+      "page": 1,
+      "box": {
+        "left": 461.4,
+        "top": 74.1,
+        "width": 37.1,
+        "height": 16.1
+      }
+    },
+    "textField238": {
+      "type": "text",
+      "label": "19. Obtain 1590. meter from servicing PFO and sign PS Form",
+      "page": 1,
+      "box": {
+        "left": 504.2,
+        "top": 74.1,
+        "width": 68.5,
+        "height": 16.1
+      }
+    },
+    "dateField157": {
+      "type": "text",
+      "label": "20. Commence finance operations and submission of",
+      "page": 1,
+      "box": {
+        "left": 261.1,
+        "top": 52.4,
+        "width": 74.3,
+        "height": 12.8
+      }
+    },
+    "dateField158": {
+      "type": "text",
+      "label": "20. Commence finance operations and submission of",
+      "page": 1,
+      "box": {
+        "left": 341.1,
+        "top": 52.4,
+        "width": 54.5,
+        "height": 12.8
+      }
+    },
+    "dateField159": {
+      "type": "text",
+      "label": "20. Commence finance operations and submission of",
+      "page": 1,
+      "box": {
+        "left": 401.3,
+        "top": 52.4,
+        "width": 54.5,
+        "height": 12.8
+      }
+    },
+    "textField239": {
+      "type": "text",
+      "label": "20. Commence finance operations and submission of",
+      "page": 1,
+      "box": {
+        "left": 461.4,
+        "top": 52.4,
+        "width": 37.1,
+        "height": 12.8
+      }
+    },
+    "textField240": {
+      "type": "text",
+      "label": "20. Commence finance operations and submission of",
+      "page": 1,
+      "box": {
+        "left": 504.2,
+        "top": 52.4,
+        "width": 68.5,
+        "height": 12.8
+      }
+    },
+    "dateField160": {
+      "type": "text",
+      "label": "(NLT)",
+      "page": 2,
+      "box": {
+        "left": 261.0,
+        "top": 720.0,
+        "width": 74.3,
+        "height": 16.1
+      }
+    },
+    "dateField161": {
+      "type": "text",
+      "label": "SCHEDULED",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 720.0,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "dateField162": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 2,
+      "box": {
+        "left": 401.1,
+        "top": 720.0,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "textField241": {
+      "type": "text",
+      "label": "INITIALS",
+      "page": 2,
+      "box": {
+        "left": 461.3,
+        "top": 720.0,
+        "width": 37.1,
+        "height": 16.1
+      }
+    },
+    "textField242": {
+      "type": "text",
+      "label": "VERIFIED INITIAL",
+      "page": 2,
+      "box": {
+        "left": 504.0,
+        "top": 720.0,
+        "width": 68.5,
+        "height": 16.1
+      }
+    },
+    "dateField163": {
+      "type": "text",
+      "label": "(a) AMPS access (COPE/MPC Initial)",
+      "page": 2,
+      "box": {
+        "left": 261.0,
+        "top": 676.5,
+        "width": 74.3,
+        "height": 16.1
+      }
+    },
+    "dateField164": {
+      "type": "text",
+      "label": "(a) AMPS access (COPE/MPC Initial)",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 676.5,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "dateField165": {
+      "type": "text",
+      "label": "(a) AMPS access (COPE/MPC Initial)",
+      "page": 2,
+      "box": {
+        "left": 401.1,
+        "top": 676.5,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "textField243": {
+      "type": "text",
+      "label": "(a) AMPS access (COPE/MPC Initial)",
+      "page": 2,
+      "box": {
+        "left": 461.3,
+        "top": 676.5,
+        "width": 37.1,
+        "height": 16.1
+      }
+    },
+    "textField244": {
+      "type": "text",
+      "label": "(a) AMPS access (COPE/MPC Initial)",
+      "page": 2,
+      "box": {
+        "left": 504.0,
+        "top": 676.5,
+        "width": 68.5,
+        "height": 16.1
+      }
+    },
+    "dateField166": {
+      "type": "text",
+      "label": "(b) Scanning (COPE/MPC Initial)",
+      "page": 2,
+      "box": {
+        "left": 261.0,
+        "top": 654.7,
+        "width": 74.3,
+        "height": 16.1
+      }
+    },
+    "dateField167": {
+      "type": "text",
+      "label": "(b) Scanning (COPE/MPC Initial)",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 654.7,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "dateField168": {
+      "type": "text",
+      "label": "(b) Scanning (COPE/MPC Initial)",
+      "page": 2,
+      "box": {
+        "left": 401.1,
+        "top": 654.7,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "textField245": {
+      "type": "text",
+      "label": "(b) Scanning (COPE/MPC Initial)",
+      "page": 2,
+      "box": {
+        "left": 461.3,
+        "top": 654.7,
+        "width": 37.1,
+        "height": 16.1
+      }
+    },
+    "textField246": {
+      "type": "text",
+      "label": "(b) Scanning (COPE/MPC Initial)",
+      "page": 2,
+      "box": {
+        "left": 504.0,
+        "top": 654.7,
+        "width": 68.5,
+        "height": 16.1
+      }
+    },
+    "dateField169": {
+      "type": "text",
+      "label": "(c) Nesting (COPE/MPC Initial)",
+      "page": 2,
+      "box": {
+        "left": 261.0,
+        "top": 632.9,
+        "width": 74.3,
+        "height": 16.1
+      }
+    },
+    "dateField170": {
+      "type": "text",
+      "label": "(c) Nesting (COPE/MPC Initial)",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 632.9,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "dateField171": {
+      "type": "text",
+      "label": "(c) Nesting (COPE/MPC Initial)",
+      "page": 2,
+      "box": {
+        "left": 401.1,
+        "top": 632.9,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "textField247": {
+      "type": "text",
+      "label": "(c) Nesting (COPE/MPC Initial)",
+      "page": 2,
+      "box": {
+        "left": 461.3,
+        "top": 632.9,
+        "width": 37.1,
+        "height": 16.1
+      }
+    },
+    "textField248": {
+      "type": "text",
+      "label": "(c) Nesting (COPE/MPC Initial)",
+      "page": 2,
+      "box": {
+        "left": 504.0,
+        "top": 632.9,
+        "width": 68.5,
+        "height": 16.1
+      }
+    },
+    "dateField172": {
+      "type": "text",
+      "label": "(d) Postage meter operation (COPE/MPC Initial)",
+      "page": 2,
+      "box": {
+        "left": 261.0,
+        "top": 611.1,
+        "width": 74.3,
+        "height": 16.1
+      }
+    },
+    "dateField173": {
+      "type": "text",
+      "label": "(d) Postage meter operation (COPE/MPC Initial)",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 611.1,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "dateField174": {
+      "type": "text",
+      "label": "(d) Postage meter operation (COPE/MPC Initial)",
+      "page": 2,
+      "box": {
+        "left": 401.1,
+        "top": 611.1,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "textField249": {
+      "type": "text",
+      "label": "(d) Postage meter operation (COPE/MPC Initial)",
+      "page": 2,
+      "box": {
+        "left": 461.3,
+        "top": 611.1,
+        "width": 37.1,
+        "height": 16.1
+      }
+    },
+    "textField250": {
+      "type": "text",
+      "label": "(d) Postage meter operation (COPE/MPC Initial)",
+      "page": 2,
+      "box": {
+        "left": 504.0,
+        "top": 611.1,
+        "width": 68.5,
+        "height": 16.1
+      }
+    },
+    "dateField175": {
+      "type": "text",
+      "label": "(e) Financial report submission (COPE Initial)",
+      "page": 2,
+      "box": {
+        "left": 261.0,
+        "top": 589.3,
+        "width": 74.3,
+        "height": 16.1
+      }
+    },
+    "dateField176": {
+      "type": "text",
+      "label": "(e) Financial report submission (COPE Initial)",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 589.3,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "dateField177": {
+      "type": "text",
+      "label": "(e) Financial report submission (COPE Initial)",
+      "page": 2,
+      "box": {
+        "left": 401.1,
+        "top": 589.3,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "textField251": {
+      "type": "text",
+      "label": "(e) Financial report submission (COPE Initial)",
+      "page": 2,
+      "box": {
+        "left": 461.3,
+        "top": 589.3,
+        "width": 37.1,
+        "height": 16.1
+      }
+    },
+    "textField252": {
+      "type": "text",
+      "label": "(e) Financial report submission (COPE Initial)",
+      "page": 2,
+      "box": {
+        "left": 504.0,
+        "top": 589.3,
+        "width": 68.5,
+        "height": 16.1
+      }
+    },
+    "dateField178": {
+      "type": "text",
+      "label": "(NLT)",
+      "page": 2,
+      "box": {
+        "left": 261.0,
+        "top": 567.6,
+        "width": 74.3,
+        "height": 16.1
+      }
+    },
+    "dateField179": {
+      "type": "text",
+      "label": "SCHEDULED",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 567.6,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "dateField180": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 2,
+      "box": {
+        "left": 401.1,
+        "top": 567.6,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "textField253": {
+      "type": "text",
+      "label": "INITIALS",
+      "page": 2,
+      "box": {
+        "left": 461.3,
+        "top": 567.6,
+        "width": 37.1,
+        "height": 16.1
+      }
+    },
+    "textField254": {
+      "type": "text",
+      "label": "VERIFIED INITIAL",
+      "page": 2,
+      "box": {
+        "left": 504.0,
+        "top": 567.6,
+        "width": 68.5,
+        "height": 16.1
+      }
+    },
+    "dateField181": {
+      "type": "text",
+      "label": "(g) PS Form 2273 completion (COPE/MPC Initial)",
+      "page": 2,
+      "box": {
+        "left": 261.0,
+        "top": 545.8,
+        "width": 74.3,
+        "height": 16.1
+      }
+    },
+    "dateField182": {
+      "type": "text",
+      "label": "(g) PS Form 2273 completion (COPE/MPC Initial)",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 545.8,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "dateField183": {
+      "type": "text",
+      "label": "(g) PS Form 2273 completion (COPE/MPC Initial)",
+      "page": 2,
+      "box": {
+        "left": 401.1,
+        "top": 545.8,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "textField255": {
+      "type": "text",
+      "label": "(g) PS Form 2273 completion (COPE/MPC Initial)",
+      "page": 2,
+      "box": {
+        "left": 461.3,
+        "top": 545.8,
+        "width": 37.1,
+        "height": 16.1
+      }
+    },
+    "textField256": {
+      "type": "text",
+      "label": "(g) PS Form 2273 completion (COPE/MPC Initial)",
+      "page": 2,
+      "box": {
+        "left": 504.0,
+        "top": 545.8,
+        "width": 68.5,
+        "height": 16.1
+      }
+    },
+    "dateField184": {
+      "type": "text",
+      "label": "(h) Retrieving postal bulletins (COPE/MPC Initial)",
+      "page": 2,
+      "box": {
+        "left": 261.0,
+        "top": 524.0,
+        "width": 74.3,
+        "height": 16.1
+      }
+    },
+    "dateField185": {
+      "type": "text",
+      "label": "(h) Retrieving postal bulletins (COPE/MPC Initial)",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 524.0,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "dateField186": {
+      "type": "text",
+      "label": "(h) Retrieving postal bulletins (COPE/MPC Initial)",
+      "page": 2,
+      "box": {
+        "left": 401.1,
+        "top": 524.0,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "textField257": {
+      "type": "text",
+      "label": "(h) Retrieving postal bulletins (COPE/MPC Initial)",
+      "page": 2,
+      "box": {
+        "left": 461.3,
+        "top": 524.0,
+        "width": 37.1,
+        "height": 16.1
+      }
+    },
+    "textField258": {
+      "type": "text",
+      "label": "(h) Retrieving postal bulletins (COPE/MPC Initial)",
+      "page": 2,
+      "box": {
+        "left": 504.0,
+        "top": 524.0,
+        "width": 68.5,
+        "height": 16.1
+      }
+    },
+    "dateField187": {
+      "type": "text",
+      "label": "(NLT)",
+      "page": 2,
+      "box": {
+        "left": 261.0,
+        "top": 502.2,
+        "width": 74.3,
+        "height": 16.1
+      }
+    },
+    "dateField188": {
+      "type": "text",
+      "label": "SCHEDULED",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 502.2,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "dateField189": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 2,
+      "box": {
+        "left": 401.1,
+        "top": 502.2,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "textField259": {
+      "type": "text",
+      "label": "INITIALS",
+      "page": 2,
+      "box": {
+        "left": 461.3,
+        "top": 502.2,
+        "width": 37.1,
+        "height": 16.1
+      }
+    },
+    "textField260": {
+      "type": "text",
+      "label": "VERIFIED INITIAL",
+      "page": 2,
+      "box": {
+        "left": 504.0,
+        "top": 502.2,
+        "width": 68.5,
+        "height": 16.1
+      }
+    },
+    "dateField190": {
+      "type": "text",
+      "label": "24. Release initial mail routing instruction (MRI)",
+      "page": 2,
+      "box": {
+        "left": 261.0,
+        "top": 480.5,
+        "width": 74.3,
+        "height": 16.1
+      }
+    },
+    "dateField191": {
+      "type": "text",
+      "label": "24. Release initial mail routing instruction (MRI)",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 480.5,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "dateField192": {
+      "type": "text",
+      "label": "24. Release initial mail routing instruction (MRI)",
+      "page": 2,
+      "box": {
+        "left": 401.1,
+        "top": 480.5,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "textField261": {
+      "type": "text",
+      "label": "24. Release initial mail routing instruction (MRI)",
+      "page": 2,
+      "box": {
+        "left": 461.3,
+        "top": 480.5,
+        "width": 37.1,
+        "height": 16.1
+      }
+    },
+    "textField262": {
+      "type": "text",
+      "label": "24. Release initial mail routing instruction (MRI)",
+      "page": 2,
+      "box": {
+        "left": 504.0,
+        "top": 480.5,
+        "width": 68.5,
+        "height": 16.1
+      }
+    },
+    "dateField193": {
+      "type": "text",
+      "label": "25. Verify postal POCs for deployment",
+      "page": 2,
+      "box": {
+        "left": 261.0,
+        "top": 425.7,
+        "width": 74.3,
+        "height": 16.1
+      }
+    },
+    "dateField194": {
+      "type": "text",
+      "label": "25. Verify postal POCs for deployment",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 425.7,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "dateField195": {
+      "type": "text",
+      "label": "25. Verify postal POCs for deployment",
+      "page": 2,
+      "box": {
+        "left": 401.1,
+        "top": 425.7,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "textField263": {
+      "type": "text",
+      "label": "25. Verify postal POCs for deployment",
+      "page": 2,
+      "box": {
+        "left": 461.3,
+        "top": 425.7,
+        "width": 37.1,
+        "height": 16.1
+      }
+    },
+    "textField264": {
+      "type": "text",
+      "label": "25. Verify postal POCs for deployment",
+      "page": 2,
+      "box": {
+        "left": 504.0,
+        "top": 425.7,
+        "width": 68.5,
+        "height": 16.1
+      }
+    },
+    "dateField196": {
+      "type": "text",
+      "label": "(NLT)",
+      "page": 2,
+      "box": {
+        "left": 261.0,
+        "top": 403.9,
+        "width": 74.3,
+        "height": 16.1
+      }
+    },
+    "dateField197": {
+      "type": "text",
+      "label": "SCHEDULED",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 403.9,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "dateField198": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 2,
+      "box": {
+        "left": 401.1,
+        "top": 403.9,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "textField265": {
+      "type": "text",
+      "label": "INITIALS",
+      "page": 2,
+      "box": {
+        "left": 461.3,
+        "top": 403.9,
+        "width": 37.1,
+        "height": 16.1
+      }
+    },
+    "textField266": {
+      "type": "text",
+      "label": "VERIFIED INITIAL",
+      "page": 2,
+      "box": {
+        "left": 504.0,
+        "top": 403.9,
+        "width": 68.5,
+        "height": 16.1
+      }
+    },
+    "dateField199": {
+      "type": "text",
+      "label": "27. Conduct postage meter update at servicing FLC",
+      "page": 2,
+      "box": {
+        "left": 261.0,
+        "top": 382.1,
+        "width": 74.3,
+        "height": 16.1
+      }
+    },
+    "dateField1100": {
+      "type": "text",
+      "label": "27. Conduct postage meter update at servicing FLC",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 382.1,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "dateField1101": {
+      "type": "text",
+      "label": "27. Conduct postage meter update at servicing FLC",
+      "page": 2,
+      "box": {
+        "left": 401.1,
+        "top": 382.1,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "textField267": {
+      "type": "text",
+      "label": "27. Conduct postage meter update at servicing FLC",
+      "page": 2,
+      "box": {
+        "left": 461.3,
+        "top": 382.1,
+        "width": 37.1,
+        "height": 16.1
+      }
+    },
+    "textField268": {
+      "type": "text",
+      "label": "27. Conduct postage meter update at servicing FLC",
+      "page": 2,
+      "box": {
+        "left": 504.0,
+        "top": 382.1,
+        "width": 68.5,
+        "height": 16.1
+      }
+    },
+    "dateField1102": {
+      "type": "text",
+      "label": "28. Verify clerks understand finance submitting requirements",
+      "page": 2,
+      "box": {
+        "left": 261.0,
+        "top": 360.3,
+        "width": 74.3,
+        "height": 16.1
+      }
+    },
+    "dateField1103": {
+      "type": "text",
+      "label": "28. Verify clerks understand finance submitting requirements",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 360.3,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "dateField1104": {
+      "type": "text",
+      "label": "28. Verify clerks understand finance submitting requirements",
+      "page": 2,
+      "box": {
+        "left": 401.1,
+        "top": 360.3,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "textField269": {
+      "type": "text",
+      "label": "28. Verify clerks understand finance submitting requirements",
+      "page": 2,
+      "box": {
+        "left": 461.3,
+        "top": 360.3,
+        "width": 37.1,
+        "height": 16.1
+      }
+    },
+    "textField270": {
+      "type": "text",
+      "label": "28. Verify clerks understand finance submitting requirements",
+      "page": 2,
+      "box": {
+        "left": 504.0,
+        "top": 360.3,
+        "width": 68.5,
+        "height": 16.1
+      }
+    },
+    "dateField1105": {
+      "type": "text",
+      "label": "(NLT)",
+      "page": 2,
+      "box": {
+        "left": 261.0,
+        "top": 338.6,
+        "width": 74.3,
+        "height": 16.1
+      }
+    },
+    "dateField1106": {
+      "type": "text",
+      "label": "SCHEDULED",
+      "page": 2,
+      "box": {
+        "left": 341.0,
+        "top": 338.6,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "dateField1107": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 2,
+      "box": {
+        "left": 401.1,
+        "top": 338.6,
+        "width": 54.5,
+        "height": 16.1
+      }
+    },
+    "textField271": {
+      "type": "text",
+      "label": "INITIALS",
+      "page": 2,
+      "box": {
+        "left": 461.3,
+        "top": 338.6,
+        "width": 37.1,
+        "height": 16.1
+      }
+    },
+    "textField272": {
+      "type": "text",
+      "label": "VERIFIED INITIAL",
+      "page": 2,
+      "box": {
+        "left": 504.0,
+        "top": 338.6,
+        "width": 68.5,
+        "height": 16.1
+      }
+    },
+    "comments": {
+      "type": "text",
+      "label": "30. COMMENTS",
+      "page": 2,
+      "box": {
+        "left": 39.8,
+        "top": 306.4,
+        "width": 532.5,
+        "height": 168.4
+      },
+      "multiline": true
+    },
+    "postalOfficerName": {
+      "type": "text",
+      "label": "a. Name",
+      "page": 2,
+      "box": {
+        "left": 195.7,
+        "top": 121.7,
+        "width": 109.9,
+        "height": 12.1
+      }
+    },
+    "postalSigDate": {
+      "type": "text",
+      "label": "b. Date",
+      "page": 2,
+      "box": {
+        "left": 348.4,
+        "top": 121.7,
+        "width": 57.4,
+        "height": 12.1
+      }
+    },
+    "postalSig": {
+      "type": "text",
+      "label": "c. Signature",
+      "page": 2,
+      "box": {
+        "left": 466.0,
+        "top": 121.7,
+        "width": 106.2,
+        "height": 12.1
+      }
+    },
+    "suppoName": {
+      "type": "text",
+      "label": "a. Name",
+      "page": 2,
+      "box": {
+        "left": 195.7,
+        "top": 104.4,
+        "width": 109.9,
+        "height": 12.1
+      }
+    },
+    "suppoSigDate": {
+      "type": "text",
+      "label": "b. Date",
+      "page": 2,
+      "box": {
+        "left": 348.4,
+        "top": 104.4,
+        "width": 57.4,
+        "height": 12.1
+      }
+    },
+    "suppoSig": {
+      "type": "text",
+      "label": "c. Signature",
+      "page": 2,
+      "box": {
+        "left": 466.0,
+        "top": 104.4,
+        "width": 106.2,
+        "height": 12.1
+      }
+    },
+    "tYCOMPOName": {
+      "type": "text",
+      "label": "33. TYCOM POSTAL OFFICER: a. Name",
+      "page": 2,
+      "box": {
+        "left": 195.7,
+        "top": 87.1,
+        "width": 109.9,
+        "height": 12.1
+      }
+    },
+    "tYCOMPOSigDate": {
+      "type": "text",
+      "label": "b. Date",
+      "page": 2,
+      "box": {
+        "left": 348.4,
+        "top": 87.1,
+        "width": 57.4,
+        "height": 12.1
+      }
+    },
+    "tYCOMPOSig": {
+      "type": "text",
+      "label": "c. Signature",
+      "page": 2,
+      "box": {
+        "left": 466.0,
+        "top": 87.1,
+        "width": 106.2,
+        "height": 12.1
+      }
+    },
+    "fleetPOName": {
+      "type": "text",
+      "label": "34. FLEET POSTAL OFFICER: a. Name",
+      "page": 2,
+      "box": {
+        "left": 195.7,
+        "top": 69.3,
+        "width": 109.9,
+        "height": 12.1
+      }
+    },
+    "fleetPOSigDate": {
+      "type": "text",
+      "label": "b. Date",
+      "page": 2,
+      "box": {
+        "left": 348.4,
+        "top": 69.3,
+        "width": 57.4,
+        "height": 12.1
+      }
+    },
+    "fleetPOSig": {
+      "type": "text",
+      "label": "c. Signature",
+      "page": 2,
+      "box": {
+        "left": 466.0,
+        "top": 69.3,
+        "width": 106.2,
+        "height": 12.1
+      }
+    },
+    "depCheck": {
+      "type": "text",
+      "label": "POSTAL DEPLOYMENT CHECKLIST USS/USNS",
+      "page": 3,
+      "box": {
+        "left": 227.4,
+        "top": 751.2,
+        "width": 344.9,
+        "height": 15.7
+      }
+    },
+    "dateField3": {
+      "type": "text",
+      "label": "35. First postage meter update due",
+      "page": 3,
+      "box": {
+        "left": 264.9,
+        "top": 701.5,
+        "width": 85.7,
+        "height": 16.1
+      }
+    },
+    "dateField32": {
+      "type": "text",
+      "label": "35. First postage meter update due",
+      "page": 3,
+      "box": {
+        "left": 356.3,
+        "top": 701.5,
+        "width": 68.9,
+        "height": 16.1
+      }
+    },
+    "dateField33": {
+      "type": "text",
+      "label": "35. First postage meter update due",
+      "page": 3,
+      "box": {
+        "left": 430.8,
+        "top": 701.5,
+        "width": 68.5,
+        "height": 16.1
+      }
+    },
+    "textField6": {
+      "type": "text",
+      "label": "35. First postage meter update due",
+      "page": 3,
+      "box": {
+        "left": 505.0,
+        "top": 701.5,
+        "width": 66.7,
+        "height": 16.1
+      }
+    },
+    "dateField34": {
+      "type": "text",
+      "label": "36. Second postage meter update due",
+      "page": 3,
+      "box": {
+        "left": 264.9,
+        "top": 679.7,
+        "width": 85.7,
+        "height": 16.1
+      }
+    },
+    "dateField35": {
+      "type": "text",
+      "label": "36. Second postage meter update due",
+      "page": 3,
+      "box": {
+        "left": 356.3,
+        "top": 679.7,
+        "width": 68.9,
+        "height": 16.1
+      }
+    },
+    "dateField36": {
+      "type": "text",
+      "label": "36. Second postage meter update due",
+      "page": 3,
+      "box": {
+        "left": 430.8,
+        "top": 679.7,
+        "width": 68.5,
+        "height": 16.1
+      }
+    },
+    "textField7": {
+      "type": "text",
+      "label": "36. Second postage meter update due",
+      "page": 3,
+      "box": {
+        "left": 505.0,
+        "top": 679.7,
+        "width": 66.7,
+        "height": 16.1
+      }
+    },
+    "dateField37": {
+      "type": "text",
+      "label": "37. Third postage meter update due",
+      "page": 3,
+      "box": {
+        "left": 264.9,
+        "top": 657.9,
+        "width": 85.7,
+        "height": 16.1
+      }
+    },
+    "dateField38": {
+      "type": "text",
+      "label": "37. Third postage meter update due",
+      "page": 3,
+      "box": {
+        "left": 356.3,
+        "top": 657.9,
+        "width": 68.9,
+        "height": 16.1
+      }
+    },
+    "dateField39": {
+      "type": "text",
+      "label": "37. Third postage meter update due",
+      "page": 3,
+      "box": {
+        "left": 430.8,
+        "top": 657.9,
+        "width": 68.5,
+        "height": 16.1
+      }
+    },
+    "textField8": {
+      "type": "text",
+      "label": "37. Third postage meter update due",
+      "page": 3,
+      "box": {
+        "left": 505.0,
+        "top": 657.9,
+        "width": 66.7,
+        "height": 16.1
+      }
+    },
+    "dateField310": {
+      "type": "text",
+      "label": "38. Submit RTHP MRI",
+      "page": 3,
+      "box": {
+        "left": 264.9,
+        "top": 607.8,
+        "width": 85.7,
+        "height": 16.1
+      }
+    },
+    "dateField311": {
+      "type": "text",
+      "label": "38. Submit RTHP MRI",
+      "page": 3,
+      "box": {
+        "left": 356.3,
+        "top": 607.8,
+        "width": 68.9,
+        "height": 16.1
+      }
+    },
+    "dateField312": {
+      "type": "text",
+      "label": "38. Submit RTHP MRI",
+      "page": 3,
+      "box": {
+        "left": 430.8,
+        "top": 607.8,
+        "width": 68.5,
+        "height": 16.1
+      }
+    },
+    "textField9": {
+      "type": "text",
+      "label": "38. Submit RTHP MRI",
+      "page": 3,
+      "box": {
+        "left": 505.0,
+        "top": 607.8,
+        "width": 66.7,
+        "height": 16.1
+      }
+    },
+    "dateField313": {
+      "type": "text",
+      "label": "39. Verify embarked units submit RTHP MRI",
+      "page": 3,
+      "box": {
+        "left": 264.9,
+        "top": 586.0,
+        "width": 85.7,
+        "height": 16.1
+      }
+    },
+    "dateField314": {
+      "type": "text",
+      "label": "39. Verify embarked units submit RTHP MRI",
+      "page": 3,
+      "box": {
+        "left": 356.3,
+        "top": 586.0,
+        "width": 68.9,
+        "height": 16.1
+      }
+    },
+    "dateField315": {
+      "type": "text",
+      "label": "39. Verify embarked units submit RTHP MRI",
+      "page": 3,
+      "box": {
+        "left": 430.8,
+        "top": 586.0,
+        "width": 68.5,
+        "height": 16.1
+      }
+    },
+    "textField10": {
+      "type": "text",
+      "label": "39. Verify embarked units submit RTHP MRI",
+      "page": 3,
+      "box": {
+        "left": 505.0,
+        "top": 586.0,
+        "width": 66.7,
+        "height": 16.1
+      }
+    },
+    "dateField316": {
+      "type": "text",
+      "label": "BE COMPLETED (NLT)",
+      "page": 3,
+      "box": {
+        "left": 264.9,
+        "top": 564.2,
+        "width": 85.7,
+        "height": 16.1
+      }
+    },
+    "dateField317": {
+      "type": "text",
+      "label": "SCHEDULED",
+      "page": 3,
+      "box": {
+        "left": 356.3,
+        "top": 564.2,
+        "width": 68.9,
+        "height": 16.1
+      }
+    },
+    "dateField318": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 3,
+      "box": {
+        "left": 430.8,
+        "top": 564.2,
+        "width": 68.5,
+        "height": 16.1
+      }
+    },
+    "textField11": {
+      "type": "text",
+      "label": "INITIALS",
+      "page": 3,
+      "box": {
+        "left": 505.0,
+        "top": 564.2,
+        "width": 66.7,
+        "height": 16.1
+      }
+    },
+    "dateField319": {
+      "type": "text",
+      "label": "41. Coordinate mail dispatch and delivery with servicing FLC",
+      "page": 3,
+      "box": {
+        "left": 264.9,
+        "top": 514.1,
+        "width": 85.7,
+        "height": 16.1
+      }
+    },
+    "dateField320": {
+      "type": "text",
+      "label": "41. Coordinate mail dispatch and delivery with servicing FLC",
+      "page": 3,
+      "box": {
+        "left": 356.3,
+        "top": 514.1,
+        "width": 68.9,
+        "height": 16.1
+      }
+    },
+    "dateField321": {
+      "type": "text",
+      "label": "41. Coordinate mail dispatch and delivery with servicing FLC",
+      "page": 3,
+      "box": {
+        "left": 430.8,
+        "top": 514.1,
+        "width": 68.5,
+        "height": 16.1
+      }
+    },
+    "textField12": {
+      "type": "text",
+      "label": "41. Coordinate mail dispatch and delivery with servicing FLC",
+      "page": 3,
+      "box": {
+        "left": 505.0,
+        "top": 514.1,
+        "width": 66.7,
+        "height": 16.1
+      }
+    },
+    "pOName": {
+      "type": "text",
+      "label": "a. Name",
+      "page": 3,
+      "box": {
+        "left": 195.7,
+        "top": 480.8,
+        "width": 108.9,
+        "height": 10.5
+      }
+    },
+    "pOSigDate": {
+      "type": "text",
+      "label": "b. Date",
+      "page": 3,
+      "box": {
+        "left": 347.5,
+        "top": 480.8,
+        "width": 57.1,
+        "height": 10.5
+      }
+    },
+    "pOSig": {
+      "type": "text",
+      "label": "c. Signature",
+      "page": 3,
+      "box": {
+        "left": 464.7,
+        "top": 480.8,
+        "width": 107.6,
+        "height": 10.5
+      }
+    },
+    "sUPPOName": {
+      "type": "text",
+      "label": "a. Name",
+      "page": 3,
+      "box": {
+        "left": 195.7,
+        "top": 465.1,
+        "width": 108.9,
+        "height": 12.3
+      }
+    },
+    "sUPPOSigDate": {
+      "type": "text",
+      "label": "b. Date",
+      "page": 3,
+      "box": {
+        "left": 347.5,
+        "top": 465.1,
+        "width": 57.1,
+        "height": 12.3
+      }
+    },
+    "sUPPOSig": {
+      "type": "text",
+      "label": "c. Signature",
+      "page": 3,
+      "box": {
+        "left": 464.7,
+        "top": 465.1,
+        "width": 107.6,
+        "height": 12.3
+      }
+    },
+    "postDep": {
+      "type": "text",
+      "label": "POSTAL POST DEPLOYMENT CHECKLIST USS/USNS",
+      "page": 3,
+      "box": {
+        "left": 254.5,
+        "top": 447.6,
+        "width": 317.7,
+        "height": 15.7
+      }
+    },
+    "dateField322": {
+      "type": "text",
+      "label": "COMPLETED (NLT)",
+      "page": 3,
+      "box": {
+        "left": 260.1,
+        "top": 394.0,
+        "width": 71.8,
+        "height": 17.1
+      }
+    },
+    "dateField323": {
+      "type": "text",
+      "label": "SCHEDULED",
+      "page": 3,
+      "box": {
+        "left": 337.6,
+        "top": 394.0,
+        "width": 54.0,
+        "height": 17.1
+      }
+    },
+    "dateField324": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 3,
+      "box": {
+        "left": 397.3,
+        "top": 394.0,
+        "width": 53.1,
+        "height": 17.1
+      }
+    },
+    "textField14": {
+      "type": "text",
+      "label": "INITIALS",
+      "page": 3,
+      "box": {
+        "left": 456.1,
+        "top": 394.0,
+        "width": 43.2,
+        "height": 17.1
+      }
+    },
+    "textField13": {
+      "type": "text",
+      "label": "INITIALS",
+      "page": 3,
+      "box": {
+        "left": 504.9,
+        "top": 394.0,
+        "width": 67.1,
+        "height": 17.1
+      }
+    },
+    "dateField325": {
+      "type": "text",
+      "label": "COMPLETED (NLT)",
+      "page": 3,
+      "box": {
+        "left": 260.1,
+        "top": 371.3,
+        "width": 71.8,
+        "height": 34.1
+      },
+      "multiline": true
+    },
+    "dateField326": {
+      "type": "text",
+      "label": "SCHEDULED",
+      "page": 3,
+      "box": {
+        "left": 337.6,
+        "top": 371.3,
+        "width": 54.0,
+        "height": 34.1
+      },
+      "multiline": true
+    },
+    "dateField327": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 3,
+      "box": {
+        "left": 397.3,
+        "top": 371.3,
+        "width": 53.1,
+        "height": 34.1
+      },
+      "multiline": true
+    },
+    "textField15": {
+      "type": "text",
+      "label": "INITIALS",
+      "page": 3,
+      "box": {
+        "left": 456.1,
+        "top": 371.3,
+        "width": 43.2,
+        "height": 34.1
+      },
+      "multiline": true
+    },
+    "textField16": {
+      "type": "text",
+      "label": "INITIALS",
+      "page": 3,
+      "box": {
+        "left": 504.9,
+        "top": 371.3,
+        "width": 67.1,
+        "height": 34.1
+      },
+      "multiline": true
+    },
+    "dateField328": {
+      "type": "text",
+      "label": "COMPLETED (NLT)",
+      "page": 3,
+      "box": {
+        "left": 260.1,
+        "top": 331.5,
+        "width": 71.8,
+        "height": 16.1
+      }
+    },
+    "dateField329": {
+      "type": "text",
+      "label": "SCHEDULED",
+      "page": 3,
+      "box": {
+        "left": 337.6,
+        "top": 331.5,
+        "width": 54.0,
+        "height": 16.1
+      }
+    },
+    "dateField330": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 3,
+      "box": {
+        "left": 397.3,
+        "top": 331.5,
+        "width": 53.1,
+        "height": 16.1
+      }
+    },
+    "textField17": {
+      "type": "text",
+      "label": "INITIALS",
+      "page": 3,
+      "box": {
+        "left": 456.1,
+        "top": 331.5,
+        "width": 43.2,
+        "height": 16.1
+      }
+    },
+    "textField18": {
+      "type": "text",
+      "label": "INITIALS",
+      "page": 3,
+      "box": {
+        "left": 504.9,
+        "top": 331.5,
+        "width": 67.1,
+        "height": 16.1
+      }
+    },
+    "dateField331": {
+      "type": "text",
+      "label": "COMPLETED (NLT)",
+      "page": 3,
+      "box": {
+        "left": 260.1,
+        "top": 309.7,
+        "width": 71.8,
+        "height": 16.1
+      }
+    },
+    "dateField332": {
+      "type": "text",
+      "label": "SCHEDULED",
+      "page": 3,
+      "box": {
+        "left": 337.6,
+        "top": 309.7,
+        "width": 54.0,
+        "height": 16.1
+      }
+    },
+    "dateField333": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 3,
+      "box": {
+        "left": 397.3,
+        "top": 309.7,
+        "width": 53.1,
+        "height": 16.1
+      }
+    },
+    "textField19": {
+      "type": "text",
+      "label": "INITIALS",
+      "page": 3,
+      "box": {
+        "left": 456.1,
+        "top": 309.7,
+        "width": 43.2,
+        "height": 16.1
+      }
+    },
+    "textField20": {
+      "type": "text",
+      "label": "INITIALS",
+      "page": 3,
+      "box": {
+        "left": 504.9,
+        "top": 309.7,
+        "width": 67.1,
+        "height": 16.1
+      }
+    },
+    "dateField334": {
+      "type": "text",
+      "label": "48. Schedule with PA registered mail records for review",
+      "page": 3,
+      "box": {
+        "left": 260.1,
+        "top": 288.0,
+        "width": 71.8,
+        "height": 16.1
+      }
+    },
+    "dateField335": {
+      "type": "text",
+      "label": "48. Schedule with PA registered mail records for review",
+      "page": 3,
+      "box": {
+        "left": 337.6,
+        "top": 288.0,
+        "width": 54.0,
+        "height": 16.1
+      }
+    },
+    "dateField336": {
+      "type": "text",
+      "label": "48. Schedule with PA registered mail records for review",
+      "page": 3,
+      "box": {
+        "left": 397.3,
+        "top": 288.0,
+        "width": 53.1,
+        "height": 16.1
+      }
+    },
+    "textField21": {
+      "type": "text",
+      "label": "48. Schedule with PA registered mail records for review",
+      "page": 3,
+      "box": {
+        "left": 456.1,
+        "top": 288.0,
+        "width": 43.2,
+        "height": 16.1
+      }
+    },
+    "textField2210": {
+      "type": "text",
+      "label": "48. Schedule with PA registered mail records for review",
+      "page": 3,
+      "box": {
+        "left": 504.9,
+        "top": 288.0,
+        "width": 67.1,
+        "height": 16.1
+      }
+    },
+    "dateField337": {
+      "type": "text",
+      "label": "COMPLETED (NLT)",
+      "page": 3,
+      "box": {
+        "left": 260.1,
+        "top": 266.2,
+        "width": 71.8,
+        "height": 26.4
+      }
+    },
+    "dateField338": {
+      "type": "text",
+      "label": "SCHEDULED",
+      "page": 3,
+      "box": {
+        "left": 337.6,
+        "top": 266.2,
+        "width": 54.0,
+        "height": 26.4
+      }
+    },
+    "dateField339": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 3,
+      "box": {
+        "left": 397.3,
+        "top": 266.2,
+        "width": 53.1,
+        "height": 26.4
+      }
+    },
+    "textField2310": {
+      "type": "text",
+      "label": "INITIALS",
+      "page": 3,
+      "box": {
+        "left": 456.1,
+        "top": 266.2,
+        "width": 43.2,
+        "height": 26.4
+      }
+    },
+    "textField2410": {
+      "type": "text",
+      "label": "INITIALS",
+      "page": 3,
+      "box": {
+        "left": 504.9,
+        "top": 266.2,
+        "width": 67.1,
+        "height": 26.4
+      }
+    },
+    "comments2": {
+      "type": "text",
+      "label": "50. COMMENTS",
+      "page": 3,
+      "box": {
+        "left": 39.8,
+        "top": 223.7,
+        "width": 532.5,
+        "height": 104.2
+      },
+      "multiline": true
+    },
+    "pOName2": {
+      "type": "text",
+      "label": "a. Name",
+      "page": 3,
+      "box": {
+        "left": 195.7,
+        "top": 103.2,
+        "width": 108.9,
+        "height": 11.5
+      }
+    },
+    "pOSigDate2": {
+      "type": "text",
+      "label": "b. Date",
+      "page": 3,
+      "box": {
+        "left": 347.5,
+        "top": 103.2,
+        "width": 57.1,
+        "height": 11.5
+      }
+    },
+    "pOSig2": {
+      "type": "text",
+      "label": "c. Signature",
+      "page": 3,
+      "box": {
+        "left": 464.7,
+        "top": 103.2,
+        "width": 107.6,
+        "height": 11.5
+      }
+    },
+    "sUPPOName2": {
+      "type": "text",
+      "label": "a. Name",
+      "page": 3,
+      "box": {
+        "left": 195.7,
+        "top": 86.6,
+        "width": 108.9,
+        "height": 12.3
+      }
+    },
+    "sUPPOSigDate2": {
+      "type": "text",
+      "label": "b. Date",
+      "page": 3,
+      "box": {
+        "left": 347.5,
+        "top": 86.6,
+        "width": 57.1,
+        "height": 12.3
+      }
+    },
+    "sUPPOSig2": {
+      "type": "text",
+      "label": "c. Signature",
+      "page": 3,
+      "box": {
+        "left": 464.7,
+        "top": 86.6,
+        "width": 107.6,
+        "height": 12.3
+      }
+    },
+    "tYCOMPOName2": {
+      "type": "text",
+      "label": "53. TYCOM POSTAL OFFICER: a. Name",
+      "page": 3,
+      "box": {
+        "left": 195.7,
+        "top": 69.0,
+        "width": 108.9,
+        "height": 12.3
+      }
+    },
+    "tYCOMPOSigDate2": {
+      "type": "text",
+      "label": "b. Date",
+      "page": 3,
+      "box": {
+        "left": 347.5,
+        "top": 69.0,
+        "width": 57.1,
+        "height": 12.3
+      }
+    },
+    "tYCOMPOSig2": {
+      "type": "text",
+      "label": "c. Signature",
+      "page": 3,
+      "box": {
+        "left": 464.7,
+        "top": 69.0,
+        "width": 107.6,
+        "height": 12.3
+      }
+    },
+    "fLEETPOName": {
+      "type": "text",
+      "label": "54. FLEET POSTAL OFFICER: a. Name",
+      "page": 3,
+      "box": {
+        "left": 195.7,
+        "top": 51.1,
+        "width": 108.9,
+        "height": 12.3
+      }
+    },
+    "fLEETPOSigDate": {
+      "type": "text",
+      "label": "b. Date",
+      "page": 3,
+      "box": {
+        "left": 347.5,
+        "top": 51.1,
+        "width": 57.1,
+        "height": 12.3
+      }
+    },
+    "fLEETPOSig": {
+      "type": "text",
+      "label": "c. Signature",
+      "page": 3,
+      "box": {
+        "left": 464.7,
+        "top": 51.1,
+        "width": 107.6,
+        "height": 12.3
+      }
+    }
+  }
+}

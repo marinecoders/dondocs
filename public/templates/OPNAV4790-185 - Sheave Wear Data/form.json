@@ -1,0 +1,1937 @@
+{
+  "id": "opnav4790185",
+  "label": "OPNAV4790-185 - Sheave Wear Data",
+  "directory": "OPNAV4790-185 - Sheave Wear Data",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "catapult",
+        "dateTimeField1",
+        "jsn",
+        "shotno",
+        "shotssince",
+        "sheave1",
+        "sheave6",
+        "sa11",
+        "sa21",
+        "sa31",
+        "sa41",
+        "sa16",
+        "sa26",
+        "sa36",
+        "sa46",
+        "sb11",
+        "sb21",
+        "sb31",
+        "sb41",
+        "sb16",
+        "sb26",
+        "sb36",
+        "sb46",
+        "sc11",
+        "sc21",
+        "sc31",
+        "sc41",
+        "sc16",
+        "sc26",
+        "sc36",
+        "sc46",
+        "sat1",
+        "unsat1",
+        "sat6",
+        "unsat6",
+        "sheave2",
+        "sheave7",
+        "sa12",
+        "sa22",
+        "sa32",
+        "sa42",
+        "sa17",
+        "sa27",
+        "sa37",
+        "sa47",
+        "sb12",
+        "sb22",
+        "sb32",
+        "sb42",
+        "sb17",
+        "sb27",
+        "sb37",
+        "sb47",
+        "sc12",
+        "sc22",
+        "sc32",
+        "sc42",
+        "sc17",
+        "sc27",
+        "sc37",
+        "sc47",
+        "sat12",
+        "unsat2",
+        "sat7",
+        "unsat7",
+        "sheave3",
+        "sheave8",
+        "sa13",
+        "sa23",
+        "sa33",
+        "sa43",
+        "sa18",
+        "sa28",
+        "sa38",
+        "sa48",
+        "sb13",
+        "sb23",
+        "sb33",
+        "sb43",
+        "sb18",
+        "sb28",
+        "sb38",
+        "sb48",
+        "sc13",
+        "sc23",
+        "sc33",
+        "sc43",
+        "sc18",
+        "sc28",
+        "sc38",
+        "sc48",
+        "sat3",
+        "unsat3",
+        "sat8",
+        "unsat8",
+        "sheave4",
+        "sheave9",
+        "sa14",
+        "sa24",
+        "sa34",
+        "sa44",
+        "sa19",
+        "sa29",
+        "sa39",
+        "sa49",
+        "sb14",
+        "sb24",
+        "sb34",
+        "sb44",
+        "sb19",
+        "sb29",
+        "sb39",
+        "sb49",
+        "sc14",
+        "sc24",
+        "sc34",
+        "sc44",
+        "sc19",
+        "sc29",
+        "sc39",
+        "sc49",
+        "sat4",
+        "unsat4",
+        "sat9",
+        "unsat9",
+        "sheave5",
+        "sheave10",
+        "sa15",
+        "sa25",
+        "sa35",
+        "sa45",
+        "sa110",
+        "sa210",
+        "sa310",
+        "sa410",
+        "sb15",
+        "sb25",
+        "sb35",
+        "sb45",
+        "sb110",
+        "sb210",
+        "sb310",
+        "sb410",
+        "sc15",
+        "sc25",
+        "sc35",
+        "sc45",
+        "sc110",
+        "sc210",
+        "sc310",
+        "sc410",
+        "sat5",
+        "unsat5",
+        "sat10",
+        "unsat10",
+        "remarks",
+        "maintman",
+        "aglpocpo",
+        "qainspector",
+        "maintcpo"
+      ]
+    }
+  ],
+  "fields": {
+    "catapult": {
+      "type": "text",
+      "label": "ENTER ENGINE NUMBER.",
+      "page": 1,
+      "box": {
+        "left": 98.6,
+        "top": 739.7,
+        "width": 87.6,
+        "height": 12.3
+      }
+    },
+    "dateTimeField1": {
+      "type": "text",
+      "label": "ENTER DATE.",
+      "page": 1,
+      "box": {
+        "left": 473.2,
+        "top": 739.7,
+        "width": 91.0,
+        "height": 12.3
+      }
+    },
+    "jsn": {
+      "type": "text",
+      "label": "ENTER JSN.",
+      "page": 1,
+      "box": {
+        "left": 282.3,
+        "top": 730.7,
+        "width": 65.9,
+        "height": 12.3
+      }
+    },
+    "shotno": {
+      "type": "text",
+      "label": "ENTER ENGINE HIT NUMBER.",
+      "page": 1,
+      "box": {
+        "left": 111.8,
+        "top": 712.7,
+        "width": 74.3,
+        "height": 12.3
+      }
+    },
+    "shotssince": {
+      "type": "text",
+      "label": "ENTER HITS SINCE LAST INSPECTION.",
+      "page": 1,
+      "box": {
+        "left": 491.0,
+        "top": 712.7,
+        "width": 73.2,
+        "height": 12.3
+      }
+    },
+    "sheave1": {
+      "type": "text",
+      "label": "ENTER SHEAVE NUMBER.",
+      "page": 1,
+      "box": {
+        "left": 109.2,
+        "top": 640.7,
+        "width": 117.4,
+        "height": 12.3
+      }
+    },
+    "sheave6": {
+      "type": "text",
+      "label": "ENTER SHEAVE NUMBER.",
+      "page": 1,
+      "box": {
+        "left": 428.7,
+        "top": 640.7,
+        "width": 117.4,
+        "height": 12.3
+      }
+    },
+    "sa11": {
+      "type": "text",
+      "label": "ENTER SHEAVE THROAT DEPTH.",
+      "page": 1,
+      "box": {
+        "left": 79.8,
+        "top": 622.7,
+        "width": 25.3,
+        "height": 12.3
+      }
+    },
+    "sa21": {
+      "type": "text",
+      "label": "ENTER SHEAVE THROAT DEPTH.",
+      "page": 1,
+      "box": {
+        "left": 115.3,
+        "top": 622.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sa31": {
+      "type": "text",
+      "label": "ENTER SHEAVE THROAT DEPTH.",
+      "page": 1,
+      "box": {
+        "left": 155.8,
+        "top": 622.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sa41": {
+      "type": "text",
+      "label": "ENTER SHEAVE THROAT DEPTH.",
+      "page": 1,
+      "box": {
+        "left": 196.3,
+        "top": 622.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sa16": {
+      "type": "text",
+      "label": "ENTER SHEAVE THROAT DEPTH.",
+      "page": 1,
+      "box": {
+        "left": 399.3,
+        "top": 622.7,
+        "width": 25.3,
+        "height": 12.3
+      }
+    },
+    "sa26": {
+      "type": "text",
+      "label": "ENTER SHEAVE THROAT DEPTH.",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 622.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sa36": {
+      "type": "text",
+      "label": "ENTER SHEAVE THROAT DEPTH.",
+      "page": 1,
+      "box": {
+        "left": 475.3,
+        "top": 622.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sa46": {
+      "type": "text",
+      "label": "ENTER SHEAVE THROAT DEPTH.",
+      "page": 1,
+      "box": {
+        "left": 515.8,
+        "top": 622.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sb11": {
+      "type": "text",
+      "label": "ENTER SHEAVE SPACER READING.",
+      "page": 1,
+      "box": {
+        "left": 79.8,
+        "top": 604.7,
+        "width": 25.3,
+        "height": 12.3
+      }
+    },
+    "sb21": {
+      "type": "text",
+      "label": "ENTER SHEAVE SPACER READING.",
+      "page": 1,
+      "box": {
+        "left": 115.3,
+        "top": 604.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sb31": {
+      "type": "text",
+      "label": "ENTER SHEAVE SPACER READING.",
+      "page": 1,
+      "box": {
+        "left": 155.8,
+        "top": 604.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sb41": {
+      "type": "text",
+      "label": "ENTER SHEAVE SPACER READING.",
+      "page": 1,
+      "box": {
+        "left": 196.3,
+        "top": 604.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sb16": {
+      "type": "text",
+      "label": "ENTER SHEAVE SPACER READING.",
+      "page": 1,
+      "box": {
+        "left": 399.3,
+        "top": 604.7,
+        "width": 25.3,
+        "height": 12.3
+      }
+    },
+    "sb26": {
+      "type": "text",
+      "label": "ENTER SHEAVE SPACER READING.",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 604.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sb36": {
+      "type": "text",
+      "label": "ENTER SHEAVE SPACER READING.",
+      "page": 1,
+      "box": {
+        "left": 475.3,
+        "top": 604.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sb46": {
+      "type": "text",
+      "label": "ENTER SHEAVE SPACER READING.",
+      "page": 1,
+      "box": {
+        "left": 515.8,
+        "top": 604.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sc11": {
+      "type": "text",
+      "label": "ENTER PHELONIC SPACER THICKNESS.",
+      "page": 1,
+      "box": {
+        "left": 79.8,
+        "top": 586.7,
+        "width": 25.3,
+        "height": 12.3
+      }
+    },
+    "sc21": {
+      "type": "text",
+      "label": "ENTER PHELONIC SPACER THICKNESS.",
+      "page": 1,
+      "box": {
+        "left": 115.3,
+        "top": 586.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sc31": {
+      "type": "text",
+      "label": "ENTER PHELONIC SPACER THICKNESS.",
+      "page": 1,
+      "box": {
+        "left": 155.8,
+        "top": 586.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sc41": {
+      "type": "text",
+      "label": "ENTER PHELONIC SPACER THICKNESS.",
+      "page": 1,
+      "box": {
+        "left": 196.3,
+        "top": 586.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sc16": {
+      "type": "text",
+      "label": "ENTER PHELONIC SPACER THICKNESS.",
+      "page": 1,
+      "box": {
+        "left": 399.3,
+        "top": 586.7,
+        "width": 25.3,
+        "height": 12.3
+      }
+    },
+    "sc26": {
+      "type": "text",
+      "label": "ENTER PHELONIC SPACER THICKNESS.",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 586.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sc36": {
+      "type": "text",
+      "label": "ENTER PHELONIC SPACER THICKNESS.",
+      "page": 1,
+      "box": {
+        "left": 475.3,
+        "top": 586.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sc46": {
+      "type": "text",
+      "label": "ENTER PHELONIC SPACER THICKNESS.",
+      "page": 1,
+      "box": {
+        "left": 515.8,
+        "top": 586.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sat1": {
+      "type": "checkbox",
+      "label": "SELECT CEMENTED PHENOLIC SECURITY.",
+      "page": 1,
+      "box": {
+        "left": 78.0,
+        "top": 558.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "unsat1": {
+      "type": "checkbox",
+      "label": "SELECT CEMENTED PHENOLIC SECURITY.",
+      "page": 1,
+      "box": {
+        "left": 105.0,
+        "top": 558.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "sat6": {
+      "type": "checkbox",
+      "label": "SELECT CEMENTED PHENOLIC SECURITY.",
+      "page": 1,
+      "box": {
+        "left": 397.5,
+        "top": 558.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "unsat6": {
+      "type": "checkbox",
+      "label": "SELECT CEMENTED PHENOLIC SECURITY.",
+      "page": 1,
+      "box": {
+        "left": 424.5,
+        "top": 558.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "sheave2": {
+      "type": "text",
+      "label": "ENTER SHEAVE NUMBER.",
+      "page": 1,
+      "box": {
+        "left": 109.2,
+        "top": 546.2,
+        "width": 117.4,
+        "height": 12.3
+      }
+    },
+    "sheave7": {
+      "type": "text",
+      "label": "ENTER SHEAVE NUMBER.",
+      "page": 1,
+      "box": {
+        "left": 428.7,
+        "top": 546.2,
+        "width": 117.4,
+        "height": 12.3
+      }
+    },
+    "sa12": {
+      "type": "text",
+      "label": "ENTER SHEAVE THROAT DEPTH.",
+      "page": 1,
+      "box": {
+        "left": 79.8,
+        "top": 528.2,
+        "width": 25.3,
+        "height": 12.3
+      }
+    },
+    "sa22": {
+      "type": "text",
+      "label": "ENTER SHEAVE THROAT DEPTH.",
+      "page": 1,
+      "box": {
+        "left": 115.3,
+        "top": 528.2,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sa32": {
+      "type": "text",
+      "label": "ENTER SHEAVE THROAT DEPTH.",
+      "page": 1,
+      "box": {
+        "left": 155.8,
+        "top": 528.2,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sa42": {
+      "type": "text",
+      "label": "ENTER SHEAVE THROAT DEPTH.",
+      "page": 1,
+      "box": {
+        "left": 196.3,
+        "top": 528.2,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sa17": {
+      "type": "text",
+      "label": "ENTER SHEAVE THROAT DEPTH.",
+      "page": 1,
+      "box": {
+        "left": 399.3,
+        "top": 528.2,
+        "width": 25.3,
+        "height": 12.3
+      }
+    },
+    "sa27": {
+      "type": "text",
+      "label": "ENTER SHEAVE THROAT DEPTH.",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 528.2,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sa37": {
+      "type": "text",
+      "label": "ENTER SHEAVE THROAT DEPTH.",
+      "page": 1,
+      "box": {
+        "left": 475.3,
+        "top": 528.2,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sa47": {
+      "type": "text",
+      "label": "ENTER SHEAVE THROAT DEPTH.",
+      "page": 1,
+      "box": {
+        "left": 515.8,
+        "top": 528.2,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sb12": {
+      "type": "text",
+      "label": "ENTER SHEAVE SPACER READING.",
+      "page": 1,
+      "box": {
+        "left": 79.8,
+        "top": 510.2,
+        "width": 25.3,
+        "height": 12.3
+      }
+    },
+    "sb22": {
+      "type": "text",
+      "label": "ENTER SHEAVE SPACER READING.",
+      "page": 1,
+      "box": {
+        "left": 115.3,
+        "top": 510.2,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sb32": {
+      "type": "text",
+      "label": "ENTER SHEAVE SPACER READING.",
+      "page": 1,
+      "box": {
+        "left": 155.8,
+        "top": 510.2,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sb42": {
+      "type": "text",
+      "label": "ENTER SHEAVE SPACER READING.",
+      "page": 1,
+      "box": {
+        "left": 196.3,
+        "top": 510.2,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sb17": {
+      "type": "text",
+      "label": "ENTER SHEAVE SPACER READING.",
+      "page": 1,
+      "box": {
+        "left": 399.3,
+        "top": 510.2,
+        "width": 25.3,
+        "height": 12.3
+      }
+    },
+    "sb27": {
+      "type": "text",
+      "label": "ENTER SHEAVE SPACER READING.",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 510.2,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sb37": {
+      "type": "text",
+      "label": "ENTER SHEAVE SPACER READING.",
+      "page": 1,
+      "box": {
+        "left": 475.3,
+        "top": 510.2,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sb47": {
+      "type": "text",
+      "label": "ENTER SHEAVE SPACER READING.",
+      "page": 1,
+      "box": {
+        "left": 515.8,
+        "top": 510.2,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sc12": {
+      "type": "text",
+      "label": "ENTER PHELONIC SPACER THICKNESS.",
+      "page": 1,
+      "box": {
+        "left": 79.8,
+        "top": 492.2,
+        "width": 25.3,
+        "height": 12.3
+      }
+    },
+    "sc22": {
+      "type": "text",
+      "label": "ENTER PHELONIC SPACER THICKNESS.",
+      "page": 1,
+      "box": {
+        "left": 115.3,
+        "top": 492.2,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sc32": {
+      "type": "text",
+      "label": "ENTER PHELONIC SPACER THICKNESS.",
+      "page": 1,
+      "box": {
+        "left": 155.8,
+        "top": 492.2,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sc42": {
+      "type": "text",
+      "label": "ENTER PHELONIC SPACER THICKNESS.",
+      "page": 1,
+      "box": {
+        "left": 196.3,
+        "top": 492.2,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sc17": {
+      "type": "text",
+      "label": "ENTER PHELONIC SPACER THICKNESS.",
+      "page": 1,
+      "box": {
+        "left": 399.3,
+        "top": 492.2,
+        "width": 25.3,
+        "height": 12.3
+      }
+    },
+    "sc27": {
+      "type": "text",
+      "label": "ENTER PHELONIC SPACER THICKNESS.",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 492.2,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sc37": {
+      "type": "text",
+      "label": "ENTER PHELONIC SPACER THICKNESS.",
+      "page": 1,
+      "box": {
+        "left": 475.3,
+        "top": 492.2,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sc47": {
+      "type": "text",
+      "label": "ENTER PHELONIC SPACER THICKNESS.",
+      "page": 1,
+      "box": {
+        "left": 515.8,
+        "top": 492.2,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sat12": {
+      "type": "checkbox",
+      "label": "SELECT CEMENTED PHENOLIC SECURITY.",
+      "page": 1,
+      "box": {
+        "left": 78.0,
+        "top": 463.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "unsat2": {
+      "type": "checkbox",
+      "label": "SELECT CEMENTED PHENOLIC SECURITY.",
+      "page": 1,
+      "box": {
+        "left": 105.0,
+        "top": 463.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "sat7": {
+      "type": "checkbox",
+      "label": "SELECT CEMENTED PHENOLIC SECURITY.",
+      "page": 1,
+      "box": {
+        "left": 397.5,
+        "top": 463.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "unsat7": {
+      "type": "checkbox",
+      "label": "SELECT CEMENTED PHENOLIC SECURITY.",
+      "page": 1,
+      "box": {
+        "left": 424.5,
+        "top": 463.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "sheave3": {
+      "type": "text",
+      "label": "ENTER SHEAVE NUMBER.",
+      "page": 1,
+      "box": {
+        "left": 109.2,
+        "top": 447.2,
+        "width": 117.4,
+        "height": 12.3
+      }
+    },
+    "sheave8": {
+      "type": "text",
+      "label": "ENTER SHEAVE NUMBER.",
+      "page": 1,
+      "box": {
+        "left": 428.7,
+        "top": 447.2,
+        "width": 117.4,
+        "height": 12.3
+      }
+    },
+    "sa13": {
+      "type": "text",
+      "label": "ENTER SHEAVE THROAT DEPTH.",
+      "page": 1,
+      "box": {
+        "left": 79.8,
+        "top": 429.2,
+        "width": 25.3,
+        "height": 12.3
+      }
+    },
+    "sa23": {
+      "type": "text",
+      "label": "ENTER SHEAVE THROAT DEPTH.",
+      "page": 1,
+      "box": {
+        "left": 115.3,
+        "top": 429.2,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sa33": {
+      "type": "text",
+      "label": "ENTER SHEAVE THROAT DEPTH.",
+      "page": 1,
+      "box": {
+        "left": 155.8,
+        "top": 429.2,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sa43": {
+      "type": "text",
+      "label": "ENTER SHEAVE THROAT DEPTH.",
+      "page": 1,
+      "box": {
+        "left": 196.3,
+        "top": 429.2,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sa18": {
+      "type": "text",
+      "label": "ENTER SHEAVE THROAT DEPTH.",
+      "page": 1,
+      "box": {
+        "left": 399.3,
+        "top": 429.2,
+        "width": 25.3,
+        "height": 12.3
+      }
+    },
+    "sa28": {
+      "type": "text",
+      "label": "ENTER SHEAVE THROAT DEPTH.",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 429.2,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sa38": {
+      "type": "text",
+      "label": "ENTER SHEAVE THROAT DEPTH.",
+      "page": 1,
+      "box": {
+        "left": 475.3,
+        "top": 429.2,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sa48": {
+      "type": "text",
+      "label": "ENTER SHEAVE THROAT DEPTH.",
+      "page": 1,
+      "box": {
+        "left": 515.8,
+        "top": 429.2,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sb13": {
+      "type": "text",
+      "label": "ENTER SHEAVE SPACER READING.",
+      "page": 1,
+      "box": {
+        "left": 79.8,
+        "top": 411.2,
+        "width": 25.3,
+        "height": 12.3
+      }
+    },
+    "sb23": {
+      "type": "text",
+      "label": "ENTER SHEAVE SPACER READING.",
+      "page": 1,
+      "box": {
+        "left": 115.3,
+        "top": 411.2,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sb33": {
+      "type": "text",
+      "label": "ENTER SHEAVE SPACER READING.",
+      "page": 1,
+      "box": {
+        "left": 155.8,
+        "top": 411.2,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sb43": {
+      "type": "text",
+      "label": "ENTER SHEAVE SPACER READING.",
+      "page": 1,
+      "box": {
+        "left": 196.3,
+        "top": 411.2,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sb18": {
+      "type": "text",
+      "label": "ENTER SHEAVE SPACER READING.",
+      "page": 1,
+      "box": {
+        "left": 399.3,
+        "top": 411.2,
+        "width": 25.3,
+        "height": 12.3
+      }
+    },
+    "sb28": {
+      "type": "text",
+      "label": "ENTER SHEAVE SPACER READING.",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 411.2,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sb38": {
+      "type": "text",
+      "label": "ENTER SHEAVE SPACER READING.",
+      "page": 1,
+      "box": {
+        "left": 475.3,
+        "top": 411.2,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sb48": {
+      "type": "text",
+      "label": "ENTER SHEAVE SPACER READING.",
+      "page": 1,
+      "box": {
+        "left": 515.8,
+        "top": 411.2,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sc13": {
+      "type": "text",
+      "label": "ENTER PHELONIC SPACER THICKNESS.",
+      "page": 1,
+      "box": {
+        "left": 79.8,
+        "top": 393.2,
+        "width": 25.3,
+        "height": 12.3
+      }
+    },
+    "sc23": {
+      "type": "text",
+      "label": "ENTER PHELONIC SPACER THICKNESS.",
+      "page": 1,
+      "box": {
+        "left": 115.3,
+        "top": 393.2,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sc33": {
+      "type": "text",
+      "label": "ENTER PHELONIC SPACER THICKNESS.",
+      "page": 1,
+      "box": {
+        "left": 155.8,
+        "top": 393.2,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sc43": {
+      "type": "text",
+      "label": "ENTER PHELONIC SPACER THICKNESS.",
+      "page": 1,
+      "box": {
+        "left": 196.3,
+        "top": 393.2,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sc18": {
+      "type": "text",
+      "label": "ENTER PHELONIC SPACER THICKNESS.",
+      "page": 1,
+      "box": {
+        "left": 399.3,
+        "top": 393.2,
+        "width": 25.3,
+        "height": 12.3
+      }
+    },
+    "sc28": {
+      "type": "text",
+      "label": "ENTER PHELONIC SPACER THICKNESS.",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 393.2,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sc38": {
+      "type": "text",
+      "label": "ENTER PHELONIC SPACER THICKNESS.",
+      "page": 1,
+      "box": {
+        "left": 475.3,
+        "top": 393.2,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sc48": {
+      "type": "text",
+      "label": "ENTER PHELONIC SPACER THICKNESS.",
+      "page": 1,
+      "box": {
+        "left": 515.8,
+        "top": 393.2,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sat3": {
+      "type": "checkbox",
+      "label": "SELECT CEMENTED PHENOLIC SECURITY.",
+      "page": 1,
+      "box": {
+        "left": 78.0,
+        "top": 364.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "unsat3": {
+      "type": "checkbox",
+      "label": "SELECT CEMENTED PHENOLIC SECURITY.",
+      "page": 1,
+      "box": {
+        "left": 105.0,
+        "top": 364.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "sat8": {
+      "type": "checkbox",
+      "label": "SELECT CEMENTED PHENOLIC SECURITY.",
+      "page": 1,
+      "box": {
+        "left": 397.5,
+        "top": 364.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "unsat8": {
+      "type": "checkbox",
+      "label": "SELECT CEMENTED PHENOLIC SECURITY.",
+      "page": 1,
+      "box": {
+        "left": 424.5,
+        "top": 364.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "sheave4": {
+      "type": "text",
+      "label": "ENTER SHEAVE NUMBER.",
+      "page": 1,
+      "box": {
+        "left": 109.2,
+        "top": 343.7,
+        "width": 117.4,
+        "height": 12.3
+      }
+    },
+    "sheave9": {
+      "type": "text",
+      "label": "ENTER SHEAVE NUMBER.",
+      "page": 1,
+      "box": {
+        "left": 428.7,
+        "top": 343.7,
+        "width": 117.4,
+        "height": 12.3
+      }
+    },
+    "sa14": {
+      "type": "text",
+      "label": "ENTER SHEAVE THROAT DEPTH.",
+      "page": 1,
+      "box": {
+        "left": 79.8,
+        "top": 325.7,
+        "width": 25.3,
+        "height": 12.3
+      }
+    },
+    "sa24": {
+      "type": "text",
+      "label": "ENTER SHEAVE THROAT DEPTH.",
+      "page": 1,
+      "box": {
+        "left": 115.3,
+        "top": 325.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sa34": {
+      "type": "text",
+      "label": "ENTER SHEAVE THROAT DEPTH.",
+      "page": 1,
+      "box": {
+        "left": 155.8,
+        "top": 325.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sa44": {
+      "type": "text",
+      "label": "ENTER SHEAVE THROAT DEPTH.",
+      "page": 1,
+      "box": {
+        "left": 196.3,
+        "top": 325.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sa19": {
+      "type": "text",
+      "label": "ENTER SHEAVE THROAT DEPTH.",
+      "page": 1,
+      "box": {
+        "left": 399.3,
+        "top": 325.7,
+        "width": 25.3,
+        "height": 12.3
+      }
+    },
+    "sa29": {
+      "type": "text",
+      "label": "ENTER SHEAVE THROAT DEPTH.",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 325.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sa39": {
+      "type": "text",
+      "label": "ENTER SHEAVE THROAT DEPTH.",
+      "page": 1,
+      "box": {
+        "left": 475.3,
+        "top": 325.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sa49": {
+      "type": "text",
+      "label": "ENTER SHEAVE THROAT DEPTH.",
+      "page": 1,
+      "box": {
+        "left": 515.8,
+        "top": 325.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sb14": {
+      "type": "text",
+      "label": "ENTER SHEAVE SPACER READING.",
+      "page": 1,
+      "box": {
+        "left": 79.8,
+        "top": 307.7,
+        "width": 25.3,
+        "height": 12.3
+      }
+    },
+    "sb24": {
+      "type": "text",
+      "label": "ENTER SHEAVE SPACER READING.",
+      "page": 1,
+      "box": {
+        "left": 115.3,
+        "top": 307.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sb34": {
+      "type": "text",
+      "label": "ENTER SHEAVE SPACER READING.",
+      "page": 1,
+      "box": {
+        "left": 155.8,
+        "top": 307.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sb44": {
+      "type": "text",
+      "label": "ENTER SHEAVE SPACER READING.",
+      "page": 1,
+      "box": {
+        "left": 196.3,
+        "top": 307.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sb19": {
+      "type": "text",
+      "label": "ENTER SHEAVE SPACER READING.",
+      "page": 1,
+      "box": {
+        "left": 399.3,
+        "top": 307.7,
+        "width": 25.3,
+        "height": 12.3
+      }
+    },
+    "sb29": {
+      "type": "text",
+      "label": "ENTER SHEAVE SPACER READING.",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 307.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sb39": {
+      "type": "text",
+      "label": "ENTER SHEAVE SPACER READING.",
+      "page": 1,
+      "box": {
+        "left": 475.3,
+        "top": 307.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sb49": {
+      "type": "text",
+      "label": "ENTER SHEAVE SPACER READING.",
+      "page": 1,
+      "box": {
+        "left": 515.8,
+        "top": 307.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sc14": {
+      "type": "text",
+      "label": "ENTER PHELONIC SPACER THICKNESS.",
+      "page": 1,
+      "box": {
+        "left": 79.8,
+        "top": 289.7,
+        "width": 25.3,
+        "height": 12.3
+      }
+    },
+    "sc24": {
+      "type": "text",
+      "label": "ENTER PHELONIC SPACER THICKNESS.",
+      "page": 1,
+      "box": {
+        "left": 115.3,
+        "top": 289.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sc34": {
+      "type": "text",
+      "label": "ENTER PHELONIC SPACER THICKNESS.",
+      "page": 1,
+      "box": {
+        "left": 155.8,
+        "top": 289.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sc44": {
+      "type": "text",
+      "label": "ENTER PHELONIC SPACER THICKNESS.",
+      "page": 1,
+      "box": {
+        "left": 196.3,
+        "top": 289.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sc19": {
+      "type": "text",
+      "label": "ENTER PHELONIC SPACER THICKNESS.",
+      "page": 1,
+      "box": {
+        "left": 399.3,
+        "top": 289.7,
+        "width": 25.3,
+        "height": 12.3
+      }
+    },
+    "sc29": {
+      "type": "text",
+      "label": "ENTER PHELONIC SPACER THICKNESS.",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 289.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sc39": {
+      "type": "text",
+      "label": "ENTER PHELONIC SPACER THICKNESS.",
+      "page": 1,
+      "box": {
+        "left": 475.3,
+        "top": 289.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sc49": {
+      "type": "text",
+      "label": "ENTER PHELONIC SPACER THICKNESS.",
+      "page": 1,
+      "box": {
+        "left": 515.8,
+        "top": 289.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sat4": {
+      "type": "checkbox",
+      "label": "SELECT CEMENTED PHENOLIC SECURITY.",
+      "page": 1,
+      "box": {
+        "left": 78.0,
+        "top": 261.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "unsat4": {
+      "type": "checkbox",
+      "label": "SELECT CEMENTED PHENOLIC SECURITY.",
+      "page": 1,
+      "box": {
+        "left": 105.0,
+        "top": 261.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "sat9": {
+      "type": "checkbox",
+      "label": "SELECT CEMENTED PHENOLIC SECURITY.",
+      "page": 1,
+      "box": {
+        "left": 397.5,
+        "top": 261.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "unsat9": {
+      "type": "checkbox",
+      "label": "SELECT CEMENTED PHENOLIC SECURITY.",
+      "page": 1,
+      "box": {
+        "left": 424.5,
+        "top": 261.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "sheave5": {
+      "type": "text",
+      "label": "ENTER SHEAVE NUMBER.",
+      "page": 1,
+      "box": {
+        "left": 109.2,
+        "top": 244.7,
+        "width": 117.4,
+        "height": 12.3
+      }
+    },
+    "sheave10": {
+      "type": "text",
+      "label": "ENTER SHEAVE NUMBER.",
+      "page": 1,
+      "box": {
+        "left": 428.7,
+        "top": 244.7,
+        "width": 117.4,
+        "height": 12.3
+      }
+    },
+    "sa15": {
+      "type": "text",
+      "label": "ENTER SHEAVE THROAT DEPTH.",
+      "page": 1,
+      "box": {
+        "left": 79.8,
+        "top": 226.7,
+        "width": 25.3,
+        "height": 12.3
+      }
+    },
+    "sa25": {
+      "type": "text",
+      "label": "ENTER SHEAVE THROAT DEPTH.",
+      "page": 1,
+      "box": {
+        "left": 115.3,
+        "top": 226.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sa35": {
+      "type": "text",
+      "label": "ENTER SHEAVE THROAT DEPTH.",
+      "page": 1,
+      "box": {
+        "left": 155.8,
+        "top": 226.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sa45": {
+      "type": "text",
+      "label": "ENTER SHEAVE THROAT DEPTH.",
+      "page": 1,
+      "box": {
+        "left": 196.3,
+        "top": 226.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sa110": {
+      "type": "text",
+      "label": "ENTER SHEAVE THROAT DEPTH.",
+      "page": 1,
+      "box": {
+        "left": 399.3,
+        "top": 226.7,
+        "width": 25.3,
+        "height": 12.3
+      }
+    },
+    "sa210": {
+      "type": "text",
+      "label": "ENTER SHEAVE THROAT DEPTH.",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 226.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sa310": {
+      "type": "text",
+      "label": "ENTER SHEAVE THROAT DEPTH.",
+      "page": 1,
+      "box": {
+        "left": 475.3,
+        "top": 226.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sa410": {
+      "type": "text",
+      "label": "ENTER SHEAVE THROAT DEPTH.",
+      "page": 1,
+      "box": {
+        "left": 515.8,
+        "top": 226.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sb15": {
+      "type": "text",
+      "label": "ENTER SHEAVE SPACER READING.",
+      "page": 1,
+      "box": {
+        "left": 79.8,
+        "top": 208.7,
+        "width": 25.3,
+        "height": 12.3
+      }
+    },
+    "sb25": {
+      "type": "text",
+      "label": "ENTER SHEAVE SPACER READING.",
+      "page": 1,
+      "box": {
+        "left": 115.3,
+        "top": 208.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sb35": {
+      "type": "text",
+      "label": "ENTER SHEAVE SPACER READING.",
+      "page": 1,
+      "box": {
+        "left": 155.8,
+        "top": 208.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sb45": {
+      "type": "text",
+      "label": "ENTER SHEAVE SPACER READING.",
+      "page": 1,
+      "box": {
+        "left": 196.3,
+        "top": 208.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sb110": {
+      "type": "text",
+      "label": "ENTER SHEAVE SPACER READING.",
+      "page": 1,
+      "box": {
+        "left": 399.3,
+        "top": 208.7,
+        "width": 25.3,
+        "height": 12.3
+      }
+    },
+    "sb210": {
+      "type": "text",
+      "label": "ENTER SHEAVE SPACER READING.",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 208.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sb310": {
+      "type": "text",
+      "label": "ENTER SHEAVE SPACER READING.",
+      "page": 1,
+      "box": {
+        "left": 475.3,
+        "top": 208.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sb410": {
+      "type": "text",
+      "label": "ENTER SHEAVE SPACER READING.",
+      "page": 1,
+      "box": {
+        "left": 515.8,
+        "top": 208.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sc15": {
+      "type": "text",
+      "label": "ENTER PHELONIC SPACER THICKNESS.",
+      "page": 1,
+      "box": {
+        "left": 79.8,
+        "top": 190.7,
+        "width": 25.3,
+        "height": 12.3
+      }
+    },
+    "sc25": {
+      "type": "text",
+      "label": "ENTER PHELONIC SPACER THICKNESS.",
+      "page": 1,
+      "box": {
+        "left": 115.3,
+        "top": 190.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sc35": {
+      "type": "text",
+      "label": "ENTER PHELONIC SPACER THICKNESS.",
+      "page": 1,
+      "box": {
+        "left": 155.8,
+        "top": 190.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sc45": {
+      "type": "text",
+      "label": "ENTER PHELONIC SPACER THICKNESS.",
+      "page": 1,
+      "box": {
+        "left": 196.3,
+        "top": 190.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sc110": {
+      "type": "text",
+      "label": "ENTER PHELONIC SPACER THICKNESS.",
+      "page": 1,
+      "box": {
+        "left": 399.3,
+        "top": 190.7,
+        "width": 25.3,
+        "height": 12.3
+      }
+    },
+    "sc210": {
+      "type": "text",
+      "label": "ENTER PHELONIC SPACER THICKNESS.",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 190.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sc310": {
+      "type": "text",
+      "label": "ENTER PHELONIC SPACER THICKNESS.",
+      "page": 1,
+      "box": {
+        "left": 475.3,
+        "top": 190.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sc410": {
+      "type": "text",
+      "label": "ENTER PHELONIC SPACER THICKNESS.",
+      "page": 1,
+      "box": {
+        "left": 515.8,
+        "top": 190.7,
+        "width": 30.3,
+        "height": 12.3
+      }
+    },
+    "sat5": {
+      "type": "checkbox",
+      "label": "SELECT CEMENTED PHENOLIC SECURITY.",
+      "page": 1,
+      "box": {
+        "left": 78.0,
+        "top": 162.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "unsat5": {
+      "type": "checkbox",
+      "label": "SELECT CEMENTED PHENOLIC SECURITY.",
+      "page": 1,
+      "box": {
+        "left": 105.0,
+        "top": 162.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "sat10": {
+      "type": "checkbox",
+      "label": "SELECT CEMENTED PHENOLIC SECURITY.",
+      "page": 1,
+      "box": {
+        "left": 397.5,
+        "top": 162.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "unsat10": {
+      "type": "checkbox",
+      "label": "SELECT CEMENTED PHENOLIC SECURITY.",
+      "page": 1,
+      "box": {
+        "left": 424.5,
+        "top": 162.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "ENTER REMARKS.",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 123.2,
+        "width": 534.3,
+        "height": 25.8
+      }
+    },
+    "maintman": {
+      "type": "text",
+      "label": "ENTER MAINT. MAN.",
+      "page": 1,
+      "box": {
+        "left": 96.5,
+        "top": 87.2,
+        "width": 161.7,
+        "height": 12.3
+      }
+    },
+    "aglpocpo": {
+      "type": "text",
+      "label": "ENTER W/C SUPERVISOR.",
+      "page": 1,
+      "box": {
+        "left": 425.9,
+        "top": 87.2,
+        "width": 129.2,
+        "height": 12.3
+      }
+    },
+    "qainspector": {
+      "type": "text",
+      "label": "ENTER QA INSPECTOR.",
+      "page": 1,
+      "box": {
+        "left": 115.7,
+        "top": 64.7,
+        "width": 142.4,
+        "height": 12.3
+      }
+    },
+    "maintcpo": {
+      "type": "text",
+      "label": "ENTER MAINT. CHIEF/OFFICER.",
+      "page": 1,
+      "box": {
+        "left": 446.5,
+        "top": 64.7,
+        "width": 108.6,
+        "height": 12.3
+      }
+    }
+  }
+}

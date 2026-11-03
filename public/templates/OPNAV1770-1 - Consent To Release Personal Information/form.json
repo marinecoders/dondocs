@@ -1,0 +1,169 @@
+{
+  "id": "opnav17701",
+  "label": "OPNAV1770-1 - Consent To Release Personal Information",
+  "directory": "OPNAV1770-1 - Consent To Release Personal Information",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "checkBox1",
+        "dsm",
+        "name7",
+        "signature",
+        "dateField1",
+        "contBy",
+        "cUICat",
+        "ldc",
+        "poc"
+      ]
+    }
+  ],
+  "fields": {
+    "checkBox1": {
+      "type": "checkbox",
+      "label": "and",
+      "page": 1,
+      "box": {
+        "left": 188.0,
+        "top": 447.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "dsm": {
+      "type": "text",
+      "label": "Name of Deceased Service Member",
+      "page": 1,
+      "box": {
+        "left": 174.3,
+        "top": 432.8,
+        "width": 276.6,
+        "height": 12.3
+      }
+    },
+    "name7": {
+      "type": "text",
+      "label": "Name (Please Type or Print)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 65.5,
+        "width": 203.2,
+        "height": 26.7
+      }
+    },
+    "signature": {
+      "type": "text",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 247.7,
+        "top": 65.5,
+        "width": 203.2,
+        "height": 26.7
+      }
+    },
+    "dateField1": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 456.5,
+        "top": 65.5,
+        "width": 116.7,
+        "height": 26.7
+      }
+    },
+    "contBy": {
+      "type": "text",
+      "label": "CUI (when filled in) CONTROLLED BY",
+      "page": 1,
+      "box": {
+        "left": 409.7,
+        "top": 32.2,
+        "width": 98.7,
+        "height": 6.6
+      }
+    },
+    "cUICat": {
+      "type": "text",
+      "label": "CUI CATEGORY",
+      "page": 1,
+      "box": {
+        "left": 409.7,
+        "top": 24.6,
+        "width": 98.7,
+        "height": 6.6
+      }
+    },
+    "ldc": {
+      "type": "text",
+      "label": "LDC",
+      "page": 1,
+      "box": {
+        "left": 409.7,
+        "top": 17.0,
+        "width": 98.7,
+        "height": 6.6
+      }
+    },
+    "poc": {
+      "type": "text",
+      "label": "POC",
+      "page": 1,
+      "box": {
+        "left": 409.7,
+        "top": 9.8,
+        "width": 98.7,
+        "height": 6.6
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 6,
+      "rowStride": 54.0,
+      "editor": "grid",
+      "columns": {
+        "name": {
+          "type": "text",
+          "label": "Name",
+          "page": 1,
+          "box": {
+            "left": 41.0,
+            "top": 400.4,
+            "width": 201.0,
+            "height": 48.3
+          }
+        },
+        "addr": {
+          "type": "text",
+          "label": "Address",
+          "page": 1,
+          "box": {
+            "left": 249.9,
+            "top": 400.4,
+            "width": 201.0,
+            "height": 48.3
+          }
+        },
+        "phnNo": {
+          "type": "text",
+          "label": "Phone Number",
+          "page": 1,
+          "box": {
+            "left": 456.5,
+            "top": 400.4,
+            "width": 116.7,
+            "height": 48.3
+          }
+        }
+      }
+    }
+  }
+}

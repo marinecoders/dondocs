@@ -1,0 +1,1185 @@
+{
+  "id": "opnav55122",
+  "label": "OPNAV5512-2 - Form",
+  "directory": "OPNAV5512-2 - Form",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "title",
+        "actAdd",
+        "race",
+        "sex",
+        "weight",
+        "height",
+        "age",
+        "colorEyes",
+        "colorHair",
+        "typWeap",
+        "serial",
+        "dateOfIssue",
+        "dateOfExpiration",
+        "dutiesAs",
+        "approved",
+        "holdersSignature"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "dateIssue",
+        "classOfEnclosures",
+        "titleOrDes",
+        "noOfPages",
+        "trimSize",
+        "sSGrade1a",
+        "sSWeight1a",
+        "sSColor1a",
+        "sSGrade1b",
+        "sSWeight1b",
+        "sSColor1b",
+        "sSGrade1c",
+        "sSWeight1c",
+        "sSColor1c",
+        "sSGrade1d",
+        "sSWeight1d",
+        "sSColor1d",
+        "sSGrade1e",
+        "sSWeight1e",
+        "sSColor1e",
+        "sSGrade1f",
+        "sSWeight1f",
+        "sSColor1f",
+        "sSGrade1g",
+        "sSWeight1g",
+        "sSColor1g",
+        "sSGrade1h",
+        "sSWeight1h",
+        "sSColor1h",
+        "sSGrade1i",
+        "sSWeight1i",
+        "sSColor1i",
+        "colorInk",
+        "supersedes",
+        "new",
+        "sides",
+        "sides2",
+        "differ",
+        "htoH",
+        "htoF",
+        "htoL",
+        "htoR",
+        "same",
+        "foot2",
+        "head2",
+        "left2",
+        "right2",
+        "right1",
+        "foot1",
+        "head1",
+        "left1",
+        "backMargins2",
+        "backMargins22",
+        "frontMargins1",
+        "frontMargins12",
+        "foldTo",
+        "twoTop",
+        "no1",
+        "diameter",
+        "no2",
+        "threeLeft",
+        "ctoC",
+        "location",
+        "sidews",
+        "saddlews",
+        "topLeftCornws",
+        "otherws",
+        "distance",
+        "from",
+        "sheets",
+        "sets",
+        "padOther",
+        "unitOfIssue",
+        "quantPerUnitIssue",
+        "packSpec",
+        "perfOrScore",
+        "perfOrScore2",
+        "locTop",
+        "specInstruRemarks"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "Enter the name (last, first,middle).",
+      "page": 1,
+      "box": {
+        "left": 37.2,
+        "top": 565.8,
+        "width": 207.4,
+        "height": 12.2
+      }
+    },
+    "title": {
+      "type": "text",
+      "label": "Enter the title.",
+      "page": 1,
+      "box": {
+        "left": 247.6,
+        "top": 565.8,
+        "width": 168.6,
+        "height": 12.2
+      }
+    },
+    "actAdd": {
+      "type": "text",
+      "label": "Enter the activity address.",
+      "page": 1,
+      "box": {
+        "left": 37.2,
+        "top": 542.2,
+        "width": 378.9,
+        "height": 11.1
+      }
+    },
+    "race": {
+      "type": "text",
+      "label": "Enter the race.",
+      "page": 1,
+      "box": {
+        "left": 37.2,
+        "top": 519.7,
+        "width": 49.9,
+        "height": 15.0
+      }
+    },
+    "sex": {
+      "type": "text",
+      "label": "Enter the sex.",
+      "page": 1,
+      "box": {
+        "left": 90.1,
+        "top": 519.3,
+        "width": 57.2,
+        "height": 14.7
+      }
+    },
+    "weight": {
+      "type": "text",
+      "label": "Enter the weight.",
+      "page": 1,
+      "box": {
+        "left": 150.3,
+        "top": 519.3,
+        "width": 60.0,
+        "height": 14.7
+      }
+    },
+    "height": {
+      "type": "text",
+      "label": "Enter the height.",
+      "page": 1,
+      "box": {
+        "left": 213.3,
+        "top": 519.3,
+        "width": 51.0,
+        "height": 14.7
+      }
+    },
+    "age": {
+      "type": "text",
+      "label": "Enter the age.",
+      "page": 1,
+      "box": {
+        "left": 267.3,
+        "top": 519.3,
+        "width": 43.1,
+        "height": 14.7
+      }
+    },
+    "colorEyes": {
+      "type": "text",
+      "label": "Enter the color of eyes.",
+      "page": 1,
+      "box": {
+        "left": 313.9,
+        "top": 519.3,
+        "width": 58.3,
+        "height": 14.7
+      }
+    },
+    "colorHair": {
+      "type": "text",
+      "label": "Enter the color of hair.",
+      "page": 1,
+      "box": {
+        "left": 393.8,
+        "top": 519.3,
+        "width": 21.8,
+        "height": 14.7
+      }
+    },
+    "typWeap": {
+      "type": "text",
+      "label": "Enter the type of weapon.",
+      "page": 1,
+      "box": {
+        "left": 37.2,
+        "top": 491.8,
+        "width": 83.1,
+        "height": 12.8
+      }
+    },
+    "serial": {
+      "type": "text",
+      "label": "Enter the serial.",
+      "page": 1,
+      "box": {
+        "left": 123.8,
+        "top": 491.8,
+        "width": 86.4,
+        "height": 12.8
+      }
+    },
+    "dateOfIssue": {
+      "type": "text",
+      "label": "Enter the date of issue, using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 37.2,
+        "top": 467.4,
+        "width": 83.3,
+        "height": 16.1
+      }
+    },
+    "dateOfExpiration": {
+      "type": "text",
+      "label": "Enter the date of expiration, using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 122.7,
+        "top": 467.4,
+        "width": 86.7,
+        "height": 16.1
+      }
+    },
+    "dutiesAs": {
+      "type": "text",
+      "label": "Enter the duties.",
+      "page": 1,
+      "box": {
+        "left": 212.7,
+        "top": 467.4,
+        "width": 203.4,
+        "height": 16.1
+      }
+    },
+    "approved": {
+      "type": "text",
+      "label": "Enter the signature, rank or title and activity of the person who approved the authorization.",
+      "page": 1,
+      "box": {
+        "left": 212.7,
+        "top": 438.7,
+        "width": 203.4,
+        "height": 44.6
+      },
+      "multiline": true
+    },
+    "holdersSignature": {
+      "type": "text",
+      "label": "Enter the holders signature.",
+      "page": 1,
+      "box": {
+        "left": 37.2,
+        "top": 413.9,
+        "width": 171.9,
+        "height": 19.7
+      }
+    },
+    "dateIssue": {
+      "type": "text",
+      "label": "Enter the issue or revision date using the format DD MMM YYYY.",
+      "page": 2,
+      "box": {
+        "left": 396.4,
+        "top": 736.4,
+        "width": 70.1,
+        "height": 13.8
+      }
+    },
+    "classOfEnclosures": {
+      "type": "text",
+      "label": "Enter the classifications of enclosures.",
+      "page": 2,
+      "box": {
+        "left": 472.9,
+        "top": 736.4,
+        "width": 101.6,
+        "height": 13.8
+      }
+    },
+    "titleOrDes": {
+      "type": "text",
+      "label": "Enter the title or description.",
+      "page": 2,
+      "box": {
+        "left": 39.8,
+        "top": 711.0,
+        "width": 350.2,
+        "height": 10.9
+      }
+    },
+    "noOfPages": {
+      "type": "text",
+      "label": "Enter the number of pages.",
+      "page": 2,
+      "box": {
+        "left": 396.9,
+        "top": 711.0,
+        "width": 69.5,
+        "height": 10.9
+      }
+    },
+    "trimSize": {
+      "type": "text",
+      "label": "Enter the trim size.",
+      "page": 2,
+      "box": {
+        "left": 472.9,
+        "top": 711.0,
+        "width": 101.6,
+        "height": 10.9
+      }
+    },
+    "sSGrade1a": {
+      "type": "text",
+      "label": "This is row 1 of 3. For stock specifications enter the grade.",
+      "page": 2,
+      "box": {
+        "left": 40.3,
+        "top": 672.2,
+        "width": 101.0,
+        "height": 11.3
+      }
+    },
+    "sSWeight1a": {
+      "type": "text",
+      "label": "For stock specifications enter the weight.",
+      "page": 2,
+      "box": {
+        "left": 147.2,
+        "top": 672.2,
+        "width": 36.3,
+        "height": 11.3
+      }
+    },
+    "sSColor1a": {
+      "type": "text",
+      "label": "For stock specifications enter the color.",
+      "page": 2,
+      "box": {
+        "left": 188.3,
+        "top": 672.2,
+        "width": 26.2,
+        "height": 11.3
+      }
+    },
+    "sSGrade1b": {
+      "type": "text",
+      "label": "For stock specifications enter the grade.",
+      "page": 2,
+      "box": {
+        "left": 221.5,
+        "top": 672.2,
+        "width": 99.3,
+        "height": 11.3
+      }
+    },
+    "sSWeight1b": {
+      "type": "text",
+      "label": "For stock specifications enter the weight.",
+      "page": 2,
+      "box": {
+        "left": 325.5,
+        "top": 672.2,
+        "width": 31.8,
+        "height": 11.3
+      }
+    },
+    "sSColor1b": {
+      "type": "text",
+      "label": "For stock specifications enter the color.",
+      "page": 2,
+      "box": {
+        "left": 362.6,
+        "top": 672.2,
+        "width": 25.6,
+        "height": 11.3
+      }
+    },
+    "sSGrade1c": {
+      "type": "text",
+      "label": "For stock specifications enter the grade.",
+      "page": 2,
+      "box": {
+        "left": 396.3,
+        "top": 672.2,
+        "width": 98.3,
+        "height": 11.3
+      }
+    },
+    "sSWeight1c": {
+      "type": "text",
+      "label": "For stock specifications enter the weight.",
+      "page": 2,
+      "box": {
+        "left": 500.3,
+        "top": 672.2,
+        "width": 41.1,
+        "height": 11.3
+      }
+    },
+    "sSColor1c": {
+      "type": "text",
+      "label": "For stock specifications enter the color.",
+      "page": 2,
+      "box": {
+        "left": 546.0,
+        "top": 672.2,
+        "width": 29.6,
+        "height": 11.3
+      }
+    },
+    "sSGrade1d": {
+      "type": "text",
+      "label": "This is row 2 of 3. For stock specifications enter the grade.",
+      "page": 2,
+      "box": {
+        "left": 40.3,
+        "top": 658.9,
+        "width": 101.0,
+        "height": 12.7
+      }
+    },
+    "sSWeight1d": {
+      "type": "text",
+      "label": "For stock specifications enter the weight.",
+      "page": 2,
+      "box": {
+        "left": 147.2,
+        "top": 658.9,
+        "width": 36.3,
+        "height": 12.7
+      }
+    },
+    "sSColor1d": {
+      "type": "text",
+      "label": "For stock specifications enter the color.",
+      "page": 2,
+      "box": {
+        "left": 188.3,
+        "top": 658.9,
+        "width": 26.2,
+        "height": 12.7
+      }
+    },
+    "sSGrade1e": {
+      "type": "text",
+      "label": "For stock specifications enter the grade.",
+      "page": 2,
+      "box": {
+        "left": 221.5,
+        "top": 658.9,
+        "width": 99.3,
+        "height": 12.7
+      }
+    },
+    "sSWeight1e": {
+      "type": "text",
+      "label": "For stock specifications enter the weight.",
+      "page": 2,
+      "box": {
+        "left": 325.5,
+        "top": 658.9,
+        "width": 31.8,
+        "height": 12.7
+      }
+    },
+    "sSColor1e": {
+      "type": "text",
+      "label": "For stock specifications enter the color.",
+      "page": 2,
+      "box": {
+        "left": 362.6,
+        "top": 658.9,
+        "width": 25.6,
+        "height": 12.7
+      }
+    },
+    "sSGrade1f": {
+      "type": "text",
+      "label": "For stock specifications enter the grade.",
+      "page": 2,
+      "box": {
+        "left": 396.3,
+        "top": 658.9,
+        "width": 98.3,
+        "height": 12.7
+      }
+    },
+    "sSWeight1f": {
+      "type": "text",
+      "label": "For stock specifications enter the weight.",
+      "page": 2,
+      "box": {
+        "left": 500.3,
+        "top": 658.9,
+        "width": 41.1,
+        "height": 12.7
+      }
+    },
+    "sSColor1f": {
+      "type": "text",
+      "label": "For stock specifications enter the color.",
+      "page": 2,
+      "box": {
+        "left": 546.0,
+        "top": 658.9,
+        "width": 29.6,
+        "height": 12.7
+      }
+    },
+    "sSGrade1g": {
+      "type": "text",
+      "label": "This is row 3 of 3. For stock specifications enter the grade.",
+      "page": 2,
+      "box": {
+        "left": 40.3,
+        "top": 643.7,
+        "width": 101.0,
+        "height": 10.7
+      }
+    },
+    "sSWeight1g": {
+      "type": "text",
+      "label": "For stock specifications enter the weight.",
+      "page": 2,
+      "box": {
+        "left": 147.2,
+        "top": 643.7,
+        "width": 36.3,
+        "height": 10.7
+      }
+    },
+    "sSColor1g": {
+      "type": "text",
+      "label": "For stock specifications enter the color.",
+      "page": 2,
+      "box": {
+        "left": 188.3,
+        "top": 643.7,
+        "width": 26.2,
+        "height": 10.7
+      }
+    },
+    "sSGrade1h": {
+      "type": "text",
+      "label": "For stock specifications enter the grade.",
+      "page": 2,
+      "box": {
+        "left": 221.5,
+        "top": 643.7,
+        "width": 99.3,
+        "height": 10.7
+      }
+    },
+    "sSWeight1h": {
+      "type": "text",
+      "label": "For stock specifications enter the weight.",
+      "page": 2,
+      "box": {
+        "left": 325.5,
+        "top": 643.7,
+        "width": 31.8,
+        "height": 10.7
+      }
+    },
+    "sSColor1h": {
+      "type": "text",
+      "label": "For stock specifications enter the color.",
+      "page": 2,
+      "box": {
+        "left": 362.6,
+        "top": 643.7,
+        "width": 25.6,
+        "height": 10.7
+      }
+    },
+    "sSGrade1i": {
+      "type": "text",
+      "label": "For stock specifications enter the grade.",
+      "page": 2,
+      "box": {
+        "left": 396.3,
+        "top": 643.7,
+        "width": 98.3,
+        "height": 10.7
+      }
+    },
+    "sSWeight1i": {
+      "type": "text",
+      "label": "For stock specifications enter the weight.",
+      "page": 2,
+      "box": {
+        "left": 500.3,
+        "top": 643.7,
+        "width": 41.1,
+        "height": 10.7
+      }
+    },
+    "sSColor1i": {
+      "type": "text",
+      "label": "For stock specifications enter the color.",
+      "page": 2,
+      "box": {
+        "left": 546.0,
+        "top": 643.7,
+        "width": 29.6,
+        "height": 10.7
+      }
+    },
+    "colorInk": {
+      "type": "text",
+      "label": "For printing specifications enter the color ink (if not black).",
+      "page": 2,
+      "box": {
+        "left": 326.6,
+        "top": 610.3,
+        "width": 79.6,
+        "height": 14.3
+      }
+    },
+    "supersedes": {
+      "type": "text",
+      "label": "For printing specifications enter if supersedes.",
+      "page": 2,
+      "box": {
+        "left": 411.0,
+        "top": 610.3,
+        "width": 129.7,
+        "height": 13.4
+      }
+    },
+    "new": {
+      "type": "text",
+      "label": "For printing specifications enter if new.",
+      "page": 2,
+      "box": {
+        "left": 547.1,
+        "top": 610.3,
+        "width": 27.3,
+        "height": 13.8
+      }
+    },
+    "sides": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 50.9,
+        "top": 607.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_1_Sides_0"
+    },
+    "sides2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 90.3,
+        "top": 607.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_1_Sides_0"
+    },
+    "differ": {
+      "type": "checkbox",
+      "label": "For printing specifications select this checkbox if they differ.",
+      "page": 2,
+      "box": {
+        "left": 159.5,
+        "top": 607.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "htoH": {
+      "type": "checkbox",
+      "label": "For printing specifications select this checkbox if H to H.",
+      "page": 2,
+      "box": {
+        "left": 197.1,
+        "top": 607.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "htoF": {
+      "type": "checkbox",
+      "label": "For printing specifications select this checkbox if H to F.",
+      "page": 2,
+      "box": {
+        "left": 227.0,
+        "top": 607.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "htoL": {
+      "type": "checkbox",
+      "label": "For printing specifications select this checkbox if H to L.",
+      "page": 2,
+      "box": {
+        "left": 257.9,
+        "top": 607.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "htoR": {
+      "type": "checkbox",
+      "label": "For printing specifications select this checkbox if H to R.",
+      "page": 2,
+      "box": {
+        "left": 297.8,
+        "top": 607.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "same": {
+      "type": "checkbox",
+      "label": "For printing specifications select this checkbox if same.",
+      "page": 2,
+      "box": {
+        "left": 124.6,
+        "top": 607.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "foot2": {
+      "type": "text",
+      "label": "For back margins enter if foot.",
+      "page": 2,
+      "box": {
+        "left": 547.7,
+        "top": 586.4,
+        "width": 26.8,
+        "height": 16.6
+      }
+    },
+    "head2": {
+      "type": "text",
+      "label": "For back margins enter if head.",
+      "page": 2,
+      "box": {
+        "left": 423.9,
+        "top": 586.3,
+        "width": 38.0,
+        "height": 16.7
+      }
+    },
+    "left2": {
+      "type": "text",
+      "label": "For back margins enter if left.",
+      "page": 2,
+      "box": {
+        "left": 468.4,
+        "top": 586.3,
+        "width": 34.6,
+        "height": 16.7
+      }
+    },
+    "right2": {
+      "type": "text",
+      "label": "For back margins enter if right.",
+      "page": 2,
+      "box": {
+        "left": 509.4,
+        "top": 586.0,
+        "width": 32.4,
+        "height": 16.4
+      }
+    },
+    "right1": {
+      "type": "text",
+      "label": "For front margins enter if right.",
+      "page": 2,
+      "box": {
+        "left": 224.3,
+        "top": 585.5,
+        "width": 31.8,
+        "height": 16.7
+      }
+    },
+    "foot1": {
+      "type": "text",
+      "label": "For front margins enter if foot.",
+      "page": 2,
+      "box": {
+        "left": 260.8,
+        "top": 585.5,
+        "width": 46.4,
+        "height": 16.6
+      }
+    },
+    "head1": {
+      "type": "text",
+      "label": "For front margins enter if head.",
+      "page": 2,
+      "box": {
+        "left": 168.0,
+        "top": 585.4,
+        "width": 23.4,
+        "height": 16.7
+      }
+    },
+    "left1": {
+      "type": "text",
+      "label": "For front margins enter if left.",
+      "page": 2,
+      "box": {
+        "left": 197.8,
+        "top": 585.4,
+        "width": 21.1,
+        "height": 16.7
+      }
+    },
+    "backMargins2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 380.0,
+        "top": 580.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_1_BackMargins2_0"
+    },
+    "backMargins22": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 317.5,
+        "top": 580.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_1_BackMargins2_0"
+    },
+    "frontMargins1": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 109.7,
+        "top": 580.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_1_FrontMargins1_0"
+    },
+    "frontMargins12": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 45.3,
+        "top": 580.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_1_FrontMargins1_0"
+    },
+    "foldTo": {
+      "type": "text",
+      "label": "For folding enter the fold to specification.",
+      "page": 2,
+      "box": {
+        "left": 39.8,
+        "top": 534.1,
+        "width": 73.4,
+        "height": 20.1
+      }
+    },
+    "twoTop": {
+      "type": "text",
+      "label": "For standard drilling enter the 2 top.",
+      "page": 2,
+      "box": {
+        "left": 118.5,
+        "top": 534.1,
+        "width": 23.9,
+        "height": 20.1
+      }
+    },
+    "no1": {
+      "type": "text",
+      "label": "For non-standard drilling enter the number.",
+      "page": 2,
+      "box": {
+        "left": 189.4,
+        "top": 534.1,
+        "width": 23.9,
+        "height": 20.1
+      }
+    },
+    "diameter": {
+      "type": "text",
+      "label": "For non-standard drilling enter the diameter.",
+      "page": 2,
+      "box": {
+        "left": 219.8,
+        "top": 534.1,
+        "width": 35.2,
+        "height": 20.1
+      }
+    },
+    "no2": {
+      "type": "text",
+      "label": "For non-standard drilling enter the number.",
+      "page": 2,
+      "box": {
+        "left": 330.0,
+        "top": 534.1,
+        "width": 26.2,
+        "height": 20.1
+      }
+    },
+    "threeLeft": {
+      "type": "text",
+      "label": "For standard drilling enter the 3 left.",
+      "page": 2,
+      "box": {
+        "left": 147.8,
+        "top": 532.9,
+        "width": 35.2,
+        "height": 19.0
+      }
+    },
+    "ctoC": {
+      "type": "text",
+      "label": "For non-standard drilling enter the C to C.",
+      "page": 2,
+      "box": {
+        "left": 260.3,
+        "top": 532.9,
+        "width": 22.8,
+        "height": 19.0
+      }
+    },
+    "location": {
+      "type": "text",
+      "label": "For non-standard drilling enter the location.",
+      "page": 2,
+      "box": {
+        "left": 288.9,
+        "top": 532.9,
+        "width": 34.6,
+        "height": 19.0
+      }
+    },
+    "sidews": {
+      "type": "checkbox",
+      "label": "For wire stitching select this checkbox if it is side.",
+      "page": 2,
+      "box": {
+        "left": 363.6,
+        "top": 527.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "saddlews": {
+      "type": "checkbox",
+      "label": "For wire stitching select this checkbox if it is saddle.",
+      "page": 2,
+      "box": {
+        "left": 401.9,
+        "top": 527.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "topLeftCornws": {
+      "type": "checkbox",
+      "label": "For wire stitching select this checkbox if it is top left corner.",
+      "page": 2,
+      "box": {
+        "left": 451.4,
+        "top": 527.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "otherws": {
+      "type": "checkbox",
+      "label": "For wire stitching select this checkbox if it is other.",
+      "page": 2,
+      "box": {
+        "left": 536.9,
+        "top": 527.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "distance": {
+      "type": "text",
+      "label": "Enter the distance.",
+      "page": 2,
+      "box": {
+        "left": 132.6,
+        "top": 483.8,
+        "width": 54.3,
+        "height": 11.6
+      }
+    },
+    "from": {
+      "type": "text",
+      "label": "Enter the distance from.",
+      "page": 2,
+      "box": {
+        "left": 193.3,
+        "top": 483.8,
+        "width": 31.3,
+        "height": 11.6
+      }
+    },
+    "sheets": {
+      "type": "text",
+      "label": "For padding enter the sheets.",
+      "page": 2,
+      "box": {
+        "left": 231.0,
+        "top": 483.8,
+        "width": 27.3,
+        "height": 11.6
+      }
+    },
+    "sets": {
+      "type": "text",
+      "label": "For padding enter the sets.",
+      "page": 2,
+      "box": {
+        "left": 263.6,
+        "top": 483.8,
+        "width": 20.6,
+        "height": 11.6
+      }
+    },
+    "padOther": {
+      "type": "text",
+      "label": "For padding enter if other.",
+      "page": 2,
+      "box": {
+        "left": 332.3,
+        "top": 483.8,
+        "width": 20.6,
+        "height": 11.6
+      }
+    },
+    "unitOfIssue": {
+      "type": "text",
+      "label": "Enter the unit of issue.",
+      "page": 2,
+      "box": {
+        "left": 359.8,
+        "top": 483.8,
+        "width": 49.3,
+        "height": 11.6
+      }
+    },
+    "quantPerUnitIssue": {
+      "type": "text",
+      "label": "Enter the quantity per unit of issue.",
+      "page": 2,
+      "box": {
+        "left": 414.4,
+        "top": 483.8,
+        "width": 56.0,
+        "height": 11.6
+      }
+    },
+    "packSpec": {
+      "type": "text",
+      "label": "Enter the packaging specifications.",
+      "page": 2,
+      "box": {
+        "left": 475.1,
+        "top": 483.8,
+        "width": 99.9,
+        "height": 11.6
+      }
+    },
+    "perfOrScore": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 43.0,
+        "top": 482.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_1_PerfOrScore_0"
+    },
+    "perfOrScore2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 88.0,
+        "top": 482.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_1_PerfOrScore_0"
+    },
+    "locTop": {
+      "type": "checkbox",
+      "label": "For padding select this checkbox for location top.",
+      "page": 2,
+      "box": {
+        "left": 295.0,
+        "top": 482.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "specInstruRemarks": {
+      "type": "text",
+      "label": "Enter any special instructions and/or remarks.",
+      "page": 2,
+      "box": {
+        "left": 39.8,
+        "top": 456.6,
+        "width": 535.2,
+        "height": 81.4
+      },
+      "multiline": true
+    }
+  }
+}

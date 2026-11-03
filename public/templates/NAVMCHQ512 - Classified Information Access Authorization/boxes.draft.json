@@ -1,0 +1,348 @@
+{
+  "template": "page2.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page2": {
+      "rankGr": {
+        "left": 344.8,
+        "top": 670.2,
+        "width": 93.3,
+        "height": 21.0,
+        "type": "text",
+        "description": "RANK/GRADE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name": {
+        "left": 21.7,
+        "top": 669.9,
+        "width": 317.4,
+        "height": 20.7,
+        "type": "text",
+        "description": "Enter Last name, first name and middle initial please",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ssn": {
+        "left": 443.8,
+        "top": 669.8,
+        "width": 146.9,
+        "height": 20.6,
+        "type": "text",
+        "description": "Enter numbers only",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "agency": {
+        "left": 414.3,
+        "top": 630.4,
+        "width": 177.0,
+        "height": 18.8,
+        "type": "text",
+        "description": "AGENCY, PHONE NO. AND ROOM NO.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "reserve": {
+        "left": 373.7,
+        "top": 629.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Reserve",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "active": {
+        "left": 312.2,
+        "top": 629.2,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Active",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "citYes": {
+        "left": 162.6,
+        "top": 625.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "CitYes",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "citNo": {
+        "left": 197.6,
+        "top": 625.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "CitNo",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sci": {
+        "left": 231.9,
+        "top": 534.1,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SCI",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "class1": {
+        "left": 231.8,
+        "top": 511.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Class1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "class2": {
+        "left": 288.2,
+        "top": 511.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Class2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cosmic": {
+        "left": 232.3,
+        "top": 489.2,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Cosmic",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "atomal1": {
+        "left": 232.3,
+        "top": 466.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Atomal1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "atomal2": {
+        "left": 287.6,
+        "top": 465.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Atomal2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nato2": {
+        "left": 287.5,
+        "top": 444.8,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Nato2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "accessNotReq": {
+        "left": 21.1,
+        "top": 426.5,
+        "width": 9.0,
+        "height": 9.0,
+        "type": "checkbox",
+        "description": "ACCESS TO CLASSIFIED INFO NOT REQUIRED",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField1": {
+        "left": 377.1,
+        "top": 421.1,
+        "width": 131.5,
+        "height": 21.3,
+        "type": "signature",
+        "description": "Signature:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date2": {
+        "left": 536.8,
+        "top": 421.1,
+        "width": 54.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "Date:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField2": {
+        "left": 67.1,
+        "top": 405.2,
+        "width": 160.1,
+        "height": 19.8,
+        "type": "signature",
+        "description": "Signature:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date1": {
+        "left": 260.5,
+        "top": 405.0,
+        "width": 48.3,
+        "height": 19.8,
+        "type": "text",
+        "description": "Date:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "levDate1": {
+        "left": 338.8,
+        "top": 333.2,
+        "width": 108.8,
+        "height": 13.3,
+        "type": "text",
+        "description": "Level and Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "basis1": {
+        "left": 462.3,
+        "top": 333.2,
+        "width": 128.2,
+        "height": 14.8,
+        "type": "text",
+        "description": "Basis",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date3": {
+        "left": 351.6,
+        "top": 299.0,
+        "width": 85.8,
+        "height": 19.1,
+        "type": "text",
+        "description": "Date:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField3": {
+        "left": 86.1,
+        "top": 298.2,
+        "width": 225.3,
+        "height": 19.1,
+        "type": "signature",
+        "description": "Signature:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "levDate2": {
+        "left": 103.3,
+        "top": 211.9,
+        "width": 184.8,
+        "height": 11.1,
+        "type": "text",
+        "description": "Level and Date:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "basis2": {
+        "left": 361.8,
+        "top": 211.9,
+        "width": 184.8,
+        "height": 11.7,
+        "type": "text",
+        "description": "Basis",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField4": {
+        "left": 73.9,
+        "top": 188.5,
+        "width": 214.1,
+        "height": 19.7,
+        "type": "signature",
+        "description": "Signature:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date4": {
+        "left": 341.7,
+        "top": 187.0,
+        "width": 85.8,
+        "height": 15.8,
+        "type": "text",
+        "description": "Date:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField5": {
+        "left": 110.8,
+        "top": 64.8,
+        "width": 242.6,
+        "height": 19.8,
+        "type": "signature",
+        "description": "Signature:  ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date5": {
+        "left": 435.9,
+        "top": 63.3,
+        "width": 105.8,
+        "height": 15.8,
+        "type": "text",
+        "description": "Date:  ",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

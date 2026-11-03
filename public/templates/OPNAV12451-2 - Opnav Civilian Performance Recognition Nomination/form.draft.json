@@ -1,0 +1,269 @@
+{
+  "id": "opnav124512",
+  "label": "OPNAV12451-2 - Opnav Civilian Performance Recognition Nomination",
+  "directory": "OPNAV12451-2 - Opnav Civilian Performance Recognition Nomination",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "regDte",
+        "radio",
+        "radio2",
+        "radio3",
+        "radio4",
+        "dir",
+        "div",
+        "nomNme",
+        "susSup",
+        "susSupScr",
+        "nvyImp",
+        "nvyImpScr",
+        "misCon",
+        "misConScr",
+        "selImp",
+        "selImpScr",
+        "toTScr",
+        "nomANme",
+        "nomASigDte",
+        "nomASig"
+      ]
+    }
+  ],
+  "fields": {
+    "regDte": {
+      "type": "text",
+      "label": "FY",
+      "page": 1,
+      "box": {
+        "left": 357.3,
+        "top": 654.2,
+        "width": 44.9,
+        "height": 12.1
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 133.3,
+        "top": 619.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 344.9,
+        "top": 619.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 133.3,
+        "top": 605.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 344.9,
+        "top": 605.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "dir": {
+      "type": "text",
+      "label": "Directorate",
+      "page": 1,
+      "box": {
+        "left": 198.4,
+        "top": 582.1,
+        "width": 336.6,
+        "height": 12.3
+      }
+    },
+    "div": {
+      "type": "text",
+      "label": "Division",
+      "page": 1,
+      "box": {
+        "left": 198.0,
+        "top": 564.2,
+        "width": 339.2,
+        "height": 12.3
+      }
+    },
+    "nomNme": {
+      "type": "text",
+      "label": "Nominee Name/Grade",
+      "page": 1,
+      "box": {
+        "left": 198.5,
+        "top": 546.1,
+        "width": 338.7,
+        "height": 12.3
+      }
+    },
+    "susSup": {
+      "type": "text",
+      "label": "Sustained Superior Performance",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 485.2,
+        "width": 446.7,
+        "height": 68.8
+      },
+      "multiline": true
+    },
+    "susSupScr": {
+      "type": "text",
+      "label": "Score",
+      "page": 1,
+      "box": {
+        "left": 493.2,
+        "top": 485.2,
+        "width": 80.0,
+        "height": 68.8
+      },
+      "multiline": true
+    },
+    "nvyImp": {
+      "type": "text",
+      "label": "Navy Impact",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 395.1,
+        "width": 446.7,
+        "height": 68.8
+      },
+      "multiline": true
+    },
+    "nvyImpScr": {
+      "type": "text",
+      "label": "Score",
+      "page": 1,
+      "box": {
+        "left": 493.2,
+        "top": 395.1,
+        "width": 80.0,
+        "height": 68.8
+      },
+      "multiline": true
+    },
+    "misCon": {
+      "type": "text",
+      "label": "Mission Contribution",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 305.0,
+        "width": 446.7,
+        "height": 68.8
+      },
+      "multiline": true
+    },
+    "misConScr": {
+      "type": "text",
+      "label": "Score",
+      "page": 1,
+      "box": {
+        "left": 493.2,
+        "top": 305.0,
+        "width": 80.0,
+        "height": 68.8
+      },
+      "multiline": true
+    },
+    "selImp": {
+      "type": "text",
+      "label": "Self Improvement",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 214.9,
+        "width": 446.7,
+        "height": 68.8
+      },
+      "multiline": true
+    },
+    "selImpScr": {
+      "type": "text",
+      "label": "Score",
+      "page": 1,
+      "box": {
+        "left": 493.2,
+        "top": 214.9,
+        "width": 80.0,
+        "height": 68.8
+      },
+      "multiline": true
+    },
+    "toTScr": {
+      "type": "text",
+      "label": "Total Score",
+      "page": 1,
+      "box": {
+        "left": 493.2,
+        "top": 128.4,
+        "width": 80.0,
+        "height": 27.0
+      }
+    },
+    "nomANme": {
+      "type": "text",
+      "label": "Improvement",
+      "page": 1,
+      "box": {
+        "left": 61.3,
+        "top": 87.3,
+        "width": 169.9,
+        "height": 19.4
+      }
+    },
+    "nomASigDte": {
+      "type": "text",
+      "label": "each section below)",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 87.3,
+        "width": 84.3,
+        "height": 21.3
+      }
+    },
+    "nomASig": {
+      "type": "text",
+      "label": "Total Score",
+      "page": 1,
+      "box": {
+        "left": 390.2,
+        "top": 87.3,
+        "width": 167.9,
+        "height": 21.4
+      }
+    }
+  }
+}

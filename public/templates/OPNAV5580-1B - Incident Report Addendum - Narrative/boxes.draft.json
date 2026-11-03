@@ -1,0 +1,84 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "radioButtonList": {
+        "left": 504.6,
+        "top": 736.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "F[0].P1[0].RadioButtonList[0]",
+        "required": false
+      },
+      "incident": {
+        "left": 360.0,
+        "top": 732.2,
+        "width": 133.9,
+        "height": 15.8,
+        "type": "text",
+        "description": "Enter the incident number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radioButtonList2": {
+        "left": 504.7,
+        "top": 724.1,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "F[0].P1[0].RadioButtonList[0]",
+        "required": false
+      },
+      "report": {
+        "left": 38.8,
+        "top": 695.6,
+        "width": 534.2,
+        "height": 617.7,
+        "type": "text",
+        "description": "Enter additional narrative information.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pages1": {
+        "left": 506.1,
+        "top": 68.4,
+        "width": 14.3,
+        "height": 13.5,
+        "type": "text",
+        "description": "Enter the current page number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pages2": {
+        "left": 532.0,
+        "top": 68.4,
+        "width": 20.8,
+        "height": 13.5,
+        "type": "text",
+        "description": "Enter the total number of pages.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

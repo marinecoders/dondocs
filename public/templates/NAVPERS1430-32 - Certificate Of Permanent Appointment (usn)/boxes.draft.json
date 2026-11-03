@@ -1,0 +1,128 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "membersname": {
+        "left": 200.8,
+        "top": 510.2,
+        "width": 210.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "Please enter member's full name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "membersrate": {
+        "left": 200.8,
+        "top": 447.2,
+        "width": 210.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "Please enter member's new rate.  ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date1": {
+        "left": 187.2,
+        "top": 360.0,
+        "width": 63.0,
+        "height": 28.8,
+        "type": "text",
+        "description": "Please spell out the day of advancement.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "month1": {
+        "left": 291.6,
+        "top": 360.0,
+        "width": 81.0,
+        "height": 28.8,
+        "type": "text",
+        "description": "Please spell out month of advancement.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "year1": {
+        "left": 482.4,
+        "top": 360.0,
+        "width": 84.6,
+        "height": 28.8,
+        "type": "text",
+        "description": "Please enter year of advancement.  Example the year is 2006, spell out six.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField2": {
+        "left": 191.8,
+        "top": 186.2,
+        "width": 372.3,
+        "height": 30.3,
+        "type": "text",
+        "description": "Enter name of command.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date2": {
+        "left": 70.6,
+        "top": 153.0,
+        "width": 50.4,
+        "height": 28.8,
+        "type": "text",
+        "description": "Please spell out the day of advancement.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "month2": {
+        "left": 165.6,
+        "top": 153.0,
+        "width": 75.6,
+        "height": 28.8,
+        "type": "text",
+        "description": "Please spell out month of advancement.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "year2": {
+        "left": 482.4,
+        "top": 153.0,
+        "width": 84.6,
+        "height": 28.8,
+        "type": "text",
+        "description": "Please enter year of advancement.  Example the year is 2006, spell out six.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField3": {
+        "left": 281.8,
+        "top": 114.2,
+        "width": 282.3,
+        "height": 46.8,
+        "type": "text",
+        "description": "Enter your command's approving authority.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

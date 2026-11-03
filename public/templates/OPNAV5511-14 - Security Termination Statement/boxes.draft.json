@@ -1,0 +1,117 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "statement1": {
+        "left": 194.1,
+        "top": 678.0,
+        "width": 230.8,
+        "height": 16.6,
+        "type": "text",
+        "description": "Enter the security termination statement.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "statement2": {
+        "left": 194.1,
+        "top": 661.4,
+        "width": 230.8,
+        "height": 16.6,
+        "type": "text",
+        "description": "Enter the security termination statement.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "statement3": {
+        "left": 194.1,
+        "top": 644.7,
+        "width": 230.8,
+        "height": 16.6,
+        "type": "text",
+        "description": "Enter the security termination statement.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sigWitness": {
+        "left": 73.9,
+        "top": 254.6,
+        "width": 221.6,
+        "height": 14.1,
+        "type": "text",
+        "description": "Enter the signature of the witness.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sigEmployee": {
+        "left": 312.4,
+        "top": 254.6,
+        "width": 221.6,
+        "height": 14.1,
+        "type": "text",
+        "description": "Enter the signature of the employee or military member.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "typeName": {
+        "left": 71.7,
+        "top": 183.9,
+        "width": 221.6,
+        "height": 14.1,
+        "type": "text",
+        "description": "Enter the typed or printed name of the witness.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "typeName1": {
+        "left": 312.4,
+        "top": 183.9,
+        "width": 221.6,
+        "height": 14.1,
+        "type": "text",
+        "description": "Enter the typed or printed first, middle, and last name of employee or service member.  Include the civilian grade or military rank or rate.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date1": {
+        "left": 132.0,
+        "top": 149.3,
+        "width": 99.2,
+        "height": 19.8,
+        "type": "text",
+        "description": "Enter the date using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date2": {
+        "left": 362.8,
+        "top": 149.3,
+        "width": 99.2,
+        "height": 19.8,
+        "type": "text",
+        "description": "Enter the date using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

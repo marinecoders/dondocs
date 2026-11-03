@@ -1,0 +1,121 @@
+{
+  "id": "navpers177011",
+  "label": "NAVPERS1770-11 - Suicide Prevention Coordinator Training Registration",
+  "directory": "NAVPERS1770-11 - Suicide Prevention Coordinator Training Registration",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "date",
+        "rankRate",
+        "last",
+        "first",
+        "command",
+        "uic",
+        "prd",
+        "email"
+      ]
+    }
+  ],
+  "fields": {
+    "date": {
+      "type": "text",
+      "label": "Requested Training Date",
+      "page": 1,
+      "box": {
+        "left": 133.1,
+        "top": 708.1,
+        "width": 89.1,
+        "height": 30.2
+      },
+      "multiline": true
+    },
+    "rankRate": {
+      "type": "text",
+      "label": "Rank/Rate",
+      "page": 1,
+      "box": {
+        "left": 280.1,
+        "top": 708.1,
+        "width": 77.0,
+        "height": 30.2
+      },
+      "multiline": true
+    },
+    "last": {
+      "type": "text",
+      "label": "Last Name",
+      "page": 1,
+      "box": {
+        "left": 89.3,
+        "top": 663.1,
+        "width": 483.9,
+        "height": 30.2
+      },
+      "multiline": true
+    },
+    "first": {
+      "type": "text",
+      "label": "First Name",
+      "page": 1,
+      "box": {
+        "left": 89.3,
+        "top": 618.1,
+        "width": 483.9,
+        "height": 30.2
+      },
+      "multiline": true
+    },
+    "command": {
+      "type": "text",
+      "label": "Command",
+      "page": 1,
+      "box": {
+        "left": 89.3,
+        "top": 573.1,
+        "width": 321.9,
+        "height": 30.2
+      },
+      "multiline": true
+    },
+    "uic": {
+      "type": "text",
+      "label": "Unit Identification Code",
+      "page": 1,
+      "box": {
+        "left": 503.9,
+        "top": 573.1,
+        "width": 69.3,
+        "height": 30.2
+      },
+      "multiline": true
+    },
+    "prd": {
+      "type": "text",
+      "label": "Projected Rotation Date",
+      "page": 1,
+      "box": {
+        "left": 128.3,
+        "top": 528.1,
+        "width": 66.8,
+        "height": 30.2
+      },
+      "multiline": true
+    },
+    "email": {
+      "type": "text",
+      "label": "Government E-mail Address",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 528.1,
+        "width": 264.3,
+        "height": 30.2
+      },
+      "multiline": true
+    }
+  }
+}

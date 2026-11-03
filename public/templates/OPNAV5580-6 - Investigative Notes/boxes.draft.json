@@ -1,0 +1,370 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "title": {
+        "left": 313.7,
+        "top": 736.6,
+        "width": 260.0,
+        "height": 14.5,
+        "type": "text",
+        "description": "Enter the case title.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ccn": {
+        "left": 313.7,
+        "top": 703.0,
+        "width": 260.0,
+        "height": 14.5,
+        "type": "text",
+        "description": "Enter the case control number (CCN).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "made": {
+        "left": 40.6,
+        "top": 665.4,
+        "width": 186.7,
+        "height": 14.5,
+        "type": "text",
+        "description": "Enter who made these notes.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "madeat": {
+        "left": 234.6,
+        "top": 665.4,
+        "width": 196.7,
+        "height": 14.5,
+        "type": "text",
+        "description": "Enter location where document was made.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dNSDate3": {
+        "left": 447.2,
+        "top": 665.4,
+        "width": 54.2,
+        "height": 14.5,
+        "type": "text",
+        "description": "Enter the date using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "timeField": {
+        "left": 519.2,
+        "top": 665.4,
+        "width": 54.2,
+        "height": 14.5,
+        "type": "text",
+        "description": "Enter the time using the 24-hour clock (HHMM).  ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "line1": {
+        "left": 39.6,
+        "top": 641.7,
+        "width": 534.2,
+        "height": 14.5,
+        "type": "text",
+        "description": "This is line 1 of 26, enter the investigative notes.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "line2": {
+        "left": 39.6,
+        "top": 619.4,
+        "width": 534.2,
+        "height": 14.5,
+        "type": "text",
+        "description": "This is line 1 of 26, enter the investigative notes.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "line3": {
+        "left": 39.6,
+        "top": 596.4,
+        "width": 534.2,
+        "height": 14.5,
+        "type": "text",
+        "description": "This is line 1 of 26, enter the investigative notes.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "line4": {
+        "left": 39.6,
+        "top": 572.7,
+        "width": 534.2,
+        "height": 14.5,
+        "type": "text",
+        "description": "This is line 1 of 26, enter the investigative notes.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "line5": {
+        "left": 39.6,
+        "top": 549.7,
+        "width": 534.2,
+        "height": 14.5,
+        "type": "text",
+        "description": "This is line 1 of 26, enter the investigative notes.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "line6": {
+        "left": 39.6,
+        "top": 527.0,
+        "width": 534.2,
+        "height": 14.5,
+        "type": "text",
+        "description": "This is line 1 of 26, enter the investigative notes.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "line7": {
+        "left": 39.6,
+        "top": 503.3,
+        "width": 534.2,
+        "height": 14.5,
+        "type": "text",
+        "description": "This is line 1 of 26, enter the investigative notes.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "line8": {
+        "left": 39.6,
+        "top": 479.9,
+        "width": 534.2,
+        "height": 14.5,
+        "type": "text",
+        "description": "This is line 1 of 26, enter the investigative notes.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "line9": {
+        "left": 39.6,
+        "top": 457.6,
+        "width": 534.2,
+        "height": 14.5,
+        "type": "text",
+        "description": "This is line 1 of 26, enter the investigative notes.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "line10": {
+        "left": 39.6,
+        "top": 434.6,
+        "width": 534.2,
+        "height": 14.5,
+        "type": "text",
+        "description": "This is line 1 of 26, enter the investigative notes.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "line11": {
+        "left": 39.6,
+        "top": 410.9,
+        "width": 534.2,
+        "height": 14.5,
+        "type": "text",
+        "description": "This is line 1 of 26, enter the investigative notes.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "line12": {
+        "left": 39.6,
+        "top": 387.9,
+        "width": 534.2,
+        "height": 14.5,
+        "type": "text",
+        "description": "This is line 1 of 26, enter the investigative notes.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "line13": {
+        "left": 39.6,
+        "top": 364.9,
+        "width": 534.2,
+        "height": 14.5,
+        "type": "text",
+        "description": "This is line 1 of 26, enter the investigative notes.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "line14": {
+        "left": 39.6,
+        "top": 341.5,
+        "width": 534.2,
+        "height": 14.5,
+        "type": "text",
+        "description": "This is line 1 of 26, enter the investigative notes.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "line15": {
+        "left": 39.6,
+        "top": 319.2,
+        "width": 534.2,
+        "height": 14.5,
+        "type": "text",
+        "description": "This is line 1 of 26, enter the investigative notes.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "line16": {
+        "left": 39.6,
+        "top": 295.9,
+        "width": 534.2,
+        "height": 14.5,
+        "type": "text",
+        "description": "This is line 1 of 26, enter the investigative notes.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "line17": {
+        "left": 39.6,
+        "top": 272.5,
+        "width": 534.2,
+        "height": 14.5,
+        "type": "text",
+        "description": "This is line 1 of 26, enter the investigative notes.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "line18": {
+        "left": 39.6,
+        "top": 249.5,
+        "width": 534.2,
+        "height": 14.5,
+        "type": "text",
+        "description": "This is line 1 of 26, enter the investigative notes.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "line19": {
+        "left": 39.6,
+        "top": 225.7,
+        "width": 534.2,
+        "height": 14.5,
+        "type": "text",
+        "description": "This is line 1 of 26, enter the investigative notes.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "line20": {
+        "left": 39.6,
+        "top": 203.8,
+        "width": 534.2,
+        "height": 14.5,
+        "type": "text",
+        "description": "This is line 1 of 26, enter the investigative notes.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "line21": {
+        "left": 39.6,
+        "top": 180.4,
+        "width": 534.2,
+        "height": 14.5,
+        "type": "text",
+        "description": "This is line 1 of 26, enter the investigative notes.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "line22": {
+        "left": 39.6,
+        "top": 156.7,
+        "width": 534.2,
+        "height": 14.5,
+        "type": "text",
+        "description": "This is line 1 of 26, enter the investigative notes.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "line23": {
+        "left": 39.6,
+        "top": 134.4,
+        "width": 534.2,
+        "height": 14.5,
+        "type": "text",
+        "description": "This is line 1 of 26, enter the investigative notes.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "line24": {
+        "left": 39.6,
+        "top": 110.7,
+        "width": 534.2,
+        "height": 14.5,
+        "type": "text",
+        "description": "This is line 1 of 26, enter the investigative notes.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "line25": {
+        "left": 39.6,
+        "top": 86.9,
+        "width": 534.2,
+        "height": 14.5,
+        "type": "text",
+        "description": "This is line 1 of 26, enter the investigative notes.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "line26": {
+        "left": 39.6,
+        "top": 65.0,
+        "width": 534.2,
+        "height": 14.5,
+        "type": "text",
+        "description": "This is line 1 of 26, enter the investigative notes.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

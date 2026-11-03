@@ -1,0 +1,53 @@
+{
+  "id": "opnav535015",
+  "label": "OPNAV5350-15 - Instructions For Urinalysis Observers",
+  "directory": "OPNAV5350-15 - Instructions For Urinalysis Observers",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "rankRate",
+        "mcode"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "OBSERVER NAME",
+      "page": 1,
+      "box": {
+        "left": 117.2,
+        "top": 717.2,
+        "width": 325.5,
+        "height": 21.3
+      }
+    },
+    "rankRate": {
+      "type": "text",
+      "label": "RANK/RATE",
+      "page": 1,
+      "box": {
+        "left": 117.2,
+        "top": 681.2,
+        "width": 123.0,
+        "height": 21.3
+      }
+    },
+    "mcode": {
+      "type": "text",
+      "label": "NCODE",
+      "page": 1,
+      "box": {
+        "left": 117.2,
+        "top": 645.1,
+        "width": 123.0,
+        "height": 21.3
+      }
+    }
+  }
+}

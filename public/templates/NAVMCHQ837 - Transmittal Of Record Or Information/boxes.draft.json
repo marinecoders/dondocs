@@ -1,0 +1,227 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "date": {
+        "left": 487.2,
+        "top": 738.4,
+        "width": 65.6,
+        "height": 15.0,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "to": {
+        "left": 57.0,
+        "top": 705.0,
+        "width": 246.0,
+        "height": 61.9,
+        "type": "text",
+        "description": "To",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "officeCode": {
+        "left": 511.5,
+        "top": 691.0,
+        "width": 26.0,
+        "height": 11.9,
+        "type": "text",
+        "description": "OfficeCode",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "suiteNumber": {
+        "left": 409.5,
+        "top": 668.0,
+        "width": 54.0,
+        "height": 11.9,
+        "type": "text",
+        "description": "SuiteNumber",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "subj": {
+        "left": 98.9,
+        "top": 639.1,
+        "width": 456.2,
+        "height": 23.4,
+        "type": "text",
+        "description": "Subj",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ref": {
+        "left": 56.9,
+        "top": 598.0,
+        "width": 246.0,
+        "height": 48.7,
+        "type": "text",
+        "description": "Ref",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "encl": {
+        "left": 309.1,
+        "top": 598.0,
+        "width": 246.0,
+        "height": 48.7,
+        "type": "text",
+        "description": "Encl",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkEncl": {
+        "left": 64.6,
+        "top": 542.7,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "chkEncl",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkInAcc": {
+        "left": 91.3,
+        "top": 524.2,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "chkInAcc",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkDeliver": {
+        "left": 305.6,
+        "top": 524.0,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "chkDeliver",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkInfo": {
+        "left": 91.3,
+        "top": 507.7,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "chkInfo",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkRetention": {
+        "left": 305.6,
+        "top": 507.6,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "chkRetention",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkAction": {
+        "left": 91.3,
+        "top": 491.3,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "chkAction",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkForReply": {
+        "left": 305.6,
+        "top": 491.1,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "chkForReply",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkMisc": {
+        "left": 64.6,
+        "top": 469.5,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "chkMisc",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "misc": {
+        "left": 57.8,
+        "top": 451.6,
+        "width": 496.8,
+        "height": 335.9,
+        "type": "text",
+        "description": "Misc",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "copyTo": {
+        "left": 56.6,
+        "top": 96.0,
+        "width": 246.0,
+        "height": 55.6,
+        "type": "text",
+        "description": "CopyTo",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sigSpouse": {
+        "left": 310.8,
+        "top": 94.9,
+        "width": 241.2,
+        "height": 15.4,
+        "type": "signature",
+        "description": "SigSpouse",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "title": {
+        "left": 310.8,
+        "top": 65.3,
+        "width": 241.2,
+        "height": 15.4,
+        "type": "text",
+        "description": "Title",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

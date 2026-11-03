@@ -1,0 +1,491 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "ship": {
+        "left": 108.1,
+        "top": 708.2,
+        "width": 204.0,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER SHIP.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date": {
+        "left": 108.1,
+        "top": 690.2,
+        "width": 204.0,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER DATE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "servicechange": {
+        "left": 151.7,
+        "top": 672.2,
+        "width": 160.4,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER SERVICE CHANGE NUMBER.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateINCORP": {
+        "left": 150.9,
+        "top": 654.2,
+        "width": 161.3,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER DATE INCORPORATED.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox1": {
+        "left": 191.8,
+        "top": 572.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT A/G MK7 RECOVERY 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox12": {
+        "left": 236.8,
+        "top": 572.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT A/G MK7 RECOVERY 2.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox13": {
+        "left": 281.8,
+        "top": 572.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT A/G MK7 RECOVERY 3.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox14": {
+        "left": 326.8,
+        "top": 572.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT A/G MK7 RECOVERY 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox15": {
+        "left": 371.8,
+        "top": 572.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT A/G MK7 RECOVERY 5.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox16": {
+        "left": 191.8,
+        "top": 527.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT TC-7 LAUNCHER 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox17": {
+        "left": 236.8,
+        "top": 527.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT TC-7 LAUNCHER 2.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox18": {
+        "left": 281.8,
+        "top": 527.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT TC-7 LAUNCHER 3.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox19": {
+        "left": 326.8,
+        "top": 527.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT TC-7 LAUNCHER 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox110": {
+        "left": 191.8,
+        "top": 509.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT C13 LAUNCHER 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox111": {
+        "left": 236.8,
+        "top": 509.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT C13 LAUNCHER 2.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox112": {
+        "left": 281.8,
+        "top": 509.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT C13 LAUNCHER 3.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox113": {
+        "left": 326.8,
+        "top": 509.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT C13 LAUNCHER 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox114": {
+        "left": 191.8,
+        "top": 491.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT C13-1 LAUNCHER 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox115": {
+        "left": 236.8,
+        "top": 491.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT C13-1 LAUNCHER 2.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox116": {
+        "left": 281.8,
+        "top": 491.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT C13-1 LAUNCHER 3.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox117": {
+        "left": 326.8,
+        "top": 491.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT C13-1 LAUNCHER 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox118": {
+        "left": 191.8,
+        "top": 473.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT C13-2 LAUNCHER 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox119": {
+        "left": 236.8,
+        "top": 473.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT C13-2 LAUNCHER 2.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox120": {
+        "left": 281.8,
+        "top": 473.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT C13-2 LAUNCHER 3.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox121": {
+        "left": 326.8,
+        "top": 473.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT C13-2 LAUNCHER 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox122": {
+        "left": 191.8,
+        "top": 455.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT CDGA LAUNCHER 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox123": {
+        "left": 191.8,
+        "top": 437.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT JBD LAUNCHER 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox124": {
+        "left": 236.8,
+        "top": 437.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT JBD LAUNCHER 2.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox125": {
+        "left": 281.8,
+        "top": 437.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT JBD LAUNCHER 3.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox126": {
+        "left": 326.8,
+        "top": 437.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT JBD LAUNCHER 4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox127": {
+        "left": 191.8,
+        "top": 392.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT ADMAC/ISIS VISUAL LANDING AID 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox128": {
+        "left": 191.8,
+        "top": 374.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT FLOLS VISUAL LANDING AID 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox129": {
+        "left": 191.8,
+        "top": 356.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT IFLOLS VISUAL LANDING AID 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox130": {
+        "left": 191.8,
+        "top": 338.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT ILARTS VISUAL LANDING AID 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox131": {
+        "left": 191.8,
+        "top": 320.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT LRLS VISUAL LANDING AID 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox132": {
+        "left": 191.8,
+        "top": 302.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT LSO HUD VISUAL LANDING AID 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox133": {
+        "left": 191.8,
+        "top": 284.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT MOVLAS VISUAL LANDING AID 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox134": {
+        "left": 191.8,
+        "top": 266.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT VLA VISUAL LANDING AID 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox135": {
+        "left": 191.8,
+        "top": 221.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT WMIS MISCELLANEOUS ITEM 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox136": {
+        "left": 191.8,
+        "top": 203.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT LSO WORKSTATION MISCELLANEOUS ITEM 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox137": {
+        "left": 191.8,
+        "top": 185.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT MORIAH MISCELLANEOUS ITEM 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox138": {
+        "left": 191.8,
+        "top": 167.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT VISUAL MISCELLANEOUS ITEM 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField1": {
+        "left": 56.8,
+        "top": 123.2,
+        "width": 246.3,
+        "height": 16.1,
+        "type": "text",
+        "description": "ENTER ENGINEERING OFFICER/V-2 MAINTENANCE OFFICER",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

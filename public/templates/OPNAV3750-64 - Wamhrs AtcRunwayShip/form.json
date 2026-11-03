@@ -1,0 +1,1182 @@
+{
+  "id": "opnav375064",
+  "label": "OPNAV3750-64 - Wamhrs AtcRunwayShip",
+  "directory": "OPNAV3750-64 - Wamhrs AtcRunwayShip",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "typRad",
+        "radio",
+        "radio2",
+        "radio3",
+        "radio4",
+        "radio5",
+        "radio6",
+        "desTrafVol",
+        "radio7",
+        "radio8",
+        "radio9",
+        "radio10",
+        "aTCEqmMalDes",
+        "radio11",
+        "radio12",
+        "radio13",
+        "radio14",
+        "traConExp",
+        "tmQuailPos",
+        "typFac",
+        "radio15",
+        "radio16",
+        "radio17",
+        "radio18",
+        "radio19",
+        "radio20",
+        "radio21",
+        "heloSpNo",
+        "rWNo",
+        "tmQuailPos2",
+        "tmQuailPos3",
+        "dry",
+        "patCon",
+        "ice",
+        "sanded",
+        "ls",
+        "slush",
+        "oilSlk",
+        "rWConUKN",
+        "rWConOth",
+        "unpre",
+        "pldSn",
+        "wet",
+        "radio22",
+        "radio23",
+        "radio24",
+        "radio25",
+        "radio26",
+        "radio27",
+        "radio28",
+        "radio29",
+        "radio30",
+        "radio31",
+        "radio32",
+        "radio33",
+        "radio34",
+        "radio35",
+        "radio36",
+        "radio37",
+        "whtShInv",
+        "whrShLoc",
+        "bsRecCrse",
+        "radio38",
+        "radio39",
+        "radio40"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "radio41",
+        "radio42",
+        "bsRecCrse2",
+        "bsRecCrse3",
+        "bsRecCrse4",
+        "radio43",
+        "radio44",
+        "bsRecCrse5",
+        "bsRecCrse6",
+        "bsRecCrse7",
+        "bsRecCrse8",
+        "bsRecCrse9",
+        "shDkMot",
+        "shTrAn",
+        "arGrModSet",
+        "tyCCARad",
+        "cseRec",
+        "radio45",
+        "radio46",
+        "grWireTar",
+        "radio47",
+        "radio48",
+        "radio49",
+        "radio50",
+        "lSOComm",
+        "recComm",
+        "ligCom"
+      ]
+    }
+  ],
+  "fields": {
+    "typRad": {
+      "type": "text",
+      "label": "more of the questions then complete the applicable",
+      "page": 1,
+      "box": {
+        "left": 364.1,
+        "top": 690.1,
+        "width": 209.1,
+        "height": 12.3
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 182.9,
+        "top": 689.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 689.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 164.9,
+        "top": 671.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 214.4,
+        "top": 671.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 277.4,
+        "top": 671.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 1,
+      "box": {
+        "left": 322.4,
+        "top": 671.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "desTrafVol": {
+      "type": "text",
+      "label": "Des Traf Vol",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 644.7,
+        "width": 534.4,
+        "height": 74.9
+      },
+      "multiline": true
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 263.9,
+        "top": 563.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 299.9,
+        "top": 563.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio9": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 187.4,
+        "top": 545.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio10": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 223.4,
+        "top": 545.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "aTCEqmMalDes": {
+      "type": "text",
+      "label": "If &quot;YES&quot;, describe",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 518.7,
+        "width": 534.4,
+        "height": 97.4
+      },
+      "multiline": true
+    },
+    "radio11": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 248.8,
+        "top": 378.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio12": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 295.5,
+        "top": 378.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio13": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 425.9,
+        "top": 378.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio14": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 472.5,
+        "top": 378.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "traConExp": {
+      "type": "text",
+      "label": "traffic controller",
+      "page": 1,
+      "box": {
+        "left": 36.0,
+        "top": 377.4,
+        "width": 175.0,
+        "height": 14.6
+      }
+    },
+    "tmQuailPos": {
+      "type": "text",
+      "label": "(years/months) ?",
+      "page": 1,
+      "box": {
+        "left": 36.0,
+        "top": 337.6,
+        "width": 270.1,
+        "height": 15.3
+      }
+    },
+    "typFac": {
+      "type": "text",
+      "label": "5e. What type facility (RATCF, CGA, TOWER, etc.)",
+      "page": 1,
+      "box": {
+        "left": 306.0,
+        "top": 337.6,
+        "width": 270.1,
+        "height": 15.3
+      }
+    },
+    "radio15": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 430.4,
+        "top": 293.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio16": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 293.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio17": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 515.9,
+        "top": 293.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio18": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 47.8,
+        "top": 284.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio19": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 92.8,
+        "top": 284.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio20": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 137.9,
+        "top": 284.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio21": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 1,
+      "box": {
+        "left": 182.9,
+        "top": 284.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "heloSpNo": {
+      "type": "text",
+      "label": "POOR NIL",
+      "page": 1,
+      "box": {
+        "left": 216.0,
+        "top": 283.6,
+        "width": 90.0,
+        "height": 15.3
+      }
+    },
+    "rWNo": {
+      "type": "text",
+      "label": "POOR NIL",
+      "page": 1,
+      "box": {
+        "left": 306.2,
+        "top": 283.6,
+        "width": 85.5,
+        "height": 15.3
+      }
+    },
+    "tmQuailPos2": {
+      "type": "text",
+      "label": "4. What was distance remaining marker (If applicable) ?",
+      "page": 1,
+      "box": {
+        "left": 36.0,
+        "top": 252.6,
+        "width": 270.2,
+        "height": 15.8
+      }
+    },
+    "tmQuailPos3": {
+      "type": "text",
+      "label": "5. What direction and speed (i f applicable) ?",
+      "page": 1,
+      "box": {
+        "left": 305.9,
+        "top": 251.9,
+        "width": 270.2,
+        "height": 15.2
+      }
+    },
+    "dry": {
+      "type": "checkbox",
+      "label": "Dry",
+      "page": 1,
+      "box": {
+        "left": 48.8,
+        "top": 211.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "patCon": {
+      "type": "checkbox",
+      "label": "DRY",
+      "page": 1,
+      "box": {
+        "left": 179.4,
+        "top": 211.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "ice": {
+      "type": "checkbox",
+      "label": "PATCHY CONDITIONS",
+      "page": 1,
+      "box": {
+        "left": 345.9,
+        "top": 211.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "sanded": {
+      "type": "checkbox",
+      "label": "ICE",
+      "page": 1,
+      "box": {
+        "left": 476.4,
+        "top": 211.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "ls": {
+      "type": "checkbox",
+      "label": "Ls",
+      "page": 1,
+      "box": {
+        "left": 48.8,
+        "top": 193.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "slush": {
+      "type": "checkbox",
+      "label": "LOOSE SNOW",
+      "page": 1,
+      "box": {
+        "left": 179.4,
+        "top": 193.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "oilSlk": {
+      "type": "checkbox",
+      "label": "SLUSH",
+      "page": 1,
+      "box": {
+        "left": 345.9,
+        "top": 193.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "rWConUKN": {
+      "type": "checkbox",
+      "label": "OIL SLICKED",
+      "page": 1,
+      "box": {
+        "left": 476.4,
+        "top": 193.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "rWConOth": {
+      "type": "checkbox",
+      "label": "R W Con Oth",
+      "page": 1,
+      "box": {
+        "left": 48.8,
+        "top": 175.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "unpre": {
+      "type": "checkbox",
+      "label": "OTHER",
+      "page": 1,
+      "box": {
+        "left": 179.4,
+        "top": 175.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "pldSn": {
+      "type": "checkbox",
+      "label": "UNPREPARED",
+      "page": 1,
+      "box": {
+        "left": 345.9,
+        "top": 175.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "wet": {
+      "type": "checkbox",
+      "label": "PACKED SNOW",
+      "page": 1,
+      "box": {
+        "left": 476.4,
+        "top": 175.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "radio22": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 88.3,
+        "top": 131.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio23": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 135.0,
+        "top": 131.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio24": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 326.9,
+        "top": 131.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio25": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 368.0,
+        "top": 131.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio26": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 404.0,
+        "top": 131.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio27": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 1,
+      "box": {
+        "left": 471.2,
+        "top": 131.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio28": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 52.3,
+        "top": 95.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio29": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 93.5,
+        "top": 95.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio30": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 129.5,
+        "top": 95.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio31": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 1,
+      "box": {
+        "left": 196.7,
+        "top": 95.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio32": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 326.9,
+        "top": 95.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio33": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 368.0,
+        "top": 95.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio34": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 404.0,
+        "top": 95.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio35": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 1,
+      "box": {
+        "left": 471.2,
+        "top": 95.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio36": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 61.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio37": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 340.4,
+        "top": 61.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "whtShInv": {
+      "type": "text",
+      "label": "5. What ship was involved?",
+      "page": 1,
+      "box": {
+        "left": 36.0,
+        "top": 54.1,
+        "width": 112.5,
+        "height": 15.3
+      }
+    },
+    "whrShLoc": {
+      "type": "text",
+      "label": "6. Where was ship located?",
+      "page": 1,
+      "box": {
+        "left": 148.5,
+        "top": 54.1,
+        "width": 112.5,
+        "height": 15.3
+      }
+    },
+    "bsRecCrse": {
+      "type": "text",
+      "label": "UNDERWAY",
+      "page": 1,
+      "box": {
+        "left": 450.1,
+        "top": 54.1,
+        "width": 126.0,
+        "height": 15.3
+      }
+    },
+    "radio38": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 47.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio39": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 1,
+      "box": {
+        "left": 313.4,
+        "top": 47.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio40": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 1,
+      "box": {
+        "left": 376.4,
+        "top": 47.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio41": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 207.6,
+        "top": 727.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio42": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 2,
+      "box": {
+        "left": 279.9,
+        "top": 727.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "bsRecCrse2": {
+      "type": "text",
+      "label": "9. What was the glide slop angle?",
+      "page": 2,
+      "box": {
+        "left": 36.0,
+        "top": 720.1,
+        "width": 135.0,
+        "height": 15.3
+      }
+    },
+    "bsRecCrse3": {
+      "type": "text",
+      "label": "UNKNOWN",
+      "page": 2,
+      "box": {
+        "left": 373.4,
+        "top": 720.1,
+        "width": 101.2,
+        "height": 15.3
+      }
+    },
+    "bsRecCrse4": {
+      "type": "text",
+      "label": "UNKNOWN",
+      "page": 2,
+      "box": {
+        "left": 474.7,
+        "top": 720.1,
+        "width": 101.2,
+        "height": 15.3
+      }
+    },
+    "radio43": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 207.6,
+        "top": 713.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio44": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 2,
+      "box": {
+        "left": 279.9,
+        "top": 713.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "bsRecCrse5": {
+      "type": "text",
+      "label": "13. Roll Angle Degrees",
+      "page": 2,
+      "box": {
+        "left": 36.0,
+        "top": 679.6,
+        "width": 109.9,
+        "height": 15.3
+      }
+    },
+    "bsRecCrse6": {
+      "type": "text",
+      "label": "(i.e., IFLOS, MOVLAS, etc.)",
+      "page": 2,
+      "box": {
+        "left": 146.0,
+        "top": 679.6,
+        "width": 109.9,
+        "height": 15.3
+      }
+    },
+    "bsRecCrse7": {
+      "type": "text",
+      "label": "model setting?",
+      "page": 2,
+      "box": {
+        "left": 256.5,
+        "top": 679.6,
+        "width": 109.9,
+        "height": 15.3
+      }
+    },
+    "bsRecCrse8": {
+      "type": "text",
+      "label": "glideslope?",
+      "page": 2,
+      "box": {
+        "left": 366.5,
+        "top": 679.6,
+        "width": 105.2,
+        "height": 15.3
+      }
+    },
+    "bsRecCrse9": {
+      "type": "text",
+      "label": "17. What CCA mode?",
+      "page": 2,
+      "box": {
+        "left": 470.9,
+        "top": 679.6,
+        "width": 105.2,
+        "height": 15.3
+      }
+    },
+    "shDkMot": {
+      "type": "text",
+      "label": "feet?",
+      "page": 2,
+      "box": {
+        "left": 36.0,
+        "top": 639.1,
+        "width": 105.2,
+        "height": 15.3
+      }
+    },
+    "shTrAn": {
+      "type": "text",
+      "label": "degrees?",
+      "page": 2,
+      "box": {
+        "left": 141.2,
+        "top": 639.1,
+        "width": 105.2,
+        "height": 15.3
+      }
+    },
+    "arGrModSet": {
+      "type": "text",
+      "label": "Gear aircraft model setting?",
+      "page": 2,
+      "box": {
+        "left": 246.4,
+        "top": 639.1,
+        "width": 118.2,
+        "height": 15.3
+      }
+    },
+    "tyCCARad": {
+      "type": "text",
+      "label": "used to recover aircraft (SSN-46, etc.) ?",
+      "page": 2,
+      "box": {
+        "left": 364.5,
+        "top": 639.1,
+        "width": 139.5,
+        "height": 15.3
+      }
+    },
+    "cseRec": {
+      "type": "text",
+      "label": "recovery?",
+      "page": 2,
+      "box": {
+        "left": 504.1,
+        "top": 639.1,
+        "width": 72.0,
+        "height": 15.3
+      }
+    },
+    "radio45": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 336.9,
+        "top": 605.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio46": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 2,
+      "box": {
+        "left": 461.1,
+        "top": 605.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "grWireTar": {
+      "type": "text",
+      "label": "wire was targeted?",
+      "page": 2,
+      "box": {
+        "left": 36.0,
+        "top": 598.6,
+        "width": 145.1,
+        "height": 15.3
+      }
+    },
+    "radio47": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 196.4,
+        "top": 594.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio48": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 260.8,
+        "top": 594.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio49": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 337.0,
+        "top": 592.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio50": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 2,
+      "box": {
+        "left": 461.1,
+        "top": 592.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "lSOComm": {
+      "type": "text",
+      "label": "26. LSO Console Comments (if applicable)",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 568.2,
+        "width": 534.4,
+        "height": 166.3
+      },
+      "multiline": true
+    },
+    "recComm": {
+      "type": "text",
+      "label": "27. Recovery Comms Comments (if applicable)",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 386.7,
+        "width": 534.4,
+        "height": 166.3
+      },
+      "multiline": true
+    },
+    "ligCom": {
+      "type": "text",
+      "label": "28. Lighting Comments (if applicable)",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 205.2,
+        "width": 534.4,
+        "height": 166.3
+      },
+      "multiline": true
+    }
+  }
+}

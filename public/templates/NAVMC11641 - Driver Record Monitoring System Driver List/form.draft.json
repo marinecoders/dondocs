@@ -1,0 +1,1918 @@
+{
+  "id": "navmc11641",
+  "label": "NAVMC11641 - Driver Record Monitoring System Driver List",
+  "directory": "NAVMC11641 - Driver Record Monitoring System Driver List",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 2",
+      "fields": [
+        "mi1",
+        "nameLast1",
+        "licNum1",
+        "nameFirst1",
+        "gender1",
+        "uic1",
+        "birthDate1",
+        "licState1",
+        "mi2",
+        "nameLast2",
+        "licNum2",
+        "nameFirst2",
+        "gender2",
+        "uic2",
+        "birthDate2",
+        "licState2",
+        "nameLast3",
+        "mi3",
+        "gender3",
+        "uic3",
+        "licNum3",
+        "nameFirst3",
+        "birthDate3",
+        "licState3",
+        "nameLast4",
+        "mi4",
+        "gender4",
+        "uic4",
+        "licNum4",
+        "nameFirst4",
+        "birthDate4",
+        "licState4",
+        "nameLast5",
+        "mi5",
+        "gender5",
+        "uic5",
+        "birthDate5",
+        "licNum5",
+        "nameFirst5",
+        "licState5",
+        "nameLast6",
+        "mi6",
+        "gender6",
+        "uic6",
+        "birthDate6",
+        "licNum6",
+        "nameFirst6",
+        "licState6",
+        "mi7",
+        "licNum7",
+        "nameFirst7",
+        "licState7",
+        "nameLast7",
+        "gender7",
+        "uic7",
+        "birthDate7",
+        "licNum8",
+        "nameFirst8",
+        "licState8",
+        "mi8",
+        "nameLast8",
+        "gender8",
+        "uic8",
+        "birthDate8",
+        "nameLast9",
+        "gender9",
+        "uic9",
+        "mi9",
+        "birthDate9",
+        "licNum9",
+        "nameFirst9",
+        "licState9",
+        "nameLast10",
+        "gender10",
+        "uic10",
+        "birthDate10",
+        "mi10",
+        "licNum10",
+        "nameFirst10",
+        "licState10",
+        "nameLast11",
+        "gender11",
+        "uic11",
+        "birthDate11",
+        "mi11",
+        "licNum11",
+        "nameFirst11",
+        "licState11",
+        "nameLast12",
+        "gender12",
+        "uic12",
+        "birthDate12",
+        "mi12",
+        "licNum12",
+        "nameFirst12",
+        "licState12",
+        "nameLast13",
+        "gender13",
+        "uic13",
+        "birthDate13",
+        "mi13",
+        "licState13",
+        "licNum13",
+        "nameFirst13",
+        "nameLast14",
+        "gender14",
+        "uic14",
+        "birthDate14",
+        "mi14",
+        "licState14",
+        "licNum14",
+        "nameFirst14",
+        "mi15",
+        "nameLast15",
+        "licState15",
+        "licNum15",
+        "nameFirst15",
+        "gender15",
+        "uic15",
+        "birthDate15",
+        "mi16",
+        "nameLast16",
+        "licState16",
+        "licNum16",
+        "nameFirst16",
+        "gender16",
+        "uic16",
+        "birthDate16",
+        "nameLast17",
+        "gender17",
+        "uic17",
+        "mi17",
+        "birthDate17",
+        "licState17",
+        "licNum17",
+        "nameFirst17",
+        "nameLast18",
+        "gender18",
+        "uic18",
+        "birthDate18",
+        "mi18",
+        "licState18",
+        "licNum18",
+        "nameFirst18",
+        "nameLast19",
+        "licNum19",
+        "nameFirst19",
+        "gender19",
+        "uic19",
+        "licState19",
+        "birthDate19",
+        "mi19"
+      ]
+    }
+  ],
+  "fields": {
+    "mi1": {
+      "type": "text",
+      "label": "MI1",
+      "page": 2,
+      "box": {
+        "left": 310.8,
+        "top": 434.2,
+        "width": 93.5,
+        "height": 13.3
+      }
+    },
+    "nameLast1": {
+      "type": "text",
+      "label": "NameLast1",
+      "page": 2,
+      "box": {
+        "left": 415.1,
+        "top": 434.2,
+        "width": 151.0,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "licNum1": {
+      "type": "text",
+      "label": "LicNum1",
+      "page": 2,
+      "box": {
+        "left": 76.5,
+        "top": 433.7,
+        "width": 84.8,
+        "height": 13.3
+      }
+    },
+    "nameFirst1": {
+      "type": "text",
+      "label": "NameFirst1",
+      "page": 2,
+      "box": {
+        "left": 174.2,
+        "top": 433.7,
+        "width": 124.2,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "gender1": {
+      "type": "text",
+      "label": "Gender1",
+      "page": 2,
+      "box": {
+        "left": 650.8,
+        "top": 433.7,
+        "width": 28.9,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "uic1": {
+      "type": "text",
+      "label": "UIC1",
+      "page": 2,
+      "box": {
+        "left": 690.6,
+        "top": 433.7,
+        "width": 75.2,
+        "height": 13.3
+      }
+    },
+    "birthDate1": {
+      "type": "text",
+      "label": "BirthDate1",
+      "page": 2,
+      "box": {
+        "left": 576.0,
+        "top": 433.4,
+        "width": 64.3,
+        "height": 12.3
+      }
+    },
+    "licState1": {
+      "type": "text",
+      "label": "LicState1",
+      "page": 2,
+      "box": {
+        "left": 25.7,
+        "top": 433.0,
+        "width": 39.3,
+        "height": 12.3
+      },
+      "required": true
+    },
+    "mi2": {
+      "type": "text",
+      "label": "MI2",
+      "page": 2,
+      "box": {
+        "left": 311.0,
+        "top": 414.4,
+        "width": 94.1,
+        "height": 13.3
+      }
+    },
+    "nameLast2": {
+      "type": "text",
+      "label": "NameLast2",
+      "page": 2,
+      "box": {
+        "left": 414.9,
+        "top": 414.4,
+        "width": 151.0,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "licNum2": {
+      "type": "text",
+      "label": "LicNum2",
+      "page": 2,
+      "box": {
+        "left": 76.4,
+        "top": 413.9,
+        "width": 84.8,
+        "height": 13.3
+      }
+    },
+    "nameFirst2": {
+      "type": "text",
+      "label": "NameFirst2",
+      "page": 2,
+      "box": {
+        "left": 174.1,
+        "top": 413.9,
+        "width": 124.2,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "gender2": {
+      "type": "text",
+      "label": "Gender2",
+      "page": 2,
+      "box": {
+        "left": 650.7,
+        "top": 413.9,
+        "width": 28.9,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "uic2": {
+      "type": "text",
+      "label": "UIC2",
+      "page": 2,
+      "box": {
+        "left": 690.4,
+        "top": 413.9,
+        "width": 75.2,
+        "height": 13.3
+      }
+    },
+    "birthDate2": {
+      "type": "text",
+      "label": "BirthDate2",
+      "page": 2,
+      "box": {
+        "left": 575.9,
+        "top": 413.7,
+        "width": 64.3,
+        "height": 12.3
+      }
+    },
+    "licState2": {
+      "type": "text",
+      "label": "LicState2",
+      "page": 2,
+      "box": {
+        "left": 25.6,
+        "top": 413.2,
+        "width": 39.3,
+        "height": 12.3
+      },
+      "required": true
+    },
+    "nameLast3": {
+      "type": "text",
+      "label": "NameLast3",
+      "page": 2,
+      "box": {
+        "left": 415.1,
+        "top": 395.5,
+        "width": 151.0,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "mi3": {
+      "type": "text",
+      "label": "MI3",
+      "page": 2,
+      "box": {
+        "left": 311.0,
+        "top": 395.4,
+        "width": 94.1,
+        "height": 13.3
+      }
+    },
+    "gender3": {
+      "type": "text",
+      "label": "Gender3",
+      "page": 2,
+      "box": {
+        "left": 650.8,
+        "top": 395.0,
+        "width": 28.9,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "uic3": {
+      "type": "text",
+      "label": "UIC3",
+      "page": 2,
+      "box": {
+        "left": 690.6,
+        "top": 395.0,
+        "width": 75.2,
+        "height": 13.3
+      }
+    },
+    "licNum3": {
+      "type": "text",
+      "label": "LicNum3",
+      "page": 2,
+      "box": {
+        "left": 76.8,
+        "top": 394.9,
+        "width": 84.8,
+        "height": 13.3
+      }
+    },
+    "nameFirst3": {
+      "type": "text",
+      "label": "NameFirst3",
+      "page": 2,
+      "box": {
+        "left": 173.6,
+        "top": 394.9,
+        "width": 124.2,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "birthDate3": {
+      "type": "text",
+      "label": "BirthDate3",
+      "page": 2,
+      "box": {
+        "left": 576.0,
+        "top": 394.8,
+        "width": 64.3,
+        "height": 12.3
+      }
+    },
+    "licState3": {
+      "type": "text",
+      "label": "LicState3",
+      "page": 2,
+      "box": {
+        "left": 24.7,
+        "top": 394.4,
+        "width": 39.3,
+        "height": 12.3
+      },
+      "required": true
+    },
+    "nameLast4": {
+      "type": "text",
+      "label": "NameLast4",
+      "page": 2,
+      "box": {
+        "left": 415.0,
+        "top": 375.8,
+        "width": 151.0,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "mi4": {
+      "type": "text",
+      "label": "MI4",
+      "page": 2,
+      "box": {
+        "left": 311.2,
+        "top": 375.7,
+        "width": 93.9,
+        "height": 13.3
+      }
+    },
+    "gender4": {
+      "type": "text",
+      "label": "Gender4",
+      "page": 2,
+      "box": {
+        "left": 650.7,
+        "top": 375.3,
+        "width": 28.9,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "uic4": {
+      "type": "text",
+      "label": "UIC4",
+      "page": 2,
+      "box": {
+        "left": 690.4,
+        "top": 375.3,
+        "width": 75.2,
+        "height": 13.3
+      }
+    },
+    "licNum4": {
+      "type": "text",
+      "label": "LicNum4",
+      "page": 2,
+      "box": {
+        "left": 76.6,
+        "top": 375.2,
+        "width": 84.8,
+        "height": 13.3
+      }
+    },
+    "nameFirst4": {
+      "type": "text",
+      "label": "NameFirst4",
+      "page": 2,
+      "box": {
+        "left": 173.5,
+        "top": 375.2,
+        "width": 124.2,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "birthDate4": {
+      "type": "text",
+      "label": "BirthDate4",
+      "page": 2,
+      "box": {
+        "left": 575.9,
+        "top": 375.1,
+        "width": 64.3,
+        "height": 12.3
+      }
+    },
+    "licState4": {
+      "type": "text",
+      "label": "LicState4",
+      "page": 2,
+      "box": {
+        "left": 24.5,
+        "top": 374.7,
+        "width": 39.3,
+        "height": 12.3
+      },
+      "required": true
+    },
+    "nameLast5": {
+      "type": "text",
+      "label": "NameLast5",
+      "page": 2,
+      "box": {
+        "left": 415.1,
+        "top": 355.2,
+        "width": 151.0,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "mi5": {
+      "type": "text",
+      "label": "MI5",
+      "page": 2,
+      "box": {
+        "left": 311.0,
+        "top": 354.8,
+        "width": 94.8,
+        "height": 13.3
+      }
+    },
+    "gender5": {
+      "type": "text",
+      "label": "Gender5",
+      "page": 2,
+      "box": {
+        "left": 650.8,
+        "top": 354.7,
+        "width": 28.9,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "uic5": {
+      "type": "text",
+      "label": "UIC5",
+      "page": 2,
+      "box": {
+        "left": 690.6,
+        "top": 354.7,
+        "width": 75.2,
+        "height": 13.3
+      }
+    },
+    "birthDate5": {
+      "type": "text",
+      "label": "BirthDate5",
+      "page": 2,
+      "box": {
+        "left": 576.0,
+        "top": 354.5,
+        "width": 64.3,
+        "height": 12.3
+      }
+    },
+    "licNum5": {
+      "type": "text",
+      "label": "LicNum5",
+      "page": 2,
+      "box": {
+        "left": 77.0,
+        "top": 354.2,
+        "width": 84.8,
+        "height": 13.3
+      }
+    },
+    "nameFirst5": {
+      "type": "text",
+      "label": "NameFirst5",
+      "page": 2,
+      "box": {
+        "left": 174.8,
+        "top": 354.2,
+        "width": 124.2,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "licState5": {
+      "type": "text",
+      "label": "LicState5",
+      "page": 2,
+      "box": {
+        "left": 24.8,
+        "top": 353.8,
+        "width": 39.3,
+        "height": 12.3
+      },
+      "required": true
+    },
+    "nameLast6": {
+      "type": "text",
+      "label": "NameLast6",
+      "page": 2,
+      "box": {
+        "left": 415.0,
+        "top": 335.5,
+        "width": 151.0,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "mi6": {
+      "type": "text",
+      "label": "MI6",
+      "page": 2,
+      "box": {
+        "left": 311.9,
+        "top": 335.0,
+        "width": 93.1,
+        "height": 13.3
+      }
+    },
+    "gender6": {
+      "type": "text",
+      "label": "Gender6",
+      "page": 2,
+      "box": {
+        "left": 650.7,
+        "top": 335.0,
+        "width": 28.9,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "uic6": {
+      "type": "text",
+      "label": "UIC6",
+      "page": 2,
+      "box": {
+        "left": 690.4,
+        "top": 335.0,
+        "width": 75.2,
+        "height": 13.3
+      }
+    },
+    "birthDate6": {
+      "type": "text",
+      "label": "BirthDate6",
+      "page": 2,
+      "box": {
+        "left": 575.9,
+        "top": 334.8,
+        "width": 64.3,
+        "height": 12.3
+      }
+    },
+    "licNum6": {
+      "type": "text",
+      "label": "LicNum6",
+      "page": 2,
+      "box": {
+        "left": 76.9,
+        "top": 334.4,
+        "width": 84.8,
+        "height": 13.3
+      }
+    },
+    "nameFirst6": {
+      "type": "text",
+      "label": "NameFirst6",
+      "page": 2,
+      "box": {
+        "left": 174.7,
+        "top": 334.4,
+        "width": 124.2,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "licState6": {
+      "type": "text",
+      "label": "LicState6",
+      "page": 2,
+      "box": {
+        "left": 24.7,
+        "top": 334.1,
+        "width": 39.3,
+        "height": 12.3
+      },
+      "required": true
+    },
+    "mi7": {
+      "type": "text",
+      "label": "MI7",
+      "page": 2,
+      "box": {
+        "left": 311.2,
+        "top": 316.0,
+        "width": 93.1,
+        "height": 13.3
+      }
+    },
+    "licNum7": {
+      "type": "text",
+      "label": "LicNum7",
+      "page": 2,
+      "box": {
+        "left": 77.3,
+        "top": 315.4,
+        "width": 84.8,
+        "height": 13.3
+      }
+    },
+    "nameFirst7": {
+      "type": "text",
+      "label": "NameFirst7",
+      "page": 2,
+      "box": {
+        "left": 174.3,
+        "top": 315.4,
+        "width": 124.2,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "licState7": {
+      "type": "text",
+      "label": "LicState7",
+      "page": 2,
+      "box": {
+        "left": 23.8,
+        "top": 315.2,
+        "width": 39.3,
+        "height": 12.3
+      },
+      "required": true
+    },
+    "nameLast7": {
+      "type": "text",
+      "label": "NameLast7",
+      "page": 2,
+      "box": {
+        "left": 415.1,
+        "top": 314.7,
+        "width": 151.0,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "gender7": {
+      "type": "text",
+      "label": "Gender7",
+      "page": 2,
+      "box": {
+        "left": 650.8,
+        "top": 314.2,
+        "width": 28.9,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "uic7": {
+      "type": "text",
+      "label": "UIC7",
+      "page": 2,
+      "box": {
+        "left": 690.6,
+        "top": 314.2,
+        "width": 75.2,
+        "height": 13.3
+      }
+    },
+    "birthDate7": {
+      "type": "text",
+      "label": "BirthDate7",
+      "page": 2,
+      "box": {
+        "left": 576.0,
+        "top": 314.0,
+        "width": 64.3,
+        "height": 12.3
+      }
+    },
+    "licNum8": {
+      "type": "text",
+      "label": "LicNum8",
+      "page": 2,
+      "box": {
+        "left": 77.2,
+        "top": 295.7,
+        "width": 84.8,
+        "height": 13.3
+      }
+    },
+    "nameFirst8": {
+      "type": "text",
+      "label": "NameFirst8",
+      "page": 2,
+      "box": {
+        "left": 174.1,
+        "top": 295.7,
+        "width": 124.2,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "licState8": {
+      "type": "text",
+      "label": "LicState8",
+      "page": 2,
+      "box": {
+        "left": 23.6,
+        "top": 295.5,
+        "width": 39.3,
+        "height": 12.3
+      },
+      "required": true
+    },
+    "mi8": {
+      "type": "text",
+      "label": "MI8",
+      "page": 2,
+      "box": {
+        "left": 311.4,
+        "top": 295.5,
+        "width": 92.9,
+        "height": 13.3
+      }
+    },
+    "nameLast8": {
+      "type": "text",
+      "label": "NameLast8",
+      "page": 2,
+      "box": {
+        "left": 415.0,
+        "top": 295.0,
+        "width": 151.0,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "gender8": {
+      "type": "text",
+      "label": "Gender8",
+      "page": 2,
+      "box": {
+        "left": 650.7,
+        "top": 294.5,
+        "width": 28.9,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "uic8": {
+      "type": "text",
+      "label": "UIC8",
+      "page": 2,
+      "box": {
+        "left": 690.4,
+        "top": 294.5,
+        "width": 75.2,
+        "height": 13.3
+      }
+    },
+    "birthDate8": {
+      "type": "text",
+      "label": "BirthDate8",
+      "page": 2,
+      "box": {
+        "left": 575.9,
+        "top": 294.2,
+        "width": 64.3,
+        "height": 12.3
+      }
+    },
+    "nameLast9": {
+      "type": "text",
+      "label": "NameLast9",
+      "page": 2,
+      "box": {
+        "left": 415.9,
+        "top": 276.1,
+        "width": 151.0,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "gender9": {
+      "type": "text",
+      "label": "Gender9",
+      "page": 2,
+      "box": {
+        "left": 651.5,
+        "top": 275.6,
+        "width": 28.9,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "uic9": {
+      "type": "text",
+      "label": "UIC9",
+      "page": 2,
+      "box": {
+        "left": 691.8,
+        "top": 275.6,
+        "width": 75.2,
+        "height": 13.3
+      }
+    },
+    "mi9": {
+      "type": "text",
+      "label": "MI9",
+      "page": 2,
+      "box": {
+        "left": 311.1,
+        "top": 275.4,
+        "width": 93.2,
+        "height": 13.3
+      }
+    },
+    "birthDate9": {
+      "type": "text",
+      "label": "BirthDate9",
+      "page": 2,
+      "box": {
+        "left": 576.9,
+        "top": 275.4,
+        "width": 64.3,
+        "height": 12.3
+      }
+    },
+    "licNum9": {
+      "type": "text",
+      "label": "LicNum9",
+      "page": 2,
+      "box": {
+        "left": 76.8,
+        "top": 274.5,
+        "width": 84.8,
+        "height": 13.3
+      }
+    },
+    "nameFirst9": {
+      "type": "text",
+      "label": "NameFirst9",
+      "page": 2,
+      "box": {
+        "left": 174.6,
+        "top": 274.5,
+        "width": 124.2,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "licState9": {
+      "type": "text",
+      "label": "LicState9",
+      "page": 2,
+      "box": {
+        "left": 25.0,
+        "top": 274.0,
+        "width": 39.3,
+        "height": 12.3
+      },
+      "required": true
+    },
+    "nameLast10": {
+      "type": "text",
+      "label": "NameLast10",
+      "page": 2,
+      "box": {
+        "left": 415.8,
+        "top": 256.4,
+        "width": 151.0,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "gender10": {
+      "type": "text",
+      "label": "Gender10",
+      "page": 2,
+      "box": {
+        "left": 651.3,
+        "top": 255.9,
+        "width": 28.9,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "uic10": {
+      "type": "text",
+      "label": "UIC10",
+      "page": 2,
+      "box": {
+        "left": 691.6,
+        "top": 255.9,
+        "width": 75.2,
+        "height": 13.3
+      }
+    },
+    "birthDate10": {
+      "type": "text",
+      "label": "BirthDate10",
+      "page": 2,
+      "box": {
+        "left": 576.7,
+        "top": 255.6,
+        "width": 64.3,
+        "height": 12.3
+      }
+    },
+    "mi10": {
+      "type": "text",
+      "label": "MI10",
+      "page": 2,
+      "box": {
+        "left": 312.1,
+        "top": 255.0,
+        "width": 93.0,
+        "height": 13.3
+      }
+    },
+    "licNum10": {
+      "type": "text",
+      "label": "LicNum10",
+      "page": 2,
+      "box": {
+        "left": 76.7,
+        "top": 254.8,
+        "width": 84.8,
+        "height": 13.3
+      }
+    },
+    "nameFirst10": {
+      "type": "text",
+      "label": "NameFirst10",
+      "page": 2,
+      "box": {
+        "left": 174.5,
+        "top": 254.8,
+        "width": 124.2,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "licState10": {
+      "type": "text",
+      "label": "LicState10",
+      "page": 2,
+      "box": {
+        "left": 24.9,
+        "top": 254.3,
+        "width": 39.3,
+        "height": 12.3
+      },
+      "required": true
+    },
+    "nameLast11": {
+      "type": "text",
+      "label": "NameLast11",
+      "page": 2,
+      "box": {
+        "left": 415.9,
+        "top": 237.0,
+        "width": 151.0,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "gender11": {
+      "type": "text",
+      "label": "Gender11",
+      "page": 2,
+      "box": {
+        "left": 651.5,
+        "top": 236.5,
+        "width": 28.9,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "uic11": {
+      "type": "text",
+      "label": "UIC11",
+      "page": 2,
+      "box": {
+        "left": 691.8,
+        "top": 236.5,
+        "width": 75.2,
+        "height": 13.3
+      }
+    },
+    "birthDate11": {
+      "type": "text",
+      "label": "BirthDate11",
+      "page": 2,
+      "box": {
+        "left": 576.9,
+        "top": 236.2,
+        "width": 64.3,
+        "height": 12.3
+      }
+    },
+    "mi11": {
+      "type": "text",
+      "label": "MI11",
+      "page": 2,
+      "box": {
+        "left": 309.9,
+        "top": 235.9,
+        "width": 95.9,
+        "height": 13.3
+      }
+    },
+    "licNum11": {
+      "type": "text",
+      "label": "LicNum11",
+      "page": 2,
+      "box": {
+        "left": 77.1,
+        "top": 235.7,
+        "width": 84.8,
+        "height": 13.3
+      }
+    },
+    "nameFirst11": {
+      "type": "text",
+      "label": "NameFirst11",
+      "page": 2,
+      "box": {
+        "left": 174.1,
+        "top": 235.7,
+        "width": 124.2,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "licState11": {
+      "type": "text",
+      "label": "LicState11",
+      "page": 2,
+      "box": {
+        "left": 24.0,
+        "top": 235.4,
+        "width": 39.3,
+        "height": 12.3
+      },
+      "required": true
+    },
+    "nameLast12": {
+      "type": "text",
+      "label": "NameLast12",
+      "page": 2,
+      "box": {
+        "left": 415.8,
+        "top": 217.3,
+        "width": 151.0,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "gender12": {
+      "type": "text",
+      "label": "Gender12",
+      "page": 2,
+      "box": {
+        "left": 651.3,
+        "top": 216.8,
+        "width": 28.9,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "uic12": {
+      "type": "text",
+      "label": "UIC12",
+      "page": 2,
+      "box": {
+        "left": 691.6,
+        "top": 216.8,
+        "width": 75.2,
+        "height": 13.3
+      }
+    },
+    "birthDate12": {
+      "type": "text",
+      "label": "BirthDate12",
+      "page": 2,
+      "box": {
+        "left": 576.7,
+        "top": 216.5,
+        "width": 64.3,
+        "height": 12.3
+      }
+    },
+    "mi12": {
+      "type": "text",
+      "label": "MI12",
+      "page": 2,
+      "box": {
+        "left": 310.8,
+        "top": 216.2,
+        "width": 95.0,
+        "height": 13.3
+      }
+    },
+    "licNum12": {
+      "type": "text",
+      "label": "LicNum12",
+      "page": 2,
+      "box": {
+        "left": 77.0,
+        "top": 216.0,
+        "width": 84.8,
+        "height": 13.3
+      }
+    },
+    "nameFirst12": {
+      "type": "text",
+      "label": "NameFirst12",
+      "page": 2,
+      "box": {
+        "left": 173.9,
+        "top": 216.0,
+        "width": 124.2,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "licState12": {
+      "type": "text",
+      "label": "LicState12",
+      "page": 2,
+      "box": {
+        "left": 23.8,
+        "top": 215.7,
+        "width": 39.3,
+        "height": 12.3
+      },
+      "required": true
+    },
+    "nameLast13": {
+      "type": "text",
+      "label": "NameLast13",
+      "page": 2,
+      "box": {
+        "left": 415.9,
+        "top": 197.2,
+        "width": 151.0,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "gender13": {
+      "type": "text",
+      "label": "Gender13",
+      "page": 2,
+      "box": {
+        "left": 651.5,
+        "top": 196.7,
+        "width": 28.9,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "uic13": {
+      "type": "text",
+      "label": "UIC13",
+      "page": 2,
+      "box": {
+        "left": 691.8,
+        "top": 196.7,
+        "width": 75.2,
+        "height": 13.3
+      }
+    },
+    "birthDate13": {
+      "type": "text",
+      "label": "BirthDate13",
+      "page": 2,
+      "box": {
+        "left": 576.9,
+        "top": 196.5,
+        "width": 64.3,
+        "height": 12.3
+      }
+    },
+    "mi13": {
+      "type": "text",
+      "label": "MI13",
+      "page": 2,
+      "box": {
+        "left": 310.4,
+        "top": 196.0,
+        "width": 94.6,
+        "height": 13.3
+      }
+    },
+    "licState13": {
+      "type": "text",
+      "label": "LicState13",
+      "page": 2,
+      "box": {
+        "left": 26.3,
+        "top": 195.5,
+        "width": 39.3,
+        "height": 12.3
+      },
+      "required": true
+    },
+    "licNum13": {
+      "type": "text",
+      "label": "LicNum13",
+      "page": 2,
+      "box": {
+        "left": 77.6,
+        "top": 195.0,
+        "width": 84.8,
+        "height": 13.3
+      }
+    },
+    "nameFirst13": {
+      "type": "text",
+      "label": "NameFirst13",
+      "page": 2,
+      "box": {
+        "left": 175.5,
+        "top": 195.0,
+        "width": 124.2,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "nameLast14": {
+      "type": "text",
+      "label": "NameLast14",
+      "page": 2,
+      "box": {
+        "left": 415.8,
+        "top": 177.5,
+        "width": 151.0,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "gender14": {
+      "type": "text",
+      "label": "Gender14",
+      "page": 2,
+      "box": {
+        "left": 651.3,
+        "top": 177.0,
+        "width": 28.9,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "uic14": {
+      "type": "text",
+      "label": "UIC14",
+      "page": 2,
+      "box": {
+        "left": 691.6,
+        "top": 177.0,
+        "width": 75.2,
+        "height": 13.3
+      }
+    },
+    "birthDate14": {
+      "type": "text",
+      "label": "BirthDate14",
+      "page": 2,
+      "box": {
+        "left": 576.7,
+        "top": 176.8,
+        "width": 64.3,
+        "height": 12.3
+      }
+    },
+    "mi14": {
+      "type": "text",
+      "label": "MI14",
+      "page": 2,
+      "box": {
+        "left": 311.4,
+        "top": 176.3,
+        "width": 93.6,
+        "height": 13.3
+      }
+    },
+    "licState14": {
+      "type": "text",
+      "label": "LicState14",
+      "page": 2,
+      "box": {
+        "left": 26.1,
+        "top": 175.8,
+        "width": 39.3,
+        "height": 12.3
+      },
+      "required": true
+    },
+    "licNum14": {
+      "type": "text",
+      "label": "LicNum14",
+      "page": 2,
+      "box": {
+        "left": 77.5,
+        "top": 175.3,
+        "width": 84.8,
+        "height": 13.3
+      }
+    },
+    "nameFirst14": {
+      "type": "text",
+      "label": "NameFirst14",
+      "page": 2,
+      "box": {
+        "left": 175.3,
+        "top": 175.3,
+        "width": 124.2,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "mi15": {
+      "type": "text",
+      "label": "MI15",
+      "page": 2,
+      "box": {
+        "left": 311.4,
+        "top": 157.2,
+        "width": 93.6,
+        "height": 13.3
+      }
+    },
+    "nameLast15": {
+      "type": "text",
+      "label": "NameLast15",
+      "page": 2,
+      "box": {
+        "left": 415.1,
+        "top": 156.7,
+        "width": 151.0,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "licState15": {
+      "type": "text",
+      "label": "LicState15",
+      "page": 2,
+      "box": {
+        "left": 25.2,
+        "top": 156.2,
+        "width": 39.3,
+        "height": 12.3
+      },
+      "required": true
+    },
+    "licNum15": {
+      "type": "text",
+      "label": "LicNum15",
+      "page": 2,
+      "box": {
+        "left": 77.9,
+        "top": 156.2,
+        "width": 84.8,
+        "height": 13.3
+      }
+    },
+    "nameFirst15": {
+      "type": "text",
+      "label": "NameFirst15",
+      "page": 2,
+      "box": {
+        "left": 174.9,
+        "top": 156.2,
+        "width": 124.2,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "gender15": {
+      "type": "text",
+      "label": "Gender15",
+      "page": 2,
+      "box": {
+        "left": 650.8,
+        "top": 156.2,
+        "width": 28.9,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "uic15": {
+      "type": "text",
+      "label": "UIC15",
+      "page": 2,
+      "box": {
+        "left": 690.6,
+        "top": 156.2,
+        "width": 75.2,
+        "height": 13.3
+      }
+    },
+    "birthDate15": {
+      "type": "text",
+      "label": "BirthDate15",
+      "page": 2,
+      "box": {
+        "left": 576.0,
+        "top": 156.0,
+        "width": 64.3,
+        "height": 12.3
+      }
+    },
+    "mi16": {
+      "type": "text",
+      "label": "MI16",
+      "page": 2,
+      "box": {
+        "left": 310.2,
+        "top": 137.5,
+        "width": 95.6,
+        "height": 13.3
+      }
+    },
+    "nameLast16": {
+      "type": "text",
+      "label": "NameLast16",
+      "page": 2,
+      "box": {
+        "left": 415.0,
+        "top": 137.0,
+        "width": 151.0,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "licState16": {
+      "type": "text",
+      "label": "LicState16",
+      "page": 2,
+      "box": {
+        "left": 25.1,
+        "top": 136.5,
+        "width": 39.3,
+        "height": 12.3
+      },
+      "required": true
+    },
+    "licNum16": {
+      "type": "text",
+      "label": "LicNum16",
+      "page": 2,
+      "box": {
+        "left": 77.7,
+        "top": 136.5,
+        "width": 84.8,
+        "height": 13.3
+      }
+    },
+    "nameFirst16": {
+      "type": "text",
+      "label": "NameFirst16",
+      "page": 2,
+      "box": {
+        "left": 174.8,
+        "top": 136.5,
+        "width": 124.2,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "gender16": {
+      "type": "text",
+      "label": "Gender16",
+      "page": 2,
+      "box": {
+        "left": 650.7,
+        "top": 136.5,
+        "width": 28.9,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "uic16": {
+      "type": "text",
+      "label": "UIC16",
+      "page": 2,
+      "box": {
+        "left": 690.4,
+        "top": 136.5,
+        "width": 75.2,
+        "height": 13.3
+      }
+    },
+    "birthDate16": {
+      "type": "text",
+      "label": "BirthDate16",
+      "page": 2,
+      "box": {
+        "left": 575.9,
+        "top": 136.2,
+        "width": 64.3,
+        "height": 12.3
+      }
+    },
+    "nameLast17": {
+      "type": "text",
+      "label": "NameLast17",
+      "page": 2,
+      "box": {
+        "left": 415.1,
+        "top": 117.7,
+        "width": 151.0,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "gender17": {
+      "type": "text",
+      "label": "Gender17",
+      "page": 2,
+      "box": {
+        "left": 650.8,
+        "top": 117.2,
+        "width": 28.9,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "uic17": {
+      "type": "text",
+      "label": "UIC17",
+      "page": 2,
+      "box": {
+        "left": 690.6,
+        "top": 117.2,
+        "width": 75.2,
+        "height": 13.3
+      }
+    },
+    "mi17": {
+      "type": "text",
+      "label": "MI17",
+      "page": 2,
+      "box": {
+        "left": 310.5,
+        "top": 117.1,
+        "width": 95.3,
+        "height": 13.3
+      }
+    },
+    "birthDate17": {
+      "type": "text",
+      "label": "BirthDate17",
+      "page": 2,
+      "box": {
+        "left": 576.0,
+        "top": 117.0,
+        "width": 64.3,
+        "height": 12.3
+      }
+    },
+    "licState17": {
+      "type": "text",
+      "label": "LicState17",
+      "page": 2,
+      "box": {
+        "left": 26.1,
+        "top": 116.0,
+        "width": 39.3,
+        "height": 12.3
+      },
+      "required": true
+    },
+    "licNum17": {
+      "type": "text",
+      "label": "LicNum17",
+      "page": 2,
+      "box": {
+        "left": 77.9,
+        "top": 115.8,
+        "width": 84.8,
+        "height": 13.3
+      }
+    },
+    "nameFirst17": {
+      "type": "text",
+      "label": "NameFirst17",
+      "page": 2,
+      "box": {
+        "left": 175.9,
+        "top": 115.8,
+        "width": 124.2,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "nameLast18": {
+      "type": "text",
+      "label": "NameLast18",
+      "page": 2,
+      "box": {
+        "left": 415.0,
+        "top": 98.0,
+        "width": 151.0,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "gender18": {
+      "type": "text",
+      "label": "Gender18",
+      "page": 2,
+      "box": {
+        "left": 650.7,
+        "top": 97.5,
+        "width": 28.9,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "uic18": {
+      "type": "text",
+      "label": "UIC18",
+      "page": 2,
+      "box": {
+        "left": 690.4,
+        "top": 97.5,
+        "width": 75.2,
+        "height": 13.3
+      }
+    },
+    "birthDate18": {
+      "type": "text",
+      "label": "BirthDate18",
+      "page": 2,
+      "box": {
+        "left": 575.9,
+        "top": 97.2,
+        "width": 64.3,
+        "height": 12.3
+      }
+    },
+    "mi18": {
+      "type": "text",
+      "label": "MI18",
+      "page": 2,
+      "box": {
+        "left": 311.4,
+        "top": 96.7,
+        "width": 93.6,
+        "height": 13.3
+      }
+    },
+    "licState18": {
+      "type": "text",
+      "label": "LicState18",
+      "page": 2,
+      "box": {
+        "left": 25.9,
+        "top": 96.2,
+        "width": 39.3,
+        "height": 12.3
+      },
+      "required": true
+    },
+    "licNum18": {
+      "type": "text",
+      "label": "LicNum18",
+      "page": 2,
+      "box": {
+        "left": 77.8,
+        "top": 96.1,
+        "width": 84.8,
+        "height": 13.3
+      }
+    },
+    "nameFirst18": {
+      "type": "text",
+      "label": "NameFirst18",
+      "page": 2,
+      "box": {
+        "left": 175.8,
+        "top": 96.1,
+        "width": 124.2,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "nameLast19": {
+      "type": "text",
+      "label": "NameLast19",
+      "page": 2,
+      "box": {
+        "left": 415.9,
+        "top": 76.5,
+        "width": 151.0,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "licNum19": {
+      "type": "text",
+      "label": "LicNum19",
+      "page": 2,
+      "box": {
+        "left": 78.2,
+        "top": 76.3,
+        "width": 84.8,
+        "height": 13.3
+      }
+    },
+    "nameFirst19": {
+      "type": "text",
+      "label": "NameFirst19",
+      "page": 2,
+      "box": {
+        "left": 175.3,
+        "top": 76.3,
+        "width": 124.2,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "gender19": {
+      "type": "text",
+      "label": "Gender19",
+      "page": 2,
+      "box": {
+        "left": 651.5,
+        "top": 76.0,
+        "width": 28.9,
+        "height": 13.3
+      },
+      "required": true
+    },
+    "uic19": {
+      "type": "text",
+      "label": "UIC19",
+      "page": 2,
+      "box": {
+        "left": 691.8,
+        "top": 76.0,
+        "width": 75.2,
+        "height": 13.3
+      }
+    },
+    "licState19": {
+      "type": "text",
+      "label": "LicState19",
+      "page": 2,
+      "box": {
+        "left": 25.0,
+        "top": 75.9,
+        "width": 39.3,
+        "height": 12.3
+      },
+      "required": true
+    },
+    "birthDate19": {
+      "type": "text",
+      "label": "BirthDate19",
+      "page": 2,
+      "box": {
+        "left": 576.9,
+        "top": 75.8,
+        "width": 64.3,
+        "height": 12.3
+      }
+    },
+    "mi19": {
+      "type": "text",
+      "label": "MI19",
+      "page": 2,
+      "box": {
+        "left": 311.5,
+        "top": 75.4,
+        "width": 93.6,
+        "height": 13.3
+      }
+    }
+  }
+}

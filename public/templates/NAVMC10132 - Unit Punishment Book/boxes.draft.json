@@ -1,0 +1,612 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "1AARTICLE": {
+        "left": 50.6,
+        "top": 652.1,
+        "width": 212.4,
+        "height": 10.8,
+        "type": "choice",
+        "description": ""
+      },
+      "1ASUMMARY": {
+        "left": 266.2,
+        "top": 652.1,
+        "width": 302.4,
+        "height": 10.8,
+        "type": "text",
+        "description": ""
+      },
+      "1BARTICLE": {
+        "left": 50.6,
+        "top": 640.1,
+        "width": 212.4,
+        "height": 10.8,
+        "type": "choice",
+        "description": ""
+      },
+      "1BSUMMARY": {
+        "left": 266.2,
+        "top": 640.1,
+        "width": 302.4,
+        "height": 10.8,
+        "type": "text",
+        "description": ""
+      },
+      "1CARTICLE": {
+        "left": 50.6,
+        "top": 628.0,
+        "width": 212.4,
+        "height": 10.8,
+        "type": "choice",
+        "description": ""
+      },
+      "1CSUMMARY": {
+        "left": 266.2,
+        "top": 628.0,
+        "width": 302.4,
+        "height": 10.8,
+        "type": "text",
+        "description": ""
+      },
+      "1DARTICLE": {
+        "left": 50.6,
+        "top": 616.0,
+        "width": 212.4,
+        "height": 10.8,
+        "type": "choice",
+        "description": ""
+      },
+      "1DSUMMARY": {
+        "left": 266.2,
+        "top": 616.0,
+        "width": 302.4,
+        "height": 10.8,
+        "type": "text",
+        "description": ""
+      },
+      "1EARTICLE": {
+        "left": 50.6,
+        "top": 604.0,
+        "width": 212.4,
+        "height": 10.8,
+        "type": "choice",
+        "description": ""
+      },
+      "1ESUMMARY": {
+        "left": 266.2,
+        "top": 604.0,
+        "width": 302.4,
+        "height": 10.8,
+        "type": "text",
+        "description": ""
+      },
+      "2DEMAND": {
+        "left": 229.5,
+        "top": 580.3,
+        "width": 337.9,
+        "height": 10.6,
+        "type": "choice",
+        "description": ""
+      },
+      "2COUNSELOPP": {
+        "left": 110.0,
+        "top": 564.4,
+        "width": 48.9,
+        "height": 10.6,
+        "type": "choice",
+        "description": ""
+      },
+      "2BOOKER": {
+        "left": 35.9,
+        "top": 528.7,
+        "width": 527.8,
+        "height": 10.6,
+        "type": "text",
+        "description": ""
+      },
+      "2ACCREFUSETOSIGN": {
+        "left": 188.4,
+        "top": 513.1,
+        "width": 12.7,
+        "height": 11.5,
+        "type": "checkbox",
+        "description": ""
+      },
+      "2ACCELECTIONANDRIGHTSDATEAfDate": {
+        "left": 34.9,
+        "top": 500.0,
+        "width": 94.6,
+        "height": 13.4,
+        "type": "text",
+        "description": ""
+      },
+      "2ACCELECTIONANDRIGHTSSIGNATURE": {
+        "left": 188.4,
+        "top": 500.0,
+        "width": 374.7,
+        "height": 13.4,
+        "type": "signature",
+        "description": ""
+      },
+      "3RIGHTSATTESTSIGNATURE": {
+        "left": 188.4,
+        "top": 453.6,
+        "width": 374.7,
+        "height": 13.4,
+        "type": "signature",
+        "description": ""
+      },
+      "3RIGHTSATTESTDATEAfDate": {
+        "left": 34.9,
+        "top": 453.5,
+        "width": 94.6,
+        "height": 13.4,
+        "type": "text",
+        "description": ""
+      },
+      "4CURRENTUASOVER24HRSANDMARKSOFDESERTION": {
+        "left": 34.1,
+        "top": 419.1,
+        "width": 538.2,
+        "height": 14.4,
+        "type": "text",
+        "description": ""
+      },
+      "1AFINDING": {
+        "left": 245.2,
+        "top": 391.6,
+        "width": 23.8,
+        "height": 10.8,
+        "type": "choice",
+        "description": ""
+      },
+      "1BFINDING": {
+        "left": 296.9,
+        "top": 391.6,
+        "width": 23.8,
+        "height": 10.8,
+        "type": "choice",
+        "description": ""
+      },
+      "1CFINDING": {
+        "left": 349.1,
+        "top": 391.6,
+        "width": 23.8,
+        "height": 10.8,
+        "type": "choice",
+        "description": ""
+      },
+      "1DFINDING": {
+        "left": 401.8,
+        "top": 391.6,
+        "width": 23.8,
+        "height": 10.8,
+        "type": "choice",
+        "description": ""
+      },
+      "1EFINDING": {
+        "left": 454.2,
+        "top": 391.6,
+        "width": 23.8,
+        "height": 10.8,
+        "type": "choice",
+        "description": ""
+      },
+      "6PUNISHMENTIMPOSED": {
+        "left": 34.1,
+        "top": 366.2,
+        "width": 436.5,
+        "height": 15.9,
+        "type": "text",
+        "description": ""
+      },
+      "6PUNISHMENTIMPOSITIONDATE": {
+        "left": 475.7,
+        "top": 366.2,
+        "width": 96.3,
+        "height": 15.9,
+        "type": "text",
+        "description": ""
+      },
+      "7SUSPENSIONIFANY": {
+        "left": 34.1,
+        "top": 338.6,
+        "width": 538.2,
+        "height": 15.9,
+        "type": "text",
+        "description": ""
+      },
+      "8NJPAUTHORITYNAMETITLESERVICE": {
+        "left": 34.1,
+        "top": 311.7,
+        "width": 358.6,
+        "height": 15.9,
+        "type": "text",
+        "description": ""
+      },
+      "8ANJPAUTHORITYGRADE": {
+        "left": 394.5,
+        "top": 311.7,
+        "width": 87.9,
+        "height": 15.9,
+        "type": "text",
+        "description": ""
+      },
+      "8BNJPAUTHORITYEDIPI": {
+        "left": 483.8,
+        "top": 311.7,
+        "width": 88.4,
+        "height": 15.9,
+        "type": "text",
+        "description": ""
+      },
+      "9NJPAUTHORITYSIGNATURE": {
+        "left": 34.7,
+        "top": 271.3,
+        "width": 415.9,
+        "height": 13.4,
+        "type": "signature",
+        "description": ""
+      },
+      "10DATEOFDISPOSITIONNOTICE": {
+        "left": 476.0,
+        "top": 261.6,
+        "width": 96.3,
+        "height": 14.4,
+        "type": "text",
+        "description": ""
+      },
+      "12INTENDAPPEAL": {
+        "left": 328.4,
+        "top": 234.8,
+        "width": 124.0,
+        "height": 9.4,
+        "type": "choice",
+        "description": ""
+      },
+      "13NOTAPPEALED": {
+        "left": 479.6,
+        "top": 222.7,
+        "width": 12.0,
+        "height": 11.5,
+        "type": "checkbox",
+        "description": ""
+      },
+      "12APPEALINTENTDATEAfDate": {
+        "left": 256.0,
+        "top": 218.3,
+        "width": 66.4,
+        "height": 14.4,
+        "type": "text",
+        "description": ""
+      },
+      "11APPEALADVISEMENTDATEAfDate": {
+        "left": 35.6,
+        "top": 218.1,
+        "width": 66.4,
+        "height": 14.4,
+        "type": "text",
+        "description": ""
+      },
+      "11APPEALADVISEMENTSIGNATURE": {
+        "left": 106.0,
+        "top": 218.1,
+        "width": 142.0,
+        "height": 14.4,
+        "type": "signature",
+        "description": ""
+      },
+      "12APPEALINTENTSIGNATURE": {
+        "left": 331.5,
+        "top": 218.1,
+        "width": 142.0,
+        "height": 14.4,
+        "type": "signature",
+        "description": ""
+      },
+      "13DATEOFAPPEALIFANYAfDate": {
+        "left": 476.0,
+        "top": 207.6,
+        "width": 96.3,
+        "height": 14.4,
+        "type": "text",
+        "description": ""
+      },
+      "14APPEALDECISION": {
+        "left": 35.6,
+        "top": 180.9,
+        "width": 433.7,
+        "height": 13.4,
+        "type": "text",
+        "description": ""
+      },
+      "14APPEALDECISIONDATEAfDate": {
+        "left": 35.6,
+        "top": 166.3,
+        "width": 66.4,
+        "height": 14.4,
+        "type": "text",
+        "description": ""
+      },
+      "14APPEALDECISIONSIGNATURE": {
+        "left": 106.9,
+        "top": 166.3,
+        "width": 362.5,
+        "height": 14.4,
+        "type": "signature",
+        "description": "Signature of CO making final decision on appeal"
+      },
+      "15DATEOFNOTICEOFAPPEALDECISIONAfDate": {
+        "left": 476.0,
+        "top": 153.6,
+        "width": 96.3,
+        "height": 14.4,
+        "type": "text",
+        "description": ""
+      },
+      "16FINALADMINUD": {
+        "left": 310.1,
+        "top": 136.8,
+        "width": 59.1,
+        "height": 14.4,
+        "type": "text",
+        "description": ""
+      },
+      "16FINALADMINDTD": {
+        "left": 388.8,
+        "top": 136.8,
+        "width": 59.1,
+        "height": 14.4,
+        "type": "text",
+        "description": ""
+      },
+      "16FINALADMININIT": {
+        "left": 468.0,
+        "top": 136.8,
+        "width": 102.6,
+        "height": 14.4,
+        "type": "signature",
+        "description": ""
+      },
+      "17UNIT": {
+        "left": 34.1,
+        "top": 108.6,
+        "width": 538.2,
+        "height": 14.4,
+        "type": "text",
+        "description": ""
+      },
+      "18ACCUSEDFULLNAME": {
+        "left": 34.1,
+        "top": 81.6,
+        "width": 358.6,
+        "height": 14.4,
+        "type": "text",
+        "description": ""
+      },
+      "19ACCUSEDRANKGRADE": {
+        "left": 394.1,
+        "top": 81.6,
+        "width": 88.3,
+        "height": 14.4,
+        "type": "text",
+        "description": ""
+      },
+      "20ACCUSEDEDIPI": {
+        "left": 483.8,
+        "top": 81.6,
+        "width": 88.4,
+        "height": 14.4,
+        "type": "text",
+        "description": ""
+      }
+    },
+    "page2": {
+      "21REMARKS": {
+        "left": 39.3,
+        "top": 722.5,
+        "width": 538.6,
+        "height": 518.9,
+        "type": "text",
+        "description": ""
+      },
+      "22AVICTIMSTATUS": {
+        "left": 64.4,
+        "top": 190.3,
+        "width": 100.7,
+        "height": 10.8,
+        "type": "choice",
+        "description": ""
+      },
+      "22AVICTIMSEX": {
+        "left": 183.3,
+        "top": 190.2,
+        "width": 80.0,
+        "height": 10.8,
+        "type": "choice",
+        "description": ""
+      },
+      "22AVICTIMRACE": {
+        "left": 280.5,
+        "top": 190.1,
+        "width": 150.0,
+        "height": 10.8,
+        "type": "choice",
+        "description": ""
+      },
+      "22AVICTIMETHNICITY": {
+        "left": 447.6,
+        "top": 190.1,
+        "width": 93.4,
+        "height": 10.8,
+        "type": "choice",
+        "description": ""
+      },
+      "22BVICTIMSTATUS": {
+        "left": 64.4,
+        "top": 176.7,
+        "width": 100.7,
+        "height": 10.8,
+        "type": "choice",
+        "description": ""
+      },
+      "22BVICTIMSEX": {
+        "left": 183.3,
+        "top": 176.7,
+        "width": 80.0,
+        "height": 10.8,
+        "type": "choice",
+        "description": ""
+      },
+      "22BVICTIMRACE": {
+        "left": 280.5,
+        "top": 176.7,
+        "width": 150.0,
+        "height": 10.8,
+        "type": "choice",
+        "description": ""
+      },
+      "22BVICTIMETHNICITY": {
+        "left": 447.6,
+        "top": 176.7,
+        "width": 93.4,
+        "height": 10.8,
+        "type": "choice",
+        "description": ""
+      },
+      "22CVICTIMSTATUS": {
+        "left": 64.4,
+        "top": 162.9,
+        "width": 100.7,
+        "height": 10.8,
+        "type": "choice",
+        "description": ""
+      },
+      "22CVICTIMSEX": {
+        "left": 183.3,
+        "top": 162.9,
+        "width": 80.0,
+        "height": 10.8,
+        "type": "choice",
+        "description": ""
+      },
+      "22CVICTIMRACE": {
+        "left": 280.5,
+        "top": 162.8,
+        "width": 150.0,
+        "height": 10.8,
+        "type": "choice",
+        "description": ""
+      },
+      "22CVICTIMETHNICITY": {
+        "left": 447.6,
+        "top": 162.8,
+        "width": 93.4,
+        "height": 10.8,
+        "type": "choice",
+        "description": ""
+      },
+      "22DVICTIMRACE": {
+        "left": 280.5,
+        "top": 149.1,
+        "width": 150.0,
+        "height": 10.8,
+        "type": "choice",
+        "description": ""
+      },
+      "22DVICTIMSTATUS": {
+        "left": 64.4,
+        "top": 148.6,
+        "width": 100.7,
+        "height": 10.8,
+        "type": "choice",
+        "description": ""
+      },
+      "22DVICTIMSEX": {
+        "left": 183.3,
+        "top": 148.6,
+        "width": 80.0,
+        "height": 10.8,
+        "type": "choice",
+        "description": ""
+      },
+      "22DVICTIMETHNICITY": {
+        "left": 447.6,
+        "top": 148.6,
+        "width": 93.4,
+        "height": 10.8,
+        "type": "choice",
+        "description": ""
+      },
+      "22EVICTIMRACE": {
+        "left": 280.5,
+        "top": 135.2,
+        "width": 150.0,
+        "height": 10.8,
+        "type": "choice",
+        "description": ""
+      },
+      "22EVICTIMSTATUS": {
+        "left": 64.4,
+        "top": 134.7,
+        "width": 100.7,
+        "height": 10.8,
+        "type": "choice",
+        "description": ""
+      },
+      "22EVICTIMSEX": {
+        "left": 183.3,
+        "top": 134.7,
+        "width": 80.0,
+        "height": 10.8,
+        "type": "choice",
+        "description": ""
+      },
+      "22EVICTIMETHNICITY": {
+        "left": 447.6,
+        "top": 134.7,
+        "width": 93.4,
+        "height": 10.8,
+        "type": "choice",
+        "description": ""
+      },
+      "23ACCUSEDFULLNAME": {
+        "left": 39.4,
+        "top": 109.8,
+        "width": 358.6,
+        "height": 14.4,
+        "type": "text",
+        "description": ""
+      },
+      "24ACCUSEDRANKGRADE": {
+        "left": 399.4,
+        "top": 109.8,
+        "width": 88.6,
+        "height": 14.4,
+        "type": "text",
+        "description": ""
+      },
+      "25ACCUSEDEDIPI": {
+        "left": 489.4,
+        "top": 109.8,
+        "width": 88.6,
+        "height": 14.4,
+        "type": "text",
+        "description": ""
+      }
+    }
+  }
+}

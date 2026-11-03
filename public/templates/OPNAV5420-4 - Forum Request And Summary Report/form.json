@@ -1,0 +1,444 @@
+{
+  "id": "opnav54204",
+  "label": "OPNAV5420-4 - Forum Request And Summary Report",
+  "directory": "OPNAV5420-4 - Forum Request And Summary Report",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "flagApp",
+        "forType",
+        "shtSub",
+        "nCde",
+        "dteFil",
+        "nLTDte",
+        "spnWk1",
+        "spnWk12",
+        "purDri",
+        "prinAtt",
+        "poc",
+        "brfs",
+        "decis",
+        "keyIss",
+        "asgIdeTas",
+        "dNS2Rec",
+        "othr",
+        "radio",
+        "radio2",
+        "radio3",
+        "vDat",
+        "dNSSig"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "forTypeA",
+        "dteFilA",
+        "subjBriA",
+        "prinAtt2",
+        "poca",
+        "brfsA",
+        "decisA",
+        "keyIssA",
+        "asgIdeTasA",
+        "preSigDat",
+        "preNme",
+        "perSig"
+      ]
+    }
+  ],
+  "fields": {
+    "flagApp": {
+      "type": "text",
+      "label": "FLAG/SES APPROVED BY",
+      "page": 1,
+      "box": {
+        "left": 485.3,
+        "top": 705.3,
+        "width": 89.0,
+        "height": 19.5
+      }
+    },
+    "forType": {
+      "type": "text",
+      "label": "TYPE (CEB/CUB/CEG/etc.)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 693.1,
+        "width": 93.9,
+        "height": 17.9
+      }
+    },
+    "shtSub": {
+      "type": "text",
+      "label": "SHORT SUBJECT",
+      "page": 1,
+      "box": {
+        "left": 138.0,
+        "top": 693.1,
+        "width": 281.4,
+        "height": 17.9
+      }
+    },
+    "nCde": {
+      "type": "text",
+      "label": "N-CODE",
+      "page": 1,
+      "box": {
+        "left": 462.9,
+        "top": 685.3,
+        "width": 111.4,
+        "height": 13.0
+      }
+    },
+    "dteFil": {
+      "type": "text",
+      "label": "1. DATE OF REQUEST",
+      "page": 1,
+      "box": {
+        "left": 36.7,
+        "top": 652.2,
+        "width": 129.4,
+        "height": 18.1
+      }
+    },
+    "nLTDte": {
+      "type": "text",
+      "label": "Thru",
+      "page": 1,
+      "box": {
+        "left": 445.4,
+        "top": 652.2,
+        "width": 130.0,
+        "height": 18.1
+      }
+    },
+    "spnWk1": {
+      "type": "text",
+      "label": "(Provide a window",
+      "page": 1,
+      "box": {
+        "left": 167.3,
+        "top": 650.8,
+        "width": 120.1,
+        "height": 16.7
+      }
+    },
+    "spnWk12": {
+      "type": "text",
+      "label": "Thru",
+      "page": 1,
+      "box": {
+        "left": 324.7,
+        "top": 650.8,
+        "width": 119.4,
+        "height": 16.7
+      }
+    },
+    "purDri": {
+      "type": "text",
+      "label": "Pur Dri",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 605.8,
+        "width": 534.4,
+        "height": 45.8
+      },
+      "multiline": true
+    },
+    "prinAtt": {
+      "type": "text",
+      "label": "Prin Att",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 530.3,
+        "width": 534.4,
+        "height": 50.5
+      },
+      "multiline": true
+    },
+    "poc": {
+      "type": "text",
+      "label": "6. POINT(S) OF CONTACT",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 459.9,
+        "width": 534.4,
+        "height": 16.1
+      }
+    },
+    "brfs": {
+      "type": "text",
+      "label": "7. BRIEFER(S)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 423.9,
+        "width": 534.4,
+        "height": 16.1
+      }
+    },
+    "decis": {
+      "type": "text",
+      "label": "(State any decisions required.)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 378.1,
+        "width": 534.4,
+        "height": 50.4
+      },
+      "multiline": true
+    },
+    "keyIss": {
+      "type": "text",
+      "label": "9. POTENTIAL KEY ISSUES AND TAKE-AWAYS",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 307.1,
+        "width": 534.4,
+        "height": 50.9
+      },
+      "multiline": true
+    },
+    "asgIdeTas": {
+      "type": "text",
+      "label": "10. POTENTIAL ASSIGNED/IDENTIFIED ACTIONS/TASKS",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 235.5,
+        "width": 534.4,
+        "height": 57.6
+      },
+      "multiline": true
+    },
+    "dNS2Rec": {
+      "type": "text",
+      "label": "11. DNS 2 RECOMMENDATION",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 156.2,
+        "width": 534.4,
+        "height": 56.6
+      },
+      "multiline": true
+    },
+    "othr": {
+      "type": "text",
+      "label": "DISAPPROVED OTHER",
+      "page": 1,
+      "box": {
+        "left": 317.9,
+        "top": 92.0,
+        "width": 255.4,
+        "height": 19.8
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 100.9,
+        "top": 87.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 181.9,
+        "top": 87.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 262.9,
+        "top": 87.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "vDat": {
+      "type": "text",
+      "label": "Signature Date",
+      "page": 1,
+      "box": {
+        "left": 360.5,
+        "top": 66.0,
+        "width": 67.1,
+        "height": 21.9
+      }
+    },
+    "dNSSig": {
+      "type": "text",
+      "label": "DNS Signature",
+      "page": 1,
+      "box": {
+        "left": 107.8,
+        "top": 63.2,
+        "width": 128.0,
+        "height": 16.3
+      }
+    },
+    "forTypeA": {
+      "type": "text",
+      "label": "1. TYPE OF FORUM",
+      "page": 2,
+      "box": {
+        "left": 132.6,
+        "top": 726.1,
+        "width": 310.4,
+        "height": 20.9
+      }
+    },
+    "dteFilA": {
+      "type": "text",
+      "label": "(CEB/CUB/etc.)",
+      "page": 2,
+      "box": {
+        "left": 446.0,
+        "top": 717.6,
+        "width": 129.4,
+        "height": 15.2
+      }
+    },
+    "subjBriA": {
+      "type": "text",
+      "label": "3. SUBJECT : (Title of Brief)",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 682.6,
+        "width": 534.4,
+        "height": 22.8
+      }
+    },
+    "prinAtt2": {
+      "type": "text",
+      "label": "Prin Att 2",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 630.1,
+        "width": 534.4,
+        "height": 50.5
+      },
+      "multiline": true
+    },
+    "poca": {
+      "type": "text",
+      "label": "5. POINT(S) OF CONTACT",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 559.7,
+        "width": 534.4,
+        "height": 16.1
+      }
+    },
+    "brfsA": {
+      "type": "text",
+      "label": "6. BRIEFER(S)",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 523.7,
+        "width": 534.4,
+        "height": 26.6
+      }
+    },
+    "decisA": {
+      "type": "text",
+      "label": "Decis A",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 466.5,
+        "width": 534.4,
+        "height": 99.2
+      },
+      "multiline": true
+    },
+    "keyIssA": {
+      "type": "text",
+      "label": "8. KEY ISSUES AND TAKE-AWAYS",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 343.6,
+        "width": 534.4,
+        "height": 111.4
+      },
+      "multiline": true
+    },
+    "asgIdeTasA": {
+      "type": "text",
+      "label": "9. ASSIGNED/IDENTIFIED ACTIONS/TASKS",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 205.5,
+        "width": 534.4,
+        "height": 105.1
+      },
+      "multiline": true
+    },
+    "preSigDat": {
+      "type": "text",
+      "label": "Signature Date",
+      "page": 2,
+      "box": {
+        "left": 505.0,
+        "top": 73.7,
+        "width": 67.1,
+        "height": 25.6
+      }
+    },
+    "preNme": {
+      "type": "text",
+      "label": "Preparer&apos;s Name",
+      "page": 2,
+      "box": {
+        "left": 109.0,
+        "top": 70.9,
+        "width": 132.0,
+        "height": 20.0
+      }
+    },
+    "perSig": {
+      "type": "text",
+      "label": "Preparer&apos;s Signature",
+      "page": 2,
+      "box": {
+        "left": 323.9,
+        "top": 70.9,
+        "width": 114.0,
+        "height": 20.0
+      }
+    }
+  }
+}

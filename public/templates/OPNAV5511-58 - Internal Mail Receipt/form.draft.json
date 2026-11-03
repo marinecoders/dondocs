@@ -1,0 +1,1457 @@
+{
+  "id": "opnav551158",
+  "label": "OPNAV5511-58 - Internal Mail Receipt",
+  "directory": "OPNAV5511-58 - Internal Mail Receipt",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "opno1",
+        "cNOSerial1",
+        "dated1",
+        "copies1",
+        "encl1",
+        "enclosure1",
+        "nameSignature1",
+        "dNSDate1",
+        "opno2",
+        "cNOSerial2",
+        "dated2",
+        "copies2",
+        "encl2",
+        "enclosure2",
+        "nameSignature",
+        "dNSDate2",
+        "opno3",
+        "cNOSerial3",
+        "dated3",
+        "copies3",
+        "encl3",
+        "enclosure3",
+        "nameSignature3",
+        "dNSDate3",
+        "opno4",
+        "cNOSerial4",
+        "dated4",
+        "copies4",
+        "encl4",
+        "enclosure4",
+        "nameSignature4",
+        "dNSDate4",
+        "nameSignature5",
+        "dNSDate5",
+        "opno5",
+        "cNOSerial5",
+        "dated5",
+        "copies5",
+        "encl5",
+        "enclosure5",
+        "opno6",
+        "cNOSerial6",
+        "dated6",
+        "copies6",
+        "encl6",
+        "enclosure6",
+        "nameSignature6",
+        "dNSDate6",
+        "nameSignature7",
+        "dNSDate7",
+        "opno7",
+        "cNOSerial7",
+        "dated7",
+        "copies7",
+        "encl7",
+        "enclosure7",
+        "nameSignature8",
+        "dNSDate8",
+        "opno8",
+        "cNOSerial8",
+        "dated8",
+        "copies8",
+        "encl8",
+        "enclosure8",
+        "opno9",
+        "cNOSerial9",
+        "dated9",
+        "copies9",
+        "encl9",
+        "enclosure9",
+        "nameSignature9",
+        "dNSDate9",
+        "nameSignature10",
+        "dNSDate10",
+        "opno10",
+        "cNOSerial10",
+        "dated10",
+        "copies10",
+        "encl10",
+        "enclosure10",
+        "opno11",
+        "cNOSerial11",
+        "dated11",
+        "copies11",
+        "encl11",
+        "enclosure11",
+        "nameSignature11",
+        "dNSDate11",
+        "opno12",
+        "cNOSerial12",
+        "dated12",
+        "copies12",
+        "encl12",
+        "enclosure12",
+        "nameSignature12",
+        "dNSDate12",
+        "opno13",
+        "cNOSerial113",
+        "dated13",
+        "copies13",
+        "encl13",
+        "enclosure13",
+        "nameSignature13",
+        "dNSDate13",
+        "opno",
+        "cNOSerial13",
+        "dated14",
+        "copies55",
+        "encl14",
+        "enclosure14",
+        "nameSignature14",
+        "dNSDate14",
+        "cNOSerial14",
+        "dated15",
+        "copies",
+        "encl15",
+        "enclosure15",
+        "nameSignature15",
+        "dNSDate15",
+        "opno15"
+      ]
+    }
+  ],
+  "fields": {
+    "opno1": {
+      "type": "text",
+      "label": "This is row 1 of 15.  Enter the OPNO.",
+      "page": 1,
+      "box": {
+        "left": 38.1,
+        "top": 497.5,
+        "width": 59.1,
+        "height": 17.0
+      }
+    },
+    "cNOSerial1": {
+      "type": "text",
+      "label": "Enter the CNO serial.",
+      "page": 1,
+      "box": {
+        "left": 103.0,
+        "top": 497.5,
+        "width": 71.6,
+        "height": 17.0
+      }
+    },
+    "dated1": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 181.4,
+        "top": 497.5,
+        "width": 93.6,
+        "height": 17.0
+      }
+    },
+    "copies1": {
+      "type": "text",
+      "label": "Enter the copies received.",
+      "page": 1,
+      "box": {
+        "left": 281.5,
+        "top": 497.5,
+        "width": 91.1,
+        "height": 17.0
+      }
+    },
+    "encl1": {
+      "type": "text",
+      "label": "Enter the ENCL.",
+      "page": 1,
+      "box": {
+        "left": 377.3,
+        "top": 497.5,
+        "width": 91.1,
+        "height": 17.0
+      }
+    },
+    "enclosure1": {
+      "type": "text",
+      "label": "Enter the copies of enclosure REC'D.",
+      "page": 1,
+      "box": {
+        "left": 474.5,
+        "top": 497.5,
+        "width": 108.1,
+        "height": 17.0
+      }
+    },
+    "nameSignature1": {
+      "type": "text",
+      "label": "Enter the printed name or signature.",
+      "page": 1,
+      "box": {
+        "left": 586.8,
+        "top": 497.5,
+        "width": 87.8,
+        "height": 17.0
+      }
+    },
+    "dNSDate1": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 676.8,
+        "top": 497.5,
+        "width": 61.5,
+        "height": 17.0
+      }
+    },
+    "opno2": {
+      "type": "text",
+      "label": "This is row 2 of 15.  Enter the OPNO.",
+      "page": 1,
+      "box": {
+        "left": 38.1,
+        "top": 467.3,
+        "width": 59.1,
+        "height": 17.0
+      }
+    },
+    "cNOSerial2": {
+      "type": "text",
+      "label": "Enter the CNO serial.",
+      "page": 1,
+      "box": {
+        "left": 103.0,
+        "top": 467.3,
+        "width": 71.6,
+        "height": 17.0
+      }
+    },
+    "dated2": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 181.4,
+        "top": 467.3,
+        "width": 93.6,
+        "height": 17.0
+      }
+    },
+    "copies2": {
+      "type": "text",
+      "label": "Enter the copies received.",
+      "page": 1,
+      "box": {
+        "left": 281.5,
+        "top": 467.3,
+        "width": 91.1,
+        "height": 17.0
+      }
+    },
+    "encl2": {
+      "type": "text",
+      "label": "Enter the ENCL.",
+      "page": 1,
+      "box": {
+        "left": 377.3,
+        "top": 467.3,
+        "width": 91.1,
+        "height": 17.0
+      }
+    },
+    "enclosure2": {
+      "type": "text",
+      "label": "Enter the copies of enclosure REC'D.",
+      "page": 1,
+      "box": {
+        "left": 474.5,
+        "top": 467.3,
+        "width": 108.1,
+        "height": 17.0
+      }
+    },
+    "nameSignature": {
+      "type": "text",
+      "label": "Enter the printed name or signature.",
+      "page": 1,
+      "box": {
+        "left": 586.8,
+        "top": 467.3,
+        "width": 87.8,
+        "height": 17.0
+      }
+    },
+    "dNSDate2": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 676.8,
+        "top": 467.3,
+        "width": 61.5,
+        "height": 17.0
+      }
+    },
+    "opno3": {
+      "type": "text",
+      "label": "This is row 3 of 15.  Enter the OPNO.",
+      "page": 1,
+      "box": {
+        "left": 38.1,
+        "top": 436.3,
+        "width": 59.1,
+        "height": 17.0
+      }
+    },
+    "cNOSerial3": {
+      "type": "text",
+      "label": "Enter the CNO serial.",
+      "page": 1,
+      "box": {
+        "left": 103.0,
+        "top": 436.3,
+        "width": 71.6,
+        "height": 17.0
+      }
+    },
+    "dated3": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 181.4,
+        "top": 436.3,
+        "width": 93.6,
+        "height": 17.0
+      }
+    },
+    "copies3": {
+      "type": "text",
+      "label": "Enter the copies received.",
+      "page": 1,
+      "box": {
+        "left": 281.5,
+        "top": 436.3,
+        "width": 91.1,
+        "height": 17.0
+      }
+    },
+    "encl3": {
+      "type": "text",
+      "label": "Enter the ENCL.",
+      "page": 1,
+      "box": {
+        "left": 377.3,
+        "top": 436.3,
+        "width": 91.1,
+        "height": 17.0
+      }
+    },
+    "enclosure3": {
+      "type": "text",
+      "label": "Enter the copies of enclosure REC'D.",
+      "page": 1,
+      "box": {
+        "left": 474.5,
+        "top": 436.3,
+        "width": 108.1,
+        "height": 17.0
+      }
+    },
+    "nameSignature3": {
+      "type": "text",
+      "label": "Enter the printed name or signature.",
+      "page": 1,
+      "box": {
+        "left": 586.8,
+        "top": 436.3,
+        "width": 87.8,
+        "height": 17.0
+      }
+    },
+    "dNSDate3": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 676.8,
+        "top": 436.3,
+        "width": 61.5,
+        "height": 17.0
+      }
+    },
+    "opno4": {
+      "type": "text",
+      "label": "This is row 4 of 15.  Enter the OPNO.",
+      "page": 1,
+      "box": {
+        "left": 38.1,
+        "top": 406.1,
+        "width": 59.1,
+        "height": 17.0
+      }
+    },
+    "cNOSerial4": {
+      "type": "text",
+      "label": "Enter the CNO serial.",
+      "page": 1,
+      "box": {
+        "left": 103.0,
+        "top": 406.1,
+        "width": 71.6,
+        "height": 17.0
+      }
+    },
+    "dated4": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 181.4,
+        "top": 406.1,
+        "width": 93.6,
+        "height": 17.0
+      }
+    },
+    "copies4": {
+      "type": "text",
+      "label": "Enter the copies received.",
+      "page": 1,
+      "box": {
+        "left": 281.5,
+        "top": 406.1,
+        "width": 91.1,
+        "height": 17.0
+      }
+    },
+    "encl4": {
+      "type": "text",
+      "label": "Enter the ENCL.",
+      "page": 1,
+      "box": {
+        "left": 377.3,
+        "top": 406.1,
+        "width": 91.1,
+        "height": 17.0
+      }
+    },
+    "enclosure4": {
+      "type": "text",
+      "label": "Enter the copies of enclosure REC'D.",
+      "page": 1,
+      "box": {
+        "left": 474.5,
+        "top": 406.1,
+        "width": 108.1,
+        "height": 17.0
+      }
+    },
+    "nameSignature4": {
+      "type": "text",
+      "label": "Enter the printed name or signature.",
+      "page": 1,
+      "box": {
+        "left": 586.8,
+        "top": 405.4,
+        "width": 87.8,
+        "height": 17.0
+      }
+    },
+    "dNSDate4": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 676.8,
+        "top": 405.4,
+        "width": 61.5,
+        "height": 17.0
+      }
+    },
+    "nameSignature5": {
+      "type": "text",
+      "label": "Enter the printed name or signature.",
+      "page": 1,
+      "box": {
+        "left": 586.8,
+        "top": 374.4,
+        "width": 87.8,
+        "height": 17.0
+      }
+    },
+    "dNSDate5": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 676.8,
+        "top": 374.4,
+        "width": 61.5,
+        "height": 17.0
+      }
+    },
+    "opno5": {
+      "type": "text",
+      "label": "This is row 5 of 15.  Enter the OPNO.",
+      "page": 1,
+      "box": {
+        "left": 38.1,
+        "top": 373.7,
+        "width": 59.1,
+        "height": 17.0
+      }
+    },
+    "cNOSerial5": {
+      "type": "text",
+      "label": "Enter the CNO serial.",
+      "page": 1,
+      "box": {
+        "left": 103.0,
+        "top": 373.7,
+        "width": 71.6,
+        "height": 17.0
+      }
+    },
+    "dated5": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 181.4,
+        "top": 373.7,
+        "width": 93.6,
+        "height": 17.0
+      }
+    },
+    "copies5": {
+      "type": "text",
+      "label": "Enter the copies received.",
+      "page": 1,
+      "box": {
+        "left": 281.5,
+        "top": 373.7,
+        "width": 91.1,
+        "height": 17.0
+      }
+    },
+    "encl5": {
+      "type": "text",
+      "label": "Enter the ENCL.",
+      "page": 1,
+      "box": {
+        "left": 377.3,
+        "top": 373.7,
+        "width": 91.1,
+        "height": 17.0
+      }
+    },
+    "enclosure5": {
+      "type": "text",
+      "label": "Enter the copies of enclosure REC'D.",
+      "page": 1,
+      "box": {
+        "left": 474.5,
+        "top": 373.7,
+        "width": 108.1,
+        "height": 17.0
+      }
+    },
+    "opno6": {
+      "type": "text",
+      "label": "This is row 6 of 15.  Enter the OPNO.",
+      "page": 1,
+      "box": {
+        "left": 38.1,
+        "top": 344.2,
+        "width": 59.1,
+        "height": 17.0
+      }
+    },
+    "cNOSerial6": {
+      "type": "text",
+      "label": "Enter the CNO serial.",
+      "page": 1,
+      "box": {
+        "left": 103.0,
+        "top": 344.2,
+        "width": 71.6,
+        "height": 17.0
+      }
+    },
+    "dated6": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 181.4,
+        "top": 344.2,
+        "width": 93.6,
+        "height": 17.0
+      }
+    },
+    "copies6": {
+      "type": "text",
+      "label": "Enter the copies received.",
+      "page": 1,
+      "box": {
+        "left": 281.5,
+        "top": 344.2,
+        "width": 91.1,
+        "height": 17.0
+      }
+    },
+    "encl6": {
+      "type": "text",
+      "label": "Enter the ENCL.",
+      "page": 1,
+      "box": {
+        "left": 377.3,
+        "top": 344.2,
+        "width": 91.1,
+        "height": 17.0
+      }
+    },
+    "enclosure6": {
+      "type": "text",
+      "label": "Enter the copies of enclosure REC'D.",
+      "page": 1,
+      "box": {
+        "left": 474.5,
+        "top": 344.2,
+        "width": 108.1,
+        "height": 17.0
+      }
+    },
+    "nameSignature6": {
+      "type": "text",
+      "label": "Enter the printed name or signature.",
+      "page": 1,
+      "box": {
+        "left": 586.8,
+        "top": 343.4,
+        "width": 87.8,
+        "height": 17.0
+      }
+    },
+    "dNSDate6": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 676.8,
+        "top": 343.4,
+        "width": 61.5,
+        "height": 17.0
+      }
+    },
+    "nameSignature7": {
+      "type": "text",
+      "label": "Enter the printed name or signature.",
+      "page": 1,
+      "box": {
+        "left": 586.8,
+        "top": 313.9,
+        "width": 87.8,
+        "height": 17.0
+      }
+    },
+    "dNSDate7": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 676.8,
+        "top": 313.9,
+        "width": 61.5,
+        "height": 17.0
+      }
+    },
+    "opno7": {
+      "type": "text",
+      "label": "This is row 7 of 15.  Enter the OPNO.",
+      "page": 1,
+      "box": {
+        "left": 37.5,
+        "top": 312.5,
+        "width": 59.1,
+        "height": 17.0
+      }
+    },
+    "cNOSerial7": {
+      "type": "text",
+      "label": "Enter the CNO serial.",
+      "page": 1,
+      "box": {
+        "left": 103.0,
+        "top": 312.5,
+        "width": 71.6,
+        "height": 17.0
+      }
+    },
+    "dated7": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 181.4,
+        "top": 312.5,
+        "width": 93.6,
+        "height": 17.0
+      }
+    },
+    "copies7": {
+      "type": "text",
+      "label": "Enter the copies received.",
+      "page": 1,
+      "box": {
+        "left": 281.5,
+        "top": 312.5,
+        "width": 91.1,
+        "height": 17.0
+      }
+    },
+    "encl7": {
+      "type": "text",
+      "label": "Enter the ENCL.",
+      "page": 1,
+      "box": {
+        "left": 377.3,
+        "top": 312.5,
+        "width": 91.1,
+        "height": 17.0
+      }
+    },
+    "enclosure7": {
+      "type": "text",
+      "label": "Enter the copies of enclosure REC'D.",
+      "page": 1,
+      "box": {
+        "left": 474.5,
+        "top": 312.5,
+        "width": 108.1,
+        "height": 17.0
+      }
+    },
+    "nameSignature8": {
+      "type": "text",
+      "label": "Enter the printed name or signature.",
+      "page": 1,
+      "box": {
+        "left": 586.8,
+        "top": 281.5,
+        "width": 87.8,
+        "height": 17.0
+      }
+    },
+    "dNSDate8": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 676.8,
+        "top": 281.5,
+        "width": 61.5,
+        "height": 17.0
+      }
+    },
+    "opno8": {
+      "type": "text",
+      "label": "This is row 8 of 15.  Enter the OPNO.",
+      "page": 1,
+      "box": {
+        "left": 38.1,
+        "top": 280.8,
+        "width": 59.1,
+        "height": 17.0
+      }
+    },
+    "cNOSerial8": {
+      "type": "text",
+      "label": "Enter the CNO serial.",
+      "page": 1,
+      "box": {
+        "left": 103.0,
+        "top": 280.8,
+        "width": 71.6,
+        "height": 17.0
+      }
+    },
+    "dated8": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 181.4,
+        "top": 280.8,
+        "width": 93.6,
+        "height": 17.0
+      }
+    },
+    "copies8": {
+      "type": "text",
+      "label": "Enter the copies received.",
+      "page": 1,
+      "box": {
+        "left": 281.5,
+        "top": 280.8,
+        "width": 91.1,
+        "height": 17.0
+      }
+    },
+    "encl8": {
+      "type": "text",
+      "label": "Enter the ENCL.",
+      "page": 1,
+      "box": {
+        "left": 377.3,
+        "top": 280.8,
+        "width": 91.1,
+        "height": 17.0
+      }
+    },
+    "enclosure8": {
+      "type": "text",
+      "label": "Enter the copies of enclosure REC'D.",
+      "page": 1,
+      "box": {
+        "left": 474.5,
+        "top": 280.8,
+        "width": 108.1,
+        "height": 17.0
+      }
+    },
+    "opno9": {
+      "type": "text",
+      "label": "This is row 9 of 15.  Enter the OPNO.",
+      "page": 1,
+      "box": {
+        "left": 38.1,
+        "top": 251.3,
+        "width": 59.1,
+        "height": 17.0
+      }
+    },
+    "cNOSerial9": {
+      "type": "text",
+      "label": "Enter the CNO serial.",
+      "page": 1,
+      "box": {
+        "left": 103.0,
+        "top": 251.3,
+        "width": 71.6,
+        "height": 17.0
+      }
+    },
+    "dated9": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 181.4,
+        "top": 251.3,
+        "width": 93.6,
+        "height": 17.0
+      }
+    },
+    "copies9": {
+      "type": "text",
+      "label": "Enter the copies received.",
+      "page": 1,
+      "box": {
+        "left": 281.5,
+        "top": 251.3,
+        "width": 91.1,
+        "height": 17.0
+      }
+    },
+    "encl9": {
+      "type": "text",
+      "label": "Enter the ENCL.",
+      "page": 1,
+      "box": {
+        "left": 377.3,
+        "top": 251.3,
+        "width": 91.1,
+        "height": 17.0
+      }
+    },
+    "enclosure9": {
+      "type": "text",
+      "label": "Enter the copies of enclosure REC'D.",
+      "page": 1,
+      "box": {
+        "left": 474.5,
+        "top": 251.3,
+        "width": 108.1,
+        "height": 17.0
+      }
+    },
+    "nameSignature9": {
+      "type": "text",
+      "label": "Enter the printed name or signature.",
+      "page": 1,
+      "box": {
+        "left": 586.8,
+        "top": 251.3,
+        "width": 87.8,
+        "height": 17.0
+      }
+    },
+    "dNSDate9": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 676.8,
+        "top": 251.3,
+        "width": 61.5,
+        "height": 17.0
+      }
+    },
+    "nameSignature10": {
+      "type": "text",
+      "label": "Enter the printed name or signature.",
+      "page": 1,
+      "box": {
+        "left": 586.8,
+        "top": 221.0,
+        "width": 87.8,
+        "height": 17.0
+      }
+    },
+    "dNSDate10": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 676.8,
+        "top": 221.0,
+        "width": 61.5,
+        "height": 17.0
+      }
+    },
+    "opno10": {
+      "type": "text",
+      "label": "This is row 10 of 15.  Enter the OPNO.",
+      "page": 1,
+      "box": {
+        "left": 38.1,
+        "top": 219.6,
+        "width": 59.1,
+        "height": 17.0
+      }
+    },
+    "cNOSerial10": {
+      "type": "text",
+      "label": "Enter the CNO serial.",
+      "page": 1,
+      "box": {
+        "left": 103.0,
+        "top": 219.6,
+        "width": 71.6,
+        "height": 17.0
+      }
+    },
+    "dated10": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 181.4,
+        "top": 219.6,
+        "width": 93.6,
+        "height": 17.0
+      }
+    },
+    "copies10": {
+      "type": "text",
+      "label": "Enter the copies received.",
+      "page": 1,
+      "box": {
+        "left": 281.5,
+        "top": 219.6,
+        "width": 91.1,
+        "height": 17.0
+      }
+    },
+    "encl10": {
+      "type": "text",
+      "label": "Enter the ENCL.",
+      "page": 1,
+      "box": {
+        "left": 377.3,
+        "top": 219.6,
+        "width": 91.1,
+        "height": 17.0
+      }
+    },
+    "enclosure10": {
+      "type": "text",
+      "label": "Enter the copies of enclosure REC'D.",
+      "page": 1,
+      "box": {
+        "left": 474.5,
+        "top": 219.6,
+        "width": 108.1,
+        "height": 17.0
+      }
+    },
+    "opno11": {
+      "type": "text",
+      "label": "This is row 11 of 15.  Enter the OPNO.",
+      "page": 1,
+      "box": {
+        "left": 38.1,
+        "top": 189.4,
+        "width": 59.1,
+        "height": 17.0
+      }
+    },
+    "cNOSerial11": {
+      "type": "text",
+      "label": "Enter the CNO serial.",
+      "page": 1,
+      "box": {
+        "left": 103.0,
+        "top": 189.4,
+        "width": 71.6,
+        "height": 17.0
+      }
+    },
+    "dated11": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 181.4,
+        "top": 189.4,
+        "width": 93.6,
+        "height": 17.0
+      }
+    },
+    "copies11": {
+      "type": "text",
+      "label": "Enter the copies received.",
+      "page": 1,
+      "box": {
+        "left": 281.5,
+        "top": 189.4,
+        "width": 91.1,
+        "height": 17.0
+      }
+    },
+    "encl11": {
+      "type": "text",
+      "label": "Enter the ENCL.",
+      "page": 1,
+      "box": {
+        "left": 377.3,
+        "top": 189.4,
+        "width": 91.1,
+        "height": 17.0
+      }
+    },
+    "enclosure11": {
+      "type": "text",
+      "label": "Enter the copies of enclosure REC'D.",
+      "page": 1,
+      "box": {
+        "left": 474.5,
+        "top": 189.4,
+        "width": 108.1,
+        "height": 17.0
+      }
+    },
+    "nameSignature11": {
+      "type": "text",
+      "label": "Enter the printed name or signature.",
+      "page": 1,
+      "box": {
+        "left": 586.8,
+        "top": 189.4,
+        "width": 87.8,
+        "height": 17.0
+      }
+    },
+    "dNSDate11": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 676.8,
+        "top": 189.4,
+        "width": 61.5,
+        "height": 17.0
+      }
+    },
+    "opno12": {
+      "type": "text",
+      "label": "This is row 12 of 15.  Enter the OPNO.",
+      "page": 1,
+      "box": {
+        "left": 38.1,
+        "top": 158.4,
+        "width": 59.1,
+        "height": 16.6
+      }
+    },
+    "cNOSerial12": {
+      "type": "text",
+      "label": "Enter the CNO serial.",
+      "page": 1,
+      "box": {
+        "left": 103.0,
+        "top": 158.4,
+        "width": 71.6,
+        "height": 17.0
+      }
+    },
+    "dated12": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 181.4,
+        "top": 158.4,
+        "width": 93.6,
+        "height": 17.0
+      }
+    },
+    "copies12": {
+      "type": "text",
+      "label": "Enter the copies received.",
+      "page": 1,
+      "box": {
+        "left": 281.5,
+        "top": 158.4,
+        "width": 91.1,
+        "height": 17.0
+      }
+    },
+    "encl12": {
+      "type": "text",
+      "label": "Enter the ENCL.",
+      "page": 1,
+      "box": {
+        "left": 377.3,
+        "top": 158.4,
+        "width": 91.1,
+        "height": 17.0
+      }
+    },
+    "enclosure12": {
+      "type": "text",
+      "label": "Enter the copies of enclosure REC'D.",
+      "page": 1,
+      "box": {
+        "left": 474.5,
+        "top": 158.4,
+        "width": 108.1,
+        "height": 17.0
+      }
+    },
+    "nameSignature12": {
+      "type": "text",
+      "label": "Enter the printed name or signature.",
+      "page": 1,
+      "box": {
+        "left": 586.8,
+        "top": 158.4,
+        "width": 87.8,
+        "height": 17.0
+      }
+    },
+    "dNSDate12": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 676.8,
+        "top": 158.4,
+        "width": 61.5,
+        "height": 17.0
+      }
+    },
+    "opno13": {
+      "type": "text",
+      "label": "This is row 13 of 15.  Enter the OPNO.",
+      "page": 1,
+      "box": {
+        "left": 38.1,
+        "top": 126.0,
+        "width": 59.1,
+        "height": 17.0
+      }
+    },
+    "cNOSerial113": {
+      "type": "text",
+      "label": "Enter the CNO serial.",
+      "page": 1,
+      "box": {
+        "left": 103.0,
+        "top": 126.0,
+        "width": 71.6,
+        "height": 17.0
+      }
+    },
+    "dated13": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 181.4,
+        "top": 126.0,
+        "width": 93.6,
+        "height": 17.0
+      }
+    },
+    "copies13": {
+      "type": "text",
+      "label": "Enter the copies received.",
+      "page": 1,
+      "box": {
+        "left": 281.5,
+        "top": 126.0,
+        "width": 91.1,
+        "height": 17.0
+      }
+    },
+    "encl13": {
+      "type": "text",
+      "label": "Enter the ENCL.",
+      "page": 1,
+      "box": {
+        "left": 377.3,
+        "top": 126.0,
+        "width": 91.1,
+        "height": 17.0
+      }
+    },
+    "enclosure13": {
+      "type": "text",
+      "label": "Enter the copies of enclosure REC'D.",
+      "page": 1,
+      "box": {
+        "left": 474.5,
+        "top": 126.0,
+        "width": 108.1,
+        "height": 17.0
+      }
+    },
+    "nameSignature13": {
+      "type": "text",
+      "label": "Enter the printed name or signature.",
+      "page": 1,
+      "box": {
+        "left": 586.8,
+        "top": 126.0,
+        "width": 87.8,
+        "height": 17.0
+      }
+    },
+    "dNSDate13": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 676.8,
+        "top": 126.0,
+        "width": 61.5,
+        "height": 17.0
+      }
+    },
+    "opno": {
+      "type": "text",
+      "label": "This is row 14 of 15.  Enter the OPNO.",
+      "page": 1,
+      "box": {
+        "left": 38.1,
+        "top": 92.9,
+        "width": 59.1,
+        "height": 17.0
+      }
+    },
+    "cNOSerial13": {
+      "type": "text",
+      "label": "Enter the CNO serial.",
+      "page": 1,
+      "box": {
+        "left": 103.0,
+        "top": 92.9,
+        "width": 71.6,
+        "height": 17.0
+      }
+    },
+    "dated14": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 181.4,
+        "top": 92.9,
+        "width": 93.6,
+        "height": 17.0
+      }
+    },
+    "copies55": {
+      "type": "text",
+      "label": "Enter the copies received.",
+      "page": 1,
+      "box": {
+        "left": 281.5,
+        "top": 92.9,
+        "width": 91.1,
+        "height": 17.0
+      }
+    },
+    "encl14": {
+      "type": "text",
+      "label": "Enter the ENCL.",
+      "page": 1,
+      "box": {
+        "left": 377.3,
+        "top": 92.9,
+        "width": 91.1,
+        "height": 17.0
+      }
+    },
+    "enclosure14": {
+      "type": "text",
+      "label": "Enter the copies of enclosure REC'D.",
+      "page": 1,
+      "box": {
+        "left": 474.5,
+        "top": 92.9,
+        "width": 108.1,
+        "height": 17.0
+      }
+    },
+    "nameSignature14": {
+      "type": "text",
+      "label": "Enter the printed name or signature.",
+      "page": 1,
+      "box": {
+        "left": 586.8,
+        "top": 92.9,
+        "width": 87.8,
+        "height": 17.0
+      }
+    },
+    "dNSDate14": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 676.8,
+        "top": 92.9,
+        "width": 61.5,
+        "height": 17.0
+      }
+    },
+    "cNOSerial14": {
+      "type": "text",
+      "label": "Enter the CNO serial.",
+      "page": 1,
+      "box": {
+        "left": 102.2,
+        "top": 68.4,
+        "width": 71.6,
+        "height": 17.0
+      }
+    },
+    "dated15": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 180.7,
+        "top": 68.4,
+        "width": 93.6,
+        "height": 17.0
+      }
+    },
+    "copies": {
+      "type": "text",
+      "label": "Enter the copies received.",
+      "page": 1,
+      "box": {
+        "left": 281.5,
+        "top": 68.4,
+        "width": 91.1,
+        "height": 17.0
+      }
+    },
+    "encl15": {
+      "type": "text",
+      "label": "Enter the ENCL.",
+      "page": 1,
+      "box": {
+        "left": 377.3,
+        "top": 68.4,
+        "width": 91.1,
+        "height": 17.0
+      }
+    },
+    "enclosure15": {
+      "type": "text",
+      "label": "Enter the copies of enclosure REC'D.",
+      "page": 1,
+      "box": {
+        "left": 474.5,
+        "top": 68.4,
+        "width": 108.1,
+        "height": 17.0
+      }
+    },
+    "nameSignature15": {
+      "type": "text",
+      "label": "Enter the printed name or signature.",
+      "page": 1,
+      "box": {
+        "left": 586.1,
+        "top": 68.4,
+        "width": 87.8,
+        "height": 17.0
+      }
+    },
+    "dNSDate15": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 676.1,
+        "top": 68.4,
+        "width": 61.5,
+        "height": 17.0
+      }
+    },
+    "opno15": {
+      "type": "text",
+      "label": "This is row 15 of 15.  Enter the OPNO.",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 67.7,
+        "width": 59.1,
+        "height": 17.0
+      }
+    }
+  }
+}

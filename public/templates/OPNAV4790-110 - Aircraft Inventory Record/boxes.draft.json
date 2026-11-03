@@ -1,0 +1,130 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 792,
+    "height": 612
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "contractor": {
+        "left": 220.0,
+        "top": 369.1,
+        "width": 352.1,
+        "height": 19.7,
+        "type": "text",
+        "description": "CONTRACTOR",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "acType": {
+        "left": 220.0,
+        "top": 328.6,
+        "width": 352.1,
+        "height": 19.7,
+        "type": "text",
+        "description": "A/C TYPE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "serialNumber": {
+        "left": 220.0,
+        "top": 288.4,
+        "width": 352.1,
+        "height": 20.0,
+        "type": "text",
+        "description": "SERIAL NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "dateP2": {
+        "left": 623.9,
+        "top": 559.2,
+        "width": 129.3,
+        "height": 20.8,
+        "type": "text",
+        "description": "ACCEPTANCE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "acftType": {
+        "left": 38.8,
+        "top": 558.4,
+        "width": 138.3,
+        "height": 20.0,
+        "type": "text",
+        "description": "AIRCRAFT TYPE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "serialNumberP2": {
+        "left": 182.9,
+        "top": 558.4,
+        "width": 129.3,
+        "height": 20.0,
+        "type": "text",
+        "description": "SERIAL NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "contractNo": {
+        "left": 317.9,
+        "top": 558.1,
+        "width": 133.8,
+        "height": 19.7,
+        "type": "text",
+        "description": "CONTRACT NO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "contractNo2": {
+        "left": 457.4,
+        "top": 558.1,
+        "width": 160.8,
+        "height": 19.7,
+        "type": "text",
+        "description": "PRIME CONTRACTOR",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "orgUnit": {
+        "left": 38.8,
+        "top": 521.0,
+        "width": 273.4,
+        "height": 306.7,
+        "type": "text",
+        "description": "EXPLANATION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "miscData": {
+        "left": 38.8,
+        "top": 197.0,
+        "width": 714.4,
+        "height": 158.2,
+        "type": "text",
+        "description": "MISCELLANEOUS DATA",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 610,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "date": {
+        "left": 418.5,
+        "top": 627.5,
+        "width": 141.9,
+        "height": 16.3,
+        "type": "text",
+        "description": "Enter the date using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatur": {
+        "left": 288.7,
+        "top": 538.0,
+        "width": 273.6,
+        "height": 17.6,
+        "type": "text",
+        "description": "Enter the signature.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name": {
+        "left": 48.5,
+        "top": 441.7,
+        "width": 514.8,
+        "height": 15.9,
+        "type": "text",
+        "description": "Enter authorized signature.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature2": {
+        "left": 312.2,
+        "top": 185.1,
+        "width": 251.5,
+        "height": 16.3,
+        "type": "text",
+        "description": "Enter the signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "witness": {
+        "left": 47.7,
+        "top": 104.3,
+        "width": 172.4,
+        "height": 17.6,
+        "type": "text",
+        "description": "Enter the witness.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

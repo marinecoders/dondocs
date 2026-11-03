@@ -1,0 +1,107 @@
+{
+  "id": "opnav376032d",
+  "label": "OPNAV3760-32D - Mission Qualification Record",
+  "directory": "OPNAV3760-32D - Mission Qualification Record",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "doDID",
+        "name"
+      ]
+    }
+  ],
+  "fields": {
+    "doDID": {
+      "type": "text",
+      "label": "DoD ID Number",
+      "page": 1,
+      "box": {
+        "left": 365.1,
+        "top": 706.3,
+        "width": 205.9,
+        "height": 13.0
+      }
+    },
+    "name": {
+      "type": "text",
+      "label": "NAME (Last, First, Middle Initial)",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 704.9,
+        "width": 314.0,
+        "height": 11.5
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 25,
+      "rowStride": 25.2,
+      "editor": "grid",
+      "columns": {
+        "date": {
+          "type": "text",
+          "label": "DATE",
+          "page": 1,
+          "box": {
+            "left": 37.4,
+            "top": 665.3,
+            "width": 69.1,
+            "height": 22.3
+          }
+        },
+        "typeAircraft": {
+          "type": "text",
+          "label": "TYPE AIRCRAFT",
+          "page": 1,
+          "box": {
+            "left": 113.1,
+            "top": 665.3,
+            "width": 115.9,
+            "height": 22.3
+          }
+        },
+        "missionQualification": {
+          "type": "text",
+          "label": "QUALIFICATION",
+          "page": 1,
+          "box": {
+            "left": 239.1,
+            "top": 665.3,
+            "width": 115.9,
+            "height": 22.3
+          }
+        },
+        "unit": {
+          "type": "text",
+          "label": "UNIT",
+          "page": 1,
+          "box": {
+            "left": 365.1,
+            "top": 665.3,
+            "width": 61.9,
+            "height": 22.3
+          }
+        },
+        "remarks": {
+          "type": "text",
+          "label": "REMARKS",
+          "page": 1,
+          "box": {
+            "left": 437.1,
+            "top": 665.3,
+            "width": 133.9,
+            "height": 22.3
+          }
+        }
+      }
+    }
+  }
+}

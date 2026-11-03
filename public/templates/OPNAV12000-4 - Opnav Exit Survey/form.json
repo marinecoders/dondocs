@@ -1,0 +1,562 @@
+{
+  "id": "opnav120004",
+  "label": "OPNAV12000-4 - Opnav Exit Survey",
+  "directory": "OPNAV12000-4 - Opnav Exit Survey",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "race",
+        "sex",
+        "command",
+        "sepDate",
+        "disability",
+        "position",
+        "series",
+        "lenServ",
+        "radio",
+        "radio2",
+        "radio3",
+        "radio4",
+        "radio5",
+        "radio6",
+        "otherExpl1",
+        "jobSat",
+        "sched",
+        "salary",
+        "morale",
+        "edu",
+        "training",
+        "amount",
+        "prom",
+        "workLife",
+        "office",
+        "sup",
+        "travel",
+        "opport",
+        "recog",
+        "broaden",
+        "other7",
+        "otherExpl2",
+        "radio7",
+        "radio8",
+        "radio9",
+        "radio10",
+        "radio11",
+        "q13",
+        "q14",
+        "q15",
+        "q16",
+        "q17"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "1. NAME (optional)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 727.4,
+        "width": 174.4,
+        "height": 15.6
+      }
+    },
+    "race": {
+      "type": "choice",
+      "label": "2. RACE",
+      "page": 1,
+      "box": {
+        "left": 219.6,
+        "top": 726.7,
+        "width": 172.9,
+        "height": 14.1
+      },
+      "options": [
+        "White",
+        "Black or African American",
+        "Hispanic or Latino",
+        "Asian or Pacific Islander",
+        "American Indian or Alaska Native",
+        "Two or more races"
+      ]
+    },
+    "sex": {
+      "type": "choice",
+      "label": "3. SEX",
+      "page": 1,
+      "box": {
+        "left": 399.6,
+        "top": 726.7,
+        "width": 172.9,
+        "height": 14.1
+      },
+      "options": [
+        "Male",
+        "Female"
+      ]
+    },
+    "command": {
+      "type": "text",
+      "label": "5. COMMAND/ORGANIZATION",
+      "page": 1,
+      "box": {
+        "left": 255.9,
+        "top": 694.3,
+        "width": 137.4,
+        "height": 15.6
+      }
+    },
+    "sepDate": {
+      "type": "text",
+      "label": "6. SEPARATION DATE",
+      "page": 1,
+      "box": {
+        "left": 398.9,
+        "top": 694.3,
+        "width": 174.4,
+        "height": 15.6
+      }
+    },
+    "disability": {
+      "type": "choice",
+      "label": "4. ARE YOU AN INDIVIDUAL WITH A DISABILITY (IWD)?",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 693.6,
+        "width": 209.8,
+        "height": 14.1
+      },
+      "options": [
+        "Yes",
+        "No"
+      ]
+    },
+    "position": {
+      "type": "text",
+      "label": "7. POSITION",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 662.2,
+        "width": 174.4,
+        "height": 15.6
+      }
+    },
+    "series": {
+      "type": "text",
+      "label": "8. SERIES/GRADE",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 662.2,
+        "width": 174.4,
+        "height": 15.6
+      }
+    },
+    "lenServ": {
+      "type": "text",
+      "label": "9. LENGTH OF SERVICE WITH COMMAND",
+      "page": 1,
+      "box": {
+        "left": 398.9,
+        "top": 662.2,
+        "width": 174.4,
+        "height": 15.6
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 56.8,
+        "top": 628.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 628.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 56.8,
+        "top": 611.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 611.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 56.8,
+        "top": 594.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 594.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "otherExpl1": {
+      "type": "text",
+      "label": "Other Expl 1",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 578.5,
+        "width": 534.4,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "jobSat": {
+      "type": "checkbox",
+      "label": "below)",
+      "page": 1,
+      "box": {
+        "left": 58.3,
+        "top": 520.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "sched": {
+      "type": "checkbox",
+      "label": "Job satisfaction",
+      "page": 1,
+      "box": {
+        "left": 234.8,
+        "top": 520.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "salary": {
+      "type": "checkbox",
+      "label": "Work schedule/hours",
+      "page": 1,
+      "box": {
+        "left": 457.3,
+        "top": 520.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "morale": {
+      "type": "checkbox",
+      "label": "below)",
+      "page": 1,
+      "box": {
+        "left": 58.3,
+        "top": 503.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "edu": {
+      "type": "checkbox",
+      "label": "Morale",
+      "page": 1,
+      "box": {
+        "left": 234.8,
+        "top": 503.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "training": {
+      "type": "checkbox",
+      "label": "Better educational benefits",
+      "page": 1,
+      "box": {
+        "left": 457.3,
+        "top": 503.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "amount": {
+      "type": "checkbox",
+      "label": "below)",
+      "page": 1,
+      "box": {
+        "left": 58.3,
+        "top": 486.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "prom": {
+      "type": "checkbox",
+      "label": "Amount of work",
+      "page": 1,
+      "box": {
+        "left": 234.8,
+        "top": 486.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "workLife": {
+      "type": "checkbox",
+      "label": "Promotion",
+      "page": 1,
+      "box": {
+        "left": 457.3,
+        "top": 486.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "office": {
+      "type": "checkbox",
+      "label": "below)",
+      "page": 1,
+      "box": {
+        "left": 58.3,
+        "top": 469.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "sup": {
+      "type": "checkbox",
+      "label": "Office environment",
+      "page": 1,
+      "box": {
+        "left": 234.8,
+        "top": 469.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "travel": {
+      "type": "checkbox",
+      "label": "Supervisor/management relationship",
+      "page": 1,
+      "box": {
+        "left": 457.3,
+        "top": 469.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "opport": {
+      "type": "checkbox",
+      "label": "below)",
+      "page": 1,
+      "box": {
+        "left": 58.3,
+        "top": 452.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "recog": {
+      "type": "checkbox",
+      "label": "Lack of opportunities",
+      "page": 1,
+      "box": {
+        "left": 234.8,
+        "top": 452.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "broaden": {
+      "type": "checkbox",
+      "label": "Lack of recognition",
+      "page": 1,
+      "box": {
+        "left": 457.3,
+        "top": 452.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "other7": {
+      "type": "checkbox",
+      "label": "below)",
+      "page": 1,
+      "box": {
+        "left": 58.3,
+        "top": 435.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "otherExpl2": {
+      "type": "text",
+      "label": "Other",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 420.0,
+        "width": 534.4,
+        "height": 114.7
+      },
+      "multiline": true
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 92.4,
+        "top": 287.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 182.9,
+        "top": 287.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio9": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 273.6,
+        "top": 287.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio10": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 287.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio11": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 1,
+      "box": {
+        "left": 452.9,
+        "top": 287.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "q13": {
+      "type": "text",
+      "label": "13. WHAT COULD MANAGEMENT HAVE DONE TO RETAIN YOU?",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 259.8,
+        "width": 534.4,
+        "height": 26.4
+      }
+    },
+    "q14": {
+      "type": "text",
+      "label": "CLIMATE?",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 209.3,
+        "width": 534.4,
+        "height": 19.1
+      }
+    },
+    "q15": {
+      "type": "text",
+      "label": "Q 15",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 173.4,
+        "width": 534.4,
+        "height": 26.4
+      }
+    },
+    "q16": {
+      "type": "text",
+      "label": "Q 16",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 130.2,
+        "width": 534.4,
+        "height": 26.4
+      }
+    },
+    "q17": {
+      "type": "text",
+      "label": "17. ANY ADDITIONAL COMMENTS OR CONCERNS?",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 87.0,
+        "width": 534.4,
+        "height": 26.4
+      }
+    }
+  }
+}

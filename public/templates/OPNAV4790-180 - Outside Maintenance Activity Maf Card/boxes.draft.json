@@ -1,0 +1,238 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "eswibs": {
+        "left": 128.8,
+        "top": 718.1,
+        "width": 147.3,
+        "height": 13.2,
+        "type": "text",
+        "description": "ENTER ESWIBS NUMBER.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox1": {
+        "left": 304.0,
+        "top": 694.0,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "CHECK TO DESIGNATE REQUIRED.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox12": {
+        "left": 430.0,
+        "top": 694.0,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "CHECK TO DESIGNATE SUBMITTED.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "itemno": {
+        "left": 128.8,
+        "top": 690.3,
+        "width": 147.3,
+        "height": 12.5,
+        "type": "text",
+        "description": "ENTER ITEM NUMBER.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox13": {
+        "left": 304.0,
+        "top": 667.0,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "CHECK TO DESIGNATE REQUIRED.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox14": {
+        "left": 430.0,
+        "top": 667.0,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "CHECK TO DESIGNATE SUBMITTED.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "location": {
+        "left": 128.8,
+        "top": 664.1,
+        "width": 147.3,
+        "height": 13.2,
+        "type": "text",
+        "description": "ENTER LOCATION.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox15": {
+        "left": 304.0,
+        "top": 640.1,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "CHECK TO DESIGNATE REQUIRED.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox16": {
+        "left": 430.0,
+        "top": 640.1,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "CHECK TO DESIGNATE SUBMITTED.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "poc": {
+        "left": 128.8,
+        "top": 637.1,
+        "width": 147.3,
+        "height": 13.2,
+        "type": "text",
+        "description": "ENTER POC.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox17": {
+        "left": 304.0,
+        "top": 612.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "CHECK TO DESIGNATE REQUIRED.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox18": {
+        "left": 430.0,
+        "top": 612.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "CHECK TO DESIGNATE SUBMITTED.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "phone": {
+        "left": 128.8,
+        "top": 610.1,
+        "width": 147.3,
+        "height": 13.2,
+        "type": "text",
+        "description": "ENTER PHONE NUMBER.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox19": {
+        "left": 304.0,
+        "top": 586.0,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "CHECK TO DESIGNATE REQUIRED.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox110": {
+        "left": 430.0,
+        "top": 586.0,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "CHECK TO DESIGNATE SUBMITTED.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "wc": {
+        "left": 128.8,
+        "top": 556.1,
+        "width": 30.3,
+        "height": 13.2,
+        "type": "text",
+        "description": "ENTER W/C.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "jsn": {
+        "left": 164.8,
+        "top": 556.1,
+        "width": 57.3,
+        "height": 13.2,
+        "type": "text",
+        "description": "ENTER JSN.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "jobdesc": {
+        "left": 227.8,
+        "top": 556.1,
+        "width": 120.3,
+        "height": 13.2,
+        "type": "text",
+        "description": "ENTER JOB DESCRIPTION.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "qa": {
+        "left": 353.8,
+        "top": 556.1,
+        "width": 21.3,
+        "height": 13.2,
+        "type": "text",
+        "description": "ENTER QA.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "activity": {
+        "left": 380.8,
+        "top": 556.1,
+        "width": 84.3,
+        "height": 13.2,
+        "type": "text",
+        "description": "ENTER ACTIVITY.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

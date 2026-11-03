@@ -1,0 +1,235 @@
+{
+  "id": "navpers130025",
+  "label": "NAVPERS1300-25 - Voluntary Waiver Acknowledgement (vwa) For Mobilizing On Active Duty",
+  "directory": "NAVPERS1300-25 - Voluntary Waiver Acknowledgement (vwa) For Mobilizing On Active Duty",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "rankRate",
+        "workPhone",
+        "workEmail",
+        "rtnBillet",
+        "iStopRptDate",
+        "iStopEndDate",
+        "yesNoYearsAD",
+        "yesNoYearsAD2",
+        "name2",
+        "signature",
+        "date",
+        "name3",
+        "signature2",
+        "date2",
+        "name4",
+        "signature3",
+        "date3"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "Service Member Full Name:\n(Print Last, First, MI)",
+      "page": 1,
+      "box": {
+        "left": 146.9,
+        "top": 717.1,
+        "width": 282.2,
+        "height": 21.2
+      }
+    },
+    "rankRate": {
+      "type": "text",
+      "label": "Rank/Rate:",
+      "page": 1,
+      "box": {
+        "left": 486.1,
+        "top": 717.1,
+        "width": 87.0,
+        "height": 21.2
+      }
+    },
+    "workPhone": {
+      "type": "text",
+      "label": "Service Member Work Phone:",
+      "page": 1,
+      "box": {
+        "left": 108.3,
+        "top": 690.1,
+        "width": 194.8,
+        "height": 23.0
+      }
+    },
+    "workEmail": {
+      "type": "text",
+      "label": "Service Member Work E-mail:",
+      "page": 1,
+      "box": {
+        "left": 385.4,
+        "top": 690.1,
+        "width": 187.7,
+        "height": 23.0
+      }
+    },
+    "rtnBillet": {
+      "type": "text",
+      "label": "Planned Requirement Tracking Number/Billet Assignment: \n(Examples: NA-, NB-, NE-, NN-, SC-, EF, AR-xxxx-xxxx)",
+      "page": 1,
+      "box": {
+        "left": 272.6,
+        "top": 661.3,
+        "width": 300.4,
+        "height": 23.0
+      }
+    },
+    "iStopRptDate": {
+      "type": "text",
+      "label": "Planned NRA/First Intermediate Stop Report Date (Waiver not valid without a report date):",
+      "page": 1,
+      "box": {
+        "left": 376.3,
+        "top": 634.0,
+        "width": 196.8,
+        "height": 11.5
+      }
+    },
+    "iStopEndDate": {
+      "type": "text",
+      "label": "Desired Order End Date (If volunteering contingent upon fixed end date):",
+      "page": 1,
+      "box": {
+        "left": 376.3,
+        "top": 619.6,
+        "width": 196.8,
+        "height": 11.5
+      }
+    },
+    "yesNoYearsAD": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 597.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_p1_0_TopGroup_0_YearsADGroup_0_YesNoYearsAD_0"
+    },
+    "yesNoYearsAD2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 524.9,
+        "top": 597.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_p1_0_TopGroup_0_YearsADGroup_0_YesNoYearsAD_0"
+    },
+    "name2": {
+      "type": "text",
+      "label": "Service Member Full Name (Print Last, First, MI):",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 382.7,
+        "width": 228.2,
+        "height": 21.6
+      }
+    },
+    "signature": {
+      "type": "signature",
+      "label": "Service Member Signature:",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 382.7,
+        "width": 228.2,
+        "height": 21.6
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "Date:",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 382.7,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "name3": {
+      "type": "text",
+      "label": "Service Member Full Name (Print Last, First, MI):",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 281.9,
+        "width": 228.2,
+        "height": 21.6
+      }
+    },
+    "signature2": {
+      "type": "signature",
+      "label": "Service Member Signature:",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 281.9,
+        "width": 228.2,
+        "height": 21.6
+      }
+    },
+    "date2": {
+      "type": "text",
+      "label": "Date:",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 281.9,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "name4": {
+      "type": "text",
+      "label": "Service Member Full Name (Print Last, First, MI):",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 188.3,
+        "width": 228.2,
+        "height": 21.6
+      }
+    },
+    "signature3": {
+      "type": "signature",
+      "label": "Service Member Signature:",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 188.3,
+        "width": 228.2,
+        "height": 21.6
+      }
+    },
+    "date3": {
+      "type": "text",
+      "label": "Date:",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 188.3,
+        "width": 66.2,
+        "height": 21.6
+      }
+    }
+  }
+}

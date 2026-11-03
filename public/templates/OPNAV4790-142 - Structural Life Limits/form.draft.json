@@ -1,0 +1,329 @@
+{
+  "id": "opnav4790142",
+  "label": "OPNAV4790-142 - Structural Life Limits",
+  "directory": "OPNAV4790-142 - Structural Life Limits",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "typMdlSer",
+        "bnoSer",
+        "refr",
+        "refDte",
+        "pgIntDte",
+        "desc",
+        "descA",
+        "descB",
+        "descC",
+        "descD",
+        "descE",
+        "nts",
+        "ntsA",
+        "ntsB",
+        "ntsC",
+        "ntsD",
+        "ntsE",
+        "ntsF",
+        "ntsG",
+        "ntsH",
+        "fhCtHrCa",
+        "fhCtComAFC",
+        "cATSCat",
+        "cATSComp",
+        "arstLndComp",
+        "arstLndCpn"
+      ]
+    }
+  ],
+  "fields": {
+    "typMdlSer": {
+      "type": "text",
+      "label": "STRUCTURAL LIFE LIMITS",
+      "page": 1,
+      "box": {
+        "left": 281.2,
+        "top": 563.3,
+        "width": 234.9,
+        "height": 14.2
+      }
+    },
+    "bnoSer": {
+      "type": "text",
+      "label": "STRUCTURAL LIFE LIMITS",
+      "page": 1,
+      "box": {
+        "left": 521.1,
+        "top": 563.3,
+        "width": 234.9,
+        "height": 14.2
+      }
+    },
+    "refr": {
+      "type": "text",
+      "label": "3. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 41.1,
+        "top": 522.2,
+        "width": 234.9,
+        "height": 14.2
+      }
+    },
+    "refDte": {
+      "type": "text",
+      "label": "4. REFERENCE DATE",
+      "page": 1,
+      "box": {
+        "left": 281.2,
+        "top": 522.2,
+        "width": 234.9,
+        "height": 14.2
+      }
+    },
+    "pgIntDte": {
+      "type": "text",
+      "label": "5. PAGE INITIATION DATE",
+      "page": 1,
+      "box": {
+        "left": 521.1,
+        "top": 522.2,
+        "width": 234.9,
+        "height": 14.2
+      }
+    },
+    "desc": {
+      "type": "text",
+      "label": "6. DESCRIPTON",
+      "page": 1,
+      "box": {
+        "left": 114.5,
+        "top": 507.2,
+        "width": 641.6,
+        "height": 13.6
+      }
+    },
+    "descA": {
+      "type": "text",
+      "label": "6. DESCRIPTON",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 493.2,
+        "width": 715.0,
+        "height": 13.6
+      }
+    },
+    "descB": {
+      "type": "text",
+      "label": "6. DESCRIPTON",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 479.6,
+        "width": 715.0,
+        "height": 13.6
+      }
+    },
+    "descC": {
+      "type": "text",
+      "label": "6. DESCRIPTON",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 466.3,
+        "width": 715.0,
+        "height": 13.6
+      }
+    },
+    "descD": {
+      "type": "text",
+      "label": "6. DESCRIPTON",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 452.1,
+        "width": 715.0,
+        "height": 13.6
+      }
+    },
+    "descE": {
+      "type": "text",
+      "label": "6. DESCRIPTON",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 438.2,
+        "width": 715.0,
+        "height": 13.6
+      }
+    },
+    "nts": {
+      "type": "text",
+      "label": "7. NOTES",
+      "page": 1,
+      "box": {
+        "left": 88.4,
+        "top": 424.2,
+        "width": 667.7,
+        "height": 13.6
+      }
+    },
+    "ntsA": {
+      "type": "text",
+      "label": "7. NOTES",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 410.2,
+        "width": 715.0,
+        "height": 13.6
+      }
+    },
+    "ntsB": {
+      "type": "text",
+      "label": "7. NOTES",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 396.7,
+        "width": 715.0,
+        "height": 13.6
+      }
+    },
+    "ntsC": {
+      "type": "text",
+      "label": "7. NOTES",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 382.4,
+        "width": 715.0,
+        "height": 13.6
+      }
+    },
+    "ntsD": {
+      "type": "text",
+      "label": "7. NOTES",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 369.0,
+        "width": 715.0,
+        "height": 13.6
+      }
+    },
+    "ntsE": {
+      "type": "text",
+      "label": "7. NOTES",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 354.9,
+        "width": 715.0,
+        "height": 13.6
+      }
+    },
+    "ntsF": {
+      "type": "text",
+      "label": "7. NOTES",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 341.5,
+        "width": 715.0,
+        "height": 13.6
+      }
+    },
+    "ntsG": {
+      "type": "text",
+      "label": "7. NOTES",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 327.4,
+        "width": 715.0,
+        "height": 13.6
+      }
+    },
+    "ntsH": {
+      "type": "text",
+      "label": "7. NOTES",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 313.0,
+        "width": 715.0,
+        "height": 13.6
+      }
+    },
+    "fhCtHrCa": {
+      "type": "text",
+      "label": "(HOURS/CAL)",
+      "page": 1,
+      "box": {
+        "left": 36.1,
+        "top": 239.2,
+        "width": 84.8,
+        "height": 13.6
+      }
+    },
+    "fhCtComAFC": {
+      "type": "text",
+      "label": "b. COMPONENT/AFC",
+      "page": 1,
+      "box": {
+        "left": 121.2,
+        "top": 239.2,
+        "width": 154.8,
+        "height": 13.6
+      }
+    },
+    "cATSCat": {
+      "type": "text",
+      "label": "(CATS)",
+      "page": 1,
+      "box": {
+        "left": 276.0,
+        "top": 239.2,
+        "width": 84.8,
+        "height": 13.6
+      }
+    },
+    "cATSComp": {
+      "type": "text",
+      "label": "b. COMPONENT/AFC",
+      "page": 1,
+      "box": {
+        "left": 361.1,
+        "top": 239.2,
+        "width": 154.8,
+        "height": 13.6
+      }
+    },
+    "arstLndComp": {
+      "type": "text",
+      "label": "(ARREST LANDINGS )",
+      "page": 1,
+      "box": {
+        "left": 515.9,
+        "top": 239.2,
+        "width": 84.8,
+        "height": 13.6
+      }
+    },
+    "arstLndCpn": {
+      "type": "text",
+      "label": "b. COMPONENT/AFC",
+      "page": 1,
+      "box": {
+        "left": 601.0,
+        "top": 239.2,
+        "width": 154.8,
+        "height": 13.6
+      }
+    }
+  }
+}

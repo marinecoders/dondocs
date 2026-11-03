@@ -1,0 +1,907 @@
+{
+  "id": "navpers130026",
+  "label": "NAVPERS1300-26 - Coastal Riverine Force Training",
+  "directory": "NAVPERS1300-26 - Coastal Riverine Force Training",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "raterank",
+        "prodetdate",
+        "proposedprgm",
+        "cell4",
+        "cell2",
+        "cell3",
+        "cell42",
+        "cell22",
+        "cell32",
+        "cell43",
+        "cell23",
+        "cell33",
+        "cell44",
+        "cell24",
+        "cell34",
+        "cell45",
+        "cell25",
+        "cell35",
+        "cell46",
+        "cell26",
+        "cell36",
+        "a7",
+        "a8",
+        "a9",
+        "cell47",
+        "cell27",
+        "cell37",
+        "cell48",
+        "cell28",
+        "cell38",
+        "b3",
+        "b4",
+        "b5",
+        "b6",
+        "b7",
+        "b8",
+        "cell29",
+        "cell39",
+        "c2",
+        "c3",
+        "c4",
+        "cell49",
+        "cell210",
+        "cell310",
+        "cell410",
+        "cell211",
+        "cell311",
+        "cell411",
+        "cell212",
+        "cell312",
+        "cCCname",
+        "cCCsign",
+        "cCCdate"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "cell1",
+        "cell12",
+        "cell213",
+        "cell313",
+        "cell13",
+        "cell214",
+        "cell314",
+        "cell215",
+        "cell315",
+        "finalApproval",
+        "finalDisapproval",
+        "g2",
+        "g22",
+        "g4",
+        "g42",
+        "cell14",
+        "g5",
+        "g6",
+        "g7"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "1. Name:",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 708.5,
+        "width": 390.2,
+        "height": 18.0
+      }
+    },
+    "raterank": {
+      "type": "text",
+      "label": "2. Rate/Rank:",
+      "page": 1,
+      "box": {
+        "left": 434.9,
+        "top": 708.5,
+        "width": 138.2,
+        "height": 18.0
+      }
+    },
+    "prodetdate": {
+      "type": "text",
+      "label": "ENTER DATE",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 676.1,
+        "width": 145.4,
+        "height": 18.0
+      }
+    },
+    "proposedprgm": {
+      "type": "text",
+      "label": "4. Proposed Program/Duty Station:",
+      "page": 1,
+      "box": {
+        "left": 190.1,
+        "top": 676.1,
+        "width": 383.0,
+        "height": 18.0
+      }
+    },
+    "cell4": {
+      "type": "text",
+      "label": "Cell4",
+      "page": 1,
+      "box": {
+        "left": 505.4,
+        "top": 632.2,
+        "width": 69.1,
+        "height": 29.5
+      }
+    },
+    "cell2": {
+      "type": "checkbox",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 434.6,
+        "top": 622.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell3": {
+      "type": "checkbox",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 470.6,
+        "top": 622.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell42": {
+      "type": "text",
+      "label": "Cell4",
+      "page": 1,
+      "box": {
+        "left": 505.4,
+        "top": 599.8,
+        "width": 69.1,
+        "height": 29.5
+      }
+    },
+    "cell22": {
+      "type": "checkbox",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 434.6,
+        "top": 590.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell32": {
+      "type": "checkbox",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 470.6,
+        "top": 590.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell43": {
+      "type": "text",
+      "label": "Cell4",
+      "page": 1,
+      "box": {
+        "left": 505.4,
+        "top": 567.4,
+        "width": 69.1,
+        "height": 29.5
+      }
+    },
+    "cell23": {
+      "type": "checkbox",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 434.6,
+        "top": 557.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell33": {
+      "type": "checkbox",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 470.6,
+        "top": 557.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell44": {
+      "type": "text",
+      "label": "Cell4",
+      "page": 1,
+      "box": {
+        "left": 505.4,
+        "top": 535.0,
+        "width": 69.1,
+        "height": 22.3
+      }
+    },
+    "cell24": {
+      "type": "checkbox",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 434.6,
+        "top": 528.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell34": {
+      "type": "checkbox",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 470.6,
+        "top": 528.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell45": {
+      "type": "text",
+      "label": "Cell4",
+      "page": 1,
+      "box": {
+        "left": 505.4,
+        "top": 509.8,
+        "width": 69.1,
+        "height": 47.5
+      },
+      "multiline": true
+    },
+    "cell25": {
+      "type": "checkbox",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 434.6,
+        "top": 491.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell35": {
+      "type": "checkbox",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 470.6,
+        "top": 491.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell46": {
+      "type": "text",
+      "label": "Cell4",
+      "page": 1,
+      "box": {
+        "left": 505.4,
+        "top": 459.4,
+        "width": 69.1,
+        "height": 22.3
+      }
+    },
+    "cell26": {
+      "type": "checkbox",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 434.6,
+        "top": 453.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell36": {
+      "type": "checkbox",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 470.3,
+        "top": 453.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "a7": {
+      "type": "text",
+      "label": "7. Personnel Officer Name and Rank:",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 424.1,
+        "width": 228.2,
+        "height": 18.0
+      }
+    },
+    "a8": {
+      "type": "signature",
+      "label": "8. Personnel Officer Signature:",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 424.1,
+        "width": 228.2,
+        "height": 18.0
+      }
+    },
+    "a9": {
+      "type": "text",
+      "label": "ENTER DATE",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 424.1,
+        "width": 66.2,
+        "height": 18.0
+      }
+    },
+    "cell47": {
+      "type": "text",
+      "label": "Cell4",
+      "page": 1,
+      "box": {
+        "left": 505.4,
+        "top": 380.2,
+        "width": 69.1,
+        "height": 22.3
+      }
+    },
+    "cell27": {
+      "type": "checkbox",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 434.6,
+        "top": 374.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell37": {
+      "type": "checkbox",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 470.6,
+        "top": 374.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell48": {
+      "type": "text",
+      "label": "Cell4",
+      "page": 1,
+      "box": {
+        "left": 505.4,
+        "top": 355.0,
+        "width": 69.1,
+        "height": 18.7
+      }
+    },
+    "cell28": {
+      "type": "checkbox",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 434.6,
+        "top": 350.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell38": {
+      "type": "checkbox",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 470.6,
+        "top": 350.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "b3": {
+      "type": "text",
+      "label": "3. Medical Officer Name and Rank:",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 323.3,
+        "width": 228.2,
+        "height": 18.0
+      }
+    },
+    "b4": {
+      "type": "signature",
+      "label": "4. Medical Officer Signature:",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 323.3,
+        "width": 228.2,
+        "height": 18.0
+      }
+    },
+    "b5": {
+      "type": "text",
+      "label": "ENTER DATE",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 323.3,
+        "width": 66.2,
+        "height": 18.0
+      }
+    },
+    "b6": {
+      "type": "text",
+      "label": "6. Dental Officer Name and Rank:",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 290.9,
+        "width": 228.2,
+        "height": 18.0
+      }
+    },
+    "b7": {
+      "type": "signature",
+      "label": "7. Dental Officer Signature:",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 290.9,
+        "width": 228.2,
+        "height": 18.0
+      }
+    },
+    "b8": {
+      "type": "text",
+      "label": "ENTER DATE",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 290.9,
+        "width": 66.2,
+        "height": 18.0
+      }
+    },
+    "cell29": {
+      "type": "checkbox",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 506.6,
+        "top": 238.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell39": {
+      "type": "checkbox",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 542.6,
+        "top": 238.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "c2": {
+      "type": "text",
+      "label": "2. Command Financial Specialist Name and Rank:",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 206.3,
+        "width": 228.2,
+        "height": 18.0
+      }
+    },
+    "c3": {
+      "type": "signature",
+      "label": "3. Command Financial Specialist Signature:",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 206.3,
+        "width": 228.2,
+        "height": 18.0
+      }
+    },
+    "c4": {
+      "type": "text",
+      "label": "ENTER DATE",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 206.3,
+        "width": 66.2,
+        "height": 18.0
+      }
+    },
+    "cell49": {
+      "type": "text",
+      "label": "Cell4",
+      "page": 1,
+      "box": {
+        "left": 505.4,
+        "top": 162.4,
+        "width": 69.1,
+        "height": 27.7
+      }
+    },
+    "cell210": {
+      "type": "checkbox",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 434.6,
+        "top": 153.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell310": {
+      "type": "checkbox",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 470.6,
+        "top": 153.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell410": {
+      "type": "text",
+      "label": "Cell4",
+      "page": 1,
+      "box": {
+        "left": 505.4,
+        "top": 131.8,
+        "width": 69.1,
+        "height": 38.5
+      },
+      "multiline": true
+    },
+    "cell211": {
+      "type": "checkbox",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 434.6,
+        "top": 117.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell311": {
+      "type": "checkbox",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 470.6,
+        "top": 117.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell411": {
+      "type": "text",
+      "label": "Cell4",
+      "page": 1,
+      "box": {
+        "left": 505.4,
+        "top": 90.4,
+        "width": 69.1,
+        "height": 20.5
+      }
+    },
+    "cell212": {
+      "type": "checkbox",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 434.6,
+        "top": 85.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell312": {
+      "type": "checkbox",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 470.6,
+        "top": 85.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cCCname": {
+      "type": "text",
+      "label": "4. Command Career Counselor Name and Rate:\t",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 56.9,
+        "width": 228.2,
+        "height": 14.4
+      }
+    },
+    "cCCsign": {
+      "type": "signature",
+      "label": "5. Command Career Counselor Signature:",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 56.9,
+        "width": 228.2,
+        "height": 14.4
+      }
+    },
+    "cCCdate": {
+      "type": "text",
+      "label": "ENTER DATE",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 56.9,
+        "width": 66.2,
+        "height": 14.4
+      }
+    },
+    "cell1": {
+      "type": "text",
+      "label": "1. Recommendation (include a personal interview statement):",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 686.9,
+        "width": 534.2,
+        "height": 39.6
+      },
+      "multiline": true
+    },
+    "cell12": {
+      "type": "text",
+      "label": "2. Master Training Specialist/Senior Enlisted Instructor \nName and Rate:",
+      "page": 2,
+      "box": {
+        "left": 37.4,
+        "top": 625.0,
+        "width": 231.2,
+        "height": 22.4
+      }
+    },
+    "cell213": {
+      "type": "signature",
+      "label": "3. Master Training Specialist/Senior Enlisted Instructor \nSignature:",
+      "page": 2,
+      "box": {
+        "left": 271.4,
+        "top": 625.0,
+        "width": 231.2,
+        "height": 22.4
+      }
+    },
+    "cell313": {
+      "type": "text",
+      "label": "4. Date:\n\n",
+      "page": 2,
+      "box": {
+        "left": 505.4,
+        "top": 625.0,
+        "width": 69.2,
+        "height": 22.4
+      }
+    },
+    "cell13": {
+      "type": "text",
+      "label": "1. Service Member Name and Rank/Rate:",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 542.9,
+        "width": 228.2,
+        "height": 21.6
+      }
+    },
+    "cell214": {
+      "type": "signature",
+      "label": "2. Service Member Signature:",
+      "page": 2,
+      "box": {
+        "left": 272.9,
+        "top": 542.9,
+        "width": 228.2,
+        "height": 21.6
+      }
+    },
+    "cell314": {
+      "type": "text",
+      "label": "3. Date: ",
+      "page": 2,
+      "box": {
+        "left": 506.9,
+        "top": 542.9,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "cell215": {
+      "type": "checkbox",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 506.6,
+        "top": 487.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell315": {
+      "type": "checkbox",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 542.6,
+        "top": 487.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "finalApproval": {
+      "type": "text",
+      "label": "FinalApproval",
+      "page": 2,
+      "box": {
+        "left": 267.5,
+        "top": 441.7,
+        "width": 51.8,
+        "height": 12.2
+      }
+    },
+    "finalDisapproval": {
+      "type": "text",
+      "label": "FinalDisapproval",
+      "page": 2,
+      "box": {
+        "left": 418.7,
+        "top": 441.7,
+        "width": 51.8,
+        "height": 12.2
+      }
+    },
+    "g2": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 47.9,
+        "top": 440.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_p1_0_GroupG_0_G2_0"
+    },
+    "g22": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 127.1,
+        "top": 440.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_p1_0_GroupG_0_G2_0"
+    },
+    "g4": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 254.9,
+        "top": 410.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_p1_0_GroupG_0_G4_0"
+    },
+    "g42": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 334.1,
+        "top": 410.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_p1_0_GroupG_0_G4_0"
+    },
+    "cell14": {
+      "type": "text",
+      "label": "4. Command Endorsement (A summary statement evaluating the applicant is required.  Provide written recommendation indicating the Service member's potential to perform and excel in a CRF billet.):  ",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 393.1,
+        "width": 534.2,
+        "height": 293.0
+      },
+      "multiline": true
+    },
+    "g5": {
+      "type": "text",
+      "label": "5. Name and Rank:\t",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 60.5,
+        "width": 228.2,
+        "height": 18.0
+      }
+    },
+    "g6": {
+      "type": "signature",
+      "label": "6. Signature:",
+      "page": 2,
+      "box": {
+        "left": 272.9,
+        "top": 60.5,
+        "width": 228.2,
+        "height": 18.0
+      }
+    },
+    "g7": {
+      "type": "text",
+      "label": "ENTER DATE",
+      "page": 2,
+      "box": {
+        "left": 506.9,
+        "top": 60.5,
+        "width": 66.2,
+        "height": 18.0
+      }
+    }
+  }
+}

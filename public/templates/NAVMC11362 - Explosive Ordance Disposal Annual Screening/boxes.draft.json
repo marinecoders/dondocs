@@ -1,0 +1,438 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "name": {
+        "left": 38.2,
+        "top": 566.2,
+        "width": 427.7,
+        "height": 19.9,
+        "type": "text",
+        "description": "Name (Last, First MI):",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rank": {
+        "left": 470.2,
+        "top": 566.2,
+        "width": 103.7,
+        "height": 19.9,
+        "type": "text",
+        "description": "Rank:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "billet": {
+        "left": 38.2,
+        "top": 532.3,
+        "width": 535.7,
+        "height": 18.4,
+        "type": "text",
+        "description": "Billet:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "medYES": {
+        "left": 517.0,
+        "top": 495.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "YES",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "medNO": {
+        "left": 556.6,
+        "top": 495.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "NO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateTimeField1": {
+        "left": 486.2,
+        "top": 479.7,
+        "width": 87.0,
+        "height": 15.6,
+        "type": "text",
+        "description": "Date:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "medYES2": {
+        "left": 490.9,
+        "top": 450.1,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "YES",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "medNO2": {
+        "left": 545.7,
+        "top": 450.1,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "NO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "medOfcr": {
+        "left": 38.2,
+        "top": 418.1,
+        "width": 226.1,
+        "height": 19.9,
+        "type": "text",
+        "description": "Rank/ Name of Medical Officer or IDC:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "medOfcrSig": {
+        "left": 268.6,
+        "top": 418.1,
+        "width": 197.3,
+        "height": 19.9,
+        "type": "text",
+        "description": "Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateI": {
+        "left": 470.2,
+        "top": 418.1,
+        "width": 103.7,
+        "height": 19.9,
+        "type": "text",
+        "description": "Enter YYYY-MM-DD",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "noIncident": {
+        "left": 38.9,
+        "top": 380.1,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "No Incidents",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "attDocs": {
+        "left": 308.9,
+        "top": 380.1,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "See Attached Documents",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateII": {
+        "left": 470.2,
+        "top": 356.9,
+        "width": 103.7,
+        "height": 19.9,
+        "type": "text",
+        "description": "Enter YYYY-MM-DD",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "orIYES": {
+        "left": 539.2,
+        "top": 302.4,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Yes",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "orINO": {
+        "left": 560.8,
+        "top": 302.4,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "NO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "orIIYES": {
+        "left": 539.2,
+        "top": 268.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "YES",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "orIINO": {
+        "left": 560.8,
+        "top": 268.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "NO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "orIIIYES": {
+        "left": 539.2,
+        "top": 236.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "YES",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "orIIINO": {
+        "left": 560.8,
+        "top": 236.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "NO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "orIVYES": {
+        "left": 539.2,
+        "top": 204.1,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "YES",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "orIVNO": {
+        "left": 560.8,
+        "top": 204.1,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "NO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "orVYES": {
+        "left": 539.2,
+        "top": 171.7,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "YES",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "orVNO": {
+        "left": 560.8,
+        "top": 171.7,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "NO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "orVIYES": {
+        "left": 539.2,
+        "top": 139.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "YES",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "orVINO": {
+        "left": 560.8,
+        "top": 139.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "NO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "qualifiedSNM": {
+        "left": 38.9,
+        "top": 98.6,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Qualified:  Meets the annual screening requirements to continue performance of EOD duties.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "qualifiedSNM2": {
+        "left": 38.9,
+        "top": 78.8,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Temporarily Unqualified: Currently does not meet the screening requirements to continue performance of EOD duties. SNO/SNM will be re-evaluated in              days (not more than 90 days).  Required actions are detailed in reference (a).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "noDays": {
+        "left": 104.4,
+        "top": 75.6,
+        "width": 25.0,
+        "height": 12.6,
+        "type": "text",
+        "description": "NoDays",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "qualifiedSNM3": {
+        "left": 38.9,
+        "top": 59.0,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Unqualified:  SNO/SNM cannot meet the screening requirements to perform EOD duties.  Required actions are detailed in ref (a)",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "commentII": {
+        "left": 39.6,
+        "top": 739.4,
+        "width": 535.4,
+        "height": 522.4,
+        "type": "text",
+        "description": "REMARKS: (All disqualifying marks MUST be explained below)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name2": {
+        "left": 38.2,
+        "top": 176.2,
+        "width": 427.7,
+        "height": 19.9,
+        "type": "text",
+        "description": "Name (Last, First, MI):",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rank2": {
+        "left": 470.2,
+        "top": 176.2,
+        "width": 103.7,
+        "height": 19.9,
+        "type": "text",
+        "description": "Rank:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "billetB": {
+        "left": 38.2,
+        "top": 143.8,
+        "width": 535.7,
+        "height": 19.9,
+        "type": "text",
+        "description": "Billet:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sigScreen": {
+        "left": 38.2,
+        "top": 111.4,
+        "width": 427.7,
+        "height": 19.9,
+        "type": "text",
+        "description": "Signature:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateIV": {
+        "left": 470.2,
+        "top": 111.4,
+        "width": 103.7,
+        "height": 19.9,
+        "type": "text",
+        "description": "Enter YYYY-MM-DD",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "marSigScreen": {
+        "left": 38.2,
+        "top": 68.2,
+        "width": 427.7,
+        "height": 19.9,
+        "type": "text",
+        "description": "Signature of Marine being screened:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateIII": {
+        "left": 470.2,
+        "top": 68.2,
+        "width": 103.7,
+        "height": 19.9,
+        "type": "text",
+        "description": "Enter YYYY-MM-DD",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

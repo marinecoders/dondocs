@@ -1,0 +1,401 @@
+{
+  "id": "opnav55806",
+  "label": "OPNAV5580-6 - Investigative Notes",
+  "directory": "OPNAV5580-6 - Investigative Notes",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "title",
+        "ccn",
+        "made",
+        "madeat",
+        "dNSDate3",
+        "timeField",
+        "line1",
+        "line2",
+        "line3",
+        "line4",
+        "line5",
+        "line6",
+        "line7",
+        "line8",
+        "line9",
+        "line10",
+        "line11",
+        "line12",
+        "line13",
+        "line14",
+        "line15",
+        "line16",
+        "line17",
+        "line18",
+        "line19",
+        "line20",
+        "line21",
+        "line22",
+        "line23",
+        "line24",
+        "line25",
+        "line26"
+      ]
+    }
+  ],
+  "fields": {
+    "title": {
+      "type": "text",
+      "label": "Enter the case title.",
+      "page": 1,
+      "box": {
+        "left": 313.7,
+        "top": 736.6,
+        "width": 260.0,
+        "height": 14.5
+      }
+    },
+    "ccn": {
+      "type": "text",
+      "label": "Enter the case control number (CCN).",
+      "page": 1,
+      "box": {
+        "left": 313.7,
+        "top": 703.0,
+        "width": 260.0,
+        "height": 14.5
+      }
+    },
+    "made": {
+      "type": "text",
+      "label": "Enter who made these notes.",
+      "page": 1,
+      "box": {
+        "left": 40.6,
+        "top": 665.4,
+        "width": 186.7,
+        "height": 14.5
+      }
+    },
+    "madeat": {
+      "type": "text",
+      "label": "Enter location where document was made.",
+      "page": 1,
+      "box": {
+        "left": 234.6,
+        "top": 665.4,
+        "width": 196.7,
+        "height": 14.5
+      }
+    },
+    "dNSDate3": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 447.2,
+        "top": 665.4,
+        "width": 54.2,
+        "height": 14.5
+      }
+    },
+    "timeField": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 519.2,
+        "top": 665.4,
+        "width": 54.2,
+        "height": 14.5
+      }
+    },
+    "line1": {
+      "type": "text",
+      "label": "This is line 1 of 26, enter the investigative notes.",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 641.7,
+        "width": 534.2,
+        "height": 14.5
+      }
+    },
+    "line2": {
+      "type": "text",
+      "label": "This is line 1 of 26, enter the investigative notes.",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 619.4,
+        "width": 534.2,
+        "height": 14.5
+      }
+    },
+    "line3": {
+      "type": "text",
+      "label": "This is line 1 of 26, enter the investigative notes.",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 596.4,
+        "width": 534.2,
+        "height": 14.5
+      }
+    },
+    "line4": {
+      "type": "text",
+      "label": "This is line 1 of 26, enter the investigative notes.",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 572.7,
+        "width": 534.2,
+        "height": 14.5
+      }
+    },
+    "line5": {
+      "type": "text",
+      "label": "This is line 1 of 26, enter the investigative notes.",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 549.7,
+        "width": 534.2,
+        "height": 14.5
+      }
+    },
+    "line6": {
+      "type": "text",
+      "label": "This is line 1 of 26, enter the investigative notes.",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 527.0,
+        "width": 534.2,
+        "height": 14.5
+      }
+    },
+    "line7": {
+      "type": "text",
+      "label": "This is line 1 of 26, enter the investigative notes.",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 503.3,
+        "width": 534.2,
+        "height": 14.5
+      }
+    },
+    "line8": {
+      "type": "text",
+      "label": "This is line 1 of 26, enter the investigative notes.",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 479.9,
+        "width": 534.2,
+        "height": 14.5
+      }
+    },
+    "line9": {
+      "type": "text",
+      "label": "This is line 1 of 26, enter the investigative notes.",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 457.6,
+        "width": 534.2,
+        "height": 14.5
+      }
+    },
+    "line10": {
+      "type": "text",
+      "label": "This is line 1 of 26, enter the investigative notes.",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 434.6,
+        "width": 534.2,
+        "height": 14.5
+      }
+    },
+    "line11": {
+      "type": "text",
+      "label": "This is line 1 of 26, enter the investigative notes.",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 410.9,
+        "width": 534.2,
+        "height": 14.5
+      }
+    },
+    "line12": {
+      "type": "text",
+      "label": "This is line 1 of 26, enter the investigative notes.",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 387.9,
+        "width": 534.2,
+        "height": 14.5
+      }
+    },
+    "line13": {
+      "type": "text",
+      "label": "This is line 1 of 26, enter the investigative notes.",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 364.9,
+        "width": 534.2,
+        "height": 14.5
+      }
+    },
+    "line14": {
+      "type": "text",
+      "label": "This is line 1 of 26, enter the investigative notes.",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 341.5,
+        "width": 534.2,
+        "height": 14.5
+      }
+    },
+    "line15": {
+      "type": "text",
+      "label": "This is line 1 of 26, enter the investigative notes.",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 319.2,
+        "width": 534.2,
+        "height": 14.5
+      }
+    },
+    "line16": {
+      "type": "text",
+      "label": "This is line 1 of 26, enter the investigative notes.",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 295.9,
+        "width": 534.2,
+        "height": 14.5
+      }
+    },
+    "line17": {
+      "type": "text",
+      "label": "This is line 1 of 26, enter the investigative notes.",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 272.5,
+        "width": 534.2,
+        "height": 14.5
+      }
+    },
+    "line18": {
+      "type": "text",
+      "label": "This is line 1 of 26, enter the investigative notes.",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 249.5,
+        "width": 534.2,
+        "height": 14.5
+      }
+    },
+    "line19": {
+      "type": "text",
+      "label": "This is line 1 of 26, enter the investigative notes.",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 225.7,
+        "width": 534.2,
+        "height": 14.5
+      }
+    },
+    "line20": {
+      "type": "text",
+      "label": "This is line 1 of 26, enter the investigative notes.",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 203.8,
+        "width": 534.2,
+        "height": 14.5
+      }
+    },
+    "line21": {
+      "type": "text",
+      "label": "This is line 1 of 26, enter the investigative notes.",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 180.4,
+        "width": 534.2,
+        "height": 14.5
+      }
+    },
+    "line22": {
+      "type": "text",
+      "label": "This is line 1 of 26, enter the investigative notes.",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 156.7,
+        "width": 534.2,
+        "height": 14.5
+      }
+    },
+    "line23": {
+      "type": "text",
+      "label": "This is line 1 of 26, enter the investigative notes.",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 134.4,
+        "width": 534.2,
+        "height": 14.5
+      }
+    },
+    "line24": {
+      "type": "text",
+      "label": "This is line 1 of 26, enter the investigative notes.",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 110.7,
+        "width": 534.2,
+        "height": 14.5
+      }
+    },
+    "line25": {
+      "type": "text",
+      "label": "This is line 1 of 26, enter the investigative notes.",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 86.9,
+        "width": 534.2,
+        "height": 14.5
+      }
+    },
+    "line26": {
+      "type": "text",
+      "label": "This is line 1 of 26, enter the investigative notes.",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 65.0,
+        "width": 534.2,
+        "height": 14.5
+      }
+    }
+  }
+}

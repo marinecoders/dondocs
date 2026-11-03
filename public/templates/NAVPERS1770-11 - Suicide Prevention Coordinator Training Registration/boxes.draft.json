@@ -1,0 +1,106 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "date": {
+        "left": 133.1,
+        "top": 708.1,
+        "width": 89.1,
+        "height": 30.2,
+        "type": "text",
+        "description": "Requested Training Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rankRate": {
+        "left": 280.1,
+        "top": 708.1,
+        "width": 77.0,
+        "height": 30.2,
+        "type": "text",
+        "description": "Rank/Rate",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "last": {
+        "left": 89.3,
+        "top": 663.1,
+        "width": 483.9,
+        "height": 30.2,
+        "type": "text",
+        "description": "Last Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "first": {
+        "left": 89.3,
+        "top": 618.1,
+        "width": 483.9,
+        "height": 30.2,
+        "type": "text",
+        "description": "First Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "command": {
+        "left": 89.3,
+        "top": 573.1,
+        "width": 321.9,
+        "height": 30.2,
+        "type": "text",
+        "description": "Command",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "uic": {
+        "left": 503.9,
+        "top": 573.1,
+        "width": 69.3,
+        "height": 30.2,
+        "type": "text",
+        "description": "Unit Identification Code",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "prd": {
+        "left": 128.3,
+        "top": 528.1,
+        "width": 66.8,
+        "height": 30.2,
+        "type": "text",
+        "description": "Projected Rotation Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "email": {
+        "left": 308.9,
+        "top": 528.1,
+        "width": 264.3,
+        "height": 30.2,
+        "type": "text",
+        "description": "Government E-mail Address",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

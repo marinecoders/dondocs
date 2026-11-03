@@ -1,0 +1,605 @@
+{
+  "id": "opnav72209",
+  "label": "OPNAV7220-9 - Total Operational Submarine Service Worksheet",
+  "directory": "OPNAV7220-9 - Total Operational Submarine Service Worksheet",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "activity",
+        "uic",
+        "name",
+        "doDID",
+        "from5a",
+        "to5a",
+        "actName5a",
+        "thisAct5a",
+        "careerTot5a",
+        "from5b",
+        "to5b",
+        "actName5b",
+        "thisAct5b",
+        "careerTot5b",
+        "from5c",
+        "to5c",
+        "actName5c",
+        "thisAct5c",
+        "careerTot5c",
+        "from5d",
+        "to5d",
+        "actName5d",
+        "thisAct5d",
+        "careerTot5d",
+        "e",
+        "frome",
+        "to5e",
+        "actName5e",
+        "thisAct5e",
+        "careerTot5e",
+        "date6a",
+        "date6b",
+        "date7",
+        "date8",
+        "date8b",
+        "date9",
+        "datePEBD",
+        "datePEBD22",
+        "date10",
+        "datepebd26",
+        "prepBy",
+        "dsn",
+        "memPrintName",
+        "memSigDate",
+        "memSig",
+        "contBy",
+        "cUICat",
+        "ldc",
+        "poc"
+      ]
+    }
+  ],
+  "fields": {
+    "activity": {
+      "type": "text",
+      "label": "1. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 692.0,
+        "width": 129.3,
+        "height": 12.3
+      }
+    },
+    "uic": {
+      "type": "text",
+      "label": "2. UIC",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 692.0,
+        "width": 129.3,
+        "height": 12.3
+      }
+    },
+    "name": {
+      "type": "text",
+      "label": "3. NAME",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 692.0,
+        "width": 129.3,
+        "height": 12.3
+      }
+    },
+    "doDID": {
+      "type": "text",
+      "label": "4. DoD ID",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 692.0,
+        "width": 129.3,
+        "height": 12.3
+      }
+    },
+    "from5a": {
+      "type": "text",
+      "label": "(YY MM DD)",
+      "page": 1,
+      "box": {
+        "left": 50.6,
+        "top": 628.6,
+        "width": 66.2,
+        "height": 26.0
+      }
+    },
+    "to5a": {
+      "type": "text",
+      "label": "(YY MM DD)",
+      "page": 1,
+      "box": {
+        "left": 119.6,
+        "top": 628.6,
+        "width": 66.2,
+        "height": 26.0
+      }
+    },
+    "actName5a": {
+      "type": "text",
+      "label": "ACTIVITY NAME*",
+      "page": 1,
+      "box": {
+        "left": 188.6,
+        "top": 628.6,
+        "width": 138.4,
+        "height": 26.0
+      }
+    },
+    "thisAct5a": {
+      "type": "text",
+      "label": "THIS ACTIVITY**",
+      "page": 1,
+      "box": {
+        "left": 329.9,
+        "top": 628.6,
+        "width": 138.4,
+        "height": 26.0
+      }
+    },
+    "careerTot5a": {
+      "type": "text",
+      "label": "CAREER TOTAL**",
+      "page": 1,
+      "box": {
+        "left": 471.4,
+        "top": 628.6,
+        "width": 102.5,
+        "height": 26.0
+      }
+    },
+    "from5b": {
+      "type": "text",
+      "label": "(YY MM DD)",
+      "page": 1,
+      "box": {
+        "left": 50.6,
+        "top": 599.8,
+        "width": 66.2,
+        "height": 26.0
+      }
+    },
+    "to5b": {
+      "type": "text",
+      "label": "(YY MM DD)",
+      "page": 1,
+      "box": {
+        "left": 119.6,
+        "top": 599.8,
+        "width": 66.2,
+        "height": 26.0
+      }
+    },
+    "actName5b": {
+      "type": "text",
+      "label": "ACTIVITY NAME*",
+      "page": 1,
+      "box": {
+        "left": 188.6,
+        "top": 599.8,
+        "width": 138.4,
+        "height": 26.0
+      }
+    },
+    "thisAct5b": {
+      "type": "text",
+      "label": "THIS ACTIVITY**",
+      "page": 1,
+      "box": {
+        "left": 329.9,
+        "top": 599.8,
+        "width": 138.4,
+        "height": 26.0
+      }
+    },
+    "careerTot5b": {
+      "type": "text",
+      "label": "CAREER TOTAL**",
+      "page": 1,
+      "box": {
+        "left": 471.4,
+        "top": 599.8,
+        "width": 102.5,
+        "height": 26.0
+      }
+    },
+    "from5c": {
+      "type": "text",
+      "label": "(YY MM DD)",
+      "page": 1,
+      "box": {
+        "left": 50.6,
+        "top": 571.0,
+        "width": 66.2,
+        "height": 26.0
+      }
+    },
+    "to5c": {
+      "type": "text",
+      "label": "(YY MM DD)",
+      "page": 1,
+      "box": {
+        "left": 119.6,
+        "top": 571.0,
+        "width": 66.2,
+        "height": 26.0
+      }
+    },
+    "actName5c": {
+      "type": "text",
+      "label": "ACTIVITY NAME*",
+      "page": 1,
+      "box": {
+        "left": 188.6,
+        "top": 571.0,
+        "width": 138.4,
+        "height": 26.0
+      }
+    },
+    "thisAct5c": {
+      "type": "text",
+      "label": "THIS ACTIVITY**",
+      "page": 1,
+      "box": {
+        "left": 329.9,
+        "top": 571.0,
+        "width": 138.4,
+        "height": 26.0
+      }
+    },
+    "careerTot5c": {
+      "type": "text",
+      "label": "CAREER TOTAL**",
+      "page": 1,
+      "box": {
+        "left": 471.4,
+        "top": 571.0,
+        "width": 102.5,
+        "height": 26.0
+      }
+    },
+    "from5d": {
+      "type": "text",
+      "label": "(YY MM DD)",
+      "page": 1,
+      "box": {
+        "left": 50.6,
+        "top": 542.2,
+        "width": 66.2,
+        "height": 26.0
+      }
+    },
+    "to5d": {
+      "type": "text",
+      "label": "(YY MM DD)",
+      "page": 1,
+      "box": {
+        "left": 119.6,
+        "top": 542.2,
+        "width": 66.2,
+        "height": 26.0
+      }
+    },
+    "actName5d": {
+      "type": "text",
+      "label": "ACTIVITY NAME*",
+      "page": 1,
+      "box": {
+        "left": 188.6,
+        "top": 542.2,
+        "width": 138.4,
+        "height": 26.0
+      }
+    },
+    "thisAct5d": {
+      "type": "text",
+      "label": "THIS ACTIVITY**",
+      "page": 1,
+      "box": {
+        "left": 329.9,
+        "top": 542.2,
+        "width": 138.4,
+        "height": 26.0
+      }
+    },
+    "careerTot5d": {
+      "type": "text",
+      "label": "CAREER TOTAL**",
+      "page": 1,
+      "box": {
+        "left": 471.4,
+        "top": 542.2,
+        "width": 102.5,
+        "height": 26.0
+      }
+    },
+    "e": {
+      "type": "text",
+      "label": "E",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 513.3,
+        "width": 10.3,
+        "height": 26.0
+      }
+    },
+    "frome": {
+      "type": "text",
+      "label": "(YY MM DD)",
+      "page": 1,
+      "box": {
+        "left": 50.6,
+        "top": 513.3,
+        "width": 66.2,
+        "height": 26.0
+      }
+    },
+    "to5e": {
+      "type": "text",
+      "label": "(YY MM DD)",
+      "page": 1,
+      "box": {
+        "left": 119.6,
+        "top": 513.3,
+        "width": 66.2,
+        "height": 26.0
+      }
+    },
+    "actName5e": {
+      "type": "text",
+      "label": "ACTIVITY NAME*",
+      "page": 1,
+      "box": {
+        "left": 188.6,
+        "top": 513.3,
+        "width": 138.4,
+        "height": 26.0
+      }
+    },
+    "thisAct5e": {
+      "type": "text",
+      "label": "THIS ACTIVITY**",
+      "page": 1,
+      "box": {
+        "left": 329.9,
+        "top": 513.3,
+        "width": 138.4,
+        "height": 26.0
+      }
+    },
+    "careerTot5e": {
+      "type": "text",
+      "label": "CAREER TOTAL**",
+      "page": 1,
+      "box": {
+        "left": 471.4,
+        "top": 513.3,
+        "width": 102.5,
+        "height": 26.0
+      }
+    },
+    "date6a": {
+      "type": "text",
+      "label": "YY MM DD",
+      "page": 1,
+      "box": {
+        "left": 92.8,
+        "top": 472.3,
+        "width": 48.3,
+        "height": 15.9
+      }
+    },
+    "date6b": {
+      "type": "text",
+      "label": "YY MM DD",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 472.3,
+        "width": 66.3,
+        "height": 15.9
+      }
+    },
+    "date7": {
+      "type": "text",
+      "label": "YY MM",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 472.3,
+        "width": 48.3,
+        "height": 15.9
+      }
+    },
+    "date8": {
+      "type": "text",
+      "label": "YY MM DD",
+      "page": 1,
+      "box": {
+        "left": 92.8,
+        "top": 439.9,
+        "width": 48.3,
+        "height": 15.9
+      }
+    },
+    "date8b": {
+      "type": "text",
+      "label": "YY MM DD",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 439.9,
+        "width": 66.3,
+        "height": 15.9
+      }
+    },
+    "date9": {
+      "type": "text",
+      "label": "9. 96 MONTHS OF TOSS EARNED",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 438.6,
+        "width": 48.3,
+        "height": 14.6
+      }
+    },
+    "datePEBD": {
+      "type": "text",
+      "label": "YY MM DD",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 407.5,
+        "width": 66.3,
+        "height": 15.9
+      }
+    },
+    "datePEBD22": {
+      "type": "text",
+      "label": "YY MM DD",
+      "page": 1,
+      "box": {
+        "left": 524.9,
+        "top": 407.5,
+        "width": 48.3,
+        "height": 15.9
+      }
+    },
+    "date10": {
+      "type": "text",
+      "label": "YY MM",
+      "page": 1,
+      "box": {
+        "left": 200.9,
+        "top": 375.1,
+        "width": 48.3,
+        "height": 15.9
+      }
+    },
+    "datepebd26": {
+      "type": "text",
+      "label": "YY MM DD",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 342.7,
+        "width": 66.3,
+        "height": 15.9
+      }
+    },
+    "prepBy": {
+      "type": "text",
+      "label": "11. PREPARED BY (typed)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 310.3,
+        "width": 354.4,
+        "height": 19.5
+      }
+    },
+    "dsn": {
+      "type": "text",
+      "label": "12. DSN",
+      "page": 1,
+      "box": {
+        "left": 398.9,
+        "top": 310.3,
+        "width": 174.4,
+        "height": 19.5
+      }
+    },
+    "memPrintName": {
+      "type": "text",
+      "label": "13. MEMBER&apos;S PRINTED NAME",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 274.3,
+        "width": 174.4,
+        "height": 19.5
+      }
+    },
+    "memSigDate": {
+      "type": "text",
+      "label": "14. MEMBER&apos;S SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 274.3,
+        "width": 174.4,
+        "height": 19.5
+      }
+    },
+    "memSig": {
+      "type": "text",
+      "label": "15. MEMBER&apos;S SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 398.9,
+        "top": 274.3,
+        "width": 174.4,
+        "height": 19.5
+      }
+    },
+    "contBy": {
+      "type": "text",
+      "label": "CUI (when filled in) CONTROLLED BY",
+      "page": 1,
+      "box": {
+        "left": 406.1,
+        "top": 33.1,
+        "width": 123.9,
+        "height": 6.6
+      }
+    },
+    "cUICat": {
+      "type": "text",
+      "label": "CUI CATEGORY",
+      "page": 1,
+      "box": {
+        "left": 406.1,
+        "top": 24.3,
+        "width": 123.9,
+        "height": 6.6
+      }
+    },
+    "ldc": {
+      "type": "text",
+      "label": "LDC",
+      "page": 1,
+      "box": {
+        "left": 406.1,
+        "top": 16.5,
+        "width": 123.9,
+        "height": 6.6
+      }
+    },
+    "poc": {
+      "type": "text",
+      "label": "POC",
+      "page": 1,
+      "box": {
+        "left": 406.1,
+        "top": 9.3,
+        "width": 123.9,
+        "height": 6.6
+      }
+    }
+  }
+}

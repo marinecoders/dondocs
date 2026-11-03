@@ -1,0 +1,191 @@
+{
+  "id": "opnav4790163",
+  "label": "OPNAV4790-163 - Alre Tool Control Inventory Sheet",
+  "directory": "OPNAV4790-163 - Alre Tool Control Inventory Sheet",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "workcenter",
+        "jsn",
+        "date",
+        "c01",
+        "c02",
+        "comments",
+        "report",
+        "report2"
+      ]
+    }
+  ],
+  "fields": {
+    "workcenter": {
+      "type": "text",
+      "label": "ENTER WORK CENTER.",
+      "page": 1,
+      "box": {
+        "left": 111.6,
+        "top": 735.2,
+        "width": 83.6,
+        "height": 12.3
+      }
+    },
+    "jsn": {
+      "type": "text",
+      "label": "ENTER JSN.",
+      "page": 1,
+      "box": {
+        "left": 274.1,
+        "top": 735.2,
+        "width": 83.0,
+        "height": 12.3
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "ENTER DATE.",
+      "page": 1,
+      "box": {
+        "left": 459.3,
+        "top": 735.2,
+        "width": 95.9,
+        "height": 12.3
+      }
+    },
+    "c01": {
+      "type": "text",
+      "label": "ENTER CHECKED OUT/INVENTORIED BY.",
+      "page": 1,
+      "box": {
+        "left": 173.8,
+        "top": 672.2,
+        "width": 120.2,
+        "height": 12.3
+      }
+    },
+    "c02": {
+      "type": "text",
+      "label": "ENTER CHECKED OUT/INVENTORIED BY.",
+      "page": 1,
+      "box": {
+        "left": 173.8,
+        "top": 654.2,
+        "width": 120.2,
+        "height": 12.3
+      }
+    },
+    "comments": {
+      "type": "text",
+      "label": "ENTER COMMENTS",
+      "page": 1,
+      "box": {
+        "left": 47.8,
+        "top": 204.2,
+        "width": 516.3,
+        "height": 48.3
+      },
+      "multiline": true
+    },
+    "report": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 460.8,
+        "top": 144.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_body_0_static2_0_REPORT_0"
+    },
+    "report2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 536.8,
+        "top": 144.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_body_0_static2_0_REPORT_0"
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 23,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "co": {
+          "type": "text",
+          "label": "ENTER CHECKED OUT/INVENTORIED BY.",
+          "page": 1,
+          "box": {
+            "left": 173.8,
+            "top": 636.2,
+            "width": 120.2,
+            "height": 12.3
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 25,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "tc": {
+          "type": "text",
+          "label": "ENTER TOOL CONTAINER/ TOOLS CHECKED OUT.",
+          "page": 1,
+          "box": {
+            "left": 49.7,
+            "top": 672.2,
+            "width": 118.4,
+            "height": 12.3
+          }
+        },
+        "i": {
+          "type": "text",
+          "label": "ENTER INVENTORIED BY.",
+          "page": 1,
+          "box": {
+            "left": 299.3,
+            "top": 672.2,
+            "width": 84.7,
+            "height": 12.3
+          }
+        },
+        "ci": {
+          "type": "text",
+          "label": "ENTER CHECKED IN BY.",
+          "page": 1,
+          "box": {
+            "left": 389.3,
+            "top": 672.2,
+            "width": 93.7,
+            "height": 12.3
+          }
+        },
+        "ib": {
+          "type": "text",
+          "label": "ENTER INVENTORIED BY.",
+          "page": 1,
+          "box": {
+            "left": 488.0,
+            "top": 672.2,
+            "width": 84.7,
+            "height": 12.3
+          }
+        }
+      }
+    }
+  }
+}

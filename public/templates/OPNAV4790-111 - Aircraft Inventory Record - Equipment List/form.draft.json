@@ -1,0 +1,444 @@
+{
+  "id": "opnav4790111",
+  "label": "OPNAV4790-111 - Aircraft Inventory Record - Equipment List",
+  "directory": "OPNAV4790-111 - Aircraft Inventory Record - Equipment List",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "section",
+        "govtSerialNo",
+        "acftType",
+        "itemFill",
+        "nomenclatureFill",
+        "requiredHereFill",
+        "oneFill",
+        "twoFill",
+        "threeFill",
+        "fourFill",
+        "fiveFill",
+        "sixFill",
+        "sevenFill",
+        "eightFill",
+        "nineFill",
+        "tenFill",
+        "elevenFill",
+        "twelveFill",
+        "thirteenFill",
+        "fourteenFill",
+        "fifteenFill",
+        "sixteenFill",
+        "seventeenFill",
+        "eighteenFill",
+        "nineteenFill",
+        "twentyFill",
+        "twentyoneFill",
+        "twentytwoFill",
+        "twentythreeFill",
+        "twentyfourFill",
+        "locationFill"
+      ]
+    }
+  ],
+  "fields": {
+    "section": {
+      "type": "text",
+      "label": "EQUIPMENT LIST",
+      "page": 1,
+      "box": {
+        "left": 304.4,
+        "top": 564.2,
+        "width": 147.3,
+        "height": 18.9
+      }
+    },
+    "govtSerialNo": {
+      "type": "text",
+      "label": "EQUIPMENT LIST",
+      "page": 1,
+      "box": {
+        "left": 457.4,
+        "top": 562.2,
+        "width": 147.3,
+        "height": 16.9
+      }
+    },
+    "acftType": {
+      "type": "text",
+      "label": "EQUIPMENT LIST",
+      "page": 1,
+      "box": {
+        "left": 610.4,
+        "top": 562.2,
+        "width": 142.8,
+        "height": 16.9
+      }
+    },
+    "itemFill": {
+      "type": "text",
+      "label": "Item Fill",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 501.2,
+        "width": 21.3,
+        "height": 15.2
+      }
+    },
+    "nomenclatureFill": {
+      "type": "text",
+      "label": "Nomenclature Fill",
+      "page": 1,
+      "box": {
+        "left": 65.8,
+        "top": 501.2,
+        "width": 201.4,
+        "height": 15.2
+      }
+    },
+    "requiredHereFill": {
+      "type": "text",
+      "label": "Required Here Fill",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 501.2,
+        "width": 39.3,
+        "height": 15.2
+      }
+    },
+    "oneFill": {
+      "type": "text",
+      "label": "One Fill",
+      "page": 1,
+      "box": {
+        "left": 317.9,
+        "top": 501.2,
+        "width": 7.9,
+        "height": 15.2
+      }
+    },
+    "twoFill": {
+      "type": "text",
+      "label": "Two Fill",
+      "page": 1,
+      "box": {
+        "left": 331.5,
+        "top": 501.2,
+        "width": 7.9,
+        "height": 15.2
+      }
+    },
+    "threeFill": {
+      "type": "text",
+      "label": "Three Fill",
+      "page": 1,
+      "box": {
+        "left": 345.1,
+        "top": 501.2,
+        "width": 7.9,
+        "height": 15.2
+      }
+    },
+    "fourFill": {
+      "type": "text",
+      "label": "Four Fill",
+      "page": 1,
+      "box": {
+        "left": 358.6,
+        "top": 501.2,
+        "width": 7.9,
+        "height": 15.2
+      }
+    },
+    "fiveFill": {
+      "type": "text",
+      "label": "Five Fill",
+      "page": 1,
+      "box": {
+        "left": 372.2,
+        "top": 501.2,
+        "width": 7.9,
+        "height": 15.2
+      }
+    },
+    "sixFill": {
+      "type": "text",
+      "label": "Six Fill",
+      "page": 1,
+      "box": {
+        "left": 385.8,
+        "top": 501.2,
+        "width": 7.9,
+        "height": 15.2
+      }
+    },
+    "sevenFill": {
+      "type": "text",
+      "label": "Seven Fill",
+      "page": 1,
+      "box": {
+        "left": 399.4,
+        "top": 501.2,
+        "width": 7.9,
+        "height": 15.2
+      }
+    },
+    "eightFill": {
+      "type": "text",
+      "label": "Eight Fill",
+      "page": 1,
+      "box": {
+        "left": 413.0,
+        "top": 501.2,
+        "width": 7.9,
+        "height": 15.2
+      }
+    },
+    "nineFill": {
+      "type": "text",
+      "label": "Nine Fill",
+      "page": 1,
+      "box": {
+        "left": 426.6,
+        "top": 501.2,
+        "width": 7.9,
+        "height": 15.2
+      }
+    },
+    "tenFill": {
+      "type": "text",
+      "label": "Ten Fill",
+      "page": 1,
+      "box": {
+        "left": 440.2,
+        "top": 501.2,
+        "width": 7.9,
+        "height": 15.2
+      }
+    },
+    "elevenFill": {
+      "type": "text",
+      "label": "Eleven Fill",
+      "page": 1,
+      "box": {
+        "left": 453.8,
+        "top": 501.2,
+        "width": 7.9,
+        "height": 15.2
+      }
+    },
+    "twelveFill": {
+      "type": "text",
+      "label": "Twelve Fill",
+      "page": 1,
+      "box": {
+        "left": 467.3,
+        "top": 501.2,
+        "width": 7.9,
+        "height": 15.2
+      }
+    },
+    "thirteenFill": {
+      "type": "text",
+      "label": "Thirteen Fill",
+      "page": 1,
+      "box": {
+        "left": 480.9,
+        "top": 501.2,
+        "width": 7.9,
+        "height": 15.2
+      }
+    },
+    "fourteenFill": {
+      "type": "text",
+      "label": "Fourteen Fill",
+      "page": 1,
+      "box": {
+        "left": 494.5,
+        "top": 501.2,
+        "width": 7.9,
+        "height": 15.2
+      }
+    },
+    "fifteenFill": {
+      "type": "text",
+      "label": "Fifteen Fill",
+      "page": 1,
+      "box": {
+        "left": 508.1,
+        "top": 501.2,
+        "width": 7.9,
+        "height": 15.2
+      }
+    },
+    "sixteenFill": {
+      "type": "text",
+      "label": "Sixteen Fill",
+      "page": 1,
+      "box": {
+        "left": 521.7,
+        "top": 501.2,
+        "width": 7.9,
+        "height": 15.2
+      }
+    },
+    "seventeenFill": {
+      "type": "text",
+      "label": "Seventeen Fill",
+      "page": 1,
+      "box": {
+        "left": 535.3,
+        "top": 501.2,
+        "width": 7.9,
+        "height": 15.2
+      }
+    },
+    "eighteenFill": {
+      "type": "text",
+      "label": "Eighteen Fill",
+      "page": 1,
+      "box": {
+        "left": 548.9,
+        "top": 501.2,
+        "width": 7.9,
+        "height": 15.2
+      }
+    },
+    "nineteenFill": {
+      "type": "text",
+      "label": "Nineteen Fill",
+      "page": 1,
+      "box": {
+        "left": 562.5,
+        "top": 501.2,
+        "width": 7.9,
+        "height": 15.2
+      }
+    },
+    "twentyFill": {
+      "type": "text",
+      "label": "Twenty Fill",
+      "page": 1,
+      "box": {
+        "left": 576.0,
+        "top": 501.2,
+        "width": 7.9,
+        "height": 15.2
+      }
+    },
+    "twentyoneFill": {
+      "type": "text",
+      "label": "Twentyone Fill",
+      "page": 1,
+      "box": {
+        "left": 589.6,
+        "top": 501.2,
+        "width": 7.9,
+        "height": 15.2
+      }
+    },
+    "twentytwoFill": {
+      "type": "text",
+      "label": "Twentytwo Fill",
+      "page": 1,
+      "box": {
+        "left": 603.2,
+        "top": 501.2,
+        "width": 7.9,
+        "height": 15.2
+      }
+    },
+    "twentythreeFill": {
+      "type": "text",
+      "label": "Twentythree Fill",
+      "page": 1,
+      "box": {
+        "left": 616.8,
+        "top": 501.2,
+        "width": 7.9,
+        "height": 15.2
+      }
+    },
+    "twentyfourFill": {
+      "type": "text",
+      "label": "Twentyfour Fill",
+      "page": 1,
+      "box": {
+        "left": 630.4,
+        "top": 501.2,
+        "width": 7.9,
+        "height": 15.2
+      }
+    },
+    "locationFill": {
+      "type": "text",
+      "label": "Location Fill",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 483.2,
+        "width": 109.3,
+        "height": 15.2
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 6,
+      "rowStride": 33.62,
+      "editor": "grid",
+      "columns": {
+        "check": {
+          "type": "text",
+          "label": "CHECK 1 BY",
+          "page": 1,
+          "box": {
+            "left": 38.8,
+            "top": 454.1,
+            "width": 174.4,
+            "height": 16.9
+          }
+        },
+        "check2": {
+          "type": "text",
+          "label": "CHECK 7 BY",
+          "page": 1,
+          "box": {
+            "left": 218.9,
+            "top": 454.1,
+            "width": 174.4,
+            "height": 16.9
+          }
+        },
+        "check3": {
+          "type": "text",
+          "label": "CHECK 13 BY",
+          "page": 1,
+          "box": {
+            "left": 398.9,
+            "top": 454.1,
+            "width": 174.4,
+            "height": 16.9
+          }
+        },
+        "check4": {
+          "type": "text",
+          "label": "CHECK 19 BY",
+          "page": 1,
+          "box": {
+            "left": 578.9,
+            "top": 454.1,
+            "width": 174.4,
+            "height": 16.9
+          }
+        }
+      }
+    }
+  }
+}

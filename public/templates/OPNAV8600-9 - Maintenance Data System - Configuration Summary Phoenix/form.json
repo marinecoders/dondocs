@@ -1,0 +1,2479 @@
+{
+  "id": "opnav86009",
+  "label": "OPNAV8600-9 - Maintenance Data System - Configuration Summary Phoenix",
+  "directory": "OPNAV8600-9 - Maintenance Data System - Configuration Summary Phoenix",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "nomenclaturePHOENIX",
+        "partNO",
+        "serialNO",
+        "nalc",
+        "uic",
+        "joborderPRODworkAUTH",
+        "countrycode",
+        "waivers",
+        "configurationdate",
+        "configurationtime",
+        "maintenanceduedate",
+        "inspector",
+        "inspectorstamp",
+        "tLMcode",
+        "cONDcode",
+        "donotissueafterdate",
+        "lastSYStestdate",
+        "localuse",
+        "mLMODdesignator1",
+        "partnumber1",
+        "serialnumber1",
+        "mLMODdesignator2",
+        "partnumber2",
+        "serialnumber2",
+        "mLMODdesignator3",
+        "partnumber3",
+        "serialnumber3",
+        "mLMODdesignator4",
+        "partnumber4",
+        "serialnumber4",
+        "lotnumber1",
+        "loadcureMFGdate1",
+        "wARREXPdate1",
+        "mLMODdesignator5",
+        "partnumber5",
+        "serialnumber5",
+        "wARREXPdate2",
+        "mLMODdesignator6",
+        "partnumber6",
+        "serialnumber6",
+        "lotnumber2",
+        "wARREXPdate3",
+        "mLMODdesignator7",
+        "partnumber7",
+        "serialnumber7",
+        "lotnumber3",
+        "wARREXPdate4",
+        "mLMODdesignator8",
+        "partnumber8",
+        "serialnumber8",
+        "lotnumber4",
+        "loadcureMFGdate2",
+        "wARREXPdate5",
+        "mLMODdesignator9",
+        "partnumber9",
+        "serialnumber9",
+        "lotnumber5",
+        "loadcureMFGdate3",
+        "wARREXPdate6",
+        "mLMODdesignator10",
+        "partnumber10",
+        "serialnumber10",
+        "wARREXPdate7",
+        "mLMODdesignator11",
+        "partnumber11",
+        "serialnumber11",
+        "wARREXPdate8",
+        "mLMODdesignator12",
+        "partnumber12",
+        "serialnumber12",
+        "wARREXPdate9",
+        "mLMODdesignator13",
+        "partnumber133",
+        "serialnumber13",
+        "wARREXPdate10",
+        "mLMODdesignator14",
+        "partnumber14",
+        "serialnumber14",
+        "wARREXPdate11",
+        "mLMODdesignator15",
+        "partnumber15",
+        "serialnumber15",
+        "wARREXPdate12",
+        "mLMODdesignator16",
+        "partnumber16",
+        "serialnumber16",
+        "lotnumber6",
+        "loadcureMFGdate4",
+        "wARREXPdate13",
+        "mLMODdesignator17",
+        "partnumber17",
+        "serialnumber17",
+        "lotnumber7",
+        "loadcureMFGdate5",
+        "wARREXPdate14",
+        "mLMODdesignator18",
+        "partnumber18",
+        "serialnumber18",
+        "lotnumber8",
+        "loadcureMFGdate6",
+        "wARREXPdate15",
+        "mLMODdesignator19",
+        "partnumber19",
+        "serialnumber19",
+        "lotnumber9",
+        "loadcureMFGdate7",
+        "wARREXPdate16",
+        "mLMODdesignator20",
+        "partnumber20",
+        "serialnumber20",
+        "lotnumber10",
+        "loadcureMFGdate8",
+        "wARREXPdate17",
+        "mLMODdesignator21",
+        "partnumber21",
+        "serialnumber21",
+        "lotnumber11",
+        "wARREXPdate18",
+        "mLMODdesignator22",
+        "partnumber22",
+        "serialnumber22",
+        "lotnumber12",
+        "wARREXPdate19",
+        "mLMODdesignator23",
+        "partnumber23",
+        "serialnumber23",
+        "lotnumber13",
+        "loadcureMFGdate9",
+        "wARREXPdate20",
+        "mLMODdesignator24",
+        "partnumber24",
+        "serialnumber24",
+        "wARREXPdate21",
+        "mLMODdesignator25",
+        "partnumber25",
+        "serialnumber25",
+        "wARREXPdate22",
+        "mLMODdesignator26",
+        "partnumber26",
+        "serialnumber26",
+        "lotnumber14",
+        "loadcureMFGdate10",
+        "wARREXPdate23",
+        "mLMODdesignator27",
+        "partnumber27",
+        "serialnumber27",
+        "lotnumber15",
+        "loadcureMFGdate11",
+        "wARREXPdate24",
+        "mLMODdesignator28",
+        "partnumber28",
+        "serialnumber28",
+        "lotnumber16",
+        "loadcureMFGdate12",
+        "wARREXPdate25",
+        "mLMODdesignator29",
+        "partnumber29",
+        "serialnumber29",
+        "lotnumber17",
+        "loadcureMFGdate13",
+        "wARREXPdate26",
+        "mLMODdesignator30",
+        "partnumber30",
+        "serialnumber30",
+        "lotnumber18",
+        "loadcureMFGdate14",
+        "wARREXPdate27",
+        "partnumber1a",
+        "aLTTECHDIRperformed1a",
+        "aLTTECHDIRperformed1b",
+        "aLTTECHDIRperformed1c",
+        "aLTTECHDIRperformed1d",
+        "aLTTECHDIRperformed1e",
+        "partnumber2a",
+        "aLTTECHDIRperformed2a",
+        "aLTTECHDIRperformed2b",
+        "aLTTECHDIRperformed2c",
+        "aLTTECHDIRperformed2d",
+        "aLTTECHDIRperformed2e",
+        "partnumber3a",
+        "aLTTECHDIRperformed3a",
+        "aLTTECHDIRperformed3b",
+        "aLTTECHDIRperformed3c",
+        "aLTTECHDIRperformed3d",
+        "aLTTECHDIRperformed3e",
+        "partnumber4a",
+        "aLTTECHDIRperformed4a",
+        "aLTTECHDIRperformed4b",
+        "aLTTECHDIRperformed4c",
+        "aLTTECHDIRperformed4d",
+        "aLTTECHDIRperformed4e"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "missiledesignator",
+        "serialnumber",
+        "partnumber"
+      ]
+    }
+  ],
+  "fields": {
+    "nomenclaturePHOENIX": {
+      "type": "text",
+      "label": "Enter the nomenclature for PHOENIX.",
+      "page": 1,
+      "box": {
+        "left": 416.1,
+        "top": 756.8,
+        "width": 161.0,
+        "height": 20.1
+      }
+    },
+    "partNO": {
+      "type": "text",
+      "label": "Enter the part number.",
+      "page": 1,
+      "box": {
+        "left": 33.1,
+        "top": 725.5,
+        "width": 143.7,
+        "height": 13.3
+      }
+    },
+    "serialNO": {
+      "type": "text",
+      "label": "Enter the serial number.",
+      "page": 1,
+      "box": {
+        "left": 179.2,
+        "top": 725.5,
+        "width": 92.1,
+        "height": 13.3
+      }
+    },
+    "nalc": {
+      "type": "text",
+      "label": "Enter the NALC.",
+      "page": 1,
+      "box": {
+        "left": 273.1,
+        "top": 725.5,
+        "width": 43.0,
+        "height": 13.3
+      }
+    },
+    "uic": {
+      "type": "text",
+      "label": "Enter the UIC.",
+      "page": 1,
+      "box": {
+        "left": 318.0,
+        "top": 725.5,
+        "width": 52.4,
+        "height": 13.3
+      }
+    },
+    "joborderPRODworkAUTH": {
+      "type": "text",
+      "label": "Enter the job order or product work authorization.",
+      "page": 1,
+      "box": {
+        "left": 372.2,
+        "top": 725.5,
+        "width": 125.5,
+        "height": 13.3
+      }
+    },
+    "countrycode": {
+      "type": "text",
+      "label": "Enter the country code.",
+      "page": 1,
+      "box": {
+        "left": 500.6,
+        "top": 725.5,
+        "width": 75.9,
+        "height": 13.3
+      }
+    },
+    "waivers": {
+      "type": "text",
+      "label": "Enter the waivers.",
+      "page": 1,
+      "box": {
+        "left": 33.1,
+        "top": 701.0,
+        "width": 238.2,
+        "height": 19.1
+      }
+    },
+    "configurationdate": {
+      "type": "text",
+      "label": "Enter the configuration date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 273.1,
+        "top": 692.7,
+        "width": 133.7,
+        "height": 10.7
+      }
+    },
+    "configurationtime": {
+      "type": "text",
+      "label": "Enter the configuration time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 415.0,
+        "top": 692.7,
+        "width": 47.2,
+        "height": 10.7
+      }
+    },
+    "maintenanceduedate": {
+      "type": "text",
+      "label": "Enter the maintenance due date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 464.6,
+        "top": 692.7,
+        "width": 112.3,
+        "height": 10.7
+      }
+    },
+    "inspector": {
+      "type": "text",
+      "label": "Enter the inspector.",
+      "page": 1,
+      "box": {
+        "left": 273.1,
+        "top": 666.7,
+        "width": 69.1,
+        "height": 13.3
+      }
+    },
+    "inspectorstamp": {
+      "type": "text",
+      "label": "Enter the inspector stamp.",
+      "page": 1,
+      "box": {
+        "left": 344.1,
+        "top": 666.7,
+        "width": 50.9,
+        "height": 13.3
+      }
+    },
+    "tLMcode": {
+      "type": "text",
+      "label": "Enter the TLM code.",
+      "page": 1,
+      "box": {
+        "left": 396.8,
+        "top": 666.7,
+        "width": 66.5,
+        "height": 13.3
+      }
+    },
+    "cONDcode": {
+      "type": "text",
+      "label": "Enter the COND code.",
+      "page": 1,
+      "box": {
+        "left": 464.6,
+        "top": 666.7,
+        "width": 112.3,
+        "height": 13.3
+      }
+    },
+    "donotissueafterdate": {
+      "type": "text",
+      "label": "Enter the do not issue after date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 33.1,
+        "top": 664.1,
+        "width": 135.5,
+        "height": 10.7
+      }
+    },
+    "lastSYStestdate": {
+      "type": "text",
+      "label": "Enter the last system test date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 171.4,
+        "top": 664.1,
+        "width": 99.5,
+        "height": 10.7
+      }
+    },
+    "localuse": {
+      "type": "text",
+      "label": "Enter the local use and information.",
+      "page": 1,
+      "box": {
+        "left": 33.1,
+        "top": 642.6,
+        "width": 543.9,
+        "height": 13.8
+      }
+    },
+    "mLMODdesignator1": {
+      "type": "text",
+      "label": "This is row 1 of 30. Enter the MK MOD and/or designator for guidance section.",
+      "page": 1,
+      "box": {
+        "left": 174.0,
+        "top": 579.8,
+        "width": 69.8,
+        "height": 11.8
+      }
+    },
+    "partnumber1": {
+      "type": "text",
+      "label": "Enter the part number for guidance section.",
+      "page": 1,
+      "box": {
+        "left": 245.5,
+        "top": 579.8,
+        "width": 78.6,
+        "height": 11.8
+      }
+    },
+    "serialnumber1": {
+      "type": "text",
+      "label": "Enter the serial number for guidance section.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 579.8,
+        "width": 71.8,
+        "height": 11.8
+      }
+    },
+    "mLMODdesignator2": {
+      "type": "text",
+      "label": "This is row 2 of 30. Enter the MK MOD and/or designator for rate sensor - 54A.",
+      "page": 1,
+      "box": {
+        "left": 174.0,
+        "top": 566.4,
+        "width": 69.8,
+        "height": 11.8
+      }
+    },
+    "partnumber2": {
+      "type": "text",
+      "label": "Enter the part number for rate sensor - 54A.",
+      "page": 1,
+      "box": {
+        "left": 245.5,
+        "top": 566.4,
+        "width": 78.6,
+        "height": 11.8
+      }
+    },
+    "serialnumber2": {
+      "type": "text",
+      "label": "Enter the serial number for rate sensor - 54A.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 566.4,
+        "width": 71.8,
+        "height": 11.8
+      }
+    },
+    "mLMODdesignator3": {
+      "type": "text",
+      "label": "This is row 3 of 30. Enter the MK MOD and/or designator for inertial sensor ASSY - 54C.",
+      "page": 1,
+      "box": {
+        "left": 174.0,
+        "top": 552.0,
+        "width": 69.8,
+        "height": 11.8
+      }
+    },
+    "partnumber3": {
+      "type": "text",
+      "label": "Enter the part number for inertial sensor ASSY - 54C.",
+      "page": 1,
+      "box": {
+        "left": 245.5,
+        "top": 552.0,
+        "width": 78.6,
+        "height": 11.8
+      }
+    },
+    "serialnumber3": {
+      "type": "text",
+      "label": "Enter the serial number for inertial sensor ASSY - 54C.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 552.0,
+        "width": 71.8,
+        "height": 11.8
+      }
+    },
+    "mLMODdesignator4": {
+      "type": "text",
+      "label": "This is row 4 of 30. Enter the MK MOD and/or designator for inertial sensor ASSY - 54C.",
+      "page": 1,
+      "box": {
+        "left": 174.0,
+        "top": 537.6,
+        "width": 69.8,
+        "height": 11.8
+      }
+    },
+    "partnumber4": {
+      "type": "text",
+      "label": "Enter the part number for inertial sensor ASSY - 54C.",
+      "page": 1,
+      "box": {
+        "left": 245.5,
+        "top": 537.6,
+        "width": 78.6,
+        "height": 11.8
+      }
+    },
+    "serialnumber4": {
+      "type": "text",
+      "label": "Enter the serial number for inertial sensor ASSY - 54C.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 537.6,
+        "width": 71.8,
+        "height": 11.8
+      }
+    },
+    "lotnumber1": {
+      "type": "text",
+      "label": "Enter the lot number for inertial sensor ASSY - 54C.",
+      "page": 1,
+      "box": {
+        "left": 399.4,
+        "top": 537.6,
+        "width": 59.5,
+        "height": 11.8
+      }
+    },
+    "loadcureMFGdate1": {
+      "type": "text",
+      "label": "Enter the load cure and/or manufacture date for inertial sensor ASSY - 54C. (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 460.4,
+        "top": 537.6,
+        "width": 56.2,
+        "height": 11.8
+      }
+    },
+    "wARREXPdate1": {
+      "type": "text",
+      "label": "Enter the WARR expiration date for inertial sensor ASSY - 54C. (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 537.6,
+        "width": 58.8,
+        "height": 11.8
+      }
+    },
+    "mLMODdesignator5": {
+      "type": "text",
+      "label": "This is row 5 of 30. Enter the MK MOD and/or designator for armament section.",
+      "page": 1,
+      "box": {
+        "left": 174.0,
+        "top": 523.2,
+        "width": 69.8,
+        "height": 11.8
+      }
+    },
+    "partnumber5": {
+      "type": "text",
+      "label": "Enter the part number for armament section.",
+      "page": 1,
+      "box": {
+        "left": 245.5,
+        "top": 523.2,
+        "width": 78.6,
+        "height": 11.8
+      }
+    },
+    "serialnumber5": {
+      "type": "text",
+      "label": "Enter the serial number for armament section.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 523.2,
+        "width": 71.8,
+        "height": 11.8
+      }
+    },
+    "wARREXPdate2": {
+      "type": "text",
+      "label": "Enter the WARR expiration date for armament section. (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 523.2,
+        "width": 58.8,
+        "height": 11.8
+      }
+    },
+    "mLMODdesignator6": {
+      "type": "text",
+      "label": "This is row 6 of 30. Enter the MK MOD and/or designator for warhead.",
+      "page": 1,
+      "box": {
+        "left": 174.0,
+        "top": 508.8,
+        "width": 69.8,
+        "height": 11.8
+      }
+    },
+    "partnumber6": {
+      "type": "text",
+      "label": "Enter the part number for warhead.",
+      "page": 1,
+      "box": {
+        "left": 245.5,
+        "top": 508.8,
+        "width": 78.6,
+        "height": 11.8
+      }
+    },
+    "serialnumber6": {
+      "type": "text",
+      "label": "Enter the serial number for warhead.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 508.8,
+        "width": 71.8,
+        "height": 11.8
+      }
+    },
+    "lotnumber2": {
+      "type": "text",
+      "label": "Enter the lot number for warhead.",
+      "page": 1,
+      "box": {
+        "left": 399.4,
+        "top": 508.8,
+        "width": 59.5,
+        "height": 11.8
+      }
+    },
+    "wARREXPdate3": {
+      "type": "text",
+      "label": "Enter the WARR expiration date for warhead. (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 508.8,
+        "width": 58.8,
+        "height": 11.8
+      }
+    },
+    "mLMODdesignator7": {
+      "type": "text",
+      "label": "This is row 7 of 30. Enter the MK MOD and/or designator for fuze - 54A.",
+      "page": 1,
+      "box": {
+        "left": 174.0,
+        "top": 494.4,
+        "width": 69.8,
+        "height": 11.8
+      }
+    },
+    "partnumber7": {
+      "type": "text",
+      "label": "Enter the part number for fuze - 54A.",
+      "page": 1,
+      "box": {
+        "left": 245.5,
+        "top": 494.4,
+        "width": 78.6,
+        "height": 11.8
+      }
+    },
+    "serialnumber7": {
+      "type": "text",
+      "label": "Enter the serial number for fuze - 54A.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 494.4,
+        "width": 71.8,
+        "height": 11.8
+      }
+    },
+    "lotnumber3": {
+      "type": "text",
+      "label": "Enter the lot number for fuze - 54A.",
+      "page": 1,
+      "box": {
+        "left": 399.4,
+        "top": 494.4,
+        "width": 59.5,
+        "height": 11.8
+      }
+    },
+    "wARREXPdate4": {
+      "type": "text",
+      "label": "Enter the WARR expiration date for fuze - 54A. (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 494.4,
+        "width": 58.8,
+        "height": 11.8
+      }
+    },
+    "mLMODdesignator8": {
+      "type": "text",
+      "label": "This is row 8 of 30. Enter the MK MOD and/or designator for booster fuze.",
+      "page": 1,
+      "box": {
+        "left": 174.0,
+        "top": 480.0,
+        "width": 69.8,
+        "height": 11.8
+      }
+    },
+    "partnumber8": {
+      "type": "text",
+      "label": "Enter the part number for booster fuze.",
+      "page": 1,
+      "box": {
+        "left": 245.5,
+        "top": 480.0,
+        "width": 78.6,
+        "height": 11.8
+      }
+    },
+    "serialnumber8": {
+      "type": "text",
+      "label": "Enter the serial number for booster fuze.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 480.0,
+        "width": 71.8,
+        "height": 11.8
+      }
+    },
+    "lotnumber4": {
+      "type": "text",
+      "label": "Enter the lot number for booster fuze.",
+      "page": 1,
+      "box": {
+        "left": 399.4,
+        "top": 480.0,
+        "width": 59.5,
+        "height": 11.8
+      }
+    },
+    "loadcureMFGdate2": {
+      "type": "text",
+      "label": "Enter the load cure and/or manufacture date for booster fuze. (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 460.4,
+        "top": 480.0,
+        "width": 56.2,
+        "height": 11.8
+      }
+    },
+    "wARREXPdate5": {
+      "type": "text",
+      "label": "Enter the WARR expiration date for booster fuze. (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 480.0,
+        "width": 58.8,
+        "height": 11.8
+      }
+    },
+    "mLMODdesignator9": {
+      "type": "text",
+      "label": "This is row 9 of 30. Enter the MK MOD and/or designator for explosive lead.",
+      "page": 1,
+      "box": {
+        "left": 174.0,
+        "top": 465.7,
+        "width": 69.8,
+        "height": 11.8
+      }
+    },
+    "partnumber9": {
+      "type": "text",
+      "label": "Enter the part number for explosive lead.",
+      "page": 1,
+      "box": {
+        "left": 245.5,
+        "top": 465.7,
+        "width": 78.6,
+        "height": 11.8
+      }
+    },
+    "serialnumber9": {
+      "type": "text",
+      "label": "Enter the serial number for explosive lead.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 465.7,
+        "width": 71.8,
+        "height": 11.8
+      }
+    },
+    "lotnumber5": {
+      "type": "text",
+      "label": "Enter the lot number for explosive lead.",
+      "page": 1,
+      "box": {
+        "left": 399.4,
+        "top": 465.7,
+        "width": 59.5,
+        "height": 11.8
+      }
+    },
+    "loadcureMFGdate3": {
+      "type": "text",
+      "label": "Enter the load cure and/or manufacture date for explosive lead. (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 460.4,
+        "top": 465.7,
+        "width": 56.2,
+        "height": 11.8
+      }
+    },
+    "wARREXPdate6": {
+      "type": "text",
+      "label": "Enter the WARR expiration date for explosive lead. (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 465.7,
+        "width": 58.8,
+        "height": 11.8
+      }
+    },
+    "mLMODdesignator10": {
+      "type": "text",
+      "label": "This is row 10 of 30. Enter the MK MOD and/or designator for target detecting device.",
+      "page": 1,
+      "box": {
+        "left": 174.0,
+        "top": 451.3,
+        "width": 69.8,
+        "height": 11.8
+      }
+    },
+    "partnumber10": {
+      "type": "text",
+      "label": "Enter the part number for target detecting device.",
+      "page": 1,
+      "box": {
+        "left": 245.5,
+        "top": 451.3,
+        "width": 78.6,
+        "height": 11.8
+      }
+    },
+    "serialnumber10": {
+      "type": "text",
+      "label": "Enter the serial number for target detecting device.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 451.3,
+        "width": 71.8,
+        "height": 11.8
+      }
+    },
+    "wARREXPdate7": {
+      "type": "text",
+      "label": "Enter the WARR expiration date for target detecting device. (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 451.3,
+        "width": 58.8,
+        "height": 11.8
+      }
+    },
+    "mLMODdesignator11": {
+      "type": "text",
+      "label": "This is row 11 of 30. Enter the MK MOD and/or designator for electronic ASSY.",
+      "page": 1,
+      "box": {
+        "left": 174.0,
+        "top": 436.9,
+        "width": 69.8,
+        "height": 11.8
+      }
+    },
+    "partnumber11": {
+      "type": "text",
+      "label": "Enter the part number for electronic ASSY.",
+      "page": 1,
+      "box": {
+        "left": 245.5,
+        "top": 436.9,
+        "width": 78.6,
+        "height": 11.8
+      }
+    },
+    "serialnumber11": {
+      "type": "text",
+      "label": "Enter the serial number for electronic ASSY.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 436.9,
+        "width": 71.8,
+        "height": 11.8
+      }
+    },
+    "wARREXPdate8": {
+      "type": "text",
+      "label": "Enter the WARR expiration date for electronic ASSY. (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 436.9,
+        "width": 58.8,
+        "height": 11.8
+      }
+    },
+    "mLMODdesignator12": {
+      "type": "text",
+      "label": "This is row 12 of 30. Enter the MK MOD and/or designator for antenna TDD - 54A.",
+      "page": 1,
+      "box": {
+        "left": 174.0,
+        "top": 422.5,
+        "width": 69.8,
+        "height": 11.8
+      }
+    },
+    "partnumber12": {
+      "type": "text",
+      "label": "Enter the part number for antenna TDD - 54A.",
+      "page": 1,
+      "box": {
+        "left": 245.5,
+        "top": 422.5,
+        "width": 78.6,
+        "height": 11.8
+      }
+    },
+    "serialnumber12": {
+      "type": "text",
+      "label": "Enter the serial number for antenna TDD - 54A.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 422.5,
+        "width": 71.8,
+        "height": 11.8
+      }
+    },
+    "wARREXPdate9": {
+      "type": "text",
+      "label": "Enter the WARR expiration date for antenna TDD - 54A. (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 422.5,
+        "width": 58.8,
+        "height": 11.8
+      }
+    },
+    "mLMODdesignator13": {
+      "type": "text",
+      "label": "This is row 13 of 30. Enter the MK MOD and/or designator for antenna TDD - 54A.",
+      "page": 1,
+      "box": {
+        "left": 174.0,
+        "top": 408.1,
+        "width": 69.8,
+        "height": 11.8
+      }
+    },
+    "partnumber133": {
+      "type": "text",
+      "label": "Enter the part number for antenna TDD - 54A.",
+      "page": 1,
+      "box": {
+        "left": 245.5,
+        "top": 408.1,
+        "width": 78.6,
+        "height": 11.8
+      }
+    },
+    "serialnumber13": {
+      "type": "text",
+      "label": "Enter the serial number for antenna TDD - 54A.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 408.1,
+        "width": 71.8,
+        "height": 11.8
+      }
+    },
+    "wARREXPdate10": {
+      "type": "text",
+      "label": "Enter the WARR expiration date for antenna TDD - 54A. (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 408.1,
+        "width": 58.8,
+        "height": 11.8
+      }
+    },
+    "mLMODdesignator14": {
+      "type": "text",
+      "label": "This is row 14 of 30. Enter the MK MOD and/or designator for antenna TDD - 54A.",
+      "page": 1,
+      "box": {
+        "left": 174.0,
+        "top": 393.7,
+        "width": 69.8,
+        "height": 11.8
+      }
+    },
+    "partnumber14": {
+      "type": "text",
+      "label": "Enter the part number for antenna TDD - 54A.",
+      "page": 1,
+      "box": {
+        "left": 245.5,
+        "top": 393.7,
+        "width": 78.6,
+        "height": 11.8
+      }
+    },
+    "serialnumber14": {
+      "type": "text",
+      "label": "Enter the serial number for antenna TDD - 54A.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 393.7,
+        "width": 71.8,
+        "height": 11.8
+      }
+    },
+    "wARREXPdate11": {
+      "type": "text",
+      "label": "Enter the WARR expiration date for antenna TDD - 54A. (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 393.7,
+        "width": 58.8,
+        "height": 11.8
+      }
+    },
+    "mLMODdesignator15": {
+      "type": "text",
+      "label": "This is row 15 of 30. Enter the MK MOD and/or designator for antenna TDD - 54A.",
+      "page": 1,
+      "box": {
+        "left": 174.0,
+        "top": 379.3,
+        "width": 69.8,
+        "height": 11.8
+      }
+    },
+    "partnumber15": {
+      "type": "text",
+      "label": "Enter the part number for antenna TDD - 54A.",
+      "page": 1,
+      "box": {
+        "left": 245.5,
+        "top": 379.3,
+        "width": 78.6,
+        "height": 11.8
+      }
+    },
+    "serialnumber15": {
+      "type": "text",
+      "label": "Enter the serial number for antenna TDD - 54A.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 379.3,
+        "width": 71.8,
+        "height": 11.8
+      }
+    },
+    "wARREXPdate12": {
+      "type": "text",
+      "label": "Enter the WARR expiration date for antenna TDD - 54A. (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 379.3,
+        "width": 58.8,
+        "height": 11.8
+      }
+    },
+    "mLMODdesignator16": {
+      "type": "text",
+      "label": "This is row 16 of 30. Enter the MK MOD and/or designator for antenna TDD - 54A.",
+      "page": 1,
+      "box": {
+        "left": 174.0,
+        "top": 364.9,
+        "width": 69.8,
+        "height": 11.8
+      }
+    },
+    "partnumber16": {
+      "type": "text",
+      "label": "Enter the part number for antenna TDD - 54A.",
+      "page": 1,
+      "box": {
+        "left": 245.5,
+        "top": 364.9,
+        "width": 78.6,
+        "height": 11.8
+      }
+    },
+    "serialnumber16": {
+      "type": "text",
+      "label": "Enter the serial number for antenna TDD - 54A.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 364.9,
+        "width": 71.8,
+        "height": 11.8
+      }
+    },
+    "lotnumber6": {
+      "type": "text",
+      "label": "Enter the lot number for antenna TDD - 54A.",
+      "page": 1,
+      "box": {
+        "left": 399.4,
+        "top": 364.9,
+        "width": 59.5,
+        "height": 11.8
+      }
+    },
+    "loadcureMFGdate4": {
+      "type": "text",
+      "label": "Enter the load cure and/or manufacture date for antenna TDD - 54A. (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 460.4,
+        "top": 364.9,
+        "width": 56.2,
+        "height": 11.8
+      }
+    },
+    "wARREXPdate13": {
+      "type": "text",
+      "label": "Enter the WARR expiration date for antenna TDD - 54A. (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 364.9,
+        "width": 58.8,
+        "height": 11.8
+      }
+    },
+    "mLMODdesignator17": {
+      "type": "text",
+      "label": "This is row 17 of 30. Enter the MK MOD and/or designator for telemetry section.",
+      "page": 1,
+      "box": {
+        "left": 174.0,
+        "top": 350.5,
+        "width": 69.8,
+        "height": 11.8
+      }
+    },
+    "partnumber17": {
+      "type": "text",
+      "label": "Enter the part number for telemetry section.",
+      "page": 1,
+      "box": {
+        "left": 245.5,
+        "top": 350.5,
+        "width": 78.6,
+        "height": 11.8
+      }
+    },
+    "serialnumber17": {
+      "type": "text",
+      "label": "Enter the serial number for telemetry section.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 350.5,
+        "width": 71.8,
+        "height": 11.8
+      }
+    },
+    "lotnumber7": {
+      "type": "text",
+      "label": "Enter the lot number for telemetry section.",
+      "page": 1,
+      "box": {
+        "left": 399.4,
+        "top": 350.5,
+        "width": 59.5,
+        "height": 11.8
+      }
+    },
+    "loadcureMFGdate5": {
+      "type": "text",
+      "label": "Enter the load cure and/or manufacture date for telemetry section. (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 460.4,
+        "top": 350.5,
+        "width": 56.2,
+        "height": 11.8
+      }
+    },
+    "wARREXPdate14": {
+      "type": "text",
+      "label": "Enter the WARR expiration date for telemetry section. (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 350.5,
+        "width": 58.8,
+        "height": 11.8
+      }
+    },
+    "mLMODdesignator18": {
+      "type": "text",
+      "label": "This is row 18 of 30. Enter the MK MOD and/or designator for telemetry section.",
+      "page": 1,
+      "box": {
+        "left": 174.0,
+        "top": 336.1,
+        "width": 69.8,
+        "height": 11.8
+      }
+    },
+    "partnumber18": {
+      "type": "text",
+      "label": "Enter the part number for telemetry section.",
+      "page": 1,
+      "box": {
+        "left": 245.5,
+        "top": 336.1,
+        "width": 78.6,
+        "height": 11.8
+      }
+    },
+    "serialnumber18": {
+      "type": "text",
+      "label": "Enter the serial number for telemetry section.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 336.1,
+        "width": 71.8,
+        "height": 11.8
+      }
+    },
+    "lotnumber8": {
+      "type": "text",
+      "label": "Enter the lot number for telemetry section.",
+      "page": 1,
+      "box": {
+        "left": 399.4,
+        "top": 336.1,
+        "width": 59.5,
+        "height": 11.8
+      }
+    },
+    "loadcureMFGdate6": {
+      "type": "text",
+      "label": "Enter the load cure and/or manufacture date for telemetry section. (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 460.4,
+        "top": 336.1,
+        "width": 56.2,
+        "height": 11.8
+      }
+    },
+    "wARREXPdate15": {
+      "type": "text",
+      "label": "Enter the WARR expiration date for telemetry section. (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 336.1,
+        "width": 58.8,
+        "height": 11.8
+      }
+    },
+    "mLMODdesignator19": {
+      "type": "text",
+      "label": "This is row 19 of 30. Enter the MK MOD and/or designator for propulsion section.",
+      "page": 1,
+      "box": {
+        "left": 174.0,
+        "top": 321.7,
+        "width": 69.8,
+        "height": 11.8
+      }
+    },
+    "partnumber19": {
+      "type": "text",
+      "label": "Enter the part number for propulsion section.",
+      "page": 1,
+      "box": {
+        "left": 245.5,
+        "top": 321.7,
+        "width": 78.6,
+        "height": 11.8
+      }
+    },
+    "serialnumber19": {
+      "type": "text",
+      "label": "Enter the serial number for propulsion section.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 321.7,
+        "width": 71.8,
+        "height": 11.8
+      }
+    },
+    "lotnumber9": {
+      "type": "text",
+      "label": "Enter the lot number for propulsion section.",
+      "page": 1,
+      "box": {
+        "left": 399.4,
+        "top": 321.7,
+        "width": 59.5,
+        "height": 11.8
+      }
+    },
+    "loadcureMFGdate7": {
+      "type": "text",
+      "label": "Enter the load cure and//or manufacture date for propulsion section. (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 460.4,
+        "top": 321.7,
+        "width": 56.2,
+        "height": 11.8
+      }
+    },
+    "wARREXPdate16": {
+      "type": "text",
+      "label": "Enter the WARR expiration date for propulsion section. (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 321.7,
+        "width": 58.8,
+        "height": 11.8
+      }
+    },
+    "mLMODdesignator20": {
+      "type": "text",
+      "label": "This is row 20 of 30. Enter the MK MOD and/or designator for rocket motor.",
+      "page": 1,
+      "box": {
+        "left": 174.0,
+        "top": 307.3,
+        "width": 69.8,
+        "height": 11.8
+      }
+    },
+    "partnumber20": {
+      "type": "text",
+      "label": "Enter the part number for rocket motor.",
+      "page": 1,
+      "box": {
+        "left": 245.5,
+        "top": 307.3,
+        "width": 78.6,
+        "height": 11.8
+      }
+    },
+    "serialnumber20": {
+      "type": "text",
+      "label": "Enter the serial number for rocket motor.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 307.3,
+        "width": 71.8,
+        "height": 11.8
+      }
+    },
+    "lotnumber10": {
+      "type": "text",
+      "label": "Enter the lot number for rocket motor.",
+      "page": 1,
+      "box": {
+        "left": 399.4,
+        "top": 307.3,
+        "width": 59.5,
+        "height": 11.8
+      }
+    },
+    "loadcureMFGdate8": {
+      "type": "text",
+      "label": "Enter the load cure and/or manufacture date for rocket motor. (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 460.4,
+        "top": 307.3,
+        "width": 56.2,
+        "height": 11.8
+      }
+    },
+    "wARREXPdate17": {
+      "type": "text",
+      "label": "Enter the WARR expiration date for rocket motor. (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 307.3,
+        "width": 58.8,
+        "height": 11.8
+      }
+    },
+    "mLMODdesignator21": {
+      "type": "text",
+      "label": "This is row 21 of 30. Enter the MK MOD and/or designator for igniter safety mechanism.",
+      "page": 1,
+      "box": {
+        "left": 174.0,
+        "top": 292.9,
+        "width": 69.8,
+        "height": 11.8
+      }
+    },
+    "partnumber21": {
+      "type": "text",
+      "label": "Enter the part number for igniter safety mechanism.",
+      "page": 1,
+      "box": {
+        "left": 245.5,
+        "top": 292.9,
+        "width": 78.6,
+        "height": 11.8
+      }
+    },
+    "serialnumber21": {
+      "type": "text",
+      "label": "Enter the serial number for igniter safety mechanism.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 292.9,
+        "width": 71.8,
+        "height": 11.8
+      }
+    },
+    "lotnumber11": {
+      "type": "text",
+      "label": "Enter the lot number for igniter safety mechanism.",
+      "page": 1,
+      "box": {
+        "left": 399.4,
+        "top": 292.9,
+        "width": 59.5,
+        "height": 11.8
+      }
+    },
+    "wARREXPdate18": {
+      "type": "text",
+      "label": "Enter the WARR expiration date for igniter safety mechanism. (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 292.9,
+        "width": 58.8,
+        "height": 11.8
+      }
+    },
+    "mLMODdesignator22": {
+      "type": "text",
+      "label": "This is row 22 of 30. Enter the MK MOD and/or designator for fuze - 54C.",
+      "page": 1,
+      "box": {
+        "left": 174.0,
+        "top": 278.5,
+        "width": 69.8,
+        "height": 11.8
+      }
+    },
+    "partnumber22": {
+      "type": "text",
+      "label": "Enter the part number for fuze - 54C.",
+      "page": 1,
+      "box": {
+        "left": 245.5,
+        "top": 278.5,
+        "width": 78.6,
+        "height": 11.8
+      }
+    },
+    "serialnumber22": {
+      "type": "text",
+      "label": "Enter the serial number for fuze - 54C.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 278.5,
+        "width": 71.8,
+        "height": 11.8
+      }
+    },
+    "lotnumber12": {
+      "type": "text",
+      "label": "Enter the lot number for fuze - 54C.",
+      "page": 1,
+      "box": {
+        "left": 399.4,
+        "top": 278.5,
+        "width": 59.5,
+        "height": 11.8
+      }
+    },
+    "wARREXPdate19": {
+      "type": "text",
+      "label": "Enter the WARR expiration date for fuze - 54C. (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 278.5,
+        "width": 58.8,
+        "height": 11.8
+      }
+    },
+    "mLMODdesignator23": {
+      "type": "text",
+      "label": "This is row 23 of 30. Enter the MK MOD and/or designator for fuze - 54C.",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 264.9,
+        "width": 69.8,
+        "height": 11.8
+      }
+    },
+    "partnumber23": {
+      "type": "text",
+      "label": "Enter the part number for fuze - 54C.",
+      "page": 1,
+      "box": {
+        "left": 245.5,
+        "top": 264.7,
+        "width": 78.6,
+        "height": 11.8
+      }
+    },
+    "serialnumber23": {
+      "type": "text",
+      "label": "Enter the serial number for fuze - 54C.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 264.7,
+        "width": 71.8,
+        "height": 11.8
+      }
+    },
+    "lotnumber13": {
+      "type": "text",
+      "label": "Enter the lot number for fuze - 54C.",
+      "page": 1,
+      "box": {
+        "left": 399.4,
+        "top": 264.7,
+        "width": 59.5,
+        "height": 11.8
+      }
+    },
+    "loadcureMFGdate9": {
+      "type": "text",
+      "label": "Enter the load cure and/or manufacture date for fuze - 54C. (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 460.4,
+        "top": 264.7,
+        "width": 56.2,
+        "height": 11.8
+      }
+    },
+    "wARREXPdate20": {
+      "type": "text",
+      "label": "Enter the WARR expiration date for fuze - 54C. (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 264.7,
+        "width": 58.8,
+        "height": 11.8
+      }
+    },
+    "mLMODdesignator24": {
+      "type": "text",
+      "label": "This is row 24 of 30. Enter the MK MOD and/or designator for control section.",
+      "page": 1,
+      "box": {
+        "left": 174.0,
+        "top": 250.3,
+        "width": 69.8,
+        "height": 11.8
+      }
+    },
+    "partnumber24": {
+      "type": "text",
+      "label": "Enter the part number for control section.",
+      "page": 1,
+      "box": {
+        "left": 245.5,
+        "top": 250.3,
+        "width": 78.6,
+        "height": 11.8
+      }
+    },
+    "serialnumber24": {
+      "type": "text",
+      "label": "Enter the serial number for control section.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 250.3,
+        "width": 71.8,
+        "height": 11.8
+      }
+    },
+    "wARREXPdate21": {
+      "type": "text",
+      "label": "Enter the WARR expiration date for control section. (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 250.3,
+        "width": 58.8,
+        "height": 11.8
+      }
+    },
+    "mLMODdesignator25": {
+      "type": "text",
+      "label": "This is row 25 of 30. Enter the MK MOD and/or designator for rear RF mixer.",
+      "page": 1,
+      "box": {
+        "left": 174.0,
+        "top": 235.9,
+        "width": 69.8,
+        "height": 11.8
+      }
+    },
+    "partnumber25": {
+      "type": "text",
+      "label": "Enter the part number for rear RF mixer.",
+      "page": 1,
+      "box": {
+        "left": 245.5,
+        "top": 235.9,
+        "width": 78.6,
+        "height": 11.8
+      }
+    },
+    "serialnumber25": {
+      "type": "text",
+      "label": "Enter the serial number for rear RF mixer.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 235.9,
+        "width": 71.8,
+        "height": 11.8
+      }
+    },
+    "wARREXPdate22": {
+      "type": "text",
+      "label": "Enter the WARR expiration date for rear RF mixer. (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 235.9,
+        "width": 58.8,
+        "height": 11.8
+      }
+    },
+    "mLMODdesignator26": {
+      "type": "text",
+      "label": "This is row 26 of 30. Enter the MK MOD and/or designator for rear RF mixer.",
+      "page": 1,
+      "box": {
+        "left": 174.0,
+        "top": 221.5,
+        "width": 69.8,
+        "height": 11.8
+      }
+    },
+    "partnumber26": {
+      "type": "text",
+      "label": "Enter the part number for rear RF mixer.",
+      "page": 1,
+      "box": {
+        "left": 245.5,
+        "top": 221.5,
+        "width": 78.6,
+        "height": 11.8
+      }
+    },
+    "serialnumber26": {
+      "type": "text",
+      "label": "Enter the serial number for rear RF mixer.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 221.5,
+        "width": 71.8,
+        "height": 11.8
+      }
+    },
+    "lotnumber14": {
+      "type": "text",
+      "label": "Enter the lot number for rear RF mixer.",
+      "page": 1,
+      "box": {
+        "left": 399.4,
+        "top": 221.5,
+        "width": 59.5,
+        "height": 11.8
+      }
+    },
+    "loadcureMFGdate10": {
+      "type": "text",
+      "label": "Enter the load cure and/or manufacture date for rear RF mixer. (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 460.4,
+        "top": 221.5,
+        "width": 56.2,
+        "height": 11.8
+      }
+    },
+    "wARREXPdate23": {
+      "type": "text",
+      "label": "Enter the WARR expiration date for rear RF mixer. (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 221.5,
+        "width": 58.8,
+        "height": 11.8
+      }
+    },
+    "mLMODdesignator27": {
+      "type": "text",
+      "label": "This is row 27 of 30. Enter the MK MOD and/or designator for container.",
+      "page": 1,
+      "box": {
+        "left": 174.0,
+        "top": 207.1,
+        "width": 69.8,
+        "height": 11.8
+      }
+    },
+    "partnumber27": {
+      "type": "text",
+      "label": "Enter the part number for container.",
+      "page": 1,
+      "box": {
+        "left": 245.5,
+        "top": 207.1,
+        "width": 78.6,
+        "height": 11.8
+      }
+    },
+    "serialnumber27": {
+      "type": "text",
+      "label": "Enter the serial number for container.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 207.1,
+        "width": 71.8,
+        "height": 11.8
+      }
+    },
+    "lotnumber15": {
+      "type": "text",
+      "label": "Enter the lot number for container.",
+      "page": 1,
+      "box": {
+        "left": 399.4,
+        "top": 207.1,
+        "width": 59.5,
+        "height": 11.8
+      }
+    },
+    "loadcureMFGdate11": {
+      "type": "text",
+      "label": "Enter the load cure and/or manufacture date for container. (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 460.4,
+        "top": 207.1,
+        "width": 56.2,
+        "height": 11.8
+      }
+    },
+    "wARREXPdate24": {
+      "type": "text",
+      "label": "Enter the WARR expiration date for container. (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 207.1,
+        "width": 58.8,
+        "height": 11.8
+      }
+    },
+    "mLMODdesignator28": {
+      "type": "text",
+      "label": "Enter the MK MOD and/or designator for container.",
+      "page": 1,
+      "box": {
+        "left": 174.0,
+        "top": 192.7,
+        "width": 69.8,
+        "height": 11.8
+      }
+    },
+    "partnumber28": {
+      "type": "text",
+      "label": "Enter the part number for container.",
+      "page": 1,
+      "box": {
+        "left": 245.5,
+        "top": 192.7,
+        "width": 78.6,
+        "height": 11.8
+      }
+    },
+    "serialnumber28": {
+      "type": "text",
+      "label": "Enter the serial number for container.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 192.7,
+        "width": 71.8,
+        "height": 11.8
+      }
+    },
+    "lotnumber16": {
+      "type": "text",
+      "label": "Enter the lot number for container.",
+      "page": 1,
+      "box": {
+        "left": 399.4,
+        "top": 192.7,
+        "width": 59.5,
+        "height": 11.8
+      }
+    },
+    "loadcureMFGdate12": {
+      "type": "text",
+      "label": "Enter the load cure and/or manufacture date for container. (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 460.4,
+        "top": 192.7,
+        "width": 56.2,
+        "height": 11.8
+      }
+    },
+    "wARREXPdate25": {
+      "type": "text",
+      "label": "Enter the WARR expiration date for container. (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 192.7,
+        "width": 58.8,
+        "height": 11.8
+      }
+    },
+    "mLMODdesignator29": {
+      "type": "text",
+      "label": "Enter the MK MOD and/or designator for container.",
+      "page": 1,
+      "box": {
+        "left": 174.0,
+        "top": 178.3,
+        "width": 69.8,
+        "height": 11.8
+      }
+    },
+    "partnumber29": {
+      "type": "text",
+      "label": "Enter the part number for container.",
+      "page": 1,
+      "box": {
+        "left": 245.5,
+        "top": 178.3,
+        "width": 78.6,
+        "height": 11.8
+      }
+    },
+    "serialnumber29": {
+      "type": "text",
+      "label": "Enter the serial number for container.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 178.3,
+        "width": 71.8,
+        "height": 11.8
+      }
+    },
+    "lotnumber17": {
+      "type": "text",
+      "label": "Enter the lot number for container.",
+      "page": 1,
+      "box": {
+        "left": 399.4,
+        "top": 178.3,
+        "width": 59.5,
+        "height": 11.8
+      }
+    },
+    "loadcureMFGdate13": {
+      "type": "text",
+      "label": "Enter the load cure and/or manufacture date for container. (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 460.4,
+        "top": 178.3,
+        "width": 56.2,
+        "height": 11.8
+      }
+    },
+    "wARREXPdate26": {
+      "type": "text",
+      "label": "Enter the WARR expiration date for container. (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 178.3,
+        "width": 58.8,
+        "height": 11.8
+      }
+    },
+    "mLMODdesignator30": {
+      "type": "text",
+      "label": "Enter the MK MOD and/or designator for container.",
+      "page": 1,
+      "box": {
+        "left": 174.0,
+        "top": 163.1,
+        "width": 69.8,
+        "height": 11.8
+      }
+    },
+    "partnumber30": {
+      "type": "text",
+      "label": "Enter the part number for container.",
+      "page": 1,
+      "box": {
+        "left": 245.5,
+        "top": 163.1,
+        "width": 78.6,
+        "height": 11.8
+      }
+    },
+    "serialnumber30": {
+      "type": "text",
+      "label": "Enter the serial number for container.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 163.1,
+        "width": 71.8,
+        "height": 11.8
+      }
+    },
+    "lotnumber18": {
+      "type": "text",
+      "label": "Enter the lot number for container.",
+      "page": 1,
+      "box": {
+        "left": 399.4,
+        "top": 163.1,
+        "width": 59.5,
+        "height": 11.8
+      }
+    },
+    "loadcureMFGdate14": {
+      "type": "text",
+      "label": "Enter the load cure and/or manufacture date for container. (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 460.4,
+        "top": 163.1,
+        "width": 56.2,
+        "height": 11.8
+      }
+    },
+    "wARREXPdate27": {
+      "type": "text",
+      "label": "Enter the WARR expiration date for container. (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 163.1,
+        "width": 58.8,
+        "height": 11.8
+      }
+    },
+    "partnumber1a": {
+      "type": "text",
+      "label": "Enter the part number for alterations or technical directives.",
+      "page": 1,
+      "box": {
+        "left": 142.7,
+        "top": 114.0,
+        "width": 97.1,
+        "height": 13.9
+      }
+    },
+    "aLTTECHDIRperformed1a": {
+      "type": "text",
+      "label": "Enter the alterations or technical directives performed.",
+      "page": 1,
+      "box": {
+        "left": 241.8,
+        "top": 114.0,
+        "width": 64.7,
+        "height": 13.9
+      }
+    },
+    "aLTTECHDIRperformed1b": {
+      "type": "text",
+      "label": "Enter the alterations or technical directives performed.",
+      "page": 1,
+      "box": {
+        "left": 308.8,
+        "top": 114.0,
+        "width": 65.3,
+        "height": 13.9
+      }
+    },
+    "aLTTECHDIRperformed1c": {
+      "type": "text",
+      "label": "Enter the alterations or technical directives performed.",
+      "page": 1,
+      "box": {
+        "left": 375.7,
+        "top": 114.0,
+        "width": 64.7,
+        "height": 13.9
+      }
+    },
+    "aLTTECHDIRperformed1d": {
+      "type": "text",
+      "label": "Enter the alterations or technical directives performed.",
+      "page": 1,
+      "box": {
+        "left": 443.2,
+        "top": 114.0,
+        "width": 65.3,
+        "height": 13.9
+      }
+    },
+    "aLTTECHDIRperformed1e": {
+      "type": "text",
+      "label": "Enter the alterations or technical directives performed.",
+      "page": 1,
+      "box": {
+        "left": 510.5,
+        "top": 114.0,
+        "width": 65.7,
+        "height": 13.9
+      }
+    },
+    "partnumber2a": {
+      "type": "text",
+      "label": "Enter the part number for alterations or technical directives.",
+      "page": 1,
+      "box": {
+        "left": 142.7,
+        "top": 97.8,
+        "width": 97.1,
+        "height": 13.9
+      }
+    },
+    "aLTTECHDIRperformed2a": {
+      "type": "text",
+      "label": "Enter the alterations or technical directives performed.",
+      "page": 1,
+      "box": {
+        "left": 241.8,
+        "top": 97.8,
+        "width": 64.7,
+        "height": 13.9
+      }
+    },
+    "aLTTECHDIRperformed2b": {
+      "type": "text",
+      "label": "Enter the alterations or technical directives performed.",
+      "page": 1,
+      "box": {
+        "left": 308.8,
+        "top": 97.8,
+        "width": 65.3,
+        "height": 13.9
+      }
+    },
+    "aLTTECHDIRperformed2c": {
+      "type": "text",
+      "label": "Enter the alterations or technical directives performed.",
+      "page": 1,
+      "box": {
+        "left": 375.7,
+        "top": 97.8,
+        "width": 64.7,
+        "height": 13.9
+      }
+    },
+    "aLTTECHDIRperformed2d": {
+      "type": "text",
+      "label": "Enter the alterations or technical directives performed.",
+      "page": 1,
+      "box": {
+        "left": 443.2,
+        "top": 97.8,
+        "width": 65.3,
+        "height": 13.9
+      }
+    },
+    "aLTTECHDIRperformed2e": {
+      "type": "text",
+      "label": "Enter the alterations or technical directives performed.",
+      "page": 1,
+      "box": {
+        "left": 510.5,
+        "top": 97.8,
+        "width": 65.7,
+        "height": 13.9
+      }
+    },
+    "partnumber3a": {
+      "type": "text",
+      "label": "Enter the part number for alterations or technical directives.",
+      "page": 1,
+      "box": {
+        "left": 142.7,
+        "top": 81.4,
+        "width": 97.1,
+        "height": 13.9
+      }
+    },
+    "aLTTECHDIRperformed3a": {
+      "type": "text",
+      "label": "Enter the alterations or technical directives performed.",
+      "page": 1,
+      "box": {
+        "left": 241.8,
+        "top": 81.4,
+        "width": 64.7,
+        "height": 13.9
+      }
+    },
+    "aLTTECHDIRperformed3b": {
+      "type": "text",
+      "label": "Enter the alterations or technical directives performed.",
+      "page": 1,
+      "box": {
+        "left": 308.8,
+        "top": 81.4,
+        "width": 65.3,
+        "height": 13.9
+      }
+    },
+    "aLTTECHDIRperformed3c": {
+      "type": "text",
+      "label": "Enter the alterations or technical directives performed.",
+      "page": 1,
+      "box": {
+        "left": 375.7,
+        "top": 81.4,
+        "width": 64.7,
+        "height": 13.9
+      }
+    },
+    "aLTTECHDIRperformed3d": {
+      "type": "text",
+      "label": "Enter the alterations or technical directives performed.",
+      "page": 1,
+      "box": {
+        "left": 443.2,
+        "top": 81.4,
+        "width": 65.3,
+        "height": 13.9
+      }
+    },
+    "aLTTECHDIRperformed3e": {
+      "type": "text",
+      "label": "Enter the alterations or technical directives performed.",
+      "page": 1,
+      "box": {
+        "left": 510.5,
+        "top": 81.4,
+        "width": 65.7,
+        "height": 13.9
+      }
+    },
+    "partnumber4a": {
+      "type": "text",
+      "label": "Enter the part number for alterations or technical directives.",
+      "page": 1,
+      "box": {
+        "left": 142.7,
+        "top": 65.1,
+        "width": 97.1,
+        "height": 13.9
+      }
+    },
+    "aLTTECHDIRperformed4a": {
+      "type": "text",
+      "label": "Enter the alterations or technical directives performed.",
+      "page": 1,
+      "box": {
+        "left": 241.8,
+        "top": 65.1,
+        "width": 64.7,
+        "height": 13.9
+      }
+    },
+    "aLTTECHDIRperformed4b": {
+      "type": "text",
+      "label": "Enter the alterations or technical directives performed.",
+      "page": 1,
+      "box": {
+        "left": 308.8,
+        "top": 65.1,
+        "width": 65.3,
+        "height": 13.9
+      }
+    },
+    "aLTTECHDIRperformed4c": {
+      "type": "text",
+      "label": "Enter the alterations or technical directives performed.",
+      "page": 1,
+      "box": {
+        "left": 375.7,
+        "top": 65.1,
+        "width": 64.7,
+        "height": 13.9
+      }
+    },
+    "aLTTECHDIRperformed4d": {
+      "type": "text",
+      "label": "Enter the alterations or technical directives performed.",
+      "page": 1,
+      "box": {
+        "left": 443.2,
+        "top": 65.1,
+        "width": 65.3,
+        "height": 13.9
+      }
+    },
+    "aLTTECHDIRperformed4e": {
+      "type": "text",
+      "label": "Enter the alterations or technical directives performed.",
+      "page": 1,
+      "box": {
+        "left": 510.5,
+        "top": 65.1,
+        "width": 65.7,
+        "height": 13.9
+      }
+    },
+    "missiledesignator": {
+      "type": "text",
+      "label": "Enter the missile designator.",
+      "page": 2,
+      "box": {
+        "left": 275.3,
+        "top": 727.7,
+        "width": 110.3,
+        "height": 12.3
+      }
+    },
+    "serialnumber": {
+      "type": "text",
+      "label": "Enter the serial number.",
+      "page": 2,
+      "box": {
+        "left": 388.0,
+        "top": 727.7,
+        "width": 90.0,
+        "height": 12.3
+      }
+    },
+    "partnumber": {
+      "type": "text",
+      "label": "Enter the part number.",
+      "page": 2,
+      "box": {
+        "left": 480.4,
+        "top": 727.7,
+        "width": 84.3,
+        "height": 12.3
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 14.8,
+      "editor": "grid",
+      "columns": {
+        "container": {
+          "type": "text",
+          "label": "This is row 28 of 30. Enter the container.",
+          "page": 1,
+          "box": {
+            "left": 33.1,
+            "top": 192.7,
+            "width": 139.2,
+            "height": 11.8
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 4,
+      "rowStride": 16.3,
+      "editor": "grid",
+      "columns": {
+        "nomenclature": {
+          "type": "text",
+          "label": "This is row 1 of 4. Enter the nomenclature for alterations or technical directives.",
+          "page": 1,
+          "box": {
+            "left": 33.1,
+            "top": 114.0,
+            "width": 107.4,
+            "height": 13.9
+          }
+        }
+      }
+    },
+    "rows3": {
+      "title": "Rows",
+      "page": 2,
+      "count": 21,
+      "rowStride": 24.19,
+      "editor": "grid",
+      "columns": {
+        "date": {
+          "type": "text",
+          "label": "This is row 1 of 21. Enter the date (YYYY MM DD).  ",
+          "page": 2,
+          "box": {
+            "left": 46.3,
+            "top": 666.1,
+            "width": 62.4,
+            "height": 22.9
+          }
+        },
+        "activityUIC": {
+          "type": "text",
+          "label": "Enter the activity UIC.",
+          "page": 2,
+          "box": {
+            "left": 110.5,
+            "top": 666.1,
+            "width": 45.1,
+            "height": 22.9
+          }
+        },
+        "operationevent": {
+          "type": "text",
+          "label": "Enter the operation or event.",
+          "page": 2,
+          "box": {
+            "left": 158.0,
+            "top": 666.1,
+            "width": 61.3,
+            "height": 22.9
+          }
+        },
+        "testINSPresultpassfail": {
+          "type": "text",
+          "label": "Enter the test or inspection results (pass/fail).",
+          "page": 2,
+          "box": {
+            "left": 221.1,
+            "top": 666.1,
+            "width": 52.3,
+            "height": 22.9
+          }
+        },
+        "captiveflightmissilereadytime": {
+          "type": "text",
+          "label": "Enter the captive flight missile ready time.",
+          "page": 2,
+          "box": {
+            "left": 275.9,
+            "top": 666.1,
+            "width": 81.1,
+            "height": 22.9
+          }
+        },
+        "tECHDIRMODincorporated": {
+          "type": "text",
+          "label": "Enter the TECH. DIR. MOD. incorporated.",
+          "page": 2,
+          "box": {
+            "left": 359.3,
+            "top": 666.1,
+            "width": 72.9,
+            "height": 22.9
+          }
+        },
+        "remarks": {
+          "type": "text",
+          "label": "Enter the remarks",
+          "page": 2,
+          "box": {
+            "left": 434.5,
+            "top": 666.1,
+            "width": 130.2,
+            "height": 22.9
+          }
+        }
+      }
+    }
+  }
+}

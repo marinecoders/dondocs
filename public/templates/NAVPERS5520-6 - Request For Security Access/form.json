@@ -1,0 +1,279 @@
+{
+  "id": "navpers55206",
+  "label": "NAVPERS5520-6 - Request For Security Access",
+  "directory": "NAVPERS5520-6 - Request For Security Access",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "textField1",
+        "dateTimeField1",
+        "textField12",
+        "textField13",
+        "textField14",
+        "checkBox1",
+        "checkBox12",
+        "checkBox13",
+        "checkBox14",
+        "checkBox15",
+        "checkBox16",
+        "textField15",
+        "textField16",
+        "textField17",
+        "textField18",
+        "dateTimeField7",
+        "textField114",
+        "dateTimeField8",
+        "staticText8"
+      ]
+    }
+  ],
+  "fields": {
+    "textField1": {
+      "type": "text",
+      "label": "Please enter the required information for the from line",
+      "page": 1,
+      "box": {
+        "left": 29.8,
+        "top": 704.8,
+        "width": 435.3,
+        "height": 17.9
+      }
+    },
+    "dateTimeField1": {
+      "type": "text",
+      "label": "Please enter date form is filled out",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 704.4,
+        "width": 111.3,
+        "height": 17.6
+      }
+    },
+    "textField12": {
+      "type": "text",
+      "label": "Please enter the full name, rank or rate, grade, and social security number of the individual that is requesting security access",
+      "page": 1,
+      "box": {
+        "left": 29.8,
+        "top": 650.4,
+        "width": 552.3,
+        "height": 17.6
+      }
+    },
+    "textField13": {
+      "type": "text",
+      "label": "Please enter the subject's office code",
+      "page": 1,
+      "box": {
+        "left": 29.8,
+        "top": 614.4,
+        "width": 264.3,
+        "height": 17.6
+      }
+    },
+    "textField14": {
+      "type": "text",
+      "label": "Please enter the subject's office phone number",
+      "page": 1,
+      "box": {
+        "left": 299.8,
+        "top": 614.4,
+        "width": 282.3,
+        "height": 17.6
+      }
+    },
+    "checkBox1": {
+      "type": "checkbox",
+      "label": "Please mark if final access requested is for TOP SECRET",
+      "page": 1,
+      "box": {
+        "left": 65.8,
+        "top": 574.0,
+        "width": 14.0,
+        "height": 14.0
+      }
+    },
+    "checkBox12": {
+      "type": "checkbox",
+      "label": "Please mark if final access requested is for  SECRET",
+      "page": 1,
+      "box": {
+        "left": 272.8,
+        "top": 574.0,
+        "width": 14.0,
+        "height": 14.0
+      }
+    },
+    "checkBox13": {
+      "type": "checkbox",
+      "label": "Please mark if final access requested is for CONFIDENTIAL",
+      "page": 1,
+      "box": {
+        "left": 461.8,
+        "top": 574.0,
+        "width": 14.0,
+        "height": 14.0
+      }
+    },
+    "checkBox14": {
+      "type": "checkbox",
+      "label": "Please mark if interim access requested is for TOP SECRET",
+      "page": 1,
+      "box": {
+        "left": 65.8,
+        "top": 538.0,
+        "width": 14.0,
+        "height": 14.0
+      }
+    },
+    "checkBox15": {
+      "type": "checkbox",
+      "label": "Please mark if interim access requested is for  SECRET",
+      "page": 1,
+      "box": {
+        "left": 272.8,
+        "top": 538.0,
+        "width": 14.0,
+        "height": 14.0
+      }
+    },
+    "checkBox16": {
+      "type": "checkbox",
+      "label": "Please mark if interim access requested is for CONFIDENTIAL",
+      "page": 1,
+      "box": {
+        "left": 461.8,
+        "top": 538.0,
+        "width": 14.0,
+        "height": 14.0
+      }
+    },
+    "textField15": {
+      "type": "text",
+      "label": "Please enter position sensitivity",
+      "page": 1,
+      "box": {
+        "left": 29.8,
+        "top": 506.4,
+        "width": 183.3,
+        "height": 17.6
+      }
+    },
+    "textField16": {
+      "type": "text",
+      "label": "Please enter civilian position descriptino number",
+      "page": 1,
+      "box": {
+        "left": 218.8,
+        "top": 506.4,
+        "width": 201.3,
+        "height": 17.6
+      }
+    },
+    "textField17": {
+      "type": "text",
+      "label": "Please enter the military billet sequence code number",
+      "page": 1,
+      "box": {
+        "left": 425.8,
+        "top": 506.4,
+        "width": 156.3,
+        "height": 17.6
+      }
+    },
+    "textField18": {
+      "type": "text",
+      "label": "Please enter the degree of access granted",
+      "page": 1,
+      "box": {
+        "left": 29.8,
+        "top": 380.4,
+        "width": 444.3,
+        "height": 17.6
+      }
+    },
+    "dateTimeField7": {
+      "type": "text",
+      "label": "Please enter the date access was granted",
+      "page": 1,
+      "box": {
+        "left": 479.8,
+        "top": 380.4,
+        "width": 102.3,
+        "height": 17.6
+      }
+    },
+    "textField114": {
+      "type": "text",
+      "label": "Please enter any remarks needed ",
+      "page": 1,
+      "box": {
+        "left": 29.8,
+        "top": 191.4,
+        "width": 552.3,
+        "height": 71.6
+      },
+      "multiline": true
+    },
+    "dateTimeField8": {
+      "type": "text",
+      "label": "Please enter the date signed by the Lead Personnel Security Specialist",
+      "page": 1,
+      "box": {
+        "left": 479.8,
+        "top": 101.4,
+        "width": 102.3,
+        "height": 26.6
+      }
+    },
+    "staticText8": {
+      "type": "signature",
+      "label": "Please enter the name of the Lead Personnel Security Specialist",
+      "page": 1,
+      "box": {
+        "left": 29.8,
+        "top": 99.2,
+        "width": 444.3,
+        "height": 24.3
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 5,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "dateTimeField": {
+          "type": "text",
+          "label": "Please enter the date Special Background Investigation was completed",
+          "page": 1,
+          "box": {
+            "left": 245.8,
+            "top": 339.2,
+            "width": 93.3,
+            "height": 11.6
+          }
+        },
+        "textField1": {
+          "type": "text",
+          "label": "Please enter the Agency that completed the Special Background Investigation",
+          "page": 1,
+          "box": {
+            "left": 344.8,
+            "top": 339.2,
+            "width": 237.3,
+            "height": 11.6
+          }
+        }
+      }
+    }
+  }
+}

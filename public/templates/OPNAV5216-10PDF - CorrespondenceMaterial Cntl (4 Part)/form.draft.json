@@ -1,0 +1,444 @@
+{
+  "id": "opnav521610pdf",
+  "label": "OPNAV5216-10PDF - CorrespondenceMaterial Cntl (4 Part)",
+  "directory": "OPNAV5216-10PDF - CorrespondenceMaterial Cntl (4 Part)",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "controlNO",
+        "classSHEET",
+        "classMAT",
+        "from",
+        "dateTimeField1",
+        "ssis",
+        "serial",
+        "textField1",
+        "via",
+        "recdDATE",
+        "textField12",
+        "to",
+        "copies",
+        "textField13",
+        "subject",
+        "radioButtonList",
+        "retain",
+        "radioButtonList2",
+        "radioButtonList3",
+        "code",
+        "signature",
+        "remarks",
+        "2controlNUM",
+        "2classMAT",
+        "2classSHEET"
+      ]
+    }
+  ],
+  "fields": {
+    "controlNO": {
+      "type": "text",
+      "label": "CONTROL NUMBER",
+      "page": 1,
+      "box": {
+        "left": 66.2,
+        "top": 729.6,
+        "width": 79.8,
+        "height": 8.7
+      }
+    },
+    "classSHEET": {
+      "type": "text",
+      "label": "CLASSIFICATION OF THIS SHEET, ONLY ",
+      "page": 1,
+      "box": {
+        "left": 163.1,
+        "top": 726.6,
+        "width": 79.8,
+        "height": 8.7
+      }
+    },
+    "classMAT": {
+      "type": "text",
+      "label": "CLASSIFICATION OF ATTACHED MATERIAL",
+      "page": 1,
+      "box": {
+        "left": 318.8,
+        "top": 726.6,
+        "width": 79.8,
+        "height": 8.7
+      }
+    },
+    "from": {
+      "type": "text",
+      "label": "FROM",
+      "page": 1,
+      "box": {
+        "left": 66.2,
+        "top": 704.5,
+        "width": 138.3,
+        "height": 8.7
+      }
+    },
+    "dateTimeField1": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 299.1,
+        "top": 704.2,
+        "width": 65.6,
+        "height": 14.4
+      }
+    },
+    "ssis": {
+      "type": "text",
+      "label": "FILE SYMBOL (SSIC)",
+      "page": 1,
+      "box": {
+        "left": 376.2,
+        "top": 702.7,
+        "width": 65.5,
+        "height": 14.4
+      }
+    },
+    "serial": {
+      "type": "text",
+      "label": "SERIAL",
+      "page": 1,
+      "box": {
+        "left": 218.8,
+        "top": 701.4,
+        "width": 63.0,
+        "height": 8.7
+      }
+    },
+    "textField1": {
+      "type": "text",
+      "label": "TextField1",
+      "page": 1,
+      "box": {
+        "left": 465.3,
+        "top": 699.9,
+        "width": 59.9,
+        "height": 8.7
+      }
+    },
+    "via": {
+      "type": "text",
+      "label": "VIA",
+      "page": 1,
+      "box": {
+        "left": 66.2,
+        "top": 680.8,
+        "width": 138.3,
+        "height": 8.7
+      }
+    },
+    "recdDATE": {
+      "type": "text",
+      "label": "DATE RECEIVED",
+      "page": 1,
+      "box": {
+        "left": 217.5,
+        "top": 679.1,
+        "width": 122.1,
+        "height": 14.4
+      }
+    },
+    "textField12": {
+      "type": "text",
+      "label": "REPLY DUE BY",
+      "page": 1,
+      "box": {
+        "left": 379.0,
+        "top": 673.9,
+        "width": 116.4,
+        "height": 8.7
+      }
+    },
+    "to": {
+      "type": "text",
+      "label": "TO",
+      "page": 1,
+      "box": {
+        "left": 66.2,
+        "top": 657.2,
+        "width": 138.3,
+        "height": 8.7
+      }
+    },
+    "copies": {
+      "type": "text",
+      "label": "NUMBER OF COPIES RECEIVED",
+      "page": 1,
+      "box": {
+        "left": 218.2,
+        "top": 653.1,
+        "width": 18.0,
+        "height": 14.4
+      }
+    },
+    "textField13": {
+      "type": "text",
+      "label": "ENCLOSURES RECEIVED",
+      "page": 1,
+      "box": {
+        "left": 377.5,
+        "top": 648.8,
+        "width": 167.6,
+        "height": 89.7
+      },
+      "multiline": true
+    },
+    "subject": {
+      "type": "text",
+      "label": "SUBJECT",
+      "page": 1,
+      "box": {
+        "left": 37.2,
+        "top": 632.0,
+        "width": 324.0,
+        "height": 47.8
+      },
+      "multiline": true
+    },
+    "radioButtonList": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 343.6,
+        "top": 246.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "topmostSubform_0_Page1_0_Sect_0_Normal_0_InlineShape_0_RadioButtonList_0"
+    },
+    "retain": {
+      "type": "text",
+      "label": "Months. (Info material having only temporary reference value)",
+      "page": 1,
+      "box": {
+        "left": 386.6,
+        "top": 231.6,
+        "width": 7.3,
+        "height": 8.7
+      }
+    },
+    "radioButtonList2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 343.6,
+        "top": 229.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "topmostSubform_0_Page1_0_Sect_0_Normal_0_InlineShape_0_RadioButtonList_0"
+    },
+    "radioButtonList3": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 343.6,
+        "top": 212.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "topmostSubform_0_Page1_0_Sect_0_Normal_0_InlineShape_0_RadioButtonList_0"
+    },
+    "code": {
+      "type": "text",
+      "label": "CODE",
+      "page": 1,
+      "box": {
+        "left": 336.5,
+        "top": 198.4,
+        "width": 42.3,
+        "height": 14.4
+      }
+    },
+    "signature": {
+      "type": "text",
+      "label": "SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 383.0,
+        "top": 197.5,
+        "width": 150.4,
+        "height": 14.4
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "REMARKS",
+      "page": 1,
+      "box": {
+        "left": 46.9,
+        "top": 153.2,
+        "width": 499.8,
+        "height": 46.5
+      },
+      "multiline": true
+    },
+    "2controlNUM": {
+      "type": "text",
+      "label": "CONTROL NUMBER",
+      "page": 1,
+      "box": {
+        "left": 399.4,
+        "top": 87.4,
+        "width": 86.6,
+        "height": 8.7
+      }
+    },
+    "2classMAT": {
+      "type": "text",
+      "label": "CLASSIFICATION OF ATTACHED MATERIAL",
+      "page": 1,
+      "box": {
+        "left": 40.8,
+        "top": 62.4,
+        "width": 315.6,
+        "height": 14.4
+      }
+    },
+    "2classSHEET": {
+      "type": "text",
+      "label": "CLASSIFICATION OF THIS SHEET, ONLY",
+      "page": 1,
+      "box": {
+        "left": 375.7,
+        "top": 62.4,
+        "width": 165.8,
+        "height": 14.4
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 12,
+      "rowStride": 23.06,
+      "editor": "grid",
+      "columns": {
+        "ccTO": {
+          "type": "text",
+          "label": "CONTROL CENTER PRIMARY ROUTING LINE 1 TO",
+          "page": 1,
+          "box": {
+            "left": 37.9,
+            "top": 524.4,
+            "width": 27.9,
+            "height": 8.7
+          }
+        },
+        "ccAC": {
+          "type": "text",
+          "label": "CONTROL CENTER PRIMARY ROUTING LINE 1 AC*",
+          "page": 1,
+          "box": {
+            "left": 81.4,
+            "top": 524.4,
+            "width": 7.3,
+            "height": 8.7
+          }
+        },
+        "ccOUT": {
+          "type": "text",
+          "label": "CONTROL CENTER PRIMARY ROUTING LINE 1 DATE OUT",
+          "page": 1,
+          "box": {
+            "left": 99.4,
+            "top": 527.2,
+            "width": 39.6,
+            "height": 14.4
+          }
+        },
+        "ccRECEIPT": {
+          "type": "text",
+          "label": "CONTROL CENTER PRIMARY ROUTING LINE 1  INITIAL RECEIPT",
+          "page": 1,
+          "box": {
+            "left": 148.0,
+            "top": 527.2,
+            "width": 87.8,
+            "height": 14.4
+          }
+        },
+        "ccRETURN": {
+          "type": "text",
+          "label": "CONTROL CENTER PRIMARY ROUTING LINE 1   RETURN DATE",
+          "page": 1,
+          "box": {
+            "left": 245.7,
+            "top": 524.4,
+            "width": 36.7,
+            "height": 8.7
+          }
+        },
+        "actTO": {
+          "type": "text",
+          "label": "INTRA-ACTIVITY SECONDARY ROUTING  LINE 1 TO",
+          "page": 1,
+          "box": {
+            "left": 295.9,
+            "top": 524.4,
+            "width": 31.7,
+            "height": 8.7
+          }
+        },
+        "actAC": {
+          "type": "text",
+          "label": "INTRA-ACTIVITY SECONDARY ROUTING  LINE 1 AC*",
+          "page": 1,
+          "box": {
+            "left": 340.9,
+            "top": 524.4,
+            "width": 7.3,
+            "height": 8.7
+          }
+        },
+        "actOUT": {
+          "type": "text",
+          "label": "INTRA-ACTIVITY SECONDARY ROUTING  LINE 1 DATE OUT",
+          "page": 1,
+          "box": {
+            "left": 356.4,
+            "top": 527.2,
+            "width": 42.3,
+            "height": 14.4
+          }
+        },
+        "actRECEIP": {
+          "type": "text",
+          "label": "INTRA-ACTIVITY SECONDARY ROUTING  LINE 1 INITIAL RECEIPT",
+          "page": 1,
+          "box": {
+            "left": 407.3,
+            "top": 524.4,
+            "width": 86.7,
+            "height": 8.7
+          }
+        },
+        "actRETURN": {
+          "type": "text",
+          "label": "INTRA-ACTIVITY SECONDARY ROUTING  LINE 1 RETURN DATE",
+          "page": 1,
+          "box": {
+            "left": 509.5,
+            "top": 524.4,
+            "width": 36.7,
+            "height": 8.7
+          }
+        }
+      }
+    }
+  }
+}

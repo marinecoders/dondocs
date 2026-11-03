@@ -1,0 +1,1550 @@
+{
+  "id": "navpers164017",
+  "label": "NAVPERS1640-17 - Inventory And Receipt Of Valuables",
+  "directory": "NAVPERS1640-17 - Inventory And Receipt Of Valuables",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "textField1",
+        "textField12",
+        "textField13",
+        "textField14",
+        "textField15",
+        "checkBox1",
+        "checkBox12",
+        "checkBox13",
+        "checkBox14",
+        "checkBox15",
+        "checkBox16",
+        "checkBox17",
+        "checkBox18",
+        "checkBox19",
+        "checkBox110",
+        "checkBox111",
+        "checkBox112",
+        "checkBox113",
+        "checkBox114",
+        "checkBox115",
+        "checkBox116",
+        "checkBox117",
+        "checkBox118",
+        "checkBox119",
+        "checkBox120",
+        "checkBox121",
+        "checkBox122",
+        "checkBox123",
+        "checkBox124",
+        "checkBox125",
+        "checkBox126",
+        "checkBox127",
+        "checkBox128",
+        "checkBox129",
+        "checkBox130",
+        "checkBox131",
+        "checkBox132",
+        "checkBox133",
+        "checkBox134",
+        "checkBox135",
+        "checkBox136",
+        "checkBox137",
+        "checkBox138",
+        "checkBox139",
+        "checkBox140",
+        "checkBox141",
+        "checkBox142",
+        "checkBox143",
+        "checkBox144",
+        "checkBox145",
+        "checkBox146",
+        "checkBox147",
+        "checkBox148",
+        "checkBox149",
+        "checkBox150",
+        "checkBox151",
+        "checkBox152",
+        "checkBox153",
+        "checkBox154",
+        "checkBox155",
+        "checkBox156",
+        "checkBox157",
+        "checkBox158",
+        "checkBox159",
+        "checkBox160",
+        "checkBox161",
+        "checkBox162",
+        "checkBox163",
+        "checkBox164",
+        "checkBox165",
+        "checkBox166",
+        "checkBox167",
+        "checkBox168",
+        "checkBox169",
+        "checkBox170",
+        "checkBox171",
+        "checkBox172",
+        "checkBox173",
+        "checkBox174",
+        "checkBox175",
+        "checkBox176",
+        "checkBox177",
+        "checkBox178",
+        "checkBox179",
+        "checkBox192",
+        "checkBox193",
+        "checkBox194",
+        "checkBox195",
+        "checkBox196",
+        "checkBox197",
+        "checkBox198",
+        "checkBox199",
+        "checkBox1100",
+        "checkBox1101",
+        "checkBox1102",
+        "checkBox1103",
+        "checkBox1104",
+        "checkBox1105",
+        "checkBox1106",
+        "checkBox1107",
+        "checkBox1108",
+        "checkBox1109",
+        "checkBox1110",
+        "checkBox1111",
+        "checkBox1112",
+        "checkBox1113",
+        "checkBox1114",
+        "checkBox1115",
+        "checkBox1116",
+        "checkBox1117",
+        "checkBox1118",
+        "checkBox1119",
+        "checkBox1120",
+        "checkBox1121",
+        "checkBox1122",
+        "checkBox1123",
+        "textField2"
+      ],
+      "editor": "checklist"
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "textField22"
+      ]
+    }
+  ],
+  "fields": {
+    "textField1": {
+      "type": "text",
+      "label": "1. Name (Last, First, Middle Initial)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 663.1,
+        "width": 237.4,
+        "height": 21.2
+      }
+    },
+    "textField12": {
+      "type": "text",
+      "label": "2. Rank/Rate",
+      "page": 1,
+      "box": {
+        "left": 281.9,
+        "top": 663.1,
+        "width": 57.3,
+        "height": 21.2
+      }
+    },
+    "textField13": {
+      "type": "text",
+      "label": "3. Brig Number",
+      "page": 1,
+      "box": {
+        "left": 344.9,
+        "top": 663.1,
+        "width": 75.3,
+        "height": 21.2
+      }
+    },
+    "textField14": {
+      "type": "text",
+      "label": "4. Seal Number",
+      "page": 1,
+      "box": {
+        "left": 425.9,
+        "top": 663.1,
+        "width": 75.3,
+        "height": 21.2
+      }
+    },
+    "textField15": {
+      "type": "text",
+      "label": "5. Branch",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 663.1,
+        "width": 66.3,
+        "height": 21.2
+      }
+    },
+    "checkBox1": {
+      "type": "checkbox",
+      "label": "SECTION",
+      "page": 1,
+      "box": {
+        "left": 42.2,
+        "top": 620.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox12": {
+      "type": "checkbox",
+      "label": "Bible - Missal",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 620.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox13": {
+      "type": "checkbox",
+      "label": "Pictures",
+      "page": 1,
+      "box": {
+        "left": 312.2,
+        "top": 620.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox14": {
+      "type": "checkbox",
+      "label": "Shower Shoes",
+      "page": 1,
+      "box": {
+        "left": 447.2,
+        "top": 620.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox15": {
+      "type": "checkbox",
+      "label": "SECTION",
+      "page": 1,
+      "box": {
+        "left": 42.2,
+        "top": 611.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox16": {
+      "type": "checkbox",
+      "label": "Comb or Brush",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 611.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox17": {
+      "type": "checkbox",
+      "label": "Shampoo",
+      "page": 1,
+      "box": {
+        "left": 312.2,
+        "top": 611.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox18": {
+      "type": "checkbox",
+      "label": "Sweatpants (Pretrial)",
+      "page": 1,
+      "box": {
+        "left": 447.2,
+        "top": 611.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox19": {
+      "type": "checkbox",
+      "label": "SECTION",
+      "page": 1,
+      "box": {
+        "left": 42.2,
+        "top": 602.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox110": {
+      "type": "checkbox",
+      "label": "Deodorant",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 602.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox111": {
+      "type": "checkbox",
+      "label": "Shaving Cream",
+      "page": 1,
+      "box": {
+        "left": 312.2,
+        "top": 602.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox112": {
+      "type": "checkbox",
+      "label": "Sweatshirt, no hood (Pretrial)",
+      "page": 1,
+      "box": {
+        "left": 447.2,
+        "top": 602.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox113": {
+      "type": "checkbox",
+      "label": "SECTION",
+      "page": 1,
+      "box": {
+        "left": 42.2,
+        "top": 593.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox114": {
+      "type": "checkbox",
+      "label": "Laundry Bag (Mesh)",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 593.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox115": {
+      "type": "checkbox",
+      "label": "Shirt, Gym",
+      "page": 1,
+      "box": {
+        "left": 312.2,
+        "top": 593.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox116": {
+      "type": "checkbox",
+      "label": "Toothbrush",
+      "page": 1,
+      "box": {
+        "left": 447.2,
+        "top": 593.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox117": {
+      "type": "checkbox",
+      "label": "SECTION",
+      "page": 1,
+      "box": {
+        "left": 42.2,
+        "top": 584.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox118": {
+      "type": "checkbox",
+      "label": "Lotion",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 584.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox119": {
+      "type": "checkbox",
+      "label": "Shorts, Gym (Pretrial)",
+      "page": 1,
+      "box": {
+        "left": 312.2,
+        "top": 584.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox120": {
+      "type": "checkbox",
+      "label": "Toothpaste",
+      "page": 1,
+      "box": {
+        "left": 447.2,
+        "top": 584.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox121": {
+      "type": "checkbox",
+      "label": "SECTION",
+      "page": 1,
+      "box": {
+        "left": 42.2,
+        "top": 575.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox122": {
+      "type": "checkbox",
+      "label": "Floss, Dental",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 575.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox123": {
+      "type": "checkbox",
+      "label": "Soap w/ Dish",
+      "page": 1,
+      "box": {
+        "left": 312.2,
+        "top": 575.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox124": {
+      "type": "checkbox",
+      "label": "Washcloth, White",
+      "page": 1,
+      "box": {
+        "left": 447.2,
+        "top": 575.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox125": {
+      "type": "checkbox",
+      "label": "SECTION",
+      "page": 1,
+      "box": {
+        "left": 42.2,
+        "top": 566.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox126": {
+      "type": "checkbox",
+      "label": "Nail Clippers (w/o File)",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 566.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox127": {
+      "type": "checkbox",
+      "label": "Pen or Pencil",
+      "page": 1,
+      "box": {
+        "left": 312.2,
+        "top": 566.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox128": {
+      "type": "checkbox",
+      "label": "Pen or Pencil",
+      "page": 1,
+      "box": {
+        "left": 447.2,
+        "top": 566.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox129": {
+      "type": "checkbox",
+      "label": "SECTION",
+      "page": 1,
+      "box": {
+        "left": 42.2,
+        "top": 539.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox130": {
+      "type": "checkbox",
+      "label": "I. D. Tags &quot;Dogs&quot;",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 539.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox131": {
+      "type": "checkbox",
+      "label": "Following Items are for Pretrial Only",
+      "page": 1,
+      "box": {
+        "left": 447.2,
+        "top": 539.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox132": {
+      "type": "checkbox",
+      "label": "SECTION",
+      "page": 1,
+      "box": {
+        "left": 42.2,
+        "top": 530.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox133": {
+      "type": "checkbox",
+      "label": "Personal Papers",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 530.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox134": {
+      "type": "checkbox",
+      "label": "Belt (Blk/Blu/Wht/Grn)",
+      "page": 1,
+      "box": {
+        "left": 312.2,
+        "top": 530.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox135": {
+      "type": "checkbox",
+      "label": "Liner, Overcoat",
+      "page": 1,
+      "box": {
+        "left": 447.2,
+        "top": 530.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox136": {
+      "type": "checkbox",
+      "label": "SECTION",
+      "page": 1,
+      "box": {
+        "left": 42.2,
+        "top": 521.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox137": {
+      "type": "checkbox",
+      "label": "SEA",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 521.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox138": {
+      "type": "checkbox",
+      "label": "Cap, Garrison/Svc",
+      "page": 1,
+      "box": {
+        "left": 312.2,
+        "top": 521.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox139": {
+      "type": "checkbox",
+      "label": "Name, Plastic",
+      "page": 1,
+      "box": {
+        "left": 447.2,
+        "top": 521.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox140": {
+      "type": "checkbox",
+      "label": "SECTION",
+      "page": 1,
+      "box": {
+        "left": 42.2,
+        "top": 512.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox141": {
+      "type": "checkbox",
+      "label": "SEA",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 512.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox142": {
+      "type": "checkbox",
+      "label": "Clasp, Necktie",
+      "page": 1,
+      "box": {
+        "left": 312.2,
+        "top": 512.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox143": {
+      "type": "checkbox",
+      "label": "Neckerchief/Necktie/Tie",
+      "page": 1,
+      "box": {
+        "left": 447.2,
+        "top": 512.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox144": {
+      "type": "checkbox",
+      "label": "SECTION",
+      "page": 1,
+      "box": {
+        "left": 42.2,
+        "top": 503.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox145": {
+      "type": "checkbox",
+      "label": "SEA",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 503.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox146": {
+      "type": "checkbox",
+      "label": "Coat (Blu/Grn/Kha)",
+      "page": 1,
+      "box": {
+        "left": 312.2,
+        "top": 503.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox147": {
+      "type": "checkbox",
+      "label": "Peacoat/Overcoat",
+      "page": 1,
+      "box": {
+        "left": 447.2,
+        "top": 503.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox148": {
+      "type": "checkbox",
+      "label": "SECTION",
+      "page": 1,
+      "box": {
+        "left": 42.2,
+        "top": 494.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox149": {
+      "type": "checkbox",
+      "label": "SEA",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 494.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox150": {
+      "type": "checkbox",
+      "label": "Gloves (Blk Lthr/Wht Clth)",
+      "page": 1,
+      "box": {
+        "left": 312.2,
+        "top": 494.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox151": {
+      "type": "checkbox",
+      "label": "Ribbons",
+      "page": 1,
+      "box": {
+        "left": 447.2,
+        "top": 494.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox152": {
+      "type": "checkbox",
+      "label": "SECTION",
+      "page": 1,
+      "box": {
+        "left": 42.2,
+        "top": 485.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox153": {
+      "type": "checkbox",
+      "label": "SEA",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 485.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox154": {
+      "type": "checkbox",
+      "label": "Hat/Cover",
+      "page": 1,
+      "box": {
+        "left": 312.2,
+        "top": 485.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox155": {
+      "type": "checkbox",
+      "label": "Shirt, Service Dress",
+      "page": 1,
+      "box": {
+        "left": 447.2,
+        "top": 485.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox156": {
+      "type": "checkbox",
+      "label": "SECTION",
+      "page": 1,
+      "box": {
+        "left": 42.2,
+        "top": 476.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox157": {
+      "type": "checkbox",
+      "label": "SEA",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 476.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox158": {
+      "type": "checkbox",
+      "label": "Insignia (Rank/Svc)",
+      "page": 1,
+      "box": {
+        "left": 312.2,
+        "top": 476.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox159": {
+      "type": "checkbox",
+      "label": "Shoes, Black Service Dress",
+      "page": 1,
+      "box": {
+        "left": 447.2,
+        "top": 476.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox160": {
+      "type": "checkbox",
+      "label": "SECTION",
+      "page": 1,
+      "box": {
+        "left": 42.2,
+        "top": 467.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox161": {
+      "type": "checkbox",
+      "label": "SEA",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 467.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox162": {
+      "type": "checkbox",
+      "label": "Jacket (Blu/Grn/Svc)",
+      "page": 1,
+      "box": {
+        "left": 312.2,
+        "top": 467.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox163": {
+      "type": "checkbox",
+      "label": "Trenchcoat",
+      "page": 1,
+      "box": {
+        "left": 447.2,
+        "top": 467.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox164": {
+      "type": "checkbox",
+      "label": "SECTION",
+      "page": 1,
+      "box": {
+        "left": 42.2,
+        "top": 458.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox165": {
+      "type": "checkbox",
+      "label": "SEA",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 458.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox166": {
+      "type": "checkbox",
+      "label": "Jumper (Blu/Wht)",
+      "page": 1,
+      "box": {
+        "left": 312.2,
+        "top": 458.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox167": {
+      "type": "checkbox",
+      "label": "Trouser, Service Dress",
+      "page": 1,
+      "box": {
+        "left": 447.2,
+        "top": 458.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox168": {
+      "type": "checkbox",
+      "label": "SECTION",
+      "page": 1,
+      "box": {
+        "left": 42.2,
+        "top": 431.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox169": {
+      "type": "checkbox",
+      "label": "Keys - U. S. Govt",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 431.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox170": {
+      "type": "checkbox",
+      "label": "Keys - U. S. Govt",
+      "page": 1,
+      "box": {
+        "left": 312.2,
+        "top": 431.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox171": {
+      "type": "checkbox",
+      "label": "Keys - U. S. Govt",
+      "page": 1,
+      "box": {
+        "left": 447.2,
+        "top": 431.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox172": {
+      "type": "checkbox",
+      "label": "SECTION",
+      "page": 1,
+      "box": {
+        "left": 42.2,
+        "top": 422.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox173": {
+      "type": "checkbox",
+      "label": "Military Meal Passes",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 422.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox174": {
+      "type": "checkbox",
+      "label": "Military Meal Passes",
+      "page": 1,
+      "box": {
+        "left": 312.2,
+        "top": 422.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox175": {
+      "type": "checkbox",
+      "label": "Military Meal Passes",
+      "page": 1,
+      "box": {
+        "left": 447.2,
+        "top": 422.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox176": {
+      "type": "checkbox",
+      "label": "SECTION",
+      "page": 1,
+      "box": {
+        "left": 42.2,
+        "top": 413.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox177": {
+      "type": "checkbox",
+      "label": "Ship\u2019s ATM Card",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 413.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox178": {
+      "type": "checkbox",
+      "label": "Ship\u2019s ATM Card",
+      "page": 1,
+      "box": {
+        "left": 312.2,
+        "top": 413.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox179": {
+      "type": "checkbox",
+      "label": "Ship\u2019s ATM Card",
+      "page": 1,
+      "box": {
+        "left": 447.2,
+        "top": 413.0,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox192": {
+      "type": "checkbox",
+      "label": "(ANY",
+      "page": 1,
+      "box": {
+        "left": 42.2,
+        "top": 322.9,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox193": {
+      "type": "checkbox",
+      "label": "PLACED",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 322.9,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox194": {
+      "type": "checkbox",
+      "label": ") Alien Resident Card",
+      "page": 1,
+      "box": {
+        "left": 312.2,
+        "top": 322.9,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox195": {
+      "type": "checkbox",
+      "label": "Necklace w/ Religious Medallion",
+      "page": 1,
+      "box": {
+        "left": 447.2,
+        "top": 322.9,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox196": {
+      "type": "checkbox",
+      "label": "(ANY",
+      "page": 1,
+      "box": {
+        "left": 42.2,
+        "top": 313.9,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox197": {
+      "type": "checkbox",
+      "label": "PLACED",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 313.9,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox198": {
+      "type": "checkbox",
+      "label": ") Birth Certificate",
+      "page": 1,
+      "box": {
+        "left": 312.2,
+        "top": 313.9,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox199": {
+      "type": "checkbox",
+      "label": "Wedding Ring",
+      "page": 1,
+      "box": {
+        "left": 447.2,
+        "top": 313.9,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox1100": {
+      "type": "checkbox",
+      "label": "(ANY",
+      "page": 1,
+      "box": {
+        "left": 42.2,
+        "top": 304.9,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox1101": {
+      "type": "checkbox",
+      "label": "Foreign Coin",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 304.9,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox1102": {
+      "type": "checkbox",
+      "label": "Driver\u2019s License, Civilian",
+      "page": 1,
+      "box": {
+        "left": 312.2,
+        "top": 304.9,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox1103": {
+      "type": "checkbox",
+      "label": "Driver\u2019s License, Civilian",
+      "page": 1,
+      "box": {
+        "left": 447.2,
+        "top": 304.9,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox1104": {
+      "type": "checkbox",
+      "label": "(ANY",
+      "page": 1,
+      "box": {
+        "left": 42.2,
+        "top": 295.9,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox1105": {
+      "type": "checkbox",
+      "label": "Foreign Currency",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 295.9,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox1106": {
+      "type": "checkbox",
+      "label": "Driver\u2019s License, Military",
+      "page": 1,
+      "box": {
+        "left": 312.2,
+        "top": 295.9,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox1107": {
+      "type": "checkbox",
+      "label": "Driver\u2019s License, Military",
+      "page": 1,
+      "box": {
+        "left": 447.2,
+        "top": 295.9,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox1108": {
+      "type": "checkbox",
+      "label": "(ANY",
+      "page": 1,
+      "box": {
+        "left": 42.2,
+        "top": 286.9,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox1109": {
+      "type": "checkbox",
+      "label": "PLACED",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 286.9,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox1110": {
+      "type": "checkbox",
+      "label": ") I. D. Card, Military",
+      "page": 1,
+      "box": {
+        "left": 312.2,
+        "top": 286.9,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox1111": {
+      "type": "checkbox",
+      "label": ") I. D. Card, Military",
+      "page": 1,
+      "box": {
+        "left": 447.2,
+        "top": 286.9,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox1112": {
+      "type": "checkbox",
+      "label": "(ANY",
+      "page": 1,
+      "box": {
+        "left": 42.2,
+        "top": 277.9,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox1113": {
+      "type": "checkbox",
+      "label": "PLACED",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 277.9,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox1114": {
+      "type": "checkbox",
+      "label": "Marriage License",
+      "page": 1,
+      "box": {
+        "left": 312.2,
+        "top": 277.9,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox1115": {
+      "type": "checkbox",
+      "label": "Marriage License",
+      "page": 1,
+      "box": {
+        "left": 447.2,
+        "top": 277.9,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox1116": {
+      "type": "checkbox",
+      "label": "(ANY",
+      "page": 1,
+      "box": {
+        "left": 42.2,
+        "top": 268.9,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox1117": {
+      "type": "checkbox",
+      "label": "PLACED",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 268.9,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox1118": {
+      "type": "checkbox",
+      "label": "Passport",
+      "page": 1,
+      "box": {
+        "left": 312.2,
+        "top": 268.9,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox1119": {
+      "type": "checkbox",
+      "label": "Passport",
+      "page": 1,
+      "box": {
+        "left": 447.2,
+        "top": 268.9,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox1120": {
+      "type": "checkbox",
+      "label": "(ANY",
+      "page": 1,
+      "box": {
+        "left": 42.2,
+        "top": 259.9,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox1121": {
+      "type": "checkbox",
+      "label": "PLACED",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 259.9,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox1122": {
+      "type": "checkbox",
+      "label": "Social Security Card",
+      "page": 1,
+      "box": {
+        "left": 312.2,
+        "top": 259.9,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "checkBox1123": {
+      "type": "checkbox",
+      "label": "Social Security Card",
+      "page": 1,
+      "box": {
+        "left": 447.2,
+        "top": 259.9,
+        "width": 7.3,
+        "height": 7.3
+      }
+    },
+    "textField2": {
+      "type": "text",
+      "label": "SECTION 7. NOTES",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 231.1,
+        "width": 534.4,
+        "height": 120.3
+      },
+      "multiline": true
+    },
+    "textField22": {
+      "type": "text",
+      "label": "SECTION 12. NOTES",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 285.1,
+        "width": 534.4,
+        "height": 201.4
+      },
+      "multiline": true
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 9.0,
+      "editor": "grid",
+      "columns": {
+        "checkBox1": {
+          "type": "checkbox",
+          "label": "SECTION",
+          "page": 1,
+          "box": {
+            "left": 45.0,
+            "top": 385.2,
+            "width": 7.3,
+            "height": 7.3
+          }
+        },
+        "checkBox12": {
+          "type": "checkbox",
+          "label": "Blanket",
+          "page": 1,
+          "box": {
+            "left": 180.0,
+            "top": 385.2,
+            "width": 7.3,
+            "height": 7.3
+          }
+        },
+        "checkBox13": {
+          "type": "checkbox",
+          "label": "Facility Rules &amp; Regs",
+          "page": 1,
+          "box": {
+            "left": 315.0,
+            "top": 385.2,
+            "width": 7.3,
+            "height": 7.3
+          }
+        },
+        "checkBox14": {
+          "type": "checkbox",
+          "label": "Pillow Case",
+          "page": 1,
+          "box": {
+            "left": 450.1,
+            "top": 385.2,
+            "width": 7.3,
+            "height": 7.3
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 2,
+      "count": 8,
+      "rowStride": 9.0,
+      "editor": "grid",
+      "columns": {
+        "checkBox1": {
+          "type": "checkbox",
+          "label": "SECTION",
+          "page": 2,
+          "box": {
+            "left": 42.2,
+            "top": 376.9,
+            "width": 7.3,
+            "height": 7.3
+          }
+        },
+        "checkBox12": {
+          "type": "checkbox",
+          "label": "Belt (Blk/Blu/Wht/Grn)",
+          "page": 2,
+          "box": {
+            "left": 177.2,
+            "top": 376.9,
+            "width": 7.3,
+            "height": 7.3
+          }
+        },
+        "checkBox13": {
+          "type": "checkbox",
+          "label": "Insignia (Rank/Svc)",
+          "page": 2,
+          "box": {
+            "left": 312.2,
+            "top": 376.9,
+            "width": 7.3,
+            "height": 7.3
+          }
+        },
+        "checkBox14": {
+          "type": "checkbox",
+          "label": "Radio/Cassette/CD Player",
+          "page": 2,
+          "box": {
+            "left": 447.2,
+            "top": 376.9,
+            "width": 7.3,
+            "height": 7.3
+          }
+        }
+      }
+    }
+  }
+}

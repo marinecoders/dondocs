@@ -1,0 +1,86 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "nameAppl": {
+        "left": 74.8,
+        "top": 62.7,
+        "width": 462.4,
+        "height": 18.3,
+        "type": "text",
+        "description": "LAST NAME, FIRST AND MIDDLE INITIAL OF APPLICANT",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "signatureField1": {
+        "left": 91.7,
+        "top": 515.8,
+        "width": 210.4,
+        "height": 33.4,
+        "type": "text",
+        "description": "above. I acknowledge receipt of a copy of this document",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField12": {
+        "left": 343.8,
+        "top": 515.8,
+        "width": 210.4,
+        "height": 33.4,
+        "type": "text",
+        "description": "the MECEP GROUND program except as specified",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "witnessName": {
+        "left": 91.7,
+        "top": 457.8,
+        "width": 210.4,
+        "height": 33.4,
+        "type": "text",
+        "description": "Signature of Witnessing Officer",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "applicantName": {
+        "left": 343.8,
+        "top": 457.8,
+        "width": 210.4,
+        "height": 33.4,
+        "type": "text",
+        "description": "Signature of Applicant",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date": {
+        "left": 343.8,
+        "top": 398.7,
+        "width": 210.4,
+        "height": 20.7,
+        "type": "text",
+        "description": "Full Name of Applicant",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

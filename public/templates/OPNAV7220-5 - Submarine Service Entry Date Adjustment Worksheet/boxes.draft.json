@@ -1,0 +1,603 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "name": {
+        "left": 38.8,
+        "top": 702.8,
+        "width": 263.9,
+        "height": 12.3,
+        "type": "text",
+        "description": "1. NAME (Last, First, Middle Initial)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "doDID": {
+        "left": 308.4,
+        "top": 702.8,
+        "width": 263.9,
+        "height": 12.3,
+        "type": "text",
+        "description": "2. DoD ID",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell3": {
+        "left": 492.9,
+        "top": 650.2,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "a. Date reenlisted",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell32": {
+        "left": 492.9,
+        "top": 632.2,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "b. Date released from active duty",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell33": {
+        "left": 492.9,
+        "top": 614.2,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "c. Gross adjustment (subtract B from A)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell34": {
+        "left": 492.9,
+        "top": 596.2,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "d. Add 1 day",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell35": {
+        "left": 492.9,
+        "top": 578.2,
+        "width": 82.2,
+        "height": 18.8,
+        "type": "text",
+        "description": "(YY MM DD)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell36": {
+        "left": 492.9,
+        "top": 556.6,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "f. Subtract E from D and record",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell37": {
+        "left": 492.9,
+        "top": 538.6,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "(YY MM DD)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell38": {
+        "left": 492.9,
+        "top": 520.5,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "h. Add G to F above and record",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell39": {
+        "left": 492.9,
+        "top": 480.9,
+        "width": 82.2,
+        "height": 18.8,
+        "type": "text",
+        "description": "(YY MM DD)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell310": {
+        "left": 492.9,
+        "top": 459.3,
+        "width": 82.2,
+        "height": 18.8,
+        "type": "text",
+        "description": "(YY MM DD)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell311": {
+        "left": 492.9,
+        "top": 437.7,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "c. Enter the date of disqualification",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell312": {
+        "left": 492.9,
+        "top": 419.7,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "d. Adjustment (subtract B or C from A above)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row17": {
+        "left": 492.9,
+        "top": 401.7,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "e. Add 1 day",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row18": {
+        "left": 492.9,
+        "top": 383.7,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "f. Original SSED from service record",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row19": {
+        "left": 492.9,
+        "top": 365.7,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "g. Add F to E and record",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell313": {
+        "left": 492.9,
+        "top": 347.7,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "h. Provide documentation per OPNAVINST 7220.15 (Series)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row22": {
+        "left": 492.9,
+        "top": 308.1,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "(YY MM DD)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row23": {
+        "left": 492.9,
+        "top": 290.1,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "(YY MM DD)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row24": {
+        "left": 492.9,
+        "top": 272.1,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "c. Adjustment (subtract B from A above)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row25": {
+        "left": 492.9,
+        "top": 254.1,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "d. Add 1 day",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row26": {
+        "left": 492.9,
+        "top": 236.1,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "e. Original SSED from service record",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row27": {
+        "left": 492.9,
+        "top": 218.1,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "f. Add E to D and record",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row28": {
+        "left": 492.9,
+        "top": 200.1,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "g. Provide documentation per OPNAVINST 7220.15 (Series)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row30": {
+        "left": 492.9,
+        "top": 160.5,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "a. CLCVN NUMI or NMST (NEC L01A)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row31": {
+        "left": 492.9,
+        "top": 142.5,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "(YY MM DD)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row32": {
+        "left": 492.9,
+        "top": 124.5,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "c. Adjustment (subtract B from A above)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row33": {
+        "left": 492.9,
+        "top": 106.5,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "d. Add 1 day",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row34": {
+        "left": 492.9,
+        "top": 88.5,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "e. Original SSED from service record",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row35": {
+        "left": 492.9,
+        "top": 70.5,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "f. Add E to D and record",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row36": {
+        "left": 492.9,
+        "top": 52.5,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "g. Provide documentation per OPNAVINST 7220.15 (Series)",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "row38": {
+        "left": 492.9,
+        "top": 718.6,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "OPNAVINST 7220.15 (Series)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row39": {
+        "left": 492.9,
+        "top": 700.6,
+        "width": 82.2,
+        "height": 18.8,
+        "type": "text",
+        "description": "OPNAVINST 7220.15 (Series)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row40": {
+        "left": 492.9,
+        "top": 679.0,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "c. Adjustment (subtract B from A above)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row41": {
+        "left": 492.9,
+        "top": 661.0,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "d. Add 1 day",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row42": {
+        "left": 492.9,
+        "top": 643.0,
+        "width": 82.2,
+        "height": 12.5,
+        "type": "text",
+        "description": "e. Original SSED from service record",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row44": {
+        "left": 492.9,
+        "top": 627.6,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "f. Add E to D and record",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row45": {
+        "left": 492.9,
+        "top": 609.6,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "g. Provide documentation per OPNAVINST 7220.15 (Series)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row47": {
+        "left": 492.9,
+        "top": 570.0,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "OPNAVINST 7220.15 (Series)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row48": {
+        "left": 492.9,
+        "top": 552.0,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "OPNAVINST 7220.15 (Series)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row49": {
+        "left": 492.9,
+        "top": 534.0,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "c. Adjustment (subtract B from A above)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row50": {
+        "left": 492.9,
+        "top": 516.0,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "d. Add 1 day",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row51": {
+        "left": 492.9,
+        "top": 498.0,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "e. Original SSED from service record",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row52": {
+        "left": 492.9,
+        "top": 480.0,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "f. Add E to D and record",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row53": {
+        "left": 492.9,
+        "top": 462.0,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "g. Provide documentation per OPNAVINST 7220.15 (Series)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row55": {
+        "left": 492.9,
+        "top": 422.4,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "OPNAVINST 7220.15 (Series)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row56": {
+        "left": 492.9,
+        "top": 404.4,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "b. Date excused absence began as determined by OPNAV N133D3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row57": {
+        "left": 492.9,
+        "top": 386.4,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "c. Adjustment (subtract B from A above)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row58": {
+        "left": 492.9,
+        "top": 368.4,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "d. Add 1 day",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row59": {
+        "left": 492.9,
+        "top": 350.3,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "e. Original SSED from service record",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row60": {
+        "left": 492.9,
+        "top": 332.3,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "f. Add E to D and record",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row61": {
+        "left": 492.9,
+        "top": 314.3,
+        "width": 82.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "g. Provide documentation per OPNAVINST 7220.15 (Series)",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

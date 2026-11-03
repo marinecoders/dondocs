@@ -1,0 +1,496 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 792,
+    "height": 612
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "exmNme": {
+        "left": 168.9,
+        "top": 549.8,
+        "width": 254.1,
+        "height": 14.3,
+        "type": "text",
+        "description": "I certify that I have examined",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "oprCode": {
+        "left": 575.1,
+        "top": 477.6,
+        "width": 39.9,
+        "height": 39.5,
+        "type": "choice",
+        "description": "OR",
+        "options": [
+          "B",
+          "C",
+          "D",
+          "E",
+          "F",
+          "G"
+        ],
+        "group": null,
+        "required": false
+      },
+      "hdlRes": {
+        "left": 397.5,
+        "top": 351.5,
+        "width": 358.6,
+        "height": 53.8,
+        "type": "text",
+        "description": "Wearing hearing aid(s)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "corLen": {
+        "left": 43.9,
+        "top": 344.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "find",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "herAid": {
+        "left": 43.9,
+        "top": 326.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "find",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sigMedExm": {
+        "left": 41.0,
+        "top": 255.6,
+        "width": 355.0,
+        "height": 33.8,
+        "type": "text",
+        "description": "SIGNATURE OF MEDICAL EXAMINER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "medExPhn": {
+        "left": 401.1,
+        "top": 255.6,
+        "width": 175.0,
+        "height": 33.8,
+        "type": "text",
+        "description": "MEDICAL EXAMINER TELEPHONE NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sigDte": {
+        "left": 581.1,
+        "top": 255.6,
+        "width": 175.0,
+        "height": 33.8,
+        "type": "text",
+        "description": "MEDICAL EXAMINER SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "advNrs": {
+        "left": 358.6,
+        "top": 215.3,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "MD",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "md": {
+        "left": 266.8,
+        "top": 214.8,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "examination",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "medExNme": {
+        "left": 41.0,
+        "top": 208.8,
+        "width": 220.0,
+        "height": 33.8,
+        "type": "text",
+        "description": "MEDICAL EXAMINER&apos;S NAME (Print or stamp)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "medExpDte": {
+        "left": 498.0,
+        "top": 201.8,
+        "width": 257.7,
+        "height": 26.7,
+        "type": "text",
+        "description": "(Only D-G, Active Duty only)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "do": {
+        "left": 266.8,
+        "top": 200.7,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "examination",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "idc": {
+        "left": 358.7,
+        "top": 200.0,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "DO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "phyAst": {
+        "left": 266.8,
+        "top": 187.3,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "examination",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "medExLicNum": {
+        "left": 41.0,
+        "top": 156.0,
+        "width": 355.0,
+        "height": 27.2,
+        "type": "text",
+        "description": "(Required for levels B &amp; C)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "issState": {
+        "left": 401.1,
+        "top": 156.0,
+        "width": 355.0,
+        "height": 27.1,
+        "type": "text",
+        "description": "B &amp; C)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dvrNme": {
+        "left": 41.0,
+        "top": 115.9,
+        "width": 355.0,
+        "height": 33.8,
+        "type": "text",
+        "description": "DRIVER OR HANDLER&apos;S NAME (Print)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dvrDODID": {
+        "left": 401.1,
+        "top": 115.9,
+        "width": 355.0,
+        "height": 33.8,
+        "type": "text",
+        "description": "DRIVER OR HANDLER&apos;S DoD ID",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "drvSig": {
+        "left": 41.0,
+        "top": 69.8,
+        "width": 355.0,
+        "height": 33.8,
+        "type": "text",
+        "description": "DRIVER OR HANDLER&apos;S SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dvrSigDte": {
+        "left": 401.1,
+        "top": 69.8,
+        "width": 355.0,
+        "height": 33.8,
+        "type": "text",
+        "description": "DRIVER OR HANDLER&apos;S SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "exmNme2": {
+        "left": 96.5,
+        "top": 569.3,
+        "width": 72.6,
+        "height": 7.6,
+        "type": "text",
+        "description": "I certify that I have examined",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "oprCode2": {
+        "left": 188.5,
+        "top": 545.3,
+        "width": 24.0,
+        "height": 18.7,
+        "type": "choice",
+        "description": "accordance with",
+        "options": [
+          "B",
+          "C",
+          "D",
+          "E",
+          "F",
+          "G"
+        ],
+        "group": null,
+        "required": false
+      },
+      "hdlRes2": {
+        "left": 36.0,
+        "top": 518.4,
+        "width": 180.0,
+        "height": 32.6,
+        "type": "text",
+        "description": "HANDLER RESTRICTIONS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "corLen2": {
+        "left": 38.7,
+        "top": 472.6,
+        "width": 5.0,
+        "height": 5.0,
+        "type": "checkbox",
+        "description": "I find",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "herAid2": {
+        "left": 164.4,
+        "top": 472.6,
+        "width": 5.0,
+        "height": 5.0,
+        "type": "checkbox",
+        "description": "Wearing corrective lenses",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "md2": {
+        "left": 129.7,
+        "top": 428.5,
+        "width": 5.0,
+        "height": 5.0,
+        "type": "checkbox",
+        "description": "embodies",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "advNrs2": {
+        "left": 148.0,
+        "top": 428.5,
+        "width": 5.0,
+        "height": 5.0,
+        "type": "checkbox",
+        "description": "MD",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "do2": {
+        "left": 190.2,
+        "top": 428.5,
+        "width": 5.0,
+        "height": 5.0,
+        "type": "checkbox",
+        "description": "MD Nurse Practitioner",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "medExNme2": {
+        "left": 38.2,
+        "top": 425.2,
+        "width": 87.9,
+        "height": 19.0,
+        "type": "text",
+        "description": "MEDICAL EXAMINER&apos;S NAME (Print)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "idc2": {
+        "left": 130.0,
+        "top": 417.0,
+        "width": 5.0,
+        "height": 5.0,
+        "type": "checkbox",
+        "description": "embodies",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "phyAst2": {
+        "left": 190.2,
+        "top": 416.9,
+        "width": 5.0,
+        "height": 5.0,
+        "type": "checkbox",
+        "description": "Corps-man (Only D-G,",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sigMedExm2": {
+        "left": 38.2,
+        "top": 399.8,
+        "width": 87.9,
+        "height": 13.8,
+        "type": "text",
+        "description": "SIGNATURE OF MEDICAL EXAMINER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sigDte2": {
+        "left": 128.2,
+        "top": 399.8,
+        "width": 87.9,
+        "height": 13.8,
+        "type": "text",
+        "description": "MEDICAL EXAMINER SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "medExPhn2": {
+        "left": 128.2,
+        "top": 380.0,
+        "width": 87.9,
+        "height": 13.8,
+        "type": "text",
+        "description": "MEDICAL EXAMINER TELEPHONE NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "medExpDte2": {
+        "left": 37.4,
+        "top": 374.8,
+        "width": 88.6,
+        "height": 8.6,
+        "type": "text",
+        "description": "EXPIRATION DATE (List by cat. if necessary)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "medExLicNum2": {
+        "left": 38.2,
+        "top": 354.6,
+        "width": 87.9,
+        "height": 16.6,
+        "type": "text",
+        "description": "CERTIFICATE NUMBER (Req. for levels B &amp; C)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "issState2": {
+        "left": 128.2,
+        "top": 354.6,
+        "width": 87.9,
+        "height": 16.6,
+        "type": "text",
+        "description": "EXAM. CERT (Req. for levels B&amp;C)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dvrNme2": {
+        "left": 38.2,
+        "top": 331.6,
+        "width": 87.9,
+        "height": 13.8,
+        "type": "text",
+        "description": "DRIVER/HANDLER NAME (Print)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dvrDODID2": {
+        "left": 128.2,
+        "top": 331.6,
+        "width": 87.9,
+        "height": 13.8,
+        "type": "text",
+        "description": "DRIVER/HANDLER DoD ID",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "drvSig2": {
+        "left": 38.2,
+        "top": 312.1,
+        "width": 87.9,
+        "height": 13.8,
+        "type": "text",
+        "description": "DRIVER/HANDLER SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dvrSigDte2": {
+        "left": 128.2,
+        "top": 312.1,
+        "width": 87.9,
+        "height": 13.8,
+        "type": "text",
+        "description": "DRIVER/HANDLER SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

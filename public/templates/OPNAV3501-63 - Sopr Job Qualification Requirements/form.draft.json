@@ -1,0 +1,2810 @@
+{
+  "id": "opnav350163",
+  "label": "OPNAV3501-63 - Sopr Job Qualification Requirements",
+  "directory": "OPNAV3501-63 - Sopr Job Qualification Requirements",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "q1aName",
+        "q1aSig",
+        "q1aDate",
+        "q1b1Name",
+        "q1b1Sig",
+        "q1b1Date",
+        "q1b2Name",
+        "q1b2Sig",
+        "q1b2Date",
+        "q1b3Name",
+        "q1b3Sig",
+        "q1b3Date",
+        "q1b4Name",
+        "q1b4Sig",
+        "q1b4Date",
+        "q1b5Name",
+        "q1b5Sig",
+        "q1b5Date",
+        "q1b6Name",
+        "q1b6Sig",
+        "q1b6Date",
+        "q1b7Name",
+        "q1b7Sig",
+        "q1b7Date",
+        "q1b8Name",
+        "q1b8Sig",
+        "q1b8Date",
+        "q1b9Name",
+        "q1b9Sig",
+        "q1b9Date",
+        "q1b10Name",
+        "q1b10Sig",
+        "q1b10Date",
+        "q1b11Name",
+        "q1b11Sig",
+        "q1b11Date",
+        "q2aName",
+        "q2aSig",
+        "q2aDate",
+        "q2bName",
+        "q2bSig",
+        "q2bDate",
+        "q2cName",
+        "q2cSig",
+        "q2cDate",
+        "q2dName",
+        "q2dSig",
+        "q2dDate",
+        "q2eName",
+        "q2eSig",
+        "q2eDate",
+        "q2fName",
+        "q2fSig",
+        "q2fDate",
+        "q2gName",
+        "q2gSig",
+        "q2gDate"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "q3aName",
+        "q3aSig",
+        "q3aDate",
+        "q3bName",
+        "q3bSig",
+        "q3bDate",
+        "q3cName",
+        "q3cSig",
+        "q3cDate",
+        "q3dName",
+        "q3dSig",
+        "q3ddate",
+        "q3eName",
+        "q3eSig",
+        "q3edate",
+        "q3fName",
+        "q3fSig",
+        "q3fDate",
+        "q3gName",
+        "q3gSig",
+        "q3gdate",
+        "q3hName",
+        "q3hSig",
+        "q3hDate",
+        "q3iName",
+        "q3iSig",
+        "q3iDate",
+        "q3jName",
+        "q3jSig",
+        "q3jDate",
+        "q3kName",
+        "q3kSig",
+        "q3kDate",
+        "q3lName",
+        "q3lSig",
+        "q3lDate",
+        "q3mName",
+        "q3mSig",
+        "q3mDate",
+        "q3nSig",
+        "q3nDate",
+        "q3nName",
+        "q3o1Name",
+        "q3o1Sig",
+        "q3o1Date",
+        "q3o2Name",
+        "q3o2Sig",
+        "q3o2Date",
+        "q3o3Name",
+        "q3o3Sig",
+        "q3o3Date",
+        "q4aName",
+        "q4aSig",
+        "q4aDate",
+        "q4bName",
+        "q4bSig",
+        "q4bDate",
+        "q4cName",
+        "q4cSig",
+        "q4cDate",
+        "q4dName",
+        "q4dSig",
+        "q4dDate",
+        "q4eName",
+        "q4eSig",
+        "q4eDate",
+        "q4fName",
+        "q4fSig",
+        "q4fDate"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "q4gName",
+        "q4gSig",
+        "q4gDate",
+        "q4hName",
+        "q4hSig",
+        "q4hDate",
+        "q4iName",
+        "q4iSig",
+        "q4iDate",
+        "q4jName",
+        "q4jSig",
+        "q4jDate",
+        "q4k1Name",
+        "q4k1Sig",
+        "q4k1Date",
+        "q4k2Name",
+        "q4k2Sig",
+        "q4k2Date",
+        "q4k3Name",
+        "q4k3Sig",
+        "q4k3Date",
+        "q4lName",
+        "q4lSig",
+        "q4lDate",
+        "q4mName",
+        "q4mSig",
+        "q4mDate",
+        "q4nName",
+        "q4nSig",
+        "q4ndate",
+        "q4oName",
+        "q4oSig",
+        "q4oDate",
+        "q4pName",
+        "q4pSig",
+        "q4pDate",
+        "q4q1Name",
+        "q4q1Sig",
+        "q4q1Date",
+        "q4q2Name",
+        "q4q2Sig",
+        "q4q2Date",
+        "q4q3Name",
+        "q4q3Sig",
+        "q4q3Date",
+        "q5a1Name",
+        "q5a1Sig",
+        "q5a1Date",
+        "q5a2Name",
+        "q5a2Sig",
+        "q5a2Date",
+        "q5a3Name",
+        "q5a3Sig",
+        "q5a3Date",
+        "q5a4Name",
+        "q5a4Sig",
+        "q5a4Date",
+        "q5b1Name",
+        "q5b1Sig",
+        "q5b1Date",
+        "q5b2Name",
+        "q5b2Sig",
+        "q5b2Date"
+      ]
+    },
+    {
+      "title": "Page 4",
+      "fields": [
+        "q5cName",
+        "q5cSig",
+        "q5cDate",
+        "q5d1Name",
+        "q5d1Sig",
+        "q5d1Date",
+        "q5d2Name",
+        "q5d2Sig",
+        "q5d2Date",
+        "q5d3Name",
+        "q5d3Sig",
+        "q5d3Date",
+        "q5e1Name",
+        "q5e1Sig",
+        "q5e1Date",
+        "q5e2Name",
+        "q5e2Sig",
+        "q5e2Date",
+        "q5e3Name",
+        "q5e3Sig",
+        "q5e3Date",
+        "q5f1Name",
+        "q5f1Sig",
+        "q5f1Date",
+        "q5f2Name",
+        "q5f2Sig",
+        "q5f2Date",
+        "q5gName",
+        "q5gSig",
+        "q5gDate",
+        "q5hName",
+        "q5hSig",
+        "q5hDate",
+        "q6Name",
+        "q6Sig",
+        "q6Date",
+        "q7Name",
+        "q7Sig",
+        "q7Date",
+        "q8Name",
+        "q8Sig",
+        "q8Date"
+      ]
+    }
+  ],
+  "fields": {
+    "q1aName": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 634.9,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q1aSig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 634.9,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q1aDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 634.9,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q1b1Name": {
+      "type": "text",
+      "label": "(1) COMNAVSPECWARCOMINST 3000.3 (Series)",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 578.4,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q1b1Sig": {
+      "type": "text",
+      "label": "(1) COMNAVSPECWARCOMINST 3000.3 (Series)",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 578.4,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q1b1Date": {
+      "type": "text",
+      "label": "(1) COMNAVSPECWARCOMINST 3000.3 (Series)",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 578.4,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q1b2Name": {
+      "type": "text",
+      "label": "(2) COMNAVSPECWARCOMINST 3000.2 (Series)",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 550.2,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q1b2Sig": {
+      "type": "text",
+      "label": "(2) COMNAVSPECWARCOMINST 3000.2 (Series)",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 550.2,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q1b2Date": {
+      "type": "text",
+      "label": "(2) COMNAVSPECWARCOMINST 3000.2 (Series)",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 550.2,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q1b3Name": {
+      "type": "text",
+      "label": "(3) NAVSEAINST 13512.2 (Series)",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 522.0,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q1b3Sig": {
+      "type": "text",
+      "label": "(3) NAVSEAINST 13512.2 (Series)",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 522.0,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q1b3Date": {
+      "type": "text",
+      "label": "(3) NAVSEAINST 13512.2 (Series)",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 522.0,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q1b4Name": {
+      "type": "text",
+      "label": "(4) NAVSEA T0300-AW-MMO-010",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 493.8,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q1b4Sig": {
+      "type": "text",
+      "label": "(4) NAVSEA T0300-AW-MMO-010",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 493.8,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q1b4Date": {
+      "type": "text",
+      "label": "(4) NAVSEA T0300-AW-MMO-010",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 493.8,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q1b5Name": {
+      "type": "text",
+      "label": "(5) NAVSEA ULSS and maintenance plans",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 465.6,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q1b5Sig": {
+      "type": "text",
+      "label": "(5) NAVSEA ULSS and maintenance plans",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 465.6,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q1b5Date": {
+      "type": "text",
+      "label": "(5) NAVSEA ULSS and maintenance plans",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 465.6,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q1b6Name": {
+      "type": "text",
+      "label": "(6) OPNAVINST 3501.225 (Series)",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 437.3,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q1b6Sig": {
+      "type": "text",
+      "label": "(6) OPNAVINST 3501.225 (Series)",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 437.3,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q1b6Date": {
+      "type": "text",
+      "label": "(6) OPNAVINST 3501.225 (Series)",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 437.3,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q1b7Name": {
+      "type": "text",
+      "label": "(G-12)",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 409.1,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q1b7Sig": {
+      "type": "text",
+      "label": "(G-12)",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 409.1,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q1b7Date": {
+      "type": "text",
+      "label": "(G-12)",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 409.1,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q1b8Name": {
+      "type": "text",
+      "label": "MMO-010 (MC-6/T-11R)",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 381.3,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q1b8Sig": {
+      "type": "text",
+      "label": "MMO-010 (MC-6/T-11R)",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 381.3,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q1b8Date": {
+      "type": "text",
+      "label": "MMO-010 (MC-6/T-11R)",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 381.3,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q1b9Name": {
+      "type": "text",
+      "label": "SS400-AD-MMO-010 (Rigging for Special Operations Loads)",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 353.6,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q1b9Sig": {
+      "type": "text",
+      "label": "SS400-AD-MMO-010 (Rigging for Special Operations Loads)",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 353.6,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q1b9Date": {
+      "type": "text",
+      "label": "SS400-AD-MMO-010 (Rigging for Special Operations Loads)",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 353.6,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q1b10Name": {
+      "type": "text",
+      "label": "(10) NAVSEA SS400-AX-MMO-010 Rev 1 (MT-2XX)",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 325.4,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q1b10Sig": {
+      "type": "text",
+      "label": "(10) NAVSEA SS400-AX-MMO-010 Rev 1 (MT-2XX)",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 325.4,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q1b10Date": {
+      "type": "text",
+      "label": "(10) NAVSEA SS400-AX-MMO-010 Rev 1 (MT-2XX)",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 325.4,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q1b11Name": {
+      "type": "text",
+      "label": "(11) Applicable manufacturer publications",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 296.9,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q1b11Sig": {
+      "type": "text",
+      "label": "(11) Applicable manufacturer publications",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 296.9,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q1b11Date": {
+      "type": "text",
+      "label": "(11) Applicable manufacturer publications",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 296.9,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q2aName": {
+      "type": "text",
+      "label": "a. Perform a tag out of damaged equipment",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 232.0,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q2aSig": {
+      "type": "text",
+      "label": "a. Perform a tag out of damaged equipment",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 232.0,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q2aDate": {
+      "type": "text",
+      "label": "a. Perform a tag out of damaged equipment",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 232.0,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q2bName": {
+      "type": "text",
+      "label": "b. Perform a patch on a canopy",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 203.8,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q2bSig": {
+      "type": "text",
+      "label": "b. Perform a patch on a canopy",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 203.8,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q2bDate": {
+      "type": "text",
+      "label": "b. Perform a patch on a canopy",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 203.8,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q2cName": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 175.6,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q2cSig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 175.6,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q2cDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 175.6,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q2dName": {
+      "type": "text",
+      "label": "d. Issue or receive gear per command SOPs",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 147.3,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q2dSig": {
+      "type": "text",
+      "label": "d. Issue or receive gear per command SOPs",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 147.3,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q2dDate": {
+      "type": "text",
+      "label": "d. Issue or receive gear per command SOPs",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 147.3,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q2eName": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 119.1,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q2eSig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 119.1,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q2eDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 119.1,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q2fName": {
+      "type": "text",
+      "label": "f. Test altimeters and properly record results",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 91.2,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q2fSig": {
+      "type": "text",
+      "label": "f. Test altimeters and properly record results",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 91.2,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q2fDate": {
+      "type": "text",
+      "label": "f. Test altimeters and properly record results",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 91.2,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q2gName": {
+      "type": "text",
+      "label": "g. Construct a finger trap on a cord",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 62.8,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q2gSig": {
+      "type": "text",
+      "label": "g. Construct a finger trap on a cord",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 62.8,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q2gDate": {
+      "type": "text",
+      "label": "g. Construct a finger trap on a cord",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 62.8,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q3aName": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 2,
+      "box": {
+        "left": 307.5,
+        "top": 721.5,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q3aSig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 2,
+      "box": {
+        "left": 420.6,
+        "top": 721.5,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q3aDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 515.2,
+        "top": 721.5,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q3bName": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 2,
+      "box": {
+        "left": 307.5,
+        "top": 693.3,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q3bSig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 2,
+      "box": {
+        "left": 420.6,
+        "top": 693.3,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q3bDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 515.2,
+        "top": 693.3,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q3cName": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 2,
+      "box": {
+        "left": 307.5,
+        "top": 665.0,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q3cSig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 2,
+      "box": {
+        "left": 420.6,
+        "top": 665.0,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q3cDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 515.2,
+        "top": 665.0,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q3dName": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 2,
+      "box": {
+        "left": 307.5,
+        "top": 636.8,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q3dSig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 2,
+      "box": {
+        "left": 420.6,
+        "top": 636.8,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q3ddate": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 515.2,
+        "top": 636.8,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q3eName": {
+      "type": "text",
+      "label": "e. Inspect a complete pack tray assembly",
+      "page": 2,
+      "box": {
+        "left": 307.5,
+        "top": 608.6,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q3eSig": {
+      "type": "text",
+      "label": "e. Inspect a complete pack tray assembly",
+      "page": 2,
+      "box": {
+        "left": 420.6,
+        "top": 608.6,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q3edate": {
+      "type": "text",
+      "label": "e. Inspect a complete pack tray assembly",
+      "page": 2,
+      "box": {
+        "left": 515.2,
+        "top": 608.6,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q3fName": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 2,
+      "box": {
+        "left": 307.5,
+        "top": 580.4,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q3fSig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 2,
+      "box": {
+        "left": 420.6,
+        "top": 580.4,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q3fDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 515.2,
+        "top": 580.4,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q3gName": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 2,
+      "box": {
+        "left": 307.5,
+        "top": 552.0,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q3gSig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 2,
+      "box": {
+        "left": 420.6,
+        "top": 552.0,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q3gdate": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 515.2,
+        "top": 552.0,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q3hName": {
+      "type": "text",
+      "label": "h. Verify canopy trim setting",
+      "page": 2,
+      "box": {
+        "left": 307.5,
+        "top": 523.7,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q3hSig": {
+      "type": "text",
+      "label": "h. Verify canopy trim setting",
+      "page": 2,
+      "box": {
+        "left": 420.6,
+        "top": 523.7,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q3hDate": {
+      "type": "text",
+      "label": "h. Verify canopy trim setting",
+      "page": 2,
+      "box": {
+        "left": 515.2,
+        "top": 523.7,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q3iName": {
+      "type": "text",
+      "label": "i. Inspect and install a reserve canopy",
+      "page": 2,
+      "box": {
+        "left": 307.5,
+        "top": 495.4,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q3iSig": {
+      "type": "text",
+      "label": "i. Inspect and install a reserve canopy",
+      "page": 2,
+      "box": {
+        "left": 420.6,
+        "top": 495.4,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q3iDate": {
+      "type": "text",
+      "label": "i. Inspect and install a reserve canopy",
+      "page": 2,
+      "box": {
+        "left": 515.2,
+        "top": 495.4,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q3jName": {
+      "type": "text",
+      "label": "j. Inspect and install a main canopy",
+      "page": 2,
+      "box": {
+        "left": 307.5,
+        "top": 466.2,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q3jSig": {
+      "type": "text",
+      "label": "j. Inspect and install a main canopy",
+      "page": 2,
+      "box": {
+        "left": 420.6,
+        "top": 466.2,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q3jDate": {
+      "type": "text",
+      "label": "j. Inspect and install a main canopy",
+      "page": 2,
+      "box": {
+        "left": 515.2,
+        "top": 466.2,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q3kName": {
+      "type": "text",
+      "label": "k. Perform a ripcord pull test",
+      "page": 2,
+      "box": {
+        "left": 307.5,
+        "top": 438.3,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q3kSig": {
+      "type": "text",
+      "label": "k. Perform a ripcord pull test",
+      "page": 2,
+      "box": {
+        "left": 420.6,
+        "top": 438.3,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q3kDate": {
+      "type": "text",
+      "label": "k. Perform a ripcord pull test",
+      "page": 2,
+      "box": {
+        "left": 515.2,
+        "top": 438.3,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q3lName": {
+      "type": "text",
+      "label": "l. Detangle and place a main parachute into proper four line",
+      "page": 2,
+      "box": {
+        "left": 307.5,
+        "top": 410.4,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q3lSig": {
+      "type": "text",
+      "label": "l. Detangle and place a main parachute into proper four line",
+      "page": 2,
+      "box": {
+        "left": 420.6,
+        "top": 410.4,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q3lDate": {
+      "type": "text",
+      "label": "l. Detangle and place a main parachute into proper four line",
+      "page": 2,
+      "box": {
+        "left": 515.2,
+        "top": 410.4,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q3mName": {
+      "type": "text",
+      "label": "m. Install an AAD into a parachute system",
+      "page": 2,
+      "box": {
+        "left": 307.5,
+        "top": 382.2,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q3mSig": {
+      "type": "text",
+      "label": "m. Install an AAD into a parachute system",
+      "page": 2,
+      "box": {
+        "left": 420.6,
+        "top": 382.2,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q3mDate": {
+      "type": "text",
+      "label": "m. Install an AAD into a parachute system",
+      "page": 2,
+      "box": {
+        "left": 515.2,
+        "top": 382.2,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q3nSig": {
+      "type": "text",
+      "label": "and reserve canopies, harness, and any other applicable",
+      "page": 2,
+      "box": {
+        "left": 420.6,
+        "top": 353.8,
+        "width": 92.3,
+        "height": 36.8
+      },
+      "multiline": true
+    },
+    "q3nDate": {
+      "type": "text",
+      "label": "and reserve canopies, harness, and any other applicable",
+      "page": 2,
+      "box": {
+        "left": 515.2,
+        "top": 353.8,
+        "width": 59.4,
+        "height": 36.8
+      },
+      "multiline": true
+    },
+    "q3nName": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 2,
+      "box": {
+        "left": 307.5,
+        "top": 353.6,
+        "width": 109.8,
+        "height": 36.8
+      },
+      "multiline": true
+    },
+    "q3o1Name": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 2,
+      "box": {
+        "left": 307.5,
+        "top": 314.0,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q3o1Sig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 2,
+      "box": {
+        "left": 420.6,
+        "top": 314.0,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q3o1Date": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 515.2,
+        "top": 314.0,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q3o2Name": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 2,
+      "box": {
+        "left": 307.5,
+        "top": 285.8,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q3o2Sig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 2,
+      "box": {
+        "left": 420.6,
+        "top": 285.8,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q3o2Date": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 515.2,
+        "top": 285.8,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q3o3Name": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 2,
+      "box": {
+        "left": 307.5,
+        "top": 257.3,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q3o3Sig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 2,
+      "box": {
+        "left": 420.6,
+        "top": 257.3,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q3o3Date": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 515.2,
+        "top": 257.3,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q4aName": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 2,
+      "box": {
+        "left": 307.5,
+        "top": 204.8,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q4aSig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 2,
+      "box": {
+        "left": 420.6,
+        "top": 204.8,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q4aDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 515.2,
+        "top": 204.8,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q4bName": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 2,
+      "box": {
+        "left": 307.5,
+        "top": 176.5,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q4bSig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 2,
+      "box": {
+        "left": 420.6,
+        "top": 176.5,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q4bDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 515.2,
+        "top": 176.5,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q4cName": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 2,
+      "box": {
+        "left": 307.5,
+        "top": 148.3,
+        "width": 109.8,
+        "height": 25.8
+      }
+    },
+    "q4cSig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 2,
+      "box": {
+        "left": 420.6,
+        "top": 148.3,
+        "width": 92.3,
+        "height": 25.8
+      }
+    },
+    "q4cDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 515.2,
+        "top": 148.3,
+        "width": 59.4,
+        "height": 25.8
+      }
+    },
+    "q4dName": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 2,
+      "box": {
+        "left": 307.5,
+        "top": 119.8,
+        "width": 109.8,
+        "height": 25.8
+      }
+    },
+    "q4dSig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 2,
+      "box": {
+        "left": 420.6,
+        "top": 119.8,
+        "width": 92.3,
+        "height": 25.8
+      }
+    },
+    "q4dDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 515.2,
+        "top": 119.8,
+        "width": 59.4,
+        "height": 25.8
+      }
+    },
+    "q4eName": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 2,
+      "box": {
+        "left": 307.5,
+        "top": 91.3,
+        "width": 109.8,
+        "height": 25.8
+      }
+    },
+    "q4eSig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 2,
+      "box": {
+        "left": 420.6,
+        "top": 91.3,
+        "width": 92.3,
+        "height": 25.8
+      }
+    },
+    "q4eDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 515.2,
+        "top": 91.3,
+        "width": 59.4,
+        "height": 25.8
+      }
+    },
+    "q4fName": {
+      "type": "text",
+      "label": "f. Inspect a complete reserve pack tray assembly",
+      "page": 2,
+      "box": {
+        "left": 307.5,
+        "top": 62.9,
+        "width": 109.8,
+        "height": 25.8
+      }
+    },
+    "q4fSig": {
+      "type": "text",
+      "label": "f. Inspect a complete reserve pack tray assembly",
+      "page": 2,
+      "box": {
+        "left": 420.6,
+        "top": 62.9,
+        "width": 92.3,
+        "height": 25.8
+      }
+    },
+    "q4fDate": {
+      "type": "text",
+      "label": "f. Inspect a complete reserve pack tray assembly",
+      "page": 2,
+      "box": {
+        "left": 515.2,
+        "top": 62.9,
+        "width": 59.4,
+        "height": 25.8
+      }
+    },
+    "q4gName": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 3,
+      "box": {
+        "left": 307.5,
+        "top": 709.8,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q4gSig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 3,
+      "box": {
+        "left": 420.6,
+        "top": 709.8,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q4gDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 3,
+      "box": {
+        "left": 515.2,
+        "top": 709.8,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q4hName": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 3,
+      "box": {
+        "left": 307.5,
+        "top": 681.4,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q4hSig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 3,
+      "box": {
+        "left": 420.6,
+        "top": 681.4,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q4hDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 3,
+      "box": {
+        "left": 515.2,
+        "top": 681.4,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q4iName": {
+      "type": "text",
+      "label": "i. Perform a T-11R parachute line continuity check",
+      "page": 3,
+      "box": {
+        "left": 307.5,
+        "top": 653.2,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q4iSig": {
+      "type": "text",
+      "label": "i. Perform a T-11R parachute line continuity check",
+      "page": 3,
+      "box": {
+        "left": 420.6,
+        "top": 653.2,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q4iDate": {
+      "type": "text",
+      "label": "i. Perform a T-11R parachute line continuity check",
+      "page": 3,
+      "box": {
+        "left": 515.2,
+        "top": 653.2,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q4jName": {
+      "type": "text",
+      "label": "j. Inspect and install the reserve canopy to the pack tray",
+      "page": 3,
+      "box": {
+        "left": 307.5,
+        "top": 624.2,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q4jSig": {
+      "type": "text",
+      "label": "j. Inspect and install the reserve canopy to the pack tray",
+      "page": 3,
+      "box": {
+        "left": 420.6,
+        "top": 624.2,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q4jDate": {
+      "type": "text",
+      "label": "j. Inspect and install the reserve canopy to the pack tray",
+      "page": 3,
+      "box": {
+        "left": 515.2,
+        "top": 624.2,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q4k1Name": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 3,
+      "box": {
+        "left": 307.5,
+        "top": 596.0,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q4k1Sig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 3,
+      "box": {
+        "left": 420.6,
+        "top": 596.0,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q4k1Date": {
+      "type": "text",
+      "label": "Date",
+      "page": 3,
+      "box": {
+        "left": 515.2,
+        "top": 596.0,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q4k2Name": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 3,
+      "box": {
+        "left": 307.5,
+        "top": 567.7,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q4k2Sig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 3,
+      "box": {
+        "left": 420.6,
+        "top": 567.7,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q4k2Date": {
+      "type": "text",
+      "label": "Date",
+      "page": 3,
+      "box": {
+        "left": 515.2,
+        "top": 567.7,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q4k3Name": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 3,
+      "box": {
+        "left": 307.5,
+        "top": 539.3,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q4k3Sig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 3,
+      "box": {
+        "left": 420.6,
+        "top": 539.3,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q4k3Date": {
+      "type": "text",
+      "label": "Date",
+      "page": 3,
+      "box": {
+        "left": 515.2,
+        "top": 539.3,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q4lName": {
+      "type": "text",
+      "label": "l. Inspect and attach a USL snap hook to a USL",
+      "page": 3,
+      "box": {
+        "left": 307.5,
+        "top": 511.3,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q4lSig": {
+      "type": "text",
+      "label": "l. Inspect and attach a USL snap hook to a USL",
+      "page": 3,
+      "box": {
+        "left": 420.6,
+        "top": 511.3,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q4lDate": {
+      "type": "text",
+      "label": "l. Inspect and attach a USL snap hook to a USL",
+      "page": 3,
+      "box": {
+        "left": 515.2,
+        "top": 511.3,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q4mName": {
+      "type": "text",
+      "label": "m. Properly attach a USL to an MC-6 deployment bag",
+      "page": 3,
+      "box": {
+        "left": 307.5,
+        "top": 483.1,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q4mSig": {
+      "type": "text",
+      "label": "m. Properly attach a USL to an MC-6 deployment bag",
+      "page": 3,
+      "box": {
+        "left": 420.6,
+        "top": 483.1,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q4mDate": {
+      "type": "text",
+      "label": "m. Properly attach a USL to an MC-6 deployment bag",
+      "page": 3,
+      "box": {
+        "left": 515.2,
+        "top": 483.1,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q4nName": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 3,
+      "box": {
+        "left": 307.5,
+        "top": 455.0,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q4nSig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 3,
+      "box": {
+        "left": 420.6,
+        "top": 455.0,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q4ndate": {
+      "type": "text",
+      "label": "Date",
+      "page": 3,
+      "box": {
+        "left": 515.2,
+        "top": 455.0,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q4oName": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 3,
+      "box": {
+        "left": 307.5,
+        "top": 426.8,
+        "width": 109.8,
+        "height": 27.2
+      }
+    },
+    "q4oSig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 3,
+      "box": {
+        "left": 420.6,
+        "top": 426.8,
+        "width": 92.3,
+        "height": 27.2
+      }
+    },
+    "q4oDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 3,
+      "box": {
+        "left": 515.2,
+        "top": 426.8,
+        "width": 59.4,
+        "height": 27.2
+      }
+    },
+    "q4pName": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 3,
+      "box": {
+        "left": 307.5,
+        "top": 396.6,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q4pSig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 3,
+      "box": {
+        "left": 420.6,
+        "top": 396.6,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q4pDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 3,
+      "box": {
+        "left": 515.2,
+        "top": 396.6,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q4q1Name": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 3,
+      "box": {
+        "left": 307.5,
+        "top": 368.4,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q4q1Sig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 3,
+      "box": {
+        "left": 420.6,
+        "top": 368.4,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q4q1Date": {
+      "type": "text",
+      "label": "Date",
+      "page": 3,
+      "box": {
+        "left": 515.2,
+        "top": 368.4,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q4q2Name": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 3,
+      "box": {
+        "left": 307.5,
+        "top": 340.2,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q4q2Sig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 3,
+      "box": {
+        "left": 420.6,
+        "top": 340.2,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q4q2Date": {
+      "type": "text",
+      "label": "Date",
+      "page": 3,
+      "box": {
+        "left": 515.2,
+        "top": 340.2,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q4q3Name": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 3,
+      "box": {
+        "left": 307.5,
+        "top": 311.7,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q4q3Sig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 3,
+      "box": {
+        "left": 420.6,
+        "top": 311.7,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q4q3Date": {
+      "type": "text",
+      "label": "Date",
+      "page": 3,
+      "box": {
+        "left": 515.2,
+        "top": 311.7,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q5a1Name": {
+      "type": "text",
+      "label": "(1) 15-foot extraction chute",
+      "page": 3,
+      "box": {
+        "left": 307.5,
+        "top": 231.9,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q5a1Sig": {
+      "type": "text",
+      "label": "(1) 15-foot extraction chute",
+      "page": 3,
+      "box": {
+        "left": 420.6,
+        "top": 231.9,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q5a1Date": {
+      "type": "text",
+      "label": "(1) 15-foot extraction chute",
+      "page": 3,
+      "box": {
+        "left": 515.2,
+        "top": 231.9,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q5a2Name": {
+      "type": "text",
+      "label": "(2) G-12 parachute",
+      "page": 3,
+      "box": {
+        "left": 307.5,
+        "top": 203.7,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q5a2Sig": {
+      "type": "text",
+      "label": "(2) G-12 parachute",
+      "page": 3,
+      "box": {
+        "left": 420.6,
+        "top": 203.7,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q5a2Date": {
+      "type": "text",
+      "label": "(2) G-12 parachute",
+      "page": 3,
+      "box": {
+        "left": 515.2,
+        "top": 203.7,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q5a3Name": {
+      "type": "text",
+      "label": "(3) LCLA triple-cross parachute",
+      "page": 3,
+      "box": {
+        "left": 307.5,
+        "top": 175.4,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q5a3Sig": {
+      "type": "text",
+      "label": "(3) LCLA triple-cross parachute",
+      "page": 3,
+      "box": {
+        "left": 420.6,
+        "top": 175.4,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q5a3Date": {
+      "type": "text",
+      "label": "(3) LCLA triple-cross parachute",
+      "page": 3,
+      "box": {
+        "left": 515.2,
+        "top": 175.4,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q5a4Name": {
+      "type": "text",
+      "label": "(4) Parachute releases (applicable for mission)",
+      "page": 3,
+      "box": {
+        "left": 307.5,
+        "top": 147.2,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q5a4Sig": {
+      "type": "text",
+      "label": "(4) Parachute releases (applicable for mission)",
+      "page": 3,
+      "box": {
+        "left": 420.6,
+        "top": 147.2,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q5a4Date": {
+      "type": "text",
+      "label": "(4) Parachute releases (applicable for mission)",
+      "page": 3,
+      "box": {
+        "left": 515.2,
+        "top": 147.2,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q5b1Name": {
+      "type": "text",
+      "label": "(1) 15-foot extraction",
+      "page": 3,
+      "box": {
+        "left": 307.5,
+        "top": 90.8,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q5b1Sig": {
+      "type": "text",
+      "label": "(1) 15-foot extraction",
+      "page": 3,
+      "box": {
+        "left": 420.6,
+        "top": 90.8,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q5b1Date": {
+      "type": "text",
+      "label": "(1) 15-foot extraction",
+      "page": 3,
+      "box": {
+        "left": 515.2,
+        "top": 90.8,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q5b2Name": {
+      "type": "text",
+      "label": "(2) G-12 parachute",
+      "page": 3,
+      "box": {
+        "left": 307.5,
+        "top": 62.8,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q5b2Sig": {
+      "type": "text",
+      "label": "(2) G-12 parachute",
+      "page": 3,
+      "box": {
+        "left": 420.6,
+        "top": 62.8,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q5b2Date": {
+      "type": "text",
+      "label": "(2) G-12 parachute",
+      "page": 3,
+      "box": {
+        "left": 515.2,
+        "top": 62.8,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q5cName": {
+      "type": "text",
+      "label": "c. Detangle a G-12 parachute and place in a proper four line",
+      "page": 4,
+      "box": {
+        "left": 307.5,
+        "top": 710.8,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q5cSig": {
+      "type": "text",
+      "label": "c. Detangle a G-12 parachute and place in a proper four line",
+      "page": 4,
+      "box": {
+        "left": 420.6,
+        "top": 710.8,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q5cDate": {
+      "type": "text",
+      "label": "c. Detangle a G-12 parachute and place in a proper four line",
+      "page": 4,
+      "box": {
+        "left": 515.2,
+        "top": 710.8,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q5d1Name": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 4,
+      "box": {
+        "left": 307.5,
+        "top": 682.6,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q5d1Sig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 4,
+      "box": {
+        "left": 420.6,
+        "top": 682.6,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q5d1Date": {
+      "type": "text",
+      "label": "Date",
+      "page": 4,
+      "box": {
+        "left": 515.2,
+        "top": 682.6,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q5d2Name": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 4,
+      "box": {
+        "left": 307.5,
+        "top": 654.3,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q5d2Sig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 4,
+      "box": {
+        "left": 420.6,
+        "top": 654.3,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q5d2Date": {
+      "type": "text",
+      "label": "Date",
+      "page": 4,
+      "box": {
+        "left": 515.2,
+        "top": 654.3,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q5d3Name": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 4,
+      "box": {
+        "left": 307.5,
+        "top": 625.9,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q5d3Sig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 4,
+      "box": {
+        "left": 420.6,
+        "top": 625.9,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q5d3Date": {
+      "type": "text",
+      "label": "Date",
+      "page": 4,
+      "box": {
+        "left": 515.2,
+        "top": 625.9,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q5e1Name": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 4,
+      "box": {
+        "left": 307.5,
+        "top": 597.5,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q5e1Sig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 4,
+      "box": {
+        "left": 420.6,
+        "top": 597.5,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q5e1Date": {
+      "type": "text",
+      "label": "Date",
+      "page": 4,
+      "box": {
+        "left": 515.2,
+        "top": 597.5,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q5e2Name": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 4,
+      "box": {
+        "left": 307.5,
+        "top": 569.3,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q5e2Sig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 4,
+      "box": {
+        "left": 420.6,
+        "top": 569.3,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q5e2Date": {
+      "type": "text",
+      "label": "Date",
+      "page": 4,
+      "box": {
+        "left": 515.2,
+        "top": 569.3,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q5e3Name": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 4,
+      "box": {
+        "left": 307.5,
+        "top": 540.8,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q5e3Sig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 4,
+      "box": {
+        "left": 420.6,
+        "top": 540.8,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q5e3Date": {
+      "type": "text",
+      "label": "Date",
+      "page": 4,
+      "box": {
+        "left": 515.2,
+        "top": 540.8,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q5f1Name": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 4,
+      "box": {
+        "left": 307.5,
+        "top": 512.5,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q5f1Sig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 4,
+      "box": {
+        "left": 420.6,
+        "top": 512.5,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q5f1Date": {
+      "type": "text",
+      "label": "Date",
+      "page": 4,
+      "box": {
+        "left": 515.2,
+        "top": 512.5,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q5f2Name": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 4,
+      "box": {
+        "left": 307.5,
+        "top": 484.2,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q5f2Sig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 4,
+      "box": {
+        "left": 420.6,
+        "top": 484.2,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q5f2Date": {
+      "type": "text",
+      "label": "Date",
+      "page": 4,
+      "box": {
+        "left": 515.2,
+        "top": 484.2,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q5gName": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 4,
+      "box": {
+        "left": 307.5,
+        "top": 455.8,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q5gSig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 4,
+      "box": {
+        "left": 420.6,
+        "top": 455.8,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q5gDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 4,
+      "box": {
+        "left": 515.2,
+        "top": 455.8,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q5hName": {
+      "type": "text",
+      "label": "h. Rig a Low Cost Low Altitude (LCLA) load under instruction",
+      "page": 4,
+      "box": {
+        "left": 307.5,
+        "top": 427.4,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q5hSig": {
+      "type": "text",
+      "label": "h. Rig a Low Cost Low Altitude (LCLA) load under instruction",
+      "page": 4,
+      "box": {
+        "left": 420.6,
+        "top": 427.4,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q5hDate": {
+      "type": "text",
+      "label": "h. Rig a Low Cost Low Altitude (LCLA) load under instruction",
+      "page": 4,
+      "box": {
+        "left": 515.2,
+        "top": 427.4,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q6Name": {
+      "type": "text",
+      "label": "6. LPO",
+      "page": 4,
+      "box": {
+        "left": 307.5,
+        "top": 371.2,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q6Sig": {
+      "type": "text",
+      "label": "6. LPO",
+      "page": 4,
+      "box": {
+        "left": 420.6,
+        "top": 371.2,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q6Date": {
+      "type": "text",
+      "label": "6. LPO",
+      "page": 4,
+      "box": {
+        "left": 515.2,
+        "top": 371.2,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q7Name": {
+      "type": "text",
+      "label": "7. Paraloft LCPO",
+      "page": 4,
+      "box": {
+        "left": 307.5,
+        "top": 342.9,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q7Sig": {
+      "type": "text",
+      "label": "7. Paraloft LCPO",
+      "page": 4,
+      "box": {
+        "left": 420.6,
+        "top": 342.9,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q7Date": {
+      "type": "text",
+      "label": "7. Paraloft LCPO",
+      "page": 4,
+      "box": {
+        "left": 515.2,
+        "top": 342.9,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q8Name": {
+      "type": "text",
+      "label": "8. P3 and Cargo Program Manager",
+      "page": 4,
+      "box": {
+        "left": 307.5,
+        "top": 314.9,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q8Sig": {
+      "type": "text",
+      "label": "8. P3 and Cargo Program Manager",
+      "page": 4,
+      "box": {
+        "left": 420.6,
+        "top": 314.9,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q8Date": {
+      "type": "text",
+      "label": "8. P3 and Cargo Program Manager",
+      "page": 4,
+      "box": {
+        "left": 515.2,
+        "top": 314.9,
+        "width": 59.4,
+        "height": 25.5
+      }
+    }
+  }
+}

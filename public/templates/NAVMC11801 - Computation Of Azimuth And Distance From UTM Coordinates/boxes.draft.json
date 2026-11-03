@@ -1,0 +1,469 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "software": {
+        "left": 170.5,
+        "top": 703.8,
+        "width": 401.9,
+        "height": 18.0,
+        "type": "text",
+        "description": "Survey Software for RPDA Version:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "stationName1": {
+        "left": 255.6,
+        "top": 660.6,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "StationName1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "stationName2": {
+        "left": 417.6,
+        "top": 660.6,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "StationName2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "easting1": {
+        "left": 255.6,
+        "top": 642.6,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Easting1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "easting2": {
+        "left": 417.6,
+        "top": 642.6,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Easting2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "northing1": {
+        "left": 255.6,
+        "top": 624.6,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Northing1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "northing2": {
+        "left": 417.6,
+        "top": 624.6,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Northing2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "azmk1": {
+        "left": 255.6,
+        "top": 606.6,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "AZMK1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "azmk2": {
+        "left": 417.6,
+        "top": 606.6,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "AZMK2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "easting3": {
+        "left": 255.6,
+        "top": 588.6,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Easting3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "easting4": {
+        "left": 417.6,
+        "top": 588.6,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Easting4",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "northing3": {
+        "left": 255.6,
+        "top": 570.6,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Northing3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "northing4": {
+        "left": 417.6,
+        "top": 570.6,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Northing4",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "grid1": {
+        "left": 255.6,
+        "top": 537.4,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Grid1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "grid2": {
+        "left": 417.6,
+        "top": 537.4,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Grid2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "distance1": {
+        "left": 255.6,
+        "top": 519.4,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Distance1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "distance2": {
+        "left": 417.6,
+        "top": 519.4,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Distance2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "stationName3": {
+        "left": 255.6,
+        "top": 465.4,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "StationName3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "stationName4": {
+        "left": 417.6,
+        "top": 465.4,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "StationName4",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "easting5": {
+        "left": 255.6,
+        "top": 447.4,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Easting5",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "easting6": {
+        "left": 417.6,
+        "top": 447.4,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Easting6",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "northing5": {
+        "left": 255.6,
+        "top": 429.4,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Northing5",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "northing6": {
+        "left": 417.6,
+        "top": 429.4,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Northing6",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "azmk3": {
+        "left": 255.6,
+        "top": 411.4,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "AZMK3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "azmk4": {
+        "left": 417.6,
+        "top": 411.4,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "AZMK4",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "easting7": {
+        "left": 255.6,
+        "top": 393.4,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Easting7",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "easting8": {
+        "left": 417.6,
+        "top": 393.4,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Easting8",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "northing7": {
+        "left": 255.6,
+        "top": 375.4,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Northing7",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "northing8": {
+        "left": 417.6,
+        "top": 375.4,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Northing8",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "grid3": {
+        "left": 255.6,
+        "top": 342.2,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Grid3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "grid4": {
+        "left": 417.6,
+        "top": 342.2,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Grid4",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "distance3": {
+        "left": 255.6,
+        "top": 324.2,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Distance3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "distance4": {
+        "left": 417.6,
+        "top": 324.2,
+        "width": 154.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Distance4",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks": {
+        "left": 39.6,
+        "top": 295.4,
+        "width": 532.8,
+        "height": 192.8,
+        "type": "text",
+        "description": "REMARKS:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "computer": {
+        "left": 90.2,
+        "top": 95.4,
+        "width": 122.2,
+        "height": 10.8,
+        "type": "text",
+        "description": "COMPUTER:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checker": {
+        "left": 261.1,
+        "top": 95.4,
+        "width": 221.3,
+        "height": 10.8,
+        "type": "text",
+        "description": "CHECKER:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date": {
+        "left": 513.7,
+        "top": 95.4,
+        "width": 58.7,
+        "height": 10.8,
+        "type": "text",
+        "description": "DATE:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "locality": {
+        "left": 90.2,
+        "top": 77.4,
+        "width": 122.2,
+        "height": 10.8,
+        "type": "text",
+        "description": "LOCALITY:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fileName": {
+        "left": 301.8,
+        "top": 77.4,
+        "width": 180.6,
+        "height": 10.8,
+        "type": "text",
+        "description": "ARCHIVE FILE NAME:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sheet": {
+        "left": 528.4,
+        "top": 77.4,
+        "width": 10.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Sheet",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "of": {
+        "left": 561.6,
+        "top": 77.4,
+        "width": 10.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Of",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

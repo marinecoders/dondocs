@@ -1,0 +1,495 @@
+{
+  "id": "navpers1230021",
+  "label": "NAVPERS12300-21 - Student Loan Repayment Program Application",
+  "directory": "NAVPERS12300-21 - Student Loan Repayment Program Application",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "employeeName",
+        "cell2",
+        "cell4",
+        "cell6",
+        "cell1",
+        "cell22",
+        "cell12",
+        "cell23",
+        "cell3",
+        "cell13",
+        "cell24",
+        "cell14",
+        "employeeName2",
+        "cell25",
+        "cell32",
+        "cell15",
+        "cell26",
+        "cell42",
+        "cell5",
+        "cell33",
+        "cell27",
+        "cell43",
+        "cell19",
+        "cell28",
+        "cell110",
+        "cell111",
+        "cell29",
+        "cell112",
+        "cell113",
+        "cell210",
+        "cell34",
+        "cell114",
+        "cell211",
+        "cell35",
+        "cell44",
+        "cell115",
+        "cell212",
+        "cell36"
+      ]
+    }
+  ],
+  "fields": {
+    "employeeName": {
+      "type": "text",
+      "label": "1. Employee Name (First MI Last)",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 630.7,
+        "width": 174.3,
+        "height": 12.2
+      }
+    },
+    "cell2": {
+      "type": "text",
+      "label": "2. Position, Title, Grade",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 630.7,
+        "width": 174.3,
+        "height": 12.2
+      }
+    },
+    "cell4": {
+      "type": "text",
+      "label": "Loan",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 630.7,
+        "width": 30.2,
+        "height": 12.2
+      }
+    },
+    "cell6": {
+      "type": "text",
+      "label": "of",
+      "page": 1,
+      "box": {
+        "left": 542.9,
+        "top": 630.7,
+        "width": 30.2,
+        "height": 12.2
+      }
+    },
+    "cell1": {
+      "type": "text",
+      "label": "4. Phone Number",
+      "page": 1,
+      "box": {
+        "left": 110.9,
+        "top": 612.7,
+        "width": 102.3,
+        "height": 12.2
+      }
+    },
+    "cell22": {
+      "type": "text",
+      "label": "5. Agency",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 612.7,
+        "width": 300.3,
+        "height": 12.2
+      }
+    },
+    "cell12": {
+      "type": "text",
+      "label": "6. Unpaid Balance of Loan(s) (Approximate)",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 586.1,
+        "width": 174.3,
+        "height": 18.0
+      }
+    },
+    "cell23": {
+      "type": "text",
+      "label": "7. Amount Requested to be Repaid by Agency",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 586.1,
+        "width": 174.3,
+        "height": 18.0
+      }
+    },
+    "cell3": {
+      "type": "text",
+      "label": "8. Loan Account Number",
+      "page": 1,
+      "box": {
+        "left": 398.9,
+        "top": 586.1,
+        "width": 174.3,
+        "height": 18.0
+      }
+    },
+    "cell13": {
+      "type": "text",
+      "label": "9. Name of Lender",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 553.7,
+        "width": 354.3,
+        "height": 18.0
+      }
+    },
+    "cell24": {
+      "type": "text",
+      "label": "10. Phone Number",
+      "page": 1,
+      "box": {
+        "left": 398.9,
+        "top": 553.7,
+        "width": 174.3,
+        "height": 18.0
+      }
+    },
+    "cell14": {
+      "type": "text",
+      "label": "11. Address",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 521.2,
+        "width": 534.3,
+        "height": 21.6
+      }
+    },
+    "employeeName2": {
+      "type": "text",
+      "label": "12. Employee Name (First MI Last)",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 460.0,
+        "width": 174.3,
+        "height": 18.0
+      }
+    },
+    "cell25": {
+      "type": "text",
+      "label": "13. Signature",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 460.0,
+        "width": 282.3,
+        "height": 18.0
+      }
+    },
+    "cell32": {
+      "type": "text",
+      "label": "14. Date",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 460.0,
+        "width": 66.2,
+        "height": 18.0
+      }
+    },
+    "cell15": {
+      "type": "text",
+      "label": "Please return form to",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 402.4,
+        "width": 534.3,
+        "height": 18.0
+      }
+    },
+    "cell26": {
+      "type": "checkbox",
+      "label": "In Default",
+      "page": 1,
+      "box": {
+        "left": 170.6,
+        "top": 352.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell42": {
+      "type": "checkbox",
+      "label": "Balance",
+      "page": 1,
+      "box": {
+        "left": 440.7,
+        "top": 352.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell5": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 512.7,
+        "top": 352.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell33": {
+      "type": "text",
+      "label": "Public Health Services Act",
+      "page": 1,
+      "box": {
+        "left": 320.4,
+        "top": 339.1,
+        "width": 108.7,
+        "height": 8.6
+      }
+    },
+    "cell27": {
+      "type": "checkbox",
+      "label": "Payments Being Made",
+      "page": 1,
+      "box": {
+        "left": 170.6,
+        "top": 338.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell43": {
+      "type": "text",
+      "label": "Deferred",
+      "page": 1,
+      "box": {
+        "left": 446.5,
+        "top": 324.7,
+        "width": 118.8,
+        "height": 8.6
+      }
+    },
+    "cell19": {
+      "type": "text",
+      "label": "1. Name of Institution",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 283.6,
+        "width": 318.3,
+        "height": 18.0
+      }
+    },
+    "cell28": {
+      "type": "text",
+      "label": "2. Phone Number",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 283.6,
+        "width": 210.3,
+        "height": 18.0
+      }
+    },
+    "cell110": {
+      "type": "text",
+      "label": "3. Address",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 251.2,
+        "width": 534.3,
+        "height": 18.0
+      }
+    },
+    "cell111": {
+      "type": "text",
+      "label": "4. Routing Number",
+      "page": 1,
+      "box": {
+        "left": 114.5,
+        "top": 227.4,
+        "width": 98.7,
+        "height": 12.2
+      }
+    },
+    "cell29": {
+      "type": "text",
+      "label": "5. Account Number",
+      "page": 1,
+      "box": {
+        "left": 298.1,
+        "top": 227.4,
+        "width": 275.1,
+        "height": 12.2
+      }
+    },
+    "cell112": {
+      "type": "text",
+      "label": "6. Additional Information",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 200.8,
+        "width": 534.3,
+        "height": 21.6
+      }
+    },
+    "cell113": {
+      "type": "text",
+      "label": "7. Name and Title",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 139.6,
+        "width": 174.3,
+        "height": 18.0
+      }
+    },
+    "cell210": {
+      "type": "text",
+      "label": "8. Signature",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 139.6,
+        "width": 282.3,
+        "height": 18.0
+      }
+    },
+    "cell34": {
+      "type": "text",
+      "label": "9. Date",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 139.6,
+        "width": 66.2,
+        "height": 18.0
+      }
+    },
+    "cell114": {
+      "type": "text",
+      "label": "1. Effective Date",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 89.2,
+        "width": 129.3,
+        "height": 18.0
+      }
+    },
+    "cell211": {
+      "type": "text",
+      "label": "2. Annual Amount",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 89.2,
+        "width": 129.3,
+        "height": 18.0
+      }
+    },
+    "cell35": {
+      "type": "text",
+      "label": "3. Number of Years",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 89.2,
+        "width": 129.3,
+        "height": 18.0
+      }
+    },
+    "cell44": {
+      "type": "text",
+      "label": "4. Total Repayment Amount",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 89.2,
+        "width": 129.3,
+        "height": 18.0
+      }
+    },
+    "cell115": {
+      "type": "text",
+      "label": "5. BUPERS-05 Representative Name",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 56.8,
+        "width": 174.3,
+        "height": 18.0
+      }
+    },
+    "cell212": {
+      "type": "text",
+      "label": "6. Signature",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 56.8,
+        "width": 282.3,
+        "height": 18.0
+      }
+    },
+    "cell36": {
+      "type": "text",
+      "label": "7. Date",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 56.8,
+        "width": 66.2,
+        "height": 18.0
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 14.4,
+      "editor": "grid",
+      "columns": {
+        "cell": {
+          "type": "checkbox",
+          "label": "1. Status",
+          "page": 1,
+          "box": {
+            "left": 44.6,
+            "top": 352.5,
+            "width": 8.0,
+            "height": 8.0
+          }
+        }
+      }
+    }
+  }
+}

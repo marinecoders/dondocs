@@ -1,0 +1,4173 @@
+{
+  "id": "navmc10627",
+  "label": "NAVMC10627 - Vehicle  Equipment Operational Record (11240) (admin  Tactical Motor Vehicles)",
+  "directory": "NAVMC10627 - Vehicle  Equipment Operational Record (11240) (admin  Tactical Motor Vehicles)",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "date1",
+        "typeRec",
+        "regNo",
+        "adm1",
+        "adm2",
+        "adm3",
+        "dispOrg",
+        "fuel1",
+        "fuel2",
+        "fuel3",
+        "oil1",
+        "oil2",
+        "oil3",
+        "timeIn1",
+        "milesIn1",
+        "operate1",
+        "reportTo1",
+        "timeTot1",
+        "milesTot1",
+        "signatureDisp1",
+        "signature1stOp",
+        "timeIn2",
+        "milesIn2",
+        "operate2",
+        "reportTo2",
+        "timeTot2",
+        "milesTot2",
+        "signatureDisp2",
+        "signature2ndOp",
+        "timeIn3",
+        "milesIn3",
+        "operate3",
+        "reportTo3",
+        "timeTot3",
+        "milesTot3",
+        "signatureDisp3",
+        "signature3rdOp",
+        "aa",
+        "a1",
+        "b1",
+        "c1",
+        "d1",
+        "e1",
+        "f1",
+        "signature1",
+        "a2",
+        "b2",
+        "c2",
+        "d2",
+        "f2",
+        "e2",
+        "signature2",
+        "e3",
+        "a3",
+        "b3",
+        "c3",
+        "d3",
+        "f3",
+        "signature3",
+        "signature4",
+        "a4",
+        "b4",
+        "c4",
+        "d4",
+        "e4",
+        "f4",
+        "signature5",
+        "a5",
+        "b5",
+        "c5",
+        "d5",
+        "e5",
+        "f5",
+        "a6",
+        "b6",
+        "c6",
+        "d6",
+        "e6",
+        "f6",
+        "signature6",
+        "a7",
+        "b7",
+        "c7",
+        "d7",
+        "e7",
+        "f7",
+        "signature97",
+        "a8",
+        "b8",
+        "c8",
+        "d8",
+        "e8",
+        "f8",
+        "signature8",
+        "a9",
+        "b9",
+        "c9",
+        "d9",
+        "e9",
+        "f9",
+        "signature9",
+        "p1Ftot",
+        "p1Etot",
+        "dateRec",
+        "typeRec1",
+        "regNo1",
+        "adm1A",
+        "adm3A",
+        "adm2A",
+        "chk1A",
+        "chk2A",
+        "chk1N",
+        "chk2N",
+        "chk3N",
+        "chk1X",
+        "chk2X",
+        "chk3X",
+        "chk3A",
+        "chk1B",
+        "chk2B",
+        "chk1Y",
+        "chk2Y",
+        "chk3Y",
+        "chk3B",
+        "chk1o",
+        "chk2o",
+        "chk3o",
+        "chk1C",
+        "chk2C",
+        "chk1P",
+        "chk2P",
+        "chk3P",
+        "chk3C",
+        "chk1Z",
+        "chk2Z",
+        "chk3Z",
+        "chk1D",
+        "chk2D",
+        "chk1Q",
+        "chk2Q",
+        "chk3Q",
+        "chk1AA",
+        "chk2AA",
+        "chk3AA",
+        "chk3D",
+        "chk1E",
+        "chk2E",
+        "chk1R",
+        "chk2R",
+        "chk3R",
+        "chk1BB",
+        "chk2BB",
+        "chk3BB",
+        "chk3E",
+        "chk1F",
+        "chk2F",
+        "chk1S",
+        "chk2S",
+        "chk3S",
+        "chk1CC",
+        "chk2CC",
+        "chk3CC",
+        "chk3F",
+        "itmDD",
+        "chk1G",
+        "chk2G",
+        "chk1T",
+        "chk2T",
+        "chk3T",
+        "chk1DD",
+        "chk2DD",
+        "chk3DD",
+        "chk3G",
+        "itmEE",
+        "itmK",
+        "itmU",
+        "chk1K",
+        "chk2K",
+        "chk1U",
+        "chk2U",
+        "chk3U",
+        "chk1EE",
+        "chk2EE",
+        "chk3EE",
+        "chk3K",
+        "itmV",
+        "itmFF",
+        "itmL",
+        "chk1L",
+        "chk2L",
+        "chk1V",
+        "chk2V",
+        "chk3V",
+        "chk1FF",
+        "chk2FF",
+        "chk3FF",
+        "chk3L",
+        "itmW",
+        "itmGG",
+        "itmM",
+        "chk1M",
+        "chk2M",
+        "chk1W",
+        "chk2W",
+        "chk3W",
+        "chk1GG",
+        "chk2GG",
+        "chk3GG",
+        "chk3M"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "a10",
+        "b10",
+        "c10",
+        "d10",
+        "e10",
+        "f10",
+        "signature10",
+        "a11",
+        "b11",
+        "c11",
+        "d11",
+        "e11",
+        "f11",
+        "signature12",
+        "a12",
+        "b12",
+        "c12",
+        "d12",
+        "f12",
+        "e12",
+        "signature13",
+        "a13",
+        "b13",
+        "c13",
+        "d13",
+        "e13",
+        "f13",
+        "signature14",
+        "e14",
+        "a14",
+        "b14",
+        "c14",
+        "d14",
+        "f14",
+        "signature15",
+        "a15",
+        "b15",
+        "c15",
+        "d15",
+        "e15",
+        "f15",
+        "signature16",
+        "a16",
+        "b16",
+        "c16",
+        "d16",
+        "e16",
+        "f16",
+        "signature17",
+        "a17",
+        "b17",
+        "c17",
+        "d17",
+        "e17",
+        "f17",
+        "signature18",
+        "a18",
+        "b18",
+        "c18",
+        "d18",
+        "e18",
+        "f18",
+        "signature19",
+        "a19",
+        "b19",
+        "c19",
+        "d19",
+        "e19",
+        "f19",
+        "signature20",
+        "a20",
+        "b20",
+        "c20",
+        "d20",
+        "e20",
+        "f20",
+        "signature21",
+        "a21",
+        "b21",
+        "c21",
+        "d21",
+        "e21",
+        "f21",
+        "signature22",
+        "a22",
+        "b22",
+        "c22",
+        "d22",
+        "e22",
+        "f22",
+        "signature23",
+        "a23",
+        "b23",
+        "c23",
+        "d23",
+        "e23",
+        "f23",
+        "signature24",
+        "a24",
+        "b24",
+        "c24",
+        "d24",
+        "e24",
+        "f24",
+        "signature25",
+        "a25",
+        "b25",
+        "c25",
+        "d25",
+        "e25",
+        "f25",
+        "signature26",
+        "a26",
+        "b26",
+        "c26",
+        "d26",
+        "e26",
+        "f26",
+        "signature27",
+        "a27",
+        "b27",
+        "c27",
+        "d27",
+        "e27",
+        "f27",
+        "signature28",
+        "eTotal",
+        "fTotal",
+        "nameOperat2",
+        "nameOperat1",
+        "p1Etot2",
+        "p1Ftot2",
+        "nameOperat3",
+        "remarksP2"
+      ]
+    }
+  ],
+  "fields": {
+    "date1": {
+      "type": "text",
+      "label": "Enter the date using format 2 Dec 2002.",
+      "page": 1,
+      "box": {
+        "left": 18.4,
+        "top": 726.9,
+        "width": 111.2,
+        "height": 17.8
+      }
+    },
+    "typeRec": {
+      "type": "text",
+      "label": "Enter type of vehicle or equipment.",
+      "page": 1,
+      "box": {
+        "left": 131.6,
+        "top": 726.9,
+        "width": 136.8,
+        "height": 17.8
+      }
+    },
+    "regNo": {
+      "type": "text",
+      "label": "Enter registration number.",
+      "page": 1,
+      "box": {
+        "left": 271.1,
+        "top": 726.9,
+        "width": 162.5,
+        "height": 17.8
+      }
+    },
+    "adm1": {
+      "type": "text",
+      "label": "Enter administration number for first operator.",
+      "page": 1,
+      "box": {
+        "left": 435.5,
+        "top": 726.9,
+        "width": 38.2,
+        "height": 17.8
+      }
+    },
+    "adm2": {
+      "type": "text",
+      "label": "Enter administration number for second operator.",
+      "page": 1,
+      "box": {
+        "left": 476.3,
+        "top": 726.9,
+        "width": 40.8,
+        "height": 17.8
+      }
+    },
+    "adm3": {
+      "type": "text",
+      "label": "Enter administration number for third operator.",
+      "page": 1,
+      "box": {
+        "left": 518.4,
+        "top": 726.9,
+        "width": 77.0,
+        "height": 17.8
+      }
+    },
+    "dispOrg": {
+      "type": "text",
+      "label": "Enter dispatching organization.",
+      "page": 1,
+      "box": {
+        "left": 17.8,
+        "top": 693.3,
+        "width": 215.1,
+        "height": 17.8
+      }
+    },
+    "fuel1": {
+      "type": "text",
+      "label": "Enter total fuel in gallons for first operator.",
+      "page": 1,
+      "box": {
+        "left": 363.2,
+        "top": 689.4,
+        "width": 30.9,
+        "height": 13.2
+      }
+    },
+    "fuel2": {
+      "type": "text",
+      "label": "Enter total fuel in gallons for second operator.",
+      "page": 1,
+      "box": {
+        "left": 394.7,
+        "top": 689.4,
+        "width": 30.9,
+        "height": 13.2
+      }
+    },
+    "fuel3": {
+      "type": "text",
+      "label": "Enter total fuel in gallons for third operator.",
+      "page": 1,
+      "box": {
+        "left": 427.6,
+        "top": 689.4,
+        "width": 30.9,
+        "height": 13.2
+      }
+    },
+    "oil1": {
+      "type": "text",
+      "label": "Enter total oil in quarts for first operator.",
+      "page": 1,
+      "box": {
+        "left": 460.5,
+        "top": 689.4,
+        "width": 28.3,
+        "height": 13.2
+      }
+    },
+    "oil2": {
+      "type": "text",
+      "label": "Enter total oil in quarts for second operator.",
+      "page": 1,
+      "box": {
+        "left": 490.8,
+        "top": 689.4,
+        "width": 28.3,
+        "height": 13.2
+      }
+    },
+    "oil3": {
+      "type": "text",
+      "label": "Enter total oil in quarts for third operator.",
+      "page": 1,
+      "box": {
+        "left": 521.7,
+        "top": 689.4,
+        "width": 69.7,
+        "height": 13.2
+      }
+    },
+    "timeIn1": {
+      "type": "text",
+      "label": "Enter time in for first operator.",
+      "page": 1,
+      "box": {
+        "left": 271.1,
+        "top": 675.6,
+        "width": 43.0,
+        "height": 13.2
+      }
+    },
+    "milesIn1": {
+      "type": "text",
+      "label": "Enter miles in for first operator.",
+      "page": 1,
+      "box": {
+        "left": 317.1,
+        "top": 675.6,
+        "width": 42.1,
+        "height": 13.2
+      }
+    },
+    "operate1": {
+      "type": "text",
+      "label": "Enter name of first operator.",
+      "page": 1,
+      "box": {
+        "left": 17.8,
+        "top": 666.3,
+        "width": 215.1,
+        "height": 17.8
+      }
+    },
+    "reportTo1": {
+      "type": "text",
+      "label": "Enter name first operator is to report to.",
+      "page": 1,
+      "box": {
+        "left": 363.2,
+        "top": 666.3,
+        "width": 231.6,
+        "height": 17.8
+      }
+    },
+    "timeTot1": {
+      "type": "text",
+      "label": "Enter total time for first operator.",
+      "page": 1,
+      "box": {
+        "left": 271.1,
+        "top": 638.1,
+        "width": 43.0,
+        "height": 13.2
+      }
+    },
+    "milesTot1": {
+      "type": "text",
+      "label": "Enter total miles for first operator.",
+      "page": 1,
+      "box": {
+        "left": 317.1,
+        "top": 638.1,
+        "width": 42.1,
+        "height": 13.2
+      }
+    },
+    "signatureDisp1": {
+      "type": "signature",
+      "label": "SignatureDisp1",
+      "page": 1,
+      "box": {
+        "left": 369.2,
+        "top": 634.5,
+        "width": 222.9,
+        "height": 9.5
+      }
+    },
+    "signature1stOp": {
+      "type": "signature",
+      "label": "Signature1stOp",
+      "page": 1,
+      "box": {
+        "left": 23.5,
+        "top": 634.3,
+        "width": 204.9,
+        "height": 6.8
+      }
+    },
+    "timeIn2": {
+      "type": "text",
+      "label": "Enter time in for second operator.",
+      "page": 1,
+      "box": {
+        "left": 271.0,
+        "top": 624.0,
+        "width": 43.0,
+        "height": 10.0
+      }
+    },
+    "milesIn2": {
+      "type": "text",
+      "label": "Enter miles in for second operator.",
+      "page": 1,
+      "box": {
+        "left": 317.0,
+        "top": 624.0,
+        "width": 42.0,
+        "height": 10.0
+      }
+    },
+    "operate2": {
+      "type": "text",
+      "label": "Enter name of second operator.",
+      "page": 1,
+      "box": {
+        "left": 18.4,
+        "top": 614.3,
+        "width": 215.1,
+        "height": 14.4
+      }
+    },
+    "reportTo2": {
+      "type": "text",
+      "label": "Enter name second operator is to report to.",
+      "page": 1,
+      "box": {
+        "left": 363.8,
+        "top": 614.0,
+        "width": 231.6,
+        "height": 14.7
+      }
+    },
+    "timeTot2": {
+      "type": "text",
+      "label": "Enter total time for second operator.",
+      "page": 1,
+      "box": {
+        "left": 271.0,
+        "top": 592.5,
+        "width": 43.0,
+        "height": 13.0
+      }
+    },
+    "milesTot2": {
+      "type": "text",
+      "label": "Enter total miles for second operator.",
+      "page": 1,
+      "box": {
+        "left": 317.0,
+        "top": 592.5,
+        "width": 42.0,
+        "height": 13.0
+      }
+    },
+    "signatureDisp2": {
+      "type": "signature",
+      "label": "SignatureDisp2",
+      "page": 1,
+      "box": {
+        "left": 368.2,
+        "top": 589.9,
+        "width": 222.9,
+        "height": 9.3
+      }
+    },
+    "signature2ndOp": {
+      "type": "signature",
+      "label": "Signature2ndOp",
+      "page": 1,
+      "box": {
+        "left": 24.1,
+        "top": 587.8,
+        "width": 204.9,
+        "height": 5.8
+      }
+    },
+    "timeIn3": {
+      "type": "text",
+      "label": "Enter time in for third operator.",
+      "page": 1,
+      "box": {
+        "left": 271.0,
+        "top": 577.5,
+        "width": 43.0,
+        "height": 10.0
+      }
+    },
+    "milesIn3": {
+      "type": "text",
+      "label": "Enter miles in for third operator.",
+      "page": 1,
+      "box": {
+        "left": 317.0,
+        "top": 577.0,
+        "width": 42.0,
+        "height": 10.0
+      }
+    },
+    "operate3": {
+      "type": "text",
+      "label": "Enter name of third operator.",
+      "page": 1,
+      "box": {
+        "left": 19.2,
+        "top": 569.5,
+        "width": 212.5,
+        "height": 17.5
+      }
+    },
+    "reportTo3": {
+      "type": "text",
+      "label": "Enter name third operator is to report to.",
+      "page": 1,
+      "box": {
+        "left": 363.5,
+        "top": 569.0,
+        "width": 231.0,
+        "height": 17.0
+      }
+    },
+    "timeTot3": {
+      "type": "text",
+      "label": "Enter total time for third operator.",
+      "page": 1,
+      "box": {
+        "left": 271.0,
+        "top": 544.5,
+        "width": 43.0,
+        "height": 13.0
+      }
+    },
+    "milesTot3": {
+      "type": "text",
+      "label": "Enter total miles for third operator.",
+      "page": 1,
+      "box": {
+        "left": 317.5,
+        "top": 544.5,
+        "width": 42.0,
+        "height": 13.0
+      }
+    },
+    "signatureDisp3": {
+      "type": "signature",
+      "label": "SignatureDisp3",
+      "page": 1,
+      "box": {
+        "left": 368.1,
+        "top": 542.0,
+        "width": 222.9,
+        "height": 9.3
+      }
+    },
+    "signature3rdOp": {
+      "type": "signature",
+      "label": "Signature3rdOp",
+      "page": 1,
+      "box": {
+        "left": 23.3,
+        "top": 540.8,
+        "width": 204.9,
+        "height": 7.9
+      }
+    },
+    "aa": {
+      "type": "text",
+      "label": "Enter destination point from.",
+      "page": 1,
+      "box": {
+        "left": 26.7,
+        "top": 489.3,
+        "width": 137.3,
+        "height": 13.3
+      }
+    },
+    "a1": {
+      "type": "text",
+      "label": "Enter destination to point 1.",
+      "page": 1,
+      "box": {
+        "left": 26.7,
+        "top": 469.3,
+        "width": 137.3,
+        "height": 13.3
+      }
+    },
+    "b1": {
+      "type": "text",
+      "label": "Enter arrival time to point 1.",
+      "page": 1,
+      "box": {
+        "left": 164.7,
+        "top": 469.3,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "c1": {
+      "type": "text",
+      "label": "Enter departure time to point 1.",
+      "page": 1,
+      "box": {
+        "left": 203.3,
+        "top": 469.3,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "d1": {
+      "type": "text",
+      "label": "Enter arrival mileage to point 1.",
+      "page": 1,
+      "box": {
+        "left": 242.0,
+        "top": 469.3,
+        "width": 40.7,
+        "height": 13.3
+      }
+    },
+    "e1": {
+      "type": "text",
+      "label": "Enter cargo cube or weight to point 1.",
+      "page": 1,
+      "box": {
+        "left": 284.7,
+        "top": 469.3,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "f1": {
+      "type": "text",
+      "label": "Enter number of passengers to point 1.",
+      "page": 1,
+      "box": {
+        "left": 323.3,
+        "top": 469.3,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "signature1": {
+      "type": "signature",
+      "label": "Signature1",
+      "page": 1,
+      "box": {
+        "left": 367.1,
+        "top": 469.1,
+        "width": 225.0,
+        "height": 10.0
+      }
+    },
+    "a2": {
+      "type": "text",
+      "label": "Enter destination to point 2.",
+      "page": 1,
+      "box": {
+        "left": 26.7,
+        "top": 449.3,
+        "width": 137.3,
+        "height": 13.3
+      }
+    },
+    "b2": {
+      "type": "text",
+      "label": "Enter arrival time to point 2.",
+      "page": 1,
+      "box": {
+        "left": 164.7,
+        "top": 449.3,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "c2": {
+      "type": "text",
+      "label": "Enter departure time to point 2.",
+      "page": 1,
+      "box": {
+        "left": 203.3,
+        "top": 449.3,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "d2": {
+      "type": "text",
+      "label": "Enter arrival mileage to point 2.",
+      "page": 1,
+      "box": {
+        "left": 242.0,
+        "top": 449.3,
+        "width": 40.7,
+        "height": 13.3
+      }
+    },
+    "f2": {
+      "type": "text",
+      "label": "Enter number of passengers to point 2.",
+      "page": 1,
+      "box": {
+        "left": 323.3,
+        "top": 449.3,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "e2": {
+      "type": "text",
+      "label": "Enter cargo cube or weight to point 2.",
+      "page": 1,
+      "box": {
+        "left": 285.0,
+        "top": 448.8,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "signature2": {
+      "type": "signature",
+      "label": "Signature2",
+      "page": 1,
+      "box": {
+        "left": 368.4,
+        "top": 448.8,
+        "width": 225.0,
+        "height": 10.0
+      }
+    },
+    "e3": {
+      "type": "text",
+      "label": "Enter cargo cube or weight to point 3.",
+      "page": 1,
+      "box": {
+        "left": 285.0,
+        "top": 430.2,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "a3": {
+      "type": "text",
+      "label": "Enter destination to point 3.",
+      "page": 1,
+      "box": {
+        "left": 26.7,
+        "top": 430.0,
+        "width": 137.3,
+        "height": 13.3
+      }
+    },
+    "b3": {
+      "type": "text",
+      "label": "Enter arrival time to point 3.",
+      "page": 1,
+      "box": {
+        "left": 164.7,
+        "top": 430.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "c3": {
+      "type": "text",
+      "label": "Enter departure time to point 3.",
+      "page": 1,
+      "box": {
+        "left": 203.3,
+        "top": 430.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "d3": {
+      "type": "text",
+      "label": "Enter arrival mileage to point 3.",
+      "page": 1,
+      "box": {
+        "left": 242.0,
+        "top": 430.0,
+        "width": 40.7,
+        "height": 13.3
+      }
+    },
+    "f3": {
+      "type": "text",
+      "label": "Enter number of passengers to point 3.",
+      "page": 1,
+      "box": {
+        "left": 323.3,
+        "top": 430.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "signature3": {
+      "type": "signature",
+      "label": "Signature3",
+      "page": 1,
+      "box": {
+        "left": 366.8,
+        "top": 429.6,
+        "width": 225.0,
+        "height": 10.0
+      }
+    },
+    "signature4": {
+      "type": "signature",
+      "label": "Signature4",
+      "page": 1,
+      "box": {
+        "left": 367.2,
+        "top": 410.2,
+        "width": 225.0,
+        "height": 10.0
+      }
+    },
+    "a4": {
+      "type": "text",
+      "label": "Enter destination to point 4.",
+      "page": 1,
+      "box": {
+        "left": 26.7,
+        "top": 410.0,
+        "width": 137.3,
+        "height": 13.3
+      }
+    },
+    "b4": {
+      "type": "text",
+      "label": "Enter arrival time to point 4.",
+      "page": 1,
+      "box": {
+        "left": 164.7,
+        "top": 410.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "c4": {
+      "type": "text",
+      "label": "Enter departure time to point 4.",
+      "page": 1,
+      "box": {
+        "left": 203.3,
+        "top": 410.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "d4": {
+      "type": "text",
+      "label": "Enter arrival mileage to point 4.",
+      "page": 1,
+      "box": {
+        "left": 242.0,
+        "top": 410.0,
+        "width": 40.7,
+        "height": 13.3
+      }
+    },
+    "e4": {
+      "type": "text",
+      "label": "Enter cargo cube or weight to point 4.",
+      "page": 1,
+      "box": {
+        "left": 284.7,
+        "top": 410.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "f4": {
+      "type": "text",
+      "label": "Enter number of passengers to point 4.",
+      "page": 1,
+      "box": {
+        "left": 323.3,
+        "top": 410.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "signature5": {
+      "type": "signature",
+      "label": "Signature5",
+      "page": 1,
+      "box": {
+        "left": 367.3,
+        "top": 390.2,
+        "width": 225.0,
+        "height": 10.0
+      }
+    },
+    "a5": {
+      "type": "text",
+      "label": "Enter destination to point 5.",
+      "page": 1,
+      "box": {
+        "left": 26.7,
+        "top": 390.0,
+        "width": 137.3,
+        "height": 13.3
+      }
+    },
+    "b5": {
+      "type": "text",
+      "label": "Enter arrival time to point 5.",
+      "page": 1,
+      "box": {
+        "left": 164.7,
+        "top": 390.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "c5": {
+      "type": "text",
+      "label": "Enter departure time to point 5.",
+      "page": 1,
+      "box": {
+        "left": 203.3,
+        "top": 390.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "d5": {
+      "type": "text",
+      "label": "Enter arrival mileage to point 5.",
+      "page": 1,
+      "box": {
+        "left": 242.0,
+        "top": 390.0,
+        "width": 40.7,
+        "height": 13.3
+      }
+    },
+    "e5": {
+      "type": "text",
+      "label": "Enter cargo cube or weight to point 5.",
+      "page": 1,
+      "box": {
+        "left": 284.7,
+        "top": 390.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "f5": {
+      "type": "text",
+      "label": "Enter number of passengers to point 5.",
+      "page": 1,
+      "box": {
+        "left": 323.3,
+        "top": 390.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "a6": {
+      "type": "text",
+      "label": "Enter destination to point 6.",
+      "page": 1,
+      "box": {
+        "left": 26.7,
+        "top": 370.7,
+        "width": 137.3,
+        "height": 13.3
+      }
+    },
+    "b6": {
+      "type": "text",
+      "label": "Enter arrival time to point 6.",
+      "page": 1,
+      "box": {
+        "left": 164.7,
+        "top": 370.7,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "c6": {
+      "type": "text",
+      "label": "Enter departure time to point 6.",
+      "page": 1,
+      "box": {
+        "left": 203.3,
+        "top": 370.7,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "d6": {
+      "type": "text",
+      "label": "Enter arrival mileage to point 6.",
+      "page": 1,
+      "box": {
+        "left": 242.0,
+        "top": 370.7,
+        "width": 40.7,
+        "height": 13.3
+      }
+    },
+    "e6": {
+      "type": "text",
+      "label": "Enter cargo cube or weight to point 6.",
+      "page": 1,
+      "box": {
+        "left": 284.7,
+        "top": 370.7,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "f6": {
+      "type": "text",
+      "label": "Enter number of passengers to point 6.",
+      "page": 1,
+      "box": {
+        "left": 323.3,
+        "top": 370.7,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "signature6": {
+      "type": "signature",
+      "label": "Signature6",
+      "page": 1,
+      "box": {
+        "left": 367.0,
+        "top": 370.2,
+        "width": 225.0,
+        "height": 10.0
+      }
+    },
+    "a7": {
+      "type": "text",
+      "label": "Enter destination to point 7.",
+      "page": 1,
+      "box": {
+        "left": 26.7,
+        "top": 350.7,
+        "width": 137.3,
+        "height": 13.3
+      }
+    },
+    "b7": {
+      "type": "text",
+      "label": "Enter arrival time to point 7.",
+      "page": 1,
+      "box": {
+        "left": 164.7,
+        "top": 350.7,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "c7": {
+      "type": "text",
+      "label": "Enter departure time to point 7.",
+      "page": 1,
+      "box": {
+        "left": 203.3,
+        "top": 350.7,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "d7": {
+      "type": "text",
+      "label": "Enter arrival mileage to point 7.",
+      "page": 1,
+      "box": {
+        "left": 242.0,
+        "top": 350.7,
+        "width": 40.7,
+        "height": 13.3
+      }
+    },
+    "e7": {
+      "type": "text",
+      "label": "Enter cargo cube or weight to point 7.",
+      "page": 1,
+      "box": {
+        "left": 284.7,
+        "top": 350.7,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "f7": {
+      "type": "text",
+      "label": "Enter number of passengers to point 7.",
+      "page": 1,
+      "box": {
+        "left": 323.3,
+        "top": 350.7,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "signature97": {
+      "type": "signature",
+      "label": "Signature97",
+      "page": 1,
+      "box": {
+        "left": 366.8,
+        "top": 350.7,
+        "width": 225.0,
+        "height": 10.0
+      }
+    },
+    "a8": {
+      "type": "text",
+      "label": "Enter destination to point 8.",
+      "page": 1,
+      "box": {
+        "left": 26.7,
+        "top": 330.7,
+        "width": 137.3,
+        "height": 13.3
+      }
+    },
+    "b8": {
+      "type": "text",
+      "label": "Enter arrival time to point 8.",
+      "page": 1,
+      "box": {
+        "left": 164.7,
+        "top": 330.7,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "c8": {
+      "type": "text",
+      "label": "Enter departure time to point 8.",
+      "page": 1,
+      "box": {
+        "left": 203.3,
+        "top": 330.7,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "d8": {
+      "type": "text",
+      "label": "Enter arrival mileage to point 8.",
+      "page": 1,
+      "box": {
+        "left": 242.0,
+        "top": 330.7,
+        "width": 40.7,
+        "height": 13.3
+      }
+    },
+    "e8": {
+      "type": "text",
+      "label": "Enter cargo cube or weight to point 8.",
+      "page": 1,
+      "box": {
+        "left": 284.7,
+        "top": 330.7,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "f8": {
+      "type": "text",
+      "label": "Enter number of passengers to point 8.",
+      "page": 1,
+      "box": {
+        "left": 323.3,
+        "top": 330.7,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "signature8": {
+      "type": "signature",
+      "label": "Signature8",
+      "page": 1,
+      "box": {
+        "left": 366.9,
+        "top": 330.7,
+        "width": 225.0,
+        "height": 10.0
+      }
+    },
+    "a9": {
+      "type": "text",
+      "label": "Enter destination to point 9.",
+      "page": 1,
+      "box": {
+        "left": 26.7,
+        "top": 312.0,
+        "width": 137.3,
+        "height": 13.3
+      }
+    },
+    "b9": {
+      "type": "text",
+      "label": "Enter arrival time to point 9.",
+      "page": 1,
+      "box": {
+        "left": 164.7,
+        "top": 312.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "c9": {
+      "type": "text",
+      "label": "Enter departure time to point 9.",
+      "page": 1,
+      "box": {
+        "left": 203.3,
+        "top": 312.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "d9": {
+      "type": "text",
+      "label": "Enter arrival mileage to point 9.",
+      "page": 1,
+      "box": {
+        "left": 242.0,
+        "top": 312.0,
+        "width": 40.7,
+        "height": 13.3
+      }
+    },
+    "e9": {
+      "type": "text",
+      "label": "Enter cargo cube or weight to point 9.",
+      "page": 1,
+      "box": {
+        "left": 284.7,
+        "top": 312.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "f9": {
+      "type": "text",
+      "label": "Enter number of passengers to point 9.",
+      "page": 1,
+      "box": {
+        "left": 323.3,
+        "top": 312.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "signature9": {
+      "type": "signature",
+      "label": "Signature9",
+      "page": 1,
+      "box": {
+        "left": 367.1,
+        "top": 312.0,
+        "width": 225.0,
+        "height": 10.0
+      }
+    },
+    "p1Ftot": {
+      "type": "text",
+      "label": "P 1 Ftot",
+      "page": 1,
+      "box": {
+        "left": 336.7,
+        "top": 281.9,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "p1Etot": {
+      "type": "text",
+      "label": "P 1 Etot",
+      "page": 1,
+      "box": {
+        "left": 266.6,
+        "top": 281.8,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "dateRec": {
+      "type": "text",
+      "label": "Enter date of operational record.",
+      "page": 1,
+      "box": {
+        "left": 22.0,
+        "top": 228.0,
+        "width": 110.7,
+        "height": 17.3
+      }
+    },
+    "typeRec1": {
+      "type": "text",
+      "label": "Enter type of vehicle or equipment.",
+      "page": 1,
+      "box": {
+        "left": 135.3,
+        "top": 228.0,
+        "width": 132.0,
+        "height": 17.3
+      }
+    },
+    "regNo1": {
+      "type": "text",
+      "label": "Enter registration number.",
+      "page": 1,
+      "box": {
+        "left": 270.0,
+        "top": 228.0,
+        "width": 162.0,
+        "height": 17.3
+      }
+    },
+    "adm1A": {
+      "type": "text",
+      "label": "Enter administration number for first operator.",
+      "page": 1,
+      "box": {
+        "left": 435.2,
+        "top": 221.4,
+        "width": 39.0,
+        "height": 11.1
+      }
+    },
+    "adm3A": {
+      "type": "text",
+      "label": "Enter administration number for third operator.",
+      "page": 1,
+      "box": {
+        "left": 515.1,
+        "top": 221.4,
+        "width": 79.4,
+        "height": 11.1
+      }
+    },
+    "adm2A": {
+      "type": "text",
+      "label": "Enter administration number for second operator.",
+      "page": 1,
+      "box": {
+        "left": 475.5,
+        "top": 221.0,
+        "width": 38.3,
+        "height": 10.7
+      }
+    },
+    "chk1A": {
+      "type": "checkbox",
+      "label": "Check if pilferation damage before operation for operator on first shift.",
+      "page": 1,
+      "box": {
+        "left": 165.2,
+        "top": 185.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk2A": {
+      "type": "checkbox",
+      "label": "Check if pilferation damage before operation for operator on second shift.",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 185.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk1N": {
+      "type": "checkbox",
+      "label": "Check parking brakes during operation for operator on shift.",
+      "page": 1,
+      "box": {
+        "left": 332.2,
+        "top": 185.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk2N": {
+      "type": "checkbox",
+      "label": "Check parking brakes during operation for operator on second shift.",
+      "page": 1,
+      "box": {
+        "left": 344.2,
+        "top": 185.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk3N": {
+      "type": "checkbox",
+      "label": "Check parking brakes during operation for operator on third shift.",
+      "page": 1,
+      "box": {
+        "left": 356.2,
+        "top": 185.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk1X": {
+      "type": "checkbox",
+      "label": "Check if lights and reflectors were checked after operation for operator on shift.",
+      "page": 1,
+      "box": {
+        "left": 544.2,
+        "top": 185.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk2X": {
+      "type": "checkbox",
+      "label": "Check if lights and reflectors were checked after operation for operator on second shift.",
+      "page": 1,
+      "box": {
+        "left": 561.8,
+        "top": 185.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk3X": {
+      "type": "checkbox",
+      "label": "Check if lights and reflectors were checked after operation for operator on third shift.",
+      "page": 1,
+      "box": {
+        "left": 579.8,
+        "top": 185.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk3A": {
+      "type": "checkbox",
+      "label": "Check if pilferation damage before operation for operator on third shift.",
+      "page": 1,
+      "box": {
+        "left": 190.2,
+        "top": 185.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk1B": {
+      "type": "checkbox",
+      "label": "Check if general leaks before operation for operator on first shift.",
+      "page": 1,
+      "box": {
+        "left": 165.2,
+        "top": 173.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk2B": {
+      "type": "checkbox",
+      "label": "Check if general leaks before operation for operator on second shift.",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 173.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk1Y": {
+      "type": "checkbox",
+      "label": "Check if safety devices were checked after operation for operator on shift.",
+      "page": 1,
+      "box": {
+        "left": 544.2,
+        "top": 173.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk2Y": {
+      "type": "checkbox",
+      "label": "Check if safety devices were checked after operation for operator on second shift.",
+      "page": 1,
+      "box": {
+        "left": 561.8,
+        "top": 173.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk3Y": {
+      "type": "checkbox",
+      "label": "Check if safety devices were checked after operation for operator on third shift.",
+      "page": 1,
+      "box": {
+        "left": 579.8,
+        "top": 173.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk3B": {
+      "type": "checkbox",
+      "label": "Check if general leaks before operation for operator on third shift.",
+      "page": 1,
+      "box": {
+        "left": 190.2,
+        "top": 173.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk1o": {
+      "type": "checkbox",
+      "label": "Check service brakes during operation for operator on shift.",
+      "page": 1,
+      "box": {
+        "left": 332.2,
+        "top": 173.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk2o": {
+      "type": "checkbox",
+      "label": "Check service brakes during operation for operator on second shift.",
+      "page": 1,
+      "box": {
+        "left": 344.2,
+        "top": 173.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk3o": {
+      "type": "checkbox",
+      "label": "Check service brakes during operation for operator on third shift.",
+      "page": 1,
+      "box": {
+        "left": 356.2,
+        "top": 173.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk1C": {
+      "type": "checkbox",
+      "label": "Check if water fuel or oil was present before operation for operator on first shift.",
+      "page": 1,
+      "box": {
+        "left": 165.2,
+        "top": 161.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk2C": {
+      "type": "checkbox",
+      "label": "Check if water fuel or oil was present before operation for operator on second shift.",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 161.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk1P": {
+      "type": "checkbox",
+      "label": "Check if clutch was checked during operation for operator on shift.",
+      "page": 1,
+      "box": {
+        "left": 332.2,
+        "top": 161.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk2P": {
+      "type": "checkbox",
+      "label": "Check clutch was checked during operation for operator on second shift.",
+      "page": 1,
+      "box": {
+        "left": 344.2,
+        "top": 161.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk3P": {
+      "type": "checkbox",
+      "label": "Check clutch was checked during operation for operator on third shift.",
+      "page": 1,
+      "box": {
+        "left": 356.2,
+        "top": 161.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk3C": {
+      "type": "checkbox",
+      "label": "Check if water fuel or oil was present before operation for operator on third shift.",
+      "page": 1,
+      "box": {
+        "left": 190.2,
+        "top": 161.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk1Z": {
+      "type": "checkbox",
+      "label": "Check if brakes were checked after operation for operator on shift.",
+      "page": 1,
+      "box": {
+        "left": 544.2,
+        "top": 161.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk2Z": {
+      "type": "checkbox",
+      "label": "Check if brakes were checked after operation for operator on second shift.",
+      "page": 1,
+      "box": {
+        "left": 561.8,
+        "top": 161.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk3Z": {
+      "type": "checkbox",
+      "label": "Check if brakes were checked after operation for operator on third shift.",
+      "page": 1,
+      "box": {
+        "left": 579.8,
+        "top": 161.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk1D": {
+      "type": "checkbox",
+      "label": "Check if engine warmed up properly before operation for operator on first shift.",
+      "page": 1,
+      "box": {
+        "left": 165.2,
+        "top": 149.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk2D": {
+      "type": "checkbox",
+      "label": "Check if engine warmed up properly before operation for operator on second shift.",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 149.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk1Q": {
+      "type": "checkbox",
+      "label": "Check steering was checked during operation for operator on shift.",
+      "page": 1,
+      "box": {
+        "left": 332.2,
+        "top": 149.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk2Q": {
+      "type": "checkbox",
+      "label": "Check steering was checked during operation for operator on second shift.",
+      "page": 1,
+      "box": {
+        "left": 344.2,
+        "top": 149.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk3Q": {
+      "type": "checkbox",
+      "label": "Check steering was checked during operation for operator on third shift.",
+      "page": 1,
+      "box": {
+        "left": 356.2,
+        "top": 149.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk1AA": {
+      "type": "checkbox",
+      "label": "Check if air tank drains were checked after operation for operator on shift.",
+      "page": 1,
+      "box": {
+        "left": 544.2,
+        "top": 149.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk2AA": {
+      "type": "checkbox",
+      "label": "Check if air tank drains were checked after operation for operator on second shift.",
+      "page": 1,
+      "box": {
+        "left": 561.8,
+        "top": 149.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk3AA": {
+      "type": "checkbox",
+      "label": "Check if air tank drains were checked after operation for operator on third shift.",
+      "page": 1,
+      "box": {
+        "left": 579.8,
+        "top": 149.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk3D": {
+      "type": "checkbox",
+      "label": "Check if engine warmed up properly before operation for operator on third shift.",
+      "page": 1,
+      "box": {
+        "left": 190.2,
+        "top": 149.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk1E": {
+      "type": "checkbox",
+      "label": "Check if instruments worked properly before operation for operator on first shift.",
+      "page": 1,
+      "box": {
+        "left": 165.2,
+        "top": 137.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk2E": {
+      "type": "checkbox",
+      "label": "Check if instruments worked properly before operation for operator on second shift.",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 137.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk1R": {
+      "type": "checkbox",
+      "label": "Check engine operation was checked during operation for operator on shift.",
+      "page": 1,
+      "box": {
+        "left": 332.2,
+        "top": 137.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk2R": {
+      "type": "checkbox",
+      "label": "Check engine operation during operation for operator on second shift.",
+      "page": 1,
+      "box": {
+        "left": 344.2,
+        "top": 137.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk3R": {
+      "type": "checkbox",
+      "label": "Check engine operation during operation for operator on third shift.",
+      "page": 1,
+      "box": {
+        "left": 356.2,
+        "top": 137.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk1BB": {
+      "type": "checkbox",
+      "label": "Check if water oil and fuel were checked after operation for operator on shift.",
+      "page": 1,
+      "box": {
+        "left": 544.2,
+        "top": 137.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk2BB": {
+      "type": "checkbox",
+      "label": "Check if water oil and fuel were checked after operation for operator on second shift.",
+      "page": 1,
+      "box": {
+        "left": 561.8,
+        "top": 137.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk3BB": {
+      "type": "checkbox",
+      "label": "Check if water oil and fuel were checked after operation for operator on third shift.",
+      "page": 1,
+      "box": {
+        "left": 579.8,
+        "top": 137.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk3E": {
+      "type": "checkbox",
+      "label": "Check if instruments worked properly before operation for operator on third shift.",
+      "page": 1,
+      "box": {
+        "left": 190.2,
+        "top": 137.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk1F": {
+      "type": "checkbox",
+      "label": "Check if safety devices were checked before operation for operator on first shift.",
+      "page": 1,
+      "box": {
+        "left": 165.2,
+        "top": 125.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk2F": {
+      "type": "checkbox",
+      "label": "Check if safety devices were checked before operation for operator on second shift.",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 125.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk1S": {
+      "type": "checkbox",
+      "label": "Check if any unusual noises during operation for operator on shift.",
+      "page": 1,
+      "box": {
+        "left": 332.2,
+        "top": 125.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk2S": {
+      "type": "checkbox",
+      "label": "Check if any unusual noises during operation for operator on second shift.",
+      "page": 1,
+      "box": {
+        "left": 344.2,
+        "top": 125.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk3S": {
+      "type": "checkbox",
+      "label": "Check if any unusual noises during operation for operator on third shift.",
+      "page": 1,
+      "box": {
+        "left": 356.2,
+        "top": 125.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk1CC": {
+      "type": "checkbox",
+      "label": "Check if equipment was cleaned after operation for operator on shift.",
+      "page": 1,
+      "box": {
+        "left": 544.2,
+        "top": 125.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk2CC": {
+      "type": "checkbox",
+      "label": "Check if equipment was cleaned after operation for operator on second shift.",
+      "page": 1,
+      "box": {
+        "left": 561.8,
+        "top": 125.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk3CC": {
+      "type": "checkbox",
+      "label": "Check if equipment was cleaned after operation for operator on third shift.",
+      "page": 1,
+      "box": {
+        "left": 579.8,
+        "top": 125.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk3F": {
+      "type": "checkbox",
+      "label": "Check if safety devices were checked before operation for operator on third shift.",
+      "page": 1,
+      "box": {
+        "left": 190.2,
+        "top": 125.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "itmDD": {
+      "type": "text",
+      "label": "Enter after operation item 1.",
+      "page": 1,
+      "box": {
+        "left": 367.5,
+        "top": 113.8,
+        "width": 172.0,
+        "height": 11.0
+      }
+    },
+    "chk1G": {
+      "type": "checkbox",
+      "label": "Check if tools and equipment were checked before operation for operator on first shift.",
+      "page": 1,
+      "box": {
+        "left": 165.2,
+        "top": 113.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk2G": {
+      "type": "checkbox",
+      "label": "Check if tools and equipment were checked before operation for operator on second shift.",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 113.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk1T": {
+      "type": "checkbox",
+      "label": "Check for instrumentation malfunction during operation for operator on shift.",
+      "page": 1,
+      "box": {
+        "left": 332.2,
+        "top": 113.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk2T": {
+      "type": "checkbox",
+      "label": "Check for instrumentation malfunction during operation for operator on second shift.",
+      "page": 1,
+      "box": {
+        "left": 344.2,
+        "top": 113.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk3T": {
+      "type": "checkbox",
+      "label": "Check for instrumentation malfunction during operation for operator on third shift.",
+      "page": 1,
+      "box": {
+        "left": 356.2,
+        "top": 113.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk1DD": {
+      "type": "checkbox",
+      "label": "Check if item 1 was checked after operation for operator on first shift.",
+      "page": 1,
+      "box": {
+        "left": 544.2,
+        "top": 113.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk2DD": {
+      "type": "checkbox",
+      "label": "Check if item 1 was checked after operation for operator on second shift.",
+      "page": 1,
+      "box": {
+        "left": 561.8,
+        "top": 113.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk3DD": {
+      "type": "checkbox",
+      "label": "Check if item 1 was checked after operation for operator on third shift.",
+      "page": 1,
+      "box": {
+        "left": 579.8,
+        "top": 113.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk3G": {
+      "type": "checkbox",
+      "label": "Check if tools and equipment were checked before operation for operator on third shift.",
+      "page": 1,
+      "box": {
+        "left": 190.2,
+        "top": 113.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "itmEE": {
+      "type": "text",
+      "label": "Enter after operation item 2.",
+      "page": 1,
+      "box": {
+        "left": 367.5,
+        "top": 101.8,
+        "width": 172.0,
+        "height": 11.0
+      }
+    },
+    "itmK": {
+      "type": "text",
+      "label": "Enter before operation item 1.",
+      "page": 1,
+      "box": {
+        "left": 20.5,
+        "top": 101.5,
+        "width": 142.5,
+        "height": 11.0
+      }
+    },
+    "itmU": {
+      "type": "text",
+      "label": "Enter during operation item 1.",
+      "page": 1,
+      "box": {
+        "left": 202.0,
+        "top": 101.5,
+        "width": 129.0,
+        "height": 11.0
+      }
+    },
+    "chk1K": {
+      "type": "checkbox",
+      "label": "Check if item 1 was checked before operation for operator on first shift.",
+      "page": 1,
+      "box": {
+        "left": 165.2,
+        "top": 101.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk2K": {
+      "type": "checkbox",
+      "label": "Check if item 1 was checked before operation for operator on second shift.",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 101.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk1U": {
+      "type": "checkbox",
+      "label": "Check if item 1 was checked during operation for operator on first shift.",
+      "page": 1,
+      "box": {
+        "left": 332.2,
+        "top": 101.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk2U": {
+      "type": "checkbox",
+      "label": "Check if item 1 was checked during operation for operator on second shift.",
+      "page": 1,
+      "box": {
+        "left": 344.2,
+        "top": 101.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk3U": {
+      "type": "checkbox",
+      "label": "Check if item 1 was checked during operation for operator on third shift.",
+      "page": 1,
+      "box": {
+        "left": 356.2,
+        "top": 101.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk1EE": {
+      "type": "checkbox",
+      "label": "Check if item 2 was checked after operation for operator on first shift.",
+      "page": 1,
+      "box": {
+        "left": 544.2,
+        "top": 101.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk2EE": {
+      "type": "checkbox",
+      "label": "Check if item 2 was checked after operation for operator on second shift.",
+      "page": 1,
+      "box": {
+        "left": 561.8,
+        "top": 101.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk3EE": {
+      "type": "checkbox",
+      "label": "Check if item 2 was checked after operation for operator on third shift.",
+      "page": 1,
+      "box": {
+        "left": 579.8,
+        "top": 101.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk3K": {
+      "type": "checkbox",
+      "label": "Check if item 1 was checked before operation for operator on third shift.",
+      "page": 1,
+      "box": {
+        "left": 190.2,
+        "top": 101.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "itmV": {
+      "type": "text",
+      "label": "Enter during operation item 2.",
+      "page": 1,
+      "box": {
+        "left": 202.0,
+        "top": 89.8,
+        "width": 129.0,
+        "height": 11.0
+      }
+    },
+    "itmFF": {
+      "type": "text",
+      "label": "Enter after operation item 3.",
+      "page": 1,
+      "box": {
+        "left": 367.5,
+        "top": 89.8,
+        "width": 172.0,
+        "height": 11.0
+      }
+    },
+    "itmL": {
+      "type": "text",
+      "label": "Enter before operation item 2.",
+      "page": 1,
+      "box": {
+        "left": 20.5,
+        "top": 89.5,
+        "width": 142.5,
+        "height": 11.0
+      }
+    },
+    "chk1L": {
+      "type": "checkbox",
+      "label": "Check if item 2 was checked before operation for operator on first shift.",
+      "page": 1,
+      "box": {
+        "left": 165.2,
+        "top": 89.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk2L": {
+      "type": "checkbox",
+      "label": "Check if item 2 was checked before operation for operator on second shift.",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 89.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk1V": {
+      "type": "checkbox",
+      "label": "Check if item 2 was checked during operation for operator on first shift.",
+      "page": 1,
+      "box": {
+        "left": 332.2,
+        "top": 89.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk2V": {
+      "type": "checkbox",
+      "label": "Check if item 2 was checked during operation for operator on second shift.",
+      "page": 1,
+      "box": {
+        "left": 344.2,
+        "top": 89.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk3V": {
+      "type": "checkbox",
+      "label": "Check if item 2 was checked during operation for operator on third shift.",
+      "page": 1,
+      "box": {
+        "left": 356.2,
+        "top": 89.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk1FF": {
+      "type": "checkbox",
+      "label": "Check if item 3 was checked after operation for operator on first shift.",
+      "page": 1,
+      "box": {
+        "left": 544.2,
+        "top": 89.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk2FF": {
+      "type": "checkbox",
+      "label": "Check if item 3 was checked after operation for operator on second shift.",
+      "page": 1,
+      "box": {
+        "left": 561.8,
+        "top": 89.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk3FF": {
+      "type": "checkbox",
+      "label": "Check if item 3 was checked after operation for operator on third shift.",
+      "page": 1,
+      "box": {
+        "left": 579.8,
+        "top": 89.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk3L": {
+      "type": "checkbox",
+      "label": "Check if item 2 was checked before operation for operator on third shift.",
+      "page": 1,
+      "box": {
+        "left": 190.2,
+        "top": 89.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "itmW": {
+      "type": "text",
+      "label": "Enter during operation item 3.",
+      "page": 1,
+      "box": {
+        "left": 202.0,
+        "top": 78.2,
+        "width": 129.0,
+        "height": 11.0
+      }
+    },
+    "itmGG": {
+      "type": "text",
+      "label": "Enter after operation item 4.",
+      "page": 1,
+      "box": {
+        "left": 367.5,
+        "top": 78.2,
+        "width": 172.0,
+        "height": 11.0
+      }
+    },
+    "itmM": {
+      "type": "text",
+      "label": "Enter before operation item 3.",
+      "page": 1,
+      "box": {
+        "left": 20.5,
+        "top": 78.0,
+        "width": 142.5,
+        "height": 11.0
+      }
+    },
+    "chk1M": {
+      "type": "checkbox",
+      "label": "Check if item 3 was checked before operation for operator on first shift.",
+      "page": 1,
+      "box": {
+        "left": 165.2,
+        "top": 77.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk2M": {
+      "type": "checkbox",
+      "label": "Check if item 3 was checked before operation for operator on second shift.",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 77.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk1W": {
+      "type": "checkbox",
+      "label": "Check if item 3 was checked during operation for operator on first shift.",
+      "page": 1,
+      "box": {
+        "left": 332.2,
+        "top": 77.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk2W": {
+      "type": "checkbox",
+      "label": "Check if item 3 was checked during operation for operator on second shift.",
+      "page": 1,
+      "box": {
+        "left": 344.2,
+        "top": 77.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk3W": {
+      "type": "checkbox",
+      "label": "Check if item 3 was checked during operation for operator on third shift.",
+      "page": 1,
+      "box": {
+        "left": 356.2,
+        "top": 77.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk1GG": {
+      "type": "checkbox",
+      "label": "Check if item 4 was checked after operation for operator on first shift.",
+      "page": 1,
+      "box": {
+        "left": 544.2,
+        "top": 77.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk2GG": {
+      "type": "checkbox",
+      "label": "Check if item 4 was checked after operation for operator on second shift.",
+      "page": 1,
+      "box": {
+        "left": 561.8,
+        "top": 77.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk3GG": {
+      "type": "checkbox",
+      "label": "Check if item 4 was checked after operation for operator on third shift.",
+      "page": 1,
+      "box": {
+        "left": 579.8,
+        "top": 77.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "chk3M": {
+      "type": "checkbox",
+      "label": "Check if item 3 was checked before operation for operator on third shift.",
+      "page": 1,
+      "box": {
+        "left": 190.2,
+        "top": 77.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "a10": {
+      "type": "text",
+      "label": "Enter destination to point 10.",
+      "page": 2,
+      "box": {
+        "left": 32.0,
+        "top": 728.0,
+        "width": 123.3,
+        "height": 13.3
+      }
+    },
+    "b10": {
+      "type": "text",
+      "label": "Enter arrival time to point 10.",
+      "page": 2,
+      "box": {
+        "left": 156.0,
+        "top": 728.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "c10": {
+      "type": "text",
+      "label": "Enter departure time to point 10.",
+      "page": 2,
+      "box": {
+        "left": 194.7,
+        "top": 728.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "d10": {
+      "type": "text",
+      "label": "Enter arrival mileage to point 10.",
+      "page": 2,
+      "box": {
+        "left": 233.3,
+        "top": 728.0,
+        "width": 40.7,
+        "height": 13.3
+      }
+    },
+    "e10": {
+      "type": "text",
+      "label": "Enter cargo cube or weight to point 10.",
+      "page": 2,
+      "box": {
+        "left": 276.0,
+        "top": 728.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "f10": {
+      "type": "text",
+      "label": "Enter number of passengers to point 10.",
+      "page": 2,
+      "box": {
+        "left": 314.7,
+        "top": 728.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "signature10": {
+      "type": "signature",
+      "label": "Signature10",
+      "page": 2,
+      "box": {
+        "left": 360.0,
+        "top": 726.8,
+        "width": 231.3,
+        "height": 8.8
+      }
+    },
+    "a11": {
+      "type": "text",
+      "label": "Enter destination to point 11.",
+      "page": 2,
+      "box": {
+        "left": 32.0,
+        "top": 707.3,
+        "width": 123.3,
+        "height": 13.3
+      }
+    },
+    "b11": {
+      "type": "text",
+      "label": "Enter arrival time to point 11.",
+      "page": 2,
+      "box": {
+        "left": 156.0,
+        "top": 707.3,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "c11": {
+      "type": "text",
+      "label": "Enter departure time to point 11.",
+      "page": 2,
+      "box": {
+        "left": 194.7,
+        "top": 707.3,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "d11": {
+      "type": "text",
+      "label": "Enter arrival mileage to point 11.",
+      "page": 2,
+      "box": {
+        "left": 233.3,
+        "top": 707.3,
+        "width": 40.7,
+        "height": 13.3
+      }
+    },
+    "e11": {
+      "type": "text",
+      "label": "Enter cargo cube or weight to point 11.",
+      "page": 2,
+      "box": {
+        "left": 276.0,
+        "top": 707.3,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "f11": {
+      "type": "text",
+      "label": "Enter number of passengers to point 11.",
+      "page": 2,
+      "box": {
+        "left": 314.7,
+        "top": 707.3,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "signature12": {
+      "type": "signature",
+      "label": "Signature12",
+      "page": 2,
+      "box": {
+        "left": 359.8,
+        "top": 705.8,
+        "width": 231.3,
+        "height": 8.8
+      }
+    },
+    "a12": {
+      "type": "text",
+      "label": "Enter destination to point 12.",
+      "page": 2,
+      "box": {
+        "left": 31.3,
+        "top": 686.7,
+        "width": 123.3,
+        "height": 13.3
+      }
+    },
+    "b12": {
+      "type": "text",
+      "label": "Enter arrival time to point 12.",
+      "page": 2,
+      "box": {
+        "left": 155.3,
+        "top": 686.7,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "c12": {
+      "type": "text",
+      "label": "Enter departure time to point 12.",
+      "page": 2,
+      "box": {
+        "left": 194.0,
+        "top": 686.7,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "d12": {
+      "type": "text",
+      "label": "Enter arrival mileage to point 12.",
+      "page": 2,
+      "box": {
+        "left": 232.7,
+        "top": 686.7,
+        "width": 40.7,
+        "height": 13.3
+      }
+    },
+    "f12": {
+      "type": "text",
+      "label": "Enter number of passengers to point 12.",
+      "page": 2,
+      "box": {
+        "left": 314.0,
+        "top": 686.7,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "e12": {
+      "type": "text",
+      "label": "Enter cargo cube or weight to point 12.",
+      "page": 2,
+      "box": {
+        "left": 276.0,
+        "top": 685.8,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "signature13": {
+      "type": "signature",
+      "label": "Signature13",
+      "page": 2,
+      "box": {
+        "left": 359.9,
+        "top": 685.2,
+        "width": 231.3,
+        "height": 8.8
+      }
+    },
+    "a13": {
+      "type": "text",
+      "label": "Enter destination to point 13.",
+      "page": 2,
+      "box": {
+        "left": 31.3,
+        "top": 665.3,
+        "width": 123.3,
+        "height": 13.3
+      }
+    },
+    "b13": {
+      "type": "text",
+      "label": "Enter arrival time to point 13.",
+      "page": 2,
+      "box": {
+        "left": 155.3,
+        "top": 665.3,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "c13": {
+      "type": "text",
+      "label": "Enter departure time to point 13.",
+      "page": 2,
+      "box": {
+        "left": 194.0,
+        "top": 665.3,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "d13": {
+      "type": "text",
+      "label": "Enter arrival mileage to point 13.",
+      "page": 2,
+      "box": {
+        "left": 232.7,
+        "top": 665.3,
+        "width": 40.7,
+        "height": 13.3
+      }
+    },
+    "e13": {
+      "type": "text",
+      "label": "Enter cargo cube or weight to point 13.",
+      "page": 2,
+      "box": {
+        "left": 275.3,
+        "top": 665.3,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "f13": {
+      "type": "text",
+      "label": "Enter number of passengers to point 13.",
+      "page": 2,
+      "box": {
+        "left": 314.0,
+        "top": 665.3,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "signature14": {
+      "type": "signature",
+      "label": "Signature14",
+      "page": 2,
+      "box": {
+        "left": 359.8,
+        "top": 664.2,
+        "width": 231.3,
+        "height": 8.8
+      }
+    },
+    "e14": {
+      "type": "text",
+      "label": "Enter cargo cube or weight to point 14.",
+      "page": 2,
+      "box": {
+        "left": 275.1,
+        "top": 645.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "a14": {
+      "type": "text",
+      "label": "Enter destination to point 14.",
+      "page": 2,
+      "box": {
+        "left": 31.3,
+        "top": 644.7,
+        "width": 123.3,
+        "height": 13.3
+      }
+    },
+    "b14": {
+      "type": "text",
+      "label": "Enter arrival time to point 14.",
+      "page": 2,
+      "box": {
+        "left": 155.3,
+        "top": 644.7,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "c14": {
+      "type": "text",
+      "label": "Enter departure time to point 14.",
+      "page": 2,
+      "box": {
+        "left": 194.0,
+        "top": 644.7,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "d14": {
+      "type": "text",
+      "label": "Enter arrival mileage to point 14.",
+      "page": 2,
+      "box": {
+        "left": 232.7,
+        "top": 644.7,
+        "width": 40.7,
+        "height": 13.3
+      }
+    },
+    "f14": {
+      "type": "text",
+      "label": "Enter number of passengers to point 14.",
+      "page": 2,
+      "box": {
+        "left": 314.0,
+        "top": 644.7,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "signature15": {
+      "type": "signature",
+      "label": "Signature15",
+      "page": 2,
+      "box": {
+        "left": 359.9,
+        "top": 643.8,
+        "width": 231.3,
+        "height": 8.8
+      }
+    },
+    "a15": {
+      "type": "text",
+      "label": "Enter destination to point 15.",
+      "page": 2,
+      "box": {
+        "left": 30.7,
+        "top": 624.0,
+        "width": 123.3,
+        "height": 13.3
+      }
+    },
+    "b15": {
+      "type": "text",
+      "label": "Enter arrival time to point 15.",
+      "page": 2,
+      "box": {
+        "left": 154.7,
+        "top": 624.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "c15": {
+      "type": "text",
+      "label": "Enter departure time to point 15.",
+      "page": 2,
+      "box": {
+        "left": 193.3,
+        "top": 624.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "d15": {
+      "type": "text",
+      "label": "Enter arrival mileage to point 15.",
+      "page": 2,
+      "box": {
+        "left": 232.0,
+        "top": 624.0,
+        "width": 40.7,
+        "height": 13.3
+      }
+    },
+    "e15": {
+      "type": "text",
+      "label": "Enter cargo cube or weight to point 15.",
+      "page": 2,
+      "box": {
+        "left": 274.7,
+        "top": 624.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "f15": {
+      "type": "text",
+      "label": "Enter number of passengers to point 15.",
+      "page": 2,
+      "box": {
+        "left": 313.3,
+        "top": 624.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "signature16": {
+      "type": "signature",
+      "label": "Signature16",
+      "page": 2,
+      "box": {
+        "left": 359.8,
+        "top": 622.8,
+        "width": 231.3,
+        "height": 8.8
+      }
+    },
+    "a16": {
+      "type": "text",
+      "label": "Enter destination to point 16.",
+      "page": 2,
+      "box": {
+        "left": 30.7,
+        "top": 603.3,
+        "width": 123.3,
+        "height": 13.3
+      }
+    },
+    "b16": {
+      "type": "text",
+      "label": "Enter arrival time to point 16.",
+      "page": 2,
+      "box": {
+        "left": 154.7,
+        "top": 603.3,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "c16": {
+      "type": "text",
+      "label": "Enter departure time to point 16.",
+      "page": 2,
+      "box": {
+        "left": 193.3,
+        "top": 603.3,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "d16": {
+      "type": "text",
+      "label": "Enter arrival mileage to point 16.",
+      "page": 2,
+      "box": {
+        "left": 232.0,
+        "top": 603.3,
+        "width": 40.7,
+        "height": 13.3
+      }
+    },
+    "e16": {
+      "type": "text",
+      "label": "Enter cargo cube or weight to point 16.",
+      "page": 2,
+      "box": {
+        "left": 274.7,
+        "top": 603.3,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "f16": {
+      "type": "text",
+      "label": "Enter number of passengers to point 16.",
+      "page": 2,
+      "box": {
+        "left": 313.3,
+        "top": 603.3,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "signature17": {
+      "type": "signature",
+      "label": "Signature17",
+      "page": 2,
+      "box": {
+        "left": 359.9,
+        "top": 602.3,
+        "width": 231.3,
+        "height": 8.8
+      }
+    },
+    "a17": {
+      "type": "text",
+      "label": "Enter destination to point 17.",
+      "page": 2,
+      "box": {
+        "left": 30.7,
+        "top": 582.0,
+        "width": 123.3,
+        "height": 13.3
+      }
+    },
+    "b17": {
+      "type": "text",
+      "label": "Enter arrival time to point 17.",
+      "page": 2,
+      "box": {
+        "left": 154.7,
+        "top": 582.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "c17": {
+      "type": "text",
+      "label": "Enter departure time to point 17.",
+      "page": 2,
+      "box": {
+        "left": 193.3,
+        "top": 582.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "d17": {
+      "type": "text",
+      "label": "Enter arrival mileage to point 17.",
+      "page": 2,
+      "box": {
+        "left": 232.0,
+        "top": 582.0,
+        "width": 40.7,
+        "height": 13.3
+      }
+    },
+    "e17": {
+      "type": "text",
+      "label": "Enter cargo cube or weight to point 17.",
+      "page": 2,
+      "box": {
+        "left": 274.7,
+        "top": 582.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "f17": {
+      "type": "text",
+      "label": "Enter number of passengers to point 17.",
+      "page": 2,
+      "box": {
+        "left": 313.3,
+        "top": 582.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "signature18": {
+      "type": "signature",
+      "label": "Signature18",
+      "page": 2,
+      "box": {
+        "left": 359.7,
+        "top": 581.3,
+        "width": 231.3,
+        "height": 8.8
+      }
+    },
+    "a18": {
+      "type": "text",
+      "label": "Enter destination to point 18.",
+      "page": 2,
+      "box": {
+        "left": 30.0,
+        "top": 561.3,
+        "width": 123.3,
+        "height": 13.3
+      }
+    },
+    "b18": {
+      "type": "text",
+      "label": "Enter arrival time to point 18.",
+      "page": 2,
+      "box": {
+        "left": 154.0,
+        "top": 561.3,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "c18": {
+      "type": "text",
+      "label": "Enter departure time to point 18.",
+      "page": 2,
+      "box": {
+        "left": 192.7,
+        "top": 561.3,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "d18": {
+      "type": "text",
+      "label": "Enter arrival mileage to point 18.",
+      "page": 2,
+      "box": {
+        "left": 231.3,
+        "top": 561.3,
+        "width": 40.7,
+        "height": 13.3
+      }
+    },
+    "e18": {
+      "type": "text",
+      "label": "Enter cargo cube or weight to point 18.",
+      "page": 2,
+      "box": {
+        "left": 275.6,
+        "top": 561.3,
+        "width": 35.8,
+        "height": 13.3
+      }
+    },
+    "f18": {
+      "type": "text",
+      "label": "Enter number of passengers to point 18.",
+      "page": 2,
+      "box": {
+        "left": 312.7,
+        "top": 561.3,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "signature19": {
+      "type": "signature",
+      "label": "Signature19",
+      "page": 2,
+      "box": {
+        "left": 359.9,
+        "top": 560.4,
+        "width": 231.3,
+        "height": 8.8
+      }
+    },
+    "a19": {
+      "type": "text",
+      "label": "Enter destination to point 19.",
+      "page": 2,
+      "box": {
+        "left": 30.0,
+        "top": 540.0,
+        "width": 123.3,
+        "height": 13.3
+      }
+    },
+    "b19": {
+      "type": "text",
+      "label": "Enter arrival time to point 19.",
+      "page": 2,
+      "box": {
+        "left": 154.0,
+        "top": 540.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "c19": {
+      "type": "text",
+      "label": "Enter departure time to point 19.",
+      "page": 2,
+      "box": {
+        "left": 192.7,
+        "top": 540.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "d19": {
+      "type": "text",
+      "label": "Enter arrival mileage to point 19.",
+      "page": 2,
+      "box": {
+        "left": 231.3,
+        "top": 540.0,
+        "width": 40.7,
+        "height": 13.3
+      }
+    },
+    "e19": {
+      "type": "text",
+      "label": "Enter cargo cube or weight to point 19.",
+      "page": 2,
+      "box": {
+        "left": 274.0,
+        "top": 540.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "f19": {
+      "type": "text",
+      "label": "Enter number of passengers to point 19.",
+      "page": 2,
+      "box": {
+        "left": 312.7,
+        "top": 540.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "signature20": {
+      "type": "signature",
+      "label": "Signature20",
+      "page": 2,
+      "box": {
+        "left": 359.8,
+        "top": 539.4,
+        "width": 231.3,
+        "height": 8.8
+      }
+    },
+    "a20": {
+      "type": "text",
+      "label": "Enter destination to point 20.",
+      "page": 2,
+      "box": {
+        "left": 30.7,
+        "top": 520.0,
+        "width": 123.3,
+        "height": 13.3
+      }
+    },
+    "b20": {
+      "type": "text",
+      "label": "Enter arrival time to point 20.",
+      "page": 2,
+      "box": {
+        "left": 154.7,
+        "top": 520.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "c20": {
+      "type": "text",
+      "label": "Enter departure time to point 20.",
+      "page": 2,
+      "box": {
+        "left": 193.3,
+        "top": 520.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "d20": {
+      "type": "text",
+      "label": "Enter arrival mileage to point 20.",
+      "page": 2,
+      "box": {
+        "left": 232.0,
+        "top": 520.0,
+        "width": 40.7,
+        "height": 13.3
+      }
+    },
+    "e20": {
+      "type": "text",
+      "label": "Enter cargo cube or weight to point 20.",
+      "page": 2,
+      "box": {
+        "left": 274.7,
+        "top": 520.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "f20": {
+      "type": "text",
+      "label": "Enter number of passengers to point 20.",
+      "page": 2,
+      "box": {
+        "left": 313.3,
+        "top": 520.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "signature21": {
+      "type": "signature",
+      "label": "Signature21",
+      "page": 2,
+      "box": {
+        "left": 359.9,
+        "top": 518.8,
+        "width": 231.3,
+        "height": 8.8
+      }
+    },
+    "a21": {
+      "type": "text",
+      "label": "Enter destination to point 21.",
+      "page": 2,
+      "box": {
+        "left": 30.0,
+        "top": 499.3,
+        "width": 123.3,
+        "height": 13.3
+      }
+    },
+    "b21": {
+      "type": "text",
+      "label": "Enter arrival time to point 21.",
+      "page": 2,
+      "box": {
+        "left": 154.0,
+        "top": 499.3,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "c21": {
+      "type": "text",
+      "label": "Enter departure time to point 21.",
+      "page": 2,
+      "box": {
+        "left": 192.7,
+        "top": 499.3,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "d21": {
+      "type": "text",
+      "label": "Enter arrival mileage to point 21.",
+      "page": 2,
+      "box": {
+        "left": 231.3,
+        "top": 499.3,
+        "width": 40.7,
+        "height": 13.3
+      }
+    },
+    "e21": {
+      "type": "text",
+      "label": "Enter cargo cube or weight to point 21.",
+      "page": 2,
+      "box": {
+        "left": 274.0,
+        "top": 499.3,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "f21": {
+      "type": "text",
+      "label": "Enter number of passengers to point 21.",
+      "page": 2,
+      "box": {
+        "left": 312.7,
+        "top": 499.3,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "signature22": {
+      "type": "signature",
+      "label": "Signature22",
+      "page": 2,
+      "box": {
+        "left": 359.7,
+        "top": 497.8,
+        "width": 231.3,
+        "height": 8.8
+      }
+    },
+    "a22": {
+      "type": "text",
+      "label": "Enter destination to point 22.",
+      "page": 2,
+      "box": {
+        "left": 30.0,
+        "top": 478.0,
+        "width": 123.3,
+        "height": 13.3
+      }
+    },
+    "b22": {
+      "type": "text",
+      "label": "Enter arrival time to point 22.",
+      "page": 2,
+      "box": {
+        "left": 154.0,
+        "top": 478.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "c22": {
+      "type": "text",
+      "label": "Enter departure time to point 22.",
+      "page": 2,
+      "box": {
+        "left": 192.7,
+        "top": 478.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "d22": {
+      "type": "text",
+      "label": "Enter arrival mileage to point 22.",
+      "page": 2,
+      "box": {
+        "left": 231.3,
+        "top": 478.0,
+        "width": 40.7,
+        "height": 13.3
+      }
+    },
+    "e22": {
+      "type": "text",
+      "label": "Enter cargo cube or weight to point 22.",
+      "page": 2,
+      "box": {
+        "left": 274.0,
+        "top": 478.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "f22": {
+      "type": "text",
+      "label": "Enter number of passengers to point 22.",
+      "page": 2,
+      "box": {
+        "left": 312.7,
+        "top": 478.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "signature23": {
+      "type": "signature",
+      "label": "Signature23",
+      "page": 2,
+      "box": {
+        "left": 359.9,
+        "top": 477.5,
+        "width": 231.3,
+        "height": 8.8
+      }
+    },
+    "a23": {
+      "type": "text",
+      "label": "Enter destination to point 23.",
+      "page": 2,
+      "box": {
+        "left": 30.0,
+        "top": 457.3,
+        "width": 123.3,
+        "height": 13.3
+      }
+    },
+    "b23": {
+      "type": "text",
+      "label": "Enter arrival time to point 23.",
+      "page": 2,
+      "box": {
+        "left": 154.7,
+        "top": 457.3,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "c23": {
+      "type": "text",
+      "label": "Enter departure time to point 23.",
+      "page": 2,
+      "box": {
+        "left": 193.3,
+        "top": 457.3,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "d23": {
+      "type": "text",
+      "label": "Enter arrival mileage to point 23.",
+      "page": 2,
+      "box": {
+        "left": 232.0,
+        "top": 457.3,
+        "width": 40.7,
+        "height": 13.3
+      }
+    },
+    "e23": {
+      "type": "text",
+      "label": "Enter cargo cube or weight to point 23.",
+      "page": 2,
+      "box": {
+        "left": 274.7,
+        "top": 457.3,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "f23": {
+      "type": "text",
+      "label": "Enter number of passengers to point 23.",
+      "page": 2,
+      "box": {
+        "left": 313.3,
+        "top": 457.3,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "signature24": {
+      "type": "signature",
+      "label": "Signature24",
+      "page": 2,
+      "box": {
+        "left": 359.7,
+        "top": 456.5,
+        "width": 231.3,
+        "height": 8.8
+      }
+    },
+    "a24": {
+      "type": "text",
+      "label": "Enter destination to point 24.",
+      "page": 2,
+      "box": {
+        "left": 30.7,
+        "top": 436.7,
+        "width": 123.3,
+        "height": 13.3
+      }
+    },
+    "b24": {
+      "type": "text",
+      "label": "Enter arrival time to point 24.",
+      "page": 2,
+      "box": {
+        "left": 154.7,
+        "top": 436.7,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "c24": {
+      "type": "text",
+      "label": "Enter departure time to point 24.",
+      "page": 2,
+      "box": {
+        "left": 193.3,
+        "top": 436.7,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "d24": {
+      "type": "text",
+      "label": "Enter arrival mileage to point 24.",
+      "page": 2,
+      "box": {
+        "left": 232.0,
+        "top": 436.7,
+        "width": 40.7,
+        "height": 13.3
+      }
+    },
+    "e24": {
+      "type": "text",
+      "label": "Enter cargo cube or weight to point 24.",
+      "page": 2,
+      "box": {
+        "left": 274.7,
+        "top": 436.7,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "f24": {
+      "type": "text",
+      "label": "Enter number of passengers to point 24.",
+      "page": 2,
+      "box": {
+        "left": 313.3,
+        "top": 436.7,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "signature25": {
+      "type": "signature",
+      "label": "Signature25",
+      "page": 2,
+      "box": {
+        "left": 359.8,
+        "top": 435.9,
+        "width": 231.3,
+        "height": 8.8
+      }
+    },
+    "a25": {
+      "type": "text",
+      "label": "Enter destination to point 25.",
+      "page": 2,
+      "box": {
+        "left": 31.3,
+        "top": 416.0,
+        "width": 123.3,
+        "height": 13.3
+      }
+    },
+    "b25": {
+      "type": "text",
+      "label": "Enter arrival time to point 25.",
+      "page": 2,
+      "box": {
+        "left": 155.3,
+        "top": 416.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "c25": {
+      "type": "text",
+      "label": "Enter departure time to point 25.",
+      "page": 2,
+      "box": {
+        "left": 194.0,
+        "top": 416.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "d25": {
+      "type": "text",
+      "label": "Enter arrival mileage to point 25.",
+      "page": 2,
+      "box": {
+        "left": 232.7,
+        "top": 416.0,
+        "width": 40.7,
+        "height": 13.3
+      }
+    },
+    "e25": {
+      "type": "text",
+      "label": "Enter cargo cube or weight to point 25.",
+      "page": 2,
+      "box": {
+        "left": 275.3,
+        "top": 416.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "f25": {
+      "type": "text",
+      "label": "Enter number of passengers to point 25.",
+      "page": 2,
+      "box": {
+        "left": 314.0,
+        "top": 416.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "signature26": {
+      "type": "signature",
+      "label": "Signature26",
+      "page": 2,
+      "box": {
+        "left": 359.7,
+        "top": 414.9,
+        "width": 231.3,
+        "height": 8.8
+      }
+    },
+    "a26": {
+      "type": "text",
+      "label": "Enter destination to point 26.",
+      "page": 2,
+      "box": {
+        "left": 30.7,
+        "top": 395.3,
+        "width": 123.3,
+        "height": 13.3
+      }
+    },
+    "b26": {
+      "type": "text",
+      "label": "Enter arrival time to point 26.",
+      "page": 2,
+      "box": {
+        "left": 154.7,
+        "top": 395.3,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "c26": {
+      "type": "text",
+      "label": "Enter departure time to point 26.",
+      "page": 2,
+      "box": {
+        "left": 193.3,
+        "top": 395.3,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "d26": {
+      "type": "text",
+      "label": "Enter arrival mileage to point 26.",
+      "page": 2,
+      "box": {
+        "left": 232.0,
+        "top": 395.3,
+        "width": 40.7,
+        "height": 13.3
+      }
+    },
+    "e26": {
+      "type": "text",
+      "label": "Enter cargo cube or weight to point 26.",
+      "page": 2,
+      "box": {
+        "left": 274.7,
+        "top": 395.3,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "f26": {
+      "type": "text",
+      "label": "Enter number of passengers to point 26.",
+      "page": 2,
+      "box": {
+        "left": 313.3,
+        "top": 395.3,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "signature27": {
+      "type": "signature",
+      "label": "Signature27",
+      "page": 2,
+      "box": {
+        "left": 359.9,
+        "top": 393.5,
+        "width": 231.3,
+        "height": 8.8
+      }
+    },
+    "a27": {
+      "type": "text",
+      "label": "Enter destination to point 27.",
+      "page": 2,
+      "box": {
+        "left": 30.7,
+        "top": 374.0,
+        "width": 123.3,
+        "height": 13.3
+      }
+    },
+    "b27": {
+      "type": "text",
+      "label": "Enter arrival time to point 27.",
+      "page": 2,
+      "box": {
+        "left": 154.7,
+        "top": 374.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "c27": {
+      "type": "text",
+      "label": "Enter departure time to point 27.",
+      "page": 2,
+      "box": {
+        "left": 193.3,
+        "top": 374.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "d27": {
+      "type": "text",
+      "label": "Enter arrival mileage to point 27.",
+      "page": 2,
+      "box": {
+        "left": 232.0,
+        "top": 374.0,
+        "width": 40.7,
+        "height": 13.3
+      }
+    },
+    "e27": {
+      "type": "text",
+      "label": "Enter cargo cube or weight to point 27.",
+      "page": 2,
+      "box": {
+        "left": 274.7,
+        "top": 374.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "f27": {
+      "type": "text",
+      "label": "Enter number of passengers to point 27.",
+      "page": 2,
+      "box": {
+        "left": 313.3,
+        "top": 374.0,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "signature28": {
+      "type": "signature",
+      "label": "Signature28",
+      "page": 2,
+      "box": {
+        "left": 359.2,
+        "top": 372.9,
+        "width": 231.3,
+        "height": 8.8
+      }
+    },
+    "eTotal": {
+      "type": "text",
+      "label": "Enter cargo cube or weight total.",
+      "page": 2,
+      "box": {
+        "left": 274.1,
+        "top": 352.8,
+        "width": 37.5,
+        "height": 13.8
+      }
+    },
+    "fTotal": {
+      "type": "text",
+      "label": "Enter total number of passengers.",
+      "page": 2,
+      "box": {
+        "left": 315.5,
+        "top": 352.2,
+        "width": 37.5,
+        "height": 13.8
+      }
+    },
+    "nameOperat2": {
+      "type": "text",
+      "label": "Enter name of second operator.",
+      "page": 2,
+      "box": {
+        "left": 311.2,
+        "top": 325.6,
+        "width": 282.9,
+        "height": 18.4
+      }
+    },
+    "nameOperat1": {
+      "type": "text",
+      "label": "Enter name of first operator.",
+      "page": 2,
+      "box": {
+        "left": 22.4,
+        "top": 324.9,
+        "width": 282.9,
+        "height": 18.4
+      }
+    },
+    "p1Etot2": {
+      "type": "text",
+      "label": "2D OPERATOR",
+      "page": 2,
+      "box": {
+        "left": 315.6,
+        "top": 296.9,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "p1Ftot2": {
+      "type": "text",
+      "label": "P 1 Ftot 2",
+      "page": 2,
+      "box": {
+        "left": 386.4,
+        "top": 296.4,
+        "width": 37.3,
+        "height": 13.3
+      }
+    },
+    "nameOperat3": {
+      "type": "text",
+      "label": "Enter name of third operator.",
+      "page": 2,
+      "box": {
+        "left": 22.4,
+        "top": 295.3,
+        "width": 282.9,
+        "height": 17.8
+      }
+    },
+    "remarksP2": {
+      "type": "text",
+      "label": "Enter any remarks.",
+      "page": 2,
+      "box": {
+        "left": 20.4,
+        "top": 230.4,
+        "width": 570.4,
+        "height": 187.7
+      },
+      "multiline": true
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 48.35,
+      "editor": "grid",
+      "columns": {
+        "timeOut": {
+          "type": "text",
+          "label": "Enter time out for first operator.",
+          "page": 1,
+          "box": {
+            "left": 271.1,
+            "top": 661.7,
+            "width": 43.0,
+            "height": 13.2
+          }
+        },
+        "milesOut": {
+          "type": "text",
+          "label": "Enter miles out for first operator.",
+          "page": 1,
+          "box": {
+            "left": 317.1,
+            "top": 661.7,
+            "width": 42.1,
+            "height": 13.2
+          }
+        }
+      }
+    }
+  }
+}

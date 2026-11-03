@@ -1,0 +1,286 @@
+{
+  "id": "opnav55801g",
+  "label": "OPNAV5580-1G - Incident Report Addendum - Property",
+  "directory": "OPNAV5580-1G - Incident Report Addendum - Property",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "incidentNumber",
+        "supplemental",
+        "supplemental2",
+        "pageNumber",
+        "totalNumberPages"
+      ]
+    }
+  ],
+  "fields": {
+    "incidentNumber": {
+      "type": "text",
+      "label": "Enter the incident number.",
+      "page": 1,
+      "box": {
+        "left": 453.7,
+        "top": 570.3,
+        "width": 191.3,
+        "height": 28.5
+      }
+    },
+    "supplemental": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 655.4,
+        "top": 568.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_Supplemental_0"
+    },
+    "supplemental2": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 655.4,
+        "top": 551.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_Supplemental_0"
+    },
+    "pageNumber": {
+      "type": "text",
+      "label": "Enter the page number.",
+      "page": 1,
+      "box": {
+        "left": 667.4,
+        "top": 40.0,
+        "width": 14.4,
+        "height": 12.0
+      }
+    },
+    "totalNumberPages": {
+      "type": "text",
+      "label": "Enter the total number of pages.",
+      "page": 1,
+      "box": {
+        "left": 696.4,
+        "top": 40.0,
+        "width": 16.1,
+        "height": 12.0
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 14.8,
+      "editor": "grid",
+      "columns": {
+        "drugType1": {
+          "type": "text",
+          "label": "This is row 1 of 3, enter the drug type (f).",
+          "page": 1,
+          "box": {
+            "left": 33.0,
+            "top": 85.2,
+            "width": 87.8,
+            "height": 13.3
+          }
+        },
+        "estQuantity2": {
+          "type": "text",
+          "label": "Enter the est. quantity.",
+          "page": 1,
+          "box": {
+            "left": 122.3,
+            "top": 85.2,
+            "width": 88.5,
+            "height": 13.3
+          }
+        },
+        "measurement3": {
+          "type": "text",
+          "label": "Enter the measurement.",
+          "page": 1,
+          "box": {
+            "left": 212.2,
+            "top": 85.2,
+            "width": 88.5,
+            "height": 13.3
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 7,
+      "rowStride": 17.87,
+      "editor": "grid",
+      "columns": {
+        "code": {
+          "type": "text",
+          "label": "This is row 1 of 7, enter the code (a).",
+          "page": 1,
+          "box": {
+            "left": 33.7,
+            "top": 410.7,
+            "width": 24.9,
+            "height": 15.0
+          }
+        },
+        "type": {
+          "type": "text",
+          "label": "Enter the type (b).",
+          "page": 1,
+          "box": {
+            "left": 61.4,
+            "top": 410.7,
+            "width": 22.6,
+            "height": 15.0
+          }
+        },
+        "quantity": {
+          "type": "text",
+          "label": "Enter the quantity.",
+          "page": 1,
+          "box": {
+            "left": 86.9,
+            "top": 410.7,
+            "width": 18.9,
+            "height": 15.0
+          }
+        },
+        "description": {
+          "type": "text",
+          "label": "Enter the description.",
+          "page": 1,
+          "box": {
+            "left": 108.7,
+            "top": 410.7,
+            "width": 167.4,
+            "height": 15.0
+          }
+        },
+        "makeModel": {
+          "type": "text",
+          "label": "Enter the make and/or model.",
+          "page": 1,
+          "box": {
+            "left": 278.9,
+            "top": 410.7,
+            "width": 67.7,
+            "height": 15.0
+          }
+        },
+        "size": {
+          "type": "text",
+          "label": "Enter the size.",
+          "page": 1,
+          "box": {
+            "left": 349.4,
+            "top": 410.7,
+            "width": 29.4,
+            "height": 15.0
+          }
+        },
+        "serial": {
+          "type": "text",
+          "label": "Enter the serial number.",
+          "page": 1,
+          "box": {
+            "left": 381.7,
+            "top": 410.7,
+            "width": 63.2,
+            "height": 15.0
+          }
+        },
+        "color": {
+          "type": "text",
+          "label": "Enter the color.",
+          "page": 1,
+          "box": {
+            "left": 447.7,
+            "top": 410.7,
+            "width": 39.9,
+            "height": 15.0
+          }
+        },
+        "value": {
+          "type": "text",
+          "label": "Enter the value.",
+          "page": 1,
+          "box": {
+            "left": 490.4,
+            "top": 410.7,
+            "width": 39.9,
+            "height": 15.0
+          }
+        },
+        "su": {
+          "type": "text",
+          "label": "Enter the S/U (c).",
+          "page": 1,
+          "box": {
+            "left": 533.2,
+            "top": 410.7,
+            "width": 26.4,
+            "height": 15.0
+          }
+        },
+        "owner": {
+          "type": "text",
+          "label": "Enter the owner (d).",
+          "page": 1,
+          "box": {
+            "left": 562.4,
+            "top": 410.7,
+            "width": 37.7,
+            "height": 15.0
+          }
+        },
+        "disp": {
+          "type": "text",
+          "label": "Enter the DISP (e).",
+          "page": 1,
+          "box": {
+            "left": 602.9,
+            "top": 410.7,
+            "width": 30.2,
+            "height": 15.0
+          }
+        },
+        "vehicles": {
+          "type": "text",
+          "label": "Enter the number of vehicles recovered.",
+          "page": 1,
+          "box": {
+            "left": 636.6,
+            "top": 410.7,
+            "width": 49.0,
+            "height": 15.0
+          }
+        },
+        "dateRecovered": {
+          "type": "text",
+          "label": "Enter the date recovered using the format DD MMM YYYY.",
+          "page": 1,
+          "box": {
+            "left": 689.9,
+            "top": 410.7,
+            "width": 60.2,
+            "height": 15.0
+          }
+        }
+      }
+    }
+  }
+}

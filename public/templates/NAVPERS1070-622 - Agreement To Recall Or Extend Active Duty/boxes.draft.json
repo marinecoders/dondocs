@@ -1,0 +1,469 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "textField1": {
+        "left": 66.6,
+        "top": 717.2,
+        "width": 272.6,
+        "height": 21.3,
+        "type": "text",
+        "description": "Please enter member's name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField12": {
+        "left": 367.3,
+        "top": 717.2,
+        "width": 88.8,
+        "height": 21.3,
+        "type": "text",
+        "description": "Please enter member's social security number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField13": {
+        "left": 489.6,
+        "top": 717.2,
+        "width": 83.6,
+        "height": 21.3,
+        "type": "text",
+        "description": "Please enter member's branch class",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField4": {
+        "left": 65.1,
+        "top": 663.2,
+        "width": 40.1,
+        "height": 21.3,
+        "type": "text",
+        "description": "Please enter member's rate",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField42": {
+        "left": 128.8,
+        "top": 663.2,
+        "width": 39.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "Please enter member's u i c",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField43": {
+        "left": 248.8,
+        "top": 663.2,
+        "width": 63.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "DATE REPORTED:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField44": {
+        "left": 341.1,
+        "top": 663.2,
+        "width": 52.1,
+        "height": 21.3,
+        "type": "text",
+        "description": "CAD:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField45": {
+        "left": 466.3,
+        "top": 663.2,
+        "width": 34.8,
+        "height": 21.3,
+        "type": "text",
+        "description": "RADO:  MONTHS:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField46": {
+        "left": 536.8,
+        "top": 663.2,
+        "width": 36.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "DAYS:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField47": {
+        "left": 179.8,
+        "top": 637.7,
+        "width": 186.3,
+        "height": 22.8,
+        "type": "text",
+        "description": "ORDERED TO ACTIVE DUTY FROM:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField48": {
+        "left": 462.6,
+        "top": 637.7,
+        "width": 20.6,
+        "height": 22.8,
+        "type": "text",
+        "description": "STATUS: VOLUNTARY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField49": {
+        "left": 553.3,
+        "top": 636.2,
+        "width": 19.8,
+        "height": 21.3,
+        "type": "text",
+        "description": "INVOLUNTARY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField410": {
+        "left": 149.1,
+        "top": 609.2,
+        "width": 172.1,
+        "height": 21.3,
+        "type": "text",
+        "description": "RETAINED ONBOARD FOR:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField411": {
+        "left": 411.6,
+        "top": 609.2,
+        "width": 161.6,
+        "height": 21.3,
+        "type": "text",
+        "description": "ORDERS ISSUED BY:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField412": {
+        "left": 61.3,
+        "top": 582.2,
+        "width": 34.8,
+        "height": 19.8,
+        "type": "text",
+        "description": "TAR:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField413": {
+        "left": 140.1,
+        "top": 582.2,
+        "width": 433.1,
+        "height": 19.8,
+        "type": "text",
+        "description": "OTHER:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField414": {
+        "left": 65.1,
+        "top": 555.2,
+        "width": 112.1,
+        "height": 19.8,
+        "type": "text",
+        "description": "Enter authority",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField415": {
+        "left": 207.6,
+        "top": 555.2,
+        "width": 41.6,
+        "height": 19.8,
+        "type": "text",
+        "description": "Please enter C E D",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField416": {
+        "left": 282.6,
+        "top": 555.2,
+        "width": 47.6,
+        "height": 19.8,
+        "type": "text",
+        "description": "Enter pay entry base date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField417": {
+        "left": 363.6,
+        "top": 555.2,
+        "width": 47.6,
+        "height": 19.8,
+        "type": "text",
+        "description": "Enter active duty service date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField418": {
+        "left": 444.6,
+        "top": 555.2,
+        "width": 47.6,
+        "height": 19.8,
+        "type": "text",
+        "description": "Enter O P E X",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField419": {
+        "left": 531.6,
+        "top": 555.2,
+        "width": 41.6,
+        "height": 19.8,
+        "type": "text",
+        "description": "Enter I N O P E X",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField420": {
+        "left": 161.1,
+        "top": 528.2,
+        "width": 88.1,
+        "height": 19.8,
+        "type": "text",
+        "description": "Enter expiration of reserve enlistment",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField421": {
+        "left": 279.6,
+        "top": 528.2,
+        "width": 68.6,
+        "height": 19.8,
+        "type": "text",
+        "description": "Enter C S P ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField422": {
+        "left": 416.8,
+        "top": 528.2,
+        "width": 57.3,
+        "height": 19.8,
+        "type": "text",
+        "description": "Enter ultimate u i c",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField423": {
+        "left": 513.6,
+        "top": 528.2,
+        "width": 59.6,
+        "height": 19.8,
+        "type": "text",
+        "description": "Enter date of birth",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField424": {
+        "left": 94.3,
+        "top": 492.2,
+        "width": 219.4,
+        "height": 17.1,
+        "type": "text",
+        "description": "         (CERTIFYING OFFICER'S NAME AND RANK)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField7": {
+        "left": 44.8,
+        "top": 441.2,
+        "width": 228.3,
+        "height": 18.3,
+        "type": "text",
+        "description": "Member's full name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField72": {
+        "left": 428.8,
+        "top": 423.2,
+        "width": 42.3,
+        "height": 18.3,
+        "type": "text",
+        "description": "Enter X if agreement to remain on active duty is for school.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField73": {
+        "left": 512.8,
+        "top": 423.2,
+        "width": 42.3,
+        "height": 18.3,
+        "type": "text",
+        "description": "Enter X if agreement to remain on active duty is for other than school.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField74": {
+        "left": 50.8,
+        "top": 417.2,
+        "width": 24.3,
+        "height": 12.3,
+        "type": "text",
+        "description": "Number month consented to remain on active duty.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField75": {
+        "left": 50.8,
+        "top": 399.2,
+        "width": 204.3,
+        "height": 24.3,
+        "type": "text",
+        "description": "TextField7",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField8": {
+        "left": 38.8,
+        "top": 357.2,
+        "width": 534.3,
+        "height": 54.3,
+        "type": "text",
+        "description": "List any promises to remain on active duty.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField76": {
+        "left": 56.1,
+        "top": 271.1,
+        "width": 40.1,
+        "height": 19.8,
+        "type": "text",
+        "description": "Please enter day witnessed or accepted on behalf of the U. S. Navy.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField77": {
+        "left": 137.8,
+        "top": 271.1,
+        "width": 66.3,
+        "height": 19.8,
+        "type": "text",
+        "description": "Please enter month witnessed or accepted on behalf of the U. S. Navy.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField78": {
+        "left": 245.8,
+        "top": 271.1,
+        "width": 21.3,
+        "height": 19.8,
+        "type": "text",
+        "description": "Please enter last 2 digits of the year witnessed or accepted on behalf of the U. S. Navy.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField425": {
+        "left": 93.5,
+        "top": 232.9,
+        "width": 219.4,
+        "height": 17.1,
+        "type": "text",
+        "description": "Please enter Certifying Officer's full name and rank.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField79": {
+        "left": 317.8,
+        "top": 177.2,
+        "width": 30.3,
+        "height": 18.3,
+        "type": "text",
+        "description": "Please enter number of months identified hereon.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField710": {
+        "left": 506.8,
+        "top": 177.2,
+        "width": 73.8,
+        "height": 18.3,
+        "type": "text",
+        "description": "Please enter the cancellation effective date.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField711": {
+        "left": 86.8,
+        "top": 159.2,
+        "width": 405.3,
+        "height": 18.3,
+        "type": "text",
+        "description": "Enter authority to cancel agreement to remain on active duty",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField426": {
+        "left": 93.5,
+        "top": 116.4,
+        "width": 219.4,
+        "height": 17.1,
+        "type": "text",
+        "description": "Please enter Certifying Officer's full name and rank.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

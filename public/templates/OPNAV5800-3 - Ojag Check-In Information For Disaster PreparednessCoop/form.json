@@ -1,0 +1,531 @@
+{
+  "id": "opnav58003",
+  "label": "OPNAV5800-3 - Ojag Check-In Information For Disaster PreparednessCoop",
+  "directory": "OPNAV5800-3 - Ojag Check-In Information For Disaster PreparednessCoop",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "lNme",
+        "fNme",
+        "mi",
+        "gdr",
+        "socSer",
+        "dob",
+        "rpt",
+        "prd",
+        "rnk",
+        "srev",
+        "bseLoc",
+        "bldg",
+        "cde",
+        "uic",
+        "nmwImmSup",
+        "immSupPhn",
+        "wrkPhn",
+        "wrkCellPhn",
+        "hmePhn",
+        "hmeCellPhn",
+        "bBPhn",
+        "wrkEmlAcct",
+        "sIPREmlAcct",
+        "hmeEmlAcct",
+        "address",
+        "eCLNme",
+        "eCFNme",
+        "relShp",
+        "eCWrkPhn",
+        "eCHmePhn",
+        "eCHmeCellPhn",
+        "eCEmlAcct",
+        "eCAddress",
+        "radio",
+        "radio2",
+        "radio3",
+        "radio4",
+        "nfaas",
+        "twms",
+        "esams",
+        "dirtry",
+        "ia"
+      ]
+    }
+  ],
+  "fields": {
+    "lNme": {
+      "type": "text",
+      "label": "1. Last Name",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 548.3,
+        "width": 147.4,
+        "height": 14.5
+      }
+    },
+    "fNme": {
+      "type": "text",
+      "label": "2. First Name",
+      "page": 1,
+      "box": {
+        "left": 191.9,
+        "top": 548.3,
+        "width": 147.4,
+        "height": 14.5
+      }
+    },
+    "mi": {
+      "type": "text",
+      "label": "3. Middle Initial",
+      "page": 1,
+      "box": {
+        "left": 344.9,
+        "top": 548.3,
+        "width": 57.3,
+        "height": 14.5
+      }
+    },
+    "gdr": {
+      "type": "text",
+      "label": "4. Sex",
+      "page": 1,
+      "box": {
+        "left": 407.9,
+        "top": 548.3,
+        "width": 70.8,
+        "height": 14.5
+      }
+    },
+    "socSer": {
+      "type": "text",
+      "label": "5. SSN/DoDID",
+      "page": 1,
+      "box": {
+        "left": 484.4,
+        "top": 548.3,
+        "width": 88.8,
+        "height": 14.5
+      }
+    },
+    "dob": {
+      "type": "text",
+      "label": "6. Date of Birth",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 517.1,
+        "width": 108.9,
+        "height": 17.7
+      }
+    },
+    "rpt": {
+      "type": "text",
+      "label": "9. Report Date (RPT)",
+      "page": 1,
+      "box": {
+        "left": 327.6,
+        "top": 517.1,
+        "width": 108.9,
+        "height": 17.7
+      }
+    },
+    "prd": {
+      "type": "text",
+      "label": "10. Projected Rotation Date (PRD)",
+      "page": 1,
+      "box": {
+        "left": 440.2,
+        "top": 517.1,
+        "width": 135.9,
+        "height": 17.7
+      }
+    },
+    "rnk": {
+      "type": "text",
+      "label": "8. Rank",
+      "page": 1,
+      "box": {
+        "left": 239.2,
+        "top": 516.2,
+        "width": 82.0,
+        "height": 13.9
+      }
+    },
+    "srev": {
+      "type": "choice",
+      "label": "7. Service",
+      "page": 1,
+      "box": {
+        "left": 152.1,
+        "top": 516.1,
+        "width": 80.6,
+        "height": 13.0
+      },
+      "options": [
+        "USN",
+        "USMC"
+      ]
+    },
+    "bseLoc": {
+      "type": "text",
+      "label": "11. Base Location",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 485.3,
+        "width": 268.9,
+        "height": 14.5
+      }
+    },
+    "bldg": {
+      "type": "text",
+      "label": "12. Building",
+      "page": 1,
+      "box": {
+        "left": 313.4,
+        "top": 484.7,
+        "width": 82.0,
+        "height": 13.9
+      }
+    },
+    "cde": {
+      "type": "text",
+      "label": "13. Code",
+      "page": 1,
+      "box": {
+        "left": 401.1,
+        "top": 484.7,
+        "width": 82.1,
+        "height": 13.9
+      }
+    },
+    "uic": {
+      "type": "text",
+      "label": "14. UIC",
+      "page": 1,
+      "box": {
+        "left": 488.9,
+        "top": 484.7,
+        "width": 84.3,
+        "height": 13.9
+      }
+    },
+    "nmwImmSup": {
+      "type": "text",
+      "label": "15. Name of Immediate Supervisor",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 453.8,
+        "width": 345.4,
+        "height": 14.5
+      }
+    },
+    "immSupPhn": {
+      "type": "text",
+      "label": "16. Immediate Supervisor Phone",
+      "page": 1,
+      "box": {
+        "left": 389.9,
+        "top": 453.2,
+        "width": 183.4,
+        "height": 13.9
+      }
+    },
+    "wrkPhn": {
+      "type": "text",
+      "label": "17. Work Phone",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 403.7,
+        "width": 102.4,
+        "height": 13.9
+      }
+    },
+    "wrkCellPhn": {
+      "type": "text",
+      "label": "18. Work Cell Phone",
+      "page": 1,
+      "box": {
+        "left": 146.9,
+        "top": 403.7,
+        "width": 102.4,
+        "height": 13.9
+      }
+    },
+    "hmePhn": {
+      "type": "text",
+      "label": "19. Home Phone",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 403.7,
+        "width": 102.4,
+        "height": 13.9
+      }
+    },
+    "hmeCellPhn": {
+      "type": "text",
+      "label": "20. Home Cell Phone",
+      "page": 1,
+      "box": {
+        "left": 363.0,
+        "top": 403.7,
+        "width": 102.4,
+        "height": 13.9
+      }
+    },
+    "bBPhn": {
+      "type": "text",
+      "label": "20. Blackberry Number",
+      "page": 1,
+      "box": {
+        "left": 471.1,
+        "top": 403.7,
+        "width": 102.4,
+        "height": 13.9
+      }
+    },
+    "wrkEmlAcct": {
+      "type": "text",
+      "label": "21. Work E-Mail Address",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 372.2,
+        "width": 174.3,
+        "height": 13.9
+      }
+    },
+    "sIPREmlAcct": {
+      "type": "text",
+      "label": "22. SIPRET E-Mail Address",
+      "page": 1,
+      "box": {
+        "left": 218.7,
+        "top": 372.2,
+        "width": 174.3,
+        "height": 13.9
+      }
+    },
+    "hmeEmlAcct": {
+      "type": "text",
+      "label": "23. Home E-Mail Address",
+      "page": 1,
+      "box": {
+        "left": 398.7,
+        "top": 372.2,
+        "width": 174.3,
+        "height": 13.9
+      }
+    },
+    "address": {
+      "type": "text",
+      "label": "24. Address",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 340.7,
+        "width": 534.4,
+        "height": 54.4
+      },
+      "multiline": true
+    },
+    "eCLNme": {
+      "type": "text",
+      "label": "25. Last Name",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 251.3,
+        "width": 187.8,
+        "height": 14.5
+      }
+    },
+    "eCFNme": {
+      "type": "text",
+      "label": "26. First Name",
+      "page": 1,
+      "box": {
+        "left": 232.3,
+        "top": 251.3,
+        "width": 187.8,
+        "height": 14.5
+      }
+    },
+    "relShp": {
+      "type": "text",
+      "label": "27. Relationship",
+      "page": 1,
+      "box": {
+        "left": 425.8,
+        "top": 251.3,
+        "width": 147.4,
+        "height": 14.5
+      }
+    },
+    "eCWrkPhn": {
+      "type": "text",
+      "label": "28. Work Phone",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 219.1,
+        "width": 102.4,
+        "height": 13.9
+      }
+    },
+    "eCHmePhn": {
+      "type": "text",
+      "label": "29. Home Phone",
+      "page": 1,
+      "box": {
+        "left": 146.9,
+        "top": 219.1,
+        "width": 102.4,
+        "height": 13.9
+      }
+    },
+    "eCHmeCellPhn": {
+      "type": "text",
+      "label": "30. Home Cell Phone",
+      "page": 1,
+      "box": {
+        "left": 255.0,
+        "top": 219.1,
+        "width": 102.4,
+        "height": 13.9
+      }
+    },
+    "eCEmlAcct": {
+      "type": "text",
+      "label": "31. Emergency Contact E-Mail Address",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 219.1,
+        "width": 210.3,
+        "height": 13.9
+      }
+    },
+    "eCAddress": {
+      "type": "text",
+      "label": "32. Emergency Contact Home Address",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 187.6,
+        "width": 534.4,
+        "height": 54.4
+      },
+      "multiline": true
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 250.4,
+        "top": 126.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 295.4,
+        "top": 126.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 200.9,
+        "top": 108.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 245.9,
+        "top": 108.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "nfaas": {
+      "type": "checkbox",
+      "label": "NFAAS",
+      "page": 1,
+      "box": {
+        "left": 204.5,
+        "top": 71.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "twms": {
+      "type": "checkbox",
+      "label": "TWMS",
+      "page": 1,
+      "box": {
+        "left": 258.5,
+        "top": 71.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "esams": {
+      "type": "checkbox",
+      "label": "ESAMS",
+      "page": 1,
+      "box": {
+        "left": 317.0,
+        "top": 71.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "dirtry": {
+      "type": "checkbox",
+      "label": "DIRECTORY",
+      "page": 1,
+      "box": {
+        "left": 393.5,
+        "top": 71.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "ia": {
+      "type": "checkbox",
+      "label": "IA",
+      "page": 1,
+      "box": {
+        "left": 429.5,
+        "top": 71.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    }
+  }
+}

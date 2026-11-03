@@ -1,0 +1,227 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "name": {
+        "left": 37.7,
+        "top": 508.0,
+        "width": 266.1,
+        "height": 20.6,
+        "type": "text",
+        "description": "1. NAME (Last) (First,) (Initial)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField1": {
+        "left": 308.8,
+        "top": 508.0,
+        "width": 264.3,
+        "height": 19.2,
+        "type": "signature",
+        "description": "2.  SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "grade": {
+        "left": 38.2,
+        "top": 471.5,
+        "width": 175.7,
+        "height": 20.1,
+        "type": "text",
+        "description": "3.  MILITARY GRADE/CIVIL SERVICE GRADE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "branch": {
+        "left": 218.2,
+        "top": 471.5,
+        "width": 175.7,
+        "height": 20.1,
+        "type": "text",
+        "description": "4.  BRANCH",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "divDept": {
+        "left": 398.2,
+        "top": 471.5,
+        "width": 175.7,
+        "height": 20.1,
+        "type": "text",
+        "description": "5.  DIVISION-DEPARTMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "roomNo": {
+        "left": 218.2,
+        "top": 435.7,
+        "width": 85.7,
+        "height": 20.3,
+        "type": "text",
+        "description": "7.  ROOM NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "officeCode": {
+        "left": 308.2,
+        "top": 435.7,
+        "width": 85.7,
+        "height": 20.3,
+        "type": "text",
+        "description": "8.  OFFICE CODE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "phoneNo": {
+        "left": 398.2,
+        "top": 435.7,
+        "width": 175.7,
+        "height": 20.3,
+        "type": "text",
+        "description": "9.  PHONE NUMBER(S)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "jobTitle": {
+        "left": 38.2,
+        "top": 435.5,
+        "width": 175.7,
+        "height": 20.1,
+        "type": "text",
+        "description": "6.  JOB TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "justification": {
+        "left": 38.8,
+        "top": 391.8,
+        "width": 534.6,
+        "height": 142.4,
+        "type": "text",
+        "description": "10. JUSTIFICATION (See Chapter 6, HQADMINMAN)\nThe specific reason access to personnel files is requested:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "userID": {
+        "left": 413.0,
+        "top": 232.3,
+        "width": 160.8,
+        "height": 41.4,
+        "type": "text",
+        "description": "USER ID:  ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "authFor": {
+        "left": 38.2,
+        "top": 222.4,
+        "width": 322.6,
+        "height": 17.9,
+        "type": "text",
+        "description": "  (Name)                                                                                             (Grade)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recApproval": {
+        "left": 38.2,
+        "top": 177.6,
+        "width": 292.7,
+        "height": 36.6,
+        "type": "text",
+        "description": "(Typed Name + Title of Hd/Asst Hd. Dept/Div/Br.)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "blank13": {
+        "left": 335.2,
+        "top": 176.7,
+        "width": 238.7,
+        "height": 21.8,
+        "type": "text",
+        "description": "13.  ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField2": {
+        "left": 335.8,
+        "top": 139.0,
+        "width": 237.3,
+        "height": 18.7,
+        "type": "signature",
+        "description": "(Signature of Hd.Asst Hd. Dept/Div/Br.)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField3": {
+        "left": 247.2,
+        "top": 105.6,
+        "width": 208.9,
+        "height": 17.9,
+        "type": "signature",
+        "description": "SignatureField3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateA": {
+        "left": 470.8,
+        "top": 104.6,
+        "width": 102.3,
+        "height": 20.5,
+        "type": "text",
+        "description": "Enter YYYY-MM-DD",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "disapprov": {
+        "left": 48.6,
+        "top": 99.0,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[0].Disapprov[0]",
+        "required": false
+      },
+      "disapprov2": {
+        "left": 133.1,
+        "top": 99.0,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[0].Disapprov[0]",
+        "required": false
+      }
+    }
+  }
+}

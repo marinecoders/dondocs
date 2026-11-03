@@ -1,0 +1,457 @@
+{
+  "id": "opnav479014",
+  "label": "OPNAV4790-14 - Quarterly Pms Schedule (conventional)",
+  "directory": "OPNAV4790-14 - Quarterly Pms Schedule (conventional)",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "textField1",
+        "textField12",
+        "textField13",
+        "textField5",
+        "signatureField1",
+        "dateField1",
+        "textField14",
+        "textField15",
+        "textField16",
+        "numericField1",
+        "numericField12",
+        "numericField13",
+        "numericField14",
+        "numericField15",
+        "numericField16",
+        "numericField17",
+        "numericField18",
+        "numericField19",
+        "numericField110",
+        "numericField111",
+        "numericField112",
+        "numericField113"
+      ]
+    }
+  ],
+  "fields": {
+    "textField1": {
+      "type": "text",
+      "label": "WORK CENTER",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 549.4,
+        "width": 188.2,
+        "height": 11.3
+      }
+    },
+    "textField12": {
+      "type": "text",
+      "label": "YEAR",
+      "page": 1,
+      "box": {
+        "left": 232.7,
+        "top": 549.4,
+        "width": 55.2,
+        "height": 11.3
+      }
+    },
+    "textField13": {
+      "type": "text",
+      "label": "QUARTER AFTER OVERHAUL",
+      "page": 1,
+      "box": {
+        "left": 293.6,
+        "top": 549.4,
+        "width": 177.1,
+        "height": 11.3
+      }
+    },
+    "textField5": {
+      "type": "text",
+      "label": "PRINTED NAME",
+      "page": 1,
+      "box": {
+        "left": 476.4,
+        "top": 549.4,
+        "width": 238.0,
+        "height": 11.3
+      }
+    },
+    "signatureField1": {
+      "type": "text",
+      "label": "APPROVAL SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 720.0,
+        "top": 549.4,
+        "width": 177.1,
+        "height": 11.3
+      }
+    },
+    "dateField1": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 902.8,
+        "top": 549.4,
+        "width": 66.3,
+        "height": 11.3
+      }
+    },
+    "textField14": {
+      "type": "text",
+      "label": "MONTH",
+      "page": 1,
+      "box": {
+        "left": 145.3,
+        "top": 532.4,
+        "width": 203.5,
+        "height": 10.2
+      }
+    },
+    "textField15": {
+      "type": "text",
+      "label": "MONTH",
+      "page": 1,
+      "box": {
+        "left": 389.0,
+        "top": 532.4,
+        "width": 203.5,
+        "height": 10.2
+      }
+    },
+    "textField16": {
+      "type": "text",
+      "label": "MONTH",
+      "page": 1,
+      "box": {
+        "left": 632.7,
+        "top": 532.4,
+        "width": 203.5,
+        "height": 10.2
+      }
+    },
+    "numericField1": {
+      "type": "text",
+      "label": "MONTH",
+      "page": 1,
+      "box": {
+        "left": 93.3,
+        "top": 516.5,
+        "width": 30.3,
+        "height": 15.9
+      }
+    },
+    "numericField12": {
+      "type": "text",
+      "label": "Numeric Field 12",
+      "page": 1,
+      "box": {
+        "left": 153.7,
+        "top": 516.5,
+        "width": 30.3,
+        "height": 15.9
+      }
+    },
+    "numericField13": {
+      "type": "text",
+      "label": "YEAR",
+      "page": 1,
+      "box": {
+        "left": 215.0,
+        "top": 516.5,
+        "width": 30.3,
+        "height": 15.9
+      }
+    },
+    "numericField14": {
+      "type": "text",
+      "label": "QUARTER",
+      "page": 1,
+      "box": {
+        "left": 275.3,
+        "top": 516.5,
+        "width": 30.3,
+        "height": 15.9
+      }
+    },
+    "numericField15": {
+      "type": "text",
+      "label": "MONTH",
+      "page": 1,
+      "box": {
+        "left": 336.6,
+        "top": 516.5,
+        "width": 30.3,
+        "height": 15.9
+      }
+    },
+    "numericField16": {
+      "type": "text",
+      "label": "OVERHAUL",
+      "page": 1,
+      "box": {
+        "left": 397.0,
+        "top": 516.5,
+        "width": 30.3,
+        "height": 15.9
+      }
+    },
+    "numericField17": {
+      "type": "text",
+      "label": "PRINTED",
+      "page": 1,
+      "box": {
+        "left": 458.3,
+        "top": 516.5,
+        "width": 30.3,
+        "height": 15.9
+      }
+    },
+    "numericField18": {
+      "type": "text",
+      "label": "NAME",
+      "page": 1,
+      "box": {
+        "left": 519.6,
+        "top": 516.5,
+        "width": 30.3,
+        "height": 15.9
+      }
+    },
+    "numericField19": {
+      "type": "text",
+      "label": "MONTH",
+      "page": 1,
+      "box": {
+        "left": 580.9,
+        "top": 516.5,
+        "width": 30.3,
+        "height": 15.9
+      }
+    },
+    "numericField110": {
+      "type": "text",
+      "label": "(CONVENTIONAL)",
+      "page": 1,
+      "box": {
+        "left": 641.2,
+        "top": 516.5,
+        "width": 30.3,
+        "height": 15.9
+      }
+    },
+    "numericField111": {
+      "type": "text",
+      "label": "APPROVAL",
+      "page": 1,
+      "box": {
+        "left": 702.5,
+        "top": 516.5,
+        "width": 30.3,
+        "height": 15.9
+      }
+    },
+    "numericField112": {
+      "type": "text",
+      "label": "SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 762.8,
+        "top": 516.5,
+        "width": 30.3,
+        "height": 15.9
+      }
+    },
+    "numericField113": {
+      "type": "text",
+      "label": "Numeric Field 113",
+      "page": 1,
+      "box": {
+        "left": 824.2,
+        "top": 516.5,
+        "width": 30.3,
+        "height": 15.9
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 35,
+      "rowStride": 11.52,
+      "editor": "grid",
+      "columns": {
+        "cell": {
+          "type": "text",
+          "label": "MIP",
+          "page": 1,
+          "box": {
+            "left": 37.4,
+            "top": 484.6,
+            "width": 69.2,
+            "height": 8.7
+          }
+        },
+        "cell2": {
+          "type": "text",
+          "label": "MONTH",
+          "page": 1,
+          "box": {
+            "left": 109.4,
+            "top": 484.6,
+            "width": 58.1,
+            "height": 8.7
+          }
+        },
+        "cell3": {
+          "type": "text",
+          "label": "Cell 3",
+          "page": 1,
+          "box": {
+            "left": 170.4,
+            "top": 484.6,
+            "width": 58.1,
+            "height": 8.7
+          }
+        },
+        "cell4": {
+          "type": "text",
+          "label": "YEAR",
+          "page": 1,
+          "box": {
+            "left": 231.3,
+            "top": 484.6,
+            "width": 58.1,
+            "height": 8.7
+          }
+        },
+        "cell5": {
+          "type": "text",
+          "label": "QUARTER AFTER",
+          "page": 1,
+          "box": {
+            "left": 292.2,
+            "top": 484.6,
+            "width": 58.1,
+            "height": 8.7
+          }
+        },
+        "cell6": {
+          "type": "text",
+          "label": "MONTH",
+          "page": 1,
+          "box": {
+            "left": 353.1,
+            "top": 484.6,
+            "width": 58.1,
+            "height": 8.7
+          }
+        },
+        "cell7": {
+          "type": "text",
+          "label": "QUARTERLY PMS SCHEDULE",
+          "page": 1,
+          "box": {
+            "left": 414.0,
+            "top": 484.6,
+            "width": 58.1,
+            "height": 8.7
+          }
+        },
+        "cell8": {
+          "type": "text",
+          "label": "PRINTED NAME",
+          "page": 1,
+          "box": {
+            "left": 474.9,
+            "top": 484.6,
+            "width": 58.1,
+            "height": 8.7
+          }
+        },
+        "cell9": {
+          "type": "text",
+          "label": "NAME",
+          "page": 1,
+          "box": {
+            "left": 535.9,
+            "top": 484.6,
+            "width": 58.1,
+            "height": 8.7
+          }
+        },
+        "cell10": {
+          "type": "text",
+          "label": "MONTH",
+          "page": 1,
+          "box": {
+            "left": 596.8,
+            "top": 484.6,
+            "width": 58.1,
+            "height": 8.7
+          }
+        },
+        "cell11": {
+          "type": "text",
+          "label": "Cell 11",
+          "page": 1,
+          "box": {
+            "left": 657.7,
+            "top": 484.6,
+            "width": 58.1,
+            "height": 8.7
+          }
+        },
+        "cell12": {
+          "type": "text",
+          "label": "APPROVAL SIGNATURE",
+          "page": 1,
+          "box": {
+            "left": 718.6,
+            "top": 484.6,
+            "width": 58.1,
+            "height": 8.7
+          }
+        },
+        "cell13": {
+          "type": "text",
+          "label": "SIGNATURE",
+          "page": 1,
+          "box": {
+            "left": 779.5,
+            "top": 484.6,
+            "width": 58.1,
+            "height": 8.7
+          }
+        },
+        "cell14": {
+          "type": "text",
+          "label": "NAVSEAINST",
+          "page": 1,
+          "box": {
+            "left": 840.5,
+            "top": 484.6,
+            "width": 58.1,
+            "height": 8.7
+          }
+        },
+        "cell15": {
+          "type": "text",
+          "label": "RESCHEDULE",
+          "page": 1,
+          "box": {
+            "left": 901.4,
+            "top": 484.6,
+            "width": 69.2,
+            "height": 8.7
+          }
+        }
+      }
+    }
+  }
+}

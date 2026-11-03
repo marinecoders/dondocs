@@ -1,0 +1,216 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "brMbrSig": {
+        "left": 310.2,
+        "top": 709.5,
+        "width": 260.8,
+        "height": 21.0,
+        "type": "text",
+        "description": "BOARD MEMBER&apos;S SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "brMbr": {
+        "left": 41.0,
+        "top": 709.0,
+        "width": 263.6,
+        "height": 21.9,
+        "type": "text",
+        "description": "BOARD MEMBER&apos;S RATE/NAME (Printed)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "slrNme": {
+        "left": 41.0,
+        "top": 671.3,
+        "width": 263.6,
+        "height": 21.9,
+        "type": "text",
+        "description": "SAILOR&apos;S RATE/NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "slCmd": {
+        "left": 308.7,
+        "top": 671.3,
+        "width": 263.6,
+        "height": 21.8,
+        "type": "text",
+        "description": "SAILOR&apos;S COMMAND",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "catARmk": {
+        "left": 349.0,
+        "top": 618.1,
+        "width": 224.1,
+        "height": 103.7,
+        "type": "text",
+        "description": "leadership that inspires confidence and trust. (7 pts)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "catAPts": {
+        "left": 308.9,
+        "top": 616.7,
+        "width": 35.8,
+        "height": 100.9,
+        "type": "text",
+        "description": "leadership that inspires confidence and trust. (7 pts)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "catBRmk": {
+        "left": 349.0,
+        "top": 511.5,
+        "width": 224.1,
+        "height": 112.7,
+        "type": "text",
+        "description": "complex, high-stress environments. (7 pts)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "catBPts": {
+        "left": 308.9,
+        "top": 510.1,
+        "width": 35.8,
+        "height": 111.3,
+        "type": "text",
+        "description": "complex, high-stress environments. (7 pts)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "catCRmk": {
+        "left": 349.0,
+        "top": 394.5,
+        "width": 224.1,
+        "height": 122.8,
+        "type": "text",
+        "description": "REMARKS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "catCPts": {
+        "left": 308.6,
+        "top": 393.1,
+        "width": 35.8,
+        "height": 120.4,
+        "type": "text",
+        "description": "POINTS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "catDRmk": {
+        "left": 349.0,
+        "top": 268.5,
+        "width": 224.1,
+        "height": 41.9,
+        "type": "text",
+        "description": "REMARKS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "catDPts": {
+        "left": 308.9,
+        "top": 267.0,
+        "width": 35.8,
+        "height": 39.0,
+        "type": "text",
+        "description": "POINTS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "catERmk": {
+        "left": 349.0,
+        "top": 223.8,
+        "width": 224.1,
+        "height": 33.2,
+        "type": "text",
+        "description": "-Special programs/arduous/selective assignments. (7 pts)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "catEPts": {
+        "left": 308.9,
+        "top": 216.8,
+        "width": 35.8,
+        "height": 24.8,
+        "type": "text",
+        "description": "-Normal Sea/Shore flow. (3 pts)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "catFRmk": {
+        "left": 349.0,
+        "top": 187.8,
+        "width": 224.1,
+        "height": 42.2,
+        "type": "text",
+        "description": "REMARKS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "catFPts": {
+        "left": 308.9,
+        "top": 186.3,
+        "width": 35.8,
+        "height": 39.3,
+        "type": "text",
+        "description": "POINTS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "brdMbrCmt": {
+        "left": 37.4,
+        "top": 129.8,
+        "width": 537.2,
+        "height": 29.5,
+        "type": "text",
+        "description": "BOARD MEMBER&apos;S COMMENTS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "totPts": {
+        "left": 308.9,
+        "top": 84.1,
+        "width": 35.8,
+        "height": 36.5,
+        "type": "text",
+        "description": "(150 Max points)",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

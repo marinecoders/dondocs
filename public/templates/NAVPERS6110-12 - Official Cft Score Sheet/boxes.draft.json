@@ -1,0 +1,84 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 792,
+    "height": 612
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "cFTDate": {
+        "left": 38.9,
+        "top": 510.0,
+        "width": 111.3,
+        "height": 12.1,
+        "type": "text",
+        "description": "CFT Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cFLACF2LName": {
+        "left": 452.9,
+        "top": 510.0,
+        "width": 300.3,
+        "height": 12.1,
+        "type": "text",
+        "description": "CFL/ACFL Name (Last, First, M.I. [Print])",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cFLACFL1Name": {
+        "left": 155.9,
+        "top": 509.4,
+        "width": 291.3,
+        "height": 11.5,
+        "type": "text",
+        "description": "CFL/ACFL Name (Last, First, M.I. [Print])",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "commandUIC": {
+        "left": 38.9,
+        "top": 483.0,
+        "width": 111.3,
+        "height": 12.1,
+        "type": "text",
+        "description": "Command UIC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cFLACFL1Signature": {
+        "left": 155.9,
+        "top": 483.0,
+        "width": 291.3,
+        "height": 12.1,
+        "type": "text",
+        "description": "CFL/ACFL Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cFLACFL2Signature": {
+        "left": 452.9,
+        "top": 482.4,
+        "width": 300.3,
+        "height": 11.5,
+        "type": "text",
+        "description": "CFL/ACFL Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

@@ -1,0 +1,953 @@
+{
+  "id": "opnav551157",
+  "label": "OPNAV5511-57 - Classified Material Destruction Manifest",
+  "directory": "OPNAV5511-57 - Classified Material Destruction Manifest",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "comm1",
+        "timeRel1",
+        "timeRec1",
+        "sigRel1",
+        "sigRec1",
+        "comm2",
+        "timeRel2",
+        "timeRec2",
+        "sigRel2",
+        "sigRec2",
+        "comm3",
+        "timeRel3",
+        "timeRec3",
+        "sigRel3",
+        "sigRec3",
+        "comm4",
+        "timeRel4",
+        "timeRec4",
+        "sigRel4",
+        "sigRec4",
+        "comm5",
+        "timeRel5",
+        "timeRec5",
+        "sigRel5",
+        "sigRec5",
+        "comm6",
+        "timeRel6",
+        "timeRec6",
+        "sigRel6",
+        "sigRec6"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "comm12",
+        "timeRel12",
+        "timeRec12",
+        "sigRel12",
+        "sigRec12",
+        "comm22",
+        "timeRel22",
+        "timeRec22",
+        "sigRel22",
+        "sigRec22",
+        "comm32",
+        "timeRel32",
+        "timeRec32",
+        "sigRel32",
+        "sigRec32",
+        "comm42",
+        "timeRel42",
+        "timeRec42",
+        "sigRel42",
+        "sigRec42",
+        "comm52",
+        "timeRel52",
+        "timeRec52",
+        "sigRel52",
+        "sigRec52",
+        "comm62",
+        "timeRel62",
+        "timeRec62",
+        "sigRel62",
+        "sigRec62"
+      ]
+    }
+  ],
+  "fields": {
+    "comm1": {
+      "type": "text",
+      "label": "Enter the comments concerning the classified material destruction manifest.",
+      "page": 1,
+      "box": {
+        "left": 655.1,
+        "top": 497.8,
+        "width": 103.8,
+        "height": 67.8
+      },
+      "multiline": true
+    },
+    "timeRel1": {
+      "type": "text",
+      "label": "Enter the time released using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 195.6,
+        "top": 456.6,
+        "width": 70.1,
+        "height": 27.4
+      }
+    },
+    "timeRec1": {
+      "type": "text",
+      "label": "Enter the time received using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 581.3,
+        "top": 455.4,
+        "width": 67.8,
+        "height": 26.2
+      }
+    },
+    "sigRel1": {
+      "type": "text",
+      "label": "Enter the releasing signature.",
+      "page": 1,
+      "box": {
+        "left": 272.1,
+        "top": 440.4,
+        "width": 147.1,
+        "height": 10.8
+      }
+    },
+    "sigRec1": {
+      "type": "text",
+      "label": "Enter the receiving signature.",
+      "page": 1,
+      "box": {
+        "left": 424.5,
+        "top": 440.4,
+        "width": 149.3,
+        "height": 10.8
+      }
+    },
+    "comm2": {
+      "type": "text",
+      "label": "Enter the comments concerning the classified material destruction manifest.",
+      "page": 1,
+      "box": {
+        "left": 655.1,
+        "top": 424.7,
+        "width": 103.8,
+        "height": 66.7
+      },
+      "multiline": true
+    },
+    "timeRel2": {
+      "type": "text",
+      "label": "Enter the time released using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 195.6,
+        "top": 384.6,
+        "width": 70.1,
+        "height": 27.4
+      }
+    },
+    "timeRec2": {
+      "type": "text",
+      "label": "Enter the time received using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 581.3,
+        "top": 383.4,
+        "width": 67.8,
+        "height": 26.3
+      }
+    },
+    "sigRel2": {
+      "type": "text",
+      "label": "Enter the releasing signature.",
+      "page": 1,
+      "box": {
+        "left": 272.1,
+        "top": 369.0,
+        "width": 147.1,
+        "height": 11.9
+      }
+    },
+    "sigRec2": {
+      "type": "text",
+      "label": "Enter the receiving signature.",
+      "page": 1,
+      "box": {
+        "left": 424.5,
+        "top": 369.0,
+        "width": 149.3,
+        "height": 11.9
+      }
+    },
+    "comm3": {
+      "type": "text",
+      "label": "Enter the comments concerning the classified material destruction manifest.",
+      "page": 1,
+      "box": {
+        "left": 655.1,
+        "top": 353.0,
+        "width": 103.8,
+        "height": 65.9
+      },
+      "multiline": true
+    },
+    "timeRel3": {
+      "type": "text",
+      "label": "Enter the time released using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 195.6,
+        "top": 313.7,
+        "width": 70.1,
+        "height": 27.5
+      }
+    },
+    "timeRec3": {
+      "type": "text",
+      "label": "Enter the time received using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 581.3,
+        "top": 312.6,
+        "width": 67.8,
+        "height": 26.3
+      }
+    },
+    "sigRel3": {
+      "type": "text",
+      "label": "Enter the releasing signature.",
+      "page": 1,
+      "box": {
+        "left": 272.1,
+        "top": 297.5,
+        "width": 147.1,
+        "height": 11.6
+      }
+    },
+    "sigRec3": {
+      "type": "text",
+      "label": "Enter the receiving signature.",
+      "page": 1,
+      "box": {
+        "left": 424.5,
+        "top": 297.5,
+        "width": 149.3,
+        "height": 11.6
+      }
+    },
+    "comm4": {
+      "type": "text",
+      "label": "Enter the comments concerning the classified material destruction manifest.",
+      "page": 1,
+      "box": {
+        "left": 655.1,
+        "top": 281.1,
+        "width": 103.8,
+        "height": 67.1
+      },
+      "multiline": true
+    },
+    "timeRel4": {
+      "type": "text",
+      "label": "Enter the time released using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 195.6,
+        "top": 241.1,
+        "width": 70.1,
+        "height": 27.4
+      }
+    },
+    "timeRec4": {
+      "type": "text",
+      "label": "Enter the time received using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 581.3,
+        "top": 240.0,
+        "width": 67.8,
+        "height": 26.3
+      }
+    },
+    "sigRel4": {
+      "type": "text",
+      "label": "Enter the releasing signature.",
+      "page": 1,
+      "box": {
+        "left": 272.1,
+        "top": 225.5,
+        "width": 147.1,
+        "height": 11.3
+      }
+    },
+    "sigRec4": {
+      "type": "text",
+      "label": "Enter the receiving signature.",
+      "page": 1,
+      "box": {
+        "left": 424.5,
+        "top": 225.5,
+        "width": 149.3,
+        "height": 11.3
+      }
+    },
+    "comm5": {
+      "type": "text",
+      "label": "Enter the comments concerning the classified material destruction manifest.",
+      "page": 1,
+      "box": {
+        "left": 655.1,
+        "top": 209.2,
+        "width": 103.8,
+        "height": 66.6
+      },
+      "multiline": true
+    },
+    "timeRel5": {
+      "type": "text",
+      "label": "Enter the time released using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 195.6,
+        "top": 168.0,
+        "width": 70.1,
+        "height": 25.8
+      }
+    },
+    "timeRec5": {
+      "type": "text",
+      "label": "Enter the time received using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 581.3,
+        "top": 167.0,
+        "width": 67.8,
+        "height": 24.7
+      }
+    },
+    "sigRel5": {
+      "type": "text",
+      "label": "Enter the releasing signature.",
+      "page": 1,
+      "box": {
+        "left": 272.1,
+        "top": 153.0,
+        "width": 147.1,
+        "height": 10.9
+      }
+    },
+    "sigRec5": {
+      "type": "text",
+      "label": "Enter the receiving signature.",
+      "page": 1,
+      "box": {
+        "left": 424.5,
+        "top": 153.0,
+        "width": 149.3,
+        "height": 10.9
+      }
+    },
+    "comm6": {
+      "type": "text",
+      "label": "Enter the comments concerning the classified material destruction manifest.",
+      "page": 1,
+      "box": {
+        "left": 655.1,
+        "top": 137.3,
+        "width": 103.8,
+        "height": 72.9
+      },
+      "multiline": true
+    },
+    "timeRel6": {
+      "type": "text",
+      "label": "Enter the time released using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 195.6,
+        "top": 94.0,
+        "width": 70.1,
+        "height": 30.6
+      },
+      "multiline": true
+    },
+    "timeRec6": {
+      "type": "text",
+      "label": "Enter the time received using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 581.3,
+        "top": 92.7,
+        "width": 67.8,
+        "height": 29.3
+      }
+    },
+    "sigRel6": {
+      "type": "text",
+      "label": "Enter the releasing signature.",
+      "page": 1,
+      "box": {
+        "left": 272.1,
+        "top": 80.7,
+        "width": 147.1,
+        "height": 16.5
+      }
+    },
+    "sigRec6": {
+      "type": "text",
+      "label": "Enter the receiving signature.",
+      "page": 1,
+      "box": {
+        "left": 424.5,
+        "top": 80.7,
+        "width": 149.3,
+        "height": 16.5
+      }
+    },
+    "comm12": {
+      "type": "text",
+      "label": "Enter the comments concerning the classified material destruction manifest.",
+      "page": 2,
+      "box": {
+        "left": 655.1,
+        "top": 498.4,
+        "width": 103.8,
+        "height": 66.7
+      },
+      "multiline": true
+    },
+    "timeRel12": {
+      "type": "text",
+      "label": "Enter the time released using the 24-hour clock (HHMM).  ",
+      "page": 2,
+      "box": {
+        "left": 195.6,
+        "top": 457.2,
+        "width": 70.1,
+        "height": 27.4
+      }
+    },
+    "timeRec12": {
+      "type": "text",
+      "label": "Enter the time received using the 24-hour clock (HHMM).  ",
+      "page": 2,
+      "box": {
+        "left": 581.3,
+        "top": 456.1,
+        "width": 67.8,
+        "height": 26.2
+      }
+    },
+    "sigRel12": {
+      "type": "text",
+      "label": "Enter the releasing signature.",
+      "page": 2,
+      "box": {
+        "left": 272.1,
+        "top": 441.0,
+        "width": 147.1,
+        "height": 10.8
+      }
+    },
+    "sigRec12": {
+      "type": "text",
+      "label": "Enter the receiving signature.",
+      "page": 2,
+      "box": {
+        "left": 424.5,
+        "top": 441.0,
+        "width": 149.3,
+        "height": 10.8
+      }
+    },
+    "comm22": {
+      "type": "text",
+      "label": "Enter the comments concerning the classified material destruction manifest.",
+      "page": 2,
+      "box": {
+        "left": 655.1,
+        "top": 425.3,
+        "width": 103.8,
+        "height": 66.1
+      },
+      "multiline": true
+    },
+    "timeRel22": {
+      "type": "text",
+      "label": "Enter the time released using the 24-hour clock (HHMM).  ",
+      "page": 2,
+      "box": {
+        "left": 195.6,
+        "top": 385.2,
+        "width": 70.1,
+        "height": 27.4
+      }
+    },
+    "timeRec22": {
+      "type": "text",
+      "label": "Enter the time received using the 24-hour clock (HHMM).  ",
+      "page": 2,
+      "box": {
+        "left": 581.3,
+        "top": 384.1,
+        "width": 67.8,
+        "height": 26.3
+      }
+    },
+    "sigRel22": {
+      "type": "text",
+      "label": "Enter the releasing signature.",
+      "page": 2,
+      "box": {
+        "left": 272.1,
+        "top": 369.6,
+        "width": 147.1,
+        "height": 11.9
+      }
+    },
+    "sigRec22": {
+      "type": "text",
+      "label": "Enter the receiving signature.",
+      "page": 2,
+      "box": {
+        "left": 424.5,
+        "top": 369.6,
+        "width": 149.3,
+        "height": 11.9
+      }
+    },
+    "comm32": {
+      "type": "text",
+      "label": "Enter the comments concerning the classified material destruction manifest.",
+      "page": 2,
+      "box": {
+        "left": 655.1,
+        "top": 353.7,
+        "width": 103.8,
+        "height": 65.9
+      },
+      "multiline": true
+    },
+    "timeRel32": {
+      "type": "text",
+      "label": "Enter the time released using the 24-hour clock (HHMM).  ",
+      "page": 2,
+      "box": {
+        "left": 195.6,
+        "top": 314.3,
+        "width": 70.1,
+        "height": 27.5
+      }
+    },
+    "timeRec32": {
+      "type": "text",
+      "label": "Enter the time received using the 24-hour clock (HHMM).  ",
+      "page": 2,
+      "box": {
+        "left": 581.3,
+        "top": 313.2,
+        "width": 67.8,
+        "height": 26.3
+      }
+    },
+    "sigRel32": {
+      "type": "text",
+      "label": "Enter the releasing signature.",
+      "page": 2,
+      "box": {
+        "left": 272.1,
+        "top": 298.2,
+        "width": 147.1,
+        "height": 11.6
+      }
+    },
+    "sigRec32": {
+      "type": "text",
+      "label": "Enter the receiving signature.",
+      "page": 2,
+      "box": {
+        "left": 424.5,
+        "top": 298.2,
+        "width": 149.3,
+        "height": 11.6
+      }
+    },
+    "comm42": {
+      "type": "text",
+      "label": "Enter the comments concerning the classified material destruction manifest.",
+      "page": 2,
+      "box": {
+        "left": 655.1,
+        "top": 281.7,
+        "width": 103.8,
+        "height": 67.1
+      },
+      "multiline": true
+    },
+    "timeRel42": {
+      "type": "text",
+      "label": "Enter the time released using the 24-hour clock (HHMM).  ",
+      "page": 2,
+      "box": {
+        "left": 195.6,
+        "top": 241.8,
+        "width": 70.1,
+        "height": 27.4
+      }
+    },
+    "timeRec42": {
+      "type": "text",
+      "label": "Enter the time received using the 24-hour clock (HHMM).  ",
+      "page": 2,
+      "box": {
+        "left": 581.3,
+        "top": 240.6,
+        "width": 67.8,
+        "height": 26.3
+      }
+    },
+    "sigRel42": {
+      "type": "text",
+      "label": "Enter the releasing signature.",
+      "page": 2,
+      "box": {
+        "left": 272.1,
+        "top": 226.2,
+        "width": 147.1,
+        "height": 11.3
+      }
+    },
+    "sigRec42": {
+      "type": "text",
+      "label": "Enter the receiving signature.",
+      "page": 2,
+      "box": {
+        "left": 424.5,
+        "top": 226.2,
+        "width": 149.3,
+        "height": 11.3
+      }
+    },
+    "comm52": {
+      "type": "text",
+      "label": "Enter the comments concerning the classified material destruction manifest.",
+      "page": 2,
+      "box": {
+        "left": 655.1,
+        "top": 209.8,
+        "width": 103.8,
+        "height": 66.6
+      },
+      "multiline": true
+    },
+    "timeRel52": {
+      "type": "text",
+      "label": "Enter the time released using the 24-hour clock (HHMM).  ",
+      "page": 2,
+      "box": {
+        "left": 195.6,
+        "top": 168.7,
+        "width": 70.1,
+        "height": 25.8
+      }
+    },
+    "timeRec52": {
+      "type": "text",
+      "label": "Enter the time received using the 24-hour clock (HHMM).  ",
+      "page": 2,
+      "box": {
+        "left": 581.3,
+        "top": 167.6,
+        "width": 67.8,
+        "height": 24.7
+      }
+    },
+    "sigRel52": {
+      "type": "text",
+      "label": "Enter the releasing signature.",
+      "page": 2,
+      "box": {
+        "left": 272.1,
+        "top": 153.6,
+        "width": 147.1,
+        "height": 10.9
+      }
+    },
+    "sigRec52": {
+      "type": "text",
+      "label": "Enter the receiving signature.",
+      "page": 2,
+      "box": {
+        "left": 424.5,
+        "top": 153.6,
+        "width": 149.3,
+        "height": 10.9
+      }
+    },
+    "comm62": {
+      "type": "text",
+      "label": "Enter the comments concerning the classified material destruction manifest.",
+      "page": 2,
+      "box": {
+        "left": 655.1,
+        "top": 137.9,
+        "width": 103.8,
+        "height": 73.1
+      },
+      "multiline": true
+    },
+    "timeRel62": {
+      "type": "text",
+      "label": "Enter the time released using the 24-hour clock (HHMM).  ",
+      "page": 2,
+      "box": {
+        "left": 195.6,
+        "top": 94.7,
+        "width": 70.1,
+        "height": 30.6
+      },
+      "multiline": true
+    },
+    "timeRec62": {
+      "type": "text",
+      "label": "Enter the time received using the 24-hour clock (HHMM).  ",
+      "page": 2,
+      "box": {
+        "left": 581.3,
+        "top": 93.4,
+        "width": 67.8,
+        "height": 29.3
+      }
+    },
+    "sigRel62": {
+      "type": "text",
+      "label": "Enter the releasing signature.",
+      "page": 2,
+      "box": {
+        "left": 272.1,
+        "top": 81.3,
+        "width": 147.1,
+        "height": 16.5
+      }
+    },
+    "sigRec62": {
+      "type": "text",
+      "label": "Enter the receiving signature.",
+      "page": 2,
+      "box": {
+        "left": 424.5,
+        "top": 81.3,
+        "width": 149.3,
+        "height": 16.5
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 6,
+      "rowStride": 71.92,
+      "editor": "grid",
+      "columns": {
+        "serNum": {
+          "type": "text",
+          "label": "This is row 1 of 6. For classified material destruction manifest, enter the serial number.",
+          "page": 1,
+          "box": {
+            "left": 35.8,
+            "top": 495.7,
+            "width": 76.3,
+            "height": 66.5
+          }
+        },
+        "quan": {
+          "type": "text",
+          "label": "Enter the quantity.",
+          "page": 1,
+          "box": {
+            "left": 118.5,
+            "top": 496.9,
+            "width": 70.6,
+            "height": 66.9
+          }
+        },
+        "dateRel": {
+          "type": "text",
+          "label": "Enter the date released using the format DD MMM YYYY.",
+          "page": 1,
+          "box": {
+            "left": 193.9,
+            "top": 488.1,
+            "width": 72.0,
+            "height": 19.1
+          }
+        },
+        "offRel": {
+          "type": "text",
+          "label": "Enter the releasing office.",
+          "page": 1,
+          "box": {
+            "left": 272.1,
+            "top": 465.2,
+            "width": 146.6,
+            "height": 14.6
+          }
+        },
+        "nameRel": {
+          "type": "text",
+          "label": "Enter by whom it was released.",
+          "page": 1,
+          "box": {
+            "left": 272.1,
+            "top": 490.5,
+            "width": 146.6,
+            "height": 14.0
+          }
+        },
+        "offRec": {
+          "type": "text",
+          "label": "Enter the office received by.",
+          "page": 1,
+          "box": {
+            "left": 424.5,
+            "top": 465.2,
+            "width": 149.4,
+            "height": 14.6
+          }
+        },
+        "nameRec": {
+          "type": "text",
+          "label": "Enter the name by whom received (last, first, M.I.).",
+          "page": 1,
+          "box": {
+            "left": 425.1,
+            "top": 490.5,
+            "width": 148.8,
+            "height": 14.0
+          }
+        },
+        "dateRec": {
+          "type": "text",
+          "label": "Enter the date received using the format DD MMM YYYY.",
+          "page": 1,
+          "box": {
+            "left": 579.7,
+            "top": 488.2,
+            "width": 69.7,
+            "height": 19.1
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 2,
+      "count": 6,
+      "rowStride": 71.92,
+      "editor": "grid",
+      "columns": {
+        "serNum": {
+          "type": "text",
+          "label": "This is row 1 of 6. For classified material destruction manifest, enter the serial number.",
+          "page": 2,
+          "box": {
+            "left": 35.8,
+            "top": 496.4,
+            "width": 76.3,
+            "height": 66.5
+          }
+        },
+        "quan": {
+          "type": "text",
+          "label": "Enter the quantity.",
+          "page": 2,
+          "box": {
+            "left": 118.5,
+            "top": 497.6,
+            "width": 70.6,
+            "height": 66.9
+          }
+        },
+        "dateRel": {
+          "type": "text",
+          "label": "Enter the date released using the format DD MMM YYYY.",
+          "page": 2,
+          "box": {
+            "left": 193.9,
+            "top": 488.8,
+            "width": 72.0,
+            "height": 19.1
+          }
+        },
+        "offRel": {
+          "type": "text",
+          "label": "Enter the releasing office.",
+          "page": 2,
+          "box": {
+            "left": 272.1,
+            "top": 465.8,
+            "width": 146.6,
+            "height": 14.6
+          }
+        },
+        "nameRel": {
+          "type": "text",
+          "label": "Enter by whom it was released.",
+          "page": 2,
+          "box": {
+            "left": 272.1,
+            "top": 491.1,
+            "width": 146.6,
+            "height": 14.0
+          }
+        },
+        "offRec": {
+          "type": "text",
+          "label": "Enter the office received by.",
+          "page": 2,
+          "box": {
+            "left": 424.5,
+            "top": 465.8,
+            "width": 149.4,
+            "height": 14.6
+          }
+        },
+        "nameRec": {
+          "type": "text",
+          "label": "Enter the name by whom received (last, first, M.I.).",
+          "page": 2,
+          "box": {
+            "left": 425.1,
+            "top": 491.1,
+            "width": 148.8,
+            "height": 14.0
+          }
+        },
+        "dateRec": {
+          "type": "text",
+          "label": "Enter the date received using the format DD MMM YYYY.",
+          "page": 2,
+          "box": {
+            "left": 579.7,
+            "top": 488.9,
+            "width": 69.7,
+            "height": 19.1
+          }
+        }
+      }
+    }
+  }
+}

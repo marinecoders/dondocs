@@ -1,0 +1,256 @@
+{
+  "id": "navmc11121",
+  "label": "NAVMC11121 - USMC Physical Security-Crime Prevention Survey",
+  "directory": "NAVMC11121 - USMC Physical Security-Crime Prevention Survey",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "dateCover",
+        "surveyContNum",
+        "addressUnit",
+        "addressUnit2",
+        "text"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "date",
+        "status",
+        "surveyType",
+        "textField1",
+        "inspectUnit",
+        "reqUnit",
+        "org",
+        "addressUnit3",
+        "distribution",
+        "comments",
+        "signatureInsp",
+        "signatureAppOff",
+        "nameInsp",
+        "nameAO"
+      ]
+    }
+  ],
+  "fields": {
+    "dateCover": {
+      "type": "text",
+      "label": "DateCover",
+      "page": 1,
+      "box": {
+        "left": 246.4,
+        "top": 463.0,
+        "width": 88.8,
+        "height": 12.6
+      }
+    },
+    "surveyContNum": {
+      "type": "text",
+      "label": "SurveyContNum",
+      "page": 1,
+      "box": {
+        "left": 301.4,
+        "top": 440.3,
+        "width": 99.2,
+        "height": 11.8
+      }
+    },
+    "addressUnit": {
+      "type": "text",
+      "label": "AddressUnit",
+      "page": 1,
+      "box": {
+        "left": 164.5,
+        "top": 406.0,
+        "width": 277.0,
+        "height": 48.5
+      },
+      "multiline": true
+    },
+    "addressUnit2": {
+      "type": "text",
+      "label": "AddressUnit",
+      "page": 1,
+      "box": {
+        "left": 164.5,
+        "top": 340.5,
+        "width": 277.0,
+        "height": 48.5
+      },
+      "multiline": true
+    },
+    "text": {
+      "type": "text",
+      "label": "Text",
+      "page": 1,
+      "box": {
+        "left": 306.1,
+        "top": 230.4,
+        "width": 141.8,
+        "height": 11.8
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 489.2,
+        "top": 667.3,
+        "width": 98.2,
+        "height": 12.6
+      }
+    },
+    "status": {
+      "type": "text",
+      "label": "Status",
+      "page": 2,
+      "box": {
+        "left": 489.6,
+        "top": 633.7,
+        "width": 99.2,
+        "height": 11.8
+      }
+    },
+    "surveyType": {
+      "type": "text",
+      "label": "SurveyType",
+      "page": 2,
+      "box": {
+        "left": 312.2,
+        "top": 598.0,
+        "width": 276.8,
+        "height": 11.8
+      }
+    },
+    "textField1": {
+      "type": "text",
+      "label": "TextField1",
+      "page": 2,
+      "box": {
+        "left": 23.1,
+        "top": 597.8,
+        "width": 278.7,
+        "height": 11.8
+      }
+    },
+    "inspectUnit": {
+      "type": "text",
+      "label": "InspectUnit",
+      "page": 2,
+      "box": {
+        "left": 23.0,
+        "top": 564.7,
+        "width": 278.7,
+        "height": 11.8
+      }
+    },
+    "reqUnit": {
+      "type": "text",
+      "label": "ReqUnit",
+      "page": 2,
+      "box": {
+        "left": 312.2,
+        "top": 564.7,
+        "width": 277.5,
+        "height": 11.8
+      }
+    },
+    "org": {
+      "type": "text",
+      "label": "Org",
+      "page": 2,
+      "box": {
+        "left": 23.4,
+        "top": 530.6,
+        "width": 565.0,
+        "height": 11.8
+      }
+    },
+    "addressUnit3": {
+      "type": "text",
+      "label": "AddressUnit",
+      "page": 2,
+      "box": {
+        "left": 24.2,
+        "top": 495.8,
+        "width": 277.0,
+        "height": 46.4
+      },
+      "multiline": true
+    },
+    "distribution": {
+      "type": "text",
+      "label": "Distribution",
+      "page": 2,
+      "box": {
+        "left": 312.6,
+        "top": 495.7,
+        "width": 277.0,
+        "height": 46.4
+      },
+      "multiline": true
+    },
+    "comments": {
+      "type": "text",
+      "label": "Comments",
+      "page": 2,
+      "box": {
+        "left": 23.8,
+        "top": 429.9,
+        "width": 563.8,
+        "height": 242.2
+      },
+      "multiline": true
+    },
+    "signatureInsp": {
+      "type": "signature",
+      "label": "SignatureInsp",
+      "page": 2,
+      "box": {
+        "left": 23.0,
+        "top": 164.2,
+        "width": 277.0,
+        "height": 11.9
+      }
+    },
+    "signatureAppOff": {
+      "type": "signature",
+      "label": "SignatureAppOff",
+      "page": 2,
+      "box": {
+        "left": 311.7,
+        "top": 164.1,
+        "width": 276.7,
+        "height": 11.5
+      }
+    },
+    "nameInsp": {
+      "type": "text",
+      "label": "NameInsp",
+      "page": 2,
+      "box": {
+        "left": 23.0,
+        "top": 132.2,
+        "width": 277.5,
+        "height": 11.8
+      }
+    },
+    "nameAO": {
+      "type": "text",
+      "label": "NameAO",
+      "page": 2,
+      "box": {
+        "left": 310.7,
+        "top": 132.2,
+        "width": 277.5,
+        "height": 11.8
+      }
+    }
+  }
+}

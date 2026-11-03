@@ -1,0 +1,153 @@
+{
+  "id": "opnav80204",
+  "label": "OPNAV8020-4 - Ammunition And Explosives On The Job TrainingProfessional Training Record Sheet",
+  "directory": "OPNAV8020-4 - Ammunition And Explosives On The Job TrainingProfessional Training Record Sheet",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "command",
+        "remarks"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "NAME (Last, First, MI)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 727.8,
+        "width": 264.4,
+        "height": 12.3
+      }
+    },
+    "command": {
+      "type": "text",
+      "label": "COMMAND",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 727.8,
+        "width": 264.4,
+        "height": 12.3
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "REMARKS",
+      "page": 1,
+      "box": {
+        "left": 36.0,
+        "top": 413.0,
+        "width": 540.1,
+        "height": 147.4
+      },
+      "multiline": true
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 4,
+      "rowStride": 38.16,
+      "editor": "grid",
+      "columns": {
+        "familyGroup2": {
+          "type": "text",
+          "label": "EXPLOSIVES FAMILY GROUP OR DEVICE",
+          "page": 1,
+          "box": {
+            "left": 62.7,
+            "top": 576.5,
+            "width": 194.4,
+            "height": 16.8
+          }
+        },
+        "device2": {
+          "type": "text",
+          "label": "EXPLOSIVES FAMILY GROUP OR DEVICE",
+          "page": 1,
+          "box": {
+            "left": 63.2,
+            "top": 554.6,
+            "width": 191.6,
+            "height": 12.0
+          }
+        },
+        "task2": {
+          "type": "text",
+          "label": "WORK TASK",
+          "page": 1,
+          "box": {
+            "left": 276.6,
+            "top": 556.8,
+            "width": 51.1,
+            "height": 14.8
+          }
+        },
+        "level2": {
+          "type": "text",
+          "label": "WORK TASK",
+          "page": 1,
+          "box": {
+            "left": 276.6,
+            "top": 576.5,
+            "width": 51.1,
+            "height": 16.8
+          }
+        },
+        "cell4": {
+          "type": "choice",
+          "label": "TRAINING",
+          "page": 1,
+          "box": {
+            "left": 331.5,
+            "top": 576.3,
+            "width": 37.7,
+            "height": 34.8
+          }
+        },
+        "cell5": {
+          "type": "text",
+          "label": "PRINTED NAME",
+          "page": 1,
+          "box": {
+            "left": 372.3,
+            "top": 576.5,
+            "width": 69.2,
+            "height": 35.3
+          }
+        },
+        "cell6": {
+          "type": "text",
+          "label": "DATE",
+          "page": 1,
+          "box": {
+            "left": 444.3,
+            "top": 576.5,
+            "width": 58.4,
+            "height": 35.3
+          }
+        },
+        "cell7": {
+          "type": "text",
+          "label": "ENTERED BY",
+          "page": 1,
+          "box": {
+            "left": 505.5,
+            "top": 576.5,
+            "width": 69.2,
+            "height": 35.3
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,231 @@
+{
+  "id": "navpers17708",
+  "label": "NAVPERS1770-8 - Authorization For Disclosure Of Information",
+  "directory": "NAVPERS1770-8 - Authorization For Disclosure Of Information",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "textField12",
+        "textField13",
+        "textField15",
+        "textField16",
+        "textField17",
+        "textField19",
+        "textField110",
+        "textField112",
+        "textField113",
+        "textField115",
+        "textField116",
+        "textField118",
+        "textField119",
+        "textField120",
+        "textField121",
+        "textField122"
+      ]
+    }
+  ],
+  "fields": {
+    "textField12": {
+      "type": "text",
+      "label": "TextField1",
+      "page": 1,
+      "box": {
+        "left": 47.1,
+        "top": 483.9,
+        "width": 276.3,
+        "height": 16.8
+      }
+    },
+    "textField13": {
+      "type": "text",
+      "label": "TextField1",
+      "page": 1,
+      "box": {
+        "left": 479.1,
+        "top": 483.9,
+        "width": 90.4,
+        "height": 17.7
+      }
+    },
+    "textField15": {
+      "type": "text",
+      "label": "TextField1",
+      "page": 1,
+      "box": {
+        "left": 47.1,
+        "top": 461.4,
+        "width": 276.3,
+        "height": 14.6
+      }
+    },
+    "textField16": {
+      "type": "text",
+      "label": "TextField1",
+      "page": 1,
+      "box": {
+        "left": 479.1,
+        "top": 460.5,
+        "width": 90.4,
+        "height": 13.0
+      }
+    },
+    "textField17": {
+      "type": "text",
+      "label": "TextField1",
+      "page": 1,
+      "box": {
+        "left": 479.1,
+        "top": 441.9,
+        "width": 90.4,
+        "height": 17.6
+      }
+    },
+    "textField19": {
+      "type": "text",
+      "label": "TextField1",
+      "page": 1,
+      "box": {
+        "left": 47.1,
+        "top": 438.9,
+        "width": 276.3,
+        "height": 16.8
+      }
+    },
+    "textField110": {
+      "type": "text",
+      "label": "TextField1",
+      "page": 1,
+      "box": {
+        "left": 479.1,
+        "top": 417.9,
+        "width": 90.4,
+        "height": 15.3
+      }
+    },
+    "textField112": {
+      "type": "text",
+      "label": "TextField1",
+      "page": 1,
+      "box": {
+        "left": 47.1,
+        "top": 416.5,
+        "width": 276.3,
+        "height": 13.9
+      }
+    },
+    "textField113": {
+      "type": "text",
+      "label": "TextField1",
+      "page": 1,
+      "box": {
+        "left": 479.1,
+        "top": 396.2,
+        "width": 90.4,
+        "height": 16.8
+      }
+    },
+    "textField115": {
+      "type": "text",
+      "label": "TextField1",
+      "page": 1,
+      "box": {
+        "left": 47.1,
+        "top": 394.0,
+        "width": 276.3,
+        "height": 16.8
+      }
+    },
+    "textField116": {
+      "type": "text",
+      "label": "TextField1",
+      "page": 1,
+      "box": {
+        "left": 47.1,
+        "top": 372.9,
+        "width": 276.3,
+        "height": 20.6
+      }
+    },
+    "textField118": {
+      "type": "text",
+      "label": "TextField1",
+      "page": 1,
+      "box": {
+        "left": 479.1,
+        "top": 371.4,
+        "width": 90.4,
+        "height": 18.3
+      }
+    },
+    "textField119": {
+      "type": "text",
+      "label": "TextField1",
+      "page": 1,
+      "box": {
+        "left": 47.1,
+        "top": 332.7,
+        "width": 372.3,
+        "height": 20.6
+      }
+    },
+    "textField120": {
+      "type": "text",
+      "label": "TextField1",
+      "page": 1,
+      "box": {
+        "left": 425.1,
+        "top": 330.2,
+        "width": 143.6,
+        "height": 18.3
+      }
+    },
+    "textField121": {
+      "type": "text",
+      "label": "TextField1",
+      "page": 1,
+      "box": {
+        "left": 47.1,
+        "top": 132.9,
+        "width": 427.1,
+        "height": 11.6
+      }
+    },
+    "textField122": {
+      "type": "text",
+      "label": "TextField1",
+      "page": 1,
+      "box": {
+        "left": 479.1,
+        "top": 132.9,
+        "width": 90.3,
+        "height": 10.8
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 6,
+      "rowStride": 22.48,
+      "editor": "grid",
+      "columns": {
+        "textField1": {
+          "type": "text",
+          "label": "TextField1",
+          "page": 1,
+          "box": {
+            "left": 330.6,
+            "top": 484.7,
+            "width": 143.6,
+            "height": 16.8
+          }
+        }
+      }
+    }
+  }
+}

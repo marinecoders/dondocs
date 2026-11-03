@@ -1,0 +1,161 @@
+{
+  "id": "navpers107074",
+  "label": "NAVPERS1070-74 - Report Of Home Record And Place From Which Ordered To Active Duty",
+  "directory": "NAVPERS1070-74 - Report Of Home Record And Place From Which Ordered To Active Duty",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 2",
+      "fields": [
+        "one",
+        "two",
+        "three",
+        "four",
+        "five",
+        "six",
+        "seven",
+        "eight",
+        "nine",
+        "ten",
+        "eleven"
+      ]
+    }
+  ],
+  "fields": {
+    "one": {
+      "type": "text",
+      "label": "1. HOME OF RECORD (GIVE COMPLETE ADDRESS)",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 450.7,
+        "width": 264.3,
+        "height": 77.0
+      },
+      "multiline": true
+    },
+    "two": {
+      "type": "text",
+      "label": "(GIVE COMPLETE ADDRESS)",
+      "page": 2,
+      "box": {
+        "left": 308.9,
+        "top": 450.7,
+        "width": 264.3,
+        "height": 77.0
+      },
+      "multiline": true
+    },
+    "three": {
+      "type": "text",
+      "label": "ACTIVE DUTY",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 349.9,
+        "width": 102.3,
+        "height": 30.2
+      },
+      "multiline": true
+    },
+    "four": {
+      "type": "text",
+      "label": "4. NAME OF MEMBER",
+      "page": 2,
+      "box": {
+        "left": 146.9,
+        "top": 349.9,
+        "width": 210.3,
+        "height": 30.2
+      },
+      "multiline": true
+    },
+    "five": {
+      "type": "text",
+      "label": "5. SIGNATURE OF MEMBER",
+      "page": 2,
+      "box": {
+        "left": 362.9,
+        "top": 349.9,
+        "width": 210.3,
+        "height": 30.2
+      },
+      "multiline": true
+    },
+    "six": {
+      "type": "text",
+      "label": "6. DATE SIGNED",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 295.9,
+        "width": 102.3,
+        "height": 30.2
+      },
+      "multiline": true
+    },
+    "seven": {
+      "type": "text",
+      "label": "7. CERTIFYING OFFICER\u2019S NAME, GRADE, AND TITLE",
+      "page": 2,
+      "box": {
+        "left": 146.9,
+        "top": 295.9,
+        "width": 210.3,
+        "height": 30.2
+      },
+      "multiline": true
+    },
+    "eight": {
+      "type": "text",
+      "label": "8. CERTIFYING OFFICER\u2019S SIGNATURE",
+      "page": 2,
+      "box": {
+        "left": 362.9,
+        "top": 295.9,
+        "width": 210.3,
+        "height": 30.2
+      },
+      "multiline": true
+    },
+    "nine": {
+      "type": "text",
+      "label": "9. NAME (LAST, FIRST, MIDDLE)",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 241.9,
+        "width": 318.3,
+        "height": 30.2
+      },
+      "multiline": true
+    },
+    "ten": {
+      "type": "text",
+      "label": "10. GRADE",
+      "page": 2,
+      "box": {
+        "left": 362.9,
+        "top": 241.9,
+        "width": 93.3,
+        "height": 30.2
+      },
+      "multiline": true
+    },
+    "eleven": {
+      "type": "text",
+      "label": "NUMBER",
+      "page": 2,
+      "box": {
+        "left": 461.9,
+        "top": 241.9,
+        "width": 111.3,
+        "height": 30.2
+      },
+      "multiline": true
+    }
+  }
+}

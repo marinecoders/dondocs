@@ -1,0 +1,129 @@
+{
+  "id": "opnav376032e",
+  "label": "OPNAV3760-32E - SchoolCourse Attendance Record",
+  "directory": "OPNAV3760-32E - SchoolCourse Attendance Record",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "doDIDNumber"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "Enter the name (last, first, middle).",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 715.7,
+        "width": 411.1,
+        "height": 16.6
+      }
+    },
+    "doDIDNumber": {
+      "type": "text",
+      "label": "Enter DoD ID Number.  ",
+      "page": 1,
+      "box": {
+        "left": 462.2,
+        "top": 715.7,
+        "width": 113.8,
+        "height": 16.6
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 23,
+      "rowStride": 25.2,
+      "editor": "grid",
+      "columns": {
+        "schoolCourse": {
+          "type": "text",
+          "label": "This is row 1 of 23.  Enter the school and course.",
+          "page": 1,
+          "box": {
+            "left": 41.0,
+            "top": 614.9,
+            "width": 112.3,
+            "height": 23.8
+          }
+        },
+        "datesAttended": {
+          "type": "text",
+          "label": "Enter the date attended in the format DD MMM YYYY.",
+          "page": 1,
+          "box": {
+            "left": 159.1,
+            "top": 614.9,
+            "width": 56.2,
+            "height": 23.8
+          }
+        },
+        "passFail": {
+          "type": "choice",
+          "label": "Select pass or fail provided in the drop down list.",
+          "page": 1,
+          "box": {
+            "left": 216.7,
+            "top": 614.9,
+            "width": 38.2,
+            "height": 23.8
+          }
+        },
+        "score": {
+          "type": "text",
+          "label": "Enter the score.",
+          "page": 1,
+          "box": {
+            "left": 260.6,
+            "top": 614.9,
+            "width": 25.9,
+            "height": 23.8
+          }
+        },
+        "unit": {
+          "type": "text",
+          "label": "Enter the unit.",
+          "page": 1,
+          "box": {
+            "left": 296.6,
+            "top": 614.9,
+            "width": 47.5,
+            "height": 23.8
+          }
+        },
+        "remarks": {
+          "type": "text",
+          "label": "Enter the remarks.",
+          "page": 1,
+          "box": {
+            "left": 354.2,
+            "top": 614.9,
+            "width": 97.9,
+            "height": 23.8
+          }
+        },
+        "verifiedBy": {
+          "type": "text",
+          "label": "Enter whom it was verified by.",
+          "page": 1,
+          "box": {
+            "left": 462.2,
+            "top": 614.9,
+            "width": 113.0,
+            "height": 23.8
+          }
+        }
+      }
+    }
+  }
+}

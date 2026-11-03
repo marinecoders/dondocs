@@ -1,0 +1,198 @@
+{
+  "id": "opnav10013",
+  "label": "OPNAV1001-3 - Operational NAVY Support After-Action Results",
+  "directory": "OPNAV1001-3 - Operational NAVY Support After-Action Results",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "branch",
+        "bcode",
+        "adt",
+        "reqname",
+        "oso",
+        "drname",
+        "stitle",
+        "smart",
+        "scope",
+        "deliver",
+        "state",
+        "actualc",
+        "actualadt",
+        "drpr",
+        "comments"
+      ]
+    }
+  ],
+  "fields": {
+    "branch": {
+      "type": "text",
+      "label": "N-Code Requesting",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 702.9,
+        "width": 264.4,
+        "height": 28.9
+      }
+    },
+    "bcode": {
+      "type": "text",
+      "label": "Requesting Support",
+      "page": 1,
+      "box": {
+        "left": 308.8,
+        "top": 702.9,
+        "width": 264.4,
+        "height": 28.9
+      }
+    },
+    "adt": {
+      "type": "text",
+      "label": "Directorate Branch Title",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 667.6,
+        "width": 264.4,
+        "height": 28.9
+      }
+    },
+    "reqname": {
+      "type": "text",
+      "label": "B-Code Name",
+      "page": 1,
+      "box": {
+        "left": 308.8,
+        "top": 667.6,
+        "width": 264.4,
+        "height": 28.9
+      }
+    },
+    "oso": {
+      "type": "text",
+      "label": "ADT Participant Name",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 632.4,
+        "width": 264.4,
+        "height": 28.9
+      }
+    },
+    "drname": {
+      "type": "text",
+      "label": "Requestor Name",
+      "page": 1,
+      "box": {
+        "left": 308.8,
+        "top": 632.4,
+        "width": 264.4,
+        "height": 28.9
+      }
+    },
+    "stitle": {
+      "type": "text",
+      "label": "Project Performance Overview",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 558.6,
+        "width": 534.4,
+        "height": 28.9
+      }
+    },
+    "smart": {
+      "type": "text",
+      "label": "Short Title",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 524.0,
+        "width": 534.4,
+        "height": 28.9
+      }
+    },
+    "scope": {
+      "type": "text",
+      "label": "Objective(s) (SMART )",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 489.5,
+        "width": 534.4,
+        "height": 28.9
+      }
+    },
+    "deliver": {
+      "type": "text",
+      "label": "Action Item(s) Defining Scope of Work",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 454.9,
+        "width": 534.4,
+        "height": 28.9
+      }
+    },
+    "state": {
+      "type": "text",
+      "label": "Deliverables Completed",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 420.3,
+        "width": 534.4,
+        "height": 28.9
+      }
+    },
+    "actualc": {
+      "type": "text",
+      "label": "Actualc",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 385.8,
+        "width": 534.4,
+        "height": 28.9
+      }
+    },
+    "actualadt": {
+      "type": "text",
+      "label": "Actual Costs vs. Budget Variance (provide explanation )",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 351.2,
+        "width": 534.4,
+        "height": 28.9
+      }
+    },
+    "drpr": {
+      "type": "text",
+      "label": "Actual ADT Dates",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 316.7,
+        "width": 534.4,
+        "height": 28.9
+      }
+    },
+    "comments": {
+      "type": "text",
+      "label": "Direct Report Performance Review",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 282.1,
+        "width": 534.4,
+        "height": 241.5
+      },
+      "multiline": true
+    }
+  }
+}

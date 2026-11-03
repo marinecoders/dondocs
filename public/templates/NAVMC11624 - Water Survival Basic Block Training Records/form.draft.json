@@ -1,0 +1,54 @@
+{
+  "id": "navmc11624",
+  "label": "NAVMC11624 - Water Survival Basic Block Training Records",
+  "directory": "NAVMC11624 - Water Survival Basic Block Training Records",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "printingNote",
+        "0",
+        "years"
+      ]
+    }
+  ],
+  "fields": {
+    "printingNote": {
+      "type": "text",
+      "label": "Printing Note",
+      "page": 1,
+      "box": {
+        "left": 20.9,
+        "top": 739.8,
+        "width": 160.8,
+        "height": 56.6
+      },
+      "multiline": true
+    },
+    "0": {
+      "type": "text",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 115.3,
+        "top": 442.8,
+        "width": 351.5,
+        "height": 16.2
+      }
+    },
+    "years": {
+      "type": "text",
+      "label": "Years",
+      "page": 1,
+      "box": {
+        "left": 153.0,
+        "top": 295.2,
+        "width": 121.5,
+        "height": 15.7
+      }
+    }
+  }
+}

@@ -1,0 +1,816 @@
+{
+  "id": "navpers130017",
+  "label": "NAVPERS1300-17 - Special Program Screening Form",
+  "directory": "NAVPERS1300-17 - Special Program Screening Form",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "a",
+        "b",
+        "d",
+        "c",
+        "e",
+        "f",
+        "f2",
+        "f1",
+        "g",
+        "g2",
+        "g1",
+        "h",
+        "h2",
+        "h1",
+        "i",
+        "i2",
+        "i1",
+        "j",
+        "j2",
+        "j1",
+        "k",
+        "k2",
+        "k1",
+        "l",
+        "l2",
+        "l1",
+        "m",
+        "n",
+        "o",
+        "o2",
+        "p",
+        "p2",
+        "q",
+        "r",
+        "s",
+        "t"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "u",
+        "u2",
+        "v",
+        "w",
+        "x",
+        "x2",
+        "x3",
+        "y",
+        "y2",
+        "y3",
+        "z",
+        "z2",
+        "z3",
+        "1",
+        "12",
+        "13",
+        "2",
+        "22",
+        "23",
+        "3",
+        "3a",
+        "4",
+        "5",
+        "6",
+        "62",
+        "7",
+        "8"
+      ]
+    }
+  ],
+  "fields": {
+    "a": {
+      "type": "text",
+      "label": "RATE/RANK",
+      "page": 1,
+      "box": {
+        "left": 132.8,
+        "top": 696.9,
+        "width": 54.1,
+        "height": 18.9
+      }
+    },
+    "b": {
+      "type": "text",
+      "label": "NAME",
+      "page": 1,
+      "box": {
+        "left": 230.3,
+        "top": 696.9,
+        "width": 313.1,
+        "height": 18.9
+      }
+    },
+    "d": {
+      "type": "text",
+      "label": "PROPOSED PROGRAM/DUTY STATION",
+      "page": 1,
+      "box": {
+        "left": 386.1,
+        "top": 669.9,
+        "width": 157.4,
+        "height": 18.9
+      }
+    },
+    "c": {
+      "type": "text",
+      "label": "SSN",
+      "page": 1,
+      "box": {
+        "left": 96.7,
+        "top": 664.9,
+        "width": 89.3,
+        "height": 18.9
+      }
+    },
+    "e": {
+      "type": "text",
+      "label": "PROPOSED DETACHMENT DATE",
+      "page": 1,
+      "box": {
+        "left": 236.1,
+        "top": 642.8,
+        "width": 307.4,
+        "height": 18.9
+      }
+    },
+    "f": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 78.7,
+        "top": 576.3,
+        "width": 16.7,
+        "height": 16.3
+      },
+      "group": "f"
+    },
+    "f2": {
+      "type": "radio",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 119.7,
+        "top": 576.3,
+        "width": 16.7,
+        "height": 16.3
+      },
+      "group": "f"
+    },
+    "f1": {
+      "type": "text",
+      "label": "disqualified for any previous special program(s)?",
+      "page": 1,
+      "box": {
+        "left": 504.8,
+        "top": 570.4,
+        "width": 29.6,
+        "height": 22.4
+      }
+    },
+    "g": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 78.7,
+        "top": 540.3,
+        "width": 16.7,
+        "height": 16.3
+      },
+      "group": "g"
+    },
+    "g2": {
+      "type": "radio",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 119.7,
+        "top": 540.3,
+        "width": 16.7,
+        "height": 16.3
+      },
+      "group": "g"
+    },
+    "g1": {
+      "type": "text",
+      "label": "INITIAL",
+      "page": 1,
+      "box": {
+        "left": 504.8,
+        "top": 529.6,
+        "width": 29.6,
+        "height": 22.4
+      }
+    },
+    "h": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 78.7,
+        "top": 495.3,
+        "width": 16.7,
+        "height": 16.3
+      },
+      "group": "h"
+    },
+    "h2": {
+      "type": "radio",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 119.7,
+        "top": 495.3,
+        "width": 16.7,
+        "height": 16.3
+      },
+      "group": "h"
+    },
+    "h1": {
+      "type": "text",
+      "label": "INITIAL",
+      "page": 1,
+      "box": {
+        "left": 504.8,
+        "top": 488.8,
+        "width": 29.6,
+        "height": 22.4
+      }
+    },
+    "i": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 78.7,
+        "top": 459.3,
+        "width": 16.7,
+        "height": 16.3
+      },
+      "group": "i"
+    },
+    "i2": {
+      "type": "radio",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 119.7,
+        "top": 459.3,
+        "width": 16.7,
+        "height": 16.3
+      },
+      "group": "i"
+    },
+    "i1": {
+      "type": "text",
+      "label": "INITIAL",
+      "page": 1,
+      "box": {
+        "left": 504.8,
+        "top": 456.8,
+        "width": 29.6,
+        "height": 22.4
+      }
+    },
+    "j": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 78.7,
+        "top": 432.3,
+        "width": 16.7,
+        "height": 16.3
+      },
+      "group": "j"
+    },
+    "j2": {
+      "type": "radio",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 119.7,
+        "top": 432.3,
+        "width": 16.7,
+        "height": 16.3
+      },
+      "group": "j"
+    },
+    "j1": {
+      "type": "text",
+      "label": "months?",
+      "page": 1,
+      "box": {
+        "left": 504.8,
+        "top": 425.6,
+        "width": 29.6,
+        "height": 22.4
+      }
+    },
+    "k": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 78.7,
+        "top": 396.3,
+        "width": 16.7,
+        "height": 16.3
+      },
+      "group": "k"
+    },
+    "k2": {
+      "type": "radio",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 119.7,
+        "top": 396.3,
+        "width": 16.7,
+        "height": 16.3
+      },
+      "group": "k"
+    },
+    "k1": {
+      "type": "text",
+      "label": "INITIAL",
+      "page": 1,
+      "box": {
+        "left": 504.8,
+        "top": 392.0,
+        "width": 29.6,
+        "height": 22.4
+      }
+    },
+    "l": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 78.7,
+        "top": 365.0,
+        "width": 16.7,
+        "height": 16.7
+      },
+      "group": "l"
+    },
+    "l2": {
+      "type": "radio",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 119.7,
+        "top": 365.0,
+        "width": 16.7,
+        "height": 16.7
+      },
+      "group": "l"
+    },
+    "l1": {
+      "type": "text",
+      "label": "(Screened by PRT coordinator)",
+      "page": 1,
+      "box": {
+        "left": 504.8,
+        "top": 360.0,
+        "width": 29.6,
+        "height": 22.4
+      }
+    },
+    "m": {
+      "type": "text",
+      "label": "(Screened by PRT coordinator)",
+      "page": 1,
+      "box": {
+        "left": 92.7,
+        "top": 320.0,
+        "width": 196.3,
+        "height": 22.3
+      }
+    },
+    "n": {
+      "type": "text",
+      "label": "readiness standards for",
+      "page": 1,
+      "box": {
+        "left": 330.4,
+        "top": 320.0,
+        "width": 73.6,
+        "height": 22.4
+      }
+    },
+    "o": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 79.0,
+        "top": 257.7,
+        "width": 16.7,
+        "height": 16.7
+      },
+      "group": "o"
+    },
+    "o2": {
+      "type": "radio",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 119.7,
+        "top": 257.7,
+        "width": 16.7,
+        "height": 16.7
+      },
+      "group": "o"
+    },
+    "p": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 79.0,
+        "top": 225.7,
+        "width": 16.7,
+        "height": 16.7
+      },
+      "group": "p"
+    },
+    "p2": {
+      "type": "radio",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 119.7,
+        "top": 225.7,
+        "width": 16.7,
+        "height": 16.7
+      },
+      "group": "p"
+    },
+    "q": {
+      "type": "text",
+      "label": "2. Is member in proper dental class",
+      "page": 1,
+      "box": {
+        "left": 92.7,
+        "top": 189.7,
+        "width": 196.3,
+        "height": 22.3
+      }
+    },
+    "r": {
+      "type": "text",
+      "label": "PCS transfer?",
+      "page": 1,
+      "box": {
+        "left": 330.3,
+        "top": 189.7,
+        "width": 73.3,
+        "height": 22.3
+      }
+    },
+    "s": {
+      "type": "text",
+      "label": "Medical Officer",
+      "page": 1,
+      "box": {
+        "left": 93.0,
+        "top": 123.0,
+        "width": 196.3,
+        "height": 22.3
+      }
+    },
+    "t": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 331.0,
+        "top": 123.0,
+        "width": 73.3,
+        "height": 22.3
+      }
+    },
+    "u": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 2,
+      "box": {
+        "left": 79.0,
+        "top": 682.3,
+        "width": 16.3,
+        "height": 16.7
+      },
+      "group": "u"
+    },
+    "u2": {
+      "type": "radio",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 120.0,
+        "top": 682.3,
+        "width": 16.3,
+        "height": 16.7
+      },
+      "group": "u"
+    },
+    "v": {
+      "type": "text",
+      "label": "Specialist Program requirements?",
+      "page": 2,
+      "box": {
+        "left": 93.0,
+        "top": 638.0,
+        "width": 196.0,
+        "height": 22.3
+      }
+    },
+    "w": {
+      "type": "text",
+      "label": "with OPNAVINST 1740.5,",
+      "page": 2,
+      "box": {
+        "left": 330.7,
+        "top": 638.0,
+        "width": 73.3,
+        "height": 22.3
+      }
+    },
+    "x": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 2,
+      "box": {
+        "left": 79.0,
+        "top": 556.0,
+        "width": 16.7,
+        "height": 16.7
+      },
+      "group": "x"
+    },
+    "x2": {
+      "type": "radio",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 120.0,
+        "top": 556.0,
+        "width": 16.3,
+        "height": 16.7
+      },
+      "group": "x"
+    },
+    "x3": {
+      "type": "radio",
+      "label": "NA",
+      "page": 2,
+      "box": {
+        "left": 160.3,
+        "top": 556.0,
+        "width": 16.7,
+        "height": 16.7
+      },
+      "group": "x"
+    },
+    "y": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 2,
+      "box": {
+        "left": 79.0,
+        "top": 531.0,
+        "width": 16.7,
+        "height": 16.7
+      },
+      "group": "y"
+    },
+    "y2": {
+      "type": "radio",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 120.0,
+        "top": 531.0,
+        "width": 16.3,
+        "height": 16.7
+      },
+      "group": "y"
+    },
+    "y3": {
+      "type": "radio",
+      "label": "NA",
+      "page": 2,
+      "box": {
+        "left": 160.3,
+        "top": 531.0,
+        "width": 16.7,
+        "height": 16.7
+      },
+      "group": "y"
+    },
+    "z": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 2,
+      "box": {
+        "left": 79.0,
+        "top": 506.0,
+        "width": 16.7,
+        "height": 16.7
+      },
+      "group": "z"
+    },
+    "z2": {
+      "type": "radio",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 120.0,
+        "top": 506.0,
+        "width": 16.3,
+        "height": 16.7
+      },
+      "group": "z"
+    },
+    "z3": {
+      "type": "radio",
+      "label": "NA",
+      "page": 2,
+      "box": {
+        "left": 160.3,
+        "top": 506.0,
+        "width": 16.7,
+        "height": 16.7
+      },
+      "group": "z"
+    },
+    "1": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 2,
+      "box": {
+        "left": 79.0,
+        "top": 481.0,
+        "width": 16.7,
+        "height": 16.7
+      },
+      "group": "1"
+    },
+    "12": {
+      "type": "radio",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 120.0,
+        "top": 481.0,
+        "width": 16.3,
+        "height": 16.7
+      },
+      "group": "1"
+    },
+    "13": {
+      "type": "radio",
+      "label": "NA",
+      "page": 2,
+      "box": {
+        "left": 160.3,
+        "top": 481.0,
+        "width": 16.7,
+        "height": 16.7
+      },
+      "group": "1"
+    },
+    "2": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 2,
+      "box": {
+        "left": 79.0,
+        "top": 456.0,
+        "width": 16.7,
+        "height": 16.7
+      },
+      "group": "2"
+    },
+    "22": {
+      "type": "radio",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 120.0,
+        "top": 456.0,
+        "width": 16.3,
+        "height": 16.7
+      },
+      "group": "2"
+    },
+    "23": {
+      "type": "radio",
+      "label": "NA",
+      "page": 2,
+      "box": {
+        "left": 160.3,
+        "top": 456.0,
+        "width": 16.7,
+        "height": 16.7
+      },
+      "group": "2"
+    },
+    "3": {
+      "type": "text",
+      "label": "5. Does member have",
+      "page": 2,
+      "box": {
+        "left": 92.6,
+        "top": 409.2,
+        "width": 195.9,
+        "height": 22.1
+      }
+    },
+    "3a": {
+      "type": "text",
+      "label": "tattoos?",
+      "page": 2,
+      "box": {
+        "left": 330.3,
+        "top": 409.2,
+        "width": 73.8,
+        "height": 22.1
+      }
+    },
+    "4": {
+      "type": "text",
+      "label": "KNOWLEDGE",
+      "page": 2,
+      "box": {
+        "left": 92.7,
+        "top": 320.7,
+        "width": 196.0,
+        "height": 22.0
+      }
+    },
+    "5": {
+      "type": "text",
+      "label": "CERTIFIED TO BE TRUE TO",
+      "page": 2,
+      "box": {
+        "left": 330.7,
+        "top": 320.7,
+        "width": 73.3,
+        "height": 22.0
+      }
+    },
+    "6": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 2,
+      "box": {
+        "left": 79.0,
+        "top": 261.7,
+        "width": 16.7,
+        "height": 16.7
+      },
+      "group": "6"
+    },
+    "62": {
+      "type": "radio",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 120.0,
+        "top": 261.7,
+        "width": 16.3,
+        "height": 16.7
+      },
+      "group": "6"
+    },
+    "7": {
+      "type": "text",
+      "label": "APPROVAL/DISAPPROVAL",
+      "page": 2,
+      "box": {
+        "left": 92.7,
+        "top": 199.3,
+        "width": 196.0,
+        "height": 22.0
+      }
+    },
+    "8": {
+      "type": "text",
+      "label": "why service member",
+      "page": 2,
+      "box": {
+        "left": 330.7,
+        "top": 199.3,
+        "width": 73.3,
+        "height": 22.0
+      }
+    }
+  }
+}

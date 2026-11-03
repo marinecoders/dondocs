@@ -1,0 +1,84 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 792,
+    "height": 612
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "name": {
+        "left": 280.0,
+        "top": 284.4,
+        "width": 231.5,
+        "height": 27.2,
+        "type": "text",
+        "description": "Enter the name.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "information1": {
+        "left": 280.4,
+        "top": 214.3,
+        "width": 231.1,
+        "height": 29.2,
+        "type": "text",
+        "description": "Enter the information",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date": {
+        "left": 353.0,
+        "top": 139.7,
+        "width": 86.0,
+        "height": 25.1,
+        "type": "text",
+        "description": "Enter the date using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature1": {
+        "left": 539.1,
+        "top": 117.8,
+        "width": 175.3,
+        "height": 21.1,
+        "type": "text",
+        "description": "Enter the signature.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature2": {
+        "left": 539.1,
+        "top": 85.5,
+        "width": 176.0,
+        "height": 21.0,
+        "type": "text",
+        "description": "Enter the signature.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "information2": {
+        "left": 71.3,
+        "top": 83.5,
+        "width": 102.5,
+        "height": 19.0,
+        "type": "text",
+        "description": "Enter the information.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

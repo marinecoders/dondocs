@@ -1,0 +1,208 @@
+{
+  "id": "opnav4790186",
+  "label": "OPNAV4790-186 - Shuttle And Connector Wear Data",
+  "directory": "OPNAV4790-186 - Shuttle And Connector Wear Data",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "catapult",
+        "dateTimeField1",
+        "jsn",
+        "shotno",
+        "shotssince",
+        "left",
+        "right",
+        "left2",
+        "right2",
+        "remarks",
+        "maintman",
+        "aglpocpo",
+        "qainspector",
+        "maintcpo"
+      ]
+    }
+  ],
+  "fields": {
+    "catapult": {
+      "type": "text",
+      "label": "ENTER CATAPULT NUMBER.",
+      "page": 1,
+      "box": {
+        "left": 108.2,
+        "top": 726.2,
+        "width": 78.0,
+        "height": 12.3
+      }
+    },
+    "dateTimeField1": {
+      "type": "text",
+      "label": "ENTER DATE.",
+      "page": 1,
+      "box": {
+        "left": 473.2,
+        "top": 726.2,
+        "width": 91.0,
+        "height": 12.3
+      }
+    },
+    "jsn": {
+      "type": "text",
+      "label": "ENTER JSN.",
+      "page": 1,
+      "box": {
+        "left": 282.3,
+        "top": 717.2,
+        "width": 65.9,
+        "height": 12.3
+      }
+    },
+    "shotno": {
+      "type": "text",
+      "label": "ENTER SHOT NUMBER.",
+      "page": 1,
+      "box": {
+        "left": 86.8,
+        "top": 699.2,
+        "width": 99.4,
+        "height": 12.3
+      }
+    },
+    "shotssince": {
+      "type": "text",
+      "label": "ENTER SHOTS SINCE LAST INSPECTION.",
+      "page": 1,
+      "box": {
+        "left": 501.1,
+        "top": 699.2,
+        "width": 63.1,
+        "height": 12.3
+      }
+    },
+    "left": {
+      "type": "text",
+      "label": "ENTER LEFT CONNECTOR.",
+      "page": 1,
+      "box": {
+        "left": 433.6,
+        "top": 321.2,
+        "width": 40.6,
+        "height": 12.3
+      }
+    },
+    "right": {
+      "type": "text",
+      "label": "ENTER RIGHT CONNECTOR.",
+      "page": 1,
+      "box": {
+        "left": 506.3,
+        "top": 321.2,
+        "width": 39.8,
+        "height": 12.3
+      }
+    },
+    "left2": {
+      "type": "text",
+      "label": "ENTER LEFT.",
+      "page": 1,
+      "box": {
+        "left": 433.6,
+        "top": 294.2,
+        "width": 112.6,
+        "height": 12.3
+      }
+    },
+    "right2": {
+      "type": "text",
+      "label": "ENTER RIGHT.",
+      "page": 1,
+      "box": {
+        "left": 434.3,
+        "top": 267.2,
+        "width": 111.8,
+        "height": 12.3
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "ENTER REMARKS.",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 222.2,
+        "width": 534.3,
+        "height": 39.3
+      },
+      "multiline": true
+    },
+    "maintman": {
+      "type": "text",
+      "label": "ENTER MAINT. MAN.",
+      "page": 1,
+      "box": {
+        "left": 96.5,
+        "top": 168.2,
+        "width": 161.7,
+        "height": 12.3
+      }
+    },
+    "aglpocpo": {
+      "type": "text",
+      "label": "ENTER A/G LPO/CPO.",
+      "page": 1,
+      "box": {
+        "left": 410.0,
+        "top": 168.2,
+        "width": 145.2,
+        "height": 12.3
+      }
+    },
+    "qainspector": {
+      "type": "text",
+      "label": "ENTER QA INSPECTOR.",
+      "page": 1,
+      "box": {
+        "left": 115.7,
+        "top": 132.2,
+        "width": 142.4,
+        "height": 12.3
+      }
+    },
+    "maintcpo": {
+      "type": "text",
+      "label": "ENTER MAINT. CPO/OFFICER.",
+      "page": 1,
+      "box": {
+        "left": 441.9,
+        "top": 132.2,
+        "width": 113.3,
+        "height": 12.3
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 27.0,
+      "editor": "grid",
+      "columns": {
+        "shuttle": {
+          "type": "text",
+          "label": "ENTER SHUTTLE.",
+          "page": 1,
+          "box": {
+            "left": 180.6,
+            "top": 321.2,
+            "width": 86.3,
+            "height": 12.3
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,306 @@
+{
+  "id": "navmc11630",
+  "label": "NAVMC 11630 - Water Survival Indident Report",
+  "directory": "NAVMC11630 - Water Survival Indident Report",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "phone1",
+        "marine",
+        "addtionalRecuers",
+        "phone2",
+        "witness1",
+        "phone3",
+        "witness2",
+        "phone4",
+        "witness3",
+        "phone5",
+        "phone6",
+        "ero",
+        "phone7",
+        "wSSOorOIC",
+        "phone8",
+        "corpsman",
+        "safetyDriver",
+        "phone9",
+        "victimNameAndRank",
+        "victimsUnit",
+        "incidentLocation",
+        "incidentTime",
+        "incidentType",
+        "detailedExplanation"
+      ]
+    }
+  ],
+  "fields": {
+    "phone1": {
+      "type": "text",
+      "label": "phone1",
+      "page": 1,
+      "box": {
+        "left": 398.2,
+        "top": 639.7,
+        "width": 138.8,
+        "height": 15.7
+      }
+    },
+    "marine": {
+      "type": "text",
+      "label": "Marine",
+      "page": 1,
+      "box": {
+        "left": 174.4,
+        "top": 635.4,
+        "width": 180.3,
+        "height": 12.4
+      }
+    },
+    "addtionalRecuers": {
+      "type": "text",
+      "label": "addtionalRecuers",
+      "page": 1,
+      "box": {
+        "left": 234.4,
+        "top": 615.9,
+        "width": 119.1,
+        "height": 15.0
+      }
+    },
+    "phone2": {
+      "type": "text",
+      "label": "phone2",
+      "page": 1,
+      "box": {
+        "left": 397.8,
+        "top": 615.6,
+        "width": 137.9,
+        "height": 16.1
+      }
+    },
+    "witness1": {
+      "type": "text",
+      "label": "witness1",
+      "page": 1,
+      "box": {
+        "left": 180.4,
+        "top": 592.5,
+        "width": 173.1,
+        "height": 15.5
+      }
+    },
+    "phone3": {
+      "type": "text",
+      "label": "phone3",
+      "page": 1,
+      "box": {
+        "left": 396.5,
+        "top": 592.0,
+        "width": 139.8,
+        "height": 15.9
+      }
+    },
+    "witness2": {
+      "type": "text",
+      "label": "witness2",
+      "page": 1,
+      "box": {
+        "left": 181.5,
+        "top": 569.0,
+        "width": 171.5,
+        "height": 15.7
+      }
+    },
+    "phone4": {
+      "type": "text",
+      "label": "phone4",
+      "page": 1,
+      "box": {
+        "left": 395.9,
+        "top": 568.6,
+        "width": 139.7,
+        "height": 15.9
+      }
+    },
+    "witness3": {
+      "type": "text",
+      "label": "witness3",
+      "page": 1,
+      "box": {
+        "left": 181.6,
+        "top": 543.9,
+        "width": 171.3,
+        "height": 15.6
+      }
+    },
+    "phone5": {
+      "type": "text",
+      "label": "phone5",
+      "page": 1,
+      "box": {
+        "left": 395.3,
+        "top": 543.5,
+        "width": 140.3,
+        "height": 16.5
+      }
+    },
+    "phone6": {
+      "type": "text",
+      "label": "phone6",
+      "page": 1,
+      "box": {
+        "left": 394.9,
+        "top": 522.1,
+        "width": 140.5,
+        "height": 17.3
+      }
+    },
+    "ero": {
+      "type": "text",
+      "label": "ERO",
+      "page": 1,
+      "box": {
+        "left": 167.8,
+        "top": 519.5,
+        "width": 185.1,
+        "height": 15.1
+      }
+    },
+    "phone7": {
+      "type": "text",
+      "label": "phone7",
+      "page": 1,
+      "box": {
+        "left": 394.9,
+        "top": 498.1,
+        "width": 141.1,
+        "height": 17.1
+      }
+    },
+    "wSSOorOIC": {
+      "type": "text",
+      "label": "WSSOorOIC",
+      "page": 1,
+      "box": {
+        "left": 134.2,
+        "top": 494.9,
+        "width": 219.9,
+        "height": 14.7
+      }
+    },
+    "phone8": {
+      "type": "text",
+      "label": "phone8",
+      "page": 1,
+      "box": {
+        "left": 395.5,
+        "top": 474.5,
+        "width": 139.9,
+        "height": 17.4
+      }
+    },
+    "corpsman": {
+      "type": "text",
+      "label": "Corpsman",
+      "page": 1,
+      "box": {
+        "left": 170.2,
+        "top": 471.5,
+        "width": 183.9,
+        "height": 14.6
+      }
+    },
+    "safetyDriver": {
+      "type": "text",
+      "label": "SafetyDriver",
+      "page": 1,
+      "box": {
+        "left": 182.1,
+        "top": 448.5,
+        "width": 172.7,
+        "height": 15.2
+      }
+    },
+    "phone9": {
+      "type": "text",
+      "label": "phone9",
+      "page": 1,
+      "box": {
+        "left": 395.3,
+        "top": 447.2,
+        "width": 140.6,
+        "height": 15.5
+      }
+    },
+    "victimNameAndRank": {
+      "type": "text",
+      "label": "victimNameAndRank",
+      "page": 1,
+      "box": {
+        "left": 213.9,
+        "top": 425.2,
+        "width": 208.5,
+        "height": 16.0
+      }
+    },
+    "victimsUnit": {
+      "type": "text",
+      "label": "victimsUnit",
+      "page": 1,
+      "box": {
+        "left": 137.6,
+        "top": 401.2,
+        "width": 286.0,
+        "height": 16.1
+      }
+    },
+    "incidentLocation": {
+      "type": "text",
+      "label": "incidentLocation",
+      "page": 1,
+      "box": {
+        "left": 170.3,
+        "top": 375.7,
+        "width": 253.4,
+        "height": 15.3
+      }
+    },
+    "incidentTime": {
+      "type": "text",
+      "label": "incidentTime",
+      "page": 1,
+      "box": {
+        "left": 155.1,
+        "top": 351.7,
+        "width": 268.5,
+        "height": 15.3
+      }
+    },
+    "incidentType": {
+      "type": "text",
+      "label": "incidentType",
+      "page": 1,
+      "box": {
+        "left": 154.5,
+        "top": 329.2,
+        "width": 268.5,
+        "height": 15.8
+      }
+    },
+    "detailedExplanation": {
+      "type": "text",
+      "label": "detailedExplanation",
+      "page": 1,
+      "box": {
+        "left": 73.4,
+        "top": 244.2,
+        "width": 463.8,
+        "height": 196.1
+      },
+      "multiline": true
+    }
+  }
+}

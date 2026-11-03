@@ -1,0 +1,819 @@
+{
+  "id": "opnav479028a",
+  "label": "OPNAV4790-28A - Scheduled Removal Component Card",
+  "directory": "OPNAV4790-28A - Scheduled Removal Component Card",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "fscm",
+        "replaceInt",
+        "replaceDue",
+        "nomenclature",
+        "workUnitCode",
+        "fst",
+        "partNumber",
+        "serialNumber",
+        "dropDownListC1",
+        "dropDownListC2",
+        "dropDownListC3",
+        "dropDownListC4",
+        "dropDownListC12",
+        "dropDownListC22",
+        "dropDownListC32",
+        "dropDownListC42",
+        "dateField",
+        "bunoSernoField",
+        "totalC1",
+        "totalC2",
+        "totalC3",
+        "totalC4",
+        "totalD1",
+        "totalD2",
+        "totalD3",
+        "totalD4",
+        "dropDownListB1SecIII",
+        "dropDownListB2SecIII",
+        "dropDownListB3SecIII",
+        "dropDownListB4SecIII",
+        "dropDownListCSecIII",
+        "dropDownListC2SecIII",
+        "dropDownListC3SecIII",
+        "dropDownListC4SecIII",
+        "dateFieldSecIII",
+        "totalB1SecIII",
+        "totalB2SecIII",
+        "totalB3SecIII",
+        "totalB4SecIII",
+        "totalC1SecIII",
+        "totalC2SecIII",
+        "totalC3SecIII",
+        "totalC4SecIII",
+        "reasonsField"
+      ]
+    }
+  ],
+  "fields": {
+    "fscm": {
+      "type": "text",
+      "label": "C. FSCM",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 510.8,
+        "width": 120.3,
+        "height": 12.9
+      }
+    },
+    "replaceInt": {
+      "type": "text",
+      "label": "H. FST",
+      "page": 1,
+      "box": {
+        "left": 488.9,
+        "top": 510.8,
+        "width": 129.3,
+        "height": 44.4
+      },
+      "multiline": true
+    },
+    "replaceDue": {
+      "type": "text",
+      "label": "H. FST",
+      "page": 1,
+      "box": {
+        "left": 623.9,
+        "top": 510.8,
+        "width": 129.3,
+        "height": 44.4
+      },
+      "multiline": true
+    },
+    "nomenclature": {
+      "type": "text",
+      "label": "A. NOMENCLATURE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 509.8,
+        "width": 192.4,
+        "height": 11.9
+      }
+    },
+    "workUnitCode": {
+      "type": "text",
+      "label": "B. WORK UNIT CODE",
+      "page": 1,
+      "box": {
+        "left": 236.9,
+        "top": 509.8,
+        "width": 120.3,
+        "height": 11.9
+      }
+    },
+    "fst": {
+      "type": "text",
+      "label": "H. FST",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 480.2,
+        "width": 120.3,
+        "height": 13.8
+      }
+    },
+    "partNumber": {
+      "type": "text",
+      "label": "F. PART NUMBER",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 479.3,
+        "width": 147.3,
+        "height": 12.9
+      }
+    },
+    "serialNumber": {
+      "type": "text",
+      "label": "G. SERIAL NUMBER",
+      "page": 1,
+      "box": {
+        "left": 191.9,
+        "top": 479.3,
+        "width": 165.4,
+        "height": 12.9
+      }
+    },
+    "dropDownListC1": {
+      "type": "choice",
+      "label": "C. TOTAL AIRCRAFT",
+      "page": 1,
+      "box": {
+        "left": 269.1,
+        "top": 426.4,
+        "width": 54.0,
+        "height": 10.8
+      },
+      "options": [
+        "HOURS",
+        "COUNTS"
+      ]
+    },
+    "dropDownListC2": {
+      "type": "choice",
+      "label": "AIRCRAFT / EQUIPMENT",
+      "page": 1,
+      "box": {
+        "left": 332.1,
+        "top": 426.4,
+        "width": 54.0,
+        "height": 10.8
+      },
+      "options": [
+        "HOURS",
+        "COUNTS"
+      ]
+    },
+    "dropDownListC3": {
+      "type": "choice",
+      "label": "EQUIPMENT HOURS OR",
+      "page": 1,
+      "box": {
+        "left": 395.1,
+        "top": 426.4,
+        "width": 54.0,
+        "height": 10.8
+      },
+      "options": [
+        "HOURS",
+        "COUNTS"
+      ]
+    },
+    "dropDownListC4": {
+      "type": "choice",
+      "label": "OR COUNTS",
+      "page": 1,
+      "box": {
+        "left": 453.6,
+        "top": 426.4,
+        "width": 54.0,
+        "height": 10.8
+      },
+      "options": [
+        "HOURS",
+        "COUNTS"
+      ]
+    },
+    "dropDownListC12": {
+      "type": "choice",
+      "label": "D. TOTAL",
+      "page": 1,
+      "box": {
+        "left": 514.8,
+        "top": 426.4,
+        "width": 54.0,
+        "height": 10.8
+      },
+      "options": [
+        "HOURS",
+        "COUNTS"
+      ]
+    },
+    "dropDownListC22": {
+      "type": "choice",
+      "label": "TOTAL HOURS OR",
+      "page": 1,
+      "box": {
+        "left": 575.2,
+        "top": 426.4,
+        "width": 54.0,
+        "height": 10.8
+      },
+      "options": [
+        "HOURS",
+        "COUNTS"
+      ]
+    },
+    "dropDownListC32": {
+      "type": "choice",
+      "label": "OR COUNTS ON ITEM",
+      "page": 1,
+      "box": {
+        "left": 638.2,
+        "top": 426.4,
+        "width": 54.0,
+        "height": 10.8
+      },
+      "options": [
+        "HOURS",
+        "COUNTS"
+      ]
+    },
+    "dropDownListC42": {
+      "type": "choice",
+      "label": "ITEM",
+      "page": 1,
+      "box": {
+        "left": 698.5,
+        "top": 426.4,
+        "width": 54.0,
+        "height": 10.8
+      },
+      "options": [
+        "HOURS",
+        "COUNTS"
+      ]
+    },
+    "dateField": {
+      "type": "text",
+      "label": "A. DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 409.1,
+        "width": 75.3,
+        "height": 10.2
+      }
+    },
+    "bunoSernoField": {
+      "type": "text",
+      "label": "B. BUNO / SERNO INSTALLED ON",
+      "page": 1,
+      "box": {
+        "left": 119.8,
+        "top": 409.1,
+        "width": 142.8,
+        "height": 10.2
+      }
+    },
+    "totalC1": {
+      "type": "text",
+      "label": "C. TOTAL AIRCRAFT",
+      "page": 1,
+      "box": {
+        "left": 268.4,
+        "top": 409.1,
+        "width": 55.5,
+        "height": 10.2
+      }
+    },
+    "totalC2": {
+      "type": "text",
+      "label": "AIRCRAFT / EQUIPMENT",
+      "page": 1,
+      "box": {
+        "left": 331.4,
+        "top": 409.1,
+        "width": 55.5,
+        "height": 10.2
+      }
+    },
+    "totalC3": {
+      "type": "text",
+      "label": "EQUIPMENT HOURS OR",
+      "page": 1,
+      "box": {
+        "left": 394.4,
+        "top": 409.1,
+        "width": 55.5,
+        "height": 10.2
+      }
+    },
+    "totalC4": {
+      "type": "text",
+      "label": "OR COUNTS",
+      "page": 1,
+      "box": {
+        "left": 452.9,
+        "top": 409.1,
+        "width": 55.5,
+        "height": 10.2
+      }
+    },
+    "totalD1": {
+      "type": "text",
+      "label": "D. TOTAL",
+      "page": 1,
+      "box": {
+        "left": 514.1,
+        "top": 409.1,
+        "width": 55.5,
+        "height": 10.2
+      }
+    },
+    "totalD2": {
+      "type": "text",
+      "label": "TOTAL HOURS OR",
+      "page": 1,
+      "box": {
+        "left": 574.4,
+        "top": 409.1,
+        "width": 55.5,
+        "height": 10.2
+      }
+    },
+    "totalD3": {
+      "type": "text",
+      "label": "OR COUNTS ON ITEM",
+      "page": 1,
+      "box": {
+        "left": 637.4,
+        "top": 409.1,
+        "width": 55.5,
+        "height": 10.2
+      }
+    },
+    "totalD4": {
+      "type": "text",
+      "label": "ITEM",
+      "page": 1,
+      "box": {
+        "left": 697.7,
+        "top": 409.1,
+        "width": 55.5,
+        "height": 10.2
+      }
+    },
+    "dropDownListB1SecIII": {
+      "type": "choice",
+      "label": "B TOTAL AIRCRAFT",
+      "page": 1,
+      "box": {
+        "left": 120.6,
+        "top": 359.0,
+        "width": 54.0,
+        "height": 10.8
+      },
+      "options": [
+        "HOURS",
+        "COUNTS"
+      ]
+    },
+    "dropDownListB2SecIII": {
+      "type": "choice",
+      "label": "AIRCRAFT / EQUIPMENT",
+      "page": 1,
+      "box": {
+        "left": 181.8,
+        "top": 359.0,
+        "width": 54.0,
+        "height": 10.8
+      },
+      "options": [
+        "HOURS",
+        "COUNTS"
+      ]
+    },
+    "dropDownListB3SecIII": {
+      "type": "choice",
+      "label": "EQUIPMENT HOURS OR",
+      "page": 1,
+      "box": {
+        "left": 243.0,
+        "top": 359.0,
+        "width": 54.0,
+        "height": 10.8
+      },
+      "options": [
+        "HOURS",
+        "COUNTS"
+      ]
+    },
+    "dropDownListB4SecIII": {
+      "type": "choice",
+      "label": "OR COUNTS",
+      "page": 1,
+      "box": {
+        "left": 304.2,
+        "top": 359.0,
+        "width": 52.2,
+        "height": 10.8
+      },
+      "options": [
+        "HOURS",
+        "COUNTS"
+      ]
+    },
+    "dropDownListCSecIII": {
+      "type": "choice",
+      "label": "Drop Down List C Sec III",
+      "page": 1,
+      "box": {
+        "left": 363.6,
+        "top": 359.0,
+        "width": 54.0,
+        "height": 10.8
+      },
+      "options": [
+        "HOURS",
+        "COUNTS"
+      ]
+    },
+    "dropDownListC2SecIII": {
+      "type": "choice",
+      "label": "TOTAL HOURS OR",
+      "page": 1,
+      "box": {
+        "left": 423.9,
+        "top": 359.0,
+        "width": 54.0,
+        "height": 10.8
+      },
+      "options": [
+        "HOURS",
+        "COUNTS"
+      ]
+    },
+    "dropDownListC3SecIII": {
+      "type": "choice",
+      "label": "OR COUNTS ON",
+      "page": 1,
+      "box": {
+        "left": 485.1,
+        "top": 359.0,
+        "width": 54.0,
+        "height": 10.8
+      },
+      "options": [
+        "HOURS",
+        "COUNTS"
+      ]
+    },
+    "dropDownListC4SecIII": {
+      "type": "choice",
+      "label": "ITEM",
+      "page": 1,
+      "box": {
+        "left": 547.3,
+        "top": 359.0,
+        "width": 56.7,
+        "height": 10.8
+      },
+      "options": [
+        "HOURS",
+        "COUNTS"
+      ]
+    },
+    "dateFieldSecIII": {
+      "type": "text",
+      "label": "A. DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 341.7,
+        "width": 75.3,
+        "height": 10.2
+      }
+    },
+    "totalB1SecIII": {
+      "type": "text",
+      "label": "B TOTAL AIRCRAFT",
+      "page": 1,
+      "box": {
+        "left": 119.8,
+        "top": 341.7,
+        "width": 55.5,
+        "height": 10.2
+      }
+    },
+    "totalB2SecIII": {
+      "type": "text",
+      "label": "AIRCRAFT / EQUIPMENT",
+      "page": 1,
+      "box": {
+        "left": 181.1,
+        "top": 341.7,
+        "width": 55.5,
+        "height": 10.2
+      }
+    },
+    "totalB3SecIII": {
+      "type": "text",
+      "label": "EQUIPMENT HOURS OR",
+      "page": 1,
+      "box": {
+        "left": 242.3,
+        "top": 341.7,
+        "width": 55.5,
+        "height": 10.2
+      }
+    },
+    "totalB4SecIII": {
+      "type": "text",
+      "label": "OR COUNTS",
+      "page": 1,
+      "box": {
+        "left": 303.5,
+        "top": 341.7,
+        "width": 53.7,
+        "height": 10.2
+      }
+    },
+    "totalC1SecIII": {
+      "type": "text",
+      "label": "C. TOTAL",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 341.7,
+        "width": 55.5,
+        "height": 10.2
+      }
+    },
+    "totalC2SecIII": {
+      "type": "text",
+      "label": "TOTAL HOURS OR",
+      "page": 1,
+      "box": {
+        "left": 423.2,
+        "top": 341.7,
+        "width": 55.5,
+        "height": 10.2
+      }
+    },
+    "totalC3SecIII": {
+      "type": "text",
+      "label": "OR COUNTS ON",
+      "page": 1,
+      "box": {
+        "left": 484.4,
+        "top": 341.7,
+        "width": 55.5,
+        "height": 10.2
+      }
+    },
+    "totalC4SecIII": {
+      "type": "text",
+      "label": "ITEM",
+      "page": 1,
+      "box": {
+        "left": 546.5,
+        "top": 341.7,
+        "width": 58.2,
+        "height": 10.2
+      }
+    },
+    "reasonsField": {
+      "type": "text",
+      "label": "JOB CONTROL NUMBER",
+      "page": 1,
+      "box": {
+        "left": 609.5,
+        "top": 341.7,
+        "width": 143.7,
+        "height": 10.2
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 2,
+      "count": 11,
+      "rowStride": 18.01,
+      "editor": "grid",
+      "columns": {
+        "dateSecV": {
+          "type": "text",
+          "label": "A. DATE",
+          "page": 2,
+          "box": {
+            "left": 38.8,
+            "top": 235.7,
+            "width": 102.3,
+            "height": 12.3
+          }
+        },
+        "activitySecV": {
+          "type": "text",
+          "label": "B. ACTIVITY",
+          "page": 2,
+          "box": {
+            "left": 146.9,
+            "top": 235.7,
+            "width": 102.3,
+            "height": 12.3
+          }
+        },
+        "descriptionSecV": {
+          "type": "text",
+          "label": "C. DESCRIPTION",
+          "page": 2,
+          "box": {
+            "left": 254.9,
+            "top": 235.7,
+            "width": 327.4,
+            "height": 12.3
+          }
+        },
+        "signatureSecV": {
+          "type": "text",
+          "label": "D. SIGNATURE",
+          "page": 2,
+          "box": {
+            "left": 587.9,
+            "top": 235.7,
+            "width": 165.4,
+            "height": 12.3
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 2,
+      "count": 14,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "code": {
+          "type": "text",
+          "label": "CODE",
+          "page": 2,
+          "box": {
+            "left": 38.8,
+            "top": 519.2,
+            "width": 21.3,
+            "height": 12.3
+          }
+        },
+        "basic": {
+          "type": "text",
+          "label": "BASIC",
+          "page": 2,
+          "box": {
+            "left": 65.8,
+            "top": 519.2,
+            "width": 21.3,
+            "height": 12.3
+          }
+        },
+        "int": {
+          "type": "text",
+          "label": "INT",
+          "page": 2,
+          "box": {
+            "left": 92.8,
+            "top": 519.2,
+            "width": 21.3,
+            "height": 12.3
+          }
+        },
+        "rev": {
+          "type": "text",
+          "label": "REV",
+          "page": 2,
+          "box": {
+            "left": 119.8,
+            "top": 519.2,
+            "width": 21.3,
+            "height": 12.3
+          }
+        },
+        "am": {
+          "type": "text",
+          "label": "AM",
+          "page": 2,
+          "box": {
+            "left": 146.9,
+            "top": 519.2,
+            "width": 21.3,
+            "height": 12.3
+          }
+        },
+        "pt": {
+          "type": "text",
+          "label": "PT",
+          "page": 2,
+          "box": {
+            "left": 173.9,
+            "top": 519.2,
+            "width": 21.3,
+            "height": 12.3
+          }
+        },
+        "kit": {
+          "type": "text",
+          "label": "KIT",
+          "page": 2,
+          "box": {
+            "left": 200.9,
+            "top": 519.2,
+            "width": 21.3,
+            "height": 12.3
+          }
+        },
+        "pri": {
+          "type": "text",
+          "label": "PRI",
+          "page": 2,
+          "box": {
+            "left": 227.9,
+            "top": 519.2,
+            "width": 21.3,
+            "height": 12.3
+          }
+        },
+        "status": {
+          "type": "text",
+          "label": "B. STATUS",
+          "page": 2,
+          "box": {
+            "left": 254.9,
+            "top": 519.2,
+            "width": 52.8,
+            "height": 12.3
+          }
+        },
+        "titleRemarks": {
+          "type": "text",
+          "label": "C. TITLE/REMARKS",
+          "page": 2,
+          "box": {
+            "left": 313.4,
+            "top": 519.2,
+            "width": 115.8,
+            "height": 12.3
+          }
+        },
+        "activity": {
+          "type": "text",
+          "label": "BY (Activity)",
+          "page": 2,
+          "box": {
+            "left": 434.9,
+            "top": 519.2,
+            "width": 70.8,
+            "height": 12.3
+          }
+        },
+        "date": {
+          "type": "text",
+          "label": "DATE",
+          "page": 2,
+          "box": {
+            "left": 511.4,
+            "top": 519.2,
+            "width": 70.8,
+            "height": 12.3
+          }
+        },
+        "signature": {
+          "type": "text",
+          "label": "E. SIGNATURE",
+          "page": 2,
+          "box": {
+            "left": 587.9,
+            "top": 519.2,
+            "width": 165.4,
+            "height": 12.3
+          }
+        }
+      }
+    }
+  }
+}

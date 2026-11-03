@@ -1,0 +1,481 @@
+{
+  "id": "opnav4790158",
+  "label": "OPNAV4790-158 - Plane Captain Designation",
+  "directory": "OPNAV4790-158 - Plane Captain Designation",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "rate",
+        "deptDiv",
+        "aCRFTTypMod",
+        "radio",
+        "radio2",
+        "wrtExmDte",
+        "wrtExmGde",
+        "pracExmDte",
+        "pracExmGde",
+        "aCRFTTypMod2",
+        "wrtExmDte2",
+        "mebSig",
+        "wrtExmDte3",
+        "aCRFTTypMod3",
+        "offRecSig",
+        "pneCapProMonSigDte",
+        "prtPneCapProMon",
+        "sigPneCapProMon",
+        "pCBrSuprSigDte",
+        "prtPCBrSupr",
+        "sigPCBrSupr",
+        "pCQlePrgMgrSigDte",
+        "prtPCQlePrgMgr",
+        "sigPCQlePrgMgr",
+        "prtNmeSftyOff",
+        "nmeSftyOffSigDte",
+        "sigNmeSftyOff",
+        "prtNmeMaitOff",
+        "nmeMaitOffSigDte",
+        "sigNmeMaitOff",
+        "prtNmeCmdOff",
+        "nmeCmdOffSigDte",
+        "sigNmeCmdOff",
+        "wrtExmDte4",
+        "signatureField1",
+        "aCRFTTypMod4"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "1. NAME - LAST, FIRST, MIDDLE INITIAL",
+      "page": 1,
+      "box": {
+        "left": 40.6,
+        "top": 704.5,
+        "width": 252.5,
+        "height": 22.0
+      }
+    },
+    "rate": {
+      "type": "text",
+      "label": "2. RATE/GRADE",
+      "page": 1,
+      "box": {
+        "left": 298.5,
+        "top": 704.4,
+        "width": 91.6,
+        "height": 22.0
+      }
+    },
+    "deptDiv": {
+      "type": "text",
+      "label": "3. DEPARTMENT/DIVISION",
+      "page": 1,
+      "box": {
+        "left": 395.1,
+        "top": 704.4,
+        "width": 181.0,
+        "height": 22.0
+      }
+    },
+    "aCRFTTypMod": {
+      "type": "text",
+      "label": "4. AIRCRAT TYPE MODEL/SERIES",
+      "page": 1,
+      "box": {
+        "left": 40.6,
+        "top": 670.0,
+        "width": 252.5,
+        "height": 22.0
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 319.8,
+        "top": 664.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 444.5,
+        "top": 664.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "wrtExmDte": {
+      "type": "text",
+      "label": "6a. DATE OF WRITTEN EXAM",
+      "page": 1,
+      "box": {
+        "left": 40.6,
+        "top": 635.6,
+        "width": 130.0,
+        "height": 22.0
+      }
+    },
+    "wrtExmGde": {
+      "type": "text",
+      "label": "6b. GRADE",
+      "page": 1,
+      "box": {
+        "left": 175.6,
+        "top": 635.6,
+        "width": 130.0,
+        "height": 22.0
+      }
+    },
+    "pracExmDte": {
+      "type": "text",
+      "label": "7a. DATE OF PRACTICAL EXAM",
+      "page": 1,
+      "box": {
+        "left": 310.7,
+        "top": 635.6,
+        "width": 130.0,
+        "height": 22.0
+      }
+    },
+    "pracExmGde": {
+      "type": "text",
+      "label": "7b. GRADE",
+      "page": 1,
+      "box": {
+        "left": 445.7,
+        "top": 635.6,
+        "width": 130.4,
+        "height": 22.0
+      }
+    },
+    "aCRFTTypMod2": {
+      "type": "text",
+      "label": "8a. PRINTED NAME OF MEMBER",
+      "page": 1,
+      "box": {
+        "left": 40.6,
+        "top": 568.6,
+        "width": 215.3,
+        "height": 31.6
+      },
+      "multiline": true
+    },
+    "wrtExmDte2": {
+      "type": "text",
+      "label": "8b. SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 260.5,
+        "top": 568.6,
+        "width": 97.0,
+        "height": 31.6
+      },
+      "multiline": true
+    },
+    "mebSig": {
+      "type": "text",
+      "label": "8c. SIGNATURE OF MEMBER",
+      "page": 1,
+      "box": {
+        "left": 363.0,
+        "top": 568.6,
+        "width": 213.1,
+        "height": 31.6
+      },
+      "multiline": true
+    },
+    "wrtExmDte3": {
+      "type": "text",
+      "label": "9b. SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 260.5,
+        "top": 524.6,
+        "width": 97.0,
+        "height": 31.6
+      },
+      "multiline": true
+    },
+    "aCRFTTypMod3": {
+      "type": "text",
+      "label": "RECOMMENDING DESIGNATION",
+      "page": 1,
+      "box": {
+        "left": 40.6,
+        "top": 518.1,
+        "width": 215.3,
+        "height": 25.1
+      }
+    },
+    "offRecSig": {
+      "type": "text",
+      "label": "RECOMMENDING DESIGNATION",
+      "page": 1,
+      "box": {
+        "left": 363.0,
+        "top": 518.1,
+        "width": 213.1,
+        "height": 25.1
+      }
+    },
+    "pneCapProMonSigDte": {
+      "type": "text",
+      "label": "10b. SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 260.9,
+        "top": 432.7,
+        "width": 97.0,
+        "height": 31.6
+      },
+      "multiline": true
+    },
+    "prtPneCapProMon": {
+      "type": "text",
+      "label": "PLANE CAPTAIN PROGRAM MONITOR",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 426.2,
+        "width": 215.3,
+        "height": 25.1
+      }
+    },
+    "sigPneCapProMon": {
+      "type": "text",
+      "label": "PLANE CAPTAIN PROGRAM MONITOR",
+      "page": 1,
+      "box": {
+        "left": 363.0,
+        "top": 426.2,
+        "width": 213.1,
+        "height": 25.1
+      }
+    },
+    "pCBrSuprSigDte": {
+      "type": "text",
+      "label": "11b. SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 260.9,
+        "top": 388.7,
+        "width": 97.0,
+        "height": 31.6
+      },
+      "multiline": true
+    },
+    "prtPCBrSupr": {
+      "type": "text",
+      "label": "SUPERVISOR",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 382.2,
+        "width": 215.3,
+        "height": 25.1
+      }
+    },
+    "sigPCBrSupr": {
+      "type": "text",
+      "label": "SUPERVISOR",
+      "page": 1,
+      "box": {
+        "left": 363.0,
+        "top": 382.2,
+        "width": 213.1,
+        "height": 25.1
+      }
+    },
+    "pCQlePrgMgrSigDte": {
+      "type": "text",
+      "label": "12b. SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 260.9,
+        "top": 344.7,
+        "width": 97.0,
+        "height": 31.6
+      },
+      "multiline": true
+    },
+    "prtPCQlePrgMgr": {
+      "type": "text",
+      "label": "QUALIFICATION PROGRAM MANAGER",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 338.2,
+        "width": 215.3,
+        "height": 25.1
+      }
+    },
+    "sigPCQlePrgMgr": {
+      "type": "text",
+      "label": "QUALIFICATION PROGRAM MANAGER",
+      "page": 1,
+      "box": {
+        "left": 363.0,
+        "top": 338.2,
+        "width": 213.1,
+        "height": 25.1
+      }
+    },
+    "prtNmeSftyOff": {
+      "type": "text",
+      "label": "13a. PRINTED NAME OF SAFETY OFFICER",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 300.7,
+        "width": 215.3,
+        "height": 31.6
+      },
+      "multiline": true
+    },
+    "nmeSftyOffSigDte": {
+      "type": "text",
+      "label": "13b. SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 260.9,
+        "top": 300.7,
+        "width": 97.0,
+        "height": 31.6
+      },
+      "multiline": true
+    },
+    "sigNmeSftyOff": {
+      "type": "text",
+      "label": "13c. SIGNATURE OF SAFETY OFFICER",
+      "page": 1,
+      "box": {
+        "left": 363.0,
+        "top": 300.7,
+        "width": 213.1,
+        "height": 31.6
+      },
+      "multiline": true
+    },
+    "prtNmeMaitOff": {
+      "type": "text",
+      "label": "14a. PRINTED NAME OF MAINTENANCE OFFICER",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 256.7,
+        "width": 215.3,
+        "height": 31.6
+      },
+      "multiline": true
+    },
+    "nmeMaitOffSigDte": {
+      "type": "text",
+      "label": "14b. SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 260.9,
+        "top": 256.7,
+        "width": 97.0,
+        "height": 31.6
+      },
+      "multiline": true
+    },
+    "sigNmeMaitOff": {
+      "type": "text",
+      "label": "14c. SIGNATURE OF MAINTENANCE OFFICER",
+      "page": 1,
+      "box": {
+        "left": 363.0,
+        "top": 256.7,
+        "width": 213.1,
+        "height": 31.6
+      },
+      "multiline": true
+    },
+    "prtNmeCmdOff": {
+      "type": "text",
+      "label": "15a. PRINTED NAME OF COMMANDING OFFICER",
+      "page": 1,
+      "box": {
+        "left": 40.4,
+        "top": 171.4,
+        "width": 215.3,
+        "height": 31.6
+      },
+      "multiline": true
+    },
+    "nmeCmdOffSigDte": {
+      "type": "text",
+      "label": "15b. SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 260.3,
+        "top": 171.4,
+        "width": 97.0,
+        "height": 31.6
+      },
+      "multiline": true
+    },
+    "sigNmeCmdOff": {
+      "type": "text",
+      "label": "15c. SIGNATURE OF COMMANDING OFFICER",
+      "page": 1,
+      "box": {
+        "left": 362.8,
+        "top": 171.4,
+        "width": 213.1,
+        "height": 31.6
+      },
+      "multiline": true
+    },
+    "wrtExmDte4": {
+      "type": "text",
+      "label": "16b. SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 260.3,
+        "top": 94.8,
+        "width": 97.0,
+        "height": 31.6
+      },
+      "multiline": true
+    },
+    "signatureField1": {
+      "type": "text",
+      "label": "16c. SIGNATURE OF MILITARY PERSONNEL OFFICER",
+      "page": 1,
+      "box": {
+        "left": 363.0,
+        "top": 94.7,
+        "width": 213.1,
+        "height": 31.6
+      },
+      "multiline": true
+    },
+    "aCRFTTypMod4": {
+      "type": "text",
+      "label": "OFFICER",
+      "page": 1,
+      "box": {
+        "left": 40.4,
+        "top": 88.3,
+        "width": 215.3,
+        "height": 25.1
+      }
+    }
+  }
+}

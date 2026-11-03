@@ -1,0 +1,286 @@
+{
+  "id": "navmc11672",
+  "label": "NAVMC11672 - Marine Corps Telework Agreement Safety Checklist",
+  "directory": "NAVMC11672 - Marine Corps Telework Agreement Safety Checklist",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "yesNo1",
+        "yesNo12",
+        "yesNo2",
+        "yesNo22",
+        "yesNo3",
+        "yesNo32",
+        "yesNo4",
+        "yesNo42",
+        "yesNo5",
+        "yesNo52",
+        "yesNo6",
+        "yesNo62",
+        "signatureField1",
+        "date1",
+        "name1",
+        "component",
+        "name12",
+        "address",
+        "location",
+        "homePhone",
+        "supervisor"
+      ]
+    }
+  ],
+  "fields": {
+    "yesNo1": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 443.8,
+        "top": 648.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Yes_No1_0"
+    },
+    "yesNo12": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 506.8,
+        "top": 648.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Yes_No1_0"
+    },
+    "yesNo2": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 443.8,
+        "top": 585.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Yes_no2_0"
+    },
+    "yesNo22": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 506.8,
+        "top": 585.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Yes_no2_0"
+    },
+    "yesNo3": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 443.8,
+        "top": 522.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Yes_no3_0"
+    },
+    "yesNo32": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 506.8,
+        "top": 522.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Yes_no3_0"
+    },
+    "yesNo4": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 443.8,
+        "top": 459.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Yes_no4_0"
+    },
+    "yesNo42": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 506.8,
+        "top": 459.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Yes_no4_0"
+    },
+    "yesNo5": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 443.8,
+        "top": 396.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Yes_no5_0"
+    },
+    "yesNo52": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 506.8,
+        "top": 396.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Yes_no5_0"
+    },
+    "yesNo6": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 443.8,
+        "top": 333.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Yes_no6_0"
+    },
+    "yesNo62": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 506.8,
+        "top": 333.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Yes_no6_0"
+    },
+    "signatureField1": {
+      "type": "signature",
+      "label": "EMPLOYEE'S SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 158.2,
+        "top": 285.2,
+        "width": 289.0,
+        "height": 21.3
+      }
+    },
+    "date1": {
+      "type": "text",
+      "label": "DATE:",
+      "page": 1,
+      "box": {
+        "left": 481.2,
+        "top": 285.2,
+        "width": 83.0,
+        "height": 21.3
+      }
+    },
+    "name1": {
+      "type": "text",
+      "label": "NAME:",
+      "page": 1,
+      "box": {
+        "left": 73.8,
+        "top": 258.2,
+        "width": 310.4,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "component": {
+      "type": "text",
+      "label": "COMPONENT:",
+      "page": 1,
+      "box": {
+        "left": 452.5,
+        "top": 258.2,
+        "width": 111.7,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "name12": {
+      "type": "text",
+      "label": "POSITION:",
+      "page": 1,
+      "box": {
+        "left": 121.3,
+        "top": 222.2,
+        "width": 442.9,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "address": {
+      "type": "text",
+      "label": "ADDRESS:",
+      "page": 1,
+      "box": {
+        "left": 93.6,
+        "top": 186.2,
+        "width": 470.6,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "location": {
+      "type": "text",
+      "label": "LOCATION OF DESIGNATED HOME OFFICE OR WORK AREA:",
+      "page": 1,
+      "box": {
+        "left": 205.0,
+        "top": 150.2,
+        "width": 359.1,
+        "height": 39.3
+      },
+      "multiline": true
+    },
+    "homePhone": {
+      "type": "text",
+      "label": "HOME TELEPHONE:",
+      "page": 1,
+      "box": {
+        "left": 109.7,
+        "top": 105.2,
+        "width": 166.5,
+        "height": 21.3
+      }
+    },
+    "supervisor": {
+      "type": "text",
+      "label": "SUPERVISOR'S NAME:",
+      "page": 1,
+      "box": {
+        "left": 143.0,
+        "top": 78.2,
+        "width": 421.1,
+        "height": 21.3
+      }
+    }
+  }
+}

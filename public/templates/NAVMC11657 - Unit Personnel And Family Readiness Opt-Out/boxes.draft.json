@@ -1,0 +1,139 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "name": {
+        "left": 38.8,
+        "top": 367.1,
+        "width": 210.4,
+        "height": 22.4,
+        "type": "text",
+        "description": "Spouse Name (Last, First, MI)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField2": {
+        "left": 254.9,
+        "top": 367.1,
+        "width": 210.4,
+        "height": 22.4,
+        "type": "text",
+        "description": "Spouse Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateField1": {
+        "left": 470.9,
+        "top": 367.1,
+        "width": 102.3,
+        "height": 22.4,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name2": {
+        "left": 38.8,
+        "top": 241.1,
+        "width": 210.4,
+        "height": 22.4,
+        "type": "text",
+        "description": "Sponsor Name (Last, First, MI)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField22": {
+        "left": 254.9,
+        "top": 241.1,
+        "width": 210.4,
+        "height": 22.4,
+        "type": "text",
+        "description": "Sponsor Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateField12": {
+        "left": 470.9,
+        "top": 241.1,
+        "width": 102.3,
+        "height": 22.4,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField23": {
+        "left": 290.9,
+        "top": 115.4,
+        "width": 174.4,
+        "height": 22.7,
+        "type": "text",
+        "description": "Commander Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField3": {
+        "left": 38.8,
+        "top": 115.1,
+        "width": 66.3,
+        "height": 22.4,
+        "type": "text",
+        "description": "Commander Rank",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name3": {
+        "left": 110.8,
+        "top": 115.1,
+        "width": 174.4,
+        "height": 22.4,
+        "type": "text",
+        "description": "Commander Name (Last, First, MI)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateField13": {
+        "left": 470.9,
+        "top": 115.1,
+        "width": 102.3,
+        "height": 22.4,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name4": {
+        "left": 38.8,
+        "top": 79.1,
+        "width": 534.4,
+        "height": 22.4,
+        "type": "text",
+        "description": "Unit",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

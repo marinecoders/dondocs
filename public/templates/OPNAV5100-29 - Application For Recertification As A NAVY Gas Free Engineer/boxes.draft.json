@@ -1,0 +1,394 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "certNme": {
+        "left": 81.3,
+        "top": 620.1,
+        "width": 312.3,
+        "height": 16.3,
+        "type": "text",
+        "description": "1.  Name:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "certPhn": {
+        "left": 454.3,
+        "top": 620.1,
+        "width": 111.7,
+        "height": 16.3,
+        "type": "text",
+        "description": "2.  Phone:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "certAct": {
+        "left": 82.3,
+        "top": 584.4,
+        "width": 311.3,
+        "height": 16.3,
+        "type": "text",
+        "description": "3. Activity:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "certCde": {
+        "left": 454.3,
+        "top": 584.4,
+        "width": 111.7,
+        "height": 16.3,
+        "type": "text",
+        "description": "4.  Code:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "collCrs": {
+        "left": 56.8,
+        "top": 484.9,
+        "width": 506.3,
+        "height": 62.4,
+        "type": "text",
+        "description": "a.  College Courses (List courses taken since the last certification in related areas such as fire sciences, industrial hygiene, engineering, or safety.  List by name/number (if known)).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "othCrs": {
+        "left": 56.8,
+        "top": 404.1,
+        "width": 506.3,
+        "height": 72.5,
+        "type": "text",
+        "description": "b.  Other Training (List  courses completed such as NFPA Marine Chemist Modules, DOL/OSHA, etc., completed since last certification.)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "count": {
+        "left": 39.0,
+        "top": 281.0,
+        "width": 9.0,
+        "height": 12.1,
+        "type": "text",
+        "description": "incident(s)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fulExpTrn": {
+        "left": 70.0,
+        "top": 263.4,
+        "width": 499.2,
+        "height": 11.3,
+        "type": "text",
+        "description": "Name:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "empl": {
+        "left": 42.3,
+        "top": 203.1,
+        "width": 76.2,
+        "height": 30.3,
+        "type": "text",
+        "description": "Empl",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "vess": {
+        "left": 124.2,
+        "top": 203.1,
+        "width": 65.3,
+        "height": 30.3,
+        "type": "text",
+        "description": "Vess",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cerCon": {
+        "left": 195.1,
+        "top": 203.1,
+        "width": 63.4,
+        "height": 30.3,
+        "type": "text",
+        "description": "CerCon",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cerIss": {
+        "left": 264.3,
+        "top": 203.1,
+        "width": 46.6,
+        "height": 30.3,
+        "type": "text",
+        "description": "CerIss",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "facInc": {
+        "left": 316.5,
+        "top": 203.1,
+        "width": 252.5,
+        "height": 30.3,
+        "type": "text",
+        "description": "FacInc",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "empl1": {
+        "left": 42.3,
+        "top": 167.2,
+        "width": 76.2,
+        "height": 30.3,
+        "type": "text",
+        "description": "Empl1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "vess1": {
+        "left": 124.2,
+        "top": 167.2,
+        "width": 65.3,
+        "height": 30.3,
+        "type": "text",
+        "description": "Vess1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cerCon1": {
+        "left": 195.1,
+        "top": 167.2,
+        "width": 63.4,
+        "height": 30.3,
+        "type": "text",
+        "description": "CerCon1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cerIss1": {
+        "left": 264.3,
+        "top": 167.2,
+        "width": 46.6,
+        "height": 30.3,
+        "type": "text",
+        "description": "CerIss1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "facInc1": {
+        "left": 316.5,
+        "top": 167.2,
+        "width": 252.5,
+        "height": 30.3,
+        "type": "text",
+        "description": "FacInc1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "empl2": {
+        "left": 42.3,
+        "top": 131.3,
+        "width": 76.2,
+        "height": 30.3,
+        "type": "text",
+        "description": "Empl2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "vess2": {
+        "left": 124.2,
+        "top": 131.3,
+        "width": 65.3,
+        "height": 30.3,
+        "type": "text",
+        "description": "Vess2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cerCon2": {
+        "left": 195.1,
+        "top": 131.3,
+        "width": 63.4,
+        "height": 30.3,
+        "type": "text",
+        "description": "CerCon2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cerIss2": {
+        "left": 264.3,
+        "top": 131.3,
+        "width": 46.6,
+        "height": 30.3,
+        "type": "text",
+        "description": "CerIss2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "facInc2": {
+        "left": 316.5,
+        "top": 131.3,
+        "width": 252.5,
+        "height": 30.3,
+        "type": "text",
+        "description": "FacInc2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "empl3": {
+        "left": 42.3,
+        "top": 95.4,
+        "width": 76.2,
+        "height": 30.3,
+        "type": "text",
+        "description": "Empl3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "vess3": {
+        "left": 124.2,
+        "top": 95.4,
+        "width": 65.3,
+        "height": 30.3,
+        "type": "text",
+        "description": "Vess3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cerCon3": {
+        "left": 195.1,
+        "top": 95.4,
+        "width": 63.4,
+        "height": 30.3,
+        "type": "text",
+        "description": "CerCon3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cerIss3": {
+        "left": 264.3,
+        "top": 95.4,
+        "width": 46.6,
+        "height": 30.3,
+        "type": "text",
+        "description": "CerIss3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "facInc3": {
+        "left": 316.5,
+        "top": 95.4,
+        "width": 252.5,
+        "height": 30.3,
+        "type": "text",
+        "description": "FacInc3",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "dNSDate3": {
+        "left": 150.0,
+        "top": 698.4,
+        "width": 84.0,
+        "height": 17.0,
+        "type": "text",
+        "description": "Enter the date using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField1": {
+        "left": 344.8,
+        "top": 695.6,
+        "width": 135.3,
+        "height": 12.3,
+        "type": "signature",
+        "description": "Signature:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox1": {
+        "left": 168.8,
+        "top": 651.0,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Approved:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox12": {
+        "left": 306.4,
+        "top": 650.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Disapproved:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox13": {
+        "left": 472.8,
+        "top": 650.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "More Information Needed:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "brdCmt": {
+        "left": 42.8,
+        "top": 627.7,
+        "width": 528.3,
+        "height": 13.3,
+        "type": "text",
+        "description": "BrdCmt",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

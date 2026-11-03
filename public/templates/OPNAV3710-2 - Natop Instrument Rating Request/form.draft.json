@@ -1,0 +1,1008 @@
+{
+  "id": "opnav37102",
+  "label": "OPNAV3710-2 - Natop Instrument Rating Request",
+  "directory": "OPNAV3710-2 - Natop Instrument Rating Request",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "namelfm",
+        "rank",
+        "edipi",
+        "filDte",
+        "unit",
+        "unit2",
+        "decimalField1",
+        "dateField1",
+        "unit3",
+        "acftMdl",
+        "acftBuno",
+        "fltDur",
+        "last6mo",
+        "last12mo",
+        "last12moa",
+        "last6moa",
+        "totalallyearsa",
+        "last12mob",
+        "last6mob",
+        "totalallyearsb",
+        "last12moc",
+        "last6moc",
+        "totalallyearsc",
+        "last6mo1",
+        "last12mo1",
+        "totalyearsflyingexper",
+        "totalpilottime",
+        "radio",
+        "radio2",
+        "curRate",
+        "firstex",
+        "secondex",
+        "thirdex",
+        "issRate",
+        "exmoff",
+        "exOffRank",
+        "signatureOfApp",
+        "unita",
+        "date2",
+        "checkBox1",
+        "checkBox2",
+        "checkBox3",
+        "checkBox32",
+        "checkBox33",
+        "checkBox34",
+        "checkBox35",
+        "checkBox36",
+        "checkBox37",
+        "checkBox38",
+        "checkBox39",
+        "checkBox310",
+        "checkBox311",
+        "checkBox312",
+        "checkBox313",
+        "checkBox314",
+        "checkBox315",
+        "checkBox316",
+        "checkBox317",
+        "checkBox318",
+        "checkBox319",
+        "checkBox320",
+        "checkBox321",
+        "checkBox322",
+        "evaluated",
+        "textField4",
+        "checkBox323",
+        "checkBox324",
+        "checkBox325",
+        "checkBox326",
+        "rnkNmeFltExmr",
+        "textField1",
+        "fltExmnerSigDte",
+        "signatureFltExmer",
+        "remarks",
+        "rnkNmeUnitCmdr",
+        "textField2",
+        "unitCmdrSigDte",
+        "signatureUnitCmdr",
+        "contBy",
+        "cUICat",
+        "ldc",
+        "poc"
+      ]
+    }
+  ],
+  "fields": {
+    "namelfm": {
+      "type": "text",
+      "label": "1. NAME (Last, first, middle initial)",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 725.9,
+        "width": 249.2,
+        "height": 15.2
+      }
+    },
+    "rank": {
+      "type": "text",
+      "label": "2. RANK",
+      "page": 1,
+      "box": {
+        "left": 289.5,
+        "top": 725.9,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "edipi": {
+      "type": "text",
+      "label": "3. EDIPI NUMBER",
+      "page": 1,
+      "box": {
+        "left": 361.5,
+        "top": 725.9,
+        "width": 87.2,
+        "height": 15.2
+      }
+    },
+    "filDte": {
+      "type": "text",
+      "label": "4. DATE OF LAST EVALUATION",
+      "page": 1,
+      "box": {
+        "left": 451.5,
+        "top": 725.9,
+        "width": 123.2,
+        "height": 15.2
+      }
+    },
+    "unit": {
+      "type": "text",
+      "label": "5. UNIT",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 697.1,
+        "width": 105.2,
+        "height": 15.2
+      }
+    },
+    "unit2": {
+      "type": "text",
+      "label": "6. CREW POSITION &amp; QUALIFICATIONS",
+      "page": 1,
+      "box": {
+        "left": 145.4,
+        "top": 697.1,
+        "width": 213.2,
+        "height": 15.2
+      }
+    },
+    "decimalField1": {
+      "type": "text",
+      "label": "7. HOURS IN MODEL",
+      "page": 1,
+      "box": {
+        "left": 361.5,
+        "top": 697.1,
+        "width": 87.2,
+        "height": 15.2
+      }
+    },
+    "dateField1": {
+      "type": "text",
+      "label": "8. DATE OF CHECK FLIGHT",
+      "page": 1,
+      "box": {
+        "left": 451.5,
+        "top": 697.1,
+        "width": 123.2,
+        "height": 15.2
+      }
+    },
+    "unit3": {
+      "type": "text",
+      "label": "9. AIRCRAFT MODEL",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 668.3,
+        "width": 105.2,
+        "height": 15.2
+      }
+    },
+    "acftMdl": {
+      "type": "text",
+      "label": "10. AIRCRAFT BUNO",
+      "page": 1,
+      "box": {
+        "left": 145.4,
+        "top": 668.3,
+        "width": 141.2,
+        "height": 15.2
+      }
+    },
+    "acftBuno": {
+      "type": "text",
+      "label": "11. FLIGHT DURATION",
+      "page": 1,
+      "box": {
+        "left": 289.5,
+        "top": 668.3,
+        "width": 159.2,
+        "height": 15.2
+      }
+    },
+    "fltDur": {
+      "type": "text",
+      "label": "12. EXPIRATION DATE",
+      "page": 1,
+      "box": {
+        "left": 451.5,
+        "top": 668.3,
+        "width": 123.2,
+        "height": 15.2
+      }
+    },
+    "last6mo": {
+      "type": "text",
+      "label": "APPROACHES",
+      "page": 1,
+      "box": {
+        "left": 235.4,
+        "top": 614.3,
+        "width": 33.2,
+        "height": 42.2
+      },
+      "multiline": true
+    },
+    "last12mo": {
+      "type": "text",
+      "label": "APPROACHES",
+      "page": 1,
+      "box": {
+        "left": 271.5,
+        "top": 614.3,
+        "width": 33.2,
+        "height": 42.2
+      },
+      "multiline": true
+    },
+    "last12moa": {
+      "type": "text",
+      "label": "ACTUAL",
+      "page": 1,
+      "box": {
+        "left": 447.9,
+        "top": 614.3,
+        "width": 36.8,
+        "height": 15.2
+      }
+    },
+    "last6moa": {
+      "type": "text",
+      "label": "ACTUAL",
+      "page": 1,
+      "box": {
+        "left": 487.5,
+        "top": 614.3,
+        "width": 36.8,
+        "height": 15.2
+      }
+    },
+    "totalallyearsa": {
+      "type": "text",
+      "label": "ACTUAL",
+      "page": 1,
+      "box": {
+        "left": 527.1,
+        "top": 614.3,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "last12mob": {
+      "type": "text",
+      "label": "SIMULATED",
+      "page": 1,
+      "box": {
+        "left": 447.9,
+        "top": 596.3,
+        "width": 36.8,
+        "height": 15.2
+      }
+    },
+    "last6mob": {
+      "type": "text",
+      "label": "SIMULATED",
+      "page": 1,
+      "box": {
+        "left": 487.5,
+        "top": 596.3,
+        "width": 36.8,
+        "height": 15.2
+      }
+    },
+    "totalallyearsb": {
+      "type": "text",
+      "label": "SIMULATED",
+      "page": 1,
+      "box": {
+        "left": 527.1,
+        "top": 596.3,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "last12moc": {
+      "type": "text",
+      "label": "INSTRUMENT PILOT TIME TOTAL",
+      "page": 1,
+      "box": {
+        "left": 447.9,
+        "top": 578.3,
+        "width": 36.8,
+        "height": 15.2
+      }
+    },
+    "last6moc": {
+      "type": "text",
+      "label": "INSTRUMENT PILOT TIME TOTAL",
+      "page": 1,
+      "box": {
+        "left": 487.5,
+        "top": 578.3,
+        "width": 36.8,
+        "height": 15.2
+      }
+    },
+    "totalallyearsc": {
+      "type": "text",
+      "label": "INSTRUMENT PILOT TIME TOTAL",
+      "page": 1,
+      "box": {
+        "left": 527.1,
+        "top": 578.3,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "last6mo1": {
+      "type": "text",
+      "label": "APPROACHES",
+      "page": 1,
+      "box": {
+        "left": 235.4,
+        "top": 569.3,
+        "width": 33.2,
+        "height": 42.2
+      },
+      "multiline": true
+    },
+    "last12mo1": {
+      "type": "text",
+      "label": "APPROACHES",
+      "page": 1,
+      "box": {
+        "left": 271.5,
+        "top": 569.3,
+        "width": 33.2,
+        "height": 42.2
+      },
+      "multiline": true
+    },
+    "totalyearsflyingexper": {
+      "type": "text",
+      "label": "NON-PRECISION",
+      "page": 1,
+      "box": {
+        "left": 447.9,
+        "top": 560.3,
+        "width": 126.8,
+        "height": 19.7
+      }
+    },
+    "totalpilottime": {
+      "type": "text",
+      "label": "14. TOTAL PILOT TIME",
+      "page": 1,
+      "box": {
+        "left": 226.4,
+        "top": 524.2,
+        "width": 78.2,
+        "height": 19.7
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 346.5,
+        "top": 522.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 445.6,
+        "top": 522.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "curRate": {
+      "type": "text",
+      "label": "15. CURRENT RATING",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 490.9,
+        "width": 267.2,
+        "height": 15.2
+      }
+    },
+    "firstex": {
+      "type": "text",
+      "label": "20. 1ST EXAM(Grade)",
+      "page": 1,
+      "box": {
+        "left": 321.0,
+        "top": 467.5,
+        "width": 84.1,
+        "height": 15.2
+      }
+    },
+    "secondex": {
+      "type": "text",
+      "label": "21. 2ND EXAM(Grade)",
+      "page": 1,
+      "box": {
+        "left": 406.5,
+        "top": 467.5,
+        "width": 84.1,
+        "height": 15.2
+      }
+    },
+    "thirdex": {
+      "type": "text",
+      "label": "EXAMINATION",
+      "page": 1,
+      "box": {
+        "left": 492.0,
+        "top": 467.5,
+        "width": 84.1,
+        "height": 15.2
+      }
+    },
+    "issRate": {
+      "type": "text",
+      "label": "16. ISSUED RATING",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 462.1,
+        "width": 267.2,
+        "height": 15.2
+      }
+    },
+    "exmoff": {
+      "type": "text",
+      "label": "23. EXAMINING OFFICER: EXAMINATION",
+      "page": 1,
+      "box": {
+        "left": 321.0,
+        "top": 438.7,
+        "width": 168.2,
+        "height": 15.2
+      }
+    },
+    "exOffRank": {
+      "type": "text",
+      "label": "WRITTEN",
+      "page": 1,
+      "box": {
+        "left": 492.0,
+        "top": 438.7,
+        "width": 82.7,
+        "height": 15.2
+      }
+    },
+    "signatureOfApp": {
+      "type": "text",
+      "label": "17. SIGNATURE OF APPLICANT",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 433.3,
+        "width": 267.2,
+        "height": 15.2
+      }
+    },
+    "unita": {
+      "type": "text",
+      "label": "25. UNIT",
+      "page": 1,
+      "box": {
+        "left": 321.0,
+        "top": 409.9,
+        "width": 168.2,
+        "height": 15.2
+      }
+    },
+    "date2": {
+      "type": "text",
+      "label": "26. DATE OF EXAM",
+      "page": 1,
+      "box": {
+        "left": 492.0,
+        "top": 409.9,
+        "width": 82.7,
+        "height": 15.2
+      }
+    },
+    "checkBox1": {
+      "type": "checkbox",
+      "label": "1 INSTRUMENT TAKEOFF (Optional)",
+      "page": 1,
+      "box": {
+        "left": 259.6,
+        "top": 367.9,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "checkBox2": {
+      "type": "checkbox",
+      "label": "1 INSTRUMENT TAKEOFF (Optional)",
+      "page": 1,
+      "box": {
+        "left": 286.6,
+        "top": 367.9,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "checkBox3": {
+      "type": "checkbox",
+      "label": "1 FLIGHT PLANNING",
+      "page": 1,
+      "box": {
+        "left": 529.6,
+        "top": 367.9,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "checkBox32": {
+      "type": "checkbox",
+      "label": "1 FLIGHT PLANNING",
+      "page": 1,
+      "box": {
+        "left": 556.7,
+        "top": 367.9,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "checkBox33": {
+      "type": "checkbox",
+      "label": "2 RATE TURNS \u2020",
+      "page": 1,
+      "box": {
+        "left": 259.6,
+        "top": 349.9,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "checkBox34": {
+      "type": "checkbox",
+      "label": "2 RATE TURNS \u2020",
+      "page": 1,
+      "box": {
+        "left": 286.6,
+        "top": 349.9,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "checkBox35": {
+      "type": "checkbox",
+      "label": "2 CLEARANCE COMPLIANCE",
+      "page": 1,
+      "box": {
+        "left": 529.6,
+        "top": 349.9,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "checkBox36": {
+      "type": "checkbox",
+      "label": "2 CLEARANCE COMPLIANCE",
+      "page": 1,
+      "box": {
+        "left": 556.7,
+        "top": 349.9,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "checkBox37": {
+      "type": "checkbox",
+      "label": "3 STEEP TURNS \u2020 EVALUATION",
+      "page": 1,
+      "box": {
+        "left": 259.6,
+        "top": 331.9,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "checkBox38": {
+      "type": "checkbox",
+      "label": "3 STEEP TURNS \u2020 EVALUATION",
+      "page": 1,
+      "box": {
+        "left": 286.6,
+        "top": 331.9,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "checkBox39": {
+      "type": "checkbox",
+      "label": "3 INSTRUMENT APPROACHES",
+      "page": 1,
+      "box": {
+        "left": 529.6,
+        "top": 331.9,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "checkBox310": {
+      "type": "checkbox",
+      "label": "3 INSTRUMENT APPROACHES",
+      "page": 1,
+      "box": {
+        "left": 556.7,
+        "top": 331.9,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "checkBox311": {
+      "type": "checkbox",
+      "label": "ALTITUDES\u2020",
+      "page": 1,
+      "box": {
+        "left": 259.6,
+        "top": 317.5,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "checkBox312": {
+      "type": "checkbox",
+      "label": "ALTITUDES\u2020",
+      "page": 1,
+      "box": {
+        "left": 286.6,
+        "top": 317.5,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "checkBox313": {
+      "type": "checkbox",
+      "label": "4 COMMUNICATIONS AND NAVIGATION EQUIPMENT",
+      "page": 1,
+      "box": {
+        "left": 529.6,
+        "top": 317.5,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "checkBox314": {
+      "type": "checkbox",
+      "label": "4 COMMUNICATIONS AND NAVIGATION EQUIPMENT",
+      "page": 1,
+      "box": {
+        "left": 556.7,
+        "top": 317.5,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "checkBox315": {
+      "type": "checkbox",
+      "label": "5 VOR/TACAN/RNAV POSITIONING EVALUATION",
+      "page": 1,
+      "box": {
+        "left": 259.6,
+        "top": 303.1,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "checkBox316": {
+      "type": "checkbox",
+      "label": "5 VOR/TACAN/RNAV POSITIONING EVALUATION",
+      "page": 1,
+      "box": {
+        "left": 286.6,
+        "top": 303.1,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "checkBox317": {
+      "type": "checkbox",
+      "label": "5 EMERGENCY PROCEDURES",
+      "page": 1,
+      "box": {
+        "left": 529.6,
+        "top": 303.1,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "checkBox318": {
+      "type": "checkbox",
+      "label": "5 EMERGENCY PROCEDURES",
+      "page": 1,
+      "box": {
+        "left": 556.7,
+        "top": 303.1,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "checkBox319": {
+      "type": "checkbox",
+      "label": "6 PARTIAL PANEL AIRWORK FLIGHT \u2020",
+      "page": 1,
+      "box": {
+        "left": 259.6,
+        "top": 288.7,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "checkBox320": {
+      "type": "checkbox",
+      "label": "6 PARTIAL PANEL AIRWORK FLIGHT \u2020",
+      "page": 1,
+      "box": {
+        "left": 286.6,
+        "top": 288.7,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "checkBox321": {
+      "type": "checkbox",
+      "label": "6 VOICE PROCEDURES",
+      "page": 1,
+      "box": {
+        "left": 529.6,
+        "top": 288.7,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "checkBox322": {
+      "type": "checkbox",
+      "label": "6 VOICE PROCEDURES",
+      "page": 1,
+      "box": {
+        "left": 556.7,
+        "top": 288.7,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "evaluated": {
+      "type": "text",
+      "label": "PARTIAL PANEL AIRWORK \u2020",
+      "page": 1,
+      "box": {
+        "left": 64.4,
+        "top": 278.0,
+        "width": 186.2,
+        "height": 11.6
+      }
+    },
+    "textField4": {
+      "type": "text",
+      "label": "VOICE PROCEDURES",
+      "page": 1,
+      "box": {
+        "left": 321.0,
+        "top": 278.0,
+        "width": 199.7,
+        "height": 11.6
+      }
+    },
+    "checkBox323": {
+      "type": "checkbox",
+      "label": "FLIGHT",
+      "page": 1,
+      "box": {
+        "left": 259.6,
+        "top": 274.3,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "checkBox324": {
+      "type": "checkbox",
+      "label": "FLIGHT",
+      "page": 1,
+      "box": {
+        "left": 286.6,
+        "top": 274.3,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "checkBox325": {
+      "type": "checkbox",
+      "label": "Check Box 325",
+      "page": 1,
+      "box": {
+        "left": 529.6,
+        "top": 274.3,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "checkBox326": {
+      "type": "checkbox",
+      "label": "Check Box 326",
+      "page": 1,
+      "box": {
+        "left": 556.7,
+        "top": 274.3,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "rnkNmeFltExmr": {
+      "type": "text",
+      "label": "29. FLIGHT EXAMINER",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 238.4,
+        "width": 195.2,
+        "height": 15.2
+      }
+    },
+    "textField1": {
+      "type": "text",
+      "label": "30. RANK",
+      "page": 1,
+      "box": {
+        "left": 235.4,
+        "top": 238.4,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "fltExmnerSigDte": {
+      "type": "text",
+      "label": "31. DATE",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 238.4,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "signatureFltExmer": {
+      "type": "text",
+      "label": "32. SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 379.5,
+        "top": 238.4,
+        "width": 195.2,
+        "height": 15.2
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "33. REMARKS",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 209.6,
+        "width": 537.2,
+        "height": 143.3
+      },
+      "multiline": true
+    },
+    "rnkNmeUnitCmdr": {
+      "type": "text",
+      "label": "34. UNIT COMMANDER",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 52.6,
+        "width": 195.2,
+        "height": 15.2
+      }
+    },
+    "textField2": {
+      "type": "text",
+      "label": "35. RANK",
+      "page": 1,
+      "box": {
+        "left": 235.4,
+        "top": 52.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "unitCmdrSigDte": {
+      "type": "text",
+      "label": "36. DATE",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 52.6,
+        "width": 69.2,
+        "height": 15.2
+      }
+    },
+    "signatureUnitCmdr": {
+      "type": "text",
+      "label": "37. SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 379.5,
+        "top": 52.6,
+        "width": 195.2,
+        "height": 15.2
+      }
+    },
+    "contBy": {
+      "type": "text",
+      "label": "CUI (when filled in) CONTROLLED BY",
+      "page": 1,
+      "box": {
+        "left": 409.5,
+        "top": 33.4,
+        "width": 109.5,
+        "height": 6.6
+      }
+    },
+    "cUICat": {
+      "type": "text",
+      "label": "CUI CATEGORY",
+      "page": 1,
+      "box": {
+        "left": 409.5,
+        "top": 25.5,
+        "width": 109.5,
+        "height": 6.6
+      }
+    },
+    "ldc": {
+      "type": "text",
+      "label": "LDC",
+      "page": 1,
+      "box": {
+        "left": 409.5,
+        "top": 17.6,
+        "width": 109.5,
+        "height": 6.6
+      }
+    },
+    "poc": {
+      "type": "text",
+      "label": "POC",
+      "page": 1,
+      "box": {
+        "left": 409.5,
+        "top": 9.6,
+        "width": 109.5,
+        "height": 6.6
+      }
+    }
+  }
+}

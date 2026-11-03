@@ -1,0 +1,322 @@
+{
+  "id": "opnav4790192",
+  "label": "OPNAV4790-192 - Aircraft EngineApu Turn Up License",
+  "directory": "OPNAV4790-192 - Aircraft EngineApu Turn Up License",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "rteGde",
+        "depDiv",
+        "acftTyMdSer",
+        "unit",
+        "typLic",
+        "hiLwPwr",
+        "dteWrtExm",
+        "rslts",
+        "admBy",
+        "admBySig",
+        "dteOprExm",
+        "rsltsA",
+        "admByA",
+        "admBySigA",
+        "prtNmeMbr",
+        "mbrSigDte",
+        "mbrSig",
+        "prtNmeMO",
+        "mOSigDte",
+        "mOSig",
+        "prtNmeCO",
+        "cOSigDte",
+        "cOSig"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "1. NAME - LAST, FIRST, MIDDLE INITIAL",
+      "page": 1,
+      "box": {
+        "left": 40.9,
+        "top": 688.4,
+        "width": 238.8,
+        "height": 18.9
+      }
+    },
+    "rteGde": {
+      "type": "text",
+      "label": "2. RATE/GRADE",
+      "page": 1,
+      "box": {
+        "left": 284.7,
+        "top": 688.4,
+        "width": 143.3,
+        "height": 18.9
+      }
+    },
+    "depDiv": {
+      "type": "text",
+      "label": "3. DEPARTMENT/DIVISION",
+      "page": 1,
+      "box": {
+        "left": 433.0,
+        "top": 688.4,
+        "width": 143.3,
+        "height": 18.9
+      }
+    },
+    "acftTyMdSer": {
+      "type": "text",
+      "label": "4. AIRCRAFT TYPE/MODEL/SERIES",
+      "page": 1,
+      "box": {
+        "left": 41.2,
+        "top": 655.9,
+        "width": 166.8,
+        "height": 18.9
+      }
+    },
+    "unit": {
+      "type": "text",
+      "label": "5. UNIT",
+      "page": 1,
+      "box": {
+        "left": 213.8,
+        "top": 655.9,
+        "width": 164.2,
+        "height": 18.9
+      }
+    },
+    "typLic": {
+      "type": "text",
+      "label": "6a. TYPE OF LICENSE",
+      "page": 1,
+      "box": {
+        "left": 383.3,
+        "top": 655.9,
+        "width": 93.7,
+        "height": 18.9
+      }
+    },
+    "hiLwPwr": {
+      "type": "text",
+      "label": "6b. HIGH/LOW POWER",
+      "page": 1,
+      "box": {
+        "left": 482.7,
+        "top": 655.9,
+        "width": 93.7,
+        "height": 18.9
+      }
+    },
+    "dteWrtExm": {
+      "type": "text",
+      "label": "7a. DATE OF WRITTEN EXAM(S)",
+      "page": 1,
+      "box": {
+        "left": 40.8,
+        "top": 623.6,
+        "width": 138.6,
+        "height": 34.2
+      },
+      "multiline": true
+    },
+    "rslts": {
+      "type": "text",
+      "label": "7b. RESULTS",
+      "page": 1,
+      "box": {
+        "left": 184.3,
+        "top": 623.6,
+        "width": 87.0,
+        "height": 34.2
+      },
+      "multiline": true
+    },
+    "admBy": {
+      "type": "text",
+      "label": "8a. ADMINISTERED BY (Print Name)",
+      "page": 1,
+      "box": {
+        "left": 276.4,
+        "top": 623.6,
+        "width": 147.0,
+        "height": 34.2
+      },
+      "multiline": true
+    },
+    "admBySig": {
+      "type": "text",
+      "label": "8b. ADMINISTERED BY SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 428.5,
+        "top": 623.6,
+        "width": 147.0,
+        "height": 34.2
+      },
+      "multiline": true
+    },
+    "dteOprExm": {
+      "type": "text",
+      "label": "9a. DATE OF OPERATIONAL EXAM",
+      "page": 1,
+      "box": {
+        "left": 40.8,
+        "top": 575.8,
+        "width": 138.6,
+        "height": 34.2
+      },
+      "multiline": true
+    },
+    "rsltsA": {
+      "type": "text",
+      "label": "9b. RESULTS",
+      "page": 1,
+      "box": {
+        "left": 184.3,
+        "top": 575.8,
+        "width": 87.0,
+        "height": 34.2
+      },
+      "multiline": true
+    },
+    "admByA": {
+      "type": "text",
+      "label": "10a. ADMINISTERED BY (Print Name)",
+      "page": 1,
+      "box": {
+        "left": 276.4,
+        "top": 575.8,
+        "width": 147.0,
+        "height": 34.2
+      },
+      "multiline": true
+    },
+    "admBySigA": {
+      "type": "text",
+      "label": "10b. ADMINISTERED BY SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 428.5,
+        "top": 575.8,
+        "width": 147.0,
+        "height": 34.2
+      },
+      "multiline": true
+    },
+    "prtNmeMbr": {
+      "type": "text",
+      "label": "11a. PRINTED NAME OF MEMBER",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 481.4,
+        "width": 213.7,
+        "height": 34.2
+      },
+      "multiline": true
+    },
+    "mbrSigDte": {
+      "type": "text",
+      "label": "11b. SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 259.7,
+        "top": 481.4,
+        "width": 97.7,
+        "height": 34.2
+      },
+      "multiline": true
+    },
+    "mbrSig": {
+      "type": "text",
+      "label": "11. SIGNATURE OF MEMBER",
+      "page": 1,
+      "box": {
+        "left": 363.0,
+        "top": 481.4,
+        "width": 213.7,
+        "height": 34.2
+      },
+      "multiline": true
+    },
+    "prtNmeMO": {
+      "type": "text",
+      "label": "12a. PRINTED NAME OF MAINTENANCE OFFICER",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 413.9,
+        "width": 213.7,
+        "height": 34.2
+      },
+      "multiline": true
+    },
+    "mOSigDte": {
+      "type": "text",
+      "label": "12b. SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 259.7,
+        "top": 413.9,
+        "width": 97.7,
+        "height": 34.2
+      },
+      "multiline": true
+    },
+    "mOSig": {
+      "type": "text",
+      "label": "12c. SIGNATURE OF MAINTENANCE OFFICER",
+      "page": 1,
+      "box": {
+        "left": 363.0,
+        "top": 413.9,
+        "width": 213.7,
+        "height": 34.2
+      },
+      "multiline": true
+    },
+    "prtNmeCO": {
+      "type": "text",
+      "label": "13a. PRINTED NAME OF COMMANDING OFFICER",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 320.1,
+        "width": 213.7,
+        "height": 34.2
+      },
+      "multiline": true
+    },
+    "cOSigDte": {
+      "type": "text",
+      "label": "13b. SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 259.7,
+        "top": 320.1,
+        "width": 97.7,
+        "height": 34.2
+      },
+      "multiline": true
+    },
+    "cOSig": {
+      "type": "text",
+      "label": "13c. SIGNATURE OF COMMANDING OFFICER",
+      "page": 1,
+      "box": {
+        "left": 363.0,
+        "top": 320.1,
+        "width": 213.7,
+        "height": 34.2
+      },
+      "multiline": true
+    }
+  }
+}

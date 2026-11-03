@@ -1,0 +1,150 @@
+{
+  "id": "opnav510211",
+  "label": "OPNAV5102-11 - Promise Of Confidentiality",
+  "directory": "OPNAV5102-11 - Promise Of Confidentiality",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "statement",
+        "2PRINTEDNAMEFirstMiddleLast",
+        "3DoDID",
+        "signature6",
+        "6SERVICE",
+        "4DATE",
+        "5RANKRATE",
+        "8ADDRESSWHEREYOUMAYBELOCATED",
+        "9TELEPHONE",
+        "signature5",
+        "10PRINTEDBOARDMEMBERSNAME"
+      ]
+    }
+  ],
+  "fields": {
+    "statement": {
+      "type": "text",
+      "label": "STATEMENT",
+      "page": 1,
+      "box": {
+        "left": 38.6,
+        "top": 454.1,
+        "width": 534.8,
+        "height": 224.0
+      },
+      "multiline": true
+    },
+    "2PRINTEDNAMEFirstMiddleLast": {
+      "type": "text",
+      "label": "2. PRINTED NAME: (First, Middle, Last)",
+      "page": 1,
+      "box": {
+        "left": 38.3,
+        "top": 221.3,
+        "width": 356.5,
+        "height": 25.9
+      }
+    },
+    "3DoDID": {
+      "type": "text",
+      "label": "3. DoD ID#:",
+      "page": 1,
+      "box": {
+        "left": 397.3,
+        "top": 221.3,
+        "width": 176.5,
+        "height": 25.9
+      }
+    },
+    "signature6": {
+      "type": "signature",
+      "label": "3. DoD ID#",
+      "page": 1,
+      "box": {
+        "left": 384.0,
+        "top": 194.3,
+        "width": 192.0,
+        "height": 35.9
+      }
+    },
+    "6SERVICE": {
+      "type": "text",
+      "label": "6. SERVICE",
+      "page": 1,
+      "box": {
+        "left": 226.4,
+        "top": 187.1,
+        "width": 81.2,
+        "height": 28.8
+      }
+    },
+    "4DATE": {
+      "type": "text",
+      "label": "4. DATE:",
+      "page": 1,
+      "box": {
+        "left": 38.4,
+        "top": 185.5,
+        "width": 104.3,
+        "height": 27.2
+      }
+    },
+    "5RANKRATE": {
+      "type": "text",
+      "label": "5. RANK/RATE",
+      "page": 1,
+      "box": {
+        "left": 145.4,
+        "top": 185.5,
+        "width": 78.2,
+        "height": 27.2
+      }
+    },
+    "8ADDRESSWHEREYOUMAYBELOCATED": {
+      "type": "text",
+      "label": "8. ADDRESS WHERE YOU MAY BE LOCATED:",
+      "page": 1,
+      "box": {
+        "left": 38.4,
+        "top": 145.7,
+        "width": 359.3,
+        "height": 28.8
+      }
+    },
+    "9TELEPHONE": {
+      "type": "text",
+      "label": "9. TELEPHONE:",
+      "page": 1,
+      "box": {
+        "left": 400.4,
+        "top": 145.7,
+        "width": 173.3,
+        "height": 28.8
+      }
+    },
+    "signature5": {
+      "type": "signature",
+      "label": "9. TELEPHONE",
+      "page": 1,
+      "box": {
+        "left": 384.0,
+        "top": 115.2,
+        "width": 192.0,
+        "height": 33.8
+      }
+    },
+    "10PRINTEDBOARDMEMBERSNAME": {
+      "type": "text",
+      "label": "10. PRINTED BOARD MEMBERS NAME:",
+      "page": 1,
+      "box": {
+        "left": 38.4,
+        "top": 108.0,
+        "width": 269.3,
+        "height": 27.1
+      }
+    }
+  }
+}

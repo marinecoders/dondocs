@@ -1,0 +1,1158 @@
+{
+  "id": "opnav16503",
+  "label": "OPNAV1650-3 - Personal Award Recommendation",
+  "directory": "OPNAV1650-3 - Personal Award Recommendation",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf",
+    "page5.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "origName",
+        "appName",
+        "origAdd",
+        "appAdd",
+        "origUIC",
+        "appUIC",
+        "pOCName",
+        "dsn",
+        "pOCEmail",
+        "com",
+        "expDate",
+        "retire",
+        "desig",
+        "detach",
+        "doDSSN",
+        "radio",
+        "radio2",
+        "name",
+        "component",
+        "radio3",
+        "radio4",
+        "newDutyStat",
+        "paygrade",
+        "rating",
+        "warQual",
+        "unit",
+        "duty",
+        "uic",
+        "persDec",
+        "campaign",
+        "operation",
+        "radio5",
+        "radio6",
+        "radio7",
+        "radio8",
+        "recAward",
+        "radio9",
+        "radio10",
+        "radio11",
+        "persAward",
+        "recAwardNum",
+        "otherPers",
+        "fromPer",
+        "toPer",
+        "pred"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "forNat",
+        "geoArea",
+        "summary",
+        "known",
+        "record",
+        "orgName",
+        "orgRankGrade",
+        "orgTitle",
+        "orgComp",
+        "orgSig",
+        "orgDate"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "command1",
+        "sig1",
+        "radio12",
+        "radio13",
+        "command2",
+        "sig2",
+        "radio14",
+        "radio15",
+        "via3",
+        "command3",
+        "from",
+        "radio16",
+        "radio17",
+        "awardSig1",
+        "dateApp1",
+        "disp1",
+        "radio18",
+        "radio19",
+        "grade12",
+        "nDAWSSerial"
+      ]
+    }
+  ],
+  "fields": {
+    "origName": {
+      "type": "text",
+      "label": "a. NAME",
+      "page": 1,
+      "box": {
+        "left": 96.4,
+        "top": 576.8,
+        "width": 206.8,
+        "height": 12.3
+      }
+    },
+    "appName": {
+      "type": "text",
+      "label": "a. NAME",
+      "page": 1,
+      "box": {
+        "left": 366.5,
+        "top": 576.8,
+        "width": 206.8,
+        "height": 12.3
+      }
+    },
+    "origAdd": {
+      "type": "text",
+      "label": "b. ADDRESS",
+      "page": 1,
+      "box": {
+        "left": 96.4,
+        "top": 558.8,
+        "width": 206.8,
+        "height": 37.5
+      },
+      "multiline": true
+    },
+    "appAdd": {
+      "type": "text",
+      "label": "b. ADDRESS",
+      "page": 1,
+      "box": {
+        "left": 366.5,
+        "top": 558.8,
+        "width": 206.8,
+        "height": 37.5
+      },
+      "multiline": true
+    },
+    "origUIC": {
+      "type": "text",
+      "label": "c. UIC/RUC",
+      "page": 1,
+      "box": {
+        "left": 96.4,
+        "top": 515.6,
+        "width": 206.8,
+        "height": 12.3
+      }
+    },
+    "appUIC": {
+      "type": "text",
+      "label": "c. UIC/RUC",
+      "page": 1,
+      "box": {
+        "left": 366.5,
+        "top": 515.6,
+        "width": 206.8,
+        "height": 12.3
+      }
+    },
+    "pOCName": {
+      "type": "text",
+      "label": "a. NAME",
+      "page": 1,
+      "box": {
+        "left": 74.8,
+        "top": 483.2,
+        "width": 228.4,
+        "height": 12.3
+      }
+    },
+    "dsn": {
+      "type": "text",
+      "label": "a. DSN",
+      "page": 1,
+      "box": {
+        "left": 341.3,
+        "top": 483.2,
+        "width": 232.0,
+        "height": 12.3
+      }
+    },
+    "pOCEmail": {
+      "type": "text",
+      "label": "b. EMAIL",
+      "page": 1,
+      "box": {
+        "left": 74.8,
+        "top": 465.2,
+        "width": 228.4,
+        "height": 12.3
+      }
+    },
+    "com": {
+      "type": "text",
+      "label": "b. COM",
+      "page": 1,
+      "box": {
+        "left": 341.3,
+        "top": 465.2,
+        "width": 232.0,
+        "height": 12.3
+      }
+    },
+    "expDate": {
+      "type": "text",
+      "label": "a. EXPIRATION DATE OF ACTIVE DUTY",
+      "page": 1,
+      "box": {
+        "left": 463.7,
+        "top": 447.2,
+        "width": 109.5,
+        "height": 12.3
+      }
+    },
+    "retire": {
+      "type": "text",
+      "label": "b. IF RETIREMENT/SEPARATION, NUMBER OF YEARS",
+      "page": 1,
+      "box": {
+        "left": 524.9,
+        "top": 429.2,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "desig": {
+      "type": "text",
+      "label": "7. DESIG/NEC/MOS",
+      "page": 1,
+      "box": {
+        "left": 211.7,
+        "top": 400.4,
+        "width": 91.5,
+        "height": 19.5
+      }
+    },
+    "detach": {
+      "type": "text",
+      "label": "8. DETACHMENT OR CEREMONY DATE (whichever date is earliest)",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 400.4,
+        "width": 264.4,
+        "height": 19.5
+      }
+    },
+    "doDSSN": {
+      "type": "text",
+      "label": "available)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 393.2,
+        "width": 167.2,
+        "height": 12.3
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 375.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 348.5,
+        "top": 375.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "name": {
+      "type": "text",
+      "label": "9. NAME (Last, First, Middle, Suffix)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 363.7,
+        "width": 210.4,
+        "height": 11.6
+      }
+    },
+    "component": {
+      "type": "choice",
+      "label": "SEPARATION SPECIFIC ACHIEVEMENT",
+      "page": 1,
+      "box": {
+        "left": 468.0,
+        "top": 363.7,
+        "width": 104.4,
+        "height": 10.8
+      },
+      "options": [
+        "USN",
+        "USNR",
+        "USMC",
+        "USMCR",
+        "USCG",
+        "USA",
+        "USAF",
+        "USSF",
+        "OTHER"
+      ]
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 361.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 348.5,
+        "top": 361.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "newDutyStat": {
+      "type": "text",
+      "label": "separation)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 328.4,
+        "width": 264.4,
+        "height": 41.1
+      },
+      "multiline": true
+    },
+    "paygrade": {
+      "type": "text",
+      "label": "a. PAY GRADE",
+      "page": 1,
+      "box": {
+        "left": 370.1,
+        "top": 324.8,
+        "width": 203.2,
+        "height": 15.9
+      }
+    },
+    "rating": {
+      "type": "text",
+      "label": "b. RATING",
+      "page": 1,
+      "box": {
+        "left": 370.1,
+        "top": 303.2,
+        "width": 203.2,
+        "height": 15.9
+      }
+    },
+    "warQual": {
+      "type": "text",
+      "label": "14. WARFARE QUALIFICATION",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 270.8,
+        "width": 136.5,
+        "height": 12.3
+      }
+    },
+    "unit": {
+      "type": "text",
+      "label": "15. UNIT AT TIME OF ACTION/SERVICE",
+      "page": 1,
+      "box": {
+        "left": 181.1,
+        "top": 270.8,
+        "width": 174.4,
+        "height": 12.3
+      }
+    },
+    "duty": {
+      "type": "text",
+      "label": "16. DUTY ASSIGNMENT",
+      "page": 1,
+      "box": {
+        "left": 361.1,
+        "top": 270.8,
+        "width": 138.3,
+        "height": 12.3
+      }
+    },
+    "uic": {
+      "type": "text",
+      "label": "17. UIC/RUC",
+      "page": 1,
+      "box": {
+        "left": 505.1,
+        "top": 270.8,
+        "width": 68.1,
+        "height": 12.3
+      }
+    },
+    "persDec": {
+      "type": "text",
+      "label": "RECOGNIZED (include PH and CR)",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 234.8,
+        "width": 264.4,
+        "height": 37.5
+      },
+      "multiline": true
+    },
+    "campaign": {
+      "type": "choice",
+      "label": "a. CAMPAIGN",
+      "page": 1,
+      "box": {
+        "left": 111.6,
+        "top": 230.4,
+        "width": 190.9,
+        "height": 12.6
+      },
+      "options": [
+        "FREED Enduring Freedom",
+        "IFREE Iraqi Freedom",
+        "OFS Operation Freedom Sentinel",
+        "OIR Operation Inherent Resolve",
+        "NA Not Applicable"
+      ]
+    },
+    "operation": {
+      "type": "text",
+      "label": "b. OPERATION",
+      "page": 1,
+      "box": {
+        "left": 110.8,
+        "top": 211.4,
+        "width": 192.4,
+        "height": 14.1
+      }
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 323.3,
+        "top": 186.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 438.5,
+        "top": 186.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 323.3,
+        "top": 172.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 1,
+      "box": {
+        "left": 438.5,
+        "top": 172.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "recAward": {
+      "type": "choice",
+      "label": "a. SELECT RECOMMENDED AWARD",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 169.2,
+        "width": 262.9,
+        "height": 10.8
+      },
+      "options": [
+        "MH Medal of Honor",
+        "NX Navy Cross",
+        "DM Distinguished Service Medal",
+        "S1 Distinguished Service Medal w/C",
+        "SS Silver Star Medal",
+        "LM Legion of Merit",
+        "L1 Legion of Merit w/C",
+        "L2 Legion of Merit w/R",
+        "DX Distinguished Flying Cross",
+        "DV Distinguished Flying Cross w/V",
+        "D1 Distinguished Flying Cross w/C",
+        "NM Navy & Marine Corps Medal",
+        "BS Bronze Star Medal",
+        "BV Bronze Star Medal w/V",
+        "PH Purple Heart Medal",
+        "MM Meritorious Service Medal",
+        "M2 Meritorious Service Medal w/R",
+        "AS Air Medal (Strike/Flight)",
+        "AF Air Medal (Single Mission)",
+        "AH Air Medal (Single Mission w/V)",
+        "A1 Air Medal (Single Mission w/C)",
+        "NC Navy & Marine Corps Commendation Medal",
+        "CV Navy & Marine Corps Commendation Medal w/V",
+        "C1 Navy & Marine Corps Commendation Medal w/C",
+        "C2 Navy & Marine Corps Commendation Medal w/R",
+        "NA Navy & Marine Corps Achievement Medal",
+        "N1 Navy & Marine Corps Achievement Medal w/C",
+        "N2 Navy & Marine Corps Achievement Medal w/R",
+        "CR Combat Action Ribbon",
+        "OV Military Outstanding Volunteer Service Medal",
+        "XX Letter of Commendation",
+        "ZZ No Award"
+      ]
+    },
+    "radio9": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 1,
+      "box": {
+        "left": 323.3,
+        "top": 158.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio10": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 236.9,
+        "top": 152.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio11": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 152.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "persAward": {
+      "type": "text",
+      "label": "22. PERSONAL AWARDS RECOMMENDED-NOT YET APPROVED",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 126.8,
+        "width": 264.4,
+        "height": 12.3
+      }
+    },
+    "recAwardNum": {
+      "type": "choice",
+      "label": "23. RECOMMENDED AWARD NUMBER (e.g., 1, 2, 3, etc.)",
+      "page": 1,
+      "box": {
+        "left": 309.6,
+        "top": 126.0,
+        "width": 262.9,
+        "height": 10.8
+      },
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20"
+      ]
+    },
+    "otherPers": {
+      "type": "text",
+      "label": "24. OTHER PERSONNEL RECOMMENDED FOR THE SAME ACTION",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 98.0,
+        "width": 534.4,
+        "height": 23.1
+      }
+    },
+    "fromPer": {
+      "type": "text",
+      "label": "MERITORIOUS PERIOD",
+      "page": 1,
+      "box": {
+        "left": 150.5,
+        "top": 69.2,
+        "width": 70.0,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "toPer": {
+      "type": "text",
+      "label": "MERITORIOUS PERIOD",
+      "page": 1,
+      "box": {
+        "left": 233.3,
+        "top": 69.2,
+        "width": 69.9,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "pred": {
+      "type": "text",
+      "label": "above)",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 51.2,
+        "width": 264.4,
+        "height": 12.3
+      }
+    },
+    "forNat": {
+      "type": "text",
+      "label": "28. IF FOREIGN NATIONAL, INDICATE FOREIGN SERVICE/COUNTRY",
+      "page": 2,
+      "box": {
+        "left": 308.9,
+        "top": 742.5,
+        "width": 264.4,
+        "height": 12.3
+      }
+    },
+    "geoArea": {
+      "type": "choice",
+      "label": "27. GEOGRAPHIC AREA OF ACTION OR SERVICE",
+      "page": 2,
+      "box": {
+        "left": 39.6,
+        "top": 741.7,
+        "width": 262.9,
+        "height": 10.8
+      },
+      "options": [
+        "DC National Capital Region",
+        "HA Hawaii",
+        "US CONUS, Alaska, Territories, Canada ",
+        "CL Atlantic Area",
+        "CE Europe Area",
+        "CS Caribbean Sea",
+        "NA North Atlantic",
+        "SA South America",
+        "AN Antarctica",
+        "AR Arctic",
+        "MS Mediterranean Sea",
+        "IO Indian Ocean",
+        "CA Central America",
+        "SP South Pacific Islands",
+        "AG Southwest Asia",
+        "AW Western Asia",
+        "AD Northern Asia",
+        "AS Southern Asia",
+        "AE Eastern Asia",
+        "AF Africa",
+        "MU Multiple Locations"
+      ]
+    },
+    "summary": {
+      "type": "text",
+      "label": "Summary",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 711.1,
+        "width": 534.4,
+        "height": 578.7
+      },
+      "multiline": true
+    },
+    "known": {
+      "type": "checkbox",
+      "label": "optional for",
+      "page": 2,
+      "box": {
+        "left": 381.5,
+        "top": 126.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "record": {
+      "type": "checkbox",
+      "label": "KNOWN TO ME",
+      "page": 2,
+      "box": {
+        "left": 464.3,
+        "top": 126.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "orgName": {
+      "type": "text",
+      "label": "a. NAME (Last, First, Middle Initial)",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 87.2,
+        "width": 129.3,
+        "height": 12.3
+      }
+    },
+    "orgRankGrade": {
+      "type": "text",
+      "label": "b. RANK/GRADE",
+      "page": 2,
+      "box": {
+        "left": 173.9,
+        "top": 87.2,
+        "width": 129.3,
+        "height": 12.3
+      }
+    },
+    "orgTitle": {
+      "type": "text",
+      "label": "c. TITLE OF THE ORIGINATOR",
+      "page": 2,
+      "box": {
+        "left": 308.9,
+        "top": 87.2,
+        "width": 129.3,
+        "height": 12.3
+      }
+    },
+    "orgComp": {
+      "type": "choice",
+      "label": "d. COMPONENT",
+      "page": 2,
+      "box": {
+        "left": 444.6,
+        "top": 86.4,
+        "width": 127.8,
+        "height": 10.8
+      },
+      "options": [
+        "USN",
+        "USNR",
+        "USMC",
+        "USMCR",
+        "USA",
+        "USAF",
+        "USSF"
+      ]
+    },
+    "orgSig": {
+      "type": "text",
+      "label": "e. SIGNATURE",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 58.4,
+        "width": 264.4,
+        "height": 19.5
+      }
+    },
+    "orgDate": {
+      "type": "text",
+      "label": "f. DATE",
+      "page": 2,
+      "box": {
+        "left": 308.9,
+        "top": 58.4,
+        "width": 264.4,
+        "height": 19.5
+      }
+    },
+    "command1": {
+      "type": "text",
+      "label": "(to be completed by originator, include telephone number)",
+      "page": 3,
+      "box": {
+        "left": 62.6,
+        "top": 715.1,
+        "width": 206.0,
+        "height": 40.4
+      },
+      "multiline": true
+    },
+    "sig1": {
+      "type": "text",
+      "label": "SIGNATURE, GRADE, TITLE",
+      "page": 3,
+      "box": {
+        "left": 343.5,
+        "top": 715.1,
+        "width": 159.2,
+        "height": 26.0
+      }
+    },
+    "radio12": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 272.9,
+        "top": 684.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio13": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 308.9,
+        "top": 684.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "command2": {
+      "type": "text",
+      "label": "(to be completed by originator, include telephone number)",
+      "page": 3,
+      "box": {
+        "left": 62.6,
+        "top": 671.9,
+        "width": 206.0,
+        "height": 40.4
+      },
+      "multiline": true
+    },
+    "sig2": {
+      "type": "text",
+      "label": "SIGNATURE, GRADE, TITLE",
+      "page": 3,
+      "box": {
+        "left": 343.5,
+        "top": 671.9,
+        "width": 159.2,
+        "height": 26.0
+      }
+    },
+    "radio14": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 272.9,
+        "top": 640.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio15": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 308.9,
+        "top": 640.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "via3": {
+      "type": "text",
+      "label": "Via 3",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 627.2,
+        "width": 19.5,
+        "height": 37.5
+      },
+      "multiline": true
+    },
+    "command3": {
+      "type": "text",
+      "label": "(to be completed by originator, include telephone number)",
+      "page": 3,
+      "box": {
+        "left": 64.0,
+        "top": 627.2,
+        "width": 203.2,
+        "height": 37.5
+      },
+      "multiline": true
+    },
+    "from": {
+      "type": "text",
+      "label": "SIGNATURE, GRADE, TITLE",
+      "page": 3,
+      "box": {
+        "left": 344.9,
+        "top": 627.2,
+        "width": 156.4,
+        "height": 23.1
+      }
+    },
+    "radio16": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 272.9,
+        "top": 597.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio17": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 308.9,
+        "top": 597.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "awardSig1": {
+      "type": "text",
+      "label": "GRADE, TITLE",
+      "page": 3,
+      "box": {
+        "left": 271.5,
+        "top": 549.5,
+        "width": 231.2,
+        "height": 26.0
+      }
+    },
+    "dateApp1": {
+      "type": "text",
+      "label": "YES NO",
+      "page": 3,
+      "box": {
+        "left": 505.5,
+        "top": 549.5,
+        "width": 69.2,
+        "height": 40.4
+      },
+      "multiline": true
+    },
+    "disp1": {
+      "type": "choice",
+      "label": "RECOMMENDATION",
+      "page": 3,
+      "box": {
+        "left": 37.7,
+        "top": 549.2,
+        "width": 122.7,
+        "height": 39.9
+      },
+      "options": [
+        "MH",
+        "NX",
+        "DM",
+        "S1",
+        "SS",
+        "LM",
+        "L1",
+        "L2",
+        "DX",
+        "DV",
+        "D1",
+        "NM",
+        "BS",
+        "BV",
+        "PH",
+        "MM",
+        "M2",
+        "AS",
+        "AF",
+        "AH",
+        "A1",
+        "NC",
+        "CV",
+        "C1",
+        "C2",
+        "NA",
+        "N1",
+        "N2",
+        "CR",
+        "OV",
+        "XX",
+        "ZZ"
+      ]
+    },
+    "radio18": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 182.9,
+        "top": 534.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio19": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 218.9,
+        "top": 534.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "grade12": {
+      "type": "text",
+      "label": "GRADE, TITLE",
+      "page": 3,
+      "box": {
+        "left": 271.5,
+        "top": 520.6,
+        "width": 231.2,
+        "height": 11.6
+      }
+    },
+    "nDAWSSerial": {
+      "type": "text",
+      "label": "34. NDAWS SERIAL NUMBER",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 494.0,
+        "width": 534.4,
+        "height": 12.3
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 3,
+      "count": 3,
+      "rowStride": 43.2,
+      "editor": "grid",
+      "columns": {
+        "recco": {
+          "type": "choice",
+          "label": "AWARD",
+          "page": 3,
+          "box": {
+            "left": 271.7,
+            "top": 714.8,
+            "width": 68.7,
+            "height": 11.1
+          }
+        },
+        "grade": {
+          "type": "text",
+          "label": "YES NO",
+          "page": 3,
+          "box": {
+            "left": 343.5,
+            "top": 686.3,
+            "width": 159.2,
+            "height": 11.6
+          }
+        },
+        "dateFwd": {
+          "type": "text",
+          "label": "EXTRAORDINARY",
+          "page": 3,
+          "box": {
+            "left": 505.5,
+            "top": 715.1,
+            "width": 69.2,
+            "height": 40.4
+          }
+        }
+      }
+    }
+  }
+}

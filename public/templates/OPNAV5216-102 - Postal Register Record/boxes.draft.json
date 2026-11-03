@@ -1,0 +1,273 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 613,
+    "height": 794
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "1": {
+        "left": 81.0,
+        "top": 713.0,
+        "width": 91.0,
+        "height": 15.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "2": {
+        "left": 231.0,
+        "top": 713.0,
+        "width": 91.0,
+        "height": 15.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "3": {
+        "left": 390.0,
+        "top": 712.0,
+        "width": 91.0,
+        "height": 15.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "4": {
+        "left": 73.0,
+        "top": 690.0,
+        "width": 91.0,
+        "height": 15.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "5": {
+        "left": 223.0,
+        "top": 689.0,
+        "width": 91.0,
+        "height": 15.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "6": {
+        "left": 58.0,
+        "top": 668.0,
+        "width": 426.0,
+        "height": 17.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "7": {
+        "left": 37.0,
+        "top": 606.0,
+        "width": 85.0,
+        "height": 538.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "8": {
+        "left": 128.0,
+        "top": 606.0,
+        "width": 265.0,
+        "height": 538.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "9": {
+        "left": 400.0,
+        "top": 604.0,
+        "width": 84.0,
+        "height": 536.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "10": {
+        "left": 496.0,
+        "top": 602.0,
+        "width": 81.0,
+        "height": 533.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "15": {
+        "left": 32.0,
+        "top": 756.0,
+        "width": 93.0,
+        "height": 545.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "16": {
+        "left": 127.0,
+        "top": 751.0,
+        "width": 268.0,
+        "height": 540.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "17": {
+        "left": 397.0,
+        "top": 751.0,
+        "width": 93.0,
+        "height": 540.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "18": {
+        "left": 491.0,
+        "top": 751.0,
+        "width": 93.0,
+        "height": 540.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "19c": {
+        "left": 406.0,
+        "top": 204.0,
+        "width": 56.0,
+        "height": 22.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "19": {
+        "left": 82.0,
+        "top": 199.0,
+        "width": 48.0,
+        "height": 17.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "19a": {
+        "left": 255.0,
+        "top": 199.0,
+        "width": 140.0,
+        "height": 19.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "21": {
+        "left": 491.0,
+        "top": 197.0,
+        "width": 92.0,
+        "height": 105.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "19b": {
+        "left": 255.0,
+        "top": 178.0,
+        "width": 140.0,
+        "height": 19.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "20c": {
+        "left": 404.0,
+        "top": 133.0,
+        "width": 56.0,
+        "height": 22.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "20": {
+        "left": 82.0,
+        "top": 129.0,
+        "width": 48.0,
+        "height": 17.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "20a": {
+        "left": 254.0,
+        "top": 129.0,
+        "width": 140.0,
+        "height": 19.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "20b": {
+        "left": 255.0,
+        "top": 107.0,
+        "width": 140.0,
+        "height": 19.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

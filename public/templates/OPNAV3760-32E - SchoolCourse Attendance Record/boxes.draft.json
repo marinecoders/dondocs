@@ -1,0 +1,1903 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "name": {
+        "left": 41.0,
+        "top": 715.7,
+        "width": 411.1,
+        "height": 16.6,
+        "type": "text",
+        "description": "Enter the name (last, first, middle).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "doDIDNumber": {
+        "left": 462.2,
+        "top": 715.7,
+        "width": 113.8,
+        "height": 16.6,
+        "type": "text",
+        "description": "Enter DoD ID Number.  ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolCourse": {
+        "left": 41.0,
+        "top": 614.9,
+        "width": 112.3,
+        "height": 23.8,
+        "type": "text",
+        "description": "This is row 1 of 23.  Enter the school and course.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "datesAttended": {
+        "left": 159.1,
+        "top": 614.9,
+        "width": 56.2,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the date attended in the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "passFail": {
+        "left": 216.7,
+        "top": 614.9,
+        "width": 38.2,
+        "height": 23.8,
+        "type": "choice",
+        "description": "Select pass or fail provided in the drop down list.",
+        "options": [
+          " ",
+          "Pass",
+          "Fail"
+        ],
+        "group": null,
+        "required": false
+      },
+      "score": {
+        "left": 260.6,
+        "top": 614.9,
+        "width": 25.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the score.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unit": {
+        "left": 296.6,
+        "top": 614.9,
+        "width": 47.5,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the unit.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks": {
+        "left": 354.2,
+        "top": 614.9,
+        "width": 97.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the remarks.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "verifiedBy": {
+        "left": 462.2,
+        "top": 614.9,
+        "width": 113.0,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter whom it was verified by.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolCourse2": {
+        "left": 41.0,
+        "top": 589.7,
+        "width": 112.3,
+        "height": 23.8,
+        "type": "text",
+        "description": "This is row 2 of 23. Enter the school and course.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "datesAttended2": {
+        "left": 159.1,
+        "top": 589.7,
+        "width": 56.2,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the date attended in the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "passFail2": {
+        "left": 216.7,
+        "top": 589.7,
+        "width": 38.2,
+        "height": 23.8,
+        "type": "choice",
+        "description": "Select pass or fail provided in the drop down list.",
+        "options": [
+          " ",
+          "Pass",
+          "Fail"
+        ],
+        "group": null,
+        "required": false
+      },
+      "score2": {
+        "left": 260.6,
+        "top": 589.7,
+        "width": 25.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the score.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unit2": {
+        "left": 296.6,
+        "top": 589.7,
+        "width": 47.5,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the unit.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks2": {
+        "left": 354.2,
+        "top": 589.7,
+        "width": 97.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the remarks.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "verifiedBy2": {
+        "left": 462.2,
+        "top": 589.7,
+        "width": 113.0,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter whom it was verified by.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolCourse3": {
+        "left": 41.0,
+        "top": 564.5,
+        "width": 112.3,
+        "height": 23.8,
+        "type": "text",
+        "description": "This is row 3 of 23. Enter the school and course.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "datesAttended3": {
+        "left": 159.1,
+        "top": 564.5,
+        "width": 56.2,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the date attended in the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "passFail3": {
+        "left": 216.7,
+        "top": 564.5,
+        "width": 38.2,
+        "height": 23.8,
+        "type": "choice",
+        "description": "Select pass or fail provided in the drop down list.",
+        "options": [
+          " ",
+          "Pass",
+          "Fail"
+        ],
+        "group": null,
+        "required": false
+      },
+      "score3": {
+        "left": 260.6,
+        "top": 564.5,
+        "width": 25.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the score.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unit3": {
+        "left": 296.6,
+        "top": 564.5,
+        "width": 47.5,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the unit.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks3": {
+        "left": 354.2,
+        "top": 564.5,
+        "width": 97.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the remarks.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "verifiedBy3": {
+        "left": 462.2,
+        "top": 564.5,
+        "width": 113.0,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter whom it was verified by.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolCourse4": {
+        "left": 41.0,
+        "top": 539.3,
+        "width": 112.3,
+        "height": 23.8,
+        "type": "text",
+        "description": "This is row 4 of 23. Enter the school and course.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "datesAttended4": {
+        "left": 159.1,
+        "top": 539.3,
+        "width": 56.2,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the date attended in the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "passFail4": {
+        "left": 216.7,
+        "top": 539.3,
+        "width": 38.2,
+        "height": 23.8,
+        "type": "choice",
+        "description": "Select pass or fail provided in the drop down list.",
+        "options": [
+          " ",
+          "Pass",
+          "Fail"
+        ],
+        "group": null,
+        "required": false
+      },
+      "score4": {
+        "left": 260.6,
+        "top": 539.3,
+        "width": 25.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the score.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unit4": {
+        "left": 296.6,
+        "top": 539.3,
+        "width": 47.5,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the unit.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks4": {
+        "left": 354.2,
+        "top": 539.3,
+        "width": 97.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the remarks.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "verifiedBy4": {
+        "left": 462.2,
+        "top": 539.3,
+        "width": 113.0,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter whom it was verified by.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolCourse5": {
+        "left": 41.0,
+        "top": 514.1,
+        "width": 112.3,
+        "height": 23.8,
+        "type": "text",
+        "description": "This is row 5 of 23. Enter the school and course.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "datesAttended5": {
+        "left": 159.1,
+        "top": 514.1,
+        "width": 56.2,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the date attended in the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "passFail5": {
+        "left": 216.7,
+        "top": 514.1,
+        "width": 38.2,
+        "height": 23.8,
+        "type": "choice",
+        "description": "Select pass or fail provided in the drop down list.",
+        "options": [
+          " ",
+          "Pass",
+          "Fail"
+        ],
+        "group": null,
+        "required": false
+      },
+      "score5": {
+        "left": 260.6,
+        "top": 514.1,
+        "width": 25.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the score.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unit5": {
+        "left": 296.6,
+        "top": 514.1,
+        "width": 47.5,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the unit.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks5": {
+        "left": 354.2,
+        "top": 514.1,
+        "width": 97.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the remarks.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "verifiedBy5": {
+        "left": 462.2,
+        "top": 514.1,
+        "width": 113.0,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter whom it was verified by.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolCourse6": {
+        "left": 41.0,
+        "top": 488.9,
+        "width": 112.3,
+        "height": 23.8,
+        "type": "text",
+        "description": "This is row 6 of 23. Enter the school and course.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "datesAttended6": {
+        "left": 159.1,
+        "top": 488.9,
+        "width": 56.2,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the date attended in the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "passFail6": {
+        "left": 216.7,
+        "top": 488.9,
+        "width": 38.2,
+        "height": 23.8,
+        "type": "choice",
+        "description": "Select pass or fail provided in the drop down list.",
+        "options": [
+          " ",
+          "Pass",
+          "Fail"
+        ],
+        "group": null,
+        "required": false
+      },
+      "score6": {
+        "left": 260.6,
+        "top": 488.9,
+        "width": 25.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the score.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unit6": {
+        "left": 296.6,
+        "top": 488.9,
+        "width": 47.5,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the unit.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks6": {
+        "left": 354.2,
+        "top": 488.9,
+        "width": 97.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the remarks.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "verifiedBy6": {
+        "left": 462.2,
+        "top": 488.9,
+        "width": 113.0,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter whom it was verified by.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolCourse7": {
+        "left": 41.0,
+        "top": 463.7,
+        "width": 112.3,
+        "height": 23.8,
+        "type": "text",
+        "description": "This is row 7 of 23. Enter the school and course.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "datesAttended7": {
+        "left": 159.1,
+        "top": 463.7,
+        "width": 56.2,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the date attended in the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "passFail7": {
+        "left": 216.7,
+        "top": 463.7,
+        "width": 38.2,
+        "height": 23.8,
+        "type": "choice",
+        "description": "Select pass or fail provided in the drop down list.",
+        "options": [
+          " ",
+          "Pass",
+          "Fail"
+        ],
+        "group": null,
+        "required": false
+      },
+      "score7": {
+        "left": 260.6,
+        "top": 463.7,
+        "width": 25.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the score.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unit7": {
+        "left": 296.6,
+        "top": 463.7,
+        "width": 47.5,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the unit.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks7": {
+        "left": 354.2,
+        "top": 463.7,
+        "width": 97.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the remarks.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "verifiedBy7": {
+        "left": 462.2,
+        "top": 463.7,
+        "width": 113.0,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter whom it was verified by.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolCourse8": {
+        "left": 41.0,
+        "top": 438.5,
+        "width": 112.3,
+        "height": 23.8,
+        "type": "text",
+        "description": "This is row 8 of 23. Enter the school and course.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "datesAttended8": {
+        "left": 159.1,
+        "top": 438.5,
+        "width": 56.2,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the date attended in the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "passFail8": {
+        "left": 216.7,
+        "top": 438.5,
+        "width": 38.2,
+        "height": 23.8,
+        "type": "choice",
+        "description": "Select pass or fail provided in the drop down list.",
+        "options": [
+          " ",
+          "Pass",
+          "Fail"
+        ],
+        "group": null,
+        "required": false
+      },
+      "score8": {
+        "left": 260.6,
+        "top": 438.5,
+        "width": 25.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the score.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unit8": {
+        "left": 296.6,
+        "top": 438.5,
+        "width": 47.5,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the unit.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks8": {
+        "left": 354.2,
+        "top": 438.5,
+        "width": 97.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the remarks.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "verifiedBy8": {
+        "left": 462.2,
+        "top": 438.5,
+        "width": 113.0,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter whom it was verified by.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolCourse9": {
+        "left": 41.0,
+        "top": 413.3,
+        "width": 112.3,
+        "height": 23.8,
+        "type": "text",
+        "description": "This is row 9 of 23. Enter the school and course.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "datesAttended9": {
+        "left": 159.1,
+        "top": 413.3,
+        "width": 56.2,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the date attended in the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "passFail9": {
+        "left": 216.7,
+        "top": 413.3,
+        "width": 38.2,
+        "height": 23.8,
+        "type": "choice",
+        "description": "Select pass or fail provided in the drop down list.",
+        "options": [
+          " ",
+          "Pass",
+          "Fail"
+        ],
+        "group": null,
+        "required": false
+      },
+      "score9": {
+        "left": 260.6,
+        "top": 413.3,
+        "width": 25.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the score.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unit9": {
+        "left": 296.6,
+        "top": 413.3,
+        "width": 47.5,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the unit.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks9": {
+        "left": 354.2,
+        "top": 413.3,
+        "width": 97.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the remarks.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "verifiedBy9": {
+        "left": 462.2,
+        "top": 413.3,
+        "width": 113.0,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter whom it was verified by.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolCourse10": {
+        "left": 41.0,
+        "top": 388.1,
+        "width": 112.3,
+        "height": 23.8,
+        "type": "text",
+        "description": "This is row 10 of 23. Enter the school and course.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "datesAttended10": {
+        "left": 159.1,
+        "top": 388.1,
+        "width": 56.2,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the date attended in the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "passFail10": {
+        "left": 216.7,
+        "top": 388.1,
+        "width": 38.2,
+        "height": 23.8,
+        "type": "choice",
+        "description": "Select pass or fail provided in the drop down list.",
+        "options": [
+          " ",
+          "Pass",
+          "Fail"
+        ],
+        "group": null,
+        "required": false
+      },
+      "score10": {
+        "left": 260.6,
+        "top": 388.1,
+        "width": 25.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the score.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unit10": {
+        "left": 296.6,
+        "top": 388.1,
+        "width": 47.5,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the unit.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks10": {
+        "left": 354.2,
+        "top": 388.1,
+        "width": 97.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the remarks.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "verifiedBy10": {
+        "left": 462.2,
+        "top": 388.1,
+        "width": 113.0,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter whom it was verified by.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolCourse11": {
+        "left": 41.0,
+        "top": 362.9,
+        "width": 112.3,
+        "height": 23.8,
+        "type": "text",
+        "description": "This is row 11 of 23. Enter the school and course.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "datesAttended11": {
+        "left": 159.1,
+        "top": 362.9,
+        "width": 56.2,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the date attended in the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "passFail11": {
+        "left": 216.7,
+        "top": 362.9,
+        "width": 38.2,
+        "height": 23.8,
+        "type": "choice",
+        "description": "Select pass or fail provided in the drop down list.",
+        "options": [
+          " ",
+          "Pass",
+          "Fail"
+        ],
+        "group": null,
+        "required": false
+      },
+      "score11": {
+        "left": 260.6,
+        "top": 362.9,
+        "width": 25.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the score.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unit11": {
+        "left": 296.6,
+        "top": 362.9,
+        "width": 47.5,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the unit.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks11": {
+        "left": 354.2,
+        "top": 362.9,
+        "width": 97.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the remarks.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "verifiedBy11": {
+        "left": 462.2,
+        "top": 362.9,
+        "width": 113.0,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter whom it was verified by.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolCourse12": {
+        "left": 41.0,
+        "top": 337.7,
+        "width": 112.3,
+        "height": 23.8,
+        "type": "text",
+        "description": "This is row 12 of 23. Enter the school and course.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "datesAttended12": {
+        "left": 159.1,
+        "top": 337.7,
+        "width": 56.2,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the date attended in the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "passFail12": {
+        "left": 216.7,
+        "top": 337.7,
+        "width": 38.2,
+        "height": 23.8,
+        "type": "choice",
+        "description": "Select pass or fail provided in the drop down list.",
+        "options": [
+          " ",
+          "Pass",
+          "Fail"
+        ],
+        "group": null,
+        "required": false
+      },
+      "score12": {
+        "left": 260.6,
+        "top": 337.7,
+        "width": 25.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the score.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unit12": {
+        "left": 296.6,
+        "top": 337.7,
+        "width": 47.5,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the unit.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks12": {
+        "left": 354.2,
+        "top": 337.7,
+        "width": 97.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the remarks.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "verifiedBy12": {
+        "left": 462.2,
+        "top": 337.7,
+        "width": 113.0,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter whom it was verified by.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolCourse13": {
+        "left": 41.0,
+        "top": 312.5,
+        "width": 112.3,
+        "height": 23.8,
+        "type": "text",
+        "description": "This is row 13 of 23. Enter the school and course.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "datesAttended13": {
+        "left": 159.1,
+        "top": 312.5,
+        "width": 56.2,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the date attended in the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "passFail13": {
+        "left": 216.7,
+        "top": 312.5,
+        "width": 38.2,
+        "height": 23.8,
+        "type": "choice",
+        "description": "Select pass or fail provided in the drop down list.",
+        "options": [
+          " ",
+          "Pass",
+          "Fail"
+        ],
+        "group": null,
+        "required": false
+      },
+      "score13": {
+        "left": 260.6,
+        "top": 312.5,
+        "width": 25.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the score.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unit13": {
+        "left": 296.6,
+        "top": 312.5,
+        "width": 47.5,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the unit.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks13": {
+        "left": 354.2,
+        "top": 312.5,
+        "width": 97.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the remarks.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "verifiedBy13": {
+        "left": 462.2,
+        "top": 312.5,
+        "width": 113.0,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter whom it was verified by.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolCourse14": {
+        "left": 41.0,
+        "top": 287.3,
+        "width": 112.3,
+        "height": 23.8,
+        "type": "text",
+        "description": "This is row 14 of 23. Enter the school and course.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "datesAttended14": {
+        "left": 159.1,
+        "top": 287.3,
+        "width": 56.2,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the date attended in the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "passFail14": {
+        "left": 216.7,
+        "top": 287.3,
+        "width": 38.2,
+        "height": 23.8,
+        "type": "choice",
+        "description": "Select pass or fail provided in the drop down list.",
+        "options": [
+          " ",
+          "Pass",
+          "Fail"
+        ],
+        "group": null,
+        "required": false
+      },
+      "score14": {
+        "left": 260.6,
+        "top": 287.3,
+        "width": 25.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the score.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unit14": {
+        "left": 296.6,
+        "top": 287.3,
+        "width": 47.5,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the unit.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks14": {
+        "left": 354.2,
+        "top": 287.3,
+        "width": 97.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the remarks.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "verifiedBy14": {
+        "left": 462.2,
+        "top": 287.3,
+        "width": 113.0,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter whom it was verified by.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolCourse15": {
+        "left": 41.0,
+        "top": 262.1,
+        "width": 112.3,
+        "height": 23.8,
+        "type": "text",
+        "description": "This is row 15 of 23. Enter the school and course.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "datesAttended15": {
+        "left": 159.1,
+        "top": 262.1,
+        "width": 56.2,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the date attended in the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "passFail15": {
+        "left": 216.7,
+        "top": 262.1,
+        "width": 38.2,
+        "height": 23.8,
+        "type": "choice",
+        "description": "Select pass or fail provided in the drop down list.",
+        "options": [
+          " ",
+          "Pass",
+          "Fail"
+        ],
+        "group": null,
+        "required": false
+      },
+      "score15": {
+        "left": 260.6,
+        "top": 262.1,
+        "width": 25.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the score.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unit15": {
+        "left": 296.6,
+        "top": 262.1,
+        "width": 47.5,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the unit.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks15": {
+        "left": 354.2,
+        "top": 262.1,
+        "width": 97.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the remarks.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "verifiedBy15": {
+        "left": 462.2,
+        "top": 262.1,
+        "width": 113.0,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter whom it was verified by.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolCourse16": {
+        "left": 41.0,
+        "top": 236.9,
+        "width": 112.3,
+        "height": 23.8,
+        "type": "text",
+        "description": "This is row 16 of 23. Enter the school and course.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "datesAttended16": {
+        "left": 159.1,
+        "top": 236.9,
+        "width": 56.2,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the date attended in the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "passFail16": {
+        "left": 216.7,
+        "top": 236.9,
+        "width": 38.2,
+        "height": 23.8,
+        "type": "choice",
+        "description": "Select pass or fail provided in the drop down list.",
+        "options": [
+          " ",
+          "Pass",
+          "Fail"
+        ],
+        "group": null,
+        "required": false
+      },
+      "score16": {
+        "left": 260.6,
+        "top": 236.9,
+        "width": 25.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the score.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unit16": {
+        "left": 296.6,
+        "top": 236.9,
+        "width": 47.5,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the unit.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks16": {
+        "left": 354.2,
+        "top": 236.9,
+        "width": 97.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the remarks.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "verifiedBy16": {
+        "left": 462.2,
+        "top": 236.9,
+        "width": 113.0,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter whom it was verified by.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolCourse17": {
+        "left": 41.0,
+        "top": 211.7,
+        "width": 112.3,
+        "height": 23.8,
+        "type": "text",
+        "description": "This is row 17 of 23. Enter the school and course.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "datesAttended17": {
+        "left": 159.1,
+        "top": 211.7,
+        "width": 56.2,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the date attended in the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "passFail17": {
+        "left": 216.7,
+        "top": 211.7,
+        "width": 38.2,
+        "height": 23.8,
+        "type": "choice",
+        "description": "Select pass or fail provided in the drop down list.",
+        "options": [
+          " ",
+          "Pass",
+          "Fail"
+        ],
+        "group": null,
+        "required": false
+      },
+      "score17": {
+        "left": 260.6,
+        "top": 211.7,
+        "width": 25.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the score.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unit17": {
+        "left": 296.6,
+        "top": 211.7,
+        "width": 47.5,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the unit.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks17": {
+        "left": 354.2,
+        "top": 211.7,
+        "width": 97.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the remarks.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "verifiedBy17": {
+        "left": 462.2,
+        "top": 211.7,
+        "width": 113.0,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter whom it was verified by.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolCourse18": {
+        "left": 41.0,
+        "top": 186.5,
+        "width": 112.3,
+        "height": 23.8,
+        "type": "text",
+        "description": "This is row 18 of 23. Enter the school and course.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "datesAttended18": {
+        "left": 159.1,
+        "top": 186.5,
+        "width": 56.2,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the date attended in the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "passFail18": {
+        "left": 216.7,
+        "top": 186.5,
+        "width": 38.2,
+        "height": 23.8,
+        "type": "choice",
+        "description": "Select pass or fail provided in the drop down list.",
+        "options": [
+          " ",
+          "Pass",
+          "Fail"
+        ],
+        "group": null,
+        "required": false
+      },
+      "score18": {
+        "left": 260.6,
+        "top": 186.5,
+        "width": 25.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the score.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unit18": {
+        "left": 296.6,
+        "top": 186.5,
+        "width": 47.5,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the unit.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks18": {
+        "left": 354.2,
+        "top": 186.5,
+        "width": 97.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the remarks.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "verifiedBy18": {
+        "left": 462.2,
+        "top": 186.5,
+        "width": 113.0,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter whom it was verified by.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolCourse19": {
+        "left": 41.0,
+        "top": 161.3,
+        "width": 112.3,
+        "height": 23.8,
+        "type": "text",
+        "description": "This is row 19 of 23. Enter the school and course.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "datesAttended19": {
+        "left": 159.1,
+        "top": 161.3,
+        "width": 56.2,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the date attended in the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "passFail19": {
+        "left": 216.7,
+        "top": 161.3,
+        "width": 38.2,
+        "height": 23.8,
+        "type": "choice",
+        "description": "Select pass or fail provided in the drop down list.",
+        "options": [
+          " ",
+          "Pass",
+          "Fail"
+        ],
+        "group": null,
+        "required": false
+      },
+      "score19": {
+        "left": 260.6,
+        "top": 161.3,
+        "width": 25.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the score.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unit19": {
+        "left": 296.6,
+        "top": 161.3,
+        "width": 47.5,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the unit.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks19": {
+        "left": 354.2,
+        "top": 161.3,
+        "width": 97.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the remarks.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "verifiedBy19": {
+        "left": 462.2,
+        "top": 161.3,
+        "width": 113.0,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter whom it was verified by.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolCourse20": {
+        "left": 41.0,
+        "top": 136.1,
+        "width": 112.3,
+        "height": 23.8,
+        "type": "text",
+        "description": "This is row 20 of 23. Enter the school and course.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "datesAttended20": {
+        "left": 159.1,
+        "top": 136.1,
+        "width": 56.2,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the date attended in the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "passFail20": {
+        "left": 216.7,
+        "top": 136.1,
+        "width": 38.2,
+        "height": 23.8,
+        "type": "choice",
+        "description": "Select pass or fail provided in the drop down list.",
+        "options": [
+          " ",
+          "Pass",
+          "Fail"
+        ],
+        "group": null,
+        "required": false
+      },
+      "score20": {
+        "left": 260.6,
+        "top": 136.1,
+        "width": 25.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the score.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unit20": {
+        "left": 296.6,
+        "top": 136.1,
+        "width": 47.5,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the unit.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks20": {
+        "left": 354.2,
+        "top": 136.1,
+        "width": 97.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the remarks.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "verifiedBy20": {
+        "left": 462.2,
+        "top": 136.1,
+        "width": 113.0,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter whom it was verified by.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolCourse21": {
+        "left": 41.0,
+        "top": 110.9,
+        "width": 112.3,
+        "height": 23.8,
+        "type": "text",
+        "description": "This is row 21 of 23. Enter the school and course.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "datesAttended21": {
+        "left": 159.1,
+        "top": 110.9,
+        "width": 56.2,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the date attended in the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "passFail21": {
+        "left": 216.7,
+        "top": 110.9,
+        "width": 38.2,
+        "height": 23.8,
+        "type": "choice",
+        "description": "Select pass or fail provided in the drop down list.",
+        "options": [
+          " ",
+          "Pass",
+          "Fail"
+        ],
+        "group": null,
+        "required": false
+      },
+      "score21": {
+        "left": 260.6,
+        "top": 110.9,
+        "width": 25.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the score.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unit21": {
+        "left": 296.6,
+        "top": 110.9,
+        "width": 47.5,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the unit.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks21": {
+        "left": 354.2,
+        "top": 110.9,
+        "width": 97.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the remarks.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "verifiedBy21": {
+        "left": 462.2,
+        "top": 110.9,
+        "width": 113.0,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter whom it was verified by.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolCourse22": {
+        "left": 41.0,
+        "top": 85.7,
+        "width": 112.3,
+        "height": 23.8,
+        "type": "text",
+        "description": "This is row 22 of 23. Enter the school and course.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "datesAttended22": {
+        "left": 159.1,
+        "top": 85.7,
+        "width": 56.2,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the date attended in the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "passFail22": {
+        "left": 216.7,
+        "top": 85.7,
+        "width": 38.2,
+        "height": 23.8,
+        "type": "choice",
+        "description": "Select pass or fail provided in the drop down list.",
+        "options": [
+          " ",
+          "Pass",
+          "Fail"
+        ],
+        "group": null,
+        "required": false
+      },
+      "score22": {
+        "left": 260.6,
+        "top": 85.7,
+        "width": 25.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the score.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unit22": {
+        "left": 296.6,
+        "top": 85.7,
+        "width": 47.5,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the unit.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks22": {
+        "left": 354.2,
+        "top": 85.7,
+        "width": 97.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the remarks.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "verifiedBy22": {
+        "left": 462.2,
+        "top": 85.7,
+        "width": 113.0,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter whom it was verified by.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "schoolCourse23": {
+        "left": 41.0,
+        "top": 60.5,
+        "width": 112.3,
+        "height": 23.8,
+        "type": "text",
+        "description": "This is row 23 of 23. Enter the school and course.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "datesAttended23": {
+        "left": 159.1,
+        "top": 60.5,
+        "width": 56.2,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the date attended in the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "passFail23": {
+        "left": 216.7,
+        "top": 60.5,
+        "width": 38.2,
+        "height": 23.8,
+        "type": "choice",
+        "description": "Select pass or fail provided in the drop down list.",
+        "options": [
+          " ",
+          "Pass",
+          "Fail"
+        ],
+        "group": null,
+        "required": false
+      },
+      "score23": {
+        "left": 260.6,
+        "top": 60.5,
+        "width": 25.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the score.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unit23": {
+        "left": 296.6,
+        "top": 60.5,
+        "width": 47.5,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the unit.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks23": {
+        "left": 354.2,
+        "top": 60.5,
+        "width": 97.9,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter the remarks.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "verifiedBy23": {
+        "left": 462.2,
+        "top": 60.5,
+        "width": 113.0,
+        "height": 23.8,
+        "type": "text",
+        "description": "Enter whom it was verified by.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

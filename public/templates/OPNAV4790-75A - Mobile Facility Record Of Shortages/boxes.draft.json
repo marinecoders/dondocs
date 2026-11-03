@@ -1,0 +1,95 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 792,
+    "height": 612
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "mfSerialNo": {
+        "left": 105.0,
+        "top": 541.7,
+        "width": 279.2,
+        "height": 12.9,
+        "type": "text",
+        "description": "MF SERIAL NO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mmfModelType": {
+        "left": 467.0,
+        "top": 541.7,
+        "width": 286.3,
+        "height": 12.9,
+        "type": "text",
+        "description": "MF MODEL/TYPE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "itemNoField": {
+        "left": 38.8,
+        "top": 501.2,
+        "width": 34.8,
+        "height": 16.8,
+        "type": "text",
+        "description": "NO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "equipNomModTypeField": {
+        "left": 79.3,
+        "top": 501.2,
+        "width": 205.9,
+        "height": 16.8,
+        "type": "text",
+        "description": "MODEL AND TYPE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "serialNoField": {
+        "left": 290.9,
+        "top": 501.2,
+        "width": 93.3,
+        "height": 16.8,
+        "type": "text",
+        "description": "SERIAL NO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "authorityReasonField": {
+        "left": 389.9,
+        "top": 501.2,
+        "width": 205.9,
+        "height": 16.8,
+        "type": "text",
+        "description": "AUTHORITY OR REASON FOR SHORTAGE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarksField": {
+        "left": 601.4,
+        "top": 501.2,
+        "width": 151.8,
+        "height": 16.8,
+        "type": "text",
+        "description": "REMARKS",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

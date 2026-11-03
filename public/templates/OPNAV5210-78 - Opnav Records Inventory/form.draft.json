@@ -1,0 +1,316 @@
+{
+  "id": "opnav521078",
+  "label": "OPNAV5210-78 - Opnav Records Inventory",
+  "directory": "OPNAV5210-78 - Opnav Records Inventory",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "office",
+        "preparedby",
+        "date"
+      ]
+    }
+  ],
+  "fields": {
+    "office": {
+      "type": "text",
+      "label": "Office",
+      "page": 1,
+      "box": {
+        "left": 83.2,
+        "top": 546.9,
+        "width": 198.2,
+        "height": 13.7
+      }
+    },
+    "preparedby": {
+      "type": "text",
+      "label": "Prepared By",
+      "page": 1,
+      "box": {
+        "left": 344.3,
+        "top": 546.9,
+        "width": 229.6,
+        "height": 13.7
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "Date Prepared",
+      "page": 1,
+      "box": {
+        "left": 635.3,
+        "top": 546.9,
+        "width": 118.7,
+        "height": 13.7
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 6,
+      "rowStride": 81.01,
+      "editor": "grid",
+      "columns": {
+        "titlenumber": {
+          "type": "text",
+          "label": "Office",
+          "page": 1,
+          "box": {
+            "left": 38.8,
+            "top": 528.2,
+            "width": 39.3,
+            "height": 48.3
+          }
+        },
+        "disposition": {
+          "type": "text",
+          "label": "g) Disposition",
+          "page": 1,
+          "box": {
+            "left": 83.8,
+            "top": 492.5,
+            "width": 300.4,
+            "height": 12.6
+          }
+        },
+        "seriestitleEIS": {
+          "type": "text",
+          "label": "a) Series Title/ Electronic Information System (EIS)",
+          "page": 1,
+          "box": {
+            "left": 83.8,
+            "top": 519.9,
+            "width": 183.3,
+            "height": 13.0
+          }
+        },
+        "textField1": {
+          "type": "text",
+          "label": "Disposition: h) Access Restrictions",
+          "page": 1,
+          "box": {
+            "left": 134.4,
+            "top": 474.2,
+            "width": 614.4,
+            "height": 21.3
+          }
+        },
+        "descriptionofrecords": {
+          "type": "text",
+          "label": "b) Description of Records",
+          "page": 1,
+          "box": {
+            "left": 272.9,
+            "top": 519.6,
+            "width": 93.3,
+            "height": 12.7
+          }
+        },
+        "daterange": {
+          "type": "text",
+          "label": "c) Date Range",
+          "page": 1,
+          "box": {
+            "left": 371.9,
+            "top": 519.6,
+            "width": 57.3,
+            "height": 12.7
+          }
+        },
+        "accessrestrictions": {
+          "type": "text",
+          "label": "h) Access Restrictions",
+          "page": 1,
+          "box": {
+            "left": 389.9,
+            "top": 493.2,
+            "width": 363.4,
+            "height": 13.3
+          }
+        },
+        "recordslocation": {
+          "type": "text",
+          "label": "d) Records Location",
+          "page": 1,
+          "box": {
+            "left": 434.9,
+            "top": 519.6,
+            "width": 84.3,
+            "height": 12.7
+          }
+        },
+        "mediatype": {
+          "type": "text",
+          "label": "e) Media Type",
+          "page": 1,
+          "box": {
+            "left": 524.9,
+            "top": 519.6,
+            "width": 57.3,
+            "height": 12.7
+          }
+        },
+        "mediatype2": {
+          "type": "text",
+          "label": "f) Estimated Volume",
+          "page": 1,
+          "box": {
+            "left": 587.9,
+            "top": 518.9,
+            "width": 75.3,
+            "height": 12.0
+          }
+        },
+        "dropDownList1": {
+          "type": "choice",
+          "label": "OPNAVINST 5210.21",
+          "page": 1,
+          "box": {
+            "left": 670.4,
+            "top": 527.5,
+            "width": 82.1,
+            "height": 19.8
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 2,
+      "count": 3,
+      "rowStride": 81.0,
+      "editor": "grid",
+      "columns": {
+        "titlenumber": {
+          "type": "text",
+          "label": "Titlenumber",
+          "page": 2,
+          "box": {
+            "left": 38.8,
+            "top": 573.2,
+            "width": 39.3,
+            "height": 48.3
+          }
+        },
+        "disposition": {
+          "type": "text",
+          "label": "g) Disposition",
+          "page": 2,
+          "box": {
+            "left": 83.8,
+            "top": 537.5,
+            "width": 300.4,
+            "height": 12.6
+          }
+        },
+        "seriestitleEIS": {
+          "type": "text",
+          "label": "a) Series Title/ Electronic Information System (EIS)",
+          "page": 2,
+          "box": {
+            "left": 83.8,
+            "top": 564.9,
+            "width": 183.3,
+            "height": 13.0
+          }
+        },
+        "textField1": {
+          "type": "text",
+          "label": "Disposition: h) Access Restrictions",
+          "page": 2,
+          "box": {
+            "left": 134.4,
+            "top": 519.2,
+            "width": 614.4,
+            "height": 21.3
+          }
+        },
+        "descriptionofrecords": {
+          "type": "text",
+          "label": "b) Description of Records",
+          "page": 2,
+          "box": {
+            "left": 272.9,
+            "top": 564.6,
+            "width": 93.3,
+            "height": 12.7
+          }
+        },
+        "daterange": {
+          "type": "text",
+          "label": "c) Date Range",
+          "page": 2,
+          "box": {
+            "left": 371.9,
+            "top": 564.6,
+            "width": 57.3,
+            "height": 12.7
+          }
+        },
+        "accessrestrictions": {
+          "type": "text",
+          "label": "h) Access Restrictions",
+          "page": 2,
+          "box": {
+            "left": 389.9,
+            "top": 538.2,
+            "width": 363.4,
+            "height": 13.3
+          }
+        },
+        "recordslocation": {
+          "type": "text",
+          "label": "d) Records Location",
+          "page": 2,
+          "box": {
+            "left": 434.9,
+            "top": 564.6,
+            "width": 84.3,
+            "height": 12.7
+          }
+        },
+        "mediatype": {
+          "type": "text",
+          "label": "e) Media Type",
+          "page": 2,
+          "box": {
+            "left": 524.9,
+            "top": 564.6,
+            "width": 57.3,
+            "height": 12.7
+          }
+        },
+        "mediatype2": {
+          "type": "text",
+          "label": "f) Estimated Volume",
+          "page": 2,
+          "box": {
+            "left": 587.9,
+            "top": 563.9,
+            "width": 75.3,
+            "height": 12.0
+          }
+        },
+        "dropDownList1": {
+          "type": "choice",
+          "label": "OPNAVINST 5210.21",
+          "page": 2,
+          "box": {
+            "left": 670.4,
+            "top": 572.5,
+            "width": 82.1,
+            "height": 19.8
+          }
+        }
+      }
+    }
+  }
+}

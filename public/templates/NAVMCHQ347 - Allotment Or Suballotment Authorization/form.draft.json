@@ -1,0 +1,855 @@
+{
+  "id": "navmchq347",
+  "label": "NAVMCHQ347 - Allotment Or Suballotment Authorization",
+  "directory": "NAVMCHQ347 - Allotment Or Suballotment Authorization",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "title",
+        "code",
+        "allotmentNum",
+        "project1",
+        "thirdQ1",
+        "firstQ1",
+        "secondQ1",
+        "total1",
+        "fourthQ1",
+        "project2",
+        "thirdQ2",
+        "secondQ2",
+        "fourthQ2",
+        "total2",
+        "firstQ2",
+        "thirdQ3",
+        "secondQ3",
+        "fourthQ3",
+        "total3",
+        "firstQ3",
+        "project3",
+        "thirdQ4",
+        "firstQ4",
+        "secondQ4",
+        "fourthQ4",
+        "total4",
+        "project4",
+        "thirdQ5",
+        "secondQ5",
+        "fourthQ5",
+        "total5",
+        "firstQ5",
+        "project5",
+        "thirdQ6",
+        "secondQ6",
+        "fourthQ6",
+        "total6",
+        "firstQ6",
+        "project6",
+        "thirdQ7",
+        "secondQ7",
+        "fourthQ7",
+        "total7",
+        "firstQ7",
+        "project7",
+        "thirdQ8",
+        "project8",
+        "secondQ8",
+        "fourthQ8",
+        "total8",
+        "firstQ8",
+        "thirdQ9",
+        "secondQ9",
+        "fourthQ9",
+        "total9",
+        "firstQ9",
+        "project9",
+        "project10",
+        "thirdQ10",
+        "secondQ10",
+        "fourthQ10",
+        "total10",
+        "firstQ10",
+        "firstQTotal",
+        "secondQTotal",
+        "numericField1",
+        "thirdQTotal",
+        "fourthQTotal"
+      ]
+    }
+  ],
+  "fields": {
+    "title": {
+      "type": "text",
+      "label": "Title",
+      "page": 1,
+      "box": {
+        "left": 25.4,
+        "top": 523.3,
+        "width": 469.6,
+        "height": 12.9
+      }
+    },
+    "code": {
+      "type": "text",
+      "label": "Code",
+      "page": 1,
+      "box": {
+        "left": 505.7,
+        "top": 523.3,
+        "width": 92.6,
+        "height": 12.9
+      }
+    },
+    "allotmentNum": {
+      "type": "text",
+      "label": "AllotmentNum",
+      "page": 1,
+      "box": {
+        "left": 608.5,
+        "top": 523.3,
+        "width": 161.2,
+        "height": 12.9
+      }
+    },
+    "project1": {
+      "type": "text",
+      "label": "Project1",
+      "page": 1,
+      "box": {
+        "left": 23.0,
+        "top": 438.3,
+        "width": 71.1,
+        "height": 29.3
+      }
+    },
+    "thirdQ1": {
+      "type": "text",
+      "label": "ThirdQ1",
+      "page": 1,
+      "box": {
+        "left": 538.5,
+        "top": 438.3,
+        "width": 70.2,
+        "height": 29.3
+      }
+    },
+    "firstQ1": {
+      "type": "text",
+      "label": "FirstQ1",
+      "page": 1,
+      "box": {
+        "left": 379.3,
+        "top": 438.2,
+        "width": 70.2,
+        "height": 29.3
+      }
+    },
+    "secondQ1": {
+      "type": "text",
+      "label": "SecondQ1",
+      "page": 1,
+      "box": {
+        "left": 459.0,
+        "top": 438.2,
+        "width": 70.2,
+        "height": 29.3
+      }
+    },
+    "total1": {
+      "type": "text",
+      "label": "Total1",
+      "page": 1,
+      "box": {
+        "left": 697.1,
+        "top": 438.2,
+        "width": 72.2,
+        "height": 29.3
+      }
+    },
+    "fourthQ1": {
+      "type": "text",
+      "label": "FourthQ1",
+      "page": 1,
+      "box": {
+        "left": 618.2,
+        "top": 438.1,
+        "width": 70.2,
+        "height": 29.3
+      }
+    },
+    "project2": {
+      "type": "text",
+      "label": "Project2",
+      "page": 1,
+      "box": {
+        "left": 23.3,
+        "top": 400.7,
+        "width": 71.1,
+        "height": 29.3
+      }
+    },
+    "thirdQ2": {
+      "type": "text",
+      "label": "ThirdQ2",
+      "page": 1,
+      "box": {
+        "left": 538.4,
+        "top": 400.4,
+        "width": 70.2,
+        "height": 29.3
+      }
+    },
+    "secondQ2": {
+      "type": "text",
+      "label": "SecondQ2",
+      "page": 1,
+      "box": {
+        "left": 458.9,
+        "top": 400.2,
+        "width": 70.2,
+        "height": 29.3
+      }
+    },
+    "fourthQ2": {
+      "type": "text",
+      "label": "FourthQ2",
+      "page": 1,
+      "box": {
+        "left": 618.1,
+        "top": 400.2,
+        "width": 70.2,
+        "height": 29.3
+      }
+    },
+    "total2": {
+      "type": "text",
+      "label": "Total2",
+      "page": 1,
+      "box": {
+        "left": 697.0,
+        "top": 400.2,
+        "width": 72.2,
+        "height": 29.3
+      }
+    },
+    "firstQ2": {
+      "type": "text",
+      "label": "FirstQ2",
+      "page": 1,
+      "box": {
+        "left": 379.0,
+        "top": 400.0,
+        "width": 70.2,
+        "height": 29.3
+      }
+    },
+    "thirdQ3": {
+      "type": "text",
+      "label": "ThirdQ3",
+      "page": 1,
+      "box": {
+        "left": 538.2,
+        "top": 363.1,
+        "width": 70.2,
+        "height": 29.3
+      }
+    },
+    "secondQ3": {
+      "type": "text",
+      "label": "SecondQ3",
+      "page": 1,
+      "box": {
+        "left": 458.8,
+        "top": 362.9,
+        "width": 70.2,
+        "height": 29.3
+      }
+    },
+    "fourthQ3": {
+      "type": "text",
+      "label": "FourthQ3",
+      "page": 1,
+      "box": {
+        "left": 618.0,
+        "top": 362.9,
+        "width": 70.2,
+        "height": 29.3
+      }
+    },
+    "total3": {
+      "type": "text",
+      "label": "Total3",
+      "page": 1,
+      "box": {
+        "left": 696.8,
+        "top": 362.9,
+        "width": 72.2,
+        "height": 29.3
+      }
+    },
+    "firstQ3": {
+      "type": "text",
+      "label": "FirstQ3",
+      "page": 1,
+      "box": {
+        "left": 378.9,
+        "top": 362.7,
+        "width": 70.2,
+        "height": 29.3
+      }
+    },
+    "project3": {
+      "type": "text",
+      "label": "Project3",
+      "page": 1,
+      "box": {
+        "left": 23.3,
+        "top": 362.6,
+        "width": 71.1,
+        "height": 29.3
+      }
+    },
+    "thirdQ4": {
+      "type": "text",
+      "label": "ThirdQ4",
+      "page": 1,
+      "box": {
+        "left": 538.1,
+        "top": 325.9,
+        "width": 70.2,
+        "height": 29.3
+      }
+    },
+    "firstQ4": {
+      "type": "text",
+      "label": "FirstQ4",
+      "page": 1,
+      "box": {
+        "left": 378.8,
+        "top": 325.7,
+        "width": 70.2,
+        "height": 29.5
+      }
+    },
+    "secondQ4": {
+      "type": "text",
+      "label": "SecondQ4",
+      "page": 1,
+      "box": {
+        "left": 459.4,
+        "top": 325.7,
+        "width": 70.2,
+        "height": 29.3
+      }
+    },
+    "fourthQ4": {
+      "type": "text",
+      "label": "FourthQ4",
+      "page": 1,
+      "box": {
+        "left": 617.9,
+        "top": 325.7,
+        "width": 70.2,
+        "height": 29.3
+      }
+    },
+    "total4": {
+      "type": "text",
+      "label": "Total4",
+      "page": 1,
+      "box": {
+        "left": 696.7,
+        "top": 325.7,
+        "width": 72.2,
+        "height": 29.3
+      }
+    },
+    "project4": {
+      "type": "text",
+      "label": "Project4",
+      "page": 1,
+      "box": {
+        "left": 23.5,
+        "top": 325.6,
+        "width": 71.1,
+        "height": 29.3
+      }
+    },
+    "thirdQ5": {
+      "type": "text",
+      "label": "ThirdQ5",
+      "page": 1,
+      "box": {
+        "left": 539.0,
+        "top": 289.1,
+        "width": 70.2,
+        "height": 29.3
+      }
+    },
+    "secondQ5": {
+      "type": "text",
+      "label": "SecondQ5",
+      "page": 1,
+      "box": {
+        "left": 458.8,
+        "top": 288.9,
+        "width": 70.2,
+        "height": 29.3
+      }
+    },
+    "fourthQ5": {
+      "type": "text",
+      "label": "FourthQ5",
+      "page": 1,
+      "box": {
+        "left": 618.0,
+        "top": 288.9,
+        "width": 70.2,
+        "height": 29.3
+      }
+    },
+    "total5": {
+      "type": "text",
+      "label": "Total5",
+      "page": 1,
+      "box": {
+        "left": 696.8,
+        "top": 288.9,
+        "width": 72.2,
+        "height": 29.3
+      }
+    },
+    "firstQ5": {
+      "type": "text",
+      "label": "FirstQ5",
+      "page": 1,
+      "box": {
+        "left": 378.9,
+        "top": 288.7,
+        "width": 70.2,
+        "height": 29.3
+      }
+    },
+    "project5": {
+      "type": "text",
+      "label": "Project5",
+      "page": 1,
+      "box": {
+        "left": 23.4,
+        "top": 288.1,
+        "width": 71.1,
+        "height": 29.3
+      }
+    },
+    "thirdQ6": {
+      "type": "text",
+      "label": "ThirdQ6",
+      "page": 1,
+      "box": {
+        "left": 538.9,
+        "top": 251.9,
+        "width": 70.2,
+        "height": 29.3
+      }
+    },
+    "secondQ6": {
+      "type": "text",
+      "label": "SecondQ6",
+      "page": 1,
+      "box": {
+        "left": 459.4,
+        "top": 251.7,
+        "width": 70.2,
+        "height": 29.3
+      }
+    },
+    "fourthQ6": {
+      "type": "text",
+      "label": "FourthQ6",
+      "page": 1,
+      "box": {
+        "left": 617.9,
+        "top": 251.7,
+        "width": 70.2,
+        "height": 29.3
+      }
+    },
+    "total6": {
+      "type": "text",
+      "label": "Total6",
+      "page": 1,
+      "box": {
+        "left": 696.7,
+        "top": 251.7,
+        "width": 72.2,
+        "height": 29.3
+      }
+    },
+    "firstQ6": {
+      "type": "text",
+      "label": "FirstQ6",
+      "page": 1,
+      "box": {
+        "left": 378.7,
+        "top": 251.5,
+        "width": 70.2,
+        "height": 29.3
+      }
+    },
+    "project6": {
+      "type": "text",
+      "label": "Project6",
+      "page": 1,
+      "box": {
+        "left": 24.4,
+        "top": 250.5,
+        "width": 71.1,
+        "height": 29.3
+      }
+    },
+    "thirdQ7": {
+      "type": "text",
+      "label": "ThirdQ7",
+      "page": 1,
+      "box": {
+        "left": 538.9,
+        "top": 214.6,
+        "width": 70.2,
+        "height": 29.3
+      }
+    },
+    "secondQ7": {
+      "type": "text",
+      "label": "SecondQ7",
+      "page": 1,
+      "box": {
+        "left": 459.5,
+        "top": 214.4,
+        "width": 70.2,
+        "height": 29.3
+      }
+    },
+    "fourthQ7": {
+      "type": "text",
+      "label": "FourthQ7",
+      "page": 1,
+      "box": {
+        "left": 617.9,
+        "top": 214.4,
+        "width": 70.2,
+        "height": 29.3
+      }
+    },
+    "total7": {
+      "type": "text",
+      "label": "Total7",
+      "page": 1,
+      "box": {
+        "left": 696.8,
+        "top": 214.4,
+        "width": 72.2,
+        "height": 29.3
+      }
+    },
+    "firstQ7": {
+      "type": "text",
+      "label": "FirstQ7",
+      "page": 1,
+      "box": {
+        "left": 378.8,
+        "top": 214.2,
+        "width": 70.2,
+        "height": 29.3
+      }
+    },
+    "project7": {
+      "type": "text",
+      "label": "Project7",
+      "page": 1,
+      "box": {
+        "left": 23.9,
+        "top": 213.8,
+        "width": 71.1,
+        "height": 29.3
+      }
+    },
+    "thirdQ8": {
+      "type": "text",
+      "label": "ThirdQ8",
+      "page": 1,
+      "box": {
+        "left": 538.8,
+        "top": 176.7,
+        "width": 70.2,
+        "height": 29.3
+      }
+    },
+    "project8": {
+      "type": "text",
+      "label": "Project8",
+      "page": 1,
+      "box": {
+        "left": 23.5,
+        "top": 176.5,
+        "width": 71.1,
+        "height": 29.3
+      }
+    },
+    "secondQ8": {
+      "type": "text",
+      "label": "SecondQ8",
+      "page": 1,
+      "box": {
+        "left": 459.4,
+        "top": 176.5,
+        "width": 70.2,
+        "height": 29.3
+      }
+    },
+    "fourthQ8": {
+      "type": "text",
+      "label": "FourthQ8",
+      "page": 1,
+      "box": {
+        "left": 617.8,
+        "top": 176.5,
+        "width": 70.2,
+        "height": 29.3
+      }
+    },
+    "total8": {
+      "type": "text",
+      "label": "Total8",
+      "page": 1,
+      "box": {
+        "left": 696.7,
+        "top": 176.5,
+        "width": 72.2,
+        "height": 29.3
+      }
+    },
+    "firstQ8": {
+      "type": "text",
+      "label": "FirstQ8",
+      "page": 1,
+      "box": {
+        "left": 378.7,
+        "top": 176.3,
+        "width": 70.2,
+        "height": 29.3
+      }
+    },
+    "thirdQ9": {
+      "type": "text",
+      "label": "ThirdQ9",
+      "page": 1,
+      "box": {
+        "left": 538.4,
+        "top": 139.4,
+        "width": 70.2,
+        "height": 29.3
+      }
+    },
+    "secondQ9": {
+      "type": "text",
+      "label": "SecondQ9",
+      "page": 1,
+      "box": {
+        "left": 459.0,
+        "top": 139.2,
+        "width": 70.2,
+        "height": 29.3
+      }
+    },
+    "fourthQ9": {
+      "type": "text",
+      "label": "FourthQ9",
+      "page": 1,
+      "box": {
+        "left": 617.5,
+        "top": 139.2,
+        "width": 70.2,
+        "height": 29.3
+      }
+    },
+    "total9": {
+      "type": "text",
+      "label": "Total9",
+      "page": 1,
+      "box": {
+        "left": 696.3,
+        "top": 139.2,
+        "width": 72.2,
+        "height": 29.3
+      }
+    },
+    "firstQ9": {
+      "type": "text",
+      "label": "FirstQ9",
+      "page": 1,
+      "box": {
+        "left": 379.1,
+        "top": 139.0,
+        "width": 70.2,
+        "height": 29.3
+      }
+    },
+    "project9": {
+      "type": "text",
+      "label": "Project9",
+      "page": 1,
+      "box": {
+        "left": 23.6,
+        "top": 138.9,
+        "width": 71.1,
+        "height": 29.3
+      }
+    },
+    "project10": {
+      "type": "text",
+      "label": "Project10",
+      "page": 1,
+      "box": {
+        "left": 23.2,
+        "top": 101.8,
+        "width": 71.1,
+        "height": 29.3
+      }
+    },
+    "thirdQ10": {
+      "type": "text",
+      "label": "ThirdQ10",
+      "page": 1,
+      "box": {
+        "left": 538.3,
+        "top": 101.4,
+        "width": 70.2,
+        "height": 29.3
+      }
+    },
+    "secondQ10": {
+      "type": "text",
+      "label": "SecondQ10",
+      "page": 1,
+      "box": {
+        "left": 458.9,
+        "top": 101.2,
+        "width": 70.2,
+        "height": 29.3
+      }
+    },
+    "fourthQ10": {
+      "type": "text",
+      "label": "FourthQ10",
+      "page": 1,
+      "box": {
+        "left": 617.3,
+        "top": 101.2,
+        "width": 70.2,
+        "height": 29.3
+      }
+    },
+    "total10": {
+      "type": "text",
+      "label": "Total10",
+      "page": 1,
+      "box": {
+        "left": 696.2,
+        "top": 101.2,
+        "width": 72.2,
+        "height": 29.3
+      }
+    },
+    "firstQ10": {
+      "type": "text",
+      "label": "FirstQ10",
+      "page": 1,
+      "box": {
+        "left": 378.9,
+        "top": 101.0,
+        "width": 70.2,
+        "height": 29.3
+      }
+    },
+    "firstQTotal": {
+      "type": "text",
+      "label": "FirstQTotal",
+      "page": 1,
+      "box": {
+        "left": 378.4,
+        "top": 63.4,
+        "width": 71.3,
+        "height": 14.3
+      }
+    },
+    "secondQTotal": {
+      "type": "text",
+      "label": "SecondQTotal",
+      "page": 1,
+      "box": {
+        "left": 457.9,
+        "top": 63.4,
+        "width": 71.3,
+        "height": 14.3
+      }
+    },
+    "numericField1": {
+      "type": "text",
+      "label": "NumericField1",
+      "page": 1,
+      "box": {
+        "left": 696.8,
+        "top": 63.4,
+        "width": 72.1,
+        "height": 14.3
+      }
+    },
+    "thirdQTotal": {
+      "type": "text",
+      "label": "ThirdQTotal",
+      "page": 1,
+      "box": {
+        "left": 537.9,
+        "top": 63.2,
+        "width": 71.3,
+        "height": 14.3
+      }
+    },
+    "fourthQTotal": {
+      "type": "text",
+      "label": "FourthQTotal",
+      "page": 1,
+      "box": {
+        "left": 617.5,
+        "top": 63.1,
+        "width": 71.3,
+        "height": 14.3
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 10,
+      "rowStride": 37.3,
+      "editor": "grid",
+      "columns": {
+        "title": {
+          "type": "text",
+          "label": "Title1",
+          "page": 1,
+          "box": {
+            "left": 103.2,
+            "top": 438.4,
+            "width": 265.7,
+            "height": 33.3
+          }
+        }
+      }
+    }
+  }
+}

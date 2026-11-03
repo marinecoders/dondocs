@@ -1,0 +1,515 @@
+{
+  "id": "navmc11896",
+  "label": "NAVMC 11896 - Operational Risk Assessment Worksheet (oraw)",
+  "directory": "NAVMC11896 - Operational Risk Assessment Worksheet (oraw)",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "mission",
+        "dateBegin",
+        "datePrep",
+        "dateEnd",
+        "desigNum",
+        "lastName",
+        "dutyPos",
+        "hQMCSignature",
+        "rank",
+        "residRisk1",
+        "effectiveness",
+        "residRisk2",
+        "residRisk3",
+        "residRisk4",
+        "residRisk5",
+        "residRisk6",
+        "residRisk7",
+        "residRisk",
+        "residRisk9",
+        "residRisk10",
+        "radio",
+        "radio2",
+        "radio3",
+        "radio4",
+        "radio5",
+        "lastNameAuth",
+        "dutyPosAuth",
+        "hQMCSignature2",
+        "authRank"
+      ]
+    }
+  ],
+  "fields": {
+    "mission": {
+      "type": "text",
+      "label": "Mission",
+      "page": 1,
+      "box": {
+        "left": 60.6,
+        "top": 566.0,
+        "width": 458.6,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "dateBegin": {
+      "type": "text",
+      "label": "2. Date",
+      "page": 1,
+      "box": {
+        "left": 574.9,
+        "top": 566.0,
+        "width": 52.3,
+        "height": 12.3
+      }
+    },
+    "datePrep": {
+      "type": "text",
+      "label": "3. Date",
+      "page": 1,
+      "box": {
+        "left": 694.6,
+        "top": 566.0,
+        "width": 76.6,
+        "height": 12.3
+      }
+    },
+    "dateEnd": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 574.9,
+        "top": 548.0,
+        "width": 52.3,
+        "height": 12.3
+      }
+    },
+    "desigNum": {
+      "type": "text",
+      "label": "4. Designator",
+      "page": 1,
+      "box": {
+        "left": 711.1,
+        "top": 548.0,
+        "width": 60.2,
+        "height": 12.3
+      }
+    },
+    "lastName": {
+      "type": "text",
+      "label": "Last Name",
+      "page": 1,
+      "box": {
+        "left": 92.8,
+        "top": 499.4,
+        "width": 210.4,
+        "height": 14.2
+      }
+    },
+    "dutyPos": {
+      "type": "text",
+      "label": "Duty Position",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 499.4,
+        "width": 318.4,
+        "height": 14.2
+      }
+    },
+    "hQMCSignature": {
+      "type": "text",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 633.7,
+        "top": 499.3,
+        "width": 136.8,
+        "height": 13.4
+      }
+    },
+    "rank": {
+      "type": "choice",
+      "label": "Rank",
+      "page": 1,
+      "box": {
+        "left": 22.4,
+        "top": 496.5,
+        "width": 63.3,
+        "height": 9.8
+      },
+      "options": [
+        "PFC",
+        "LCpl",
+        "Cpl",
+        "Sgt",
+        "SSgt",
+        "GySgt",
+        "MSgt",
+        "1stSgt",
+        "MGySgt",
+        "SgtMaj",
+        "SMMC",
+        "WO",
+        "Gunner",
+        "CWO2",
+        "CWO3",
+        "CWO4",
+        "CWO5",
+        "2ndLt",
+        "1stLt",
+        "Capt",
+        "Maj",
+        "LtCol",
+        "Col",
+        "BGen",
+        "MajGen",
+        "LtGen",
+        "Gen"
+      ]
+    },
+    "residRisk1": {
+      "type": "text",
+      "label": "CONTROLS",
+      "page": 1,
+      "box": {
+        "left": 367.2,
+        "top": 442.8,
+        "width": 57.6,
+        "height": 25.2
+      }
+    },
+    "effectiveness": {
+      "type": "text",
+      "label": "AAR COMMENTS",
+      "page": 1,
+      "box": {
+        "left": 691.3,
+        "top": 442.8,
+        "width": 79.2,
+        "height": 25.2
+      }
+    },
+    "residRisk2": {
+      "type": "text",
+      "label": "CONTROLS",
+      "page": 1,
+      "box": {
+        "left": 367.2,
+        "top": 410.4,
+        "width": 57.6,
+        "height": 25.2
+      }
+    },
+    "residRisk3": {
+      "type": "text",
+      "label": "CONTROLS",
+      "page": 1,
+      "box": {
+        "left": 367.2,
+        "top": 378.0,
+        "width": 57.6,
+        "height": 25.2
+      }
+    },
+    "residRisk4": {
+      "type": "text",
+      "label": "CONTROLS",
+      "page": 1,
+      "box": {
+        "left": 367.2,
+        "top": 345.6,
+        "width": 57.6,
+        "height": 25.2
+      }
+    },
+    "residRisk5": {
+      "type": "text",
+      "label": "CONTROLS",
+      "page": 1,
+      "box": {
+        "left": 367.2,
+        "top": 313.2,
+        "width": 57.6,
+        "height": 25.2
+      }
+    },
+    "residRisk6": {
+      "type": "text",
+      "label": "CONTROLS",
+      "page": 1,
+      "box": {
+        "left": 367.2,
+        "top": 280.8,
+        "width": 57.6,
+        "height": 25.2
+      }
+    },
+    "residRisk7": {
+      "type": "text",
+      "label": "CONTROLS",
+      "page": 1,
+      "box": {
+        "left": 367.2,
+        "top": 248.4,
+        "width": 57.6,
+        "height": 25.2
+      }
+    },
+    "residRisk": {
+      "type": "text",
+      "label": "CONTROLS",
+      "page": 1,
+      "box": {
+        "left": 367.2,
+        "top": 216.0,
+        "width": 57.6,
+        "height": 25.2
+      }
+    },
+    "residRisk9": {
+      "type": "text",
+      "label": "CONTROLS",
+      "page": 1,
+      "box": {
+        "left": 367.2,
+        "top": 183.5,
+        "width": 57.6,
+        "height": 25.2
+      }
+    },
+    "residRisk10": {
+      "type": "text",
+      "label": "CONTROLS",
+      "page": 1,
+      "box": {
+        "left": 367.2,
+        "top": 151.1,
+        "width": 57.6,
+        "height": 25.2
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 143.7,
+        "top": 104.5,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 258.1,
+        "top": 104.5,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 26.2,
+        "top": 104.3,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 390.3,
+        "top": 104.3,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 1,
+      "box": {
+        "left": 507.8,
+        "top": 104.3,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "lastNameAuth": {
+      "type": "text",
+      "label": "Last Name",
+      "page": 1,
+      "box": {
+        "left": 92.8,
+        "top": 53.0,
+        "width": 210.4,
+        "height": 14.2
+      }
+    },
+    "dutyPosAuth": {
+      "type": "text",
+      "label": "Duty Position",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 53.0,
+        "width": 318.4,
+        "height": 14.2
+      }
+    },
+    "hQMCSignature2": {
+      "type": "text",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 633.7,
+        "top": 52.9,
+        "width": 136.8,
+        "height": 13.4
+      }
+    },
+    "authRank": {
+      "type": "choice",
+      "label": "Rank",
+      "page": 1,
+      "box": {
+        "left": 22.4,
+        "top": 50.1,
+        "width": 63.3,
+        "height": 9.8
+      },
+      "options": [
+        "PFC",
+        "LCpl",
+        "Cpl",
+        "Sgt",
+        "SSgt",
+        "GySgt",
+        "MSgt",
+        "1stSgt",
+        "MGySgt",
+        "SgtMaj",
+        "SMMC",
+        "WO",
+        "Gunner",
+        "CWO2",
+        "CWO3",
+        "CWO4",
+        "CWO5",
+        "2ndLt",
+        "1stLt",
+        "Capt",
+        "Maj",
+        "LtCol",
+        "Col",
+        "BGen",
+        "MajGen",
+        "LtGen",
+        "Gen"
+      ]
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 9,
+      "rowStride": 32.41,
+      "editor": "grid",
+      "columns": {
+        "effectiveness": {
+          "type": "text",
+          "label": "AAR COMMENTS",
+          "page": 1,
+          "box": {
+            "left": 691.3,
+            "top": 410.4,
+            "width": 79.2,
+            "height": 25.2
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 10,
+      "rowStride": 32.41,
+      "editor": "grid",
+      "columns": {
+        "hazard": {
+          "type": "text",
+          "label": "LIST YOUR POSSIBLE HAZARDS HERE",
+          "page": 1,
+          "box": {
+            "left": 21.6,
+            "top": 442.8,
+            "width": 122.4,
+            "height": 25.2
+          }
+        },
+        "iniRisk": {
+          "type": "text",
+          "label": "RAC CODE",
+          "page": 1,
+          "box": {
+            "left": 151.2,
+            "top": 442.8,
+            "width": 50.4,
+            "height": 25.2
+          }
+        },
+        "cntrlFeatures": {
+          "type": "text",
+          "label": "THE LISTED HAZARD TO THE LEFT",
+          "page": 1,
+          "box": {
+            "left": 208.8,
+            "top": 442.8,
+            "width": 151.2,
+            "height": 25.2
+          }
+        },
+        "implement": {
+          "type": "text",
+          "label": "ANSWER THE ABOVE QUESTION",
+          "page": 1,
+          "box": {
+            "left": 432.1,
+            "top": 442.8,
+            "width": 122.4,
+            "height": 25.2
+          }
+        },
+        "supervise": {
+          "type": "text",
+          "label": "LIST YOUR SUPERVISORY TOOLS HERE",
+          "page": 1,
+          "box": {
+            "left": 561.7,
+            "top": 442.8,
+            "width": 122.4,
+            "height": 25.2
+          }
+        }
+      }
+    }
+  }
+}

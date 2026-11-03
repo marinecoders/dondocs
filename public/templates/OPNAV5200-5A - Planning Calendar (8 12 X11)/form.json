@@ -1,0 +1,496 @@
+{
+  "id": "opnav52005a",
+  "label": "OPNAV5200-5A - Planning Calendar (8 12 X11)",
+  "directory": "OPNAV5200-5A - Planning Calendar (8 12 X11)",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "month",
+        "month1",
+        "sunday1",
+        "monday1",
+        "tuesday1",
+        "wednesday1",
+        "thursday1",
+        "friday1",
+        "saturday1",
+        "sunday2",
+        "monday2",
+        "tuesday2",
+        "wednesday2",
+        "thursday2",
+        "friday2",
+        "saturday2",
+        "sunday3",
+        "monday3",
+        "tuesday3",
+        "wednesday3",
+        "thursday3",
+        "friday3",
+        "saturday3",
+        "sunday4",
+        "monday4",
+        "tuesday4",
+        "wednesday4",
+        "thursday4",
+        "friday4",
+        "saturday4",
+        "sunday5",
+        "monday5",
+        "tuesday5",
+        "wednesday5",
+        "thursday5",
+        "friday5",
+        "saturday5"
+      ]
+    }
+  ],
+  "fields": {
+    "month": {
+      "type": "text",
+      "label": "Enter the month.",
+      "page": 1,
+      "box": {
+        "left": 327.6,
+        "top": 568.5,
+        "width": 242.6,
+        "height": 24.1
+      }
+    },
+    "month1": {
+      "type": "text",
+      "label": "Enter the year.",
+      "page": 1,
+      "box": {
+        "left": 632.8,
+        "top": 568.5,
+        "width": 64.8,
+        "height": 24.1
+      }
+    },
+    "sunday1": {
+      "type": "text",
+      "label": "Enter the notes for Sunday.",
+      "page": 1,
+      "box": {
+        "left": 30.6,
+        "top": 491.4,
+        "width": 95.6,
+        "height": 78.3
+      },
+      "multiline": true
+    },
+    "monday1": {
+      "type": "text",
+      "label": "Enter the notes for Monday.",
+      "page": 1,
+      "box": {
+        "left": 136.2,
+        "top": 491.4,
+        "width": 95.6,
+        "height": 78.3
+      },
+      "multiline": true
+    },
+    "tuesday1": {
+      "type": "text",
+      "label": "Enter the notes for Tuesday.",
+      "page": 1,
+      "box": {
+        "left": 241.9,
+        "top": 491.4,
+        "width": 95.6,
+        "height": 78.3
+      },
+      "multiline": true
+    },
+    "wednesday1": {
+      "type": "text",
+      "label": "Enter the notes for Wednesday.",
+      "page": 1,
+      "box": {
+        "left": 347.6,
+        "top": 491.4,
+        "width": 95.6,
+        "height": 78.3
+      },
+      "multiline": true
+    },
+    "thursday1": {
+      "type": "text",
+      "label": "Enter the notes for Thursday.",
+      "page": 1,
+      "box": {
+        "left": 453.3,
+        "top": 491.4,
+        "width": 95.6,
+        "height": 78.3
+      },
+      "multiline": true
+    },
+    "friday1": {
+      "type": "text",
+      "label": "Enter the notes for Friday.",
+      "page": 1,
+      "box": {
+        "left": 559.7,
+        "top": 491.4,
+        "width": 95.6,
+        "height": 78.3
+      },
+      "multiline": true
+    },
+    "saturday1": {
+      "type": "text",
+      "label": "Enter the notes for Saturday.",
+      "page": 1,
+      "box": {
+        "left": 665.3,
+        "top": 491.4,
+        "width": 95.6,
+        "height": 78.3
+      },
+      "multiline": true
+    },
+    "sunday2": {
+      "type": "text",
+      "label": "Enter the notes for Sunday.",
+      "page": 1,
+      "box": {
+        "left": 30.6,
+        "top": 400.8,
+        "width": 95.6,
+        "height": 78.3
+      },
+      "multiline": true
+    },
+    "monday2": {
+      "type": "text",
+      "label": "Enter the notes for Monday.",
+      "page": 1,
+      "box": {
+        "left": 136.2,
+        "top": 400.8,
+        "width": 95.6,
+        "height": 78.3
+      },
+      "multiline": true
+    },
+    "tuesday2": {
+      "type": "text",
+      "label": "Enter the notes for Tuesday.",
+      "page": 1,
+      "box": {
+        "left": 241.9,
+        "top": 400.8,
+        "width": 95.6,
+        "height": 78.3
+      },
+      "multiline": true
+    },
+    "wednesday2": {
+      "type": "text",
+      "label": "Enter the notes for Wednesday.",
+      "page": 1,
+      "box": {
+        "left": 347.6,
+        "top": 400.8,
+        "width": 95.6,
+        "height": 78.3
+      },
+      "multiline": true
+    },
+    "thursday2": {
+      "type": "text",
+      "label": "Enter the notes for Thursday.",
+      "page": 1,
+      "box": {
+        "left": 453.3,
+        "top": 400.8,
+        "width": 95.6,
+        "height": 78.3
+      },
+      "multiline": true
+    },
+    "friday2": {
+      "type": "text",
+      "label": "Enter the notes for Friday.",
+      "page": 1,
+      "box": {
+        "left": 559.7,
+        "top": 400.8,
+        "width": 95.6,
+        "height": 78.3
+      },
+      "multiline": true
+    },
+    "saturday2": {
+      "type": "text",
+      "label": "Enter the notes for Saturday.",
+      "page": 1,
+      "box": {
+        "left": 665.3,
+        "top": 400.8,
+        "width": 95.6,
+        "height": 78.3
+      },
+      "multiline": true
+    },
+    "sunday3": {
+      "type": "text",
+      "label": "Enter the notes for Sunday.",
+      "page": 1,
+      "box": {
+        "left": 30.6,
+        "top": 310.9,
+        "width": 95.6,
+        "height": 78.3
+      },
+      "multiline": true
+    },
+    "monday3": {
+      "type": "text",
+      "label": "Enter the notes for Monday.",
+      "page": 1,
+      "box": {
+        "left": 136.2,
+        "top": 310.9,
+        "width": 95.6,
+        "height": 78.3
+      },
+      "multiline": true
+    },
+    "tuesday3": {
+      "type": "text",
+      "label": "Enter the notes for Tuesday.",
+      "page": 1,
+      "box": {
+        "left": 241.9,
+        "top": 310.9,
+        "width": 95.6,
+        "height": 78.3
+      },
+      "multiline": true
+    },
+    "wednesday3": {
+      "type": "text",
+      "label": "Enter the notes for Wednesday.",
+      "page": 1,
+      "box": {
+        "left": 347.6,
+        "top": 310.9,
+        "width": 95.6,
+        "height": 78.3
+      },
+      "multiline": true
+    },
+    "thursday3": {
+      "type": "text",
+      "label": "Enter the notes for Thursday.",
+      "page": 1,
+      "box": {
+        "left": 453.3,
+        "top": 310.9,
+        "width": 95.6,
+        "height": 78.3
+      },
+      "multiline": true
+    },
+    "friday3": {
+      "type": "text",
+      "label": "Enter the notes for Friday.",
+      "page": 1,
+      "box": {
+        "left": 559.7,
+        "top": 310.9,
+        "width": 95.6,
+        "height": 78.3
+      },
+      "multiline": true
+    },
+    "saturday3": {
+      "type": "text",
+      "label": "Enter the notes for Saturday.",
+      "page": 1,
+      "box": {
+        "left": 665.3,
+        "top": 310.9,
+        "width": 95.6,
+        "height": 78.3
+      },
+      "multiline": true
+    },
+    "sunday4": {
+      "type": "text",
+      "label": "Enter the notes for Sunday.",
+      "page": 1,
+      "box": {
+        "left": 30.6,
+        "top": 221.0,
+        "width": 95.6,
+        "height": 78.3
+      },
+      "multiline": true
+    },
+    "monday4": {
+      "type": "text",
+      "label": "Enter the notes for Monday.",
+      "page": 1,
+      "box": {
+        "left": 136.2,
+        "top": 221.0,
+        "width": 95.6,
+        "height": 78.3
+      },
+      "multiline": true
+    },
+    "tuesday4": {
+      "type": "text",
+      "label": "Enter the notes for Tuesday.",
+      "page": 1,
+      "box": {
+        "left": 241.9,
+        "top": 221.0,
+        "width": 95.6,
+        "height": 78.3
+      },
+      "multiline": true
+    },
+    "wednesday4": {
+      "type": "text",
+      "label": "Enter the notes for Wednesday.",
+      "page": 1,
+      "box": {
+        "left": 347.6,
+        "top": 221.0,
+        "width": 95.6,
+        "height": 78.3
+      },
+      "multiline": true
+    },
+    "thursday4": {
+      "type": "text",
+      "label": "Enter the notes for Thursday.",
+      "page": 1,
+      "box": {
+        "left": 453.3,
+        "top": 221.0,
+        "width": 95.6,
+        "height": 78.3
+      },
+      "multiline": true
+    },
+    "friday4": {
+      "type": "text",
+      "label": "Enter the notes for Friday.",
+      "page": 1,
+      "box": {
+        "left": 559.7,
+        "top": 221.0,
+        "width": 95.6,
+        "height": 78.3
+      },
+      "multiline": true
+    },
+    "saturday4": {
+      "type": "text",
+      "label": "Enter the notes for Saturday.",
+      "page": 1,
+      "box": {
+        "left": 665.3,
+        "top": 221.0,
+        "width": 95.6,
+        "height": 78.3
+      },
+      "multiline": true
+    },
+    "sunday5": {
+      "type": "text",
+      "label": "Enter the notes for Sunday.",
+      "page": 1,
+      "box": {
+        "left": 30.6,
+        "top": 129.7,
+        "width": 95.6,
+        "height": 78.3
+      },
+      "multiline": true
+    },
+    "monday5": {
+      "type": "text",
+      "label": "Enter the notes for Monday.",
+      "page": 1,
+      "box": {
+        "left": 136.2,
+        "top": 129.7,
+        "width": 95.6,
+        "height": 78.3
+      },
+      "multiline": true
+    },
+    "tuesday5": {
+      "type": "text",
+      "label": "Enter the notes for Tuesday.",
+      "page": 1,
+      "box": {
+        "left": 241.9,
+        "top": 129.7,
+        "width": 95.6,
+        "height": 78.3
+      },
+      "multiline": true
+    },
+    "wednesday5": {
+      "type": "text",
+      "label": "Enter the notes for Wednesday.",
+      "page": 1,
+      "box": {
+        "left": 347.6,
+        "top": 129.7,
+        "width": 95.6,
+        "height": 78.3
+      },
+      "multiline": true
+    },
+    "thursday5": {
+      "type": "text",
+      "label": "Enter the notes for Thursday.",
+      "page": 1,
+      "box": {
+        "left": 453.3,
+        "top": 129.7,
+        "width": 95.6,
+        "height": 78.3
+      },
+      "multiline": true
+    },
+    "friday5": {
+      "type": "text",
+      "label": "Enter the notes for Friday.",
+      "page": 1,
+      "box": {
+        "left": 559.7,
+        "top": 129.7,
+        "width": 95.6,
+        "height": 78.3
+      },
+      "multiline": true
+    },
+    "saturday5": {
+      "type": "text",
+      "label": "Enter the notes for Saturday.",
+      "page": 1,
+      "box": {
+        "left": 665.3,
+        "top": 129.7,
+        "width": 95.6,
+        "height": 78.3
+      },
+      "multiline": true
+    }
+  }
+}

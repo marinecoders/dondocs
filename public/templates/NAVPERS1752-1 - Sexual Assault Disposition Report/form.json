@@ -1,0 +1,711 @@
+{
+  "id": "navpers17521",
+  "label": "NAVPERS1752-1 - Sexual Assault Disposition Report",
+  "directory": "NAVPERS1752-1 - Sexual Assault Disposition Report",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "a1",
+        "a2",
+        "a3",
+        "a4",
+        "a5",
+        "radio",
+        "radio2",
+        "radio3",
+        "a8",
+        "radio4",
+        "radio5",
+        "radio6",
+        "medical",
+        "mental",
+        "chaplainspirit",
+        "alcoholdrug",
+        "none",
+        "other",
+        "otherfill",
+        "a11",
+        "radio7",
+        "radio8",
+        "radio9",
+        "radio10",
+        "radio11",
+        "b1",
+        "b2",
+        "b3",
+        "b4",
+        "b5",
+        "b6",
+        "b7",
+        "b9",
+        "b8",
+        "b11",
+        "b12",
+        "b10",
+        "c2field",
+        "c4"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "c7field",
+        "a",
+        "d",
+        "b",
+        "e",
+        "c",
+        "f"
+      ],
+      "editor": "checklist"
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "secEcommentfield"
+      ]
+    }
+  ],
+  "fields": {
+    "a1": {
+      "type": "text",
+      "label": "1. First Name",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 629.3,
+        "width": 246.3,
+        "height": 14.4
+      }
+    },
+    "a2": {
+      "type": "text",
+      "label": "2. MI",
+      "page": 1,
+      "box": {
+        "left": 290.9,
+        "top": 629.3,
+        "width": 30.2,
+        "height": 14.4
+      }
+    },
+    "a3": {
+      "type": "text",
+      "label": "3. Last Name",
+      "page": 1,
+      "box": {
+        "left": 326.9,
+        "top": 629.3,
+        "width": 246.3,
+        "height": 14.4
+      }
+    },
+    "a4": {
+      "type": "choice",
+      "label": "4. Affiliation",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 599.7,
+        "width": 172.8,
+        "height": 12.9
+      },
+      "options": [
+        "Army",
+        "Navy",
+        "Air Force",
+        "Marine Corps",
+        "DoD",
+        "Coast Guard",
+        "NOAA",
+        "Public Health",
+        "Unknown",
+        "Other:"
+      ]
+    },
+    "a5": {
+      "type": "choice",
+      "label": "5. Pay Grade",
+      "page": 1,
+      "box": {
+        "left": 219.7,
+        "top": 599.7,
+        "width": 82.8,
+        "height": 12.9
+      },
+      "options": [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5",
+        "E6",
+        "E7",
+        "E8",
+        "E9",
+        "E10",
+        "Midshipmen 1 ",
+        "Midshipmen 2 ",
+        "Midshipmen 3 ",
+        "Midshipmen 4 ",
+        "W1 ",
+        "W2 ",
+        "W3",
+        "W4",
+        "W5",
+        "O1",
+        "O2",
+        "O3",
+        "O4",
+        "O5",
+        "O6",
+        "O7",
+        "O8",
+        "O9",
+        "O10"
+      ]
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 334.1,
+        "top": 598.0,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 377.3,
+        "top": 598.0,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 420.5,
+        "top": 598.0,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "radio"
+    },
+    "a8": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 571.7,
+        "width": 264.3,
+        "height": 14.4
+      }
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 64.1,
+        "top": 569.2,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "radio"
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 107.3,
+        "top": 569.2,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 150.5,
+        "top": 569.2,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "radio"
+    },
+    "medical": {
+      "type": "checkbox",
+      "label": "Medical",
+      "page": 1,
+      "box": {
+        "left": 43.5,
+        "top": 535.8,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "mental": {
+      "type": "checkbox",
+      "label": "Medical",
+      "page": 1,
+      "box": {
+        "left": 107.6,
+        "top": 535.8,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "chaplainspirit": {
+      "type": "checkbox",
+      "label": "Mental Health",
+      "page": 1,
+      "box": {
+        "left": 189.7,
+        "top": 535.8,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "alcoholdrug": {
+      "type": "checkbox",
+      "label": "Chaplain/Spiritual Support",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 535.8,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "none": {
+      "type": "checkbox",
+      "label": "Alcohol/Drug Counseling",
+      "page": 1,
+      "box": {
+        "left": 461.9,
+        "top": 535.8,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "other": {
+      "type": "checkbox",
+      "label": "None",
+      "page": 1,
+      "box": {
+        "left": 525.9,
+        "top": 535.8,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "otherfill": {
+      "type": "text",
+      "label": "If other, enter information as appropriate",
+      "page": 1,
+      "box": {
+        "left": 190.1,
+        "top": 519.1,
+        "width": 383.1,
+        "height": 12.2
+      }
+    },
+    "a11": {
+      "type": "choice",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 255.7,
+        "top": 482.3,
+        "width": 136.8,
+        "height": 14.3
+      },
+      "options": [
+        "Current Command",
+        "Previous Command",
+        "Unknown"
+      ]
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 64.1,
+        "top": 479.2,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "radio"
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 107.3,
+        "top": 479.2,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "radio"
+    },
+    "radio9": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 427.7,
+        "top": 479.2,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "radio"
+    },
+    "radio10": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 479.2,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "radio"
+    },
+    "radio11": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 514.1,
+        "top": 479.2,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "radio"
+    },
+    "b1": {
+      "type": "text",
+      "label": "1. CO First Name",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 427.6,
+        "width": 246.3,
+        "height": 14.4
+      }
+    },
+    "b2": {
+      "type": "text",
+      "label": "2. MI",
+      "page": 1,
+      "box": {
+        "left": 290.9,
+        "top": 427.6,
+        "width": 30.2,
+        "height": 14.4
+      }
+    },
+    "b3": {
+      "type": "text",
+      "label": "3. CO Last Name",
+      "page": 1,
+      "box": {
+        "left": 326.9,
+        "top": 427.6,
+        "width": 246.3,
+        "height": 14.4
+      }
+    },
+    "b4": {
+      "type": "choice",
+      "label": "4. Affiliation",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 398.1,
+        "width": 262.8,
+        "height": 12.9
+      },
+      "options": [
+        "Army",
+        "Navy",
+        "Air Force",
+        "Marine Corps",
+        "DoD",
+        "Coast Guard",
+        "NOAA",
+        "Public Health",
+        "Unknown",
+        "Other:"
+      ]
+    },
+    "b5": {
+      "type": "choice",
+      "label": "5. Pay Grade",
+      "page": 1,
+      "box": {
+        "left": 309.7,
+        "top": 398.0,
+        "width": 261.3,
+        "height": 12.9
+      },
+      "options": [
+        "W1",
+        "W2",
+        "W3",
+        "W4",
+        "W5",
+        "O1",
+        "O2",
+        "O3",
+        "O4",
+        "O5",
+        "O6",
+        "O7",
+        "O8",
+        "O9",
+        "O10"
+      ]
+    },
+    "b6": {
+      "type": "text",
+      "label": "6. E-mail Address",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 370.0,
+        "width": 390.3,
+        "height": 14.4
+      }
+    },
+    "b7": {
+      "type": "text",
+      "label": "7. Telephone Number",
+      "page": 1,
+      "box": {
+        "left": 434.9,
+        "top": 370.0,
+        "width": 138.3,
+        "height": 14.4
+      }
+    },
+    "b9": {
+      "type": "text",
+      "label": "9. JAG E-mail Address",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 341.0,
+        "width": 264.3,
+        "height": 14.2
+      }
+    },
+    "b8": {
+      "type": "choice",
+      "label": "8. JAG Consulted",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 340.5,
+        "width": 262.8,
+        "height": 12.9
+      },
+      "options": [
+        "TRIAL COUNSEL",
+        "STAFF JUDGE ADVOCATE",
+        "TRIAL COUNSEL & SJA"
+      ]
+    },
+    "b11": {
+      "type": "text",
+      "label": "11. MI",
+      "page": 1,
+      "box": {
+        "left": 290.9,
+        "top": 312.4,
+        "width": 30.2,
+        "height": 14.4
+      }
+    },
+    "b12": {
+      "type": "text",
+      "label": "12. JAG Last Name",
+      "page": 1,
+      "box": {
+        "left": 326.9,
+        "top": 312.4,
+        "width": 246.3,
+        "height": 14.4
+      }
+    },
+    "b10": {
+      "type": "text",
+      "label": "10. JAG First Name",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 312.2,
+        "width": 246.3,
+        "height": 14.2
+      }
+    },
+    "c2field": {
+      "type": "text",
+      "label": "2. DoD Action Decision Date",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 258.4,
+        "width": 264.3,
+        "height": 14.4
+      }
+    },
+    "c4": {
+      "type": "text",
+      "label": "4. DSAID Control Number: (Can be obtained from SARC)",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 229.6,
+        "width": 264.3,
+        "height": 14.4
+      }
+    },
+    "c7field": {
+      "type": "text",
+      "label": "Advocate\u2019s recommendations .)",
+      "page": 2,
+      "box": {
+        "left": 43.2,
+        "top": 680.5,
+        "width": 525.7,
+        "height": 73.8
+      },
+      "multiline": true
+    },
+    "a": {
+      "type": "checkbox",
+      "label": "A",
+      "page": 2,
+      "box": {
+        "left": 47.0,
+        "top": 503.6,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "d": {
+      "type": "checkbox",
+      "label": "a. Offender Outside DoD\u2019S Legal Authority",
+      "page": 2,
+      "box": {
+        "left": 274.0,
+        "top": 503.6,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "b": {
+      "type": "checkbox",
+      "label": "B",
+      "page": 2,
+      "box": {
+        "left": 47.0,
+        "top": 485.6,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "e": {
+      "type": "checkbox",
+      "label": "b. Command Action Precluded",
+      "page": 2,
+      "box": {
+        "left": 274.0,
+        "top": 485.6,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "c": {
+      "type": "checkbox",
+      "label": "C",
+      "page": 2,
+      "box": {
+        "left": 47.0,
+        "top": 467.6,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "f": {
+      "type": "checkbox",
+      "label": "c. Court-Martial Charge Preferred",
+      "page": 2,
+      "box": {
+        "left": 274.0,
+        "top": 467.6,
+        "width": 6.0,
+        "height": 6.0
+      }
+    },
+    "secEcommentfield": {
+      "type": "text",
+      "label": "Sec Ecommentfield",
+      "page": 3,
+      "box": {
+        "left": 38.9,
+        "top": 717.1,
+        "width": 534.3,
+        "height": 426.3
+      },
+      "multiline": true
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 4,
+      "rowStride": 28.57,
+      "editor": "grid",
+      "columns": {
+        "c": {
+          "type": "choice",
+          "label": "1. Was alcohol a factor in the incident?",
+          "page": 1,
+          "box": {
+            "left": 39.6,
+            "top": 257.7,
+            "width": 262.8,
+            "height": 12.9
+          }
+        }
+      }
+    }
+  }
+}

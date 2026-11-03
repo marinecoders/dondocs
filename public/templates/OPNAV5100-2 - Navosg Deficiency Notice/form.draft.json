@@ -1,0 +1,263 @@
+{
+  "id": "opnav51002",
+  "label": "OPNAV5100-2 - Navosg Deficiency Notice",
+  "directory": "OPNAV5100-2 - Navosg Deficiency Notice",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "7",
+        "6",
+        "9",
+        "8",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "16",
+        "15",
+        "17",
+        "18",
+        "19",
+        "20"
+      ]
+    }
+  ],
+  "fields": {
+    "1": {
+      "type": "text",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 77.3,
+        "top": 648.1,
+        "width": 226.9,
+        "height": 13.4
+      }
+    },
+    "2": {
+      "type": "text",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 312.6,
+        "top": 648.1,
+        "width": 227.7,
+        "height": 14.3
+      }
+    },
+    "3": {
+      "type": "text",
+      "label": "3",
+      "page": 1,
+      "box": {
+        "left": 126.1,
+        "top": 633.0,
+        "width": 179.0,
+        "height": 22.7
+      }
+    },
+    "4": {
+      "type": "text",
+      "label": "4",
+      "page": 1,
+      "box": {
+        "left": 352.9,
+        "top": 629.6,
+        "width": 183.2,
+        "height": 18.5
+      }
+    },
+    "5": {
+      "type": "text",
+      "label": "5",
+      "page": 1,
+      "box": {
+        "left": 77.3,
+        "top": 596.8,
+        "width": 459.7,
+        "height": 39.5
+      },
+      "multiline": true
+    },
+    "7": {
+      "type": "text",
+      "label": "7",
+      "page": 1,
+      "box": {
+        "left": 337.0,
+        "top": 552.3,
+        "width": 203.4,
+        "height": 17.6
+      }
+    },
+    "6": {
+      "type": "text",
+      "label": "6",
+      "page": 1,
+      "box": {
+        "left": 82.4,
+        "top": 544.7,
+        "width": 221.9,
+        "height": 10.9
+      }
+    },
+    "9": {
+      "type": "text",
+      "label": "9",
+      "page": 1,
+      "box": {
+        "left": 335.3,
+        "top": 528.8,
+        "width": 203.4,
+        "height": 20.2
+      }
+    },
+    "8": {
+      "type": "text",
+      "label": "8",
+      "page": 1,
+      "box": {
+        "left": 129.4,
+        "top": 527.9,
+        "width": 174.8,
+        "height": 19.3
+      }
+    },
+    "10": {
+      "type": "text",
+      "label": "10",
+      "page": 1,
+      "box": {
+        "left": 78.2,
+        "top": 473.3,
+        "width": 459.7,
+        "height": 64.7
+      },
+      "multiline": true
+    },
+    "11": {
+      "type": "text",
+      "label": "11",
+      "page": 1,
+      "box": {
+        "left": 77.3,
+        "top": 379.2,
+        "width": 226.9,
+        "height": 79.0
+      },
+      "multiline": true
+    },
+    "12": {
+      "type": "text",
+      "label": "12",
+      "page": 1,
+      "box": {
+        "left": 316.8,
+        "top": 369.9,
+        "width": 219.3,
+        "height": 47.9
+      },
+      "multiline": true
+    },
+    "13": {
+      "type": "text",
+      "label": "13",
+      "page": 1,
+      "box": {
+        "left": 315.1,
+        "top": 307.8,
+        "width": 105.9,
+        "height": 10.9
+      }
+    },
+    "14": {
+      "type": "text",
+      "label": "14",
+      "page": 1,
+      "box": {
+        "left": 430.3,
+        "top": 307.8,
+        "width": 110.1,
+        "height": 10.9
+      }
+    },
+    "16": {
+      "type": "text",
+      "label": "16",
+      "page": 1,
+      "box": {
+        "left": 335.3,
+        "top": 278.3,
+        "width": 201.7,
+        "height": 25.2
+      }
+    },
+    "15": {
+      "type": "text",
+      "label": "15",
+      "page": 1,
+      "box": {
+        "left": 79.8,
+        "top": 268.3,
+        "width": 221.0,
+        "height": 54.6
+      },
+      "multiline": true
+    },
+    "17": {
+      "type": "text",
+      "label": "17",
+      "page": 1,
+      "box": {
+        "left": 338.7,
+        "top": 233.0,
+        "width": 80.7,
+        "height": 19.3
+      }
+    },
+    "18": {
+      "type": "text",
+      "label": "18",
+      "page": 1,
+      "box": {
+        "left": 464.7,
+        "top": 233.0,
+        "width": 74.0,
+        "height": 17.6
+      }
+    },
+    "19": {
+      "type": "text",
+      "label": "19",
+      "page": 1,
+      "box": {
+        "left": 121.0,
+        "top": 208.6,
+        "width": 416.0,
+        "height": 19.3
+      }
+    },
+    "20": {
+      "type": "text",
+      "label": "20",
+      "page": 1,
+      "box": {
+        "left": 77.3,
+        "top": 169.1,
+        "width": 463.0,
+        "height": 63.9
+      },
+      "multiline": true
+    }
+  }
+}

@@ -1,0 +1,659 @@
+{
+  "id": "navpers130030",
+  "label": "NAVPERS1300-30 - NAVY Reserve Definite Pre-Reporting Checklist",
+  "directory": "NAVPERS1300-30 - NAVY Reserve Definite Pre-Reporting Checklist",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "rr",
+        "recallAss",
+        "recallDate",
+        "recallDD",
+        "yes",
+        "no",
+        "yes2",
+        "no2",
+        "na",
+        "sECName",
+        "sECSig",
+        "sECDate",
+        "gTCCName",
+        "gTCCSig",
+        "gTCCDate",
+        "yes6",
+        "no6",
+        "yes7",
+        "no7",
+        "mEDName",
+        "mEDSig",
+        "mEDDate",
+        "yes8",
+        "no8"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "cFLName",
+        "cFLSig",
+        "cFLDate",
+        "name2",
+        "rr2",
+        "yes9",
+        "no9",
+        "cFSName",
+        "cFSSig",
+        "cFSDate",
+        "yes10",
+        "no10",
+        "mPName",
+        "mPSig",
+        "mPDate",
+        "yes11",
+        "no11",
+        "cCCName",
+        "cCCSig",
+        "cCCDate",
+        "row1"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "nRAName",
+        "nRASig",
+        "nRADate"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "Full Name (Last, First Middle)",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 706.3,
+        "width": 426.2,
+        "height": 19.4
+      }
+    },
+    "rr": {
+      "type": "text",
+      "label": "Rank/Rating",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 706.3,
+        "width": 102.2,
+        "height": 19.4
+      }
+    },
+    "recallAss": {
+      "type": "text",
+      "label": "Recall Assignment",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 670.3,
+        "width": 174.3,
+        "height": 19.4
+      }
+    },
+    "recallDate": {
+      "type": "text",
+      "label": "Recall Start Date",
+      "page": 1,
+      "box": {
+        "left": 398.9,
+        "top": 670.3,
+        "width": 174.3,
+        "height": 19.4
+      }
+    },
+    "recallDD": {
+      "type": "choice",
+      "label": "Recall Program",
+      "page": 1,
+      "box": {
+        "left": 39.1,
+        "top": 670.1,
+        "width": 173.8,
+        "height": 18.9
+      },
+      "options": [
+        "Officer MPN",
+        "Officer RPN",
+        "Officer Recruiting",
+        "Enlisted MPN",
+        "Enlisted RPN/AWS",
+        "Enlisted Recruiting"
+      ]
+    },
+    "yes": {
+      "type": "checkbox",
+      "label": "form,",
+      "page": 1,
+      "box": {
+        "left": 471.9,
+        "top": 409.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 525.9,
+        "top": 409.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "yes2": {
+      "type": "checkbox",
+      "label": "incident",
+      "page": 1,
+      "box": {
+        "left": 417.9,
+        "top": 374.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no2": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 471.9,
+        "top": 374.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "na": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 525.9,
+        "top": 374.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "sECName": {
+      "type": "text",
+      "label": "Security Manager Name and Rank/Rating",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 342.7,
+        "width": 228.3,
+        "height": 19.4
+      }
+    },
+    "sECSig": {
+      "type": "text",
+      "label": "Security Manager Signature",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 342.7,
+        "width": 228.3,
+        "height": 19.4
+      }
+    },
+    "sECDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 342.7,
+        "width": 66.2,
+        "height": 19.4
+      }
+    },
+    "gTCCName": {
+      "type": "text",
+      "label": "GTCC Manager Name and Rank/Rating",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 228.0,
+        "width": 228.3,
+        "height": 20.1
+      }
+    },
+    "gTCCSig": {
+      "type": "text",
+      "label": "GTCC Manager Signature",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 227.3,
+        "width": 228.3,
+        "height": 19.4
+      }
+    },
+    "gTCCDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 227.3,
+        "width": 66.2,
+        "height": 19.4
+      }
+    },
+    "yes6": {
+      "type": "checkbox",
+      "label": "form,",
+      "page": 1,
+      "box": {
+        "left": 471.9,
+        "top": 189.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no6": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 525.9,
+        "top": 189.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "yes7": {
+      "type": "checkbox",
+      "label": "form,",
+      "page": 1,
+      "box": {
+        "left": 471.9,
+        "top": 155.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no7": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 525.9,
+        "top": 155.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "mEDName": {
+      "type": "text",
+      "label": "Medical Department Representative Name and Rank/Rating",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 122.9,
+        "width": 228.3,
+        "height": 19.4
+      }
+    },
+    "mEDSig": {
+      "type": "text",
+      "label": "Medical Department Representative Signature",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 122.9,
+        "width": 228.3,
+        "height": 19.4
+      }
+    },
+    "mEDDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 122.9,
+        "width": 66.2,
+        "height": 19.4
+      }
+    },
+    "yes8": {
+      "type": "checkbox",
+      "label": "form,",
+      "page": 1,
+      "box": {
+        "left": 471.9,
+        "top": 90.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no8": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 525.9,
+        "top": 90.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cFLName": {
+      "type": "text",
+      "label": "CFL/ACFL Name and Rank/Rating",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 706.3,
+        "width": 228.3,
+        "height": 19.4
+      }
+    },
+    "cFLSig": {
+      "type": "text",
+      "label": "CFL/AFCL Signature",
+      "page": 2,
+      "box": {
+        "left": 272.9,
+        "top": 706.3,
+        "width": 228.3,
+        "height": 19.4
+      }
+    },
+    "cFLDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 506.9,
+        "top": 706.3,
+        "width": 66.2,
+        "height": 19.4
+      }
+    },
+    "name2": {
+      "type": "text",
+      "label": "Full Name (Last, First Middle)",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 670.3,
+        "width": 426.2,
+        "height": 19.4
+      }
+    },
+    "rr2": {
+      "type": "text",
+      "label": "Rank/Rating",
+      "page": 2,
+      "box": {
+        "left": 470.9,
+        "top": 670.3,
+        "width": 102.2,
+        "height": 19.4
+      }
+    },
+    "yes9": {
+      "type": "checkbox",
+      "label": "Rank/Rating",
+      "page": 2,
+      "box": {
+        "left": 471.9,
+        "top": 598.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no9": {
+      "type": "checkbox",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 525.9,
+        "top": 598.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cFSName": {
+      "type": "text",
+      "label": "Command Financial Specialist (CFS) Name and Rank/Rating",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 555.1,
+        "width": 228.3,
+        "height": 19.4
+      }
+    },
+    "cFSSig": {
+      "type": "text",
+      "label": "CFS Signature",
+      "page": 2,
+      "box": {
+        "left": 272.9,
+        "top": 555.1,
+        "width": 228.3,
+        "height": 19.4
+      }
+    },
+    "cFSDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 506.9,
+        "top": 555.1,
+        "width": 66.2,
+        "height": 19.4
+      }
+    },
+    "yes10": {
+      "type": "checkbox",
+      "label": "Rank/Rating",
+      "page": 2,
+      "box": {
+        "left": 471.9,
+        "top": 511.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no10": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 2,
+      "box": {
+        "left": 525.9,
+        "top": 511.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "mPName": {
+      "type": "text",
+      "label": "Manpower Representative Name and Rank/Rating",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 468.7,
+        "width": 228.3,
+        "height": 19.4
+      }
+    },
+    "mPSig": {
+      "type": "text",
+      "label": "Manpower Representative Signature",
+      "page": 2,
+      "box": {
+        "left": 272.9,
+        "top": 468.7,
+        "width": 228.3,
+        "height": 19.4
+      }
+    },
+    "mPDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 506.9,
+        "top": 468.7,
+        "width": 66.2,
+        "height": 19.4
+      }
+    },
+    "yes11": {
+      "type": "checkbox",
+      "label": "11. Has the ORDMOD in the RFMT Backlog been verified",
+      "page": 2,
+      "box": {
+        "left": 471.9,
+        "top": 439.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no11": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 2,
+      "box": {
+        "left": 525.9,
+        "top": 439.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cCCName": {
+      "type": "text",
+      "label": "Command Career Counselor (CCC) Name and Rating",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 411.1,
+        "width": 228.3,
+        "height": 19.4
+      }
+    },
+    "cCCSig": {
+      "type": "text",
+      "label": "CCC Signature",
+      "page": 2,
+      "box": {
+        "left": 272.9,
+        "top": 411.1,
+        "width": 228.3,
+        "height": 19.4
+      }
+    },
+    "cCCDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 506.9,
+        "top": 411.1,
+        "width": 66.2,
+        "height": 19.4
+      }
+    },
+    "row1": {
+      "type": "text",
+      "label": "Row 1",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 375.1,
+        "width": 534.3,
+        "height": 271.5
+      },
+      "multiline": true
+    },
+    "nRAName": {
+      "type": "text",
+      "label": "Name and Rank",
+      "page": 3,
+      "box": {
+        "left": 38.9,
+        "top": 641.5,
+        "width": 228.3,
+        "height": 19.4
+      }
+    },
+    "nRASig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 3,
+      "box": {
+        "left": 272.9,
+        "top": 641.5,
+        "width": 228.3,
+        "height": 19.4
+      }
+    },
+    "nRADate": {
+      "type": "text",
+      "label": "Date",
+      "page": 3,
+      "box": {
+        "left": 506.9,
+        "top": 641.5,
+        "width": 66.2,
+        "height": 19.4
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 25.25,
+      "editor": "grid",
+      "columns": {
+        "yes": {
+          "type": "checkbox",
+          "label": "form,",
+          "page": 1,
+          "box": {
+            "left": 473.3,
+            "top": 309.9,
+            "width": 8.0,
+            "height": 8.0
+          }
+        },
+        "no": {
+          "type": "checkbox",
+          "label": "Yes",
+          "page": 1,
+          "box": {
+            "left": 518.5,
+            "top": 309.9,
+            "width": 8.0,
+            "height": 8.0
+          }
+        }
+      }
+    }
+  }
+}

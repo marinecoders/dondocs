@@ -1,0 +1,99 @@
+{
+  "id": "navmc11534",
+  "label": "NAVMC11534 - Service Agreement (1100) Officer Candidate Class (reserve) - Ground",
+  "directory": "NAVMC11534 - Service Agreement (1100) Officer Candidate Class (reserve) - Ground",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "nameAppl"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "signatureField1",
+        "signatureField12",
+        "witnessName",
+        "applicantName",
+        "date"
+      ]
+    }
+  ],
+  "fields": {
+    "nameAppl": {
+      "type": "text",
+      "label": "LAST NAME, FIRST AND MIDDLE INITIAL OF APPLICANT",
+      "page": 1,
+      "box": {
+        "left": 74.8,
+        "top": 69.5,
+        "width": 462.4,
+        "height": 18.3
+      }
+    },
+    "signatureField1": {
+      "type": "text",
+      "label": "a copy of this document",
+      "page": 2,
+      "box": {
+        "left": 92.8,
+        "top": 312.1,
+        "width": 210.4,
+        "height": 34.2
+      },
+      "multiline": true
+    },
+    "signatureField12": {
+      "type": "text",
+      "label": "GROUND program except as specified above. I acknowledge",
+      "page": 2,
+      "box": {
+        "left": 344.9,
+        "top": 312.1,
+        "width": 210.4,
+        "height": 31.8
+      },
+      "multiline": true
+    },
+    "witnessName": {
+      "type": "text",
+      "label": "Signature of Witnessing Officer",
+      "page": 2,
+      "box": {
+        "left": 92.8,
+        "top": 236.1,
+        "width": 210.4,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "applicantName": {
+      "type": "text",
+      "label": "Signature of Applicant",
+      "page": 2,
+      "box": {
+        "left": 344.9,
+        "top": 236.1,
+        "width": 210.4,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "date": {
+      "type": "text",
+      "label": "Full Name of Applicant",
+      "page": 2,
+      "box": {
+        "left": 344.9,
+        "top": 164.1,
+        "width": 210.4,
+        "height": 20.7
+      }
+    }
+  }
+}

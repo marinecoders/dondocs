@@ -1,0 +1,333 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "software": {
+        "left": 170.5,
+        "top": 703.8,
+        "width": 401.9,
+        "height": 18.0,
+        "type": "text",
+        "description": "Survey Software for RPDA Version:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "station": {
+        "left": 215.8,
+        "top": 642.6,
+        "width": 356.6,
+        "height": 10.8,
+        "type": "text",
+        "description": "ENTER STATION NAME:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ellipsoid": {
+        "left": 215.8,
+        "top": 624.6,
+        "width": 356.6,
+        "height": 10.8,
+        "type": "choice",
+        "description": "ENTER ELLIPSOID:",
+        "options": [
+          "1 - CLARK 1866",
+          "2 - INTERNATIONAL",
+          "3 - CLARK 1880",
+          "4 - EVEREST",
+          "5 - BESSEL",
+          "6 - AUSTRALIAN",
+          "7 - WGS 72",
+          "8 - GRS 80",
+          "9 - WGS 84"
+        ],
+        "group": null,
+        "required": false
+      },
+      "easting": {
+        "left": 215.8,
+        "top": 606.6,
+        "width": 356.6,
+        "height": 10.8,
+        "type": "text",
+        "description": "ENTER KNOWN EASTING:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "northing": {
+        "left": 215.8,
+        "top": 588.6,
+        "width": 356.6,
+        "height": 10.8,
+        "type": "text",
+        "description": "ENTER KNOWN NORTHING:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "latitude": {
+        "left": 215.8,
+        "top": 570.6,
+        "width": 356.6,
+        "height": 10.8,
+        "type": "text",
+        "description": "ENTER LATITUDE (N/S):",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "gridZone": {
+        "left": 215.8,
+        "top": 552.6,
+        "width": 356.6,
+        "height": 10.8,
+        "type": "text",
+        "description": "ENTER UTM GRID ZONE (1-60):",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "star": {
+        "left": 215.8,
+        "top": 516.6,
+        "width": 356.6,
+        "height": 10.8,
+        "type": "text",
+        "description": "ENTER STAR #  (SUN = 0):",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "timeZone": {
+        "left": 215.8,
+        "top": 498.6,
+        "width": 356.6,
+        "height": 10.8,
+        "type": "choice",
+        "description": "ENTER TIME ZONE LETTER:",
+        "options": [
+          "A",
+          "B",
+          "C",
+          "D",
+          "E",
+          "F",
+          "G",
+          "H",
+          "I",
+          "J",
+          "K",
+          "L",
+          "M",
+          "N",
+          "O",
+          "P",
+          "Q",
+          "R",
+          "S",
+          "T",
+          "U",
+          "V",
+          "W",
+          "X",
+          "Y",
+          "Z"
+        ],
+        "group": null,
+        "required": false
+      },
+      "daylightSavings": {
+        "left": 215.8,
+        "top": 480.6,
+        "width": 356.6,
+        "height": 10.8,
+        "type": "choice",
+        "description": "ENTER DAYLIGHT SAVINGS:",
+        "options": [
+          "Y",
+          "N"
+        ],
+        "group": null,
+        "required": false
+      },
+      "observationDate": {
+        "left": 215.8,
+        "top": 462.6,
+        "width": 356.6,
+        "height": 10.8,
+        "type": "text",
+        "description": "ENTER OBSERVATION DATE:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "timeInput1": {
+        "left": 219.6,
+        "top": 411.4,
+        "width": 172.8,
+        "height": 18.0,
+        "type": "text",
+        "description": "TimeInput1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "timeInput2": {
+        "left": 399.6,
+        "top": 411.4,
+        "width": 172.8,
+        "height": 18.0,
+        "type": "text",
+        "description": "TimeInput2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "aimingInput1": {
+        "left": 219.6,
+        "top": 386.2,
+        "width": 172.8,
+        "height": 18.0,
+        "type": "text",
+        "description": "AimingInput1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "aimingInput2": {
+        "left": 399.6,
+        "top": 386.2,
+        "width": 172.8,
+        "height": 18.0,
+        "type": "text",
+        "description": "AimingInput2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recordMark": {
+        "left": 296.8,
+        "top": 343.0,
+        "width": 275.6,
+        "height": 10.8,
+        "type": "text",
+        "description": "RECORD COMPUTED AZIMUTH TO AZIMUTH MARK:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recordAngle": {
+        "left": 296.8,
+        "top": 325.0,
+        "width": 275.6,
+        "height": 10.8,
+        "type": "text",
+        "description": "RECORD CHECK ANGLE:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks": {
+        "left": 39.6,
+        "top": 296.2,
+        "width": 532.8,
+        "height": 193.6,
+        "type": "text",
+        "description": "REMARKS:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "computer": {
+        "left": 90.2,
+        "top": 95.4,
+        "width": 122.2,
+        "height": 10.8,
+        "type": "text",
+        "description": "COMPUTER:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checker": {
+        "left": 261.1,
+        "top": 95.4,
+        "width": 221.3,
+        "height": 10.8,
+        "type": "text",
+        "description": "CHECKER:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date": {
+        "left": 513.7,
+        "top": 95.4,
+        "width": 58.7,
+        "height": 10.8,
+        "type": "text",
+        "description": "DATE:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "locality": {
+        "left": 90.2,
+        "top": 77.4,
+        "width": 122.2,
+        "height": 10.8,
+        "type": "text",
+        "description": "LOCALITY:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fileName": {
+        "left": 301.8,
+        "top": 77.4,
+        "width": 180.6,
+        "height": 10.8,
+        "type": "text",
+        "description": "ARCHIVE FILE NAME:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sheet": {
+        "left": 528.4,
+        "top": 77.4,
+        "width": 10.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Sheet",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "of": {
+        "left": 561.6,
+        "top": 77.4,
+        "width": 10.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "Of",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

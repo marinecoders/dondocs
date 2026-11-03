@@ -1,0 +1,1259 @@
+{
+  "id": "navmc11666",
+  "label": "NAVMC11666 - New Join Worksheet",
+  "directory": "NAVMC11666 - New Join Worksheet",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 2",
+      "fields": [
+        "enterName",
+        "enterGrade",
+        "enterSSN",
+        "enterMOS",
+        "enterAddress",
+        "enterPhoneH",
+        "enterPhoneO",
+        "rECode",
+        "enterPhoneC",
+        "enterEmail",
+        "enterProofS",
+        "enterHT",
+        "enterWT",
+        "enterBF",
+        "radioButtonList",
+        "radioButtonList2",
+        "radioButtonList3",
+        "radioButtonList4",
+        "radioButtonList5",
+        "radioButtonList6",
+        "privacyactcb",
+        "isccb",
+        "relmcb",
+        "tatcb",
+        "dd4cb",
+        "tatwaivercb",
+        "coverlettercb",
+        "dd369cb",
+        "compwrkscb",
+        "cell1cb",
+        "cell2",
+        "cell4cb",
+        "cell4",
+        "dd2807cb",
+        "extensioncb",
+        "dd2808cb",
+        "meddocscb",
+        "cell5cb",
+        "cell5",
+        "cell2cb",
+        "cell22",
+        "retrainreqcb",
+        "dd214cb",
+        "retrainapprvcb",
+        "cell6cb",
+        "qcrecb",
+        "cell6",
+        "qcaccb",
+        "arcb",
+        "rt07cb",
+        "imacb",
+        "rt02cb",
+        "enlmcb",
+        "cell7cb",
+        "cell7",
+        "soucb",
+        "bonuscb",
+        "dd368cb",
+        "reddcb",
+        "cell9cb",
+        "cell8",
+        "coscb",
+        "cell99cb",
+        "cell3cb",
+        "cell23",
+        "cell9",
+        "bmos1",
+        "unitRUC",
+        "enterCID",
+        "pEFCode",
+        "enterClassnum",
+        "enterClassDate",
+        "enterBonustype",
+        "enterBonusnum",
+        "enterBIC",
+        "enterQSN",
+        "unitRUC2",
+        "bmos12",
+        "applicSign",
+        "date1",
+        "bmos13",
+        "unitRepSign",
+        "date12",
+        "unitRepRank",
+        "unitRepTitle"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "date2",
+        "recruiterName",
+        "recruiterSig",
+        "date3",
+        "sNCOICSig",
+        "sNCOICName",
+        "rIDate",
+        "rISig",
+        "oPSChiefName",
+        "enterName2",
+        "enterSSN2",
+        "unitRejectStat",
+        "rejectDate",
+        "unitRepSign2",
+        "unitRepRank2"
+      ]
+    }
+  ],
+  "fields": {
+    "enterName": {
+      "type": "text",
+      "label": "EnterName",
+      "page": 2,
+      "box": {
+        "left": 19.4,
+        "top": 713.0,
+        "width": 325.5,
+        "height": 15.2
+      }
+    },
+    "enterGrade": {
+      "type": "choice",
+      "label": "EnterGrade",
+      "page": 2,
+      "box": {
+        "left": 347.8,
+        "top": 713.0,
+        "width": 69.3,
+        "height": 15.2
+      },
+      "options": [
+        "E-1",
+        "E-2",
+        "E-3",
+        "E-4",
+        "E-5",
+        "E-6",
+        "E-7",
+        "E-8",
+        "E-8(M)",
+        "E-9",
+        "E-9(M)",
+        "O1",
+        "O10",
+        "O2",
+        "O3",
+        "O4",
+        "O5",
+        "O6",
+        "O7",
+        "O8",
+        "O9",
+        "W-1",
+        "W-2",
+        "W-3",
+        "W-4",
+        "W-5"
+      ]
+    },
+    "enterSSN": {
+      "type": "text",
+      "label": "EnterSSN",
+      "page": 2,
+      "box": {
+        "left": 419.9,
+        "top": 713.0,
+        "width": 105.3,
+        "height": 15.2
+      }
+    },
+    "enterMOS": {
+      "type": "text",
+      "label": "EnterMOS",
+      "page": 2,
+      "box": {
+        "left": 528.1,
+        "top": 713.0,
+        "width": 63.9,
+        "height": 15.2
+      }
+    },
+    "enterAddress": {
+      "type": "text",
+      "label": "EnterAddress",
+      "page": 2,
+      "box": {
+        "left": 19.4,
+        "top": 681.4,
+        "width": 288.8,
+        "height": 28.1
+      }
+    },
+    "enterPhoneH": {
+      "type": "text",
+      "label": "EnterPhoneH",
+      "page": 2,
+      "box": {
+        "left": 311.1,
+        "top": 681.4,
+        "width": 106.0,
+        "height": 28.1
+      }
+    },
+    "enterPhoneO": {
+      "type": "text",
+      "label": "EnterPhoneO",
+      "page": 2,
+      "box": {
+        "left": 419.9,
+        "top": 681.4,
+        "width": 106.0,
+        "height": 28.1
+      }
+    },
+    "rECode": {
+      "type": "text",
+      "label": "RECode",
+      "page": 2,
+      "box": {
+        "left": 528.7,
+        "top": 681.4,
+        "width": 63.9,
+        "height": 28.1
+      }
+    },
+    "enterPhoneC": {
+      "type": "text",
+      "label": "EnterPhoneC",
+      "page": 2,
+      "box": {
+        "left": 20.1,
+        "top": 636.6,
+        "width": 106.0,
+        "height": 14.0
+      }
+    },
+    "enterEmail": {
+      "type": "text",
+      "label": "EnterEmail",
+      "page": 2,
+      "box": {
+        "left": 128.9,
+        "top": 636.6,
+        "width": 189.9,
+        "height": 14.0
+      }
+    },
+    "enterProofS": {
+      "type": "text",
+      "label": "EnterProofS",
+      "page": 2,
+      "box": {
+        "left": 321.7,
+        "top": 636.6,
+        "width": 106.0,
+        "height": 14.0
+      }
+    },
+    "enterHT": {
+      "type": "text",
+      "label": "EnterHT",
+      "page": 2,
+      "box": {
+        "left": 430.5,
+        "top": 636.6,
+        "width": 51.9,
+        "height": 14.0
+      }
+    },
+    "enterWT": {
+      "type": "text",
+      "label": "EnterWT",
+      "page": 2,
+      "box": {
+        "left": 485.2,
+        "top": 636.6,
+        "width": 51.9,
+        "height": 14.0
+      }
+    },
+    "enterBF": {
+      "type": "text",
+      "label": "EnterBF",
+      "page": 2,
+      "box": {
+        "left": 540.0,
+        "top": 636.6,
+        "width": 51.9,
+        "height": 14.0
+      }
+    },
+    "radioButtonList": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 95.3,
+        "top": 582.3,
+        "width": 20.0,
+        "height": 20.0
+      },
+      "group": "form1_0_NJWPage2_0_RadioButtonList_0"
+    },
+    "radioButtonList2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 188.3,
+        "top": 582.3,
+        "width": 20.0,
+        "height": 20.0
+      },
+      "group": "form1_0_NJWPage2_0_RadioButtonList_0"
+    },
+    "radioButtonList3": {
+      "type": "radio",
+      "label": "3",
+      "page": 2,
+      "box": {
+        "left": 280.4,
+        "top": 582.3,
+        "width": 20.0,
+        "height": 20.0
+      },
+      "group": "form1_0_NJWPage2_0_RadioButtonList_0"
+    },
+    "radioButtonList4": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 374.2,
+        "top": 582.3,
+        "width": 20.0,
+        "height": 20.0
+      },
+      "group": "form1_0_NJWPage2_0_RadioButtonList_0"
+    },
+    "radioButtonList5": {
+      "type": "radio",
+      "label": "4",
+      "page": 2,
+      "box": {
+        "left": 467.3,
+        "top": 582.3,
+        "width": 20.0,
+        "height": 20.0
+      },
+      "group": "form1_0_NJWPage2_0_RadioButtonList_0"
+    },
+    "radioButtonList6": {
+      "type": "radio",
+      "label": "5",
+      "page": 2,
+      "box": {
+        "left": 560.3,
+        "top": 582.3,
+        "width": 20.0,
+        "height": 20.0
+      },
+      "group": "form1_0_NJWPage2_0_RadioButtonList_0"
+    },
+    "privacyactcb": {
+      "type": "checkbox",
+      "label": "PRIVACYACTCB",
+      "page": 2,
+      "box": {
+        "left": 542.5,
+        "top": 542.6,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "isccb": {
+      "type": "checkbox",
+      "label": "ISCCB",
+      "page": 2,
+      "box": {
+        "left": 271.6,
+        "top": 542.3,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "relmcb": {
+      "type": "checkbox",
+      "label": "RELMCB",
+      "page": 2,
+      "box": {
+        "left": 542.5,
+        "top": 528.2,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "tatcb": {
+      "type": "checkbox",
+      "label": "TATCB",
+      "page": 2,
+      "box": {
+        "left": 271.6,
+        "top": 527.9,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "dd4cb": {
+      "type": "checkbox",
+      "label": "DD4CB",
+      "page": 2,
+      "box": {
+        "left": 542.5,
+        "top": 514.5,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "tatwaivercb": {
+      "type": "checkbox",
+      "label": "TATWAIVERCB",
+      "page": 2,
+      "box": {
+        "left": 271.6,
+        "top": 514.2,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "coverlettercb": {
+      "type": "checkbox",
+      "label": "COVERLETTERCB",
+      "page": 2,
+      "box": {
+        "left": 542.5,
+        "top": 500.9,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "dd369cb": {
+      "type": "checkbox",
+      "label": "DD369CB",
+      "page": 2,
+      "box": {
+        "left": 271.6,
+        "top": 500.6,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "compwrkscb": {
+      "type": "checkbox",
+      "label": "COMPWRKSCB",
+      "page": 2,
+      "box": {
+        "left": 542.5,
+        "top": 487.2,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "cell1cb": {
+      "type": "checkbox",
+      "label": "CELL1CB",
+      "page": 2,
+      "box": {
+        "left": 271.6,
+        "top": 486.9,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "cell2": {
+      "type": "text",
+      "label": "Type Additional Document Here",
+      "page": 2,
+      "box": {
+        "left": 46.7,
+        "top": 486.2,
+        "width": 212.9,
+        "height": 10.8
+      }
+    },
+    "cell4cb": {
+      "type": "checkbox",
+      "label": "CELL4CB",
+      "page": 2,
+      "box": {
+        "left": 542.5,
+        "top": 473.2,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "cell4": {
+      "type": "text",
+      "label": "Type Additional Document Here",
+      "page": 2,
+      "box": {
+        "left": 319.4,
+        "top": 472.5,
+        "width": 210.8,
+        "height": 10.8
+      }
+    },
+    "dd2807cb": {
+      "type": "checkbox",
+      "label": "DD2807CB",
+      "page": 2,
+      "box": {
+        "left": 271.6,
+        "top": 459.7,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "extensioncb": {
+      "type": "checkbox",
+      "label": "EXTENSIONCB",
+      "page": 2,
+      "box": {
+        "left": 542.5,
+        "top": 446.2,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "dd2808cb": {
+      "type": "checkbox",
+      "label": "DD2808CB",
+      "page": 2,
+      "box": {
+        "left": 271.6,
+        "top": 445.9,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "meddocscb": {
+      "type": "checkbox",
+      "label": "MEDDOCSCB",
+      "page": 2,
+      "box": {
+        "left": 271.6,
+        "top": 432.2,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "cell5cb": {
+      "type": "checkbox",
+      "label": "CELL5CB",
+      "page": 2,
+      "box": {
+        "left": 542.5,
+        "top": 432.2,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "cell5": {
+      "type": "text",
+      "label": "Type Additional Document Here",
+      "page": 2,
+      "box": {
+        "left": 319.4,
+        "top": 431.5,
+        "width": 210.8,
+        "height": 10.8
+      }
+    },
+    "cell2cb": {
+      "type": "checkbox",
+      "label": "CELL2CB",
+      "page": 2,
+      "box": {
+        "left": 271.6,
+        "top": 418.6,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "cell22": {
+      "type": "text",
+      "label": "Type Additional Document Here",
+      "page": 2,
+      "box": {
+        "left": 46.7,
+        "top": 417.8,
+        "width": 212.9,
+        "height": 10.8
+      }
+    },
+    "retrainreqcb": {
+      "type": "checkbox",
+      "label": "RETRAINREQCB",
+      "page": 2,
+      "box": {
+        "left": 542.5,
+        "top": 405.2,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "dd214cb": {
+      "type": "checkbox",
+      "label": "DD214CB",
+      "page": 2,
+      "box": {
+        "left": 271.6,
+        "top": 392.1,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "retrainapprvcb": {
+      "type": "checkbox",
+      "label": "RETRAINAPPRVCB",
+      "page": 2,
+      "box": {
+        "left": 542.5,
+        "top": 391.6,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "cell6cb": {
+      "type": "checkbox",
+      "label": "CELL6CB",
+      "page": 2,
+      "box": {
+        "left": 542.5,
+        "top": 378.3,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "qcrecb": {
+      "type": "checkbox",
+      "label": "QCRECB",
+      "page": 2,
+      "box": {
+        "left": 271.6,
+        "top": 377.6,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "cell6": {
+      "type": "text",
+      "label": "Type Additional Document Here",
+      "page": 2,
+      "box": {
+        "left": 319.4,
+        "top": 376.7,
+        "width": 210.8,
+        "height": 10.8
+      }
+    },
+    "qcaccb": {
+      "type": "checkbox",
+      "label": "QCACCB",
+      "page": 2,
+      "box": {
+        "left": 271.6,
+        "top": 363.9,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "arcb": {
+      "type": "checkbox",
+      "label": "ARCB",
+      "page": 2,
+      "box": {
+        "left": 542.5,
+        "top": 350.6,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rt07cb": {
+      "type": "checkbox",
+      "label": "RT07CB",
+      "page": 2,
+      "box": {
+        "left": 271.6,
+        "top": 350.3,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "imacb": {
+      "type": "checkbox",
+      "label": "IMACB",
+      "page": 2,
+      "box": {
+        "left": 542.5,
+        "top": 336.9,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rt02cb": {
+      "type": "checkbox",
+      "label": "RT02CB",
+      "page": 2,
+      "box": {
+        "left": 271.6,
+        "top": 336.6,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "enlmcb": {
+      "type": "checkbox",
+      "label": "ENLMCB",
+      "page": 2,
+      "box": {
+        "left": 271.6,
+        "top": 322.9,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "cell7cb": {
+      "type": "checkbox",
+      "label": "CELL7CB",
+      "page": 2,
+      "box": {
+        "left": 542.5,
+        "top": 322.9,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "cell7": {
+      "type": "text",
+      "label": "Type Additional Document Here",
+      "page": 2,
+      "box": {
+        "left": 319.4,
+        "top": 322.0,
+        "width": 210.8,
+        "height": 10.8
+      }
+    },
+    "soucb": {
+      "type": "checkbox",
+      "label": "SOUCB",
+      "page": 2,
+      "box": {
+        "left": 271.6,
+        "top": 309.3,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "bonuscb": {
+      "type": "checkbox",
+      "label": "BONUSCB",
+      "page": 2,
+      "box": {
+        "left": 542.5,
+        "top": 295.9,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "dd368cb": {
+      "type": "checkbox",
+      "label": "DD368CB",
+      "page": 2,
+      "box": {
+        "left": 271.6,
+        "top": 295.6,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "reddcb": {
+      "type": "checkbox",
+      "label": "REDDCB",
+      "page": 2,
+      "box": {
+        "left": 271.6,
+        "top": 281.9,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "cell9cb": {
+      "type": "checkbox",
+      "label": "CELL9CB",
+      "page": 2,
+      "box": {
+        "left": 542.5,
+        "top": 281.9,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "cell8": {
+      "type": "text",
+      "label": "Type Additional Document Here",
+      "page": 2,
+      "box": {
+        "left": 319.4,
+        "top": 281.0,
+        "width": 210.8,
+        "height": 10.8
+      }
+    },
+    "coscb": {
+      "type": "checkbox",
+      "label": "COSCB",
+      "page": 2,
+      "box": {
+        "left": 271.6,
+        "top": 268.3,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "cell99cb": {
+      "type": "checkbox",
+      "label": "CELL99CB",
+      "page": 2,
+      "box": {
+        "left": 542.7,
+        "top": 254.9,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "cell3cb": {
+      "type": "checkbox",
+      "label": "CELL3CB",
+      "page": 2,
+      "box": {
+        "left": 271.6,
+        "top": 254.6,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "cell23": {
+      "type": "text",
+      "label": "Type Additional Document Here",
+      "page": 2,
+      "box": {
+        "left": 46.7,
+        "top": 253.6,
+        "width": 212.9,
+        "height": 10.8
+      }
+    },
+    "cell9": {
+      "type": "text",
+      "label": "Type Additional Document Here",
+      "page": 2,
+      "box": {
+        "left": 319.4,
+        "top": 253.6,
+        "width": 210.8,
+        "height": 10.8
+      }
+    },
+    "bmos1": {
+      "type": "text",
+      "label": "BMOS1",
+      "page": 2,
+      "box": {
+        "left": 19.4,
+        "top": 220.2,
+        "width": 66.4,
+        "height": 14.4
+      }
+    },
+    "unitRUC": {
+      "type": "text",
+      "label": "UnitRUC",
+      "page": 2,
+      "box": {
+        "left": 88.6,
+        "top": 220.2,
+        "width": 74.6,
+        "height": 14.4
+      }
+    },
+    "enterCID": {
+      "type": "text",
+      "label": "EnterCID",
+      "page": 2,
+      "box": {
+        "left": 166.1,
+        "top": 220.2,
+        "width": 104.8,
+        "height": 14.4
+      }
+    },
+    "pEFCode": {
+      "type": "text",
+      "label": "PEF Code",
+      "page": 2,
+      "box": {
+        "left": 273.7,
+        "top": 220.2,
+        "width": 76.4,
+        "height": 14.4
+      }
+    },
+    "enterClassnum": {
+      "type": "text",
+      "label": "EnterClassnum",
+      "page": 2,
+      "box": {
+        "left": 352.9,
+        "top": 220.2,
+        "width": 107.7,
+        "height": 14.4
+      }
+    },
+    "enterClassDate": {
+      "type": "text",
+      "label": "EnterClassDate",
+      "page": 2,
+      "box": {
+        "left": 463.5,
+        "top": 220.2,
+        "width": 128.4,
+        "height": 14.4
+      }
+    },
+    "enterBonustype": {
+      "type": "text",
+      "label": "EnterBonustype",
+      "page": 2,
+      "box": {
+        "left": 19.4,
+        "top": 189.3,
+        "width": 134.0,
+        "height": 14.4
+      }
+    },
+    "enterBonusnum": {
+      "type": "text",
+      "label": "EnterBonusnum",
+      "page": 2,
+      "box": {
+        "left": 156.2,
+        "top": 189.3,
+        "width": 134.0,
+        "height": 14.4
+      }
+    },
+    "enterBIC": {
+      "type": "text",
+      "label": "EnterBIC",
+      "page": 2,
+      "box": {
+        "left": 293.0,
+        "top": 189.3,
+        "width": 134.0,
+        "height": 14.4
+      }
+    },
+    "enterQSN": {
+      "type": "text",
+      "label": "EnterQSN",
+      "page": 2,
+      "box": {
+        "left": 429.8,
+        "top": 189.3,
+        "width": 162.2,
+        "height": 14.4
+      }
+    },
+    "unitRUC2": {
+      "type": "text",
+      "label": "UnitRUC",
+      "page": 2,
+      "box": {
+        "left": 524.7,
+        "top": 158.4,
+        "width": 50.7,
+        "height": 12.0
+      }
+    },
+    "bmos12": {
+      "type": "text",
+      "label": "BMOS1",
+      "page": 2,
+      "box": {
+        "left": 219.5,
+        "top": 151.6,
+        "width": 36.9,
+        "height": 14.4
+      }
+    },
+    "applicSign": {
+      "type": "text",
+      "label": "Applicant Signature:",
+      "page": 2,
+      "box": {
+        "left": 109.9,
+        "top": 132.7,
+        "width": 273.8,
+        "height": 13.1
+      }
+    },
+    "date1": {
+      "type": "text",
+      "label": "Enter date as four digit year, two digit month and two digit day",
+      "page": 2,
+      "box": {
+        "left": 480.3,
+        "top": 132.7,
+        "width": 95.2,
+        "height": 13.1
+      }
+    },
+    "bmos13": {
+      "type": "text",
+      "label": "BMOS1",
+      "page": 2,
+      "box": {
+        "left": 191.1,
+        "top": 90.1,
+        "width": 38.4,
+        "height": 14.2
+      }
+    },
+    "unitRepSign": {
+      "type": "text",
+      "label": "Unit Rep. Signature",
+      "page": 2,
+      "box": {
+        "left": 27.4,
+        "top": 64.1,
+        "width": 201.7,
+        "height": 14.1
+      }
+    },
+    "date12": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 482.2,
+        "top": 63.9,
+        "width": 92.7,
+        "height": 14.1
+      }
+    },
+    "unitRepRank": {
+      "type": "text",
+      "label": "Rank",
+      "page": 2,
+      "box": {
+        "left": 257.1,
+        "top": 63.7,
+        "width": 60.6,
+        "height": 14.1
+      }
+    },
+    "unitRepTitle": {
+      "type": "text",
+      "label": "Title",
+      "page": 2,
+      "box": {
+        "left": 345.2,
+        "top": 63.7,
+        "width": 109.5,
+        "height": 14.1
+      }
+    },
+    "date2": {
+      "type": "text",
+      "label": "Date",
+      "page": 3,
+      "box": {
+        "left": 451.4,
+        "top": 689.2,
+        "width": 120.3,
+        "height": 14.1
+      }
+    },
+    "recruiterName": {
+      "type": "text",
+      "label": "Recruiter Name",
+      "page": 3,
+      "box": {
+        "left": 39.5,
+        "top": 689.0,
+        "width": 147.4,
+        "height": 14.1
+      }
+    },
+    "recruiterSig": {
+      "type": "text",
+      "label": "Recruiter Signature",
+      "page": 3,
+      "box": {
+        "left": 218.3,
+        "top": 689.0,
+        "width": 201.7,
+        "height": 14.1
+      }
+    },
+    "date3": {
+      "type": "text",
+      "label": "Date",
+      "page": 3,
+      "box": {
+        "left": 451.4,
+        "top": 626.3,
+        "width": 120.3,
+        "height": 14.1
+      }
+    },
+    "sNCOICSig": {
+      "type": "text",
+      "label": "SNCOIC Signature",
+      "page": 3,
+      "box": {
+        "left": 218.3,
+        "top": 626.1,
+        "width": 201.7,
+        "height": 14.1
+      }
+    },
+    "sNCOICName": {
+      "type": "text",
+      "label": "SNCOIC Name",
+      "page": 3,
+      "box": {
+        "left": 39.5,
+        "top": 625.9,
+        "width": 147.4,
+        "height": 14.1
+      }
+    },
+    "rIDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 3,
+      "box": {
+        "left": 451.4,
+        "top": 562.7,
+        "width": 120.3,
+        "height": 14.1
+      }
+    },
+    "rISig": {
+      "type": "text",
+      "label": "OPS Chief Signature",
+      "page": 3,
+      "box": {
+        "left": 217.2,
+        "top": 562.6,
+        "width": 201.7,
+        "height": 14.1
+      }
+    },
+    "oPSChiefName": {
+      "type": "text",
+      "label": "OPS Chief Name",
+      "page": 3,
+      "box": {
+        "left": 39.5,
+        "top": 562.5,
+        "width": 147.4,
+        "height": 14.1
+      }
+    },
+    "enterName2": {
+      "type": "text",
+      "label": "Applicant's Name",
+      "page": 3,
+      "box": {
+        "left": 217.2,
+        "top": 499.2,
+        "width": 201.7,
+        "height": 14.1
+      }
+    },
+    "enterSSN2": {
+      "type": "text",
+      "label": "Applicant's SSN (Last 4)",
+      "page": 3,
+      "box": {
+        "left": 452.4,
+        "top": 498.4,
+        "width": 121.1,
+        "height": 14.1
+      }
+    },
+    "unitRejectStat": {
+      "type": "text",
+      "label": "UnitRejectStat",
+      "page": 3,
+      "box": {
+        "left": 29.1,
+        "top": 388.8,
+        "width": 553.4,
+        "height": 251.0
+      },
+      "multiline": true
+    },
+    "rejectDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 3,
+      "box": {
+        "left": 453.1,
+        "top": 115.9,
+        "width": 120.3,
+        "height": 14.1
+      }
+    },
+    "unitRepSign2": {
+      "type": "text",
+      "label": "Unit Rep. Signature",
+      "page": 3,
+      "box": {
+        "left": 33.5,
+        "top": 115.8,
+        "width": 237.4,
+        "height": 14.1
+      }
+    },
+    "unitRepRank2": {
+      "type": "text",
+      "label": "Rank",
+      "page": 3,
+      "box": {
+        "left": 316.1,
+        "top": 115.7,
+        "width": 94.3,
+        "height": 14.1
+      }
+    }
+  }
+}

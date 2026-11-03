@@ -1,0 +1,116 @@
+{
+  "id": "navmchq838",
+  "label": "NAVMCHQ838 - Certificate Of Extract Copy",
+  "directory": "NAVMCHQ838 - Certificate Of Extract Copy",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "trueCopies",
+        "day",
+        "month",
+        "year",
+        "signatureField1",
+        "name",
+        "sign"
+      ]
+    }
+  ],
+  "fields": {
+    "trueCopies": {
+      "type": "text",
+      "label": "TrueCopies",
+      "page": 1,
+      "box": {
+        "left": 40.3,
+        "top": 528.9,
+        "width": 539.6,
+        "height": 304.8
+      },
+      "multiline": true
+    },
+    "day": {
+      "type": "text",
+      "label": "Insert day of month",
+      "page": 1,
+      "box": {
+        "left": 236.6,
+        "top": 183.1,
+        "width": 83.0,
+        "height": 20.1
+      }
+    },
+    "month": {
+      "type": "choice",
+      "label": "Click to insert month",
+      "page": 1,
+      "box": {
+        "left": 380.1,
+        "top": 178.0,
+        "width": 99.3,
+        "height": 16.8
+      },
+      "options": [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ]
+    },
+    "year": {
+      "type": "text",
+      "label": "Insert applicable year, i.e. 2006",
+      "page": 1,
+      "box": {
+        "left": 501.6,
+        "top": 175.2,
+        "width": 73.9,
+        "height": 12.4
+      }
+    },
+    "signatureField1": {
+      "type": "signature",
+      "label": "SignatureField1",
+      "page": 1,
+      "box": {
+        "left": 291.2,
+        "top": 142.0,
+        "width": 279.3,
+        "height": 23.8
+      }
+    },
+    "name": {
+      "type": "text",
+      "label": "Insert name of signer",
+      "page": 1,
+      "box": {
+        "left": 292.3,
+        "top": 110.7,
+        "width": 279.8,
+        "height": 14.6
+      }
+    },
+    "sign": {
+      "type": "text",
+      "label": "Click to designate title of signer",
+      "page": 1,
+      "box": {
+        "left": 291.6,
+        "top": 90.5,
+        "width": 280.1,
+        "height": 15.4
+      }
+    }
+  }
+}

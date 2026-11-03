@@ -1,0 +1,166 @@
+{
+  "id": "opnav17102",
+  "label": "OPNAV1710-2 - Use Of Alcohol Request",
+  "directory": "OPNAV1710-2 - Use Of Alcohol Request",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "reqDtd",
+        "reqNme",
+        "reqTph",
+        "reqCde",
+        "locEnt",
+        "natEnt",
+        "evntdtd",
+        "parti",
+        "resNme",
+        "resCde",
+        "resTphn",
+        "comments"
+      ]
+    }
+  ],
+  "fields": {
+    "reqDtd": {
+      "type": "text",
+      "label": "Enter the date of the request.",
+      "page": 1,
+      "box": {
+        "left": 41.5,
+        "top": 604.6,
+        "width": 146.5,
+        "height": 25.6
+      }
+    },
+    "reqNme": {
+      "type": "text",
+      "label": "Enter the requester's name.",
+      "page": 1,
+      "box": {
+        "left": 41.5,
+        "top": 564.4,
+        "width": 247.8,
+        "height": 25.6
+      }
+    },
+    "reqTph": {
+      "type": "text",
+      "label": "Enter the requester's telephone number.",
+      "page": 1,
+      "box": {
+        "left": 425.7,
+        "top": 564.4,
+        "width": 145.0,
+        "height": 25.6
+      }
+    },
+    "reqCde": {
+      "type": "text",
+      "label": "Enter the requester's code.",
+      "page": 1,
+      "box": {
+        "left": 296.5,
+        "top": 563.6,
+        "width": 122.8,
+        "height": 24.8
+      }
+    },
+    "locEnt": {
+      "type": "text",
+      "label": "Enter the location of the event.",
+      "page": 1,
+      "box": {
+        "left": 41.5,
+        "top": 523.7,
+        "width": 530.0,
+        "height": 65.8
+      },
+      "multiline": true
+    },
+    "natEnt": {
+      "type": "text",
+      "label": "6.  Nature of Event",
+      "page": 1,
+      "box": {
+        "left": 41.5,
+        "top": 442.4,
+        "width": 530.0,
+        "height": 65.1
+      },
+      "multiline": true
+    },
+    "evntdtd": {
+      "type": "text",
+      "label": "Enter date of event.",
+      "page": 1,
+      "box": {
+        "left": 309.4,
+        "top": 362.5,
+        "width": 262.8,
+        "height": 39.3
+      },
+      "multiline": true
+    },
+    "parti": {
+      "type": "text",
+      "label": "Enter the approximate number of participants. (Alcohol use will be restricted to persons 21 years old or older)",
+      "page": 1,
+      "box": {
+        "left": 41.5,
+        "top": 353.5,
+        "width": 262.8,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "resNme": {
+      "type": "text",
+      "label": "Enter reponsible official's name. (Responsible Official must be in attendance of event to ensure alcohol use is not excessive.",
+      "page": 1,
+      "box": {
+        "left": 41.5,
+        "top": 307.3,
+        "width": 248.0,
+        "height": 24.1
+      }
+    },
+    "resCde": {
+      "type": "text",
+      "label": "Enter reponsible official's code.",
+      "page": 1,
+      "box": {
+        "left": 296.5,
+        "top": 307.3,
+        "width": 119.0,
+        "height": 24.1
+      }
+    },
+    "resTphn": {
+      "type": "text",
+      "label": "Enter reponsible official's telephone number.",
+      "page": 1,
+      "box": {
+        "left": 422.0,
+        "top": 306.6,
+        "width": 148.8,
+        "height": 23.3
+      }
+    },
+    "comments": {
+      "type": "text",
+      "label": "Enter any additional comments (if necessary)",
+      "page": 1,
+      "box": {
+        "left": 42.0,
+        "top": 254.3,
+        "width": 530.0,
+        "height": 72.9
+      },
+      "multiline": true
+    }
+  }
+}

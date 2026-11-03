@@ -1,0 +1,638 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "activity": {
+        "left": 104.6,
+        "top": 660.6,
+        "width": 447.0,
+        "height": 20.1,
+        "type": "text",
+        "description": "ACTIVITY:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "billAct": {
+        "left": 115.1,
+        "top": 636.7,
+        "width": 436.5,
+        "height": 20.1,
+        "type": "text",
+        "description": "BILLET TITLE:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "binNum": {
+        "left": 85.4,
+        "top": 612.8,
+        "width": 102.6,
+        "height": 20.1,
+        "type": "text",
+        "description": "BIN #:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "bsc": {
+        "left": 268.5,
+        "top": 612.8,
+        "width": 107.4,
+        "height": 20.1,
+        "type": "text",
+        "description": "BSC:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "uic": {
+        "left": 440.4,
+        "top": 612.8,
+        "width": 110.3,
+        "height": 20.1,
+        "type": "text",
+        "description": "UIC:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "natA1": {
+        "left": 88.1,
+        "top": 563.8,
+        "width": 17.4,
+        "height": 12.6,
+        "type": "text",
+        "description": "NatA1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "natType": {
+        "left": 84.4,
+        "top": 534.0,
+        "width": 472.6,
+        "height": 36.0,
+        "type": "text",
+        "description": "NatType",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "natScope": {
+        "left": 84.4,
+        "top": 481.8,
+        "width": 472.6,
+        "height": 36.0,
+        "type": "text",
+        "description": "NatScope",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "natLevel": {
+        "left": 84.4,
+        "top": 433.6,
+        "width": 472.6,
+        "height": 36.0,
+        "type": "text",
+        "description": "NatLevel",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "natA2": {
+        "left": 88.1,
+        "top": 393.8,
+        "width": 17.4,
+        "height": 12.6,
+        "type": "text",
+        "description": "NatA2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "natSup": {
+        "left": 84.4,
+        "top": 364.7,
+        "width": 472.6,
+        "height": 36.0,
+        "type": "text",
+        "description": "NatSup",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "natPrinSub": {
+        "left": 84.4,
+        "top": 316.5,
+        "width": 472.6,
+        "height": 36.0,
+        "type": "text",
+        "description": "NatPrinSub",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "natLatCor": {
+        "left": 84.4,
+        "top": 266.4,
+        "width": 472.6,
+        "height": 36.0,
+        "type": "text",
+        "description": "NatLatCor",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "natMilStru": {
+        "left": 84.4,
+        "top": 218.2,
+        "width": 472.6,
+        "height": 36.0,
+        "type": "text",
+        "description": "NatMilStru",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "natA3": {
+        "left": 88.1,
+        "top": 177.0,
+        "width": 17.4,
+        "height": 12.6,
+        "type": "text",
+        "description": "NatA3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "natProx": {
+        "left": 84.4,
+        "top": 147.4,
+        "width": 472.6,
+        "height": 36.0,
+        "type": "text",
+        "description": "NatProx",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "natDegr": {
+        "left": 84.4,
+        "top": 97.3,
+        "width": 472.6,
+        "height": 36.0,
+        "type": "text",
+        "description": "NatDegr",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "natA4": {
+        "left": 88.1,
+        "top": 720.9,
+        "width": 17.4,
+        "height": 12.6,
+        "type": "text",
+        "description": "NatA4",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "natNat": {
+        "left": 84.4,
+        "top": 690.3,
+        "width": 472.6,
+        "height": 36.0,
+        "type": "text",
+        "description": "NatNat",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "natExt": {
+        "left": 84.4,
+        "top": 640.3,
+        "width": 472.6,
+        "height": 36.0,
+        "type": "text",
+        "description": "NatExt",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "natLev": {
+        "left": 84.4,
+        "top": 590.2,
+        "width": 472.6,
+        "height": 36.0,
+        "type": "text",
+        "description": "NatLev",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "natA5": {
+        "left": 88.1,
+        "top": 551.8,
+        "width": 17.4,
+        "height": 12.6,
+        "type": "text",
+        "description": "NatA5",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "natA6": {
+        "left": 88.1,
+        "top": 533.3,
+        "width": 17.4,
+        "height": 12.6,
+        "type": "text",
+        "description": "NatA6",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mag1": {
+        "left": 88.1,
+        "top": 498.0,
+        "width": 17.4,
+        "height": 12.6,
+        "type": "text",
+        "description": "Mag1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mag2": {
+        "left": 88.1,
+        "top": 481.4,
+        "width": 17.4,
+        "height": 12.6,
+        "type": "text",
+        "description": "Mag2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "magMilFor": {
+        "left": 84.4,
+        "top": 453.7,
+        "width": 472.6,
+        "height": 36.0,
+        "type": "text",
+        "description": "MagMilFor",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "magPer": {
+        "left": 84.4,
+        "top": 402.6,
+        "width": 472.6,
+        "height": 36.0,
+        "type": "text",
+        "description": "MagPer",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "magValEqu": {
+        "left": 84.4,
+        "top": 353.5,
+        "width": 472.6,
+        "height": 36.0,
+        "type": "text",
+        "description": "MagValEqu",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "magTotObl": {
+        "left": 84.4,
+        "top": 303.4,
+        "width": 472.6,
+        "height": 36.0,
+        "type": "text",
+        "description": "MagTotObl",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "magOth": {
+        "left": 84.4,
+        "top": 254.3,
+        "width": 472.6,
+        "height": 36.0,
+        "type": "text",
+        "description": "MagOth",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mag3": {
+        "left": 88.1,
+        "top": 215.0,
+        "width": 17.4,
+        "height": 12.6,
+        "type": "text",
+        "description": "Mag3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mag4": {
+        "left": 88.1,
+        "top": 198.4,
+        "width": 17.4,
+        "height": 12.6,
+        "type": "text",
+        "description": "Mag4",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mag5": {
+        "left": 88.1,
+        "top": 181.8,
+        "width": 17.4,
+        "height": 12.6,
+        "type": "text",
+        "description": "Mag5",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mag6": {
+        "left": 88.1,
+        "top": 165.2,
+        "width": 17.4,
+        "height": 12.6,
+        "type": "text",
+        "description": "Mag6",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mag7": {
+        "left": 88.1,
+        "top": 148.7,
+        "width": 17.4,
+        "height": 12.6,
+        "type": "text",
+        "description": "Mag7",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sig1": {
+        "left": 88.1,
+        "top": 112.0,
+        "width": 17.4,
+        "height": 12.6,
+        "type": "text",
+        "description": "Sig1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sig2": {
+        "left": 88.1,
+        "top": 95.5,
+        "width": 17.4,
+        "height": 12.6,
+        "type": "text",
+        "description": "Sig2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sig3": {
+        "left": 88.1,
+        "top": 78.9,
+        "width": 17.4,
+        "height": 12.6,
+        "type": "text",
+        "description": "Sig3",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page3": {
+      "recapA1": {
+        "left": 143.9,
+        "top": 608.1,
+        "width": 17.4,
+        "height": 12.6,
+        "type": "text",
+        "description": "RecapA1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recapB1": {
+        "left": 262.8,
+        "top": 608.1,
+        "width": 17.4,
+        "height": 12.6,
+        "type": "text",
+        "description": "RecapB1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recapC1": {
+        "left": 381.8,
+        "top": 608.1,
+        "width": 17.4,
+        "height": 12.6,
+        "type": "text",
+        "description": "RecapC1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recapA2": {
+        "left": 143.9,
+        "top": 588.6,
+        "width": 17.4,
+        "height": 12.6,
+        "type": "text",
+        "description": "RecapA2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recapB2": {
+        "left": 262.8,
+        "top": 588.6,
+        "width": 17.4,
+        "height": 12.6,
+        "type": "text",
+        "description": "RecapB2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recapC2": {
+        "left": 381.8,
+        "top": 588.6,
+        "width": 17.4,
+        "height": 12.6,
+        "type": "text",
+        "description": "RecapC2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recapA3": {
+        "left": 143.9,
+        "top": 570.1,
+        "width": 17.4,
+        "height": 12.6,
+        "type": "text",
+        "description": "RecapA3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recapB3": {
+        "left": 262.8,
+        "top": 570.1,
+        "width": 17.4,
+        "height": 12.6,
+        "type": "text",
+        "description": "RecapB3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recapC3": {
+        "left": 381.8,
+        "top": 570.1,
+        "width": 17.4,
+        "height": 12.6,
+        "type": "text",
+        "description": "RecapC3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recapA4": {
+        "left": 143.9,
+        "top": 551.6,
+        "width": 17.4,
+        "height": 12.6,
+        "type": "text",
+        "description": "RecapA4",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recapB4": {
+        "left": 262.8,
+        "top": 551.6,
+        "width": 17.4,
+        "height": 12.6,
+        "type": "text",
+        "description": "RecapB4",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recapA5": {
+        "left": 143.9,
+        "top": 532.1,
+        "width": 17.4,
+        "height": 12.6,
+        "type": "text",
+        "description": "RecapA5",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recapB5": {
+        "left": 262.8,
+        "top": 532.1,
+        "width": 17.4,
+        "height": 12.6,
+        "type": "text",
+        "description": "RecapB5",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recapA6": {
+        "left": 143.9,
+        "top": 513.6,
+        "width": 17.4,
+        "height": 12.6,
+        "type": "text",
+        "description": "RecapA6",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recapB6": {
+        "left": 262.8,
+        "top": 513.6,
+        "width": 17.4,
+        "height": 12.6,
+        "type": "text",
+        "description": "RecapB6",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recapB7": {
+        "left": 262.8,
+        "top": 495.1,
+        "width": 17.4,
+        "height": 12.6,
+        "type": "text",
+        "description": "RecapB7",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dNSDate3": {
+        "left": 162.0,
+        "top": 407.5,
+        "width": 109.3,
+        "height": 24.9,
+        "type": "text",
+        "description": "Enter the date using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "appBy": {
+        "left": 162.8,
+        "top": 362.0,
+        "width": 146.3,
+        "height": 19.2,
+        "type": "text",
+        "description": "Approved By:",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

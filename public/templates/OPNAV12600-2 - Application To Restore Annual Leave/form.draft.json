@@ -1,0 +1,382 @@
+{
+  "id": "opnav126002",
+  "label": "OPNAV12600-2 - Application To Restore Annual Leave",
+  "directory": "OPNAV12600-2 - Application To Restore Annual Leave",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "1NAMELastFirstMI",
+        "2COMMANDDEPARTMENT",
+        "3TELEPHONENUMBER",
+        "4TITLEPAYPLANSERIESGRADE",
+        "totalHoursRequested",
+        "5ORIGINALLEAVEREQUESTDATES",
+        "6TOTALHOURSREQUESTEDRow1",
+        "yes",
+        "8REASONFORCANCELLATIONORDISAPPROVALAttachInitialApprovedLeaveRequestFromStandardLaborDataCollectionAndDistributionApplicationSLDCADAOPM71RequestForLeaveOrApprovedAbsenceOrEmailShowingApprovalAndCurrentLeaveEarningsStatement",
+        "9RESCHEDULEDLEAVEREQUESTDATES",
+        "10TOTALHOURSREQUESTED",
+        "dateRescheduled",
+        "12REASONFORCANCELLATION",
+        "amountOfLeave",
+        "14EMPLOYEEPRINTEDNAMELastFirstMI",
+        "15SIGNATUREDATE",
+        "employeeSignature",
+        "17SUPERVISORPRINTEDNAMELastFirstMI",
+        "18SIGNATUREDATE",
+        "supervisorSignature",
+        "section3TOBECOMPLETEDBYTHEDIVISIONHEADRow1",
+        "approval",
+        "21DIVISIONHEADPRINTEDNAMELastFirstMI",
+        "22SIGNATUREDATE",
+        "divisionHeadSignature",
+        "section4TOBECOMPLETEDBYDIRECTORCIVILIANHUMANRESOURCESDCHRHUMANRESOURCESDIRECTORHRDCHIEFOFNAVALOPERATIONSCNOHUMANRESOURCESOFFICEHRORow1",
+        "approval2",
+        "25DCHRHRDPRINTEDNAMELastFirstMI",
+        "dchrHDRSignature",
+        "26SIGNATUREDATE"
+      ]
+    }
+  ],
+  "fields": {
+    "1NAMELastFirstMI": {
+      "type": "text",
+      "label": "SECTION 1 (TO BE COMPLETED BY THE EMPLOYEE)",
+      "page": 1,
+      "box": {
+        "left": 37.0,
+        "top": 608.3,
+        "width": 268.0,
+        "height": 18.0
+      }
+    },
+    "2COMMANDDEPARTMENT": {
+      "type": "text",
+      "label": "information may delay or prevent action on the application",
+      "page": 1,
+      "box": {
+        "left": 306.5,
+        "top": 608.3,
+        "width": 268.1,
+        "height": 18.0
+      }
+    },
+    "3TELEPHONENUMBER": {
+      "type": "text",
+      "label": "1. NAME (Last, First, MI)",
+      "page": 1,
+      "box": {
+        "left": 37.0,
+        "top": 579.5,
+        "width": 268.0,
+        "height": 18.0
+      }
+    },
+    "4TITLEPAYPLANSERIESGRADE": {
+      "type": "text",
+      "label": "2. COMMAND/DEPARTMENT",
+      "page": 1,
+      "box": {
+        "left": 306.5,
+        "top": 579.5,
+        "width": 268.1,
+        "height": 18.0
+      }
+    },
+    "totalHoursRequested": {
+      "type": "text",
+      "label": "PLAN-SERIES-GRADE",
+      "page": 1,
+      "box": {
+        "left": 429.4,
+        "top": 557.4,
+        "width": 108.4,
+        "height": 22.0
+      }
+    },
+    "5ORIGINALLEAVEREQUESTDATES": {
+      "type": "text",
+      "label": "3. TELEPHONE NUMBER",
+      "page": 1,
+      "box": {
+        "left": 37.0,
+        "top": 550.7,
+        "width": 268.0,
+        "height": 17.9
+      }
+    },
+    "6TOTALHOURSREQUESTEDRow1": {
+      "type": "text",
+      "label": "HOURS REQUESTED",
+      "page": 1,
+      "box": {
+        "left": 374.6,
+        "top": 531.8,
+        "width": 9.1,
+        "height": 9.2
+      }
+    },
+    "yes": {
+      "type": "text",
+      "label": "REQUESTED",
+      "page": 1,
+      "box": {
+        "left": 410.6,
+        "top": 531.8,
+        "width": 9.1,
+        "height": 9.2
+      }
+    },
+    "8REASONFORCANCELLATIONORDISAPPROVALAttachInitialApprovedLeaveRequestFromStandardLaborDataCollectionAndDistributionApplicationSLDCADAOPM71RequestForLeaveOrApprovedAbsenceOrEmailShowingApprovalAndCurrentLeaveEarningsStatement": {
+      "type": "text",
+      "label": "8 REASONFORCANCELLATIONORDISAPPROVAL Attach Initial Approved Leave Request From Standard Labor Data Collection And Distribution Application SLDCADAOPM 71 Request For Leave Or Approved Absence Or Email Showing Approval And Current Leave Earnings Statement",
+      "page": 1,
+      "box": {
+        "left": 37.6,
+        "top": 498.5,
+        "width": 536.4,
+        "height": 52.1
+      },
+      "multiline": true
+    },
+    "9RESCHEDULEDLEAVEREQUESTDATES": {
+      "type": "text",
+      "label": "9 RESCHEDULEDLEAVEREQUESTDATES",
+      "page": 1,
+      "box": {
+        "left": 37.0,
+        "top": 435.6,
+        "width": 268.0,
+        "height": 18.0
+      }
+    },
+    "10TOTALHOURSREQUESTED": {
+      "type": "text",
+      "label": "10 TOTALHOURSREQUESTED",
+      "page": 1,
+      "box": {
+        "left": 306.5,
+        "top": 435.6,
+        "width": 268.1,
+        "height": 18.0
+      }
+    },
+    "dateRescheduled": {
+      "type": "text",
+      "label": "11. DATE THE RESCHEDULED LEAVE REQUEST DISAPPROVED",
+      "page": 1,
+      "box": {
+        "left": 290.8,
+        "top": 416.9,
+        "width": 150.0,
+        "height": 16.6
+      }
+    },
+    "12REASONFORCANCELLATION": {
+      "type": "text",
+      "label": "11. DATE THE RESCHEDULED LEAVE REQUEST DISAPPROVED",
+      "page": 1,
+      "box": {
+        "left": 37.6,
+        "top": 388.2,
+        "width": 536.4,
+        "height": 60.6
+      },
+      "multiline": true
+    },
+    "amountOfLeave": {
+      "type": "text",
+      "label": "13. AMOUNT OF LEAVE REQUESTING TO BE RESTORED ( total hours)",
+      "page": 1,
+      "box": {
+        "left": 309.8,
+        "top": 328.1,
+        "width": 99.5,
+        "height": 16.6
+      }
+    },
+    "14EMPLOYEEPRINTEDNAMELastFirstMI": {
+      "type": "text",
+      "label": "14. EMPLOYEE PRINTED NAME ( Last, First, MI)",
+      "page": 1,
+      "box": {
+        "left": 37.3,
+        "top": 295.4,
+        "width": 213.1,
+        "height": 28.8
+      }
+    },
+    "15SIGNATUREDATE": {
+      "type": "text",
+      "label": "15. SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 253.0,
+        "top": 295.4,
+        "width": 105.6,
+        "height": 28.8
+      }
+    },
+    "employeeSignature": {
+      "type": "text",
+      "label": "16. EMPLOYEE SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 362.8,
+        "top": 295.4,
+        "width": 210.1,
+        "height": 28.1
+      }
+    },
+    "17SUPERVISORPRINTEDNAMELastFirstMI": {
+      "type": "text",
+      "label": "17. SUPERVISOR PRINTED NAME ( Last, First, MI)",
+      "page": 1,
+      "box": {
+        "left": 37.3,
+        "top": 223.6,
+        "width": 213.1,
+        "height": 28.8
+      }
+    },
+    "18SIGNATUREDATE": {
+      "type": "text",
+      "label": "18. SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 253.0,
+        "top": 223.6,
+        "width": 105.6,
+        "height": 28.8
+      }
+    },
+    "supervisorSignature": {
+      "type": "text",
+      "label": "19. SUPERVISOR SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 361.7,
+        "top": 223.0,
+        "width": 210.9,
+        "height": 28.5
+      }
+    },
+    "section3TOBECOMPLETEDBYTHEDIVISIONHEADRow1": {
+      "type": "text",
+      "label": "20. FORWARDED, RECOMMENDING",
+      "page": 1,
+      "box": {
+        "left": 219.8,
+        "top": 178.9,
+        "width": 9.1,
+        "height": 8.9
+      }
+    },
+    "approval": {
+      "type": "text",
+      "label": "APPROVAL",
+      "page": 1,
+      "box": {
+        "left": 291.8,
+        "top": 178.9,
+        "width": 9.1,
+        "height": 8.9
+      }
+    },
+    "21DIVISIONHEADPRINTEDNAMELastFirstMI": {
+      "type": "text",
+      "label": "21. DIVISION HEAD PRINTED NAME ( Last, First, MI)",
+      "page": 1,
+      "box": {
+        "left": 37.3,
+        "top": 151.7,
+        "width": 213.1,
+        "height": 28.8
+      }
+    },
+    "22SIGNATUREDATE": {
+      "type": "text",
+      "label": "22. SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 253.0,
+        "top": 151.7,
+        "width": 105.6,
+        "height": 28.8
+      }
+    },
+    "divisionHeadSignature": {
+      "type": "text",
+      "label": "23. DIVISION HEAD SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 362.4,
+        "top": 149.4,
+        "width": 211.6,
+        "height": 26.6
+      }
+    },
+    "section4TOBECOMPLETEDBYDIRECTORCIVILIANHUMANRESOURCESDCHRHUMANRESOURCESDIRECTORHRDCHIEFOFNAVALOPERATIONSCNOHUMANRESOURCESOFFICEHRORow1": {
+      "type": "text",
+      "label": "24. DETERMINATION",
+      "page": 1,
+      "box": {
+        "left": 219.8,
+        "top": 96.2,
+        "width": 9.0,
+        "height": 8.9
+      }
+    },
+    "approval2": {
+      "type": "text",
+      "label": "APPROVAL",
+      "page": 1,
+      "box": {
+        "left": 291.8,
+        "top": 96.2,
+        "width": 9.0,
+        "height": 8.9
+      }
+    },
+    "25DCHRHRDPRINTEDNAMELastFirstMI": {
+      "type": "text",
+      "label": "24. DETERMINATION: APPROVAL",
+      "page": 1,
+      "box": {
+        "left": 37.6,
+        "top": 71.6,
+        "width": 212.6,
+        "height": 35.0
+      },
+      "multiline": true
+    },
+    "dchrHDRSignature": {
+      "type": "text",
+      "label": "27. DCHR/HRD SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 364.0,
+        "top": 69.8,
+        "width": 207.8,
+        "height": 32.0
+      },
+      "multiline": true
+    },
+    "26SIGNATUREDATE": {
+      "type": "text",
+      "label": "26. SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 253.2,
+        "top": 69.3,
+        "width": 105.1,
+        "height": 32.7
+      },
+      "multiline": true
+    }
+  }
+}

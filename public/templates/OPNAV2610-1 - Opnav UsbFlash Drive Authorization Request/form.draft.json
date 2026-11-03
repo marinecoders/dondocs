@@ -1,0 +1,349 @@
+{
+  "id": "opnav26101",
+  "label": "OPNAV2610-1 - Opnav UsbFlash Drive Authorization Request",
+  "directory": "OPNAV2610-1 - Opnav UsbFlash Drive Authorization Request",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "userName",
+        "userEmail",
+        "userOrg",
+        "userPhone",
+        "userPrinted",
+        "userSig",
+        "userSigDate",
+        "devType",
+        "devMan",
+        "devStor",
+        "netClass",
+        "devSer",
+        "radio",
+        "radio2",
+        "radio3",
+        "radio4",
+        "invNum",
+        "justification",
+        "secCoordName",
+        "secCoordSig",
+        "secCoordDate",
+        "radio5",
+        "radio6",
+        "reason",
+        "iAMPrint",
+        "iAMSig",
+        "iAMDate"
+      ]
+    }
+  ],
+  "fields": {
+    "userName": {
+      "type": "text",
+      "label": "1. NAME OF USER (Last, First, MI)",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 597.2,
+        "width": 264.4,
+        "height": 10.0
+      }
+    },
+    "userEmail": {
+      "type": "text",
+      "label": "2. USER E-MAIL ADDRESS",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 597.2,
+        "width": 264.4,
+        "height": 10.0
+      }
+    },
+    "userOrg": {
+      "type": "text",
+      "label": "3. USER ORGANIZATION/N-CODE",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 573.4,
+        "width": 264.4,
+        "height": 10.0
+      }
+    },
+    "userPhone": {
+      "type": "text",
+      "label": "4. USER PHONE NUMBER",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 573.4,
+        "width": 264.4,
+        "height": 10.0
+      }
+    },
+    "userPrinted": {
+      "type": "text",
+      "label": "5. USER PRINTED NAME",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 494.0,
+        "width": 223.1,
+        "height": 22.3
+      }
+    },
+    "userSig": {
+      "type": "text",
+      "label": "6. USER SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 267.5,
+        "top": 494.0,
+        "width": 196.9,
+        "height": 22.3
+      }
+    },
+    "userSigDate": {
+      "type": "text",
+      "label": "7. DATE OF SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 470.0,
+        "top": 494.0,
+        "width": 103.3,
+        "height": 22.3
+      }
+    },
+    "devType": {
+      "type": "text",
+      "label": "8. TYPE OF DEVICE (i.e. EX, HD, MDR, etc.)",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 434.7,
+        "width": 264.4,
+        "height": 10.0
+      }
+    },
+    "devMan": {
+      "type": "text",
+      "label": "9. DEVICE MANUFACTURER",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 434.7,
+        "width": 264.4,
+        "height": 10.0
+      }
+    },
+    "devStor": {
+      "type": "text",
+      "label": "10. DEVICE STORAGE CAPACITY",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 410.9,
+        "width": 264.4,
+        "height": 10.0
+      }
+    },
+    "netClass": {
+      "type": "text",
+      "label": "11. CLASSIFICATION OF NETWORK TO BE UTILIZED ON",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 410.9,
+        "width": 264.4,
+        "height": 10.0
+      }
+    },
+    "devSer": {
+      "type": "text",
+      "label": "YES NO",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 387.1,
+        "width": 264.4,
+        "height": 10.0
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 222.8,
+        "top": 386.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 258.8,
+        "top": 386.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 222.8,
+        "top": 338.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 258.8,
+        "top": 338.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "invNum": {
+      "type": "text",
+      "label": "YES NO",
+      "page": 1,
+      "box": {
+        "left": 308.4,
+        "top": 338.3,
+        "width": 264.4,
+        "height": 10.0
+      }
+    },
+    "justification": {
+      "type": "text",
+      "label": "16. JUSTIFICATION FOR UTILIZATION OF USB STORAGE DEVICE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 314.0,
+        "width": 534.4,
+        "height": 100.1
+      },
+      "multiline": true
+    },
+    "secCoordName": {
+      "type": "text",
+      "label": "17. ORG. SECURITY COORDINATOR PRINTED NAME",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 200.1,
+        "width": 223.1,
+        "height": 22.3
+      }
+    },
+    "secCoordSig": {
+      "type": "text",
+      "label": "18. ORG. SECURITY COORDINATOR SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 267.5,
+        "top": 200.1,
+        "width": 196.9,
+        "height": 22.3
+      }
+    },
+    "secCoordDate": {
+      "type": "text",
+      "label": "19. DATE OF SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 470.0,
+        "top": 200.1,
+        "width": 103.3,
+        "height": 22.3
+      }
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 124.5,
+        "top": 145.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 230.6,
+        "top": 145.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "reason": {
+      "type": "text",
+      "label": "21. REASON FOR DISAPPROVAL",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 117.4,
+        "width": 534.4,
+        "height": 42.7
+      },
+      "multiline": true
+    },
+    "iAMPrint": {
+      "type": "text",
+      "label": "22. INFO. ASSURANCE MANAGER PRINTED NAME",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 61.0,
+        "width": 223.1,
+        "height": 22.3
+      }
+    },
+    "iAMSig": {
+      "type": "text",
+      "label": "23. INFO. ASSURANCE MANAGER SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 267.5,
+        "top": 61.0,
+        "width": 196.9,
+        "height": 22.3
+      }
+    },
+    "iAMDate": {
+      "type": "text",
+      "label": "24. DATE OF SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 470.0,
+        "top": 61.0,
+        "width": 103.3,
+        "height": 22.3
+      }
+    }
+  }
+}

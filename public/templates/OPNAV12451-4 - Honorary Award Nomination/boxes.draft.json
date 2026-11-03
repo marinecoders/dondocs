@@ -1,0 +1,502 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "entNme": {
+        "left": 39.2,
+        "top": 708.7,
+        "width": 534.3,
+        "height": 12.2,
+        "type": "text",
+        "description": "OF",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "entAwdTyp": {
+        "left": 144.7,
+        "top": 663.4,
+        "width": 202.3,
+        "height": 13.3,
+        "type": "text",
+        "description": "DEPARTMENT OF THE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nme": {
+        "left": 39.2,
+        "top": 635.7,
+        "width": 264.1,
+        "height": 14.5,
+        "type": "text",
+        "description": "1. NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "spNme": {
+        "left": 309.0,
+        "top": 635.6,
+        "width": 264.5,
+        "height": 14.5,
+        "type": "text",
+        "description": "2. SPOUSE&apos;S NAME (OPTIONAL)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mailAdd": {
+        "left": 39.2,
+        "top": 607.2,
+        "width": 534.3,
+        "height": 37.4,
+        "type": "text",
+        "description": "3. MAILING ADDRESS FOR AWARD",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "prePos": {
+        "left": 39.2,
+        "top": 555.6,
+        "width": 264.1,
+        "height": 14.4,
+        "type": "text",
+        "description": "4. PRESENT POSITION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "immSup": {
+        "left": 309.0,
+        "top": 555.6,
+        "width": 264.5,
+        "height": 14.4,
+        "type": "text",
+        "description": "5. IMMEDIATE SUPERVISIOR",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "posHld": {
+        "left": 39.2,
+        "top": 530.4,
+        "width": 264.1,
+        "height": 14.4,
+        "type": "text",
+        "description": "6. POSITION HELD DURING TIME OF CONTRIBUTION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "perCov": {
+        "left": 309.4,
+        "top": 530.4,
+        "width": 264.1,
+        "height": 14.4,
+        "type": "text",
+        "description": "7. PERIOD COVERED BY NOMINATION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sumNom": {
+        "left": 39.2,
+        "top": 501.6,
+        "width": 534.3,
+        "height": 35.0,
+        "type": "text",
+        "description": "8. BRIEF SUMMARY OF BASIS FOR NOMINATION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "stmCont": {
+        "left": 39.2,
+        "top": 450.6,
+        "width": 534.3,
+        "height": 33.5,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "empDate": {
+        "left": 39.2,
+        "top": 387.2,
+        "width": 74.5,
+        "height": 14.5,
+        "type": "text",
+        "description": "DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dept": {
+        "left": 116.6,
+        "top": 387.2,
+        "width": 181.1,
+        "height": 14.5,
+        "type": "text",
+        "description": "DEPARTMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "title": {
+        "left": 300.5,
+        "top": 387.2,
+        "width": 197.8,
+        "height": 14.5,
+        "type": "text",
+        "description": "TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "gde": {
+        "left": 501.5,
+        "top": 387.2,
+        "width": 74.5,
+        "height": 14.5,
+        "type": "text",
+        "description": "GRADE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "empDatea": {
+        "left": 39.2,
+        "top": 372.7,
+        "width": 74.5,
+        "height": 14.5,
+        "type": "text",
+        "description": "DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "depta": {
+        "left": 116.6,
+        "top": 372.7,
+        "width": 181.1,
+        "height": 14.5,
+        "type": "text",
+        "description": "DEPARTMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "titlea": {
+        "left": 300.5,
+        "top": 372.7,
+        "width": 197.8,
+        "height": 14.5,
+        "type": "text",
+        "description": "TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "gdea": {
+        "left": 501.5,
+        "top": 372.7,
+        "width": 74.5,
+        "height": 14.5,
+        "type": "text",
+        "description": "GRADE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "empDateb": {
+        "left": 39.2,
+        "top": 358.2,
+        "width": 74.5,
+        "height": 14.5,
+        "type": "text",
+        "description": "DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "deptb": {
+        "left": 116.6,
+        "top": 358.2,
+        "width": 181.1,
+        "height": 14.5,
+        "type": "text",
+        "description": "DEPARTMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "titleb": {
+        "left": 300.5,
+        "top": 358.2,
+        "width": 197.8,
+        "height": 14.5,
+        "type": "text",
+        "description": "TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "gdeb": {
+        "left": 501.5,
+        "top": 358.2,
+        "width": 74.5,
+        "height": 14.5,
+        "type": "text",
+        "description": "GRADE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "empDateb2": {
+        "left": 39.2,
+        "top": 343.7,
+        "width": 74.5,
+        "height": 14.5,
+        "type": "text",
+        "description": "DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "deptb2": {
+        "left": 116.6,
+        "top": 343.7,
+        "width": 181.1,
+        "height": 14.5,
+        "type": "text",
+        "description": "DEPARTMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "titleb2": {
+        "left": 300.5,
+        "top": 343.7,
+        "width": 197.8,
+        "height": 14.5,
+        "type": "text",
+        "description": "TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "gdeb2": {
+        "left": 501.5,
+        "top": 343.7,
+        "width": 74.5,
+        "height": 14.5,
+        "type": "text",
+        "description": "GRADE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "educa": {
+        "left": 39.2,
+        "top": 316.0,
+        "width": 534.3,
+        "height": 38.7,
+        "type": "text",
+        "description": "11. EDUCATION (OPTIONAL)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "profTrng": {
+        "left": 39.2,
+        "top": 261.2,
+        "width": 534.3,
+        "height": 38.2,
+        "type": "text",
+        "description": "12. PROFESSIONAL TRAINING",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "awd": {
+        "left": 39.2,
+        "top": 193.7,
+        "width": 259.2,
+        "height": 14.5,
+        "type": "text",
+        "description": "AWARD",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "monYr": {
+        "left": 300.9,
+        "top": 193.7,
+        "width": 132.5,
+        "height": 14.5,
+        "type": "text",
+        "description": "MONTH/YEAR",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "awda": {
+        "left": 39.2,
+        "top": 179.2,
+        "width": 259.2,
+        "height": 14.5,
+        "type": "text",
+        "description": "AWARD",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "monYra": {
+        "left": 300.9,
+        "top": 179.2,
+        "width": 132.5,
+        "height": 14.5,
+        "type": "text",
+        "description": "MONTH/YEAR",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "awdb": {
+        "left": 39.2,
+        "top": 164.7,
+        "width": 259.2,
+        "height": 14.5,
+        "type": "text",
+        "description": "AWARD",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "monYrb": {
+        "left": 300.9,
+        "top": 164.7,
+        "width": 132.5,
+        "height": 14.5,
+        "type": "text",
+        "description": "MONTH/YEAR",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "awdb2": {
+        "left": 39.2,
+        "top": 150.2,
+        "width": 259.2,
+        "height": 14.5,
+        "type": "text",
+        "description": "AWARD",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "monYrb2": {
+        "left": 300.9,
+        "top": 150.2,
+        "width": 132.5,
+        "height": 14.5,
+        "type": "text",
+        "description": "MONTH/YEAR",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comPOC": {
+        "left": 123.3,
+        "top": 132.8,
+        "width": 451.0,
+        "height": 13.5,
+        "type": "text",
+        "description": "14. COMMAND POC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recOffPrntNme": {
+        "left": 41.4,
+        "top": 102.5,
+        "width": 212.2,
+        "height": 26.3,
+        "type": "text",
+        "description": "15. RECOMMENDING OFFICIAL PRINTED NAME/TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recSigDte": {
+        "left": 258.7,
+        "top": 102.5,
+        "width": 107.8,
+        "height": 26.3,
+        "type": "text",
+        "description": "16. SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recSig": {
+        "left": 371.5,
+        "top": 102.5,
+        "width": 207.0,
+        "height": 26.3,
+        "type": "text",
+        "description": "17. SIGNATURE OF RECOMMENDING OFFICIAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "appOffPrntNme": {
+        "left": 41.4,
+        "top": 63.2,
+        "width": 212.2,
+        "height": 26.3,
+        "type": "text",
+        "description": "18. APPROVING OFFICIAL PRINTED NAME/TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "appSigDte": {
+        "left": 258.7,
+        "top": 63.2,
+        "width": 107.8,
+        "height": 26.3,
+        "type": "text",
+        "description": "19. SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "appSig": {
+        "left": 371.5,
+        "top": 63.2,
+        "width": 207.0,
+        "height": 26.3,
+        "type": "text",
+        "description": "20. SIGNATURE OF APPROVING OFFICIAL",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

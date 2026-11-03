@@ -1,0 +1,432 @@
+{
+  "id": "opnav479081",
+  "label": "OPNAV4790-81 - Equipment Guide List",
+  "directory": "OPNAV4790-81 - Equipment Guide List",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "page1",
+        "page2",
+        "characters1",
+        "mrc1"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "equipment23",
+        "equipment24",
+        "equipment25",
+        "equipment26",
+        "equipments27",
+        "equipment28",
+        "equipment29",
+        "equipment30",
+        "equipment31",
+        "equipment32",
+        "equipment33",
+        "equipment34",
+        "equipment35",
+        "equipment36",
+        "equipment37",
+        "equipment38",
+        "equipment39",
+        "equipment40",
+        "equipment41",
+        "equipment42",
+        "equipment43",
+        "equipment44"
+      ]
+    }
+  ],
+  "fields": {
+    "page1": {
+      "type": "text",
+      "label": "Enter the number pages.",
+      "page": 1,
+      "box": {
+        "left": 269.9,
+        "top": 745.7,
+        "width": 16.4,
+        "height": 19.1
+      }
+    },
+    "page2": {
+      "type": "text",
+      "label": "Enter the number pages.",
+      "page": 1,
+      "box": {
+        "left": 300.7,
+        "top": 745.7,
+        "width": 17.2,
+        "height": 19.1
+      }
+    },
+    "characters1": {
+      "type": "text",
+      "label": "CHARACTERS1",
+      "page": 1,
+      "box": {
+        "left": 157.9,
+        "top": 719.9,
+        "width": 99.5,
+        "height": 17.2
+      }
+    },
+    "mrc1": {
+      "type": "text",
+      "label": "Enter the MRC periodicity.",
+      "page": 1,
+      "box": {
+        "left": 433.5,
+        "top": 719.9,
+        "width": 99.5,
+        "height": 17.2
+      }
+    },
+    "equipment23": {
+      "type": "text",
+      "label": "This is row 1 or 22. Enter the equipment name and nomenclatrue.",
+      "page": 2,
+      "box": {
+        "left": 39.8,
+        "top": 683.7,
+        "width": 165.6,
+        "height": 22.2
+      }
+    },
+    "equipment24": {
+      "type": "text",
+      "label": "This is row 2 or 22. Enter the equipment name and nomenclatrue.",
+      "page": 2,
+      "box": {
+        "left": 39.8,
+        "top": 655.9,
+        "width": 165.6,
+        "height": 22.2
+      }
+    },
+    "equipment25": {
+      "type": "text",
+      "label": "This is row 3 or 22. Enter the equipment name and nomenclatrue.",
+      "page": 2,
+      "box": {
+        "left": 39.8,
+        "top": 628.0,
+        "width": 165.6,
+        "height": 22.2
+      }
+    },
+    "equipment26": {
+      "type": "text",
+      "label": "This is row 4 or 22. Enter the equipment name and nomenclatrue.",
+      "page": 2,
+      "box": {
+        "left": 39.8,
+        "top": 600.1,
+        "width": 165.6,
+        "height": 22.2
+      }
+    },
+    "equipments27": {
+      "type": "text",
+      "label": "This is row 5 or 22. Enter the equipment name and nomenclatrue.",
+      "page": 2,
+      "box": {
+        "left": 39.8,
+        "top": 572.3,
+        "width": 165.6,
+        "height": 22.2
+      }
+    },
+    "equipment28": {
+      "type": "text",
+      "label": "This is row 6 or 22. Enter the equipment name and nomenclatrue.",
+      "page": 2,
+      "box": {
+        "left": 39.8,
+        "top": 544.4,
+        "width": 165.6,
+        "height": 22.2
+      }
+    },
+    "equipment29": {
+      "type": "text",
+      "label": "This is row 7 or 22. Enter the equipment name and nomenclatrue.",
+      "page": 2,
+      "box": {
+        "left": 39.8,
+        "top": 516.5,
+        "width": 165.6,
+        "height": 22.2
+      }
+    },
+    "equipment30": {
+      "type": "text",
+      "label": "This is row 8 or 22. Enter the equipment name and nomenclatrue.",
+      "page": 2,
+      "box": {
+        "left": 39.8,
+        "top": 488.7,
+        "width": 165.6,
+        "height": 22.2
+      }
+    },
+    "equipment31": {
+      "type": "text",
+      "label": "This is row 9 or 22. Enter the equipment name and nomenclatrue.",
+      "page": 2,
+      "box": {
+        "left": 39.8,
+        "top": 460.8,
+        "width": 165.6,
+        "height": 22.2
+      }
+    },
+    "equipment32": {
+      "type": "text",
+      "label": "This is row 10 or 22. Enter the equipment name and nomenclatrue.",
+      "page": 2,
+      "box": {
+        "left": 39.8,
+        "top": 432.9,
+        "width": 165.6,
+        "height": 22.2
+      }
+    },
+    "equipment33": {
+      "type": "text",
+      "label": "This is row 11 or 22. Enter the equipment name and nomenclatrue.",
+      "page": 2,
+      "box": {
+        "left": 39.8,
+        "top": 405.1,
+        "width": 165.6,
+        "height": 22.2
+      }
+    },
+    "equipment34": {
+      "type": "text",
+      "label": "This is row 12 or 22. Enter the equipment name and nomenclatrue.",
+      "page": 2,
+      "box": {
+        "left": 39.8,
+        "top": 377.2,
+        "width": 165.6,
+        "height": 22.2
+      }
+    },
+    "equipment35": {
+      "type": "text",
+      "label": "This is row 13 or 22. Enter the equipment name and nomenclatrue.",
+      "page": 2,
+      "box": {
+        "left": 39.8,
+        "top": 349.4,
+        "width": 165.6,
+        "height": 22.2
+      }
+    },
+    "equipment36": {
+      "type": "text",
+      "label": "This is row 14 or 22. Enter the equipment name and nomenclatrue.",
+      "page": 2,
+      "box": {
+        "left": 39.8,
+        "top": 321.5,
+        "width": 165.6,
+        "height": 22.2
+      }
+    },
+    "equipment37": {
+      "type": "text",
+      "label": "This is row 15 or 22. Enter the equipment name and nomenclatrue.",
+      "page": 2,
+      "box": {
+        "left": 39.8,
+        "top": 293.6,
+        "width": 165.6,
+        "height": 22.2
+      }
+    },
+    "equipment38": {
+      "type": "text",
+      "label": "This is row 16 or 22. Enter the equipment name and nomenclatrue.",
+      "page": 2,
+      "box": {
+        "left": 39.8,
+        "top": 265.8,
+        "width": 165.6,
+        "height": 22.2
+      }
+    },
+    "equipment39": {
+      "type": "text",
+      "label": "This is row 17 or 22. Enter the equipment name and nomenclatrue.",
+      "page": 2,
+      "box": {
+        "left": 39.8,
+        "top": 237.9,
+        "width": 165.6,
+        "height": 22.2
+      }
+    },
+    "equipment40": {
+      "type": "text",
+      "label": "This is row 18 or 22. Enter the equipment name and nomenclatrue.",
+      "page": 2,
+      "box": {
+        "left": 39.8,
+        "top": 210.0,
+        "width": 165.6,
+        "height": 22.2
+      }
+    },
+    "equipment41": {
+      "type": "text",
+      "label": "This is row 19 or 22. Enter the equipment name and nomenclatrue.",
+      "page": 2,
+      "box": {
+        "left": 39.8,
+        "top": 182.2,
+        "width": 165.6,
+        "height": 22.2
+      }
+    },
+    "equipment42": {
+      "type": "text",
+      "label": "This is row 20 or 22. Enter the equipment name and nomenclatrue.",
+      "page": 2,
+      "box": {
+        "left": 39.8,
+        "top": 154.3,
+        "width": 165.6,
+        "height": 22.2
+      }
+    },
+    "equipment43": {
+      "type": "text",
+      "label": "This is row 21 or 22. Enter the equipment name and nomenclatrue.",
+      "page": 2,
+      "box": {
+        "left": 39.8,
+        "top": 126.4,
+        "width": 165.6,
+        "height": 22.2
+      }
+    },
+    "equipment44": {
+      "type": "text",
+      "label": "This is row 22 or 22. Enter the equipment name and nomenclatrue.",
+      "page": 2,
+      "box": {
+        "left": 39.8,
+        "top": 98.6,
+        "width": 165.6,
+        "height": 22.2
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 22,
+      "rowStride": 27.87,
+      "editor": "grid",
+      "columns": {
+        "equipment": {
+          "type": "text",
+          "label": "This is row 1 or 22. Enter the equipment name and nomenclatrue.",
+          "page": 1,
+          "box": {
+            "left": 40.2,
+            "top": 661.8,
+            "width": 165.6,
+            "height": 22.2
+          }
+        },
+        "serial": {
+          "type": "text",
+          "label": "Enter the serial number quantity.",
+          "page": 1,
+          "box": {
+            "left": 211.4,
+            "top": 661.8,
+            "width": 60.2,
+            "height": 22.2
+          }
+        },
+        "location": {
+          "type": "text",
+          "label": "Enter the location.",
+          "page": 1,
+          "box": {
+            "left": 277.2,
+            "top": 661.8,
+            "width": 60.2,
+            "height": 22.2
+          }
+        },
+        "data": {
+          "type": "text",
+          "label": "Enter the applicable data as required by MRC.",
+          "page": 1,
+          "box": {
+            "left": 343.1,
+            "top": 661.8,
+            "width": 229.6,
+            "height": 22.2
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 2,
+      "count": 22,
+      "rowStride": 27.86,
+      "editor": "grid",
+      "columns": {
+        "serial": {
+          "type": "text",
+          "label": "Enter the serial number quantity.",
+          "page": 2,
+          "box": {
+            "left": 211.0,
+            "top": 683.7,
+            "width": 60.2,
+            "height": 22.2
+          }
+        },
+        "location": {
+          "type": "text",
+          "label": "Enter the location.",
+          "page": 2,
+          "box": {
+            "left": 276.8,
+            "top": 683.7,
+            "width": 60.2,
+            "height": 22.2
+          }
+        },
+        "data": {
+          "type": "text",
+          "label": "Enter the applicable data as required by MRC.",
+          "page": 2,
+          "box": {
+            "left": 342.7,
+            "top": 683.7,
+            "width": 229.6,
+            "height": 22.2
+          }
+        }
+      }
+    }
+  }
+}

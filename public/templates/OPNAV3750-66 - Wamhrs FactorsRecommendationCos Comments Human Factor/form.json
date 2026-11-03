@@ -1,0 +1,387 @@
+{
+  "id": "opnav375066",
+  "label": "OPNAV3750-66 - Wamhrs FactorsRecommendationCos Comments Human Factor",
+  "directory": "OPNAV3750-66 - Wamhrs FactorsRecommendationCos Comments Human Factor",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "radio",
+        "radio2",
+        "radio3",
+        "radio4",
+        "hFStmt",
+        "hFAlys",
+        "radio5",
+        "hFAplsto",
+        "radio6",
+        "hFACSAtCde",
+        "hFACSAtCdeJst",
+        "preHFACSAtCde",
+        "preHFACSAtCdeJst"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "supHFACSAtCde",
+        "supHFACSAtCdeJst",
+        "orgHFACSAtCde",
+        "orgHFACSAtCdeJst",
+        "rACCde",
+        "radio7",
+        "radio8",
+        "actAgy",
+        "recSta",
+        "recRem",
+        "whiFac",
+        "radio9",
+        "radio10",
+        "radio11"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "coOffCom"
+      ]
+    }
+  ],
+  "fields": {
+    "radio": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 47.8,
+        "top": 682.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 106.3,
+        "top": 682.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 682.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 349.4,
+        "top": 682.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "hFStmt": {
+      "type": "text",
+      "label": "2. Statement (70 character limit)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 653.7,
+        "width": 534.4,
+        "height": 40.5
+      },
+      "multiline": true
+    },
+    "hFAlys": {
+      "type": "text",
+      "label": "3. Analysis (Unlimited character limit)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 599.7,
+        "width": 534.4,
+        "height": 115.4
+      },
+      "multiline": true
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 47.8,
+        "top": 461.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "hFAplsto": {
+      "type": "text",
+      "label": "REJECTED (If rejected, Stop here)",
+      "page": 1,
+      "box": {
+        "left": 214.4,
+        "top": 461.0,
+        "width": 358.9,
+        "height": 30.7
+      },
+      "multiline": true
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 47.8,
+        "top": 447.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "hFACSAtCde": {
+      "type": "text",
+      "label": "6a. HFACS Code",
+      "page": 1,
+      "box": {
+        "left": 124.6,
+        "top": 411.1,
+        "width": 448.7,
+        "height": 12.3
+      }
+    },
+    "hFACSAtCdeJst": {
+      "type": "text",
+      "label": "6b. Justification",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 383.7,
+        "width": 534.4,
+        "height": 146.9
+      },
+      "multiline": true
+    },
+    "preHFACSAtCde": {
+      "type": "text",
+      "label": "7a. HFACS Code",
+      "page": 1,
+      "box": {
+        "left": 117.6,
+        "top": 217.6,
+        "width": 455.6,
+        "height": 12.3
+      }
+    },
+    "preHFACSAtCdeJst": {
+      "type": "text",
+      "label": "7b. Justification",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 190.1,
+        "width": 534.4,
+        "height": 146.9
+      },
+      "multiline": true
+    },
+    "supHFACSAtCde": {
+      "type": "text",
+      "label": "8a. HFACS Code",
+      "page": 2,
+      "box": {
+        "left": 116.4,
+        "top": 739.7,
+        "width": 456.9,
+        "height": 12.3
+      }
+    },
+    "supHFACSAtCdeJst": {
+      "type": "text",
+      "label": "8b. Justification",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 712.2,
+        "width": 534.4,
+        "height": 151.4
+      },
+      "multiline": true
+    },
+    "orgHFACSAtCde": {
+      "type": "text",
+      "label": "9a. HFACS Code",
+      "page": 2,
+      "box": {
+        "left": 116.4,
+        "top": 541.6,
+        "width": 456.9,
+        "height": 12.3
+      }
+    },
+    "orgHFACSAtCdeJst": {
+      "type": "text",
+      "label": "9b. Justification",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 514.2,
+        "width": 534.4,
+        "height": 151.4
+      },
+      "multiline": true
+    },
+    "rACCde": {
+      "type": "text",
+      "label": "10. RAC Code",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 344.8,
+        "width": 264.3,
+        "height": 18.0
+      }
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 371.9,
+        "top": 339.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 461.9,
+        "top": 339.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "actAgy": {
+      "type": "text",
+      "label": "Act Agy",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 295.3,
+        "width": 534.4,
+        "height": 18.0
+      }
+    },
+    "recSta": {
+      "type": "text",
+      "label": "2. Statement (70 character limit)",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 262.1,
+        "width": 534.4,
+        "height": 40.5
+      },
+      "multiline": true
+    },
+    "recRem": {
+      "type": "text",
+      "label": "3. Remarks (Unlimited character limit)",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 208.1,
+        "width": 534.4,
+        "height": 115.4
+      },
+      "multiline": true
+    },
+    "whiFac": {
+      "type": "text",
+      "label": "COMPLETED OPEN REJECTED",
+      "page": 2,
+      "box": {
+        "left": 236.9,
+        "top": 76.3,
+        "width": 336.4,
+        "height": 37.6
+      },
+      "multiline": true
+    },
+    "radio9": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 52.3,
+        "top": 65.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio10": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 124.4,
+        "top": 65.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio11": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 2,
+      "box": {
+        "left": 169.4,
+        "top": 65.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "coOffCom": {
+      "type": "text",
+      "label": "Co Off Com",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 743.7,
+        "width": 534.4,
+        "height": 115.4
+      },
+      "multiline": true
+    }
+  }
+}

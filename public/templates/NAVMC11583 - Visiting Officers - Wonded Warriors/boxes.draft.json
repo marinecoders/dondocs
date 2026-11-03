@@ -1,0 +1,260 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "last4SSN": {
+        "left": 510.5,
+        "top": 672.2,
+        "width": 66.9,
+        "height": 15.2,
+        "type": "text",
+        "description": "Last4SSN",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "warRank": {
+        "left": 346.1,
+        "top": 672.0,
+        "width": 105.0,
+        "height": 15.1,
+        "type": "text",
+        "description": "WarRank",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "warName": {
+        "left": 126.0,
+        "top": 671.8,
+        "width": 185.5,
+        "height": 15.1,
+        "type": "text",
+        "description": "WarName",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "parCom": {
+        "left": 137.6,
+        "top": 646.7,
+        "width": 158.9,
+        "height": 15.1,
+        "type": "text",
+        "description": "ParCom",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "treatFacil": {
+        "left": 386.9,
+        "top": 646.6,
+        "width": 189.9,
+        "height": 15.1,
+        "type": "text",
+        "description": "TreatFacil",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "visPhone": {
+        "left": 485.8,
+        "top": 613.6,
+        "width": 91.6,
+        "height": 14.9,
+        "type": "text",
+        "description": "VisPhone",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "visRank": {
+        "left": 338.1,
+        "top": 613.5,
+        "width": 104.5,
+        "height": 15.1,
+        "type": "text",
+        "description": "VisRank",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "visMar": {
+        "left": 125.4,
+        "top": 613.3,
+        "width": 178.6,
+        "height": 15.1,
+        "type": "text",
+        "description": "VisMar",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "visParCom": {
+        "left": 137.0,
+        "top": 588.2,
+        "width": 292.7,
+        "height": 15.1,
+        "type": "text",
+        "description": "VisParCom",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateVisit": {
+        "left": 116.8,
+        "top": 554.8,
+        "width": 100.7,
+        "height": 15.9,
+        "type": "text",
+        "description": "DateVisit",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "timeVisit": {
+        "left": 329.9,
+        "top": 554.8,
+        "width": 60.0,
+        "height": 15.9,
+        "type": "text",
+        "description": "TimeVisit",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "reqByMarine": {
+        "left": 20.4,
+        "top": 506.5,
+        "width": 569.9,
+        "height": 34.0,
+        "type": "text",
+        "description": "ReqByMarine",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "reqAction": {
+        "left": 21.2,
+        "top": 447.1,
+        "width": 569.9,
+        "height": 34.0,
+        "type": "text",
+        "description": "ReqAction",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recomAction": {
+        "left": 21.2,
+        "top": 383.7,
+        "width": 569.9,
+        "height": 34.0,
+        "type": "text",
+        "description": "RecomAction",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "famConcerns": {
+        "left": 21.2,
+        "top": 320.8,
+        "width": 569.9,
+        "height": 34.0,
+        "type": "text",
+        "description": "FamConcerns",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "marineCondition": {
+        "left": 21.2,
+        "top": 257.9,
+        "width": 569.9,
+        "height": 34.0,
+        "type": "text",
+        "description": "MarineCondition",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "reqByMarineDate": {
+        "left": 448.7,
+        "top": 211.6,
+        "width": 89.7,
+        "height": 15.9,
+        "type": "text",
+        "description": "ReqByMarineDate",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "reqByMarine2": {
+        "left": 178.2,
+        "top": 211.4,
+        "width": 225.5,
+        "height": 15.7,
+        "type": "signature",
+        "description": "ReqByMarine",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comments": {
+        "left": 21.2,
+        "top": 162.1,
+        "width": 569.9,
+        "height": 34.0,
+        "type": "text",
+        "description": "Comments",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mFRSigDate": {
+        "left": 467.2,
+        "top": 114.9,
+        "width": 89.7,
+        "height": 15.9,
+        "type": "text",
+        "description": "MFRSigDate",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mFRSig": {
+        "left": 160.7,
+        "top": 114.7,
+        "width": 209.6,
+        "height": 15.7,
+        "type": "signature",
+        "description": "MFRSig",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateForwarded": {
+        "left": 272.4,
+        "top": 75.5,
+        "width": 100.7,
+        "height": 15.9,
+        "type": "text",
+        "description": "DateForwarded",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

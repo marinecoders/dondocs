@@ -1,0 +1,172 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 396
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "nameLFM": {
+        "left": 28.8,
+        "top": 356.3,
+        "width": 216.8,
+        "height": 16.3,
+        "type": "text",
+        "description": "Enter last name, first name, middle initial",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "grd": {
+        "left": 248.0,
+        "top": 355.2,
+        "width": 59.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "Grade",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ssn1": {
+        "left": 308.0,
+        "top": 355.2,
+        "width": 165.6,
+        "height": 15.2,
+        "type": "text",
+        "description": "Enter Social Security Number without dashes",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ruc": {
+        "left": 475.2,
+        "top": 355.2,
+        "width": 102.4,
+        "height": 15.2,
+        "type": "text",
+        "description": "R U C",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sig1": {
+        "left": 125.5,
+        "top": 320.5,
+        "width": 359.1,
+        "height": 33.4,
+        "type": "signature",
+        "description": "Sig1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateEff": {
+        "left": 80.8,
+        "top": 286.4,
+        "width": 90.4,
+        "height": 11.2,
+        "type": "text",
+        "description": "Enter date using format 2002 12 24",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkA": {
+        "left": 36.8,
+        "top": 254.4,
+        "width": 8.8,
+        "height": 8.8,
+        "type": "checkbox",
+        "description": "Check if authorized to sign documents affecting pay and allowances for memebers of this command or organization.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkB": {
+        "left": 36.0,
+        "top": 221.6,
+        "width": 8.8,
+        "height": 8.8,
+        "type": "checkbox",
+        "description": "Check if authorized to receipt for checks for members of this organization for delivery to the payee.  ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sig2": {
+        "left": 29.1,
+        "top": 157.9,
+        "width": 253.4,
+        "height": 33.1,
+        "type": "signature",
+        "description": "Sig2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "orgnzn": {
+        "left": 284.8,
+        "top": 147.2,
+        "width": 292.0,
+        "height": 24.0,
+        "type": "text",
+        "description": "Organization",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameLFM2": {
+        "left": 28.8,
+        "top": 75.2,
+        "width": 189.6,
+        "height": 15.2,
+        "type": "text",
+        "description": "Enter last name, first name, middle initial",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "grd2": {
+        "left": 220.0,
+        "top": 75.2,
+        "width": 72.8,
+        "height": 15.2,
+        "type": "text",
+        "description": "Grade",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ssn2": {
+        "left": 293.6,
+        "top": 75.2,
+        "width": 145.6,
+        "height": 15.2,
+        "type": "text",
+        "description": "Enter Social Security Number without dashes",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ruc2": {
+        "left": 440.0,
+        "top": 75.2,
+        "width": 135.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "R U C",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

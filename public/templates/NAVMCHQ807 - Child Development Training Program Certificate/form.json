@@ -1,0 +1,54 @@
+{
+  "id": "navmchq807",
+  "label": "NAVMC HQ 807 - Child Development Training Program Certificate",
+  "directory": "NAVMCHQ807 - Child Development Training Program Certificate",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "printingNote",
+        "0",
+        "date"
+      ]
+    }
+  ],
+  "fields": {
+    "printingNote": {
+      "type": "text",
+      "label": "Printing Note",
+      "page": 1,
+      "box": {
+        "left": 20.7,
+        "top": 799.4,
+        "width": 160.8,
+        "height": 56.6
+      },
+      "multiline": true
+    },
+    "0": {
+      "type": "text",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 131.4,
+        "top": 425.7,
+        "width": 351.5,
+        "height": 16.2
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 99.7,
+        "top": 151.5,
+        "width": 146.1,
+        "height": 16.2
+      }
+    }
+  }
+}

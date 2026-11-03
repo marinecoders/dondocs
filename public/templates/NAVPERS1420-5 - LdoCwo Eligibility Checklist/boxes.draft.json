@@ -1,0 +1,381 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "memName": {
+        "left": 38.9,
+        "top": 673.9,
+        "width": 246.3,
+        "height": 20.9,
+        "type": "text",
+        "description": "Name (Last, First, MI)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "memRate": {
+        "left": 290.9,
+        "top": 673.9,
+        "width": 66.2,
+        "height": 20.9,
+        "type": "text",
+        "description": "Rating",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "des1": {
+        "left": 362.9,
+        "top": 673.9,
+        "width": 102.3,
+        "height": 20.9,
+        "type": "text",
+        "description": "Designator Choice 1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "des2": {
+        "left": 470.9,
+        "top": 673.9,
+        "width": 102.3,
+        "height": 20.9,
+        "type": "text",
+        "description": "Designator Choice 2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell3": {
+        "left": 492.5,
+        "top": 628.5,
+        "width": 37.4,
+        "height": 33.1,
+        "type": "text",
+        "description": "Command",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell4": {
+        "left": 535.7,
+        "top": 628.5,
+        "width": 37.4,
+        "height": 33.1,
+        "type": "text",
+        "description": "PERS-803",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell32": {
+        "left": 492.5,
+        "top": 592.5,
+        "width": 37.4,
+        "height": 72.9,
+        "type": "text",
+        "description": "1 October 2019 - 1 October 2011",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell42": {
+        "left": 535.7,
+        "top": 592.5,
+        "width": 37.4,
+        "height": 72.9,
+        "type": "text",
+        "description": "1 October 2019 - 1 October 2011",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell33": {
+        "left": 492.5,
+        "top": 516.8,
+        "width": 37.4,
+        "height": 22.3,
+        "type": "text",
+        "description": "Command",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell43": {
+        "left": 535.7,
+        "top": 516.8,
+        "width": 37.4,
+        "height": 22.3,
+        "type": "text",
+        "description": "PERS-803",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell34": {
+        "left": 492.5,
+        "top": 491.6,
+        "width": 37.4,
+        "height": 22.3,
+        "type": "text",
+        "description": "Command",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell44": {
+        "left": 535.7,
+        "top": 491.6,
+        "width": 37.4,
+        "height": 22.3,
+        "type": "text",
+        "description": "PERS-803",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell35": {
+        "left": 492.5,
+        "top": 466.4,
+        "width": 37.4,
+        "height": 25.9,
+        "type": "text",
+        "description": "Command",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell45": {
+        "left": 535.7,
+        "top": 466.4,
+        "width": 37.4,
+        "height": 25.9,
+        "type": "text",
+        "description": "PERS-803",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell36": {
+        "left": 492.5,
+        "top": 437.6,
+        "width": 37.4,
+        "height": 25.9,
+        "type": "text",
+        "description": "Applicant signed the application",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell46": {
+        "left": 535.7,
+        "top": 437.6,
+        "width": 37.4,
+        "height": 25.9,
+        "type": "text",
+        "description": "Applicant signed the application",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell37": {
+        "left": 492.5,
+        "top": 408.8,
+        "width": 37.4,
+        "height": 40.3,
+        "type": "text",
+        "description": "Command",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell47": {
+        "left": 535.7,
+        "top": 408.8,
+        "width": 37.4,
+        "height": 40.3,
+        "type": "text",
+        "description": "PERS-803",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell38": {
+        "left": 492.5,
+        "top": 365.6,
+        "width": 37.4,
+        "height": 22.3,
+        "type": "text",
+        "description": "concerning the applicant and must address any",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell48": {
+        "left": 535.7,
+        "top": 365.6,
+        "width": 37.4,
+        "height": 22.3,
+        "type": "text",
+        "description": "concerning the applicant and must address any",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell39": {
+        "left": 492.5,
+        "top": 340.4,
+        "width": 37.4,
+        "height": 22.3,
+        "type": "text",
+        "description": "Command",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell49": {
+        "left": 535.7,
+        "top": 340.4,
+        "width": 37.4,
+        "height": 22.3,
+        "type": "text",
+        "description": "PERS-803",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell310": {
+        "left": 492.5,
+        "top": 315.2,
+        "width": 37.4,
+        "height": 22.3,
+        "type": "text",
+        "description": "Command",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell410": {
+        "left": 535.7,
+        "top": 315.2,
+        "width": 37.4,
+        "height": 22.3,
+        "type": "text",
+        "description": "PERS-803",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell311": {
+        "left": 492.5,
+        "top": 290.0,
+        "width": 37.4,
+        "height": 40.3,
+        "type": "text",
+        "description": "Command",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell411": {
+        "left": 535.7,
+        "top": 290.0,
+        "width": 37.4,
+        "height": 40.3,
+        "type": "text",
+        "description": "PERS-803",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell312": {
+        "left": 492.5,
+        "top": 246.8,
+        "width": 37.4,
+        "height": 25.9,
+        "type": "text",
+        "description": "Command",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell412": {
+        "left": 535.7,
+        "top": 246.8,
+        "width": 37.4,
+        "height": 25.9,
+        "type": "text",
+        "description": "PERS-803",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell2": {
+        "left": 492.5,
+        "top": 217.9,
+        "width": 37.4,
+        "height": 18.3,
+        "type": "text",
+        "description": "Reviewers\u2019 initials",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell313": {
+        "left": 535.7,
+        "top": 217.9,
+        "width": 37.4,
+        "height": 18.3,
+        "type": "text",
+        "description": "Reviewers\u2019 initials",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comCorEmail": {
+        "left": 38.9,
+        "top": 158.2,
+        "width": 534.3,
+        "height": 20.9,
+        "type": "text",
+        "description": "Command Coordinator E-mail Address",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comCorName": {
+        "left": 38.9,
+        "top": 125.8,
+        "width": 228.3,
+        "height": 20.9,
+        "type": "text",
+        "description": "Command Coordinator Name and Grade",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comCorSig": {
+        "left": 272.9,
+        "top": 125.8,
+        "width": 228.3,
+        "height": 20.9,
+        "type": "text",
+        "description": "Command Coordinator Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

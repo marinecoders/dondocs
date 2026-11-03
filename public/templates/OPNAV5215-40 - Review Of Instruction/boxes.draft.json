@@ -1,0 +1,232 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "instNo": {
+        "left": 41.4,
+        "top": 674.4,
+        "width": 118.8,
+        "height": 20.0,
+        "type": "text",
+        "description": "(e.g., OPNAVINST 1234.56B)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "instDte": {
+        "left": 166.4,
+        "top": 674.4,
+        "width": 84.7,
+        "height": 20.0,
+        "type": "text",
+        "description": "(DD MMM YYYY)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "orgCde": {
+        "left": 436.8,
+        "top": 674.4,
+        "width": 136.1,
+        "height": 20.0,
+        "type": "text",
+        "description": "(e.g., CNIC/OPNAV N45))",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "instCls": {
+        "left": 257.6,
+        "top": 673.6,
+        "width": 170.2,
+        "height": 18.5,
+        "type": "choice",
+        "description": "INSTRUCTION CLASSIFICATION",
+        "options": [
+          "UNCLASSIFIED",
+          "FOUO ",
+          "CONFIDENTIAL (To include NOFORN)",
+          "SECRET (To include NOFORN)"
+        ],
+        "group": null,
+        "required": false
+      },
+      "instSubj": {
+        "left": 40.8,
+        "top": 634.1,
+        "width": 532.2,
+        "height": 32.5,
+        "type": "text",
+        "description": "INSTRUCTION SUBJECT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio": {
+        "left": 309.1,
+        "top": 573.7,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio2": {
+        "left": 350.5,
+        "top": 573.7,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio3": {
+        "left": 309.1,
+        "top": 549.8,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio4": {
+        "left": 429.4,
+        "top": 549.8,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio5": {
+        "left": 64.3,
+        "top": 505.6,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio6": {
+        "left": 64.3,
+        "top": 479.8,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio7": {
+        "left": 64.3,
+        "top": 457.2,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item2",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio8": {
+        "left": 100.5,
+        "top": 411.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio9": {
+        "left": 383.0,
+        "top": 411.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "instRevRei": {
+        "left": 54.4,
+        "top": 381.6,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Should",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "instCan": {
+        "left": 54.4,
+        "top": 345.0,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Should",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "instSponPrtNme": {
+        "left": 40.8,
+        "top": 204.7,
+        "width": 213.9,
+        "height": 79.3,
+        "type": "text",
+        "description": "Sponsor Name, Title, Organization, Code",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dneDte": {
+        "left": 262.1,
+        "top": 204.7,
+        "width": 89.3,
+        "height": 79.3,
+        "type": "text",
+        "description": "(DD MMM YYYY)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sponSig": {
+        "left": 359.2,
+        "top": 204.7,
+        "width": 213.7,
+        "height": 79.3,
+        "type": "text",
+        "description": "Sponsor Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

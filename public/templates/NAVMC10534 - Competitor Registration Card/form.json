@@ -1,0 +1,496 @@
+{
+  "id": "navmc10534",
+  "label": "NAVMC 10534 - Competitor Registration Card",
+  "directory": "NAVMC10534 - Competitor Registration Card",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "socSecNo3",
+        "name1",
+        "rank2",
+        "comp4",
+        "competNo5",
+        "mtchYr6",
+        "teamName7",
+        "teamCaptain8",
+        "rad6East",
+        "rad6West",
+        "rad6Pac",
+        "rad6MCM",
+        "rad6FarEast",
+        "permDutySt9",
+        "nameKin10",
+        "rad12YesRifle",
+        "rad12NoRifle",
+        "rad12YesPistol",
+        "rad12NoPistol",
+        "localAddr11",
+        "chk13Rifle",
+        "year13Rifle",
+        "firstMatch",
+        "chk13Pistol",
+        "year13Pistol",
+        "rad15YesMarks",
+        "rad15NoMarks",
+        "rifleUSMC",
+        "rifleStReg",
+        "rifleOther",
+        "rad15YesPist",
+        "rad15NoPist",
+        "pistolUSMC",
+        "pistolStReg",
+        "pistolOther"
+      ]
+    }
+  ],
+  "fields": {
+    "socSecNo3": {
+      "type": "text",
+      "label": "Enter competitors social security number without dashes.",
+      "page": 1,
+      "box": {
+        "left": 307.3,
+        "top": 371.8,
+        "width": 110.3,
+        "height": 18.2
+      }
+    },
+    "name1": {
+      "type": "text",
+      "label": "Enter competitors last name. First name and middle initial.",
+      "page": 1,
+      "box": {
+        "left": 26.4,
+        "top": 371.2,
+        "width": 216.0,
+        "height": 17.6
+      }
+    },
+    "rank2": {
+      "type": "text",
+      "label": "Enter military rank of competitor.",
+      "page": 1,
+      "box": {
+        "left": 243.0,
+        "top": 371.2,
+        "width": 62.4,
+        "height": 17.0
+      }
+    },
+    "comp4": {
+      "type": "text",
+      "label": "Enter component of competitor.",
+      "page": 1,
+      "box": {
+        "left": 419.4,
+        "top": 371.2,
+        "width": 71.5,
+        "height": 17.0
+      }
+    },
+    "competNo5": {
+      "type": "text",
+      "label": "Enter competitor number.",
+      "page": 1,
+      "box": {
+        "left": 492.1,
+        "top": 371.2,
+        "width": 84.2,
+        "height": 17.0
+      }
+    },
+    "mtchYr6": {
+      "type": "text",
+      "label": "Enter the match year.",
+      "page": 1,
+      "box": {
+        "left": 164.8,
+        "top": 340.2,
+        "width": 75.8,
+        "height": 17.0
+      }
+    },
+    "teamName7": {
+      "type": "text",
+      "label": "Enter the name of the team.",
+      "page": 1,
+      "box": {
+        "left": 243.0,
+        "top": 327.5,
+        "width": 173.3,
+        "height": 48.5
+      },
+      "multiline": true
+    },
+    "teamCaptain8": {
+      "type": "text",
+      "label": "Enter the team captain.",
+      "page": 1,
+      "box": {
+        "left": 419.4,
+        "top": 324.9,
+        "width": 156.4,
+        "height": 45.9
+      },
+      "multiline": true
+    },
+    "rad6East": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 57.0,
+        "top": 315.4,
+        "width": 15.2,
+        "height": 15.2
+      },
+      "group": "topmostSubform_0_Page1_0_Rad6East_0"
+    },
+    "rad6West": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 112.1,
+        "top": 315.4,
+        "width": 15.2,
+        "height": 15.2
+      },
+      "group": "topmostSubform_0_Page1_0_Rad6West_0"
+    },
+    "rad6Pac": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 176.4,
+        "top": 314.8,
+        "width": 15.2,
+        "height": 15.2
+      },
+      "group": "topmostSubform_0_Page1_0_Rad6Pac_0"
+    },
+    "rad6MCM": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 154.7,
+        "top": 296.0,
+        "width": 15.3,
+        "height": 15.3
+      },
+      "group": "topmostSubform_0_Page1_0_Rad6MCM_0"
+    },
+    "rad6FarEast": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 79.3,
+        "top": 295.3,
+        "width": 15.3,
+        "height": 15.3
+      },
+      "group": "topmostSubform_0_Page1_0_Rad6FarEast_0"
+    },
+    "permDutySt9": {
+      "type": "text",
+      "label": "Enter the complete address of the permanent duty station.",
+      "page": 1,
+      "box": {
+        "left": 33.9,
+        "top": 268.6,
+        "width": 253.9,
+        "height": 29.6
+      }
+    },
+    "nameKin10": {
+      "type": "text",
+      "label": "Enter the name. Relationship. Address and phone number of next of kin.",
+      "page": 1,
+      "box": {
+        "left": 304.1,
+        "top": 268.0,
+        "width": 272.1,
+        "height": 29.4
+      }
+    },
+    "rad12YesRifle": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 350.9,
+        "top": 228.7,
+        "width": 15.2,
+        "height": 15.2
+      },
+      "group": "topmostSubform_0_Page1_0_Rad12YesRifle_0"
+    },
+    "rad12NoRifle": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 391.5,
+        "top": 228.7,
+        "width": 15.2,
+        "height": 15.2
+      },
+      "group": "topmostSubform_0_Page1_0_Rad12NoRifle_0"
+    },
+    "rad12YesPistol": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 487.3,
+        "top": 228.7,
+        "width": 15.2,
+        "height": 15.2
+      },
+      "group": "topmostSubform_0_Page1_0_Rad12YesPistol_0"
+    },
+    "rad12NoPistol": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 539.4,
+        "top": 228.7,
+        "width": 15.2,
+        "height": 15.2
+      },
+      "group": "topmostSubform_0_Page1_0_Rad12NoPistol_0"
+    },
+    "localAddr11": {
+      "type": "text",
+      "label": "Enter the local address and phone number.",
+      "page": 1,
+      "box": {
+        "left": 34.0,
+        "top": 226.7,
+        "width": 254.0,
+        "height": 16.7
+      }
+    },
+    "chk13Rifle": {
+      "type": "checkbox",
+      "label": "Check if you have fired this year with a rifle.",
+      "page": 1,
+      "box": {
+        "left": 117.6,
+        "top": 199.6,
+        "width": 15.2,
+        "height": 15.2
+      }
+    },
+    "year13Rifle": {
+      "type": "text",
+      "label": "Enter the year for firing a rifle.",
+      "page": 1,
+      "box": {
+        "left": 229.1,
+        "top": 198.4,
+        "width": 49.7,
+        "height": 12.7
+      }
+    },
+    "firstMatch": {
+      "type": "text",
+      "label": "Enter the name. Relationship. Address and phone number of next of kin.",
+      "page": 1,
+      "box": {
+        "left": 303.6,
+        "top": 191.2,
+        "width": 272.1,
+        "height": 17.0
+      }
+    },
+    "chk13Pistol": {
+      "type": "checkbox",
+      "label": "Check if you have fired this year with a pistol.",
+      "page": 1,
+      "box": {
+        "left": 117.6,
+        "top": 187.5,
+        "width": 15.2,
+        "height": 15.2
+      }
+    },
+    "year13Pistol": {
+      "type": "text",
+      "label": "Enter the year for firing a pistol.",
+      "page": 1,
+      "box": {
+        "left": 229.1,
+        "top": 186.3,
+        "width": 49.7,
+        "height": 12.7
+      }
+    },
+    "rad15YesMarks": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 208.5,
+        "top": 159.0,
+        "width": 15.2,
+        "height": 15.2
+      },
+      "group": "topmostSubform_0_Page1_0_Rad15YesMarks_0"
+    },
+    "rad15NoMarks": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 248.5,
+        "top": 159.0,
+        "width": 15.2,
+        "height": 15.2
+      },
+      "group": "topmostSubform_0_Page1_0_Rad15NoMarks_0"
+    },
+    "rifleUSMC": {
+      "type": "text",
+      "label": "Enter distinguished rifle credit points held in marines.",
+      "page": 1,
+      "box": {
+        "left": 343.0,
+        "top": 154.2,
+        "width": 53.3,
+        "height": 12.1
+      }
+    },
+    "rifleStReg": {
+      "type": "text",
+      "label": "Enter distinguished rifle credit points held in state or region.",
+      "page": 1,
+      "box": {
+        "left": 398.2,
+        "top": 154.2,
+        "width": 105.5,
+        "height": 12.1
+      }
+    },
+    "rifleOther": {
+      "type": "text",
+      "label": "Enter other rifle credit points held.",
+      "page": 1,
+      "box": {
+        "left": 506.7,
+        "top": 154.2,
+        "width": 58.8,
+        "height": 12.1
+      }
+    },
+    "rad15YesPist": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 208.5,
+        "top": 146.3,
+        "width": 15.2,
+        "height": 15.2
+      },
+      "group": "topmostSubform_0_Page1_0_Rad15YesPist_0"
+    },
+    "rad15NoPist": {
+      "type": "radio",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 248.5,
+        "top": 146.3,
+        "width": 15.2,
+        "height": 15.2
+      },
+      "group": "topmostSubform_0_Page1_0_Rad15NoPist_0"
+    },
+    "pistolUSMC": {
+      "type": "text",
+      "label": "Enter distinguished pistol credit points held in marines.",
+      "page": 1,
+      "box": {
+        "left": 343.0,
+        "top": 143.3,
+        "width": 53.3,
+        "height": 12.1
+      }
+    },
+    "pistolStReg": {
+      "type": "text",
+      "label": "Enter distinguished pistol credit points held in state or region.",
+      "page": 1,
+      "box": {
+        "left": 398.2,
+        "top": 143.3,
+        "width": 105.5,
+        "height": 12.1
+      }
+    },
+    "pistolOther": {
+      "type": "text",
+      "label": "Enter other pistol credit points held.",
+      "page": 1,
+      "box": {
+        "left": 506.7,
+        "top": 143.3,
+        "width": 58.8,
+        "height": 12.1
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 12.45,
+      "editor": "grid",
+      "columns": {
+        "wonDivMtch": {
+          "type": "text",
+          "label": "Enter awards won for division match. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 26.1,
+            "top": 114.8,
+            "width": 218.2,
+            "height": 12.1
+          }
+        },
+        "wonMarinesMtch": {
+          "type": "text",
+          "label": "Enter awards won for marine corps match. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 246.1,
+            "top": 114.8,
+            "width": 177.0,
+            "height": 12.1
+          }
+        },
+        "wonStRegMtch": {
+          "type": "text",
+          "label": "Enter awards won for state. Regional or other match. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 425.5,
+            "top": 114.8,
+            "width": 150.3,
+            "height": 12.1
+          }
+        }
+      }
+    }
+  }
+}

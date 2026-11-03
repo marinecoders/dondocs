@@ -1,0 +1,1148 @@
+{
+  "id": "navpers53542",
+  "label": "NAVPERS5354-2 - NAVY Equal Opportunity (eo) And Sexual Harassment Report",
+  "directory": "NAVPERS5354-2 - NAVY Equal Opportunity (eo) And Sexual Harassment Report",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "cell1",
+        "cell2",
+        "cell3",
+        "cell12",
+        "cell22",
+        "cell32",
+        "cell13",
+        "cell23",
+        "cell33",
+        "cell14",
+        "cell24",
+        "cell34",
+        "cell15",
+        "cell25",
+        "cell35",
+        "cell16",
+        "cell26",
+        "cell36",
+        "cell17",
+        "cell27",
+        "cell37",
+        "cell18",
+        "cell28",
+        "cell38",
+        "cell19",
+        "cell29",
+        "cell39",
+        "anonymous",
+        "formal",
+        "informal",
+        "confidential",
+        "reportername",
+        "ii2",
+        "ii3",
+        "ii5",
+        "ii4"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "ii8",
+        "ii6",
+        "ii7",
+        "ii9",
+        "ii10"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "sexualharassment",
+        "discrimination",
+        "harassment",
+        "crude",
+        "race",
+        "nationalorigin",
+        "religion",
+        "unwanted",
+        "sex",
+        "color",
+        "sexualorientation",
+        "coercion",
+        "sex2",
+        "bullying",
+        "hazing",
+        "stalking",
+        "socialmedia",
+        "verbal",
+        "nonverbal",
+        "written",
+        "electronicdevices",
+        "wrongfulbroadcast",
+        "psychological",
+        "physical",
+        "allegedname",
+        "iii2",
+        "iii3",
+        "iii5",
+        "iii4",
+        "iii8",
+        "iii6",
+        "iii7",
+        "iii9",
+        "iii10",
+        "iii11",
+        "iv1",
+        "iv2",
+        "iv3",
+        "iv4",
+        "iv5",
+        "iv6"
+      ]
+    },
+    {
+      "title": "Page 4",
+      "fields": [
+        "vfill1",
+        "reportername2",
+        "v2b",
+        "v2c"
+      ]
+    }
+  ],
+  "fields": {
+    "cell1": {
+      "type": "text",
+      "label": "(a) Equal Employment Opportunity (EEO) Official",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 501.1,
+        "width": 102.3,
+        "height": 12.2
+      }
+    },
+    "cell2": {
+      "type": "text",
+      "label": "(a) Equal Employment Opportunity (EEO) Official",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 501.1,
+        "width": 102.3,
+        "height": 12.2
+      }
+    },
+    "cell3": {
+      "type": "text",
+      "label": "(a) Equal Employment Opportunity (EEO) Official",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 501.1,
+        "width": 102.3,
+        "height": 12.2
+      }
+    },
+    "cell12": {
+      "type": "text",
+      "label": "(b) Fleet and Family Support Center (FFSC)",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 483.1,
+        "width": 102.3,
+        "height": 12.2
+      }
+    },
+    "cell22": {
+      "type": "text",
+      "label": "(b) Fleet and Family Support Center (FFSC)",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 483.1,
+        "width": 102.3,
+        "height": 12.2
+      }
+    },
+    "cell32": {
+      "type": "text",
+      "label": "(b) Fleet and Family Support Center (FFSC)",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 483.1,
+        "width": 102.3,
+        "height": 12.2
+      }
+    },
+    "cell13": {
+      "type": "text",
+      "label": "(c) Command Climate Specialist (CCS)",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 465.1,
+        "width": 102.3,
+        "height": 12.2
+      }
+    },
+    "cell23": {
+      "type": "text",
+      "label": "(c) Command Climate Specialist (CCS)",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 465.1,
+        "width": 102.3,
+        "height": 12.2
+      }
+    },
+    "cell33": {
+      "type": "text",
+      "label": "(c) Command Climate Specialist (CCS)",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 465.1,
+        "width": 102.3,
+        "height": 12.2
+      }
+    },
+    "cell14": {
+      "type": "text",
+      "label": "(d) Program Command Manager Managed Equal Opportunity (CMEO)",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 447.1,
+        "width": 102.3,
+        "height": 19.4
+      }
+    },
+    "cell24": {
+      "type": "text",
+      "label": "(d) Program Command Manager Managed Equal Opportunity (CMEO)",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 447.1,
+        "width": 102.3,
+        "height": 19.4
+      }
+    },
+    "cell34": {
+      "type": "text",
+      "label": "(d) Program Command Manager Managed Equal Opportunity (CMEO)",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 447.1,
+        "width": 102.3,
+        "height": 19.4
+      }
+    },
+    "cell15": {
+      "type": "text",
+      "label": "(e) Health Treatment Facility (HTF)",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 421.9,
+        "width": 102.3,
+        "height": 12.2
+      }
+    },
+    "cell25": {
+      "type": "text",
+      "label": "(e) Health Treatment Facility (HTF)",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 421.9,
+        "width": 102.3,
+        "height": 12.2
+      }
+    },
+    "cell35": {
+      "type": "text",
+      "label": "(e) Health Treatment Facility (HTF)",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 421.9,
+        "width": 102.3,
+        "height": 12.2
+      }
+    },
+    "cell16": {
+      "type": "text",
+      "label": "(f) Chaplain",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 403.9,
+        "width": 102.3,
+        "height": 12.2
+      }
+    },
+    "cell26": {
+      "type": "text",
+      "label": "(f) Chaplain",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 403.9,
+        "width": 102.3,
+        "height": 12.2
+      }
+    },
+    "cell36": {
+      "type": "text",
+      "label": "(f) Chaplain",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 403.9,
+        "width": 102.3,
+        "height": 12.2
+      }
+    },
+    "cell17": {
+      "type": "text",
+      "label": "(g) Legal",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 385.9,
+        "width": 102.3,
+        "height": 12.8
+      }
+    },
+    "cell27": {
+      "type": "text",
+      "label": "(g) Legal",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 385.9,
+        "width": 102.3,
+        "height": 12.8
+      }
+    },
+    "cell37": {
+      "type": "text",
+      "label": "(g) Legal",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 385.9,
+        "width": 102.3,
+        "height": 12.8
+      }
+    },
+    "cell18": {
+      "type": "text",
+      "label": "(h) Sexual Assault Response Coordinator (SARC)",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 367.3,
+        "width": 102.3,
+        "height": 12.2
+      }
+    },
+    "cell28": {
+      "type": "text",
+      "label": "(h) Sexual Assault Response Coordinator (SARC)",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 367.3,
+        "width": 102.3,
+        "height": 12.2
+      }
+    },
+    "cell38": {
+      "type": "text",
+      "label": "(h) Sexual Assault Response Coordinator (SARC)",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 367.3,
+        "width": 102.3,
+        "height": 12.2
+      }
+    },
+    "cell19": {
+      "type": "text",
+      "label": "Local TYCOM, ISIC, or local Commander\u2019s hotlines",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 255.7,
+        "width": 102.3,
+        "height": 12.2
+      }
+    },
+    "cell29": {
+      "type": "text",
+      "label": "Local TYCOM, ISIC, or local Commander\u2019s hotlines",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 255.7,
+        "width": 102.3,
+        "height": 12.2
+      }
+    },
+    "cell39": {
+      "type": "text",
+      "label": "Local TYCOM, ISIC, or local Commander\u2019s hotlines",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 255.7,
+        "width": 102.3,
+        "height": 12.2
+      }
+    },
+    "anonymous": {
+      "type": "checkbox",
+      "label": "Complaint",
+      "page": 1,
+      "box": {
+        "left": 51.4,
+        "top": 83.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "formal": {
+      "type": "checkbox",
+      "label": "Anonymous",
+      "page": 1,
+      "box": {
+        "left": 186.4,
+        "top": 83.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "informal": {
+      "type": "checkbox",
+      "label": "CUI (when",
+      "page": 1,
+      "box": {
+        "left": 321.4,
+        "top": 83.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "confidential": {
+      "type": "checkbox",
+      "label": "CUI (when filled in) Informal",
+      "page": 1,
+      "box": {
+        "left": 443.1,
+        "top": 83.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "reportername": {
+      "type": "text",
+      "label": "Complainant Name (Full First Name, MI, Last Name)",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 56.9,
+        "width": 210.3,
+        "height": 18.0
+      }
+    },
+    "ii2": {
+      "type": "text",
+      "label": "Rank or Rate/Designator",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 56.9,
+        "width": 102.3,
+        "height": 18.0
+      }
+    },
+    "ii3": {
+      "type": "text",
+      "label": "DoD ID Number",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 56.9,
+        "width": 84.3,
+        "height": 18.0
+      }
+    },
+    "ii5": {
+      "type": "text",
+      "label": "Age",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 56.9,
+        "width": 66.2,
+        "height": 18.0
+      }
+    },
+    "ii4": {
+      "type": "choice",
+      "label": "Sex",
+      "page": 1,
+      "box": {
+        "left": 453.7,
+        "top": 56.2,
+        "width": 46.7,
+        "height": 16.5
+      },
+      "options": [
+        "Male",
+        "Female"
+      ]
+    },
+    "ii8": {
+      "type": "text",
+      "label": "Religion",
+      "page": 2,
+      "box": {
+        "left": 326.9,
+        "top": 708.5,
+        "width": 246.3,
+        "height": 18.0
+      }
+    },
+    "ii6": {
+      "type": "choice",
+      "label": "Ethnicity",
+      "page": 2,
+      "box": {
+        "left": 39.6,
+        "top": 707.7,
+        "width": 136.8,
+        "height": 16.5
+      },
+      "options": [
+        "Hispanic or Latino",
+        "Not Hispanic or Latino",
+        "Declined to Respond"
+      ]
+    },
+    "ii7": {
+      "type": "choice",
+      "label": "Race",
+      "page": 2,
+      "box": {
+        "left": 183.7,
+        "top": 707.7,
+        "width": 136.8,
+        "height": 16.5
+      },
+      "options": [
+        "American Indian or Alaska Native",
+        "Asian",
+        "Black or African American",
+        "Native Hawaiian or Other Pacific Islander",
+        "White",
+        "Multi-Racial",
+        "Declined to Respond"
+      ]
+    },
+    "ii9": {
+      "type": "text",
+      "label": "Command Name and Unit Identification Code (UIC)",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 676.1,
+        "width": 282.3,
+        "height": 18.0
+      }
+    },
+    "ii10": {
+      "type": "choice",
+      "label": "Component",
+      "page": 2,
+      "box": {
+        "left": 327.7,
+        "top": 675.3,
+        "width": 244.8,
+        "height": 16.5
+      },
+      "options": [
+        "Active",
+        "Full-Time Support",
+        "Selective Reserves"
+      ]
+    },
+    "sexualharassment": {
+      "type": "checkbox",
+      "label": "Sexualharassment",
+      "page": 3,
+      "box": {
+        "left": 93.9,
+        "top": 716.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "discrimination": {
+      "type": "checkbox",
+      "label": "Sexual Harassment",
+      "page": 3,
+      "box": {
+        "left": 345.5,
+        "top": 715.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "harassment": {
+      "type": "checkbox",
+      "label": "Discrimination",
+      "page": 3,
+      "box": {
+        "left": 453.5,
+        "top": 715.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "crude": {
+      "type": "checkbox",
+      "label": "Sexual",
+      "page": 3,
+      "box": {
+        "left": 111.9,
+        "top": 698.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "race": {
+      "type": "checkbox",
+      "label": "Crude Offensive Behavior",
+      "page": 3,
+      "box": {
+        "left": 309.5,
+        "top": 697.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "nationalorigin": {
+      "type": "checkbox",
+      "label": "Race",
+      "page": 3,
+      "box": {
+        "left": 381.5,
+        "top": 697.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "religion": {
+      "type": "checkbox",
+      "label": "National Origin",
+      "page": 3,
+      "box": {
+        "left": 489.6,
+        "top": 697.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "unwanted": {
+      "type": "checkbox",
+      "label": "Sexual",
+      "page": 3,
+      "box": {
+        "left": 111.9,
+        "top": 680.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "sex": {
+      "type": "checkbox",
+      "label": "Sexual Orientation",
+      "page": 3,
+      "box": {
+        "left": 489.9,
+        "top": 679.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "color": {
+      "type": "checkbox",
+      "label": "Unwanted Sexual Attention",
+      "page": 3,
+      "box": {
+        "left": 309.5,
+        "top": 679.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "sexualorientation": {
+      "type": "checkbox",
+      "label": "Color",
+      "page": 3,
+      "box": {
+        "left": 381.5,
+        "top": 679.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "coercion": {
+      "type": "checkbox",
+      "label": "Sexual",
+      "page": 3,
+      "box": {
+        "left": 111.9,
+        "top": 662.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "sex2": {
+      "type": "checkbox",
+      "label": "Sexual Coercion",
+      "page": 3,
+      "box": {
+        "left": 381.9,
+        "top": 661.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "bullying": {
+      "type": "checkbox",
+      "label": "Stalking",
+      "page": 3,
+      "box": {
+        "left": 345.9,
+        "top": 644.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "hazing": {
+      "type": "checkbox",
+      "label": "Bullying",
+      "page": 3,
+      "box": {
+        "left": 453.9,
+        "top": 644.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "stalking": {
+      "type": "checkbox",
+      "label": "Coercion",
+      "page": 3,
+      "box": {
+        "left": 174.9,
+        "top": 644.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "socialmedia": {
+      "type": "checkbox",
+      "label": "NAVPERS",
+      "page": 3,
+      "box": {
+        "left": 39.9,
+        "top": 635.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "verbal": {
+      "type": "checkbox",
+      "label": "Wrongful Broadcast or",
+      "page": 3,
+      "box": {
+        "left": 309.9,
+        "top": 626.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "nonverbal": {
+      "type": "checkbox",
+      "label": "Verbal",
+      "page": 3,
+      "box": {
+        "left": 381.9,
+        "top": 626.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "written": {
+      "type": "checkbox",
+      "label": "Nonverbal",
+      "page": 3,
+      "box": {
+        "left": 489.9,
+        "top": 626.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "electronicdevices": {
+      "type": "checkbox",
+      "label": "NAVPERS",
+      "page": 3,
+      "box": {
+        "left": 39.9,
+        "top": 617.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "wrongfulbroadcast": {
+      "type": "checkbox",
+      "label": "Involves Electronic Devices",
+      "page": 3,
+      "box": {
+        "left": 174.9,
+        "top": 616.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "psychological": {
+      "type": "checkbox",
+      "label": "Visual Images",
+      "page": 3,
+      "box": {
+        "left": 345.9,
+        "top": 608.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "physical": {
+      "type": "checkbox",
+      "label": "Psychological",
+      "page": 3,
+      "box": {
+        "left": 471.9,
+        "top": 608.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "allegedname": {
+      "type": "text",
+      "label": "Alleged Offender Name (Full First Name, MI, Last Name)",
+      "page": 3,
+      "box": {
+        "left": 38.9,
+        "top": 499.1,
+        "width": 228.3,
+        "height": 18.0
+      }
+    },
+    "iii2": {
+      "type": "text",
+      "label": "Rank Rate/Designator",
+      "page": 3,
+      "box": {
+        "left": 272.9,
+        "top": 499.1,
+        "width": 102.3,
+        "height": 18.0
+      }
+    },
+    "iii3": {
+      "type": "text",
+      "label": "DoD ID Number",
+      "page": 3,
+      "box": {
+        "left": 380.9,
+        "top": 499.1,
+        "width": 84.3,
+        "height": 18.0
+      }
+    },
+    "iii5": {
+      "type": "text",
+      "label": "Age",
+      "page": 3,
+      "box": {
+        "left": 524.9,
+        "top": 499.1,
+        "width": 48.2,
+        "height": 18.0
+      }
+    },
+    "iii4": {
+      "type": "choice",
+      "label": "Sex",
+      "page": 3,
+      "box": {
+        "left": 471.7,
+        "top": 498.3,
+        "width": 46.7,
+        "height": 16.5
+      },
+      "options": [
+        "Male",
+        "Female"
+      ]
+    },
+    "iii8": {
+      "type": "text",
+      "label": "Religion",
+      "page": 3,
+      "box": {
+        "left": 326.9,
+        "top": 466.7,
+        "width": 246.3,
+        "height": 18.0
+      }
+    },
+    "iii6": {
+      "type": "choice",
+      "label": "Ethnicity",
+      "page": 3,
+      "box": {
+        "left": 39.6,
+        "top": 465.9,
+        "width": 136.8,
+        "height": 16.5
+      },
+      "options": [
+        "Hispanic or Latino",
+        "Not Hispanic or Latino",
+        "Declined to Respond"
+      ]
+    },
+    "iii7": {
+      "type": "choice",
+      "label": "Race",
+      "page": 3,
+      "box": {
+        "left": 183.7,
+        "top": 465.9,
+        "width": 136.8,
+        "height": 16.5
+      },
+      "options": [
+        "American Indian or Alaska Native",
+        "Asian",
+        "Black or African American",
+        "Native Hawaiian or Other Pacific Islander",
+        "White",
+        "Multi-Racial",
+        "Declined to Respond"
+      ]
+    },
+    "iii9": {
+      "type": "text",
+      "label": "Command Name and Unit Identification Code (UIC)",
+      "page": 3,
+      "box": {
+        "left": 38.9,
+        "top": 434.3,
+        "width": 282.3,
+        "height": 18.0
+      }
+    },
+    "iii10": {
+      "type": "choice",
+      "label": "Component",
+      "page": 3,
+      "box": {
+        "left": 327.7,
+        "top": 433.5,
+        "width": 244.8,
+        "height": 16.5
+      },
+      "options": [
+        "Active",
+        "Full-Time Support",
+        "Selective Reserves"
+      ]
+    },
+    "iii11": {
+      "type": "choice",
+      "label": "Relationship to Complainant",
+      "page": 3,
+      "box": {
+        "left": 165.7,
+        "top": 409.8,
+        "width": 406.8,
+        "height": 10.7
+      },
+      "options": [
+        "Military Coworker",
+        "Chain of Command",
+        "Military Subordinate",
+        "Military Higher Rank/Grade not in CoC",
+        "Other Military Person",
+        "Person in Local Community",
+        "Civilian",
+        "Contractor",
+        "Anonymous",
+        "Other"
+      ]
+    },
+    "iv1": {
+      "type": "text",
+      "label": "Representative Receiving Complaint",
+      "page": 3,
+      "box": {
+        "left": 38.9,
+        "top": 333.5,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "iv2": {
+      "type": "text",
+      "label": "Rank/Rate",
+      "page": 3,
+      "box": {
+        "left": 272.9,
+        "top": 333.5,
+        "width": 84.3,
+        "height": 21.6
+      }
+    },
+    "iv3": {
+      "type": "text",
+      "label": "Position",
+      "page": 3,
+      "box": {
+        "left": 362.9,
+        "top": 333.5,
+        "width": 210.3,
+        "height": 21.6
+      }
+    },
+    "iv4": {
+      "type": "text",
+      "label": "Command Name/UIC",
+      "page": 3,
+      "box": {
+        "left": 38.9,
+        "top": 297.5,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "iv5": {
+      "type": "text",
+      "label": "Representative Signature",
+      "page": 3,
+      "box": {
+        "left": 272.9,
+        "top": 297.5,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "iv6": {
+      "type": "text",
+      "label": "Date",
+      "page": 3,
+      "box": {
+        "left": 506.9,
+        "top": 297.5,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "vfill1": {
+      "type": "text",
+      "label": "Vfill 1",
+      "page": 4,
+      "box": {
+        "left": 38.9,
+        "top": 630.7,
+        "width": 534.3,
+        "height": 528.9
+      },
+      "multiline": true
+    },
+    "reportername2": {
+      "type": "text",
+      "label": "Name",
+      "page": 4,
+      "box": {
+        "left": 38.9,
+        "top": 60.6,
+        "width": 228.3,
+        "height": 21.9
+      }
+    },
+    "v2b": {
+      "type": "text",
+      "label": "Signature",
+      "page": 4,
+      "box": {
+        "left": 272.9,
+        "top": 60.4,
+        "width": 228.3,
+        "height": 21.6
+      }
+    },
+    "v2c": {
+      "type": "text",
+      "label": "Date",
+      "page": 4,
+      "box": {
+        "left": 506.9,
+        "top": 60.4,
+        "width": 66.2,
+        "height": 21.6
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 3,
+      "count": 3,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "iI13dropdown": {
+          "type": "choice",
+          "label": "Location and Duty Status when Incident Occured",
+          "page": 3,
+          "box": {
+            "left": 61.2,
+            "top": 575.4,
+            "width": 511.2,
+            "height": 10.7
+          }
+        }
+      }
+    }
+  }
+}

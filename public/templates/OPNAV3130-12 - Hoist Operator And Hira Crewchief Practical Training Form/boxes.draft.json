@@ -1,0 +1,436 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 792,
+    "height": 612
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "calYr": {
+        "left": 457.3,
+        "top": 555.2,
+        "width": 66.3,
+        "height": 12.3,
+        "type": "text",
+        "description": "CalYr",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "jan2": {
+        "left": 547.3,
+        "top": 472.5,
+        "width": 9.8,
+        "height": 18.0,
+        "type": "text",
+        "description": "jan2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "feb2": {
+        "left": 565.3,
+        "top": 472.5,
+        "width": 9.8,
+        "height": 18.0,
+        "type": "text",
+        "description": "feb2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mar2": {
+        "left": 583.3,
+        "top": 472.5,
+        "width": 9.8,
+        "height": 18.0,
+        "type": "text",
+        "description": "mar2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "april2": {
+        "left": 601.3,
+        "top": 472.5,
+        "width": 9.8,
+        "height": 18.0,
+        "type": "text",
+        "description": "april2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "may2": {
+        "left": 619.3,
+        "top": 472.5,
+        "width": 9.8,
+        "height": 18.0,
+        "type": "text",
+        "description": "may2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "june2": {
+        "left": 637.3,
+        "top": 472.5,
+        "width": 9.8,
+        "height": 18.0,
+        "type": "text",
+        "description": "june2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "july2": {
+        "left": 655.3,
+        "top": 472.5,
+        "width": 9.8,
+        "height": 18.0,
+        "type": "text",
+        "description": "july2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "aug2": {
+        "left": 673.3,
+        "top": 472.5,
+        "width": 9.8,
+        "height": 18.0,
+        "type": "text",
+        "description": "aug2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sept2": {
+        "left": 691.3,
+        "top": 472.5,
+        "width": 9.8,
+        "height": 18.0,
+        "type": "text",
+        "description": "sept2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "oct2": {
+        "left": 709.3,
+        "top": 472.5,
+        "width": 9.8,
+        "height": 18.0,
+        "type": "text",
+        "description": "oct2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nov2": {
+        "left": 727.3,
+        "top": 472.5,
+        "width": 9.8,
+        "height": 18.0,
+        "type": "text",
+        "description": "nov2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dec2": {
+        "left": 743.4,
+        "top": 472.5,
+        "width": 9.8,
+        "height": 18.0,
+        "type": "text",
+        "description": "dec2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "jan8": {
+        "left": 545.9,
+        "top": 417.1,
+        "width": 51.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "jan8",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "apr8": {
+        "left": 599.9,
+        "top": 417.1,
+        "width": 51.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "apr8",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "jul8": {
+        "left": 653.9,
+        "top": 417.1,
+        "width": 51.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "jul8",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "oct8": {
+        "left": 707.9,
+        "top": 417.1,
+        "width": 46.7,
+        "height": 15.2,
+        "type": "text",
+        "description": "oct8",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "jan9": {
+        "left": 545.9,
+        "top": 399.1,
+        "width": 51.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "jan9",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "apr9": {
+        "left": 599.9,
+        "top": 399.1,
+        "width": 51.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "apr9",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "jul9": {
+        "left": 653.9,
+        "top": 399.1,
+        "width": 51.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "jul9",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "oct9": {
+        "left": 707.9,
+        "top": 399.1,
+        "width": 46.7,
+        "height": 15.2,
+        "type": "text",
+        "description": "oct9",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "janJuns1": {
+        "left": 221.9,
+        "top": 345.1,
+        "width": 78.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "jan_juns1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "julDecs1": {
+        "left": 302.9,
+        "top": 345.1,
+        "width": 82.7,
+        "height": 15.2,
+        "type": "text",
+        "description": "jul_decs1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "janJuns2": {
+        "left": 221.9,
+        "top": 327.1,
+        "width": 78.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "jan_juns2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "julDecs2": {
+        "left": 302.9,
+        "top": 327.1,
+        "width": 82.7,
+        "height": 15.2,
+        "type": "text",
+        "description": "jul_decs2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "janJun10": {
+        "left": 545.9,
+        "top": 327.1,
+        "width": 105.2,
+        "height": 24.2,
+        "type": "text",
+        "description": "jan_jun10",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "julDec10": {
+        "left": 653.9,
+        "top": 327.1,
+        "width": 100.7,
+        "height": 24.2,
+        "type": "text",
+        "description": "jul_dec10",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "janJuns3": {
+        "left": 221.9,
+        "top": 309.1,
+        "width": 78.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "jan_juns3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "julDecs3": {
+        "left": 302.9,
+        "top": 309.1,
+        "width": 82.7,
+        "height": 15.2,
+        "type": "text",
+        "description": "jul_decs3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "janJun11": {
+        "left": 545.9,
+        "top": 300.1,
+        "width": 105.2,
+        "height": 24.2,
+        "type": "text",
+        "description": "jan_jun11",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "julDec11": {
+        "left": 653.9,
+        "top": 300.1,
+        "width": 100.7,
+        "height": 24.2,
+        "type": "text",
+        "description": "jul_dec11",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "janJuns4": {
+        "left": 221.9,
+        "top": 291.1,
+        "width": 78.2,
+        "height": 15.2,
+        "type": "text",
+        "description": "jan_juns4",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "julDecs4": {
+        "left": 302.9,
+        "top": 291.1,
+        "width": 82.7,
+        "height": 15.2,
+        "type": "text",
+        "description": "jul_decs4",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "janDec5": {
+        "left": 302.9,
+        "top": 237.1,
+        "width": 82.7,
+        "height": 15.2,
+        "type": "text",
+        "description": "jan_dec5",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "janDec10": {
+        "left": 653.9,
+        "top": 237.1,
+        "width": 100.7,
+        "height": 33.2,
+        "type": "text",
+        "description": "jan_dec10",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "janDec6": {
+        "left": 302.9,
+        "top": 219.1,
+        "width": 82.7,
+        "height": 15.2,
+        "type": "text",
+        "description": "jan_dec6",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name": {
+        "left": 188.3,
+        "top": 199.7,
+        "width": 195.9,
+        "height": 30.3,
+        "type": "text",
+        "description": " NAME  (LAST, FIRST, MI, SUFFIX): ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rankRate": {
+        "left": 474.2,
+        "top": 199.7,
+        "width": 279.0,
+        "height": 30.3,
+        "type": "text",
+        "description": " RANK/RATE:",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

@@ -1,0 +1,809 @@
+{
+  "id": "navmc11209",
+  "label": "NAVMC 11209 - Instructors Course Record",
+  "directory": "NAVMC11209 - Instructors Course Record",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "trainingLoc",
+        "unitSwimCK",
+        "numEnrolled",
+        "mCITWSck",
+        "numPassed",
+        "mCIWSck",
+        "dateBegin",
+        "refreshCk",
+        "dateComplete",
+        "qTRrepCk",
+        "sigInstructor",
+        "mos1",
+        "dateExpirInstr1",
+        "dateExpirPR1",
+        "dateExpirAID1",
+        "dateExpirInstr12",
+        "dateExpirPR12",
+        "dateExpirAID12",
+        "mos12",
+        "nameInstr",
+        "mos13",
+        "mos2",
+        "dateExpirInstr2",
+        "dateExpirPR2",
+        "dateExpirAID2",
+        "mos22",
+        "dateExpirInstr22",
+        "dateExpirPR22",
+        "dateExpirAID22",
+        "mos3",
+        "mos32",
+        "dateExpirInstr3",
+        "dateExpirPR3",
+        "dateExpirAID3",
+        "mos4",
+        "dateExpirInstr4",
+        "dateExpirAID4",
+        "dateExpirPR4",
+        "wsu",
+        "wsb",
+        "wSBplus",
+        "wsi",
+        "wsA",
+        "mciws",
+        "mcitws",
+        "totalTrained"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "distrib",
+        "ccmccdc",
+        "locTrainer",
+        "instructor",
+        "sigInstructorPg2",
+        "addendum",
+        "cardNo"
+      ]
+    }
+  ],
+  "fields": {
+    "trainingLoc": {
+      "type": "text",
+      "label": "TrainingLoc",
+      "page": 1,
+      "box": {
+        "left": 231.0,
+        "top": 724.6,
+        "width": 124.6,
+        "height": 20.9
+      }
+    },
+    "unitSwimCK": {
+      "type": "checkbox",
+      "label": "unitSwimCK",
+      "page": 1,
+      "box": {
+        "left": 34.9,
+        "top": 716.8,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "numEnrolled": {
+      "type": "text",
+      "label": "NumEnrolled",
+      "page": 1,
+      "box": {
+        "left": 231.0,
+        "top": 699.7,
+        "width": 124.6,
+        "height": 20.2
+      }
+    },
+    "mCITWSck": {
+      "type": "checkbox",
+      "label": "MCITWSck",
+      "page": 1,
+      "box": {
+        "left": 34.9,
+        "top": 695.0,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "numPassed": {
+      "type": "text",
+      "label": "NumPassed",
+      "page": 1,
+      "box": {
+        "left": 231.0,
+        "top": 676.5,
+        "width": 124.6,
+        "height": 20.2
+      }
+    },
+    "mCIWSck": {
+      "type": "checkbox",
+      "label": "MCIWSck",
+      "page": 1,
+      "box": {
+        "left": 34.9,
+        "top": 672.7,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "dateBegin": {
+      "type": "text",
+      "label": "DateBegin",
+      "page": 1,
+      "box": {
+        "left": 231.0,
+        "top": 652.5,
+        "width": 124.6,
+        "height": 20.2
+      }
+    },
+    "refreshCk": {
+      "type": "checkbox",
+      "label": "RefreshCk",
+      "page": 1,
+      "box": {
+        "left": 34.9,
+        "top": 650.0,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "dateComplete": {
+      "type": "text",
+      "label": "DateComplete",
+      "page": 1,
+      "box": {
+        "left": 231.0,
+        "top": 629.2,
+        "width": 124.6,
+        "height": 20.2
+      }
+    },
+    "qTRrepCk": {
+      "type": "checkbox",
+      "label": "QTRrepCk",
+      "page": 1,
+      "box": {
+        "left": 34.9,
+        "top": 627.5,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "sigInstructor": {
+      "type": "signature",
+      "label": "SigInstructor",
+      "page": 1,
+      "box": {
+        "left": 20.7,
+        "top": 597.0,
+        "width": 283.1,
+        "height": 14.0
+      }
+    },
+    "mos1": {
+      "type": "text",
+      "label": "MOS1",
+      "page": 1,
+      "box": {
+        "left": 308.3,
+        "top": 596.2,
+        "width": 154.5,
+        "height": 12.9
+      }
+    },
+    "dateExpirInstr1": {
+      "type": "text",
+      "label": "DateExpirInstr1",
+      "page": 1,
+      "box": {
+        "left": 467.7,
+        "top": 568.0,
+        "width": 38.4,
+        "height": 14.7
+      }
+    },
+    "dateExpirPR1": {
+      "type": "text",
+      "label": "DateExpirPR1",
+      "page": 1,
+      "box": {
+        "left": 510.6,
+        "top": 568.0,
+        "width": 38.4,
+        "height": 14.7
+      }
+    },
+    "dateExpirAID1": {
+      "type": "text",
+      "label": "DateExpirAID1",
+      "page": 1,
+      "box": {
+        "left": 552.6,
+        "top": 568.0,
+        "width": 38.4,
+        "height": 14.7
+      }
+    },
+    "dateExpirInstr12": {
+      "type": "text",
+      "label": "DateExpirInstr1",
+      "page": 1,
+      "box": {
+        "left": 467.6,
+        "top": 567.8,
+        "width": 38.4,
+        "height": 14.7
+      }
+    },
+    "dateExpirPR12": {
+      "type": "text",
+      "label": "DateExpirPR1",
+      "page": 1,
+      "box": {
+        "left": 510.6,
+        "top": 567.7,
+        "width": 38.4,
+        "height": 14.7
+      }
+    },
+    "dateExpirAID12": {
+      "type": "text",
+      "label": "DateExpirAID1",
+      "page": 1,
+      "box": {
+        "left": 553.3,
+        "top": 567.7,
+        "width": 38.4,
+        "height": 14.7
+      }
+    },
+    "mos12": {
+      "type": "text",
+      "label": "MOS1",
+      "page": 1,
+      "box": {
+        "left": 439.2,
+        "top": 567.6,
+        "width": 25.9,
+        "height": 14.7
+      }
+    },
+    "nameInstr": {
+      "type": "text",
+      "label": "NameInstr",
+      "page": 1,
+      "box": {
+        "left": 102.4,
+        "top": 567.4,
+        "width": 333.0,
+        "height": 14.7
+      }
+    },
+    "mos13": {
+      "type": "text",
+      "label": "MOS1",
+      "page": 1,
+      "box": {
+        "left": 438.4,
+        "top": 567.4,
+        "width": 25.9,
+        "height": 14.7
+      }
+    },
+    "mos2": {
+      "type": "text",
+      "label": "MOS2",
+      "page": 1,
+      "box": {
+        "left": 439.2,
+        "top": 551.1,
+        "width": 25.9,
+        "height": 14.7
+      }
+    },
+    "dateExpirInstr2": {
+      "type": "text",
+      "label": "DateExpirInstr2",
+      "page": 1,
+      "box": {
+        "left": 467.7,
+        "top": 551.1,
+        "width": 38.4,
+        "height": 14.7
+      }
+    },
+    "dateExpirPR2": {
+      "type": "text",
+      "label": "DateExpirPR2",
+      "page": 1,
+      "box": {
+        "left": 510.6,
+        "top": 551.0,
+        "width": 38.4,
+        "height": 14.7
+      }
+    },
+    "dateExpirAID2": {
+      "type": "text",
+      "label": "DateExpirAID2",
+      "page": 1,
+      "box": {
+        "left": 553.4,
+        "top": 551.0,
+        "width": 38.4,
+        "height": 14.7
+      }
+    },
+    "mos22": {
+      "type": "text",
+      "label": "MOS2",
+      "page": 1,
+      "box": {
+        "left": 438.4,
+        "top": 550.8,
+        "width": 25.9,
+        "height": 14.7
+      }
+    },
+    "dateExpirInstr22": {
+      "type": "text",
+      "label": "DateExpirInstr2",
+      "page": 1,
+      "box": {
+        "left": 467.6,
+        "top": 550.8,
+        "width": 38.4,
+        "height": 14.7
+      }
+    },
+    "dateExpirPR22": {
+      "type": "text",
+      "label": "DateExpirPR2",
+      "page": 1,
+      "box": {
+        "left": 510.6,
+        "top": 550.8,
+        "width": 38.4,
+        "height": 14.7
+      }
+    },
+    "dateExpirAID22": {
+      "type": "text",
+      "label": "DateExpirAID2",
+      "page": 1,
+      "box": {
+        "left": 553.3,
+        "top": 550.8,
+        "width": 38.4,
+        "height": 14.7
+      }
+    },
+    "mos3": {
+      "type": "text",
+      "label": "MOS3",
+      "page": 1,
+      "box": {
+        "left": 439.2,
+        "top": 534.2,
+        "width": 25.9,
+        "height": 14.7
+      }
+    },
+    "mos32": {
+      "type": "text",
+      "label": "MOS3",
+      "page": 1,
+      "box": {
+        "left": 438.4,
+        "top": 534.0,
+        "width": 25.9,
+        "height": 14.7
+      }
+    },
+    "dateExpirInstr3": {
+      "type": "text",
+      "label": "DateExpirInstr3",
+      "page": 1,
+      "box": {
+        "left": 466.9,
+        "top": 534.0,
+        "width": 38.4,
+        "height": 14.7
+      }
+    },
+    "dateExpirPR3": {
+      "type": "text",
+      "label": "DateExpirPR3",
+      "page": 1,
+      "box": {
+        "left": 510.6,
+        "top": 533.9,
+        "width": 38.4,
+        "height": 14.7
+      }
+    },
+    "dateExpirAID3": {
+      "type": "text",
+      "label": "DateExpirAID3",
+      "page": 1,
+      "box": {
+        "left": 553.3,
+        "top": 533.9,
+        "width": 38.4,
+        "height": 14.7
+      }
+    },
+    "mos4": {
+      "type": "text",
+      "label": "MOS4",
+      "page": 1,
+      "box": {
+        "left": 438.4,
+        "top": 517.1,
+        "width": 25.9,
+        "height": 14.7
+      }
+    },
+    "dateExpirInstr4": {
+      "type": "text",
+      "label": "DateExpirInstr4",
+      "page": 1,
+      "box": {
+        "left": 467.6,
+        "top": 517.1,
+        "width": 38.4,
+        "height": 14.7
+      }
+    },
+    "dateExpirAID4": {
+      "type": "text",
+      "label": "DateExpirAID4",
+      "page": 1,
+      "box": {
+        "left": 553.3,
+        "top": 517.1,
+        "width": 38.4,
+        "height": 14.7
+      }
+    },
+    "dateExpirPR4": {
+      "type": "text",
+      "label": "DateExpirPR4",
+      "page": 1,
+      "box": {
+        "left": 510.6,
+        "top": 517.0,
+        "width": 38.4,
+        "height": 14.7
+      }
+    },
+    "wsu": {
+      "type": "text",
+      "label": "WSU",
+      "page": 1,
+      "box": {
+        "left": 103.2,
+        "top": 483.6,
+        "width": 51.1,
+        "height": 14.7
+      }
+    },
+    "wsb": {
+      "type": "text",
+      "label": "WSB",
+      "page": 1,
+      "box": {
+        "left": 159.4,
+        "top": 483.6,
+        "width": 54.3,
+        "height": 14.7
+      }
+    },
+    "wSBplus": {
+      "type": "text",
+      "label": "WSBplus",
+      "page": 1,
+      "box": {
+        "left": 219.8,
+        "top": 483.6,
+        "width": 50.1,
+        "height": 14.7
+      }
+    },
+    "wsi": {
+      "type": "text",
+      "label": "WSI",
+      "page": 1,
+      "box": {
+        "left": 276.0,
+        "top": 483.6,
+        "width": 47.5,
+        "height": 14.7
+      }
+    },
+    "wsA": {
+      "type": "text",
+      "label": "WS_A",
+      "page": 1,
+      "box": {
+        "left": 329.8,
+        "top": 483.6,
+        "width": 53.8,
+        "height": 14.7
+      }
+    },
+    "mciws": {
+      "type": "text",
+      "label": "MCIWS",
+      "page": 1,
+      "box": {
+        "left": 387.9,
+        "top": 483.6,
+        "width": 53.1,
+        "height": 14.7
+      }
+    },
+    "mcitws": {
+      "type": "text",
+      "label": "MCITWS",
+      "page": 1,
+      "box": {
+        "left": 445.4,
+        "top": 483.6,
+        "width": 55.5,
+        "height": 14.7
+      }
+    },
+    "totalTrained": {
+      "type": "text",
+      "label": "TotalTrained",
+      "page": 1,
+      "box": {
+        "left": 504.4,
+        "top": 483.6,
+        "width": 87.6,
+        "height": 14.7
+      }
+    },
+    "distrib": {
+      "type": "text",
+      "label": "Distrib",
+      "page": 2,
+      "box": {
+        "left": 20.6,
+        "top": 717.8,
+        "width": 147.4,
+        "height": 15.8
+      }
+    },
+    "ccmccdc": {
+      "type": "text",
+      "label": "CCMCCDC",
+      "page": 2,
+      "box": {
+        "left": 173.3,
+        "top": 717.8,
+        "width": 201.7,
+        "height": 15.8
+      }
+    },
+    "locTrainer": {
+      "type": "text",
+      "label": "LocTrainer",
+      "page": 2,
+      "box": {
+        "left": 378.4,
+        "top": 717.8,
+        "width": 105.8,
+        "height": 15.8
+      }
+    },
+    "instructor": {
+      "type": "text",
+      "label": "Instructor",
+      "page": 2,
+      "box": {
+        "left": 487.9,
+        "top": 717.8,
+        "width": 105.0,
+        "height": 15.8
+      }
+    },
+    "sigInstructorPg2": {
+      "type": "signature",
+      "label": "SigInstructorPg2",
+      "page": 2,
+      "box": {
+        "left": 171.7,
+        "top": 683.6,
+        "width": 209.3,
+        "height": 15.8
+      }
+    },
+    "addendum": {
+      "type": "text",
+      "label": "Addendum",
+      "page": 2,
+      "box": {
+        "left": 20.7,
+        "top": 683.2,
+        "width": 147.4,
+        "height": 15.8
+      }
+    },
+    "cardNo": {
+      "type": "text",
+      "label": "CardNo",
+      "page": 2,
+      "box": {
+        "left": 385.5,
+        "top": 683.2,
+        "width": 205.9,
+        "height": 15.8
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 16.85,
+      "editor": "grid",
+      "columns": {
+        "nameAI": {
+          "type": "text",
+          "label": "NameAI1",
+          "page": 1,
+          "box": {
+            "left": 102.4,
+            "top": 550.8,
+            "width": 333.0,
+            "height": 14.7
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 22,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "grade": {
+          "type": "text",
+          "label": "Grade1",
+          "page": 1,
+          "box": {
+            "left": 20.8,
+            "top": 448.7,
+            "width": 50.7,
+            "height": 15.8
+          }
+        },
+        "name": {
+          "type": "text",
+          "label": "Name1",
+          "page": 1,
+          "box": {
+            "left": 75.8,
+            "top": 448.7,
+            "width": 205.0,
+            "height": 15.8
+          }
+        },
+        "last4SSN": {
+          "type": "text",
+          "label": "Last4SSN1",
+          "page": 1,
+          "box": {
+            "left": 285.5,
+            "top": 448.7,
+            "width": 28.8,
+            "height": 15.8
+          }
+        },
+        "qual": {
+          "type": "text",
+          "label": "Qual1",
+          "page": 1,
+          "box": {
+            "left": 318.7,
+            "top": 448.7,
+            "width": 67.7,
+            "height": 15.8
+          }
+        },
+        "unitAddr": {
+          "type": "text",
+          "label": "UnitAddr1",
+          "page": 1,
+          "box": {
+            "left": 391.0,
+            "top": 448.7,
+            "width": 200.2,
+            "height": 15.8
+          }
+        }
+      }
+    },
+    "rows3": {
+      "title": "Rows",
+      "page": 2,
+      "count": 33,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "grade": {
+          "type": "text",
+          "label": "Grade23",
+          "page": 2,
+          "box": {
+            "left": 21.0,
+            "top": 646.7,
+            "width": 50.7,
+            "height": 15.8
+          }
+        },
+        "name": {
+          "type": "text",
+          "label": "Name23",
+          "page": 2,
+          "box": {
+            "left": 75.8,
+            "top": 646.7,
+            "width": 205.0,
+            "height": 15.8
+          }
+        },
+        "last4SSN": {
+          "type": "text",
+          "label": "Last4SSN23",
+          "page": 2,
+          "box": {
+            "left": 285.5,
+            "top": 646.7,
+            "width": 28.8,
+            "height": 15.8
+          }
+        },
+        "qual": {
+          "type": "text",
+          "label": "Qual23",
+          "page": 2,
+          "box": {
+            "left": 318.7,
+            "top": 646.7,
+            "width": 67.7,
+            "height": 15.8
+          }
+        },
+        "unitAddr": {
+          "type": "text",
+          "label": "UnitAddr23",
+          "page": 2,
+          "box": {
+            "left": 391.0,
+            "top": 646.7,
+            "width": 200.2,
+            "height": 15.8
+          }
+        }
+      }
+    }
+  }
+}

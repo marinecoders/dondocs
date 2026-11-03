@@ -1,0 +1,84 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "membersname": {
+        "left": 44.0,
+        "top": 362.3,
+        "width": 524.0,
+        "height": 25.2,
+        "type": "text",
+        "description": "Please enter member's rate.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "membersname2": {
+        "left": 44.0,
+        "top": 331.5,
+        "width": 524.0,
+        "height": 25.2,
+        "type": "text",
+        "description": "Please enter member's full name.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "membersname3": {
+        "left": 44.0,
+        "top": 300.6,
+        "width": 524.0,
+        "height": 25.2,
+        "type": "text",
+        "description": "Please enter member's branch.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "membersname4": {
+        "left": 44.0,
+        "top": 202.9,
+        "width": 524.0,
+        "height": 25.2,
+        "type": "text",
+        "description": "Please number of award (i.e., FIRST)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date1": {
+        "left": 388.5,
+        "top": 161.7,
+        "width": 174.3,
+        "height": 25.2,
+        "type": "text",
+        "description": "Please place date of award.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField1": {
+        "left": 301.1,
+        "top": 84.6,
+        "width": 266.9,
+        "height": 35.5,
+        "type": "text",
+        "description": "TextField1",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

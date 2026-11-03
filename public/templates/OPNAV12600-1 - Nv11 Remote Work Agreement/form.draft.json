@@ -1,0 +1,340 @@
+{
+  "id": "opnav126001",
+  "label": "OPNAV12600-1 - Nv11 Remote Work Agreement",
+  "directory": "OPNAV12600-1 - Nv11 Remote Work Agreement",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "inputCommandName"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "startOfAgreementAfDate",
+        "endOfAgreementAfDate",
+        "distantRemoteWorker",
+        "localRemoteWorker",
+        "ddForm2946Attached",
+        "certOfCompletionAttached",
+        "1EmployeeLastNameFirstMiddleInitial",
+        "2JobTitlePayPlanSeriesGrade",
+        "3EmployingOrganizationNameAndAddress",
+        "4RequestedRemoteWorksiteAddress",
+        "dateMMDDYYYY",
+        "5EmployeeSignatureIAcknowledgeIHaveReadUnderstandAndWillComplyWithAllProvisionsOutlinedInThisAgreement",
+        "6SupervisorApproval",
+        "6SupervisorDisapproval",
+        "6SupervisorRecommendationApproveDisapproveProvideExplanationBelow",
+        "dateMMDDYYYY2",
+        "7SupervisorSignature",
+        "8CommandApprovingOfficialApproval",
+        "8CommandApprovingOfficialDisapproval",
+        "commandApprovingOfficialDisapproveProvideExplanationBelow",
+        "dateMMDDYYYY3",
+        "9ApprovingOfficialSignature"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "locationOfCaCFacility",
+        "additionalCommandOrganizationPolicyRequirements"
+      ]
+    }
+  ],
+  "fields": {
+    "inputCommandName": {
+      "type": "text",
+      "label": "Insert Command Name",
+      "page": 1,
+      "box": {
+        "left": 231.6,
+        "top": 573.1,
+        "width": 131.9,
+        "height": 13.1
+      },
+      "required": true
+    },
+    "startOfAgreementAfDate": {
+      "type": "text",
+      "label": "Start of Agreement",
+      "page": 2,
+      "box": {
+        "left": 78.5,
+        "top": 725.7,
+        "width": 70.4,
+        "height": 12.2
+      }
+    },
+    "endOfAgreementAfDate": {
+      "type": "text",
+      "label": "End of Agreement",
+      "page": 2,
+      "box": {
+        "left": 239.2,
+        "top": 725.4,
+        "width": 73.0,
+        "height": 13.2
+      }
+    },
+    "distantRemoteWorker": {
+      "type": "checkbox",
+      "label": "Cert of Completion Attached",
+      "page": 2,
+      "box": {
+        "left": 151.9,
+        "top": 598.4,
+        "width": 11.8,
+        "height": 11.8
+      },
+      "required": true
+    },
+    "localRemoteWorker": {
+      "type": "checkbox",
+      "label": "Cert of Completion Attached",
+      "page": 2,
+      "box": {
+        "left": 151.9,
+        "top": 585.4,
+        "width": 11.8,
+        "height": 11.8
+      },
+      "required": true
+    },
+    "ddForm2946Attached": {
+      "type": "checkbox",
+      "label": "DD Form 2946 Attached",
+      "page": 2,
+      "box": {
+        "left": 327.0,
+        "top": 570.5,
+        "width": 11.5,
+        "height": 11.8
+      },
+      "required": true
+    },
+    "certOfCompletionAttached": {
+      "type": "checkbox",
+      "label": "Cert of Completion Attached",
+      "page": 2,
+      "box": {
+        "left": 314.9,
+        "top": 558.0,
+        "width": 11.8,
+        "height": 11.8
+      },
+      "required": true
+    },
+    "1EmployeeLastNameFirstMiddleInitial": {
+      "type": "text",
+      "label": "1. Employee (Last Name, First, Middle Initial)",
+      "page": 2,
+      "box": {
+        "left": 36.2,
+        "top": 535.7,
+        "width": 267.2,
+        "height": 26.2
+      }
+    },
+    "2JobTitlePayPlanSeriesGrade": {
+      "type": "text",
+      "label": "2. Job Title, Pay Plan, Series, Grade",
+      "page": 2,
+      "box": {
+        "left": 306.7,
+        "top": 535.3,
+        "width": 268.2,
+        "height": 25.7
+      }
+    },
+    "3EmployingOrganizationNameAndAddress": {
+      "type": "text",
+      "label": "3. Employing Organization Name and Address",
+      "page": 2,
+      "box": {
+        "left": 37.4,
+        "top": 499.0,
+        "width": 266.8,
+        "height": 79.1
+      },
+      "multiline": true
+    },
+    "4RequestedRemoteWorksiteAddress": {
+      "type": "text",
+      "label": "4. Requested Remote Worksite Address",
+      "page": 2,
+      "box": {
+        "left": 307.0,
+        "top": 498.1,
+        "width": 267.7,
+        "height": 78.6
+      },
+      "multiline": true
+    },
+    "dateMMDDYYYY": {
+      "type": "text",
+      "label": "Date: (MM/DD/YYYY)",
+      "page": 2,
+      "box": {
+        "left": 442.2,
+        "top": 396.2,
+        "width": 132.7,
+        "height": 21.8
+      }
+    },
+    "5EmployeeSignatureIAcknowledgeIHaveReadUnderstandAndWillComplyWithAllProvisionsOutlinedInThisAgreement": {
+      "type": "signature",
+      "label": "5 Employee Signature I acknowledge I have read understand and will comply with all provisions outlined in this agreement",
+      "page": 2,
+      "box": {
+        "left": 37.7,
+        "top": 395.6,
+        "width": 400.6,
+        "height": 20.9
+      }
+    },
+    "6SupervisorApproval": {
+      "type": "checkbox",
+      "label": "6. Supervisor Approval",
+      "page": 2,
+      "box": {
+        "left": 53.8,
+        "top": 352.1,
+        "width": 8.9,
+        "height": 7.0
+      }
+    },
+    "6SupervisorDisapproval": {
+      "type": "checkbox",
+      "label": "6 Supervisor Disapproval",
+      "page": 2,
+      "box": {
+        "left": 133.2,
+        "top": 352.1,
+        "width": 8.9,
+        "height": 7.0
+      }
+    },
+    "6SupervisorRecommendationApproveDisapproveProvideExplanationBelow": {
+      "type": "text",
+      "label": "6. Supervisor Recommendation: Approve/Disapprove (Provide explanation below)",
+      "page": 2,
+      "box": {
+        "left": 37.4,
+        "top": 342.5,
+        "width": 537.2,
+        "height": 99.9
+      },
+      "multiline": true
+    },
+    "dateMMDDYYYY2": {
+      "type": "text",
+      "label": "Date: (MM/DD/YYYY)",
+      "page": 2,
+      "box": {
+        "left": 440.2,
+        "top": 230.1,
+        "width": 134.8,
+        "height": 24.7
+      }
+    },
+    "7SupervisorSignature": {
+      "type": "signature",
+      "label": "7 Supervisor Signature",
+      "page": 2,
+      "box": {
+        "left": 38.5,
+        "top": 229.9,
+        "width": 397.9,
+        "height": 23.8
+      }
+    },
+    "8CommandApprovingOfficialApproval": {
+      "type": "checkbox",
+      "label": "8 Command Approving Official Approval",
+      "page": 2,
+      "box": {
+        "left": 53.8,
+        "top": 178.0,
+        "width": 8.9,
+        "height": 7.0
+      }
+    },
+    "8CommandApprovingOfficialDisapproval": {
+      "type": "checkbox",
+      "label": "8 Command Approving Official Disapproval",
+      "page": 2,
+      "box": {
+        "left": 136.0,
+        "top": 178.0,
+        "width": 8.9,
+        "height": 7.0
+      }
+    },
+    "commandApprovingOfficialDisapproveProvideExplanationBelow": {
+      "type": "text",
+      "label": "8. Command Approving Official Decision: Approve Disapprove (Provide explanation below)",
+      "page": 2,
+      "box": {
+        "left": 37.4,
+        "top": 165.6,
+        "width": 537.2,
+        "height": 84.5
+      },
+      "multiline": true
+    },
+    "dateMMDDYYYY3": {
+      "type": "text",
+      "label": "Date: (MM/DD/YYYY)",
+      "page": 2,
+      "box": {
+        "left": 440.2,
+        "top": 69.8,
+        "width": 134.8,
+        "height": 24.3
+      }
+    },
+    "9ApprovingOfficialSignature": {
+      "type": "signature",
+      "label": "9 Approving Official Signature",
+      "page": 2,
+      "box": {
+        "left": 37.3,
+        "top": 68.2,
+        "width": 398.7,
+        "height": 24.0
+      }
+    },
+    "locationOfCaCFacility": {
+      "type": "text",
+      "label": "Location of CaC Facility",
+      "page": 3,
+      "box": {
+        "left": 39.9,
+        "top": 497.9,
+        "width": 538.8,
+        "height": 104.5
+      },
+      "multiline": true
+    },
+    "additionalCommandOrganizationPolicyRequirements": {
+      "type": "text",
+      "label": "Additional command/organization policy requirements",
+      "page": 3,
+      "box": {
+        "left": 38.6,
+        "top": 366.9,
+        "width": 537.5,
+        "height": 325.7
+      },
+      "multiline": true
+    }
+  }
+}

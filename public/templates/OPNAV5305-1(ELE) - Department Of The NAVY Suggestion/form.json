@@ -1,0 +1,330 @@
+{
+  "id": "opnav53051ele",
+  "label": "OPNAV5305-1(ELE) - Department Of The NAVY Suggestion",
+  "directory": "OPNAV5305-1(ELE) - Department Of The NAVY Suggestion",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "suggestorName",
+        "suggestorTitle",
+        "suggestorDoDID",
+        "suggestorOrg",
+        "orgSubdivision",
+        "suggestorPhone",
+        "adminDateReceived",
+        "signatureSuggestor1",
+        "dateSuggestor1",
+        "suggestionNumber",
+        "signatureSuggestor2",
+        "dateSuggestor2",
+        "titleSuggestion",
+        "suggestionDescription",
+        "nameMILCAP",
+        "dateMILCAPSig",
+        "sigMILCAP",
+        "dateEvaluatorSig",
+        "nameEvaluator",
+        "sigEvaluator",
+        "nameApprovingOfficial",
+        "dateApprovingOfficialSig",
+        "sigApprovingOfficial",
+        "nameAwardsOffice",
+        "dateAwardsOfficeSig",
+        "sigAwardsOffice"
+      ]
+    }
+  ],
+  "fields": {
+    "suggestorName": {
+      "type": "text",
+      "label": "1. NAME OF SUGGESTER(S) (last, first, middle initial)",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 537.4,
+        "width": 198.7,
+        "height": 11.1
+      }
+    },
+    "suggestorTitle": {
+      "type": "text",
+      "label": "2. POSITION TITLE &amp; GRADE (or military rank/rate)",
+      "page": 1,
+      "box": {
+        "left": 245.1,
+        "top": 537.4,
+        "width": 198.7,
+        "height": 11.1
+      }
+    },
+    "suggestorDoDID": {
+      "type": "text",
+      "label": "3. DoD ID NUMBER",
+      "page": 1,
+      "box": {
+        "left": 449.5,
+        "top": 537.4,
+        "width": 123.8,
+        "height": 11.1
+      }
+    },
+    "suggestorOrg": {
+      "type": "text",
+      "label": "bureau, or office)",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 502.0,
+        "width": 198.7,
+        "height": 11.8
+      }
+    },
+    "orgSubdivision": {
+      "type": "text",
+      "label": "division, section, unit, or shop)",
+      "page": 1,
+      "box": {
+        "left": 245.1,
+        "top": 502.0,
+        "width": 198.7,
+        "height": 11.8
+      }
+    },
+    "suggestorPhone": {
+      "type": "text",
+      "label": "6. PHONE",
+      "page": 1,
+      "box": {
+        "left": 449.5,
+        "top": 502.0,
+        "width": 123.8,
+        "height": 11.8
+      }
+    },
+    "adminDateReceived": {
+      "type": "text",
+      "label": "DATE RECEIVED",
+      "page": 1,
+      "box": {
+        "left": 449.7,
+        "top": 459.4,
+        "width": 123.6,
+        "height": 10.0
+      }
+    },
+    "signatureSuggestor1": {
+      "type": "text",
+      "label": "7. SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 435.6,
+        "width": 96.4,
+        "height": 11.5
+      }
+    },
+    "dateSuggestor1": {
+      "type": "text",
+      "label": "8. DATE",
+      "page": 1,
+      "box": {
+        "left": 142.0,
+        "top": 435.1,
+        "width": 96.3,
+        "height": 11.0
+      }
+    },
+    "suggestionNumber": {
+      "type": "text",
+      "label": "SUGGESTION NUMBER",
+      "page": 1,
+      "box": {
+        "left": 449.7,
+        "top": 435.1,
+        "width": 123.6,
+        "height": 11.0
+      }
+    },
+    "signatureSuggestor2": {
+      "type": "text",
+      "label": "9. SIGNATURE (if applic.)",
+      "page": 1,
+      "box": {
+        "left": 244.2,
+        "top": 434.7,
+        "width": 96.4,
+        "height": 10.6
+      }
+    },
+    "dateSuggestor2": {
+      "type": "text",
+      "label": "10. DATE (if applicable)",
+      "page": 1,
+      "box": {
+        "left": 346.3,
+        "top": 434.7,
+        "width": 97.5,
+        "height": 10.6
+      }
+    },
+    "titleSuggestion": {
+      "type": "text",
+      "label": "11. TITLE OF SUGGESTION",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 408.9,
+        "width": 533.4,
+        "height": 10.1
+      }
+    },
+    "suggestionDescription": {
+      "type": "text",
+      "label": "(4) Attach drawings and pictures as necessary",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 340.2,
+        "width": 533.4,
+        "height": 142.9
+      },
+      "multiline": true
+    },
+    "nameMILCAP": {
+      "type": "text",
+      "label": "a. TYPED NAME",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 170.9,
+        "width": 169.4,
+        "height": 12.5
+      }
+    },
+    "dateMILCAPSig": {
+      "type": "text",
+      "label": "b. DATE SIGNED",
+      "page": 1,
+      "box": {
+        "left": 215.0,
+        "top": 170.9,
+        "width": 195.8,
+        "height": 12.5
+      }
+    },
+    "sigMILCAP": {
+      "type": "text",
+      "label": "c. SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 416.3,
+        "top": 170.0,
+        "width": 156.9,
+        "height": 11.6
+      }
+    },
+    "dateEvaluatorSig": {
+      "type": "text",
+      "label": "b. DATE SIGNED",
+      "page": 1,
+      "box": {
+        "left": 215.0,
+        "top": 131.0,
+        "width": 195.8,
+        "height": 12.5
+      }
+    },
+    "nameEvaluator": {
+      "type": "text",
+      "label": "a. TYPED NAME",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 130.1,
+        "width": 169.4,
+        "height": 11.6
+      }
+    },
+    "sigEvaluator": {
+      "type": "text",
+      "label": "c. SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 416.3,
+        "top": 130.1,
+        "width": 156.9,
+        "height": 11.6
+      }
+    },
+    "nameApprovingOfficial": {
+      "type": "text",
+      "label": "a. TYPED NAME",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 91.1,
+        "width": 169.4,
+        "height": 12.5
+      }
+    },
+    "dateApprovingOfficialSig": {
+      "type": "text",
+      "label": "b. DATE SIGNED",
+      "page": 1,
+      "box": {
+        "left": 215.0,
+        "top": 91.1,
+        "width": 195.8,
+        "height": 12.5
+      }
+    },
+    "sigApprovingOfficial": {
+      "type": "text",
+      "label": "c. SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 416.3,
+        "top": 90.2,
+        "width": 156.9,
+        "height": 11.6
+      }
+    },
+    "nameAwardsOffice": {
+      "type": "text",
+      "label": "a. TYPED NAME",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 52.2,
+        "width": 169.4,
+        "height": 12.5
+      }
+    },
+    "dateAwardsOfficeSig": {
+      "type": "text",
+      "label": "b. DATE SIGNED",
+      "page": 1,
+      "box": {
+        "left": 215.0,
+        "top": 52.2,
+        "width": 195.8,
+        "height": 12.5
+      }
+    },
+    "sigAwardsOffice": {
+      "type": "text",
+      "label": "c. SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 416.3,
+        "top": 51.3,
+        "width": 156.9,
+        "height": 11.6
+      }
+    }
+  }
+}

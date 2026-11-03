@@ -1,0 +1,274 @@
+{
+  "id": "navpers61103",
+  "label": "NAVPERS6110-3 - Physical Activity Risk Factor Questionnaire (parfq)",
+  "directory": "NAVPERS6110-3 - Physical Activity Risk Factor Questionnaire (parfq)",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "radio",
+        "radio2",
+        "radio3",
+        "radio4",
+        "radio5",
+        "radio6",
+        "radio7",
+        "radio8",
+        "radio9",
+        "radio10",
+        "name",
+        "parfqDT",
+        "dob",
+        "phaDT",
+        "sign",
+        "radio11",
+        "radio12",
+        "hcpAMDRNAME",
+        "hcpAMDRDT",
+        "hcpAMDRSIGN"
+      ]
+    }
+  ],
+  "fields": {
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 568.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 542.9,
+        "top": 568.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 493.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 542.9,
+        "top": 493.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 407.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 542.9,
+        "top": 407.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 325.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 542.9,
+        "top": 325.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio9": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 507.1,
+        "top": 253.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio10": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 543.1,
+        "top": 253.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "name": {
+      "type": "text",
+      "label": "Member Name (Last, First, MI)",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 179.5,
+        "width": 120.3,
+        "height": 30.4
+      },
+      "multiline": true
+    },
+    "parfqDT": {
+      "type": "text",
+      "label": "PARFQ Date",
+      "page": 1,
+      "box": {
+        "left": 164.9,
+        "top": 179.5,
+        "width": 66.2,
+        "height": 30.4
+      },
+      "multiline": true
+    },
+    "dob": {
+      "type": "text",
+      "label": "Date of Birth",
+      "page": 1,
+      "box": {
+        "left": 236.9,
+        "top": 179.5,
+        "width": 66.2,
+        "height": 30.4
+      },
+      "multiline": true
+    },
+    "phaDT": {
+      "type": "text",
+      "label": "Date of Last PHA",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 179.5,
+        "width": 66.2,
+        "height": 30.4
+      },
+      "multiline": true
+    },
+    "sign": {
+      "type": "text",
+      "label": "Member Signature (CAC Digital Signature Optional)",
+      "page": 1,
+      "box": {
+        "left": 380.9,
+        "top": 179.5,
+        "width": 192.3,
+        "height": 30.4
+      },
+      "multiline": true
+    },
+    "radio11": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 110.9,
+        "top": 126.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio12": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 126.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "hcpAMDRNAME": {
+      "type": "text",
+      "label": "AMDR/HCP Name (Print)",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 98.6,
+        "width": 228.3,
+        "height": 18.0
+      }
+    },
+    "hcpAMDRDT": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 98.6,
+        "width": 66.2,
+        "height": 18.0
+      }
+    },
+    "hcpAMDRSIGN": {
+      "type": "text",
+      "label": "AMDR/HCP Signature",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 98.4,
+        "width": 228.3,
+        "height": 17.8
+      }
+    }
+  }
+}

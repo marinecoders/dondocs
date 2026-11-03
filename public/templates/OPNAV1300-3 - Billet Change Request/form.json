@@ -1,0 +1,92 @@
+{
+  "id": "opnav13003",
+  "label": "OPNAV1300-3 - Billet Change Request",
+  "directory": "OPNAV1300-3 - Billet Change Request",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "radio",
+        "radio2",
+        "radio3",
+        "supSigDtd",
+        "subBy",
+        "subBy2"
+      ]
+    }
+  ],
+  "fields": {
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 41.6,
+        "top": 749.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 98.6,
+        "top": 749.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 160.0,
+        "top": 749.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "supSigDtd": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 495.9,
+        "top": 731.9,
+        "width": 76.9,
+        "height": 18.3
+      }
+    },
+    "subBy": {
+      "type": "text",
+      "label": "BY",
+      "page": 1,
+      "box": {
+        "left": 122.4,
+        "top": 731.2,
+        "width": 207.9,
+        "height": 17.0
+      }
+    },
+    "subBy2": {
+      "type": "text",
+      "label": "CODE",
+      "page": 1,
+      "box": {
+        "left": 374.1,
+        "top": 731.2,
+        "width": 60.8,
+        "height": 17.0
+      }
+    }
+  }
+}

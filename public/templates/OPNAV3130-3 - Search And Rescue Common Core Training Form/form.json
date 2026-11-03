@@ -1,0 +1,2513 @@
+{
+  "id": "opnav31303",
+  "label": "OPNAV3130-3 - Search And Rescue Common Core Training Form",
+  "directory": "OPNAV3130-3 - Search And Rescue Common Core Training Form",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "calYr",
+        "jan1",
+        "apr1",
+        "jul1",
+        "oct1",
+        "jan26",
+        "apr26",
+        "jul26",
+        "oct26",
+        "jan2",
+        "apr2",
+        "jul2",
+        "oct2",
+        "jan27",
+        "apr27",
+        "jul27",
+        "oct27",
+        "jan3",
+        "apr3",
+        "jul3",
+        "oct3",
+        "jan28",
+        "apr28",
+        "jul28",
+        "oct28",
+        "jan4",
+        "apr4",
+        "jul4",
+        "oct4",
+        "jan29",
+        "apr29",
+        "jul29",
+        "oct29",
+        "jan30",
+        "apr30",
+        "jul30",
+        "oct30",
+        "jan5",
+        "apr5",
+        "jul5",
+        "oct5",
+        "jan31",
+        "apr31",
+        "jul31",
+        "oct31",
+        "jan6",
+        "apr6",
+        "jul6",
+        "oct6",
+        "jan32",
+        "apr32",
+        "jul32",
+        "oct32",
+        "jan7",
+        "apr7",
+        "jul7",
+        "oct7",
+        "jan33",
+        "apr33",
+        "jul33",
+        "oct33",
+        "jan8",
+        "apr8",
+        "jul8",
+        "oct8",
+        "jan34",
+        "apr34",
+        "jul34",
+        "oct34",
+        "jan9",
+        "apr9",
+        "jul9",
+        "oct9",
+        "jan10",
+        "apr10",
+        "jul10",
+        "oct10",
+        "jan35",
+        "apr35",
+        "jul35",
+        "oct35",
+        "jan11",
+        "apr11",
+        "jul11",
+        "oct11",
+        "jan36",
+        "apr36",
+        "jul36",
+        "oct36",
+        "jan12",
+        "apr12",
+        "jul12",
+        "oct12",
+        "jan13",
+        "apr13",
+        "jul13",
+        "oct13",
+        "jan37",
+        "apr37",
+        "jul37",
+        "oct37",
+        "jan38",
+        "apr38",
+        "jul38",
+        "oct38",
+        "jan14",
+        "apr14",
+        "jul14",
+        "oct14",
+        "jan39",
+        "apr39",
+        "jul39",
+        "oct39",
+        "jan15",
+        "apr15",
+        "jul15",
+        "oct15",
+        "jan40",
+        "apr40",
+        "jul40",
+        "oct40",
+        "jan41",
+        "apr41",
+        "jul41",
+        "oct41",
+        "jan42",
+        "apr42",
+        "jul42",
+        "oct42",
+        "jan16",
+        "apr16",
+        "jul16",
+        "oct16",
+        "jan43",
+        "apr43",
+        "jul43",
+        "oct43",
+        "jan17",
+        "apr17",
+        "oct17",
+        "jul17",
+        "jan44",
+        "apr44",
+        "jul44",
+        "oct44",
+        "jan18",
+        "apr18",
+        "jul18",
+        "oct18",
+        "jan45",
+        "apr45",
+        "jul45",
+        "oct45",
+        "jan19",
+        "apr19",
+        "jul19",
+        "oct19",
+        "jan46",
+        "apr46",
+        "jul46",
+        "oct46",
+        "jan47",
+        "apr47",
+        "jul47",
+        "oct47",
+        "jan20",
+        "apr20",
+        "jul20",
+        "oct20",
+        "jan48",
+        "apr48",
+        "jul48",
+        "oct48",
+        "jan21",
+        "apr21",
+        "jul21",
+        "oct21",
+        "jan49",
+        "apr49",
+        "jul49",
+        "oct49",
+        "jan22",
+        "apr22",
+        "jul22",
+        "oct22",
+        "jan50",
+        "apr50",
+        "jul50",
+        "oct50",
+        "jan51",
+        "apr51",
+        "jul51",
+        "oct51",
+        "jan23",
+        "apr23",
+        "jul23",
+        "oct23",
+        "jan24",
+        "apr24",
+        "jul24",
+        "oct24",
+        "jan25",
+        "apr25",
+        "jul25",
+        "oct25",
+        "cPRdate",
+        "name",
+        "rankRate"
+      ]
+    }
+  ],
+  "fields": {
+    "calYr": {
+      "type": "text",
+      "label": "CALENDAR YEAR",
+      "page": 1,
+      "box": {
+        "left": 421.3,
+        "top": 567.4,
+        "width": 36.2,
+        "height": 11.8
+      }
+    },
+    "jan1": {
+      "type": "text",
+      "label": "1. LEVEL A MEDICAL KIT",
+      "page": 1,
+      "box": {
+        "left": 190.4,
+        "top": 529.9,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "apr1": {
+      "type": "text",
+      "label": "1. LEVEL A MEDICAL KIT",
+      "page": 1,
+      "box": {
+        "left": 239.8,
+        "top": 529.9,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jul1": {
+      "type": "text",
+      "label": "1. LEVEL A MEDICAL KIT",
+      "page": 1,
+      "box": {
+        "left": 289.5,
+        "top": 529.9,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "oct1": {
+      "type": "text",
+      "label": "1. LEVEL A MEDICAL KIT",
+      "page": 1,
+      "box": {
+        "left": 339.1,
+        "top": 529.9,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jan26": {
+      "type": "text",
+      "label": "26. MEDICAL/LEGAL CONSIDERATION",
+      "page": 1,
+      "box": {
+        "left": 559.9,
+        "top": 529.9,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "apr26": {
+      "type": "text",
+      "label": "26. MEDICAL/LEGAL CONSIDERATION",
+      "page": 1,
+      "box": {
+        "left": 609.4,
+        "top": 529.9,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jul26": {
+      "type": "text",
+      "label": "26. MEDICAL/LEGAL CONSIDERATION",
+      "page": 1,
+      "box": {
+        "left": 658.9,
+        "top": 529.9,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "oct26": {
+      "type": "text",
+      "label": "26. MEDICAL/LEGAL CONSIDERATION",
+      "page": 1,
+      "box": {
+        "left": 708.0,
+        "top": 529.9,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jan2": {
+      "type": "text",
+      "label": "2. PRACTICAL FIRST AID",
+      "page": 1,
+      "box": {
+        "left": 190.4,
+        "top": 516.4,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "apr2": {
+      "type": "text",
+      "label": "2. PRACTICAL FIRST AID",
+      "page": 1,
+      "box": {
+        "left": 239.8,
+        "top": 516.4,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jul2": {
+      "type": "text",
+      "label": "2. PRACTICAL FIRST AID",
+      "page": 1,
+      "box": {
+        "left": 289.5,
+        "top": 516.4,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "oct2": {
+      "type": "text",
+      "label": "2. PRACTICAL FIRST AID",
+      "page": 1,
+      "box": {
+        "left": 339.1,
+        "top": 516.4,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jan27": {
+      "type": "text",
+      "label": "27. SHOCK/FLUID RESUSCITATION",
+      "page": 1,
+      "box": {
+        "left": 559.9,
+        "top": 516.4,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "apr27": {
+      "type": "text",
+      "label": "27. SHOCK/FLUID RESUSCITATION",
+      "page": 1,
+      "box": {
+        "left": 609.4,
+        "top": 516.4,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jul27": {
+      "type": "text",
+      "label": "27. SHOCK/FLUID RESUSCITATION",
+      "page": 1,
+      "box": {
+        "left": 658.9,
+        "top": 516.4,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "oct27": {
+      "type": "text",
+      "label": "27. SHOCK/FLUID RESUSCITATION",
+      "page": 1,
+      "box": {
+        "left": 708.0,
+        "top": 516.4,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jan3": {
+      "type": "text",
+      "label": "3. PATIENT ASSESSMENT",
+      "page": 1,
+      "box": {
+        "left": 190.4,
+        "top": 502.9,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "apr3": {
+      "type": "text",
+      "label": "3. PATIENT ASSESSMENT",
+      "page": 1,
+      "box": {
+        "left": 239.8,
+        "top": 502.9,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jul3": {
+      "type": "text",
+      "label": "3. PATIENT ASSESSMENT",
+      "page": 1,
+      "box": {
+        "left": 289.5,
+        "top": 502.9,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "oct3": {
+      "type": "text",
+      "label": "3. PATIENT ASSESSMENT",
+      "page": 1,
+      "box": {
+        "left": 339.1,
+        "top": 502.9,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jan28": {
+      "type": "text",
+      "label": "28. MASS CASUALTY",
+      "page": 1,
+      "box": {
+        "left": 559.9,
+        "top": 502.9,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "apr28": {
+      "type": "text",
+      "label": "28. MASS CASUALTY",
+      "page": 1,
+      "box": {
+        "left": 609.4,
+        "top": 502.9,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jul28": {
+      "type": "text",
+      "label": "28. MASS CASUALTY",
+      "page": 1,
+      "box": {
+        "left": 658.9,
+        "top": 502.9,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "oct28": {
+      "type": "text",
+      "label": "28. MASS CASUALTY",
+      "page": 1,
+      "box": {
+        "left": 708.0,
+        "top": 502.9,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jan4": {
+      "type": "text",
+      "label": "4. SAR INSTRUCTIONS/REPORTS PUBLICATIONS/",
+      "page": 1,
+      "box": {
+        "left": 190.4,
+        "top": 489.4,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "apr4": {
+      "type": "text",
+      "label": "4. SAR INSTRUCTIONS/REPORTS PUBLICATIONS/",
+      "page": 1,
+      "box": {
+        "left": 239.8,
+        "top": 489.4,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "jul4": {
+      "type": "text",
+      "label": "4. SAR INSTRUCTIONS/REPORTS PUBLICATIONS/",
+      "page": 1,
+      "box": {
+        "left": 289.5,
+        "top": 489.4,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "oct4": {
+      "type": "text",
+      "label": "4. SAR INSTRUCTIONS/REPORTS PUBLICATIONS/",
+      "page": 1,
+      "box": {
+        "left": 339.1,
+        "top": 489.4,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "jan29": {
+      "type": "text",
+      "label": "29. CRITICAL AND PROLONGED CARE",
+      "page": 1,
+      "box": {
+        "left": 559.9,
+        "top": 489.4,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "apr29": {
+      "type": "text",
+      "label": "29. CRITICAL AND PROLONGED CARE",
+      "page": 1,
+      "box": {
+        "left": 609.4,
+        "top": 489.4,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jul29": {
+      "type": "text",
+      "label": "29. CRITICAL AND PROLONGED CARE",
+      "page": 1,
+      "box": {
+        "left": 658.9,
+        "top": 489.4,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "oct29": {
+      "type": "text",
+      "label": "29. CRITICAL AND PROLONGED CARE",
+      "page": 1,
+      "box": {
+        "left": 708.0,
+        "top": 489.4,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jan30": {
+      "type": "text",
+      "label": "30. PHARMACOLOGY",
+      "page": 1,
+      "box": {
+        "left": 559.9,
+        "top": 475.9,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "apr30": {
+      "type": "text",
+      "label": "30. PHARMACOLOGY",
+      "page": 1,
+      "box": {
+        "left": 609.4,
+        "top": 475.9,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jul30": {
+      "type": "text",
+      "label": "30. PHARMACOLOGY",
+      "page": 1,
+      "box": {
+        "left": 658.9,
+        "top": 475.9,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "oct30": {
+      "type": "text",
+      "label": "30. PHARMACOLOGY",
+      "page": 1,
+      "box": {
+        "left": 708.0,
+        "top": 475.9,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jan5": {
+      "type": "text",
+      "label": "5. RESCUE DEVICES",
+      "page": 1,
+      "box": {
+        "left": 190.4,
+        "top": 466.6,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "apr5": {
+      "type": "text",
+      "label": "5. RESCUE DEVICES",
+      "page": 1,
+      "box": {
+        "left": 239.8,
+        "top": 466.6,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jul5": {
+      "type": "text",
+      "label": "5. RESCUE DEVICES",
+      "page": 1,
+      "box": {
+        "left": 289.5,
+        "top": 466.6,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "oct5": {
+      "type": "text",
+      "label": "5. RESCUE DEVICES",
+      "page": 1,
+      "box": {
+        "left": 339.1,
+        "top": 466.6,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jan31": {
+      "type": "text",
+      "label": "31. PROTOCOL REVIEW",
+      "page": 1,
+      "box": {
+        "left": 559.9,
+        "top": 462.7,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "apr31": {
+      "type": "text",
+      "label": "31. PROTOCOL REVIEW",
+      "page": 1,
+      "box": {
+        "left": 609.4,
+        "top": 462.7,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jul31": {
+      "type": "text",
+      "label": "31. PROTOCOL REVIEW",
+      "page": 1,
+      "box": {
+        "left": 658.9,
+        "top": 462.7,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "oct31": {
+      "type": "text",
+      "label": "31. PROTOCOL REVIEW",
+      "page": 1,
+      "box": {
+        "left": 708.0,
+        "top": 462.7,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jan6": {
+      "type": "text",
+      "label": "6. RESCUE HAND SIGNALS",
+      "page": 1,
+      "box": {
+        "left": 190.4,
+        "top": 453.0,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "apr6": {
+      "type": "text",
+      "label": "6. RESCUE HAND SIGNALS",
+      "page": 1,
+      "box": {
+        "left": 239.8,
+        "top": 453.0,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jul6": {
+      "type": "text",
+      "label": "6. RESCUE HAND SIGNALS",
+      "page": 1,
+      "box": {
+        "left": 289.5,
+        "top": 453.0,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "oct6": {
+      "type": "text",
+      "label": "6. RESCUE HAND SIGNALS",
+      "page": 1,
+      "box": {
+        "left": 339.1,
+        "top": 453.0,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jan32": {
+      "type": "text",
+      "label": "32. BLOOD PRODUCT (EMT-P ONLY)",
+      "page": 1,
+      "box": {
+        "left": 559.9,
+        "top": 449.1,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "apr32": {
+      "type": "text",
+      "label": "32. BLOOD PRODUCT (EMT-P ONLY)",
+      "page": 1,
+      "box": {
+        "left": 609.4,
+        "top": 449.1,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jul32": {
+      "type": "text",
+      "label": "32. BLOOD PRODUCT (EMT-P ONLY)",
+      "page": 1,
+      "box": {
+        "left": 658.9,
+        "top": 449.1,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "oct32": {
+      "type": "text",
+      "label": "32. BLOOD PRODUCT (EMT-P ONLY)",
+      "page": 1,
+      "box": {
+        "left": 708.0,
+        "top": 449.1,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jan7": {
+      "type": "text",
+      "label": "7. SURVIVOR MARKER/LOCATOR",
+      "page": 1,
+      "box": {
+        "left": 190.4,
+        "top": 439.4,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "apr7": {
+      "type": "text",
+      "label": "7. SURVIVOR MARKER/LOCATOR",
+      "page": 1,
+      "box": {
+        "left": 239.8,
+        "top": 439.4,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jul7": {
+      "type": "text",
+      "label": "7. SURVIVOR MARKER/LOCATOR",
+      "page": 1,
+      "box": {
+        "left": 289.5,
+        "top": 439.4,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "oct7": {
+      "type": "text",
+      "label": "7. SURVIVOR MARKER/LOCATOR",
+      "page": 1,
+      "box": {
+        "left": 339.1,
+        "top": 439.4,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jan33": {
+      "type": "text",
+      "label": "33. BASIC AIRWAY AND O2 ADMIN",
+      "page": 1,
+      "box": {
+        "left": 559.9,
+        "top": 425.8,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "apr33": {
+      "type": "text",
+      "label": "33. BASIC AIRWAY AND O2 ADMIN",
+      "page": 1,
+      "box": {
+        "left": 609.4,
+        "top": 425.8,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jul33": {
+      "type": "text",
+      "label": "33. BASIC AIRWAY AND O2 ADMIN",
+      "page": 1,
+      "box": {
+        "left": 658.9,
+        "top": 425.8,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "oct33": {
+      "type": "text",
+      "label": "33. BASIC AIRWAY AND O2 ADMIN",
+      "page": 1,
+      "box": {
+        "left": 708.0,
+        "top": 425.8,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jan8": {
+      "type": "text",
+      "label": "8. SURVIVOR EQUIPMENT",
+      "page": 1,
+      "box": {
+        "left": 190.4,
+        "top": 425.6,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "apr8": {
+      "type": "text",
+      "label": "8. SURVIVOR EQUIPMENT",
+      "page": 1,
+      "box": {
+        "left": 239.8,
+        "top": 425.6,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jul8": {
+      "type": "text",
+      "label": "8. SURVIVOR EQUIPMENT",
+      "page": 1,
+      "box": {
+        "left": 289.5,
+        "top": 425.6,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "oct8": {
+      "type": "text",
+      "label": "8. SURVIVOR EQUIPMENT",
+      "page": 1,
+      "box": {
+        "left": 339.1,
+        "top": 425.6,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jan34": {
+      "type": "text",
+      "label": "AIRWAY",
+      "page": 1,
+      "box": {
+        "left": 559.9,
+        "top": 412.1,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "apr34": {
+      "type": "text",
+      "label": "AIRWAY",
+      "page": 1,
+      "box": {
+        "left": 609.4,
+        "top": 412.1,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "jul34": {
+      "type": "text",
+      "label": "AIRWAY",
+      "page": 1,
+      "box": {
+        "left": 658.9,
+        "top": 412.1,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "oct34": {
+      "type": "text",
+      "label": "AIRWAY",
+      "page": 1,
+      "box": {
+        "left": 708.0,
+        "top": 412.1,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "jan9": {
+      "type": "text",
+      "label": "9. INANIMATE OBJECT RECOVERY",
+      "page": 1,
+      "box": {
+        "left": 190.4,
+        "top": 412.0,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "apr9": {
+      "type": "text",
+      "label": "9. INANIMATE OBJECT RECOVERY",
+      "page": 1,
+      "box": {
+        "left": 239.8,
+        "top": 412.0,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jul9": {
+      "type": "text",
+      "label": "9. INANIMATE OBJECT RECOVERY",
+      "page": 1,
+      "box": {
+        "left": 289.5,
+        "top": 412.0,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "oct9": {
+      "type": "text",
+      "label": "9. INANIMATE OBJECT RECOVERY",
+      "page": 1,
+      "box": {
+        "left": 339.1,
+        "top": 412.0,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jan10": {
+      "type": "text",
+      "label": "OCCUPATIONAL HAZARDS",
+      "page": 1,
+      "box": {
+        "left": 190.4,
+        "top": 398.5,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "apr10": {
+      "type": "text",
+      "label": "OCCUPATIONAL HAZARDS",
+      "page": 1,
+      "box": {
+        "left": 239.8,
+        "top": 398.5,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "jul10": {
+      "type": "text",
+      "label": "OCCUPATIONAL HAZARDS",
+      "page": 1,
+      "box": {
+        "left": 289.5,
+        "top": 398.5,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "oct10": {
+      "type": "text",
+      "label": "OCCUPATIONAL HAZARDS",
+      "page": 1,
+      "box": {
+        "left": 339.1,
+        "top": 398.5,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "jan35": {
+      "type": "text",
+      "label": "RSI",
+      "page": 1,
+      "box": {
+        "left": 559.9,
+        "top": 389.6,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "apr35": {
+      "type": "text",
+      "label": "RSI",
+      "page": 1,
+      "box": {
+        "left": 609.4,
+        "top": 389.6,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "jul35": {
+      "type": "text",
+      "label": "RSI",
+      "page": 1,
+      "box": {
+        "left": 658.9,
+        "top": 389.6,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "oct35": {
+      "type": "text",
+      "label": "RSI",
+      "page": 1,
+      "box": {
+        "left": 708.0,
+        "top": 389.6,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "jan11": {
+      "type": "text",
+      "label": "11. SAR ORGANIZATION",
+      "page": 1,
+      "box": {
+        "left": 190.4,
+        "top": 376.0,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "apr11": {
+      "type": "text",
+      "label": "11. SAR ORGANIZATION",
+      "page": 1,
+      "box": {
+        "left": 239.8,
+        "top": 376.0,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jul11": {
+      "type": "text",
+      "label": "11. SAR ORGANIZATION",
+      "page": 1,
+      "box": {
+        "left": 289.5,
+        "top": 376.0,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "oct11": {
+      "type": "text",
+      "label": "11. SAR ORGANIZATION",
+      "page": 1,
+      "box": {
+        "left": 339.1,
+        "top": 376.0,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jan36": {
+      "type": "text",
+      "label": "36. ARTIFICIAL VENTILATION",
+      "page": 1,
+      "box": {
+        "left": 559.9,
+        "top": 367.4,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "apr36": {
+      "type": "text",
+      "label": "36. ARTIFICIAL VENTILATION",
+      "page": 1,
+      "box": {
+        "left": 609.4,
+        "top": 367.4,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jul36": {
+      "type": "text",
+      "label": "36. ARTIFICIAL VENTILATION",
+      "page": 1,
+      "box": {
+        "left": 658.9,
+        "top": 367.4,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "oct36": {
+      "type": "text",
+      "label": "36. ARTIFICIAL VENTILATION",
+      "page": 1,
+      "box": {
+        "left": 708.0,
+        "top": 367.4,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jan12": {
+      "type": "text",
+      "label": "12. SAR PLANNING",
+      "page": 1,
+      "box": {
+        "left": 190.4,
+        "top": 362.5,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "apr12": {
+      "type": "text",
+      "label": "12. SAR PLANNING",
+      "page": 1,
+      "box": {
+        "left": 239.8,
+        "top": 362.5,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jul12": {
+      "type": "text",
+      "label": "12. SAR PLANNING",
+      "page": 1,
+      "box": {
+        "left": 289.5,
+        "top": 362.5,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "oct12": {
+      "type": "text",
+      "label": "12. SAR PLANNING",
+      "page": 1,
+      "box": {
+        "left": 339.1,
+        "top": 362.5,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jan13": {
+      "type": "text",
+      "label": "(SURFACE N/A)",
+      "page": 1,
+      "box": {
+        "left": 190.4,
+        "top": 348.9,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "apr13": {
+      "type": "text",
+      "label": "(SURFACE N/A)",
+      "page": 1,
+      "box": {
+        "left": 239.8,
+        "top": 348.9,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "jul13": {
+      "type": "text",
+      "label": "(SURFACE N/A)",
+      "page": 1,
+      "box": {
+        "left": 289.5,
+        "top": 348.9,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "oct13": {
+      "type": "text",
+      "label": "(SURFACE N/A)",
+      "page": 1,
+      "box": {
+        "left": 339.1,
+        "top": 348.9,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "jan37": {
+      "type": "text",
+      "label": "37. BURNS",
+      "page": 1,
+      "box": {
+        "left": 559.9,
+        "top": 344.1,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "apr37": {
+      "type": "text",
+      "label": "37. BURNS",
+      "page": 1,
+      "box": {
+        "left": 609.4,
+        "top": 344.1,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jul37": {
+      "type": "text",
+      "label": "37. BURNS",
+      "page": 1,
+      "box": {
+        "left": 658.9,
+        "top": 344.1,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "oct37": {
+      "type": "text",
+      "label": "37. BURNS",
+      "page": 1,
+      "box": {
+        "left": 708.0,
+        "top": 344.1,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jan38": {
+      "type": "text",
+      "label": "38. FACE AND NECK",
+      "page": 1,
+      "box": {
+        "left": 559.9,
+        "top": 330.6,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "apr38": {
+      "type": "text",
+      "label": "38. FACE AND NECK",
+      "page": 1,
+      "box": {
+        "left": 609.4,
+        "top": 330.6,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jul38": {
+      "type": "text",
+      "label": "38. FACE AND NECK",
+      "page": 1,
+      "box": {
+        "left": 658.9,
+        "top": 330.6,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "oct38": {
+      "type": "text",
+      "label": "38. FACE AND NECK",
+      "page": 1,
+      "box": {
+        "left": 708.0,
+        "top": 330.6,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jan14": {
+      "type": "text",
+      "label": "(SURFACE N/A)",
+      "page": 1,
+      "box": {
+        "left": 190.4,
+        "top": 326.5,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "apr14": {
+      "type": "text",
+      "label": "(SURFACE N/A)",
+      "page": 1,
+      "box": {
+        "left": 239.8,
+        "top": 326.5,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "jul14": {
+      "type": "text",
+      "label": "(SURFACE N/A)",
+      "page": 1,
+      "box": {
+        "left": 289.5,
+        "top": 326.5,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "oct14": {
+      "type": "text",
+      "label": "(SURFACE N/A)",
+      "page": 1,
+      "box": {
+        "left": 339.1,
+        "top": 326.5,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "jan39": {
+      "type": "text",
+      "label": "39. HEAD AND CNS",
+      "page": 1,
+      "box": {
+        "left": 559.9,
+        "top": 317.1,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "apr39": {
+      "type": "text",
+      "label": "39. HEAD AND CNS",
+      "page": 1,
+      "box": {
+        "left": 609.4,
+        "top": 317.1,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jul39": {
+      "type": "text",
+      "label": "39. HEAD AND CNS",
+      "page": 1,
+      "box": {
+        "left": 658.9,
+        "top": 317.1,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "oct39": {
+      "type": "text",
+      "label": "39. HEAD AND CNS",
+      "page": 1,
+      "box": {
+        "left": 708.0,
+        "top": 317.1,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jan15": {
+      "type": "text",
+      "label": "(SURFACE N/A)",
+      "page": 1,
+      "box": {
+        "left": 190.4,
+        "top": 304.2,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "apr15": {
+      "type": "text",
+      "label": "(SURFACE N/A)",
+      "page": 1,
+      "box": {
+        "left": 239.8,
+        "top": 304.2,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "jul15": {
+      "type": "text",
+      "label": "(SURFACE N/A)",
+      "page": 1,
+      "box": {
+        "left": 289.5,
+        "top": 304.2,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "oct15": {
+      "type": "text",
+      "label": "(SURFACE N/A)",
+      "page": 1,
+      "box": {
+        "left": 339.1,
+        "top": 304.2,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "jan40": {
+      "type": "text",
+      "label": "40. CHEST AND ABDOMEN",
+      "page": 1,
+      "box": {
+        "left": 559.9,
+        "top": 303.1,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "apr40": {
+      "type": "text",
+      "label": "40. CHEST AND ABDOMEN",
+      "page": 1,
+      "box": {
+        "left": 609.4,
+        "top": 303.1,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jul40": {
+      "type": "text",
+      "label": "40. CHEST AND ABDOMEN",
+      "page": 1,
+      "box": {
+        "left": 658.9,
+        "top": 303.1,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "oct40": {
+      "type": "text",
+      "label": "40. CHEST AND ABDOMEN",
+      "page": 1,
+      "box": {
+        "left": 708.0,
+        "top": 303.1,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jan41": {
+      "type": "text",
+      "label": "41. EXTREMITIES",
+      "page": 1,
+      "box": {
+        "left": 559.9,
+        "top": 289.2,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "apr41": {
+      "type": "text",
+      "label": "41. EXTREMITIES",
+      "page": 1,
+      "box": {
+        "left": 609.4,
+        "top": 289.2,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jul41": {
+      "type": "text",
+      "label": "41. EXTREMITIES",
+      "page": 1,
+      "box": {
+        "left": 658.9,
+        "top": 289.2,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "oct41": {
+      "type": "text",
+      "label": "41. EXTREMITIES",
+      "page": 1,
+      "box": {
+        "left": 708.0,
+        "top": 289.2,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jan42": {
+      "type": "text",
+      "label": "42. ENVIRONMENTAL",
+      "page": 1,
+      "box": {
+        "left": 559.9,
+        "top": 275.7,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "apr42": {
+      "type": "text",
+      "label": "42. ENVIRONMENTAL",
+      "page": 1,
+      "box": {
+        "left": 609.4,
+        "top": 275.7,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jul42": {
+      "type": "text",
+      "label": "42. ENVIRONMENTAL",
+      "page": 1,
+      "box": {
+        "left": 658.9,
+        "top": 275.7,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "oct42": {
+      "type": "text",
+      "label": "42. ENVIRONMENTAL",
+      "page": 1,
+      "box": {
+        "left": 708.0,
+        "top": 275.7,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jan16": {
+      "type": "text",
+      "label": "RESCUE SWIMMER",
+      "page": 1,
+      "box": {
+        "left": 190.4,
+        "top": 271.0,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "apr16": {
+      "type": "text",
+      "label": "SPECIFIC",
+      "page": 1,
+      "box": {
+        "left": 239.8,
+        "top": 271.0,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "jul16": {
+      "type": "text",
+      "label": "JUL-SEP",
+      "page": 1,
+      "box": {
+        "left": 289.5,
+        "top": 271.0,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "oct16": {
+      "type": "text",
+      "label": "OCT-DEC",
+      "page": 1,
+      "box": {
+        "left": 339.1,
+        "top": 271.0,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "jan43": {
+      "type": "text",
+      "label": "43. RESPIRATORY",
+      "page": 1,
+      "box": {
+        "left": 559.9,
+        "top": 252.2,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "apr43": {
+      "type": "text",
+      "label": "43. RESPIRATORY",
+      "page": 1,
+      "box": {
+        "left": 609.4,
+        "top": 252.2,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jul43": {
+      "type": "text",
+      "label": "43. RESPIRATORY",
+      "page": 1,
+      "box": {
+        "left": 658.9,
+        "top": 252.2,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "oct43": {
+      "type": "text",
+      "label": "43. RESPIRATORY",
+      "page": 1,
+      "box": {
+        "left": 708.0,
+        "top": 252.2,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jan17": {
+      "type": "text",
+      "label": "PROCEDURES",
+      "page": 1,
+      "box": {
+        "left": 190.4,
+        "top": 248.7,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "apr17": {
+      "type": "text",
+      "label": "PROCEDURES",
+      "page": 1,
+      "box": {
+        "left": 239.8,
+        "top": 248.7,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "oct17": {
+      "type": "text",
+      "label": "PROCEDURES",
+      "page": 1,
+      "box": {
+        "left": 339.1,
+        "top": 248.7,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "jul17": {
+      "type": "text",
+      "label": "PROCEDURES",
+      "page": 1,
+      "box": {
+        "left": 289.5,
+        "top": 248.6,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "jan44": {
+      "type": "text",
+      "label": "44. NEUROLOGICAL",
+      "page": 1,
+      "box": {
+        "left": 559.9,
+        "top": 238.7,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "apr44": {
+      "type": "text",
+      "label": "44. NEUROLOGICAL",
+      "page": 1,
+      "box": {
+        "left": 609.4,
+        "top": 238.7,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jul44": {
+      "type": "text",
+      "label": "44. NEUROLOGICAL",
+      "page": 1,
+      "box": {
+        "left": 658.9,
+        "top": 238.7,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "oct44": {
+      "type": "text",
+      "label": "44. NEUROLOGICAL",
+      "page": 1,
+      "box": {
+        "left": 708.0,
+        "top": 238.7,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jan18": {
+      "type": "text",
+      "label": "18. PARACHUTE DISENTANGLEMENT",
+      "page": 1,
+      "box": {
+        "left": 190.4,
+        "top": 226.4,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "apr18": {
+      "type": "text",
+      "label": "18. PARACHUTE DISENTANGLEMENT",
+      "page": 1,
+      "box": {
+        "left": 239.8,
+        "top": 226.4,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jul18": {
+      "type": "text",
+      "label": "18. PARACHUTE DISENTANGLEMENT",
+      "page": 1,
+      "box": {
+        "left": 289.5,
+        "top": 226.4,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "oct18": {
+      "type": "text",
+      "label": "18. PARACHUTE DISENTANGLEMENT",
+      "page": 1,
+      "box": {
+        "left": 339.1,
+        "top": 226.4,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jan45": {
+      "type": "text",
+      "label": "45. RENAL FAILURE",
+      "page": 1,
+      "box": {
+        "left": 559.9,
+        "top": 225.2,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "apr45": {
+      "type": "text",
+      "label": "45. RENAL FAILURE",
+      "page": 1,
+      "box": {
+        "left": 609.4,
+        "top": 225.2,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jul45": {
+      "type": "text",
+      "label": "45. RENAL FAILURE",
+      "page": 1,
+      "box": {
+        "left": 658.9,
+        "top": 225.2,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "oct45": {
+      "type": "text",
+      "label": "45. RENAL FAILURE",
+      "page": 1,
+      "box": {
+        "left": 708.0,
+        "top": 225.2,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jan19": {
+      "type": "text",
+      "label": "19. F35 DISENTANGLEMENT",
+      "page": 1,
+      "box": {
+        "left": 190.4,
+        "top": 212.6,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "apr19": {
+      "type": "text",
+      "label": "19. F35 DISENTANGLEMENT",
+      "page": 1,
+      "box": {
+        "left": 239.8,
+        "top": 212.6,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jul19": {
+      "type": "text",
+      "label": "19. F35 DISENTANGLEMENT",
+      "page": 1,
+      "box": {
+        "left": 289.5,
+        "top": 212.6,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "oct19": {
+      "type": "text",
+      "label": "19. F35 DISENTANGLEMENT",
+      "page": 1,
+      "box": {
+        "left": 339.1,
+        "top": 212.6,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jan46": {
+      "type": "text",
+      "label": "46. CARDIAC CARE",
+      "page": 1,
+      "box": {
+        "left": 559.9,
+        "top": 211.7,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "apr46": {
+      "type": "text",
+      "label": "46. CARDIAC CARE",
+      "page": 1,
+      "box": {
+        "left": 609.4,
+        "top": 211.7,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jul46": {
+      "type": "text",
+      "label": "46. CARDIAC CARE",
+      "page": 1,
+      "box": {
+        "left": 658.9,
+        "top": 211.7,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "oct46": {
+      "type": "text",
+      "label": "46. CARDIAC CARE",
+      "page": 1,
+      "box": {
+        "left": 708.0,
+        "top": 211.7,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jan47": {
+      "type": "text",
+      "label": "47. DIABETIC EMERGENCIES",
+      "page": 1,
+      "box": {
+        "left": 559.9,
+        "top": 198.5,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "apr47": {
+      "type": "text",
+      "label": "47. DIABETIC EMERGENCIES",
+      "page": 1,
+      "box": {
+        "left": 609.4,
+        "top": 198.5,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jul47": {
+      "type": "text",
+      "label": "47. DIABETIC EMERGENCIES",
+      "page": 1,
+      "box": {
+        "left": 658.9,
+        "top": 198.5,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "oct47": {
+      "type": "text",
+      "label": "47. DIABETIC EMERGENCIES",
+      "page": 1,
+      "box": {
+        "left": 708.0,
+        "top": 198.5,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jan20": {
+      "type": "text",
+      "label": "EQUIPMENT",
+      "page": 1,
+      "box": {
+        "left": 190.4,
+        "top": 188.4,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "apr20": {
+      "type": "text",
+      "label": "EQUIPMENT",
+      "page": 1,
+      "box": {
+        "left": 239.8,
+        "top": 188.4,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "jul20": {
+      "type": "text",
+      "label": "EQUIPMENT",
+      "page": 1,
+      "box": {
+        "left": 289.5,
+        "top": 188.4,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "oct20": {
+      "type": "text",
+      "label": "EQUIPMENT",
+      "page": 1,
+      "box": {
+        "left": 339.1,
+        "top": 188.4,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "jan48": {
+      "type": "text",
+      "label": "48. OB/GYN",
+      "page": 1,
+      "box": {
+        "left": 559.9,
+        "top": 175.2,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "apr48": {
+      "type": "text",
+      "label": "48. OB/GYN",
+      "page": 1,
+      "box": {
+        "left": 609.4,
+        "top": 175.2,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jul48": {
+      "type": "text",
+      "label": "48. OB/GYN",
+      "page": 1,
+      "box": {
+        "left": 658.9,
+        "top": 175.2,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "oct48": {
+      "type": "text",
+      "label": "48. OB/GYN",
+      "page": 1,
+      "box": {
+        "left": 708.0,
+        "top": 175.2,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jan21": {
+      "type": "text",
+      "label": "PROCEDURES",
+      "page": 1,
+      "box": {
+        "left": 190.4,
+        "top": 165.9,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "apr21": {
+      "type": "text",
+      "label": "PROCEDURES",
+      "page": 1,
+      "box": {
+        "left": 239.8,
+        "top": 165.9,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "jul21": {
+      "type": "text",
+      "label": "PROCEDURES",
+      "page": 1,
+      "box": {
+        "left": 289.5,
+        "top": 165.9,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "oct21": {
+      "type": "text",
+      "label": "PROCEDURES",
+      "page": 1,
+      "box": {
+        "left": 339.1,
+        "top": 165.9,
+        "width": 46.7,
+        "height": 19.7
+      }
+    },
+    "jan49": {
+      "type": "text",
+      "label": "49. PEDIATRICS",
+      "page": 1,
+      "box": {
+        "left": 559.9,
+        "top": 161.7,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "apr49": {
+      "type": "text",
+      "label": "49. PEDIATRICS",
+      "page": 1,
+      "box": {
+        "left": 609.4,
+        "top": 161.7,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jul49": {
+      "type": "text",
+      "label": "49. PEDIATRICS",
+      "page": 1,
+      "box": {
+        "left": 658.9,
+        "top": 161.7,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "oct49": {
+      "type": "text",
+      "label": "49. PEDIATRICS",
+      "page": 1,
+      "box": {
+        "left": 708.0,
+        "top": 161.7,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jan22": {
+      "type": "text",
+      "label": "22. RESCUE BOAT",
+      "page": 1,
+      "box": {
+        "left": 190.4,
+        "top": 143.4,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "apr22": {
+      "type": "text",
+      "label": "22. RESCUE BOAT",
+      "page": 1,
+      "box": {
+        "left": 239.8,
+        "top": 143.4,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jul22": {
+      "type": "text",
+      "label": "22. RESCUE BOAT",
+      "page": 1,
+      "box": {
+        "left": 289.5,
+        "top": 143.4,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "oct22": {
+      "type": "text",
+      "label": "22. RESCUE BOAT",
+      "page": 1,
+      "box": {
+        "left": 339.1,
+        "top": 143.4,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jan50": {
+      "type": "text",
+      "label": "50. APPLICABLE SFT (SEMI-ANNUAL)",
+      "page": 1,
+      "box": {
+        "left": 559.9,
+        "top": 137.2,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "apr50": {
+      "type": "text",
+      "label": "50. APPLICABLE SFT (SEMI-ANNUAL)",
+      "page": 1,
+      "box": {
+        "left": 609.4,
+        "top": 137.2,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jul50": {
+      "type": "text",
+      "label": "50. APPLICABLE SFT (SEMI-ANNUAL)",
+      "page": 1,
+      "box": {
+        "left": 658.9,
+        "top": 137.2,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "oct50": {
+      "type": "text",
+      "label": "50. APPLICABLE SFT (SEMI-ANNUAL)",
+      "page": 1,
+      "box": {
+        "left": 708.0,
+        "top": 137.2,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jan51": {
+      "type": "text",
+      "label": "51. MOCK TRAUMA (ANNUAL)",
+      "page": 1,
+      "box": {
+        "left": 559.9,
+        "top": 123.7,
+        "width": 46.7,
+        "height": 10.6
+      }
+    },
+    "apr51": {
+      "type": "text",
+      "label": "51. MOCK TRAUMA (ANNUAL)",
+      "page": 1,
+      "box": {
+        "left": 609.4,
+        "top": 123.7,
+        "width": 46.7,
+        "height": 10.6
+      }
+    },
+    "jul51": {
+      "type": "text",
+      "label": "51. MOCK TRAUMA (ANNUAL)",
+      "page": 1,
+      "box": {
+        "left": 658.9,
+        "top": 123.7,
+        "width": 46.7,
+        "height": 10.6
+      }
+    },
+    "oct51": {
+      "type": "text",
+      "label": "51. MOCK TRAUMA (ANNUAL)",
+      "page": 1,
+      "box": {
+        "left": 708.0,
+        "top": 123.7,
+        "width": 46.7,
+        "height": 10.6
+      }
+    },
+    "jan23": {
+      "type": "text",
+      "label": "23. RAPPEL PROCEDURES",
+      "page": 1,
+      "box": {
+        "left": 190.4,
+        "top": 119.3,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "apr23": {
+      "type": "text",
+      "label": "23. RAPPEL PROCEDURES",
+      "page": 1,
+      "box": {
+        "left": 239.8,
+        "top": 119.3,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jul23": {
+      "type": "text",
+      "label": "23. RAPPEL PROCEDURES",
+      "page": 1,
+      "box": {
+        "left": 289.5,
+        "top": 119.3,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "oct23": {
+      "type": "text",
+      "label": "23. RAPPEL PROCEDURES",
+      "page": 1,
+      "box": {
+        "left": 339.1,
+        "top": 119.3,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jan24": {
+      "type": "text",
+      "label": "24. VERTICAL SURFACE DD",
+      "page": 1,
+      "box": {
+        "left": 190.4,
+        "top": 105.8,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "apr24": {
+      "type": "text",
+      "label": "24. VERTICAL SURFACE DD",
+      "page": 1,
+      "box": {
+        "left": 239.8,
+        "top": 105.8,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jul24": {
+      "type": "text",
+      "label": "24. VERTICAL SURFACE DD",
+      "page": 1,
+      "box": {
+        "left": 289.5,
+        "top": 105.8,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "oct24": {
+      "type": "text",
+      "label": "24. VERTICAL SURFACE DD",
+      "page": 1,
+      "box": {
+        "left": 339.1,
+        "top": 105.8,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jan25": {
+      "type": "text",
+      "label": "25. HIRA SHORT HAUL",
+      "page": 1,
+      "box": {
+        "left": 190.4,
+        "top": 92.1,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "apr25": {
+      "type": "text",
+      "label": "25. HIRA SHORT HAUL",
+      "page": 1,
+      "box": {
+        "left": 239.8,
+        "top": 92.1,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "jul25": {
+      "type": "text",
+      "label": "25. HIRA SHORT HAUL",
+      "page": 1,
+      "box": {
+        "left": 289.5,
+        "top": 92.1,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "oct25": {
+      "type": "text",
+      "label": "25. HIRA SHORT HAUL",
+      "page": 1,
+      "box": {
+        "left": 339.1,
+        "top": 92.1,
+        "width": 46.7,
+        "height": 10.7
+      }
+    },
+    "cPRdate": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 317.5,
+        "top": 78.5,
+        "width": 68.3,
+        "height": 12.0
+      }
+    },
+    "name": {
+      "type": "text",
+      "label": "NAME (LAST, FIRST, MI, SUFFIX )",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 55.8,
+        "width": 199.6,
+        "height": 18.4
+      }
+    },
+    "rankRate": {
+      "type": "text",
+      "label": "RATE",
+      "page": 1,
+      "box": {
+        "left": 238.9,
+        "top": 55.8,
+        "width": 146.9,
+        "height": 18.4
+      }
+    }
+  }
+}

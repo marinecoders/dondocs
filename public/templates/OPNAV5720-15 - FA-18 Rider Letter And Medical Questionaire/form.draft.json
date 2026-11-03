@@ -1,0 +1,717 @@
+{
+  "id": "opnav572015",
+  "label": "OPNAV5720-15 - FA-18 Rider Letter And Medical Questionaire",
+  "directory": "OPNAV5720-15 - FA-18 Rider Letter And Medical Questionaire",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "dayPhone",
+        "altPhone",
+        "altPhone2",
+        "age",
+        "height",
+        "weight",
+        "jacketSize",
+        "medHis",
+        "cell2",
+        "cell3",
+        "cell22",
+        "cell32",
+        "cell23",
+        "cell33",
+        "cell24",
+        "cell34",
+        "cell25",
+        "cell35",
+        "cell26",
+        "cell36",
+        "cell27",
+        "cell37",
+        "cell28",
+        "cell38",
+        "cell29",
+        "cell39",
+        "cell210",
+        "cell310",
+        "cell211",
+        "cell311",
+        "cell212",
+        "cell312",
+        "cell213",
+        "cell313",
+        "cell214",
+        "cell314",
+        "cell215",
+        "cell315",
+        "row17",
+        "row171",
+        "ifYes",
+        "printedName",
+        "appSig",
+        "date",
+        "evalDate",
+        "radio",
+        "radio2",
+        "condMedic",
+        "examName",
+        "examSig",
+        "examDate",
+        "examPhone",
+        "radio3",
+        "flightName",
+        "flightSig",
+        "flightDate",
+        "radio4"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "1. Name",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 601.1,
+        "width": 264.4,
+        "height": 11.5
+      }
+    },
+    "dayPhone": {
+      "type": "text",
+      "label": "2. Day/Work Phone Number",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 601.1,
+        "width": 264.4,
+        "height": 11.5
+      }
+    },
+    "altPhone": {
+      "type": "text",
+      "label": "3. City of Flight",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 575.9,
+        "width": 129.3,
+        "height": 11.5
+      }
+    },
+    "altPhone2": {
+      "type": "text",
+      "label": "4. Date of Flight",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 575.9,
+        "width": 129.3,
+        "height": 11.5
+      }
+    },
+    "age": {
+      "type": "text",
+      "label": "5. Age",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 575.9,
+        "width": 61.8,
+        "height": 11.5
+      }
+    },
+    "height": {
+      "type": "text",
+      "label": "6. Height",
+      "page": 1,
+      "box": {
+        "left": 376.4,
+        "top": 575.9,
+        "width": 61.8,
+        "height": 11.5
+      }
+    },
+    "weight": {
+      "type": "text",
+      "label": "7. Weight",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 575.9,
+        "width": 61.8,
+        "height": 11.5
+      }
+    },
+    "jacketSize": {
+      "type": "text",
+      "label": "8. Jacket Size",
+      "page": 1,
+      "box": {
+        "left": 511.4,
+        "top": 575.9,
+        "width": 61.8,
+        "height": 11.5
+      }
+    },
+    "medHis": {
+      "type": "text",
+      "label": "9. Past Medical/Surgical History",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 550.8,
+        "width": 534.4,
+        "height": 18.0
+      }
+    },
+    "cell2": {
+      "type": "text",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 509.6,
+        "width": 18.5,
+        "height": 8.0
+      }
+    },
+    "cell3": {
+      "type": "text",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 58.8,
+        "top": 509.6,
+        "width": 18.5,
+        "height": 8.0
+      }
+    },
+    "cell22": {
+      "type": "text",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 498.7,
+        "width": 18.5,
+        "height": 8.0
+      }
+    },
+    "cell32": {
+      "type": "text",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 58.8,
+        "top": 498.7,
+        "width": 18.5,
+        "height": 8.0
+      }
+    },
+    "cell23": {
+      "type": "text",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 487.9,
+        "width": 18.5,
+        "height": 17.6
+      }
+    },
+    "cell33": {
+      "type": "text",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 58.8,
+        "top": 487.9,
+        "width": 18.5,
+        "height": 17.6
+      }
+    },
+    "cell24": {
+      "type": "text",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 467.4,
+        "width": 18.5,
+        "height": 8.0
+      }
+    },
+    "cell34": {
+      "type": "text",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 58.8,
+        "top": 467.4,
+        "width": 18.5,
+        "height": 8.0
+      }
+    },
+    "cell25": {
+      "type": "text",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 456.6,
+        "width": 18.5,
+        "height": 17.6
+      }
+    },
+    "cell35": {
+      "type": "text",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 58.8,
+        "top": 456.6,
+        "width": 18.5,
+        "height": 17.6
+      }
+    },
+    "cell26": {
+      "type": "text",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 436.1,
+        "width": 18.5,
+        "height": 8.0
+      }
+    },
+    "cell36": {
+      "type": "text",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 58.8,
+        "top": 436.1,
+        "width": 18.5,
+        "height": 8.0
+      }
+    },
+    "cell27": {
+      "type": "text",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 425.2,
+        "width": 18.5,
+        "height": 17.6
+      }
+    },
+    "cell37": {
+      "type": "text",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 58.8,
+        "top": 425.2,
+        "width": 18.5,
+        "height": 17.6
+      }
+    },
+    "cell28": {
+      "type": "text",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 404.8,
+        "width": 18.5,
+        "height": 8.0
+      }
+    },
+    "cell38": {
+      "type": "text",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 58.8,
+        "top": 404.8,
+        "width": 18.5,
+        "height": 8.0
+      }
+    },
+    "cell29": {
+      "type": "text",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 393.9,
+        "width": 18.5,
+        "height": 8.0
+      }
+    },
+    "cell39": {
+      "type": "text",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 58.8,
+        "top": 393.9,
+        "width": 18.5,
+        "height": 8.0
+      }
+    },
+    "cell210": {
+      "type": "text",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 383.1,
+        "width": 18.5,
+        "height": 8.0
+      }
+    },
+    "cell310": {
+      "type": "text",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 58.8,
+        "top": 383.1,
+        "width": 18.5,
+        "height": 8.0
+      }
+    },
+    "cell211": {
+      "type": "text",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 372.2,
+        "width": 18.5,
+        "height": 8.0
+      }
+    },
+    "cell311": {
+      "type": "text",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 58.8,
+        "top": 372.2,
+        "width": 18.5,
+        "height": 8.0
+      }
+    },
+    "cell212": {
+      "type": "text",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 361.3,
+        "width": 18.5,
+        "height": 8.0
+      }
+    },
+    "cell312": {
+      "type": "text",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 58.8,
+        "top": 361.3,
+        "width": 18.5,
+        "height": 8.0
+      }
+    },
+    "cell213": {
+      "type": "text",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 350.4,
+        "width": 18.5,
+        "height": 8.0
+      }
+    },
+    "cell313": {
+      "type": "text",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 58.8,
+        "top": 350.4,
+        "width": 18.5,
+        "height": 8.0
+      }
+    },
+    "cell214": {
+      "type": "text",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 339.6,
+        "width": 18.5,
+        "height": 8.0
+      }
+    },
+    "cell314": {
+      "type": "text",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 58.8,
+        "top": 339.6,
+        "width": 18.5,
+        "height": 8.0
+      }
+    },
+    "cell215": {
+      "type": "text",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 328.7,
+        "width": 18.5,
+        "height": 8.0
+      }
+    },
+    "cell315": {
+      "type": "text",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 58.8,
+        "top": 328.7,
+        "width": 18.5,
+        "height": 8.0
+      }
+    },
+    "row17": {
+      "type": "text",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 317.8,
+        "width": 18.5,
+        "height": 8.0
+      }
+    },
+    "row171": {
+      "type": "text",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 58.8,
+        "top": 317.8,
+        "width": 18.5,
+        "height": 8.0
+      }
+    },
+    "ifYes": {
+      "type": "text",
+      "label": "If Yes",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 297.5,
+        "width": 534.4,
+        "height": 29.5
+      }
+    },
+    "printedName": {
+      "type": "text",
+      "label": "a. Printed Name",
+      "page": 1,
+      "box": {
+        "left": 92.8,
+        "top": 233.8,
+        "width": 210.4,
+        "height": 15.1
+      }
+    },
+    "appSig": {
+      "type": "text",
+      "label": "b. Signature",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 233.8,
+        "width": 192.4,
+        "height": 15.1
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "c. Date",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 233.8,
+        "width": 66.3,
+        "height": 15.1
+      }
+    },
+    "evalDate": {
+      "type": "text",
+      "label": "13. The above patient was evaluated on (date of exam)",
+      "page": 1,
+      "box": {
+        "left": 241.8,
+        "top": 201.6,
+        "width": 73.2,
+        "height": 12.3
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 204.5,
+        "top": 186.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 204.5,
+        "top": 175.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "condMedic": {
+      "type": "text",
+      "label": "15. Please list and explain all conditions and medications",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 152.6,
+        "width": 534.4,
+        "height": 28.2
+      }
+    },
+    "examName": {
+      "type": "text",
+      "label": "a. Printed Name &amp; Credentials (i.e., MD, DO, PA, NP)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 97.0,
+        "width": 196.0,
+        "height": 16.5
+      }
+    },
+    "examSig": {
+      "type": "text",
+      "label": "b. Signature",
+      "page": 1,
+      "box": {
+        "left": 240.5,
+        "top": 97.0,
+        "width": 170.8,
+        "height": 16.5
+      }
+    },
+    "examDate": {
+      "type": "text",
+      "label": "c. Date",
+      "page": 1,
+      "box": {
+        "left": 416.9,
+        "top": 97.0,
+        "width": 66.3,
+        "height": 16.5
+      }
+    },
+    "examPhone": {
+      "type": "text",
+      "label": "d. Phone Number",
+      "page": 1,
+      "box": {
+        "left": 488.9,
+        "top": 97.0,
+        "width": 84.3,
+        "height": 16.5
+      }
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 488.9,
+        "top": 63.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "flightName": {
+      "type": "text",
+      "label": "a. Printed Name",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 55.3,
+        "width": 196.0,
+        "height": 16.5
+      }
+    },
+    "flightSig": {
+      "type": "text",
+      "label": "b. Signature",
+      "page": 1,
+      "box": {
+        "left": 240.5,
+        "top": 55.3,
+        "width": 170.8,
+        "height": 16.5
+      }
+    },
+    "flightDate": {
+      "type": "text",
+      "label": "c. Date",
+      "page": 1,
+      "box": {
+        "left": 416.9,
+        "top": 55.3,
+        "width": 66.3,
+        "height": 16.5
+      }
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 488.9,
+        "top": 48.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    }
+  }
+}

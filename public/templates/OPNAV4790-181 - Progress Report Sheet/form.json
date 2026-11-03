@@ -1,0 +1,246 @@
+{
+  "id": "opnav4790181",
+  "label": "OPNAV4790-181 - Progress Report Sheet",
+  "directory": "OPNAV4790-181 - Progress Report Sheet",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "ten",
+        "twenty",
+        "thirty",
+        "fourty",
+        "fifty",
+        "sixty",
+        "seventy",
+        "eighty",
+        "ninty",
+        "hundred",
+        "activity",
+        "poc",
+        "phone",
+        "comments",
+        "wc",
+        "jsn",
+        "desc",
+        "eswibs",
+        "itemno"
+      ]
+    }
+  ],
+  "fields": {
+    "ten": {
+      "type": "checkbox",
+      "label": "SELECT PERCENT COMPLETE.",
+      "page": 1,
+      "box": {
+        "left": 48.2,
+        "top": 707.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "twenty": {
+      "type": "checkbox",
+      "label": "SELECT PERCENT COMPLETE.",
+      "page": 1,
+      "box": {
+        "left": 84.2,
+        "top": 707.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "thirty": {
+      "type": "checkbox",
+      "label": "SELECT PERCENT COMPLETE.",
+      "page": 1,
+      "box": {
+        "left": 120.2,
+        "top": 707.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "fourty": {
+      "type": "checkbox",
+      "label": "SELECT PERCENT COMPLETE.",
+      "page": 1,
+      "box": {
+        "left": 156.2,
+        "top": 707.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "fifty": {
+      "type": "checkbox",
+      "label": "SELECT PERCENT COMPLETE.",
+      "page": 1,
+      "box": {
+        "left": 192.2,
+        "top": 707.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "sixty": {
+      "type": "checkbox",
+      "label": "SELECT PERCENT COMPLETE.",
+      "page": 1,
+      "box": {
+        "left": 228.2,
+        "top": 707.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "seventy": {
+      "type": "checkbox",
+      "label": "SELECT PERCENT COMPLETE.",
+      "page": 1,
+      "box": {
+        "left": 264.2,
+        "top": 707.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "eighty": {
+      "type": "checkbox",
+      "label": "SELECT PERCENT COMPLETE.",
+      "page": 1,
+      "box": {
+        "left": 300.2,
+        "top": 707.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "ninty": {
+      "type": "checkbox",
+      "label": "SELECT PERCENT COMPLETE.",
+      "page": 1,
+      "box": {
+        "left": 336.2,
+        "top": 707.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "hundred": {
+      "type": "checkbox",
+      "label": "SELECT PERCENT COMPLETE.",
+      "page": 1,
+      "box": {
+        "left": 372.2,
+        "top": 707.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "activity": {
+      "type": "text",
+      "label": "ENTER ACTIVITY.",
+      "page": 1,
+      "box": {
+        "left": 83.0,
+        "top": 685.7,
+        "width": 184.2,
+        "height": 21.3
+      }
+    },
+    "poc": {
+      "type": "text",
+      "label": "ENTER POC.",
+      "page": 1,
+      "box": {
+        "left": 296.4,
+        "top": 685.7,
+        "width": 123.8,
+        "height": 21.3
+      }
+    },
+    "phone": {
+      "type": "text",
+      "label": "ENTER PHONE NUMBER.",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 685.7,
+        "width": 98.0,
+        "height": 21.3
+      }
+    },
+    "comments": {
+      "type": "text",
+      "label": "ENTER COMMENTS.",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 649.1,
+        "width": 534.3,
+        "height": 34.3
+      },
+      "multiline": true
+    },
+    "wc": {
+      "type": "text",
+      "label": "ENTER W/C.",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 599.6,
+        "width": 93.3,
+        "height": 16.3
+      }
+    },
+    "jsn": {
+      "type": "text",
+      "label": "ENTER JSN.",
+      "page": 1,
+      "box": {
+        "left": 137.8,
+        "top": 599.6,
+        "width": 93.3,
+        "height": 16.3
+      }
+    },
+    "desc": {
+      "type": "text",
+      "label": "ENTER DESCRIPTION.",
+      "page": 1,
+      "box": {
+        "left": 236.8,
+        "top": 599.6,
+        "width": 138.3,
+        "height": 16.3
+      }
+    },
+    "eswibs": {
+      "type": "text",
+      "label": "ENTER ESWIBS.",
+      "page": 1,
+      "box": {
+        "left": 380.8,
+        "top": 599.6,
+        "width": 93.3,
+        "height": 16.3
+      }
+    },
+    "itemno": {
+      "type": "text",
+      "label": "ENTER ITEM NUMBER.",
+      "page": 1,
+      "box": {
+        "left": 479.8,
+        "top": 599.6,
+        "width": 93.3,
+        "height": 16.3
+      }
+    }
+  }
+}

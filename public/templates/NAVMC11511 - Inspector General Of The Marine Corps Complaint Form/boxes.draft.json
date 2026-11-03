@@ -1,0 +1,295 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "radio": {
+        "left": 75.7,
+        "top": 497.2,
+        "width": 11.0,
+        "height": 11.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio2": {
+        "left": 165.3,
+        "top": 496.9,
+        "width": 11.0,
+        "height": 11.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio3": {
+        "left": 165.6,
+        "top": 430.0,
+        "width": 11.0,
+        "height": 11.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio4": {
+        "left": 74.8,
+        "top": 429.5,
+        "width": 11.0,
+        "height": 11.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio5": {
+        "left": 165.6,
+        "top": 363.1,
+        "width": 11.0,
+        "height": 11.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio6": {
+        "left": 74.8,
+        "top": 362.9,
+        "width": 11.0,
+        "height": 11.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "nameFirst": {
+        "left": 104.5,
+        "top": 313.1,
+        "width": 201.7,
+        "height": 15.4,
+        "type": "text",
+        "description": "First",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameLast": {
+        "left": 104.4,
+        "top": 291.4,
+        "width": 201.7,
+        "height": 15.4,
+        "type": "text",
+        "description": "Last",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "addressLine1": {
+        "left": 149.5,
+        "top": 240.6,
+        "width": 416.9,
+        "height": 15.4,
+        "type": "text",
+        "description": "Address Line 1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "addressLine2": {
+        "left": 149.5,
+        "top": 219.5,
+        "width": 416.9,
+        "height": 15.4,
+        "type": "text",
+        "description": "Address Line 2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "city": {
+        "left": 102.5,
+        "top": 196.2,
+        "width": 235.0,
+        "height": 15.4,
+        "type": "text",
+        "description": "City",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "state": {
+        "left": 394.5,
+        "top": 196.1,
+        "width": 172.2,
+        "height": 15.4,
+        "type": "text",
+        "description": "State",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "zip": {
+        "left": 122.6,
+        "top": 174.4,
+        "width": 106.3,
+        "height": 15.4,
+        "type": "text",
+        "description": "Zip Code",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "country": {
+        "left": 305.2,
+        "top": 174.3,
+        "width": 261.4,
+        "height": 15.4,
+        "type": "text",
+        "description": "Country",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "phoneHome": {
+        "left": 396.3,
+        "top": 143.8,
+        "width": 108.6,
+        "height": 14.9,
+        "type": "text",
+        "description": "consent.)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "homeCode": {
+        "left": 512.5,
+        "top": 143.8,
+        "width": 30.0,
+        "height": 15.4,
+        "type": "text",
+        "description": "when",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "workCode": {
+        "left": 537.2,
+        "top": 113.7,
+        "width": 30.0,
+        "height": 15.4,
+        "type": "text",
+        "description": "have",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "phoneWork": {
+        "left": 424.4,
+        "top": 113.6,
+        "width": 108.6,
+        "height": 14.9,
+        "type": "text",
+        "description": "General",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "emailAddress": {
+        "left": 127.3,
+        "top": 82.2,
+        "width": 274.8,
+        "height": 15.4,
+        "type": "text",
+        "description": "E-Mail Address",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "q5witnField": {
+        "left": 62.2,
+        "top": 631.3,
+        "width": 502.0,
+        "height": 63.2,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "q5subjField": {
+        "left": 62.2,
+        "top": 536.4,
+        "width": 502.0,
+        "height": 66.7,
+        "type": "text",
+        "description": "Subject(s) : Who performed the wrongdoing?",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "q6Field": {
+        "left": 47.8,
+        "top": 427.1,
+        "width": 516.4,
+        "height": 65.3,
+        "type": "text",
+        "description": "6. What did the subject do or fail to do that was wrong?",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "q7Field": {
+        "left": 47.8,
+        "top": 318.1,
+        "width": 516.4,
+        "height": 64.4,
+        "type": "text",
+        "description": "6. What did the subject do or fail to do that was wrong?",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "q8Field": {
+        "left": 47.8,
+        "top": 210.1,
+        "width": 516.4,
+        "height": 28.4,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "q9Field": {
+        "left": 47.8,
+        "top": 139.0,
+        "width": 516.4,
+        "height": 58.4,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

@@ -1,0 +1,3633 @@
+{
+  "id": "opnav860014",
+  "label": "OPNAV8600-14 - Maintenance Data System - Configuration Summary Penguin",
+  "directory": "OPNAV8600-14 - Maintenance Data System - Configuration Summary Penguin",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "pn",
+        "cc",
+        "sn",
+        "uic",
+        "jopwa",
+        "nalc",
+        "waivers",
+        "date2",
+        "timeField",
+        "date1",
+        "date3",
+        "inspection",
+        "stamp",
+        "tlmcode",
+        "condcode",
+        "date4",
+        "localuse",
+        "mmd1",
+        "partno1",
+        "serialno1",
+        "lotno1",
+        "date5",
+        "date23",
+        "mmd2",
+        "partno2",
+        "serialno2",
+        "lotno2",
+        "date6",
+        "date24",
+        "mmd3",
+        "partno3",
+        "serialno3",
+        "lotno3",
+        "date7",
+        "date26",
+        "mmd4",
+        "partno4",
+        "serialno4",
+        "lotno4",
+        "date8",
+        "date27",
+        "mmd5",
+        "partno5",
+        "serialno5",
+        "lotno5",
+        "date9",
+        "date28",
+        "mmd6",
+        "partno6",
+        "serialno6",
+        "lotno6",
+        "date10",
+        "date29",
+        "mmd7",
+        "partno7",
+        "serialno7",
+        "lotno7",
+        "date11",
+        "date30",
+        "mmd8",
+        "partno8",
+        "serialno8",
+        "lotno8",
+        "date12",
+        "date31",
+        "mmd9",
+        "partno9",
+        "serialno9",
+        "lotno9",
+        "date13",
+        "date32",
+        "mmd10",
+        "partno10",
+        "serialno10",
+        "lotno10",
+        "date14",
+        "date33",
+        "mmd11",
+        "partno11",
+        "serialno11",
+        "lotno11",
+        "date15",
+        "date34",
+        "mmd12",
+        "partno12",
+        "serialno12",
+        "lotno12",
+        "date16",
+        "date35",
+        "mmd13",
+        "partno13",
+        "serialno13",
+        "lotno13",
+        "date17",
+        "date36",
+        "mmd132",
+        "partno14",
+        "serialno14",
+        "lotno14",
+        "date18",
+        "date37",
+        "partno15",
+        "serialno15",
+        "lotno15",
+        "date19",
+        "date38",
+        "mmd14",
+        "mmd15",
+        "partno16",
+        "serialno16",
+        "lotno16",
+        "date20",
+        "date39",
+        "mmd16",
+        "partno17",
+        "serialno17",
+        "lotno17",
+        "date21",
+        "date40",
+        "mmd17",
+        "partno18",
+        "serialno18",
+        "lotno18",
+        "date41",
+        "date22",
+        "alttechdirperformed1",
+        "nomenclature2",
+        "alttechdirperformed5",
+        "alttechdirperformed9",
+        "alttechdirperformed13",
+        "alttechdirperformed17",
+        "nomenclature",
+        "alttechdirperformed2",
+        "alttechdirperformed6",
+        "alttechdirperformed10",
+        "alttechdirperformed14",
+        "alttechdirperformed18",
+        "nomenclature3",
+        "alttechdirperformed3",
+        "alttechdirperformed7",
+        "alttechdirperformed11",
+        "alttechdirperformed15",
+        "alttechdirperformed19",
+        "alttechdirperformed8",
+        "alttechdirperformed12",
+        "alttechdirperformed16",
+        "alttechdirperformed4",
+        "alttechdirperformed20",
+        "nomenclature4"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "amisseldesignator",
+        "bserialno",
+        "partnumber",
+        "activityuic1",
+        "operationevent1",
+        "testinspresultspassfail1",
+        "timeField1",
+        "techdirmodincorporated1",
+        "remarks1",
+        "date110",
+        "date25",
+        "activityuic2",
+        "operationevent2",
+        "testinspresultspassfail2",
+        "timeField2",
+        "techdirmodincorporated2",
+        "remarks2",
+        "date310",
+        "activityuic3",
+        "operationevent3",
+        "testinspresultspassfail3",
+        "timeField3",
+        "techdirmodincorporated3",
+        "remarks3",
+        "date42",
+        "activityuic4",
+        "operationevent4",
+        "testinspresultspassfail4",
+        "timeField4",
+        "techdirmodincorporated4",
+        "remarks4",
+        "date52",
+        "activityuic5",
+        "operationevent5",
+        "testinspresultspassfail5",
+        "timeField5",
+        "techdirmodincorporated5",
+        "remarks5",
+        "operationevent6",
+        "date62",
+        "activityuic6",
+        "testinspresultspassfail6",
+        "timeField6",
+        "techdirmodincorporated6",
+        "remarks6",
+        "activityuic7",
+        "operationevent7",
+        "testinspresultspassfail7",
+        "timeField7",
+        "techdirmodincorporated7",
+        "remarks7",
+        "date72",
+        "date82",
+        "activityuic8",
+        "operationevent8",
+        "testinspresultspassfail8",
+        "timeField8",
+        "techdirmodincorporated8",
+        "remarks8",
+        "date92",
+        "activityuic9",
+        "operationevent9",
+        "timeField9",
+        "techdirmodincorporated9",
+        "remarks9",
+        "testinspresultspassfail9",
+        "date102",
+        "activityuic10",
+        "operationevent10",
+        "testinspresultspassfail10",
+        "techdirmodincorporated10",
+        "remarks10",
+        "timeField10",
+        "date112",
+        "activityuic11",
+        "operationevent11",
+        "testinspresultspassfail11",
+        "timeField11",
+        "techdirmodincorporated11",
+        "remarks11",
+        "date122",
+        "activityuic12",
+        "operationevent12",
+        "testinspresultspassfail12",
+        "timeField12",
+        "techdirmodincorporated12",
+        "remarks12",
+        "date132",
+        "activityuic13",
+        "operationevent13",
+        "timeField13",
+        "techdirmodincorporated13",
+        "remarks13",
+        "testinspresultspassfail13",
+        "date142",
+        "activityuic14",
+        "operationevent14",
+        "testinspresultspassfail14",
+        "timeField14",
+        "techdirmodincorporated14",
+        "remarks14",
+        "date152",
+        "activityuic15",
+        "operationevent15",
+        "testinspresultspassfail15",
+        "timeField15",
+        "techdirmodincorporated15",
+        "remarks15",
+        "date162",
+        "activityuic16",
+        "operationevent16",
+        "testinspresultspassfail16",
+        "timeField16",
+        "techdirmodincorporated16",
+        "remarks16",
+        "testinspresultspassfail17",
+        "date172",
+        "activityuic17",
+        "operationevent17",
+        "timeField17",
+        "techdirmodincorporated17",
+        "remarks17",
+        "date182",
+        "activityuic18",
+        "operationevent18",
+        "timeField18",
+        "techdirmodincorporated18",
+        "remarks18",
+        "testinspresultspassfail18",
+        "operationevent19",
+        "testinspresultspassfail19",
+        "timeField19",
+        "techdirmodincorporated19",
+        "remarks19",
+        "date192",
+        "activityuic19",
+        "date202",
+        "activityuic20",
+        "operationevent20",
+        "testinspresultspassfail20",
+        "timeField20",
+        "techdirmodincorporated20",
+        "remarks20",
+        "remarks21",
+        "date212",
+        "activityuic21",
+        "operationevent21",
+        "testinspresultspassfail21",
+        "timeField21",
+        "techdirmodincorporated21"
+      ]
+    }
+  ],
+  "fields": {
+    "pn": {
+      "type": "text",
+      "label": "Enter the part number.",
+      "page": 1,
+      "box": {
+        "left": 82.9,
+        "top": 727.3,
+        "width": 92.7,
+        "height": 12.4
+      }
+    },
+    "cc": {
+      "type": "text",
+      "label": "Enter the country code.",
+      "page": 1,
+      "box": {
+        "left": 505.2,
+        "top": 727.2,
+        "width": 71.7,
+        "height": 13.1
+      }
+    },
+    "sn": {
+      "type": "text",
+      "label": "Enter the serial number.",
+      "page": 1,
+      "box": {
+        "left": 233.5,
+        "top": 726.4,
+        "width": 38.2,
+        "height": 11.5
+      }
+    },
+    "uic": {
+      "type": "text",
+      "label": "Enter the unit identification code.",
+      "page": 1,
+      "box": {
+        "left": 323.5,
+        "top": 726.0,
+        "width": 47.0,
+        "height": 11.5
+      }
+    },
+    "jopwa": {
+      "type": "text",
+      "label": "Enter the job order/prod work auth.",
+      "page": 1,
+      "box": {
+        "left": 378.8,
+        "top": 726.0,
+        "width": 117.0,
+        "height": 11.5
+      }
+    },
+    "nalc": {
+      "type": "text",
+      "label": "Enter the Navy ammunition logistics code.",
+      "page": 1,
+      "box": {
+        "left": 277.9,
+        "top": 725.2,
+        "width": 40.8,
+        "height": 10.7
+      }
+    },
+    "waivers": {
+      "type": "text",
+      "label": "Enter the waivers.",
+      "page": 1,
+      "box": {
+        "left": 80.8,
+        "top": 700.5,
+        "width": 187.2,
+        "height": 14.0
+      }
+    },
+    "date2": {
+      "type": "text",
+      "label": "Enter the maintenance date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 528.7,
+        "top": 696.8,
+        "width": 51.5,
+        "height": 11.3
+      }
+    },
+    "timeField": {
+      "type": "text",
+      "label": "Enter the configuration time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 419.8,
+        "top": 696.4,
+        "width": 43.1,
+        "height": 10.9
+      }
+    },
+    "date1": {
+      "type": "text",
+      "label": "Enter the configuration date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 355.8,
+        "top": 696.0,
+        "width": 51.5,
+        "height": 10.5
+      }
+    },
+    "date3": {
+      "type": "text",
+      "label": "Enter the date (YYYY MM DD). Do not issue after date. ",
+      "page": 1,
+      "box": {
+        "left": 117.7,
+        "top": 668.4,
+        "width": 51.5,
+        "height": 13.4
+      }
+    },
+    "inspection": {
+      "type": "text",
+      "label": "Enter the inspector.",
+      "page": 1,
+      "box": {
+        "left": 276.8,
+        "top": 668.4,
+        "width": 65.3,
+        "height": 13.4
+      }
+    },
+    "stamp": {
+      "type": "text",
+      "label": "Enter the stamp.",
+      "page": 1,
+      "box": {
+        "left": 347.1,
+        "top": 668.4,
+        "width": 48.6,
+        "height": 13.4
+      }
+    },
+    "tlmcode": {
+      "type": "text",
+      "label": "Enter the TLM code.",
+      "page": 1,
+      "box": {
+        "left": 398.1,
+        "top": 668.4,
+        "width": 66.5,
+        "height": 13.4
+      }
+    },
+    "condcode": {
+      "type": "text",
+      "label": "Enter the cond code.",
+      "page": 1,
+      "box": {
+        "left": 484.8,
+        "top": 668.4,
+        "width": 95.4,
+        "height": 13.4
+      }
+    },
+    "date4": {
+      "type": "text",
+      "label": "Enter the last system test date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 219.8,
+        "top": 666.3,
+        "width": 51.5,
+        "height": 11.3
+      }
+    },
+    "localuse": {
+      "type": "text",
+      "label": "Enter the local use.",
+      "page": 1,
+      "box": {
+        "left": 97.1,
+        "top": 652.8,
+        "width": 384.4,
+        "height": 23.2
+      }
+    },
+    "mmd1": {
+      "type": "text",
+      "label": "This is row 1 of 18, enter the MK MOD/designator for the seeker section.",
+      "page": 1,
+      "box": {
+        "left": 177.3,
+        "top": 581.2,
+        "width": 65.0,
+        "height": 12.2
+      }
+    },
+    "partno1": {
+      "type": "text",
+      "label": "Enter the part number for the seeker section.",
+      "page": 1,
+      "box": {
+        "left": 248.0,
+        "top": 581.2,
+        "width": 76.8,
+        "height": 12.2
+      }
+    },
+    "serialno1": {
+      "type": "text",
+      "label": "Enter the serial number for the seeker section.",
+      "page": 1,
+      "box": {
+        "left": 329.6,
+        "top": 581.2,
+        "width": 68.4,
+        "height": 12.2
+      }
+    },
+    "lotno1": {
+      "type": "text",
+      "label": "Enter the lot number for the seeker section.",
+      "page": 1,
+      "box": {
+        "left": 401.9,
+        "top": 581.2,
+        "width": 55.9,
+        "height": 12.2
+      }
+    },
+    "date5": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 462.1,
+        "top": 581.2,
+        "width": 56.4,
+        "height": 12.2
+      }
+    },
+    "date23": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 520.7,
+        "top": 581.2,
+        "width": 60.0,
+        "height": 12.2
+      }
+    },
+    "mmd2": {
+      "type": "text",
+      "label": "This is row 2 of 18, enter the MK MOD/designator for the piston actuator.",
+      "page": 1,
+      "box": {
+        "left": 177.3,
+        "top": 566.6,
+        "width": 64.5,
+        "height": 12.2
+      }
+    },
+    "partno2": {
+      "type": "text",
+      "label": "Enter the part number for the piston actuator.",
+      "page": 1,
+      "box": {
+        "left": 248.0,
+        "top": 566.6,
+        "width": 76.8,
+        "height": 12.2
+      }
+    },
+    "serialno2": {
+      "type": "text",
+      "label": "Enter the serial number for the piston actuator.",
+      "page": 1,
+      "box": {
+        "left": 329.6,
+        "top": 566.6,
+        "width": 68.4,
+        "height": 12.2
+      }
+    },
+    "lotno2": {
+      "type": "text",
+      "label": "Enter the lot number for the piston actuator.",
+      "page": 1,
+      "box": {
+        "left": 401.9,
+        "top": 566.6,
+        "width": 55.9,
+        "height": 12.2
+      }
+    },
+    "date6": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 462.0,
+        "top": 566.6,
+        "width": 54.8,
+        "height": 12.2
+      }
+    },
+    "date24": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 520.7,
+        "top": 566.6,
+        "width": 60.0,
+        "height": 12.2
+      }
+    },
+    "mmd3": {
+      "type": "text",
+      "label": "This is row 3 of 18, enter the MK MOD/designator for the ignitor.",
+      "page": 1,
+      "box": {
+        "left": 177.3,
+        "top": 551.9,
+        "width": 65.0,
+        "height": 12.2
+      }
+    },
+    "partno3": {
+      "type": "text",
+      "label": "Enter the part number for the ignitor.",
+      "page": 1,
+      "box": {
+        "left": 248.0,
+        "top": 551.9,
+        "width": 76.8,
+        "height": 12.2
+      }
+    },
+    "serialno3": {
+      "type": "text",
+      "label": "Enter the serial number for the ignitor.",
+      "page": 1,
+      "box": {
+        "left": 329.6,
+        "top": 551.9,
+        "width": 68.4,
+        "height": 12.2
+      }
+    },
+    "lotno3": {
+      "type": "text",
+      "label": "Enter the lot number for the ignitor.",
+      "page": 1,
+      "box": {
+        "left": 401.9,
+        "top": 551.9,
+        "width": 55.9,
+        "height": 12.2
+      }
+    },
+    "date7": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 462.0,
+        "top": 551.9,
+        "width": 55.6,
+        "height": 12.2
+      }
+    },
+    "date26": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 520.7,
+        "top": 551.9,
+        "width": 60.0,
+        "height": 12.2
+      }
+    },
+    "mmd4": {
+      "type": "text",
+      "label": "This is row 4 of 18, enter the MK MOD/designator for the gas bottle.",
+      "page": 1,
+      "box": {
+        "left": 177.3,
+        "top": 536.9,
+        "width": 65.8,
+        "height": 12.2
+      }
+    },
+    "partno4": {
+      "type": "text",
+      "label": "Enter the part number for the gas bottle.",
+      "page": 1,
+      "box": {
+        "left": 248.0,
+        "top": 536.9,
+        "width": 76.8,
+        "height": 12.2
+      }
+    },
+    "serialno4": {
+      "type": "text",
+      "label": "Enter the serial number for the gas bottle.",
+      "page": 1,
+      "box": {
+        "left": 329.6,
+        "top": 536.9,
+        "width": 68.4,
+        "height": 12.2
+      }
+    },
+    "lotno4": {
+      "type": "text",
+      "label": "Enter the lot number for the gas bottle.",
+      "page": 1,
+      "box": {
+        "left": 401.9,
+        "top": 536.9,
+        "width": 55.9,
+        "height": 12.2
+      }
+    },
+    "date8": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 462.0,
+        "top": 536.9,
+        "width": 55.6,
+        "height": 12.2
+      }
+    },
+    "date27": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 520.7,
+        "top": 536.9,
+        "width": 60.0,
+        "height": 12.2
+      }
+    },
+    "mmd5": {
+      "type": "text",
+      "label": "This is row 5 of 18, enter the MK MOD/designator for the holex.",
+      "page": 1,
+      "box": {
+        "left": 177.3,
+        "top": 522.2,
+        "width": 64.5,
+        "height": 12.2
+      }
+    },
+    "partno5": {
+      "type": "text",
+      "label": "Enter the part number for the holex.",
+      "page": 1,
+      "box": {
+        "left": 248.0,
+        "top": 522.2,
+        "width": 76.8,
+        "height": 12.2
+      }
+    },
+    "serialno5": {
+      "type": "text",
+      "label": "Enter the serial number for the holex.",
+      "page": 1,
+      "box": {
+        "left": 329.6,
+        "top": 522.2,
+        "width": 68.4,
+        "height": 12.2
+      }
+    },
+    "lotno5": {
+      "type": "text",
+      "label": "Enter the lot number for the holex.",
+      "page": 1,
+      "box": {
+        "left": 401.9,
+        "top": 522.2,
+        "width": 55.9,
+        "height": 12.2
+      }
+    },
+    "date9": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 462.1,
+        "top": 522.2,
+        "width": 56.4,
+        "height": 12.2
+      }
+    },
+    "date28": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 520.7,
+        "top": 522.2,
+        "width": 60.0,
+        "height": 12.2
+      }
+    },
+    "mmd6": {
+      "type": "text",
+      "label": "This is row 6 of 18, enter the MK MOD/designator for the Nav & cont sect.",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 497.5,
+        "width": 64.7,
+        "height": 12.8
+      }
+    },
+    "partno6": {
+      "type": "text",
+      "label": "Enter the part number for the NAV & CONT section.",
+      "page": 1,
+      "box": {
+        "left": 248.0,
+        "top": 497.5,
+        "width": 76.8,
+        "height": 12.8
+      }
+    },
+    "serialno6": {
+      "type": "text",
+      "label": "Enter the serial number for the NAV & CON section.",
+      "page": 1,
+      "box": {
+        "left": 329.6,
+        "top": 497.5,
+        "width": 68.4,
+        "height": 12.8
+      }
+    },
+    "lotno6": {
+      "type": "text",
+      "label": "Enter the lot number for the NAV & CONT section.",
+      "page": 1,
+      "box": {
+        "left": 401.9,
+        "top": 497.5,
+        "width": 55.9,
+        "height": 12.8
+      }
+    },
+    "date10": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 461.2,
+        "top": 497.5,
+        "width": 56.1,
+        "height": 12.8
+      }
+    },
+    "date29": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 521.2,
+        "top": 497.5,
+        "width": 58.6,
+        "height": 12.8
+      }
+    },
+    "mmd7": {
+      "type": "text",
+      "label": "This is row 7 of 18, enter the MK MOD/designator for the cannard act.",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 482.4,
+        "width": 64.7,
+        "height": 11.5
+      }
+    },
+    "partno7": {
+      "type": "text",
+      "label": "Enter the part number for the cannard act.",
+      "page": 1,
+      "box": {
+        "left": 248.0,
+        "top": 482.4,
+        "width": 76.8,
+        "height": 11.5
+      }
+    },
+    "serialno7": {
+      "type": "text",
+      "label": "Enter the serial number for the cannard act.",
+      "page": 1,
+      "box": {
+        "left": 329.6,
+        "top": 482.4,
+        "width": 68.4,
+        "height": 11.5
+      }
+    },
+    "lotno7": {
+      "type": "text",
+      "label": "Enter the lot number for the cannard act.",
+      "page": 1,
+      "box": {
+        "left": 401.9,
+        "top": 482.4,
+        "width": 55.9,
+        "height": 11.5
+      }
+    },
+    "date11": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 462.0,
+        "top": 482.4,
+        "width": 56.1,
+        "height": 11.5
+      }
+    },
+    "date30": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 521.2,
+        "top": 482.4,
+        "width": 58.6,
+        "height": 11.5
+      }
+    },
+    "mmd8": {
+      "type": "text",
+      "label": "This is row 8 of 18, enter the MK MOD/designator for the therm. batt.",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 468.6,
+        "width": 64.7,
+        "height": 12.8
+      }
+    },
+    "partno8": {
+      "type": "text",
+      "label": "Enter the part number for the Therm. batt.",
+      "page": 1,
+      "box": {
+        "left": 248.0,
+        "top": 468.6,
+        "width": 76.8,
+        "height": 12.8
+      }
+    },
+    "serialno8": {
+      "type": "text",
+      "label": "Enter the serial number for the Therm. batt.",
+      "page": 1,
+      "box": {
+        "left": 329.6,
+        "top": 468.6,
+        "width": 68.4,
+        "height": 12.8
+      }
+    },
+    "lotno8": {
+      "type": "text",
+      "label": "Enter the lot number for the Therm. batt.",
+      "page": 1,
+      "box": {
+        "left": 401.9,
+        "top": 468.6,
+        "width": 55.9,
+        "height": 12.8
+      }
+    },
+    "date12": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 462.0,
+        "top": 468.6,
+        "width": 55.6,
+        "height": 12.8
+      }
+    },
+    "date31": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 520.3,
+        "top": 468.6,
+        "width": 60.0,
+        "height": 12.8
+      }
+    },
+    "mmd9": {
+      "type": "text",
+      "label": "This is row 9 of 18, enter the MK MOD/designator for the therm. batt.",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 453.1,
+        "width": 64.7,
+        "height": 12.8
+      }
+    },
+    "partno9": {
+      "type": "text",
+      "label": "Enter the part number for the Therm. batt.",
+      "page": 1,
+      "box": {
+        "left": 248.0,
+        "top": 453.1,
+        "width": 76.8,
+        "height": 12.8
+      }
+    },
+    "serialno9": {
+      "type": "text",
+      "label": "Enter the serial number for the Therm. batt.",
+      "page": 1,
+      "box": {
+        "left": 329.6,
+        "top": 453.1,
+        "width": 68.4,
+        "height": 12.8
+      }
+    },
+    "lotno9": {
+      "type": "text",
+      "label": "Enter the lot number for the Therm. batt.",
+      "page": 1,
+      "box": {
+        "left": 401.9,
+        "top": 453.1,
+        "width": 55.9,
+        "height": 12.8
+      }
+    },
+    "date13": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 462.0,
+        "top": 453.1,
+        "width": 55.6,
+        "height": 12.8
+      }
+    },
+    "date32": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 519.8,
+        "top": 453.1,
+        "width": 60.0,
+        "height": 12.8
+      }
+    },
+    "mmd10": {
+      "type": "text",
+      "label": "This is row 10 of 18, enter the MK MOD/designator for the therm. batt.",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 437.7,
+        "width": 64.7,
+        "height": 12.8
+      }
+    },
+    "partno10": {
+      "type": "text",
+      "label": "Enter the part number for the Therm. batt.",
+      "page": 1,
+      "box": {
+        "left": 248.0,
+        "top": 437.7,
+        "width": 76.8,
+        "height": 12.8
+      }
+    },
+    "serialno10": {
+      "type": "text",
+      "label": "Enter the serial number for the Therm. batt.",
+      "page": 1,
+      "box": {
+        "left": 329.6,
+        "top": 437.7,
+        "width": 68.4,
+        "height": 12.8
+      }
+    },
+    "lotno10": {
+      "type": "text",
+      "label": "Enter the lot number for the Therm. batt.",
+      "page": 1,
+      "box": {
+        "left": 401.9,
+        "top": 437.7,
+        "width": 55.9,
+        "height": 12.8
+      }
+    },
+    "date14": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 462.0,
+        "top": 437.7,
+        "width": 55.7,
+        "height": 12.8
+      }
+    },
+    "date33": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 520.3,
+        "top": 437.7,
+        "width": 60.0,
+        "height": 12.8
+      }
+    },
+    "mmd11": {
+      "type": "text",
+      "label": "This is row 11 of 18, enter the MK MOD/designator for the WARHD SECT.",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 400.8,
+        "width": 64.7,
+        "height": 12.7
+      }
+    },
+    "partno11": {
+      "type": "text",
+      "label": "Enter the part number for the warhead section.",
+      "page": 1,
+      "box": {
+        "left": 248.0,
+        "top": 400.8,
+        "width": 76.8,
+        "height": 12.7
+      }
+    },
+    "serialno11": {
+      "type": "text",
+      "label": "Enter the serial number for the warhead section.",
+      "page": 1,
+      "box": {
+        "left": 329.6,
+        "top": 400.8,
+        "width": 68.4,
+        "height": 12.7
+      }
+    },
+    "lotno11": {
+      "type": "text",
+      "label": "Enter the lot number for the warhead section.",
+      "page": 1,
+      "box": {
+        "left": 401.9,
+        "top": 400.8,
+        "width": 55.9,
+        "height": 12.7
+      }
+    },
+    "date15": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 462.6,
+        "top": 400.8,
+        "width": 55.0,
+        "height": 12.7
+      }
+    },
+    "date34": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 520.7,
+        "top": 400.8,
+        "width": 60.0,
+        "height": 12.7
+      }
+    },
+    "mmd12": {
+      "type": "text",
+      "label": "This is row 12 of 18, enter the MK MOD/designator for the WHD.",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 385.3,
+        "width": 64.7,
+        "height": 12.7
+      }
+    },
+    "partno12": {
+      "type": "text",
+      "label": "Enter the part number for the WHD.",
+      "page": 1,
+      "box": {
+        "left": 248.0,
+        "top": 385.3,
+        "width": 76.8,
+        "height": 12.7
+      }
+    },
+    "serialno12": {
+      "type": "text",
+      "label": "Enter the serial number for the WHD.",
+      "page": 1,
+      "box": {
+        "left": 329.6,
+        "top": 385.3,
+        "width": 68.4,
+        "height": 12.7
+      }
+    },
+    "lotno12": {
+      "type": "text",
+      "label": "Enter the lot number for the WHD.",
+      "page": 1,
+      "box": {
+        "left": 401.9,
+        "top": 385.3,
+        "width": 55.9,
+        "height": 12.7
+      }
+    },
+    "date16": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 462.6,
+        "top": 385.3,
+        "width": 55.0,
+        "height": 12.7
+      }
+    },
+    "date35": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 520.7,
+        "top": 385.3,
+        "width": 60.0,
+        "height": 12.7
+      }
+    },
+    "mmd13": {
+      "type": "text",
+      "label": "This is row 13 of 18, enter the MK MOD/designator for the FUZE.",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 370.3,
+        "width": 64.7,
+        "height": 11.9
+      }
+    },
+    "partno13": {
+      "type": "text",
+      "label": "Enter the part number for the fuze.",
+      "page": 1,
+      "box": {
+        "left": 248.0,
+        "top": 370.3,
+        "width": 76.8,
+        "height": 11.9
+      }
+    },
+    "serialno13": {
+      "type": "text",
+      "label": "Enter the serial number for the fuze.",
+      "page": 1,
+      "box": {
+        "left": 329.6,
+        "top": 370.3,
+        "width": 68.4,
+        "height": 11.9
+      }
+    },
+    "lotno13": {
+      "type": "text",
+      "label": "Enter the lot number for the fuze.",
+      "page": 1,
+      "box": {
+        "left": 401.9,
+        "top": 370.3,
+        "width": 55.9,
+        "height": 11.9
+      }
+    },
+    "date17": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 462.6,
+        "top": 370.3,
+        "width": 55.0,
+        "height": 11.9
+      }
+    },
+    "date36": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 520.7,
+        "top": 370.3,
+        "width": 60.0,
+        "height": 11.9
+      }
+    },
+    "mmd132": {
+      "type": "text",
+      "label": "This is row 14 of 18, enter the MK MOD/designator for the BOOSTER.",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 356.0,
+        "width": 64.7,
+        "height": 12.7
+      }
+    },
+    "partno14": {
+      "type": "text",
+      "label": "Enter the part number for the booster.",
+      "page": 1,
+      "box": {
+        "left": 248.0,
+        "top": 356.0,
+        "width": 76.8,
+        "height": 12.7
+      }
+    },
+    "serialno14": {
+      "type": "text",
+      "label": "Enter the serial number for the booster.",
+      "page": 1,
+      "box": {
+        "left": 329.6,
+        "top": 356.0,
+        "width": 68.4,
+        "height": 12.7
+      }
+    },
+    "lotno14": {
+      "type": "text",
+      "label": "Enter the lot number for the booster.",
+      "page": 1,
+      "box": {
+        "left": 401.9,
+        "top": 356.0,
+        "width": 55.9,
+        "height": 12.7
+      }
+    },
+    "date18": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 462.6,
+        "top": 356.0,
+        "width": 55.0,
+        "height": 12.7
+      }
+    },
+    "date37": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 520.7,
+        "top": 356.0,
+        "width": 60.0,
+        "height": 12.7
+      }
+    },
+    "partno15": {
+      "type": "text",
+      "label": "Enter the part number for the motor section.",
+      "page": 1,
+      "box": {
+        "left": 248.0,
+        "top": 330.9,
+        "width": 76.8,
+        "height": 12.8
+      }
+    },
+    "serialno15": {
+      "type": "text",
+      "label": "Enter the serial number for the motor section.",
+      "page": 1,
+      "box": {
+        "left": 329.6,
+        "top": 330.9,
+        "width": 68.4,
+        "height": 12.8
+      }
+    },
+    "lotno15": {
+      "type": "text",
+      "label": "Enter the lot number for the motor section.",
+      "page": 1,
+      "box": {
+        "left": 401.9,
+        "top": 330.9,
+        "width": 55.9,
+        "height": 12.8
+      }
+    },
+    "date19": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 462.6,
+        "top": 330.9,
+        "width": 55.0,
+        "height": 12.8
+      }
+    },
+    "date38": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 520.7,
+        "top": 330.9,
+        "width": 60.0,
+        "height": 12.8
+      }
+    },
+    "mmd14": {
+      "type": "text",
+      "label": "This is row 15 of 18, enter the MK MOD/designator for the motor section.",
+      "page": 1,
+      "box": {
+        "left": 177.6,
+        "top": 330.5,
+        "width": 64.7,
+        "height": 12.8
+      }
+    },
+    "mmd15": {
+      "type": "text",
+      "label": "This is row 16 of 18, enter the MK MOD/designator for the prop grain.",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 316.3,
+        "width": 64.7,
+        "height": 13.2
+      }
+    },
+    "partno16": {
+      "type": "text",
+      "label": "Enter the part number for the prop. grain.",
+      "page": 1,
+      "box": {
+        "left": 248.0,
+        "top": 316.3,
+        "width": 76.8,
+        "height": 13.2
+      }
+    },
+    "serialno16": {
+      "type": "text",
+      "label": "Enter the serial number for the prop. grain.",
+      "page": 1,
+      "box": {
+        "left": 329.6,
+        "top": 316.3,
+        "width": 68.4,
+        "height": 13.2
+      }
+    },
+    "lotno16": {
+      "type": "text",
+      "label": "Enter the lot number for the prop. grain.",
+      "page": 1,
+      "box": {
+        "left": 401.9,
+        "top": 316.3,
+        "width": 55.9,
+        "height": 13.2
+      }
+    },
+    "date20": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 462.6,
+        "top": 316.3,
+        "width": 55.0,
+        "height": 13.2
+      }
+    },
+    "date39": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 520.7,
+        "top": 316.3,
+        "width": 60.0,
+        "height": 13.2
+      }
+    },
+    "mmd16": {
+      "type": "text",
+      "label": "This is row 17 of 18, enter the MK MOD/designator for the prop grain.",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 300.0,
+        "width": 64.7,
+        "height": 12.4
+      }
+    },
+    "partno17": {
+      "type": "text",
+      "label": "Enter the part number for the prop. grain.",
+      "page": 1,
+      "box": {
+        "left": 248.0,
+        "top": 300.0,
+        "width": 76.8,
+        "height": 12.4
+      }
+    },
+    "serialno17": {
+      "type": "text",
+      "label": "Enter the serial number for the prop. grain.",
+      "page": 1,
+      "box": {
+        "left": 329.6,
+        "top": 300.0,
+        "width": 68.4,
+        "height": 12.4
+      }
+    },
+    "lotno17": {
+      "type": "text",
+      "label": "Enter the lot number for the prop. grain.",
+      "page": 1,
+      "box": {
+        "left": 401.9,
+        "top": 300.0,
+        "width": 55.9,
+        "height": 12.8
+      }
+    },
+    "date21": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 462.6,
+        "top": 300.0,
+        "width": 55.0,
+        "height": 12.4
+      }
+    },
+    "date40": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 521.1,
+        "top": 300.0,
+        "width": 60.0,
+        "height": 12.4
+      }
+    },
+    "mmd17": {
+      "type": "text",
+      "label": "This is row 18 of 18, enter the MK MOD/designator for the cable harness.",
+      "page": 1,
+      "box": {
+        "left": 177.2,
+        "top": 284.9,
+        "width": 64.7,
+        "height": 13.6
+      }
+    },
+    "partno18": {
+      "type": "text",
+      "label": "Enter the part number for the cable harness.",
+      "page": 1,
+      "box": {
+        "left": 248.0,
+        "top": 284.9,
+        "width": 76.8,
+        "height": 13.6
+      }
+    },
+    "serialno18": {
+      "type": "text",
+      "label": "Enter the serial number for the cable harness.",
+      "page": 1,
+      "box": {
+        "left": 329.6,
+        "top": 284.9,
+        "width": 68.4,
+        "height": 13.6
+      }
+    },
+    "lotno18": {
+      "type": "text",
+      "label": "Enter the lot number for the cable harness.",
+      "page": 1,
+      "box": {
+        "left": 401.9,
+        "top": 284.9,
+        "width": 55.9,
+        "height": 13.6
+      }
+    },
+    "date41": {
+      "type": "text",
+      "label": "Enter the warr exp date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 520.7,
+        "top": 284.9,
+        "width": 60.0,
+        "height": 13.6
+      }
+    },
+    "date22": {
+      "type": "text",
+      "label": "Enter the load cure/mfg date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 462.9,
+        "top": 284.1,
+        "width": 55.0,
+        "height": 12.7
+      }
+    },
+    "alttechdirperformed1": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 1,
+      "box": {
+        "left": 244.0,
+        "top": 116.2,
+        "width": 60.8,
+        "height": 15.1
+      }
+    },
+    "nomenclature2": {
+      "type": "text",
+      "label": "Enter the nomenclature for the alterations/technical directives.",
+      "page": 1,
+      "box": {
+        "left": 35.7,
+        "top": 115.8,
+        "width": 101.4,
+        "height": 15.1
+      }
+    },
+    "alttechdirperformed5": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 1,
+      "box": {
+        "left": 311.7,
+        "top": 115.8,
+        "width": 58.4,
+        "height": 15.1
+      }
+    },
+    "alttechdirperformed9": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 1,
+      "box": {
+        "left": 376.2,
+        "top": 115.8,
+        "width": 63.4,
+        "height": 15.1
+      }
+    },
+    "alttechdirperformed13": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 1,
+      "box": {
+        "left": 446.1,
+        "top": 115.8,
+        "width": 61.7,
+        "height": 15.1
+      }
+    },
+    "alttechdirperformed17": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 1,
+      "box": {
+        "left": 513.4,
+        "top": 115.8,
+        "width": 63.1,
+        "height": 15.1
+      }
+    },
+    "nomenclature": {
+      "type": "text",
+      "label": "Enter the nomenclature for the alterations/technical directives.",
+      "page": 1,
+      "box": {
+        "left": 35.7,
+        "top": 97.8,
+        "width": 101.4,
+        "height": 16.4
+      }
+    },
+    "alttechdirperformed2": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 1,
+      "box": {
+        "left": 243.9,
+        "top": 97.8,
+        "width": 61.0,
+        "height": 16.4
+      }
+    },
+    "alttechdirperformed6": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 1,
+      "box": {
+        "left": 311.5,
+        "top": 97.8,
+        "width": 59.0,
+        "height": 16.4
+      }
+    },
+    "alttechdirperformed10": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 1,
+      "box": {
+        "left": 377.0,
+        "top": 97.8,
+        "width": 63.5,
+        "height": 16.4
+      }
+    },
+    "alttechdirperformed14": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 1,
+      "box": {
+        "left": 446.7,
+        "top": 97.8,
+        "width": 60.4,
+        "height": 16.4
+      }
+    },
+    "alttechdirperformed18": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 1,
+      "box": {
+        "left": 513.4,
+        "top": 97.8,
+        "width": 63.6,
+        "height": 16.4
+      }
+    },
+    "nomenclature3": {
+      "type": "text",
+      "label": "Enter the nomenclature for the alterations/technical directives.",
+      "page": 1,
+      "box": {
+        "left": 35.7,
+        "top": 78.6,
+        "width": 101.4,
+        "height": 16.0
+      }
+    },
+    "alttechdirperformed3": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 1,
+      "box": {
+        "left": 243.5,
+        "top": 78.6,
+        "width": 61.3,
+        "height": 16.0
+      }
+    },
+    "alttechdirperformed7": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 1,
+      "box": {
+        "left": 311.7,
+        "top": 78.6,
+        "width": 57.5,
+        "height": 16.0
+      }
+    },
+    "alttechdirperformed11": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 1,
+      "box": {
+        "left": 376.2,
+        "top": 78.6,
+        "width": 64.0,
+        "height": 16.0
+      }
+    },
+    "alttechdirperformed15": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 1,
+      "box": {
+        "left": 446.7,
+        "top": 78.6,
+        "width": 60.4,
+        "height": 16.0
+      }
+    },
+    "alttechdirperformed19": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 1,
+      "box": {
+        "left": 513.0,
+        "top": 78.6,
+        "width": 64.0,
+        "height": 16.0
+      }
+    },
+    "alttechdirperformed8": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 1,
+      "box": {
+        "left": 310.9,
+        "top": 59.3,
+        "width": 59.2,
+        "height": 15.5
+      }
+    },
+    "alttechdirperformed12": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 1,
+      "box": {
+        "left": 376.2,
+        "top": 59.3,
+        "width": 64.0,
+        "height": 15.5
+      }
+    },
+    "alttechdirperformed16": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 1,
+      "box": {
+        "left": 446.5,
+        "top": 59.3,
+        "width": 60.8,
+        "height": 15.5
+      }
+    },
+    "alttechdirperformed4": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 1,
+      "box": {
+        "left": 244.3,
+        "top": 58.9,
+        "width": 61.3,
+        "height": 15.5
+      }
+    },
+    "alttechdirperformed20": {
+      "type": "text",
+      "label": "Enter what alterations/technicals directives was performed.",
+      "page": 1,
+      "box": {
+        "left": 513.4,
+        "top": 58.5,
+        "width": 63.6,
+        "height": 15.1
+      }
+    },
+    "nomenclature4": {
+      "type": "text",
+      "label": "Enter the nomenclature for the alterations/technical directives.",
+      "page": 1,
+      "box": {
+        "left": 35.9,
+        "top": 57.6,
+        "width": 101.8,
+        "height": 15.5
+      }
+    },
+    "amisseldesignator": {
+      "type": "text",
+      "label": "Enter the missile designator.",
+      "page": 2,
+      "box": {
+        "left": 274.0,
+        "top": 749.6,
+        "width": 107.3,
+        "height": 19.0
+      }
+    },
+    "bserialno": {
+      "type": "text",
+      "label": "Enter the serial number.",
+      "page": 2,
+      "box": {
+        "left": 387.9,
+        "top": 749.6,
+        "width": 86.8,
+        "height": 19.0
+      }
+    },
+    "partnumber": {
+      "type": "text",
+      "label": "Enter the part number.",
+      "page": 2,
+      "box": {
+        "left": 480.4,
+        "top": 749.6,
+        "width": 79.7,
+        "height": 19.0
+      }
+    },
+    "activityuic1": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 2,
+      "box": {
+        "left": 107.5,
+        "top": 680.1,
+        "width": 40.8,
+        "height": 22.0
+      }
+    },
+    "operationevent1": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 2,
+      "box": {
+        "left": 153.9,
+        "top": 680.1,
+        "width": 58.4,
+        "height": 22.0
+      }
+    },
+    "testinspresultspassfail1": {
+      "type": "text",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 2,
+      "box": {
+        "left": 219.2,
+        "top": 680.1,
+        "width": 48.3,
+        "height": 22.0
+      }
+    },
+    "timeField1": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 2,
+      "box": {
+        "left": 277.3,
+        "top": 680.1,
+        "width": 70.6,
+        "height": 22.0
+      }
+    },
+    "techdirmodincorporated1": {
+      "type": "text",
+      "label": "Enter the tech. dir. mod. incorporated.",
+      "page": 2,
+      "box": {
+        "left": 358.2,
+        "top": 680.1,
+        "width": 67.2,
+        "height": 22.0
+      }
+    },
+    "remarks1": {
+      "type": "text",
+      "label": "Enter the remarks for the PENGUIN  Missile log sheet.",
+      "page": 2,
+      "box": {
+        "left": 434.8,
+        "top": 680.1,
+        "width": 124.5,
+        "height": 22.0
+      }
+    },
+    "date110": {
+      "type": "text",
+      "label": "This is row 1 of 21, enter the PENGUIN Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 42.3,
+        "top": 679.7,
+        "width": 61.5,
+        "height": 20.3
+      }
+    },
+    "date25": {
+      "type": "text",
+      "label": "This is row 2 of 21, enter the PENGUIN Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 42.3,
+        "top": 656.7,
+        "width": 61.5,
+        "height": 21.0
+      }
+    },
+    "activityuic2": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 2,
+      "box": {
+        "left": 107.5,
+        "top": 656.7,
+        "width": 40.8,
+        "height": 21.0
+      }
+    },
+    "operationevent2": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 2,
+      "box": {
+        "left": 153.9,
+        "top": 656.7,
+        "width": 58.4,
+        "height": 21.0
+      }
+    },
+    "testinspresultspassfail2": {
+      "type": "text",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 2,
+      "box": {
+        "left": 219.2,
+        "top": 656.7,
+        "width": 48.3,
+        "height": 21.0
+      }
+    },
+    "timeField2": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 2,
+      "box": {
+        "left": 277.3,
+        "top": 656.7,
+        "width": 70.6,
+        "height": 21.0
+      }
+    },
+    "techdirmodincorporated2": {
+      "type": "text",
+      "label": "Enter the tech. dir. mod. incorporated.",
+      "page": 2,
+      "box": {
+        "left": 357.8,
+        "top": 656.7,
+        "width": 68.0,
+        "height": 21.0
+      }
+    },
+    "remarks2": {
+      "type": "text",
+      "label": "Enter the remarks for the PENGUIN  Missile log sheet.",
+      "page": 2,
+      "box": {
+        "left": 434.8,
+        "top": 656.7,
+        "width": 124.5,
+        "height": 21.0
+      }
+    },
+    "date310": {
+      "type": "text",
+      "label": "This is row 3 of 21, enter the PENGUIN Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 42.3,
+        "top": 632.8,
+        "width": 61.5,
+        "height": 21.8
+      }
+    },
+    "activityuic3": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 2,
+      "box": {
+        "left": 107.5,
+        "top": 632.8,
+        "width": 40.8,
+        "height": 21.8
+      }
+    },
+    "operationevent3": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 2,
+      "box": {
+        "left": 153.9,
+        "top": 632.8,
+        "width": 58.4,
+        "height": 21.8
+      }
+    },
+    "testinspresultspassfail3": {
+      "type": "text",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 2,
+      "box": {
+        "left": 219.2,
+        "top": 632.8,
+        "width": 48.3,
+        "height": 21.8
+      }
+    },
+    "timeField3": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 2,
+      "box": {
+        "left": 277.3,
+        "top": 632.8,
+        "width": 71.1,
+        "height": 21.8
+      }
+    },
+    "techdirmodincorporated3": {
+      "type": "text",
+      "label": "Enter the tech. dir. mod. incorporated.",
+      "page": 2,
+      "box": {
+        "left": 357.8,
+        "top": 632.8,
+        "width": 68.0,
+        "height": 21.8
+      }
+    },
+    "remarks3": {
+      "type": "text",
+      "label": "Enter the remarks for the PENGUIN  Missile log sheet.",
+      "page": 2,
+      "box": {
+        "left": 434.8,
+        "top": 632.8,
+        "width": 125.3,
+        "height": 21.8
+      }
+    },
+    "date42": {
+      "type": "text",
+      "label": "This is row 4 of 21, enter the PENGUIN Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 42.3,
+        "top": 608.2,
+        "width": 61.5,
+        "height": 21.6
+      }
+    },
+    "activityuic4": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 2,
+      "box": {
+        "left": 107.5,
+        "top": 608.2,
+        "width": 40.8,
+        "height": 21.6
+      }
+    },
+    "operationevent4": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 2,
+      "box": {
+        "left": 153.9,
+        "top": 608.2,
+        "width": 58.4,
+        "height": 21.6
+      }
+    },
+    "testinspresultspassfail4": {
+      "type": "text",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 2,
+      "box": {
+        "left": 219.2,
+        "top": 608.2,
+        "width": 48.3,
+        "height": 21.6
+      }
+    },
+    "timeField4": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 2,
+      "box": {
+        "left": 277.3,
+        "top": 608.2,
+        "width": 70.6,
+        "height": 21.6
+      }
+    },
+    "techdirmodincorporated4": {
+      "type": "text",
+      "label": "Enter the tech. dir. mod. incorporated.",
+      "page": 2,
+      "box": {
+        "left": 357.8,
+        "top": 608.2,
+        "width": 68.0,
+        "height": 21.6
+      }
+    },
+    "remarks4": {
+      "type": "text",
+      "label": "Enter the remarks for the PENGUIN  Missile log sheet.",
+      "page": 2,
+      "box": {
+        "left": 434.8,
+        "top": 608.2,
+        "width": 125.3,
+        "height": 21.6
+      }
+    },
+    "date52": {
+      "type": "text",
+      "label": "This is row 5 of 21, enter the PENGUIN Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 42.3,
+        "top": 584.3,
+        "width": 61.5,
+        "height": 21.8
+      }
+    },
+    "activityuic5": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 2,
+      "box": {
+        "left": 107.5,
+        "top": 583.9,
+        "width": 40.8,
+        "height": 21.8
+      }
+    },
+    "operationevent5": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 2,
+      "box": {
+        "left": 153.9,
+        "top": 583.9,
+        "width": 58.4,
+        "height": 21.8
+      }
+    },
+    "testinspresultspassfail5": {
+      "type": "text",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 2,
+      "box": {
+        "left": 219.2,
+        "top": 583.9,
+        "width": 48.3,
+        "height": 21.8
+      }
+    },
+    "timeField5": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 2,
+      "box": {
+        "left": 277.3,
+        "top": 583.9,
+        "width": 71.0,
+        "height": 21.8
+      }
+    },
+    "techdirmodincorporated5": {
+      "type": "text",
+      "label": "Enter the tech. dir. mod. incorporated.",
+      "page": 2,
+      "box": {
+        "left": 357.8,
+        "top": 583.9,
+        "width": 68.4,
+        "height": 21.8
+      }
+    },
+    "remarks5": {
+      "type": "text",
+      "label": "Enter the remarks for the PENGUIN  Missile log sheet.",
+      "page": 2,
+      "box": {
+        "left": 434.8,
+        "top": 583.9,
+        "width": 124.9,
+        "height": 21.8
+      }
+    },
+    "operationevent6": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 2,
+      "box": {
+        "left": 153.9,
+        "top": 560.4,
+        "width": 58.4,
+        "height": 21.8
+      }
+    },
+    "date62": {
+      "type": "text",
+      "label": "This is row 6 of 21, enter the PENGUIN Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 42.3,
+        "top": 560.0,
+        "width": 61.5,
+        "height": 21.8
+      }
+    },
+    "activityuic6": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 2,
+      "box": {
+        "left": 107.5,
+        "top": 560.0,
+        "width": 40.8,
+        "height": 21.8
+      }
+    },
+    "testinspresultspassfail6": {
+      "type": "text",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 2,
+      "box": {
+        "left": 219.2,
+        "top": 559.6,
+        "width": 48.3,
+        "height": 21.8
+      }
+    },
+    "timeField6": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 2,
+      "box": {
+        "left": 277.3,
+        "top": 559.6,
+        "width": 71.0,
+        "height": 21.8
+      }
+    },
+    "techdirmodincorporated6": {
+      "type": "text",
+      "label": "Enter the tech. dir. mod. incorporated.",
+      "page": 2,
+      "box": {
+        "left": 357.8,
+        "top": 559.6,
+        "width": 68.4,
+        "height": 21.8
+      }
+    },
+    "remarks6": {
+      "type": "text",
+      "label": "Enter the remarks for the PENGUIN  Missile log sheet.",
+      "page": 2,
+      "box": {
+        "left": 434.8,
+        "top": 559.6,
+        "width": 124.9,
+        "height": 21.8
+      }
+    },
+    "activityuic7": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 2,
+      "box": {
+        "left": 107.5,
+        "top": 536.2,
+        "width": 40.8,
+        "height": 21.8
+      }
+    },
+    "operationevent7": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 2,
+      "box": {
+        "left": 153.9,
+        "top": 536.2,
+        "width": 58.4,
+        "height": 21.8
+      }
+    },
+    "testinspresultspassfail7": {
+      "type": "text",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 2,
+      "box": {
+        "left": 219.2,
+        "top": 535.7,
+        "width": 48.3,
+        "height": 21.8
+      }
+    },
+    "timeField7": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 2,
+      "box": {
+        "left": 277.3,
+        "top": 535.7,
+        "width": 71.0,
+        "height": 21.8
+      }
+    },
+    "techdirmodincorporated7": {
+      "type": "text",
+      "label": "Enter the tech. dir. mod. incorporated.",
+      "page": 2,
+      "box": {
+        "left": 357.8,
+        "top": 535.7,
+        "width": 68.4,
+        "height": 21.8
+      }
+    },
+    "remarks7": {
+      "type": "text",
+      "label": "Enter the remarks for the PENGUIN  Missile log sheet.",
+      "page": 2,
+      "box": {
+        "left": 434.8,
+        "top": 535.7,
+        "width": 125.3,
+        "height": 21.8
+      }
+    },
+    "date72": {
+      "type": "text",
+      "label": "This is row 7 of 21, enter the PENGUIN Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 42.3,
+        "top": 535.3,
+        "width": 61.5,
+        "height": 19.9
+      }
+    },
+    "date82": {
+      "type": "text",
+      "label": "This is row 8 of 21, enter the PENGUIN Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 42.3,
+        "top": 511.9,
+        "width": 61.5,
+        "height": 18.8
+      }
+    },
+    "activityuic8": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 2,
+      "box": {
+        "left": 107.5,
+        "top": 511.9,
+        "width": 40.8,
+        "height": 18.8
+      }
+    },
+    "operationevent8": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 2,
+      "box": {
+        "left": 153.9,
+        "top": 511.9,
+        "width": 58.4,
+        "height": 18.8
+      }
+    },
+    "testinspresultspassfail8": {
+      "type": "text",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 2,
+      "box": {
+        "left": 219.2,
+        "top": 511.9,
+        "width": 48.3,
+        "height": 18.8
+      }
+    },
+    "timeField8": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 2,
+      "box": {
+        "left": 277.3,
+        "top": 511.9,
+        "width": 71.0,
+        "height": 18.8
+      }
+    },
+    "techdirmodincorporated8": {
+      "type": "text",
+      "label": "Enter the tech. dir. mod. incorporated.",
+      "page": 2,
+      "box": {
+        "left": 357.8,
+        "top": 511.9,
+        "width": 68.8,
+        "height": 18.8
+      }
+    },
+    "remarks8": {
+      "type": "text",
+      "label": "Enter the remarks for the PENGUIN  Missile log sheet.",
+      "page": 2,
+      "box": {
+        "left": 434.8,
+        "top": 511.9,
+        "width": 124.5,
+        "height": 18.8
+      }
+    },
+    "date92": {
+      "type": "text",
+      "label": "This is row 9 of 21, enter the PENGUIN Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 42.3,
+        "top": 489.7,
+        "width": 61.5,
+        "height": 21.8
+      }
+    },
+    "activityuic9": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 2,
+      "box": {
+        "left": 107.5,
+        "top": 489.7,
+        "width": 40.8,
+        "height": 21.8
+      }
+    },
+    "operationevent9": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 2,
+      "box": {
+        "left": 153.9,
+        "top": 489.7,
+        "width": 58.4,
+        "height": 21.8
+      }
+    },
+    "timeField9": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 2,
+      "box": {
+        "left": 277.3,
+        "top": 489.7,
+        "width": 71.0,
+        "height": 21.8
+      }
+    },
+    "techdirmodincorporated9": {
+      "type": "text",
+      "label": "Enter the tech. dir. mod. incorporated.",
+      "page": 2,
+      "box": {
+        "left": 357.8,
+        "top": 489.7,
+        "width": 68.4,
+        "height": 21.8
+      }
+    },
+    "remarks9": {
+      "type": "text",
+      "label": "Enter the remarks for the PENGUIN  Missile log sheet.",
+      "page": 2,
+      "box": {
+        "left": 434.8,
+        "top": 489.7,
+        "width": 124.9,
+        "height": 21.8
+      }
+    },
+    "testinspresultspassfail9": {
+      "type": "text",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 2,
+      "box": {
+        "left": 219.2,
+        "top": 489.3,
+        "width": 48.3,
+        "height": 21.8
+      }
+    },
+    "date102": {
+      "type": "text",
+      "label": "This is row 10 of 21, enter the PENGUIN Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 42.3,
+        "top": 464.2,
+        "width": 60.7,
+        "height": 21.8
+      }
+    },
+    "activityuic10": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 2,
+      "box": {
+        "left": 107.5,
+        "top": 464.2,
+        "width": 40.8,
+        "height": 21.8
+      }
+    },
+    "operationevent10": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 2,
+      "box": {
+        "left": 153.5,
+        "top": 464.2,
+        "width": 58.4,
+        "height": 21.8
+      }
+    },
+    "testinspresultspassfail10": {
+      "type": "text",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 2,
+      "box": {
+        "left": 219.2,
+        "top": 464.2,
+        "width": 48.3,
+        "height": 21.8
+      }
+    },
+    "techdirmodincorporated10": {
+      "type": "text",
+      "label": "Enter the tech. dir. mod. incorporated.",
+      "page": 2,
+      "box": {
+        "left": 357.8,
+        "top": 464.2,
+        "width": 68.4,
+        "height": 21.8
+      }
+    },
+    "remarks10": {
+      "type": "text",
+      "label": "Enter the remarks for the PENGUIN  Missile log sheet.",
+      "page": 2,
+      "box": {
+        "left": 434.8,
+        "top": 464.2,
+        "width": 124.9,
+        "height": 21.8
+      }
+    },
+    "timeField10": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 2,
+      "box": {
+        "left": 276.9,
+        "top": 463.8,
+        "width": 71.0,
+        "height": 21.8
+      }
+    },
+    "date112": {
+      "type": "text",
+      "label": "This is row 11 of 21, enter the PENGUIN Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 42.3,
+        "top": 439.5,
+        "width": 61.5,
+        "height": 20.7
+      }
+    },
+    "activityuic11": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 2,
+      "box": {
+        "left": 107.5,
+        "top": 439.5,
+        "width": 40.8,
+        "height": 20.7
+      }
+    },
+    "operationevent11": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 2,
+      "box": {
+        "left": 153.9,
+        "top": 439.5,
+        "width": 58.4,
+        "height": 20.7
+      }
+    },
+    "testinspresultspassfail11": {
+      "type": "text",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 2,
+      "box": {
+        "left": 219.2,
+        "top": 439.5,
+        "width": 48.3,
+        "height": 20.7
+      }
+    },
+    "timeField11": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 2,
+      "box": {
+        "left": 277.3,
+        "top": 439.5,
+        "width": 71.0,
+        "height": 20.7
+      }
+    },
+    "techdirmodincorporated11": {
+      "type": "text",
+      "label": "Enter the tech. dir. mod. incorporated.",
+      "page": 2,
+      "box": {
+        "left": 357.8,
+        "top": 439.5,
+        "width": 68.4,
+        "height": 20.7
+      }
+    },
+    "remarks11": {
+      "type": "text",
+      "label": "Enter the remarks for the PENGUIN  Missile log sheet.",
+      "page": 2,
+      "box": {
+        "left": 434.8,
+        "top": 439.5,
+        "width": 124.9,
+        "height": 20.7
+      }
+    },
+    "date122": {
+      "type": "text",
+      "label": "This is row 12 of 21, enter the PENGUIN Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 42.3,
+        "top": 415.2,
+        "width": 60.7,
+        "height": 21.0
+      }
+    },
+    "activityuic12": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 2,
+      "box": {
+        "left": 107.5,
+        "top": 415.2,
+        "width": 40.8,
+        "height": 21.0
+      }
+    },
+    "operationevent12": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 2,
+      "box": {
+        "left": 153.9,
+        "top": 415.2,
+        "width": 58.4,
+        "height": 21.0
+      }
+    },
+    "testinspresultspassfail12": {
+      "type": "text",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 2,
+      "box": {
+        "left": 219.2,
+        "top": 415.2,
+        "width": 48.3,
+        "height": 21.0
+      }
+    },
+    "timeField12": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 2,
+      "box": {
+        "left": 277.3,
+        "top": 415.2,
+        "width": 71.0,
+        "height": 21.0
+      }
+    },
+    "techdirmodincorporated12": {
+      "type": "text",
+      "label": "Enter the tech. dir. mod. incorporated.",
+      "page": 2,
+      "box": {
+        "left": 357.8,
+        "top": 415.2,
+        "width": 68.4,
+        "height": 21.0
+      }
+    },
+    "remarks12": {
+      "type": "text",
+      "label": "Enter the remarks for the PENGUIN  Missile log sheet.",
+      "page": 2,
+      "box": {
+        "left": 434.8,
+        "top": 415.2,
+        "width": 124.9,
+        "height": 21.0
+      }
+    },
+    "date132": {
+      "type": "text",
+      "label": "This is row 13 of 21, enter the PENGUIN Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 42.3,
+        "top": 391.1,
+        "width": 60.3,
+        "height": 19.0
+      }
+    },
+    "activityuic13": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 2,
+      "box": {
+        "left": 107.5,
+        "top": 391.1,
+        "width": 40.8,
+        "height": 18.7
+      }
+    },
+    "operationevent13": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 2,
+      "box": {
+        "left": 153.9,
+        "top": 391.1,
+        "width": 58.4,
+        "height": 19.0
+      }
+    },
+    "timeField13": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 2,
+      "box": {
+        "left": 277.3,
+        "top": 391.1,
+        "width": 71.0,
+        "height": 19.0
+      }
+    },
+    "techdirmodincorporated13": {
+      "type": "text",
+      "label": "Enter the tech. dir. mod. incorporated.",
+      "page": 2,
+      "box": {
+        "left": 357.8,
+        "top": 391.1,
+        "width": 68.4,
+        "height": 19.0
+      }
+    },
+    "remarks13": {
+      "type": "text",
+      "label": "Enter the remarks for the PENGUIN  Missile log sheet.",
+      "page": 2,
+      "box": {
+        "left": 434.8,
+        "top": 391.1,
+        "width": 124.9,
+        "height": 18.7
+      }
+    },
+    "testinspresultspassfail13": {
+      "type": "text",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 2,
+      "box": {
+        "left": 219.2,
+        "top": 390.7,
+        "width": 48.3,
+        "height": 18.5
+      }
+    },
+    "date142": {
+      "type": "text",
+      "label": "This is row 14 of 21, enter the PENGUIN  Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 41.9,
+        "top": 370.0,
+        "width": 61.9,
+        "height": 21.8
+      }
+    },
+    "activityuic14": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 2,
+      "box": {
+        "left": 107.5,
+        "top": 370.0,
+        "width": 40.8,
+        "height": 21.8
+      }
+    },
+    "operationevent14": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 2,
+      "box": {
+        "left": 153.9,
+        "top": 370.0,
+        "width": 58.4,
+        "height": 21.8
+      }
+    },
+    "testinspresultspassfail14": {
+      "type": "text",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 2,
+      "box": {
+        "left": 219.2,
+        "top": 370.0,
+        "width": 48.3,
+        "height": 21.8
+      }
+    },
+    "timeField14": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 2,
+      "box": {
+        "left": 277.3,
+        "top": 370.0,
+        "width": 71.0,
+        "height": 21.8
+      }
+    },
+    "techdirmodincorporated14": {
+      "type": "text",
+      "label": "Enter the tech. dir. mod. incorporated.",
+      "page": 2,
+      "box": {
+        "left": 357.8,
+        "top": 370.0,
+        "width": 68.4,
+        "height": 21.8
+      }
+    },
+    "remarks14": {
+      "type": "text",
+      "label": "Enter the remarks for the PENGUIN  Missile log sheet.",
+      "page": 2,
+      "box": {
+        "left": 434.8,
+        "top": 370.0,
+        "width": 124.5,
+        "height": 21.8
+      }
+    },
+    "date152": {
+      "type": "text",
+      "label": "This is row 15 of 21, enter the PENGUIN  Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 42.3,
+        "top": 345.1,
+        "width": 61.5,
+        "height": 20.4
+      }
+    },
+    "activityuic15": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 2,
+      "box": {
+        "left": 107.5,
+        "top": 345.1,
+        "width": 40.8,
+        "height": 20.4
+      }
+    },
+    "operationevent15": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 2,
+      "box": {
+        "left": 153.9,
+        "top": 345.1,
+        "width": 58.4,
+        "height": 20.4
+      }
+    },
+    "testinspresultspassfail15": {
+      "type": "text",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 2,
+      "box": {
+        "left": 219.2,
+        "top": 345.1,
+        "width": 48.3,
+        "height": 20.4
+      }
+    },
+    "timeField15": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 2,
+      "box": {
+        "left": 277.3,
+        "top": 345.1,
+        "width": 71.0,
+        "height": 20.4
+      }
+    },
+    "techdirmodincorporated15": {
+      "type": "text",
+      "label": "Enter the tech. dir. mod. incorporated.",
+      "page": 2,
+      "box": {
+        "left": 357.8,
+        "top": 345.1,
+        "width": 68.4,
+        "height": 20.4
+      }
+    },
+    "remarks15": {
+      "type": "text",
+      "label": "Enter the remarks for the PENGUIN  Missile log sheet.",
+      "page": 2,
+      "box": {
+        "left": 434.8,
+        "top": 345.1,
+        "width": 125.3,
+        "height": 20.4
+      }
+    },
+    "date162": {
+      "type": "text",
+      "label": "This is row 16 of 21, enter the PENGUIN  Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 42.3,
+        "top": 321.5,
+        "width": 61.5,
+        "height": 20.4
+      }
+    },
+    "activityuic16": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 2,
+      "box": {
+        "left": 107.5,
+        "top": 321.5,
+        "width": 40.8,
+        "height": 20.4
+      }
+    },
+    "operationevent16": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 2,
+      "box": {
+        "left": 153.9,
+        "top": 321.5,
+        "width": 58.4,
+        "height": 20.4
+      }
+    },
+    "testinspresultspassfail16": {
+      "type": "text",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 2,
+      "box": {
+        "left": 219.2,
+        "top": 321.5,
+        "width": 48.3,
+        "height": 20.4
+      }
+    },
+    "timeField16": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 2,
+      "box": {
+        "left": 277.3,
+        "top": 321.5,
+        "width": 71.0,
+        "height": 20.4
+      }
+    },
+    "techdirmodincorporated16": {
+      "type": "text",
+      "label": "Enter the tech. dir. mod. incorporated.",
+      "page": 2,
+      "box": {
+        "left": 357.8,
+        "top": 321.5,
+        "width": 68.4,
+        "height": 20.4
+      }
+    },
+    "remarks16": {
+      "type": "text",
+      "label": "Enter the remarks for the PENGUIN  Missile log sheet.",
+      "page": 2,
+      "box": {
+        "left": 434.8,
+        "top": 321.5,
+        "width": 125.3,
+        "height": 20.4
+      }
+    },
+    "testinspresultspassfail17": {
+      "type": "text",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 2,
+      "box": {
+        "left": 219.2,
+        "top": 298.4,
+        "width": 48.3,
+        "height": 20.1
+      }
+    },
+    "date172": {
+      "type": "text",
+      "label": "This is row 17 of 21, enter the PENGUIN  Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 42.3,
+        "top": 298.0,
+        "width": 61.5,
+        "height": 19.6
+      }
+    },
+    "activityuic17": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 2,
+      "box": {
+        "left": 107.5,
+        "top": 298.0,
+        "width": 40.8,
+        "height": 19.6
+      }
+    },
+    "operationevent17": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 2,
+      "box": {
+        "left": 153.9,
+        "top": 298.0,
+        "width": 58.4,
+        "height": 19.6
+      }
+    },
+    "timeField17": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 2,
+      "box": {
+        "left": 277.3,
+        "top": 298.0,
+        "width": 71.0,
+        "height": 18.6
+      }
+    },
+    "techdirmodincorporated17": {
+      "type": "text",
+      "label": "Enter the tech. dir. mod. incorporated.",
+      "page": 2,
+      "box": {
+        "left": 357.8,
+        "top": 298.0,
+        "width": 68.4,
+        "height": 20.1
+      }
+    },
+    "remarks17": {
+      "type": "text",
+      "label": "Enter the remarks for the PENGUIN  Missile log sheet.",
+      "page": 2,
+      "box": {
+        "left": 434.8,
+        "top": 298.0,
+        "width": 125.3,
+        "height": 19.6
+      }
+    },
+    "date182": {
+      "type": "text",
+      "label": "This is row 18 of 21, enter the PENGUIN  Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 42.3,
+        "top": 275.8,
+        "width": 61.5,
+        "height": 20.7
+      }
+    },
+    "activityuic18": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 2,
+      "box": {
+        "left": 107.5,
+        "top": 275.8,
+        "width": 40.8,
+        "height": 20.7
+      }
+    },
+    "operationevent18": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 2,
+      "box": {
+        "left": 153.9,
+        "top": 275.8,
+        "width": 58.4,
+        "height": 20.7
+      }
+    },
+    "timeField18": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 2,
+      "box": {
+        "left": 277.3,
+        "top": 275.8,
+        "width": 71.0,
+        "height": 20.5
+      }
+    },
+    "techdirmodincorporated18": {
+      "type": "text",
+      "label": "Enter the tech. dir. mod. incorporated.",
+      "page": 2,
+      "box": {
+        "left": 357.8,
+        "top": 275.8,
+        "width": 68.4,
+        "height": 20.5
+      }
+    },
+    "remarks18": {
+      "type": "text",
+      "label": "Enter the remarks for the PENGUIN  Missile log sheet.",
+      "page": 2,
+      "box": {
+        "left": 434.8,
+        "top": 275.8,
+        "width": 125.3,
+        "height": 20.5
+      }
+    },
+    "testinspresultspassfail18": {
+      "type": "text",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 2,
+      "box": {
+        "left": 219.2,
+        "top": 275.4,
+        "width": 48.3,
+        "height": 19.6
+      }
+    },
+    "operationevent19": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 2,
+      "box": {
+        "left": 153.9,
+        "top": 252.0,
+        "width": 58.4,
+        "height": 23.4
+      }
+    },
+    "testinspresultspassfail19": {
+      "type": "text",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 2,
+      "box": {
+        "left": 219.2,
+        "top": 251.6,
+        "width": 48.3,
+        "height": 22.2
+      }
+    },
+    "timeField19": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 2,
+      "box": {
+        "left": 277.3,
+        "top": 251.6,
+        "width": 71.0,
+        "height": 22.2
+      }
+    },
+    "techdirmodincorporated19": {
+      "type": "text",
+      "label": "Enter the tech. dir. mod. incorporated.",
+      "page": 2,
+      "box": {
+        "left": 357.8,
+        "top": 251.6,
+        "width": 68.4,
+        "height": 22.2
+      }
+    },
+    "remarks19": {
+      "type": "text",
+      "label": "Enter the remarks for the PENGUIN  Missile log sheet.",
+      "page": 2,
+      "box": {
+        "left": 434.8,
+        "top": 251.6,
+        "width": 125.3,
+        "height": 22.2
+      }
+    },
+    "date192": {
+      "type": "text",
+      "label": "This is row 19 of 21, enter the PENGUIN  Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 42.3,
+        "top": 251.1,
+        "width": 60.7,
+        "height": 22.2
+      }
+    },
+    "activityuic19": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 2,
+      "box": {
+        "left": 107.5,
+        "top": 251.1,
+        "width": 40.8,
+        "height": 22.2
+      }
+    },
+    "date202": {
+      "type": "text",
+      "label": "This is row 20 of 21, enter the PENGUIN  Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 42.3,
+        "top": 226.5,
+        "width": 61.5,
+        "height": 21.1
+      }
+    },
+    "activityuic20": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 2,
+      "box": {
+        "left": 107.5,
+        "top": 226.5,
+        "width": 40.8,
+        "height": 21.1
+      }
+    },
+    "operationevent20": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 2,
+      "box": {
+        "left": 153.9,
+        "top": 226.5,
+        "width": 58.4,
+        "height": 21.1
+      }
+    },
+    "testinspresultspassfail20": {
+      "type": "text",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 2,
+      "box": {
+        "left": 219.2,
+        "top": 226.5,
+        "width": 48.3,
+        "height": 21.1
+      }
+    },
+    "timeField20": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 2,
+      "box": {
+        "left": 277.3,
+        "top": 226.5,
+        "width": 71.0,
+        "height": 21.1
+      }
+    },
+    "techdirmodincorporated20": {
+      "type": "text",
+      "label": "Enter the tech. dir. mod. incorporated.",
+      "page": 2,
+      "box": {
+        "left": 357.8,
+        "top": 226.5,
+        "width": 68.4,
+        "height": 21.1
+      }
+    },
+    "remarks20": {
+      "type": "text",
+      "label": "Enter the remarks for the PENGUIN  Missile log sheet.",
+      "page": 2,
+      "box": {
+        "left": 434.8,
+        "top": 226.5,
+        "width": 124.9,
+        "height": 21.1
+      }
+    },
+    "remarks21": {
+      "type": "text",
+      "label": "Enter the remarks for the PENGUIN  Missile log sheet.",
+      "page": 2,
+      "box": {
+        "left": 434.8,
+        "top": 202.2,
+        "width": 125.3,
+        "height": 22.8
+      }
+    },
+    "date212": {
+      "type": "text",
+      "label": "This is row 21 of 21, enter the PENGUIN  Missile Log Sheet date (YYYY MM DD).  ",
+      "page": 2,
+      "box": {
+        "left": 42.3,
+        "top": 201.8,
+        "width": 61.5,
+        "height": 21.8
+      }
+    },
+    "activityuic21": {
+      "type": "text",
+      "label": "Enter the activity unit identification code.",
+      "page": 2,
+      "box": {
+        "left": 107.5,
+        "top": 201.8,
+        "width": 40.8,
+        "height": 21.8
+      }
+    },
+    "operationevent21": {
+      "type": "text",
+      "label": "Enter the operation/event.",
+      "page": 2,
+      "box": {
+        "left": 153.9,
+        "top": 201.8,
+        "width": 58.4,
+        "height": 21.8
+      }
+    },
+    "testinspresultspassfail21": {
+      "type": "text",
+      "label": "Enter the test/inspection results (pass/fail).",
+      "page": 2,
+      "box": {
+        "left": 219.2,
+        "top": 201.8,
+        "width": 48.3,
+        "height": 21.8
+      }
+    },
+    "timeField21": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 2,
+      "box": {
+        "left": 277.3,
+        "top": 201.8,
+        "width": 71.0,
+        "height": 21.8
+      }
+    },
+    "techdirmodincorporated21": {
+      "type": "text",
+      "label": "Enter the tech. dir. mod. incorporated.",
+      "page": 2,
+      "box": {
+        "left": 357.8,
+        "top": 201.8,
+        "width": 68.4,
+        "height": 21.8
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 4,
+      "rowStride": 19.1,
+      "editor": "grid",
+      "columns": {
+        "partnumber": {
+          "type": "text",
+          "label": "Enter the part number for the alterations/technical directives.",
+          "page": 1,
+          "box": {
+            "left": 143.9,
+            "top": 116.6,
+            "width": 94.4,
+            "height": 15.1
+          }
+        }
+      }
+    }
+  }
+}

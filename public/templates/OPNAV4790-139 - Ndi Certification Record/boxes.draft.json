@@ -1,0 +1,194 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "nme": {
+        "left": 41.0,
+        "top": 697.6,
+        "width": 406.6,
+        "height": 23.0,
+        "type": "text",
+        "description": "1. NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rteRnk": {
+        "left": 452.6,
+        "top": 697.6,
+        "width": 122.9,
+        "height": 23.0,
+        "type": "text",
+        "description": "2. RATE/RANK",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "certAct": {
+        "left": 41.0,
+        "top": 662.3,
+        "width": 534.5,
+        "height": 23.0,
+        "type": "text",
+        "description": "3. CERTIFYING ACTIVITY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "effDte": {
+        "left": 41.1,
+        "top": 626.9,
+        "width": 264.9,
+        "height": 23.0,
+        "type": "text",
+        "description": "4. EFFECTIVE DATE (DD MMM YYYY)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recertDte": {
+        "left": 311.1,
+        "top": 626.9,
+        "width": 264.9,
+        "height": 23.0,
+        "type": "text",
+        "description": "5. RECERTIFICATION DATE (DD MMM YYYY)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rg": {
+        "left": 122.9,
+        "top": 550.8,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "IS CERTIFIED",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ec": {
+        "left": 355.4,
+        "top": 550.8,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "RADIOGRAPHIC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pt": {
+        "left": 122.9,
+        "top": 484.0,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "IS CERTIFIED",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "us": {
+        "left": 355.4,
+        "top": 484.0,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "PENETRANT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mp": {
+        "left": 122.9,
+        "top": 398.1,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "IS CERTIFIED",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ot": {
+        "left": 355.4,
+        "top": 398.1,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "MAGNETIC PARTICLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rmks": {
+        "left": 41.0,
+        "top": 332.7,
+        "width": 534.5,
+        "height": 178.8,
+        "type": "text",
+        "description": "7. REMARKS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "certOffNme": {
+        "left": 41.6,
+        "top": 141.4,
+        "width": 218.4,
+        "height": 39.1,
+        "type": "text",
+        "description": "8. PRINT OR TYPE CERTIFYING OFFICIAL NAME, TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "certOffSig": {
+        "left": 357.1,
+        "top": 141.4,
+        "width": 218.4,
+        "height": 39.1,
+        "type": "text",
+        "description": "10. CERTIFYING OFFICIAL SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "certOffSigDte": {
+        "left": 265.1,
+        "top": 134.3,
+        "width": 87.0,
+        "height": 32.1,
+        "type": "text",
+        "description": "(DD MMM YYYY)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "orgTo": {
+        "left": 41.6,
+        "top": 90.3,
+        "width": 534.5,
+        "height": 53.6,
+        "type": "text",
+        "description": "Original to: Individual&apos;s NDI Technician/Operator Log",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

@@ -1,0 +1,815 @@
+{
+  "id": "navmc11620",
+  "label": "NAVMC11620 - MAP Evaluation",
+  "directory": "NAVMC11620 - MAP Evaluation",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 2",
+      "fields": [
+        "unit",
+        "rankRow1",
+        "firstNameRow1",
+        "miRow1",
+        "lastNameRow1",
+        "dobRow1",
+        "ssnRow1",
+        "dateRow1",
+        "heightRow1",
+        "weightRow1",
+        "maxWeightRow1",
+        "bcRow1",
+        "maxBCRow1",
+        "dateRow12",
+        "rankRow12",
+        "firstNameRow12",
+        "miRow12",
+        "lastNameRow12",
+        "signatureRow1",
+        "dateField1",
+        "rankSeniorMember",
+        "nameSeniorMember",
+        "nameRow1",
+        "textField2",
+        "mAPRecommendations",
+        "mAPRecommendations2",
+        "mAPRecommendations3",
+        "radioButton",
+        "radioButton2",
+        "startDateRow1",
+        "endDateRow1",
+        "targetBCRow1",
+        "startDateRow12",
+        "endDateRow12",
+        "targetBCRow12",
+        "endDateRow13",
+        "startDateRow122",
+        "endDateRow122",
+        "rankRow14",
+        "firstNameRow13",
+        "miRow13",
+        "lastNameRow13",
+        "unitDiaryNumberRow1",
+        "dateRow13",
+        "date",
+        "signature",
+        "initialRow1",
+        "initialRow2",
+        "initialRow3",
+        "initialRow4",
+        "initialRow5",
+        "date2",
+        "respondentSignature",
+        "initialRow12",
+        "initialRow22",
+        "initialRow32",
+        "date3",
+        "respondentSignature2",
+        "textField3",
+        "textField4",
+        "textField5",
+        "textField6",
+        "textField7",
+        "dateField2",
+        "signatureField1",
+        "dateField3"
+      ]
+    }
+  ],
+  "fields": {
+    "unit": {
+      "type": "text",
+      "label": "Unit",
+      "page": 2,
+      "box": {
+        "left": 147.7,
+        "top": 742.7,
+        "width": 393.1,
+        "height": 8.4
+      }
+    },
+    "rankRow1": {
+      "type": "text",
+      "label": "(Rank, <Row 1>)",
+      "page": 2,
+      "box": {
+        "left": 68.0,
+        "top": 713.4,
+        "width": 37.8,
+        "height": 8.8
+      }
+    },
+    "firstNameRow1": {
+      "type": "text",
+      "label": "(First Name, <Row 1>)",
+      "page": 2,
+      "box": {
+        "left": 107.1,
+        "top": 713.4,
+        "width": 77.6,
+        "height": 8.8
+      }
+    },
+    "miRow1": {
+      "type": "text",
+      "label": "(MI, <Row 1>)",
+      "page": 2,
+      "box": {
+        "left": 186.1,
+        "top": 713.4,
+        "width": 38.2,
+        "height": 8.8
+      }
+    },
+    "lastNameRow1": {
+      "type": "text",
+      "label": "(Last Name, <Row 1>)",
+      "page": 2,
+      "box": {
+        "left": 225.6,
+        "top": 713.4,
+        "width": 117.1,
+        "height": 8.8
+      }
+    },
+    "dobRow1": {
+      "type": "text",
+      "label": "(DOB, <Row 1>)",
+      "page": 2,
+      "box": {
+        "left": 462.4,
+        "top": 713.4,
+        "width": 77.3,
+        "height": 8.8
+      }
+    },
+    "ssnRow1": {
+      "type": "text",
+      "label": "(SSN, <Row 1>)",
+      "page": 2,
+      "box": {
+        "left": 346.8,
+        "top": 711.8,
+        "width": 111.7,
+        "height": 4.4
+      }
+    },
+    "dateRow1": {
+      "type": "text",
+      "label": "(Date, <Row 1>)",
+      "page": 2,
+      "box": {
+        "left": 68.0,
+        "top": 683.2,
+        "width": 77.3,
+        "height": 8.8
+      }
+    },
+    "heightRow1": {
+      "type": "text",
+      "label": "(Height, <Row 1>)",
+      "page": 2,
+      "box": {
+        "left": 146.6,
+        "top": 683.2,
+        "width": 77.6,
+        "height": 8.8
+      }
+    },
+    "weightRow1": {
+      "type": "text",
+      "label": "(Weight, <Row 1>)",
+      "page": 2,
+      "box": {
+        "left": 225.6,
+        "top": 683.2,
+        "width": 77.6,
+        "height": 8.8
+      }
+    },
+    "maxWeightRow1": {
+      "type": "text",
+      "label": "(Max Weight, <Row 1>)",
+      "page": 2,
+      "box": {
+        "left": 304.5,
+        "top": 683.2,
+        "width": 77.6,
+        "height": 8.8
+      }
+    },
+    "bcRow1": {
+      "type": "text",
+      "label": "(BC%, <Row 1>)",
+      "page": 2,
+      "box": {
+        "left": 383.5,
+        "top": 683.2,
+        "width": 77.6,
+        "height": 8.8
+      }
+    },
+    "maxBCRow1": {
+      "type": "text",
+      "label": "(Max BC%, <Row 1>)",
+      "page": 2,
+      "box": {
+        "left": 462.4,
+        "top": 683.2,
+        "width": 77.3,
+        "height": 8.8
+      }
+    },
+    "dateRow12": {
+      "type": "text",
+      "label": "(Date, <Row 1>)",
+      "page": 2,
+      "box": {
+        "left": 68.0,
+        "top": 682.7,
+        "width": 77.3,
+        "height": 8.8
+      }
+    },
+    "rankRow12": {
+      "type": "text",
+      "label": "(Rank, <Row 1>)",
+      "page": 2,
+      "box": {
+        "left": 68.0,
+        "top": 653.1,
+        "width": 37.8,
+        "height": 22.4
+      }
+    },
+    "firstNameRow12": {
+      "type": "text",
+      "label": "(First Name, <Row 1>)",
+      "page": 2,
+      "box": {
+        "left": 107.1,
+        "top": 653.1,
+        "width": 77.6,
+        "height": 22.4
+      }
+    },
+    "miRow12": {
+      "type": "text",
+      "label": "(MI, <Row 1>)",
+      "page": 2,
+      "box": {
+        "left": 185.6,
+        "top": 653.1,
+        "width": 38.2,
+        "height": 22.4
+      }
+    },
+    "lastNameRow12": {
+      "type": "text",
+      "label": "(Last Name, <Row 1>)",
+      "page": 2,
+      "box": {
+        "left": 225.6,
+        "top": 653.1,
+        "width": 117.1,
+        "height": 22.4
+      }
+    },
+    "signatureRow1": {
+      "type": "signature",
+      "label": "(Signature, <Row 1>)",
+      "page": 2,
+      "box": {
+        "left": 346.8,
+        "top": 650.3,
+        "width": 111.7,
+        "height": 16.9
+      }
+    },
+    "dateField1": {
+      "type": "text",
+      "label": "DateField1",
+      "page": 2,
+      "box": {
+        "left": 465.7,
+        "top": 650.3,
+        "width": 70.8,
+        "height": 16.7
+      }
+    },
+    "rankSeniorMember": {
+      "type": "text",
+      "label": "(Rank, Senior Member)",
+      "page": 2,
+      "box": {
+        "left": 304.8,
+        "top": 608.6,
+        "width": 37.7,
+        "height": 19.6
+      }
+    },
+    "nameSeniorMember": {
+      "type": "text",
+      "label": "(Name, Senior Member)",
+      "page": 2,
+      "box": {
+        "left": 343.4,
+        "top": 608.6,
+        "width": 195.8,
+        "height": 19.6
+      }
+    },
+    "nameRow1": {
+      "type": "text",
+      "label": "(Name, <Row 1>)",
+      "page": 2,
+      "box": {
+        "left": 345.1,
+        "top": 561.9,
+        "width": 195.2,
+        "height": 16.5
+      }
+    },
+    "textField2": {
+      "type": "text",
+      "label": "TextField2",
+      "page": 2,
+      "box": {
+        "left": 306.9,
+        "top": 559.1,
+        "width": 33.2,
+        "height": 10.9
+      }
+    },
+    "mAPRecommendations": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 240.3,
+        "top": 531.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_1_MAPRecommendations_0"
+    },
+    "mAPRecommendations2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 240.3,
+        "top": 511.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_1_MAPRecommendations_0"
+    },
+    "mAPRecommendations3": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 240.3,
+        "top": 491.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_1_MAPRecommendations_0"
+    },
+    "radioButton": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 240.3,
+        "top": 463.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_1_RadioButton_0"
+    },
+    "radioButton2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 240.3,
+        "top": 444.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_1_RadioButton_0"
+    },
+    "startDateRow1": {
+      "type": "text",
+      "label": "(Start Date, <Row 1>)",
+      "page": 2,
+      "box": {
+        "left": 68.0,
+        "top": 398.7,
+        "width": 77.3,
+        "height": 8.3
+      }
+    },
+    "endDateRow1": {
+      "type": "text",
+      "label": "(End Date, <Row 1>)",
+      "page": 2,
+      "box": {
+        "left": 146.6,
+        "top": 398.7,
+        "width": 77.6,
+        "height": 8.3
+      }
+    },
+    "targetBCRow1": {
+      "type": "text",
+      "label": "(Target BC%, <Row 1>)",
+      "page": 2,
+      "box": {
+        "left": 225.6,
+        "top": 398.7,
+        "width": 77.6,
+        "height": 8.3
+      }
+    },
+    "startDateRow12": {
+      "type": "text",
+      "label": "(Start Date, <Row 1>)",
+      "page": 2,
+      "box": {
+        "left": 304.5,
+        "top": 398.7,
+        "width": 77.6,
+        "height": 8.3
+      }
+    },
+    "endDateRow12": {
+      "type": "text",
+      "label": "(End Date, <Row 1>)",
+      "page": 2,
+      "box": {
+        "left": 383.5,
+        "top": 398.7,
+        "width": 77.6,
+        "height": 8.3
+      }
+    },
+    "targetBCRow12": {
+      "type": "text",
+      "label": "(Target BC%, <Row 1>)",
+      "page": 2,
+      "box": {
+        "left": 462.4,
+        "top": 398.7,
+        "width": 77.3,
+        "height": 8.3
+      }
+    },
+    "endDateRow13": {
+      "type": "text",
+      "label": "(End Date, <Row 1>)",
+      "page": 2,
+      "box": {
+        "left": 146.6,
+        "top": 398.2,
+        "width": 77.6,
+        "height": 8.3
+      }
+    },
+    "startDateRow122": {
+      "type": "text",
+      "label": "(Start Date, <Row 1>)",
+      "page": 2,
+      "box": {
+        "left": 304.5,
+        "top": 398.2,
+        "width": 77.6,
+        "height": 8.3
+      }
+    },
+    "endDateRow122": {
+      "type": "text",
+      "label": "(End Date, <Row 1>)",
+      "page": 2,
+      "box": {
+        "left": 383.5,
+        "top": 398.2,
+        "width": 77.6,
+        "height": 8.3
+      }
+    },
+    "rankRow14": {
+      "type": "text",
+      "label": "(Rank, <Row 1>)",
+      "page": 2,
+      "box": {
+        "left": 68.0,
+        "top": 369.1,
+        "width": 37.8,
+        "height": 8.6
+      }
+    },
+    "firstNameRow13": {
+      "type": "text",
+      "label": "(First Name, <Row 1>)",
+      "page": 2,
+      "box": {
+        "left": 107.1,
+        "top": 369.1,
+        "width": 77.6,
+        "height": 8.6
+      }
+    },
+    "miRow13": {
+      "type": "text",
+      "label": "(MI, <Row 1>)",
+      "page": 2,
+      "box": {
+        "left": 186.1,
+        "top": 369.1,
+        "width": 38.2,
+        "height": 8.6
+      }
+    },
+    "lastNameRow13": {
+      "type": "text",
+      "label": "(Last Name, <Row 1>)",
+      "page": 2,
+      "box": {
+        "left": 225.6,
+        "top": 369.1,
+        "width": 117.1,
+        "height": 8.6
+      }
+    },
+    "unitDiaryNumberRow1": {
+      "type": "text",
+      "label": "(Unit Diary Number, <Row 1>)",
+      "page": 2,
+      "box": {
+        "left": 344.0,
+        "top": 369.1,
+        "width": 117.1,
+        "height": 8.6
+      }
+    },
+    "dateRow13": {
+      "type": "text",
+      "label": "(Date, <Row 1>)",
+      "page": 2,
+      "box": {
+        "left": 462.4,
+        "top": 369.1,
+        "width": 77.3,
+        "height": 8.6
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 423.2,
+        "top": 359.1,
+        "width": 116.3,
+        "height": 18.2
+      }
+    },
+    "signature": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 2,
+      "box": {
+        "left": 149.7,
+        "top": 356.3,
+        "width": 231.2,
+        "height": 12.6
+      }
+    },
+    "initialRow1": {
+      "type": "text",
+      "label": "(Initial, <Row 1>)",
+      "page": 2,
+      "box": {
+        "left": 68.4,
+        "top": 318.7,
+        "width": 37.1,
+        "height": 19.0
+      }
+    },
+    "initialRow2": {
+      "type": "text",
+      "label": "(Initial, <Row 2>)",
+      "page": 2,
+      "box": {
+        "left": 68.4,
+        "top": 298.3,
+        "width": 37.1,
+        "height": 19.0
+      }
+    },
+    "initialRow3": {
+      "type": "text",
+      "label": "(Initial, <Row 3>)",
+      "page": 2,
+      "box": {
+        "left": 68.4,
+        "top": 277.9,
+        "width": 37.1,
+        "height": 19.0
+      }
+    },
+    "initialRow4": {
+      "type": "text",
+      "label": "(Initial, <Row 4>)",
+      "page": 2,
+      "box": {
+        "left": 68.4,
+        "top": 257.5,
+        "width": 37.1,
+        "height": 19.0
+      }
+    },
+    "initialRow5": {
+      "type": "text",
+      "label": "(Initial, <Row 5>)",
+      "page": 2,
+      "box": {
+        "left": 68.4,
+        "top": 237.1,
+        "width": 37.1,
+        "height": 19.0
+      }
+    },
+    "date2": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 423.3,
+        "top": 216.7,
+        "width": 116.0,
+        "height": 18.6
+      }
+    },
+    "respondentSignature": {
+      "type": "signature",
+      "label": "Respondent Signature",
+      "page": 2,
+      "box": {
+        "left": 149.8,
+        "top": 213.8,
+        "width": 228.5,
+        "height": 12.9
+      }
+    },
+    "initialRow12": {
+      "type": "text",
+      "label": "(Initial, <Row 1>)",
+      "page": 2,
+      "box": {
+        "left": 68.2,
+        "top": 176.5,
+        "width": 37.3,
+        "height": 18.1
+      }
+    },
+    "initialRow22": {
+      "type": "text",
+      "label": "(Initial, <Row 2>)",
+      "page": 2,
+      "box": {
+        "left": 68.2,
+        "top": 157.0,
+        "width": 37.3,
+        "height": 18.1
+      }
+    },
+    "initialRow32": {
+      "type": "text",
+      "label": "(Initial, <Row 3>)",
+      "page": 2,
+      "box": {
+        "left": 68.2,
+        "top": 137.6,
+        "width": 37.3,
+        "height": 18.1
+      }
+    },
+    "date3": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 423.2,
+        "top": 118.1,
+        "width": 116.3,
+        "height": 18.2
+      }
+    },
+    "respondentSignature2": {
+      "type": "signature",
+      "label": "Respondent Signature",
+      "page": 2,
+      "box": {
+        "left": 149.2,
+        "top": 115.8,
+        "width": 228.5,
+        "height": 12.9
+      }
+    },
+    "textField3": {
+      "type": "text",
+      "label": "Rank",
+      "page": 2,
+      "box": {
+        "left": 69.9,
+        "top": 78.4,
+        "width": 32.6,
+        "height": 8.9
+      }
+    },
+    "textField4": {
+      "type": "text",
+      "label": "First Name",
+      "page": 2,
+      "box": {
+        "left": 108.2,
+        "top": 78.4,
+        "width": 114.2,
+        "height": 8.9
+      }
+    },
+    "textField5": {
+      "type": "text",
+      "label": "MI",
+      "page": 2,
+      "box": {
+        "left": 228.2,
+        "top": 78.4,
+        "width": 26.3,
+        "height": 8.9
+      }
+    },
+    "textField6": {
+      "type": "text",
+      "label": "Last Name",
+      "page": 2,
+      "box": {
+        "left": 260.3,
+        "top": 78.4,
+        "width": 119.3,
+        "height": 8.9
+      }
+    },
+    "textField7": {
+      "type": "text",
+      "label": "Unit Diary Number",
+      "page": 2,
+      "box": {
+        "left": 385.3,
+        "top": 78.4,
+        "width": 81.9,
+        "height": 8.9
+      }
+    },
+    "dateField2": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 472.8,
+        "top": 78.4,
+        "width": 65.2,
+        "height": 8.9
+      }
+    },
+    "signatureField1": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 2,
+      "box": {
+        "left": 140.7,
+        "top": 63.9,
+        "width": 221.4,
+        "height": 14.6
+      }
+    },
+    "dateField3": {
+      "type": "text",
+      "label": "Date  ",
+      "page": 2,
+      "box": {
+        "left": 439.5,
+        "top": 63.9,
+        "width": 98.7,
+        "height": 14.6
+      }
+    }
+  }
+}

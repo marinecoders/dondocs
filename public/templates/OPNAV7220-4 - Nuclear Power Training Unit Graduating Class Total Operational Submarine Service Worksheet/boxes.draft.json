@@ -1,0 +1,436 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "name": {
+        "left": 38.8,
+        "top": 688.4,
+        "width": 164.6,
+        "height": 26.7,
+        "type": "text",
+        "description": "1. NAME (Last, First, Middle Initial)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "doDID": {
+        "left": 209.1,
+        "top": 688.4,
+        "width": 135.4,
+        "height": 26.7,
+        "type": "text",
+        "description": "2. DoD ID",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dutyStation": {
+        "left": 350.2,
+        "top": 688.4,
+        "width": 223.0,
+        "height": 26.7,
+        "type": "text",
+        "description": "3. ULTIMATE DUTY STATION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cLCVNDate4a": {
+        "left": 50.6,
+        "top": 610.6,
+        "width": 66.2,
+        "height": 26.0,
+        "type": "text",
+        "description": "CLCVN DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "gradDate4a": {
+        "left": 119.6,
+        "top": 610.6,
+        "width": 66.2,
+        "height": 26.0,
+        "type": "text",
+        "description": "GRAD DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "thisAct4a": {
+        "left": 329.9,
+        "top": 610.6,
+        "width": 138.4,
+        "height": 26.0,
+        "type": "text",
+        "description": "Nuclear Field &quot;A&quot; School",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "careerTot4a": {
+        "left": 471.4,
+        "top": 610.6,
+        "width": 102.5,
+        "height": 26.0,
+        "type": "text",
+        "description": "Nuclear Field &quot;A&quot; School",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cLCVNDate4b": {
+        "left": 50.6,
+        "top": 581.8,
+        "width": 66.2,
+        "height": 26.0,
+        "type": "text",
+        "description": "CLCVN DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "gradDate4b": {
+        "left": 119.6,
+        "top": 581.8,
+        "width": 66.2,
+        "height": 26.0,
+        "type": "text",
+        "description": "GRAD DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "thisAct4b": {
+        "left": 329.9,
+        "top": 581.8,
+        "width": 138.4,
+        "height": 26.0,
+        "type": "text",
+        "description": "Nuclear Power School",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "careerTot4b": {
+        "left": 471.4,
+        "top": 581.8,
+        "width": 102.5,
+        "height": 26.0,
+        "type": "text",
+        "description": "Nuclear Power School",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cLCVNDate4c": {
+        "left": 50.6,
+        "top": 553.0,
+        "width": 66.2,
+        "height": 26.0,
+        "type": "text",
+        "description": "CLCVN DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "gradDate4c": {
+        "left": 119.6,
+        "top": 553.0,
+        "width": 66.2,
+        "height": 26.0,
+        "type": "text",
+        "description": "GRAD DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "thisAct4c": {
+        "left": 329.9,
+        "top": 553.0,
+        "width": 138.4,
+        "height": 26.0,
+        "type": "text",
+        "description": "Nuclear Power Training Unit",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "careerTot4c": {
+        "left": 471.4,
+        "top": 553.0,
+        "width": 102.5,
+        "height": 26.0,
+        "type": "text",
+        "description": "Nuclear Power Training Unit",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cLCVNDate4d": {
+        "left": 50.6,
+        "top": 524.1,
+        "width": 66.2,
+        "height": 26.0,
+        "type": "text",
+        "description": "CLCVN DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "gradDate4d": {
+        "left": 119.6,
+        "top": 524.1,
+        "width": 66.2,
+        "height": 26.0,
+        "type": "text",
+        "description": "GRAD DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "thisAct4d": {
+        "left": 329.9,
+        "top": 524.1,
+        "width": 138.4,
+        "height": 26.0,
+        "type": "text",
+        "description": "(if applicable)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "careerTot4d": {
+        "left": 471.4,
+        "top": 524.1,
+        "width": 102.5,
+        "height": 26.0,
+        "type": "text",
+        "description": "(if applicable)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cLCVNDate4e": {
+        "left": 50.6,
+        "top": 495.3,
+        "width": 66.2,
+        "height": 26.0,
+        "type": "text",
+        "description": "CLCVN DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "gradDate4e": {
+        "left": 119.6,
+        "top": 495.3,
+        "width": 66.2,
+        "height": 26.0,
+        "type": "text",
+        "description": "GRAD DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "thisAct4e": {
+        "left": 329.9,
+        "top": 495.3,
+        "width": 138.4,
+        "height": 26.0,
+        "type": "text",
+        "description": "(if applicable)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "careerTot4e": {
+        "left": 471.4,
+        "top": 495.3,
+        "width": 102.5,
+        "height": 26.0,
+        "type": "text",
+        "description": "(if applicable)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "f": {
+        "left": 37.4,
+        "top": 466.5,
+        "width": 10.3,
+        "height": 26.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cLCVNDate4f": {
+        "left": 50.6,
+        "top": 466.5,
+        "width": 66.2,
+        "height": 26.0,
+        "type": "text",
+        "description": "CLCVN DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "gradDate4f": {
+        "left": 119.6,
+        "top": 466.5,
+        "width": 66.2,
+        "height": 26.0,
+        "type": "text",
+        "description": "GRAD DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "actName4f": {
+        "left": 188.6,
+        "top": 466.5,
+        "width": 138.4,
+        "height": 26.0,
+        "type": "text",
+        "description": "(if applicable)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "thisAct4f": {
+        "left": 329.9,
+        "top": 466.5,
+        "width": 138.4,
+        "height": 26.0,
+        "type": "text",
+        "description": "THIS ACTIVITY**",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "careerTot4f": {
+        "left": 471.4,
+        "top": 466.5,
+        "width": 102.5,
+        "height": 26.0,
+        "type": "text",
+        "description": "CAREER TOTAL**",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateA5a": {
+        "left": 82.0,
+        "top": 407.5,
+        "width": 59.1,
+        "height": 26.7,
+        "type": "text",
+        "description": "YY MM DD",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateB5a": {
+        "left": 244.1,
+        "top": 407.5,
+        "width": 59.1,
+        "height": 26.7,
+        "type": "text",
+        "description": "YY MM DD",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateA5b": {
+        "left": 352.1,
+        "top": 407.5,
+        "width": 59.1,
+        "height": 26.7,
+        "type": "text",
+        "description": "YY MM DD",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateB5b": {
+        "left": 514.1,
+        "top": 407.5,
+        "width": 59.1,
+        "height": 26.7,
+        "type": "text",
+        "description": "YY MM DD",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "prepBy": {
+        "left": 38.8,
+        "top": 366.9,
+        "width": 354.4,
+        "height": 29.4,
+        "type": "text",
+        "description": "6. PREPARED BY (typed named)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dsn": {
+        "left": 398.9,
+        "top": 366.9,
+        "width": 174.4,
+        "height": 29.4,
+        "type": "text",
+        "description": "7. DSN",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "memPrintName": {
+        "left": 38.8,
+        "top": 323.7,
+        "width": 174.4,
+        "height": 29.4,
+        "type": "text",
+        "description": "8. MEMBER&apos;S PRINTED NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "memSig": {
+        "left": 218.9,
+        "top": 323.7,
+        "width": 174.4,
+        "height": 29.4,
+        "type": "text",
+        "description": "9. MEMBER&apos;S SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "memSigDate": {
+        "left": 398.9,
+        "top": 323.7,
+        "width": 174.4,
+        "height": 29.4,
+        "type": "text",
+        "description": "10. MEMBER&apos;S SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

@@ -1,0 +1,147 @@
+{
+  "id": "opnav50402",
+  "label": "OPNAV5040-2 - Implementation Status Rpt",
+  "directory": "OPNAV5040-2 - Implementation Status Rpt",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "dateAsOf",
+        "reportedBy",
+        "actionOfficer",
+        "coorOfficer",
+        "iDofReport",
+        "dateOfReport",
+        "iDofAction",
+        "recommendation",
+        "currentImplem",
+        "nextStep"
+      ]
+    }
+  ],
+  "fields": {
+    "dateAsOf": {
+      "type": "text",
+      "label": "STATUS AS OF (DATE)",
+      "page": 1,
+      "box": {
+        "left": 39.7,
+        "top": 729.8,
+        "width": 256.2,
+        "height": 35.0
+      },
+      "multiline": true
+    },
+    "reportedBy": {
+      "type": "text",
+      "label": "REPORTED BY (ACTION OP/BUREAU/COMMAND)",
+      "page": 1,
+      "box": {
+        "left": 302.9,
+        "top": 729.8,
+        "width": 271.8,
+        "height": 34.8
+      },
+      "multiline": true
+    },
+    "actionOfficer": {
+      "type": "text",
+      "label": "ACTION OFFICER (NAME AND EXTENSION)",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 680.7,
+        "width": 256.4,
+        "height": 34.8
+      },
+      "multiline": true
+    },
+    "coorOfficer": {
+      "type": "text",
+      "label": "COORDINATING ACTION (ACTION OP/BUREAU/COMMAND)",
+      "page": 1,
+      "box": {
+        "left": 302.7,
+        "top": 680.7,
+        "width": 272.6,
+        "height": 34.8
+      },
+      "multiline": true
+    },
+    "iDofReport": {
+      "type": "text",
+      "label": "I Dof Report",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 632.0,
+        "width": 455.6,
+        "height": 34.3
+      },
+      "multiline": true
+    },
+    "dateOfReport": {
+      "type": "text",
+      "label": "AND DATE.)",
+      "page": 1,
+      "box": {
+        "left": 500.6,
+        "top": 632.0,
+        "width": 73.9,
+        "height": 33.9
+      },
+      "multiline": true
+    },
+    "iDofAction": {
+      "type": "text",
+      "label": "I Dof Action",
+      "page": 1,
+      "box": {
+        "left": 38.1,
+        "top": 575.8,
+        "width": 535.0,
+        "height": 140.7
+      },
+      "multiline": true
+    },
+    "recommendation": {
+      "type": "text",
+      "label": "RECOMMENDATION",
+      "page": 1,
+      "box": {
+        "left": 38.1,
+        "top": 415.0,
+        "width": 535.5,
+        "height": 85.9
+      },
+      "multiline": true
+    },
+    "currentImplem": {
+      "type": "text",
+      "label": "Current Implem",
+      "page": 1,
+      "box": {
+        "left": 38.1,
+        "top": 309.5,
+        "width": 535.5,
+        "height": 137.3
+      },
+      "multiline": true
+    },
+    "nextStep": {
+      "type": "text",
+      "label": "Next Step",
+      "page": 1,
+      "box": {
+        "left": 38.1,
+        "top": 153.2,
+        "width": 535.5,
+        "height": 112.0
+      },
+      "multiline": true
+    }
+  }
+}

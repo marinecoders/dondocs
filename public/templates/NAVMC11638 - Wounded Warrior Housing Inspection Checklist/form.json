@@ -1,0 +1,2406 @@
+{
+  "id": "navmc11638",
+  "label": "NAVMC 11638 - Wounded Warrior Housing Inspection Checklist",
+  "directory": "NAVMC11638 - Wounded Warrior Housing Inspection Checklist",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "inspectorName",
+        "title",
+        "inspectionDate",
+        "installationName",
+        "facilityNo",
+        "facilityType",
+        "inspectorSig",
+        "inspectorSigDate",
+        "facilityNo2",
+        "assignmentM",
+        "assignmentNM",
+        "assignmentActionCost",
+        "baselineM",
+        "baselineNM",
+        "baselineActionCost",
+        "specialMedicalM",
+        "specialMedicalNM",
+        "specialMedicalActionCost",
+        "buildingInGoodRepair",
+        "buildingInGoodRepair2",
+        "buildingInGoodRepair3",
+        "windowsInGoodRepair",
+        "windowsInGoodRepair2",
+        "windowsInGoodRepair3",
+        "pavementInGoodRepair",
+        "pavementInGoodRepair2",
+        "pavementInGoodRepair3",
+        "stairsInGoodRepair",
+        "stairsInGoodRepair2",
+        "stairsInGoodRepair3",
+        "substructureInGoodRepair",
+        "substructureInGoodRepair2",
+        "substructureInGoodRepair3",
+        "superstructureInGoodRepair",
+        "superstructureInGoodRepair2",
+        "superstructureInGoodRepair3",
+        "grassMowed",
+        "grassMowed2",
+        "grassMowed3",
+        "shrubberyTrimmed",
+        "shrubberyTrimmed2",
+        "shrubberyTrimmed3",
+        "groundsClean",
+        "groundsClean2",
+        "groundsClean3",
+        "adequateLighting",
+        "adequateLighting2",
+        "adequateLighting3",
+        "overallGoodExterior",
+        "overallGoodExterior2",
+        "exteriorCost",
+        "exteriorComments",
+        "mechanicalSystemsGoodRepair",
+        "mechanicalSystemsGoodRepair2",
+        "mechanicalSystemsGoodRepair3",
+        "adequateAirConditioning",
+        "adequateAirConditioning2",
+        "adequateAirConditioning3",
+        "plumbingInGoodCondition",
+        "plumbingInGoodCondition2",
+        "plumbingInGoodCondition3",
+        "faucetPipeGoodCondition",
+        "faucetPipeGoodCondition2",
+        "faucetPipeGoodCondition3",
+        "electricalPanelsGoodConditions",
+        "electricalPanelsGoodConditions2",
+        "electricalPanelsGoodConditions3",
+        "switchesReceptaclesGoodConditions",
+        "switchesReceptaclesGoodConditions2",
+        "switchesReceptaclesGoodConditions3",
+        "overallGoodMechPlumbElec",
+        "overallGoodMechPlumbElec2",
+        "exteriorCost2",
+        "exteriorComments2"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "commonAreasClean",
+        "commonAreasClean2",
+        "commonAreasClean3",
+        "washersDryersGoodCondition",
+        "washersDryersGoodCondition2",
+        "washersDryersGoodCondition3",
+        "kitchenClean",
+        "kitchenClean2",
+        "kitchenClean3",
+        "carpetsFloorsClean",
+        "carpetsFloorsClean2",
+        "carpetsFloorsClean3",
+        "windowsBlindsDrapesGoodCondition",
+        "windowsBlindsDrapesGoodCondition2",
+        "windowsBlindsDrapesGoodCondition3",
+        "lightFixturesWork",
+        "lightFixturesWork2",
+        "lightFixturesWork3",
+        "wallsHoleFree",
+        "wallsHoleFree2",
+        "wallsHoleFree3",
+        "wallsFreeOfMoldWaterDamage",
+        "wallsFreeOfMoldWaterDamage2",
+        "wallsFreeOfMoldWaterDamage3",
+        "doorsOperational",
+        "doorsOperational2",
+        "doorsOperational3",
+        "ceilingTilesGoodCondition",
+        "ceilingTilesGoodCondition2",
+        "ceilingTilesGoodCondition3",
+        "radiatorsConvectorsClean",
+        "radiatorsConvectorsClean2",
+        "radiatorsConvectorsClean3",
+        "refrigeratorsMicrowavesClean",
+        "refrigeratorsMicrowavesClean2",
+        "refrigeratorsMicrowavesClean3",
+        "bathroomMoldFree",
+        "bathroomMoldFree2",
+        "bathroomMoldFree3",
+        "bathroomsOperational",
+        "bathroomsOperational2",
+        "bathroomsOperational3",
+        "furnishingsGoodCondition",
+        "furnishingsGoodCondition2",
+        "furnishingsGoodCondition3",
+        "occupantRoomTemperatureControl",
+        "occupantRoomTemperatureControl2",
+        "occupantRoomTemperatureControl3",
+        "leadPaintAsbestosHazard",
+        "leadPaintAsbestosHazard2",
+        "leadPaintAsbestosHazard3",
+        "fireExtinguishersAdequate",
+        "fireExtinguishersAdequate2",
+        "fireExtinguishersAdequate3",
+        "fireSuppressionAdequate",
+        "fireSuppressionAdequate2",
+        "fireSuppressionAdequate3",
+        "exitsIlluminated",
+        "exitsIlluminated2",
+        "exitsIlluminated3",
+        "lightingInteriorAdequate",
+        "lightingInteriorAdequate2",
+        "lightingInteriorAdequate3",
+        "overallGoodInterior",
+        "overallGoodInterior2",
+        "interiorComments",
+        "interiorCost",
+        "maintenanceProgramAccurate",
+        "maintenanceProgramAccurate2",
+        "maintenanceProgramAccurate3",
+        "maintenanceRequestProcedure",
+        "maintenanceRequestProcedure2",
+        "maintenanceRequestProcedure3",
+        "recurringProblemsIdentifiedFixed",
+        "recurringProblemsIdentifiedFixed2",
+        "recurringProblemsIdentifiedFixed3",
+        "criticalRequestsPrioritized",
+        "criticalRequestsPrioritized2",
+        "criticalRequestsPrioritized3",
+        "priorityRequestsResolved24hrs",
+        "priorityRequestsResolved24hrs2",
+        "priorityRequestsResolved24hrs3",
+        "inspectionsConductedDocumented",
+        "inspectionsConductedDocumented2",
+        "inspectionsConductedDocumented3",
+        "overallGoodMaintenanceProgram",
+        "overallGoodMaintenanceProgram2",
+        "maintenanceComments",
+        "maintenanceCost"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "snowRemovalContract",
+        "snowRemovalContract2",
+        "snowRemovalContract3",
+        "groundsContract",
+        "groundsContract2",
+        "groundsContract3",
+        "housekeepingRequestSystem",
+        "housekeepingRequestSystem2",
+        "housekeepingRequestSystem3",
+        "loanerFurnitureRequestSystem",
+        "loanerFurnitureRequestSystem2",
+        "loanerFurnitureRequestSystem3",
+        "tVCableInternetPhoneProvided",
+        "tVCableInternetPhoneProvided2",
+        "tVCableInternetPhoneProvided3",
+        "transportationProvided",
+        "transportationProvided2",
+        "transportationProvided3",
+        "overallGoodServicesProgram",
+        "overallGoodServicesProgram2",
+        "servicesComments",
+        "servicesCost"
+      ]
+    }
+  ],
+  "fields": {
+    "inspectorName": {
+      "type": "text",
+      "label": "Inspector's Name",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 716.7,
+        "width": 252.8,
+        "height": 19.5
+      }
+    },
+    "title": {
+      "type": "text",
+      "label": "Title",
+      "page": 1,
+      "box": {
+        "left": 298.8,
+        "top": 716.7,
+        "width": 173.6,
+        "height": 19.5
+      }
+    },
+    "inspectionDate": {
+      "type": "text",
+      "label": "Date of Inspection",
+      "page": 1,
+      "box": {
+        "left": 478.0,
+        "top": 716.7,
+        "width": 95.1,
+        "height": 19.5
+      }
+    },
+    "installationName": {
+      "type": "text",
+      "label": "Installation",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 680.7,
+        "width": 252.8,
+        "height": 19.5
+      }
+    },
+    "facilityNo": {
+      "type": "text",
+      "label": "Facility No.",
+      "page": 1,
+      "box": {
+        "left": 298.8,
+        "top": 680.7,
+        "width": 173.6,
+        "height": 19.5
+      }
+    },
+    "facilityType": {
+      "type": "text",
+      "label": "Facility Type",
+      "page": 1,
+      "box": {
+        "left": 478.8,
+        "top": 680.7,
+        "width": 94.4,
+        "height": 19.5
+      }
+    },
+    "inspectorSig": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 623.1,
+        "width": 252.8,
+        "height": 19.5
+      }
+    },
+    "inspectorSigDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 298.0,
+        "top": 623.1,
+        "width": 95.1,
+        "height": 19.5
+      }
+    },
+    "facilityNo2": {
+      "type": "text",
+      "label": "Facility Number",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 551.1,
+        "width": 58.4,
+        "height": 19.5
+      }
+    },
+    "assignmentM": {
+      "type": "text",
+      "label": "M",
+      "page": 1,
+      "box": {
+        "left": 103.6,
+        "top": 551.1,
+        "width": 12.3,
+        "height": 19.5
+      }
+    },
+    "assignmentNM": {
+      "type": "text",
+      "label": "NM",
+      "page": 1,
+      "box": {
+        "left": 121.6,
+        "top": 551.1,
+        "width": 12.3,
+        "height": 19.5
+      }
+    },
+    "assignmentActionCost": {
+      "type": "text",
+      "label": "Action/Cost",
+      "page": 1,
+      "box": {
+        "left": 139.0,
+        "top": 551.1,
+        "width": 117.4,
+        "height": 19.5
+      }
+    },
+    "baselineM": {
+      "type": "text",
+      "label": "M",
+      "page": 1,
+      "box": {
+        "left": 262.0,
+        "top": 551.1,
+        "width": 12.3,
+        "height": 19.5
+      }
+    },
+    "baselineNM": {
+      "type": "text",
+      "label": "NM",
+      "page": 1,
+      "box": {
+        "left": 280.0,
+        "top": 551.1,
+        "width": 12.3,
+        "height": 19.5
+      }
+    },
+    "baselineActionCost": {
+      "type": "text",
+      "label": "Action/Cost",
+      "page": 1,
+      "box": {
+        "left": 297.4,
+        "top": 551.1,
+        "width": 117.4,
+        "height": 19.5
+      }
+    },
+    "specialMedicalM": {
+      "type": "text",
+      "label": "M",
+      "page": 1,
+      "box": {
+        "left": 420.4,
+        "top": 551.1,
+        "width": 12.3,
+        "height": 19.5
+      }
+    },
+    "specialMedicalNM": {
+      "type": "text",
+      "label": "NM",
+      "page": 1,
+      "box": {
+        "left": 438.4,
+        "top": 551.1,
+        "width": 12.3,
+        "height": 19.5
+      }
+    },
+    "specialMedicalActionCost": {
+      "type": "text",
+      "label": "Action/Cost",
+      "page": 1,
+      "box": {
+        "left": 455.8,
+        "top": 551.1,
+        "width": 117.4,
+        "height": 19.5
+      }
+    },
+    "buildingInGoodRepair": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 449.2,
+        "top": 470.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_3_BuildingInGoodRepair_0"
+    },
+    "buildingInGoodRepair2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 492.4,
+        "top": 470.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_3_BuildingInGoodRepair_0"
+    },
+    "buildingInGoodRepair3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 535.6,
+        "top": 470.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_3_BuildingInGoodRepair_0"
+    },
+    "windowsInGoodRepair": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 449.2,
+        "top": 452.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_4_WindowsInGoodRepair_0"
+    },
+    "windowsInGoodRepair2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 492.4,
+        "top": 452.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_4_WindowsInGoodRepair_0"
+    },
+    "windowsInGoodRepair3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 535.6,
+        "top": 452.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_4_WindowsInGoodRepair_0"
+    },
+    "pavementInGoodRepair": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 449.2,
+        "top": 434.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_12_PavementInGoodRepair_0"
+    },
+    "pavementInGoodRepair2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 492.4,
+        "top": 434.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_12_PavementInGoodRepair_0"
+    },
+    "pavementInGoodRepair3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 535.6,
+        "top": 434.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_12_PavementInGoodRepair_0"
+    },
+    "stairsInGoodRepair": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 449.2,
+        "top": 416.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_11_StairsInGoodRepair_0"
+    },
+    "stairsInGoodRepair2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 492.4,
+        "top": 416.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_11_StairsInGoodRepair_0"
+    },
+    "stairsInGoodRepair3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 535.6,
+        "top": 416.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_11_StairsInGoodRepair_0"
+    },
+    "substructureInGoodRepair": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 449.2,
+        "top": 398.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_10_SubstructureInGoodRepair_0"
+    },
+    "substructureInGoodRepair2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 492.4,
+        "top": 398.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_10_SubstructureInGoodRepair_0"
+    },
+    "substructureInGoodRepair3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 535.6,
+        "top": 398.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_10_SubstructureInGoodRepair_0"
+    },
+    "superstructureInGoodRepair": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 449.2,
+        "top": 380.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_9_SuperstructureInGoodRepair_0"
+    },
+    "superstructureInGoodRepair2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 492.4,
+        "top": 380.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_9_SuperstructureInGoodRepair_0"
+    },
+    "superstructureInGoodRepair3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 535.6,
+        "top": 380.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_9_SuperstructureInGoodRepair_0"
+    },
+    "grassMowed": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 449.2,
+        "top": 362.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_8_GrassMowed_0"
+    },
+    "grassMowed2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 492.4,
+        "top": 362.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_8_GrassMowed_0"
+    },
+    "grassMowed3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 535.6,
+        "top": 362.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_8_GrassMowed_0"
+    },
+    "shrubberyTrimmed": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 449.2,
+        "top": 344.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_7_ShrubberyTrimmed_0"
+    },
+    "shrubberyTrimmed2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 492.4,
+        "top": 344.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_7_ShrubberyTrimmed_0"
+    },
+    "shrubberyTrimmed3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 535.6,
+        "top": 344.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_7_ShrubberyTrimmed_0"
+    },
+    "groundsClean": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 449.2,
+        "top": 326.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_6_GroundsClean_0"
+    },
+    "groundsClean2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 492.4,
+        "top": 326.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_6_GroundsClean_0"
+    },
+    "groundsClean3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 535.6,
+        "top": 326.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_6_GroundsClean_0"
+    },
+    "adequateLighting": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 449.2,
+        "top": 308.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_5_AdequateLighting_0"
+    },
+    "adequateLighting2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 492.4,
+        "top": 308.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_5_AdequateLighting_0"
+    },
+    "adequateLighting3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 535.6,
+        "top": 308.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_5_AdequateLighting_0"
+    },
+    "overallGoodExterior": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 449.2,
+        "top": 290.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_13_OverallGoodExterior_0"
+    },
+    "overallGoodExterior2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 492.4,
+        "top": 290.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_13_OverallGoodExterior_0"
+    },
+    "exteriorCost": {
+      "type": "text",
+      "label": "Estimated Cost",
+      "page": 1,
+      "box": {
+        "left": 449.2,
+        "top": 263.1,
+        "width": 123.9,
+        "height": 26.7
+      }
+    },
+    "exteriorComments": {
+      "type": "text",
+      "label": "Comments",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 262.3,
+        "width": 404.0,
+        "height": 26.0
+      }
+    },
+    "mechanicalSystemsGoodRepair": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 449.2,
+        "top": 211.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_14_area_15_MechanicalSystemsGoodRepair_0"
+    },
+    "mechanicalSystemsGoodRepair2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 492.4,
+        "top": 211.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_14_area_15_MechanicalSystemsGoodRepair_0"
+    },
+    "mechanicalSystemsGoodRepair3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 535.6,
+        "top": 211.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_14_area_15_MechanicalSystemsGoodRepair_0"
+    },
+    "adequateAirConditioning": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 449.2,
+        "top": 193.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_14_area_16_AdequateAirConditioning_0"
+    },
+    "adequateAirConditioning2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 492.4,
+        "top": 193.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_14_area_16_AdequateAirConditioning_0"
+    },
+    "adequateAirConditioning3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 535.6,
+        "top": 193.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_14_area_16_AdequateAirConditioning_0"
+    },
+    "plumbingInGoodCondition": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 449.2,
+        "top": 175.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_14_area_20_PlumbingInGoodCondition_0"
+    },
+    "plumbingInGoodCondition2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 492.4,
+        "top": 175.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_14_area_20_PlumbingInGoodCondition_0"
+    },
+    "plumbingInGoodCondition3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 535.6,
+        "top": 175.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_14_area_20_PlumbingInGoodCondition_0"
+    },
+    "faucetPipeGoodCondition": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 449.2,
+        "top": 157.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_14_area_19_FaucetPipeGoodCondition_0"
+    },
+    "faucetPipeGoodCondition2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 492.4,
+        "top": 157.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_14_area_19_FaucetPipeGoodCondition_0"
+    },
+    "faucetPipeGoodCondition3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 535.6,
+        "top": 157.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_14_area_19_FaucetPipeGoodCondition_0"
+    },
+    "electricalPanelsGoodConditions": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 449.2,
+        "top": 139.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_14_area_18_ElectricalPanelsGoodConditions_0"
+    },
+    "electricalPanelsGoodConditions2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 492.4,
+        "top": 139.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_14_area_18_ElectricalPanelsGoodConditions_0"
+    },
+    "electricalPanelsGoodConditions3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 535.6,
+        "top": 139.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_14_area_18_ElectricalPanelsGoodConditions_0"
+    },
+    "switchesReceptaclesGoodConditions": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 449.2,
+        "top": 121.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_14_area_17_SwitchesReceptaclesGoodConditions_0"
+    },
+    "switchesReceptaclesGoodConditions2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 492.4,
+        "top": 121.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_14_area_17_SwitchesReceptaclesGoodConditions_0"
+    },
+    "switchesReceptaclesGoodConditions3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 535.6,
+        "top": 121.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_0_area_14_area_17_SwitchesReceptaclesGoodConditions_0"
+    },
+    "overallGoodMechPlumbElec": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 449.2,
+        "top": 94.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_21_area_22_OverallGoodMechPlumbElec_0"
+    },
+    "overallGoodMechPlumbElec2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 492.4,
+        "top": 94.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_area_21_area_22_OverallGoodMechPlumbElec_0"
+    },
+    "exteriorCost2": {
+      "type": "text",
+      "label": "Estimated Cost",
+      "page": 1,
+      "box": {
+        "left": 449.2,
+        "top": 57.9,
+        "width": 123.9,
+        "height": 26.7
+      }
+    },
+    "exteriorComments2": {
+      "type": "text",
+      "label": "Comments",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 57.1,
+        "width": 404.0,
+        "height": 26.0
+      }
+    },
+    "commonAreasClean": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 449.2,
+        "top": 712.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_11_CommonAreasClean_0"
+    },
+    "commonAreasClean2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 492.4,
+        "top": 712.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_11_CommonAreasClean_0"
+    },
+    "commonAreasClean3": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 535.6,
+        "top": 712.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_11_CommonAreasClean_0"
+    },
+    "washersDryersGoodCondition": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 449.2,
+        "top": 694.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_12_WashersDryersGoodCondition_0"
+    },
+    "washersDryersGoodCondition2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 492.4,
+        "top": 694.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_12_WashersDryersGoodCondition_0"
+    },
+    "washersDryersGoodCondition3": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 535.6,
+        "top": 694.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_12_WashersDryersGoodCondition_0"
+    },
+    "kitchenClean": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 449.2,
+        "top": 676.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_31_KitchenClean_0"
+    },
+    "kitchenClean2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 492.4,
+        "top": 676.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_31_KitchenClean_0"
+    },
+    "kitchenClean3": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 535.6,
+        "top": 676.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_31_KitchenClean_0"
+    },
+    "carpetsFloorsClean": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 449.2,
+        "top": 658.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_30_CarpetsFloorsClean_0"
+    },
+    "carpetsFloorsClean2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 492.4,
+        "top": 658.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_30_CarpetsFloorsClean_0"
+    },
+    "carpetsFloorsClean3": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 535.6,
+        "top": 658.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_30_CarpetsFloorsClean_0"
+    },
+    "windowsBlindsDrapesGoodCondition": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 449.2,
+        "top": 640.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_29_WindowsBlindsDrapesGoodCondition_0"
+    },
+    "windowsBlindsDrapesGoodCondition2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 492.4,
+        "top": 640.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_29_WindowsBlindsDrapesGoodCondition_0"
+    },
+    "windowsBlindsDrapesGoodCondition3": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 535.6,
+        "top": 640.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_29_WindowsBlindsDrapesGoodCondition_0"
+    },
+    "lightFixturesWork": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 449.2,
+        "top": 622.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_28_LightFixturesWork_0"
+    },
+    "lightFixturesWork2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 492.4,
+        "top": 622.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_28_LightFixturesWork_0"
+    },
+    "lightFixturesWork3": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 535.6,
+        "top": 622.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_28_LightFixturesWork_0"
+    },
+    "wallsHoleFree": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 449.2,
+        "top": 604.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_27_WallsHoleFree_0"
+    },
+    "wallsHoleFree2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 492.4,
+        "top": 604.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_27_WallsHoleFree_0"
+    },
+    "wallsHoleFree3": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 535.6,
+        "top": 604.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_27_WallsHoleFree_0"
+    },
+    "wallsFreeOfMoldWaterDamage": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 449.2,
+        "top": 586.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_26_WallsFreeOfMoldWaterDamage_0"
+    },
+    "wallsFreeOfMoldWaterDamage2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 492.4,
+        "top": 586.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_26_WallsFreeOfMoldWaterDamage_0"
+    },
+    "wallsFreeOfMoldWaterDamage3": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 535.6,
+        "top": 586.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_26_WallsFreeOfMoldWaterDamage_0"
+    },
+    "doorsOperational": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 449.2,
+        "top": 568.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_25_DoorsOperational_0"
+    },
+    "doorsOperational2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 492.4,
+        "top": 568.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_25_DoorsOperational_0"
+    },
+    "doorsOperational3": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 535.6,
+        "top": 568.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_25_DoorsOperational_0"
+    },
+    "ceilingTilesGoodCondition": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 449.2,
+        "top": 550.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_13_CeilingTilesGoodCondition_0"
+    },
+    "ceilingTilesGoodCondition2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 492.4,
+        "top": 550.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_13_CeilingTilesGoodCondition_0"
+    },
+    "ceilingTilesGoodCondition3": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 535.6,
+        "top": 550.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_13_CeilingTilesGoodCondition_0"
+    },
+    "radiatorsConvectorsClean": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 449.2,
+        "top": 532.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_24_RadiatorsConvectorsClean_0"
+    },
+    "radiatorsConvectorsClean2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 492.4,
+        "top": 532.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_24_RadiatorsConvectorsClean_0"
+    },
+    "radiatorsConvectorsClean3": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 535.6,
+        "top": 532.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_24_RadiatorsConvectorsClean_0"
+    },
+    "refrigeratorsMicrowavesClean": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 449.2,
+        "top": 514.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_23_RefrigeratorsMicrowavesClean_0"
+    },
+    "refrigeratorsMicrowavesClean2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 492.4,
+        "top": 514.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_23_RefrigeratorsMicrowavesClean_0"
+    },
+    "refrigeratorsMicrowavesClean3": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 535.6,
+        "top": 514.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_23_RefrigeratorsMicrowavesClean_0"
+    },
+    "bathroomMoldFree": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 449.2,
+        "top": 496.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_22_BathroomMoldFree_0"
+    },
+    "bathroomMoldFree2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 492.4,
+        "top": 496.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_22_BathroomMoldFree_0"
+    },
+    "bathroomMoldFree3": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 535.6,
+        "top": 496.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_22_BathroomMoldFree_0"
+    },
+    "bathroomsOperational": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 449.2,
+        "top": 478.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_21_BathroomsOperational_0"
+    },
+    "bathroomsOperational2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 492.4,
+        "top": 478.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_21_BathroomsOperational_0"
+    },
+    "bathroomsOperational3": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 535.6,
+        "top": 478.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_21_BathroomsOperational_0"
+    },
+    "furnishingsGoodCondition": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 449.2,
+        "top": 460.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_20_FurnishingsGoodCondition_0"
+    },
+    "furnishingsGoodCondition2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 492.4,
+        "top": 460.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_20_FurnishingsGoodCondition_0"
+    },
+    "furnishingsGoodCondition3": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 535.6,
+        "top": 460.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_20_FurnishingsGoodCondition_0"
+    },
+    "occupantRoomTemperatureControl": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 449.2,
+        "top": 442.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_19_OccupantRoomTemperatureControl_0"
+    },
+    "occupantRoomTemperatureControl2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 492.4,
+        "top": 442.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_19_OccupantRoomTemperatureControl_0"
+    },
+    "occupantRoomTemperatureControl3": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 535.6,
+        "top": 442.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_19_OccupantRoomTemperatureControl_0"
+    },
+    "leadPaintAsbestosHazard": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 449.2,
+        "top": 424.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_18_LeadPaintAsbestosHazard_0"
+    },
+    "leadPaintAsbestosHazard2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 492.4,
+        "top": 424.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_18_LeadPaintAsbestosHazard_0"
+    },
+    "leadPaintAsbestosHazard3": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 535.6,
+        "top": 424.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_18_LeadPaintAsbestosHazard_0"
+    },
+    "fireExtinguishersAdequate": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 449.2,
+        "top": 406.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_17_FireExtinguishersAdequate_0"
+    },
+    "fireExtinguishersAdequate2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 492.4,
+        "top": 406.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_17_FireExtinguishersAdequate_0"
+    },
+    "fireExtinguishersAdequate3": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 535.6,
+        "top": 406.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_17_FireExtinguishersAdequate_0"
+    },
+    "fireSuppressionAdequate": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 449.2,
+        "top": 388.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_16_FireSuppressionAdequate_0"
+    },
+    "fireSuppressionAdequate2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 492.4,
+        "top": 388.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_16_FireSuppressionAdequate_0"
+    },
+    "fireSuppressionAdequate3": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 535.6,
+        "top": 388.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_16_FireSuppressionAdequate_0"
+    },
+    "exitsIlluminated": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 449.2,
+        "top": 370.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_15_ExitsIlluminated_0"
+    },
+    "exitsIlluminated2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 492.4,
+        "top": 370.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_15_ExitsIlluminated_0"
+    },
+    "exitsIlluminated3": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 535.6,
+        "top": 370.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_15_ExitsIlluminated_0"
+    },
+    "lightingInteriorAdequate": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 449.2,
+        "top": 352.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_14_LightingInteriorAdequate_0"
+    },
+    "lightingInteriorAdequate2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 492.4,
+        "top": 352.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_14_LightingInteriorAdequate_0"
+    },
+    "lightingInteriorAdequate3": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 535.6,
+        "top": 352.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_14_LightingInteriorAdequate_0"
+    },
+    "overallGoodInterior": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 449.2,
+        "top": 334.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_32_OverallGoodInterior_0"
+    },
+    "overallGoodInterior2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 492.4,
+        "top": 334.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_10_area_32_OverallGoodInterior_0"
+    },
+    "interiorComments": {
+      "type": "text",
+      "label": "Comments",
+      "page": 2,
+      "box": {
+        "left": 39.6,
+        "top": 306.6,
+        "width": 404.0,
+        "height": 26.7
+      }
+    },
+    "interiorCost": {
+      "type": "text",
+      "label": "Estimated Cost",
+      "page": 2,
+      "box": {
+        "left": 449.2,
+        "top": 306.6,
+        "width": 123.9,
+        "height": 26.7
+      }
+    },
+    "maintenanceProgramAccurate": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 449.2,
+        "top": 255.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_0_area_1_area_2_MaintenanceProgramAccurate_0"
+    },
+    "maintenanceProgramAccurate2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 492.4,
+        "top": 255.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_0_area_1_area_2_MaintenanceProgramAccurate_0"
+    },
+    "maintenanceProgramAccurate3": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 535.6,
+        "top": 255.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_0_area_1_area_2_MaintenanceProgramAccurate_0"
+    },
+    "maintenanceRequestProcedure": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 449.2,
+        "top": 237.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_0_area_1_area_3_MaintenanceRequestProcedure_0"
+    },
+    "maintenanceRequestProcedure2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 492.4,
+        "top": 237.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_0_area_1_area_3_MaintenanceRequestProcedure_0"
+    },
+    "maintenanceRequestProcedure3": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 535.6,
+        "top": 237.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_0_area_1_area_3_MaintenanceRequestProcedure_0"
+    },
+    "recurringProblemsIdentifiedFixed": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 449.2,
+        "top": 217.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_0_area_1_area_7_RecurringProblemsIdentifiedFixed_0"
+    },
+    "recurringProblemsIdentifiedFixed2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 492.4,
+        "top": 217.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_0_area_1_area_7_RecurringProblemsIdentifiedFixed_0"
+    },
+    "recurringProblemsIdentifiedFixed3": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 535.6,
+        "top": 217.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_0_area_1_area_7_RecurringProblemsIdentifiedFixed_0"
+    },
+    "criticalRequestsPrioritized": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 449.2,
+        "top": 196.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_0_area_1_area_6_CriticalRequestsPrioritized_0"
+    },
+    "criticalRequestsPrioritized2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 492.4,
+        "top": 196.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_0_area_1_area_6_CriticalRequestsPrioritized_0"
+    },
+    "criticalRequestsPrioritized3": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 535.6,
+        "top": 196.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_0_area_1_area_6_CriticalRequestsPrioritized_0"
+    },
+    "priorityRequestsResolved24hrs": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 449.2,
+        "top": 179.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_0_area_1_area_5_PriorityRequestsResolved24hrs_0"
+    },
+    "priorityRequestsResolved24hrs2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 492.4,
+        "top": 179.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_0_area_1_area_5_PriorityRequestsResolved24hrs_0"
+    },
+    "priorityRequestsResolved24hrs3": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 535.6,
+        "top": 179.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_0_area_1_area_5_PriorityRequestsResolved24hrs_0"
+    },
+    "inspectionsConductedDocumented": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 449.2,
+        "top": 161.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_0_area_1_area_4_InspectionsConductedDocumented_0"
+    },
+    "inspectionsConductedDocumented2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 492.4,
+        "top": 161.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_0_area_1_area_4_InspectionsConductedDocumented_0"
+    },
+    "inspectionsConductedDocumented3": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 535.6,
+        "top": 161.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_0_area_1_area_4_InspectionsConductedDocumented_0"
+    },
+    "overallGoodMaintenanceProgram": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 449.2,
+        "top": 142.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_0_area_8_area_9_OverallGoodMaintenanceProgram_0"
+    },
+    "overallGoodMaintenanceProgram2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 492.4,
+        "top": 142.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P2_0_area_0_area_8_area_9_OverallGoodMaintenanceProgram_0"
+    },
+    "maintenanceComments": {
+      "type": "text",
+      "label": "Comments",
+      "page": 2,
+      "box": {
+        "left": 39.6,
+        "top": 114.0,
+        "width": 404.0,
+        "height": 26.7
+      }
+    },
+    "maintenanceCost": {
+      "type": "text",
+      "label": "Estimated Cost",
+      "page": 2,
+      "box": {
+        "left": 449.2,
+        "top": 114.0,
+        "width": 123.9,
+        "height": 26.7
+      }
+    },
+    "snowRemovalContract": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 449.2,
+        "top": 680.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_area_0_area_1_area_2_SnowRemovalContract_0"
+    },
+    "snowRemovalContract2": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 492.4,
+        "top": 680.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_area_0_area_1_area_2_SnowRemovalContract_0"
+    },
+    "snowRemovalContract3": {
+      "type": "radio",
+      "label": "2",
+      "page": 3,
+      "box": {
+        "left": 535.6,
+        "top": 680.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_area_0_area_1_area_2_SnowRemovalContract_0"
+    },
+    "groundsContract": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 449.5,
+        "top": 659.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_area_0_area_1_area_3_GroundsContract_0"
+    },
+    "groundsContract2": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 492.7,
+        "top": 659.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_area_0_area_1_area_3_GroundsContract_0"
+    },
+    "groundsContract3": {
+      "type": "radio",
+      "label": "2",
+      "page": 3,
+      "box": {
+        "left": 535.9,
+        "top": 659.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_area_0_area_1_area_3_GroundsContract_0"
+    },
+    "housekeepingRequestSystem": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 449.2,
+        "top": 637.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_area_0_area_1_area_7_HousekeepingRequestSystem_0"
+    },
+    "housekeepingRequestSystem2": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 492.4,
+        "top": 637.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_area_0_area_1_area_7_HousekeepingRequestSystem_0"
+    },
+    "housekeepingRequestSystem3": {
+      "type": "radio",
+      "label": "2",
+      "page": 3,
+      "box": {
+        "left": 535.6,
+        "top": 637.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_area_0_area_1_area_7_HousekeepingRequestSystem_0"
+    },
+    "loanerFurnitureRequestSystem": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 449.2,
+        "top": 615.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_area_0_area_1_area_6_LoanerFurnitureRequestSystem_0"
+    },
+    "loanerFurnitureRequestSystem2": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 492.4,
+        "top": 615.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_area_0_area_1_area_6_LoanerFurnitureRequestSystem_0"
+    },
+    "loanerFurnitureRequestSystem3": {
+      "type": "radio",
+      "label": "2",
+      "page": 3,
+      "box": {
+        "left": 535.6,
+        "top": 615.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_area_0_area_1_area_6_LoanerFurnitureRequestSystem_0"
+    },
+    "tVCableInternetPhoneProvided": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 449.2,
+        "top": 594.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_area_0_area_1_area_5_TVCableInternetPhoneProvided_0"
+    },
+    "tVCableInternetPhoneProvided2": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 492.4,
+        "top": 594.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_area_0_area_1_area_5_TVCableInternetPhoneProvided_0"
+    },
+    "tVCableInternetPhoneProvided3": {
+      "type": "radio",
+      "label": "2",
+      "page": 3,
+      "box": {
+        "left": 535.6,
+        "top": 594.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_area_0_area_1_area_5_TVCableInternetPhoneProvided_0"
+    },
+    "transportationProvided": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 449.2,
+        "top": 572.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_area_0_area_1_area_4_TransportationProvided_0"
+    },
+    "transportationProvided2": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 492.4,
+        "top": 572.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_area_0_area_1_area_4_TransportationProvided_0"
+    },
+    "transportationProvided3": {
+      "type": "radio",
+      "label": "2",
+      "page": 3,
+      "box": {
+        "left": 535.6,
+        "top": 572.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_area_0_area_1_area_4_TransportationProvided_0"
+    },
+    "overallGoodServicesProgram": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 449.2,
+        "top": 543.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_area_0_area_8_area_9_OverallGoodServicesProgram_0"
+    },
+    "overallGoodServicesProgram2": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 492.4,
+        "top": 543.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_area_0_area_8_area_9_OverallGoodServicesProgram_0"
+    },
+    "servicesComments": {
+      "type": "text",
+      "label": "Comments",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 507.2,
+        "width": 404.7,
+        "height": 26.7
+      }
+    },
+    "servicesCost": {
+      "type": "text",
+      "label": "Estimated Cost",
+      "page": 3,
+      "box": {
+        "left": 449.2,
+        "top": 507.2,
+        "width": 123.9,
+        "height": 26.7
+      }
+    }
+  }
+}

@@ -1,0 +1,526 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "requiredDate": {
+        "left": 526.5,
+        "top": 748.3,
+        "width": 61.7,
+        "height": 13.7,
+        "type": "text",
+        "description": "RequiredDate",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "last": {
+        "left": 21.0,
+        "top": 684.7,
+        "width": 226.4,
+        "height": 16.8,
+        "type": "text",
+        "description": "Last",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameF": {
+        "left": 250.4,
+        "top": 684.1,
+        "width": 179.1,
+        "height": 16.8,
+        "type": "text",
+        "description": "First Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameM": {
+        "left": 433.7,
+        "top": 684.1,
+        "width": 20.4,
+        "height": 16.8,
+        "type": "text",
+        "description": "Middle Initial",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ssn": {
+        "left": 457.1,
+        "top": 684.1,
+        "width": 134.4,
+        "height": 16.4,
+        "type": "text",
+        "description": "SSN",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "grade": {
+        "left": 20.4,
+        "top": 652.9,
+        "width": 224.4,
+        "height": 16.8,
+        "type": "text",
+        "description": "Grade",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dor": {
+        "left": 249.0,
+        "top": 652.9,
+        "width": 112.8,
+        "height": 16.8,
+        "type": "text",
+        "description": "DOR",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pmos": {
+        "left": 364.9,
+        "top": 652.9,
+        "width": 112.1,
+        "height": 16.8,
+        "type": "text",
+        "description": "PMOS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "emos": {
+        "left": 481.2,
+        "top": 652.9,
+        "width": 111.0,
+        "height": 16.8,
+        "type": "text",
+        "description": "BMOS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "orgMcc": {
+        "left": 21.1,
+        "top": 609.9,
+        "width": 131.9,
+        "height": 16.8,
+        "type": "text",
+        "description": "Organization: MCC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unDesc": {
+        "left": 157.2,
+        "top": 608.1,
+        "width": 434.4,
+        "height": 45.6,
+        "type": "text",
+        "description": "Unit Description",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ruc": {
+        "left": 21.1,
+        "top": 578.2,
+        "width": 131.9,
+        "height": 16.8,
+        "type": "text",
+        "description": "RUC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "occ": {
+        "left": 20.4,
+        "top": 535.6,
+        "width": 135.6,
+        "height": 16.8,
+        "type": "text",
+        "description": "OCC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "type": {
+        "left": 306.3,
+        "top": 534.9,
+        "width": 285.9,
+        "height": 16.8,
+        "type": "text",
+        "description": "Type:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "perFr": {
+        "left": 159.8,
+        "top": 534.3,
+        "width": 68.4,
+        "height": 15.2,
+        "type": "text",
+        "description": "Enter date using format 2002 12 24.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "perTo": {
+        "left": 232.2,
+        "top": 533.8,
+        "width": 69.6,
+        "height": 15.2,
+        "type": "text",
+        "description": "Enter date using format 2002 12 24.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dutyAs": {
+        "left": 20.4,
+        "top": 501.9,
+        "width": 572.4,
+        "height": 16.8,
+        "type": "text",
+        "description": "Type:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pft": {
+        "left": 119.3,
+        "top": 456.2,
+        "width": 99.7,
+        "height": 16.8,
+        "type": "text",
+        "description": "Type:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "status": {
+        "left": 223.0,
+        "top": 456.0,
+        "width": 101.6,
+        "height": 16.8,
+        "type": "text",
+        "description": "Type:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "resComp": {
+        "left": 328.5,
+        "top": 456.0,
+        "width": 118.5,
+        "height": 16.8,
+        "type": "text",
+        "description": "Type:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "bf": {
+        "left": 530.2,
+        "top": 456.0,
+        "width": 61.2,
+        "height": 16.8,
+        "type": "text",
+        "description": "Type:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ht": {
+        "left": 450.6,
+        "top": 455.7,
+        "width": 34.2,
+        "height": 16.8,
+        "type": "text",
+        "description": "Middle Initial",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "qual": {
+        "left": 19.2,
+        "top": 455.6,
+        "width": 97.2,
+        "height": 16.8,
+        "type": "text",
+        "description": "Type:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "wt": {
+        "left": 487.2,
+        "top": 455.3,
+        "width": 39.8,
+        "height": 16.8,
+        "type": "text",
+        "description": "Middle Initial",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mcc1": {
+        "left": 57.9,
+        "top": 422.3,
+        "width": 95.7,
+        "height": 16.8,
+        "type": "text",
+        "description": "OCC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "descLoc1": {
+        "left": 236.7,
+        "top": 421.7,
+        "width": 355.5,
+        "height": 16.8,
+        "type": "text",
+        "description": "Type:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mcc2": {
+        "left": 57.9,
+        "top": 401.5,
+        "width": 95.7,
+        "height": 16.8,
+        "type": "text",
+        "description": "OCC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "descLoc2": {
+        "left": 236.7,
+        "top": 400.9,
+        "width": 355.5,
+        "height": 16.8,
+        "type": "text",
+        "description": "Type:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mcc3": {
+        "left": 57.9,
+        "top": 380.8,
+        "width": 95.7,
+        "height": 16.8,
+        "type": "text",
+        "description": "OCC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "descLoc3": {
+        "left": 236.7,
+        "top": 380.2,
+        "width": 355.5,
+        "height": 16.8,
+        "type": "text",
+        "description": "Type:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameRS": {
+        "left": 21.0,
+        "top": 334.2,
+        "width": 226.4,
+        "height": 16.8,
+        "type": "text",
+        "description": "NameRS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "gradeRS": {
+        "left": 408.2,
+        "top": 333.6,
+        "width": 184.1,
+        "height": 16.8,
+        "type": "text",
+        "description": "Middle Initial",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initRS": {
+        "left": 250.4,
+        "top": 333.5,
+        "width": 23.8,
+        "height": 16.8,
+        "type": "text",
+        "description": "First Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ssnrs": {
+        "left": 278.0,
+        "top": 333.5,
+        "width": 126.3,
+        "height": 16.4,
+        "type": "text",
+        "description": "SSNRS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "serviceRS": {
+        "left": 21.0,
+        "top": 302.9,
+        "width": 148.2,
+        "height": 16.8,
+        "type": "text",
+        "description": "ServiceRS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dutyAsRS": {
+        "left": 173.1,
+        "top": 302.3,
+        "width": 419.1,
+        "height": 16.8,
+        "type": "text",
+        "description": "Middle Initial",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameRO": {
+        "left": 21.0,
+        "top": 259.0,
+        "width": 226.4,
+        "height": 16.8,
+        "type": "text",
+        "description": "NameRO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initRO": {
+        "left": 250.4,
+        "top": 258.4,
+        "width": 23.8,
+        "height": 16.8,
+        "type": "text",
+        "description": "First Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ssnro": {
+        "left": 278.0,
+        "top": 258.4,
+        "width": 126.3,
+        "height": 16.4,
+        "type": "text",
+        "description": "SSNRO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "gradeRO": {
+        "left": 408.2,
+        "top": 258.4,
+        "width": 184.1,
+        "height": 16.8,
+        "type": "text",
+        "description": "Middle Initial",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "serviceRO": {
+        "left": 21.0,
+        "top": 227.7,
+        "width": 148.2,
+        "height": 16.8,
+        "type": "text",
+        "description": "ServiceRO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dutyAsRO": {
+        "left": 173.1,
+        "top": 227.1,
+        "width": 419.1,
+        "height": 16.8,
+        "type": "text",
+        "description": "Middle Initial",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "billet": {
+        "left": 20.5,
+        "top": 196.4,
+        "width": 571.7,
+        "height": 132.2,
+        "type": "text",
+        "description": "Unit Description",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "majAccomp": {
+        "left": 20.5,
+        "top": 718.0,
+        "width": 571.7,
+        "height": 189.0,
+        "type": "text",
+        "description": "Unit Description",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pme": {
+        "left": 19.9,
+        "top": 513.6,
+        "width": 571.7,
+        "height": 189.0,
+        "type": "text",
+        "description": "Unit Description",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "other": {
+        "left": 19.9,
+        "top": 308.3,
+        "width": 571.7,
+        "height": 189.0,
+        "type": "text",
+        "description": "Unit Description",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

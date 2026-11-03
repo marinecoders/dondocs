@@ -1,0 +1,3802 @@
+{
+  "id": "navmc10284",
+  "label": "NAVMC 10284 - Limited Trechnical Inspection - Motor Transport",
+  "directory": "NAVMC10284 - Limited Trechnical Inspection - Motor Transport",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "vehicTyp",
+        "unitAssig",
+        "size1",
+        "drive1",
+        "manuf1",
+        "model1",
+        "chassSn",
+        "mfgYr",
+        "regNum",
+        "mileage1",
+        "chkCond4",
+        "chkCond0",
+        "chkCond1",
+        "chkCond2",
+        "chkCond3",
+        "chkCond5",
+        "chkCond6",
+        "chkCond7",
+        "chkCond8",
+        "chkCond9",
+        "chkCond10",
+        "chkCond11",
+        "miTiApp",
+        "condSat0",
+        "condRepr0",
+        "condRepl0",
+        "condMiss0",
+        "cost0",
+        "condSat28",
+        "condRepr28",
+        "condRepl28",
+        "condMiss28",
+        "cost28",
+        "condSat1",
+        "condRepr1",
+        "condRepl1",
+        "condMiss1",
+        "cost1",
+        "condSat29",
+        "condRepr29",
+        "condRepl29",
+        "condMiss29",
+        "cost29",
+        "condSat2",
+        "condRepr2",
+        "condRepl2",
+        "condMiss2",
+        "cost2",
+        "condSat30",
+        "condRepr30",
+        "condRepl30",
+        "condMiss30",
+        "cost30",
+        "othShort",
+        "condSat31",
+        "condRepr31",
+        "condRepl31",
+        "condMiss31",
+        "cost31",
+        "condSat3",
+        "condRepr3",
+        "condRepl3",
+        "condMiss3",
+        "cost3",
+        "condSat4",
+        "condRepr4",
+        "condRepl4",
+        "condMiss4",
+        "cost4",
+        "condSat32",
+        "condRepr32",
+        "condRepl32",
+        "condMiss32",
+        "cost32",
+        "condSat5",
+        "condRepr5",
+        "condRepl5",
+        "condMiss5",
+        "cost5",
+        "condSat33",
+        "condRepr33",
+        "condRepl33",
+        "condMiss33",
+        "cost33",
+        "condSat6",
+        "condRepr6",
+        "condRepl6",
+        "condMiss6",
+        "cost6",
+        "condSat34",
+        "condRepr34",
+        "condRepl34",
+        "condMiss34",
+        "cost34",
+        "majDamag",
+        "condSat7",
+        "condRepr7",
+        "condRepl7",
+        "condMiss7",
+        "cost7",
+        "condSat35",
+        "condRepr35",
+        "condRepl35",
+        "condMiss35",
+        "cost35",
+        "condSat36",
+        "condRepr36",
+        "condRepl36",
+        "condMiss36",
+        "cost36",
+        "condSat8",
+        "condRepr8",
+        "condRepl8",
+        "condMiss8",
+        "cost8",
+        "condSat37",
+        "condRepr37",
+        "condRepl37",
+        "condMiss37",
+        "cost37",
+        "condSat9",
+        "condRepr9",
+        "condRepl9",
+        "condMiss9",
+        "cost9",
+        "condSat10",
+        "condRepr10",
+        "condRepl10",
+        "condMiss10",
+        "cost10",
+        "condSat38",
+        "condRepr38",
+        "condRepl38",
+        "condMiss38",
+        "cost38",
+        "letInvRef",
+        "condSat39",
+        "condRepr39",
+        "condRepl39",
+        "condMiss39",
+        "cost39",
+        "condSat11",
+        "condRepr11",
+        "condRepl11",
+        "condMiss11",
+        "cost11",
+        "condSat12",
+        "condRepr12",
+        "condRepl12",
+        "condMiss12",
+        "cost12",
+        "condSat40",
+        "condRepr40",
+        "condRepl40",
+        "condMiss40",
+        "cost40",
+        "condSat13",
+        "condRepr13",
+        "condRepl13",
+        "condMiss13",
+        "cost13",
+        "condSat41",
+        "condRepr41",
+        "condRepl41",
+        "condMiss41",
+        "cost41",
+        "condSat14",
+        "condRepr14",
+        "condRepl14",
+        "condMiss14",
+        "cost14",
+        "condSat42",
+        "condRepr42",
+        "condRepl42",
+        "condMiss42",
+        "cost42",
+        "condSat15",
+        "condRepr15",
+        "condRepl15",
+        "condMiss15",
+        "cost15",
+        "condSat43",
+        "condRepr43",
+        "condRepl43",
+        "condMiss43",
+        "cost43",
+        "letUnsrvProp",
+        "condSat44",
+        "condRepr44",
+        "condRepl44",
+        "condMiss44",
+        "cost44",
+        "condSat16",
+        "condRepr16",
+        "condRepl16",
+        "condMiss16",
+        "cost16",
+        "condSat17",
+        "condRepr17",
+        "condRepl17",
+        "condMiss17",
+        "cost17",
+        "condSat45",
+        "condRepr45",
+        "condRepl45",
+        "condMiss45",
+        "cost45",
+        "condSat18",
+        "condRepr18",
+        "condRepl18",
+        "condMiss18",
+        "cost18",
+        "condSat46",
+        "condRepr46",
+        "condRepl46",
+        "condMiss46",
+        "cost46",
+        "condSat19",
+        "condRepr19",
+        "condRepl19",
+        "condMiss19",
+        "cost19",
+        "condSat47",
+        "condRepr47",
+        "condRepl47",
+        "condMiss47",
+        "cost47",
+        "condSat20",
+        "condRepr20",
+        "condRepl20",
+        "condMiss20",
+        "cost20",
+        "condSat48",
+        "condRepr48",
+        "condRepl48",
+        "condMiss48",
+        "cost48",
+        "condSat21",
+        "condRepr21",
+        "condRepl21",
+        "condMiss21",
+        "cost21",
+        "condSat49",
+        "condRepr49",
+        "condRepl49",
+        "condMiss49",
+        "cost49",
+        "condSat50",
+        "condRepr50",
+        "condRepl50",
+        "condMiss50",
+        "cost50",
+        "condSat22",
+        "condRepr22",
+        "condRepl22",
+        "condMiss22",
+        "cost22",
+        "condSat23",
+        "condRepr23",
+        "condRepl23",
+        "condMiss23",
+        "cost23",
+        "condSat51",
+        "condRepr51",
+        "condRepl51",
+        "condMiss51",
+        "cost51",
+        "totRepCost",
+        "condSat24",
+        "condRepr24",
+        "condRepl24",
+        "condMiss24",
+        "cost24",
+        "condSat52",
+        "condRepr52",
+        "condRepl52",
+        "condMiss52",
+        "cost52",
+        "condSat25",
+        "condRepr25",
+        "condRepl25",
+        "condMiss25",
+        "cost25",
+        "condSat53",
+        "condRepr53",
+        "condRepl53",
+        "condMiss53",
+        "cost53",
+        "indRepLim",
+        "condSat54",
+        "condRepr54",
+        "condRepl54",
+        "condMiss54",
+        "cost54",
+        "condSat26",
+        "condRepr26",
+        "condRepl26",
+        "condMiss26",
+        "cost26",
+        "condSat55",
+        "condRepr55",
+        "condRepl55",
+        "condMiss55",
+        "cost55",
+        "condSat27",
+        "condRepr27",
+        "condRepl27",
+        "condMiss27",
+        "cost27",
+        "remarks1",
+        "dateSig",
+        "mechSig",
+        "maintOffSig",
+        "activ1",
+        "date1"
+      ]
+    }
+  ],
+  "fields": {
+    "vehicTyp": {
+      "type": "text",
+      "label": "Type of Vehicle",
+      "page": 1,
+      "box": {
+        "left": 25.7,
+        "top": 719.0,
+        "width": 151.3,
+        "height": 17.1
+      }
+    },
+    "unitAssig": {
+      "type": "text",
+      "label": "Unit Assigned",
+      "page": 1,
+      "box": {
+        "left": 177.6,
+        "top": 719.0,
+        "width": 205.9,
+        "height": 17.1
+      }
+    },
+    "size1": {
+      "type": "text",
+      "label": "Size",
+      "page": 1,
+      "box": {
+        "left": 384.9,
+        "top": 719.0,
+        "width": 88.8,
+        "height": 17.1
+      }
+    },
+    "drive1": {
+      "type": "text",
+      "label": "Drive",
+      "page": 1,
+      "box": {
+        "left": 475.0,
+        "top": 719.0,
+        "width": 118.4,
+        "height": 17.1
+      }
+    },
+    "manuf1": {
+      "type": "text",
+      "label": "Manufacturer",
+      "page": 1,
+      "box": {
+        "left": 24.3,
+        "top": 692.0,
+        "width": 152.0,
+        "height": 17.1
+      }
+    },
+    "model1": {
+      "type": "text",
+      "label": "Model",
+      "page": 1,
+      "box": {
+        "left": 177.6,
+        "top": 692.0,
+        "width": 98.0,
+        "height": 17.1
+      }
+    },
+    "chassSn": {
+      "type": "text",
+      "label": "Chassis Serial Number",
+      "page": 1,
+      "box": {
+        "left": 277.0,
+        "top": 692.0,
+        "width": 93.4,
+        "height": 17.1
+      }
+    },
+    "mfgYr": {
+      "type": "text",
+      "label": "Year of manufacture",
+      "page": 1,
+      "box": {
+        "left": 371.7,
+        "top": 692.0,
+        "width": 109.9,
+        "height": 17.1
+      }
+    },
+    "regNum": {
+      "type": "text",
+      "label": "Registration Number",
+      "page": 1,
+      "box": {
+        "left": 482.9,
+        "top": 692.0,
+        "width": 111.8,
+        "height": 17.1
+      }
+    },
+    "mileage1": {
+      "type": "text",
+      "label": "Mileage",
+      "page": 1,
+      "box": {
+        "left": 482.9,
+        "top": 664.6,
+        "width": 111.8,
+        "height": 15.5
+      }
+    },
+    "chkCond4": {
+      "type": "checkbox",
+      "label": "Check for condition code E. Unserviceable - Limited restoration.",
+      "page": 1,
+      "box": {
+        "left": 178.4,
+        "top": 664.0,
+        "width": 15.2,
+        "height": 15.2
+      }
+    },
+    "chkCond0": {
+      "type": "checkbox",
+      "label": "Check for condition code A. Serviceable - issuable without qualification.",
+      "page": 1,
+      "box": {
+        "left": 32.0,
+        "top": 663.2,
+        "width": 14.4,
+        "height": 14.4
+      }
+    },
+    "chkCond1": {
+      "type": "checkbox",
+      "label": "Check for condition code B. Serviceable -issuable with qualification.",
+      "page": 1,
+      "box": {
+        "left": 68.8,
+        "top": 663.2,
+        "width": 14.4,
+        "height": 14.4
+      }
+    },
+    "chkCond2": {
+      "type": "checkbox",
+      "label": "Check for condition code C. Serviceable - Priority issue.",
+      "page": 1,
+      "box": {
+        "left": 104.8,
+        "top": 663.2,
+        "width": 14.4,
+        "height": 14.4
+      }
+    },
+    "chkCond3": {
+      "type": "checkbox",
+      "label": "Check for condition code D. Serviceable - Test/Modification.",
+      "page": 1,
+      "box": {
+        "left": 142.4,
+        "top": 663.2,
+        "width": 14.4,
+        "height": 14.4
+      }
+    },
+    "chkCond5": {
+      "type": "checkbox",
+      "label": "Check for condition code F. Unserviceable - Repairable Use Codes W, Y, Z & 2 if applicable.",
+      "page": 1,
+      "box": {
+        "left": 216.8,
+        "top": 663.2,
+        "width": 14.4,
+        "height": 14.4
+      }
+    },
+    "chkCond6": {
+      "type": "checkbox",
+      "label": "Check for condition code G. Unserviceable - Incomplete.",
+      "page": 1,
+      "box": {
+        "left": 254.4,
+        "top": 663.2,
+        "width": 14.4,
+        "height": 14.4
+      }
+    },
+    "chkCond7": {
+      "type": "checkbox",
+      "label": "Check for condition code H. Unserviceable - Condemned.",
+      "page": 1,
+      "box": {
+        "left": 293.6,
+        "top": 663.2,
+        "width": 14.4,
+        "height": 14.4
+      }
+    },
+    "chkCond8": {
+      "type": "checkbox",
+      "label": "Check for condition code W. Reparable Repair Cost 11 - 25% Standard unit price.",
+      "page": 1,
+      "box": {
+        "left": 332.0,
+        "top": 663.2,
+        "width": 14.4,
+        "height": 14.4
+      }
+    },
+    "chkCond9": {
+      "type": "checkbox",
+      "label": "Check for condition code Y. Reparable Repair Cost 26 - 40% Standard unit price.",
+      "page": 1,
+      "box": {
+        "left": 372.0,
+        "top": 663.2,
+        "width": 14.4,
+        "height": 14.4
+      }
+    },
+    "chkCond10": {
+      "type": "checkbox",
+      "label": "Check for condition code Z. Reparable Repair Cost 41 - 65% Standard unit price.",
+      "page": 1,
+      "box": {
+        "left": 410.4,
+        "top": 663.2,
+        "width": 14.4,
+        "height": 14.4
+      }
+    },
+    "chkCond11": {
+      "type": "checkbox",
+      "label": "Check for condition code 2. Reparable cost of repairs above 65% of unit price.",
+      "page": 1,
+      "box": {
+        "left": 448.8,
+        "top": 663.2,
+        "width": 14.4,
+        "height": 14.4
+      }
+    },
+    "miTiApp": {
+      "type": "text",
+      "label": "MI/TI to be applied",
+      "page": 1,
+      "box": {
+        "left": 434.0,
+        "top": 634.5,
+        "width": 160.7,
+        "height": 70.5
+      },
+      "multiline": true
+    },
+    "condSat0": {
+      "type": "text",
+      "label": "Engine condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 99.3,
+        "top": 585.2,
+        "width": 25.7,
+        "height": 10.5
+      }
+    },
+    "condRepr0": {
+      "type": "text",
+      "label": "Engine requires repair.",
+      "page": 1,
+      "box": {
+        "left": 125.7,
+        "top": 585.2,
+        "width": 20.3,
+        "height": 10.5
+      }
+    },
+    "condRepl0": {
+      "type": "text",
+      "label": "Engine requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 146.6,
+        "top": 585.2,
+        "width": 19.3,
+        "height": 10.5
+      }
+    },
+    "condMiss0": {
+      "type": "text",
+      "label": "Engine is missing.",
+      "page": 1,
+      "box": {
+        "left": 166.6,
+        "top": 585.2,
+        "width": 17.6,
+        "height": 10.5
+      }
+    },
+    "cost0": {
+      "type": "text",
+      "label": "Cost for repair/replacement of engine.",
+      "page": 1,
+      "box": {
+        "left": 184.1,
+        "top": 585.2,
+        "width": 47.3,
+        "height": 10.5
+      }
+    },
+    "condSat28": {
+      "type": "text",
+      "label": "Tires condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 304.7,
+        "top": 585.1,
+        "width": 20.4,
+        "height": 10.4
+      }
+    },
+    "condRepr28": {
+      "type": "text",
+      "label": "Tires requires repair.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 585.1,
+        "width": 19.2,
+        "height": 10.4
+      }
+    },
+    "condRepl28": {
+      "type": "text",
+      "label": "Tires requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 345.6,
+        "top": 585.1,
+        "width": 20.1,
+        "height": 10.4
+      }
+    },
+    "condMiss28": {
+      "type": "text",
+      "label": "Tires is missing.",
+      "page": 1,
+      "box": {
+        "left": 366.7,
+        "top": 585.1,
+        "width": 18.2,
+        "height": 10.4
+      }
+    },
+    "cost28": {
+      "type": "text",
+      "label": "Cost for repair/replacement of tires.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 585.1,
+        "width": 47.5,
+        "height": 10.4
+      }
+    },
+    "condSat1": {
+      "type": "text",
+      "label": "Clutch condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 99.3,
+        "top": 569.0,
+        "width": 25.7,
+        "height": 10.5
+      }
+    },
+    "condRepr1": {
+      "type": "text",
+      "label": "Clutch requires repair.",
+      "page": 1,
+      "box": {
+        "left": 125.7,
+        "top": 569.0,
+        "width": 20.3,
+        "height": 10.5
+      }
+    },
+    "condRepl1": {
+      "type": "text",
+      "label": "Clutch requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 146.6,
+        "top": 569.0,
+        "width": 19.3,
+        "height": 10.5
+      }
+    },
+    "condMiss1": {
+      "type": "text",
+      "label": "Clutch is missing.",
+      "page": 1,
+      "box": {
+        "left": 166.6,
+        "top": 569.0,
+        "width": 17.6,
+        "height": 10.5
+      }
+    },
+    "cost1": {
+      "type": "text",
+      "label": "Cost for repair/replacement of clutch.",
+      "page": 1,
+      "box": {
+        "left": 184.1,
+        "top": 569.0,
+        "width": 47.3,
+        "height": 10.5
+      }
+    },
+    "condSat29": {
+      "type": "text",
+      "label": "Tracks condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 304.7,
+        "top": 568.7,
+        "width": 20.4,
+        "height": 10.4
+      }
+    },
+    "condRepr29": {
+      "type": "text",
+      "label": "Tracks requires repair.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 568.7,
+        "width": 19.2,
+        "height": 10.4
+      }
+    },
+    "condRepl29": {
+      "type": "text",
+      "label": "Tracks requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 345.6,
+        "top": 568.7,
+        "width": 20.1,
+        "height": 10.4
+      }
+    },
+    "condMiss29": {
+      "type": "text",
+      "label": "Tracks is missing.",
+      "page": 1,
+      "box": {
+        "left": 366.7,
+        "top": 568.7,
+        "width": 18.2,
+        "height": 10.4
+      }
+    },
+    "cost29": {
+      "type": "text",
+      "label": "Cost for repair/replacement of tracks.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 568.7,
+        "width": 47.5,
+        "height": 10.4
+      }
+    },
+    "condSat2": {
+      "type": "text",
+      "label": "Carburetor condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 99.3,
+        "top": 552.5,
+        "width": 25.7,
+        "height": 10.5
+      }
+    },
+    "condRepr2": {
+      "type": "text",
+      "label": "Carburetor requires repair.",
+      "page": 1,
+      "box": {
+        "left": 125.7,
+        "top": 552.5,
+        "width": 20.3,
+        "height": 10.5
+      }
+    },
+    "condRepl2": {
+      "type": "text",
+      "label": "Carburetor requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 146.6,
+        "top": 552.5,
+        "width": 19.3,
+        "height": 10.5
+      }
+    },
+    "condMiss2": {
+      "type": "text",
+      "label": "Carburetor is missing.",
+      "page": 1,
+      "box": {
+        "left": 166.6,
+        "top": 552.5,
+        "width": 17.6,
+        "height": 10.5
+      }
+    },
+    "cost2": {
+      "type": "text",
+      "label": "Cost for repair/replacement of carburetor.",
+      "page": 1,
+      "box": {
+        "left": 184.1,
+        "top": 552.5,
+        "width": 47.3,
+        "height": 10.5
+      }
+    },
+    "condSat30": {
+      "type": "text",
+      "label": "Wheels condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 304.7,
+        "top": 552.4,
+        "width": 20.4,
+        "height": 10.4
+      }
+    },
+    "condRepr30": {
+      "type": "text",
+      "label": "Wheels requires repair.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 552.4,
+        "width": 19.2,
+        "height": 10.4
+      }
+    },
+    "condRepl30": {
+      "type": "text",
+      "label": "Wheels requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 345.6,
+        "top": 552.4,
+        "width": 20.1,
+        "height": 10.4
+      }
+    },
+    "condMiss30": {
+      "type": "text",
+      "label": "Wheels is missing.",
+      "page": 1,
+      "box": {
+        "left": 366.7,
+        "top": 552.4,
+        "width": 18.2,
+        "height": 10.4
+      }
+    },
+    "cost30": {
+      "type": "text",
+      "label": "Cost for repair/replacement of wheels.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 552.4,
+        "width": 47.5,
+        "height": 10.4
+      }
+    },
+    "othShort": {
+      "type": "text",
+      "label": "Other Shortages",
+      "page": 1,
+      "box": {
+        "left": 434.0,
+        "top": 551.3,
+        "width": 160.7,
+        "height": 56.6
+      },
+      "multiline": true
+    },
+    "condSat31": {
+      "type": "text",
+      "label": "Steering gear condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 304.7,
+        "top": 536.7,
+        "width": 20.4,
+        "height": 11.3
+      }
+    },
+    "condRepr31": {
+      "type": "text",
+      "label": "Steering gear requires repair.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 536.7,
+        "width": 19.2,
+        "height": 11.3
+      }
+    },
+    "condRepl31": {
+      "type": "text",
+      "label": "Steering gear requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 345.6,
+        "top": 536.7,
+        "width": 20.1,
+        "height": 11.3
+      }
+    },
+    "condMiss31": {
+      "type": "text",
+      "label": "Steering gear is missing.",
+      "page": 1,
+      "box": {
+        "left": 366.7,
+        "top": 536.7,
+        "width": 18.2,
+        "height": 11.3
+      }
+    },
+    "cost31": {
+      "type": "text",
+      "label": "Cost for repair/replacement of steering gear.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 536.7,
+        "width": 47.5,
+        "height": 11.3
+      }
+    },
+    "condSat3": {
+      "type": "text",
+      "label": "Fuel pump condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 99.3,
+        "top": 535.9,
+        "width": 25.7,
+        "height": 10.5
+      }
+    },
+    "condRepr3": {
+      "type": "text",
+      "label": "Fuel pump requires repair.",
+      "page": 1,
+      "box": {
+        "left": 125.7,
+        "top": 535.9,
+        "width": 20.3,
+        "height": 10.5
+      }
+    },
+    "condRepl3": {
+      "type": "text",
+      "label": "Fuel pump requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 146.6,
+        "top": 535.9,
+        "width": 19.3,
+        "height": 10.5
+      }
+    },
+    "condMiss3": {
+      "type": "text",
+      "label": "Fuel pump is missing.",
+      "page": 1,
+      "box": {
+        "left": 166.6,
+        "top": 535.9,
+        "width": 17.6,
+        "height": 10.5
+      }
+    },
+    "cost3": {
+      "type": "text",
+      "label": "Cost for repair/replacement of fuel pump.",
+      "page": 1,
+      "box": {
+        "left": 184.1,
+        "top": 535.9,
+        "width": 47.3,
+        "height": 10.5
+      }
+    },
+    "condSat4": {
+      "type": "text",
+      "label": "Fuel tank condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 99.3,
+        "top": 519.7,
+        "width": 25.7,
+        "height": 10.8
+      }
+    },
+    "condRepr4": {
+      "type": "text",
+      "label": "Fuel tank requires repair.",
+      "page": 1,
+      "box": {
+        "left": 125.7,
+        "top": 519.7,
+        "width": 20.3,
+        "height": 10.8
+      }
+    },
+    "condRepl4": {
+      "type": "text",
+      "label": "Fuel tank requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 146.6,
+        "top": 519.7,
+        "width": 19.3,
+        "height": 10.8
+      }
+    },
+    "condMiss4": {
+      "type": "text",
+      "label": "Fuel tank is missing.",
+      "page": 1,
+      "box": {
+        "left": 166.6,
+        "top": 519.7,
+        "width": 17.6,
+        "height": 10.8
+      }
+    },
+    "cost4": {
+      "type": "text",
+      "label": "Cost for repair/replacement of fuel tank.",
+      "page": 1,
+      "box": {
+        "left": 184.1,
+        "top": 519.7,
+        "width": 47.3,
+        "height": 10.8
+      }
+    },
+    "condSat32": {
+      "type": "text",
+      "label": "Hydraulic system condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 304.7,
+        "top": 519.4,
+        "width": 20.4,
+        "height": 10.4
+      }
+    },
+    "condRepr32": {
+      "type": "text",
+      "label": "Hydraulic system requires repair.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 519.4,
+        "width": 19.2,
+        "height": 10.4
+      }
+    },
+    "condRepl32": {
+      "type": "text",
+      "label": "Hydraulic system requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 345.6,
+        "top": 519.4,
+        "width": 20.1,
+        "height": 10.4
+      }
+    },
+    "condMiss32": {
+      "type": "text",
+      "label": "Hydraulic system is missing.",
+      "page": 1,
+      "box": {
+        "left": 366.7,
+        "top": 519.4,
+        "width": 18.2,
+        "height": 10.4
+      }
+    },
+    "cost32": {
+      "type": "text",
+      "label": "Cost for repair/replacement of hydraulic system.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 519.4,
+        "width": 47.5,
+        "height": 10.4
+      }
+    },
+    "condSat5": {
+      "type": "text",
+      "label": "Diesel/Multifuel condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 99.3,
+        "top": 503.1,
+        "width": 25.7,
+        "height": 10.5
+      }
+    },
+    "condRepr5": {
+      "type": "text",
+      "label": "Diesel/Multifuel requires repair.",
+      "page": 1,
+      "box": {
+        "left": 125.7,
+        "top": 503.1,
+        "width": 20.3,
+        "height": 10.5
+      }
+    },
+    "condRepl5": {
+      "type": "text",
+      "label": "Diesel/Multifuel requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 146.6,
+        "top": 503.1,
+        "width": 19.3,
+        "height": 10.5
+      }
+    },
+    "condMiss5": {
+      "type": "text",
+      "label": "Diesel/Multifuel is missing.",
+      "page": 1,
+      "box": {
+        "left": 166.6,
+        "top": 503.1,
+        "width": 17.6,
+        "height": 10.5
+      }
+    },
+    "cost5": {
+      "type": "text",
+      "label": "Cost for repair/replacement of diesel/multifuel.",
+      "page": 1,
+      "box": {
+        "left": 184.1,
+        "top": 503.1,
+        "width": 47.3,
+        "height": 10.5
+      }
+    },
+    "condSat33": {
+      "type": "text",
+      "label": "Frame condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 304.7,
+        "top": 503.0,
+        "width": 20.4,
+        "height": 10.4
+      }
+    },
+    "condRepr33": {
+      "type": "text",
+      "label": "Frame requires repair.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 503.0,
+        "width": 19.2,
+        "height": 10.4
+      }
+    },
+    "condRepl33": {
+      "type": "text",
+      "label": "Frame requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 345.6,
+        "top": 503.0,
+        "width": 20.1,
+        "height": 10.4
+      }
+    },
+    "condMiss33": {
+      "type": "text",
+      "label": "Frame is missing.",
+      "page": 1,
+      "box": {
+        "left": 366.7,
+        "top": 503.0,
+        "width": 18.2,
+        "height": 10.4
+      }
+    },
+    "cost33": {
+      "type": "text",
+      "label": "Cost for repair/replacement of frame.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 503.0,
+        "width": 47.5,
+        "height": 10.4
+      }
+    },
+    "condSat6": {
+      "type": "text",
+      "label": "Injectors condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 99.3,
+        "top": 486.6,
+        "width": 25.7,
+        "height": 10.5
+      }
+    },
+    "condRepr6": {
+      "type": "text",
+      "label": "Injectors requires repair.",
+      "page": 1,
+      "box": {
+        "left": 125.7,
+        "top": 486.6,
+        "width": 20.3,
+        "height": 10.5
+      }
+    },
+    "condRepl6": {
+      "type": "text",
+      "label": "Injectors requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 146.6,
+        "top": 486.6,
+        "width": 19.3,
+        "height": 10.5
+      }
+    },
+    "condMiss6": {
+      "type": "text",
+      "label": "Injectors is missing.",
+      "page": 1,
+      "box": {
+        "left": 166.6,
+        "top": 486.6,
+        "width": 17.6,
+        "height": 10.5
+      }
+    },
+    "cost6": {
+      "type": "text",
+      "label": "Cost for repair/replacement of injectors.",
+      "page": 1,
+      "box": {
+        "left": 184.1,
+        "top": 486.6,
+        "width": 47.3,
+        "height": 10.5
+      }
+    },
+    "condSat34": {
+      "type": "text",
+      "label": "Towing connection condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 304.7,
+        "top": 486.3,
+        "width": 20.4,
+        "height": 10.4
+      }
+    },
+    "condRepr34": {
+      "type": "text",
+      "label": "Towing connection requires repair.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 486.3,
+        "width": 19.2,
+        "height": 10.4
+      }
+    },
+    "condRepl34": {
+      "type": "text",
+      "label": "Towing connection requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 345.6,
+        "top": 486.3,
+        "width": 20.1,
+        "height": 10.4
+      }
+    },
+    "condMiss34": {
+      "type": "text",
+      "label": "Towing connection is missing.",
+      "page": 1,
+      "box": {
+        "left": 366.7,
+        "top": 486.3,
+        "width": 18.2,
+        "height": 10.4
+      }
+    },
+    "cost34": {
+      "type": "text",
+      "label": "Cost for repair/replacement of towing connection.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 486.3,
+        "width": 47.5,
+        "height": 10.4
+      }
+    },
+    "majDamag": {
+      "type": "text",
+      "label": "Major damage obviously due to other than fair wear and tear.",
+      "page": 1,
+      "box": {
+        "left": 434.0,
+        "top": 471.9,
+        "width": 160.7,
+        "height": 41.3
+      },
+      "multiline": true
+    },
+    "condSat7": {
+      "type": "text",
+      "label": "Meter, pump condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 99.3,
+        "top": 470.0,
+        "width": 25.7,
+        "height": 10.5
+      }
+    },
+    "condRepr7": {
+      "type": "text",
+      "label": "Meter, pump requires repair.",
+      "page": 1,
+      "box": {
+        "left": 125.7,
+        "top": 470.0,
+        "width": 20.3,
+        "height": 10.5
+      }
+    },
+    "condRepl7": {
+      "type": "text",
+      "label": "Meter, pump requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 146.6,
+        "top": 470.0,
+        "width": 19.3,
+        "height": 10.5
+      }
+    },
+    "condMiss7": {
+      "type": "text",
+      "label": "Meter, pump is missing.",
+      "page": 1,
+      "box": {
+        "left": 166.6,
+        "top": 470.0,
+        "width": 17.6,
+        "height": 10.5
+      }
+    },
+    "cost7": {
+      "type": "text",
+      "label": "Cost for repair/replacement of meter, pump.",
+      "page": 1,
+      "box": {
+        "left": 184.1,
+        "top": 470.0,
+        "width": 47.3,
+        "height": 10.5
+      }
+    },
+    "condSat35": {
+      "type": "text",
+      "label": "Shock absorbers condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 304.7,
+        "top": 470.0,
+        "width": 20.4,
+        "height": 10.4
+      }
+    },
+    "condRepr35": {
+      "type": "text",
+      "label": "Shock absorbers requires repair.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 470.0,
+        "width": 19.2,
+        "height": 10.4
+      }
+    },
+    "condRepl35": {
+      "type": "text",
+      "label": "Shock absorbers requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 345.6,
+        "top": 470.0,
+        "width": 20.1,
+        "height": 10.4
+      }
+    },
+    "condMiss35": {
+      "type": "text",
+      "label": "Shock absorbers is missing.",
+      "page": 1,
+      "box": {
+        "left": 366.7,
+        "top": 470.0,
+        "width": 18.2,
+        "height": 10.4
+      }
+    },
+    "cost35": {
+      "type": "text",
+      "label": "Cost for repair/replacement of shock absorbers.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 470.0,
+        "width": 47.5,
+        "height": 10.4
+      }
+    },
+    "condSat36": {
+      "type": "text",
+      "label": "Springs condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 304.7,
+        "top": 453.6,
+        "width": 20.4,
+        "height": 10.4
+      }
+    },
+    "condRepr36": {
+      "type": "text",
+      "label": "Springs requires repair.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 453.6,
+        "width": 19.2,
+        "height": 10.4
+      }
+    },
+    "condRepl36": {
+      "type": "text",
+      "label": "Springs requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 345.6,
+        "top": 453.6,
+        "width": 20.1,
+        "height": 10.4
+      }
+    },
+    "condMiss36": {
+      "type": "text",
+      "label": "Springs is missing.",
+      "page": 1,
+      "box": {
+        "left": 366.7,
+        "top": 453.6,
+        "width": 18.2,
+        "height": 10.4
+      }
+    },
+    "cost36": {
+      "type": "text",
+      "label": "Cost for repair/replacement of springs.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 453.6,
+        "width": 47.5,
+        "height": 10.4
+      }
+    },
+    "condSat8": {
+      "type": "text",
+      "label": "Turbo charger condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 99.3,
+        "top": 453.5,
+        "width": 25.7,
+        "height": 10.5
+      }
+    },
+    "condRepr8": {
+      "type": "text",
+      "label": "Turbo charger requires repair.",
+      "page": 1,
+      "box": {
+        "left": 125.7,
+        "top": 453.5,
+        "width": 20.3,
+        "height": 10.5
+      }
+    },
+    "condRepl8": {
+      "type": "text",
+      "label": "Turbo charger requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 146.6,
+        "top": 453.5,
+        "width": 19.3,
+        "height": 10.5
+      }
+    },
+    "condMiss8": {
+      "type": "text",
+      "label": "Turbo charger is missing.",
+      "page": 1,
+      "box": {
+        "left": 166.6,
+        "top": 453.5,
+        "width": 17.6,
+        "height": 10.5
+      }
+    },
+    "cost8": {
+      "type": "text",
+      "label": "Cost for repair/replacement of turbo charger.",
+      "page": 1,
+      "box": {
+        "left": 184.1,
+        "top": 453.5,
+        "width": 47.3,
+        "height": 10.5
+      }
+    },
+    "condSat37": {
+      "type": "text",
+      "label": "Fenders condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 304.7,
+        "top": 437.9,
+        "width": 20.4,
+        "height": 11.3
+      }
+    },
+    "condRepr37": {
+      "type": "text",
+      "label": "Fenders requires repair.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 437.9,
+        "width": 19.2,
+        "height": 11.3
+      }
+    },
+    "condRepl37": {
+      "type": "text",
+      "label": "Fenders requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 345.6,
+        "top": 437.9,
+        "width": 20.1,
+        "height": 11.3
+      }
+    },
+    "condMiss37": {
+      "type": "text",
+      "label": "Fenders is missing.",
+      "page": 1,
+      "box": {
+        "left": 366.7,
+        "top": 437.9,
+        "width": 18.2,
+        "height": 11.3
+      }
+    },
+    "cost37": {
+      "type": "text",
+      "label": "Cost for repair/replacement of fenders.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 437.9,
+        "width": 47.5,
+        "height": 11.3
+      }
+    },
+    "condSat9": {
+      "type": "text",
+      "label": "Cold start system condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 99.3,
+        "top": 437.3,
+        "width": 25.7,
+        "height": 10.5
+      }
+    },
+    "condRepr9": {
+      "type": "text",
+      "label": "Cold start system requires repair.",
+      "page": 1,
+      "box": {
+        "left": 125.7,
+        "top": 437.3,
+        "width": 20.3,
+        "height": 10.5
+      }
+    },
+    "condRepl9": {
+      "type": "text",
+      "label": "Cold start system requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 146.6,
+        "top": 437.3,
+        "width": 19.3,
+        "height": 10.5
+      }
+    },
+    "condMiss9": {
+      "type": "text",
+      "label": "Cold start system is missing.",
+      "page": 1,
+      "box": {
+        "left": 166.6,
+        "top": 437.3,
+        "width": 17.6,
+        "height": 10.5
+      }
+    },
+    "cost9": {
+      "type": "text",
+      "label": "Cost for repair/replacement of cold start system.",
+      "page": 1,
+      "box": {
+        "left": 184.1,
+        "top": 437.3,
+        "width": 47.3,
+        "height": 10.5
+      }
+    },
+    "condSat10": {
+      "type": "text",
+      "label": "Exhaust system condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 99.3,
+        "top": 421.0,
+        "width": 25.7,
+        "height": 10.8
+      }
+    },
+    "condRepr10": {
+      "type": "text",
+      "label": "Exhaust system requires repair.",
+      "page": 1,
+      "box": {
+        "left": 125.7,
+        "top": 421.0,
+        "width": 20.3,
+        "height": 10.8
+      }
+    },
+    "condRepl10": {
+      "type": "text",
+      "label": "Exhaust system requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 146.6,
+        "top": 421.0,
+        "width": 19.3,
+        "height": 10.8
+      }
+    },
+    "condMiss10": {
+      "type": "text",
+      "label": "Exhaust system is missing.",
+      "page": 1,
+      "box": {
+        "left": 166.6,
+        "top": 421.0,
+        "width": 17.6,
+        "height": 10.8
+      }
+    },
+    "cost10": {
+      "type": "text",
+      "label": "Cost for repair/replacement of exhaust system.",
+      "page": 1,
+      "box": {
+        "left": 184.1,
+        "top": 421.0,
+        "width": 47.3,
+        "height": 10.8
+      }
+    },
+    "condSat38": {
+      "type": "text",
+      "label": "Hood condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 304.7,
+        "top": 420.6,
+        "width": 20.4,
+        "height": 10.4
+      }
+    },
+    "condRepr38": {
+      "type": "text",
+      "label": "Hood requires repair.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 420.6,
+        "width": 19.2,
+        "height": 10.4
+      }
+    },
+    "condRepl38": {
+      "type": "text",
+      "label": "Hood requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 345.6,
+        "top": 420.6,
+        "width": 20.1,
+        "height": 10.4
+      }
+    },
+    "condMiss38": {
+      "type": "text",
+      "label": "Hood is missing.",
+      "page": 1,
+      "box": {
+        "left": 366.7,
+        "top": 420.6,
+        "width": 18.2,
+        "height": 10.4
+      }
+    },
+    "cost38": {
+      "type": "text",
+      "label": "Cost for repair/replacement of hood.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 420.6,
+        "width": 47.5,
+        "height": 10.4
+      }
+    },
+    "letInvRef": {
+      "type": "text",
+      "label": "Letter of Investigation Reference.",
+      "page": 1,
+      "box": {
+        "left": 434.0,
+        "top": 407.9,
+        "width": 160.7,
+        "height": 28.6
+      }
+    },
+    "condSat39": {
+      "type": "text",
+      "label": "Body condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 304.7,
+        "top": 403.6,
+        "width": 20.4,
+        "height": 10.4
+      }
+    },
+    "condRepr39": {
+      "type": "text",
+      "label": "Body requires repair.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 403.6,
+        "width": 19.2,
+        "height": 10.4
+      }
+    },
+    "condRepl39": {
+      "type": "text",
+      "label": "Body requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 345.6,
+        "top": 403.6,
+        "width": 20.1,
+        "height": 10.4
+      }
+    },
+    "condMiss39": {
+      "type": "text",
+      "label": "Body is missing.",
+      "page": 1,
+      "box": {
+        "left": 366.7,
+        "top": 403.6,
+        "width": 18.2,
+        "height": 10.4
+      }
+    },
+    "cost39": {
+      "type": "text",
+      "label": "Cost for repair/replacement of body.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 403.6,
+        "width": 47.5,
+        "height": 10.4
+      }
+    },
+    "condSat11": {
+      "type": "text",
+      "label": "Cooling system condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 99.3,
+        "top": 403.5,
+        "width": 25.7,
+        "height": 10.5
+      }
+    },
+    "condRepr11": {
+      "type": "text",
+      "label": "Cooling system requires repair.",
+      "page": 1,
+      "box": {
+        "left": 125.7,
+        "top": 403.5,
+        "width": 20.3,
+        "height": 10.5
+      }
+    },
+    "condRepl11": {
+      "type": "text",
+      "label": "Cooling system requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 146.6,
+        "top": 403.5,
+        "width": 19.3,
+        "height": 10.5
+      }
+    },
+    "condMiss11": {
+      "type": "text",
+      "label": "Cooling system is missing.",
+      "page": 1,
+      "box": {
+        "left": 166.6,
+        "top": 403.5,
+        "width": 17.6,
+        "height": 10.5
+      }
+    },
+    "cost11": {
+      "type": "text",
+      "label": "Cost for repair/replacement of cooling system.",
+      "page": 1,
+      "box": {
+        "left": 184.1,
+        "top": 403.5,
+        "width": 47.3,
+        "height": 10.5
+      }
+    },
+    "condSat12": {
+      "type": "text",
+      "label": "Battery condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 99.3,
+        "top": 392.0,
+        "width": 25.7,
+        "height": 10.5
+      }
+    },
+    "condRepr12": {
+      "type": "text",
+      "label": "Battery requires repair.",
+      "page": 1,
+      "box": {
+        "left": 125.7,
+        "top": 392.0,
+        "width": 20.3,
+        "height": 10.5
+      }
+    },
+    "condRepl12": {
+      "type": "text",
+      "label": "Battery requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 146.6,
+        "top": 392.0,
+        "width": 19.3,
+        "height": 10.5
+      }
+    },
+    "condMiss12": {
+      "type": "text",
+      "label": "Battery is missing.",
+      "page": 1,
+      "box": {
+        "left": 166.6,
+        "top": 392.0,
+        "width": 17.6,
+        "height": 10.5
+      }
+    },
+    "cost12": {
+      "type": "text",
+      "label": "Cost for repair/replacement of battery.",
+      "page": 1,
+      "box": {
+        "left": 184.1,
+        "top": 392.0,
+        "width": 47.3,
+        "height": 10.5
+      }
+    },
+    "condSat40": {
+      "type": "text",
+      "label": "Cab condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 304.7,
+        "top": 391.7,
+        "width": 20.4,
+        "height": 10.4
+      }
+    },
+    "condRepr40": {
+      "type": "text",
+      "label": "Cab requires repair.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 391.7,
+        "width": 19.2,
+        "height": 10.4
+      }
+    },
+    "condRepl40": {
+      "type": "text",
+      "label": "Cab requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 345.6,
+        "top": 391.7,
+        "width": 20.1,
+        "height": 10.4
+      }
+    },
+    "condMiss40": {
+      "type": "text",
+      "label": "Cab is missing.",
+      "page": 1,
+      "box": {
+        "left": 366.7,
+        "top": 391.7,
+        "width": 18.2,
+        "height": 10.4
+      }
+    },
+    "cost40": {
+      "type": "text",
+      "label": "Cost for repair/replacement of cab.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 391.7,
+        "width": 47.5,
+        "height": 10.4
+      }
+    },
+    "condSat13": {
+      "type": "text",
+      "label": "Distributor condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 99.3,
+        "top": 380.2,
+        "width": 25.7,
+        "height": 10.5
+      }
+    },
+    "condRepr13": {
+      "type": "text",
+      "label": "Distributor requires repair.",
+      "page": 1,
+      "box": {
+        "left": 125.7,
+        "top": 380.2,
+        "width": 20.3,
+        "height": 10.5
+      }
+    },
+    "condRepl13": {
+      "type": "text",
+      "label": "Distributor requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 146.6,
+        "top": 380.2,
+        "width": 19.3,
+        "height": 10.5
+      }
+    },
+    "condMiss13": {
+      "type": "text",
+      "label": "Distributor is missing.",
+      "page": 1,
+      "box": {
+        "left": 166.6,
+        "top": 380.2,
+        "width": 17.6,
+        "height": 10.5
+      }
+    },
+    "cost13": {
+      "type": "text",
+      "label": "Cost for repair/replacement of distributor.",
+      "page": 1,
+      "box": {
+        "left": 184.1,
+        "top": 380.2,
+        "width": 47.3,
+        "height": 10.5
+      }
+    },
+    "condSat41": {
+      "type": "text",
+      "label": "Floor condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 304.7,
+        "top": 380.0,
+        "width": 20.4,
+        "height": 10.4
+      }
+    },
+    "condRepr41": {
+      "type": "text",
+      "label": "Floor requires repair.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 380.0,
+        "width": 19.2,
+        "height": 10.4
+      }
+    },
+    "condRepl41": {
+      "type": "text",
+      "label": "Floor requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 345.6,
+        "top": 380.0,
+        "width": 20.1,
+        "height": 10.4
+      }
+    },
+    "condMiss41": {
+      "type": "text",
+      "label": "Floor is missing.",
+      "page": 1,
+      "box": {
+        "left": 366.7,
+        "top": 380.0,
+        "width": 18.2,
+        "height": 10.4
+      }
+    },
+    "cost41": {
+      "type": "text",
+      "label": "Cost for repair/replacement of floor.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 380.0,
+        "width": 47.5,
+        "height": 10.4
+      }
+    },
+    "condSat14": {
+      "type": "text",
+      "label": "Alternator condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 99.3,
+        "top": 368.7,
+        "width": 25.7,
+        "height": 10.5
+      }
+    },
+    "condRepr14": {
+      "type": "text",
+      "label": "Alternator requires repair.",
+      "page": 1,
+      "box": {
+        "left": 125.7,
+        "top": 368.7,
+        "width": 20.3,
+        "height": 10.5
+      }
+    },
+    "condRepl14": {
+      "type": "text",
+      "label": "Alternator requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 146.6,
+        "top": 368.7,
+        "width": 19.3,
+        "height": 10.5
+      }
+    },
+    "condMiss14": {
+      "type": "text",
+      "label": "Alternator is missing.",
+      "page": 1,
+      "box": {
+        "left": 166.6,
+        "top": 368.7,
+        "width": 17.6,
+        "height": 10.5
+      }
+    },
+    "cost14": {
+      "type": "text",
+      "label": "Cost for repair/replacement of alternator.",
+      "page": 1,
+      "box": {
+        "left": 184.1,
+        "top": 368.7,
+        "width": 47.3,
+        "height": 10.5
+      }
+    },
+    "condSat42": {
+      "type": "text",
+      "label": "Glass condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 304.7,
+        "top": 368.4,
+        "width": 20.4,
+        "height": 10.4
+      }
+    },
+    "condRepr42": {
+      "type": "text",
+      "label": "Glass requires repair.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 368.4,
+        "width": 19.2,
+        "height": 10.4
+      }
+    },
+    "condRepl42": {
+      "type": "text",
+      "label": "Glass requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 345.6,
+        "top": 368.4,
+        "width": 20.1,
+        "height": 10.4
+      }
+    },
+    "condMiss42": {
+      "type": "text",
+      "label": "Glass is missing.",
+      "page": 1,
+      "box": {
+        "left": 366.7,
+        "top": 368.4,
+        "width": 18.2,
+        "height": 10.4
+      }
+    },
+    "cost42": {
+      "type": "text",
+      "label": "Cost for repair/replacement of glass.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 368.4,
+        "width": 47.5,
+        "height": 10.4
+      }
+    },
+    "condSat15": {
+      "type": "text",
+      "label": "Lights condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 99.3,
+        "top": 356.9,
+        "width": 25.7,
+        "height": 10.5
+      }
+    },
+    "condRepr15": {
+      "type": "text",
+      "label": "Lights requires repair.",
+      "page": 1,
+      "box": {
+        "left": 125.7,
+        "top": 356.9,
+        "width": 20.3,
+        "height": 10.5
+      }
+    },
+    "condRepl15": {
+      "type": "text",
+      "label": "Lights requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 146.6,
+        "top": 356.9,
+        "width": 19.3,
+        "height": 10.5
+      }
+    },
+    "condMiss15": {
+      "type": "text",
+      "label": "Lights is missing.",
+      "page": 1,
+      "box": {
+        "left": 166.6,
+        "top": 356.9,
+        "width": 17.6,
+        "height": 10.5
+      }
+    },
+    "cost15": {
+      "type": "text",
+      "label": "Cost for repair/replacement of lights.",
+      "page": 1,
+      "box": {
+        "left": 184.1,
+        "top": 356.9,
+        "width": 47.3,
+        "height": 10.5
+      }
+    },
+    "condSat43": {
+      "type": "text",
+      "label": "Interior trim condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 304.7,
+        "top": 356.8,
+        "width": 20.4,
+        "height": 10.4
+      }
+    },
+    "condRepr43": {
+      "type": "text",
+      "label": "Interior trim requires repair.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 356.8,
+        "width": 19.2,
+        "height": 10.4
+      }
+    },
+    "condRepl43": {
+      "type": "text",
+      "label": "Interior trim requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 345.6,
+        "top": 356.8,
+        "width": 20.1,
+        "height": 10.4
+      }
+    },
+    "condMiss43": {
+      "type": "text",
+      "label": "Interior trim is missing.",
+      "page": 1,
+      "box": {
+        "left": 366.7,
+        "top": 356.8,
+        "width": 18.2,
+        "height": 10.4
+      }
+    },
+    "cost43": {
+      "type": "text",
+      "label": "Cost for repair/replacement of interior trim.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 356.8,
+        "width": 47.5,
+        "height": 10.4
+      }
+    },
+    "letUnsrvProp": {
+      "type": "text",
+      "label": "Letter of Unserviceable Property Reference.",
+      "page": 1,
+      "box": {
+        "left": 434.0,
+        "top": 356.0,
+        "width": 160.7,
+        "height": 28.1
+      }
+    },
+    "condSat44": {
+      "type": "text",
+      "label": "Seat and upholstery condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 304.7,
+        "top": 346.1,
+        "width": 20.4,
+        "height": 11.3
+      }
+    },
+    "condRepr44": {
+      "type": "text",
+      "label": "Seat and upholstery requires repair.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 346.1,
+        "width": 19.2,
+        "height": 11.3
+      }
+    },
+    "condRepl44": {
+      "type": "text",
+      "label": "Seat and upholstery requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 345.6,
+        "top": 346.1,
+        "width": 20.1,
+        "height": 11.3
+      }
+    },
+    "condMiss44": {
+      "type": "text",
+      "label": "Seat and upholstery is missing.",
+      "page": 1,
+      "box": {
+        "left": 366.7,
+        "top": 346.1,
+        "width": 18.2,
+        "height": 11.3
+      }
+    },
+    "cost44": {
+      "type": "text",
+      "label": "Cost for repair/replacement of seat and upholstery.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 346.1,
+        "width": 47.5,
+        "height": 11.3
+      }
+    },
+    "condSat16": {
+      "type": "text",
+      "label": "Starter condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 99.3,
+        "top": 345.0,
+        "width": 25.7,
+        "height": 10.5
+      }
+    },
+    "condRepr16": {
+      "type": "text",
+      "label": "Starter requires repair.",
+      "page": 1,
+      "box": {
+        "left": 125.7,
+        "top": 345.0,
+        "width": 20.3,
+        "height": 10.5
+      }
+    },
+    "condRepl16": {
+      "type": "text",
+      "label": "Starter requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 146.6,
+        "top": 345.0,
+        "width": 19.3,
+        "height": 10.5
+      }
+    },
+    "condMiss16": {
+      "type": "text",
+      "label": "Starter is missing.",
+      "page": 1,
+      "box": {
+        "left": 166.6,
+        "top": 345.0,
+        "width": 17.6,
+        "height": 10.5
+      }
+    },
+    "cost16": {
+      "type": "text",
+      "label": "Cost for repair/replacement of starter.",
+      "page": 1,
+      "box": {
+        "left": 184.1,
+        "top": 345.0,
+        "width": 47.3,
+        "height": 10.5
+      }
+    },
+    "condSat17": {
+      "type": "text",
+      "label": "Regulator condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 99.3,
+        "top": 333.9,
+        "width": 25.7,
+        "height": 10.8
+      }
+    },
+    "condRepr17": {
+      "type": "text",
+      "label": "Regulator requires repair.",
+      "page": 1,
+      "box": {
+        "left": 125.7,
+        "top": 333.9,
+        "width": 20.3,
+        "height": 10.8
+      }
+    },
+    "condRepl17": {
+      "type": "text",
+      "label": "Regulator requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 146.6,
+        "top": 333.9,
+        "width": 19.3,
+        "height": 10.8
+      }
+    },
+    "condMiss17": {
+      "type": "text",
+      "label": "Regulator is missing.",
+      "page": 1,
+      "box": {
+        "left": 166.6,
+        "top": 333.9,
+        "width": 17.6,
+        "height": 10.8
+      }
+    },
+    "cost17": {
+      "type": "text",
+      "label": "Cost for repair/replacement of regulator.",
+      "page": 1,
+      "box": {
+        "left": 184.1,
+        "top": 333.9,
+        "width": 47.3,
+        "height": 10.8
+      }
+    },
+    "condSat45": {
+      "type": "text",
+      "label": "Winch condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 304.7,
+        "top": 333.5,
+        "width": 20.4,
+        "height": 10.4
+      }
+    },
+    "condRepr45": {
+      "type": "text",
+      "label": "Winch requires repair.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 333.5,
+        "width": 19.2,
+        "height": 10.4
+      }
+    },
+    "condRepl45": {
+      "type": "text",
+      "label": "Winch requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 345.6,
+        "top": 333.5,
+        "width": 20.1,
+        "height": 10.4
+      }
+    },
+    "condMiss45": {
+      "type": "text",
+      "label": "Winch is missing.",
+      "page": 1,
+      "box": {
+        "left": 366.7,
+        "top": 333.5,
+        "width": 18.2,
+        "height": 10.4
+      }
+    },
+    "cost45": {
+      "type": "text",
+      "label": "Cost for repair/replacement of winch.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 333.5,
+        "width": 47.5,
+        "height": 10.4
+      }
+    },
+    "condSat18": {
+      "type": "text",
+      "label": "Wiring condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 99.3,
+        "top": 321.7,
+        "width": 25.7,
+        "height": 10.5
+      }
+    },
+    "condRepr18": {
+      "type": "text",
+      "label": "Wiring requires repair.",
+      "page": 1,
+      "box": {
+        "left": 125.7,
+        "top": 321.7,
+        "width": 20.3,
+        "height": 10.5
+      }
+    },
+    "condRepl18": {
+      "type": "text",
+      "label": "Wiring requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 146.6,
+        "top": 321.7,
+        "width": 19.3,
+        "height": 10.5
+      }
+    },
+    "condMiss18": {
+      "type": "text",
+      "label": "Wiring is missing.",
+      "page": 1,
+      "box": {
+        "left": 166.6,
+        "top": 321.7,
+        "width": 17.6,
+        "height": 10.5
+      }
+    },
+    "cost18": {
+      "type": "text",
+      "label": "Cost for repair/replacement of wiring.",
+      "page": 1,
+      "box": {
+        "left": 184.1,
+        "top": 321.7,
+        "width": 47.3,
+        "height": 10.5
+      }
+    },
+    "condSat46": {
+      "type": "text",
+      "label": "Brush guard grill condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 304.7,
+        "top": 321.6,
+        "width": 20.4,
+        "height": 10.4
+      }
+    },
+    "condRepr46": {
+      "type": "text",
+      "label": "Brush guard grill requires repair.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 321.6,
+        "width": 19.2,
+        "height": 10.4
+      }
+    },
+    "condRepl46": {
+      "type": "text",
+      "label": "Brush guard grill requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 345.6,
+        "top": 321.6,
+        "width": 20.1,
+        "height": 10.4
+      }
+    },
+    "condMiss46": {
+      "type": "text",
+      "label": "Brush guard grill is missing.",
+      "page": 1,
+      "box": {
+        "left": 366.7,
+        "top": 321.6,
+        "width": 18.2,
+        "height": 10.4
+      }
+    },
+    "cost46": {
+      "type": "text",
+      "label": "Cost for repair/replacement of brush guard grill.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 321.6,
+        "width": 47.5,
+        "height": 10.4
+      }
+    },
+    "condSat19": {
+      "type": "text",
+      "label": "Transmission condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 99.3,
+        "top": 310.2,
+        "width": 25.7,
+        "height": 10.5
+      }
+    },
+    "condRepr19": {
+      "type": "text",
+      "label": "Transmission requires repair.",
+      "page": 1,
+      "box": {
+        "left": 125.7,
+        "top": 310.2,
+        "width": 20.3,
+        "height": 10.5
+      }
+    },
+    "condRepl19": {
+      "type": "text",
+      "label": "Transmission requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 146.6,
+        "top": 310.2,
+        "width": 19.3,
+        "height": 10.5
+      }
+    },
+    "condMiss19": {
+      "type": "text",
+      "label": "Transmission is missing.",
+      "page": 1,
+      "box": {
+        "left": 166.6,
+        "top": 310.2,
+        "width": 17.6,
+        "height": 10.5
+      }
+    },
+    "cost19": {
+      "type": "text",
+      "label": "Cost for repair/replacement of transmission.",
+      "page": 1,
+      "box": {
+        "left": 184.1,
+        "top": 310.2,
+        "width": 47.3,
+        "height": 10.5
+      }
+    },
+    "condSat47": {
+      "type": "text",
+      "label": "Bumpers condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 304.7,
+        "top": 309.9,
+        "width": 20.4,
+        "height": 10.4
+      }
+    },
+    "condRepr47": {
+      "type": "text",
+      "label": "Bumpers requires repair.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 309.9,
+        "width": 19.2,
+        "height": 10.4
+      }
+    },
+    "condRepl47": {
+      "type": "text",
+      "label": "Bumpers requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 345.6,
+        "top": 309.9,
+        "width": 20.1,
+        "height": 10.4
+      }
+    },
+    "condMiss47": {
+      "type": "text",
+      "label": "Bumpers is missing.",
+      "page": 1,
+      "box": {
+        "left": 366.7,
+        "top": 309.9,
+        "width": 18.2,
+        "height": 10.4
+      }
+    },
+    "cost47": {
+      "type": "text",
+      "label": "Cost for repair/replacement of bumpers.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 309.9,
+        "width": 47.5,
+        "height": 10.4
+      }
+    },
+    "condSat20": {
+      "type": "text",
+      "label": "Transfer condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 99.3,
+        "top": 298.4,
+        "width": 25.7,
+        "height": 10.5
+      }
+    },
+    "condRepr20": {
+      "type": "text",
+      "label": "Transfer requires repair.",
+      "page": 1,
+      "box": {
+        "left": 125.7,
+        "top": 298.4,
+        "width": 20.3,
+        "height": 10.5
+      }
+    },
+    "condRepl20": {
+      "type": "text",
+      "label": "Transfer requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 146.6,
+        "top": 298.4,
+        "width": 19.3,
+        "height": 10.5
+      }
+    },
+    "condMiss20": {
+      "type": "text",
+      "label": "Transfer is missing.",
+      "page": 1,
+      "box": {
+        "left": 166.6,
+        "top": 298.4,
+        "width": 17.6,
+        "height": 10.5
+      }
+    },
+    "cost20": {
+      "type": "text",
+      "label": "Cost for repair/replacement of transfer.",
+      "page": 1,
+      "box": {
+        "left": 184.1,
+        "top": 298.4,
+        "width": 47.3,
+        "height": 10.5
+      }
+    },
+    "condSat48": {
+      "type": "text",
+      "label": "Vehicle accessories condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 304.7,
+        "top": 298.3,
+        "width": 20.4,
+        "height": 10.4
+      }
+    },
+    "condRepr48": {
+      "type": "text",
+      "label": "Vehicle accessories requires repair.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 298.3,
+        "width": 19.2,
+        "height": 10.4
+      }
+    },
+    "condRepl48": {
+      "type": "text",
+      "label": "Vehicle accessories requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 345.6,
+        "top": 298.3,
+        "width": 20.1,
+        "height": 10.4
+      }
+    },
+    "condMiss48": {
+      "type": "text",
+      "label": "Vehicle accessories is missing.",
+      "page": 1,
+      "box": {
+        "left": 366.7,
+        "top": 298.3,
+        "width": 18.2,
+        "height": 10.4
+      }
+    },
+    "cost48": {
+      "type": "text",
+      "label": "Cost for repair/replacement of vehicle accessories.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 298.3,
+        "width": 47.5,
+        "height": 10.4
+      }
+    },
+    "condSat21": {
+      "type": "text",
+      "label": "Drive shaft condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 99.3,
+        "top": 286.6,
+        "width": 25.7,
+        "height": 10.5
+      }
+    },
+    "condRepr21": {
+      "type": "text",
+      "label": "Drive shaft requires repair.",
+      "page": 1,
+      "box": {
+        "left": 125.7,
+        "top": 286.6,
+        "width": 20.3,
+        "height": 10.5
+      }
+    },
+    "condRepl21": {
+      "type": "text",
+      "label": "Drive shaft requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 146.6,
+        "top": 286.6,
+        "width": 19.3,
+        "height": 10.5
+      }
+    },
+    "condMiss21": {
+      "type": "text",
+      "label": "Drive shaft is missing.",
+      "page": 1,
+      "box": {
+        "left": 166.6,
+        "top": 286.6,
+        "width": 17.6,
+        "height": 10.5
+      }
+    },
+    "cost21": {
+      "type": "text",
+      "label": "Cost for repair/replacement of drive shaft.",
+      "page": 1,
+      "box": {
+        "left": 184.1,
+        "top": 286.6,
+        "width": 47.3,
+        "height": 10.5
+      }
+    },
+    "condSat49": {
+      "type": "text",
+      "label": "Canvas condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 304.7,
+        "top": 286.6,
+        "width": 20.4,
+        "height": 10.4
+      }
+    },
+    "condRepr49": {
+      "type": "text",
+      "label": "Canvas requires repair.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 286.6,
+        "width": 19.2,
+        "height": 10.4
+      }
+    },
+    "condRepl49": {
+      "type": "text",
+      "label": "Canvas requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 345.6,
+        "top": 286.6,
+        "width": 20.1,
+        "height": 10.4
+      }
+    },
+    "condMiss49": {
+      "type": "text",
+      "label": "Canvas is missing.",
+      "page": 1,
+      "box": {
+        "left": 366.7,
+        "top": 286.6,
+        "width": 18.2,
+        "height": 10.4
+      }
+    },
+    "cost49": {
+      "type": "text",
+      "label": "Cost for repair/replacement of canvas.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 286.6,
+        "width": 47.5,
+        "height": 10.4
+      }
+    },
+    "condSat50": {
+      "type": "text",
+      "label": "Instruments condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 304.7,
+        "top": 276.0,
+        "width": 20.4,
+        "height": 11.3
+      }
+    },
+    "condRepr50": {
+      "type": "text",
+      "label": "Instruments requires repair.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 276.0,
+        "width": 19.2,
+        "height": 11.3
+      }
+    },
+    "condRepl50": {
+      "type": "text",
+      "label": "Instruments requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 345.6,
+        "top": 276.0,
+        "width": 20.1,
+        "height": 11.3
+      }
+    },
+    "condMiss50": {
+      "type": "text",
+      "label": "Instruments is missing.",
+      "page": 1,
+      "box": {
+        "left": 366.7,
+        "top": 276.0,
+        "width": 18.2,
+        "height": 11.3
+      }
+    },
+    "cost50": {
+      "type": "text",
+      "label": "Cost for repair/replacement of instruments.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 276.0,
+        "width": 47.5,
+        "height": 11.3
+      }
+    },
+    "condSat22": {
+      "type": "text",
+      "label": "Front axle condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 99.3,
+        "top": 275.1,
+        "width": 25.7,
+        "height": 10.5
+      }
+    },
+    "condRepr22": {
+      "type": "text",
+      "label": "Front axle requires repair.",
+      "page": 1,
+      "box": {
+        "left": 125.7,
+        "top": 275.1,
+        "width": 20.3,
+        "height": 10.5
+      }
+    },
+    "condRepl22": {
+      "type": "text",
+      "label": "Front axle requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 146.6,
+        "top": 275.1,
+        "width": 19.3,
+        "height": 10.5
+      }
+    },
+    "condMiss22": {
+      "type": "text",
+      "label": "Front axle is missing.",
+      "page": 1,
+      "box": {
+        "left": 166.6,
+        "top": 275.1,
+        "width": 17.6,
+        "height": 10.5
+      }
+    },
+    "cost22": {
+      "type": "text",
+      "label": "Cost for repair/replacement of front axle.",
+      "page": 1,
+      "box": {
+        "left": 184.1,
+        "top": 275.1,
+        "width": 47.3,
+        "height": 10.5
+      }
+    },
+    "condSat23": {
+      "type": "text",
+      "label": "Intermediate axle condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 99.3,
+        "top": 263.6,
+        "width": 25.7,
+        "height": 10.8
+      }
+    },
+    "condRepr23": {
+      "type": "text",
+      "label": "Intermediate axle requires repair.",
+      "page": 1,
+      "box": {
+        "left": 125.7,
+        "top": 263.6,
+        "width": 20.3,
+        "height": 10.8
+      }
+    },
+    "condRepl23": {
+      "type": "text",
+      "label": "Intermediate axle requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 146.6,
+        "top": 263.6,
+        "width": 19.3,
+        "height": 10.8
+      }
+    },
+    "condMiss23": {
+      "type": "text",
+      "label": "Intermediate axle is missing.",
+      "page": 1,
+      "box": {
+        "left": 166.6,
+        "top": 263.6,
+        "width": 17.6,
+        "height": 10.8
+      }
+    },
+    "cost23": {
+      "type": "text",
+      "label": "Cost for repair/replacement of intermediate axle.",
+      "page": 1,
+      "box": {
+        "left": 184.1,
+        "top": 263.6,
+        "width": 47.3,
+        "height": 10.8
+      }
+    },
+    "condSat51": {
+      "type": "text",
+      "label": "Armnment condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 304.7,
+        "top": 263.1,
+        "width": 20.4,
+        "height": 10.4
+      }
+    },
+    "condRepr51": {
+      "type": "text",
+      "label": "Armnment requires repair.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 263.1,
+        "width": 19.2,
+        "height": 10.4
+      }
+    },
+    "condRepl51": {
+      "type": "text",
+      "label": "Armnment requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 345.6,
+        "top": 263.1,
+        "width": 20.1,
+        "height": 10.4
+      }
+    },
+    "condMiss51": {
+      "type": "text",
+      "label": "Armnment is missing.",
+      "page": 1,
+      "box": {
+        "left": 366.7,
+        "top": 263.1,
+        "width": 18.2,
+        "height": 10.4
+      }
+    },
+    "cost51": {
+      "type": "text",
+      "label": "Cost for repair/replacement of armnment.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 263.1,
+        "width": 47.5,
+        "height": 10.4
+      }
+    },
+    "totRepCost": {
+      "type": "text",
+      "label": "Total cost of these repairs.",
+      "page": 1,
+      "box": {
+        "left": 520.7,
+        "top": 257.3,
+        "width": 76.0,
+        "height": 17.3
+      }
+    },
+    "condSat24": {
+      "type": "text",
+      "label": "Rear axle condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 99.3,
+        "top": 251.4,
+        "width": 25.7,
+        "height": 10.5
+      }
+    },
+    "condRepr24": {
+      "type": "text",
+      "label": "Rear axle requires repair.",
+      "page": 1,
+      "box": {
+        "left": 125.7,
+        "top": 251.4,
+        "width": 20.3,
+        "height": 10.5
+      }
+    },
+    "condRepl24": {
+      "type": "text",
+      "label": "Rear axle requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 146.6,
+        "top": 251.4,
+        "width": 19.3,
+        "height": 10.5
+      }
+    },
+    "condMiss24": {
+      "type": "text",
+      "label": "Rear axle is missing.",
+      "page": 1,
+      "box": {
+        "left": 166.6,
+        "top": 251.4,
+        "width": 17.6,
+        "height": 10.5
+      }
+    },
+    "cost24": {
+      "type": "text",
+      "label": "Cost for repair/replacement of rear axle.",
+      "page": 1,
+      "box": {
+        "left": 184.1,
+        "top": 251.4,
+        "width": 47.3,
+        "height": 10.5
+      }
+    },
+    "condSat52": {
+      "type": "text",
+      "label": "Paint condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 304.7,
+        "top": 251.4,
+        "width": 20.4,
+        "height": 10.4
+      }
+    },
+    "condRepr52": {
+      "type": "text",
+      "label": "Paint requires repair.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 251.4,
+        "width": 19.2,
+        "height": 10.4
+      }
+    },
+    "condRepl52": {
+      "type": "text",
+      "label": "Paint requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 345.6,
+        "top": 251.4,
+        "width": 20.1,
+        "height": 10.4
+      }
+    },
+    "condMiss52": {
+      "type": "text",
+      "label": "Paint is missing.",
+      "page": 1,
+      "box": {
+        "left": 366.7,
+        "top": 251.4,
+        "width": 18.2,
+        "height": 10.4
+      }
+    },
+    "cost52": {
+      "type": "text",
+      "label": "Cost for repair/replacement of paint.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 251.4,
+        "width": 47.5,
+        "height": 10.4
+      }
+    },
+    "condSat25": {
+      "type": "text",
+      "label": "Parking brake condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 99.3,
+        "top": 240.6,
+        "width": 25.3,
+        "height": 11.1
+      }
+    },
+    "condRepr25": {
+      "type": "text",
+      "label": "Parking brake requires repair.",
+      "page": 1,
+      "box": {
+        "left": 125.7,
+        "top": 240.6,
+        "width": 20.6,
+        "height": 11.1
+      }
+    },
+    "condRepl25": {
+      "type": "text",
+      "label": "Parking brake requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 146.3,
+        "top": 240.6,
+        "width": 19.3,
+        "height": 11.1
+      }
+    },
+    "condMiss25": {
+      "type": "text",
+      "label": "Parking brake is missing.",
+      "page": 1,
+      "box": {
+        "left": 166.6,
+        "top": 240.6,
+        "width": 17.6,
+        "height": 11.1
+      }
+    },
+    "cost25": {
+      "type": "text",
+      "label": "Cost for repair/replacement of parking brake.",
+      "page": 1,
+      "box": {
+        "left": 184.1,
+        "top": 240.6,
+        "width": 48.0,
+        "height": 11.1
+      }
+    },
+    "condSat53": {
+      "type": "text",
+      "label": "Fifth wheel condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 304.7,
+        "top": 239.8,
+        "width": 20.4,
+        "height": 10.4
+      }
+    },
+    "condRepr53": {
+      "type": "text",
+      "label": "Fifth wheel requires repair.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 239.8,
+        "width": 19.2,
+        "height": 10.4
+      }
+    },
+    "condRepl53": {
+      "type": "text",
+      "label": "Fifth wheel requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 345.6,
+        "top": 239.8,
+        "width": 20.1,
+        "height": 10.4
+      }
+    },
+    "condMiss53": {
+      "type": "text",
+      "label": "Fifth wheel is missing.",
+      "page": 1,
+      "box": {
+        "left": 366.7,
+        "top": 239.8,
+        "width": 18.2,
+        "height": 10.4
+      }
+    },
+    "cost53": {
+      "type": "text",
+      "label": "Cost for repair/replacement of fifth wheel.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 239.8,
+        "width": 47.5,
+        "height": 10.4
+      }
+    },
+    "indRepLim": {
+      "type": "text",
+      "label": "Individual repair expenditure limit.",
+      "page": 1,
+      "box": {
+        "left": 521.1,
+        "top": 232.8,
+        "width": 76.0,
+        "height": 17.3
+      }
+    },
+    "condSat54": {
+      "type": "text",
+      "label": "Dump hoist condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 304.7,
+        "top": 228.2,
+        "width": 20.4,
+        "height": 10.4
+      }
+    },
+    "condRepr54": {
+      "type": "text",
+      "label": "Dump hoist requires repair.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 228.2,
+        "width": 19.2,
+        "height": 10.4
+      }
+    },
+    "condRepl54": {
+      "type": "text",
+      "label": "Dump hoist requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 345.6,
+        "top": 228.2,
+        "width": 20.1,
+        "height": 10.4
+      }
+    },
+    "condMiss54": {
+      "type": "text",
+      "label": "Dump hoist is missing.",
+      "page": 1,
+      "box": {
+        "left": 366.7,
+        "top": 228.2,
+        "width": 18.2,
+        "height": 10.4
+      }
+    },
+    "cost54": {
+      "type": "text",
+      "label": "Cost for repair/replacement of dump hoist.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 228.2,
+        "width": 47.5,
+        "height": 10.4
+      }
+    },
+    "condSat26": {
+      "type": "text",
+      "label": "Service brake system condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 99.3,
+        "top": 228.1,
+        "width": 25.3,
+        "height": 10.5
+      }
+    },
+    "condRepr26": {
+      "type": "text",
+      "label": "Service brake system requires repair.",
+      "page": 1,
+      "box": {
+        "left": 125.7,
+        "top": 228.1,
+        "width": 20.6,
+        "height": 10.5
+      }
+    },
+    "condRepl26": {
+      "type": "text",
+      "label": "Service brake system requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 146.3,
+        "top": 228.1,
+        "width": 19.3,
+        "height": 10.5
+      }
+    },
+    "condMiss26": {
+      "type": "text",
+      "label": "Service brake system is missing.",
+      "page": 1,
+      "box": {
+        "left": 166.6,
+        "top": 228.1,
+        "width": 17.6,
+        "height": 10.5
+      }
+    },
+    "cost26": {
+      "type": "text",
+      "label": "Cost for repair/replacement of service brake system.",
+      "page": 1,
+      "box": {
+        "left": 184.1,
+        "top": 228.1,
+        "width": 48.0,
+        "height": 10.5
+      }
+    },
+    "condSat55": {
+      "type": "text",
+      "label": "Wrecker boom condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 304.7,
+        "top": 216.5,
+        "width": 20.4,
+        "height": 10.4
+      }
+    },
+    "condRepr55": {
+      "type": "text",
+      "label": "Wrecker boom requires repair.",
+      "page": 1,
+      "box": {
+        "left": 325.8,
+        "top": 216.5,
+        "width": 19.2,
+        "height": 10.4
+      }
+    },
+    "condRepl55": {
+      "type": "text",
+      "label": "Wrecker boom requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 345.6,
+        "top": 216.5,
+        "width": 20.1,
+        "height": 10.4
+      }
+    },
+    "condMiss55": {
+      "type": "text",
+      "label": "Wrecker boom is missing.",
+      "page": 1,
+      "box": {
+        "left": 366.7,
+        "top": 216.5,
+        "width": 18.2,
+        "height": 10.4
+      }
+    },
+    "cost55": {
+      "type": "text",
+      "label": "Cost for repair/replacement of wrecker boom.",
+      "page": 1,
+      "box": {
+        "left": 385.5,
+        "top": 216.5,
+        "width": 47.5,
+        "height": 10.4
+      }
+    },
+    "condSat27": {
+      "type": "text",
+      "label": "Air system condition is satisfactory.",
+      "page": 1,
+      "box": {
+        "left": 99.3,
+        "top": 216.3,
+        "width": 25.3,
+        "height": 10.1
+      }
+    },
+    "condRepr27": {
+      "type": "text",
+      "label": "Air system requires repair.",
+      "page": 1,
+      "box": {
+        "left": 125.7,
+        "top": 216.3,
+        "width": 20.6,
+        "height": 10.1
+      }
+    },
+    "condRepl27": {
+      "type": "text",
+      "label": "Air system requires replacement.",
+      "page": 1,
+      "box": {
+        "left": 146.3,
+        "top": 216.3,
+        "width": 19.3,
+        "height": 10.1
+      }
+    },
+    "condMiss27": {
+      "type": "text",
+      "label": "Air system is missing.",
+      "page": 1,
+      "box": {
+        "left": 166.6,
+        "top": 216.3,
+        "width": 17.6,
+        "height": 10.1
+      }
+    },
+    "cost27": {
+      "type": "text",
+      "label": "Cost for repair/replacement of air system.",
+      "page": 1,
+      "box": {
+        "left": 184.1,
+        "top": 216.3,
+        "width": 48.0,
+        "height": 10.1
+      }
+    },
+    "remarks1": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 1,
+      "box": {
+        "left": 25.6,
+        "top": 195.4,
+        "width": 568.8,
+        "height": 125.8
+      },
+      "multiline": true
+    },
+    "dateSig": {
+      "type": "text",
+      "label": "Enter date of Mechanic's signature using format 2002 06 27.",
+      "page": 1,
+      "box": {
+        "left": 24.7,
+        "top": 60.3,
+        "width": 260.7,
+        "height": 13.6
+      }
+    },
+    "mechSig": {
+      "type": "signature",
+      "label": "MechSig",
+      "page": 1,
+      "box": {
+        "left": 286.5,
+        "top": 58.0,
+        "width": 309.2,
+        "height": 10.2
+      }
+    },
+    "maintOffSig": {
+      "type": "signature",
+      "label": "MaintOffSig",
+      "page": 1,
+      "box": {
+        "left": 388.2,
+        "top": 35.8,
+        "width": 198.1,
+        "height": 17.1
+      }
+    },
+    "activ1": {
+      "type": "text",
+      "label": "Activity",
+      "page": 1,
+      "box": {
+        "left": 26.7,
+        "top": 35.3,
+        "width": 259.3,
+        "height": 17.3
+      }
+    },
+    "date1": {
+      "type": "text",
+      "label": "Enter date using format 2002 06 27.",
+      "page": 1,
+      "box": {
+        "left": 286.7,
+        "top": 34.0,
+        "width": 101.3,
+        "height": 17.3
+      }
+    }
+  }
+}

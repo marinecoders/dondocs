@@ -1,0 +1,73 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "membersname": {
+        "left": 38.8,
+        "top": 466.8,
+        "width": 534.3,
+        "height": 39.2,
+        "type": "text",
+        "description": "Please enter member's rate and full name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date1": {
+        "left": 306.3,
+        "top": 156.6,
+        "width": 45.8,
+        "height": 29.3,
+        "type": "text",
+        "description": "Please enter day of reenlistment.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "month1": {
+        "left": 419.4,
+        "top": 156.6,
+        "width": 97.2,
+        "height": 29.3,
+        "type": "text",
+        "description": "Please spell out month of reenlistment.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "year1": {
+        "left": 162.3,
+        "top": 130.9,
+        "width": 61.2,
+        "height": 25.2,
+        "type": "text",
+        "description": "Please enter year of reenlistment.  Example the year is 2006, spell out six.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField3": {
+        "left": 285.7,
+        "top": 69.2,
+        "width": 284.9,
+        "height": 19.8,
+        "type": "text",
+        "description": "Enter your command's approving authority.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

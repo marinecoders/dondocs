@@ -1,0 +1,271 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "lastName": {
+        "left": 22.3,
+        "top": 659.1,
+        "width": 285.6,
+        "height": 15.1,
+        "type": "text",
+        "description": "LastName",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "firstName": {
+        "left": 312.6,
+        "top": 659.1,
+        "width": 255.1,
+        "height": 15.1,
+        "type": "text",
+        "description": "FirstName",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameMI": {
+        "left": 571.3,
+        "top": 658.8,
+        "width": 19.7,
+        "height": 15.1,
+        "type": "text",
+        "description": "NameMI",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "org": {
+        "left": 22.3,
+        "top": 628.6,
+        "width": 570.0,
+        "height": 15.1,
+        "type": "text",
+        "description": "Org",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "justification": {
+        "left": 22.4,
+        "top": 596.2,
+        "width": 569.3,
+        "height": 119.3,
+        "type": "text",
+        "description": "Justification",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pictureFrame": {
+        "left": 55.9,
+        "top": 447.8,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Desk Top Box \"8 x 8\"",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "shellBox": {
+        "left": 56.2,
+        "top": 427.7,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Desk Box \"7 x 11\"",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "jewelryBox": {
+        "left": 56.2,
+        "top": 407.4,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Picture Frame \"5 x 7\"",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "lastNamePickUp": {
+        "left": 22.3,
+        "top": 286.9,
+        "width": 297.2,
+        "height": 15.1,
+        "type": "text",
+        "description": "LastNamePickUp",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "firstNamePickUp": {
+        "left": 324.4,
+        "top": 286.9,
+        "width": 267.3,
+        "height": 15.1,
+        "type": "text",
+        "description": "FirstNamePickUp",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "workPhone": {
+        "left": 22.9,
+        "top": 256.0,
+        "width": 169.8,
+        "height": 16.0,
+        "type": "text",
+        "description": "WorkPhone",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "email": {
+        "left": 199.4,
+        "top": 255.3,
+        "width": 392.3,
+        "height": 15.1,
+        "type": "text",
+        "description": "Email",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rank35g": {
+        "left": 31.3,
+        "top": 201.6,
+        "width": 94.8,
+        "height": 10.2,
+        "type": "text",
+        "description": "Rank35g",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name35g": {
+        "left": 138.1,
+        "top": 201.6,
+        "width": 186.3,
+        "height": 10.2,
+        "type": "text",
+        "description": "Name35g",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature35g": {
+        "left": 338.6,
+        "top": 201.6,
+        "width": 150.3,
+        "height": 10.2,
+        "type": "signature",
+        "description": "Signature35g",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date35g": {
+        "left": 503.1,
+        "top": 201.6,
+        "width": 77.6,
+        "height": 10.2,
+        "type": "text",
+        "description": "Date35g",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rank35g2": {
+        "left": 31.4,
+        "top": 162.5,
+        "width": 94.8,
+        "height": 10.2,
+        "type": "text",
+        "description": "Rank35g",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name35g2": {
+        "left": 138.1,
+        "top": 162.5,
+        "width": 186.3,
+        "height": 10.2,
+        "type": "text",
+        "description": "Name35g",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature35g2": {
+        "left": 338.7,
+        "top": 162.5,
+        "width": 150.3,
+        "height": 10.2,
+        "type": "signature",
+        "description": "Signature35g",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date35g2": {
+        "left": 503.2,
+        "top": 162.5,
+        "width": 77.6,
+        "height": 10.2,
+        "type": "text",
+        "description": "Date35g",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateProvided": {
+        "left": 465.2,
+        "top": 92.1,
+        "width": 125.7,
+        "height": 15.1,
+        "type": "text",
+        "description": "DateProvided",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateApproved": {
+        "left": 21.7,
+        "top": 91.8,
+        "width": 179.2,
+        "height": 15.1,
+        "type": "text",
+        "description": "DateApproved",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "awardIssued": {
+        "left": 208.0,
+        "top": 91.7,
+        "width": 250.2,
+        "height": 15.1,
+        "type": "text",
+        "description": "AwardIssued",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

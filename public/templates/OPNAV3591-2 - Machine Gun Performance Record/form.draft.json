@@ -1,0 +1,893 @@
+{
+  "id": "opnav35912",
+  "label": "OPNAV3591-2 - Machine Gun Performance Record",
+  "directory": "OPNAV3591-2 - Machine Gun Performance Record",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "firPg",
+        "pgLst",
+        "shiSta",
+        "divAct",
+        "weaFir",
+        "rgeLoc",
+        "firDte",
+        "fNme",
+        "rkRt",
+        "hfgp2",
+        "hfgp4",
+        "hfgp22",
+        "hfgp42",
+        "hfgp23",
+        "hfgp43",
+        "hfgp24",
+        "hfgp44",
+        "hfgp25",
+        "hfgp45",
+        "hfgp26",
+        "hfgp46",
+        "hfgp27",
+        "hfgp47",
+        "hfgp28",
+        "hfgp48",
+        "hfgp29",
+        "hfgp49",
+        "hfgp210",
+        "hfgp410",
+        "hfgp211",
+        "hfgp411",
+        "hfgp212",
+        "hfgp412",
+        "hfgp213",
+        "hfgp413",
+        "hfgp214",
+        "hfgp414",
+        "hfgp215",
+        "hfgp415",
+        "hfgp216",
+        "hfgp416",
+        "hfgp217",
+        "hfgp417",
+        "hfgp218",
+        "hfgp418",
+        "hfgp219",
+        "hfgp419",
+        "hfgp220",
+        "hfgp420",
+        "certSig",
+        "certSig2"
+      ]
+    }
+  ],
+  "fields": {
+    "firPg": {
+      "type": "text",
+      "label": "FirPg",
+      "page": 1,
+      "box": {
+        "left": 696.1,
+        "top": 551.1,
+        "width": 13.9,
+        "height": 34.7
+      },
+      "multiline": true
+    },
+    "pgLst": {
+      "type": "text",
+      "label": "PgLst",
+      "page": 1,
+      "box": {
+        "left": 738.3,
+        "top": 551.1,
+        "width": 13.9,
+        "height": 34.7
+      },
+      "multiline": true
+    },
+    "shiSta": {
+      "type": "text",
+      "label": "1.  SHIP OR STATION:",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 542.9,
+        "width": 141.2,
+        "height": 26.5
+      }
+    },
+    "divAct": {
+      "type": "text",
+      "label": "2.  DIVISION OR ACTIVITY:",
+      "page": 1,
+      "box": {
+        "left": 187.7,
+        "top": 542.9,
+        "width": 176.9,
+        "height": 26.5
+      }
+    },
+    "weaFir": {
+      "type": "text",
+      "label": "3.  WEAPON(S) FIRED:",
+      "page": 1,
+      "box": {
+        "left": 372.2,
+        "top": 542.9,
+        "width": 284.0,
+        "height": 26.5
+      }
+    },
+    "rgeLoc": {
+      "type": "text",
+      "label": "4.  RANGE NAME/LOCATION",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 479.1,
+        "width": 141.2,
+        "height": 15.0
+      }
+    },
+    "firDte": {
+      "type": "text",
+      "label": "5.  DATE OF FIRING",
+      "page": 1,
+      "box": {
+        "left": 187.7,
+        "top": 479.1,
+        "width": 75.5,
+        "height": 15.0
+      }
+    },
+    "fNme": {
+      "type": "text",
+      "label": "FNme",
+      "page": 1,
+      "box": {
+        "left": 36.0,
+        "top": 415.2,
+        "width": 146.8,
+        "height": 14.9
+      }
+    },
+    "rkRt": {
+      "type": "text",
+      "label": "RkRt",
+      "page": 1,
+      "box": {
+        "left": 184.8,
+        "top": 415.2,
+        "width": 81.2,
+        "height": 14.9
+      }
+    },
+    "hfgp2": {
+      "type": "text",
+      "label": "HFGP2",
+      "page": 1,
+      "box": {
+        "left": 534.5,
+        "top": 415.2,
+        "width": 22.2,
+        "height": 14.9
+      }
+    },
+    "hfgp4": {
+      "type": "text",
+      "label": "HFGP4",
+      "page": 1,
+      "box": {
+        "left": 578.9,
+        "top": 415.2,
+        "width": 22.2,
+        "height": 14.9
+      }
+    },
+    "hfgp22": {
+      "type": "text",
+      "label": "HFGP22",
+      "page": 1,
+      "box": {
+        "left": 534.5,
+        "top": 398.9,
+        "width": 22.2,
+        "height": 14.9
+      }
+    },
+    "hfgp42": {
+      "type": "text",
+      "label": "HFGP42",
+      "page": 1,
+      "box": {
+        "left": 578.9,
+        "top": 398.9,
+        "width": 22.2,
+        "height": 14.9
+      }
+    },
+    "hfgp23": {
+      "type": "text",
+      "label": "HFGP23",
+      "page": 1,
+      "box": {
+        "left": 534.5,
+        "top": 381.8,
+        "width": 22.2,
+        "height": 14.9
+      }
+    },
+    "hfgp43": {
+      "type": "text",
+      "label": "HFGP43",
+      "page": 1,
+      "box": {
+        "left": 578.9,
+        "top": 381.8,
+        "width": 22.2,
+        "height": 14.9
+      }
+    },
+    "hfgp24": {
+      "type": "text",
+      "label": "HFGP24",
+      "page": 1,
+      "box": {
+        "left": 534.5,
+        "top": 364.7,
+        "width": 22.2,
+        "height": 14.9
+      }
+    },
+    "hfgp44": {
+      "type": "text",
+      "label": "HFGP44",
+      "page": 1,
+      "box": {
+        "left": 578.9,
+        "top": 364.7,
+        "width": 22.2,
+        "height": 14.9
+      }
+    },
+    "hfgp25": {
+      "type": "text",
+      "label": "HFGP25",
+      "page": 1,
+      "box": {
+        "left": 534.5,
+        "top": 347.6,
+        "width": 22.2,
+        "height": 14.9
+      }
+    },
+    "hfgp45": {
+      "type": "text",
+      "label": "HFGP45",
+      "page": 1,
+      "box": {
+        "left": 578.9,
+        "top": 347.6,
+        "width": 22.2,
+        "height": 14.9
+      }
+    },
+    "hfgp26": {
+      "type": "text",
+      "label": "HFGP26",
+      "page": 1,
+      "box": {
+        "left": 534.5,
+        "top": 330.5,
+        "width": 22.2,
+        "height": 14.9
+      }
+    },
+    "hfgp46": {
+      "type": "text",
+      "label": "HFGP46",
+      "page": 1,
+      "box": {
+        "left": 578.9,
+        "top": 330.5,
+        "width": 22.2,
+        "height": 14.9
+      }
+    },
+    "hfgp27": {
+      "type": "text",
+      "label": "HFGP27",
+      "page": 1,
+      "box": {
+        "left": 534.5,
+        "top": 313.4,
+        "width": 22.2,
+        "height": 14.9
+      }
+    },
+    "hfgp47": {
+      "type": "text",
+      "label": "HFGP47",
+      "page": 1,
+      "box": {
+        "left": 578.9,
+        "top": 313.4,
+        "width": 22.2,
+        "height": 14.9
+      }
+    },
+    "hfgp28": {
+      "type": "text",
+      "label": "HFGP28",
+      "page": 1,
+      "box": {
+        "left": 534.5,
+        "top": 297.0,
+        "width": 22.2,
+        "height": 14.9
+      }
+    },
+    "hfgp48": {
+      "type": "text",
+      "label": "HFGP48",
+      "page": 1,
+      "box": {
+        "left": 578.9,
+        "top": 297.0,
+        "width": 22.2,
+        "height": 14.9
+      }
+    },
+    "hfgp29": {
+      "type": "text",
+      "label": "HFGP29",
+      "page": 1,
+      "box": {
+        "left": 534.5,
+        "top": 280.7,
+        "width": 22.2,
+        "height": 14.9
+      }
+    },
+    "hfgp49": {
+      "type": "text",
+      "label": "HFGP49",
+      "page": 1,
+      "box": {
+        "left": 578.9,
+        "top": 280.7,
+        "width": 22.2,
+        "height": 14.9
+      }
+    },
+    "hfgp210": {
+      "type": "text",
+      "label": "HFGP210",
+      "page": 1,
+      "box": {
+        "left": 534.5,
+        "top": 263.6,
+        "width": 22.2,
+        "height": 14.9
+      }
+    },
+    "hfgp410": {
+      "type": "text",
+      "label": "HFGP410",
+      "page": 1,
+      "box": {
+        "left": 578.9,
+        "top": 263.6,
+        "width": 22.2,
+        "height": 14.9
+      }
+    },
+    "hfgp211": {
+      "type": "text",
+      "label": "HFGP211",
+      "page": 1,
+      "box": {
+        "left": 534.5,
+        "top": 246.5,
+        "width": 22.2,
+        "height": 14.9
+      }
+    },
+    "hfgp411": {
+      "type": "text",
+      "label": "HFGP411",
+      "page": 1,
+      "box": {
+        "left": 578.9,
+        "top": 246.5,
+        "width": 22.2,
+        "height": 14.9
+      }
+    },
+    "hfgp212": {
+      "type": "text",
+      "label": "HFGP212",
+      "page": 1,
+      "box": {
+        "left": 534.5,
+        "top": 230.1,
+        "width": 22.2,
+        "height": 14.9
+      }
+    },
+    "hfgp412": {
+      "type": "text",
+      "label": "HFGP412",
+      "page": 1,
+      "box": {
+        "left": 578.9,
+        "top": 230.1,
+        "width": 22.2,
+        "height": 14.9
+      }
+    },
+    "hfgp213": {
+      "type": "text",
+      "label": "HFGP213",
+      "page": 1,
+      "box": {
+        "left": 534.5,
+        "top": 213.7,
+        "width": 22.2,
+        "height": 14.9
+      }
+    },
+    "hfgp413": {
+      "type": "text",
+      "label": "HFGP413",
+      "page": 1,
+      "box": {
+        "left": 578.9,
+        "top": 213.7,
+        "width": 22.2,
+        "height": 14.9
+      }
+    },
+    "hfgp214": {
+      "type": "text",
+      "label": "HFGP214",
+      "page": 1,
+      "box": {
+        "left": 534.5,
+        "top": 197.4,
+        "width": 22.2,
+        "height": 14.9
+      }
+    },
+    "hfgp414": {
+      "type": "text",
+      "label": "HFGP414",
+      "page": 1,
+      "box": {
+        "left": 578.9,
+        "top": 197.4,
+        "width": 22.2,
+        "height": 14.9
+      }
+    },
+    "hfgp215": {
+      "type": "text",
+      "label": "HFGP215",
+      "page": 1,
+      "box": {
+        "left": 534.5,
+        "top": 180.3,
+        "width": 22.2,
+        "height": 14.9
+      }
+    },
+    "hfgp415": {
+      "type": "text",
+      "label": "HFGP415",
+      "page": 1,
+      "box": {
+        "left": 578.9,
+        "top": 180.2,
+        "width": 22.2,
+        "height": 14.9
+      }
+    },
+    "hfgp216": {
+      "type": "text",
+      "label": "HFGP216",
+      "page": 1,
+      "box": {
+        "left": 534.5,
+        "top": 163.2,
+        "width": 22.2,
+        "height": 14.9
+      }
+    },
+    "hfgp416": {
+      "type": "text",
+      "label": "HFGP416",
+      "page": 1,
+      "box": {
+        "left": 578.9,
+        "top": 163.2,
+        "width": 22.2,
+        "height": 14.9
+      }
+    },
+    "hfgp217": {
+      "type": "text",
+      "label": "HFGP217",
+      "page": 1,
+      "box": {
+        "left": 534.5,
+        "top": 146.7,
+        "width": 22.2,
+        "height": 14.9
+      }
+    },
+    "hfgp417": {
+      "type": "text",
+      "label": "HFGP417",
+      "page": 1,
+      "box": {
+        "left": 578.9,
+        "top": 146.7,
+        "width": 22.2,
+        "height": 14.9
+      }
+    },
+    "hfgp218": {
+      "type": "text",
+      "label": "HFGP218",
+      "page": 1,
+      "box": {
+        "left": 534.5,
+        "top": 130.3,
+        "width": 22.2,
+        "height": 14.9
+      }
+    },
+    "hfgp418": {
+      "type": "text",
+      "label": "HFGP418",
+      "page": 1,
+      "box": {
+        "left": 578.9,
+        "top": 130.3,
+        "width": 22.2,
+        "height": 14.9
+      }
+    },
+    "hfgp219": {
+      "type": "text",
+      "label": "HFGP219",
+      "page": 1,
+      "box": {
+        "left": 534.5,
+        "top": 113.8,
+        "width": 22.2,
+        "height": 14.9
+      }
+    },
+    "hfgp419": {
+      "type": "text",
+      "label": "HFGP419",
+      "page": 1,
+      "box": {
+        "left": 578.9,
+        "top": 113.8,
+        "width": 22.2,
+        "height": 14.9
+      }
+    },
+    "hfgp220": {
+      "type": "text",
+      "label": "HFGP220",
+      "page": 1,
+      "box": {
+        "left": 534.5,
+        "top": 97.9,
+        "width": 22.2,
+        "height": 15.5
+      }
+    },
+    "hfgp420": {
+      "type": "text",
+      "label": "HFGP420",
+      "page": 1,
+      "box": {
+        "left": 578.9,
+        "top": 97.9,
+        "width": 22.2,
+        "height": 15.5
+      }
+    },
+    "certSig": {
+      "type": "text",
+      "label": " 12.  I CERTIFY THAT THE ABOVE RECORD PERFORMANCE WAS CONDUCTED.\nSIGNATURE AND RATE OF RANGE SAFETY OFFICER:",
+      "page": 1,
+      "box": {
+        "left": 36.0,
+        "top": 60.0,
+        "width": 608.3,
+        "height": 24.3
+      }
+    },
+    "certSig2": {
+      "type": "text",
+      "label": " 13.  SIGNATURE DATE:",
+      "page": 1,
+      "box": {
+        "left": 646.5,
+        "top": 59.6,
+        "width": 109.1,
+        "height": 23.5
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 19,
+      "rowStride": 16.75,
+      "editor": "grid",
+      "columns": {
+        "fNme": {
+          "type": "text",
+          "label": "FNme1",
+          "page": 1,
+          "box": {
+            "left": 36.0,
+            "top": 398.9,
+            "width": 146.8,
+            "height": 14.9
+          }
+        },
+        "rkRt": {
+          "type": "text",
+          "label": "RkRt1",
+          "page": 1,
+          "box": {
+            "left": 184.8,
+            "top": 398.9,
+            "width": 81.2,
+            "height": 14.9
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 20,
+      "rowStride": 16.73,
+      "editor": "grid",
+      "columns": {
+        "lmfgp": {
+          "type": "text",
+          "label": "LMFGP1",
+          "page": 1,
+          "box": {
+            "left": 268.5,
+            "top": 415.2,
+            "width": 22.2,
+            "height": 14.9
+          }
+        },
+        "lmfgp2": {
+          "type": "text",
+          "label": "LMFGP2",
+          "page": 1,
+          "box": {
+            "left": 290.7,
+            "top": 415.2,
+            "width": 22.2,
+            "height": 14.9
+          }
+        },
+        "lmfgp3": {
+          "type": "text",
+          "label": "LMFGP3",
+          "page": 1,
+          "box": {
+            "left": 312.8,
+            "top": 415.2,
+            "width": 22.2,
+            "height": 14.9
+          }
+        },
+        "lmfgp4": {
+          "type": "text",
+          "label": "LMFGP4",
+          "page": 1,
+          "box": {
+            "left": 335.0,
+            "top": 415.2,
+            "width": 22.2,
+            "height": 14.9
+          }
+        },
+        "lmfgp5": {
+          "type": "text",
+          "label": "LMFGP5",
+          "page": 1,
+          "box": {
+            "left": 357.2,
+            "top": 415.2,
+            "width": 22.2,
+            "height": 14.9
+          }
+        },
+        "lmfgp6": {
+          "type": "text",
+          "label": "LMFGP61",
+          "page": 1,
+          "box": {
+            "left": 379.3,
+            "top": 415.2,
+            "width": 22.2,
+            "height": 14.9
+          }
+        },
+        "lmgtep": {
+          "type": "text",
+          "label": "LMGTEP1",
+          "page": 1,
+          "box": {
+            "left": 402.6,
+            "top": 415.2,
+            "width": 22.2,
+            "height": 14.9
+          }
+        },
+        "lmgtep2": {
+          "type": "text",
+          "label": "LMGTEP2",
+          "page": 1,
+          "box": {
+            "left": 424.8,
+            "top": 415.2,
+            "width": 22.2,
+            "height": 14.9
+          }
+        },
+        "lmgtep3": {
+          "type": "text",
+          "label": "LMGTEP31",
+          "page": 1,
+          "box": {
+            "left": 446.9,
+            "top": 415.2,
+            "width": 22.2,
+            "height": 14.9
+          }
+        },
+        "lmgtep4": {
+          "type": "text",
+          "label": "LMGTEP41",
+          "page": 1,
+          "box": {
+            "left": 469.1,
+            "top": 415.2,
+            "width": 22.2,
+            "height": 14.9
+          }
+        },
+        "lmgtep5": {
+          "type": "text",
+          "label": "LMGTEP5",
+          "page": 1,
+          "box": {
+            "left": 490.2,
+            "top": 415.2,
+            "width": 22.2,
+            "height": 14.9
+          }
+        },
+        "hfgp": {
+          "type": "text",
+          "label": "HFGP1",
+          "page": 1,
+          "box": {
+            "left": 513.5,
+            "top": 415.2,
+            "width": 22.2,
+            "height": 14.9
+          }
+        },
+        "hfgp2": {
+          "type": "text",
+          "label": "HFGP3",
+          "page": 1,
+          "box": {
+            "left": 556.7,
+            "top": 415.2,
+            "width": 22.2,
+            "height": 14.9
+          }
+        },
+        "hfgp3": {
+          "type": "text",
+          "label": "HFGP5",
+          "page": 1,
+          "box": {
+            "left": 601.0,
+            "top": 415.2,
+            "width": 22.2,
+            "height": 14.9
+          }
+        },
+        "hfgp4": {
+          "type": "text",
+          "label": "HFGP61",
+          "page": 1,
+          "box": {
+            "left": 623.2,
+            "top": 415.2,
+            "width": 22.2,
+            "height": 14.9
+          }
+        },
+        "hgtep": {
+          "type": "text",
+          "label": "HGTEP1",
+          "page": 1,
+          "box": {
+            "left": 645.4,
+            "top": 415.2,
+            "width": 22.2,
+            "height": 14.9
+          }
+        },
+        "hgtep2": {
+          "type": "text",
+          "label": "HGTEP2",
+          "page": 1,
+          "box": {
+            "left": 667.5,
+            "top": 415.2,
+            "width": 22.2,
+            "height": 14.9
+          }
+        },
+        "hgtep3": {
+          "type": "text",
+          "label": "HGTEP3",
+          "page": 1,
+          "box": {
+            "left": 689.7,
+            "top": 415.2,
+            "width": 22.2,
+            "height": 14.9
+          }
+        },
+        "hgtep4": {
+          "type": "text",
+          "label": "HGTEP4",
+          "page": 1,
+          "box": {
+            "left": 711.9,
+            "top": 415.2,
+            "width": 22.2,
+            "height": 14.9
+          }
+        },
+        "hgtep5": {
+          "type": "text",
+          "label": "HGTEP5",
+          "page": 1,
+          "box": {
+            "left": 734.1,
+            "top": 415.2,
+            "width": 22.2,
+            "height": 14.9
+          }
+        }
+      }
+    }
+  }
+}

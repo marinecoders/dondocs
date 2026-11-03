@@ -1,0 +1,6026 @@
+{
+  "id": "navmchq509",
+  "label": "NAVMCHQ509 - Reserve Retirement Master Control Card (sample Format)",
+  "directory": "NAVMCHQ509 - Reserve Retirement Master Control Card (sample Format)",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "dateBirth",
+        "currentUnit",
+        "eNameLFM",
+        "eGrade",
+        "ssn1",
+        "sfs",
+        "retPoints",
+        "payEnterBaseDate",
+        "commCtrlDateYr",
+        "inact0",
+        "totalPoints00",
+        "yrsServ00",
+        "from0",
+        "to0",
+        "occ0",
+        "pts0",
+        "corr0",
+        "eiod0",
+        "drill0",
+        "mem0",
+        "act0",
+        "totalPoints01",
+        "from1",
+        "to1",
+        "occ1",
+        "pts1",
+        "drill1",
+        "corr1",
+        "eiod1",
+        "mem1",
+        "act1",
+        "inact1",
+        "yrsServ01",
+        "totalPoints02",
+        "from2",
+        "to2",
+        "occ2",
+        "pts2",
+        "drill2",
+        "corr2",
+        "eiod2",
+        "mem2",
+        "act2",
+        "inact2",
+        "yrsServ02",
+        "totalPoints03",
+        "yrsServ03",
+        "from3",
+        "to3",
+        "occ3",
+        "drill3",
+        "corr3",
+        "eiod3",
+        "mem3",
+        "act3",
+        "inact3",
+        "pts3",
+        "from4",
+        "to4",
+        "occ4",
+        "pts4",
+        "drill4",
+        "corr4",
+        "eiod4",
+        "mem4",
+        "act4",
+        "inact4",
+        "totalPoints04",
+        "yrsServ04",
+        "from5",
+        "to5",
+        "occ5",
+        "pts5",
+        "drill5",
+        "corr5",
+        "eiod5",
+        "mem5",
+        "act5",
+        "inact5",
+        "totalPoints05",
+        "yrsServ05",
+        "totalPoints06",
+        "from6",
+        "to6",
+        "occ6",
+        "pts6",
+        "drill6",
+        "corr6",
+        "eiod6",
+        "mem6",
+        "act6",
+        "inact6",
+        "yrsServ06",
+        "eiod7",
+        "totalPoints07",
+        "from7",
+        "to7",
+        "occ7",
+        "pts7",
+        "drill7",
+        "corr7",
+        "mem7",
+        "act7",
+        "inact7",
+        "yrsServ07",
+        "yrsServ08",
+        "totalPoints08",
+        "from8",
+        "to8",
+        "occ8",
+        "pts8",
+        "drill8",
+        "corr8",
+        "eiod8",
+        "mem8",
+        "act8",
+        "inact8",
+        "from9",
+        "to9",
+        "occ9",
+        "pts9",
+        "drill9",
+        "corr9",
+        "eiod9",
+        "mem9",
+        "act9",
+        "inact9",
+        "totalPoints09",
+        "yrsServ09",
+        "from10",
+        "to10",
+        "occ10",
+        "pts10",
+        "drill10",
+        "corr10",
+        "eiod10",
+        "mem10",
+        "act10",
+        "inact10",
+        "totalPoints010",
+        "yrsServ010",
+        "yrsServ011",
+        "from11",
+        "to11",
+        "occ11",
+        "pts11",
+        "drill11",
+        "corr11",
+        "eiod11",
+        "mem11",
+        "inact11",
+        "act11",
+        "totalPoints011",
+        "yrsServ012",
+        "totalPoints012",
+        "from12",
+        "to12",
+        "occ12",
+        "pts12",
+        "drill12",
+        "corr12",
+        "eiod12",
+        "mem12",
+        "act12",
+        "inact12",
+        "yrsServ013",
+        "from13",
+        "to13",
+        "occ13",
+        "pts13",
+        "drill13",
+        "corr13",
+        "eiod13",
+        "mem13",
+        "act13",
+        "inact13",
+        "totalPoints013",
+        "from14",
+        "to14",
+        "occ14",
+        "pts14",
+        "drill14",
+        "corr14",
+        "eiod14",
+        "mem14",
+        "act14",
+        "inact14",
+        "yrsServ014",
+        "totalPoints014",
+        "yrsServ015",
+        "from15",
+        "to15",
+        "occ15",
+        "pts15",
+        "drill15",
+        "corr15",
+        "eiod15",
+        "mem15",
+        "act15",
+        "inact15",
+        "totalPoints015",
+        "yrsServ016",
+        "from16",
+        "to16",
+        "occ16",
+        "pts16",
+        "drill16",
+        "corr16",
+        "eiod16",
+        "mem16",
+        "act16",
+        "inact16",
+        "totalPoints016",
+        "from17",
+        "to17",
+        "occ17",
+        "pts17",
+        "drill17",
+        "corr17",
+        "eiod17",
+        "mem17",
+        "act17",
+        "inact17",
+        "totalPoints017",
+        "yrsServ017",
+        "from18",
+        "to18",
+        "occ18",
+        "pts18",
+        "drill18",
+        "corr18",
+        "eiod18",
+        "mem18",
+        "act18",
+        "inact18",
+        "yrsServ018",
+        "totalPoints018",
+        "totalPoints019",
+        "yrsServ019",
+        "from19",
+        "to19",
+        "occ19",
+        "pts19",
+        "drill19",
+        "corr19",
+        "eiod19",
+        "mem19",
+        "act19",
+        "inact19",
+        "from20",
+        "to20",
+        "occ20",
+        "pts20",
+        "drill20",
+        "corr20",
+        "eiod20",
+        "mem20",
+        "act20",
+        "inact20",
+        "yrsServ020",
+        "totalPoints020",
+        "yrsServ021",
+        "totalPoints021",
+        "from21",
+        "to21",
+        "occ21",
+        "pts21",
+        "drill21",
+        "corr21",
+        "eiod21",
+        "mem21",
+        "act21",
+        "inact21",
+        "totalPoints022",
+        "from22",
+        "to22",
+        "occ22",
+        "pts22",
+        "drill22",
+        "corr22",
+        "eiod22",
+        "mem22",
+        "act22",
+        "inact22",
+        "yrsServ022",
+        "from23",
+        "to23",
+        "occ23",
+        "pts23",
+        "drill23",
+        "corr23",
+        "eiod23",
+        "mem23",
+        "act23",
+        "inact23",
+        "yrsServ023",
+        "totalPoints023",
+        "from24",
+        "to24",
+        "occ24",
+        "drill24",
+        "corr24",
+        "eiod24",
+        "mem24",
+        "act24",
+        "inact24",
+        "yrsServ024",
+        "pts24",
+        "totalPoints024",
+        "yrsServ025",
+        "from25",
+        "to25",
+        "occ25",
+        "pts25",
+        "drill25",
+        "corr25",
+        "eiod25",
+        "mem25",
+        "act25",
+        "inact25",
+        "totalPoints025",
+        "yrsServ026",
+        "from26",
+        "to26",
+        "occ26",
+        "pts26",
+        "drill26",
+        "corr26",
+        "eiod26",
+        "mem26",
+        "act26",
+        "inact26",
+        "totalPoints026",
+        "from27",
+        "to27",
+        "occ27",
+        "pts27",
+        "drill27",
+        "corr27",
+        "eiod27",
+        "mem27",
+        "act27",
+        "inact27",
+        "yrsServ027",
+        "totalPoints027",
+        "yrsServ028",
+        "from28",
+        "to28",
+        "occ28",
+        "pts28",
+        "drill28",
+        "corr28",
+        "eiod28",
+        "mem28",
+        "act28",
+        "inact28",
+        "totalPoints028",
+        "from29",
+        "to29",
+        "occ29",
+        "pts29",
+        "drill29",
+        "corr29",
+        "eiod29",
+        "mem29",
+        "act29",
+        "inact29",
+        "totalPoints029",
+        "yrsServ029"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "serviceRemark",
+        "servTrainAnn0",
+        "servTrainFr0",
+        "servTrainTo0",
+        "servTrainDays0",
+        "servTrainAnn1",
+        "servTrainFr1",
+        "servTrainTo1",
+        "servTrainDays1",
+        "servTrainAnn2",
+        "servTrainFr2",
+        "servTrainTo2",
+        "servTrainDays2",
+        "servTrainAnn3",
+        "servTrainFr3",
+        "servTrainTo3",
+        "servTrainDays3",
+        "servTrainAnn4",
+        "servTrainFr4",
+        "servTrainTo4",
+        "servTrainDays4",
+        "servTrainAnn5",
+        "servTrainFr5",
+        "servTrainTo5",
+        "servTrainDays5",
+        "servTrainAnn6",
+        "servTrainFr6",
+        "servTrainTo6",
+        "servTrainDays6",
+        "servTrainAnn7",
+        "servTrainFr7",
+        "servTrainTo7",
+        "servTrainDays7",
+        "servTrainAnn8",
+        "servTrainFr8",
+        "servTrainTo8",
+        "servTrainDays8",
+        "servTrainAnn9",
+        "servTrainFr9",
+        "servTrainTo9",
+        "servTrainDays9",
+        "servTrainAnn10",
+        "servTrainFr10",
+        "servTrainTo10",
+        "servTrainDays10",
+        "servTrainAnn11",
+        "servTrainFr11",
+        "servTrainTo11",
+        "servTrainDays11",
+        "servTrainAnn12",
+        "servTrainFr12",
+        "servTrainTo12",
+        "servTrainDays12",
+        "servTrainAnn13",
+        "servTrainFr13",
+        "servTrainTo13",
+        "servTrainDays13",
+        "servTrainAnn14",
+        "servTrainFr14",
+        "servTrainTo14",
+        "servTrainDays14",
+        "servTrainAnn15",
+        "servTrainFr15",
+        "servTrainTo15",
+        "servTrainDays15",
+        "servTrainAnn16",
+        "servTrainFr16",
+        "servTrainTo16",
+        "servTrainDays16",
+        "servTrainAnn17",
+        "servTrainFr17",
+        "servTrainTo17",
+        "servTrainDays17",
+        "servTrainAnn18",
+        "servTrainFr18",
+        "servTrainTo18",
+        "servTrainDays18",
+        "servTrainAnn19",
+        "servTrainFr19",
+        "servTrainTo19",
+        "servTrainDays19",
+        "dateAnniv",
+        "servTrainAnn20",
+        "servTrainFr20",
+        "servTrainTo20",
+        "servTrainDays20",
+        "servTrainAnn21",
+        "servTrainFr21",
+        "servTrainTo21",
+        "servTrainDays21",
+        "servTrainAnn22",
+        "servTrainFr22",
+        "servTrainTo22",
+        "servTrainDays22",
+        "dateCompl",
+        "servTrainAnn23",
+        "servTrainFr23",
+        "servTrainTo23",
+        "servTrainDays23",
+        "servTrainAnn24",
+        "servTrainFr24",
+        "servTrainTo24",
+        "servTrainDays24",
+        "dateSentByCMC",
+        "servTrainAnn25",
+        "servTrainFr25",
+        "servTrainTo25",
+        "servTrainDays25",
+        "servTrainAnn26",
+        "servTrainFr26",
+        "servTrainTo26",
+        "servTrainDays26",
+        "dateStatemntServ",
+        "servTrainAnn27",
+        "servTrainFr27",
+        "servTrainTo27",
+        "servTrainDays27",
+        "dateSentCSOS",
+        "servTrainAnn28",
+        "servTrainFr28",
+        "servTrainTo28",
+        "servTrainDays28"
+      ]
+    }
+  ],
+  "fields": {
+    "dateBirth": {
+      "type": "text",
+      "label": "Enter employees date of birth.",
+      "page": 1,
+      "box": {
+        "left": 480.7,
+        "top": 750.9,
+        "width": 68.7,
+        "height": 17.6
+      }
+    },
+    "currentUnit": {
+      "type": "text",
+      "label": "Enter the current unit.",
+      "page": 1,
+      "box": {
+        "left": 28.0,
+        "top": 748.7,
+        "width": 74.7,
+        "height": 15.3
+      }
+    },
+    "eNameLFM": {
+      "type": "text",
+      "label": "Enter the last name, first name and middle initial of the employee.",
+      "page": 1,
+      "box": {
+        "left": 103.3,
+        "top": 748.7,
+        "width": 224.7,
+        "height": 15.3
+      }
+    },
+    "eGrade": {
+      "type": "text",
+      "label": "Enter the grade of the employee.",
+      "page": 1,
+      "box": {
+        "left": 413.3,
+        "top": 748.7,
+        "width": 66.7,
+        "height": 15.3
+      }
+    },
+    "ssn1": {
+      "type": "text",
+      "label": "Enter social security number without dashes.",
+      "page": 1,
+      "box": {
+        "left": 329.3,
+        "top": 748.0,
+        "width": 84.0,
+        "height": 14.7
+      }
+    },
+    "sfs": {
+      "type": "text",
+      "label": "Enter employees S F S.",
+      "page": 1,
+      "box": {
+        "left": 391.3,
+        "top": 724.7,
+        "width": 58.0,
+        "height": 15.3
+      }
+    },
+    "retPoints": {
+      "type": "text",
+      "label": "Enter employees retirement points.",
+      "page": 1,
+      "box": {
+        "left": 541.3,
+        "top": 724.0,
+        "width": 48.0,
+        "height": 15.3
+      }
+    },
+    "payEnterBaseDate": {
+      "type": "text",
+      "label": "Enter the pay entry base date.",
+      "page": 1,
+      "box": {
+        "left": 28.0,
+        "top": 720.0,
+        "width": 108.7,
+        "height": 15.3
+      }
+    },
+    "commCtrlDateYr": {
+      "type": "text",
+      "label": "Enter the year of the commission control date.",
+      "page": 1,
+      "box": {
+        "left": 192.7,
+        "top": 720.0,
+        "width": 73.3,
+        "height": 15.3
+      }
+    },
+    "inact0": {
+      "type": "text",
+      "label": "Enter the total number of inactive duty points with 60 maximum. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 445.5,
+        "top": 641.3,
+        "width": 43.3,
+        "height": 15.3
+      }
+    },
+    "totalPoints00": {
+      "type": "text",
+      "label": "TotalPoints.0.0",
+      "page": 1,
+      "box": {
+        "left": 491.0,
+        "top": 641.0,
+        "width": 36.4,
+        "height": 15.6
+      }
+    },
+    "yrsServ00": {
+      "type": "text",
+      "label": "Enter the total years of qualifying service for retirement with 50 points minimum. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 528.3,
+        "top": 640.9,
+        "width": 60.6,
+        "height": 15.4
+      }
+    },
+    "from0": {
+      "type": "text",
+      "label": "Enter beginning date of duty. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 28.7,
+        "top": 640.7,
+        "width": 54.0,
+        "height": 15.3
+      }
+    },
+    "to0": {
+      "type": "text",
+      "label": "Enter ending date of duty. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 84.7,
+        "top": 640.7,
+        "width": 52.7,
+        "height": 15.3
+      }
+    },
+    "occ0": {
+      "type": "text",
+      "label": "Enter occasion codes. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 139.3,
+        "top": 640.7,
+        "width": 44.0,
+        "height": 15.3
+      }
+    },
+    "pts0": {
+      "type": "text",
+      "label": "Enter active duty points. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 184.7,
+        "top": 640.7,
+        "width": 36.0,
+        "height": 15.3
+      }
+    },
+    "corr0": {
+      "type": "text",
+      "label": "Enter the number of inactive duty correspondence courses. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 266.7,
+        "top": 640.7,
+        "width": 42.0,
+        "height": 15.3
+      }
+    },
+    "eiod0": {
+      "type": "text",
+      "label": "Enter the number of inactive duty E I O D. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 310.7,
+        "top": 640.7,
+        "width": 43.3,
+        "height": 15.3
+      }
+    },
+    "drill0": {
+      "type": "text",
+      "label": "Enter the number of inactive duty drills. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 223.1,
+        "top": 640.4,
+        "width": 41.3,
+        "height": 15.3
+      }
+    },
+    "mem0": {
+      "type": "text",
+      "label": "Enter the number of inactive duty memberships. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 355.8,
+        "top": 640.4,
+        "width": 43.3,
+        "height": 15.3
+      }
+    },
+    "act0": {
+      "type": "text",
+      "label": "Act0",
+      "page": 1,
+      "box": {
+        "left": 400.8,
+        "top": 639.8,
+        "width": 43.3,
+        "height": 15.3
+      }
+    },
+    "totalPoints01": {
+      "type": "text",
+      "label": "TotalPoints.0.1",
+      "page": 1,
+      "box": {
+        "left": 491.0,
+        "top": 623.5,
+        "width": 36.4,
+        "height": 15.6
+      }
+    },
+    "from1": {
+      "type": "text",
+      "label": "Enter beginning date of duty. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 28.7,
+        "top": 623.3,
+        "width": 54.0,
+        "height": 15.3
+      }
+    },
+    "to1": {
+      "type": "text",
+      "label": "Enter ending date of duty. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 84.7,
+        "top": 623.3,
+        "width": 52.7,
+        "height": 15.3
+      }
+    },
+    "occ1": {
+      "type": "text",
+      "label": "Enter occasion codes. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 139.3,
+        "top": 623.3,
+        "width": 44.0,
+        "height": 15.3
+      }
+    },
+    "pts1": {
+      "type": "text",
+      "label": "Enter active duty points. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 184.7,
+        "top": 623.3,
+        "width": 36.0,
+        "height": 15.3
+      }
+    },
+    "drill1": {
+      "type": "text",
+      "label": "Enter the number of inactive duty drills. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 222.7,
+        "top": 623.3,
+        "width": 41.3,
+        "height": 15.3
+      }
+    },
+    "corr1": {
+      "type": "text",
+      "label": "Enter the number of inactive duty correspondence courses. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 266.7,
+        "top": 623.3,
+        "width": 42.0,
+        "height": 15.3
+      }
+    },
+    "eiod1": {
+      "type": "text",
+      "label": "Enter the number of inactive duty E I O D. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 310.7,
+        "top": 623.3,
+        "width": 43.3,
+        "height": 15.3
+      }
+    },
+    "mem1": {
+      "type": "text",
+      "label": "Enter the number of inactive duty memberships. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 356.0,
+        "top": 623.3,
+        "width": 43.3,
+        "height": 15.3
+      }
+    },
+    "act1": {
+      "type": "text",
+      "label": "Act1",
+      "page": 1,
+      "box": {
+        "left": 400.7,
+        "top": 623.3,
+        "width": 43.3,
+        "height": 15.3
+      }
+    },
+    "inact1": {
+      "type": "text",
+      "label": "Enter the total number of inactive duty points with 60 maximum. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 446.0,
+        "top": 623.3,
+        "width": 43.3,
+        "height": 15.3
+      }
+    },
+    "yrsServ01": {
+      "type": "text",
+      "label": "Enter the total years of qualifying service for retirement with 50 points minimum. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 528.3,
+        "top": 623.0,
+        "width": 60.6,
+        "height": 15.4
+      }
+    },
+    "totalPoints02": {
+      "type": "text",
+      "label": "TotalPoints.0.2",
+      "page": 1,
+      "box": {
+        "left": 491.0,
+        "top": 606.1,
+        "width": 36.4,
+        "height": 15.6
+      }
+    },
+    "from2": {
+      "type": "text",
+      "label": "Enter beginning date of duty. Line 3.",
+      "page": 1,
+      "box": {
+        "left": 28.3,
+        "top": 605.3,
+        "width": 54.2,
+        "height": 15.0
+      }
+    },
+    "to2": {
+      "type": "text",
+      "label": "Enter ending date of duty. Line 3.",
+      "page": 1,
+      "box": {
+        "left": 85.0,
+        "top": 605.3,
+        "width": 52.5,
+        "height": 15.0
+      }
+    },
+    "occ2": {
+      "type": "text",
+      "label": "Enter occasion codes. Line 3.",
+      "page": 1,
+      "box": {
+        "left": 139.2,
+        "top": 605.3,
+        "width": 44.2,
+        "height": 15.0
+      }
+    },
+    "pts2": {
+      "type": "text",
+      "label": "Enter active duty points. Line 3.",
+      "page": 1,
+      "box": {
+        "left": 185.0,
+        "top": 605.3,
+        "width": 35.8,
+        "height": 15.0
+      }
+    },
+    "drill2": {
+      "type": "text",
+      "label": "Enter the number of inactive duty drills. Line 3.",
+      "page": 1,
+      "box": {
+        "left": 222.5,
+        "top": 605.3,
+        "width": 41.7,
+        "height": 15.0
+      }
+    },
+    "corr2": {
+      "type": "text",
+      "label": "Enter the number of inactive duty correspondence courses. Line 3.",
+      "page": 1,
+      "box": {
+        "left": 266.7,
+        "top": 605.3,
+        "width": 41.7,
+        "height": 15.0
+      }
+    },
+    "eiod2": {
+      "type": "text",
+      "label": "Enter the number of inactive duty E I O D. Line 3.",
+      "page": 1,
+      "box": {
+        "left": 310.8,
+        "top": 605.3,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "mem2": {
+      "type": "text",
+      "label": "Enter the number of inactive duty memberships. Line 3.",
+      "page": 1,
+      "box": {
+        "left": 355.8,
+        "top": 605.3,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "act2": {
+      "type": "text",
+      "label": "Act2",
+      "page": 1,
+      "box": {
+        "left": 400.8,
+        "top": 605.3,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "inact2": {
+      "type": "text",
+      "label": "Enter the total number of inactive duty points with 60 maximum. Line 3.",
+      "page": 1,
+      "box": {
+        "left": 445.8,
+        "top": 605.3,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "yrsServ02": {
+      "type": "text",
+      "label": "Enter the total years of qualifying service for retirement with 50 points minimum. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 528.3,
+        "top": 605.1,
+        "width": 60.6,
+        "height": 15.4
+      }
+    },
+    "totalPoints03": {
+      "type": "text",
+      "label": "TotalPoints.0.3",
+      "page": 1,
+      "box": {
+        "left": 491.0,
+        "top": 588.6,
+        "width": 36.4,
+        "height": 15.6
+      }
+    },
+    "yrsServ03": {
+      "type": "text",
+      "label": "Enter the total years of qualifying service for retirement with 50 points minimum. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 528.3,
+        "top": 588.2,
+        "width": 60.6,
+        "height": 15.4
+      }
+    },
+    "from3": {
+      "type": "text",
+      "label": "Enter beginning date of duty. Line 4.",
+      "page": 1,
+      "box": {
+        "left": 28.3,
+        "top": 587.8,
+        "width": 54.2,
+        "height": 15.0
+      }
+    },
+    "to3": {
+      "type": "text",
+      "label": "Enter ending date of duty. Line 4.",
+      "page": 1,
+      "box": {
+        "left": 85.0,
+        "top": 587.8,
+        "width": 52.5,
+        "height": 15.0
+      }
+    },
+    "occ3": {
+      "type": "text",
+      "label": "Enter occasion codes. Line 4.",
+      "page": 1,
+      "box": {
+        "left": 139.2,
+        "top": 587.8,
+        "width": 44.2,
+        "height": 15.0
+      }
+    },
+    "drill3": {
+      "type": "text",
+      "label": "Enter the number of inactive duty drills. Line 4.",
+      "page": 1,
+      "box": {
+        "left": 222.5,
+        "top": 587.8,
+        "width": 41.7,
+        "height": 15.0
+      }
+    },
+    "corr3": {
+      "type": "text",
+      "label": "Enter the number of inactive duty correspondence courses. Line 4.",
+      "page": 1,
+      "box": {
+        "left": 266.7,
+        "top": 587.8,
+        "width": 41.7,
+        "height": 15.0
+      }
+    },
+    "eiod3": {
+      "type": "text",
+      "label": "Enter the number of inactive duty E I O D. Line 4.",
+      "page": 1,
+      "box": {
+        "left": 310.8,
+        "top": 587.8,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "mem3": {
+      "type": "text",
+      "label": "Enter the number of inactive duty memberships. Line 4.",
+      "page": 1,
+      "box": {
+        "left": 355.8,
+        "top": 587.8,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "act3": {
+      "type": "text",
+      "label": "Act3",
+      "page": 1,
+      "box": {
+        "left": 400.8,
+        "top": 587.8,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "inact3": {
+      "type": "text",
+      "label": "Enter the total number of inactive duty points with 60 maximum. Line 4.",
+      "page": 1,
+      "box": {
+        "left": 445.8,
+        "top": 587.8,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "pts3": {
+      "type": "text",
+      "label": "Enter active duty points. Line 4.",
+      "page": 1,
+      "box": {
+        "left": 185.8,
+        "top": 587.3,
+        "width": 35.8,
+        "height": 15.0
+      }
+    },
+    "from4": {
+      "type": "text",
+      "label": "Enter beginning date of duty. Line 5.",
+      "page": 1,
+      "box": {
+        "left": 28.3,
+        "top": 571.2,
+        "width": 54.2,
+        "height": 15.8
+      }
+    },
+    "to4": {
+      "type": "text",
+      "label": "Enter ending date of duty. Line 5.",
+      "page": 1,
+      "box": {
+        "left": 85.0,
+        "top": 571.2,
+        "width": 52.5,
+        "height": 15.8
+      }
+    },
+    "occ4": {
+      "type": "text",
+      "label": "Enter occasion codes. Line 5.",
+      "page": 1,
+      "box": {
+        "left": 139.2,
+        "top": 571.2,
+        "width": 44.2,
+        "height": 15.8
+      }
+    },
+    "pts4": {
+      "type": "text",
+      "label": "Enter active duty points. Line 5.",
+      "page": 1,
+      "box": {
+        "left": 185.0,
+        "top": 571.2,
+        "width": 35.8,
+        "height": 15.8
+      }
+    },
+    "drill4": {
+      "type": "text",
+      "label": "Enter the number of inactive duty drills. Line 5.",
+      "page": 1,
+      "box": {
+        "left": 222.5,
+        "top": 571.2,
+        "width": 41.7,
+        "height": 15.8
+      }
+    },
+    "corr4": {
+      "type": "text",
+      "label": "Enter the number of inactive duty correspondence courses. Line 5.",
+      "page": 1,
+      "box": {
+        "left": 266.7,
+        "top": 571.2,
+        "width": 41.7,
+        "height": 15.8
+      }
+    },
+    "eiod4": {
+      "type": "text",
+      "label": "Enter the number of inactive duty E I O D. Line 5.",
+      "page": 1,
+      "box": {
+        "left": 310.8,
+        "top": 571.2,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "mem4": {
+      "type": "text",
+      "label": "Enter the number of inactive duty memberships. Line 5.",
+      "page": 1,
+      "box": {
+        "left": 355.8,
+        "top": 571.2,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "act4": {
+      "type": "text",
+      "label": "Act4",
+      "page": 1,
+      "box": {
+        "left": 400.8,
+        "top": 571.2,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "inact4": {
+      "type": "text",
+      "label": "Enter the total number of inactive duty points with 60 maximum. Line 5.",
+      "page": 1,
+      "box": {
+        "left": 445.8,
+        "top": 571.2,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "totalPoints04": {
+      "type": "text",
+      "label": "TotalPoints.0.4",
+      "page": 1,
+      "box": {
+        "left": 491.0,
+        "top": 571.2,
+        "width": 36.4,
+        "height": 15.6
+      }
+    },
+    "yrsServ04": {
+      "type": "text",
+      "label": "Enter the total years of qualifying service for retirement with 50 points minimum. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 528.3,
+        "top": 570.2,
+        "width": 60.6,
+        "height": 15.4
+      }
+    },
+    "from5": {
+      "type": "text",
+      "label": "Enter beginning date of duty. Line 6.",
+      "page": 1,
+      "box": {
+        "left": 28.3,
+        "top": 553.7,
+        "width": 54.2,
+        "height": 15.8
+      }
+    },
+    "to5": {
+      "type": "text",
+      "label": "Enter ending date of duty. Line 6.",
+      "page": 1,
+      "box": {
+        "left": 85.0,
+        "top": 553.7,
+        "width": 52.5,
+        "height": 15.8
+      }
+    },
+    "occ5": {
+      "type": "text",
+      "label": "Enter occasion codes. Line 6.",
+      "page": 1,
+      "box": {
+        "left": 139.2,
+        "top": 553.7,
+        "width": 44.2,
+        "height": 15.8
+      }
+    },
+    "pts5": {
+      "type": "text",
+      "label": "Enter active duty points. Line 6.",
+      "page": 1,
+      "box": {
+        "left": 185.0,
+        "top": 553.7,
+        "width": 35.8,
+        "height": 15.8
+      }
+    },
+    "drill5": {
+      "type": "text",
+      "label": "Enter the number of inactive duty drills. Line 6.",
+      "page": 1,
+      "box": {
+        "left": 222.5,
+        "top": 553.7,
+        "width": 41.7,
+        "height": 15.8
+      }
+    },
+    "corr5": {
+      "type": "text",
+      "label": "Enter the number of inactive duty correspondence courses. Line 6.",
+      "page": 1,
+      "box": {
+        "left": 266.7,
+        "top": 553.7,
+        "width": 41.7,
+        "height": 15.8
+      }
+    },
+    "eiod5": {
+      "type": "text",
+      "label": "Enter the number of inactive duty E I O D. Line 6.",
+      "page": 1,
+      "box": {
+        "left": 310.8,
+        "top": 553.7,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "mem5": {
+      "type": "text",
+      "label": "Enter the number of inactive duty memberships. Line 6.",
+      "page": 1,
+      "box": {
+        "left": 355.8,
+        "top": 553.7,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "act5": {
+      "type": "text",
+      "label": "Act5",
+      "page": 1,
+      "box": {
+        "left": 400.8,
+        "top": 553.7,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "inact5": {
+      "type": "text",
+      "label": "Enter the total number of inactive duty points with 60 maximum. Line 6.",
+      "page": 1,
+      "box": {
+        "left": 445.8,
+        "top": 553.7,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "totalPoints05": {
+      "type": "text",
+      "label": "TotalPoints.0.5",
+      "page": 1,
+      "box": {
+        "left": 491.0,
+        "top": 553.7,
+        "width": 36.4,
+        "height": 15.6
+      }
+    },
+    "yrsServ05": {
+      "type": "text",
+      "label": "Enter the total years of qualifying service for retirement with 50 points minimum. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 528.3,
+        "top": 553.3,
+        "width": 60.6,
+        "height": 15.4
+      }
+    },
+    "totalPoints06": {
+      "type": "text",
+      "label": "TotalPoints.0.6",
+      "page": 1,
+      "box": {
+        "left": 491.0,
+        "top": 536.3,
+        "width": 36.4,
+        "height": 15.6
+      }
+    },
+    "from6": {
+      "type": "text",
+      "label": "Enter beginning date of duty. Line 7.",
+      "page": 1,
+      "box": {
+        "left": 28.3,
+        "top": 536.2,
+        "width": 54.2,
+        "height": 15.0
+      }
+    },
+    "to6": {
+      "type": "text",
+      "label": "Enter ending date of duty. Line 7.",
+      "page": 1,
+      "box": {
+        "left": 85.0,
+        "top": 536.2,
+        "width": 52.5,
+        "height": 15.0
+      }
+    },
+    "occ6": {
+      "type": "text",
+      "label": "Enter occasion codes. Line 7.",
+      "page": 1,
+      "box": {
+        "left": 139.2,
+        "top": 536.2,
+        "width": 44.2,
+        "height": 15.0
+      }
+    },
+    "pts6": {
+      "type": "text",
+      "label": "Enter active duty points. Line 7.",
+      "page": 1,
+      "box": {
+        "left": 185.0,
+        "top": 536.2,
+        "width": 35.8,
+        "height": 15.0
+      }
+    },
+    "drill6": {
+      "type": "text",
+      "label": "Enter the number of inactive duty drills. Line 7.",
+      "page": 1,
+      "box": {
+        "left": 222.5,
+        "top": 536.2,
+        "width": 41.7,
+        "height": 15.0
+      }
+    },
+    "corr6": {
+      "type": "text",
+      "label": "Enter the number of inactive duty correspondence courses. Line 7.",
+      "page": 1,
+      "box": {
+        "left": 266.7,
+        "top": 536.2,
+        "width": 41.7,
+        "height": 15.0
+      }
+    },
+    "eiod6": {
+      "type": "text",
+      "label": "Enter the number of inactive duty E I O D. Line 7.",
+      "page": 1,
+      "box": {
+        "left": 310.8,
+        "top": 536.2,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "mem6": {
+      "type": "text",
+      "label": "Enter the number of inactive duty memberships. Line 7.",
+      "page": 1,
+      "box": {
+        "left": 355.8,
+        "top": 536.2,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "act6": {
+      "type": "text",
+      "label": "Act6",
+      "page": 1,
+      "box": {
+        "left": 400.8,
+        "top": 536.2,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "inact6": {
+      "type": "text",
+      "label": "Enter the total number of inactive duty points with 60 maximum. Line 7.",
+      "page": 1,
+      "box": {
+        "left": 445.8,
+        "top": 536.2,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "yrsServ06": {
+      "type": "text",
+      "label": "Enter the total years of qualifying service for retirement with 50 points minimum. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 528.3,
+        "top": 535.4,
+        "width": 60.6,
+        "height": 15.4
+      }
+    },
+    "eiod7": {
+      "type": "text",
+      "label": "Enter the number of inactive duty E I O D. Line 8.",
+      "page": 1,
+      "box": {
+        "left": 311.4,
+        "top": 519.1,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "totalPoints07": {
+      "type": "text",
+      "label": "TotalPoints.0.7",
+      "page": 1,
+      "box": {
+        "left": 491.0,
+        "top": 518.8,
+        "width": 36.4,
+        "height": 15.6
+      }
+    },
+    "from7": {
+      "type": "text",
+      "label": "Enter beginning date of duty. Line 8.",
+      "page": 1,
+      "box": {
+        "left": 28.3,
+        "top": 518.7,
+        "width": 54.2,
+        "height": 15.0
+      }
+    },
+    "to7": {
+      "type": "text",
+      "label": "Enter ending date of duty. Line 8.",
+      "page": 1,
+      "box": {
+        "left": 85.0,
+        "top": 518.7,
+        "width": 52.5,
+        "height": 15.0
+      }
+    },
+    "occ7": {
+      "type": "text",
+      "label": "Enter occasion codes. Line 8.",
+      "page": 1,
+      "box": {
+        "left": 139.2,
+        "top": 518.7,
+        "width": 44.2,
+        "height": 15.0
+      }
+    },
+    "pts7": {
+      "type": "text",
+      "label": "Enter active duty points. Line 8.",
+      "page": 1,
+      "box": {
+        "left": 185.0,
+        "top": 518.7,
+        "width": 35.8,
+        "height": 15.0
+      }
+    },
+    "drill7": {
+      "type": "text",
+      "label": "Enter the number of inactive duty drills. Line 8.",
+      "page": 1,
+      "box": {
+        "left": 222.5,
+        "top": 518.7,
+        "width": 41.7,
+        "height": 15.0
+      }
+    },
+    "corr7": {
+      "type": "text",
+      "label": "Enter the number of inactive duty correspondence courses. Line 8.",
+      "page": 1,
+      "box": {
+        "left": 266.7,
+        "top": 518.7,
+        "width": 41.7,
+        "height": 15.0
+      }
+    },
+    "mem7": {
+      "type": "text",
+      "label": "Enter the number of inactive duty memberships. Line 8.",
+      "page": 1,
+      "box": {
+        "left": 355.8,
+        "top": 518.7,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "act7": {
+      "type": "text",
+      "label": "Act7",
+      "page": 1,
+      "box": {
+        "left": 400.8,
+        "top": 518.7,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "inact7": {
+      "type": "text",
+      "label": "Enter the total number of inactive duty points with 60 maximum. Line 8.",
+      "page": 1,
+      "box": {
+        "left": 445.8,
+        "top": 518.7,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "yrsServ07": {
+      "type": "text",
+      "label": "Enter the total years of qualifying service for retirement with 50 points minimum. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 528.3,
+        "top": 518.5,
+        "width": 60.6,
+        "height": 15.4
+      }
+    },
+    "yrsServ08": {
+      "type": "text",
+      "label": "Enter the total years of qualifying service for retirement with 50 points minimum. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 528.3,
+        "top": 501.6,
+        "width": 60.6,
+        "height": 15.4
+      }
+    },
+    "totalPoints08": {
+      "type": "text",
+      "label": "TotalPoints.0.8",
+      "page": 1,
+      "box": {
+        "left": 491.0,
+        "top": 501.4,
+        "width": 36.4,
+        "height": 15.6
+      }
+    },
+    "from8": {
+      "type": "text",
+      "label": "Enter beginning date of duty. Line 9.",
+      "page": 1,
+      "box": {
+        "left": 28.3,
+        "top": 501.2,
+        "width": 54.2,
+        "height": 15.0
+      }
+    },
+    "to8": {
+      "type": "text",
+      "label": "Enter ending date of duty. Line 9.",
+      "page": 1,
+      "box": {
+        "left": 85.0,
+        "top": 501.2,
+        "width": 52.5,
+        "height": 15.0
+      }
+    },
+    "occ8": {
+      "type": "text",
+      "label": "Enter occasion codes. Line 9.",
+      "page": 1,
+      "box": {
+        "left": 139.2,
+        "top": 501.2,
+        "width": 44.2,
+        "height": 15.0
+      }
+    },
+    "pts8": {
+      "type": "text",
+      "label": "Enter active duty points. Line 9.",
+      "page": 1,
+      "box": {
+        "left": 185.0,
+        "top": 501.2,
+        "width": 35.8,
+        "height": 15.0
+      }
+    },
+    "drill8": {
+      "type": "text",
+      "label": "Enter the number of inactive duty drills. Line 9.",
+      "page": 1,
+      "box": {
+        "left": 222.5,
+        "top": 501.2,
+        "width": 41.7,
+        "height": 15.0
+      }
+    },
+    "corr8": {
+      "type": "text",
+      "label": "Enter the number of inactive duty correspondence courses. Line 9.",
+      "page": 1,
+      "box": {
+        "left": 266.7,
+        "top": 501.2,
+        "width": 41.7,
+        "height": 15.0
+      }
+    },
+    "eiod8": {
+      "type": "text",
+      "label": "Enter the number of inactive duty E I O D. Line 9.",
+      "page": 1,
+      "box": {
+        "left": 310.8,
+        "top": 501.2,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "mem8": {
+      "type": "text",
+      "label": "Enter the number of inactive duty memberships. Line 9.",
+      "page": 1,
+      "box": {
+        "left": 355.8,
+        "top": 501.2,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "act8": {
+      "type": "text",
+      "label": "Act8",
+      "page": 1,
+      "box": {
+        "left": 400.8,
+        "top": 501.2,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "inact8": {
+      "type": "text",
+      "label": "Enter the total number of inactive duty points with 60 maximum. Line 9.",
+      "page": 1,
+      "box": {
+        "left": 445.8,
+        "top": 501.2,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "from9": {
+      "type": "text",
+      "label": "Enter beginning date of duty. Line 10.",
+      "page": 1,
+      "box": {
+        "left": 28.3,
+        "top": 484.5,
+        "width": 54.2,
+        "height": 15.8
+      }
+    },
+    "to9": {
+      "type": "text",
+      "label": "Enter ending date of duty. Line 10.",
+      "page": 1,
+      "box": {
+        "left": 85.0,
+        "top": 484.5,
+        "width": 52.5,
+        "height": 15.8
+      }
+    },
+    "occ9": {
+      "type": "text",
+      "label": "Enter occasion codes. Line 10.",
+      "page": 1,
+      "box": {
+        "left": 139.2,
+        "top": 484.5,
+        "width": 44.2,
+        "height": 15.8
+      }
+    },
+    "pts9": {
+      "type": "text",
+      "label": "Enter active duty points. Line 10.",
+      "page": 1,
+      "box": {
+        "left": 185.0,
+        "top": 484.5,
+        "width": 35.8,
+        "height": 15.8
+      }
+    },
+    "drill9": {
+      "type": "text",
+      "label": "Enter the number of inactive duty drills. Line 10.",
+      "page": 1,
+      "box": {
+        "left": 222.5,
+        "top": 484.5,
+        "width": 41.7,
+        "height": 15.8
+      }
+    },
+    "corr9": {
+      "type": "text",
+      "label": "Enter the number of inactive duty correspondence courses. Line 10.",
+      "page": 1,
+      "box": {
+        "left": 266.7,
+        "top": 484.5,
+        "width": 41.7,
+        "height": 15.8
+      }
+    },
+    "eiod9": {
+      "type": "text",
+      "label": "Enter the number of inactive duty E I O D. Line 10.",
+      "page": 1,
+      "box": {
+        "left": 310.8,
+        "top": 484.5,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "mem9": {
+      "type": "text",
+      "label": "Enter the number of inactive duty memberships. Line 10.",
+      "page": 1,
+      "box": {
+        "left": 355.8,
+        "top": 484.5,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "act9": {
+      "type": "text",
+      "label": "Act9",
+      "page": 1,
+      "box": {
+        "left": 400.8,
+        "top": 484.5,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "inact9": {
+      "type": "text",
+      "label": "Enter the total number of inactive duty points with 60 maximum. Line 10.",
+      "page": 1,
+      "box": {
+        "left": 445.8,
+        "top": 484.5,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "totalPoints09": {
+      "type": "text",
+      "label": "TotalPoints.0.9",
+      "page": 1,
+      "box": {
+        "left": 491.0,
+        "top": 483.9,
+        "width": 36.4,
+        "height": 15.6
+      }
+    },
+    "yrsServ09": {
+      "type": "text",
+      "label": "Enter the total years of qualifying service for retirement with 50 points minimum. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 528.3,
+        "top": 483.6,
+        "width": 60.6,
+        "height": 15.4
+      }
+    },
+    "from10": {
+      "type": "text",
+      "label": "Enter beginning date of duty. Line 11.",
+      "page": 1,
+      "box": {
+        "left": 28.3,
+        "top": 467.0,
+        "width": 54.2,
+        "height": 15.8
+      }
+    },
+    "to10": {
+      "type": "text",
+      "label": "Enter ending date of duty. Line 11.",
+      "page": 1,
+      "box": {
+        "left": 85.0,
+        "top": 467.0,
+        "width": 52.5,
+        "height": 15.8
+      }
+    },
+    "occ10": {
+      "type": "text",
+      "label": "Enter occasion codes. Line 11.",
+      "page": 1,
+      "box": {
+        "left": 139.2,
+        "top": 467.0,
+        "width": 44.2,
+        "height": 15.8
+      }
+    },
+    "pts10": {
+      "type": "text",
+      "label": "Enter active duty points. Line 11.",
+      "page": 1,
+      "box": {
+        "left": 185.0,
+        "top": 467.0,
+        "width": 35.8,
+        "height": 15.8
+      }
+    },
+    "drill10": {
+      "type": "text",
+      "label": "Enter the number of inactive duty drills. Line 11.",
+      "page": 1,
+      "box": {
+        "left": 222.5,
+        "top": 467.0,
+        "width": 41.7,
+        "height": 15.8
+      }
+    },
+    "corr10": {
+      "type": "text",
+      "label": "Enter the number of inactive duty correspondence courses. Line 11.",
+      "page": 1,
+      "box": {
+        "left": 266.7,
+        "top": 467.0,
+        "width": 41.7,
+        "height": 15.8
+      }
+    },
+    "eiod10": {
+      "type": "text",
+      "label": "Enter the number of inactive duty E I O D. Line 11.",
+      "page": 1,
+      "box": {
+        "left": 310.8,
+        "top": 467.0,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "mem10": {
+      "type": "text",
+      "label": "Enter the number of inactive duty memberships. Line 11.",
+      "page": 1,
+      "box": {
+        "left": 355.8,
+        "top": 467.0,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "act10": {
+      "type": "text",
+      "label": "Act10",
+      "page": 1,
+      "box": {
+        "left": 400.8,
+        "top": 467.0,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "inact10": {
+      "type": "text",
+      "label": "Enter the total number of inactive duty points with 60 maximum. Line 11.",
+      "page": 1,
+      "box": {
+        "left": 445.8,
+        "top": 467.0,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "totalPoints010": {
+      "type": "text",
+      "label": "TotalPoints.0.10",
+      "page": 1,
+      "box": {
+        "left": 491.0,
+        "top": 466.8,
+        "width": 36.4,
+        "height": 15.6
+      }
+    },
+    "yrsServ010": {
+      "type": "text",
+      "label": "Enter the total years of qualifying service for retirement with 50 points minimum. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 528.3,
+        "top": 466.7,
+        "width": 60.6,
+        "height": 15.4
+      }
+    },
+    "yrsServ011": {
+      "type": "text",
+      "label": "Enter the total years of qualifying service for retirement with 50 points minimum. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 528.3,
+        "top": 449.8,
+        "width": 60.6,
+        "height": 15.4
+      }
+    },
+    "from11": {
+      "type": "text",
+      "label": "Enter beginning date of duty. Line 12.",
+      "page": 1,
+      "box": {
+        "left": 28.3,
+        "top": 449.5,
+        "width": 54.2,
+        "height": 15.0
+      }
+    },
+    "to11": {
+      "type": "text",
+      "label": "Enter ending date of duty. Line 12.",
+      "page": 1,
+      "box": {
+        "left": 85.0,
+        "top": 449.5,
+        "width": 52.5,
+        "height": 15.0
+      }
+    },
+    "occ11": {
+      "type": "text",
+      "label": "Enter occasion codes. Line 12.",
+      "page": 1,
+      "box": {
+        "left": 139.2,
+        "top": 449.5,
+        "width": 44.2,
+        "height": 15.0
+      }
+    },
+    "pts11": {
+      "type": "text",
+      "label": "Enter active duty points. Line 12.",
+      "page": 1,
+      "box": {
+        "left": 185.0,
+        "top": 449.5,
+        "width": 35.8,
+        "height": 15.0
+      }
+    },
+    "drill11": {
+      "type": "text",
+      "label": "Enter the number of inactive duty drills. Line 12.",
+      "page": 1,
+      "box": {
+        "left": 222.5,
+        "top": 449.5,
+        "width": 41.7,
+        "height": 15.0
+      }
+    },
+    "corr11": {
+      "type": "text",
+      "label": "Enter the number of inactive duty correspondence courses. Line 12.",
+      "page": 1,
+      "box": {
+        "left": 266.7,
+        "top": 449.5,
+        "width": 41.7,
+        "height": 15.0
+      }
+    },
+    "eiod11": {
+      "type": "text",
+      "label": "Enter the number of inactive duty E I O D. Line 12.",
+      "page": 1,
+      "box": {
+        "left": 310.8,
+        "top": 449.5,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "mem11": {
+      "type": "text",
+      "label": "Enter the number of inactive duty memberships. Line 12.",
+      "page": 1,
+      "box": {
+        "left": 355.8,
+        "top": 449.5,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "inact11": {
+      "type": "text",
+      "label": "Enter the total number of inactive duty points with 60 maximum. Line 12.",
+      "page": 1,
+      "box": {
+        "left": 445.8,
+        "top": 449.5,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "act11": {
+      "type": "text",
+      "label": "Act11",
+      "page": 1,
+      "box": {
+        "left": 400.7,
+        "top": 449.3,
+        "width": 43.3,
+        "height": 14.7
+      }
+    },
+    "totalPoints011": {
+      "type": "text",
+      "label": "TotalPoints.0.11",
+      "page": 1,
+      "box": {
+        "left": 491.0,
+        "top": 449.0,
+        "width": 36.4,
+        "height": 15.6
+      }
+    },
+    "yrsServ012": {
+      "type": "text",
+      "label": "Enter the total years of qualifying service for retirement with 50 points minimum. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 528.3,
+        "top": 431.9,
+        "width": 60.6,
+        "height": 15.4
+      }
+    },
+    "totalPoints012": {
+      "type": "text",
+      "label": "TotalPoints.0.12",
+      "page": 1,
+      "box": {
+        "left": 491.0,
+        "top": 431.6,
+        "width": 36.4,
+        "height": 15.6
+      }
+    },
+    "from12": {
+      "type": "text",
+      "label": "Enter beginning date of duty. Line 13.",
+      "page": 1,
+      "box": {
+        "left": 28.3,
+        "top": 431.2,
+        "width": 54.2,
+        "height": 15.0
+      }
+    },
+    "to12": {
+      "type": "text",
+      "label": "Enter ending date of duty. Line 13.",
+      "page": 1,
+      "box": {
+        "left": 85.0,
+        "top": 431.2,
+        "width": 52.5,
+        "height": 15.0
+      }
+    },
+    "occ12": {
+      "type": "text",
+      "label": "Enter occasion codes. Line 13.",
+      "page": 1,
+      "box": {
+        "left": 139.2,
+        "top": 431.2,
+        "width": 44.2,
+        "height": 15.0
+      }
+    },
+    "pts12": {
+      "type": "text",
+      "label": "Enter active duty points. Line 13.",
+      "page": 1,
+      "box": {
+        "left": 185.0,
+        "top": 431.2,
+        "width": 35.8,
+        "height": 15.0
+      }
+    },
+    "drill12": {
+      "type": "text",
+      "label": "Enter the number of inactive duty drills. Line 13.",
+      "page": 1,
+      "box": {
+        "left": 222.5,
+        "top": 431.2,
+        "width": 41.7,
+        "height": 15.0
+      }
+    },
+    "corr12": {
+      "type": "text",
+      "label": "Enter the number of inactive duty correspondence courses. Line 13.",
+      "page": 1,
+      "box": {
+        "left": 266.7,
+        "top": 431.2,
+        "width": 41.7,
+        "height": 15.0
+      }
+    },
+    "eiod12": {
+      "type": "text",
+      "label": "Enter the number of inactive duty E I O D. Line 13.",
+      "page": 1,
+      "box": {
+        "left": 310.8,
+        "top": 431.2,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "mem12": {
+      "type": "text",
+      "label": "Enter the number of inactive duty memberships. Line 13.",
+      "page": 1,
+      "box": {
+        "left": 355.8,
+        "top": 431.2,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "act12": {
+      "type": "text",
+      "label": "Act12",
+      "page": 1,
+      "box": {
+        "left": 400.8,
+        "top": 431.2,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "inact12": {
+      "type": "text",
+      "label": "Enter the total number of inactive duty points with 60 maximum. Line 13.",
+      "page": 1,
+      "box": {
+        "left": 445.8,
+        "top": 431.2,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "yrsServ013": {
+      "type": "text",
+      "label": "Enter the total years of qualifying service for retirement with 50 points minimum. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 528.3,
+        "top": 414.9,
+        "width": 60.6,
+        "height": 15.4
+      }
+    },
+    "from13": {
+      "type": "text",
+      "label": "Enter beginning date of duty. Line 14.",
+      "page": 1,
+      "box": {
+        "left": 28.3,
+        "top": 414.5,
+        "width": 54.2,
+        "height": 15.8
+      }
+    },
+    "to13": {
+      "type": "text",
+      "label": "Enter ending date of duty. Line 14.",
+      "page": 1,
+      "box": {
+        "left": 85.0,
+        "top": 414.5,
+        "width": 52.5,
+        "height": 15.8
+      }
+    },
+    "occ13": {
+      "type": "text",
+      "label": "Enter occasion codes. Line 14.",
+      "page": 1,
+      "box": {
+        "left": 139.2,
+        "top": 414.5,
+        "width": 44.2,
+        "height": 15.8
+      }
+    },
+    "pts13": {
+      "type": "text",
+      "label": "Enter active duty points. Line 14.",
+      "page": 1,
+      "box": {
+        "left": 185.0,
+        "top": 414.5,
+        "width": 35.8,
+        "height": 15.8
+      }
+    },
+    "drill13": {
+      "type": "text",
+      "label": "Enter the number of inactive duty drills. Line 14.",
+      "page": 1,
+      "box": {
+        "left": 222.5,
+        "top": 414.5,
+        "width": 41.7,
+        "height": 15.8
+      }
+    },
+    "corr13": {
+      "type": "text",
+      "label": "Enter the number of inactive duty correspondence courses. Line 14.",
+      "page": 1,
+      "box": {
+        "left": 266.7,
+        "top": 414.5,
+        "width": 41.7,
+        "height": 15.8
+      }
+    },
+    "eiod13": {
+      "type": "text",
+      "label": "Enter the number of inactive duty E I O D. Line 14.",
+      "page": 1,
+      "box": {
+        "left": 310.8,
+        "top": 414.5,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "mem13": {
+      "type": "text",
+      "label": "Enter the number of inactive duty memberships. Line 14.",
+      "page": 1,
+      "box": {
+        "left": 355.8,
+        "top": 414.5,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "act13": {
+      "type": "text",
+      "label": "Act13",
+      "page": 1,
+      "box": {
+        "left": 400.8,
+        "top": 414.5,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "inact13": {
+      "type": "text",
+      "label": "Enter the total number of inactive duty points with 60 maximum. Line 14.",
+      "page": 1,
+      "box": {
+        "left": 445.8,
+        "top": 414.5,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "totalPoints013": {
+      "type": "text",
+      "label": "TotalPoints.0.13",
+      "page": 1,
+      "box": {
+        "left": 491.0,
+        "top": 414.1,
+        "width": 36.4,
+        "height": 15.6
+      }
+    },
+    "from14": {
+      "type": "text",
+      "label": "Enter beginning date of duty. Line 15.",
+      "page": 1,
+      "box": {
+        "left": 28.3,
+        "top": 397.0,
+        "width": 54.2,
+        "height": 15.8
+      }
+    },
+    "to14": {
+      "type": "text",
+      "label": "Enter ending date of duty. Line 15.",
+      "page": 1,
+      "box": {
+        "left": 85.0,
+        "top": 397.0,
+        "width": 52.5,
+        "height": 15.8
+      }
+    },
+    "occ14": {
+      "type": "text",
+      "label": "Enter occasion codes. Line 15.",
+      "page": 1,
+      "box": {
+        "left": 139.2,
+        "top": 397.0,
+        "width": 44.2,
+        "height": 15.8
+      }
+    },
+    "pts14": {
+      "type": "text",
+      "label": "Enter active duty points. Line 15.",
+      "page": 1,
+      "box": {
+        "left": 185.0,
+        "top": 397.0,
+        "width": 35.8,
+        "height": 15.8
+      }
+    },
+    "drill14": {
+      "type": "text",
+      "label": "Enter the number of inactive duty drills. Line 15.",
+      "page": 1,
+      "box": {
+        "left": 222.5,
+        "top": 397.0,
+        "width": 41.7,
+        "height": 15.8
+      }
+    },
+    "corr14": {
+      "type": "text",
+      "label": "Enter the number of inactive duty correspondence courses. Line 15.",
+      "page": 1,
+      "box": {
+        "left": 266.7,
+        "top": 397.0,
+        "width": 41.7,
+        "height": 15.8
+      }
+    },
+    "eiod14": {
+      "type": "text",
+      "label": "Enter the number of inactive duty E I O D. Line 15.",
+      "page": 1,
+      "box": {
+        "left": 310.8,
+        "top": 397.0,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "mem14": {
+      "type": "text",
+      "label": "Enter the number of inactive duty memberships. Line 15.",
+      "page": 1,
+      "box": {
+        "left": 355.8,
+        "top": 397.0,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "act14": {
+      "type": "text",
+      "label": "Act14",
+      "page": 1,
+      "box": {
+        "left": 400.8,
+        "top": 397.0,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "inact14": {
+      "type": "text",
+      "label": "Enter the total number of inactive duty points with 60 maximum. Line 15.",
+      "page": 1,
+      "box": {
+        "left": 445.8,
+        "top": 397.0,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "yrsServ014": {
+      "type": "text",
+      "label": "Enter the total years of qualifying service for retirement with 50 points minimum. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 528.3,
+        "top": 397.0,
+        "width": 60.6,
+        "height": 15.4
+      }
+    },
+    "totalPoints014": {
+      "type": "text",
+      "label": "TotalPoints.0.14",
+      "page": 1,
+      "box": {
+        "left": 491.0,
+        "top": 396.6,
+        "width": 36.4,
+        "height": 15.6
+      }
+    },
+    "yrsServ015": {
+      "type": "text",
+      "label": "Enter the total years of qualifying service for retirement with 50 points minimum. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 528.3,
+        "top": 380.1,
+        "width": 60.6,
+        "height": 15.4
+      }
+    },
+    "from15": {
+      "type": "text",
+      "label": "Enter beginning date of duty. Line 16.",
+      "page": 1,
+      "box": {
+        "left": 28.3,
+        "top": 379.5,
+        "width": 54.2,
+        "height": 15.0
+      }
+    },
+    "to15": {
+      "type": "text",
+      "label": "Enter ending date of duty. Line 16.",
+      "page": 1,
+      "box": {
+        "left": 85.0,
+        "top": 379.5,
+        "width": 52.5,
+        "height": 15.0
+      }
+    },
+    "occ15": {
+      "type": "text",
+      "label": "Enter occasion codes. Line 16.",
+      "page": 1,
+      "box": {
+        "left": 139.2,
+        "top": 379.5,
+        "width": 44.2,
+        "height": 15.0
+      }
+    },
+    "pts15": {
+      "type": "text",
+      "label": "Enter active duty points. Line 16.",
+      "page": 1,
+      "box": {
+        "left": 185.0,
+        "top": 379.5,
+        "width": 35.8,
+        "height": 15.0
+      }
+    },
+    "drill15": {
+      "type": "text",
+      "label": "Enter the number of inactive duty drills. Line 16.",
+      "page": 1,
+      "box": {
+        "left": 222.5,
+        "top": 379.5,
+        "width": 41.7,
+        "height": 15.0
+      }
+    },
+    "corr15": {
+      "type": "text",
+      "label": "Enter the number of inactive duty correspondence courses. Line 16.",
+      "page": 1,
+      "box": {
+        "left": 266.7,
+        "top": 379.5,
+        "width": 41.7,
+        "height": 15.0
+      }
+    },
+    "eiod15": {
+      "type": "text",
+      "label": "Enter the number of inactive duty E I O D. Line 16.",
+      "page": 1,
+      "box": {
+        "left": 310.8,
+        "top": 379.5,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "mem15": {
+      "type": "text",
+      "label": "Enter the number of inactive duty memberships. Line 16.",
+      "page": 1,
+      "box": {
+        "left": 355.8,
+        "top": 379.5,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "act15": {
+      "type": "text",
+      "label": "Act15",
+      "page": 1,
+      "box": {
+        "left": 400.8,
+        "top": 379.5,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "inact15": {
+      "type": "text",
+      "label": "Enter the total number of inactive duty points with 60 maximum. Line 16.",
+      "page": 1,
+      "box": {
+        "left": 445.8,
+        "top": 379.5,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "totalPoints015": {
+      "type": "text",
+      "label": "TotalPoints.0.15",
+      "page": 1,
+      "box": {
+        "left": 491.0,
+        "top": 379.2,
+        "width": 36.4,
+        "height": 15.6
+      }
+    },
+    "yrsServ016": {
+      "type": "text",
+      "label": "Enter the total years of qualifying service for retirement with 50 points minimum. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 528.3,
+        "top": 362.2,
+        "width": 60.6,
+        "height": 15.4
+      }
+    },
+    "from16": {
+      "type": "text",
+      "label": "Enter beginning date of duty. Line 17.",
+      "page": 1,
+      "box": {
+        "left": 28.3,
+        "top": 362.0,
+        "width": 54.2,
+        "height": 15.0
+      }
+    },
+    "to16": {
+      "type": "text",
+      "label": "Enter ending date of duty. Line 17.",
+      "page": 1,
+      "box": {
+        "left": 85.0,
+        "top": 362.0,
+        "width": 52.5,
+        "height": 15.0
+      }
+    },
+    "occ16": {
+      "type": "text",
+      "label": "Enter occasion codes. Line 17.",
+      "page": 1,
+      "box": {
+        "left": 139.2,
+        "top": 362.0,
+        "width": 44.2,
+        "height": 15.0
+      }
+    },
+    "pts16": {
+      "type": "text",
+      "label": "Enter active duty points. Line 17.",
+      "page": 1,
+      "box": {
+        "left": 185.0,
+        "top": 362.0,
+        "width": 35.8,
+        "height": 15.0
+      }
+    },
+    "drill16": {
+      "type": "text",
+      "label": "Enter the number of inactive duty drills. Line 17.",
+      "page": 1,
+      "box": {
+        "left": 222.5,
+        "top": 362.0,
+        "width": 41.7,
+        "height": 15.0
+      }
+    },
+    "corr16": {
+      "type": "text",
+      "label": "Enter the number of inactive duty correspondence courses. Line 17.",
+      "page": 1,
+      "box": {
+        "left": 266.7,
+        "top": 362.0,
+        "width": 41.7,
+        "height": 15.0
+      }
+    },
+    "eiod16": {
+      "type": "text",
+      "label": "Enter the number of inactive duty E I O D. Line 17.",
+      "page": 1,
+      "box": {
+        "left": 310.8,
+        "top": 362.0,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "mem16": {
+      "type": "text",
+      "label": "Enter the number of inactive duty memberships. Line 17.",
+      "page": 1,
+      "box": {
+        "left": 355.8,
+        "top": 362.0,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "act16": {
+      "type": "text",
+      "label": "Act16",
+      "page": 1,
+      "box": {
+        "left": 400.8,
+        "top": 362.0,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "inact16": {
+      "type": "text",
+      "label": "Enter the total number of inactive duty points with 60 maximum. Line 17.",
+      "page": 1,
+      "box": {
+        "left": 445.8,
+        "top": 362.0,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "totalPoints016": {
+      "type": "text",
+      "label": "TotalPoints.0.16",
+      "page": 1,
+      "box": {
+        "left": 491.0,
+        "top": 361.7,
+        "width": 36.4,
+        "height": 15.6
+      }
+    },
+    "from17": {
+      "type": "text",
+      "label": "Enter beginning date of duty. Line 18.",
+      "page": 1,
+      "box": {
+        "left": 28.3,
+        "top": 344.5,
+        "width": 54.2,
+        "height": 15.0
+      }
+    },
+    "to17": {
+      "type": "text",
+      "label": "Enter ending date of duty. Line 18.",
+      "page": 1,
+      "box": {
+        "left": 85.0,
+        "top": 344.5,
+        "width": 52.5,
+        "height": 15.0
+      }
+    },
+    "occ17": {
+      "type": "text",
+      "label": "Enter occasion codes. Line 18.",
+      "page": 1,
+      "box": {
+        "left": 139.2,
+        "top": 344.5,
+        "width": 44.2,
+        "height": 15.0
+      }
+    },
+    "pts17": {
+      "type": "text",
+      "label": "Enter active duty points. Line 18.",
+      "page": 1,
+      "box": {
+        "left": 185.0,
+        "top": 344.5,
+        "width": 35.8,
+        "height": 15.0
+      }
+    },
+    "drill17": {
+      "type": "text",
+      "label": "Enter the number of inactive duty drills. Line 18.",
+      "page": 1,
+      "box": {
+        "left": 222.5,
+        "top": 344.5,
+        "width": 41.7,
+        "height": 15.0
+      }
+    },
+    "corr17": {
+      "type": "text",
+      "label": "Enter the number of inactive duty correspondence courses. Line 18.",
+      "page": 1,
+      "box": {
+        "left": 266.7,
+        "top": 344.5,
+        "width": 41.7,
+        "height": 15.0
+      }
+    },
+    "eiod17": {
+      "type": "text",
+      "label": "Enter the number of inactive duty E I O D. Line 18.",
+      "page": 1,
+      "box": {
+        "left": 310.8,
+        "top": 344.5,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "mem17": {
+      "type": "text",
+      "label": "Enter the number of inactive duty memberships. Line 18.",
+      "page": 1,
+      "box": {
+        "left": 355.8,
+        "top": 344.5,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "act17": {
+      "type": "text",
+      "label": "Act17",
+      "page": 1,
+      "box": {
+        "left": 400.8,
+        "top": 344.5,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "inact17": {
+      "type": "text",
+      "label": "Enter the total number of inactive duty points with 60 maximum. Line 18.",
+      "page": 1,
+      "box": {
+        "left": 445.8,
+        "top": 344.5,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "totalPoints017": {
+      "type": "text",
+      "label": "TotalPoints.0.17",
+      "page": 1,
+      "box": {
+        "left": 491.0,
+        "top": 344.3,
+        "width": 36.4,
+        "height": 15.6
+      }
+    },
+    "yrsServ017": {
+      "type": "text",
+      "label": "Enter the total years of qualifying service for retirement with 50 points minimum. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 528.3,
+        "top": 344.3,
+        "width": 60.6,
+        "height": 15.4
+      }
+    },
+    "from18": {
+      "type": "text",
+      "label": "Enter beginning date of duty. Line 19.",
+      "page": 1,
+      "box": {
+        "left": 28.3,
+        "top": 327.8,
+        "width": 54.2,
+        "height": 15.8
+      }
+    },
+    "to18": {
+      "type": "text",
+      "label": "Enter ending date of duty. Line 19.",
+      "page": 1,
+      "box": {
+        "left": 85.0,
+        "top": 327.8,
+        "width": 52.5,
+        "height": 15.8
+      }
+    },
+    "occ18": {
+      "type": "text",
+      "label": "Enter occasion codes. Line 19.",
+      "page": 1,
+      "box": {
+        "left": 139.2,
+        "top": 327.8,
+        "width": 44.2,
+        "height": 15.8
+      }
+    },
+    "pts18": {
+      "type": "text",
+      "label": "Enter active duty points. Line 19.",
+      "page": 1,
+      "box": {
+        "left": 185.0,
+        "top": 327.8,
+        "width": 35.8,
+        "height": 15.8
+      }
+    },
+    "drill18": {
+      "type": "text",
+      "label": "Enter the number of inactive duty drills. Line 19.",
+      "page": 1,
+      "box": {
+        "left": 222.5,
+        "top": 327.8,
+        "width": 41.7,
+        "height": 15.8
+      }
+    },
+    "corr18": {
+      "type": "text",
+      "label": "Enter the number of inactive duty correspondence courses. Line 19.",
+      "page": 1,
+      "box": {
+        "left": 266.7,
+        "top": 327.8,
+        "width": 41.7,
+        "height": 15.8
+      }
+    },
+    "eiod18": {
+      "type": "text",
+      "label": "Enter the number of inactive duty E I O D. Line 19.",
+      "page": 1,
+      "box": {
+        "left": 310.8,
+        "top": 327.8,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "mem18": {
+      "type": "text",
+      "label": "Enter the number of inactive duty memberships. Line 19.",
+      "page": 1,
+      "box": {
+        "left": 355.8,
+        "top": 327.8,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "act18": {
+      "type": "text",
+      "label": "Act18",
+      "page": 1,
+      "box": {
+        "left": 400.8,
+        "top": 327.8,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "inact18": {
+      "type": "text",
+      "label": "Enter the total number of inactive duty points with 60 maximum. Line 19.",
+      "page": 1,
+      "box": {
+        "left": 445.8,
+        "top": 327.8,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "yrsServ018": {
+      "type": "text",
+      "label": "Enter the total years of qualifying service for retirement with 50 points minimum. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 528.3,
+        "top": 327.3,
+        "width": 60.6,
+        "height": 15.4
+      }
+    },
+    "totalPoints018": {
+      "type": "text",
+      "label": "TotalPoints.0.18",
+      "page": 1,
+      "box": {
+        "left": 491.0,
+        "top": 326.8,
+        "width": 36.4,
+        "height": 15.6
+      }
+    },
+    "totalPoints019": {
+      "type": "text",
+      "label": "TotalPoints.0.19",
+      "page": 1,
+      "box": {
+        "left": 491.0,
+        "top": 310.4,
+        "width": 36.4,
+        "height": 15.6
+      }
+    },
+    "yrsServ019": {
+      "type": "text",
+      "label": "Enter the total years of qualifying service for retirement with 50 points minimum. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 528.3,
+        "top": 310.4,
+        "width": 60.6,
+        "height": 15.4
+      }
+    },
+    "from19": {
+      "type": "text",
+      "label": "Enter beginning date of duty. Line 20.",
+      "page": 1,
+      "box": {
+        "left": 28.3,
+        "top": 310.3,
+        "width": 54.2,
+        "height": 15.8
+      }
+    },
+    "to19": {
+      "type": "text",
+      "label": "Enter ending date of duty. Line 20.",
+      "page": 1,
+      "box": {
+        "left": 85.0,
+        "top": 310.3,
+        "width": 52.5,
+        "height": 15.8
+      }
+    },
+    "occ19": {
+      "type": "text",
+      "label": "Enter occasion codes. Line 20.",
+      "page": 1,
+      "box": {
+        "left": 139.2,
+        "top": 310.3,
+        "width": 44.2,
+        "height": 15.8
+      }
+    },
+    "pts19": {
+      "type": "text",
+      "label": "Enter active duty points. Line 20.",
+      "page": 1,
+      "box": {
+        "left": 185.0,
+        "top": 310.3,
+        "width": 35.8,
+        "height": 15.8
+      }
+    },
+    "drill19": {
+      "type": "text",
+      "label": "Enter the number of inactive duty drills. Line 20.",
+      "page": 1,
+      "box": {
+        "left": 222.5,
+        "top": 310.3,
+        "width": 41.7,
+        "height": 15.8
+      }
+    },
+    "corr19": {
+      "type": "text",
+      "label": "Enter the number of inactive duty correspondence courses. Line 20.",
+      "page": 1,
+      "box": {
+        "left": 266.7,
+        "top": 310.3,
+        "width": 41.7,
+        "height": 15.8
+      }
+    },
+    "eiod19": {
+      "type": "text",
+      "label": "Enter the number of inactive duty E I O D. Line 20.",
+      "page": 1,
+      "box": {
+        "left": 310.8,
+        "top": 310.3,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "mem19": {
+      "type": "text",
+      "label": "Enter the number of inactive duty memberships. Line 20.",
+      "page": 1,
+      "box": {
+        "left": 355.8,
+        "top": 310.3,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "act19": {
+      "type": "text",
+      "label": "Act19",
+      "page": 1,
+      "box": {
+        "left": 400.8,
+        "top": 310.3,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "inact19": {
+      "type": "text",
+      "label": "Enter the total number of inactive duty points with 60 maximum. Line 20.",
+      "page": 1,
+      "box": {
+        "left": 445.8,
+        "top": 310.3,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "from20": {
+      "type": "text",
+      "label": "Enter beginning date of duty. Line 21.",
+      "page": 1,
+      "box": {
+        "left": 28.3,
+        "top": 292.8,
+        "width": 54.2,
+        "height": 15.0
+      }
+    },
+    "to20": {
+      "type": "text",
+      "label": "Enter ending date of duty. Line 21.",
+      "page": 1,
+      "box": {
+        "left": 85.0,
+        "top": 292.8,
+        "width": 52.5,
+        "height": 15.0
+      }
+    },
+    "occ20": {
+      "type": "text",
+      "label": "Enter occasion codes. Line 21.",
+      "page": 1,
+      "box": {
+        "left": 139.2,
+        "top": 292.8,
+        "width": 44.2,
+        "height": 15.0
+      }
+    },
+    "pts20": {
+      "type": "text",
+      "label": "Enter active duty points. Line 21.",
+      "page": 1,
+      "box": {
+        "left": 185.0,
+        "top": 292.8,
+        "width": 35.8,
+        "height": 15.0
+      }
+    },
+    "drill20": {
+      "type": "text",
+      "label": "Enter the number of inactive duty drills. Line 21.",
+      "page": 1,
+      "box": {
+        "left": 222.5,
+        "top": 292.8,
+        "width": 41.7,
+        "height": 15.0
+      }
+    },
+    "corr20": {
+      "type": "text",
+      "label": "Enter the number of inactive duty correspondence courses. Line 21.",
+      "page": 1,
+      "box": {
+        "left": 266.7,
+        "top": 292.8,
+        "width": 41.7,
+        "height": 15.0
+      }
+    },
+    "eiod20": {
+      "type": "text",
+      "label": "Enter the number of inactive duty E I O D. Line 21.",
+      "page": 1,
+      "box": {
+        "left": 310.8,
+        "top": 292.8,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "mem20": {
+      "type": "text",
+      "label": "Enter the number of inactive duty memberships. Line 21.",
+      "page": 1,
+      "box": {
+        "left": 355.8,
+        "top": 292.8,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "act20": {
+      "type": "text",
+      "label": "Act20",
+      "page": 1,
+      "box": {
+        "left": 400.8,
+        "top": 292.8,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "inact20": {
+      "type": "text",
+      "label": "Enter the total number of inactive duty points with 60 maximum. Line 21.",
+      "page": 1,
+      "box": {
+        "left": 445.8,
+        "top": 292.8,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "yrsServ020": {
+      "type": "text",
+      "label": "Enter the total years of qualifying service for retirement with 50 points minimum. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 528.3,
+        "top": 292.5,
+        "width": 60.6,
+        "height": 15.4
+      }
+    },
+    "totalPoints020": {
+      "type": "text",
+      "label": "TotalPoints.0.20",
+      "page": 1,
+      "box": {
+        "left": 491.2,
+        "top": 291.7,
+        "width": 36.4,
+        "height": 15.6
+      }
+    },
+    "yrsServ021": {
+      "type": "text",
+      "label": "Enter the total years of qualifying service for retirement with 50 points minimum. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 528.3,
+        "top": 275.6,
+        "width": 60.6,
+        "height": 15.4
+      }
+    },
+    "totalPoints021": {
+      "type": "text",
+      "label": "TotalPoints.0.21",
+      "page": 1,
+      "box": {
+        "left": 491.0,
+        "top": 275.5,
+        "width": 36.4,
+        "height": 15.6
+      }
+    },
+    "from21": {
+      "type": "text",
+      "label": "Enter beginning date of duty. Line 22.",
+      "page": 1,
+      "box": {
+        "left": 28.3,
+        "top": 275.3,
+        "width": 54.2,
+        "height": 15.0
+      }
+    },
+    "to21": {
+      "type": "text",
+      "label": "Enter ending date of duty. Line 22.",
+      "page": 1,
+      "box": {
+        "left": 85.0,
+        "top": 275.3,
+        "width": 52.5,
+        "height": 15.0
+      }
+    },
+    "occ21": {
+      "type": "text",
+      "label": "Enter occasion codes. Line 22.",
+      "page": 1,
+      "box": {
+        "left": 139.2,
+        "top": 275.3,
+        "width": 44.2,
+        "height": 15.0
+      }
+    },
+    "pts21": {
+      "type": "text",
+      "label": "Enter active duty points. Line 22.",
+      "page": 1,
+      "box": {
+        "left": 185.0,
+        "top": 275.3,
+        "width": 35.8,
+        "height": 15.0
+      }
+    },
+    "drill21": {
+      "type": "text",
+      "label": "Enter the number of inactive duty drills. Line 22.",
+      "page": 1,
+      "box": {
+        "left": 222.5,
+        "top": 275.3,
+        "width": 41.7,
+        "height": 15.0
+      }
+    },
+    "corr21": {
+      "type": "text",
+      "label": "Enter the number of inactive duty correspondence courses. Line 22.",
+      "page": 1,
+      "box": {
+        "left": 266.7,
+        "top": 275.3,
+        "width": 41.7,
+        "height": 15.0
+      }
+    },
+    "eiod21": {
+      "type": "text",
+      "label": "Enter the number of inactive duty E I O D. Line 22.",
+      "page": 1,
+      "box": {
+        "left": 310.8,
+        "top": 275.3,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "mem21": {
+      "type": "text",
+      "label": "Enter the number of inactive duty memberships. Line 22.",
+      "page": 1,
+      "box": {
+        "left": 355.8,
+        "top": 275.3,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "act21": {
+      "type": "text",
+      "label": "Act21",
+      "page": 1,
+      "box": {
+        "left": 400.8,
+        "top": 275.3,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "inact21": {
+      "type": "text",
+      "label": "Enter the total number of inactive duty points with 60 maximum. Line 22.",
+      "page": 1,
+      "box": {
+        "left": 445.8,
+        "top": 275.3,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "totalPoints022": {
+      "type": "text",
+      "label": "TotalPoints.0.22",
+      "page": 1,
+      "box": {
+        "left": 491.0,
+        "top": 258.0,
+        "width": 36.4,
+        "height": 15.6
+      }
+    },
+    "from22": {
+      "type": "text",
+      "label": "Enter beginning date of duty. Line 23.",
+      "page": 1,
+      "box": {
+        "left": 28.3,
+        "top": 257.8,
+        "width": 54.2,
+        "height": 15.8
+      }
+    },
+    "to22": {
+      "type": "text",
+      "label": "Enter ending date of duty. Line 23.",
+      "page": 1,
+      "box": {
+        "left": 85.0,
+        "top": 257.8,
+        "width": 52.5,
+        "height": 15.8
+      }
+    },
+    "occ22": {
+      "type": "text",
+      "label": "Enter occasion codes. Line 23.",
+      "page": 1,
+      "box": {
+        "left": 139.2,
+        "top": 257.8,
+        "width": 44.2,
+        "height": 15.8
+      }
+    },
+    "pts22": {
+      "type": "text",
+      "label": "Enter active duty points. Line 23.",
+      "page": 1,
+      "box": {
+        "left": 185.0,
+        "top": 257.8,
+        "width": 35.8,
+        "height": 15.8
+      }
+    },
+    "drill22": {
+      "type": "text",
+      "label": "Enter the number of inactive duty drills. Line 23.",
+      "page": 1,
+      "box": {
+        "left": 222.5,
+        "top": 257.8,
+        "width": 41.7,
+        "height": 15.8
+      }
+    },
+    "corr22": {
+      "type": "text",
+      "label": "Enter the number of inactive duty correspondence courses. Line 23.",
+      "page": 1,
+      "box": {
+        "left": 266.7,
+        "top": 257.8,
+        "width": 41.7,
+        "height": 15.8
+      }
+    },
+    "eiod22": {
+      "type": "text",
+      "label": "Enter the number of inactive duty E I O D. Line 23.",
+      "page": 1,
+      "box": {
+        "left": 310.8,
+        "top": 257.8,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "mem22": {
+      "type": "text",
+      "label": "Enter the number of inactive duty memberships. Line 23.",
+      "page": 1,
+      "box": {
+        "left": 355.8,
+        "top": 257.8,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "act22": {
+      "type": "text",
+      "label": "Act22",
+      "page": 1,
+      "box": {
+        "left": 400.8,
+        "top": 257.8,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "inact22": {
+      "type": "text",
+      "label": "Enter the total number of inactive duty points with 60 maximum. Line 23.",
+      "page": 1,
+      "box": {
+        "left": 445.8,
+        "top": 257.8,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "yrsServ022": {
+      "type": "text",
+      "label": "Enter the total years of qualifying service for retirement with 50 points minimum. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 528.3,
+        "top": 257.6,
+        "width": 60.6,
+        "height": 15.4
+      }
+    },
+    "from23": {
+      "type": "text",
+      "label": "Enter beginning date of duty. Line 24.",
+      "page": 1,
+      "box": {
+        "left": 28.3,
+        "top": 240.3,
+        "width": 54.2,
+        "height": 15.8
+      }
+    },
+    "to23": {
+      "type": "text",
+      "label": "Enter ending date of duty. Line 24.",
+      "page": 1,
+      "box": {
+        "left": 85.0,
+        "top": 240.3,
+        "width": 52.5,
+        "height": 15.8
+      }
+    },
+    "occ23": {
+      "type": "text",
+      "label": "Enter occasion codes. Line 24.",
+      "page": 1,
+      "box": {
+        "left": 139.2,
+        "top": 240.3,
+        "width": 44.2,
+        "height": 15.8
+      }
+    },
+    "pts23": {
+      "type": "text",
+      "label": "Enter active duty points. Line 24.",
+      "page": 1,
+      "box": {
+        "left": 185.0,
+        "top": 240.3,
+        "width": 35.8,
+        "height": 15.8
+      }
+    },
+    "drill23": {
+      "type": "text",
+      "label": "Enter the number of inactive duty drills. Line 24.",
+      "page": 1,
+      "box": {
+        "left": 222.5,
+        "top": 240.3,
+        "width": 41.7,
+        "height": 15.8
+      }
+    },
+    "corr23": {
+      "type": "text",
+      "label": "Enter the number of inactive duty correspondence courses. Line 24.",
+      "page": 1,
+      "box": {
+        "left": 266.7,
+        "top": 240.3,
+        "width": 41.7,
+        "height": 15.8
+      }
+    },
+    "eiod23": {
+      "type": "text",
+      "label": "Enter the number of inactive duty E I O D. Line 24.",
+      "page": 1,
+      "box": {
+        "left": 310.8,
+        "top": 240.3,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "mem23": {
+      "type": "text",
+      "label": "Enter the number of inactive duty memberships. Line 24.",
+      "page": 1,
+      "box": {
+        "left": 355.8,
+        "top": 240.3,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "act23": {
+      "type": "text",
+      "label": "Act23",
+      "page": 1,
+      "box": {
+        "left": 400.8,
+        "top": 240.3,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "inact23": {
+      "type": "text",
+      "label": "Enter the total number of inactive duty points with 60 maximum. Line 24.",
+      "page": 1,
+      "box": {
+        "left": 445.8,
+        "top": 240.3,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "yrsServ023": {
+      "type": "text",
+      "label": "Enter the total years of qualifying service for retirement with 50 points minimum. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 528.3,
+        "top": 239.7,
+        "width": 60.6,
+        "height": 15.4
+      }
+    },
+    "totalPoints023": {
+      "type": "text",
+      "label": "TotalPoints.0.23",
+      "page": 1,
+      "box": {
+        "left": 491.0,
+        "top": 239.6,
+        "width": 36.4,
+        "height": 15.6
+      }
+    },
+    "from24": {
+      "type": "text",
+      "label": "Enter beginning date of duty. Line 25.",
+      "page": 1,
+      "box": {
+        "left": 28.3,
+        "top": 222.8,
+        "width": 54.2,
+        "height": 15.0
+      }
+    },
+    "to24": {
+      "type": "text",
+      "label": "Enter ending date of duty. Line 25.",
+      "page": 1,
+      "box": {
+        "left": 85.0,
+        "top": 222.8,
+        "width": 52.5,
+        "height": 15.0
+      }
+    },
+    "occ24": {
+      "type": "text",
+      "label": "Enter occasion codes. Line 25.",
+      "page": 1,
+      "box": {
+        "left": 139.2,
+        "top": 222.8,
+        "width": 44.2,
+        "height": 15.0
+      }
+    },
+    "drill24": {
+      "type": "text",
+      "label": "Enter the number of inactive duty drills. Line 25.",
+      "page": 1,
+      "box": {
+        "left": 222.5,
+        "top": 222.8,
+        "width": 41.7,
+        "height": 15.0
+      }
+    },
+    "corr24": {
+      "type": "text",
+      "label": "Enter the number of inactive duty correspondence courses. Line 25.",
+      "page": 1,
+      "box": {
+        "left": 266.7,
+        "top": 222.8,
+        "width": 41.7,
+        "height": 15.0
+      }
+    },
+    "eiod24": {
+      "type": "text",
+      "label": "Enter the number of inactive duty E I O D. Line 25.",
+      "page": 1,
+      "box": {
+        "left": 310.8,
+        "top": 222.8,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "mem24": {
+      "type": "text",
+      "label": "Enter the number of inactive duty memberships. Line 25.",
+      "page": 1,
+      "box": {
+        "left": 355.8,
+        "top": 222.8,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "act24": {
+      "type": "text",
+      "label": "Act24",
+      "page": 1,
+      "box": {
+        "left": 400.8,
+        "top": 222.8,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "inact24": {
+      "type": "text",
+      "label": "Enter the total number of inactive duty points with 60 maximum. Line 25.",
+      "page": 1,
+      "box": {
+        "left": 445.8,
+        "top": 222.8,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "yrsServ024": {
+      "type": "text",
+      "label": "Enter the total years of qualifying service for retirement with 50 points minimum. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 528.3,
+        "top": 222.8,
+        "width": 60.6,
+        "height": 15.4
+      }
+    },
+    "pts24": {
+      "type": "text",
+      "label": "Enter active duty points. Line 25.",
+      "page": 1,
+      "box": {
+        "left": 186.3,
+        "top": 222.2,
+        "width": 35.8,
+        "height": 15.0
+      }
+    },
+    "totalPoints024": {
+      "type": "text",
+      "label": "TotalPoints.0.24",
+      "page": 1,
+      "box": {
+        "left": 491.0,
+        "top": 222.1,
+        "width": 36.4,
+        "height": 15.6
+      }
+    },
+    "yrsServ025": {
+      "type": "text",
+      "label": "Enter the total years of qualifying service for retirement with 50 points minimum. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 528.3,
+        "top": 205.9,
+        "width": 60.6,
+        "height": 15.4
+      }
+    },
+    "from25": {
+      "type": "text",
+      "label": "Enter beginning date of duty. Line 26.",
+      "page": 1,
+      "box": {
+        "left": 28.3,
+        "top": 205.3,
+        "width": 54.2,
+        "height": 15.0
+      }
+    },
+    "to25": {
+      "type": "text",
+      "label": "Enter ending date of duty. Line 26.",
+      "page": 1,
+      "box": {
+        "left": 85.0,
+        "top": 205.3,
+        "width": 52.5,
+        "height": 15.0
+      }
+    },
+    "occ25": {
+      "type": "text",
+      "label": "Enter occasion codes. Line 26.",
+      "page": 1,
+      "box": {
+        "left": 139.2,
+        "top": 205.3,
+        "width": 44.2,
+        "height": 15.0
+      }
+    },
+    "pts25": {
+      "type": "text",
+      "label": "Enter active duty points. Line 26.",
+      "page": 1,
+      "box": {
+        "left": 185.0,
+        "top": 205.3,
+        "width": 35.8,
+        "height": 15.0
+      }
+    },
+    "drill25": {
+      "type": "text",
+      "label": "Enter the number of inactive duty drills. Line 26.",
+      "page": 1,
+      "box": {
+        "left": 222.5,
+        "top": 205.3,
+        "width": 41.7,
+        "height": 15.0
+      }
+    },
+    "corr25": {
+      "type": "text",
+      "label": "Enter the number of inactive duty correspondence courses. Line 26.",
+      "page": 1,
+      "box": {
+        "left": 266.7,
+        "top": 205.3,
+        "width": 41.7,
+        "height": 15.0
+      }
+    },
+    "eiod25": {
+      "type": "text",
+      "label": "Enter the number of inactive duty E I O D. Line 26.",
+      "page": 1,
+      "box": {
+        "left": 310.8,
+        "top": 205.3,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "mem25": {
+      "type": "text",
+      "label": "Enter the number of inactive duty memberships. Line 26.",
+      "page": 1,
+      "box": {
+        "left": 355.8,
+        "top": 205.3,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "act25": {
+      "type": "text",
+      "label": "Act25",
+      "page": 1,
+      "box": {
+        "left": 400.8,
+        "top": 205.3,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "inact25": {
+      "type": "text",
+      "label": "Enter the total number of inactive duty points with 60 maximum. Line 26.",
+      "page": 1,
+      "box": {
+        "left": 445.8,
+        "top": 205.3,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "totalPoints025": {
+      "type": "text",
+      "label": "TotalPoints.0.25",
+      "page": 1,
+      "box": {
+        "left": 491.0,
+        "top": 204.7,
+        "width": 36.4,
+        "height": 15.6
+      }
+    },
+    "yrsServ026": {
+      "type": "text",
+      "label": "Enter the total years of qualifying service for retirement with 50 points minimum. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 528.3,
+        "top": 189.0,
+        "width": 60.6,
+        "height": 15.4
+      }
+    },
+    "from26": {
+      "type": "text",
+      "label": "Enter beginning date of duty. Line 27.",
+      "page": 1,
+      "box": {
+        "left": 28.3,
+        "top": 187.8,
+        "width": 54.2,
+        "height": 15.0
+      }
+    },
+    "to26": {
+      "type": "text",
+      "label": "Enter ending date of duty. Line 27.",
+      "page": 1,
+      "box": {
+        "left": 85.0,
+        "top": 187.8,
+        "width": 52.5,
+        "height": 15.0
+      }
+    },
+    "occ26": {
+      "type": "text",
+      "label": "Enter occasion codes. Line 27.",
+      "page": 1,
+      "box": {
+        "left": 139.2,
+        "top": 187.8,
+        "width": 44.2,
+        "height": 15.0
+      }
+    },
+    "pts26": {
+      "type": "text",
+      "label": "Enter active duty points. Line 27.",
+      "page": 1,
+      "box": {
+        "left": 185.0,
+        "top": 187.8,
+        "width": 35.8,
+        "height": 15.0
+      }
+    },
+    "drill26": {
+      "type": "text",
+      "label": "Enter the number of inactive duty drills. Line 27.",
+      "page": 1,
+      "box": {
+        "left": 222.5,
+        "top": 187.8,
+        "width": 41.7,
+        "height": 15.0
+      }
+    },
+    "corr26": {
+      "type": "text",
+      "label": "Enter the number of inactive duty correspondence courses. Line 27.",
+      "page": 1,
+      "box": {
+        "left": 266.7,
+        "top": 187.8,
+        "width": 41.7,
+        "height": 15.0
+      }
+    },
+    "eiod26": {
+      "type": "text",
+      "label": "Enter the number of inactive duty E I O D. Line 27.",
+      "page": 1,
+      "box": {
+        "left": 310.8,
+        "top": 187.8,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "mem26": {
+      "type": "text",
+      "label": "Enter the number of inactive duty memberships. Line 27.",
+      "page": 1,
+      "box": {
+        "left": 355.8,
+        "top": 187.8,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "act26": {
+      "type": "text",
+      "label": "Act26",
+      "page": 1,
+      "box": {
+        "left": 400.8,
+        "top": 187.8,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "inact26": {
+      "type": "text",
+      "label": "Enter the total number of inactive duty points with 60 maximum. Line 27.",
+      "page": 1,
+      "box": {
+        "left": 445.8,
+        "top": 187.8,
+        "width": 43.3,
+        "height": 15.0
+      }
+    },
+    "totalPoints026": {
+      "type": "text",
+      "label": "TotalPoints.0.26",
+      "page": 1,
+      "box": {
+        "left": 491.0,
+        "top": 187.2,
+        "width": 36.4,
+        "height": 15.6
+      }
+    },
+    "from27": {
+      "type": "text",
+      "label": "Enter beginning date of duty. Line 28.",
+      "page": 1,
+      "box": {
+        "left": 28.3,
+        "top": 171.2,
+        "width": 54.2,
+        "height": 15.8
+      }
+    },
+    "to27": {
+      "type": "text",
+      "label": "Enter ending date of duty. Line 28.",
+      "page": 1,
+      "box": {
+        "left": 85.0,
+        "top": 171.2,
+        "width": 52.5,
+        "height": 15.8
+      }
+    },
+    "occ27": {
+      "type": "text",
+      "label": "Enter occasion codes. Line 28.",
+      "page": 1,
+      "box": {
+        "left": 139.2,
+        "top": 171.2,
+        "width": 44.2,
+        "height": 15.8
+      }
+    },
+    "pts27": {
+      "type": "text",
+      "label": "Enter active duty points. Line 28.",
+      "page": 1,
+      "box": {
+        "left": 185.0,
+        "top": 171.2,
+        "width": 35.8,
+        "height": 15.8
+      }
+    },
+    "drill27": {
+      "type": "text",
+      "label": "Enter the number of inactive duty drills. Line 28.",
+      "page": 1,
+      "box": {
+        "left": 222.5,
+        "top": 171.2,
+        "width": 41.7,
+        "height": 15.8
+      }
+    },
+    "corr27": {
+      "type": "text",
+      "label": "Enter the number of inactive duty correspondence courses. Line 28.",
+      "page": 1,
+      "box": {
+        "left": 266.7,
+        "top": 171.2,
+        "width": 41.7,
+        "height": 15.8
+      }
+    },
+    "eiod27": {
+      "type": "text",
+      "label": "Enter the number of inactive duty E I O D. Line 28.",
+      "page": 1,
+      "box": {
+        "left": 310.8,
+        "top": 171.2,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "mem27": {
+      "type": "text",
+      "label": "Enter the number of inactive duty memberships. Line 28.",
+      "page": 1,
+      "box": {
+        "left": 355.8,
+        "top": 171.2,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "act27": {
+      "type": "text",
+      "label": "Act27",
+      "page": 1,
+      "box": {
+        "left": 400.8,
+        "top": 171.2,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "inact27": {
+      "type": "text",
+      "label": "Enter the total number of inactive duty points with 60 maximum. Line 28.",
+      "page": 1,
+      "box": {
+        "left": 445.8,
+        "top": 171.2,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "yrsServ027": {
+      "type": "text",
+      "label": "Enter the total years of qualifying service for retirement with 50 points minimum. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 528.3,
+        "top": 171.0,
+        "width": 60.6,
+        "height": 15.4
+      }
+    },
+    "totalPoints027": {
+      "type": "text",
+      "label": "TotalPoints.0.27",
+      "page": 1,
+      "box": {
+        "left": 491.0,
+        "top": 169.8,
+        "width": 36.4,
+        "height": 15.6
+      }
+    },
+    "yrsServ028": {
+      "type": "text",
+      "label": "Enter the total years of qualifying service for retirement with 50 points minimum. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 528.3,
+        "top": 154.1,
+        "width": 60.6,
+        "height": 15.4
+      }
+    },
+    "from28": {
+      "type": "text",
+      "label": "Enter beginning date of duty. Line 29.",
+      "page": 1,
+      "box": {
+        "left": 28.3,
+        "top": 153.7,
+        "width": 54.2,
+        "height": 15.8
+      }
+    },
+    "to28": {
+      "type": "text",
+      "label": "Enter ending date of duty. Line 29.",
+      "page": 1,
+      "box": {
+        "left": 85.0,
+        "top": 153.7,
+        "width": 52.5,
+        "height": 15.8
+      }
+    },
+    "occ28": {
+      "type": "text",
+      "label": "Enter occasion codes. Line 29.",
+      "page": 1,
+      "box": {
+        "left": 139.2,
+        "top": 153.7,
+        "width": 44.2,
+        "height": 15.8
+      }
+    },
+    "pts28": {
+      "type": "text",
+      "label": "Enter active duty points. Line 29.",
+      "page": 1,
+      "box": {
+        "left": 185.0,
+        "top": 153.7,
+        "width": 35.8,
+        "height": 15.8
+      }
+    },
+    "drill28": {
+      "type": "text",
+      "label": "Enter the number of inactive duty drills. Line 29.",
+      "page": 1,
+      "box": {
+        "left": 222.5,
+        "top": 153.7,
+        "width": 41.7,
+        "height": 15.8
+      }
+    },
+    "corr28": {
+      "type": "text",
+      "label": "Enter the number of inactive duty correspondence courses. Line 29.",
+      "page": 1,
+      "box": {
+        "left": 266.7,
+        "top": 153.7,
+        "width": 41.7,
+        "height": 15.8
+      }
+    },
+    "eiod28": {
+      "type": "text",
+      "label": "Enter the number of inactive duty E I O D. Line 29.",
+      "page": 1,
+      "box": {
+        "left": 310.8,
+        "top": 153.7,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "mem28": {
+      "type": "text",
+      "label": "Enter the number of inactive duty memberships. Line 29.",
+      "page": 1,
+      "box": {
+        "left": 355.8,
+        "top": 153.7,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "act28": {
+      "type": "text",
+      "label": "Act28",
+      "page": 1,
+      "box": {
+        "left": 400.8,
+        "top": 153.7,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "inact28": {
+      "type": "text",
+      "label": "Enter the total number of inactive duty points with 60 maximum. Line 29.",
+      "page": 1,
+      "box": {
+        "left": 445.8,
+        "top": 153.7,
+        "width": 43.3,
+        "height": 15.8
+      }
+    },
+    "totalPoints028": {
+      "type": "text",
+      "label": "TotalPoints.0.28",
+      "page": 1,
+      "box": {
+        "left": 491.0,
+        "top": 152.3,
+        "width": 36.4,
+        "height": 15.6
+      }
+    },
+    "from29": {
+      "type": "text",
+      "label": "Enter beginning date of duty. Line 30.",
+      "page": 1,
+      "box": {
+        "left": 28.0,
+        "top": 136.7,
+        "width": 54.7,
+        "height": 16.0
+      }
+    },
+    "to29": {
+      "type": "text",
+      "label": "Enter ending date of duty. Line 30.",
+      "page": 1,
+      "box": {
+        "left": 84.7,
+        "top": 136.7,
+        "width": 52.7,
+        "height": 16.0
+      }
+    },
+    "occ29": {
+      "type": "text",
+      "label": "Enter occasion codes. Line 30.",
+      "page": 1,
+      "box": {
+        "left": 139.3,
+        "top": 136.7,
+        "width": 44.0,
+        "height": 16.0
+      }
+    },
+    "pts29": {
+      "type": "text",
+      "label": "Enter active duty points. Line 30.",
+      "page": 1,
+      "box": {
+        "left": 184.7,
+        "top": 136.7,
+        "width": 36.0,
+        "height": 16.0
+      }
+    },
+    "drill29": {
+      "type": "text",
+      "label": "Enter the number of inactive duty drills. Line 30.",
+      "page": 1,
+      "box": {
+        "left": 222.7,
+        "top": 136.7,
+        "width": 41.3,
+        "height": 16.0
+      }
+    },
+    "corr29": {
+      "type": "text",
+      "label": "Enter the number of inactive duty correspondence courses. Line 30.",
+      "page": 1,
+      "box": {
+        "left": 266.7,
+        "top": 136.7,
+        "width": 41.3,
+        "height": 16.0
+      }
+    },
+    "eiod29": {
+      "type": "text",
+      "label": "Enter the number of inactive duty E I O D. Line 30.",
+      "page": 1,
+      "box": {
+        "left": 310.7,
+        "top": 136.7,
+        "width": 43.3,
+        "height": 16.0
+      }
+    },
+    "mem29": {
+      "type": "text",
+      "label": "Enter the number of inactive duty memberships. Line 30.",
+      "page": 1,
+      "box": {
+        "left": 356.0,
+        "top": 136.7,
+        "width": 43.3,
+        "height": 16.0
+      }
+    },
+    "act29": {
+      "type": "text",
+      "label": "Act29",
+      "page": 1,
+      "box": {
+        "left": 400.7,
+        "top": 136.7,
+        "width": 43.3,
+        "height": 16.0
+      }
+    },
+    "inact29": {
+      "type": "text",
+      "label": "Enter the total number of inactive duty points with 60 maximum. Line 30.",
+      "page": 1,
+      "box": {
+        "left": 446.0,
+        "top": 136.7,
+        "width": 43.3,
+        "height": 16.0
+      }
+    },
+    "totalPoints029": {
+      "type": "text",
+      "label": "TotalPoints.0.29",
+      "page": 1,
+      "box": {
+        "left": 491.0,
+        "top": 136.3,
+        "width": 36.4,
+        "height": 15.6
+      }
+    },
+    "yrsServ029": {
+      "type": "text",
+      "label": "Enter the total years of qualifying service for retirement with 50 points minimum. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 528.3,
+        "top": 136.2,
+        "width": 60.6,
+        "height": 15.4
+      }
+    },
+    "serviceRemark": {
+      "type": "text",
+      "label": "Enter the service summary or remarks.",
+      "page": 2,
+      "box": {
+        "left": 28.7,
+        "top": 633.3,
+        "width": 264.0,
+        "height": 382.7
+      },
+      "multiline": true
+    },
+    "servTrainAnn0": {
+      "type": "text",
+      "label": "Enter the training duty anniversary year for service. Line 1.",
+      "page": 2,
+      "box": {
+        "left": 295.3,
+        "top": 630.7,
+        "width": 79.3,
+        "height": 15.3
+      }
+    },
+    "servTrainFr0": {
+      "type": "text",
+      "label": "Enter the beginning of training duty for service. Line 1.",
+      "page": 2,
+      "box": {
+        "left": 377.3,
+        "top": 630.7,
+        "width": 85.3,
+        "height": 15.3
+      }
+    },
+    "servTrainTo0": {
+      "type": "text",
+      "label": "Enter the ending of training duty for service. Line 1.",
+      "page": 2,
+      "box": {
+        "left": 465.3,
+        "top": 630.7,
+        "width": 80.0,
+        "height": 15.3
+      }
+    },
+    "servTrainDays0": {
+      "type": "text",
+      "label": "Enter the number of days of training duty for service. Line 1.",
+      "page": 2,
+      "box": {
+        "left": 547.3,
+        "top": 630.7,
+        "width": 40.0,
+        "height": 15.3
+      }
+    },
+    "servTrainAnn1": {
+      "type": "text",
+      "label": "Enter the training duty anniversary year for service. Line 2.",
+      "page": 2,
+      "box": {
+        "left": 295.3,
+        "top": 611.3,
+        "width": 79.3,
+        "height": 15.3
+      }
+    },
+    "servTrainFr1": {
+      "type": "text",
+      "label": "Enter the beginning of training duty for service. Line 2.",
+      "page": 2,
+      "box": {
+        "left": 377.3,
+        "top": 611.3,
+        "width": 85.3,
+        "height": 15.3
+      }
+    },
+    "servTrainTo1": {
+      "type": "text",
+      "label": "Enter the ending of training duty for service. Line 2.",
+      "page": 2,
+      "box": {
+        "left": 465.3,
+        "top": 611.3,
+        "width": 80.0,
+        "height": 15.3
+      }
+    },
+    "servTrainDays1": {
+      "type": "text",
+      "label": "Enter the number of days of training duty for service. Line 2.",
+      "page": 2,
+      "box": {
+        "left": 547.3,
+        "top": 611.3,
+        "width": 40.0,
+        "height": 15.3
+      }
+    },
+    "servTrainAnn2": {
+      "type": "text",
+      "label": "Enter the training duty anniversary year for service. Line 3.",
+      "page": 2,
+      "box": {
+        "left": 295.3,
+        "top": 592.7,
+        "width": 79.3,
+        "height": 15.3
+      }
+    },
+    "servTrainFr2": {
+      "type": "text",
+      "label": "Enter the beginning of training duty for service. Line 3.",
+      "page": 2,
+      "box": {
+        "left": 377.3,
+        "top": 592.7,
+        "width": 85.3,
+        "height": 15.3
+      }
+    },
+    "servTrainTo2": {
+      "type": "text",
+      "label": "Enter the ending of training duty for service. Line 3.",
+      "page": 2,
+      "box": {
+        "left": 465.3,
+        "top": 592.7,
+        "width": 80.0,
+        "height": 15.3
+      }
+    },
+    "servTrainDays2": {
+      "type": "text",
+      "label": "Enter the number of days of training duty for service. Line 3.",
+      "page": 2,
+      "box": {
+        "left": 547.3,
+        "top": 592.7,
+        "width": 40.0,
+        "height": 15.3
+      }
+    },
+    "servTrainAnn3": {
+      "type": "text",
+      "label": "Enter the training duty anniversary year for service. Line 4.",
+      "page": 2,
+      "box": {
+        "left": 295.3,
+        "top": 573.3,
+        "width": 79.3,
+        "height": 15.3
+      }
+    },
+    "servTrainFr3": {
+      "type": "text",
+      "label": "Enter the beginning of training duty for service. Line 4.",
+      "page": 2,
+      "box": {
+        "left": 377.3,
+        "top": 573.3,
+        "width": 85.3,
+        "height": 15.3
+      }
+    },
+    "servTrainTo3": {
+      "type": "text",
+      "label": "Enter the ending of training duty for service. Line 4.",
+      "page": 2,
+      "box": {
+        "left": 465.3,
+        "top": 573.3,
+        "width": 80.0,
+        "height": 15.3
+      }
+    },
+    "servTrainDays3": {
+      "type": "text",
+      "label": "Enter the number of days of training duty for service. Line 4.",
+      "page": 2,
+      "box": {
+        "left": 547.3,
+        "top": 573.3,
+        "width": 40.0,
+        "height": 15.3
+      }
+    },
+    "servTrainAnn4": {
+      "type": "text",
+      "label": "Enter the training duty anniversary year for service. Line 5.",
+      "page": 2,
+      "box": {
+        "left": 295.3,
+        "top": 554.0,
+        "width": 79.3,
+        "height": 15.3
+      }
+    },
+    "servTrainFr4": {
+      "type": "text",
+      "label": "Enter the beginning of training duty for service. Line 5.",
+      "page": 2,
+      "box": {
+        "left": 377.3,
+        "top": 554.0,
+        "width": 85.3,
+        "height": 15.3
+      }
+    },
+    "servTrainTo4": {
+      "type": "text",
+      "label": "Enter the ending of training duty for service. Line 5.",
+      "page": 2,
+      "box": {
+        "left": 465.3,
+        "top": 554.0,
+        "width": 80.0,
+        "height": 15.3
+      }
+    },
+    "servTrainDays4": {
+      "type": "text",
+      "label": "Enter the number of days of training duty for service. Line 5.",
+      "page": 2,
+      "box": {
+        "left": 547.3,
+        "top": 554.0,
+        "width": 40.0,
+        "height": 15.3
+      }
+    },
+    "servTrainAnn5": {
+      "type": "text",
+      "label": "Enter the training duty anniversary year for service. Line 6.",
+      "page": 2,
+      "box": {
+        "left": 295.3,
+        "top": 535.3,
+        "width": 79.3,
+        "height": 15.3
+      }
+    },
+    "servTrainFr5": {
+      "type": "text",
+      "label": "Enter the beginning of training duty for service. Line 6.",
+      "page": 2,
+      "box": {
+        "left": 377.3,
+        "top": 535.3,
+        "width": 85.3,
+        "height": 15.3
+      }
+    },
+    "servTrainTo5": {
+      "type": "text",
+      "label": "Enter the ending of training duty for service. Line 6.",
+      "page": 2,
+      "box": {
+        "left": 465.3,
+        "top": 535.3,
+        "width": 80.0,
+        "height": 15.3
+      }
+    },
+    "servTrainDays5": {
+      "type": "text",
+      "label": "Enter the number of days of training duty for service. Line 6.",
+      "page": 2,
+      "box": {
+        "left": 547.3,
+        "top": 535.3,
+        "width": 40.0,
+        "height": 15.3
+      }
+    },
+    "servTrainAnn6": {
+      "type": "text",
+      "label": "Enter the training duty anniversary year for service. Line 7.",
+      "page": 2,
+      "box": {
+        "left": 295.3,
+        "top": 516.0,
+        "width": 79.3,
+        "height": 15.3
+      }
+    },
+    "servTrainFr6": {
+      "type": "text",
+      "label": "Enter the beginning of training duty for service. Line 7.",
+      "page": 2,
+      "box": {
+        "left": 377.3,
+        "top": 516.0,
+        "width": 85.3,
+        "height": 15.3
+      }
+    },
+    "servTrainTo6": {
+      "type": "text",
+      "label": "Enter the ending of training duty for service. Line 7.",
+      "page": 2,
+      "box": {
+        "left": 465.3,
+        "top": 516.0,
+        "width": 80.0,
+        "height": 15.3
+      }
+    },
+    "servTrainDays6": {
+      "type": "text",
+      "label": "Enter the number of days of training duty for service. Line 7.",
+      "page": 2,
+      "box": {
+        "left": 547.3,
+        "top": 516.0,
+        "width": 40.0,
+        "height": 15.3
+      }
+    },
+    "servTrainAnn7": {
+      "type": "text",
+      "label": "Enter the training duty anniversary year for service. Line 8.",
+      "page": 2,
+      "box": {
+        "left": 295.3,
+        "top": 496.7,
+        "width": 79.3,
+        "height": 15.3
+      }
+    },
+    "servTrainFr7": {
+      "type": "text",
+      "label": "Enter the beginning of training duty for service. Line 8.",
+      "page": 2,
+      "box": {
+        "left": 377.3,
+        "top": 496.7,
+        "width": 85.3,
+        "height": 15.3
+      }
+    },
+    "servTrainTo7": {
+      "type": "text",
+      "label": "Enter the ending of training duty for service. Line 8.",
+      "page": 2,
+      "box": {
+        "left": 465.3,
+        "top": 496.7,
+        "width": 80.0,
+        "height": 15.3
+      }
+    },
+    "servTrainDays7": {
+      "type": "text",
+      "label": "Enter the number of days of training duty for service. Line 8.",
+      "page": 2,
+      "box": {
+        "left": 547.3,
+        "top": 496.7,
+        "width": 40.0,
+        "height": 15.3
+      }
+    },
+    "servTrainAnn8": {
+      "type": "text",
+      "label": "Enter the training duty anniversary year for service. Line 9.",
+      "page": 2,
+      "box": {
+        "left": 295.3,
+        "top": 478.0,
+        "width": 79.3,
+        "height": 15.3
+      }
+    },
+    "servTrainFr8": {
+      "type": "text",
+      "label": "Enter the beginning of training duty for service. Line 9.",
+      "page": 2,
+      "box": {
+        "left": 377.3,
+        "top": 478.0,
+        "width": 85.3,
+        "height": 15.3
+      }
+    },
+    "servTrainTo8": {
+      "type": "text",
+      "label": "Enter the ending of training duty for service. Line 9.",
+      "page": 2,
+      "box": {
+        "left": 465.3,
+        "top": 478.0,
+        "width": 80.0,
+        "height": 15.3
+      }
+    },
+    "servTrainDays8": {
+      "type": "text",
+      "label": "Enter the number of days of training duty for service. Line 9.",
+      "page": 2,
+      "box": {
+        "left": 547.3,
+        "top": 478.0,
+        "width": 40.0,
+        "height": 15.3
+      }
+    },
+    "servTrainAnn9": {
+      "type": "text",
+      "label": "Enter the training duty anniversary year for service. Line 10.",
+      "page": 2,
+      "box": {
+        "left": 295.3,
+        "top": 458.7,
+        "width": 79.3,
+        "height": 15.3
+      }
+    },
+    "servTrainFr9": {
+      "type": "text",
+      "label": "Enter the beginning of training duty for service. Line 10.",
+      "page": 2,
+      "box": {
+        "left": 377.3,
+        "top": 458.7,
+        "width": 85.3,
+        "height": 15.3
+      }
+    },
+    "servTrainTo9": {
+      "type": "text",
+      "label": "Enter the ending of training duty for service. Line 10.",
+      "page": 2,
+      "box": {
+        "left": 465.3,
+        "top": 458.7,
+        "width": 80.0,
+        "height": 15.3
+      }
+    },
+    "servTrainDays9": {
+      "type": "text",
+      "label": "Enter the number of days of training duty for service. Line 10.",
+      "page": 2,
+      "box": {
+        "left": 547.3,
+        "top": 458.7,
+        "width": 40.0,
+        "height": 15.3
+      }
+    },
+    "servTrainAnn10": {
+      "type": "text",
+      "label": "Enter the training duty anniversary year for service. Line 11.",
+      "page": 2,
+      "box": {
+        "left": 295.3,
+        "top": 439.3,
+        "width": 79.3,
+        "height": 15.3
+      }
+    },
+    "servTrainFr10": {
+      "type": "text",
+      "label": "Enter the beginning of training duty for service. Line 11.",
+      "page": 2,
+      "box": {
+        "left": 377.3,
+        "top": 439.3,
+        "width": 85.3,
+        "height": 15.3
+      }
+    },
+    "servTrainTo10": {
+      "type": "text",
+      "label": "Enter the ending of training duty for service. Line 11.",
+      "page": 2,
+      "box": {
+        "left": 465.3,
+        "top": 439.3,
+        "width": 80.0,
+        "height": 15.3
+      }
+    },
+    "servTrainDays10": {
+      "type": "text",
+      "label": "Enter the number of days of training duty for service. Line 11.",
+      "page": 2,
+      "box": {
+        "left": 547.3,
+        "top": 439.3,
+        "width": 40.0,
+        "height": 15.3
+      }
+    },
+    "servTrainAnn11": {
+      "type": "text",
+      "label": "Enter the training duty anniversary year for service. Line 12.",
+      "page": 2,
+      "box": {
+        "left": 295.3,
+        "top": 420.7,
+        "width": 79.3,
+        "height": 15.3
+      }
+    },
+    "servTrainFr11": {
+      "type": "text",
+      "label": "Enter the beginning of training duty for service. Line 12.",
+      "page": 2,
+      "box": {
+        "left": 377.3,
+        "top": 420.7,
+        "width": 85.3,
+        "height": 15.3
+      }
+    },
+    "servTrainTo11": {
+      "type": "text",
+      "label": "Enter the ending of training duty for service. Line 12.",
+      "page": 2,
+      "box": {
+        "left": 465.3,
+        "top": 420.7,
+        "width": 80.0,
+        "height": 15.3
+      }
+    },
+    "servTrainDays11": {
+      "type": "text",
+      "label": "Enter the number of days of training duty for service. Line 12.",
+      "page": 2,
+      "box": {
+        "left": 547.3,
+        "top": 420.7,
+        "width": 40.0,
+        "height": 15.3
+      }
+    },
+    "servTrainAnn12": {
+      "type": "text",
+      "label": "Enter the training duty anniversary year for service. Line 13.",
+      "page": 2,
+      "box": {
+        "left": 295.3,
+        "top": 401.3,
+        "width": 79.3,
+        "height": 15.3
+      }
+    },
+    "servTrainFr12": {
+      "type": "text",
+      "label": "Enter the beginning of training duty for service. Line 13.",
+      "page": 2,
+      "box": {
+        "left": 377.3,
+        "top": 401.3,
+        "width": 85.3,
+        "height": 15.3
+      }
+    },
+    "servTrainTo12": {
+      "type": "text",
+      "label": "Enter the ending of training duty for service. Line 13.",
+      "page": 2,
+      "box": {
+        "left": 465.3,
+        "top": 401.3,
+        "width": 80.0,
+        "height": 15.3
+      }
+    },
+    "servTrainDays12": {
+      "type": "text",
+      "label": "Enter the number of days of training duty for service. Line 13.",
+      "page": 2,
+      "box": {
+        "left": 547.3,
+        "top": 401.3,
+        "width": 40.0,
+        "height": 15.3
+      }
+    },
+    "servTrainAnn13": {
+      "type": "text",
+      "label": "Enter the training duty anniversary year for service. Line 14.",
+      "page": 2,
+      "box": {
+        "left": 295.3,
+        "top": 382.0,
+        "width": 79.3,
+        "height": 15.3
+      }
+    },
+    "servTrainFr13": {
+      "type": "text",
+      "label": "Enter the beginning of training duty for service. Line 14.",
+      "page": 2,
+      "box": {
+        "left": 377.3,
+        "top": 382.0,
+        "width": 85.3,
+        "height": 15.3
+      }
+    },
+    "servTrainTo13": {
+      "type": "text",
+      "label": "Enter the ending of training duty for service. Line 14.",
+      "page": 2,
+      "box": {
+        "left": 465.3,
+        "top": 382.0,
+        "width": 80.0,
+        "height": 15.3
+      }
+    },
+    "servTrainDays13": {
+      "type": "text",
+      "label": "Enter the number of days of training duty for service. Line 14.",
+      "page": 2,
+      "box": {
+        "left": 547.3,
+        "top": 382.0,
+        "width": 40.0,
+        "height": 15.3
+      }
+    },
+    "servTrainAnn14": {
+      "type": "text",
+      "label": "Enter the training duty anniversary year for service. Line 15.",
+      "page": 2,
+      "box": {
+        "left": 295.3,
+        "top": 363.3,
+        "width": 79.3,
+        "height": 15.3
+      }
+    },
+    "servTrainFr14": {
+      "type": "text",
+      "label": "Enter the beginning of training duty for service. Line 15.",
+      "page": 2,
+      "box": {
+        "left": 377.3,
+        "top": 363.3,
+        "width": 85.3,
+        "height": 15.3
+      }
+    },
+    "servTrainTo14": {
+      "type": "text",
+      "label": "Enter the ending of training duty for service. Line 15.",
+      "page": 2,
+      "box": {
+        "left": 465.3,
+        "top": 363.3,
+        "width": 80.0,
+        "height": 15.3
+      }
+    },
+    "servTrainDays14": {
+      "type": "text",
+      "label": "Enter the number of days of training duty for service. Line 15.",
+      "page": 2,
+      "box": {
+        "left": 547.3,
+        "top": 363.3,
+        "width": 40.0,
+        "height": 15.3
+      }
+    },
+    "servTrainAnn15": {
+      "type": "text",
+      "label": "Enter the training duty anniversary year for service. Line 16.",
+      "page": 2,
+      "box": {
+        "left": 295.3,
+        "top": 344.0,
+        "width": 79.3,
+        "height": 15.3
+      }
+    },
+    "servTrainFr15": {
+      "type": "text",
+      "label": "Enter the beginning of training duty for service. Line 16.",
+      "page": 2,
+      "box": {
+        "left": 377.3,
+        "top": 344.0,
+        "width": 85.3,
+        "height": 15.3
+      }
+    },
+    "servTrainTo15": {
+      "type": "text",
+      "label": "Enter the ending of training duty for service. Line 16.",
+      "page": 2,
+      "box": {
+        "left": 465.3,
+        "top": 344.0,
+        "width": 80.0,
+        "height": 15.3
+      }
+    },
+    "servTrainDays15": {
+      "type": "text",
+      "label": "Enter the number of days of training duty for service. Line 16.",
+      "page": 2,
+      "box": {
+        "left": 547.3,
+        "top": 344.0,
+        "width": 40.0,
+        "height": 15.3
+      }
+    },
+    "servTrainAnn16": {
+      "type": "text",
+      "label": "Enter the training duty anniversary year for service. Line 17.",
+      "page": 2,
+      "box": {
+        "left": 295.3,
+        "top": 324.7,
+        "width": 79.3,
+        "height": 15.3
+      }
+    },
+    "servTrainFr16": {
+      "type": "text",
+      "label": "Enter the beginning of training duty for service. Line 17.",
+      "page": 2,
+      "box": {
+        "left": 377.3,
+        "top": 324.7,
+        "width": 85.3,
+        "height": 15.3
+      }
+    },
+    "servTrainTo16": {
+      "type": "text",
+      "label": "Enter the ending of training duty for service. Line 17.",
+      "page": 2,
+      "box": {
+        "left": 465.3,
+        "top": 324.7,
+        "width": 80.0,
+        "height": 15.3
+      }
+    },
+    "servTrainDays16": {
+      "type": "text",
+      "label": "Enter the number of days of training duty for service. Line 17.",
+      "page": 2,
+      "box": {
+        "left": 547.3,
+        "top": 324.7,
+        "width": 40.0,
+        "height": 15.3
+      }
+    },
+    "servTrainAnn17": {
+      "type": "text",
+      "label": "Enter the training duty anniversary year for service. Line 18.",
+      "page": 2,
+      "box": {
+        "left": 295.3,
+        "top": 306.0,
+        "width": 79.3,
+        "height": 15.3
+      }
+    },
+    "servTrainFr17": {
+      "type": "text",
+      "label": "Enter the beginning of training duty for service. Line 18.",
+      "page": 2,
+      "box": {
+        "left": 377.3,
+        "top": 306.0,
+        "width": 85.3,
+        "height": 15.3
+      }
+    },
+    "servTrainTo17": {
+      "type": "text",
+      "label": "Enter the ending of training duty for service. Line 18.",
+      "page": 2,
+      "box": {
+        "left": 465.3,
+        "top": 306.0,
+        "width": 80.0,
+        "height": 15.3
+      }
+    },
+    "servTrainDays17": {
+      "type": "text",
+      "label": "Enter the number of days of training duty for service. Line 18.",
+      "page": 2,
+      "box": {
+        "left": 547.3,
+        "top": 306.0,
+        "width": 40.0,
+        "height": 15.3
+      }
+    },
+    "servTrainAnn18": {
+      "type": "text",
+      "label": "Enter the training duty anniversary year for service. Line 19.",
+      "page": 2,
+      "box": {
+        "left": 295.3,
+        "top": 286.7,
+        "width": 79.3,
+        "height": 15.3
+      }
+    },
+    "servTrainFr18": {
+      "type": "text",
+      "label": "Enter the beginning of training duty for service. Line 19.",
+      "page": 2,
+      "box": {
+        "left": 377.3,
+        "top": 286.7,
+        "width": 85.3,
+        "height": 15.3
+      }
+    },
+    "servTrainTo18": {
+      "type": "text",
+      "label": "Enter the ending of training duty for service. Line 19.",
+      "page": 2,
+      "box": {
+        "left": 465.3,
+        "top": 286.7,
+        "width": 80.0,
+        "height": 15.3
+      }
+    },
+    "servTrainDays18": {
+      "type": "text",
+      "label": "Enter the number of days of training duty for service. Line 19.",
+      "page": 2,
+      "box": {
+        "left": 547.3,
+        "top": 286.7,
+        "width": 40.0,
+        "height": 15.3
+      }
+    },
+    "servTrainAnn19": {
+      "type": "text",
+      "label": "Enter the training duty anniversary year for service. Line 20.",
+      "page": 2,
+      "box": {
+        "left": 295.3,
+        "top": 267.3,
+        "width": 79.3,
+        "height": 15.3
+      }
+    },
+    "servTrainFr19": {
+      "type": "text",
+      "label": "Enter the beginning of training duty for service. Line 20.",
+      "page": 2,
+      "box": {
+        "left": 377.3,
+        "top": 267.3,
+        "width": 85.3,
+        "height": 15.3
+      }
+    },
+    "servTrainTo19": {
+      "type": "text",
+      "label": "Enter the ending of training duty for service. Line 20.",
+      "page": 2,
+      "box": {
+        "left": 465.3,
+        "top": 267.3,
+        "width": 80.0,
+        "height": 15.3
+      }
+    },
+    "servTrainDays19": {
+      "type": "text",
+      "label": "Enter the number of days of training duty for service. Line 20.",
+      "page": 2,
+      "box": {
+        "left": 547.3,
+        "top": 267.3,
+        "width": 40.0,
+        "height": 15.3
+      }
+    },
+    "dateAnniv": {
+      "type": "text",
+      "label": "Enter employees date of birth.",
+      "page": 2,
+      "box": {
+        "left": 198.6,
+        "top": 248.8,
+        "width": 88.5,
+        "height": 12.1
+      }
+    },
+    "servTrainAnn20": {
+      "type": "text",
+      "label": "Enter the training duty anniversary year for service. Line 21.",
+      "page": 2,
+      "box": {
+        "left": 295.3,
+        "top": 247.3,
+        "width": 79.3,
+        "height": 15.3
+      }
+    },
+    "servTrainFr20": {
+      "type": "text",
+      "label": "Enter the beginning of training duty for service. Line 21.",
+      "page": 2,
+      "box": {
+        "left": 377.3,
+        "top": 247.3,
+        "width": 85.3,
+        "height": 15.3
+      }
+    },
+    "servTrainTo20": {
+      "type": "text",
+      "label": "Enter the ending of training duty for service. Line 21.",
+      "page": 2,
+      "box": {
+        "left": 465.3,
+        "top": 247.3,
+        "width": 80.0,
+        "height": 15.3
+      }
+    },
+    "servTrainDays20": {
+      "type": "text",
+      "label": "Enter the number of days of training duty for service. Line 21.",
+      "page": 2,
+      "box": {
+        "left": 547.3,
+        "top": 247.3,
+        "width": 40.0,
+        "height": 15.3
+      }
+    },
+    "servTrainAnn21": {
+      "type": "text",
+      "label": "Enter the training duty anniversary year for service. Line 22.",
+      "page": 2,
+      "box": {
+        "left": 295.3,
+        "top": 227.3,
+        "width": 79.3,
+        "height": 15.3
+      }
+    },
+    "servTrainFr21": {
+      "type": "text",
+      "label": "Enter the beginning of training duty for service. Line 22.",
+      "page": 2,
+      "box": {
+        "left": 377.3,
+        "top": 227.3,
+        "width": 85.3,
+        "height": 15.3
+      }
+    },
+    "servTrainTo21": {
+      "type": "text",
+      "label": "Enter the ending of training duty for service. Line 22.",
+      "page": 2,
+      "box": {
+        "left": 465.3,
+        "top": 227.3,
+        "width": 80.0,
+        "height": 15.3
+      }
+    },
+    "servTrainDays21": {
+      "type": "text",
+      "label": "Enter the number of days of training duty for service. Line 22.",
+      "page": 2,
+      "box": {
+        "left": 547.3,
+        "top": 227.3,
+        "width": 40.0,
+        "height": 15.3
+      }
+    },
+    "servTrainAnn22": {
+      "type": "text",
+      "label": "Enter the training duty anniversary year for service. Line 23.",
+      "page": 2,
+      "box": {
+        "left": 295.3,
+        "top": 207.3,
+        "width": 79.3,
+        "height": 15.3
+      }
+    },
+    "servTrainFr22": {
+      "type": "text",
+      "label": "Enter the beginning of training duty for service. Line 23.",
+      "page": 2,
+      "box": {
+        "left": 377.3,
+        "top": 207.3,
+        "width": 85.3,
+        "height": 15.3
+      }
+    },
+    "servTrainTo22": {
+      "type": "text",
+      "label": "Enter the ending of training duty for service. Line 23.",
+      "page": 2,
+      "box": {
+        "left": 465.3,
+        "top": 207.3,
+        "width": 80.0,
+        "height": 15.3
+      }
+    },
+    "servTrainDays22": {
+      "type": "text",
+      "label": "Enter the number of days of training duty for service. Line 23.",
+      "page": 2,
+      "box": {
+        "left": 547.3,
+        "top": 207.3,
+        "width": 40.0,
+        "height": 15.3
+      }
+    },
+    "dateCompl": {
+      "type": "text",
+      "label": "Enter employees date of birth.",
+      "page": 2,
+      "box": {
+        "left": 34.7,
+        "top": 187.5,
+        "width": 72.1,
+        "height": 12.1
+      }
+    },
+    "servTrainAnn23": {
+      "type": "text",
+      "label": "Enter the training duty anniversary year for service. Line 24.",
+      "page": 2,
+      "box": {
+        "left": 295.3,
+        "top": 187.3,
+        "width": 79.3,
+        "height": 15.3
+      }
+    },
+    "servTrainFr23": {
+      "type": "text",
+      "label": "Enter the beginning of training duty for service. Line 24.",
+      "page": 2,
+      "box": {
+        "left": 377.3,
+        "top": 187.3,
+        "width": 85.3,
+        "height": 15.3
+      }
+    },
+    "servTrainTo23": {
+      "type": "text",
+      "label": "Enter the ending of training duty for service. Line 24.",
+      "page": 2,
+      "box": {
+        "left": 465.3,
+        "top": 187.3,
+        "width": 80.0,
+        "height": 15.3
+      }
+    },
+    "servTrainDays23": {
+      "type": "text",
+      "label": "Enter the number of days of training duty for service. Line 24.",
+      "page": 2,
+      "box": {
+        "left": 547.3,
+        "top": 187.3,
+        "width": 40.0,
+        "height": 15.3
+      }
+    },
+    "servTrainAnn24": {
+      "type": "text",
+      "label": "Enter the training duty anniversary year for service. Line 25.",
+      "page": 2,
+      "box": {
+        "left": 295.3,
+        "top": 167.3,
+        "width": 79.3,
+        "height": 15.3
+      }
+    },
+    "servTrainFr24": {
+      "type": "text",
+      "label": "Enter the beginning of training duty for service. Line 25.",
+      "page": 2,
+      "box": {
+        "left": 377.3,
+        "top": 167.3,
+        "width": 85.3,
+        "height": 15.3
+      }
+    },
+    "servTrainTo24": {
+      "type": "text",
+      "label": "Enter the ending of training duty for service. Line 25.",
+      "page": 2,
+      "box": {
+        "left": 465.3,
+        "top": 167.3,
+        "width": 80.0,
+        "height": 15.3
+      }
+    },
+    "servTrainDays24": {
+      "type": "text",
+      "label": "Enter the number of days of training duty for service. Line 25.",
+      "page": 2,
+      "box": {
+        "left": 547.3,
+        "top": 167.3,
+        "width": 40.0,
+        "height": 15.3
+      }
+    },
+    "dateSentByCMC": {
+      "type": "text",
+      "label": "Enter employees date of birth.",
+      "page": 2,
+      "box": {
+        "left": 181.3,
+        "top": 166.6,
+        "width": 93.3,
+        "height": 12.1
+      }
+    },
+    "servTrainAnn25": {
+      "type": "text",
+      "label": "Enter the training duty anniversary year for service. Line 26.",
+      "page": 2,
+      "box": {
+        "left": 295.3,
+        "top": 147.3,
+        "width": 79.3,
+        "height": 15.3
+      }
+    },
+    "servTrainFr25": {
+      "type": "text",
+      "label": "Enter the beginning of training duty for service. Line 26.",
+      "page": 2,
+      "box": {
+        "left": 377.3,
+        "top": 147.3,
+        "width": 85.3,
+        "height": 15.3
+      }
+    },
+    "servTrainTo25": {
+      "type": "text",
+      "label": "Enter the ending of training duty for service. Line 26.",
+      "page": 2,
+      "box": {
+        "left": 465.3,
+        "top": 147.3,
+        "width": 80.0,
+        "height": 15.3
+      }
+    },
+    "servTrainDays25": {
+      "type": "text",
+      "label": "Enter the number of days of training duty for service. Line 26.",
+      "page": 2,
+      "box": {
+        "left": 547.3,
+        "top": 147.3,
+        "width": 40.0,
+        "height": 15.3
+      }
+    },
+    "servTrainAnn26": {
+      "type": "text",
+      "label": "Enter the training duty anniversary year for service. Line 27.",
+      "page": 2,
+      "box": {
+        "left": 295.3,
+        "top": 127.3,
+        "width": 79.3,
+        "height": 15.3
+      }
+    },
+    "servTrainFr26": {
+      "type": "text",
+      "label": "Enter the beginning of training duty for service. Line 27.",
+      "page": 2,
+      "box": {
+        "left": 377.3,
+        "top": 127.3,
+        "width": 85.3,
+        "height": 15.3
+      }
+    },
+    "servTrainTo26": {
+      "type": "text",
+      "label": "Enter the ending of training duty for service. Line 27.",
+      "page": 2,
+      "box": {
+        "left": 465.3,
+        "top": 127.3,
+        "width": 80.0,
+        "height": 15.3
+      }
+    },
+    "servTrainDays26": {
+      "type": "text",
+      "label": "Enter the number of days of training duty for service. Line 27.",
+      "page": 2,
+      "box": {
+        "left": 547.3,
+        "top": 127.3,
+        "width": 40.0,
+        "height": 15.3
+      }
+    },
+    "dateStatemntServ": {
+      "type": "text",
+      "label": "Enter employees date of birth.",
+      "page": 2,
+      "box": {
+        "left": 64.3,
+        "top": 118.2,
+        "width": 115.7,
+        "height": 12.1
+      }
+    },
+    "servTrainAnn27": {
+      "type": "text",
+      "label": "Enter the training duty anniversary year for service. Line 28.",
+      "page": 2,
+      "box": {
+        "left": 295.3,
+        "top": 107.3,
+        "width": 79.3,
+        "height": 15.3
+      }
+    },
+    "servTrainFr27": {
+      "type": "text",
+      "label": "Enter the beginning of training duty for service. Line 28.",
+      "page": 2,
+      "box": {
+        "left": 377.3,
+        "top": 107.3,
+        "width": 85.3,
+        "height": 15.3
+      }
+    },
+    "servTrainTo27": {
+      "type": "text",
+      "label": "Enter the ending of training duty for service. Line 28.",
+      "page": 2,
+      "box": {
+        "left": 465.3,
+        "top": 107.3,
+        "width": 80.0,
+        "height": 15.3
+      }
+    },
+    "servTrainDays27": {
+      "type": "text",
+      "label": "Enter the number of days of training duty for service. Line 28.",
+      "page": 2,
+      "box": {
+        "left": 547.3,
+        "top": 107.3,
+        "width": 40.0,
+        "height": 15.3
+      }
+    },
+    "dateSentCSOS": {
+      "type": "text",
+      "label": "Enter the date that the C S O S was sent.",
+      "page": 2,
+      "box": {
+        "left": 82.7,
+        "top": 96.7,
+        "width": 126.7,
+        "height": 15.3
+      }
+    },
+    "servTrainAnn28": {
+      "type": "text",
+      "label": "Enter the training duty anniversary year for service. Line 29.",
+      "page": 2,
+      "box": {
+        "left": 295.3,
+        "top": 88.0,
+        "width": 79.3,
+        "height": 15.3
+      }
+    },
+    "servTrainFr28": {
+      "type": "text",
+      "label": "Enter the beginning of training duty for service. Line 29.",
+      "page": 2,
+      "box": {
+        "left": 377.3,
+        "top": 88.0,
+        "width": 85.3,
+        "height": 15.3
+      }
+    },
+    "servTrainTo28": {
+      "type": "text",
+      "label": "Enter the ending of training duty for service. Line 29.",
+      "page": 2,
+      "box": {
+        "left": 465.3,
+        "top": 88.0,
+        "width": 80.0,
+        "height": 15.3
+      }
+    },
+    "servTrainDays28": {
+      "type": "text",
+      "label": "Enter the number of days of training duty for service. Line 29.",
+      "page": 2,
+      "box": {
+        "left": 547.3,
+        "top": 88.0,
+        "width": 40.0,
+        "height": 15.3
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 2,
+      "count": 4,
+      "rowStride": 19.77,
+      "editor": "grid",
+      "columns": {
+        "actFr": {
+          "type": "text",
+          "label": "Enter the beginning date of active duty. Line 1.",
+          "page": 2,
+          "box": {
+            "left": 28.7,
+            "top": 723.3,
+            "width": 68.7,
+            "height": 15.3
+          }
+        },
+        "actTo": {
+          "type": "text",
+          "label": "Enter the ending date of active duty. Line 1.",
+          "page": 2,
+          "box": {
+            "left": 99.3,
+            "top": 723.3,
+            "width": 71.3,
+            "height": 15.3
+          }
+        },
+        "actYr": {
+          "type": "text",
+          "label": "Enter the year of active duty. Line 1.",
+          "page": 2,
+          "box": {
+            "left": 173.3,
+            "top": 723.3,
+            "width": 49.3,
+            "height": 15.3
+          }
+        },
+        "actMnth": {
+          "type": "text",
+          "label": "Enter the month of active duty. Line 1.",
+          "page": 2,
+          "box": {
+            "left": 224.7,
+            "top": 723.3,
+            "width": 33.3,
+            "height": 15.3
+          }
+        },
+        "actDay": {
+          "type": "text",
+          "label": "Enter the day of active duty. Line 1.",
+          "page": 2,
+          "box": {
+            "left": 260.0,
+            "top": 723.3,
+            "width": 32.7,
+            "height": 15.3
+          }
+        },
+        "trainAnn": {
+          "type": "text",
+          "label": "Enter the training duty anniversary year. Line 1.",
+          "page": 2,
+          "box": {
+            "left": 295.3,
+            "top": 723.3,
+            "width": 79.3,
+            "height": 15.3
+          }
+        },
+        "trainFr": {
+          "type": "text",
+          "label": "Enter the beginning date of training duty. Line 1.",
+          "page": 2,
+          "box": {
+            "left": 377.3,
+            "top": 723.3,
+            "width": 85.3,
+            "height": 15.3
+          }
+        },
+        "trainTo": {
+          "type": "text",
+          "label": "Enter the ending date of training duty. Line 1.",
+          "page": 2,
+          "box": {
+            "left": 465.3,
+            "top": 723.3,
+            "width": 80.0,
+            "height": 15.3
+          }
+        },
+        "trainDays": {
+          "type": "text",
+          "label": "Enter the number of days of training duty. Line 1.",
+          "page": 2,
+          "box": {
+            "left": 547.3,
+            "top": 723.3,
+            "width": 40.0,
+            "height": 15.3
+          }
+        }
+      }
+    }
+  }
+}

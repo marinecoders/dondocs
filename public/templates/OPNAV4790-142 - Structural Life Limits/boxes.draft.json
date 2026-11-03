@@ -1,0 +1,304 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 792,
+    "height": 612
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "typMdlSer": {
+        "left": 281.2,
+        "top": 563.3,
+        "width": 234.9,
+        "height": 14.2,
+        "type": "text",
+        "description": "STRUCTURAL LIFE LIMITS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "bnoSer": {
+        "left": 521.1,
+        "top": 563.3,
+        "width": 234.9,
+        "height": 14.2,
+        "type": "text",
+        "description": "STRUCTURAL LIFE LIMITS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "refr": {
+        "left": 41.1,
+        "top": 522.2,
+        "width": 234.9,
+        "height": 14.2,
+        "type": "text",
+        "description": "3. REFERENCE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "refDte": {
+        "left": 281.2,
+        "top": 522.2,
+        "width": 234.9,
+        "height": 14.2,
+        "type": "text",
+        "description": "4. REFERENCE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pgIntDte": {
+        "left": 521.1,
+        "top": 522.2,
+        "width": 234.9,
+        "height": 14.2,
+        "type": "text",
+        "description": "5. PAGE INITIATION DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "desc": {
+        "left": 114.5,
+        "top": 507.2,
+        "width": 641.6,
+        "height": 13.6,
+        "type": "text",
+        "description": "6. DESCRIPTON",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "descA": {
+        "left": 41.0,
+        "top": 493.2,
+        "width": 715.0,
+        "height": 13.6,
+        "type": "text",
+        "description": "6. DESCRIPTON",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "descB": {
+        "left": 41.0,
+        "top": 479.6,
+        "width": 715.0,
+        "height": 13.6,
+        "type": "text",
+        "description": "6. DESCRIPTON",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "descC": {
+        "left": 41.0,
+        "top": 466.3,
+        "width": 715.0,
+        "height": 13.6,
+        "type": "text",
+        "description": "6. DESCRIPTON",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "descD": {
+        "left": 41.0,
+        "top": 452.1,
+        "width": 715.0,
+        "height": 13.6,
+        "type": "text",
+        "description": "6. DESCRIPTON",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "descE": {
+        "left": 41.0,
+        "top": 438.2,
+        "width": 715.0,
+        "height": 13.6,
+        "type": "text",
+        "description": "6. DESCRIPTON",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nts": {
+        "left": 88.4,
+        "top": 424.2,
+        "width": 667.7,
+        "height": 13.6,
+        "type": "text",
+        "description": "7. NOTES",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ntsA": {
+        "left": 41.0,
+        "top": 410.2,
+        "width": 715.0,
+        "height": 13.6,
+        "type": "text",
+        "description": "7. NOTES",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ntsB": {
+        "left": 41.0,
+        "top": 396.7,
+        "width": 715.0,
+        "height": 13.6,
+        "type": "text",
+        "description": "7. NOTES",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ntsC": {
+        "left": 41.0,
+        "top": 382.4,
+        "width": 715.0,
+        "height": 13.6,
+        "type": "text",
+        "description": "7. NOTES",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ntsD": {
+        "left": 41.0,
+        "top": 369.0,
+        "width": 715.0,
+        "height": 13.6,
+        "type": "text",
+        "description": "7. NOTES",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ntsE": {
+        "left": 41.0,
+        "top": 354.9,
+        "width": 715.0,
+        "height": 13.6,
+        "type": "text",
+        "description": "7. NOTES",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ntsF": {
+        "left": 41.0,
+        "top": 341.5,
+        "width": 715.0,
+        "height": 13.6,
+        "type": "text",
+        "description": "7. NOTES",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ntsG": {
+        "left": 41.0,
+        "top": 327.4,
+        "width": 715.0,
+        "height": 13.6,
+        "type": "text",
+        "description": "7. NOTES",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ntsH": {
+        "left": 41.0,
+        "top": 313.0,
+        "width": 715.0,
+        "height": 13.6,
+        "type": "text",
+        "description": "7. NOTES",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fhCtHrCa": {
+        "left": 36.1,
+        "top": 239.2,
+        "width": 84.8,
+        "height": 13.6,
+        "type": "text",
+        "description": "(HOURS/CAL)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fhCtComAFC": {
+        "left": 121.2,
+        "top": 239.2,
+        "width": 154.8,
+        "height": 13.6,
+        "type": "text",
+        "description": "b. COMPONENT/AFC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cATSCat": {
+        "left": 276.0,
+        "top": 239.2,
+        "width": 84.8,
+        "height": 13.6,
+        "type": "text",
+        "description": "(CATS)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cATSComp": {
+        "left": 361.1,
+        "top": 239.2,
+        "width": 154.8,
+        "height": 13.6,
+        "type": "text",
+        "description": "b. COMPONENT/AFC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "arstLndComp": {
+        "left": 515.9,
+        "top": 239.2,
+        "width": 84.8,
+        "height": 13.6,
+        "type": "text",
+        "description": "(ARREST LANDINGS )",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "arstLndCpn": {
+        "left": 601.0,
+        "top": 239.2,
+        "width": 154.8,
+        "height": 13.6,
+        "type": "text",
+        "description": "b. COMPONENT/AFC",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

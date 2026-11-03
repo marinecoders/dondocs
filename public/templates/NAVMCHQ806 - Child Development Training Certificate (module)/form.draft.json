@@ -1,0 +1,66 @@
+{
+  "id": "navmchq806",
+  "label": "NAVMCHQ806 - Child Development Training Certificate (module)",
+  "directory": "NAVMCHQ806 - Child Development Training Certificate (module)",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "printingNote",
+        "0",
+        "number",
+        "date"
+      ]
+    }
+  ],
+  "fields": {
+    "printingNote": {
+      "type": "text",
+      "label": "Printing Note",
+      "page": 1,
+      "box": {
+        "left": 16.3,
+        "top": 596.2,
+        "width": 160.8,
+        "height": 56.6
+      },
+      "multiline": true
+    },
+    "0": {
+      "type": "text",
+      "label": "test",
+      "page": 1,
+      "box": {
+        "left": 20.7,
+        "top": 320.4,
+        "width": 351.5,
+        "height": 16.2
+      }
+    },
+    "number": {
+      "type": "text",
+      "label": "Number",
+      "page": 1,
+      "box": {
+        "left": 228.7,
+        "top": 239.7,
+        "width": 31.8,
+        "height": 15.7
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 30.0,
+        "top": 101.3,
+        "width": 146.1,
+        "height": 16.2
+      }
+    }
+  }
+}

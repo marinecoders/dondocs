@@ -1,0 +1,588 @@
+{
+  "id": "opnav55005",
+  "label": "OPNAV5500-5 - Lock Work Request",
+  "directory": "OPNAV5500-5 - Lock Work Request",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "callNumber",
+        "requestedBy",
+        "nCode",
+        "date1",
+        "telephone",
+        "room",
+        "building",
+        "qty",
+        "jobType",
+        "description",
+        "information1",
+        "information10",
+        "combinationChange",
+        "information2",
+        "information11",
+        "repair",
+        "information3",
+        "information12",
+        "install",
+        "information4",
+        "information13",
+        "repairSimplex",
+        "information5",
+        "information14",
+        "changeCombo",
+        "toFactory",
+        "information6",
+        "information15",
+        "lockout",
+        "roomSafe",
+        "information7",
+        "information16",
+        "repairSafe",
+        "information8",
+        "information17",
+        "repairCombo50",
+        "information9",
+        "other",
+        "information18",
+        "signature",
+        "remarks",
+        "timeField1",
+        "callRececivedBy",
+        "date2",
+        "time",
+        "workCompleteBy",
+        "date3"
+      ]
+    }
+  ],
+  "fields": {
+    "callNumber": {
+      "type": "text",
+      "label": "Enter the call number.",
+      "page": 1,
+      "box": {
+        "left": 293.2,
+        "top": 759.8,
+        "width": 296.1,
+        "height": 34.0
+      },
+      "multiline": true
+    },
+    "requestedBy": {
+      "type": "text",
+      "label": "Enter the individual that placed the lock request.",
+      "page": 1,
+      "box": {
+        "left": 21.0,
+        "top": 709.7,
+        "width": 181.4,
+        "height": 22.7
+      }
+    },
+    "nCode": {
+      "type": "text",
+      "label": "Enter the N-Code.",
+      "page": 1,
+      "box": {
+        "left": 213.3,
+        "top": 709.7,
+        "width": 188.1,
+        "height": 22.7
+      }
+    },
+    "date1": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 413.0,
+        "top": 709.7,
+        "width": 177.4,
+        "height": 22.7
+      }
+    },
+    "telephone": {
+      "type": "text",
+      "label": "Enter the telephone number.",
+      "page": 1,
+      "box": {
+        "left": 412.9,
+        "top": 672.2,
+        "width": 176.0,
+        "height": 24.2
+      }
+    },
+    "room": {
+      "type": "text",
+      "label": "Enter the room.",
+      "page": 1,
+      "box": {
+        "left": 21.0,
+        "top": 671.5,
+        "width": 181.4,
+        "height": 22.7
+      }
+    },
+    "building": {
+      "type": "text",
+      "label": "Enter the building.",
+      "page": 1,
+      "box": {
+        "left": 213.3,
+        "top": 671.5,
+        "width": 188.1,
+        "height": 22.7
+      }
+    },
+    "qty": {
+      "type": "text",
+      "label": "Enter the quantity.",
+      "page": 1,
+      "box": {
+        "left": 21.0,
+        "top": 632.7,
+        "width": 181.4,
+        "height": 22.7
+      }
+    },
+    "jobType": {
+      "type": "text",
+      "label": "Enter the job type.",
+      "page": 1,
+      "box": {
+        "left": 213.3,
+        "top": 632.7,
+        "width": 188.1,
+        "height": 22.7
+      }
+    },
+    "description": {
+      "type": "text",
+      "label": "Enter the description.",
+      "page": 1,
+      "box": {
+        "left": 414.1,
+        "top": 632.7,
+        "width": 176.3,
+        "height": 22.7
+      }
+    },
+    "information1": {
+      "type": "text",
+      "label": "This is row 1 of 9.  Enter the information.",
+      "page": 1,
+      "box": {
+        "left": 21.5,
+        "top": 578.7,
+        "width": 183.0,
+        "height": 26.7
+      }
+    },
+    "information10": {
+      "type": "text",
+      "label": "Enter the information.",
+      "page": 1,
+      "box": {
+        "left": 410.2,
+        "top": 578.7,
+        "width": 183.0,
+        "height": 26.7
+      }
+    },
+    "combinationChange": {
+      "type": "checkbox",
+      "label": "Check this box to select combination change.",
+      "page": 1,
+      "box": {
+        "left": 347.7,
+        "top": 574.4,
+        "width": 17.0,
+        "height": 17.0
+      }
+    },
+    "information2": {
+      "type": "text",
+      "label": "This is row 2 of 9.  Enter the information.",
+      "page": 1,
+      "box": {
+        "left": 21.5,
+        "top": 547.7,
+        "width": 183.0,
+        "height": 31.2
+      },
+      "multiline": true
+    },
+    "information11": {
+      "type": "text",
+      "label": "Enter the information.",
+      "page": 1,
+      "box": {
+        "left": 410.2,
+        "top": 547.7,
+        "width": 183.0,
+        "height": 31.2
+      },
+      "multiline": true
+    },
+    "repair": {
+      "type": "checkbox",
+      "label": "Check this box to select repair.",
+      "page": 1,
+      "box": {
+        "left": 347.7,
+        "top": 541.8,
+        "width": 17.0,
+        "height": 17.0
+      }
+    },
+    "information3": {
+      "type": "text",
+      "label": "This is row 3 of 9.  Enter the information.",
+      "page": 1,
+      "box": {
+        "left": 21.5,
+        "top": 511.7,
+        "width": 183.0,
+        "height": 29.5
+      }
+    },
+    "information12": {
+      "type": "text",
+      "label": "Enter the information.",
+      "page": 1,
+      "box": {
+        "left": 410.2,
+        "top": 511.7,
+        "width": 183.0,
+        "height": 29.5
+      }
+    },
+    "install": {
+      "type": "checkbox",
+      "label": "Check this box to select install.",
+      "page": 1,
+      "box": {
+        "left": 347.4,
+        "top": 505.8,
+        "width": 17.0,
+        "height": 17.0
+      }
+    },
+    "information4": {
+      "type": "text",
+      "label": "This is row 4 of 9.  Enter the information.",
+      "page": 1,
+      "box": {
+        "left": 21.5,
+        "top": 476.9,
+        "width": 183.0,
+        "height": 29.5
+      }
+    },
+    "information13": {
+      "type": "text",
+      "label": "Enter the information.",
+      "page": 1,
+      "box": {
+        "left": 410.2,
+        "top": 476.9,
+        "width": 183.0,
+        "height": 29.5
+      }
+    },
+    "repairSimplex": {
+      "type": "checkbox",
+      "label": "Check this box to select repair simplex",
+      "page": 1,
+      "box": {
+        "left": 347.4,
+        "top": 470.9,
+        "width": 17.0,
+        "height": 17.0
+      }
+    },
+    "information5": {
+      "type": "text",
+      "label": "This is row 5 of 9.  Enter the information.",
+      "page": 1,
+      "box": {
+        "left": 21.5,
+        "top": 440.3,
+        "width": 183.0,
+        "height": 43.0
+      },
+      "multiline": true
+    },
+    "information14": {
+      "type": "text",
+      "label": "Enter the information.",
+      "page": 1,
+      "box": {
+        "left": 410.2,
+        "top": 440.3,
+        "width": 183.0,
+        "height": 43.0
+      },
+      "multiline": true
+    },
+    "changeCombo": {
+      "type": "checkbox",
+      "label": "Check this box to select change combo.",
+      "page": 1,
+      "box": {
+        "left": 348.1,
+        "top": 440.2,
+        "width": 17.0,
+        "height": 17.0
+      }
+    },
+    "toFactory": {
+      "type": "checkbox",
+      "label": "Check this box to select to factory.",
+      "page": 1,
+      "box": {
+        "left": 347.8,
+        "top": 415.2,
+        "width": 17.0,
+        "height": 17.0
+      }
+    },
+    "information6": {
+      "type": "text",
+      "label": "This is row 6 of 9.  Enter the information.",
+      "page": 1,
+      "box": {
+        "left": 21.5,
+        "top": 391.4,
+        "width": 183.0,
+        "height": 48.1
+      },
+      "multiline": true
+    },
+    "information15": {
+      "type": "text",
+      "label": "Enter the information.",
+      "page": 1,
+      "box": {
+        "left": 410.2,
+        "top": 391.4,
+        "width": 183.0,
+        "height": 48.1
+      },
+      "multiline": true
+    },
+    "lockout": {
+      "type": "checkbox",
+      "label": "Check this box to select lockout.",
+      "page": 1,
+      "box": {
+        "left": 348.1,
+        "top": 390.7,
+        "width": 17.0,
+        "height": 17.0
+      }
+    },
+    "roomSafe": {
+      "type": "checkbox",
+      "label": "Check this box to select room safe.",
+      "page": 1,
+      "box": {
+        "left": 348.5,
+        "top": 362.3,
+        "width": 17.0,
+        "height": 17.0
+      }
+    },
+    "information7": {
+      "type": "text",
+      "label": "This is row 7 of 9.  Enter the information.",
+      "page": 1,
+      "box": {
+        "left": 21.5,
+        "top": 338.5,
+        "width": 183.0,
+        "height": 28.9
+      }
+    },
+    "information16": {
+      "type": "text",
+      "label": "Enter the information.",
+      "page": 1,
+      "box": {
+        "left": 410.2,
+        "top": 338.5,
+        "width": 183.0,
+        "height": 28.9
+      }
+    },
+    "repairSafe": {
+      "type": "checkbox",
+      "label": "Check this box to select repair safe.",
+      "page": 1,
+      "box": {
+        "left": 347.5,
+        "top": 332.0,
+        "width": 17.0,
+        "height": 17.0
+      }
+    },
+    "information8": {
+      "type": "text",
+      "label": "This is row 8 of 9.  Enter the information.",
+      "page": 1,
+      "box": {
+        "left": 21.5,
+        "top": 305.3,
+        "width": 183.0,
+        "height": 29.5
+      }
+    },
+    "information17": {
+      "type": "text",
+      "label": "Enter the information.",
+      "page": 1,
+      "box": {
+        "left": 410.2,
+        "top": 305.3,
+        "width": 183.0,
+        "height": 29.5
+      }
+    },
+    "repairCombo50": {
+      "type": "checkbox",
+      "label": "Check this box to select repair combo 50.",
+      "page": 1,
+      "box": {
+        "left": 347.5,
+        "top": 300.5,
+        "width": 17.0,
+        "height": 17.0
+      }
+    },
+    "information9": {
+      "type": "text",
+      "label": "This is row 9 of 9.  Enter the information.",
+      "page": 1,
+      "box": {
+        "left": 21.5,
+        "top": 270.4,
+        "width": 183.0,
+        "height": 29.5
+      }
+    },
+    "other": {
+      "type": "text",
+      "label": "Enter other information here.",
+      "page": 1,
+      "box": {
+        "left": 248.2,
+        "top": 270.4,
+        "width": 155.5,
+        "height": 29.5
+      }
+    },
+    "information18": {
+      "type": "text",
+      "label": "Enter the information.",
+      "page": 1,
+      "box": {
+        "left": 410.2,
+        "top": 270.4,
+        "width": 183.0,
+        "height": 29.5
+      }
+    },
+    "signature": {
+      "type": "text",
+      "label": "Enter the signature.",
+      "page": 1,
+      "box": {
+        "left": 293.8,
+        "top": 197.9,
+        "width": 297.2,
+        "height": 26.7
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "Enter any remarks here.",
+      "page": 1,
+      "box": {
+        "left": 21.0,
+        "top": 197.3,
+        "width": 261.8,
+        "height": 26.7
+      }
+    },
+    "timeField1": {
+      "type": "text",
+      "label": "Enter the time the call was received using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 200.8,
+        "top": 149.7,
+        "width": 198.5,
+        "height": 28.7
+      }
+    },
+    "callRececivedBy": {
+      "type": "text",
+      "label": "Enter who received the call.",
+      "page": 1,
+      "box": {
+        "left": 20.4,
+        "top": 148.9,
+        "width": 169.5,
+        "height": 27.2
+      }
+    },
+    "date2": {
+      "type": "text",
+      "label": "Enter the date the call was received (DD MMM YYYY).",
+      "page": 1,
+      "box": {
+        "left": 420.9,
+        "top": 148.9,
+        "width": 169.6,
+        "height": 27.2
+      }
+    },
+    "time": {
+      "type": "text",
+      "label": "Enter the time the work was completed using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 201.4,
+        "top": 103.0,
+        "width": 198.5,
+        "height": 28.7
+      }
+    },
+    "workCompleteBy": {
+      "type": "text",
+      "label": "Enter who the work was completed by.",
+      "page": 1,
+      "box": {
+        "left": 20.4,
+        "top": 102.3,
+        "width": 169.5,
+        "height": 27.2
+      }
+    },
+    "date3": {
+      "type": "text",
+      "label": "Enter the date the work was completed (DD MMM YYYY).",
+      "page": 1,
+      "box": {
+        "left": 420.9,
+        "top": 102.3,
+        "width": 169.6,
+        "height": 27.2
+      }
+    }
+  }
+}

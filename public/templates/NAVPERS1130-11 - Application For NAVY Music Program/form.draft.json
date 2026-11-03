@@ -1,0 +1,2255 @@
+{
+  "id": "navpers113011",
+  "label": "NAVPERS1130-11 - Application For NAVY Music Program",
+  "directory": "NAVPERS1130-11 - Application For NAVY Music Program",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "ph",
+        "in",
+        "lname",
+        "fname",
+        "mi",
+        "a1",
+        "d1",
+        "si",
+        "ssn",
+        "city",
+        "zip",
+        "state",
+        "male1",
+        "female1",
+        "rec",
+        "nphone",
+        "nfax",
+        "station",
+        "date1",
+        "9",
+        "8",
+        "1",
+        "5",
+        "date2",
+        "10",
+        "2",
+        "11",
+        "date3",
+        "12",
+        "6",
+        "13",
+        "date4",
+        "3",
+        "7",
+        "14",
+        "15",
+        "date5",
+        "4",
+        "17",
+        "16",
+        "ed",
+        "ex",
+        "yr",
+        "hs",
+        "city3",
+        "col",
+        "city2",
+        "18",
+        "19",
+        "br",
+        "g",
+        "p2",
+        "sa",
+        "20",
+        "21",
+        "br2",
+        "gr3",
+        "23",
+        "22",
+        "24",
+        "25",
+        "b",
+        "a",
+        "c",
+        "d",
+        "gg",
+        "f",
+        "h",
+        "e",
+        "k",
+        "j",
+        "l",
+        "i",
+        "t1",
+        "aaa",
+        "y1",
+        "t2",
+        "a2",
+        "y2",
+        "a3",
+        "y3",
+        "t3",
+        "size1",
+        "p1",
+        "en1",
+        "fr1",
+        "to2",
+        "pppp",
+        "fr2",
+        "en2",
+        "size2",
+        "to3",
+        "en3",
+        "fr3",
+        "to4",
+        "size3",
+        "p3",
+        "27",
+        "yes5",
+        "26"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "28",
+        "71",
+        "72",
+        "29",
+        "30",
+        "73",
+        "31",
+        "74",
+        "32",
+        "75",
+        "33",
+        "76",
+        "34",
+        "77",
+        "35",
+        "78",
+        "36",
+        "79",
+        "80",
+        "37",
+        "38",
+        "81",
+        "82",
+        "39",
+        "83",
+        "40",
+        "41",
+        "84",
+        "42",
+        "85",
+        "43",
+        "86",
+        "44",
+        "87",
+        "45",
+        "88",
+        "89",
+        "46",
+        "47",
+        "90",
+        "48",
+        "91",
+        "49",
+        "92",
+        "50",
+        "93",
+        "51",
+        "94",
+        "52",
+        "95",
+        "96",
+        "53",
+        "54",
+        "97",
+        "55",
+        "98",
+        "56",
+        "99",
+        "100",
+        "57",
+        "101",
+        "58",
+        "59",
+        "102",
+        "60",
+        "103",
+        "61",
+        "104",
+        "62",
+        "105",
+        "63",
+        "106",
+        "64",
+        "107",
+        "65",
+        "108",
+        "66",
+        "109",
+        "67",
+        "110",
+        "68",
+        "111",
+        "112",
+        "69",
+        "70",
+        "113"
+      ]
+    }
+  ],
+  "fields": {
+    "ph": {
+      "type": "text",
+      "label": "information must be as thorough and accurate",
+      "page": 1,
+      "box": {
+        "left": 338.2,
+        "top": 698.4,
+        "width": 107.0,
+        "height": 12.7
+      }
+    },
+    "in": {
+      "type": "text",
+      "label": "accurate as possible. If you need additional",
+      "page": 1,
+      "box": {
+        "left": 444.6,
+        "top": 698.4,
+        "width": 135.7,
+        "height": 14.0
+      }
+    },
+    "lname": {
+      "type": "text",
+      "label": "Last Name",
+      "page": 1,
+      "box": {
+        "left": 30.6,
+        "top": 697.7,
+        "width": 149.0,
+        "height": 12.7
+      }
+    },
+    "fname": {
+      "type": "text",
+      "label": "First Name",
+      "page": 1,
+      "box": {
+        "left": 180.3,
+        "top": 697.7,
+        "width": 120.4,
+        "height": 11.5
+      }
+    },
+    "mi": {
+      "type": "text",
+      "label": "MI",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 697.7,
+        "width": 34.4,
+        "height": 11.5
+      }
+    },
+    "a1": {
+      "type": "text",
+      "label": "Last Name: First Name: MI",
+      "page": 1,
+      "box": {
+        "left": 31.2,
+        "top": 677.3,
+        "width": 305.7,
+        "height": 12.1
+      }
+    },
+    "d1": {
+      "type": "text",
+      "label": "Date of Birth (DD/MM/YY)",
+      "page": 1,
+      "box": {
+        "left": 337.6,
+        "top": 676.1,
+        "width": 107.6,
+        "height": 11.5
+      }
+    },
+    "si": {
+      "type": "text",
+      "label": "Secondary Instrument(s)",
+      "page": 1,
+      "box": {
+        "left": 445.9,
+        "top": 676.1,
+        "width": 134.4,
+        "height": 11.5
+      }
+    },
+    "ssn": {
+      "type": "text",
+      "label": "Male Female",
+      "page": 1,
+      "box": {
+        "left": 445.9,
+        "top": 656.3,
+        "width": 135.0,
+        "height": 14.7
+      }
+    },
+    "city": {
+      "type": "text",
+      "label": "City",
+      "page": 1,
+      "box": {
+        "left": 31.2,
+        "top": 655.1,
+        "width": 147.1,
+        "height": 12.7
+      }
+    },
+    "zip": {
+      "type": "text",
+      "label": "Zip",
+      "page": 1,
+      "box": {
+        "left": 257.3,
+        "top": 655.1,
+        "width": 79.6,
+        "height": 12.7
+      }
+    },
+    "state": {
+      "type": "text",
+      "label": "State",
+      "page": 1,
+      "box": {
+        "left": 179.6,
+        "top": 654.4,
+        "width": 77.1,
+        "height": 12.1
+      }
+    },
+    "male1": {
+      "type": "checkbox",
+      "label": "of Birth",
+      "page": 1,
+      "box": {
+        "left": 360.3,
+        "top": 653.2,
+        "width": 12.4,
+        "height": 9.9
+      }
+    },
+    "female1": {
+      "type": "checkbox",
+      "label": "Male",
+      "page": 1,
+      "box": {
+        "left": 400.0,
+        "top": 652.3,
+        "width": 11.6,
+        "height": 9.1
+      }
+    },
+    "rec": {
+      "type": "text",
+      "label": "City",
+      "page": 1,
+      "box": {
+        "left": 30.6,
+        "top": 634.0,
+        "width": 149.0,
+        "height": 13.4
+      }
+    },
+    "nphone": {
+      "type": "text",
+      "label": "Female",
+      "page": 1,
+      "box": {
+        "left": 392.4,
+        "top": 634.0,
+        "width": 93.6,
+        "height": 14.0
+      }
+    },
+    "nfax": {
+      "type": "text",
+      "label": "Security Number",
+      "page": 1,
+      "box": {
+        "left": 486.6,
+        "top": 634.0,
+        "width": 94.3,
+        "height": 14.0
+      }
+    },
+    "station": {
+      "type": "text",
+      "label": "Male",
+      "page": 1,
+      "box": {
+        "left": 180.3,
+        "top": 633.4,
+        "width": 211.5,
+        "height": 13.4
+      }
+    },
+    "date1": {
+      "type": "text",
+      "label": "High School Diploma",
+      "page": 1,
+      "box": {
+        "left": 377.7,
+        "top": 614.3,
+        "width": 76.9,
+        "height": 12.4
+      }
+    },
+    "9": {
+      "type": "checkbox",
+      "label": "High School Diploma",
+      "page": 1,
+      "box": {
+        "left": 499.2,
+        "top": 611.8,
+        "width": 10.7,
+        "height": 11.6
+      }
+    },
+    "8": {
+      "type": "checkbox",
+      "label": "Community/Jr. College",
+      "page": 1,
+      "box": {
+        "left": 253.7,
+        "top": 611.0,
+        "width": 10.7,
+        "height": 10.7
+      }
+    },
+    "1": {
+      "type": "checkbox",
+      "label": "Institutions",
+      "page": 1,
+      "box": {
+        "left": 36.4,
+        "top": 610.2,
+        "width": 10.7,
+        "height": 9.1
+      }
+    },
+    "5": {
+      "type": "checkbox",
+      "label": "High School",
+      "page": 1,
+      "box": {
+        "left": 134.7,
+        "top": 610.2,
+        "width": 12.4,
+        "height": 10.7
+      }
+    },
+    "date2": {
+      "type": "text",
+      "label": "Associates Degree",
+      "page": 1,
+      "box": {
+        "left": 377.7,
+        "top": 601.9,
+        "width": 76.9,
+        "height": 10.7
+      }
+    },
+    "10": {
+      "type": "checkbox",
+      "label": "Magnet (Charter/Optional)",
+      "page": 1,
+      "box": {
+        "left": 253.7,
+        "top": 599.4,
+        "width": 10.7,
+        "height": 9.9
+      }
+    },
+    "2": {
+      "type": "checkbox",
+      "label": "Institutions",
+      "page": 1,
+      "box": {
+        "left": 36.4,
+        "top": 597.8,
+        "width": 9.9,
+        "height": 9.1
+      }
+    },
+    "11": {
+      "type": "checkbox",
+      "label": "Associates Degree",
+      "page": 1,
+      "box": {
+        "left": 498.3,
+        "top": 597.8,
+        "width": 10.7,
+        "height": 8.3
+      }
+    },
+    "date3": {
+      "type": "text",
+      "label": "Bachelors Degree",
+      "page": 1,
+      "box": {
+        "left": 377.7,
+        "top": 591.2,
+        "width": 77.7,
+        "height": 14.0
+      }
+    },
+    "12": {
+      "type": "checkbox",
+      "label": "Music Conservatory",
+      "page": 1,
+      "box": {
+        "left": 253.7,
+        "top": 587.9,
+        "width": 10.7,
+        "height": 9.9
+      }
+    },
+    "6": {
+      "type": "checkbox",
+      "label": "High School",
+      "page": 1,
+      "box": {
+        "left": 135.5,
+        "top": 587.0,
+        "width": 9.9,
+        "height": 9.9
+      }
+    },
+    "13": {
+      "type": "checkbox",
+      "label": "Bachelors Degree",
+      "page": 1,
+      "box": {
+        "left": 499.2,
+        "top": 587.0,
+        "width": 9.1,
+        "height": 9.9
+      }
+    },
+    "date4": {
+      "type": "text",
+      "label": "Masters Degree",
+      "page": 1,
+      "box": {
+        "left": 377.7,
+        "top": 577.1,
+        "width": 77.7,
+        "height": 10.7
+      }
+    },
+    "3": {
+      "type": "checkbox",
+      "label": "Institutions",
+      "page": 1,
+      "box": {
+        "left": 36.4,
+        "top": 575.5,
+        "width": 9.9,
+        "height": 8.3
+      }
+    },
+    "7": {
+      "type": "checkbox",
+      "label": "Private High School",
+      "page": 1,
+      "box": {
+        "left": 135.5,
+        "top": 575.5,
+        "width": 9.9,
+        "height": 9.1
+      }
+    },
+    "14": {
+      "type": "checkbox",
+      "label": "Standard 4 year College",
+      "page": 1,
+      "box": {
+        "left": 253.7,
+        "top": 575.5,
+        "width": 10.7,
+        "height": 9.1
+      }
+    },
+    "15": {
+      "type": "checkbox",
+      "label": "Masters Degree",
+      "page": 1,
+      "box": {
+        "left": 499.2,
+        "top": 574.6,
+        "width": 9.9,
+        "height": 9.1
+      }
+    },
+    "date5": {
+      "type": "text",
+      "label": "Doctoral Degree",
+      "page": 1,
+      "box": {
+        "left": 377.7,
+        "top": 565.6,
+        "width": 76.9,
+        "height": 11.6
+      }
+    },
+    "4": {
+      "type": "checkbox",
+      "label": "Institutions",
+      "page": 1,
+      "box": {
+        "left": 36.4,
+        "top": 563.9,
+        "width": 11.6,
+        "height": 9.1
+      }
+    },
+    "17": {
+      "type": "checkbox",
+      "label": "Doctoral Degree",
+      "page": 1,
+      "box": {
+        "left": 498.3,
+        "top": 563.9,
+        "width": 10.7,
+        "height": 9.9
+      }
+    },
+    "16": {
+      "type": "checkbox",
+      "label": "Vocational School",
+      "page": 1,
+      "box": {
+        "left": 252.9,
+        "top": 563.1,
+        "width": 9.9,
+        "height": 9.1
+      }
+    },
+    "ed": {
+      "type": "text",
+      "label": "Vocational School",
+      "page": 1,
+      "box": {
+        "left": 30.6,
+        "top": 544.2,
+        "width": 121.0,
+        "height": 14.6
+      }
+    },
+    "ex": {
+      "type": "text",
+      "label": "Professional Experience as: No. of Years",
+      "page": 1,
+      "box": {
+        "left": 152.9,
+        "top": 541.7,
+        "width": 378.3,
+        "height": 12.7
+      }
+    },
+    "yr": {
+      "type": "text",
+      "label": "Number",
+      "page": 1,
+      "box": {
+        "left": 530.6,
+        "top": 541.7,
+        "width": 50.3,
+        "height": 12.7
+      }
+    },
+    "hs": {
+      "type": "text",
+      "label": "Total Years of Education: Professional Experience as",
+      "page": 1,
+      "box": {
+        "left": 30.6,
+        "top": 525.1,
+        "width": 216.6,
+        "height": 19.7
+      }
+    },
+    "city3": {
+      "type": "text",
+      "label": "No. of Years",
+      "page": 1,
+      "box": {
+        "left": 247.8,
+        "top": 525.1,
+        "width": 333.8,
+        "height": 19.7
+      }
+    },
+    "col": {
+      "type": "text",
+      "label": "High School",
+      "page": 1,
+      "box": {
+        "left": 30.6,
+        "top": 503.5,
+        "width": 217.2,
+        "height": 19.1
+      }
+    },
+    "city2": {
+      "type": "text",
+      "label": "City, State",
+      "page": 1,
+      "box": {
+        "left": 247.8,
+        "top": 502.8,
+        "width": 333.1,
+        "height": 19.7
+      }
+    },
+    "18": {
+      "type": "checkbox",
+      "label": "Are you currently serving in the Armed Forces?",
+      "page": 1,
+      "box": {
+        "left": 193.4,
+        "top": 466.4,
+        "width": 12.4,
+        "height": 10.7
+      }
+    },
+    "19": {
+      "type": "checkbox",
+      "label": "Are you currently serving in the Armed Forces? Yes",
+      "page": 1,
+      "box": {
+        "left": 228.1,
+        "top": 466.4,
+        "width": 13.2,
+        "height": 11.6
+      }
+    },
+    "br": {
+      "type": "text",
+      "label": "If yes, which Branch",
+      "page": 1,
+      "box": {
+        "left": 361.2,
+        "top": 466.4,
+        "width": 104.1,
+        "height": 14.9
+      }
+    },
+    "g": {
+      "type": "text",
+      "label": "Grade/Rank",
+      "page": 1,
+      "box": {
+        "left": 508.3,
+        "top": 464.7,
+        "width": 69.4,
+        "height": 13.2
+      }
+    },
+    "p2": {
+      "type": "text",
+      "label": "Grade/Rank",
+      "page": 1,
+      "box": {
+        "left": 425.5,
+        "top": 444.9,
+        "width": 152.2,
+        "height": 16.6
+      }
+    },
+    "sa": {
+      "type": "text",
+      "label": "Sa",
+      "page": 1,
+      "box": {
+        "left": 31.2,
+        "top": 443.6,
+        "width": 392.4,
+        "height": 15.9
+      }
+    },
+    "20": {
+      "type": "checkbox",
+      "label": "Have you ever served in the Armed Forces?",
+      "page": 1,
+      "box": {
+        "left": 181.8,
+        "top": 424.2,
+        "width": 10.7,
+        "height": 10.7
+      }
+    },
+    "21": {
+      "type": "checkbox",
+      "label": "Have you ever served in the Armed Forces? Yes",
+      "page": 1,
+      "box": {
+        "left": 216.5,
+        "top": 423.4,
+        "width": 13.2,
+        "height": 9.9
+      }
+    },
+    "br2": {
+      "type": "text",
+      "label": "If yes, which Branch",
+      "page": 1,
+      "box": {
+        "left": 358.6,
+        "top": 423.2,
+        "width": 104.5,
+        "height": 14.6
+      }
+    },
+    "gr3": {
+      "type": "text",
+      "label": "Grade/Rank",
+      "page": 1,
+      "box": {
+        "left": 510.2,
+        "top": 422.6,
+        "width": 67.5,
+        "height": 14.6
+      }
+    },
+    "23": {
+      "type": "checkbox",
+      "label": "which",
+      "page": 1,
+      "box": {
+        "left": 309.1,
+        "top": 405.2,
+        "width": 13.2,
+        "height": 11.6
+      }
+    },
+    "22": {
+      "type": "checkbox",
+      "label": "If",
+      "page": 1,
+      "box": {
+        "left": 276.0,
+        "top": 404.4,
+        "width": 12.4,
+        "height": 11.6
+      }
+    },
+    "24": {
+      "type": "checkbox",
+      "label": "Musical",
+      "page": 1,
+      "box": {
+        "left": 246.3,
+        "top": 372.2,
+        "width": 11.6,
+        "height": 12.4
+      }
+    },
+    "25": {
+      "type": "checkbox",
+      "label": "Musical",
+      "page": 1,
+      "box": {
+        "left": 282.6,
+        "top": 372.2,
+        "width": 11.6,
+        "height": 11.6
+      }
+    },
+    "b": {
+      "type": "text",
+      "label": "To",
+      "page": 1,
+      "box": {
+        "left": 103.2,
+        "top": 344.9,
+        "width": 76.4,
+        "height": 18.5
+      }
+    },
+    "a": {
+      "type": "text",
+      "label": "From",
+      "page": 1,
+      "box": {
+        "left": 30.6,
+        "top": 344.2,
+        "width": 73.2,
+        "height": 18.5
+      }
+    },
+    "c": {
+      "type": "text",
+      "label": "Instrument",
+      "page": 1,
+      "box": {
+        "left": 180.3,
+        "top": 344.2,
+        "width": 193.6,
+        "height": 17.8
+      }
+    },
+    "d": {
+      "type": "text",
+      "label": "Instructor",
+      "page": 1,
+      "box": {
+        "left": 373.9,
+        "top": 343.6,
+        "width": 206.4,
+        "height": 16.6
+      }
+    },
+    "gg": {
+      "type": "text",
+      "label": "Instrument",
+      "page": 1,
+      "box": {
+        "left": 180.3,
+        "top": 327.7,
+        "width": 193.6,
+        "height": 18.5
+      }
+    },
+    "f": {
+      "type": "text",
+      "label": "To",
+      "page": 1,
+      "box": {
+        "left": 103.8,
+        "top": 326.4,
+        "width": 75.8,
+        "height": 17.8
+      }
+    },
+    "h": {
+      "type": "text",
+      "label": "Instructor",
+      "page": 1,
+      "box": {
+        "left": 373.3,
+        "top": 326.4,
+        "width": 207.6,
+        "height": 17.2
+      }
+    },
+    "e": {
+      "type": "text",
+      "label": "From",
+      "page": 1,
+      "box": {
+        "left": 31.2,
+        "top": 325.8,
+        "width": 72.0,
+        "height": 17.2
+      }
+    },
+    "k": {
+      "type": "text",
+      "label": "Instrument",
+      "page": 1,
+      "box": {
+        "left": 180.3,
+        "top": 309.2,
+        "width": 193.6,
+        "height": 17.8
+      }
+    },
+    "j": {
+      "type": "text",
+      "label": "To",
+      "page": 1,
+      "box": {
+        "left": 103.8,
+        "top": 308.6,
+        "width": 75.8,
+        "height": 17.2
+      }
+    },
+    "l": {
+      "type": "text",
+      "label": "Instructor",
+      "page": 1,
+      "box": {
+        "left": 373.9,
+        "top": 308.6,
+        "width": 206.4,
+        "height": 17.8
+      }
+    },
+    "i": {
+      "type": "text",
+      "label": "From",
+      "page": 1,
+      "box": {
+        "left": 31.2,
+        "top": 307.9,
+        "width": 73.2,
+        "height": 16.6
+      }
+    },
+    "t1": {
+      "type": "text",
+      "label": "Title",
+      "page": 1,
+      "box": {
+        "left": 31.2,
+        "top": 258.9,
+        "width": 238.2,
+        "height": 20.4
+      }
+    },
+    "aaa": {
+      "type": "text",
+      "label": "Author",
+      "page": 1,
+      "box": {
+        "left": 268.2,
+        "top": 258.2,
+        "width": 186.6,
+        "height": 19.1
+      }
+    },
+    "y1": {
+      "type": "text",
+      "label": "Years Studied",
+      "page": 1,
+      "box": {
+        "left": 453.5,
+        "top": 257.6,
+        "width": 128.0,
+        "height": 19.1
+      }
+    },
+    "t2": {
+      "type": "text",
+      "label": "Title",
+      "page": 1,
+      "box": {
+        "left": 30.6,
+        "top": 238.5,
+        "width": 239.5,
+        "height": 16.6
+      }
+    },
+    "a2": {
+      "type": "text",
+      "label": "Author",
+      "page": 1,
+      "box": {
+        "left": 270.7,
+        "top": 238.5,
+        "width": 183.4,
+        "height": 17.2
+      }
+    },
+    "y2": {
+      "type": "text",
+      "label": "Years Studied",
+      "page": 1,
+      "box": {
+        "left": 454.8,
+        "top": 238.5,
+        "width": 126.1,
+        "height": 16.6
+      }
+    },
+    "a3": {
+      "type": "text",
+      "label": "Author",
+      "page": 1,
+      "box": {
+        "left": 270.7,
+        "top": 221.3,
+        "width": 184.1,
+        "height": 18.5
+      }
+    },
+    "y3": {
+      "type": "text",
+      "label": "Years Studied",
+      "page": 1,
+      "box": {
+        "left": 454.1,
+        "top": 221.3,
+        "width": 126.1,
+        "height": 17.8
+      }
+    },
+    "t3": {
+      "type": "text",
+      "label": "Title",
+      "page": 1,
+      "box": {
+        "left": 31.2,
+        "top": 220.7,
+        "width": 238.9,
+        "height": 17.2
+      }
+    },
+    "size1": {
+      "type": "text",
+      "label": "Size",
+      "page": 1,
+      "box": {
+        "left": 252.9,
+        "top": 172.9,
+        "width": 47.8,
+        "height": 19.7
+      }
+    },
+    "p1": {
+      "type": "text",
+      "label": "Position",
+      "page": 1,
+      "box": {
+        "left": 301.9,
+        "top": 172.9,
+        "width": 116.6,
+        "height": 19.7
+      }
+    },
+    "en1": {
+      "type": "text",
+      "label": "Name of Ensemble/Group",
+      "page": 1,
+      "box": {
+        "left": 30.6,
+        "top": 172.2,
+        "width": 221.7,
+        "height": 19.1
+      }
+    },
+    "fr1": {
+      "type": "text",
+      "label": "From",
+      "page": 1,
+      "box": {
+        "left": 419.1,
+        "top": 172.2,
+        "width": 77.1,
+        "height": 19.1
+      }
+    },
+    "to2": {
+      "type": "text",
+      "label": "To",
+      "page": 1,
+      "box": {
+        "left": 494.3,
+        "top": 172.2,
+        "width": 86.6,
+        "height": 19.1
+      }
+    },
+    "pppp": {
+      "type": "text",
+      "label": "Position",
+      "page": 1,
+      "box": {
+        "left": 301.9,
+        "top": 153.8,
+        "width": 115.9,
+        "height": 17.8
+      }
+    },
+    "fr2": {
+      "type": "text",
+      "label": "From",
+      "page": 1,
+      "box": {
+        "left": 419.1,
+        "top": 153.1,
+        "width": 75.2,
+        "height": 17.8
+      }
+    },
+    "en2": {
+      "type": "text",
+      "label": "Name of Ensemble/Group",
+      "page": 1,
+      "box": {
+        "left": 30.6,
+        "top": 152.5,
+        "width": 221.0,
+        "height": 15.9
+      }
+    },
+    "size2": {
+      "type": "text",
+      "label": "Size",
+      "page": 1,
+      "box": {
+        "left": 252.2,
+        "top": 152.5,
+        "width": 48.4,
+        "height": 16.6
+      }
+    },
+    "to3": {
+      "type": "text",
+      "label": "To",
+      "page": 1,
+      "box": {
+        "left": 495.5,
+        "top": 152.5,
+        "width": 84.7,
+        "height": 16.6
+      }
+    },
+    "en3": {
+      "type": "text",
+      "label": "Name of Ensemble/Group",
+      "page": 1,
+      "box": {
+        "left": 31.2,
+        "top": 136.6,
+        "width": 222.3,
+        "height": 19.1
+      }
+    },
+    "fr3": {
+      "type": "text",
+      "label": "From",
+      "page": 1,
+      "box": {
+        "left": 418.5,
+        "top": 135.9,
+        "width": 76.4,
+        "height": 18.5
+      }
+    },
+    "to4": {
+      "type": "text",
+      "label": "To",
+      "page": 1,
+      "box": {
+        "left": 495.5,
+        "top": 135.9,
+        "width": 85.4,
+        "height": 18.5
+      }
+    },
+    "size3": {
+      "type": "text",
+      "label": "Size",
+      "page": 1,
+      "box": {
+        "left": 252.2,
+        "top": 135.3,
+        "width": 48.4,
+        "height": 18.5
+      }
+    },
+    "p3": {
+      "type": "text",
+      "label": "Position",
+      "page": 1,
+      "box": {
+        "left": 301.9,
+        "top": 135.3,
+        "width": 116.6,
+        "height": 17.8
+      }
+    },
+    "27": {
+      "type": "checkbox",
+      "label": "Have you ever auditioned for the Navy Music Program? Yes",
+      "page": 1,
+      "box": {
+        "left": 255.4,
+        "top": 114.3,
+        "width": 11.6,
+        "height": 13.2
+      }
+    },
+    "yes5": {
+      "type": "text",
+      "label": "If yes, when? (DD/MM/YY)",
+      "page": 1,
+      "box": {
+        "left": 456.2,
+        "top": 114.3,
+        "width": 115.7,
+        "height": 14.9
+      }
+    },
+    "26": {
+      "type": "checkbox",
+      "label": "Have you ever auditioned for the Navy Music Program?",
+      "page": 1,
+      "box": {
+        "left": 219.8,
+        "top": 113.5,
+        "width": 11.6,
+        "height": 11.6
+      }
+    },
+    "28": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 30.6,
+        "top": 720.0,
+        "width": 31.8,
+        "height": 14.0
+      }
+    },
+    "71": {
+      "type": "text",
+      "label": "From current Navy Musician",
+      "page": 2,
+      "box": {
+        "left": 191.1,
+        "top": 720.0,
+        "width": 389.2,
+        "height": 14.6
+      }
+    },
+    "72": {
+      "type": "text",
+      "label": "From former Navy Musician",
+      "page": 2,
+      "box": {
+        "left": 191.1,
+        "top": 706.6,
+        "width": 389.8,
+        "height": 15.3
+      }
+    },
+    "29": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 31.2,
+        "top": 705.4,
+        "width": 31.8,
+        "height": 14.0
+      }
+    },
+    "30": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 31.2,
+        "top": 690.1,
+        "width": 31.2,
+        "height": 14.0
+      }
+    },
+    "73": {
+      "type": "text",
+      "label": "From local Navy Recruiter",
+      "page": 2,
+      "box": {
+        "left": 191.1,
+        "top": 690.1,
+        "width": 389.2,
+        "height": 14.0
+      }
+    },
+    "31": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 30.6,
+        "top": 676.1,
+        "width": 31.8,
+        "height": 15.9
+      }
+    },
+    "74": {
+      "type": "text",
+      "label": "Navy Music Program web site",
+      "page": 2,
+      "box": {
+        "left": 201.3,
+        "top": 676.1,
+        "width": 379.0,
+        "height": 15.3
+      }
+    },
+    "32": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 30.6,
+        "top": 660.8,
+        "width": 32.5,
+        "height": 14.6
+      }
+    },
+    "75": {
+      "type": "text",
+      "label": "Navy Recruiting web site",
+      "page": 2,
+      "box": {
+        "left": 177.7,
+        "top": 660.8,
+        "width": 402.6,
+        "height": 15.3
+      }
+    },
+    "33": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 29.9,
+        "top": 644.9,
+        "width": 33.1,
+        "height": 14.0
+      }
+    },
+    "76": {
+      "type": "text",
+      "label": "Navy Premier Band performance",
+      "page": 2,
+      "box": {
+        "left": 207.0,
+        "top": 644.9,
+        "width": 373.3,
+        "height": 14.0
+      }
+    },
+    "34": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 31.2,
+        "top": 630.9,
+        "width": 31.8,
+        "height": 15.3
+      }
+    },
+    "77": {
+      "type": "text",
+      "label": "Navy Fleet Band High School performance",
+      "page": 2,
+      "box": {
+        "left": 245.9,
+        "top": 630.9,
+        "width": 335.0,
+        "height": 15.3
+      }
+    },
+    "35": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 31.2,
+        "top": 615.6,
+        "width": 31.2,
+        "height": 14.6
+      }
+    },
+    "78": {
+      "type": "text",
+      "label": "Navy Fleet Band college performance",
+      "page": 2,
+      "box": {
+        "left": 227.4,
+        "top": 614.9,
+        "width": 353.5,
+        "height": 14.6
+      }
+    },
+    "36": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 31.2,
+        "top": 600.9,
+        "width": 31.2,
+        "height": 14.7
+      }
+    },
+    "79": {
+      "type": "text",
+      "label": "Navy Fleet Band community performance",
+      "page": 2,
+      "box": {
+        "left": 244.6,
+        "top": 600.3,
+        "width": 335.7,
+        "height": 14.6
+      }
+    },
+    "80": {
+      "type": "text",
+      "label": "Other service band performance",
+      "page": 2,
+      "box": {
+        "left": 205.1,
+        "top": 585.6,
+        "width": 375.8,
+        "height": 15.9
+      }
+    },
+    "37": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 31.2,
+        "top": 585.0,
+        "width": 31.2,
+        "height": 14.6
+      }
+    },
+    "38": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 31.2,
+        "top": 569.7,
+        "width": 31.8,
+        "height": 13.4
+      }
+    },
+    "81": {
+      "type": "text",
+      "label": "Other service musician interface",
+      "page": 2,
+      "box": {
+        "left": 205.7,
+        "top": 569.7,
+        "width": 374.5,
+        "height": 14.7
+      }
+    },
+    "82": {
+      "type": "text",
+      "label": "Navy Musicians Association",
+      "page": 2,
+      "box": {
+        "left": 190.4,
+        "top": 555.7,
+        "width": 389.8,
+        "height": 15.9
+      }
+    },
+    "39": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 31.2,
+        "top": 555.1,
+        "width": 31.2,
+        "height": 15.3
+      }
+    },
+    "83": {
+      "type": "text",
+      "label": "Jobs search web site",
+      "page": 2,
+      "box": {
+        "left": 156.7,
+        "top": 540.4,
+        "width": 424.2,
+        "height": 14.6
+      }
+    },
+    "40": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 31.2,
+        "top": 539.8,
+        "width": 31.2,
+        "height": 14.0
+      }
+    },
+    "41": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 29.9,
+        "top": 525.8,
+        "width": 33.8,
+        "height": 15.3
+      }
+    },
+    "84": {
+      "type": "text",
+      "label": "Music publication article",
+      "page": 2,
+      "box": {
+        "left": 174.5,
+        "top": 525.8,
+        "width": 406.4,
+        "height": 16.6
+      }
+    },
+    "42": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 30.6,
+        "top": 510.5,
+        "width": 31.8,
+        "height": 14.6
+      }
+    },
+    "85": {
+      "type": "text",
+      "label": "Music publication advertisement",
+      "page": 2,
+      "box": {
+        "left": 205.7,
+        "top": 509.2,
+        "width": 374.5,
+        "height": 14.0
+      }
+    },
+    "43": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 31.2,
+        "top": 494.5,
+        "width": 31.2,
+        "height": 14.0
+      }
+    },
+    "86": {
+      "type": "text",
+      "label": "Music festival or convention booth",
+      "page": 2,
+      "box": {
+        "left": 214.7,
+        "top": 494.5,
+        "width": 365.6,
+        "height": 14.6
+      }
+    },
+    "44": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 31.2,
+        "top": 479.9,
+        "width": 31.2,
+        "height": 15.3
+      }
+    },
+    "87": {
+      "type": "text",
+      "label": "Private instrumental / vocal instructor",
+      "page": 2,
+      "box": {
+        "left": 226.8,
+        "top": 479.9,
+        "width": 353.5,
+        "height": 14.7
+      }
+    },
+    "45": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 31.2,
+        "top": 464.6,
+        "width": 31.2,
+        "height": 14.0
+      }
+    },
+    "88": {
+      "type": "text",
+      "label": "High School faculty member",
+      "page": 2,
+      "box": {
+        "left": 189.8,
+        "top": 464.6,
+        "width": 390.4,
+        "height": 14.6
+      }
+    },
+    "89": {
+      "type": "text",
+      "label": "College professor",
+      "page": 2,
+      "box": {
+        "left": 147.1,
+        "top": 450.6,
+        "width": 434.4,
+        "height": 15.9
+      }
+    },
+    "46": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 30.6,
+        "top": 450.0,
+        "width": 31.8,
+        "height": 14.0
+      }
+    },
+    "47": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 30.6,
+        "top": 434.7,
+        "width": 31.8,
+        "height": 14.0
+      }
+    },
+    "90": {
+      "type": "text",
+      "label": "Community / Jr. College faculty member",
+      "page": 2,
+      "box": {
+        "left": 242.0,
+        "top": 434.7,
+        "width": 339.5,
+        "height": 14.6
+      }
+    },
+    "48": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 30.6,
+        "top": 420.0,
+        "width": 31.8,
+        "height": 14.7
+      }
+    },
+    "91": {
+      "type": "text",
+      "label": "Local musicians union",
+      "page": 2,
+      "box": {
+        "left": 165.0,
+        "top": 420.0,
+        "width": 415.3,
+        "height": 15.3
+      }
+    },
+    "49": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 31.2,
+        "top": 405.4,
+        "width": 31.2,
+        "height": 15.9
+      }
+    },
+    "92": {
+      "type": "text",
+      "label": "Community band member",
+      "page": 2,
+      "box": {
+        "left": 179.6,
+        "top": 404.7,
+        "width": 400.6,
+        "height": 14.6
+      }
+    },
+    "50": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 30.6,
+        "top": 390.1,
+        "width": 31.8,
+        "height": 14.7
+      }
+    },
+    "93": {
+      "type": "text",
+      "label": "Civilian musician",
+      "page": 2,
+      "box": {
+        "left": 146.5,
+        "top": 390.1,
+        "width": 434.4,
+        "height": 15.9
+      }
+    },
+    "51": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 31.2,
+        "top": 374.8,
+        "width": 31.2,
+        "height": 14.0
+      }
+    },
+    "94": {
+      "type": "text",
+      "label": "Parents / grandparents",
+      "page": 2,
+      "box": {
+        "left": 165.0,
+        "top": 374.2,
+        "width": 415.3,
+        "height": 14.6
+      }
+    },
+    "52": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 30.6,
+        "top": 359.5,
+        "width": 31.8,
+        "height": 14.6
+      }
+    },
+    "95": {
+      "type": "text",
+      "label": "Other relative",
+      "page": 2,
+      "box": {
+        "left": 131.8,
+        "top": 359.5,
+        "width": 449.0,
+        "height": 15.3
+      }
+    },
+    "96": {
+      "type": "text",
+      "label": "Friend",
+      "page": 2,
+      "box": {
+        "left": 105.1,
+        "top": 344.9,
+        "width": 475.8,
+        "height": 15.3
+      }
+    },
+    "53": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 31.2,
+        "top": 344.2,
+        "width": 31.2,
+        "height": 14.0
+      }
+    },
+    "54": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 30.6,
+        "top": 330.2,
+        "width": 31.8,
+        "height": 15.3
+      }
+    },
+    "97": {
+      "type": "text",
+      "label": "Other (make narrative)",
+      "page": 2,
+      "box": {
+        "left": 167.5,
+        "top": 329.6,
+        "width": 412.7,
+        "height": 14.7
+      }
+    },
+    "55": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 30.6,
+        "top": 288.2,
+        "width": 31.8,
+        "height": 14.6
+      }
+    },
+    "98": {
+      "type": "text",
+      "label": "Quality of Music / Bands",
+      "page": 2,
+      "box": {
+        "left": 177.1,
+        "top": 288.2,
+        "width": 403.8,
+        "height": 15.3
+      }
+    },
+    "56": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 29.9,
+        "top": 273.5,
+        "width": 32.5,
+        "height": 14.6
+      }
+    },
+    "99": {
+      "type": "text",
+      "label": "Security / Steady Job",
+      "page": 2,
+      "box": {
+        "left": 163.1,
+        "top": 273.5,
+        "width": 417.2,
+        "height": 15.3
+      }
+    },
+    "100": {
+      "type": "text",
+      "label": "Performance Diversity",
+      "page": 2,
+      "box": {
+        "left": 166.9,
+        "top": 258.2,
+        "width": 413.4,
+        "height": 14.7
+      }
+    },
+    "57": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 29.9,
+        "top": 257.6,
+        "width": 32.5,
+        "height": 14.0
+      }
+    },
+    "101": {
+      "type": "text",
+      "label": "Salary",
+      "page": 2,
+      "box": {
+        "left": 102.5,
+        "top": 244.2,
+        "width": 477.7,
+        "height": 16.6
+      }
+    },
+    "58": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 31.2,
+        "top": 243.0,
+        "width": 31.8,
+        "height": 14.7
+      }
+    },
+    "59": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 31.2,
+        "top": 228.3,
+        "width": 31.2,
+        "height": 14.6
+      }
+    },
+    "102": {
+      "type": "text",
+      "label": "Advancement Opportunities",
+      "page": 2,
+      "box": {
+        "left": 186.6,
+        "top": 227.7,
+        "width": 394.3,
+        "height": 14.6
+      }
+    },
+    "60": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 30.6,
+        "top": 213.7,
+        "width": 32.5,
+        "height": 15.3
+      }
+    },
+    "103": {
+      "type": "text",
+      "label": "Enlistment Bonus",
+      "page": 2,
+      "box": {
+        "left": 148.4,
+        "top": 213.0,
+        "width": 431.9,
+        "height": 15.3
+      }
+    },
+    "61": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 30.6,
+        "top": 198.4,
+        "width": 31.8,
+        "height": 15.3
+      }
+    },
+    "104": {
+      "type": "text",
+      "label": "Loan Repayment Plans",
+      "page": 2,
+      "box": {
+        "left": 168.2,
+        "top": 197.7,
+        "width": 412.1,
+        "height": 14.7
+      }
+    },
+    "62": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 30.6,
+        "top": 183.1,
+        "width": 31.8,
+        "height": 14.7
+      }
+    },
+    "105": {
+      "type": "text",
+      "label": "Housing Benefits",
+      "page": 2,
+      "box": {
+        "left": 143.9,
+        "top": 183.1,
+        "width": 436.3,
+        "height": 15.3
+      }
+    },
+    "63": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 29.9,
+        "top": 168.4,
+        "width": 32.5,
+        "height": 15.9
+      }
+    },
+    "106": {
+      "type": "text",
+      "label": "Paid Vacation",
+      "page": 2,
+      "box": {
+        "left": 133.8,
+        "top": 168.4,
+        "width": 447.1,
+        "height": 15.3
+      }
+    },
+    "64": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 31.2,
+        "top": 152.5,
+        "width": 31.8,
+        "height": 14.0
+      }
+    },
+    "107": {
+      "type": "text",
+      "label": "Education Benefits (other than GI Bill)",
+      "page": 2,
+      "box": {
+        "left": 233.8,
+        "top": 152.5,
+        "width": 346.5,
+        "height": 14.7
+      }
+    },
+    "65": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 30.6,
+        "top": 137.9,
+        "width": 31.8,
+        "height": 14.6
+      }
+    },
+    "108": {
+      "type": "text",
+      "label": "Family Medical / Dental Care",
+      "page": 2,
+      "box": {
+        "left": 196.2,
+        "top": 137.9,
+        "width": 384.7,
+        "height": 15.3
+      }
+    },
+    "66": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 30.6,
+        "top": 123.2,
+        "width": 31.8,
+        "height": 15.3
+      }
+    },
+    "109": {
+      "type": "text",
+      "label": "GI Bill",
+      "page": 2,
+      "box": {
+        "left": 104.5,
+        "top": 123.2,
+        "width": 475.8,
+        "height": 15.3
+      }
+    },
+    "67": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 30.6,
+        "top": 107.9,
+        "width": 31.8,
+        "height": 14.0
+      }
+    },
+    "110": {
+      "type": "text",
+      "label": "Retirement Plan",
+      "page": 2,
+      "box": {
+        "left": 139.5,
+        "top": 107.3,
+        "width": 441.4,
+        "height": 14.6
+      }
+    },
+    "68": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 30.6,
+        "top": 93.3,
+        "width": 31.8,
+        "height": 14.6
+      }
+    },
+    "111": {
+      "type": "text",
+      "label": "Professional Instruments Provided",
+      "page": 2,
+      "box": {
+        "left": 217.8,
+        "top": 92.6,
+        "width": 363.1,
+        "height": 14.6
+      }
+    },
+    "112": {
+      "type": "text",
+      "label": "Travel Opportunities",
+      "page": 2,
+      "box": {
+        "left": 159.9,
+        "top": 78.0,
+        "width": 421.0,
+        "height": 15.3
+      }
+    },
+    "69": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 31.2,
+        "top": 77.3,
+        "width": 31.8,
+        "height": 14.6
+      }
+    },
+    "70": {
+      "type": "text",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 31.2,
+        "top": 62.7,
+        "width": 31.2,
+        "height": 14.6
+      }
+    },
+    "113": {
+      "type": "text",
+      "label": "Other (make narrative entry)",
+      "page": 2,
+      "box": {
+        "left": 190.4,
+        "top": 62.7,
+        "width": 389.8,
+        "height": 15.9
+      }
+    }
+  }
+}

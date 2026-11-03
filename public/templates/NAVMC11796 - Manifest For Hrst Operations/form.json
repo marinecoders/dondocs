@@ -1,0 +1,941 @@
+{
+  "id": "navmc11796",
+  "label": "NAVMC 11796 - Manifest For Hrst Operations",
+  "directory": "NAVMC11796 - Manifest For Hrst Operations",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "typeOper",
+        "dateA",
+        "sio",
+        "hRSTMaster",
+        "location",
+        "typeAircraft",
+        "nameA",
+        "cmdA",
+        "rankA",
+        "nameB",
+        "rankB",
+        "cmdB",
+        "nameC",
+        "rankC",
+        "cmdC",
+        "nameD",
+        "rankD",
+        "cmdD",
+        "nameE",
+        "rankE",
+        "cmdE",
+        "nameF",
+        "rankF",
+        "cmdF",
+        "nameG",
+        "rankG",
+        "cmdG",
+        "nameH",
+        "rankH",
+        "cmdH",
+        "nameI",
+        "rankI",
+        "cmdI",
+        "nameJ",
+        "rankJ",
+        "cmdJ",
+        "nameK",
+        "rankK",
+        "cmdK",
+        "nameL",
+        "rankL",
+        "cmdL",
+        "nameM",
+        "rankM",
+        "cmdM",
+        "nameN",
+        "rankN",
+        "cmdN",
+        "nameO",
+        "rankO",
+        "cmdO",
+        "nameP",
+        "rankP",
+        "cmdP",
+        "nameQ",
+        "rankQ",
+        "cmdQ",
+        "nameR",
+        "rankR",
+        "cmdR",
+        "nameS",
+        "rankS",
+        "cmdS",
+        "nameT",
+        "rankT",
+        "cmdT",
+        "nameU",
+        "rankU",
+        "cmdU",
+        "nameV",
+        "rankV",
+        "cmdV",
+        "nameW",
+        "rankW",
+        "cmdW",
+        "cOTypedName",
+        "signatureField1"
+      ]
+    }
+  ],
+  "fields": {
+    "typeOper": {
+      "type": "text",
+      "label": "Type of HRST Operation",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 669.2,
+        "width": 436.7,
+        "height": 19.7
+      }
+    },
+    "dateA": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 1,
+      "box": {
+        "left": 479.8,
+        "top": 668.5,
+        "width": 93.3,
+        "height": 17.6
+      }
+    },
+    "sio": {
+      "type": "text",
+      "label": "SIO",
+      "page": 1,
+      "box": {
+        "left": 308.2,
+        "top": 634.1,
+        "width": 265.7,
+        "height": 20.7
+      }
+    },
+    "hRSTMaster": {
+      "type": "text",
+      "label": "HRST Master",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 633.7,
+        "width": 265.7,
+        "height": 20.2
+      }
+    },
+    "location": {
+      "type": "text",
+      "label": "Location",
+      "page": 1,
+      "box": {
+        "left": 308.2,
+        "top": 598.1,
+        "width": 265.7,
+        "height": 29.7
+      }
+    },
+    "typeAircraft": {
+      "type": "text",
+      "label": "Type Aircraft",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 597.2,
+        "width": 265.7,
+        "height": 28.8
+      }
+    },
+    "nameA": {
+      "type": "text",
+      "label": "NameA",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 545.7,
+        "width": 242.5,
+        "height": 17.0
+      }
+    },
+    "cmdA": {
+      "type": "text",
+      "label": "CmdA",
+      "page": 1,
+      "box": {
+        "left": 358.0,
+        "top": 545.7,
+        "width": 216.6,
+        "height": 17.0
+      }
+    },
+    "rankA": {
+      "type": "text",
+      "label": "RankA",
+      "page": 1,
+      "box": {
+        "left": 284.1,
+        "top": 544.3,
+        "width": 69.6,
+        "height": 14.2
+      }
+    },
+    "nameB": {
+      "type": "text",
+      "label": "NameB",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 525.8,
+        "width": 242.5,
+        "height": 17.0
+      }
+    },
+    "rankB": {
+      "type": "text",
+      "label": "RankB",
+      "page": 1,
+      "box": {
+        "left": 282.7,
+        "top": 525.8,
+        "width": 72.4,
+        "height": 17.0
+      }
+    },
+    "cmdB": {
+      "type": "text",
+      "label": "CmdB",
+      "page": 1,
+      "box": {
+        "left": 358.0,
+        "top": 525.8,
+        "width": 216.6,
+        "height": 17.0
+      }
+    },
+    "nameC": {
+      "type": "text",
+      "label": "NameC",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 506.0,
+        "width": 242.5,
+        "height": 17.0
+      }
+    },
+    "rankC": {
+      "type": "text",
+      "label": "RankC",
+      "page": 1,
+      "box": {
+        "left": 282.7,
+        "top": 506.0,
+        "width": 72.4,
+        "height": 17.0
+      }
+    },
+    "cmdC": {
+      "type": "text",
+      "label": "CmdC",
+      "page": 1,
+      "box": {
+        "left": 358.0,
+        "top": 506.0,
+        "width": 216.6,
+        "height": 17.0
+      }
+    },
+    "nameD": {
+      "type": "text",
+      "label": "NameD",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 486.1,
+        "width": 242.5,
+        "height": 17.0
+      }
+    },
+    "rankD": {
+      "type": "text",
+      "label": "RankD",
+      "page": 1,
+      "box": {
+        "left": 282.7,
+        "top": 486.1,
+        "width": 72.4,
+        "height": 17.0
+      }
+    },
+    "cmdD": {
+      "type": "text",
+      "label": "CmdD",
+      "page": 1,
+      "box": {
+        "left": 358.0,
+        "top": 486.1,
+        "width": 216.6,
+        "height": 17.0
+      }
+    },
+    "nameE": {
+      "type": "text",
+      "label": "NameE",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 466.2,
+        "width": 242.5,
+        "height": 17.0
+      }
+    },
+    "rankE": {
+      "type": "text",
+      "label": "RankE",
+      "page": 1,
+      "box": {
+        "left": 282.7,
+        "top": 466.2,
+        "width": 72.4,
+        "height": 17.0
+      }
+    },
+    "cmdE": {
+      "type": "text",
+      "label": "CmdE",
+      "page": 1,
+      "box": {
+        "left": 358.0,
+        "top": 466.2,
+        "width": 216.6,
+        "height": 17.0
+      }
+    },
+    "nameF": {
+      "type": "text",
+      "label": "NameF",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 446.3,
+        "width": 242.5,
+        "height": 17.0
+      }
+    },
+    "rankF": {
+      "type": "text",
+      "label": "RankF",
+      "page": 1,
+      "box": {
+        "left": 282.7,
+        "top": 446.3,
+        "width": 72.4,
+        "height": 17.0
+      }
+    },
+    "cmdF": {
+      "type": "text",
+      "label": "CmdF",
+      "page": 1,
+      "box": {
+        "left": 358.0,
+        "top": 446.3,
+        "width": 216.6,
+        "height": 17.0
+      }
+    },
+    "nameG": {
+      "type": "text",
+      "label": "NameG",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 426.5,
+        "width": 242.5,
+        "height": 17.0
+      }
+    },
+    "rankG": {
+      "type": "text",
+      "label": "RankG",
+      "page": 1,
+      "box": {
+        "left": 282.7,
+        "top": 426.5,
+        "width": 72.4,
+        "height": 17.0
+      }
+    },
+    "cmdG": {
+      "type": "text",
+      "label": "CmdG",
+      "page": 1,
+      "box": {
+        "left": 358.0,
+        "top": 426.5,
+        "width": 216.6,
+        "height": 17.0
+      }
+    },
+    "nameH": {
+      "type": "text",
+      "label": "NameH",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 406.6,
+        "width": 242.5,
+        "height": 17.0
+      }
+    },
+    "rankH": {
+      "type": "text",
+      "label": "RankH",
+      "page": 1,
+      "box": {
+        "left": 282.7,
+        "top": 406.6,
+        "width": 72.4,
+        "height": 17.0
+      }
+    },
+    "cmdH": {
+      "type": "text",
+      "label": "CmdH",
+      "page": 1,
+      "box": {
+        "left": 358.0,
+        "top": 406.6,
+        "width": 216.6,
+        "height": 17.0
+      }
+    },
+    "nameI": {
+      "type": "text",
+      "label": "NameI",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 386.7,
+        "width": 242.5,
+        "height": 17.0
+      }
+    },
+    "rankI": {
+      "type": "text",
+      "label": "RankI",
+      "page": 1,
+      "box": {
+        "left": 282.7,
+        "top": 386.7,
+        "width": 72.4,
+        "height": 17.0
+      }
+    },
+    "cmdI": {
+      "type": "text",
+      "label": "CmdI",
+      "page": 1,
+      "box": {
+        "left": 358.0,
+        "top": 386.7,
+        "width": 216.6,
+        "height": 17.0
+      }
+    },
+    "nameJ": {
+      "type": "text",
+      "label": "NameJ",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 366.8,
+        "width": 242.5,
+        "height": 17.0
+      }
+    },
+    "rankJ": {
+      "type": "text",
+      "label": "RankJ",
+      "page": 1,
+      "box": {
+        "left": 282.7,
+        "top": 366.8,
+        "width": 72.4,
+        "height": 17.0
+      }
+    },
+    "cmdJ": {
+      "type": "text",
+      "label": "CmdJ",
+      "page": 1,
+      "box": {
+        "left": 358.0,
+        "top": 366.8,
+        "width": 216.6,
+        "height": 17.0
+      }
+    },
+    "nameK": {
+      "type": "text",
+      "label": "NameK",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 347.0,
+        "width": 242.5,
+        "height": 17.0
+      }
+    },
+    "rankK": {
+      "type": "text",
+      "label": "RankK",
+      "page": 1,
+      "box": {
+        "left": 282.7,
+        "top": 347.0,
+        "width": 72.4,
+        "height": 17.0
+      }
+    },
+    "cmdK": {
+      "type": "text",
+      "label": "CmdK",
+      "page": 1,
+      "box": {
+        "left": 358.0,
+        "top": 347.0,
+        "width": 216.6,
+        "height": 17.0
+      }
+    },
+    "nameL": {
+      "type": "text",
+      "label": "NameL",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 327.1,
+        "width": 242.5,
+        "height": 17.0
+      }
+    },
+    "rankL": {
+      "type": "text",
+      "label": "RankL",
+      "page": 1,
+      "box": {
+        "left": 282.7,
+        "top": 327.1,
+        "width": 72.4,
+        "height": 17.0
+      }
+    },
+    "cmdL": {
+      "type": "text",
+      "label": "CmdL",
+      "page": 1,
+      "box": {
+        "left": 358.0,
+        "top": 327.1,
+        "width": 216.6,
+        "height": 17.0
+      }
+    },
+    "nameM": {
+      "type": "text",
+      "label": "NameM",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 307.2,
+        "width": 242.5,
+        "height": 17.0
+      }
+    },
+    "rankM": {
+      "type": "text",
+      "label": "RankM",
+      "page": 1,
+      "box": {
+        "left": 282.7,
+        "top": 307.2,
+        "width": 72.4,
+        "height": 17.0
+      }
+    },
+    "cmdM": {
+      "type": "text",
+      "label": "CmdM",
+      "page": 1,
+      "box": {
+        "left": 358.0,
+        "top": 307.2,
+        "width": 216.6,
+        "height": 17.0
+      }
+    },
+    "nameN": {
+      "type": "text",
+      "label": "NameN",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 287.3,
+        "width": 242.5,
+        "height": 17.0
+      }
+    },
+    "rankN": {
+      "type": "text",
+      "label": "RankN",
+      "page": 1,
+      "box": {
+        "left": 282.7,
+        "top": 287.3,
+        "width": 72.4,
+        "height": 17.0
+      }
+    },
+    "cmdN": {
+      "type": "text",
+      "label": "CmdN",
+      "page": 1,
+      "box": {
+        "left": 358.0,
+        "top": 287.3,
+        "width": 216.6,
+        "height": 17.0
+      }
+    },
+    "nameO": {
+      "type": "text",
+      "label": "NameO",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 267.5,
+        "width": 242.5,
+        "height": 17.0
+      }
+    },
+    "rankO": {
+      "type": "text",
+      "label": "RankO",
+      "page": 1,
+      "box": {
+        "left": 282.7,
+        "top": 267.5,
+        "width": 72.4,
+        "height": 17.0
+      }
+    },
+    "cmdO": {
+      "type": "text",
+      "label": "CmdO",
+      "page": 1,
+      "box": {
+        "left": 358.0,
+        "top": 267.5,
+        "width": 216.6,
+        "height": 17.0
+      }
+    },
+    "nameP": {
+      "type": "text",
+      "label": "NameP",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 247.6,
+        "width": 242.5,
+        "height": 17.0
+      }
+    },
+    "rankP": {
+      "type": "text",
+      "label": "RankP",
+      "page": 1,
+      "box": {
+        "left": 282.7,
+        "top": 247.6,
+        "width": 72.4,
+        "height": 17.0
+      }
+    },
+    "cmdP": {
+      "type": "text",
+      "label": "CmdP",
+      "page": 1,
+      "box": {
+        "left": 358.0,
+        "top": 247.6,
+        "width": 216.6,
+        "height": 17.0
+      }
+    },
+    "nameQ": {
+      "type": "text",
+      "label": "NameQ",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 227.7,
+        "width": 242.5,
+        "height": 17.0
+      }
+    },
+    "rankQ": {
+      "type": "text",
+      "label": "RankQ",
+      "page": 1,
+      "box": {
+        "left": 282.7,
+        "top": 227.7,
+        "width": 72.4,
+        "height": 17.0
+      }
+    },
+    "cmdQ": {
+      "type": "text",
+      "label": "CmdQ",
+      "page": 1,
+      "box": {
+        "left": 358.0,
+        "top": 227.7,
+        "width": 216.6,
+        "height": 17.0
+      }
+    },
+    "nameR": {
+      "type": "text",
+      "label": "NameR",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 207.8,
+        "width": 242.5,
+        "height": 17.0
+      }
+    },
+    "rankR": {
+      "type": "text",
+      "label": "RankR",
+      "page": 1,
+      "box": {
+        "left": 282.7,
+        "top": 207.8,
+        "width": 72.4,
+        "height": 17.0
+      }
+    },
+    "cmdR": {
+      "type": "text",
+      "label": "CmdR",
+      "page": 1,
+      "box": {
+        "left": 358.0,
+        "top": 207.8,
+        "width": 216.6,
+        "height": 17.0
+      }
+    },
+    "nameS": {
+      "type": "text",
+      "label": "NameS",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 188.0,
+        "width": 242.5,
+        "height": 17.0
+      }
+    },
+    "rankS": {
+      "type": "text",
+      "label": "RankS",
+      "page": 1,
+      "box": {
+        "left": 282.7,
+        "top": 188.0,
+        "width": 72.4,
+        "height": 17.0
+      }
+    },
+    "cmdS": {
+      "type": "text",
+      "label": "CmdS",
+      "page": 1,
+      "box": {
+        "left": 358.0,
+        "top": 188.0,
+        "width": 216.6,
+        "height": 17.0
+      }
+    },
+    "nameT": {
+      "type": "text",
+      "label": "NameT",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 168.1,
+        "width": 242.5,
+        "height": 17.0
+      }
+    },
+    "rankT": {
+      "type": "text",
+      "label": "RankT",
+      "page": 1,
+      "box": {
+        "left": 282.7,
+        "top": 168.1,
+        "width": 72.4,
+        "height": 17.0
+      }
+    },
+    "cmdT": {
+      "type": "text",
+      "label": "CmdT",
+      "page": 1,
+      "box": {
+        "left": 358.0,
+        "top": 168.1,
+        "width": 216.6,
+        "height": 17.0
+      }
+    },
+    "nameU": {
+      "type": "text",
+      "label": "NameU",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 148.2,
+        "width": 242.5,
+        "height": 17.0
+      }
+    },
+    "rankU": {
+      "type": "text",
+      "label": "RankU",
+      "page": 1,
+      "box": {
+        "left": 282.7,
+        "top": 148.2,
+        "width": 72.4,
+        "height": 17.0
+      }
+    },
+    "cmdU": {
+      "type": "text",
+      "label": "CmdU",
+      "page": 1,
+      "box": {
+        "left": 358.0,
+        "top": 148.2,
+        "width": 216.6,
+        "height": 17.0
+      }
+    },
+    "nameV": {
+      "type": "text",
+      "label": "NameV",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 128.3,
+        "width": 242.5,
+        "height": 17.0
+      }
+    },
+    "rankV": {
+      "type": "text",
+      "label": "RankV",
+      "page": 1,
+      "box": {
+        "left": 282.7,
+        "top": 128.3,
+        "width": 72.4,
+        "height": 17.0
+      }
+    },
+    "cmdV": {
+      "type": "text",
+      "label": "CmdV",
+      "page": 1,
+      "box": {
+        "left": 358.0,
+        "top": 128.3,
+        "width": 216.6,
+        "height": 17.0
+      }
+    },
+    "nameW": {
+      "type": "text",
+      "label": "NameW",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 108.5,
+        "width": 242.5,
+        "height": 17.0
+      }
+    },
+    "rankW": {
+      "type": "text",
+      "label": "RankW",
+      "page": 1,
+      "box": {
+        "left": 282.7,
+        "top": 108.5,
+        "width": 72.4,
+        "height": 17.0
+      }
+    },
+    "cmdW": {
+      "type": "text",
+      "label": "CmdW",
+      "page": 1,
+      "box": {
+        "left": 358.0,
+        "top": 108.5,
+        "width": 216.6,
+        "height": 17.0
+      }
+    },
+    "cOTypedName": {
+      "type": "text",
+      "label": "Commanding Officer (Typed Name)",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 87.8,
+        "width": 292.7,
+        "height": 20.2
+      }
+    },
+    "signatureField1": {
+      "type": "signature",
+      "label": "Commanding Officer",
+      "page": 1,
+      "box": {
+        "left": 335.2,
+        "top": 87.8,
+        "width": 238.7,
+        "height": 20.4
+      }
+    }
+  }
+}

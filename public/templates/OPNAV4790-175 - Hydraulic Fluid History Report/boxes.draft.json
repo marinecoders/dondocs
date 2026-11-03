@@ -1,0 +1,381 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "catapultno": {
+        "left": 108.2,
+        "top": 735.2,
+        "width": 132.0,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER CATAPULT NUMBER.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateTimeField1": {
+        "left": 473.2,
+        "top": 735.2,
+        "width": 91.0,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER DATE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "jsn": {
+        "left": 282.3,
+        "top": 726.2,
+        "width": 74.9,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER JSN.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "shotno": {
+        "left": 92.7,
+        "top": 708.2,
+        "width": 147.5,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER SHOT NUMBER.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hitssince": {
+        "left": 442.7,
+        "top": 708.2,
+        "width": 121.5,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER SHOTS SINCE LAST INSPECTION.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sampleserialno": {
+        "left": 295.3,
+        "top": 645.2,
+        "width": 196.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER SAMPLE SERIAL NUMBER.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "systemcapacity": {
+        "left": 295.3,
+        "top": 613.7,
+        "width": 196.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER SYSTEM CAPACITY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fluidlevel": {
+        "left": 295.3,
+        "top": 582.2,
+        "width": 196.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER FLUID LEVEL.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "shotno2": {
+        "left": 491.8,
+        "top": 537.2,
+        "width": 63.4,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER SHOT NUMBER.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date2": {
+        "left": 482.2,
+        "top": 519.2,
+        "width": 73.0,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER DATE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date3": {
+        "left": 81.7,
+        "top": 465.2,
+        "width": 73.0,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER DATE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date4": {
+        "left": 284.2,
+        "top": 465.2,
+        "width": 73.0,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER DATE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date5": {
+        "left": 482.2,
+        "top": 465.2,
+        "width": 73.0,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER DATE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "shotno3": {
+        "left": 91.3,
+        "top": 447.2,
+        "width": 63.4,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER SHOT NUMBER.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "shotno4": {
+        "left": 293.8,
+        "top": 447.2,
+        "width": 63.4,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER SHOT NUMBER.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "shotno5": {
+        "left": 491.8,
+        "top": 447.2,
+        "width": 63.4,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER SHOT NUMBER.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "gals": {
+        "left": 91.3,
+        "top": 429.2,
+        "width": 63.4,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER GALLONS.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "gals4": {
+        "left": 293.8,
+        "top": 429.2,
+        "width": 63.4,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER GALLONS.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "gals5": {
+        "left": 491.8,
+        "top": 429.2,
+        "width": 63.4,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER GALLONS.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date6": {
+        "left": 81.7,
+        "top": 370.7,
+        "width": 73.0,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER DATE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date7": {
+        "left": 284.2,
+        "top": 370.7,
+        "width": 73.0,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER DATE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date8": {
+        "left": 482.2,
+        "top": 370.7,
+        "width": 73.0,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER DATE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "shotno6": {
+        "left": 91.3,
+        "top": 352.7,
+        "width": 63.4,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER SHOT NUMBER.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "shotno7": {
+        "left": 293.8,
+        "top": 352.7,
+        "width": 63.4,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER SHOT NUMBER.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "shotno8": {
+        "left": 491.8,
+        "top": 352.7,
+        "width": 63.4,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER SHOT NUMBER.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "gals6": {
+        "left": 91.3,
+        "top": 334.7,
+        "width": 63.4,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER GALLONS.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "gals7": {
+        "left": 293.8,
+        "top": 334.7,
+        "width": 63.4,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER GALLONS.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "gals8": {
+        "left": 491.8,
+        "top": 334.7,
+        "width": 63.4,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER GALLONS.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks": {
+        "left": 38.8,
+        "top": 292.9,
+        "width": 534.3,
+        "height": 29.4,
+        "type": "text",
+        "description": "ENTER REMARKS.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "maintman": {
+        "left": 93.3,
+        "top": 257.8,
+        "width": 205.3,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER MAINTENANCE MANAGER SIGNATURE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "wc": {
+        "left": 386.9,
+        "top": 257.8,
+        "width": 181.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER W/C SUPERVISOR SIGNATURE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "qainsp": {
+        "left": 107.3,
+        "top": 235.3,
+        "width": 191.3,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER QA INSPECTOR SIGNATURE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "maintchief": {
+        "left": 404.6,
+        "top": 235.3,
+        "width": 164.1,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER MAINTENANCE CHIEF OFFICER.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

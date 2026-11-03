@@ -1,0 +1,161 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "rFETitle": {
+        "left": 116.8,
+        "top": 690.2,
+        "width": 294.3,
+        "height": 66.3,
+        "type": "text",
+        "description": "RFE TITLE:  Fill in Short Title Describing Nature of this RFE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField1": {
+        "left": 416.8,
+        "top": 657.8,
+        "width": 147.3,
+        "height": 33.9,
+        "type": "text",
+        "description": "RFE NUMBER:  Unique ID Number (Entered by System Engineering Integration).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "address": {
+        "left": 116.8,
+        "top": 618.2,
+        "width": 267.3,
+        "height": 84.3,
+        "type": "text",
+        "description": "ORIGINATOR \nAND ADDRESS: \nProvide Title, Address and Phone Number:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "affectedSys": {
+        "left": 440.2,
+        "top": 618.2,
+        "width": 123.9,
+        "height": 84.3,
+        "type": "text",
+        "description": "AFFECTED SYSTEMS:  List all Systems affected by this RFE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "routine": {
+        "left": 128.8,
+        "top": 518.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Routine",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "references": {
+        "left": 254.8,
+        "top": 512.0,
+        "width": 309.3,
+        "height": 50.1,
+        "type": "text",
+        "description": "REFERENCES:  List all pertinent references:  ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "priority": {
+        "left": 128.8,
+        "top": 501.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Priority",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "urgent": {
+        "left": 128.8,
+        "top": 484.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Urgent",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "exception": {
+        "left": 47.8,
+        "top": 440.0,
+        "width": 516.3,
+        "height": 32.1,
+        "type": "text",
+        "description": "EXCEPTION:  Provide a specific description of the requested exception. ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "justification": {
+        "left": 47.8,
+        "top": 379.1,
+        "width": 516.3,
+        "height": 61.3,
+        "type": "text",
+        "description": "JUSTIFICATION FOR RFE:  Provide brief statement of the problem with specific justification for requesting the RFE.  This justification should include exactly when and how the system will deviate from a scheduled implementation.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "impactA": {
+        "left": 47.8,
+        "top": 296.0,
+        "width": 516.3,
+        "height": 68.1,
+        "type": "text",
+        "description": "IMPACT ON SYSTEM:  State the anticipated impact of approval/disapproval of this RFE on this particular system.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "impactB": {
+        "left": 47.8,
+        "top": 201.8,
+        "width": 516.3,
+        "height": 63.9,
+        "type": "text",
+        "description": "IMPACT ON INTEROPERABILITY/OPERATIONS.  State the anticipated impact of approval/disapproval of this RFE on other affected systems.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "other": {
+        "left": 47.8,
+        "top": 116.0,
+        "width": 516.3,
+        "height": 68.1,
+        "type": "text",
+        "description": "OTHER CONSIDERATIONS:  Provide any other additional supporting information not provided elsewhere in this RFE.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

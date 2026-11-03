@@ -1,0 +1,294 @@
+{
+  "id": "opnav124513",
+  "label": "OPNAV12451-3 - Opnav Civilian Award Request",
+  "directory": "OPNAV12451-3 - Opnav Civilian Award Request",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "textField1",
+        "textField12",
+        "textField13",
+        "spcActAmt",
+        "radio",
+        "radio2",
+        "spcAct",
+        "onSAmt",
+        "radio3",
+        "radio4",
+        "onS",
+        "tmeOffHrs",
+        "radio5",
+        "radio6",
+        "tmeOff",
+        "textField2",
+        "recOffPrntNme",
+        "recSigDte",
+        "recSig",
+        "appOffPrntNme",
+        "appSigDte",
+        "appSig"
+      ]
+    }
+  ],
+  "fields": {
+    "textField1": {
+      "type": "text",
+      "label": "1. NAME (Last, First, MI)",
+      "page": 1,
+      "box": {
+        "left": 38.4,
+        "top": 675.8,
+        "width": 228.4,
+        "height": 15.9
+      }
+    },
+    "textField12": {
+      "type": "text",
+      "label": "2. POSITION TITLE/SERIES/GRADE",
+      "page": 1,
+      "box": {
+        "left": 272.3,
+        "top": 675.8,
+        "width": 176.0,
+        "height": 15.9
+      }
+    },
+    "textField13": {
+      "type": "text",
+      "label": "3. ORGANIZATION/CODE",
+      "page": 1,
+      "box": {
+        "left": 454.4,
+        "top": 675.8,
+        "width": 119.4,
+        "height": 15.9
+      }
+    },
+    "spcActAmt": {
+      "type": "text",
+      "label": "Amount",
+      "page": 1,
+      "box": {
+        "left": 294.1,
+        "top": 642.8,
+        "width": 58.9,
+        "height": 20.1
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 425.1,
+        "top": 637.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 487.8,
+        "top": 637.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "spcAct": {
+      "type": "checkbox",
+      "label": "(Last, First,",
+      "page": 1,
+      "box": {
+        "left": 88.6,
+        "top": 636.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "onSAmt": {
+      "type": "text",
+      "label": "Amount",
+      "page": 1,
+      "box": {
+        "left": 294.1,
+        "top": 617.0,
+        "width": 58.9,
+        "height": 20.1
+      }
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 425.1,
+        "top": 611.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 487.8,
+        "top": 611.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "onS": {
+      "type": "checkbox",
+      "label": "(Last, First,",
+      "page": 1,
+      "box": {
+        "left": 88.6,
+        "top": 610.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "tmeOffHrs": {
+      "type": "text",
+      "label": "Hours",
+      "page": 1,
+      "box": {
+        "left": 294.1,
+        "top": 591.2,
+        "width": 58.9,
+        "height": 20.1
+      }
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 425.1,
+        "top": 586.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 487.8,
+        "top": 586.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "tmeOff": {
+      "type": "checkbox",
+      "label": "(Last, First,",
+      "page": 1,
+      "box": {
+        "left": 88.6,
+        "top": 585.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "textField2": {
+      "type": "text",
+      "label": "(Provide a narrative justification for the award)",
+      "page": 1,
+      "box": {
+        "left": 37.9,
+        "top": 541.8,
+        "width": 535.5,
+        "height": 402.6
+      },
+      "multiline": true
+    },
+    "recOffPrntNme": {
+      "type": "text",
+      "label": "6. RECOMMENDING OFFICIAL PRINTED NAME/TITLE",
+      "page": 1,
+      "box": {
+        "left": 40.1,
+        "top": 123.4,
+        "width": 212.2,
+        "height": 36.4
+      },
+      "multiline": true
+    },
+    "recSigDte": {
+      "type": "text",
+      "label": "7. SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 257.4,
+        "top": 123.4,
+        "width": 107.8,
+        "height": 36.4
+      },
+      "multiline": true
+    },
+    "recSig": {
+      "type": "text",
+      "label": "8. SIGNATURE OF RECOMMENDING OFFICIAL",
+      "page": 1,
+      "box": {
+        "left": 370.2,
+        "top": 123.4,
+        "width": 207.0,
+        "height": 36.4
+      },
+      "multiline": true
+    },
+    "appOffPrntNme": {
+      "type": "text",
+      "label": "9. APPROVING OFFICIAL PRINTED NAME/TITLE",
+      "page": 1,
+      "box": {
+        "left": 40.1,
+        "top": 74.1,
+        "width": 212.2,
+        "height": 36.4
+      },
+      "multiline": true
+    },
+    "appSigDte": {
+      "type": "text",
+      "label": "10. SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 257.4,
+        "top": 74.1,
+        "width": 107.8,
+        "height": 36.4
+      },
+      "multiline": true
+    },
+    "appSig": {
+      "type": "text",
+      "label": "11. SIGNATURE OF APPROVING OFFICIAL",
+      "page": 1,
+      "box": {
+        "left": 370.2,
+        "top": 74.1,
+        "width": 207.0,
+        "height": 36.4
+      },
+      "multiline": true
+    }
+  }
+}

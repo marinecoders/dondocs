@@ -1,0 +1,2751 @@
+{
+  "id": "opnav52361",
+  "label": "OPNAV5236-1 - Nav-Idas Information Technology Procurement Request",
+  "directory": "OPNAV5236-1 - Nav-Idas Information Technology Procurement Request",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf",
+    "page5.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "referenceID",
+        "radio",
+        "radio2",
+        "exemptionJustificationReasonText",
+        "localVoiceServices",
+        "missionCriticalResources",
+        "hardwareSoftwareSecret",
+        "cioApproveRejectDDL",
+        "hardwaresoftwarenmci",
+        "sbir",
+        "commandUniqueID",
+        "commandDDL",
+        "radio3",
+        "radio4",
+        "cOSCNGENProcurementIf",
+        "requesterLastName",
+        "requesterFirstName",
+        "requesterEmail",
+        "requesterCode",
+        "requesterActivityLocation",
+        "requesterUIC",
+        "requesterAdditionalemailPOCs",
+        "requestTypeHardware",
+        "requestTypeSoftware",
+        "requestTypeServices",
+        "requestTypeTele",
+        "requestTypeWebServices",
+        "requestTypeITExemption",
+        "title"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "executiveSummary",
+        "radio5",
+        "radio6",
+        "cCAComplianceDate",
+        "aCATLevel",
+        "missionDesignation",
+        "radio7",
+        "radio8",
+        "radio9",
+        "radio10",
+        "radio11",
+        "radio12",
+        "oSDDONDateofCert",
+        "oSDDONCertNumber",
+        "radio13",
+        "radio14",
+        "dITPRDonRegRegistrationNumber",
+        "iANetwork",
+        "iAStatus",
+        "trackNoDAA",
+        "iAExpDate",
+        "iATrackSysNo",
+        "iAExplanation",
+        "radio15",
+        "radio16",
+        "section508NoReason",
+        "hardwareDescriptionLI1",
+        "hardwareNameLI",
+        "hardwareTypeLI1",
+        "dADMSLabIDLI1",
+        "maintenanceproviderLI1",
+        "hostingNetworkLI1",
+        "buildingswherehardwarewillresideLI1",
+        "hardwareConnectivityLI1",
+        "radio17",
+        "radio18",
+        "sahrapli1",
+        "appropriationTypeLI1",
+        "quantityLI1",
+        "costLI1",
+        "totalCostLI1",
+        "grandTotalCost",
+        "explanationfornoCosc"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "softwareNameVersionLI1",
+        "softwareDADMSIDLI1",
+        "softwareTypeLI1",
+        "softwareFAMExpirationDateLI1",
+        "softwareQtyofLiscLI1",
+        "softwareFamDispoLI1",
+        "softwareHostingNetworkLI1",
+        "softwareHostingUICLI1",
+        "softwareDADMSLabIdLI1",
+        "softwareLocationLI1",
+        "softwareAppropriationTypeLI1",
+        "softwareMaintenanceStartDateLI1",
+        "softwareMaintenanceEndDateLI1",
+        "softwareQuantityLI1",
+        "softwareUnitCostLI1",
+        "softwareTotalCostLI1",
+        "softwareCommentsLI1",
+        "totalSoftwareProcurementCost",
+        "radio19",
+        "radio20",
+        "eSISmartBuyAggreementExplanation",
+        "sSDescriptionLI1",
+        "sSContractingContractNumberLI1",
+        "sSContractingCompanyLI1",
+        "radio21",
+        "radio22",
+        "radio23",
+        "radio24",
+        "sSPeriodofPerformanceLI1EndDate",
+        "sSPeriodofPerformanceLI1StartDate",
+        "radio25",
+        "radio26",
+        "sSQuantityLI1",
+        "sSUnitCostLI1",
+        "sSTotaLI1",
+        "sSAppropriationTypeLI1",
+        "totalSoftwareProcurementCost2",
+        "webServicesDADMSLI1",
+        "webServivesServerNameLI1",
+        "webServicesURLLI1",
+        "webServicesProcurementSupportLI1",
+        "webServicesFundingObligLI1",
+        "webServicesWhereHostedLI1",
+        "webServicesAppropriationTypeLI1",
+        "webServicesLI1Qty",
+        "webServicesLI1Cost",
+        "webServicesLI1TotalCost",
+        "totalSoftwareProcurementCost3"
+      ]
+    },
+    {
+      "title": "Page 4",
+      "fields": [
+        "telecommunicationVersLI1",
+        "telecommunicationManuLI1",
+        "telecommunicationTypeLI1",
+        "telecommunicationDescriptionLI1",
+        "telecommunicationQtyLI1",
+        "telecommunicationUnitCostLI1",
+        "telecommunicationTotalCostLI1",
+        "telecommunicationAppropritionLI1",
+        "totalSoftwareProcurementCost4",
+        "echIIIMgrDigitalSignature",
+        "echIIIMgrApproveRejectDDL",
+        "comments",
+        "echIICIOCSRDigitalSignature",
+        "echIICIOCSRApproveRejectDDL",
+        "iTBudgetExhibit300DigitalSignature",
+        "iTBudgetExhibit300ApproveRejectDDL",
+        "doneaDigitalSignature",
+        "doneaApproveRejectDDL",
+        "iaDigitalSignature",
+        "iaApproveRejectDDL",
+        "softwareVendorSupportDigitalSignature",
+        "softwareVendorSupportApproveRejectDDL",
+        "hardwarePeripheralsDigitalSignature",
+        "hardwarePeripheralsApproveRejectDDL",
+        "networksServersPortalsDigitalSignature",
+        "networksServersPortalsApproveRejectDDL",
+        "clingerCohenTitle40DigitalSignature",
+        "clingerCohenTitle40ApproveRejectDDL",
+        "section508DigitalSignature",
+        "section508ApproveRejectDDL"
+      ]
+    },
+    {
+      "title": "Page 5",
+      "fields": [
+        "enterpriseLicensingDigitalSignature",
+        "enterpriseLicensingApproveRejectDDL",
+        "checkBox11",
+        "comments11",
+        "echIIIRMMgrDigitalSignature",
+        "echIIIRMMgrApproveDisapproveRejectDDL",
+        "checkBox12",
+        "comments12",
+        "cioDigitalSignature",
+        "cioApproveDisapproveRejectDDL",
+        "checkBox14",
+        "comments13",
+        "echIFAMApproveDisapproveRejectDDL",
+        "echIFAMDigitalSignature",
+        "checkBox15",
+        "comments14",
+        "spawarDigitalSignature",
+        "spawarApproveDisapproveRejectDDL",
+        "checkBox16",
+        "comments15",
+        "ddcioNDigitalSignature",
+        "ddcioNApproveDisapproveRejectDDL",
+        "checkBox17",
+        "comments16",
+        "pRNumber",
+        "contractNumber",
+        "fSCCode",
+        "periodOfPerformance",
+        "internalDescription",
+        "internalValuation",
+        "requestType",
+        "bso",
+        "uic",
+        "aisbin",
+        "command",
+        "site",
+        "program",
+        "poc",
+        "eventDetails",
+        "urgency",
+        "spawarReceivedDate",
+        "contractContinuationDDL",
+        "incrementalFundingDDL",
+        "contractingReviewDDL",
+        "cHENGReviewDDL",
+        "reviewerDigitalSignature",
+        "approverDigitalSignature"
+      ]
+    }
+  ],
+  "fields": {
+    "referenceID": {
+      "type": "text",
+      "label": "Reference ID",
+      "page": 1,
+      "box": {
+        "left": 398.9,
+        "top": 609.1,
+        "width": 174.3,
+        "height": 12.3
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 223.4,
+        "top": 573.1,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 277.4,
+        "top": 573.1,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "exemptionJustificationReasonText": {
+      "type": "text",
+      "label": "If yes, explain justification for exemption",
+      "page": 1,
+      "box": {
+        "left": 190.1,
+        "top": 555.1,
+        "width": 383.2,
+        "height": 12.3
+      }
+    },
+    "localVoiceServices": {
+      "type": "checkbox",
+      "label": ".EXEMPTION",
+      "page": 1,
+      "box": {
+        "left": 54.1,
+        "top": 518.1,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "missionCriticalResources": {
+      "type": "checkbox",
+      "label": ".EXEMPTION",
+      "page": 1,
+      "box": {
+        "left": 54.1,
+        "top": 496.5,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "hardwareSoftwareSecret": {
+      "type": "checkbox",
+      "label": ".EXEMPTION",
+      "page": 1,
+      "box": {
+        "left": 54.1,
+        "top": 469.5,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "cioApproveRejectDDL": {
+      "type": "checkbox",
+      "label": ".EXEMPTION",
+      "page": 1,
+      "box": {
+        "left": 54.1,
+        "top": 446.1,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "hardwaresoftwarenmci": {
+      "type": "checkbox",
+      "label": ".EXEMPTION",
+      "page": 1,
+      "box": {
+        "left": 54.1,
+        "top": 424.5,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "sbir": {
+      "type": "checkbox",
+      "label": ".EXEMPTION",
+      "page": 1,
+      "box": {
+        "left": 54.1,
+        "top": 397.5,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "commandUniqueID": {
+      "type": "text",
+      "label": "Enter Identifier:* Command Unique",
+      "page": 1,
+      "box": {
+        "left": 420.5,
+        "top": 357.1,
+        "width": 152.7,
+        "height": 12.3
+      },
+      "required": true
+    },
+    "commandDDL": {
+      "type": "choice",
+      "label": "Select Command:*",
+      "page": 1,
+      "box": {
+        "left": 111.6,
+        "top": 356.4,
+        "width": 172.8,
+        "height": 10.8
+      },
+      "options": [
+        "BUMED",
+        "BUPERS",
+        "OPNAV",
+        "ONR",
+        "MSC",
+        "CNSWC",
+        "NETC",
+        "USN-SOCOM",
+        "CNIC",
+        "USN-CENTCOM",
+        "PACFLT",
+        "NAVEUR",
+        "NAVAIR",
+        "NAVFAC",
+        "OGC/LEGAL",
+        "RESFOR",
+        "CNSC",
+        "NAVSEA",
+        "NAVSUP",
+        "OPTEVFOR",
+        "SPAWAR HQ",
+        "DNS",
+        "FSA",
+        "NHHC",
+        "NPGS",
+        "ONI",
+        "SSPO",
+        "FLTCYBER-10THFLT",
+        "USFFC",
+        "PACOM",
+        "USNA"
+      ],
+      "required": true
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 326.9,
+        "top": 321.1,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 380.9,
+        "top": 321.1,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "cOSCNGENProcurementIf": {
+      "type": "text",
+      "label": "Yes No",
+      "page": 1,
+      "box": {
+        "left": 326.9,
+        "top": 303.1,
+        "width": 246.4,
+        "height": 20.7
+      }
+    },
+    "requesterLastName": {
+      "type": "text",
+      "label": "Last Name",
+      "page": 1,
+      "box": {
+        "left": 82.0,
+        "top": 258.8,
+        "width": 221.2,
+        "height": 13.7
+      }
+    },
+    "requesterFirstName": {
+      "type": "text",
+      "label": "First Name",
+      "page": 1,
+      "box": {
+        "left": 352.1,
+        "top": 258.8,
+        "width": 221.2,
+        "height": 14.3
+      }
+    },
+    "requesterEmail": {
+      "type": "text",
+      "label": "E-mail",
+      "page": 1,
+      "box": {
+        "left": 67.6,
+        "top": 238.8,
+        "width": 235.6,
+        "height": 13.8
+      }
+    },
+    "requesterCode": {
+      "type": "text",
+      "label": "Code",
+      "page": 1,
+      "box": {
+        "left": 337.7,
+        "top": 238.8,
+        "width": 235.6,
+        "height": 13.8
+      }
+    },
+    "requesterActivityLocation": {
+      "type": "text",
+      "label": "Activity Location",
+      "page": 1,
+      "box": {
+        "left": 103.6,
+        "top": 219.2,
+        "width": 199.6,
+        "height": 10.1
+      }
+    },
+    "requesterUIC": {
+      "type": "text",
+      "label": "UIC:*",
+      "page": 1,
+      "box": {
+        "left": 337.7,
+        "top": 219.2,
+        "width": 235.6,
+        "height": 12.3
+      },
+      "required": true
+    },
+    "requesterAdditionalemailPOCs": {
+      "type": "text",
+      "label": "UIC:*",
+      "page": 1,
+      "box": {
+        "left": 290.9,
+        "top": 201.2,
+        "width": 282.4,
+        "height": 12.3
+      }
+    },
+    "requestTypeHardware": {
+      "type": "checkbox",
+      "label": "Hardware",
+      "page": 1,
+      "box": {
+        "left": 75.0,
+        "top": 151.5,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "requestTypeSoftware": {
+      "type": "checkbox",
+      "label": "Software",
+      "page": 1,
+      "box": {
+        "left": 165.0,
+        "top": 150.7,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "requestTypeServices": {
+      "type": "checkbox",
+      "label": "Services",
+      "page": 1,
+      "box": {
+        "left": 255.0,
+        "top": 150.7,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "requestTypeTele": {
+      "type": "checkbox",
+      "label": "Telecommunications",
+      "page": 1,
+      "box": {
+        "left": 345.0,
+        "top": 150.7,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "requestTypeWebServices": {
+      "type": "checkbox",
+      "label": "Services",
+      "page": 1,
+      "box": {
+        "left": 435.1,
+        "top": 150.7,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "requestTypeITExemption": {
+      "type": "checkbox",
+      "label": "Exemption",
+      "page": 1,
+      "box": {
+        "left": 525.1,
+        "top": 150.7,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "title": {
+      "type": "text",
+      "label": "Title",
+      "page": 1,
+      "box": {
+        "left": 60.4,
+        "top": 111.2,
+        "width": 512.8,
+        "height": 12.3
+      }
+    },
+    "executiveSummary": {
+      "type": "text",
+      "label": "Executive Summary",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 739.7,
+        "width": 534.4,
+        "height": 47.1
+      },
+      "multiline": true
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 223.4,
+        "top": 668.8,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 277.4,
+        "top": 668.8,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "cCAComplianceDate": {
+      "type": "text",
+      "label": "If yes, date of confirmation",
+      "page": 2,
+      "box": {
+        "left": 458.2,
+        "top": 668.8,
+        "width": 115.1,
+        "height": 12.3
+      }
+    },
+    "aCATLevel": {
+      "type": "choice",
+      "label": "ACAT Level",
+      "page": 2,
+      "box": {
+        "left": 126.0,
+        "top": 650.1,
+        "width": 176.5,
+        "height": 10.8
+      },
+      "options": [
+        "I",
+        "II",
+        "III",
+        "IV",
+        "AAP",
+        "non-ACAT"
+      ]
+    },
+    "missionDesignation": {
+      "type": "choice",
+      "label": "Mission Designation",
+      "page": 2,
+      "box": {
+        "left": 396.0,
+        "top": 650.1,
+        "width": 176.5,
+        "height": 10.8
+      },
+      "options": [
+        "Mission Critical",
+        "Mission Essential",
+        "Mission Support",
+        "N/A"
+      ]
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 470.9,
+        "top": 614.8,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 524.9,
+        "top": 614.8,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "radio9": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 169.4,
+        "top": 596.8,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "radio10": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 223.4,
+        "top": 596.8,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "radio11": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 254.9,
+        "top": 578.8,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "radio12": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 308.9,
+        "top": 578.8,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "oSDDONDateofCert": {
+      "type": "text",
+      "label": "If yes, date of certification",
+      "page": 2,
+      "box": {
+        "left": 139.7,
+        "top": 560.8,
+        "width": 163.6,
+        "height": 12.3
+      }
+    },
+    "oSDDONCertNumber": {
+      "type": "text",
+      "label": "If yes, approval number",
+      "page": 2,
+      "box": {
+        "left": 402.5,
+        "top": 560.8,
+        "width": 170.8,
+        "height": 12.3
+      }
+    },
+    "radio13": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 191.9,
+        "top": 524.8,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "radio14": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 245.9,
+        "top": 524.8,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "dITPRDonRegRegistrationNumber": {
+      "type": "text",
+      "label": "If yes, registration number",
+      "page": 2,
+      "box": {
+        "left": 400.7,
+        "top": 524.8,
+        "width": 172.5,
+        "height": 12.3
+      }
+    },
+    "iANetwork": {
+      "type": "text",
+      "label": "Network",
+      "page": 2,
+      "box": {
+        "left": 352.1,
+        "top": 460.2,
+        "width": 221.2,
+        "height": 12.3
+      }
+    },
+    "iAStatus": {
+      "type": "choice",
+      "label": "IA Status",
+      "page": 2,
+      "box": {
+        "left": 97.2,
+        "top": 459.4,
+        "width": 205.3,
+        "height": 10.8
+      },
+      "options": [
+        "Interim Authorization to Operate",
+        "Interim Authorization to Test",
+        "Authorization to Operate",
+        "Denial of Authorization to Operate",
+        "Not Completed",
+        "Not Applicable"
+      ]
+    },
+    "trackNoDAA": {
+      "type": "text",
+      "label": "ATO/IATO/IATT Tracking Number &amp; DAA Agency",
+      "page": 2,
+      "box": {
+        "left": 226.1,
+        "top": 442.2,
+        "width": 347.2,
+        "height": 12.3
+      }
+    },
+    "iAExpDate": {
+      "type": "text",
+      "label": "IA Expiration Date",
+      "page": 2,
+      "box": {
+        "left": 110.9,
+        "top": 424.2,
+        "width": 192.4,
+        "height": 12.3
+      }
+    },
+    "iATrackSysNo": {
+      "type": "text",
+      "label": "IA Tracking System Number",
+      "page": 2,
+      "box": {
+        "left": 420.2,
+        "top": 424.2,
+        "width": 153.0,
+        "height": 12.3
+      }
+    },
+    "iAExplanation": {
+      "type": "text",
+      "label": "I A Explanation",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 392.7,
+        "width": 534.4,
+        "height": 16.8
+      }
+    },
+    "radio15": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 254.9,
+        "top": 352.1,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "radio16": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 308.9,
+        "top": 352.1,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "section508NoReason": {
+      "type": "text",
+      "label": "If No, please explain",
+      "page": 2,
+      "box": {
+        "left": 118.1,
+        "top": 334.1,
+        "width": 455.2,
+        "height": 12.3
+      }
+    },
+    "hardwareDescriptionLI1": {
+      "type": "text",
+      "label": "Hardware Description",
+      "page": 2,
+      "box": {
+        "left": 335.9,
+        "top": 250.1,
+        "width": 237.4,
+        "height": 19.9
+      }
+    },
+    "hardwareNameLI": {
+      "type": "text",
+      "label": "Hardware Name",
+      "page": 2,
+      "box": {
+        "left": 155.9,
+        "top": 248.6,
+        "width": 174.3,
+        "height": 16.8
+      }
+    },
+    "hardwareTypeLI1": {
+      "type": "choice",
+      "label": "Hardware Type",
+      "page": 2,
+      "box": {
+        "left": 39.6,
+        "top": 247.9,
+        "width": 109.8,
+        "height": 15.3
+      },
+      "options": [
+        "Hardware Maintenance",
+        "Desktop",
+        "Fax Machine",
+        "Internal  Hard Drive",
+        "Laptop ",
+        "Printer",
+        "Scanner",
+        "Server",
+        "Other"
+      ]
+    },
+    "dADMSLabIDLI1": {
+      "type": "text",
+      "label": "DADMS Lab ID",
+      "page": 2,
+      "box": {
+        "left": 398.9,
+        "top": 212.5,
+        "width": 174.3,
+        "height": 18.3
+      }
+    },
+    "maintenanceproviderLI1": {
+      "type": "text",
+      "label": "Maintenance Provider",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 211.5,
+        "width": 174.3,
+        "height": 17.3
+      }
+    },
+    "hostingNetworkLI1": {
+      "type": "text",
+      "label": "Hosting Network",
+      "page": 2,
+      "box": {
+        "left": 218.9,
+        "top": 211.0,
+        "width": 174.3,
+        "height": 16.8
+      }
+    },
+    "buildingswherehardwarewillresideLI1": {
+      "type": "text",
+      "label": "Location Where Hardware Will Reside",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 177.5,
+        "width": 174.3,
+        "height": 19.3
+      }
+    },
+    "hardwareConnectivityLI1": {
+      "type": "choice",
+      "label": "Hardware Connectivity",
+      "page": 2,
+      "box": {
+        "left": 219.6,
+        "top": 173.8,
+        "width": 172.8,
+        "height": 14.8
+      },
+      "options": [
+        "CoSC",
+        "RDT&E",
+        "Legacy",
+        "Stand-alone",
+        "Other"
+      ]
+    },
+    "radio17": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 425.9,
+        "top": 172.5,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "radio18": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 479.9,
+        "top": 172.5,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "sahrapli1": {
+      "type": "text",
+      "label": "If Server, provide SAHRAP",
+      "page": 2,
+      "box": {
+        "left": 382.7,
+        "top": 152.5,
+        "width": 190.5,
+        "height": 12.3
+      }
+    },
+    "appropriationTypeLI1": {
+      "type": "choice",
+      "label": "Appropriation Type",
+      "page": 2,
+      "box": {
+        "left": 111.6,
+        "top": 151.8,
+        "width": 163.8,
+        "height": 10.8
+      },
+      "options": [
+        "APN",
+        "CIP",
+        "NWCF OH",
+        "WPN",
+        "MRTFB",
+        "OMN",
+        "OPN",
+        "FMS",
+        "RDT&E",
+        "PP",
+        "Other"
+      ]
+    },
+    "quantityLI1": {
+      "type": "text",
+      "label": "Quantity",
+      "page": 2,
+      "box": {
+        "left": 89.2,
+        "top": 134.5,
+        "width": 69.9,
+        "height": 12.3
+      }
+    },
+    "costLI1": {
+      "type": "text",
+      "label": "Cost",
+      "page": 2,
+      "box": {
+        "left": 215.3,
+        "top": 134.5,
+        "width": 123.9,
+        "height": 12.3
+      }
+    },
+    "totalCostLI1": {
+      "type": "text",
+      "label": "Total Cost",
+      "page": 2,
+      "box": {
+        "left": 395.3,
+        "top": 134.5,
+        "width": 177.9,
+        "height": 12.3
+      }
+    },
+    "grandTotalCost": {
+      "type": "text",
+      "label": "Total Hardware Procurement Cost",
+      "page": 2,
+      "box": {
+        "left": 362.9,
+        "top": 116.5,
+        "width": 210.4,
+        "height": 12.3
+      }
+    },
+    "explanationfornoCosc": {
+      "type": "text",
+      "label": "Explanationforno Cosc",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 68.5,
+        "width": 534.4,
+        "height": 19.9
+      }
+    },
+    "softwareNameVersionLI1": {
+      "type": "text",
+      "label": "Software Name and Version (as it appears in DADMS)",
+      "page": 3,
+      "box": {
+        "left": 146.9,
+        "top": 706.2,
+        "width": 300.4,
+        "height": 19.3
+      }
+    },
+    "softwareDADMSIDLI1": {
+      "type": "text",
+      "label": "DADMS ID",
+      "page": 3,
+      "box": {
+        "left": 452.9,
+        "top": 703.7,
+        "width": 120.3,
+        "height": 16.8
+      }
+    },
+    "softwareTypeLI1": {
+      "type": "choice",
+      "label": "Software Type",
+      "page": 3,
+      "box": {
+        "left": 39.6,
+        "top": 703.4,
+        "width": 100.8,
+        "height": 15.8
+      },
+      "options": [
+        "Software",
+        "Software Maintenance"
+      ]
+    },
+    "softwareFAMExpirationDateLI1": {
+      "type": "text",
+      "label": "FAM Expiration Date",
+      "page": 3,
+      "box": {
+        "left": 218.9,
+        "top": 669.1,
+        "width": 174.3,
+        "height": 18.3
+      }
+    },
+    "softwareQtyofLiscLI1": {
+      "type": "text",
+      "label": "Quantity of Licenses",
+      "page": 3,
+      "box": {
+        "left": 398.9,
+        "top": 669.1,
+        "width": 174.3,
+        "height": 18.3
+      }
+    },
+    "softwareFamDispoLI1": {
+      "type": "choice",
+      "label": "FAM Disposition",
+      "page": 3,
+      "box": {
+        "left": 39.6,
+        "top": 666.9,
+        "width": 172.8,
+        "height": 15.3
+      },
+      "options": [
+        "Approved",
+        "Allowed With Restrictions",
+        "Allowed With Waiver",
+        " RDTE only",
+        "Disapproved"
+      ]
+    },
+    "softwareHostingNetworkLI1": {
+      "type": "text",
+      "label": "Hosting Network",
+      "page": 3,
+      "box": {
+        "left": 218.9,
+        "top": 633.1,
+        "width": 174.3,
+        "height": 18.3
+      }
+    },
+    "softwareHostingUICLI1": {
+      "type": "text",
+      "label": "Hosting UIC",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 631.6,
+        "width": 174.3,
+        "height": 16.8
+      }
+    },
+    "softwareDADMSLabIdLI1": {
+      "type": "text",
+      "label": "DADMS Lab ID",
+      "page": 3,
+      "box": {
+        "left": 398.9,
+        "top": 631.6,
+        "width": 174.3,
+        "height": 16.8
+      }
+    },
+    "softwareLocationLI1": {
+      "type": "text",
+      "label": "Location Where Software Will Reside",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 590.1,
+        "width": 174.3,
+        "height": 29.3
+      }
+    },
+    "softwareAppropriationTypeLI1": {
+      "type": "choice",
+      "label": "Appropriation Type",
+      "page": 3,
+      "box": {
+        "left": 399.6,
+        "top": 588.4,
+        "width": 172.8,
+        "height": 26.8
+      },
+      "options": [
+        "APN",
+        "CIP",
+        "NWCF OH",
+        "WPN",
+        "MRTFB",
+        "OMN",
+        "OPN",
+        "FMS",
+        "RDT&E",
+        "PP",
+        "Other"
+      ]
+    },
+    "softwareMaintenanceStartDateLI1": {
+      "type": "text",
+      "label": "Start Date",
+      "page": 3,
+      "box": {
+        "left": 218.9,
+        "top": 577.6,
+        "width": 84.3,
+        "height": 16.8
+      }
+    },
+    "softwareMaintenanceEndDateLI1": {
+      "type": "text",
+      "label": "End Date",
+      "page": 3,
+      "box": {
+        "left": 308.9,
+        "top": 577.6,
+        "width": 84.3,
+        "height": 16.8
+      }
+    },
+    "softwareQuantityLI1": {
+      "type": "text",
+      "label": "Quantity",
+      "page": 3,
+      "box": {
+        "left": 74.8,
+        "top": 555.1,
+        "width": 84.3,
+        "height": 12.3
+      }
+    },
+    "softwareUnitCostLI1": {
+      "type": "text",
+      "label": "Unit Cost",
+      "page": 3,
+      "box": {
+        "left": 215.3,
+        "top": 555.1,
+        "width": 123.9,
+        "height": 12.3
+      }
+    },
+    "softwareTotalCostLI1": {
+      "type": "text",
+      "label": "Total Cost",
+      "page": 3,
+      "box": {
+        "left": 395.3,
+        "top": 555.1,
+        "width": 177.9,
+        "height": 12.3
+      }
+    },
+    "softwareCommentsLI1": {
+      "type": "text",
+      "label": "Comments",
+      "page": 3,
+      "box": {
+        "left": 110.9,
+        "top": 537.1,
+        "width": 462.4,
+        "height": 19.6
+      }
+    },
+    "totalSoftwareProcurementCost": {
+      "type": "text",
+      "label": "Total Software Procurement Cost",
+      "page": 3,
+      "box": {
+        "left": 362.9,
+        "top": 511.9,
+        "width": 210.4,
+        "height": 12.3
+      }
+    },
+    "radio19": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 290.9,
+        "top": 475.9,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "radio20": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 344.9,
+        "top": 475.9,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "eSISmartBuyAggreementExplanation": {
+      "type": "text",
+      "label": "If No, provide explanation",
+      "page": 3,
+      "box": {
+        "left": 146.9,
+        "top": 457.8,
+        "width": 426.4,
+        "height": 12.3
+      }
+    },
+    "sSDescriptionLI1": {
+      "type": "text",
+      "label": "Description of Support Services",
+      "page": 3,
+      "box": {
+        "left": 161.3,
+        "top": 403.8,
+        "width": 412.0,
+        "height": 20.7
+      }
+    },
+    "sSContractingContractNumberLI1": {
+      "type": "text",
+      "label": "Contract Number",
+      "page": 3,
+      "box": {
+        "left": 217.4,
+        "top": 365.9,
+        "width": 177.2,
+        "height": 20.2
+      }
+    },
+    "sSContractingCompanyLI1": {
+      "type": "text",
+      "label": "Contracting Company or Vendor",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 364.5,
+        "width": 174.3,
+        "height": 17.3
+      }
+    },
+    "radio21": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 439.4,
+        "top": 360.5,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "radio22": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 488.9,
+        "top": 360.5,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "radio23": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 52.3,
+        "top": 323.5,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "radio24": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 106.3,
+        "top": 323.5,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "sSPeriodofPerformanceLI1EndDate": {
+      "type": "text",
+      "label": "End Date",
+      "page": 3,
+      "box": {
+        "left": 263.9,
+        "top": 309.5,
+        "width": 84.3,
+        "height": 16.3
+      }
+    },
+    "sSPeriodofPerformanceLI1StartDate": {
+      "type": "text",
+      "label": "Start Date",
+      "page": 3,
+      "box": {
+        "left": 173.9,
+        "top": 308.5,
+        "width": 84.3,
+        "height": 15.3
+      }
+    },
+    "radio25": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 416.9,
+        "top": 308.1,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "radio26": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 470.9,
+        "top": 308.1,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "radio"
+    },
+    "sSQuantityLI1": {
+      "type": "text",
+      "label": "Quantity",
+      "page": 3,
+      "box": {
+        "left": 173.9,
+        "top": 278.5,
+        "width": 129.3,
+        "height": 21.3
+      }
+    },
+    "sSUnitCostLI1": {
+      "type": "text",
+      "label": "Unit Cost",
+      "page": 3,
+      "box": {
+        "left": 308.9,
+        "top": 275.5,
+        "width": 129.3,
+        "height": 18.3
+      }
+    },
+    "sSTotaLI1": {
+      "type": "text",
+      "label": "Total Cost",
+      "page": 3,
+      "box": {
+        "left": 443.9,
+        "top": 274.0,
+        "width": 129.3,
+        "height": 16.8
+      }
+    },
+    "sSAppropriationTypeLI1": {
+      "type": "choice",
+      "label": "Appropriation Type",
+      "page": 3,
+      "box": {
+        "left": 39.6,
+        "top": 273.2,
+        "width": 127.8,
+        "height": 15.3
+      },
+      "options": [
+        "APN",
+        "CIP",
+        "NWCF OH",
+        "WPN",
+        "MRTFB",
+        "OMN",
+        "OPN",
+        "FMS",
+        "RDT&E",
+        "PP",
+        "Other"
+      ]
+    },
+    "totalSoftwareProcurementCost2": {
+      "type": "text",
+      "label": "Total IT Services Procurement Cost",
+      "page": 3,
+      "box": {
+        "left": 362.9,
+        "top": 251.5,
+        "width": 210.4,
+        "height": 12.3
+      }
+    },
+    "webServicesDADMSLI1": {
+      "type": "text",
+      "label": "DADMS ID of the Web Service",
+      "page": 3,
+      "box": {
+        "left": 218.9,
+        "top": 186.5,
+        "width": 174.3,
+        "height": 19.3
+      }
+    },
+    "webServivesServerNameLI1": {
+      "type": "text",
+      "label": "Server Name",
+      "page": 3,
+      "box": {
+        "left": 398.9,
+        "top": 184.0,
+        "width": 174.3,
+        "height": 16.8
+      }
+    },
+    "webServicesURLLI1": {
+      "type": "text",
+      "label": "URL/IP Address",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 183.5,
+        "width": 174.3,
+        "height": 16.3
+      }
+    },
+    "webServicesProcurementSupportLI1": {
+      "type": "choice",
+      "label": "Procurement Supports",
+      "page": 3,
+      "box": {
+        "left": 134.3,
+        "top": 160.7,
+        "width": 168.2,
+        "height": 10.8
+      },
+      "options": [
+        "Web Application",
+        "Web Site",
+        "Web Portal"
+      ]
+    },
+    "webServicesFundingObligLI1": {
+      "type": "choice",
+      "label": "Funding Obligation",
+      "page": 3,
+      "box": {
+        "left": 437.5,
+        "top": 160.7,
+        "width": 135.0,
+        "height": 10.8
+      },
+      "options": [
+        "New Development",
+        "Modifications",
+        "Operations & Sustainment"
+      ]
+    },
+    "webServicesWhereHostedLI1": {
+      "type": "text",
+      "label": "Location Where Hosted",
+      "page": 3,
+      "box": {
+        "left": 436.4,
+        "top": 143.5,
+        "width": 136.8,
+        "height": 12.3
+      }
+    },
+    "webServicesAppropriationTypeLI1": {
+      "type": "choice",
+      "label": "Appropriation Type",
+      "page": 3,
+      "box": {
+        "left": 133.9,
+        "top": 142.7,
+        "width": 168.5,
+        "height": 10.8
+      },
+      "options": [
+        "APN",
+        "CIP",
+        "NWCF OH",
+        "WPN",
+        "MRTFB",
+        "OMN",
+        "OPN",
+        "FMS",
+        "RDT&E",
+        "PP",
+        "Other"
+      ]
+    },
+    "webServicesLI1Qty": {
+      "type": "text",
+      "label": "Quantity",
+      "page": 3,
+      "box": {
+        "left": 74.8,
+        "top": 125.5,
+        "width": 84.3,
+        "height": 12.3
+      }
+    },
+    "webServicesLI1Cost": {
+      "type": "text",
+      "label": "Unit Cost",
+      "page": 3,
+      "box": {
+        "left": 222.5,
+        "top": 125.5,
+        "width": 116.7,
+        "height": 12.3
+      }
+    },
+    "webServicesLI1TotalCost": {
+      "type": "text",
+      "label": "Total Cost",
+      "page": 3,
+      "box": {
+        "left": 402.5,
+        "top": 125.5,
+        "width": 170.7,
+        "height": 12.3
+      }
+    },
+    "totalSoftwareProcurementCost3": {
+      "type": "text",
+      "label": "Total Web Services Procurement Cost",
+      "page": 3,
+      "box": {
+        "left": 362.9,
+        "top": 107.5,
+        "width": 210.4,
+        "height": 12.3
+      }
+    },
+    "telecommunicationVersLI1": {
+      "type": "text",
+      "label": "Version",
+      "page": 4,
+      "box": {
+        "left": 506.9,
+        "top": 741.1,
+        "width": 66.3,
+        "height": 18.3
+      }
+    },
+    "telecommunicationManuLI1": {
+      "type": "text",
+      "label": "Manufacturer",
+      "page": 4,
+      "box": {
+        "left": 164.9,
+        "top": 739.7,
+        "width": 336.4,
+        "height": 16.8
+      }
+    },
+    "telecommunicationTypeLI1": {
+      "type": "choice",
+      "label": "Telecommunication Type",
+      "page": 4,
+      "box": {
+        "left": 39.6,
+        "top": 738.9,
+        "width": 118.8,
+        "height": 15.3
+      },
+      "options": [
+        "Mobile/Smart Phone",
+        "Pager",
+        "VTC",
+        "Corded/Cordless Phone",
+        "Phone Headset",
+        "Other"
+      ]
+    },
+    "telecommunicationDescriptionLI1": {
+      "type": "text",
+      "label": "Description",
+      "page": 4,
+      "box": {
+        "left": 96.4,
+        "top": 717.2,
+        "width": 476.8,
+        "height": 12.3
+      }
+    },
+    "telecommunicationQtyLI1": {
+      "type": "text",
+      "label": "Quantity",
+      "page": 4,
+      "box": {
+        "left": 173.9,
+        "top": 691.1,
+        "width": 129.3,
+        "height": 22.3
+      }
+    },
+    "telecommunicationUnitCostLI1": {
+      "type": "text",
+      "label": "Unit Cost",
+      "page": 4,
+      "box": {
+        "left": 308.9,
+        "top": 688.2,
+        "width": 129.3,
+        "height": 19.3
+      }
+    },
+    "telecommunicationTotalCostLI1": {
+      "type": "text",
+      "label": "Total Cost",
+      "page": 4,
+      "box": {
+        "left": 443.9,
+        "top": 686.1,
+        "width": 129.3,
+        "height": 17.3
+      }
+    },
+    "telecommunicationAppropritionLI1": {
+      "type": "choice",
+      "label": "Appropriation Type",
+      "page": 4,
+      "box": {
+        "left": 39.6,
+        "top": 684.9,
+        "width": 127.8,
+        "height": 15.3
+      },
+      "options": [
+        "APN",
+        "CIP",
+        "NWCF OH",
+        "WPN",
+        "MRTFB",
+        "OMN",
+        "OPN",
+        "FMS",
+        "RDT&E",
+        "PP",
+        "Other"
+      ]
+    },
+    "totalSoftwareProcurementCost4": {
+      "type": "text",
+      "label": "Total Telecommunications Procurement Cost",
+      "page": 4,
+      "box": {
+        "left": 362.9,
+        "top": 663.1,
+        "width": 210.4,
+        "height": 12.3
+      }
+    },
+    "echIIIMgrDigitalSignature": {
+      "type": "text",
+      "label": "Signature",
+      "page": 4,
+      "box": {
+        "left": 352.1,
+        "top": 609.1,
+        "width": 221.2,
+        "height": 16.8
+      }
+    },
+    "echIIIMgrApproveRejectDDL": {
+      "type": "choice",
+      "label": "Adjudication",
+      "page": 4,
+      "box": {
+        "left": 162.0,
+        "top": 608.4,
+        "width": 140.4,
+        "height": 15.3
+      },
+      "options": [
+        "Approve",
+        "Reject with Recommendations",
+        "N/A"
+      ]
+    },
+    "comments": {
+      "type": "text",
+      "label": "Comments",
+      "page": 4,
+      "box": {
+        "left": 96.4,
+        "top": 586.6,
+        "width": 476.8,
+        "height": 12.3
+      }
+    },
+    "echIICIOCSRDigitalSignature": {
+      "type": "text",
+      "label": "Signature",
+      "page": 4,
+      "box": {
+        "left": 352.1,
+        "top": 550.6,
+        "width": 221.2,
+        "height": 16.8
+      }
+    },
+    "echIICIOCSRApproveRejectDDL": {
+      "type": "choice",
+      "label": "Adjudication",
+      "page": 4,
+      "box": {
+        "left": 162.0,
+        "top": 549.9,
+        "width": 140.4,
+        "height": 15.3
+      },
+      "options": [
+        "Approve",
+        "Reject with Recommendations",
+        "N/A"
+      ]
+    },
+    "iTBudgetExhibit300DigitalSignature": {
+      "type": "text",
+      "label": "Signature",
+      "page": 4,
+      "box": {
+        "left": 352.1,
+        "top": 492.1,
+        "width": 221.2,
+        "height": 16.8
+      }
+    },
+    "iTBudgetExhibit300ApproveRejectDDL": {
+      "type": "choice",
+      "label": "Adjudication",
+      "page": 4,
+      "box": {
+        "left": 162.0,
+        "top": 491.4,
+        "width": 140.4,
+        "height": 15.3
+      },
+      "options": [
+        "Approve",
+        "Reject with Recommendations",
+        "N/A"
+      ]
+    },
+    "doneaDigitalSignature": {
+      "type": "text",
+      "label": "Signature",
+      "page": 4,
+      "box": {
+        "left": 352.1,
+        "top": 433.6,
+        "width": 221.2,
+        "height": 16.8
+      }
+    },
+    "doneaApproveRejectDDL": {
+      "type": "choice",
+      "label": "Adjudication",
+      "page": 4,
+      "box": {
+        "left": 162.0,
+        "top": 432.9,
+        "width": 140.4,
+        "height": 15.3
+      },
+      "options": [
+        "Approve",
+        "Reject with Recommendations",
+        "N/A"
+      ]
+    },
+    "iaDigitalSignature": {
+      "type": "text",
+      "label": "Signature",
+      "page": 4,
+      "box": {
+        "left": 352.1,
+        "top": 375.1,
+        "width": 221.2,
+        "height": 16.8
+      }
+    },
+    "iaApproveRejectDDL": {
+      "type": "choice",
+      "label": "Adjudication",
+      "page": 4,
+      "box": {
+        "left": 162.0,
+        "top": 374.4,
+        "width": 140.4,
+        "height": 15.3
+      },
+      "options": [
+        "Approve",
+        "Reject with Recommendations",
+        "N/A"
+      ]
+    },
+    "softwareVendorSupportDigitalSignature": {
+      "type": "text",
+      "label": "Signature",
+      "page": 4,
+      "box": {
+        "left": 352.1,
+        "top": 316.6,
+        "width": 221.2,
+        "height": 16.8
+      }
+    },
+    "softwareVendorSupportApproveRejectDDL": {
+      "type": "choice",
+      "label": "Adjudication",
+      "page": 4,
+      "box": {
+        "left": 162.0,
+        "top": 315.8,
+        "width": 140.4,
+        "height": 15.3
+      },
+      "options": [
+        "Approve",
+        "Reject with Recommendations",
+        "N/A"
+      ]
+    },
+    "hardwarePeripheralsDigitalSignature": {
+      "type": "text",
+      "label": "Signature",
+      "page": 4,
+      "box": {
+        "left": 352.1,
+        "top": 258.1,
+        "width": 221.2,
+        "height": 16.8
+      }
+    },
+    "hardwarePeripheralsApproveRejectDDL": {
+      "type": "choice",
+      "label": "Adjudication",
+      "page": 4,
+      "box": {
+        "left": 162.0,
+        "top": 257.3,
+        "width": 140.4,
+        "height": 15.3
+      },
+      "options": [
+        "Approve",
+        "Reject with Recommendations",
+        "N/A"
+      ]
+    },
+    "networksServersPortalsDigitalSignature": {
+      "type": "text",
+      "label": "Signature",
+      "page": 4,
+      "box": {
+        "left": 352.1,
+        "top": 199.6,
+        "width": 221.2,
+        "height": 16.8
+      }
+    },
+    "networksServersPortalsApproveRejectDDL": {
+      "type": "choice",
+      "label": "Adjudication",
+      "page": 4,
+      "box": {
+        "left": 162.0,
+        "top": 198.8,
+        "width": 140.4,
+        "height": 15.3
+      },
+      "options": [
+        "Approve",
+        "Reject with Recommendations",
+        "N/A"
+      ]
+    },
+    "clingerCohenTitle40DigitalSignature": {
+      "type": "text",
+      "label": "Signature",
+      "page": 4,
+      "box": {
+        "left": 352.1,
+        "top": 141.1,
+        "width": 221.2,
+        "height": 16.8
+      }
+    },
+    "clingerCohenTitle40ApproveRejectDDL": {
+      "type": "choice",
+      "label": "Adjudication",
+      "page": 4,
+      "box": {
+        "left": 162.0,
+        "top": 140.3,
+        "width": 140.4,
+        "height": 15.3
+      },
+      "options": [
+        "Approve",
+        "Reject with Recommendations",
+        "N/A"
+      ]
+    },
+    "section508DigitalSignature": {
+      "type": "text",
+      "label": "Signature",
+      "page": 4,
+      "box": {
+        "left": 352.1,
+        "top": 82.6,
+        "width": 221.2,
+        "height": 16.8
+      }
+    },
+    "section508ApproveRejectDDL": {
+      "type": "choice",
+      "label": "Adjudication",
+      "page": 4,
+      "box": {
+        "left": 162.0,
+        "top": 81.8,
+        "width": 140.4,
+        "height": 15.3
+      },
+      "options": [
+        "Approve",
+        "Reject with Recommendations",
+        "N/A"
+      ]
+    },
+    "enterpriseLicensingDigitalSignature": {
+      "type": "text",
+      "label": "Signature",
+      "page": 5,
+      "box": {
+        "left": 352.1,
+        "top": 735.2,
+        "width": 221.2,
+        "height": 16.8
+      }
+    },
+    "enterpriseLicensingApproveRejectDDL": {
+      "type": "choice",
+      "label": "Adjudication",
+      "page": 5,
+      "box": {
+        "left": 162.0,
+        "top": 734.4,
+        "width": 140.4,
+        "height": 15.3
+      },
+      "options": [
+        "Approve",
+        "Reject with Recommendations",
+        "N/A"
+      ]
+    },
+    "checkBox11": {
+      "type": "checkbox",
+      "label": "By Direction",
+      "page": 5,
+      "box": {
+        "left": 93.1,
+        "top": 732.7,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "comments11": {
+      "type": "text",
+      "label": "Comments",
+      "page": 5,
+      "box": {
+        "left": 96.4,
+        "top": 712.7,
+        "width": 476.8,
+        "height": 12.3
+      }
+    },
+    "echIIIRMMgrDigitalSignature": {
+      "type": "text",
+      "label": "Signature",
+      "page": 5,
+      "box": {
+        "left": 359.3,
+        "top": 658.6,
+        "width": 214.0,
+        "height": 16.8
+      }
+    },
+    "echIIIRMMgrApproveDisapproveRejectDDL": {
+      "type": "choice",
+      "label": "Adjudication",
+      "page": 5,
+      "box": {
+        "left": 169.2,
+        "top": 657.9,
+        "width": 133.2,
+        "height": 15.3
+      },
+      "options": [
+        "Approve",
+        "Disapprove",
+        "Reject with Recommendations",
+        "N/A"
+      ]
+    },
+    "checkBox12": {
+      "type": "checkbox",
+      "label": "By Direction",
+      "page": 5,
+      "box": {
+        "left": 93.8,
+        "top": 656.2,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "comments12": {
+      "type": "text",
+      "label": "Comments",
+      "page": 5,
+      "box": {
+        "left": 96.4,
+        "top": 636.1,
+        "width": 476.8,
+        "height": 12.3
+      }
+    },
+    "cioDigitalSignature": {
+      "type": "text",
+      "label": "Signature",
+      "page": 5,
+      "box": {
+        "left": 359.3,
+        "top": 600.1,
+        "width": 214.0,
+        "height": 16.8
+      }
+    },
+    "cioApproveDisapproveRejectDDL": {
+      "type": "choice",
+      "label": "Adjudication",
+      "page": 5,
+      "box": {
+        "left": 169.2,
+        "top": 599.4,
+        "width": 133.2,
+        "height": 15.3
+      },
+      "options": [
+        "Approve",
+        "Disapprove",
+        "Reject with Recommendations",
+        "N/A"
+      ]
+    },
+    "checkBox14": {
+      "type": "checkbox",
+      "label": "By Direction",
+      "page": 5,
+      "box": {
+        "left": 93.8,
+        "top": 597.7,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "comments13": {
+      "type": "text",
+      "label": "Comments",
+      "page": 5,
+      "box": {
+        "left": 96.4,
+        "top": 577.6,
+        "width": 476.8,
+        "height": 12.3
+      }
+    },
+    "echIFAMApproveDisapproveRejectDDL": {
+      "type": "choice",
+      "label": "Adjudication",
+      "page": 5,
+      "box": {
+        "left": 167.8,
+        "top": 542.3,
+        "width": 136.1,
+        "height": 18.2
+      },
+      "options": [
+        "Approve",
+        "Disapprove",
+        "Reject with Recommendations",
+        "N/A"
+      ]
+    },
+    "echIFAMDigitalSignature": {
+      "type": "text",
+      "label": "Signature",
+      "page": 5,
+      "box": {
+        "left": 359.3,
+        "top": 541.6,
+        "width": 214.0,
+        "height": 16.8
+      }
+    },
+    "checkBox15": {
+      "type": "checkbox",
+      "label": "By Direction",
+      "page": 5,
+      "box": {
+        "left": 93.8,
+        "top": 539.2,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "comments14": {
+      "type": "text",
+      "label": "Comments",
+      "page": 5,
+      "box": {
+        "left": 96.4,
+        "top": 519.1,
+        "width": 476.8,
+        "height": 12.3
+      }
+    },
+    "spawarDigitalSignature": {
+      "type": "text",
+      "label": "Signature",
+      "page": 5,
+      "box": {
+        "left": 359.3,
+        "top": 483.1,
+        "width": 214.0,
+        "height": 16.8
+      }
+    },
+    "spawarApproveDisapproveRejectDDL": {
+      "type": "choice",
+      "label": "Adjudication",
+      "page": 5,
+      "box": {
+        "left": 169.2,
+        "top": 482.4,
+        "width": 133.2,
+        "height": 15.3
+      },
+      "options": [
+        "Approve",
+        "Disapprove",
+        "Reject with Recommendations",
+        "N/A"
+      ]
+    },
+    "checkBox16": {
+      "type": "checkbox",
+      "label": "By Direction",
+      "page": 5,
+      "box": {
+        "left": 93.8,
+        "top": 480.7,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "comments15": {
+      "type": "text",
+      "label": "Comments",
+      "page": 5,
+      "box": {
+        "left": 96.4,
+        "top": 460.6,
+        "width": 476.8,
+        "height": 12.3
+      }
+    },
+    "ddcioNDigitalSignature": {
+      "type": "text",
+      "label": "Signature",
+      "page": 5,
+      "box": {
+        "left": 359.3,
+        "top": 424.6,
+        "width": 214.0,
+        "height": 16.8
+      }
+    },
+    "ddcioNApproveDisapproveRejectDDL": {
+      "type": "choice",
+      "label": "Adjudication",
+      "page": 5,
+      "box": {
+        "left": 169.2,
+        "top": 423.9,
+        "width": 133.2,
+        "height": 15.3
+      },
+      "options": [
+        "Approve",
+        "Disapprove",
+        "Reject with Recommendations",
+        "N/A"
+      ]
+    },
+    "checkBox17": {
+      "type": "checkbox",
+      "label": "By Direction",
+      "page": 5,
+      "box": {
+        "left": 93.8,
+        "top": 422.2,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "comments16": {
+      "type": "text",
+      "label": "Comments",
+      "page": 5,
+      "box": {
+        "left": 96.4,
+        "top": 402.1,
+        "width": 476.8,
+        "height": 12.3
+      }
+    },
+    "pRNumber": {
+      "type": "text",
+      "label": "PR#",
+      "page": 5,
+      "box": {
+        "left": 110.9,
+        "top": 366.1,
+        "width": 192.4,
+        "height": 12.3
+      }
+    },
+    "contractNumber": {
+      "type": "text",
+      "label": "Contract Number",
+      "page": 5,
+      "box": {
+        "left": 380.9,
+        "top": 366.1,
+        "width": 192.4,
+        "height": 12.3
+      }
+    },
+    "fSCCode": {
+      "type": "text",
+      "label": "FSC Code",
+      "page": 5,
+      "box": {
+        "left": 110.9,
+        "top": 348.1,
+        "width": 192.4,
+        "height": 12.3
+      }
+    },
+    "periodOfPerformance": {
+      "type": "text",
+      "label": "Period of Performance",
+      "page": 5,
+      "box": {
+        "left": 402.5,
+        "top": 348.1,
+        "width": 170.7,
+        "height": 12.3
+      }
+    },
+    "internalDescription": {
+      "type": "text",
+      "label": "Description",
+      "page": 5,
+      "box": {
+        "left": 110.9,
+        "top": 330.1,
+        "width": 192.4,
+        "height": 12.3
+      }
+    },
+    "internalValuation": {
+      "type": "text",
+      "label": "Valuation",
+      "page": 5,
+      "box": {
+        "left": 380.9,
+        "top": 330.1,
+        "width": 192.4,
+        "height": 12.3
+      }
+    },
+    "requestType": {
+      "type": "text",
+      "label": "Request Type",
+      "page": 5,
+      "box": {
+        "left": 110.9,
+        "top": 312.1,
+        "width": 192.4,
+        "height": 12.3
+      }
+    },
+    "bso": {
+      "type": "text",
+      "label": "BSO",
+      "page": 5,
+      "box": {
+        "left": 380.9,
+        "top": 312.1,
+        "width": 192.4,
+        "height": 12.3
+      }
+    },
+    "uic": {
+      "type": "text",
+      "label": "UIC",
+      "page": 5,
+      "box": {
+        "left": 110.9,
+        "top": 294.1,
+        "width": 192.4,
+        "height": 12.3
+      }
+    },
+    "aisbin": {
+      "type": "text",
+      "label": "AIS/BIN",
+      "page": 5,
+      "box": {
+        "left": 380.9,
+        "top": 294.1,
+        "width": 192.4,
+        "height": 12.3
+      }
+    },
+    "command": {
+      "type": "text",
+      "label": "Command",
+      "page": 5,
+      "box": {
+        "left": 110.9,
+        "top": 276.1,
+        "width": 192.4,
+        "height": 12.3
+      }
+    },
+    "site": {
+      "type": "text",
+      "label": "Site",
+      "page": 5,
+      "box": {
+        "left": 380.9,
+        "top": 276.1,
+        "width": 192.4,
+        "height": 12.3
+      }
+    },
+    "program": {
+      "type": "text",
+      "label": "Program",
+      "page": 5,
+      "box": {
+        "left": 110.9,
+        "top": 258.1,
+        "width": 192.4,
+        "height": 12.3
+      }
+    },
+    "poc": {
+      "type": "text",
+      "label": "POC",
+      "page": 5,
+      "box": {
+        "left": 380.9,
+        "top": 258.1,
+        "width": 192.4,
+        "height": 12.3
+      }
+    },
+    "eventDetails": {
+      "type": "text",
+      "label": "Event Details",
+      "page": 5,
+      "box": {
+        "left": 110.9,
+        "top": 240.1,
+        "width": 192.4,
+        "height": 12.3
+      }
+    },
+    "urgency": {
+      "type": "choice",
+      "label": "Urgent",
+      "page": 5,
+      "box": {
+        "left": 381.6,
+        "top": 239.3,
+        "width": 190.9,
+        "height": 10.8
+      },
+      "options": [
+        "Yes",
+        "No"
+      ]
+    },
+    "spawarReceivedDate": {
+      "type": "text",
+      "label": "Received Date",
+      "page": 5,
+      "box": {
+        "left": 132.5,
+        "top": 200.8,
+        "width": 170.7,
+        "height": 12.3
+      }
+    },
+    "contractContinuationDDL": {
+      "type": "choice",
+      "label": "Contract Continuation",
+      "page": 5,
+      "box": {
+        "left": 133.2,
+        "top": 182.1,
+        "width": 169.2,
+        "height": 10.8
+      },
+      "options": [
+        "Yes",
+        "No"
+      ]
+    },
+    "incrementalFundingDDL": {
+      "type": "choice",
+      "label": "Incremental Funding",
+      "page": 5,
+      "box": {
+        "left": 403.2,
+        "top": 182.1,
+        "width": 169.2,
+        "height": 10.8
+      },
+      "options": [
+        "Yes",
+        "No"
+      ]
+    },
+    "contractingReviewDDL": {
+      "type": "choice",
+      "label": "Contracting Review",
+      "page": 5,
+      "box": {
+        "left": 133.2,
+        "top": 164.1,
+        "width": 169.2,
+        "height": 10.8
+      },
+      "options": [
+        "Yes",
+        "No"
+      ]
+    },
+    "cHENGReviewDDL": {
+      "type": "choice",
+      "label": "CHENG Review",
+      "page": 5,
+      "box": {
+        "left": 403.2,
+        "top": 164.1,
+        "width": 169.2,
+        "height": 10.8
+      },
+      "options": [
+        "Yes",
+        "No"
+      ]
+    },
+    "reviewerDigitalSignature": {
+      "type": "text",
+      "label": "Reviewer Signature",
+      "page": 5,
+      "box": {
+        "left": 132.5,
+        "top": 146.8,
+        "width": 440.8,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "approverDigitalSignature": {
+      "type": "text",
+      "label": "Approver Signature",
+      "page": 5,
+      "box": {
+        "left": 132.5,
+        "top": 110.8,
+        "width": 440.8,
+        "height": 30.3
+      },
+      "multiline": true
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 4,
+      "count": 9,
+      "rowStride": 58.5,
+      "editor": "grid",
+      "columns": {
+        "comments": {
+          "type": "text",
+          "label": "Comments",
+          "page": 4,
+          "box": {
+            "left": 96.4,
+            "top": 528.1,
+            "width": 476.8,
+            "height": 12.3
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 4,
+      "count": 10,
+      "rowStride": 58.51,
+      "editor": "grid",
+      "columns": {
+        "checkBox": {
+          "type": "checkbox",
+          "label": "By Direction",
+          "page": 4,
+          "box": {
+            "left": 93.1,
+            "top": 606.7,
+            "width": 12.0,
+            "height": 12.0
+          }
+        }
+      }
+    }
+  }
+}

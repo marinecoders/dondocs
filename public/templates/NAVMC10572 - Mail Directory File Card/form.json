@@ -1,0 +1,298 @@
+{
+  "id": "navmc10572",
+  "label": "NAVMC 10572 - Mail Directory File Card",
+  "directory": "NAVMC10572 - Mail Directory File Card",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "grade",
+        "discradedate",
+        "joinedfrom",
+        "date",
+        "unitassigned",
+        "uDno",
+        "name2",
+        "signature",
+        "date2",
+        "uDno2",
+        "name3",
+        "name13",
+        "name23",
+        "name33",
+        "name43"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "NAME (Last, First, Middle Initial)",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 603.3,
+        "width": 285.2,
+        "height": 33.8
+      },
+      "multiline": true
+    },
+    "grade": {
+      "type": "text",
+      "label": "GRADE",
+      "page": 1,
+      "box": {
+        "left": 325.5,
+        "top": 603.3,
+        "width": 105.2,
+        "height": 33.8
+      },
+      "multiline": true
+    },
+    "discradedate": {
+      "type": "text",
+      "label": "DISCARD DATE (Mo., Yr.)",
+      "page": 1,
+      "box": {
+        "left": 433.5,
+        "top": 603.3,
+        "width": 141.2,
+        "height": 33.8
+      },
+      "multiline": true
+    },
+    "joinedfrom": {
+      "type": "text",
+      "label": "JOINED FROM",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 555.8,
+        "width": 285.2,
+        "height": 58.3
+      },
+      "multiline": true
+    },
+    "date": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 325.5,
+        "top": 555.8,
+        "width": 105.2,
+        "height": 22.3
+      }
+    },
+    "unitassigned": {
+      "type": "text",
+      "label": "UD NO",
+      "page": 1,
+      "box": {
+        "left": 433.5,
+        "top": 555.8,
+        "width": 141.2,
+        "height": 58.3
+      },
+      "multiline": true
+    },
+    "uDno": {
+      "type": "text",
+      "label": "UD NO",
+      "page": 1,
+      "box": {
+        "left": 325.5,
+        "top": 519.8,
+        "width": 105.2,
+        "height": 22.3
+      }
+    },
+    "name2": {
+      "type": "text",
+      "label": "Name 2",
+      "page": 1,
+      "box": {
+        "left": 37.6,
+        "top": 483.8,
+        "width": 537.0,
+        "height": 52.1
+      },
+      "multiline": true
+    },
+    "signature": {
+      "type": "text",
+      "label": "SIGNATURE (Required)",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 418.0,
+        "width": 321.2,
+        "height": 40.3
+      },
+      "multiline": true
+    },
+    "date2": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 361.5,
+        "top": 418.0,
+        "width": 105.2,
+        "height": 40.3
+      },
+      "multiline": true
+    },
+    "uDno2": {
+      "type": "text",
+      "label": "UD NO. (Only if no signature",
+      "page": 1,
+      "box": {
+        "left": 469.5,
+        "top": 418.0,
+        "width": 105.2,
+        "height": 40.3
+      },
+      "multiline": true
+    },
+    "name3": {
+      "type": "text",
+      "label": "UA, CONF, IHCA)",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 320.8,
+        "width": 123.2,
+        "height": 51.2
+      },
+      "multiline": true
+    },
+    "name13": {
+      "type": "text",
+      "label": "UA, CONF, IHCA)",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 266.8,
+        "width": 123.2,
+        "height": 51.2
+      },
+      "multiline": true
+    },
+    "name23": {
+      "type": "text",
+      "label": "UA, CONF, IHCA)",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 212.8,
+        "width": 123.2,
+        "height": 51.2
+      },
+      "multiline": true
+    },
+    "name33": {
+      "type": "text",
+      "label": "UA, CONF, IHCA)",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 158.8,
+        "width": 123.2,
+        "height": 51.2
+      },
+      "multiline": true
+    },
+    "name43": {
+      "type": "text",
+      "label": "UA, CONF, IHCA)",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 104.8,
+        "width": 123.2,
+        "height": 51.2
+      },
+      "multiline": true
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 5,
+      "rowStride": 54.03,
+      "editor": "grid",
+      "columns": {
+        "name": {
+          "type": "text",
+          "label": "UA, CONF, IHCA)",
+          "page": 1,
+          "box": {
+            "left": 307.5,
+            "top": 320.6,
+            "width": 123.2,
+            "height": 51.2
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 10,
+      "rowStride": 27.01,
+      "editor": "grid",
+      "columns": {
+        "name2": {
+          "type": "text",
+          "label": "UD NO",
+          "page": 1,
+          "box": {
+            "left": 163.4,
+            "top": 320.6,
+            "width": 69.2,
+            "height": 24.2
+          }
+        },
+        "name3": {
+          "type": "text",
+          "label": "UD NO",
+          "page": 1,
+          "box": {
+            "left": 235.4,
+            "top": 320.6,
+            "width": 69.2,
+            "height": 24.2
+          }
+        },
+        "name4": {
+          "type": "text",
+          "label": "UD NO",
+          "page": 1,
+          "box": {
+            "left": 433.5,
+            "top": 320.6,
+            "width": 69.2,
+            "height": 24.2
+          }
+        },
+        "name5": {
+          "type": "text",
+          "label": "UD NO",
+          "page": 1,
+          "box": {
+            "left": 505.5,
+            "top": 320.6,
+            "width": 69.2,
+            "height": 24.2
+          }
+        }
+      }
+    }
+  }
+}

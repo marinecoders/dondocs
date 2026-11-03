@@ -1,0 +1,536 @@
+{
+  "id": "navmc11585",
+  "label": "NAVMC11585 - Efv Gunnery Skills Test - Platoon Summary",
+  "directory": "NAVMC11585 - Efv Gunnery Skills Test - Platoon Summary",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "platoon",
+        "date",
+        "unit",
+        "numtested",
+        "fIRSTGOs",
+        "fIRSTNOGOs"
+      ]
+    }
+  ],
+  "fields": {
+    "platoon": {
+      "type": "text",
+      "label": "2. PLATOON",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 734.1,
+        "width": 129.3,
+        "height": 11.2
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "3. DATE",
+      "page": 1,
+      "box": {
+        "left": 416.8,
+        "top": 734.1,
+        "width": 75.3,
+        "height": 11.2
+      }
+    },
+    "unit": {
+      "type": "text",
+      "label": "1. UNIT",
+      "page": 1,
+      "box": {
+        "left": 119.8,
+        "top": 733.5,
+        "width": 156.3,
+        "height": 10.6
+      }
+    },
+    "numtested": {
+      "type": "text",
+      "label": "NUMTESTED",
+      "page": 1,
+      "box": {
+        "left": 253.4,
+        "top": 92.2,
+        "width": 24.2,
+        "height": 11.6
+      }
+    },
+    "fIRSTGOs": {
+      "type": "text",
+      "label": "FIRSTGOs",
+      "page": 1,
+      "box": {
+        "left": 253.4,
+        "top": 77.8,
+        "width": 24.2,
+        "height": 11.6
+      }
+    },
+    "fIRSTNOGOs": {
+      "type": "text",
+      "label": "FIRSTNOGOs",
+      "page": 1,
+      "box": {
+        "left": 253.4,
+        "top": 63.4,
+        "width": 24.2,
+        "height": 11.6
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 12,
+      "rowStride": 43.2,
+      "editor": "grid",
+      "columns": {
+        "efvnum": {
+          "type": "text",
+          "label": "EFVNUM",
+          "page": 1,
+          "box": {
+            "left": 118.4,
+            "top": 596.2,
+            "width": 33.2,
+            "height": 11.6
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 13,
+      "rowStride": 43.2,
+      "editor": "grid",
+      "columns": {
+        "dvrvid": {
+          "type": "text",
+          "label": "DVRVID",
+          "page": 1,
+          "box": {
+            "left": 280.4,
+            "top": 581.8,
+            "width": 15.2,
+            "height": 11.6
+          }
+        },
+        "gnrvid": {
+          "type": "text",
+          "label": "GNRVID",
+          "page": 1,
+          "box": {
+            "left": 280.4,
+            "top": 596.2,
+            "width": 15.2,
+            "height": 11.6
+          }
+        },
+        "vcvid": {
+          "type": "text",
+          "label": "VCVID",
+          "page": 1,
+          "box": {
+            "left": 280.4,
+            "top": 610.6,
+            "width": 15.2,
+            "height": 11.6
+          }
+        },
+        "dvrammoid": {
+          "type": "text",
+          "label": "DVRAMMOID",
+          "page": 1,
+          "box": {
+            "left": 298.4,
+            "top": 581.8,
+            "width": 15.2,
+            "height": 11.6
+          }
+        },
+        "gnrammoid": {
+          "type": "text",
+          "label": "GNRAMMOID",
+          "page": 1,
+          "box": {
+            "left": 298.4,
+            "top": 596.2,
+            "width": 15.2,
+            "height": 11.6
+          }
+        },
+        "vcammoid": {
+          "type": "text",
+          "label": "VCAMMOID",
+          "page": 1,
+          "box": {
+            "left": 298.4,
+            "top": 610.6,
+            "width": 15.2,
+            "height": 11.6
+          }
+        },
+        "dvrm240": {
+          "type": "text",
+          "label": "DVRM240",
+          "page": 1,
+          "box": {
+            "left": 316.4,
+            "top": 581.8,
+            "width": 15.2,
+            "height": 11.6
+          }
+        },
+        "gnrm240": {
+          "type": "text",
+          "label": "GNRM240",
+          "page": 1,
+          "box": {
+            "left": 316.4,
+            "top": 596.2,
+            "width": 15.2,
+            "height": 11.6
+          }
+        },
+        "vcm240": {
+          "type": "text",
+          "label": "VCM240",
+          "page": 1,
+          "box": {
+            "left": 316.4,
+            "top": 610.6,
+            "width": 15.2,
+            "height": 11.6
+          }
+        },
+        "dvrassemble": {
+          "type": "text",
+          "label": "DVRASSEMBLE",
+          "page": 1,
+          "box": {
+            "left": 334.4,
+            "top": 581.8,
+            "width": 15.2,
+            "height": 11.6
+          }
+        },
+        "gnrassemble": {
+          "type": "text",
+          "label": "GNRASSEMBLE",
+          "page": 1,
+          "box": {
+            "left": 334.4,
+            "top": 596.2,
+            "width": 15.2,
+            "height": 11.6
+          }
+        },
+        "vcassemble": {
+          "type": "text",
+          "label": "VCASSEMBLE",
+          "page": 1,
+          "box": {
+            "left": 334.4,
+            "top": 610.6,
+            "width": 15.2,
+            "height": 11.6
+          }
+        },
+        "dvrfeeder": {
+          "type": "text",
+          "label": "DVRFEEDER",
+          "page": 1,
+          "box": {
+            "left": 352.4,
+            "top": 581.8,
+            "width": 15.2,
+            "height": 11.6
+          }
+        },
+        "gnrfeeder": {
+          "type": "text",
+          "label": "GNRFEEDER",
+          "page": 1,
+          "box": {
+            "left": 352.4,
+            "top": 596.2,
+            "width": 15.2,
+            "height": 11.6
+          }
+        },
+        "vcfeeder": {
+          "type": "text",
+          "label": "VCFEEDER",
+          "page": 1,
+          "box": {
+            "left": 352.4,
+            "top": 610.6,
+            "width": 15.2,
+            "height": 11.6
+          }
+        },
+        "dvrimmediate": {
+          "type": "text",
+          "label": "DVRIMMEDIATE",
+          "page": 1,
+          "box": {
+            "left": 370.4,
+            "top": 581.8,
+            "width": 15.2,
+            "height": 11.6
+          }
+        },
+        "gnrimmediate": {
+          "type": "text",
+          "label": "GNRIMMEDIATE",
+          "page": 1,
+          "box": {
+            "left": 370.4,
+            "top": 596.2,
+            "width": 15.2,
+            "height": 11.6
+          }
+        },
+        "vcimmediate": {
+          "type": "text",
+          "label": "VCIMMEDIATE",
+          "page": 1,
+          "box": {
+            "left": 370.4,
+            "top": 610.6,
+            "width": 15.2,
+            "height": 11.6
+          }
+        },
+        "dvrclear": {
+          "type": "text",
+          "label": "DVRCLEAR",
+          "page": 1,
+          "box": {
+            "left": 388.4,
+            "top": 581.8,
+            "width": 15.2,
+            "height": 11.6
+          }
+        },
+        "gnrclear": {
+          "type": "text",
+          "label": "GNRCLEAR",
+          "page": 1,
+          "box": {
+            "left": 388.4,
+            "top": 596.2,
+            "width": 15.2,
+            "height": 11.6
+          }
+        },
+        "vcclear": {
+          "type": "text",
+          "label": "VCCLEAR",
+          "page": 1,
+          "box": {
+            "left": 388.4,
+            "top": 610.6,
+            "width": 15.2,
+            "height": 11.6
+          }
+        },
+        "dvrgunstation": {
+          "type": "text",
+          "label": "DVRGUNSTATION",
+          "page": 1,
+          "box": {
+            "left": 406.4,
+            "top": 581.8,
+            "width": 15.2,
+            "height": 11.6
+          }
+        },
+        "gnrgunstation": {
+          "type": "text",
+          "label": "GNRGUNSTATION",
+          "page": 1,
+          "box": {
+            "left": 406.4,
+            "top": 596.2,
+            "width": 15.2,
+            "height": 11.6
+          }
+        },
+        "vcgunstation": {
+          "type": "text",
+          "label": "VCGUNSTATION",
+          "page": 1,
+          "box": {
+            "left": 406.4,
+            "top": 610.6,
+            "width": 15.2,
+            "height": 11.6
+          }
+        },
+        "dvrbore": {
+          "type": "text",
+          "label": "DVRBORE",
+          "page": 1,
+          "box": {
+            "left": 424.4,
+            "top": 581.8,
+            "width": 15.2,
+            "height": 11.6
+          }
+        },
+        "gnrbore": {
+          "type": "text",
+          "label": "GNRBORE",
+          "page": 1,
+          "box": {
+            "left": 424.4,
+            "top": 596.2,
+            "width": 15.2,
+            "height": 11.6
+          }
+        },
+        "vcbore": {
+          "type": "text",
+          "label": "VCBORE",
+          "page": 1,
+          "box": {
+            "left": 424.4,
+            "top": 610.6,
+            "width": 15.2,
+            "height": 11.6
+          }
+        },
+        "dvrcard": {
+          "type": "text",
+          "label": "DVRCARD",
+          "page": 1,
+          "box": {
+            "left": 442.4,
+            "top": 581.8,
+            "width": 15.2,
+            "height": 11.6
+          }
+        },
+        "gnrcard": {
+          "type": "text",
+          "label": "GNRCARD",
+          "page": 1,
+          "box": {
+            "left": 442.4,
+            "top": 596.2,
+            "width": 15.2,
+            "height": 11.6
+          }
+        },
+        "vccard": {
+          "type": "text",
+          "label": "VCCARD",
+          "page": 1,
+          "box": {
+            "left": 442.4,
+            "top": 610.6,
+            "width": 15.2,
+            "height": 11.6
+          }
+        },
+        "dvreval": {
+          "type": "text",
+          "label": "DVREVAL",
+          "page": 1,
+          "box": {
+            "left": 460.4,
+            "top": 581.8,
+            "width": 15.2,
+            "height": 11.6
+          }
+        },
+        "gnreval": {
+          "type": "text",
+          "label": "GNREVAL",
+          "page": 1,
+          "box": {
+            "left": 460.4,
+            "top": 596.2,
+            "width": 15.2,
+            "height": 11.6
+          }
+        },
+        "vceval": {
+          "type": "text",
+          "label": "VCEVAL",
+          "page": 1,
+          "box": {
+            "left": 460.4,
+            "top": 610.6,
+            "width": 15.2,
+            "height": 11.6
+          }
+        },
+        "dVRGOs": {
+          "type": "text",
+          "label": "DVRGOs",
+          "page": 1,
+          "box": {
+            "left": 478.4,
+            "top": 581.8,
+            "width": 15.2,
+            "height": 11.6
+          }
+        },
+        "gNRGOs": {
+          "type": "text",
+          "label": "GNRGOs",
+          "page": 1,
+          "box": {
+            "left": 478.4,
+            "top": 596.2,
+            "width": 15.2,
+            "height": 11.6
+          }
+        },
+        "vCGOs": {
+          "type": "text",
+          "label": "VCGOs",
+          "page": 1,
+          "box": {
+            "left": 478.4,
+            "top": 610.6,
+            "width": 15.2,
+            "height": 11.6
+          }
+        }
+      }
+    },
+    "rows3": {
+      "title": "Rows",
+      "page": 1,
+      "count": 36,
+      "rowStride": 14.4,
+      "editor": "grid",
+      "columns": {
+        "efvcrew": {
+          "type": "text",
+          "label": "EFVCREW",
+          "page": 1,
+          "box": {
+            "left": 154.4,
+            "top": 610.6,
+            "width": 96.2,
+            "height": 11.6
+          }
+        }
+      }
+    }
+  }
+}

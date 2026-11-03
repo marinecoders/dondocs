@@ -1,0 +1,1453 @@
+{
+  "id": "navpers161627",
+  "label": "NAVPERS1616-27 - Evaluation  Counseling Record (e7-E9)",
+  "directory": "NAVPERS1616-27 - Evaluation  Counseling Record (e7-E9)",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "1NameLastFirstMISuffix",
+        "2GradeRate",
+        "4SSN",
+        "3Desig",
+        "6UIC",
+        "7ShipStation",
+        "8PromotionStatus",
+        "9DateReported",
+        "5Status",
+        "5Status2",
+        "5Status3",
+        "5Status4",
+        "10Periodic",
+        "11DetachInd",
+        "12DetachSr",
+        "13Special",
+        "15PeriodDateTo",
+        "14PeriodDateFrom",
+        "21Billet",
+        "16NOB",
+        "17ReportRegular",
+        "18ReportConcurrent",
+        "19ReportOpsCDR",
+        "20PhysicalReadiness",
+        "22ReportingSeniorLastFIMI",
+        "23GradeRptSr",
+        "24DesigRptSr",
+        "25TitleRptSr",
+        "26UICRptSr",
+        "27SSNRptSr",
+        "28CommandAchievements",
+        "29PrimaryCollatShort",
+        "29PrimaryCollat",
+        "30DateCounsel",
+        "31Counselor",
+        "32IndSigCounseled",
+        "33Leadership",
+        "33Leadership2",
+        "33Leadership3",
+        "33Leadership4",
+        "33Leadership5",
+        "33Leadership6",
+        "34InstExpertise",
+        "34InstExpertise2",
+        "34InstExpertise3",
+        "34InstExpertise4",
+        "34InstExpertise5",
+        "34InstExpertise6",
+        "35Professionalism",
+        "35Professionalism2",
+        "35Professionalism3",
+        "35Professionalism4",
+        "35Professionalism5",
+        "35Professionalism6",
+        "36Loyalty",
+        "36Loyalty2",
+        "36Loyalty3",
+        "36Loyalty4",
+        "36Loyalty5",
+        "36Loyalty6"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "1NameLastFirstMISuffix2",
+        "2GradeRate2",
+        "3Desig2",
+        "4SSN2",
+        "37Character",
+        "37Character2",
+        "37Character3",
+        "37Character4",
+        "37Character5",
+        "37Character6",
+        "38Communication",
+        "38Communication2",
+        "38Communication3",
+        "38Communication4",
+        "38Communication5",
+        "38Communication6",
+        "39Heritage",
+        "39Heritage2",
+        "39Heritage3",
+        "39Heritage4",
+        "39Heritage5",
+        "39Heritage6",
+        "40Recommend1",
+        "40Recommend2",
+        "fontsize",
+        "41CommentsOnPerf",
+        "44RptSrAddress",
+        "42Recommendation",
+        "42Recommendation2",
+        "42Recommendation3",
+        "42Recommendation4",
+        "42Recommendation5",
+        "42Recommendation6",
+        "43SummarySigProblem",
+        "43SummaryProgressing",
+        "43SummaryPromotable",
+        "43SummaryMustPromote",
+        "43SummaryEarlyPromote",
+        "45RptSrSignature",
+        "45RptSrSignDate",
+        "46NoSubmit",
+        "46Submit",
+        "46Signature",
+        "46Date",
+        "memberTraitAvg",
+        "47RegRptSrSig",
+        "47Date"
+      ]
+    }
+  ],
+  "fields": {
+    "1NameLastFirstMISuffix": {
+      "type": "text",
+      "label": "1. Name (Last, First MI Suffix) \r    ** Use Comma's Between Values **",
+      "page": 1,
+      "box": {
+        "left": 17.0,
+        "top": 729.6,
+        "width": 267.3,
+        "height": 15.8
+      },
+      "required": true
+    },
+    "2GradeRate": {
+      "type": "text",
+      "label": "2. Grade/Rate\r** Alpha Characters Only **",
+      "page": 1,
+      "box": {
+        "left": 291.5,
+        "top": 729.6,
+        "width": 57.5,
+        "height": 15.8
+      },
+      "required": true
+    },
+    "4SSN": {
+      "type": "text",
+      "label": "Please enter the number using numerical characters only, e.g., enter 111-22-3333 as 111223333",
+      "page": 1,
+      "box": {
+        "left": 455.0,
+        "top": 729.6,
+        "width": 106.0,
+        "height": 15.8
+      },
+      "required": true
+    },
+    "3Desig": {
+      "type": "text",
+      "label": "3. Desig\r** Alpha Characters & Special Characters Only **",
+      "page": 1,
+      "box": {
+        "left": 355.2,
+        "top": 729.4,
+        "width": 89.5,
+        "height": 15.8
+      },
+      "required": true
+    },
+    "6UIC": {
+      "type": "text",
+      "label": "6. UIC",
+      "page": 1,
+      "box": {
+        "left": 165.6,
+        "top": 704.5,
+        "width": 42.6,
+        "height": 15.8
+      },
+      "required": true
+    },
+    "7ShipStation": {
+      "type": "text",
+      "label": "7. Ship/Station\r** Characters, Numerics and Space Allowed **",
+      "page": 1,
+      "box": {
+        "left": 218.4,
+        "top": 704.5,
+        "width": 187.8,
+        "height": 15.8
+      },
+      "required": true
+    },
+    "8PromotionStatus": {
+      "type": "choice",
+      "label": "8. Promotion Status (Select One)",
+      "page": 1,
+      "box": {
+        "left": 414.0,
+        "top": 704.5,
+        "width": 71.4,
+        "height": 15.8
+      },
+      "options": [
+        "REGULAR",
+        "FROCKED",
+        "SELECTED",
+        "SPOT"
+      ],
+      "required": true
+    },
+    "9DateReported": {
+      "type": "text",
+      "label": "9. Date Reported",
+      "page": 1,
+      "box": {
+        "left": 490.2,
+        "top": 704.5,
+        "width": 71.5,
+        "height": 15.8
+      },
+      "required": true
+    },
+    "5Status": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 27.4,
+        "top": 702.8,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page1_0_5_Status_0",
+      "required": true
+    },
+    "5Status2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 51.2,
+        "top": 702.8,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page1_0_5_Status_0",
+      "required": true
+    },
+    "5Status3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 81.9,
+        "top": 702.8,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page1_0_5_Status_0",
+      "required": true
+    },
+    "5Status4": {
+      "type": "radio",
+      "label": "3",
+      "page": 1,
+      "box": {
+        "left": 114.2,
+        "top": 702.8,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page1_0_5_Status_0",
+      "required": true
+    },
+    "10Periodic": {
+      "type": "checkbox",
+      "label": "_10_Periodic",
+      "page": 1,
+      "box": {
+        "left": 72.8,
+        "top": 683.4,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "11DetachInd": {
+      "type": "checkbox",
+      "label": "_11_Detach_ind",
+      "page": 1,
+      "box": {
+        "left": 148.4,
+        "top": 683.4,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "12DetachSr": {
+      "type": "checkbox",
+      "label": "_12_Detach_Sr",
+      "page": 1,
+      "box": {
+        "left": 237.6,
+        "top": 683.4,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "13Special": {
+      "type": "checkbox",
+      "label": "_13_Special",
+      "page": 1,
+      "box": {
+        "left": 315.7,
+        "top": 683.4,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "15PeriodDateTo": {
+      "type": "text",
+      "label": "15. Period of Report To: Date\r** Must Be Equal or Greater Than From Date **",
+      "page": 1,
+      "box": {
+        "left": 484.7,
+        "top": 682.5,
+        "width": 72.0,
+        "height": 11.0
+      }
+    },
+    "14PeriodDateFrom": {
+      "type": "text",
+      "label": "14. Period of Report From Date",
+      "page": 1,
+      "box": {
+        "left": 383.8,
+        "top": 681.0,
+        "width": 66.8,
+        "height": 10.6
+      }
+    },
+    "21Billet": {
+      "type": "choice",
+      "label": "21. Billet",
+      "page": 1,
+      "box": {
+        "left": 466.5,
+        "top": 658.0,
+        "width": 82.6,
+        "height": 11.5
+      },
+      "options": [
+        "NA",
+        "BASIC",
+        "APPROVED",
+        "CO AFLOAT",
+        "CO ASHORE",
+        "OIC",
+        "SEA COMP",
+        "CRF",
+        "CANVASSER",
+        "RESIDENT",
+        "INDIV AUG",
+        "INTERN",
+        "INSTRUCTOR",
+        "STUDENT",
+        "RESAC1",
+        "RESAC6",
+        "SPECIAL01",
+        "SPECIAL02",
+        "SPECIAL03",
+        "SPECIAL04",
+        "SPECIAL05",
+        "SPECIAL06",
+        "SPECIAL07",
+        "SPECIAL08",
+        "SPECIAL09",
+        "SPECIAL10",
+        "SPECIAL11",
+        "SPECIAL12",
+        "SPECIAL13",
+        "SPECIAL14",
+        "SPECIAL15",
+        "SPECIAL16",
+        "SPECIAL17",
+        "SPECIAL18",
+        "SPECIAL19",
+        "SPECIAL20",
+        "SPECIAL21",
+        "SPECIAL22",
+        "SPECIAL23",
+        "SPECIAL24",
+        "SPECIAL25",
+        "SPECIAL26",
+        "SPECIAL27",
+        "SPECIAL28",
+        "SPECIAL29",
+        "SPECIAL30",
+        "SPECIAL31",
+        "SPECIAL32",
+        "SPECIAL33",
+        "SPECIAL34",
+        "SPECIAL35",
+        "SPECIAL36",
+        "SPECIAL37",
+        "SPECIAL38",
+        "SPECIAL39",
+        "SPECIAL40",
+        "SPECIAL41",
+        "SPECIAL42",
+        "SPECIAL43",
+        "SPECIAL44",
+        "SPECIAL45",
+        "SPECIAL46",
+        "SPECIAL47",
+        "SPECIAL48",
+        "SPECIAL49",
+        "SPECIAL50"
+      ]
+    },
+    "16NOB": {
+      "type": "checkbox",
+      "label": "16. Not Observed Report",
+      "page": 1,
+      "box": {
+        "left": 68.9,
+        "top": 657.8,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "17ReportRegular": {
+      "type": "checkbox",
+      "label": "17. Type of Report --> Regular",
+      "page": 1,
+      "box": {
+        "left": 148.2,
+        "top": 657.8,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "18ReportConcurrent": {
+      "type": "checkbox",
+      "label": "18. Type of Report --> Concurrent",
+      "page": 1,
+      "box": {
+        "left": 237.6,
+        "top": 657.8,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "19ReportOpsCDR": {
+      "type": "checkbox",
+      "label": "19. Type of Report --> Ops Cdr",
+      "page": 1,
+      "box": {
+        "left": 316.0,
+        "top": 657.8,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "20PhysicalReadiness": {
+      "type": "text",
+      "label": "20. Physical Readiness",
+      "page": 1,
+      "box": {
+        "left": 360.2,
+        "top": 657.3,
+        "width": 79.5,
+        "height": 11.5
+      }
+    },
+    "22ReportingSeniorLastFIMI": {
+      "type": "text",
+      "label": "22. Reporting Senior (Last, FI MI) 23. Grade\r** Use Comma's Between Values **",
+      "page": 1,
+      "box": {
+        "left": 10.2,
+        "top": 633.6,
+        "width": 148.2,
+        "height": 15.8
+      }
+    },
+    "23GradeRptSr": {
+      "type": "text",
+      "label": "23. Grade",
+      "page": 1,
+      "box": {
+        "left": 162.6,
+        "top": 633.6,
+        "width": 46.8,
+        "height": 15.8
+      }
+    },
+    "24DesigRptSr": {
+      "type": "text",
+      "label": "24. Reporting Senior Desig",
+      "page": 1,
+      "box": {
+        "left": 214.7,
+        "top": 633.6,
+        "width": 44.9,
+        "height": 15.8
+      }
+    },
+    "25TitleRptSr": {
+      "type": "text",
+      "label": "25. Reporting Senior Title",
+      "page": 1,
+      "box": {
+        "left": 264.3,
+        "top": 633.6,
+        "width": 123.9,
+        "height": 15.8
+      }
+    },
+    "26UICRptSr": {
+      "type": "text",
+      "label": "26. Reporting Senior UIC",
+      "page": 1,
+      "box": {
+        "left": 395.2,
+        "top": 633.6,
+        "width": 48.5,
+        "height": 15.8
+      }
+    },
+    "27SSNRptSr": {
+      "type": "text",
+      "label": "Please enter the number using numerical characters only, e.g., enter 111-22-3333 as 111223333",
+      "page": 1,
+      "box": {
+        "left": 452.5,
+        "top": 633.6,
+        "width": 107.8,
+        "height": 15.8
+      }
+    },
+    "28CommandAchievements": {
+      "type": "text",
+      "label": "28. Command employment and command achievements.",
+      "page": 1,
+      "box": {
+        "left": 7.9,
+        "top": 609.1,
+        "width": 555.4,
+        "height": 33.2
+      },
+      "multiline": true
+    },
+    "29PrimaryCollatShort": {
+      "type": "text",
+      "label": "Primary/Collateral/Watchstanding Duties Abbreviation (14 Character Limit)",
+      "page": 1,
+      "box": {
+        "left": 14.2,
+        "top": 564.0,
+        "width": 112.2,
+        "height": 10.3
+      }
+    },
+    "29PrimaryCollat": {
+      "type": "text",
+      "label": "29. Primary/Collateral/Watchstanding duties. (Enter primary duty abbreviation in box.)",
+      "page": 1,
+      "box": {
+        "left": 9.5,
+        "top": 551.4,
+        "width": 553.7,
+        "height": 46.1
+      },
+      "multiline": true
+    },
+    "30DateCounsel": {
+      "type": "text",
+      "label": "30. Date Counseled",
+      "page": 1,
+      "box": {
+        "left": 193.2,
+        "top": 497.5,
+        "width": 73.9,
+        "height": 15.2
+      }
+    },
+    "31Counselor": {
+      "type": "text",
+      "label": "31. Counselor",
+      "page": 1,
+      "box": {
+        "left": 271.0,
+        "top": 497.5,
+        "width": 136.8,
+        "height": 15.2
+      }
+    },
+    "32IndSigCounseled": {
+      "type": "text",
+      "label": "32. Signature of Individual  Counseled",
+      "page": 1,
+      "box": {
+        "left": 412.4,
+        "top": 497.5,
+        "width": 150.2,
+        "height": 15.2
+      }
+    },
+    "33Leadership": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 63.8,
+        "top": 330.4,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page1_0_33_Leadership_0"
+    },
+    "33Leadership2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 193.5,
+        "top": 330.4,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page1_0_33_Leadership_0"
+    },
+    "33Leadership3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 230.3,
+        "top": 330.4,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page1_0_33_Leadership_0"
+    },
+    "33Leadership4": {
+      "type": "radio",
+      "label": "3",
+      "page": 1,
+      "box": {
+        "left": 371.0,
+        "top": 330.4,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page1_0_33_Leadership_0"
+    },
+    "33Leadership5": {
+      "type": "radio",
+      "label": "4",
+      "page": 1,
+      "box": {
+        "left": 403.0,
+        "top": 330.4,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page1_0_33_Leadership_0"
+    },
+    "33Leadership6": {
+      "type": "radio",
+      "label": "5",
+      "page": 1,
+      "box": {
+        "left": 543.8,
+        "top": 330.4,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page1_0_33_Leadership_0"
+    },
+    "34InstExpertise": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 63.4,
+        "top": 236.1,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page1_0_34_InstExpertise_0"
+    },
+    "34InstExpertise2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 193.1,
+        "top": 236.1,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page1_0_34_InstExpertise_0"
+    },
+    "34InstExpertise3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 230.0,
+        "top": 236.1,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page1_0_34_InstExpertise_0"
+    },
+    "34InstExpertise4": {
+      "type": "radio",
+      "label": "3",
+      "page": 1,
+      "box": {
+        "left": 370.6,
+        "top": 236.1,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page1_0_34_InstExpertise_0"
+    },
+    "34InstExpertise5": {
+      "type": "radio",
+      "label": "4",
+      "page": 1,
+      "box": {
+        "left": 402.6,
+        "top": 236.1,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page1_0_34_InstExpertise_0"
+    },
+    "34InstExpertise6": {
+      "type": "radio",
+      "label": "5",
+      "page": 1,
+      "box": {
+        "left": 543.5,
+        "top": 236.1,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page1_0_34_InstExpertise_0"
+    },
+    "35Professionalism": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 63.4,
+        "top": 113.9,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page1_0_35_Professionalism_0"
+    },
+    "35Professionalism2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 193.1,
+        "top": 113.9,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page1_0_35_Professionalism_0"
+    },
+    "35Professionalism3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 230.0,
+        "top": 113.9,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page1_0_35_Professionalism_0"
+    },
+    "35Professionalism4": {
+      "type": "radio",
+      "label": "3",
+      "page": 1,
+      "box": {
+        "left": 370.6,
+        "top": 113.9,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page1_0_35_Professionalism_0"
+    },
+    "35Professionalism5": {
+      "type": "radio",
+      "label": "4",
+      "page": 1,
+      "box": {
+        "left": 402.6,
+        "top": 113.9,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page1_0_35_Professionalism_0"
+    },
+    "35Professionalism6": {
+      "type": "radio",
+      "label": "5",
+      "page": 1,
+      "box": {
+        "left": 543.5,
+        "top": 113.9,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page1_0_35_Professionalism_0"
+    },
+    "36Loyalty": {
+      "type": "radio",
+      "label": "5",
+      "page": 1,
+      "box": {
+        "left": 63.4,
+        "top": 30.6,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page1_0_36_Loyalty_0"
+    },
+    "36Loyalty2": {
+      "type": "radio",
+      "label": "4",
+      "page": 1,
+      "box": {
+        "left": 193.1,
+        "top": 30.6,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page1_0_36_Loyalty_0"
+    },
+    "36Loyalty3": {
+      "type": "radio",
+      "label": "3",
+      "page": 1,
+      "box": {
+        "left": 230.0,
+        "top": 30.6,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page1_0_36_Loyalty_0"
+    },
+    "36Loyalty4": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 370.6,
+        "top": 30.6,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page1_0_36_Loyalty_0"
+    },
+    "36Loyalty5": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 402.6,
+        "top": 30.6,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page1_0_36_Loyalty_0"
+    },
+    "36Loyalty6": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 543.5,
+        "top": 30.6,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page1_0_36_Loyalty_0"
+    },
+    "1NameLastFirstMISuffix2": {
+      "type": "text",
+      "label": "1. Name (Last, First MI Suffix)",
+      "page": 2,
+      "box": {
+        "left": 15.3,
+        "top": 735.0,
+        "width": 262.7,
+        "height": 15.8
+      }
+    },
+    "2GradeRate2": {
+      "type": "text",
+      "label": "2. Grade/Rate",
+      "page": 2,
+      "box": {
+        "left": 290.6,
+        "top": 735.0,
+        "width": 57.5,
+        "height": 15.8
+      }
+    },
+    "3Desig2": {
+      "type": "text",
+      "label": "3. Desig",
+      "page": 2,
+      "box": {
+        "left": 355.6,
+        "top": 735.0,
+        "width": 89.5,
+        "height": 15.8
+      }
+    },
+    "4SSN2": {
+      "type": "text",
+      "label": "Please enter the number using numerical characters only, e.g., enter 111-22-3333 as 111223333",
+      "page": 2,
+      "box": {
+        "left": 453.6,
+        "top": 735.0,
+        "width": 106.0,
+        "height": 15.8
+      }
+    },
+    "37Character": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 62.4,
+        "top": 631.7,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page2_0_37_Character_0"
+    },
+    "37Character2": {
+      "type": "radio",
+      "label": "3",
+      "page": 2,
+      "box": {
+        "left": 369.7,
+        "top": 631.6,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page2_0_37_Character_0"
+    },
+    "37Character3": {
+      "type": "radio",
+      "label": "5",
+      "page": 2,
+      "box": {
+        "left": 543.5,
+        "top": 631.6,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page2_0_37_Character_0"
+    },
+    "37Character4": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 228.9,
+        "top": 631.5,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page2_0_37_Character_0"
+    },
+    "37Character5": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 190.4,
+        "top": 631.1,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page2_0_37_Character_0"
+    },
+    "37Character6": {
+      "type": "radio",
+      "label": "4",
+      "page": 2,
+      "box": {
+        "left": 401.7,
+        "top": 631.1,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page2_0_37_Character_0"
+    },
+    "38Communication": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 62.4,
+        "top": 537.6,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page2_0_38_Communication_0"
+    },
+    "38Communication2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 190.4,
+        "top": 537.6,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page2_0_38_Communication_0"
+    },
+    "38Communication3": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 228.9,
+        "top": 537.6,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page2_0_38_Communication_0"
+    },
+    "38Communication4": {
+      "type": "radio",
+      "label": "3",
+      "page": 2,
+      "box": {
+        "left": 369.7,
+        "top": 537.6,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page2_0_38_Communication_0"
+    },
+    "38Communication5": {
+      "type": "radio",
+      "label": "4",
+      "page": 2,
+      "box": {
+        "left": 401.7,
+        "top": 537.6,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page2_0_38_Communication_0"
+    },
+    "38Communication6": {
+      "type": "radio",
+      "label": "5",
+      "page": 2,
+      "box": {
+        "left": 543.5,
+        "top": 537.6,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page2_0_38_Communication_0"
+    },
+    "39Heritage": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 62.4,
+        "top": 459.1,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page2_0_39_Heritage_0"
+    },
+    "39Heritage2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 190.4,
+        "top": 459.1,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page2_0_39_Heritage_0"
+    },
+    "39Heritage3": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 228.9,
+        "top": 459.1,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page2_0_39_Heritage_0"
+    },
+    "39Heritage4": {
+      "type": "radio",
+      "label": "3",
+      "page": 2,
+      "box": {
+        "left": 369.7,
+        "top": 459.1,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page2_0_39_Heritage_0"
+    },
+    "39Heritage5": {
+      "type": "radio",
+      "label": "4",
+      "page": 2,
+      "box": {
+        "left": 401.7,
+        "top": 459.1,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page2_0_39_Heritage_0"
+    },
+    "39Heritage6": {
+      "type": "radio",
+      "label": "5",
+      "page": 2,
+      "box": {
+        "left": 543.5,
+        "top": 459.1,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_Page2_0_39_Heritage_0"
+    },
+    "40Recommend1": {
+      "type": "text",
+      "label": "_40_Recommend1",
+      "page": 2,
+      "box": {
+        "left": 322.8,
+        "top": 436.6,
+        "width": 122.4,
+        "height": 16.4
+      }
+    },
+    "40Recommend2": {
+      "type": "text",
+      "label": "40. Recommendation",
+      "page": 2,
+      "box": {
+        "left": 446.4,
+        "top": 436.6,
+        "width": 117.0,
+        "height": 16.4
+      }
+    },
+    "fontsize": {
+      "type": "choice",
+      "label": "Font",
+      "page": 2,
+      "box": {
+        "left": 540.4,
+        "top": 410.1,
+        "width": 20.4,
+        "height": 8.7
+      },
+      "options": [
+        "10",
+        "12"
+      ]
+    },
+    "41CommentsOnPerf": {
+      "type": "text",
+      "label": "41. Comments on Performance",
+      "page": 2,
+      "box": {
+        "left": 10.7,
+        "top": 398.1,
+        "width": 551.0,
+        "height": 214.4
+      },
+      "multiline": true
+    },
+    "44RptSrAddress": {
+      "type": "text",
+      "label": "44. Reporting Senior Address",
+      "page": 2,
+      "box": {
+        "left": 362.5,
+        "top": 162.2,
+        "width": 195.7,
+        "height": 47.1
+      },
+      "multiline": true
+    },
+    "42Recommendation": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 88.1,
+        "top": 153.4,
+        "width": 24.0,
+        "height": 24.0
+      },
+      "group": "form1_0_Page2_0_42_Recommendation_0"
+    },
+    "42Recommendation2": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 132.9,
+        "top": 153.4,
+        "width": 24.0,
+        "height": 24.0
+      },
+      "group": "form1_0_Page2_0_42_Recommendation_0"
+    },
+    "42Recommendation3": {
+      "type": "radio",
+      "label": "2",
+      "page": 2,
+      "box": {
+        "left": 181.2,
+        "top": 153.4,
+        "width": 24.0,
+        "height": 24.0
+      },
+      "group": "form1_0_Page2_0_42_Recommendation_0"
+    },
+    "42Recommendation4": {
+      "type": "radio",
+      "label": "3",
+      "page": 2,
+      "box": {
+        "left": 228.8,
+        "top": 153.4,
+        "width": 24.0,
+        "height": 24.0
+      },
+      "group": "form1_0_Page2_0_42_Recommendation_0"
+    },
+    "42Recommendation5": {
+      "type": "radio",
+      "label": "4",
+      "page": 2,
+      "box": {
+        "left": 274.6,
+        "top": 153.4,
+        "width": 24.0,
+        "height": 24.0
+      },
+      "group": "form1_0_Page2_0_42_Recommendation_0"
+    },
+    "42Recommendation6": {
+      "type": "radio",
+      "label": "5",
+      "page": 2,
+      "box": {
+        "left": 322.0,
+        "top": 153.4,
+        "width": 24.0,
+        "height": 24.0
+      },
+      "group": "form1_0_Page2_0_42_Recommendation_0"
+    },
+    "43SummarySigProblem": {
+      "type": "text",
+      "label": "_43_Summary_Sig_Problem",
+      "page": 2,
+      "box": {
+        "left": 126.6,
+        "top": 126.7,
+        "width": 33.4,
+        "height": 17.0
+      }
+    },
+    "43SummaryProgressing": {
+      "type": "text",
+      "label": "_43_Summary_Progressing",
+      "page": 2,
+      "box": {
+        "left": 174.4,
+        "top": 126.7,
+        "width": 33.4,
+        "height": 17.0
+      }
+    },
+    "43SummaryPromotable": {
+      "type": "text",
+      "label": "_43_Summary_Promotable",
+      "page": 2,
+      "box": {
+        "left": 223.1,
+        "top": 126.7,
+        "width": 33.4,
+        "height": 17.0
+      }
+    },
+    "43SummaryMustPromote": {
+      "type": "text",
+      "label": "_43_Summary_Must_Promote",
+      "page": 2,
+      "box": {
+        "left": 268.5,
+        "top": 126.7,
+        "width": 33.4,
+        "height": 17.0
+      }
+    },
+    "43SummaryEarlyPromote": {
+      "type": "text",
+      "label": "_43_Summary_Early_Promote",
+      "page": 2,
+      "box": {
+        "left": 316.7,
+        "top": 126.7,
+        "width": 33.4,
+        "height": 17.0
+      }
+    },
+    "45RptSrSignature": {
+      "type": "text",
+      "label": "45. Signature of Reporting Senior",
+      "page": 2,
+      "box": {
+        "left": 12.7,
+        "top": 98.6,
+        "width": 174.6,
+        "height": 17.7
+      }
+    },
+    "45RptSrSignDate": {
+      "type": "text",
+      "label": "45. Date",
+      "page": 2,
+      "box": {
+        "left": 215.5,
+        "top": 98.6,
+        "width": 65.4,
+        "height": 17.7
+      }
+    },
+    "46NoSubmit": {
+      "type": "checkbox",
+      "label": "46. Do Not Intend to Submit",
+      "page": 2,
+      "box": {
+        "left": 516.4,
+        "top": 91.0,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "46Submit": {
+      "type": "checkbox",
+      "label": "46. Intend to Submit",
+      "page": 2,
+      "box": {
+        "left": 384.0,
+        "top": 90.8,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "46Signature": {
+      "type": "text",
+      "label": "_46_Signature",
+      "page": 2,
+      "box": {
+        "left": 291.5,
+        "top": 78.8,
+        "width": 172.5,
+        "height": 17.7
+      }
+    },
+    "46Date": {
+      "type": "text",
+      "label": "_46_Date",
+      "page": 2,
+      "box": {
+        "left": 490.8,
+        "top": 78.8,
+        "width": 68.2,
+        "height": 17.7
+      }
+    },
+    "memberTraitAvg": {
+      "type": "text",
+      "label": "Member_Trait_Avg",
+      "page": 2,
+      "box": {
+        "left": 83.8,
+        "top": 71.8,
+        "width": 43.6,
+        "height": 11.9
+      }
+    },
+    "47RegRptSrSig": {
+      "type": "text",
+      "label": "47. Typed name, grade, command, UIC and signature of Regular Reporting Senior",
+      "page": 2,
+      "box": {
+        "left": 14.8,
+        "top": 40.8,
+        "width": 438.6,
+        "height": 22.7
+      }
+    },
+    "47Date": {
+      "type": "text",
+      "label": "47. Date",
+      "page": 2,
+      "box": {
+        "left": 492.2,
+        "top": 38.7,
+        "width": 68.9,
+        "height": 19.8
+      }
+    }
+  }
+}

@@ -1,0 +1,1332 @@
+{
+  "id": "navmchq820",
+  "label": "NAVMCHQ820 - Service Call Log",
+  "directory": "NAVMCHQ820 - Service Call Log",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "copyMake",
+        "model1",
+        "serNbr",
+        "loc1",
+        "room1",
+        "phoneServ",
+        "acctNbr",
+        "keyOperate",
+        "dateCall0",
+        "meterRead0",
+        "descript0",
+        "respTime0",
+        "dateCall1",
+        "meterRead1",
+        "descript1",
+        "respTime1",
+        "dateCall2",
+        "meterRead2",
+        "descript2",
+        "respTime2",
+        "dateCall3",
+        "meterRead3",
+        "descript3",
+        "respTime3",
+        "dateCall4",
+        "meterRead4",
+        "descript4",
+        "respTime4",
+        "dateCall5",
+        "meterRead5",
+        "descript5",
+        "respTime5",
+        "dateCall6",
+        "meterRead6",
+        "descript6",
+        "respTime6",
+        "dateCall7",
+        "meterRead7",
+        "descript7",
+        "respTime7",
+        "dateCall8",
+        "meterRead8",
+        "descript8",
+        "respTime8",
+        "dateCall9",
+        "meterRead9",
+        "descript9",
+        "respTime9",
+        "dateCall10",
+        "meterRead10",
+        "descript10",
+        "respTime10",
+        "dateCall11",
+        "meterRead11",
+        "descript11",
+        "respTime11",
+        "dateCall12",
+        "meterRead12",
+        "descript12",
+        "respTime12",
+        "dateCall13",
+        "meterRead13",
+        "descript13",
+        "respTime13",
+        "dateCall14",
+        "meterRead14",
+        "descript14",
+        "respTime14",
+        "dateCall15",
+        "meterRead15",
+        "descript15",
+        "respTime15",
+        "dateCall16",
+        "meterRead16",
+        "descript16",
+        "respTime16",
+        "dateCall17",
+        "meterRead17",
+        "descript17",
+        "respTime17",
+        "dateCall18",
+        "meterRead18",
+        "descript18",
+        "respTime18",
+        "dateCall19",
+        "meterRead19",
+        "descript19",
+        "respTime19",
+        "dateCall20",
+        "meterRead20",
+        "descript20",
+        "respTime20",
+        "dateCall21",
+        "meterRead21",
+        "descript21",
+        "respTime21",
+        "dateCall22",
+        "meterRead22",
+        "descript22",
+        "respTime22",
+        "dateCall23",
+        "meterRead23",
+        "descript23",
+        "respTime23",
+        "dateCall24",
+        "meterRead24",
+        "descript24",
+        "respTime24",
+        "signature"
+      ]
+    }
+  ],
+  "fields": {
+    "copyMake": {
+      "type": "text",
+      "label": "SERVICE CALL LOG: Make of copier - 10 characters allowed",
+      "page": 1,
+      "box": {
+        "left": 87.9,
+        "top": 746.3,
+        "width": 124.1,
+        "height": 16.4
+      }
+    },
+    "model1": {
+      "type": "text",
+      "label": "Model - 10 characters allowed",
+      "page": 1,
+      "box": {
+        "left": 248.3,
+        "top": 746.3,
+        "width": 150.0,
+        "height": 16.4
+      }
+    },
+    "serNbr": {
+      "type": "text",
+      "label": "Serial number - 10 characters allowed",
+      "page": 1,
+      "box": {
+        "left": 418.1,
+        "top": 746.3,
+        "width": 175.0,
+        "height": 16.4
+      }
+    },
+    "loc1": {
+      "type": "choice",
+      "label": "Location - click drop down arrow and pick one from drop down list",
+      "page": 1,
+      "box": {
+        "left": 72.4,
+        "top": 722.2,
+        "width": 137.9,
+        "height": 16.4
+      },
+      "options": [
+        " ",
+        " ARLEX",
+        "CLERANDON",
+        "QUANTICO",
+        "WASHNAVYD"
+      ]
+    },
+    "room1": {
+      "type": "text",
+      "label": "Room - 10 characters allowed",
+      "page": 1,
+      "box": {
+        "left": 241.4,
+        "top": 722.2,
+        "width": 156.9,
+        "height": 16.4
+      }
+    },
+    "phoneServ": {
+      "type": "text",
+      "label": "Telephone number - dashes are automatically inserted",
+      "page": 1,
+      "box": {
+        "left": 449.1,
+        "top": 722.2,
+        "width": 144.0,
+        "height": 16.4
+      }
+    },
+    "acctNbr": {
+      "type": "text",
+      "label": "Plant account number - six characters allowed",
+      "page": 1,
+      "box": {
+        "left": 136.2,
+        "top": 698.0,
+        "width": 166.4,
+        "height": 16.4
+      }
+    },
+    "keyOperate": {
+      "type": "text",
+      "label": "Key operator",
+      "page": 1,
+      "box": {
+        "left": 372.4,
+        "top": 697.2,
+        "width": 221.6,
+        "height": 16.4
+      }
+    },
+    "dateCall0": {
+      "type": "text",
+      "label": "Enter date of service call using format 2003 11 30. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 61.3,
+        "top": 665.3,
+        "width": 73.3,
+        "height": 20.0
+      }
+    },
+    "meterRead0": {
+      "type": "text",
+      "label": "Meter Reading. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 136.0,
+        "top": 665.3,
+        "width": 90.7,
+        "height": 20.0
+      }
+    },
+    "descript0": {
+      "type": "text",
+      "label": "Breif description of problem. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 228.4,
+        "top": 665.3,
+        "width": 237.9,
+        "height": 19.8
+      }
+    },
+    "respTime0": {
+      "type": "text",
+      "label": "Response time / date. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 466.4,
+        "top": 665.3,
+        "width": 127.6,
+        "height": 19.8
+      }
+    },
+    "dateCall1": {
+      "type": "text",
+      "label": "Enter date of service call using format 2003 11 30. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 61.3,
+        "top": 644.0,
+        "width": 73.3,
+        "height": 20.0
+      }
+    },
+    "meterRead1": {
+      "type": "text",
+      "label": "Meter Reading. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 136.0,
+        "top": 644.0,
+        "width": 90.7,
+        "height": 20.0
+      }
+    },
+    "descript1": {
+      "type": "text",
+      "label": "Breif description of problem. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 226.7,
+        "top": 644.0,
+        "width": 238.7,
+        "height": 20.0
+      }
+    },
+    "respTime1": {
+      "type": "text",
+      "label": "Response time / date. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 465.3,
+        "top": 644.0,
+        "width": 127.6,
+        "height": 20.0
+      }
+    },
+    "dateCall2": {
+      "type": "text",
+      "label": "Enter date of service call using format 2003 11 30. Line 3.",
+      "page": 1,
+      "box": {
+        "left": 61.3,
+        "top": 622.7,
+        "width": 73.3,
+        "height": 20.0
+      }
+    },
+    "meterRead2": {
+      "type": "text",
+      "label": "Meter Reading. Line 3.",
+      "page": 1,
+      "box": {
+        "left": 136.0,
+        "top": 622.7,
+        "width": 90.7,
+        "height": 20.0
+      }
+    },
+    "descript2": {
+      "type": "text",
+      "label": "Breif description of problem. Line 3.",
+      "page": 1,
+      "box": {
+        "left": 226.7,
+        "top": 622.7,
+        "width": 238.7,
+        "height": 20.0
+      }
+    },
+    "respTime2": {
+      "type": "text",
+      "label": "Response time / date. Line 3.",
+      "page": 1,
+      "box": {
+        "left": 465.3,
+        "top": 622.7,
+        "width": 127.6,
+        "height": 20.0
+      }
+    },
+    "dateCall3": {
+      "type": "text",
+      "label": "Enter date of service call using format 2003 11 30. Line 4.",
+      "page": 1,
+      "box": {
+        "left": 61.3,
+        "top": 601.3,
+        "width": 73.3,
+        "height": 20.0
+      }
+    },
+    "meterRead3": {
+      "type": "text",
+      "label": "Meter Reading. Line 4.",
+      "page": 1,
+      "box": {
+        "left": 136.0,
+        "top": 601.3,
+        "width": 90.7,
+        "height": 20.0
+      }
+    },
+    "descript3": {
+      "type": "text",
+      "label": "Breif description of problem. Line 4.",
+      "page": 1,
+      "box": {
+        "left": 226.7,
+        "top": 601.3,
+        "width": 238.7,
+        "height": 20.0
+      }
+    },
+    "respTime3": {
+      "type": "text",
+      "label": "Response time / date. Line 4.",
+      "page": 1,
+      "box": {
+        "left": 465.3,
+        "top": 601.3,
+        "width": 127.6,
+        "height": 20.0
+      }
+    },
+    "dateCall4": {
+      "type": "text",
+      "label": "Enter date of service call using format 2003 11 30. Line 5.",
+      "page": 1,
+      "box": {
+        "left": 61.3,
+        "top": 580.0,
+        "width": 73.3,
+        "height": 20.0
+      }
+    },
+    "meterRead4": {
+      "type": "text",
+      "label": "Meter Reading. Line 5.",
+      "page": 1,
+      "box": {
+        "left": 136.0,
+        "top": 580.0,
+        "width": 90.7,
+        "height": 20.0
+      }
+    },
+    "descript4": {
+      "type": "text",
+      "label": "Breif description of problem. Line 5.",
+      "page": 1,
+      "box": {
+        "left": 226.7,
+        "top": 580.0,
+        "width": 238.7,
+        "height": 20.0
+      }
+    },
+    "respTime4": {
+      "type": "text",
+      "label": "Response time / date. Line 5.",
+      "page": 1,
+      "box": {
+        "left": 465.3,
+        "top": 580.0,
+        "width": 127.6,
+        "height": 20.0
+      }
+    },
+    "dateCall5": {
+      "type": "text",
+      "label": "Enter date of service call using format 2003 11 30. Line 6.",
+      "page": 1,
+      "box": {
+        "left": 61.3,
+        "top": 558.7,
+        "width": 73.3,
+        "height": 20.0
+      }
+    },
+    "meterRead5": {
+      "type": "text",
+      "label": "Meter Reading. Line 6.",
+      "page": 1,
+      "box": {
+        "left": 136.0,
+        "top": 558.7,
+        "width": 90.7,
+        "height": 20.0
+      }
+    },
+    "descript5": {
+      "type": "text",
+      "label": "Breif description of problem. Line 6.",
+      "page": 1,
+      "box": {
+        "left": 226.7,
+        "top": 558.7,
+        "width": 238.7,
+        "height": 20.0
+      }
+    },
+    "respTime5": {
+      "type": "text",
+      "label": "Response time / date. Line 6.",
+      "page": 1,
+      "box": {
+        "left": 465.3,
+        "top": 558.7,
+        "width": 127.6,
+        "height": 20.0
+      }
+    },
+    "dateCall6": {
+      "type": "text",
+      "label": "Enter date of service call using format 2003 11 30. Line 7.",
+      "page": 1,
+      "box": {
+        "left": 61.3,
+        "top": 537.3,
+        "width": 73.3,
+        "height": 20.0
+      }
+    },
+    "meterRead6": {
+      "type": "text",
+      "label": "Meter Reading. Line 7.",
+      "page": 1,
+      "box": {
+        "left": 136.0,
+        "top": 537.3,
+        "width": 90.7,
+        "height": 20.0
+      }
+    },
+    "descript6": {
+      "type": "text",
+      "label": "Breif description of problem. Line 7.",
+      "page": 1,
+      "box": {
+        "left": 226.7,
+        "top": 537.3,
+        "width": 238.7,
+        "height": 20.0
+      }
+    },
+    "respTime6": {
+      "type": "text",
+      "label": "Response time / date. Line 7.",
+      "page": 1,
+      "box": {
+        "left": 465.3,
+        "top": 537.3,
+        "width": 127.6,
+        "height": 20.0
+      }
+    },
+    "dateCall7": {
+      "type": "text",
+      "label": "Enter date of service call using format 2003 11 30. Line 8.",
+      "page": 1,
+      "box": {
+        "left": 61.3,
+        "top": 516.0,
+        "width": 73.3,
+        "height": 20.0
+      }
+    },
+    "meterRead7": {
+      "type": "text",
+      "label": "Meter Reading. Line 8.",
+      "page": 1,
+      "box": {
+        "left": 136.0,
+        "top": 516.0,
+        "width": 90.7,
+        "height": 20.0
+      }
+    },
+    "descript7": {
+      "type": "text",
+      "label": "Breif description of problem. Line 8.",
+      "page": 1,
+      "box": {
+        "left": 226.7,
+        "top": 516.0,
+        "width": 238.7,
+        "height": 20.0
+      }
+    },
+    "respTime7": {
+      "type": "text",
+      "label": "Response time / date. Line 8.",
+      "page": 1,
+      "box": {
+        "left": 465.3,
+        "top": 516.0,
+        "width": 127.6,
+        "height": 20.0
+      }
+    },
+    "dateCall8": {
+      "type": "text",
+      "label": "Enter date of service call using format 2003 11 30. Line 9.",
+      "page": 1,
+      "box": {
+        "left": 61.3,
+        "top": 493.3,
+        "width": 73.3,
+        "height": 20.0
+      }
+    },
+    "meterRead8": {
+      "type": "text",
+      "label": "Meter Reading. Line 9.",
+      "page": 1,
+      "box": {
+        "left": 136.0,
+        "top": 493.3,
+        "width": 90.7,
+        "height": 20.0
+      }
+    },
+    "descript8": {
+      "type": "text",
+      "label": "Breif description of problem. Line 9.",
+      "page": 1,
+      "box": {
+        "left": 226.7,
+        "top": 493.3,
+        "width": 238.7,
+        "height": 20.0
+      }
+    },
+    "respTime8": {
+      "type": "text",
+      "label": "Response time / date. Line 9.",
+      "page": 1,
+      "box": {
+        "left": 465.3,
+        "top": 493.3,
+        "width": 127.6,
+        "height": 20.0
+      }
+    },
+    "dateCall9": {
+      "type": "text",
+      "label": "Enter date of service call using format 2003 11 30. Line 10.",
+      "page": 1,
+      "box": {
+        "left": 61.3,
+        "top": 472.0,
+        "width": 73.3,
+        "height": 20.0
+      }
+    },
+    "meterRead9": {
+      "type": "text",
+      "label": "Meter Reading. Line 10.",
+      "page": 1,
+      "box": {
+        "left": 136.0,
+        "top": 472.0,
+        "width": 90.7,
+        "height": 20.0
+      }
+    },
+    "descript9": {
+      "type": "text",
+      "label": "Breif description of problem. Line 10.",
+      "page": 1,
+      "box": {
+        "left": 226.7,
+        "top": 472.0,
+        "width": 238.7,
+        "height": 20.0
+      }
+    },
+    "respTime9": {
+      "type": "text",
+      "label": "Response time / date. Line 10.",
+      "page": 1,
+      "box": {
+        "left": 465.3,
+        "top": 472.0,
+        "width": 127.6,
+        "height": 20.0
+      }
+    },
+    "dateCall10": {
+      "type": "text",
+      "label": "Enter date of service call using format 2003 11 30. Line 11.",
+      "page": 1,
+      "box": {
+        "left": 61.3,
+        "top": 450.7,
+        "width": 73.3,
+        "height": 20.0
+      }
+    },
+    "meterRead10": {
+      "type": "text",
+      "label": "Meter Reading. Line 11.",
+      "page": 1,
+      "box": {
+        "left": 136.0,
+        "top": 450.7,
+        "width": 90.7,
+        "height": 20.0
+      }
+    },
+    "descript10": {
+      "type": "text",
+      "label": "Breif description of problem. Line 11.",
+      "page": 1,
+      "box": {
+        "left": 226.7,
+        "top": 450.7,
+        "width": 238.7,
+        "height": 20.0
+      }
+    },
+    "respTime10": {
+      "type": "text",
+      "label": "Response time / date. Line 11.",
+      "page": 1,
+      "box": {
+        "left": 465.3,
+        "top": 450.7,
+        "width": 127.6,
+        "height": 20.0
+      }
+    },
+    "dateCall11": {
+      "type": "text",
+      "label": "Enter date of service call using format 2003 11 30. Line 12.",
+      "page": 1,
+      "box": {
+        "left": 61.3,
+        "top": 429.3,
+        "width": 73.3,
+        "height": 20.0
+      }
+    },
+    "meterRead11": {
+      "type": "text",
+      "label": "Meter Reading. Line 12.",
+      "page": 1,
+      "box": {
+        "left": 136.0,
+        "top": 429.3,
+        "width": 90.7,
+        "height": 20.0
+      }
+    },
+    "descript11": {
+      "type": "text",
+      "label": "Breif description of problem. Line 12.",
+      "page": 1,
+      "box": {
+        "left": 226.7,
+        "top": 429.3,
+        "width": 238.7,
+        "height": 20.0
+      }
+    },
+    "respTime11": {
+      "type": "text",
+      "label": "Response time / date. Line 12.",
+      "page": 1,
+      "box": {
+        "left": 465.3,
+        "top": 429.3,
+        "width": 127.6,
+        "height": 20.0
+      }
+    },
+    "dateCall12": {
+      "type": "text",
+      "label": "Enter date of service call using format 2003 11 30. Line 13.",
+      "page": 1,
+      "box": {
+        "left": 61.3,
+        "top": 408.0,
+        "width": 73.3,
+        "height": 20.0
+      }
+    },
+    "meterRead12": {
+      "type": "text",
+      "label": "Meter Reading. Line 13.",
+      "page": 1,
+      "box": {
+        "left": 136.0,
+        "top": 408.0,
+        "width": 90.7,
+        "height": 20.0
+      }
+    },
+    "descript12": {
+      "type": "text",
+      "label": "Breif description of problem. Line 13.",
+      "page": 1,
+      "box": {
+        "left": 226.7,
+        "top": 408.0,
+        "width": 238.7,
+        "height": 20.0
+      }
+    },
+    "respTime12": {
+      "type": "text",
+      "label": "Response time / date. Line 13.",
+      "page": 1,
+      "box": {
+        "left": 465.3,
+        "top": 408.0,
+        "width": 127.6,
+        "height": 20.0
+      }
+    },
+    "dateCall13": {
+      "type": "text",
+      "label": "Enter date of service call using format 2003 11 30. Line 14.",
+      "page": 1,
+      "box": {
+        "left": 61.3,
+        "top": 386.7,
+        "width": 73.3,
+        "height": 20.0
+      }
+    },
+    "meterRead13": {
+      "type": "text",
+      "label": "Meter Reading. Line 14.",
+      "page": 1,
+      "box": {
+        "left": 136.0,
+        "top": 386.7,
+        "width": 90.7,
+        "height": 20.0
+      }
+    },
+    "descript13": {
+      "type": "text",
+      "label": "Breif description of problem. Line 14.",
+      "page": 1,
+      "box": {
+        "left": 226.7,
+        "top": 386.7,
+        "width": 238.7,
+        "height": 20.0
+      }
+    },
+    "respTime13": {
+      "type": "text",
+      "label": "Response time / date. Line 14.",
+      "page": 1,
+      "box": {
+        "left": 465.3,
+        "top": 386.7,
+        "width": 127.6,
+        "height": 20.0
+      }
+    },
+    "dateCall14": {
+      "type": "text",
+      "label": "Enter date of service call using format 2003 11 30. Line 15.",
+      "page": 1,
+      "box": {
+        "left": 61.3,
+        "top": 365.3,
+        "width": 73.3,
+        "height": 20.0
+      }
+    },
+    "meterRead14": {
+      "type": "text",
+      "label": "Meter Reading. Line 15.",
+      "page": 1,
+      "box": {
+        "left": 136.0,
+        "top": 365.3,
+        "width": 90.7,
+        "height": 20.0
+      }
+    },
+    "descript14": {
+      "type": "text",
+      "label": "Breif description of problem. Line 15.",
+      "page": 1,
+      "box": {
+        "left": 226.7,
+        "top": 365.3,
+        "width": 238.7,
+        "height": 20.0
+      }
+    },
+    "respTime14": {
+      "type": "text",
+      "label": "Response time / date. Line 15.",
+      "page": 1,
+      "box": {
+        "left": 465.3,
+        "top": 365.3,
+        "width": 127.6,
+        "height": 20.0
+      }
+    },
+    "dateCall15": {
+      "type": "text",
+      "label": "Enter date of service call using format 2003 11 30. Line 16.",
+      "page": 1,
+      "box": {
+        "left": 61.3,
+        "top": 344.0,
+        "width": 73.3,
+        "height": 20.0
+      }
+    },
+    "meterRead15": {
+      "type": "text",
+      "label": "Meter Reading. Line 16.",
+      "page": 1,
+      "box": {
+        "left": 136.0,
+        "top": 344.0,
+        "width": 90.7,
+        "height": 20.0
+      }
+    },
+    "descript15": {
+      "type": "text",
+      "label": "Breif description of problem. Line 16.",
+      "page": 1,
+      "box": {
+        "left": 226.7,
+        "top": 344.0,
+        "width": 238.7,
+        "height": 20.0
+      }
+    },
+    "respTime15": {
+      "type": "text",
+      "label": "Response time / date. Line 16.",
+      "page": 1,
+      "box": {
+        "left": 465.3,
+        "top": 344.0,
+        "width": 127.6,
+        "height": 20.0
+      }
+    },
+    "dateCall16": {
+      "type": "text",
+      "label": "Enter date of service call using format 2003 11 30. Line 17.",
+      "page": 1,
+      "box": {
+        "left": 61.3,
+        "top": 322.7,
+        "width": 73.3,
+        "height": 20.0
+      }
+    },
+    "meterRead16": {
+      "type": "text",
+      "label": "Meter Reading. Line 17.",
+      "page": 1,
+      "box": {
+        "left": 136.0,
+        "top": 322.7,
+        "width": 90.7,
+        "height": 20.0
+      }
+    },
+    "descript16": {
+      "type": "text",
+      "label": "Breif description of problem. Line 17.",
+      "page": 1,
+      "box": {
+        "left": 226.7,
+        "top": 322.7,
+        "width": 238.7,
+        "height": 20.0
+      }
+    },
+    "respTime16": {
+      "type": "text",
+      "label": "Response time / date. Line 17.",
+      "page": 1,
+      "box": {
+        "left": 465.3,
+        "top": 322.7,
+        "width": 127.6,
+        "height": 20.0
+      }
+    },
+    "dateCall17": {
+      "type": "text",
+      "label": "Enter date of service call using format 2003 11 30. Line 18.",
+      "page": 1,
+      "box": {
+        "left": 61.3,
+        "top": 301.3,
+        "width": 73.3,
+        "height": 20.0
+      }
+    },
+    "meterRead17": {
+      "type": "text",
+      "label": "Meter Reading. Line 18.",
+      "page": 1,
+      "box": {
+        "left": 136.0,
+        "top": 301.3,
+        "width": 90.7,
+        "height": 20.0
+      }
+    },
+    "descript17": {
+      "type": "text",
+      "label": "Breif description of problem. Line 18.",
+      "page": 1,
+      "box": {
+        "left": 226.7,
+        "top": 301.3,
+        "width": 238.7,
+        "height": 20.0
+      }
+    },
+    "respTime17": {
+      "type": "text",
+      "label": "Response time / date. Line 18.",
+      "page": 1,
+      "box": {
+        "left": 465.3,
+        "top": 301.3,
+        "width": 127.6,
+        "height": 20.0
+      }
+    },
+    "dateCall18": {
+      "type": "text",
+      "label": "Enter date of service call using format 2003 11 30. Line 19.",
+      "page": 1,
+      "box": {
+        "left": 61.3,
+        "top": 278.7,
+        "width": 73.3,
+        "height": 20.0
+      }
+    },
+    "meterRead18": {
+      "type": "text",
+      "label": "Meter Reading. Line 19.",
+      "page": 1,
+      "box": {
+        "left": 136.0,
+        "top": 278.7,
+        "width": 90.7,
+        "height": 20.0
+      }
+    },
+    "descript18": {
+      "type": "text",
+      "label": "Breif description of problem. Line 19.",
+      "page": 1,
+      "box": {
+        "left": 226.7,
+        "top": 278.7,
+        "width": 238.7,
+        "height": 20.0
+      }
+    },
+    "respTime18": {
+      "type": "text",
+      "label": "Response time / date. Line 19.",
+      "page": 1,
+      "box": {
+        "left": 465.3,
+        "top": 278.7,
+        "width": 127.6,
+        "height": 20.0
+      }
+    },
+    "dateCall19": {
+      "type": "text",
+      "label": "Enter date of service call using format 2003 11 30. Line 20.",
+      "page": 1,
+      "box": {
+        "left": 61.3,
+        "top": 257.3,
+        "width": 73.3,
+        "height": 20.0
+      }
+    },
+    "meterRead19": {
+      "type": "text",
+      "label": "Meter Reading. Line 20.",
+      "page": 1,
+      "box": {
+        "left": 136.0,
+        "top": 257.3,
+        "width": 90.7,
+        "height": 20.0
+      }
+    },
+    "descript19": {
+      "type": "text",
+      "label": "Breif description of problem. Line 20.",
+      "page": 1,
+      "box": {
+        "left": 226.7,
+        "top": 257.3,
+        "width": 238.7,
+        "height": 20.0
+      }
+    },
+    "respTime19": {
+      "type": "text",
+      "label": "Response time / date. Line 20.",
+      "page": 1,
+      "box": {
+        "left": 465.3,
+        "top": 257.3,
+        "width": 127.6,
+        "height": 20.0
+      }
+    },
+    "dateCall20": {
+      "type": "text",
+      "label": "Enter date of service call using format 2003 11 30. Line 21.",
+      "page": 1,
+      "box": {
+        "left": 61.3,
+        "top": 236.0,
+        "width": 73.3,
+        "height": 20.0
+      }
+    },
+    "meterRead20": {
+      "type": "text",
+      "label": "Meter Reading. Line 21.",
+      "page": 1,
+      "box": {
+        "left": 136.0,
+        "top": 236.0,
+        "width": 90.7,
+        "height": 20.0
+      }
+    },
+    "descript20": {
+      "type": "text",
+      "label": "Breif description of problem. Line 21.",
+      "page": 1,
+      "box": {
+        "left": 226.7,
+        "top": 236.0,
+        "width": 238.7,
+        "height": 20.0
+      }
+    },
+    "respTime20": {
+      "type": "text",
+      "label": "Response time / date. Line 21.",
+      "page": 1,
+      "box": {
+        "left": 465.3,
+        "top": 236.0,
+        "width": 127.6,
+        "height": 20.0
+      }
+    },
+    "dateCall21": {
+      "type": "text",
+      "label": "Enter date of service call using format 2003 11 30. Line 22.",
+      "page": 1,
+      "box": {
+        "left": 61.3,
+        "top": 214.7,
+        "width": 73.3,
+        "height": 20.0
+      }
+    },
+    "meterRead21": {
+      "type": "text",
+      "label": "Meter Reading. Line 22.",
+      "page": 1,
+      "box": {
+        "left": 136.0,
+        "top": 214.7,
+        "width": 90.7,
+        "height": 20.0
+      }
+    },
+    "descript21": {
+      "type": "text",
+      "label": "Breif description of problem. Line 22.",
+      "page": 1,
+      "box": {
+        "left": 226.7,
+        "top": 214.7,
+        "width": 238.7,
+        "height": 20.0
+      }
+    },
+    "respTime21": {
+      "type": "text",
+      "label": "Response time / date. Line 22.",
+      "page": 1,
+      "box": {
+        "left": 465.3,
+        "top": 214.7,
+        "width": 127.6,
+        "height": 20.0
+      }
+    },
+    "dateCall22": {
+      "type": "text",
+      "label": "Enter date of service call using format 2003 11 30. Line 23.",
+      "page": 1,
+      "box": {
+        "left": 61.3,
+        "top": 193.3,
+        "width": 73.3,
+        "height": 20.0
+      }
+    },
+    "meterRead22": {
+      "type": "text",
+      "label": "Meter Reading. Line 23.",
+      "page": 1,
+      "box": {
+        "left": 136.0,
+        "top": 193.3,
+        "width": 90.7,
+        "height": 20.0
+      }
+    },
+    "descript22": {
+      "type": "text",
+      "label": "Breif description of problem. Line 23.",
+      "page": 1,
+      "box": {
+        "left": 226.7,
+        "top": 193.3,
+        "width": 238.7,
+        "height": 20.0
+      }
+    },
+    "respTime22": {
+      "type": "text",
+      "label": "Response time / date. Line 23.",
+      "page": 1,
+      "box": {
+        "left": 465.3,
+        "top": 193.3,
+        "width": 127.6,
+        "height": 20.0
+      }
+    },
+    "dateCall23": {
+      "type": "text",
+      "label": "Enter date of service call using format 2003 11 30. Line 24.",
+      "page": 1,
+      "box": {
+        "left": 61.3,
+        "top": 172.0,
+        "width": 73.3,
+        "height": 20.0
+      }
+    },
+    "meterRead23": {
+      "type": "text",
+      "label": "Meter Reading. Line 24.",
+      "page": 1,
+      "box": {
+        "left": 136.0,
+        "top": 172.0,
+        "width": 90.7,
+        "height": 20.0
+      }
+    },
+    "descript23": {
+      "type": "text",
+      "label": "Breif description of problem. Line 24.",
+      "page": 1,
+      "box": {
+        "left": 226.7,
+        "top": 172.0,
+        "width": 238.7,
+        "height": 20.0
+      }
+    },
+    "respTime23": {
+      "type": "text",
+      "label": "Response time / date. Line 24.",
+      "page": 1,
+      "box": {
+        "left": 465.3,
+        "top": 172.0,
+        "width": 127.6,
+        "height": 20.0
+      }
+    },
+    "dateCall24": {
+      "type": "text",
+      "label": "Enter date of service call using format 2003 11 30. Line 25.",
+      "page": 1,
+      "box": {
+        "left": 61.3,
+        "top": 150.7,
+        "width": 73.3,
+        "height": 20.0
+      }
+    },
+    "meterRead24": {
+      "type": "text",
+      "label": "Meter Reading. Line 25.",
+      "page": 1,
+      "box": {
+        "left": 136.0,
+        "top": 150.7,
+        "width": 90.7,
+        "height": 20.0
+      }
+    },
+    "descript24": {
+      "type": "text",
+      "label": "Breif description of problem. Line 25.",
+      "page": 1,
+      "box": {
+        "left": 226.7,
+        "top": 150.7,
+        "width": 238.7,
+        "height": 20.0
+      }
+    },
+    "respTime24": {
+      "type": "text",
+      "label": "Response time / date. Line 25.",
+      "page": 1,
+      "box": {
+        "left": 465.3,
+        "top": 150.7,
+        "width": 127.6,
+        "height": 20.0
+      }
+    },
+    "signature": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 312.7,
+        "top": 92.6,
+        "width": 279.6,
+        "height": 19.3
+      }
+    }
+  }
+}

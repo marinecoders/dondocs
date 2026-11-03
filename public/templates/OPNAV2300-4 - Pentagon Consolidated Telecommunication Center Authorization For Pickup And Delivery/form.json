@@ -1,0 +1,247 @@
+{
+  "id": "opnav23004",
+  "label": "OPNAV2300-4 - Pentagon Consolidated Telecommunication Center Authorization For Pickup And Delivery",
+  "directory": "OPNAV2300-4 - Pentagon Consolidated Telecommunication Center Authorization For Pickup And Delivery",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "date",
+        "from",
+        "thisIs",
+        "thisIs2",
+        "telephoneNumber",
+        "nameAndSignature",
+        "thisIs3"
+      ]
+    }
+  ],
+  "fields": {
+    "date": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 441.0,
+        "top": 743.6,
+        "width": 135.0,
+        "height": 22.7
+      }
+    },
+    "from": {
+      "type": "text",
+      "label": "Enter to whom the authorization was from.",
+      "page": 1,
+      "box": {
+        "left": 65.2,
+        "top": 717.2,
+        "width": 270.5,
+        "height": 24.7
+      }
+    },
+    "thisIs": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 172.9,
+        "top": 109.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_ThisIs_0"
+    },
+    "thisIs2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 172.9,
+        "top": 84.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_ThisIs_0"
+    },
+    "telephoneNumber": {
+      "type": "text",
+      "label": "Enter the phone number of authorizing offical.",
+      "page": 1,
+      "box": {
+        "left": 486.5,
+        "top": 70.4,
+        "width": 87.7,
+        "height": 18.0
+      }
+    },
+    "nameAndSignature": {
+      "type": "text",
+      "label": "Enter the name and signature of authorizing offical.",
+      "page": 1,
+      "box": {
+        "left": 344.9,
+        "top": 69.6,
+        "width": 138.6,
+        "height": 16.6
+      }
+    },
+    "thisIs3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 172.9,
+        "top": 59.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_ThisIs_0"
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 18,
+      "rowStride": 25.2,
+      "editor": "grid",
+      "columns": {
+        "name": {
+          "type": "text",
+          "label": "This is row 1 of 18.  Enter the name (last, first, and middle initial).",
+          "page": 1,
+          "box": {
+            "left": 36.6,
+            "top": 568.1,
+            "width": 114.2,
+            "height": 22.5
+          }
+        },
+        "rankGrade": {
+          "type": "text",
+          "label": "Enter the rank or grade.",
+          "page": 1,
+          "box": {
+            "left": 153.0,
+            "top": 568.1,
+            "width": 34.3,
+            "height": 22.5
+          }
+        },
+        "ssn": {
+          "type": "text",
+          "label": "Enter the Social Security Number.  ",
+          "page": 1,
+          "box": {
+            "left": 190.1,
+            "top": 568.1,
+            "width": 78.2,
+            "height": 22.5
+          }
+        },
+        "messageWindown5A": {
+          "type": "text",
+          "label": "Enter the message windown 5A878.",
+          "page": 1,
+          "box": {
+            "left": 270.5,
+            "top": 568.1,
+            "width": 67.5,
+            "height": 22.5
+          }
+        },
+        "topSecret": {
+          "type": "text",
+          "label": "Enter the top secret information.",
+          "page": 1,
+          "box": {
+            "left": 341.4,
+            "top": 568.1,
+            "width": 14.6,
+            "height": 22.5
+          }
+        },
+        "persFor": {
+          "type": "text",
+          "label": "Enter whom the PERS are for.",
+          "page": 1,
+          "box": {
+            "left": 359.4,
+            "top": 568.1,
+            "width": 14.6,
+            "height": 22.5
+          }
+        },
+        "siopesi": {
+          "type": "text",
+          "label": "Enter the SPECAT SIOP ESI information.",
+          "page": 1,
+          "box": {
+            "left": 377.4,
+            "top": 568.1,
+            "width": 14.6,
+            "height": 22.5
+          }
+        },
+        "eXCLFor": {
+          "type": "text",
+          "label": "Enter who the SPECAT EXCL information is for.",
+          "page": 1,
+          "box": {
+            "left": 395.4,
+            "top": 568.1,
+            "width": 14.6,
+            "height": 22.5
+          }
+        },
+        "exdisNodis": {
+          "type": "text",
+          "label": "Enter the SPECAT EXDIS/NODIS information.",
+          "page": 1,
+          "box": {
+            "left": 412.8,
+            "top": 568.1,
+            "width": 14.6,
+            "height": 22.5
+          }
+        },
+        "atomal": {
+          "type": "text",
+          "label": "Enter the NATO ATOMAL information.",
+          "page": 1,
+          "box": {
+            "left": 430.8,
+            "top": 568.1,
+            "width": 14.6,
+            "height": 22.5
+          }
+        },
+        "cosmicTopSecret": {
+          "type": "text",
+          "label": "Enter the NATO COSMIC top secret information.",
+          "page": 1,
+          "box": {
+            "left": 448.3,
+            "top": 568.1,
+            "width": 41.1,
+            "height": 22.5
+          }
+        },
+        "codeWords": {
+          "type": "text",
+          "label": "Enter the codewords (submit separate authorization sheet for code words and classify as required).",
+          "page": 1,
+          "box": {
+            "left": 492.7,
+            "top": 568.1,
+            "width": 82.7,
+            "height": 22.5
+          }
+        }
+      }
+    }
+  }
+}

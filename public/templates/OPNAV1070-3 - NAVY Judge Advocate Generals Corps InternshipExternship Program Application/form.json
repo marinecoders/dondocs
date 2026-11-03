@@ -1,0 +1,2062 @@
+{
+  "id": "opnav10703",
+  "label": "OPNAV1070-3 - NAVY Judge Advocate Generals Corps InternshipExternship Program Application",
+  "directory": "OPNAV1070-3 - NAVY Judge Advocate Generals Corps InternshipExternship Program Application",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf",
+    "page5.pdf",
+    "page6.pdf",
+    "page7.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "contBy",
+        "cUICat",
+        "ldc",
+        "poc"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "nmelfm",
+        "ifsmeas",
+        "curadd",
+        "mailadd",
+        "hMTelNo",
+        "eml",
+        "aeml",
+        "cLLTelNo",
+        "radio",
+        "radio2",
+        "radio3",
+        "radio4",
+        "explain",
+        "secClrGrt",
+        "radio5",
+        "radio6",
+        "dteSer",
+        "brSer",
+        "actRes",
+        "hiGde",
+        "dteSera",
+        "brSera",
+        "actResa",
+        "hiGdea",
+        "dteSerb",
+        "brSerb",
+        "actResb",
+        "hiGdeb",
+        "dteSerc",
+        "brSerc",
+        "actResc",
+        "hiGdec",
+        "radio7",
+        "radio8",
+        "radio9",
+        "radio10",
+        "radio11",
+        "radio12",
+        "disChgRea",
+        "disChgCha"
+      ]
+    },
+    {
+      "title": "Page 4",
+      "fields": [
+        "schNmeLoc",
+        "dteAtt",
+        "major",
+        "gpa",
+        "degAwd",
+        "schNmeLoce",
+        "dteAtte",
+        "majore",
+        "gPAe",
+        "degAwde",
+        "schNmeLocf",
+        "dteAttf",
+        "majorf",
+        "gPAf",
+        "degAwdf",
+        "gSchNmeLoc",
+        "gDteAtt",
+        "ggpa",
+        "gClsRnk",
+        "gSchNmeLoca",
+        "gDteAtta",
+        "gGPAa",
+        "gClsRnka",
+        "gSchNmeLocb",
+        "gDteAttb",
+        "gGPAb",
+        "gClsRnkb",
+        "radio13",
+        "radio14",
+        "numScr",
+        "perct",
+        "radio15",
+        "radio16",
+        "exCurrAct",
+        "dtePart",
+        "posHld",
+        "exCurrActa",
+        "dteParta",
+        "posHlda",
+        "exCurrActb",
+        "dtePartb",
+        "posHldb",
+        "exCurrActc",
+        "dtePartc",
+        "posHldc",
+        "exCurrActd",
+        "dtePartd",
+        "posHldd",
+        "exCurrActe",
+        "dteParte",
+        "posHlde",
+        "exCurrActf",
+        "dtePartf",
+        "posHldf",
+        "exCurrActg",
+        "dtePartg",
+        "posHldg",
+        "exCurrActh",
+        "dteParth",
+        "posHldh"
+      ]
+    },
+    {
+      "title": "Page 5",
+      "fields": [
+        "radio17",
+        "radio18",
+        "radio19",
+        "radio20",
+        "radio21",
+        "radio22",
+        "radio23",
+        "radio24",
+        "radio25",
+        "radio26",
+        "radio27",
+        "radio28",
+        "radio29",
+        "radio30",
+        "locOne",
+        "locTwo",
+        "locThree",
+        "remarks"
+      ]
+    },
+    {
+      "title": "Page 6",
+      "fields": [
+        "motSta"
+      ]
+    },
+    {
+      "title": "Page 7",
+      "fields": [
+        "dob",
+        "nmelfm1",
+        "radio31",
+        "radio32",
+        "radio33",
+        "radio34",
+        "amerIndAK",
+        "hawaiian",
+        "asian",
+        "white",
+        "blackAA",
+        "mnjwa",
+        "mcv",
+        "mnrws",
+        "mpa",
+        "mjs",
+        "mwm",
+        "mrb",
+        "msi",
+        "mlscso",
+        "mftms",
+        "mo",
+        "mnjwa2",
+        "mcv2",
+        "mnrws2",
+        "mpa2",
+        "mjs2",
+        "mwm2",
+        "mrb2",
+        "msi2",
+        "mlscso2",
+        "mftms2",
+        "mo2",
+        "mo3",
+        "mo4",
+        "mo5",
+        "specSel",
+        "radio35",
+        "radio36",
+        "appSigDte",
+        "signatureField1"
+      ],
+      "editor": "checklist"
+    }
+  ],
+  "fields": {
+    "contBy": {
+      "type": "text",
+      "label": "CUI (when filled in) CONTROLLED BY",
+      "page": 1,
+      "box": {
+        "left": 406.1,
+        "top": 33.5,
+        "width": 113.1,
+        "height": 6.6
+      }
+    },
+    "cUICat": {
+      "type": "text",
+      "label": "CUI CATEGORY",
+      "page": 1,
+      "box": {
+        "left": 406.1,
+        "top": 25.4,
+        "width": 113.1,
+        "height": 6.6
+      }
+    },
+    "ldc": {
+      "type": "text",
+      "label": "LDC",
+      "page": 1,
+      "box": {
+        "left": 406.1,
+        "top": 17.6,
+        "width": 113.1,
+        "height": 6.6
+      }
+    },
+    "poc": {
+      "type": "text",
+      "label": "POC",
+      "page": 1,
+      "box": {
+        "left": 406.1,
+        "top": 9.7,
+        "width": 113.1,
+        "height": 6.6
+      }
+    },
+    "nmelfm": {
+      "type": "text",
+      "label": "1. NAME (Last, First, MI)",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 723.5,
+        "width": 534.4,
+        "height": 18.6
+      }
+    },
+    "ifsmeas": {
+      "type": "checkbox",
+      "label": "3. MAILING ADDRESS",
+      "page": 3,
+      "box": {
+        "left": 426.9,
+        "top": 698.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "curadd": {
+      "type": "text",
+      "label": "2. CURRENT ADDRESS",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 687.5,
+        "width": 264.4,
+        "height": 54.7
+      },
+      "multiline": true
+    },
+    "mailadd": {
+      "type": "text",
+      "label": "3. MAILING ADDRESS: Check here if same as block 2",
+      "page": 3,
+      "box": {
+        "left": 308.9,
+        "top": 687.5,
+        "width": 264.4,
+        "height": 54.7
+      },
+      "multiline": true
+    },
+    "hMTelNo": {
+      "type": "text",
+      "label": "4. HOME TELEPHONE NUMBER",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 618.0,
+        "width": 147.3,
+        "height": 21.2
+      }
+    },
+    "eml": {
+      "type": "text",
+      "label": "5. E-MAIL ADDRESS",
+      "page": 3,
+      "box": {
+        "left": 191.9,
+        "top": 615.5,
+        "width": 381.4,
+        "height": 18.6
+      }
+    },
+    "aeml": {
+      "type": "text",
+      "label": "7. ALTERNATE E-MAIL ADDRESS",
+      "page": 3,
+      "box": {
+        "left": 191.9,
+        "top": 579.5,
+        "width": 381.4,
+        "height": 18.6
+      }
+    },
+    "cLLTelNo": {
+      "type": "text",
+      "label": "6. CELL TELEPHONE NUMBER",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 578.1,
+        "width": 147.3,
+        "height": 17.3
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 162.4,
+        "top": 553.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 197.9,
+        "top": 553.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 437.0,
+        "top": 553.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 472.5,
+        "top": 553.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "explain": {
+      "type": "text",
+      "label": "8b. If you are a dual citizen, please explain",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 525.4,
+        "width": 534.4,
+        "height": 36.6
+      },
+      "multiline": true
+    },
+    "secClrGrt": {
+      "type": "text",
+      "label": "Sec Clr Grt",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 471.4,
+        "width": 534.4,
+        "height": 36.6
+      },
+      "multiline": true
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 309.9,
+        "top": 410.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 368.7,
+        "top": 410.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "dteSer": {
+      "type": "text",
+      "label": "(YYYYMMDD)",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 353.5,
+        "width": 97.5,
+        "height": 15.9
+      }
+    },
+    "brSer": {
+      "type": "text",
+      "label": "(e.g. Navy, Army)",
+      "page": 3,
+      "box": {
+        "left": 142.0,
+        "top": 353.5,
+        "width": 139.9,
+        "height": 15.9
+      }
+    },
+    "actRes": {
+      "type": "text",
+      "label": "Active or Reserve",
+      "page": 3,
+      "box": {
+        "left": 287.6,
+        "top": 353.5,
+        "width": 139.9,
+        "height": 15.9
+      }
+    },
+    "hiGde": {
+      "type": "text",
+      "label": "(E-1 to O-10)",
+      "page": 3,
+      "box": {
+        "left": 433.2,
+        "top": 353.5,
+        "width": 139.9,
+        "height": 15.9
+      }
+    },
+    "dteSera": {
+      "type": "text",
+      "label": "(YYYYMMDD)",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 331.9,
+        "width": 97.5,
+        "height": 15.9
+      }
+    },
+    "brSera": {
+      "type": "text",
+      "label": "(e.g. Navy, Army)",
+      "page": 3,
+      "box": {
+        "left": 142.0,
+        "top": 331.9,
+        "width": 139.9,
+        "height": 15.9
+      }
+    },
+    "actResa": {
+      "type": "text",
+      "label": "Active or Reserve",
+      "page": 3,
+      "box": {
+        "left": 287.6,
+        "top": 331.9,
+        "width": 139.9,
+        "height": 15.9
+      }
+    },
+    "hiGdea": {
+      "type": "text",
+      "label": "(E-1 to O-10)",
+      "page": 3,
+      "box": {
+        "left": 433.2,
+        "top": 331.9,
+        "width": 139.9,
+        "height": 15.9
+      }
+    },
+    "dteSerb": {
+      "type": "text",
+      "label": "(YYYYMMDD)",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 310.3,
+        "width": 97.5,
+        "height": 15.9
+      }
+    },
+    "brSerb": {
+      "type": "text",
+      "label": "(e.g. Navy, Army)",
+      "page": 3,
+      "box": {
+        "left": 142.0,
+        "top": 310.3,
+        "width": 139.9,
+        "height": 15.9
+      }
+    },
+    "actResb": {
+      "type": "text",
+      "label": "Active or Reserve",
+      "page": 3,
+      "box": {
+        "left": 287.6,
+        "top": 310.3,
+        "width": 139.9,
+        "height": 15.9
+      }
+    },
+    "hiGdeb": {
+      "type": "text",
+      "label": "(E-1 to O-10)",
+      "page": 3,
+      "box": {
+        "left": 433.2,
+        "top": 310.3,
+        "width": 139.9,
+        "height": 15.9
+      }
+    },
+    "dteSerc": {
+      "type": "text",
+      "label": "(YYYYMMDD)",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 288.7,
+        "width": 97.5,
+        "height": 15.9
+      }
+    },
+    "brSerc": {
+      "type": "text",
+      "label": "(e.g. Navy, Army)",
+      "page": 3,
+      "box": {
+        "left": 142.0,
+        "top": 288.7,
+        "width": 139.9,
+        "height": 15.9
+      }
+    },
+    "actResc": {
+      "type": "text",
+      "label": "Active or Reserve",
+      "page": 3,
+      "box": {
+        "left": 287.6,
+        "top": 288.7,
+        "width": 139.9,
+        "height": 15.9
+      }
+    },
+    "hiGdec": {
+      "type": "text",
+      "label": "(E-1 to O-10)",
+      "page": 3,
+      "box": {
+        "left": 433.2,
+        "top": 288.7,
+        "width": 139.9,
+        "height": 15.9
+      }
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 177.5,
+        "top": 253.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 212.9,
+        "top": 253.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio9": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 380.0,
+        "top": 225.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio10": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 415.4,
+        "top": 225.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio11": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 177.5,
+        "top": 197.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio12": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 212.9,
+        "top": 197.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "disChgRea": {
+      "type": "text",
+      "label": "Dis Chg Rea",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 169.0,
+        "width": 534.4,
+        "height": 56.5
+      },
+      "multiline": true
+    },
+    "disChgCha": {
+      "type": "text",
+      "label": "Dis Chg Cha",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 95.2,
+        "width": 534.4,
+        "height": 56.5
+      },
+      "multiline": true
+    },
+    "schNmeLoc": {
+      "type": "text",
+      "label": "School Name and Location",
+      "page": 4,
+      "box": {
+        "left": 38.8,
+        "top": 677.6,
+        "width": 183.5,
+        "height": 23.1
+      }
+    },
+    "dteAtt": {
+      "type": "text",
+      "label": "(YYYYMMDD)",
+      "page": 4,
+      "box": {
+        "left": 228.3,
+        "top": 677.6,
+        "width": 86.5,
+        "height": 23.1
+      }
+    },
+    "major": {
+      "type": "text",
+      "label": "Major",
+      "page": 4,
+      "box": {
+        "left": 320.4,
+        "top": 677.6,
+        "width": 132.3,
+        "height": 23.1
+      }
+    },
+    "gpa": {
+      "type": "text",
+      "label": "GPA",
+      "page": 4,
+      "box": {
+        "left": 458.7,
+        "top": 677.6,
+        "width": 29.9,
+        "height": 23.1
+      }
+    },
+    "degAwd": {
+      "type": "text",
+      "label": "Awarded",
+      "page": 4,
+      "box": {
+        "left": 494.5,
+        "top": 677.6,
+        "width": 77.8,
+        "height": 23.1
+      }
+    },
+    "schNmeLoce": {
+      "type": "text",
+      "label": "School Name and Location",
+      "page": 4,
+      "box": {
+        "left": 38.8,
+        "top": 648.7,
+        "width": 183.5,
+        "height": 23.1
+      }
+    },
+    "dteAtte": {
+      "type": "text",
+      "label": "(YYYYMMDD)",
+      "page": 4,
+      "box": {
+        "left": 228.3,
+        "top": 648.7,
+        "width": 86.5,
+        "height": 23.1
+      }
+    },
+    "majore": {
+      "type": "text",
+      "label": "Major",
+      "page": 4,
+      "box": {
+        "left": 320.4,
+        "top": 648.7,
+        "width": 132.3,
+        "height": 23.1
+      }
+    },
+    "gPAe": {
+      "type": "text",
+      "label": "GPA",
+      "page": 4,
+      "box": {
+        "left": 458.7,
+        "top": 648.7,
+        "width": 29.9,
+        "height": 23.1
+      }
+    },
+    "degAwde": {
+      "type": "text",
+      "label": "Awarded",
+      "page": 4,
+      "box": {
+        "left": 494.5,
+        "top": 648.7,
+        "width": 77.8,
+        "height": 23.1
+      }
+    },
+    "schNmeLocf": {
+      "type": "text",
+      "label": "School Name and Location",
+      "page": 4,
+      "box": {
+        "left": 38.8,
+        "top": 619.9,
+        "width": 183.5,
+        "height": 23.1
+      }
+    },
+    "dteAttf": {
+      "type": "text",
+      "label": "(YYYYMMDD)",
+      "page": 4,
+      "box": {
+        "left": 228.3,
+        "top": 619.9,
+        "width": 86.5,
+        "height": 23.1
+      }
+    },
+    "majorf": {
+      "type": "text",
+      "label": "Major",
+      "page": 4,
+      "box": {
+        "left": 320.4,
+        "top": 619.9,
+        "width": 132.3,
+        "height": 23.1
+      }
+    },
+    "gPAf": {
+      "type": "text",
+      "label": "GPA",
+      "page": 4,
+      "box": {
+        "left": 458.7,
+        "top": 619.9,
+        "width": 29.9,
+        "height": 23.1
+      }
+    },
+    "degAwdf": {
+      "type": "text",
+      "label": "Awarded",
+      "page": 4,
+      "box": {
+        "left": 494.5,
+        "top": 619.9,
+        "width": 77.8,
+        "height": 23.1
+      }
+    },
+    "gSchNmeLoc": {
+      "type": "text",
+      "label": "School Name and Location",
+      "page": 4,
+      "box": {
+        "left": 38.8,
+        "top": 526.3,
+        "width": 246.5,
+        "height": 23.1
+      }
+    },
+    "gDteAtt": {
+      "type": "text",
+      "label": "(Expected Date)",
+      "page": 4,
+      "box": {
+        "left": 291.0,
+        "top": 526.3,
+        "width": 124.9,
+        "height": 23.1
+      }
+    },
+    "ggpa": {
+      "type": "text",
+      "label": "GPA",
+      "page": 4,
+      "box": {
+        "left": 421.8,
+        "top": 526.3,
+        "width": 73.0,
+        "height": 23.1
+      }
+    },
+    "gClsRnk": {
+      "type": "text",
+      "label": "Rank",
+      "page": 4,
+      "box": {
+        "left": 500.3,
+        "top": 526.3,
+        "width": 73.0,
+        "height": 23.1
+      }
+    },
+    "gSchNmeLoca": {
+      "type": "text",
+      "label": "School Name and Location",
+      "page": 4,
+      "box": {
+        "left": 38.8,
+        "top": 497.5,
+        "width": 246.5,
+        "height": 23.1
+      }
+    },
+    "gDteAtta": {
+      "type": "text",
+      "label": "(Expected Date)",
+      "page": 4,
+      "box": {
+        "left": 291.0,
+        "top": 497.5,
+        "width": 124.9,
+        "height": 23.1
+      }
+    },
+    "gGPAa": {
+      "type": "text",
+      "label": "GPA",
+      "page": 4,
+      "box": {
+        "left": 421.8,
+        "top": 497.5,
+        "width": 73.0,
+        "height": 23.1
+      }
+    },
+    "gClsRnka": {
+      "type": "text",
+      "label": "Rank",
+      "page": 4,
+      "box": {
+        "left": 500.3,
+        "top": 497.5,
+        "width": 73.0,
+        "height": 23.1
+      }
+    },
+    "gSchNmeLocb": {
+      "type": "text",
+      "label": "School Name and Location",
+      "page": 4,
+      "box": {
+        "left": 38.8,
+        "top": 468.7,
+        "width": 246.5,
+        "height": 23.1
+      }
+    },
+    "gDteAttb": {
+      "type": "text",
+      "label": "(Expected Date)",
+      "page": 4,
+      "box": {
+        "left": 291.0,
+        "top": 468.7,
+        "width": 124.9,
+        "height": 23.1
+      }
+    },
+    "gGPAb": {
+      "type": "text",
+      "label": "GPA",
+      "page": 4,
+      "box": {
+        "left": 421.8,
+        "top": 468.7,
+        "width": 73.0,
+        "height": 23.1
+      }
+    },
+    "gClsRnkb": {
+      "type": "text",
+      "label": "Rank",
+      "page": 4,
+      "box": {
+        "left": 500.3,
+        "top": 468.7,
+        "width": 73.0,
+        "height": 23.1
+      }
+    },
+    "radio13": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 350.1,
+        "top": 438.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio14": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 387.8,
+        "top": 438.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "numScr": {
+      "type": "text",
+      "label": "Numerical Score",
+      "page": 4,
+      "box": {
+        "left": 226.4,
+        "top": 421.9,
+        "width": 58.8,
+        "height": 12.3
+      }
+    },
+    "perct": {
+      "type": "text",
+      "label": "Percentile",
+      "page": 4,
+      "box": {
+        "left": 395.4,
+        "top": 421.9,
+        "width": 56.3,
+        "height": 12.3
+      }
+    },
+    "radio15": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 116.4,
+        "top": 389.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio16": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 148.1,
+        "top": 389.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "exCurrAct": {
+      "type": "text",
+      "label": "Extra-Curricular Activity",
+      "page": 4,
+      "box": {
+        "left": 38.8,
+        "top": 292.3,
+        "width": 174.4,
+        "height": 23.1
+      }
+    },
+    "dtePart": {
+      "type": "text",
+      "label": "Dates of Participation",
+      "page": 4,
+      "box": {
+        "left": 219.1,
+        "top": 292.3,
+        "width": 110.8,
+        "height": 23.1
+      }
+    },
+    "posHld": {
+      "type": "text",
+      "label": "Positions Held",
+      "page": 4,
+      "box": {
+        "left": 335.4,
+        "top": 292.3,
+        "width": 237.9,
+        "height": 23.1
+      }
+    },
+    "exCurrActa": {
+      "type": "text",
+      "label": "Extra-Curricular Activity",
+      "page": 4,
+      "box": {
+        "left": 38.8,
+        "top": 263.5,
+        "width": 174.4,
+        "height": 23.1
+      }
+    },
+    "dteParta": {
+      "type": "text",
+      "label": "Dates of Participation",
+      "page": 4,
+      "box": {
+        "left": 219.1,
+        "top": 263.5,
+        "width": 110.8,
+        "height": 23.1
+      }
+    },
+    "posHlda": {
+      "type": "text",
+      "label": "Positions Held",
+      "page": 4,
+      "box": {
+        "left": 335.4,
+        "top": 263.5,
+        "width": 237.9,
+        "height": 23.1
+      }
+    },
+    "exCurrActb": {
+      "type": "text",
+      "label": "Extra-Curricular Activity",
+      "page": 4,
+      "box": {
+        "left": 38.8,
+        "top": 234.7,
+        "width": 174.4,
+        "height": 23.1
+      }
+    },
+    "dtePartb": {
+      "type": "text",
+      "label": "Dates of Participation",
+      "page": 4,
+      "box": {
+        "left": 219.1,
+        "top": 234.7,
+        "width": 110.8,
+        "height": 23.1
+      }
+    },
+    "posHldb": {
+      "type": "text",
+      "label": "Positions Held",
+      "page": 4,
+      "box": {
+        "left": 335.4,
+        "top": 234.7,
+        "width": 237.9,
+        "height": 23.1
+      }
+    },
+    "exCurrActc": {
+      "type": "text",
+      "label": "Extra-Curricular Activity",
+      "page": 4,
+      "box": {
+        "left": 38.8,
+        "top": 205.9,
+        "width": 174.4,
+        "height": 23.1
+      }
+    },
+    "dtePartc": {
+      "type": "text",
+      "label": "Dates of Participation",
+      "page": 4,
+      "box": {
+        "left": 219.1,
+        "top": 205.9,
+        "width": 110.8,
+        "height": 23.1
+      }
+    },
+    "posHldc": {
+      "type": "text",
+      "label": "Positions Held",
+      "page": 4,
+      "box": {
+        "left": 335.4,
+        "top": 205.9,
+        "width": 237.9,
+        "height": 23.1
+      }
+    },
+    "exCurrActd": {
+      "type": "text",
+      "label": "Extra-Curricular Activity",
+      "page": 4,
+      "box": {
+        "left": 38.8,
+        "top": 177.1,
+        "width": 174.4,
+        "height": 23.1
+      }
+    },
+    "dtePartd": {
+      "type": "text",
+      "label": "Dates of Participation",
+      "page": 4,
+      "box": {
+        "left": 219.1,
+        "top": 177.1,
+        "width": 110.8,
+        "height": 23.1
+      }
+    },
+    "posHldd": {
+      "type": "text",
+      "label": "Positions Held",
+      "page": 4,
+      "box": {
+        "left": 335.4,
+        "top": 177.1,
+        "width": 237.9,
+        "height": 23.1
+      }
+    },
+    "exCurrActe": {
+      "type": "text",
+      "label": "Extra-Curricular Activity",
+      "page": 4,
+      "box": {
+        "left": 38.8,
+        "top": 148.3,
+        "width": 174.4,
+        "height": 23.1
+      }
+    },
+    "dteParte": {
+      "type": "text",
+      "label": "Dates of Participation",
+      "page": 4,
+      "box": {
+        "left": 219.1,
+        "top": 148.3,
+        "width": 110.8,
+        "height": 23.1
+      }
+    },
+    "posHlde": {
+      "type": "text",
+      "label": "Positions Held",
+      "page": 4,
+      "box": {
+        "left": 335.4,
+        "top": 148.3,
+        "width": 237.9,
+        "height": 23.1
+      }
+    },
+    "exCurrActf": {
+      "type": "text",
+      "label": "Extra-Curricular Activity",
+      "page": 4,
+      "box": {
+        "left": 38.8,
+        "top": 119.5,
+        "width": 174.4,
+        "height": 23.1
+      }
+    },
+    "dtePartf": {
+      "type": "text",
+      "label": "Dates of Participation",
+      "page": 4,
+      "box": {
+        "left": 219.1,
+        "top": 119.5,
+        "width": 110.8,
+        "height": 23.1
+      }
+    },
+    "posHldf": {
+      "type": "text",
+      "label": "Positions Held",
+      "page": 4,
+      "box": {
+        "left": 335.4,
+        "top": 119.5,
+        "width": 237.9,
+        "height": 23.1
+      }
+    },
+    "exCurrActg": {
+      "type": "text",
+      "label": "Extra-Curricular Activity",
+      "page": 4,
+      "box": {
+        "left": 38.8,
+        "top": 90.7,
+        "width": 174.4,
+        "height": 23.1
+      }
+    },
+    "dtePartg": {
+      "type": "text",
+      "label": "Dates of Participation",
+      "page": 4,
+      "box": {
+        "left": 219.1,
+        "top": 90.7,
+        "width": 110.8,
+        "height": 23.1
+      }
+    },
+    "posHldg": {
+      "type": "text",
+      "label": "Positions Held",
+      "page": 4,
+      "box": {
+        "left": 335.4,
+        "top": 90.7,
+        "width": 237.9,
+        "height": 23.1
+      }
+    },
+    "exCurrActh": {
+      "type": "text",
+      "label": "Extra-Curricular Activity",
+      "page": 4,
+      "box": {
+        "left": 38.8,
+        "top": 61.9,
+        "width": 174.4,
+        "height": 23.1
+      }
+    },
+    "dteParth": {
+      "type": "text",
+      "label": "Dates of Participation",
+      "page": 4,
+      "box": {
+        "left": 219.1,
+        "top": 61.9,
+        "width": 110.8,
+        "height": 23.1
+      }
+    },
+    "posHldh": {
+      "type": "text",
+      "label": "Positions Held",
+      "page": 4,
+      "box": {
+        "left": 335.4,
+        "top": 61.9,
+        "width": 237.9,
+        "height": 23.1
+      }
+    },
+    "radio17": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 154.7,
+        "top": 696.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio18": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 192.6,
+        "top": 696.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio19": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 5,
+      "box": {
+        "left": 155.0,
+        "top": 670.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio20": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 192.1,
+        "top": 670.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio21": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 5,
+      "box": {
+        "left": 154.3,
+        "top": 640.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio22": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 192.1,
+        "top": 640.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio23": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 5,
+      "box": {
+        "left": 155.0,
+        "top": 613.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio24": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 192.6,
+        "top": 613.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio25": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 331.3,
+        "top": 576.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio26": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 5,
+      "box": {
+        "left": 366.7,
+        "top": 576.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio27": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 155.0,
+        "top": 539.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio28": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 5,
+      "box": {
+        "left": 192.6,
+        "top": 539.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio29": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 5,
+      "box": {
+        "left": 155.0,
+        "top": 505.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio30": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 5,
+      "box": {
+        "left": 192.6,
+        "top": 505.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "locOne": {
+      "type": "text",
+      "label": "1st Location",
+      "page": 5,
+      "box": {
+        "left": 123.8,
+        "top": 425.5,
+        "width": 89.2,
+        "height": 12.3
+      }
+    },
+    "locTwo": {
+      "type": "text",
+      "label": "2nd Location",
+      "page": 5,
+      "box": {
+        "left": 285.9,
+        "top": 425.5,
+        "width": 89.4,
+        "height": 12.3
+      }
+    },
+    "locThree": {
+      "type": "text",
+      "label": "3rd Location",
+      "page": 5,
+      "box": {
+        "left": 448.1,
+        "top": 425.5,
+        "width": 89.8,
+        "height": 12.3
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 5,
+      "box": {
+        "left": 38.8,
+        "top": 376.2,
+        "width": 534.4,
+        "height": 337.4
+      },
+      "multiline": true
+    },
+    "motSta": {
+      "type": "text",
+      "label": "words or less)",
+      "page": 6,
+      "box": {
+        "left": 38.8,
+        "top": 716.0,
+        "width": 534.4,
+        "height": 677.3
+      },
+      "multiline": true
+    },
+    "dob": {
+      "type": "text",
+      "label": "33. DATE OF BIRTH",
+      "page": 7,
+      "box": {
+        "left": 362.9,
+        "top": 724.7,
+        "width": 93.3,
+        "height": 22.7
+      }
+    },
+    "nmelfm1": {
+      "type": "text",
+      "label": "32. NAME (Last, First, MI)",
+      "page": 7,
+      "box": {
+        "left": 38.8,
+        "top": 724.6,
+        "width": 318.4,
+        "height": 19.8
+      }
+    },
+    "radio31": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 7,
+      "box": {
+        "left": 470.9,
+        "top": 716.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio32": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 7,
+      "box": {
+        "left": 520.4,
+        "top": 716.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio33": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 7,
+      "box": {
+        "left": 340.5,
+        "top": 697.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio34": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 7,
+      "box": {
+        "left": 381.9,
+        "top": 697.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "amerIndAK": {
+      "type": "checkbox",
+      "label": "Amer Ind AK",
+      "page": 7,
+      "box": {
+        "left": 44.3,
+        "top": 661.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "hawaiian": {
+      "type": "checkbox",
+      "label": "American Indian or Alaska Native",
+      "page": 7,
+      "box": {
+        "left": 237.9,
+        "top": 661.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "asian": {
+      "type": "checkbox",
+      "label": "Asian",
+      "page": 7,
+      "box": {
+        "left": 44.3,
+        "top": 643.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "white": {
+      "type": "checkbox",
+      "label": "Asian",
+      "page": 7,
+      "box": {
+        "left": 237.9,
+        "top": 643.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "blackAA": {
+      "type": "checkbox",
+      "label": "Black AA",
+      "page": 7,
+      "box": {
+        "left": 44.3,
+        "top": 625.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "mnjwa": {
+      "type": "checkbox",
+      "label": "Mnjwa",
+      "page": 7,
+      "box": {
+        "left": 44.3,
+        "top": 589.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "mcv": {
+      "type": "checkbox",
+      "label": "Navy JAGC Web Site (www.jag.navy.mil)",
+      "page": 7,
+      "box": {
+        "left": 237.9,
+        "top": 589.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "mnrws": {
+      "type": "checkbox",
+      "label": "Mnrws",
+      "page": 7,
+      "box": {
+        "left": 44.3,
+        "top": 571.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "mpa": {
+      "type": "checkbox",
+      "label": "Navy Recruiting Web Site (www.navy.com)",
+      "page": 7,
+      "box": {
+        "left": 237.9,
+        "top": 571.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "mjs": {
+      "type": "checkbox",
+      "label": "Mjs",
+      "page": 7,
+      "box": {
+        "left": 44.3,
+        "top": 553.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "mwm": {
+      "type": "checkbox",
+      "label": "Job Fair (Please specify in field 39 below)",
+      "page": 7,
+      "box": {
+        "left": 237.9,
+        "top": 553.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "mrb": {
+      "type": "checkbox",
+      "label": "Mrb",
+      "page": 7,
+      "box": {
+        "left": 44.3,
+        "top": 535.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "msi": {
+      "type": "checkbox",
+      "label": "Recruiting Brochure",
+      "page": 7,
+      "box": {
+        "left": 237.9,
+        "top": 535.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "mlscso": {
+      "type": "checkbox",
+      "label": "Mlscso",
+      "page": 7,
+      "box": {
+        "left": 44.3,
+        "top": 517.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "mftms": {
+      "type": "checkbox",
+      "label": "Your law school career service office",
+      "page": 7,
+      "box": {
+        "left": 237.9,
+        "top": 517.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "mo": {
+      "type": "checkbox",
+      "label": "Mo",
+      "page": 7,
+      "box": {
+        "left": 44.3,
+        "top": 499.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "mnjwa2": {
+      "type": "checkbox",
+      "label": "(Mark",
+      "page": 7,
+      "box": {
+        "left": 44.3,
+        "top": 459.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "mcv2": {
+      "type": "checkbox",
+      "label": "National Black Law Students Association (NBLSA)",
+      "page": 7,
+      "box": {
+        "left": 312.0,
+        "top": 459.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "mnrws2": {
+      "type": "checkbox",
+      "label": "(Mark",
+      "page": 7,
+      "box": {
+        "left": 44.3,
+        "top": 441.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "mpa2": {
+      "type": "checkbox",
+      "label": "National Latino/a Law Student Association (NLLSA)",
+      "page": 7,
+      "box": {
+        "left": 312.0,
+        "top": 441.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "mjs2": {
+      "type": "checkbox",
+      "label": "(Mark",
+      "page": 7,
+      "box": {
+        "left": 44.3,
+        "top": 423.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "mwm2": {
+      "type": "checkbox",
+      "label": "following",
+      "page": 7,
+      "box": {
+        "left": 312.0,
+        "top": 423.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "mrb2": {
+      "type": "checkbox",
+      "label": "(Mark",
+      "page": 7,
+      "box": {
+        "left": 44.3,
+        "top": 405.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "msi2": {
+      "type": "checkbox",
+      "label": "National Bar Association (NBA)",
+      "page": 7,
+      "box": {
+        "left": 312.0,
+        "top": 405.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "mlscso2": {
+      "type": "checkbox",
+      "label": "(Mark",
+      "page": 7,
+      "box": {
+        "left": 44.3,
+        "top": 387.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "mftms2": {
+      "type": "checkbox",
+      "label": "Hispanic National Bar Association (HNBA)",
+      "page": 7,
+      "box": {
+        "left": 312.0,
+        "top": 387.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "mo2": {
+      "type": "checkbox",
+      "label": "(Mark",
+      "page": 7,
+      "box": {
+        "left": 44.3,
+        "top": 369.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "mo3": {
+      "type": "checkbox",
+      "label": "National Native American Law Student Association (NNALSA)",
+      "page": 7,
+      "box": {
+        "left": 312.0,
+        "top": 369.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "mo4": {
+      "type": "checkbox",
+      "label": "(Mark",
+      "page": 7,
+      "box": {
+        "left": 44.3,
+        "top": 351.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "mo5": {
+      "type": "checkbox",
+      "label": "South Asian Bar Association (SABA)",
+      "page": 7,
+      "box": {
+        "left": 312.0,
+        "top": 351.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "specSel": {
+      "type": "text",
+      "label": "39. SPECIFY",
+      "page": 7,
+      "box": {
+        "left": 38.8,
+        "top": 323.8,
+        "width": 534.4,
+        "height": 54.7
+      },
+      "multiline": true
+    },
+    "radio35": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 7,
+      "box": {
+        "left": 111.8,
+        "top": 255.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio36": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 7,
+      "box": {
+        "left": 160.5,
+        "top": 255.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "appSigDte": {
+      "type": "text",
+      "label": "41. Date of Signature",
+      "page": 7,
+      "box": {
+        "left": 118.0,
+        "top": 225.3,
+        "width": 186.6,
+        "height": 18.7
+      }
+    },
+    "signatureField1": {
+      "type": "text",
+      "label": "42. Signature of Applicant",
+      "page": 7,
+      "box": {
+        "left": 407.2,
+        "top": 223.9,
+        "width": 166.0,
+        "height": 15.9
+      }
+    }
+  }
+}

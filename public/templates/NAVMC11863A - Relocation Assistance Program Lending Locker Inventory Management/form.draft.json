@@ -1,0 +1,235 @@
+{
+  "id": "navmc11863a",
+  "label": "NAVMC11863A - Relocation Assistance Program Lending Locker Inventory Management",
+  "directory": "NAVMC11863A - Relocation Assistance Program Lending Locker Inventory Management",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "completedBy",
+        "date"
+      ]
+    }
+  ],
+  "fields": {
+    "completedBy": {
+      "type": "text",
+      "label": "Completed By (Relocation Staff)",
+      "page": 1,
+      "box": {
+        "left": 172.3,
+        "top": 150.1,
+        "width": 293.0,
+        "height": 15.9
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 494.1,
+        "top": 150.1,
+        "width": 79.1,
+        "height": 15.9
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 7,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "itemsH": {
+          "type": "text",
+          "label": "HOUSEHOLD ITEMS",
+          "page": 1,
+          "box": {
+            "left": 57.6,
+            "top": 475.5,
+            "width": 157.0,
+            "height": 15.1
+          }
+        },
+        "lastCountH": {
+          "type": "text",
+          "label": "INVENTORY",
+          "page": 1,
+          "box": {
+            "left": 219.6,
+            "top": 475.5,
+            "width": 85.0,
+            "height": 15.1
+          }
+        },
+        "addedH": {
+          "type": "text",
+          "label": "Added",
+          "page": 1,
+          "box": {
+            "left": 309.6,
+            "top": 475.5,
+            "width": 85.0,
+            "height": 15.1
+          }
+        },
+        "subtractedH": {
+          "type": "text",
+          "label": "Subtracted",
+          "page": 1,
+          "box": {
+            "left": 399.6,
+            "top": 475.5,
+            "width": 85.0,
+            "height": 15.1
+          }
+        },
+        "currentH": {
+          "type": "text",
+          "label": "COUNT",
+          "page": 1,
+          "box": {
+            "left": 489.7,
+            "top": 475.5,
+            "width": 85.0,
+            "height": 15.1
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 7,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "itemsB": {
+          "type": "text",
+          "label": "BABY ITEMS",
+          "page": 1,
+          "box": {
+            "left": 57.6,
+            "top": 619.5,
+            "width": 157.0,
+            "height": 15.1
+          }
+        },
+        "lastCountB": {
+          "type": "text",
+          "label": "INVENTORY",
+          "page": 1,
+          "box": {
+            "left": 219.6,
+            "top": 619.5,
+            "width": 85.0,
+            "height": 15.1
+          }
+        },
+        "addedB": {
+          "type": "text",
+          "label": "Added",
+          "page": 1,
+          "box": {
+            "left": 309.6,
+            "top": 619.5,
+            "width": 85.0,
+            "height": 15.1
+          }
+        },
+        "subtractedB": {
+          "type": "text",
+          "label": "Subtracted",
+          "page": 1,
+          "box": {
+            "left": 399.6,
+            "top": 619.5,
+            "width": 85.0,
+            "height": 15.1
+          }
+        },
+        "currentB": {
+          "type": "text",
+          "label": "COUNT",
+          "page": 1,
+          "box": {
+            "left": 489.7,
+            "top": 619.5,
+            "width": 85.0,
+            "height": 15.1
+          }
+        }
+      }
+    },
+    "rows3": {
+      "title": "Rows",
+      "page": 1,
+      "count": 10,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "itemsD": {
+          "type": "text",
+          "label": "DISH PACK ITEMS",
+          "page": 1,
+          "box": {
+            "left": 57.6,
+            "top": 331.5,
+            "width": 157.0,
+            "height": 15.1
+          }
+        },
+        "lastCountD": {
+          "type": "text",
+          "label": "INVENTORY",
+          "page": 1,
+          "box": {
+            "left": 219.6,
+            "top": 331.5,
+            "width": 85.0,
+            "height": 15.1
+          }
+        },
+        "addedD": {
+          "type": "text",
+          "label": "Added",
+          "page": 1,
+          "box": {
+            "left": 309.6,
+            "top": 331.5,
+            "width": 85.0,
+            "height": 15.1
+          }
+        },
+        "subtractedD": {
+          "type": "text",
+          "label": "Subtracted",
+          "page": 1,
+          "box": {
+            "left": 399.6,
+            "top": 331.5,
+            "width": 85.0,
+            "height": 15.1
+          }
+        },
+        "currentD": {
+          "type": "text",
+          "label": "COUNT",
+          "page": 1,
+          "box": {
+            "left": 489.7,
+            "top": 331.5,
+            "width": 85.0,
+            "height": 15.1
+          }
+        }
+      }
+    }
+  }
+}

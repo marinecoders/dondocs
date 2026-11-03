@@ -1,0 +1,2113 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "apprSt": {
+        "left": 249.0,
+        "top": 605.4,
+        "width": 127.0,
+        "height": 13.8,
+        "type": "text",
+        "description": "a. START DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "appEd": {
+        "left": 105.0,
+        "top": 587.4,
+        "width": 127.0,
+        "height": 13.8,
+        "type": "text",
+        "description": "b. END DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "empNme": {
+        "left": 236.9,
+        "top": 579.2,
+        "width": 321.2,
+        "height": 16.8,
+        "type": "text",
+        "description": "2. EMPLOYEE NAME ( Last, First, Middle Initial )",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "empSSN": {
+        "left": 38.8,
+        "top": 552.2,
+        "width": 213.2,
+        "height": 16.8,
+        "type": "text",
+        "description": "3. EMPLOYEE ID",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "empPosTitle": {
+        "left": 38.8,
+        "top": 525.2,
+        "width": 321.2,
+        "height": 16.8,
+        "type": "text",
+        "description": "4. POSITION TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "gSGrSt": {
+        "left": 38.8,
+        "top": 497.7,
+        "width": 210.4,
+        "height": 16.2,
+        "type": "text",
+        "description": "5. GENERAL SCHEDULE (GS) GRADE AND STEP",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "organi": {
+        "left": 128.9,
+        "top": 481.5,
+        "width": 447.2,
+        "height": 18.0,
+        "type": "text",
+        "description": "6. ORGANIZATION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cert": {
+        "left": 273.9,
+        "top": 440.5,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "1. POSITION DESCRIPTION CERTIFICATION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mdpp": {
+        "left": 174.6,
+        "top": 297.8,
+        "width": 127.8,
+        "height": 19.8,
+        "type": "choice",
+        "description": "MEANS OF DELIVERY",
+        "options": [
+          "Face-to-Face",
+          "Telephone",
+          "Other "
+        ],
+        "group": null,
+        "required": false
+      },
+      "mdpr": {
+        "left": 309.6,
+        "top": 297.8,
+        "width": 127.8,
+        "height": 19.8,
+        "type": "choice",
+        "description": "MEANS OF DELIVERY",
+        "options": [
+          "Face-to-Face",
+          "Telephone",
+          "Other "
+        ],
+        "group": null,
+        "required": false
+      },
+      "mdaa": {
+        "left": 444.6,
+        "top": 297.8,
+        "width": 127.8,
+        "height": 19.8,
+        "type": "choice",
+        "description": "MEANS OF DELIVERY",
+        "options": [
+          "Face-to-Face",
+          "Telephone",
+          "Other "
+        ],
+        "group": null,
+        "required": false
+      },
+      "rapp": {
+        "left": 173.9,
+        "top": 271.6,
+        "width": 129.3,
+        "height": 48.3,
+        "type": "text",
+        "description": "RATING NAME, TITLE, OFFICIAL ORGANIZATION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rapr": {
+        "left": 308.9,
+        "top": 271.6,
+        "width": 129.3,
+        "height": 48.3,
+        "type": "text",
+        "description": "RATING NAME, TITLE, OFFICIAL ORGANIZATION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "raaa": {
+        "left": 443.9,
+        "top": 271.6,
+        "width": 129.3,
+        "height": 48.3,
+        "type": "text",
+        "description": "RATING NAME, TITLE, OFFICIAL ORGANIZATION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rASigPP": {
+        "left": 173.9,
+        "top": 217.6,
+        "width": 129.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "RATING OFFICIAL SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rASigPR": {
+        "left": 308.9,
+        "top": 217.6,
+        "width": 129.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "RATING OFFICIAL SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rASigAA": {
+        "left": 443.9,
+        "top": 217.6,
+        "width": 129.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "RATING OFFICIAL SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dteSigRAPP": {
+        "left": 171.0,
+        "top": 193.4,
+        "width": 135.0,
+        "height": 27.0,
+        "type": "text",
+        "description": "RATING SIGNATURE OFFICIAL DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dteSigRAPR": {
+        "left": 306.0,
+        "top": 193.4,
+        "width": 135.0,
+        "height": 27.0,
+        "type": "text",
+        "description": "RATING SIGNATURE OFFICIAL DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dteSigRAAA": {
+        "left": 441.1,
+        "top": 193.4,
+        "width": 135.0,
+        "height": 27.0,
+        "type": "text",
+        "description": "RATING SIGNATURE OFFICIAL DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "srapp": {
+        "left": 173.9,
+        "top": 163.6,
+        "width": 129.3,
+        "height": 48.3,
+        "type": "text",
+        "description": "SENIOR NAME, TITLE, RATING ORGANIZATION: OFFICIAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sraaa": {
+        "left": 443.9,
+        "top": 163.6,
+        "width": 129.3,
+        "height": 48.3,
+        "type": "text",
+        "description": "SENIOR NAME, TITLE, RATING ORGANIZATION: OFFICIAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sRASigPP": {
+        "left": 173.9,
+        "top": 109.6,
+        "width": 129.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "SENIOR SIGNATURE: RATING OFFICIAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sRASigAA": {
+        "left": 443.9,
+        "top": 109.6,
+        "width": 129.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "SENIOR SIGNATURE: RATING OFFICIAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dteSigSRAPP": {
+        "left": 171.0,
+        "top": 85.4,
+        "width": 135.0,
+        "height": 27.0,
+        "type": "text",
+        "description": "SENIOR SIGNATURE RATING DATE: OFFICIAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dteSigSRAAA": {
+        "left": 441.1,
+        "top": 85.4,
+        "width": 135.0,
+        "height": 27.0,
+        "type": "text",
+        "description": "SENIOR SIGNATURE RATING DATE: OFFICIAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "empNme2": {
+        "left": 256.3,
+        "top": 35.9,
+        "width": 180.2,
+        "height": 13.5,
+        "type": "text",
+        "description": "OPNAV 12430/6 (REV. 11/2011) EMPLOYEE NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "eMPSigPP": {
+        "left": 173.9,
+        "top": 753.2,
+        "width": 129.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "EMPLOYEE SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "eMPSigPR": {
+        "left": 308.9,
+        "top": 753.2,
+        "width": 129.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "EMPLOYEE SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "eMPSigAA": {
+        "left": 443.9,
+        "top": 753.2,
+        "width": 129.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "EMPLOYEE SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dteSigEMPPP": {
+        "left": 171.0,
+        "top": 729.0,
+        "width": 135.0,
+        "height": 30.2,
+        "type": "text",
+        "description": "EMPLOYEE SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dteSigEMPPR": {
+        "left": 306.0,
+        "top": 729.0,
+        "width": 135.0,
+        "height": 30.2,
+        "type": "text",
+        "description": "EMPLOYEE SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dteSigEMPAA": {
+        "left": 441.1,
+        "top": 729.0,
+        "width": 135.0,
+        "height": 30.2,
+        "type": "text",
+        "description": "EMPLOYEE SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "empNme3": {
+        "left": 256.3,
+        "top": 35.9,
+        "width": 180.2,
+        "height": 13.5,
+        "type": "text",
+        "description": "OPNAV 12430/6 (REV. 11/2011) EMPLOYEE NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page3": {
+      "mdcla": {
+        "left": 120.2,
+        "top": 725.4,
+        "width": 69.3,
+        "height": 24.3,
+        "type": "choice",
+        "description": "MEANS DELIVERY: OF",
+        "options": [
+          "Face-to-Face",
+          "Telephone",
+          "Other "
+        ],
+        "group": null,
+        "required": false
+      },
+      "mdclb": {
+        "left": 196.8,
+        "top": 725.4,
+        "width": 69.3,
+        "height": 24.3,
+        "type": "choice",
+        "description": "MEANS DELIVERY: OF",
+        "options": [
+          "Face-to-Face",
+          "Telephone",
+          "Other "
+        ],
+        "group": null,
+        "required": false
+      },
+      "mdclc": {
+        "left": 273.3,
+        "top": 725.4,
+        "width": 69.3,
+        "height": 24.3,
+        "type": "choice",
+        "description": "MEANS DELIVERY: OF",
+        "options": [
+          "Face-to-Face",
+          "Telephone",
+          "Other "
+        ],
+        "group": null,
+        "required": false
+      },
+      "mdae": {
+        "left": 349.8,
+        "top": 725.4,
+        "width": 69.3,
+        "height": 24.3,
+        "type": "choice",
+        "description": "MEANS DELIVERY: OF",
+        "options": [
+          "Face-to-Face",
+          "Telephone",
+          "Other "
+        ],
+        "group": null,
+        "required": false
+      },
+      "mdae2": {
+        "left": 426.3,
+        "top": 725.4,
+        "width": 69.3,
+        "height": 24.3,
+        "type": "choice",
+        "description": "MEANS DELIVERY: OF",
+        "options": [
+          "Face-to-Face",
+          "Telephone",
+          "Other "
+        ],
+        "group": null,
+        "required": false
+      },
+      "mdae3": {
+        "left": 502.8,
+        "top": 725.4,
+        "width": 69.3,
+        "height": 24.3,
+        "type": "choice",
+        "description": "MEANS DELIVERY: OF",
+        "options": [
+          "Face-to-Face",
+          "Telephone",
+          "Other "
+        ],
+        "group": null,
+        "required": false
+      },
+      "racla": {
+        "left": 119.5,
+        "top": 694.7,
+        "width": 70.8,
+        "height": 52.8,
+        "type": "text",
+        "description": "NAME, TITLE,",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "raclb": {
+        "left": 196.0,
+        "top": 694.7,
+        "width": 70.8,
+        "height": 52.8,
+        "type": "text",
+        "description": "NAME, TITLE,",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "raclc": {
+        "left": 272.5,
+        "top": 694.7,
+        "width": 70.8,
+        "height": 52.8,
+        "type": "text",
+        "description": "NAME, TITLE,",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "raae": {
+        "left": 349.0,
+        "top": 694.7,
+        "width": 70.8,
+        "height": 52.8,
+        "type": "text",
+        "description": "NAME, TITLE,",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "raae2": {
+        "left": 425.5,
+        "top": 694.7,
+        "width": 70.8,
+        "height": 52.8,
+        "type": "text",
+        "description": "NAME, TITLE,",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "raae3": {
+        "left": 502.0,
+        "top": 694.7,
+        "width": 70.8,
+        "height": 52.8,
+        "type": "text",
+        "description": "NAME, TITLE,",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rASigCLA": {
+        "left": 119.5,
+        "top": 636.1,
+        "width": 70.8,
+        "height": 25.8,
+        "type": "text",
+        "description": "SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rASigCLB": {
+        "left": 196.0,
+        "top": 636.1,
+        "width": 70.8,
+        "height": 25.8,
+        "type": "text",
+        "description": "SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rASigCLC": {
+        "left": 272.5,
+        "top": 636.1,
+        "width": 70.8,
+        "height": 25.8,
+        "type": "text",
+        "description": "SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rASigAE": {
+        "left": 349.0,
+        "top": 636.1,
+        "width": 70.8,
+        "height": 25.8,
+        "type": "text",
+        "description": "SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rASigAE2": {
+        "left": 425.5,
+        "top": 636.1,
+        "width": 70.8,
+        "height": 25.8,
+        "type": "text",
+        "description": "SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rASigAE3": {
+        "left": 502.0,
+        "top": 636.1,
+        "width": 70.8,
+        "height": 25.8,
+        "type": "text",
+        "description": "SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dteSigRACLA": {
+        "left": 116.7,
+        "top": 607.5,
+        "width": 76.5,
+        "height": 31.5,
+        "type": "text",
+        "description": "RATING SIGNATURE OFFICIAL DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dteSigRACLB": {
+        "left": 193.2,
+        "top": 607.5,
+        "width": 76.5,
+        "height": 31.5,
+        "type": "text",
+        "description": "RATING SIGNATURE OFFICIAL DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dteSigRACLC": {
+        "left": 269.7,
+        "top": 607.5,
+        "width": 76.5,
+        "height": 31.5,
+        "type": "text",
+        "description": "RATING SIGNATURE OFFICIAL DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dteSigRAAE": {
+        "left": 346.2,
+        "top": 607.5,
+        "width": 76.5,
+        "height": 31.5,
+        "type": "text",
+        "description": "RATING SIGNATURE OFFICIAL DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dteSigRAAE2": {
+        "left": 422.7,
+        "top": 607.5,
+        "width": 76.5,
+        "height": 31.5,
+        "type": "text",
+        "description": "RATING SIGNATURE OFFICIAL DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dteSigRAAE3": {
+        "left": 499.2,
+        "top": 607.5,
+        "width": 76.5,
+        "height": 31.5,
+        "type": "text",
+        "description": "RATING SIGNATURE OFFICIAL DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sracl": {
+        "left": 119.5,
+        "top": 573.1,
+        "width": 70.8,
+        "height": 52.8,
+        "type": "text",
+        "description": "OFFICIAL NAME, TITLE,",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sraaa2": {
+        "left": 196.0,
+        "top": 573.1,
+        "width": 70.8,
+        "height": 52.8,
+        "type": "text",
+        "description": "OFFICIAL NAME, TITLE,",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "srapr": {
+        "left": 272.5,
+        "top": 573.1,
+        "width": 70.8,
+        "height": 52.8,
+        "type": "text",
+        "description": "OFFICIAL NAME, TITLE,",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sraae": {
+        "left": 349.0,
+        "top": 573.1,
+        "width": 70.8,
+        "height": 52.8,
+        "type": "text",
+        "description": "OFFICIAL NAME, TITLE,",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sraae2": {
+        "left": 425.5,
+        "top": 573.1,
+        "width": 70.8,
+        "height": 52.8,
+        "type": "text",
+        "description": "OFFICIAL NAME, TITLE,",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sraae3": {
+        "left": 502.0,
+        "top": 573.1,
+        "width": 70.8,
+        "height": 52.8,
+        "type": "text",
+        "description": "OFFICIAL NAME, TITLE,",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sRASigCL": {
+        "left": 119.5,
+        "top": 514.6,
+        "width": 70.8,
+        "height": 25.8,
+        "type": "text",
+        "description": "OFFICIAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sRASigCLa": {
+        "left": 196.0,
+        "top": 514.6,
+        "width": 70.8,
+        "height": 25.8,
+        "type": "text",
+        "description": "OFFICIAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dteSigSRACLC": {
+        "left": 272.5,
+        "top": 514.6,
+        "width": 70.8,
+        "height": 25.8,
+        "type": "text",
+        "description": "OFFICIAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sRASigAE": {
+        "left": 349.0,
+        "top": 514.6,
+        "width": 70.8,
+        "height": 25.8,
+        "type": "text",
+        "description": "OFFICIAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sRASigAE2": {
+        "left": 425.5,
+        "top": 514.6,
+        "width": 70.8,
+        "height": 25.8,
+        "type": "text",
+        "description": "OFFICIAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sRASigAE3": {
+        "left": 502.0,
+        "top": 514.6,
+        "width": 70.8,
+        "height": 25.8,
+        "type": "text",
+        "description": "OFFICIAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dteSigSRAAE": {
+        "left": 346.2,
+        "top": 486.0,
+        "width": 76.5,
+        "height": 31.5,
+        "type": "text",
+        "description": "OFFICIAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dteSigSRAAE2": {
+        "left": 422.7,
+        "top": 486.0,
+        "width": 76.5,
+        "height": 31.5,
+        "type": "text",
+        "description": "OFFICIAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dteSigSRAAE3": {
+        "left": 499.2,
+        "top": 486.0,
+        "width": 76.5,
+        "height": 31.5,
+        "type": "text",
+        "description": "OFFICIAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dteSigSRACLA": {
+        "left": 119.5,
+        "top": 483.1,
+        "width": 70.8,
+        "height": 25.8,
+        "type": "text",
+        "description": "OFFICIAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dteSigSRACLB": {
+        "left": 196.0,
+        "top": 483.1,
+        "width": 70.8,
+        "height": 25.8,
+        "type": "text",
+        "description": "OFFICIAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sRASigPR": {
+        "left": 272.5,
+        "top": 483.1,
+        "width": 70.8,
+        "height": 25.8,
+        "type": "text",
+        "description": "OFFICIAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "eMPSigCLA": {
+        "left": 119.5,
+        "top": 433.6,
+        "width": 70.8,
+        "height": 25.8,
+        "type": "text",
+        "description": "EMPLOYEE SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "eMPSigCLB": {
+        "left": 196.0,
+        "top": 433.6,
+        "width": 70.8,
+        "height": 25.8,
+        "type": "text",
+        "description": "EMPLOYEE SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "eMPSigCLC": {
+        "left": 272.5,
+        "top": 433.6,
+        "width": 70.8,
+        "height": 25.8,
+        "type": "text",
+        "description": "EMPLOYEE SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "eMPSigAE": {
+        "left": 349.0,
+        "top": 433.6,
+        "width": 70.8,
+        "height": 25.8,
+        "type": "text",
+        "description": "EMPLOYEE SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "eMPSigAE2": {
+        "left": 425.5,
+        "top": 433.6,
+        "width": 70.8,
+        "height": 25.8,
+        "type": "text",
+        "description": "EMPLOYEE SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "eMPSigAE3": {
+        "left": 502.0,
+        "top": 433.6,
+        "width": 70.8,
+        "height": 25.8,
+        "type": "text",
+        "description": "EMPLOYEE SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dteSigEMPCLA": {
+        "left": 116.7,
+        "top": 404.9,
+        "width": 76.5,
+        "height": 31.5,
+        "type": "text",
+        "description": "EMPLOYEE SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dteSigEMPCLB": {
+        "left": 193.2,
+        "top": 404.9,
+        "width": 76.5,
+        "height": 31.5,
+        "type": "text",
+        "description": "EMPLOYEE SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dteSigEMPCLC": {
+        "left": 269.7,
+        "top": 404.9,
+        "width": 76.5,
+        "height": 31.5,
+        "type": "text",
+        "description": "EMPLOYEE SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dteSigEMPAE": {
+        "left": 346.2,
+        "top": 404.9,
+        "width": 76.5,
+        "height": 31.5,
+        "type": "text",
+        "description": "EMPLOYEE SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dteSigEMPAE2": {
+        "left": 422.7,
+        "top": 404.9,
+        "width": 76.5,
+        "height": 31.5,
+        "type": "text",
+        "description": "EMPLOYEE SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dteSigEMPAE3": {
+        "left": 499.2,
+        "top": 404.9,
+        "width": 76.5,
+        "height": 31.5,
+        "type": "text",
+        "description": "EMPLOYEE SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "partC": {
+        "left": 38.8,
+        "top": 355.6,
+        "width": 534.4,
+        "height": 316.9,
+        "type": "text",
+        "description": "PART C - COMMAND USE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "empNme4": {
+        "left": 256.3,
+        "top": 35.9,
+        "width": 180.2,
+        "height": 13.5,
+        "type": "text",
+        "description": "OPNAV 12430/6 (REV. 11/2011) EMPLOYEE NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page4": {
+      "radio": {
+        "left": 457.2,
+        "top": 641.8,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio2": {
+        "left": 490.4,
+        "top": 641.8,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio3": {
+        "left": 97.3,
+        "top": 641.7,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio4": {
+        "left": 173.9,
+        "top": 641.7,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio5": {
+        "left": 259.4,
+        "top": 641.7,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item2",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "empNme5": {
+        "left": 256.3,
+        "top": 35.9,
+        "width": 180.2,
+        "height": 13.5,
+        "type": "text",
+        "description": "OPNAV 12430/6 (REV. 11/2011) EMPLOYEE NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page5": {
+      "partCCe1": {
+        "left": 160.5,
+        "top": 672.2,
+        "width": 412.7,
+        "height": 12.3,
+        "type": "text",
+        "description": "CRITICAL ELEMENT 1 TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "partCCe1Nar": {
+        "left": 38.8,
+        "top": 654.1,
+        "width": 534.4,
+        "height": 84.3,
+        "type": "text",
+        "description": "CRITICAL ELEMENT 1 TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "partCCe2": {
+        "left": 160.5,
+        "top": 564.1,
+        "width": 412.7,
+        "height": 12.3,
+        "type": "text",
+        "description": "CRITICAL ELEMENT 2 TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "partCCe2Nar": {
+        "left": 38.8,
+        "top": 546.1,
+        "width": 534.4,
+        "height": 111.3,
+        "type": "text",
+        "description": "CRITICAL ELEMENT 2 TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "partCCe3": {
+        "left": 160.5,
+        "top": 429.1,
+        "width": 412.7,
+        "height": 12.3,
+        "type": "text",
+        "description": "CRITICAL ELEMENT 3 TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "partCCe3Nar": {
+        "left": 38.8,
+        "top": 411.1,
+        "width": 534.4,
+        "height": 111.3,
+        "type": "text",
+        "description": "CRITICAL ELEMENT 3 TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "partCCe4": {
+        "left": 160.5,
+        "top": 294.1,
+        "width": 412.7,
+        "height": 12.3,
+        "type": "text",
+        "description": "CRITICAL ELEMENT 4 TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "partCCe4Nar": {
+        "left": 38.8,
+        "top": 276.1,
+        "width": 534.4,
+        "height": 111.3,
+        "type": "text",
+        "description": "CRITICAL ELEMENT 4 TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "partCCe5": {
+        "left": 160.5,
+        "top": 159.1,
+        "width": 412.7,
+        "height": 12.3,
+        "type": "text",
+        "description": "CRITICAL ELEMENT 5 TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "partCCe5Nar": {
+        "left": 38.8,
+        "top": 141.1,
+        "width": 534.4,
+        "height": 102.3,
+        "type": "text",
+        "description": "CRITICAL ELEMENT 5 TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "empNme6": {
+        "left": 256.3,
+        "top": 35.9,
+        "width": 180.2,
+        "height": 13.5,
+        "type": "text",
+        "description": "OPNAV 12430/6 (REV. 11/2011) EMPLOYEE NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page6": {
+      "partCCe12": {
+        "left": 160.5,
+        "top": 699.2,
+        "width": 412.7,
+        "height": 12.3,
+        "type": "text",
+        "description": "CRITICAL ELEMENT 1 TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "partCCe22": {
+        "left": 160.5,
+        "top": 681.2,
+        "width": 412.7,
+        "height": 12.3,
+        "type": "text",
+        "description": "CRITICAL ELEMENT 2 TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "partCCe32": {
+        "left": 160.5,
+        "top": 663.1,
+        "width": 412.7,
+        "height": 12.3,
+        "type": "text",
+        "description": "CRITICAL ELEMENT 3 TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "partCCe42": {
+        "left": 160.5,
+        "top": 645.1,
+        "width": 412.7,
+        "height": 12.3,
+        "type": "text",
+        "description": "CRITICAL ELEMENT 4 TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "partCCe52": {
+        "left": 160.5,
+        "top": 627.1,
+        "width": 412.7,
+        "height": 12.3,
+        "type": "text",
+        "description": "CRITICAL ELEMENT 5 TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "partLC1EmpSefAsm": {
+        "left": 38.8,
+        "top": 590.1,
+        "width": 534.4,
+        "height": 263.3,
+        "type": "text",
+        "description": "EMPLOYEE SELF-ASSESSMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "partLC1RtgOfcAsm": {
+        "left": 38.8,
+        "top": 302.8,
+        "width": 534.4,
+        "height": 264.1,
+        "type": "text",
+        "description": "RATING OFFICIAL ASSESSMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "empNme7": {
+        "left": 256.3,
+        "top": 35.9,
+        "width": 180.2,
+        "height": 13.5,
+        "type": "text",
+        "description": "OPNAV 12430/6 (REV. 11/2011) EMPLOYEE NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page7": {
+      "partCCe122": {
+        "left": 160.5,
+        "top": 667.6,
+        "width": 412.7,
+        "height": 12.3,
+        "type": "text",
+        "description": "CRITICAL ELEMENT 1 TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "partIC1EmpSefAsm": {
+        "left": 38.8,
+        "top": 631.4,
+        "width": 534.4,
+        "height": 277.6,
+        "type": "text",
+        "description": "EMPLOYEE SELF-ASSESSMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "partIC1RtgOfcAsm": {
+        "left": 38.8,
+        "top": 329.8,
+        "width": 534.4,
+        "height": 273.1,
+        "type": "text",
+        "description": "RATING OFFICIAL ASSESSMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "clce1el": {
+        "left": 441.9,
+        "top": 50.3,
+        "width": 130.5,
+        "height": 10.8,
+        "type": "choice",
+        "description": "CRITICAL ELEMENT 1 - INDIVIDUAL ELEMENT LEVEL",
+        "options": [
+          "Unacceptable",
+          "Acceptable",
+          "Not Rated"
+        ],
+        "group": null,
+        "required": false
+      },
+      "empNme8": {
+        "left": 256.3,
+        "top": 35.9,
+        "width": 180.2,
+        "height": 13.5,
+        "type": "text",
+        "description": "OPNAV 12430/6 (REV. 11/2011) EMPLOYEE NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page8": {
+      "partCCe222": {
+        "left": 160.5,
+        "top": 739.7,
+        "width": 412.7,
+        "height": 12.3,
+        "type": "text",
+        "description": "CRITICAL ELEMENT 2 TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "partIC2EmpSefAsm": {
+        "left": 38.8,
+        "top": 703.4,
+        "width": 534.4,
+        "height": 313.6,
+        "type": "text",
+        "description": "EMPLOYEE SELF- ASSESSMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "partIC2RtgOfcAsm": {
+        "left": 38.8,
+        "top": 365.8,
+        "width": 534.4,
+        "height": 309.1,
+        "type": "text",
+        "description": "RATING OFFICIAL ASSESSMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "clce2el": {
+        "left": 441.9,
+        "top": 50.3,
+        "width": 130.5,
+        "height": 10.8,
+        "type": "choice",
+        "description": "CRITICAL ELEMENT 2 - INDIVIDUAL ELEMENT LEVEL",
+        "options": [
+          "Unacceptable",
+          "Acceptable",
+          "Not Rated"
+        ],
+        "group": null,
+        "required": false
+      },
+      "empNme9": {
+        "left": 256.3,
+        "top": 35.9,
+        "width": 180.2,
+        "height": 13.5,
+        "type": "text",
+        "description": "OPNAV 12430/6 (REV. 11/2011) EMPLOYEE NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page9": {
+      "partCCe322": {
+        "left": 160.5,
+        "top": 739.7,
+        "width": 412.7,
+        "height": 12.3,
+        "type": "text",
+        "description": "CRITICAL ELEMENT 3 TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "partIC3EmpSefAsm": {
+        "left": 38.8,
+        "top": 703.4,
+        "width": 534.4,
+        "height": 313.6,
+        "type": "text",
+        "description": "EMPLOYEE SELF- ASSESSMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "partIC3RtgOfcAsm": {
+        "left": 38.8,
+        "top": 367.1,
+        "width": 534.4,
+        "height": 310.3,
+        "type": "text",
+        "description": "RATING OFFICIAL ASSESSMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "clce3el": {
+        "left": 441.9,
+        "top": 50.3,
+        "width": 130.5,
+        "height": 10.8,
+        "type": "choice",
+        "description": "CRITICAL ELEMENT 3 - INDIVIDUAL ELEMENT LEVEL",
+        "options": [
+          "Unacceptable",
+          "Acceptable",
+          "Not Rated"
+        ],
+        "group": null,
+        "required": false
+      },
+      "empNme10": {
+        "left": 256.3,
+        "top": 35.9,
+        "width": 180.2,
+        "height": 13.5,
+        "type": "text",
+        "description": "OPNAV 12430/6 (REV. 11/2011) EMPLOYEE NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page10": {
+      "partCCe422": {
+        "left": 160.5,
+        "top": 739.7,
+        "width": 412.7,
+        "height": 12.3,
+        "type": "text",
+        "description": "CRITICAL ELEMENT 4 TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "partIC4EmpSefAsm": {
+        "left": 38.8,
+        "top": 703.4,
+        "width": 534.4,
+        "height": 313.6,
+        "type": "text",
+        "description": "EMPLOYEE SELF- ASSESSMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "partIC4RtgOfcAsm": {
+        "left": 38.8,
+        "top": 365.8,
+        "width": 534.4,
+        "height": 309.1,
+        "type": "text",
+        "description": "RATING OFFICIAL ASSESSMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "clce4el": {
+        "left": 441.9,
+        "top": 50.3,
+        "width": 130.5,
+        "height": 10.8,
+        "type": "choice",
+        "description": "CRITICAL ELEMENT 4 - INDIVIDUAL ELEMENT LEVEL",
+        "options": [
+          "Unacceptable",
+          "Acceptable",
+          "Not Rated"
+        ],
+        "group": null,
+        "required": false
+      },
+      "empNme11": {
+        "left": 256.3,
+        "top": 35.9,
+        "width": 180.2,
+        "height": 13.5,
+        "type": "text",
+        "description": "OPNAV 12430/6 (REV. 11/2011) EMPLOYEE NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page11": {
+      "partCCe522": {
+        "left": 160.5,
+        "top": 739.7,
+        "width": 412.7,
+        "height": 12.3,
+        "type": "text",
+        "description": "CRITICAL ELEMENT 5 TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "partIC5EmpSefAsm": {
+        "left": 38.8,
+        "top": 703.4,
+        "width": 534.4,
+        "height": 313.6,
+        "type": "text",
+        "description": "EMPLOYEE SELF- ASSESSMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "partIC5RtgOfcAsm": {
+        "left": 38.8,
+        "top": 365.8,
+        "width": 534.4,
+        "height": 309.1,
+        "type": "text",
+        "description": "RATING OFFICIAL ASSESSMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "clce5el": {
+        "left": 441.9,
+        "top": 50.3,
+        "width": 130.5,
+        "height": 10.8,
+        "type": "choice",
+        "description": "CRITICAL ELEMENT 5 - INDIVIDUAL ELEMENT LEVEL",
+        "options": [
+          "Unacceptable",
+          "Acceptable",
+          "Not Rated"
+        ],
+        "group": null,
+        "required": false
+      },
+      "empNme12": {
+        "left": 256.3,
+        "top": 35.9,
+        "width": 180.2,
+        "height": 13.5,
+        "type": "text",
+        "description": "OPNAV 12430/6 (REV. 11/2011) EMPLOYEE NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page12": {
+      "partCCe13": {
+        "left": 160.5,
+        "top": 681.2,
+        "width": 412.7,
+        "height": 12.3,
+        "type": "text",
+        "description": "CRITICAL ELEMENT 1 TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "partLC1EmpSefAsm2": {
+        "left": 38.8,
+        "top": 644.9,
+        "width": 534.4,
+        "height": 282.1,
+        "type": "text",
+        "description": "EMPLOYEE SELF- ASSESSMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "partLC1RtgOfcAsm2": {
+        "left": 38.8,
+        "top": 338.8,
+        "width": 534.4,
+        "height": 282.1,
+        "type": "text",
+        "description": "RATING OFFICIAL ASSESSMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "aace1el": {
+        "left": 441.9,
+        "top": 50.3,
+        "width": 130.5,
+        "height": 10.8,
+        "type": "choice",
+        "description": "CRITICAL ELEMENT 1 - INDIVIDUAL ELEMENT LEVEL",
+        "options": [
+          "Unacceptable",
+          "Acceptable",
+          "Not Rated"
+        ],
+        "group": null,
+        "required": false
+      },
+      "empNme13": {
+        "left": 256.3,
+        "top": 35.9,
+        "width": 180.2,
+        "height": 13.5,
+        "type": "text",
+        "description": "OPNAV 12430/6 (REV. 11/2011) EMPLOYEE NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page13": {
+      "partCCe23": {
+        "left": 160.5,
+        "top": 739.7,
+        "width": 412.7,
+        "height": 12.3,
+        "type": "text",
+        "description": "CRITICAL ELEMENT 2 TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "partLC02EmpSefAsm": {
+        "left": 38.8,
+        "top": 703.4,
+        "width": 534.4,
+        "height": 313.6,
+        "type": "text",
+        "description": "EMPLOYEE SELF- ASSESSMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "partLC2RtgOfcAsm": {
+        "left": 38.8,
+        "top": 365.8,
+        "width": 534.4,
+        "height": 309.1,
+        "type": "text",
+        "description": "RATING OFFICIAL ASSESSMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "aace2el": {
+        "left": 441.9,
+        "top": 50.3,
+        "width": 130.5,
+        "height": 10.8,
+        "type": "choice",
+        "description": "CRITICAL ELEMENT 2 - INDIVIDUAL ELEMENT LEVEL",
+        "options": [
+          "Unacceptable",
+          "Acceptable",
+          "Not Rated"
+        ],
+        "group": null,
+        "required": false
+      },
+      "empNme14": {
+        "left": 256.3,
+        "top": 35.9,
+        "width": 180.2,
+        "height": 13.5,
+        "type": "text",
+        "description": "OPNAV 12430/6 (REV. 11/2011) EMPLOYEE NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page14": {
+      "partCCe33": {
+        "left": 160.5,
+        "top": 739.7,
+        "width": 412.7,
+        "height": 12.3,
+        "type": "text",
+        "description": "CRITICAL ELEMENT 3 TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "partLC3EmpSefAsm": {
+        "left": 38.8,
+        "top": 703.4,
+        "width": 534.4,
+        "height": 313.6,
+        "type": "text",
+        "description": "EMPLOYEE SELF- ASSESSMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "partLC3RtgOfcAsm": {
+        "left": 38.8,
+        "top": 365.8,
+        "width": 534.4,
+        "height": 309.1,
+        "type": "text",
+        "description": "RATING OFFICIAL ASSESSMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "aace3el": {
+        "left": 441.9,
+        "top": 50.3,
+        "width": 130.5,
+        "height": 10.8,
+        "type": "choice",
+        "description": "CRITICAL ELEMENT 3 - INDIVIDUAL ELEMENT LEVEL",
+        "options": [
+          "Unacceptable",
+          "Acceptable",
+          "Not Rated"
+        ],
+        "group": null,
+        "required": false
+      },
+      "empNme15": {
+        "left": 256.3,
+        "top": 35.9,
+        "width": 180.2,
+        "height": 13.5,
+        "type": "text",
+        "description": "OPNAV 12430/6 (REV. 11/2011) EMPLOYEE NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page15": {
+      "partCCe43": {
+        "left": 160.5,
+        "top": 739.7,
+        "width": 412.7,
+        "height": 12.3,
+        "type": "text",
+        "description": "CRITICAL ELEMENT 4 TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "partLC4EmpSefAsm": {
+        "left": 38.8,
+        "top": 703.4,
+        "width": 534.4,
+        "height": 313.6,
+        "type": "text",
+        "description": "EMPLOYEE SELF- ASSESSMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "partLC4RtgOfcAsm": {
+        "left": 38.8,
+        "top": 365.8,
+        "width": 534.4,
+        "height": 309.1,
+        "type": "text",
+        "description": "RATING OFFICIAL ASSESSMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "aace4el": {
+        "left": 441.9,
+        "top": 50.3,
+        "width": 130.5,
+        "height": 10.8,
+        "type": "choice",
+        "description": "CRITICAL ELEMENT 4 - INDIVIDUAL ELEMENT LEVEL",
+        "options": [
+          "Unacceptable",
+          "Acceptable",
+          "Not Rated"
+        ],
+        "group": null,
+        "required": false
+      },
+      "empNme16": {
+        "left": 256.3,
+        "top": 35.9,
+        "width": 180.2,
+        "height": 13.5,
+        "type": "text",
+        "description": "OPNAV 12430/6 (REV. 11/2011) EMPLOYEE NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page16": {
+      "partCCe53": {
+        "left": 160.5,
+        "top": 739.7,
+        "width": 412.7,
+        "height": 12.3,
+        "type": "text",
+        "description": "CRITICAL ELEMENT 5 TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "partLC5EmpSefAsm": {
+        "left": 38.8,
+        "top": 703.4,
+        "width": 534.4,
+        "height": 313.6,
+        "type": "text",
+        "description": "EMPLOYEE SELF- ASSESSMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "partLC5RtgOfcAsm": {
+        "left": 38.8,
+        "top": 365.8,
+        "width": 534.4,
+        "height": 309.1,
+        "type": "text",
+        "description": "RATING OFFICIAL ASSESSMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "aace5el": {
+        "left": 441.9,
+        "top": 50.3,
+        "width": 130.5,
+        "height": 10.8,
+        "type": "choice",
+        "description": "CRITICAL ELEMENT 5 - INDIVIDUAL ELEMENT LEVEL",
+        "options": [
+          "Unacceptable",
+          "Acceptable",
+          "Not Rated"
+        ],
+        "group": null,
+        "required": false
+      },
+      "empNme17": {
+        "left": 256.3,
+        "top": 35.9,
+        "width": 180.2,
+        "height": 13.5,
+        "type": "text",
+        "description": "OPNAV 12430/6 (REV. 11/2011) EMPLOYEE NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page17": {
+      "partCCe14": {
+        "left": 101.8,
+        "top": 693.2,
+        "width": 390.4,
+        "height": 16.8,
+        "type": "text",
+        "description": "CRITICAL ELEMENT TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "aace1el2": {
+        "left": 498.6,
+        "top": 692.4,
+        "width": 73.8,
+        "height": 15.3,
+        "type": "choice",
+        "description": "ELEMENT LEVEL",
+        "options": [
+          "Unacceptable",
+          "Acceptable"
+        ],
+        "group": null,
+        "required": false
+      },
+      "partCCe24": {
+        "left": 101.8,
+        "top": 670.7,
+        "width": 390.4,
+        "height": 16.8,
+        "type": "text",
+        "description": "CRITICAL ELEMENT TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "aace2el2": {
+        "left": 498.6,
+        "top": 669.9,
+        "width": 73.8,
+        "height": 15.3,
+        "type": "choice",
+        "description": "ELEMENT LEVEL",
+        "options": [
+          "Unacceptable",
+          "Acceptable"
+        ],
+        "group": null,
+        "required": false
+      },
+      "partCCe34": {
+        "left": 101.8,
+        "top": 648.2,
+        "width": 390.4,
+        "height": 16.8,
+        "type": "text",
+        "description": "CRITICAL ELEMENT TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "aace3el2": {
+        "left": 498.6,
+        "top": 647.4,
+        "width": 73.8,
+        "height": 15.3,
+        "type": "choice",
+        "description": "ELEMENT LEVEL",
+        "options": [
+          "Unacceptable",
+          "Acceptable"
+        ],
+        "group": null,
+        "required": false
+      },
+      "partCCe44": {
+        "left": 101.8,
+        "top": 625.7,
+        "width": 390.4,
+        "height": 16.8,
+        "type": "text",
+        "description": "CRITICAL ELEMENT TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "aace4el2": {
+        "left": 498.6,
+        "top": 624.9,
+        "width": 73.8,
+        "height": 15.3,
+        "type": "choice",
+        "description": "ELEMENT LEVEL",
+        "options": [
+          "Unacceptable",
+          "Acceptable"
+        ],
+        "group": null,
+        "required": false
+      },
+      "partCCe54": {
+        "left": 101.8,
+        "top": 603.2,
+        "width": 390.4,
+        "height": 16.8,
+        "type": "text",
+        "description": "CRITICAL ELEMENT TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "aace5el2": {
+        "left": 498.6,
+        "top": 602.4,
+        "width": 73.8,
+        "height": 15.3,
+        "type": "choice",
+        "description": "ELEMENT LEVEL",
+        "options": [
+          "Unacceptable",
+          "Acceptable"
+        ],
+        "group": null,
+        "required": false
+      },
+      "rteRcdDrp": {
+        "left": 391.6,
+        "top": 582.7,
+        "width": 183.8,
+        "height": 25.4,
+        "type": "choice",
+        "description": "ELEMENT LEVEL",
+        "options": [
+          "Unacceptable",
+          "Acceptable"
+        ],
+        "group": null,
+        "required": false
+      },
+      "cert2": {
+        "left": 309.9,
+        "top": 551.6,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "&quot;Unacceptable,&quot;",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "partJ": {
+        "left": 38.8,
+        "top": 516.8,
+        "width": 534.4,
+        "height": 478.1,
+        "type": "text",
+        "description": "PART J - COMMAND USE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "empNme18": {
+        "left": 256.3,
+        "top": 35.9,
+        "width": 180.2,
+        "height": 13.5,
+        "type": "text",
+        "description": "OPNAV 12430/6 (REV. 11/2011) EMPLOYEE NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

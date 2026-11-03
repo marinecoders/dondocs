@@ -1,0 +1,419 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "name": {
+        "left": 38.8,
+        "top": 727.8,
+        "width": 264.4,
+        "height": 12.3,
+        "type": "text",
+        "description": "NAME (Last, First, MI)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "command": {
+        "left": 308.9,
+        "top": 727.8,
+        "width": 264.4,
+        "height": 12.3,
+        "type": "text",
+        "description": "COMMAND",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "familyGroup2": {
+        "left": 62.7,
+        "top": 576.5,
+        "width": 194.4,
+        "height": 16.8,
+        "type": "text",
+        "description": "EXPLOSIVES FAMILY GROUP OR DEVICE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "level2": {
+        "left": 276.6,
+        "top": 576.5,
+        "width": 51.1,
+        "height": 16.8,
+        "type": "text",
+        "description": "WORK TASK",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell5": {
+        "left": 372.3,
+        "top": 576.5,
+        "width": 69.2,
+        "height": 35.3,
+        "type": "text",
+        "description": "PRINTED NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell6": {
+        "left": 444.3,
+        "top": 576.5,
+        "width": 58.4,
+        "height": 35.3,
+        "type": "text",
+        "description": "DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell7": {
+        "left": 505.5,
+        "top": 576.5,
+        "width": 69.2,
+        "height": 35.3,
+        "type": "text",
+        "description": "ENTERED BY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell4": {
+        "left": 331.5,
+        "top": 576.3,
+        "width": 37.7,
+        "height": 34.8,
+        "type": "choice",
+        "description": "TRAINING",
+        "options": [
+          "OJT",
+          "PD",
+          "FT"
+        ],
+        "group": null,
+        "required": false
+      },
+      "task2": {
+        "left": 276.6,
+        "top": 556.8,
+        "width": 51.1,
+        "height": 14.8,
+        "type": "text",
+        "description": "WORK TASK",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "device2": {
+        "left": 63.2,
+        "top": 554.6,
+        "width": 191.6,
+        "height": 12.0,
+        "type": "text",
+        "description": "EXPLOSIVES FAMILY GROUP OR DEVICE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "familyGroup22": {
+        "left": 62.7,
+        "top": 538.3,
+        "width": 194.4,
+        "height": 16.8,
+        "type": "text",
+        "description": "EXPLOSIVES FAMILY GROUP OR DEVICE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "level22": {
+        "left": 276.6,
+        "top": 538.3,
+        "width": 51.1,
+        "height": 16.8,
+        "type": "text",
+        "description": "WORK TASK",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell52": {
+        "left": 372.3,
+        "top": 538.3,
+        "width": 69.2,
+        "height": 35.3,
+        "type": "text",
+        "description": "PRINTED NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell62": {
+        "left": 444.3,
+        "top": 538.3,
+        "width": 58.4,
+        "height": 35.3,
+        "type": "text",
+        "description": "DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell72": {
+        "left": 505.5,
+        "top": 538.3,
+        "width": 69.2,
+        "height": 35.3,
+        "type": "text",
+        "description": "ENTERED BY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell42": {
+        "left": 331.5,
+        "top": 538.1,
+        "width": 37.7,
+        "height": 34.8,
+        "type": "choice",
+        "description": "TRAINING",
+        "options": [
+          "OJT",
+          "PD",
+          "FT"
+        ],
+        "group": null,
+        "required": false
+      },
+      "task22": {
+        "left": 276.6,
+        "top": 518.6,
+        "width": 51.1,
+        "height": 14.8,
+        "type": "text",
+        "description": "WORK TASK",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "device22": {
+        "left": 63.2,
+        "top": 516.5,
+        "width": 191.6,
+        "height": 12.0,
+        "type": "text",
+        "description": "EXPLOSIVES FAMILY GROUP OR DEVICE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "familyGroup23": {
+        "left": 62.7,
+        "top": 500.2,
+        "width": 194.4,
+        "height": 16.8,
+        "type": "text",
+        "description": "EXPLOSIVES FAMILY GROUP OR DEVICE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "level23": {
+        "left": 276.6,
+        "top": 500.2,
+        "width": 51.1,
+        "height": 16.8,
+        "type": "text",
+        "description": "WORK TASK",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell53": {
+        "left": 372.3,
+        "top": 500.2,
+        "width": 69.2,
+        "height": 35.3,
+        "type": "text",
+        "description": "PRINTED NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell63": {
+        "left": 444.3,
+        "top": 500.2,
+        "width": 58.4,
+        "height": 35.3,
+        "type": "text",
+        "description": "DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell73": {
+        "left": 505.5,
+        "top": 500.2,
+        "width": 69.2,
+        "height": 35.3,
+        "type": "text",
+        "description": "ENTERED BY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell43": {
+        "left": 331.5,
+        "top": 499.9,
+        "width": 37.7,
+        "height": 34.8,
+        "type": "choice",
+        "description": "TRAINING",
+        "options": [
+          "OJT",
+          "PD",
+          "FT"
+        ],
+        "group": null,
+        "required": false
+      },
+      "task23": {
+        "left": 276.6,
+        "top": 480.5,
+        "width": 51.1,
+        "height": 14.8,
+        "type": "text",
+        "description": "WORK TASK",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "device23": {
+        "left": 63.2,
+        "top": 478.3,
+        "width": 191.6,
+        "height": 12.0,
+        "type": "text",
+        "description": "EXPLOSIVES FAMILY GROUP OR DEVICE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "familyGroup24": {
+        "left": 62.7,
+        "top": 462.0,
+        "width": 194.4,
+        "height": 16.8,
+        "type": "text",
+        "description": "EXPLOSIVES FAMILY GROUP OR DEVICE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "level24": {
+        "left": 276.6,
+        "top": 462.0,
+        "width": 51.1,
+        "height": 16.8,
+        "type": "text",
+        "description": "WORK TASK",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell54": {
+        "left": 372.3,
+        "top": 462.0,
+        "width": 69.2,
+        "height": 35.3,
+        "type": "text",
+        "description": "PRINTED NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell64": {
+        "left": 444.3,
+        "top": 462.0,
+        "width": 58.4,
+        "height": 35.3,
+        "type": "text",
+        "description": "DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell74": {
+        "left": 505.5,
+        "top": 462.0,
+        "width": 69.2,
+        "height": 35.3,
+        "type": "text",
+        "description": "ENTERED BY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell44": {
+        "left": 331.5,
+        "top": 461.8,
+        "width": 37.7,
+        "height": 34.8,
+        "type": "choice",
+        "description": "TRAINING",
+        "options": [
+          "OJT",
+          "PD",
+          "FT"
+        ],
+        "group": null,
+        "required": false
+      },
+      "task24": {
+        "left": 276.6,
+        "top": 442.3,
+        "width": 51.1,
+        "height": 14.8,
+        "type": "text",
+        "description": "WORK TASK",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "device24": {
+        "left": 63.2,
+        "top": 440.2,
+        "width": 191.6,
+        "height": 12.0,
+        "type": "text",
+        "description": "EXPLOSIVES FAMILY GROUP OR DEVICE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks": {
+        "left": 36.0,
+        "top": 413.0,
+        "width": 540.1,
+        "height": 147.4,
+        "type": "text",
+        "description": "REMARKS",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

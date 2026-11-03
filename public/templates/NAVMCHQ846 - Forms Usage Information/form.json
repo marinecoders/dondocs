@@ -1,0 +1,1257 @@
+{
+  "id": "navmchq846",
+  "label": "NAVMC HQ 846 - Forms Usage Information",
+  "directory": "NAVMCHQ846 - Forms Usage Information",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "formNum1",
+        "formTitle1",
+        "amount1",
+        "radioButtonList",
+        "radioButtonList2",
+        "amount2",
+        "formNum2",
+        "formTitle2",
+        "radioButtonList3",
+        "radioButtonList4",
+        "formNum3",
+        "formTitle3",
+        "amount3",
+        "radioButtonList5",
+        "radioButtonList6",
+        "amount4",
+        "formNum4",
+        "formTitle4",
+        "radioButtonList7",
+        "radioButtonList8",
+        "formNum5",
+        "formTitle5",
+        "amount5",
+        "radioButtonList9",
+        "radioButtonList10",
+        "formNum6",
+        "formTitle6",
+        "amount6",
+        "radioButtonList11",
+        "radioButtonList12",
+        "formTitle7",
+        "amount7",
+        "formNum7",
+        "radioButtonList13",
+        "radioButtonList14",
+        "formNum8",
+        "formTitle8",
+        "amount8",
+        "radioButtonList15",
+        "radioButtonList16",
+        "formNum9",
+        "formTitle9",
+        "amount9",
+        "radioButtonList17",
+        "radioButtonList18",
+        "formTitle10",
+        "amount10",
+        "formNum10",
+        "radioButtonList19",
+        "radioButtonList20",
+        "formNum11",
+        "amount11",
+        "formTitle11",
+        "radioButtonList21",
+        "radioButtonList22",
+        "amount12",
+        "formNum12",
+        "formTitle12",
+        "radioButtonList23",
+        "radioButtonList24",
+        "formNum13",
+        "formTitle13",
+        "amount13",
+        "radioButtonList25",
+        "radioButtonList26",
+        "formNum14",
+        "formTitle14",
+        "amount14",
+        "radioButtonList27",
+        "radioButtonList28",
+        "formTitle15",
+        "amount15",
+        "formNum15",
+        "radioButtonList29",
+        "radioButtonList30",
+        "formNum16",
+        "formTitle16",
+        "amount16",
+        "radioButtonList31",
+        "radioButtonList32",
+        "formTitle17",
+        "formNum17",
+        "amount17",
+        "radioButtonList33",
+        "radioButtonList34",
+        "formTitle18",
+        "formNum18",
+        "amount18",
+        "radioButtonList35",
+        "radioButtonList36",
+        "formTitle19",
+        "formNum19",
+        "amount19",
+        "radioButtonList37",
+        "radioButtonList38",
+        "formNum20",
+        "formTitle20",
+        "amount20",
+        "radioButtonList39",
+        "radioButtonList40"
+      ]
+    }
+  ],
+  "fields": {
+    "formNum1": {
+      "type": "text",
+      "label": "FormNum1",
+      "page": 1,
+      "box": {
+        "left": 23.6,
+        "top": 625.0,
+        "width": 104.9,
+        "height": 20.3
+      }
+    },
+    "formTitle1": {
+      "type": "text",
+      "label": "FormTitle1",
+      "page": 1,
+      "box": {
+        "left": 137.7,
+        "top": 624.9,
+        "width": 293.1,
+        "height": 20.3
+      }
+    },
+    "amount1": {
+      "type": "text",
+      "label": "Amount1",
+      "page": 1,
+      "box": {
+        "left": 441.3,
+        "top": 624.6,
+        "width": 63.8,
+        "height": 20.3
+      }
+    },
+    "radioButtonList": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 525.1,
+        "top": 620.1,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_19"
+    },
+    "radioButtonList2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 567.2,
+        "top": 620.1,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_19"
+    },
+    "amount2": {
+      "type": "text",
+      "label": "Amount2",
+      "page": 1,
+      "box": {
+        "left": 441.2,
+        "top": 595.9,
+        "width": 63.8,
+        "height": 20.3
+      }
+    },
+    "formNum2": {
+      "type": "text",
+      "label": "FormNum2",
+      "page": 1,
+      "box": {
+        "left": 24.1,
+        "top": 595.6,
+        "width": 104.9,
+        "height": 20.3
+      }
+    },
+    "formTitle2": {
+      "type": "text",
+      "label": "FormTitle2",
+      "page": 1,
+      "box": {
+        "left": 138.3,
+        "top": 595.5,
+        "width": 293.1,
+        "height": 20.3
+      }
+    },
+    "radioButtonList3": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 525.6,
+        "top": 590.7,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_18"
+    },
+    "radioButtonList4": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 567.7,
+        "top": 590.7,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_18"
+    },
+    "formNum3": {
+      "type": "text",
+      "label": "FormNum3",
+      "page": 1,
+      "box": {
+        "left": 24.0,
+        "top": 568.6,
+        "width": 104.9,
+        "height": 20.3
+      }
+    },
+    "formTitle3": {
+      "type": "text",
+      "label": "FormTitle3",
+      "page": 1,
+      "box": {
+        "left": 138.2,
+        "top": 568.5,
+        "width": 293.1,
+        "height": 20.3
+      }
+    },
+    "amount3": {
+      "type": "text",
+      "label": "Amount3",
+      "page": 1,
+      "box": {
+        "left": 441.8,
+        "top": 568.2,
+        "width": 63.8,
+        "height": 20.3
+      }
+    },
+    "radioButtonList5": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 525.5,
+        "top": 563.7,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_17"
+    },
+    "radioButtonList6": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 567.6,
+        "top": 563.7,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_17"
+    },
+    "amount4": {
+      "type": "text",
+      "label": "Amount4",
+      "page": 1,
+      "box": {
+        "left": 440.9,
+        "top": 539.5,
+        "width": 63.8,
+        "height": 20.3
+      }
+    },
+    "formNum4": {
+      "type": "text",
+      "label": "FormNum4",
+      "page": 1,
+      "box": {
+        "left": 23.9,
+        "top": 539.2,
+        "width": 104.9,
+        "height": 20.3
+      }
+    },
+    "formTitle4": {
+      "type": "text",
+      "label": "FormTitle4",
+      "page": 1,
+      "box": {
+        "left": 138.8,
+        "top": 539.1,
+        "width": 293.1,
+        "height": 20.3
+      }
+    },
+    "radioButtonList7": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 526.1,
+        "top": 534.3,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_16"
+    },
+    "radioButtonList8": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 568.2,
+        "top": 534.3,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_16"
+    },
+    "formNum5": {
+      "type": "text",
+      "label": "FormNum5",
+      "page": 1,
+      "box": {
+        "left": 23.5,
+        "top": 511.3,
+        "width": 104.9,
+        "height": 20.3
+      }
+    },
+    "formTitle5": {
+      "type": "text",
+      "label": "FormTitle5",
+      "page": 1,
+      "box": {
+        "left": 137.7,
+        "top": 511.2,
+        "width": 293.1,
+        "height": 20.3
+      }
+    },
+    "amount5": {
+      "type": "text",
+      "label": "Amount5",
+      "page": 1,
+      "box": {
+        "left": 441.3,
+        "top": 510.9,
+        "width": 63.8,
+        "height": 20.3
+      }
+    },
+    "radioButtonList9": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 525.0,
+        "top": 506.5,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_15"
+    },
+    "radioButtonList10": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 567.1,
+        "top": 506.4,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_15"
+    },
+    "formNum6": {
+      "type": "text",
+      "label": "FormNum6",
+      "page": 1,
+      "box": {
+        "left": 23.4,
+        "top": 482.6,
+        "width": 104.9,
+        "height": 20.3
+      }
+    },
+    "formTitle6": {
+      "type": "text",
+      "label": "FormTitle6",
+      "page": 1,
+      "box": {
+        "left": 138.3,
+        "top": 482.5,
+        "width": 293.1,
+        "height": 20.3
+      }
+    },
+    "amount6": {
+      "type": "text",
+      "label": "Amount6",
+      "page": 1,
+      "box": {
+        "left": 441.1,
+        "top": 482.2,
+        "width": 63.8,
+        "height": 20.3
+      }
+    },
+    "radioButtonList11": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 525.6,
+        "top": 477.0,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_14"
+    },
+    "radioButtonList12": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 567.7,
+        "top": 477.0,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_14"
+    },
+    "formTitle7": {
+      "type": "text",
+      "label": "FormTitle7",
+      "page": 1,
+      "box": {
+        "left": 138.2,
+        "top": 454.8,
+        "width": 293.1,
+        "height": 20.3
+      }
+    },
+    "amount7": {
+      "type": "text",
+      "label": "Amount7",
+      "page": 1,
+      "box": {
+        "left": 441.8,
+        "top": 454.5,
+        "width": 63.8,
+        "height": 20.3
+      }
+    },
+    "formNum7": {
+      "type": "text",
+      "label": "FormNum7",
+      "page": 1,
+      "box": {
+        "left": 24.0,
+        "top": 454.1,
+        "width": 104.9,
+        "height": 20.3
+      }
+    },
+    "radioButtonList13": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 568.2,
+        "top": 450.3,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_13"
+    },
+    "radioButtonList14": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 525.5,
+        "top": 450.0,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_13"
+    },
+    "formNum8": {
+      "type": "text",
+      "label": "FormNum8",
+      "page": 1,
+      "box": {
+        "left": 23.8,
+        "top": 426.2,
+        "width": 104.9,
+        "height": 20.3
+      }
+    },
+    "formTitle8": {
+      "type": "text",
+      "label": "FormTitle8",
+      "page": 1,
+      "box": {
+        "left": 138.7,
+        "top": 426.1,
+        "width": 293.1,
+        "height": 20.3
+      }
+    },
+    "amount8": {
+      "type": "text",
+      "label": "Amount8",
+      "page": 1,
+      "box": {
+        "left": 440.9,
+        "top": 425.8,
+        "width": 63.8,
+        "height": 20.3
+      }
+    },
+    "radioButtonList15": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 526.1,
+        "top": 420.6,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_12"
+    },
+    "radioButtonList16": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 568.2,
+        "top": 420.6,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_12"
+    },
+    "formNum9": {
+      "type": "text",
+      "label": "FormNum9",
+      "page": 1,
+      "box": {
+        "left": 23.0,
+        "top": 398.5,
+        "width": 104.9,
+        "height": 20.3
+      }
+    },
+    "formTitle9": {
+      "type": "text",
+      "label": "FormTitle9",
+      "page": 1,
+      "box": {
+        "left": 137.2,
+        "top": 398.4,
+        "width": 293.1,
+        "height": 20.3
+      }
+    },
+    "amount9": {
+      "type": "text",
+      "label": "Amount9",
+      "page": 1,
+      "box": {
+        "left": 440.8,
+        "top": 398.1,
+        "width": 63.8,
+        "height": 20.3
+      }
+    },
+    "radioButtonList17": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 524.5,
+        "top": 393.6,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_11"
+    },
+    "radioButtonList18": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 566.6,
+        "top": 393.6,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_11"
+    },
+    "formTitle10": {
+      "type": "text",
+      "label": "FormTitle10",
+      "page": 1,
+      "box": {
+        "left": 137.7,
+        "top": 369.7,
+        "width": 293.1,
+        "height": 20.3
+      }
+    },
+    "amount10": {
+      "type": "text",
+      "label": "Amount10",
+      "page": 1,
+      "box": {
+        "left": 440.6,
+        "top": 369.4,
+        "width": 63.8,
+        "height": 20.3
+      }
+    },
+    "formNum10": {
+      "type": "text",
+      "label": "FormNum10",
+      "page": 1,
+      "box": {
+        "left": 23.5,
+        "top": 369.1,
+        "width": 104.9,
+        "height": 20.3
+      }
+    },
+    "radioButtonList19": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 525.1,
+        "top": 364.2,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_10"
+    },
+    "radioButtonList20": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 567.1,
+        "top": 364.2,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_10"
+    },
+    "formNum11": {
+      "type": "text",
+      "label": "FormNum11",
+      "page": 1,
+      "box": {
+        "left": 23.5,
+        "top": 342.1,
+        "width": 104.9,
+        "height": 20.3
+      }
+    },
+    "amount11": {
+      "type": "text",
+      "label": "Amount11",
+      "page": 1,
+      "box": {
+        "left": 441.2,
+        "top": 341.7,
+        "width": 63.8,
+        "height": 20.3
+      }
+    },
+    "formTitle11": {
+      "type": "text",
+      "label": "FormTitle11",
+      "page": 1,
+      "box": {
+        "left": 137.6,
+        "top": 341.2,
+        "width": 293.1,
+        "height": 20.3
+      }
+    },
+    "radioButtonList21": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 525.0,
+        "top": 337.2,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_9"
+    },
+    "radioButtonList22": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 567.0,
+        "top": 337.2,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_9"
+    },
+    "amount12": {
+      "type": "text",
+      "label": "Amount12",
+      "page": 1,
+      "box": {
+        "left": 440.3,
+        "top": 313.0,
+        "width": 63.8,
+        "height": 20.3
+      }
+    },
+    "formNum12": {
+      "type": "text",
+      "label": "FormNum12",
+      "page": 1,
+      "box": {
+        "left": 23.3,
+        "top": 312.7,
+        "width": 104.9,
+        "height": 20.3
+      }
+    },
+    "formTitle12": {
+      "type": "text",
+      "label": "FormTitle12",
+      "page": 1,
+      "box": {
+        "left": 138.2,
+        "top": 312.6,
+        "width": 293.1,
+        "height": 20.3
+      }
+    },
+    "radioButtonList23": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 525.5,
+        "top": 307.8,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_8"
+    },
+    "radioButtonList24": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 567.6,
+        "top": 307.8,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_8"
+    },
+    "formNum13": {
+      "type": "text",
+      "label": "FormNum13",
+      "page": 1,
+      "box": {
+        "left": 23.0,
+        "top": 284.7,
+        "width": 104.9,
+        "height": 20.3
+      }
+    },
+    "formTitle13": {
+      "type": "text",
+      "label": "FormTitle13",
+      "page": 1,
+      "box": {
+        "left": 137.9,
+        "top": 284.7,
+        "width": 293.1,
+        "height": 20.3
+      }
+    },
+    "amount13": {
+      "type": "text",
+      "label": "Amount13",
+      "page": 1,
+      "box": {
+        "left": 440.7,
+        "top": 284.3,
+        "width": 63.8,
+        "height": 20.3
+      }
+    },
+    "radioButtonList25": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 524.5,
+        "top": 279.9,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_7"
+    },
+    "radioButtonList26": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 566.5,
+        "top": 279.9,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_7"
+    },
+    "formNum14": {
+      "type": "text",
+      "label": "FormNum14",
+      "page": 1,
+      "box": {
+        "left": 23.5,
+        "top": 256.1,
+        "width": 104.9,
+        "height": 20.3
+      }
+    },
+    "formTitle14": {
+      "type": "text",
+      "label": "FormTitle14",
+      "page": 1,
+      "box": {
+        "left": 138.4,
+        "top": 256.0,
+        "width": 293.1,
+        "height": 20.3
+      }
+    },
+    "amount14": {
+      "type": "text",
+      "label": "Amount14",
+      "page": 1,
+      "box": {
+        "left": 440.5,
+        "top": 255.7,
+        "width": 63.8,
+        "height": 20.3
+      }
+    },
+    "radioButtonList27": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 525.2,
+        "top": 250.5,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_6"
+    },
+    "radioButtonList28": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 567.3,
+        "top": 250.5,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_6"
+    },
+    "formTitle15": {
+      "type": "text",
+      "label": "FormTitle15",
+      "page": 1,
+      "box": {
+        "left": 138.3,
+        "top": 228.3,
+        "width": 293.1,
+        "height": 20.3
+      }
+    },
+    "amount15": {
+      "type": "text",
+      "label": "Amount15",
+      "page": 1,
+      "box": {
+        "left": 441.2,
+        "top": 227.9,
+        "width": 63.8,
+        "height": 20.3
+      }
+    },
+    "formNum15": {
+      "type": "text",
+      "label": "FormNum15",
+      "page": 1,
+      "box": {
+        "left": 23.4,
+        "top": 227.6,
+        "width": 104.9,
+        "height": 20.3
+      }
+    },
+    "radioButtonList29": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 524.9,
+        "top": 223.5,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_5"
+    },
+    "radioButtonList30": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 567.0,
+        "top": 223.5,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_5"
+    },
+    "formNum16": {
+      "type": "text",
+      "label": "FormNum16",
+      "page": 1,
+      "box": {
+        "left": 23.2,
+        "top": 199.7,
+        "width": 104.9,
+        "height": 20.3
+      }
+    },
+    "formTitle16": {
+      "type": "text",
+      "label": "FormTitle16",
+      "page": 1,
+      "box": {
+        "left": 138.1,
+        "top": 199.6,
+        "width": 293.1,
+        "height": 20.3
+      }
+    },
+    "amount16": {
+      "type": "text",
+      "label": "Amount16",
+      "page": 1,
+      "box": {
+        "left": 441.0,
+        "top": 199.3,
+        "width": 63.8,
+        "height": 20.3
+      }
+    },
+    "radioButtonList31": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 525.5,
+        "top": 194.1,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_4"
+    },
+    "radioButtonList32": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 567.6,
+        "top": 194.1,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_4"
+    },
+    "formTitle17": {
+      "type": "text",
+      "label": "FormTitle17",
+      "page": 1,
+      "box": {
+        "left": 138.3,
+        "top": 171.2,
+        "width": 293.1,
+        "height": 20.3
+      }
+    },
+    "formNum17": {
+      "type": "text",
+      "label": "FormNum17",
+      "page": 1,
+      "box": {
+        "left": 23.4,
+        "top": 170.5,
+        "width": 104.9,
+        "height": 20.3
+      }
+    },
+    "amount17": {
+      "type": "text",
+      "label": "Amount17",
+      "page": 1,
+      "box": {
+        "left": 441.1,
+        "top": 170.1,
+        "width": 63.8,
+        "height": 20.3
+      }
+    },
+    "radioButtonList33": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 524.9,
+        "top": 165.6,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_3"
+    },
+    "radioButtonList34": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 566.9,
+        "top": 165.6,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_3"
+    },
+    "formTitle18": {
+      "type": "text",
+      "label": "FormTitle18",
+      "page": 1,
+      "box": {
+        "left": 138.8,
+        "top": 143.3,
+        "width": 293.1,
+        "height": 20.3
+      }
+    },
+    "formNum18": {
+      "type": "text",
+      "label": "FormNum18",
+      "page": 1,
+      "box": {
+        "left": 23.9,
+        "top": 142.6,
+        "width": 104.9,
+        "height": 20.3
+      }
+    },
+    "amount18": {
+      "type": "text",
+      "label": "Amount18",
+      "page": 1,
+      "box": {
+        "left": 440.9,
+        "top": 141.5,
+        "width": 63.8,
+        "height": 20.3
+      }
+    },
+    "radioButtonList35": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 525.4,
+        "top": 136.2,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_2"
+    },
+    "radioButtonList36": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 567.5,
+        "top": 136.2,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_2"
+    },
+    "formTitle19": {
+      "type": "text",
+      "label": "FormTitle19",
+      "page": 1,
+      "box": {
+        "left": 138.7,
+        "top": 114.8,
+        "width": 293.1,
+        "height": 20.3
+      }
+    },
+    "formNum19": {
+      "type": "text",
+      "label": "FormNum19",
+      "page": 1,
+      "box": {
+        "left": 23.8,
+        "top": 114.1,
+        "width": 104.9,
+        "height": 20.3
+      }
+    },
+    "amount19": {
+      "type": "text",
+      "label": "Amount19",
+      "page": 1,
+      "box": {
+        "left": 441.6,
+        "top": 113.7,
+        "width": 63.8,
+        "height": 20.3
+      }
+    },
+    "radioButtonList37": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 525.3,
+        "top": 109.2,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_1"
+    },
+    "radioButtonList38": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 567.4,
+        "top": 109.2,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_1"
+    },
+    "formNum20": {
+      "type": "text",
+      "label": "FormNum20",
+      "page": 1,
+      "box": {
+        "left": 23.6,
+        "top": 86.2,
+        "width": 104.9,
+        "height": 20.3
+      }
+    },
+    "formTitle20": {
+      "type": "text",
+      "label": "FormTitle20",
+      "page": 1,
+      "box": {
+        "left": 138.5,
+        "top": 86.1,
+        "width": 293.1,
+        "height": 20.3
+      }
+    },
+    "amount20": {
+      "type": "text",
+      "label": "Amount20",
+      "page": 1,
+      "box": {
+        "left": 441.4,
+        "top": 85.8,
+        "width": 63.8,
+        "height": 20.3
+      }
+    },
+    "radioButtonList39": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 525.9,
+        "top": 79.8,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_0"
+    },
+    "radioButtonList40": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 568.0,
+        "top": 79.8,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_0"
+    }
+  }
+}

@@ -1,0 +1,693 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "name": {
+        "left": 38.9,
+        "top": 650.9,
+        "width": 381.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "Full Name (Last, First, Middle)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rr": {
+        "left": 425.9,
+        "top": 650.9,
+        "width": 147.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "Rank/Rating/Designator",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell2": {
+        "left": 92.9,
+        "top": 618.5,
+        "width": 327.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "Desired Ultimate Duty Assignment (UDA)(UIC)(BSC) and Address",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell22": {
+        "left": 425.9,
+        "top": 618.5,
+        "width": 66.2,
+        "height": 18.0,
+        "type": "text",
+        "description": "Length of Orders",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell3": {
+        "left": 497.9,
+        "top": 618.5,
+        "width": 75.2,
+        "height": 18.0,
+        "type": "text",
+        "description": "Request Start Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell1": {
+        "left": 39.1,
+        "top": 618.2,
+        "width": 47.7,
+        "height": 17.5,
+        "type": "choice",
+        "description": "Applicant",
+        "options": [
+          "SELRES",
+          "IRR"
+        ],
+        "group": null,
+        "required": false
+      },
+      "cell12": {
+        "left": 38.9,
+        "top": 571.7,
+        "width": 282.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "Street Address",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell23": {
+        "left": 326.9,
+        "top": 571.7,
+        "width": 102.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "City",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell32": {
+        "left": 434.9,
+        "top": 571.7,
+        "width": 66.2,
+        "height": 18.0,
+        "type": "text",
+        "description": "State",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell4": {
+        "left": 506.9,
+        "top": 571.7,
+        "width": 66.2,
+        "height": 18.0,
+        "type": "text",
+        "description": "Zip Code",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell13": {
+        "left": 38.9,
+        "top": 539.2,
+        "width": 102.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "Primary Phone Number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell24": {
+        "left": 146.9,
+        "top": 539.2,
+        "width": 426.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "E-mail Address",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell14": {
+        "left": 38.9,
+        "top": 492.4,
+        "width": 174.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "DoD ID Number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell25": {
+        "left": 218.9,
+        "top": 492.4,
+        "width": 174.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "Date of Rank/Rate",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell33": {
+        "left": 398.9,
+        "top": 492.4,
+        "width": 174.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "EREN",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell34": {
+        "left": 38.9,
+        "top": 447.1,
+        "width": 62.5,
+        "height": 19.4,
+        "type": "text",
+        "description": "(include AT/ADT/ADSW/ADOS/MOB)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell42": {
+        "left": 128.9,
+        "top": 447.1,
+        "width": 58.5,
+        "height": 19.4,
+        "type": "text",
+        "description": "AT/ADT/ADSW/ADOS/MOB)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell5": {
+        "left": 218.9,
+        "top": 447.1,
+        "width": 64.2,
+        "height": 19.4,
+        "type": "text",
+        "description": "Months",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row3": {
+        "left": 308.9,
+        "top": 447.1,
+        "width": 84.3,
+        "height": 20.9,
+        "type": "text",
+        "description": "Months",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row31": {
+        "left": 398.9,
+        "top": 447.1,
+        "width": 84.3,
+        "height": 20.9,
+        "type": "text",
+        "description": "Months",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row32": {
+        "left": 488.9,
+        "top": 447.1,
+        "width": 84.3,
+        "height": 20.9,
+        "type": "text",
+        "description": "Months",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row33": {
+        "left": 38.9,
+        "top": 411.1,
+        "width": 534.3,
+        "height": 19.4,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row1": {
+        "left": 424.8,
+        "top": 387.3,
+        "width": 41.9,
+        "height": 17.6,
+        "type": "text",
+        "description": "State",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "yes": {
+        "left": 471.9,
+        "top": 382.5,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Orders",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "no": {
+        "left": 525.9,
+        "top": 382.5,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Yes",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "yes2": {
+        "left": 471.9,
+        "top": 363.3,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "2. Are you currently in a selected or frocked status?",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "no2": {
+        "left": 525.9,
+        "top": 363.3,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Yes",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "yes3": {
+        "left": 471.9,
+        "top": 345.3,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "3. Are you eligible for promotion or advancement?",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "no3": {
+        "left": 525.9,
+        "top": 345.3,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Yes",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "yes4": {
+        "left": 471.9,
+        "top": 327.3,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Orders",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "no4": {
+        "left": 525.9,
+        "top": 327.3,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Yes",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row6": {
+        "left": 38.9,
+        "top": 301.1,
+        "width": 534.3,
+        "height": 19.9,
+        "type": "text",
+        "description": "Secondary location(s) desired",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "yes5": {
+        "left": 471.9,
+        "top": 273.3,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "5. Do you reside within 50 miles of UDA?",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "no5": {
+        "left": 525.9,
+        "top": 273.3,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Yes",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row7": {
+        "left": 403.6,
+        "top": 258.9,
+        "width": 63.0,
+        "height": 17.6,
+        "type": "text",
+        "description": "Expiration Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "yes6": {
+        "left": 471.9,
+        "top": 254.1,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Expiration Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "no6": {
+        "left": 525.9,
+        "top": 254.1,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Yes",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "yes7": {
+        "left": 471.9,
+        "top": 231.9,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Orders",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "no7": {
+        "left": 525.9,
+        "top": 231.9,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Yes",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "yes8": {
+        "left": 471.9,
+        "top": 210.9,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Orders",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "no8": {
+        "left": 525.9,
+        "top": 210.9,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Yes",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row8": {
+        "left": 38.9,
+        "top": 184.2,
+        "width": 534.3,
+        "height": 55.4,
+        "type": "text",
+        "description": "Date/Charge/Disposition",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "cell15": {
+        "left": 191.4,
+        "top": 703.4,
+        "width": 381.1,
+        "height": 13.6,
+        "type": "choice",
+        "description": "1. Service member\u2019s security clearance",
+        "options": [
+          "Favorably Adjudicated NACLC / No Clearance Granted (Explanation required)",
+          "Secret",
+          "Secret (Out of Scope / Reinvestigation Open)",
+          "Top Secret",
+          "Top Secret (Out of Scope / Reinvestigation Open)",
+          "No favorable investigation and/or Secret/TS clearance (Explanation required)"
+        ],
+        "group": null,
+        "required": false
+      },
+      "cell16": {
+        "left": 190.6,
+        "top": 686.1,
+        "width": 382.6,
+        "height": 15.1,
+        "type": "text",
+        "description": "2. Clearance Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell17": {
+        "left": 38.9,
+        "top": 645.5,
+        "width": 228.3,
+        "height": 17.5,
+        "type": "text",
+        "description": "Name and Title",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "email": {
+        "left": 272.9,
+        "top": 645.5,
+        "width": 192.3,
+        "height": 17.5,
+        "type": "text",
+        "description": "E-mail",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "phoneNum": {
+        "left": 470.9,
+        "top": 645.5,
+        "width": 102.3,
+        "height": 17.5,
+        "type": "text",
+        "description": "Phone Number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "memName": {
+        "left": 38.9,
+        "top": 577.6,
+        "width": 228.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "memSig": {
+        "left": 272.9,
+        "top": 577.6,
+        "width": 228.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "memDate": {
+        "left": 506.9,
+        "top": 577.6,
+        "width": 66.2,
+        "height": 18.0,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row34": {
+        "left": 38.9,
+        "top": 527.2,
+        "width": 102.3,
+        "height": 28.8,
+        "type": "text",
+        "description": "MAS Code",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row312": {
+        "left": 146.9,
+        "top": 527.2,
+        "width": 102.3,
+        "height": 28.8,
+        "type": "text",
+        "description": "IMS Code",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row322": {
+        "left": 254.9,
+        "top": 527.2,
+        "width": 102.3,
+        "height": 28.8,
+        "type": "text",
+        "description": "HYT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row332": {
+        "left": 362.9,
+        "top": 527.2,
+        "width": 102.3,
+        "height": 28.8,
+        "type": "text",
+        "description": "PEBD",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row342": {
+        "left": 470.9,
+        "top": 527.2,
+        "width": 102.3,
+        "height": 28.8,
+        "type": "text",
+        "description": "31-Day Break",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row35": {
+        "left": 196.6,
+        "top": 492.4,
+        "width": 376.3,
+        "height": 12.1,
+        "type": "choice",
+        "description": "Applicant is eligible or ineligible to apply",
+        "options": [
+          "Eligible",
+          "Ineligible"
+        ],
+        "group": null,
+        "required": false
+      },
+      "row36": {
+        "left": 38.9,
+        "top": 465.7,
+        "width": 534.3,
+        "height": 113.6,
+        "type": "text",
+        "description": "Comments",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pERSName": {
+        "left": 38.9,
+        "top": 337.7,
+        "width": 192.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "Verified by",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pERSSig": {
+        "left": 236.9,
+        "top": 337.7,
+        "width": 246.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pERSDate": {
+        "left": 488.9,
+        "top": 337.7,
+        "width": 84.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

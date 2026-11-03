@@ -1,0 +1,6105 @@
+{
+  "id": "opnav51122",
+  "label": "OPNAV5112-2 - Cash And Stamp Stock Count And Summary",
+  "directory": "OPNAV5112-2 - Cash And Stamp Stock Count And Summary",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf",
+    "page5.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "depo1",
+        "depo12",
+        "depo5",
+        "depo52",
+        "depo13",
+        "depo53",
+        "name1",
+        "fpo",
+        "sfa",
+        "hour1",
+        "date1",
+        "name2",
+        "name3",
+        "col1",
+        "column1",
+        "qt1",
+        "amount1",
+        "other1",
+        "column2",
+        "qt2",
+        "amount2",
+        "other2",
+        "column3",
+        "qt3",
+        "amount3",
+        "other3",
+        "column4",
+        "qt4",
+        "amount4",
+        "col2",
+        "qt5",
+        "amount5",
+        "col3",
+        "column5",
+        "qt6",
+        "amount6",
+        "qt7",
+        "amount7",
+        "column6",
+        "qt8",
+        "amount8",
+        "column7",
+        "qt9",
+        "amount9",
+        "column8",
+        "qt10",
+        "amount10",
+        "column9",
+        "qt11",
+        "amount11",
+        "column10",
+        "qt12",
+        "amount12",
+        "column11",
+        "amount13",
+        "column12",
+        "amount14",
+        "other4",
+        "column13",
+        "amount15",
+        "other5",
+        "column14",
+        "col4",
+        "amount16",
+        "col5",
+        "amount17",
+        "column15",
+        "amount18",
+        "column16",
+        "amount19",
+        "column17",
+        "col6",
+        "amount20",
+        "col7",
+        "col8",
+        "col9",
+        "column18",
+        "depo9",
+        "depo92",
+        "depo93"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "qty1",
+        "value1",
+        "qty12",
+        "item1",
+        "value12",
+        "qty2",
+        "value2",
+        "qtY1",
+        "qty22",
+        "item2",
+        "value22",
+        "qty3",
+        "value3",
+        "qtY2",
+        "qty32",
+        "value32",
+        "qty4",
+        "value4",
+        "qtY3",
+        "qty42",
+        "value42",
+        "qty5",
+        "name12",
+        "qtY4",
+        "qty52",
+        "value5",
+        "value52",
+        "qty6",
+        "value6",
+        "name22",
+        "qtY5",
+        "qty62",
+        "value62",
+        "qty7",
+        "value7",
+        "name32",
+        "qtY6",
+        "qty72",
+        "value72",
+        "qty8",
+        "value8",
+        "name4",
+        "qtY7",
+        "qty82",
+        "value82",
+        "qty9",
+        "value9",
+        "name5",
+        "qtY8",
+        "qty92",
+        "value92",
+        "qty10",
+        "value10",
+        "name6",
+        "qtY9",
+        "qty102",
+        "value102",
+        "qty11",
+        "value11",
+        "name7",
+        "qtY10",
+        "qty112",
+        "value112",
+        "qty122",
+        "value122",
+        "name8",
+        "qtY11",
+        "qty123",
+        "value123",
+        "value13",
+        "qty13",
+        "value132",
+        "name9",
+        "qtY12",
+        "qty132",
+        "qty14",
+        "value14",
+        "name10",
+        "qtY13",
+        "qty142",
+        "value142",
+        "qty15",
+        "value15",
+        "name122",
+        "qtY14",
+        "value152",
+        "qty16",
+        "value16",
+        "name13",
+        "qtY15",
+        "qty17",
+        "value17",
+        "name14",
+        "qtY16",
+        "qty18",
+        "value18",
+        "name15",
+        "qtY17",
+        "qty19",
+        "value19",
+        "name16",
+        "qtY18",
+        "qty152",
+        "value162",
+        "qty20",
+        "value20",
+        "name17",
+        "qtY19",
+        "qty162",
+        "value172",
+        "qty21",
+        "value21",
+        "name18",
+        "qtY20",
+        "item3",
+        "value182",
+        "qty172",
+        "qty182",
+        "item4",
+        "value192",
+        "remark1",
+        "qty222",
+        "value222",
+        "qty23",
+        "value23",
+        "qty24",
+        "value24",
+        "qty192",
+        "value202",
+        "qty202",
+        "value212",
+        "qty25",
+        "book1",
+        "value25",
+        "qty26",
+        "book2",
+        "value26",
+        "qty212",
+        "value223",
+        "qty27",
+        "book3",
+        "value27",
+        "qty223",
+        "value232",
+        "qty28",
+        "book4",
+        "value28",
+        "qty232",
+        "item5",
+        "value242",
+        "qty29",
+        "book5",
+        "value29",
+        "qty242",
+        "item6",
+        "value252",
+        "qty252",
+        "item7",
+        "value262",
+        "qty30",
+        "value30",
+        "qty262",
+        "item8",
+        "value272",
+        "qty31",
+        "coil",
+        "value31",
+        "item9",
+        "value282",
+        "qty272",
+        "qty322",
+        "coil2",
+        "value322",
+        "total1",
+        "qty282",
+        "item10",
+        "value292",
+        "total2"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "psform4",
+        "psform1",
+        "psform2",
+        "psform3",
+        "pSform",
+        "pSform2",
+        "ps3977",
+        "ps39772",
+        "inventory",
+        "stamp4",
+        "depoA",
+        "depoA2",
+        "depoD",
+        "depoD2",
+        "depoD3",
+        "mo4",
+        "mo42",
+        "mo43",
+        "mo8",
+        "mo82",
+        "mo83",
+        "mo12",
+        "mo122",
+        "mo123",
+        "mo16",
+        "mo162",
+        "mo163",
+        "mo20",
+        "mo202",
+        "mo203",
+        "mo1",
+        "mo13",
+        "mo24",
+        "mo242",
+        "mo27",
+        "mo272",
+        "mo30",
+        "mo302",
+        "mo303",
+        "initial",
+        "notes",
+        "sig1",
+        "datesigem1",
+        "sig2",
+        "datesigem2",
+        "sig3",
+        "datesigem3",
+        "sig4",
+        "datesigem4"
+      ]
+    },
+    {
+      "title": "Page 4",
+      "fields": [
+        "remarks2"
+      ]
+    },
+    {
+      "title": "Page 5",
+      "fields": [
+        "auditdate",
+        "pav",
+        "po1",
+        "po2",
+        "smail1",
+        "cope1",
+        "cope2",
+        "smail2",
+        "rank1",
+        "prd1",
+        "dateaudit1",
+        "aic1",
+        "stampS1",
+        "cash1",
+        "results1",
+        "ammos1",
+        "rank2",
+        "prd2",
+        "cope2a",
+        "dateaudit2",
+        "aic2",
+        "stampS2",
+        "cash2",
+        "results2",
+        "ammos2",
+        "rank3",
+        "prd3",
+        "cope3",
+        "dateaudit3",
+        "aic3",
+        "stampS3",
+        "cash3",
+        "results3",
+        "ammos3",
+        "rank4",
+        "prd4",
+        "cope4",
+        "dateaudit4",
+        "aic4",
+        "stampS4",
+        "cash4",
+        "results4",
+        "ammos4",
+        "rank5",
+        "prd5",
+        "cope5",
+        "dateaudit5",
+        "aic5",
+        "stampS5",
+        "cash5",
+        "results5",
+        "ammos5",
+        "rank6",
+        "prd6",
+        "cope6",
+        "dateaudit6",
+        "aic6",
+        "stampS6",
+        "cash6",
+        "results6",
+        "ammos6",
+        "rank7",
+        "prd7",
+        "dateaudit7",
+        "aic7",
+        "stampS7",
+        "cash7",
+        "results7",
+        "ammos7",
+        "rank8",
+        "prd8",
+        "cope8",
+        "dateaudit8",
+        "aic8",
+        "stampS8",
+        "cash8",
+        "results8",
+        "ammos8",
+        "rank9",
+        "prd9",
+        "cope9",
+        "dateaudit9",
+        "aic9",
+        "stampS9",
+        "cash9",
+        "results9",
+        "ammos9",
+        "rank10",
+        "prd10",
+        "cope10",
+        "dateaudit10",
+        "aic10",
+        "stampS10",
+        "cash10",
+        "results10",
+        "ammos10",
+        "rank11",
+        "prd11",
+        "cope11",
+        "dateaudit11",
+        "aic11",
+        "stampS11",
+        "cash11",
+        "results11",
+        "ammos11",
+        "rank12",
+        "prd12",
+        "cope12",
+        "dateaudit12",
+        "aic12",
+        "stampS12",
+        "cash12",
+        "results12",
+        "ammos12",
+        "rank13",
+        "prd13",
+        "dateaudit13",
+        "aic13",
+        "stampS13",
+        "cash13",
+        "results13",
+        "ammos13",
+        "rank14",
+        "prd14",
+        "cope14",
+        "dateaudit14",
+        "aic14",
+        "stampS14",
+        "cash14",
+        "results14",
+        "ammos14",
+        "rank15",
+        "prd15",
+        "cope15",
+        "dateaudit15",
+        "aic15",
+        "stampS15",
+        "cash15",
+        "results15",
+        "ammos15",
+        "rank16",
+        "prd16",
+        "cope16",
+        "dateaudit16",
+        "aic16",
+        "stampS16",
+        "cash16",
+        "results16",
+        "ammos16",
+        "rank17",
+        "prd17",
+        "cope17",
+        "dateaudit17",
+        "aic17",
+        "stampS17",
+        "cash17",
+        "results17",
+        "ammos17",
+        "rank18",
+        "prd18",
+        "cope18",
+        "dateaudit18",
+        "aic18",
+        "stampS18",
+        "cash18",
+        "results18",
+        "ammos18",
+        "rank19",
+        "rank20",
+        "rank21",
+        "ammTotal",
+        "copedate",
+        "auditintial1",
+        "auditintial2",
+        "reMark",
+        "sigA"
+      ]
+    }
+  ],
+  "fields": {
+    "depo1": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 120.6,
+        "top": 720.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo1_0"
+    },
+    "depo12": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 238.2,
+        "top": 720.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo1_0"
+    },
+    "depo5": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 415.3,
+        "top": 720.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo5_0"
+    },
+    "depo52": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 481.7,
+        "top": 720.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo5_0"
+    },
+    "depo13": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 120.6,
+        "top": 706.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo1_0"
+    },
+    "depo53": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 415.3,
+        "top": 706.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo5_0"
+    },
+    "name1": {
+      "type": "text",
+      "label": "Enter the name of the clerk and/or the clerk I.D. number.",
+      "page": 1,
+      "box": {
+        "left": 25.4,
+        "top": 682.8,
+        "width": 247.9,
+        "height": 14.5
+      }
+    },
+    "fpo": {
+      "type": "text",
+      "label": "Enter the FBO number.",
+      "page": 1,
+      "box": {
+        "left": 276.8,
+        "top": 682.8,
+        "width": 157.3,
+        "height": 14.5
+      }
+    },
+    "sfa": {
+      "type": "text",
+      "label": "Enter the SFA number.",
+      "page": 1,
+      "box": {
+        "left": 437.7,
+        "top": 682.8,
+        "width": 39.2,
+        "height": 14.5
+      }
+    },
+    "hour1": {
+      "type": "text",
+      "label": "Enter the time of the audit using the 24 hour clock.  ",
+      "page": 1,
+      "box": {
+        "left": 479.3,
+        "top": 682.8,
+        "width": 42.6,
+        "height": 14.5
+      }
+    },
+    "date1": {
+      "type": "text",
+      "label": "Enter the date (DD MMM YYYY) of the audit.  ",
+      "page": 1,
+      "box": {
+        "left": 523.2,
+        "top": 682.8,
+        "width": 62.8,
+        "height": 14.5
+      }
+    },
+    "name2": {
+      "type": "text",
+      "label": "Enter the name of the auditors.",
+      "page": 1,
+      "box": {
+        "left": 25.4,
+        "top": 656.9,
+        "width": 247.9,
+        "height": 14.5
+      }
+    },
+    "name3": {
+      "type": "text",
+      "label": "Enter the unit name.",
+      "page": 1,
+      "box": {
+        "left": 276.8,
+        "top": 656.9,
+        "width": 309.2,
+        "height": 14.5
+      }
+    },
+    "col1": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 1,
+      "box": {
+        "left": 296.4,
+        "top": 605.8,
+        "width": 90.4,
+        "height": 10.9
+      }
+    },
+    "column1": {
+      "type": "text",
+      "label": "Enter the refunds.",
+      "page": 1,
+      "box": {
+        "left": 205.9,
+        "top": 593.4,
+        "width": 88.0,
+        "height": 21.4
+      }
+    },
+    "qt1": {
+      "type": "text",
+      "label": "Enter the quantity for the denomination amount of 100 dollars.",
+      "page": 1,
+      "box": {
+        "left": 437.3,
+        "top": 593.4,
+        "width": 39.1,
+        "height": 21.4
+      }
+    },
+    "amount1": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 1,
+      "box": {
+        "left": 479.3,
+        "top": 593.4,
+        "width": 106.3,
+        "height": 21.4
+      }
+    },
+    "other1": {
+      "type": "text",
+      "label": "Enter the other.",
+      "page": 1,
+      "box": {
+        "left": 59.1,
+        "top": 569.7,
+        "width": 144.4,
+        "height": 17.8
+      }
+    },
+    "column2": {
+      "type": "text",
+      "label": "Enter the other value.",
+      "page": 1,
+      "box": {
+        "left": 205.9,
+        "top": 569.7,
+        "width": 88.0,
+        "height": 17.4
+      }
+    },
+    "qt2": {
+      "type": "text",
+      "label": "Enter the quantity for the denomination amount of 50 dollars.",
+      "page": 1,
+      "box": {
+        "left": 437.3,
+        "top": 569.7,
+        "width": 39.1,
+        "height": 17.4
+      }
+    },
+    "amount2": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 1,
+      "box": {
+        "left": 479.3,
+        "top": 569.7,
+        "width": 106.3,
+        "height": 17.4
+      }
+    },
+    "other2": {
+      "type": "text",
+      "label": "Enter the other.",
+      "page": 1,
+      "box": {
+        "left": 59.1,
+        "top": 549.5,
+        "width": 144.4,
+        "height": 19.1
+      }
+    },
+    "column3": {
+      "type": "text",
+      "label": "Enter the other value.",
+      "page": 1,
+      "box": {
+        "left": 205.9,
+        "top": 549.5,
+        "width": 88.0,
+        "height": 19.2
+      }
+    },
+    "qt3": {
+      "type": "text",
+      "label": "Enter the quantity for the denomination amount of 20 dollars.",
+      "page": 1,
+      "box": {
+        "left": 437.3,
+        "top": 549.5,
+        "width": 39.1,
+        "height": 19.2
+      }
+    },
+    "amount3": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 1,
+      "box": {
+        "left": 479.3,
+        "top": 549.5,
+        "width": 106.3,
+        "height": 19.2
+      }
+    },
+    "other3": {
+      "type": "text",
+      "label": "Enter the other.",
+      "page": 1,
+      "box": {
+        "left": 59.1,
+        "top": 527.6,
+        "width": 144.4,
+        "height": 20.1
+      }
+    },
+    "column4": {
+      "type": "text",
+      "label": "Enter the other value.",
+      "page": 1,
+      "box": {
+        "left": 205.9,
+        "top": 527.6,
+        "width": 88.0,
+        "height": 20.1
+      }
+    },
+    "qt4": {
+      "type": "text",
+      "label": "Enter the quantity for the denomination amount of 10 dollars.",
+      "page": 1,
+      "box": {
+        "left": 437.3,
+        "top": 527.6,
+        "width": 39.1,
+        "height": 20.1
+      }
+    },
+    "amount4": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 1,
+      "box": {
+        "left": 479.3,
+        "top": 527.6,
+        "width": 106.3,
+        "height": 20.1
+      }
+    },
+    "col2": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 1,
+      "box": {
+        "left": 296.4,
+        "top": 517.5,
+        "width": 90.4,
+        "height": 10.9
+      }
+    },
+    "qt5": {
+      "type": "text",
+      "label": "Enter the quantity for the denomination amount of 5 dollars.",
+      "page": 1,
+      "box": {
+        "left": 437.3,
+        "top": 505.1,
+        "width": 39.1,
+        "height": 21.2
+      }
+    },
+    "amount5": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 1,
+      "box": {
+        "left": 479.3,
+        "top": 505.1,
+        "width": 106.3,
+        "height": 21.2
+      }
+    },
+    "col3": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 1,
+      "box": {
+        "left": 296.4,
+        "top": 494.5,
+        "width": 90.4,
+        "height": 10.9
+      }
+    },
+    "column5": {
+      "type": "text",
+      "label": "Enter money order vouchers. (Complete blocks 7-16 if \r\nbusiness was conducted prior to audit.)",
+      "page": 1,
+      "box": {
+        "left": 205.9,
+        "top": 481.4,
+        "width": 88.0,
+        "height": 31.3
+      },
+      "multiline": true
+    },
+    "qt6": {
+      "type": "text",
+      "label": "Enter the quantity for the denomination amount of 2 dollars.",
+      "page": 1,
+      "box": {
+        "left": 437.3,
+        "top": 481.4,
+        "width": 39.1,
+        "height": 19.5
+      }
+    },
+    "amount6": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 1,
+      "box": {
+        "left": 479.3,
+        "top": 481.4,
+        "width": 106.3,
+        "height": 19.5
+      }
+    },
+    "qt7": {
+      "type": "text",
+      "label": "Enter the quantity for the denomination amount of 1 dollar.",
+      "page": 1,
+      "box": {
+        "left": 437.7,
+        "top": 458.9,
+        "width": 39.1,
+        "height": 20.1
+      }
+    },
+    "amount7": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 1,
+      "box": {
+        "left": 479.3,
+        "top": 458.9,
+        "width": 106.3,
+        "height": 20.1
+      }
+    },
+    "column6": {
+      "type": "text",
+      "label": "Enter forms 3544.",
+      "page": 1,
+      "box": {
+        "left": 205.9,
+        "top": 447.1,
+        "width": 88.0,
+        "height": 20.6
+      }
+    },
+    "qt8": {
+      "type": "text",
+      "label": "Enter the quantity for the denomination amount of 50 cents.",
+      "page": 1,
+      "box": {
+        "left": 437.3,
+        "top": 436.4,
+        "width": 39.1,
+        "height": 20.6
+      }
+    },
+    "amount8": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 1,
+      "box": {
+        "left": 479.3,
+        "top": 436.4,
+        "width": 106.3,
+        "height": 20.6
+      }
+    },
+    "column7": {
+      "type": "text",
+      "label": "Enter the COD tags.",
+      "page": 1,
+      "box": {
+        "left": 205.9,
+        "top": 424.1,
+        "width": 88.0,
+        "height": 20.6
+      }
+    },
+    "qt9": {
+      "type": "text",
+      "label": "Enter the quantity for the denomination amount of 25 cents.",
+      "page": 1,
+      "box": {
+        "left": 437.3,
+        "top": 413.4,
+        "width": 39.1,
+        "height": 19.1
+      }
+    },
+    "amount9": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 1,
+      "box": {
+        "left": 479.3,
+        "top": 413.4,
+        "width": 106.3,
+        "height": 19.1
+      }
+    },
+    "column8": {
+      "type": "text",
+      "label": "Enter the customer meters, form 3603.",
+      "page": 1,
+      "box": {
+        "left": 205.9,
+        "top": 401.0,
+        "width": 88.0,
+        "height": 19.1
+      }
+    },
+    "qt10": {
+      "type": "text",
+      "label": "Enter the quantity for the denomination amount of 10 cents.",
+      "page": 1,
+      "box": {
+        "left": 437.3,
+        "top": 392.0,
+        "width": 39.1,
+        "height": 21.0
+      }
+    },
+    "amount10": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 1,
+      "box": {
+        "left": 479.3,
+        "top": 392.0,
+        "width": 106.3,
+        "height": 21.0
+      }
+    },
+    "column9": {
+      "type": "text",
+      "label": "Enter the postage meter/PVI (form 3602-PO/current reading).",
+      "page": 1,
+      "box": {
+        "left": 205.9,
+        "top": 379.6,
+        "width": 88.0,
+        "height": 20.6
+      }
+    },
+    "qt11": {
+      "type": "text",
+      "label": "Enter the quantity for the denomination amount of 5 cents.",
+      "page": 1,
+      "box": {
+        "left": 437.3,
+        "top": 368.4,
+        "width": 39.1,
+        "height": 20.4
+      }
+    },
+    "amount11": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 1,
+      "box": {
+        "left": 479.3,
+        "top": 368.4,
+        "width": 106.3,
+        "height": 20.4
+      }
+    },
+    "column10": {
+      "type": "text",
+      "label": "Enter the box rentals, forms 1538.",
+      "page": 1,
+      "box": {
+        "left": 205.9,
+        "top": 356.6,
+        "width": 88.0,
+        "height": 21.2
+      }
+    },
+    "qt12": {
+      "type": "text",
+      "label": "Enter the quantity for the denomination amount of 1 cent.",
+      "page": 1,
+      "box": {
+        "left": 437.3,
+        "top": 345.3,
+        "width": 39.1,
+        "height": 20.1
+      }
+    },
+    "amount12": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 1,
+      "box": {
+        "left": 479.3,
+        "top": 345.3,
+        "width": 106.3,
+        "height": 20.1
+      }
+    },
+    "column11": {
+      "type": "text",
+      "label": "Enter the retail packaging products.",
+      "page": 1,
+      "box": {
+        "left": 205.9,
+        "top": 332.9,
+        "width": 88.0,
+        "height": 19.5
+      }
+    },
+    "amount13": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 1,
+      "box": {
+        "left": 479.3,
+        "top": 322.3,
+        "width": 106.3,
+        "height": 18.4
+      }
+    },
+    "column12": {
+      "type": "text",
+      "label": "Enter the money order fees.",
+      "page": 1,
+      "box": {
+        "left": 205.9,
+        "top": 310.4,
+        "width": 88.0,
+        "height": 19.5
+      }
+    },
+    "amount14": {
+      "type": "text",
+      "label": "Enter the total for personal and business checks.",
+      "page": 1,
+      "box": {
+        "left": 479.3,
+        "top": 300.9,
+        "width": 106.3,
+        "height": 20.6
+      }
+    },
+    "other4": {
+      "type": "text",
+      "label": "Enter the other.",
+      "page": 1,
+      "box": {
+        "left": 59.1,
+        "top": 288.5,
+        "width": 144.4,
+        "height": 20.1
+      }
+    },
+    "column13": {
+      "type": "text",
+      "label": "Enter the other value.",
+      "page": 1,
+      "box": {
+        "left": 205.9,
+        "top": 288.5,
+        "width": 88.0,
+        "height": 20.1
+      }
+    },
+    "amount15": {
+      "type": "text",
+      "label": "Enter the total value for government checks.",
+      "page": 1,
+      "box": {
+        "left": 479.3,
+        "top": 277.3,
+        "width": 106.3,
+        "height": 20.6
+      }
+    },
+    "other5": {
+      "type": "text",
+      "label": "Enter the other.",
+      "page": 1,
+      "box": {
+        "left": 59.1,
+        "top": 265.4,
+        "width": 144.4,
+        "height": 21.2
+      }
+    },
+    "column14": {
+      "type": "text",
+      "label": "Enter the other value.",
+      "page": 1,
+      "box": {
+        "left": 205.9,
+        "top": 265.4,
+        "width": 88.0,
+        "height": 21.2
+      }
+    },
+    "col4": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 1,
+      "box": {
+        "left": 296.4,
+        "top": 254.3,
+        "width": 90.4,
+        "height": 10.9
+      }
+    },
+    "amount16": {
+      "type": "text",
+      "label": "Enter the total value for paid money orders.",
+      "page": 1,
+      "box": {
+        "left": 479.3,
+        "top": 253.6,
+        "width": 106.3,
+        "height": 19.0
+      }
+    },
+    "col5": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 1,
+      "box": {
+        "left": 296.4,
+        "top": 232.9,
+        "width": 90.4,
+        "height": 10.9
+      }
+    },
+    "amount17": {
+      "type": "text",
+      "label": "Enter the total value for traveler's checks.",
+      "page": 1,
+      "box": {
+        "left": 479.3,
+        "top": 232.3,
+        "width": 106.3,
+        "height": 19.5
+      }
+    },
+    "column15": {
+      "type": "text",
+      "label": "Enter the stamp stock as counted.",
+      "page": 1,
+      "box": {
+        "left": 205.9,
+        "top": 219.9,
+        "width": 88.0,
+        "height": 19.0
+      }
+    },
+    "amount18": {
+      "type": "text",
+      "label": "Enter the total value for credit and debit PPC card receipts.",
+      "page": 1,
+      "box": {
+        "left": 479.3,
+        "top": 209.8,
+        "width": 106.3,
+        "height": 18.4
+      }
+    },
+    "column16": {
+      "type": "text",
+      "label": "Enter the fixed: advanced credits to clerk flex: unit 1412 clerk balances.",
+      "page": 1,
+      "box": {
+        "left": 205.9,
+        "top": 198.5,
+        "width": 88.0,
+        "height": 19.0
+      }
+    },
+    "amount19": {
+      "type": "text",
+      "label": "Enter the value of any other.",
+      "page": 1,
+      "box": {
+        "left": 479.3,
+        "top": 188.4,
+        "width": 106.3,
+        "height": 20.1
+      }
+    },
+    "column17": {
+      "type": "text",
+      "label": "Enter the stock in transit (Not applicable to clerks) (Returned but still in accountability).",
+      "page": 1,
+      "box": {
+        "left": 205.9,
+        "top": 176.6,
+        "width": 88.0,
+        "height": 20.6
+      }
+    },
+    "col6": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 1,
+      "box": {
+        "left": 296.4,
+        "top": 166.0,
+        "width": 90.4,
+        "height": 10.9
+      }
+    },
+    "amount20": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 1,
+      "box": {
+        "left": 479.3,
+        "top": 165.3,
+        "width": 106.3,
+        "height": 32.5
+      },
+      "multiline": true
+    },
+    "col7": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 1,
+      "box": {
+        "left": 296.4,
+        "top": 143.5,
+        "width": 90.4,
+        "height": 11.2
+      }
+    },
+    "col8": {
+      "type": "text",
+      "label": "Enter the open balance (AIC 840) and cash ret. (AIC 353) \r\n(flex) PS 33 69 advanced from PFO (fixed).",
+      "page": 1,
+      "box": {
+        "left": 297.1,
+        "top": 130.5,
+        "width": 89.1,
+        "height": 21.2
+      }
+    },
+    "col9": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 1,
+      "box": {
+        "left": 296.4,
+        "top": 96.2,
+        "width": 90.4,
+        "height": 11.2
+      }
+    },
+    "column18": {
+      "type": "text",
+      "label": "Enter the amount of tolerance for this credit.",
+      "page": 1,
+      "box": {
+        "left": 205.9,
+        "top": 83.8,
+        "width": 88.0,
+        "height": 15.6
+      }
+    },
+    "depo9": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 191.5,
+        "top": 57.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo9_0"
+    },
+    "depo92": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 242.1,
+        "top": 57.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo9_0"
+    },
+    "depo93": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 316.9,
+        "top": 57.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_depo9_0"
+    },
+    "qty1": {
+      "type": "text",
+      "label": "Enter the quantity of stamps and paper products for the cost of .01 cent on line 1 of 21.",
+      "page": 2,
+      "box": {
+        "left": 36.6,
+        "top": 682.8,
+        "width": 39.2,
+        "height": 15.2
+      }
+    },
+    "value1": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 153.6,
+        "top": 682.8,
+        "width": 54.9,
+        "height": 15.2
+      }
+    },
+    "qty12": {
+      "type": "text",
+      "label": "Enter the quantity of old stamps on line 1 of 14.",
+      "page": 2,
+      "box": {
+        "left": 384.2,
+        "top": 682.8,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "item1": {
+      "type": "text",
+      "label": "Enter the item cost.",
+      "page": 2,
+      "box": {
+        "left": 434.9,
+        "top": 682.8,
+        "width": 75.0,
+        "height": 15.2
+      }
+    },
+    "value12": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 512.5,
+        "top": 682.8,
+        "width": 60.0,
+        "height": 15.2
+      }
+    },
+    "qty2": {
+      "type": "text",
+      "label": "Enter the quantity of stamps and paper products for the cost of .02 cents on line 2 of 21.",
+      "page": 2,
+      "box": {
+        "left": 36.6,
+        "top": 665.4,
+        "width": 39.2,
+        "height": 14.6
+      }
+    },
+    "value2": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 153.6,
+        "top": 665.4,
+        "width": 54.9,
+        "height": 14.6
+      }
+    },
+    "qtY1": {
+      "type": "text",
+      "label": "Enter the quantity of flag .39 cent stamps on line 1 of 20.",
+      "page": 2,
+      "box": {
+        "left": 329.7,
+        "top": 665.4,
+        "width": 47.6,
+        "height": 14.6
+      }
+    },
+    "qty22": {
+      "type": "text",
+      "label": "Enter the quantity of old stamps on line 2 of 14.",
+      "page": 2,
+      "box": {
+        "left": 384.2,
+        "top": 665.4,
+        "width": 47.6,
+        "height": 14.6
+      }
+    },
+    "item2": {
+      "type": "text",
+      "label": "Enter the item cost.",
+      "page": 2,
+      "box": {
+        "left": 434.9,
+        "top": 665.4,
+        "width": 75.0,
+        "height": 14.6
+      }
+    },
+    "value22": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 512.5,
+        "top": 665.4,
+        "width": 60.0,
+        "height": 14.6
+      }
+    },
+    "qty3": {
+      "type": "text",
+      "label": "Enter the quantity of stamps and paper products for the cost of .03 cents on line 3 of 21.",
+      "page": 2,
+      "box": {
+        "left": 36.6,
+        "top": 647.9,
+        "width": 39.2,
+        "height": 14.8
+      }
+    },
+    "value3": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 153.6,
+        "top": 647.9,
+        "width": 54.9,
+        "height": 14.8
+      }
+    },
+    "qtY2": {
+      "type": "text",
+      "label": "Enter the quantity of Kwanza .39 cent stamps on line 2 of 20.",
+      "page": 2,
+      "box": {
+        "left": 329.7,
+        "top": 647.9,
+        "width": 47.6,
+        "height": 14.8
+      }
+    },
+    "qty32": {
+      "type": "text",
+      "label": "Enter the quantity of old stamps for the cost of .21 cents on line 3 of 14.",
+      "page": 2,
+      "box": {
+        "left": 384.2,
+        "top": 647.9,
+        "width": 47.6,
+        "height": 14.8
+      }
+    },
+    "value32": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 512.5,
+        "top": 647.9,
+        "width": 60.0,
+        "height": 14.8
+      }
+    },
+    "qty4": {
+      "type": "text",
+      "label": "Enter the quantity of stamps and paper products for the cost of .04 cents on line 4 of 21.",
+      "page": 2,
+      "box": {
+        "left": 36.6,
+        "top": 630.5,
+        "width": 39.2,
+        "height": 14.9
+      }
+    },
+    "value4": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 153.6,
+        "top": 630.5,
+        "width": 54.9,
+        "height": 14.9
+      }
+    },
+    "qtY3": {
+      "type": "text",
+      "label": "Enter the quantity of Hanakah .39 cent stamps on line 3 of 20.",
+      "page": 2,
+      "box": {
+        "left": 329.7,
+        "top": 630.5,
+        "width": 47.6,
+        "height": 14.9
+      }
+    },
+    "qty42": {
+      "type": "text",
+      "label": "Enter the quantity of old stamps for the cost of .23 cents on line 1 of 14.",
+      "page": 2,
+      "box": {
+        "left": 384.2,
+        "top": 630.5,
+        "width": 47.6,
+        "height": 14.9
+      }
+    },
+    "value42": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 512.5,
+        "top": 630.5,
+        "width": 60.0,
+        "height": 14.9
+      }
+    },
+    "qty5": {
+      "type": "text",
+      "label": "Enter the quantity of stamps and paper products for the cost of .05 cents on line 5 of 21.",
+      "page": 2,
+      "box": {
+        "left": 36.6,
+        "top": 613.1,
+        "width": 39.2,
+        "height": 14.3
+      }
+    },
+    "name12": {
+      "type": "text",
+      "label": "Enter the name of the .39 cent stamp.",
+      "page": 2,
+      "box": {
+        "left": 216.1,
+        "top": 613.1,
+        "width": 110.9,
+        "height": 14.3
+      }
+    },
+    "qtY4": {
+      "type": "text",
+      "label": "Enter the quantity of .39 cent stamps on line 4 of 20.",
+      "page": 2,
+      "box": {
+        "left": 329.7,
+        "top": 613.1,
+        "width": 47.6,
+        "height": 14.3
+      }
+    },
+    "qty52": {
+      "type": "text",
+      "label": "Enter the quantity of old stamps for the cost of .34 cents on line 1 of 14.",
+      "page": 2,
+      "box": {
+        "left": 384.2,
+        "top": 613.1,
+        "width": 47.6,
+        "height": 14.3
+      }
+    },
+    "value5": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 153.6,
+        "top": 613.0,
+        "width": 54.9,
+        "height": 14.3
+      }
+    },
+    "value52": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 512.5,
+        "top": 613.0,
+        "width": 60.0,
+        "height": 14.3
+      }
+    },
+    "qty6": {
+      "type": "text",
+      "label": "Enter the quantity of stamps and paper products for the cost of .10 cents on line 6 of 21.",
+      "page": 2,
+      "box": {
+        "left": 36.6,
+        "top": 595.6,
+        "width": 39.2,
+        "height": 15.0
+      }
+    },
+    "value6": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 153.6,
+        "top": 595.6,
+        "width": 54.9,
+        "height": 15.0
+      }
+    },
+    "name22": {
+      "type": "text",
+      "label": "Enter the name of the .39 cent stamp.",
+      "page": 2,
+      "box": {
+        "left": 216.1,
+        "top": 595.6,
+        "width": 110.9,
+        "height": 15.0
+      }
+    },
+    "qtY5": {
+      "type": "text",
+      "label": "Enter the quantity of .39 cent stamps on line 5 of 20.",
+      "page": 2,
+      "box": {
+        "left": 329.7,
+        "top": 595.6,
+        "width": 47.6,
+        "height": 15.0
+      }
+    },
+    "qty62": {
+      "type": "text",
+      "label": "Enter the quantity of old stamps for the cost of .37 cents on line 1 of 14.",
+      "page": 2,
+      "box": {
+        "left": 384.2,
+        "top": 595.6,
+        "width": 47.6,
+        "height": 15.0
+      }
+    },
+    "value62": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 512.5,
+        "top": 595.6,
+        "width": 60.0,
+        "height": 15.0
+      }
+    },
+    "qty7": {
+      "type": "text",
+      "label": "Enter the quantity of stamps and paper products for the cost of .24 cents on line 7 of 21.",
+      "page": 2,
+      "box": {
+        "left": 36.6,
+        "top": 578.2,
+        "width": 39.2,
+        "height": 14.8
+      }
+    },
+    "value7": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 153.6,
+        "top": 578.2,
+        "width": 54.9,
+        "height": 14.8
+      }
+    },
+    "name32": {
+      "type": "text",
+      "label": "Enter the name of the .39 cent stamp.",
+      "page": 2,
+      "box": {
+        "left": 216.1,
+        "top": 578.2,
+        "width": 110.9,
+        "height": 14.8
+      }
+    },
+    "qtY6": {
+      "type": "text",
+      "label": "Enter the quantity of .39 cent stamps on line 6 of 20.",
+      "page": 2,
+      "box": {
+        "left": 329.7,
+        "top": 578.2,
+        "width": 47.6,
+        "height": 14.8
+      }
+    },
+    "qty72": {
+      "type": "text",
+      "label": "Enter the quantity of old stamps for the cost of .45 cents on line 1 of 14.",
+      "page": 2,
+      "box": {
+        "left": 384.2,
+        "top": 578.2,
+        "width": 47.6,
+        "height": 14.8
+      }
+    },
+    "value72": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 512.5,
+        "top": 578.2,
+        "width": 60.0,
+        "height": 14.8
+      }
+    },
+    "qty8": {
+      "type": "text",
+      "label": "Enter the quantity of stamps and paper products for the cost of .30 cents on line 8 of 21.",
+      "page": 2,
+      "box": {
+        "left": 36.6,
+        "top": 560.7,
+        "width": 39.2,
+        "height": 14.8
+      }
+    },
+    "value8": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 153.6,
+        "top": 560.7,
+        "width": 54.9,
+        "height": 14.8
+      }
+    },
+    "name4": {
+      "type": "text",
+      "label": "Enter the name of the .39 cent stamp.",
+      "page": 2,
+      "box": {
+        "left": 216.1,
+        "top": 560.7,
+        "width": 110.9,
+        "height": 14.8
+      }
+    },
+    "qtY7": {
+      "type": "text",
+      "label": "Enter the quantity of .39 cent stamps on line 7 of 20.",
+      "page": 2,
+      "box": {
+        "left": 329.7,
+        "top": 560.7,
+        "width": 47.6,
+        "height": 14.8
+      }
+    },
+    "qty82": {
+      "type": "text",
+      "label": "Enter the quantity of old stamps for the cost of .80 cents on line 1 of 14.",
+      "page": 2,
+      "box": {
+        "left": 384.2,
+        "top": 560.7,
+        "width": 47.6,
+        "height": 14.8
+      }
+    },
+    "value82": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 512.5,
+        "top": 560.7,
+        "width": 60.0,
+        "height": 14.8
+      }
+    },
+    "qty9": {
+      "type": "text",
+      "label": "Enter the quantity of stamps and paper products for the cost of .39 cents on line 9 of 21.",
+      "page": 2,
+      "box": {
+        "left": 36.6,
+        "top": 543.3,
+        "width": 39.2,
+        "height": 14.6
+      }
+    },
+    "value9": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 153.6,
+        "top": 543.3,
+        "width": 54.9,
+        "height": 14.6
+      }
+    },
+    "name5": {
+      "type": "text",
+      "label": "Enter the name of the .39 cent stamp.",
+      "page": 2,
+      "box": {
+        "left": 216.1,
+        "top": 543.3,
+        "width": 110.9,
+        "height": 14.6
+      }
+    },
+    "qtY8": {
+      "type": "text",
+      "label": "Enter the quantity of .39 cent stamps on line 8 of 20.",
+      "page": 2,
+      "box": {
+        "left": 329.7,
+        "top": 543.3,
+        "width": 47.6,
+        "height": 14.6
+      }
+    },
+    "qty92": {
+      "type": "text",
+      "label": "Enter the quantity of old stamps for the cost of 2.30 dollars on line 1 of 14.",
+      "page": 2,
+      "box": {
+        "left": 384.2,
+        "top": 543.3,
+        "width": 47.6,
+        "height": 14.6
+      }
+    },
+    "value92": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 512.5,
+        "top": 543.3,
+        "width": 60.0,
+        "height": 14.6
+      }
+    },
+    "qty10": {
+      "type": "text",
+      "label": "Enter the quantity of stamps and paper products for the cost of .45 cents on line 10 of 21.",
+      "page": 2,
+      "box": {
+        "left": 36.6,
+        "top": 525.9,
+        "width": 39.2,
+        "height": 14.2
+      }
+    },
+    "value10": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 153.6,
+        "top": 525.9,
+        "width": 54.9,
+        "height": 14.2
+      }
+    },
+    "name6": {
+      "type": "text",
+      "label": "Enter the name of the .39 cent stamp.",
+      "page": 2,
+      "box": {
+        "left": 216.1,
+        "top": 525.9,
+        "width": 110.9,
+        "height": 14.2
+      }
+    },
+    "qtY9": {
+      "type": "text",
+      "label": "Enter the quantity of .39 cent stamps on line 9 of 20.",
+      "page": 2,
+      "box": {
+        "left": 329.7,
+        "top": 525.9,
+        "width": 47.6,
+        "height": 14.2
+      }
+    },
+    "qty102": {
+      "type": "text",
+      "label": "Enter the quantity of old stamps for the cost of 3.70 dollars on line 1 of 14.",
+      "page": 2,
+      "box": {
+        "left": 384.2,
+        "top": 525.9,
+        "width": 47.6,
+        "height": 14.2
+      }
+    },
+    "value102": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 512.5,
+        "top": 525.9,
+        "width": 60.0,
+        "height": 14.2
+      }
+    },
+    "qty11": {
+      "type": "text",
+      "label": "Enter the quantity of stamps and paper products for the cost of .50 cents on line 11 of 21.",
+      "page": 2,
+      "box": {
+        "left": 36.6,
+        "top": 509.0,
+        "width": 39.2,
+        "height": 15.1
+      }
+    },
+    "value11": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 153.6,
+        "top": 509.0,
+        "width": 54.9,
+        "height": 15.1
+      }
+    },
+    "name7": {
+      "type": "text",
+      "label": "Enter the name of the .39 cent stamp.",
+      "page": 2,
+      "box": {
+        "left": 216.1,
+        "top": 509.0,
+        "width": 110.9,
+        "height": 15.1
+      }
+    },
+    "qtY10": {
+      "type": "text",
+      "label": "Enter the quantity of .39 cent stamps on line 10 of 20.",
+      "page": 2,
+      "box": {
+        "left": 329.7,
+        "top": 509.0,
+        "width": 47.6,
+        "height": 15.1
+      }
+    },
+    "qty112": {
+      "type": "text",
+      "label": "Enter the quantity of old stamps for the cost of 3.85 dollars on line 1 of 14.",
+      "page": 2,
+      "box": {
+        "left": 384.2,
+        "top": 509.0,
+        "width": 47.6,
+        "height": 15.1
+      }
+    },
+    "value112": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 512.5,
+        "top": 509.0,
+        "width": 60.0,
+        "height": 15.1
+      }
+    },
+    "qty122": {
+      "type": "text",
+      "label": "Enter the quantity of stamps and paper products for the cost of .60 cents on line 12 of 21.",
+      "page": 2,
+      "box": {
+        "left": 36.6,
+        "top": 491.0,
+        "width": 39.2,
+        "height": 14.8
+      }
+    },
+    "value122": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 153.6,
+        "top": 491.0,
+        "width": 54.9,
+        "height": 14.8
+      }
+    },
+    "name8": {
+      "type": "text",
+      "label": "Enter the name of the .39 cent stamp.",
+      "page": 2,
+      "box": {
+        "left": 216.1,
+        "top": 491.0,
+        "width": 110.9,
+        "height": 14.8
+      }
+    },
+    "qtY11": {
+      "type": "text",
+      "label": "Enter the quantity of .39 cent stamps on line 11 of 20.",
+      "page": 2,
+      "box": {
+        "left": 329.7,
+        "top": 491.0,
+        "width": 47.6,
+        "height": 14.8
+      }
+    },
+    "qty123": {
+      "type": "text",
+      "label": "Enter the quantity of old stamps for the cost of 7.40 dollars on line 1 of 14.",
+      "page": 2,
+      "box": {
+        "left": 384.2,
+        "top": 491.0,
+        "width": 47.6,
+        "height": 13.9
+      }
+    },
+    "value123": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 512.5,
+        "top": 491.0,
+        "width": 60.0,
+        "height": 14.8
+      }
+    },
+    "value13": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 512.5,
+        "top": 474.1,
+        "width": 60.0,
+        "height": 15.0
+      }
+    },
+    "qty13": {
+      "type": "text",
+      "label": "Enter the quantity of stamps and paper products for the cost of .70 cents on line 13 of 21.",
+      "page": 2,
+      "box": {
+        "left": 36.6,
+        "top": 473.6,
+        "width": 39.2,
+        "height": 14.4
+      }
+    },
+    "value132": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 153.6,
+        "top": 473.6,
+        "width": 54.9,
+        "height": 14.4
+      }
+    },
+    "name9": {
+      "type": "text",
+      "label": "Enter the name of the .39 cent stamp.",
+      "page": 2,
+      "box": {
+        "left": 216.1,
+        "top": 473.6,
+        "width": 110.9,
+        "height": 14.4
+      }
+    },
+    "qtY12": {
+      "type": "text",
+      "label": "Enter the quantity of .39 cent stamps on line 12 of 20.",
+      "page": 2,
+      "box": {
+        "left": 329.7,
+        "top": 473.6,
+        "width": 47.6,
+        "height": 14.4
+      }
+    },
+    "qty132": {
+      "type": "text",
+      "label": "Enter the quantity of old stamps for the cost of 13.65 dollars on line 1 of 14.",
+      "page": 2,
+      "box": {
+        "left": 384.2,
+        "top": 473.6,
+        "width": 47.6,
+        "height": 14.4
+      }
+    },
+    "qty14": {
+      "type": "text",
+      "label": "Enter the quantity of stamps and paper products for the cost of .76 cents on line 14 of 21.",
+      "page": 2,
+      "box": {
+        "left": 36.6,
+        "top": 456.7,
+        "width": 39.2,
+        "height": 15.4
+      }
+    },
+    "value14": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 153.6,
+        "top": 456.7,
+        "width": 54.9,
+        "height": 15.4
+      }
+    },
+    "name10": {
+      "type": "text",
+      "label": "Enter the name of the .39 cent stamp.",
+      "page": 2,
+      "box": {
+        "left": 216.1,
+        "top": 456.7,
+        "width": 110.9,
+        "height": 15.4
+      }
+    },
+    "qtY13": {
+      "type": "text",
+      "label": "Enter the quantity of .39 cent stamps on line 13 of 20.",
+      "page": 2,
+      "box": {
+        "left": 329.7,
+        "top": 456.7,
+        "width": 47.6,
+        "height": 15.4
+      }
+    },
+    "qty142": {
+      "type": "text",
+      "label": "Enter the quantity of old stamps for the cost of 37.00 dollars on line 1 of 14.",
+      "page": 2,
+      "box": {
+        "left": 384.2,
+        "top": 456.7,
+        "width": 47.6,
+        "height": 15.4
+      }
+    },
+    "value142": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 512.5,
+        "top": 456.7,
+        "width": 60.0,
+        "height": 15.4
+      }
+    },
+    "qty15": {
+      "type": "text",
+      "label": "Enter the quantity of stamps and paper products for the cost of .80 cents on line 15 of 21.",
+      "page": 2,
+      "box": {
+        "left": 36.6,
+        "top": 438.7,
+        "width": 39.2,
+        "height": 13.9
+      }
+    },
+    "value15": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 153.6,
+        "top": 438.7,
+        "width": 54.9,
+        "height": 13.9
+      }
+    },
+    "name122": {
+      "type": "text",
+      "label": "Enter the name of the .39 cent stamp.",
+      "page": 2,
+      "box": {
+        "left": 216.1,
+        "top": 438.7,
+        "width": 110.9,
+        "height": 13.9
+      }
+    },
+    "qtY14": {
+      "type": "text",
+      "label": "Enter the quantity of .39 cent stamps on line 14 of 20.",
+      "page": 2,
+      "box": {
+        "left": 329.7,
+        "top": 438.7,
+        "width": 47.6,
+        "height": 13.9
+      }
+    },
+    "value152": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 512.5,
+        "top": 438.7,
+        "width": 60.0,
+        "height": 14.0
+      }
+    },
+    "qty16": {
+      "type": "text",
+      "label": "Enter the quantity of stamps and paper products for the cost of .83 cents on line 16 of 21.",
+      "page": 2,
+      "box": {
+        "left": 36.6,
+        "top": 421.8,
+        "width": 39.2,
+        "height": 14.8
+      }
+    },
+    "value16": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 153.6,
+        "top": 421.8,
+        "width": 54.9,
+        "height": 14.8
+      }
+    },
+    "name13": {
+      "type": "text",
+      "label": "Enter the name of the .39 cent stamp.",
+      "page": 2,
+      "box": {
+        "left": 216.1,
+        "top": 421.8,
+        "width": 110.9,
+        "height": 14.8
+      }
+    },
+    "qtY15": {
+      "type": "text",
+      "label": "Enter the quantity of .39 cent stamps on line 15 of 20.",
+      "page": 2,
+      "box": {
+        "left": 329.7,
+        "top": 421.8,
+        "width": 47.6,
+        "height": 14.8
+      }
+    },
+    "qty17": {
+      "type": "text",
+      "label": "Enter the quantity of stamps and paper products for the cost of 1 dollar on line 17 of 21.",
+      "page": 2,
+      "box": {
+        "left": 36.6,
+        "top": 404.4,
+        "width": 39.2,
+        "height": 15.4
+      }
+    },
+    "value17": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 153.6,
+        "top": 404.4,
+        "width": 54.9,
+        "height": 15.4
+      }
+    },
+    "name14": {
+      "type": "text",
+      "label": "Enter the name of the .39 cent stamp.",
+      "page": 2,
+      "box": {
+        "left": 216.1,
+        "top": 404.4,
+        "width": 110.9,
+        "height": 15.4
+      }
+    },
+    "qtY16": {
+      "type": "text",
+      "label": "Enter the quantity of .39 cent stamps on line 16 of 20.",
+      "page": 2,
+      "box": {
+        "left": 329.7,
+        "top": 404.4,
+        "width": 47.6,
+        "height": 15.4
+      }
+    },
+    "qty18": {
+      "type": "text",
+      "label": "Enter the quantity of stamps and paper products for the cost of 2 dollars on line 18 of 21.",
+      "page": 2,
+      "box": {
+        "left": 36.6,
+        "top": 386.4,
+        "width": 39.2,
+        "height": 14.0
+      }
+    },
+    "value18": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 153.6,
+        "top": 386.4,
+        "width": 54.9,
+        "height": 14.0
+      }
+    },
+    "name15": {
+      "type": "text",
+      "label": "Enter the name of the .39 cent stamp.",
+      "page": 2,
+      "box": {
+        "left": 216.1,
+        "top": 386.4,
+        "width": 110.9,
+        "height": 14.0
+      }
+    },
+    "qtY17": {
+      "type": "text",
+      "label": "Enter the quantity of .39 cent stamps on line 17 of 20.",
+      "page": 2,
+      "box": {
+        "left": 329.7,
+        "top": 386.4,
+        "width": 47.6,
+        "height": 14.0
+      }
+    },
+    "qty19": {
+      "type": "text",
+      "label": "Enter the quantity of stamps and paper products for the cost 4.05 dollars of on line 19 of 21.",
+      "page": 2,
+      "box": {
+        "left": 36.6,
+        "top": 369.5,
+        "width": 39.2,
+        "height": 14.7
+      }
+    },
+    "value19": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 153.6,
+        "top": 369.5,
+        "width": 54.9,
+        "height": 14.7
+      }
+    },
+    "name16": {
+      "type": "text",
+      "label": "Enter the name of the .39 cent stamp.",
+      "page": 2,
+      "box": {
+        "left": 216.1,
+        "top": 369.5,
+        "width": 110.9,
+        "height": 14.7
+      }
+    },
+    "qtY18": {
+      "type": "text",
+      "label": "Enter the quantity of .39 cent stamps on line 18 of 20.",
+      "page": 2,
+      "box": {
+        "left": 329.7,
+        "top": 369.5,
+        "width": 47.6,
+        "height": 14.7
+      }
+    },
+    "qty152": {
+      "type": "text",
+      "label": "Enter the quantity of damaged old stamps for the cost of 2.00 dollars on line 1 of 4.",
+      "page": 2,
+      "box": {
+        "left": 384.2,
+        "top": 369.5,
+        "width": 47.6,
+        "height": 15.1
+      }
+    },
+    "value162": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 512.5,
+        "top": 369.5,
+        "width": 60.0,
+        "height": 15.1
+      }
+    },
+    "qty20": {
+      "type": "text",
+      "label": "Enter the quantity of stamps and paper products for the cost of 5 dollars on line 20 of 21.",
+      "page": 2,
+      "box": {
+        "left": 36.6,
+        "top": 352.1,
+        "width": 39.2,
+        "height": 14.7
+      }
+    },
+    "value20": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 153.6,
+        "top": 352.1,
+        "width": 54.9,
+        "height": 14.7
+      }
+    },
+    "name17": {
+      "type": "text",
+      "label": "Enter the name of the .39 cent stamp.",
+      "page": 2,
+      "box": {
+        "left": 216.1,
+        "top": 352.1,
+        "width": 110.9,
+        "height": 14.7
+      }
+    },
+    "qtY19": {
+      "type": "text",
+      "label": "Enter the quantity of .39 cent stamps on line 19 of 20.",
+      "page": 2,
+      "box": {
+        "left": 329.7,
+        "top": 352.1,
+        "width": 47.6,
+        "height": 14.7
+      }
+    },
+    "qty162": {
+      "type": "text",
+      "label": "Enter the quantity of damaged old stamps for the cost of .04 cents on line 2 of 4.",
+      "page": 2,
+      "box": {
+        "left": 384.2,
+        "top": 352.1,
+        "width": 47.6,
+        "height": 14.7
+      }
+    },
+    "value172": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 512.5,
+        "top": 352.1,
+        "width": 60.0,
+        "height": 14.7
+      }
+    },
+    "qty21": {
+      "type": "text",
+      "label": "Enter the quantity of stamps and paper products for the cost of 14.40 dollars on line 21 of 21.",
+      "page": 2,
+      "box": {
+        "left": 36.6,
+        "top": 334.6,
+        "width": 39.2,
+        "height": 14.7
+      }
+    },
+    "value21": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 153.6,
+        "top": 334.6,
+        "width": 54.9,
+        "height": 14.7
+      }
+    },
+    "name18": {
+      "type": "text",
+      "label": "Enter the name of the .39 cent stamp.",
+      "page": 2,
+      "box": {
+        "left": 216.1,
+        "top": 334.6,
+        "width": 110.9,
+        "height": 14.7
+      }
+    },
+    "qtY20": {
+      "type": "text",
+      "label": "Enter the quantity of .39 cent stamps on line 20 of 20.",
+      "page": 2,
+      "box": {
+        "left": 329.7,
+        "top": 334.6,
+        "width": 47.6,
+        "height": 14.7
+      }
+    },
+    "item3": {
+      "type": "text",
+      "label": "Enter the damaged item cost.",
+      "page": 2,
+      "box": {
+        "left": 434.9,
+        "top": 334.6,
+        "width": 75.0,
+        "height": 14.4
+      }
+    },
+    "value182": {
+      "type": "text",
+      "label": "Enter the total value",
+      "page": 2,
+      "box": {
+        "left": 512.5,
+        "top": 334.6,
+        "width": 60.0,
+        "height": 14.4
+      }
+    },
+    "qty172": {
+      "type": "text",
+      "label": "Enter the quantity of damaged old stamps on line 3 of 4.",
+      "page": 2,
+      "box": {
+        "left": 384.2,
+        "top": 334.1,
+        "width": 47.6,
+        "height": 13.8
+      }
+    },
+    "qty182": {
+      "type": "text",
+      "label": "Enter the quantity of damaged old stamps on line 4 of 4.",
+      "page": 2,
+      "box": {
+        "left": 384.2,
+        "top": 317.2,
+        "width": 47.6,
+        "height": 14.8
+      }
+    },
+    "item4": {
+      "type": "text",
+      "label": "Enter the damaged item cost.",
+      "page": 2,
+      "box": {
+        "left": 434.9,
+        "top": 317.2,
+        "width": 75.0,
+        "height": 14.8
+      }
+    },
+    "value192": {
+      "type": "text",
+      "label": "Enter the total value",
+      "page": 2,
+      "box": {
+        "left": 512.5,
+        "top": 317.2,
+        "width": 60.0,
+        "height": 14.8
+      }
+    },
+    "remark1": {
+      "type": "text",
+      "label": "Enter any remarks.",
+      "page": 2,
+      "box": {
+        "left": 216.1,
+        "top": 303.7,
+        "width": 161.3,
+        "height": 192.2
+      },
+      "multiline": true
+    },
+    "qty222": {
+      "type": "text",
+      "label": "Enter the quantity of books for the cost of 2.40 on line 1 of 8.",
+      "page": 2,
+      "box": {
+        "left": 36.6,
+        "top": 299.8,
+        "width": 39.2,
+        "height": 14.4
+      }
+    },
+    "value222": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 153.6,
+        "top": 299.8,
+        "width": 54.9,
+        "height": 14.4
+      }
+    },
+    "qty23": {
+      "type": "text",
+      "label": "Enter the quantity of books for the cost of 3.90 on line 2 of 8.",
+      "page": 2,
+      "box": {
+        "left": 36.6,
+        "top": 282.9,
+        "width": 39.2,
+        "height": 15.2
+      }
+    },
+    "value23": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 153.6,
+        "top": 282.9,
+        "width": 54.9,
+        "height": 15.2
+      }
+    },
+    "qty24": {
+      "type": "text",
+      "label": "Enter the quantity of books for the cost of 7.80 on line 3 of 8.",
+      "page": 2,
+      "box": {
+        "left": 36.6,
+        "top": 264.9,
+        "width": 39.2,
+        "height": 14.8
+      }
+    },
+    "value24": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 153.6,
+        "top": 264.9,
+        "width": 54.9,
+        "height": 14.8
+      }
+    },
+    "qty192": {
+      "type": "text",
+      "label": "Enter the quantity of post cards and envelopes for the cost of .75 cent aerogram on line 1 of 10.",
+      "page": 2,
+      "box": {
+        "left": 384.2,
+        "top": 264.9,
+        "width": 47.6,
+        "height": 14.3
+      }
+    },
+    "value202": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 512.5,
+        "top": 264.8,
+        "width": 60.0,
+        "height": 14.3
+      }
+    },
+    "qty202": {
+      "type": "text",
+      "label": "Enter the quantity of post cards and envelopes for the cost of .47 cent small on line 2 of 10.",
+      "page": 2,
+      "box": {
+        "left": 384.2,
+        "top": 248.0,
+        "width": 47.6,
+        "height": 15.0
+      }
+    },
+    "value212": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 512.5,
+        "top": 248.0,
+        "width": 60.0,
+        "height": 15.0
+      }
+    },
+    "qty25": {
+      "type": "text",
+      "label": "Enter the quantity of books on line 4 of 8.",
+      "page": 2,
+      "box": {
+        "left": 36.6,
+        "top": 247.4,
+        "width": 39.2,
+        "height": 14.6
+      }
+    },
+    "book1": {
+      "type": "text",
+      "label": "Enter the book cost.",
+      "page": 2,
+      "box": {
+        "left": 79.4,
+        "top": 247.4,
+        "width": 71.6,
+        "height": 14.6
+      }
+    },
+    "value25": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 153.6,
+        "top": 247.4,
+        "width": 54.9,
+        "height": 14.6
+      }
+    },
+    "qty26": {
+      "type": "text",
+      "label": "Enter the quantity of books on line 5 of 8.",
+      "page": 2,
+      "box": {
+        "left": 36.6,
+        "top": 230.6,
+        "width": 39.2,
+        "height": 15.3
+      }
+    },
+    "book2": {
+      "type": "text",
+      "label": "Enter the book cost.",
+      "page": 2,
+      "box": {
+        "left": 79.4,
+        "top": 230.6,
+        "width": 71.6,
+        "height": 13.9
+      }
+    },
+    "value26": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 153.6,
+        "top": 230.6,
+        "width": 54.9,
+        "height": 15.3
+      }
+    },
+    "qty212": {
+      "type": "text",
+      "label": "Enter the quantity of post cards and envelopes for the cost of .47 cent large on line 3 of 10.",
+      "page": 2,
+      "box": {
+        "left": 384.2,
+        "top": 230.0,
+        "width": 47.6,
+        "height": 14.8
+      }
+    },
+    "value223": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 512.5,
+        "top": 230.0,
+        "width": 60.0,
+        "height": 14.8
+      }
+    },
+    "qty27": {
+      "type": "text",
+      "label": "Enter the quantity of books on line 6 of 8.",
+      "page": 2,
+      "box": {
+        "left": 36.6,
+        "top": 212.6,
+        "width": 39.2,
+        "height": 14.4
+      }
+    },
+    "book3": {
+      "type": "text",
+      "label": "Enter the book cost.",
+      "page": 2,
+      "box": {
+        "left": 79.4,
+        "top": 212.6,
+        "width": 71.6,
+        "height": 14.4
+      }
+    },
+    "value27": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 153.6,
+        "top": 212.6,
+        "width": 54.9,
+        "height": 14.4
+      }
+    },
+    "qty223": {
+      "type": "text",
+      "label": "Enter the quantity of post cards and envelopes for the cost of .26 cent stamped card on line 4 of 10.",
+      "page": 2,
+      "box": {
+        "left": 384.2,
+        "top": 212.6,
+        "width": 47.6,
+        "height": 14.1
+      }
+    },
+    "value232": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 512.5,
+        "top": 212.6,
+        "width": 60.0,
+        "height": 14.1
+      }
+    },
+    "qty28": {
+      "type": "text",
+      "label": "Enter the quantity of books on line 7 of 8.",
+      "page": 2,
+      "box": {
+        "left": 36.6,
+        "top": 195.7,
+        "width": 39.2,
+        "height": 14.8
+      }
+    },
+    "book4": {
+      "type": "text",
+      "label": "Enter the book cost.",
+      "page": 2,
+      "box": {
+        "left": 79.4,
+        "top": 195.7,
+        "width": 71.6,
+        "height": 14.8
+      }
+    },
+    "value28": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 153.6,
+        "top": 195.7,
+        "width": 54.9,
+        "height": 14.8
+      }
+    },
+    "qty232": {
+      "type": "text",
+      "label": "Enter the quantity of post cards and envelopes on line 5 of 10.",
+      "page": 2,
+      "box": {
+        "left": 384.2,
+        "top": 195.7,
+        "width": 47.6,
+        "height": 15.1
+      }
+    },
+    "item5": {
+      "type": "text",
+      "label": "Enter the  post cards and envelopes cost.",
+      "page": 2,
+      "box": {
+        "left": 434.9,
+        "top": 195.7,
+        "width": 75.0,
+        "height": 15.1
+      }
+    },
+    "value242": {
+      "type": "text",
+      "label": "Enter the total value.",
+      "page": 2,
+      "box": {
+        "left": 512.5,
+        "top": 195.7,
+        "width": 60.0,
+        "height": 15.1
+      }
+    },
+    "qty29": {
+      "type": "text",
+      "label": "Enter the quantity of books on line 8 of 8.",
+      "page": 2,
+      "box": {
+        "left": 36.6,
+        "top": 177.7,
+        "width": 39.2,
+        "height": 14.8
+      }
+    },
+    "book5": {
+      "type": "text",
+      "label": "Enter the book cost.",
+      "page": 2,
+      "box": {
+        "left": 79.4,
+        "top": 177.7,
+        "width": 71.6,
+        "height": 14.8
+      }
+    },
+    "value29": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 153.6,
+        "top": 177.7,
+        "width": 54.9,
+        "height": 14.8
+      }
+    },
+    "qty242": {
+      "type": "text",
+      "label": "Enter the quantity of post cards and envelopes on line 6 of 10.",
+      "page": 2,
+      "box": {
+        "left": 384.2,
+        "top": 177.7,
+        "width": 47.6,
+        "height": 14.2
+      }
+    },
+    "item6": {
+      "type": "text",
+      "label": "Enter the  post cards and envelopes cost.",
+      "page": 2,
+      "box": {
+        "left": 434.9,
+        "top": 177.7,
+        "width": 75.0,
+        "height": 14.2
+      }
+    },
+    "value252": {
+      "type": "text",
+      "label": "Enter the total value.",
+      "page": 2,
+      "box": {
+        "left": 512.5,
+        "top": 177.7,
+        "width": 60.0,
+        "height": 14.2
+      }
+    },
+    "qty252": {
+      "type": "text",
+      "label": "Enter the quantity of post cards and envelopes on line 7 of 10.",
+      "page": 2,
+      "box": {
+        "left": 384.2,
+        "top": 160.8,
+        "width": 47.6,
+        "height": 15.0
+      }
+    },
+    "item7": {
+      "type": "text",
+      "label": "Enter the  post cards and envelopes cost.",
+      "page": 2,
+      "box": {
+        "left": 434.9,
+        "top": 160.8,
+        "width": 75.0,
+        "height": 15.0
+      }
+    },
+    "value262": {
+      "type": "text",
+      "label": "Enter the total value.",
+      "page": 2,
+      "box": {
+        "left": 512.5,
+        "top": 160.8,
+        "width": 60.0,
+        "height": 15.0
+      }
+    },
+    "qty30": {
+      "type": "text",
+      "label": "Enter the quantity of coils for the cost of  39.00 dollars on line 1 of 3.",
+      "page": 2,
+      "box": {
+        "left": 36.6,
+        "top": 143.4,
+        "width": 39.2,
+        "height": 15.3
+      }
+    },
+    "value30": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 153.6,
+        "top": 143.4,
+        "width": 54.9,
+        "height": 15.3
+      }
+    },
+    "qty262": {
+      "type": "text",
+      "label": "Enter the quantity of post cards and envelopes on line 8 of 10.",
+      "page": 2,
+      "box": {
+        "left": 384.2,
+        "top": 143.4,
+        "width": 47.6,
+        "height": 14.8
+      }
+    },
+    "item8": {
+      "type": "text",
+      "label": "Enter the  post cards and envelopes cost.",
+      "page": 2,
+      "box": {
+        "left": 434.9,
+        "top": 143.4,
+        "width": 75.0,
+        "height": 14.8
+      }
+    },
+    "value272": {
+      "type": "text",
+      "label": "Enter the total value.",
+      "page": 2,
+      "box": {
+        "left": 512.5,
+        "top": 143.4,
+        "width": 60.0,
+        "height": 14.8
+      }
+    },
+    "qty31": {
+      "type": "text",
+      "label": "Enter the quantity of coils on line 2 of 3.",
+      "page": 2,
+      "box": {
+        "left": 36.6,
+        "top": 126.0,
+        "width": 39.2,
+        "height": 14.8
+      }
+    },
+    "coil": {
+      "type": "text",
+      "label": "Enter the cost of coils.",
+      "page": 2,
+      "box": {
+        "left": 79.4,
+        "top": 126.0,
+        "width": 71.6,
+        "height": 14.8
+      }
+    },
+    "value31": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 153.6,
+        "top": 126.0,
+        "width": 54.9,
+        "height": 14.8
+      }
+    },
+    "item9": {
+      "type": "text",
+      "label": "Enter the  post cards and envelopes cost.",
+      "page": 2,
+      "box": {
+        "left": 434.9,
+        "top": 126.0,
+        "width": 75.0,
+        "height": 14.4
+      }
+    },
+    "value282": {
+      "type": "text",
+      "label": "Enter the total value.",
+      "page": 2,
+      "box": {
+        "left": 512.5,
+        "top": 126.0,
+        "width": 60.0,
+        "height": 14.4
+      }
+    },
+    "qty272": {
+      "type": "text",
+      "label": "Enter the quantity of post cards and envelopes on line 9 of 10.",
+      "page": 2,
+      "box": {
+        "left": 384.2,
+        "top": 125.4,
+        "width": 47.6,
+        "height": 13.8
+      }
+    },
+    "qty322": {
+      "type": "text",
+      "label": "Enter the quantity of coils on line 3 of 3.",
+      "page": 2,
+      "box": {
+        "left": 36.6,
+        "top": 108.5,
+        "width": 39.2,
+        "height": 14.8
+      }
+    },
+    "coil2": {
+      "type": "text",
+      "label": "Enter the cost of coils.",
+      "page": 2,
+      "box": {
+        "left": 79.4,
+        "top": 108.5,
+        "width": 71.6,
+        "height": 14.8
+      }
+    },
+    "value322": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 153.6,
+        "top": 108.5,
+        "width": 54.9,
+        "height": 14.8
+      }
+    },
+    "total1": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 329.7,
+        "top": 108.5,
+        "width": 47.6,
+        "height": 14.7
+      }
+    },
+    "qty282": {
+      "type": "text",
+      "label": "Enter the quantity of post cards and envelopes on line 10 of 10.",
+      "page": 2,
+      "box": {
+        "left": 384.2,
+        "top": 108.5,
+        "width": 47.6,
+        "height": 14.6
+      }
+    },
+    "item10": {
+      "type": "text",
+      "label": "Enter the  post cards and envelopes cost.",
+      "page": 2,
+      "box": {
+        "left": 434.9,
+        "top": 108.5,
+        "width": 75.0,
+        "height": 14.6
+      }
+    },
+    "value292": {
+      "type": "text",
+      "label": "Enter the total value.",
+      "page": 2,
+      "box": {
+        "left": 512.5,
+        "top": 108.5,
+        "width": 60.0,
+        "height": 14.6
+      }
+    },
+    "total2": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 2,
+      "box": {
+        "left": 262.7,
+        "top": 91.1,
+        "width": 114.6,
+        "height": 15.8
+      }
+    },
+    "psform4": {
+      "type": "checkbox",
+      "label": "Select equipment for PS form 1590.",
+      "page": 3,
+      "box": {
+        "left": 453.6,
+        "top": 705.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "psform1": {
+      "type": "checkbox",
+      "label": "Select IRT passwords for PS form 3977.",
+      "page": 3,
+      "box": {
+        "left": 199.3,
+        "top": 685.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "psform2": {
+      "type": "checkbox",
+      "label": "Select keys to post office for PS form 3977.",
+      "page": 3,
+      "box": {
+        "left": 285.4,
+        "top": 685.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "psform3": {
+      "type": "checkbox",
+      "label": "Select safe combination for PS form 3977.",
+      "page": 3,
+      "box": {
+        "left": 370.3,
+        "top": 685.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "pSform": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 232.5,
+        "top": 667.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_PSform_0"
+    },
+    "pSform2": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 265.1,
+        "top": 667.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_PSform_0"
+    },
+    "ps3977": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 502.0,
+        "top": 667.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_PS3977_0"
+    },
+    "ps39772": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 535.7,
+        "top": 667.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_PS3977_0"
+    },
+    "inventory": {
+      "type": "checkbox",
+      "label": "Select if inventory items are correct or have been corrected.",
+      "page": 3,
+      "box": {
+        "left": 398.4,
+        "top": 630.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "stamp4": {
+      "type": "text",
+      "label": "Enter the flex credit only.",
+      "page": 3,
+      "box": {
+        "left": 475.3,
+        "top": 613.5,
+        "width": 106.3,
+        "height": 14.8
+      }
+    },
+    "depoA": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 85.2,
+        "top": 592.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_depoA_0"
+    },
+    "depoA2": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 134.7,
+        "top": 592.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_depoA_0"
+    },
+    "depoD": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 134.7,
+        "top": 571.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_depoD_0"
+    },
+    "depoD2": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 270.2,
+        "top": 571.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_depoD_0"
+    },
+    "depoD3": {
+      "type": "radio",
+      "label": "2",
+      "page": 3,
+      "box": {
+        "left": 404.7,
+        "top": 571.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_depoD_0"
+    },
+    "mo4": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 359.1,
+        "top": 517.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_MO4_0"
+    },
+    "mo42": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 425.4,
+        "top": 517.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_MO4_0"
+    },
+    "mo43": {
+      "type": "radio",
+      "label": "2",
+      "page": 3,
+      "box": {
+        "left": 498.0,
+        "top": 517.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_MO4_0"
+    },
+    "mo8": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 359.1,
+        "top": 497.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_MO8_0"
+    },
+    "mo82": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 425.4,
+        "top": 497.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_MO8_0"
+    },
+    "mo83": {
+      "type": "radio",
+      "label": "2",
+      "page": 3,
+      "box": {
+        "left": 498.0,
+        "top": 497.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_MO8_0"
+    },
+    "mo12": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 359.1,
+        "top": 479.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_MO12_0"
+    },
+    "mo122": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 425.4,
+        "top": 479.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_MO12_0"
+    },
+    "mo123": {
+      "type": "radio",
+      "label": "2",
+      "page": 3,
+      "box": {
+        "left": 498.0,
+        "top": 479.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_MO12_0"
+    },
+    "mo16": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 359.1,
+        "top": 459.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_MO16_0"
+    },
+    "mo162": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 425.4,
+        "top": 459.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_MO16_0"
+    },
+    "mo163": {
+      "type": "radio",
+      "label": "2",
+      "page": 3,
+      "box": {
+        "left": 498.0,
+        "top": 459.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_MO16_0"
+    },
+    "mo20": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 359.1,
+        "top": 440.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_MO20_0"
+    },
+    "mo202": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 425.4,
+        "top": 440.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_MO20_0"
+    },
+    "mo203": {
+      "type": "radio",
+      "label": "2",
+      "page": 3,
+      "box": {
+        "left": 498.0,
+        "top": 440.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_MO20_0"
+    },
+    "mo1": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 201.0,
+        "top": 402.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_MO1_0"
+    },
+    "mo13": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 246.6,
+        "top": 402.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_MO1_0"
+    },
+    "mo24": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 201.0,
+        "top": 384.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_MO24_0"
+    },
+    "mo242": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 246.6,
+        "top": 384.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_MO24_0"
+    },
+    "mo27": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 201.0,
+        "top": 365.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_MO27_0"
+    },
+    "mo272": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 246.6,
+        "top": 365.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_MO27_0"
+    },
+    "mo30": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 201.0,
+        "top": 348.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_MO30_0"
+    },
+    "mo302": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 246.6,
+        "top": 348.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_MO30_0"
+    },
+    "mo303": {
+      "type": "radio",
+      "label": "2",
+      "page": 3,
+      "box": {
+        "left": 289.3,
+        "top": 348.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P3_0_MO30_0"
+    },
+    "initial": {
+      "type": "text",
+      "label": "Enter the initials of the Commanding Officers if this audit has been reviewed.",
+      "page": 3,
+      "box": {
+        "left": 367.3,
+        "top": 312.7,
+        "width": 214.2,
+        "height": 13.3
+      }
+    },
+    "notes": {
+      "type": "text",
+      "label": "Enter any notes.",
+      "page": 3,
+      "box": {
+        "left": 29.3,
+        "top": 297.4,
+        "width": 552.3,
+        "height": 117.1
+      },
+      "multiline": true
+    },
+    "sig1": {
+      "type": "text",
+      "label": "Enter the signature of the auditor that examined this stamp credit.",
+      "page": 3,
+      "box": {
+        "left": 27.1,
+        "top": 164.8,
+        "width": 175.3,
+        "height": 24.6
+      }
+    },
+    "datesigem1": {
+      "type": "text",
+      "label": "Enter the date (DD MMM YYYY) of the signature.  ",
+      "page": 3,
+      "box": {
+        "left": 204.8,
+        "top": 164.8,
+        "width": 81.4,
+        "height": 24.6
+      }
+    },
+    "sig2": {
+      "type": "text",
+      "label": "Enter the signature of the clerk that concurs with audit.",
+      "page": 3,
+      "box": {
+        "left": 289.2,
+        "top": 164.8,
+        "width": 199.3,
+        "height": 24.6
+      }
+    },
+    "datesigem2": {
+      "type": "text",
+      "label": "Enter the date (DD MMM YYYY) of the signature.  ",
+      "page": 3,
+      "box": {
+        "left": 491.1,
+        "top": 164.8,
+        "width": 92.6,
+        "height": 24.6
+      }
+    },
+    "sig3": {
+      "type": "text",
+      "label": "Enter the signature of the auditor that examined this stamp credit.",
+      "page": 3,
+      "box": {
+        "left": 27.1,
+        "top": 105.7,
+        "width": 175.3,
+        "height": 24.6
+      }
+    },
+    "datesigem3": {
+      "type": "text",
+      "label": "Enter the date (DD MMM YYYY) of the signature.  ",
+      "page": 3,
+      "box": {
+        "left": 204.8,
+        "top": 105.7,
+        "width": 81.4,
+        "height": 24.6
+      }
+    },
+    "sig4": {
+      "type": "text",
+      "label": "Enter the signature of the clerk with aggreement to the count.",
+      "page": 3,
+      "box": {
+        "left": 289.2,
+        "top": 105.7,
+        "width": 199.3,
+        "height": 24.6
+      }
+    },
+    "datesigem4": {
+      "type": "text",
+      "label": "Enter the date (DD MMM YYYY) of the signature.  ",
+      "page": 3,
+      "box": {
+        "left": 491.1,
+        "top": 105.7,
+        "width": 92.6,
+        "height": 24.6
+      }
+    },
+    "remarks2": {
+      "type": "text",
+      "label": "Enter any additional information.",
+      "page": 4,
+      "box": {
+        "left": 43.3,
+        "top": 323.2,
+        "width": 505.6,
+        "height": 230.7
+      },
+      "multiline": true
+    },
+    "auditdate": {
+      "type": "text",
+      "label": "Enter the audit date (DD MMM YYYY).  ",
+      "page": 5,
+      "box": {
+        "left": 96.8,
+        "top": 713.7,
+        "width": 80.8,
+        "height": 10.5
+      }
+    },
+    "pav": {
+      "type": "text",
+      "label": "Enter the last PAV.",
+      "page": 5,
+      "box": {
+        "left": 96.2,
+        "top": 688.5,
+        "width": 81.6,
+        "height": 11.2
+      }
+    },
+    "po1": {
+      "type": "text",
+      "label": "Enter the postal officer.",
+      "page": 5,
+      "box": {
+        "left": 96.8,
+        "top": 662.3,
+        "width": 115.7,
+        "height": 10.9
+      }
+    },
+    "po2": {
+      "type": "text",
+      "label": "Enter the designated.",
+      "page": 5,
+      "box": {
+        "left": 267.8,
+        "top": 662.3,
+        "width": 120.7,
+        "height": 10.9
+      }
+    },
+    "smail1": {
+      "type": "text",
+      "label": "Enter the email user name for the postal officer.",
+      "page": 5,
+      "box": {
+        "left": 96.2,
+        "top": 649.1,
+        "width": 52.3,
+        "height": 11.2
+      }
+    },
+    "cope1": {
+      "type": "text",
+      "label": "Enter the COPE.",
+      "page": 5,
+      "box": {
+        "left": 96.2,
+        "top": 624.4,
+        "width": 117.0,
+        "height": 11.2
+      }
+    },
+    "cope2": {
+      "type": "text",
+      "label": "Enter the designated.",
+      "page": 5,
+      "box": {
+        "left": 267.2,
+        "top": 624.4,
+        "width": 122.0,
+        "height": 11.2
+      }
+    },
+    "smail2": {
+      "type": "text",
+      "label": "Enter email user name for the COPE.",
+      "page": 5,
+      "box": {
+        "left": 96.2,
+        "top": 611.4,
+        "width": 52.3,
+        "height": 11.2
+      }
+    },
+    "rank1": {
+      "type": "text",
+      "label": "Enter the rank and name on line 1 of 18.",
+      "page": 5,
+      "box": {
+        "left": 22.6,
+        "top": 552.1,
+        "width": 66.8,
+        "height": 10.3
+      }
+    },
+    "prd1": {
+      "type": "text",
+      "label": "Enter the PRD.",
+      "page": 5,
+      "box": {
+        "left": 91.8,
+        "top": 552.1,
+        "width": 28.5,
+        "height": 10.3
+      }
+    },
+    "dateaudit1": {
+      "type": "text",
+      "label": "Enter the audit date (DD MMM YYYY).  ",
+      "page": 5,
+      "box": {
+        "left": 168.8,
+        "top": 552.1,
+        "width": 57.2,
+        "height": 10.3
+      }
+    },
+    "aic1": {
+      "type": "text",
+      "label": "Enter the AIC 840 and AIC 353.",
+      "page": 5,
+      "box": {
+        "left": 229.0,
+        "top": 552.1,
+        "width": 43.1,
+        "height": 10.3
+      }
+    },
+    "stampS1": {
+      "type": "text",
+      "label": "Enter the stamps value.",
+      "page": 5,
+      "box": {
+        "left": 274.6,
+        "top": 552.1,
+        "width": 53.3,
+        "height": 10.3
+      }
+    },
+    "cash1": {
+      "type": "text",
+      "label": "Enter the cash value.",
+      "page": 5,
+      "box": {
+        "left": 330.8,
+        "top": 552.1,
+        "width": 58.3,
+        "height": 10.3
+      }
+    },
+    "results1": {
+      "type": "text",
+      "label": "Enter the results.",
+      "page": 5,
+      "box": {
+        "left": 483.8,
+        "top": 552.1,
+        "width": 47.8,
+        "height": 10.3
+      }
+    },
+    "ammos1": {
+      "type": "text",
+      "label": "Enter the amount of MO's on hand.",
+      "page": 5,
+      "box": {
+        "left": 534.4,
+        "top": 552.1,
+        "width": 52.1,
+        "height": 10.3
+      }
+    },
+    "rank2": {
+      "type": "text",
+      "label": "Enter the rank and name on line 2 of 18.",
+      "page": 5,
+      "box": {
+        "left": 22.6,
+        "top": 540.3,
+        "width": 66.8,
+        "height": 10.3
+      }
+    },
+    "prd2": {
+      "type": "text",
+      "label": "Enter the PRD.",
+      "page": 5,
+      "box": {
+        "left": 91.8,
+        "top": 540.3,
+        "width": 28.5,
+        "height": 10.3
+      }
+    },
+    "cope2a": {
+      "type": "text",
+      "label": "Enter the position account.",
+      "page": 5,
+      "box": {
+        "left": 122.6,
+        "top": 540.3,
+        "width": 43.2,
+        "height": 10.3
+      }
+    },
+    "dateaudit2": {
+      "type": "text",
+      "label": "Enter the audit date (DD MMM YYYY).  ",
+      "page": 5,
+      "box": {
+        "left": 168.8,
+        "top": 540.3,
+        "width": 57.2,
+        "height": 10.3
+      }
+    },
+    "aic2": {
+      "type": "text",
+      "label": "Enter the AIC 840 and AIC 353.",
+      "page": 5,
+      "box": {
+        "left": 229.0,
+        "top": 540.3,
+        "width": 43.1,
+        "height": 10.3
+      }
+    },
+    "stampS2": {
+      "type": "text",
+      "label": "Enter the stamps value.",
+      "page": 5,
+      "box": {
+        "left": 274.6,
+        "top": 540.3,
+        "width": 53.3,
+        "height": 10.3
+      }
+    },
+    "cash2": {
+      "type": "text",
+      "label": "Enter the cash value.",
+      "page": 5,
+      "box": {
+        "left": 330.8,
+        "top": 540.3,
+        "width": 58.3,
+        "height": 10.3
+      }
+    },
+    "results2": {
+      "type": "text",
+      "label": "Enter the results.",
+      "page": 5,
+      "box": {
+        "left": 483.8,
+        "top": 540.3,
+        "width": 47.8,
+        "height": 10.3
+      }
+    },
+    "ammos2": {
+      "type": "text",
+      "label": "Enter the amount of MO's on hand.",
+      "page": 5,
+      "box": {
+        "left": 534.4,
+        "top": 540.3,
+        "width": 52.1,
+        "height": 10.3
+      }
+    },
+    "rank3": {
+      "type": "text",
+      "label": "Enter the rank and name on line 3 of 18.",
+      "page": 5,
+      "box": {
+        "left": 21.9,
+        "top": 528.2,
+        "width": 68.1,
+        "height": 10.3
+      }
+    },
+    "prd3": {
+      "type": "text",
+      "label": "Enter the PRD.",
+      "page": 5,
+      "box": {
+        "left": 91.2,
+        "top": 528.2,
+        "width": 29.8,
+        "height": 10.3
+      }
+    },
+    "cope3": {
+      "type": "text",
+      "label": "Enter the position account.",
+      "page": 5,
+      "box": {
+        "left": 121.9,
+        "top": 528.2,
+        "width": 44.5,
+        "height": 10.3
+      }
+    },
+    "dateaudit3": {
+      "type": "text",
+      "label": "Enter the audit date (DD MMM YYYY).  ",
+      "page": 5,
+      "box": {
+        "left": 168.2,
+        "top": 528.2,
+        "width": 58.5,
+        "height": 10.3
+      }
+    },
+    "aic3": {
+      "type": "text",
+      "label": "Enter the AIC 840 and AIC 353.",
+      "page": 5,
+      "box": {
+        "left": 228.4,
+        "top": 528.2,
+        "width": 44.4,
+        "height": 10.3
+      }
+    },
+    "stampS3": {
+      "type": "text",
+      "label": "Enter the stamps value.",
+      "page": 5,
+      "box": {
+        "left": 273.9,
+        "top": 528.2,
+        "width": 54.6,
+        "height": 10.3
+      }
+    },
+    "cash3": {
+      "type": "text",
+      "label": "Enter the cash value.",
+      "page": 5,
+      "box": {
+        "left": 330.2,
+        "top": 528.2,
+        "width": 59.6,
+        "height": 10.3
+      }
+    },
+    "results3": {
+      "type": "text",
+      "label": "Enter the results.",
+      "page": 5,
+      "box": {
+        "left": 483.2,
+        "top": 528.2,
+        "width": 49.1,
+        "height": 10.3
+      }
+    },
+    "ammos3": {
+      "type": "text",
+      "label": "Enter the amount of MO's on hand.",
+      "page": 5,
+      "box": {
+        "left": 533.8,
+        "top": 528.2,
+        "width": 53.4,
+        "height": 10.3
+      }
+    },
+    "rank4": {
+      "type": "text",
+      "label": "Enter the rank and name on line 4 of 18.",
+      "page": 5,
+      "box": {
+        "left": 21.9,
+        "top": 516.4,
+        "width": 68.1,
+        "height": 10.8
+      }
+    },
+    "prd4": {
+      "type": "text",
+      "label": "Enter the PRD.",
+      "page": 5,
+      "box": {
+        "left": 91.2,
+        "top": 516.4,
+        "width": 29.8,
+        "height": 10.8
+      }
+    },
+    "cope4": {
+      "type": "text",
+      "label": "Enter the position account.",
+      "page": 5,
+      "box": {
+        "left": 121.9,
+        "top": 516.4,
+        "width": 44.5,
+        "height": 10.8
+      }
+    },
+    "dateaudit4": {
+      "type": "text",
+      "label": "Enter the audit date (DD MMM YYYY).  ",
+      "page": 5,
+      "box": {
+        "left": 168.2,
+        "top": 516.4,
+        "width": 58.5,
+        "height": 10.8
+      }
+    },
+    "aic4": {
+      "type": "text",
+      "label": "Enter the AIC 840 and AIC 353.",
+      "page": 5,
+      "box": {
+        "left": 228.4,
+        "top": 516.4,
+        "width": 44.4,
+        "height": 10.8
+      }
+    },
+    "stampS4": {
+      "type": "text",
+      "label": "Enter the stamps value.",
+      "page": 5,
+      "box": {
+        "left": 273.9,
+        "top": 516.4,
+        "width": 54.6,
+        "height": 10.8
+      }
+    },
+    "cash4": {
+      "type": "text",
+      "label": "Enter the cash value.",
+      "page": 5,
+      "box": {
+        "left": 330.2,
+        "top": 516.4,
+        "width": 59.6,
+        "height": 10.8
+      }
+    },
+    "results4": {
+      "type": "text",
+      "label": "Enter the results.",
+      "page": 5,
+      "box": {
+        "left": 483.2,
+        "top": 516.4,
+        "width": 49.1,
+        "height": 10.8
+      }
+    },
+    "ammos4": {
+      "type": "text",
+      "label": "Enter the amount of MO's on hand.",
+      "page": 5,
+      "box": {
+        "left": 533.8,
+        "top": 516.4,
+        "width": 53.4,
+        "height": 10.8
+      }
+    },
+    "rank5": {
+      "type": "text",
+      "label": "Enter the rank and name on line 5 of 18.",
+      "page": 5,
+      "box": {
+        "left": 21.9,
+        "top": 504.0,
+        "width": 68.1,
+        "height": 11.2
+      }
+    },
+    "prd5": {
+      "type": "text",
+      "label": "Enter the PRD.",
+      "page": 5,
+      "box": {
+        "left": 91.2,
+        "top": 504.0,
+        "width": 29.8,
+        "height": 11.2
+      }
+    },
+    "cope5": {
+      "type": "text",
+      "label": "Enter the position account.",
+      "page": 5,
+      "box": {
+        "left": 121.9,
+        "top": 504.0,
+        "width": 44.5,
+        "height": 11.2
+      }
+    },
+    "dateaudit5": {
+      "type": "text",
+      "label": "Enter the audit date (DD MMM YYYY).  ",
+      "page": 5,
+      "box": {
+        "left": 168.2,
+        "top": 504.0,
+        "width": 58.5,
+        "height": 11.2
+      }
+    },
+    "aic5": {
+      "type": "text",
+      "label": "Enter the AIC 840 and AIC 353.",
+      "page": 5,
+      "box": {
+        "left": 228.4,
+        "top": 504.0,
+        "width": 44.4,
+        "height": 10.7
+      }
+    },
+    "stampS5": {
+      "type": "text",
+      "label": "Enter the stamps value.",
+      "page": 5,
+      "box": {
+        "left": 273.9,
+        "top": 504.0,
+        "width": 54.6,
+        "height": 10.7
+      }
+    },
+    "cash5": {
+      "type": "text",
+      "label": "Enter the cash value.",
+      "page": 5,
+      "box": {
+        "left": 330.2,
+        "top": 504.0,
+        "width": 59.6,
+        "height": 11.2
+      }
+    },
+    "results5": {
+      "type": "text",
+      "label": "Enter the results.",
+      "page": 5,
+      "box": {
+        "left": 483.2,
+        "top": 504.0,
+        "width": 49.1,
+        "height": 11.2
+      }
+    },
+    "ammos5": {
+      "type": "text",
+      "label": "Enter the amount of MO's on hand.",
+      "page": 5,
+      "box": {
+        "left": 533.8,
+        "top": 504.0,
+        "width": 53.4,
+        "height": 10.7
+      }
+    },
+    "rank6": {
+      "type": "text",
+      "label": "Enter the rank and name on line 6 of 18.",
+      "page": 5,
+      "box": {
+        "left": 22.6,
+        "top": 492.5,
+        "width": 66.8,
+        "height": 10.3
+      }
+    },
+    "prd6": {
+      "type": "text",
+      "label": "Enter the PRD.",
+      "page": 5,
+      "box": {
+        "left": 91.8,
+        "top": 492.5,
+        "width": 28.5,
+        "height": 10.3
+      }
+    },
+    "cope6": {
+      "type": "text",
+      "label": "Enter the position account.",
+      "page": 5,
+      "box": {
+        "left": 122.6,
+        "top": 492.5,
+        "width": 43.2,
+        "height": 10.3
+      }
+    },
+    "dateaudit6": {
+      "type": "text",
+      "label": "Enter the audit date (DD MMM YYYY).  ",
+      "page": 5,
+      "box": {
+        "left": 168.8,
+        "top": 492.5,
+        "width": 57.2,
+        "height": 10.3
+      }
+    },
+    "aic6": {
+      "type": "text",
+      "label": "Enter the AIC 840 and AIC 353.",
+      "page": 5,
+      "box": {
+        "left": 229.0,
+        "top": 492.5,
+        "width": 43.1,
+        "height": 10.3
+      }
+    },
+    "stampS6": {
+      "type": "text",
+      "label": "Enter the stamps value.",
+      "page": 5,
+      "box": {
+        "left": 274.6,
+        "top": 492.5,
+        "width": 53.3,
+        "height": 10.3
+      }
+    },
+    "cash6": {
+      "type": "text",
+      "label": "Enter the cash value.",
+      "page": 5,
+      "box": {
+        "left": 330.8,
+        "top": 492.5,
+        "width": 58.3,
+        "height": 10.3
+      }
+    },
+    "results6": {
+      "type": "text",
+      "label": "Enter the results.",
+      "page": 5,
+      "box": {
+        "left": 483.8,
+        "top": 492.5,
+        "width": 47.8,
+        "height": 10.3
+      }
+    },
+    "ammos6": {
+      "type": "text",
+      "label": "Enter the amount of MO's on hand.",
+      "page": 5,
+      "box": {
+        "left": 534.4,
+        "top": 492.5,
+        "width": 52.1,
+        "height": 10.3
+      }
+    },
+    "rank7": {
+      "type": "text",
+      "label": "Enter the rank and name on line 7 of 18.",
+      "page": 5,
+      "box": {
+        "left": 22.6,
+        "top": 469.4,
+        "width": 66.8,
+        "height": 10.1
+      }
+    },
+    "prd7": {
+      "type": "text",
+      "label": "Enter the PRD.",
+      "page": 5,
+      "box": {
+        "left": 91.8,
+        "top": 469.4,
+        "width": 28.5,
+        "height": 10.1
+      }
+    },
+    "dateaudit7": {
+      "type": "text",
+      "label": "Enter the audit date (DD MMM YYYY).  ",
+      "page": 5,
+      "box": {
+        "left": 168.8,
+        "top": 469.4,
+        "width": 57.2,
+        "height": 10.1
+      }
+    },
+    "aic7": {
+      "type": "text",
+      "label": "Enter the AIC 840 and AIC 353.",
+      "page": 5,
+      "box": {
+        "left": 229.0,
+        "top": 469.4,
+        "width": 43.1,
+        "height": 10.1
+      }
+    },
+    "stampS7": {
+      "type": "text",
+      "label": "Enter the stamps value.",
+      "page": 5,
+      "box": {
+        "left": 274.6,
+        "top": 469.4,
+        "width": 53.3,
+        "height": 10.1
+      }
+    },
+    "cash7": {
+      "type": "text",
+      "label": "Enter the cash value.",
+      "page": 5,
+      "box": {
+        "left": 330.8,
+        "top": 469.4,
+        "width": 58.3,
+        "height": 10.1
+      }
+    },
+    "results7": {
+      "type": "text",
+      "label": "Enter the results.",
+      "page": 5,
+      "box": {
+        "left": 483.8,
+        "top": 469.4,
+        "width": 47.8,
+        "height": 10.1
+      }
+    },
+    "ammos7": {
+      "type": "text",
+      "label": "Enter the amount of MO's on hand.",
+      "page": 5,
+      "box": {
+        "left": 534.4,
+        "top": 469.4,
+        "width": 52.1,
+        "height": 10.1
+      }
+    },
+    "rank8": {
+      "type": "text",
+      "label": "Enter the rank and name on line 8 of 18.",
+      "page": 5,
+      "box": {
+        "left": 22.6,
+        "top": 457.0,
+        "width": 66.8,
+        "height": 10.3
+      }
+    },
+    "prd8": {
+      "type": "text",
+      "label": "Enter the PRD.",
+      "page": 5,
+      "box": {
+        "left": 91.8,
+        "top": 457.0,
+        "width": 28.5,
+        "height": 10.3
+      }
+    },
+    "cope8": {
+      "type": "text",
+      "label": "Enter the position account.",
+      "page": 5,
+      "box": {
+        "left": 122.6,
+        "top": 457.0,
+        "width": 43.2,
+        "height": 10.3
+      }
+    },
+    "dateaudit8": {
+      "type": "text",
+      "label": "Enter the audit date (DD MMM YYYY).  ",
+      "page": 5,
+      "box": {
+        "left": 168.8,
+        "top": 457.0,
+        "width": 57.2,
+        "height": 10.3
+      }
+    },
+    "aic8": {
+      "type": "text",
+      "label": "Enter the AIC 840 and AIC 353.",
+      "page": 5,
+      "box": {
+        "left": 229.0,
+        "top": 457.0,
+        "width": 43.1,
+        "height": 10.3
+      }
+    },
+    "stampS8": {
+      "type": "text",
+      "label": "Enter the stamps value.",
+      "page": 5,
+      "box": {
+        "left": 274.6,
+        "top": 457.0,
+        "width": 53.3,
+        "height": 10.3
+      }
+    },
+    "cash8": {
+      "type": "text",
+      "label": "Enter the cash value.",
+      "page": 5,
+      "box": {
+        "left": 330.8,
+        "top": 457.0,
+        "width": 58.3,
+        "height": 10.3
+      }
+    },
+    "results8": {
+      "type": "text",
+      "label": "Enter the results.",
+      "page": 5,
+      "box": {
+        "left": 483.8,
+        "top": 457.0,
+        "width": 47.8,
+        "height": 10.3
+      }
+    },
+    "ammos8": {
+      "type": "text",
+      "label": "Enter the amount of MO's on hand.",
+      "page": 5,
+      "box": {
+        "left": 534.4,
+        "top": 457.0,
+        "width": 52.1,
+        "height": 10.3
+      }
+    },
+    "rank9": {
+      "type": "text",
+      "label": "Enter the rank and name on line 9 of 18.",
+      "page": 5,
+      "box": {
+        "left": 22.6,
+        "top": 445.4,
+        "width": 66.8,
+        "height": 10.3
+      }
+    },
+    "prd9": {
+      "type": "text",
+      "label": "Enter the PRD.",
+      "page": 5,
+      "box": {
+        "left": 91.8,
+        "top": 445.4,
+        "width": 28.5,
+        "height": 10.3
+      }
+    },
+    "cope9": {
+      "type": "text",
+      "label": "Enter the position account.",
+      "page": 5,
+      "box": {
+        "left": 122.6,
+        "top": 445.4,
+        "width": 43.2,
+        "height": 10.3
+      }
+    },
+    "dateaudit9": {
+      "type": "text",
+      "label": "Enter the audit date (DD MMM YYYY).  ",
+      "page": 5,
+      "box": {
+        "left": 168.8,
+        "top": 445.4,
+        "width": 57.2,
+        "height": 10.3
+      }
+    },
+    "aic9": {
+      "type": "text",
+      "label": "Enter the AIC 840 and AIC 353.",
+      "page": 5,
+      "box": {
+        "left": 229.0,
+        "top": 445.4,
+        "width": 43.1,
+        "height": 10.3
+      }
+    },
+    "stampS9": {
+      "type": "text",
+      "label": "Enter the stamps value.",
+      "page": 5,
+      "box": {
+        "left": 274.6,
+        "top": 445.4,
+        "width": 53.3,
+        "height": 10.3
+      }
+    },
+    "cash9": {
+      "type": "text",
+      "label": "Enter the cash value.",
+      "page": 5,
+      "box": {
+        "left": 330.8,
+        "top": 445.4,
+        "width": 58.3,
+        "height": 10.3
+      }
+    },
+    "results9": {
+      "type": "text",
+      "label": "Enter the results.",
+      "page": 5,
+      "box": {
+        "left": 483.8,
+        "top": 445.4,
+        "width": 47.8,
+        "height": 10.3
+      }
+    },
+    "ammos9": {
+      "type": "text",
+      "label": "Enter the amount of MO's on hand.",
+      "page": 5,
+      "box": {
+        "left": 534.4,
+        "top": 445.4,
+        "width": 52.1,
+        "height": 10.3
+      }
+    },
+    "rank10": {
+      "type": "text",
+      "label": "Enter the rank and name on line 10 of 18.",
+      "page": 5,
+      "box": {
+        "left": 22.6,
+        "top": 433.5,
+        "width": 66.8,
+        "height": 10.3
+      }
+    },
+    "prd10": {
+      "type": "text",
+      "label": "Enter the PRD.",
+      "page": 5,
+      "box": {
+        "left": 91.8,
+        "top": 433.5,
+        "width": 28.5,
+        "height": 10.3
+      }
+    },
+    "cope10": {
+      "type": "text",
+      "label": "Enter the position account.",
+      "page": 5,
+      "box": {
+        "left": 122.6,
+        "top": 433.5,
+        "width": 43.2,
+        "height": 10.3
+      }
+    },
+    "dateaudit10": {
+      "type": "text",
+      "label": "Enter the audit date (DD MMM YYYY).  ",
+      "page": 5,
+      "box": {
+        "left": 168.8,
+        "top": 433.5,
+        "width": 57.2,
+        "height": 10.3
+      }
+    },
+    "aic10": {
+      "type": "text",
+      "label": "Enter the AIC 840 and AIC 353.",
+      "page": 5,
+      "box": {
+        "left": 229.0,
+        "top": 433.5,
+        "width": 43.1,
+        "height": 10.3
+      }
+    },
+    "stampS10": {
+      "type": "text",
+      "label": "Enter the stamps value.",
+      "page": 5,
+      "box": {
+        "left": 274.6,
+        "top": 433.5,
+        "width": 53.3,
+        "height": 10.3
+      }
+    },
+    "cash10": {
+      "type": "text",
+      "label": "Enter the cash value.",
+      "page": 5,
+      "box": {
+        "left": 330.8,
+        "top": 433.5,
+        "width": 58.3,
+        "height": 10.3
+      }
+    },
+    "results10": {
+      "type": "text",
+      "label": "Enter the results.",
+      "page": 5,
+      "box": {
+        "left": 483.8,
+        "top": 433.5,
+        "width": 47.8,
+        "height": 10.3
+      }
+    },
+    "ammos10": {
+      "type": "text",
+      "label": "Enter the amount of MO's on hand.",
+      "page": 5,
+      "box": {
+        "left": 534.4,
+        "top": 433.5,
+        "width": 52.1,
+        "height": 10.3
+      }
+    },
+    "rank11": {
+      "type": "text",
+      "label": "Enter the rank and name on line 11 of 18.",
+      "page": 5,
+      "box": {
+        "left": 22.6,
+        "top": 422.1,
+        "width": 66.8,
+        "height": 10.3
+      }
+    },
+    "prd11": {
+      "type": "text",
+      "label": "Enter the PRD.",
+      "page": 5,
+      "box": {
+        "left": 91.8,
+        "top": 422.1,
+        "width": 28.5,
+        "height": 10.3
+      }
+    },
+    "cope11": {
+      "type": "text",
+      "label": "Enter the position account.",
+      "page": 5,
+      "box": {
+        "left": 122.6,
+        "top": 422.1,
+        "width": 43.2,
+        "height": 10.3
+      }
+    },
+    "dateaudit11": {
+      "type": "text",
+      "label": "Enter the audit date (DD MMM YYYY).  ",
+      "page": 5,
+      "box": {
+        "left": 168.8,
+        "top": 422.1,
+        "width": 57.2,
+        "height": 10.3
+      }
+    },
+    "aic11": {
+      "type": "text",
+      "label": "Enter the AIC 840 and AIC 353.",
+      "page": 5,
+      "box": {
+        "left": 229.0,
+        "top": 422.1,
+        "width": 43.1,
+        "height": 10.3
+      }
+    },
+    "stampS11": {
+      "type": "text",
+      "label": "Enter the stamps value.",
+      "page": 5,
+      "box": {
+        "left": 274.6,
+        "top": 422.1,
+        "width": 53.3,
+        "height": 10.3
+      }
+    },
+    "cash11": {
+      "type": "text",
+      "label": "Enter the cash value.",
+      "page": 5,
+      "box": {
+        "left": 330.8,
+        "top": 422.1,
+        "width": 58.3,
+        "height": 10.3
+      }
+    },
+    "results11": {
+      "type": "text",
+      "label": "Enter the results.",
+      "page": 5,
+      "box": {
+        "left": 483.8,
+        "top": 422.1,
+        "width": 47.8,
+        "height": 10.3
+      }
+    },
+    "ammos11": {
+      "type": "text",
+      "label": "Enter the amount of MO's on hand.",
+      "page": 5,
+      "box": {
+        "left": 534.4,
+        "top": 422.1,
+        "width": 52.1,
+        "height": 10.3
+      }
+    },
+    "rank12": {
+      "type": "text",
+      "label": "Enter the rank and name on line 12 of 18.",
+      "page": 5,
+      "box": {
+        "left": 22.6,
+        "top": 410.1,
+        "width": 66.8,
+        "height": 11.0
+      }
+    },
+    "prd12": {
+      "type": "text",
+      "label": "Enter the PRD.",
+      "page": 5,
+      "box": {
+        "left": 91.8,
+        "top": 410.1,
+        "width": 28.5,
+        "height": 11.0
+      }
+    },
+    "cope12": {
+      "type": "text",
+      "label": "Enter the position account.",
+      "page": 5,
+      "box": {
+        "left": 122.6,
+        "top": 410.1,
+        "width": 43.2,
+        "height": 11.0
+      }
+    },
+    "dateaudit12": {
+      "type": "text",
+      "label": "Enter the audit date (DD MMM YYYY).  ",
+      "page": 5,
+      "box": {
+        "left": 168.8,
+        "top": 410.1,
+        "width": 57.2,
+        "height": 11.0
+      }
+    },
+    "aic12": {
+      "type": "text",
+      "label": "Enter the AIC 840 and AIC 353.",
+      "page": 5,
+      "box": {
+        "left": 229.0,
+        "top": 410.1,
+        "width": 43.1,
+        "height": 11.0
+      }
+    },
+    "stampS12": {
+      "type": "text",
+      "label": "Enter the stamps value.",
+      "page": 5,
+      "box": {
+        "left": 274.6,
+        "top": 410.1,
+        "width": 53.3,
+        "height": 11.0
+      }
+    },
+    "cash12": {
+      "type": "text",
+      "label": "Enter the cash value.",
+      "page": 5,
+      "box": {
+        "left": 330.8,
+        "top": 410.1,
+        "width": 58.3,
+        "height": 11.0
+      }
+    },
+    "results12": {
+      "type": "text",
+      "label": "Enter the results.",
+      "page": 5,
+      "box": {
+        "left": 483.8,
+        "top": 410.1,
+        "width": 47.8,
+        "height": 11.0
+      }
+    },
+    "ammos12": {
+      "type": "text",
+      "label": "Enter the amount of MO's on hand.",
+      "page": 5,
+      "box": {
+        "left": 534.4,
+        "top": 410.1,
+        "width": 52.1,
+        "height": 11.0
+      }
+    },
+    "rank13": {
+      "type": "text",
+      "label": "Enter the rank and name on line 13 of 18.",
+      "page": 5,
+      "box": {
+        "left": 22.6,
+        "top": 386.2,
+        "width": 66.8,
+        "height": 10.4
+      }
+    },
+    "prd13": {
+      "type": "text",
+      "label": "Enter the PRD.",
+      "page": 5,
+      "box": {
+        "left": 91.8,
+        "top": 386.2,
+        "width": 28.5,
+        "height": 10.4
+      }
+    },
+    "dateaudit13": {
+      "type": "text",
+      "label": "Enter the audit date (DD MMM YYYY).  ",
+      "page": 5,
+      "box": {
+        "left": 168.8,
+        "top": 386.2,
+        "width": 57.2,
+        "height": 10.4
+      }
+    },
+    "aic13": {
+      "type": "text",
+      "label": "Enter the AIC 840 and AIC 353.",
+      "page": 5,
+      "box": {
+        "left": 229.0,
+        "top": 386.2,
+        "width": 43.1,
+        "height": 10.4
+      }
+    },
+    "stampS13": {
+      "type": "text",
+      "label": "Enter the stamps value.",
+      "page": 5,
+      "box": {
+        "left": 274.6,
+        "top": 386.2,
+        "width": 53.3,
+        "height": 10.4
+      }
+    },
+    "cash13": {
+      "type": "text",
+      "label": "Enter the cash value.",
+      "page": 5,
+      "box": {
+        "left": 330.8,
+        "top": 386.2,
+        "width": 58.3,
+        "height": 10.4
+      }
+    },
+    "results13": {
+      "type": "text",
+      "label": "Enter the results.",
+      "page": 5,
+      "box": {
+        "left": 483.8,
+        "top": 386.2,
+        "width": 47.8,
+        "height": 10.4
+      }
+    },
+    "ammos13": {
+      "type": "text",
+      "label": "Enter the amount of MO's on hand.",
+      "page": 5,
+      "box": {
+        "left": 534.4,
+        "top": 386.2,
+        "width": 52.1,
+        "height": 10.4
+      }
+    },
+    "rank14": {
+      "type": "text",
+      "label": "Enter the rank and name on line 14 of 18.",
+      "page": 5,
+      "box": {
+        "left": 22.6,
+        "top": 374.1,
+        "width": 66.8,
+        "height": 10.3
+      }
+    },
+    "prd14": {
+      "type": "text",
+      "label": "Enter the PRD.",
+      "page": 5,
+      "box": {
+        "left": 91.8,
+        "top": 374.1,
+        "width": 28.5,
+        "height": 10.3
+      }
+    },
+    "cope14": {
+      "type": "text",
+      "label": "Enter the position account.",
+      "page": 5,
+      "box": {
+        "left": 122.6,
+        "top": 374.1,
+        "width": 43.2,
+        "height": 10.3
+      }
+    },
+    "dateaudit14": {
+      "type": "text",
+      "label": "Enter the audit date (DD MMM YYYY).  ",
+      "page": 5,
+      "box": {
+        "left": 168.8,
+        "top": 374.1,
+        "width": 57.2,
+        "height": 10.3
+      }
+    },
+    "aic14": {
+      "type": "text",
+      "label": "Enter the AIC 840 and AIC 353.",
+      "page": 5,
+      "box": {
+        "left": 229.0,
+        "top": 374.1,
+        "width": 43.1,
+        "height": 10.3
+      }
+    },
+    "stampS14": {
+      "type": "text",
+      "label": "Enter the stamps value.",
+      "page": 5,
+      "box": {
+        "left": 274.6,
+        "top": 374.1,
+        "width": 53.3,
+        "height": 10.3
+      }
+    },
+    "cash14": {
+      "type": "text",
+      "label": "Enter the cash value.",
+      "page": 5,
+      "box": {
+        "left": 330.8,
+        "top": 374.1,
+        "width": 58.3,
+        "height": 10.3
+      }
+    },
+    "results14": {
+      "type": "text",
+      "label": "Enter the results.",
+      "page": 5,
+      "box": {
+        "left": 483.8,
+        "top": 374.1,
+        "width": 47.8,
+        "height": 10.3
+      }
+    },
+    "ammos14": {
+      "type": "text",
+      "label": "Enter the amount of MO's on hand.",
+      "page": 5,
+      "box": {
+        "left": 534.4,
+        "top": 374.1,
+        "width": 52.1,
+        "height": 10.3
+      }
+    },
+    "rank15": {
+      "type": "text",
+      "label": "Enter the rank and name on line 15 of 18.",
+      "page": 5,
+      "box": {
+        "left": 22.6,
+        "top": 362.7,
+        "width": 66.8,
+        "height": 10.3
+      }
+    },
+    "prd15": {
+      "type": "text",
+      "label": "Enter the PRD.",
+      "page": 5,
+      "box": {
+        "left": 91.8,
+        "top": 362.7,
+        "width": 28.5,
+        "height": 10.3
+      }
+    },
+    "cope15": {
+      "type": "text",
+      "label": "Enter the position account.",
+      "page": 5,
+      "box": {
+        "left": 122.6,
+        "top": 362.7,
+        "width": 43.2,
+        "height": 10.3
+      }
+    },
+    "dateaudit15": {
+      "type": "text",
+      "label": "Enter the audit date (DD MMM YYYY).  ",
+      "page": 5,
+      "box": {
+        "left": 168.8,
+        "top": 362.7,
+        "width": 57.2,
+        "height": 10.3
+      }
+    },
+    "aic15": {
+      "type": "text",
+      "label": "Enter the AIC 840 and AIC 353.",
+      "page": 5,
+      "box": {
+        "left": 229.0,
+        "top": 362.7,
+        "width": 43.1,
+        "height": 10.3
+      }
+    },
+    "stampS15": {
+      "type": "text",
+      "label": "Enter the stamps value.",
+      "page": 5,
+      "box": {
+        "left": 274.6,
+        "top": 362.7,
+        "width": 53.3,
+        "height": 10.3
+      }
+    },
+    "cash15": {
+      "type": "text",
+      "label": "Enter the cash value.",
+      "page": 5,
+      "box": {
+        "left": 330.8,
+        "top": 362.7,
+        "width": 58.3,
+        "height": 10.3
+      }
+    },
+    "results15": {
+      "type": "text",
+      "label": "Enter the results.",
+      "page": 5,
+      "box": {
+        "left": 483.8,
+        "top": 362.7,
+        "width": 47.8,
+        "height": 10.3
+      }
+    },
+    "ammos15": {
+      "type": "text",
+      "label": "Enter the amount of MO's on hand.",
+      "page": 5,
+      "box": {
+        "left": 534.4,
+        "top": 362.7,
+        "width": 52.1,
+        "height": 10.3
+      }
+    },
+    "rank16": {
+      "type": "text",
+      "label": "Enter the rank and name on line 16 of 18.",
+      "page": 5,
+      "box": {
+        "left": 22.6,
+        "top": 350.7,
+        "width": 66.8,
+        "height": 10.3
+      }
+    },
+    "prd16": {
+      "type": "text",
+      "label": "Enter the PRD.",
+      "page": 5,
+      "box": {
+        "left": 91.8,
+        "top": 350.7,
+        "width": 28.5,
+        "height": 10.3
+      }
+    },
+    "cope16": {
+      "type": "text",
+      "label": "Enter the position account.",
+      "page": 5,
+      "box": {
+        "left": 122.6,
+        "top": 350.7,
+        "width": 43.2,
+        "height": 10.3
+      }
+    },
+    "dateaudit16": {
+      "type": "text",
+      "label": "Enter the audit date (DD MMM YYYY).  ",
+      "page": 5,
+      "box": {
+        "left": 168.8,
+        "top": 350.7,
+        "width": 57.2,
+        "height": 10.3
+      }
+    },
+    "aic16": {
+      "type": "text",
+      "label": "Enter the AIC 840 and AIC 353.",
+      "page": 5,
+      "box": {
+        "left": 229.0,
+        "top": 350.7,
+        "width": 43.1,
+        "height": 10.3
+      }
+    },
+    "stampS16": {
+      "type": "text",
+      "label": "Enter the stamps value.",
+      "page": 5,
+      "box": {
+        "left": 274.6,
+        "top": 350.7,
+        "width": 53.3,
+        "height": 10.3
+      }
+    },
+    "cash16": {
+      "type": "text",
+      "label": "Enter the cash value.",
+      "page": 5,
+      "box": {
+        "left": 330.8,
+        "top": 350.7,
+        "width": 58.3,
+        "height": 10.3
+      }
+    },
+    "results16": {
+      "type": "text",
+      "label": "Enter the results.",
+      "page": 5,
+      "box": {
+        "left": 483.8,
+        "top": 350.7,
+        "width": 47.8,
+        "height": 10.3
+      }
+    },
+    "ammos16": {
+      "type": "text",
+      "label": "Enter the amount of MO's on hand.",
+      "page": 5,
+      "box": {
+        "left": 534.4,
+        "top": 350.7,
+        "width": 52.1,
+        "height": 10.3
+      }
+    },
+    "rank17": {
+      "type": "text",
+      "label": "Enter the rank and name on line 17 of 18.",
+      "page": 5,
+      "box": {
+        "left": 22.6,
+        "top": 338.9,
+        "width": 66.8,
+        "height": 10.3
+      }
+    },
+    "prd17": {
+      "type": "text",
+      "label": "Enter the PRD.",
+      "page": 5,
+      "box": {
+        "left": 91.8,
+        "top": 338.9,
+        "width": 28.5,
+        "height": 10.3
+      }
+    },
+    "cope17": {
+      "type": "text",
+      "label": "Enter the position account.",
+      "page": 5,
+      "box": {
+        "left": 122.6,
+        "top": 338.9,
+        "width": 43.2,
+        "height": 10.3
+      }
+    },
+    "dateaudit17": {
+      "type": "text",
+      "label": "Enter the audit date (DD MMM YYYY).  ",
+      "page": 5,
+      "box": {
+        "left": 168.8,
+        "top": 338.9,
+        "width": 57.2,
+        "height": 10.3
+      }
+    },
+    "aic17": {
+      "type": "text",
+      "label": "Enter the AIC 840 and AIC 353.",
+      "page": 5,
+      "box": {
+        "left": 229.0,
+        "top": 338.9,
+        "width": 43.1,
+        "height": 10.3
+      }
+    },
+    "stampS17": {
+      "type": "text",
+      "label": "Enter the stamps value.",
+      "page": 5,
+      "box": {
+        "left": 274.6,
+        "top": 338.9,
+        "width": 53.3,
+        "height": 10.3
+      }
+    },
+    "cash17": {
+      "type": "text",
+      "label": "Enter the cash value.",
+      "page": 5,
+      "box": {
+        "left": 330.8,
+        "top": 338.9,
+        "width": 58.3,
+        "height": 10.3
+      }
+    },
+    "results17": {
+      "type": "text",
+      "label": "Enter the results.",
+      "page": 5,
+      "box": {
+        "left": 483.8,
+        "top": 338.9,
+        "width": 47.8,
+        "height": 10.3
+      }
+    },
+    "ammos17": {
+      "type": "text",
+      "label": "Enter the amount of MO's on hand.",
+      "page": 5,
+      "box": {
+        "left": 534.4,
+        "top": 338.9,
+        "width": 52.1,
+        "height": 10.3
+      }
+    },
+    "rank18": {
+      "type": "text",
+      "label": "Enter the rank and name on line 18 of 18.",
+      "page": 5,
+      "box": {
+        "left": 22.6,
+        "top": 326.6,
+        "width": 66.8,
+        "height": 10.3
+      }
+    },
+    "prd18": {
+      "type": "text",
+      "label": "Enter the PRD.",
+      "page": 5,
+      "box": {
+        "left": 91.8,
+        "top": 326.6,
+        "width": 28.5,
+        "height": 10.3
+      }
+    },
+    "cope18": {
+      "type": "text",
+      "label": "Enter the position account.",
+      "page": 5,
+      "box": {
+        "left": 122.6,
+        "top": 326.6,
+        "width": 43.2,
+        "height": 10.3
+      }
+    },
+    "dateaudit18": {
+      "type": "text",
+      "label": "Enter the audit date (DD MMM YYYY).  ",
+      "page": 5,
+      "box": {
+        "left": 168.8,
+        "top": 326.6,
+        "width": 57.2,
+        "height": 10.3
+      }
+    },
+    "aic18": {
+      "type": "text",
+      "label": "Enter the AIC 840 and AIC 353.",
+      "page": 5,
+      "box": {
+        "left": 229.0,
+        "top": 326.6,
+        "width": 43.1,
+        "height": 10.3
+      }
+    },
+    "stampS18": {
+      "type": "text",
+      "label": "Enter the stamps value.",
+      "page": 5,
+      "box": {
+        "left": 274.6,
+        "top": 326.6,
+        "width": 53.3,
+        "height": 10.3
+      }
+    },
+    "cash18": {
+      "type": "text",
+      "label": "Enter the cash value.",
+      "page": 5,
+      "box": {
+        "left": 330.8,
+        "top": 326.6,
+        "width": 58.3,
+        "height": 10.3
+      }
+    },
+    "results18": {
+      "type": "text",
+      "label": "Enter the results.",
+      "page": 5,
+      "box": {
+        "left": 483.8,
+        "top": 326.6,
+        "width": 47.8,
+        "height": 10.3
+      }
+    },
+    "ammos18": {
+      "type": "text",
+      "label": "Enter the amount of MO's on hand.",
+      "page": 5,
+      "box": {
+        "left": 534.4,
+        "top": 326.6,
+        "width": 52.1,
+        "height": 10.3
+      }
+    },
+    "rank19": {
+      "type": "text",
+      "label": "Enter the requisition number on line 1 of 3.",
+      "page": 5,
+      "box": {
+        "left": 22.6,
+        "top": 275.4,
+        "width": 66.8,
+        "height": 10.7
+      }
+    },
+    "rank20": {
+      "type": "text",
+      "label": "Enter the requisition number on line 2 of 3.",
+      "page": 5,
+      "box": {
+        "left": 22.6,
+        "top": 262.4,
+        "width": 66.8,
+        "height": 10.2
+      }
+    },
+    "rank21": {
+      "type": "text",
+      "label": "Enter the requisition number on line 3 of 3.",
+      "page": 5,
+      "box": {
+        "left": 22.6,
+        "top": 250.1,
+        "width": 66.8,
+        "height": 10.7
+      }
+    },
+    "ammTotal": {
+      "type": "text",
+      "label": "Enter ",
+      "page": 5,
+      "box": {
+        "left": 268.4,
+        "top": 237.7,
+        "width": 59.0,
+        "height": 11.2
+      }
+    },
+    "copedate": {
+      "type": "text",
+      "label": "Enter the date (DD MMM YYYY) the COPE combination was last changed.",
+      "page": 5,
+      "box": {
+        "left": 214.4,
+        "top": 213.5,
+        "width": 112.7,
+        "height": 10.7
+      }
+    },
+    "auditintial1": {
+      "type": "text",
+      "label": "Enter the auditors initials.",
+      "page": 5,
+      "box": {
+        "left": 90.6,
+        "top": 153.0,
+        "width": 28.7,
+        "height": 12.2
+      }
+    },
+    "auditintial2": {
+      "type": "text",
+      "label": "Enter the auditors initials.",
+      "page": 5,
+      "box": {
+        "left": 128.2,
+        "top": 153.0,
+        "width": 28.7,
+        "height": 12.2
+      }
+    },
+    "reMark": {
+      "type": "text",
+      "label": "Enter any remarks.",
+      "page": 5,
+      "box": {
+        "left": 24.8,
+        "top": 126.9,
+        "width": 560.2,
+        "height": 43.9
+      },
+      "multiline": true
+    },
+    "sigA": {
+      "type": "text",
+      "label": "Enter the postal officer or auditors signature(s).",
+      "page": 5,
+      "box": {
+        "left": 268.9,
+        "top": 79.7,
+        "width": 164.1,
+        "height": 11.9
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 3,
+      "count": 3,
+      "rowStride": 18.8,
+      "editor": "grid",
+      "columns": {
+        "stamp": {
+          "type": "text",
+          "label": "Enter the amount of stamp stock on hand per count.",
+          "page": 3,
+          "box": {
+            "left": 204.3,
+            "top": 632.7,
+            "width": 188.8,
+            "height": 16.1
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 3,
+      "count": 4,
+      "rowStride": 18.73,
+      "editor": "grid",
+      "columns": {
+        "datefrom": {
+          "type": "text",
+          "label": "Enter the starting date (DD MMM YYYY) for the money orders on hand on line 1 of 4.  ",
+          "page": 3,
+          "box": {
+            "left": 374.1,
+            "top": 405.9,
+            "width": 81.9,
+            "height": 14.7
+          }
+        },
+        "datethru": {
+          "type": "text",
+          "label": "Enter the date (DD MMM YYYY) the money orders on hand are to go thru.  ",
+          "page": 3,
+          "box": {
+            "left": 459.6,
+            "top": 405.9,
+            "width": 81.4,
+            "height": 14.7
+          }
+        }
+      }
+    },
+    "rows3": {
+      "title": "Rows",
+      "page": 3,
+      "count": 5,
+      "rowStride": 18.7,
+      "editor": "grid",
+      "columns": {
+        "atotal": {
+          "type": "text",
+          "label": "Enter the total.",
+          "page": 3,
+          "box": {
+            "left": 546.2,
+            "top": 405.9,
+            "width": 35.4,
+            "height": 14.7
+          }
+        }
+      }
+    },
+    "rows4": {
+      "title": "Rows",
+      "page": 4,
+      "count": 11,
+      "rowStride": 19.46,
+      "editor": "grid",
+      "columns": {
+        "clerk": {
+          "type": "text",
+          "label": "Enter the clerk name on line 1 of 11.",
+          "page": 4,
+          "box": {
+            "left": 61.4,
+            "top": 602.4,
+            "width": 131.4,
+            "height": 16.7
+          }
+        },
+        "clerkID": {
+          "type": "text",
+          "label": "Enter the clerk I.D. number.",
+          "page": 4,
+          "box": {
+            "left": 195.3,
+            "top": 602.4,
+            "width": 50.5,
+            "height": 16.7
+          }
+        },
+        "reMark": {
+          "type": "text",
+          "label": "Enter any remarks.",
+          "page": 4,
+          "box": {
+            "left": 379.2,
+            "top": 602.4,
+            "width": 171.9,
+            "height": 16.7
+          }
+        }
+      }
+    },
+    "rows5": {
+      "title": "Rows",
+      "page": 4,
+      "count": 12,
+      "rowStride": 19.44,
+      "editor": "grid",
+      "columns": {
+        "flex": {
+          "type": "text",
+          "label": "Enter the flex credit value for unit 1412 clerk balance and/or PS 3369's advance.",
+          "page": 4,
+          "box": {
+            "left": 249.3,
+            "top": 602.4,
+            "width": 127.5,
+            "height": 16.7
+          }
+        }
+      }
+    },
+    "rows6": {
+      "title": "Rows",
+      "page": 5,
+      "count": 3,
+      "rowStride": 12.65,
+      "editor": "grid",
+      "columns": {
+        "serve": {
+          "type": "text",
+          "label": "Enter the serving postmaster/PFO.",
+          "page": 5,
+          "box": {
+            "left": 92.9,
+            "top": 275.4,
+            "width": 133.4,
+            "height": 10.7
+          }
+        },
+        "ammTotal": {
+          "type": "text",
+          "label": "Enter the amount.",
+          "page": 5,
+          "box": {
+            "left": 229.0,
+            "top": 275.4,
+            "width": 98.4,
+            "height": 10.7
+          }
+        },
+        "disdate": {
+          "type": "text",
+          "label": "Enter the date (DD MMM YYYY) dispatched.",
+          "page": 5,
+          "box": {
+            "left": 330.3,
+            "top": 275.4,
+            "width": 109.8,
+            "height": 10.7
+          }
+        },
+        "redate": {
+          "type": "text",
+          "label": "Enter the date (DD MMM YYYY) received.",
+          "page": 5,
+          "box": {
+            "left": 442.7,
+            "top": 275.4,
+            "width": 88.4,
+            "height": 10.7
+          }
+        }
+      }
+    },
+    "rows7": {
+      "title": "Rows",
+      "page": 5,
+      "count": 3,
+      "rowStride": 82.95,
+      "editor": "grid",
+      "columns": {
+        "acc": {
+          "type": "text",
+          "label": "Enter the accounts advanced.",
+          "page": 5,
+          "box": {
+            "left": 442.7,
+            "top": 552.1,
+            "width": 38.1,
+            "height": 10.3
+          }
+        }
+      }
+    }
+  }
+}

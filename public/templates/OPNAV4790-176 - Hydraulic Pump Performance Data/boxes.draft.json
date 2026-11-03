@@ -1,0 +1,194 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "catapultno": {
+        "left": 108.2,
+        "top": 735.2,
+        "width": 132.0,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER ENGINE NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateTimeField1": {
+        "left": 473.2,
+        "top": 735.2,
+        "width": 91.0,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER DATE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "jsn": {
+        "left": 282.3,
+        "top": 726.2,
+        "width": 74.9,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER JSN.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "shotno": {
+        "left": 92.7,
+        "top": 708.2,
+        "width": 147.5,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER SHOT NUMBER.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hitssince": {
+        "left": 442.7,
+        "top": 708.2,
+        "width": 121.5,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER SHOTS SINCE LAST INSPECTION.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "outputa": {
+        "left": 122.8,
+        "top": 627.2,
+        "width": 117.4,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER PUMP A OUTPUT.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "reliefsettinga": {
+        "left": 353.4,
+        "top": 627.2,
+        "width": 147.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER PUMP A RELIEF VALVE SETTING.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "outputb": {
+        "left": 122.8,
+        "top": 555.2,
+        "width": 117.4,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER PUMP B OUTPUT.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "reliefsettingb": {
+        "left": 353.4,
+        "top": 555.2,
+        "width": 147.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER PUMP B RELIEF VALVE SETTING.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "outputc": {
+        "left": 122.8,
+        "top": 483.2,
+        "width": 117.4,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER PUMP C OUTPUT.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "reliefsettingc": {
+        "left": 353.4,
+        "top": 483.2,
+        "width": 147.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER PUMP C RELIEF VALVE SETTING.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks": {
+        "left": 38.8,
+        "top": 436.9,
+        "width": 534.3,
+        "height": 29.4,
+        "type": "text",
+        "description": "ENTER REMARKS.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "maintman": {
+        "left": 93.3,
+        "top": 401.8,
+        "width": 205.3,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER MAINTENANCE MANAGER SIGNATURE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "wc": {
+        "left": 386.9,
+        "top": 401.8,
+        "width": 181.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER W/C SUPERVISOR SIGNATURE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "qainsp": {
+        "left": 107.3,
+        "top": 379.3,
+        "width": 191.3,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER QA INSPECTOR SIGNATURE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "maintchief": {
+        "left": 404.6,
+        "top": 379.3,
+        "width": 164.1,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER MAINTENANCE CHIEF OFFICER.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

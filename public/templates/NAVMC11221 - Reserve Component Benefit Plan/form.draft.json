@@ -1,0 +1,1012 @@
+{
+  "id": "navmc11221",
+  "label": "NAVMC11221 - Reserve Component Benefit Plan",
+  "directory": "NAVMC11221 - Reserve Component Benefit Plan",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "nameMembr",
+        "sSNMembr",
+        "grdMembr",
+        "dateBrthMem",
+        "addMembr",
+        "cityMembr",
+        "stateMembr",
+        "zipMembr",
+        "rad5No",
+        "rad5No2",
+        "rad6No",
+        "rad6No2",
+        "rad8A",
+        "rad8A2",
+        "rad7C",
+        "rad7C2",
+        "rad7C3",
+        "rad8A3",
+        "rad7C4",
+        "rad7C5",
+        "rad7C6",
+        "rad9A1",
+        "rad9A12",
+        "signature",
+        "nameSpse",
+        "sSNSpse",
+        "dateBrthSpse",
+        "placeMarrg",
+        "dateMarrg",
+        "citySpse",
+        "stateSpse",
+        "zipSpse",
+        "addSpse"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "nameFrmrSpse",
+        "sSNFrmrSpse",
+        "dateFrmrMarrg",
+        "addFrmrSpse",
+        "cityFrmrSpse",
+        "statefrmrSpse",
+        "zipFrmrSpse",
+        "dateBrthFrmrSpse",
+        "nameDep1Frmr",
+        "sSNDep1Frmr",
+        "dateBrthDep1Frmr",
+        "relatDep1Frmr",
+        "nameDep2Frmr",
+        "sSNDep2Frmr",
+        "dateBrthDep2Frmr",
+        "relatDep2Frmr",
+        "nameDep3Frmr",
+        "sSNDep3Frmr",
+        "dateBrthDep3Frmr",
+        "relatDep3Frmr",
+        "nameDep4Frmr",
+        "sSNDep4Frmr",
+        "dateBrthDep4Frmr",
+        "relatDep4Frmr",
+        "nameInsrInt",
+        "sSNInsrInt",
+        "relatInsrInt",
+        "addInsrInt",
+        "cityInsrInt",
+        "stateInsrInt",
+        "zipInsrInt",
+        "dateBrthInsrInt",
+        "rad20A",
+        "rad20A2",
+        "rad20None",
+        "rad20None2",
+        "rad20None3",
+        "rad20None4",
+        "rad20None5",
+        "sigMem",
+        "dateSigMem",
+        "sigWit",
+        "dateSigWit"
+      ]
+    }
+  ],
+  "fields": {
+    "nameMembr": {
+      "type": "text",
+      "label": "Enter members first name last name and middle initial.",
+      "page": 1,
+      "box": {
+        "left": 25.3,
+        "top": 661.3,
+        "width": 269.3,
+        "height": 16.0
+      }
+    },
+    "sSNMembr": {
+      "type": "text",
+      "label": "Enter members social security number without dashes.",
+      "page": 1,
+      "box": {
+        "left": 296.0,
+        "top": 661.3,
+        "width": 112.7,
+        "height": 16.0
+      }
+    },
+    "grdMembr": {
+      "type": "text",
+      "label": "Enter grade of member.",
+      "page": 1,
+      "box": {
+        "left": 410.0,
+        "top": 661.3,
+        "width": 71.3,
+        "height": 16.0
+      }
+    },
+    "dateBrthMem": {
+      "type": "text",
+      "label": "Enter members date of birth using format 2002 12 25",
+      "page": 1,
+      "box": {
+        "left": 483.3,
+        "top": 661.3,
+        "width": 98.7,
+        "height": 16.0
+      }
+    },
+    "addMembr": {
+      "type": "text",
+      "label": "Enter mailing street address of member.",
+      "page": 1,
+      "box": {
+        "left": 25.3,
+        "top": 635.3,
+        "width": 216.7,
+        "height": 16.0
+      }
+    },
+    "cityMembr": {
+      "type": "text",
+      "label": "Enter city of member.",
+      "page": 1,
+      "box": {
+        "left": 243.3,
+        "top": 635.3,
+        "width": 166.7,
+        "height": 16.0
+      }
+    },
+    "stateMembr": {
+      "type": "text",
+      "label": "Enter state of member.",
+      "page": 1,
+      "box": {
+        "left": 412.0,
+        "top": 635.3,
+        "width": 79.3,
+        "height": 16.0
+      }
+    },
+    "zipMembr": {
+      "type": "text",
+      "label": "Enter zip code of member.",
+      "page": 1,
+      "box": {
+        "left": 493.3,
+        "top": 635.3,
+        "width": 87.3,
+        "height": 16.0
+      }
+    },
+    "rad5No": {
+      "type": "radio",
+      "label": "n",
+      "page": 1,
+      "box": {
+        "left": 238.7,
+        "top": 608.0,
+        "width": 12.6,
+        "height": 12.6
+      },
+      "group": "topmostSubform_0_Page1_0_Rad5No_0"
+    },
+    "rad5No2": {
+      "type": "radio",
+      "label": "y",
+      "page": 1,
+      "box": {
+        "left": 140.0,
+        "top": 607.5,
+        "width": 12.5,
+        "height": 12.5
+      },
+      "group": "topmostSubform_0_Page1_0_Rad5No_0"
+    },
+    "rad6No": {
+      "type": "radio",
+      "label": "y",
+      "page": 1,
+      "box": {
+        "left": 147.0,
+        "top": 596.0,
+        "width": 12.6,
+        "height": 12.6
+      },
+      "group": "topmostSubform_0_Page1_0_Rad6No_0"
+    },
+    "rad6No2": {
+      "type": "radio",
+      "label": "n",
+      "page": 1,
+      "box": {
+        "left": 238.7,
+        "top": 595.8,
+        "width": 12.6,
+        "height": 12.6
+      },
+      "group": "topmostSubform_0_Page1_0_Rad6No_0"
+    },
+    "rad8A": {
+      "type": "radio",
+      "label": "a",
+      "page": 1,
+      "box": {
+        "left": 295.3,
+        "top": 593.0,
+        "width": 12.5,
+        "height": 12.5
+      },
+      "group": "topmostSubform_0_Page1_0_Rad8A_0"
+    },
+    "rad8A2": {
+      "type": "radio",
+      "label": "b",
+      "page": 1,
+      "box": {
+        "left": 296.0,
+        "top": 566.0,
+        "width": 12.5,
+        "height": 12.5
+      },
+      "group": "topmostSubform_0_Page1_0_Rad8A_0"
+    },
+    "rad7C": {
+      "type": "radio",
+      "label": "a",
+      "page": 1,
+      "box": {
+        "left": 28.0,
+        "top": 557.0,
+        "width": 12.5,
+        "height": 12.5
+      },
+      "group": "topmostSubform_0_Page1_0_Rad7C_0"
+    },
+    "rad7C2": {
+      "type": "radio",
+      "label": "b",
+      "page": 1,
+      "box": {
+        "left": 27.9,
+        "top": 544.7,
+        "width": 12.1,
+        "height": 12.1
+      },
+      "group": "topmostSubform_0_Page1_0_Rad7C_0"
+    },
+    "rad7C3": {
+      "type": "radio",
+      "label": "c",
+      "page": 1,
+      "box": {
+        "left": 27.9,
+        "top": 530.4,
+        "width": 12.6,
+        "height": 12.6
+      },
+      "group": "topmostSubform_0_Page1_0_Rad7C_0"
+    },
+    "rad8A3": {
+      "type": "radio",
+      "label": "c",
+      "page": 1,
+      "box": {
+        "left": 295.3,
+        "top": 530.0,
+        "width": 12.5,
+        "height": 12.5
+      },
+      "group": "topmostSubform_0_Page1_0_Rad8A_0"
+    },
+    "rad7C4": {
+      "type": "radio",
+      "label": "d",
+      "page": 1,
+      "box": {
+        "left": 27.1,
+        "top": 517.9,
+        "width": 12.6,
+        "height": 12.6
+      },
+      "group": "topmostSubform_0_Page1_0_Rad7C_0"
+    },
+    "rad7C5": {
+      "type": "radio",
+      "label": "e",
+      "page": 1,
+      "box": {
+        "left": 27.3,
+        "top": 503.0,
+        "width": 12.5,
+        "height": 12.5
+      },
+      "group": "topmostSubform_0_Page1_0_Rad7C_0"
+    },
+    "rad7C6": {
+      "type": "radio",
+      "label": "f",
+      "page": 1,
+      "box": {
+        "left": 27.7,
+        "top": 490.5,
+        "width": 12.6,
+        "height": 12.6
+      },
+      "group": "topmostSubform_0_Page1_0_Rad7C_0"
+    },
+    "rad9A1": {
+      "type": "radio",
+      "label": "full",
+      "page": 1,
+      "box": {
+        "left": 49.6,
+        "top": 413.3,
+        "width": 12.7,
+        "height": 12.7
+      },
+      "group": "topmostSubform_0_Page1_0_Rad9A1_0"
+    },
+    "rad9A12": {
+      "type": "radio",
+      "label": "reduced",
+      "page": 1,
+      "box": {
+        "left": 144.1,
+        "top": 413.3,
+        "width": 12.7,
+        "height": 12.7
+      },
+      "group": "topmostSubform_0_Page1_0_Rad9A1_0"
+    },
+    "signature": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 148.2,
+        "top": 357.3,
+        "width": 252.9,
+        "height": 14.9
+      }
+    },
+    "nameSpse": {
+      "type": "text",
+      "label": "Enter the first name last name and middle initial of spouse.",
+      "page": 1,
+      "box": {
+        "left": 25.5,
+        "top": 304.1,
+        "width": 293.3,
+        "height": 15.8
+      }
+    },
+    "sSNSpse": {
+      "type": "text",
+      "label": "Enter spouses social security number without dashes.",
+      "page": 1,
+      "box": {
+        "left": 320.0,
+        "top": 304.1,
+        "width": 129.7,
+        "height": 15.8
+      }
+    },
+    "dateBrthSpse": {
+      "type": "text",
+      "label": "Enter date of birth of spouse.",
+      "page": 1,
+      "box": {
+        "left": 451.5,
+        "top": 304.1,
+        "width": 129.1,
+        "height": 15.8
+      }
+    },
+    "placeMarrg": {
+      "type": "text",
+      "label": "Enter the place of marriage. City. County. State and country.",
+      "page": 1,
+      "box": {
+        "left": 25.5,
+        "top": 276.8,
+        "width": 417.0,
+        "height": 15.8
+      }
+    },
+    "dateMarrg": {
+      "type": "text",
+      "label": "Enter date of marriage.",
+      "page": 1,
+      "box": {
+        "left": 444.9,
+        "top": 276.8,
+        "width": 135.2,
+        "height": 15.8
+      }
+    },
+    "citySpse": {
+      "type": "text",
+      "label": "Enter city of spouse.",
+      "page": 1,
+      "box": {
+        "left": 244.2,
+        "top": 251.4,
+        "width": 167.3,
+        "height": 15.8
+      }
+    },
+    "stateSpse": {
+      "type": "text",
+      "label": "Enter state of spouse.",
+      "page": 1,
+      "box": {
+        "left": 413.3,
+        "top": 251.4,
+        "width": 79.4,
+        "height": 15.8
+      }
+    },
+    "zipSpse": {
+      "type": "text",
+      "label": "Enter zip code of spouse.",
+      "page": 1,
+      "box": {
+        "left": 494.5,
+        "top": 251.4,
+        "width": 87.3,
+        "height": 15.8
+      }
+    },
+    "addSpse": {
+      "type": "text",
+      "label": "Enter mailing street address of spouse.",
+      "page": 1,
+      "box": {
+        "left": 27.2,
+        "top": 251.1,
+        "width": 216.4,
+        "height": 15.8
+      }
+    },
+    "nameFrmrSpse": {
+      "type": "text",
+      "label": "Enter the first name last name and middle initial of former spouse.",
+      "page": 2,
+      "box": {
+        "left": 25.5,
+        "top": 685.3,
+        "width": 293.3,
+        "height": 15.8
+      }
+    },
+    "sSNFrmrSpse": {
+      "type": "text",
+      "label": "Enter social security number of former spouse.",
+      "page": 2,
+      "box": {
+        "left": 320.0,
+        "top": 685.3,
+        "width": 129.7,
+        "height": 15.8
+      }
+    },
+    "dateFrmrMarrg": {
+      "type": "text",
+      "label": "Enter marriage date to former spouse.",
+      "page": 2,
+      "box": {
+        "left": 451.5,
+        "top": 685.3,
+        "width": 129.1,
+        "height": 15.8
+      }
+    },
+    "addFrmrSpse": {
+      "type": "text",
+      "label": "Enter mailing street address of former spouse.",
+      "page": 2,
+      "box": {
+        "left": 25.3,
+        "top": 658.0,
+        "width": 192.7,
+        "height": 16.0
+      }
+    },
+    "cityFrmrSpse": {
+      "type": "text",
+      "label": "Enter city of former spouse.",
+      "page": 2,
+      "box": {
+        "left": 218.7,
+        "top": 658.0,
+        "width": 130.0,
+        "height": 16.0
+      }
+    },
+    "statefrmrSpse": {
+      "type": "text",
+      "label": "Enter state of former spouse.",
+      "page": 2,
+      "box": {
+        "left": 349.3,
+        "top": 658.0,
+        "width": 67.3,
+        "height": 16.0
+      }
+    },
+    "zipFrmrSpse": {
+      "type": "text",
+      "label": "Enter zip code of former spouse.",
+      "page": 2,
+      "box": {
+        "left": 417.3,
+        "top": 658.0,
+        "width": 70.0,
+        "height": 16.0
+      }
+    },
+    "dateBrthFrmrSpse": {
+      "type": "text",
+      "label": "Enter date of birth of former spouse.",
+      "page": 2,
+      "box": {
+        "left": 489.3,
+        "top": 658.0,
+        "width": 93.3,
+        "height": 16.0
+      }
+    },
+    "nameDep1Frmr": {
+      "type": "text",
+      "label": "Enter the first name last name and middle initial of child of marriage to former spouse on line 1.",
+      "page": 2,
+      "box": {
+        "left": 25.5,
+        "top": 602.9,
+        "width": 209.7,
+        "height": 15.8
+      }
+    },
+    "sSNDep1Frmr": {
+      "type": "text",
+      "label": "Enter social security number of child of marriage to former spouse line 1.",
+      "page": 2,
+      "box": {
+        "left": 237.0,
+        "top": 602.9,
+        "width": 109.1,
+        "height": 15.8
+      }
+    },
+    "dateBrthDep1Frmr": {
+      "type": "text",
+      "label": "Enter birth date of child of marriage to former spouse line 1.",
+      "page": 2,
+      "box": {
+        "left": 347.3,
+        "top": 602.9,
+        "width": 111.5,
+        "height": 15.8
+      }
+    },
+    "relatDep1Frmr": {
+      "type": "text",
+      "label": "Enter step or natural relationship of child of marriage to former spouse line 1.",
+      "page": 2,
+      "box": {
+        "left": 460.6,
+        "top": 602.9,
+        "width": 121.2,
+        "height": 15.8
+      }
+    },
+    "nameDep2Frmr": {
+      "type": "text",
+      "label": "Enter the first name last name and middle initial of child of marriage to former spouse on line 2.",
+      "page": 2,
+      "box": {
+        "left": 25.3,
+        "top": 583.3,
+        "width": 210.0,
+        "height": 16.0
+      }
+    },
+    "sSNDep2Frmr": {
+      "type": "text",
+      "label": "Enter social security number of child of marriage to former spouse line 2.",
+      "page": 2,
+      "box": {
+        "left": 236.7,
+        "top": 583.3,
+        "width": 109.3,
+        "height": 16.0
+      }
+    },
+    "dateBrthDep2Frmr": {
+      "type": "text",
+      "label": "Enter birth date of child of marriage to former spouse line 2.",
+      "page": 2,
+      "box": {
+        "left": 347.3,
+        "top": 583.3,
+        "width": 111.3,
+        "height": 16.0
+      }
+    },
+    "relatDep2Frmr": {
+      "type": "text",
+      "label": "Enter step or natural relationship of child of marriage to former spouse line 2.",
+      "page": 2,
+      "box": {
+        "left": 460.7,
+        "top": 583.3,
+        "width": 121.3,
+        "height": 16.0
+      }
+    },
+    "nameDep3Frmr": {
+      "type": "text",
+      "label": "Enter the first name last name and middle initial of child of marriage to former spouse on line 3.",
+      "page": 2,
+      "box": {
+        "left": 25.5,
+        "top": 564.1,
+        "width": 209.7,
+        "height": 15.8
+      }
+    },
+    "sSNDep3Frmr": {
+      "type": "text",
+      "label": "Enter social security number of child of marriage to former spouse line 3.",
+      "page": 2,
+      "box": {
+        "left": 237.0,
+        "top": 564.1,
+        "width": 109.1,
+        "height": 15.8
+      }
+    },
+    "dateBrthDep3Frmr": {
+      "type": "text",
+      "label": "Enter birth date of child of marriage to former spouse line 3.",
+      "page": 2,
+      "box": {
+        "left": 347.3,
+        "top": 564.1,
+        "width": 111.5,
+        "height": 15.8
+      }
+    },
+    "relatDep3Frmr": {
+      "type": "text",
+      "label": "Enter step or natural relationship of child of marriage to former spouse line 3.",
+      "page": 2,
+      "box": {
+        "left": 460.6,
+        "top": 564.1,
+        "width": 121.2,
+        "height": 15.8
+      }
+    },
+    "nameDep4Frmr": {
+      "type": "text",
+      "label": "Enter the first name last name and middle initial of child of marriage to former spouse on line 4.",
+      "page": 2,
+      "box": {
+        "left": 25.5,
+        "top": 544.7,
+        "width": 209.7,
+        "height": 15.8
+      }
+    },
+    "sSNDep4Frmr": {
+      "type": "text",
+      "label": "Enter social security number of child of marriage to former spouse line 4.",
+      "page": 2,
+      "box": {
+        "left": 237.0,
+        "top": 544.7,
+        "width": 109.1,
+        "height": 15.8
+      }
+    },
+    "dateBrthDep4Frmr": {
+      "type": "text",
+      "label": "Enter birth date of child of marriage to former spouse line 4.",
+      "page": 2,
+      "box": {
+        "left": 347.3,
+        "top": 544.7,
+        "width": 111.5,
+        "height": 15.8
+      }
+    },
+    "relatDep4Frmr": {
+      "type": "text",
+      "label": "Enter step or natural relationship of child of marriage to former spouse line 4.",
+      "page": 2,
+      "box": {
+        "left": 460.6,
+        "top": 544.7,
+        "width": 121.2,
+        "height": 15.8
+      }
+    },
+    "nameInsrInt": {
+      "type": "text",
+      "label": "Enter the first name last name and middle initial of the person you want to recieve an annuity who has insurable interest in you.",
+      "page": 2,
+      "box": {
+        "left": 25.5,
+        "top": 475.6,
+        "width": 293.3,
+        "height": 15.8
+      }
+    },
+    "sSNInsrInt": {
+      "type": "text",
+      "label": "Enter social security number of the person you want to recieve an annuity who has insurable interest in you.",
+      "page": 2,
+      "box": {
+        "left": 320.0,
+        "top": 475.6,
+        "width": 129.7,
+        "height": 15.8
+      }
+    },
+    "relatInsrInt": {
+      "type": "text",
+      "label": "Enter the relationship of the person you want to recieve an annuity who has insurable interest in you.",
+      "page": 2,
+      "box": {
+        "left": 451.3,
+        "top": 475.3,
+        "width": 130.0,
+        "height": 16.0
+      }
+    },
+    "addInsrInt": {
+      "type": "text",
+      "label": "Enter mailing street address of the person you want to recieve an annuity who has insurable interest in you.",
+      "page": 2,
+      "box": {
+        "left": 25.3,
+        "top": 448.7,
+        "width": 192.0,
+        "height": 16.0
+      }
+    },
+    "cityInsrInt": {
+      "type": "text",
+      "label": "Enter city of the person you want to recieve an annuity who has insurable interest in you.",
+      "page": 2,
+      "box": {
+        "left": 218.0,
+        "top": 448.7,
+        "width": 131.3,
+        "height": 16.0
+      }
+    },
+    "stateInsrInt": {
+      "type": "text",
+      "label": "Enter state of the person you want to recieve an annuity who has insurable interest in you.",
+      "page": 2,
+      "box": {
+        "left": 350.0,
+        "top": 448.7,
+        "width": 64.7,
+        "height": 16.0
+      }
+    },
+    "zipInsrInt": {
+      "type": "text",
+      "label": "Enter zip code of the person you want to recieve an annuity who has insurable interest in you.",
+      "page": 2,
+      "box": {
+        "left": 415.3,
+        "top": 448.7,
+        "width": 72.0,
+        "height": 16.0
+      }
+    },
+    "dateBrthInsrInt": {
+      "type": "text",
+      "label": "Enter date of birth of the person you want to recieve an annuity who has insurable interest in you.",
+      "page": 2,
+      "box": {
+        "left": 489.3,
+        "top": 448.7,
+        "width": 92.0,
+        "height": 15.3
+      }
+    },
+    "rad20A": {
+      "type": "radio",
+      "label": "b",
+      "page": 2,
+      "box": {
+        "left": 392.0,
+        "top": 365.3,
+        "width": 16.1,
+        "height": 16.1
+      },
+      "group": "topmostSubform_0_Page2_0_Rad20A_0"
+    },
+    "rad20A2": {
+      "type": "radio",
+      "label": "a",
+      "page": 2,
+      "box": {
+        "left": 208.0,
+        "top": 365.1,
+        "width": 15.6,
+        "height": 15.6
+      },
+      "group": "topmostSubform_0_Page2_0_Rad20A_0"
+    },
+    "rad20None": {
+      "type": "radio",
+      "label": "5",
+      "page": 2,
+      "box": {
+        "left": 207.8,
+        "top": 338.5,
+        "width": 16.1,
+        "height": 16.1
+      },
+      "group": "topmostSubform_0_Page2_0_Rad20None_0"
+    },
+    "rad20None2": {
+      "type": "radio",
+      "label": "10",
+      "page": 2,
+      "box": {
+        "left": 292.9,
+        "top": 338.3,
+        "width": 15.6,
+        "height": 15.6
+      },
+      "group": "topmostSubform_0_Page2_0_Rad20None_0"
+    },
+    "rad20None3": {
+      "type": "radio",
+      "label": "none",
+      "page": 2,
+      "box": {
+        "left": 122.4,
+        "top": 338.1,
+        "width": 15.8,
+        "height": 15.8
+      },
+      "group": "topmostSubform_0_Page2_0_Rad20None_0"
+    },
+    "rad20None4": {
+      "type": "radio",
+      "label": "15",
+      "page": 2,
+      "box": {
+        "left": 374.2,
+        "top": 338.1,
+        "width": 15.8,
+        "height": 15.8
+      },
+      "group": "topmostSubform_0_Page2_0_Rad20None_0"
+    },
+    "rad20None5": {
+      "type": "radio",
+      "label": "20",
+      "page": 2,
+      "box": {
+        "left": 461.6,
+        "top": 338.1,
+        "width": 16.1,
+        "height": 16.1
+      },
+      "group": "topmostSubform_0_Page2_0_Rad20None_0"
+    },
+    "sigMem": {
+      "type": "signature",
+      "label": "SigMem",
+      "page": 2,
+      "box": {
+        "left": 25.7,
+        "top": 265.7,
+        "width": 419.6,
+        "height": 19.3
+      }
+    },
+    "dateSigMem": {
+      "type": "text",
+      "label": "Enter signature date of member.",
+      "page": 2,
+      "box": {
+        "left": 449.7,
+        "top": 262.3,
+        "width": 129.1,
+        "height": 15.8
+      }
+    },
+    "sigWit": {
+      "type": "signature",
+      "label": "SigWit",
+      "page": 2,
+      "box": {
+        "left": 25.6,
+        "top": 232.5,
+        "width": 418.9,
+        "height": 19.3
+      }
+    },
+    "dateSigWit": {
+      "type": "text",
+      "label": "Enter signature date of witness.",
+      "page": 2,
+      "box": {
+        "left": 449.7,
+        "top": 229.6,
+        "width": 129.1,
+        "height": 15.8
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 8,
+      "rowStride": 21.03,
+      "editor": "grid",
+      "columns": {
+        "nameDep": {
+          "type": "text",
+          "label": "Enter the first name last name and middle initial of dependent on line 1.",
+          "page": 1,
+          "box": {
+            "left": 25.5,
+            "top": 184.7,
+            "width": 209.7,
+            "height": 15.8
+          }
+        },
+        "sSNDep": {
+          "type": "text",
+          "label": "Enter social security number of dependent line 1.",
+          "page": 1,
+          "box": {
+            "left": 237.0,
+            "top": 184.7,
+            "width": 109.1,
+            "height": 15.8
+          }
+        },
+        "dateBrthDep": {
+          "type": "text",
+          "label": "Enter birth date of dependent line 1.",
+          "page": 1,
+          "box": {
+            "left": 347.3,
+            "top": 184.7,
+            "width": 111.5,
+            "height": 15.8
+          }
+        },
+        "relatDep": {
+          "type": "text",
+          "label": "Enter step or natural relationship of dependent line 1.",
+          "page": 1,
+          "box": {
+            "left": 460.6,
+            "top": 184.7,
+            "width": 121.2,
+            "height": 15.8
+          }
+        }
+      }
+    }
+  }
+}

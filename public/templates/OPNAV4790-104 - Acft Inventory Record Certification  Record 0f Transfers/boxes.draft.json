@@ -1,0 +1,414 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 792,
+    "height": 612
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "nameContractor": {
+        "left": 38.8,
+        "top": 544.2,
+        "width": 327.4,
+        "height": 10.3,
+        "type": "text",
+        "description": "1. NAME OF PRIME CONTRACTOR",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "govtSerialNo": {
+        "left": 371.9,
+        "top": 544.2,
+        "width": 133.8,
+        "height": 10.3,
+        "type": "text",
+        "description": "2. GOVERNMENT SERIAL NO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "contractNumber": {
+        "left": 511.4,
+        "top": 544.2,
+        "width": 142.8,
+        "height": 10.3,
+        "type": "text",
+        "description": "3. CONTRACT NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "aircraftType": {
+        "left": 659.9,
+        "top": 544.2,
+        "width": 93.3,
+        "height": 10.3,
+        "type": "text",
+        "description": "4. AIRCRAFT TYPE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "certNumber": {
+        "left": 38.8,
+        "top": 487.0,
+        "width": 106.8,
+        "height": 14.8,
+        "type": "text",
+        "description": "5. CERTIFICATE NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "transferredFrom": {
+        "left": 151.4,
+        "top": 487.0,
+        "width": 246.4,
+        "height": 14.8,
+        "type": "text",
+        "description": "6. TRANSFERRED FROM",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateTransferred": {
+        "left": 403.4,
+        "top": 487.0,
+        "width": 102.3,
+        "height": 14.8,
+        "type": "text",
+        "description": "7. DATE TRANSFERRED",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField": {
+        "left": 511.4,
+        "top": 487.0,
+        "width": 241.9,
+        "height": 14.8,
+        "type": "text",
+        "description": "AGENT, OFFICIAL TITLE AND ORGANIZATION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "certNumber2": {
+        "left": 38.8,
+        "top": 425.2,
+        "width": 106.8,
+        "height": 14.8,
+        "type": "text",
+        "description": "9. CERTIFICATE NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "receivedBy": {
+        "left": 151.4,
+        "top": 425.2,
+        "width": 246.4,
+        "height": 14.8,
+        "type": "text",
+        "description": "10. RECEIVED BY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateReceived": {
+        "left": 403.4,
+        "top": 425.2,
+        "width": 102.3,
+        "height": 14.8,
+        "type": "text",
+        "description": "11. DATE RECEIVED",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField2": {
+        "left": 511.4,
+        "top": 425.2,
+        "width": 241.9,
+        "height": 14.8,
+        "type": "text",
+        "description": "AGENT, OFFICIAL TITLE AND ORGANIZATION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "certNumber3": {
+        "left": 38.8,
+        "top": 363.5,
+        "width": 106.8,
+        "height": 14.8,
+        "type": "text",
+        "description": "13. CERTIFICATE NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "transferredFrom2": {
+        "left": 151.4,
+        "top": 363.5,
+        "width": 246.4,
+        "height": 14.8,
+        "type": "text",
+        "description": "14. TRANSFERRED FROM",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateTransferred2": {
+        "left": 403.4,
+        "top": 363.5,
+        "width": 102.3,
+        "height": 14.8,
+        "type": "text",
+        "description": "15. DATE TRANSFERRED",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField3": {
+        "left": 511.4,
+        "top": 363.5,
+        "width": 241.9,
+        "height": 14.8,
+        "type": "text",
+        "description": "AGENT, OFFICIAL TITLE AND ORGANIZATION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "certNumber4": {
+        "left": 38.8,
+        "top": 301.7,
+        "width": 106.8,
+        "height": 14.8,
+        "type": "text",
+        "description": "17. CERTIFICATE NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "receivedBy2": {
+        "left": 151.4,
+        "top": 301.7,
+        "width": 246.4,
+        "height": 14.8,
+        "type": "text",
+        "description": "18 RECEIVED BY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateReceived2": {
+        "left": 403.4,
+        "top": 301.7,
+        "width": 102.3,
+        "height": 14.8,
+        "type": "text",
+        "description": "19. DATE RECEIVED",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField4": {
+        "left": 511.4,
+        "top": 301.7,
+        "width": 241.9,
+        "height": 14.8,
+        "type": "text",
+        "description": "AGENT, OFFICIAL TITLE AND ORGANIZATION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "certNumber5": {
+        "left": 38.8,
+        "top": 240.0,
+        "width": 106.8,
+        "height": 14.8,
+        "type": "text",
+        "description": "21. CERTIFICATE NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "transferredFrom3": {
+        "left": 151.4,
+        "top": 240.0,
+        "width": 246.4,
+        "height": 14.8,
+        "type": "text",
+        "description": "22 TRANSFERRED FROM",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateTransferred3": {
+        "left": 403.4,
+        "top": 240.0,
+        "width": 102.3,
+        "height": 14.8,
+        "type": "text",
+        "description": "23. DATE TRANSFERRED",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField5": {
+        "left": 511.4,
+        "top": 240.0,
+        "width": 241.9,
+        "height": 14.8,
+        "type": "text",
+        "description": "AGENT, OFFICIAL TITLE AND ORGANIZATION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "certNumber6": {
+        "left": 38.8,
+        "top": 178.2,
+        "width": 106.8,
+        "height": 14.8,
+        "type": "text",
+        "description": "25. CERTIFICATE NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "receivedBy3": {
+        "left": 151.4,
+        "top": 178.2,
+        "width": 246.4,
+        "height": 14.8,
+        "type": "text",
+        "description": "26 RECEIVED BY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateReceived3": {
+        "left": 403.4,
+        "top": 178.2,
+        "width": 102.3,
+        "height": 14.8,
+        "type": "text",
+        "description": "27. DATE RECEIVED",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField6": {
+        "left": 511.4,
+        "top": 178.2,
+        "width": 241.9,
+        "height": 14.8,
+        "type": "text",
+        "description": "AGENT, OFFICIAL TITLE AND ORGANIZATION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "certNumber7": {
+        "left": 38.8,
+        "top": 117.3,
+        "width": 106.8,
+        "height": 15.7,
+        "type": "text",
+        "description": "29. CERTIFICATE NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "transferredFrom4": {
+        "left": 151.4,
+        "top": 116.5,
+        "width": 246.4,
+        "height": 14.8,
+        "type": "text",
+        "description": "30. TRANSFERRED FROM",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateTransferred4": {
+        "left": 403.4,
+        "top": 116.5,
+        "width": 102.3,
+        "height": 14.8,
+        "type": "text",
+        "description": "31. DATE TRANSFERRED",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField7": {
+        "left": 511.4,
+        "top": 116.5,
+        "width": 241.9,
+        "height": 14.8,
+        "type": "text",
+        "description": "AGENT, OFFICIAL TITLE AND ORGANIZATION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "certNumber8": {
+        "left": 38.8,
+        "top": 54.7,
+        "width": 106.8,
+        "height": 14.8,
+        "type": "text",
+        "description": "33. CERTIFICATE NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "receivedBy4": {
+        "left": 151.4,
+        "top": 54.7,
+        "width": 246.4,
+        "height": 14.8,
+        "type": "text",
+        "description": "34 RECEIVED BY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField8": {
+        "left": 511.4,
+        "top": 54.7,
+        "width": 241.9,
+        "height": 14.8,
+        "type": "text",
+        "description": "AGENT, OFFICIAL TITLE AND ORGANIZATION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateReceived4": {
+        "left": 403.4,
+        "top": 54.6,
+        "width": 102.3,
+        "height": 14.7,
+        "type": "text",
+        "description": "35. DATE RECEIVED",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

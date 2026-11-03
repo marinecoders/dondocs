@@ -1,0 +1,428 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "unitGroup": {
+        "left": 182.5,
+        "top": 730.9,
+        "width": 155.2,
+        "height": 19.6,
+        "type": "text",
+        "description": "1. UNIT/ACTIVITY/GROUP/TYCOMM",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date": {
+        "left": 381.3,
+        "top": 730.9,
+        "width": 73.2,
+        "height": 19.6,
+        "type": "text",
+        "description": "2. DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "time": {
+        "left": 498.1,
+        "top": 730.9,
+        "width": 73.2,
+        "height": 19.6,
+        "type": "text",
+        "description": "3. TIME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comment4": {
+        "left": 401.3,
+        "top": 685.4,
+        "width": 170.5,
+        "height": 18.0,
+        "type": "text",
+        "description": "4. the ORM Manager?",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "input4": {
+        "left": 344.0,
+        "top": 684.7,
+        "width": 50.8,
+        "height": 16.5,
+        "type": "choice",
+        "description": "4. the ORM Manager?",
+        "options": [
+          "Y",
+          "N",
+          "NA"
+        ],
+        "group": null,
+        "required": false
+      },
+      "comment5": {
+        "left": 401.3,
+        "top": 661.8,
+        "width": 170.5,
+        "height": 47.5,
+        "type": "text",
+        "description": "COMMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "input5": {
+        "left": 344.0,
+        "top": 661.1,
+        "width": 50.8,
+        "height": 46.0,
+        "type": "choice",
+        "description": "INPUT",
+        "options": [
+          "Y",
+          "N",
+          "NA"
+        ],
+        "group": null,
+        "required": false
+      },
+      "comment6": {
+        "left": 401.3,
+        "top": 608.6,
+        "width": 170.5,
+        "height": 54.1,
+        "type": "text",
+        "description": "COMMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "input6": {
+        "left": 344.0,
+        "top": 607.9,
+        "width": 50.8,
+        "height": 52.6,
+        "type": "choice",
+        "description": "INPUT",
+        "options": [
+          "Y",
+          "N",
+          "NA"
+        ],
+        "group": null,
+        "required": false
+      },
+      "comment7": {
+        "left": 401.3,
+        "top": 548.9,
+        "width": 170.5,
+        "height": 70.1,
+        "type": "text",
+        "description": "COMMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "input7": {
+        "left": 344.0,
+        "top": 548.1,
+        "width": 50.8,
+        "height": 68.6,
+        "type": "choice",
+        "description": "INPUT",
+        "options": [
+          "Y",
+          "N",
+          "NA"
+        ],
+        "group": null,
+        "required": false
+      },
+      "comment8": {
+        "left": 401.3,
+        "top": 473.1,
+        "width": 170.5,
+        "height": 33.7,
+        "type": "text",
+        "description": "COMMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "input8": {
+        "left": 344.0,
+        "top": 472.3,
+        "width": 50.8,
+        "height": 32.2,
+        "type": "choice",
+        "description": "INPUT",
+        "options": [
+          "Y",
+          "N",
+          "NA"
+        ],
+        "group": null,
+        "required": false
+      },
+      "comment9": {
+        "left": 401.3,
+        "top": 433.7,
+        "width": 170.5,
+        "height": 18.0,
+        "type": "text",
+        "description": "9. or electronic)?",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "input9": {
+        "left": 344.0,
+        "top": 433.0,
+        "width": 50.8,
+        "height": 16.5,
+        "type": "choice",
+        "description": "9. or electronic)?",
+        "options": [
+          "Y",
+          "N",
+          "NA"
+        ],
+        "group": null,
+        "required": false
+      },
+      "comment10": {
+        "left": 401.3,
+        "top": 389.9,
+        "width": 170.5,
+        "height": 18.0,
+        "type": "text",
+        "description": "10. controls into briefs, notices, and written plans?",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "input10": {
+        "left": 344.0,
+        "top": 389.2,
+        "width": 50.8,
+        "height": 16.5,
+        "type": "choice",
+        "description": "10. controls into briefs, notices, and written plans?",
+        "options": [
+          "Y",
+          "N",
+          "NA"
+        ],
+        "group": null,
+        "required": false
+      },
+      "comment11": {
+        "left": 401.3,
+        "top": 366.3,
+        "width": 170.5,
+        "height": 36.1,
+        "type": "text",
+        "description": "COMMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "input11": {
+        "left": 344.0,
+        "top": 365.6,
+        "width": 50.8,
+        "height": 34.6,
+        "type": "choice",
+        "description": "INPUT",
+        "options": [
+          "Y",
+          "N",
+          "NA"
+        ],
+        "group": null,
+        "required": false
+      },
+      "comment12": {
+        "left": 401.3,
+        "top": 324.5,
+        "width": 170.5,
+        "height": 18.0,
+        "type": "text",
+        "description": "12. ORM process application",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "input12": {
+        "left": 344.0,
+        "top": 323.8,
+        "width": 50.8,
+        "height": 16.5,
+        "type": "choice",
+        "description": "12. ORM process application",
+        "options": [
+          "Y",
+          "N",
+          "NA"
+        ],
+        "group": null,
+        "required": false
+      },
+      "comment13": {
+        "left": 401.3,
+        "top": 300.9,
+        "width": 170.5,
+        "height": 18.0,
+        "type": "text",
+        "description": "13. during the past year?",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "input13": {
+        "left": 344.0,
+        "top": 300.1,
+        "width": 50.8,
+        "height": 16.5,
+        "type": "choice",
+        "description": "13. during the past year?",
+        "options": [
+          "Y",
+          "N",
+          "NA"
+        ],
+        "group": null,
+        "required": false
+      },
+      "comment14": {
+        "left": 401.3,
+        "top": 277.2,
+        "width": 170.5,
+        "height": 25.7,
+        "type": "text",
+        "description": "COMMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "input14": {
+        "left": 344.0,
+        "top": 276.5,
+        "width": 50.8,
+        "height": 24.2,
+        "type": "choice",
+        "description": "INPUT",
+        "options": [
+          "Y",
+          "N",
+          "NA"
+        ],
+        "group": null,
+        "required": false
+      },
+      "comment15": {
+        "left": 401.3,
+        "top": 245.9,
+        "width": 170.5,
+        "height": 18.0,
+        "type": "text",
+        "description": "COMMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "input15": {
+        "left": 344.0,
+        "top": 245.1,
+        "width": 50.8,
+        "height": 16.5,
+        "type": "choice",
+        "description": "INPUT",
+        "options": [
+          "Y",
+          "N",
+          "NA"
+        ],
+        "group": null,
+        "required": false
+      },
+      "comment16": {
+        "left": 401.3,
+        "top": 222.2,
+        "width": 170.5,
+        "height": 25.2,
+        "type": "text",
+        "description": "COMMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "input16": {
+        "left": 344.0,
+        "top": 221.5,
+        "width": 50.8,
+        "height": 23.7,
+        "type": "choice",
+        "description": "INPUT",
+        "options": [
+          "Y",
+          "N",
+          "NA"
+        ],
+        "group": null,
+        "required": false
+      },
+      "comment17": {
+        "left": 401.3,
+        "top": 191.4,
+        "width": 170.5,
+        "height": 26.6,
+        "type": "text",
+        "description": "COMMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "input17": {
+        "left": 344.0,
+        "top": 190.6,
+        "width": 50.8,
+        "height": 25.1,
+        "type": "choice",
+        "description": "INPUT",
+        "options": [
+          "Y",
+          "N",
+          "NA"
+        ],
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "additionalFeedback": {
+        "left": 39.8,
+        "top": 738.9,
+        "width": 531.5,
+        "height": 233.0,
+        "type": "text",
+        "description": "18. ADDITIONAL FEEDBACK",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

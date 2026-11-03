@@ -1,0 +1,275 @@
+{
+  "id": "navmchq812",
+  "label": "NAVMC HQ 812 - Overtime-Compensatory Time Report",
+  "directory": "NAVMCHQ812 - Overtime-Compensatory Time Report",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "date1",
+        "reptUnit",
+        "distCd",
+        "sig1",
+        "sig2",
+        "sig3",
+        "sig4",
+        "sig5",
+        "sig6",
+        "sig7",
+        "sig8",
+        "sig9",
+        "remarks1",
+        "signature",
+        "signature2"
+      ]
+    }
+  ],
+  "fields": {
+    "date1": {
+      "type": "text",
+      "label": "Enter Pay Period ending date using format 2002 06 27.",
+      "page": 1,
+      "box": {
+        "left": 384.8,
+        "top": 748.0,
+        "width": 208.8,
+        "height": 16.0
+      }
+    },
+    "reptUnit": {
+      "type": "text",
+      "label": "Reporting Unit",
+      "page": 1,
+      "box": {
+        "left": 19.2,
+        "top": 613.6,
+        "width": 285.6,
+        "height": 16.0
+      }
+    },
+    "distCd": {
+      "type": "text",
+      "label": "Distribution Code",
+      "page": 1,
+      "box": {
+        "left": 307.2,
+        "top": 613.6,
+        "width": 286.4,
+        "height": 16.0
+      }
+    },
+    "sig1": {
+      "type": "signature",
+      "label": "Sig1",
+      "page": 1,
+      "box": {
+        "left": 19.3,
+        "top": 562.8,
+        "width": 285.5,
+        "height": 19.3
+      }
+    },
+    "sig2": {
+      "type": "signature",
+      "label": "Sig2",
+      "page": 1,
+      "box": {
+        "left": 19.8,
+        "top": 539.1,
+        "width": 285.5,
+        "height": 19.3
+      }
+    },
+    "sig3": {
+      "type": "signature",
+      "label": "Sig3",
+      "page": 1,
+      "box": {
+        "left": 20.3,
+        "top": 515.4,
+        "width": 285.0,
+        "height": 19.3
+      }
+    },
+    "sig4": {
+      "type": "signature",
+      "label": "Sig4",
+      "page": 1,
+      "box": {
+        "left": 20.3,
+        "top": 491.2,
+        "width": 285.0,
+        "height": 19.3
+      }
+    },
+    "sig5": {
+      "type": "signature",
+      "label": "Sig5",
+      "page": 1,
+      "box": {
+        "left": 19.8,
+        "top": 467.0,
+        "width": 286.0,
+        "height": 19.3
+      }
+    },
+    "sig6": {
+      "type": "signature",
+      "label": "Sig6",
+      "page": 1,
+      "box": {
+        "left": 19.8,
+        "top": 442.8,
+        "width": 285.0,
+        "height": 19.3
+      }
+    },
+    "sig7": {
+      "type": "signature",
+      "label": "Sig7",
+      "page": 1,
+      "box": {
+        "left": 19.8,
+        "top": 419.1,
+        "width": 285.0,
+        "height": 19.3
+      }
+    },
+    "sig8": {
+      "type": "signature",
+      "label": "Sig8",
+      "page": 1,
+      "box": {
+        "left": 19.3,
+        "top": 394.9,
+        "width": 286.0,
+        "height": 19.3
+      }
+    },
+    "sig9": {
+      "type": "signature",
+      "label": "Sig9",
+      "page": 1,
+      "box": {
+        "left": 19.3,
+        "top": 370.2,
+        "width": 285.5,
+        "height": 19.3
+      }
+    },
+    "remarks1": {
+      "type": "text",
+      "label": "Remarks.",
+      "page": 1,
+      "box": {
+        "left": 19.9,
+        "top": 336.4,
+        "width": 565.6,
+        "height": 228.2
+      },
+      "multiline": true
+    },
+    "signature": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 75.6,
+        "top": 86.6,
+        "width": 225.2,
+        "height": 27.2
+      }
+    },
+    "signature2": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 391.7,
+        "top": 86.6,
+        "width": 200.6,
+        "height": 26.7
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 9,
+      "rowStride": 24.0,
+      "editor": "grid",
+      "columns": {
+        "dateSig": {
+          "type": "text",
+          "label": "Enter date of signature using format 2002 06 27. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 306.4,
+            "top": 558.4,
+            "width": 63.2,
+            "height": 16.0
+          }
+        },
+        "timeIn": {
+          "type": "text",
+          "label": "Enter time in using format 13:30. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 370.4,
+            "top": 558.4,
+            "width": 46.4,
+            "height": 16.0
+          }
+        },
+        "timeOut": {
+          "type": "text",
+          "label": "Enter time out using format 13:30. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 417.6,
+            "top": 558.4,
+            "width": 44.0,
+            "height": 16.0
+          }
+        },
+        "timeIn2": {
+          "type": "text",
+          "label": "Enter time in using format 13:30. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 462.4,
+            "top": 558.4,
+            "width": 41.6,
+            "height": 16.0
+          }
+        },
+        "timeOut2": {
+          "type": "text",
+          "label": "Enter time out using format 13:30. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 504.8,
+            "top": 558.4,
+            "width": 40.8,
+            "height": 16.0
+          }
+        },
+        "totTime": {
+          "type": "text",
+          "label": "Total time. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 547.2,
+            "top": 559.2,
+            "width": 46.4,
+            "height": 16.0
+          }
+        }
+      }
+    }
+  }
+}

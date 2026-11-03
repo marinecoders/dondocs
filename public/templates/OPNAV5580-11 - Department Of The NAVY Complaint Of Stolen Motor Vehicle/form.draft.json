@@ -1,0 +1,575 @@
+{
+  "id": "opnav558011",
+  "label": "OPNAV5580-11 - Department Of The NAVY Complaint Of Stolen Motor Vehicle",
+  "directory": "OPNAV5580-11 - Department Of The NAVY Complaint Of Stolen Motor Vehicle",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "date1",
+        "timeRecieved",
+        "registedOwner",
+        "telephone1",
+        "date2",
+        "locationStolen",
+        "time2",
+        "name",
+        "rate",
+        "ssn",
+        "date3",
+        "place",
+        "sex",
+        "race",
+        "homeAddPhone",
+        "telephone",
+        "dutyStation",
+        "dutyStationTelephone",
+        "bodyStyle",
+        "make",
+        "top",
+        "bottom",
+        "year",
+        "value",
+        "licenseNumber",
+        "state",
+        "motorNumber",
+        "vin",
+        "keyInCar",
+        "keyInCar2",
+        "doorsLocked",
+        "doorsLocked2",
+        "decals",
+        "identifing",
+        "financed",
+        "insured",
+        "nameAdress",
+        "bussinessTelephone",
+        "homeTelephone",
+        "immediately",
+        "date4",
+        "time4",
+        "comSignature",
+        "date5",
+        "location",
+        "locationSignature"
+      ]
+    }
+  ],
+  "fields": {
+    "date1": {
+      "type": "text",
+      "label": "Enter the date that the report was received using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 708.5,
+        "width": 133.2,
+        "height": 14.4
+      }
+    },
+    "timeRecieved": {
+      "type": "text",
+      "label": "Enter the time that report was received  the using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 179.3,
+        "top": 708.5,
+        "width": 127.4,
+        "height": 14.4
+      }
+    },
+    "registedOwner": {
+      "type": "text",
+      "label": "Enter the registerd owner (Name).",
+      "page": 1,
+      "box": {
+        "left": 311.0,
+        "top": 708.5,
+        "width": 133.9,
+        "height": 15.1
+      }
+    },
+    "telephone1": {
+      "type": "text",
+      "label": "Enter the registerd owner telephone number.",
+      "page": 1,
+      "box": {
+        "left": 448.6,
+        "top": 708.5,
+        "width": 122.4,
+        "height": 15.1
+      }
+    },
+    "date2": {
+      "type": "text",
+      "label": "Enter the date that the vehicle was last seen using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 311.0,
+        "top": 678.2,
+        "width": 133.9,
+        "height": 15.1
+      }
+    },
+    "locationStolen": {
+      "type": "text",
+      "label": "Enter the location of the vehicle when it was stolen.",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 677.5,
+        "width": 265.7,
+        "height": 14.4
+      }
+    },
+    "time2": {
+      "type": "text",
+      "label": "Enter the time that the vehicle was last seen using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 448.6,
+        "top": 677.5,
+        "width": 122.4,
+        "height": 15.1
+      }
+    },
+    "name": {
+      "type": "text",
+      "label": "Enter the name (last, first, and middle).",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 634.3,
+        "width": 265.7,
+        "height": 14.4
+      }
+    },
+    "rate": {
+      "type": "text",
+      "label": "Enter the rank and/or rate.",
+      "page": 1,
+      "box": {
+        "left": 311.0,
+        "top": 634.3,
+        "width": 153.4,
+        "height": 14.4
+      }
+    },
+    "ssn": {
+      "type": "text",
+      "label": "Enter the social security number.  ",
+      "page": 1,
+      "box": {
+        "left": 468.7,
+        "top": 634.3,
+        "width": 101.5,
+        "height": 14.4
+      }
+    },
+    "date3": {
+      "type": "text",
+      "label": "Enter the birth date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 603.3,
+        "width": 133.2,
+        "height": 14.4
+      }
+    },
+    "place": {
+      "type": "text",
+      "label": "Enter the place of birth.",
+      "page": 1,
+      "box": {
+        "left": 179.3,
+        "top": 603.3,
+        "width": 127.4,
+        "height": 14.4
+      }
+    },
+    "sex": {
+      "type": "text",
+      "label": "Enter the sex.",
+      "page": 1,
+      "box": {
+        "left": 311.0,
+        "top": 603.3,
+        "width": 153.4,
+        "height": 14.4
+      }
+    },
+    "race": {
+      "type": "text",
+      "label": "Enter the race.",
+      "page": 1,
+      "box": {
+        "left": 468.7,
+        "top": 603.3,
+        "width": 101.5,
+        "height": 14.4
+      }
+    },
+    "homeAddPhone": {
+      "type": "text",
+      "label": "Enter the home address.",
+      "page": 1,
+      "box": {
+        "left": 41.8,
+        "top": 575.3,
+        "width": 176.4,
+        "height": 36.0
+      },
+      "multiline": true
+    },
+    "telephone": {
+      "type": "text",
+      "label": "Enter the home telephone number.",
+      "page": 1,
+      "box": {
+        "left": 221.1,
+        "top": 559.3,
+        "width": 83.0,
+        "height": 18.9
+      }
+    },
+    "dutyStation": {
+      "type": "text",
+      "label": "Enter the duty station.",
+      "page": 1,
+      "box": {
+        "left": 311.0,
+        "top": 554.4,
+        "width": 133.9,
+        "height": 15.1
+      }
+    },
+    "dutyStationTelephone": {
+      "type": "text",
+      "label": "Enter the duty station telephone number.",
+      "page": 1,
+      "box": {
+        "left": 448.6,
+        "top": 554.4,
+        "width": 122.4,
+        "height": 15.1
+      }
+    },
+    "bodyStyle": {
+      "type": "text",
+      "label": "Enter the vehicle body style.",
+      "page": 1,
+      "box": {
+        "left": 311.8,
+        "top": 507.6,
+        "width": 258.5,
+        "height": 14.4
+      }
+    },
+    "make": {
+      "type": "text",
+      "label": "Enter the vehicle make.",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 506.9,
+        "width": 265.7,
+        "height": 14.4
+      }
+    },
+    "top": {
+      "type": "text",
+      "label": "Enter the vehicle color (top).",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 475.9,
+        "width": 133.2,
+        "height": 14.4
+      }
+    },
+    "bottom": {
+      "type": "text",
+      "label": "Enter the vehicle color (bottom).",
+      "page": 1,
+      "box": {
+        "left": 179.3,
+        "top": 475.9,
+        "width": 127.4,
+        "height": 14.4
+      }
+    },
+    "year": {
+      "type": "text",
+      "label": "Enter the year of the vehicle.",
+      "page": 1,
+      "box": {
+        "left": 311.0,
+        "top": 475.9,
+        "width": 153.4,
+        "height": 14.4
+      }
+    },
+    "value": {
+      "type": "text",
+      "label": "Enter the value of the vehicle.",
+      "page": 1,
+      "box": {
+        "left": 468.7,
+        "top": 475.9,
+        "width": 102.2,
+        "height": 14.4
+      }
+    },
+    "licenseNumber": {
+      "type": "text",
+      "label": "Enter the vehicle license number.",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 444.2,
+        "width": 133.2,
+        "height": 14.4
+      }
+    },
+    "state": {
+      "type": "text",
+      "label": "Enter the vehicle state.",
+      "page": 1,
+      "box": {
+        "left": 179.3,
+        "top": 444.2,
+        "width": 127.4,
+        "height": 14.4
+      }
+    },
+    "motorNumber": {
+      "type": "text",
+      "label": "Enter the vehicle motor number.",
+      "page": 1,
+      "box": {
+        "left": 312.5,
+        "top": 444.2,
+        "width": 151.9,
+        "height": 14.4
+      }
+    },
+    "vin": {
+      "type": "text",
+      "label": "Enter the vehicle identification number (VIN).",
+      "page": 1,
+      "box": {
+        "left": 469.4,
+        "top": 439.9,
+        "width": 102.2,
+        "height": 9.4
+      }
+    },
+    "keyInCar": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 64.9,
+        "top": 400.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_KeyInCar_0"
+    },
+    "keyInCar2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 166.4,
+        "top": 400.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_KeyInCar_0"
+    },
+    "doorsLocked": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 327.7,
+        "top": 400.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_DoorsLocked_0"
+    },
+    "doorsLocked2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 432.1,
+        "top": 400.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_DoorsLocked_0"
+    },
+    "decals": {
+      "type": "text",
+      "label": "Enter the description of the decals on the vehicle.",
+      "page": 1,
+      "box": {
+        "left": 41.8,
+        "top": 370.1,
+        "width": 265.0,
+        "height": 14.4
+      }
+    },
+    "identifing": {
+      "type": "text",
+      "label": "Enter other identifying characteristics for the vehicle.",
+      "page": 1,
+      "box": {
+        "left": 311.8,
+        "top": 370.1,
+        "width": 258.5,
+        "height": 14.4
+      }
+    },
+    "financed": {
+      "type": "text",
+      "label": "Enter who the vehicle is financed by.",
+      "page": 1,
+      "box": {
+        "left": 41.8,
+        "top": 334.1,
+        "width": 265.0,
+        "height": 14.4
+      }
+    },
+    "insured": {
+      "type": "text",
+      "label": "Enter who the vehicle is insured by (company name and address).",
+      "page": 1,
+      "box": {
+        "left": 311.8,
+        "top": 334.1,
+        "width": 258.5,
+        "height": 14.4
+      }
+    },
+    "nameAdress": {
+      "type": "text",
+      "label": "Enter the name and address of the person to be contacted in absense of the owner.",
+      "page": 1,
+      "box": {
+        "left": 41.8,
+        "top": 293.7,
+        "width": 265.0,
+        "height": 33.1
+      },
+      "multiline": true
+    },
+    "bussinessTelephone": {
+      "type": "text",
+      "label": "Enter the bussiness telephone number.",
+      "page": 1,
+      "box": {
+        "left": 311.0,
+        "top": 275.7,
+        "width": 136.8,
+        "height": 14.4
+      }
+    },
+    "homeTelephone": {
+      "type": "text",
+      "label": "Enter the home telephone number.",
+      "page": 1,
+      "box": {
+        "left": 450.7,
+        "top": 275.7,
+        "width": 120.2,
+        "height": 14.4
+      }
+    },
+    "immediately": {
+      "type": "text",
+      "label": "Enter whom you will notify immediately.",
+      "page": 1,
+      "box": {
+        "left": 236.9,
+        "top": 206.6,
+        "width": 52.6,
+        "height": 9.8
+      }
+    },
+    "date4": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 119.5,
+        "width": 110.9,
+        "height": 15.1
+      }
+    },
+    "time4": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 159.1,
+        "top": 119.5,
+        "width": 144.1,
+        "height": 15.1
+      }
+    },
+    "comSignature": {
+      "type": "text",
+      "label": "Enter the complainant signature.",
+      "page": 1,
+      "box": {
+        "left": 312.5,
+        "top": 119.5,
+        "width": 258.5,
+        "height": 14.4
+      }
+    },
+    "date5": {
+      "type": "text",
+      "label": "Enter the date sworn using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 70.5,
+        "width": 110.9,
+        "height": 15.1
+      }
+    },
+    "location": {
+      "type": "text",
+      "label": "Enter the location.",
+      "page": 1,
+      "box": {
+        "left": 156.2,
+        "top": 69.8,
+        "width": 149.8,
+        "height": 14.4
+      }
+    },
+    "locationSignature": {
+      "type": "text",
+      "label": "Enter the signature.",
+      "page": 1,
+      "box": {
+        "left": 312.5,
+        "top": 69.1,
+        "width": 258.5,
+        "height": 14.4
+      }
+    }
+  }
+}

@@ -1,0 +1,458 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "dd1": {
+        "left": 255.2,
+        "top": 716.9,
+        "width": 47.7,
+        "height": 29.7,
+        "type": "choice",
+        "description": "Type of Report",
+        "options": [
+          "CC",
+          "DOI",
+          "DRS",
+          "NOB",
+          "OPS",
+          "PER",
+          "PR/F",
+          "REG",
+          "SPC",
+          "IRR"
+        ],
+        "group": null,
+        "required": false
+      },
+      "dd2": {
+        "left": 309.2,
+        "top": 716.9,
+        "width": 47.7,
+        "height": 29.7,
+        "type": "choice",
+        "description": "Type of Report",
+        "options": [
+          "CC",
+          "DOI",
+          "DRS",
+          "NOB",
+          "OPS",
+          "PER",
+          "PR/F",
+          "REG",
+          "SPC",
+          "IRR"
+        ],
+        "group": null,
+        "required": false
+      },
+      "dd3": {
+        "left": 363.2,
+        "top": 716.9,
+        "width": 47.7,
+        "height": 29.7,
+        "type": "choice",
+        "description": "Type of Report",
+        "options": [
+          "CC",
+          "DOI",
+          "DRS",
+          "NOB",
+          "OPS",
+          "PER",
+          "PR/F",
+          "REG",
+          "SPC",
+          "IRR"
+        ],
+        "group": null,
+        "required": false
+      },
+      "dd4": {
+        "left": 417.2,
+        "top": 716.9,
+        "width": 47.7,
+        "height": 29.7,
+        "type": "choice",
+        "description": "Type of Report",
+        "options": [
+          "CC",
+          "DOI",
+          "DRS",
+          "NOB",
+          "OPS",
+          "PER",
+          "PR/F",
+          "REG",
+          "SPC",
+          "IRR"
+        ],
+        "group": null,
+        "required": false
+      },
+      "dd5": {
+        "left": 471.2,
+        "top": 716.9,
+        "width": 47.7,
+        "height": 29.7,
+        "type": "choice",
+        "description": "Type of Report",
+        "options": [
+          "CC",
+          "DOI",
+          "DRS",
+          "NOB",
+          "OPS",
+          "PER",
+          "PR/F",
+          "REG",
+          "SPC",
+          "IRR"
+        ],
+        "group": null,
+        "required": false
+      },
+      "dd6": {
+        "left": 525.2,
+        "top": 716.9,
+        "width": 47.7,
+        "height": 29.7,
+        "type": "choice",
+        "description": "Type of Report",
+        "options": [
+          "CC",
+          "DOI",
+          "DRS",
+          "NOB",
+          "OPS",
+          "PER",
+          "PR/F",
+          "REG",
+          "SPC",
+          "IRR"
+        ],
+        "group": null,
+        "required": false
+      },
+      "date": {
+        "left": 38.9,
+        "top": 708.5,
+        "width": 66.2,
+        "height": 21.6,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell2": {
+        "left": 110.9,
+        "top": 708.5,
+        "width": 66.2,
+        "height": 21.6,
+        "type": "text",
+        "description": "Initials",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell1": {
+        "left": 38.9,
+        "top": 672.5,
+        "width": 390.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell22": {
+        "left": 434.9,
+        "top": 672.5,
+        "width": 66.2,
+        "height": 21.6,
+        "type": "text",
+        "description": "Grade/Rate",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell3": {
+        "left": 506.9,
+        "top": 672.5,
+        "width": 66.2,
+        "height": 21.6,
+        "type": "text",
+        "description": "SSN",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell23": {
+        "left": 288.3,
+        "top": 645.1,
+        "width": 104.9,
+        "height": 15.8,
+        "type": "text",
+        "description": "From",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell32": {
+        "left": 470.9,
+        "top": 645.1,
+        "width": 102.3,
+        "height": 15.8,
+        "type": "text",
+        "description": "To",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell33": {
+        "left": 218.9,
+        "top": 609.1,
+        "width": 102.3,
+        "height": 15.8,
+        "type": "text",
+        "description": "Change dates of report to read:From",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell4": {
+        "left": 362.9,
+        "top": 609.1,
+        "width": 210.3,
+        "height": 15.8,
+        "type": "text",
+        "description": "To",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell12": {
+        "left": 42.1,
+        "top": 605.2,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "This",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell34": {
+        "left": 128.9,
+        "top": 587.5,
+        "width": 66.2,
+        "height": 15.8,
+        "type": "text",
+        "description": "Change block",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell13": {
+        "left": 42.1,
+        "top": 583.6,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "This",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell14": {
+        "left": 38.9,
+        "top": 565.9,
+        "width": 534.3,
+        "height": 66.2,
+        "type": "text",
+        "description": "Change block to read",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell35": {
+        "left": 128.9,
+        "top": 493.9,
+        "width": 66.2,
+        "height": 15.8,
+        "type": "text",
+        "description": "Add block",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell15": {
+        "left": 42.1,
+        "top": 490.0,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "This",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell16": {
+        "left": 38.9,
+        "top": 472.3,
+        "width": 534.3,
+        "height": 66.2,
+        "type": "text",
+        "description": "Add block to read",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell17": {
+        "left": 42.1,
+        "top": 389.1,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "This",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell18": {
+        "left": 42.1,
+        "top": 353.1,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "This",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell19": {
+        "left": 42.1,
+        "top": 311.7,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "This",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField2": {
+        "left": 93.6,
+        "top": 303.1,
+        "width": 126.0,
+        "height": 10.8,
+        "type": "text",
+        "description": "signature,",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell110": {
+        "left": 42.1,
+        "top": 277.5,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "This",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell111": {
+        "left": 38.9,
+        "top": 259.9,
+        "width": 534.3,
+        "height": 120.3,
+        "type": "text",
+        "description": "Other as shown below",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell112": {
+        "left": 38.9,
+        "top": 110.8,
+        "width": 228.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell24": {
+        "left": 272.9,
+        "top": 110.8,
+        "width": 228.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date2": {
+        "left": 506.9,
+        "top": 110.8,
+        "width": 66.2,
+        "height": 21.6,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell113": {
+        "left": 38.9,
+        "top": 60.4,
+        "width": 228.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell25": {
+        "left": 272.9,
+        "top": 60.4,
+        "width": 228.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date3": {
+        "left": 506.9,
+        "top": 60.4,
+        "width": 66.2,
+        "height": 21.6,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

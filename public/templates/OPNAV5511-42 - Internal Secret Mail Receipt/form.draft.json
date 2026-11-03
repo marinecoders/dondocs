@@ -1,0 +1,1481 @@
+{
+  "id": "opnav551142",
+  "label": "OPNAV5511-42 - Internal Secret Mail Receipt",
+  "directory": "OPNAV5511-42 - Internal Secret Mail Receipt",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "internalsecretmailreceipt",
+        "headmailandfilesbranch",
+        "opno1",
+        "cNOserial1",
+        "dated1",
+        "copiesreceived1",
+        "encl1",
+        "copiesofenclosurerecd1",
+        "printednamesignatureanddate1",
+        "datea",
+        "opno2",
+        "cNOserial2",
+        "dated2",
+        "copiesreceived2",
+        "encl2",
+        "copiesofenclosurerecd2",
+        "printednamesignatureanddate2",
+        "dateb",
+        "opno3",
+        "cNOserial3",
+        "dated3",
+        "copiesreceived3",
+        "encl3",
+        "copiesofenclosurerecd3",
+        "printednamesignatureanddate3",
+        "datec",
+        "opno4",
+        "cNOserial4",
+        "dated4",
+        "copiesreceived4",
+        "encl4",
+        "copiesofenclosurerecd4",
+        "printednamesignatureanddate4",
+        "dated",
+        "opno5",
+        "cNOserial5",
+        "dated5",
+        "copiesreceived5",
+        "encl5",
+        "copiesofenclosurerecd5",
+        "printednamesignatureanddate5",
+        "datee",
+        "opno6",
+        "cNOserial6",
+        "dated6",
+        "copiesreceived6",
+        "encl6",
+        "copiesofenclosurerecd6",
+        "printednamesignatureanddate6",
+        "datef",
+        "opno7",
+        "cNOserial7",
+        "dated7",
+        "copiesreceived7",
+        "encl7",
+        "copiesofenclosurerecd7",
+        "printednamesignatureanddate7",
+        "dateg",
+        "opno8",
+        "cNOserial8",
+        "dated8",
+        "copiesreceived8",
+        "encl8",
+        "copiesofenclosurerecd8",
+        "printednamesignatureanddate8",
+        "dateh",
+        "opno9",
+        "cNOserial9",
+        "dated9",
+        "copiesreceived9",
+        "encl9",
+        "copiesofenclosurerecd9",
+        "printednamesignatureanddate9",
+        "datei",
+        "opno10",
+        "cNOserial10",
+        "dated10",
+        "copiesreceived10",
+        "encl10",
+        "copiesofenclosurerecd10",
+        "printednamesignatureanddate10",
+        "datej",
+        "opno11",
+        "cNOserial11",
+        "dated11",
+        "copiesreceived11",
+        "encl11",
+        "copiesofenclosurerecd11",
+        "printednamesignatureanddate11",
+        "datek",
+        "opno12",
+        "cNOserial12",
+        "dated12",
+        "copiesreceived12",
+        "encl12",
+        "copiesofenclosurerecd12",
+        "printednamesignatureanddate12",
+        "datel",
+        "opno13",
+        "cNOserial13",
+        "dated13",
+        "copiesreceived13",
+        "encl13",
+        "copiesofenclosurerecd13",
+        "printednamesignatureanddate13",
+        "datem",
+        "opno14",
+        "cNOserial14",
+        "dated14",
+        "copiesreceived14",
+        "encl14",
+        "copiesofenclosurerecd14",
+        "printednamesignatureanddate14",
+        "daten",
+        "dateo",
+        "opno15",
+        "cNOserial15",
+        "dated15",
+        "copiesreceived15",
+        "encl15",
+        "copiesofenclosurerecd15",
+        "printednamesignatureanddate15"
+      ]
+    }
+  ],
+  "fields": {
+    "internalsecretmailreceipt": {
+      "type": "text",
+      "label": "Enter the internal secret mail receipt.",
+      "page": 1,
+      "box": {
+        "left": 266.7,
+        "top": 540.4,
+        "width": 445.3,
+        "height": 16.9
+      }
+    },
+    "headmailandfilesbranch": {
+      "type": "text",
+      "label": "Enter the head, mail and files branch.",
+      "page": 1,
+      "box": {
+        "left": 266.7,
+        "top": 522.2,
+        "width": 445.3,
+        "height": 16.9
+      }
+    },
+    "opno1": {
+      "type": "text",
+      "label": "This is row 1 of 15. Enter the OP. number.",
+      "page": 1,
+      "box": {
+        "left": 79.4,
+        "top": 479.8,
+        "width": 54.9,
+        "height": 26.4
+      }
+    },
+    "cNOserial1": {
+      "type": "text",
+      "label": "Enter the CNO serial.",
+      "page": 1,
+      "box": {
+        "left": 136.4,
+        "top": 479.8,
+        "width": 73.8,
+        "height": 26.4
+      }
+    },
+    "dated1": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 212.0,
+        "top": 479.8,
+        "width": 82.7,
+        "height": 26.4
+      }
+    },
+    "copiesreceived1": {
+      "type": "text",
+      "label": "Enter the copies received.",
+      "page": 1,
+      "box": {
+        "left": 297.5,
+        "top": 479.8,
+        "width": 72.3,
+        "height": 26.4
+      }
+    },
+    "encl1": {
+      "type": "text",
+      "label": "Enter the ENCL.",
+      "page": 1,
+      "box": {
+        "left": 372.1,
+        "top": 479.8,
+        "width": 69.7,
+        "height": 26.4
+      }
+    },
+    "copiesofenclosurerecd1": {
+      "type": "text",
+      "label": "Enter the copies of enclosure received.",
+      "page": 1,
+      "box": {
+        "left": 444.1,
+        "top": 479.8,
+        "width": 100.4,
+        "height": 26.4
+      }
+    },
+    "printednamesignatureanddate1": {
+      "type": "text",
+      "label": "Enter the printed name, signature and date.",
+      "page": 1,
+      "box": {
+        "left": 545.9,
+        "top": 479.8,
+        "width": 82.6,
+        "height": 26.4
+      }
+    },
+    "datea": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 631.3,
+        "top": 478.5,
+        "width": 80.9,
+        "height": 24.0
+      }
+    },
+    "opno2": {
+      "type": "text",
+      "label": "This is row 1 of 15. Enter the OP. number.",
+      "page": 1,
+      "box": {
+        "left": 79.4,
+        "top": 451.2,
+        "width": 54.9,
+        "height": 24.8
+      }
+    },
+    "cNOserial2": {
+      "type": "text",
+      "label": "Enter the CNO serial.",
+      "page": 1,
+      "box": {
+        "left": 136.4,
+        "top": 451.2,
+        "width": 73.8,
+        "height": 24.8
+      }
+    },
+    "dated2": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 212.0,
+        "top": 451.2,
+        "width": 82.7,
+        "height": 24.8
+      }
+    },
+    "copiesreceived2": {
+      "type": "text",
+      "label": "Enter the copies received.",
+      "page": 1,
+      "box": {
+        "left": 297.5,
+        "top": 451.2,
+        "width": 72.3,
+        "height": 24.8
+      }
+    },
+    "encl2": {
+      "type": "text",
+      "label": "Enter the ENCL.",
+      "page": 1,
+      "box": {
+        "left": 372.1,
+        "top": 451.2,
+        "width": 69.7,
+        "height": 24.8
+      }
+    },
+    "copiesofenclosurerecd2": {
+      "type": "text",
+      "label": "Enter the copies of enclosure received.",
+      "page": 1,
+      "box": {
+        "left": 444.1,
+        "top": 451.2,
+        "width": 100.4,
+        "height": 24.8
+      }
+    },
+    "printednamesignatureanddate2": {
+      "type": "text",
+      "label": "Enter the printed name, signature and date.",
+      "page": 1,
+      "box": {
+        "left": 545.9,
+        "top": 451.2,
+        "width": 82.6,
+        "height": 24.8
+      }
+    },
+    "dateb": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 631.3,
+        "top": 450.3,
+        "width": 80.9,
+        "height": 24.0
+      }
+    },
+    "opno3": {
+      "type": "text",
+      "label": "This is row 1 of 15. Enter the OP. number.",
+      "page": 1,
+      "box": {
+        "left": 79.4,
+        "top": 424.1,
+        "width": 54.9,
+        "height": 25.3
+      }
+    },
+    "cNOserial3": {
+      "type": "text",
+      "label": "Enter the CNO serial.",
+      "page": 1,
+      "box": {
+        "left": 136.4,
+        "top": 424.1,
+        "width": 73.8,
+        "height": 25.3
+      }
+    },
+    "dated3": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 212.0,
+        "top": 424.1,
+        "width": 82.7,
+        "height": 25.3
+      }
+    },
+    "copiesreceived3": {
+      "type": "text",
+      "label": "Enter the copies received.",
+      "page": 1,
+      "box": {
+        "left": 297.5,
+        "top": 424.1,
+        "width": 72.3,
+        "height": 25.3
+      }
+    },
+    "encl3": {
+      "type": "text",
+      "label": "Enter the ENCL.",
+      "page": 1,
+      "box": {
+        "left": 372.1,
+        "top": 424.1,
+        "width": 69.7,
+        "height": 25.3
+      }
+    },
+    "copiesofenclosurerecd3": {
+      "type": "text",
+      "label": "Enter the copies of enclosure received.",
+      "page": 1,
+      "box": {
+        "left": 444.1,
+        "top": 424.1,
+        "width": 100.4,
+        "height": 25.3
+      }
+    },
+    "printednamesignatureanddate3": {
+      "type": "text",
+      "label": "Enter the printed name, signature and date.",
+      "page": 1,
+      "box": {
+        "left": 545.9,
+        "top": 424.1,
+        "width": 82.6,
+        "height": 25.3
+      }
+    },
+    "datec": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 631.3,
+        "top": 423.2,
+        "width": 80.9,
+        "height": 24.0
+      }
+    },
+    "opno4": {
+      "type": "text",
+      "label": "This is row 1 of 15. Enter the OP. number.",
+      "page": 1,
+      "box": {
+        "left": 79.4,
+        "top": 397.0,
+        "width": 54.9,
+        "height": 25.3
+      }
+    },
+    "cNOserial4": {
+      "type": "text",
+      "label": "Enter the CNO serial.",
+      "page": 1,
+      "box": {
+        "left": 136.4,
+        "top": 397.0,
+        "width": 73.8,
+        "height": 25.3
+      }
+    },
+    "dated4": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 212.0,
+        "top": 397.0,
+        "width": 82.7,
+        "height": 25.3
+      }
+    },
+    "copiesreceived4": {
+      "type": "text",
+      "label": "Enter the copies received.",
+      "page": 1,
+      "box": {
+        "left": 297.5,
+        "top": 397.0,
+        "width": 72.3,
+        "height": 25.3
+      }
+    },
+    "encl4": {
+      "type": "text",
+      "label": "Enter the ENCL.",
+      "page": 1,
+      "box": {
+        "left": 372.1,
+        "top": 397.0,
+        "width": 69.7,
+        "height": 25.3
+      }
+    },
+    "copiesofenclosurerecd4": {
+      "type": "text",
+      "label": "Enter the copies of enclosure received.",
+      "page": 1,
+      "box": {
+        "left": 444.1,
+        "top": 397.0,
+        "width": 100.4,
+        "height": 25.3
+      }
+    },
+    "printednamesignatureanddate4": {
+      "type": "text",
+      "label": "Enter the printed name, signature and date.",
+      "page": 1,
+      "box": {
+        "left": 545.9,
+        "top": 397.0,
+        "width": 82.6,
+        "height": 25.3
+      }
+    },
+    "dated": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 631.3,
+        "top": 396.0,
+        "width": 80.9,
+        "height": 24.0
+      }
+    },
+    "opno5": {
+      "type": "text",
+      "label": "This is row 1 of 15. Enter the OP. number.",
+      "page": 1,
+      "box": {
+        "left": 79.4,
+        "top": 369.8,
+        "width": 54.9,
+        "height": 25.8
+      }
+    },
+    "cNOserial5": {
+      "type": "text",
+      "label": "Enter the CNO serial.",
+      "page": 1,
+      "box": {
+        "left": 136.4,
+        "top": 369.8,
+        "width": 73.8,
+        "height": 25.8
+      }
+    },
+    "dated5": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 212.0,
+        "top": 369.8,
+        "width": 82.7,
+        "height": 25.8
+      }
+    },
+    "copiesreceived5": {
+      "type": "text",
+      "label": "Enter the copies received.",
+      "page": 1,
+      "box": {
+        "left": 297.5,
+        "top": 369.8,
+        "width": 72.3,
+        "height": 25.8
+      }
+    },
+    "encl5": {
+      "type": "text",
+      "label": "Enter the ENCL.",
+      "page": 1,
+      "box": {
+        "left": 372.1,
+        "top": 369.8,
+        "width": 69.7,
+        "height": 25.8
+      }
+    },
+    "copiesofenclosurerecd5": {
+      "type": "text",
+      "label": "Enter the copies of enclosure received.",
+      "page": 1,
+      "box": {
+        "left": 444.1,
+        "top": 369.8,
+        "width": 100.4,
+        "height": 25.8
+      }
+    },
+    "printednamesignatureanddate5": {
+      "type": "text",
+      "label": "Enter the printed name, signature and date.",
+      "page": 1,
+      "box": {
+        "left": 545.9,
+        "top": 369.8,
+        "width": 82.6,
+        "height": 25.8
+      }
+    },
+    "datee": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 631.3,
+        "top": 368.9,
+        "width": 80.9,
+        "height": 24.0
+      }
+    },
+    "opno6": {
+      "type": "text",
+      "label": "This is row 1 of 15. Enter the OP. number.",
+      "page": 1,
+      "box": {
+        "left": 79.4,
+        "top": 342.2,
+        "width": 54.9,
+        "height": 25.3
+      }
+    },
+    "cNOserial6": {
+      "type": "text",
+      "label": "Enter the CNO serial.",
+      "page": 1,
+      "box": {
+        "left": 136.4,
+        "top": 342.2,
+        "width": 73.8,
+        "height": 25.3
+      }
+    },
+    "dated6": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 212.0,
+        "top": 342.2,
+        "width": 82.7,
+        "height": 25.3
+      }
+    },
+    "copiesreceived6": {
+      "type": "text",
+      "label": "Enter the copies received.",
+      "page": 1,
+      "box": {
+        "left": 297.5,
+        "top": 342.2,
+        "width": 72.3,
+        "height": 25.3
+      }
+    },
+    "encl6": {
+      "type": "text",
+      "label": "Enter the ENCL.",
+      "page": 1,
+      "box": {
+        "left": 372.1,
+        "top": 342.2,
+        "width": 69.7,
+        "height": 25.3
+      }
+    },
+    "copiesofenclosurerecd6": {
+      "type": "text",
+      "label": "Enter the copies of enclosure received.",
+      "page": 1,
+      "box": {
+        "left": 444.1,
+        "top": 342.2,
+        "width": 100.4,
+        "height": 25.3
+      }
+    },
+    "printednamesignatureanddate6": {
+      "type": "text",
+      "label": "Enter the printed name, signature and date.",
+      "page": 1,
+      "box": {
+        "left": 545.9,
+        "top": 342.2,
+        "width": 82.6,
+        "height": 25.3
+      }
+    },
+    "datef": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 631.3,
+        "top": 341.3,
+        "width": 80.9,
+        "height": 24.0
+      }
+    },
+    "opno7": {
+      "type": "text",
+      "label": "This is row 1 of 15. Enter the OP. number.",
+      "page": 1,
+      "box": {
+        "left": 79.4,
+        "top": 315.1,
+        "width": 54.9,
+        "height": 25.3
+      }
+    },
+    "cNOserial7": {
+      "type": "text",
+      "label": "Enter the CNO serial.",
+      "page": 1,
+      "box": {
+        "left": 136.4,
+        "top": 315.1,
+        "width": 73.8,
+        "height": 25.3
+      }
+    },
+    "dated7": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 212.0,
+        "top": 315.1,
+        "width": 82.7,
+        "height": 25.3
+      }
+    },
+    "copiesreceived7": {
+      "type": "text",
+      "label": "Enter the copies received.",
+      "page": 1,
+      "box": {
+        "left": 297.5,
+        "top": 315.1,
+        "width": 72.3,
+        "height": 25.3
+      }
+    },
+    "encl7": {
+      "type": "text",
+      "label": "Enter the ENCL.",
+      "page": 1,
+      "box": {
+        "left": 372.1,
+        "top": 315.1,
+        "width": 69.7,
+        "height": 25.3
+      }
+    },
+    "copiesofenclosurerecd7": {
+      "type": "text",
+      "label": "Enter the copies of enclosure received.",
+      "page": 1,
+      "box": {
+        "left": 444.1,
+        "top": 315.1,
+        "width": 100.4,
+        "height": 25.3
+      }
+    },
+    "printednamesignatureanddate7": {
+      "type": "text",
+      "label": "Enter the printed name, signature and date.",
+      "page": 1,
+      "box": {
+        "left": 545.9,
+        "top": 315.1,
+        "width": 82.6,
+        "height": 25.3
+      }
+    },
+    "dateg": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 631.3,
+        "top": 314.1,
+        "width": 80.9,
+        "height": 24.0
+      }
+    },
+    "opno8": {
+      "type": "text",
+      "label": "This is row 1 of 15. Enter the OP. number.",
+      "page": 1,
+      "box": {
+        "left": 79.4,
+        "top": 287.9,
+        "width": 54.9,
+        "height": 25.8
+      }
+    },
+    "cNOserial8": {
+      "type": "text",
+      "label": "Enter the CNO serial.",
+      "page": 1,
+      "box": {
+        "left": 136.4,
+        "top": 287.9,
+        "width": 73.8,
+        "height": 25.8
+      }
+    },
+    "dated8": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 212.0,
+        "top": 287.9,
+        "width": 82.7,
+        "height": 25.8
+      }
+    },
+    "copiesreceived8": {
+      "type": "text",
+      "label": "Enter the copies received.",
+      "page": 1,
+      "box": {
+        "left": 297.5,
+        "top": 287.9,
+        "width": 72.3,
+        "height": 25.8
+      }
+    },
+    "encl8": {
+      "type": "text",
+      "label": "Enter the ENCL.",
+      "page": 1,
+      "box": {
+        "left": 372.1,
+        "top": 287.9,
+        "width": 69.7,
+        "height": 25.8
+      }
+    },
+    "copiesofenclosurerecd8": {
+      "type": "text",
+      "label": "Enter the copies of enclosure received.",
+      "page": 1,
+      "box": {
+        "left": 444.1,
+        "top": 287.9,
+        "width": 100.4,
+        "height": 25.8
+      }
+    },
+    "printednamesignatureanddate8": {
+      "type": "text",
+      "label": "Enter the printed name, signature and date.",
+      "page": 1,
+      "box": {
+        "left": 545.9,
+        "top": 287.9,
+        "width": 82.6,
+        "height": 25.8
+      }
+    },
+    "dateh": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 631.3,
+        "top": 286.5,
+        "width": 80.9,
+        "height": 24.0
+      }
+    },
+    "opno9": {
+      "type": "text",
+      "label": "This is row 1 of 15. Enter the OP. number.",
+      "page": 1,
+      "box": {
+        "left": 79.4,
+        "top": 260.3,
+        "width": 54.9,
+        "height": 25.3
+      }
+    },
+    "cNOserial9": {
+      "type": "text",
+      "label": "Enter the CNO serial.",
+      "page": 1,
+      "box": {
+        "left": 136.4,
+        "top": 260.3,
+        "width": 73.8,
+        "height": 25.3
+      }
+    },
+    "dated9": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 212.0,
+        "top": 260.3,
+        "width": 82.7,
+        "height": 25.3
+      }
+    },
+    "copiesreceived9": {
+      "type": "text",
+      "label": "Enter the copies received.",
+      "page": 1,
+      "box": {
+        "left": 297.5,
+        "top": 260.3,
+        "width": 72.3,
+        "height": 25.3
+      }
+    },
+    "encl9": {
+      "type": "text",
+      "label": "Enter the ENCL.",
+      "page": 1,
+      "box": {
+        "left": 372.1,
+        "top": 260.3,
+        "width": 69.7,
+        "height": 25.3
+      }
+    },
+    "copiesofenclosurerecd9": {
+      "type": "text",
+      "label": "Enter the copies of enclosure received.",
+      "page": 1,
+      "box": {
+        "left": 444.1,
+        "top": 260.3,
+        "width": 100.4,
+        "height": 25.3
+      }
+    },
+    "printednamesignatureanddate9": {
+      "type": "text",
+      "label": "Enter the printed name, signature and date.",
+      "page": 1,
+      "box": {
+        "left": 545.9,
+        "top": 260.3,
+        "width": 82.6,
+        "height": 25.3
+      }
+    },
+    "datei": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 631.3,
+        "top": 259.4,
+        "width": 80.9,
+        "height": 24.0
+      }
+    },
+    "opno10": {
+      "type": "text",
+      "label": "This is row 1 of 15. Enter the OP. number.",
+      "page": 1,
+      "box": {
+        "left": 79.4,
+        "top": 233.1,
+        "width": 54.9,
+        "height": 25.8
+      }
+    },
+    "cNOserial10": {
+      "type": "text",
+      "label": "Enter the CNO serial.",
+      "page": 1,
+      "box": {
+        "left": 136.4,
+        "top": 233.1,
+        "width": 73.8,
+        "height": 25.8
+      }
+    },
+    "dated10": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 212.0,
+        "top": 233.1,
+        "width": 82.7,
+        "height": 25.8
+      }
+    },
+    "copiesreceived10": {
+      "type": "text",
+      "label": "Enter the copies received.",
+      "page": 1,
+      "box": {
+        "left": 297.5,
+        "top": 233.1,
+        "width": 72.3,
+        "height": 25.8
+      }
+    },
+    "encl10": {
+      "type": "text",
+      "label": "Enter the ENCL.",
+      "page": 1,
+      "box": {
+        "left": 372.1,
+        "top": 233.1,
+        "width": 69.7,
+        "height": 25.8
+      }
+    },
+    "copiesofenclosurerecd10": {
+      "type": "text",
+      "label": "Enter the copies of enclosure received.",
+      "page": 1,
+      "box": {
+        "left": 444.1,
+        "top": 233.1,
+        "width": 100.4,
+        "height": 25.8
+      }
+    },
+    "printednamesignatureanddate10": {
+      "type": "text",
+      "label": "Enter the printed name, signature and date.",
+      "page": 1,
+      "box": {
+        "left": 545.9,
+        "top": 233.1,
+        "width": 82.6,
+        "height": 25.8
+      }
+    },
+    "datej": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 631.3,
+        "top": 232.2,
+        "width": 80.9,
+        "height": 24.0
+      }
+    },
+    "opno11": {
+      "type": "text",
+      "label": "This is row 1 of 15. Enter the OP. number.",
+      "page": 1,
+      "box": {
+        "left": 79.4,
+        "top": 205.5,
+        "width": 54.9,
+        "height": 25.3
+      }
+    },
+    "cNOserial11": {
+      "type": "text",
+      "label": "Enter the CNO serial.",
+      "page": 1,
+      "box": {
+        "left": 136.4,
+        "top": 205.5,
+        "width": 73.8,
+        "height": 25.3
+      }
+    },
+    "dated11": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 212.0,
+        "top": 205.5,
+        "width": 82.7,
+        "height": 25.3
+      }
+    },
+    "copiesreceived11": {
+      "type": "text",
+      "label": "Enter the copies received.",
+      "page": 1,
+      "box": {
+        "left": 297.5,
+        "top": 205.5,
+        "width": 72.3,
+        "height": 25.3
+      }
+    },
+    "encl11": {
+      "type": "text",
+      "label": "Enter the ENCL.",
+      "page": 1,
+      "box": {
+        "left": 372.1,
+        "top": 205.5,
+        "width": 69.7,
+        "height": 25.3
+      }
+    },
+    "copiesofenclosurerecd11": {
+      "type": "text",
+      "label": "Enter the copies of enclosure received.",
+      "page": 1,
+      "box": {
+        "left": 444.1,
+        "top": 205.5,
+        "width": 100.4,
+        "height": 25.3
+      }
+    },
+    "printednamesignatureanddate11": {
+      "type": "text",
+      "label": "Enter the printed name, signature and date.",
+      "page": 1,
+      "box": {
+        "left": 545.9,
+        "top": 205.5,
+        "width": 82.6,
+        "height": 25.3
+      }
+    },
+    "datek": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 631.3,
+        "top": 205.1,
+        "width": 80.9,
+        "height": 24.0
+      }
+    },
+    "opno12": {
+      "type": "text",
+      "label": "This is row 1 of 15. Enter the OP. number.",
+      "page": 1,
+      "box": {
+        "left": 79.4,
+        "top": 178.4,
+        "width": 54.9,
+        "height": 25.8
+      }
+    },
+    "cNOserial12": {
+      "type": "text",
+      "label": "Enter the CNO serial.",
+      "page": 1,
+      "box": {
+        "left": 136.4,
+        "top": 178.4,
+        "width": 73.8,
+        "height": 25.8
+      }
+    },
+    "dated12": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 212.0,
+        "top": 178.4,
+        "width": 82.7,
+        "height": 25.8
+      }
+    },
+    "copiesreceived12": {
+      "type": "text",
+      "label": "Enter the copies received.",
+      "page": 1,
+      "box": {
+        "left": 297.5,
+        "top": 178.4,
+        "width": 72.3,
+        "height": 25.8
+      }
+    },
+    "encl12": {
+      "type": "text",
+      "label": "Enter the ENCL.",
+      "page": 1,
+      "box": {
+        "left": 372.1,
+        "top": 178.4,
+        "width": 69.7,
+        "height": 25.8
+      }
+    },
+    "copiesofenclosurerecd12": {
+      "type": "text",
+      "label": "Enter the copies of enclosure received.",
+      "page": 1,
+      "box": {
+        "left": 444.1,
+        "top": 178.4,
+        "width": 100.4,
+        "height": 25.8
+      }
+    },
+    "printednamesignatureanddate12": {
+      "type": "text",
+      "label": "Enter the printed name, signature and date.",
+      "page": 1,
+      "box": {
+        "left": 545.9,
+        "top": 178.4,
+        "width": 82.6,
+        "height": 25.8
+      }
+    },
+    "datel": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 631.3,
+        "top": 178.0,
+        "width": 80.9,
+        "height": 23.5
+      }
+    },
+    "opno13": {
+      "type": "text",
+      "label": "This is row 1 of 15. Enter the OP. number.",
+      "page": 1,
+      "box": {
+        "left": 79.4,
+        "top": 150.7,
+        "width": 54.9,
+        "height": 25.3
+      }
+    },
+    "cNOserial13": {
+      "type": "text",
+      "label": "Enter the CNO serial.",
+      "page": 1,
+      "box": {
+        "left": 136.4,
+        "top": 150.7,
+        "width": 73.8,
+        "height": 25.3
+      }
+    },
+    "dated13": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 212.0,
+        "top": 150.7,
+        "width": 82.7,
+        "height": 25.3
+      }
+    },
+    "copiesreceived13": {
+      "type": "text",
+      "label": "Enter the copies received.",
+      "page": 1,
+      "box": {
+        "left": 297.5,
+        "top": 150.7,
+        "width": 72.3,
+        "height": 25.3
+      }
+    },
+    "encl13": {
+      "type": "text",
+      "label": "Enter the ENCL.",
+      "page": 1,
+      "box": {
+        "left": 372.1,
+        "top": 150.7,
+        "width": 69.7,
+        "height": 25.3
+      }
+    },
+    "copiesofenclosurerecd13": {
+      "type": "text",
+      "label": "Enter the copies of enclosure received.",
+      "page": 1,
+      "box": {
+        "left": 444.1,
+        "top": 150.7,
+        "width": 100.4,
+        "height": 25.3
+      }
+    },
+    "printednamesignatureanddate13": {
+      "type": "text",
+      "label": "Enter the printed name, signature and date.",
+      "page": 1,
+      "box": {
+        "left": 545.9,
+        "top": 150.7,
+        "width": 82.6,
+        "height": 25.3
+      }
+    },
+    "datem": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 631.3,
+        "top": 150.3,
+        "width": 80.9,
+        "height": 24.0
+      }
+    },
+    "opno14": {
+      "type": "text",
+      "label": "This is row 1 of 15. Enter the OP. number.",
+      "page": 1,
+      "box": {
+        "left": 79.4,
+        "top": 124.1,
+        "width": 54.9,
+        "height": 24.6
+      }
+    },
+    "cNOserial14": {
+      "type": "text",
+      "label": "Enter the CNO serial.",
+      "page": 1,
+      "box": {
+        "left": 136.4,
+        "top": 124.1,
+        "width": 73.8,
+        "height": 24.6
+      }
+    },
+    "dated14": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 212.0,
+        "top": 124.1,
+        "width": 82.7,
+        "height": 24.6
+      }
+    },
+    "copiesreceived14": {
+      "type": "text",
+      "label": "Enter the copies received.",
+      "page": 1,
+      "box": {
+        "left": 297.5,
+        "top": 124.1,
+        "width": 72.3,
+        "height": 24.6
+      }
+    },
+    "encl14": {
+      "type": "text",
+      "label": "Enter the ENCL.",
+      "page": 1,
+      "box": {
+        "left": 372.1,
+        "top": 124.1,
+        "width": 69.7,
+        "height": 24.6
+      }
+    },
+    "copiesofenclosurerecd14": {
+      "type": "text",
+      "label": "Enter the copies of enclosure received.",
+      "page": 1,
+      "box": {
+        "left": 444.1,
+        "top": 124.1,
+        "width": 100.4,
+        "height": 24.6
+      }
+    },
+    "printednamesignatureanddate14": {
+      "type": "text",
+      "label": "Enter the printed name, signature and date.",
+      "page": 1,
+      "box": {
+        "left": 545.9,
+        "top": 124.1,
+        "width": 82.6,
+        "height": 24.6
+      }
+    },
+    "daten": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 631.3,
+        "top": 123.2,
+        "width": 80.9,
+        "height": 24.0
+      }
+    },
+    "dateo": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 631.3,
+        "top": 96.1,
+        "width": 80.9,
+        "height": 24.0
+      }
+    },
+    "opno15": {
+      "type": "text",
+      "label": "This is row 1 of 15. Enter the OP. number.",
+      "page": 1,
+      "box": {
+        "left": 79.4,
+        "top": 95.7,
+        "width": 54.9,
+        "height": 24.5
+      }
+    },
+    "cNOserial15": {
+      "type": "text",
+      "label": "Enter the CNO serial.",
+      "page": 1,
+      "box": {
+        "left": 136.4,
+        "top": 95.7,
+        "width": 73.8,
+        "height": 24.5
+      }
+    },
+    "dated15": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 212.0,
+        "top": 95.7,
+        "width": 82.7,
+        "height": 24.5
+      }
+    },
+    "copiesreceived15": {
+      "type": "text",
+      "label": "Enter the copies received.",
+      "page": 1,
+      "box": {
+        "left": 297.5,
+        "top": 95.7,
+        "width": 72.3,
+        "height": 24.5
+      }
+    },
+    "encl15": {
+      "type": "text",
+      "label": "Enter the ENCL.",
+      "page": 1,
+      "box": {
+        "left": 372.1,
+        "top": 95.7,
+        "width": 69.7,
+        "height": 24.5
+      }
+    },
+    "copiesofenclosurerecd15": {
+      "type": "text",
+      "label": "Enter the copies of enclosure received.",
+      "page": 1,
+      "box": {
+        "left": 444.1,
+        "top": 95.7,
+        "width": 100.4,
+        "height": 24.5
+      }
+    },
+    "printednamesignatureanddate15": {
+      "type": "text",
+      "label": "Enter the printed name, signature and date.",
+      "page": 1,
+      "box": {
+        "left": 545.9,
+        "top": 95.7,
+        "width": 82.6,
+        "height": 24.5
+      }
+    }
+  }
+}

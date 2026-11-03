@@ -1,0 +1,337 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "frnDte": {
+        "left": 474.0,
+        "top": 654.2,
+        "width": 69.7,
+        "height": 15.0,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "frSecCor": {
+        "left": 157.5,
+        "top": 633.1,
+        "width": 194.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "and is to be treated in a confidential manner. Privacy Act",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nCde": {
+        "left": 420.8,
+        "top": 633.1,
+        "width": 84.0,
+        "height": 18.0,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rmNum": {
+        "left": 441.7,
+        "top": 598.2,
+        "width": 89.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ratRnkGde": {
+        "left": 254.2,
+        "top": 597.7,
+        "width": 89.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "confidential manner. Privacy Act",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "offPhn": {
+        "left": 347.2,
+        "top": 597.7,
+        "width": 89.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "N-Code",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "subNme": {
+        "left": 78.7,
+        "top": 597.1,
+        "width": 172.5,
+        "height": 18.0,
+        "type": "text",
+        "description": "Security Coordinator",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "bSCNbr": {
+        "left": 78.0,
+        "top": 568.2,
+        "width": 172.5,
+        "height": 18.0,
+        "type": "text",
+        "description": "Last, First, MI",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pDNbr": {
+        "left": 264.5,
+        "top": 568.2,
+        "width": 172.5,
+        "height": 18.0,
+        "type": "text",
+        "description": "Rate/Rank/Grade Office Phone",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ts": {
+        "left": 104.1,
+        "top": 487.3,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "that",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sect": {
+        "left": 198.7,
+        "top": 487.3,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Top Secret",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "conf": {
+        "left": 293.2,
+        "top": 487.3,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Secret",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "clrce": {
+        "left": 388.7,
+        "top": 487.3,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Confidential",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sCIYes": {
+        "left": 162.7,
+        "top": 473.0,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "b. SCI Access",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sCINo": {
+        "left": 212.6,
+        "top": 473.0,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Yes",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "iLOSig": {
+        "left": 392.9,
+        "top": 466.6,
+        "width": 127.7,
+        "height": 20.7,
+        "type": "text",
+        "description": "No Clearance",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "bilNbr": {
+        "left": 186.9,
+        "top": 461.1,
+        "width": 109.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "If Yes",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sSOSig": {
+        "left": 441.7,
+        "top": 440.3,
+        "width": 111.2,
+        "height": 20.7,
+        "type": "text",
+        "description": "Clearance",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "tSDte": {
+        "left": 200.5,
+        "top": 431.8,
+        "width": 53.2,
+        "height": 15.0,
+        "type": "text",
+        "description": "For CNO/SSO Only: TS Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sBIDte": {
+        "left": 300.1,
+        "top": 431.8,
+        "width": 53.2,
+        "height": 15.0,
+        "type": "text",
+        "description": "SBI Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cNYes": {
+        "left": 428.1,
+        "top": 404.2,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "c. Critical Nuclear Weapons Design Information (CNWDI)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cNNo": {
+        "left": 476.9,
+        "top": 404.2,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Yes",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sIYes": {
+        "left": 428.1,
+        "top": 390.0,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sINo": {
+        "left": 476.9,
+        "top": 390.0,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Yes",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nSYes": {
+        "left": 428.1,
+        "top": 375.7,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "e. NATO Secret",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nSNo": {
+        "left": 476.9,
+        "top": 375.7,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Yes",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sCSig": {
+        "left": 326.9,
+        "top": 236.6,
+        "width": 164.6,
+        "height": 26.6,
+        "type": "text",
+        "description": "internal directorate security procedures in accordance",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "yrSecCor": {
+        "left": 159.1,
+        "top": 172.0,
+        "width": 139.0,
+        "height": 18.0,
+        "type": "text",
+        "description": "series",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "astCor": {
+        "left": 431.6,
+        "top": 172.0,
+        "width": 137.1,
+        "height": 18.0,
+        "type": "text",
+        "description": "Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

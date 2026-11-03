@@ -1,0 +1,7446 @@
+{
+  "id": "opnav310022",
+  "label": "OPNAV3100-22 - Submarine Radar Log",
+  "directory": "OPNAV3100-22 - Submarine Radar Log",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "shipname",
+        "class",
+        "handle",
+        "shiptypeA",
+        "shiptypeB",
+        "shiptypeC",
+        "shiptypeD",
+        "hullNOa",
+        "hullNOb",
+        "hullNOc",
+        "hullNOd",
+        "sheetserialA",
+        "sheetserialB",
+        "year",
+        "monthA",
+        "monthB",
+        "zone",
+        "dayA",
+        "dayB",
+        "timeHR18A",
+        "timeHR19A",
+        "timeMIN20A",
+        "timeMIN21A",
+        "timeSECaA",
+        "timeSECbA",
+        "event23A",
+        "event24A",
+        "event25A",
+        "event26A",
+        "event27A",
+        "rangescale30A",
+        "rangescale31A",
+        "rangescale32A",
+        "contactNO33A",
+        "contactNO34A",
+        "contactNO35A",
+        "contactNO36A",
+        "contactbearing37A",
+        "contactbearing38A",
+        "contactbearing39A",
+        "contactrange40A",
+        "contactrange41A",
+        "contactrange42A",
+        "contactrange43A",
+        "contactrange44A",
+        "contactrange45A",
+        "remarksA",
+        "scanCIRa",
+        "scanSECa",
+        "timeHR18B",
+        "timeHR19B",
+        "timeMIN20B",
+        "timeMIN21B",
+        "timeSECaB",
+        "timeSECbB",
+        "event23B",
+        "event24B",
+        "event25B",
+        "event26B",
+        "event27B",
+        "rangescale30B",
+        "rangescale31B",
+        "rangescale32B",
+        "contactNO33B",
+        "contactNO34B",
+        "contactNO35B",
+        "contactNO36B",
+        "contactbearing37B",
+        "contactbearing38B",
+        "contactbearing39B",
+        "contactrange40B",
+        "contactrange41B",
+        "contactrange42B",
+        "contactrange43B",
+        "contactrange44B",
+        "contactrange45B",
+        "remarksB",
+        "scanCIRb",
+        "scanSECb",
+        "timeHR18C",
+        "timeHR19C",
+        "timeMIN20C",
+        "timeMIN21C",
+        "timeSECaC",
+        "timeSECbC",
+        "event23C",
+        "event24C",
+        "event25C",
+        "event26C",
+        "event27C",
+        "rangescale30C",
+        "rangescale31C",
+        "rangescale32C",
+        "contactNO33C",
+        "contactNO34C",
+        "contactNO35C",
+        "contactNO36C",
+        "contactbearing37C",
+        "contactbearing38C",
+        "contactbearing39C",
+        "contactrange40C",
+        "contactrange41C",
+        "contactrange42C",
+        "contactrange43C",
+        "contactrange44C",
+        "contactrange45C",
+        "remarksC",
+        "scanCIRc",
+        "scanSECc",
+        "timeHR18D",
+        "timeHR19D",
+        "timeMIN20D",
+        "timeMIN21D",
+        "timeSECaD",
+        "timeSECbD",
+        "event23D",
+        "event24D",
+        "event25D",
+        "event26D",
+        "event27D",
+        "rangescale30D",
+        "rangescale31D",
+        "rangescale32D",
+        "contactNO33D",
+        "contactNO34D",
+        "contactNO35D",
+        "contactNO36D",
+        "contactbearing37D",
+        "contactbearing38D",
+        "contactbearing39D",
+        "contactrange40D",
+        "contactrange41D",
+        "contactrange42D",
+        "contactrange43D",
+        "contactrange44D",
+        "contactrange45D",
+        "remarksD",
+        "scanCIRd",
+        "scanSECd",
+        "timeHR18E",
+        "timeHR19E",
+        "timeMIN20E",
+        "timeMIN21E",
+        "timeSECaE",
+        "timeSECbE",
+        "event23E",
+        "event24E",
+        "event25E",
+        "event26E",
+        "event27E",
+        "rangescale30E",
+        "rangescale31E",
+        "rangescale32E",
+        "contactNO33E",
+        "contactNO34E",
+        "contactNO35E",
+        "contactNO36E",
+        "contactbearing37E",
+        "contactbearing38E",
+        "contactbearing39E",
+        "contactrange40E",
+        "contactrange41E",
+        "contactrange42E",
+        "contactrange43E",
+        "contactrange44E",
+        "contactrange45E",
+        "remarksE",
+        "scanCIRe",
+        "scanSECe",
+        "timeHR18F",
+        "timeHR19F",
+        "timeMIN20F",
+        "timeMIN21F",
+        "timeSECaF",
+        "timeSECbF",
+        "event23F",
+        "event24F",
+        "event25F",
+        "event26F",
+        "event27F",
+        "rangescale30F",
+        "rangescale31F",
+        "rangescale32F",
+        "contactNO33F",
+        "contactNO34F",
+        "contactNO35F",
+        "contactNO36F",
+        "contactbearing37F",
+        "contactbearing38F",
+        "contactbearing39F",
+        "contactrange40F",
+        "contactrange41F",
+        "contactrange42F",
+        "contactrange43F",
+        "contactrange44F",
+        "contactrange45F",
+        "remarksF",
+        "scanCIRf",
+        "scanSECf",
+        "timeHR18G",
+        "timeHR19G",
+        "timeMIN20G",
+        "timeMIN21G",
+        "timeSECaG",
+        "timeSECbG",
+        "event23G",
+        "event24G",
+        "event25G",
+        "event26G",
+        "event27G",
+        "rangescale30G",
+        "rangescale31G",
+        "rangescale32G",
+        "contactNO33G",
+        "contactNO34G",
+        "contactNO35G",
+        "contactNO36G",
+        "contactbearing37G",
+        "contactbearing38G",
+        "contactbearing39G",
+        "contactrange40G",
+        "contactrange41G",
+        "contactrange42G",
+        "contactrange43G",
+        "contactrange44G",
+        "contactrange45G",
+        "remarksG",
+        "scanCIRg",
+        "scanSECg",
+        "timeHR18H",
+        "timeHR19H",
+        "timeMIN20H",
+        "timeMIN21H",
+        "timeSECaH",
+        "timeSECbH",
+        "event23H",
+        "event24H",
+        "event25H",
+        "event26H",
+        "event27H",
+        "rangescale30H",
+        "rangescale31H",
+        "rangescale32H",
+        "contactNO33H",
+        "contactNO34H",
+        "contactNO35H",
+        "contactNO36H",
+        "contactbearing37H",
+        "contactbearing38H",
+        "contactbearing39H",
+        "contactrange40H",
+        "contactrange41H",
+        "contactrange42H",
+        "contactrange43H",
+        "contactrange44H",
+        "contactrange45H",
+        "remarksH",
+        "scanCIRh",
+        "scanSECh",
+        "timeHR18I",
+        "timeHR19I",
+        "timeMIN20I",
+        "timeMIN21I",
+        "timeSECaI",
+        "timeSECbI",
+        "event23I",
+        "event24I",
+        "event25I",
+        "event26I",
+        "event27I",
+        "rangescale30I",
+        "rangescale31I",
+        "rangescale32I",
+        "contactNO33I",
+        "contactNO34I",
+        "contactNO35I",
+        "contactNO36I",
+        "contactbearing37I",
+        "contactbearing38I",
+        "contactbearing39I",
+        "contactrange40I",
+        "contactrange41I",
+        "contactrange42I",
+        "contactrange43I",
+        "contactrange44I",
+        "contactrange45I",
+        "remarksI",
+        "scanCIRi",
+        "scanSECi",
+        "timeHR18J",
+        "timeHR19J",
+        "timeMIN20J",
+        "timeMIN21J",
+        "timeSECaJ",
+        "timeSECbJ",
+        "event23J",
+        "event24J",
+        "event25J",
+        "event26J",
+        "event27J",
+        "rangescale30J",
+        "rangescale31J",
+        "rangescale32J",
+        "contactNO33J",
+        "contactNO34J",
+        "contactNO35J",
+        "contactNO36J",
+        "contactbearing37J",
+        "contactbearing38J",
+        "contactbearing39J",
+        "contactrange40J",
+        "contactrange41J",
+        "contactrange42J",
+        "contactrange43J",
+        "contactrange44J",
+        "contactrange45J",
+        "remarksJ",
+        "scanCIRj",
+        "scanSECj",
+        "timeHR18K",
+        "timeHR19K",
+        "timeMIN20K",
+        "timeMIN21K",
+        "timeSECaK",
+        "timeSECbK",
+        "event23K",
+        "event24K",
+        "event25K",
+        "event26K",
+        "event27K",
+        "rangescale30K",
+        "rangescale31K",
+        "rangescale32K",
+        "contactNO33K",
+        "contactNO34K",
+        "contactNO35K",
+        "contactNO36K",
+        "contactbearing37K",
+        "contactbearing38K",
+        "contactbearing39K",
+        "contactrange40K",
+        "contactrange41K",
+        "contactrange42K",
+        "contactrange43K",
+        "contactrange44K",
+        "contactrange45K",
+        "remarksK",
+        "scanCIRk",
+        "scanSECk",
+        "timeHR18L",
+        "timeHR19L",
+        "timeMIN20L",
+        "timeMIN21L",
+        "timeSECaL",
+        "timeSECbL",
+        "event23L",
+        "event24L",
+        "event25L",
+        "event26L",
+        "event27L",
+        "rangescale30L",
+        "rangescale31L",
+        "rangescale32L",
+        "contactNO33L",
+        "contactNO34L",
+        "contactNO35L",
+        "contactNO36L",
+        "contactbearing37L",
+        "contactbearing38L",
+        "contactbearing39L",
+        "contactrange40L",
+        "contactrange41L",
+        "contactrange42L",
+        "contactrange43L",
+        "contactrange44L",
+        "contactrange45L",
+        "remarksL",
+        "scanCIRl",
+        "scanSECl",
+        "timeHR18M",
+        "timeHR19M",
+        "timeMIN20M",
+        "timeMIN21M",
+        "timeSECaM",
+        "timeSECbM",
+        "event23M",
+        "event24M",
+        "event25M",
+        "event26M",
+        "event27M",
+        "rangescale30M",
+        "rangescale31M",
+        "rangescale32M",
+        "contactNO33M",
+        "contactNO34M",
+        "contactNO35M",
+        "contactNO36M",
+        "contactbearing37M",
+        "contactbearing38M",
+        "contactbearing39M",
+        "contactrange40M",
+        "contactrange41M",
+        "contactrange42M",
+        "contactrange43M",
+        "contactrange44M",
+        "contactrange45M",
+        "remarksM",
+        "scanCIRm",
+        "scanSECm",
+        "timeHR18N",
+        "timeHR19N",
+        "timeMIN20N",
+        "timeMIN21N",
+        "timeSECaN",
+        "timeSECbN",
+        "event23N",
+        "event24N",
+        "event25N",
+        "event26N",
+        "event27N",
+        "rangescale30N",
+        "rangescale31N",
+        "rangescale32N",
+        "contactNO33N",
+        "contactNO34N",
+        "contactNO35N",
+        "contactNO36N",
+        "contactbearing37N",
+        "contactbearing38N",
+        "contactbearing39N",
+        "contactrange40N",
+        "contactrange41N",
+        "contactrange42N",
+        "contactrange43N",
+        "contactrange44N",
+        "contactrange45N",
+        "remarksN",
+        "scanCIRn",
+        "scanSECn",
+        "timeHR18O",
+        "timeHR19O",
+        "timeMIN20O",
+        "timeMIN21O",
+        "timeSECaO",
+        "timeSECbO",
+        "event23O",
+        "event24O",
+        "event25O",
+        "event26O",
+        "event27O",
+        "rangescale30O",
+        "rangescale31O",
+        "rangescale32O",
+        "contactNO33O",
+        "contactNO34O",
+        "contactNO35O",
+        "contactNO36O",
+        "contactbearing37O",
+        "contactbearing38O",
+        "contactbearing39O",
+        "contactrange40O",
+        "contactrange41O",
+        "contactrange42O",
+        "contactrange43O",
+        "contactrange44O",
+        "contactrange45O",
+        "remarksO",
+        "scanCIRo",
+        "scanSECo",
+        "timeHR18P",
+        "timeHR19P",
+        "timeMIN20P",
+        "timeMIN21P",
+        "timeSECaP",
+        "timeSECbP",
+        "event23P",
+        "event24P",
+        "event25P",
+        "event26P",
+        "event27P",
+        "rangescale30P",
+        "rangescale31P",
+        "rangescale32P",
+        "contactNO33P",
+        "contactNO34P",
+        "contactNO35P",
+        "contactNO36P",
+        "contactbearing37P",
+        "contactbearing38P",
+        "contactbearing39P",
+        "contactrange40P",
+        "contactrange41P",
+        "contactrange42P",
+        "contactrange43P",
+        "contactrange44P",
+        "contactrange45P",
+        "remarksP",
+        "scanCIRp",
+        "scanSECp",
+        "timeHR18Q",
+        "timeHR19Q",
+        "timeMIN20Q",
+        "timeMIN21Q",
+        "timeSECaQ",
+        "timeSECbQ",
+        "event23Q",
+        "event24Q",
+        "event25Q",
+        "event26Q",
+        "event27Q",
+        "rangescale30Q",
+        "rangescale31Q",
+        "rangescale32Q",
+        "contactNO33Q",
+        "contactNO34Q",
+        "contactNO35Q",
+        "contactNO36Q",
+        "contactbearing37Q",
+        "contactbearing38Q",
+        "contactbearing39Q",
+        "contactrange40Q",
+        "contactrange41Q",
+        "contactrange42Q",
+        "contactrange43Q",
+        "contactrange44Q",
+        "contactrange45Q",
+        "remarksQ",
+        "scanCIRq",
+        "scanSECq",
+        "timeHR18R",
+        "timeHR19R",
+        "timeMIN20R",
+        "timeMIN21R",
+        "timeSECaR",
+        "timeSECbR",
+        "event23R",
+        "event24R",
+        "event25R",
+        "event26R",
+        "event27R",
+        "rangescale30R",
+        "rangescale31R",
+        "rangescale32R",
+        "contactNO33R",
+        "contactNO34R",
+        "contactNO35R",
+        "contactNO36R",
+        "contactbearing37R",
+        "contactbearing38R",
+        "contactbearing39R",
+        "contactrange40R",
+        "contactrange41R",
+        "contactrange42R",
+        "contactrange43R",
+        "contactrange44R",
+        "contactrange45R",
+        "remarksR",
+        "scanCIRr",
+        "scanSECr",
+        "timeHR18S",
+        "timeHR19S",
+        "timeMIN20S",
+        "timeMIN21S",
+        "timeSECaS",
+        "timeSECbS",
+        "event23S",
+        "event24S",
+        "event25S",
+        "event26S",
+        "event27S",
+        "rangescale30S",
+        "rangescale31S",
+        "rangescale32S",
+        "contactNO33S",
+        "contactNO34S",
+        "contactNO35S",
+        "contactNO36S",
+        "contactbearing37S",
+        "contactbearing38S",
+        "contactbearing39S",
+        "contactrange40S",
+        "contactrange41S",
+        "contactrange42S",
+        "contactrange43S",
+        "contactrange44S",
+        "contactrange45S",
+        "remarksS",
+        "scanCIRs",
+        "scanSECs",
+        "timeHR18T",
+        "timeHR19T",
+        "timeMIN20T",
+        "timeMIN21T",
+        "timeSECaT",
+        "timeSECbT",
+        "event23T",
+        "event24T",
+        "event25T",
+        "event26T",
+        "event27T",
+        "rangescale30T",
+        "rangescale31T",
+        "rangescale32T",
+        "contactNO33T",
+        "contactNO34T",
+        "contactNO35T",
+        "contactNO36T",
+        "contactbearing37T",
+        "contactbearing38T",
+        "contactbearing39T",
+        "contactrange40T",
+        "contactrange41T",
+        "contactrange42T",
+        "contactrange43T",
+        "contactrange44T",
+        "contactrange45T",
+        "remarksT",
+        "scanCIRt",
+        "scanSECt"
+      ]
+    }
+  ],
+  "fields": {
+    "shipname": {
+      "type": "text",
+      "label": "Enter the ship's name.",
+      "page": 1,
+      "box": {
+        "left": 330.0,
+        "top": 522.3,
+        "width": 304.7,
+        "height": 10.7
+      }
+    },
+    "class": {
+      "type": "text",
+      "label": "Enter the class.",
+      "page": 1,
+      "box": {
+        "left": 664.8,
+        "top": 498.1,
+        "width": 18.6,
+        "height": 13.1
+      }
+    },
+    "handle": {
+      "type": "text",
+      "label": "Enter the handle.",
+      "page": 1,
+      "box": {
+        "left": 685.2,
+        "top": 498.1,
+        "width": 20.1,
+        "height": 13.1
+      }
+    },
+    "shiptypeA": {
+      "type": "text",
+      "label": "Enter the ship type.",
+      "page": 1,
+      "box": {
+        "left": 67.9,
+        "top": 496.8,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "shiptypeB": {
+      "type": "text",
+      "label": "Enter the ship type.",
+      "page": 1,
+      "box": {
+        "left": 79.7,
+        "top": 496.8,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "shiptypeC": {
+      "type": "text",
+      "label": "Enter the ship type.",
+      "page": 1,
+      "box": {
+        "left": 91.4,
+        "top": 496.8,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "shiptypeD": {
+      "type": "text",
+      "label": "Enter the ship type.",
+      "page": 1,
+      "box": {
+        "left": 103.2,
+        "top": 496.8,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "hullNOa": {
+      "type": "text",
+      "label": "Enter the hull number.",
+      "page": 1,
+      "box": {
+        "left": 115.3,
+        "top": 496.8,
+        "width": 10.6,
+        "height": 13.1
+      }
+    },
+    "hullNOb": {
+      "type": "text",
+      "label": "Enter the hull number.",
+      "page": 1,
+      "box": {
+        "left": 127.2,
+        "top": 496.8,
+        "width": 10.6,
+        "height": 13.1
+      }
+    },
+    "hullNOc": {
+      "type": "text",
+      "label": "Enter the hull number.",
+      "page": 1,
+      "box": {
+        "left": 139.0,
+        "top": 496.8,
+        "width": 10.6,
+        "height": 13.1
+      }
+    },
+    "hullNOd": {
+      "type": "text",
+      "label": "Enter the hull number.",
+      "page": 1,
+      "box": {
+        "left": 150.9,
+        "top": 496.8,
+        "width": 10.6,
+        "height": 13.1
+      }
+    },
+    "sheetserialA": {
+      "type": "text",
+      "label": "Enter the sheet serial.",
+      "page": 1,
+      "box": {
+        "left": 173.7,
+        "top": 496.8,
+        "width": 11.3,
+        "height": 13.1
+      }
+    },
+    "sheetserialB": {
+      "type": "text",
+      "label": "Enter the sheet serial.",
+      "page": 1,
+      "box": {
+        "left": 186.3,
+        "top": 496.8,
+        "width": 11.3,
+        "height": 13.1
+      }
+    },
+    "year": {
+      "type": "text",
+      "label": "Enter the year.",
+      "page": 1,
+      "box": {
+        "left": 198.9,
+        "top": 496.8,
+        "width": 17.8,
+        "height": 13.1
+      }
+    },
+    "monthA": {
+      "type": "text",
+      "label": "Enter the month.",
+      "page": 1,
+      "box": {
+        "left": 218.2,
+        "top": 496.8,
+        "width": 11.2,
+        "height": 13.1
+      }
+    },
+    "monthB": {
+      "type": "text",
+      "label": "Enter the month.",
+      "page": 1,
+      "box": {
+        "left": 230.6,
+        "top": 496.8,
+        "width": 11.2,
+        "height": 13.1
+      }
+    },
+    "zone": {
+      "type": "text",
+      "label": "Enter the zone.",
+      "page": 1,
+      "box": {
+        "left": 243.1,
+        "top": 496.8,
+        "width": 18.7,
+        "height": 13.1
+      }
+    },
+    "dayA": {
+      "type": "text",
+      "label": "Enter the day.",
+      "page": 1,
+      "box": {
+        "left": 263.4,
+        "top": 496.8,
+        "width": 10.6,
+        "height": 13.1
+      }
+    },
+    "dayB": {
+      "type": "text",
+      "label": "Enter the day.",
+      "page": 1,
+      "box": {
+        "left": 275.3,
+        "top": 496.8,
+        "width": 10.6,
+        "height": 13.1
+      }
+    },
+    "timeHR18A": {
+      "type": "text",
+      "label": "This is row 1 of 20. Enter the time associated with this line entry. If significant, use the last two columns to \r\nrecord seconds.",
+      "page": 1,
+      "box": {
+        "left": 33.6,
+        "top": 402.0,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeHR19A": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 44.6,
+        "top": 402.0,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeMIN20A": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 55.7,
+        "top": 402.0,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeMIN21A": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 66.6,
+        "top": 402.0,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeSECaA": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 77.5,
+        "top": 402.0,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeSECbA": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 88.5,
+        "top": 402.0,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "event23A": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 113.4,
+        "top": 402.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event24A": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 125.4,
+        "top": 402.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event25A": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 137.4,
+        "top": 402.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event26A": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 149.4,
+        "top": 402.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event27A": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 161.4,
+        "top": 402.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "rangescale30A": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 199.0,
+        "top": 402.0,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "rangescale31A": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 210.7,
+        "top": 402.0,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "rangescale32A": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 222.4,
+        "top": 402.0,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO33A": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 234.0,
+        "top": 402.0,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO34A": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 245.7,
+        "top": 402.0,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO35A": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 257.4,
+        "top": 402.0,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO36A": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 269.2,
+        "top": 402.0,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactbearing37A": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 281.0,
+        "top": 402.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactbearing38A": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 293.0,
+        "top": 402.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactbearing39A": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 305.0,
+        "top": 402.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange40A": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 317.0,
+        "top": 402.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange41A": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 329.0,
+        "top": 402.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange42A": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 341.0,
+        "top": 402.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange43A": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 353.0,
+        "top": 402.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange44A": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 365.0,
+        "top": 402.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange45A": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 377.0,
+        "top": 402.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "remarksA": {
+      "type": "text",
+      "label": "Enter remarks pertinent to the line entry, e.g., sector limits when in sector scan mode. For contacts, enter estimated \r\ncontact course and speed if available, and computed CPA data when computed. Remarks related to a previous \r\nline entry, but occurring at a different time, shall be recorded on a separated line.",
+      "page": 1,
+      "box": {
+        "left": 389.3,
+        "top": 402.0,
+        "width": 337.3,
+        "height": 13.1
+      }
+    },
+    "scanCIRa": {
+      "type": "checkbox",
+      "label": "Enter \"X\" in column 28 if operating in circular scan mode.",
+      "page": 1,
+      "box": {
+        "left": 174.2,
+        "top": 399.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "scanSECa": {
+      "type": "checkbox",
+      "label": "Enter \"X\" in column 29 if operating in sector scan mode.",
+      "page": 1,
+      "box": {
+        "left": 186.7,
+        "top": 399.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "timeHR18B": {
+      "type": "text",
+      "label": "This is row 2 of 20. Enter the time associated with this line entry. If significant, use the last two columns to \r\nrecord seconds.",
+      "page": 1,
+      "box": {
+        "left": 33.6,
+        "top": 383.1,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeHR19B": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 44.6,
+        "top": 383.1,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeMIN20B": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 55.7,
+        "top": 383.1,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeMIN21B": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 66.6,
+        "top": 383.1,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeSECaB": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 77.5,
+        "top": 383.1,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeSECbB": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 88.5,
+        "top": 383.1,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "event23B": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 113.4,
+        "top": 383.1,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event24B": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 125.4,
+        "top": 383.1,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event25B": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 137.4,
+        "top": 383.1,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event26B": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 149.4,
+        "top": 383.1,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event27B": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 161.4,
+        "top": 383.1,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "rangescale30B": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 199.0,
+        "top": 383.1,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "rangescale31B": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 210.7,
+        "top": 383.1,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "rangescale32B": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 222.4,
+        "top": 383.1,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO33B": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 234.0,
+        "top": 383.1,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO34B": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 245.7,
+        "top": 383.1,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO35B": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 257.4,
+        "top": 383.1,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO36B": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 269.2,
+        "top": 383.1,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactbearing37B": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 281.0,
+        "top": 383.1,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactbearing38B": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 293.0,
+        "top": 383.1,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactbearing39B": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 305.0,
+        "top": 383.1,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange40B": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 317.0,
+        "top": 383.1,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange41B": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 329.0,
+        "top": 383.1,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange42B": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 341.0,
+        "top": 383.1,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange43B": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 353.0,
+        "top": 383.1,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange44B": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 365.0,
+        "top": 383.1,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange45B": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 377.0,
+        "top": 383.1,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "remarksB": {
+      "type": "text",
+      "label": "Enter remarks pertinent to the line entry, e.g., sector limits when in sector scan mode. For contacts, enter estimated \r\ncontact course and speed if available, and computed CPA data when computed. Remarks related to a previous \r\nline entry, but occurring at a different time, shall be recorded on a separated line.",
+      "page": 1,
+      "box": {
+        "left": 389.3,
+        "top": 383.1,
+        "width": 337.3,
+        "height": 13.1
+      }
+    },
+    "scanCIRb": {
+      "type": "checkbox",
+      "label": "Enter \"X\" in column 28 if operating in circular scan mode.",
+      "page": 1,
+      "box": {
+        "left": 174.2,
+        "top": 380.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "scanSECb": {
+      "type": "checkbox",
+      "label": "Enter \"X\" in column 29 if operating in sector scan mode.",
+      "page": 1,
+      "box": {
+        "left": 186.7,
+        "top": 380.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "timeHR18C": {
+      "type": "text",
+      "label": "This is row 3 of 20. Enter the time associated with this line entry. If significant, use the last two columns to \r\nrecord seconds.",
+      "page": 1,
+      "box": {
+        "left": 33.6,
+        "top": 364.3,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeHR19C": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 44.6,
+        "top": 364.3,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeMIN20C": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 55.7,
+        "top": 364.3,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeMIN21C": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 66.6,
+        "top": 364.3,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeSECaC": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 77.5,
+        "top": 364.3,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeSECbC": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 88.5,
+        "top": 364.3,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "event23C": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 113.4,
+        "top": 364.3,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event24C": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 125.4,
+        "top": 364.3,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event25C": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 137.4,
+        "top": 364.3,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event26C": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 149.4,
+        "top": 364.3,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event27C": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 161.4,
+        "top": 364.3,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "rangescale30C": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 199.0,
+        "top": 364.3,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "rangescale31C": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 210.7,
+        "top": 364.3,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "rangescale32C": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 222.4,
+        "top": 364.3,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO33C": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 234.0,
+        "top": 364.3,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO34C": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 245.7,
+        "top": 364.3,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO35C": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 257.4,
+        "top": 364.3,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO36C": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 269.2,
+        "top": 364.3,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactbearing37C": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 281.0,
+        "top": 364.3,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactbearing38C": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 293.0,
+        "top": 364.3,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactbearing39C": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 305.0,
+        "top": 364.3,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange40C": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 317.0,
+        "top": 364.3,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange41C": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 329.0,
+        "top": 364.3,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange42C": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 341.0,
+        "top": 364.3,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange43C": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 353.0,
+        "top": 364.3,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange44C": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 365.0,
+        "top": 364.3,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange45C": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 377.0,
+        "top": 364.3,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "remarksC": {
+      "type": "text",
+      "label": "Enter remarks pertinent to the line entry, e.g., sector limits when in sector scan mode. For contacts, enter estimated \r\ncontact course and speed if available, and computed CPA data when computed. Remarks related to a previous \r\nline entry, but occurring at a different time, shall be recorded on a separated line.",
+      "page": 1,
+      "box": {
+        "left": 389.3,
+        "top": 364.3,
+        "width": 337.3,
+        "height": 13.1
+      }
+    },
+    "scanCIRc": {
+      "type": "checkbox",
+      "label": "Enter \"X\" in column 28 if operating in circular scan mode.",
+      "page": 1,
+      "box": {
+        "left": 174.2,
+        "top": 361.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "scanSECc": {
+      "type": "checkbox",
+      "label": "Enter \"X\" in column 29 if operating in sector scan mode.",
+      "page": 1,
+      "box": {
+        "left": 186.7,
+        "top": 361.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "timeHR18D": {
+      "type": "text",
+      "label": "This is row 4 of 20. Enter the time associated with this line entry. If significant, use the last two columns to \r\nrecord seconds.",
+      "page": 1,
+      "box": {
+        "left": 33.6,
+        "top": 345.4,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeHR19D": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 44.6,
+        "top": 345.4,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeMIN20D": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 55.7,
+        "top": 345.4,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeMIN21D": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 66.6,
+        "top": 345.4,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeSECaD": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 77.5,
+        "top": 345.4,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeSECbD": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 88.5,
+        "top": 345.4,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "event23D": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 113.4,
+        "top": 345.4,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event24D": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 125.4,
+        "top": 345.4,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event25D": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 137.4,
+        "top": 345.4,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event26D": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 149.4,
+        "top": 345.4,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event27D": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 161.4,
+        "top": 345.4,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "rangescale30D": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 199.0,
+        "top": 345.4,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "rangescale31D": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 210.7,
+        "top": 345.4,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "rangescale32D": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 222.4,
+        "top": 345.4,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO33D": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 234.0,
+        "top": 345.4,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO34D": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 245.7,
+        "top": 345.4,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO35D": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 257.4,
+        "top": 345.4,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO36D": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 269.2,
+        "top": 345.4,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactbearing37D": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 281.0,
+        "top": 345.4,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactbearing38D": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 293.0,
+        "top": 345.4,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactbearing39D": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 305.0,
+        "top": 345.4,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange40D": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 317.0,
+        "top": 345.4,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange41D": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 329.0,
+        "top": 345.4,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange42D": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 341.0,
+        "top": 345.4,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange43D": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 353.0,
+        "top": 345.4,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange44D": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 365.0,
+        "top": 345.4,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange45D": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 377.0,
+        "top": 345.4,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "remarksD": {
+      "type": "text",
+      "label": "Enter remarks pertinent to the line entry, e.g., sector limits when in sector scan mode. For contacts, enter estimated \r\ncontact course and speed if available, and computed CPA data when computed. Remarks related to a previous \r\nline entry, but occurring at a different time, shall be recorded on a separated line.",
+      "page": 1,
+      "box": {
+        "left": 389.3,
+        "top": 345.4,
+        "width": 337.3,
+        "height": 13.1
+      }
+    },
+    "scanCIRd": {
+      "type": "checkbox",
+      "label": "Enter \"X\" in column 28 if operating in circular scan mode.",
+      "page": 1,
+      "box": {
+        "left": 174.2,
+        "top": 342.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "scanSECd": {
+      "type": "checkbox",
+      "label": "Enter \"X\" in column 29 if operating in sector scan mode.",
+      "page": 1,
+      "box": {
+        "left": 186.7,
+        "top": 342.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "timeHR18E": {
+      "type": "text",
+      "label": "This is row 5 of 20. Enter the time associated with this line entry. If significant, use the last two columns to \r\nrecord seconds.",
+      "page": 1,
+      "box": {
+        "left": 33.6,
+        "top": 326.5,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeHR19E": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 44.6,
+        "top": 326.5,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeMIN20E": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 55.7,
+        "top": 326.5,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeMIN21E": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 66.6,
+        "top": 326.5,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeSECaE": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 77.5,
+        "top": 326.5,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeSECbE": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 88.5,
+        "top": 326.5,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "event23E": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 113.4,
+        "top": 326.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event24E": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 125.4,
+        "top": 326.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event25E": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 137.4,
+        "top": 326.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event26E": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 149.4,
+        "top": 326.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event27E": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 161.4,
+        "top": 326.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "rangescale30E": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 199.0,
+        "top": 326.5,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "rangescale31E": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 210.7,
+        "top": 326.5,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "rangescale32E": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 222.4,
+        "top": 326.5,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO33E": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 234.0,
+        "top": 326.5,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO34E": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 245.7,
+        "top": 326.5,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO35E": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 257.4,
+        "top": 326.5,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO36E": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 269.2,
+        "top": 326.5,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactbearing37E": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 281.0,
+        "top": 326.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactbearing38E": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 293.0,
+        "top": 326.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactbearing39E": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 305.0,
+        "top": 326.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange40E": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 317.0,
+        "top": 326.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange41E": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 329.0,
+        "top": 326.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange42E": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 341.0,
+        "top": 326.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange43E": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 353.0,
+        "top": 326.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange44E": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 365.0,
+        "top": 326.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange45E": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 377.0,
+        "top": 326.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "remarksE": {
+      "type": "text",
+      "label": "Enter remarks pertinent to the line entry, e.g., sector limits when in sector scan mode. For contacts, enter estimated \r\ncontact course and speed if available, and computed CPA data when computed. Remarks related to a previous \r\nline entry, but occurring at a different time, shall be recorded on a separated line.",
+      "page": 1,
+      "box": {
+        "left": 389.3,
+        "top": 326.5,
+        "width": 337.3,
+        "height": 13.1
+      }
+    },
+    "scanCIRe": {
+      "type": "checkbox",
+      "label": "Enter \"X\" in column 28 if operating in circular scan mode.",
+      "page": 1,
+      "box": {
+        "left": 174.2,
+        "top": 323.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "scanSECe": {
+      "type": "checkbox",
+      "label": "Enter \"X\" in column 29 if operating in sector scan mode.",
+      "page": 1,
+      "box": {
+        "left": 186.7,
+        "top": 323.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "timeHR18F": {
+      "type": "text",
+      "label": "This is row 6 of 20. Enter the time associated with this line entry. If significant, use the last two columns to \r\nrecord seconds.",
+      "page": 1,
+      "box": {
+        "left": 33.6,
+        "top": 307.7,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeHR19F": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 44.6,
+        "top": 307.7,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeMIN20F": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 55.7,
+        "top": 307.7,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeMIN21F": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 66.6,
+        "top": 307.7,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeSECaF": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 77.5,
+        "top": 307.7,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeSECbF": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 88.5,
+        "top": 307.7,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "event23F": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 113.4,
+        "top": 307.7,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event24F": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 125.4,
+        "top": 307.7,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event25F": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 137.4,
+        "top": 307.7,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event26F": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 149.4,
+        "top": 307.7,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event27F": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 161.4,
+        "top": 307.7,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "rangescale30F": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 199.0,
+        "top": 307.7,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "rangescale31F": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 210.7,
+        "top": 307.7,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "rangescale32F": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 222.4,
+        "top": 307.7,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO33F": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 234.0,
+        "top": 307.7,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO34F": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 245.7,
+        "top": 307.7,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO35F": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 257.4,
+        "top": 307.7,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO36F": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 269.2,
+        "top": 307.7,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactbearing37F": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 281.0,
+        "top": 307.7,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactbearing38F": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 293.0,
+        "top": 307.7,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactbearing39F": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 305.0,
+        "top": 307.7,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange40F": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 317.0,
+        "top": 307.7,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange41F": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 329.0,
+        "top": 307.7,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange42F": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 341.0,
+        "top": 307.7,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange43F": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 353.0,
+        "top": 307.7,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange44F": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 365.0,
+        "top": 307.7,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange45F": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 377.0,
+        "top": 307.7,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "remarksF": {
+      "type": "text",
+      "label": "Enter remarks pertinent to the line entry, e.g., sector limits when in sector scan mode. For contacts, enter estimated \r\ncontact course and speed if available, and computed CPA data when computed. Remarks related to a previous \r\nline entry, but occurring at a different time, shall be recorded on a separated line.",
+      "page": 1,
+      "box": {
+        "left": 389.3,
+        "top": 307.7,
+        "width": 337.3,
+        "height": 13.1
+      }
+    },
+    "scanCIRf": {
+      "type": "checkbox",
+      "label": "Enter \"X\" in column 28 if operating in circular scan mode.",
+      "page": 1,
+      "box": {
+        "left": 174.2,
+        "top": 305.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "scanSECf": {
+      "type": "checkbox",
+      "label": "Enter \"X\" in column 29 if operating in sector scan mode.",
+      "page": 1,
+      "box": {
+        "left": 186.7,
+        "top": 305.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "timeHR18G": {
+      "type": "text",
+      "label": "This is row 7 of 20. Enter the time associated with this line entry. If significant, use the last two columns to \r\nrecord seconds.",
+      "page": 1,
+      "box": {
+        "left": 33.6,
+        "top": 288.8,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeHR19G": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 44.6,
+        "top": 288.8,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeMIN20G": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 55.7,
+        "top": 288.8,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeMIN21G": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 66.6,
+        "top": 288.8,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeSECaG": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 77.5,
+        "top": 288.8,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeSECbG": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 88.5,
+        "top": 288.8,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "event23G": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 113.4,
+        "top": 288.8,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event24G": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 125.4,
+        "top": 288.8,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event25G": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 137.4,
+        "top": 288.8,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event26G": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 149.4,
+        "top": 288.8,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event27G": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 161.4,
+        "top": 288.8,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "rangescale30G": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 199.0,
+        "top": 288.8,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "rangescale31G": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 210.7,
+        "top": 288.8,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "rangescale32G": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 222.4,
+        "top": 288.8,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO33G": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 234.0,
+        "top": 288.8,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO34G": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 245.7,
+        "top": 288.8,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO35G": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 257.4,
+        "top": 288.8,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO36G": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 269.2,
+        "top": 288.8,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactbearing37G": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 281.0,
+        "top": 288.8,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactbearing38G": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 293.0,
+        "top": 288.8,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactbearing39G": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 305.0,
+        "top": 288.8,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange40G": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 317.0,
+        "top": 288.8,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange41G": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 329.0,
+        "top": 288.8,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange42G": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 341.0,
+        "top": 288.8,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange43G": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 353.0,
+        "top": 288.8,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange44G": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 365.0,
+        "top": 288.8,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange45G": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 377.0,
+        "top": 288.8,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "remarksG": {
+      "type": "text",
+      "label": "Enter remarks pertinent to the line entry, e.g., sector limits when in sector scan mode. For contacts, enter estimated \r\ncontact course and speed if available, and computed CPA data when computed. Remarks related to a previous \r\nline entry, but occurring at a different time, shall be recorded on a separated line.",
+      "page": 1,
+      "box": {
+        "left": 389.3,
+        "top": 288.8,
+        "width": 337.3,
+        "height": 13.1
+      }
+    },
+    "scanCIRg": {
+      "type": "checkbox",
+      "label": "Enter \"X\" in column 28 if operating in circular scan mode.",
+      "page": 1,
+      "box": {
+        "left": 174.2,
+        "top": 286.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "scanSECg": {
+      "type": "checkbox",
+      "label": "Enter \"X\" in column 29 if operating in sector scan mode.",
+      "page": 1,
+      "box": {
+        "left": 186.7,
+        "top": 286.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "timeHR18H": {
+      "type": "text",
+      "label": "This is row 8 of 20. Enter the time associated with this line entry. If significant, use the last two columns to \r\nrecord seconds.",
+      "page": 1,
+      "box": {
+        "left": 33.6,
+        "top": 270.0,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeHR19H": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 44.6,
+        "top": 270.0,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeMIN20H": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 55.7,
+        "top": 270.0,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeMIN21H": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 66.6,
+        "top": 270.0,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeSECaH": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 77.5,
+        "top": 270.0,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeSECbH": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 88.5,
+        "top": 270.0,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "event23H": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 113.4,
+        "top": 270.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event24H": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 125.4,
+        "top": 270.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event25H": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 137.4,
+        "top": 270.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event26H": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 149.4,
+        "top": 270.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event27H": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 161.4,
+        "top": 270.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "rangescale30H": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 199.0,
+        "top": 270.0,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "rangescale31H": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 210.7,
+        "top": 270.0,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "rangescale32H": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 222.4,
+        "top": 270.0,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO33H": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 234.0,
+        "top": 270.0,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO34H": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 245.7,
+        "top": 270.0,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO35H": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 257.4,
+        "top": 270.0,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO36H": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 269.2,
+        "top": 270.0,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactbearing37H": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 281.0,
+        "top": 270.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactbearing38H": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 293.0,
+        "top": 270.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactbearing39H": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 305.0,
+        "top": 270.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange40H": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 317.0,
+        "top": 270.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange41H": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 329.0,
+        "top": 270.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange42H": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 341.0,
+        "top": 270.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange43H": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 353.0,
+        "top": 270.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange44H": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 365.0,
+        "top": 270.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange45H": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 377.0,
+        "top": 270.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "remarksH": {
+      "type": "text",
+      "label": "Enter remarks pertinent to the line entry, e.g., sector limits when in sector scan mode. For contacts, enter estimated \r\ncontact course and speed if available, and computed CPA data when computed. Remarks related to a previous \r\nline entry, but occurring at a different time, shall be recorded on a separated line.",
+      "page": 1,
+      "box": {
+        "left": 389.3,
+        "top": 270.0,
+        "width": 337.3,
+        "height": 13.1
+      }
+    },
+    "scanCIRh": {
+      "type": "checkbox",
+      "label": "Enter \"X\" in column 28 if operating in circular scan mode.",
+      "page": 1,
+      "box": {
+        "left": 174.2,
+        "top": 267.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "scanSECh": {
+      "type": "checkbox",
+      "label": "Enter \"X\" in column 29 if operating in sector scan mode.",
+      "page": 1,
+      "box": {
+        "left": 186.7,
+        "top": 267.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "timeHR18I": {
+      "type": "text",
+      "label": "This is row 9 of 20. Enter the time associated with this line entry. If significant, use the last two columns to \r\nrecord seconds.",
+      "page": 1,
+      "box": {
+        "left": 33.6,
+        "top": 251.1,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeHR19I": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 44.6,
+        "top": 251.1,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeMIN20I": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 55.7,
+        "top": 251.1,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeMIN21I": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 66.6,
+        "top": 251.1,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeSECaI": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 77.5,
+        "top": 251.1,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeSECbI": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 88.5,
+        "top": 251.1,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "event23I": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 113.4,
+        "top": 251.1,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event24I": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 125.4,
+        "top": 251.1,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event25I": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 137.4,
+        "top": 251.1,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event26I": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 149.4,
+        "top": 251.1,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event27I": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 161.4,
+        "top": 251.1,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "rangescale30I": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 199.0,
+        "top": 251.1,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "rangescale31I": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 210.7,
+        "top": 251.1,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "rangescale32I": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 222.4,
+        "top": 251.1,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO33I": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 234.0,
+        "top": 251.1,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO34I": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 245.7,
+        "top": 251.1,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO35I": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 257.4,
+        "top": 251.1,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO36I": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 269.2,
+        "top": 251.1,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactbearing37I": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 281.0,
+        "top": 251.1,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactbearing38I": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 293.0,
+        "top": 251.1,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactbearing39I": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 305.0,
+        "top": 251.1,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange40I": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 317.0,
+        "top": 251.1,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange41I": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 329.0,
+        "top": 251.1,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange42I": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 341.0,
+        "top": 251.1,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange43I": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 353.0,
+        "top": 251.1,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange44I": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 365.0,
+        "top": 251.1,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange45I": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 377.0,
+        "top": 251.1,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "remarksI": {
+      "type": "text",
+      "label": "Enter remarks pertinent to the line entry, e.g., sector limits when in sector scan mode. For contacts, enter estimated \r\ncontact course and speed if available, and computed CPA data when computed. Remarks related to a previous \r\nline entry, but occurring at a different time, shall be recorded on a separated line.",
+      "page": 1,
+      "box": {
+        "left": 389.3,
+        "top": 251.1,
+        "width": 337.3,
+        "height": 13.1
+      }
+    },
+    "scanCIRi": {
+      "type": "checkbox",
+      "label": "Enter \"X\" in column 28 if operating in circular scan mode.",
+      "page": 1,
+      "box": {
+        "left": 174.2,
+        "top": 248.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "scanSECi": {
+      "type": "checkbox",
+      "label": "Enter \"X\" in column 29 if operating in sector scan mode.",
+      "page": 1,
+      "box": {
+        "left": 186.7,
+        "top": 248.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "timeHR18J": {
+      "type": "text",
+      "label": "This is row 10 of 20. Enter the time associated with this line entry. If significant, use the last two columns to \r\nrecord seconds.",
+      "page": 1,
+      "box": {
+        "left": 33.6,
+        "top": 232.2,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeHR19J": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 44.6,
+        "top": 232.2,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeMIN20J": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 55.7,
+        "top": 232.2,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeMIN21J": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 66.6,
+        "top": 232.2,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeSECaJ": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 77.5,
+        "top": 232.2,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeSECbJ": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 88.5,
+        "top": 232.2,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "event23J": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 113.4,
+        "top": 232.2,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event24J": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 125.4,
+        "top": 232.2,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event25J": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 137.4,
+        "top": 232.2,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event26J": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 149.4,
+        "top": 232.2,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event27J": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 161.4,
+        "top": 232.2,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "rangescale30J": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 199.0,
+        "top": 232.2,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "rangescale31J": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 210.7,
+        "top": 232.2,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "rangescale32J": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 222.4,
+        "top": 232.2,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO33J": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 234.0,
+        "top": 232.2,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO34J": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 245.7,
+        "top": 232.2,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO35J": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 257.4,
+        "top": 232.2,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO36J": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 269.2,
+        "top": 232.2,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactbearing37J": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 281.0,
+        "top": 232.2,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactbearing38J": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 293.0,
+        "top": 232.2,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactbearing39J": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 305.0,
+        "top": 232.2,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange40J": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 317.0,
+        "top": 232.2,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange41J": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 329.0,
+        "top": 232.2,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange42J": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 341.0,
+        "top": 232.2,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange43J": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 353.0,
+        "top": 232.2,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange44J": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 365.0,
+        "top": 232.2,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange45J": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 377.0,
+        "top": 232.2,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "remarksJ": {
+      "type": "text",
+      "label": "Enter remarks pertinent to the line entry, e.g., sector limits when in sector scan mode. For contacts, enter estimated \r\ncontact course and speed if available, and computed CPA data when computed. Remarks related to a previous \r\nline entry, but occurring at a different time, shall be recorded on a separated line.",
+      "page": 1,
+      "box": {
+        "left": 389.3,
+        "top": 232.2,
+        "width": 337.3,
+        "height": 13.1
+      }
+    },
+    "scanCIRj": {
+      "type": "checkbox",
+      "label": "Enter \"X\" in column 28 if operating in circular scan mode.",
+      "page": 1,
+      "box": {
+        "left": 174.2,
+        "top": 229.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "scanSECj": {
+      "type": "checkbox",
+      "label": "Enter \"X\" in column 29 if operating in sector scan mode.",
+      "page": 1,
+      "box": {
+        "left": 186.7,
+        "top": 229.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "timeHR18K": {
+      "type": "text",
+      "label": "This is row 11 of 20. Enter the time associated with this line entry. If significant, use the last two columns to \r\nrecord seconds.",
+      "page": 1,
+      "box": {
+        "left": 33.6,
+        "top": 213.4,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeHR19K": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 44.6,
+        "top": 213.4,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeMIN20K": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 55.7,
+        "top": 213.4,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeMIN21K": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 66.6,
+        "top": 213.4,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeSECaK": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 77.5,
+        "top": 213.4,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeSECbK": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 88.5,
+        "top": 213.4,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "event23K": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 113.4,
+        "top": 213.4,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event24K": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 125.4,
+        "top": 213.4,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event25K": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 137.4,
+        "top": 213.4,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event26K": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 149.4,
+        "top": 213.4,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event27K": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 161.4,
+        "top": 213.4,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "rangescale30K": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 199.0,
+        "top": 213.4,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "rangescale31K": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 210.7,
+        "top": 213.4,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "rangescale32K": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 222.4,
+        "top": 213.4,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO33K": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 234.0,
+        "top": 213.4,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO34K": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 245.7,
+        "top": 213.4,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO35K": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 257.4,
+        "top": 213.4,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO36K": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 269.2,
+        "top": 213.4,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactbearing37K": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 281.0,
+        "top": 213.4,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactbearing38K": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 293.0,
+        "top": 213.4,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactbearing39K": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 305.0,
+        "top": 213.4,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange40K": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 317.0,
+        "top": 213.4,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange41K": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 329.0,
+        "top": 213.4,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange42K": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 341.0,
+        "top": 213.4,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange43K": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 353.0,
+        "top": 213.4,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange44K": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 365.0,
+        "top": 213.4,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange45K": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 377.0,
+        "top": 213.4,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "remarksK": {
+      "type": "text",
+      "label": "Enter remarks pertinent to the line entry, e.g., sector limits when in sector scan mode. For contacts, enter estimated \r\ncontact course and speed if available, and computed CPA data when computed. Remarks related to a previous \r\nline entry, but occurring at a different time, shall be recorded on a separated line.",
+      "page": 1,
+      "box": {
+        "left": 389.3,
+        "top": 213.4,
+        "width": 337.3,
+        "height": 13.1
+      }
+    },
+    "scanCIRk": {
+      "type": "checkbox",
+      "label": "Enter \"X\" in column 28 if operating in circular scan mode.",
+      "page": 1,
+      "box": {
+        "left": 174.2,
+        "top": 210.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "scanSECk": {
+      "type": "checkbox",
+      "label": "Enter \"X\" in column 29 if operating in sector scan mode.",
+      "page": 1,
+      "box": {
+        "left": 186.7,
+        "top": 210.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "timeHR18L": {
+      "type": "text",
+      "label": "This is row 12 of 20. Enter the time associated with this line entry. If significant, use the last two columns to \r\nrecord seconds.",
+      "page": 1,
+      "box": {
+        "left": 33.6,
+        "top": 194.5,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeHR19L": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 44.6,
+        "top": 194.5,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeMIN20L": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 55.7,
+        "top": 194.5,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeMIN21L": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 66.6,
+        "top": 194.5,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeSECaL": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 77.5,
+        "top": 194.5,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeSECbL": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 88.5,
+        "top": 194.5,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "event23L": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 113.4,
+        "top": 194.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event24L": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 125.4,
+        "top": 194.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event25L": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 137.4,
+        "top": 194.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event26L": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 149.4,
+        "top": 194.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event27L": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 161.4,
+        "top": 194.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "rangescale30L": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 199.0,
+        "top": 194.5,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "rangescale31L": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 210.7,
+        "top": 194.5,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "rangescale32L": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 222.4,
+        "top": 194.5,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO33L": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 234.0,
+        "top": 194.5,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO34L": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 245.7,
+        "top": 194.5,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO35L": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 257.4,
+        "top": 194.5,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO36L": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 269.2,
+        "top": 194.5,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactbearing37L": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 281.0,
+        "top": 194.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactbearing38L": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 293.0,
+        "top": 194.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactbearing39L": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 305.0,
+        "top": 194.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange40L": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 317.0,
+        "top": 194.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange41L": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 329.0,
+        "top": 194.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange42L": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 341.0,
+        "top": 194.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange43L": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 353.0,
+        "top": 194.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange44L": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 365.0,
+        "top": 194.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange45L": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 377.0,
+        "top": 194.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "remarksL": {
+      "type": "text",
+      "label": "Enter remarks pertinent to the line entry, e.g., sector limits when in sector scan mode. For contacts, enter estimated \r\ncontact course and speed if available, and computed CPA data when computed. Remarks related to a previous \r\nline entry, but occurring at a different time, shall be recorded on a separated line.",
+      "page": 1,
+      "box": {
+        "left": 389.3,
+        "top": 194.5,
+        "width": 337.3,
+        "height": 13.1
+      }
+    },
+    "scanCIRl": {
+      "type": "checkbox",
+      "label": "Enter \"X\" in column 28 if operating in circular scan mode.",
+      "page": 1,
+      "box": {
+        "left": 174.2,
+        "top": 191.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "scanSECl": {
+      "type": "checkbox",
+      "label": "Enter \"X\" in column 29 if operating in sector scan mode.",
+      "page": 1,
+      "box": {
+        "left": 186.7,
+        "top": 191.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "timeHR18M": {
+      "type": "text",
+      "label": "This is row 13 of 20. Enter the time associated with this line entry. If significant, use the last two columns to \r\nrecord seconds.",
+      "page": 1,
+      "box": {
+        "left": 33.6,
+        "top": 175.6,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeHR19M": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 44.6,
+        "top": 175.6,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeMIN20M": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 55.7,
+        "top": 175.6,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeMIN21M": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 66.6,
+        "top": 175.6,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeSECaM": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 77.5,
+        "top": 175.6,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeSECbM": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 88.5,
+        "top": 175.6,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "event23M": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 113.4,
+        "top": 175.6,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event24M": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 125.4,
+        "top": 175.6,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event25M": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 137.4,
+        "top": 175.6,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event26M": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 149.4,
+        "top": 175.6,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event27M": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 161.4,
+        "top": 175.6,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "rangescale30M": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 199.0,
+        "top": 175.6,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "rangescale31M": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 210.7,
+        "top": 175.6,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "rangescale32M": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 222.4,
+        "top": 175.6,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO33M": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 234.0,
+        "top": 175.6,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO34M": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 245.7,
+        "top": 175.6,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO35M": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 257.4,
+        "top": 175.6,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO36M": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 269.2,
+        "top": 175.6,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactbearing37M": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 281.0,
+        "top": 175.6,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactbearing38M": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 293.0,
+        "top": 175.6,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactbearing39M": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 305.0,
+        "top": 175.6,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange40M": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 317.0,
+        "top": 175.6,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange41M": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 329.0,
+        "top": 175.6,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange42M": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 341.0,
+        "top": 175.6,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange43M": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 353.0,
+        "top": 175.6,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange44M": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 365.0,
+        "top": 175.6,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange45M": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 377.0,
+        "top": 175.6,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "remarksM": {
+      "type": "text",
+      "label": "Enter remarks pertinent to the line entry, e.g., sector limits when in sector scan mode. For contacts, enter estimated \r\ncontact course and speed if available, and computed CPA data when computed. Remarks related to a previous \r\nline entry, but occurring at a different time, shall be recorded on a separated line.",
+      "page": 1,
+      "box": {
+        "left": 389.3,
+        "top": 175.6,
+        "width": 337.3,
+        "height": 13.1
+      }
+    },
+    "scanCIRm": {
+      "type": "checkbox",
+      "label": "Enter \"X\" in column 28 if operating in circular scan mode.",
+      "page": 1,
+      "box": {
+        "left": 174.2,
+        "top": 172.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "scanSECm": {
+      "type": "checkbox",
+      "label": "Enter \"X\" in column 29 if operating in sector scan mode.",
+      "page": 1,
+      "box": {
+        "left": 186.7,
+        "top": 172.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "timeHR18N": {
+      "type": "text",
+      "label": "This is row 14 of 20. Enter the time associated with this line entry. If significant, use the last two columns to \r\nrecord seconds.",
+      "page": 1,
+      "box": {
+        "left": 33.6,
+        "top": 156.8,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeHR19N": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 44.6,
+        "top": 156.8,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeMIN20N": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 55.7,
+        "top": 156.8,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeMIN21N": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 66.6,
+        "top": 156.8,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeSECaN": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 77.5,
+        "top": 156.8,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeSECbN": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 88.5,
+        "top": 156.8,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "event23N": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 113.4,
+        "top": 156.8,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event24N": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 125.4,
+        "top": 156.8,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event25N": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 137.4,
+        "top": 156.8,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event26N": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 149.4,
+        "top": 156.8,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event27N": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 161.4,
+        "top": 156.8,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "rangescale30N": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 199.0,
+        "top": 156.8,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "rangescale31N": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 210.7,
+        "top": 156.8,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "rangescale32N": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 222.4,
+        "top": 156.8,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO33N": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 234.0,
+        "top": 156.8,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO34N": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 245.7,
+        "top": 156.8,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO35N": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 257.4,
+        "top": 156.8,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO36N": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 269.2,
+        "top": 156.8,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactbearing37N": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 281.0,
+        "top": 156.8,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactbearing38N": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 293.0,
+        "top": 156.8,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactbearing39N": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 305.0,
+        "top": 156.8,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange40N": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 317.0,
+        "top": 156.8,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange41N": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 329.0,
+        "top": 156.8,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange42N": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 341.0,
+        "top": 156.8,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange43N": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 353.0,
+        "top": 156.8,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange44N": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 365.0,
+        "top": 156.8,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange45N": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 377.0,
+        "top": 156.8,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "remarksN": {
+      "type": "text",
+      "label": "Enter remarks pertinent to the line entry, e.g., sector limits when in sector scan mode. For contacts, enter estimated \r\ncontact course and speed if available, and computed CPA data when computed. Remarks related to a previous \r\nline entry, but occurring at a different time, shall be recorded on a separated line.",
+      "page": 1,
+      "box": {
+        "left": 389.3,
+        "top": 156.8,
+        "width": 337.3,
+        "height": 13.1
+      }
+    },
+    "scanCIRn": {
+      "type": "checkbox",
+      "label": "Enter \"X\" in column 28 if operating in circular scan mode.",
+      "page": 1,
+      "box": {
+        "left": 174.2,
+        "top": 154.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "scanSECn": {
+      "type": "checkbox",
+      "label": "Enter \"X\" in column 29 if operating in sector scan mode.",
+      "page": 1,
+      "box": {
+        "left": 186.7,
+        "top": 154.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "timeHR18O": {
+      "type": "text",
+      "label": "This is row 15 of 20. Enter the time associated with this line entry. If significant, use the last two columns to \r\nrecord seconds.",
+      "page": 1,
+      "box": {
+        "left": 33.6,
+        "top": 137.9,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeHR19O": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 44.6,
+        "top": 137.9,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeMIN20O": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 55.7,
+        "top": 137.9,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeMIN21O": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 66.6,
+        "top": 137.9,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeSECaO": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 77.5,
+        "top": 137.9,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeSECbO": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 88.5,
+        "top": 137.9,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "event23O": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 113.4,
+        "top": 137.9,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event24O": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 125.4,
+        "top": 137.9,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event25O": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 137.4,
+        "top": 137.9,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event26O": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 149.4,
+        "top": 137.9,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event27O": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 161.4,
+        "top": 137.9,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "rangescale30O": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 199.0,
+        "top": 137.9,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "rangescale31O": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 210.7,
+        "top": 137.9,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "rangescale32O": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 222.4,
+        "top": 137.9,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO33O": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 234.0,
+        "top": 137.9,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO34O": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 245.7,
+        "top": 137.9,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO35O": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 257.4,
+        "top": 137.9,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO36O": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 269.2,
+        "top": 137.9,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactbearing37O": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 281.0,
+        "top": 137.9,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactbearing38O": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 293.0,
+        "top": 137.9,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactbearing39O": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 305.0,
+        "top": 137.9,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange40O": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 317.0,
+        "top": 137.9,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange41O": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 329.0,
+        "top": 137.9,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange42O": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 341.0,
+        "top": 137.9,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange43O": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 353.0,
+        "top": 137.9,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange44O": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 365.0,
+        "top": 137.9,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange45O": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 377.0,
+        "top": 137.9,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "remarksO": {
+      "type": "text",
+      "label": "Enter remarks pertinent to the line entry, e.g., sector limits when in sector scan mode. For contacts, enter estimated \r\ncontact course and speed if available, and computed CPA data when computed. Remarks related to a previous \r\nline entry, but occurring at a different time, shall be recorded on a separated line.",
+      "page": 1,
+      "box": {
+        "left": 389.3,
+        "top": 137.9,
+        "width": 337.3,
+        "height": 13.1
+      }
+    },
+    "scanCIRo": {
+      "type": "checkbox",
+      "label": "Enter \"X\" in column 28 if operating in circular scan mode.",
+      "page": 1,
+      "box": {
+        "left": 174.2,
+        "top": 135.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "scanSECo": {
+      "type": "checkbox",
+      "label": "Enter \"X\" in column 29 if operating in sector scan mode.",
+      "page": 1,
+      "box": {
+        "left": 186.7,
+        "top": 135.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "timeHR18P": {
+      "type": "text",
+      "label": "This is row 16 of 20. Enter the time associated with this line entry. If significant, use the last two columns to \r\nrecord seconds.",
+      "page": 1,
+      "box": {
+        "left": 33.6,
+        "top": 119.0,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeHR19P": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 44.6,
+        "top": 119.0,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeMIN20P": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 55.7,
+        "top": 119.0,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeMIN21P": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 66.6,
+        "top": 119.0,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeSECaP": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 77.5,
+        "top": 119.0,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeSECbP": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 88.5,
+        "top": 119.0,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "event23P": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 113.4,
+        "top": 119.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event24P": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 125.4,
+        "top": 119.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event25P": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 137.4,
+        "top": 119.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event26P": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 149.4,
+        "top": 119.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event27P": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 161.4,
+        "top": 119.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "rangescale30P": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 199.0,
+        "top": 119.0,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "rangescale31P": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 210.7,
+        "top": 119.0,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "rangescale32P": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 222.4,
+        "top": 119.0,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO33P": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 234.0,
+        "top": 119.0,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO34P": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 245.7,
+        "top": 119.0,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO35P": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 257.4,
+        "top": 119.0,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO36P": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 269.2,
+        "top": 119.0,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactbearing37P": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 281.0,
+        "top": 119.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactbearing38P": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 293.0,
+        "top": 119.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactbearing39P": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 305.0,
+        "top": 119.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange40P": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 317.0,
+        "top": 119.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange41P": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 329.0,
+        "top": 119.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange42P": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 341.0,
+        "top": 119.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange43P": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 353.0,
+        "top": 119.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange44P": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 365.0,
+        "top": 119.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange45P": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 377.0,
+        "top": 119.0,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "remarksP": {
+      "type": "text",
+      "label": "Enter remarks pertinent to the line entry, e.g., sector limits when in sector scan mode. For contacts, enter estimated \r\ncontact course and speed if available, and computed CPA data when computed. Remarks related to a previous \r\nline entry, but occurring at a different time, shall be recorded on a separated line.",
+      "page": 1,
+      "box": {
+        "left": 389.3,
+        "top": 119.0,
+        "width": 337.3,
+        "height": 13.1
+      }
+    },
+    "scanCIRp": {
+      "type": "checkbox",
+      "label": "Enter \"X\" in column 28 if operating in circular scan mode.",
+      "page": 1,
+      "box": {
+        "left": 174.2,
+        "top": 116.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "scanSECp": {
+      "type": "checkbox",
+      "label": "Enter \"X\" in column 29 if operating in sector scan mode.",
+      "page": 1,
+      "box": {
+        "left": 186.7,
+        "top": 116.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "timeHR18Q": {
+      "type": "text",
+      "label": "This is row 17 of 20. Enter the time associated with this line entry. If significant, use the last two columns to \r\nrecord seconds.",
+      "page": 1,
+      "box": {
+        "left": 33.6,
+        "top": 100.2,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeHR19Q": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 44.6,
+        "top": 100.2,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeMIN20Q": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 55.7,
+        "top": 100.2,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeMIN21Q": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 66.6,
+        "top": 100.2,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeSECaQ": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 77.5,
+        "top": 100.2,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeSECbQ": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 88.5,
+        "top": 100.2,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "event23Q": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 113.4,
+        "top": 100.2,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event24Q": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 125.4,
+        "top": 100.2,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event25Q": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 137.4,
+        "top": 100.2,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event26Q": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 149.4,
+        "top": 100.2,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event27Q": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 161.4,
+        "top": 100.2,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "rangescale30Q": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 199.0,
+        "top": 100.2,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "rangescale31Q": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 210.7,
+        "top": 100.2,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "rangescale32Q": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 222.4,
+        "top": 100.2,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO33Q": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 234.0,
+        "top": 100.2,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO34Q": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 245.7,
+        "top": 100.2,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO35Q": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 257.4,
+        "top": 100.2,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO36Q": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 269.2,
+        "top": 100.2,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactbearing37Q": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 281.0,
+        "top": 100.2,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactbearing38Q": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 293.0,
+        "top": 100.2,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactbearing39Q": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 305.0,
+        "top": 100.2,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange40Q": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 317.0,
+        "top": 100.2,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange41Q": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 329.0,
+        "top": 100.2,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange42Q": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 341.0,
+        "top": 100.2,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange43Q": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 353.0,
+        "top": 100.2,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange44Q": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 365.0,
+        "top": 100.2,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange45Q": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 377.0,
+        "top": 100.2,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "remarksQ": {
+      "type": "text",
+      "label": "Enter remarks pertinent to the line entry, e.g., sector limits when in sector scan mode. For contacts, enter estimated \r\ncontact course and speed if available, and computed CPA data when computed. Remarks related to a previous \r\nline entry, but occurring at a different time, shall be recorded on a separated line.",
+      "page": 1,
+      "box": {
+        "left": 389.3,
+        "top": 100.2,
+        "width": 337.3,
+        "height": 13.1
+      }
+    },
+    "scanCIRq": {
+      "type": "checkbox",
+      "label": "Enter \"X\" in column 28 if operating in circular scan mode.",
+      "page": 1,
+      "box": {
+        "left": 174.2,
+        "top": 97.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "scanSECq": {
+      "type": "checkbox",
+      "label": "Enter \"X\" in column 29 if operating in sector scan mode.",
+      "page": 1,
+      "box": {
+        "left": 186.7,
+        "top": 97.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "timeHR18R": {
+      "type": "text",
+      "label": "This is row 18 of 20. Enter the time associated with this line entry. If significant, use the last two columns to \r\nrecord seconds.",
+      "page": 1,
+      "box": {
+        "left": 33.6,
+        "top": 81.3,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeHR19R": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 44.6,
+        "top": 81.3,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeMIN20R": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 55.7,
+        "top": 81.3,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeMIN21R": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 66.6,
+        "top": 81.3,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeSECaR": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 77.5,
+        "top": 81.3,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeSECbR": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 88.5,
+        "top": 81.3,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "event23R": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 113.4,
+        "top": 81.3,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event24R": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 125.4,
+        "top": 81.3,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event25R": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 137.4,
+        "top": 81.3,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event26R": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 149.4,
+        "top": 81.3,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event27R": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 161.4,
+        "top": 81.3,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "rangescale30R": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 199.0,
+        "top": 81.3,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "rangescale31R": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 210.7,
+        "top": 81.3,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "rangescale32R": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 222.4,
+        "top": 81.3,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO33R": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 234.0,
+        "top": 81.3,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO34R": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 245.7,
+        "top": 81.3,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO35R": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 257.4,
+        "top": 81.3,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO36R": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 269.2,
+        "top": 81.3,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactbearing37R": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 281.0,
+        "top": 81.3,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactbearing38R": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 293.0,
+        "top": 81.3,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactbearing39R": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 305.0,
+        "top": 81.3,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange40R": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 317.0,
+        "top": 81.3,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange41R": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 329.0,
+        "top": 81.3,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange42R": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 341.0,
+        "top": 81.3,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange43R": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 353.0,
+        "top": 81.3,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange44R": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 365.0,
+        "top": 81.3,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange45R": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 377.0,
+        "top": 81.3,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "remarksR": {
+      "type": "text",
+      "label": "Enter remarks pertinent to the line entry, e.g., sector limits when in sector scan mode. For contacts, enter estimated \r\ncontact course and speed if available, and computed CPA data when computed. Remarks related to a previous \r\nline entry, but occurring at a different time, shall be recorded on a separated line.",
+      "page": 1,
+      "box": {
+        "left": 389.3,
+        "top": 81.3,
+        "width": 337.3,
+        "height": 13.1
+      }
+    },
+    "scanCIRr": {
+      "type": "checkbox",
+      "label": "Enter \"X\" in column 28 if operating in circular scan mode.",
+      "page": 1,
+      "box": {
+        "left": 174.2,
+        "top": 78.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "scanSECr": {
+      "type": "checkbox",
+      "label": "Enter \"X\" in column 29 if operating in sector scan mode.",
+      "page": 1,
+      "box": {
+        "left": 186.7,
+        "top": 78.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "timeHR18S": {
+      "type": "text",
+      "label": "This is row 19 of 20. Enter the time associated with this line entry. If significant, use the last two columns to \r\nrecord seconds.",
+      "page": 1,
+      "box": {
+        "left": 33.6,
+        "top": 62.5,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeHR19S": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 44.6,
+        "top": 62.5,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeMIN20S": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 55.7,
+        "top": 62.5,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeMIN21S": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 66.6,
+        "top": 62.5,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeSECaS": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 77.5,
+        "top": 62.5,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeSECbS": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 88.5,
+        "top": 62.5,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "event23S": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 113.4,
+        "top": 62.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event24S": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 125.4,
+        "top": 62.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event25S": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 137.4,
+        "top": 62.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event26S": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 149.4,
+        "top": 62.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event27S": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 161.4,
+        "top": 62.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "rangescale30S": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 199.0,
+        "top": 62.5,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "rangescale31S": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 210.7,
+        "top": 62.5,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "rangescale32S": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 222.4,
+        "top": 62.5,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO33S": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 234.0,
+        "top": 62.5,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO34S": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 245.7,
+        "top": 62.5,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO35S": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 257.4,
+        "top": 62.5,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO36S": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 269.2,
+        "top": 62.5,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactbearing37S": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 281.0,
+        "top": 62.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactbearing38S": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 293.0,
+        "top": 62.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactbearing39S": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 305.0,
+        "top": 62.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange40S": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 317.0,
+        "top": 62.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange41S": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 329.0,
+        "top": 62.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange42S": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 341.0,
+        "top": 62.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange43S": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 353.0,
+        "top": 62.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange44S": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 365.0,
+        "top": 62.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange45S": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 377.0,
+        "top": 62.5,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "remarksS": {
+      "type": "text",
+      "label": "Enter remarks pertinent to the line entry, e.g., sector limits when in sector scan mode. For contacts, enter estimated \r\ncontact course and speed if available, and computed CPA data when computed. Remarks related to a previous \r\nline entry, but occurring at a different time, shall be recorded on a separated line.",
+      "page": 1,
+      "box": {
+        "left": 389.3,
+        "top": 62.5,
+        "width": 337.3,
+        "height": 13.1
+      }
+    },
+    "scanCIRs": {
+      "type": "checkbox",
+      "label": "Enter \"X\" in column 28 if operating in circular scan mode.",
+      "page": 1,
+      "box": {
+        "left": 174.2,
+        "top": 59.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "scanSECs": {
+      "type": "checkbox",
+      "label": "Enter \"X\" in column 29 if operating in sector scan mode.",
+      "page": 1,
+      "box": {
+        "left": 186.7,
+        "top": 59.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "timeHR18T": {
+      "type": "text",
+      "label": "This is row 20 of 20. Enter the time associated with this line entry. If significant, use the last two columns to \r\nrecord seconds.",
+      "page": 1,
+      "box": {
+        "left": 33.6,
+        "top": 43.6,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeHR19T": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 44.6,
+        "top": 43.6,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeMIN20T": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 55.7,
+        "top": 43.6,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeMIN21T": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 66.6,
+        "top": 43.6,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeSECaT": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 77.5,
+        "top": 43.6,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "timeSECbT": {
+      "type": "text",
+      "label": "Enter the time associated with this line entry. If significant, use the last two columns to record seconds.",
+      "page": 1,
+      "box": {
+        "left": 88.5,
+        "top": 43.6,
+        "width": 9.6,
+        "height": 13.1
+      }
+    },
+    "event23T": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 113.4,
+        "top": 43.6,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event24T": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 125.4,
+        "top": 43.6,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event25T": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 137.4,
+        "top": 43.6,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event26T": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 149.4,
+        "top": 43.6,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "event27T": {
+      "type": "text",
+      "label": "Enter the event from Code A if applicable; otherwise, leave blank e.g. recording a change in range and bearing.",
+      "page": 1,
+      "box": {
+        "left": 161.4,
+        "top": 43.6,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "rangescale30T": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 199.0,
+        "top": 43.6,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "rangescale31T": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 210.7,
+        "top": 43.6,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "rangescale32T": {
+      "type": "text",
+      "label": "Enter the range scale setting in kiloyards.",
+      "page": 1,
+      "box": {
+        "left": 222.4,
+        "top": 43.6,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO33T": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 234.0,
+        "top": 43.6,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO34T": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 245.7,
+        "top": 43.6,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO35T": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 257.4,
+        "top": 43.6,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactNO36T": {
+      "type": "text",
+      "label": "Enter the contact number assigned, omitting prefixes such as hull number or month.",
+      "page": 1,
+      "box": {
+        "left": 269.2,
+        "top": 43.6,
+        "width": 10.4,
+        "height": 13.1
+      }
+    },
+    "contactbearing37T": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 281.0,
+        "top": 43.6,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactbearing38T": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 293.0,
+        "top": 43.6,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactbearing39T": {
+      "type": "text",
+      "label": "Enter contact true bearing in degrees.",
+      "page": 1,
+      "box": {
+        "left": 305.0,
+        "top": 43.6,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange40T": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 317.0,
+        "top": 43.6,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange41T": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 329.0,
+        "top": 43.6,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange42T": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 341.0,
+        "top": 43.6,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange43T": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 353.0,
+        "top": 43.6,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange44T": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 365.0,
+        "top": 43.6,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "contactrange45T": {
+      "type": "text",
+      "label": "Enter contact range in yards.",
+      "page": 1,
+      "box": {
+        "left": 377.0,
+        "top": 43.6,
+        "width": 10.7,
+        "height": 13.1
+      }
+    },
+    "remarksT": {
+      "type": "text",
+      "label": "Enter remarks pertinent to the line entry, e.g., sector limits when in sector scan mode. For contacts, enter estimated \r\ncontact course and speed if available, and computed CPA data when computed. Remarks related to a previous \r\nline entry, but occurring at a different time, shall be recorded on a separated line.",
+      "page": 1,
+      "box": {
+        "left": 389.3,
+        "top": 43.6,
+        "width": 337.3,
+        "height": 13.1
+      }
+    },
+    "scanCIRt": {
+      "type": "checkbox",
+      "label": "Enter \"X\" in column 28 if operating in circular scan mode.",
+      "page": 1,
+      "box": {
+        "left": 174.2,
+        "top": 40.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "scanSECt": {
+      "type": "checkbox",
+      "label": "Enter \"X\" in column 29 if operating in sector scan mode.",
+      "page": 1,
+      "box": {
+        "left": 186.7,
+        "top": 40.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    }
+  }
+}

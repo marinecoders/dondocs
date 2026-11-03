@@ -1,0 +1,2694 @@
+{
+  "id": "opnav51027",
+  "label": "OPNAV5102-7 - Log Of NAVY Injuries  Occupational Illnesses",
+  "directory": "OPNAV5102-7 - Log Of NAVY Injuries  Occupational Illnesses",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "employeeName1",
+        "regJobTitle1",
+        "dept1",
+        "natureOfInjury1",
+        "injuryIllnessCode1",
+        "dateofDeath1",
+        "lostTime1",
+        "lostDay1",
+        "outcome1",
+        "outcome12",
+        "caseFileNo1",
+        "dateofInjury1",
+        "outcome2",
+        "outcome22",
+        "employeeName2",
+        "caseFileNo2",
+        "dateofInjury2",
+        "regJobTitle2",
+        "dept2",
+        "natureOfInjury2",
+        "injuryIllnessCode2",
+        "dateofDeath2",
+        "lostTime2",
+        "lostDay2",
+        "caseFileNo3",
+        "dateofInjury3",
+        "employeeName3",
+        "regJobTitle3",
+        "dept3",
+        "natureOfInjury3",
+        "injuryIllnessCode3",
+        "dateofDeath3",
+        "outcome3",
+        "outcome32",
+        "lostTime3",
+        "lostDay3",
+        "outcome4",
+        "outcome42",
+        "lostTime4",
+        "lostDay4",
+        "caseFileNo4",
+        "dateofInjury4",
+        "employeeName4",
+        "regJobTitle4",
+        "dept4",
+        "natureOfInjury4",
+        "injuryIllnessCode4",
+        "dateofDeath4",
+        "outcome5",
+        "outcome52",
+        "employeeName5",
+        "regJobTitle5",
+        "dept5",
+        "natureOfInjury5",
+        "injuryIllnessCode5",
+        "dateofDeath5",
+        "lostTime5",
+        "lostDay5",
+        "caseFileNo5",
+        "dateofInjury5",
+        "outcome6",
+        "outcome62",
+        "lostTime6",
+        "lostDay6",
+        "caseFileNo6",
+        "dateofInjury6",
+        "employeeName6",
+        "regJobTitle6",
+        "dept6",
+        "natureOfInjury6",
+        "injuryIllnessCode6",
+        "dateofDeath6",
+        "lostTime7",
+        "lostDay7",
+        "outcome7",
+        "outcome72",
+        "employeeName7",
+        "regJobTitle7",
+        "dept7",
+        "natureOfInjury7",
+        "injuryIllnessCode7",
+        "caseFileNo7",
+        "dateofInjury7",
+        "dateofDeath7",
+        "outcome8",
+        "outcome82",
+        "lostTime8",
+        "lostDay8",
+        "caseFileNo8",
+        "dateofInjury8",
+        "employeeName8",
+        "regJobTitle8",
+        "dept8",
+        "natureOfInjury8",
+        "injuryIllnessCode8",
+        "dateofDeath8",
+        "injuryIllnessCode9",
+        "employeeName9",
+        "regJobTitle9",
+        "dept9",
+        "natureOfInjury9",
+        "lostTime9",
+        "lostDay9",
+        "outcome9",
+        "outcome92",
+        "caseFileNo9",
+        "dateofInjury9",
+        "dateofDeath9",
+        "caseFileNo10",
+        "dateofInjury10",
+        "employeeName10",
+        "regJobTitle10",
+        "dept10",
+        "natureOfInjury10",
+        "injuryIllnessCode10",
+        "dateofDeath10",
+        "lostTime10",
+        "lostDay10",
+        "outcome10",
+        "outcome102",
+        "lostTime11",
+        "lostDay11",
+        "outcome11",
+        "outcome112",
+        "caseFileNo11",
+        "dateofInjury11",
+        "employeeName11",
+        "regJobTitle11",
+        "dept11",
+        "natureOfInjury11",
+        "injuryIllnessCode11",
+        "dateofDeath11",
+        "lostTime12",
+        "lostDay12",
+        "caseFileNo12",
+        "dateofInjury12",
+        "employeeName12",
+        "regJobTitle12",
+        "dept12",
+        "natureOfInjury12",
+        "injuryIllnessCode12",
+        "dateofDeath12",
+        "outcome122",
+        "outcome123",
+        "lostTime13",
+        "lostDay13",
+        "employeeName13",
+        "regJobTitle13",
+        "dept13",
+        "natureOfInjury13",
+        "injuryIllnessCode13",
+        "outcome13",
+        "outcome132",
+        "caseFileNo13",
+        "dateofInjury13",
+        "dateofDeath13",
+        "lostTime14",
+        "lostDay14",
+        "caseFileNo14",
+        "dateofInjury14",
+        "employeeName14",
+        "regJobTitle14",
+        "dept14",
+        "natureOfInjury14",
+        "injuryIllnessCode14",
+        "dateofDeath14",
+        "outcome14",
+        "outcome142",
+        "lostTime15",
+        "lostDay15",
+        "caseFileNo15",
+        "dateofInjury15",
+        "employeeName15",
+        "regJobTitle15",
+        "dept15",
+        "natureOfInjury15",
+        "injuryIllnessCode15",
+        "dateofDeath15",
+        "outcome15",
+        "outcome152",
+        "caseFileNo16",
+        "employeeName16",
+        "regJobTitle16",
+        "dept16",
+        "natureOfInjury16",
+        "injuryIllnessCode16",
+        "lostTime16",
+        "lostDay16",
+        "outcome16",
+        "outcome162",
+        "dateofInjury16",
+        "dateofDeath16",
+        "employeeName17",
+        "regJobTitle17",
+        "dept17",
+        "natureOfInjury17",
+        "injuryIllnessCode17",
+        "lostTime17",
+        "lostDay17",
+        "caseFileNo17",
+        "dateofInjury17",
+        "dateofDeath17",
+        "outcome17",
+        "outcome172",
+        "commActivity",
+        "address"
+      ]
+    }
+  ],
+  "fields": {
+    "employeeName1": {
+      "type": "text",
+      "label": "Enter the employee's name (last, first, M.I.).",
+      "page": 1,
+      "box": {
+        "left": 188.8,
+        "top": 373.1,
+        "width": 81.3,
+        "height": 11.0
+      }
+    },
+    "regJobTitle1": {
+      "type": "text",
+      "label": "Enter the regular job title of injured or ill person.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 373.1,
+        "width": 44.8,
+        "height": 11.0
+      }
+    },
+    "dept1": {
+      "type": "text",
+      "label": "Enter the name of the department or code, to which employee was assigned at the time of the injury or illness.",
+      "page": 1,
+      "box": {
+        "left": 325.5,
+        "top": 373.1,
+        "width": 52.6,
+        "height": 11.0
+      }
+    },
+    "natureOfInjury1": {
+      "type": "text",
+      "label": "Enter the nature of injury or illness and part(s) of body affected.",
+      "page": 1,
+      "box": {
+        "left": 382.9,
+        "top": 373.1,
+        "width": 117.3,
+        "height": 11.0
+      }
+    },
+    "injuryIllnessCode1": {
+      "type": "choice",
+      "label": "Select one of the injury or illness code provided in the drop down list. Injury Code 10 all occupational injuries, illness Code 21 Occupational skin diseases or disorders, 22 dust diseases of the lungs (pneumoconoises),\r\n 23 respitory conditions due to toxic agents, 24 poisoning (Systemic effects of toxic materials), 25 disorders due to physical agents (other than toxic materials),\r\n 26 disorders due to repeated trauma or stress, 27 all other occupational illnesses.",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 373.1,
+        "width": 28.4,
+        "height": 11.0
+      },
+      "options": [
+        "10",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "29"
+      ]
+    },
+    "dateofDeath1": {
+      "type": "text",
+      "label": "Enter the date of death using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 539.2,
+        "top": 373.1,
+        "width": 56.0,
+        "height": 10.4
+      }
+    },
+    "lostTime1": {
+      "type": "checkbox",
+      "label": "Select this checkbox if case involved lost time (see details on page 2).",
+      "page": 1,
+      "box": {
+        "left": 609.6,
+        "top": 372.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "lostDay1": {
+      "type": "checkbox",
+      "label": "Select this checkbox if case involved a complete day away from work due to injury or illness (see details on page 2).",
+      "page": 1,
+      "box": {
+        "left": 647.9,
+        "top": 372.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "outcome1": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 681.5,
+        "top": 372.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Outcome1_0"
+    },
+    "outcome12": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 703.9,
+        "top": 372.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Outcome1_0"
+    },
+    "caseFileNo1": {
+      "type": "text",
+      "label": "This is row 1 of 17, enter the case or file number (use any numbering system desired).",
+      "page": 1,
+      "box": {
+        "left": 94.9,
+        "top": 372.6,
+        "width": 27.3,
+        "height": 10.4
+      }
+    },
+    "dateofInjury1": {
+      "type": "text",
+      "label": "Enter the date of injury or illness using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 128.1,
+        "top": 372.6,
+        "width": 56.0,
+        "height": 10.4
+      }
+    },
+    "outcome2": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 681.5,
+        "top": 358.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Outcome2_0"
+    },
+    "outcome22": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 703.9,
+        "top": 358.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Outcome2_0"
+    },
+    "employeeName2": {
+      "type": "text",
+      "label": "Enter the employee's name (last, first, M.I.).",
+      "page": 1,
+      "box": {
+        "left": 188.8,
+        "top": 357.9,
+        "width": 81.3,
+        "height": 11.0
+      }
+    },
+    "caseFileNo2": {
+      "type": "text",
+      "label": "This is row 2 of 17, enter the case or file number (use any numbering system desired).",
+      "page": 1,
+      "box": {
+        "left": 94.9,
+        "top": 357.6,
+        "width": 27.3,
+        "height": 10.4
+      }
+    },
+    "dateofInjury2": {
+      "type": "text",
+      "label": "Enter the date of injury or illness using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 128.1,
+        "top": 357.6,
+        "width": 56.0,
+        "height": 10.4
+      }
+    },
+    "regJobTitle2": {
+      "type": "text",
+      "label": "Enter the regular job title of injured or ill person.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 357.6,
+        "width": 44.8,
+        "height": 11.0
+      }
+    },
+    "dept2": {
+      "type": "text",
+      "label": "Enter the name of the department or code, to which employee was assigned at the time of the injury or illness.",
+      "page": 1,
+      "box": {
+        "left": 325.5,
+        "top": 357.6,
+        "width": 52.6,
+        "height": 11.0
+      }
+    },
+    "natureOfInjury2": {
+      "type": "text",
+      "label": "Enter the nature of injury or illness and part(s) of body affected.",
+      "page": 1,
+      "box": {
+        "left": 382.9,
+        "top": 357.6,
+        "width": 117.3,
+        "height": 11.0
+      }
+    },
+    "injuryIllnessCode2": {
+      "type": "choice",
+      "label": "Select one of the injury or illness code provided in the drop down list. Injury Code 10 all occupational injuries, illness Code 21 Occupational skin diseases or disorders, 22 dust diseases of the lungs (pneumoconoises),\r\n 23 respitory conditions due to toxic agents, 24 poisoning (Systemic effects of toxic materials), 25 disorders due to physical agents (other than toxic materials),\r\n 26 disorders due to repeated trauma or stress, 27 all other occupational illnesses.",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 357.6,
+        "width": 28.4,
+        "height": 11.0
+      },
+      "options": [
+        "10",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "29"
+      ]
+    },
+    "dateofDeath2": {
+      "type": "text",
+      "label": "Enter the date of death using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 539.2,
+        "top": 357.6,
+        "width": 56.0,
+        "height": 10.4
+      }
+    },
+    "lostTime2": {
+      "type": "checkbox",
+      "label": "Select this checkbox if case involved lost time (see details on page 2).",
+      "page": 1,
+      "box": {
+        "left": 609.6,
+        "top": 357.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "lostDay2": {
+      "type": "checkbox",
+      "label": "Select this checkbox if case involved a complete day away from work due to injury or illness (see details on page 2).",
+      "page": 1,
+      "box": {
+        "left": 647.9,
+        "top": 357.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "caseFileNo3": {
+      "type": "text",
+      "label": "This is row 3 of 17, enter the case or file number (use any numbering system desired).",
+      "page": 1,
+      "box": {
+        "left": 94.9,
+        "top": 342.2,
+        "width": 27.3,
+        "height": 10.4
+      }
+    },
+    "dateofInjury3": {
+      "type": "text",
+      "label": "Enter the date of injury or illness using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 128.1,
+        "top": 342.2,
+        "width": 56.0,
+        "height": 10.4
+      }
+    },
+    "employeeName3": {
+      "type": "text",
+      "label": "Enter the employee's name (last, first, M.I.).",
+      "page": 1,
+      "box": {
+        "left": 188.8,
+        "top": 342.2,
+        "width": 81.3,
+        "height": 11.0
+      }
+    },
+    "regJobTitle3": {
+      "type": "text",
+      "label": "Enter the regular job title of injured or ill person.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 342.2,
+        "width": 44.8,
+        "height": 11.0
+      }
+    },
+    "dept3": {
+      "type": "text",
+      "label": "Enter the name of the department or code, to which employee was assigned at the time of the injury or illness.",
+      "page": 1,
+      "box": {
+        "left": 325.5,
+        "top": 342.2,
+        "width": 52.6,
+        "height": 11.0
+      }
+    },
+    "natureOfInjury3": {
+      "type": "text",
+      "label": "Enter the nature of injury or illness and part(s) of body affected.",
+      "page": 1,
+      "box": {
+        "left": 382.9,
+        "top": 342.2,
+        "width": 117.3,
+        "height": 11.0
+      }
+    },
+    "injuryIllnessCode3": {
+      "type": "choice",
+      "label": "Select one of the injury or illness code provided in the drop down list. Injury Code 10 all occupational injuries, illness Code 21 Occupational skin diseases or disorders, 22 dust diseases of the lungs (pneumoconoises),\r\n 23 respitory conditions due to toxic agents, 24 poisoning (Systemic effects of toxic materials), 25 disorders due to physical agents (other than toxic materials),\r\n 26 disorders due to repeated trauma or stress, 27 all other occupational illnesses.",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 342.2,
+        "width": 28.4,
+        "height": 11.0
+      },
+      "options": [
+        "10",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "29"
+      ]
+    },
+    "dateofDeath3": {
+      "type": "text",
+      "label": "Enter the date of death using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 539.2,
+        "top": 342.2,
+        "width": 56.0,
+        "height": 10.4
+      }
+    },
+    "outcome3": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 681.5,
+        "top": 342.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Outcome3_0"
+    },
+    "outcome32": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 703.9,
+        "top": 342.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Outcome3_0"
+    },
+    "lostTime3": {
+      "type": "checkbox",
+      "label": "Select this checkbox if case involved lost time (see details on page 2).",
+      "page": 1,
+      "box": {
+        "left": 609.6,
+        "top": 341.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "lostDay3": {
+      "type": "checkbox",
+      "label": "Select this checkbox if case involved a complete day away from work due to injury or illness (see details on page 2).",
+      "page": 1,
+      "box": {
+        "left": 647.9,
+        "top": 341.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "outcome4": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 681.5,
+        "top": 327.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Outcome4_0"
+    },
+    "outcome42": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 703.9,
+        "top": 327.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Outcome4_0"
+    },
+    "lostTime4": {
+      "type": "checkbox",
+      "label": "Select this checkbox if case involved lost time (see details on page 2).",
+      "page": 1,
+      "box": {
+        "left": 609.6,
+        "top": 326.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "lostDay4": {
+      "type": "checkbox",
+      "label": "Select this checkbox if case involved a complete day away from work due to injury or illness (see details on page 2).",
+      "page": 1,
+      "box": {
+        "left": 647.9,
+        "top": 326.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "caseFileNo4": {
+      "type": "text",
+      "label": "This is row 4 of 17, enter the case or file number (use any numbering system desired).",
+      "page": 1,
+      "box": {
+        "left": 94.9,
+        "top": 326.7,
+        "width": 27.3,
+        "height": 10.4
+      }
+    },
+    "dateofInjury4": {
+      "type": "text",
+      "label": "Enter the date of injury or illness using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 128.1,
+        "top": 326.7,
+        "width": 56.0,
+        "height": 10.4
+      }
+    },
+    "employeeName4": {
+      "type": "text",
+      "label": "Enter the employee's name (last, first, M.I.).",
+      "page": 1,
+      "box": {
+        "left": 188.8,
+        "top": 326.7,
+        "width": 81.3,
+        "height": 11.0
+      }
+    },
+    "regJobTitle4": {
+      "type": "text",
+      "label": "Enter the regular job title of injured or ill person.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 326.7,
+        "width": 44.8,
+        "height": 11.0
+      }
+    },
+    "dept4": {
+      "type": "text",
+      "label": "Enter the name of the department or code, to which employee was assigned at the time of the injury or illness.",
+      "page": 1,
+      "box": {
+        "left": 325.5,
+        "top": 326.7,
+        "width": 52.6,
+        "height": 11.0
+      }
+    },
+    "natureOfInjury4": {
+      "type": "text",
+      "label": "Enter the nature of injury or illness and part(s) of body affected.",
+      "page": 1,
+      "box": {
+        "left": 382.9,
+        "top": 326.7,
+        "width": 117.3,
+        "height": 11.0
+      }
+    },
+    "injuryIllnessCode4": {
+      "type": "choice",
+      "label": "Select one of the injury or illness code provided in the drop down list. Injury Code 10 all occupational injuries, illness Code 21 Occupational skin diseases or disorders, 22 dust diseases of the lungs (pneumoconoises),\r\n 23 respitory conditions due to toxic agents, 24 poisoning (Systemic effects of toxic materials), 25 disorders due to physical agents (other than toxic materials),\r\n 26 disorders due to repeated trauma or stress, 27 all other occupational illnesses.",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 326.7,
+        "width": 28.4,
+        "height": 11.0
+      },
+      "options": [
+        "10",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "29"
+      ]
+    },
+    "dateofDeath4": {
+      "type": "text",
+      "label": "Enter the date of death using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 539.2,
+        "top": 326.7,
+        "width": 56.0,
+        "height": 10.4
+      }
+    },
+    "outcome5": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 681.5,
+        "top": 311.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Outcome5_0"
+    },
+    "outcome52": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 703.9,
+        "top": 311.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Outcome5_0"
+    },
+    "employeeName5": {
+      "type": "text",
+      "label": "Enter the employee's name (last, first, M.I.).",
+      "page": 1,
+      "box": {
+        "left": 188.8,
+        "top": 311.2,
+        "width": 81.3,
+        "height": 11.0
+      }
+    },
+    "regJobTitle5": {
+      "type": "text",
+      "label": "Enter the regular job title of injured or ill person.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 311.2,
+        "width": 44.8,
+        "height": 11.0
+      }
+    },
+    "dept5": {
+      "type": "text",
+      "label": "Enter the name of the department or code, to which employee was assigned at the time of the injury or illness.",
+      "page": 1,
+      "box": {
+        "left": 325.5,
+        "top": 311.2,
+        "width": 52.6,
+        "height": 11.0
+      }
+    },
+    "natureOfInjury5": {
+      "type": "text",
+      "label": "Enter the nature of injury or illness and part(s) of body affected.",
+      "page": 1,
+      "box": {
+        "left": 382.9,
+        "top": 311.2,
+        "width": 117.3,
+        "height": 11.0
+      }
+    },
+    "injuryIllnessCode5": {
+      "type": "choice",
+      "label": "Select one of the injury or illness code provided in the drop down list. Injury Code 10 all occupational injuries, illness Code 21 Occupational skin diseases or disorders, 22 dust diseases of the lungs (pneumoconoises),\r\n 23 respitory conditions due to toxic agents, 24 poisoning (Systemic effects of toxic materials), 25 disorders due to physical agents (other than toxic materials),\r\n 26 disorders due to repeated trauma or stress, 27 all other occupational illnesses.",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 311.2,
+        "width": 28.4,
+        "height": 11.0
+      },
+      "options": [
+        "10",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "29"
+      ]
+    },
+    "dateofDeath5": {
+      "type": "text",
+      "label": "Enter the date of death using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 539.2,
+        "top": 311.2,
+        "width": 56.0,
+        "height": 10.4
+      }
+    },
+    "lostTime5": {
+      "type": "checkbox",
+      "label": "Select this checkbox if case involved lost time (see details on page 2).",
+      "page": 1,
+      "box": {
+        "left": 609.6,
+        "top": 311.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "lostDay5": {
+      "type": "checkbox",
+      "label": "Select this checkbox if case involved a complete day away from work due to injury or illness (see details on page 2).",
+      "page": 1,
+      "box": {
+        "left": 647.9,
+        "top": 311.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "caseFileNo5": {
+      "type": "text",
+      "label": "This is row 5 of 17, enter the case or file number (use any numbering system desired).",
+      "page": 1,
+      "box": {
+        "left": 94.9,
+        "top": 310.7,
+        "width": 27.3,
+        "height": 10.4
+      }
+    },
+    "dateofInjury5": {
+      "type": "text",
+      "label": "Enter the date of injury or illness using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 128.1,
+        "top": 310.7,
+        "width": 56.0,
+        "height": 10.4
+      }
+    },
+    "outcome6": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 681.5,
+        "top": 296.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Outcome6_0"
+    },
+    "outcome62": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 703.9,
+        "top": 296.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Outcome6_0"
+    },
+    "lostTime6": {
+      "type": "checkbox",
+      "label": "Select this checkbox if case involved lost time (see details on page 2).",
+      "page": 1,
+      "box": {
+        "left": 609.6,
+        "top": 295.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "lostDay6": {
+      "type": "checkbox",
+      "label": "Select this checkbox if case involved a complete day away from work due to injury or illness (see details on page 2).",
+      "page": 1,
+      "box": {
+        "left": 647.9,
+        "top": 295.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "caseFileNo6": {
+      "type": "text",
+      "label": "This is row 6 of 17, enter the case or file number (use any numbering system desired).",
+      "page": 1,
+      "box": {
+        "left": 94.9,
+        "top": 295.7,
+        "width": 27.3,
+        "height": 10.4
+      }
+    },
+    "dateofInjury6": {
+      "type": "text",
+      "label": "Enter the date of injury or illness using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 128.1,
+        "top": 295.7,
+        "width": 56.0,
+        "height": 10.4
+      }
+    },
+    "employeeName6": {
+      "type": "text",
+      "label": "Enter the employee's name (last, first, M.I.).",
+      "page": 1,
+      "box": {
+        "left": 188.8,
+        "top": 295.7,
+        "width": 81.3,
+        "height": 11.0
+      }
+    },
+    "regJobTitle6": {
+      "type": "text",
+      "label": "Enter the regular job title of injured or ill person.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 295.7,
+        "width": 44.8,
+        "height": 11.0
+      }
+    },
+    "dept6": {
+      "type": "text",
+      "label": "Enter the name of the department or code, to which employee was assigned at the time of the injury or illness.",
+      "page": 1,
+      "box": {
+        "left": 325.5,
+        "top": 295.7,
+        "width": 52.6,
+        "height": 11.0
+      }
+    },
+    "natureOfInjury6": {
+      "type": "text",
+      "label": "Enter the nature of injury or illness and part(s) of body affected.",
+      "page": 1,
+      "box": {
+        "left": 382.9,
+        "top": 295.7,
+        "width": 117.3,
+        "height": 11.0
+      }
+    },
+    "injuryIllnessCode6": {
+      "type": "choice",
+      "label": "Select one of the injury or illness code provided in the drop down list. Injury Code 10 all occupational injuries, illness Code 21 Occupational skin diseases or disorders, 22 dust diseases of the lungs (pneumoconoises),\r\n 23 respitory conditions due to toxic agents, 24 poisoning (Systemic effects of toxic materials), 25 disorders due to physical agents (other than toxic materials),\r\n 26 disorders due to repeated trauma or stress, 27 all other occupational illnesses.",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 295.7,
+        "width": 28.4,
+        "height": 11.0
+      },
+      "options": [
+        "10",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "29"
+      ]
+    },
+    "dateofDeath6": {
+      "type": "text",
+      "label": "Enter the date of death using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 539.2,
+        "top": 295.7,
+        "width": 56.0,
+        "height": 10.4
+      }
+    },
+    "lostTime7": {
+      "type": "checkbox",
+      "label": "Select this checkbox if case involved lost time (see details on page 2).",
+      "page": 1,
+      "box": {
+        "left": 609.6,
+        "top": 280.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "lostDay7": {
+      "type": "checkbox",
+      "label": "Select this checkbox if case involved a complete day away from work due to injury or illness (see details on page 2).",
+      "page": 1,
+      "box": {
+        "left": 647.9,
+        "top": 280.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "outcome7": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 681.5,
+        "top": 280.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Outcome7_0"
+    },
+    "outcome72": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 703.9,
+        "top": 280.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Outcome7_0"
+    },
+    "employeeName7": {
+      "type": "text",
+      "label": "Enter the employee's name (last, first, M.I.).",
+      "page": 1,
+      "box": {
+        "left": 188.8,
+        "top": 280.2,
+        "width": 81.3,
+        "height": 11.0
+      }
+    },
+    "regJobTitle7": {
+      "type": "text",
+      "label": "Enter the regular job title of injured or ill person.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 280.2,
+        "width": 44.8,
+        "height": 11.0
+      }
+    },
+    "dept7": {
+      "type": "text",
+      "label": "Enter the name of the department or code, to which employee was assigned at the time of the injury or illness.",
+      "page": 1,
+      "box": {
+        "left": 325.5,
+        "top": 280.2,
+        "width": 52.6,
+        "height": 11.0
+      }
+    },
+    "natureOfInjury7": {
+      "type": "text",
+      "label": "Enter the nature of injury or illness and part(s) of body affected.",
+      "page": 1,
+      "box": {
+        "left": 382.9,
+        "top": 280.2,
+        "width": 117.3,
+        "height": 11.0
+      }
+    },
+    "injuryIllnessCode7": {
+      "type": "choice",
+      "label": "Select one of the injury or illness code provided in the drop down list. Injury Code 10 all occupational injuries, illness Code 21 Occupational skin diseases or disorders, 22 dust diseases of the lungs (pneumoconoises),\r\n 23 respitory conditions due to toxic agents, 24 poisoning (Systemic effects of toxic materials), 25 disorders due to physical agents (other than toxic materials),\r\n 26 disorders due to repeated trauma or stress, 27 all other occupational illnesses.",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 280.2,
+        "width": 28.4,
+        "height": 11.0
+      },
+      "options": [
+        "10",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "29"
+      ]
+    },
+    "caseFileNo7": {
+      "type": "text",
+      "label": "This is row 7 of 17, enter the case or file number (use any numbering system desired).",
+      "page": 1,
+      "box": {
+        "left": 94.9,
+        "top": 279.7,
+        "width": 27.3,
+        "height": 10.4
+      }
+    },
+    "dateofInjury7": {
+      "type": "text",
+      "label": "Enter the date of injury or illness using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 128.1,
+        "top": 279.7,
+        "width": 56.0,
+        "height": 10.4
+      }
+    },
+    "dateofDeath7": {
+      "type": "text",
+      "label": "Enter the date of death using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 539.2,
+        "top": 279.7,
+        "width": 56.0,
+        "height": 10.4
+      }
+    },
+    "outcome8": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 681.5,
+        "top": 265.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Outcome8_0"
+    },
+    "outcome82": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 703.9,
+        "top": 265.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Outcome8_0"
+    },
+    "lostTime8": {
+      "type": "checkbox",
+      "label": "Select this checkbox if case involved lost time (see details on page 2).",
+      "page": 1,
+      "box": {
+        "left": 609.6,
+        "top": 264.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "lostDay8": {
+      "type": "checkbox",
+      "label": "Select this checkbox if case involved a complete day away from work due to injury or illness (see details on page 2).",
+      "page": 1,
+      "box": {
+        "left": 647.9,
+        "top": 264.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "caseFileNo8": {
+      "type": "text",
+      "label": "This is row 8 of 17, enter the case or file number (use any numbering system desired).",
+      "page": 1,
+      "box": {
+        "left": 94.9,
+        "top": 264.8,
+        "width": 27.3,
+        "height": 10.4
+      }
+    },
+    "dateofInjury8": {
+      "type": "text",
+      "label": "Enter the date of injury or illness using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 128.1,
+        "top": 264.8,
+        "width": 56.0,
+        "height": 10.4
+      }
+    },
+    "employeeName8": {
+      "type": "text",
+      "label": "Enter the employee's name (last, first, M.I.).",
+      "page": 1,
+      "box": {
+        "left": 188.8,
+        "top": 264.8,
+        "width": 81.3,
+        "height": 11.0
+      }
+    },
+    "regJobTitle8": {
+      "type": "text",
+      "label": "Enter the regular job title of injured or ill person.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 264.8,
+        "width": 44.8,
+        "height": 11.0
+      }
+    },
+    "dept8": {
+      "type": "text",
+      "label": "Enter the name of the department or code, to which employee was assigned at the time of the injury or illness.",
+      "page": 1,
+      "box": {
+        "left": 325.5,
+        "top": 264.8,
+        "width": 52.6,
+        "height": 11.0
+      }
+    },
+    "natureOfInjury8": {
+      "type": "text",
+      "label": "Enter the nature of injury or illness and part(s) of body affected.",
+      "page": 1,
+      "box": {
+        "left": 382.9,
+        "top": 264.8,
+        "width": 117.3,
+        "height": 11.0
+      }
+    },
+    "injuryIllnessCode8": {
+      "type": "choice",
+      "label": "Select one of the injury or illness code provided in the drop down list. Injury Code 10 all occupational injuries, illness Code 21 Occupational skin diseases or disorders, 22 dust diseases of the lungs (pneumoconoises),\r\n 23 respitory conditions due to toxic agents, 24 poisoning (Systemic effects of toxic materials), 25 disorders due to physical agents (other than toxic materials),\r\n 26 disorders due to repeated trauma or stress, 27 all other occupational illnesses.",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 264.8,
+        "width": 28.4,
+        "height": 11.0
+      },
+      "options": [
+        "10",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "29"
+      ]
+    },
+    "dateofDeath8": {
+      "type": "text",
+      "label": "Enter the date of death using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 539.2,
+        "top": 264.8,
+        "width": 56.0,
+        "height": 10.4
+      }
+    },
+    "injuryIllnessCode9": {
+      "type": "choice",
+      "label": "Select one of the injury or illness code provided in the drop down list. Injury Code 10 all occupational injuries, illness Code 21 Occupational skin diseases or disorders, 22 dust diseases of the lungs (pneumoconoises),\r\n 23 respitory conditions due to toxic agents, 24 poisoning (Systemic effects of toxic materials), 25 disorders due to physical agents (other than toxic materials),\r\n 26 disorders due to repeated trauma or stress, 27 all other occupational illnesses.",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 249.4,
+        "width": 28.4,
+        "height": 11.0
+      },
+      "options": [
+        "10",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "29"
+      ]
+    },
+    "employeeName9": {
+      "type": "text",
+      "label": "Enter the employee's name (last, first, M.I.).",
+      "page": 1,
+      "box": {
+        "left": 188.8,
+        "top": 249.3,
+        "width": 81.3,
+        "height": 11.0
+      }
+    },
+    "regJobTitle9": {
+      "type": "text",
+      "label": "Enter the regular job title of injured or ill person.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 249.3,
+        "width": 44.8,
+        "height": 11.0
+      }
+    },
+    "dept9": {
+      "type": "text",
+      "label": "Enter the name of the department or code, to which employee was assigned at the time of the injury or illness.",
+      "page": 1,
+      "box": {
+        "left": 325.5,
+        "top": 249.3,
+        "width": 52.6,
+        "height": 11.0
+      }
+    },
+    "natureOfInjury9": {
+      "type": "text",
+      "label": "Enter the nature of injury or illness and part(s) of body affected.",
+      "page": 1,
+      "box": {
+        "left": 382.9,
+        "top": 249.3,
+        "width": 117.3,
+        "height": 11.0
+      }
+    },
+    "lostTime9": {
+      "type": "checkbox",
+      "label": "Select this checkbox if case involved lost time (see details on page 2).",
+      "page": 1,
+      "box": {
+        "left": 609.6,
+        "top": 249.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "lostDay9": {
+      "type": "checkbox",
+      "label": "Select this checkbox if case involved a complete day away from work due to injury or illness (see details on page 2).",
+      "page": 1,
+      "box": {
+        "left": 647.9,
+        "top": 249.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "outcome9": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 681.5,
+        "top": 249.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Outcome9_0"
+    },
+    "outcome92": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 703.9,
+        "top": 249.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Outcome9_0"
+    },
+    "caseFileNo9": {
+      "type": "text",
+      "label": "This is row 9 of 17, enter the case or file number (use any numbering system desired).",
+      "page": 1,
+      "box": {
+        "left": 94.9,
+        "top": 248.8,
+        "width": 27.3,
+        "height": 10.4
+      }
+    },
+    "dateofInjury9": {
+      "type": "text",
+      "label": "Enter the date of injury or illness using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 128.1,
+        "top": 248.8,
+        "width": 56.0,
+        "height": 10.4
+      }
+    },
+    "dateofDeath9": {
+      "type": "text",
+      "label": "Enter the date of death using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 539.2,
+        "top": 248.8,
+        "width": 56.0,
+        "height": 10.4
+      }
+    },
+    "caseFileNo10": {
+      "type": "text",
+      "label": "This is row 10 of 17, enter the case or file number (use any numbering system desired).",
+      "page": 1,
+      "box": {
+        "left": 94.9,
+        "top": 233.6,
+        "width": 27.3,
+        "height": 10.4
+      }
+    },
+    "dateofInjury10": {
+      "type": "text",
+      "label": "Enter the date of injury or illness using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 128.1,
+        "top": 233.6,
+        "width": 56.0,
+        "height": 10.4
+      }
+    },
+    "employeeName10": {
+      "type": "text",
+      "label": "Enter the employee's name (last, first, M.I.).",
+      "page": 1,
+      "box": {
+        "left": 188.8,
+        "top": 233.6,
+        "width": 81.3,
+        "height": 11.0
+      }
+    },
+    "regJobTitle10": {
+      "type": "text",
+      "label": "Enter the regular job title of injured or ill person.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 233.6,
+        "width": 44.8,
+        "height": 11.0
+      }
+    },
+    "dept10": {
+      "type": "text",
+      "label": "Enter the name of the department or code, to which employee was assigned at the time of the injury or illness.",
+      "page": 1,
+      "box": {
+        "left": 325.5,
+        "top": 233.6,
+        "width": 52.6,
+        "height": 11.0
+      }
+    },
+    "natureOfInjury10": {
+      "type": "text",
+      "label": "Enter the nature of injury or illness and part(s) of body affected.",
+      "page": 1,
+      "box": {
+        "left": 382.9,
+        "top": 233.6,
+        "width": 117.3,
+        "height": 11.0
+      }
+    },
+    "injuryIllnessCode10": {
+      "type": "choice",
+      "label": "Select one of the injury or illness code provided in the drop down list. Injury Code 10 all occupational injuries, illness Code 21 Occupational skin diseases or disorders, 22 dust diseases of the lungs (pneumoconoises),\r\n 23 respitory conditions due to toxic agents, 24 poisoning (Systemic effects of toxic materials), 25 disorders due to physical agents (other than toxic materials),\r\n 26 disorders due to repeated trauma or stress, 27 all other occupational illnesses.",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 233.6,
+        "width": 28.4,
+        "height": 11.0
+      },
+      "options": [
+        "10",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "29"
+      ]
+    },
+    "dateofDeath10": {
+      "type": "text",
+      "label": "Enter the date of death using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 539.2,
+        "top": 233.6,
+        "width": 56.0,
+        "height": 10.4
+      }
+    },
+    "lostTime10": {
+      "type": "checkbox",
+      "label": "Select this checkbox if case involved lost time (see details on page 2).",
+      "page": 1,
+      "box": {
+        "left": 609.6,
+        "top": 233.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "lostDay10": {
+      "type": "checkbox",
+      "label": "Select this checkbox if case involved a complete day away from work due to injury or illness (see details on page 2).",
+      "page": 1,
+      "box": {
+        "left": 647.9,
+        "top": 233.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "outcome10": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 681.5,
+        "top": 233.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Outcome10_0"
+    },
+    "outcome102": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 703.9,
+        "top": 233.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Outcome10_0"
+    },
+    "lostTime11": {
+      "type": "checkbox",
+      "label": "Select this checkbox if case involved lost time (see details on page 2).",
+      "page": 1,
+      "box": {
+        "left": 609.6,
+        "top": 218.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "lostDay11": {
+      "type": "checkbox",
+      "label": "Select this checkbox if case involved a complete day away from work due to injury or illness (see details on page 2).",
+      "page": 1,
+      "box": {
+        "left": 647.9,
+        "top": 218.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "outcome11": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 681.5,
+        "top": 217.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Outcome11_0"
+    },
+    "outcome112": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 703.9,
+        "top": 217.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Outcome11_0"
+    },
+    "caseFileNo11": {
+      "type": "text",
+      "label": "This is row 11 of 17, enter the case or file number (use any numbering system desired).",
+      "page": 1,
+      "box": {
+        "left": 94.9,
+        "top": 217.3,
+        "width": 27.3,
+        "height": 10.4
+      }
+    },
+    "dateofInjury11": {
+      "type": "text",
+      "label": "Enter the date of injury or illness using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 128.1,
+        "top": 217.3,
+        "width": 56.0,
+        "height": 10.4
+      }
+    },
+    "employeeName11": {
+      "type": "text",
+      "label": "Enter the employee's name (last, first, M.I.).",
+      "page": 1,
+      "box": {
+        "left": 188.8,
+        "top": 217.3,
+        "width": 81.3,
+        "height": 11.0
+      }
+    },
+    "regJobTitle11": {
+      "type": "text",
+      "label": "Enter the regular job title of injured or ill person.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 217.3,
+        "width": 44.8,
+        "height": 11.0
+      }
+    },
+    "dept11": {
+      "type": "text",
+      "label": "Enter the name of the department or code, to which employee was assigned at the time of the injury or illness.",
+      "page": 1,
+      "box": {
+        "left": 325.5,
+        "top": 217.3,
+        "width": 52.6,
+        "height": 11.0
+      }
+    },
+    "natureOfInjury11": {
+      "type": "text",
+      "label": "Enter the nature of injury or illness and part(s) of body affected.",
+      "page": 1,
+      "box": {
+        "left": 382.9,
+        "top": 217.3,
+        "width": 117.3,
+        "height": 11.0
+      }
+    },
+    "injuryIllnessCode11": {
+      "type": "choice",
+      "label": "Select one of the injury or illness code provided in the drop down list. Injury Code 10 all occupational injuries, illness Code 21 Occupational skin diseases or disorders, 22 dust diseases of the lungs (pneumoconoises),\r\n 23 respitory conditions due to toxic agents, 24 poisoning (Systemic effects of toxic materials), 25 disorders due to physical agents (other than toxic materials),\r\n 26 disorders due to repeated trauma or stress, 27 all other occupational illnesses.",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 217.3,
+        "width": 28.4,
+        "height": 11.0
+      },
+      "options": [
+        "10",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "29"
+      ]
+    },
+    "dateofDeath11": {
+      "type": "text",
+      "label": "Enter the date of death using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 539.2,
+        "top": 217.3,
+        "width": 56.0,
+        "height": 10.4
+      }
+    },
+    "lostTime12": {
+      "type": "checkbox",
+      "label": "Select this checkbox if case involved lost time (see details on page 2).",
+      "page": 1,
+      "box": {
+        "left": 609.6,
+        "top": 202.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "lostDay12": {
+      "type": "checkbox",
+      "label": "Select this checkbox if case involved a complete day away from work due to injury or illness (see details on page 2).",
+      "page": 1,
+      "box": {
+        "left": 647.9,
+        "top": 202.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "caseFileNo12": {
+      "type": "text",
+      "label": "This is row 12 of 17, enter the case or file number (use any numbering system desired).",
+      "page": 1,
+      "box": {
+        "left": 94.9,
+        "top": 202.1,
+        "width": 27.3,
+        "height": 10.4
+      }
+    },
+    "dateofInjury12": {
+      "type": "text",
+      "label": "Enter the date of injury or illness using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 128.1,
+        "top": 202.1,
+        "width": 56.0,
+        "height": 10.4
+      }
+    },
+    "employeeName12": {
+      "type": "text",
+      "label": "Enter the employee's name (last, first, M.I.).",
+      "page": 1,
+      "box": {
+        "left": 188.8,
+        "top": 202.1,
+        "width": 81.3,
+        "height": 11.0
+      }
+    },
+    "regJobTitle12": {
+      "type": "text",
+      "label": "Enter the regular job title of injured or ill person.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 202.1,
+        "width": 44.8,
+        "height": 11.0
+      }
+    },
+    "dept12": {
+      "type": "text",
+      "label": "Enter the name of the department or code, to which employee was assigned at the time of the injury or illness.",
+      "page": 1,
+      "box": {
+        "left": 325.5,
+        "top": 202.1,
+        "width": 52.6,
+        "height": 11.0
+      }
+    },
+    "natureOfInjury12": {
+      "type": "text",
+      "label": "Enter the nature of injury or illness and part(s) of body affected.",
+      "page": 1,
+      "box": {
+        "left": 382.9,
+        "top": 202.1,
+        "width": 117.3,
+        "height": 11.0
+      }
+    },
+    "injuryIllnessCode12": {
+      "type": "choice",
+      "label": "Select one of the injury or illness code provided in the drop down list. Injury Code 10 all occupational injuries, illness Code 21 Occupational skin diseases or disorders, 22 dust diseases of the lungs (pneumoconoises),\r\n 23 respitory conditions due to toxic agents, 24 poisoning (Systemic effects of toxic materials), 25 disorders due to physical agents (other than toxic materials),\r\n 26 disorders due to repeated trauma or stress, 27 all other occupational illnesses.",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 202.1,
+        "width": 28.4,
+        "height": 11.0
+      },
+      "options": [
+        "10",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "29"
+      ]
+    },
+    "dateofDeath12": {
+      "type": "text",
+      "label": "Enter the date of death using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 539.2,
+        "top": 202.1,
+        "width": 56.0,
+        "height": 10.4
+      }
+    },
+    "outcome122": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 681.5,
+        "top": 201.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Outcome12_0"
+    },
+    "outcome123": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 703.9,
+        "top": 201.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Outcome12_0"
+    },
+    "lostTime13": {
+      "type": "checkbox",
+      "label": "Select this checkbox if case involved lost time (see details on page 2).",
+      "page": 1,
+      "box": {
+        "left": 609.6,
+        "top": 187.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "lostDay13": {
+      "type": "checkbox",
+      "label": "Select this checkbox if case involved a complete day away from work due to injury or illness (see details on page 2).",
+      "page": 1,
+      "box": {
+        "left": 647.9,
+        "top": 187.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "employeeName13": {
+      "type": "text",
+      "label": "Enter the employee's name (last, first, M.I.).",
+      "page": 1,
+      "box": {
+        "left": 188.8,
+        "top": 186.9,
+        "width": 81.3,
+        "height": 11.0
+      }
+    },
+    "regJobTitle13": {
+      "type": "text",
+      "label": "Enter the regular job title of injured or ill person.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 186.9,
+        "width": 44.8,
+        "height": 11.0
+      }
+    },
+    "dept13": {
+      "type": "text",
+      "label": "Enter the name of the department or code, to which employee was assigned at the time of the injury or illness.",
+      "page": 1,
+      "box": {
+        "left": 325.5,
+        "top": 186.9,
+        "width": 52.6,
+        "height": 11.0
+      }
+    },
+    "natureOfInjury13": {
+      "type": "text",
+      "label": "Enter the nature of injury or illness and part(s) of body affected.",
+      "page": 1,
+      "box": {
+        "left": 382.9,
+        "top": 186.9,
+        "width": 117.3,
+        "height": 11.0
+      }
+    },
+    "injuryIllnessCode13": {
+      "type": "choice",
+      "label": "Select one of the injury or illness code provided in the drop down list. Injury Code 10 all occupational injuries, illness Code 21 Occupational skin diseases or disorders, 22 dust diseases of the lungs (pneumoconoises),\r\n 23 respitory conditions due to toxic agents, 24 poisoning (Systemic effects of toxic materials), 25 disorders due to physical agents (other than toxic materials),\r\n 26 disorders due to repeated trauma or stress, 27 all other occupational illnesses.",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 186.9,
+        "width": 28.4,
+        "height": 11.0
+      },
+      "options": [
+        "10",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "29"
+      ]
+    },
+    "outcome13": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 681.5,
+        "top": 186.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Outcome13_0"
+    },
+    "outcome132": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 703.9,
+        "top": 186.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Outcome13_0"
+    },
+    "caseFileNo13": {
+      "type": "text",
+      "label": "This is row 13 of 17, enter the case or file number (use any numbering system desired).",
+      "page": 1,
+      "box": {
+        "left": 94.9,
+        "top": 186.4,
+        "width": 27.3,
+        "height": 10.4
+      }
+    },
+    "dateofInjury13": {
+      "type": "text",
+      "label": "Enter the date of injury or illness using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 128.1,
+        "top": 186.4,
+        "width": 56.0,
+        "height": 10.4
+      }
+    },
+    "dateofDeath13": {
+      "type": "text",
+      "label": "Enter the date of death using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 539.2,
+        "top": 186.4,
+        "width": 56.0,
+        "height": 10.4
+      }
+    },
+    "lostTime14": {
+      "type": "checkbox",
+      "label": "Select this checkbox if case involved lost time (see details on page 2).",
+      "page": 1,
+      "box": {
+        "left": 609.6,
+        "top": 171.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "lostDay14": {
+      "type": "checkbox",
+      "label": "Select this checkbox if case involved a complete day away from work due to injury or illness (see details on page 2).",
+      "page": 1,
+      "box": {
+        "left": 647.9,
+        "top": 171.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "caseFileNo14": {
+      "type": "text",
+      "label": "This is row 14 of 17, enter the case or file number (use any numbering system desired).",
+      "page": 1,
+      "box": {
+        "left": 94.9,
+        "top": 171.2,
+        "width": 27.3,
+        "height": 10.4
+      }
+    },
+    "dateofInjury14": {
+      "type": "text",
+      "label": "Enter the date of injury or illness using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 128.1,
+        "top": 171.2,
+        "width": 56.0,
+        "height": 10.4
+      }
+    },
+    "employeeName14": {
+      "type": "text",
+      "label": "Enter the employee's name (last, first, M.I.).",
+      "page": 1,
+      "box": {
+        "left": 188.8,
+        "top": 171.2,
+        "width": 81.3,
+        "height": 11.0
+      }
+    },
+    "regJobTitle14": {
+      "type": "text",
+      "label": "Enter the regular job title of injured or ill person.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 171.2,
+        "width": 44.8,
+        "height": 11.0
+      }
+    },
+    "dept14": {
+      "type": "text",
+      "label": "Enter the name of the department or code, to which employee was assigned at the time of the injury or illness.",
+      "page": 1,
+      "box": {
+        "left": 325.5,
+        "top": 171.2,
+        "width": 52.6,
+        "height": 11.0
+      }
+    },
+    "natureOfInjury14": {
+      "type": "text",
+      "label": "Enter the nature of injury or illness and part(s) of body affected.",
+      "page": 1,
+      "box": {
+        "left": 382.9,
+        "top": 171.2,
+        "width": 117.3,
+        "height": 11.0
+      }
+    },
+    "injuryIllnessCode14": {
+      "type": "choice",
+      "label": "Select one of the injury or illness code provided in the drop down list. Injury Code 10 all occupational injuries, illness Code 21 Occupational skin diseases or disorders, 22 dust diseases of the lungs (pneumoconoises),\r\n 23 respitory conditions due to toxic agents, 24 poisoning (Systemic effects of toxic materials), 25 disorders due to physical agents (other than toxic materials),\r\n 26 disorders due to repeated trauma or stress, 27 all other occupational illnesses.",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 171.2,
+        "width": 28.4,
+        "height": 11.0
+      },
+      "options": [
+        "10",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "29"
+      ]
+    },
+    "dateofDeath14": {
+      "type": "text",
+      "label": "Enter the date of death using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 539.2,
+        "top": 171.2,
+        "width": 56.0,
+        "height": 10.4
+      }
+    },
+    "outcome14": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 681.5,
+        "top": 171.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Outcome14_0"
+    },
+    "outcome142": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 703.9,
+        "top": 171.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Outcome14_0"
+    },
+    "lostTime15": {
+      "type": "checkbox",
+      "label": "Select this checkbox if case involved lost time (see details on page 2).",
+      "page": 1,
+      "box": {
+        "left": 609.6,
+        "top": 156.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "lostDay15": {
+      "type": "checkbox",
+      "label": "Select this checkbox if case involved a complete day away from work due to injury or illness (see details on page 2).",
+      "page": 1,
+      "box": {
+        "left": 647.9,
+        "top": 156.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "caseFileNo15": {
+      "type": "text",
+      "label": "This is row 15 of 17, enter the case or file number (use any numbering system desired).",
+      "page": 1,
+      "box": {
+        "left": 94.9,
+        "top": 155.4,
+        "width": 27.3,
+        "height": 10.4
+      }
+    },
+    "dateofInjury15": {
+      "type": "text",
+      "label": "Enter the date of injury or illness using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 128.1,
+        "top": 155.4,
+        "width": 56.0,
+        "height": 10.4
+      }
+    },
+    "employeeName15": {
+      "type": "text",
+      "label": "Enter the employee's name (last, first, M.I.).",
+      "page": 1,
+      "box": {
+        "left": 188.8,
+        "top": 155.4,
+        "width": 81.3,
+        "height": 11.0
+      }
+    },
+    "regJobTitle15": {
+      "type": "text",
+      "label": "Enter the regular job title of injured or ill person.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 155.4,
+        "width": 44.8,
+        "height": 11.0
+      }
+    },
+    "dept15": {
+      "type": "text",
+      "label": "Enter the name of the department or code, to which employee was assigned at the time of the injury or illness.",
+      "page": 1,
+      "box": {
+        "left": 325.5,
+        "top": 155.4,
+        "width": 52.6,
+        "height": 11.0
+      }
+    },
+    "natureOfInjury15": {
+      "type": "text",
+      "label": "Enter the nature of injury or illness and part(s) of body affected.",
+      "page": 1,
+      "box": {
+        "left": 382.9,
+        "top": 155.4,
+        "width": 117.3,
+        "height": 11.0
+      }
+    },
+    "injuryIllnessCode15": {
+      "type": "choice",
+      "label": "Select one of the injury or illness code provided in the drop down list. Injury Code 10 all occupational injuries, illness Code 21 Occupational skin diseases or disorders, 22 dust diseases of the lungs (pneumoconoises),\r\n 23 respitory conditions due to toxic agents, 24 poisoning (Systemic effects of toxic materials), 25 disorders due to physical agents (other than toxic materials),\r\n 26 disorders due to repeated trauma or stress, 27 all other occupational illnesses.",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 155.4,
+        "width": 28.4,
+        "height": 11.0
+      },
+      "options": [
+        "10",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "29"
+      ]
+    },
+    "dateofDeath15": {
+      "type": "text",
+      "label": "Enter the date of death using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 539.2,
+        "top": 155.4,
+        "width": 56.0,
+        "height": 10.4
+      }
+    },
+    "outcome15": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 681.5,
+        "top": 155.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Outcome15_0"
+    },
+    "outcome152": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 703.9,
+        "top": 155.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Outcome15_0"
+    },
+    "caseFileNo16": {
+      "type": "text",
+      "label": "This is row 16 of 17, enter the case or file number (use any numbering system desired).",
+      "page": 1,
+      "box": {
+        "left": 92.8,
+        "top": 141.2,
+        "width": 31.5,
+        "height": 14.1
+      }
+    },
+    "employeeName16": {
+      "type": "text",
+      "label": "Enter the employee's name (last, first, M.I.).",
+      "page": 1,
+      "box": {
+        "left": 188.8,
+        "top": 140.3,
+        "width": 81.3,
+        "height": 11.0
+      }
+    },
+    "regJobTitle16": {
+      "type": "text",
+      "label": "Enter the regular job title of injured or ill person.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 140.3,
+        "width": 44.8,
+        "height": 11.0
+      }
+    },
+    "dept16": {
+      "type": "text",
+      "label": "Enter the name of the department or code, to which employee was assigned at the time of the injury or illness.",
+      "page": 1,
+      "box": {
+        "left": 325.5,
+        "top": 140.3,
+        "width": 52.6,
+        "height": 11.0
+      }
+    },
+    "natureOfInjury16": {
+      "type": "text",
+      "label": "Enter the nature of injury or illness and part(s) of body affected.",
+      "page": 1,
+      "box": {
+        "left": 382.9,
+        "top": 140.3,
+        "width": 117.3,
+        "height": 11.0
+      }
+    },
+    "injuryIllnessCode16": {
+      "type": "choice",
+      "label": "Select one of the injury or illness code provided in the drop down list. Injury Code 10 all occupational injuries, illness Code 21 Occupational skin diseases or disorders, 22 dust diseases of the lungs (pneumoconoises),\r\n 23 respitory conditions due to toxic agents, 24 poisoning (Systemic effects of toxic materials), 25 disorders due to physical agents (other than toxic materials),\r\n 26 disorders due to repeated trauma or stress, 27 all other occupational illnesses.",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 140.3,
+        "width": 28.4,
+        "height": 11.0
+      },
+      "options": [
+        "10",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "29"
+      ]
+    },
+    "lostTime16": {
+      "type": "checkbox",
+      "label": "Select this checkbox if case involved lost time (see details on page 2).",
+      "page": 1,
+      "box": {
+        "left": 609.6,
+        "top": 140.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "lostDay16": {
+      "type": "checkbox",
+      "label": "Select this checkbox if case involved a complete day away from work due to injury or illness (see details on page 2).",
+      "page": 1,
+      "box": {
+        "left": 647.9,
+        "top": 140.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "outcome16": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 681.5,
+        "top": 140.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Outcome16_0"
+    },
+    "outcome162": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 703.9,
+        "top": 140.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Outcome16_0"
+    },
+    "dateofInjury16": {
+      "type": "text",
+      "label": "Enter the date of injury or illness using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 128.1,
+        "top": 139.7,
+        "width": 56.0,
+        "height": 10.4
+      }
+    },
+    "dateofDeath16": {
+      "type": "text",
+      "label": "Enter the date of death using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 539.2,
+        "top": 139.7,
+        "width": 56.0,
+        "height": 10.4
+      }
+    },
+    "employeeName17": {
+      "type": "text",
+      "label": "Enter the employee's name (last, first, M.I.).",
+      "page": 1,
+      "box": {
+        "left": 188.8,
+        "top": 124.5,
+        "width": 81.3,
+        "height": 11.6
+      }
+    },
+    "regJobTitle17": {
+      "type": "text",
+      "label": "Enter the regular job title of injured or ill person.",
+      "page": 1,
+      "box": {
+        "left": 275.4,
+        "top": 124.5,
+        "width": 44.8,
+        "height": 11.6
+      }
+    },
+    "dept17": {
+      "type": "text",
+      "label": "Enter the name of the department or code, to which employee was assigned at the time of the injury or illness.",
+      "page": 1,
+      "box": {
+        "left": 325.5,
+        "top": 124.5,
+        "width": 52.6,
+        "height": 11.6
+      }
+    },
+    "natureOfInjury17": {
+      "type": "text",
+      "label": "Enter the nature of injury or illness and part(s) of body affected.",
+      "page": 1,
+      "box": {
+        "left": 382.9,
+        "top": 124.5,
+        "width": 117.3,
+        "height": 11.6
+      }
+    },
+    "injuryIllnessCode17": {
+      "type": "choice",
+      "label": "Select one of the injury or illness code provided in the drop down list. Injury Code 10 all occupational injuries, illness Code 21 Occupational skin diseases or disorders, 22 dust diseases of the lungs (pneumoconoises),\r\n 23 respitory conditions due to toxic agents, 24 poisoning (Systemic effects of toxic materials), 25 disorders due to physical agents (other than toxic materials),\r\n 26 disorders due to repeated trauma or stress, 27 all other occupational illnesses.",
+      "page": 1,
+      "box": {
+        "left": 505.5,
+        "top": 124.5,
+        "width": 28.4,
+        "height": 11.6
+      },
+      "options": [
+        "10",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "29"
+      ]
+    },
+    "lostTime17": {
+      "type": "checkbox",
+      "label": "Select this checkbox if case involved lost time (see details on page 2).",
+      "page": 1,
+      "box": {
+        "left": 609.6,
+        "top": 124.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "lostDay17": {
+      "type": "checkbox",
+      "label": "Select this checkbox if case involved a complete day away from work due to injury or illness (see details on page 2).",
+      "page": 1,
+      "box": {
+        "left": 647.9,
+        "top": 124.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "caseFileNo17": {
+      "type": "text",
+      "label": "This is row 17 of 17, enter the case or file number (use any numbering system desired).",
+      "page": 1,
+      "box": {
+        "left": 94.9,
+        "top": 123.9,
+        "width": 27.3,
+        "height": 10.6
+      }
+    },
+    "dateofInjury17": {
+      "type": "text",
+      "label": "Enter the date of injury or illness using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 128.1,
+        "top": 123.9,
+        "width": 56.0,
+        "height": 11.0
+      }
+    },
+    "dateofDeath17": {
+      "type": "text",
+      "label": "Enter the date of death using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 539.2,
+        "top": 123.9,
+        "width": 56.0,
+        "height": 11.0
+      }
+    },
+    "outcome17": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 681.5,
+        "top": 123.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Outcome17_0"
+    },
+    "outcome172": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 703.9,
+        "top": 123.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_Outcome17_0"
+    },
+    "commActivity": {
+      "type": "text",
+      "label": "Enter the command or activity.",
+      "page": 1,
+      "box": {
+        "left": 171.4,
+        "top": 100.9,
+        "width": 157.3,
+        "height": 12.7
+      }
+    },
+    "address": {
+      "type": "text",
+      "label": "Enter the address.",
+      "page": 1,
+      "box": {
+        "left": 134.8,
+        "top": 84.0,
+        "width": 193.2,
+        "height": 11.2
+      }
+    }
+  }
+}

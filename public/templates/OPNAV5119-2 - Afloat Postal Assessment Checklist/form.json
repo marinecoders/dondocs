@@ -1,0 +1,2196 @@
+{
+  "id": "opnav51192",
+  "label": "OPNAV5119-2 - Afloat Postal Assessment Checklist",
+  "directory": "OPNAV5119-2 - Afloat Postal Assessment Checklist",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf",
+    "page5.pdf",
+    "page6.pdf",
+    "page7.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "nameMPO",
+        "inspecDate",
+        "cell1",
+        "cell2",
+        "cell3",
+        "cell12",
+        "cell22",
+        "cell32",
+        "postOfficerAssig",
+        "cell13",
+        "cell23",
+        "cell33",
+        "cell14",
+        "cell24",
+        "cell34",
+        "cell15",
+        "cell25",
+        "cell35",
+        "textField2",
+        "textField3",
+        "textField4",
+        "t2Row2PRTotal",
+        "t2Row3Perc",
+        "textField5",
+        "textField6",
+        "signatureField1",
+        "dateField1"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "t2Row2PRTotal2",
+        "checkBox1",
+        "t2Row3Perc2",
+        "t2Row5PR",
+        "t2Row6PR",
+        "t2Row7PR",
+        "t2Row8PR",
+        "t2Row9PR",
+        "t2Row10PR",
+        "t2Row12PR",
+        "t2Row13PR",
+        "t2Row14PR",
+        "t2Row15PR",
+        "t2Row16PR",
+        "t2Row17PR",
+        "totalPRA",
+        "t2Row20PR",
+        "t2Row22PR",
+        "t2Row23PR",
+        "t2Row24PR",
+        "t2Row25PR",
+        "t2Row26PR",
+        "t2Row27PR",
+        "t2Row28PR",
+        "t2Row29PR",
+        "t2Row30PR",
+        "totalPRB",
+        "t2Row33PR"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "t2Row34PR",
+        "t2Row35PR",
+        "t2Row37PR",
+        "t2Row38PR",
+        "t2Row39PR",
+        "totalPRC",
+        "t2Row42PR",
+        "t2Row43PR",
+        "t2Row44PR",
+        "t2Row45PR",
+        "t2Row46PR",
+        "t2Row47PR",
+        "t2Row48PR",
+        "t2Row49PR",
+        "t2Row51PR",
+        "t2Row52PR",
+        "t2Row53PR",
+        "t2Row54PR",
+        "t2Row55PR",
+        "t2Row58PR",
+        "t2Row59PR",
+        "t2Row60PR",
+        "t2Row61PR",
+        "t2Row62PR",
+        "totalPRD",
+        "t2Row65PR",
+        "t2Row66PR",
+        "t2Row67PR"
+      ]
+    },
+    {
+      "title": "Page 4",
+      "fields": [
+        "t2Row68PR",
+        "t2Row69PR",
+        "totalPRE",
+        "t2Row72PR",
+        "t2Row73PR",
+        "t2Row74PR",
+        "t2Row75PR",
+        "t2Row76PR",
+        "t2Row77PR",
+        "t2Row78PR",
+        "t2Row79PR",
+        "t2Row80PR",
+        "totalPRF",
+        "t2Row83PR",
+        "t2Row84PR",
+        "totalPRG",
+        "t2Row88PR",
+        "t2Row89PR",
+        "t2Row90PR",
+        "t2Row91PR",
+        "totalPRH",
+        "t2Row94PR",
+        "t2Row95PR",
+        "t2Row96PR",
+        "t2Row98PR",
+        "t2Row99PR"
+      ]
+    },
+    {
+      "title": "Page 5",
+      "fields": [
+        "t2Row100PR",
+        "t2Row101PR",
+        "t2Row102PR",
+        "totalPRI",
+        "t2Row105PR",
+        "t2Row106PR",
+        "t2Row107PR",
+        "t2Row108PR",
+        "t2Row109PR",
+        "totalPRJ",
+        "t2Row112PR",
+        "t2Row113PR",
+        "t2Row114PR",
+        "t2Row115PR",
+        "t2Row116PR",
+        "t2Row117PR",
+        "t2Row118PR",
+        "t2Row119PR",
+        "t2Row120PR",
+        "t2Row121PR",
+        "t2Row122PR",
+        "t2Row123PR",
+        "t2Row124PR",
+        "totalPRK",
+        "t2Row127PR",
+        "t2Row128PR",
+        "t2Row129PR",
+        "t2Row130PR",
+        "t2Row131PR",
+        "totalPRL"
+      ]
+    },
+    {
+      "title": "Page 6",
+      "fields": [
+        "t2Row135PR",
+        "t2Row136PR",
+        "t2Row137PR",
+        "t2Row138PR",
+        "t2Row139PR",
+        "t2Row140PR",
+        "t2Row141PR",
+        "t2Row142PR",
+        "t2Row143PR",
+        "t2Row144PR",
+        "t2Row145PR",
+        "t2Row146PR",
+        "t2Row147PR",
+        "t2Row148PR",
+        "t2Row149PR",
+        "t2Row150PR",
+        "totalPRM",
+        "t2Row153PR",
+        "t2Row154PR",
+        "t2Row155PR",
+        "t2Row156PR",
+        "t2Row157PR",
+        "t2Row158PR",
+        "t2Row159PR",
+        "t2Row160PR",
+        "t2Row161PR",
+        "totalPRN",
+        "t2Row164PR",
+        "t2Row165PR",
+        "totalPRO"
+      ]
+    },
+    {
+      "title": "Page 7",
+      "fields": [
+        "t2Row168PR",
+        "t2Row169PR",
+        "t2Row170PR",
+        "t2Row171PR",
+        "t2Row172PR",
+        "t2Row173PR",
+        "t2Row174PR",
+        "totalPRP",
+        "t2Row2PRTotal3"
+      ]
+    }
+  ],
+  "fields": {
+    "nameMPO": {
+      "type": "text",
+      "label": "1. NAME OF MPO",
+      "page": 1,
+      "box": {
+        "left": 112.3,
+        "top": 736.7,
+        "width": 280.9,
+        "height": 12.5
+      }
+    },
+    "inspecDate": {
+      "type": "text",
+      "label": "2. INSPECTION DATE",
+      "page": 1,
+      "box": {
+        "left": 488.3,
+        "top": 736.7,
+        "width": 85.0,
+        "height": 12.5
+      }
+    },
+    "cell1": {
+      "type": "text",
+      "label": "3. FLEET POSTAL ADVISORS",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 702.1,
+        "width": 177.2,
+        "height": 25.5
+      }
+    },
+    "cell2": {
+      "type": "text",
+      "label": "AFLOAT POSTAL INSPECTION CHECKLIST",
+      "page": 1,
+      "box": {
+        "left": 217.4,
+        "top": 702.1,
+        "width": 177.2,
+        "height": 25.5
+      }
+    },
+    "cell3": {
+      "type": "text",
+      "label": "2. INSPECTION DATE",
+      "page": 1,
+      "box": {
+        "left": 397.5,
+        "top": 702.1,
+        "width": 177.2,
+        "height": 25.5
+      }
+    },
+    "cell12": {
+      "type": "text",
+      "label": "3. FLEET POSTAL ADVISORS",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 673.8,
+        "width": 177.2,
+        "height": 25.5
+      }
+    },
+    "cell22": {
+      "type": "text",
+      "label": "AFLOAT POSTAL INSPECTION CHECKLIST",
+      "page": 1,
+      "box": {
+        "left": 217.4,
+        "top": 673.8,
+        "width": 177.2,
+        "height": 25.5
+      }
+    },
+    "cell32": {
+      "type": "text",
+      "label": "2. INSPECTION DATE",
+      "page": 1,
+      "box": {
+        "left": 397.5,
+        "top": 673.8,
+        "width": 177.2,
+        "height": 25.5
+      }
+    },
+    "postOfficerAssig": {
+      "type": "text",
+      "label": "4. POSTAL OFFICER ASSIGNED",
+      "page": 1,
+      "box": {
+        "left": 216.4,
+        "top": 644.3,
+        "width": 356.8,
+        "height": 12.5
+      }
+    },
+    "cell13": {
+      "type": "text",
+      "label": "5. POSTAL PERSONNEL ASSIGNED",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 608.7,
+        "width": 177.2,
+        "height": 25.5
+      }
+    },
+    "cell23": {
+      "type": "text",
+      "label": "AFLOAT POSTAL INSPECTION CHECKLIST",
+      "page": 1,
+      "box": {
+        "left": 217.4,
+        "top": 608.7,
+        "width": 177.2,
+        "height": 25.5
+      }
+    },
+    "cell33": {
+      "type": "text",
+      "label": "2. INSPECTION DATE",
+      "page": 1,
+      "box": {
+        "left": 397.5,
+        "top": 608.7,
+        "width": 177.2,
+        "height": 25.5
+      }
+    },
+    "cell14": {
+      "type": "text",
+      "label": "5. POSTAL PERSONNEL ASSIGNED",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 580.4,
+        "width": 177.2,
+        "height": 25.5
+      }
+    },
+    "cell24": {
+      "type": "text",
+      "label": "AFLOAT POSTAL INSPECTION CHECKLIST",
+      "page": 1,
+      "box": {
+        "left": 217.4,
+        "top": 580.4,
+        "width": 177.2,
+        "height": 25.5
+      }
+    },
+    "cell34": {
+      "type": "text",
+      "label": "2. INSPECTION DATE",
+      "page": 1,
+      "box": {
+        "left": 397.5,
+        "top": 580.4,
+        "width": 177.2,
+        "height": 25.5
+      }
+    },
+    "cell15": {
+      "type": "text",
+      "label": "5. POSTAL PERSONNEL ASSIGNED",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 552.0,
+        "width": 177.2,
+        "height": 25.5
+      }
+    },
+    "cell25": {
+      "type": "text",
+      "label": "AFLOAT POSTAL INSPECTION CHECKLIST",
+      "page": 1,
+      "box": {
+        "left": 217.4,
+        "top": 552.0,
+        "width": 177.2,
+        "height": 25.5
+      }
+    },
+    "cell35": {
+      "type": "text",
+      "label": "2. INSPECTION DATE",
+      "page": 1,
+      "box": {
+        "left": 397.5,
+        "top": 552.0,
+        "width": 177.2,
+        "height": 25.5
+      }
+    },
+    "textField2": {
+      "type": "text",
+      "label": "5. POSTAL PERSONNEL ASSIGNED",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 522.2,
+        "width": 174.4,
+        "height": 22.7
+      }
+    },
+    "textField3": {
+      "type": "text",
+      "label": "AFLOAT POSTAL INSPECTION CHECKLIST",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 522.2,
+        "width": 174.4,
+        "height": 22.7
+      }
+    },
+    "textField4": {
+      "type": "text",
+      "label": "2. INSPECTION DATE",
+      "page": 1,
+      "box": {
+        "left": 398.9,
+        "top": 522.2,
+        "width": 174.4,
+        "height": 22.7
+      }
+    },
+    "t2Row2PRTotal": {
+      "type": "text",
+      "label": "TOTAL POINTS RECEIVED",
+      "page": 1,
+      "box": {
+        "left": 144.4,
+        "top": 434.1,
+        "width": 69.7,
+        "height": 12.8
+      }
+    },
+    "t2Row3Perc": {
+      "type": "text",
+      "label": "INSPECTION GRADE",
+      "page": 1,
+      "box": {
+        "left": 144.4,
+        "top": 415.6,
+        "width": 69.7,
+        "height": 12.8
+      }
+    },
+    "textField5": {
+      "type": "text",
+      "label": "6. REMARKS",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 278.8,
+        "width": 534.4,
+        "height": 204.6
+      },
+      "multiline": true
+    },
+    "textField6": {
+      "type": "text",
+      "label": "7a. INSPECTOR&apos;S PRINTED NAME (Last, First, MI)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 57.7,
+        "width": 210.4,
+        "height": 19.5
+      }
+    },
+    "signatureField1": {
+      "type": "text",
+      "label": "7b. INSPECTOR&apos;S SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 57.7,
+        "width": 210.4,
+        "height": 19.5
+      }
+    },
+    "dateField1": {
+      "type": "text",
+      "label": "7c. DATE",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 57.7,
+        "width": 102.3,
+        "height": 19.5
+      }
+    },
+    "t2Row2PRTotal2": {
+      "type": "text",
+      "label": "Score",
+      "page": 2,
+      "box": {
+        "left": 534.6,
+        "top": 731.1,
+        "width": 38.6,
+        "height": 10.0
+      }
+    },
+    "checkBox1": {
+      "type": "checkbox",
+      "label": "Check Box 1",
+      "page": 2,
+      "box": {
+        "left": 39.8,
+        "top": 730.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "t2Row3Perc2": {
+      "type": "text",
+      "label": "Score",
+      "page": 2,
+      "box": {
+        "left": 534.6,
+        "top": 715.4,
+        "width": 38.6,
+        "height": 10.0
+      }
+    },
+    "t2Row5PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 2,
+      "box": {
+        "left": 534.6,
+        "top": 681.8,
+        "width": 38.6,
+        "height": 15.0
+      }
+    },
+    "t2Row6PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 2,
+      "box": {
+        "left": 534.6,
+        "top": 661.2,
+        "width": 38.6,
+        "height": 25.5
+      }
+    },
+    "t2Row7PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 2,
+      "box": {
+        "left": 534.6,
+        "top": 630.0,
+        "width": 38.6,
+        "height": 15.0
+      }
+    },
+    "t2Row8PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 2,
+      "box": {
+        "left": 534.6,
+        "top": 609.3,
+        "width": 38.6,
+        "height": 15.1
+      }
+    },
+    "t2Row9PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 2,
+      "box": {
+        "left": 534.6,
+        "top": 588.5,
+        "width": 38.6,
+        "height": 15.0
+      }
+    },
+    "t2Row10PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 2,
+      "box": {
+        "left": 534.6,
+        "top": 567.8,
+        "width": 38.6,
+        "height": 15.6
+      }
+    },
+    "t2Row12PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 2,
+      "box": {
+        "left": 534.6,
+        "top": 525.8,
+        "width": 38.6,
+        "height": 15.0
+      }
+    },
+    "t2Row13PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 2,
+      "box": {
+        "left": 534.6,
+        "top": 505.1,
+        "width": 38.6,
+        "height": 15.0
+      }
+    },
+    "t2Row14PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 2,
+      "box": {
+        "left": 534.6,
+        "top": 484.4,
+        "width": 38.6,
+        "height": 15.0
+      }
+    },
+    "t2Row15PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 2,
+      "box": {
+        "left": 534.6,
+        "top": 463.7,
+        "width": 38.6,
+        "height": 15.0
+      }
+    },
+    "t2Row16PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 2,
+      "box": {
+        "left": 534.6,
+        "top": 443.0,
+        "width": 38.6,
+        "height": 15.0
+      }
+    },
+    "t2Row17PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 2,
+      "box": {
+        "left": 534.6,
+        "top": 422.3,
+        "width": 38.6,
+        "height": 15.0
+      }
+    },
+    "totalPRA": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 2,
+      "box": {
+        "left": 534.6,
+        "top": 401.6,
+        "width": 38.6,
+        "height": 11.7
+      }
+    },
+    "t2Row20PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 2,
+      "box": {
+        "left": 534.6,
+        "top": 364.7,
+        "width": 38.6,
+        "height": 15.6
+      }
+    },
+    "t2Row22PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 2,
+      "box": {
+        "left": 534.6,
+        "top": 322.7,
+        "width": 38.6,
+        "height": 12.2
+      }
+    },
+    "t2Row23PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 2,
+      "box": {
+        "left": 534.6,
+        "top": 304.8,
+        "width": 38.6,
+        "height": 12.2
+      }
+    },
+    "t2Row24PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 2,
+      "box": {
+        "left": 534.6,
+        "top": 286.9,
+        "width": 38.6,
+        "height": 12.2
+      }
+    },
+    "t2Row25PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 2,
+      "box": {
+        "left": 534.6,
+        "top": 269.0,
+        "width": 38.6,
+        "height": 15.0
+      }
+    },
+    "t2Row26PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 2,
+      "box": {
+        "left": 534.6,
+        "top": 248.3,
+        "width": 38.6,
+        "height": 24.8
+      }
+    },
+    "t2Row27PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 2,
+      "box": {
+        "left": 534.6,
+        "top": 217.9,
+        "width": 38.6,
+        "height": 15.0
+      }
+    },
+    "t2Row28PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 2,
+      "box": {
+        "left": 534.6,
+        "top": 197.2,
+        "width": 38.6,
+        "height": 25.5
+      }
+    },
+    "t2Row29PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 2,
+      "box": {
+        "left": 534.6,
+        "top": 166.0,
+        "width": 38.6,
+        "height": 15.0
+      }
+    },
+    "t2Row30PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 2,
+      "box": {
+        "left": 534.6,
+        "top": 145.3,
+        "width": 38.6,
+        "height": 25.4
+      }
+    },
+    "totalPRB": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 2,
+      "box": {
+        "left": 534.6,
+        "top": 114.3,
+        "width": 38.6,
+        "height": 9.4
+      }
+    },
+    "t2Row33PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 2,
+      "box": {
+        "left": 534.6,
+        "top": 78.5,
+        "width": 38.6,
+        "height": 34.0
+      },
+      "multiline": true
+    },
+    "t2Row34PR": {
+      "type": "text",
+      "label": "5112.6 (Series)",
+      "page": 3,
+      "box": {
+        "left": 534.6,
+        "top": 752.3,
+        "width": 38.6,
+        "height": 15.0
+      }
+    },
+    "t2Row35PR": {
+      "type": "text",
+      "label": "5112.6 (Series)",
+      "page": 3,
+      "box": {
+        "left": 534.6,
+        "top": 731.6,
+        "width": 38.6,
+        "height": 15.0
+      }
+    },
+    "t2Row37PR": {
+      "type": "text",
+      "label": "5112.6 (Series)",
+      "page": 3,
+      "box": {
+        "left": 533.2,
+        "top": 712.3,
+        "width": 41.4,
+        "height": 27.3
+      }
+    },
+    "t2Row38PR": {
+      "type": "text",
+      "label": "5112.6 (Series)",
+      "page": 3,
+      "box": {
+        "left": 533.2,
+        "top": 682.2,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row39PR": {
+      "type": "text",
+      "label": "5112.6 (Series)",
+      "page": 3,
+      "box": {
+        "left": 533.2,
+        "top": 661.5,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "totalPRC": {
+      "type": "text",
+      "label": "5112.6 (Series)",
+      "page": 3,
+      "box": {
+        "left": 533.2,
+        "top": 640.8,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row42PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 3,
+      "box": {
+        "left": 533.2,
+        "top": 599.4,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row43PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 3,
+      "box": {
+        "left": 533.2,
+        "top": 578.6,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row44PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 3,
+      "box": {
+        "left": 533.2,
+        "top": 557.9,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row45PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 3,
+      "box": {
+        "left": 533.2,
+        "top": 537.2,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row46PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 3,
+      "box": {
+        "left": 533.2,
+        "top": 516.5,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row47PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 3,
+      "box": {
+        "left": 533.2,
+        "top": 495.8,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row48PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 3,
+      "box": {
+        "left": 533.2,
+        "top": 475.1,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row49PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 3,
+      "box": {
+        "left": 533.2,
+        "top": 454.4,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row51PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 3,
+      "box": {
+        "left": 533.2,
+        "top": 413.0,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row52PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 3,
+      "box": {
+        "left": 533.2,
+        "top": 392.3,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row53PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 3,
+      "box": {
+        "left": 533.2,
+        "top": 371.6,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row54PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 3,
+      "box": {
+        "left": 533.2,
+        "top": 350.9,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row55PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 3,
+      "box": {
+        "left": 533.2,
+        "top": 330.2,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row58PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 3,
+      "box": {
+        "left": 533.2,
+        "top": 268.1,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row59PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 3,
+      "box": {
+        "left": 533.2,
+        "top": 247.4,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row60PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 3,
+      "box": {
+        "left": 533.2,
+        "top": 226.7,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row61PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 3,
+      "box": {
+        "left": 533.2,
+        "top": 206.0,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row62PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 3,
+      "box": {
+        "left": 533.2,
+        "top": 185.3,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "totalPRD": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 3,
+      "box": {
+        "left": 533.2,
+        "top": 164.6,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row65PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 3,
+      "box": {
+        "left": 533.2,
+        "top": 123.2,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row66PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 3,
+      "box": {
+        "left": 533.2,
+        "top": 102.5,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row67PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 3,
+      "box": {
+        "left": 533.2,
+        "top": 81.8,
+        "width": 41.4,
+        "height": 31.9
+      },
+      "multiline": true
+    },
+    "t2Row68PR": {
+      "type": "text",
+      "label": "5112.6 (Series)",
+      "page": 4,
+      "box": {
+        "left": 533.2,
+        "top": 753.7,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row69PR": {
+      "type": "text",
+      "label": "5112.6 (Series)",
+      "page": 4,
+      "box": {
+        "left": 533.2,
+        "top": 733.0,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "totalPRE": {
+      "type": "text",
+      "label": "5112.6 (Series)",
+      "page": 4,
+      "box": {
+        "left": 533.2,
+        "top": 712.3,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row72PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 4,
+      "box": {
+        "left": 533.2,
+        "top": 670.9,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row73PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 4,
+      "box": {
+        "left": 533.2,
+        "top": 650.2,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row74PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 4,
+      "box": {
+        "left": 533.2,
+        "top": 629.5,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row75PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 4,
+      "box": {
+        "left": 533.2,
+        "top": 608.8,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row76PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 4,
+      "box": {
+        "left": 533.2,
+        "top": 588.1,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row77PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 4,
+      "box": {
+        "left": 533.2,
+        "top": 567.4,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row78PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 4,
+      "box": {
+        "left": 533.2,
+        "top": 546.7,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row79PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 4,
+      "box": {
+        "left": 533.2,
+        "top": 526.0,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row80PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 4,
+      "box": {
+        "left": 533.2,
+        "top": 505.3,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "totalPRF": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 4,
+      "box": {
+        "left": 533.2,
+        "top": 484.6,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row83PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 4,
+      "box": {
+        "left": 533.2,
+        "top": 443.2,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row84PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 4,
+      "box": {
+        "left": 533.2,
+        "top": 422.5,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "totalPRG": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 4,
+      "box": {
+        "left": 533.2,
+        "top": 401.8,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row88PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 4,
+      "box": {
+        "left": 533.2,
+        "top": 339.7,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row89PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 4,
+      "box": {
+        "left": 533.2,
+        "top": 319.0,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row90PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 4,
+      "box": {
+        "left": 533.2,
+        "top": 298.3,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row91PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 4,
+      "box": {
+        "left": 533.2,
+        "top": 277.6,
+        "width": 41.4,
+        "height": 66.6
+      },
+      "multiline": true
+    },
+    "totalPRH": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 4,
+      "box": {
+        "left": 533.2,
+        "top": 208.1,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row94PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 4,
+      "box": {
+        "left": 533.2,
+        "top": 166.7,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row95PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 4,
+      "box": {
+        "left": 533.2,
+        "top": 146.0,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row96PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 4,
+      "box": {
+        "left": 533.2,
+        "top": 125.3,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row98PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 4,
+      "box": {
+        "left": 533.2,
+        "top": 83.9,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row99PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 4,
+      "box": {
+        "left": 533.2,
+        "top": 63.2,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row100PR": {
+      "type": "text",
+      "label": "5112.6 (Series)",
+      "page": 5,
+      "box": {
+        "left": 533.2,
+        "top": 753.7,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row101PR": {
+      "type": "text",
+      "label": "5112.6 (Series)",
+      "page": 5,
+      "box": {
+        "left": 533.2,
+        "top": 733.0,
+        "width": 41.4,
+        "height": 37.5
+      },
+      "multiline": true
+    },
+    "t2Row102PR": {
+      "type": "text",
+      "label": "5112.6 (Series)",
+      "page": 5,
+      "box": {
+        "left": 533.2,
+        "top": 692.6,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "totalPRI": {
+      "type": "text",
+      "label": "5112.6 (Series)",
+      "page": 5,
+      "box": {
+        "left": 533.2,
+        "top": 671.9,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row105PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 5,
+      "box": {
+        "left": 533.2,
+        "top": 630.5,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row106PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 5,
+      "box": {
+        "left": 533.2,
+        "top": 609.8,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row107PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 5,
+      "box": {
+        "left": 533.2,
+        "top": 589.1,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row108PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 5,
+      "box": {
+        "left": 533.2,
+        "top": 568.4,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row109PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 5,
+      "box": {
+        "left": 533.2,
+        "top": 547.7,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "totalPRJ": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 5,
+      "box": {
+        "left": 533.2,
+        "top": 527.0,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row112PR": {
+      "type": "text",
+      "label": "POINTS",
+      "page": 5,
+      "box": {
+        "left": 533.2,
+        "top": 495.5,
+        "width": 41.4,
+        "height": 30.4
+      },
+      "multiline": true
+    },
+    "t2Row113PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 5,
+      "box": {
+        "left": 533.2,
+        "top": 462.3,
+        "width": 41.4,
+        "height": 27.3
+      }
+    },
+    "t2Row114PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 5,
+      "box": {
+        "left": 533.2,
+        "top": 432.1,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row115PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 5,
+      "box": {
+        "left": 533.2,
+        "top": 411.4,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row116PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 5,
+      "box": {
+        "left": 533.2,
+        "top": 390.7,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row117PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 5,
+      "box": {
+        "left": 533.2,
+        "top": 370.0,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row118PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 5,
+      "box": {
+        "left": 533.2,
+        "top": 349.3,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row119PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 5,
+      "box": {
+        "left": 533.2,
+        "top": 328.6,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row120PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 5,
+      "box": {
+        "left": 533.2,
+        "top": 307.9,
+        "width": 41.4,
+        "height": 30.4
+      },
+      "multiline": true
+    },
+    "t2Row121PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 5,
+      "box": {
+        "left": 533.2,
+        "top": 274.7,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row122PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 5,
+      "box": {
+        "left": 533.2,
+        "top": 254.0,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row123PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 5,
+      "box": {
+        "left": 533.2,
+        "top": 233.3,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row124PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 5,
+      "box": {
+        "left": 533.2,
+        "top": 212.6,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "totalPRK": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 5,
+      "box": {
+        "left": 533.2,
+        "top": 191.9,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row127PR": {
+      "type": "text",
+      "label": "POINTS",
+      "page": 5,
+      "box": {
+        "left": 533.2,
+        "top": 160.4,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row128PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 5,
+      "box": {
+        "left": 533.2,
+        "top": 139.7,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row129PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 5,
+      "box": {
+        "left": 533.2,
+        "top": 119.0,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row130PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 5,
+      "box": {
+        "left": 533.2,
+        "top": 98.3,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row131PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 5,
+      "box": {
+        "left": 533.2,
+        "top": 77.6,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "totalPRL": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 5,
+      "box": {
+        "left": 533.2,
+        "top": 56.9,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row135PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 6,
+      "box": {
+        "left": 533.2,
+        "top": 712.3,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row136PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 6,
+      "box": {
+        "left": 533.2,
+        "top": 691.6,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row137PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 6,
+      "box": {
+        "left": 533.2,
+        "top": 670.9,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row138PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 6,
+      "box": {
+        "left": 533.2,
+        "top": 650.2,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row139PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 6,
+      "box": {
+        "left": 533.2,
+        "top": 629.5,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row140PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 6,
+      "box": {
+        "left": 533.2,
+        "top": 608.8,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row141PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 6,
+      "box": {
+        "left": 533.2,
+        "top": 588.1,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row142PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 6,
+      "box": {
+        "left": 533.2,
+        "top": 567.4,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row143PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 6,
+      "box": {
+        "left": 533.2,
+        "top": 546.7,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row144PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 6,
+      "box": {
+        "left": 533.2,
+        "top": 526.0,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row145PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 6,
+      "box": {
+        "left": 533.2,
+        "top": 505.3,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row146PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 6,
+      "box": {
+        "left": 533.2,
+        "top": 484.6,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row147PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 6,
+      "box": {
+        "left": 533.2,
+        "top": 463.9,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row148PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 6,
+      "box": {
+        "left": 533.2,
+        "top": 443.2,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row149PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 6,
+      "box": {
+        "left": 533.2,
+        "top": 422.5,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row150PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 6,
+      "box": {
+        "left": 533.2,
+        "top": 401.8,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "totalPRM": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 6,
+      "box": {
+        "left": 533.2,
+        "top": 381.1,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row153PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 6,
+      "box": {
+        "left": 533.2,
+        "top": 341.5,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row154PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 6,
+      "box": {
+        "left": 533.2,
+        "top": 320.8,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row155PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 6,
+      "box": {
+        "left": 533.2,
+        "top": 300.1,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row156PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 6,
+      "box": {
+        "left": 533.2,
+        "top": 279.4,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row157PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 6,
+      "box": {
+        "left": 533.2,
+        "top": 258.7,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row158PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 6,
+      "box": {
+        "left": 533.2,
+        "top": 238.0,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row159PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 6,
+      "box": {
+        "left": 533.2,
+        "top": 217.3,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row160PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 6,
+      "box": {
+        "left": 533.2,
+        "top": 196.6,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row161PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 6,
+      "box": {
+        "left": 533.2,
+        "top": 175.9,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "totalPRN": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 6,
+      "box": {
+        "left": 533.2,
+        "top": 155.2,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row164PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 6,
+      "box": {
+        "left": 533.2,
+        "top": 115.7,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row165PR": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 6,
+      "box": {
+        "left": 533.2,
+        "top": 95.0,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "totalPRO": {
+      "type": "text",
+      "label": "RECEIVED",
+      "page": 6,
+      "box": {
+        "left": 533.2,
+        "top": 74.3,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row168PR": {
+      "type": "text",
+      "label": "5112.6 (Series)",
+      "page": 7,
+      "box": {
+        "left": 533.2,
+        "top": 753.7,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row169PR": {
+      "type": "text",
+      "label": "5112.6 (Series)",
+      "page": 7,
+      "box": {
+        "left": 533.2,
+        "top": 733.0,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row170PR": {
+      "type": "text",
+      "label": "5112.6 (Series)",
+      "page": 7,
+      "box": {
+        "left": 533.2,
+        "top": 712.3,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row171PR": {
+      "type": "text",
+      "label": "5112.6 (Series)",
+      "page": 7,
+      "box": {
+        "left": 533.2,
+        "top": 691.6,
+        "width": 41.4,
+        "height": 24.0
+      }
+    },
+    "t2Row172PR": {
+      "type": "text",
+      "label": "5112.6 (Series)",
+      "page": 7,
+      "box": {
+        "left": 533.2,
+        "top": 664.8,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row173PR": {
+      "type": "text",
+      "label": "5112.6 (Series)",
+      "page": 7,
+      "box": {
+        "left": 533.2,
+        "top": 644.1,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row174PR": {
+      "type": "text",
+      "label": "5112.6 (Series)",
+      "page": 7,
+      "box": {
+        "left": 533.2,
+        "top": 623.4,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "totalPRP": {
+      "type": "text",
+      "label": "5112.6 (Series)",
+      "page": 7,
+      "box": {
+        "left": 533.2,
+        "top": 602.7,
+        "width": 41.4,
+        "height": 17.9
+      }
+    },
+    "t2Row2PRTotal3": {
+      "type": "text",
+      "label": "5112.6 (Series)",
+      "page": 7,
+      "box": {
+        "left": 533.2,
+        "top": 582.0,
+        "width": 41.4,
+        "height": 19.0
+      }
+    }
+  }
+}

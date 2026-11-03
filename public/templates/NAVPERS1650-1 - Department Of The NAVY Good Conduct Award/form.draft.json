@@ -1,0 +1,90 @@
+{
+  "id": "navpers16501",
+  "label": "NAVPERS1650-1 - Department Of The NAVY Good Conduct Award",
+  "directory": "NAVPERS1650-1 - Department Of The NAVY Good Conduct Award",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "membersname",
+        "membersname2",
+        "membersname3",
+        "membersname4",
+        "date1",
+        "textField1"
+      ]
+    }
+  ],
+  "fields": {
+    "membersname": {
+      "type": "text",
+      "label": "Please enter member's rate.",
+      "page": 1,
+      "box": {
+        "left": 44.0,
+        "top": 362.3,
+        "width": 524.0,
+        "height": 25.2
+      }
+    },
+    "membersname2": {
+      "type": "text",
+      "label": "Please enter member's full name.",
+      "page": 1,
+      "box": {
+        "left": 44.0,
+        "top": 331.5,
+        "width": 524.0,
+        "height": 25.2
+      }
+    },
+    "membersname3": {
+      "type": "text",
+      "label": "Please enter member's branch.",
+      "page": 1,
+      "box": {
+        "left": 44.0,
+        "top": 300.6,
+        "width": 524.0,
+        "height": 25.2
+      }
+    },
+    "membersname4": {
+      "type": "text",
+      "label": "Please number of award (i.e., FIRST)",
+      "page": 1,
+      "box": {
+        "left": 44.0,
+        "top": 202.9,
+        "width": 524.0,
+        "height": 25.2
+      }
+    },
+    "date1": {
+      "type": "text",
+      "label": "Please place date of award.",
+      "page": 1,
+      "box": {
+        "left": 388.5,
+        "top": 161.7,
+        "width": 174.3,
+        "height": 25.2
+      }
+    },
+    "textField1": {
+      "type": "text",
+      "label": "TextField1",
+      "page": 1,
+      "box": {
+        "left": 301.1,
+        "top": 84.6,
+        "width": 266.9,
+        "height": 35.5
+      },
+      "multiline": true
+    }
+  }
+}

@@ -1,0 +1,450 @@
+{
+  "id": "opnav4790171",
+  "label": "OPNAV4790-171 - Crosshead Slipper Clearances",
+  "directory": "OPNAV4790-171 - Crosshead Slipper Clearances",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "engineno",
+        "dateTimeField1",
+        "jsn",
+        "hitno",
+        "hitssince",
+        "rs1",
+        "rs2",
+        "rs3",
+        "rs4",
+        "rs5",
+        "ts1",
+        "ts2",
+        "ts3",
+        "ts4",
+        "ts5",
+        "meca",
+        "mecf",
+        "mec",
+        "meda",
+        "medf",
+        "med",
+        "mee",
+        "mef",
+        "xca",
+        "xcf",
+        "xc",
+        "xda",
+        "xdf",
+        "xd",
+        "xe",
+        "xf",
+        "remarks",
+        "maintman",
+        "aglpocpo",
+        "qainspector",
+        "maintcpo"
+      ]
+    }
+  ],
+  "fields": {
+    "engineno": {
+      "type": "text",
+      "label": "ENTER ENGINE NUMBER",
+      "page": 1,
+      "box": {
+        "left": 96.5,
+        "top": 735.2,
+        "width": 89.7,
+        "height": 12.3
+      }
+    },
+    "dateTimeField1": {
+      "type": "text",
+      "label": "ENTER DATE.",
+      "page": 1,
+      "box": {
+        "left": 473.2,
+        "top": 735.2,
+        "width": 91.0,
+        "height": 12.3
+      }
+    },
+    "jsn": {
+      "type": "text",
+      "label": "ENTER JSN.",
+      "page": 1,
+      "box": {
+        "left": 282.3,
+        "top": 726.2,
+        "width": 65.9,
+        "height": 12.3
+      }
+    },
+    "hitno": {
+      "type": "text",
+      "label": "ENTER HIT NUMBER.",
+      "page": 1,
+      "box": {
+        "left": 81.4,
+        "top": 708.2,
+        "width": 104.8,
+        "height": 12.3
+      }
+    },
+    "hitssince": {
+      "type": "text",
+      "label": "ENTER HITS SINCE LAST INSPECTION.",
+      "page": 1,
+      "box": {
+        "left": 475.4,
+        "top": 708.2,
+        "width": 88.8,
+        "height": 12.3
+      }
+    },
+    "rs1": {
+      "type": "text",
+      "label": "ENTER RAIN SPAN READING 1.",
+      "page": 1,
+      "box": {
+        "left": 96.4,
+        "top": 429.2,
+        "width": 71.8,
+        "height": 12.3
+      }
+    },
+    "rs2": {
+      "type": "text",
+      "label": "ENTER RAIN SPAN READING 2.",
+      "page": 1,
+      "box": {
+        "left": 186.4,
+        "top": 429.2,
+        "width": 71.8,
+        "height": 12.3
+      }
+    },
+    "rs3": {
+      "type": "text",
+      "label": "ENTER RAIN SPAN READING 3.",
+      "page": 1,
+      "box": {
+        "left": 276.4,
+        "top": 429.2,
+        "width": 71.8,
+        "height": 12.3
+      }
+    },
+    "rs4": {
+      "type": "text",
+      "label": "ENTER RAIN SPAN READING 4.",
+      "page": 1,
+      "box": {
+        "left": 366.4,
+        "top": 429.2,
+        "width": 71.8,
+        "height": 12.3
+      }
+    },
+    "rs5": {
+      "type": "text",
+      "label": "ENTER RAIN SPAN READING 5.",
+      "page": 1,
+      "box": {
+        "left": 456.4,
+        "top": 429.2,
+        "width": 71.8,
+        "height": 12.3
+      }
+    },
+    "ts1": {
+      "type": "text",
+      "label": "ENTER TRACK SPAN READING 1.",
+      "page": 1,
+      "box": {
+        "left": 96.4,
+        "top": 393.2,
+        "width": 71.8,
+        "height": 12.3
+      }
+    },
+    "ts2": {
+      "type": "text",
+      "label": "ENTER TRACK SPAN READING 2.",
+      "page": 1,
+      "box": {
+        "left": 186.4,
+        "top": 393.2,
+        "width": 71.8,
+        "height": 12.3
+      }
+    },
+    "ts3": {
+      "type": "text",
+      "label": "ENTER TRACK SPAN READING 3.",
+      "page": 1,
+      "box": {
+        "left": 276.4,
+        "top": 393.2,
+        "width": 71.8,
+        "height": 12.3
+      }
+    },
+    "ts4": {
+      "type": "text",
+      "label": "ENTER TRACK SPAN READING 4.",
+      "page": 1,
+      "box": {
+        "left": 366.4,
+        "top": 393.2,
+        "width": 71.8,
+        "height": 12.3
+      }
+    },
+    "ts5": {
+      "type": "text",
+      "label": "ENTER TRACK SPAN READING 5.",
+      "page": 1,
+      "box": {
+        "left": 456.4,
+        "top": 393.2,
+        "width": 71.8,
+        "height": 12.3
+      }
+    },
+    "meca": {
+      "type": "text",
+      "label": "ENTER MEC END READING CA.",
+      "page": 1,
+      "box": {
+        "left": 105.4,
+        "top": 357.2,
+        "width": 53.8,
+        "height": 12.3
+      }
+    },
+    "mecf": {
+      "type": "text",
+      "label": "ENTER MEC END READING CF.",
+      "page": 1,
+      "box": {
+        "left": 276.4,
+        "top": 357.2,
+        "width": 53.8,
+        "height": 12.3
+      }
+    },
+    "mec": {
+      "type": "text",
+      "label": "ENTER MEC END READING C.",
+      "page": 1,
+      "box": {
+        "left": 449.1,
+        "top": 357.2,
+        "width": 52.1,
+        "height": 12.3
+      }
+    },
+    "meda": {
+      "type": "text",
+      "label": "ENTER MEC END READING DA.",
+      "page": 1,
+      "box": {
+        "left": 105.4,
+        "top": 339.2,
+        "width": 53.8,
+        "height": 12.3
+      }
+    },
+    "medf": {
+      "type": "text",
+      "label": "ENTER MEC END READING DF.",
+      "page": 1,
+      "box": {
+        "left": 276.4,
+        "top": 339.2,
+        "width": 53.8,
+        "height": 12.3
+      }
+    },
+    "med": {
+      "type": "text",
+      "label": "ENTER MEC END READING D.",
+      "page": 1,
+      "box": {
+        "left": 447.4,
+        "top": 339.2,
+        "width": 53.8,
+        "height": 12.3
+      }
+    },
+    "mee": {
+      "type": "text",
+      "label": "ENTER MEC END READING E.",
+      "page": 1,
+      "box": {
+        "left": 105.4,
+        "top": 321.2,
+        "width": 53.8,
+        "height": 12.3
+      }
+    },
+    "mef": {
+      "type": "text",
+      "label": "ENTER MEC END READING F.",
+      "page": 1,
+      "box": {
+        "left": 276.4,
+        "top": 321.2,
+        "width": 53.8,
+        "height": 12.3
+      }
+    },
+    "xca": {
+      "type": "text",
+      "label": "ENTER X-HEAD READING CA.",
+      "page": 1,
+      "box": {
+        "left": 105.4,
+        "top": 285.2,
+        "width": 53.8,
+        "height": 12.3
+      }
+    },
+    "xcf": {
+      "type": "text",
+      "label": "ENTER X-HEAD READING CF.",
+      "page": 1,
+      "box": {
+        "left": 276.4,
+        "top": 285.2,
+        "width": 53.8,
+        "height": 12.3
+      }
+    },
+    "xc": {
+      "type": "text",
+      "label": "ENTER X-HEAD READING C.",
+      "page": 1,
+      "box": {
+        "left": 447.4,
+        "top": 285.2,
+        "width": 53.8,
+        "height": 12.3
+      }
+    },
+    "xda": {
+      "type": "text",
+      "label": "ENTER X-HEAD READING DA.",
+      "page": 1,
+      "box": {
+        "left": 105.4,
+        "top": 267.2,
+        "width": 53.8,
+        "height": 12.3
+      }
+    },
+    "xdf": {
+      "type": "text",
+      "label": "ENTER X-HEAD READING DF.",
+      "page": 1,
+      "box": {
+        "left": 276.4,
+        "top": 267.2,
+        "width": 53.8,
+        "height": 12.3
+      }
+    },
+    "xd": {
+      "type": "text",
+      "label": "ENTER X-HEAD READING D.",
+      "page": 1,
+      "box": {
+        "left": 447.4,
+        "top": 267.2,
+        "width": 53.8,
+        "height": 12.3
+      }
+    },
+    "xe": {
+      "type": "text",
+      "label": "ENTER X-HEAD READING E.",
+      "page": 1,
+      "box": {
+        "left": 105.4,
+        "top": 249.2,
+        "width": 53.8,
+        "height": 12.3
+      }
+    },
+    "xf": {
+      "type": "text",
+      "label": "ENTER X-HEAD READING F.",
+      "page": 1,
+      "box": {
+        "left": 276.4,
+        "top": 249.2,
+        "width": 53.8,
+        "height": 12.3
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "ENTER REMARKS.",
+      "page": 1,
+      "box": {
+        "left": 52.3,
+        "top": 204.2,
+        "width": 507.3,
+        "height": 48.3
+      },
+      "multiline": true
+    },
+    "maintman": {
+      "type": "text",
+      "label": "ENTER MAINT. MAN.",
+      "page": 1,
+      "box": {
+        "left": 105.5,
+        "top": 150.2,
+        "width": 161.7,
+        "height": 12.3
+      }
+    },
+    "aglpocpo": {
+      "type": "text",
+      "label": "ENTER A/G LPO/CPO.",
+      "page": 1,
+      "box": {
+        "left": 419.0,
+        "top": 150.2,
+        "width": 145.2,
+        "height": 12.3
+      }
+    },
+    "qainspector": {
+      "type": "text",
+      "label": "ENTER QA INSPECTOR.",
+      "page": 1,
+      "box": {
+        "left": 124.7,
+        "top": 123.2,
+        "width": 142.4,
+        "height": 12.3
+      }
+    },
+    "maintcpo": {
+      "type": "text",
+      "label": "ENTER MAINT. CPO/OFFICER.",
+      "page": 1,
+      "box": {
+        "left": 450.9,
+        "top": 123.2,
+        "width": 113.3,
+        "height": 12.3
+      }
+    }
+  }
+}

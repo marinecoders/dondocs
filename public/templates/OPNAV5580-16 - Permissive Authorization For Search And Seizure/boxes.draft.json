@@ -1,0 +1,216 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "fillIn1": {
+        "left": 122.9,
+        "top": 685.4,
+        "width": 450.9,
+        "height": 19.9,
+        "type": "text",
+        "description": "Enter the name (last, first, MI).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fillIn2": {
+        "left": 143.9,
+        "top": 660.9,
+        "width": 429.9,
+        "height": 19.9,
+        "type": "text",
+        "description": "Indicate whom advised by.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fillIn3": {
+        "left": 78.7,
+        "top": 636.4,
+        "width": 495.2,
+        "height": 19.9,
+        "type": "text",
+        "description": "Indicate what was advised.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fillIn4": {
+        "left": 272.9,
+        "top": 611.9,
+        "width": 300.9,
+        "height": 19.9,
+        "type": "text",
+        "description": "This is line 1 of 2. Indicate the offense(s).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fillIn5": {
+        "left": 37.4,
+        "top": 588.1,
+        "width": 536.5,
+        "height": 19.9,
+        "type": "text",
+        "description": "This is line 2 of 2. Indicate the offense(s).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fillIn6": {
+        "left": 250.4,
+        "top": 562.9,
+        "width": 323.4,
+        "height": 19.9,
+        "type": "text",
+        "description": "This is line 1 of 5. Indicate the search.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fillIn7": {
+        "left": 37.4,
+        "top": 538.3,
+        "width": 536.5,
+        "height": 19.9,
+        "type": "text",
+        "description": "This is line 2 of 5. Indicate the search.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fillIn8": {
+        "left": 37.4,
+        "top": 513.5,
+        "width": 536.5,
+        "height": 19.9,
+        "type": "text",
+        "description": "This is line 3 of 5. Indicate the search.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fillIn9": {
+        "left": 37.4,
+        "top": 488.2,
+        "width": 536.5,
+        "height": 19.1,
+        "type": "text",
+        "description": "This is line 4 of 5. Indicate the search.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fillIn10": {
+        "left": 37.3,
+        "top": 462.1,
+        "width": 536.6,
+        "height": 21.5,
+        "type": "text",
+        "description": "This is line 5 of 5. Indicate the search.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dNSDate1": {
+        "left": 260.2,
+        "top": 332.9,
+        "width": 315.0,
+        "height": 22.6,
+        "type": "text",
+        "description": "Enter the date search may be conducted, using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "by": {
+        "left": 64.8,
+        "top": 305.5,
+        "width": 508.4,
+        "height": 19.8,
+        "type": "text",
+        "description": "Indicate the name of the person doing the search.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dNSDate12": {
+        "left": 37.7,
+        "top": 155.5,
+        "width": 265.9,
+        "height": 15.2,
+        "type": "text",
+        "description": "Enter the date using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dNSDate13": {
+        "left": 309.3,
+        "top": 155.5,
+        "width": 265.0,
+        "height": 15.2,
+        "type": "text",
+        "description": "Enter the signature.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "witnessesSig": {
+        "left": 37.7,
+        "top": 107.6,
+        "width": 265.9,
+        "height": 15.2,
+        "type": "text",
+        "description": "Enter the witnesses signature.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "witnessesSig2": {
+        "left": 309.3,
+        "top": 107.6,
+        "width": 265.0,
+        "height": 15.2,
+        "type": "text",
+        "description": "Enter the witnesses signature.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "start": {
+        "left": 37.7,
+        "top": 60.5,
+        "width": 265.9,
+        "height": 15.2,
+        "type": "text",
+        "description": "Enter the start time of the search using the 24-hour clock (HHMM).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "end": {
+        "left": 309.3,
+        "top": 60.5,
+        "width": 265.0,
+        "height": 15.2,
+        "type": "text",
+        "description": "Enter the end time of the search using the 24-hour clock (HHMM).",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

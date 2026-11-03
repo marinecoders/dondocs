@@ -1,0 +1,2623 @@
+{
+  "id": "opnav51191",
+  "label": "OPNAV5119-1 - Afloat Postal Officer Weekly Checklist",
+  "directory": "OPNAV5119-1 - Afloat Postal Officer Weekly Checklist",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "textField2",
+        "textField3",
+        "textField4",
+        "dateField1",
+        "textField5",
+        "textField6",
+        "textField7",
+        "dateField12",
+        "textField10",
+        "textField9",
+        "textField8",
+        "dateField13",
+        "textField13",
+        "textField12",
+        "textField11",
+        "dateField14",
+        "dateField15",
+        "textField16",
+        "textField15",
+        "textField14",
+        "dateField16",
+        "textField18",
+        "textField19",
+        "textField17",
+        "dateField17",
+        "textField162",
+        "textField163",
+        "textField164",
+        "dateField18",
+        "dateField19",
+        "textField165",
+        "textField166",
+        "textField167",
+        "dateField110",
+        "dateField111",
+        "textField168",
+        "textField169",
+        "textField1610",
+        "dateField112",
+        "textField1611",
+        "textField1612",
+        "textField1613",
+        "dateField113",
+        "textField1614",
+        "textField1615",
+        "textField1616",
+        "dateField114",
+        "textField1617",
+        "textField1618",
+        "textField1619",
+        "dateField115",
+        "textField1620",
+        "textField1621",
+        "textField1622",
+        "dateField116",
+        "textField1623",
+        "textField1624",
+        "textField1625",
+        "dateField117",
+        "textField1626",
+        "textField1627",
+        "textField1628",
+        "dateField118",
+        "textField1629",
+        "textField1630",
+        "textField1631",
+        "dateField119",
+        "textField1632",
+        "textField1633",
+        "textField1634",
+        "dateField120",
+        "textField1635",
+        "textField1636",
+        "textField1637",
+        "dateField121",
+        "textField1638",
+        "textField1639",
+        "textField1640",
+        "dateField122",
+        "textField1641",
+        "textField1642",
+        "textField1643",
+        "dateField123",
+        "textField1644",
+        "textField1645",
+        "textField1646",
+        "dateField124",
+        "textField1647",
+        "textField1648",
+        "textField1649",
+        "dateField125",
+        "textField1650",
+        "textField1651",
+        "textField1652",
+        "dateField126",
+        "dateField127",
+        "textField1653",
+        "textField1654",
+        "textField1655",
+        "dateField128",
+        "dateField129",
+        "textField1656",
+        "textField1657",
+        "textField1658",
+        "dateField130",
+        "textField1659",
+        "textField1660",
+        "textField1661",
+        "dateField131",
+        "textField1662",
+        "textField1663",
+        "textField1664",
+        "dateField132",
+        "textField1665",
+        "textField1666",
+        "textField1667",
+        "dateField133",
+        "dateField134"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "textField1668",
+        "textField1669",
+        "textField1670",
+        "dateField135",
+        "textField1671",
+        "textField93",
+        "textField92",
+        "textField91",
+        "dateField136",
+        "textField94",
+        "textField95",
+        "textField96",
+        "dateField137",
+        "textField99",
+        "textField98",
+        "textField97",
+        "dateField138",
+        "textField992",
+        "textField102",
+        "textField101",
+        "textField100",
+        "dateField139",
+        "textField105",
+        "textField104",
+        "textField103",
+        "dateField140",
+        "dateField2",
+        "textField993",
+        "textField994",
+        "textField995",
+        "dateField141",
+        "textField996",
+        "textField997",
+        "textField998",
+        "dateField142",
+        "textField999",
+        "textField9910",
+        "textField9911",
+        "dateField143",
+        "textField9912",
+        "textField9913",
+        "textField9914",
+        "dateField144",
+        "textField9915",
+        "textField9916",
+        "textField9917",
+        "dateField145",
+        "textField9918",
+        "textField9919",
+        "textField9920",
+        "dateField146",
+        "dateField3",
+        "textField9921",
+        "textField9922",
+        "textField9923",
+        "dateField147",
+        "textField9924",
+        "textField9925",
+        "textField9926",
+        "dateField148",
+        "row6",
+        "textField9927",
+        "textField9928",
+        "textField9929",
+        "dateField149",
+        "textField9930",
+        "textField9931",
+        "textField9932",
+        "dateField150",
+        "textField9933",
+        "textField9934",
+        "textField9935",
+        "dateField151",
+        "textField9936",
+        "textField9937",
+        "textField9938",
+        "dateField152",
+        "textField9939",
+        "textField9940",
+        "textField9941",
+        "dateField153",
+        "textField9942",
+        "textField9943",
+        "textField9944",
+        "dateField154",
+        "remarks"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "postalOfficerName",
+        "postalSigDate",
+        "postalSig",
+        "dLCPOName",
+        "dLCPOSigDate",
+        "dLCPOSig",
+        "supplyOfficerName",
+        "supplySigDate",
+        "supplySig",
+        "cOXOName",
+        "cOXOSigDate",
+        "cOXOSig"
+      ]
+    }
+  ],
+  "fields": {
+    "textField2": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 357.7,
+        "top": 704.3,
+        "width": 34.6,
+        "height": 10.2
+      }
+    },
+    "textField3": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 704.3,
+        "width": 35.0,
+        "height": 10.2
+      }
+    },
+    "textField4": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 438.6,
+        "top": 704.3,
+        "width": 33.3,
+        "height": 10.2
+      }
+    },
+    "dateField1": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 477.6,
+        "top": 704.3,
+        "width": 95.2,
+        "height": 10.2
+      }
+    },
+    "textField5": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 357.7,
+        "top": 688.5,
+        "width": 34.6,
+        "height": 15.4
+      }
+    },
+    "textField6": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 688.5,
+        "width": 35.0,
+        "height": 15.4
+      }
+    },
+    "textField7": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 438.6,
+        "top": 688.5,
+        "width": 33.3,
+        "height": 15.4
+      }
+    },
+    "dateField12": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 477.6,
+        "top": 688.5,
+        "width": 95.2,
+        "height": 15.4
+      }
+    },
+    "textField10": {
+      "type": "text",
+      "label": "3. Is mail to include directory dispatched daily?",
+      "page": 1,
+      "box": {
+        "left": 357.7,
+        "top": 667.4,
+        "width": 34.6,
+        "height": 10.4
+      }
+    },
+    "textField9": {
+      "type": "text",
+      "label": "3. Is mail to include directory dispatched daily?",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 667.4,
+        "width": 35.0,
+        "height": 10.4
+      }
+    },
+    "textField8": {
+      "type": "text",
+      "label": "3. Is mail to include directory dispatched daily?",
+      "page": 1,
+      "box": {
+        "left": 438.6,
+        "top": 667.4,
+        "width": 33.3,
+        "height": 10.4
+      }
+    },
+    "dateField13": {
+      "type": "text",
+      "label": "3. Is mail to include directory dispatched daily?",
+      "page": 1,
+      "box": {
+        "left": 477.6,
+        "top": 667.4,
+        "width": 95.2,
+        "height": 10.4
+      }
+    },
+    "textField13": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 357.7,
+        "top": 651.4,
+        "width": 34.6,
+        "height": 15.4
+      }
+    },
+    "textField12": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 651.4,
+        "width": 35.0,
+        "height": 15.4
+      }
+    },
+    "textField11": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 438.6,
+        "top": 651.4,
+        "width": 33.3,
+        "height": 15.4
+      }
+    },
+    "dateField14": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 477.6,
+        "top": 651.4,
+        "width": 95.2,
+        "height": 15.4
+      }
+    },
+    "dateField15": {
+      "type": "text",
+      "label": "Oldest date on mail",
+      "page": 1,
+      "box": {
+        "left": 189.8,
+        "top": 630.3,
+        "width": 162.2,
+        "height": 10.8
+      }
+    },
+    "textField16": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 357.7,
+        "top": 613.8,
+        "width": 34.6,
+        "height": 10.4
+      }
+    },
+    "textField15": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 613.8,
+        "width": 35.0,
+        "height": 10.4
+      }
+    },
+    "textField14": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 438.6,
+        "top": 613.8,
+        "width": 33.3,
+        "height": 10.4
+      }
+    },
+    "dateField16": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 477.6,
+        "top": 613.8,
+        "width": 95.2,
+        "height": 10.4
+      }
+    },
+    "textField18": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 357.7,
+        "top": 597.8,
+        "width": 34.6,
+        "height": 15.4
+      }
+    },
+    "textField19": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 597.8,
+        "width": 35.0,
+        "height": 15.4
+      }
+    },
+    "textField17": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 438.6,
+        "top": 597.8,
+        "width": 33.3,
+        "height": 15.4
+      }
+    },
+    "dateField17": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 477.6,
+        "top": 597.8,
+        "width": 95.2,
+        "height": 15.4
+      }
+    },
+    "textField162": {
+      "type": "text",
+      "label": "7. Is directory mail properly processed within 24 hours?",
+      "page": 1,
+      "box": {
+        "left": 357.7,
+        "top": 554.1,
+        "width": 34.6,
+        "height": 9.9
+      }
+    },
+    "textField163": {
+      "type": "text",
+      "label": "7. Is directory mail properly processed within 24 hours?",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 554.1,
+        "width": 35.0,
+        "height": 9.9
+      }
+    },
+    "textField164": {
+      "type": "text",
+      "label": "7. Is directory mail properly processed within 24 hours?",
+      "page": 1,
+      "box": {
+        "left": 438.6,
+        "top": 554.1,
+        "width": 33.3,
+        "height": 9.9
+      }
+    },
+    "dateField18": {
+      "type": "text",
+      "label": "7. Is directory mail properly processed within 24 hours?",
+      "page": 1,
+      "box": {
+        "left": 477.6,
+        "top": 554.1,
+        "width": 95.2,
+        "height": 9.9
+      }
+    },
+    "dateField19": {
+      "type": "text",
+      "label": "Date directory mail last processed",
+      "page": 1,
+      "box": {
+        "left": 189.8,
+        "top": 538.5,
+        "width": 162.2,
+        "height": 10.4
+      }
+    },
+    "textField165": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 357.7,
+        "top": 522.5,
+        "width": 34.6,
+        "height": 15.4
+      }
+    },
+    "textField166": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 522.5,
+        "width": 35.0,
+        "height": 15.4
+      }
+    },
+    "textField167": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 438.6,
+        "top": 522.5,
+        "width": 33.3,
+        "height": 15.4
+      }
+    },
+    "dateField110": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 477.6,
+        "top": 522.5,
+        "width": 95.2,
+        "height": 15.4
+      }
+    },
+    "dateField111": {
+      "type": "text",
+      "label": "Date of latest rosters on hand",
+      "page": 1,
+      "box": {
+        "left": 189.8,
+        "top": 501.4,
+        "width": 162.2,
+        "height": 10.4
+      }
+    },
+    "textField168": {
+      "type": "text",
+      "label": "9. Are all barcodes crossed out?",
+      "page": 1,
+      "box": {
+        "left": 357.7,
+        "top": 485.4,
+        "width": 34.6,
+        "height": 10.4
+      }
+    },
+    "textField169": {
+      "type": "text",
+      "label": "9. Are all barcodes crossed out?",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 485.4,
+        "width": 35.0,
+        "height": 10.4
+      }
+    },
+    "textField1610": {
+      "type": "text",
+      "label": "9. Are all barcodes crossed out?",
+      "page": 1,
+      "box": {
+        "left": 438.6,
+        "top": 485.4,
+        "width": 33.3,
+        "height": 10.4
+      }
+    },
+    "dateField112": {
+      "type": "text",
+      "label": "9. Are all barcodes crossed out?",
+      "page": 1,
+      "box": {
+        "left": 477.6,
+        "top": 485.4,
+        "width": 95.2,
+        "height": 10.4
+      }
+    },
+    "textField1611": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 357.7,
+        "top": 469.3,
+        "width": 34.6,
+        "height": 15.4
+      }
+    },
+    "textField1612": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 469.3,
+        "width": 35.0,
+        "height": 15.4
+      }
+    },
+    "textField1613": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 438.6,
+        "top": 469.3,
+        "width": 33.3,
+        "height": 15.4
+      }
+    },
+    "dateField113": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 477.6,
+        "top": 469.3,
+        "width": 95.2,
+        "height": 15.4
+      }
+    },
+    "textField1614": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 357.7,
+        "top": 448.3,
+        "width": 34.6,
+        "height": 15.4
+      }
+    },
+    "textField1615": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 448.3,
+        "width": 35.0,
+        "height": 15.4
+      }
+    },
+    "textField1616": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 438.6,
+        "top": 448.3,
+        "width": 33.3,
+        "height": 15.4
+      }
+    },
+    "dateField114": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 477.6,
+        "top": 448.3,
+        "width": 95.2,
+        "height": 15.4
+      }
+    },
+    "textField1617": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 357.7,
+        "top": 427.2,
+        "width": 34.6,
+        "height": 15.4
+      }
+    },
+    "textField1618": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 427.2,
+        "width": 35.0,
+        "height": 15.4
+      }
+    },
+    "textField1619": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 438.6,
+        "top": 427.2,
+        "width": 33.3,
+        "height": 15.4
+      }
+    },
+    "dateField115": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 477.6,
+        "top": 427.2,
+        "width": 95.2,
+        "height": 15.4
+      }
+    },
+    "textField1620": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 357.7,
+        "top": 406.1,
+        "width": 34.6,
+        "height": 10.4
+      }
+    },
+    "textField1621": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 406.1,
+        "width": 35.0,
+        "height": 10.4
+      }
+    },
+    "textField1622": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 438.6,
+        "top": 406.1,
+        "width": 33.3,
+        "height": 10.4
+      }
+    },
+    "dateField116": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 477.6,
+        "top": 406.1,
+        "width": 95.2,
+        "height": 10.4
+      }
+    },
+    "textField1623": {
+      "type": "text",
+      "label": "14. Was empty equipment inspected for unprocessed mail?",
+      "page": 1,
+      "box": {
+        "left": 357.7,
+        "top": 390.0,
+        "width": 34.6,
+        "height": 10.4
+      }
+    },
+    "textField1624": {
+      "type": "text",
+      "label": "14. Was empty equipment inspected for unprocessed mail?",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 390.0,
+        "width": 35.0,
+        "height": 10.4
+      }
+    },
+    "textField1625": {
+      "type": "text",
+      "label": "14. Was empty equipment inspected for unprocessed mail?",
+      "page": 1,
+      "box": {
+        "left": 438.6,
+        "top": 390.0,
+        "width": 33.3,
+        "height": 10.4
+      }
+    },
+    "dateField117": {
+      "type": "text",
+      "label": "14. Was empty equipment inspected for unprocessed mail?",
+      "page": 1,
+      "box": {
+        "left": 477.6,
+        "top": 390.0,
+        "width": 95.2,
+        "height": 10.4
+      }
+    },
+    "textField1626": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 357.7,
+        "top": 374.0,
+        "width": 34.6,
+        "height": 15.5
+      }
+    },
+    "textField1627": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 374.0,
+        "width": 35.0,
+        "height": 15.5
+      }
+    },
+    "textField1628": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 438.6,
+        "top": 374.0,
+        "width": 33.3,
+        "height": 15.5
+      }
+    },
+    "dateField118": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 477.6,
+        "top": 374.0,
+        "width": 95.2,
+        "height": 15.5
+      }
+    },
+    "textField1629": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 357.7,
+        "top": 352.9,
+        "width": 34.6,
+        "height": 10.4
+      }
+    },
+    "textField1630": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 352.9,
+        "width": 35.0,
+        "height": 10.4
+      }
+    },
+    "textField1631": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 438.6,
+        "top": 352.9,
+        "width": 33.3,
+        "height": 10.4
+      }
+    },
+    "dateField119": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 477.6,
+        "top": 352.9,
+        "width": 95.2,
+        "height": 10.4
+      }
+    },
+    "textField1632": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 357.7,
+        "top": 336.8,
+        "width": 34.6,
+        "height": 10.4
+      }
+    },
+    "textField1633": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 336.8,
+        "width": 35.0,
+        "height": 10.4
+      }
+    },
+    "textField1634": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 438.6,
+        "top": 336.8,
+        "width": 33.3,
+        "height": 10.4
+      }
+    },
+    "dateField120": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 477.6,
+        "top": 336.8,
+        "width": 95.2,
+        "height": 10.4
+      }
+    },
+    "textField1635": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 357.7,
+        "top": 320.8,
+        "width": 34.6,
+        "height": 15.0
+      }
+    },
+    "textField1636": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 320.8,
+        "width": 35.0,
+        "height": 15.0
+      }
+    },
+    "textField1637": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 438.6,
+        "top": 320.8,
+        "width": 33.3,
+        "height": 15.0
+      }
+    },
+    "dateField121": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 477.6,
+        "top": 320.8,
+        "width": 95.2,
+        "height": 15.0
+      }
+    },
+    "textField1638": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 357.7,
+        "top": 300.2,
+        "width": 34.6,
+        "height": 15.4
+      }
+    },
+    "textField1639": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 300.2,
+        "width": 35.0,
+        "height": 15.4
+      }
+    },
+    "textField1640": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 438.6,
+        "top": 300.2,
+        "width": 33.3,
+        "height": 15.4
+      }
+    },
+    "dateField122": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 477.6,
+        "top": 300.2,
+        "width": 95.2,
+        "height": 15.4
+      }
+    },
+    "textField1641": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 357.7,
+        "top": 256.5,
+        "width": 34.6,
+        "height": 25.6
+      }
+    },
+    "textField1642": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 256.5,
+        "width": 35.0,
+        "height": 25.6
+      }
+    },
+    "textField1643": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 438.6,
+        "top": 256.5,
+        "width": 33.3,
+        "height": 25.6
+      }
+    },
+    "dateField123": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 477.6,
+        "top": 256.5,
+        "width": 95.2,
+        "height": 25.6
+      }
+    },
+    "textField1644": {
+      "type": "text",
+      "label": "21. Are the period covered dates correct?",
+      "page": 1,
+      "box": {
+        "left": 357.7,
+        "top": 225.3,
+        "width": 34.6,
+        "height": 10.4
+      }
+    },
+    "textField1645": {
+      "type": "text",
+      "label": "21. Are the period covered dates correct?",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 225.3,
+        "width": 35.0,
+        "height": 10.4
+      }
+    },
+    "textField1646": {
+      "type": "text",
+      "label": "21. Are the period covered dates correct?",
+      "page": 1,
+      "box": {
+        "left": 438.6,
+        "top": 225.3,
+        "width": 33.3,
+        "height": 10.4
+      }
+    },
+    "dateField124": {
+      "type": "text",
+      "label": "21. Are the period covered dates correct?",
+      "page": 1,
+      "box": {
+        "left": 477.6,
+        "top": 225.3,
+        "width": 95.2,
+        "height": 10.4
+      }
+    },
+    "textField1647": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 357.7,
+        "top": 209.2,
+        "width": 34.6,
+        "height": 15.5
+      }
+    },
+    "textField1648": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 209.2,
+        "width": 35.0,
+        "height": 15.5
+      }
+    },
+    "textField1649": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 438.6,
+        "top": 209.2,
+        "width": 33.3,
+        "height": 15.5
+      }
+    },
+    "dateField125": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 477.6,
+        "top": 209.2,
+        "width": 95.2,
+        "height": 15.5
+      }
+    },
+    "textField1650": {
+      "type": "text",
+      "label": "23. Is registered mail delivered daily?",
+      "page": 1,
+      "box": {
+        "left": 357.7,
+        "top": 188.1,
+        "width": 34.6,
+        "height": 10.4
+      }
+    },
+    "textField1651": {
+      "type": "text",
+      "label": "23. Is registered mail delivered daily?",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 188.1,
+        "width": 35.0,
+        "height": 10.4
+      }
+    },
+    "textField1652": {
+      "type": "text",
+      "label": "23. Is registered mail delivered daily?",
+      "page": 1,
+      "box": {
+        "left": 438.6,
+        "top": 188.1,
+        "width": 33.3,
+        "height": 10.4
+      }
+    },
+    "dateField126": {
+      "type": "text",
+      "label": "23. Is registered mail delivered daily?",
+      "page": 1,
+      "box": {
+        "left": 477.6,
+        "top": 188.1,
+        "width": 95.2,
+        "height": 10.4
+      }
+    },
+    "dateField127": {
+      "type": "text",
+      "label": "APDS dates on mail retained",
+      "page": 1,
+      "box": {
+        "left": 189.8,
+        "top": 172.1,
+        "width": 162.2,
+        "height": 10.8
+      }
+    },
+    "textField1653": {
+      "type": "text",
+      "label": "24. Is registered mail dispatched at every opportunity?",
+      "page": 1,
+      "box": {
+        "left": 357.7,
+        "top": 155.6,
+        "width": 34.6,
+        "height": 10.4
+      }
+    },
+    "textField1654": {
+      "type": "text",
+      "label": "24. Is registered mail dispatched at every opportunity?",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 155.6,
+        "width": 35.0,
+        "height": 10.4
+      }
+    },
+    "textField1655": {
+      "type": "text",
+      "label": "24. Is registered mail dispatched at every opportunity?",
+      "page": 1,
+      "box": {
+        "left": 438.6,
+        "top": 155.6,
+        "width": 33.3,
+        "height": 10.4
+      }
+    },
+    "dateField128": {
+      "type": "text",
+      "label": "24. Is registered mail dispatched at every opportunity?",
+      "page": 1,
+      "box": {
+        "left": 477.6,
+        "top": 155.6,
+        "width": 95.2,
+        "height": 10.4
+      }
+    },
+    "dateField129": {
+      "type": "text",
+      "label": "Next available dispatch date",
+      "page": 1,
+      "box": {
+        "left": 189.8,
+        "top": 139.5,
+        "width": 162.2,
+        "height": 10.4
+      }
+    },
+    "textField1656": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 357.7,
+        "top": 123.5,
+        "width": 34.6,
+        "height": 15.4
+      }
+    },
+    "textField1657": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 123.5,
+        "width": 35.0,
+        "height": 15.4
+      }
+    },
+    "textField1658": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 438.6,
+        "top": 123.5,
+        "width": 33.3,
+        "height": 15.4
+      }
+    },
+    "dateField130": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 477.6,
+        "top": 123.5,
+        "width": 95.2,
+        "height": 15.4
+      }
+    },
+    "textField1659": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 357.7,
+        "top": 102.4,
+        "width": 34.6,
+        "height": 10.4
+      }
+    },
+    "textField1660": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 102.4,
+        "width": 35.0,
+        "height": 10.4
+      }
+    },
+    "textField1661": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 438.6,
+        "top": 102.4,
+        "width": 33.3,
+        "height": 10.4
+      }
+    },
+    "dateField131": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 477.6,
+        "top": 102.4,
+        "width": 95.2,
+        "height": 10.4
+      }
+    },
+    "textField1662": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 357.7,
+        "top": 86.4,
+        "width": 34.6,
+        "height": 15.4
+      }
+    },
+    "textField1663": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 86.4,
+        "width": 35.0,
+        "height": 15.4
+      }
+    },
+    "textField1664": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 438.6,
+        "top": 86.4,
+        "width": 33.3,
+        "height": 15.4
+      }
+    },
+    "dateField132": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 477.6,
+        "top": 86.4,
+        "width": 95.2,
+        "height": 15.4
+      }
+    },
+    "textField1665": {
+      "type": "text",
+      "label": "YES",
+      "page": 1,
+      "box": {
+        "left": 357.7,
+        "top": 65.3,
+        "width": 34.6,
+        "height": 10.4
+      }
+    },
+    "textField1666": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 65.3,
+        "width": 35.0,
+        "height": 10.4
+      }
+    },
+    "textField1667": {
+      "type": "text",
+      "label": "N/A",
+      "page": 1,
+      "box": {
+        "left": 438.6,
+        "top": 65.3,
+        "width": 33.3,
+        "height": 10.4
+      }
+    },
+    "dateField133": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 477.6,
+        "top": 65.3,
+        "width": 95.2,
+        "height": 10.4
+      }
+    },
+    "dateField134": {
+      "type": "text",
+      "label": "Date of last records review",
+      "page": 1,
+      "box": {
+        "left": 189.8,
+        "top": 49.2,
+        "width": 162.2,
+        "height": 10.4
+      }
+    },
+    "textField1668": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 355.5,
+        "top": 737.1,
+        "width": 34.5,
+        "height": 16.1
+      }
+    },
+    "textField1669": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 395.7,
+        "top": 737.1,
+        "width": 35.0,
+        "height": 16.1
+      }
+    },
+    "textField1670": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 436.3,
+        "top": 737.1,
+        "width": 33.0,
+        "height": 16.1
+      }
+    },
+    "dateField135": {
+      "type": "text",
+      "label": "DATE",
+      "page": 2,
+      "box": {
+        "left": 475.0,
+        "top": 737.1,
+        "width": 97.5,
+        "height": 16.1
+      }
+    },
+    "textField1671": {
+      "type": "text",
+      "label": "YES NO N/A DATE",
+      "page": 2,
+      "box": {
+        "left": 355.5,
+        "top": 715.3,
+        "width": 217.0,
+        "height": 33.5
+      },
+      "multiline": true
+    },
+    "textField93": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 355.5,
+        "top": 676.1,
+        "width": 34.5,
+        "height": 21.2
+      }
+    },
+    "textField92": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 395.7,
+        "top": 676.1,
+        "width": 35.0,
+        "height": 21.2
+      }
+    },
+    "textField91": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 436.3,
+        "top": 676.1,
+        "width": 33.0,
+        "height": 21.2
+      }
+    },
+    "dateField136": {
+      "type": "text",
+      "label": "DATE",
+      "page": 2,
+      "box": {
+        "left": 475.0,
+        "top": 676.1,
+        "width": 97.5,
+        "height": 21.2
+      }
+    },
+    "textField94": {
+      "type": "text",
+      "label": "31. Is all incoming mail entered into PTR via AMPS?",
+      "page": 2,
+      "box": {
+        "left": 355.5,
+        "top": 649.3,
+        "width": 34.5,
+        "height": 10.2
+      }
+    },
+    "textField95": {
+      "type": "text",
+      "label": "31. Is all incoming mail entered into PTR via AMPS?",
+      "page": 2,
+      "box": {
+        "left": 395.7,
+        "top": 649.3,
+        "width": 35.0,
+        "height": 10.2
+      }
+    },
+    "textField96": {
+      "type": "text",
+      "label": "31. Is all incoming mail entered into PTR via AMPS?",
+      "page": 2,
+      "box": {
+        "left": 436.3,
+        "top": 649.3,
+        "width": 33.0,
+        "height": 10.2
+      }
+    },
+    "dateField137": {
+      "type": "text",
+      "label": "31. Is all incoming mail entered into PTR via AMPS?",
+      "page": 2,
+      "box": {
+        "left": 475.0,
+        "top": 649.3,
+        "width": 97.5,
+        "height": 10.2
+      }
+    },
+    "textField99": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 355.5,
+        "top": 633.4,
+        "width": 34.5,
+        "height": 10.2
+      }
+    },
+    "textField98": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 395.7,
+        "top": 633.4,
+        "width": 35.0,
+        "height": 10.2
+      }
+    },
+    "textField97": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 436.3,
+        "top": 633.4,
+        "width": 33.0,
+        "height": 10.2
+      }
+    },
+    "dateField138": {
+      "type": "text",
+      "label": "DATE",
+      "page": 2,
+      "box": {
+        "left": 475.0,
+        "top": 633.4,
+        "width": 97.5,
+        "height": 10.2
+      }
+    },
+    "textField992": {
+      "type": "text",
+      "label": "Weekly weeks ago PTR (%): Ratio from 4",
+      "page": 2,
+      "box": {
+        "left": 156.6,
+        "top": 617.5,
+        "width": 193.2,
+        "height": 13.2
+      }
+    },
+    "textField102": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 355.5,
+        "top": 598.7,
+        "width": 34.5,
+        "height": 16.1
+      }
+    },
+    "textField101": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 395.7,
+        "top": 598.7,
+        "width": 35.0,
+        "height": 16.1
+      }
+    },
+    "textField100": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 436.3,
+        "top": 598.7,
+        "width": 33.0,
+        "height": 16.1
+      }
+    },
+    "dateField139": {
+      "type": "text",
+      "label": "DATE",
+      "page": 2,
+      "box": {
+        "left": 475.0,
+        "top": 598.7,
+        "width": 97.5,
+        "height": 16.1
+      }
+    },
+    "textField105": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 355.5,
+        "top": 576.9,
+        "width": 34.5,
+        "height": 10.2
+      }
+    },
+    "textField104": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 395.7,
+        "top": 576.9,
+        "width": 35.0,
+        "height": 10.2
+      }
+    },
+    "textField103": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 436.3,
+        "top": 576.9,
+        "width": 33.0,
+        "height": 10.2
+      }
+    },
+    "dateField140": {
+      "type": "text",
+      "label": "DATE",
+      "page": 2,
+      "box": {
+        "left": 475.0,
+        "top": 576.9,
+        "width": 97.5,
+        "height": 10.2
+      }
+    },
+    "dateField2": {
+      "type": "text",
+      "label": "Date of last records review",
+      "page": 2,
+      "box": {
+        "left": 156.6,
+        "top": 561.1,
+        "width": 193.2,
+        "height": 13.2
+      }
+    },
+    "textField993": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 355.5,
+        "top": 526.3,
+        "width": 34.5,
+        "height": 13.2
+      }
+    },
+    "textField994": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 395.7,
+        "top": 526.3,
+        "width": 35.0,
+        "height": 13.2
+      }
+    },
+    "textField995": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 436.3,
+        "top": 526.3,
+        "width": 33.0,
+        "height": 13.2
+      }
+    },
+    "dateField141": {
+      "type": "text",
+      "label": "DATE",
+      "page": 2,
+      "box": {
+        "left": 475.0,
+        "top": 526.3,
+        "width": 97.5,
+        "height": 13.2
+      }
+    },
+    "textField996": {
+      "type": "text",
+      "label": "36. Is the Post Office free of unauthorized personal gear?",
+      "page": 2,
+      "box": {
+        "left": 355.5,
+        "top": 507.5,
+        "width": 34.5,
+        "height": 10.2
+      }
+    },
+    "textField997": {
+      "type": "text",
+      "label": "36. Is the Post Office free of unauthorized personal gear?",
+      "page": 2,
+      "box": {
+        "left": 395.7,
+        "top": 507.5,
+        "width": 35.0,
+        "height": 10.2
+      }
+    },
+    "textField998": {
+      "type": "text",
+      "label": "36. Is the Post Office free of unauthorized personal gear?",
+      "page": 2,
+      "box": {
+        "left": 436.3,
+        "top": 507.5,
+        "width": 33.0,
+        "height": 10.2
+      }
+    },
+    "dateField142": {
+      "type": "text",
+      "label": "36. Is the Post Office free of unauthorized personal gear?",
+      "page": 2,
+      "box": {
+        "left": 475.0,
+        "top": 507.5,
+        "width": 97.5,
+        "height": 10.2
+      }
+    },
+    "textField999": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 355.5,
+        "top": 491.6,
+        "width": 34.5,
+        "height": 10.2
+      }
+    },
+    "textField9910": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 395.7,
+        "top": 491.6,
+        "width": 35.0,
+        "height": 10.2
+      }
+    },
+    "textField9911": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 436.3,
+        "top": 491.6,
+        "width": 33.0,
+        "height": 10.2
+      }
+    },
+    "dateField143": {
+      "type": "text",
+      "label": "DATE",
+      "page": 2,
+      "box": {
+        "left": 475.0,
+        "top": 491.6,
+        "width": 97.5,
+        "height": 10.2
+      }
+    },
+    "textField9912": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 355.5,
+        "top": 459.9,
+        "width": 34.5,
+        "height": 13.2
+      }
+    },
+    "textField9913": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 395.7,
+        "top": 459.9,
+        "width": 35.0,
+        "height": 13.2
+      }
+    },
+    "textField9914": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 436.3,
+        "top": 459.9,
+        "width": 33.0,
+        "height": 13.2
+      }
+    },
+    "dateField144": {
+      "type": "text",
+      "label": "DATE",
+      "page": 2,
+      "box": {
+        "left": 475.0,
+        "top": 459.9,
+        "width": 97.5,
+        "height": 13.2
+      }
+    },
+    "textField9915": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 355.5,
+        "top": 441.0,
+        "width": 34.5,
+        "height": 13.2
+      }
+    },
+    "textField9916": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 395.7,
+        "top": 441.0,
+        "width": 35.0,
+        "height": 13.2
+      }
+    },
+    "textField9917": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 436.3,
+        "top": 441.0,
+        "width": 33.0,
+        "height": 13.2
+      }
+    },
+    "dateField145": {
+      "type": "text",
+      "label": "DATE",
+      "page": 2,
+      "box": {
+        "left": 475.0,
+        "top": 441.0,
+        "width": 97.5,
+        "height": 13.2
+      }
+    },
+    "textField9918": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 355.5,
+        "top": 422.2,
+        "width": 34.5,
+        "height": 10.2
+      }
+    },
+    "textField9919": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 395.7,
+        "top": 422.2,
+        "width": 35.0,
+        "height": 10.2
+      }
+    },
+    "textField9920": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 436.3,
+        "top": 422.2,
+        "width": 33.0,
+        "height": 10.2
+      }
+    },
+    "dateField146": {
+      "type": "text",
+      "label": "DATE",
+      "page": 2,
+      "box": {
+        "left": 475.0,
+        "top": 422.2,
+        "width": 97.5,
+        "height": 10.2
+      }
+    },
+    "dateField3": {
+      "type": "text",
+      "label": "DTG of last MRI",
+      "page": 2,
+      "box": {
+        "left": 156.6,
+        "top": 406.3,
+        "width": 193.2,
+        "height": 10.2
+      }
+    },
+    "textField9921": {
+      "type": "text",
+      "label": "41. Is AMPS MPO profile up to date?",
+      "page": 2,
+      "box": {
+        "left": 355.5,
+        "top": 374.6,
+        "width": 34.5,
+        "height": 10.2
+      }
+    },
+    "textField9922": {
+      "type": "text",
+      "label": "41. Is AMPS MPO profile up to date?",
+      "page": 2,
+      "box": {
+        "left": 395.7,
+        "top": 374.6,
+        "width": 35.0,
+        "height": 10.2
+      }
+    },
+    "textField9923": {
+      "type": "text",
+      "label": "41. Is AMPS MPO profile up to date?",
+      "page": 2,
+      "box": {
+        "left": 436.3,
+        "top": 374.6,
+        "width": 33.0,
+        "height": 10.2
+      }
+    },
+    "dateField147": {
+      "type": "text",
+      "label": "41. Is AMPS MPO profile up to date?",
+      "page": 2,
+      "box": {
+        "left": 475.0,
+        "top": 374.6,
+        "width": 97.5,
+        "height": 10.2
+      }
+    },
+    "textField9924": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 355.5,
+        "top": 358.7,
+        "width": 34.5,
+        "height": 16.1
+      }
+    },
+    "textField9925": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 395.7,
+        "top": 358.7,
+        "width": 35.0,
+        "height": 16.1
+      }
+    },
+    "textField9926": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 436.3,
+        "top": 358.7,
+        "width": 33.0,
+        "height": 16.1
+      }
+    },
+    "dateField148": {
+      "type": "text",
+      "label": "DATE",
+      "page": 2,
+      "box": {
+        "left": 475.0,
+        "top": 358.7,
+        "width": 97.5,
+        "height": 16.1
+      }
+    },
+    "row6": {
+      "type": "text",
+      "label": "Last date changed",
+      "page": 2,
+      "box": {
+        "left": 155.2,
+        "top": 338.3,
+        "width": 196.1,
+        "height": 13.0
+      }
+    },
+    "textField9927": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 355.5,
+        "top": 321.0,
+        "width": 34.5,
+        "height": 16.6
+      }
+    },
+    "textField9928": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 395.7,
+        "top": 321.0,
+        "width": 35.0,
+        "height": 16.6
+      }
+    },
+    "textField9929": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 436.3,
+        "top": 321.0,
+        "width": 33.0,
+        "height": 16.6
+      }
+    },
+    "dateField149": {
+      "type": "text",
+      "label": "DATE",
+      "page": 2,
+      "box": {
+        "left": 475.0,
+        "top": 321.0,
+        "width": 97.5,
+        "height": 16.6
+      }
+    },
+    "textField9930": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 355.5,
+        "top": 298.8,
+        "width": 34.5,
+        "height": 16.1
+      }
+    },
+    "textField9931": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 395.7,
+        "top": 298.8,
+        "width": 35.0,
+        "height": 16.1
+      }
+    },
+    "textField9932": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 436.3,
+        "top": 298.8,
+        "width": 33.0,
+        "height": 16.1
+      }
+    },
+    "dateField150": {
+      "type": "text",
+      "label": "DATE",
+      "page": 2,
+      "box": {
+        "left": 475.0,
+        "top": 298.8,
+        "width": 97.5,
+        "height": 16.1
+      }
+    },
+    "textField9933": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 355.5,
+        "top": 277.0,
+        "width": 34.5,
+        "height": 13.2
+      }
+    },
+    "textField9934": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 395.7,
+        "top": 277.0,
+        "width": 35.0,
+        "height": 13.2
+      }
+    },
+    "textField9935": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 436.3,
+        "top": 277.0,
+        "width": 33.0,
+        "height": 13.2
+      }
+    },
+    "dateField151": {
+      "type": "text",
+      "label": "DATE",
+      "page": 2,
+      "box": {
+        "left": 475.0,
+        "top": 277.0,
+        "width": 97.5,
+        "height": 13.2
+      }
+    },
+    "textField9936": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 355.5,
+        "top": 258.2,
+        "width": 34.5,
+        "height": 16.1
+      }
+    },
+    "textField9937": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 395.7,
+        "top": 258.2,
+        "width": 35.0,
+        "height": 16.1
+      }
+    },
+    "textField9938": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 436.3,
+        "top": 258.2,
+        "width": 33.0,
+        "height": 16.1
+      }
+    },
+    "dateField152": {
+      "type": "text",
+      "label": "DATE",
+      "page": 2,
+      "box": {
+        "left": 475.0,
+        "top": 258.2,
+        "width": 97.5,
+        "height": 16.1
+      }
+    },
+    "textField9939": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 355.5,
+        "top": 220.5,
+        "width": 34.5,
+        "height": 16.1
+      }
+    },
+    "textField9940": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 395.7,
+        "top": 220.5,
+        "width": 35.0,
+        "height": 16.1
+      }
+    },
+    "textField9941": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 436.3,
+        "top": 220.5,
+        "width": 33.0,
+        "height": 16.1
+      }
+    },
+    "dateField153": {
+      "type": "text",
+      "label": "DATE",
+      "page": 2,
+      "box": {
+        "left": 475.0,
+        "top": 220.5,
+        "width": 97.5,
+        "height": 16.1
+      }
+    },
+    "textField9942": {
+      "type": "text",
+      "label": "YES",
+      "page": 2,
+      "box": {
+        "left": 355.5,
+        "top": 198.8,
+        "width": 34.5,
+        "height": 16.6
+      }
+    },
+    "textField9943": {
+      "type": "text",
+      "label": "NO",
+      "page": 2,
+      "box": {
+        "left": 395.7,
+        "top": 198.8,
+        "width": 35.0,
+        "height": 16.6
+      }
+    },
+    "textField9944": {
+      "type": "text",
+      "label": "N/A",
+      "page": 2,
+      "box": {
+        "left": 436.3,
+        "top": 198.8,
+        "width": 33.0,
+        "height": 16.6
+      }
+    },
+    "dateField154": {
+      "type": "text",
+      "label": "DATE",
+      "page": 2,
+      "box": {
+        "left": 475.0,
+        "top": 198.8,
+        "width": 97.5,
+        "height": 16.6
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "49. REMARKS",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 163.2,
+        "width": 534.4,
+        "height": 71.6
+      },
+      "multiline": true
+    },
+    "postalOfficerName": {
+      "type": "text",
+      "label": "a. Name",
+      "page": 3,
+      "box": {
+        "left": 221.9,
+        "top": 753.2,
+        "width": 101.9,
+        "height": 12.3
+      }
+    },
+    "postalSigDate": {
+      "type": "text",
+      "label": "b. Date",
+      "page": 3,
+      "box": {
+        "left": 357.5,
+        "top": 753.2,
+        "width": 63.8,
+        "height": 12.3
+      }
+    },
+    "postalSig": {
+      "type": "text",
+      "label": "c. Signature",
+      "page": 3,
+      "box": {
+        "left": 471.7,
+        "top": 753.2,
+        "width": 101.4,
+        "height": 12.3
+      }
+    },
+    "dLCPOName": {
+      "type": "text",
+      "label": "a. Name",
+      "page": 3,
+      "box": {
+        "left": 221.9,
+        "top": 735.6,
+        "width": 101.9,
+        "height": 12.3
+      }
+    },
+    "dLCPOSigDate": {
+      "type": "text",
+      "label": "b. Date",
+      "page": 3,
+      "box": {
+        "left": 357.5,
+        "top": 735.6,
+        "width": 63.8,
+        "height": 12.3
+      }
+    },
+    "dLCPOSig": {
+      "type": "text",
+      "label": "c. Signature",
+      "page": 3,
+      "box": {
+        "left": 471.7,
+        "top": 735.6,
+        "width": 101.4,
+        "height": 12.3
+      }
+    },
+    "supplyOfficerName": {
+      "type": "text",
+      "label": "a. Name",
+      "page": 3,
+      "box": {
+        "left": 221.9,
+        "top": 718.1,
+        "width": 101.9,
+        "height": 12.3
+      }
+    },
+    "supplySigDate": {
+      "type": "text",
+      "label": "b. Date",
+      "page": 3,
+      "box": {
+        "left": 357.5,
+        "top": 718.1,
+        "width": 63.8,
+        "height": 12.3
+      }
+    },
+    "supplySig": {
+      "type": "text",
+      "label": "c. Signature",
+      "page": 3,
+      "box": {
+        "left": 471.7,
+        "top": 718.1,
+        "width": 101.4,
+        "height": 12.3
+      }
+    },
+    "cOXOName": {
+      "type": "text",
+      "label": "53. CO/XO (EXCEPT O-5/O-6 SUPPOs): a. Name",
+      "page": 3,
+      "box": {
+        "left": 221.9,
+        "top": 700.1,
+        "width": 101.9,
+        "height": 12.3
+      }
+    },
+    "cOXOSigDate": {
+      "type": "text",
+      "label": "b. Date",
+      "page": 3,
+      "box": {
+        "left": 357.5,
+        "top": 700.1,
+        "width": 63.8,
+        "height": 12.3
+      }
+    },
+    "cOXOSig": {
+      "type": "text",
+      "label": "c. Signature",
+      "page": 3,
+      "box": {
+        "left": 471.7,
+        "top": 700.1,
+        "width": 101.4,
+        "height": 12.3
+      }
+    }
+  }
+}

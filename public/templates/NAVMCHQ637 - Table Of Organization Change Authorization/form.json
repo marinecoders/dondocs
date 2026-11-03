@@ -1,0 +1,1036 @@
+{
+  "id": "navmchq637",
+  "label": "NAVMC HQ 637 - Table Of Organization Change Authorization",
+  "directory": "NAVMCHQ637 - Table Of Organization Change Authorization",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "tONum",
+        "unitTitle",
+        "changeNum",
+        "gen",
+        "lgen",
+        "mgen",
+        "bgen",
+        "colcapt",
+        "ltcolcdr",
+        "majlcdr",
+        "captlt",
+        "ltens",
+        "wgwd",
+        "sgtmaj",
+        "mgysmcpo",
+        "fsgt",
+        "msgtscpo",
+        "gysgtcpo",
+        "ssftpo1",
+        "sgtpo2",
+        "cplpo3",
+        "lcplsn",
+        "pvtsa",
+        "gs18",
+        "gs17",
+        "gs16",
+        "gs15",
+        "gs14",
+        "gs13",
+        "gs12",
+        "gs11",
+        "gs10",
+        "gs9",
+        "gs8",
+        "gs7",
+        "gs6",
+        "gs5",
+        "gs4",
+        "gs3",
+        "gs2",
+        "gs1",
+        "s",
+        "ns",
+        "remarksP1",
+        "radioButtonList",
+        "radioButtonList2",
+        "radioButtonList3",
+        "radioButtonList4",
+        "fyop31",
+        "fyop41",
+        "fyop11",
+        "fyop21",
+        "fypo51",
+        "fyop61",
+        "fyop71",
+        "fyop81",
+        "fyop91",
+        "fyop101",
+        "fyop111",
+        "fyop32",
+        "fyop42",
+        "fyop12",
+        "fyop22",
+        "fypo52",
+        "fyop62",
+        "fyop72",
+        "fyop82",
+        "fyop92",
+        "fyop102",
+        "fyop122",
+        "tOValid",
+        "dateA",
+        "dateServices",
+        "dateB",
+        "alloc",
+        "dateC",
+        "signature",
+        "dateD"
+      ]
+    }
+  ],
+  "fields": {
+    "tONum": {
+      "type": "text",
+      "label": "T / O number",
+      "page": 1,
+      "box": {
+        "left": 160.0,
+        "top": 728.0,
+        "width": 71.2,
+        "height": 13.6
+      }
+    },
+    "unitTitle": {
+      "type": "text",
+      "label": "Unit Title",
+      "page": 1,
+      "box": {
+        "left": 232.0,
+        "top": 727.4,
+        "width": 271.2,
+        "height": 13.0
+      }
+    },
+    "changeNum": {
+      "type": "text",
+      "label": "Change number",
+      "page": 1,
+      "box": {
+        "left": 504.0,
+        "top": 726.8,
+        "width": 80.0,
+        "height": 12.4
+      }
+    },
+    "gen": {
+      "type": "text",
+      "label": "G E N",
+      "page": 1,
+      "box": {
+        "left": 24.0,
+        "top": 603.2,
+        "width": 67.2,
+        "height": 16.0
+      }
+    },
+    "lgen": {
+      "type": "text",
+      "label": "L G E N",
+      "page": 1,
+      "box": {
+        "left": 92.8,
+        "top": 603.2,
+        "width": 60.0,
+        "height": 16.0
+      }
+    },
+    "mgen": {
+      "type": "text",
+      "label": "M G E N",
+      "page": 1,
+      "box": {
+        "left": 153.6,
+        "top": 603.2,
+        "width": 67.2,
+        "height": 16.0
+      }
+    },
+    "bgen": {
+      "type": "text",
+      "label": "B G E N",
+      "page": 1,
+      "box": {
+        "left": 218.4,
+        "top": 603.2,
+        "width": 67.2,
+        "height": 16.0
+      }
+    },
+    "colcapt": {
+      "type": "text",
+      "label": "C O L / C A P T",
+      "page": 1,
+      "box": {
+        "left": 286.4,
+        "top": 603.2,
+        "width": 48.8,
+        "height": 16.0
+      }
+    },
+    "ltcolcdr": {
+      "type": "text",
+      "label": "L T C O L / C D R",
+      "page": 1,
+      "box": {
+        "left": 336.0,
+        "top": 603.2,
+        "width": 48.0,
+        "height": 16.0
+      }
+    },
+    "majlcdr": {
+      "type": "text",
+      "label": "M A J / L C D R",
+      "page": 1,
+      "box": {
+        "left": 384.8,
+        "top": 603.2,
+        "width": 48.8,
+        "height": 16.0
+      }
+    },
+    "captlt": {
+      "type": "text",
+      "label": "C A P T / L T",
+      "page": 1,
+      "box": {
+        "left": 435.2,
+        "top": 603.2,
+        "width": 48.0,
+        "height": 16.0
+      }
+    },
+    "ltens": {
+      "type": "text",
+      "label": "L T / E N S",
+      "page": 1,
+      "box": {
+        "left": 484.8,
+        "top": 603.2,
+        "width": 48.8,
+        "height": 16.0
+      }
+    },
+    "wgwd": {
+      "type": "text",
+      "label": "W G / W D",
+      "page": 1,
+      "box": {
+        "left": 534.4,
+        "top": 603.2,
+        "width": 48.0,
+        "height": 16.0
+      }
+    },
+    "sgtmaj": {
+      "type": "text",
+      "label": "S G T M A J",
+      "page": 1,
+      "box": {
+        "left": 25.6,
+        "top": 558.4,
+        "width": 67.2,
+        "height": 16.0
+      }
+    },
+    "mgysmcpo": {
+      "type": "text",
+      "label": "M G Y S / M C P O",
+      "page": 1,
+      "box": {
+        "left": 93.6,
+        "top": 558.4,
+        "width": 60.0,
+        "height": 16.0
+      }
+    },
+    "fsgt": {
+      "type": "text",
+      "label": "F S G T",
+      "page": 1,
+      "box": {
+        "left": 154.4,
+        "top": 558.4,
+        "width": 67.2,
+        "height": 16.0
+      }
+    },
+    "msgtscpo": {
+      "type": "text",
+      "label": "M S G T / S C P O",
+      "page": 1,
+      "box": {
+        "left": 219.2,
+        "top": 558.4,
+        "width": 67.2,
+        "height": 16.0
+      }
+    },
+    "gysgtcpo": {
+      "type": "text",
+      "label": "G Y S G T / C P O",
+      "page": 1,
+      "box": {
+        "left": 287.2,
+        "top": 558.4,
+        "width": 48.8,
+        "height": 16.0
+      }
+    },
+    "ssftpo1": {
+      "type": "text",
+      "label": "S S F T / P O 1",
+      "page": 1,
+      "box": {
+        "left": 336.8,
+        "top": 558.4,
+        "width": 48.0,
+        "height": 16.0
+      }
+    },
+    "sgtpo2": {
+      "type": "text",
+      "label": "S G T / P O 1",
+      "page": 1,
+      "box": {
+        "left": 385.6,
+        "top": 558.4,
+        "width": 48.8,
+        "height": 16.0
+      }
+    },
+    "cplpo3": {
+      "type": "text",
+      "label": "C P L / P O 3",
+      "page": 1,
+      "box": {
+        "left": 436.0,
+        "top": 558.4,
+        "width": 48.0,
+        "height": 16.0
+      }
+    },
+    "lcplsn": {
+      "type": "text",
+      "label": "L C P L / S N",
+      "page": 1,
+      "box": {
+        "left": 485.6,
+        "top": 558.4,
+        "width": 48.8,
+        "height": 16.0
+      }
+    },
+    "pvtsa": {
+      "type": "text",
+      "label": "P V T / S A",
+      "page": 1,
+      "box": {
+        "left": 535.2,
+        "top": 558.4,
+        "width": 48.0,
+        "height": 16.0
+      }
+    },
+    "gs18": {
+      "type": "text",
+      "label": "G S 18",
+      "page": 1,
+      "box": {
+        "left": 25.6,
+        "top": 529.6,
+        "width": 67.2,
+        "height": 16.0
+      }
+    },
+    "gs17": {
+      "type": "text",
+      "label": "G S 17",
+      "page": 1,
+      "box": {
+        "left": 94.4,
+        "top": 529.6,
+        "width": 60.0,
+        "height": 16.0
+      }
+    },
+    "gs16": {
+      "type": "text",
+      "label": "G S 16",
+      "page": 1,
+      "box": {
+        "left": 155.2,
+        "top": 529.6,
+        "width": 67.2,
+        "height": 16.0
+      }
+    },
+    "gs15": {
+      "type": "text",
+      "label": "G S 15",
+      "page": 1,
+      "box": {
+        "left": 220.0,
+        "top": 529.6,
+        "width": 67.2,
+        "height": 16.0
+      }
+    },
+    "gs14": {
+      "type": "text",
+      "label": "G S 14",
+      "page": 1,
+      "box": {
+        "left": 288.0,
+        "top": 529.6,
+        "width": 48.8,
+        "height": 16.0
+      }
+    },
+    "gs13": {
+      "type": "text",
+      "label": "G S 13",
+      "page": 1,
+      "box": {
+        "left": 337.6,
+        "top": 529.6,
+        "width": 48.0,
+        "height": 16.0
+      }
+    },
+    "gs12": {
+      "type": "text",
+      "label": "G S 12",
+      "page": 1,
+      "box": {
+        "left": 386.4,
+        "top": 529.6,
+        "width": 48.8,
+        "height": 16.0
+      }
+    },
+    "gs11": {
+      "type": "text",
+      "label": "G S 11",
+      "page": 1,
+      "box": {
+        "left": 436.8,
+        "top": 529.6,
+        "width": 48.0,
+        "height": 16.0
+      }
+    },
+    "gs10": {
+      "type": "text",
+      "label": "G S 10",
+      "page": 1,
+      "box": {
+        "left": 486.4,
+        "top": 529.6,
+        "width": 48.8,
+        "height": 16.0
+      }
+    },
+    "gs9": {
+      "type": "text",
+      "label": "G S 9",
+      "page": 1,
+      "box": {
+        "left": 536.0,
+        "top": 529.6,
+        "width": 48.0,
+        "height": 16.0
+      }
+    },
+    "gs8": {
+      "type": "text",
+      "label": "G S 8",
+      "page": 1,
+      "box": {
+        "left": 25.6,
+        "top": 500.8,
+        "width": 67.2,
+        "height": 16.0
+      }
+    },
+    "gs7": {
+      "type": "text",
+      "label": "G S 7",
+      "page": 1,
+      "box": {
+        "left": 94.4,
+        "top": 500.8,
+        "width": 60.0,
+        "height": 16.0
+      }
+    },
+    "gs6": {
+      "type": "text",
+      "label": "G S 6",
+      "page": 1,
+      "box": {
+        "left": 155.2,
+        "top": 500.8,
+        "width": 67.2,
+        "height": 16.0
+      }
+    },
+    "gs5": {
+      "type": "text",
+      "label": "G S 5",
+      "page": 1,
+      "box": {
+        "left": 220.0,
+        "top": 500.8,
+        "width": 67.2,
+        "height": 16.0
+      }
+    },
+    "gs4": {
+      "type": "text",
+      "label": "G S 4",
+      "page": 1,
+      "box": {
+        "left": 288.0,
+        "top": 500.8,
+        "width": 48.8,
+        "height": 16.0
+      }
+    },
+    "gs3": {
+      "type": "text",
+      "label": "G S 3",
+      "page": 1,
+      "box": {
+        "left": 337.6,
+        "top": 500.8,
+        "width": 48.0,
+        "height": 16.0
+      }
+    },
+    "gs2": {
+      "type": "text",
+      "label": "G S 2",
+      "page": 1,
+      "box": {
+        "left": 386.4,
+        "top": 500.8,
+        "width": 48.8,
+        "height": 16.0
+      }
+    },
+    "gs1": {
+      "type": "text",
+      "label": "G S 1",
+      "page": 1,
+      "box": {
+        "left": 436.8,
+        "top": 500.8,
+        "width": 48.0,
+        "height": 16.0
+      }
+    },
+    "s": {
+      "type": "text",
+      "label": "S",
+      "page": 1,
+      "box": {
+        "left": 486.4,
+        "top": 500.8,
+        "width": 48.8,
+        "height": 16.0
+      }
+    },
+    "ns": {
+      "type": "text",
+      "label": "N S",
+      "page": 1,
+      "box": {
+        "left": 536.0,
+        "top": 500.8,
+        "width": 48.0,
+        "height": 16.0
+      }
+    },
+    "remarksP1": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 1,
+      "box": {
+        "left": 25.6,
+        "top": 473.1,
+        "width": 559.2,
+        "height": 189.9
+      },
+      "multiline": true
+    },
+    "radioButtonList": {
+      "type": "radio",
+      "label": "no",
+      "page": 1,
+      "box": {
+        "left": 211.2,
+        "top": 283.2,
+        "width": 15.2,
+        "height": 15.2
+      },
+      "group": "topmostSubform_0_Page1_0_RadioButtonList_0"
+    },
+    "radioButtonList2": {
+      "type": "radio",
+      "label": "yes",
+      "page": 1,
+      "box": {
+        "left": 291.2,
+        "top": 283.2,
+        "width": 15.2,
+        "height": 15.2
+      },
+      "group": "topmostSubform_0_Page1_0_RadioButtonList_0"
+    },
+    "radioButtonList3": {
+      "type": "radio",
+      "label": "no",
+      "page": 1,
+      "box": {
+        "left": 211.2,
+        "top": 264.0,
+        "width": 15.2,
+        "height": 15.2
+      },
+      "group": "topmostSubform_0_Page1_0_RadioButtonList_1"
+    },
+    "radioButtonList4": {
+      "type": "radio",
+      "label": "yes",
+      "page": 1,
+      "box": {
+        "left": 291.2,
+        "top": 264.0,
+        "width": 15.2,
+        "height": 15.2
+      },
+      "group": "topmostSubform_0_Page1_0_RadioButtonList_1"
+    },
+    "fyop31": {
+      "type": "text",
+      "label": "Current.  Officer.  Line 1.",
+      "page": 1,
+      "box": {
+        "left": 222.4,
+        "top": 206.4,
+        "width": 35.2,
+        "height": 16.0
+      }
+    },
+    "fyop41": {
+      "type": "text",
+      "label": "Current. Enlisted. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 264.0,
+        "top": 206.4,
+        "width": 35.2,
+        "height": 16.0
+      }
+    },
+    "fyop11": {
+      "type": "text",
+      "label": "F Y O P change.  Pen number.  Line 1.",
+      "page": 1,
+      "box": {
+        "left": 72.8,
+        "top": 205.6,
+        "width": 50.4,
+        "height": 16.0
+      }
+    },
+    "fyop21": {
+      "type": "text",
+      "label": "Line description increase. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 124.8,
+        "top": 205.6,
+        "width": 94.4,
+        "height": 16.0
+      }
+    },
+    "fypo51": {
+      "type": "text",
+      "label": "Current. Civilian. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 307.2,
+        "top": 205.6,
+        "width": 35.2,
+        "height": 16.0
+      }
+    },
+    "fyop61": {
+      "type": "text",
+      "label": "Change. Officer. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 348.8,
+        "top": 205.6,
+        "width": 35.2,
+        "height": 16.0
+      }
+    },
+    "fyop71": {
+      "type": "text",
+      "label": "Change. Enlisted. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 389.6,
+        "top": 205.6,
+        "width": 35.2,
+        "height": 16.0
+      }
+    },
+    "fyop81": {
+      "type": "text",
+      "label": "Change. Civilian. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 428.0,
+        "top": 205.6,
+        "width": 35.2,
+        "height": 16.0
+      }
+    },
+    "fyop91": {
+      "type": "text",
+      "label": "Revised. Officer. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 467.2,
+        "top": 205.6,
+        "width": 35.2,
+        "height": 16.0
+      }
+    },
+    "fyop101": {
+      "type": "text",
+      "label": "Revised. Enlisted. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 508.8,
+        "top": 205.6,
+        "width": 35.2,
+        "height": 16.0
+      }
+    },
+    "fyop111": {
+      "type": "text",
+      "label": "Revised. Civilian. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 547.2,
+        "top": 205.6,
+        "width": 35.2,
+        "height": 16.0
+      }
+    },
+    "fyop32": {
+      "type": "text",
+      "label": "Current.  Officer.  Line 2.",
+      "page": 1,
+      "box": {
+        "left": 222.4,
+        "top": 180.0,
+        "width": 35.2,
+        "height": 16.0
+      }
+    },
+    "fyop42": {
+      "type": "text",
+      "label": "Current. Enlisted. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 264.0,
+        "top": 180.0,
+        "width": 35.2,
+        "height": 16.0
+      }
+    },
+    "fyop12": {
+      "type": "text",
+      "label": "Pen Number. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 72.8,
+        "top": 179.2,
+        "width": 50.4,
+        "height": 16.0
+      }
+    },
+    "fyop22": {
+      "type": "text",
+      "label": "Line description decrease. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 124.8,
+        "top": 179.2,
+        "width": 94.4,
+        "height": 16.0
+      }
+    },
+    "fypo52": {
+      "type": "text",
+      "label": "Current. Civilian. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 307.2,
+        "top": 179.2,
+        "width": 35.2,
+        "height": 16.0
+      }
+    },
+    "fyop62": {
+      "type": "text",
+      "label": "Change. Officer. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 348.8,
+        "top": 179.2,
+        "width": 35.2,
+        "height": 16.0
+      }
+    },
+    "fyop72": {
+      "type": "text",
+      "label": "Change. Enlisted. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 389.6,
+        "top": 179.2,
+        "width": 35.2,
+        "height": 16.0
+      }
+    },
+    "fyop82": {
+      "type": "text",
+      "label": "Change. Civilian. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 428.0,
+        "top": 179.2,
+        "width": 35.2,
+        "height": 16.0
+      }
+    },
+    "fyop92": {
+      "type": "text",
+      "label": "Revised. Officer. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 467.2,
+        "top": 179.2,
+        "width": 35.2,
+        "height": 16.0
+      }
+    },
+    "fyop102": {
+      "type": "text",
+      "label": "Revised. Enlisted. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 508.8,
+        "top": 179.2,
+        "width": 35.2,
+        "height": 16.0
+      }
+    },
+    "fyop122": {
+      "type": "text",
+      "label": "F Y O P change.  Pen number.  Line 2.",
+      "page": 1,
+      "box": {
+        "left": 547.2,
+        "top": 179.2,
+        "width": 35.2,
+        "height": 16.0
+      }
+    },
+    "tOValid": {
+      "type": "text",
+      "label": "T O validation (initials)",
+      "page": 1,
+      "box": {
+        "left": 24.0,
+        "top": 143.2,
+        "width": 70.4,
+        "height": 16.0
+      }
+    },
+    "dateA": {
+      "type": "text",
+      "label": "Enter date using format 2003 12 23",
+      "page": 1,
+      "box": {
+        "left": 98.4,
+        "top": 143.2,
+        "width": 94.4,
+        "height": 16.0
+      }
+    },
+    "dateServices": {
+      "type": "text",
+      "label": "Enter date of services using format 2003 12 23",
+      "page": 1,
+      "box": {
+        "left": 195.2,
+        "top": 143.2,
+        "width": 97.6,
+        "height": 16.0
+      }
+    },
+    "dateB": {
+      "type": "text",
+      "label": "Enter date using format 2003 12 23",
+      "page": 1,
+      "box": {
+        "left": 308.0,
+        "top": 143.2,
+        "width": 97.6,
+        "height": 16.0
+      }
+    },
+    "alloc": {
+      "type": "text",
+      "label": "Allocations (initials)",
+      "page": 1,
+      "box": {
+        "left": 404.0,
+        "top": 143.2,
+        "width": 83.2,
+        "height": 16.0
+      }
+    },
+    "dateC": {
+      "type": "text",
+      "label": "Enter date using format 2003 12 23",
+      "page": 1,
+      "box": {
+        "left": 489.6,
+        "top": 143.2,
+        "width": 95.2,
+        "height": 16.0
+      }
+    },
+    "signature": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 24.2,
+        "top": 106.4,
+        "width": 333.9,
+        "height": 33.1
+      }
+    },
+    "dateD": {
+      "type": "text",
+      "label": "Enter date using format 2003 12 23",
+      "page": 1,
+      "box": {
+        "left": 361.6,
+        "top": 106.4,
+        "width": 95.2,
+        "height": 32.8
+      },
+      "multiline": true
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 15.2,
+      "editor": "grid",
+      "columns": {
+        "tOMCOff": {
+          "type": "text",
+          "label": "Quantitative change. Marine corps. Officer. Cujrrent T / O number. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 216.8,
+            "top": 679.2,
+            "width": 62.4,
+            "height": 16.0
+          }
+        },
+        "tOMCEnl": {
+          "type": "text",
+          "label": "Marine corps. Enlisted. Cujrrent T / O number. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 280.0,
+            "top": 679.2,
+            "width": 62.4,
+            "height": 16.0
+          }
+        },
+        "tONavyOff": {
+          "type": "text",
+          "label": "Navy. Officer. Cujrrent T / O number. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 342.4,
+            "top": 679.2,
+            "width": 62.4,
+            "height": 16.0
+          }
+        },
+        "tONavyEnl": {
+          "type": "text",
+          "label": "Navy. Enlisted. Cujrrent T / O number. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 406.4,
+            "top": 679.2,
+            "width": 62.4,
+            "height": 16.0
+          }
+        },
+        "tOCivGr": {
+          "type": "text",
+          "label": "Civilian. Graded. Cujrrent T / O number. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 468.0,
+            "top": 679.2,
+            "width": 62.4,
+            "height": 16.0
+          }
+        },
+        "tOCivUngr": {
+          "type": "text",
+          "label": "Civilian. Ungraded. Cujrrent T / O number. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 532.0,
+            "top": 679.2,
+            "width": 52.8,
+            "height": 16.0
+          }
+        }
+      }
+    }
+  }
+}

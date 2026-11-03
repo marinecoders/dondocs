@@ -1,0 +1,475 @@
+{
+  "id": "opnav4790ck",
+  "label": "OPNAV4790-CK - Ships Configuration Chg Form",
+  "directory": "OPNAV4790-CK - Ships Configuration Chg Form",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "ship1",
+        "workcenter1",
+        "workcenter2",
+        "alteration1",
+        "shipName1",
+        "hullNumber1",
+        "bc1",
+        "act1",
+        "noun1",
+        "sf1",
+        "act2",
+        "dNSDate5",
+        "mr1",
+        "jpb1",
+        "component1",
+        "information1",
+        "ca1",
+        "identification1",
+        "serial1",
+        "apl1",
+        "deck1",
+        "eic1",
+        "sac1",
+        "work1",
+        "next1",
+        "dat1",
+        "mip1",
+        "eoss1",
+        "im1",
+        "rin1",
+        "ailsin1",
+        "office1",
+        "numberpages1",
+        "supervisor1",
+        "divsion1",
+        "supply1",
+        "coordinator1",
+        "shiip1"
+      ]
+    }
+  ],
+  "fields": {
+    "ship1": {
+      "type": "text",
+      "label": "Enter the ship UIC.",
+      "page": 1,
+      "box": {
+        "left": 95.4,
+        "top": 698.0,
+        "width": 84.6,
+        "height": 10.3
+      }
+    },
+    "workcenter1": {
+      "type": "text",
+      "label": "Enter the work center.",
+      "page": 1,
+      "box": {
+        "left": 184.3,
+        "top": 698.0,
+        "width": 68.4,
+        "height": 10.3
+      }
+    },
+    "workcenter2": {
+      "type": "text",
+      "label": "Enter the work center.",
+      "page": 1,
+      "box": {
+        "left": 255.7,
+        "top": 698.0,
+        "width": 67.5,
+        "height": 10.3
+      }
+    },
+    "alteration1": {
+      "type": "text",
+      "label": "Enter the alterations (shipalt, FLD, CHG, ETC).",
+      "page": 1,
+      "box": {
+        "left": 327.4,
+        "top": 698.0,
+        "width": 246.7,
+        "height": 10.3
+      }
+    },
+    "shipName1": {
+      "type": "text",
+      "label": "Enter the ship's name.",
+      "page": 1,
+      "box": {
+        "left": 40.7,
+        "top": 680.0,
+        "width": 229.1,
+        "height": 9.9
+      }
+    },
+    "hullNumber1": {
+      "type": "text",
+      "label": "Enter the hull number.",
+      "page": 1,
+      "box": {
+        "left": 273.7,
+        "top": 680.0,
+        "width": 139.7,
+        "height": 9.9
+      }
+    },
+    "bc1": {
+      "type": "text",
+      "label": "Enter the EIC.",
+      "page": 1,
+      "box": {
+        "left": 418.2,
+        "top": 680.0,
+        "width": 120.8,
+        "height": 9.9
+      }
+    },
+    "act1": {
+      "type": "text",
+      "label": "Enter the ACT.",
+      "page": 1,
+      "box": {
+        "left": 542.8,
+        "top": 680.0,
+        "width": 31.4,
+        "height": 9.9
+      }
+    },
+    "noun1": {
+      "type": "text",
+      "label": "Enter the equipment noun name.",
+      "page": 1,
+      "box": {
+        "left": 40.7,
+        "top": 661.1,
+        "width": 281.5,
+        "height": 9.1
+      }
+    },
+    "sf1": {
+      "type": "text",
+      "label": "Enter the S/F MHRS. EXP.",
+      "page": 1,
+      "box": {
+        "left": 327.9,
+        "top": 661.1,
+        "width": 66.6,
+        "height": 9.1
+      }
+    },
+    "act2": {
+      "type": "text",
+      "label": "Enter the ACT.",
+      "page": 1,
+      "box": {
+        "left": 398.8,
+        "top": 661.1,
+        "width": 50.8,
+        "height": 9.1
+      }
+    },
+    "dNSDate5": {
+      "type": "text",
+      "label": "Enter the completion date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 453.4,
+        "top": 661.1,
+        "width": 67.5,
+        "height": 9.1
+      }
+    },
+    "mr1": {
+      "type": "text",
+      "label": "Enter the M/R.",
+      "page": 1,
+      "box": {
+        "left": 541.0,
+        "top": 661.1,
+        "width": 34.1,
+        "height": 9.1
+      }
+    },
+    "jpb1": {
+      "type": "text",
+      "label": "Enter any job description or remaks.",
+      "page": 1,
+      "box": {
+        "left": 41.7,
+        "top": 623.8,
+        "width": 532.5,
+        "height": 54.8
+      },
+      "multiline": true
+    },
+    "component1": {
+      "type": "text",
+      "label": "Enter the component noun name.",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 546.4,
+        "width": 462.1,
+        "height": 8.7
+      }
+    },
+    "information1": {
+      "type": "text",
+      "label": "Enter the information for number 14.",
+      "page": 1,
+      "box": {
+        "left": 505.8,
+        "top": 546.4,
+        "width": 49.4,
+        "height": 8.7
+      }
+    },
+    "ca1": {
+      "type": "text",
+      "label": "Enter the CA.",
+      "page": 1,
+      "box": {
+        "left": 558.6,
+        "top": 546.4,
+        "width": 15.1,
+        "height": 8.7
+      }
+    },
+    "identification1": {
+      "type": "text",
+      "label": "Enter the component identification.",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 530.8,
+        "width": 264.3,
+        "height": 8.7
+      }
+    },
+    "serial1": {
+      "type": "text",
+      "label": "Enter the component serial number.",
+      "page": 1,
+      "box": {
+        "left": 309.4,
+        "top": 530.8,
+        "width": 264.3,
+        "height": 8.7
+      }
+    },
+    "apl1": {
+      "type": "text",
+      "label": "Enter the component APL and or AEL.",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 514.3,
+        "width": 193.0,
+        "height": 8.3
+      }
+    },
+    "deck1": {
+      "type": "text",
+      "label": "Enter the location (deck, frame, side).",
+      "page": 1,
+      "box": {
+        "left": 236.2,
+        "top": 514.3,
+        "width": 211.5,
+        "height": 8.3
+      }
+    },
+    "eic1": {
+      "type": "text",
+      "label": "Enter the EIC.",
+      "page": 1,
+      "box": {
+        "left": 453.0,
+        "top": 514.3,
+        "width": 120.8,
+        "height": 8.3
+      }
+    },
+    "sac1": {
+      "type": "text",
+      "label": "Enter the S.A.C.",
+      "page": 1,
+      "box": {
+        "left": 415.5,
+        "top": 499.5,
+        "width": 86.5,
+        "height": 9.1
+      }
+    },
+    "work1": {
+      "type": "text",
+      "label": "Enter the work.",
+      "page": 1,
+      "box": {
+        "left": 506.7,
+        "top": 499.5,
+        "width": 67.0,
+        "height": 9.1
+      }
+    },
+    "next1": {
+      "type": "text",
+      "label": "Enter the next higher assembly.",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 498.7,
+        "width": 371.8,
+        "height": 8.3
+      }
+    },
+    "dat1": {
+      "type": "text",
+      "label": "Enter the name plate data.",
+      "page": 1,
+      "box": {
+        "left": 41.7,
+        "top": 481.5,
+        "width": 530.7,
+        "height": 53.2
+      },
+      "multiline": true
+    },
+    "mip1": {
+      "type": "text",
+      "label": "Enter the MIP.",
+      "page": 1,
+      "box": {
+        "left": 44.4,
+        "top": 420.5,
+        "width": 260.6,
+        "height": 8.3
+      }
+    },
+    "eoss1": {
+      "type": "text",
+      "label": "Enter the EOSS.",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 420.5,
+        "width": 260.6,
+        "height": 8.3
+      }
+    },
+    "im1": {
+      "type": "text",
+      "label": "Enter the TM.",
+      "page": 1,
+      "box": {
+        "left": 44.4,
+        "top": 405.7,
+        "width": 526.1,
+        "height": 9.1
+      }
+    },
+    "rin1": {
+      "type": "text",
+      "label": "Enter the RIN.",
+      "page": 1,
+      "box": {
+        "left": 44.4,
+        "top": 376.0,
+        "width": 80.0,
+        "height": 9.5
+      }
+    },
+    "ailsin1": {
+      "type": "text",
+      "label": "Enter the ailsin.",
+      "page": 1,
+      "box": {
+        "left": 128.7,
+        "top": 376.0,
+        "width": 210.6,
+        "height": 9.5
+      }
+    },
+    "office1": {
+      "type": "text",
+      "label": "Enter the secas office use.",
+      "page": 1,
+      "box": {
+        "left": 345.0,
+        "top": 376.0,
+        "width": 225.4,
+        "height": 9.5
+      }
+    },
+    "numberpages1": {
+      "type": "text",
+      "label": "Enter the total number of pages.",
+      "page": 1,
+      "box": {
+        "left": 520.0,
+        "top": 61.8,
+        "width": 34.6,
+        "height": 12.5
+      }
+    },
+    "supervisor1": {
+      "type": "text",
+      "label": "Enter the work center supervisor.",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 47.5,
+        "width": 68.4,
+        "height": 10.3
+      }
+    },
+    "divsion1": {
+      "type": "text",
+      "label": "Enter the information for division off.",
+      "page": 1,
+      "box": {
+        "left": 113.0,
+        "top": 47.5,
+        "width": 68.4,
+        "height": 10.3
+      }
+    },
+    "supply1": {
+      "type": "text",
+      "label": "Enter the information for the supply department.",
+      "page": 1,
+      "box": {
+        "left": 187.1,
+        "top": 47.5,
+        "width": 70.3,
+        "height": 10.3
+      }
+    },
+    "coordinator1": {
+      "type": "text",
+      "label": "Enter the information for the 3 M coordinator.",
+      "page": 1,
+      "box": {
+        "left": 263.1,
+        "top": 47.5,
+        "width": 70.3,
+        "height": 10.3
+      }
+    },
+    "shiip1": {
+      "type": "text",
+      "label": "Enter the information for the ship sequence number.",
+      "page": 1,
+      "box": {
+        "left": 338.1,
+        "top": 47.5,
+        "width": 82.8,
+        "height": 10.3
+      }
+    }
+  }
+}

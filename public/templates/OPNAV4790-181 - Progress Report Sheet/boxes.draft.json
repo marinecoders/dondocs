@@ -1,0 +1,227 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "ten": {
+        "left": 48.2,
+        "top": 707.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT PERCENT COMPLETE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "twenty": {
+        "left": 84.2,
+        "top": 707.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT PERCENT COMPLETE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "thirty": {
+        "left": 120.2,
+        "top": 707.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT PERCENT COMPLETE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fourty": {
+        "left": 156.2,
+        "top": 707.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT PERCENT COMPLETE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fifty": {
+        "left": 192.2,
+        "top": 707.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT PERCENT COMPLETE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sixty": {
+        "left": 228.2,
+        "top": 707.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT PERCENT COMPLETE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "seventy": {
+        "left": 264.2,
+        "top": 707.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT PERCENT COMPLETE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "eighty": {
+        "left": 300.2,
+        "top": 707.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT PERCENT COMPLETE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ninty": {
+        "left": 336.2,
+        "top": 707.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT PERCENT COMPLETE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hundred": {
+        "left": 372.2,
+        "top": 707.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "SELECT PERCENT COMPLETE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "activity": {
+        "left": 83.0,
+        "top": 685.7,
+        "width": 184.2,
+        "height": 21.3,
+        "type": "text",
+        "description": "ENTER ACTIVITY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "poc": {
+        "left": 296.4,
+        "top": 685.7,
+        "width": 123.8,
+        "height": 21.3,
+        "type": "text",
+        "description": "ENTER POC.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "phone": {
+        "left": 475.1,
+        "top": 685.7,
+        "width": 98.0,
+        "height": 21.3,
+        "type": "text",
+        "description": "ENTER PHONE NUMBER.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comments": {
+        "left": 38.8,
+        "top": 649.1,
+        "width": 534.3,
+        "height": 34.3,
+        "type": "text",
+        "description": "ENTER COMMENTS.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "wc": {
+        "left": 38.8,
+        "top": 599.6,
+        "width": 93.3,
+        "height": 16.3,
+        "type": "text",
+        "description": "ENTER W/C.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "jsn": {
+        "left": 137.8,
+        "top": 599.6,
+        "width": 93.3,
+        "height": 16.3,
+        "type": "text",
+        "description": "ENTER JSN.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "desc": {
+        "left": 236.8,
+        "top": 599.6,
+        "width": 138.3,
+        "height": 16.3,
+        "type": "text",
+        "description": "ENTER DESCRIPTION.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "eswibs": {
+        "left": 380.8,
+        "top": 599.6,
+        "width": 93.3,
+        "height": 16.3,
+        "type": "text",
+        "description": "ENTER ESWIBS.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "itemno": {
+        "left": 479.8,
+        "top": 599.6,
+        "width": 93.3,
+        "height": 16.3,
+        "type": "text",
+        "description": "ENTER ITEM NUMBER.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

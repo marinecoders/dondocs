@@ -1,0 +1,287 @@
+{
+  "id": "navmc11583",
+  "label": "NAVMC11583 - Visiting Officers - Wonded Warriors",
+  "directory": "NAVMC11583 - Visiting Officers - Wonded Warriors",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "last4SSN",
+        "warRank",
+        "warName",
+        "parCom",
+        "treatFacil",
+        "visPhone",
+        "visRank",
+        "visMar",
+        "visParCom",
+        "dateVisit",
+        "timeVisit",
+        "reqByMarine",
+        "reqAction",
+        "recomAction",
+        "famConcerns",
+        "marineCondition",
+        "reqByMarineDate",
+        "reqByMarine2",
+        "comments",
+        "mFRSigDate",
+        "mFRSig",
+        "dateForwarded"
+      ]
+    }
+  ],
+  "fields": {
+    "last4SSN": {
+      "type": "text",
+      "label": "Last4SSN",
+      "page": 1,
+      "box": {
+        "left": 510.5,
+        "top": 672.2,
+        "width": 66.9,
+        "height": 15.2
+      }
+    },
+    "warRank": {
+      "type": "text",
+      "label": "WarRank",
+      "page": 1,
+      "box": {
+        "left": 346.1,
+        "top": 672.0,
+        "width": 105.0,
+        "height": 15.1
+      }
+    },
+    "warName": {
+      "type": "text",
+      "label": "WarName",
+      "page": 1,
+      "box": {
+        "left": 126.0,
+        "top": 671.8,
+        "width": 185.5,
+        "height": 15.1
+      }
+    },
+    "parCom": {
+      "type": "text",
+      "label": "ParCom",
+      "page": 1,
+      "box": {
+        "left": 137.6,
+        "top": 646.7,
+        "width": 158.9,
+        "height": 15.1
+      }
+    },
+    "treatFacil": {
+      "type": "text",
+      "label": "TreatFacil",
+      "page": 1,
+      "box": {
+        "left": 386.9,
+        "top": 646.6,
+        "width": 189.9,
+        "height": 15.1
+      }
+    },
+    "visPhone": {
+      "type": "text",
+      "label": "VisPhone",
+      "page": 1,
+      "box": {
+        "left": 485.8,
+        "top": 613.6,
+        "width": 91.6,
+        "height": 14.9
+      }
+    },
+    "visRank": {
+      "type": "text",
+      "label": "VisRank",
+      "page": 1,
+      "box": {
+        "left": 338.1,
+        "top": 613.5,
+        "width": 104.5,
+        "height": 15.1
+      }
+    },
+    "visMar": {
+      "type": "text",
+      "label": "VisMar",
+      "page": 1,
+      "box": {
+        "left": 125.4,
+        "top": 613.3,
+        "width": 178.6,
+        "height": 15.1
+      }
+    },
+    "visParCom": {
+      "type": "text",
+      "label": "VisParCom",
+      "page": 1,
+      "box": {
+        "left": 137.0,
+        "top": 588.2,
+        "width": 292.7,
+        "height": 15.1
+      }
+    },
+    "dateVisit": {
+      "type": "text",
+      "label": "DateVisit",
+      "page": 1,
+      "box": {
+        "left": 116.8,
+        "top": 554.8,
+        "width": 100.7,
+        "height": 15.9
+      }
+    },
+    "timeVisit": {
+      "type": "text",
+      "label": "TimeVisit",
+      "page": 1,
+      "box": {
+        "left": 329.9,
+        "top": 554.8,
+        "width": 60.0,
+        "height": 15.9
+      }
+    },
+    "reqByMarine": {
+      "type": "text",
+      "label": "ReqByMarine",
+      "page": 1,
+      "box": {
+        "left": 20.4,
+        "top": 506.5,
+        "width": 569.9,
+        "height": 34.0
+      },
+      "multiline": true
+    },
+    "reqAction": {
+      "type": "text",
+      "label": "ReqAction",
+      "page": 1,
+      "box": {
+        "left": 21.2,
+        "top": 447.1,
+        "width": 569.9,
+        "height": 34.0
+      },
+      "multiline": true
+    },
+    "recomAction": {
+      "type": "text",
+      "label": "RecomAction",
+      "page": 1,
+      "box": {
+        "left": 21.2,
+        "top": 383.7,
+        "width": 569.9,
+        "height": 34.0
+      },
+      "multiline": true
+    },
+    "famConcerns": {
+      "type": "text",
+      "label": "FamConcerns",
+      "page": 1,
+      "box": {
+        "left": 21.2,
+        "top": 320.8,
+        "width": 569.9,
+        "height": 34.0
+      },
+      "multiline": true
+    },
+    "marineCondition": {
+      "type": "text",
+      "label": "MarineCondition",
+      "page": 1,
+      "box": {
+        "left": 21.2,
+        "top": 257.9,
+        "width": 569.9,
+        "height": 34.0
+      },
+      "multiline": true
+    },
+    "reqByMarineDate": {
+      "type": "text",
+      "label": "ReqByMarineDate",
+      "page": 1,
+      "box": {
+        "left": 448.7,
+        "top": 211.6,
+        "width": 89.7,
+        "height": 15.9
+      }
+    },
+    "reqByMarine2": {
+      "type": "signature",
+      "label": "ReqByMarine",
+      "page": 1,
+      "box": {
+        "left": 178.2,
+        "top": 211.4,
+        "width": 225.5,
+        "height": 15.7
+      }
+    },
+    "comments": {
+      "type": "text",
+      "label": "Comments",
+      "page": 1,
+      "box": {
+        "left": 21.2,
+        "top": 162.1,
+        "width": 569.9,
+        "height": 34.0
+      },
+      "multiline": true
+    },
+    "mFRSigDate": {
+      "type": "text",
+      "label": "MFRSigDate",
+      "page": 1,
+      "box": {
+        "left": 467.2,
+        "top": 114.9,
+        "width": 89.7,
+        "height": 15.9
+      }
+    },
+    "mFRSig": {
+      "type": "signature",
+      "label": "MFRSig",
+      "page": 1,
+      "box": {
+        "left": 160.7,
+        "top": 114.7,
+        "width": 209.6,
+        "height": 15.7
+      }
+    },
+    "dateForwarded": {
+      "type": "text",
+      "label": "DateForwarded",
+      "page": 1,
+      "box": {
+        "left": 272.4,
+        "top": 75.5,
+        "width": 100.7,
+        "height": 15.9
+      }
+    }
+  }
+}

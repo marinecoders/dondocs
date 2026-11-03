@@ -1,0 +1,297 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "inputCommandName": {
+        "left": 231.6,
+        "top": 573.1,
+        "width": 131.9,
+        "height": 13.1,
+        "type": "text",
+        "description": "Insert Command Name",
+        "options": null,
+        "group": null,
+        "required": true
+      }
+    },
+    "page2": {
+      "startOfAgreementAfDate": {
+        "left": 78.5,
+        "top": 725.7,
+        "width": 70.4,
+        "height": 12.2,
+        "type": "text",
+        "description": "Start of Agreement",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "endOfAgreementAfDate": {
+        "left": 239.2,
+        "top": 725.4,
+        "width": 73.0,
+        "height": 13.2,
+        "type": "text",
+        "description": "End of Agreement",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "distantRemoteWorker": {
+        "left": 151.9,
+        "top": 598.4,
+        "width": 11.8,
+        "height": 11.8,
+        "type": "checkbox",
+        "description": "Cert of Completion Attached",
+        "options": null,
+        "group": null,
+        "required": true
+      },
+      "localRemoteWorker": {
+        "left": 151.9,
+        "top": 585.4,
+        "width": 11.8,
+        "height": 11.8,
+        "type": "checkbox",
+        "description": "Cert of Completion Attached",
+        "options": null,
+        "group": null,
+        "required": true
+      },
+      "ddForm2946Attached": {
+        "left": 327.0,
+        "top": 570.5,
+        "width": 11.5,
+        "height": 11.8,
+        "type": "checkbox",
+        "description": "DD Form 2946 Attached",
+        "options": null,
+        "group": null,
+        "required": true
+      },
+      "certOfCompletionAttached": {
+        "left": 314.9,
+        "top": 558.0,
+        "width": 11.8,
+        "height": 11.8,
+        "type": "checkbox",
+        "description": "Cert of Completion Attached",
+        "options": null,
+        "group": null,
+        "required": true
+      },
+      "1EmployeeLastNameFirstMiddleInitial": {
+        "left": 36.2,
+        "top": 535.7,
+        "width": 267.2,
+        "height": 26.2,
+        "type": "text",
+        "description": "1. Employee (Last Name, First, Middle Initial)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "2JobTitlePayPlanSeriesGrade": {
+        "left": 306.7,
+        "top": 535.3,
+        "width": 268.2,
+        "height": 25.7,
+        "type": "text",
+        "description": "2. Job Title, Pay Plan, Series, Grade",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "3EmployingOrganizationNameAndAddress": {
+        "left": 37.4,
+        "top": 499.0,
+        "width": 266.8,
+        "height": 79.1,
+        "type": "text",
+        "description": "3. Employing Organization Name and Address",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "4RequestedRemoteWorksiteAddress": {
+        "left": 307.0,
+        "top": 498.1,
+        "width": 267.7,
+        "height": 78.6,
+        "type": "text",
+        "description": "4. Requested Remote Worksite Address",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateMMDDYYYY": {
+        "left": 442.2,
+        "top": 396.2,
+        "width": 132.7,
+        "height": 21.8,
+        "type": "text",
+        "description": "Date: (MM/DD/YYYY)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "5EmployeeSignatureIAcknowledgeIHaveReadUnderstandAndWillComplyWithAllProvisionsOutlinedInThisAgreement": {
+        "left": 37.7,
+        "top": 395.6,
+        "width": 400.6,
+        "height": 20.9,
+        "type": "signature",
+        "description": "5 Employee Signature I acknowledge I have read understand and will comply with all provisions outlined in this agreement",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "6SupervisorApproval": {
+        "left": 53.8,
+        "top": 352.1,
+        "width": 8.9,
+        "height": 7.0,
+        "type": "checkbox",
+        "description": "6. Supervisor Approval",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "6SupervisorDisapproval": {
+        "left": 133.2,
+        "top": 352.1,
+        "width": 8.9,
+        "height": 7.0,
+        "type": "checkbox",
+        "description": "6 Supervisor Disapproval",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "6SupervisorRecommendationApproveDisapproveProvideExplanationBelow": {
+        "left": 37.4,
+        "top": 342.5,
+        "width": 537.2,
+        "height": 99.9,
+        "type": "text",
+        "description": "6. Supervisor Recommendation: Approve/Disapprove (Provide explanation below)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateMMDDYYYY2": {
+        "left": 440.2,
+        "top": 230.1,
+        "width": 134.8,
+        "height": 24.7,
+        "type": "text",
+        "description": "Date: (MM/DD/YYYY)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "7SupervisorSignature": {
+        "left": 38.5,
+        "top": 229.9,
+        "width": 397.9,
+        "height": 23.8,
+        "type": "signature",
+        "description": "7 Supervisor Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "8CommandApprovingOfficialApproval": {
+        "left": 53.8,
+        "top": 178.0,
+        "width": 8.9,
+        "height": 7.0,
+        "type": "checkbox",
+        "description": "8 Command Approving Official Approval",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "8CommandApprovingOfficialDisapproval": {
+        "left": 136.0,
+        "top": 178.0,
+        "width": 8.9,
+        "height": 7.0,
+        "type": "checkbox",
+        "description": "8 Command Approving Official Disapproval",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "commandApprovingOfficialDisapproveProvideExplanationBelow": {
+        "left": 37.4,
+        "top": 165.6,
+        "width": 537.2,
+        "height": 84.5,
+        "type": "text",
+        "description": "8. Command Approving Official Decision: Approve Disapprove (Provide explanation below)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateMMDDYYYY3": {
+        "left": 440.2,
+        "top": 69.8,
+        "width": 134.8,
+        "height": 24.3,
+        "type": "text",
+        "description": "Date: (MM/DD/YYYY)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "9ApprovingOfficialSignature": {
+        "left": 37.3,
+        "top": 68.2,
+        "width": 398.7,
+        "height": 24.0,
+        "type": "signature",
+        "description": "9 Approving Official Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page3": {
+      "locationOfCaCFacility": {
+        "left": 39.9,
+        "top": 497.9,
+        "width": 538.8,
+        "height": 104.5,
+        "type": "text",
+        "description": "Location of CaC Facility",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "additionalCommandOrganizationPolicyRequirements": {
+        "left": 38.6,
+        "top": 366.9,
+        "width": 537.5,
+        "height": 325.7,
+        "type": "text",
+        "description": "Additional command/organization policy requirements",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

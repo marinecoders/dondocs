@@ -1,0 +1,3161 @@
+{
+  "id": "opnav4790172",
+  "label": "OPNAV4790-172 - Engine Sheave Wear Data",
+  "directory": "OPNAV4790-172 - Engine Sheave Wear Data",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "engineno",
+        "dateTimeField1",
+        "jsn",
+        "hitno",
+        "hitssince",
+        "flightdeckrunout",
+        "x33b1",
+        "x3313211",
+        "x3311611",
+        "x3333211",
+        "x331811",
+        "x3353211",
+        "x3331611",
+        "x28B35",
+        "x2813235",
+        "x2811635",
+        "x2833235",
+        "x281835",
+        "x2853235",
+        "x2831635",
+        "x33b3",
+        "x3313213",
+        "x3311613",
+        "x3333213",
+        "x331813",
+        "x3353213",
+        "x333161",
+        "x28B33",
+        "x2813233",
+        "x2811633",
+        "x2833233",
+        "x281833",
+        "x2853233",
+        "x2831633",
+        "x33b5",
+        "x3313215",
+        "x3311615",
+        "x3333215",
+        "x331815",
+        "x3353215",
+        "x3331615",
+        "x28B31",
+        "x2813231",
+        "x2811631",
+        "x2833231",
+        "x281831",
+        "x2853231",
+        "x2831631",
+        "x33b7",
+        "x3313217",
+        "x3311617",
+        "x333321",
+        "x331817",
+        "x3353217",
+        "x3331617",
+        "x28B29",
+        "x2813229",
+        "x2811629",
+        "x2833229",
+        "x281829",
+        "x2853229",
+        "x2831629",
+        "x33b9",
+        "x3313219",
+        "x3311619",
+        "x3333219",
+        "x331819",
+        "x3353219",
+        "x3331619",
+        "x28B27",
+        "x2813227",
+        "x2811627",
+        "x2833227",
+        "x281827",
+        "x2853227",
+        "x2831627",
+        "x33b11",
+        "x33132111",
+        "x33116111",
+        "x33332111",
+        "x3318111",
+        "x33532111",
+        "x33316111",
+        "x28B25",
+        "x2813225",
+        "x2811625",
+        "x2833225",
+        "x281825",
+        "x2853225",
+        "x2831625",
+        "x33b13",
+        "x33132113",
+        "x33116113",
+        "x33332113",
+        "x3318113",
+        "x33532113",
+        "x33316113",
+        "x28B23",
+        "x2813223",
+        "x2811623",
+        "x2833223",
+        "x281823",
+        "x2853223",
+        "x2831623",
+        "x33b15",
+        "x33132115",
+        "x33116115",
+        "x33332115",
+        "x3318115",
+        "x33532115",
+        "x33316115",
+        "x28B21",
+        "x2813221",
+        "x2811621",
+        "x2833221",
+        "x281821",
+        "x2853221",
+        "x2831621",
+        "x33b17",
+        "x33132117",
+        "x33116117",
+        "x33332117",
+        "x3318117",
+        "x335321",
+        "x33316117",
+        "x28B19",
+        "x2813219",
+        "x2811619",
+        "x2833219",
+        "x281819",
+        "x2853219",
+        "x28316",
+        "x33b",
+        "x331322",
+        "x331162",
+        "x333322",
+        "x33182",
+        "x335322",
+        "x333162",
+        "x28B36",
+        "x2813236",
+        "x2811636",
+        "x2833236",
+        "x281836",
+        "x2853236",
+        "x2831636",
+        "x33b4",
+        "x331324",
+        "x331164",
+        "x333324",
+        "x33184",
+        "x335324",
+        "x333164",
+        "x28B34",
+        "x2813234",
+        "x2811634",
+        "x2833234",
+        "x281834",
+        "x2853234",
+        "x2831634",
+        "x331326",
+        "x331166",
+        "x333326",
+        "x33186",
+        "x335326",
+        "x333166",
+        "x28B32",
+        "x2813232",
+        "x2811632",
+        "x2833232",
+        "x281832",
+        "x2853232",
+        "x2831632",
+        "x33b6",
+        "x331328",
+        "x331168",
+        "x333328",
+        "x33188",
+        "x335328",
+        "x333168",
+        "x28B30",
+        "x2813230",
+        "x2811630",
+        "x2833230",
+        "x281830",
+        "x2853230",
+        "x2831630",
+        "x33b8",
+        "x3313210",
+        "x3311610",
+        "x3333210",
+        "x331810",
+        "x3353210",
+        "x3331610",
+        "x28B28",
+        "x2813228",
+        "x2811628",
+        "x2833228",
+        "x281828",
+        "x2853228",
+        "x2831628",
+        "x33b10",
+        "x3313212",
+        "x3311612",
+        "x3333212",
+        "x331812",
+        "x3353212",
+        "x3331612",
+        "x28B26",
+        "x2813226",
+        "x2811626",
+        "x2833226",
+        "x281826",
+        "x2853226",
+        "x2831626",
+        "x33b12",
+        "x3313214",
+        "x3311614",
+        "x3333214",
+        "x331814",
+        "x3353214",
+        "x3331614",
+        "x28B24",
+        "x2813224",
+        "x2811624",
+        "x2833224",
+        "x281824",
+        "x2853224",
+        "x2831624",
+        "x33b14",
+        "x3313216",
+        "x3311616",
+        "x3333216",
+        "x331816",
+        "x3353216",
+        "x3331616",
+        "x28B22",
+        "x2813222",
+        "x2811622",
+        "x2833222",
+        "x281822",
+        "x2853222",
+        "x2831622",
+        "x33b16",
+        "x33b18",
+        "x3313218",
+        "x3311618",
+        "x3333218",
+        "x331818",
+        "x3353218",
+        "x3331618",
+        "x28B20",
+        "x2813220",
+        "x2811620",
+        "x2833220",
+        "x281820",
+        "x2853220",
+        "x2831620",
+        "maintman",
+        "aglpocpo",
+        "qainspector",
+        "maintcpo"
+      ]
+    }
+  ],
+  "fields": {
+    "engineno": {
+      "type": "text",
+      "label": "ENTER ENGINE NUMBER",
+      "page": 1,
+      "box": {
+        "left": 96.5,
+        "top": 735.2,
+        "width": 89.7,
+        "height": 12.3
+      }
+    },
+    "dateTimeField1": {
+      "type": "text",
+      "label": "ENTER DATE.",
+      "page": 1,
+      "box": {
+        "left": 473.2,
+        "top": 735.2,
+        "width": 91.0,
+        "height": 12.3
+      }
+    },
+    "jsn": {
+      "type": "text",
+      "label": "ENTER JSN.",
+      "page": 1,
+      "box": {
+        "left": 282.3,
+        "top": 726.2,
+        "width": 65.9,
+        "height": 12.3
+      }
+    },
+    "hitno": {
+      "type": "text",
+      "label": "ENTER HIT NUMBER.",
+      "page": 1,
+      "box": {
+        "left": 81.4,
+        "top": 708.2,
+        "width": 104.8,
+        "height": 12.3
+      }
+    },
+    "hitssince": {
+      "type": "text",
+      "label": "ENTER HITS SINCE LAST INSPECTION.",
+      "page": 1,
+      "box": {
+        "left": 475.4,
+        "top": 708.2,
+        "width": 88.8,
+        "height": 12.3
+      }
+    },
+    "flightdeckrunout": {
+      "type": "text",
+      "label": "ENTER FLIGHT DECK RUNOUT",
+      "page": 1,
+      "box": {
+        "left": 457.6,
+        "top": 690.2,
+        "width": 52.6,
+        "height": 12.3
+      }
+    },
+    "x33b1": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK B.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 618.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3313211": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 1/32.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 618.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3311611": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 1/16.",
+      "page": 1,
+      "box": {
+        "left": 155.8,
+        "top": 618.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3333211": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 3/32.",
+      "page": 1,
+      "box": {
+        "left": 182.8,
+        "top": 618.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x331811": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 1/8.",
+      "page": 1,
+      "box": {
+        "left": 209.8,
+        "top": 618.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3353211": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 5/32.",
+      "page": 1,
+      "box": {
+        "left": 236.8,
+        "top": 618.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3331611": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 3/16.",
+      "page": 1,
+      "box": {
+        "left": 263.8,
+        "top": 618.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x28B35": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28  INCH SHEAVE BANK B.",
+      "page": 1,
+      "box": {
+        "left": 353.8,
+        "top": 618.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2813235": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 1/32.",
+      "page": 1,
+      "box": {
+        "left": 380.8,
+        "top": 618.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2811635": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 1/16.",
+      "page": 1,
+      "box": {
+        "left": 407.8,
+        "top": 618.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2833235": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 3/32.",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 618.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x281835": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 1/8.",
+      "page": 1,
+      "box": {
+        "left": 461.8,
+        "top": 618.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2853235": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 5/32.",
+      "page": 1,
+      "box": {
+        "left": 488.8,
+        "top": 618.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2831635": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 3/16.",
+      "page": 1,
+      "box": {
+        "left": 515.8,
+        "top": 618.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x33b3": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK B.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 600.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3313213": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 1/32.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 600.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3311613": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 1/16.",
+      "page": 1,
+      "box": {
+        "left": 155.8,
+        "top": 600.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3333213": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 3/32.",
+      "page": 1,
+      "box": {
+        "left": 182.8,
+        "top": 600.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x331813": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 1/8.",
+      "page": 1,
+      "box": {
+        "left": 209.8,
+        "top": 600.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3353213": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 5/32.",
+      "page": 1,
+      "box": {
+        "left": 236.8,
+        "top": 600.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x333161": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 3/16.",
+      "page": 1,
+      "box": {
+        "left": 263.8,
+        "top": 600.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x28B33": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28  INCH SHEAVE BANK B.",
+      "page": 1,
+      "box": {
+        "left": 353.8,
+        "top": 600.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2813233": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 1/32.",
+      "page": 1,
+      "box": {
+        "left": 380.8,
+        "top": 600.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2811633": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 1/16.",
+      "page": 1,
+      "box": {
+        "left": 407.8,
+        "top": 600.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2833233": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 3/32.",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 600.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x281833": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 1/8.",
+      "page": 1,
+      "box": {
+        "left": 461.8,
+        "top": 600.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2853233": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 5/32.",
+      "page": 1,
+      "box": {
+        "left": 488.8,
+        "top": 600.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2831633": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 3/16.",
+      "page": 1,
+      "box": {
+        "left": 515.8,
+        "top": 600.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x33b5": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK B.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 582.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3313215": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 1/32.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 582.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3311615": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 1/16.",
+      "page": 1,
+      "box": {
+        "left": 155.8,
+        "top": 582.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3333215": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 3/32.",
+      "page": 1,
+      "box": {
+        "left": 182.8,
+        "top": 582.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x331815": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 1/8.",
+      "page": 1,
+      "box": {
+        "left": 209.8,
+        "top": 582.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3353215": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 5/32.",
+      "page": 1,
+      "box": {
+        "left": 236.8,
+        "top": 582.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3331615": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 3/16.",
+      "page": 1,
+      "box": {
+        "left": 263.8,
+        "top": 582.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x28B31": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28  INCH SHEAVE BANK B.",
+      "page": 1,
+      "box": {
+        "left": 353.8,
+        "top": 582.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2813231": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 1/32.",
+      "page": 1,
+      "box": {
+        "left": 380.8,
+        "top": 582.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2811631": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 1/16.",
+      "page": 1,
+      "box": {
+        "left": 407.8,
+        "top": 582.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2833231": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 3/32.",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 582.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x281831": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 1/8.",
+      "page": 1,
+      "box": {
+        "left": 461.8,
+        "top": 582.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2853231": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 5/32.",
+      "page": 1,
+      "box": {
+        "left": 488.8,
+        "top": 582.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2831631": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 3/16.",
+      "page": 1,
+      "box": {
+        "left": 515.8,
+        "top": 582.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x33b7": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK B.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 564.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3313217": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 1/32.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 564.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3311617": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 1/16.",
+      "page": 1,
+      "box": {
+        "left": 155.8,
+        "top": 564.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x333321": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 3/32.",
+      "page": 1,
+      "box": {
+        "left": 182.8,
+        "top": 564.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x331817": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 1/8.",
+      "page": 1,
+      "box": {
+        "left": 209.8,
+        "top": 564.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3353217": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 5/32.",
+      "page": 1,
+      "box": {
+        "left": 236.8,
+        "top": 564.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3331617": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 3/16.",
+      "page": 1,
+      "box": {
+        "left": 263.8,
+        "top": 564.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x28B29": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28  INCH SHEAVE BANK B.",
+      "page": 1,
+      "box": {
+        "left": 353.8,
+        "top": 564.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2813229": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 1/32.",
+      "page": 1,
+      "box": {
+        "left": 380.8,
+        "top": 564.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2811629": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 1/16.",
+      "page": 1,
+      "box": {
+        "left": 407.8,
+        "top": 564.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2833229": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 3/32.",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 564.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x281829": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 1/8.",
+      "page": 1,
+      "box": {
+        "left": 461.8,
+        "top": 564.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2853229": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 5/32.",
+      "page": 1,
+      "box": {
+        "left": 488.8,
+        "top": 564.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2831629": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 3/16.",
+      "page": 1,
+      "box": {
+        "left": 515.8,
+        "top": 564.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x33b9": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK B.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 546.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3313219": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 1/32.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 546.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3311619": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 1/16.",
+      "page": 1,
+      "box": {
+        "left": 155.8,
+        "top": 546.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3333219": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 3/32.",
+      "page": 1,
+      "box": {
+        "left": 182.8,
+        "top": 546.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x331819": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 1/8.",
+      "page": 1,
+      "box": {
+        "left": 209.8,
+        "top": 546.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3353219": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 5/32.",
+      "page": 1,
+      "box": {
+        "left": 236.8,
+        "top": 546.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3331619": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 3/16.",
+      "page": 1,
+      "box": {
+        "left": 263.8,
+        "top": 546.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x28B27": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28  INCH SHEAVE BANK B.",
+      "page": 1,
+      "box": {
+        "left": 353.8,
+        "top": 546.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2813227": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 1/32.",
+      "page": 1,
+      "box": {
+        "left": 380.8,
+        "top": 546.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2811627": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 1/16.",
+      "page": 1,
+      "box": {
+        "left": 407.8,
+        "top": 546.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2833227": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 3/32.",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 546.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x281827": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 1/8.",
+      "page": 1,
+      "box": {
+        "left": 461.8,
+        "top": 546.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2853227": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 5/32.",
+      "page": 1,
+      "box": {
+        "left": 488.8,
+        "top": 546.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2831627": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 3/16.",
+      "page": 1,
+      "box": {
+        "left": 515.8,
+        "top": 546.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x33b11": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK B.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 528.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x33132111": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 1/32.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 528.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x33116111": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 1/16.",
+      "page": 1,
+      "box": {
+        "left": 155.8,
+        "top": 528.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x33332111": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 3/32.",
+      "page": 1,
+      "box": {
+        "left": 182.8,
+        "top": 528.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3318111": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 1/8.",
+      "page": 1,
+      "box": {
+        "left": 209.8,
+        "top": 528.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x33532111": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 5/32.",
+      "page": 1,
+      "box": {
+        "left": 236.8,
+        "top": 528.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x33316111": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 3/16.",
+      "page": 1,
+      "box": {
+        "left": 263.8,
+        "top": 528.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x28B25": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28  INCH SHEAVE BANK B.",
+      "page": 1,
+      "box": {
+        "left": 353.8,
+        "top": 528.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2813225": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 1/32.",
+      "page": 1,
+      "box": {
+        "left": 380.8,
+        "top": 528.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2811625": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 1/16.",
+      "page": 1,
+      "box": {
+        "left": 407.8,
+        "top": 528.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2833225": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 3/32.",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 528.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x281825": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 1/8.",
+      "page": 1,
+      "box": {
+        "left": 461.8,
+        "top": 528.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2853225": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 5/32.",
+      "page": 1,
+      "box": {
+        "left": 488.8,
+        "top": 528.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2831625": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 3/16.",
+      "page": 1,
+      "box": {
+        "left": 515.8,
+        "top": 528.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x33b13": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK B.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 510.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x33132113": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 1/32.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 510.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x33116113": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 1/16.",
+      "page": 1,
+      "box": {
+        "left": 155.8,
+        "top": 510.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x33332113": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 3/32.",
+      "page": 1,
+      "box": {
+        "left": 182.8,
+        "top": 510.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3318113": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 1/8.",
+      "page": 1,
+      "box": {
+        "left": 209.8,
+        "top": 510.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x33532113": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 5/32.",
+      "page": 1,
+      "box": {
+        "left": 236.8,
+        "top": 510.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x33316113": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 3/16.",
+      "page": 1,
+      "box": {
+        "left": 263.8,
+        "top": 510.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x28B23": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28  INCH SHEAVE BANK B.",
+      "page": 1,
+      "box": {
+        "left": 353.8,
+        "top": 510.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2813223": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 1/32.",
+      "page": 1,
+      "box": {
+        "left": 380.8,
+        "top": 510.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2811623": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 1/16.",
+      "page": 1,
+      "box": {
+        "left": 407.8,
+        "top": 510.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2833223": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 3/32.",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 510.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x281823": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 1/8.",
+      "page": 1,
+      "box": {
+        "left": 461.8,
+        "top": 510.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2853223": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 5/32.",
+      "page": 1,
+      "box": {
+        "left": 488.8,
+        "top": 510.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2831623": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 3/16.",
+      "page": 1,
+      "box": {
+        "left": 515.8,
+        "top": 510.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x33b15": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK B.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 492.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x33132115": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 1/32.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 492.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x33116115": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 1/16.",
+      "page": 1,
+      "box": {
+        "left": 155.8,
+        "top": 492.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x33332115": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 3/32.",
+      "page": 1,
+      "box": {
+        "left": 182.8,
+        "top": 492.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3318115": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 1/8.",
+      "page": 1,
+      "box": {
+        "left": 209.8,
+        "top": 492.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x33532115": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 5/32.",
+      "page": 1,
+      "box": {
+        "left": 236.8,
+        "top": 492.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x33316115": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 3/16.",
+      "page": 1,
+      "box": {
+        "left": 263.8,
+        "top": 492.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x28B21": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28  INCH SHEAVE BANK B.",
+      "page": 1,
+      "box": {
+        "left": 353.8,
+        "top": 492.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2813221": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 1/32.",
+      "page": 1,
+      "box": {
+        "left": 380.8,
+        "top": 492.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2811621": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 1/16.",
+      "page": 1,
+      "box": {
+        "left": 407.8,
+        "top": 492.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2833221": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 3/32.",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 492.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x281821": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 1/8.",
+      "page": 1,
+      "box": {
+        "left": 461.8,
+        "top": 492.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2853221": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 5/32.",
+      "page": 1,
+      "box": {
+        "left": 488.8,
+        "top": 492.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2831621": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 3/16.",
+      "page": 1,
+      "box": {
+        "left": 515.8,
+        "top": 492.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x33b17": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK B.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 474.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x33132117": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 1/32.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 474.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x33116117": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 1/16.",
+      "page": 1,
+      "box": {
+        "left": 155.8,
+        "top": 474.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x33332117": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 3/32.",
+      "page": 1,
+      "box": {
+        "left": 182.8,
+        "top": 474.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3318117": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 1/8.",
+      "page": 1,
+      "box": {
+        "left": 209.8,
+        "top": 474.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x335321": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 5/32.",
+      "page": 1,
+      "box": {
+        "left": 236.8,
+        "top": 474.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x33316117": {
+      "type": "text",
+      "label": "ENTER X-HEAD 33 INCH SHEAVE BANK 3/16.",
+      "page": 1,
+      "box": {
+        "left": 263.8,
+        "top": 474.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x28B19": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28  INCH SHEAVE BANK B.",
+      "page": 1,
+      "box": {
+        "left": 353.8,
+        "top": 474.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2813219": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 1/32.",
+      "page": 1,
+      "box": {
+        "left": 380.8,
+        "top": 474.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2811619": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 1/16.",
+      "page": 1,
+      "box": {
+        "left": 407.8,
+        "top": 474.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2833219": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 3/32.",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 474.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x281819": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 1/8.",
+      "page": 1,
+      "box": {
+        "left": 461.8,
+        "top": 474.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2853219": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 5/32.",
+      "page": 1,
+      "box": {
+        "left": 488.8,
+        "top": 474.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x28316": {
+      "type": "text",
+      "label": "ENTER X-HEAD 28 INCH SHEAVE BANK 3/16.",
+      "page": 1,
+      "box": {
+        "left": 515.8,
+        "top": 474.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x33b": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK B.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 393.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x331322": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 1/32.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 393.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x331162": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 1/16.",
+      "page": 1,
+      "box": {
+        "left": 155.8,
+        "top": 393.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x333322": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 3/32.",
+      "page": 1,
+      "box": {
+        "left": 182.8,
+        "top": 393.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x33182": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 1/8.",
+      "page": 1,
+      "box": {
+        "left": 209.8,
+        "top": 393.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x335322": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 5/32.",
+      "page": 1,
+      "box": {
+        "left": 236.8,
+        "top": 393.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x333162": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 3/16.",
+      "page": 1,
+      "box": {
+        "left": 263.8,
+        "top": 393.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x28B36": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK B.",
+      "page": 1,
+      "box": {
+        "left": 353.8,
+        "top": 393.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2813236": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 1/32.",
+      "page": 1,
+      "box": {
+        "left": 380.8,
+        "top": 393.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2811636": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 1/16.",
+      "page": 1,
+      "box": {
+        "left": 407.8,
+        "top": 393.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2833236": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 3/32.",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 393.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x281836": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 1/8.",
+      "page": 1,
+      "box": {
+        "left": 461.8,
+        "top": 393.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2853236": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 5/32.",
+      "page": 1,
+      "box": {
+        "left": 488.8,
+        "top": 393.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2831636": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 3/16.",
+      "page": 1,
+      "box": {
+        "left": 515.8,
+        "top": 393.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x33b4": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK B.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 375.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x331324": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 1/32.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 375.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x331164": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 1/16.",
+      "page": 1,
+      "box": {
+        "left": 155.8,
+        "top": 375.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x333324": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 3/32.",
+      "page": 1,
+      "box": {
+        "left": 182.8,
+        "top": 375.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x33184": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 1/8.",
+      "page": 1,
+      "box": {
+        "left": 209.8,
+        "top": 375.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x335324": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 5/32.",
+      "page": 1,
+      "box": {
+        "left": 236.8,
+        "top": 375.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x333164": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 3/16.",
+      "page": 1,
+      "box": {
+        "left": 263.8,
+        "top": 375.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x28B34": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK B.",
+      "page": 1,
+      "box": {
+        "left": 353.8,
+        "top": 375.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2813234": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 1/32.",
+      "page": 1,
+      "box": {
+        "left": 380.8,
+        "top": 375.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2811634": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 1/16.",
+      "page": 1,
+      "box": {
+        "left": 407.8,
+        "top": 375.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2833234": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 3/32.",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 375.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x281834": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 1/8.",
+      "page": 1,
+      "box": {
+        "left": 461.8,
+        "top": 375.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2853234": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 5/32.",
+      "page": 1,
+      "box": {
+        "left": 488.8,
+        "top": 375.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2831634": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 3/16.",
+      "page": 1,
+      "box": {
+        "left": 515.8,
+        "top": 375.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x331326": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 1/32.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 357.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x331166": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 1/16.",
+      "page": 1,
+      "box": {
+        "left": 155.8,
+        "top": 357.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x333326": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 3/32.",
+      "page": 1,
+      "box": {
+        "left": 182.8,
+        "top": 357.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x33186": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 1/8.",
+      "page": 1,
+      "box": {
+        "left": 209.8,
+        "top": 357.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x335326": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 5/32.",
+      "page": 1,
+      "box": {
+        "left": 236.8,
+        "top": 357.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x333166": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 3/16.",
+      "page": 1,
+      "box": {
+        "left": 263.8,
+        "top": 357.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x28B32": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK B.",
+      "page": 1,
+      "box": {
+        "left": 353.8,
+        "top": 357.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2813232": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 1/32.",
+      "page": 1,
+      "box": {
+        "left": 380.8,
+        "top": 357.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2811632": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 1/16.",
+      "page": 1,
+      "box": {
+        "left": 407.8,
+        "top": 357.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2833232": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 3/32.",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 357.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x281832": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 1/8.",
+      "page": 1,
+      "box": {
+        "left": 461.8,
+        "top": 357.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2853232": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 5/32.",
+      "page": 1,
+      "box": {
+        "left": 488.8,
+        "top": 357.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2831632": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 3/16.",
+      "page": 1,
+      "box": {
+        "left": 515.8,
+        "top": 357.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x33b6": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK B.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 357.1,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x331328": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 1/32.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 339.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x331168": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 1/16.",
+      "page": 1,
+      "box": {
+        "left": 155.8,
+        "top": 339.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x333328": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 3/32.",
+      "page": 1,
+      "box": {
+        "left": 182.8,
+        "top": 339.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x33188": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 1/8.",
+      "page": 1,
+      "box": {
+        "left": 209.8,
+        "top": 339.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x335328": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 5/32.",
+      "page": 1,
+      "box": {
+        "left": 236.8,
+        "top": 339.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x333168": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 3/16.",
+      "page": 1,
+      "box": {
+        "left": 263.8,
+        "top": 339.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x28B30": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK B.",
+      "page": 1,
+      "box": {
+        "left": 353.8,
+        "top": 339.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2813230": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 1/32.",
+      "page": 1,
+      "box": {
+        "left": 380.8,
+        "top": 339.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2811630": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 1/16.",
+      "page": 1,
+      "box": {
+        "left": 407.8,
+        "top": 339.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2833230": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 3/32.",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 339.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x281830": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 1/8.",
+      "page": 1,
+      "box": {
+        "left": 461.8,
+        "top": 339.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2853230": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 5/32.",
+      "page": 1,
+      "box": {
+        "left": 488.8,
+        "top": 339.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2831630": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 3/16.",
+      "page": 1,
+      "box": {
+        "left": 515.8,
+        "top": 339.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x33b8": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK B.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 339.1,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3313210": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 1/32.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 321.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3311610": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 1/16.",
+      "page": 1,
+      "box": {
+        "left": 155.8,
+        "top": 321.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3333210": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 3/32.",
+      "page": 1,
+      "box": {
+        "left": 182.8,
+        "top": 321.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x331810": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 1/8.",
+      "page": 1,
+      "box": {
+        "left": 209.8,
+        "top": 321.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3353210": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 5/32.",
+      "page": 1,
+      "box": {
+        "left": 236.8,
+        "top": 321.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3331610": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 3/16.",
+      "page": 1,
+      "box": {
+        "left": 263.8,
+        "top": 321.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x28B28": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK B.",
+      "page": 1,
+      "box": {
+        "left": 353.8,
+        "top": 321.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2813228": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 1/32.",
+      "page": 1,
+      "box": {
+        "left": 380.8,
+        "top": 321.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2811628": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 1/16.",
+      "page": 1,
+      "box": {
+        "left": 407.8,
+        "top": 321.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2833228": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 3/32.",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 321.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x281828": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 1/8.",
+      "page": 1,
+      "box": {
+        "left": 461.8,
+        "top": 321.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2853228": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 5/32.",
+      "page": 1,
+      "box": {
+        "left": 488.8,
+        "top": 321.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2831628": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 3/16.",
+      "page": 1,
+      "box": {
+        "left": 515.8,
+        "top": 321.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x33b10": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK B.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 321.1,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3313212": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 1/32.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 303.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3311612": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 1/16.",
+      "page": 1,
+      "box": {
+        "left": 155.8,
+        "top": 303.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3333212": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 3/32.",
+      "page": 1,
+      "box": {
+        "left": 182.8,
+        "top": 303.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x331812": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 1/8.",
+      "page": 1,
+      "box": {
+        "left": 209.8,
+        "top": 303.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3353212": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 5/32.",
+      "page": 1,
+      "box": {
+        "left": 236.8,
+        "top": 303.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3331612": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 3/16.",
+      "page": 1,
+      "box": {
+        "left": 263.8,
+        "top": 303.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x28B26": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK B.",
+      "page": 1,
+      "box": {
+        "left": 353.8,
+        "top": 303.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2813226": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 1/32.",
+      "page": 1,
+      "box": {
+        "left": 380.8,
+        "top": 303.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2811626": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 1/16.",
+      "page": 1,
+      "box": {
+        "left": 407.8,
+        "top": 303.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2833226": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 3/32.",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 303.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x281826": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 1/8.",
+      "page": 1,
+      "box": {
+        "left": 461.8,
+        "top": 303.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2853226": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 5/32.",
+      "page": 1,
+      "box": {
+        "left": 488.8,
+        "top": 303.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2831626": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 3/16.",
+      "page": 1,
+      "box": {
+        "left": 515.8,
+        "top": 303.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x33b12": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK B.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 303.1,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3313214": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 1/32.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 285.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3311614": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 1/16.",
+      "page": 1,
+      "box": {
+        "left": 155.8,
+        "top": 285.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3333214": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 3/32.",
+      "page": 1,
+      "box": {
+        "left": 182.8,
+        "top": 285.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x331814": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 1/8.",
+      "page": 1,
+      "box": {
+        "left": 209.8,
+        "top": 285.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3353214": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 5/32.",
+      "page": 1,
+      "box": {
+        "left": 236.8,
+        "top": 285.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3331614": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 3/16.",
+      "page": 1,
+      "box": {
+        "left": 263.8,
+        "top": 285.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x28B24": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK B.",
+      "page": 1,
+      "box": {
+        "left": 353.8,
+        "top": 285.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2813224": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 1/32.",
+      "page": 1,
+      "box": {
+        "left": 380.8,
+        "top": 285.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2811624": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 1/16.",
+      "page": 1,
+      "box": {
+        "left": 407.8,
+        "top": 285.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2833224": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 3/32.",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 285.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x281824": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 1/8.",
+      "page": 1,
+      "box": {
+        "left": 461.8,
+        "top": 285.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2853224": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 5/32.",
+      "page": 1,
+      "box": {
+        "left": 488.8,
+        "top": 285.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2831624": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 3/16.",
+      "page": 1,
+      "box": {
+        "left": 515.8,
+        "top": 285.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x33b14": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK B.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 285.1,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3313216": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 1/32.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 267.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3311616": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 1/16.",
+      "page": 1,
+      "box": {
+        "left": 155.8,
+        "top": 267.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3333216": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 3/32.",
+      "page": 1,
+      "box": {
+        "left": 182.8,
+        "top": 267.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x331816": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 1/8.",
+      "page": 1,
+      "box": {
+        "left": 209.8,
+        "top": 267.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3353216": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 5/32.",
+      "page": 1,
+      "box": {
+        "left": 236.8,
+        "top": 267.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3331616": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 3/16.",
+      "page": 1,
+      "box": {
+        "left": 263.8,
+        "top": 267.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x28B22": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK B.",
+      "page": 1,
+      "box": {
+        "left": 353.8,
+        "top": 267.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2813222": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 1/32.",
+      "page": 1,
+      "box": {
+        "left": 380.8,
+        "top": 267.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2811622": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 1/16.",
+      "page": 1,
+      "box": {
+        "left": 407.8,
+        "top": 267.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2833222": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 3/32.",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 267.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x281822": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 1/8.",
+      "page": 1,
+      "box": {
+        "left": 461.8,
+        "top": 267.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2853222": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 5/32.",
+      "page": 1,
+      "box": {
+        "left": 488.8,
+        "top": 267.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2831622": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 3/16.",
+      "page": 1,
+      "box": {
+        "left": 515.8,
+        "top": 267.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x33b16": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK B.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 267.1,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x33b18": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK B.",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 249.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3313218": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 1/32.",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 249.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3311618": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 1/16.",
+      "page": 1,
+      "box": {
+        "left": 155.8,
+        "top": 249.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3333218": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 3/32.",
+      "page": 1,
+      "box": {
+        "left": 182.8,
+        "top": 249.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x331818": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 1/8.",
+      "page": 1,
+      "box": {
+        "left": 209.8,
+        "top": 249.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3353218": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 5/32.",
+      "page": 1,
+      "box": {
+        "left": 236.8,
+        "top": 249.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x3331618": {
+      "type": "text",
+      "label": "ENTER FIXED END 33 INCH SHEAVE BANK 3/16.",
+      "page": 1,
+      "box": {
+        "left": 263.8,
+        "top": 249.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x28B20": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK B.",
+      "page": 1,
+      "box": {
+        "left": 353.8,
+        "top": 249.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2813220": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 1/32.",
+      "page": 1,
+      "box": {
+        "left": 380.8,
+        "top": 249.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2811620": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 1/16.",
+      "page": 1,
+      "box": {
+        "left": 407.8,
+        "top": 249.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2833220": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 3/32.",
+      "page": 1,
+      "box": {
+        "left": 434.8,
+        "top": 249.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x281820": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 1/8.",
+      "page": 1,
+      "box": {
+        "left": 461.8,
+        "top": 249.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2853220": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 5/32.",
+      "page": 1,
+      "box": {
+        "left": 488.8,
+        "top": 249.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "x2831620": {
+      "type": "text",
+      "label": "ENTER FIXED END 28 INCH SHEAVE BANK 3/16.",
+      "page": 1,
+      "box": {
+        "left": 515.8,
+        "top": 249.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "maintman": {
+      "type": "text",
+      "label": "ENTER MAINT. MAN.",
+      "page": 1,
+      "box": {
+        "left": 105.5,
+        "top": 78.2,
+        "width": 161.7,
+        "height": 12.3
+      }
+    },
+    "aglpocpo": {
+      "type": "text",
+      "label": "ENTER A/G LPO/CPO.",
+      "page": 1,
+      "box": {
+        "left": 419.0,
+        "top": 78.2,
+        "width": 145.2,
+        "height": 12.3
+      }
+    },
+    "qainspector": {
+      "type": "text",
+      "label": "ENTER QA INSPECTOR.",
+      "page": 1,
+      "box": {
+        "left": 124.7,
+        "top": 51.2,
+        "width": 142.4,
+        "height": 12.3
+      }
+    },
+    "maintcpo": {
+      "type": "text",
+      "label": "ENTER MAINT. CPO/OFFICER.",
+      "page": 1,
+      "box": {
+        "left": 450.9,
+        "top": 51.2,
+        "width": 113.3,
+        "height": 12.3
+      }
+    }
+  }
+}

@@ -1,0 +1,337 @@
+{
+  "template": "page2.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page2": {
+      "q1": {
+        "left": 36.0,
+        "top": 688.8,
+        "width": 540.0,
+        "height": 24.0,
+        "type": "text",
+        "description": "Q1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "q2": {
+        "left": 36.0,
+        "top": 644.0,
+        "width": 540.0,
+        "height": 24.0,
+        "type": "text",
+        "description": "Q2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "r3a": {
+        "left": 297.6,
+        "top": 585.9,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[1].r3a[0]",
+        "required": false
+      },
+      "r3a2": {
+        "left": 357.0,
+        "top": 585.7,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[1].r3a[0]",
+        "required": false
+      },
+      "r3b": {
+        "left": 297.6,
+        "top": 557.2,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[1].r3b[0]",
+        "required": false
+      },
+      "r3b2": {
+        "left": 357.0,
+        "top": 557.0,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[1].r3b[0]",
+        "required": false
+      },
+      "r3c": {
+        "left": 297.6,
+        "top": 529.6,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[1].r3c[0]",
+        "required": false
+      },
+      "r3c2": {
+        "left": 357.0,
+        "top": 529.3,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[1].r3c[0]",
+        "required": false
+      },
+      "r3d": {
+        "left": 297.6,
+        "top": 501.0,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[1].r3d[0]",
+        "required": false
+      },
+      "r3d2": {
+        "left": 357.0,
+        "top": 500.8,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[1].r3d[0]",
+        "required": false
+      },
+      "q3": {
+        "left": 36.0,
+        "top": 457.5,
+        "width": 540.0,
+        "height": 50.2,
+        "type": "text",
+        "description": "Q3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "r4a": {
+        "left": 298.0,
+        "top": 384.6,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[1].r4a[0]",
+        "required": false
+      },
+      "r4a2": {
+        "left": 357.4,
+        "top": 384.4,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[1].r4a[0]",
+        "required": false
+      },
+      "q4a": {
+        "left": 36.0,
+        "top": 363.5,
+        "width": 540.0,
+        "height": 31.0,
+        "type": "text",
+        "description": "Q4a",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "r4b": {
+        "left": 298.0,
+        "top": 325.4,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[1].r4b[0]",
+        "required": false
+      },
+      "r4b2": {
+        "left": 357.4,
+        "top": 325.2,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[1].r4b[0]",
+        "required": false
+      },
+      "q4b": {
+        "left": 36.0,
+        "top": 311.5,
+        "width": 540.0,
+        "height": 24.0,
+        "type": "text",
+        "description": "Q4b",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "r4c": {
+        "left": 298.0,
+        "top": 279.7,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[1].r4c[0]",
+        "required": false
+      },
+      "r4c2": {
+        "left": 357.4,
+        "top": 279.5,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[1].r4c[0]",
+        "required": false
+      },
+      "q4c": {
+        "left": 36.0,
+        "top": 265.7,
+        "width": 540.0,
+        "height": 24.0,
+        "type": "text",
+        "description": "Q4c",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "r4d": {
+        "left": 297.9,
+        "top": 233.2,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[1].r4d[0]",
+        "required": false
+      },
+      "r4d2": {
+        "left": 357.3,
+        "top": 233.0,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[1].r4d[0]",
+        "required": false
+      },
+      "q4d": {
+        "left": 36.0,
+        "top": 219.3,
+        "width": 540.0,
+        "height": 24.0,
+        "type": "text",
+        "description": "Q4d",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "r4e": {
+        "left": 297.9,
+        "top": 186.3,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[1].r4e[0]",
+        "required": false
+      },
+      "r4e2": {
+        "left": 357.3,
+        "top": 186.1,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[1].r4e[0]",
+        "required": false
+      },
+      "q4e": {
+        "left": 36.0,
+        "top": 172.7,
+        "width": 540.0,
+        "height": 24.0,
+        "type": "text",
+        "description": "Q4e",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "addComments": {
+        "left": 36.0,
+        "top": 124.7,
+        "width": 540.0,
+        "height": 48.2,
+        "type": "text",
+        "description": "AddComments",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "marName": {
+        "left": 121.6,
+        "top": 67.4,
+        "width": 340.9,
+        "height": 19.8,
+        "type": "text",
+        "description": "Marine's Name:  ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateA": {
+        "left": 504.3,
+        "top": 66.8,
+        "width": 66.3,
+        "height": 18.9,
+        "type": "text",
+        "description": "Enter YYYY-MM-DD",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

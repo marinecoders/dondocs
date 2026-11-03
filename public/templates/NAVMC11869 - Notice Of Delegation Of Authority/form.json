@@ -1,0 +1,402 @@
+{
+  "id": "navmc11869",
+  "label": "NAVMC 11869 - Notice Of Delegation Of Authority",
+  "directory": "NAVMC11869 - Notice Of Delegation Of Authority",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "orgiDate",
+        "org",
+        "loc",
+        "nameA",
+        "reqA",
+        "recA",
+        "turnInA",
+        "nameB",
+        "reqB",
+        "recB",
+        "turnInB",
+        "nameC",
+        "reqC",
+        "recC",
+        "turnInC",
+        "nameCD",
+        "reqD",
+        "recD",
+        "turnInD",
+        "radio",
+        "radio2",
+        "authorityTo",
+        "remarks",
+        "unitID",
+        "aCCnUM",
+        "phoneNum",
+        "expDate",
+        "grade",
+        "name",
+        "signatureField15"
+      ]
+    }
+  ],
+  "fields": {
+    "orgiDate": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 470.6,
+        "top": 734.3,
+        "width": 102.3,
+        "height": 23.8
+      }
+    },
+    "org": {
+      "type": "text",
+      "label": "AUTHORIZED",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 678.3,
+        "width": 192.4,
+        "height": 23.3
+      }
+    },
+    "loc": {
+      "type": "text",
+      "label": "AUTHORIZED REPRESENTATIVE(S)",
+      "page": 1,
+      "box": {
+        "left": 236.9,
+        "top": 678.3,
+        "width": 336.4,
+        "height": 23.3
+      }
+    },
+    "nameA": {
+      "type": "text",
+      "label": "4. LAST NAME, FIRST NAME, MI",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 623.4,
+        "width": 236.6,
+        "height": 23.1
+      }
+    },
+    "reqA": {
+      "type": "text",
+      "label": "5. REQ",
+      "page": 1,
+      "box": {
+        "left": 281.5,
+        "top": 623.4,
+        "width": 48.3,
+        "height": 23.1
+      }
+    },
+    "recA": {
+      "type": "text",
+      "label": "6. REC",
+      "page": 1,
+      "box": {
+        "left": 335.5,
+        "top": 623.4,
+        "width": 48.3,
+        "height": 23.1
+      }
+    },
+    "turnInA": {
+      "type": "text",
+      "label": "7. TURN IN",
+      "page": 1,
+      "box": {
+        "left": 389.5,
+        "top": 623.4,
+        "width": 48.3,
+        "height": 23.1
+      }
+    },
+    "nameB": {
+      "type": "text",
+      "label": "4. LAST NAME, FIRST NAME, MI",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 594.6,
+        "width": 236.6,
+        "height": 23.1
+      }
+    },
+    "reqB": {
+      "type": "text",
+      "label": "5. REQ",
+      "page": 1,
+      "box": {
+        "left": 281.5,
+        "top": 594.6,
+        "width": 48.3,
+        "height": 23.1
+      }
+    },
+    "recB": {
+      "type": "text",
+      "label": "6. REC",
+      "page": 1,
+      "box": {
+        "left": 335.5,
+        "top": 594.6,
+        "width": 48.3,
+        "height": 23.1
+      }
+    },
+    "turnInB": {
+      "type": "text",
+      "label": "7. TURN IN",
+      "page": 1,
+      "box": {
+        "left": 389.5,
+        "top": 594.6,
+        "width": 48.3,
+        "height": 23.1
+      }
+    },
+    "nameC": {
+      "type": "text",
+      "label": "4. LAST NAME, FIRST NAME, MI",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 565.8,
+        "width": 236.6,
+        "height": 23.1
+      }
+    },
+    "reqC": {
+      "type": "text",
+      "label": "5. REQ",
+      "page": 1,
+      "box": {
+        "left": 281.5,
+        "top": 565.8,
+        "width": 48.3,
+        "height": 23.1
+      }
+    },
+    "recC": {
+      "type": "text",
+      "label": "6. REC",
+      "page": 1,
+      "box": {
+        "left": 335.5,
+        "top": 565.8,
+        "width": 48.3,
+        "height": 23.1
+      }
+    },
+    "turnInC": {
+      "type": "text",
+      "label": "7. TURN IN",
+      "page": 1,
+      "box": {
+        "left": 389.5,
+        "top": 565.8,
+        "width": 48.3,
+        "height": 23.1
+      }
+    },
+    "nameCD": {
+      "type": "text",
+      "label": "4. LAST NAME, FIRST NAME, MI",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 537.0,
+        "width": 236.6,
+        "height": 23.1
+      }
+    },
+    "reqD": {
+      "type": "text",
+      "label": "5. REQ",
+      "page": 1,
+      "box": {
+        "left": 281.5,
+        "top": 537.0,
+        "width": 48.3,
+        "height": 23.1
+      }
+    },
+    "recD": {
+      "type": "text",
+      "label": "6. REC",
+      "page": 1,
+      "box": {
+        "left": 335.5,
+        "top": 537.0,
+        "width": 48.3,
+        "height": 23.1
+      }
+    },
+    "turnInD": {
+      "type": "text",
+      "label": "7. TURN IN",
+      "page": 1,
+      "box": {
+        "left": 389.5,
+        "top": 537.0,
+        "width": 48.3,
+        "height": 23.1
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 200.1,
+        "top": 490.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 307.7,
+        "top": 490.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "authorityTo": {
+      "type": "text",
+      "label": "THE AUTHORITY TO",
+      "page": 1,
+      "box": {
+        "left": 127.6,
+        "top": 474.5,
+        "width": 445.6,
+        "height": 11.6
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "THE AUTHORITY TO",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 442.7,
+        "width": 534.4,
+        "height": 37.7
+      },
+      "multiline": true
+    },
+    "unitID": {
+      "type": "text",
+      "label": "I ASSUME",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 372.5,
+        "width": 192.4,
+        "height": 12.9
+      }
+    },
+    "aCCnUM": {
+      "type": "text",
+      "label": "ASSUME FULL RESPONSIBILITY",
+      "page": 1,
+      "box": {
+        "left": 236.9,
+        "top": 372.1,
+        "width": 336.4,
+        "height": 12.5
+      }
+    },
+    "phoneNum": {
+      "type": "text",
+      "label": "15. PHONE NUMBER",
+      "page": 1,
+      "box": {
+        "left": 395.3,
+        "top": 344.5,
+        "width": 84.4,
+        "height": 13.7
+      }
+    },
+    "expDate": {
+      "type": "text",
+      "label": "16. EXPIRATION DATE",
+      "page": 1,
+      "box": {
+        "left": 485.3,
+        "top": 344.5,
+        "width": 87.9,
+        "height": 13.7
+      }
+    },
+    "grade": {
+      "type": "text",
+      "label": "ACCOUNT NUMBER",
+      "page": 1,
+      "box": {
+        "left": 323.3,
+        "top": 344.4,
+        "width": 66.3,
+        "height": 13.6
+      }
+    },
+    "name": {
+      "type": "text",
+      "label": "11. UNIT IDENTIFICATION CODE 12. DODAAC / ACCOUNT",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 343.3,
+        "width": 278.8,
+        "height": 12.5
+      }
+    },
+    "signatureField15": {
+      "type": "text",
+      "label": "17. SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 316.3,
+        "width": 532.9,
+        "height": 16.9
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 4,
+      "rowStride": 28.8,
+      "editor": "grid",
+      "columns": {
+        "signatureField1": {
+          "type": "text",
+          "label": "8. SIGNATURE AND INITIALS",
+          "page": 1,
+          "box": {
+            "left": 444.9,
+            "top": 622.6,
+            "width": 127.8,
+            "height": 21.6
+          }
+        }
+      }
+    }
+  }
+}

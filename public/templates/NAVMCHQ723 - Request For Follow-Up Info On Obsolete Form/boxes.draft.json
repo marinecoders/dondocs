@@ -1,0 +1,128 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "dateTimeField1": {
+        "left": 491.0,
+        "top": 717.1,
+        "width": 92.2,
+        "height": 16.0,
+        "type": "text",
+        "description": "Enter date as YYYYMMDD; 20080617",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "toAddr": {
+        "left": 71.0,
+        "top": 695.4,
+        "width": 512.1,
+        "height": 17.5,
+        "type": "text",
+        "description": "To:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField1": {
+        "left": 223.3,
+        "top": 528.2,
+        "width": 319.3,
+        "height": 14.3,
+        "type": "signature",
+        "description": "By direction",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sponsCd": {
+        "left": 194.4,
+        "top": 450.0,
+        "width": 55.9,
+        "height": 204.4,
+        "type": "text",
+        "description": "Sponsor Code.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dispStkImmed": {
+        "left": 252.0,
+        "top": 450.0,
+        "width": 63.1,
+        "height": 204.4,
+        "type": "text",
+        "description": "Dispose of Stock Immediately.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dispStkNotBef": {
+        "left": 317.6,
+        "top": 450.0,
+        "width": 63.1,
+        "height": 204.4,
+        "type": "text",
+        "description": "Dispose of Stock Not Before.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "frmNum": {
+        "left": 27.1,
+        "top": 449.3,
+        "width": 165.6,
+        "height": 203.7,
+        "type": "text",
+        "description": "Form Number and Title",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "supsdBy": {
+        "left": 382.4,
+        "top": 449.3,
+        "width": 202.4,
+        "height": 203.7,
+        "type": "text",
+        "description": "Has been superseded by.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks": {
+        "left": 29.3,
+        "top": 232.3,
+        "width": 554.3,
+        "height": 171.4,
+        "type": "text",
+        "description": "REMARKS: ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField2": {
+        "left": 333.5,
+        "top": 54.9,
+        "width": 244.5,
+        "height": 18.4,
+        "type": "signature",
+        "description": "SIGNATURE:",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

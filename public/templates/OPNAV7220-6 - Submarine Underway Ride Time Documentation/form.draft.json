@@ -1,0 +1,153 @@
+{
+  "id": "opnav72206",
+  "label": "OPNAV7220-6 - Submarine Underway Ride Time Documentation",
+  "directory": "OPNAV7220-6 - Submarine Underway Ride Time Documentation",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "serialNumber",
+        "textField2",
+        "textField22",
+        "signatureField1"
+      ]
+    }
+  ],
+  "fields": {
+    "serialNumber": {
+      "type": "text",
+      "label": "Ser",
+      "page": 1,
+      "box": {
+        "left": 497.5,
+        "top": 713.6,
+        "width": 74.8,
+        "height": 12.3
+      }
+    },
+    "textField2": {
+      "type": "text",
+      "label": "From",
+      "page": 1,
+      "box": {
+        "left": 64.6,
+        "top": 688.4,
+        "width": 508.6,
+        "height": 19.5
+      }
+    },
+    "textField22": {
+      "type": "text",
+      "label": "To",
+      "page": 1,
+      "box": {
+        "left": 64.6,
+        "top": 663.1,
+        "width": 508.6,
+        "height": 19.5
+      }
+    },
+    "signatureField1": {
+      "type": "text",
+      "label": "Submarine Ride Coordinator, if any submarine ride time",
+      "page": 1,
+      "box": {
+        "left": 233.3,
+        "top": 501.1,
+        "width": 174.4,
+        "height": 23.1
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 7,
+      "rowStride": 25.2,
+      "editor": "grid",
+      "columns": {
+        "textField3": {
+          "type": "text",
+          "label": "SUBMARINE",
+          "page": 1,
+          "box": {
+            "left": 38.8,
+            "top": 371.5,
+            "width": 71.5,
+            "height": 19.5
+          }
+        },
+        "textField32": {
+          "type": "text",
+          "label": "UNDERWAY",
+          "page": 1,
+          "box": {
+            "left": 116.0,
+            "top": 371.5,
+            "width": 71.5,
+            "height": 19.5
+          }
+        },
+        "textField33": {
+          "type": "text",
+          "label": "MOORED",
+          "page": 1,
+          "box": {
+            "left": 193.1,
+            "top": 371.5,
+            "width": 71.5,
+            "height": 19.5
+          }
+        },
+        "textField34": {
+          "type": "text",
+          "label": "UNDERWAY",
+          "page": 1,
+          "box": {
+            "left": 270.2,
+            "top": 371.5,
+            "width": 71.5,
+            "height": 19.5
+          }
+        },
+        "textField35": {
+          "type": "text",
+          "label": "PRINTED NAME",
+          "page": 1,
+          "box": {
+            "left": 347.3,
+            "top": 371.5,
+            "width": 71.5,
+            "height": 19.5
+          }
+        },
+        "signatureField": {
+          "type": "text",
+          "label": "SIGNATURE",
+          "page": 1,
+          "box": {
+            "left": 424.4,
+            "top": 371.5,
+            "width": 71.5,
+            "height": 19.5
+          }
+        },
+        "dateField": {
+          "type": "text",
+          "label": "SIGNATURE DATE",
+          "page": 1,
+          "box": {
+            "left": 501.6,
+            "top": 371.5,
+            "width": 71.5,
+            "height": 19.5
+          }
+        }
+      }
+    }
+  }
+}

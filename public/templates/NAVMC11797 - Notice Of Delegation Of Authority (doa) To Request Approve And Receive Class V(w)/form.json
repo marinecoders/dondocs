@@ -1,0 +1,446 @@
+{
+  "id": "navmc11797",
+  "label": "NAVMC 11797 - Notice Of Delegation Of Authority (doa) To Request Approve And Receive Class V(w)",
+  "directory": "NAVMC11797 - Notice Of Delegation Of Authority (doa) To Request Approve And Receive Class V(w)",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "orgName",
+        "unitLocation",
+        "supportActivity",
+        "radio",
+        "radio2",
+        "radio3",
+        "dateAddition",
+        "dateWithdrawal",
+        "unitIDCode",
+        "telephoneNumber",
+        "dodaac",
+        "expiration",
+        "dateRO",
+        "name",
+        "signature",
+        "rank",
+        "nameMSC",
+        "dateMSC",
+        "mscsig",
+        "radio4",
+        "radio5",
+        "nameASP",
+        "dateASP",
+        "radio6",
+        "aspsig",
+        "radio7"
+      ]
+    }
+  ],
+  "fields": {
+    "orgName": {
+      "type": "text",
+      "label": "ORGANIZATION RECEIVING SUPPLIES (UNIT NAME)",
+      "page": 1,
+      "box": {
+        "left": 20.8,
+        "top": 540.1,
+        "width": 210.5,
+        "height": 14.2
+      }
+    },
+    "unitLocation": {
+      "type": "text",
+      "label": "UNIT LOCATION",
+      "page": 1,
+      "box": {
+        "left": 237.0,
+        "top": 540.1,
+        "width": 341.2,
+        "height": 13.9
+      }
+    },
+    "supportActivity": {
+      "type": "text",
+      "label": "SUPPORTING ACTIVITY (ASP NAME (DODAAC)",
+      "page": 1,
+      "box": {
+        "left": 583.9,
+        "top": 540.0,
+        "width": 187.4,
+        "height": 13.9
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 324.4,
+        "top": 168.8,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 175.1,
+        "top": 168.6,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 552.1,
+        "top": 168.6,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "dateAddition": {
+      "type": "text",
+      "label": "IS IN ADDITION TO DOA DATED",
+      "page": 1,
+      "box": {
+        "left": 474.5,
+        "top": 167.6,
+        "width": 51.9,
+        "height": 12.3
+      }
+    },
+    "dateWithdrawal": {
+      "type": "text",
+      "label": "WITHDRAWALS FROM DOA DATED",
+      "page": 1,
+      "box": {
+        "left": 713.7,
+        "top": 167.6,
+        "width": 51.9,
+        "height": 12.3
+      }
+    },
+    "unitIDCode": {
+      "type": "text",
+      "label": "UNIT IDENTIFICATION CODE",
+      "page": 1,
+      "box": {
+        "left": 20.8,
+        "top": 140.7,
+        "width": 246.4,
+        "height": 14.2
+      }
+    },
+    "telephoneNumber": {
+      "type": "text",
+      "label": "TELEPHONE NUMBER",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 140.7,
+        "width": 246.4,
+        "height": 14.2
+      }
+    },
+    "dodaac": {
+      "type": "text",
+      "label": "DODAAC",
+      "page": 1,
+      "box": {
+        "left": 524.9,
+        "top": 140.7,
+        "width": 138.3,
+        "height": 14.2
+      }
+    },
+    "expiration": {
+      "type": "text",
+      "label": "EXPIRATION DATE",
+      "page": 1,
+      "box": {
+        "left": 668.9,
+        "top": 140.6,
+        "width": 102.3,
+        "height": 14.1
+      }
+    },
+    "dateRO": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 721.5,
+        "top": 120.9,
+        "width": 49.7,
+        "height": 23.3
+      }
+    },
+    "name": {
+      "type": "text",
+      "label": "LAST NAME, FIRST, MIDDLE INITIAL",
+      "page": 1,
+      "box": {
+        "left": 20.8,
+        "top": 111.9,
+        "width": 312.1,
+        "height": 14.2
+      }
+    },
+    "signature": {
+      "type": "text",
+      "label": "SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 404.4,
+        "top": 111.8,
+        "width": 279.7,
+        "height": 13.4
+      }
+    },
+    "rank": {
+      "type": "text",
+      "label": "RANK/GRADE",
+      "page": 1,
+      "box": {
+        "left": 339.3,
+        "top": 111.3,
+        "width": 57.8,
+        "height": 12.8
+      }
+    },
+    "nameMSC": {
+      "type": "text",
+      "label": "DENIED NAME/SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 392.8,
+        "top": 92.0,
+        "width": 148.1,
+        "height": 12.3
+      }
+    },
+    "dateMSC": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 721.5,
+        "top": 92.0,
+        "width": 49.7,
+        "height": 12.3
+      }
+    },
+    "mscsig": {
+      "type": "text",
+      "label": "DENIED NAME/SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 547.3,
+        "top": 91.2,
+        "width": 136.8,
+        "height": 10.8
+      }
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 255.9,
+        "top": 90.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 183.9,
+        "top": 89.8,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "nameASP": {
+      "type": "text",
+      "label": "DENIED NAME/SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 392.2,
+        "top": 74.0,
+        "width": 148.6,
+        "height": 12.3
+      }
+    },
+    "dateASP": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 721.5,
+        "top": 74.0,
+        "width": 49.7,
+        "height": 12.3
+      }
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 255.9,
+        "top": 73.2,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "aspsig": {
+      "type": "text",
+      "label": "DENIED NAME/SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 547.3,
+        "top": 73.2,
+        "width": 136.8,
+        "height": 10.8
+      }
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 183.9,
+        "top": 73.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 10,
+      "rowStride": 27.01,
+      "editor": "grid",
+      "columns": {
+        "name": {
+          "type": "text",
+          "label": "NAME (LAST, FIRST, MIDDLE INITIAL)",
+          "page": 1,
+          "box": {
+            "left": 20.8,
+            "top": 494.3,
+            "width": 210.4,
+            "height": 21.3
+          }
+        },
+        "rank": {
+          "type": "text",
+          "label": "GRADE",
+          "page": 1,
+          "box": {
+            "left": 237.6,
+            "top": 493.5,
+            "width": 50.6,
+            "height": 19.8
+          }
+        },
+        "request": {
+          "type": "choice",
+          "label": "REQUEST",
+          "page": 1,
+          "box": {
+            "left": 296.1,
+            "top": 492.8,
+            "width": 41.7,
+            "height": 18.3
+          }
+        },
+        "approve": {
+          "type": "choice",
+          "label": "APPROVE",
+          "page": 1,
+          "box": {
+            "left": 346.6,
+            "top": 492.8,
+            "width": 41.7,
+            "height": 18.3
+          }
+        },
+        "priority": {
+          "type": "choice",
+          "label": "PRIORITY",
+          "page": 1,
+          "box": {
+            "left": 396.9,
+            "top": 492.9,
+            "width": 41.6,
+            "height": 18.3
+          }
+        },
+        "receive": {
+          "type": "choice",
+          "label": "RECEIVE",
+          "page": 1,
+          "box": {
+            "left": 447.4,
+            "top": 492.8,
+            "width": 41.7,
+            "height": 18.3
+          }
+        },
+        "srci": {
+          "type": "choice",
+          "label": "SRC I*",
+          "page": 1,
+          "box": {
+            "left": 497.8,
+            "top": 492.8,
+            "width": 41.7,
+            "height": 18.3
+          }
+        },
+        "signature": {
+          "type": "text",
+          "label": "SIGNATURE",
+          "page": 1,
+          "box": {
+            "left": 547.4,
+            "top": 493.5,
+            "width": 187.1,
+            "height": 19.8
+          }
+        },
+        "initials": {
+          "type": "text",
+          "label": "INITIALS",
+          "page": 1,
+          "box": {
+            "left": 740.9,
+            "top": 494.3,
+            "width": 30.3,
+            "height": 21.3
+          }
+        }
+      }
+    }
+  }
+}

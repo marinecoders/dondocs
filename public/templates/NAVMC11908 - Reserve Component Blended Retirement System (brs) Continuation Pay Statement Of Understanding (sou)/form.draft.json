@@ -1,0 +1,459 @@
+{
+  "id": "navmc11908",
+  "label": "NAVMC11908 - Reserve Component Blended Retirement System (brs) Continuation Pay Statement Of Understanding (sou)",
+  "directory": "NAVMC11908 - Reserve Component Blended Retirement System (brs) Continuation Pay Statement Of Understanding (sou)",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "edipi",
+        "pEBDDateField0",
+        "rank0",
+        "textField1",
+        "textField12",
+        "textField13",
+        "dropDownList1",
+        "textField14",
+        "textField15"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "textField16",
+        "textField17",
+        "textField18",
+        "textField19",
+        "textField110",
+        "lumpSum",
+        "twoInstallments",
+        "threeInstallments",
+        "fourInstallments",
+        "electionSigField",
+        "dateField1",
+        "dateField12",
+        "sec5SignatureField2",
+        "section5rank",
+        "section5title",
+        "section5org",
+        "section5NAME",
+        "dateField13",
+        "sec5SignatureField22",
+        "name2",
+        "edipi2",
+        "section5title2",
+        "section5org2",
+        "signatureField2",
+        "dateField2"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "1. NAME (Last, First, MI)",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 488.8,
+        "width": 197.5,
+        "height": 19.9
+      }
+    },
+    "edipi": {
+      "type": "text",
+      "label": "2. EDIPI",
+      "page": 1,
+      "box": {
+        "left": 243.0,
+        "top": 488.8,
+        "width": 138.2,
+        "height": 19.8
+      }
+    },
+    "pEBDDateField0": {
+      "type": "text",
+      "label": "4. PEBD (YYYYMMDD)",
+      "page": 1,
+      "box": {
+        "left": 463.7,
+        "top": 487.8,
+        "width": 108.6,
+        "height": 18.9
+      }
+    },
+    "rank0": {
+      "type": "text",
+      "label": "3. RANK",
+      "page": 1,
+      "box": {
+        "left": 386.9,
+        "top": 487.6,
+        "width": 71.1,
+        "height": 18.7
+      }
+    },
+    "textField1": {
+      "type": "text",
+      "label": "(4) Have",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 365.1,
+        "width": 42.3,
+        "height": 28.3
+      }
+    },
+    "textField12": {
+      "type": "text",
+      "label": "(Initials)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 319.1,
+        "width": 42.3,
+        "height": 25.3
+      }
+    },
+    "textField13": {
+      "type": "text",
+      "label": "receive Continuation",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 211.1,
+        "width": 44.3,
+        "height": 30.5
+      },
+      "multiline": true
+    },
+    "dropDownList1": {
+      "type": "choice",
+      "label": "understand that I will no longer",
+      "page": 1,
+      "box": {
+        "left": 257.3,
+        "top": 194.3,
+        "width": 90.5,
+        "height": 11.8
+      },
+      "options": [
+        "5.0x (Active Reserves)",
+        "1.0x (SMCR/IMA)"
+      ]
+    },
+    "textField14": {
+      "type": "text",
+      "label": "(Initials)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 152.1,
+        "width": 44.3,
+        "height": 32.5
+      },
+      "multiline": true
+    },
+    "textField15": {
+      "type": "text",
+      "label": "(Initials)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 90.1,
+        "width": 44.3,
+        "height": 30.0
+      }
+    },
+    "textField16": {
+      "type": "text",
+      "label": "Text Field 16",
+      "page": 2,
+      "box": {
+        "left": 39.8,
+        "top": 753.2,
+        "width": 44.3,
+        "height": 32.3
+      },
+      "multiline": true
+    },
+    "textField17": {
+      "type": "text",
+      "label": "(Initials)",
+      "page": 2,
+      "box": {
+        "left": 39.8,
+        "top": 704.2,
+        "width": 44.3,
+        "height": 32.8
+      },
+      "multiline": true
+    },
+    "textField18": {
+      "type": "text",
+      "label": "(Initials)",
+      "page": 2,
+      "box": {
+        "left": 39.8,
+        "top": 646.1,
+        "width": 44.3,
+        "height": 31.3
+      },
+      "multiline": true
+    },
+    "textField19": {
+      "type": "text",
+      "label": "(Initials)",
+      "page": 2,
+      "box": {
+        "left": 39.8,
+        "top": 598.1,
+        "width": 44.3,
+        "height": 31.0
+      },
+      "multiline": true
+    },
+    "textField110": {
+      "type": "text",
+      "label": "(Initials)",
+      "page": 2,
+      "box": {
+        "left": 39.8,
+        "top": 552.1,
+        "width": 44.3,
+        "height": 29.7
+      }
+    },
+    "lumpSum": {
+      "type": "checkbox",
+      "label": "(1) Lump Sum",
+      "page": 2,
+      "box": {
+        "left": 116.7,
+        "top": 484.0,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "twoInstallments": {
+      "type": "checkbox",
+      "label": "(2) Two Installments",
+      "page": 2,
+      "box": {
+        "left": 268.9,
+        "top": 484.0,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "threeInstallments": {
+      "type": "checkbox",
+      "label": "(3) Three Installments",
+      "page": 2,
+      "box": {
+        "left": 402.1,
+        "top": 484.0,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "fourInstallments": {
+      "type": "checkbox",
+      "label": "(4) Four Installments",
+      "page": 2,
+      "box": {
+        "left": 527.7,
+        "top": 484.0,
+        "width": 7.0,
+        "height": 7.0
+      }
+    },
+    "electionSigField": {
+      "type": "text",
+      "label": "b. SIGNATURE",
+      "page": 2,
+      "box": {
+        "left": 40.8,
+        "top": 425.5,
+        "width": 268.4,
+        "height": 20.6
+      }
+    },
+    "dateField1": {
+      "type": "text",
+      "label": "c. DATE SIGNED (YYYYMMDD)",
+      "page": 2,
+      "box": {
+        "left": 314.9,
+        "top": 425.5,
+        "width": 258.4,
+        "height": 20.6
+      }
+    },
+    "dateField12": {
+      "type": "text",
+      "label": "b. DATE SIGNED (YYYYMMDD)",
+      "page": 2,
+      "box": {
+        "left": 313.9,
+        "top": 318.8,
+        "width": 258.7,
+        "height": 27.1
+      }
+    },
+    "sec5SignatureField2": {
+      "type": "text",
+      "label": "a. SIGNATURE",
+      "page": 2,
+      "box": {
+        "left": 39.8,
+        "top": 318.3,
+        "width": 267.5,
+        "height": 27.5
+      }
+    },
+    "section5rank": {
+      "type": "text",
+      "label": "b. RANK/PAY GRADE",
+      "page": 2,
+      "box": {
+        "left": 242.8,
+        "top": 245.8,
+        "width": 83.5,
+        "height": 19.8
+      }
+    },
+    "section5title": {
+      "type": "text",
+      "label": "c. POSITION/DUTY TITLE",
+      "page": 2,
+      "box": {
+        "left": 331.9,
+        "top": 245.8,
+        "width": 125.6,
+        "height": 19.8
+      }
+    },
+    "section5org": {
+      "type": "text",
+      "label": "d. ORGANIZATION",
+      "page": 2,
+      "box": {
+        "left": 463.1,
+        "top": 245.4,
+        "width": 109.1,
+        "height": 19.7
+      }
+    },
+    "section5NAME": {
+      "type": "text",
+      "label": "a. PRINTED NAME (Last, First, MI)",
+      "page": 2,
+      "box": {
+        "left": 39.8,
+        "top": 245.1,
+        "width": 197.3,
+        "height": 19.2
+      }
+    },
+    "dateField13": {
+      "type": "text",
+      "label": "f. DATE SIGNED (YYYYMMDD)",
+      "page": 2,
+      "box": {
+        "left": 314.0,
+        "top": 207.5,
+        "width": 258.2,
+        "height": 20.6
+      }
+    },
+    "sec5SignatureField22": {
+      "type": "text",
+      "label": "e. SIGNATURE",
+      "page": 2,
+      "box": {
+        "left": 39.8,
+        "top": 207.3,
+        "width": 268.5,
+        "height": 20.4
+      }
+    },
+    "name2": {
+      "type": "text",
+      "label": "a. PRINTED NAME (Last, First, MI)",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 143.1,
+        "width": 198.4,
+        "height": 39.4
+      },
+      "multiline": true
+    },
+    "edipi2": {
+      "type": "text",
+      "label": "b. RANK/PAY GRADE",
+      "page": 2,
+      "box": {
+        "left": 242.9,
+        "top": 142.8,
+        "width": 83.3,
+        "height": 39.1
+      },
+      "multiline": true
+    },
+    "section5title2": {
+      "type": "text",
+      "label": "c. POSITION/DUTY TITLE",
+      "page": 2,
+      "box": {
+        "left": 331.9,
+        "top": 142.8,
+        "width": 126.3,
+        "height": 39.0
+      },
+      "multiline": true
+    },
+    "section5org2": {
+      "type": "text",
+      "label": "d. ORGANIZATION",
+      "page": 2,
+      "box": {
+        "left": 463.9,
+        "top": 142.8,
+        "width": 109.0,
+        "height": 39.1
+      },
+      "multiline": true
+    },
+    "signatureField2": {
+      "type": "text",
+      "label": "e. SIGNATURE",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 71.2,
+        "width": 269.3,
+        "height": 32.5
+      },
+      "multiline": true
+    },
+    "dateField2": {
+      "type": "text",
+      "label": "f. DATE SIGNED (YYYYMMDD)",
+      "page": 2,
+      "box": {
+        "left": 313.8,
+        "top": 70.8,
+        "width": 258.4,
+        "height": 32.1
+      },
+      "multiline": true
+    }
+  }
+}

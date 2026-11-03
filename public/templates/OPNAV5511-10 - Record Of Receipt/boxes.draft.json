@@ -1,0 +1,370 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "cell1": {
+        "left": 37.4,
+        "top": 668.2,
+        "width": 62.0,
+        "height": 137.6,
+        "type": "text",
+        "description": "CODE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell2": {
+        "left": 102.2,
+        "top": 668.2,
+        "width": 62.0,
+        "height": 137.6,
+        "type": "text",
+        "description": "NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell3": {
+        "left": 167.0,
+        "top": 668.2,
+        "width": 62.0,
+        "height": 137.6,
+        "type": "text",
+        "description": "MATERIAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell4": {
+        "left": 231.8,
+        "top": 668.2,
+        "width": 148.4,
+        "height": 137.6,
+        "type": "text",
+        "description": "UNCLASSIFIED DESCRIPTION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell5": {
+        "left": 383.1,
+        "top": 668.2,
+        "width": 40.4,
+        "height": 137.6,
+        "type": "text",
+        "description": "COPY NO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell6": {
+        "left": 426.3,
+        "top": 668.2,
+        "width": 83.6,
+        "height": 137.6,
+        "type": "text",
+        "description": "MATERIAL RECORD",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell7": {
+        "left": 512.7,
+        "top": 668.2,
+        "width": 62.0,
+        "height": 137.6,
+        "type": "text",
+        "description": "NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row1": {
+        "left": 37.4,
+        "top": 527.7,
+        "width": 62.0,
+        "height": 137.6,
+        "type": "text",
+        "description": "CODE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row11": {
+        "left": 102.2,
+        "top": 527.7,
+        "width": 62.0,
+        "height": 137.6,
+        "type": "text",
+        "description": "NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row12": {
+        "left": 167.0,
+        "top": 527.7,
+        "width": 62.0,
+        "height": 137.6,
+        "type": "text",
+        "description": "MATERIAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row13": {
+        "left": 231.8,
+        "top": 527.7,
+        "width": 148.4,
+        "height": 137.6,
+        "type": "text",
+        "description": "UNCLASSIFIED DESCRIPTION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row14": {
+        "left": 383.1,
+        "top": 527.7,
+        "width": 40.4,
+        "height": 137.6,
+        "type": "text",
+        "description": "COPY NO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row15": {
+        "left": 426.3,
+        "top": 527.7,
+        "width": 83.6,
+        "height": 137.6,
+        "type": "text",
+        "description": "MATERIAL RECORD",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row16": {
+        "left": 512.7,
+        "top": 527.7,
+        "width": 62.0,
+        "height": 137.6,
+        "type": "text",
+        "description": "NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row17": {
+        "left": 37.4,
+        "top": 387.3,
+        "width": 62.0,
+        "height": 137.6,
+        "type": "text",
+        "description": "CODE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row112": {
+        "left": 102.2,
+        "top": 387.3,
+        "width": 62.0,
+        "height": 137.6,
+        "type": "text",
+        "description": "NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row122": {
+        "left": 167.0,
+        "top": 387.3,
+        "width": 62.0,
+        "height": 137.6,
+        "type": "text",
+        "description": "MATERIAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row132": {
+        "left": 231.8,
+        "top": 387.3,
+        "width": 148.4,
+        "height": 137.6,
+        "type": "text",
+        "description": "UNCLASSIFIED DESCRIPTION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row142": {
+        "left": 383.1,
+        "top": 387.3,
+        "width": 40.4,
+        "height": 137.6,
+        "type": "text",
+        "description": "COPY NO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row152": {
+        "left": 426.3,
+        "top": 387.3,
+        "width": 83.6,
+        "height": 137.6,
+        "type": "text",
+        "description": "MATERIAL RECORD",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row162": {
+        "left": 512.7,
+        "top": 387.3,
+        "width": 62.0,
+        "height": 137.6,
+        "type": "text",
+        "description": "NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row18": {
+        "left": 37.4,
+        "top": 246.9,
+        "width": 62.0,
+        "height": 137.6,
+        "type": "text",
+        "description": "CODE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row113": {
+        "left": 102.2,
+        "top": 246.9,
+        "width": 62.0,
+        "height": 137.6,
+        "type": "text",
+        "description": "NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row123": {
+        "left": 167.0,
+        "top": 246.9,
+        "width": 62.0,
+        "height": 137.6,
+        "type": "text",
+        "description": "MATERIAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row133": {
+        "left": 231.8,
+        "top": 246.9,
+        "width": 148.4,
+        "height": 137.6,
+        "type": "text",
+        "description": "UNCLASSIFIED DESCRIPTION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row143": {
+        "left": 383.1,
+        "top": 246.9,
+        "width": 40.4,
+        "height": 137.6,
+        "type": "text",
+        "description": "COPY NO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row153": {
+        "left": 426.3,
+        "top": 246.9,
+        "width": 83.6,
+        "height": 137.6,
+        "type": "text",
+        "description": "MATERIAL RECORD",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row163": {
+        "left": 512.7,
+        "top": 246.9,
+        "width": 62.0,
+        "height": 137.6,
+        "type": "text",
+        "description": "NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "add": {
+        "left": 37.4,
+        "top": 95.7,
+        "width": 537.2,
+        "height": 22.4,
+        "type": "text",
+        "description": "2. ADDRESSEE (activity receiving material)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "authRecPrintName": {
+        "left": 38.8,
+        "top": 58.3,
+        "width": 228.4,
+        "height": 19.5,
+        "type": "text",
+        "description": "3. AUTHORIZED RECIPIENT PRINTED NAME (Last, First, MI)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "authRecSig": {
+        "left": 272.9,
+        "top": 58.3,
+        "width": 192.4,
+        "height": 19.5,
+        "type": "text",
+        "description": "4. AUTHORIZED RECIPIENT SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "authRecSigDte": {
+        "left": 470.8,
+        "top": 58.3,
+        "width": 102.3,
+        "height": 19.5,
+        "type": "text",
+        "description": "5. SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

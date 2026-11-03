@@ -1,0 +1,157 @@
+{
+  "id": "opnav57002",
+  "label": "OPNAV5700-2 - Tour Report",
+  "directory": "OPNAV5700-2 - Tour Report",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "radio",
+        "radio2",
+        "fromDte",
+        "toDte",
+        "nme",
+        "rnk",
+        "unit",
+        "loco",
+        "bilTle",
+        "secLst",
+        "exper"
+      ]
+    }
+  ],
+  "fields": {
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 200.9,
+        "top": 722.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 344.9,
+        "top": 722.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "fromDte": {
+      "type": "text",
+      "label": "TOUR TIME PERIOD FROM",
+      "page": 1,
+      "box": {
+        "left": 289.1,
+        "top": 697.5,
+        "width": 62.5,
+        "height": 14.7
+      }
+    },
+    "toDte": {
+      "type": "text",
+      "label": "TO",
+      "page": 1,
+      "box": {
+        "left": 367.1,
+        "top": 697.5,
+        "width": 60.4,
+        "height": 14.7
+      }
+    },
+    "nme": {
+      "type": "text",
+      "label": "1. NAME (Last, First, MI)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 629.2,
+        "width": 228.5,
+        "height": 18.8
+      }
+    },
+    "rnk": {
+      "type": "text",
+      "label": "2. RANK",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 629.2,
+        "width": 61.8,
+        "height": 18.8
+      }
+    },
+    "unit": {
+      "type": "text",
+      "label": "3. UNIT",
+      "page": 1,
+      "box": {
+        "left": 340.1,
+        "top": 629.2,
+        "width": 233.1,
+        "height": 18.8
+      }
+    },
+    "loco": {
+      "type": "text",
+      "label": "4. LOCATION",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 593.1,
+        "width": 203.7,
+        "height": 18.8
+      }
+    },
+    "bilTle": {
+      "type": "text",
+      "label": "5. BILLET TITLE",
+      "page": 1,
+      "box": {
+        "left": 248.2,
+        "top": 593.1,
+        "width": 203.7,
+        "height": 18.8
+      }
+    },
+    "secLst": {
+      "type": "choice",
+      "label": "REQUIRED",
+      "page": 1,
+      "box": {
+        "left": 458.1,
+        "top": 585.5,
+        "width": 117.2,
+        "height": 13.2
+      },
+      "options": [
+        "CONFIDENTIAL",
+        "SECRET",
+        "TOP SECRET"
+      ]
+    },
+    "exper": {
+      "type": "text",
+      "label": "7. QUALIFICATIONS AND EXPERIENCE REQUIRED (If Any)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 557.1,
+        "width": 534.4,
+        "height": 41.3
+      },
+      "multiline": true
+    }
+  }
+}

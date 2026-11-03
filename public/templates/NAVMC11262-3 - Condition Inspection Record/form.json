@@ -1,0 +1,549 @@
+{
+  "id": "navmc112623",
+  "label": "NAVMC 11262-3 - Condition Inspection Record",
+  "directory": "NAVMC11262-3 - Condition Inspection Record",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "serialNumber",
+        "type",
+        "purpose",
+        "inspection",
+        "inspection2",
+        "inspection3",
+        "inspection4",
+        "inspection5",
+        "inspection6",
+        "inspection7",
+        "inspection8",
+        "inspection9",
+        "inspection10",
+        "inspection11",
+        "inspection12",
+        "inspection13",
+        "inspection14",
+        "inspection15",
+        "inspection16",
+        "inspection17",
+        "inspection18",
+        "inspection19",
+        "inspection20",
+        "inspection21",
+        "inspection22",
+        "inspection23",
+        "inspection24",
+        "inspection25",
+        "inspection26",
+        "inspection27",
+        "inspection28",
+        "inspection29",
+        "inspection30",
+        "inspection31",
+        "inspection32",
+        "inspection33",
+        "inspection34",
+        "remarks",
+        "inspector",
+        "dateInspector",
+        "director",
+        "dateDirector",
+        "official",
+        "dateOfficial"
+      ]
+    }
+  ],
+  "fields": {
+    "serialNumber": {
+      "type": "text",
+      "label": "USMC Serial Number",
+      "page": 1,
+      "box": {
+        "left": 20.8,
+        "top": 703.7,
+        "width": 174.4,
+        "height": 12.3
+      }
+    },
+    "type": {
+      "type": "text",
+      "label": "Type/Capacity",
+      "page": 1,
+      "box": {
+        "left": 200.9,
+        "top": 703.7,
+        "width": 93.3,
+        "height": 12.3
+      }
+    },
+    "purpose": {
+      "type": "text",
+      "label": "Purpose of Inspection",
+      "page": 1,
+      "box": {
+        "left": 299.9,
+        "top": 703.7,
+        "width": 291.4,
+        "height": 12.3
+      }
+    },
+    "inspection": {
+      "type": "text",
+      "label": "Bent, cracked, or corroded structural members",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 631.6,
+        "width": 48.3,
+        "height": 21.3
+      }
+    },
+    "inspection2": {
+      "type": "text",
+      "label": "18 hook load rating data is in view of operator and or",
+      "page": 1,
+      "box": {
+        "left": 542.9,
+        "top": 631.6,
+        "width": 48.3,
+        "height": 21.3
+      }
+    },
+    "inspection3": {
+      "type": "text",
+      "label": "Cracked or corroded welds",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 604.6,
+        "width": 48.3,
+        "height": 21.3
+      }
+    },
+    "inspection4": {
+      "type": "text",
+      "label": "19 safety guards, warning signs, and storage of tools",
+      "page": 1,
+      "box": {
+        "left": 542.9,
+        "top": 604.6,
+        "width": 48.3,
+        "height": 21.3
+      }
+    },
+    "inspection5": {
+      "type": "text",
+      "label": "Loose, bolts. broken, missing, or deteriorated rivets or",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 577.6,
+        "width": 48.3,
+        "height": 21.3
+      }
+    },
+    "inspection6": {
+      "type": "text",
+      "label": "20 safety guards, warning signs, and storage of tools",
+      "page": 1,
+      "box": {
+        "left": 542.9,
+        "top": 577.6,
+        "width": 48.3,
+        "height": 21.3
+      }
+    },
+    "inspection7": {
+      "type": "text",
+      "label": "Inspection",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 550.6,
+        "width": 48.3,
+        "height": 48.3
+      },
+      "multiline": true
+    },
+    "inspection8": {
+      "type": "text",
+      "label": "Inspection",
+      "page": 1,
+      "box": {
+        "left": 542.9,
+        "top": 550.6,
+        "width": 48.3,
+        "height": 48.3
+      },
+      "multiline": true
+    },
+    "inspection9": {
+      "type": "text",
+      "label": "distortion. Verify disassembly, inspection and",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 496.6,
+        "width": 48.3,
+        "height": 21.3
+      }
+    },
+    "inspection10": {
+      "type": "text",
+      "label": "22 protection equipment",
+      "page": 1,
+      "box": {
+        "left": 542.9,
+        "top": 496.6,
+        "width": 48.3,
+        "height": 21.3
+      }
+    },
+    "inspection11": {
+      "type": "text",
+      "label": "operation. Spot check components for proper",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 469.6,
+        "width": 48.3,
+        "height": 21.3
+      }
+    },
+    "inspection12": {
+      "type": "text",
+      "label": "23 boxes, wedges, and cylinder mountings. Check",
+      "page": 1,
+      "box": {
+        "left": 542.9,
+        "top": 469.6,
+        "width": 48.3,
+        "height": 21.3
+      }
+    },
+    "inspection13": {
+      "type": "text",
+      "label": "Check operation. all controls for proper condition and",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 442.6,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "inspection14": {
+      "type": "text",
+      "label": "Inspection",
+      "page": 1,
+      "box": {
+        "left": 542.9,
+        "top": 442.6,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "inspection15": {
+      "type": "text",
+      "label": "Inspection",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 424.6,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "inspection16": {
+      "type": "text",
+      "label": "Inspection",
+      "page": 1,
+      "box": {
+        "left": 542.9,
+        "top": 424.6,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "inspection17": {
+      "type": "text",
+      "label": "Inspection",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 406.6,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "inspection18": {
+      "type": "text",
+      "label": "Inspection",
+      "page": 1,
+      "box": {
+        "left": 542.9,
+        "top": 406.6,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "inspection19": {
+      "type": "text",
+      "label": "Inspection",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 388.6,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "inspection20": {
+      "type": "text",
+      "label": "Inspection",
+      "page": 1,
+      "box": {
+        "left": 542.9,
+        "top": 388.6,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "inspection21": {
+      "type": "text",
+      "label": "11 Check accuracy. load indicators for condition and working",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 370.6,
+        "width": 48.3,
+        "height": 21.3
+      }
+    },
+    "inspection22": {
+      "type": "text",
+      "label": "28 other components of air systems for leakage and",
+      "page": 1,
+      "box": {
+        "left": 542.9,
+        "top": 370.6,
+        "width": 48.3,
+        "height": 21.3
+      }
+    },
+    "inspection23": {
+      "type": "text",
+      "label": "12 reasonably accessible for wear, cracks, and",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 343.6,
+        "width": 48.3,
+        "height": 21.3
+      }
+    },
+    "inspection24": {
+      "type": "text",
+      "label": "29 cylinders, and other components of hydraulic",
+      "page": 1,
+      "box": {
+        "left": 542.9,
+        "top": 343.6,
+        "width": 48.3,
+        "height": 21.3
+      }
+    },
+    "inspection25": {
+      "type": "text",
+      "label": "13 misaligned bearings, bushings, shafts, pins, and",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 316.6,
+        "width": 48.3,
+        "height": 21.3
+      }
+    },
+    "inspection26": {
+      "type": "text",
+      "label": "Inspection",
+      "page": 1,
+      "box": {
+        "left": 542.9,
+        "top": 316.6,
+        "width": 48.3,
+        "height": 21.3
+      }
+    },
+    "inspection27": {
+      "type": "text",
+      "label": "Inspection",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 289.6,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "inspection28": {
+      "type": "text",
+      "label": "Inspection",
+      "page": 1,
+      "box": {
+        "left": 542.9,
+        "top": 289.6,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "inspection29": {
+      "type": "text",
+      "label": "15 turning, and alignment. Gauge sheave",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 271.6,
+        "width": 48.3,
+        "height": 21.3
+      }
+    },
+    "inspection30": {
+      "type": "text",
+      "label": "Inspection",
+      "page": 1,
+      "box": {
+        "left": 542.9,
+        "top": 271.6,
+        "width": 48.3,
+        "height": 21.3
+      }
+    },
+    "inspection31": {
+      "type": "text",
+      "label": "Inspection",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 244.6,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "inspection32": {
+      "type": "text",
+      "label": "33 Check tightness. all compartments (voids) for water",
+      "page": 1,
+      "box": {
+        "left": 542.9,
+        "top": 244.6,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "inspection33": {
+      "type": "text",
+      "label": "Inspection",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 226.6,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "inspection34": {
+      "type": "text",
+      "label": "Inspection",
+      "page": 1,
+      "box": {
+        "left": 542.9,
+        "top": 226.6,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "Section 3 Remarks",
+      "page": 1,
+      "box": {
+        "left": 20.8,
+        "top": 190.6,
+        "width": 570.4,
+        "height": 49.7
+      },
+      "multiline": true
+    },
+    "inspector": {
+      "type": "text",
+      "label": "Load Test Inspector",
+      "page": 1,
+      "box": {
+        "left": 110.8,
+        "top": 118.6,
+        "width": 318.4,
+        "height": 12.3
+      }
+    },
+    "dateInspector": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 460.4,
+        "top": 118.6,
+        "width": 130.8,
+        "height": 12.3
+      }
+    },
+    "director": {
+      "type": "text",
+      "label": "Test Director",
+      "page": 1,
+      "box": {
+        "left": 110.8,
+        "top": 100.6,
+        "width": 318.4,
+        "height": 12.3
+      }
+    },
+    "dateDirector": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 460.4,
+        "top": 100.6,
+        "width": 130.8,
+        "height": 12.3
+      }
+    },
+    "official": {
+      "type": "text",
+      "label": "Certifying Official",
+      "page": 1,
+      "box": {
+        "left": 110.8,
+        "top": 82.6,
+        "width": 318.4,
+        "height": 12.3
+      }
+    },
+    "dateOfficial": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 460.4,
+        "top": 82.6,
+        "width": 130.8,
+        "height": 12.3
+      }
+    }
+  }
+}

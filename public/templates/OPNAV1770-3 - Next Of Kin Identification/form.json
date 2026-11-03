@@ -1,0 +1,547 @@
+{
+  "id": "opnav17703",
+  "label": "OPNAV1770-3 - Next Of Kin Identification",
+  "directory": "OPNAV1770-3 - Next Of Kin Identification",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "region",
+        "subBy",
+        "subDte",
+        "serMemNme",
+        "radio",
+        "radio2",
+        "kinNme",
+        "radio3",
+        "relMeb",
+        "dteBrth",
+        "fulSNN",
+        "notDteTme",
+        "notBy",
+        "kinAdd",
+        "radio4",
+        "radio5",
+        "radio6",
+        "hmePh",
+        "cellPh",
+        "wrkPh",
+        "cACONme",
+        "dtySta",
+        "cACOAdd",
+        "radio7",
+        "radio8",
+        "cACOHmePh",
+        "cACOCellPh",
+        "cACOWrkPh",
+        "contBy",
+        "cUICat",
+        "ldc",
+        "poc"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "notBy2",
+        "notDte",
+        "cACONme2",
+        "depBirthDte9",
+        "signatureField1"
+      ]
+    }
+  ],
+  "fields": {
+    "region": {
+      "type": "text",
+      "label": "1. Region",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 468.8,
+        "width": 210.4,
+        "height": 12.3
+      }
+    },
+    "subBy": {
+      "type": "text",
+      "label": "2. Submitted By",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 468.8,
+        "width": 210.4,
+        "height": 12.3
+      }
+    },
+    "subDte": {
+      "type": "text",
+      "label": "3. Submit Date",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 468.8,
+        "width": 102.3,
+        "height": 12.3
+      }
+    },
+    "serMemNme": {
+      "type": "text",
+      "label": "4. Decedent&apos;s Entire Full Name (Last, First, Middle)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 440.0,
+        "width": 534.4,
+        "height": 15.9
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 61.9,
+        "top": 406.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 61.9,
+        "top": 395.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "kinNme": {
+      "type": "text",
+      "label": "Full Name (Last, First, Middle)",
+      "page": 1,
+      "box": {
+        "left": 113.1,
+        "top": 393.2,
+        "width": 460.2,
+        "height": 15.9
+      }
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 61.9,
+        "top": 384.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "relMeb": {
+      "type": "text",
+      "label": "6. Relationship to Deceased",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 360.8,
+        "width": 120.3,
+        "height": 15.9
+      }
+    },
+    "dteBrth": {
+      "type": "text",
+      "label": "7. Date of Birth",
+      "page": 1,
+      "box": {
+        "left": 164.9,
+        "top": 360.8,
+        "width": 84.3,
+        "height": 15.9
+      }
+    },
+    "fulSNN": {
+      "type": "text",
+      "label": "8. Full SSN",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 360.8,
+        "width": 84.3,
+        "height": 15.9
+      }
+    },
+    "notDteTme": {
+      "type": "text",
+      "label": "9. Notification Time/Date",
+      "page": 1,
+      "box": {
+        "left": 344.9,
+        "top": 360.8,
+        "width": 120.3,
+        "height": 15.9
+      }
+    },
+    "notBy": {
+      "type": "text",
+      "label": "10. Notified by",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 360.8,
+        "width": 102.3,
+        "height": 15.9
+      }
+    },
+    "kinAdd": {
+      "type": "text",
+      "label": "11. Address (Street Address, City, State, and Zip Code+4)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 328.4,
+        "width": 534.4,
+        "height": 66.3
+      },
+      "multiline": true
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 122.7,
+        "top": 257.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 264.1,
+        "top": 257.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 416.4,
+        "top": 257.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "hmePh": {
+      "type": "text",
+      "label": "12. Home Telephone Number",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 231.2,
+        "width": 174.4,
+        "height": 15.9
+      }
+    },
+    "cellPh": {
+      "type": "text",
+      "label": "13. Cell Telephone Number",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 231.2,
+        "width": 174.4,
+        "height": 15.9
+      }
+    },
+    "wrkPh": {
+      "type": "text",
+      "label": "14. Work Telephone Number",
+      "page": 1,
+      "box": {
+        "left": 398.9,
+        "top": 231.2,
+        "width": 174.4,
+        "height": 15.9
+      }
+    },
+    "cACONme": {
+      "type": "text",
+      "label": "15. CACO Full Name (Last, First, Middle)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 184.4,
+        "width": 264.4,
+        "height": 15.9
+      }
+    },
+    "dtySta": {
+      "type": "text",
+      "label": "16. Duty Station",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 184.4,
+        "width": 264.4,
+        "height": 15.9
+      }
+    },
+    "cACOAdd": {
+      "type": "text",
+      "label": "17. Address (Street Address, City, State, and Zip Code+4)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 152.0,
+        "width": 534.4,
+        "height": 66.3
+      },
+      "multiline": true
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 122.7,
+        "top": 80.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 309.8,
+        "top": 80.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "cACOHmePh": {
+      "type": "text",
+      "label": "18. Home Telephone Number",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 54.8,
+        "width": 174.4,
+        "height": 15.9
+      }
+    },
+    "cACOCellPh": {
+      "type": "text",
+      "label": "19. Cell Telephone Number",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 54.8,
+        "width": 174.4,
+        "height": 15.9
+      }
+    },
+    "cACOWrkPh": {
+      "type": "text",
+      "label": "20. Work Telephone Number",
+      "page": 1,
+      "box": {
+        "left": 398.9,
+        "top": 54.8,
+        "width": 174.4,
+        "height": 15.9
+      }
+    },
+    "contBy": {
+      "type": "text",
+      "label": "CUI (when filled in) CONTROLLED BY",
+      "page": 1,
+      "box": {
+        "left": 413.3,
+        "top": 32.2,
+        "width": 98.7,
+        "height": 6.6
+      }
+    },
+    "cUICat": {
+      "type": "text",
+      "label": "CUI CATEGORY",
+      "page": 1,
+      "box": {
+        "left": 413.3,
+        "top": 24.4,
+        "width": 98.7,
+        "height": 6.6
+      }
+    },
+    "ldc": {
+      "type": "text",
+      "label": "LDC",
+      "page": 1,
+      "box": {
+        "left": 413.3,
+        "top": 16.6,
+        "width": 98.7,
+        "height": 6.6
+      }
+    },
+    "poc": {
+      "type": "text",
+      "label": "POC",
+      "page": 1,
+      "box": {
+        "left": 413.3,
+        "top": 9.4,
+        "width": 98.7,
+        "height": 6.6
+      }
+    },
+    "notBy2": {
+      "type": "text",
+      "label": "Notified By",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 195.1,
+        "width": 426.4,
+        "height": 15.9
+      }
+    },
+    "notDte": {
+      "type": "text",
+      "label": "Notification Date",
+      "page": 2,
+      "box": {
+        "left": 470.9,
+        "top": 195.1,
+        "width": 102.3,
+        "height": 15.9
+      }
+    },
+    "cACONme2": {
+      "type": "text",
+      "label": "Regional Coordinator Name (Last, First, MI) and Rank",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 126.7,
+        "width": 210.4,
+        "height": 41.1
+      },
+      "multiline": true
+    },
+    "depBirthDte9": {
+      "type": "text",
+      "label": "Signature Date",
+      "page": 2,
+      "box": {
+        "left": 254.9,
+        "top": 126.7,
+        "width": 102.3,
+        "height": 41.1
+      },
+      "multiline": true
+    },
+    "signatureField1": {
+      "type": "text",
+      "label": "Regional Coordinator Signature",
+      "page": 2,
+      "box": {
+        "left": 362.9,
+        "top": 126.7,
+        "width": 210.4,
+        "height": 41.1
+      },
+      "multiline": true
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 2,
+      "count": 8,
+      "rowStride": 64.81,
+      "editor": "grid",
+      "columns": {
+        "depLegGC": {
+          "type": "text",
+          "label": "Legal Guardian/Custodian Name",
+          "page": 2,
+          "box": {
+            "left": 38.8,
+            "top": 681.2,
+            "width": 318.4,
+            "height": 15.9
+          }
+        },
+        "depNme": {
+          "type": "text",
+          "label": "Full Name (Last, First, Middle)",
+          "page": 2,
+          "box": {
+            "left": 38.8,
+            "top": 713.6,
+            "width": 318.4,
+            "height": 15.9
+          }
+        },
+        "depRel": {
+          "type": "text",
+          "label": "Relationship",
+          "page": 2,
+          "box": {
+            "left": 362.9,
+            "top": 681.2,
+            "width": 210.4,
+            "height": 15.9
+          }
+        },
+        "depBirthDte": {
+          "type": "text",
+          "label": "Date of Birth",
+          "page": 2,
+          "box": {
+            "left": 362.9,
+            "top": 713.6,
+            "width": 102.3,
+            "height": 15.9
+          }
+        },
+        "depSSN": {
+          "type": "text",
+          "label": "Full SSN",
+          "page": 2,
+          "box": {
+            "left": 470.9,
+            "top": 713.6,
+            "width": 102.3,
+            "height": 15.9
+          }
+        }
+      }
+    }
+  }
+}

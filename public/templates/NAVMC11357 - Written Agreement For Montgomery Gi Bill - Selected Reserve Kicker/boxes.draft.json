@@ -1,0 +1,196 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "criticalSpclty": {
+        "left": 296.7,
+        "top": 478.3,
+        "width": 285.6,
+        "height": 15.7,
+        "type": "text",
+        "description": "Enter the critical specialty or skill in which applying marine shall serve.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "criticalUnit": {
+        "left": 240.5,
+        "top": 453.4,
+        "width": 343.8,
+        "height": 15.7,
+        "type": "text",
+        "description": "Enter the critical unit in which applying marine shall serve.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "amtEdAllow": {
+        "left": 27.5,
+        "top": 420.8,
+        "width": 88.9,
+        "height": 15.7,
+        "type": "text",
+        "description": "Enter the amount of educational allowance to supplement each month of basic entitled benefit.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "authRemrks1": {
+        "left": 27.8,
+        "top": 516.8,
+        "width": 558.2,
+        "height": 15.0,
+        "type": "text",
+        "description": "Enter line one of any remarks regarding authentication of this written agreement.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "authRemrks2": {
+        "left": 27.5,
+        "top": 495.9,
+        "width": 558.2,
+        "height": 15.0,
+        "type": "text",
+        "description": "Enter line two of any remarks regarding authentication of this written agreement.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sigMem": {
+        "left": 44.2,
+        "top": 432.0,
+        "width": 198.0,
+        "height": 19.3,
+        "type": "signature",
+        "description": "SigMem",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sSNServMem": {
+        "left": 265.4,
+        "top": 428.6,
+        "width": 179.1,
+        "height": 15.0,
+        "type": "text",
+        "description": "Enter the service members social security number without dashes.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateServMemSig": {
+        "left": 478.4,
+        "top": 428.6,
+        "width": 107.8,
+        "height": 15.0,
+        "type": "text",
+        "description": "Enter the date of the service members signature using format 2 Dec 2002.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sigAdminOff": {
+        "left": 314.2,
+        "top": 357.0,
+        "width": 144.8,
+        "height": 19.3,
+        "type": "signature",
+        "description": "SigAdminOff",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameAdminOff": {
+        "left": 43.1,
+        "top": 352.8,
+        "width": 183.0,
+        "height": 15.0,
+        "type": "text",
+        "description": "Enter the name of the authorized administering official.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "gradeAdminOff": {
+        "left": 244.4,
+        "top": 352.8,
+        "width": 62.7,
+        "height": 15.0,
+        "type": "text",
+        "description": "Enter the grade of the authorized administering official.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateAdminOffSig": {
+        "left": 479.7,
+        "top": 352.8,
+        "width": 107.8,
+        "height": 15.0,
+        "type": "text",
+        "description": "Enter the date of the administering officials signature.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sigSerRep": {
+        "left": 315.0,
+        "top": 275.2,
+        "width": 146.2,
+        "height": 19.3,
+        "type": "signature",
+        "description": "SigSerRep",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameServRep": {
+        "left": 42.5,
+        "top": 270.4,
+        "width": 183.0,
+        "height": 15.0,
+        "type": "text",
+        "description": "Enter the name of the service representative.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "gradeServRep": {
+        "left": 243.8,
+        "top": 270.4,
+        "width": 62.7,
+        "height": 15.0,
+        "type": "text",
+        "description": "Enter the grade of the service representative.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateServRepSig": {
+        "left": 479.1,
+        "top": 270.4,
+        "width": 107.8,
+        "height": 15.0,
+        "type": "text",
+        "description": "Enter the date of the service representatives signature.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

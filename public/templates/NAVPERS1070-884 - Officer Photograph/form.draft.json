@@ -1,0 +1,77 @@
+{
+  "id": "navpers1070884",
+  "label": "NAVPERS1070-884 - Officer Photograph",
+  "directory": "NAVPERS1070-884 - Officer Photograph",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "textField1",
+        "textField12",
+        "textField13",
+        "textField14",
+        "textField15"
+      ]
+    }
+  ],
+  "fields": {
+    "textField1": {
+      "type": "text",
+      "label": "5. DATE PHOTO TAKEN (YYYYMMDD):",
+      "page": 1,
+      "box": {
+        "left": 422.8,
+        "top": 604.7,
+        "width": 150.3,
+        "height": 16.8
+      }
+    },
+    "textField12": {
+      "type": "text",
+      "label": "2. GRADE:",
+      "page": 1,
+      "box": {
+        "left": 218.8,
+        "top": 603.9,
+        "width": 48.3,
+        "height": 16.1
+      }
+    },
+    "textField13": {
+      "type": "text",
+      "label": "3. SSN (FULL):",
+      "page": 1,
+      "box": {
+        "left": 272.8,
+        "top": 603.9,
+        "width": 66.3,
+        "height": 16.1
+      }
+    },
+    "textField14": {
+      "type": "text",
+      "label": "4. DESIGNATOR:",
+      "page": 1,
+      "box": {
+        "left": 344.8,
+        "top": 603.9,
+        "width": 72.3,
+        "height": 16.1
+      }
+    },
+    "textField15": {
+      "type": "text",
+      "label": "1. NAME (LAST, FIRST, MI):",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 603.2,
+        "width": 174.3,
+        "height": 15.3
+      }
+    }
+  }
+}

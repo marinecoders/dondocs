@@ -1,0 +1,271 @@
+{
+  "id": "navpers12216",
+  "label": "NAVPERS1221-6 - NAVY Enlisted Classification Change Request",
+  "directory": "NAVPERS1221-6 - NAVY Enlisted Classification Change Request",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "radio",
+        "radio2",
+        "globalTo",
+        "two",
+        "three",
+        "four",
+        "six",
+        "seven",
+        "eight",
+        "nine",
+        "ten",
+        "eleven",
+        "tweleve",
+        "thirteen",
+        "fourteen",
+        "sixteen",
+        "seventeen",
+        "eighteen",
+        "ninteen"
+      ]
+    }
+  ],
+  "fields": {
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 103.6,
+        "top": 637.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 182.9,
+        "top": 637.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "globalTo": {
+      "type": "choice",
+      "label": "1. TO (Select one BUPERS-312 NUCLEAR)",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 626.4,
+        "width": 532.9,
+        "height": 18.0
+      },
+      "options": [
+        "BUPERS-312, NEC Management Section",
+        "OPNAV (N133D)",
+        "Please select either \"BUPERS-312\" or \"NUCLEAR\" from the check-box options above. "
+      ]
+    },
+    "two": {
+      "type": "text",
+      "label": "2. FROM",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 591.5,
+        "width": 534.4,
+        "height": 28.9
+      }
+    },
+    "three": {
+      "type": "text",
+      "label": "3. NAME (Last, First, MI)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 546.2,
+        "width": 300.4,
+        "height": 19.6
+      }
+    },
+    "four": {
+      "type": "text",
+      "label": "4. RATING",
+      "page": 1,
+      "box": {
+        "left": 344.9,
+        "top": 546.1,
+        "width": 66.3,
+        "height": 19.5
+      }
+    },
+    "six": {
+      "type": "text",
+      "label": "5. UIC",
+      "page": 1,
+      "box": {
+        "left": 416.9,
+        "top": 546.1,
+        "width": 84.3,
+        "height": 19.5
+      }
+    },
+    "seven": {
+      "type": "text",
+      "label": "6. DATE",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 546.1,
+        "width": 66.3,
+        "height": 19.5
+      }
+    },
+    "eight": {
+      "type": "choice",
+      "label": "7. COMPONENT: (If USNR, complete block 9)",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 509.4,
+        "width": 180.1,
+        "height": 18.0
+      },
+      "options": [
+        "USN",
+        "USNR"
+      ]
+    },
+    "nine": {
+      "type": "choice",
+      "label": "8. RESERVE CLASSIFICATION",
+      "page": 1,
+      "box": {
+        "left": 226.8,
+        "top": 509.4,
+        "width": 183.7,
+        "height": 18.0
+      },
+      "options": [
+        "FTS",
+        "SELRES",
+        "OTHER"
+      ]
+    },
+    "ten": {
+      "type": "choice",
+      "label": "9. NEC ACTION REQUEST",
+      "page": 1,
+      "box": {
+        "left": 417.6,
+        "top": 509.4,
+        "width": 154.9,
+        "height": 18.0
+      },
+      "options": [
+        "AWARD NEC",
+        "NEC REMOVAL",
+        "NEC WAIVER"
+      ]
+    },
+    "eleven": {
+      "type": "text",
+      "label": "10. NEC(s) REQUESTED",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 474.1,
+        "width": 534.4,
+        "height": 147.3
+      },
+      "multiline": true
+    },
+    "tweleve": {
+      "type": "text",
+      "label": "11. AMPLIFYING REMARKS",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 311.6,
+        "width": 534.4,
+        "height": 164.8
+      },
+      "multiline": true
+    },
+    "thirteen": {
+      "type": "text",
+      "label": "12. CERTIFYING OFFICER NAME",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 130.3,
+        "width": 426.4,
+        "height": 19.5
+      }
+    },
+    "fourteen": {
+      "type": "text",
+      "label": "13. PHONE",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 130.3,
+        "width": 102.3,
+        "height": 19.5
+      }
+    },
+    "sixteen": {
+      "type": "text",
+      "label": "14. SIGNATURE OF CERTIFYING OFFICER",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 94.3,
+        "width": 426.4,
+        "height": 19.5
+      }
+    },
+    "seventeen": {
+      "type": "text",
+      "label": "15. DATE",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 94.3,
+        "width": 102.3,
+        "height": 19.5
+      }
+    },
+    "eighteen": {
+      "type": "text",
+      "label": "16. COMMAND POC NAME (Last, First, MI)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 58.3,
+        "width": 264.4,
+        "height": 19.5
+      }
+    },
+    "ninteen": {
+      "type": "text",
+      "label": "17. COMMAND POC E-MAIL ADDRESS",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 58.3,
+        "width": 264.4,
+        "height": 19.5
+      }
+    }
+  }
+}

@@ -1,0 +1,833 @@
+{
+  "id": "navmc11734",
+  "label": "NAVMC11734 - Annual Training Documentation",
+  "directory": "NAVMC11734 - Annual Training Documentation",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "workTakeA",
+        "levelA",
+        "dateA",
+        "remarksA",
+        "workTaskB",
+        "levelB",
+        "dateB",
+        "remarksB",
+        "cell2",
+        "cell3",
+        "workTaskC",
+        "levelC",
+        "dateC",
+        "remarksC",
+        "cell22",
+        "cell32",
+        "workTaskD",
+        "levelD",
+        "dateD",
+        "remarksD",
+        "cell23",
+        "cell33",
+        "workTaskE",
+        "levelE",
+        "dateE",
+        "remarksE",
+        "cell24",
+        "cell34",
+        "workTaskf",
+        "levelF",
+        "dateF",
+        "remarksF",
+        "cell25",
+        "cell35",
+        "workTaskG",
+        "levelG",
+        "dateG",
+        "remarksG",
+        "cell26",
+        "cell36",
+        "workTaskH",
+        "levelH",
+        "dateH",
+        "remarksH",
+        "cell27",
+        "cell37",
+        "workTaskI",
+        "levelI",
+        "dateI",
+        "remarksI",
+        "cell28",
+        "cell38",
+        "workTaskJ",
+        "levelJ",
+        "dateJ",
+        "remarksJ",
+        "cell29",
+        "cell39",
+        "workTaskK",
+        "levelK",
+        "dateK",
+        "remarksK",
+        "cell210",
+        "cell310",
+        "workTaskL",
+        "levelL",
+        "dateL",
+        "remarksL"
+      ]
+    }
+  ],
+  "fields": {
+    "workTakeA": {
+      "type": "text",
+      "label": "WorkTakeA",
+      "page": 1,
+      "box": {
+        "left": 193.1,
+        "top": 511.9,
+        "width": 60.1,
+        "height": 21.3
+      }
+    },
+    "levelA": {
+      "type": "text",
+      "label": "LevelA",
+      "page": 1,
+      "box": {
+        "left": 256.1,
+        "top": 511.9,
+        "width": 52.5,
+        "height": 21.3
+      }
+    },
+    "dateA": {
+      "type": "text",
+      "label": "DateA",
+      "page": 1,
+      "box": {
+        "left": 311.4,
+        "top": 511.9,
+        "width": 58.2,
+        "height": 21.3
+      }
+    },
+    "remarksA": {
+      "type": "text",
+      "label": "RemarksA",
+      "page": 1,
+      "box": {
+        "left": 372.5,
+        "top": 511.9,
+        "width": 202.1,
+        "height": 21.3
+      }
+    },
+    "workTaskB": {
+      "type": "text",
+      "label": "WorkTaskB",
+      "page": 1,
+      "box": {
+        "left": 193.1,
+        "top": 476.9,
+        "width": 60.1,
+        "height": 23.2
+      }
+    },
+    "levelB": {
+      "type": "text",
+      "label": "LevelB",
+      "page": 1,
+      "box": {
+        "left": 256.1,
+        "top": 476.9,
+        "width": 52.5,
+        "height": 23.2
+      }
+    },
+    "dateB": {
+      "type": "text",
+      "label": "DateB",
+      "page": 1,
+      "box": {
+        "left": 311.4,
+        "top": 476.9,
+        "width": 58.2,
+        "height": 23.2
+      }
+    },
+    "remarksB": {
+      "type": "text",
+      "label": "RemarksB",
+      "page": 1,
+      "box": {
+        "left": 372.5,
+        "top": 476.9,
+        "width": 202.1,
+        "height": 23.2
+      }
+    },
+    "cell2": {
+      "type": "text",
+      "label": "Cell2",
+      "page": 1,
+      "box": {
+        "left": 193.1,
+        "top": 450.8,
+        "width": 60.1,
+        "height": 9.0
+      }
+    },
+    "cell3": {
+      "type": "text",
+      "label": "Cell3",
+      "page": 1,
+      "box": {
+        "left": 256.1,
+        "top": 450.8,
+        "width": 52.5,
+        "height": 9.0
+      }
+    },
+    "workTaskC": {
+      "type": "text",
+      "label": "WorkTaskC",
+      "page": 1,
+      "box": {
+        "left": 193.1,
+        "top": 439.0,
+        "width": 60.1,
+        "height": 21.8
+      }
+    },
+    "levelC": {
+      "type": "text",
+      "label": "LevelC",
+      "page": 1,
+      "box": {
+        "left": 256.1,
+        "top": 439.0,
+        "width": 52.5,
+        "height": 21.8
+      }
+    },
+    "dateC": {
+      "type": "text",
+      "label": "DateC",
+      "page": 1,
+      "box": {
+        "left": 311.4,
+        "top": 439.0,
+        "width": 58.2,
+        "height": 21.8
+      }
+    },
+    "remarksC": {
+      "type": "text",
+      "label": "RemarksC",
+      "page": 1,
+      "box": {
+        "left": 372.5,
+        "top": 439.0,
+        "width": 202.1,
+        "height": 21.8
+      }
+    },
+    "cell22": {
+      "type": "text",
+      "label": "Cell2",
+      "page": 1,
+      "box": {
+        "left": 193.1,
+        "top": 414.4,
+        "width": 60.1,
+        "height": 8.1
+      }
+    },
+    "cell32": {
+      "type": "text",
+      "label": "Cell3",
+      "page": 1,
+      "box": {
+        "left": 256.1,
+        "top": 414.4,
+        "width": 52.5,
+        "height": 8.1
+      }
+    },
+    "workTaskD": {
+      "type": "text",
+      "label": "WorkTaskD",
+      "page": 1,
+      "box": {
+        "left": 193.1,
+        "top": 403.4,
+        "width": 60.1,
+        "height": 22.7
+      }
+    },
+    "levelD": {
+      "type": "text",
+      "label": "LevelD",
+      "page": 1,
+      "box": {
+        "left": 256.1,
+        "top": 403.4,
+        "width": 52.5,
+        "height": 22.7
+      }
+    },
+    "dateD": {
+      "type": "text",
+      "label": "DateD",
+      "page": 1,
+      "box": {
+        "left": 311.4,
+        "top": 403.4,
+        "width": 58.2,
+        "height": 22.7
+      }
+    },
+    "remarksD": {
+      "type": "text",
+      "label": "RemarksD",
+      "page": 1,
+      "box": {
+        "left": 372.5,
+        "top": 403.4,
+        "width": 202.1,
+        "height": 22.7
+      }
+    },
+    "cell23": {
+      "type": "text",
+      "label": "Cell2",
+      "page": 1,
+      "box": {
+        "left": 193.1,
+        "top": 377.9,
+        "width": 60.1,
+        "height": 9.0
+      }
+    },
+    "cell33": {
+      "type": "text",
+      "label": "Cell3",
+      "page": 1,
+      "box": {
+        "left": 256.1,
+        "top": 377.9,
+        "width": 52.5,
+        "height": 9.0
+      }
+    },
+    "workTaskE": {
+      "type": "text",
+      "label": "WorkTaskE",
+      "page": 1,
+      "box": {
+        "left": 193.1,
+        "top": 366.0,
+        "width": 60.1,
+        "height": 21.8
+      }
+    },
+    "levelE": {
+      "type": "text",
+      "label": "LevelE",
+      "page": 1,
+      "box": {
+        "left": 256.1,
+        "top": 366.0,
+        "width": 52.5,
+        "height": 21.8
+      }
+    },
+    "dateE": {
+      "type": "text",
+      "label": "DateE",
+      "page": 1,
+      "box": {
+        "left": 311.4,
+        "top": 366.0,
+        "width": 58.2,
+        "height": 21.8
+      }
+    },
+    "remarksE": {
+      "type": "text",
+      "label": "RemarksE",
+      "page": 1,
+      "box": {
+        "left": 372.5,
+        "top": 366.0,
+        "width": 202.1,
+        "height": 21.8
+      }
+    },
+    "cell24": {
+      "type": "text",
+      "label": "Cell2",
+      "page": 1,
+      "box": {
+        "left": 193.1,
+        "top": 341.4,
+        "width": 60.1,
+        "height": 9.5
+      }
+    },
+    "cell34": {
+      "type": "text",
+      "label": "Cell3",
+      "page": 1,
+      "box": {
+        "left": 256.1,
+        "top": 341.4,
+        "width": 52.5,
+        "height": 9.5
+      }
+    },
+    "workTaskf": {
+      "type": "text",
+      "label": "WorkTaskf",
+      "page": 1,
+      "box": {
+        "left": 193.1,
+        "top": 329.1,
+        "width": 60.1,
+        "height": 22.3
+      }
+    },
+    "levelF": {
+      "type": "text",
+      "label": "LevelF",
+      "page": 1,
+      "box": {
+        "left": 256.1,
+        "top": 329.1,
+        "width": 52.5,
+        "height": 22.3
+      }
+    },
+    "dateF": {
+      "type": "text",
+      "label": "DateF",
+      "page": 1,
+      "box": {
+        "left": 311.4,
+        "top": 329.1,
+        "width": 58.2,
+        "height": 22.3
+      }
+    },
+    "remarksF": {
+      "type": "text",
+      "label": "RemarksF",
+      "page": 1,
+      "box": {
+        "left": 372.5,
+        "top": 329.1,
+        "width": 202.1,
+        "height": 22.3
+      }
+    },
+    "cell25": {
+      "type": "text",
+      "label": "Cell2",
+      "page": 1,
+      "box": {
+        "left": 193.1,
+        "top": 304.0,
+        "width": 60.1,
+        "height": 8.5
+      }
+    },
+    "cell35": {
+      "type": "text",
+      "label": "Cell3",
+      "page": 1,
+      "box": {
+        "left": 256.1,
+        "top": 304.0,
+        "width": 52.5,
+        "height": 8.5
+      }
+    },
+    "workTaskG": {
+      "type": "text",
+      "label": "WorkTaskG",
+      "page": 1,
+      "box": {
+        "left": 193.1,
+        "top": 292.6,
+        "width": 60.1,
+        "height": 20.4
+      }
+    },
+    "levelG": {
+      "type": "text",
+      "label": "LevelG",
+      "page": 1,
+      "box": {
+        "left": 256.1,
+        "top": 292.6,
+        "width": 52.5,
+        "height": 20.4
+      }
+    },
+    "dateG": {
+      "type": "text",
+      "label": "DateG",
+      "page": 1,
+      "box": {
+        "left": 311.4,
+        "top": 292.6,
+        "width": 58.2,
+        "height": 20.4
+      }
+    },
+    "remarksG": {
+      "type": "text",
+      "label": "RemarksG",
+      "page": 1,
+      "box": {
+        "left": 372.5,
+        "top": 292.6,
+        "width": 202.1,
+        "height": 20.4
+      }
+    },
+    "cell26": {
+      "type": "text",
+      "label": "Cell2",
+      "page": 1,
+      "box": {
+        "left": 193.1,
+        "top": 269.4,
+        "width": 60.1,
+        "height": 8.1
+      }
+    },
+    "cell36": {
+      "type": "text",
+      "label": "Cell3",
+      "page": 1,
+      "box": {
+        "left": 256.1,
+        "top": 269.4,
+        "width": 52.5,
+        "height": 8.1
+      }
+    },
+    "workTaskH": {
+      "type": "text",
+      "label": "WorkTaskH",
+      "page": 1,
+      "box": {
+        "left": 193.1,
+        "top": 258.5,
+        "width": 60.1,
+        "height": 23.2
+      }
+    },
+    "levelH": {
+      "type": "text",
+      "label": "LevelH",
+      "page": 1,
+      "box": {
+        "left": 256.1,
+        "top": 258.5,
+        "width": 52.5,
+        "height": 23.2
+      }
+    },
+    "dateH": {
+      "type": "text",
+      "label": "DateH",
+      "page": 1,
+      "box": {
+        "left": 311.4,
+        "top": 258.5,
+        "width": 58.2,
+        "height": 23.2
+      }
+    },
+    "remarksH": {
+      "type": "text",
+      "label": "RemarksH",
+      "page": 1,
+      "box": {
+        "left": 372.5,
+        "top": 258.5,
+        "width": 202.1,
+        "height": 23.2
+      }
+    },
+    "cell27": {
+      "type": "text",
+      "label": "Cell2",
+      "page": 1,
+      "box": {
+        "left": 193.1,
+        "top": 232.5,
+        "width": 60.1,
+        "height": 9.0
+      }
+    },
+    "cell37": {
+      "type": "text",
+      "label": "Cell3",
+      "page": 1,
+      "box": {
+        "left": 256.1,
+        "top": 232.5,
+        "width": 52.5,
+        "height": 9.0
+      }
+    },
+    "workTaskI": {
+      "type": "text",
+      "label": "WorkTaskI",
+      "page": 1,
+      "box": {
+        "left": 193.1,
+        "top": 220.6,
+        "width": 60.1,
+        "height": 22.7
+      }
+    },
+    "levelI": {
+      "type": "text",
+      "label": "LevelI",
+      "page": 1,
+      "box": {
+        "left": 256.1,
+        "top": 220.6,
+        "width": 52.5,
+        "height": 22.7
+      }
+    },
+    "dateI": {
+      "type": "text",
+      "label": "DateI",
+      "page": 1,
+      "box": {
+        "left": 311.4,
+        "top": 220.6,
+        "width": 58.2,
+        "height": 22.7
+      }
+    },
+    "remarksI": {
+      "type": "text",
+      "label": "RemarksI",
+      "page": 1,
+      "box": {
+        "left": 372.5,
+        "top": 220.6,
+        "width": 202.1,
+        "height": 22.7
+      }
+    },
+    "cell28": {
+      "type": "text",
+      "label": "Cell2",
+      "page": 1,
+      "box": {
+        "left": 193.1,
+        "top": 195.0,
+        "width": 60.1,
+        "height": 8.1
+      }
+    },
+    "cell38": {
+      "type": "text",
+      "label": "Cell3",
+      "page": 1,
+      "box": {
+        "left": 256.1,
+        "top": 195.0,
+        "width": 52.5,
+        "height": 8.1
+      }
+    },
+    "workTaskJ": {
+      "type": "text",
+      "label": "WorkTaskJ",
+      "page": 1,
+      "box": {
+        "left": 193.1,
+        "top": 184.1,
+        "width": 60.1,
+        "height": 22.7
+      }
+    },
+    "levelJ": {
+      "type": "text",
+      "label": "LevelJ",
+      "page": 1,
+      "box": {
+        "left": 256.1,
+        "top": 184.1,
+        "width": 52.5,
+        "height": 22.7
+      }
+    },
+    "dateJ": {
+      "type": "text",
+      "label": "DateJ",
+      "page": 1,
+      "box": {
+        "left": 311.4,
+        "top": 184.1,
+        "width": 58.2,
+        "height": 22.7
+      }
+    },
+    "remarksJ": {
+      "type": "text",
+      "label": "RemarksJ",
+      "page": 1,
+      "box": {
+        "left": 372.5,
+        "top": 184.1,
+        "width": 202.1,
+        "height": 22.7
+      }
+    },
+    "cell29": {
+      "type": "text",
+      "label": "Cell2",
+      "page": 1,
+      "box": {
+        "left": 193.1,
+        "top": 158.6,
+        "width": 60.1,
+        "height": 8.5
+      }
+    },
+    "cell39": {
+      "type": "text",
+      "label": "Cell3",
+      "page": 1,
+      "box": {
+        "left": 256.1,
+        "top": 158.6,
+        "width": 52.5,
+        "height": 8.5
+      }
+    },
+    "workTaskK": {
+      "type": "text",
+      "label": "WorkTaskK",
+      "page": 1,
+      "box": {
+        "left": 193.1,
+        "top": 147.2,
+        "width": 60.1,
+        "height": 21.8
+      }
+    },
+    "levelK": {
+      "type": "text",
+      "label": "LevelK",
+      "page": 1,
+      "box": {
+        "left": 256.1,
+        "top": 147.2,
+        "width": 52.5,
+        "height": 21.8
+      }
+    },
+    "dateK": {
+      "type": "text",
+      "label": "DateK",
+      "page": 1,
+      "box": {
+        "left": 311.4,
+        "top": 147.2,
+        "width": 58.2,
+        "height": 21.8
+      }
+    },
+    "remarksK": {
+      "type": "text",
+      "label": "RemarksK",
+      "page": 1,
+      "box": {
+        "left": 372.5,
+        "top": 147.2,
+        "width": 202.1,
+        "height": 21.8
+      }
+    },
+    "cell210": {
+      "type": "text",
+      "label": "Cell2",
+      "page": 1,
+      "box": {
+        "left": 193.1,
+        "top": 122.5,
+        "width": 60.1,
+        "height": 9.5
+      }
+    },
+    "cell310": {
+      "type": "text",
+      "label": "Cell3",
+      "page": 1,
+      "box": {
+        "left": 256.1,
+        "top": 122.5,
+        "width": 52.5,
+        "height": 9.5
+      }
+    },
+    "workTaskL": {
+      "type": "text",
+      "label": "WorkTaskL",
+      "page": 1,
+      "box": {
+        "left": 193.1,
+        "top": 110.2,
+        "width": 60.1,
+        "height": 23.7
+      }
+    },
+    "levelL": {
+      "type": "text",
+      "label": "LevelL",
+      "page": 1,
+      "box": {
+        "left": 256.1,
+        "top": 110.2,
+        "width": 52.5,
+        "height": 23.7
+      }
+    },
+    "dateL": {
+      "type": "text",
+      "label": "DateL",
+      "page": 1,
+      "box": {
+        "left": 311.4,
+        "top": 110.2,
+        "width": 58.2,
+        "height": 23.7
+      }
+    },
+    "remarksL": {
+      "type": "text",
+      "label": "RemarksL",
+      "page": 1,
+      "box": {
+        "left": 372.5,
+        "top": 110.2,
+        "width": 202.1,
+        "height": 23.7
+      }
+    }
+  }
+}

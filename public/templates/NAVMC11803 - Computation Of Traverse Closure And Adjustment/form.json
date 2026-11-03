@@ -1,0 +1,371 @@
+{
+  "id": "navmc11803",
+  "label": "NAVMC 11803 - Computation Of Traverse Closure And Adjustment",
+  "directory": "NAVMC11803 - Computation Of Traverse Closure And Adjustment",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "software",
+        "closingAngle",
+        "azfwd",
+        "elevation",
+        "easting",
+        "northing",
+        "cmptdazfwd",
+        "azcorr",
+        "htcorr",
+        "ttl",
+        "radialError",
+        "ratio",
+        "aDStationName",
+        "aDEasting",
+        "aDNorthing",
+        "aDElevation",
+        "aDAZRear",
+        "computer",
+        "checker",
+        "date",
+        "locality",
+        "fileName",
+        "sheet",
+        "of"
+      ]
+    }
+  ],
+  "fields": {
+    "software": {
+      "type": "text",
+      "label": "Survey Software for RPDA Version:",
+      "page": 1,
+      "box": {
+        "left": 170.5,
+        "top": 703.8,
+        "width": 401.9,
+        "height": 18.0
+      }
+    },
+    "closingAngle": {
+      "type": "text",
+      "label": "ClosingAngle",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 648.5,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "azfwd": {
+      "type": "text",
+      "label": "AZFWD",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 615.3,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "elevation": {
+      "type": "text",
+      "label": "Elevation",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 597.3,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "easting": {
+      "type": "text",
+      "label": "Easting",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 579.3,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "northing": {
+      "type": "text",
+      "label": "Northing",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 561.3,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "cmptdazfwd": {
+      "type": "text",
+      "label": "CMPTDAZFWD",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 528.1,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "azcorr": {
+      "type": "text",
+      "label": "AZCORR",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 510.1,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "htcorr": {
+      "type": "text",
+      "label": "HTCORR",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 492.1,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "ttl": {
+      "type": "text",
+      "label": "TTL",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 474.1,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "radialError": {
+      "type": "text",
+      "label": "RadialError",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 456.1,
+        "width": 154.8,
+        "height": 10.8
+      }
+    },
+    "ratio": {
+      "type": "text",
+      "label": "Ratio",
+      "page": 1,
+      "box": {
+        "left": 264.6,
+        "top": 438.1,
+        "width": 28.8,
+        "height": 10.8
+      }
+    },
+    "aDStationName": {
+      "type": "text",
+      "label": "ADStationName",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 373.6,
+        "width": 100.8,
+        "height": 10.8
+      }
+    },
+    "aDEasting": {
+      "type": "text",
+      "label": "ADEasting",
+      "page": 1,
+      "box": {
+        "left": 147.6,
+        "top": 373.6,
+        "width": 100.8,
+        "height": 10.8
+      }
+    },
+    "aDNorthing": {
+      "type": "text",
+      "label": "ADNorthing",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 373.6,
+        "width": 100.8,
+        "height": 10.8
+      }
+    },
+    "aDElevation": {
+      "type": "text",
+      "label": "ADElevation",
+      "page": 1,
+      "box": {
+        "left": 363.6,
+        "top": 373.6,
+        "width": 100.8,
+        "height": 10.8
+      }
+    },
+    "aDAZRear": {
+      "type": "text",
+      "label": "ADAZRear",
+      "page": 1,
+      "box": {
+        "left": 471.6,
+        "top": 373.6,
+        "width": 100.8,
+        "height": 10.8
+      }
+    },
+    "computer": {
+      "type": "text",
+      "label": "COMPUTER:",
+      "page": 1,
+      "box": {
+        "left": 90.2,
+        "top": 103.6,
+        "width": 122.2,
+        "height": 10.8
+      }
+    },
+    "checker": {
+      "type": "text",
+      "label": "CHECKER:",
+      "page": 1,
+      "box": {
+        "left": 261.1,
+        "top": 103.6,
+        "width": 221.3,
+        "height": 10.8
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "DATE:",
+      "page": 1,
+      "box": {
+        "left": 513.7,
+        "top": 103.6,
+        "width": 58.7,
+        "height": 10.8
+      }
+    },
+    "locality": {
+      "type": "text",
+      "label": "LOCALITY:",
+      "page": 1,
+      "box": {
+        "left": 90.2,
+        "top": 85.6,
+        "width": 122.2,
+        "height": 10.8
+      }
+    },
+    "fileName": {
+      "type": "text",
+      "label": "ARCHIVE FILE NAME:",
+      "page": 1,
+      "box": {
+        "left": 301.8,
+        "top": 85.6,
+        "width": 180.6,
+        "height": 10.8
+      }
+    },
+    "sheet": {
+      "type": "text",
+      "label": "Sheet",
+      "page": 1,
+      "box": {
+        "left": 528.4,
+        "top": 85.6,
+        "width": 10.8,
+        "height": 10.8
+      }
+    },
+    "of": {
+      "type": "text",
+      "label": "Of",
+      "page": 1,
+      "box": {
+        "left": 561.6,
+        "top": 85.6,
+        "width": 10.8,
+        "height": 10.8
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 14,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "aDStationName": {
+          "type": "text",
+          "label": "ADStationName1",
+          "page": 1,
+          "box": {
+            "left": 39.6,
+            "top": 355.6,
+            "width": 100.8,
+            "height": 10.8
+          }
+        },
+        "aDEasting": {
+          "type": "text",
+          "label": "ADEasting1",
+          "page": 1,
+          "box": {
+            "left": 147.6,
+            "top": 355.6,
+            "width": 100.8,
+            "height": 10.8
+          }
+        },
+        "aDNorthing": {
+          "type": "text",
+          "label": "ADNorthing1",
+          "page": 1,
+          "box": {
+            "left": 255.6,
+            "top": 355.6,
+            "width": 100.8,
+            "height": 10.8
+          }
+        },
+        "aDElevation": {
+          "type": "text",
+          "label": "ADElevation1",
+          "page": 1,
+          "box": {
+            "left": 363.6,
+            "top": 355.6,
+            "width": 100.8,
+            "height": 10.8
+          }
+        },
+        "aDAZRear": {
+          "type": "text",
+          "label": "ADAZRear1",
+          "page": 1,
+          "box": {
+            "left": 471.6,
+            "top": 355.6,
+            "width": 100.8,
+            "height": 10.8
+          }
+        }
+      }
+    }
+  }
+}

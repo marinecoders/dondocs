@@ -1,0 +1,1684 @@
+{
+  "id": "opnav521081",
+  "label": "OPNAV5210-81 - Opnav Records Management Program Self-Assessment",
+  "directory": "OPNAV5210-81 - Opnav Records Management Program Self-Assessment",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf",
+    "page5.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "date",
+        "comAct",
+        "comAct2",
+        "radio",
+        "radio2",
+        "appRmk",
+        "radio3",
+        "radio4",
+        "referRmk",
+        "radio5",
+        "radio6",
+        "radio7",
+        "radio8",
+        "rnAnnRmk",
+        "radio9",
+        "radio10",
+        "radio11",
+        "radio12",
+        "rnAnnRmk2",
+        "radio13",
+        "radio14",
+        "radio15",
+        "radio16",
+        "rnAnnRmk3",
+        "radio17",
+        "radio18",
+        "radio19",
+        "radio20",
+        "rnAnnRmk4",
+        "radio21",
+        "radio22",
+        "radio23",
+        "radio24",
+        "rnAnnRmk5"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "radio25",
+        "radio26",
+        "radio27",
+        "radio28",
+        "rnAnnRmk6",
+        "radio29",
+        "radio30",
+        "rnAnnRmk7",
+        "radio31",
+        "radio32",
+        "radio33",
+        "radio34",
+        "radio35",
+        "radio36",
+        "radio37",
+        "radio38",
+        "radButSD",
+        "radButEXHDs",
+        "radButLdt",
+        "radButOERMA",
+        "rnAnnRmk8",
+        "radio39",
+        "radio40",
+        "rnAnnRmk9",
+        "radio41",
+        "radio42",
+        "radio43",
+        "radio44",
+        "radio45",
+        "radio46",
+        "accDesRmk",
+        "radio47",
+        "radio48",
+        "radButSD2",
+        "radButEXHDs2",
+        "radButLdt2",
+        "radButOERMA2",
+        "accDesRmk2"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "radio49",
+        "radio50",
+        "radio51",
+        "radio52",
+        "accDesRmk3",
+        "radio53",
+        "radio54",
+        "accDesRmk4",
+        "radio55",
+        "radio56",
+        "radio57",
+        "radio58",
+        "accDesRmk5",
+        "radio59",
+        "radio60",
+        "radio61",
+        "radio62",
+        "listRCRmk",
+        "radio63",
+        "radio64",
+        "listRCRmk2",
+        "radio65",
+        "radio66",
+        "insRevARmk",
+        "radio67",
+        "radio68",
+        "insRevARmk2",
+        "radio69",
+        "radio70",
+        "apyPrmARmk"
+      ]
+    },
+    {
+      "title": "Page 4",
+      "fields": [
+        "radio71",
+        "radio72",
+        "apyPrmBRmk",
+        "radio73",
+        "radio74",
+        "proProcRmk",
+        "radio75",
+        "radio76",
+        "radio77",
+        "radio78",
+        "proProcRmk2",
+        "radio79",
+        "radio80",
+        "radio81",
+        "radio82",
+        "radio83",
+        "radio84",
+        "recStorRmk",
+        "radio85",
+        "radio86",
+        "radio87",
+        "radio88",
+        "aCTRecStorRmk",
+        "signatureField1",
+        "rCSigDte",
+        "textField1"
+      ]
+    },
+    {
+      "title": "Page 5",
+      "fields": [
+        "textField2"
+      ]
+    }
+  ],
+  "fields": {
+    "date": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 459.2,
+        "top": 728.6,
+        "width": 81.8,
+        "height": 13.0
+      }
+    },
+    "comAct": {
+      "type": "text",
+      "label": "Organization",
+      "page": 1,
+      "box": {
+        "left": 97.7,
+        "top": 728.2,
+        "width": 84.0,
+        "height": 12.3
+      }
+    },
+    "comAct2": {
+      "type": "text",
+      "label": "Command Records Manager",
+      "page": 1,
+      "box": {
+        "left": 315.9,
+        "top": 728.2,
+        "width": 105.6,
+        "height": 12.2
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 483.2,
+        "top": 687.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 534.4,
+        "top": 687.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "appRmk": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 639.7,
+        "width": 533.2,
+        "height": 11.2
+      }
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 484.5,
+        "top": 620.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 537.7,
+        "top": 620.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "referRmk": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 1,
+      "box": {
+        "left": 40.5,
+        "top": 544.6,
+        "width": 531.5,
+        "height": 27.3
+      }
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 479.9,
+        "top": 508.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 535.9,
+        "top": 508.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 480.4,
+        "top": 486.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 536.3,
+        "top": 486.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "rnAnnRmk": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 1,
+      "box": {
+        "left": 39.7,
+        "top": 455.6,
+        "width": 533.4,
+        "height": 25.3
+      }
+    },
+    "radio9": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 476.7,
+        "top": 423.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio10": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 532.7,
+        "top": 423.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio11": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 477.2,
+        "top": 400.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio12": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 533.2,
+        "top": 400.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "rnAnnRmk2": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 372.9,
+        "width": 533.2,
+        "height": 25.3
+      }
+    },
+    "radio13": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 477.9,
+        "top": 336.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio14": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 533.9,
+        "top": 336.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio15": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 478.4,
+        "top": 313.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio16": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 534.4,
+        "top": 313.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "rnAnnRmk3": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 284.5,
+        "width": 533.2,
+        "height": 25.3
+      }
+    },
+    "radio17": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 479.6,
+        "top": 252.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio18": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 535.6,
+        "top": 252.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio19": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 479.7,
+        "top": 235.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio20": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 535.7,
+        "top": 235.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "rnAnnRmk4": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 203.6,
+        "width": 533.2,
+        "height": 25.3
+      }
+    },
+    "radio21": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 480.8,
+        "top": 142.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio22": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 536.8,
+        "top": 142.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio23": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 481.2,
+        "top": 120.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio24": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 535.7,
+        "top": 120.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "rnAnnRmk5": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 1,
+      "box": {
+        "left": 39.5,
+        "top": 93.0,
+        "width": 533.2,
+        "height": 45.6
+      },
+      "multiline": true
+    },
+    "radio25": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 483.9,
+        "top": 742.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio26": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 537.7,
+        "top": 742.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio27": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 483.6,
+        "top": 720.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio28": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 537.7,
+        "top": 720.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "rnAnnRmk6": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 2,
+      "box": {
+        "left": 39.3,
+        "top": 679.7,
+        "width": 532.1,
+        "height": 22.2
+      }
+    },
+    "radio29": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 482.8,
+        "top": 634.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio30": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 537.7,
+        "top": 634.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "rnAnnRmk7": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 2,
+      "box": {
+        "left": 41.2,
+        "top": 576.8,
+        "width": 532.1,
+        "height": 22.2
+      }
+    },
+    "radio31": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 486.3,
+        "top": 544.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio32": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 537.7,
+        "top": 544.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio33": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 486.8,
+        "top": 524.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio34": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 537.7,
+        "top": 524.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio35": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 486.7,
+        "top": 506.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio36": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 537.7,
+        "top": 506.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio37": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 486.8,
+        "top": 490.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio38": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 537.7,
+        "top": 490.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radButSD": {
+      "type": "checkbox",
+      "label": "If not",
+      "page": 2,
+      "box": {
+        "left": 51.6,
+        "top": 451.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "radButEXHDs": {
+      "type": "checkbox",
+      "label": "Shared Drive",
+      "page": 2,
+      "box": {
+        "left": 129.4,
+        "top": 451.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "radButLdt": {
+      "type": "checkbox",
+      "label": "External HDs",
+      "page": 2,
+      "box": {
+        "left": 204.2,
+        "top": 451.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "radButOERMA": {
+      "type": "checkbox",
+      "label": "Local (Desktop)",
+      "page": 2,
+      "box": {
+        "left": 286.9,
+        "top": 451.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "rnAnnRmk8": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 2,
+      "box": {
+        "left": 40.4,
+        "top": 419.0,
+        "width": 532.1,
+        "height": 23.1
+      }
+    },
+    "radio39": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 489.9,
+        "top": 385.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio40": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 537.5,
+        "top": 385.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "rnAnnRmk9": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 2,
+      "box": {
+        "left": 40.6,
+        "top": 347.0,
+        "width": 532.1,
+        "height": 24.4
+      }
+    },
+    "radio41": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 491.0,
+        "top": 300.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio42": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 537.7,
+        "top": 300.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio43": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 491.1,
+        "top": 280.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio44": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 537.7,
+        "top": 280.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio45": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 490.8,
+        "top": 261.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio46": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 537.7,
+        "top": 261.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "accDesRmk": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 2,
+      "box": {
+        "left": 39.2,
+        "top": 226.4,
+        "width": 533.2,
+        "height": 34.3
+      },
+      "multiline": true
+    },
+    "radio47": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 490.1,
+        "top": 177.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio48": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 537.7,
+        "top": 177.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radButSD2": {
+      "type": "checkbox",
+      "label": "If Other,",
+      "page": 2,
+      "box": {
+        "left": 46.1,
+        "top": 111.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "radButEXHDs2": {
+      "type": "checkbox",
+      "label": "Record Repository",
+      "page": 2,
+      "box": {
+        "left": 151.9,
+        "top": 111.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "radButLdt2": {
+      "type": "checkbox",
+      "label": "Shared Drive",
+      "page": 2,
+      "box": {
+        "left": 234.3,
+        "top": 111.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "radButOERMA2": {
+      "type": "checkbox",
+      "label": "External HDs",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 111.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "accDesRmk2": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 86.7,
+        "width": 533.2,
+        "height": 45.8
+      },
+      "multiline": true
+    },
+    "radio49": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 487.1,
+        "top": 732.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio50": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 537.7,
+        "top": 732.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio51": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 486.9,
+        "top": 714.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio52": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 537.7,
+        "top": 714.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "accDesRmk3": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 3,
+      "box": {
+        "left": 40.1,
+        "top": 678.7,
+        "width": 533.2,
+        "height": 14.8
+      }
+    },
+    "radio53": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 488.5,
+        "top": 654.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio54": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 537.7,
+        "top": 654.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "accDesRmk4": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 3,
+      "box": {
+        "left": 39.1,
+        "top": 620.9,
+        "width": 533.2,
+        "height": 26.9
+      }
+    },
+    "radio55": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 484.8,
+        "top": 583.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio56": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 536.1,
+        "top": 583.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio57": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 485.3,
+        "top": 563.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio58": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 536.1,
+        "top": 563.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "accDesRmk5": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 3,
+      "box": {
+        "left": 39.1,
+        "top": 509.2,
+        "width": 533.2,
+        "height": 12.6
+      }
+    },
+    "radio59": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 480.8,
+        "top": 486.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio60": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 532.1,
+        "top": 486.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio61": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 481.3,
+        "top": 466.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio62": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 532.1,
+        "top": 466.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "listRCRmk": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 3,
+      "box": {
+        "left": 41.6,
+        "top": 429.7,
+        "width": 531.6,
+        "height": 23.0
+      }
+    },
+    "radio63": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 486.6,
+        "top": 397.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio64": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 537.7,
+        "top": 397.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "listRCRmk2": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 3,
+      "box": {
+        "left": 39.1,
+        "top": 344.3,
+        "width": 533.2,
+        "height": 26.1
+      }
+    },
+    "radio65": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 488.4,
+        "top": 283.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio66": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 537.7,
+        "top": 283.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "insRevARmk": {
+      "type": "text",
+      "label": "Ins Rev A Rmk",
+      "page": 3,
+      "box": {
+        "left": 39.4,
+        "top": 252.2,
+        "width": 533.2,
+        "height": 28.0
+      }
+    },
+    "radio67": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 488.3,
+        "top": 195.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio68": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 537.7,
+        "top": 195.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "insRevARmk2": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 3,
+      "box": {
+        "left": 40.1,
+        "top": 158.7,
+        "width": 533.2,
+        "height": 28.0
+      }
+    },
+    "radio69": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 3,
+      "box": {
+        "left": 488.1,
+        "top": 122.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio70": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 3,
+      "box": {
+        "left": 537.5,
+        "top": 122.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "apyPrmARmk": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 3,
+      "box": {
+        "left": 39.1,
+        "top": 82.3,
+        "width": 533.2,
+        "height": 41.9
+      },
+      "multiline": true
+    },
+    "radio71": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 490.2,
+        "top": 750.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio72": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 536.7,
+        "top": 750.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "apyPrmBRmk": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 4,
+      "box": {
+        "left": 39.7,
+        "top": 711.1,
+        "width": 533.2,
+        "height": 27.5
+      }
+    },
+    "radio73": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 485.7,
+        "top": 663.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio74": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 537.7,
+        "top": 663.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "proProcRmk": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 4,
+      "box": {
+        "left": 39.5,
+        "top": 637.2,
+        "width": 533.2,
+        "height": 42.2
+      },
+      "multiline": true
+    },
+    "radio75": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 485.8,
+        "top": 556.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio76": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 537.2,
+        "top": 556.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio77": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 486.3,
+        "top": 536.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio78": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 537.2,
+        "top": 536.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "proProcRmk2": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 4,
+      "box": {
+        "left": 39.6,
+        "top": 493.8,
+        "width": 533.2,
+        "height": 42.2
+      },
+      "multiline": true
+    },
+    "radio79": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 435.2,
+        "top": 442.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio80": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 491.1,
+        "top": 442.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio81": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 435.4,
+        "top": 424.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio82": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 491.4,
+        "top": 424.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio83": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 435.4,
+        "top": 406.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio84": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 491.4,
+        "top": 406.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "recStorRmk": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 4,
+      "box": {
+        "left": 38.8,
+        "top": 350.0,
+        "width": 533.2,
+        "height": 28.0
+      }
+    },
+    "radio85": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 435.2,
+        "top": 292.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio86": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 491.1,
+        "top": 292.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio87": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 4,
+      "box": {
+        "left": 435.1,
+        "top": 278.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio88": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 4,
+      "box": {
+        "left": 491.1,
+        "top": 278.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "aCTRecStorRmk": {
+      "type": "text",
+      "label": "Remarks: unscheduled/permanent and reported to DNS-16?",
+      "page": 4,
+      "box": {
+        "left": 38.8,
+        "top": 247.3,
+        "width": 533.2,
+        "height": 28.0
+      }
+    },
+    "signatureField1": {
+      "type": "text",
+      "label": "Signature",
+      "page": 4,
+      "box": {
+        "left": 409.4,
+        "top": 64.1,
+        "width": 163.4,
+        "height": 22.9
+      }
+    },
+    "rCSigDte": {
+      "type": "text",
+      "label": "Date Signed (DD MM YYYY)",
+      "page": 4,
+      "box": {
+        "left": 247.3,
+        "top": 64.0,
+        "width": 156.1,
+        "height": 23.0
+      }
+    },
+    "textField1": {
+      "type": "text",
+      "label": "Representative/Records Manager (Print Name and Title)",
+      "page": 4,
+      "box": {
+        "left": 39.0,
+        "top": 63.9,
+        "width": 202.9,
+        "height": 23.0
+      }
+    },
+    "textField2": {
+      "type": "text",
+      "label": "Additional Comments/Remarks",
+      "page": 5,
+      "box": {
+        "left": 43.4,
+        "top": 719.2,
+        "width": 529.2,
+        "height": 170.8
+      },
+      "multiline": true
+    }
+  }
+}

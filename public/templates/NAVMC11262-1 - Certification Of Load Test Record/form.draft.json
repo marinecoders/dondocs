@@ -1,0 +1,564 @@
+{
+  "id": "navmc112621",
+  "label": "NAVMC11262-1 - Certification Of Load Test Record",
+  "directory": "NAVMC11262-1 - Certification Of Load Test Record",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "serialNumber",
+        "type",
+        "lbs",
+        "ft",
+        "boomLength",
+        "testSite",
+        "hoist1",
+        "loadPrct1",
+        "loadPrct3",
+        "lbsStruc1",
+        "feetStruc1",
+        "lbsStab1",
+        "feetStab1",
+        "hoist2",
+        "loadPrct2",
+        "loadPrct4",
+        "lbsStruc2",
+        "feetStruc2",
+        "lbsStab2",
+        "feetStab2",
+        "mainHook1",
+        "mainHook2",
+        "mainHook3",
+        "preTest1",
+        "preTest2",
+        "aftTest1",
+        "aftTest2",
+        "dateDirector",
+        "radio",
+        "radio2",
+        "remarks",
+        "inspector",
+        "dateInspector",
+        "director",
+        "dateDirector2",
+        "official",
+        "dateOfficial"
+      ]
+    }
+  ],
+  "fields": {
+    "serialNumber": {
+      "type": "text",
+      "label": "USMC SERIAL NUMBER",
+      "page": 1,
+      "box": {
+        "left": 20.8,
+        "top": 708.2,
+        "width": 102.3,
+        "height": 12.3
+      }
+    },
+    "type": {
+      "type": "text",
+      "label": "TYPE",
+      "page": 1,
+      "box": {
+        "left": 128.8,
+        "top": 708.2,
+        "width": 66.3,
+        "height": 12.3
+      }
+    },
+    "lbs": {
+      "type": "text",
+      "label": "LBS",
+      "page": 1,
+      "box": {
+        "left": 221.1,
+        "top": 708.2,
+        "width": 37.1,
+        "height": 12.3
+      }
+    },
+    "ft": {
+      "type": "text",
+      "label": "FT",
+      "page": 1,
+      "box": {
+        "left": 284.1,
+        "top": 708.2,
+        "width": 37.1,
+        "height": 12.3
+      }
+    },
+    "boomLength": {
+      "type": "text",
+      "label": "FT",
+      "page": 1,
+      "box": {
+        "left": 326.9,
+        "top": 708.2,
+        "width": 120.3,
+        "height": 12.3
+      }
+    },
+    "testSite": {
+      "type": "text",
+      "label": "FT",
+      "page": 1,
+      "box": {
+        "left": 452.9,
+        "top": 708.2,
+        "width": 138.3,
+        "height": 12.3
+      }
+    },
+    "hoist1": {
+      "type": "text",
+      "label": "MAIN HOIST",
+      "page": 1,
+      "box": {
+        "left": 92.8,
+        "top": 645.1,
+        "width": 66.3,
+        "height": 12.3
+      }
+    },
+    "loadPrct1": {
+      "type": "text",
+      "label": "MAIN HOIST",
+      "page": 1,
+      "box": {
+        "left": 164.9,
+        "top": 645.1,
+        "width": 66.3,
+        "height": 12.3
+      }
+    },
+    "loadPrct3": {
+      "type": "text",
+      "label": "MAIN HOIST",
+      "page": 1,
+      "box": {
+        "left": 236.9,
+        "top": 645.1,
+        "width": 66.3,
+        "height": 12.3
+      }
+    },
+    "lbsStruc1": {
+      "type": "text",
+      "label": "MAIN HOIST",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 645.1,
+        "width": 66.3,
+        "height": 12.3
+      }
+    },
+    "feetStruc1": {
+      "type": "text",
+      "label": "MAIN HOIST",
+      "page": 1,
+      "box": {
+        "left": 380.9,
+        "top": 645.1,
+        "width": 66.3,
+        "height": 12.3
+      }
+    },
+    "lbsStab1": {
+      "type": "text",
+      "label": "MAIN HOIST",
+      "page": 1,
+      "box": {
+        "left": 452.9,
+        "top": 645.1,
+        "width": 66.3,
+        "height": 12.3
+      }
+    },
+    "feetStab1": {
+      "type": "text",
+      "label": "MAIN HOIST",
+      "page": 1,
+      "box": {
+        "left": 524.9,
+        "top": 645.1,
+        "width": 66.3,
+        "height": 12.3
+      }
+    },
+    "hoist2": {
+      "type": "text",
+      "label": "AUX HOIST",
+      "page": 1,
+      "box": {
+        "left": 92.8,
+        "top": 627.1,
+        "width": 66.3,
+        "height": 12.3
+      }
+    },
+    "loadPrct2": {
+      "type": "text",
+      "label": "AUX HOIST",
+      "page": 1,
+      "box": {
+        "left": 164.9,
+        "top": 627.1,
+        "width": 66.3,
+        "height": 12.3
+      }
+    },
+    "loadPrct4": {
+      "type": "text",
+      "label": "AUX HOIST",
+      "page": 1,
+      "box": {
+        "left": 236.9,
+        "top": 627.1,
+        "width": 66.3,
+        "height": 12.3
+      }
+    },
+    "lbsStruc2": {
+      "type": "text",
+      "label": "AUX HOIST",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 627.1,
+        "width": 66.3,
+        "height": 12.3
+      }
+    },
+    "feetStruc2": {
+      "type": "text",
+      "label": "AUX HOIST",
+      "page": 1,
+      "box": {
+        "left": 380.9,
+        "top": 627.1,
+        "width": 66.3,
+        "height": 12.3
+      }
+    },
+    "lbsStab2": {
+      "type": "text",
+      "label": "AUX HOIST",
+      "page": 1,
+      "box": {
+        "left": 452.9,
+        "top": 627.1,
+        "width": 66.3,
+        "height": 12.3
+      }
+    },
+    "feetStab2": {
+      "type": "text",
+      "label": "AUX HOIST",
+      "page": 1,
+      "box": {
+        "left": 524.9,
+        "top": 627.1,
+        "width": 66.3,
+        "height": 12.3
+      }
+    },
+    "mainHook1": {
+      "type": "text",
+      "label": "MAIN HOOK",
+      "page": 1,
+      "box": {
+        "left": 92.8,
+        "top": 591.1,
+        "width": 66.3,
+        "height": 12.3
+      }
+    },
+    "mainHook2": {
+      "type": "text",
+      "label": "MAIN HOOK",
+      "page": 1,
+      "box": {
+        "left": 164.9,
+        "top": 591.1,
+        "width": 66.3,
+        "height": 12.3
+      }
+    },
+    "mainHook3": {
+      "type": "text",
+      "label": "MAIN HOOK",
+      "page": 1,
+      "box": {
+        "left": 236.9,
+        "top": 591.1,
+        "width": 66.3,
+        "height": 12.3
+      }
+    },
+    "preTest1": {
+      "type": "text",
+      "label": "MAIN HOOK",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 591.1,
+        "width": 66.3,
+        "height": 12.3
+      }
+    },
+    "preTest2": {
+      "type": "text",
+      "label": "MAIN HOOK",
+      "page": 1,
+      "box": {
+        "left": 380.9,
+        "top": 591.1,
+        "width": 66.3,
+        "height": 12.3
+      }
+    },
+    "aftTest1": {
+      "type": "text",
+      "label": "MAIN HOOK",
+      "page": 1,
+      "box": {
+        "left": 452.9,
+        "top": 591.1,
+        "width": 66.3,
+        "height": 12.3
+      }
+    },
+    "aftTest2": {
+      "type": "text",
+      "label": "MAIN HOOK",
+      "page": 1,
+      "box": {
+        "left": 524.9,
+        "top": 591.1,
+        "width": 66.3,
+        "height": 12.3
+      }
+    },
+    "dateDirector": {
+      "type": "text",
+      "label": "NON DESTRUCTIVE TEST DATE",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 573.1,
+        "width": 102.3,
+        "height": 12.3
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 424.7,
+        "top": 228.8,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 228.7,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "radio"
+    },
+    "remarks": {
+      "type": "text",
+      "label": "SECTION 5 REMARKS",
+      "page": 1,
+      "box": {
+        "left": 20.8,
+        "top": 195.1,
+        "width": 570.4,
+        "height": 58.7
+      },
+      "multiline": true
+    },
+    "inspector": {
+      "type": "text",
+      "label": "LOAD TEST INSPECTOR",
+      "page": 1,
+      "box": {
+        "left": 118.4,
+        "top": 114.1,
+        "width": 310.9,
+        "height": 12.3
+      }
+    },
+    "dateInspector": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 460.4,
+        "top": 114.1,
+        "width": 130.8,
+        "height": 12.3
+      }
+    },
+    "director": {
+      "type": "text",
+      "label": "TEST DIRECTOR",
+      "page": 1,
+      "box": {
+        "left": 118.4,
+        "top": 96.1,
+        "width": 310.9,
+        "height": 12.3
+      }
+    },
+    "dateDirector2": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 460.4,
+        "top": 96.1,
+        "width": 130.8,
+        "height": 12.3
+      }
+    },
+    "official": {
+      "type": "text",
+      "label": "CERTIFYING OFFICIAL",
+      "page": 1,
+      "box": {
+        "left": 118.4,
+        "top": 78.1,
+        "width": 310.9,
+        "height": 12.3
+      }
+    },
+    "dateOfficial": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 460.4,
+        "top": 78.1,
+        "width": 130.8,
+        "height": 12.3
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 16,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "certification": {
+          "type": "text",
+          "label": "MAIN HOOK",
+          "page": 1,
+          "box": {
+            "left": 20.8,
+            "top": 537.1,
+            "width": 66.3,
+            "height": 12.3
+          }
+        },
+        "certification2": {
+          "type": "text",
+          "label": "HOOK THROAT",
+          "page": 1,
+          "box": {
+            "left": 92.8,
+            "top": 537.1,
+            "width": 66.3,
+            "height": 12.3
+          }
+        },
+        "certification3": {
+          "type": "text",
+          "label": "NON DESTRUCTIVE",
+          "page": 1,
+          "box": {
+            "left": 164.9,
+            "top": 537.1,
+            "width": 66.3,
+            "height": 12.3
+          }
+        },
+        "certification4": {
+          "type": "text",
+          "label": "SECTION 3 CERTIFICATION",
+          "page": 1,
+          "box": {
+            "left": 236.9,
+            "top": 537.1,
+            "width": 66.3,
+            "height": 12.3
+          }
+        },
+        "certification5": {
+          "type": "text",
+          "label": "CERTIFICATION",
+          "page": 1,
+          "box": {
+            "left": 308.9,
+            "top": 537.1,
+            "width": 66.3,
+            "height": 12.3
+          }
+        },
+        "certification6": {
+          "type": "text",
+          "label": "BEFORE TEST",
+          "page": 1,
+          "box": {
+            "left": 380.9,
+            "top": 537.1,
+            "width": 66.3,
+            "height": 12.3
+          }
+        },
+        "certification7": {
+          "type": "text",
+          "label": "AFTER",
+          "page": 1,
+          "box": {
+            "left": 452.9,
+            "top": 537.1,
+            "width": 66.3,
+            "height": 12.3
+          }
+        },
+        "certification8": {
+          "type": "text",
+          "label": "TEST",
+          "page": 1,
+          "box": {
+            "left": 524.9,
+            "top": 537.1,
+            "width": 66.3,
+            "height": 12.3
+          }
+        }
+      }
+    }
+  }
+}

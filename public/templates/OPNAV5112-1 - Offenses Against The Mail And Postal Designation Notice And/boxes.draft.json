@@ -1,0 +1,405 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "rankName": {
+        "left": 132.9,
+        "top": 718.1,
+        "width": 265.2,
+        "height": 14.9,
+        "type": "text",
+        "description": "RANK/FULL NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date": {
+        "left": 433.7,
+        "top": 718.1,
+        "width": 139.5,
+        "height": 14.9,
+        "type": "text",
+        "description": "DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ack1Sig1": {
+        "left": 154.2,
+        "top": 566.3,
+        "width": 180.7,
+        "height": 12.8,
+        "type": "text",
+        "description": "2. General. Appointee&apos;s References Signature: (a)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ack2Sig2": {
+        "left": 154.2,
+        "top": 457.3,
+        "width": 180.7,
+        "height": 12.8,
+        "type": "text",
+        "description": "Appointee&apos;s Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ack3Sig3": {
+        "left": 154.2,
+        "top": 413.5,
+        "width": 180.7,
+        "height": 12.8,
+        "type": "text",
+        "description": "Prohibitions",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ack4Sig4": {
+        "left": 154.2,
+        "top": 199.4,
+        "width": 180.7,
+        "height": 12.8,
+        "type": "text",
+        "description": "Appointee&apos;s Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "ack5Sig5": {
+        "left": 143.5,
+        "top": 435.9,
+        "width": 180.7,
+        "height": 12.8,
+        "type": "text",
+        "description": "I, Appointee&apos;s Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "appointeeName": {
+        "left": 47.6,
+        "top": 401.9,
+        "width": 263.9,
+        "height": 13.0,
+        "type": "text",
+        "description": "through 5",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "appName": {
+        "left": 38.8,
+        "top": 363.0,
+        "width": 199.7,
+        "height": 18.8,
+        "type": "text",
+        "description": "APPOINTEE NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "appSigDte": {
+        "left": 244.2,
+        "top": 363.0,
+        "width": 85.8,
+        "height": 18.8,
+        "type": "text",
+        "description": "DATE OF SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "appSig": {
+        "left": 335.7,
+        "top": 363.0,
+        "width": 236.8,
+        "height": 18.8,
+        "type": "text",
+        "description": "APPOINTEE SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "appOffName": {
+        "left": 38.8,
+        "top": 330.3,
+        "width": 199.7,
+        "height": 19.1,
+        "type": "text",
+        "description": "OMM/RPM/POSTAL OFFICER NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "appOffSigDte": {
+        "left": 244.2,
+        "top": 330.3,
+        "width": 85.8,
+        "height": 19.1,
+        "type": "text",
+        "description": "DATE OF SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "appOffSign": {
+        "left": 335.7,
+        "top": 329.9,
+        "width": 236.8,
+        "height": 18.8,
+        "type": "text",
+        "description": "OMM/RPM/POSTAL OFFICER SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sig1": {
+        "left": 38.9,
+        "top": 290.0,
+        "width": 116.0,
+        "height": 18.6,
+        "type": "text",
+        "description": "OMM/RPM/POSTAL OFFICER NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dte1": {
+        "left": 160.5,
+        "top": 290.0,
+        "width": 53.7,
+        "height": 18.6,
+        "type": "text",
+        "description": "NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sig2": {
+        "left": 219.9,
+        "top": 290.0,
+        "width": 116.0,
+        "height": 18.6,
+        "type": "text",
+        "description": "ANNUAL UPDATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dte2": {
+        "left": 341.5,
+        "top": 290.0,
+        "width": 52.7,
+        "height": 18.6,
+        "type": "text",
+        "description": "UPDATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sig3": {
+        "left": 399.9,
+        "top": 290.0,
+        "width": 116.0,
+        "height": 18.2,
+        "type": "text",
+        "description": "OMM/RPM/POSTAL OFFICER SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dte3": {
+        "left": 521.5,
+        "top": 290.0,
+        "width": 51.7,
+        "height": 18.6,
+        "type": "text",
+        "description": "paragraphs 1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "appOfficial": {
+        "left": 47.6,
+        "top": 223.8,
+        "width": 277.5,
+        "height": 11.1,
+        "type": "text",
+        "description": "I,",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "doDID": {
+        "left": 38.8,
+        "top": 152.2,
+        "width": 196.9,
+        "height": 14.3,
+        "type": "text",
+        "description": "DoD ID NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "appOffSigDte2": {
+        "left": 241.3,
+        "top": 152.2,
+        "width": 196.9,
+        "height": 14.3,
+        "type": "text",
+        "description": "SECURITY CLEARANCE LEVEL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "appOffSign2": {
+        "left": 443.9,
+        "top": 151.9,
+        "width": 129.3,
+        "height": 13.9,
+        "type": "text",
+        "description": "EXPIRATION DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox1": {
+        "left": 43.0,
+        "top": 126.6,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "DoD",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox2": {
+        "left": 174.4,
+        "top": 126.6,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "(EXCEPT ACCOUNTABLE)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox3": {
+        "left": 308.7,
+        "top": 126.6,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "(ALL)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox4": {
+        "left": 444.9,
+        "top": 126.6,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "(ALL)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "appOff": {
+        "left": 38.8,
+        "top": 100.7,
+        "width": 228.9,
+        "height": 19.1,
+        "type": "text",
+        "description": "APPOINTING OFFICIAL PRINTED NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "appOffDte": {
+        "left": 273.4,
+        "top": 100.7,
+        "width": 85.8,
+        "height": 19.1,
+        "type": "text",
+        "description": "DATE OF SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "appOffSig": {
+        "left": 364.8,
+        "top": 100.3,
+        "width": 208.4,
+        "height": 18.8,
+        "type": "text",
+        "description": "APPOINTING OFFICIAL SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "appDte": {
+        "left": 38.8,
+        "top": 54.1,
+        "width": 129.6,
+        "height": 15.3,
+        "type": "text",
+        "description": "APPOINTMENT DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mailCardNum": {
+        "left": 174.1,
+        "top": 54.1,
+        "width": 129.6,
+        "height": 15.3,
+        "type": "text",
+        "description": "MAIL CARD #",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "trainComDte": {
+        "left": 309.4,
+        "top": 54.1,
+        "width": 126.7,
+        "height": 15.3,
+        "type": "text",
+        "description": "TRAINING COMPLETED DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "revTranDte": {
+        "left": 441.7,
+        "top": 54.1,
+        "width": 131.5,
+        "height": 15.3,
+        "type": "text",
+        "description": "REVOCATION/TRANSFER DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

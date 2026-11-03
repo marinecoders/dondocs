@@ -1,0 +1,472 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "employeeName": {
+        "left": 38.9,
+        "top": 618.5,
+        "width": 426.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "1. Employee Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "two": {
+        "left": 470.9,
+        "top": 618.5,
+        "width": 102.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "2. Phone Number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "supvName": {
+        "left": 38.9,
+        "top": 582.5,
+        "width": 318.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "3. Supervisor Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "four": {
+        "left": 362.9,
+        "top": 582.5,
+        "width": 138.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "4. Department/Division/Branch",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "five": {
+        "left": 506.9,
+        "top": 582.5,
+        "width": 66.2,
+        "height": 21.6,
+        "type": "text",
+        "description": "5. Activity UIC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sixBeginDate": {
+        "left": 193.7,
+        "top": 555.1,
+        "width": 163.4,
+        "height": 12.2,
+        "type": "text",
+        "description": "Begin Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sixEndDate": {
+        "left": 409.7,
+        "top": 555.1,
+        "width": 163.4,
+        "height": 12.2,
+        "type": "text",
+        "description": "End Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sick": {
+        "left": 147.9,
+        "top": 467.5,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Advance Annual",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "without": {
+        "left": 255.9,
+        "top": 467.5,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Advance Sick Leave*",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "excess": {
+        "left": 363.9,
+        "top": 467.5,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Leave excess without of 10 days pay in",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "other": {
+        "left": 471.9,
+        "top": 467.5,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Any Leave 30 days in excess of",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "annual": {
+        "left": 39.9,
+        "top": 466.0,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "7. Check",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "numericField1": {
+        "left": 89.4,
+        "top": 447.1,
+        "width": 51.8,
+        "height": 20.6,
+        "type": "text",
+        "description": "Number Hours: of",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "numericField12": {
+        "left": 197.4,
+        "top": 447.1,
+        "width": 51.8,
+        "height": 20.6,
+        "type": "text",
+        "description": "Number Hours: of",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "numericField13": {
+        "left": 305.4,
+        "top": 447.1,
+        "width": 51.8,
+        "height": 20.6,
+        "type": "text",
+        "description": "Number Hours: of",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "numericField14": {
+        "left": 413.4,
+        "top": 447.1,
+        "width": 51.8,
+        "height": 20.6,
+        "type": "text",
+        "description": "Number Hours: of",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "numericField15": {
+        "left": 521.4,
+        "top": 447.1,
+        "width": 51.8,
+        "height": 20.6,
+        "type": "text",
+        "description": "Number Hours: of",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField1": {
+        "left": 99.0,
+        "top": 420.1,
+        "width": 474.2,
+        "height": 30.2,
+        "type": "text",
+        "description": "Specify Leave Other",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "employeeName2": {
+        "left": 38.9,
+        "top": 348.4,
+        "width": 228.2,
+        "height": 21.6,
+        "type": "text",
+        "description": "8. Employee Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "employeeSign": {
+        "left": 272.9,
+        "top": 348.4,
+        "width": 228.2,
+        "height": 21.6,
+        "type": "text",
+        "description": "9. Employee Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "employeeSignDate": {
+        "left": 506.9,
+        "top": 348.4,
+        "width": 66.2,
+        "height": 21.6,
+        "type": "text",
+        "description": "10. Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell1": {
+        "left": 59.0,
+        "top": 300.9,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "PART II",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell2": {
+        "left": 329.0,
+        "top": 300.9,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Recommended",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "supv1Name": {
+        "left": 38.9,
+        "top": 276.6,
+        "width": 228.2,
+        "height": 21.8,
+        "type": "text",
+        "description": "1st Level Supervisor Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "supv1Sign": {
+        "left": 272.9,
+        "top": 276.4,
+        "width": 228.2,
+        "height": 21.6,
+        "type": "text",
+        "description": "1st Level Supervisor Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "supv1SignDate": {
+        "left": 506.9,
+        "top": 276.4,
+        "width": 66.2,
+        "height": 21.6,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell12": {
+        "left": 59.0,
+        "top": 246.9,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Level",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell22": {
+        "left": 329.0,
+        "top": 246.9,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Recommended",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "supv2Name": {
+        "left": 38.9,
+        "top": 222.4,
+        "width": 228.2,
+        "height": 21.6,
+        "type": "text",
+        "description": "2nd Level Supervisor Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "supv2Sign": {
+        "left": 272.9,
+        "top": 222.4,
+        "width": 228.2,
+        "height": 21.6,
+        "type": "text",
+        "description": "2nd Level Supervisor Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "supv2SignDate": {
+        "left": 506.9,
+        "top": 222.4,
+        "width": 66.2,
+        "height": 21.6,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell13": {
+        "left": 96.5,
+        "top": 177.1,
+        "width": 71.6,
+        "height": 19.4,
+        "type": "text",
+        "description": "Balance Sick Leave (LS)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell23": {
+        "left": 231.5,
+        "top": 177.1,
+        "width": 71.6,
+        "height": 19.4,
+        "type": "text",
+        "description": "Annual Balance Leave (LA)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell3": {
+        "left": 366.5,
+        "top": 177.1,
+        "width": 71.6,
+        "height": 19.4,
+        "type": "text",
+        "description": "AWOL/LWOP Hours Used",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell4": {
+        "left": 501.8,
+        "top": 176.8,
+        "width": 71.1,
+        "height": 18.9,
+        "type": "choice",
+        "description": "FMLA Invoke?",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "group": null,
+        "required": false
+      },
+      "cell14": {
+        "left": 46.9,
+        "top": 131.2,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "PART",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell24": {
+        "left": 314.4,
+        "top": 131.2,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Approved",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField2": {
+        "left": 38.8,
+        "top": 114.1,
+        "width": 534.4,
+        "height": 39.3,
+        "type": "text",
+        "description": "Approved Disapproved",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "bP05Name": {
+        "left": 38.9,
+        "top": 60.4,
+        "width": 228.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "BUPERS-05 Representative Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "bP05Sign": {
+        "left": 272.9,
+        "top": 60.4,
+        "width": 228.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "BUPERS-05 Representative Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "bP05SignDate": {
+        "left": 506.9,
+        "top": 60.4,
+        "width": 66.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

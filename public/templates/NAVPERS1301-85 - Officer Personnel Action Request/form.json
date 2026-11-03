@@ -1,0 +1,1182 @@
+{
+  "id": "navpers130185",
+  "label": "NAVPERS1301-85 - Officer Personnel Action Request",
+  "directory": "NAVPERS1301-85 - Officer Personnel Action Request",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "textField1",
+        "textField12",
+        "textField2",
+        "dateTimeField1",
+        "textField22",
+        "textField23",
+        "textField24",
+        "textField25",
+        "textField26",
+        "textField27",
+        "checkBox1",
+        "checkBox12",
+        "checkBox13",
+        "checkBox14",
+        "checkBox15",
+        "checkBox16",
+        "textField3",
+        "textField28",
+        "checkBox17",
+        "checkBox18",
+        "checkBox19",
+        "checkBox110",
+        "checkBox111",
+        "checkBox112",
+        "checkBox113",
+        "checkBox114",
+        "checkBox115",
+        "checkBox116",
+        "checkBox117",
+        "checkBox118",
+        "checkBox119",
+        "checkBox120",
+        "checkBox121",
+        "checkBox122",
+        "textField4",
+        "textField42",
+        "textField43",
+        "dateTimeField4",
+        "dateTimeField5",
+        "textField44",
+        "textField45",
+        "textField46",
+        "checkBox123",
+        "checkBox124",
+        "checkBox125",
+        "checkBox126",
+        "textField5",
+        "checkBox127",
+        "checkBox128",
+        "checkBox129",
+        "checkBox130",
+        "checkBox131",
+        "checkBox132",
+        "checkBox133",
+        "checkBox134",
+        "checkBox135",
+        "checkBox136",
+        "checkBox137",
+        "checkBox138",
+        "checkBox139",
+        "checkBox140",
+        "checkBox141",
+        "checkBox142",
+        "checkBox143",
+        "checkBox144",
+        "checkBox145",
+        "checkBox146",
+        "checkBox147",
+        "checkBox148",
+        "checkBox149",
+        "checkBox150",
+        "checkBox151",
+        "checkBox152",
+        "checkBox153",
+        "textField7",
+        "checkBox154",
+        "checkBox155",
+        "checkBox156",
+        "checkBox157",
+        "checkBox158",
+        "dateTimeField2",
+        "staticText14"
+      ],
+      "editor": "checklist"
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "textField8",
+        "checkBox159",
+        "checkBox160",
+        "textField9",
+        "dateTimeField3",
+        "signatureField1",
+        "textField10"
+      ]
+    }
+  ],
+  "fields": {
+    "textField1": {
+      "type": "text",
+      "label": "Please enter your rank and name",
+      "page": 1,
+      "box": {
+        "left": 29.8,
+        "top": 659.4,
+        "width": 552.3,
+        "height": 17.6
+      }
+    },
+    "textField12": {
+      "type": "text",
+      "label": "Please enter the required information for the to address",
+      "page": 1,
+      "box": {
+        "left": 29.8,
+        "top": 623.4,
+        "width": 552.3,
+        "height": 17.6
+      }
+    },
+    "textField2": {
+      "type": "text",
+      "label": "Please enter your social security number",
+      "page": 1,
+      "box": {
+        "left": 110.8,
+        "top": 591.3,
+        "width": 66.3,
+        "height": 12.4
+      }
+    },
+    "dateTimeField1": {
+      "type": "text",
+      "label": "Please enter current date",
+      "page": 1,
+      "box": {
+        "left": 29.8,
+        "top": 590.4,
+        "width": 75.3,
+        "height": 11.6
+      }
+    },
+    "textField22": {
+      "type": "text",
+      "label": "Please enter your designator",
+      "page": 1,
+      "box": {
+        "left": 182.8,
+        "top": 590.4,
+        "width": 66.3,
+        "height": 11.6
+      }
+    },
+    "textField23": {
+      "type": "text",
+      "label": "Please enter your sub speciality",
+      "page": 1,
+      "box": {
+        "left": 254.8,
+        "top": 590.4,
+        "width": 120.3,
+        "height": 11.6
+      }
+    },
+    "textField24": {
+      "type": "text",
+      "label": "Please enter your duty phone number",
+      "page": 1,
+      "box": {
+        "left": 380.8,
+        "top": 590.4,
+        "width": 93.3,
+        "height": 11.6
+      }
+    },
+    "textField25": {
+      "type": "text",
+      "label": "Please enter your home phone number",
+      "page": 1,
+      "box": {
+        "left": 479.8,
+        "top": 589.7,
+        "width": 102.3,
+        "height": 10.8
+      }
+    },
+    "textField26": {
+      "type": "text",
+      "label": "CCC E-MAIL::",
+      "page": 1,
+      "box": {
+        "left": 29.8,
+        "top": 563.4,
+        "width": 264.3,
+        "height": 11.6
+      }
+    },
+    "textField27": {
+      "type": "text",
+      "label": "MEMBER'S E-MAIL:",
+      "page": 1,
+      "box": {
+        "left": 300.6,
+        "top": 563.4,
+        "width": 281.6,
+        "height": 11.6
+      }
+    },
+    "checkBox1": {
+      "type": "checkbox",
+      "label": " EXTENSION REQUEST/DETAILER",
+      "page": 1,
+      "box": {
+        "left": 74.8,
+        "top": 538.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox12": {
+      "type": "checkbox",
+      "label": " PRD CHANGE REQUEST/DETAILER",
+      "page": 1,
+      "box": {
+        "left": 200.8,
+        "top": 538.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox13": {
+      "type": "checkbox",
+      "label": "  SPOUSE COLLOCATION/MEMBERS DETAILER/SPOUSE DETAILER (NAVY ONLY)",
+      "page": 1,
+      "box": {
+        "left": 326.8,
+        "top": 538.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox14": {
+      "type": "checkbox",
+      "label": " LANGUAGE(S)/INTEL DETAILER",
+      "page": 1,
+      "box": {
+        "left": 74.8,
+        "top": 526.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox15": {
+      "type": "checkbox",
+      "label": " SCHOOL/AS APPLICABLE",
+      "page": 1,
+      "box": {
+        "left": 200.8,
+        "top": 526.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox16": {
+      "type": "checkbox",
+      "label": " OTHER/AS APPLICABLE",
+      "page": 1,
+      "box": {
+        "left": 326.8,
+        "top": 526.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "textField3": {
+      "type": "text",
+      "label": "Please enter remarks",
+      "page": 1,
+      "box": {
+        "left": 65.8,
+        "top": 497.2,
+        "width": 516.3,
+        "height": 35.6
+      },
+      "multiline": true
+    },
+    "textField28": {
+      "type": "text",
+      "label": "Please enter your spouse's social security number",
+      "page": 1,
+      "box": {
+        "left": 65.8,
+        "top": 446.4,
+        "width": 66.3,
+        "height": 16.9
+      }
+    },
+    "checkBox17": {
+      "type": "checkbox",
+      "label": " NATIONAL GUARD",
+      "page": 1,
+      "box": {
+        "left": 146.8,
+        "top": 443.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox18": {
+      "type": "checkbox",
+      "label": " RESERVE",
+      "page": 1,
+      "box": {
+        "left": 227.8,
+        "top": 443.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox19": {
+      "type": "checkbox",
+      "label": " REGULAR",
+      "page": 1,
+      "box": {
+        "left": 281.8,
+        "top": 443.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox110": {
+      "type": "checkbox",
+      "label": " ACTIVE",
+      "page": 1,
+      "box": {
+        "left": 362.8,
+        "top": 443.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox111": {
+      "type": "checkbox",
+      "label": " INACTIVE",
+      "page": 1,
+      "box": {
+        "left": 425.8,
+        "top": 443.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox112": {
+      "type": "checkbox",
+      "label": " USA",
+      "page": 1,
+      "box": {
+        "left": 74.8,
+        "top": 415.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox113": {
+      "type": "checkbox",
+      "label": " USN",
+      "page": 1,
+      "box": {
+        "left": 110.8,
+        "top": 415.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox114": {
+      "type": "checkbox",
+      "label": " USCG",
+      "page": 1,
+      "box": {
+        "left": 146.8,
+        "top": 415.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox115": {
+      "type": "checkbox",
+      "label": " NATIONAL OCEANIC & ATMOSPHERIC ADMINISTRATION",
+      "page": 1,
+      "box": {
+        "left": 182.8,
+        "top": 415.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox116": {
+      "type": "checkbox",
+      "label": " CADET/MIDSHIPMAN",
+      "page": 1,
+      "box": {
+        "left": 389.8,
+        "top": 415.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox117": {
+      "type": "checkbox",
+      "label": " WARRANT OFFICER",
+      "page": 1,
+      "box": {
+        "left": 488.8,
+        "top": 415.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox118": {
+      "type": "checkbox",
+      "label": " USAF",
+      "page": 1,
+      "box": {
+        "left": 74.8,
+        "top": 399.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox119": {
+      "type": "checkbox",
+      "label": " USMC",
+      "page": 1,
+      "box": {
+        "left": 110.8,
+        "top": 399.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox120": {
+      "type": "checkbox",
+      "label": " PUBLIC HEALTH SERVICE",
+      "page": 1,
+      "box": {
+        "left": 146.8,
+        "top": 399.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox121": {
+      "type": "checkbox",
+      "label": " ENLISTED",
+      "page": 1,
+      "box": {
+        "left": 389.8,
+        "top": 399.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox122": {
+      "type": "checkbox",
+      "label": " OFFICER",
+      "page": 1,
+      "box": {
+        "left": 488.8,
+        "top": 399.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "textField4": {
+      "type": "text",
+      "label": "Please enter your spouse's active duty service date",
+      "page": 1,
+      "box": {
+        "left": 317.8,
+        "top": 374.4,
+        "width": 129.3,
+        "height": 20.6
+      }
+    },
+    "textField42": {
+      "type": "text",
+      "label": "Please enter your spouse's gender",
+      "page": 1,
+      "box": {
+        "left": 245.8,
+        "top": 374.2,
+        "width": 66.3,
+        "height": 20.4
+      }
+    },
+    "textField43": {
+      "type": "text",
+      "label": "Please enter your spouse's projected rotation date",
+      "page": 1,
+      "box": {
+        "left": 452.8,
+        "top": 374.2,
+        "width": 129.3,
+        "height": 20.4
+      }
+    },
+    "dateTimeField4": {
+      "type": "text",
+      "label": "EARLIEST:",
+      "page": 1,
+      "box": {
+        "left": 101.8,
+        "top": 365.6,
+        "width": 40.7,
+        "height": 12.0
+      }
+    },
+    "dateTimeField5": {
+      "type": "text",
+      "label": "LATEST:",
+      "page": 1,
+      "box": {
+        "left": 182.8,
+        "top": 365.6,
+        "width": 49.6,
+        "height": 11.8
+      }
+    },
+    "textField44": {
+      "type": "text",
+      "label": "Please enter your number of dependents",
+      "page": 1,
+      "box": {
+        "left": 65.8,
+        "top": 338.4,
+        "width": 111.3,
+        "height": 20.6
+      }
+    },
+    "textField45": {
+      "type": "text",
+      "label": "Please enter your dependent's location",
+      "page": 1,
+      "box": {
+        "left": 182.8,
+        "top": 336.2,
+        "width": 192.3,
+        "height": 18.3
+      }
+    },
+    "textField46": {
+      "type": "text",
+      "label": "Please enter your location of household goods",
+      "page": 1,
+      "box": {
+        "left": 380.8,
+        "top": 328.7,
+        "width": 201.3,
+        "height": 10.8
+      }
+    },
+    "checkBox123": {
+      "type": "checkbox",
+      "label": " GED",
+      "page": 1,
+      "box": {
+        "left": 74.8,
+        "top": 303.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox124": {
+      "type": "checkbox",
+      "label": " PROGRESSING",
+      "page": 1,
+      "box": {
+        "left": 155.8,
+        "top": 303.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox125": {
+      "type": "checkbox",
+      "label": " BACHELORS",
+      "page": 1,
+      "box": {
+        "left": 245.8,
+        "top": 303.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox126": {
+      "type": "checkbox",
+      "label": " DOCTORATE",
+      "page": 1,
+      "box": {
+        "left": 326.8,
+        "top": 303.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "textField5": {
+      "type": "text",
+      "label": "DEGREE IN:",
+      "page": 1,
+      "box": {
+        "left": 365.8,
+        "top": 285.2,
+        "width": 207.3,
+        "height": 12.3
+      }
+    },
+    "checkBox127": {
+      "type": "checkbox",
+      "label": " H.S. DIPLOMA",
+      "page": 1,
+      "box": {
+        "left": 74.8,
+        "top": 284.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox128": {
+      "type": "checkbox",
+      "label": " MASTERS",
+      "page": 1,
+      "box": {
+        "left": 245.8,
+        "top": 284.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox129": {
+      "type": "checkbox",
+      "label": " ASSOCIATES ",
+      "page": 1,
+      "box": {
+        "left": 155.8,
+        "top": 284.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox130": {
+      "type": "checkbox",
+      "label": " PROMOTABLE",
+      "page": 1,
+      "box": {
+        "left": 126.8,
+        "top": 176.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox131": {
+      "type": "checkbox",
+      "label": "Please enter your 2nd most recent promotion recommendation",
+      "page": 1,
+      "box": {
+        "left": 313.1,
+        "top": 176.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox132": {
+      "type": "checkbox",
+      "label": " PROMOTABLE",
+      "page": 1,
+      "box": {
+        "left": 499.3,
+        "top": 176.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox133": {
+      "type": "checkbox",
+      "label": " NOB",
+      "page": 1,
+      "box": {
+        "left": 33.7,
+        "top": 176.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox134": {
+      "type": "checkbox",
+      "label": " NOB",
+      "page": 1,
+      "box": {
+        "left": 219.9,
+        "top": 176.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox135": {
+      "type": "checkbox",
+      "label": " NOB",
+      "page": 1,
+      "box": {
+        "left": 406.2,
+        "top": 176.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox136": {
+      "type": "checkbox",
+      "label": " MUST PROMOTE",
+      "page": 1,
+      "box": {
+        "left": 126.8,
+        "top": 160.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox137": {
+      "type": "checkbox",
+      "label": " MUST PROMOTE",
+      "page": 1,
+      "box": {
+        "left": 313.1,
+        "top": 160.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox138": {
+      "type": "checkbox",
+      "label": " MUST PROMOTE",
+      "page": 1,
+      "box": {
+        "left": 499.3,
+        "top": 160.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox139": {
+      "type": "checkbox",
+      "label": " SIGNIFICANT PROBLEMS",
+      "page": 1,
+      "box": {
+        "left": 33.7,
+        "top": 159.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox140": {
+      "type": "checkbox",
+      "label": " SIGNIFICANT PROBLEMS",
+      "page": 1,
+      "box": {
+        "left": 219.9,
+        "top": 159.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox141": {
+      "type": "checkbox",
+      "label": " SIGNIFICANT PROBLEMS",
+      "page": 1,
+      "box": {
+        "left": 406.2,
+        "top": 159.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox142": {
+      "type": "checkbox",
+      "label": " PROGRESSING",
+      "page": 1,
+      "box": {
+        "left": 33.7,
+        "top": 145.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox143": {
+      "type": "checkbox",
+      "label": " PROGRESSING",
+      "page": 1,
+      "box": {
+        "left": 219.9,
+        "top": 145.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox144": {
+      "type": "checkbox",
+      "label": " PROGRESSING",
+      "page": 1,
+      "box": {
+        "left": 406.2,
+        "top": 145.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox145": {
+      "type": "checkbox",
+      "label": " EARLY PROMOTE",
+      "page": 1,
+      "box": {
+        "left": 126.8,
+        "top": 143.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox146": {
+      "type": "checkbox",
+      "label": " EARLY PROMOTE",
+      "page": 1,
+      "box": {
+        "left": 313.1,
+        "top": 143.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox147": {
+      "type": "checkbox",
+      "label": " EARLY PROMOTE",
+      "page": 1,
+      "box": {
+        "left": 499.3,
+        "top": 143.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox148": {
+      "type": "checkbox",
+      "label": " RECOMMENDED",
+      "page": 1,
+      "box": {
+        "left": 33.6,
+        "top": 124.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox149": {
+      "type": "checkbox",
+      "label": " RECOMMENDED",
+      "page": 1,
+      "box": {
+        "left": 219.9,
+        "top": 124.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox150": {
+      "type": "checkbox",
+      "label": " RECOMMENDED",
+      "page": 1,
+      "box": {
+        "left": 406.1,
+        "top": 124.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox151": {
+      "type": "checkbox",
+      "label": " NOT RECOMMENDED",
+      "page": 1,
+      "box": {
+        "left": 126.0,
+        "top": 122.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox152": {
+      "type": "checkbox",
+      "label": " NOT RECOMMENDED",
+      "page": 1,
+      "box": {
+        "left": 312.2,
+        "top": 122.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox153": {
+      "type": "checkbox",
+      "label": " NOT RECOMMENDED",
+      "page": 1,
+      "box": {
+        "left": 498.4,
+        "top": 122.7,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "textField7": {
+      "type": "text",
+      "label": "TextField7",
+      "page": 1,
+      "box": {
+        "left": 308.8,
+        "top": 102.2,
+        "width": 21.3,
+        "height": 12.3
+      }
+    },
+    "checkBox154": {
+      "type": "checkbox",
+      "label": "   YES",
+      "page": 1,
+      "box": {
+        "left": 29.8,
+        "top": 102.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox155": {
+      "type": "checkbox",
+      "label": "   NO",
+      "page": 1,
+      "box": {
+        "left": 92.8,
+        "top": 102.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox156": {
+      "type": "checkbox",
+      "label": "   N/A",
+      "page": 1,
+      "box": {
+        "left": 137.8,
+        "top": 81.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox157": {
+      "type": "checkbox",
+      "label": "   YES",
+      "page": 1,
+      "box": {
+        "left": 29.8,
+        "top": 81.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox158": {
+      "type": "checkbox",
+      "label": "   NO",
+      "page": 1,
+      "box": {
+        "left": 92.8,
+        "top": 81.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "dateTimeField2": {
+      "type": "text",
+      "label": "Please enter the date form signed",
+      "page": 1,
+      "box": {
+        "left": 479.8,
+        "top": 56.5,
+        "width": 102.3,
+        "height": 17.9
+      }
+    },
+    "staticText14": {
+      "type": "signature",
+      "label": "APPLICANT'S SIGNATURE:",
+      "page": 1,
+      "box": {
+        "left": 28.4,
+        "top": 56.2,
+        "width": 447.2,
+        "height": 18.8
+      }
+    },
+    "textField8": {
+      "type": "text",
+      "label": "Please enter your U I C",
+      "page": 2,
+      "box": {
+        "left": 281.1,
+        "top": 690.2,
+        "width": 301.1,
+        "height": 21.3
+      }
+    },
+    "checkBox159": {
+      "type": "checkbox",
+      "label": "   YES",
+      "page": 2,
+      "box": {
+        "left": 119.8,
+        "top": 681.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox160": {
+      "type": "checkbox",
+      "label": "   NO",
+      "page": 2,
+      "box": {
+        "left": 182.8,
+        "top": 681.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "textField9": {
+      "type": "text",
+      "label": "Please enter any additional comments",
+      "page": 2,
+      "box": {
+        "left": 29.8,
+        "top": 648.2,
+        "width": 552.3,
+        "height": 528.3
+      },
+      "multiline": true
+    },
+    "dateTimeField3": {
+      "type": "text",
+      "label": "Please enter the date Commanding Officer signed",
+      "page": 2,
+      "box": {
+        "left": 263.8,
+        "top": 102.9,
+        "width": 84.3,
+        "height": 28.1
+      }
+    },
+    "signatureField1": {
+      "type": "signature",
+      "label": "COMMANDING OFFICER'S SIGNATURE:",
+      "page": 2,
+      "box": {
+        "left": 353.8,
+        "top": 102.2,
+        "width": 228.3,
+        "height": 27.3
+      }
+    },
+    "textField10": {
+      "type": "text",
+      "label": "Please enter your Commanding Officer's name and rank",
+      "page": 2,
+      "box": {
+        "left": 29.8,
+        "top": 101.4,
+        "width": 228.3,
+        "height": 26.6
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "textField6": {
+          "type": "text",
+          "label": "Please enter the Fitness Report  information entered in  block 33 of your most recent Fitness Report",
+          "page": 1,
+          "box": {
+            "left": 131.6,
+            "top": 249.2,
+            "width": 59.9,
+            "height": 12.3
+          }
+        },
+        "textField62": {
+          "type": "text",
+          "label": "Please enter the Fitness Report  information entered in  block 34 of your most recent Fitness Report",
+          "page": 1,
+          "box": {
+            "left": 194.3,
+            "top": 249.2,
+            "width": 59.9,
+            "height": 12.3
+          }
+        },
+        "textField63": {
+          "type": "text",
+          "label": "TextField6",
+          "page": 1,
+          "box": {
+            "left": 259.9,
+            "top": 249.2,
+            "width": 59.9,
+            "height": 12.3
+          }
+        },
+        "textField64": {
+          "type": "text",
+          "label": "Please enter the Fitness Report  information entered in  block 35 of your most recent Fitness Report",
+          "page": 1,
+          "box": {
+            "left": 325.5,
+            "top": 249.2,
+            "width": 59.9,
+            "height": 12.3
+          }
+        },
+        "textField65": {
+          "type": "text",
+          "label": "Please enter the Fitness Report  information entered in  block 37 of your most recent Fitness Report",
+          "page": 1,
+          "box": {
+            "left": 391.1,
+            "top": 249.2,
+            "width": 59.9,
+            "height": 12.3
+          }
+        },
+        "textField66": {
+          "type": "text",
+          "label": "Please enter the Fitness Report  information entered in  block 38 of your most recent Fitness Report",
+          "page": 1,
+          "box": {
+            "left": 456.7,
+            "top": 249.2,
+            "width": 59.9,
+            "height": 12.3
+          }
+        },
+        "textField67": {
+          "type": "text",
+          "label": "Please enter the Fitness Report  information entered in  block 339 of your most recent Fitness Report",
+          "page": 1,
+          "box": {
+            "left": 522.2,
+            "top": 249.2,
+            "width": 59.9,
+            "height": 12.3
+          }
+        }
+      }
+    }
+  }
+}

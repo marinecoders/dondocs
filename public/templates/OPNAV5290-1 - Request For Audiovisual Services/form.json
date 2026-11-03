@@ -1,0 +1,942 @@
+{
+  "id": "opnav52901",
+  "label": "OPNAV5290-1 - Request For Audiovisual Services",
+  "directory": "OPNAV5290-1 - Request For Audiovisual Services",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "savwrn",
+        "securityclass",
+        "nmofrequestor",
+        "telephone",
+        "rqstactvty",
+        "descrptofavsrvreqrd",
+        "requestedpriority",
+        "timeField",
+        "dNSDate31",
+        "signatureavcoordinator",
+        "dNSDate3",
+        "photodata",
+        "nocyeachview",
+        "noviewsreq",
+        "sizeofcopies",
+        "finish",
+        "radio",
+        "radio2",
+        "radio3",
+        "radio4",
+        "radio5",
+        "inhouseroutetootherlist",
+        "radio6",
+        "radio7",
+        "radio8",
+        "radio9",
+        "radio10",
+        "radio11",
+        "radio12",
+        "radio13",
+        "radio14",
+        "photolabotherlist",
+        "radio15",
+        "nonofnegspos",
+        "nofocopies",
+        "sizeifcopies",
+        "total",
+        "remarks",
+        "nonofnegspos2",
+        "nofocopies2",
+        "sizeifcopies2",
+        "total2",
+        "remarks2",
+        "nooforig",
+        "sizeoforig",
+        "noofcopies",
+        "nooforigduup",
+        "noofcopiesdup",
+        "total5",
+        "finishedsize",
+        "audioorigmin",
+        "audiodupmin",
+        "originationmin",
+        "duplicmins",
+        "other",
+        "audioother",
+        "shippingaddy",
+        "title",
+        "requestornotifiedby",
+        "nameofpersonnotified",
+        "notedate",
+        "notetime",
+        "signature",
+        "rctime",
+        "prntedlastnm",
+        "rcdate",
+        "rmdate",
+        "rmtime",
+        "rEsign",
+        "printedlastname"
+      ]
+    }
+  ],
+  "fields": {
+    "savwrn": {
+      "type": "text",
+      "label": "VISUAL INFORMATION (VI) SERVICES",
+      "page": 1,
+      "box": {
+        "left": 377.8,
+        "top": 744.9,
+        "width": 195.0,
+        "height": 17.1
+      }
+    },
+    "securityclass": {
+      "type": "text",
+      "label": "VISUAL INFORMATION (VI) SERVICES",
+      "page": 1,
+      "box": {
+        "left": 278.2,
+        "top": 744.3,
+        "width": 95.4,
+        "height": 16.5
+      }
+    },
+    "nmofrequestor": {
+      "type": "text",
+      "label": "4. NAME OF REQUESTOR",
+      "page": 1,
+      "box": {
+        "left": 221.7,
+        "top": 715.1,
+        "width": 180.2,
+        "height": 17.1
+      }
+    },
+    "telephone": {
+      "type": "text",
+      "label": "5. PHONE NUMBER",
+      "page": 1,
+      "box": {
+        "left": 405.7,
+        "top": 715.1,
+        "width": 167.1,
+        "height": 17.1
+      }
+    },
+    "rqstactvty": {
+      "type": "text",
+      "label": "3. REQUESTING ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 37.1,
+        "top": 714.6,
+        "width": 180.2,
+        "height": 16.5
+      }
+    },
+    "descrptofavsrvreqrd": {
+      "type": "text",
+      "label": "Descrptofavsrvreqrd",
+      "page": 1,
+      "box": {
+        "left": 39.3,
+        "top": 682.9,
+        "width": 360.2,
+        "height": 103.5
+      },
+      "multiline": true
+    },
+    "requestedpriority": {
+      "type": "text",
+      "label": "PRIORITY",
+      "page": 1,
+      "box": {
+        "left": 405.7,
+        "top": 676.3,
+        "width": 70.7,
+        "height": 19.2
+      }
+    },
+    "timeField": {
+      "type": "text",
+      "label": "DATE/TIME DUE",
+      "page": 1,
+      "box": {
+        "left": 533.7,
+        "top": 676.1,
+        "width": 39.8,
+        "height": 19.7
+      }
+    },
+    "dNSDate31": {
+      "type": "text",
+      "label": "8. DATE/TIME",
+      "page": 1,
+      "box": {
+        "left": 482.0,
+        "top": 675.4,
+        "width": 51.4,
+        "height": 18.4
+      }
+    },
+    "signatureavcoordinator": {
+      "type": "text",
+      "label": "SIGNATURE OF AV COORDINATOR",
+      "page": 1,
+      "box": {
+        "left": 405.0,
+        "top": 609.9,
+        "width": 167.8,
+        "height": 13.2
+      }
+    },
+    "dNSDate3": {
+      "type": "text",
+      "label": "DATE SIGNED",
+      "page": 1,
+      "box": {
+        "left": 464.0,
+        "top": 594.6,
+        "width": 108.9,
+        "height": 16.7
+      }
+    },
+    "photodata": {
+      "type": "text",
+      "label": "Photodata",
+      "page": 1,
+      "box": {
+        "left": 192.0,
+        "top": 564.8,
+        "width": 378.6,
+        "height": 54.8
+      },
+      "multiline": true
+    },
+    "nocyeachview": {
+      "type": "text",
+      "label": "NO. CY. EACH VIEW",
+      "page": 1,
+      "box": {
+        "left": 106.6,
+        "top": 543.2,
+        "width": 78.7,
+        "height": 10.9
+      }
+    },
+    "noviewsreq": {
+      "type": "text",
+      "label": "NO. VIEWS REQ",
+      "page": 1,
+      "box": {
+        "left": 36.6,
+        "top": 542.5,
+        "width": 64.8,
+        "height": 10.3
+      }
+    },
+    "sizeofcopies": {
+      "type": "text",
+      "label": "SIZE OF COPIES",
+      "page": 1,
+      "box": {
+        "left": 36.6,
+        "top": 519.7,
+        "width": 64.8,
+        "height": 10.9
+      }
+    },
+    "finish": {
+      "type": "text",
+      "label": "FINISH",
+      "page": 1,
+      "box": {
+        "left": 108.7,
+        "top": 519.0,
+        "width": 74.3,
+        "height": 9.4
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 157.3,
+        "top": 501.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 235.6,
+        "top": 501.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 1,
+      "box": {
+        "left": 398.4,
+        "top": 500.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 1,
+      "box": {
+        "left": 318.9,
+        "top": 500.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item5",
+      "page": 1,
+      "box": {
+        "left": 472.9,
+        "top": 500.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "inhouseroutetootherlist": {
+      "type": "text",
+      "label": "OTHER (LIST)",
+      "page": 1,
+      "box": {
+        "left": 233.4,
+        "top": 486.2,
+        "width": 339.4,
+        "height": 12.9
+      }
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 157.3,
+        "top": 484.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 115.9,
+        "top": 465.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 195.4,
+        "top": 465.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio9": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 263.2,
+        "top": 465.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio10": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 323.9,
+        "top": 465.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio11": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 1,
+      "box": {
+        "left": 411.8,
+        "top": 465.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio12": {
+      "type": "radio",
+      "label": "Item5",
+      "page": 1,
+      "box": {
+        "left": 470.8,
+        "top": 465.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio13": {
+      "type": "radio",
+      "label": "Item6",
+      "page": 1,
+      "box": {
+        "left": 530.7,
+        "top": 465.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio14": {
+      "type": "radio",
+      "label": "Item7",
+      "page": 1,
+      "box": {
+        "left": 115.9,
+        "top": 448.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "photolabotherlist": {
+      "type": "text",
+      "label": "COPY COLOR PRINT EMAIL DISC DVD",
+      "page": 1,
+      "box": {
+        "left": 272.7,
+        "top": 448.7,
+        "width": 300.1,
+        "height": 12.9
+      }
+    },
+    "radio15": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 1,
+      "box": {
+        "left": 214.2,
+        "top": 448.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "nonofnegspos": {
+      "type": "text",
+      "label": "NO. OF ORIGINALS",
+      "page": 1,
+      "box": {
+        "left": 39.5,
+        "top": 417.6,
+        "width": 72.8,
+        "height": 12.4
+      }
+    },
+    "nofocopies": {
+      "type": "text",
+      "label": "NO. OF COPIES",
+      "page": 1,
+      "box": {
+        "left": 120.0,
+        "top": 417.6,
+        "width": 71.4,
+        "height": 12.4
+      }
+    },
+    "sizeifcopies": {
+      "type": "text",
+      "label": "FINISHED SIZE",
+      "page": 1,
+      "box": {
+        "left": 199.3,
+        "top": 417.6,
+        "width": 75.3,
+        "height": 12.4
+      }
+    },
+    "total": {
+      "type": "text",
+      "label": "TOTAL",
+      "page": 1,
+      "box": {
+        "left": 282.9,
+        "top": 417.6,
+        "width": 75.8,
+        "height": 12.4
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "REMARKS",
+      "page": 1,
+      "box": {
+        "left": 365.7,
+        "top": 417.6,
+        "width": 205.0,
+        "height": 12.4
+      }
+    },
+    "nonofnegspos2": {
+      "type": "text",
+      "label": "NO. OF ORIGINALS",
+      "page": 1,
+      "box": {
+        "left": 39.5,
+        "top": 402.5,
+        "width": 72.8,
+        "height": 12.0
+      }
+    },
+    "nofocopies2": {
+      "type": "text",
+      "label": "NO. OF COPIES",
+      "page": 1,
+      "box": {
+        "left": 120.0,
+        "top": 402.5,
+        "width": 71.4,
+        "height": 12.0
+      }
+    },
+    "sizeifcopies2": {
+      "type": "text",
+      "label": "FINISHED SIZE",
+      "page": 1,
+      "box": {
+        "left": 199.3,
+        "top": 402.5,
+        "width": 75.3,
+        "height": 12.0
+      }
+    },
+    "total2": {
+      "type": "text",
+      "label": "TOTAL",
+      "page": 1,
+      "box": {
+        "left": 282.9,
+        "top": 402.5,
+        "width": 75.8,
+        "height": 12.0
+      }
+    },
+    "remarks2": {
+      "type": "text",
+      "label": "REMARKS",
+      "page": 1,
+      "box": {
+        "left": 365.7,
+        "top": 402.5,
+        "width": 205.0,
+        "height": 12.0
+      }
+    },
+    "nooforig": {
+      "type": "text",
+      "label": "No. of Originals",
+      "page": 1,
+      "box": {
+        "left": 37.1,
+        "top": 292.1,
+        "width": 77.4,
+        "height": 17.6
+      }
+    },
+    "sizeoforig": {
+      "type": "text",
+      "label": "Size of Originals",
+      "page": 1,
+      "box": {
+        "left": 118.3,
+        "top": 292.1,
+        "width": 72.6,
+        "height": 17.6
+      }
+    },
+    "noofcopies": {
+      "type": "text",
+      "label": "No. of Copies",
+      "page": 1,
+      "box": {
+        "left": 195.1,
+        "top": 292.1,
+        "width": 72.6,
+        "height": 17.6
+      }
+    },
+    "nooforigduup": {
+      "type": "text",
+      "label": "No. of Originals",
+      "page": 1,
+      "box": {
+        "left": 271.4,
+        "top": 292.1,
+        "width": 72.6,
+        "height": 17.6
+      }
+    },
+    "noofcopiesdup": {
+      "type": "text",
+      "label": "No. of Copies",
+      "page": 1,
+      "box": {
+        "left": 348.2,
+        "top": 292.1,
+        "width": 72.6,
+        "height": 17.6
+      }
+    },
+    "total5": {
+      "type": "text",
+      "label": "Total",
+      "page": 1,
+      "box": {
+        "left": 424.6,
+        "top": 292.1,
+        "width": 72.6,
+        "height": 17.6
+      }
+    },
+    "finishedsize": {
+      "type": "text",
+      "label": "Finished Size",
+      "page": 1,
+      "box": {
+        "left": 500.6,
+        "top": 292.1,
+        "width": 72.6,
+        "height": 17.6
+      }
+    },
+    "audioorigmin": {
+      "type": "text",
+      "label": "ORIGINATION",
+      "page": 1,
+      "box": {
+        "left": 339.9,
+        "top": 246.3,
+        "width": 51.9,
+        "height": 18.4
+      }
+    },
+    "audiodupmin": {
+      "type": "text",
+      "label": "DUPLICATION",
+      "page": 1,
+      "box": {
+        "left": 434.5,
+        "top": 246.3,
+        "width": 48.9,
+        "height": 18.4
+      }
+    },
+    "originationmin": {
+      "type": "text",
+      "label": "ORIGINATION",
+      "page": 1,
+      "box": {
+        "left": 71.0,
+        "top": 245.9,
+        "width": 50.6,
+        "height": 18.4
+      }
+    },
+    "duplicmins": {
+      "type": "text",
+      "label": "DUPLICATION",
+      "page": 1,
+      "box": {
+        "left": 160.5,
+        "top": 245.9,
+        "width": 47.3,
+        "height": 18.4
+      }
+    },
+    "other": {
+      "type": "text",
+      "label": "OTHER",
+      "page": 1,
+      "box": {
+        "left": 214.1,
+        "top": 245.9,
+        "width": 86.6,
+        "height": 18.4
+      }
+    },
+    "audioother": {
+      "type": "text",
+      "label": "OTHER",
+      "page": 1,
+      "box": {
+        "left": 490.4,
+        "top": 245.9,
+        "width": 82.8,
+        "height": 18.4
+      }
+    },
+    "shippingaddy": {
+      "type": "text",
+      "label": "17. SHIPPING ADDRESS (If applicable)",
+      "page": 1,
+      "box": {
+        "left": 39.5,
+        "top": 214.6,
+        "width": 383.6,
+        "height": 47.0
+      },
+      "multiline": true
+    },
+    "title": {
+      "type": "text",
+      "label": "18. QUALITY CONTROL CHECK BY",
+      "page": 1,
+      "box": {
+        "left": 430.5,
+        "top": 214.1,
+        "width": 142.7,
+        "height": 47.2
+      },
+      "multiline": true
+    },
+    "requestornotifiedby": {
+      "type": "text",
+      "label": "19. REQUESTOR NOTIFIED BY",
+      "page": 1,
+      "box": {
+        "left": 37.3,
+        "top": 153.2,
+        "width": 151.9,
+        "height": 20.3
+      }
+    },
+    "nameofpersonnotified": {
+      "type": "text",
+      "label": "20. NAME OF PERSON NOTIFIED",
+      "page": 1,
+      "box": {
+        "left": 194.5,
+        "top": 153.2,
+        "width": 231.0,
+        "height": 20.3
+      }
+    },
+    "notedate": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 430.5,
+        "top": 153.2,
+        "width": 83.5,
+        "height": 20.3
+      }
+    },
+    "notetime": {
+      "type": "text",
+      "label": "TIME",
+      "page": 1,
+      "box": {
+        "left": 517.2,
+        "top": 153.2,
+        "width": 56.0,
+        "height": 20.3
+      }
+    },
+    "signature": {
+      "type": "text",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 39.5,
+        "top": 106.5,
+        "width": 198.7,
+        "height": 20.8
+      }
+    },
+    "rctime": {
+      "type": "text",
+      "label": "TIME",
+      "page": 1,
+      "box": {
+        "left": 519.3,
+        "top": 105.7,
+        "width": 53.9,
+        "height": 19.6
+      }
+    },
+    "prntedlastnm": {
+      "type": "text",
+      "label": "PRINTED LAST NAME",
+      "page": 1,
+      "box": {
+        "left": 244.8,
+        "top": 105.3,
+        "width": 182.0,
+        "height": 19.6
+      }
+    },
+    "rcdate": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 430.5,
+        "top": 105.3,
+        "width": 83.7,
+        "height": 19.6
+      }
+    },
+    "rmdate": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 432.7,
+        "top": 60.6,
+        "width": 81.5,
+        "height": 21.5
+      }
+    },
+    "rmtime": {
+      "type": "text",
+      "label": "TIME",
+      "page": 1,
+      "box": {
+        "left": 517.2,
+        "top": 60.6,
+        "width": 56.0,
+        "height": 21.5
+      }
+    },
+    "rEsign": {
+      "type": "text",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 36.2,
+        "top": 60.0,
+        "width": 200.9,
+        "height": 20.8
+      }
+    },
+    "printedlastname": {
+      "type": "text",
+      "label": "PRINTED LAST NAME",
+      "page": 1,
+      "box": {
+        "left": 242.6,
+        "top": 59.4,
+        "width": 184.1,
+        "height": 20.3
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 4,
+      "rowStride": 15.07,
+      "editor": "grid",
+      "columns": {
+        "nonofnegspos3": {
+          "type": "text",
+          "label": "NO. OF ORIGINALS",
+          "page": 1,
+          "box": {
+            "left": 39.5,
+            "top": 387.4,
+            "width": 72.8,
+            "height": 13.4
+          }
+        },
+        "nofocopies3": {
+          "type": "text",
+          "label": "NO. OF COPIES",
+          "page": 1,
+          "box": {
+            "left": 120.0,
+            "top": 387.4,
+            "width": 71.4,
+            "height": 13.4
+          }
+        },
+        "sizeifcopies3": {
+          "type": "text",
+          "label": "FINISHED SIZE",
+          "page": 1,
+          "box": {
+            "left": 199.3,
+            "top": 387.4,
+            "width": 75.3,
+            "height": 13.4
+          }
+        },
+        "total3": {
+          "type": "text",
+          "label": "TOTAL",
+          "page": 1,
+          "box": {
+            "left": 282.9,
+            "top": 387.4,
+            "width": 75.8,
+            "height": 13.4
+          }
+        },
+        "remarks3": {
+          "type": "text",
+          "label": "REMARKS",
+          "page": 1,
+          "box": {
+            "left": 365.7,
+            "top": 387.4,
+            "width": 205.0,
+            "height": 13.4
+          }
+        }
+      }
+    }
+  }
+}

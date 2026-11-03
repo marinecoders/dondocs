@@ -1,0 +1,444 @@
+{
+  "id": "navmc10136",
+  "label": "NAVMC 10136 - Audiovisual Production Script Scenes Report",
+  "directory": "NAVMC10136 - Audiovisual Production Script Scenes Report",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "projNum",
+        "date1",
+        "projTitle",
+        "prodUnit",
+        "direct1",
+        "editor1",
+        "takeNum0",
+        "takeNum1",
+        "takeNum2",
+        "takeNum3",
+        "takeNum4",
+        "takeNum5",
+        "takeNum6",
+        "takeNum7",
+        "takeNum8",
+        "takeNum9",
+        "takeNum10",
+        "takeNum11",
+        "takeNum12",
+        "takeNum13",
+        "takeNum14",
+        "takeNum15",
+        "takeNum16",
+        "takeNum17",
+        "takeNum18",
+        "takeNum19",
+        "takeNum20",
+        "takeNum21",
+        "takeNum22",
+        "takeNum23",
+        "takeNum24"
+      ]
+    }
+  ],
+  "fields": {
+    "projNum": {
+      "type": "text",
+      "label": "ProjNum",
+      "page": 1,
+      "box": {
+        "left": 27.0,
+        "top": 710.2,
+        "width": 261.5,
+        "height": 17.6
+      }
+    },
+    "date1": {
+      "type": "text",
+      "label": "Enter date using format 2002 06 27.",
+      "page": 1,
+      "box": {
+        "left": 289.9,
+        "top": 708.9,
+        "width": 297.3,
+        "height": 17.6
+      }
+    },
+    "projTitle": {
+      "type": "text",
+      "label": "Project Title",
+      "page": 1,
+      "box": {
+        "left": 27.0,
+        "top": 680.0,
+        "width": 261.5,
+        "height": 14.3
+      }
+    },
+    "prodUnit": {
+      "type": "text",
+      "label": "Production Unit",
+      "page": 1,
+      "box": {
+        "left": 289.9,
+        "top": 680.0,
+        "width": 296.6,
+        "height": 14.3
+      }
+    },
+    "direct1": {
+      "type": "text",
+      "label": "Director",
+      "page": 1,
+      "box": {
+        "left": 290.4,
+        "top": 655.2,
+        "width": 296.6,
+        "height": 17.6
+      }
+    },
+    "editor1": {
+      "type": "text",
+      "label": "Editor",
+      "page": 1,
+      "box": {
+        "left": 27.0,
+        "top": 654.4,
+        "width": 261.5,
+        "height": 15.7
+      }
+    },
+    "takeNum0": {
+      "type": "text",
+      "label": "Take Number. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 132.8,
+        "top": 614.4,
+        "width": 56.8,
+        "height": 21.6
+      }
+    },
+    "takeNum1": {
+      "type": "text",
+      "label": "Take Number. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 132.8,
+        "top": 592.8,
+        "width": 56.8,
+        "height": 21.6
+      }
+    },
+    "takeNum2": {
+      "type": "text",
+      "label": "Take Number. Line 3.",
+      "page": 1,
+      "box": {
+        "left": 132.8,
+        "top": 570.4,
+        "width": 56.8,
+        "height": 21.6
+      }
+    },
+    "takeNum3": {
+      "type": "text",
+      "label": "Take Number. Line 4.",
+      "page": 1,
+      "box": {
+        "left": 132.8,
+        "top": 548.8,
+        "width": 56.8,
+        "height": 21.6
+      }
+    },
+    "takeNum4": {
+      "type": "text",
+      "label": "Take Number. Line 5.",
+      "page": 1,
+      "box": {
+        "left": 132.8,
+        "top": 527.2,
+        "width": 56.8,
+        "height": 21.6
+      }
+    },
+    "takeNum5": {
+      "type": "text",
+      "label": "Take Number. Line 6.",
+      "page": 1,
+      "box": {
+        "left": 132.8,
+        "top": 505.6,
+        "width": 56.8,
+        "height": 21.6
+      }
+    },
+    "takeNum6": {
+      "type": "text",
+      "label": "Take Number. Line 7.",
+      "page": 1,
+      "box": {
+        "left": 132.8,
+        "top": 484.0,
+        "width": 56.8,
+        "height": 21.6
+      }
+    },
+    "takeNum7": {
+      "type": "text",
+      "label": "Take Number. Line 8.",
+      "page": 1,
+      "box": {
+        "left": 132.8,
+        "top": 462.4,
+        "width": 56.8,
+        "height": 21.6
+      }
+    },
+    "takeNum8": {
+      "type": "text",
+      "label": "Take Number. Line 9.",
+      "page": 1,
+      "box": {
+        "left": 132.8,
+        "top": 440.8,
+        "width": 56.8,
+        "height": 21.6
+      }
+    },
+    "takeNum9": {
+      "type": "text",
+      "label": "Take Number. Line 10.",
+      "page": 1,
+      "box": {
+        "left": 132.8,
+        "top": 418.4,
+        "width": 56.8,
+        "height": 21.6
+      }
+    },
+    "takeNum10": {
+      "type": "text",
+      "label": "Take Number. Line 11.",
+      "page": 1,
+      "box": {
+        "left": 132.8,
+        "top": 396.8,
+        "width": 56.8,
+        "height": 21.6
+      }
+    },
+    "takeNum11": {
+      "type": "text",
+      "label": "Take Number. Line 12.",
+      "page": 1,
+      "box": {
+        "left": 132.8,
+        "top": 375.2,
+        "width": 56.8,
+        "height": 20.8
+      }
+    },
+    "takeNum12": {
+      "type": "text",
+      "label": "Take Number. Line 13.",
+      "page": 1,
+      "box": {
+        "left": 132.8,
+        "top": 354.4,
+        "width": 56.8,
+        "height": 21.6
+      }
+    },
+    "takeNum13": {
+      "type": "text",
+      "label": "Take Number. Line 14.",
+      "page": 1,
+      "box": {
+        "left": 132.8,
+        "top": 332.0,
+        "width": 56.8,
+        "height": 21.6
+      }
+    },
+    "takeNum14": {
+      "type": "text",
+      "label": "Take Number. Line 15.",
+      "page": 1,
+      "box": {
+        "left": 132.8,
+        "top": 310.4,
+        "width": 56.8,
+        "height": 21.6
+      }
+    },
+    "takeNum15": {
+      "type": "text",
+      "label": "Take Number. Line 16.",
+      "page": 1,
+      "box": {
+        "left": 132.8,
+        "top": 288.8,
+        "width": 56.8,
+        "height": 21.6
+      }
+    },
+    "takeNum16": {
+      "type": "text",
+      "label": "Take Number. Line 17.",
+      "page": 1,
+      "box": {
+        "left": 132.8,
+        "top": 267.2,
+        "width": 56.8,
+        "height": 21.6
+      }
+    },
+    "takeNum17": {
+      "type": "text",
+      "label": "Take Number. Line 18.",
+      "page": 1,
+      "box": {
+        "left": 132.8,
+        "top": 244.8,
+        "width": 56.8,
+        "height": 20.8
+      }
+    },
+    "takeNum18": {
+      "type": "text",
+      "label": "Take Number. Line 19.",
+      "page": 1,
+      "box": {
+        "left": 132.8,
+        "top": 224.0,
+        "width": 56.8,
+        "height": 21.6
+      }
+    },
+    "takeNum19": {
+      "type": "text",
+      "label": "Take Number. Line 20.",
+      "page": 1,
+      "box": {
+        "left": 132.8,
+        "top": 202.4,
+        "width": 56.8,
+        "height": 21.6
+      }
+    },
+    "takeNum20": {
+      "type": "text",
+      "label": "Take Number. Line 21.",
+      "page": 1,
+      "box": {
+        "left": 132.8,
+        "top": 180.8,
+        "width": 56.8,
+        "height": 21.6
+      }
+    },
+    "takeNum21": {
+      "type": "text",
+      "label": "Take Number. Line 22.",
+      "page": 1,
+      "box": {
+        "left": 132.8,
+        "top": 158.4,
+        "width": 56.8,
+        "height": 21.6
+      }
+    },
+    "takeNum22": {
+      "type": "text",
+      "label": "Take Number. Line 23.",
+      "page": 1,
+      "box": {
+        "left": 132.8,
+        "top": 136.8,
+        "width": 56.8,
+        "height": 21.6
+      }
+    },
+    "takeNum23": {
+      "type": "text",
+      "label": "Take Number. Line 24.",
+      "page": 1,
+      "box": {
+        "left": 132.8,
+        "top": 115.2,
+        "width": 56.8,
+        "height": 21.6
+      }
+    },
+    "takeNum24": {
+      "type": "text",
+      "label": "Take Number. Line 25.",
+      "page": 1,
+      "box": {
+        "left": 132.8,
+        "top": 93.6,
+        "width": 56.8,
+        "height": 21.6
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 25,
+      "rowStride": 21.68,
+      "editor": "grid",
+      "columns": {
+        "tapeNum": {
+          "type": "text",
+          "label": "Tape Number. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 26.6,
+            "top": 614.1,
+            "width": 50.0,
+            "height": 21.5
+          }
+        },
+        "sceneNum": {
+          "type": "text",
+          "label": "Scene Number. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 77.8,
+            "top": 614.1,
+            "width": 52.5,
+            "height": 21.5
+          }
+        },
+        "timeCode": {
+          "type": "text",
+          "label": "Time Code. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 189.9,
+            "top": 614.1,
+            "width": 98.7,
+            "height": 21.5
+          }
+        },
+        "sceneDesc": {
+          "type": "text",
+          "label": "Scene Description. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 289.9,
+            "top": 614.1,
+            "width": 296.8,
+            "height": 21.5
+          }
+        }
+      }
+    }
+  }
+}

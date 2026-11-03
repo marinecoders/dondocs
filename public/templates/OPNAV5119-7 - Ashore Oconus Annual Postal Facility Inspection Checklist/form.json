@@ -1,0 +1,8201 @@
+{
+  "id": "opnav51197",
+  "label": "OPNAV5119-7 - Ashore Oconus Annual Postal Facility Inspection Checklist",
+  "directory": "OPNAV5119-7 - Ashore Oconus Annual Postal Facility Inspection Checklist",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf",
+    "page5.pdf",
+    "page6.pdf",
+    "page7.pdf",
+    "page8.pdf",
+    "page9.pdf",
+    "page10.pdf",
+    "page11.pdf",
+    "page12.pdf",
+    "page13.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "date",
+        "advisorInspector",
+        "nameMPO",
+        "fPOAddress",
+        "moid",
+        "fedstrip",
+        "custodianEmail",
+        "pOEmail",
+        "outstanding",
+        "excellent",
+        "satisfactory",
+        "unsatisfactory",
+        "totalPointsRec",
+        "dteInsp"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "t2Row2OverallScore",
+        "t2Row2TotalPR",
+        "t2Row4PP",
+        "t2Row4PR",
+        "t2Row7PP",
+        "t2Row7PR",
+        "t2Row8PP",
+        "t2Row8PR",
+        "t2Row9PP",
+        "t2Row9PR",
+        "t2Row10PP",
+        "t2Row10PR",
+        "t2Row11PP",
+        "t2Row11PR",
+        "t2Row12PP",
+        "t2Row12PR",
+        "t2Row13PP",
+        "t2Row13PR",
+        "t2Row14PP",
+        "t2Row14PR",
+        "t2Row15Number",
+        "t2Row16SSIC",
+        "t2Row17Date",
+        "percentA",
+        "totalPPA",
+        "totalPRA"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "t2Row21PP",
+        "t2Row21PR",
+        "t2Row22PP",
+        "t2Row22PR",
+        "t2Row23PP",
+        "t2Row23PR",
+        "t2Row24PP",
+        "t2Row24PR",
+        "t2Row25PP",
+        "t2Row25PR",
+        "t2Row26PP",
+        "t2Row26PR",
+        "percentB",
+        "totalPPB",
+        "totalPRB",
+        "t2Row29PP",
+        "t2Row29PR",
+        "t2Row30PP",
+        "t2Row30PR",
+        "t2Row31PP",
+        "t2Row31PR",
+        "t2Row32PP",
+        "t2Row32PR",
+        "t2Row33PP",
+        "t2Row33PR",
+        "t2Row34PP",
+        "t2Row34PR"
+      ]
+    },
+    {
+      "title": "Page 4",
+      "fields": [
+        "t2Row35PP",
+        "t2Row35PR",
+        "t2Row36PP",
+        "t2Row36PR",
+        "t2Row37PP",
+        "t2Row37PR",
+        "t2Row38PP",
+        "t2Row38PR",
+        "t2Row39PP",
+        "t2Row39PR",
+        "t2Row40PP",
+        "t2Row40PR",
+        "t2Row41PP",
+        "t2Row41PR",
+        "t2Row42PP",
+        "t2Row42PR",
+        "t2Row43PP",
+        "t2Row43PR",
+        "t2Row44PP",
+        "t2Row44PR",
+        "t2Row45PP",
+        "t2Row45PR",
+        "t2Row46PP",
+        "t2Row46PR",
+        "t2Row47PP",
+        "t2Row47PR",
+        "t2Row48PP",
+        "t2Row48PR",
+        "t2Row50PP",
+        "t2Row50PR",
+        "percentC",
+        "totalPPC",
+        "totalPRC",
+        "t2Row53aPP",
+        "t2Row53aPR",
+        "t2Row53bPP",
+        "t2Row53bPR",
+        "t2Row53cPP",
+        "t2Row53cPR",
+        "t2Row53dPP",
+        "t2Row53dPR",
+        "t2Row53ePP",
+        "t2Row53ePR",
+        "t2Row53fPP",
+        "t2Row53fPR",
+        "t2Row53gPP",
+        "t2Row53gPR",
+        "t2Row53hPP",
+        "t2Row53hPR",
+        "t2Row53iPP",
+        "t2Row53iPR",
+        "t2Row53jPP",
+        "t2Row53jPR",
+        "t2Row53kPP",
+        "t2Row53kPR",
+        "t2Row53lPP",
+        "t2Row53lPR"
+      ]
+    },
+    {
+      "title": "Page 5",
+      "fields": [
+        "t2Row54aPP",
+        "t2Row54aPR",
+        "t2Row54bPP",
+        "t2Row54bPR",
+        "t2Row54cPP",
+        "t2Row54cPR",
+        "t2Row54dPP",
+        "t2Row54dPR",
+        "t2Row54ePP",
+        "t2Row54ePR",
+        "t2Row54fPP",
+        "t2Row54fPR",
+        "t2Row54gPP",
+        "t2Row54gPR",
+        "t2Row54hPP",
+        "t2Row54hPR",
+        "t2Row54iPP",
+        "t2Row54iPR",
+        "t2Row54jPP",
+        "t2Row54jPR",
+        "t2Row54kPP",
+        "t2Row54kPR",
+        "t2Row54lPP",
+        "t2Row54lPR",
+        "t2Row55PP",
+        "t2Row55PR",
+        "t2Row56PP",
+        "t2Row56PR",
+        "t2Row57PP",
+        "t2Row57PR",
+        "t2Row58PP",
+        "t2Row58PR",
+        "t2Row59PP",
+        "t2Row59PR",
+        "t2Row60PP",
+        "t2Row60PR",
+        "t2Row61PP",
+        "t2Row61PR",
+        "t2Row65PP",
+        "t2Row65PR",
+        "t2Row66PP",
+        "t2Row66PR",
+        "t2Row67PP",
+        "t2Row67PR",
+        "percentD",
+        "totalPPD",
+        "totalPRD",
+        "t2Row70PP",
+        "t2Row70PR",
+        "t2Row71PP",
+        "t2Row71PR",
+        "t2Row72PP",
+        "t2Row72PR"
+      ]
+    },
+    {
+      "title": "Page 6",
+      "fields": [
+        "t2Row73PP",
+        "t2Row73PR",
+        "t2Row75PP",
+        "t2Row75PR",
+        "t2Row76PP",
+        "t2Row76PR",
+        "t2Row77PP",
+        "t2Row77PR",
+        "t2Row78PP",
+        "t2Row78PR",
+        "t2Row79PP",
+        "t2Row79PR",
+        "t2Row80PP",
+        "t2Row80PR",
+        "t2Row81PP",
+        "t2Row81PR",
+        "t2Row82PP",
+        "t2Row82PR",
+        "t2Row83PP",
+        "t2Row83PR",
+        "t2Row84PP",
+        "t2Row84PR",
+        "percentE",
+        "totalPPE",
+        "totalPRE",
+        "t2Row87PP",
+        "t2Row87PR",
+        "t2Row88PP",
+        "t2Row88PR",
+        "t2Row89PP",
+        "t2Row89PR",
+        "t2Row90PP",
+        "t2Row90PR",
+        "t2Row91PP",
+        "t2Row91PR",
+        "t2Row91aPP",
+        "t2Row91aPR",
+        "t2Row91bPP",
+        "t2Row91bPR",
+        "t2Row91cPP",
+        "t2Row91cPR"
+      ]
+    },
+    {
+      "title": "Page 7",
+      "fields": [
+        "t2Row91dPP",
+        "t2Row91dPR",
+        "t2Row91ePP",
+        "t2Row91ePR",
+        "t2Row91fPP",
+        "t2Row91fPR",
+        "percentF",
+        "totalPRF",
+        "t2Row95PP",
+        "t2Row95PR",
+        "t2Row96PP",
+        "t2Row96PR",
+        "t2Row97PP",
+        "t2Row97PR",
+        "t2Row98PP",
+        "t2Row98PR",
+        "t2Row99PP",
+        "t2Row99PR",
+        "t2Row100PP",
+        "t2Row100PR",
+        "t2Row101PP",
+        "t2Row101PR",
+        "t2Row102PP",
+        "t2Row102PR",
+        "t2Row103PP",
+        "t2Row103PR",
+        "t2Row104PP",
+        "t2Row104PR",
+        "t2Row105PP",
+        "t2Row105PR",
+        "t2Row107PP",
+        "t2Row107PR",
+        "percentG",
+        "totalPPG",
+        "totalPRG",
+        "t2Row111PP",
+        "t2Row111PR",
+        "t2Row112PP",
+        "t2Row112PR",
+        "t2Row113PP",
+        "t2Row113PR",
+        "t2Row114PP",
+        "t2Row114PR",
+        "t2Row115PP",
+        "t2Row115PR",
+        "t2Row116PP",
+        "t2Row116PR",
+        "t2Row117PP",
+        "t2Row117PR",
+        "t2Row118PP",
+        "t2Row118PR"
+      ]
+    },
+    {
+      "title": "Page 8",
+      "fields": [
+        "t2Row119PP",
+        "t2Row119PR",
+        "t2Row120PP",
+        "t2Row120PR",
+        "t2Row123PP",
+        "t2Row123PR",
+        "t2Row124PP",
+        "t2Row124PR",
+        "t2Row125PP",
+        "t2Row125PR",
+        "t2Row126PP",
+        "t2Row126PR",
+        "t2Row127PP",
+        "t2Row127PR",
+        "t2Row129PP",
+        "t2Row129PR",
+        "t2Row130PP",
+        "t2Row130PR",
+        "t2Row131PP",
+        "t2Row131PR",
+        "percentH",
+        "totalPPH",
+        "totalPRH",
+        "t2Row134PP",
+        "t2Row134PR",
+        "t2Row135PP",
+        "t2Row135PR",
+        "t2Row136PP",
+        "t2Row136PR",
+        "t2Row137PP",
+        "t2Row137PR",
+        "t2Row138PP",
+        "t2Row138PR",
+        "t2Row139PP",
+        "t2Row139PR",
+        "t2Row140PP",
+        "t2Row140PR",
+        "t2Row141PP",
+        "t2Row141PR",
+        "t2Row142PP",
+        "t2Row142PR",
+        "percentI",
+        "totalPPI",
+        "totalPRI",
+        "t2Row145PP",
+        "t2Row145PR",
+        "t2Row147PP",
+        "t2Row147PR",
+        "t2Row148PP",
+        "t2Row148PR",
+        "t2Row149PP",
+        "t2Row149PR",
+        "t2Row150PP",
+        "t2Row150PR",
+        "t2Row151PP",
+        "t2Row151PR",
+        "percentJ",
+        "totalPPJ",
+        "totalPRJ"
+      ]
+    },
+    {
+      "title": "Page 9",
+      "fields": [
+        "t2Row154PP",
+        "t2Row154PR",
+        "t2Row155PP",
+        "t2Row155PR",
+        "t2Row156PP",
+        "t2Row156PR",
+        "t2Row157PP",
+        "t2Row157PR",
+        "t2Row158PP",
+        "t2Row158PR",
+        "t2Row159PP",
+        "t2Row159PR",
+        "t2Row160PP",
+        "t2Row160PR",
+        "percentK",
+        "totalPPK",
+        "totalPRK",
+        "t2Row163PP",
+        "t2Row163PR",
+        "t2Row164PP",
+        "t2Row164PR",
+        "t2Row165PP",
+        "t2Row165PR",
+        "t2Row166PP",
+        "t2Row166PR",
+        "percentL",
+        "totalPPL",
+        "totalPRL",
+        "t2Row169aPP",
+        "t2Row169aPR",
+        "t2Row169bPP",
+        "t2Row169bPR",
+        "t2Row169cPP",
+        "t2Row169cPR",
+        "t2Row169dPP",
+        "t2Row169dPR",
+        "t2Row169ePP",
+        "t2Row169ePR",
+        "t2Row169fPP",
+        "t2Row169fPR",
+        "t2Row169gPP",
+        "t2Row169gPR",
+        "t2Row169hPP",
+        "t2Row169hPR",
+        "t2Row169iPP",
+        "t2Row169iPR",
+        "t2Row169jPP",
+        "t2Row169jPR"
+      ]
+    },
+    {
+      "title": "Page 10",
+      "fields": [
+        "t2Row169kPP",
+        "t2Row169kPR",
+        "percentM",
+        "totalPPM",
+        "totalPRM",
+        "t2Row172NumAvail",
+        "t2Row173NumIssued",
+        "t2Row174PerNumber",
+        "t2Row175PP",
+        "t2Row175PR",
+        "t2Row176PP",
+        "t2Row176PR",
+        "t2Row177PP",
+        "t2Row177PR",
+        "t2Row178PP",
+        "t2Row178PR",
+        "t2Row179PP",
+        "t2Row179PR",
+        "t2Row180PP",
+        "t2Row180PR",
+        "t2Row181PP",
+        "t2Row181PR",
+        "t2Row182PP",
+        "t2Row182PR",
+        "t2Row183PP",
+        "t2Row183PR",
+        "t2Row184PP",
+        "t2Row184PR",
+        "t2Row185PP",
+        "t2Row185PR",
+        "t2Row186PP",
+        "t2Row186PR",
+        "t2Row186aPP",
+        "t2Row186aPR",
+        "t2Row186bPP",
+        "t2Row186bPR",
+        "percentN",
+        "totalPRN",
+        "percentageGrandTotal",
+        "grandTotalPP",
+        "grandTotalPR"
+      ]
+    },
+    {
+      "title": "Page 11",
+      "fields": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5",
+        "q6"
+      ]
+    },
+    {
+      "title": "Page 13",
+      "fields": [
+        "q13",
+        "q14",
+        "q22",
+        "postalOfficerName",
+        "postalSigDate",
+        "postalSig"
+      ]
+    }
+  ],
+  "fields": {
+    "date": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 728.0,
+        "width": 138.3,
+        "height": 12.3
+      }
+    },
+    "advisorInspector": {
+      "type": "text",
+      "label": "2. POSTAL ADVISOR/INSPECTOR",
+      "page": 1,
+      "box": {
+        "left": 182.9,
+        "top": 728.0,
+        "width": 390.4,
+        "height": 12.3
+      }
+    },
+    "nameMPO": {
+      "type": "text",
+      "label": "3. NAME OF MPO",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 699.2,
+        "width": 534.4,
+        "height": 12.3
+      }
+    },
+    "fPOAddress": {
+      "type": "text",
+      "label": "4. FPO ADDRESS",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 670.4,
+        "width": 534.4,
+        "height": 12.3
+      }
+    },
+    "moid": {
+      "type": "text",
+      "label": "5. MOID/SFA",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 641.5,
+        "width": 264.4,
+        "height": 12.3
+      }
+    },
+    "fedstrip": {
+      "type": "text",
+      "label": "6. FEDSTRIP NUMBER",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 641.5,
+        "width": 264.4,
+        "height": 12.3
+      }
+    },
+    "custodianEmail": {
+      "type": "text",
+      "label": "7. POSTAL OFFICER EMAIL ADDRESS",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 612.7,
+        "width": 264.4,
+        "height": 12.3
+      }
+    },
+    "pOEmail": {
+      "type": "text",
+      "label": "8. CUSTODIAN OF POSTAL EFFECTS EMAIL ADDRESS",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 612.7,
+        "width": 264.4,
+        "height": 12.3
+      }
+    },
+    "outstanding": {
+      "type": "text",
+      "label": "OUTSTANDING",
+      "page": 1,
+      "box": {
+        "left": 146.9,
+        "top": 583.9,
+        "width": 102.3,
+        "height": 12.3
+      }
+    },
+    "excellent": {
+      "type": "text",
+      "label": "EXCELLENT",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 583.9,
+        "width": 102.3,
+        "height": 12.3
+      }
+    },
+    "satisfactory": {
+      "type": "text",
+      "label": "SATISFACTORY",
+      "page": 1,
+      "box": {
+        "left": 363.9,
+        "top": 583.9,
+        "width": 102.3,
+        "height": 12.3
+      }
+    },
+    "unsatisfactory": {
+      "type": "text",
+      "label": "UNSATISFACTORY",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 583.9,
+        "width": 102.3,
+        "height": 12.3
+      }
+    },
+    "totalPointsRec": {
+      "type": "text",
+      "label": "9. TOTAL POINTS RECEIVED",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 565.9,
+        "width": 84.3,
+        "height": 23.9
+      }
+    },
+    "dteInsp": {
+      "type": "text",
+      "label": "10. DATE OF LAST ANNUAL INSPECTION",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 536.4,
+        "width": 84.3,
+        "height": 23.9
+      }
+    },
+    "t2Row2OverallScore": {
+      "type": "text",
+      "label": "OPNAVINST",
+      "page": 2,
+      "box": {
+        "left": 426.4,
+        "top": 733.0,
+        "width": 47.6,
+        "height": 18.8
+      }
+    },
+    "t2Row2TotalPR": {
+      "type": "text",
+      "label": "SCORE",
+      "page": 2,
+      "box": {
+        "left": 527.2,
+        "top": 733.0,
+        "width": 47.6,
+        "height": 18.8
+      }
+    },
+    "t2Row4PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 2,
+      "box": {
+        "left": 479.0,
+        "top": 687.6,
+        "width": 43.2,
+        "height": 28.8
+      },
+      "options": [
+        "10",
+        "5",
+        "N/A"
+      ]
+    },
+    "t2Row4PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 2,
+      "box": {
+        "left": 529.4,
+        "top": 687.6,
+        "width": 43.2,
+        "height": 28.8
+      },
+      "options": [
+        "10",
+        "5",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row7PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 2,
+      "box": {
+        "left": 479.0,
+        "top": 651.6,
+        "width": 43.2,
+        "height": 21.6
+      },
+      "options": [
+        "20",
+        "10",
+        "N/A"
+      ]
+    },
+    "t2Row7PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 2,
+      "box": {
+        "left": 529.4,
+        "top": 651.6,
+        "width": 43.2,
+        "height": 21.6
+      },
+      "options": [
+        "20",
+        "10",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row8PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 2,
+      "box": {
+        "left": 479.0,
+        "top": 622.8,
+        "width": 43.2,
+        "height": 35.3
+      },
+      "options": [
+        "15",
+        "10",
+        "5",
+        "N/A"
+      ]
+    },
+    "t2Row8PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 2,
+      "box": {
+        "left": 529.4,
+        "top": 622.8,
+        "width": 43.2,
+        "height": 35.3
+      },
+      "options": [
+        "15",
+        "10",
+        "5",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row9PP": {
+      "type": "choice",
+      "label": "4. 5112.1 NAVSUPINST (Series) (b) Pickup incoming mail?",
+      "page": 2,
+      "box": {
+        "left": 479.0,
+        "top": 580.3,
+        "width": 43.2,
+        "height": 86.4
+      },
+      "options": [
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row9PR": {
+      "type": "choice",
+      "label": "4. 5112.1 NAVSUPINST (Series) (b) Pickup incoming mail?",
+      "page": 2,
+      "box": {
+        "left": 529.4,
+        "top": 580.3,
+        "width": 43.2,
+        "height": 86.4
+      },
+      "options": [
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row10PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 2,
+      "box": {
+        "left": 479.0,
+        "top": 486.7,
+        "width": 43.2,
+        "height": 82.8
+      },
+      "options": [
+        "12",
+        "10",
+        "8",
+        "6",
+        "4",
+        "2",
+        "N/A"
+      ]
+    },
+    "t2Row10PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 2,
+      "box": {
+        "left": 529.4,
+        "top": 486.7,
+        "width": 43.2,
+        "height": 82.8
+      },
+      "options": [
+        "12",
+        "10",
+        "8",
+        "6",
+        "4",
+        "2",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row11PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 2,
+      "box": {
+        "left": 479.0,
+        "top": 396.7,
+        "width": 43.2,
+        "height": 39.6
+      },
+      "options": [
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row11PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 2,
+      "box": {
+        "left": 529.4,
+        "top": 396.7,
+        "width": 43.2,
+        "height": 39.6
+      },
+      "options": [
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row12PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 2,
+      "box": {
+        "left": 479.0,
+        "top": 349.9,
+        "width": 43.2,
+        "height": 18.0
+      },
+      "options": [
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row12PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 2,
+      "box": {
+        "left": 529.4,
+        "top": 349.9,
+        "width": 43.2,
+        "height": 18.0
+      },
+      "options": [
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row13PP": {
+      "type": "choice",
+      "label": "8. 5112.1 NAVSUPINST (Series) (a) (b) AMPS PQS/JQR",
+      "page": 2,
+      "box": {
+        "left": 479.0,
+        "top": 324.7,
+        "width": 43.2,
+        "height": 46.8
+      },
+      "options": [
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row13PR": {
+      "type": "choice",
+      "label": "8. 5112.1 NAVSUPINST (Series) (a) (b) AMPS PQS/JQR",
+      "page": 2,
+      "box": {
+        "left": 529.4,
+        "top": 324.7,
+        "width": 43.2,
+        "height": 46.8
+      },
+      "options": [
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row14PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 2,
+      "box": {
+        "left": 479.0,
+        "top": 270.7,
+        "width": 43.2,
+        "height": 25.2
+      },
+      "options": [
+        "28",
+        "26",
+        "24",
+        "22",
+        "20",
+        "18",
+        "16",
+        "14",
+        "12",
+        "10",
+        "8",
+        "6",
+        "4",
+        "2",
+        "N/A"
+      ]
+    },
+    "t2Row14PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 2,
+      "box": {
+        "left": 529.4,
+        "top": 270.7,
+        "width": 43.2,
+        "height": 25.2
+      },
+      "options": [
+        "28",
+        "26",
+        "24",
+        "22",
+        "20",
+        "18",
+        "16",
+        "14",
+        "12",
+        "10",
+        "8",
+        "6",
+        "4",
+        "2",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row15Number": {
+      "type": "text",
+      "label": "(a) SOP Instruction Number",
+      "page": 2,
+      "box": {
+        "left": 247.6,
+        "top": 239.0,
+        "width": 225.0,
+        "height": 12.3
+      }
+    },
+    "t2Row16SSIC": {
+      "type": "text",
+      "label": "SSIC",
+      "page": 2,
+      "box": {
+        "left": 247.6,
+        "top": 221.0,
+        "width": 225.0,
+        "height": 12.3
+      }
+    },
+    "t2Row17Date": {
+      "type": "text",
+      "label": "Date Signed",
+      "page": 2,
+      "box": {
+        "left": 247.6,
+        "top": 203.0,
+        "width": 225.0,
+        "height": 12.3
+      }
+    },
+    "percentA": {
+      "type": "text",
+      "label": "TOTAL SCORE IN THIS SECTION",
+      "page": 2,
+      "box": {
+        "left": 426.4,
+        "top": 53.2,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "totalPPA": {
+      "type": "text",
+      "label": "TOTAL SCORE IN THIS SECTION",
+      "page": 2,
+      "box": {
+        "left": 476.8,
+        "top": 53.2,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "totalPRA": {
+      "type": "text",
+      "label": "TOTAL SCORE IN THIS SECTION",
+      "page": 2,
+      "box": {
+        "left": 527.2,
+        "top": 53.2,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "t2Row21PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 3,
+      "box": {
+        "left": 479.0,
+        "top": 730.8,
+        "width": 43.2,
+        "height": 169.3
+      },
+      "options": [
+        "14",
+        "13",
+        "12",
+        "11",
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row21PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 3,
+      "box": {
+        "left": 529.4,
+        "top": 730.8,
+        "width": 43.2,
+        "height": 169.3
+      },
+      "options": [
+        "14",
+        "13",
+        "12",
+        "11",
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row22PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 3,
+      "box": {
+        "left": 479.0,
+        "top": 554.4,
+        "width": 43.2,
+        "height": 46.8
+      },
+      "options": [
+        "6",
+        "3",
+        "N/A"
+      ]
+    },
+    "t2Row22PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 3,
+      "box": {
+        "left": 529.4,
+        "top": 554.4,
+        "width": 43.2,
+        "height": 46.8
+      },
+      "options": [
+        "6",
+        "3",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row23PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 3,
+      "box": {
+        "left": 479.0,
+        "top": 500.4,
+        "width": 43.2,
+        "height": 25.2
+      },
+      "options": [
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row23PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 3,
+      "box": {
+        "left": 529.4,
+        "top": 500.4,
+        "width": 43.2,
+        "height": 25.2
+      },
+      "options": [
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row24PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 3,
+      "box": {
+        "left": 479.0,
+        "top": 468.0,
+        "width": 43.2,
+        "height": 54.0
+      },
+      "options": [
+        "40",
+        "35",
+        "30",
+        "25",
+        "20",
+        "15",
+        "10",
+        "5",
+        "N/A"
+      ]
+    },
+    "t2Row24PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 3,
+      "box": {
+        "left": 529.4,
+        "top": 468.0,
+        "width": 43.2,
+        "height": 54.0
+      },
+      "options": [
+        "40",
+        "35",
+        "30",
+        "25",
+        "20",
+        "15",
+        "10",
+        "5",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row25PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 3,
+      "box": {
+        "left": 479.0,
+        "top": 406.8,
+        "width": 43.2,
+        "height": 43.2
+      },
+      "options": [
+        "20",
+        "16",
+        "12",
+        "8",
+        "4",
+        "N/A"
+      ]
+    },
+    "t2Row25PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 3,
+      "box": {
+        "left": 529.4,
+        "top": 406.8,
+        "width": 43.2,
+        "height": 43.2
+      },
+      "options": [
+        "20",
+        "16",
+        "12",
+        "8",
+        "4",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row26PP": {
+      "type": "choice",
+      "label": "6. 5112.1 NAVSUPINST (Series) (c) Are drills conducted?",
+      "page": 3,
+      "box": {
+        "left": 479.0,
+        "top": 356.4,
+        "width": 43.2,
+        "height": 46.8
+      },
+      "options": [
+        "10",
+        "8",
+        "6",
+        "4",
+        "2",
+        "N/A"
+      ]
+    },
+    "t2Row26PR": {
+      "type": "choice",
+      "label": "6. 5112.1 NAVSUPINST (Series) (c) Are drills conducted?",
+      "page": 3,
+      "box": {
+        "left": 529.4,
+        "top": 356.4,
+        "width": 43.2,
+        "height": 46.8
+      },
+      "options": [
+        "10",
+        "8",
+        "6",
+        "4",
+        "2",
+        "0",
+        "N/A"
+      ]
+    },
+    "percentB": {
+      "type": "text",
+      "label": "TOTAL SCORE IN THIS SECTION",
+      "page": 3,
+      "box": {
+        "left": 426.4,
+        "top": 304.5,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "totalPPB": {
+      "type": "text",
+      "label": "TOTAL SCORE IN THIS SECTION",
+      "page": 3,
+      "box": {
+        "left": 476.8,
+        "top": 304.5,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "totalPRB": {
+      "type": "text",
+      "label": "TOTAL SCORE IN THIS SECTION",
+      "page": 3,
+      "box": {
+        "left": 527.2,
+        "top": 304.5,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "t2Row29PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 3,
+      "box": {
+        "left": 479.0,
+        "top": 262.7,
+        "width": 43.2,
+        "height": 72.0
+      },
+      "options": [
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row29PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 3,
+      "box": {
+        "left": 529.4,
+        "top": 262.7,
+        "width": 43.2,
+        "height": 72.0
+      },
+      "options": [
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row30PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 3,
+      "box": {
+        "left": 479.0,
+        "top": 183.5,
+        "width": 43.2,
+        "height": 25.2
+      },
+      "options": [
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row30PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 3,
+      "box": {
+        "left": 529.4,
+        "top": 183.5,
+        "width": 43.2,
+        "height": 25.2
+      },
+      "options": [
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row31PP": {
+      "type": "choice",
+      "label": "3. 5119.1, Ch. 4 (b) Scanned as delivered?",
+      "page": 3,
+      "box": {
+        "left": 479.0,
+        "top": 151.1,
+        "width": 43.2,
+        "height": 46.8
+      },
+      "options": [
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row31PR": {
+      "type": "choice",
+      "label": "3. 5119.1, Ch. 4 (b) Scanned as delivered?",
+      "page": 3,
+      "box": {
+        "left": 529.4,
+        "top": 151.1,
+        "width": 43.2,
+        "height": 46.8
+      },
+      "options": [
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row32PP": {
+      "type": "choice",
+      "label": "Does the supervisor ensure accounts are not being shared?",
+      "page": 3,
+      "box": {
+        "left": 479.0,
+        "top": 97.1,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row32PR": {
+      "type": "choice",
+      "label": "Does the supervisor ensure accounts are not being shared?",
+      "page": 3,
+      "box": {
+        "left": 529.4,
+        "top": 97.1,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row33PP": {
+      "type": "choice",
+      "label": "Is stamp stock safeguarded at all times?",
+      "page": 3,
+      "box": {
+        "left": 479.0,
+        "top": 75.5,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row33PR": {
+      "type": "choice",
+      "label": "Is stamp stock safeguarded at all times?",
+      "page": 3,
+      "box": {
+        "left": 529.4,
+        "top": 75.5,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row34PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 3,
+      "box": {
+        "left": 479.0,
+        "top": 53.9,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row34PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 3,
+      "box": {
+        "left": 529.4,
+        "top": 53.9,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row35PP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 4,
+      "box": {
+        "left": 479.0,
+        "top": 752.4,
+        "width": 43.2,
+        "height": 36.0
+      },
+      "options": [
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row35PR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 4,
+      "box": {
+        "left": 529.4,
+        "top": 752.4,
+        "width": 43.2,
+        "height": 36.0
+      },
+      "options": [
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row36PP": {
+      "type": "choice",
+      "label": "8. F1/RSS Manual Demonstrate contextual address keying",
+      "page": 4,
+      "box": {
+        "left": 479.0,
+        "top": 709.2,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row36PR": {
+      "type": "choice",
+      "label": "8. F1/RSS Manual Demonstrate contextual address keying",
+      "page": 4,
+      "box": {
+        "left": 529.4,
+        "top": 709.2,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row37PP": {
+      "type": "choice",
+      "label": "Are spoiled money orders handled correctly?",
+      "page": 4,
+      "box": {
+        "left": 479.0,
+        "top": 687.6,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row37PR": {
+      "type": "choice",
+      "label": "Are spoiled money orders handled correctly?",
+      "page": 4,
+      "box": {
+        "left": 529.4,
+        "top": 687.6,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row38PP": {
+      "type": "choice",
+      "label": "Are procedures understood for cashing money orders?",
+      "page": 4,
+      "box": {
+        "left": 479.0,
+        "top": 666.0,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row38PR": {
+      "type": "choice",
+      "label": "Are procedures understood for cashing money orders?",
+      "page": 4,
+      "box": {
+        "left": 529.4,
+        "top": 666.0,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row39PP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 4,
+      "box": {
+        "left": 479.0,
+        "top": 644.4,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row39PR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 4,
+      "box": {
+        "left": 529.4,
+        "top": 644.4,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row40PP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 4,
+      "box": {
+        "left": 479.0,
+        "top": 622.8,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row40PR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 4,
+      "box": {
+        "left": 529.4,
+        "top": 622.8,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row41PP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 4,
+      "box": {
+        "left": 479.0,
+        "top": 601.2,
+        "width": 43.2,
+        "height": 13.7
+      },
+      "options": [
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row41PR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 4,
+      "box": {
+        "left": 529.4,
+        "top": 601.2,
+        "width": 43.2,
+        "height": 13.7
+      },
+      "options": [
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row42PP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 4,
+      "box": {
+        "left": 479.0,
+        "top": 580.3,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row42PR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 4,
+      "box": {
+        "left": 529.4,
+        "top": 580.3,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row43PP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 4,
+      "box": {
+        "left": 479.0,
+        "top": 558.7,
+        "width": 43.2,
+        "height": 72.0
+      },
+      "options": [
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row43PR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 4,
+      "box": {
+        "left": 529.4,
+        "top": 558.7,
+        "width": 43.2,
+        "height": 72.0
+      },
+      "options": [
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row44PP": {
+      "type": "choice",
+      "label": "Are express mail cut-off times being utilized properly?",
+      "page": 4,
+      "box": {
+        "left": 479.0,
+        "top": 479.5,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row44PR": {
+      "type": "choice",
+      "label": "Are express mail cut-off times being utilized properly?",
+      "page": 4,
+      "box": {
+        "left": 529.4,
+        "top": 479.5,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row45PP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 4,
+      "box": {
+        "left": 479.0,
+        "top": 457.9,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row45PR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 4,
+      "box": {
+        "left": 529.4,
+        "top": 457.9,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row46PP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 4,
+      "box": {
+        "left": 479.0,
+        "top": 436.3,
+        "width": 43.2,
+        "height": 36.0
+      },
+      "options": [
+        "15",
+        "10",
+        "5",
+        "N/A"
+      ]
+    },
+    "t2Row46PR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 4,
+      "box": {
+        "left": 529.4,
+        "top": 436.3,
+        "width": 43.2,
+        "height": 36.0
+      },
+      "options": [
+        "15",
+        "10",
+        "5",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row47PP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 4,
+      "box": {
+        "left": 479.0,
+        "top": 393.1,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row47PR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 4,
+      "box": {
+        "left": 529.4,
+        "top": 393.1,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row48PP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 4,
+      "box": {
+        "left": 479.0,
+        "top": 371.5,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row48PR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 4,
+      "box": {
+        "left": 529.4,
+        "top": 371.5,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row50PP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 4,
+      "box": {
+        "left": 479.0,
+        "top": 349.9,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row50PR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 4,
+      "box": {
+        "left": 529.4,
+        "top": 349.9,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "percentC": {
+      "type": "text",
+      "label": "TOTAL SCORE IN THIS SECTION",
+      "page": 4,
+      "box": {
+        "left": 426.4,
+        "top": 330.4,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "totalPPC": {
+      "type": "text",
+      "label": "TOTAL SCORE IN THIS SECTION",
+      "page": 4,
+      "box": {
+        "left": 476.8,
+        "top": 330.4,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "totalPRC": {
+      "type": "text",
+      "label": "TOTAL SCORE IN THIS SECTION",
+      "page": 4,
+      "box": {
+        "left": 527.2,
+        "top": 330.4,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "t2Row53aPP": {
+      "type": "choice",
+      "label": "January",
+      "page": 4,
+      "box": {
+        "left": 477.1,
+        "top": 255.8,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row53aPR": {
+      "type": "choice",
+      "label": "January",
+      "page": 4,
+      "box": {
+        "left": 527.5,
+        "top": 255.8,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row53bPP": {
+      "type": "choice",
+      "label": "February",
+      "page": 4,
+      "box": {
+        "left": 477.1,
+        "top": 237.8,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row53bPR": {
+      "type": "choice",
+      "label": "February",
+      "page": 4,
+      "box": {
+        "left": 527.5,
+        "top": 237.8,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row53cPP": {
+      "type": "choice",
+      "label": "March",
+      "page": 4,
+      "box": {
+        "left": 477.1,
+        "top": 219.8,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row53cPR": {
+      "type": "choice",
+      "label": "March",
+      "page": 4,
+      "box": {
+        "left": 527.5,
+        "top": 219.8,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row53dPP": {
+      "type": "choice",
+      "label": "April",
+      "page": 4,
+      "box": {
+        "left": 477.1,
+        "top": 201.7,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row53dPR": {
+      "type": "choice",
+      "label": "April",
+      "page": 4,
+      "box": {
+        "left": 527.5,
+        "top": 201.7,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row53ePP": {
+      "type": "choice",
+      "label": "May",
+      "page": 4,
+      "box": {
+        "left": 477.1,
+        "top": 183.7,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row53ePR": {
+      "type": "choice",
+      "label": "May",
+      "page": 4,
+      "box": {
+        "left": 527.5,
+        "top": 183.7,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row53fPP": {
+      "type": "choice",
+      "label": "June",
+      "page": 4,
+      "box": {
+        "left": 477.1,
+        "top": 165.7,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row53fPR": {
+      "type": "choice",
+      "label": "June",
+      "page": 4,
+      "box": {
+        "left": 527.5,
+        "top": 165.7,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row53gPP": {
+      "type": "choice",
+      "label": "July",
+      "page": 4,
+      "box": {
+        "left": 477.1,
+        "top": 147.7,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row53gPR": {
+      "type": "choice",
+      "label": "July",
+      "page": 4,
+      "box": {
+        "left": 527.5,
+        "top": 147.7,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row53hPP": {
+      "type": "choice",
+      "label": "August",
+      "page": 4,
+      "box": {
+        "left": 477.1,
+        "top": 129.7,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row53hPR": {
+      "type": "choice",
+      "label": "August",
+      "page": 4,
+      "box": {
+        "left": 527.5,
+        "top": 129.7,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row53iPP": {
+      "type": "choice",
+      "label": "September",
+      "page": 4,
+      "box": {
+        "left": 477.1,
+        "top": 111.7,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row53iPR": {
+      "type": "choice",
+      "label": "September",
+      "page": 4,
+      "box": {
+        "left": 527.5,
+        "top": 111.7,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row53jPP": {
+      "type": "choice",
+      "label": "October",
+      "page": 4,
+      "box": {
+        "left": 477.1,
+        "top": 93.7,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row53jPR": {
+      "type": "choice",
+      "label": "October",
+      "page": 4,
+      "box": {
+        "left": 527.5,
+        "top": 93.7,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row53kPP": {
+      "type": "choice",
+      "label": "November",
+      "page": 4,
+      "box": {
+        "left": 477.1,
+        "top": 75.7,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row53kPR": {
+      "type": "choice",
+      "label": "November",
+      "page": 4,
+      "box": {
+        "left": 527.5,
+        "top": 75.7,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row53lPP": {
+      "type": "choice",
+      "label": "December",
+      "page": 4,
+      "box": {
+        "left": 477.1,
+        "top": 57.7,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row53lPR": {
+      "type": "choice",
+      "label": "December",
+      "page": 4,
+      "box": {
+        "left": 527.5,
+        "top": 57.7,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row54aPP": {
+      "type": "choice",
+      "label": "January",
+      "page": 5,
+      "box": {
+        "left": 477.1,
+        "top": 735.5,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row54aPR": {
+      "type": "choice",
+      "label": "January",
+      "page": 5,
+      "box": {
+        "left": 527.5,
+        "top": 735.5,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row54bPP": {
+      "type": "choice",
+      "label": "February",
+      "page": 5,
+      "box": {
+        "left": 477.1,
+        "top": 717.5,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row54bPR": {
+      "type": "choice",
+      "label": "February",
+      "page": 5,
+      "box": {
+        "left": 527.5,
+        "top": 717.5,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row54cPP": {
+      "type": "choice",
+      "label": "March",
+      "page": 5,
+      "box": {
+        "left": 477.1,
+        "top": 699.5,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row54cPR": {
+      "type": "choice",
+      "label": "March",
+      "page": 5,
+      "box": {
+        "left": 527.5,
+        "top": 699.5,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row54dPP": {
+      "type": "choice",
+      "label": "April",
+      "page": 5,
+      "box": {
+        "left": 477.1,
+        "top": 681.5,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row54dPR": {
+      "type": "choice",
+      "label": "April",
+      "page": 5,
+      "box": {
+        "left": 527.5,
+        "top": 681.5,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row54ePP": {
+      "type": "choice",
+      "label": "May",
+      "page": 5,
+      "box": {
+        "left": 477.1,
+        "top": 663.5,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row54ePR": {
+      "type": "choice",
+      "label": "May",
+      "page": 5,
+      "box": {
+        "left": 527.5,
+        "top": 663.5,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row54fPP": {
+      "type": "choice",
+      "label": "June",
+      "page": 5,
+      "box": {
+        "left": 477.1,
+        "top": 645.5,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row54fPR": {
+      "type": "choice",
+      "label": "June",
+      "page": 5,
+      "box": {
+        "left": 527.5,
+        "top": 645.5,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row54gPP": {
+      "type": "choice",
+      "label": "July",
+      "page": 5,
+      "box": {
+        "left": 477.1,
+        "top": 627.5,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row54gPR": {
+      "type": "choice",
+      "label": "July",
+      "page": 5,
+      "box": {
+        "left": 527.5,
+        "top": 627.5,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row54hPP": {
+      "type": "choice",
+      "label": "August",
+      "page": 5,
+      "box": {
+        "left": 477.1,
+        "top": 609.5,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row54hPR": {
+      "type": "choice",
+      "label": "August",
+      "page": 5,
+      "box": {
+        "left": 527.5,
+        "top": 609.5,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row54iPP": {
+      "type": "choice",
+      "label": "September",
+      "page": 5,
+      "box": {
+        "left": 477.1,
+        "top": 591.5,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row54iPR": {
+      "type": "choice",
+      "label": "September",
+      "page": 5,
+      "box": {
+        "left": 527.5,
+        "top": 591.5,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row54jPP": {
+      "type": "choice",
+      "label": "October",
+      "page": 5,
+      "box": {
+        "left": 477.1,
+        "top": 573.5,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row54jPR": {
+      "type": "choice",
+      "label": "October",
+      "page": 5,
+      "box": {
+        "left": 527.5,
+        "top": 573.5,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row54kPP": {
+      "type": "choice",
+      "label": "November",
+      "page": 5,
+      "box": {
+        "left": 477.1,
+        "top": 555.5,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row54kPR": {
+      "type": "choice",
+      "label": "November",
+      "page": 5,
+      "box": {
+        "left": 527.5,
+        "top": 555.5,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row54lPP": {
+      "type": "choice",
+      "label": "December",
+      "page": 5,
+      "box": {
+        "left": 477.1,
+        "top": 537.5,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row54lPR": {
+      "type": "choice",
+      "label": "December",
+      "page": 5,
+      "box": {
+        "left": 527.5,
+        "top": 537.5,
+        "width": 47.1,
+        "height": 14.7
+      },
+      "options": [
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row55PP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 5,
+      "box": {
+        "left": 479.0,
+        "top": 517.5,
+        "width": 43.2,
+        "height": 11.7
+      },
+      "options": [
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row55PR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 5,
+      "box": {
+        "left": 529.4,
+        "top": 517.5,
+        "width": 43.2,
+        "height": 11.7
+      },
+      "options": [
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row56PP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 5,
+      "box": {
+        "left": 479.0,
+        "top": 498.7,
+        "width": 43.2,
+        "height": 11.7
+      },
+      "options": [
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row56PR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 5,
+      "box": {
+        "left": 529.4,
+        "top": 498.7,
+        "width": 43.2,
+        "height": 11.7
+      },
+      "options": [
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row57PP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 5,
+      "box": {
+        "left": 479.0,
+        "top": 479.9,
+        "width": 43.2,
+        "height": 62.0
+      },
+      "options": [
+        "10",
+        "8",
+        "6",
+        "4",
+        "2",
+        "N/A"
+      ]
+    },
+    "t2Row57PR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 5,
+      "box": {
+        "left": 529.4,
+        "top": 479.9,
+        "width": 43.2,
+        "height": 62.0
+      },
+      "options": [
+        "10",
+        "8",
+        "6",
+        "4",
+        "2",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row58PP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 5,
+      "box": {
+        "left": 479.0,
+        "top": 410.8,
+        "width": 43.2,
+        "height": 11.7
+      },
+      "options": [
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row58PR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 5,
+      "box": {
+        "left": 529.4,
+        "top": 410.8,
+        "width": 43.2,
+        "height": 11.7
+      },
+      "options": [
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row59PP": {
+      "type": "choice",
+      "label": "Is PS Form 3368 filled out for each account?",
+      "page": 5,
+      "box": {
+        "left": 479.0,
+        "top": 391.9,
+        "width": 43.2,
+        "height": 10.8
+      },
+      "options": [
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row59PR": {
+      "type": "choice",
+      "label": "Is PS Form 3368 filled out for each account?",
+      "page": 5,
+      "box": {
+        "left": 529.4,
+        "top": 391.9,
+        "width": 43.2,
+        "height": 10.8
+      },
+      "options": [
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row60PP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 5,
+      "box": {
+        "left": 479.0,
+        "top": 373.9,
+        "width": 43.2,
+        "height": 11.7
+      },
+      "options": [
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row60PR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 5,
+      "box": {
+        "left": 529.4,
+        "top": 373.9,
+        "width": 43.2,
+        "height": 11.7
+      },
+      "options": [
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row61PP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 5,
+      "box": {
+        "left": 479.0,
+        "top": 355.1,
+        "width": 43.2,
+        "height": 11.7
+      },
+      "options": [
+        "12",
+        "11",
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row61PR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 5,
+      "box": {
+        "left": 529.4,
+        "top": 355.1,
+        "width": 43.2,
+        "height": 11.7
+      },
+      "options": [
+        "12",
+        "11",
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row65PP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 5,
+      "box": {
+        "left": 479.0,
+        "top": 336.2,
+        "width": 43.2,
+        "height": 11.7
+      },
+      "options": [
+        "12",
+        "11",
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row65PR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 5,
+      "box": {
+        "left": 529.4,
+        "top": 336.2,
+        "width": 43.2,
+        "height": 11.7
+      },
+      "options": [
+        "12",
+        "11",
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row66PP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 5,
+      "box": {
+        "left": 479.0,
+        "top": 317.4,
+        "width": 43.2,
+        "height": 11.7
+      },
+      "options": [
+        "12",
+        "11",
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row66PR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 5,
+      "box": {
+        "left": 529.4,
+        "top": 317.4,
+        "width": 43.2,
+        "height": 11.7
+      },
+      "options": [
+        "12",
+        "11",
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row67PP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 5,
+      "box": {
+        "left": 479.0,
+        "top": 298.6,
+        "width": 43.2,
+        "height": 11.7
+      },
+      "options": [
+        "12",
+        "11",
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row67PR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 5,
+      "box": {
+        "left": 529.4,
+        "top": 298.6,
+        "width": 43.2,
+        "height": 11.7
+      },
+      "options": [
+        "12",
+        "11",
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "percentD": {
+      "type": "text",
+      "label": "TOTAL SCORE IN THIS SECTION",
+      "page": 5,
+      "box": {
+        "left": 426.4,
+        "top": 281.9,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "totalPPD": {
+      "type": "text",
+      "label": "TOTAL SCORE IN THIS SECTION",
+      "page": 5,
+      "box": {
+        "left": 476.8,
+        "top": 281.9,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "totalPRD": {
+      "type": "text",
+      "label": "TOTAL SCORE IN THIS SECTION",
+      "page": 5,
+      "box": {
+        "left": 527.2,
+        "top": 281.9,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "t2Row70PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 5,
+      "box": {
+        "left": 479.0,
+        "top": 234.9,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row70PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 5,
+      "box": {
+        "left": 529.4,
+        "top": 234.9,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row71PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 5,
+      "box": {
+        "left": 479.0,
+        "top": 213.3,
+        "width": 43.2,
+        "height": 64.8
+      },
+      "options": [
+        "15",
+        "10",
+        "5",
+        "N/A"
+      ]
+    },
+    "t2Row71PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 5,
+      "box": {
+        "left": 529.4,
+        "top": 213.3,
+        "width": 43.2,
+        "height": 64.8
+      },
+      "options": [
+        "15",
+        "10",
+        "5",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row72PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 5,
+      "box": {
+        "left": 479.0,
+        "top": 141.3,
+        "width": 43.2,
+        "height": 90.8
+      },
+      "options": [
+        "16",
+        "14",
+        "12",
+        "10",
+        "8",
+        "6",
+        "4",
+        "2",
+        "N/A"
+      ]
+    },
+    "t2Row72PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 5,
+      "box": {
+        "left": 529.4,
+        "top": 141.3,
+        "width": 43.2,
+        "height": 90.8
+      },
+      "options": [
+        "16",
+        "14",
+        "12",
+        "10",
+        "8",
+        "6",
+        "4",
+        "2",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row73PP": {
+      "type": "choice",
+      "label": "Is registered mail properly scanned at the postal facility?",
+      "page": 6,
+      "box": {
+        "left": 479.0,
+        "top": 752.4,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row73PR": {
+      "type": "choice",
+      "label": "Is registered mail properly scanned at the postal facility?",
+      "page": 6,
+      "box": {
+        "left": 529.4,
+        "top": 752.4,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row75PP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 6,
+      "box": {
+        "left": 479.0,
+        "top": 730.8,
+        "width": 43.2,
+        "height": 54.0
+      },
+      "options": [
+        "8",
+        "6",
+        "4",
+        "2",
+        "N/A"
+      ]
+    },
+    "t2Row75PR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 6,
+      "box": {
+        "left": 529.4,
+        "top": 730.8,
+        "width": 43.2,
+        "height": 54.0
+      },
+      "options": [
+        "8",
+        "6",
+        "4",
+        "2",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row76PP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 6,
+      "box": {
+        "left": 479.0,
+        "top": 669.6,
+        "width": 43.2,
+        "height": 72.0
+      },
+      "options": [
+        "10",
+        "8",
+        "6",
+        "4",
+        "2",
+        "N/A"
+      ]
+    },
+    "t2Row76PR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 6,
+      "box": {
+        "left": 529.4,
+        "top": 669.6,
+        "width": 43.2,
+        "height": 72.0
+      },
+      "options": [
+        "10",
+        "8",
+        "6",
+        "4",
+        "2",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row77PP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 6,
+      "box": {
+        "left": 479.0,
+        "top": 590.4,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row77PR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 6,
+      "box": {
+        "left": 529.4,
+        "top": 590.4,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row78PP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 6,
+      "box": {
+        "left": 479.0,
+        "top": 568.8,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row78PR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 6,
+      "box": {
+        "left": 529.4,
+        "top": 568.8,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row79PP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 6,
+      "box": {
+        "left": 479.0,
+        "top": 547.2,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row79PR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 6,
+      "box": {
+        "left": 529.4,
+        "top": 547.2,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row80PP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 6,
+      "box": {
+        "left": 479.0,
+        "top": 525.6,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row80PR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 6,
+      "box": {
+        "left": 529.4,
+        "top": 525.6,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row81PP": {
+      "type": "choice",
+      "label": "Is PS Form 1625 utilized to document record of entry?",
+      "page": 6,
+      "box": {
+        "left": 479.0,
+        "top": 504.0,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row81PR": {
+      "type": "choice",
+      "label": "Is PS Form 1625 utilized to document record of entry?",
+      "page": 6,
+      "box": {
+        "left": 529.4,
+        "top": 504.0,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row82PP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 6,
+      "box": {
+        "left": 479.0,
+        "top": 482.4,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row82PR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 6,
+      "box": {
+        "left": 529.4,
+        "top": 482.4,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row83PP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 6,
+      "box": {
+        "left": 479.0,
+        "top": 460.8,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row83PR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 6,
+      "box": {
+        "left": 529.4,
+        "top": 460.8,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row84PP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 6,
+      "box": {
+        "left": 479.0,
+        "top": 439.2,
+        "width": 43.2,
+        "height": 72.0
+      },
+      "options": [
+        "20",
+        "16",
+        "12",
+        "8",
+        "4",
+        "N/A"
+      ]
+    },
+    "t2Row84PR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 6,
+      "box": {
+        "left": 529.4,
+        "top": 439.2,
+        "width": 43.2,
+        "height": 72.0
+      },
+      "options": [
+        "20",
+        "16",
+        "12",
+        "8",
+        "4",
+        "0",
+        "N/A"
+      ]
+    },
+    "percentE": {
+      "type": "text",
+      "label": "TOTAL SCORE IN THIS SECTION",
+      "page": 6,
+      "box": {
+        "left": 426.4,
+        "top": 362.1,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "totalPPE": {
+      "type": "text",
+      "label": "TOTAL SCORE IN THIS SECTION",
+      "page": 6,
+      "box": {
+        "left": 476.8,
+        "top": 362.1,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "totalPRE": {
+      "type": "text",
+      "label": "TOTAL SCORE IN THIS SECTION",
+      "page": 6,
+      "box": {
+        "left": 527.2,
+        "top": 362.1,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "t2Row87PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 6,
+      "box": {
+        "left": 479.0,
+        "top": 320.4,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row87PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 6,
+      "box": {
+        "left": 529.4,
+        "top": 320.4,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row88PP": {
+      "type": "choice",
+      "label": "2. NAVSUPINST (Series) 5112.1 (e) Population Served",
+      "page": 6,
+      "box": {
+        "left": 479.0,
+        "top": 298.8,
+        "width": 43.2,
+        "height": 100.8
+      },
+      "options": [
+        "20",
+        "18",
+        "16",
+        "14",
+        "12",
+        "10",
+        "8",
+        "6",
+        "4",
+        "2",
+        "N/A"
+      ]
+    },
+    "t2Row88PR": {
+      "type": "choice",
+      "label": "2. NAVSUPINST (Series) 5112.1 (e) Population Served",
+      "page": 6,
+      "box": {
+        "left": 529.4,
+        "top": 298.8,
+        "width": 43.2,
+        "height": 100.8
+      },
+      "options": [
+        "20",
+        "18",
+        "16",
+        "14",
+        "12",
+        "10",
+        "8",
+        "6",
+        "4",
+        "2",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row89PP": {
+      "type": "choice",
+      "label": "3. 5112.1 NAVSUPINST (Series) (a) 95-100% : 50 points",
+      "page": 6,
+      "box": {
+        "left": 479.0,
+        "top": 190.7,
+        "width": 43.2,
+        "height": 43.2
+      },
+      "options": [
+        "50",
+        "30",
+        "N/A"
+      ]
+    },
+    "t2Row89PR": {
+      "type": "choice",
+      "label": "3. 5112.1 NAVSUPINST (Series) (a) 95-100% : 50 points",
+      "page": 6,
+      "box": {
+        "left": 529.4,
+        "top": 190.7,
+        "width": 43.2,
+        "height": 43.2
+      },
+      "options": [
+        "50",
+        "30",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row90PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 6,
+      "box": {
+        "left": 479.0,
+        "top": 140.3,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "4",
+        "2",
+        "N/A"
+      ]
+    },
+    "t2Row90PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 6,
+      "box": {
+        "left": 529.4,
+        "top": 140.3,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "4",
+        "2",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row91PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 6,
+      "box": {
+        "left": 479.0,
+        "top": 118.7,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row91PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 6,
+      "box": {
+        "left": 529.4,
+        "top": 118.7,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row91aPP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 6,
+      "box": {
+        "left": 479.0,
+        "top": 97.1,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row91aPR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 6,
+      "box": {
+        "left": 529.4,
+        "top": 97.1,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row91bPP": {
+      "type": "choice",
+      "label": "7. 5112.1 NAVSUPINST (Series) Is ILS used to deliver mail?",
+      "page": 6,
+      "box": {
+        "left": 479.0,
+        "top": 75.5,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row91bPR": {
+      "type": "choice",
+      "label": "7. 5112.1 NAVSUPINST (Series) Is ILS used to deliver mail?",
+      "page": 6,
+      "box": {
+        "left": 529.4,
+        "top": 75.5,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row91cPP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 6,
+      "box": {
+        "left": 479.0,
+        "top": 53.9,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row91cPR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 6,
+      "box": {
+        "left": 529.4,
+        "top": 53.9,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row91dPP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 7,
+      "box": {
+        "left": 479.0,
+        "top": 752.4,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row91dPR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 7,
+      "box": {
+        "left": 529.4,
+        "top": 752.4,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row91ePP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 7,
+      "box": {
+        "left": 479.0,
+        "top": 730.8,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row91ePR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 7,
+      "box": {
+        "left": 529.4,
+        "top": 730.8,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row91fPP": {
+      "type": "choice",
+      "label": "11. 5112.1 NAVSUPINST (Series) Are addresses verified?",
+      "page": 7,
+      "box": {
+        "left": 479.0,
+        "top": 709.2,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row91fPR": {
+      "type": "choice",
+      "label": "11. 5112.1 NAVSUPINST (Series) Are addresses verified?",
+      "page": 7,
+      "box": {
+        "left": 529.4,
+        "top": 709.2,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "percentF": {
+      "type": "text",
+      "label": "TOTAL SCORE IN THIS SECTION",
+      "page": 7,
+      "box": {
+        "left": 426.4,
+        "top": 689.8,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "totalPRF": {
+      "type": "text",
+      "label": "TOTAL SCORE IN THIS SECTION",
+      "page": 7,
+      "box": {
+        "left": 527.2,
+        "top": 689.8,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "t2Row95PP": {
+      "type": "choice",
+      "label": "(a) Domestic Mail Manual (DMM)?",
+      "page": 7,
+      "box": {
+        "left": 479.0,
+        "top": 626.4,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row95PR": {
+      "type": "choice",
+      "label": "(a) Domestic Mail Manual (DMM)?",
+      "page": 7,
+      "box": {
+        "left": 529.4,
+        "top": 626.4,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row96PP": {
+      "type": "choice",
+      "label": "(b) International Mail Manual (IMM)?",
+      "page": 7,
+      "box": {
+        "left": 479.0,
+        "top": 604.8,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row96PR": {
+      "type": "choice",
+      "label": "(b) International Mail Manual (IMM)?",
+      "page": 7,
+      "box": {
+        "left": 529.4,
+        "top": 604.8,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row97PP": {
+      "type": "choice",
+      "label": "(c) NAVSUPINST 5112.1 (Series)?",
+      "page": 7,
+      "box": {
+        "left": 479.0,
+        "top": 583.2,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row97PR": {
+      "type": "choice",
+      "label": "(c) NAVSUPINST 5112.1 (Series)?",
+      "page": 7,
+      "box": {
+        "left": 529.4,
+        "top": 583.2,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row98PP": {
+      "type": "choice",
+      "label": "(d) USPS Pub 166?",
+      "page": 7,
+      "box": {
+        "left": 479.0,
+        "top": 561.6,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row98PR": {
+      "type": "choice",
+      "label": "(d) USPS Pub 166?",
+      "page": 7,
+      "box": {
+        "left": 529.4,
+        "top": 561.6,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row99PP": {
+      "type": "choice",
+      "label": "(e) Postal Bulletins (PB), (Bi-Weekly)?",
+      "page": 7,
+      "box": {
+        "left": 479.0,
+        "top": 540.0,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row99PR": {
+      "type": "choice",
+      "label": "(e) Postal Bulletins (PB), (Bi-Weekly)?",
+      "page": 7,
+      "box": {
+        "left": 529.4,
+        "top": 540.0,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row100PP": {
+      "type": "choice",
+      "label": "(f) Hazardous, Restricted and Perishable Mail (Pub 52)?",
+      "page": 7,
+      "box": {
+        "left": 479.0,
+        "top": 518.4,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row100PR": {
+      "type": "choice",
+      "label": "(f) Hazardous, Restricted and Perishable Mail (Pub 52)?",
+      "page": 7,
+      "box": {
+        "left": 529.4,
+        "top": 518.4,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row101PP": {
+      "type": "choice",
+      "label": "(g) MPM/MPOM?",
+      "page": 7,
+      "box": {
+        "left": 479.0,
+        "top": 496.8,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row101PR": {
+      "type": "choice",
+      "label": "(g) MPM/MPOM?",
+      "page": 7,
+      "box": {
+        "left": 529.4,
+        "top": 496.8,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row102PP": {
+      "type": "choice",
+      "label": "(h) USPS Directives and Forms Catalog (Pub 223)?",
+      "page": 7,
+      "box": {
+        "left": 479.0,
+        "top": 475.2,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row102PR": {
+      "type": "choice",
+      "label": "(h) USPS Directives and Forms Catalog (Pub 223)?",
+      "page": 7,
+      "box": {
+        "left": 529.4,
+        "top": 475.2,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row103PP": {
+      "type": "choice",
+      "label": "(i) OPNAVINST 5112.6 (Series)?",
+      "page": 7,
+      "box": {
+        "left": 479.0,
+        "top": 453.6,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row103PR": {
+      "type": "choice",
+      "label": "(i) OPNAVINST 5112.6 (Series)?",
+      "page": 7,
+      "box": {
+        "left": 529.4,
+        "top": 453.6,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row104PP": {
+      "type": "choice",
+      "label": "MPM",
+      "page": 7,
+      "box": {
+        "left": 479.0,
+        "top": 432.0,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row104PR": {
+      "type": "choice",
+      "label": "MPM",
+      "page": 7,
+      "box": {
+        "left": 529.4,
+        "top": 432.0,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row105PP": {
+      "type": "choice",
+      "label": "(k) RSS Guide?",
+      "page": 7,
+      "box": {
+        "left": 479.0,
+        "top": 410.4,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row105PR": {
+      "type": "choice",
+      "label": "(k) RSS Guide?",
+      "page": 7,
+      "box": {
+        "left": 529.4,
+        "top": 410.4,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row107PP": {
+      "type": "choice",
+      "label": "(l) Post Office Accounting Procedures (Handbook F-1)?",
+      "page": 7,
+      "box": {
+        "left": 479.0,
+        "top": 388.8,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row107PR": {
+      "type": "choice",
+      "label": "(l) Post Office Accounting Procedures (Handbook F-1)?",
+      "page": 7,
+      "box": {
+        "left": 529.4,
+        "top": 388.8,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "percentG": {
+      "type": "text",
+      "label": "TOTAL SCORE IN THIS SECTION",
+      "page": 7,
+      "box": {
+        "left": 426.4,
+        "top": 369.3,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "totalPPG": {
+      "type": "text",
+      "label": "TOTAL SCORE IN THIS SECTION",
+      "page": 7,
+      "box": {
+        "left": 476.8,
+        "top": 369.3,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "totalPRG": {
+      "type": "text",
+      "label": "TOTAL SCORE IN THIS SECTION",
+      "page": 7,
+      "box": {
+        "left": 527.2,
+        "top": 369.3,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "t2Row111PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 7,
+      "box": {
+        "left": 479.0,
+        "top": 327.6,
+        "width": 43.2,
+        "height": 32.4
+      },
+      "options": [
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row111PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 7,
+      "box": {
+        "left": 529.4,
+        "top": 327.6,
+        "width": 43.2,
+        "height": 32.4
+      },
+      "options": [
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row112PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 7,
+      "box": {
+        "left": 479.0,
+        "top": 287.9,
+        "width": 43.2,
+        "height": 18.0
+      },
+      "options": [
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row112PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 7,
+      "box": {
+        "left": 529.4,
+        "top": 287.9,
+        "width": 43.2,
+        "height": 18.0
+      },
+      "options": [
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row113PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 7,
+      "box": {
+        "left": 479.0,
+        "top": 262.7,
+        "width": 43.2,
+        "height": 19.7
+      },
+      "options": [
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row113PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 7,
+      "box": {
+        "left": 529.4,
+        "top": 262.7,
+        "width": 43.2,
+        "height": 19.7
+      },
+      "options": [
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row114PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 7,
+      "box": {
+        "left": 479.0,
+        "top": 235.9,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row114PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 7,
+      "box": {
+        "left": 529.4,
+        "top": 235.9,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row115PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 7,
+      "box": {
+        "left": 479.0,
+        "top": 214.3,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row115PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 7,
+      "box": {
+        "left": 529.4,
+        "top": 214.3,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row116PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 7,
+      "box": {
+        "left": 479.0,
+        "top": 192.7,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row116PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 7,
+      "box": {
+        "left": 529.4,
+        "top": 192.7,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row117PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 7,
+      "box": {
+        "left": 479.0,
+        "top": 171.1,
+        "width": 43.2,
+        "height": 88.6
+      },
+      "options": [
+        "14",
+        "12",
+        "10",
+        "8",
+        "6",
+        "4",
+        "2",
+        "N/A"
+      ]
+    },
+    "t2Row117PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 7,
+      "box": {
+        "left": 529.4,
+        "top": 171.1,
+        "width": 43.2,
+        "height": 88.6
+      },
+      "options": [
+        "14",
+        "12",
+        "10",
+        "8",
+        "6",
+        "4",
+        "2",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row118PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 7,
+      "box": {
+        "left": 479.0,
+        "top": 75.3,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row118PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 7,
+      "box": {
+        "left": 529.4,
+        "top": 75.3,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row119PP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 8,
+      "box": {
+        "left": 479.0,
+        "top": 752.4,
+        "width": 43.2,
+        "height": 36.0
+      },
+      "options": [
+        "6",
+        "4",
+        "2",
+        "N/A"
+      ]
+    },
+    "t2Row119PR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 8,
+      "box": {
+        "left": 529.4,
+        "top": 752.4,
+        "width": 43.2,
+        "height": 36.0
+      },
+      "options": [
+        "6",
+        "4",
+        "2",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row120PP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 8,
+      "box": {
+        "left": 479.0,
+        "top": 709.2,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row120PR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 8,
+      "box": {
+        "left": 529.4,
+        "top": 709.2,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row123PP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 8,
+      "box": {
+        "left": 479.0,
+        "top": 687.6,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row123PR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 8,
+      "box": {
+        "left": 529.4,
+        "top": 687.6,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row124PP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 8,
+      "box": {
+        "left": 479.0,
+        "top": 666.0,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row124PR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 8,
+      "box": {
+        "left": 529.4,
+        "top": 666.0,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row125PP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 8,
+      "box": {
+        "left": 479.0,
+        "top": 644.4,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row125PR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 8,
+      "box": {
+        "left": 529.4,
+        "top": 644.4,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row126PP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 8,
+      "box": {
+        "left": 479.0,
+        "top": 622.8,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row126PR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 8,
+      "box": {
+        "left": 529.4,
+        "top": 622.8,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row127PP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 8,
+      "box": {
+        "left": 479.0,
+        "top": 601.2,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row127PR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 8,
+      "box": {
+        "left": 529.4,
+        "top": 601.2,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row129PP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 8,
+      "box": {
+        "left": 479.0,
+        "top": 579.6,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row129PR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 8,
+      "box": {
+        "left": 529.4,
+        "top": 579.6,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row130PP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 8,
+      "box": {
+        "left": 479.0,
+        "top": 558.0,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row130PR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 8,
+      "box": {
+        "left": 529.4,
+        "top": 558.0,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row131PP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 8,
+      "box": {
+        "left": 479.0,
+        "top": 536.4,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row131PR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 8,
+      "box": {
+        "left": 529.4,
+        "top": 536.4,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "percentH": {
+      "type": "text",
+      "label": "TOTAL SCORE IN THIS SECTION",
+      "page": 8,
+      "box": {
+        "left": 426.4,
+        "top": 516.9,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "totalPPH": {
+      "type": "text",
+      "label": "TOTAL SCORE IN THIS SECTION",
+      "page": 8,
+      "box": {
+        "left": 476.8,
+        "top": 516.9,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "totalPRH": {
+      "type": "text",
+      "label": "TOTAL SCORE IN THIS SECTION",
+      "page": 8,
+      "box": {
+        "left": 527.2,
+        "top": 516.9,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "t2Row134PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 8,
+      "box": {
+        "left": 479.0,
+        "top": 475.2,
+        "width": 43.2,
+        "height": 21.6
+      },
+      "options": [
+        "6",
+        "4",
+        "2",
+        "N/A"
+      ]
+    },
+    "t2Row134PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 8,
+      "box": {
+        "left": 529.4,
+        "top": 475.2,
+        "width": 43.2,
+        "height": 21.6
+      },
+      "options": [
+        "6",
+        "4",
+        "2",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row135PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 8,
+      "box": {
+        "left": 479.0,
+        "top": 446.4,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row135PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 8,
+      "box": {
+        "left": 529.4,
+        "top": 446.4,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row136PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 8,
+      "box": {
+        "left": 479.0,
+        "top": 424.8,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "4",
+        "2",
+        "N/A"
+      ]
+    },
+    "t2Row136PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 8,
+      "box": {
+        "left": 529.4,
+        "top": 424.8,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "4",
+        "2",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row137PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 8,
+      "box": {
+        "left": 479.0,
+        "top": 403.2,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row137PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 8,
+      "box": {
+        "left": 529.4,
+        "top": 403.2,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row138PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 8,
+      "box": {
+        "left": 479.0,
+        "top": 381.6,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row138PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 8,
+      "box": {
+        "left": 529.4,
+        "top": 381.6,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row139PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 8,
+      "box": {
+        "left": 479.0,
+        "top": 360.0,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row139PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 8,
+      "box": {
+        "left": 529.4,
+        "top": 360.0,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row140PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 8,
+      "box": {
+        "left": 479.0,
+        "top": 338.4,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row140PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 8,
+      "box": {
+        "left": 529.4,
+        "top": 338.4,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row141PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 8,
+      "box": {
+        "left": 479.0,
+        "top": 316.8,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row141PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 8,
+      "box": {
+        "left": 529.4,
+        "top": 316.8,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row142PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 8,
+      "box": {
+        "left": 479.0,
+        "top": 295.2,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row142PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 8,
+      "box": {
+        "left": 529.4,
+        "top": 295.2,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "percentI": {
+      "type": "text",
+      "label": "TOTAL SCORE IN THIS SECTION",
+      "page": 8,
+      "box": {
+        "left": 426.4,
+        "top": 275.7,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "totalPPI": {
+      "type": "text",
+      "label": "TOTAL SCORE IN THIS SECTION",
+      "page": 8,
+      "box": {
+        "left": 476.8,
+        "top": 275.7,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "totalPRI": {
+      "type": "text",
+      "label": "TOTAL SCORE IN THIS SECTION",
+      "page": 8,
+      "box": {
+        "left": 527.2,
+        "top": 275.7,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "t2Row145PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 8,
+      "box": {
+        "left": 479.0,
+        "top": 233.9,
+        "width": 43.2,
+        "height": 32.4
+      },
+      "options": [
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row145PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 8,
+      "box": {
+        "left": 529.4,
+        "top": 233.9,
+        "width": 43.2,
+        "height": 32.4
+      },
+      "options": [
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row147PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 8,
+      "box": {
+        "left": 479.0,
+        "top": 194.3,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row147PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 8,
+      "box": {
+        "left": 529.4,
+        "top": 194.3,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row148PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 8,
+      "box": {
+        "left": 479.0,
+        "top": 172.7,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row148PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 8,
+      "box": {
+        "left": 529.4,
+        "top": 172.7,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row149PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 8,
+      "box": {
+        "left": 479.0,
+        "top": 151.1,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row149PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 8,
+      "box": {
+        "left": 529.4,
+        "top": 151.1,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row150PP": {
+      "type": "choice",
+      "label": "(b) Forward or returned to sender?",
+      "page": 8,
+      "box": {
+        "left": 479.0,
+        "top": 129.5,
+        "width": 43.2,
+        "height": 45.4
+      },
+      "options": [
+        "8",
+        "6",
+        "4",
+        "2",
+        "N/A"
+      ]
+    },
+    "t2Row150PR": {
+      "type": "choice",
+      "label": "(b) Forward or returned to sender?",
+      "page": 8,
+      "box": {
+        "left": 529.4,
+        "top": 129.5,
+        "width": 43.2,
+        "height": 45.4
+      },
+      "options": [
+        "8",
+        "6",
+        "4",
+        "2",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row151PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 8,
+      "box": {
+        "left": 479.0,
+        "top": 77.0,
+        "width": 43.2,
+        "height": 17.4
+      },
+      "options": [
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row151PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 8,
+      "box": {
+        "left": 529.4,
+        "top": 77.0,
+        "width": 43.2,
+        "height": 17.4
+      },
+      "options": [
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "percentJ": {
+      "type": "text",
+      "label": "TOTAL SCORE IN THIS SECTION",
+      "page": 8,
+      "box": {
+        "left": 426.4,
+        "top": 54.6,
+        "width": 47.6,
+        "height": 15.5
+      }
+    },
+    "totalPPJ": {
+      "type": "text",
+      "label": "TOTAL SCORE IN THIS SECTION",
+      "page": 8,
+      "box": {
+        "left": 476.8,
+        "top": 54.6,
+        "width": 47.6,
+        "height": 15.5
+      }
+    },
+    "totalPRJ": {
+      "type": "text",
+      "label": "TOTAL SCORE IN THIS SECTION",
+      "page": 8,
+      "box": {
+        "left": 527.2,
+        "top": 54.6,
+        "width": 47.6,
+        "height": 15.5
+      }
+    },
+    "t2Row154PP": {
+      "type": "choice",
+      "label": "1. AMPS User Guide (a) PS Form 7380",
+      "page": 9,
+      "box": {
+        "left": 479.0,
+        "top": 730.8,
+        "width": 43.2,
+        "height": 35.7
+      },
+      "options": [
+        "6",
+        "4",
+        "2",
+        "N/A"
+      ]
+    },
+    "t2Row154PR": {
+      "type": "choice",
+      "label": "1. AMPS User Guide (a) PS Form 7380",
+      "page": 9,
+      "box": {
+        "left": 529.4,
+        "top": 730.8,
+        "width": 43.2,
+        "height": 35.7
+      },
+      "options": [
+        "6",
+        "4",
+        "2",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row155PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 9,
+      "box": {
+        "left": 479.0,
+        "top": 688.0,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row155PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 9,
+      "box": {
+        "left": 529.4,
+        "top": 688.0,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row156PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 9,
+      "box": {
+        "left": 479.0,
+        "top": 666.4,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row156PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 9,
+      "box": {
+        "left": 529.4,
+        "top": 666.4,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row157PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 9,
+      "box": {
+        "left": 479.0,
+        "top": 644.8,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row157PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 9,
+      "box": {
+        "left": 529.4,
+        "top": 644.8,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row158PP": {
+      "type": "choice",
+      "label": "5. AMPS User Guide (a) PS Form 4805?",
+      "page": 9,
+      "box": {
+        "left": 479.0,
+        "top": 623.2,
+        "width": 43.2,
+        "height": 19.7
+      },
+      "options": [
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row158PR": {
+      "type": "choice",
+      "label": "5. AMPS User Guide (a) PS Form 4805?",
+      "page": 9,
+      "box": {
+        "left": 529.4,
+        "top": 623.2,
+        "width": 43.2,
+        "height": 19.7
+      },
+      "options": [
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row159PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 9,
+      "box": {
+        "left": 479.0,
+        "top": 596.3,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row159PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 9,
+      "box": {
+        "left": 529.4,
+        "top": 596.3,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row160PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 9,
+      "box": {
+        "left": 479.0,
+        "top": 574.7,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row160PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 9,
+      "box": {
+        "left": 529.4,
+        "top": 574.7,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "percentK": {
+      "type": "text",
+      "label": "TOTAL SCORE IN THIS SECTION",
+      "page": 9,
+      "box": {
+        "left": 426.4,
+        "top": 555.3,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "totalPPK": {
+      "type": "text",
+      "label": "TOTAL SCORE IN THIS SECTION",
+      "page": 9,
+      "box": {
+        "left": 476.8,
+        "top": 555.3,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "totalPRK": {
+      "type": "text",
+      "label": "TOTAL SCORE IN THIS SECTION",
+      "page": 9,
+      "box": {
+        "left": 527.2,
+        "top": 555.3,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "t2Row163PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 9,
+      "box": {
+        "left": 479.0,
+        "top": 513.5,
+        "width": 43.2,
+        "height": 19.7
+      },
+      "options": [
+        "52",
+        "51",
+        "50",
+        "49",
+        "48",
+        "47",
+        "46",
+        "45",
+        "44",
+        "43",
+        "42",
+        "41",
+        "40",
+        "39",
+        "38",
+        "37",
+        "36",
+        "35",
+        "34",
+        "33",
+        "32",
+        "31",
+        "30",
+        "29",
+        "28",
+        "27",
+        "26",
+        "25",
+        "24",
+        "23",
+        "22",
+        "21",
+        "20",
+        "19",
+        "18",
+        "17",
+        "16",
+        "15",
+        "14",
+        "13",
+        "12",
+        "11",
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row163PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 9,
+      "box": {
+        "left": 529.4,
+        "top": 513.5,
+        "width": 43.2,
+        "height": 19.7
+      },
+      "options": [
+        "52",
+        "51",
+        "50",
+        "49",
+        "48",
+        "47",
+        "46",
+        "45",
+        "44",
+        "43",
+        "42",
+        "41",
+        "40",
+        "39",
+        "38",
+        "37",
+        "36",
+        "35",
+        "34",
+        "33",
+        "32",
+        "31",
+        "30",
+        "29",
+        "28",
+        "27",
+        "26",
+        "25",
+        "24",
+        "23",
+        "22",
+        "21",
+        "20",
+        "19",
+        "18",
+        "17",
+        "16",
+        "15",
+        "14",
+        "13",
+        "12",
+        "11",
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row164PP": {
+      "type": "choice",
+      "label": "2. AMPS User Guide (b) Postal Net Alert (PNA)?",
+      "page": 9,
+      "box": {
+        "left": 479.0,
+        "top": 486.7,
+        "width": 43.2,
+        "height": 43.2
+      },
+      "options": [
+        "8",
+        "6",
+        "4",
+        "2",
+        "N/A"
+      ]
+    },
+    "t2Row164PR": {
+      "type": "choice",
+      "label": "2. AMPS User Guide (b) Postal Net Alert (PNA)?",
+      "page": 9,
+      "box": {
+        "left": 529.4,
+        "top": 486.7,
+        "width": 43.2,
+        "height": 43.2
+      },
+      "options": [
+        "8",
+        "6",
+        "4",
+        "2",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row165PP": {
+      "type": "choice",
+      "label": "E4.3.4 and (c) 70-79.9%: 30 points",
+      "page": 9,
+      "box": {
+        "left": 479.0,
+        "top": 436.3,
+        "width": 43.2,
+        "height": 57.6
+      },
+      "options": [
+        "50",
+        "40",
+        "30",
+        "20",
+        "10",
+        "N/A"
+      ]
+    },
+    "t2Row165PR": {
+      "type": "choice",
+      "label": "E4.3.4 and (c) 70-79.9%: 30 points",
+      "page": 9,
+      "box": {
+        "left": 529.4,
+        "top": 436.3,
+        "width": 43.2,
+        "height": 57.6
+      },
+      "options": [
+        "50",
+        "40",
+        "30",
+        "20",
+        "10",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row166PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 9,
+      "box": {
+        "left": 479.0,
+        "top": 371.5,
+        "width": 43.2,
+        "height": 43.2
+      },
+      "options": [
+        "20",
+        "15",
+        "10",
+        "5",
+        "N/A"
+      ]
+    },
+    "t2Row166PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 9,
+      "box": {
+        "left": 529.4,
+        "top": 371.5,
+        "width": 43.2,
+        "height": 43.2
+      },
+      "options": [
+        "20",
+        "15",
+        "10",
+        "5",
+        "0",
+        "N/A"
+      ]
+    },
+    "percentL": {
+      "type": "text",
+      "label": "TOTAL SCORE IN THIS SECTION",
+      "page": 9,
+      "box": {
+        "left": 426.4,
+        "top": 323.2,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "totalPPL": {
+      "type": "text",
+      "label": "TOTAL SCORE IN THIS SECTION",
+      "page": 9,
+      "box": {
+        "left": 476.8,
+        "top": 323.2,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "totalPRL": {
+      "type": "text",
+      "label": "TOTAL SCORE IN THIS SECTION",
+      "page": 9,
+      "box": {
+        "left": 527.2,
+        "top": 323.2,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "t2Row169aPP": {
+      "type": "choice",
+      "label": "5112.1 NAVSUPINST (Series) (a) Monthly Records Review",
+      "page": 9,
+      "box": {
+        "left": 477.1,
+        "top": 261.8,
+        "width": 47.1,
+        "height": 18.3
+      },
+      "options": [
+        "24",
+        "22",
+        "20",
+        "18",
+        "16",
+        "14",
+        "12",
+        "10",
+        "8",
+        "6",
+        "4",
+        "2",
+        "N/A"
+      ]
+    },
+    "t2Row169aPR": {
+      "type": "choice",
+      "label": "5112.1 NAVSUPINST (Series) (a) Monthly Records Review",
+      "page": 9,
+      "box": {
+        "left": 527.5,
+        "top": 261.8,
+        "width": 47.1,
+        "height": 18.3
+      },
+      "options": [
+        "24",
+        "22",
+        "20",
+        "18",
+        "16",
+        "14",
+        "12",
+        "10",
+        "8",
+        "6",
+        "4",
+        "2",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row169bPP": {
+      "type": "choice",
+      "label": "5112.1 NAVSUPINST (Series) (b) Quarterly Records Review",
+      "page": 9,
+      "box": {
+        "left": 477.1,
+        "top": 240.2,
+        "width": 47.1,
+        "height": 18.3
+      },
+      "options": [
+        "16",
+        "12",
+        "8",
+        "4",
+        "N/A"
+      ]
+    },
+    "t2Row169bPR": {
+      "type": "choice",
+      "label": "5112.1 NAVSUPINST (Series) (b) Quarterly Records Review",
+      "page": 9,
+      "box": {
+        "left": 527.5,
+        "top": 240.2,
+        "width": 47.1,
+        "height": 18.3
+      },
+      "options": [
+        "16",
+        "12",
+        "8",
+        "4",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row169cPP": {
+      "type": "choice",
+      "label": "5112.1 NAVSUPINST (Series) (c) Monthly Workload Report",
+      "page": 9,
+      "box": {
+        "left": 477.1,
+        "top": 218.6,
+        "width": 47.1,
+        "height": 18.3
+      },
+      "options": [
+        "24",
+        "22",
+        "20",
+        "18",
+        "16",
+        "14",
+        "12",
+        "10",
+        "8",
+        "6",
+        "4",
+        "2",
+        "N/A"
+      ]
+    },
+    "t2Row169cPR": {
+      "type": "choice",
+      "label": "5112.1 NAVSUPINST (Series) (c) Monthly Workload Report",
+      "page": 9,
+      "box": {
+        "left": 527.5,
+        "top": 218.6,
+        "width": 47.1,
+        "height": 18.3
+      },
+      "options": [
+        "24",
+        "22",
+        "20",
+        "18",
+        "16",
+        "14",
+        "12",
+        "10",
+        "8",
+        "6",
+        "4",
+        "2",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row169dPP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 9,
+      "box": {
+        "left": 477.1,
+        "top": 197.0,
+        "width": 47.1,
+        "height": 18.3
+      },
+      "options": [
+        "10",
+        "N/A"
+      ]
+    },
+    "t2Row169dPR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 9,
+      "box": {
+        "left": 527.5,
+        "top": 197.0,
+        "width": 47.1,
+        "height": 18.3
+      },
+      "options": [
+        "10",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row169ePP": {
+      "type": "choice",
+      "label": "5112.1 NAVSUPINST (Series) (e) Quarterly Audit",
+      "page": 9,
+      "box": {
+        "left": 477.1,
+        "top": 175.4,
+        "width": 47.1,
+        "height": 18.3
+      },
+      "options": [
+        "16",
+        "12",
+        "8",
+        "4",
+        "N/A"
+      ]
+    },
+    "t2Row169ePR": {
+      "type": "choice",
+      "label": "5112.1 NAVSUPINST (Series) (e) Quarterly Audit",
+      "page": 9,
+      "box": {
+        "left": 527.5,
+        "top": 175.4,
+        "width": 47.1,
+        "height": 18.3
+      },
+      "options": [
+        "16",
+        "12",
+        "8",
+        "4",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row169fPP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 9,
+      "box": {
+        "left": 477.1,
+        "top": 153.8,
+        "width": 47.1,
+        "height": 18.3
+      },
+      "options": [
+        "52",
+        "51",
+        "50",
+        "49",
+        "48",
+        "47",
+        "46",
+        "45",
+        "44",
+        "43",
+        "42",
+        "41",
+        "40",
+        "39",
+        "38",
+        "37",
+        "36",
+        "35",
+        "34",
+        "33",
+        "32",
+        "31",
+        "30",
+        "29",
+        "28",
+        "27",
+        "25",
+        "24",
+        "23",
+        "22",
+        "21",
+        "20",
+        "19",
+        "18",
+        "17",
+        "16",
+        "15",
+        "14",
+        "13",
+        "12",
+        "11",
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row169fPR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 9,
+      "box": {
+        "left": 527.5,
+        "top": 153.8,
+        "width": 47.1,
+        "height": 18.3
+      },
+      "options": [
+        "52",
+        "51",
+        "50",
+        "49",
+        "48",
+        "47",
+        "46",
+        "45",
+        "44",
+        "43",
+        "42",
+        "41",
+        "40",
+        "39",
+        "38",
+        "37",
+        "36",
+        "35",
+        "34",
+        "33",
+        "32",
+        "31",
+        "30",
+        "29",
+        "28",
+        "27",
+        "25",
+        "24",
+        "23",
+        "22",
+        "21",
+        "20",
+        "19",
+        "18",
+        "17",
+        "16",
+        "15",
+        "14",
+        "13",
+        "12",
+        "11",
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row169gPP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 9,
+      "box": {
+        "left": 477.1,
+        "top": 132.2,
+        "width": 47.1,
+        "height": 18.3
+      },
+      "options": [
+        "8",
+        "N/A"
+      ]
+    },
+    "t2Row169gPR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 9,
+      "box": {
+        "left": 527.5,
+        "top": 132.2,
+        "width": 47.1,
+        "height": 18.3
+      },
+      "options": [
+        "8",
+        "6",
+        "4",
+        "2",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row169hPP": {
+      "type": "choice",
+      "label": "5112.1 NAVSUPINST (Series) (h) Pre-Deployment Checklists",
+      "page": 9,
+      "box": {
+        "left": 477.1,
+        "top": 110.6,
+        "width": 47.1,
+        "height": 18.3
+      },
+      "options": [
+        "10",
+        "N/A"
+      ]
+    },
+    "t2Row169hPR": {
+      "type": "choice",
+      "label": "5112.1 NAVSUPINST (Series) (h) Pre-Deployment Checklists",
+      "page": 9,
+      "box": {
+        "left": 527.5,
+        "top": 110.6,
+        "width": 47.1,
+        "height": 18.3
+      },
+      "options": [
+        "10",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row169iPP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 9,
+      "box": {
+        "left": 477.1,
+        "top": 89.0,
+        "width": 47.1,
+        "height": 18.3
+      },
+      "options": [
+        "10",
+        "N/A"
+      ]
+    },
+    "t2Row169iPR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 9,
+      "box": {
+        "left": 527.5,
+        "top": 89.0,
+        "width": 47.1,
+        "height": 18.3
+      },
+      "options": [
+        "10",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row169jPP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 9,
+      "box": {
+        "left": 477.1,
+        "top": 67.4,
+        "width": 47.1,
+        "height": 18.3
+      },
+      "options": [
+        "2",
+        "N/A"
+      ]
+    },
+    "t2Row169jPR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 9,
+      "box": {
+        "left": 527.5,
+        "top": 67.4,
+        "width": 47.1,
+        "height": 18.3
+      },
+      "options": [
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row169kPP": {
+      "type": "choice",
+      "label": "OPNAVINST 5112.6",
+      "page": 10,
+      "box": {
+        "left": 477.1,
+        "top": 754.3,
+        "width": 47.1,
+        "height": 18.3
+      },
+      "options": [
+        "24",
+        "18",
+        "12",
+        "6",
+        "N/A"
+      ]
+    },
+    "t2Row169kPR": {
+      "type": "choice",
+      "label": "5112.6 (Series)",
+      "page": 10,
+      "box": {
+        "left": 527.5,
+        "top": 754.3,
+        "width": 47.1,
+        "height": 18.3
+      },
+      "options": [
+        "24",
+        "18",
+        "12",
+        "6",
+        "0",
+        "N/A"
+      ]
+    },
+    "percentM": {
+      "type": "text",
+      "label": "TOTAL SCORE IN THIS SECTION",
+      "page": 10,
+      "box": {
+        "left": 426.4,
+        "top": 733.0,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "totalPPM": {
+      "type": "text",
+      "label": "TOTAL SCORE IN THIS SECTION",
+      "page": 10,
+      "box": {
+        "left": 476.8,
+        "top": 733.0,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "totalPRM": {
+      "type": "text",
+      "label": "TOTAL SCORE IN THIS SECTION",
+      "page": 10,
+      "box": {
+        "left": 527.2,
+        "top": 733.0,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "t2Row172NumAvail": {
+      "type": "text",
+      "label": "Number Available",
+      "page": 10,
+      "box": {
+        "left": 141.8,
+        "top": 693.4,
+        "width": 332.1,
+        "height": 15.2
+      }
+    },
+    "t2Row173NumIssued": {
+      "type": "text",
+      "label": "Number Issued",
+      "page": 10,
+      "box": {
+        "left": 141.8,
+        "top": 675.4,
+        "width": 332.1,
+        "height": 15.2
+      }
+    },
+    "t2Row174PerNumber": {
+      "type": "text",
+      "label": "Percentage",
+      "page": 10,
+      "box": {
+        "left": 141.8,
+        "top": 657.4,
+        "width": 332.1,
+        "height": 15.2
+      }
+    },
+    "t2Row175PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 10,
+      "box": {
+        "left": 479.0,
+        "top": 637.2,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row175PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 10,
+      "box": {
+        "left": 529.4,
+        "top": 637.2,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row176PP": {
+      "type": "choice",
+      "label": "Are combination changes being completed as required?",
+      "page": 10,
+      "box": {
+        "left": 479.0,
+        "top": 615.6,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row176PR": {
+      "type": "choice",
+      "label": "Are combination changes being completed as required?",
+      "page": 10,
+      "box": {
+        "left": 529.4,
+        "top": 615.6,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row177PP": {
+      "type": "choice",
+      "label": "(a) 100%: 20 points",
+      "page": 10,
+      "box": {
+        "left": 479.0,
+        "top": 594.0,
+        "width": 43.2,
+        "height": 35.7
+      },
+      "options": [
+        "20",
+        "10",
+        "N/A"
+      ]
+    },
+    "t2Row177PR": {
+      "type": "choice",
+      "label": "(a) 100%: 20 points",
+      "page": 10,
+      "box": {
+        "left": 529.4,
+        "top": 594.0,
+        "width": 43.2,
+        "height": 35.7
+      },
+      "options": [
+        "20",
+        "10",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row178PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 10,
+      "box": {
+        "left": 479.0,
+        "top": 551.2,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row178PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 10,
+      "box": {
+        "left": 529.4,
+        "top": 551.2,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row179PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 10,
+      "box": {
+        "left": 479.0,
+        "top": 529.6,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row179PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 10,
+      "box": {
+        "left": 529.4,
+        "top": 529.6,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row180PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 10,
+      "box": {
+        "left": 479.0,
+        "top": 508.0,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row180PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 10,
+      "box": {
+        "left": 529.4,
+        "top": 508.0,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row181PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 10,
+      "box": {
+        "left": 479.0,
+        "top": 486.3,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row181PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 10,
+      "box": {
+        "left": 529.4,
+        "top": 486.3,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row182PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 10,
+      "box": {
+        "left": 479.0,
+        "top": 464.7,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row182PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 10,
+      "box": {
+        "left": 529.4,
+        "top": 464.7,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row183PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 10,
+      "box": {
+        "left": 479.0,
+        "top": 443.1,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row183PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 10,
+      "box": {
+        "left": 529.4,
+        "top": 443.1,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row184PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 10,
+      "box": {
+        "left": 479.0,
+        "top": 421.5,
+        "width": 43.2,
+        "height": 21.6
+      },
+      "options": [
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row184PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 10,
+      "box": {
+        "left": 529.4,
+        "top": 421.5,
+        "width": 43.2,
+        "height": 21.6
+      },
+      "options": [
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row185PP": {
+      "type": "choice",
+      "label": "POINTS",
+      "page": 10,
+      "box": {
+        "left": 479.0,
+        "top": 392.7,
+        "width": 43.2,
+        "height": 27.7
+      },
+      "options": [
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row185PR": {
+      "type": "choice",
+      "label": "RECEIVED",
+      "page": 10,
+      "box": {
+        "left": 529.4,
+        "top": 392.7,
+        "width": 43.2,
+        "height": 27.7
+      },
+      "options": [
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row186PP": {
+      "type": "choice",
+      "label": "Are PS Form 3907s on hand and being utilized properly?",
+      "page": 10,
+      "box": {
+        "left": 479.0,
+        "top": 357.9,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row186PR": {
+      "type": "choice",
+      "label": "Are PS Form 3907s on hand and being utilized properly?",
+      "page": 10,
+      "box": {
+        "left": 529.4,
+        "top": 357.9,
+        "width": 43.2,
+        "height": 14.4
+      },
+      "options": [
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row186aPP": {
+      "type": "choice",
+      "label": "13. 5112.1 NAVSUPINST (Series) Is SST properly utilized?",
+      "page": 10,
+      "box": {
+        "left": 477.1,
+        "top": 338.2,
+        "width": 47.1,
+        "height": 18.3
+      },
+      "options": [
+        "20",
+        "19",
+        "18",
+        "17",
+        "16",
+        "15",
+        "14",
+        "13",
+        "12",
+        "11",
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row186aPR": {
+      "type": "choice",
+      "label": "13. 5112.1 NAVSUPINST (Series) Is SST properly utilized?",
+      "page": 10,
+      "box": {
+        "left": 527.5,
+        "top": 338.2,
+        "width": 47.1,
+        "height": 18.3
+      },
+      "options": [
+        "20",
+        "19",
+        "18",
+        "17",
+        "16",
+        "15",
+        "14",
+        "13",
+        "12",
+        "11",
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "t2Row186bPP": {
+      "type": "choice",
+      "label": "14. 5112.1 NAVSUPINST (Series)",
+      "page": 10,
+      "box": {
+        "left": 477.1,
+        "top": 316.6,
+        "width": 47.1,
+        "height": 18.3
+      },
+      "options": [
+        "20",
+        "19",
+        "18",
+        "17",
+        "16",
+        "15",
+        "14",
+        "13",
+        "12",
+        "11",
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "N/A"
+      ]
+    },
+    "t2Row186bPR": {
+      "type": "choice",
+      "label": "14. 5112.1 NAVSUPINST (Series)",
+      "page": 10,
+      "box": {
+        "left": 527.5,
+        "top": 316.6,
+        "width": 47.1,
+        "height": 18.3
+      },
+      "options": [
+        "20",
+        "19",
+        "18",
+        "17",
+        "16",
+        "15",
+        "14",
+        "13",
+        "12",
+        "11",
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "0",
+        "N/A"
+      ]
+    },
+    "percentN": {
+      "type": "text",
+      "label": "TOTAL SCORE IN THIS SECTION",
+      "page": 10,
+      "box": {
+        "left": 426.4,
+        "top": 295.3,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "totalPRN": {
+      "type": "text",
+      "label": "TOTAL SCORE IN THIS SECTION",
+      "page": 10,
+      "box": {
+        "left": 527.2,
+        "top": 295.3,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "percentageGrandTotal": {
+      "type": "text",
+      "label": "GRAND TOTAL",
+      "page": 10,
+      "box": {
+        "left": 426.4,
+        "top": 277.3,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "grandTotalPP": {
+      "type": "text",
+      "label": "GRAND TOTAL",
+      "page": 10,
+      "box": {
+        "left": 476.8,
+        "top": 277.3,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "grandTotalPR": {
+      "type": "text",
+      "label": "GRAND TOTAL",
+      "page": 10,
+      "box": {
+        "left": 527.2,
+        "top": 277.3,
+        "width": 47.6,
+        "height": 15.2
+      }
+    },
+    "q1": {
+      "type": "text",
+      "label": "Q 1",
+      "page": 11,
+      "box": {
+        "left": 38.8,
+        "top": 726.1,
+        "width": 534.4,
+        "height": 102.3
+      },
+      "multiline": true
+    },
+    "q2": {
+      "type": "text",
+      "label": "Q 2",
+      "page": 11,
+      "box": {
+        "left": 38.8,
+        "top": 610.0,
+        "width": 533.4,
+        "height": 103.2
+      },
+      "multiline": true
+    },
+    "q3": {
+      "type": "text",
+      "label": "Q 3",
+      "page": 11,
+      "box": {
+        "left": 38.8,
+        "top": 492.1,
+        "width": 534.4,
+        "height": 102.3
+      },
+      "multiline": true
+    },
+    "q4": {
+      "type": "text",
+      "label": "Q 4",
+      "page": 11,
+      "box": {
+        "left": 38.8,
+        "top": 376.0,
+        "width": 534.4,
+        "height": 103.2
+      },
+      "multiline": true
+    },
+    "q5": {
+      "type": "text",
+      "label": "Q 5",
+      "page": 11,
+      "box": {
+        "left": 38.8,
+        "top": 258.5,
+        "width": 533.4,
+        "height": 102.7
+      },
+      "multiline": true
+    },
+    "q6": {
+      "type": "text",
+      "label": "Q 6",
+      "page": 11,
+      "box": {
+        "left": 38.8,
+        "top": 141.9,
+        "width": 533.4,
+        "height": 103.2
+      },
+      "multiline": true
+    },
+    "q13": {
+      "type": "text",
+      "label": "M. POSTAL ADVISOR",
+      "page": 13,
+      "box": {
+        "left": 38.8,
+        "top": 744.5,
+        "width": 534.4,
+        "height": 102.7
+      },
+      "multiline": true
+    },
+    "q14": {
+      "type": "text",
+      "label": "N. RECEPTACLES",
+      "page": 13,
+      "box": {
+        "left": 38.8,
+        "top": 627.1,
+        "width": 534.4,
+        "height": 102.3
+      },
+      "multiline": true
+    },
+    "q22": {
+      "type": "text",
+      "label": "COMMENTS",
+      "page": 13,
+      "box": {
+        "left": 38.8,
+        "top": 511.0,
+        "width": 534.4,
+        "height": 436.2
+      },
+      "multiline": true
+    },
+    "postalOfficerName": {
+      "type": "text",
+      "label": "a. Name",
+      "page": 13,
+      "box": {
+        "left": 92.8,
+        "top": 58.3,
+        "width": 201.4,
+        "height": 19.5
+      }
+    },
+    "postalSigDate": {
+      "type": "text",
+      "label": "b. Date",
+      "page": 13,
+      "box": {
+        "left": 299.9,
+        "top": 58.3,
+        "width": 66.3,
+        "height": 19.5
+      }
+    },
+    "postalSig": {
+      "type": "text",
+      "label": "c. Signature",
+      "page": 13,
+      "box": {
+        "left": 371.9,
+        "top": 58.3,
+        "width": 201.4,
+        "height": 19.5
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 7,
+      "rowStride": 16.87,
+      "editor": "grid",
+      "columns": {
+        "cell": {
+          "type": "choice",
+          "label": "11. POSTAL OFFICER (E-7 OR ABOVE, GS-11 OR ABOVE)",
+          "page": 1,
+          "box": {
+            "left": 295.7,
+            "top": 364.8,
+            "width": 45.5,
+            "height": 13.5
+          }
+        },
+        "cell2": {
+          "type": "text",
+          "label": "11. POSTAL OFFICER (E-7 OR ABOVE, GS-11 OR ABOVE)",
+          "page": 1,
+          "box": {
+            "left": 344.3,
+            "top": 365.0,
+            "width": 171.8,
+            "height": 14.0
+          }
+        },
+        "cell3": {
+          "type": "text",
+          "label": "11. POSTAL OFFICER (E-7 OR ABOVE, GS-11 OR ABOVE)",
+          "page": 1,
+          "box": {
+            "left": 519.0,
+            "top": 365.0,
+            "width": 55.1,
+            "height": 14.0
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 12,
+      "count": 6,
+      "rowStride": 119.36,
+      "editor": "grid",
+      "columns": {
+        "q": {
+          "type": "text",
+          "label": "G. REQUIRED PUBLICATIONS AND INSTRUCTIONS",
+          "page": 12,
+          "box": {
+            "left": 38.8,
+            "top": 744.1,
+            "width": 534.4,
+            "height": 104.8
+          }
+        }
+      }
+    }
+  }
+}

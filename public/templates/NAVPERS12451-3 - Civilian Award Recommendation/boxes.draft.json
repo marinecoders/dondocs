@@ -1,0 +1,482 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "from": {
+        "left": 38.9,
+        "top": 681.5,
+        "width": 264.3,
+        "height": 39.6,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "poc": {
+        "left": 38.9,
+        "top": 627.5,
+        "width": 174.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "3. POC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "phone": {
+        "left": 218.9,
+        "top": 627.5,
+        "width": 138.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "4. TELEPHONE NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "bldg": {
+        "left": 362.9,
+        "top": 627.5,
+        "width": 138.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "5. BLDG / ROOM NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date": {
+        "left": 506.9,
+        "top": 627.5,
+        "width": 65.4,
+        "height": 21.6,
+        "type": "text",
+        "description": "6. DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "empName": {
+        "left": 38.9,
+        "top": 591.5,
+        "width": 237.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "7. EMPLOYEE NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "title": {
+        "left": 281.9,
+        "top": 591.5,
+        "width": 156.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "8. POSITION TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "series": {
+        "left": 443.9,
+        "top": 591.5,
+        "width": 128.4,
+        "height": 21.6,
+        "type": "text",
+        "description": "9. SERIES / GRADE / STEP",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hours": {
+        "left": 417.1,
+        "top": 537.1,
+        "width": 156.2,
+        "height": 21.3,
+        "type": "text",
+        "description": "TIME OFF AWARD NUMBER OF HOURS RECOMMENDED",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "awardTime": {
+        "left": 84.8,
+        "top": 530.5,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "EMPLOYEE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "amountRec": {
+        "left": 417.1,
+        "top": 510.1,
+        "width": 156.2,
+        "height": 21.3,
+        "type": "text",
+        "description": "ON-THE-SPOT AWARD RECOMMENDED AMOUNT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "onSpot": {
+        "left": 84.8,
+        "top": 503.5,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "EMPLOYEE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recAmount": {
+        "left": 417.1,
+        "top": 483.1,
+        "width": 156.2,
+        "height": 21.3,
+        "type": "text",
+        "description": "SPECIAL ACT / SERVICE RECOMMENDED AWARD AMOUNT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "special": {
+        "left": 84.8,
+        "top": 476.5,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "12A",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comp": {
+        "left": 191.9,
+        "top": 456.1,
+        "width": 111.3,
+        "height": 23.3,
+        "type": "text",
+        "description": "SERVICE RECOMMENDED AWARD AMOUNT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "appl": {
+        "left": 461.9,
+        "top": 456.1,
+        "width": 111.3,
+        "height": 22.6,
+        "type": "text",
+        "description": "SERIES / GRADE / STEP",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "amtRec": {
+        "left": 417.1,
+        "top": 411.1,
+        "width": 156.2,
+        "height": 21.3,
+        "type": "text",
+        "description": "PERFORMANCE AWARD RECOMMENDED AMOUNT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "performance": {
+        "left": 84.8,
+        "top": 404.5,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "TANGIBLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "step": {
+        "left": 84.8,
+        "top": 377.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "TANGIBLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fillIn1": {
+        "left": 164.9,
+        "top": 357.1,
+        "width": 201.4,
+        "height": 21.3,
+        "type": "text",
+        "description": "OTHER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fillIn2": {
+        "left": 371.9,
+        "top": 357.1,
+        "width": 200.5,
+        "height": 21.3,
+        "type": "text",
+        "description": "OTHER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "other": {
+        "left": 84.8,
+        "top": 350.4,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "TANGIBLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "originator": {
+        "left": 38.9,
+        "top": 321.4,
+        "width": 237.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "16. NAME, TITLE OF ORIGINATOR",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "orgSign": {
+        "left": 281.9,
+        "top": 321.4,
+        "width": 219.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "17. SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "orgDate": {
+        "left": 506.9,
+        "top": 321.4,
+        "width": 65.4,
+        "height": 21.6,
+        "type": "text",
+        "description": "18. DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dept": {
+        "left": 60.5,
+        "top": 235.6,
+        "width": 145.5,
+        "height": 23.0,
+        "type": "text",
+        "description": "DEPARTMENT / DIVISION HEAD",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "award": {
+        "left": 211.7,
+        "top": 235.6,
+        "width": 145.5,
+        "height": 23.0,
+        "type": "text",
+        "description": "RECOMMENDED AWARD",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature": {
+        "left": 362.9,
+        "top": 235.6,
+        "width": 138.3,
+        "height": 23.0,
+        "type": "text",
+        "description": "SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date2": {
+        "left": 506.9,
+        "top": 235.6,
+        "width": 66.2,
+        "height": 23.0,
+        "type": "text",
+        "description": "DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dept2": {
+        "left": 60.5,
+        "top": 206.8,
+        "width": 145.5,
+        "height": 23.0,
+        "type": "text",
+        "description": "DEPARTMENT / DIVISION HEAD",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "award2": {
+        "left": 211.7,
+        "top": 206.8,
+        "width": 145.5,
+        "height": 23.0,
+        "type": "text",
+        "description": "RECOMMENDED AWARD",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature2": {
+        "left": 362.9,
+        "top": 206.8,
+        "width": 138.3,
+        "height": 23.0,
+        "type": "text",
+        "description": "SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date3": {
+        "left": 506.9,
+        "top": 206.8,
+        "width": 66.2,
+        "height": 23.0,
+        "type": "text",
+        "description": "DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dept3": {
+        "left": 60.5,
+        "top": 178.0,
+        "width": 145.5,
+        "height": 23.0,
+        "type": "text",
+        "description": "DEPARTMENT / DIVISION HEAD",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "award3": {
+        "left": 211.7,
+        "top": 178.0,
+        "width": 145.5,
+        "height": 23.0,
+        "type": "text",
+        "description": "RECOMMENDED AWARD",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature3": {
+        "left": 362.9,
+        "top": 178.0,
+        "width": 138.3,
+        "height": 23.0,
+        "type": "text",
+        "description": "SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date4": {
+        "left": 506.9,
+        "top": 178.0,
+        "width": 66.2,
+        "height": 23.0,
+        "type": "text",
+        "description": "DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "disposition": {
+        "left": 38.9,
+        "top": 114.4,
+        "width": 534.3,
+        "height": 39.6,
+        "type": "text",
+        "description": "19. DISPOSITION OF BASIC AWARD RECOMMENDATION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name": {
+        "left": 38.9,
+        "top": 60.4,
+        "width": 210.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "20. EMPLOYEE NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature4": {
+        "left": 254.9,
+        "top": 60.4,
+        "width": 246.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "21. SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date5": {
+        "left": 506.9,
+        "top": 60.4,
+        "width": 65.4,
+        "height": 21.6,
+        "type": "text",
+        "description": "22. DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "justificationfield": {
+        "left": 38.9,
+        "top": 690.1,
+        "width": 534.3,
+        "height": 651.3,
+        "type": "text",
+        "description": "JUSTIFICATION",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

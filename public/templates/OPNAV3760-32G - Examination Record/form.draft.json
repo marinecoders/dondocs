@@ -1,0 +1,270 @@
+{
+  "id": "opnav376032g",
+  "label": "OPNAV3760-32G - Examination Record",
+  "directory": "OPNAV3760-32G - Examination Record",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "doDIDNumber",
+        "name"
+      ]
+    }
+  ],
+  "fields": {
+    "doDIDNumber": {
+      "type": "text",
+      "label": "Enter the DoD ID Number.  ",
+      "page": 1,
+      "box": {
+        "left": 437.0,
+        "top": 716.1,
+        "width": 139.0,
+        "height": 16.3
+      }
+    },
+    "name": {
+      "type": "text",
+      "label": "Enter the name (last, first, middle initial).",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 715.7,
+        "width": 385.9,
+        "height": 15.8
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 14,
+      "rowStride": 12.96,
+      "editor": "grid",
+      "columns": {
+        "dateIE": {
+          "type": "text",
+          "label": "This is row 1 of 14.  Enter the date the instrument exam was taken (DD MMM YYYY).",
+          "page": 1,
+          "box": {
+            "left": 36.0,
+            "top": 216.0,
+            "width": 56.2,
+            "height": 10.1
+          }
+        },
+        "gradeIE": {
+          "type": "text",
+          "label": "Enter the grade of the instrument exam.",
+          "page": 1,
+          "box": {
+            "left": 95.0,
+            "top": 216.0,
+            "width": 33.1,
+            "height": 10.1
+          }
+        },
+        "passFailIE": {
+          "type": "text",
+          "label": "Indicate if the instrument exam was passed or failed.",
+          "page": 1,
+          "box": {
+            "left": 131.0,
+            "top": 216.0,
+            "width": 40.3,
+            "height": 10.1
+          }
+        },
+        "gradedByIE": {
+          "type": "text",
+          "label": "Enter who graded the instrument exam.",
+          "page": 1,
+          "box": {
+            "left": 174.2,
+            "top": 216.0,
+            "width": 54.7,
+            "height": 10.1
+          }
+        },
+        "dateCR": {
+          "type": "text",
+          "label": "Enter the date of the course rules (DD MMM YYYY).",
+          "page": 1,
+          "box": {
+            "left": 231.8,
+            "top": 216.0,
+            "width": 54.7,
+            "height": 10.1
+          }
+        },
+        "gradeCR": {
+          "type": "text",
+          "label": "Enter the grade of the course rules.",
+          "page": 1,
+          "box": {
+            "left": 289.4,
+            "top": 216.0,
+            "width": 33.1,
+            "height": 10.1
+          }
+        },
+        "titleCR": {
+          "type": "text",
+          "label": "Enter the title of other exam.",
+          "page": 1,
+          "box": {
+            "left": 325.4,
+            "top": 216.0,
+            "width": 54.7,
+            "height": 10.1
+          }
+        },
+        "dateOE": {
+          "type": "text",
+          "label": "Enter the date of other exam (DD MMM YYYY).",
+          "page": 1,
+          "box": {
+            "left": 381.6,
+            "top": 216.0,
+            "width": 56.2,
+            "height": 10.1
+          }
+        },
+        "gradeOE": {
+          "type": "text",
+          "label": "Enter the grade of other exam.",
+          "page": 1,
+          "box": {
+            "left": 440.6,
+            "top": 216.0,
+            "width": 33.1,
+            "height": 10.1
+          }
+        },
+        "passFailOE": {
+          "type": "text",
+          "label": "Indicate if the other exam was passed or failed.",
+          "page": 1,
+          "box": {
+            "left": 476.6,
+            "top": 216.0,
+            "width": 40.3,
+            "height": 10.1
+          }
+        },
+        "gradedByOE": {
+          "type": "text",
+          "label": "Enter who graded the other exam.",
+          "page": 1,
+          "box": {
+            "left": 519.8,
+            "top": 216.0,
+            "width": 54.7,
+            "height": 10.1
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 28,
+      "rowStride": 12.96,
+      "editor": "grid",
+      "columns": {
+        "dateOB": {
+          "type": "text",
+          "label": "This is row 1 of 28.  Enter the date of the open book exam (DD MMM YYYY).",
+          "page": 1,
+          "box": {
+            "left": 36.0,
+            "top": 632.2,
+            "width": 56.2,
+            "height": 10.1
+          }
+        },
+        "gradeOB": {
+          "type": "text",
+          "label": "Enter the grade of the open book test.",
+          "page": 1,
+          "box": {
+            "left": 95.0,
+            "top": 632.2,
+            "width": 33.1,
+            "height": 10.1
+          }
+        },
+        "passFailOB": {
+          "type": "text",
+          "label": "Indicate if the open book NATOPS exam was passed or failed.",
+          "page": 1,
+          "box": {
+            "left": 131.0,
+            "top": 632.2,
+            "width": 40.3,
+            "height": 10.1
+          }
+        },
+        "gradedByOB": {
+          "type": "text",
+          "label": "Enter who graded the open book exam.",
+          "page": 1,
+          "box": {
+            "left": 174.2,
+            "top": 632.2,
+            "width": 126.7,
+            "height": 10.1
+          }
+        },
+        "dateCB": {
+          "type": "text",
+          "label": "Enter the date of the closed book exam (DD MMM YYYY).",
+          "page": 1,
+          "box": {
+            "left": 309.6,
+            "top": 632.2,
+            "width": 56.2,
+            "height": 10.1
+          }
+        },
+        "gradeCB": {
+          "type": "text",
+          "label": "Enter the grade of the closed book exam.",
+          "page": 1,
+          "box": {
+            "left": 368.6,
+            "top": 632.2,
+            "width": 33.1,
+            "height": 10.1
+          }
+        },
+        "passFailCB": {
+          "type": "text",
+          "label": "Indicate if the closed book NATOPS exam was passed or failed.",
+          "page": 1,
+          "box": {
+            "left": 404.6,
+            "top": 632.2,
+            "width": 40.3,
+            "height": 10.1
+          }
+        },
+        "gradedByCB": {
+          "type": "text",
+          "label": "Enter who graded the closed book exam.",
+          "page": 1,
+          "box": {
+            "left": 447.8,
+            "top": 632.2,
+            "width": 126.7,
+            "height": 10.1
+          }
+        }
+      }
+    }
+  }
+}

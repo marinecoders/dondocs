@@ -1,0 +1,282 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "shipname": {
+        "left": 126.9,
+        "top": 539.5,
+        "width": 408.1,
+        "height": 21.3,
+        "type": "text",
+        "description": "Enter the U.S.S.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hullnum": {
+        "left": 252.9,
+        "top": 504.6,
+        "width": 103.8,
+        "height": 21.3,
+        "type": "text",
+        "description": "Enter the ship's hull number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "division": {
+        "left": 168.0,
+        "top": 455.7,
+        "width": 324.3,
+        "height": 16.8,
+        "type": "text",
+        "description": "Enter the division attached to.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "squadron": {
+        "left": 168.6,
+        "top": 433.7,
+        "width": 311.9,
+        "height": 16.8,
+        "type": "text",
+        "description": "Enter the squadron attached to.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "group": {
+        "left": 168.5,
+        "top": 411.8,
+        "width": 332.7,
+        "height": 15.7,
+        "type": "text",
+        "description": "Enter the group attached to.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fleet": {
+        "left": 168.5,
+        "top": 389.3,
+        "width": 337.2,
+        "height": 16.8,
+        "type": "text",
+        "description": "Enter the fleet attached to.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "zonetime1": {
+        "left": 152.0,
+        "top": 352.7,
+        "width": 161.2,
+        "height": 16.8,
+        "type": "text",
+        "description": "Enter the commencing zone.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "timeField1": {
+        "left": 320.0,
+        "top": 352.7,
+        "width": 81.4,
+        "height": 16.8,
+        "type": "text",
+        "description": "Enter the time using the 24-hour clock (HHMM).  ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dNSDate3": {
+        "left": 411.5,
+        "top": 352.7,
+        "width": 122.1,
+        "height": 16.8,
+        "type": "text",
+        "description": "Enter the date using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "loca1": {
+        "left": 94.8,
+        "top": 319.0,
+        "width": 438.7,
+        "height": 16.8,
+        "type": "text",
+        "description": "Enter the location commencing at.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dNSDate32": {
+        "left": 412.9,
+        "top": 282.1,
+        "width": 122.1,
+        "height": 16.8,
+        "type": "text",
+        "description": "Enter the date using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "zone2": {
+        "left": 120.7,
+        "top": 281.3,
+        "width": 192.5,
+        "height": 16.8,
+        "type": "text",
+        "description": "Enter the ending zone.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "timeField": {
+        "left": 320.0,
+        "top": 281.3,
+        "width": 81.4,
+        "height": 16.8,
+        "type": "text",
+        "description": "Enter the time using the 24-hour clock (HHMM).  ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "loca2": {
+        "left": 93.7,
+        "top": 247.0,
+        "width": 440.3,
+        "height": 16.8,
+        "type": "text",
+        "description": "Enter the location ending at.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "examinedName": {
+        "left": 169.1,
+        "top": 211.0,
+        "width": 144.1,
+        "height": 16.8,
+        "type": "text",
+        "description": "If examined and certified to be correct, enter the navigator's name.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "examinedGrade": {
+        "left": 320.0,
+        "top": 211.0,
+        "width": 80.9,
+        "height": 16.8,
+        "type": "text",
+        "description": "Enter the grade.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "examinedSignature": {
+        "left": 408.2,
+        "top": 211.0,
+        "width": 128.3,
+        "height": 16.8,
+        "type": "text",
+        "description": "Enter the navigator's signature.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "approved": {
+        "left": 115.7,
+        "top": 175.0,
+        "width": 197.6,
+        "height": 16.8,
+        "type": "text",
+        "description": "If approved by commanding officer, enter name.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "approvedGrade": {
+        "left": 320.0,
+        "top": 175.0,
+        "width": 80.9,
+        "height": 16.8,
+        "type": "text",
+        "description": "Enter the grade.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "approvedSign": {
+        "left": 408.2,
+        "top": 175.0,
+        "width": 128.3,
+        "height": 16.8,
+        "type": "text",
+        "description": "Enter the approving commanding officer's signature.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ngas3": {
+        "left": 228.1,
+        "top": 112.0,
+        "width": 127.9,
+        "height": 16.8,
+        "type": "text",
+        "description": "Enter the name of the relieving commanding officer who approved the ship's deck log.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "approvedGradeCommanding": {
+        "left": 362.8,
+        "top": 112.0,
+        "width": 80.9,
+        "height": 16.8,
+        "type": "text",
+        "description": "Enter the grade.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "approvedSignCommanding": {
+        "left": 449.9,
+        "top": 112.0,
+        "width": 100.7,
+        "height": 16.8,
+        "type": "text",
+        "description": "Enter the commanding officer's signature.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateOfChange": {
+        "left": 54.4,
+        "top": 96.7,
+        "width": 75.4,
+        "height": 10.2,
+        "type": "text",
+        "description": "Enter the date of change of command, using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

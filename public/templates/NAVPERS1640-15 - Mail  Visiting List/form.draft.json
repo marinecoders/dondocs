@@ -1,0 +1,365 @@
+{
+  "id": "navpers164015",
+  "label": "NAVPERS1640-15 - Mail  Visiting List",
+  "directory": "NAVPERS1640-15 - Mail  Visiting List",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "textField1",
+        "textField12",
+        "textField13",
+        "textField14",
+        "textField15",
+        "textField2",
+        "textField22",
+        "textField23",
+        "textField24",
+        "textField17",
+        "textField18",
+        "textField19",
+        "textField32",
+        "textField111",
+        "textField112",
+        "textField113",
+        "textField34",
+        "textField115",
+        "textField116",
+        "textField117",
+        "textField36"
+      ]
+    }
+  ],
+  "fields": {
+    "textField1": {
+      "type": "text",
+      "label": "Enter Prisoners Name",
+      "page": 1,
+      "box": {
+        "left": 40.7,
+        "top": 458.2,
+        "width": 196.4,
+        "height": 21.4
+      }
+    },
+    "textField12": {
+      "type": "text",
+      "label": "Enter Place of Confinement",
+      "page": 1,
+      "box": {
+        "left": 242.8,
+        "top": 458.2,
+        "width": 174.3,
+        "height": 21.4
+      }
+    },
+    "textField13": {
+      "type": "text",
+      "label": "Enter Rank/Rate",
+      "page": 1,
+      "box": {
+        "left": 422.8,
+        "top": 458.2,
+        "width": 70.3,
+        "height": 21.4
+      }
+    },
+    "textField14": {
+      "type": "text",
+      "label": "Enter RCN",
+      "page": 1,
+      "box": {
+        "left": 498.8,
+        "top": 458.2,
+        "width": 138.3,
+        "height": 21.4
+      }
+    },
+    "textField15": {
+      "type": "text",
+      "label": "Enter Branch of Service",
+      "page": 1,
+      "box": {
+        "left": 642.8,
+        "top": 458.2,
+        "width": 110.3,
+        "height": 21.4
+      }
+    },
+    "textField2": {
+      "type": "text",
+      "label": "Prisoner/Awardee's signature",
+      "page": 1,
+      "box": {
+        "left": 40.7,
+        "top": 370.4,
+        "width": 244.4,
+        "height": 19.8
+      }
+    },
+    "textField22": {
+      "type": "text",
+      "label": "Date Signed",
+      "page": 1,
+      "box": {
+        "left": 298.4,
+        "top": 370.4,
+        "width": 89.1,
+        "height": 20.0
+      }
+    },
+    "textField23": {
+      "type": "text",
+      "label": "Signature of Witnessing Official",
+      "page": 1,
+      "box": {
+        "left": 400.7,
+        "top": 370.4,
+        "width": 248.2,
+        "height": 18.8
+      }
+    },
+    "textField24": {
+      "type": "text",
+      "label": "Date Signed",
+      "page": 1,
+      "box": {
+        "left": 662.2,
+        "top": 370.4,
+        "width": 89.1,
+        "height": 20.0
+      }
+    },
+    "textField17": {
+      "type": "text",
+      "label": "Enter Month Calender #",
+      "page": 1,
+      "box": {
+        "left": 340.1,
+        "top": 296.7,
+        "width": 17.1,
+        "height": 24.6
+      }
+    },
+    "textField18": {
+      "type": "text",
+      "label": "Enter Month Calender #",
+      "page": 1,
+      "box": {
+        "left": 340.1,
+        "top": 266.4,
+        "width": 17.1,
+        "height": 24.6
+      }
+    },
+    "textField19": {
+      "type": "text",
+      "label": "Enter Month Calender #",
+      "page": 1,
+      "box": {
+        "left": 340.1,
+        "top": 236.1,
+        "width": 17.1,
+        "height": 24.6
+      }
+    },
+    "textField32": {
+      "type": "text",
+      "label": "Visitors Age",
+      "page": 1,
+      "box": {
+        "left": 235.5,
+        "top": 228.5,
+        "width": 42.1,
+        "height": 17.1
+      }
+    },
+    "textField111": {
+      "type": "text",
+      "label": "Enter Month Calender #",
+      "page": 1,
+      "box": {
+        "left": 340.1,
+        "top": 205.8,
+        "width": 17.1,
+        "height": 24.6
+      }
+    },
+    "textField112": {
+      "type": "text",
+      "label": "Enter Month Calender #",
+      "page": 1,
+      "box": {
+        "left": 340.1,
+        "top": 175.4,
+        "width": 17.1,
+        "height": 24.6
+      }
+    },
+    "textField113": {
+      "type": "text",
+      "label": "Enter Month Calender #",
+      "page": 1,
+      "box": {
+        "left": 340.1,
+        "top": 145.1,
+        "width": 17.1,
+        "height": 24.6
+      }
+    },
+    "textField34": {
+      "type": "text",
+      "label": "Visitors Age",
+      "page": 1,
+      "box": {
+        "left": 235.5,
+        "top": 137.6,
+        "width": 42.1,
+        "height": 17.1
+      }
+    },
+    "textField115": {
+      "type": "text",
+      "label": "Enter Month Calender #",
+      "page": 1,
+      "box": {
+        "left": 340.1,
+        "top": 114.9,
+        "width": 17.1,
+        "height": 26.8
+      }
+    },
+    "textField116": {
+      "type": "text",
+      "label": "Enter Month Calender #",
+      "page": 1,
+      "box": {
+        "left": 340.1,
+        "top": 82.4,
+        "width": 17.1,
+        "height": 24.6
+      }
+    },
+    "textField117": {
+      "type": "text",
+      "label": "Enter Month Calender #",
+      "page": 1,
+      "box": {
+        "left": 340.1,
+        "top": 52.1,
+        "width": 17.1,
+        "height": 24.6
+      }
+    },
+    "textField36": {
+      "type": "text",
+      "label": "Visitors Age",
+      "page": 1,
+      "box": {
+        "left": 235.5,
+        "top": 48.3,
+        "width": 42.1,
+        "height": 20.9
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 90.92,
+      "editor": "grid",
+      "columns": {
+        "textField3": {
+          "type": "text",
+          "label": "Enter Visitors Name and Address",
+          "page": 1,
+          "box": {
+            "left": 40.7,
+            "top": 296.8,
+            "width": 168.6,
+            "height": 85.3
+          }
+        },
+        "textField1": {
+          "type": "text",
+          "label": "Enter Relationship to Prisoner/Awardee",
+          "page": 1,
+          "box": {
+            "left": 215.0,
+            "top": 296.7,
+            "width": 62.7,
+            "height": 62.5
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 2,
+      "count": 5,
+      "rowStride": 90.98,
+      "editor": "grid",
+      "columns": {
+        "textField3": {
+          "type": "text",
+          "label": "Enter Visitors Name and Address",
+          "page": 2,
+          "box": {
+            "left": 40.7,
+            "top": 510.6,
+            "width": 168.6,
+            "height": 85.3
+          }
+        },
+        "textField1": {
+          "type": "text",
+          "label": "Enter Relationship to Prisoner/Awardee",
+          "page": 2,
+          "box": {
+            "left": 215.0,
+            "top": 510.6,
+            "width": 62.8,
+            "height": 62.5
+          }
+        },
+        "textField32": {
+          "type": "text",
+          "label": "Visitors Age",
+          "page": 2,
+          "box": {
+            "left": 235.5,
+            "top": 442.4,
+            "width": 42.1,
+            "height": 17.1
+          }
+        }
+      }
+    },
+    "rows3": {
+      "title": "Rows",
+      "page": 2,
+      "count": 15,
+      "rowStride": 30.32,
+      "editor": "grid",
+      "columns": {
+        "textField12": {
+          "type": "text",
+          "label": "Enter Month Calender #",
+          "page": 2,
+          "box": {
+            "left": 340.1,
+            "top": 510.6,
+            "width": 17.1,
+            "height": 24.6
+          }
+        }
+      }
+    }
+  }
+}

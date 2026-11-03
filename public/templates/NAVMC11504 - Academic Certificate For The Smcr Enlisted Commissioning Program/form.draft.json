@@ -1,0 +1,353 @@
+{
+  "id": "navmc11504",
+  "label": "NAVMC11504 - Academic Certificate For The Smcr Enlisted Commissioning Program",
+  "directory": "NAVMC11504 - Academic Certificate For The Smcr Enlisted Commissioning Program",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "ssn",
+        "name",
+        "college",
+        "radioButtonList",
+        "radioButtonList2",
+        "radioButtonList3",
+        "radioButtonList4",
+        "radioButtonList5",
+        "degreeDate",
+        "major",
+        "hoursAttempt",
+        "hoursComplete",
+        "gp",
+        "gpa",
+        "equiv",
+        "verbalSAT",
+        "mathSAT",
+        "mathACT",
+        "englishACT",
+        "sig",
+        "title",
+        "date"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "addressCollege",
+        "nameLetter",
+        "sigApp",
+        "sigWit",
+        "signDate"
+      ]
+    }
+  ],
+  "fields": {
+    "ssn": {
+      "type": "text",
+      "label": "SSN",
+      "page": 1,
+      "box": {
+        "left": 411.7,
+        "top": 637.0,
+        "width": 124.8,
+        "height": 13.0
+      }
+    },
+    "name": {
+      "type": "text",
+      "label": "Name",
+      "page": 1,
+      "box": {
+        "left": 77.4,
+        "top": 633.8,
+        "width": 324.0,
+        "height": 10.6
+      }
+    },
+    "college": {
+      "type": "text",
+      "label": "College",
+      "page": 1,
+      "box": {
+        "left": 77.3,
+        "top": 606.8,
+        "width": 458.4,
+        "height": 10.8
+      }
+    },
+    "radioButtonList": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 370.4,
+        "top": 567.3,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_1"
+    },
+    "radioButtonList2": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 567.2,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_1"
+    },
+    "radioButtonList3": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 93.4,
+        "top": 496.7,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_0"
+    },
+    "radioButtonList4": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 200.8,
+        "top": 496.7,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_0"
+    },
+    "radioButtonList5": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 321.4,
+        "top": 496.7,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_0"
+    },
+    "degreeDate": {
+      "type": "text",
+      "label": "degreeDate",
+      "page": 1,
+      "box": {
+        "left": 280.1,
+        "top": 455.0,
+        "width": 64.1,
+        "height": 19.8
+      }
+    },
+    "major": {
+      "type": "text",
+      "label": "major",
+      "page": 1,
+      "box": {
+        "left": 298.8,
+        "top": 363.9,
+        "width": 124.8,
+        "height": 13.0
+      }
+    },
+    "hoursAttempt": {
+      "type": "text",
+      "label": "hoursAttempt",
+      "page": 1,
+      "box": {
+        "left": 299.1,
+        "top": 337.7,
+        "width": 124.8,
+        "height": 13.0
+      }
+    },
+    "hoursComplete": {
+      "type": "text",
+      "label": "hoursComplete",
+      "page": 1,
+      "box": {
+        "left": 299.1,
+        "top": 311.4,
+        "width": 124.8,
+        "height": 13.0
+      }
+    },
+    "gp": {
+      "type": "text",
+      "label": "GP",
+      "page": 1,
+      "box": {
+        "left": 298.8,
+        "top": 285.2,
+        "width": 124.8,
+        "height": 13.0
+      }
+    },
+    "gpa": {
+      "type": "text",
+      "label": "GPA",
+      "page": 1,
+      "box": {
+        "left": 299.4,
+        "top": 258.2,
+        "width": 124.8,
+        "height": 13.0
+      }
+    },
+    "equiv": {
+      "type": "text",
+      "label": "equiv",
+      "page": 1,
+      "box": {
+        "left": 235.3,
+        "top": 233.4,
+        "width": 26.6,
+        "height": 13.0
+      }
+    },
+    "verbalSAT": {
+      "type": "text",
+      "label": "verbalSAT",
+      "page": 1,
+      "box": {
+        "left": 352.8,
+        "top": 206.4,
+        "width": 31.9,
+        "height": 13.0
+      }
+    },
+    "mathSAT": {
+      "type": "text",
+      "label": "mathSAT",
+      "page": 1,
+      "box": {
+        "left": 249.5,
+        "top": 206.3,
+        "width": 31.9,
+        "height": 13.0
+      }
+    },
+    "mathACT": {
+      "type": "text",
+      "label": "mathACT",
+      "page": 1,
+      "box": {
+        "left": 249.5,
+        "top": 184.6,
+        "width": 31.9,
+        "height": 13.0
+      }
+    },
+    "englishACT": {
+      "type": "text",
+      "label": "englishACT",
+      "page": 1,
+      "box": {
+        "left": 352.5,
+        "top": 184.6,
+        "width": 31.9,
+        "height": 13.0
+      }
+    },
+    "sig": {
+      "type": "signature",
+      "label": "Sig",
+      "page": 1,
+      "box": {
+        "left": 294.3,
+        "top": 124.5,
+        "width": 146.6,
+        "height": 19.8
+      }
+    },
+    "title": {
+      "type": "text",
+      "label": "title",
+      "page": 1,
+      "box": {
+        "left": 294.1,
+        "top": 93.3,
+        "width": 124.8,
+        "height": 13.0
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 294.1,
+        "top": 76.1,
+        "width": 64.1,
+        "height": 19.8
+      }
+    },
+    "addressCollege": {
+      "type": "text",
+      "label": "addressCollege",
+      "page": 2,
+      "box": {
+        "left": 75.1,
+        "top": 682.4,
+        "width": 221.7,
+        "height": 69.9
+      },
+      "multiline": true
+    },
+    "nameLetter": {
+      "type": "text",
+      "label": "nameLetter",
+      "page": 2,
+      "box": {
+        "left": 335.2,
+        "top": 399.2,
+        "width": 203.4,
+        "height": 14.9
+      }
+    },
+    "sigApp": {
+      "type": "signature",
+      "label": "SigApp",
+      "page": 2,
+      "box": {
+        "left": 83.0,
+        "top": 202.4,
+        "width": 146.6,
+        "height": 19.8
+      }
+    },
+    "sigWit": {
+      "type": "signature",
+      "label": "SigWit",
+      "page": 2,
+      "box": {
+        "left": 264.4,
+        "top": 202.4,
+        "width": 146.6,
+        "height": 19.8
+      }
+    },
+    "signDate": {
+      "type": "text",
+      "label": "SignDate",
+      "page": 2,
+      "box": {
+        "left": 437.6,
+        "top": 202.4,
+        "width": 64.1,
+        "height": 19.8
+      }
+    }
+  }
+}

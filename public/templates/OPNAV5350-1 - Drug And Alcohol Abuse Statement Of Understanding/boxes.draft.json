@@ -1,0 +1,295 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "name": {
+        "left": 50.5,
+        "top": 373.6,
+        "width": 262.9,
+        "height": 10.2,
+        "type": "text",
+        "description": "I,",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initials1": {
+        "left": 506.9,
+        "top": 342.7,
+        "width": 66.3,
+        "height": 15.9,
+        "type": "text",
+        "description": "Initials",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initials2": {
+        "left": 506.9,
+        "top": 321.1,
+        "width": 66.3,
+        "height": 15.9,
+        "type": "text",
+        "description": "Initials",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initials3": {
+        "left": 506.9,
+        "top": 299.5,
+        "width": 66.3,
+        "height": 15.9,
+        "type": "text",
+        "description": "Navy service members",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initials4": {
+        "left": 506.9,
+        "top": 277.9,
+        "width": 66.3,
+        "height": 73.5,
+        "type": "text",
+        "description": "Initials",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initials5a": {
+        "left": 506.9,
+        "top": 198.7,
+        "width": 66.3,
+        "height": 55.5,
+        "type": "text",
+        "description": "Initials",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initials5b": {
+        "left": 506.9,
+        "top": 137.5,
+        "width": 66.3,
+        "height": 37.5,
+        "type": "text",
+        "description": "Initials",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initials5b1": {
+        "left": 506.9,
+        "top": 94.3,
+        "width": 66.3,
+        "height": 12.3,
+        "type": "text",
+        "description": "Initials",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initials5b2": {
+        "left": 506.9,
+        "top": 76.3,
+        "width": 66.3,
+        "height": 15.9,
+        "type": "text",
+        "description": "and at other follow-on times necessary",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initials5b3": {
+        "left": 506.9,
+        "top": 54.7,
+        "width": 66.3,
+        "height": 15.9,
+        "type": "text",
+        "description": "Initials",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "initials5b4": {
+        "left": 506.9,
+        "top": 753.2,
+        "width": 66.3,
+        "height": 15.9,
+        "type": "text",
+        "description": "OPNAVINST 5350.4 (Series)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initials5b5": {
+        "left": 506.9,
+        "top": 731.6,
+        "width": 66.3,
+        "height": 15.9,
+        "type": "text",
+        "description": "OPNAVINST 5350.4 (Series)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initials5b6": {
+        "left": 506.9,
+        "top": 710.0,
+        "width": 66.3,
+        "height": 15.9,
+        "type": "text",
+        "description": "processed for separation",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "printedName": {
+        "left": 38.8,
+        "top": 655.9,
+        "width": 174.4,
+        "height": 19.5,
+        "type": "text",
+        "description": "6. PRINTED NAME (last, first, middle)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "gradeRank": {
+        "left": 218.9,
+        "top": 655.9,
+        "width": 174.4,
+        "height": 19.5,
+        "type": "text",
+        "description": "7. GRADE/RANK (if applicable)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "doDID": {
+        "left": 398.9,
+        "top": 655.9,
+        "width": 174.4,
+        "height": 19.5,
+        "type": "text",
+        "description": "8. DoD ID",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature": {
+        "left": 38.8,
+        "top": 619.9,
+        "width": 354.4,
+        "height": 19.5,
+        "type": "text",
+        "description": "9. SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date": {
+        "left": 398.9,
+        "top": 619.9,
+        "width": 174.4,
+        "height": 19.5,
+        "type": "text",
+        "description": "10. DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameCertifyingOfficial": {
+        "left": 38.8,
+        "top": 562.3,
+        "width": 208.4,
+        "height": 19.5,
+        "type": "text",
+        "description": "11. PRINTED NAME/TITLE OF CERTIFYING OFFICIAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureCertifyingOfficial": {
+        "left": 252.9,
+        "top": 562.3,
+        "width": 140.3,
+        "height": 19.5,
+        "type": "text",
+        "description": "12. SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateCertifyingOfficial": {
+        "left": 398.9,
+        "top": 562.3,
+        "width": 174.4,
+        "height": 19.5,
+        "type": "text",
+        "description": "13. DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameWitness": {
+        "left": 38.8,
+        "top": 526.3,
+        "width": 208.4,
+        "height": 19.5,
+        "type": "text",
+        "description": "14. PRINTED NAME/TITLE OF WITNESS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureWitness": {
+        "left": 252.9,
+        "top": 526.3,
+        "width": 140.3,
+        "height": 19.5,
+        "type": "text",
+        "description": "15. SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateWitness": {
+        "left": 398.9,
+        "top": 526.3,
+        "width": 174.4,
+        "height": 19.5,
+        "type": "text",
+        "description": "16. DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks": {
+        "left": 38.8,
+        "top": 492.5,
+        "width": 534.4,
+        "height": 453.8,
+        "type": "text",
+        "description": "17. REMARKS",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

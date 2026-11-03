@@ -1,0 +1,150 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "date0": {
+        "left": 34.4,
+        "top": 709.6,
+        "width": 106.4,
+        "height": 17.6,
+        "type": "text",
+        "description": "Enter date using format 2002 06 27. Section 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks0": {
+        "left": 34.4,
+        "top": 692.8,
+        "width": 548.8,
+        "height": 143.2,
+        "type": "text",
+        "description": "Remarks. Section 1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nicoic1": {
+        "left": 234.6,
+        "top": 539.6,
+        "width": 201.0,
+        "height": 17.3,
+        "type": "signature",
+        "description": "NICOIC1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rctr1": {
+        "left": 436.6,
+        "top": 539.6,
+        "width": 145.2,
+        "height": 17.3,
+        "type": "signature",
+        "description": "RCTR1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date1": {
+        "left": 34.5,
+        "top": 511.6,
+        "width": 113.5,
+        "height": 17.6,
+        "type": "text",
+        "description": "Enter date using format 2002 06 27. Section 2.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks1": {
+        "left": 34.5,
+        "top": 494.0,
+        "width": 548.0,
+        "height": 157.4,
+        "type": "text",
+        "description": "Remarks. Section 2.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ncoic2": {
+        "left": 241.1,
+        "top": 326.2,
+        "width": 196.6,
+        "height": 22.8,
+        "type": "signature",
+        "description": "NCOIC2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rctr2": {
+        "left": 439.6,
+        "top": 326.2,
+        "width": 142.3,
+        "height": 22.3,
+        "type": "signature",
+        "description": "RCTR2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date2": {
+        "left": 34.5,
+        "top": 293.4,
+        "width": 144.6,
+        "height": 17.6,
+        "type": "text",
+        "description": "Enter date using format 2002 06 27. Section 3.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks2": {
+        "left": 34.5,
+        "top": 273.8,
+        "width": 548.6,
+        "height": 172.3,
+        "type": "text",
+        "description": "Remarks. Section 3.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rctr3": {
+        "left": 434.7,
+        "top": 93.1,
+        "width": 147.7,
+        "height": 26.7,
+        "type": "signature",
+        "description": "RCTR3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ncoic3": {
+        "left": 243.5,
+        "top": 92.1,
+        "width": 190.2,
+        "height": 25.7,
+        "type": "signature",
+        "description": "NCOIC3",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

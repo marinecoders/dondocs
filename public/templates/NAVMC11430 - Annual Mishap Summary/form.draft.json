@@ -1,0 +1,749 @@
+{
+  "id": "navmc11430",
+  "label": "NAVMC11430 - Annual Mishap Summary",
+  "directory": "NAVMC11430 - Annual Mishap Summary",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "rcs",
+        "comnd",
+        "fiscalYear",
+        "untStr",
+        "preBy",
+        "phoneNumber",
+        "datePrp",
+        "fatInjMil",
+        "lstTiMil",
+        "noLstTiMil",
+        "fatIlMil",
+        "lstTimIlMil",
+        "noLstTiIllMil",
+        "fatInjCiv",
+        "lstTiCiv",
+        "noLstTiCiv",
+        "fatIlCiv",
+        "lstTimIlCiv",
+        "noLstTiIllCiv",
+        "fatInjOt",
+        "lstTiOt",
+        "noLstTiOt",
+        "fatIlOt",
+        "lstTimIlOt",
+        "noLstTiIllOt",
+        "fatInjTot",
+        "lstTiTot",
+        "noLstTiTot",
+        "fatIlTot",
+        "lstTimIlTot",
+        "noLstTiIllTot",
+        "nuMisInd",
+        "injCosInd",
+        "damCstInd",
+        "nuMisGMV",
+        "injCosGmv",
+        "damCstGmv",
+        "nuMisTr",
+        "injCosTr",
+        "damCstTr",
+        "nuMisAllOt",
+        "injCosAllOt",
+        "damCstAllOt",
+        "nuMisTot",
+        "injCosTot",
+        "damCst",
+        "nuMisPmv",
+        "injCosPmv",
+        "damCstPmv",
+        "nuMisSpRec",
+        "injCosSpRec",
+        "damCstSpRec",
+        "nuMisOth",
+        "damCstOth",
+        "injCosOth",
+        "nuMisTot2",
+        "injCosTot2",
+        "damCst2",
+        "avStrMil",
+        "avStrCiv",
+        "avStrOth"
+      ]
+    }
+  ],
+  "fields": {
+    "rcs": {
+      "type": "text",
+      "label": "Unit Strength",
+      "page": 1,
+      "box": {
+        "left": 502.7,
+        "top": 693.4,
+        "width": 67.9,
+        "height": 15.9
+      }
+    },
+    "comnd": {
+      "type": "text",
+      "label": "Mishap summary.  Enter command.",
+      "page": 1,
+      "box": {
+        "left": 36.6,
+        "top": 639.2,
+        "width": 439.2,
+        "height": 29.1
+      }
+    },
+    "fiscalYear": {
+      "type": "text",
+      "label": "Unit Strength",
+      "page": 1,
+      "box": {
+        "left": 476.6,
+        "top": 633.6,
+        "width": 97.6,
+        "height": 23.9
+      }
+    },
+    "untStr": {
+      "type": "text",
+      "label": "Unit Strength",
+      "page": 1,
+      "box": {
+        "left": 36.0,
+        "top": 593.5,
+        "width": 100.8,
+        "height": 23.9
+      }
+    },
+    "preBy": {
+      "type": "text",
+      "label": "Prepared by",
+      "page": 1,
+      "box": {
+        "left": 244.8,
+        "top": 593.5,
+        "width": 232.0,
+        "height": 23.9
+      }
+    },
+    "phoneNumber": {
+      "type": "text",
+      "label": "PhoneNumber",
+      "page": 1,
+      "box": {
+        "left": 477.7,
+        "top": 593.3,
+        "width": 97.1,
+        "height": 24.0
+      }
+    },
+    "datePrp": {
+      "type": "text",
+      "label": "Enter date prepared using format 2002 12 24",
+      "page": 1,
+      "box": {
+        "left": 136.8,
+        "top": 592.2,
+        "width": 106.4,
+        "height": 22.6
+      }
+    },
+    "fatInjMil": {
+      "type": "text",
+      "label": "1. Mishap fatalities, injuries, and occupational illnesses.   a. Military.  1. Fatal injuries.",
+      "page": 1,
+      "box": {
+        "left": 142.6,
+        "top": 523.2,
+        "width": 71.2,
+        "height": 24.0
+      }
+    },
+    "lstTiMil": {
+      "type": "text",
+      "label": "2. Lost time injuries.",
+      "page": 1,
+      "box": {
+        "left": 214.6,
+        "top": 523.2,
+        "width": 71.2,
+        "height": 24.0
+      }
+    },
+    "noLstTiMil": {
+      "type": "text",
+      "label": "3. No Lost time injuries",
+      "page": 1,
+      "box": {
+        "left": 285.8,
+        "top": 523.2,
+        "width": 71.2,
+        "height": 24.0
+      }
+    },
+    "fatIlMil": {
+      "type": "text",
+      "label": "4. Fatal illnesses.",
+      "page": 1,
+      "box": {
+        "left": 358.6,
+        "top": 523.2,
+        "width": 71.2,
+        "height": 24.0
+      }
+    },
+    "lstTimIlMil": {
+      "type": "text",
+      "label": "5. Lost time illnesses.",
+      "page": 1,
+      "box": {
+        "left": 429.8,
+        "top": 523.2,
+        "width": 71.2,
+        "height": 24.0
+      }
+    },
+    "noLstTiIllMil": {
+      "type": "text",
+      "label": "6. No lost time illness.",
+      "page": 1,
+      "box": {
+        "left": 502.6,
+        "top": 523.2,
+        "width": 71.2,
+        "height": 24.0
+      }
+    },
+    "fatInjCiv": {
+      "type": "text",
+      "label": "1. Mishap fatalities, injuries, and occupational illnesses.   b. Civilian.  1. Fatal injuries.",
+      "page": 1,
+      "box": {
+        "left": 142.6,
+        "top": 499.5,
+        "width": 71.2,
+        "height": 24.0
+      }
+    },
+    "lstTiCiv": {
+      "type": "text",
+      "label": "2. Lost time injuries.",
+      "page": 1,
+      "box": {
+        "left": 213.9,
+        "top": 499.5,
+        "width": 71.2,
+        "height": 24.0
+      }
+    },
+    "noLstTiCiv": {
+      "type": "text",
+      "label": "3. No Lost time injuries",
+      "page": 1,
+      "box": {
+        "left": 285.8,
+        "top": 499.5,
+        "width": 71.2,
+        "height": 24.0
+      }
+    },
+    "fatIlCiv": {
+      "type": "text",
+      "label": "4. Fatal illnesses.",
+      "page": 1,
+      "box": {
+        "left": 358.6,
+        "top": 499.5,
+        "width": 71.2,
+        "height": 24.0
+      }
+    },
+    "lstTimIlCiv": {
+      "type": "text",
+      "label": "5. Lost time illnesses.",
+      "page": 1,
+      "box": {
+        "left": 429.8,
+        "top": 499.5,
+        "width": 71.2,
+        "height": 24.0
+      }
+    },
+    "noLstTiIllCiv": {
+      "type": "text",
+      "label": "6. No lost time illness.",
+      "page": 1,
+      "box": {
+        "left": 502.6,
+        "top": 499.5,
+        "width": 71.2,
+        "height": 24.0
+      }
+    },
+    "fatInjOt": {
+      "type": "text",
+      "label": "1. Mishap fatalities, injuries, and occupational illnesses.   c. Other civilian.  1. Fatal injuries.",
+      "page": 1,
+      "box": {
+        "left": 142.6,
+        "top": 475.7,
+        "width": 71.2,
+        "height": 24.0
+      }
+    },
+    "lstTiOt": {
+      "type": "text",
+      "label": "2. Lost time injuries.",
+      "page": 1,
+      "box": {
+        "left": 213.9,
+        "top": 475.7,
+        "width": 71.2,
+        "height": 24.0
+      }
+    },
+    "noLstTiOt": {
+      "type": "text",
+      "label": "3. No Lost time injuries",
+      "page": 1,
+      "box": {
+        "left": 285.8,
+        "top": 475.7,
+        "width": 71.2,
+        "height": 24.0
+      }
+    },
+    "fatIlOt": {
+      "type": "text",
+      "label": "4. Fatal illnesses.",
+      "page": 1,
+      "box": {
+        "left": 358.6,
+        "top": 475.7,
+        "width": 71.2,
+        "height": 24.0
+      }
+    },
+    "lstTimIlOt": {
+      "type": "text",
+      "label": "5. Lost time illnesses.",
+      "page": 1,
+      "box": {
+        "left": 429.8,
+        "top": 475.7,
+        "width": 71.2,
+        "height": 24.0
+      }
+    },
+    "noLstTiIllOt": {
+      "type": "text",
+      "label": "6. No lost time illness.",
+      "page": 1,
+      "box": {
+        "left": 502.6,
+        "top": 475.7,
+        "width": 71.2,
+        "height": 24.0
+      }
+    },
+    "fatInjTot": {
+      "type": "text",
+      "label": "1. Mishap fatalities, injuries, and occupational illnesses.   c. Other civilian.  1. Fatal injuries.  Total.",
+      "page": 1,
+      "box": {
+        "left": 144.6,
+        "top": 452.0,
+        "width": 69.2,
+        "height": 24.0
+      }
+    },
+    "lstTiTot": {
+      "type": "text",
+      "label": "2. Lost time injuries.",
+      "page": 1,
+      "box": {
+        "left": 217.1,
+        "top": 452.0,
+        "width": 67.9,
+        "height": 24.0
+      }
+    },
+    "noLstTiTot": {
+      "type": "text",
+      "label": "3. No Lost time injuries",
+      "page": 1,
+      "box": {
+        "left": 287.3,
+        "top": 452.0,
+        "width": 71.2,
+        "height": 24.0
+      }
+    },
+    "fatIlTot": {
+      "type": "text",
+      "label": "4. Fatal illnesses.",
+      "page": 1,
+      "box": {
+        "left": 361.2,
+        "top": 452.0,
+        "width": 68.6,
+        "height": 24.0
+      }
+    },
+    "lstTimIlTot": {
+      "type": "text",
+      "label": "5. Lost time illnesses.",
+      "page": 1,
+      "box": {
+        "left": 433.2,
+        "top": 452.0,
+        "width": 67.8,
+        "height": 24.0
+      }
+    },
+    "noLstTiIllTot": {
+      "type": "text",
+      "label": "6. No lost time illness.",
+      "page": 1,
+      "box": {
+        "left": 505.2,
+        "top": 452.0,
+        "width": 68.6,
+        "height": 24.0
+      }
+    },
+    "nuMisInd": {
+      "type": "text",
+      "label": "2. Mishaps by type and cost.  On duty mishaps.  a. Industrial.  1. Number of mishaps.",
+      "page": 1,
+      "box": {
+        "left": 140.9,
+        "top": 383.2,
+        "width": 144.8,
+        "height": 23.2
+      }
+    },
+    "injCosInd": {
+      "type": "text",
+      "label": "2. Injury cost.  a. Industrial",
+      "page": 1,
+      "box": {
+        "left": 285.7,
+        "top": 383.2,
+        "width": 144.8,
+        "height": 23.2
+      }
+    },
+    "damCstInd": {
+      "type": "text",
+      "label": "3. Damage costs.  a. Industrial",
+      "page": 1,
+      "box": {
+        "left": 429.7,
+        "top": 383.2,
+        "width": 144.8,
+        "height": 23.2
+      }
+    },
+    "nuMisGMV": {
+      "type": "text",
+      "label": "b. G M V.  1. Number of mishaps.",
+      "page": 1,
+      "box": {
+        "left": 140.9,
+        "top": 360.0,
+        "width": 144.8,
+        "height": 23.2
+      }
+    },
+    "injCosGmv": {
+      "type": "text",
+      "label": "b. G M V",
+      "page": 1,
+      "box": {
+        "left": 285.7,
+        "top": 360.0,
+        "width": 144.8,
+        "height": 23.2
+      }
+    },
+    "damCstGmv": {
+      "type": "text",
+      "label": "b. G M V",
+      "page": 1,
+      "box": {
+        "left": 429.7,
+        "top": 360.0,
+        "width": 144.8,
+        "height": 23.2
+      }
+    },
+    "nuMisTr": {
+      "type": "text",
+      "label": "c. Training.  1. Number of mishaps.",
+      "page": 1,
+      "box": {
+        "left": 140.9,
+        "top": 336.8,
+        "width": 144.8,
+        "height": 23.2
+      }
+    },
+    "injCosTr": {
+      "type": "text",
+      "label": "c. Training",
+      "page": 1,
+      "box": {
+        "left": 285.7,
+        "top": 336.8,
+        "width": 144.8,
+        "height": 23.2
+      }
+    },
+    "damCstTr": {
+      "type": "text",
+      "label": "c. Training",
+      "page": 1,
+      "box": {
+        "left": 429.7,
+        "top": 336.8,
+        "width": 144.8,
+        "height": 23.2
+      }
+    },
+    "nuMisAllOt": {
+      "type": "text",
+      "label": "d. All other on duty.  1. Number of mishaps.",
+      "page": 1,
+      "box": {
+        "left": 140.9,
+        "top": 314.4,
+        "width": 144.8,
+        "height": 23.2
+      }
+    },
+    "injCosAllOt": {
+      "type": "text",
+      "label": "d. All other on duty",
+      "page": 1,
+      "box": {
+        "left": 285.7,
+        "top": 314.4,
+        "width": 144.8,
+        "height": 23.2
+      }
+    },
+    "damCstAllOt": {
+      "type": "text",
+      "label": "d. All other on duty",
+      "page": 1,
+      "box": {
+        "left": 429.7,
+        "top": 314.4,
+        "width": 144.8,
+        "height": 23.2
+      }
+    },
+    "nuMisTot": {
+      "type": "text",
+      "label": "e. Totals - on duty.",
+      "page": 1,
+      "box": {
+        "left": 140.9,
+        "top": 291.2,
+        "width": 144.8,
+        "height": 23.2
+      }
+    },
+    "injCosTot": {
+      "type": "text",
+      "label": "e. Totals - on duty.",
+      "page": 1,
+      "box": {
+        "left": 285.7,
+        "top": 291.2,
+        "width": 144.8,
+        "height": 23.2
+      }
+    },
+    "damCst": {
+      "type": "text",
+      "label": "e. Totals - on duty.",
+      "page": 1,
+      "box": {
+        "left": 429.7,
+        "top": 291.2,
+        "width": 144.8,
+        "height": 23.2
+      }
+    },
+    "nuMisPmv": {
+      "type": "text",
+      "label": "Off-duty mishaps.  a. P M V.  1. Number of mishaps.",
+      "page": 1,
+      "box": {
+        "left": 141.7,
+        "top": 234.4,
+        "width": 144.8,
+        "height": 23.2
+      }
+    },
+    "injCosPmv": {
+      "type": "text",
+      "label": "2. Injury cost.  a. P M V",
+      "page": 1,
+      "box": {
+        "left": 285.7,
+        "top": 234.4,
+        "width": 144.8,
+        "height": 23.2
+      }
+    },
+    "damCstPmv": {
+      "type": "text",
+      "label": "3. Damage costs.  a. P M V",
+      "page": 1,
+      "box": {
+        "left": 430.5,
+        "top": 234.4,
+        "width": 142.4,
+        "height": 23.2
+      }
+    },
+    "nuMisSpRec": {
+      "type": "text",
+      "label": "b.Sports / Rec.  1. Number of mishaps.",
+      "page": 1,
+      "box": {
+        "left": 141.7,
+        "top": 211.2,
+        "width": 144.8,
+        "height": 23.2
+      }
+    },
+    "injCosSpRec": {
+      "type": "text",
+      "label": "b. Sports / Rec.",
+      "page": 1,
+      "box": {
+        "left": 285.7,
+        "top": 211.2,
+        "width": 144.8,
+        "height": 23.2
+      }
+    },
+    "damCstSpRec": {
+      "type": "text",
+      "label": "b. Sports / Rec",
+      "page": 1,
+      "box": {
+        "left": 430.5,
+        "top": 211.2,
+        "width": 142.4,
+        "height": 23.2
+      }
+    },
+    "nuMisOth": {
+      "type": "text",
+      "label": "c. All other off duty.   Number of mishaps.",
+      "page": 1,
+      "box": {
+        "left": 141.7,
+        "top": 188.0,
+        "width": 144.8,
+        "height": 23.2
+      }
+    },
+    "damCstOth": {
+      "type": "text",
+      "label": "c. All other off duty.",
+      "page": 1,
+      "box": {
+        "left": 430.5,
+        "top": 188.0,
+        "width": 142.4,
+        "height": 23.2
+      }
+    },
+    "injCosOth": {
+      "type": "text",
+      "label": "c. All other off duty",
+      "page": 1,
+      "box": {
+        "left": 285.7,
+        "top": 187.2,
+        "width": 144.8,
+        "height": 23.2
+      }
+    },
+    "nuMisTot2": {
+      "type": "text",
+      "label": "d. Totals - off duty",
+      "page": 1,
+      "box": {
+        "left": 142.5,
+        "top": 164.8,
+        "width": 144.8,
+        "height": 23.2
+      }
+    },
+    "injCosTot2": {
+      "type": "text",
+      "label": "d. Totals - off duty",
+      "page": 1,
+      "box": {
+        "left": 286.5,
+        "top": 164.8,
+        "width": 144.8,
+        "height": 23.2
+      }
+    },
+    "damCst2": {
+      "type": "text",
+      "label": "d. Totals - off duty.",
+      "page": 1,
+      "box": {
+        "left": 431.3,
+        "top": 164.8,
+        "width": 142.4,
+        "height": 23.2
+      }
+    },
+    "avStrMil": {
+      "type": "text",
+      "label": "3. Personnel data for this period.  Average strength.  1. Military",
+      "page": 1,
+      "box": {
+        "left": 144.0,
+        "top": 100.8,
+        "width": 141.1,
+        "height": 24.8
+      }
+    },
+    "avStrCiv": {
+      "type": "text",
+      "label": "2. Civilian",
+      "page": 1,
+      "box": {
+        "left": 287.2,
+        "top": 100.8,
+        "width": 142.4,
+        "height": 24.8
+      }
+    },
+    "avStrOth": {
+      "type": "text",
+      "label": "3. Other civilian.",
+      "page": 1,
+      "box": {
+        "left": 432.0,
+        "top": 100.8,
+        "width": 141.7,
+        "height": 24.8
+      }
+    }
+  }
+}

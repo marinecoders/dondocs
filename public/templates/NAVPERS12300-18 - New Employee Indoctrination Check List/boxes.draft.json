@@ -1,0 +1,106 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "1": {
+        "left": 36.1,
+        "top": 708.4,
+        "width": 370.5,
+        "height": 18.0,
+        "type": "text",
+        "description": "NEW EMPLOYEE INDOCTRINATION CHECK",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "2": {
+        "left": 413.1,
+        "top": 707.6,
+        "width": 166.4,
+        "height": 16.4,
+        "type": "text",
+        "description": "SUPPORTING DIRECTIVE BUPERSINST 5300.10A",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "3": {
+        "left": 35.2,
+        "top": 682.2,
+        "width": 373.8,
+        "height": 19.7,
+        "type": "text",
+        "description": "EMPLOYEE&apos;S NAME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "4": {
+        "left": 413.1,
+        "top": 681.3,
+        "width": 168.0,
+        "height": 18.0,
+        "type": "text",
+        "description": "SUSPENSE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "5": {
+        "left": 35.2,
+        "top": 653.5,
+        "width": 373.0,
+        "height": 18.9,
+        "type": "text",
+        "description": "DEPARTMENT/BRANCH",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "6": {
+        "left": 413.9,
+        "top": 651.8,
+        "width": 167.2,
+        "height": 18.9,
+        "type": "text",
+        "description": "DATE EMPLOYED",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "8": {
+        "left": 414.8,
+        "top": 624.0,
+        "width": 168.0,
+        "height": 17.2,
+        "type": "text",
+        "description": "GRADE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "7": {
+        "left": 36.1,
+        "top": 623.1,
+        "width": 373.8,
+        "height": 16.4,
+        "type": "text",
+        "description": "JOB TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

@@ -1,0 +1,208 @@
+{
+  "id": "opnav479024a",
+  "label": "OPNAV4790-24A - Tech Directives",
+  "directory": "OPNAV4790-24A - Tech Directives",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "typDir",
+        "airmodEqpnme",
+        "bunSerNo",
+        "typModSer"
+      ]
+    }
+  ],
+  "fields": {
+    "typDir": {
+      "type": "text",
+      "label": "1. TYPE DIRECTIVE",
+      "page": 1,
+      "box": {
+        "left": 518.5,
+        "top": 557.5,
+        "width": 234.1,
+        "height": 14.5
+      }
+    },
+    "airmodEqpnme": {
+      "type": "text",
+      "label": "2. AIRCRAFT MODEL/EQUIPMENT NAME",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 522.3,
+        "width": 234.1,
+        "height": 14.5
+      }
+    },
+    "bunSerNo": {
+      "type": "text",
+      "label": "4. BUNO OR SERIAL NUMBER",
+      "page": 1,
+      "box": {
+        "left": 518.5,
+        "top": 522.3,
+        "width": 234.1,
+        "height": 14.5
+      }
+    },
+    "typModSer": {
+      "type": "text",
+      "label": "3. TYPE/MODEL/SERIES",
+      "page": 1,
+      "box": {
+        "left": 279.0,
+        "top": 522.2,
+        "width": 234.1,
+        "height": 14.5
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 17,
+      "rowStride": 25.42,
+      "editor": "grid",
+      "columns": {
+        "lnds": {
+          "type": "text",
+          "label": "BASIC",
+          "page": 1,
+          "box": {
+            "left": 36.0,
+            "top": 468.1,
+            "width": 35.4,
+            "height": 25.4
+          }
+        },
+        "lnds1": {
+          "type": "text",
+          "label": "INT",
+          "page": 1,
+          "box": {
+            "left": 71.4,
+            "top": 468.1,
+            "width": 35.4,
+            "height": 25.4
+          }
+        },
+        "lnds2": {
+          "type": "text",
+          "label": "REV",
+          "page": 1,
+          "box": {
+            "left": 106.8,
+            "top": 468.1,
+            "width": 35.4,
+            "height": 25.4
+          }
+        },
+        "lnds3": {
+          "type": "text",
+          "label": "AM",
+          "page": 1,
+          "box": {
+            "left": 142.3,
+            "top": 468.1,
+            "width": 35.4,
+            "height": 25.4
+          }
+        },
+        "lnds4": {
+          "type": "text",
+          "label": "PT",
+          "page": 1,
+          "box": {
+            "left": 177.7,
+            "top": 468.1,
+            "width": 35.4,
+            "height": 25.4
+          }
+        },
+        "lnds42": {
+          "type": "text",
+          "label": "KIT",
+          "page": 1,
+          "box": {
+            "left": 213.1,
+            "top": 468.1,
+            "width": 35.4,
+            "height": 25.4
+          }
+        },
+        "lnds43": {
+          "type": "text",
+          "label": "PRI",
+          "page": 1,
+          "box": {
+            "left": 248.5,
+            "top": 468.1,
+            "width": 35.4,
+            "height": 25.4
+          }
+        },
+        "dropDownList1": {
+          "type": "choice",
+          "label": "6. STATUS",
+          "page": 1,
+          "box": {
+            "left": 287.7,
+            "top": 464.5,
+            "width": 45.0,
+            "height": 18.2
+          }
+        },
+        "tilRem": {
+          "type": "text",
+          "label": "7. TITLE/REMARKS",
+          "page": 1,
+          "box": {
+            "left": 336.2,
+            "top": 468.1,
+            "width": 177.4,
+            "height": 25.4
+          }
+        },
+        "byAct": {
+          "type": "text",
+          "label": "A. BY (Activity )",
+          "page": 1,
+          "box": {
+            "left": 514.8,
+            "top": 468.1,
+            "width": 91.9,
+            "height": 25.4
+          }
+        },
+        "compDte": {
+          "type": "text",
+          "label": "B. DATE",
+          "page": 1,
+          "box": {
+            "left": 608.8,
+            "top": 465.2,
+            "width": 40.1,
+            "height": 19.7
+          }
+        },
+        "signatureField1": {
+          "type": "text",
+          "label": "9. SIGNATURE",
+          "page": 1,
+          "box": {
+            "left": 655.3,
+            "top": 465.2,
+            "width": 97.9,
+            "height": 19.7
+          }
+        }
+      }
+    }
+  }
+}

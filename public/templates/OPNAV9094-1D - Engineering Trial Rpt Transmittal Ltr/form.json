@@ -1,0 +1,5033 @@
+{
+  "id": "opnav90941d",
+  "label": "OPNAV9094-1D - Engineering Trial Rpt Transmittal Ltr",
+  "directory": "OPNAV9094-1D - Engineering Trial Rpt Transmittal Ltr",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "shipName",
+        "trialDte",
+        "radio",
+        "radio2",
+        "radio3",
+        "radio4",
+        "radio5",
+        "radio6",
+        "other",
+        "forward",
+        "aft",
+        "mean",
+        "displacement",
+        "outofDock",
+        "underway",
+        "notUnderway",
+        "paint",
+        "number",
+        "diameter",
+        "design",
+        "blades",
+        "type",
+        "condition",
+        "a15",
+        "a30",
+        "a45",
+        "a60",
+        "aAverage",
+        "aFullAstern",
+        "b15",
+        "b30",
+        "b45",
+        "b60",
+        "bAverage",
+        "bFullAstern",
+        "c15",
+        "c30",
+        "c45",
+        "c60",
+        "cAverage",
+        "cFullAstern",
+        "d15",
+        "d30",
+        "d45",
+        "d60",
+        "dAverage",
+        "dFullAstern",
+        "e15",
+        "e30",
+        "e45",
+        "e60",
+        "eAverage",
+        "eFullAstern",
+        "f15",
+        "f30",
+        "f45",
+        "f60",
+        "fAverage",
+        "fFullAstern",
+        "g15",
+        "g30",
+        "g45",
+        "g60",
+        "gAverage",
+        "gFullAstern",
+        "h15",
+        "h30",
+        "h45",
+        "h60",
+        "hAverage",
+        "hFullAstern",
+        "i15",
+        "i30",
+        "i45",
+        "i60",
+        "iAverage",
+        "iFullAstern",
+        "j15",
+        "j30",
+        "j45",
+        "j60",
+        "jAverage",
+        "jFullAstern",
+        "v15",
+        "v30",
+        "v45",
+        "v60",
+        "vAverage",
+        "vFullAstern",
+        "k15",
+        "k30",
+        "k45",
+        "k60",
+        "kAverage",
+        "kFullAstern",
+        "l15",
+        "l30",
+        "l45",
+        "l60",
+        "lAverage",
+        "lFullAstern",
+        "m15",
+        "m30",
+        "m45",
+        "m60",
+        "mAverage",
+        "mFullAstern",
+        "n15",
+        "n30",
+        "n45",
+        "n60",
+        "nAverage",
+        "nFullAstern",
+        "o15",
+        "o30",
+        "o45",
+        "o60",
+        "oAverage",
+        "oFullAstern",
+        "p15",
+        "p30",
+        "p45",
+        "p60",
+        "pAverage",
+        "pFullAstern",
+        "q15",
+        "q30",
+        "q45",
+        "q60",
+        "qAverage",
+        "qFullAstern",
+        "r15",
+        "r30",
+        "r45",
+        "r60",
+        "rAverage",
+        "rFullAstern",
+        "s15",
+        "s30",
+        "s45",
+        "s60",
+        "sAverage",
+        "sFullAstern",
+        "t15",
+        "t30",
+        "t45",
+        "t60",
+        "tAverage",
+        "tFullAstern",
+        "u15",
+        "u30",
+        "u45",
+        "u60",
+        "uAverage",
+        "uFullAstern",
+        "v152",
+        "v302",
+        "v452",
+        "v602",
+        "vAverage2",
+        "vFullAstern2",
+        "first15w",
+        "second15w",
+        "third15w",
+        "fourth15w",
+        "averagew",
+        "wFullAstern",
+        "x15",
+        "x30",
+        "x45",
+        "x60",
+        "xAverage",
+        "xFullAstern",
+        "y15",
+        "y30",
+        "y45",
+        "y60",
+        "yAverage",
+        "yFullAstern",
+        "z15",
+        "z30",
+        "z45",
+        "z60",
+        "zAverage",
+        "zFullAstern"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "shipName2",
+        "trialDte2",
+        "engRoom",
+        "mainEngRoom",
+        "a152",
+        "a302",
+        "a452",
+        "a602",
+        "aAverage2",
+        "aFullAstern2",
+        "b152",
+        "b302",
+        "b452",
+        "b602",
+        "bAverage2",
+        "bFullAstern2",
+        "c152",
+        "c302",
+        "c452",
+        "c602",
+        "cAverage2",
+        "cFullAstern2",
+        "d152",
+        "d302",
+        "d452",
+        "d602",
+        "dAverage2",
+        "dFullAstern2",
+        "e152",
+        "e302",
+        "e452",
+        "e602",
+        "eAverage2",
+        "eFullAstern2",
+        "f152",
+        "f302",
+        "f452",
+        "f602",
+        "fAverage2",
+        "fFullAstern2",
+        "g152",
+        "g302",
+        "g452",
+        "g602",
+        "gAverage2",
+        "gFullAstern2",
+        "h152",
+        "h302",
+        "h452",
+        "h602",
+        "hAverage2",
+        "hFullAstern2",
+        "i152",
+        "i302",
+        "i452",
+        "i602",
+        "iAverage2",
+        "iFullAstern2",
+        "j152",
+        "j302",
+        "j452",
+        "j602",
+        "jAverage2",
+        "jFullAstern2",
+        "k152",
+        "k302",
+        "k452",
+        "k602",
+        "kAverage2",
+        "kFullAstern2",
+        "l152",
+        "l302",
+        "l452",
+        "l602",
+        "lAverage2",
+        "lFullAstern2",
+        "m152",
+        "m302",
+        "m452",
+        "m602",
+        "mAverage2",
+        "mFullAstern2",
+        "n152",
+        "n302",
+        "n452",
+        "n602",
+        "nAverage2",
+        "nFullAstern2",
+        "first15A1",
+        "second15A1",
+        "third15bA1",
+        "fourth15A1",
+        "averageA1",
+        "fullAsternA1",
+        "first15B2",
+        "second15B2",
+        "third15B2",
+        "fourth15B2",
+        "averageB2",
+        "fullAsternB2",
+        "first15C3",
+        "second15C3",
+        "third15C3",
+        "fourth15C3",
+        "averageC3",
+        "fullAsternC3",
+        "first15D4",
+        "second15D4",
+        "third15D4",
+        "fourth15D4",
+        "averageD4",
+        "fullAsternD4",
+        "first15E5",
+        "second15E5",
+        "third15E5",
+        "fourth15E5",
+        "averageE5",
+        "fullAsternE5",
+        "first15F6",
+        "second15F6",
+        "third15F6",
+        "fourth15F6",
+        "averageF6",
+        "fullAsternF6",
+        "first15G7",
+        "second15G7",
+        "third15G7",
+        "fourth15G7",
+        "averageG7",
+        "fullAsternG7",
+        "first15H8",
+        "second15H8",
+        "third15H8",
+        "fourth15H8",
+        "averageH8",
+        "fullAsternH8",
+        "first15I9",
+        "second15I9",
+        "third15I9",
+        "fourth15I9",
+        "averageI9",
+        "fullAsternI9",
+        "first15J10",
+        "second15J10",
+        "third15J10",
+        "fourth15J10",
+        "averageJ10",
+        "fullAsternJ10",
+        "first15K11",
+        "second15K11",
+        "third15K11",
+        "fourth15K11",
+        "averageK11",
+        "fullAsternK11",
+        "first15L12",
+        "second15L12",
+        "third15L12",
+        "fourth15L12",
+        "averageL12",
+        "fullAsternbL12",
+        "first15M13",
+        "second15M13",
+        "third15M13",
+        "fourth15M13",
+        "averageM13",
+        "fullAsternM13",
+        "first15N14",
+        "second15N14",
+        "third15N14",
+        "fourth15N14",
+        "averageN14",
+        "fullAsternN14",
+        "first15O15",
+        "second15O15",
+        "third15O15",
+        "fourth15O15",
+        "averageO15",
+        "fullAsternO15",
+        "first15P16",
+        "second15P16",
+        "third15P16",
+        "fourth15P16",
+        "averageP16",
+        "fullAsternP16",
+        "first15Q17",
+        "second15Q17",
+        "third15Q17",
+        "fourth15Q17",
+        "averageQ17",
+        "fullAsternQ17",
+        "first15R18",
+        "second15R18",
+        "third15R18",
+        "fourth15R18",
+        "averageR18",
+        "fullAsternR18",
+        "first15S19",
+        "second15S19",
+        "third15S19",
+        "fourth15S19",
+        "averageS19",
+        "fullAsternS19",
+        "first15T20",
+        "second15T20",
+        "third15T20",
+        "fourth15T20",
+        "averageT20",
+        "fullAsternT20",
+        "first15U21",
+        "second15U21",
+        "third15U21",
+        "fourth15U21",
+        "averageU21",
+        "fullAsternU21",
+        "first15V22",
+        "second15V22",
+        "third15V22",
+        "fourth15V22",
+        "averageV22",
+        "fullAsternV22",
+        "first15W23",
+        "second15W23",
+        "third15W23",
+        "fourth15W23",
+        "averageW23",
+        "fullAsternW23",
+        "first15X24",
+        "second15X24",
+        "third15X24",
+        "fourth15X24",
+        "averageX24",
+        "fullAsternX24"
+      ]
+    }
+  ],
+  "fields": {
+    "shipName": {
+      "type": "text",
+      "label": "SHIP (NAME, TYPE, NUMBER)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 712.8,
+        "width": 426.4,
+        "height": 12.3
+      }
+    },
+    "trialDte": {
+      "type": "text",
+      "label": "DATE OF TRIAL",
+      "page": 1,
+      "box": {
+        "left": 470.7,
+        "top": 712.8,
+        "width": 102.3,
+        "height": 12.3
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 666.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 121.2,
+        "top": 666.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 191.3,
+        "top": 666.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 271.8,
+        "top": 666.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 1,
+      "box": {
+        "left": 329.6,
+        "top": 666.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 1,
+      "box": {
+        "left": 400.6,
+        "top": 666.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "other": {
+      "type": "text",
+      "label": "FULL POWER PRE-OVERHAUL ECONOMY POST REPAIR OTHER (SPECIFY)",
+      "page": 1,
+      "box": {
+        "left": 488.9,
+        "top": 666.0,
+        "width": 84.3,
+        "height": 10.2
+      }
+    },
+    "forward": {
+      "type": "text",
+      "label": "a. FORWARD (FEET-INCHES)",
+      "page": 1,
+      "box": {
+        "left": 110.8,
+        "top": 612.7,
+        "width": 111.3,
+        "height": 12.3
+      }
+    },
+    "aft": {
+      "type": "text",
+      "label": "b. AFT (FEET-INCHES)",
+      "page": 1,
+      "box": {
+        "left": 227.8,
+        "top": 612.7,
+        "width": 111.3,
+        "height": 12.3
+      }
+    },
+    "mean": {
+      "type": "text",
+      "label": "c. MEAN (FEET-INCHES)",
+      "page": 1,
+      "box": {
+        "left": 344.8,
+        "top": 612.7,
+        "width": 111.3,
+        "height": 12.3
+      }
+    },
+    "displacement": {
+      "type": "text",
+      "label": "d. DISPLACEMENT (TONS)",
+      "page": 1,
+      "box": {
+        "left": 461.9,
+        "top": 612.7,
+        "width": 111.3,
+        "height": 12.3
+      }
+    },
+    "outofDock": {
+      "type": "text",
+      "label": "HAS BEEN ACCOMPLISHED",
+      "page": 1,
+      "box": {
+        "left": 110.8,
+        "top": 557.7,
+        "width": 174.4,
+        "height": 12.3
+      }
+    },
+    "underway": {
+      "type": "text",
+      "label": "CLEANING",
+      "page": 1,
+      "box": {
+        "left": 290.8,
+        "top": 557.7,
+        "width": 102.3,
+        "height": 12.3
+      }
+    },
+    "notUnderway": {
+      "type": "text",
+      "label": "CLEANING",
+      "page": 1,
+      "box": {
+        "left": 398.9,
+        "top": 557.7,
+        "width": 102.3,
+        "height": 12.3
+      }
+    },
+    "paint": {
+      "type": "text",
+      "label": "PAINT",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 557.7,
+        "width": 66.3,
+        "height": 12.3
+      }
+    },
+    "number": {
+      "type": "text",
+      "label": "a. NUMBER",
+      "page": 1,
+      "box": {
+        "left": 110.8,
+        "top": 521.7,
+        "width": 53.4,
+        "height": 12.3
+      }
+    },
+    "diameter": {
+      "type": "text",
+      "label": "(FT-IN)",
+      "page": 1,
+      "box": {
+        "left": 169.9,
+        "top": 521.7,
+        "width": 53.4,
+        "height": 12.3
+      }
+    },
+    "design": {
+      "type": "text",
+      "label": "PITCH (FT-IN)",
+      "page": 1,
+      "box": {
+        "left": 228.9,
+        "top": 521.7,
+        "width": 56.3,
+        "height": 12.3
+      }
+    },
+    "blades": {
+      "type": "text",
+      "label": "BLADES",
+      "page": 1,
+      "box": {
+        "left": 290.8,
+        "top": 521.7,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "type": {
+      "type": "text",
+      "label": "e. TYPE",
+      "page": 1,
+      "box": {
+        "left": 344.8,
+        "top": 521.7,
+        "width": 48.3,
+        "height": 12.3
+      }
+    },
+    "condition": {
+      "type": "text",
+      "label": "FOULING, ETC.)",
+      "page": 1,
+      "box": {
+        "left": 398.9,
+        "top": 521.7,
+        "width": 174.4,
+        "height": 12.3
+      }
+    },
+    "a15": {
+      "type": "text",
+      "label": "(INCHES HG)",
+      "page": 1,
+      "box": {
+        "left": 282.1,
+        "top": 475.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "a30": {
+      "type": "text",
+      "label": "(INCHES HG)",
+      "page": 1,
+      "box": {
+        "left": 324.8,
+        "top": 475.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "a45": {
+      "type": "text",
+      "label": "(INCHES HG)",
+      "page": 1,
+      "box": {
+        "left": 367.9,
+        "top": 475.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "a60": {
+      "type": "text",
+      "label": "(INCHES HG)",
+      "page": 1,
+      "box": {
+        "left": 410.9,
+        "top": 475.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "aAverage": {
+      "type": "text",
+      "label": "(INCHES HG)",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 475.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "aFullAstern": {
+      "type": "text",
+      "label": "(INCHES HG)",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 475.9,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "b15": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 282.1,
+        "top": 461.5,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "b30": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 324.8,
+        "top": 461.5,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "b45": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 367.9,
+        "top": 461.5,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "b60": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 410.9,
+        "top": 461.5,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "bAverage": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 461.5,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "bFullAstern": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 461.5,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "c15": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 282.1,
+        "top": 447.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "c30": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 324.8,
+        "top": 447.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "c45": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 367.9,
+        "top": 447.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "c60": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 410.9,
+        "top": 447.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "cAverage": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 447.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "cFullAstern": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 447.3,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "d15": {
+      "type": "text",
+      "label": "(PERCENT)",
+      "page": 1,
+      "box": {
+        "left": 282.1,
+        "top": 432.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "d30": {
+      "type": "text",
+      "label": "(PERCENT)",
+      "page": 1,
+      "box": {
+        "left": 324.8,
+        "top": 432.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "d45": {
+      "type": "text",
+      "label": "(PERCENT)",
+      "page": 1,
+      "box": {
+        "left": 367.9,
+        "top": 432.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "d60": {
+      "type": "text",
+      "label": "(PERCENT)",
+      "page": 1,
+      "box": {
+        "left": 410.9,
+        "top": 432.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "dAverage": {
+      "type": "text",
+      "label": "(PERCENT)",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 432.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "dFullAstern": {
+      "type": "text",
+      "label": "(PERCENT)",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 432.9,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "e15": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 282.1,
+        "top": 418.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "e30": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 324.8,
+        "top": 418.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "e45": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 367.9,
+        "top": 418.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "e60": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 410.9,
+        "top": 418.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "eAverage": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 418.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "eFullAstern": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 418.7,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "f15": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 282.1,
+        "top": 404.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "f30": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 324.8,
+        "top": 404.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "f45": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 367.9,
+        "top": 404.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "f60": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 410.9,
+        "top": 404.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fAverage": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 404.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fFullAstern": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 404.3,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "g15": {
+      "type": "text",
+      "label": "(DEG)",
+      "page": 1,
+      "box": {
+        "left": 282.1,
+        "top": 389.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "g30": {
+      "type": "text",
+      "label": "(DEG)",
+      "page": 1,
+      "box": {
+        "left": 324.8,
+        "top": 389.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "g45": {
+      "type": "text",
+      "label": "(DEG)",
+      "page": 1,
+      "box": {
+        "left": 367.9,
+        "top": 389.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "g60": {
+      "type": "text",
+      "label": "(DEG)",
+      "page": 1,
+      "box": {
+        "left": 410.9,
+        "top": 389.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "gAverage": {
+      "type": "text",
+      "label": "(DEG)",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 389.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "gFullAstern": {
+      "type": "text",
+      "label": "(DEG)",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 389.9,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "h15": {
+      "type": "text",
+      "label": "(BEAUFORT NO)",
+      "page": 1,
+      "box": {
+        "left": 282.1,
+        "top": 375.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "h30": {
+      "type": "text",
+      "label": "(BEAUFORT NO)",
+      "page": 1,
+      "box": {
+        "left": 324.8,
+        "top": 375.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "h45": {
+      "type": "text",
+      "label": "(BEAUFORT NO)",
+      "page": 1,
+      "box": {
+        "left": 367.9,
+        "top": 375.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "h60": {
+      "type": "text",
+      "label": "(BEAUFORT NO)",
+      "page": 1,
+      "box": {
+        "left": 410.9,
+        "top": 375.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "hAverage": {
+      "type": "text",
+      "label": "(BEAUFORT NO)",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 375.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "hFullAstern": {
+      "type": "text",
+      "label": "(BEAUFORT NO)",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 375.7,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "i15": {
+      "type": "text",
+      "label": "(DEG)",
+      "page": 1,
+      "box": {
+        "left": 282.1,
+        "top": 361.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "i30": {
+      "type": "text",
+      "label": "(DEG)",
+      "page": 1,
+      "box": {
+        "left": 324.8,
+        "top": 361.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "i45": {
+      "type": "text",
+      "label": "(DEG)",
+      "page": 1,
+      "box": {
+        "left": 367.9,
+        "top": 361.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "i60": {
+      "type": "text",
+      "label": "(DEG)",
+      "page": 1,
+      "box": {
+        "left": 410.9,
+        "top": 361.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "iAverage": {
+      "type": "text",
+      "label": "(DEG)",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 361.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "iFullAstern": {
+      "type": "text",
+      "label": "(DEG)",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 361.3,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "j15": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 282.1,
+        "top": 317.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "j30": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 324.8,
+        "top": 317.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "j45": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 367.9,
+        "top": 317.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "j60": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 410.9,
+        "top": 317.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "jAverage": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 317.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "jFullAstern": {
+      "type": "text",
+      "label": "(KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 317.8,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "v15": {
+      "type": "text",
+      "label": "SHIP SPEED FROM EM LOG (OVER WATER) (KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 282.1,
+        "top": 303.4,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "v30": {
+      "type": "text",
+      "label": "SHIP SPEED FROM EM LOG (OVER WATER) (KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 324.8,
+        "top": 303.4,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "v45": {
+      "type": "text",
+      "label": "SHIP SPEED FROM EM LOG (OVER WATER) (KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 367.9,
+        "top": 303.4,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "v60": {
+      "type": "text",
+      "label": "SHIP SPEED FROM EM LOG (OVER WATER) (KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 410.9,
+        "top": 303.4,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "vAverage": {
+      "type": "text",
+      "label": "SHIP SPEED FROM EM LOG (OVER WATER) (KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 303.4,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "vFullAstern": {
+      "type": "text",
+      "label": "SHIP SPEED FROM EM LOG (OVER WATER) (KNOTS)",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 303.4,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "k15": {
+      "type": "text",
+      "label": "STARBOARD",
+      "page": 1,
+      "box": {
+        "left": 282.1,
+        "top": 289.5,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "k30": {
+      "type": "text",
+      "label": "STARBOARD",
+      "page": 1,
+      "box": {
+        "left": 324.8,
+        "top": 289.5,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "k45": {
+      "type": "text",
+      "label": "STARBOARD",
+      "page": 1,
+      "box": {
+        "left": 367.9,
+        "top": 289.5,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "k60": {
+      "type": "text",
+      "label": "STARBOARD",
+      "page": 1,
+      "box": {
+        "left": 410.9,
+        "top": 289.5,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "kAverage": {
+      "type": "text",
+      "label": "STARBOARD",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 289.5,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "kFullAstern": {
+      "type": "text",
+      "label": "STARBOARD",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 289.5,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "l15": {
+      "type": "text",
+      "label": "PORT",
+      "page": 1,
+      "box": {
+        "left": 282.1,
+        "top": 275.1,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "l30": {
+      "type": "text",
+      "label": "PORT",
+      "page": 1,
+      "box": {
+        "left": 324.8,
+        "top": 275.1,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "l45": {
+      "type": "text",
+      "label": "PORT",
+      "page": 1,
+      "box": {
+        "left": 367.9,
+        "top": 275.1,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "l60": {
+      "type": "text",
+      "label": "PORT",
+      "page": 1,
+      "box": {
+        "left": 410.9,
+        "top": 275.1,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "lAverage": {
+      "type": "text",
+      "label": "PORT",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 275.1,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "lFullAstern": {
+      "type": "text",
+      "label": "PORT",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 275.1,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "m15": {
+      "type": "text",
+      "label": "STARBOARD",
+      "page": 1,
+      "box": {
+        "left": 282.1,
+        "top": 260.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "m30": {
+      "type": "text",
+      "label": "STARBOARD",
+      "page": 1,
+      "box": {
+        "left": 324.8,
+        "top": 260.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "m45": {
+      "type": "text",
+      "label": "STARBOARD",
+      "page": 1,
+      "box": {
+        "left": 367.9,
+        "top": 260.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "m60": {
+      "type": "text",
+      "label": "STARBOARD",
+      "page": 1,
+      "box": {
+        "left": 410.9,
+        "top": 260.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "mAverage": {
+      "type": "text",
+      "label": "STARBOARD",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 260.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "mFullAstern": {
+      "type": "text",
+      "label": "STARBOARD",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 260.7,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "n15": {
+      "type": "text",
+      "label": "PORT",
+      "page": 1,
+      "box": {
+        "left": 282.1,
+        "top": 246.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "n30": {
+      "type": "text",
+      "label": "PORT",
+      "page": 1,
+      "box": {
+        "left": 324.8,
+        "top": 246.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "n45": {
+      "type": "text",
+      "label": "PORT",
+      "page": 1,
+      "box": {
+        "left": 367.9,
+        "top": 246.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "n60": {
+      "type": "text",
+      "label": "PORT",
+      "page": 1,
+      "box": {
+        "left": 410.9,
+        "top": 246.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "nAverage": {
+      "type": "text",
+      "label": "PORT",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 246.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "nFullAstern": {
+      "type": "text",
+      "label": "PORT",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 246.3,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "o15": {
+      "type": "text",
+      "label": "STARBOARD",
+      "page": 1,
+      "box": {
+        "left": 282.1,
+        "top": 231.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "o30": {
+      "type": "text",
+      "label": "STARBOARD",
+      "page": 1,
+      "box": {
+        "left": 324.8,
+        "top": 231.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "o45": {
+      "type": "text",
+      "label": "STARBOARD",
+      "page": 1,
+      "box": {
+        "left": 367.9,
+        "top": 231.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "o60": {
+      "type": "text",
+      "label": "STARBOARD",
+      "page": 1,
+      "box": {
+        "left": 410.9,
+        "top": 231.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "oAverage": {
+      "type": "text",
+      "label": "STARBOARD",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 231.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "oFullAstern": {
+      "type": "text",
+      "label": "STARBOARD",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 231.9,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "p15": {
+      "type": "text",
+      "label": "PORT",
+      "page": 1,
+      "box": {
+        "left": 282.1,
+        "top": 217.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "p30": {
+      "type": "text",
+      "label": "PORT",
+      "page": 1,
+      "box": {
+        "left": 324.8,
+        "top": 217.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "p45": {
+      "type": "text",
+      "label": "PORT",
+      "page": 1,
+      "box": {
+        "left": 367.9,
+        "top": 217.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "p60": {
+      "type": "text",
+      "label": "PORT",
+      "page": 1,
+      "box": {
+        "left": 410.9,
+        "top": 217.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "pAverage": {
+      "type": "text",
+      "label": "PORT",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 217.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "pFullAstern": {
+      "type": "text",
+      "label": "PORT",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 217.7,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "q15": {
+      "type": "text",
+      "label": "STARBOARD",
+      "page": 1,
+      "box": {
+        "left": 282.1,
+        "top": 203.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "q30": {
+      "type": "text",
+      "label": "STARBOARD",
+      "page": 1,
+      "box": {
+        "left": 324.8,
+        "top": 203.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "q45": {
+      "type": "text",
+      "label": "STARBOARD",
+      "page": 1,
+      "box": {
+        "left": 367.9,
+        "top": 203.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "q60": {
+      "type": "text",
+      "label": "STARBOARD",
+      "page": 1,
+      "box": {
+        "left": 410.9,
+        "top": 203.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "qAverage": {
+      "type": "text",
+      "label": "STARBOARD",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 203.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "qFullAstern": {
+      "type": "text",
+      "label": "STARBOARD",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 203.3,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "r15": {
+      "type": "text",
+      "label": "PORT",
+      "page": 1,
+      "box": {
+        "left": 282.1,
+        "top": 188.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "r30": {
+      "type": "text",
+      "label": "PORT",
+      "page": 1,
+      "box": {
+        "left": 324.8,
+        "top": 188.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "r45": {
+      "type": "text",
+      "label": "PORT",
+      "page": 1,
+      "box": {
+        "left": 367.9,
+        "top": 188.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "r60": {
+      "type": "text",
+      "label": "PORT",
+      "page": 1,
+      "box": {
+        "left": 410.9,
+        "top": 188.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "rAverage": {
+      "type": "text",
+      "label": "PORT",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 188.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "rFullAstern": {
+      "type": "text",
+      "label": "PORT",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 188.9,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "s15": {
+      "type": "text",
+      "label": "STARBOARD",
+      "page": 1,
+      "box": {
+        "left": 282.1,
+        "top": 174.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "s30": {
+      "type": "text",
+      "label": "STARBOARD",
+      "page": 1,
+      "box": {
+        "left": 324.8,
+        "top": 174.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "s45": {
+      "type": "text",
+      "label": "STARBOARD",
+      "page": 1,
+      "box": {
+        "left": 367.9,
+        "top": 174.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "s60": {
+      "type": "text",
+      "label": "STARBOARD",
+      "page": 1,
+      "box": {
+        "left": 410.9,
+        "top": 174.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "sAverage": {
+      "type": "text",
+      "label": "STARBOARD",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 174.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "sFullAstern": {
+      "type": "text",
+      "label": "STARBOARD",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 174.3,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "t15": {
+      "type": "text",
+      "label": "PORT",
+      "page": 1,
+      "box": {
+        "left": 282.1,
+        "top": 159.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "t30": {
+      "type": "text",
+      "label": "PORT",
+      "page": 1,
+      "box": {
+        "left": 324.8,
+        "top": 159.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "t45": {
+      "type": "text",
+      "label": "PORT",
+      "page": 1,
+      "box": {
+        "left": 367.9,
+        "top": 159.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "t60": {
+      "type": "text",
+      "label": "PORT",
+      "page": 1,
+      "box": {
+        "left": 410.9,
+        "top": 159.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "tAverage": {
+      "type": "text",
+      "label": "PORT",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 159.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "tFullAstern": {
+      "type": "text",
+      "label": "PORT",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 159.9,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "u15": {
+      "type": "text",
+      "label": "PRAIRIE (ON-OFF) OR CFM (IF AVAILABLE)",
+      "page": 1,
+      "box": {
+        "left": 282.1,
+        "top": 145.7,
+        "width": 40.4,
+        "height": 17.8
+      }
+    },
+    "u30": {
+      "type": "text",
+      "label": "PRAIRIE (ON-OFF) OR CFM (IF AVAILABLE)",
+      "page": 1,
+      "box": {
+        "left": 324.8,
+        "top": 145.7,
+        "width": 40.4,
+        "height": 17.8
+      }
+    },
+    "u45": {
+      "type": "text",
+      "label": "PRAIRIE (ON-OFF) OR CFM (IF AVAILABLE)",
+      "page": 1,
+      "box": {
+        "left": 367.9,
+        "top": 145.7,
+        "width": 40.4,
+        "height": 17.8
+      }
+    },
+    "u60": {
+      "type": "text",
+      "label": "PRAIRIE (ON-OFF) OR CFM (IF AVAILABLE)",
+      "page": 1,
+      "box": {
+        "left": 410.9,
+        "top": 145.7,
+        "width": 40.4,
+        "height": 17.8
+      }
+    },
+    "uAverage": {
+      "type": "text",
+      "label": "PRAIRIE (ON-OFF) OR CFM (IF AVAILABLE)",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 145.7,
+        "width": 40.4,
+        "height": 17.8
+      }
+    },
+    "uFullAstern": {
+      "type": "text",
+      "label": "PRAIRIE (ON-OFF) OR CFM (IF AVAILABLE)",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 145.7,
+        "width": 77.8,
+        "height": 17.8
+      }
+    },
+    "v152": {
+      "type": "text",
+      "label": "MASKER USAGE AIRFLOW (ON-OFF) OR CFM (IF AVAILABLE)",
+      "page": 1,
+      "box": {
+        "left": 282.1,
+        "top": 124.7,
+        "width": 40.4,
+        "height": 17.8
+      }
+    },
+    "v302": {
+      "type": "text",
+      "label": "MASKER USAGE AIRFLOW (ON-OFF) OR CFM (IF AVAILABLE)",
+      "page": 1,
+      "box": {
+        "left": 324.8,
+        "top": 124.7,
+        "width": 40.4,
+        "height": 17.8
+      }
+    },
+    "v452": {
+      "type": "text",
+      "label": "MASKER USAGE AIRFLOW (ON-OFF) OR CFM (IF AVAILABLE)",
+      "page": 1,
+      "box": {
+        "left": 367.9,
+        "top": 124.7,
+        "width": 40.4,
+        "height": 17.8
+      }
+    },
+    "v602": {
+      "type": "text",
+      "label": "MASKER USAGE AIRFLOW (ON-OFF) OR CFM (IF AVAILABLE)",
+      "page": 1,
+      "box": {
+        "left": 410.9,
+        "top": 124.7,
+        "width": 40.4,
+        "height": 17.8
+      }
+    },
+    "vAverage2": {
+      "type": "text",
+      "label": "MASKER USAGE AIRFLOW (ON-OFF) OR CFM (IF AVAILABLE)",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 124.7,
+        "width": 40.4,
+        "height": 17.8
+      }
+    },
+    "vFullAstern2": {
+      "type": "text",
+      "label": "MASKER USAGE AIRFLOW (ON-OFF) OR CFM (IF AVAILABLE)",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 124.7,
+        "width": 77.8,
+        "height": 17.8
+      }
+    },
+    "first15w": {
+      "type": "text",
+      "label": "ANTI-ICING BLEED AIRFLOW (ON-OFF) OR CFM (IF AVAILABLE)",
+      "page": 1,
+      "box": {
+        "left": 282.1,
+        "top": 104.4,
+        "width": 40.4,
+        "height": 17.8
+      }
+    },
+    "second15w": {
+      "type": "text",
+      "label": "ANTI-ICING BLEED AIRFLOW (ON-OFF) OR CFM (IF AVAILABLE)",
+      "page": 1,
+      "box": {
+        "left": 324.8,
+        "top": 104.4,
+        "width": 40.4,
+        "height": 17.8
+      }
+    },
+    "third15w": {
+      "type": "text",
+      "label": "ANTI-ICING BLEED AIRFLOW (ON-OFF) OR CFM (IF AVAILABLE)",
+      "page": 1,
+      "box": {
+        "left": 367.9,
+        "top": 104.4,
+        "width": 40.4,
+        "height": 17.8
+      }
+    },
+    "fourth15w": {
+      "type": "text",
+      "label": "ANTI-ICING BLEED AIRFLOW (ON-OFF) OR CFM (IF AVAILABLE)",
+      "page": 1,
+      "box": {
+        "left": 410.9,
+        "top": 104.4,
+        "width": 40.4,
+        "height": 17.8
+      }
+    },
+    "averagew": {
+      "type": "text",
+      "label": "ANTI-ICING BLEED AIRFLOW (ON-OFF) OR CFM (IF AVAILABLE)",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 104.4,
+        "width": 40.4,
+        "height": 17.8
+      }
+    },
+    "wFullAstern": {
+      "type": "text",
+      "label": "ANTI-ICING BLEED AIRFLOW (ON-OFF) OR CFM (IF AVAILABLE)",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 104.4,
+        "width": 77.8,
+        "height": 17.8
+      }
+    },
+    "x15": {
+      "type": "text",
+      "label": "OTHER 3. (ON-OFF) OR CFM (SPECIFY)",
+      "page": 1,
+      "box": {
+        "left": 282.1,
+        "top": 83.8,
+        "width": 40.4,
+        "height": 17.8
+      }
+    },
+    "x30": {
+      "type": "text",
+      "label": "OTHER 3. (ON-OFF) OR CFM (SPECIFY)",
+      "page": 1,
+      "box": {
+        "left": 324.8,
+        "top": 83.8,
+        "width": 40.4,
+        "height": 17.8
+      }
+    },
+    "x45": {
+      "type": "text",
+      "label": "OTHER 3. (ON-OFF) OR CFM (SPECIFY)",
+      "page": 1,
+      "box": {
+        "left": 367.9,
+        "top": 83.8,
+        "width": 40.4,
+        "height": 17.8
+      }
+    },
+    "x60": {
+      "type": "text",
+      "label": "OTHER 3. (ON-OFF) OR CFM (SPECIFY)",
+      "page": 1,
+      "box": {
+        "left": 410.9,
+        "top": 83.8,
+        "width": 40.4,
+        "height": 17.8
+      }
+    },
+    "xAverage": {
+      "type": "text",
+      "label": "OTHER 3. (ON-OFF) OR CFM (SPECIFY)",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 83.8,
+        "width": 40.4,
+        "height": 17.8
+      }
+    },
+    "xFullAstern": {
+      "type": "text",
+      "label": "OTHER 3. (ON-OFF) OR CFM (SPECIFY)",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 83.8,
+        "width": 77.8,
+        "height": 17.8
+      }
+    },
+    "y15": {
+      "type": "text",
+      "label": "GALLONS/HOUR",
+      "page": 1,
+      "box": {
+        "left": 282.1,
+        "top": 63.1,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "y30": {
+      "type": "text",
+      "label": "GALLONS/HOUR",
+      "page": 1,
+      "box": {
+        "left": 324.8,
+        "top": 63.1,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "y45": {
+      "type": "text",
+      "label": "GALLONS/HOUR",
+      "page": 1,
+      "box": {
+        "left": 367.9,
+        "top": 63.1,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "y60": {
+      "type": "text",
+      "label": "GALLONS/HOUR",
+      "page": 1,
+      "box": {
+        "left": 410.9,
+        "top": 63.1,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "yAverage": {
+      "type": "text",
+      "label": "GALLONS/HOUR",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 63.1,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "yFullAstern": {
+      "type": "text",
+      "label": "GALLONS/HOUR",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 63.1,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "z15": {
+      "type": "text",
+      "label": "LHV",
+      "page": 1,
+      "box": {
+        "left": 282.1,
+        "top": 48.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "z30": {
+      "type": "text",
+      "label": "LHV",
+      "page": 1,
+      "box": {
+        "left": 324.8,
+        "top": 48.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "z45": {
+      "type": "text",
+      "label": "LHV",
+      "page": 1,
+      "box": {
+        "left": 367.9,
+        "top": 48.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "z60": {
+      "type": "text",
+      "label": "LHV",
+      "page": 1,
+      "box": {
+        "left": 410.9,
+        "top": 48.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "zAverage": {
+      "type": "text",
+      "label": "LHV",
+      "page": 1,
+      "box": {
+        "left": 454.2,
+        "top": 48.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "zFullAstern": {
+      "type": "text",
+      "label": "LHV",
+      "page": 1,
+      "box": {
+        "left": 496.9,
+        "top": 48.9,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "shipName2": {
+      "type": "text",
+      "label": "SHIP (NAME, TYPE, NUMBER)",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 712.8,
+        "width": 426.4,
+        "height": 12.3
+      }
+    },
+    "trialDte2": {
+      "type": "text",
+      "label": "DATE OF TRIAL",
+      "page": 2,
+      "box": {
+        "left": 470.7,
+        "top": 712.8,
+        "width": 102.3,
+        "height": 12.3
+      }
+    },
+    "engRoom": {
+      "type": "text",
+      "label": "ENGINE ROOM NUMBER",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 684.5,
+        "width": 264.4,
+        "height": 12.8
+      }
+    },
+    "mainEngRoom": {
+      "type": "text",
+      "label": "MAIN ENGINE ROOM OR MAIN PROPULSION NUMBER",
+      "page": 2,
+      "box": {
+        "left": 308.9,
+        "top": 684.0,
+        "width": 264.4,
+        "height": 12.3
+      }
+    },
+    "a152": {
+      "type": "text",
+      "label": "NUMBER IN USE",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 655.5,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "a302": {
+      "type": "text",
+      "label": "NUMBER IN USE",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 655.5,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "a452": {
+      "type": "text",
+      "label": "NUMBER IN USE",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 655.5,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "a602": {
+      "type": "text",
+      "label": "NUMBER IN USE",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 655.5,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "aAverage2": {
+      "type": "text",
+      "label": "NUMBER IN USE",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 655.5,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "aFullAstern2": {
+      "type": "text",
+      "label": "NUMBER IN USE",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 655.5,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "b152": {
+      "type": "text",
+      "label": "(KW)",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 641.1,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "b302": {
+      "type": "text",
+      "label": "(KW)",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 641.1,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "b452": {
+      "type": "text",
+      "label": "(KW)",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 641.1,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "b602": {
+      "type": "text",
+      "label": "(KW)",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 641.1,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "bAverage2": {
+      "type": "text",
+      "label": "(KW)",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 641.1,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "bFullAstern2": {
+      "type": "text",
+      "label": "(KW)",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 641.1,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "c152": {
+      "type": "text",
+      "label": "BLEED AIRFLOW (ON-OFF) OR CFM (IF AVAILABLE)",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 626.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "c302": {
+      "type": "text",
+      "label": "BLEED AIRFLOW (ON-OFF) OR CFM (IF AVAILABLE)",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 626.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "c452": {
+      "type": "text",
+      "label": "BLEED AIRFLOW (ON-OFF) OR CFM (IF AVAILABLE)",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 626.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "c602": {
+      "type": "text",
+      "label": "BLEED AIRFLOW (ON-OFF) OR CFM (IF AVAILABLE)",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 626.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "cAverage2": {
+      "type": "text",
+      "label": "BLEED AIRFLOW (ON-OFF) OR CFM (IF AVAILABLE)",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 626.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "cFullAstern2": {
+      "type": "text",
+      "label": "BLEED AIRFLOW (ON-OFF) OR CFM (IF AVAILABLE)",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 626.7,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "d152": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 612.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "d302": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 612.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "d452": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 612.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "d602": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 612.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "dAverage2": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 612.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "dFullAstern2": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 612.3,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "e152": {
+      "type": "text",
+      "label": "BEARING LOCATION TURBINE NUMBER GENERATORS",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 598.1,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "e302": {
+      "type": "text",
+      "label": "BEARING LOCATION TURBINE NUMBER GENERATORS",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 598.1,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "e452": {
+      "type": "text",
+      "label": "BEARING LOCATION TURBINE NUMBER GENERATORS",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 598.1,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "e602": {
+      "type": "text",
+      "label": "BEARING LOCATION TURBINE NUMBER GENERATORS",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 598.1,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "eAverage2": {
+      "type": "text",
+      "label": "BEARING LOCATION TURBINE NUMBER GENERATORS",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 598.1,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "eFullAstern2": {
+      "type": "text",
+      "label": "BEARING LOCATION TURBINE NUMBER GENERATORS",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 598.1,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "f152": {
+      "type": "text",
+      "label": "(KW)",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 583.5,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "f302": {
+      "type": "text",
+      "label": "(KW)",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 583.5,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "f452": {
+      "type": "text",
+      "label": "(KW)",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 583.5,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "f602": {
+      "type": "text",
+      "label": "(KW)",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 583.5,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fAverage2": {
+      "type": "text",
+      "label": "(KW)",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 583.5,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fFullAstern2": {
+      "type": "text",
+      "label": "(KW)",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 583.5,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "g152": {
+      "type": "text",
+      "label": "(GAL/HR)",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 569.1,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "g302": {
+      "type": "text",
+      "label": "(GAL/HR)",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 569.1,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "g452": {
+      "type": "text",
+      "label": "(GAL/HR)",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 569.1,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "g602": {
+      "type": "text",
+      "label": "(GAL/HR)",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 569.1,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "gAverage2": {
+      "type": "text",
+      "label": "(GAL/HR)",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 569.1,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "gFullAstern2": {
+      "type": "text",
+      "label": "(GAL/HR)",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 569.1,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "h152": {
+      "type": "text",
+      "label": "SERVICE",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 554.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "h302": {
+      "type": "text",
+      "label": "SERVICE",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 554.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "h452": {
+      "type": "text",
+      "label": "SERVICE",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 554.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "h602": {
+      "type": "text",
+      "label": "SERVICE",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 554.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "hAverage2": {
+      "type": "text",
+      "label": "SERVICE",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 554.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "hFullAstern2": {
+      "type": "text",
+      "label": "SERVICE",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 554.9,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "i152": {
+      "type": "text",
+      "label": "(KW)",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 540.5,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "i302": {
+      "type": "text",
+      "label": "(KW)",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 540.5,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "i452": {
+      "type": "text",
+      "label": "(KW)",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 540.5,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "i602": {
+      "type": "text",
+      "label": "(KW)",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 540.5,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "iAverage2": {
+      "type": "text",
+      "label": "(KW)",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 540.5,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "iFullAstern2": {
+      "type": "text",
+      "label": "(KW)",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 540.5,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "j152": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 526.1,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "j302": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 526.1,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "j452": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 526.1,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "j602": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 526.1,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "jAverage2": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 526.1,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "jFullAstern2": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 526.1,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "k152": {
+      "type": "text",
+      "label": "BEARING LOCATION NUMBER SHIP&apos;S",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 511.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "k302": {
+      "type": "text",
+      "label": "BEARING LOCATION NUMBER SHIP&apos;S",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 511.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "k452": {
+      "type": "text",
+      "label": "BEARING LOCATION NUMBER SHIP&apos;S",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 511.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "k602": {
+      "type": "text",
+      "label": "BEARING LOCATION NUMBER SHIP&apos;S",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 511.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "kAverage2": {
+      "type": "text",
+      "label": "BEARING LOCATION NUMBER SHIP&apos;S",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 511.9,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "kFullAstern2": {
+      "type": "text",
+      "label": "BEARING LOCATION NUMBER SHIP&apos;S",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 511.9,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "l152": {
+      "type": "text",
+      "label": "(KW)",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 497.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "l302": {
+      "type": "text",
+      "label": "(KW)",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 497.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "l452": {
+      "type": "text",
+      "label": "(KW)",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 497.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "l602": {
+      "type": "text",
+      "label": "(KW)",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 497.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "lAverage2": {
+      "type": "text",
+      "label": "(KW)",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 497.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "lFullAstern2": {
+      "type": "text",
+      "label": "(KW)",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 497.7,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "m152": {
+      "type": "text",
+      "label": "(GAL/HR)",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 483.5,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "m302": {
+      "type": "text",
+      "label": "(GAL/HR)",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 483.5,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "m452": {
+      "type": "text",
+      "label": "(GAL/HR)",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 483.5,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "m602": {
+      "type": "text",
+      "label": "(GAL/HR)",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 483.5,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "mAverage2": {
+      "type": "text",
+      "label": "(GAL/HR)",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 483.5,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "mFullAstern2": {
+      "type": "text",
+      "label": "(GAL/HR)",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 483.5,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "n152": {
+      "type": "text",
+      "label": "(GAL/HR)",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 469.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "n302": {
+      "type": "text",
+      "label": "(GAL/HR)",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 469.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "n452": {
+      "type": "text",
+      "label": "(GAL/HR)",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 469.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "n602": {
+      "type": "text",
+      "label": "(GAL/HR)",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 469.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "nAverage2": {
+      "type": "text",
+      "label": "(GAL/HR)",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 469.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "nFullAstern2": {
+      "type": "text",
+      "label": "(GAL/HR)",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 469.3,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "first15A1": {
+      "type": "text",
+      "label": "(RPM)",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 429.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "second15A1": {
+      "type": "text",
+      "label": "(RPM)",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 429.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "third15bA1": {
+      "type": "text",
+      "label": "(RPM)",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 429.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fourth15A1": {
+      "type": "text",
+      "label": "(RPM)",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 429.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "averageA1": {
+      "type": "text",
+      "label": "(RPM)",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 429.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fullAsternA1": {
+      "type": "text",
+      "label": "(RPM)",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 429.7,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "first15B2": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 415.1,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "second15B2": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 415.1,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "third15B2": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 415.1,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fourth15B2": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 415.1,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "averageB2": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 415.1,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fullAsternB2": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 415.1,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "first15C3": {
+      "type": "text",
+      "label": "(PSIA)",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 400.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "second15C3": {
+      "type": "text",
+      "label": "(PSIA)",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 400.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "third15C3": {
+      "type": "text",
+      "label": "(PSIA)",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 400.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fourth15C3": {
+      "type": "text",
+      "label": "(PSIA)",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 400.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "averageC3": {
+      "type": "text",
+      "label": "(PSIA)",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 400.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fullAsternC3": {
+      "type": "text",
+      "label": "(PSIA)",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 400.7,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "first15D4": {
+      "type": "text",
+      "label": "(PSIG)",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 385.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "second15D4": {
+      "type": "text",
+      "label": "(PSIG)",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 385.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "third15D4": {
+      "type": "text",
+      "label": "(PSIG)",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 385.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fourth15D4": {
+      "type": "text",
+      "label": "(PSIG)",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 385.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "averageD4": {
+      "type": "text",
+      "label": "(PSIG)",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 385.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fullAsternD4": {
+      "type": "text",
+      "label": "(PSIG)",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 385.8,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "first15E5": {
+      "type": "text",
+      "label": "(MLS)",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 372.5,
+        "width": 40.4,
+        "height": 18.0
+      }
+    },
+    "second15E5": {
+      "type": "text",
+      "label": "(MLS)",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 372.5,
+        "width": 40.4,
+        "height": 18.0
+      }
+    },
+    "third15E5": {
+      "type": "text",
+      "label": "(MLS)",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 372.5,
+        "width": 40.4,
+        "height": 18.0
+      }
+    },
+    "fourth15E5": {
+      "type": "text",
+      "label": "(MLS)",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 372.5,
+        "width": 40.4,
+        "height": 18.0
+      }
+    },
+    "averageE5": {
+      "type": "text",
+      "label": "(MLS)",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 372.5,
+        "width": 40.4,
+        "height": 18.0
+      }
+    },
+    "fullAsternE5": {
+      "type": "text",
+      "label": "(MLS)",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 372.5,
+        "width": 77.8,
+        "height": 18.0
+      }
+    },
+    "first15F6": {
+      "type": "text",
+      "label": "(MLS)",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 352.6,
+        "width": 40.4,
+        "height": 18.0
+      }
+    },
+    "second15F6": {
+      "type": "text",
+      "label": "(MLS)",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 352.6,
+        "width": 40.4,
+        "height": 18.0
+      }
+    },
+    "third15F6": {
+      "type": "text",
+      "label": "(MLS)",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 352.6,
+        "width": 40.4,
+        "height": 18.0
+      }
+    },
+    "fourth15F6": {
+      "type": "text",
+      "label": "(MLS)",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 352.6,
+        "width": 40.4,
+        "height": 18.0
+      }
+    },
+    "averageF6": {
+      "type": "text",
+      "label": "(MLS)",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 352.6,
+        "width": 40.4,
+        "height": 18.0
+      }
+    },
+    "fullAsternF6": {
+      "type": "text",
+      "label": "(MLS)",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 352.6,
+        "width": 77.8,
+        "height": 18.0
+      }
+    },
+    "first15G7": {
+      "type": "text",
+      "label": "BLEED AIRFLOW (ON-OFF) 1. OR CMF (IF AVAILABLE)",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 332.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "second15G7": {
+      "type": "text",
+      "label": "BLEED AIRFLOW (ON-OFF) 1. OR CMF (IF AVAILABLE)",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 332.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "third15G7": {
+      "type": "text",
+      "label": "BLEED AIRFLOW (ON-OFF) 1. OR CMF (IF AVAILABLE)",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 332.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fourth15G7": {
+      "type": "text",
+      "label": "BLEED AIRFLOW (ON-OFF) 1. OR CMF (IF AVAILABLE)",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 332.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "averageG7": {
+      "type": "text",
+      "label": "BLEED AIRFLOW (ON-OFF) 1. OR CMF (IF AVAILABLE)",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 332.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fullAsternG7": {
+      "type": "text",
+      "label": "BLEED AIRFLOW (ON-OFF) 1. OR CMF (IF AVAILABLE)",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 332.7,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "first15H8": {
+      "type": "text",
+      "label": "(RPM)",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 318.5,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "second15H8": {
+      "type": "text",
+      "label": "(RPM)",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 318.5,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "third15H8": {
+      "type": "text",
+      "label": "(RPM)",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 318.5,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fourth15H8": {
+      "type": "text",
+      "label": "(RPM)",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 318.5,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "averageH8": {
+      "type": "text",
+      "label": "(RPM)",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 318.5,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fullAsternH8": {
+      "type": "text",
+      "label": "(RPM)",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 318.5,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "first15I9": {
+      "type": "text",
+      "label": "(LB-FT)",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 304.1,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "second15I9": {
+      "type": "text",
+      "label": "(LB-FT)",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 304.1,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "third15I9": {
+      "type": "text",
+      "label": "(LB-FT)",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 304.1,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fourth15I9": {
+      "type": "text",
+      "label": "(LB-FT)",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 304.1,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "averageI9": {
+      "type": "text",
+      "label": "(LB-FT)",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 304.1,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fullAsternI9": {
+      "type": "text",
+      "label": "(LB-FT)",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 304.1,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "first15J10": {
+      "type": "text",
+      "label": "(HP)",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 289.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "second15J10": {
+      "type": "text",
+      "label": "(HP)",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 289.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "third15J10": {
+      "type": "text",
+      "label": "(HP)",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 289.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fourth15J10": {
+      "type": "text",
+      "label": "(HP)",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 289.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "averageJ10": {
+      "type": "text",
+      "label": "(HP)",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 289.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fullAsternJ10": {
+      "type": "text",
+      "label": "(HP)",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 289.7,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "first15K11": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 275.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "second15K11": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 275.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "third15K11": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 275.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fourth15K11": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 275.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "averageK11": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 275.3,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fullAsternK11": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 275.3,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "first15L12": {
+      "type": "text",
+      "label": "(PSIA)",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 261.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "second15L12": {
+      "type": "text",
+      "label": "(PSIA)",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 261.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "third15L12": {
+      "type": "text",
+      "label": "(PSIA)",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 261.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fourth15L12": {
+      "type": "text",
+      "label": "(PSIA)",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 261.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "averageL12": {
+      "type": "text",
+      "label": "(PSIA)",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 261.7,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fullAsternbL12": {
+      "type": "text",
+      "label": "(PSIA)",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 261.7,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "first15M13": {
+      "type": "text",
+      "label": "(MLS)",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 247.3,
+        "width": 40.4,
+        "height": 18.0
+      }
+    },
+    "second15M13": {
+      "type": "text",
+      "label": "(MLS)",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 247.3,
+        "width": 40.4,
+        "height": 18.0
+      }
+    },
+    "third15M13": {
+      "type": "text",
+      "label": "(MLS)",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 247.3,
+        "width": 40.4,
+        "height": 18.0
+      }
+    },
+    "fourth15M13": {
+      "type": "text",
+      "label": "(MLS)",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 247.3,
+        "width": 40.4,
+        "height": 18.0
+      }
+    },
+    "averageM13": {
+      "type": "text",
+      "label": "(MLS)",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 247.3,
+        "width": 40.4,
+        "height": 18.0
+      }
+    },
+    "fullAsternM13": {
+      "type": "text",
+      "label": "(MLS)",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 247.3,
+        "width": 77.8,
+        "height": 18.0
+      }
+    },
+    "first15N14": {
+      "type": "text",
+      "label": "(MLS)",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 226.4,
+        "width": 40.4,
+        "height": 18.0
+      }
+    },
+    "second15N14": {
+      "type": "text",
+      "label": "(MLS)",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 226.4,
+        "width": 40.4,
+        "height": 18.0
+      }
+    },
+    "third15N14": {
+      "type": "text",
+      "label": "(MLS)",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 226.4,
+        "width": 40.4,
+        "height": 18.0
+      }
+    },
+    "fourth15N14": {
+      "type": "text",
+      "label": "(MLS)",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 226.4,
+        "width": 40.4,
+        "height": 18.0
+      }
+    },
+    "averageN14": {
+      "type": "text",
+      "label": "(MLS)",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 226.4,
+        "width": 40.4,
+        "height": 18.0
+      }
+    },
+    "fullAsternN14": {
+      "type": "text",
+      "label": "(MLS)",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 226.4,
+        "width": 77.8,
+        "height": 18.0
+      }
+    },
+    "first15O15": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 205.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "second15O15": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 205.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "third15O15": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 205.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fourth15O15": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 205.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "averageO15": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 205.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fullAsternO15": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 205.8,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "first15P16": {
+      "type": "text",
+      "label": "(IN H2O PSIG)",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 191.6,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "second15P16": {
+      "type": "text",
+      "label": "(IN H2O PSIG)",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 191.6,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "third15P16": {
+      "type": "text",
+      "label": "(IN H2O PSIG)",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 191.6,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fourth15P16": {
+      "type": "text",
+      "label": "(IN H2O PSIG)",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 191.6,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "averageP16": {
+      "type": "text",
+      "label": "(IN H2O PSIG)",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 191.6,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fullAsternP16": {
+      "type": "text",
+      "label": "(IN H2O PSIG)",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 191.6,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "first15Q17": {
+      "type": "text",
+      "label": "(PSIG)",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 177.2,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "second15Q17": {
+      "type": "text",
+      "label": "(PSIG)",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 177.2,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "third15Q17": {
+      "type": "text",
+      "label": "(PSIG)",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 177.2,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fourth15Q17": {
+      "type": "text",
+      "label": "(PSIG)",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 177.2,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "averageQ17": {
+      "type": "text",
+      "label": "(PSIG)",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 177.2,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fullAsternQ17": {
+      "type": "text",
+      "label": "(PSIG)",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 177.2,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "first15R18": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 162.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "second15R18": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 162.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "third15R18": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 162.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fourth15R18": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 162.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "averageR18": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 162.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fullAsternR18": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 162.8,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "first15S19": {
+      "type": "text",
+      "label": "(PSIG)",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 148.0,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "second15S19": {
+      "type": "text",
+      "label": "(PSIG)",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 148.0,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "third15S19": {
+      "type": "text",
+      "label": "(PSIG)",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 148.0,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fourth15S19": {
+      "type": "text",
+      "label": "(PSIG)",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 148.0,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "averageS19": {
+      "type": "text",
+      "label": "(PSIG)",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 148.0,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fullAsternS19": {
+      "type": "text",
+      "label": "(PSIG)",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 148.0,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "first15T20": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 133.6,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "second15T20": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 133.6,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "third15T20": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 133.6,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fourth15T20": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 133.6,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "averageT20": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 133.6,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fullAsternT20": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 133.6,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "first15U21": {
+      "type": "text",
+      "label": "HOTTEST LUBE LOCATION NUMBER",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 119.2,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "second15U21": {
+      "type": "text",
+      "label": "HOTTEST LUBE LOCATION NUMBER",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 119.2,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "third15U21": {
+      "type": "text",
+      "label": "HOTTEST LUBE LOCATION NUMBER",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 119.2,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fourth15U21": {
+      "type": "text",
+      "label": "HOTTEST LUBE LOCATION NUMBER",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 119.2,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "averageU21": {
+      "type": "text",
+      "label": "HOTTEST LUBE LOCATION NUMBER",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 119.2,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fullAsternU21": {
+      "type": "text",
+      "label": "HOTTEST LUBE LOCATION NUMBER",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 119.2,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "first15V22": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 104.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "second15V22": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 104.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "third15V22": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 104.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fourth15V22": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 104.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "averageV22": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 104.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fullAsternV22": {
+      "type": "text",
+      "label": "(DEG F)",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 104.8,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "first15W23": {
+      "type": "text",
+      "label": "5. ENGINE COOLING AIR OUTLET TEMPERATURE (DEG F)",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 91.0,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "second15W23": {
+      "type": "text",
+      "label": "5. ENGINE COOLING AIR OUTLET TEMPERATURE (DEG F)",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 91.0,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "third15W23": {
+      "type": "text",
+      "label": "5. ENGINE COOLING AIR OUTLET TEMPERATURE (DEG F)",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 91.0,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fourth15W23": {
+      "type": "text",
+      "label": "5. ENGINE COOLING AIR OUTLET TEMPERATURE (DEG F)",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 91.0,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "averageW23": {
+      "type": "text",
+      "label": "5. ENGINE COOLING AIR OUTLET TEMPERATURE (DEG F)",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 91.0,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fullAsternW23": {
+      "type": "text",
+      "label": "5. ENGINE COOLING AIR OUTLET TEMPERATURE (DEG F)",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 91.0,
+        "width": 77.8,
+        "height": 11.6
+      }
+    },
+    "first15X24": {
+      "type": "text",
+      "label": "(GAL)",
+      "page": 2,
+      "box": {
+        "left": 281.2,
+        "top": 76.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "second15X24": {
+      "type": "text",
+      "label": "(GAL)",
+      "page": 2,
+      "box": {
+        "left": 324.4,
+        "top": 76.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "third15X24": {
+      "type": "text",
+      "label": "(GAL)",
+      "page": 2,
+      "box": {
+        "left": 367.4,
+        "top": 76.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fourth15X24": {
+      "type": "text",
+      "label": "(GAL)",
+      "page": 2,
+      "box": {
+        "left": 410.6,
+        "top": 76.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "averageX24": {
+      "type": "text",
+      "label": "(GAL)",
+      "page": 2,
+      "box": {
+        "left": 453.8,
+        "top": 76.8,
+        "width": 40.4,
+        "height": 11.6
+      }
+    },
+    "fullAsternX24": {
+      "type": "text",
+      "label": "(GAL)",
+      "page": 2,
+      "box": {
+        "left": 496.9,
+        "top": 76.8,
+        "width": 77.8,
+        "height": 11.6
+      }
+    }
+  }
+}

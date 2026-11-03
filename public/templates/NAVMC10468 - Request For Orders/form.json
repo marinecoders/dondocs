@@ -1,0 +1,345 @@
+{
+  "id": "navmc10468",
+  "label": "NAVMC 10468 - Request For Orders",
+  "directory": "NAVMC10468 - Request For Orders",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "ssn",
+        "nameLast",
+        "nameFirst",
+        "nameMid",
+        "codeNum",
+        "mCDist",
+        "officerCandidateCourse",
+        "aviationofficercandidatecourse",
+        "navalflightofficercourse",
+        "platoonleadersclasswoman",
+        "womanofficercandidatecourse",
+        "platoonleadersclass",
+        "firstincrementjuniorcourse",
+        "secondincrementjuniorcourse",
+        "firstincrementseniorcourse",
+        "secondincrementseniorcourse",
+        "combinedcourse",
+        "radioButtonList",
+        "radioButtonList2",
+        "radioButtonList3",
+        "radioButtonList4",
+        "addrCurr",
+        "addrHome",
+        "signatureField1",
+        "dateSig"
+      ]
+    }
+  ],
+  "fields": {
+    "ssn": {
+      "type": "text",
+      "label": "SSN",
+      "page": 1,
+      "box": {
+        "left": 335.4,
+        "top": 708.8,
+        "width": 167.1,
+        "height": 18.4
+      }
+    },
+    "nameLast": {
+      "type": "text",
+      "label": "Last name",
+      "page": 1,
+      "box": {
+        "left": 24.3,
+        "top": 706.6,
+        "width": 145.1,
+        "height": 17.4
+      }
+    },
+    "nameFirst": {
+      "type": "text",
+      "label": "First name",
+      "page": 1,
+      "box": {
+        "left": 169.4,
+        "top": 706.6,
+        "width": 145.1,
+        "height": 17.4
+      }
+    },
+    "nameMid": {
+      "type": "text",
+      "label": "Middle initial",
+      "page": 1,
+      "box": {
+        "left": 314.6,
+        "top": 706.6,
+        "width": 18.1,
+        "height": 17.4
+      }
+    },
+    "codeNum": {
+      "type": "text",
+      "label": "Officer selection Officer location/Account Code Number",
+      "page": 1,
+      "box": {
+        "left": 25.7,
+        "top": 669.8,
+        "width": 306.9,
+        "height": 17.4
+      }
+    },
+    "mCDist": {
+      "type": "text",
+      "label": "Responsible Marine Corps District",
+      "page": 1,
+      "box": {
+        "left": 334.0,
+        "top": 669.8,
+        "width": 169.1,
+        "height": 17.4
+      }
+    },
+    "officerCandidateCourse": {
+      "type": "checkbox",
+      "label": "Check to request Officer Candidate Course, Quantico, VA.",
+      "page": 1,
+      "box": {
+        "left": 68.8,
+        "top": 628.8,
+        "width": 17.6,
+        "height": 17.6
+      }
+    },
+    "aviationofficercandidatecourse": {
+      "type": "checkbox",
+      "label": "Check to request Aviation Officer Candidate Course, Quantico, VA.",
+      "page": 1,
+      "box": {
+        "left": 68.8,
+        "top": 604.8,
+        "width": 17.6,
+        "height": 17.6
+      }
+    },
+    "navalflightofficercourse": {
+      "type": "checkbox",
+      "label": "Check to request Naval Flight Officer Course, Quantico, VA.",
+      "page": 1,
+      "box": {
+        "left": 69.6,
+        "top": 580.0,
+        "width": 16.8,
+        "height": 16.8
+      }
+    },
+    "platoonleadersclasswoman": {
+      "type": "checkbox",
+      "label": "Check to request Woman Platoon Leaders Class for College Juniors, Quantico, VA.",
+      "page": 1,
+      "box": {
+        "left": 69.6,
+        "top": 556.8,
+        "width": 16.8,
+        "height": 16.8
+      }
+    },
+    "womanofficercandidatecourse": {
+      "type": "checkbox",
+      "label": "Check to request Woman Officer Candidate Course for College Seniors and Graduates, Quantico, VA.",
+      "page": 1,
+      "box": {
+        "left": 68.8,
+        "top": 532.0,
+        "width": 17.6,
+        "height": 17.6
+      }
+    },
+    "platoonleadersclass": {
+      "type": "checkbox",
+      "label": "Check to request Platoon Leaders Class. Ground, Air, or Law.",
+      "page": 1,
+      "box": {
+        "left": 68.8,
+        "top": 474.4,
+        "width": 17.3,
+        "height": 17.3
+      }
+    },
+    "firstincrementjuniorcourse": {
+      "type": "checkbox",
+      "label": "Check to request First Increment, Junior Course, Quantico, VA.",
+      "page": 1,
+      "box": {
+        "left": 68.8,
+        "top": 449.6,
+        "width": 17.3,
+        "height": 17.3
+      }
+    },
+    "secondincrementjuniorcourse": {
+      "type": "checkbox",
+      "label": "Check to request Second Increment, Junior Course, Quantico, VA.",
+      "page": 1,
+      "box": {
+        "left": 68.8,
+        "top": 424.8,
+        "width": 17.3,
+        "height": 17.3
+      }
+    },
+    "firstincrementseniorcourse": {
+      "type": "checkbox",
+      "label": "Check to request First Increment, Senior Course, Quantico, VA.",
+      "page": 1,
+      "box": {
+        "left": 68.8,
+        "top": 400.8,
+        "width": 17.3,
+        "height": 17.3
+      }
+    },
+    "secondincrementseniorcourse": {
+      "type": "checkbox",
+      "label": "Check to request Second Increment, Senior Course, Quantico, VA.",
+      "page": 1,
+      "box": {
+        "left": 68.8,
+        "top": 374.4,
+        "width": 17.3,
+        "height": 17.3
+      }
+    },
+    "combinedcourse": {
+      "type": "checkbox",
+      "label": "Check to request Combined Course, Quantico, VA.",
+      "page": 1,
+      "box": {
+        "left": 68.8,
+        "top": 349.6,
+        "width": 17.3,
+        "height": 17.3
+      }
+    },
+    "radioButtonList": {
+      "type": "radio",
+      "label": "home",
+      "page": 1,
+      "box": {
+        "left": 381.6,
+        "top": 289.6,
+        "width": 17.6,
+        "height": 17.6
+      },
+      "group": "topmostSubform_0_Page1_0_RadioButtonList_0"
+    },
+    "radioButtonList2": {
+      "type": "radio",
+      "label": "school",
+      "page": 1,
+      "box": {
+        "left": 310.4,
+        "top": 288.8,
+        "width": 17.6,
+        "height": 17.6
+      },
+      "group": "topmostSubform_0_Page1_0_RadioButtonList_0"
+    },
+    "radioButtonList3": {
+      "type": "radio",
+      "label": "home",
+      "page": 1,
+      "box": {
+        "left": 382.4,
+        "top": 268.0,
+        "width": 17.6,
+        "height": 17.6
+      },
+      "group": "topmostSubform_0_Page1_0_RadioButtonList_1"
+    },
+    "radioButtonList4": {
+      "type": "radio",
+      "label": "school",
+      "page": 1,
+      "box": {
+        "left": 309.8,
+        "top": 267.3,
+        "width": 17.6,
+        "height": 17.6
+      },
+      "group": "topmostSubform_0_Page1_0_RadioButtonList_1"
+    },
+    "addrCurr": {
+      "type": "text",
+      "label": "Current or School address. Include number and street, city, state, and zip code.",
+      "page": 1,
+      "box": {
+        "left": 24.8,
+        "top": 230.6,
+        "width": 564.0,
+        "height": 47.4
+      },
+      "multiline": true
+    },
+    "addrHome": {
+      "type": "text",
+      "label": "Home or Record as defined in MCO P1070.12, IRAM, PAR>4005.3a. Include number and street, city, state, and zip code.",
+      "page": 1,
+      "box": {
+        "left": 24.8,
+        "top": 170.4,
+        "width": 564.0,
+        "height": 84.8
+      },
+      "multiline": true
+    },
+    "signatureField1": {
+      "type": "signature",
+      "label": "SignatureField1",
+      "page": 1,
+      "box": {
+        "left": 218.3,
+        "top": 75.3,
+        "width": 371.4,
+        "height": 16.1
+      }
+    },
+    "dateSig": {
+      "type": "text",
+      "label": "Enter signature date using format 2002 06 27.",
+      "page": 1,
+      "box": {
+        "left": 24.8,
+        "top": 75.2,
+        "width": 187.7,
+        "height": 17.6
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 5,
+      "rowStride": 24.18,
+      "editor": "grid",
+      "columns": {
+        "classSel": {
+          "type": "text",
+          "label": "Officer Candidate Course you are requesting.",
+          "page": 1,
+          "box": {
+            "left": 93.3,
+            "top": 628.7,
+            "width": 44.7,
+            "height": 17.3
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,372 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 611,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "dNSDate31": {
+        "left": 449.8,
+        "top": 741.4,
+        "width": 122.5,
+        "height": 17.6,
+        "type": "text",
+        "description": "Enter the date, using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x2": {
+        "left": 107.5,
+        "top": 707.5,
+        "width": 212.7,
+        "height": 18.2,
+        "type": "text",
+        "description": "Enter who the change recommendation is from.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x3": {
+        "left": 354.9,
+        "top": 707.5,
+        "width": 220.2,
+        "height": 18.1,
+        "type": "text",
+        "description": "Enter the unit.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x4": {
+        "left": 114.2,
+        "top": 686.2,
+        "width": 206.0,
+        "height": 20.2,
+        "type": "text",
+        "description": "Enter who the change recommendation is to.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x5": {
+        "left": 354.5,
+        "top": 685.2,
+        "width": 221.0,
+        "height": 19.1,
+        "type": "text",
+        "description": "Enter the unit",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x6": {
+        "left": 38.5,
+        "top": 653.9,
+        "width": 206.8,
+        "height": 13.3,
+        "type": "text",
+        "description": "Enter the complete name of the manual and/or checklist.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x10": {
+        "left": 480.9,
+        "top": 653.7,
+        "width": 31.0,
+        "height": 13.1,
+        "type": "text",
+        "description": "Enter the page.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dNSDate32": {
+        "left": 250.7,
+        "top": 653.5,
+        "width": 69.1,
+        "height": 12.9,
+        "type": "text",
+        "description": "Enter the revision date, using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dNSDate33": {
+        "left": 325.6,
+        "top": 653.5,
+        "width": 64.0,
+        "height": 12.9,
+        "type": "text",
+        "description": "Enter the change date, using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x9": {
+        "left": 395.1,
+        "top": 653.5,
+        "width": 80.4,
+        "height": 12.9,
+        "type": "text",
+        "description": "Enter the section and/or chapter.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x11": {
+        "left": 517.3,
+        "top": 653.5,
+        "width": 58.2,
+        "height": 12.9,
+        "type": "text",
+        "description": "Enter the paragraph.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x12": {
+        "left": 38.8,
+        "top": 622.5,
+        "width": 536.3,
+        "height": 129.9,
+        "type": "text",
+        "description": "Enter the recommendation (be specific).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x13": {
+        "left": 449.4,
+        "top": 489.5,
+        "width": 7.0,
+        "height": 7.0,
+        "type": "checkbox",
+        "description": "Check this if continued on the back.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x14": {
+        "left": 38.3,
+        "top": 468.5,
+        "width": 536.3,
+        "height": 150.0,
+        "type": "text",
+        "description": "Enter the justification.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x17": {
+        "left": 405.3,
+        "top": 314.6,
+        "width": 169.4,
+        "height": 19.0,
+        "type": "text",
+        "description": "Enter the title.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x15": {
+        "left": 85.0,
+        "top": 313.6,
+        "width": 212.9,
+        "height": 17.7,
+        "type": "text",
+        "description": "Enter the signature of originator.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rank": {
+        "left": 326.0,
+        "top": 313.6,
+        "width": 41.9,
+        "height": 18.0,
+        "type": "text",
+        "description": "Enter the rank.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x18": {
+        "left": 170.3,
+        "top": 291.0,
+        "width": 404.3,
+        "height": 18.4,
+        "type": "text",
+        "description": "Enter the address of unit or command.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x19": {
+        "left": 65.2,
+        "top": 258.6,
+        "width": 415.0,
+        "height": 19.0,
+        "type": "text",
+        "description": "Enter who the change recommendation is from.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dATE": {
+        "left": 510.6,
+        "top": 258.6,
+        "width": 64.0,
+        "height": 19.0,
+        "type": "text",
+        "description": "Enter the date, using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x21": {
+        "left": 53.1,
+        "top": 235.5,
+        "width": 521.5,
+        "height": 18.0,
+        "type": "text",
+        "description": "Enter who the change recommendation is to.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dNSDate35": {
+        "left": 211.7,
+        "top": 205.2,
+        "width": 110.1,
+        "height": 12.1,
+        "type": "text",
+        "description": "Indicate the change recommendation dated, using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dNSDate36": {
+        "left": 204.2,
+        "top": 167.5,
+        "width": 149.8,
+        "height": 12.1,
+        "type": "text",
+        "description": "Enter the date, using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x23": {
+        "left": 47.3,
+        "top": 159.5,
+        "width": 14.0,
+        "height": 14.0,
+        "type": "checkbox",
+        "description": "Check this if the change recommendation is dated.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dNSDate3": {
+        "left": 183.3,
+        "top": 151.2,
+        "width": 146.5,
+        "height": 13.0,
+        "type": "text",
+        "description": "Enter the date planned for the review conference, using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x26": {
+        "left": 377.5,
+        "top": 151.2,
+        "width": 173.7,
+        "height": 13.0,
+        "type": "text",
+        "description": "Indicate where the review conference will be held.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x28": {
+        "left": 365.0,
+        "top": 124.4,
+        "width": 190.0,
+        "height": 12.1,
+        "type": "text",
+        "description": "Indicate where the change recommendation is being forwarded for approval and is reclassified URGENT.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x27": {
+        "left": 47.3,
+        "top": 119.3,
+        "width": 14.0,
+        "height": 14.0,
+        "type": "checkbox",
+        "description": "Check this if the change recommendation is reclassified URGENT and is forwarded for approval.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x29": {
+        "left": 125.9,
+        "top": 111.0,
+        "width": 192.0,
+        "height": 12.1,
+        "type": "text",
+        "description": "Enter the DTG.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x30": {
+        "left": 53.3,
+        "top": 74.2,
+        "width": 211.0,
+        "height": 12.1,
+        "type": "text",
+        "description": "Enter the signature of the model manager.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "x31": {
+        "left": 351.6,
+        "top": 74.2,
+        "width": 174.9,
+        "height": 12.1,
+        "type": "text",
+        "description": "Enter the type of aircraft.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "x99": {
+        "left": 41.0,
+        "top": 735.1,
+        "width": 528.0,
+        "height": 681.0,
+        "type": "text",
+        "description": "Enter the recommendation (be specific).",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

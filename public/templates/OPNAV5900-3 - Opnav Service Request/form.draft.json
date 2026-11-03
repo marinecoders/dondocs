@@ -1,0 +1,625 @@
+{
+  "id": "opnav59003",
+  "label": "OPNAV5900-3 - Opnav Service Request",
+  "directory": "OPNAV5900-3 - Opnav Service Request",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "fromN",
+        "controlNo",
+        "viaN",
+        "date",
+        "n",
+        "partStockNumber",
+        "description",
+        "unitCost",
+        "justification",
+        "vendorsSuppliers",
+        "poc",
+        "address",
+        "phoneNR",
+        "lIAISONName",
+        "nCode",
+        "room",
+        "extention",
+        "dNSDate3",
+        "nValueFrom",
+        "viaN1stEnd",
+        "signatureCoordinator",
+        "roomPhone",
+        "typed",
+        "firstNValueFrom",
+        "signatureOfficer",
+        "amount",
+        "location",
+        "telephone",
+        "item2",
+        "dNSDate3Ordered",
+        "costofItems",
+        "requisition",
+        "poc2",
+        "receivedBy1",
+        "received",
+        "received2",
+        "receivedBy12",
+        "item",
+        "items",
+        "name1",
+        "name2",
+        "signature",
+        "dNSDate3Sig",
+        "sig",
+        "dNSDate4Sig"
+      ]
+    }
+  ],
+  "fields": {
+    "fromN": {
+      "type": "text",
+      "label": "Enter the N Value from.",
+      "page": 1,
+      "box": {
+        "left": 82.2,
+        "top": 744.4,
+        "width": 55.3,
+        "height": 9.2
+      }
+    },
+    "controlNo": {
+      "type": "text",
+      "label": "Enter the control number.",
+      "page": 1,
+      "box": {
+        "left": 478.9,
+        "top": 743.7,
+        "width": 94.3,
+        "height": 12.8
+      }
+    },
+    "viaN": {
+      "type": "text",
+      "label": "Enter the N value via (supply & equipment coordintor).",
+      "page": 1,
+      "box": {
+        "left": 82.2,
+        "top": 733.6,
+        "width": 55.3,
+        "height": 9.2
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 454.4,
+        "top": 729.3,
+        "width": 118.8,
+        "height": 12.8
+      }
+    },
+    "n": {
+      "type": "text",
+      "label": "Enter the N value via (fiscal officer).",
+      "page": 1,
+      "box": {
+        "left": 82.2,
+        "top": 722.8,
+        "width": 55.3,
+        "height": 9.2
+      }
+    },
+    "partStockNumber": {
+      "type": "text",
+      "label": "This is row 1 of 7.  Enter the part or stock number.",
+      "page": 1,
+      "box": {
+        "left": 39.0,
+        "top": 627.8,
+        "width": 79.1,
+        "height": 14.3
+      }
+    },
+    "description": {
+      "type": "text",
+      "label": "Enter the description.",
+      "page": 1,
+      "box": {
+        "left": 130.4,
+        "top": 627.8,
+        "width": 279.2,
+        "height": 14.3
+      }
+    },
+    "unitCost": {
+      "type": "text",
+      "label": "Enter the unit cost.",
+      "page": 1,
+      "box": {
+        "left": 417.0,
+        "top": 627.8,
+        "width": 69.0,
+        "height": 14.3
+      }
+    },
+    "justification": {
+      "type": "text",
+      "label": "Enter the justification.",
+      "page": 1,
+      "box": {
+        "left": 33.8,
+        "top": 501.2,
+        "width": 539.4,
+        "height": 29.6
+      }
+    },
+    "vendorsSuppliers": {
+      "type": "text",
+      "label": "Enter the vendor or supplier.",
+      "page": 1,
+      "box": {
+        "left": 129.0,
+        "top": 466.5,
+        "width": 207.2,
+        "height": 17.3
+      }
+    },
+    "poc": {
+      "type": "text",
+      "label": "Enter the POC.",
+      "page": 1,
+      "box": {
+        "left": 374.5,
+        "top": 466.5,
+        "width": 198.6,
+        "height": 17.3
+      }
+    },
+    "address": {
+      "type": "text",
+      "label": "Enter the address.",
+      "page": 1,
+      "box": {
+        "left": 92.2,
+        "top": 440.6,
+        "width": 243.9,
+        "height": 17.3
+      }
+    },
+    "phoneNR": {
+      "type": "text",
+      "label": "Enter the telephone number.",
+      "page": 1,
+      "box": {
+        "left": 394.6,
+        "top": 440.6,
+        "width": 178.4,
+        "height": 17.3
+      }
+    },
+    "lIAISONName": {
+      "type": "text",
+      "label": "Enter the name.",
+      "page": 1,
+      "box": {
+        "left": 65.6,
+        "top": 379.4,
+        "width": 183.5,
+        "height": 14.5
+      }
+    },
+    "nCode": {
+      "type": "text",
+      "label": "Enter the n-code.",
+      "page": 1,
+      "box": {
+        "left": 290.2,
+        "top": 379.4,
+        "width": 66.8,
+        "height": 14.5
+      }
+    },
+    "room": {
+      "type": "text",
+      "label": "Enter the room.",
+      "page": 1,
+      "box": {
+        "left": 389.6,
+        "top": 379.4,
+        "width": 76.9,
+        "height": 14.5
+      }
+    },
+    "extention": {
+      "type": "text",
+      "label": "Enter the telephone extension.",
+      "page": 1,
+      "box": {
+        "left": 469.5,
+        "top": 374.3,
+        "width": 109.3,
+        "height": 9.9
+      }
+    },
+    "dNSDate3": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 487.4,
+        "top": 357.9,
+        "width": 85.8,
+        "height": 9.4
+      }
+    },
+    "nValueFrom": {
+      "type": "text",
+      "label": "Enter the n-value from.",
+      "page": 1,
+      "box": {
+        "left": 80.0,
+        "top": 347.7,
+        "width": 74.1,
+        "height": 11.4
+      }
+    },
+    "viaN1stEnd": {
+      "type": "text",
+      "label": "Enter the n-value via.",
+      "page": 1,
+      "box": {
+        "left": 78.6,
+        "top": 328.2,
+        "width": 60.3,
+        "height": 12.1
+      }
+    },
+    "signatureCoordinator": {
+      "type": "text",
+      "label": "Enter the signature (supply and equipment coordinator).",
+      "page": 1,
+      "box": {
+        "left": 369.4,
+        "top": 322.5,
+        "width": 184.2,
+        "height": 12.7
+      }
+    },
+    "roomPhone": {
+      "type": "text",
+      "label": "Enter the room and/or phone NR.",
+      "page": 1,
+      "box": {
+        "left": 231.9,
+        "top": 291.5,
+        "width": 113.6,
+        "height": 12.7
+      }
+    },
+    "typed": {
+      "type": "text",
+      "label": "Enter the typed name and/or grade.",
+      "page": 1,
+      "box": {
+        "left": 383.1,
+        "top": 291.5,
+        "width": 152.7,
+        "height": 12.7
+      }
+    },
+    "firstNValueFrom": {
+      "type": "text",
+      "label": "Enter the n-value from.",
+      "page": 1,
+      "box": {
+        "left": 83.6,
+        "top": 254.1,
+        "width": 74.1,
+        "height": 11.4
+      }
+    },
+    "signatureOfficer": {
+      "type": "text",
+      "label": "Enter the signature.",
+      "page": 1,
+      "box": {
+        "left": 386.0,
+        "top": 237.5,
+        "width": 166.9,
+        "height": 15.9
+      }
+    },
+    "amount": {
+      "type": "text",
+      "label": "Enter the amount of funding forwarded that has been committed to this purchase.",
+      "page": 1,
+      "box": {
+        "left": 173.6,
+        "top": 230.3,
+        "width": 74.7,
+        "height": 14.3
+      }
+    },
+    "location": {
+      "type": "text",
+      "label": "Enter the location and/or room.",
+      "page": 1,
+      "box": {
+        "left": 219.7,
+        "top": 210.9,
+        "width": 165.5,
+        "height": 15.9
+      }
+    },
+    "telephone": {
+      "type": "text",
+      "label": "Enter the telephone number.",
+      "page": 1,
+      "box": {
+        "left": 442.9,
+        "top": 209.3,
+        "width": 89.1,
+        "height": 14.3
+      }
+    },
+    "item2": {
+      "type": "text",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 453.0,
+        "top": 173.4,
+        "width": 120.1,
+        "height": 13.0
+      }
+    },
+    "dNSDate3Ordered": {
+      "type": "text",
+      "label": "Enter the date ordered using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 100.9,
+        "top": 159.8,
+        "width": 76.2,
+        "height": 13.0
+      }
+    },
+    "costofItems": {
+      "type": "text",
+      "label": "Enter the cost of item (s).",
+      "page": 1,
+      "box": {
+        "left": 257.8,
+        "top": 159.8,
+        "width": 62.5,
+        "height": 13.0
+      }
+    },
+    "requisition": {
+      "type": "text",
+      "label": "Enter the requisition NR.",
+      "page": 1,
+      "box": {
+        "left": 391.8,
+        "top": 159.8,
+        "width": 71.1,
+        "height": 13.0
+      }
+    },
+    "poc2": {
+      "type": "text",
+      "label": "Enter the POC.",
+      "page": 1,
+      "box": {
+        "left": 488.2,
+        "top": 159.8,
+        "width": 84.8,
+        "height": 13.0
+      }
+    },
+    "receivedBy1": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 161.1,
+        "top": 137.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_ReceivedBy1_0"
+    },
+    "received": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 397.9,
+        "top": 137.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_Received_0"
+    },
+    "received2": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 469.2,
+        "top": 137.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_Received_0"
+    },
+    "receivedBy12": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 92.0,
+        "top": 136.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_ReceivedBy1_0"
+    },
+    "item": {
+      "type": "text",
+      "label": "Enter the item(s).",
+      "page": 1,
+      "box": {
+        "left": 69.9,
+        "top": 125.2,
+        "width": 224.5,
+        "height": 13.1
+      }
+    },
+    "items": {
+      "type": "text",
+      "label": "Enter the item(s).",
+      "page": 1,
+      "box": {
+        "left": 342.1,
+        "top": 125.2,
+        "width": 232.8,
+        "height": 13.1
+      }
+    },
+    "name1": {
+      "type": "text",
+      "label": "Enter the name.",
+      "page": 1,
+      "box": {
+        "left": 69.9,
+        "top": 110.1,
+        "width": 224.5,
+        "height": 12.9
+      }
+    },
+    "name2": {
+      "type": "text",
+      "label": "Enter the name.",
+      "page": 1,
+      "box": {
+        "left": 342.1,
+        "top": 110.1,
+        "width": 232.8,
+        "height": 12.9
+      }
+    },
+    "signature": {
+      "type": "text",
+      "label": "Enter the signature.",
+      "page": 1,
+      "box": {
+        "left": 83.6,
+        "top": 93.5,
+        "width": 128.7,
+        "height": 11.6
+      }
+    },
+    "dNSDate3Sig": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 242.0,
+        "top": 93.5,
+        "width": 52.4,
+        "height": 11.6
+      }
+    },
+    "sig": {
+      "type": "text",
+      "label": "Enter the signature.",
+      "page": 1,
+      "box": {
+        "left": 355.8,
+        "top": 93.5,
+        "width": 128.7,
+        "height": 11.6
+      }
+    },
+    "dNSDate4Sig": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 512.0,
+        "top": 93.5,
+        "width": 62.9,
+        "height": 11.6
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 6,
+      "rowStride": 15.26,
+      "editor": "grid",
+      "columns": {
+        "partStockNumber": {
+          "type": "text",
+          "label": "This is row 2 of 7.  Enter the part or stock number.",
+          "page": 1,
+          "box": {
+            "left": 39.0,
+            "top": 612.6,
+            "width": 79.1,
+            "height": 14.3
+          }
+        },
+        "description": {
+          "type": "text",
+          "label": "Enter the description.",
+          "page": 1,
+          "box": {
+            "left": 130.4,
+            "top": 612.6,
+            "width": 279.2,
+            "height": 14.3
+          }
+        },
+        "unitCost": {
+          "type": "text",
+          "label": "Enter the unit cost.",
+          "page": 1,
+          "box": {
+            "left": 417.0,
+            "top": 612.6,
+            "width": 69.0,
+            "height": 14.3
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 7,
+      "rowStride": 15.25,
+      "editor": "grid",
+      "columns": {
+        "totalCosts": {
+          "type": "text",
+          "label": "Enter the total costs.",
+          "page": 1,
+          "box": {
+            "left": 495.4,
+            "top": 627.8,
+            "width": 69.0,
+            "height": 14.3
+          }
+        }
+      }
+    }
+  }
+}

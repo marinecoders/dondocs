@@ -1,0 +1,441 @@
+{
+  "id": "navmc11411",
+  "label": "NAVMC11411 - Request For Legal Services",
+  "directory": "NAVMC11411 - Request For Legal Services",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "nmeAcc",
+        "gde",
+        "eas",
+        "branchofService",
+        "unit",
+        "afadbd",
+        "mos",
+        "didAccusedRefuseNJP",
+        "edipi",
+        "susOf",
+        "dateBegan",
+        "dateEnded",
+        "anyRestraint",
+        "radio",
+        "radio2",
+        "unit2",
+        "unit3",
+        "nmeAcc6",
+        "nmeAcc7",
+        "radio3",
+        "radio4",
+        "accPhn9",
+        "accPhn10",
+        "susOf2",
+        "signatureField1",
+        "dateEnded2"
+      ]
+    }
+  ],
+  "fields": {
+    "nmeAcc": {
+      "type": "text",
+      "label": "1. FULL NAME (Last, First, Middle Initial)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 719.9,
+        "width": 304.9,
+        "height": 15.0
+      }
+    },
+    "gde": {
+      "type": "text",
+      "label": "2. GRADE",
+      "page": 1,
+      "box": {
+        "left": 349.4,
+        "top": 719.9,
+        "width": 84.3,
+        "height": 15.0
+      }
+    },
+    "eas": {
+      "type": "text",
+      "label": "4. EAS",
+      "page": 1,
+      "box": {
+        "left": 511.4,
+        "top": 719.9,
+        "width": 61.8,
+        "height": 15.0
+      }
+    },
+    "branchofService": {
+      "type": "choice",
+      "label": "3. SERVICE",
+      "page": 1,
+      "box": {
+        "left": 440.1,
+        "top": 719.1,
+        "width": 64.8,
+        "height": 13.5
+      },
+      "options": [
+        "USA",
+        "USN",
+        "USAF",
+        "USMC",
+        "USCG"
+      ]
+    },
+    "unit": {
+      "type": "text",
+      "label": "5. UNIT",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 688.4,
+        "width": 363.4,
+        "height": 15.0
+      }
+    },
+    "afadbd": {
+      "type": "text",
+      "label": "6. AFADBD",
+      "page": 1,
+      "box": {
+        "left": 407.9,
+        "top": 688.4,
+        "width": 79.8,
+        "height": 15.0
+      }
+    },
+    "mos": {
+      "type": "text",
+      "label": "7. MOS/BMOS",
+      "page": 1,
+      "box": {
+        "left": 493.4,
+        "top": 688.4,
+        "width": 79.8,
+        "height": 15.0
+      }
+    },
+    "didAccusedRefuseNJP": {
+      "type": "choice",
+      "label": "9. DID THE ACCUSED REFUSE ALTERNATE DISPOSITION?",
+      "page": 1,
+      "box": {
+        "left": 309.6,
+        "top": 656.1,
+        "width": 262.9,
+        "height": 13.5
+      },
+      "options": [
+        "NO - IT WAS NEVER OFFERED",
+        "YES - COMPANY NJP",
+        "YES - BATTALION NJP",
+        "YES - SUMMARY COURT-MARTIAL",
+        "YES - REFUSED FAST TRACK"
+      ]
+    },
+    "edipi": {
+      "type": "text",
+      "label": "11. EDIPI",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 625.7,
+        "width": 102.3,
+        "height": 15.4
+      }
+    },
+    "susOf": {
+      "type": "text",
+      "label": "12. WHAT IS THE ACCUSED SUSPECTED OF?",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 593.8,
+        "width": 534.4,
+        "height": 37.5
+      },
+      "multiline": true
+    },
+    "dateBegan": {
+      "type": "text",
+      "label": "14. DATE IT BEGAN",
+      "page": 1,
+      "box": {
+        "left": 245.9,
+        "top": 517.3,
+        "width": 96.9,
+        "height": 15.0
+      }
+    },
+    "dateEnded": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 475.4,
+        "top": 517.3,
+        "width": 96.9,
+        "height": 15.0
+      }
+    },
+    "anyRestraint": {
+      "type": "choice",
+      "label": "CONFINEMENT OR CONDITIONS ON LIBERTY?",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 516.6,
+        "width": 199.9,
+        "height": 13.5
+      },
+      "options": [
+        "NO",
+        "YES - RESTRICTION",
+        "YES - CONFINEMENT",
+        "YES - LIBERTY RISK PROGRAM",
+        "YES - RESTRICTION & CONFINEMENT"
+      ]
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 371.9,
+        "top": 513.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 421.4,
+        "top": 513.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "unit2": {
+      "type": "text",
+      "label": "17. NAME OF CONVENING AUTHORITY",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 486.2,
+        "width": 264.4,
+        "height": 15.4
+      }
+    },
+    "unit3": {
+      "type": "text",
+      "label": "18. WHO WILL INFORM THE ACCUSED OF THE CHARGES",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 485.8,
+        "width": 264.4,
+        "height": 15.0
+      }
+    },
+    "nmeAcc6": {
+      "type": "text",
+      "label": "OTHER (SPECIFY )",
+      "page": 1,
+      "box": {
+        "left": 398.9,
+        "top": 191.9,
+        "width": 174.4,
+        "height": 10.6
+      }
+    },
+    "nmeAcc7": {
+      "type": "text",
+      "label": "OTHER (SPECIFY )",
+      "page": 1,
+      "box": {
+        "left": 128.9,
+        "top": 175.6,
+        "width": 174.4,
+        "height": 10.6
+      }
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 187.4,
+        "top": 151.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 223.4,
+        "top": 151.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "accPhn9": {
+      "type": "text",
+      "label": "YES NO",
+      "page": 1,
+      "box": {
+        "left": 259.4,
+        "top": 149.5,
+        "width": 178.9,
+        "height": 16.2
+      }
+    },
+    "accPhn10": {
+      "type": "text",
+      "label": "YES NO",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 149.5,
+        "width": 129.3,
+        "height": 16.2
+      }
+    },
+    "susOf2": {
+      "type": "text",
+      "label": "36. ADDITIONAL REMARKS",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 116.8,
+        "width": 534.4,
+        "height": 51.9
+      },
+      "multiline": true
+    },
+    "signatureField1": {
+      "type": "text",
+      "label": "ATTACHMENTS OR SUBMIT A HARD COPY SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 288.9,
+        "top": 59.2,
+        "width": 120.9,
+        "height": 19.8
+      }
+    },
+    "dateEnded2": {
+      "type": "text",
+      "label": "DATE SUBMITTED",
+      "page": 1,
+      "box": {
+        "left": 493.3,
+        "top": 58.6,
+        "width": 79.5,
+        "height": 18.6
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 4,
+      "rowStride": 31.49,
+      "editor": "grid",
+      "columns": {
+        "nmeAcc": {
+          "type": "text",
+          "label": "19. EXECUTIVE OFFICER",
+          "page": 1,
+          "box": {
+            "left": 38.8,
+            "top": 440.8,
+            "width": 318.4,
+            "height": 15.0
+          }
+        },
+        "accPhn": {
+          "type": "text",
+          "label": "20. WORK PHONE",
+          "page": 1,
+          "box": {
+            "left": 362.9,
+            "top": 440.8,
+            "width": 102.3,
+            "height": 15.0
+          }
+        },
+        "accPhn2": {
+          "type": "text",
+          "label": "21. BB/CELL",
+          "page": 1,
+          "box": {
+            "left": 470.9,
+            "top": 440.7,
+            "width": 102.3,
+            "height": 14.9
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 7,
+      "rowStride": 16.28,
+      "editor": "grid",
+      "columns": {
+        "checkBox1": {
+          "type": "checkbox",
+          "label": "EMAIL PERTAINING TO THE CASE FROM ANYONE IN THE UNIT",
+          "page": 1,
+          "box": {
+            "left": 309.9,
+            "top": 288.3,
+            "width": 8.0,
+            "height": 8.0
+          }
+        }
+      }
+    },
+    "rows3": {
+      "title": "Rows",
+      "page": 1,
+      "count": 8,
+      "rowStride": 16.29,
+      "editor": "grid",
+      "columns": {
+        "checkBox12": {
+          "type": "checkbox",
+          "label": "Check Box 12",
+          "page": 1,
+          "box": {
+            "left": 39.8,
+            "top": 288.3,
+            "width": 8.0,
+            "height": 8.0
+          }
+        }
+      }
+    }
+  }
+}

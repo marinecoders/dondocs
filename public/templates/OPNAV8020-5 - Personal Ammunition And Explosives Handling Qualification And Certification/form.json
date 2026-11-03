@@ -1,0 +1,193 @@
+{
+  "id": "opnav80205",
+  "label": "OPNAV8020-5 - Personal Ammunition And Explosives Handling Qualification And Certification",
+  "directory": "OPNAV8020-5 - Personal Ammunition And Explosives Handling Qualification And Certification",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "command"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "NAME (Last, First, MI)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 727.6,
+        "width": 264.4,
+        "height": 12.0
+      }
+    },
+    "command": {
+      "type": "text",
+      "label": "COMMAND",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 727.6,
+        "width": 264.4,
+        "height": 12.0
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 36.0,
+      "editor": "grid",
+      "columns": {
+        "indSig": {
+          "type": "text",
+          "label": "RECERTIFIED SIGNATURE",
+          "page": 1,
+          "box": {
+            "left": 38.8,
+            "top": 315.1,
+            "width": 129.3,
+            "height": 30.3
+          }
+        },
+        "brdSig": {
+          "type": "text",
+          "label": "SIGNATURE",
+          "page": 1,
+          "box": {
+            "left": 173.9,
+            "top": 315.1,
+            "width": 129.3,
+            "height": 30.3
+          }
+        },
+        "chrSig": {
+          "type": "text",
+          "label": "SIGNATURE",
+          "page": 1,
+          "box": {
+            "left": 308.9,
+            "top": 315.1,
+            "width": 129.3,
+            "height": 30.3
+          }
+        },
+        "chrDte": {
+          "type": "text",
+          "label": "SIGNATURE DATE",
+          "page": 1,
+          "box": {
+            "left": 441.1,
+            "top": 317.9,
+            "width": 135.0,
+            "height": 36.0
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 4,
+      "rowStride": 40.61,
+      "editor": "grid",
+      "columns": {
+        "familyGroup2": {
+          "type": "text",
+          "label": "EXPLOSIVES FAMILY GROUP OR DEVICE",
+          "page": 1,
+          "box": {
+            "left": 62.7,
+            "top": 592.7,
+            "width": 175.7,
+            "height": 16.8
+          }
+        },
+        "device2": {
+          "type": "text",
+          "label": "EXPLOSIVES FAMILY GROUP OR DEVICE",
+          "page": 1,
+          "box": {
+            "left": 64.1,
+            "top": 571.7,
+            "width": 172.9,
+            "height": 14.0
+          }
+        },
+        "task2": {
+          "type": "text",
+          "label": "WORK TASK",
+          "page": 1,
+          "box": {
+            "left": 259.2,
+            "top": 573.0,
+            "width": 51.1,
+            "height": 16.8
+          }
+        },
+        "level2": {
+          "type": "text",
+          "label": "WORK TASK",
+          "page": 1,
+          "box": {
+            "left": 259.2,
+            "top": 592.7,
+            "width": 51.1,
+            "height": 16.8
+          }
+        },
+        "from3": {
+          "type": "text",
+          "label": "Signature",
+          "page": 1,
+          "box": {
+            "left": 316.8,
+            "top": 583.4,
+            "width": 64.4,
+            "height": 29.5
+          }
+        },
+        "from2": {
+          "type": "text",
+          "label": "Signature",
+          "page": 1,
+          "box": {
+            "left": 386.3,
+            "top": 583.4,
+            "width": 64.4,
+            "height": 29.5
+          }
+        },
+        "from": {
+          "type": "text",
+          "label": "Signature",
+          "page": 1,
+          "box": {
+            "left": 455.8,
+            "top": 583.0,
+            "width": 64.4,
+            "height": 29.5
+          }
+        },
+        "valDate": {
+          "type": "text",
+          "label": "DATE",
+          "page": 1,
+          "box": {
+            "left": 521.7,
+            "top": 592.8,
+            "width": 53.0,
+            "height": 37.8
+          }
+        }
+      }
+    }
+  }
+}

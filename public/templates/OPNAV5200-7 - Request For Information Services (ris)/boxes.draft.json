@@ -1,0 +1,438 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "risid": {
+        "left": 508.1,
+        "top": 752.9,
+        "width": 59.0,
+        "height": 18.0,
+        "type": "text",
+        "description": "RIS ID",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "tilReq": {
+        "left": 101.0,
+        "top": 672.1,
+        "width": 470.4,
+        "height": 15.3,
+        "type": "text",
+        "description": "Title Of Request",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "subOrg": {
+        "left": 115.6,
+        "top": 614.8,
+        "width": 227.5,
+        "height": 25.0,
+        "type": "text",
+        "description": "2. Submitting Organization",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nmeSub": {
+        "left": 348.1,
+        "top": 614.8,
+        "width": 224.9,
+        "height": 25.0,
+        "type": "text",
+        "description": "3. Name Of Submitter",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "inpDte": {
+        "left": 37.2,
+        "top": 608.0,
+        "width": 74.4,
+        "height": 18.0,
+        "type": "text",
+        "description": "(DDMMMYYYY)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "subPN": {
+        "left": 38.0,
+        "top": 575.0,
+        "width": 223.1,
+        "height": 25.0,
+        "type": "text",
+        "description": "4. Submitter\u2019s Phone Number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "subEml": {
+        "left": 268.2,
+        "top": 575.0,
+        "width": 304.9,
+        "height": 25.0,
+        "type": "text",
+        "description": "5. Submitter\u2019s Email Address",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sb": {
+        "left": 147.6,
+        "top": 516.2,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Submitting",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dirPol": {
+        "left": 330.4,
+        "top": 516.2,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "System Breakage",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sbwr": {
+        "left": 147.6,
+        "top": 489.2,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Submitting",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rmi": {
+        "left": 330.4,
+        "top": 489.2,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "System Breakage w/Workaround",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "leg": {
+        "left": 147.6,
+        "top": 462.2,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Submitting",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ei": {
+        "left": 330.4,
+        "top": 462.2,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Legislative",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "reSoPc": {
+        "left": 36.0,
+        "top": 428.0,
+        "width": 535.1,
+        "height": 41.9,
+        "type": "text",
+        "description": "7. Reference Source Of Legislative Or Other Policy Change",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "capSum": {
+        "left": 38.8,
+        "top": 351.8,
+        "width": 534.4,
+        "height": 64.3,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio": {
+        "left": 207.9,
+        "top": 277.6,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio2": {
+        "left": 247.9,
+        "top": 277.6,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "outBus": {
+        "left": 36.0,
+        "top": 230.6,
+        "width": 538.1,
+        "height": 70.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio3": {
+        "left": 284.6,
+        "top": 139.0,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio4": {
+        "left": 324.5,
+        "top": 139.0,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "staExp": {
+        "left": 36.0,
+        "top": 107.6,
+        "width": 539.1,
+        "height": 69.6,
+        "type": "text",
+        "description": "Explain",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "radio5": {
+        "left": 386.5,
+        "top": 752.0,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio6": {
+        "left": 426.5,
+        "top": 752.0,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "idPro": {
+        "left": 36.0,
+        "top": 719.0,
+        "width": 522.1,
+        "height": 51.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "idPro2": {
+        "left": 36.0,
+        "top": 629.5,
+        "width": 522.1,
+        "height": 53.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ssmm": {
+        "left": 36.0,
+        "top": 556.5,
+        "width": 522.1,
+        "height": 53.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ssmm2": {
+        "left": 36.0,
+        "top": 465.1,
+        "width": 522.1,
+        "height": 53.0,
+        "type": "text",
+        "description": "15. Identify Business Risk(s) Of Not Completing the Change",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "adIn": {
+        "left": 36.0,
+        "top": 382.6,
+        "width": 522.1,
+        "height": 55.8,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "frbt": {
+        "left": 36.0,
+        "top": 286.9,
+        "width": 220.8,
+        "height": 17.0,
+        "type": "text",
+        "description": "18. FRB Title",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "vmn": {
+        "left": 259.9,
+        "top": 286.9,
+        "width": 220.8,
+        "height": 17.0,
+        "type": "text",
+        "description": "19. Voting Member Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "vMADte": {
+        "left": 483.3,
+        "top": 284.7,
+        "width": 90.7,
+        "height": 14.8,
+        "type": "text",
+        "description": "Approval Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pmsb": {
+        "left": 162.0,
+        "top": 229.0,
+        "width": 412.1,
+        "height": 17.0,
+        "type": "text",
+        "description": "23. PMSB POC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rECIODte": {
+        "left": 37.0,
+        "top": 228.9,
+        "width": 121.0,
+        "height": 17.0,
+        "type": "text",
+        "description": "(DDMMMYYYY)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fRBDte": {
+        "left": 37.0,
+        "top": 189.0,
+        "width": 121.0,
+        "height": 17.0,
+        "type": "text",
+        "description": "Date: (DDMMMYYYY)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nmFRB": {
+        "left": 162.0,
+        "top": 188.1,
+        "width": 412.1,
+        "height": 16.0,
+        "type": "text",
+        "description": "25. Name Of FRB",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "frbs": {
+        "left": 163.4,
+        "top": 129.7,
+        "width": 201.0,
+        "height": 16.0,
+        "type": "text",
+        "description": "27. FRB Score",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rygs": {
+        "left": 370.3,
+        "top": 129.7,
+        "width": 204.0,
+        "height": 16.0,
+        "type": "text",
+        "description": "28. Red/Yellow/Green Status",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dteFRB": {
+        "left": 37.0,
+        "top": 129.4,
+        "width": 121.0,
+        "height": 17.0,
+        "type": "text",
+        "description": "(DDMMMYYYY)",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

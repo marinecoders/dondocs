@@ -1,0 +1,205 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "catapult": {
+        "left": 108.2,
+        "top": 726.2,
+        "width": 78.0,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER CATAPULT NUMBER.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateTimeField1": {
+        "left": 473.2,
+        "top": 726.2,
+        "width": 91.0,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER DATE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "jsn": {
+        "left": 282.3,
+        "top": 717.2,
+        "width": 65.9,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER JSN.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "shotno": {
+        "left": 86.8,
+        "top": 699.2,
+        "width": 99.4,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER SHOT NUMBER.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "shotssince": {
+        "left": 501.1,
+        "top": 699.2,
+        "width": 63.1,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER SHOTS SINCE LAST INSPECTION.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "shuttle1": {
+        "left": 180.6,
+        "top": 321.2,
+        "width": 86.3,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER SHUTTLE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "left": {
+        "left": 433.6,
+        "top": 321.2,
+        "width": 40.6,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER LEFT CONNECTOR.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "right": {
+        "left": 506.3,
+        "top": 321.2,
+        "width": 39.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER RIGHT CONNECTOR.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "shuttle2": {
+        "left": 180.6,
+        "top": 294.2,
+        "width": 86.3,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER SHUTTLE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "left2": {
+        "left": 433.6,
+        "top": 294.2,
+        "width": 112.6,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER LEFT.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "shuttle3": {
+        "left": 180.6,
+        "top": 267.2,
+        "width": 86.3,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER SHUTTLE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "right2": {
+        "left": 434.3,
+        "top": 267.2,
+        "width": 111.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER RIGHT.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks": {
+        "left": 38.8,
+        "top": 222.2,
+        "width": 534.3,
+        "height": 39.3,
+        "type": "text",
+        "description": "ENTER REMARKS.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "maintman": {
+        "left": 96.5,
+        "top": 168.2,
+        "width": 161.7,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER MAINT. MAN.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "aglpocpo": {
+        "left": 410.0,
+        "top": 168.2,
+        "width": 145.2,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER A/G LPO/CPO.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "qainspector": {
+        "left": 115.7,
+        "top": 132.2,
+        "width": 142.4,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER QA INSPECTOR.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "maintcpo": {
+        "left": 441.9,
+        "top": 132.2,
+        "width": 113.3,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER MAINT. CPO/OFFICER.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

@@ -1,0 +1,361 @@
+{
+  "id": "navmc11809",
+  "label": "NAVMC11809 - Computation Of Hasty Astronomic Observations",
+  "directory": "NAVMC11809 - Computation Of Hasty Astronomic Observations",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "software",
+        "station",
+        "ellipsoid",
+        "easting",
+        "northing",
+        "latitude",
+        "gridZone",
+        "star",
+        "timeZone",
+        "daylightSavings",
+        "observationDate",
+        "timeInput1",
+        "timeInput2",
+        "aimingInput1",
+        "aimingInput2",
+        "recordMark",
+        "recordAngle",
+        "remarks",
+        "computer",
+        "checker",
+        "date",
+        "locality",
+        "fileName",
+        "sheet",
+        "of"
+      ]
+    }
+  ],
+  "fields": {
+    "software": {
+      "type": "text",
+      "label": "Survey Software for RPDA Version:",
+      "page": 1,
+      "box": {
+        "left": 170.5,
+        "top": 703.8,
+        "width": 401.9,
+        "height": 18.0
+      }
+    },
+    "station": {
+      "type": "text",
+      "label": "ENTER STATION NAME:",
+      "page": 1,
+      "box": {
+        "left": 215.8,
+        "top": 642.6,
+        "width": 356.6,
+        "height": 10.8
+      }
+    },
+    "ellipsoid": {
+      "type": "choice",
+      "label": "ENTER ELLIPSOID:",
+      "page": 1,
+      "box": {
+        "left": 215.8,
+        "top": 624.6,
+        "width": 356.6,
+        "height": 10.8
+      },
+      "options": [
+        "1 - CLARK 1866",
+        "2 - INTERNATIONAL",
+        "3 - CLARK 1880",
+        "4 - EVEREST",
+        "5 - BESSEL",
+        "6 - AUSTRALIAN",
+        "7 - WGS 72",
+        "8 - GRS 80",
+        "9 - WGS 84"
+      ]
+    },
+    "easting": {
+      "type": "text",
+      "label": "ENTER KNOWN EASTING:",
+      "page": 1,
+      "box": {
+        "left": 215.8,
+        "top": 606.6,
+        "width": 356.6,
+        "height": 10.8
+      }
+    },
+    "northing": {
+      "type": "text",
+      "label": "ENTER KNOWN NORTHING:",
+      "page": 1,
+      "box": {
+        "left": 215.8,
+        "top": 588.6,
+        "width": 356.6,
+        "height": 10.8
+      }
+    },
+    "latitude": {
+      "type": "text",
+      "label": "ENTER LATITUDE (N/S):",
+      "page": 1,
+      "box": {
+        "left": 215.8,
+        "top": 570.6,
+        "width": 356.6,
+        "height": 10.8
+      }
+    },
+    "gridZone": {
+      "type": "text",
+      "label": "ENTER UTM GRID ZONE (1-60):",
+      "page": 1,
+      "box": {
+        "left": 215.8,
+        "top": 552.6,
+        "width": 356.6,
+        "height": 10.8
+      }
+    },
+    "star": {
+      "type": "text",
+      "label": "ENTER STAR #  (SUN = 0):",
+      "page": 1,
+      "box": {
+        "left": 215.8,
+        "top": 516.6,
+        "width": 356.6,
+        "height": 10.8
+      }
+    },
+    "timeZone": {
+      "type": "choice",
+      "label": "ENTER TIME ZONE LETTER:",
+      "page": 1,
+      "box": {
+        "left": 215.8,
+        "top": 498.6,
+        "width": 356.6,
+        "height": 10.8
+      },
+      "options": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N",
+        "O",
+        "P",
+        "Q",
+        "R",
+        "S",
+        "T",
+        "U",
+        "V",
+        "W",
+        "X",
+        "Y",
+        "Z"
+      ]
+    },
+    "daylightSavings": {
+      "type": "choice",
+      "label": "ENTER DAYLIGHT SAVINGS:",
+      "page": 1,
+      "box": {
+        "left": 215.8,
+        "top": 480.6,
+        "width": 356.6,
+        "height": 10.8
+      },
+      "options": [
+        "Y",
+        "N"
+      ]
+    },
+    "observationDate": {
+      "type": "text",
+      "label": "ENTER OBSERVATION DATE:",
+      "page": 1,
+      "box": {
+        "left": 215.8,
+        "top": 462.6,
+        "width": 356.6,
+        "height": 10.8
+      }
+    },
+    "timeInput1": {
+      "type": "text",
+      "label": "TimeInput1",
+      "page": 1,
+      "box": {
+        "left": 219.6,
+        "top": 411.4,
+        "width": 172.8,
+        "height": 18.0
+      }
+    },
+    "timeInput2": {
+      "type": "text",
+      "label": "TimeInput2",
+      "page": 1,
+      "box": {
+        "left": 399.6,
+        "top": 411.4,
+        "width": 172.8,
+        "height": 18.0
+      }
+    },
+    "aimingInput1": {
+      "type": "text",
+      "label": "AimingInput1",
+      "page": 1,
+      "box": {
+        "left": 219.6,
+        "top": 386.2,
+        "width": 172.8,
+        "height": 18.0
+      }
+    },
+    "aimingInput2": {
+      "type": "text",
+      "label": "AimingInput2",
+      "page": 1,
+      "box": {
+        "left": 399.6,
+        "top": 386.2,
+        "width": 172.8,
+        "height": 18.0
+      }
+    },
+    "recordMark": {
+      "type": "text",
+      "label": "RECORD COMPUTED AZIMUTH TO AZIMUTH MARK:",
+      "page": 1,
+      "box": {
+        "left": 296.8,
+        "top": 343.0,
+        "width": 275.6,
+        "height": 10.8
+      }
+    },
+    "recordAngle": {
+      "type": "text",
+      "label": "RECORD CHECK ANGLE:",
+      "page": 1,
+      "box": {
+        "left": 296.8,
+        "top": 325.0,
+        "width": 275.6,
+        "height": 10.8
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "REMARKS:",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 296.2,
+        "width": 532.8,
+        "height": 193.6
+      },
+      "multiline": true
+    },
+    "computer": {
+      "type": "text",
+      "label": "COMPUTER:",
+      "page": 1,
+      "box": {
+        "left": 90.2,
+        "top": 95.4,
+        "width": 122.2,
+        "height": 10.8
+      }
+    },
+    "checker": {
+      "type": "text",
+      "label": "CHECKER:",
+      "page": 1,
+      "box": {
+        "left": 261.1,
+        "top": 95.4,
+        "width": 221.3,
+        "height": 10.8
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "DATE:",
+      "page": 1,
+      "box": {
+        "left": 513.7,
+        "top": 95.4,
+        "width": 58.7,
+        "height": 10.8
+      }
+    },
+    "locality": {
+      "type": "text",
+      "label": "LOCALITY:",
+      "page": 1,
+      "box": {
+        "left": 90.2,
+        "top": 77.4,
+        "width": 122.2,
+        "height": 10.8
+      }
+    },
+    "fileName": {
+      "type": "text",
+      "label": "ARCHIVE FILE NAME:",
+      "page": 1,
+      "box": {
+        "left": 301.8,
+        "top": 77.4,
+        "width": 180.6,
+        "height": 10.8
+      }
+    },
+    "sheet": {
+      "type": "text",
+      "label": "Sheet",
+      "page": 1,
+      "box": {
+        "left": 528.4,
+        "top": 77.4,
+        "width": 10.8,
+        "height": 10.8
+      }
+    },
+    "of": {
+      "type": "text",
+      "label": "Of",
+      "page": 1,
+      "box": {
+        "left": 561.6,
+        "top": 77.4,
+        "width": 10.8,
+        "height": 10.8
+      }
+    }
+  }
+}

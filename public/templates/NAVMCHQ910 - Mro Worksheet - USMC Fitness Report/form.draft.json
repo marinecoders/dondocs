@@ -1,0 +1,541 @@
+{
+  "id": "navmchq910",
+  "label": "NAVMCHQ910 - Mro Worksheet - USMC Fitness Report",
+  "directory": "NAVMCHQ910 - Mro Worksheet - USMC Fitness Report",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "requiredDate",
+        "last",
+        "nameF",
+        "nameM",
+        "ssn",
+        "grade",
+        "dor",
+        "pmos",
+        "emos",
+        "orgMcc",
+        "unDesc",
+        "ruc",
+        "occ",
+        "type",
+        "perFr",
+        "perTo",
+        "dutyAs",
+        "pft",
+        "status",
+        "resComp",
+        "bf",
+        "ht",
+        "qual",
+        "wt",
+        "nameRS",
+        "gradeRS",
+        "initRS",
+        "ssnrs",
+        "serviceRS",
+        "dutyAsRS",
+        "nameRO",
+        "initRO",
+        "ssnro",
+        "gradeRO",
+        "serviceRO",
+        "dutyAsRO",
+        "billet"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "majAccomp",
+        "pme",
+        "other"
+      ]
+    }
+  ],
+  "fields": {
+    "requiredDate": {
+      "type": "text",
+      "label": "RequiredDate",
+      "page": 1,
+      "box": {
+        "left": 526.5,
+        "top": 748.3,
+        "width": 61.7,
+        "height": 13.7
+      }
+    },
+    "last": {
+      "type": "text",
+      "label": "Last",
+      "page": 1,
+      "box": {
+        "left": 21.0,
+        "top": 684.7,
+        "width": 226.4,
+        "height": 16.8
+      }
+    },
+    "nameF": {
+      "type": "text",
+      "label": "First Name",
+      "page": 1,
+      "box": {
+        "left": 250.4,
+        "top": 684.1,
+        "width": 179.1,
+        "height": 16.8
+      }
+    },
+    "nameM": {
+      "type": "text",
+      "label": "Middle Initial",
+      "page": 1,
+      "box": {
+        "left": 433.7,
+        "top": 684.1,
+        "width": 20.4,
+        "height": 16.8
+      }
+    },
+    "ssn": {
+      "type": "text",
+      "label": "SSN",
+      "page": 1,
+      "box": {
+        "left": 457.1,
+        "top": 684.1,
+        "width": 134.4,
+        "height": 16.4
+      }
+    },
+    "grade": {
+      "type": "text",
+      "label": "Grade",
+      "page": 1,
+      "box": {
+        "left": 20.4,
+        "top": 652.9,
+        "width": 224.4,
+        "height": 16.8
+      }
+    },
+    "dor": {
+      "type": "text",
+      "label": "DOR",
+      "page": 1,
+      "box": {
+        "left": 249.0,
+        "top": 652.9,
+        "width": 112.8,
+        "height": 16.8
+      }
+    },
+    "pmos": {
+      "type": "text",
+      "label": "PMOS",
+      "page": 1,
+      "box": {
+        "left": 364.9,
+        "top": 652.9,
+        "width": 112.1,
+        "height": 16.8
+      }
+    },
+    "emos": {
+      "type": "text",
+      "label": "BMOS",
+      "page": 1,
+      "box": {
+        "left": 481.2,
+        "top": 652.9,
+        "width": 111.0,
+        "height": 16.8
+      }
+    },
+    "orgMcc": {
+      "type": "text",
+      "label": "Organization: MCC",
+      "page": 1,
+      "box": {
+        "left": 21.1,
+        "top": 609.9,
+        "width": 131.9,
+        "height": 16.8
+      }
+    },
+    "unDesc": {
+      "type": "text",
+      "label": "Unit Description",
+      "page": 1,
+      "box": {
+        "left": 157.2,
+        "top": 608.1,
+        "width": 434.4,
+        "height": 45.6
+      },
+      "multiline": true
+    },
+    "ruc": {
+      "type": "text",
+      "label": "RUC",
+      "page": 1,
+      "box": {
+        "left": 21.1,
+        "top": 578.2,
+        "width": 131.9,
+        "height": 16.8
+      }
+    },
+    "occ": {
+      "type": "text",
+      "label": "OCC",
+      "page": 1,
+      "box": {
+        "left": 20.4,
+        "top": 535.6,
+        "width": 135.6,
+        "height": 16.8
+      }
+    },
+    "type": {
+      "type": "text",
+      "label": "Type:",
+      "page": 1,
+      "box": {
+        "left": 306.3,
+        "top": 534.9,
+        "width": 285.9,
+        "height": 16.8
+      }
+    },
+    "perFr": {
+      "type": "text",
+      "label": "Enter date using format 2002 12 24.",
+      "page": 1,
+      "box": {
+        "left": 159.8,
+        "top": 534.3,
+        "width": 68.4,
+        "height": 15.2
+      }
+    },
+    "perTo": {
+      "type": "text",
+      "label": "Enter date using format 2002 12 24.",
+      "page": 1,
+      "box": {
+        "left": 232.2,
+        "top": 533.8,
+        "width": 69.6,
+        "height": 15.2
+      }
+    },
+    "dutyAs": {
+      "type": "text",
+      "label": "Type:",
+      "page": 1,
+      "box": {
+        "left": 20.4,
+        "top": 501.9,
+        "width": 572.4,
+        "height": 16.8
+      }
+    },
+    "pft": {
+      "type": "text",
+      "label": "Type:",
+      "page": 1,
+      "box": {
+        "left": 119.3,
+        "top": 456.2,
+        "width": 99.7,
+        "height": 16.8
+      }
+    },
+    "status": {
+      "type": "text",
+      "label": "Type:",
+      "page": 1,
+      "box": {
+        "left": 223.0,
+        "top": 456.0,
+        "width": 101.6,
+        "height": 16.8
+      }
+    },
+    "resComp": {
+      "type": "text",
+      "label": "Type:",
+      "page": 1,
+      "box": {
+        "left": 328.5,
+        "top": 456.0,
+        "width": 118.5,
+        "height": 16.8
+      }
+    },
+    "bf": {
+      "type": "text",
+      "label": "Type:",
+      "page": 1,
+      "box": {
+        "left": 530.2,
+        "top": 456.0,
+        "width": 61.2,
+        "height": 16.8
+      }
+    },
+    "ht": {
+      "type": "text",
+      "label": "Middle Initial",
+      "page": 1,
+      "box": {
+        "left": 450.6,
+        "top": 455.7,
+        "width": 34.2,
+        "height": 16.8
+      }
+    },
+    "qual": {
+      "type": "text",
+      "label": "Type:",
+      "page": 1,
+      "box": {
+        "left": 19.2,
+        "top": 455.6,
+        "width": 97.2,
+        "height": 16.8
+      }
+    },
+    "wt": {
+      "type": "text",
+      "label": "Middle Initial",
+      "page": 1,
+      "box": {
+        "left": 487.2,
+        "top": 455.3,
+        "width": 39.8,
+        "height": 16.8
+      }
+    },
+    "nameRS": {
+      "type": "text",
+      "label": "NameRS",
+      "page": 1,
+      "box": {
+        "left": 21.0,
+        "top": 334.2,
+        "width": 226.4,
+        "height": 16.8
+      }
+    },
+    "gradeRS": {
+      "type": "text",
+      "label": "Middle Initial",
+      "page": 1,
+      "box": {
+        "left": 408.2,
+        "top": 333.6,
+        "width": 184.1,
+        "height": 16.8
+      }
+    },
+    "initRS": {
+      "type": "text",
+      "label": "First Name",
+      "page": 1,
+      "box": {
+        "left": 250.4,
+        "top": 333.5,
+        "width": 23.8,
+        "height": 16.8
+      }
+    },
+    "ssnrs": {
+      "type": "text",
+      "label": "SSNRS",
+      "page": 1,
+      "box": {
+        "left": 278.0,
+        "top": 333.5,
+        "width": 126.3,
+        "height": 16.4
+      }
+    },
+    "serviceRS": {
+      "type": "text",
+      "label": "ServiceRS",
+      "page": 1,
+      "box": {
+        "left": 21.0,
+        "top": 302.9,
+        "width": 148.2,
+        "height": 16.8
+      }
+    },
+    "dutyAsRS": {
+      "type": "text",
+      "label": "Middle Initial",
+      "page": 1,
+      "box": {
+        "left": 173.1,
+        "top": 302.3,
+        "width": 419.1,
+        "height": 16.8
+      }
+    },
+    "nameRO": {
+      "type": "text",
+      "label": "NameRO",
+      "page": 1,
+      "box": {
+        "left": 21.0,
+        "top": 259.0,
+        "width": 226.4,
+        "height": 16.8
+      }
+    },
+    "initRO": {
+      "type": "text",
+      "label": "First Name",
+      "page": 1,
+      "box": {
+        "left": 250.4,
+        "top": 258.4,
+        "width": 23.8,
+        "height": 16.8
+      }
+    },
+    "ssnro": {
+      "type": "text",
+      "label": "SSNRO",
+      "page": 1,
+      "box": {
+        "left": 278.0,
+        "top": 258.4,
+        "width": 126.3,
+        "height": 16.4
+      }
+    },
+    "gradeRO": {
+      "type": "text",
+      "label": "Middle Initial",
+      "page": 1,
+      "box": {
+        "left": 408.2,
+        "top": 258.4,
+        "width": 184.1,
+        "height": 16.8
+      }
+    },
+    "serviceRO": {
+      "type": "text",
+      "label": "ServiceRO",
+      "page": 1,
+      "box": {
+        "left": 21.0,
+        "top": 227.7,
+        "width": 148.2,
+        "height": 16.8
+      }
+    },
+    "dutyAsRO": {
+      "type": "text",
+      "label": "Middle Initial",
+      "page": 1,
+      "box": {
+        "left": 173.1,
+        "top": 227.1,
+        "width": 419.1,
+        "height": 16.8
+      }
+    },
+    "billet": {
+      "type": "text",
+      "label": "Unit Description",
+      "page": 1,
+      "box": {
+        "left": 20.5,
+        "top": 196.4,
+        "width": 571.7,
+        "height": 132.2
+      },
+      "multiline": true
+    },
+    "majAccomp": {
+      "type": "text",
+      "label": "Unit Description",
+      "page": 2,
+      "box": {
+        "left": 20.5,
+        "top": 718.0,
+        "width": 571.7,
+        "height": 189.0
+      },
+      "multiline": true
+    },
+    "pme": {
+      "type": "text",
+      "label": "Unit Description",
+      "page": 2,
+      "box": {
+        "left": 19.9,
+        "top": 513.6,
+        "width": 571.7,
+        "height": 189.0
+      },
+      "multiline": true
+    },
+    "other": {
+      "type": "text",
+      "label": "Unit Description",
+      "page": 2,
+      "box": {
+        "left": 19.9,
+        "top": 308.3,
+        "width": 571.7,
+        "height": 189.0
+      },
+      "multiline": true
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 20.75,
+      "editor": "grid",
+      "columns": {
+        "mcc": {
+          "type": "text",
+          "label": "OCC",
+          "page": 1,
+          "box": {
+            "left": 57.9,
+            "top": 422.3,
+            "width": 95.7,
+            "height": 16.8
+          }
+        },
+        "descLoc": {
+          "type": "text",
+          "label": "Type:",
+          "page": 1,
+          "box": {
+            "left": 236.7,
+            "top": 421.7,
+            "width": 355.5,
+            "height": 16.8
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,165 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "date": {
+        "left": 430.2,
+        "top": 720.8,
+        "width": 143.1,
+        "height": 15.9,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cmdOfficer": {
+        "left": 154.1,
+        "top": 674.0,
+        "width": 203.2,
+        "height": 15.9,
+        "type": "text",
+        "description": "From: Commanding Officer,",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "searchRescueOfficer": {
+        "left": 154.1,
+        "top": 652.3,
+        "width": 203.2,
+        "height": 15.9,
+        "type": "text",
+        "description": "To: Search and Rescue Officer,",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dropDownList": {
+        "left": 43.2,
+        "top": 532.8,
+        "width": 529.3,
+        "height": 14.4,
+        "type": "choice",
+        "description": "",
+        "options": [
+          "Deployment",
+          "Operational Commitment",
+          "Aircraft Availability / Adverse Weather"
+        ],
+        "group": null,
+        "required": false
+      },
+      "rate": {
+        "left": 67.6,
+        "top": 475.9,
+        "width": 91.5,
+        "height": 15.9,
+        "type": "text",
+        "description": "RATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name": {
+        "left": 254.9,
+        "top": 475.9,
+        "width": 318.4,
+        "height": 15.9,
+        "type": "text",
+        "description": "NAME (Last, First, MI)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox1": {
+        "left": 57.8,
+        "top": 403.6,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Training",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox2": {
+        "left": 57.8,
+        "top": 381.9,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Training",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox4": {
+        "left": 57.8,
+        "top": 360.3,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Training",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox12": {
+        "left": 57.8,
+        "top": 338.7,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Training",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "deployEndtDate": {
+        "left": 128.9,
+        "top": 321.1,
+        "width": 192.4,
+        "height": 15.9,
+        "type": "text",
+        "description": "Deployment End Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "waiverExpireDate": {
+        "left": 128.9,
+        "top": 299.5,
+        "width": 192.4,
+        "height": 15.9,
+        "type": "text",
+        "description": "Waiver Expiration Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField1": {
+        "left": 312.5,
+        "top": 177.1,
+        "width": 228.4,
+        "height": 37.5,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

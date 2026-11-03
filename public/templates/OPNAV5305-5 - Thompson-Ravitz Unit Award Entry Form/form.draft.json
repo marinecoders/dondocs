@@ -1,0 +1,585 @@
+{
+  "id": "opnav53055",
+  "label": "OPNAV5305-5 - Thompson-Ravitz Unit Award Entry Form",
+  "directory": "OPNAV5305-5 - Thompson-Ravitz Unit Award Entry Form",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf",
+    "page5.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "commandname",
+        "mailing",
+        "phone",
+        "email",
+        "pocemail",
+        "catergory",
+        "etryTle",
+        "radio",
+        "radio2",
+        "radio3",
+        "radio4",
+        "pocname",
+        "pocphone",
+        "pocemail2",
+        "r12a",
+        "r12b",
+        "r12c"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "r12d",
+        "r12e",
+        "r12f",
+        "p13a",
+        "p13b",
+        "p13c",
+        "p13d"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "p13e",
+        "p13f",
+        "p13g",
+        "p13h",
+        "p13i",
+        "i14a",
+        "i14b"
+      ]
+    },
+    {
+      "title": "Page 4",
+      "fields": [
+        "i14c",
+        "i14d",
+        "i14e",
+        "i14f",
+        "i14h",
+        "e15a",
+        "e15b"
+      ]
+    },
+    {
+      "title": "Page 5",
+      "fields": [
+        "e15c",
+        "e15d",
+        "e15e",
+        "e15e2"
+      ]
+    }
+  ],
+  "fields": {
+    "commandname": {
+      "type": "text",
+      "label": "1. COMMAND NAME",
+      "page": 1,
+      "box": {
+        "left": 130.7,
+        "top": 721.3,
+        "width": 445.4,
+        "height": 19.8
+      }
+    },
+    "mailing": {
+      "type": "text",
+      "label": "2. COMMAND ADDRESS",
+      "page": 1,
+      "box": {
+        "left": 143.9,
+        "top": 701.6,
+        "width": 432.1,
+        "height": 20.3
+      }
+    },
+    "phone": {
+      "type": "text",
+      "label": "3. COMMAND POC PHONE NUMBER",
+      "page": 1,
+      "box": {
+        "left": 190.4,
+        "top": 680.8,
+        "width": 89.4,
+        "height": 21.3
+      }
+    },
+    "email": {
+      "type": "text",
+      "label": "4. COMMAND POC EMAIL",
+      "page": 1,
+      "box": {
+        "left": 393.6,
+        "top": 680.8,
+        "width": 182.5,
+        "height": 21.3
+      }
+    },
+    "pocemail": {
+      "type": "text",
+      "label": "5. NEXT SENIOR COMMAND (Name and Address)",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 647.1,
+        "width": 532.2,
+        "height": 61.9
+      },
+      "multiline": true
+    },
+    "catergory": {
+      "type": "choice",
+      "label": "6. CATEGORY",
+      "page": 1,
+      "box": {
+        "left": 114.2,
+        "top": 581.6,
+        "width": 460.3,
+        "height": 21.3
+      },
+      "options": [
+        "Community Outreach",
+        "Special Events and Projects",
+        "Public Information",
+        "Crisis Communication",
+        "Internal Communication"
+      ]
+    },
+    "etryTle": {
+      "type": "text",
+      "label": "7. ENTRY TITLE",
+      "page": 1,
+      "box": {
+        "left": 113.4,
+        "top": 559.0,
+        "width": 461.8,
+        "height": 23.3
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 393.3,
+        "top": 529.5,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 482.1,
+        "top": 529.5,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 146.0,
+        "top": 528.9,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 200.9,
+        "top": 528.9,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "radio"
+    },
+    "pocname": {
+      "type": "text",
+      "label": "Pocname",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 500.7,
+        "width": 532.2,
+        "height": 19.9
+      }
+    },
+    "pocphone": {
+      "type": "text",
+      "label": "12. PUBLIC AFFAIRS OFFICER PHONE NUMBER",
+      "page": 1,
+      "box": {
+        "left": 374.1,
+        "top": 464.9,
+        "width": 199.2,
+        "height": 19.9
+      }
+    },
+    "pocemail2": {
+      "type": "text",
+      "label": "11. PUBLIC AFFAIRS OFFICER EMAIL ADDRESS",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 464.7,
+        "width": 325.2,
+        "height": 19.7
+      }
+    },
+    "r12a": {
+      "type": "text",
+      "label": "14a. Concisely and clearly describe the program or issue",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 298.4,
+        "width": 534.4,
+        "height": 72.2
+      },
+      "multiline": true
+    },
+    "r12b": {
+      "type": "text",
+      "label": "R 12b",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 207.0,
+        "width": 534.4,
+        "height": 72.2
+      },
+      "multiline": true
+    },
+    "r12c": {
+      "type": "text",
+      "label": "R 12c",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 115.7,
+        "width": 534.4,
+        "height": 72.2
+      },
+      "multiline": true
+    },
+    "r12d": {
+      "type": "text",
+      "label": "opinions, and motivations",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 731.7,
+        "width": 534.4,
+        "height": 76.9
+      },
+      "multiline": true
+    },
+    "r12e": {
+      "type": "text",
+      "label": "R 12e",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 635.6,
+        "width": 534.4,
+        "height": 76.4
+      },
+      "multiline": true
+    },
+    "r12f": {
+      "type": "text",
+      "label": "R 12f",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 540.0,
+        "width": 533.0,
+        "height": 79.1
+      },
+      "multiline": true
+    },
+    "p13a": {
+      "type": "text",
+      "label": "qualitative measures",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 409.7,
+        "width": 534.4,
+        "height": 79.0
+      },
+      "multiline": true
+    },
+    "p13b": {
+      "type": "text",
+      "label": "15b. How and when did you take measurements?",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 311.6,
+        "width": 534.4,
+        "height": 80.4
+      },
+      "multiline": true
+    },
+    "p13c": {
+      "type": "text",
+      "label": "P 13c",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 212.0,
+        "width": 534.4,
+        "height": 79.1
+      },
+      "multiline": true
+    },
+    "p13d": {
+      "type": "text",
+      "label": "P 13d",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 113.8,
+        "width": 534.4,
+        "height": 74.5
+      },
+      "multiline": true
+    },
+    "p13e": {
+      "type": "text",
+      "label": "P 13e",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 739.7,
+        "width": 534.4,
+        "height": 80.3
+      },
+      "multiline": true
+    },
+    "p13f": {
+      "type": "text",
+      "label": "P 13f",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 640.2,
+        "width": 533.0,
+        "height": 79.1
+      },
+      "multiline": true
+    },
+    "p13g": {
+      "type": "text",
+      "label": "organizations",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 534.0,
+        "width": 533.0,
+        "height": 77.1
+      },
+      "multiline": true
+    },
+    "p13h": {
+      "type": "text",
+      "label": "P 13h",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 437.8,
+        "width": 533.0,
+        "height": 79.8
+      },
+      "multiline": true
+    },
+    "p13i": {
+      "type": "text",
+      "label": "P 13i",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 338.8,
+        "width": 533.0,
+        "height": 80.4
+      },
+      "multiline": true
+    },
+    "i14a": {
+      "type": "text",
+      "label": "I 14a",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 225.8,
+        "width": 534.4,
+        "height": 83.5
+      },
+      "multiline": true
+    },
+    "i14b": {
+      "type": "text",
+      "label": "I 14b",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 123.1,
+        "width": 534.4,
+        "height": 83.7
+      },
+      "multiline": true
+    },
+    "i14c": {
+      "type": "text",
+      "label": "I 14c",
+      "page": 4,
+      "box": {
+        "left": 38.8,
+        "top": 739.7,
+        "width": 534.4,
+        "height": 80.3
+      },
+      "multiline": true
+    },
+    "i14d": {
+      "type": "text",
+      "label": "I 14d",
+      "page": 4,
+      "box": {
+        "left": 38.8,
+        "top": 640.2,
+        "width": 534.4,
+        "height": 84.4
+      },
+      "multiline": true
+    },
+    "i14e": {
+      "type": "text",
+      "label": "I 14e",
+      "page": 4,
+      "box": {
+        "left": 38.8,
+        "top": 536.7,
+        "width": 534.4,
+        "height": 84.4
+      },
+      "multiline": true
+    },
+    "i14f": {
+      "type": "text",
+      "label": "I 14f",
+      "page": 4,
+      "box": {
+        "left": 38.8,
+        "top": 433.1,
+        "width": 534.4,
+        "height": 85.1
+      },
+      "multiline": true
+    },
+    "i14h": {
+      "type": "text",
+      "label": "I 14h",
+      "page": 4,
+      "box": {
+        "left": 38.8,
+        "top": 328.9,
+        "width": 534.4,
+        "height": 75.8
+      },
+      "multiline": true
+    },
+    "e15a": {
+      "type": "text",
+      "label": "17a. What kind of quantitative measurements did you collect?",
+      "page": 4,
+      "box": {
+        "left": 38.8,
+        "top": 220.5,
+        "width": 534.4,
+        "height": 77.8
+      },
+      "multiline": true
+    },
+    "e15b": {
+      "type": "text",
+      "label": "17b. What kind of qualitative measurements did you collect?",
+      "page": 4,
+      "box": {
+        "left": 38.8,
+        "top": 123.5,
+        "width": 534.4,
+        "height": 72.2
+      },
+      "multiline": true
+    },
+    "e15c": {
+      "type": "text",
+      "label": "E 15c",
+      "page": 5,
+      "box": {
+        "left": 38.8,
+        "top": 739.7,
+        "width": 534.4,
+        "height": 72.2
+      },
+      "multiline": true
+    },
+    "e15d": {
+      "type": "text",
+      "label": "E 15d",
+      "page": 5,
+      "box": {
+        "left": 38.8,
+        "top": 648.3,
+        "width": 534.4,
+        "height": 72.2
+      },
+      "multiline": true
+    },
+    "e15e": {
+      "type": "text",
+      "label": "17e. How did you determine and display relevant findings?",
+      "page": 5,
+      "box": {
+        "left": 38.8,
+        "top": 557.0,
+        "width": 534.4,
+        "height": 72.2
+      },
+      "multiline": true
+    },
+    "e15e2": {
+      "type": "text",
+      "label": "E 15e 2",
+      "page": 5,
+      "box": {
+        "left": 38.8,
+        "top": 465.6,
+        "width": 534.4,
+        "height": 72.2
+      },
+      "multiline": true
+    }
+  }
+}

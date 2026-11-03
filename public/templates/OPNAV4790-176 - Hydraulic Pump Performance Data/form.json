@@ -1,0 +1,209 @@
+{
+  "id": "opnav4790176",
+  "label": "OPNAV4790-176 - Hydraulic Pump Performance Data",
+  "directory": "OPNAV4790-176 - Hydraulic Pump Performance Data",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "catapultno",
+        "dateTimeField1",
+        "jsn",
+        "shotno",
+        "hitssince",
+        "outputa",
+        "reliefsettinga",
+        "outputb",
+        "reliefsettingb",
+        "outputc",
+        "reliefsettingc",
+        "remarks",
+        "maintman",
+        "wc",
+        "qainsp",
+        "maintchief"
+      ]
+    }
+  ],
+  "fields": {
+    "catapultno": {
+      "type": "text",
+      "label": "ENTER ENGINE NUMBER",
+      "page": 1,
+      "box": {
+        "left": 108.2,
+        "top": 735.2,
+        "width": 132.0,
+        "height": 12.3
+      }
+    },
+    "dateTimeField1": {
+      "type": "text",
+      "label": "ENTER DATE.",
+      "page": 1,
+      "box": {
+        "left": 473.2,
+        "top": 735.2,
+        "width": 91.0,
+        "height": 12.3
+      }
+    },
+    "jsn": {
+      "type": "text",
+      "label": "ENTER JSN.",
+      "page": 1,
+      "box": {
+        "left": 282.3,
+        "top": 726.2,
+        "width": 74.9,
+        "height": 12.3
+      }
+    },
+    "shotno": {
+      "type": "text",
+      "label": "ENTER SHOT NUMBER.",
+      "page": 1,
+      "box": {
+        "left": 92.7,
+        "top": 708.2,
+        "width": 147.5,
+        "height": 12.3
+      }
+    },
+    "hitssince": {
+      "type": "text",
+      "label": "ENTER SHOTS SINCE LAST INSPECTION.",
+      "page": 1,
+      "box": {
+        "left": 442.7,
+        "top": 708.2,
+        "width": 121.5,
+        "height": 12.3
+      }
+    },
+    "outputa": {
+      "type": "text",
+      "label": "ENTER PUMP A OUTPUT.",
+      "page": 1,
+      "box": {
+        "left": 122.8,
+        "top": 627.2,
+        "width": 117.4,
+        "height": 12.3
+      }
+    },
+    "reliefsettinga": {
+      "type": "text",
+      "label": "ENTER PUMP A RELIEF VALVE SETTING.",
+      "page": 1,
+      "box": {
+        "left": 353.4,
+        "top": 627.2,
+        "width": 147.8,
+        "height": 12.3
+      }
+    },
+    "outputb": {
+      "type": "text",
+      "label": "ENTER PUMP B OUTPUT.",
+      "page": 1,
+      "box": {
+        "left": 122.8,
+        "top": 555.2,
+        "width": 117.4,
+        "height": 12.3
+      }
+    },
+    "reliefsettingb": {
+      "type": "text",
+      "label": "ENTER PUMP B RELIEF VALVE SETTING.",
+      "page": 1,
+      "box": {
+        "left": 353.4,
+        "top": 555.2,
+        "width": 147.8,
+        "height": 12.3
+      }
+    },
+    "outputc": {
+      "type": "text",
+      "label": "ENTER PUMP C OUTPUT.",
+      "page": 1,
+      "box": {
+        "left": 122.8,
+        "top": 483.2,
+        "width": 117.4,
+        "height": 12.3
+      }
+    },
+    "reliefsettingc": {
+      "type": "text",
+      "label": "ENTER PUMP C RELIEF VALVE SETTING.",
+      "page": 1,
+      "box": {
+        "left": 353.4,
+        "top": 483.2,
+        "width": 147.8,
+        "height": 12.3
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "ENTER REMARKS.",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 436.9,
+        "width": 534.3,
+        "height": 29.4
+      }
+    },
+    "maintman": {
+      "type": "text",
+      "label": "ENTER MAINTENANCE MANAGER SIGNATURE.",
+      "page": 1,
+      "box": {
+        "left": 93.3,
+        "top": 401.8,
+        "width": 205.3,
+        "height": 12.3
+      }
+    },
+    "wc": {
+      "type": "text",
+      "label": "ENTER W/C SUPERVISOR SIGNATURE.",
+      "page": 1,
+      "box": {
+        "left": 386.9,
+        "top": 401.8,
+        "width": 181.8,
+        "height": 12.3
+      }
+    },
+    "qainsp": {
+      "type": "text",
+      "label": "ENTER QA INSPECTOR SIGNATURE.",
+      "page": 1,
+      "box": {
+        "left": 107.3,
+        "top": 379.3,
+        "width": 191.3,
+        "height": 12.3
+      }
+    },
+    "maintchief": {
+      "type": "text",
+      "label": "ENTER MAINTENANCE CHIEF OFFICER.",
+      "page": 1,
+      "box": {
+        "left": 404.6,
+        "top": 379.3,
+        "width": 164.1,
+        "height": 12.3
+      }
+    }
+  }
+}

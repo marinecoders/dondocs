@@ -1,0 +1,198 @@
+{
+  "id": "navmc11668",
+  "label": "NAVMC 11668 - Statement Of Understanding - Waiver Of Sanctuary",
+  "directory": "NAVMC11668 - Statement Of Understanding - Waiver Of Sanctuary",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 2",
+      "fields": [
+        "dateFrom",
+        "dateTo",
+        "grade",
+        "name",
+        "mos",
+        "initial1",
+        "initial2",
+        "initial3",
+        "initial4",
+        "initial5",
+        "initial6",
+        "initial7",
+        "initial8",
+        "sigDate",
+        "marinesSignature"
+      ]
+    }
+  ],
+  "fields": {
+    "dateFrom": {
+      "type": "text",
+      "label": "DateFrom",
+      "page": 2,
+      "box": {
+        "left": 315.7,
+        "top": 662.1,
+        "width": 63.8,
+        "height": 12.1
+      }
+    },
+    "dateTo": {
+      "type": "text",
+      "label": "DateTo",
+      "page": 2,
+      "box": {
+        "left": 429.5,
+        "top": 662.1,
+        "width": 63.8,
+        "height": 12.1
+      }
+    },
+    "grade": {
+      "type": "text",
+      "label": "Grade",
+      "page": 2,
+      "box": {
+        "left": 46.3,
+        "top": 430.3,
+        "width": 48.8,
+        "height": 15.1
+      }
+    },
+    "name": {
+      "type": "text",
+      "label": "Name",
+      "page": 2,
+      "box": {
+        "left": 99.5,
+        "top": 430.3,
+        "width": 363.1,
+        "height": 15.1
+      }
+    },
+    "mos": {
+      "type": "text",
+      "label": "MOS",
+      "page": 2,
+      "box": {
+        "left": 467.2,
+        "top": 430.3,
+        "width": 23.1,
+        "height": 15.1
+      }
+    },
+    "initial1": {
+      "type": "text",
+      "label": "Initial1",
+      "page": 2,
+      "box": {
+        "left": 36.0,
+        "top": 358.8,
+        "width": 28.5,
+        "height": 16.6
+      }
+    },
+    "initial2": {
+      "type": "text",
+      "label": "Initial2",
+      "page": 2,
+      "box": {
+        "left": 36.0,
+        "top": 323.6,
+        "width": 28.5,
+        "height": 16.6
+      }
+    },
+    "initial3": {
+      "type": "text",
+      "label": "Initial3",
+      "page": 2,
+      "box": {
+        "left": 36.0,
+        "top": 285.3,
+        "width": 28.5,
+        "height": 16.6
+      }
+    },
+    "initial4": {
+      "type": "text",
+      "label": "Initial4",
+      "page": 2,
+      "box": {
+        "left": 36.0,
+        "top": 259.8,
+        "width": 28.5,
+        "height": 16.6
+      }
+    },
+    "initial5": {
+      "type": "text",
+      "label": "Initial5",
+      "page": 2,
+      "box": {
+        "left": 36.0,
+        "top": 223.0,
+        "width": 28.5,
+        "height": 16.6
+      }
+    },
+    "initial6": {
+      "type": "text",
+      "label": "Initial6",
+      "page": 2,
+      "box": {
+        "left": 36.0,
+        "top": 186.3,
+        "width": 28.5,
+        "height": 16.6
+      }
+    },
+    "initial7": {
+      "type": "text",
+      "label": "Initial7",
+      "page": 2,
+      "box": {
+        "left": 36.0,
+        "top": 145.0,
+        "width": 28.5,
+        "height": 16.6
+      }
+    },
+    "initial8": {
+      "type": "text",
+      "label": "Initial8",
+      "page": 2,
+      "box": {
+        "left": 36.0,
+        "top": 109.0,
+        "width": 28.5,
+        "height": 16.6
+      }
+    },
+    "sigDate": {
+      "type": "text",
+      "label": "SigDate",
+      "page": 2,
+      "box": {
+        "left": 412.0,
+        "top": 68.3,
+        "width": 63.8,
+        "height": 12.1
+      }
+    },
+    "marinesSignature": {
+      "type": "signature",
+      "label": "MarinesSignature",
+      "page": 2,
+      "box": {
+        "left": 136.1,
+        "top": 67.6,
+        "width": 250.1,
+        "height": 11.4
+      }
+    }
+  }
+}

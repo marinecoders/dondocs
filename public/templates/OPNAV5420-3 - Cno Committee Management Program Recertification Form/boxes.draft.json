@@ -1,0 +1,306 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "nameof": {
+        "left": 179.1,
+        "top": 712.8,
+        "width": 360.0,
+        "height": 15.1,
+        "type": "text",
+        "description": "Enter the name of the committee.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "oPNAVSponsor": {
+        "left": 168.4,
+        "top": 680.4,
+        "width": 370.7,
+        "height": 15.1,
+        "type": "text",
+        "description": "Enter the OPNAV Sponsor.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "committeePOC": {
+        "left": 303.1,
+        "top": 646.6,
+        "width": 156.1,
+        "height": 15.1,
+        "type": "text",
+        "description": "Enter the committee POC (name & N-Code).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dSNorCOM2": {
+        "left": 461.7,
+        "top": 646.6,
+        "width": 77.5,
+        "height": 15.1,
+        "type": "text",
+        "description": "Enter a 10-digit commercial telephone number or a 7-digit DSN for the committee POC.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dNSDate3": {
+        "left": 302.4,
+        "top": 614.2,
+        "width": 156.1,
+        "height": 15.1,
+        "type": "text",
+        "description": "Enter the date committee approved by NO9B using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recDispofComm": {
+        "left": 329.9,
+        "top": 581.1,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[0].RecDispofComm[0]",
+        "required": false
+      },
+      "recDispofComm2": {
+        "left": 442.8,
+        "top": 580.1,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[0].RecDispofComm[0]",
+        "required": false
+      },
+      "oPNAVTravel": {
+        "left": 158.4,
+        "top": 512.7,
+        "width": 81.5,
+        "height": 16.8,
+        "type": "text",
+        "description": "Enter the estimated annual costs for all committee travel for OPNAV.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "oPNAVPerDiem": {
+        "left": 258.4,
+        "top": 512.7,
+        "width": 81.4,
+        "height": 16.8,
+        "type": "text",
+        "description": "Enter the estimated annual costs for all committee per diem for OPNAV.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "oPNAVMisc": {
+        "left": 356.4,
+        "top": 512.7,
+        "width": 81.4,
+        "height": 16.8,
+        "type": "text",
+        "description": "Enter the estimated annual costs for all committee miscellaneous expenses for OPNAV.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "oPNAVTotal": {
+        "left": 453.6,
+        "top": 512.7,
+        "width": 81.4,
+        "height": 16.8,
+        "type": "text",
+        "description": "OPNAVTotal",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "othersTravel": {
+        "left": 158.4,
+        "top": 478.8,
+        "width": 81.5,
+        "height": 16.8,
+        "type": "text",
+        "description": "Enter the estimated annual costs for all committee travel for others.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "othersPerDiem": {
+        "left": 258.4,
+        "top": 478.8,
+        "width": 81.4,
+        "height": 16.8,
+        "type": "text",
+        "description": "Enter the estimated annual costs for all committee per diem for others.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "othersMisc": {
+        "left": 356.4,
+        "top": 478.8,
+        "width": 81.4,
+        "height": 16.8,
+        "type": "text",
+        "description": "Enter the estimated annual costs for all committee miscellaneous expenses for others.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "othersTotal": {
+        "left": 453.6,
+        "top": 478.8,
+        "width": 81.4,
+        "height": 16.8,
+        "type": "text",
+        "description": "OthersTotal",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "professionalWY": {
+        "left": 224.2,
+        "top": 388.8,
+        "width": 316.0,
+        "height": 24.5,
+        "type": "text",
+        "description": "Enter the professional work years.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "clericalWY": {
+        "left": 224.2,
+        "top": 362.9,
+        "width": 316.0,
+        "height": 20.9,
+        "type": "text",
+        "description": "Enter the clerical work years.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recordofMeetings": {
+        "left": 69.8,
+        "top": 312.5,
+        "width": 470.2,
+        "height": 49.0,
+        "type": "text",
+        "description": "Enter the record of meetings held in past fiscal year and planned for next fiscal year.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "changesto510and14": {
+        "left": 69.8,
+        "top": 209.5,
+        "width": 470.2,
+        "height": 49.0,
+        "type": "text",
+        "description": "Enter changes to items 5 through 10 & 14 of original Committee Management Program Data Form (NOTE: OPNAV officials proposing to continue committees are required to observe OPNAVINST 5420.27 (series) \r\npolicy regarding consideration of balanced representation of women and minorities.) (Use back of form if more space is necessary).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "oPNAVPricOfficial": {
+        "left": 234.7,
+        "top": 146.9,
+        "width": 131.8,
+        "height": 17.9,
+        "type": "text",
+        "description": "Enter the OPNAV Pricipal Offical's signature for approval authority.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "oPNAVPricNCode": {
+        "left": 368.6,
+        "top": 146.9,
+        "width": 86.4,
+        "height": 17.9,
+        "type": "text",
+        "description": "Enter the OPNAV Pricipal Official N-Code.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dNSDate3OPNAV": {
+        "left": 457.1,
+        "top": 146.9,
+        "width": 83.6,
+        "height": 18.0,
+        "type": "text",
+        "description": "Enter the date of OPNAV Principal Official approval using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nO9BSignature": {
+        "left": 234.7,
+        "top": 115.2,
+        "width": 131.8,
+        "height": 17.9,
+        "type": "text",
+        "description": "Enter the NO9B Recerification signature for approval authority.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "no9bnCode": {
+        "left": 368.6,
+        "top": 115.2,
+        "width": 86.4,
+        "height": 17.9,
+        "type": "text",
+        "description": "Enter the NO9B Recerification N-Code.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dNSDate3NO9B": {
+        "left": 457.1,
+        "top": 115.2,
+        "width": 83.6,
+        "height": 17.9,
+        "type": "text",
+        "description": "Enter the date of NO9B Recerification approval using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "additionalComments": {
+        "left": 72.0,
+        "top": 747.4,
+        "width": 467.4,
+        "height": 663.2,
+        "type": "text",
+        "description": "Enter additional information.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

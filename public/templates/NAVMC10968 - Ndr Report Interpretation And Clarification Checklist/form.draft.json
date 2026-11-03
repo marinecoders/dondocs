@@ -1,0 +1,193 @@
+{
+  "id": "navmc10968",
+  "label": "NAVMC10968 - Ndr Report Interpretation And Clarification Checklist",
+  "directory": "NAVMC10968 - Ndr Report Interpretation And Clarification Checklist",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "organization",
+        "name"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "reasonForClarif",
+        "checkBox1",
+        "checkBox2",
+        "checkBox3",
+        "checkBox4",
+        "checkBox5",
+        "checkBox6",
+        "checkBox7",
+        "checkBox8",
+        "checkBox9",
+        "checkBox10",
+        "checkBox11"
+      ],
+      "editor": "checklist"
+    }
+  ],
+  "fields": {
+    "organization": {
+      "type": "text",
+      "label": "Organization",
+      "page": 1,
+      "box": {
+        "left": 311.3,
+        "top": 718.7,
+        "width": 278.3,
+        "height": 8.4
+      }
+    },
+    "name": {
+      "type": "text",
+      "label": "Name",
+      "page": 1,
+      "box": {
+        "left": 57.1,
+        "top": 718.2,
+        "width": 181.6,
+        "height": 8.4
+      }
+    },
+    "reasonForClarif": {
+      "type": "text",
+      "label": "ReasonForClarif",
+      "page": 2,
+      "box": {
+        "left": 59.8,
+        "top": 695.4,
+        "width": 493.1,
+        "height": 34.1
+      },
+      "multiline": true
+    },
+    "checkBox1": {
+      "type": "checkbox",
+      "label": "CheckBox1",
+      "page": 2,
+      "box": {
+        "left": 432.8,
+        "top": 539.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox2": {
+      "type": "checkbox",
+      "label": "CheckBox2",
+      "page": 2,
+      "box": {
+        "left": 432.8,
+        "top": 525.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox3": {
+      "type": "checkbox",
+      "label": "CheckBox3",
+      "page": 2,
+      "box": {
+        "left": 432.8,
+        "top": 510.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox4": {
+      "type": "checkbox",
+      "label": "CheckBox4",
+      "page": 2,
+      "box": {
+        "left": 432.8,
+        "top": 495.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox5": {
+      "type": "checkbox",
+      "label": "CheckBox5",
+      "page": 2,
+      "box": {
+        "left": 432.8,
+        "top": 481.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox6": {
+      "type": "checkbox",
+      "label": "CheckBox6",
+      "page": 2,
+      "box": {
+        "left": 432.8,
+        "top": 466.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox7": {
+      "type": "checkbox",
+      "label": "CheckBox7",
+      "page": 2,
+      "box": {
+        "left": 432.9,
+        "top": 451.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox8": {
+      "type": "checkbox",
+      "label": "CheckBox8",
+      "page": 2,
+      "box": {
+        "left": 432.9,
+        "top": 436.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox9": {
+      "type": "checkbox",
+      "label": "CheckBox9",
+      "page": 2,
+      "box": {
+        "left": 432.8,
+        "top": 421.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox10": {
+      "type": "checkbox",
+      "label": "CheckBox10",
+      "page": 2,
+      "box": {
+        "left": 432.8,
+        "top": 407.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "checkBox11": {
+      "type": "checkbox",
+      "label": "CheckBox11",
+      "page": 2,
+      "box": {
+        "left": 432.8,
+        "top": 392.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    }
+  }
+}

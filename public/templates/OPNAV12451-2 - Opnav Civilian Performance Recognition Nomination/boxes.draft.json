@@ -1,0 +1,238 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "regDte": {
+        "left": 357.3,
+        "top": 654.2,
+        "width": 44.9,
+        "height": 12.1,
+        "type": "text",
+        "description": "FY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio": {
+        "left": 133.3,
+        "top": 619.2,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio2": {
+        "left": 344.9,
+        "top": 619.2,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio3": {
+        "left": 133.3,
+        "top": 605.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio4": {
+        "left": 344.9,
+        "top": 605.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "dir": {
+        "left": 198.4,
+        "top": 582.1,
+        "width": 336.6,
+        "height": 12.3,
+        "type": "text",
+        "description": "Directorate",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "div": {
+        "left": 198.0,
+        "top": 564.2,
+        "width": 339.2,
+        "height": 12.3,
+        "type": "text",
+        "description": "Division",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nomNme": {
+        "left": 198.5,
+        "top": 546.1,
+        "width": 338.7,
+        "height": 12.3,
+        "type": "text",
+        "description": "Nominee Name/Grade",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "susSup": {
+        "left": 41.0,
+        "top": 485.2,
+        "width": 446.7,
+        "height": 68.8,
+        "type": "text",
+        "description": "Sustained Superior Performance",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "susSupScr": {
+        "left": 493.2,
+        "top": 485.2,
+        "width": 80.0,
+        "height": 68.8,
+        "type": "text",
+        "description": "Score",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nvyImp": {
+        "left": 41.0,
+        "top": 395.1,
+        "width": 446.7,
+        "height": 68.8,
+        "type": "text",
+        "description": "Navy Impact",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nvyImpScr": {
+        "left": 493.2,
+        "top": 395.1,
+        "width": 80.0,
+        "height": 68.8,
+        "type": "text",
+        "description": "Score",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "misCon": {
+        "left": 41.0,
+        "top": 305.0,
+        "width": 446.7,
+        "height": 68.8,
+        "type": "text",
+        "description": "Mission Contribution",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "misConScr": {
+        "left": 493.2,
+        "top": 305.0,
+        "width": 80.0,
+        "height": 68.8,
+        "type": "text",
+        "description": "Score",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "selImp": {
+        "left": 41.0,
+        "top": 214.9,
+        "width": 446.7,
+        "height": 68.8,
+        "type": "text",
+        "description": "Self Improvement",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "selImpScr": {
+        "left": 493.2,
+        "top": 214.9,
+        "width": 80.0,
+        "height": 68.8,
+        "type": "text",
+        "description": "Score",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "toTScr": {
+        "left": 493.2,
+        "top": 128.4,
+        "width": 80.0,
+        "height": 27.0,
+        "type": "text",
+        "description": "Total Score",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nomANme": {
+        "left": 61.3,
+        "top": 87.3,
+        "width": 169.9,
+        "height": 19.4,
+        "type": "text",
+        "description": "Improvement",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nomASigDte": {
+        "left": 272.9,
+        "top": 87.3,
+        "width": 84.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "each section below)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nomASig": {
+        "left": 390.2,
+        "top": 87.3,
+        "width": 167.9,
+        "height": 21.4,
+        "type": "text",
+        "description": "Total Score",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

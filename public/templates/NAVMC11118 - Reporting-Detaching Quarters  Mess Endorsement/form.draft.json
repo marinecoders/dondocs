@@ -1,0 +1,965 @@
+{
+  "id": "navmc11118",
+  "label": "NAVMC11118 - Reporting-Detaching Quarters  Mess Endorsement",
+  "directory": "NAVMC11118 - Reporting-Detaching Quarters  Mess Endorsement",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "grd",
+        "datAp",
+        "ssn",
+        "nam1",
+        "datA1",
+        "datA2",
+        "datA3",
+        "chkA",
+        "chkB",
+        "datB1",
+        "datB2",
+        "radB3",
+        "radB32",
+        "radB33",
+        "radC2",
+        "radC22",
+        "chkC",
+        "datC1",
+        "datC2",
+        "datC3",
+        "chkAA",
+        "datAA3",
+        "datAA2",
+        "datAA1",
+        "chkBB",
+        "radBB3",
+        "radBB32",
+        "radBB33",
+        "datBB2",
+        "datBB3",
+        "datBB1",
+        "radCC1",
+        "radCC12",
+        "chkCC",
+        "datCC1",
+        "datCC2",
+        "radDD1",
+        "radDD12",
+        "chkDD",
+        "datDD1",
+        "datDD3",
+        "datDD2",
+        "numM30",
+        "dat10",
+        "numM10",
+        "dat20",
+        "dat30",
+        "numM31",
+        "dat11",
+        "numM11",
+        "dat21",
+        "dat31",
+        "dat12",
+        "numM12",
+        "dat22",
+        "dat32",
+        "numM32",
+        "dat13",
+        "numM13",
+        "dat23",
+        "dat33",
+        "numM33",
+        "dat14",
+        "numM14",
+        "dat24",
+        "dat34",
+        "numM34",
+        "dat15",
+        "numM15",
+        "dat25",
+        "dat35",
+        "numM35",
+        "rem1",
+        "issOrg",
+        "signature",
+        "namGrd"
+      ]
+    }
+  ],
+  "fields": {
+    "grd": {
+      "type": "text",
+      "label": "Grade",
+      "page": 1,
+      "box": {
+        "left": 289.3,
+        "top": 709.4,
+        "width": 70.2,
+        "height": 18.2
+      }
+    },
+    "datAp": {
+      "type": "text",
+      "label": "Enter date using format 2 Dec 2002",
+      "page": 1,
+      "box": {
+        "left": 494.2,
+        "top": 709.4,
+        "width": 81.8,
+        "height": 18.2
+      }
+    },
+    "ssn": {
+      "type": "text",
+      "label": "SSN",
+      "page": 1,
+      "box": {
+        "left": 361.0,
+        "top": 708.7,
+        "width": 130.9,
+        "height": 16.4
+      }
+    },
+    "nam1": {
+      "type": "text",
+      "label": "Name - Last, First, Middle",
+      "page": 1,
+      "box": {
+        "left": 27.3,
+        "top": 708.2,
+        "width": 259.5,
+        "height": 19.8
+      }
+    },
+    "datA1": {
+      "type": "text",
+      "label": "Enter date or period government quarters were not available",
+      "page": 1,
+      "box": {
+        "left": 92.6,
+        "top": 663.1,
+        "width": 135.5,
+        "height": 18.2
+      }
+    },
+    "datA2": {
+      "type": "text",
+      "label": "Enter another date or period government quarters were not available",
+      "page": 1,
+      "box": {
+        "left": 243.8,
+        "top": 663.1,
+        "width": 168.6,
+        "height": 18.2
+      }
+    },
+    "datA3": {
+      "type": "text",
+      "label": "Enter date or period government quarters were not available",
+      "page": 1,
+      "box": {
+        "left": 419.0,
+        "top": 663.1,
+        "width": 162.0,
+        "height": 18.2
+      }
+    },
+    "chkA": {
+      "type": "checkbox",
+      "label": "Check if Quarters Not Available",
+      "page": 1,
+      "box": {
+        "left": 43.3,
+        "top": 662.1,
+        "width": 17.0,
+        "height": 17.0
+      }
+    },
+    "chkB": {
+      "type": "checkbox",
+      "label": "Check if information regarding utilization of government quarters",
+      "page": 1,
+      "box": {
+        "left": 43.3,
+        "top": 621.6,
+        "width": 17.0,
+        "height": 17.0
+      }
+    },
+    "datB1": {
+      "type": "text",
+      "label": "Enter date utilization of government quarters impracticable in format YYMMDD",
+      "page": 1,
+      "box": {
+        "left": 478.5,
+        "top": 616.0,
+        "width": 50.4,
+        "height": 18.2
+      }
+    },
+    "datB2": {
+      "type": "text",
+      "label": "Enter date utilization of government quarters impracticable in format YYMMDD",
+      "page": 1,
+      "box": {
+        "left": 532.2,
+        "top": 616.0,
+        "width": 51.2,
+        "height": 18.2
+      }
+    },
+    "radB3": {
+      "type": "radio",
+      "label": "was",
+      "page": 1,
+      "box": {
+        "left": 181.0,
+        "top": 613.2,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "topmostSubform_0_Page1_0_RadB3_0"
+    },
+    "radB32": {
+      "type": "radio",
+      "label": "is",
+      "page": 1,
+      "box": {
+        "left": 141.4,
+        "top": 613.0,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "topmostSubform_0_Page1_0_RadB3_0"
+    },
+    "radB33": {
+      "type": "radio",
+      "label": "will",
+      "page": 1,
+      "box": {
+        "left": 77.3,
+        "top": 611.4,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "topmostSubform_0_Page1_0_RadB3_0"
+    },
+    "radC2": {
+      "type": "radio",
+      "label": "were",
+      "page": 1,
+      "box": {
+        "left": 198.4,
+        "top": 589.1,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "topmostSubform_0_Page1_0_RadC2_0"
+    },
+    "radC22": {
+      "type": "radio",
+      "label": "will",
+      "page": 1,
+      "box": {
+        "left": 270.3,
+        "top": 589.1,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "topmostSubform_0_Page1_0_RadC2_0"
+    },
+    "chkC": {
+      "type": "checkbox",
+      "label": "Check if government quarters not available",
+      "page": 1,
+      "box": {
+        "left": 43.3,
+        "top": 574.5,
+        "width": 17.0,
+        "height": 17.0
+      }
+    },
+    "datC1": {
+      "type": "text",
+      "label": "Enter date dependent authorized to travel .",
+      "page": 1,
+      "box": {
+        "left": 81.0,
+        "top": 557.3,
+        "width": 162.8,
+        "height": 18.2
+      }
+    },
+    "datC2": {
+      "type": "text",
+      "label": "Enter date dependent authorized to travel.",
+      "page": 1,
+      "box": {
+        "left": 250.4,
+        "top": 557.3,
+        "width": 156.2,
+        "height": 18.2
+      }
+    },
+    "datC3": {
+      "type": "text",
+      "label": "Enter date dependent authorized to travel.",
+      "page": 1,
+      "box": {
+        "left": 415.7,
+        "top": 557.3,
+        "width": 171.9,
+        "height": 18.2
+      }
+    },
+    "chkAA": {
+      "type": "checkbox",
+      "label": "Check if government mess not available",
+      "page": 1,
+      "box": {
+        "left": 45.0,
+        "top": 499.3,
+        "width": 17.0,
+        "height": 17.0
+      }
+    },
+    "datAA3": {
+      "type": "text",
+      "label": "Enter date government mess not available.",
+      "page": 1,
+      "box": {
+        "left": 431.4,
+        "top": 493.7,
+        "width": 145.5,
+        "height": 18.2
+      }
+    },
+    "datAA2": {
+      "type": "text",
+      "label": "Enter date government mess not available.",
+      "page": 1,
+      "box": {
+        "left": 258.7,
+        "top": 492.2,
+        "width": 158.7,
+        "height": 18.2
+      }
+    },
+    "datAA1": {
+      "type": "text",
+      "label": "Enter date government mess not available.",
+      "page": 1,
+      "box": {
+        "left": 78.5,
+        "top": 491.4,
+        "width": 157.9,
+        "height": 18.2
+      }
+    },
+    "chkBB": {
+      "type": "checkbox",
+      "label": "Check if utilization of government mess available",
+      "page": 1,
+      "box": {
+        "left": 45.8,
+        "top": 452.2,
+        "width": 17.0,
+        "height": 17.0
+      }
+    },
+    "radBB3": {
+      "type": "radio",
+      "label": "will",
+      "page": 1,
+      "box": {
+        "left": 84.1,
+        "top": 451.2,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "topmostSubform_0_Page1_0_RadBB3_0"
+    },
+    "radBB32": {
+      "type": "radio",
+      "label": "is",
+      "page": 1,
+      "box": {
+        "left": 157.9,
+        "top": 451.0,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "topmostSubform_0_Page1_0_RadBB3_0"
+    },
+    "radBB33": {
+      "type": "radio",
+      "label": "was",
+      "page": 1,
+      "box": {
+        "left": 211.6,
+        "top": 450.2,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "topmostSubform_0_Page1_0_RadBB3_0"
+    },
+    "datBB2": {
+      "type": "text",
+      "label": "Enter date government mess will be or is impracticable.",
+      "page": 1,
+      "box": {
+        "left": 354.5,
+        "top": 436.6,
+        "width": 107.4,
+        "height": 18.2
+      }
+    },
+    "datBB3": {
+      "type": "text",
+      "label": "Enter date government mess will be or is impracticable.",
+      "page": 1,
+      "box": {
+        "left": 466.1,
+        "top": 435.8,
+        "width": 114.0,
+        "height": 18.2
+      }
+    },
+    "datBB1": {
+      "type": "text",
+      "label": "Enter date government mess will be or is impracticable.",
+      "page": 1,
+      "box": {
+        "left": 206.6,
+        "top": 435.0,
+        "width": 140.5,
+        "height": 18.2
+      }
+    },
+    "radCC1": {
+      "type": "radio",
+      "label": "was",
+      "page": 1,
+      "box": {
+        "left": 144.7,
+        "top": 408.1,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "topmostSubform_0_Page1_0_RadCC1_0"
+    },
+    "radCC12": {
+      "type": "radio",
+      "label": "wasnot",
+      "page": 1,
+      "box": {
+        "left": 196.7,
+        "top": 408.1,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "topmostSubform_0_Page1_0_RadCC1_0"
+    },
+    "chkCC": {
+      "type": "checkbox",
+      "label": "Check if open mess available or not",
+      "page": 1,
+      "box": {
+        "left": 45.8,
+        "top": 402.6,
+        "width": 17.0,
+        "height": 17.0
+      }
+    },
+    "datCC1": {
+      "type": "text",
+      "label": "Enter date open mess ws or was not available.",
+      "page": 1,
+      "box": {
+        "left": 411.6,
+        "top": 397.8,
+        "width": 90.1,
+        "height": 18.2
+      }
+    },
+    "datCC2": {
+      "type": "text",
+      "label": "Enter date open mess was or was not available.",
+      "page": 1,
+      "box": {
+        "left": 504.1,
+        "top": 397.8,
+        "width": 79.3,
+        "height": 18.2
+      }
+    },
+    "radDD1": {
+      "type": "radio",
+      "label": "wasnot",
+      "page": 1,
+      "box": {
+        "left": 144.0,
+        "top": 370.0,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "topmostSubform_0_Page1_0_RadDD1_0"
+    },
+    "radDD12": {
+      "type": "radio",
+      "label": "willnot",
+      "page": 1,
+      "box": {
+        "left": 215.1,
+        "top": 370.0,
+        "width": 14.0,
+        "height": 14.0
+      },
+      "group": "topmostSubform_0_Page1_0_RadDD1_0"
+    },
+    "chkDD": {
+      "type": "checkbox",
+      "label": "Check if open mess not available",
+      "page": 1,
+      "box": {
+        "left": 45.8,
+        "top": 360.4,
+        "width": 17.0,
+        "height": 17.0
+      }
+    },
+    "datDD1": {
+      "type": "text",
+      "label": "Enter date open mess was not or or will not be available.",
+      "page": 1,
+      "box": {
+        "left": 253.7,
+        "top": 344.9,
+        "width": 105.0,
+        "height": 18.2
+      }
+    },
+    "datDD3": {
+      "type": "text",
+      "label": "Enter date open mess was not or will not be available.",
+      "page": 1,
+      "box": {
+        "left": 466.9,
+        "top": 344.9,
+        "width": 109.9,
+        "height": 18.2
+      }
+    },
+    "datDD2": {
+      "type": "text",
+      "label": "Enter date open mess was not or will not be available.",
+      "page": 1,
+      "box": {
+        "left": 361.2,
+        "top": 344.1,
+        "width": 101.7,
+        "height": 18.2
+      }
+    },
+    "numM30": {
+      "type": "text",
+      "label": "Number of Meals 3.Line 1",
+      "page": 1,
+      "box": {
+        "left": 508.3,
+        "top": 307.5,
+        "width": 75.2,
+        "height": 19.8
+      }
+    },
+    "dat10": {
+      "type": "text",
+      "label": "Enter date using format 2 Dec 2002 1.Line 1",
+      "page": 1,
+      "box": {
+        "left": 24.8,
+        "top": 306.0,
+        "width": 117.4,
+        "height": 18.2
+      }
+    },
+    "numM10": {
+      "type": "text",
+      "label": "Nuimber Meals 1.Line 1",
+      "page": 1,
+      "box": {
+        "left": 143.8,
+        "top": 306.0,
+        "width": 58.7,
+        "height": 18.2
+      }
+    },
+    "dat20": {
+      "type": "text",
+      "label": "Enter date using format 2 Dec 2002 2.Line 1",
+      "page": 1,
+      "box": {
+        "left": 204.1,
+        "top": 306.0,
+        "width": 121.5,
+        "height": 18.2
+      }
+    },
+    "dat30": {
+      "type": "text",
+      "label": "Enter date using format 2 Dec 2002 3.Line 1",
+      "page": 1,
+      "box": {
+        "left": 384.3,
+        "top": 306.0,
+        "width": 123.1,
+        "height": 18.2
+      }
+    },
+    "numM31": {
+      "type": "text",
+      "label": "Number of Meals 3.Line 2",
+      "page": 1,
+      "box": {
+        "left": 508.3,
+        "top": 289.7,
+        "width": 75.2,
+        "height": 19.1
+      }
+    },
+    "dat11": {
+      "type": "text",
+      "label": "Enter date using format 2 Dec 2002 1.Line 2",
+      "page": 1,
+      "box": {
+        "left": 24.8,
+        "top": 288.7,
+        "width": 117.4,
+        "height": 18.2
+      }
+    },
+    "numM11": {
+      "type": "text",
+      "label": "Nuimber Meals 1.Line 2",
+      "page": 1,
+      "box": {
+        "left": 143.8,
+        "top": 288.7,
+        "width": 58.7,
+        "height": 18.2
+      }
+    },
+    "dat21": {
+      "type": "text",
+      "label": "Enter date using format 2 Dec 2002 2.Line 2",
+      "page": 1,
+      "box": {
+        "left": 204.1,
+        "top": 288.7,
+        "width": 121.5,
+        "height": 18.2
+      }
+    },
+    "dat31": {
+      "type": "text",
+      "label": "Enter date using format 2 Dec 2002 3.Line 2",
+      "page": 1,
+      "box": {
+        "left": 384.3,
+        "top": 288.7,
+        "width": 123.1,
+        "height": 18.2
+      }
+    },
+    "dat12": {
+      "type": "text",
+      "label": "Enter date using format 2 Dec 2002 1.Line 3",
+      "page": 1,
+      "box": {
+        "left": 24.8,
+        "top": 273.8,
+        "width": 117.4,
+        "height": 18.2
+      }
+    },
+    "numM12": {
+      "type": "text",
+      "label": "Nuimber Meals 1.Line 3",
+      "page": 1,
+      "box": {
+        "left": 143.8,
+        "top": 273.8,
+        "width": 58.7,
+        "height": 18.2
+      }
+    },
+    "dat22": {
+      "type": "text",
+      "label": "Enter date using format 2 Dec 2002 2.Line 3",
+      "page": 1,
+      "box": {
+        "left": 204.1,
+        "top": 273.8,
+        "width": 121.5,
+        "height": 18.2
+      }
+    },
+    "dat32": {
+      "type": "text",
+      "label": "Enter date using format 2 Dec 2002 3.Line 3",
+      "page": 1,
+      "box": {
+        "left": 384.3,
+        "top": 273.8,
+        "width": 123.1,
+        "height": 18.2
+      }
+    },
+    "numM32": {
+      "type": "text",
+      "label": "Number of Meals 3.Line 3",
+      "page": 1,
+      "box": {
+        "left": 508.3,
+        "top": 272.2,
+        "width": 75.2,
+        "height": 18.6
+      }
+    },
+    "dat13": {
+      "type": "text",
+      "label": "Enter date using format 2 Dec 2002 1.Line 4",
+      "page": 1,
+      "box": {
+        "left": 24.8,
+        "top": 255.6,
+        "width": 117.4,
+        "height": 18.2
+      }
+    },
+    "numM13": {
+      "type": "text",
+      "label": "Nuimber Meals 1.Line 4",
+      "page": 1,
+      "box": {
+        "left": 143.8,
+        "top": 255.6,
+        "width": 58.7,
+        "height": 18.2
+      }
+    },
+    "dat23": {
+      "type": "text",
+      "label": "Enter date using format 2 Dec 2002 2.Line 4",
+      "page": 1,
+      "box": {
+        "left": 204.1,
+        "top": 255.6,
+        "width": 121.5,
+        "height": 18.2
+      }
+    },
+    "dat33": {
+      "type": "text",
+      "label": "Enter date using format 2 Dec 2002 3.Line 4",
+      "page": 1,
+      "box": {
+        "left": 384.3,
+        "top": 255.6,
+        "width": 123.1,
+        "height": 18.2
+      }
+    },
+    "numM33": {
+      "type": "text",
+      "label": "Number of Meals 3.Line 4",
+      "page": 1,
+      "box": {
+        "left": 508.3,
+        "top": 255.6,
+        "width": 75.2,
+        "height": 18.2
+      }
+    },
+    "dat14": {
+      "type": "text",
+      "label": "Enter date using format 2 Dec 2002 1.Line 5",
+      "page": 1,
+      "box": {
+        "left": 24.8,
+        "top": 239.9,
+        "width": 117.4,
+        "height": 18.2
+      }
+    },
+    "numM14": {
+      "type": "text",
+      "label": "Nuimber Meals 1.Line 5",
+      "page": 1,
+      "box": {
+        "left": 143.8,
+        "top": 239.9,
+        "width": 58.7,
+        "height": 18.2
+      }
+    },
+    "dat24": {
+      "type": "text",
+      "label": "Enter date using format 2 Dec 2002 2.Line 5",
+      "page": 1,
+      "box": {
+        "left": 204.1,
+        "top": 239.9,
+        "width": 121.5,
+        "height": 18.2
+      }
+    },
+    "dat34": {
+      "type": "text",
+      "label": "Enter date using format 2 Dec 2002 3.Line 5",
+      "page": 1,
+      "box": {
+        "left": 384.3,
+        "top": 239.9,
+        "width": 123.1,
+        "height": 18.2
+      }
+    },
+    "numM34": {
+      "type": "text",
+      "label": "Number of Meals 3.Line 5",
+      "page": 1,
+      "box": {
+        "left": 508.3,
+        "top": 239.1,
+        "width": 75.2,
+        "height": 16.5
+      }
+    },
+    "dat15": {
+      "type": "text",
+      "label": "Enter date using format 2 Dec 2002 1.Line 6",
+      "page": 1,
+      "box": {
+        "left": 24.8,
+        "top": 224.2,
+        "width": 117.4,
+        "height": 18.2
+      }
+    },
+    "numM15": {
+      "type": "text",
+      "label": "Nuimber Meals 1.Line 6",
+      "page": 1,
+      "box": {
+        "left": 143.8,
+        "top": 224.2,
+        "width": 58.7,
+        "height": 18.2
+      }
+    },
+    "dat25": {
+      "type": "text",
+      "label": "Enter date using format 2 Dec 2002 2.Line 6",
+      "page": 1,
+      "box": {
+        "left": 204.1,
+        "top": 224.2,
+        "width": 121.5,
+        "height": 18.2
+      }
+    },
+    "dat35": {
+      "type": "text",
+      "label": "Enter date using format 2 Dec 2002 3.Line 6",
+      "page": 1,
+      "box": {
+        "left": 384.3,
+        "top": 224.2,
+        "width": 123.1,
+        "height": 18.2
+      }
+    },
+    "numM35": {
+      "type": "text",
+      "label": "Number of Meals 3.Line 6",
+      "page": 1,
+      "box": {
+        "left": 508.3,
+        "top": 224.2,
+        "width": 75.2,
+        "height": 19.5
+      }
+    },
+    "rem1": {
+      "type": "text",
+      "label": "Remarks (Continue on separate sheet if necessary)",
+      "page": 1,
+      "box": {
+        "left": 28.1,
+        "top": 195.6,
+        "width": 557.9,
+        "height": 82.1
+      },
+      "multiline": true
+    },
+    "issOrg": {
+      "type": "text",
+      "label": "Issuing Organization and Station",
+      "page": 1,
+      "box": {
+        "left": 28.1,
+        "top": 103.4,
+        "width": 557.9,
+        "height": 14.7
+      }
+    },
+    "signature": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 411.5,
+        "top": 78.3,
+        "width": 174.4,
+        "height": 19.3
+      }
+    },
+    "namGrd": {
+      "type": "text",
+      "label": "Typed Name, Grade and Title of Authorized Approving Certifying Officer",
+      "page": 1,
+      "box": {
+        "left": 28.1,
+        "top": 75.5,
+        "width": 381.8,
+        "height": 18.2
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 6,
+      "rowStride": 16.5,
+      "editor": "grid",
+      "columns": {
+        "numM": {
+          "type": "text",
+          "label": "Number Meals 2.Line 1",
+          "page": 1,
+          "box": {
+            "left": 324.8,
+            "top": 305.0,
+            "width": 58.7,
+            "height": 16.8
+          }
+        }
+      }
+    }
+  }
+}

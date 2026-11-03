@@ -1,0 +1,701 @@
+{
+  "id": "opnav350165",
+  "label": "OPNAV3501-65 - Ntps Sopr Job Qualification Requirements",
+  "directory": "OPNAV3501-65 - Ntps Sopr Job Qualification Requirements",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "q1aName",
+        "q1aSig",
+        "q1aDate",
+        "q1bName",
+        "q1bSig",
+        "q1bDate",
+        "q1cName",
+        "q1cSig",
+        "q1cDate",
+        "q1dName",
+        "q1dSig",
+        "q1dDate",
+        "q1eName",
+        "q1eSig",
+        "q1eDate",
+        "q1fName",
+        "q1fSig",
+        "q1fDate",
+        "q2aName",
+        "q2aSig",
+        "q2aDate",
+        "q2bName",
+        "q2bSig",
+        "q2bDate",
+        "q2cName",
+        "q2cSig",
+        "q2cDate",
+        "q2dName",
+        "q2dSig",
+        "q2dDate",
+        "q2eName",
+        "q2eSig",
+        "q2eDate",
+        "q2fName",
+        "q2fSig",
+        "q2fDate",
+        "q2gName",
+        "q2gSig",
+        "q2gDate",
+        "q2h1Name",
+        "q2h1Sig",
+        "q2h1Date",
+        "q2h2Name",
+        "q2h2Sig",
+        "q2h2Date",
+        "q2h3Name",
+        "q2h3Sig",
+        "q2h3Date",
+        "q3Name",
+        "q3Sig",
+        "q3Date",
+        "q4Name",
+        "q4Sig",
+        "q4Date",
+        "q5Name",
+        "q5Sig",
+        "q5Date"
+      ]
+    }
+  ],
+  "fields": {
+    "q1aName": {
+      "type": "text",
+      "label": "a. Qualified, designated, and current SOPR",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 636.8,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q1aSig": {
+      "type": "text",
+      "label": "a. Qualified, designated, and current SOPR",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 636.8,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q1aDate": {
+      "type": "text",
+      "label": "a. Qualified, designated, and current SOPR",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 636.8,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q1bName": {
+      "type": "text",
+      "label": "b. Qualified and current FAA Senior or Master Rigger",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 608.5,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q1bSig": {
+      "type": "text",
+      "label": "b. Qualified and current FAA Senior or Master Rigger",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 608.5,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q1bDate": {
+      "type": "text",
+      "label": "b. Qualified and current FAA Senior or Master Rigger",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 608.5,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q1cName": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 580.1,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q1cSig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 580.1,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q1cDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 580.1,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q1dName": {
+      "type": "text",
+      "label": "d. Describe the components and function of the AAD",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 551.8,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q1dSig": {
+      "type": "text",
+      "label": "d. Describe the components and function of the AAD",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 551.8,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q1dDate": {
+      "type": "text",
+      "label": "d. Describe the components and function of the AAD",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 551.8,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q1eName": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 523.4,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q1eSig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 523.4,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q1eDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 523.4,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q1fName": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 495.1,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q1fSig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 495.1,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q1fDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 495.1,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q2aName": {
+      "type": "text",
+      "label": "a. Inspect a complete pack tray assembly",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 430.5,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q2aSig": {
+      "type": "text",
+      "label": "a. Inspect a complete pack tray assembly",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 430.5,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q2aDate": {
+      "type": "text",
+      "label": "a. Inspect a complete pack tray assembly",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 430.5,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q2bName": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 402.2,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q2bSig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 402.2,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q2bDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 402.2,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q2cName": {
+      "type": "text",
+      "label": "c. Perform canopy control line setting and adjustment",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 373.8,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q2cSig": {
+      "type": "text",
+      "label": "c. Perform canopy control line setting and adjustment",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 373.8,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q2cDate": {
+      "type": "text",
+      "label": "c. Perform canopy control line setting and adjustment",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 373.8,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q2dName": {
+      "type": "text",
+      "label": "d. Perform trim verification",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 345.5,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q2dSig": {
+      "type": "text",
+      "label": "d. Perform trim verification",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 345.5,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q2dDate": {
+      "type": "text",
+      "label": "d. Perform trim verification",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 345.5,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q2eName": {
+      "type": "text",
+      "label": "e. Inspect and install a main canopy",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 317.1,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q2eSig": {
+      "type": "text",
+      "label": "e. Inspect and install a main canopy",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 317.1,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q2eDate": {
+      "type": "text",
+      "label": "e. Inspect and install a main canopy",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 317.1,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q2fName": {
+      "type": "text",
+      "label": "f. Inspect and install a reserve canopy",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 288.8,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q2fSig": {
+      "type": "text",
+      "label": "f. Inspect and install a reserve canopy",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 288.8,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q2fDate": {
+      "type": "text",
+      "label": "f. Inspect and install a reserve canopy",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 288.8,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q2gName": {
+      "type": "text",
+      "label": "g. PRO pack a main canopy",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 260.4,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q2gSig": {
+      "type": "text",
+      "label": "g. PRO pack a main canopy",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 260.4,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q2gDate": {
+      "type": "text",
+      "label": "g. PRO pack a main canopy",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 260.4,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q2h1Name": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 232.1,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q2h1Sig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 232.1,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q2h1Date": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 232.1,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q2h2Name": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 203.7,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q2h2Sig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 203.7,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q2h2Date": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 203.7,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q2h3Name": {
+      "type": "text",
+      "label": "Printed Name",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 175.4,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q2h3Sig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 175.4,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q2h3Date": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 175.4,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q3Name": {
+      "type": "text",
+      "label": "3. LPO",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 119.1,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q3Sig": {
+      "type": "text",
+      "label": "3. LPO",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 119.1,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q3Date": {
+      "type": "text",
+      "label": "3. LPO",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 119.1,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q4Name": {
+      "type": "text",
+      "label": "4. Paraloft LCPO",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 90.9,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q4Sig": {
+      "type": "text",
+      "label": "4. Paraloft LCPO",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 90.9,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q4Date": {
+      "type": "text",
+      "label": "4. Paraloft LCPO",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 90.9,
+        "width": 59.4,
+        "height": 25.5
+      }
+    },
+    "q5Name": {
+      "type": "text",
+      "label": "5. P3 and Cargo Program Manager",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 62.8,
+        "width": 109.8,
+        "height": 25.5
+      }
+    },
+    "q5Sig": {
+      "type": "text",
+      "label": "5. P3 and Cargo Program Manager",
+      "page": 1,
+      "box": {
+        "left": 420.6,
+        "top": 62.8,
+        "width": 92.3,
+        "height": 25.5
+      }
+    },
+    "q5Date": {
+      "type": "text",
+      "label": "5. P3 and Cargo Program Manager",
+      "page": 1,
+      "box": {
+        "left": 515.2,
+        "top": 62.8,
+        "width": 59.4,
+        "height": 25.5
+      }
+    }
+  }
+}

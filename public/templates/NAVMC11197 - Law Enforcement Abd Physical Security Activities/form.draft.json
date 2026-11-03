@@ -1,0 +1,6760 @@
+{
+  "id": "navmc11197",
+  "label": "NAVMC11197 - Law Enforcement Abd Physical Security Activities",
+  "directory": "NAVMC11197 - Law Enforcement Abd Physical Security Activities",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "periodCovered",
+        "date",
+        "prepdBy",
+        "from",
+        "rad1Yes",
+        "i1Drugs",
+        "i1Alcohol",
+        "rad1Yes2",
+        "i1Juve",
+        "i1NoCases",
+        "i1dodciv",
+        "i1MilDepen",
+        "i1usmc",
+        "i1OthService",
+        "i1NumIncid",
+        "i1Others",
+        "rad1Yes3",
+        "i2Drugs",
+        "i2Alcohol",
+        "rad1Yes4",
+        "i2Juve",
+        "i2NoCases",
+        "i2dodciv",
+        "i2MilDepen",
+        "i2usmc",
+        "i2OthService",
+        "i2NumIncid",
+        "i2Others",
+        "rad1Yes5",
+        "i3Drugs",
+        "i3Alcohol",
+        "rad1Yes6",
+        "i3Juve",
+        "i3NoCases",
+        "i3dodciv",
+        "i3MilDepen",
+        "i3usmc",
+        "i3OthService",
+        "i3NumIncid",
+        "i3Others",
+        "rad1Yes7",
+        "i4Drugs",
+        "rad1Yes8",
+        "i4Alcohol",
+        "i4Juve",
+        "i4NoCases",
+        "i4dodciv",
+        "i4MilDepen",
+        "i4usmc",
+        "i4OthService",
+        "i4NumIncid",
+        "i4Others",
+        "rad1Yes9",
+        "i5Drugs",
+        "rad1Yes10",
+        "i5Alcohol",
+        "i5Juve",
+        "i5NoCases",
+        "i5dodciv",
+        "i5MilDepen",
+        "i5usmc",
+        "i5OthService",
+        "i5NumIncid",
+        "i5Others",
+        "i6NoCases",
+        "i6Juve",
+        "rad1Yes11",
+        "i6Drugs",
+        "i6dodciv",
+        "i6MilDepen",
+        "rad1Yes12",
+        "i6usmc",
+        "i6Alcohol",
+        "i6OthService",
+        "i6NumIncid",
+        "i6Others",
+        "rad1Yes13",
+        "i7Drugs",
+        "rad1Yes14",
+        "i7Alcohol",
+        "i7Juve",
+        "i7NoCases",
+        "i7dodciv",
+        "i7MilDepen",
+        "i7usmc",
+        "i7OthService",
+        "i7NumIncid",
+        "oI7thers",
+        "rad1Yes15",
+        "i8Drugs",
+        "rad1Yes16",
+        "i8Alcohol",
+        "i8Juve",
+        "i8NoCases",
+        "i8dodciv",
+        "i8MilDepen",
+        "i8usmc",
+        "i8OthService",
+        "i8NumIncid",
+        "i8Others",
+        "rad1Yes17",
+        "i9Drugs",
+        "rad1Yes18",
+        "i9Alcohol",
+        "i9Juve",
+        "i9NoCases",
+        "i9dodciv",
+        "i9MilDepen",
+        "i9usmc",
+        "i9OthService",
+        "i9NumIncid",
+        "i9Others",
+        "rad1Yes19",
+        "i10Drugs",
+        "i10Alcohol",
+        "rad1Yes20",
+        "i10Juve",
+        "i10NoCases",
+        "i10dodciv",
+        "i10MilDepen",
+        "i10usmc",
+        "i10OthService",
+        "i10NumIncid",
+        "i10Others",
+        "rad1Yes21",
+        "iI11Drugs",
+        "rad1Yes22",
+        "iI11Alcohol",
+        "iI11Juve",
+        "iI11NoCases",
+        "ii11dodciv",
+        "iI11MilDepen",
+        "ii11usmc",
+        "iI11OthService",
+        "iI11NumIncid",
+        "iI11Others",
+        "rad1Yes23",
+        "iI12Drugs",
+        "iI12Alcohol",
+        "rad1Yes24",
+        "iI12Juve",
+        "iI12NoCases",
+        "ii12dodciv",
+        "iI12MilDepen",
+        "ii12usmc",
+        "iI12OthService",
+        "iI12NumIncid",
+        "iI12Others",
+        "iI13Juve",
+        "rad1Yes25",
+        "iI13NoCases",
+        "iI13Drugs",
+        "ii13dodciv",
+        "iI13MilDepen",
+        "iI13Alcohol",
+        "rad1Yes26",
+        "ii13usmc",
+        "iI13OthService",
+        "iI13NumIncid",
+        "iI13Others",
+        "iI14Juve",
+        "rad1Yes27",
+        "iI14NoCases",
+        "iI14Drugs",
+        "ii14dodciv",
+        "iI14MilDepen",
+        "iI14Alcohol",
+        "rad1Yes28",
+        "ii14usmc",
+        "iI14OthService",
+        "iI14NumIncid",
+        "iI14Others",
+        "iI15Juve",
+        "rad1Yes29",
+        "iI15NoCases",
+        "ii15dodciv",
+        "iI15MilDepen",
+        "iI15Drugs",
+        "rad1Yes30",
+        "ii15usmc",
+        "iI15Alcohol",
+        "iI15OthService",
+        "iI15NumIncid",
+        "iI15Others",
+        "iI16Juve",
+        "rad1Yes31",
+        "iI16NoCases",
+        "iI16Drugs",
+        "ii16dodciv",
+        "iI16MilDepen",
+        "iI16Alcohol",
+        "rad1Yes32",
+        "ii16usmc",
+        "iI16OthService",
+        "iI16NumIncid",
+        "iI16Others",
+        "iI17Juve",
+        "rad1Yes33",
+        "iI17NoCases",
+        "ii17dodciv",
+        "iI17MilDepen",
+        "iI17Drugs",
+        "rad1Yes34",
+        "iI17Alcohol",
+        "ii17usmc",
+        "iI17OthService",
+        "iI17NumIncid",
+        "iI17Others",
+        "iI18Juve",
+        "rad1Yes35",
+        "iI18NoCases",
+        "iI18Drugs",
+        "rad1Yes36",
+        "ii18dodciv",
+        "iI18MilDepen",
+        "iI18Alcohol",
+        "ii18usmc",
+        "iI18OthService",
+        "iI18NumIncid",
+        "iI18Others"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "iII19Drugs",
+        "iII19Alcohol",
+        "juve",
+        "iII19NoCases",
+        "rad1Yes37",
+        "iii19dodciv",
+        "iII19MilDepen",
+        "iii19usmc",
+        "iII19OthService",
+        "rad1Yes38",
+        "iII19NumIncid",
+        "iII19Others",
+        "iII20Drugs",
+        "iII20Alcohol",
+        "iII20Juve",
+        "iII20NoCases",
+        "rad1Yes39",
+        "iii20dodciv",
+        "iII20MilDepen",
+        "iii20usmc",
+        "iII20OthService",
+        "rad1Yes40",
+        "iII20NumIncid",
+        "iII20Others",
+        "iII21Drugs",
+        "iII21Alcohol",
+        "iII21Juve",
+        "iII21NoCases",
+        "rad1Yes41",
+        "iii21dodciv",
+        "iII21MilDepen",
+        "iii21usmc",
+        "rad1Yes42",
+        "iII21OthService",
+        "iII21NumIncid",
+        "iII21Others",
+        "iII22Drugs",
+        "iII22Alcohol",
+        "iII22Juve",
+        "iII22NoCases",
+        "rad1Yes43",
+        "iii22dodciv",
+        "iII22MilDepen",
+        "iii22usmc",
+        "iII22OthService",
+        "iII22NumIncid",
+        "rad1Yes44",
+        "iII22Others",
+        "iII23Drugs",
+        "iII23Alcohol",
+        "iII23Juve",
+        "iII23NoCases",
+        "rad1Yes45",
+        "iii23dodciv",
+        "milDepen",
+        "iii23usmc",
+        "rad1Yes46",
+        "iII23OthService",
+        "iII23NumIncid",
+        "iII23Others",
+        "iII24Juve",
+        "iII24Drugs",
+        "iII24Alcohol",
+        "iii24dodciv",
+        "iII24MilDepen",
+        "iii24usmc",
+        "iII24OthService",
+        "iII24NumIncid",
+        "iII24Others",
+        "iII24NoCases",
+        "rad1Yes47",
+        "rad1Yes48",
+        "iII25Drugs",
+        "iII25Alcohol",
+        "iII25Juve",
+        "iII25NoCases",
+        "iii25dodciv",
+        "iII25MilDepen",
+        "iii25usmc",
+        "iII25OthService",
+        "iII25NumIncid",
+        "iII25Others",
+        "rad1Yes49",
+        "rad1Yes50",
+        "iII26Drugs",
+        "iII26Alcohol",
+        "iII26Juve",
+        "iII26NoCases",
+        "rad1Yes51",
+        "iii26dodciv",
+        "iII26MilDepen",
+        "iii26usmc",
+        "rad1Yes52",
+        "iII26OthService",
+        "iII26NumIncid",
+        "iII26Others",
+        "iII27Drugs",
+        "iII27Alcohol",
+        "iII27Juve",
+        "iII27NoCases",
+        "rad1Yes53",
+        "iii27dodciv",
+        "iII27MilDepen",
+        "iii27usmc",
+        "rad1Yes54",
+        "iII27OthService",
+        "iII27NumIncid",
+        "iII27Others",
+        "iV28Alcohol",
+        "iV28Juve",
+        "iV28NoCases",
+        "rad1Yes55",
+        "iv28dodciv",
+        "iV28MilDepen",
+        "iv28usmc",
+        "iV28OthService",
+        "rad1Yes56",
+        "iV28NumIncid",
+        "iV28Others",
+        "iV29Alcohol",
+        "iV29Juve",
+        "iV29NoCases",
+        "iv29dodciv",
+        "iV29MilDepen",
+        "rad1Yes57",
+        "iv29usmc",
+        "iV29OthService",
+        "iV29NumIncid",
+        "rad1Yes58",
+        "iV29Others",
+        "rad1Yes59",
+        "rad1Yes60",
+        "iV30Alcohol",
+        "iV30Juve",
+        "iV30NoCases",
+        "iv30dodciv",
+        "iV30MilDepen",
+        "iv30usmc",
+        "iV30OthService",
+        "iV30NumIncid",
+        "iV30Others",
+        "iV31Alcohol",
+        "iV31Juve",
+        "iV31NoCases",
+        "rad1Yes61",
+        "iv31dodciv",
+        "iV31MilDepen",
+        "iv31usmc",
+        "rad1Yes62",
+        "iV31OthService",
+        "iV31NumIncid",
+        "iV31Others",
+        "iV32Alcohol",
+        "iV32Juve",
+        "iV32NoCases",
+        "rad1Yes63",
+        "iv32dodciv",
+        "iV32MilDepen",
+        "iv32usmc",
+        "iV32OthService",
+        "iV32NumIncid",
+        "rad1Yes64",
+        "iV32Others",
+        "rad1Yes65",
+        "rad1Yes66",
+        "iV32Alcohol2",
+        "iV32Juve2",
+        "iV32NoCases2",
+        "iv32dodciv2",
+        "iV32MilDepen2",
+        "iv32usmc2",
+        "iV32OthService2",
+        "iV32NumIncid2",
+        "iV32Others2",
+        "rad1Yes67",
+        "v34Drugs",
+        "rad1Yes68",
+        "v34Alcohol",
+        "v34Juve",
+        "v34NoCases",
+        "v34dodciv",
+        "v34MilDepen",
+        "v34usmc",
+        "v34OthService",
+        "v34NumIncid",
+        "v34Others",
+        "v35Juve",
+        "rad1Yes69",
+        "v35NoCases",
+        "v35Drugs",
+        "v35dodciv",
+        "v35MilDepen",
+        "v35Alcohol",
+        "rad1Yes70",
+        "v35usmc",
+        "v35OthService",
+        "v35NumIncid",
+        "v35Others",
+        "v36Juve",
+        "rad1Yes71",
+        "v36NoCases",
+        "v36Drugs",
+        "v36dodciv",
+        "v36MilDepen",
+        "v36Alcohol",
+        "rad1Yes72",
+        "v36usmc",
+        "v36OthService",
+        "v36NumIncid",
+        "v36Others",
+        "v37Juve",
+        "rad1Yes73",
+        "v37NoCases",
+        "v37Drugs",
+        "v37dodciv",
+        "v37MilDepen",
+        "rad1Yes74",
+        "v37usmc",
+        "v37Alcohol",
+        "v37OthService",
+        "v37NumIncid",
+        "v37Others"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "vI38Drugs",
+        "vI38Juve",
+        "rad1Yes75",
+        "vI38NoCases",
+        "rad1Yes76",
+        "vi38dodciv",
+        "vI38MilDepen",
+        "vi38usmc",
+        "vI38OthService",
+        "vI38NumIncid",
+        "vI38Others",
+        "rad1Yes77",
+        "vI39Juve",
+        "rad1Yes78",
+        "vI39NoCases",
+        "vi39dodciv",
+        "vI39MilDepen",
+        "vI39Drugs",
+        "vi39usmc",
+        "vI39OthService",
+        "vI39NumIncid",
+        "vI39Others",
+        "vI40Juve",
+        "vI40NoCases",
+        "vI40Drugs",
+        "vi40dodciv",
+        "vI40MilDepen",
+        "rad1Yes79",
+        "vi40usmc",
+        "vI40OthService",
+        "vI40NumIncid",
+        "rad1Yes80",
+        "vI40Others",
+        "rad1Yes81",
+        "rad1Yes82",
+        "vI41Juve",
+        "vI41NoCases",
+        "vI41Drugs",
+        "vi41dodciv",
+        "vI41MilDepen",
+        "vi41usmc",
+        "vI41OthService",
+        "vI41NumIncid",
+        "vI41Others",
+        "vI42bOthBasePers",
+        "vI42MilOnBase",
+        "vI42OthBasePers",
+        "vI42OthOTD",
+        "vI42bMilOnBase",
+        "vI42bOthOTD",
+        "vI42Total",
+        "vI43bOthBasePers",
+        "vI43OthBasePers",
+        "vI43bMilOnBase",
+        "vI43MilOnBase",
+        "vI43Total",
+        "vI43bOthOTD",
+        "vI43OthOTD",
+        "noAcc",
+        "involve",
+        "noPersons",
+        "textField1",
+        "textField12",
+        "textField13",
+        "textField14",
+        "textField15",
+        "textField16",
+        "textField17",
+        "textField18",
+        "vI44aFatal",
+        "vI44aNonFatal",
+        "vI44Injured",
+        "vI44PropDam",
+        "vI44Killed",
+        "vI44cFatal",
+        "vI44bNonFatal",
+        "vI45aNonFatal",
+        "vI45Killed",
+        "vI45aFatal",
+        "vI45Injured",
+        "vI45cFatal",
+        "vI45bNonFatal",
+        "vI45PropDam",
+        "vIINumDepChil46",
+        "vIINumFPChil46",
+        "vIINumFPChil462",
+        "vIINumPSSChil47",
+        "vIINumPSSChil472",
+        "vIINumSurvReq47",
+        "vIINumCPSChil48",
+        "vIINumCPSChil482",
+        "vIINumCPSurvReq48",
+        "vIII49Population",
+        "iX57PersStrg",
+        "iX53PersStrg",
+        "ix57",
+        "ix53",
+        "vIII50Population",
+        "iX58PersStrg",
+        "ix54",
+        "iX54PersStrg",
+        "ix58",
+        "vIII51Population",
+        "iX59PersStrg",
+        "iX55PersStrg",
+        "ix59",
+        "ix55",
+        "vIII52Population",
+        "iX60PersStrg",
+        "iX56PersStrg",
+        "ix60",
+        "ix56"
+      ]
+    }
+  ],
+  "fields": {
+    "periodCovered": {
+      "type": "text",
+      "label": "PeriodCovered",
+      "page": 1,
+      "box": {
+        "left": 490.7,
+        "top": 717.0,
+        "width": 98.3,
+        "height": 8.4
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 491.0,
+        "top": 700.6,
+        "width": 96.7,
+        "height": 9.2
+      }
+    },
+    "prepdBy": {
+      "type": "text",
+      "label": "PrepdBy",
+      "page": 1,
+      "box": {
+        "left": 490.8,
+        "top": 683.4,
+        "width": 98.2,
+        "height": 8.4
+      }
+    },
+    "from": {
+      "type": "text",
+      "label": "From",
+      "page": 1,
+      "box": {
+        "left": 49.3,
+        "top": 666.2,
+        "width": 229.8,
+        "height": 46.8
+      },
+      "multiline": true
+    },
+    "rad1Yes": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 198.2,
+        "top": 540.2,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_17"
+    },
+    "i1Drugs": {
+      "type": "checkbox",
+      "label": "I1Drugs",
+      "page": 1,
+      "box": {
+        "left": 485.0,
+        "top": 540.1,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "i1Alcohol": {
+      "type": "checkbox",
+      "label": "I1Alcohol",
+      "page": 1,
+      "box": {
+        "left": 524.4,
+        "top": 540.0,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes2": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 160.4,
+        "top": 539.9,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_17"
+    },
+    "i1Juve": {
+      "type": "checkbox",
+      "label": "I1Juve",
+      "page": 1,
+      "box": {
+        "left": 563.6,
+        "top": 539.7,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "i1NoCases": {
+      "type": "checkbox",
+      "label": "I1NoCases",
+      "page": 1,
+      "box": {
+        "left": 436.1,
+        "top": 539.5,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "i1dodciv": {
+      "type": "text",
+      "label": "I1DODCIV",
+      "page": 1,
+      "box": {
+        "left": 304.7,
+        "top": 538.5,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "i1MilDepen": {
+      "type": "text",
+      "label": "I1MilDepen",
+      "page": 1,
+      "box": {
+        "left": 344.0,
+        "top": 538.5,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "i1usmc": {
+      "type": "text",
+      "label": "I1USMC",
+      "page": 1,
+      "box": {
+        "left": 226.8,
+        "top": 538.4,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "i1OthService": {
+      "type": "text",
+      "label": "I1OthService",
+      "page": 1,
+      "box": {
+        "left": 265.6,
+        "top": 538.3,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "i1NumIncid": {
+      "type": "text",
+      "label": "I1NumIncid",
+      "page": 1,
+      "box": {
+        "left": 109.0,
+        "top": 538.1,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "i1Others": {
+      "type": "text",
+      "label": "I1Others",
+      "page": 1,
+      "box": {
+        "left": 382.4,
+        "top": 537.9,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "rad1Yes3": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 198.1,
+        "top": 519.1,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_16"
+    },
+    "i2Drugs": {
+      "type": "checkbox",
+      "label": "I2Drugs",
+      "page": 1,
+      "box": {
+        "left": 484.9,
+        "top": 519.0,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "i2Alcohol": {
+      "type": "checkbox",
+      "label": "I2Alcohol",
+      "page": 1,
+      "box": {
+        "left": 524.3,
+        "top": 518.9,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes4": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 160.3,
+        "top": 518.8,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_16"
+    },
+    "i2Juve": {
+      "type": "checkbox",
+      "label": "I2Juve",
+      "page": 1,
+      "box": {
+        "left": 563.5,
+        "top": 518.6,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "i2NoCases": {
+      "type": "checkbox",
+      "label": "I2NoCases",
+      "page": 1,
+      "box": {
+        "left": 435.9,
+        "top": 518.4,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "i2dodciv": {
+      "type": "text",
+      "label": "I2DODCIV",
+      "page": 1,
+      "box": {
+        "left": 304.6,
+        "top": 517.5,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "i2MilDepen": {
+      "type": "text",
+      "label": "I2MilDepen",
+      "page": 1,
+      "box": {
+        "left": 343.8,
+        "top": 517.5,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "i2usmc": {
+      "type": "text",
+      "label": "I2USMC",
+      "page": 1,
+      "box": {
+        "left": 226.7,
+        "top": 517.3,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "i2OthService": {
+      "type": "text",
+      "label": "I2OthService",
+      "page": 1,
+      "box": {
+        "left": 265.5,
+        "top": 517.2,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "i2NumIncid": {
+      "type": "text",
+      "label": "I2NumIncid",
+      "page": 1,
+      "box": {
+        "left": 108.9,
+        "top": 517.1,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "i2Others": {
+      "type": "text",
+      "label": "I2Others",
+      "page": 1,
+      "box": {
+        "left": 382.2,
+        "top": 516.9,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "rad1Yes5": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 198.2,
+        "top": 499.0,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_15"
+    },
+    "i3Drugs": {
+      "type": "checkbox",
+      "label": "I3Drugs",
+      "page": 1,
+      "box": {
+        "left": 485.0,
+        "top": 498.9,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "i3Alcohol": {
+      "type": "checkbox",
+      "label": "I3Alcohol",
+      "page": 1,
+      "box": {
+        "left": 524.4,
+        "top": 498.8,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes6": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 160.4,
+        "top": 498.7,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_15"
+    },
+    "i3Juve": {
+      "type": "checkbox",
+      "label": "I3Juve",
+      "page": 1,
+      "box": {
+        "left": 563.6,
+        "top": 498.5,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "i3NoCases": {
+      "type": "checkbox",
+      "label": "I3NoCases",
+      "page": 1,
+      "box": {
+        "left": 436.1,
+        "top": 498.3,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "i3dodciv": {
+      "type": "text",
+      "label": "I3DODCIV",
+      "page": 1,
+      "box": {
+        "left": 304.7,
+        "top": 497.3,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "i3MilDepen": {
+      "type": "text",
+      "label": "I3MilDepen",
+      "page": 1,
+      "box": {
+        "left": 344.0,
+        "top": 497.3,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "i3usmc": {
+      "type": "text",
+      "label": "I3USMC",
+      "page": 1,
+      "box": {
+        "left": 226.8,
+        "top": 497.2,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "i3OthService": {
+      "type": "text",
+      "label": "I3OthService",
+      "page": 1,
+      "box": {
+        "left": 265.6,
+        "top": 497.1,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "i3NumIncid": {
+      "type": "text",
+      "label": "I3NumIncid",
+      "page": 1,
+      "box": {
+        "left": 109.0,
+        "top": 496.9,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "i3Others": {
+      "type": "text",
+      "label": "I3Others",
+      "page": 1,
+      "box": {
+        "left": 382.4,
+        "top": 496.7,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "rad1Yes7": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 197.9,
+        "top": 476.4,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_14"
+    },
+    "i4Drugs": {
+      "type": "checkbox",
+      "label": "I4Drugs",
+      "page": 1,
+      "box": {
+        "left": 484.7,
+        "top": 476.3,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes8": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 160.1,
+        "top": 476.1,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_14"
+    },
+    "i4Alcohol": {
+      "type": "checkbox",
+      "label": "I4Alcohol",
+      "page": 1,
+      "box": {
+        "left": 524.2,
+        "top": 476.1,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "i4Juve": {
+      "type": "checkbox",
+      "label": "I4Juve",
+      "page": 1,
+      "box": {
+        "left": 563.3,
+        "top": 475.9,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "i4NoCases": {
+      "type": "checkbox",
+      "label": "I4NoCases",
+      "page": 1,
+      "box": {
+        "left": 435.8,
+        "top": 475.6,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "i4dodciv": {
+      "type": "text",
+      "label": "I4DODCIV",
+      "page": 1,
+      "box": {
+        "left": 304.4,
+        "top": 474.7,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "i4MilDepen": {
+      "type": "text",
+      "label": "I4MilDepen",
+      "page": 1,
+      "box": {
+        "left": 343.7,
+        "top": 474.7,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "i4usmc": {
+      "type": "text",
+      "label": "I4USMC",
+      "page": 1,
+      "box": {
+        "left": 226.6,
+        "top": 474.6,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "i4OthService": {
+      "type": "text",
+      "label": "I4OthService",
+      "page": 1,
+      "box": {
+        "left": 265.4,
+        "top": 474.4,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "i4NumIncid": {
+      "type": "text",
+      "label": "I4NumIncid",
+      "page": 1,
+      "box": {
+        "left": 108.8,
+        "top": 474.3,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "i4Others": {
+      "type": "text",
+      "label": "I4Others",
+      "page": 1,
+      "box": {
+        "left": 382.1,
+        "top": 474.1,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "rad1Yes9": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 197.9,
+        "top": 452.3,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_13"
+    },
+    "i5Drugs": {
+      "type": "checkbox",
+      "label": "I5Drugs",
+      "page": 1,
+      "box": {
+        "left": 484.7,
+        "top": 452.1,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes10": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 160.1,
+        "top": 452.0,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_13"
+    },
+    "i5Alcohol": {
+      "type": "checkbox",
+      "label": "I5Alcohol",
+      "page": 1,
+      "box": {
+        "left": 524.2,
+        "top": 452.0,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "i5Juve": {
+      "type": "checkbox",
+      "label": "I5Juve",
+      "page": 1,
+      "box": {
+        "left": 563.3,
+        "top": 451.7,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "i5NoCases": {
+      "type": "checkbox",
+      "label": "I5NoCases",
+      "page": 1,
+      "box": {
+        "left": 435.8,
+        "top": 451.5,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "i5dodciv": {
+      "type": "text",
+      "label": "I5DODCIV",
+      "page": 1,
+      "box": {
+        "left": 304.4,
+        "top": 450.6,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "i5MilDepen": {
+      "type": "text",
+      "label": "I5MilDepen",
+      "page": 1,
+      "box": {
+        "left": 343.7,
+        "top": 450.6,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "i5usmc": {
+      "type": "text",
+      "label": "I5USMC",
+      "page": 1,
+      "box": {
+        "left": 226.6,
+        "top": 450.5,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "i5OthService": {
+      "type": "text",
+      "label": "I5OthService",
+      "page": 1,
+      "box": {
+        "left": 265.4,
+        "top": 450.3,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "i5NumIncid": {
+      "type": "text",
+      "label": "I5NumIncid",
+      "page": 1,
+      "box": {
+        "left": 108.8,
+        "top": 450.2,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "i5Others": {
+      "type": "text",
+      "label": "I5Others",
+      "page": 1,
+      "box": {
+        "left": 382.1,
+        "top": 450.0,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "i6NoCases": {
+      "type": "checkbox",
+      "label": "I6NoCases",
+      "page": 1,
+      "box": {
+        "left": 436.1,
+        "top": 430.1,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "i6Juve": {
+      "type": "checkbox",
+      "label": "I6Juve",
+      "page": 1,
+      "box": {
+        "left": 563.6,
+        "top": 429.6,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes11": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 198.2,
+        "top": 429.4,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_12"
+    },
+    "i6Drugs": {
+      "type": "checkbox",
+      "label": "I6Drugs",
+      "page": 1,
+      "box": {
+        "left": 485.0,
+        "top": 429.3,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "i6dodciv": {
+      "type": "text",
+      "label": "I6DODCIV",
+      "page": 1,
+      "box": {
+        "left": 304.7,
+        "top": 429.2,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "i6MilDepen": {
+      "type": "text",
+      "label": "I6MilDepen",
+      "page": 1,
+      "box": {
+        "left": 344.0,
+        "top": 429.2,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "rad1Yes12": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 160.4,
+        "top": 429.1,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_12"
+    },
+    "i6usmc": {
+      "type": "text",
+      "label": "I6USMC",
+      "page": 1,
+      "box": {
+        "left": 226.8,
+        "top": 429.1,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "i6Alcohol": {
+      "type": "checkbox",
+      "label": "I6Alcohol",
+      "page": 1,
+      "box": {
+        "left": 524.4,
+        "top": 429.1,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "i6OthService": {
+      "type": "text",
+      "label": "I6OthService",
+      "page": 1,
+      "box": {
+        "left": 265.6,
+        "top": 428.9,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "i6NumIncid": {
+      "type": "text",
+      "label": "I6NumIncid",
+      "page": 1,
+      "box": {
+        "left": 109.0,
+        "top": 428.8,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "i6Others": {
+      "type": "text",
+      "label": "I6Others",
+      "page": 1,
+      "box": {
+        "left": 382.4,
+        "top": 428.6,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "rad1Yes13": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 198.1,
+        "top": 411.0,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_11"
+    },
+    "i7Drugs": {
+      "type": "checkbox",
+      "label": "I7Drugs",
+      "page": 1,
+      "box": {
+        "left": 484.9,
+        "top": 410.9,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes14": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 160.3,
+        "top": 410.7,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_11"
+    },
+    "i7Alcohol": {
+      "type": "checkbox",
+      "label": "I7Alcohol",
+      "page": 1,
+      "box": {
+        "left": 524.3,
+        "top": 410.7,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "i7Juve": {
+      "type": "checkbox",
+      "label": "I7Juve",
+      "page": 1,
+      "box": {
+        "left": 563.5,
+        "top": 410.5,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "i7NoCases": {
+      "type": "checkbox",
+      "label": "I7NoCases",
+      "page": 1,
+      "box": {
+        "left": 435.9,
+        "top": 410.2,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "i7dodciv": {
+      "type": "text",
+      "label": "I7DODCIV",
+      "page": 1,
+      "box": {
+        "left": 304.6,
+        "top": 410.1,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "i7MilDepen": {
+      "type": "text",
+      "label": "I7MilDepen",
+      "page": 1,
+      "box": {
+        "left": 343.8,
+        "top": 410.1,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "i7usmc": {
+      "type": "text",
+      "label": "I7USMC",
+      "page": 1,
+      "box": {
+        "left": 226.7,
+        "top": 409.9,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "i7OthService": {
+      "type": "text",
+      "label": "I7OthService",
+      "page": 1,
+      "box": {
+        "left": 265.5,
+        "top": 409.8,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "i7NumIncid": {
+      "type": "text",
+      "label": "I7NumIncid",
+      "page": 1,
+      "box": {
+        "left": 108.9,
+        "top": 409.7,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "oI7thers": {
+      "type": "text",
+      "label": "OI7thers",
+      "page": 1,
+      "box": {
+        "left": 382.2,
+        "top": 409.5,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "rad1Yes15": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 197.9,
+        "top": 391.1,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_10"
+    },
+    "i8Drugs": {
+      "type": "checkbox",
+      "label": "I8Drugs",
+      "page": 1,
+      "box": {
+        "left": 484.7,
+        "top": 390.9,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes16": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 160.1,
+        "top": 390.8,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_10"
+    },
+    "i8Alcohol": {
+      "type": "checkbox",
+      "label": "I8Alcohol",
+      "page": 1,
+      "box": {
+        "left": 524.2,
+        "top": 390.8,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "i8Juve": {
+      "type": "checkbox",
+      "label": "I8Juve",
+      "page": 1,
+      "box": {
+        "left": 563.3,
+        "top": 390.5,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "i8NoCases": {
+      "type": "checkbox",
+      "label": "I8NoCases",
+      "page": 1,
+      "box": {
+        "left": 435.8,
+        "top": 390.3,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "i8dodciv": {
+      "type": "text",
+      "label": "I8DODCIV",
+      "page": 1,
+      "box": {
+        "left": 304.4,
+        "top": 390.1,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "i8MilDepen": {
+      "type": "text",
+      "label": "I8MilDepen",
+      "page": 1,
+      "box": {
+        "left": 343.7,
+        "top": 390.1,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "i8usmc": {
+      "type": "text",
+      "label": "I8USMC",
+      "page": 1,
+      "box": {
+        "left": 226.6,
+        "top": 390.0,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "i8OthService": {
+      "type": "text",
+      "label": "I8OthService",
+      "page": 1,
+      "box": {
+        "left": 265.4,
+        "top": 389.8,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "i8NumIncid": {
+      "type": "text",
+      "label": "I8NumIncid",
+      "page": 1,
+      "box": {
+        "left": 108.8,
+        "top": 389.7,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "i8Others": {
+      "type": "text",
+      "label": "I8Others",
+      "page": 1,
+      "box": {
+        "left": 382.1,
+        "top": 389.5,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "rad1Yes17": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 197.6,
+        "top": 370.1,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_9"
+    },
+    "i9Drugs": {
+      "type": "checkbox",
+      "label": "I9Drugs",
+      "page": 1,
+      "box": {
+        "left": 484.4,
+        "top": 369.9,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes18": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 159.8,
+        "top": 369.8,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_9"
+    },
+    "i9Alcohol": {
+      "type": "checkbox",
+      "label": "I9Alcohol",
+      "page": 1,
+      "box": {
+        "left": 523.9,
+        "top": 369.8,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "i9Juve": {
+      "type": "checkbox",
+      "label": "I9Juve",
+      "page": 1,
+      "box": {
+        "left": 563.0,
+        "top": 369.4,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "i9NoCases": {
+      "type": "checkbox",
+      "label": "I9NoCases",
+      "page": 1,
+      "box": {
+        "left": 435.5,
+        "top": 369.3,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "i9dodciv": {
+      "type": "text",
+      "label": "I9DODCIV",
+      "page": 1,
+      "box": {
+        "left": 304.1,
+        "top": 369.1,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "i9MilDepen": {
+      "type": "text",
+      "label": "I9MilDepen",
+      "page": 1,
+      "box": {
+        "left": 343.4,
+        "top": 369.1,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "i9usmc": {
+      "type": "text",
+      "label": "I9USMC",
+      "page": 1,
+      "box": {
+        "left": 226.2,
+        "top": 369.0,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "i9OthService": {
+      "type": "text",
+      "label": "I9OthService",
+      "page": 1,
+      "box": {
+        "left": 265.1,
+        "top": 368.8,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "i9NumIncid": {
+      "type": "text",
+      "label": "I9NumIncid",
+      "page": 1,
+      "box": {
+        "left": 108.4,
+        "top": 368.7,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "i9Others": {
+      "type": "text",
+      "label": "I9Others",
+      "page": 1,
+      "box": {
+        "left": 381.8,
+        "top": 368.5,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "rad1Yes19": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 198.2,
+        "top": 346.5,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_8"
+    },
+    "i10Drugs": {
+      "type": "checkbox",
+      "label": "I10Drugs",
+      "page": 1,
+      "box": {
+        "left": 485.0,
+        "top": 346.4,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "i10Alcohol": {
+      "type": "checkbox",
+      "label": "I10Alcohol",
+      "page": 1,
+      "box": {
+        "left": 524.4,
+        "top": 346.3,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes20": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 160.4,
+        "top": 346.2,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_8"
+    },
+    "i10Juve": {
+      "type": "checkbox",
+      "label": "I10Juve",
+      "page": 1,
+      "box": {
+        "left": 563.6,
+        "top": 346.0,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "i10NoCases": {
+      "type": "checkbox",
+      "label": "I10NoCases",
+      "page": 1,
+      "box": {
+        "left": 436.1,
+        "top": 345.8,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "i10dodciv": {
+      "type": "text",
+      "label": "I10DODCIV",
+      "page": 1,
+      "box": {
+        "left": 304.7,
+        "top": 345.6,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "i10MilDepen": {
+      "type": "text",
+      "label": "I10MilDepen",
+      "page": 1,
+      "box": {
+        "left": 344.0,
+        "top": 345.6,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "i10usmc": {
+      "type": "text",
+      "label": "I10USMC",
+      "page": 1,
+      "box": {
+        "left": 226.8,
+        "top": 345.5,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "i10OthService": {
+      "type": "text",
+      "label": "I10OthService",
+      "page": 1,
+      "box": {
+        "left": 265.6,
+        "top": 345.3,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "i10NumIncid": {
+      "type": "text",
+      "label": "I10NumIncid",
+      "page": 1,
+      "box": {
+        "left": 109.0,
+        "top": 345.2,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "i10Others": {
+      "type": "text",
+      "label": "I10Others",
+      "page": 1,
+      "box": {
+        "left": 382.4,
+        "top": 345.0,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "rad1Yes21": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 197.8,
+        "top": 294.2,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_6"
+    },
+    "iI11Drugs": {
+      "type": "checkbox",
+      "label": "II11Drugs",
+      "page": 1,
+      "box": {
+        "left": 484.5,
+        "top": 294.0,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes22": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 159.9,
+        "top": 293.9,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_6"
+    },
+    "iI11Alcohol": {
+      "type": "checkbox",
+      "label": "II11Alcohol",
+      "page": 1,
+      "box": {
+        "left": 524.0,
+        "top": 293.9,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iI11Juve": {
+      "type": "checkbox",
+      "label": "II11Juve",
+      "page": 1,
+      "box": {
+        "left": 563.1,
+        "top": 293.6,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iI11NoCases": {
+      "type": "checkbox",
+      "label": "II11NoCases",
+      "page": 1,
+      "box": {
+        "left": 435.6,
+        "top": 293.4,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "ii11dodciv": {
+      "type": "text",
+      "label": "II11DODCIV",
+      "page": 1,
+      "box": {
+        "left": 304.2,
+        "top": 292.5,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iI11MilDepen": {
+      "type": "text",
+      "label": "II11MilDepen",
+      "page": 1,
+      "box": {
+        "left": 343.5,
+        "top": 292.5,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "ii11usmc": {
+      "type": "text",
+      "label": "II11USMC",
+      "page": 1,
+      "box": {
+        "left": 226.4,
+        "top": 292.4,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iI11OthService": {
+      "type": "text",
+      "label": "II11OthService",
+      "page": 1,
+      "box": {
+        "left": 265.2,
+        "top": 292.2,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iI11NumIncid": {
+      "type": "text",
+      "label": "II11NumIncid",
+      "page": 1,
+      "box": {
+        "left": 108.6,
+        "top": 292.1,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "iI11Others": {
+      "type": "text",
+      "label": "II11Others",
+      "page": 1,
+      "box": {
+        "left": 381.9,
+        "top": 291.9,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "rad1Yes23": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 198.1,
+        "top": 269.2,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_5"
+    },
+    "iI12Drugs": {
+      "type": "checkbox",
+      "label": "II12Drugs",
+      "page": 1,
+      "box": {
+        "left": 484.9,
+        "top": 269.0,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iI12Alcohol": {
+      "type": "checkbox",
+      "label": "II12Alcohol",
+      "page": 1,
+      "box": {
+        "left": 524.3,
+        "top": 268.9,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes24": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 160.3,
+        "top": 268.8,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_5"
+    },
+    "iI12Juve": {
+      "type": "checkbox",
+      "label": "II12Juve",
+      "page": 1,
+      "box": {
+        "left": 563.5,
+        "top": 268.6,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iI12NoCases": {
+      "type": "checkbox",
+      "label": "II12NoCases",
+      "page": 1,
+      "box": {
+        "left": 435.9,
+        "top": 268.4,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "ii12dodciv": {
+      "type": "text",
+      "label": "II12DODCIV",
+      "page": 1,
+      "box": {
+        "left": 304.6,
+        "top": 267.5,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iI12MilDepen": {
+      "type": "text",
+      "label": "II12MilDepen",
+      "page": 1,
+      "box": {
+        "left": 343.8,
+        "top": 267.5,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "ii12usmc": {
+      "type": "text",
+      "label": "II12USMC",
+      "page": 1,
+      "box": {
+        "left": 226.7,
+        "top": 267.3,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iI12OthService": {
+      "type": "text",
+      "label": "II12OthService",
+      "page": 1,
+      "box": {
+        "left": 265.5,
+        "top": 267.2,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iI12NumIncid": {
+      "type": "text",
+      "label": "II12NumIncid",
+      "page": 1,
+      "box": {
+        "left": 108.9,
+        "top": 267.1,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "iI12Others": {
+      "type": "text",
+      "label": "II12Others",
+      "page": 1,
+      "box": {
+        "left": 382.2,
+        "top": 266.9,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iI13Juve": {
+      "type": "checkbox",
+      "label": "II13Juve",
+      "page": 1,
+      "box": {
+        "left": 563.0,
+        "top": 244.4,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes25": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 197.6,
+        "top": 244.2,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_4"
+    },
+    "iI13NoCases": {
+      "type": "checkbox",
+      "label": "II13NoCases",
+      "page": 1,
+      "box": {
+        "left": 435.5,
+        "top": 244.2,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iI13Drugs": {
+      "type": "checkbox",
+      "label": "II13Drugs",
+      "page": 1,
+      "box": {
+        "left": 484.4,
+        "top": 244.1,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "ii13dodciv": {
+      "type": "text",
+      "label": "II13DODCIV",
+      "page": 1,
+      "box": {
+        "left": 304.1,
+        "top": 244.0,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iI13MilDepen": {
+      "type": "text",
+      "label": "II13MilDepen",
+      "page": 1,
+      "box": {
+        "left": 343.4,
+        "top": 244.0,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iI13Alcohol": {
+      "type": "checkbox",
+      "label": "II13Alcohol",
+      "page": 1,
+      "box": {
+        "left": 523.9,
+        "top": 244.0,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes26": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 159.8,
+        "top": 243.9,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_4"
+    },
+    "ii13usmc": {
+      "type": "text",
+      "label": "II13USMC",
+      "page": 1,
+      "box": {
+        "left": 226.2,
+        "top": 243.9,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iI13OthService": {
+      "type": "text",
+      "label": "II13OthService",
+      "page": 1,
+      "box": {
+        "left": 265.1,
+        "top": 243.7,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iI13NumIncid": {
+      "type": "text",
+      "label": "II13NumIncid",
+      "page": 1,
+      "box": {
+        "left": 108.4,
+        "top": 243.6,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "iI13Others": {
+      "type": "text",
+      "label": "II13Others",
+      "page": 1,
+      "box": {
+        "left": 381.8,
+        "top": 243.4,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iI14Juve": {
+      "type": "checkbox",
+      "label": "II14Juve",
+      "page": 1,
+      "box": {
+        "left": 563.1,
+        "top": 221.9,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes27": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 197.8,
+        "top": 221.7,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_7"
+    },
+    "iI14NoCases": {
+      "type": "checkbox",
+      "label": "II14NoCases",
+      "page": 1,
+      "box": {
+        "left": 435.6,
+        "top": 221.7,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iI14Drugs": {
+      "type": "checkbox",
+      "label": "II14Drugs",
+      "page": 1,
+      "box": {
+        "left": 484.5,
+        "top": 221.6,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "ii14dodciv": {
+      "type": "text",
+      "label": "II14DODCIV",
+      "page": 1,
+      "box": {
+        "left": 304.2,
+        "top": 221.5,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iI14MilDepen": {
+      "type": "text",
+      "label": "II14MilDepen",
+      "page": 1,
+      "box": {
+        "left": 343.5,
+        "top": 221.5,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iI14Alcohol": {
+      "type": "checkbox",
+      "label": "II14Alcohol",
+      "page": 1,
+      "box": {
+        "left": 524.0,
+        "top": 221.5,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes28": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 159.9,
+        "top": 221.4,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_7"
+    },
+    "ii14usmc": {
+      "type": "text",
+      "label": "II14USMC",
+      "page": 1,
+      "box": {
+        "left": 226.4,
+        "top": 221.4,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iI14OthService": {
+      "type": "text",
+      "label": "II14OthService",
+      "page": 1,
+      "box": {
+        "left": 265.2,
+        "top": 221.2,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iI14NumIncid": {
+      "type": "text",
+      "label": "II14NumIncid",
+      "page": 1,
+      "box": {
+        "left": 108.6,
+        "top": 221.1,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "iI14Others": {
+      "type": "text",
+      "label": "II14Others",
+      "page": 1,
+      "box": {
+        "left": 381.9,
+        "top": 220.9,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iI15Juve": {
+      "type": "checkbox",
+      "label": "II15Juve",
+      "page": 1,
+      "box": {
+        "left": 563.5,
+        "top": 203.3,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes29": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 198.1,
+        "top": 203.1,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_3"
+    },
+    "iI15NoCases": {
+      "type": "checkbox",
+      "label": "II15NoCases",
+      "page": 1,
+      "box": {
+        "left": 435.9,
+        "top": 203.1,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "ii15dodciv": {
+      "type": "text",
+      "label": "II15DODCIV",
+      "page": 1,
+      "box": {
+        "left": 304.6,
+        "top": 202.9,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iI15MilDepen": {
+      "type": "text",
+      "label": "II15MilDepen",
+      "page": 1,
+      "box": {
+        "left": 343.8,
+        "top": 202.9,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iI15Drugs": {
+      "type": "checkbox",
+      "label": "II15Drugs",
+      "page": 1,
+      "box": {
+        "left": 484.9,
+        "top": 202.9,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes30": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 160.3,
+        "top": 202.8,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_3"
+    },
+    "ii15usmc": {
+      "type": "text",
+      "label": "II15USMC",
+      "page": 1,
+      "box": {
+        "left": 226.7,
+        "top": 202.8,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iI15Alcohol": {
+      "type": "checkbox",
+      "label": "II15Alcohol",
+      "page": 1,
+      "box": {
+        "left": 524.3,
+        "top": 202.8,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iI15OthService": {
+      "type": "text",
+      "label": "II15OthService",
+      "page": 1,
+      "box": {
+        "left": 265.5,
+        "top": 202.6,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iI15NumIncid": {
+      "type": "text",
+      "label": "II15NumIncid",
+      "page": 1,
+      "box": {
+        "left": 108.9,
+        "top": 202.5,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "iI15Others": {
+      "type": "text",
+      "label": "II15Others",
+      "page": 1,
+      "box": {
+        "left": 382.2,
+        "top": 202.3,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iI16Juve": {
+      "type": "checkbox",
+      "label": "II16Juve",
+      "page": 1,
+      "box": {
+        "left": 563.0,
+        "top": 181.1,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes31": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 197.6,
+        "top": 180.9,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_2"
+    },
+    "iI16NoCases": {
+      "type": "checkbox",
+      "label": "II16NoCases",
+      "page": 1,
+      "box": {
+        "left": 435.5,
+        "top": 180.9,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iI16Drugs": {
+      "type": "checkbox",
+      "label": "II16Drugs",
+      "page": 1,
+      "box": {
+        "left": 484.4,
+        "top": 180.8,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "ii16dodciv": {
+      "type": "text",
+      "label": "II16DODCIV",
+      "page": 1,
+      "box": {
+        "left": 304.1,
+        "top": 180.7,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iI16MilDepen": {
+      "type": "text",
+      "label": "II16MilDepen",
+      "page": 1,
+      "box": {
+        "left": 343.4,
+        "top": 180.7,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iI16Alcohol": {
+      "type": "checkbox",
+      "label": "II16Alcohol",
+      "page": 1,
+      "box": {
+        "left": 523.9,
+        "top": 180.7,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes32": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 159.8,
+        "top": 180.6,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_2"
+    },
+    "ii16usmc": {
+      "type": "text",
+      "label": "II16USMC",
+      "page": 1,
+      "box": {
+        "left": 226.2,
+        "top": 180.6,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iI16OthService": {
+      "type": "text",
+      "label": "II16OthService",
+      "page": 1,
+      "box": {
+        "left": 265.1,
+        "top": 180.4,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iI16NumIncid": {
+      "type": "text",
+      "label": "II16NumIncid",
+      "page": 1,
+      "box": {
+        "left": 108.4,
+        "top": 180.3,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "iI16Others": {
+      "type": "text",
+      "label": "II16Others",
+      "page": 1,
+      "box": {
+        "left": 381.8,
+        "top": 180.1,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iI17Juve": {
+      "type": "checkbox",
+      "label": "II17Juve",
+      "page": 1,
+      "box": {
+        "left": 563.6,
+        "top": 157.3,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes33": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 198.2,
+        "top": 157.1,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_1"
+    },
+    "iI17NoCases": {
+      "type": "checkbox",
+      "label": "II17NoCases",
+      "page": 1,
+      "box": {
+        "left": 436.0,
+        "top": 157.0,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "ii17dodciv": {
+      "type": "text",
+      "label": "II17DODCIV",
+      "page": 1,
+      "box": {
+        "left": 304.7,
+        "top": 156.9,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iI17MilDepen": {
+      "type": "text",
+      "label": "II17MilDepen",
+      "page": 1,
+      "box": {
+        "left": 343.9,
+        "top": 156.9,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iI17Drugs": {
+      "type": "checkbox",
+      "label": "II17Drugs",
+      "page": 1,
+      "box": {
+        "left": 485.0,
+        "top": 156.9,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes34": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 160.4,
+        "top": 156.8,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_1"
+    },
+    "iI17Alcohol": {
+      "type": "checkbox",
+      "label": "II17Alcohol",
+      "page": 1,
+      "box": {
+        "left": 524.4,
+        "top": 156.8,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "ii17usmc": {
+      "type": "text",
+      "label": "II17USMC",
+      "page": 1,
+      "box": {
+        "left": 226.8,
+        "top": 156.7,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iI17OthService": {
+      "type": "text",
+      "label": "II17OthService",
+      "page": 1,
+      "box": {
+        "left": 265.6,
+        "top": 156.6,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iI17NumIncid": {
+      "type": "text",
+      "label": "II17NumIncid",
+      "page": 1,
+      "box": {
+        "left": 109.0,
+        "top": 156.5,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "iI17Others": {
+      "type": "text",
+      "label": "II17Others",
+      "page": 1,
+      "box": {
+        "left": 382.3,
+        "top": 156.3,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iI18Juve": {
+      "type": "checkbox",
+      "label": "II18Juve",
+      "page": 1,
+      "box": {
+        "left": 563.0,
+        "top": 133.9,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes35": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 197.6,
+        "top": 133.7,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_0"
+    },
+    "iI18NoCases": {
+      "type": "checkbox",
+      "label": "II18NoCases",
+      "page": 1,
+      "box": {
+        "left": 435.5,
+        "top": 133.6,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iI18Drugs": {
+      "type": "checkbox",
+      "label": "II18Drugs",
+      "page": 1,
+      "box": {
+        "left": 484.4,
+        "top": 133.5,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes36": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 159.8,
+        "top": 133.4,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_0"
+    },
+    "ii18dodciv": {
+      "type": "text",
+      "label": "II18DODCIV",
+      "page": 1,
+      "box": {
+        "left": 304.1,
+        "top": 133.4,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iI18MilDepen": {
+      "type": "text",
+      "label": "II18MilDepen",
+      "page": 1,
+      "box": {
+        "left": 343.4,
+        "top": 133.4,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iI18Alcohol": {
+      "type": "checkbox",
+      "label": "II18Alcohol",
+      "page": 1,
+      "box": {
+        "left": 523.9,
+        "top": 133.4,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "ii18usmc": {
+      "type": "text",
+      "label": "II18USMC",
+      "page": 1,
+      "box": {
+        "left": 226.2,
+        "top": 133.3,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iI18OthService": {
+      "type": "text",
+      "label": "II18OthService",
+      "page": 1,
+      "box": {
+        "left": 265.1,
+        "top": 133.2,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iI18NumIncid": {
+      "type": "text",
+      "label": "II18NumIncid",
+      "page": 1,
+      "box": {
+        "left": 108.4,
+        "top": 133.1,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "iI18Others": {
+      "type": "text",
+      "label": "II18Others",
+      "page": 1,
+      "box": {
+        "left": 381.8,
+        "top": 132.9,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iII19Drugs": {
+      "type": "checkbox",
+      "label": "III19Drugs",
+      "page": 2,
+      "box": {
+        "left": 485.0,
+        "top": 632.4,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iII19Alcohol": {
+      "type": "checkbox",
+      "label": "III19Alcohol",
+      "page": 2,
+      "box": {
+        "left": 524.4,
+        "top": 632.2,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "juve": {
+      "type": "checkbox",
+      "label": "Juve",
+      "page": 2,
+      "box": {
+        "left": 563.6,
+        "top": 632.0,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iII19NoCases": {
+      "type": "checkbox",
+      "label": "III19NoCases",
+      "page": 2,
+      "box": {
+        "left": 436.1,
+        "top": 631.7,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes37": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 194.0,
+        "top": 630.8,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_1_subform_2_Rad1Yes_26"
+    },
+    "iii19dodciv": {
+      "type": "text",
+      "label": "III19DODCIV",
+      "page": 2,
+      "box": {
+        "left": 304.7,
+        "top": 630.8,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iII19MilDepen": {
+      "type": "text",
+      "label": "III19MilDepen",
+      "page": 2,
+      "box": {
+        "left": 344.0,
+        "top": 630.8,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iii19usmc": {
+      "type": "text",
+      "label": "III19USMC",
+      "page": 2,
+      "box": {
+        "left": 226.8,
+        "top": 630.7,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iII19OthService": {
+      "type": "text",
+      "label": "III19OthService",
+      "page": 2,
+      "box": {
+        "left": 265.6,
+        "top": 630.6,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "rad1Yes38": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 161.0,
+        "top": 630.5,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_1_subform_2_Rad1Yes_26"
+    },
+    "iII19NumIncid": {
+      "type": "text",
+      "label": "III19NumIncid",
+      "page": 2,
+      "box": {
+        "left": 109.0,
+        "top": 630.4,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "iII19Others": {
+      "type": "text",
+      "label": "III19Others",
+      "page": 2,
+      "box": {
+        "left": 382.4,
+        "top": 630.2,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iII20Drugs": {
+      "type": "checkbox",
+      "label": "III20Drugs",
+      "page": 2,
+      "box": {
+        "left": 484.9,
+        "top": 611.3,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iII20Alcohol": {
+      "type": "checkbox",
+      "label": "III20Alcohol",
+      "page": 2,
+      "box": {
+        "left": 524.3,
+        "top": 611.2,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iII20Juve": {
+      "type": "checkbox",
+      "label": "III20Juve",
+      "page": 2,
+      "box": {
+        "left": 563.5,
+        "top": 610.9,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iII20NoCases": {
+      "type": "checkbox",
+      "label": "III20NoCases",
+      "page": 2,
+      "box": {
+        "left": 435.9,
+        "top": 610.7,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes39": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 193.9,
+        "top": 609.7,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_1_Rad1Yes_25"
+    },
+    "iii20dodciv": {
+      "type": "text",
+      "label": "III20DODCIV",
+      "page": 2,
+      "box": {
+        "left": 304.6,
+        "top": 609.7,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iII20MilDepen": {
+      "type": "text",
+      "label": "III20MilDepen",
+      "page": 2,
+      "box": {
+        "left": 343.8,
+        "top": 609.7,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iii20usmc": {
+      "type": "text",
+      "label": "III20USMC",
+      "page": 2,
+      "box": {
+        "left": 226.7,
+        "top": 609.6,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iII20OthService": {
+      "type": "text",
+      "label": "III20OthService",
+      "page": 2,
+      "box": {
+        "left": 265.5,
+        "top": 609.5,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "rad1Yes40": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 160.9,
+        "top": 609.4,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_1_Rad1Yes_25"
+    },
+    "iII20NumIncid": {
+      "type": "text",
+      "label": "III20NumIncid",
+      "page": 2,
+      "box": {
+        "left": 108.9,
+        "top": 609.3,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "iII20Others": {
+      "type": "text",
+      "label": "III20Others",
+      "page": 2,
+      "box": {
+        "left": 382.2,
+        "top": 609.2,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iII21Drugs": {
+      "type": "checkbox",
+      "label": "III21Drugs",
+      "page": 2,
+      "box": {
+        "left": 485.0,
+        "top": 589.0,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iII21Alcohol": {
+      "type": "checkbox",
+      "label": "III21Alcohol",
+      "page": 2,
+      "box": {
+        "left": 524.4,
+        "top": 588.8,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iII21Juve": {
+      "type": "checkbox",
+      "label": "III21Juve",
+      "page": 2,
+      "box": {
+        "left": 563.6,
+        "top": 588.6,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iII21NoCases": {
+      "type": "checkbox",
+      "label": "III21NoCases",
+      "page": 2,
+      "box": {
+        "left": 436.1,
+        "top": 588.3,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes41": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 194.0,
+        "top": 587.4,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_1_Rad1Yes_24"
+    },
+    "iii21dodciv": {
+      "type": "text",
+      "label": "III21DODCIV",
+      "page": 2,
+      "box": {
+        "left": 304.7,
+        "top": 587.4,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iII21MilDepen": {
+      "type": "text",
+      "label": "III21MilDepen",
+      "page": 2,
+      "box": {
+        "left": 344.0,
+        "top": 587.4,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iii21usmc": {
+      "type": "text",
+      "label": "III21USMC",
+      "page": 2,
+      "box": {
+        "left": 226.8,
+        "top": 587.3,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "rad1Yes42": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 161.0,
+        "top": 587.1,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_1_Rad1Yes_24"
+    },
+    "iII21OthService": {
+      "type": "text",
+      "label": "III21OthService",
+      "page": 2,
+      "box": {
+        "left": 265.6,
+        "top": 587.1,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iII21NumIncid": {
+      "type": "text",
+      "label": "III21NumIncid",
+      "page": 2,
+      "box": {
+        "left": 109.0,
+        "top": 587.0,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "iII21Others": {
+      "type": "text",
+      "label": "III21Others",
+      "page": 2,
+      "box": {
+        "left": 382.4,
+        "top": 586.8,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iII22Drugs": {
+      "type": "checkbox",
+      "label": "III22Drugs",
+      "page": 2,
+      "box": {
+        "left": 484.7,
+        "top": 565.6,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iII22Alcohol": {
+      "type": "checkbox",
+      "label": "III22Alcohol",
+      "page": 2,
+      "box": {
+        "left": 524.2,
+        "top": 565.5,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iII22Juve": {
+      "type": "checkbox",
+      "label": "III22Juve",
+      "page": 2,
+      "box": {
+        "left": 563.3,
+        "top": 565.2,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iII22NoCases": {
+      "type": "checkbox",
+      "label": "III22NoCases",
+      "page": 2,
+      "box": {
+        "left": 435.8,
+        "top": 565.0,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes43": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 193.8,
+        "top": 564.1,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_1_Rad1Yes_23"
+    },
+    "iii22dodciv": {
+      "type": "text",
+      "label": "III22DODCIV",
+      "page": 2,
+      "box": {
+        "left": 304.4,
+        "top": 564.1,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iII22MilDepen": {
+      "type": "text",
+      "label": "III22MilDepen",
+      "page": 2,
+      "box": {
+        "left": 343.7,
+        "top": 564.1,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iii22usmc": {
+      "type": "text",
+      "label": "III22USMC",
+      "page": 2,
+      "box": {
+        "left": 226.6,
+        "top": 563.9,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iII22OthService": {
+      "type": "text",
+      "label": "III22OthService",
+      "page": 2,
+      "box": {
+        "left": 265.4,
+        "top": 563.8,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iII22NumIncid": {
+      "type": "text",
+      "label": "III22NumIncid",
+      "page": 2,
+      "box": {
+        "left": 108.8,
+        "top": 563.7,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "rad1Yes44": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 160.7,
+        "top": 563.7,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_1_Rad1Yes_23"
+    },
+    "iII22Others": {
+      "type": "text",
+      "label": "III22Others",
+      "page": 2,
+      "box": {
+        "left": 382.1,
+        "top": 563.5,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iII23Drugs": {
+      "type": "checkbox",
+      "label": "III23Drugs",
+      "page": 2,
+      "box": {
+        "left": 484.7,
+        "top": 542.9,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iII23Alcohol": {
+      "type": "checkbox",
+      "label": "III23Alcohol",
+      "page": 2,
+      "box": {
+        "left": 524.2,
+        "top": 542.8,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iII23Juve": {
+      "type": "checkbox",
+      "label": "III23Juve",
+      "page": 2,
+      "box": {
+        "left": 563.3,
+        "top": 542.5,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iII23NoCases": {
+      "type": "checkbox",
+      "label": "III23NoCases",
+      "page": 2,
+      "box": {
+        "left": 435.8,
+        "top": 542.3,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes45": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 193.8,
+        "top": 541.4,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_1_Rad1Yes_22"
+    },
+    "iii23dodciv": {
+      "type": "text",
+      "label": "III23DODCIV",
+      "page": 2,
+      "box": {
+        "left": 304.4,
+        "top": 541.4,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "milDepen": {
+      "type": "text",
+      "label": "MilDepen",
+      "page": 2,
+      "box": {
+        "left": 343.7,
+        "top": 541.4,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iii23usmc": {
+      "type": "text",
+      "label": "III23USMC",
+      "page": 2,
+      "box": {
+        "left": 226.6,
+        "top": 541.3,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "rad1Yes46": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 160.7,
+        "top": 541.1,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_1_Rad1Yes_22"
+    },
+    "iII23OthService": {
+      "type": "text",
+      "label": "III23OthService",
+      "page": 2,
+      "box": {
+        "left": 265.4,
+        "top": 541.1,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iII23NumIncid": {
+      "type": "text",
+      "label": "III23NumIncid",
+      "page": 2,
+      "box": {
+        "left": 108.8,
+        "top": 541.0,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "iII23Others": {
+      "type": "text",
+      "label": "III23Others",
+      "page": 2,
+      "box": {
+        "left": 382.1,
+        "top": 540.8,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iII24Juve": {
+      "type": "checkbox",
+      "label": "III24Juve",
+      "page": 2,
+      "box": {
+        "left": 563.6,
+        "top": 521.9,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iII24Drugs": {
+      "type": "checkbox",
+      "label": "III24Drugs",
+      "page": 2,
+      "box": {
+        "left": 485.0,
+        "top": 521.6,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iII24Alcohol": {
+      "type": "checkbox",
+      "label": "III24Alcohol",
+      "page": 2,
+      "box": {
+        "left": 524.4,
+        "top": 521.6,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iii24dodciv": {
+      "type": "text",
+      "label": "III24DODCIV",
+      "page": 2,
+      "box": {
+        "left": 304.7,
+        "top": 521.5,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iII24MilDepen": {
+      "type": "text",
+      "label": "III24MilDepen",
+      "page": 2,
+      "box": {
+        "left": 344.0,
+        "top": 521.5,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iii24usmc": {
+      "type": "text",
+      "label": "III24USMC",
+      "page": 2,
+      "box": {
+        "left": 226.8,
+        "top": 521.4,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iII24OthService": {
+      "type": "text",
+      "label": "III24OthService",
+      "page": 2,
+      "box": {
+        "left": 265.6,
+        "top": 521.2,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iII24NumIncid": {
+      "type": "text",
+      "label": "III24NumIncid",
+      "page": 2,
+      "box": {
+        "left": 109.0,
+        "top": 521.1,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "iII24Others": {
+      "type": "text",
+      "label": "III24Others",
+      "page": 2,
+      "box": {
+        "left": 382.4,
+        "top": 520.9,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iII24NoCases": {
+      "type": "checkbox",
+      "label": "III24NoCases",
+      "page": 2,
+      "box": {
+        "left": 436.1,
+        "top": 520.9,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes47": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 194.0,
+        "top": 520.7,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_1_Rad1Yes_21"
+    },
+    "rad1Yes48": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 161.0,
+        "top": 520.4,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_1_Rad1Yes_21"
+    },
+    "iII25Drugs": {
+      "type": "checkbox",
+      "label": "III25Drugs",
+      "page": 2,
+      "box": {
+        "left": 484.9,
+        "top": 503.2,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iII25Alcohol": {
+      "type": "checkbox",
+      "label": "III25Alcohol",
+      "page": 2,
+      "box": {
+        "left": 524.3,
+        "top": 503.0,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iII25Juve": {
+      "type": "checkbox",
+      "label": "III25Juve",
+      "page": 2,
+      "box": {
+        "left": 563.5,
+        "top": 502.8,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iII25NoCases": {
+      "type": "checkbox",
+      "label": "III25NoCases",
+      "page": 2,
+      "box": {
+        "left": 435.9,
+        "top": 502.5,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iii25dodciv": {
+      "type": "text",
+      "label": "III25DODCIV",
+      "page": 2,
+      "box": {
+        "left": 304.6,
+        "top": 502.3,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iII25MilDepen": {
+      "type": "text",
+      "label": "III25MilDepen",
+      "page": 2,
+      "box": {
+        "left": 343.8,
+        "top": 502.3,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iii25usmc": {
+      "type": "text",
+      "label": "III25USMC",
+      "page": 2,
+      "box": {
+        "left": 226.7,
+        "top": 502.2,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iII25OthService": {
+      "type": "text",
+      "label": "III25OthService",
+      "page": 2,
+      "box": {
+        "left": 265.5,
+        "top": 502.1,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iII25NumIncid": {
+      "type": "text",
+      "label": "III25NumIncid",
+      "page": 2,
+      "box": {
+        "left": 108.9,
+        "top": 501.9,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "iII25Others": {
+      "type": "text",
+      "label": "III25Others",
+      "page": 2,
+      "box": {
+        "left": 382.2,
+        "top": 501.8,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "rad1Yes49": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 193.9,
+        "top": 501.6,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_1_Rad1Yes_20"
+    },
+    "rad1Yes50": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 160.9,
+        "top": 501.3,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_1_Rad1Yes_20"
+    },
+    "iII26Drugs": {
+      "type": "checkbox",
+      "label": "III26Drugs",
+      "page": 2,
+      "box": {
+        "left": 484.7,
+        "top": 483.2,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iII26Alcohol": {
+      "type": "checkbox",
+      "label": "III26Alcohol",
+      "page": 2,
+      "box": {
+        "left": 524.2,
+        "top": 483.1,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iII26Juve": {
+      "type": "checkbox",
+      "label": "III26Juve",
+      "page": 2,
+      "box": {
+        "left": 563.3,
+        "top": 482.8,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iII26NoCases": {
+      "type": "checkbox",
+      "label": "III26NoCases",
+      "page": 2,
+      "box": {
+        "left": 435.8,
+        "top": 482.6,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes51": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 193.8,
+        "top": 482.4,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_1_Rad1Yes_19"
+    },
+    "iii26dodciv": {
+      "type": "text",
+      "label": "III26DODCIV",
+      "page": 2,
+      "box": {
+        "left": 304.4,
+        "top": 482.4,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iII26MilDepen": {
+      "type": "text",
+      "label": "III26MilDepen",
+      "page": 2,
+      "box": {
+        "left": 343.7,
+        "top": 482.4,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iii26usmc": {
+      "type": "text",
+      "label": "III26USMC",
+      "page": 2,
+      "box": {
+        "left": 226.6,
+        "top": 482.3,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "rad1Yes52": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 160.7,
+        "top": 482.1,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_1_Rad1Yes_19"
+    },
+    "iII26OthService": {
+      "type": "text",
+      "label": "III26OthService",
+      "page": 2,
+      "box": {
+        "left": 265.4,
+        "top": 482.1,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iII26NumIncid": {
+      "type": "text",
+      "label": "III26NumIncid",
+      "page": 2,
+      "box": {
+        "left": 108.8,
+        "top": 482.0,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "iII26Others": {
+      "type": "text",
+      "label": "III26Others",
+      "page": 2,
+      "box": {
+        "left": 382.1,
+        "top": 481.8,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iII27Drugs": {
+      "type": "checkbox",
+      "label": "III27Drugs",
+      "page": 2,
+      "box": {
+        "left": 484.4,
+        "top": 462.2,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iII27Alcohol": {
+      "type": "checkbox",
+      "label": "III27Alcohol",
+      "page": 2,
+      "box": {
+        "left": 523.9,
+        "top": 462.1,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iII27Juve": {
+      "type": "checkbox",
+      "label": "III27Juve",
+      "page": 2,
+      "box": {
+        "left": 563.0,
+        "top": 461.8,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iII27NoCases": {
+      "type": "checkbox",
+      "label": "III27NoCases",
+      "page": 2,
+      "box": {
+        "left": 435.5,
+        "top": 461.6,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes53": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 193.5,
+        "top": 461.4,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_1_Rad1Yes_18"
+    },
+    "iii27dodciv": {
+      "type": "text",
+      "label": "III27DODCIV",
+      "page": 2,
+      "box": {
+        "left": 304.1,
+        "top": 461.4,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iII27MilDepen": {
+      "type": "text",
+      "label": "III27MilDepen",
+      "page": 2,
+      "box": {
+        "left": 343.4,
+        "top": 461.4,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iii27usmc": {
+      "type": "text",
+      "label": "III27USMC",
+      "page": 2,
+      "box": {
+        "left": 226.2,
+        "top": 461.3,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "rad1Yes54": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 160.4,
+        "top": 461.1,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_1_Rad1Yes_18"
+    },
+    "iII27OthService": {
+      "type": "text",
+      "label": "III27OthService",
+      "page": 2,
+      "box": {
+        "left": 265.1,
+        "top": 461.1,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iII27NumIncid": {
+      "type": "text",
+      "label": "III27NumIncid",
+      "page": 2,
+      "box": {
+        "left": 108.4,
+        "top": 461.0,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "iII27Others": {
+      "type": "text",
+      "label": "III27Others",
+      "page": 2,
+      "box": {
+        "left": 381.8,
+        "top": 460.8,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iV28Alcohol": {
+      "type": "checkbox",
+      "label": "IV28Alcohol",
+      "page": 2,
+      "box": {
+        "left": 524.4,
+        "top": 399.9,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iV28Juve": {
+      "type": "checkbox",
+      "label": "IV28Juve",
+      "page": 2,
+      "box": {
+        "left": 563.6,
+        "top": 399.6,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iV28NoCases": {
+      "type": "checkbox",
+      "label": "IV28NoCases",
+      "page": 2,
+      "box": {
+        "left": 436.1,
+        "top": 399.3,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes55": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 194.0,
+        "top": 398.4,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_1_subform_3_Rad1Yes_27"
+    },
+    "iv28dodciv": {
+      "type": "text",
+      "label": "IV28DODCIV",
+      "page": 2,
+      "box": {
+        "left": 304.7,
+        "top": 398.4,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iV28MilDepen": {
+      "type": "text",
+      "label": "IV28MilDepen",
+      "page": 2,
+      "box": {
+        "left": 344.0,
+        "top": 398.4,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iv28usmc": {
+      "type": "text",
+      "label": "IV28USMC",
+      "page": 2,
+      "box": {
+        "left": 226.8,
+        "top": 398.3,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iV28OthService": {
+      "type": "text",
+      "label": "IV28OthService",
+      "page": 2,
+      "box": {
+        "left": 265.6,
+        "top": 398.2,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "rad1Yes56": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 161.0,
+        "top": 398.1,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_1_subform_3_Rad1Yes_27"
+    },
+    "iV28NumIncid": {
+      "type": "text",
+      "label": "IV28NumIncid",
+      "page": 2,
+      "box": {
+        "left": 109.0,
+        "top": 398.0,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "iV28Others": {
+      "type": "text",
+      "label": "IV28Others",
+      "page": 2,
+      "box": {
+        "left": 382.4,
+        "top": 397.8,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iV29Alcohol": {
+      "type": "checkbox",
+      "label": "IV29Alcohol",
+      "page": 2,
+      "box": {
+        "left": 524.3,
+        "top": 377.3,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iV29Juve": {
+      "type": "checkbox",
+      "label": "IV29Juve",
+      "page": 2,
+      "box": {
+        "left": 563.5,
+        "top": 377.0,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iV29NoCases": {
+      "type": "checkbox",
+      "label": "IV29NoCases",
+      "page": 2,
+      "box": {
+        "left": 435.9,
+        "top": 376.8,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iv29dodciv": {
+      "type": "text",
+      "label": "IV29DODCIV",
+      "page": 2,
+      "box": {
+        "left": 304.6,
+        "top": 375.9,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iV29MilDepen": {
+      "type": "text",
+      "label": "IV29MilDepen",
+      "page": 2,
+      "box": {
+        "left": 343.8,
+        "top": 375.9,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "rad1Yes57": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 193.9,
+        "top": 375.8,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_1_Rad1Yes_35"
+    },
+    "iv29usmc": {
+      "type": "text",
+      "label": "IV29USMC",
+      "page": 2,
+      "box": {
+        "left": 226.7,
+        "top": 375.8,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iV29OthService": {
+      "type": "text",
+      "label": "IV29OthService",
+      "page": 2,
+      "box": {
+        "left": 265.5,
+        "top": 375.6,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iV29NumIncid": {
+      "type": "text",
+      "label": "IV29NumIncid",
+      "page": 2,
+      "box": {
+        "left": 108.9,
+        "top": 375.5,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "rad1Yes58": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 160.9,
+        "top": 375.5,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_1_Rad1Yes_35"
+    },
+    "iV29Others": {
+      "type": "text",
+      "label": "IV29Others",
+      "page": 2,
+      "box": {
+        "left": 382.2,
+        "top": 375.3,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "rad1Yes59": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 193.4,
+        "top": 351.6,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_1_Rad1Yes_28"
+    },
+    "rad1Yes60": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 160.3,
+        "top": 351.3,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_1_Rad1Yes_28"
+    },
+    "iV30Alcohol": {
+      "type": "checkbox",
+      "label": "IV30Alcohol",
+      "page": 2,
+      "box": {
+        "left": 524.4,
+        "top": 351.3,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iV30Juve": {
+      "type": "checkbox",
+      "label": "IV30Juve",
+      "page": 2,
+      "box": {
+        "left": 563.6,
+        "top": 351.0,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iV30NoCases": {
+      "type": "checkbox",
+      "label": "IV30NoCases",
+      "page": 2,
+      "box": {
+        "left": 436.1,
+        "top": 350.8,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iv30dodciv": {
+      "type": "text",
+      "label": "IV30DODCIV",
+      "page": 2,
+      "box": {
+        "left": 304.7,
+        "top": 350.6,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iV30MilDepen": {
+      "type": "text",
+      "label": "IV30MilDepen",
+      "page": 2,
+      "box": {
+        "left": 344.0,
+        "top": 350.6,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iv30usmc": {
+      "type": "text",
+      "label": "IV30USMC",
+      "page": 2,
+      "box": {
+        "left": 226.8,
+        "top": 350.5,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iV30OthService": {
+      "type": "text",
+      "label": "IV30OthService",
+      "page": 2,
+      "box": {
+        "left": 265.6,
+        "top": 350.3,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iV30NumIncid": {
+      "type": "text",
+      "label": "IV30NumIncid",
+      "page": 2,
+      "box": {
+        "left": 109.0,
+        "top": 350.2,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "iV30Others": {
+      "type": "text",
+      "label": "IV30Others",
+      "page": 2,
+      "box": {
+        "left": 382.4,
+        "top": 350.0,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iV31Alcohol": {
+      "type": "checkbox",
+      "label": "IV31Alcohol",
+      "page": 2,
+      "box": {
+        "left": 524.4,
+        "top": 312.3,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iV31Juve": {
+      "type": "checkbox",
+      "label": "IV31Juve",
+      "page": 2,
+      "box": {
+        "left": 563.6,
+        "top": 312.0,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iV31NoCases": {
+      "type": "checkbox",
+      "label": "IV31NoCases",
+      "page": 2,
+      "box": {
+        "left": 436.1,
+        "top": 311.8,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes61": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 194.0,
+        "top": 310.9,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_1_subform_4_Rad1Yes_36"
+    },
+    "iv31dodciv": {
+      "type": "text",
+      "label": "IV31DODCIV",
+      "page": 2,
+      "box": {
+        "left": 304.7,
+        "top": 310.9,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iV31MilDepen": {
+      "type": "text",
+      "label": "IV31MilDepen",
+      "page": 2,
+      "box": {
+        "left": 344.0,
+        "top": 310.9,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iv31usmc": {
+      "type": "text",
+      "label": "IV31USMC",
+      "page": 2,
+      "box": {
+        "left": 226.8,
+        "top": 310.8,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "rad1Yes62": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 161.0,
+        "top": 310.6,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_1_subform_4_Rad1Yes_36"
+    },
+    "iV31OthService": {
+      "type": "text",
+      "label": "IV31OthService",
+      "page": 2,
+      "box": {
+        "left": 265.6,
+        "top": 310.6,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iV31NumIncid": {
+      "type": "text",
+      "label": "IV31NumIncid",
+      "page": 2,
+      "box": {
+        "left": 109.0,
+        "top": 310.5,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "iV31Others": {
+      "type": "text",
+      "label": "IV31Others",
+      "page": 2,
+      "box": {
+        "left": 382.4,
+        "top": 310.3,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iV32Alcohol": {
+      "type": "checkbox",
+      "label": "IV32Alcohol",
+      "page": 2,
+      "box": {
+        "left": 524.3,
+        "top": 289.8,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iV32Juve": {
+      "type": "checkbox",
+      "label": "IV32Juve",
+      "page": 2,
+      "box": {
+        "left": 563.5,
+        "top": 289.5,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iV32NoCases": {
+      "type": "checkbox",
+      "label": "IV32NoCases",
+      "page": 2,
+      "box": {
+        "left": 435.9,
+        "top": 289.3,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes63": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 193.9,
+        "top": 288.3,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_1_Rad1Yes_29"
+    },
+    "iv32dodciv": {
+      "type": "text",
+      "label": "IV32DODCIV",
+      "page": 2,
+      "box": {
+        "left": 304.6,
+        "top": 288.3,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iV32MilDepen": {
+      "type": "text",
+      "label": "IV32MilDepen",
+      "page": 2,
+      "box": {
+        "left": 343.8,
+        "top": 288.3,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iv32usmc": {
+      "type": "text",
+      "label": "IV32USMC",
+      "page": 2,
+      "box": {
+        "left": 226.7,
+        "top": 288.2,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iV32OthService": {
+      "type": "text",
+      "label": "IV32OthService",
+      "page": 2,
+      "box": {
+        "left": 265.5,
+        "top": 288.1,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iV32NumIncid": {
+      "type": "text",
+      "label": "IV32NumIncid",
+      "page": 2,
+      "box": {
+        "left": 108.9,
+        "top": 287.9,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "rad1Yes64": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 160.9,
+        "top": 287.9,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_1_Rad1Yes_29"
+    },
+    "iV32Others": {
+      "type": "text",
+      "label": "IV32Others",
+      "page": 2,
+      "box": {
+        "left": 382.2,
+        "top": 287.8,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "rad1Yes65": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 193.4,
+        "top": 264.1,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_1_Rad1Yes_30"
+    },
+    "rad1Yes66": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 160.3,
+        "top": 263.7,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_1_Rad1Yes_30"
+    },
+    "iV32Alcohol2": {
+      "type": "checkbox",
+      "label": "IV32Alcohol",
+      "page": 2,
+      "box": {
+        "left": 524.4,
+        "top": 263.7,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iV32Juve2": {
+      "type": "checkbox",
+      "label": "IV32Juve",
+      "page": 2,
+      "box": {
+        "left": 563.6,
+        "top": 263.5,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iV32NoCases2": {
+      "type": "checkbox",
+      "label": "IV32NoCases",
+      "page": 2,
+      "box": {
+        "left": 436.1,
+        "top": 263.2,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "iv32dodciv2": {
+      "type": "text",
+      "label": "IV32DODCIV",
+      "page": 2,
+      "box": {
+        "left": 304.7,
+        "top": 263.1,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iV32MilDepen2": {
+      "type": "text",
+      "label": "IV32MilDepen",
+      "page": 2,
+      "box": {
+        "left": 344.0,
+        "top": 263.1,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iv32usmc2": {
+      "type": "text",
+      "label": "IV32USMC",
+      "page": 2,
+      "box": {
+        "left": 226.8,
+        "top": 262.9,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iV32OthService2": {
+      "type": "text",
+      "label": "IV32OthService",
+      "page": 2,
+      "box": {
+        "left": 265.6,
+        "top": 262.8,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "iV32NumIncid2": {
+      "type": "text",
+      "label": "IV32NumIncid",
+      "page": 2,
+      "box": {
+        "left": 109.0,
+        "top": 262.7,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "iV32Others2": {
+      "type": "text",
+      "label": "IV32Others",
+      "page": 2,
+      "box": {
+        "left": 382.4,
+        "top": 262.5,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "rad1Yes67": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 198.1,
+        "top": 216.0,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_1_Rad1Yes_31"
+    },
+    "v34Drugs": {
+      "type": "checkbox",
+      "label": "V34Drugs",
+      "page": 2,
+      "box": {
+        "left": 484.9,
+        "top": 215.8,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes68": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 160.3,
+        "top": 215.7,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_1_Rad1Yes_31"
+    },
+    "v34Alcohol": {
+      "type": "checkbox",
+      "label": "V34Alcohol",
+      "page": 2,
+      "box": {
+        "left": 524.3,
+        "top": 215.7,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "v34Juve": {
+      "type": "checkbox",
+      "label": "V34Juve",
+      "page": 2,
+      "box": {
+        "left": 563.5,
+        "top": 215.4,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "v34NoCases": {
+      "type": "checkbox",
+      "label": "V34NoCases",
+      "page": 2,
+      "box": {
+        "left": 435.9,
+        "top": 215.2,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "v34dodciv": {
+      "type": "text",
+      "label": "V34DODCIV",
+      "page": 2,
+      "box": {
+        "left": 304.6,
+        "top": 214.3,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "v34MilDepen": {
+      "type": "text",
+      "label": "V34MilDepen",
+      "page": 2,
+      "box": {
+        "left": 343.8,
+        "top": 214.3,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "v34usmc": {
+      "type": "text",
+      "label": "V34USMC",
+      "page": 2,
+      "box": {
+        "left": 226.7,
+        "top": 214.1,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "v34OthService": {
+      "type": "text",
+      "label": "V34OthService",
+      "page": 2,
+      "box": {
+        "left": 265.5,
+        "top": 214.0,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "v34NumIncid": {
+      "type": "text",
+      "label": "V34NumIncid",
+      "page": 2,
+      "box": {
+        "left": 108.9,
+        "top": 213.9,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "v34Others": {
+      "type": "text",
+      "label": "V34Others",
+      "page": 2,
+      "box": {
+        "left": 382.2,
+        "top": 213.7,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "v35Juve": {
+      "type": "checkbox",
+      "label": "V35Juve",
+      "page": 2,
+      "box": {
+        "left": 563.0,
+        "top": 191.2,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes69": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 197.6,
+        "top": 191.0,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_1_Rad1Yes_32"
+    },
+    "v35NoCases": {
+      "type": "checkbox",
+      "label": "V35NoCases",
+      "page": 2,
+      "box": {
+        "left": 435.5,
+        "top": 191.0,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "v35Drugs": {
+      "type": "checkbox",
+      "label": "V35Drugs",
+      "page": 2,
+      "box": {
+        "left": 484.4,
+        "top": 190.9,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "v35dodciv": {
+      "type": "text",
+      "label": "V35DODCIV",
+      "page": 2,
+      "box": {
+        "left": 304.1,
+        "top": 190.8,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "v35MilDepen": {
+      "type": "text",
+      "label": "V35MilDepen",
+      "page": 2,
+      "box": {
+        "left": 343.4,
+        "top": 190.8,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "v35Alcohol": {
+      "type": "checkbox",
+      "label": "V35Alcohol",
+      "page": 2,
+      "box": {
+        "left": 523.9,
+        "top": 190.8,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes70": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 159.8,
+        "top": 190.7,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_1_Rad1Yes_32"
+    },
+    "v35usmc": {
+      "type": "text",
+      "label": "V35USMC",
+      "page": 2,
+      "box": {
+        "left": 226.2,
+        "top": 190.7,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "v35OthService": {
+      "type": "text",
+      "label": "V35OthService",
+      "page": 2,
+      "box": {
+        "left": 265.1,
+        "top": 190.5,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "v35NumIncid": {
+      "type": "text",
+      "label": "V35NumIncid",
+      "page": 2,
+      "box": {
+        "left": 108.4,
+        "top": 190.4,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "v35Others": {
+      "type": "text",
+      "label": "V35Others",
+      "page": 2,
+      "box": {
+        "left": 381.8,
+        "top": 190.2,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "v36Juve": {
+      "type": "checkbox",
+      "label": "V36Juve",
+      "page": 2,
+      "box": {
+        "left": 563.1,
+        "top": 168.7,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes71": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 197.8,
+        "top": 168.5,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_1_Rad1Yes_34"
+    },
+    "v36NoCases": {
+      "type": "checkbox",
+      "label": "V36NoCases",
+      "page": 2,
+      "box": {
+        "left": 435.6,
+        "top": 168.5,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "v36Drugs": {
+      "type": "checkbox",
+      "label": "V36Drugs",
+      "page": 2,
+      "box": {
+        "left": 484.5,
+        "top": 168.4,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "v36dodciv": {
+      "type": "text",
+      "label": "V36DODCIV",
+      "page": 2,
+      "box": {
+        "left": 304.2,
+        "top": 168.3,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "v36MilDepen": {
+      "type": "text",
+      "label": "V36MilDepen",
+      "page": 2,
+      "box": {
+        "left": 343.5,
+        "top": 168.3,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "v36Alcohol": {
+      "type": "checkbox",
+      "label": "V36Alcohol",
+      "page": 2,
+      "box": {
+        "left": 524.0,
+        "top": 168.3,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes72": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 159.9,
+        "top": 168.2,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_1_Rad1Yes_34"
+    },
+    "v36usmc": {
+      "type": "text",
+      "label": "V36USMC",
+      "page": 2,
+      "box": {
+        "left": 226.4,
+        "top": 168.2,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "v36OthService": {
+      "type": "text",
+      "label": "V36OthService",
+      "page": 2,
+      "box": {
+        "left": 265.2,
+        "top": 168.0,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "v36NumIncid": {
+      "type": "text",
+      "label": "V36NumIncid",
+      "page": 2,
+      "box": {
+        "left": 108.6,
+        "top": 167.9,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "v36Others": {
+      "type": "text",
+      "label": "V36Others",
+      "page": 2,
+      "box": {
+        "left": 381.9,
+        "top": 167.7,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "v37Juve": {
+      "type": "checkbox",
+      "label": "V37Juve",
+      "page": 2,
+      "box": {
+        "left": 563.5,
+        "top": 144.2,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes73": {
+      "type": "radio",
+      "label": "0",
+      "page": 2,
+      "box": {
+        "left": 198.1,
+        "top": 144.0,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_1_Rad1Yes_33"
+    },
+    "v37NoCases": {
+      "type": "checkbox",
+      "label": "V37NoCases",
+      "page": 2,
+      "box": {
+        "left": 435.9,
+        "top": 144.0,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "v37Drugs": {
+      "type": "checkbox",
+      "label": "V37Drugs",
+      "page": 2,
+      "box": {
+        "left": 484.9,
+        "top": 143.9,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "v37dodciv": {
+      "type": "text",
+      "label": "V37DODCIV",
+      "page": 2,
+      "box": {
+        "left": 304.6,
+        "top": 143.8,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "v37MilDepen": {
+      "type": "text",
+      "label": "V37MilDepen",
+      "page": 2,
+      "box": {
+        "left": 343.8,
+        "top": 143.8,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "rad1Yes74": {
+      "type": "radio",
+      "label": "1",
+      "page": 2,
+      "box": {
+        "left": 160.3,
+        "top": 143.7,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_1_Rad1Yes_33"
+    },
+    "v37usmc": {
+      "type": "text",
+      "label": "V37USMC",
+      "page": 2,
+      "box": {
+        "left": 226.7,
+        "top": 143.7,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "v37Alcohol": {
+      "type": "checkbox",
+      "label": "V37Alcohol",
+      "page": 2,
+      "box": {
+        "left": 524.3,
+        "top": 143.7,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "v37OthService": {
+      "type": "text",
+      "label": "V37OthService",
+      "page": 2,
+      "box": {
+        "left": 265.5,
+        "top": 143.5,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "v37NumIncid": {
+      "type": "text",
+      "label": "V37NumIncid",
+      "page": 2,
+      "box": {
+        "left": 108.9,
+        "top": 143.4,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "v37Others": {
+      "type": "text",
+      "label": "V37Others",
+      "page": 2,
+      "box": {
+        "left": 382.2,
+        "top": 143.2,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "vI38Drugs": {
+      "type": "checkbox",
+      "label": "VI38Drugs",
+      "page": 3,
+      "box": {
+        "left": 484.9,
+        "top": 604.5,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "vI38Juve": {
+      "type": "checkbox",
+      "label": "VI38Juve",
+      "page": 3,
+      "box": {
+        "left": 563.5,
+        "top": 604.1,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes75": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 201.2,
+        "top": 603.9,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_5_Rad1Yes_37"
+    },
+    "vI38NoCases": {
+      "type": "checkbox",
+      "label": "VI38NoCases",
+      "page": 3,
+      "box": {
+        "left": 435.9,
+        "top": 603.8,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes76": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 170.8,
+        "top": 603.6,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_5_Rad1Yes_37"
+    },
+    "vi38dodciv": {
+      "type": "text",
+      "label": "VI38DODCIV",
+      "page": 3,
+      "box": {
+        "left": 304.6,
+        "top": 602.9,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "vI38MilDepen": {
+      "type": "text",
+      "label": "VI38MilDepen",
+      "page": 3,
+      "box": {
+        "left": 343.8,
+        "top": 602.9,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "vi38usmc": {
+      "type": "text",
+      "label": "VI38USMC",
+      "page": 3,
+      "box": {
+        "left": 226.7,
+        "top": 602.8,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "vI38OthService": {
+      "type": "text",
+      "label": "VI38OthService",
+      "page": 3,
+      "box": {
+        "left": 265.5,
+        "top": 602.7,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "vI38NumIncid": {
+      "type": "text",
+      "label": "VI38NumIncid",
+      "page": 3,
+      "box": {
+        "left": 120.0,
+        "top": 602.5,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "vI38Others": {
+      "type": "text",
+      "label": "VI38Others",
+      "page": 3,
+      "box": {
+        "left": 382.2,
+        "top": 602.3,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "rad1Yes77": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 201.4,
+        "top": 580.1,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_5_Rad1Yes_38"
+    },
+    "vI39Juve": {
+      "type": "checkbox",
+      "label": "VI39Juve",
+      "page": 3,
+      "box": {
+        "left": 563.0,
+        "top": 579.9,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "rad1Yes78": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 170.9,
+        "top": 579.8,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_5_Rad1Yes_38"
+    },
+    "vI39NoCases": {
+      "type": "checkbox",
+      "label": "VI39NoCases",
+      "page": 3,
+      "box": {
+        "left": 435.5,
+        "top": 579.7,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "vi39dodciv": {
+      "type": "text",
+      "label": "VI39DODCIV",
+      "page": 3,
+      "box": {
+        "left": 304.1,
+        "top": 579.5,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "vI39MilDepen": {
+      "type": "text",
+      "label": "VI39MilDepen",
+      "page": 3,
+      "box": {
+        "left": 343.4,
+        "top": 579.5,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "vI39Drugs": {
+      "type": "checkbox",
+      "label": "VI39Drugs",
+      "page": 3,
+      "box": {
+        "left": 484.4,
+        "top": 579.5,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "vi39usmc": {
+      "type": "text",
+      "label": "VI39USMC",
+      "page": 3,
+      "box": {
+        "left": 226.2,
+        "top": 579.4,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "vI39OthService": {
+      "type": "text",
+      "label": "VI39OthService",
+      "page": 3,
+      "box": {
+        "left": 265.1,
+        "top": 579.2,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "vI39NumIncid": {
+      "type": "text",
+      "label": "VI39NumIncid",
+      "page": 3,
+      "box": {
+        "left": 119.5,
+        "top": 579.1,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "vI39Others": {
+      "type": "text",
+      "label": "VI39Others",
+      "page": 3,
+      "box": {
+        "left": 381.8,
+        "top": 578.9,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "vI40Juve": {
+      "type": "checkbox",
+      "label": "VI40Juve",
+      "page": 3,
+      "box": {
+        "left": 563.1,
+        "top": 557.4,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "vI40NoCases": {
+      "type": "checkbox",
+      "label": "VI40NoCases",
+      "page": 3,
+      "box": {
+        "left": 435.6,
+        "top": 557.2,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "vI40Drugs": {
+      "type": "checkbox",
+      "label": "VI40Drugs",
+      "page": 3,
+      "box": {
+        "left": 484.5,
+        "top": 557.1,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "vi40dodciv": {
+      "type": "text",
+      "label": "VI40DODCIV",
+      "page": 3,
+      "box": {
+        "left": 304.2,
+        "top": 557.0,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "vI40MilDepen": {
+      "type": "text",
+      "label": "VI40MilDepen",
+      "page": 3,
+      "box": {
+        "left": 343.5,
+        "top": 557.0,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "rad1Yes79": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 201.5,
+        "top": 556.9,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_5_Rad1Yes_39"
+    },
+    "vi40usmc": {
+      "type": "text",
+      "label": "VI40USMC",
+      "page": 3,
+      "box": {
+        "left": 226.4,
+        "top": 556.9,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "vI40OthService": {
+      "type": "text",
+      "label": "VI40OthService",
+      "page": 3,
+      "box": {
+        "left": 265.2,
+        "top": 556.7,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "vI40NumIncid": {
+      "type": "text",
+      "label": "VI40NumIncid",
+      "page": 3,
+      "box": {
+        "left": 119.6,
+        "top": 556.6,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "rad1Yes80": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 170.9,
+        "top": 556.6,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_5_Rad1Yes_39"
+    },
+    "vI40Others": {
+      "type": "text",
+      "label": "VI40Others",
+      "page": 3,
+      "box": {
+        "left": 381.9,
+        "top": 556.4,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "rad1Yes81": {
+      "type": "radio",
+      "label": "0",
+      "page": 3,
+      "box": {
+        "left": 201.1,
+        "top": 533.8,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_5_Rad1Yes_40"
+    },
+    "rad1Yes82": {
+      "type": "radio",
+      "label": "1",
+      "page": 3,
+      "box": {
+        "left": 170.6,
+        "top": 533.5,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "group": "form1_0_subform_5_Rad1Yes_40"
+    },
+    "vI41Juve": {
+      "type": "checkbox",
+      "label": "VI41Juve",
+      "page": 3,
+      "box": {
+        "left": 563.5,
+        "top": 532.9,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "vI41NoCases": {
+      "type": "checkbox",
+      "label": "VI41NoCases",
+      "page": 3,
+      "box": {
+        "left": 435.9,
+        "top": 532.6,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "vI41Drugs": {
+      "type": "checkbox",
+      "label": "VI41Drugs",
+      "page": 3,
+      "box": {
+        "left": 484.9,
+        "top": 532.5,
+        "width": 13.0,
+        "height": 13.0
+      }
+    },
+    "vi41dodciv": {
+      "type": "text",
+      "label": "VI41DODCIV",
+      "page": 3,
+      "box": {
+        "left": 304.6,
+        "top": 532.4,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "vI41MilDepen": {
+      "type": "text",
+      "label": "VI41MilDepen",
+      "page": 3,
+      "box": {
+        "left": 343.8,
+        "top": 532.4,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "vi41usmc": {
+      "type": "text",
+      "label": "VI41USMC",
+      "page": 3,
+      "box": {
+        "left": 226.7,
+        "top": 532.3,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "vI41OthService": {
+      "type": "text",
+      "label": "VI41OthService",
+      "page": 3,
+      "box": {
+        "left": 265.5,
+        "top": 532.2,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "vI41NumIncid": {
+      "type": "text",
+      "label": "VI41NumIncid",
+      "page": 3,
+      "box": {
+        "left": 120.0,
+        "top": 532.0,
+        "width": 30.3,
+        "height": 11.1
+      }
+    },
+    "vI41Others": {
+      "type": "text",
+      "label": "VI41Others",
+      "page": 3,
+      "box": {
+        "left": 382.2,
+        "top": 531.9,
+        "width": 27.9,
+        "height": 11.1
+      }
+    },
+    "vI42bOthBasePers": {
+      "type": "text",
+      "label": "VI42bOthBasePers",
+      "page": 3,
+      "box": {
+        "left": 429.4,
+        "top": 466.5,
+        "width": 46.9,
+        "height": 15.8
+      }
+    },
+    "vI42MilOnBase": {
+      "type": "text",
+      "label": "VI42MilOnBase",
+      "page": 3,
+      "box": {
+        "left": 135.0,
+        "top": 466.1,
+        "width": 46.9,
+        "height": 15.8
+      }
+    },
+    "vI42OthBasePers": {
+      "type": "text",
+      "label": "VI42OthBasePers",
+      "page": 3,
+      "box": {
+        "left": 191.5,
+        "top": 466.1,
+        "width": 49.4,
+        "height": 15.8
+      }
+    },
+    "vI42OthOTD": {
+      "type": "text",
+      "label": "VI42OthOTD",
+      "page": 3,
+      "box": {
+        "left": 252.6,
+        "top": 466.1,
+        "width": 46.9,
+        "height": 15.8
+      }
+    },
+    "vI42bMilOnBase": {
+      "type": "text",
+      "label": "VI42bMilOnBase",
+      "page": 3,
+      "box": {
+        "left": 373.5,
+        "top": 466.1,
+        "width": 45.6,
+        "height": 15.8
+      }
+    },
+    "vI42bOthOTD": {
+      "type": "text",
+      "label": "VI42bOthOTD",
+      "page": 3,
+      "box": {
+        "left": 485.7,
+        "top": 465.9,
+        "width": 44.3,
+        "height": 15.8
+      }
+    },
+    "vI42Total": {
+      "type": "text",
+      "label": "VI42Total",
+      "page": 3,
+      "box": {
+        "left": 539.1,
+        "top": 465.7,
+        "width": 50.3,
+        "height": 15.8
+      }
+    },
+    "vI43bOthBasePers": {
+      "type": "text",
+      "label": "VI43bOthBasePers",
+      "page": 3,
+      "box": {
+        "left": 429.4,
+        "top": 441.2,
+        "width": 46.9,
+        "height": 15.8
+      }
+    },
+    "vI43OthBasePers": {
+      "type": "text",
+      "label": "VI43OthBasePers",
+      "page": 3,
+      "box": {
+        "left": 192.7,
+        "top": 441.0,
+        "width": 46.9,
+        "height": 15.8
+      }
+    },
+    "vI43bMilOnBase": {
+      "type": "text",
+      "label": "VI43bMilOnBase",
+      "page": 3,
+      "box": {
+        "left": 373.5,
+        "top": 440.9,
+        "width": 45.6,
+        "height": 15.8
+      }
+    },
+    "vI43MilOnBase": {
+      "type": "text",
+      "label": "VI43MilOnBase",
+      "page": 3,
+      "box": {
+        "left": 134.8,
+        "top": 440.8,
+        "width": 46.9,
+        "height": 15.8
+      }
+    },
+    "vI43Total": {
+      "type": "text",
+      "label": "VI43Total",
+      "page": 3,
+      "box": {
+        "left": 539.3,
+        "top": 440.8,
+        "width": 50.3,
+        "height": 15.8
+      }
+    },
+    "vI43bOthOTD": {
+      "type": "text",
+      "label": "VI43bOthOTD",
+      "page": 3,
+      "box": {
+        "left": 485.8,
+        "top": 440.6,
+        "width": 44.2,
+        "height": 15.8
+      }
+    },
+    "vI43OthOTD": {
+      "type": "text",
+      "label": "VI43OthOTD",
+      "page": 3,
+      "box": {
+        "left": 252.3,
+        "top": 440.1,
+        "width": 46.9,
+        "height": 15.8
+      }
+    },
+    "noAcc": {
+      "type": "text",
+      "label": "a. Number of Accidents",
+      "page": 3,
+      "box": {
+        "left": 135.5,
+        "top": 414.9,
+        "width": 130.7,
+        "height": 21.1
+      }
+    },
+    "involve": {
+      "type": "text",
+      "label": "c. Involvement",
+      "page": 3,
+      "box": {
+        "left": 525.7,
+        "top": 414.8,
+        "width": 64.5,
+        "height": 21.0
+      }
+    },
+    "noPersons": {
+      "type": "text",
+      "label": "b. Number of Persons",
+      "page": 3,
+      "box": {
+        "left": 353.0,
+        "top": 413.8,
+        "width": 98.9,
+        "height": 20.2
+      }
+    },
+    "textField1": {
+      "type": "text",
+      "label": "Base Pers\n ",
+      "page": 3,
+      "box": {
+        "left": 312.3,
+        "top": 354.3,
+        "width": 32.3,
+        "height": 19.0
+      }
+    },
+    "textField12": {
+      "type": "text",
+      "label": "Base Pers\n ",
+      "page": 3,
+      "box": {
+        "left": 392.8,
+        "top": 354.3,
+        "width": 31.9,
+        "height": 19.0
+      }
+    },
+    "textField13": {
+      "type": "text",
+      "label": "Drugs ",
+      "page": 3,
+      "box": {
+        "left": 475.7,
+        "top": 354.3,
+        "width": 31.9,
+        "height": 19.0
+      }
+    },
+    "textField14": {
+      "type": "text",
+      "label": "Drugs",
+      "page": 3,
+      "box": {
+        "left": 556.5,
+        "top": 354.3,
+        "width": 31.9,
+        "height": 19.0
+      }
+    },
+    "textField15": {
+      "type": "text",
+      "label": "Other\n ",
+      "page": 3,
+      "box": {
+        "left": 312.3,
+        "top": 329.7,
+        "width": 32.3,
+        "height": 19.0
+      }
+    },
+    "textField16": {
+      "type": "text",
+      "label": "Other\n ",
+      "page": 3,
+      "box": {
+        "left": 392.8,
+        "top": 329.7,
+        "width": 31.7,
+        "height": 19.0
+      }
+    },
+    "textField17": {
+      "type": "text",
+      "label": "Alcohol\n ",
+      "page": 3,
+      "box": {
+        "left": 475.8,
+        "top": 329.7,
+        "width": 31.7,
+        "height": 19.0
+      }
+    },
+    "textField18": {
+      "type": "text",
+      "label": "Alcohol\n ",
+      "page": 3,
+      "box": {
+        "left": 556.5,
+        "top": 329.7,
+        "width": 31.7,
+        "height": 19.0
+      }
+    },
+    "vI44aFatal": {
+      "type": "text",
+      "label": "VI44aFatal",
+      "page": 3,
+      "box": {
+        "left": 87.6,
+        "top": 302.7,
+        "width": 49.4,
+        "height": 22.7
+      }
+    },
+    "vI44aNonFatal": {
+      "type": "text",
+      "label": "VI44aNonFatal",
+      "page": 3,
+      "box": {
+        "left": 147.4,
+        "top": 302.7,
+        "width": 49.4,
+        "height": 22.5
+      }
+    },
+    "vI44Injured": {
+      "type": "text",
+      "label": "VI44Injured",
+      "page": 3,
+      "box": {
+        "left": 353.8,
+        "top": 302.7,
+        "width": 72.1,
+        "height": 23.1
+      }
+    },
+    "vI44PropDam": {
+      "type": "text",
+      "label": "VI44PropDam",
+      "page": 3,
+      "box": {
+        "left": 208.3,
+        "top": 302.2,
+        "width": 54.2,
+        "height": 23.8
+      }
+    },
+    "vI44Killed": {
+      "type": "text",
+      "label": "VI44Killed",
+      "page": 3,
+      "box": {
+        "left": 271.8,
+        "top": 302.2,
+        "width": 72.1,
+        "height": 22.4
+      }
+    },
+    "vI44cFatal": {
+      "type": "text",
+      "label": "VI44cFatal",
+      "page": 3,
+      "box": {
+        "left": 436.5,
+        "top": 302.2,
+        "width": 72.1,
+        "height": 22.6
+      }
+    },
+    "vI44bNonFatal": {
+      "type": "text",
+      "label": "VI44bNonFatal",
+      "page": 3,
+      "box": {
+        "left": 516.8,
+        "top": 301.7,
+        "width": 72.1,
+        "height": 22.1
+      }
+    },
+    "vI45aNonFatal": {
+      "type": "text",
+      "label": "VI45aNonFatal",
+      "page": 3,
+      "box": {
+        "left": 147.1,
+        "top": 270.8,
+        "width": 49.4,
+        "height": 26.8
+      }
+    },
+    "vI45Killed": {
+      "type": "text",
+      "label": "VI45Killed",
+      "page": 3,
+      "box": {
+        "left": 271.7,
+        "top": 270.5,
+        "width": 72.1,
+        "height": 26.8
+      }
+    },
+    "vI45aFatal": {
+      "type": "text",
+      "label": "VI45aFatal",
+      "page": 3,
+      "box": {
+        "left": 87.3,
+        "top": 270.4,
+        "width": 49.4,
+        "height": 26.6
+      }
+    },
+    "vI45Injured": {
+      "type": "text",
+      "label": "VI45Injured",
+      "page": 3,
+      "box": {
+        "left": 353.7,
+        "top": 270.4,
+        "width": 72.1,
+        "height": 26.8
+      }
+    },
+    "vI45cFatal": {
+      "type": "text",
+      "label": "VI45cFatal",
+      "page": 3,
+      "box": {
+        "left": 436.4,
+        "top": 270.4,
+        "width": 72.1,
+        "height": 26.8
+      }
+    },
+    "vI45bNonFatal": {
+      "type": "text",
+      "label": "VI45bNonFatal",
+      "page": 3,
+      "box": {
+        "left": 516.7,
+        "top": 270.4,
+        "width": 72.1,
+        "height": 26.8
+      }
+    },
+    "vI45PropDam": {
+      "type": "text",
+      "label": "VI45PropDam",
+      "page": 3,
+      "box": {
+        "left": 207.9,
+        "top": 270.3,
+        "width": 54.5,
+        "height": 26.8
+      }
+    },
+    "vIINumDepChil46": {
+      "type": "text",
+      "label": "VIINumDepChil46",
+      "page": 3,
+      "box": {
+        "left": 311.8,
+        "top": 208.9,
+        "width": 62.1,
+        "height": 13.5
+      }
+    },
+    "vIINumFPChil46": {
+      "type": "text",
+      "label": "VIINumFPChil46",
+      "page": 3,
+      "box": {
+        "left": 489.4,
+        "top": 208.2,
+        "width": 45.3,
+        "height": 13.5
+      }
+    },
+    "vIINumFPChil462": {
+      "type": "text",
+      "label": "VIINumFPChil46",
+      "page": 3,
+      "box": {
+        "left": 543.9,
+        "top": 208.2,
+        "width": 46.5,
+        "height": 13.6
+      }
+    },
+    "vIINumPSSChil47": {
+      "type": "text",
+      "label": "VIINumPSSChil47",
+      "page": 3,
+      "box": {
+        "left": 489.8,
+        "top": 183.7,
+        "width": 45.6,
+        "height": 13.5
+      }
+    },
+    "vIINumPSSChil472": {
+      "type": "text",
+      "label": "VIINumPSSChil47",
+      "page": 3,
+      "box": {
+        "left": 543.9,
+        "top": 183.7,
+        "width": 46.5,
+        "height": 13.5
+      }
+    },
+    "vIINumSurvReq47": {
+      "type": "text",
+      "label": "VIINumSurvReq47",
+      "page": 3,
+      "box": {
+        "left": 311.8,
+        "top": 183.6,
+        "width": 62.1,
+        "height": 13.5
+      }
+    },
+    "vIINumCPSChil48": {
+      "type": "text",
+      "label": "VIINumCPSChil48",
+      "page": 3,
+      "box": {
+        "left": 490.2,
+        "top": 157.9,
+        "width": 44.6,
+        "height": 13.5
+      }
+    },
+    "vIINumCPSChil482": {
+      "type": "text",
+      "label": "VIINumCPSChil48",
+      "page": 3,
+      "box": {
+        "left": 543.9,
+        "top": 157.8,
+        "width": 46.5,
+        "height": 13.5
+      }
+    },
+    "vIINumCPSurvReq48": {
+      "type": "text",
+      "label": "VIINumCPSurvReq48",
+      "page": 3,
+      "box": {
+        "left": 311.0,
+        "top": 157.6,
+        "width": 62.1,
+        "height": 13.5
+      }
+    },
+    "vIII49Population": {
+      "type": "text",
+      "label": "VIII49Population",
+      "page": 3,
+      "box": {
+        "left": 180.1,
+        "top": 109.5,
+        "width": 121.3,
+        "height": 10.1
+      }
+    },
+    "iX57PersStrg": {
+      "type": "text",
+      "label": "IX57PersStrg",
+      "page": 3,
+      "box": {
+        "left": 495.4,
+        "top": 109.0,
+        "width": 93.5,
+        "height": 8.4
+      }
+    },
+    "iX53PersStrg": {
+      "type": "text",
+      "label": "IX53PersStrg",
+      "page": 3,
+      "box": {
+        "left": 346.6,
+        "top": 108.6,
+        "width": 103.5,
+        "height": 8.4
+      }
+    },
+    "ix57": {
+      "type": "text",
+      "label": "IX57",
+      "page": 3,
+      "box": {
+        "left": 471.0,
+        "top": 108.6,
+        "width": 15.3,
+        "height": 8.4
+      }
+    },
+    "ix53": {
+      "type": "text",
+      "label": "IX53",
+      "page": 3,
+      "box": {
+        "left": 323.1,
+        "top": 108.5,
+        "width": 15.3,
+        "height": 8.4
+      }
+    },
+    "vIII50Population": {
+      "type": "text",
+      "label": "VIII50Population",
+      "page": 3,
+      "box": {
+        "left": 179.2,
+        "top": 91.9,
+        "width": 121.3,
+        "height": 10.1
+      }
+    },
+    "iX58PersStrg": {
+      "type": "text",
+      "label": "IX58PersStrg",
+      "page": 3,
+      "box": {
+        "left": 495.4,
+        "top": 90.9,
+        "width": 93.4,
+        "height": 8.4
+      }
+    },
+    "ix54": {
+      "type": "text",
+      "label": "IX54",
+      "page": 3,
+      "box": {
+        "left": 323.1,
+        "top": 90.4,
+        "width": 15.3,
+        "height": 8.4
+      }
+    },
+    "iX54PersStrg": {
+      "type": "text",
+      "label": "IX54PersStrg",
+      "page": 3,
+      "box": {
+        "left": 346.5,
+        "top": 90.4,
+        "width": 103.5,
+        "height": 8.4
+      }
+    },
+    "ix58": {
+      "type": "text",
+      "label": "IX58",
+      "page": 3,
+      "box": {
+        "left": 471.0,
+        "top": 90.4,
+        "width": 15.3,
+        "height": 8.4
+      }
+    },
+    "vIII51Population": {
+      "type": "text",
+      "label": "VIII51Population",
+      "page": 3,
+      "box": {
+        "left": 179.4,
+        "top": 72.1,
+        "width": 121.3,
+        "height": 10.1
+      }
+    },
+    "iX59PersStrg": {
+      "type": "text",
+      "label": "IX59PersStrg",
+      "page": 3,
+      "box": {
+        "left": 495.4,
+        "top": 71.6,
+        "width": 93.3,
+        "height": 8.4
+      }
+    },
+    "iX55PersStrg": {
+      "type": "text",
+      "label": "IX55PersStrg",
+      "page": 3,
+      "box": {
+        "left": 346.4,
+        "top": 71.2,
+        "width": 103.5,
+        "height": 8.4
+      }
+    },
+    "ix59": {
+      "type": "text",
+      "label": "IX59",
+      "page": 3,
+      "box": {
+        "left": 471.0,
+        "top": 71.2,
+        "width": 15.3,
+        "height": 8.4
+      }
+    },
+    "ix55": {
+      "type": "text",
+      "label": "IX55",
+      "page": 3,
+      "box": {
+        "left": 323.1,
+        "top": 71.1,
+        "width": 15.3,
+        "height": 8.4
+      }
+    },
+    "vIII52Population": {
+      "type": "text",
+      "label": "VIII52Population",
+      "page": 3,
+      "box": {
+        "left": 179.8,
+        "top": 53.8,
+        "width": 121.3,
+        "height": 10.1
+      }
+    },
+    "iX60PersStrg": {
+      "type": "text",
+      "label": "IX60PersStrg",
+      "page": 3,
+      "box": {
+        "left": 495.4,
+        "top": 53.2,
+        "width": 93.5,
+        "height": 8.4
+      }
+    },
+    "iX56PersStrg": {
+      "type": "text",
+      "label": "IX56PersStrg",
+      "page": 3,
+      "box": {
+        "left": 346.6,
+        "top": 52.8,
+        "width": 103.5,
+        "height": 8.4
+      }
+    },
+    "ix60": {
+      "type": "text",
+      "label": "IX60",
+      "page": 3,
+      "box": {
+        "left": 471.0,
+        "top": 52.8,
+        "width": 15.3,
+        "height": 8.4
+      }
+    },
+    "ix56": {
+      "type": "text",
+      "label": "IX56",
+      "page": 3,
+      "box": {
+        "left": 323.1,
+        "top": 52.7,
+        "width": 15.3,
+        "height": 8.4
+      }
+    }
+  }
+}

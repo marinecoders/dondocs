@@ -1,0 +1,550 @@
+{
+  "id": "navpers132016",
+  "label": "NAVPERS1320-16 - Temp Additional Duty (temadd) Travel Order",
+  "directory": "NAVPERS1320-16 - Temp Additional Duty (temadd) Travel Order",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "text1",
+        "x2",
+        "x4",
+        "x3",
+        "x5",
+        "x6",
+        "text109",
+        "x7",
+        "x11",
+        "x12",
+        "x9",
+        "x10",
+        "checkBox122",
+        "checkBox1222",
+        "checkBox1223",
+        "text2",
+        "x15",
+        "checkBox123",
+        "x20",
+        "x21",
+        "x17a",
+        "x17b",
+        "x18",
+        "x19",
+        "x24",
+        "x25",
+        "x26",
+        "x28",
+        "text110",
+        "text112",
+        "text111",
+        "x23",
+        "x27",
+        "text113",
+        "text118",
+        "text116",
+        "text117",
+        "text119",
+        "text120",
+        "text121",
+        "textField1",
+        "text114",
+        "text115"
+      ]
+    }
+  ],
+  "fields": {
+    "text1": {
+      "type": "text",
+      "label": "Text1",
+      "page": 1,
+      "box": {
+        "left": 40.0,
+        "top": 744.3,
+        "width": 389.6,
+        "height": 27.3
+      }
+    },
+    "x2": {
+      "type": "text",
+      "label": "x2",
+      "page": 1,
+      "box": {
+        "left": 451.2,
+        "top": 741.8,
+        "width": 129.7,
+        "height": 19.7
+      }
+    },
+    "x4": {
+      "type": "text",
+      "label": "x4",
+      "page": 1,
+      "box": {
+        "left": 450.7,
+        "top": 706.0,
+        "width": 129.1,
+        "height": 14.1
+      }
+    },
+    "x3": {
+      "type": "text",
+      "label": "x3",
+      "page": 1,
+      "box": {
+        "left": 41.3,
+        "top": 703.9,
+        "width": 390.1,
+        "height": 68.3
+      },
+      "multiline": true
+    },
+    "x5": {
+      "type": "text",
+      "label": "x5",
+      "page": 1,
+      "box": {
+        "left": 451.8,
+        "top": 682.3,
+        "width": 129.2,
+        "height": 16.1
+      }
+    },
+    "x6": {
+      "type": "text",
+      "label": "x6",
+      "page": 1,
+      "box": {
+        "left": 451.7,
+        "top": 655.5,
+        "width": 129.1,
+        "height": 19.6
+      }
+    },
+    "text109": {
+      "type": "text",
+      "label": "Text109",
+      "page": 1,
+      "box": {
+        "left": 449.5,
+        "top": 627.0,
+        "width": 141.0,
+        "height": 22.5
+      }
+    },
+    "x7": {
+      "type": "text",
+      "label": "x7",
+      "page": 1,
+      "box": {
+        "left": 36.4,
+        "top": 622.7,
+        "width": 397.4,
+        "height": 19.6
+      }
+    },
+    "x11": {
+      "type": "text",
+      "label": "x11",
+      "page": 1,
+      "box": {
+        "left": 347.0,
+        "top": 591.0,
+        "width": 87.2,
+        "height": 20.9
+      }
+    },
+    "x12": {
+      "type": "text",
+      "label": "x12",
+      "page": 1,
+      "box": {
+        "left": 445.5,
+        "top": 590.5,
+        "width": 143.1,
+        "height": 20.9
+      }
+    },
+    "x9": {
+      "type": "text",
+      "label": "x9",
+      "page": 1,
+      "box": {
+        "left": 30.4,
+        "top": 590.4,
+        "width": 115.1,
+        "height": 20.9
+      }
+    },
+    "x10": {
+      "type": "text",
+      "label": "x10",
+      "page": 1,
+      "box": {
+        "left": 194.9,
+        "top": 590.0,
+        "width": 105.2,
+        "height": 20.9
+      }
+    },
+    "checkBox122": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 383.0,
+        "top": 562.4,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "F_0_P1_0_Check_Box122_0"
+    },
+    "checkBox1222": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 447.0,
+        "top": 561.9,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "F_0_P1_0_Check_Box122_0"
+    },
+    "checkBox1223": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 526.5,
+        "top": 561.9,
+        "width": 11.0,
+        "height": 11.0
+      },
+      "group": "F_0_P1_0_Check_Box122_0"
+    },
+    "text2": {
+      "type": "text",
+      "label": "Text2",
+      "page": 1,
+      "box": {
+        "left": 31.8,
+        "top": 555.6,
+        "width": 324.8,
+        "height": 82.7
+      },
+      "multiline": true
+    },
+    "x15": {
+      "type": "text",
+      "label": "x15",
+      "page": 1,
+      "box": {
+        "left": 361.4,
+        "top": 534.0,
+        "width": 230.5,
+        "height": 28.8
+      }
+    },
+    "checkBox123": {
+      "type": "checkbox",
+      "label": "Check_Box123",
+      "page": 1,
+      "box": {
+        "left": 398.7,
+        "top": 492.5,
+        "width": 12.0,
+        "height": 12.0
+      }
+    },
+    "x20": {
+      "type": "text",
+      "label": "x20",
+      "page": 1,
+      "box": {
+        "left": 419.8,
+        "top": 401.2,
+        "width": 78.7,
+        "height": 42.0
+      },
+      "multiline": true
+    },
+    "x21": {
+      "type": "text",
+      "label": "x21",
+      "page": 1,
+      "box": {
+        "left": 500.9,
+        "top": 400.7,
+        "width": 91.7,
+        "height": 41.5
+      },
+      "multiline": true
+    },
+    "x17a": {
+      "type": "text",
+      "label": "x17a",
+      "page": 1,
+      "box": {
+        "left": 19.5,
+        "top": 400.5,
+        "width": 51.5,
+        "height": 42.0
+      },
+      "multiline": true
+    },
+    "x17b": {
+      "type": "text",
+      "label": "x17b",
+      "page": 1,
+      "box": {
+        "left": 73.7,
+        "top": 400.5,
+        "width": 51.0,
+        "height": 41.5
+      },
+      "multiline": true
+    },
+    "x18": {
+      "type": "text",
+      "label": "x18",
+      "page": 1,
+      "box": {
+        "left": 168.6,
+        "top": 400.5,
+        "width": 50.7,
+        "height": 42.5
+      },
+      "multiline": true
+    },
+    "x19": {
+      "type": "text",
+      "label": "x19",
+      "page": 1,
+      "box": {
+        "left": 289.4,
+        "top": 400.5,
+        "width": 64.7,
+        "height": 41.5
+      },
+      "multiline": true
+    },
+    "x24": {
+      "type": "text",
+      "label": "x24",
+      "page": 1,
+      "box": {
+        "left": 127.9,
+        "top": 400.2,
+        "width": 38.0,
+        "height": 41.5
+      },
+      "multiline": true
+    },
+    "x25": {
+      "type": "text",
+      "label": "x25",
+      "page": 1,
+      "box": {
+        "left": 222.1,
+        "top": 400.2,
+        "width": 63.7,
+        "height": 42.5
+      },
+      "multiline": true
+    },
+    "x26": {
+      "type": "text",
+      "label": "x26",
+      "page": 1,
+      "box": {
+        "left": 356.3,
+        "top": 400.2,
+        "width": 61.2,
+        "height": 42.5
+      },
+      "multiline": true
+    },
+    "x28": {
+      "type": "text",
+      "label": "x28",
+      "page": 1,
+      "box": {
+        "left": 418.5,
+        "top": 341.0,
+        "width": 174.0,
+        "height": 29.2
+      }
+    },
+    "text110": {
+      "type": "text",
+      "label": "Text110",
+      "page": 1,
+      "box": {
+        "left": 126.4,
+        "top": 328.5,
+        "width": 85.0,
+        "height": 17.0
+      }
+    },
+    "text112": {
+      "type": "text",
+      "label": "Text112",
+      "page": 1,
+      "box": {
+        "left": 315.0,
+        "top": 328.5,
+        "width": 102.5,
+        "height": 17.0
+      }
+    },
+    "text111": {
+      "type": "text",
+      "label": "Text111",
+      "page": 1,
+      "box": {
+        "left": 221.0,
+        "top": 328.0,
+        "width": 84.0,
+        "height": 16.0
+      }
+    },
+    "x23": {
+      "type": "text",
+      "label": "x23",
+      "page": 1,
+      "box": {
+        "left": 31.6,
+        "top": 327.3,
+        "width": 84.6,
+        "height": 16.2
+      }
+    },
+    "x27": {
+      "type": "text",
+      "label": "x27",
+      "page": 1,
+      "box": {
+        "left": 23.0,
+        "top": 297.9,
+        "width": 569.3,
+        "height": 35.7
+      },
+      "multiline": true
+    },
+    "text113": {
+      "type": "text",
+      "label": "Text113",
+      "page": 1,
+      "box": {
+        "left": 23.0,
+        "top": 231.0,
+        "width": 434.5,
+        "height": 115.5
+      },
+      "multiline": true
+    },
+    "text118": {
+      "type": "text",
+      "label": "Text118",
+      "page": 1,
+      "box": {
+        "left": 497.4,
+        "top": 217.4,
+        "width": 83.5,
+        "height": 15.0
+      }
+    },
+    "text116": {
+      "type": "text",
+      "label": "Text116",
+      "page": 1,
+      "box": {
+        "left": 463.0,
+        "top": 201.5,
+        "width": 120.5,
+        "height": 14.0
+      }
+    },
+    "text117": {
+      "type": "text",
+      "label": "Text117",
+      "page": 1,
+      "box": {
+        "left": 491.5,
+        "top": 187.0,
+        "width": 94.5,
+        "height": 13.5
+      }
+    },
+    "text119": {
+      "type": "text",
+      "label": "Text119",
+      "page": 1,
+      "box": {
+        "left": 513.4,
+        "top": 172.9,
+        "width": 72.5,
+        "height": 14.0
+      }
+    },
+    "text120": {
+      "type": "text",
+      "label": "Text120",
+      "page": 1,
+      "box": {
+        "left": 475.5,
+        "top": 157.5,
+        "width": 109.9,
+        "height": 13.0
+      }
+    },
+    "text121": {
+      "type": "text",
+      "label": "Text121",
+      "page": 1,
+      "box": {
+        "left": 487.9,
+        "top": 142.5,
+        "width": 96.6,
+        "height": 12.0
+      }
+    },
+    "textField1": {
+      "type": "text",
+      "label": "TextField1",
+      "page": 1,
+      "box": {
+        "left": 29.8,
+        "top": 100.7,
+        "width": 556.8,
+        "height": 13.8
+      }
+    },
+    "text114": {
+      "type": "text",
+      "label": "Text114",
+      "page": 1,
+      "box": {
+        "left": 21.5,
+        "top": 70.5,
+        "width": 570.5,
+        "height": 29.5
+      }
+    },
+    "text115": {
+      "type": "text",
+      "label": "Text115",
+      "page": 1,
+      "box": {
+        "left": 270.4,
+        "top": 37.9,
+        "width": 322.6,
+        "height": 12.5
+      }
+    }
+  }
+}

@@ -1,0 +1,359 @@
+{
+  "id": "opnav521541",
+  "label": "OPNAV5215-41 - NAVY Directives Management Self-Assessment Checklist",
+  "directory": "OPNAV5215-41 - NAVY Directives Management Self-Assessment Checklist",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "cAONme",
+        "dneDte",
+        "radio",
+        "radio2",
+        "dMAptLtr",
+        "radio3",
+        "radio4",
+        "rmkFmlKgl",
+        "radio5",
+        "radio6",
+        "rmkRecTrng",
+        "radio7",
+        "radio8",
+        "rmkMtnCpy",
+        "radio9",
+        "radio10",
+        "rmkPrpSSIC"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "radio11",
+        "radio12",
+        "rmkArcFld",
+        "radio13",
+        "radio14",
+        "rmkRevApl",
+        "dMDSCPPrtNme",
+        "dneDte2",
+        "signatureField1"
+      ]
+    }
+  ],
+  "fields": {
+    "cAONme": {
+      "type": "text",
+      "label": "Command/Activity/Organization Name",
+      "page": 1,
+      "box": {
+        "left": 40.2,
+        "top": 689.4,
+        "width": 446.5,
+        "height": 20.7
+      }
+    },
+    "dneDte": {
+      "type": "text",
+      "label": "Date (DD MMM YYYY)",
+      "page": 1,
+      "box": {
+        "left": 494.5,
+        "top": 689.4,
+        "width": 78.3,
+        "height": 20.7
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 500.5,
+        "top": 658.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 539.4,
+        "top": 658.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "dMAptLtr": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 1,
+      "box": {
+        "left": 40.5,
+        "top": 623.2,
+        "width": 531.9,
+        "height": 58.2
+      },
+      "multiline": true
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 500.0,
+        "top": 552.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 538.9,
+        "top": 552.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "rmkFmlKgl": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 1,
+      "box": {
+        "left": 40.2,
+        "top": 439.4,
+        "width": 531.9,
+        "height": 72.3
+      },
+      "multiline": true
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 500.0,
+        "top": 354.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 538.9,
+        "top": 354.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "rmkRecTrng": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 1,
+      "box": {
+        "left": 40.2,
+        "top": 318.1,
+        "width": 531.9,
+        "height": 60.8
+      },
+      "multiline": true
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 500.0,
+        "top": 244.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 538.9,
+        "top": 244.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "rmkMtnCpy": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 1,
+      "box": {
+        "left": 40.2,
+        "top": 187.7,
+        "width": 531.9,
+        "height": 53.2
+      },
+      "multiline": true
+    },
+    "radio9": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 500.0,
+        "top": 122.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio10": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 538.9,
+        "top": 122.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "rmkPrpSSIC": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 1,
+      "box": {
+        "left": 40.2,
+        "top": 91.4,
+        "width": 531.9,
+        "height": 50.7
+      },
+      "multiline": true
+    },
+    "radio11": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 500.0,
+        "top": 746.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio12": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 538.9,
+        "top": 746.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "rmkArcFld": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 2,
+      "box": {
+        "left": 40.2,
+        "top": 716.0,
+        "width": 531.9,
+        "height": 51.8
+      },
+      "multiline": true
+    },
+    "radio13": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 500.0,
+        "top": 651.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio14": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 538.9,
+        "top": 651.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "rmkRevApl": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 2,
+      "box": {
+        "left": 40.2,
+        "top": 621.0,
+        "width": 531.9,
+        "height": 51.7
+      },
+      "multiline": true
+    },
+    "dMDSCPPrtNme": {
+      "type": "text",
+      "label": "(Print Name, Title, Code )",
+      "page": 2,
+      "box": {
+        "left": 40.2,
+        "top": 539.2,
+        "width": 213.9,
+        "height": 79.3
+      },
+      "multiline": true
+    },
+    "dneDte2": {
+      "type": "text",
+      "label": "(DD MMM YYYY)",
+      "page": 2,
+      "box": {
+        "left": 262.3,
+        "top": 539.2,
+        "width": 89.3,
+        "height": 79.3
+      },
+      "multiline": true
+    },
+    "signatureField1": {
+      "type": "text",
+      "label": "Command Directives Manager/Organization DSCP Signature",
+      "page": 2,
+      "box": {
+        "left": 359.2,
+        "top": 539.2,
+        "width": 212.9,
+        "height": 79.3
+      },
+      "multiline": true
+    }
+  }
+}

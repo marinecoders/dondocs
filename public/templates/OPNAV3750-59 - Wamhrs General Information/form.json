@@ -1,0 +1,2782 @@
+{
+  "id": "opnav375059",
+  "label": "OPNAV3750-59 - Wamhrs General Information",
+  "directory": "OPNAV3750-59 - Wamhrs General Information",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "senMem",
+        "airOps",
+        "airMain",
+        "avoSafOff",
+        "fliSur",
+        "firNme",
+        "lstNme",
+        "comPhn",
+        "dSNPhn",
+        "eml",
+        "radio",
+        "radio2",
+        "radio3",
+        "radio4",
+        "radio5",
+        "radio6",
+        "radio7",
+        "radio8",
+        "radio9",
+        "radio10",
+        "radio11",
+        "radio12",
+        "radio13",
+        "radio14",
+        "radio15",
+        "radio16",
+        "radio17",
+        "radio18",
+        "radio19",
+        "radio20",
+        "radio21",
+        "radio22",
+        "radio23",
+        "radio24",
+        "radio25",
+        "radio26",
+        "radio27",
+        "radio28",
+        "radio29",
+        "radio30",
+        "radio31",
+        "radio32",
+        "radio33",
+        "radio34",
+        "radio35",
+        "locTme",
+        "textField1",
+        "evtdte",
+        "radio36",
+        "radio37",
+        "radio38",
+        "radio39",
+        "radio40",
+        "radio41",
+        "radio42",
+        "radio43",
+        "radio44",
+        "locSerNo",
+        "rACCde",
+        "locSerNo2",
+        "specOp",
+        "radio45",
+        "radio46",
+        "entShtNar",
+        "radio47",
+        "radio48",
+        "radio49",
+        "radio50",
+        "radio51",
+        "radio52",
+        "radio53",
+        "radio54",
+        "radio55",
+        "radio56",
+        "radio57",
+        "radio58",
+        "radio59",
+        "radio60",
+        "radio61",
+        "radio62",
+        "radio63",
+        "radio64",
+        "radio65",
+        "radio66",
+        "radio67",
+        "radio68",
+        "radio69",
+        "radio70",
+        "radio71",
+        "radio72",
+        "radio73",
+        "aSCyes",
+        "radio74",
+        "radio75",
+        "radio76",
+        "aSONo",
+        "radio77",
+        "radio78",
+        "radio79",
+        "radio80",
+        "radio81",
+        "radio82",
+        "radio83",
+        "radio84",
+        "radio85"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "airSp",
+        "navaidid",
+        "bearing",
+        "dist",
+        "bdyWtr",
+        "radio86",
+        "radio87",
+        "radio88",
+        "ctry",
+        "ste",
+        "shrLoc",
+        "radio89",
+        "radio90",
+        "radio91",
+        "radio92",
+        "radio93",
+        "latitude",
+        "longitude",
+        "shSpWtr",
+        "evtOcc",
+        "radio94",
+        "radio95",
+        "radio96",
+        "locComm",
+        "radio97",
+        "radio98",
+        "radio99",
+        "radio100",
+        "radio101",
+        "radio102",
+        "radio103",
+        "relHum",
+        "wndDirVelGst",
+        "altSet",
+        "visStaMls",
+        "towVis",
+        "airTemp",
+        "airTemp2",
+        "dewpoint",
+        "radio104",
+        "radio105",
+        "radio106",
+        "radio107",
+        "radio108",
+        "radio109",
+        "radio110",
+        "radio111",
+        "radio112",
+        "radio113",
+        "radio114",
+        "radio115",
+        "radio116",
+        "radio117",
+        "radio118",
+        "radio119",
+        "radio120",
+        "radio121",
+        "radio122",
+        "skyCond",
+        "radio123",
+        "radio124",
+        "radio125",
+        "radio126",
+        "radio127",
+        "radio128",
+        "radio129",
+        "envRmks",
+        "siteEval"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "frezDriz",
+        "litSnow",
+        "blingDst",
+        "haze",
+        "eq",
+        "none",
+        "frezRain",
+        "noPrec",
+        "blingSnd",
+        "iFog",
+        "flood",
+        "othEW",
+        "hail",
+        "otherSW",
+        "blingSno",
+        "noObs",
+        "gWinds",
+        "torWtrsp",
+        "hvyRain",
+        "sleet",
+        "blingSpy",
+        "othOV",
+        "hail2",
+        "turCAT",
+        "hvySno",
+        "ukn",
+        "clouds",
+        "precip",
+        "hurTyp",
+        "turIMC",
+        "checkBox1",
+        "smoke",
+        "ligtg",
+        "uknEW",
+        "fog",
+        "unkOV",
+        "micBrst",
+        "wndShr",
+        "gFog",
+        "mudSde",
+        "comNtf",
+        "aCComInt",
+        "references",
+        "narEvt",
+        "endChnComm"
+      ],
+      "editor": "checklist"
+    }
+  ],
+  "fields": {
+    "senMem": {
+      "type": "text",
+      "label": "1a. Senior Member",
+      "page": 1,
+      "box": {
+        "left": 124.6,
+        "top": 712.7,
+        "width": 448.7,
+        "height": 12.3
+      }
+    },
+    "airOps": {
+      "type": "text",
+      "label": "1b. Aircraft Operations",
+      "page": 1,
+      "box": {
+        "left": 137.2,
+        "top": 694.7,
+        "width": 436.0,
+        "height": 12.3
+      }
+    },
+    "airMain": {
+      "type": "text",
+      "label": "1c. Aircraft Maintenance",
+      "page": 1,
+      "box": {
+        "left": 141.6,
+        "top": 676.7,
+        "width": 431.6,
+        "height": 12.3
+      }
+    },
+    "avoSafOff": {
+      "type": "text",
+      "label": "1d. Aviation Safety Officer",
+      "page": 1,
+      "box": {
+        "left": 148.5,
+        "top": 658.7,
+        "width": 424.7,
+        "height": 12.3
+      }
+    },
+    "fliSur": {
+      "type": "text",
+      "label": "1e. Flight Surgeon",
+      "page": 1,
+      "box": {
+        "left": 120.8,
+        "top": 640.7,
+        "width": 452.4,
+        "height": 12.3
+      }
+    },
+    "firNme": {
+      "type": "text",
+      "label": "2a. First Name",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 600.4,
+        "width": 163.1,
+        "height": 12.5
+      }
+    },
+    "lstNme": {
+      "type": "text",
+      "label": "2b. Last Name",
+      "page": 1,
+      "box": {
+        "left": 207.6,
+        "top": 600.4,
+        "width": 163.1,
+        "height": 12.5
+      }
+    },
+    "comPhn": {
+      "type": "text",
+      "label": "2c.. Commercial Phone",
+      "page": 1,
+      "box": {
+        "left": 376.4,
+        "top": 600.4,
+        "width": 95.2,
+        "height": 12.5
+      }
+    },
+    "dSNPhn": {
+      "type": "text",
+      "label": "2d. DSN Phone",
+      "page": 1,
+      "box": {
+        "left": 477.3,
+        "top": 600.4,
+        "width": 95.2,
+        "height": 12.5
+      }
+    },
+    "eml": {
+      "type": "text",
+      "label": "2e. E-Mail Address",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 573.4,
+        "width": 534.4,
+        "height": 12.5
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 65.8,
+        "top": 538.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 340.4,
+        "top": 538.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item8",
+      "page": 1,
+      "box": {
+        "left": 349.4,
+        "top": 507.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 79.3,
+        "top": 507.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item12",
+      "page": 1,
+      "box": {
+        "left": 178.4,
+        "top": 507.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 79.3,
+        "top": 495.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item23",
+      "page": 1,
+      "box": {
+        "left": 178.4,
+        "top": 495.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 349.4,
+        "top": 495.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio9": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 79.3,
+        "top": 483.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio10": {
+      "type": "radio",
+      "label": "Item22",
+      "page": 1,
+      "box": {
+        "left": 178.4,
+        "top": 483.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio11": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 349.4,
+        "top": 483.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio12": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 1,
+      "box": {
+        "left": 79.3,
+        "top": 471.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio13": {
+      "type": "radio",
+      "label": "Item21",
+      "page": 1,
+      "box": {
+        "left": 178.4,
+        "top": 471.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio14": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 349.4,
+        "top": 471.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio15": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 1,
+      "box": {
+        "left": 79.3,
+        "top": 459.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio16": {
+      "type": "radio",
+      "label": "Item20",
+      "page": 1,
+      "box": {
+        "left": 178.4,
+        "top": 459.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio17": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 1,
+      "box": {
+        "left": 349.4,
+        "top": 459.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio18": {
+      "type": "radio",
+      "label": "Item5",
+      "page": 1,
+      "box": {
+        "left": 79.3,
+        "top": 447.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio19": {
+      "type": "radio",
+      "label": "Item19",
+      "page": 1,
+      "box": {
+        "left": 178.4,
+        "top": 447.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio20": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 1,
+      "box": {
+        "left": 349.4,
+        "top": 447.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio21": {
+      "type": "radio",
+      "label": "Item5",
+      "page": 1,
+      "box": {
+        "left": 349.4,
+        "top": 435.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio22": {
+      "type": "radio",
+      "label": "Item6",
+      "page": 1,
+      "box": {
+        "left": 79.3,
+        "top": 435.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio23": {
+      "type": "radio",
+      "label": "Item18",
+      "page": 1,
+      "box": {
+        "left": 178.4,
+        "top": 435.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio24": {
+      "type": "radio",
+      "label": "Item6",
+      "page": 1,
+      "box": {
+        "left": 349.4,
+        "top": 423.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio25": {
+      "type": "radio",
+      "label": "Item7",
+      "page": 1,
+      "box": {
+        "left": 79.3,
+        "top": 423.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio26": {
+      "type": "radio",
+      "label": "Item17",
+      "page": 1,
+      "box": {
+        "left": 178.4,
+        "top": 423.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio27": {
+      "type": "radio",
+      "label": "Item7",
+      "page": 1,
+      "box": {
+        "left": 349.4,
+        "top": 411.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio28": {
+      "type": "radio",
+      "label": "Item8",
+      "page": 1,
+      "box": {
+        "left": 79.3,
+        "top": 411.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio29": {
+      "type": "radio",
+      "label": "Item16",
+      "page": 1,
+      "box": {
+        "left": 178.4,
+        "top": 411.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio30": {
+      "type": "radio",
+      "label": "Item9",
+      "page": 1,
+      "box": {
+        "left": 79.3,
+        "top": 399.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio31": {
+      "type": "radio",
+      "label": "Item15",
+      "page": 1,
+      "box": {
+        "left": 178.4,
+        "top": 399.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio32": {
+      "type": "radio",
+      "label": "Item10",
+      "page": 1,
+      "box": {
+        "left": 79.3,
+        "top": 387.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio33": {
+      "type": "radio",
+      "label": "Item14",
+      "page": 1,
+      "box": {
+        "left": 178.4,
+        "top": 387.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio34": {
+      "type": "radio",
+      "label": "Item11",
+      "page": 1,
+      "box": {
+        "left": 79.3,
+        "top": 375.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio35": {
+      "type": "radio",
+      "label": "Item13",
+      "page": 1,
+      "box": {
+        "left": 178.4,
+        "top": 375.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "locTme": {
+      "type": "text",
+      "label": "5. Local Time",
+      "page": 1,
+      "box": {
+        "left": 101.9,
+        "top": 352.6,
+        "width": 57.4,
+        "height": 26.0
+      }
+    },
+    "textField1": {
+      "type": "text",
+      "label": "6. Time Zone",
+      "page": 1,
+      "box": {
+        "left": 164.9,
+        "top": 352.6,
+        "width": 57.4,
+        "height": 26.0
+      }
+    },
+    "evtdte": {
+      "type": "text",
+      "label": "4. Event Date",
+      "page": 1,
+      "box": {
+        "left": 36.0,
+        "top": 352.2,
+        "width": 63.0,
+        "height": 28.5
+      }
+    },
+    "radio36": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 407.9,
+        "top": 349.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio37": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 502.4,
+        "top": 349.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio38": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 227.9,
+        "top": 342.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio39": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 277.4,
+        "top": 342.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio40": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 335.9,
+        "top": 342.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio41": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 407.9,
+        "top": 335.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio42": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 1,
+      "box": {
+        "left": 502.4,
+        "top": 335.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio43": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 299.9,
+        "top": 308.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio44": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 348.5,
+        "top": 308.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "locSerNo": {
+      "type": "text",
+      "label": "9. Local Serial Number",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 303.9,
+        "width": 120.3,
+        "height": 17.8
+      }
+    },
+    "rACCde": {
+      "type": "text",
+      "label": "HAZREP requires endorsement)",
+      "page": 1,
+      "box": {
+        "left": 164.9,
+        "top": 303.3,
+        "width": 120.3,
+        "height": 17.1
+      }
+    },
+    "locSerNo2": {
+      "type": "text",
+      "label": "DAWN",
+      "page": 1,
+      "box": {
+        "left": 409.6,
+        "top": 302.0,
+        "width": 75.6,
+        "height": 15.9
+      }
+    },
+    "specOp": {
+      "type": "text",
+      "label": "DAWN",
+      "page": 1,
+      "box": {
+        "left": 486.3,
+        "top": 302.0,
+        "width": 89.7,
+        "height": 15.9
+      }
+    },
+    "radio45": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 299.9,
+        "top": 295.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio46": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 1,
+      "box": {
+        "left": 348.5,
+        "top": 295.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "entShtNar": {
+      "type": "text",
+      "label": "14. Event Short Narrative (100 characters maximum)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 271.6,
+        "width": 534.4,
+        "height": 26.0
+      }
+    },
+    "radio47": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 160.4,
+        "top": 223.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio48": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 196.4,
+        "top": 223.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio49": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 227.9,
+        "top": 223.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio50": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 407.9,
+        "top": 223.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio51": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 223.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio52": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 475.4,
+        "top": 223.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio53": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 160.4,
+        "top": 209.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio54": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 196.4,
+        "top": 209.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio55": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 227.9,
+        "top": 209.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio56": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 407.9,
+        "top": 209.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio57": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 209.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio58": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 475.4,
+        "top": 209.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio59": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 160.4,
+        "top": 196.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio60": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 196.4,
+        "top": 196.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio61": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 227.9,
+        "top": 196.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio62": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 407.9,
+        "top": 196.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio63": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 196.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio64": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 475.4,
+        "top": 196.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio65": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 160.4,
+        "top": 182.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio66": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 196.4,
+        "top": 182.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio67": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 227.9,
+        "top": 182.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio68": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 407.9,
+        "top": 182.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio69": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 182.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio70": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 475.4,
+        "top": 182.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio71": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 160.4,
+        "top": 169.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio72": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 196.4,
+        "top": 169.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio73": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 227.9,
+        "top": 169.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "aSCyes": {
+      "type": "text",
+      "label": "YES NO UNKNOWN If YES, Dates",
+      "page": 1,
+      "box": {
+        "left": 352.7,
+        "top": 134.8,
+        "width": 207.0,
+        "height": 13.5
+      }
+    },
+    "radio74": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 160.4,
+        "top": 133.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio75": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 196.4,
+        "top": 133.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio76": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 227.9,
+        "top": 133.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "aSONo": {
+      "type": "text",
+      "label": "YES NO UNKNOWN If YES, Dates",
+      "page": 1,
+      "box": {
+        "left": 352.7,
+        "top": 121.3,
+        "width": 207.0,
+        "height": 13.5
+      }
+    },
+    "radio77": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 160.4,
+        "top": 119.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio78": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 196.4,
+        "top": 119.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio79": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 227.9,
+        "top": 119.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio80": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 128.9,
+        "top": 83.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio81": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 164.9,
+        "top": 83.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio82": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 290.9,
+        "top": 83.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio83": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 326.9,
+        "top": 83.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio84": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 403.4,
+        "top": 83.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio85": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 439.4,
+        "top": 83.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "airSp": {
+      "type": "text",
+      "label": "Class A/B/C/D/E/G, etc.)",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 722.7,
+        "width": 137.5,
+        "height": 17.8
+      }
+    },
+    "navaidid": {
+      "type": "text",
+      "label": "18b. NAVAID ID",
+      "page": 2,
+      "box": {
+        "left": 182.9,
+        "top": 722.7,
+        "width": 85.6,
+        "height": 17.8
+      }
+    },
+    "bearing": {
+      "type": "text",
+      "label": "18c. Bearing (001 -360)",
+      "page": 2,
+      "box": {
+        "left": 270.0,
+        "top": 722.7,
+        "width": 91.2,
+        "height": 17.8
+      }
+    },
+    "dist": {
+      "type": "text",
+      "label": "(000.0 to 999.9)",
+      "page": 2,
+      "box": {
+        "left": 360.0,
+        "top": 720.7,
+        "width": 91.2,
+        "height": 15.9
+      }
+    },
+    "bdyWtr": {
+      "type": "text",
+      "label": "Pacific, Gulf of Oman, etc.)",
+      "page": 2,
+      "box": {
+        "left": 452.8,
+        "top": 720.7,
+        "width": 123.2,
+        "height": 15.9
+      }
+    },
+    "radio86": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 398.9,
+        "top": 686.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio87": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 2,
+      "box": {
+        "left": 439.4,
+        "top": 686.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio88": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 515.9,
+        "top": 686.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "ctry": {
+      "type": "text",
+      "label": "18f. Country",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 682.2,
+        "width": 106.8,
+        "height": 17.8
+      }
+    },
+    "ste": {
+      "type": "text",
+      "label": "18g. State",
+      "page": 2,
+      "box": {
+        "left": 151.4,
+        "top": 682.2,
+        "width": 66.3,
+        "height": 17.8
+      }
+    },
+    "shrLoc": {
+      "type": "text",
+      "label": "if applicable)",
+      "page": 2,
+      "box": {
+        "left": 223.4,
+        "top": 677.7,
+        "width": 147.3,
+        "height": 13.4
+      }
+    },
+    "radio89": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 398.9,
+        "top": 673.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio90": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 2,
+      "box": {
+        "left": 439.4,
+        "top": 673.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio91": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 43.3,
+        "top": 646.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio92": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 2,
+      "box": {
+        "left": 79.3,
+        "top": 646.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio93": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 2,
+      "box": {
+        "left": 115.4,
+        "top": 646.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "latitude": {
+      "type": "text",
+      "label": "18k. Latitude",
+      "page": 2,
+      "box": {
+        "left": 148.5,
+        "top": 641.7,
+        "width": 58.5,
+        "height": 17.8
+      }
+    },
+    "longitude": {
+      "type": "text",
+      "label": "18l. Longitude",
+      "page": 2,
+      "box": {
+        "left": 207.0,
+        "top": 641.7,
+        "width": 67.5,
+        "height": 17.8
+      }
+    },
+    "shSpWtr": {
+      "type": "text",
+      "label": "18n. Shore/Ship/Water",
+      "page": 2,
+      "box": {
+        "left": 481.6,
+        "top": 641.7,
+        "width": 94.5,
+        "height": 17.8
+      }
+    },
+    "evtOcc": {
+      "type": "text",
+      "label": "3rd 5th 7th",
+      "page": 2,
+      "box": {
+        "left": 274.5,
+        "top": 637.2,
+        "width": 207.0,
+        "height": 13.4
+      }
+    },
+    "radio94": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 2,
+      "box": {
+        "left": 43.3,
+        "top": 632.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio95": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 79.3,
+        "top": 632.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio96": {
+      "type": "radio",
+      "label": "Item5",
+      "page": 2,
+      "box": {
+        "left": 115.4,
+        "top": 632.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "locComm": {
+      "type": "text",
+      "label": "18o. Location Comments (if applicable)",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 608.7,
+        "width": 534.4,
+        "height": 88.4
+      },
+      "multiline": true
+    },
+    "radio97": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 47.8,
+        "top": 488.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio98": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 101.8,
+        "top": 488.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio99": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 2,
+      "box": {
+        "left": 155.9,
+        "top": 488.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio100": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 2,
+      "box": {
+        "left": 232.4,
+        "top": 488.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio101": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 2,
+      "box": {
+        "left": 308.9,
+        "top": 488.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio102": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 394.4,
+        "top": 488.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio103": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 493.4,
+        "top": 488.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "relHum": {
+      "type": "text",
+      "label": "Humidity",
+      "page": 2,
+      "box": {
+        "left": 211.5,
+        "top": 450.7,
+        "width": 58.5,
+        "height": 15.9
+      }
+    },
+    "wndDirVelGst": {
+      "type": "text",
+      "label": "Velocity and Gusts",
+      "page": 2,
+      "box": {
+        "left": 270.0,
+        "top": 450.7,
+        "width": 99.0,
+        "height": 15.9
+      }
+    },
+    "altSet": {
+      "type": "text",
+      "label": "Setting",
+      "page": 2,
+      "box": {
+        "left": 369.0,
+        "top": 450.7,
+        "width": 58.5,
+        "height": 15.9
+      }
+    },
+    "visStaMls": {
+      "type": "text",
+      "label": "statute miles",
+      "page": 2,
+      "box": {
+        "left": 427.6,
+        "top": 450.7,
+        "width": 67.5,
+        "height": 15.9
+      }
+    },
+    "towVis": {
+      "type": "text",
+      "label": "(if applicable)",
+      "page": 2,
+      "box": {
+        "left": 495.1,
+        "top": 450.7,
+        "width": 81.0,
+        "height": 15.9
+      }
+    },
+    "airTemp": {
+      "type": "text",
+      "label": "19c. Air Temp",
+      "page": 2,
+      "box": {
+        "left": 36.0,
+        "top": 448.9,
+        "width": 58.5,
+        "height": 14.0
+      }
+    },
+    "airTemp2": {
+      "type": "text",
+      "label": "Temp",
+      "page": 2,
+      "box": {
+        "left": 94.5,
+        "top": 448.2,
+        "width": 58.5,
+        "height": 13.4
+      }
+    },
+    "dewpoint": {
+      "type": "text",
+      "label": "Dewpoint",
+      "page": 2,
+      "box": {
+        "left": 153.0,
+        "top": 448.2,
+        "width": 58.5,
+        "height": 13.4
+      }
+    },
+    "radio104": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 43.3,
+        "top": 416.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio105": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 2,
+      "box": {
+        "left": 232.4,
+        "top": 416.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio106": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 380.9,
+        "top": 416.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio107": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 2,
+      "box": {
+        "left": 488.9,
+        "top": 416.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio108": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 43.3,
+        "top": 403.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio109": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 2,
+      "box": {
+        "left": 232.4,
+        "top": 403.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio110": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 380.9,
+        "top": 403.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio111": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 2,
+      "box": {
+        "left": 488.9,
+        "top": 403.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio112": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 2,
+      "box": {
+        "left": 43.4,
+        "top": 389.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio113": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 2,
+      "box": {
+        "left": 380.9,
+        "top": 389.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio114": {
+      "type": "radio",
+      "label": "Item5",
+      "page": 2,
+      "box": {
+        "left": 488.9,
+        "top": 389.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio115": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 43.3,
+        "top": 362.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio116": {
+      "type": "radio",
+      "label": "Item4",
+      "page": 2,
+      "box": {
+        "left": 160.4,
+        "top": 362.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio117": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 2,
+      "box": {
+        "left": 254.9,
+        "top": 362.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio118": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 340.4,
+        "top": 353.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio119": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 2,
+      "box": {
+        "left": 403.5,
+        "top": 353.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio120": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 493.5,
+        "top": 353.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio121": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 43.2,
+        "top": 349.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio122": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 2,
+      "box": {
+        "left": 160.4,
+        "top": 349.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "skyCond": {
+      "type": "text",
+      "label": "19o. Sky Condition Remarks (if applicable)",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 325.8,
+        "width": 534.4,
+        "height": 93.5
+      },
+      "multiline": true
+    },
+    "radio123": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 52.3,
+        "top": 215.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio124": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 128.9,
+        "top": 215.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio125": {
+      "type": "radio",
+      "label": "Item3",
+      "page": 2,
+      "box": {
+        "left": 246.0,
+        "top": 215.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio126": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 2,
+      "box": {
+        "left": 318.0,
+        "top": 215.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio127": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 412.4,
+        "top": 215.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio128": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 2,
+      "box": {
+        "left": 457.4,
+        "top": 215.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio129": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 497.9,
+        "top": 215.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "envRmks": {
+      "type": "text",
+      "label": "19r. Environment Remarks (if applicable)",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 186.3,
+        "width": 534.4,
+        "height": 98.0
+      },
+      "multiline": true
+    },
+    "siteEval": {
+      "type": "text",
+      "label": "19s. Site Elevation",
+      "page": 2,
+      "box": {
+        "left": 115.4,
+        "top": 82.6,
+        "width": 460.6,
+        "height": 12.3
+      }
+    },
+    "frezDriz": {
+      "type": "checkbox",
+      "label": "19t",
+      "page": 3,
+      "box": {
+        "left": 48.8,
+        "top": 726.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "litSnow": {
+      "type": "checkbox",
+      "label": "Freezing drizzle",
+      "page": 3,
+      "box": {
+        "left": 125.4,
+        "top": 726.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "blingDst": {
+      "type": "checkbox",
+      "label": "Freezing drizzle Light snow",
+      "page": 3,
+      "box": {
+        "left": 219.9,
+        "top": 726.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "haze": {
+      "type": "checkbox",
+      "label": "Blowing dust",
+      "page": 3,
+      "box": {
+        "left": 296.4,
+        "top": 726.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "eq": {
+      "type": "checkbox",
+      "label": "Haze",
+      "page": 3,
+      "box": {
+        "left": 390.9,
+        "top": 726.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "none": {
+      "type": "checkbox",
+      "label": "Earthquake",
+      "page": 3,
+      "box": {
+        "left": 480.9,
+        "top": 726.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "frezRain": {
+      "type": "checkbox",
+      "label": "19t",
+      "page": 3,
+      "box": {
+        "left": 48.8,
+        "top": 712.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "noPrec": {
+      "type": "checkbox",
+      "label": "Freezing rain",
+      "page": 3,
+      "box": {
+        "left": 125.4,
+        "top": 712.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "blingSnd": {
+      "type": "checkbox",
+      "label": "No precipitation",
+      "page": 3,
+      "box": {
+        "left": 219.9,
+        "top": 712.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "iFog": {
+      "type": "checkbox",
+      "label": "Blowing sand",
+      "page": 3,
+      "box": {
+        "left": 296.4,
+        "top": 712.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "flood": {
+      "type": "checkbox",
+      "label": "Ice fog",
+      "page": 3,
+      "box": {
+        "left": 390.9,
+        "top": 712.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "othEW": {
+      "type": "checkbox",
+      "label": "Flood",
+      "page": 3,
+      "box": {
+        "left": 480.9,
+        "top": 712.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "hail": {
+      "type": "checkbox",
+      "label": "19t",
+      "page": 3,
+      "box": {
+        "left": 48.8,
+        "top": 699.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "otherSW": {
+      "type": "checkbox",
+      "label": "Hail",
+      "page": 3,
+      "box": {
+        "left": 125.4,
+        "top": 699.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "blingSno": {
+      "type": "checkbox",
+      "label": "Other",
+      "page": 3,
+      "box": {
+        "left": 219.9,
+        "top": 699.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "noObs": {
+      "type": "checkbox",
+      "label": "Blowing snow",
+      "page": 3,
+      "box": {
+        "left": 296.4,
+        "top": 699.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "gWinds": {
+      "type": "checkbox",
+      "label": "No obstructions",
+      "page": 3,
+      "box": {
+        "left": 390.9,
+        "top": 699.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "torWtrsp": {
+      "type": "checkbox",
+      "label": "Gusty winds",
+      "page": 3,
+      "box": {
+        "left": 480.9,
+        "top": 699.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "hvyRain": {
+      "type": "checkbox",
+      "label": "19t",
+      "page": 3,
+      "box": {
+        "left": 48.8,
+        "top": 685.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "sleet": {
+      "type": "checkbox",
+      "label": "Heavy rain",
+      "page": 3,
+      "box": {
+        "left": 125.4,
+        "top": 685.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "blingSpy": {
+      "type": "checkbox",
+      "label": "Sleet",
+      "page": 3,
+      "box": {
+        "left": 219.9,
+        "top": 685.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "othOV": {
+      "type": "checkbox",
+      "label": "Blowing Spray",
+      "page": 3,
+      "box": {
+        "left": 296.4,
+        "top": 685.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "hail2": {
+      "type": "checkbox",
+      "label": "Other",
+      "page": 3,
+      "box": {
+        "left": 390.9,
+        "top": 685.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "turCAT": {
+      "type": "checkbox",
+      "label": "Hail",
+      "page": 3,
+      "box": {
+        "left": 480.9,
+        "top": 685.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "hvySno": {
+      "type": "checkbox",
+      "label": "19t",
+      "page": 3,
+      "box": {
+        "left": 48.8,
+        "top": 672.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "ukn": {
+      "type": "checkbox",
+      "label": "Heavy snow",
+      "page": 3,
+      "box": {
+        "left": 125.4,
+        "top": 672.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "clouds": {
+      "type": "checkbox",
+      "label": "Unknown",
+      "page": 3,
+      "box": {
+        "left": 219.9,
+        "top": 672.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "precip": {
+      "type": "checkbox",
+      "label": "Clouds",
+      "page": 3,
+      "box": {
+        "left": 296.4,
+        "top": 672.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "hurTyp": {
+      "type": "checkbox",
+      "label": "Precipitation",
+      "page": 3,
+      "box": {
+        "left": 390.9,
+        "top": 672.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "turIMC": {
+      "type": "checkbox",
+      "label": "Hurricane/Typhoon",
+      "page": 3,
+      "box": {
+        "left": 480.9,
+        "top": 672.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "checkBox1": {
+      "type": "checkbox",
+      "label": "apply)",
+      "page": 3,
+      "box": {
+        "left": 219.9,
+        "top": 658.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "smoke": {
+      "type": "checkbox",
+      "label": "Dust",
+      "page": 3,
+      "box": {
+        "left": 296.4,
+        "top": 658.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "ligtg": {
+      "type": "checkbox",
+      "label": "Smoke",
+      "page": 3,
+      "box": {
+        "left": 390.9,
+        "top": 658.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "uknEW": {
+      "type": "checkbox",
+      "label": "Lighting",
+      "page": 3,
+      "box": {
+        "left": 480.9,
+        "top": 658.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "fog": {
+      "type": "checkbox",
+      "label": "apply)",
+      "page": 3,
+      "box": {
+        "left": 219.9,
+        "top": 645.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "unkOV": {
+      "type": "checkbox",
+      "label": "Fog",
+      "page": 3,
+      "box": {
+        "left": 296.4,
+        "top": 645.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "micBrst": {
+      "type": "checkbox",
+      "label": "Unknown",
+      "page": 3,
+      "box": {
+        "left": 390.9,
+        "top": 645.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "wndShr": {
+      "type": "checkbox",
+      "label": "Microburst",
+      "page": 3,
+      "box": {
+        "left": 480.9,
+        "top": 645.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "gFog": {
+      "type": "checkbox",
+      "label": "apply)",
+      "page": 3,
+      "box": {
+        "left": 219.9,
+        "top": 631.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "mudSde": {
+      "type": "checkbox",
+      "label": "Ground Fog",
+      "page": 3,
+      "box": {
+        "left": 390.9,
+        "top": 631.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "comNtf": {
+      "type": "text",
+      "label": "Com Ntf",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 600.3,
+        "width": 534.4,
+        "height": 44.0
+      },
+      "multiline": true
+    },
+    "aCComInt": {
+      "type": "text",
+      "label": "A C Com Int",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 541.8,
+        "width": 534.4,
+        "height": 44.0
+      },
+      "multiline": true
+    },
+    "references": {
+      "type": "text",
+      "label": "22. Reference (besides OPNAV 3750 and JAGMAN.)",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 483.3,
+        "width": 534.4,
+        "height": 21.5
+      }
+    },
+    "narEvt": {
+      "type": "text",
+      "label": "23. Event Narrative",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 447.3,
+        "width": 534.4,
+        "height": 237.5
+      },
+      "multiline": true
+    },
+    "endChnComm": {
+      "type": "text",
+      "label": "End Chn Comm",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 195.3,
+        "width": 534.4,
+        "height": 108.6
+      },
+      "multiline": true
+    }
+  }
+}

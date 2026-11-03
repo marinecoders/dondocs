@@ -1,0 +1,510 @@
+{
+  "id": "navmc11863",
+  "label": "NAVMC11863 - Relocation Assistance Program Lending Locker Agreement",
+  "directory": "NAVMC11863 - Relocation Assistance Program Lending Locker Agreement",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "dateIssue",
+        "issuedBy",
+        "agreementNo",
+        "dateDue",
+        "returnDate",
+        "receivedBy",
+        "dateIssued",
+        "newDueDate",
+        "extension",
+        "compOwed",
+        "compPaid",
+        "letter",
+        "name",
+        "rateRank",
+        "email",
+        "homePhone",
+        "address",
+        "city",
+        "zipCode",
+        "state",
+        "dutyStation",
+        "service",
+        "division",
+        "dutyPhone",
+        "spouseName",
+        "civilianEmail",
+        "i1",
+        "i2",
+        "i3",
+        "i4",
+        "i5",
+        "i52",
+        "i22",
+        "i53",
+        "member",
+        "signature1"
+      ]
+    }
+  ],
+  "fields": {
+    "dateIssue": {
+      "type": "text",
+      "label": "Date of Issue",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 508.5,
+        "width": 172.8,
+        "height": 9.9
+      }
+    },
+    "issuedBy": {
+      "type": "text",
+      "label": "Issued By",
+      "page": 1,
+      "box": {
+        "left": 219.6,
+        "top": 508.5,
+        "width": 172.8,
+        "height": 9.9
+      }
+    },
+    "agreementNo": {
+      "type": "text",
+      "label": "Agreement No",
+      "page": 1,
+      "box": {
+        "left": 399.6,
+        "top": 508.5,
+        "width": 172.8,
+        "height": 9.9
+      }
+    },
+    "dateDue": {
+      "type": "text",
+      "label": "Due Date",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 483.3,
+        "width": 172.8,
+        "height": 9.9
+      }
+    },
+    "returnDate": {
+      "type": "text",
+      "label": "Return Date",
+      "page": 1,
+      "box": {
+        "left": 219.6,
+        "top": 483.3,
+        "width": 172.8,
+        "height": 9.9
+      }
+    },
+    "receivedBy": {
+      "type": "text",
+      "label": "Received By",
+      "page": 1,
+      "box": {
+        "left": 399.6,
+        "top": 483.3,
+        "width": 172.8,
+        "height": 9.9
+      }
+    },
+    "dateIssued": {
+      "type": "text",
+      "label": "Date Extension Issued",
+      "page": 1,
+      "box": {
+        "left": 219.6,
+        "top": 458.1,
+        "width": 172.8,
+        "height": 9.9
+      }
+    },
+    "newDueDate": {
+      "type": "text",
+      "label": "New Due Date",
+      "page": 1,
+      "box": {
+        "left": 399.6,
+        "top": 458.1,
+        "width": 172.8,
+        "height": 9.9
+      }
+    },
+    "extension": {
+      "type": "choice",
+      "label": "Request Extension",
+      "page": 1,
+      "box": {
+        "left": 40.4,
+        "top": 457.3,
+        "width": 171.3,
+        "height": 8.4
+      },
+      "options": [
+        "Yes",
+        "No"
+      ]
+    },
+    "compOwed": {
+      "type": "text",
+      "label": "Compensation Owed",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 432.9,
+        "width": 172.8,
+        "height": 9.9
+      }
+    },
+    "compPaid": {
+      "type": "text",
+      "label": "Compensation Paid",
+      "page": 1,
+      "box": {
+        "left": 219.6,
+        "top": 432.9,
+        "width": 172.8,
+        "height": 9.9
+      }
+    },
+    "letter": {
+      "type": "choice",
+      "label": "Letter Sent",
+      "page": 1,
+      "box": {
+        "left": 400.4,
+        "top": 432.1,
+        "width": 171.3,
+        "height": 8.4
+      },
+      "options": [
+        "Yes",
+        "No"
+      ]
+    },
+    "name": {
+      "type": "text",
+      "label": "Service Member Name (Last, First, MI)",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 396.9,
+        "width": 244.8,
+        "height": 9.9
+      }
+    },
+    "rateRank": {
+      "type": "text",
+      "label": "Grade/Rank",
+      "page": 1,
+      "box": {
+        "left": 291.6,
+        "top": 396.9,
+        "width": 100.8,
+        "height": 9.9
+      }
+    },
+    "email": {
+      "type": "text",
+      "label": "Email Address",
+      "page": 1,
+      "box": {
+        "left": 399.6,
+        "top": 396.9,
+        "width": 172.8,
+        "height": 9.9
+      }
+    },
+    "homePhone": {
+      "type": "text",
+      "label": "Home Telephone",
+      "page": 1,
+      "box": {
+        "left": 462.7,
+        "top": 371.6,
+        "width": 109.8,
+        "height": 9.9
+      }
+    },
+    "address": {
+      "type": "text",
+      "label": "Address",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 371.5,
+        "width": 172.8,
+        "height": 9.8
+      }
+    },
+    "city": {
+      "type": "text",
+      "label": "City",
+      "page": 1,
+      "box": {
+        "left": 219.6,
+        "top": 371.5,
+        "width": 136.8,
+        "height": 9.8
+      }
+    },
+    "zipCode": {
+      "type": "text",
+      "label": "Zip Code",
+      "page": 1,
+      "box": {
+        "left": 397.8,
+        "top": 371.5,
+        "width": 57.6,
+        "height": 9.8
+      }
+    },
+    "state": {
+      "type": "choice",
+      "label": "State",
+      "page": 1,
+      "box": {
+        "left": 364.4,
+        "top": 370.8,
+        "width": 25.5,
+        "height": 8.3
+      },
+      "options": [
+        "AL",
+        "AK",
+        "AZ",
+        "AR",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "DC",
+        "FL",
+        "GA",
+        "HI",
+        "ID",
+        "IL",
+        "IN",
+        "IA",
+        "KS",
+        "KY",
+        "LA",
+        "ME",
+        "MD",
+        "MA",
+        "MI",
+        "MN",
+        "MS",
+        "MO",
+        "MT",
+        "NE",
+        "NV",
+        "NH",
+        "NJ",
+        "NM",
+        "NY",
+        "NC",
+        "ND",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VT",
+        "VA",
+        "WA",
+        "WV",
+        "WI",
+        "WY"
+      ]
+    },
+    "dutyStation": {
+      "type": "text",
+      "label": "Duty Station",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 346.4,
+        "width": 133.8,
+        "height": 9.9
+      }
+    },
+    "service": {
+      "type": "text",
+      "label": "Branch of Service",
+      "page": 1,
+      "box": {
+        "left": 180.6,
+        "top": 346.4,
+        "width": 133.8,
+        "height": 9.9
+      }
+    },
+    "division": {
+      "type": "text",
+      "label": "Unit/Command",
+      "page": 1,
+      "box": {
+        "left": 321.6,
+        "top": 346.4,
+        "width": 133.8,
+        "height": 9.9
+      }
+    },
+    "dutyPhone": {
+      "type": "text",
+      "label": "Duty Telephone",
+      "page": 1,
+      "box": {
+        "left": 462.7,
+        "top": 346.4,
+        "width": 109.8,
+        "height": 9.9
+      }
+    },
+    "spouseName": {
+      "type": "text",
+      "label": "Spouse Name",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 321.2,
+        "width": 262.8,
+        "height": 9.9
+      }
+    },
+    "civilianEmail": {
+      "type": "text",
+      "label": "Civilian Email Address",
+      "page": 1,
+      "box": {
+        "left": 309.6,
+        "top": 321.2,
+        "width": 262.8,
+        "height": 9.9
+      }
+    },
+    "i1": {
+      "type": "text",
+      "label": "Spouse Name",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 293.3,
+        "width": 34.8,
+        "height": 10.8
+      }
+    },
+    "i2": {
+      "type": "text",
+      "label": "Spouse Name",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 275.3,
+        "width": 34.8,
+        "height": 10.8
+      }
+    },
+    "i3": {
+      "type": "text",
+      "label": "Spouse Name",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 257.3,
+        "width": 34.8,
+        "height": 19.8
+      }
+    },
+    "i4": {
+      "type": "text",
+      "label": "Spouse Name",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 230.3,
+        "width": 34.8,
+        "height": 10.8
+      }
+    },
+    "i5": {
+      "type": "text",
+      "label": "Spouse Name",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 212.3,
+        "width": 34.8,
+        "height": 28.8
+      }
+    },
+    "i52": {
+      "type": "text",
+      "label": "Spouse Name",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 176.3,
+        "width": 34.8,
+        "height": 19.8
+      }
+    },
+    "i22": {
+      "type": "text",
+      "label": "Spouse Name",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 149.3,
+        "width": 34.8,
+        "height": 10.8
+      }
+    },
+    "i53": {
+      "type": "text",
+      "label": "Spouse Name",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 131.3,
+        "width": 34.8,
+        "height": 28.8
+      }
+    },
+    "member": {
+      "type": "text",
+      "label": "RAP Staff Member",
+      "page": 1,
+      "box": {
+        "left": 309.6,
+        "top": 87.2,
+        "width": 262.8,
+        "height": 13.5
+      }
+    },
+    "signature1": {
+      "type": "text",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 87.1,
+        "width": 262.8,
+        "height": 13.4
+      }
+    }
+  }
+}

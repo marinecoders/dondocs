@@ -1,0 +1,260 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "catapultno": {
+        "left": 108.2,
+        "top": 735.2,
+        "width": 132.0,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER ENGINE NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateTimeField1": {
+        "left": 473.2,
+        "top": 735.2,
+        "width": 91.0,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER DATE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "jsn": {
+        "left": 282.3,
+        "top": 726.2,
+        "width": 74.9,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER JSN.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "shotno": {
+        "left": 92.7,
+        "top": 708.2,
+        "width": 147.5,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER SHOT NUMBER.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hitssince": {
+        "left": 442.7,
+        "top": 708.2,
+        "width": 121.5,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER SHOTS SINCE LAST INSPECTION.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "lvtemp": {
+        "left": 88.3,
+        "top": 654.2,
+        "width": 97.9,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER LAUNCHING VALVE TEMPERATURE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "lvtemp2": {
+        "left": 290.1,
+        "top": 654.2,
+        "width": 89.6,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER HYD FLUID TEMPERATURE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "oPENINGip": {
+        "left": 38.8,
+        "top": 564.2,
+        "width": 102.3,
+        "height": 57.3,
+        "type": "text",
+        "description": "ENTER OPENING STROKE INITIAL PRESSURE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "oPENINGrpa": {
+        "left": 146.8,
+        "top": 564.2,
+        "width": 97.8,
+        "height": 57.3,
+        "type": "text",
+        "description": "ENTER OPENING STROKE RUNNING PRESSURE AMOUNT.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "oPENINGirpd": {
+        "left": 250.3,
+        "top": 564.2,
+        "width": 97.8,
+        "height": 57.3,
+        "type": "text",
+        "description": "ENTER OPENING STROKE RUNNING PRESSURE DISTANCE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "oPENINGfp": {
+        "left": 353.8,
+        "top": 564.2,
+        "width": 106.8,
+        "height": 57.3,
+        "type": "text",
+        "description": "ENTER OPENING STROKE FINAL PRESSURE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "oPENINGot": {
+        "left": 466.3,
+        "top": 564.2,
+        "width": 106.8,
+        "height": 57.3,
+        "type": "text",
+        "description": "ENTER OPENING STROKE OPENING TIME.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cLOSINGip": {
+        "left": 38.8,
+        "top": 433.7,
+        "width": 102.3,
+        "height": 57.3,
+        "type": "text",
+        "description": "ENTER CLOSING STROKE INITIAL PRESSURE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cLOSINGrpa": {
+        "left": 146.8,
+        "top": 433.7,
+        "width": 97.8,
+        "height": 57.3,
+        "type": "text",
+        "description": "ENTER CLOSING STROKE RUNNING PRESSURE AMOUNT.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cLOSINGrpd": {
+        "left": 250.3,
+        "top": 433.7,
+        "width": 97.8,
+        "height": 57.3,
+        "type": "text",
+        "description": "ENTER CLOSING STROKE RUNNING PRESSURE DISTANCE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cLOSINGfp": {
+        "left": 353.8,
+        "top": 433.7,
+        "width": 106.8,
+        "height": 57.3,
+        "type": "text",
+        "description": "ENTER CLOSING STROKE FINAL PRESSURE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cLOSINGot": {
+        "left": 466.3,
+        "top": 433.7,
+        "width": 106.8,
+        "height": 57.3,
+        "type": "text",
+        "description": "ENTER CLOSING STROKE OPENING TIME.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks": {
+        "left": 38.8,
+        "top": 360.4,
+        "width": 534.3,
+        "height": 29.4,
+        "type": "text",
+        "description": "ENTER REMARKS.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "maintman": {
+        "left": 93.3,
+        "top": 325.3,
+        "width": 205.3,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER MAINTENANCE MANAGER SIGNATURE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "wc": {
+        "left": 386.9,
+        "top": 325.3,
+        "width": 181.8,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER W/C SUPERVISOR SIGNATURE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "qainsp": {
+        "left": 107.3,
+        "top": 302.8,
+        "width": 191.3,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER QA INSPECTOR SIGNATURE.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "maintchief": {
+        "left": 404.6,
+        "top": 302.8,
+        "width": 164.1,
+        "height": 12.3,
+        "type": "text",
+        "description": "ENTER MAINTENANCE CHIEF OFFICER.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

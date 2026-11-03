@@ -1,0 +1,101 @@
+{
+  "id": "opnav479075a",
+  "label": "OPNAV4790-75A - Mobile Facility Record Of Shortages",
+  "directory": "OPNAV4790-75A - Mobile Facility Record Of Shortages",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "mfSerialNo",
+        "mmfModelType",
+        "itemNoField",
+        "equipNomModTypeField",
+        "serialNoField",
+        "authorityReasonField",
+        "remarksField"
+      ]
+    }
+  ],
+  "fields": {
+    "mfSerialNo": {
+      "type": "text",
+      "label": "MF SERIAL NO",
+      "page": 1,
+      "box": {
+        "left": 105.0,
+        "top": 541.7,
+        "width": 279.2,
+        "height": 12.9
+      }
+    },
+    "mmfModelType": {
+      "type": "text",
+      "label": "MF MODEL/TYPE",
+      "page": 1,
+      "box": {
+        "left": 467.0,
+        "top": 541.7,
+        "width": 286.3,
+        "height": 12.9
+      }
+    },
+    "itemNoField": {
+      "type": "text",
+      "label": "NO",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 501.2,
+        "width": 34.8,
+        "height": 16.8
+      }
+    },
+    "equipNomModTypeField": {
+      "type": "text",
+      "label": "MODEL AND TYPE",
+      "page": 1,
+      "box": {
+        "left": 79.3,
+        "top": 501.2,
+        "width": 205.9,
+        "height": 16.8
+      }
+    },
+    "serialNoField": {
+      "type": "text",
+      "label": "SERIAL NO",
+      "page": 1,
+      "box": {
+        "left": 290.9,
+        "top": 501.2,
+        "width": 93.3,
+        "height": 16.8
+      }
+    },
+    "authorityReasonField": {
+      "type": "text",
+      "label": "AUTHORITY OR REASON FOR SHORTAGE",
+      "page": 1,
+      "box": {
+        "left": 389.9,
+        "top": 501.2,
+        "width": 205.9,
+        "height": 16.8
+      }
+    },
+    "remarksField": {
+      "type": "text",
+      "label": "REMARKS",
+      "page": 1,
+      "box": {
+        "left": 601.4,
+        "top": 501.2,
+        "width": 151.8,
+        "height": 16.8
+      }
+    }
+  }
+}

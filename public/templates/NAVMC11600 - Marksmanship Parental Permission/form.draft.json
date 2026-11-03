@@ -1,0 +1,66 @@
+{
+  "id": "navmc11600",
+  "label": "NAVMC11600 - Marksmanship Parental Permission",
+  "directory": "NAVMC11600 - Marksmanship Parental Permission",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 2",
+      "fields": [
+        "name",
+        "parentA",
+        "parentB",
+        "dateA"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "Name",
+      "page": 2,
+      "box": {
+        "left": 223.1,
+        "top": 298.3,
+        "width": 244.8,
+        "height": 11.1
+      }
+    },
+    "parentA": {
+      "type": "text",
+      "label": "Parent/Guardian Name ",
+      "page": 2,
+      "box": {
+        "left": 72.7,
+        "top": 218.1,
+        "width": 375.3,
+        "height": 20.1
+      }
+    },
+    "parentB": {
+      "type": "text",
+      "label": "Parent/Guardian Signature ",
+      "page": 2,
+      "box": {
+        "left": 72.7,
+        "top": 181.1,
+        "width": 359.3,
+        "height": 20.4
+      }
+    },
+    "dateA": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 2,
+      "box": {
+        "left": 441.7,
+        "top": 178.3,
+        "width": 94.1,
+        "height": 17.6
+      }
+    }
+  }
+}

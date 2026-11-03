@@ -1,0 +1,570 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "a1": {
+        "left": 154.8,
+        "top": 671.9,
+        "width": 98.1,
+        "height": 13.0,
+        "type": "text",
+        "description": "I Death, Loss of Asset",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "b1": {
+        "left": 260.7,
+        "top": 671.9,
+        "width": 98.1,
+        "height": 13.0,
+        "type": "text",
+        "description": "I Death, Loss of Asset",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "c1": {
+        "left": 366.8,
+        "top": 671.9,
+        "width": 98.1,
+        "height": 13.0,
+        "type": "text",
+        "description": "I Death, Loss of Asset",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "d1": {
+        "left": 473.6,
+        "top": 671.9,
+        "width": 98.1,
+        "height": 13.0,
+        "type": "text",
+        "description": "I Death, Loss of Asset",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "a2": {
+        "left": 154.8,
+        "top": 651.5,
+        "width": 98.1,
+        "height": 13.0,
+        "type": "text",
+        "description": "II Severe Injury, SEVERITY Damage",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "b2": {
+        "left": 260.7,
+        "top": 651.5,
+        "width": 98.1,
+        "height": 13.0,
+        "type": "text",
+        "description": "II Severe Injury, SEVERITY Damage",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "c2": {
+        "left": 366.8,
+        "top": 651.5,
+        "width": 98.1,
+        "height": 13.0,
+        "type": "text",
+        "description": "II Severe Injury, SEVERITY Damage",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "d2": {
+        "left": 473.6,
+        "top": 651.5,
+        "width": 98.1,
+        "height": 13.0,
+        "type": "text",
+        "description": "II Severe Injury, SEVERITY Damage",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "a3": {
+        "left": 154.8,
+        "top": 631.1,
+        "width": 98.1,
+        "height": 13.0,
+        "type": "text",
+        "description": "III Minor Injury, SEVERITY Damage",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "b3": {
+        "left": 260.7,
+        "top": 631.1,
+        "width": 98.1,
+        "height": 13.0,
+        "type": "text",
+        "description": "III Minor Injury, SEVERITY Damage",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "c3": {
+        "left": 366.8,
+        "top": 631.1,
+        "width": 98.1,
+        "height": 13.0,
+        "type": "text",
+        "description": "III Minor Injury, SEVERITY Damage",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "d3": {
+        "left": 473.6,
+        "top": 631.1,
+        "width": 98.1,
+        "height": 13.0,
+        "type": "text",
+        "description": "III Minor Injury, SEVERITY Damage",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "a4": {
+        "left": 154.8,
+        "top": 610.7,
+        "width": 98.1,
+        "height": 13.0,
+        "type": "text",
+        "description": "SEVERITY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "b4": {
+        "left": 260.7,
+        "top": 610.7,
+        "width": 98.1,
+        "height": 13.0,
+        "type": "text",
+        "description": "SEVERITY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "c4": {
+        "left": 366.8,
+        "top": 610.7,
+        "width": 98.1,
+        "height": 13.0,
+        "type": "text",
+        "description": "SEVERITY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "d4": {
+        "left": 473.6,
+        "top": 610.7,
+        "width": 98.1,
+        "height": 13.0,
+        "type": "text",
+        "description": "SEVERITY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date": {
+        "left": 109.7,
+        "top": 575.1,
+        "width": 193.5,
+        "height": 13.1,
+        "type": "text",
+        "description": "1. Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "prepBy": {
+        "left": 370.8,
+        "top": 575.1,
+        "width": 202.1,
+        "height": 13.1,
+        "type": "text",
+        "description": "6. Prepared by",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "school": {
+        "left": 132.7,
+        "top": 556.4,
+        "width": 170.5,
+        "height": 13.1,
+        "type": "text",
+        "description": "2. Command/School/Unit",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "email": {
+        "left": 370.8,
+        "top": 556.4,
+        "width": 202.1,
+        "height": 13.1,
+        "type": "text",
+        "description": "7. Email",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "uic": {
+        "left": 109.7,
+        "top": 537.7,
+        "width": 193.5,
+        "height": 13.1,
+        "type": "text",
+        "description": "3. UIC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "tele": {
+        "left": 370.8,
+        "top": 537.7,
+        "width": 202.1,
+        "height": 13.1,
+        "type": "text",
+        "description": "8. Telephone",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cin": {
+        "left": 109.7,
+        "top": 518.9,
+        "width": 193.5,
+        "height": 13.1,
+        "type": "text",
+        "description": "4. CIN",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "revBy": {
+        "left": 370.8,
+        "top": 518.9,
+        "width": 202.1,
+        "height": 13.1,
+        "type": "text",
+        "description": "9. Reviewed by",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "lesson": {
+        "left": 109.7,
+        "top": 500.2,
+        "width": 193.5,
+        "height": 13.1,
+        "type": "text",
+        "description": "5. Lesson/Mission",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "appBy": {
+        "left": 370.8,
+        "top": 500.2,
+        "width": 202.1,
+        "height": 13.1,
+        "type": "text",
+        "description": "10. Approved by",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "evolution": {
+        "left": 131.4,
+        "top": 481.8,
+        "width": 441.8,
+        "height": 13.1,
+        "type": "text",
+        "description": "11. Event/Evolution Title",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "obj": {
+        "left": 38.8,
+        "top": 421.9,
+        "width": 534.4,
+        "height": 117.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ops": {
+        "left": 38.8,
+        "top": 288.8,
+        "width": 534.4,
+        "height": 116.1,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "potHaz": {
+        "left": 38.8,
+        "top": 156.6,
+        "width": 534.4,
+        "height": 116.1,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "probability": {
+        "left": 38.8,
+        "top": 717.1,
+        "width": 173.7,
+        "height": 12.9,
+        "type": "text",
+        "description": "a. Probability",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "severity": {
+        "left": 218.7,
+        "top": 717.1,
+        "width": 173.7,
+        "height": 12.9,
+        "type": "text",
+        "description": "b. Severity",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "iRAC": {
+        "left": 397.1,
+        "top": 716.8,
+        "width": 176.5,
+        "height": 14.0,
+        "type": "text",
+        "description": "c. INITIAL RAC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "controls": {
+        "left": 38.8,
+        "top": 652.8,
+        "width": 534.4,
+        "height": 84.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "prob2": {
+        "left": 38.8,
+        "top": 537.0,
+        "width": 173.7,
+        "height": 12.9,
+        "type": "text",
+        "description": "a. Probability",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sev2": {
+        "left": 218.7,
+        "top": 537.0,
+        "width": 173.7,
+        "height": 12.9,
+        "type": "text",
+        "description": "b. Severity",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rRAC": {
+        "left": 398.0,
+        "top": 537.0,
+        "width": 173.7,
+        "height": 12.9,
+        "type": "text",
+        "description": "c. RESIDUAL RAC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "implement": {
+        "left": 38.8,
+        "top": 478.6,
+        "width": 534.4,
+        "height": 88.3,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "supervision": {
+        "left": 38.8,
+        "top": 337.0,
+        "width": 534.4,
+        "height": 91.1,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks3": {
+        "left": 38.8,
+        "top": 226.5,
+        "width": 534.4,
+        "height": 85.8,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox1": {
+        "left": 57.3,
+        "top": 130.9,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Remarks",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "revDte": {
+        "left": 37.5,
+        "top": 86.8,
+        "width": 124.3,
+        "height": 14.9,
+        "type": "text",
+        "description": "Review Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField1": {
+        "left": 167.1,
+        "top": 86.8,
+        "width": 202.3,
+        "height": 14.9,
+        "type": "text",
+        "description": "Printed Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField1": {
+        "left": 375.8,
+        "top": 86.8,
+        "width": 197.0,
+        "height": 14.9,
+        "type": "text",
+        "description": "Signature of Reviewing Official",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "revDte2": {
+        "left": 37.5,
+        "top": 70.3,
+        "width": 124.3,
+        "height": 14.9,
+        "type": "text",
+        "description": "Review Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField12": {
+        "left": 167.1,
+        "top": 70.3,
+        "width": 202.3,
+        "height": 14.9,
+        "type": "text",
+        "description": "Printed Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField12": {
+        "left": 375.8,
+        "top": 70.3,
+        "width": 197.0,
+        "height": 14.9,
+        "type": "text",
+        "description": "Signature of Reviewing Official",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "revDte3": {
+        "left": 37.5,
+        "top": 52.9,
+        "width": 124.3,
+        "height": 14.9,
+        "type": "text",
+        "description": "Review Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField13": {
+        "left": 167.1,
+        "top": 52.9,
+        "width": 202.3,
+        "height": 14.9,
+        "type": "text",
+        "description": "Printed Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signatureField13": {
+        "left": 375.8,
+        "top": 52.9,
+        "width": 197.0,
+        "height": 14.9,
+        "type": "text",
+        "description": "Signature of Reviewing Official",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

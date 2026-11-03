@@ -1,0 +1,1478 @@
+{
+  "id": "navmc10245",
+  "label": "NAVMC10245 - Equipment Repair Order (ero)",
+  "directory": "NAVMC10245 - Equipment Repair Order (ero)",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "eroNum",
+        "destAc",
+        "serNumber",
+        "orf",
+        "orgRepairs",
+        "date1",
+        "accepted",
+        "qty",
+        "requestNo",
+        "serialNo",
+        "jobID",
+        "ech",
+        "dcd",
+        "rdd",
+        "owningOrg",
+        "date2",
+        "iDNumber",
+        "defect",
+        "pri",
+        "ownerAC",
+        "nomencltr",
+        "authorized",
+        "jon",
+        "jobStat",
+        "shop",
+        "categoryCode",
+        "signature",
+        "dispRef",
+        "remarks1",
+        "phoneNumOwner",
+        "secRep",
+        "nSNorTDRIS",
+        "tam",
+        "wsc",
+        "nomenclature",
+        "cardTypeList",
+        "cardTypeList2",
+        "cardTypeList3",
+        "cardTypeList4",
+        "checkBox1",
+        "itemNum0",
+        "status0",
+        "signature2",
+        "itemNum1",
+        "status1",
+        "signature3",
+        "itemNum2",
+        "status2",
+        "signature4",
+        "itemNum3",
+        "status3",
+        "signature5",
+        "itemNum4",
+        "status4",
+        "signature6",
+        "itemNum5",
+        "status5",
+        "signature7",
+        "itemNum6",
+        "status6",
+        "signature8",
+        "itemNum7",
+        "status7",
+        "signature9",
+        "itemNum8",
+        "status8",
+        "signature10",
+        "itemNum9",
+        "status9",
+        "signature11",
+        "itemNum10",
+        "status10",
+        "signature12",
+        "itemNum11",
+        "status11",
+        "signature13",
+        "itemNum12",
+        "status12",
+        "signature14",
+        "itemNum13",
+        "status13",
+        "signature15",
+        "itemNum14",
+        "status14",
+        "signature16",
+        "itemNum15",
+        "itemNum152",
+        "status15",
+        "status152",
+        "signature17",
+        "milLaborHrs",
+        "civLaborCharge",
+        "nonSassyPartsChg",
+        "closeSta",
+        "noUnser",
+        "eot",
+        "primaryMeterReading",
+        "dateClosed",
+        "defect1Tasks",
+        "defect2",
+        "defect3Tasks",
+        "defect1ManHours",
+        "defect2Tasks",
+        "defect2ManHours",
+        "defect1",
+        "defect3",
+        "defect3ManHours",
+        "inspected",
+        "delivered",
+        "inspectorDate",
+        "ownerNotifyDate",
+        "deliverSignDate",
+        "nameOwnerNot"
+      ]
+    }
+  ],
+  "fields": {
+    "eroNum": {
+      "type": "text",
+      "label": "E R O number.",
+      "page": 1,
+      "box": {
+        "left": 25.5,
+        "top": 581.2,
+        "width": 87.7,
+        "height": 20.4
+      }
+    },
+    "destAc": {
+      "type": "text",
+      "label": "Dest, A C,",
+      "page": 1,
+      "box": {
+        "left": 674.1,
+        "top": 579.7,
+        "width": 93.5,
+        "height": 19.3
+      }
+    },
+    "serNumber": {
+      "type": "text",
+      "label": "Serial number turned in if different from below.  ",
+      "page": 1,
+      "box": {
+        "left": 141.6,
+        "top": 578.4,
+        "width": 129.6,
+        "height": 17.6
+      }
+    },
+    "orf": {
+      "type": "text",
+      "label": "O R F.",
+      "page": 1,
+      "box": {
+        "left": 535.2,
+        "top": 578.4,
+        "width": 35.2,
+        "height": 17.6
+      }
+    },
+    "orgRepairs": {
+      "type": "text",
+      "label": "Organization doing repairs.  ",
+      "page": 1,
+      "box": {
+        "left": 571.4,
+        "top": 578.3,
+        "width": 100.9,
+        "height": 17.6
+      }
+    },
+    "date1": {
+      "type": "text",
+      "label": "Enter date using format 2003 12 23",
+      "page": 1,
+      "box": {
+        "left": 460.9,
+        "top": 577.5,
+        "width": 72.8,
+        "height": 17.0
+      }
+    },
+    "accepted": {
+      "type": "signature",
+      "label": "Accepted",
+      "page": 1,
+      "box": {
+        "left": 275.1,
+        "top": 576.6,
+        "width": 180.4,
+        "height": 13.6
+      }
+    },
+    "qty": {
+      "type": "text",
+      "label": "QTY",
+      "page": 1,
+      "box": {
+        "left": 461.2,
+        "top": 552.3,
+        "width": 34.2,
+        "height": 14.3
+      }
+    },
+    "requestNo": {
+      "type": "text",
+      "label": "RequestNo",
+      "page": 1,
+      "box": {
+        "left": 25.9,
+        "top": 552.1,
+        "width": 87.7,
+        "height": 14.3
+      }
+    },
+    "serialNo": {
+      "type": "text",
+      "label": "SerialNo",
+      "page": 1,
+      "box": {
+        "left": 242.1,
+        "top": 552.1,
+        "width": 179.7,
+        "height": 14.3
+      }
+    },
+    "jobID": {
+      "type": "text",
+      "label": "JobID",
+      "page": 1,
+      "box": {
+        "left": 423.3,
+        "top": 552.1,
+        "width": 36.8,
+        "height": 14.3
+      }
+    },
+    "ech": {
+      "type": "text",
+      "label": "ECH",
+      "page": 1,
+      "box": {
+        "left": 188.2,
+        "top": 552.0,
+        "width": 52.1,
+        "height": 14.3
+      }
+    },
+    "dcd": {
+      "type": "text",
+      "label": "DCD",
+      "page": 1,
+      "box": {
+        "left": 118.0,
+        "top": 551.9,
+        "width": 65.7,
+        "height": 12.6
+      }
+    },
+    "rdd": {
+      "type": "text",
+      "label": "RDD",
+      "page": 1,
+      "box": {
+        "left": 499.6,
+        "top": 550.6,
+        "width": 66.9,
+        "height": 12.1
+      }
+    },
+    "owningOrg": {
+      "type": "text",
+      "label": "Owning organization.",
+      "page": 1,
+      "box": {
+        "left": 571.2,
+        "top": 550.3,
+        "width": 196.8,
+        "height": 12.8
+      }
+    },
+    "date2": {
+      "type": "text",
+      "label": "Enter date using format 2003 12 23",
+      "page": 1,
+      "box": {
+        "left": 241.6,
+        "top": 530.4,
+        "width": 89.6,
+        "height": 14.4
+      }
+    },
+    "iDNumber": {
+      "type": "text",
+      "label": "IDNumber",
+      "page": 1,
+      "box": {
+        "left": 423.1,
+        "top": 530.4,
+        "width": 111.3,
+        "height": 14.3
+      }
+    },
+    "defect": {
+      "type": "text",
+      "label": "Defect",
+      "page": 1,
+      "box": {
+        "left": 333.3,
+        "top": 530.1,
+        "width": 53.1,
+        "height": 14.3
+      }
+    },
+    "pri": {
+      "type": "text",
+      "label": "PRI",
+      "page": 1,
+      "box": {
+        "left": 388.7,
+        "top": 530.1,
+        "width": 33.7,
+        "height": 14.3
+      }
+    },
+    "ownerAC": {
+      "type": "text",
+      "label": "OwnerAC",
+      "page": 1,
+      "box": {
+        "left": 25.5,
+        "top": 529.2,
+        "width": 87.7,
+        "height": 13.2
+      }
+    },
+    "nomencltr": {
+      "type": "text",
+      "label": "Nomenclature.",
+      "page": 1,
+      "box": {
+        "left": 535.2,
+        "top": 528.8,
+        "width": 231.2,
+        "height": 12.8
+      }
+    },
+    "authorized": {
+      "type": "signature",
+      "label": "Authorized",
+      "page": 1,
+      "box": {
+        "left": 117.9,
+        "top": 526.1,
+        "width": 119.6,
+        "height": 7.2
+      }
+    },
+    "jon": {
+      "type": "text",
+      "label": "JON",
+      "page": 1,
+      "box": {
+        "left": 260.4,
+        "top": 508.5,
+        "width": 253.0,
+        "height": 13.1
+      }
+    },
+    "jobStat": {
+      "type": "text",
+      "label": "JobStat",
+      "page": 1,
+      "box": {
+        "left": 221.7,
+        "top": 508.3,
+        "width": 37.5,
+        "height": 12.8
+      }
+    },
+    "shop": {
+      "type": "text",
+      "label": "Shop",
+      "page": 1,
+      "box": {
+        "left": 515.7,
+        "top": 508.2,
+        "width": 37.1,
+        "height": 12.8
+      }
+    },
+    "categoryCode": {
+      "type": "choice",
+      "label": "CategoryCode",
+      "page": 1,
+      "box": {
+        "left": 28.2,
+        "top": 506.0,
+        "width": 94.8,
+        "height": 7.4
+      },
+      "options": [
+        "M",
+        "N",
+        "P",
+        "X",
+        "C",
+        "D",
+        "O",
+        "F",
+        "H",
+        "K",
+        "S"
+      ]
+    },
+    "signature": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 559.6,
+        "top": 505.6,
+        "width": 205.3,
+        "height": 7.9
+      }
+    },
+    "dispRef": {
+      "type": "text",
+      "label": "Disposition reference.  ",
+      "page": 1,
+      "box": {
+        "left": 25.2,
+        "top": 486.6,
+        "width": 194.8,
+        "height": 11.5
+      }
+    },
+    "remarks1": {
+      "type": "text",
+      "label": "Remarks.",
+      "page": 1,
+      "box": {
+        "left": 556.0,
+        "top": 486.4,
+        "width": 212.8,
+        "height": 11.9
+      }
+    },
+    "phoneNumOwner": {
+      "type": "text",
+      "label": "Owner's phone number.",
+      "page": 1,
+      "box": {
+        "left": 221.6,
+        "top": 485.7,
+        "width": 128.8,
+        "height": 11.1
+      }
+    },
+    "secRep": {
+      "type": "text",
+      "label": "Sec Rep N S N.",
+      "page": 1,
+      "box": {
+        "left": 351.2,
+        "top": 485.3,
+        "width": 204.8,
+        "height": 10.7
+      }
+    },
+    "nSNorTDRIS": {
+      "type": "text",
+      "label": "Disposition reference.  ",
+      "page": 1,
+      "box": {
+        "left": 145.5,
+        "top": 463.9,
+        "width": 225.0,
+        "height": 18.2
+      }
+    },
+    "tam": {
+      "type": "text",
+      "label": "TAM",
+      "page": 1,
+      "box": {
+        "left": 669.0,
+        "top": 463.4,
+        "width": 97.9,
+        "height": 18.0
+      }
+    },
+    "wsc": {
+      "type": "text",
+      "label": "WSC",
+      "page": 1,
+      "box": {
+        "left": 375.0,
+        "top": 461.3,
+        "width": 36.0,
+        "height": 15.8
+      }
+    },
+    "nomenclature": {
+      "type": "text",
+      "label": "Nomenclature",
+      "page": 1,
+      "box": {
+        "left": 411.9,
+        "top": 460.9,
+        "width": 254.4,
+        "height": 15.8
+      }
+    },
+    "cardTypeList": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 33.3,
+        "top": 454.1,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_0_CardTypeList_0"
+    },
+    "cardTypeList2": {
+      "type": "radio",
+      "label": "3",
+      "page": 1,
+      "box": {
+        "left": 58.9,
+        "top": 454.0,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_0_CardTypeList_0"
+    },
+    "cardTypeList3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 85.0,
+        "top": 454.0,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_0_CardTypeList_0"
+    },
+    "cardTypeList4": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 110.4,
+        "top": 454.0,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_Figure_0_CardTypeList_0"
+    },
+    "checkBox1": {
+      "type": "checkbox",
+      "label": "3",
+      "page": 1,
+      "box": {
+        "left": 132.1,
+        "top": 453.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "itemNum0": {
+      "type": "text",
+      "label": "Item number. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 24.0,
+        "top": 424.8,
+        "width": 25.6,
+        "height": 14.4
+      }
+    },
+    "status0": {
+      "type": "text",
+      "label": "Status. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 432.8,
+        "top": 424.8,
+        "width": 56.8,
+        "height": 14.4
+      }
+    },
+    "signature2": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 303.3,
+        "top": 421.9,
+        "width": 124.7,
+        "height": 9.2
+      }
+    },
+    "itemNum1": {
+      "type": "text",
+      "label": "Item number. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 24.0,
+        "top": 409.7,
+        "width": 25.6,
+        "height": 14.4
+      }
+    },
+    "status1": {
+      "type": "text",
+      "label": "Status. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 432.8,
+        "top": 409.7,
+        "width": 56.8,
+        "height": 14.4
+      }
+    },
+    "signature3": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 303.3,
+        "top": 405.9,
+        "width": 123.5,
+        "height": 7.9
+      }
+    },
+    "itemNum2": {
+      "type": "text",
+      "label": "Item number. Line 3.",
+      "page": 1,
+      "box": {
+        "left": 24.0,
+        "top": 394.5,
+        "width": 25.6,
+        "height": 14.4
+      }
+    },
+    "status2": {
+      "type": "text",
+      "label": "Status. Line 3.",
+      "page": 1,
+      "box": {
+        "left": 432.8,
+        "top": 394.5,
+        "width": 56.8,
+        "height": 14.4
+      }
+    },
+    "signature4": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 303.9,
+        "top": 391.2,
+        "width": 122.2,
+        "height": 7.9
+      }
+    },
+    "itemNum3": {
+      "type": "text",
+      "label": "Item number. Line 4.",
+      "page": 1,
+      "box": {
+        "left": 24.0,
+        "top": 379.4,
+        "width": 25.6,
+        "height": 14.4
+      }
+    },
+    "status3": {
+      "type": "text",
+      "label": "Status. Line 4.",
+      "page": 1,
+      "box": {
+        "left": 432.8,
+        "top": 379.4,
+        "width": 56.8,
+        "height": 14.4
+      }
+    },
+    "signature5": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 303.3,
+        "top": 375.9,
+        "width": 124.1,
+        "height": 7.2
+      }
+    },
+    "itemNum4": {
+      "type": "text",
+      "label": "Item number. Line 5.",
+      "page": 1,
+      "box": {
+        "left": 24.0,
+        "top": 364.2,
+        "width": 25.6,
+        "height": 14.4
+      }
+    },
+    "status4": {
+      "type": "text",
+      "label": "Status. Line 5.",
+      "page": 1,
+      "box": {
+        "left": 432.8,
+        "top": 364.2,
+        "width": 56.8,
+        "height": 14.4
+      }
+    },
+    "signature6": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 303.3,
+        "top": 361.1,
+        "width": 124.1,
+        "height": 8.5
+      }
+    },
+    "itemNum5": {
+      "type": "text",
+      "label": "Item number. Line 6.",
+      "page": 1,
+      "box": {
+        "left": 24.0,
+        "top": 349.1,
+        "width": 25.6,
+        "height": 14.4
+      }
+    },
+    "status5": {
+      "type": "text",
+      "label": "Status. Line 6.",
+      "page": 1,
+      "box": {
+        "left": 432.8,
+        "top": 349.1,
+        "width": 56.8,
+        "height": 14.4
+      }
+    },
+    "signature7": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 303.3,
+        "top": 346.5,
+        "width": 124.7,
+        "height": 9.2
+      }
+    },
+    "itemNum6": {
+      "type": "text",
+      "label": "Item number. Line 7.",
+      "page": 1,
+      "box": {
+        "left": 24.0,
+        "top": 333.9,
+        "width": 25.6,
+        "height": 14.4
+      }
+    },
+    "status6": {
+      "type": "text",
+      "label": "Status. Line 7.",
+      "page": 1,
+      "box": {
+        "left": 432.8,
+        "top": 333.9,
+        "width": 56.8,
+        "height": 14.4
+      }
+    },
+    "signature8": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 303.9,
+        "top": 330.5,
+        "width": 122.8,
+        "height": 7.2
+      }
+    },
+    "itemNum7": {
+      "type": "text",
+      "label": "Item number. Line 8.",
+      "page": 1,
+      "box": {
+        "left": 24.0,
+        "top": 319.2,
+        "width": 25.6,
+        "height": 14.4
+      }
+    },
+    "status7": {
+      "type": "text",
+      "label": "Status. Line 8.",
+      "page": 1,
+      "box": {
+        "left": 432.8,
+        "top": 319.2,
+        "width": 56.8,
+        "height": 14.4
+      }
+    },
+    "signature9": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 303.3,
+        "top": 315.8,
+        "width": 123.5,
+        "height": 8.5
+      }
+    },
+    "itemNum8": {
+      "type": "text",
+      "label": "Item number. Line 9.",
+      "page": 1,
+      "box": {
+        "left": 24.0,
+        "top": 303.6,
+        "width": 25.6,
+        "height": 14.4
+      }
+    },
+    "status8": {
+      "type": "text",
+      "label": "Status. Line 9.",
+      "page": 1,
+      "box": {
+        "left": 432.8,
+        "top": 303.6,
+        "width": 56.8,
+        "height": 14.4
+      }
+    },
+    "signature10": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 303.3,
+        "top": 301.7,
+        "width": 124.1,
+        "height": 9.8
+      }
+    },
+    "itemNum9": {
+      "type": "text",
+      "label": "Item number. Line 10.",
+      "page": 1,
+      "box": {
+        "left": 24.0,
+        "top": 288.5,
+        "width": 25.6,
+        "height": 14.4
+      }
+    },
+    "status9": {
+      "type": "text",
+      "label": "Status. Line 10.",
+      "page": 1,
+      "box": {
+        "left": 432.8,
+        "top": 288.5,
+        "width": 56.8,
+        "height": 14.4
+      }
+    },
+    "signature11": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 303.3,
+        "top": 286.4,
+        "width": 124.1,
+        "height": 9.2
+      }
+    },
+    "itemNum10": {
+      "type": "text",
+      "label": "Item number. Line 11.",
+      "page": 1,
+      "box": {
+        "left": 24.0,
+        "top": 273.3,
+        "width": 25.6,
+        "height": 14.4
+      }
+    },
+    "status10": {
+      "type": "text",
+      "label": "Status. Line 11.",
+      "page": 1,
+      "box": {
+        "left": 432.8,
+        "top": 273.3,
+        "width": 56.8,
+        "height": 14.4
+      }
+    },
+    "signature12": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 303.3,
+        "top": 269.7,
+        "width": 123.5,
+        "height": 7.9
+      }
+    },
+    "itemNum11": {
+      "type": "text",
+      "label": "Item number. Line 12.",
+      "page": 1,
+      "box": {
+        "left": 24.0,
+        "top": 258.2,
+        "width": 25.6,
+        "height": 14.4
+      }
+    },
+    "status11": {
+      "type": "text",
+      "label": "Status. Line 12.",
+      "page": 1,
+      "box": {
+        "left": 432.8,
+        "top": 258.2,
+        "width": 56.8,
+        "height": 14.4
+      }
+    },
+    "signature13": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 303.3,
+        "top": 255.0,
+        "width": 123.5,
+        "height": 8.5
+      }
+    },
+    "itemNum12": {
+      "type": "text",
+      "label": "Item number. Line 13.",
+      "page": 1,
+      "box": {
+        "left": 24.0,
+        "top": 243.0,
+        "width": 25.6,
+        "height": 14.4
+      }
+    },
+    "status12": {
+      "type": "text",
+      "label": "Status. Line 13.",
+      "page": 1,
+      "box": {
+        "left": 432.8,
+        "top": 243.0,
+        "width": 56.8,
+        "height": 14.4
+      }
+    },
+    "signature14": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 303.9,
+        "top": 239.1,
+        "width": 122.8,
+        "height": 7.9
+      }
+    },
+    "itemNum13": {
+      "type": "text",
+      "label": "Item number. Line 14.",
+      "page": 1,
+      "box": {
+        "left": 24.0,
+        "top": 227.9,
+        "width": 25.6,
+        "height": 14.4
+      }
+    },
+    "status13": {
+      "type": "text",
+      "label": "Status. Line 14.",
+      "page": 1,
+      "box": {
+        "left": 432.8,
+        "top": 227.9,
+        "width": 56.8,
+        "height": 14.4
+      }
+    },
+    "signature15": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 303.3,
+        "top": 225.0,
+        "width": 123.5,
+        "height": 8.5
+      }
+    },
+    "itemNum14": {
+      "type": "text",
+      "label": "Item number. Line 15.",
+      "page": 1,
+      "box": {
+        "left": 24.0,
+        "top": 212.7,
+        "width": 25.6,
+        "height": 14.4
+      }
+    },
+    "status14": {
+      "type": "text",
+      "label": "Status. Line 15.",
+      "page": 1,
+      "box": {
+        "left": 432.8,
+        "top": 212.7,
+        "width": 56.8,
+        "height": 14.4
+      }
+    },
+    "signature16": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 303.3,
+        "top": 210.9,
+        "width": 168.7,
+        "height": 9.8
+      }
+    },
+    "itemNum15": {
+      "type": "text",
+      "label": "Item number. Line 16.",
+      "page": 1,
+      "box": {
+        "left": 24.0,
+        "top": 197.6,
+        "width": 25.6,
+        "height": 14.4
+      }
+    },
+    "itemNum152": {
+      "type": "text",
+      "label": "Item number. Line 16.",
+      "page": 1,
+      "box": {
+        "left": 24.0,
+        "top": 197.6,
+        "width": 25.6,
+        "height": 14.4
+      }
+    },
+    "status15": {
+      "type": "text",
+      "label": "Status. Line 16.",
+      "page": 1,
+      "box": {
+        "left": 432.8,
+        "top": 197.6,
+        "width": 56.8,
+        "height": 14.4
+      }
+    },
+    "status152": {
+      "type": "text",
+      "label": "Status. Line 16.",
+      "page": 1,
+      "box": {
+        "left": 432.8,
+        "top": 197.6,
+        "width": 56.8,
+        "height": 14.4
+      }
+    },
+    "signature17": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 194.3,
+        "width": 125.4,
+        "height": 7.9
+      }
+    },
+    "milLaborHrs": {
+      "type": "text",
+      "label": "Status. Line 16.",
+      "page": 1,
+      "box": {
+        "left": 418.3,
+        "top": 176.1,
+        "width": 107.7,
+        "height": 25.0
+      }
+    },
+    "civLaborCharge": {
+      "type": "text",
+      "label": "Item number. Line 16.",
+      "page": 1,
+      "box": {
+        "left": 25.2,
+        "top": 175.8,
+        "width": 129.0,
+        "height": 25.2
+      }
+    },
+    "nonSassyPartsChg": {
+      "type": "text",
+      "label": "Item number. Line 16.",
+      "page": 1,
+      "box": {
+        "left": 157.1,
+        "top": 175.8,
+        "width": 172.8,
+        "height": 25.2
+      }
+    },
+    "closeSta": {
+      "type": "text",
+      "label": "Status. Line 16.",
+      "page": 1,
+      "box": {
+        "left": 527.5,
+        "top": 175.7,
+        "width": 42.6,
+        "height": 24.9
+      }
+    },
+    "noUnser": {
+      "type": "text",
+      "label": "Status. Line 16.",
+      "page": 1,
+      "box": {
+        "left": 571.1,
+        "top": 175.5,
+        "width": 42.6,
+        "height": 24.9
+      }
+    },
+    "eot": {
+      "type": "text",
+      "label": "Status. Line 16.",
+      "page": 1,
+      "box": {
+        "left": 614.9,
+        "top": 175.4,
+        "width": 20.1,
+        "height": 24.9
+      }
+    },
+    "primaryMeterReading": {
+      "type": "text",
+      "label": "Status. Line 16.",
+      "page": 1,
+      "box": {
+        "left": 636.5,
+        "top": 175.4,
+        "width": 130.5,
+        "height": 24.9
+      }
+    },
+    "dateClosed": {
+      "type": "text",
+      "label": "DateClosed",
+      "page": 1,
+      "box": {
+        "left": 334.2,
+        "top": 173.1,
+        "width": 79.4,
+        "height": 19.2
+      }
+    },
+    "defect1Tasks": {
+      "type": "text",
+      "label": "Item number. Line 16.",
+      "page": 1,
+      "box": {
+        "left": 99.3,
+        "top": 123.6,
+        "width": 72.4,
+        "height": 22.5
+      }
+    },
+    "defect2": {
+      "type": "text",
+      "label": "Item number. Line 16.",
+      "page": 1,
+      "box": {
+        "left": 272.3,
+        "top": 123.6,
+        "width": 72.7,
+        "height": 22.5
+      }
+    },
+    "defect3Tasks": {
+      "type": "text",
+      "label": "Item number. Line 16.",
+      "page": 1,
+      "box": {
+        "left": 595.0,
+        "top": 123.6,
+        "width": 72.2,
+        "height": 22.2
+      }
+    },
+    "defect1ManHours": {
+      "type": "text",
+      "label": "Item number. Line 16.",
+      "page": 1,
+      "box": {
+        "left": 173.7,
+        "top": 123.4,
+        "width": 97.5,
+        "height": 22.5
+      }
+    },
+    "defect2Tasks": {
+      "type": "text",
+      "label": "Item number. Line 16.",
+      "page": 1,
+      "box": {
+        "left": 346.8,
+        "top": 123.4,
+        "width": 72.7,
+        "height": 22.5
+      }
+    },
+    "defect2ManHours": {
+      "type": "text",
+      "label": "Item number. Line 16.",
+      "page": 1,
+      "box": {
+        "left": 421.1,
+        "top": 123.4,
+        "width": 97.8,
+        "height": 22.5
+      }
+    },
+    "defect1": {
+      "type": "text",
+      "label": "Item number. Line 16.",
+      "page": 1,
+      "box": {
+        "left": 25.1,
+        "top": 123.3,
+        "width": 72.4,
+        "height": 22.5
+      }
+    },
+    "defect3": {
+      "type": "text",
+      "label": "Item number. Line 16.",
+      "page": 1,
+      "box": {
+        "left": 520.2,
+        "top": 123.3,
+        "width": 72.7,
+        "height": 22.5
+      }
+    },
+    "defect3ManHours": {
+      "type": "text",
+      "label": "Item number. Line 16.",
+      "page": 1,
+      "box": {
+        "left": 669.5,
+        "top": 123.3,
+        "width": 97.6,
+        "height": 22.2
+      }
+    },
+    "inspected": {
+      "type": "signature",
+      "label": "Inspected",
+      "page": 1,
+      "box": {
+        "left": 27.3,
+        "top": 83.1,
+        "width": 164.9,
+        "height": 13.6
+      }
+    },
+    "delivered": {
+      "type": "signature",
+      "label": "Delivered",
+      "page": 1,
+      "box": {
+        "left": 523.2,
+        "top": 83.1,
+        "width": 165.6,
+        "height": 13.6
+      }
+    },
+    "inspectorDate": {
+      "type": "text",
+      "label": "Enter status date using format 2002 12 24.",
+      "page": 1,
+      "box": {
+        "left": 197.6,
+        "top": 80.8,
+        "width": 74.4,
+        "height": 14.4
+      }
+    },
+    "ownerNotifyDate": {
+      "type": "text",
+      "label": "Enter status date using format 2002 12 24. ",
+      "page": 1,
+      "box": {
+        "left": 446.4,
+        "top": 80.8,
+        "width": 73.6,
+        "height": 14.4
+      }
+    },
+    "deliverSignDate": {
+      "type": "text",
+      "label": "Enter status date using format 2002 12 24. ",
+      "page": 1,
+      "box": {
+        "left": 693.6,
+        "top": 80.8,
+        "width": 73.6,
+        "height": 14.4
+      }
+    },
+    "nameOwnerNot": {
+      "type": "text",
+      "label": "Owner notified ( Name ).",
+      "page": 1,
+      "box": {
+        "left": 272.8,
+        "top": 80.0,
+        "width": 170.8,
+        "height": 14.4
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 16,
+      "rowStride": 15.15,
+      "editor": "grid",
+      "columns": {
+        "descripWork": {
+          "type": "text",
+          "label": "Description of work. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 51.2,
+            "top": 424.8,
+            "width": 211.2,
+            "height": 14.4
+          }
+        },
+        "laborHrs": {
+          "type": "text",
+          "label": "Labor ( Hours ). Line 1.",
+          "page": 1,
+          "box": {
+            "left": 264.0,
+            "top": 424.8,
+            "width": 35.2,
+            "height": 14.4
+          }
+        },
+        "code": {
+          "type": "text",
+          "label": "Code. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 491.2,
+            "top": 424.8,
+            "width": 24.0,
+            "height": 14.4
+          }
+        },
+        "dateStatus": {
+          "type": "text",
+          "label": "Enter status date using format 2002 12 24. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 516.8,
+            "top": 424.8,
+            "width": 59.2,
+            "height": 14.4
+          }
+        },
+        "nonSassyPrts": {
+          "type": "text",
+          "label": "Non - sassy parts Nomen, N D N  P R part number . Line 1.",
+          "page": 1,
+          "box": {
+            "left": 577.6,
+            "top": 424.8,
+            "width": 116.0,
+            "height": 14.4
+          }
+        },
+        "quantity": {
+          "type": "text",
+          "label": "Quantity. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 694.4,
+            "top": 424.8,
+            "width": 20.0,
+            "height": 14.4
+          }
+        },
+        "cost": {
+          "type": "text",
+          "label": "Cost. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 714.4,
+            "top": 424.8,
+            "width": 42.4,
+            "height": 14.4
+          }
+        }
+      }
+    }
+  }
+}

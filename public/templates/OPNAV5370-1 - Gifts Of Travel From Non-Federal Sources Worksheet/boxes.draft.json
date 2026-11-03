@@ -1,0 +1,491 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "accOff": {
+        "left": 39.1,
+        "top": 644.5,
+        "width": 264.3,
+        "height": 30.8,
+        "type": "text",
+        "description": "Name and title of Acceptance Official",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "empInfo": {
+        "left": 309.5,
+        "top": 644.5,
+        "width": 264.3,
+        "height": 30.8,
+        "type": "text",
+        "description": "Name, Title, Position of DoD employee",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "datTrl": {
+        "left": 309.5,
+        "top": 598.1,
+        "width": 264.3,
+        "height": 30.0,
+        "type": "text",
+        "description": "Date (s) of Travel (Indicate date of spouse's travel if different)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "accpSps": {
+        "left": 39.1,
+        "top": 589.8,
+        "width": 264.3,
+        "height": 21.7,
+        "type": "text",
+        "description": "Enter name of accompany spouse if applicable.  Note: Spouse must be an official participant",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "locFun": {
+        "left": 309.5,
+        "top": 553.2,
+        "width": 264.3,
+        "height": 31.5,
+        "type": "text",
+        "description": "Location of meeting/function",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fundSour": {
+        "left": 39.1,
+        "top": 543.4,
+        "width": 264.3,
+        "height": 21.7,
+        "type": "text",
+        "description": "Name of Non-Federal source providing travel/lodging and/or expenses",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "natFun": {
+        "left": 39.1,
+        "top": 505.3,
+        "width": 533.9,
+        "height": 63.3,
+        "type": "text",
+        "description": "Nature of meeting/function and date (s)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "tranAmt": {
+        "left": 399.4,
+        "top": 401.1,
+        "width": 55.8,
+        "height": 18.0,
+        "type": "text",
+        "description": "Transportation amount",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cash2": {
+        "left": 471.6,
+        "top": 398.0,
+        "width": 40.8,
+        "height": 14.3,
+        "type": "text",
+        "description": "Transportation",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "check2": {
+        "left": 524.1,
+        "top": 398.0,
+        "width": 40.8,
+        "height": 14.3,
+        "type": "text",
+        "description": "Transportation",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "transRB": {
+        "left": 249.2,
+        "top": 396.1,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[0].TransRB[0]",
+        "required": false
+      },
+      "transRB2": {
+        "left": 330.9,
+        "top": 396.1,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[0].TransRB[0]",
+        "required": false
+      },
+      "lodamt": {
+        "left": 399.4,
+        "top": 379.9,
+        "width": 55.9,
+        "height": 18.0,
+        "type": "text",
+        "description": "Lodging Amount",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "check3": {
+        "left": 522.6,
+        "top": 378.3,
+        "width": 40.8,
+        "height": 14.3,
+        "type": "text",
+        "description": "Lodging",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cash3": {
+        "left": 471.6,
+        "top": 376.8,
+        "width": 40.8,
+        "height": 14.3,
+        "type": "text",
+        "description": "Lodging",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "lodRB": {
+        "left": 249.2,
+        "top": 375.2,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[0].LodRB[0]",
+        "required": false
+      },
+      "lodRB2": {
+        "left": 331.0,
+        "top": 375.2,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[0].LodRB[0]",
+        "required": false
+      },
+      "meaAmt": {
+        "left": 399.4,
+        "top": 359.4,
+        "width": 55.9,
+        "height": 18.0,
+        "type": "text",
+        "description": "Meals Amount",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "check4": {
+        "left": 522.7,
+        "top": 356.7,
+        "width": 40.8,
+        "height": 14.3,
+        "type": "text",
+        "description": "Meals",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cash4": {
+        "left": 471.7,
+        "top": 355.2,
+        "width": 40.8,
+        "height": 14.3,
+        "type": "text",
+        "description": "Meals",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mealsRB": {
+        "left": 249.2,
+        "top": 353.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[0].MealsRB[0]",
+        "required": false
+      },
+      "mealsRB2": {
+        "left": 330.9,
+        "top": 353.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[0].MealsRB[0]",
+        "required": false
+      },
+      "confAmt": {
+        "left": 398.4,
+        "top": 338.6,
+        "width": 55.8,
+        "height": 18.0,
+        "type": "text",
+        "description": "Conference fee amount.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cash1": {
+        "left": 472.1,
+        "top": 334.2,
+        "width": 40.8,
+        "height": 14.3,
+        "type": "text",
+        "description": "Conference Fee",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "confRB": {
+        "left": 249.1,
+        "top": 333.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[0].ConfRB[0]",
+        "required": false
+      },
+      "confRB2": {
+        "left": 330.4,
+        "top": 333.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[0].ConfRB[0]",
+        "required": false
+      },
+      "check1": {
+        "left": 523.2,
+        "top": 333.5,
+        "width": 40.8,
+        "height": 14.3,
+        "type": "text",
+        "description": "Conference Fee",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "otherHolder1": {
+        "left": 132.1,
+        "top": 318.0,
+        "width": 93.8,
+        "height": 18.1,
+        "type": "text",
+        "description": "Enter the type of other expense.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "oEAmt": {
+        "left": 399.4,
+        "top": 317.5,
+        "width": 55.9,
+        "height": 18.0,
+        "type": "text",
+        "description": "Other Expenses Amount",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "check5": {
+        "left": 522.6,
+        "top": 314.3,
+        "width": 40.8,
+        "height": 14.3,
+        "type": "text",
+        "description": "Other Expenses",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "othRB": {
+        "left": 249.2,
+        "top": 313.1,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[0].OthRB[0]",
+        "required": false
+      },
+      "othRB2": {
+        "left": 330.9,
+        "top": 313.1,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[0].OthRB[0]",
+        "required": false
+      },
+      "cash5": {
+        "left": 471.6,
+        "top": 312.8,
+        "width": 40.8,
+        "height": 14.3,
+        "type": "text",
+        "description": "Other Expenses",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "otherHolder12": {
+        "left": 131.1,
+        "top": 297.8,
+        "width": 93.8,
+        "height": 18.1,
+        "type": "text",
+        "description": "Enter the type of other expense.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "oEAmt2": {
+        "left": 399.4,
+        "top": 296.6,
+        "width": 55.9,
+        "height": 18.0,
+        "type": "text",
+        "description": "Other Expenses Amount",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "check6": {
+        "left": 522.6,
+        "top": 293.3,
+        "width": 40.8,
+        "height": 14.3,
+        "type": "text",
+        "description": "Other Expenses",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "othRB22": {
+        "left": 249.2,
+        "top": 292.1,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[0].OthRB2[0]",
+        "required": false
+      },
+      "othRB23": {
+        "left": 330.9,
+        "top": 292.1,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[0].OthRB2[0]",
+        "required": false
+      },
+      "cash6": {
+        "left": 471.6,
+        "top": 291.8,
+        "width": 40.8,
+        "height": 14.3,
+        "type": "text",
+        "description": "Other Expenses",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "totInKind": {
+        "left": 229.1,
+        "top": 241.0,
+        "width": 72.0,
+        "height": 18.0,
+        "type": "text",
+        "description": "Total In Kind",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "totAmt": {
+        "left": 414.8,
+        "top": 241.0,
+        "width": 72.0,
+        "height": 18.0,
+        "type": "text",
+        "description": "Total Amount of Cash",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "othFac": {
+        "left": 39.1,
+        "top": 172.8,
+        "width": 533.9,
+        "height": 59.4,
+        "type": "text",
+        "description": "Enter other facts/information (may attach invitation or other pertinent information)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ptsCon": {
+        "left": 39.1,
+        "top": 96.7,
+        "width": 533.9,
+        "height": 54.7,
+        "type": "text",
+        "description": "Enter Point of Contact (s) and Telephone number (s)",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

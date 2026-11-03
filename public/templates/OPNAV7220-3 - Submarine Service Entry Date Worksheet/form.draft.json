@@ -1,0 +1,161 @@
+{
+  "id": "opnav72203",
+  "label": "OPNAV7220-3 - Submarine Service Entry Date Worksheet",
+  "directory": "OPNAV7220-3 - Submarine Service Entry Date Worksheet",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "doDID",
+        "cell3",
+        "cell32",
+        "cell33",
+        "cell34",
+        "cell35",
+        "cell36",
+        "cell37",
+        "cell38",
+        "cell39",
+        "cell310"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "1. NAME (Last, First, Middle Initial)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 695.6,
+        "width": 278.3,
+        "height": 12.3
+      }
+    },
+    "doDID": {
+      "type": "text",
+      "label": "2. DoD ID",
+      "page": 1,
+      "box": {
+        "left": 323.1,
+        "top": 695.6,
+        "width": 250.2,
+        "height": 12.3
+      }
+    },
+    "cell3": {
+      "type": "text",
+      "label": "earliest event that",
+      "page": 1,
+      "box": {
+        "left": 491.9,
+        "top": 617.8,
+        "width": 82.2,
+        "height": 26.0
+      }
+    },
+    "cell32": {
+      "type": "text",
+      "label": "earliest event that",
+      "page": 1,
+      "box": {
+        "left": 491.9,
+        "top": 589.0,
+        "width": 82.2,
+        "height": 26.0
+      }
+    },
+    "cell33": {
+      "type": "text",
+      "label": "c. Report date to first submarine, or;",
+      "page": 1,
+      "box": {
+        "left": 491.9,
+        "top": 560.2,
+        "width": 82.2,
+        "height": 26.0
+      }
+    },
+    "cell34": {
+      "type": "text",
+      "label": "earliest event that",
+      "page": 1,
+      "box": {
+        "left": 491.9,
+        "top": 531.4,
+        "width": 82.2,
+        "height": 26.0
+      }
+    },
+    "cell35": {
+      "type": "text",
+      "label": "earliest event that",
+      "page": 1,
+      "box": {
+        "left": 491.9,
+        "top": 485.3,
+        "width": 82.2,
+        "height": 26.0
+      }
+    },
+    "cell36": {
+      "type": "text",
+      "label": "b. Report date to first submarine, or;",
+      "page": 1,
+      "box": {
+        "left": 491.9,
+        "top": 456.5,
+        "width": 82.2,
+        "height": 26.0
+      }
+    },
+    "cell37": {
+      "type": "text",
+      "label": "c. Designated &quot;SU&quot; by CNPC (PERS-403) letter",
+      "page": 1,
+      "box": {
+        "left": 491.9,
+        "top": 427.7,
+        "width": 82.2,
+        "height": 26.0
+      }
+    },
+    "cell38": {
+      "type": "text",
+      "label": "a. Class convening date of BESS, or;",
+      "page": 1,
+      "box": {
+        "left": 491.9,
+        "top": 370.0,
+        "width": 82.2,
+        "height": 26.0
+      }
+    },
+    "cell39": {
+      "type": "text",
+      "label": "earliest event that",
+      "page": 1,
+      "box": {
+        "left": 491.9,
+        "top": 341.2,
+        "width": 82.2,
+        "height": 26.0
+      }
+    },
+    "cell310": {
+      "type": "text",
+      "label": "c. Report date to first submarine",
+      "page": 1,
+      "box": {
+        "left": 491.9,
+        "top": 312.4,
+        "width": 82.2,
+        "height": 26.0
+      }
+    }
+  }
+}

@@ -1,0 +1,787 @@
+{
+  "id": "navmc11601",
+  "label": "NAVMC 11601 - Request For Environmental Impact Review",
+  "directory": "NAVMC11601 - Request For Environmental Impact Review",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "rcn",
+        "sectionIPROPONENTINFORMATION",
+        "1TOEnvironmentalPlanningFunction",
+        "2aTELEPHONENO",
+        "2FROMProponentOrganizationAndFunctionalAddressSymbol",
+        "3TITLEOFPROPOSEDACTION",
+        "4PURPOSEANDNEEDFORACTIONIdentifyDecisionToBeMadeAndNeedDate",
+        "5DESCRIPTIONOFPROPOSEDACTIONANDALTERNATIVESDOPAAProvideSufficientDetailsForEvaluationOfTheTotalAction",
+        "6PROPONENTAPPROVALNameAndGrade",
+        "6bDATE",
+        "airInstallation",
+        "airInstallation2",
+        "airInstallation3",
+        "airInstallation4",
+        "airQuality",
+        "airQuality2",
+        "airQuality3",
+        "airQuality4",
+        "waterResources",
+        "waterResources2",
+        "waterResources3",
+        "waterResources4",
+        "safetyOccHealth",
+        "safetyOccHealth2",
+        "safetyOccHealth3",
+        "safetyOccHealth4",
+        "hazMatWaste",
+        "hazMatWaste2",
+        "hazMatWaste3",
+        "hazMatWaste4",
+        "bioResources",
+        "bioResources2",
+        "bioResources3",
+        "bioResources4",
+        "culturalResources",
+        "culturalResources2",
+        "culturalResources3",
+        "culturalResources4",
+        "geologySoil",
+        "geologySoil2",
+        "geologySoil3",
+        "geologySoil4",
+        "socioeconomic",
+        "socioeconomic2",
+        "socioeconomic3",
+        "socioeconomic4",
+        "other",
+        "other2",
+        "other3",
+        "other4",
+        "sectionIIIENVIRONMENTALANALYSISDETERMINATION",
+        "or",
+        "qualifiesForCatEx",
+        "qualifiesForCatEx2",
+        "18REMARKS",
+        "19bDATE",
+        "19ENVIRONMENTALPLANNINGFUNCTIONCERTIFICATIONNameAndGrade",
+        "20bDATE",
+        "20PROPONENTAPPROVALNameAndGradeOFSECTIONIII"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "continuation"
+      ]
+    }
+  ],
+  "fields": {
+    "rcn": {
+      "type": "text",
+      "label": "RCN",
+      "page": 1,
+      "box": {
+        "left": 504.1,
+        "top": 719.9,
+        "width": 72.3,
+        "height": 9.6
+      }
+    },
+    "sectionIPROPONENTINFORMATION": {
+      "type": "text",
+      "label": "SECTION I - PROPONENT INFORMATION",
+      "page": 1,
+      "box": {
+        "left": 279.3,
+        "top": 689.4,
+        "width": 299.7,
+        "height": 13.3
+      }
+    },
+    "1TOEnvironmentalPlanningFunction": {
+      "type": "text",
+      "label": "1.  TO (Environmental Planning Function)",
+      "page": 1,
+      "box": {
+        "left": 32.6,
+        "top": 666.7,
+        "width": 202.8,
+        "height": 28.0
+      }
+    },
+    "2aTELEPHONENO": {
+      "type": "text",
+      "label": "2a.  TELEPHONE NO.",
+      "page": 1,
+      "box": {
+        "left": 469.1,
+        "top": 663.4,
+        "width": 109.6,
+        "height": 24.6
+      }
+    },
+    "2FROMProponentOrganizationAndFunctionalAddressSymbol": {
+      "type": "text",
+      "label": "2.  FROM (Proponent organization and functional address symbol)",
+      "page": 1,
+      "box": {
+        "left": 237.5,
+        "top": 658.8,
+        "width": 229.7,
+        "height": 20.0
+      }
+    },
+    "3TITLEOFPROPOSEDACTION": {
+      "type": "text",
+      "label": "3.  TITLE OF PROPOSED ACTION",
+      "page": 1,
+      "box": {
+        "left": 32.6,
+        "top": 629.4,
+        "width": 545.9,
+        "height": 28.0
+      }
+    },
+    "4PURPOSEANDNEEDFORACTIONIdentifyDecisionToBeMadeAndNeedDate": {
+      "type": "text",
+      "label": "4.  PURPOSE AND NEED FOR ACTION (Identify decision to be made and need date)",
+      "page": 1,
+      "box": {
+        "left": 32.6,
+        "top": 592.2,
+        "width": 545.9,
+        "height": 28.0
+      }
+    },
+    "5DESCRIPTIONOFPROPOSEDACTIONANDALTERNATIVESDOPAAProvideSufficientDetailsForEvaluationOfTheTotalAction": {
+      "type": "text",
+      "label": "5.  DESCRIPTION OF PROPOSED ACTION AND ALTERNATIVES (DOPAA) (Provide sufficient details for evaluation of the total action.)",
+      "page": 1,
+      "box": {
+        "left": 32.6,
+        "top": 554.9,
+        "width": 545.9,
+        "height": 28.0
+      }
+    },
+    "6PROPONENTAPPROVALNameAndGrade": {
+      "type": "text",
+      "label": "6.  PROPONENT APPROVAL (Name and Grade)",
+      "page": 1,
+      "box": {
+        "left": 32.6,
+        "top": 517.6,
+        "width": 209.3,
+        "height": 28.0
+      }
+    },
+    "6bDATE": {
+      "type": "text",
+      "label": "6b.  DATE",
+      "page": 1,
+      "box": {
+        "left": 471.9,
+        "top": 511.2,
+        "width": 100.2,
+        "height": 18.8
+      }
+    },
+    "airInstallation": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 479.2,
+        "top": 446.3,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_AirInstallation_0"
+    },
+    "airInstallation2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 508.0,
+        "top": 446.3,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_AirInstallation_0"
+    },
+    "airInstallation3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 537.1,
+        "top": 446.3,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_AirInstallation_0"
+    },
+    "airInstallation4": {
+      "type": "radio",
+      "label": "3",
+      "page": 1,
+      "box": {
+        "left": 564.4,
+        "top": 446.3,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_AirInstallation_0"
+    },
+    "airQuality": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 479.1,
+        "top": 427.5,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_AirQuality_0"
+    },
+    "airQuality2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 508.2,
+        "top": 427.5,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_AirQuality_0"
+    },
+    "airQuality3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 537.1,
+        "top": 427.5,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_AirQuality_0"
+    },
+    "airQuality4": {
+      "type": "radio",
+      "label": "3",
+      "page": 1,
+      "box": {
+        "left": 564.4,
+        "top": 427.5,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_AirQuality_0"
+    },
+    "waterResources": {
+      "type": "radio",
+      "label": "3",
+      "page": 1,
+      "box": {
+        "left": 479.1,
+        "top": 408.8,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_WaterResources_0"
+    },
+    "waterResources2": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 508.2,
+        "top": 408.8,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_WaterResources_0"
+    },
+    "waterResources3": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 537.1,
+        "top": 408.8,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_WaterResources_0"
+    },
+    "waterResources4": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 564.4,
+        "top": 408.8,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_WaterResources_0"
+    },
+    "safetyOccHealth": {
+      "type": "radio",
+      "label": "3",
+      "page": 1,
+      "box": {
+        "left": 479.1,
+        "top": 385.3,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_SafetyOccHealth_0"
+    },
+    "safetyOccHealth2": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 508.2,
+        "top": 384.8,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_SafetyOccHealth_0"
+    },
+    "safetyOccHealth3": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 537.1,
+        "top": 384.8,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_SafetyOccHealth_0"
+    },
+    "safetyOccHealth4": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 564.4,
+        "top": 384.8,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_SafetyOccHealth_0"
+    },
+    "hazMatWaste": {
+      "type": "radio",
+      "label": "3",
+      "page": 1,
+      "box": {
+        "left": 479.1,
+        "top": 362.3,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_HazMatWaste_0"
+    },
+    "hazMatWaste2": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 508.2,
+        "top": 362.3,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_HazMatWaste_0"
+    },
+    "hazMatWaste3": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 537.1,
+        "top": 362.3,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_HazMatWaste_0"
+    },
+    "hazMatWaste4": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 564.4,
+        "top": 362.3,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_HazMatWaste_0"
+    },
+    "bioResources": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 479.1,
+        "top": 342.9,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_BioResources_0"
+    },
+    "bioResources2": {
+      "type": "radio",
+      "label": "3",
+      "page": 1,
+      "box": {
+        "left": 508.2,
+        "top": 342.9,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_BioResources_0"
+    },
+    "bioResources3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 537.1,
+        "top": 342.9,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_BioResources_0"
+    },
+    "bioResources4": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 564.4,
+        "top": 342.9,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_BioResources_0"
+    },
+    "culturalResources": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 479.1,
+        "top": 323.4,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_CulturalResources_0"
+    },
+    "culturalResources2": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 508.2,
+        "top": 323.4,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_CulturalResources_0"
+    },
+    "culturalResources3": {
+      "type": "radio",
+      "label": "3",
+      "page": 1,
+      "box": {
+        "left": 537.1,
+        "top": 323.4,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_CulturalResources_0"
+    },
+    "culturalResources4": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 564.4,
+        "top": 323.4,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_CulturalResources_0"
+    },
+    "geologySoil": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 479.1,
+        "top": 302.3,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_GeologySoil_0"
+    },
+    "geologySoil2": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 508.2,
+        "top": 302.3,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_GeologySoil_0"
+    },
+    "geologySoil3": {
+      "type": "radio",
+      "label": "3",
+      "page": 1,
+      "box": {
+        "left": 537.1,
+        "top": 302.3,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_GeologySoil_0"
+    },
+    "geologySoil4": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 564.4,
+        "top": 301.8,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_GeologySoil_0"
+    },
+    "socioeconomic": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 479.1,
+        "top": 283.1,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_Socioeconomic_0"
+    },
+    "socioeconomic2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 508.2,
+        "top": 283.1,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_Socioeconomic_0"
+    },
+    "socioeconomic3": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 537.1,
+        "top": 283.1,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_Socioeconomic_0"
+    },
+    "socioeconomic4": {
+      "type": "radio",
+      "label": "3",
+      "page": 1,
+      "box": {
+        "left": 564.4,
+        "top": 283.1,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_Socioeconomic_0"
+    },
+    "other": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 479.1,
+        "top": 263.0,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_Other_0"
+    },
+    "other2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 508.2,
+        "top": 263.0,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_Other_0"
+    },
+    "other3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 537.1,
+        "top": 263.0,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_Other_0"
+    },
+    "other4": {
+      "type": "radio",
+      "label": "3",
+      "page": 1,
+      "box": {
+        "left": 564.4,
+        "top": 263.0,
+        "width": 8.0,
+        "height": 8.0
+      },
+      "group": "topmostSubform_0_Page1_0_Other_0"
+    },
+    "sectionIIIENVIRONMENTALANALYSISDETERMINATION": {
+      "type": "text",
+      "label": "SECTION III - ENVIRONMENTAL ANALYSIS DETERMINATION",
+      "page": 1,
+      "box": {
+        "left": 384.7,
+        "top": 249.1,
+        "width": 194.3,
+        "height": 13.3
+      }
+    },
+    "or": {
+      "type": "text",
+      "label": "OR",
+      "page": 1,
+      "box": {
+        "left": 475.1,
+        "top": 235.2,
+        "width": 66.7,
+        "height": 8.2
+      }
+    },
+    "qualifiesForCatEx": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 57.2,
+        "top": 233.5,
+        "width": 6.0,
+        "height": 6.0
+      },
+      "group": "topmostSubform_0_Page1_0_QualifiesForCatEx_0"
+    },
+    "qualifiesForCatEx2": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 56.7,
+        "top": 223.8,
+        "width": 6.0,
+        "height": 6.0
+      },
+      "group": "topmostSubform_0_Page1_0_QualifiesForCatEx_0"
+    },
+    "18REMARKS": {
+      "type": "text",
+      "label": "18.  REMARKS",
+      "page": 1,
+      "box": {
+        "left": 32.9,
+        "top": 205.2,
+        "width": 545.4,
+        "height": 72.1
+      },
+      "multiline": true
+    },
+    "19bDATE": {
+      "type": "text",
+      "label": "19b.  DATE",
+      "page": 1,
+      "box": {
+        "left": 485.5,
+        "top": 114.5,
+        "width": 89.3,
+        "height": 22.3
+      }
+    },
+    "19ENVIRONMENTALPLANNINGFUNCTIONCERTIFICATIONNameAndGrade": {
+      "type": "text",
+      "label": "19.  ENVIRONMENTAL PLANNING FUNCTION CERTIFICATION (Name and Grade)",
+      "page": 1,
+      "box": {
+        "left": 32.6,
+        "top": 112.8,
+        "width": 200.3,
+        "height": 23.4
+      }
+    },
+    "20bDATE": {
+      "type": "text",
+      "label": "20b.  DATE",
+      "page": 1,
+      "box": {
+        "left": 485.5,
+        "top": 77.3,
+        "width": 91.2,
+        "height": 22.3
+      }
+    },
+    "20PROPONENTAPPROVALNameAndGradeOFSECTIONIII": {
+      "type": "text",
+      "label": "20.  PROPONENT APPROVAL  (Name and Grade) OF SECTION III",
+      "page": 1,
+      "box": {
+        "left": 32.4,
+        "top": 69.9,
+        "width": 200.8,
+        "height": 17.7
+      }
+    },
+    "continuation": {
+      "type": "text",
+      "label": "Continuation",
+      "page": 2,
+      "box": {
+        "left": 34.9,
+        "top": 712.6,
+        "width": 539.0,
+        "height": 542.6
+      },
+      "multiline": true
+    }
+  }
+}

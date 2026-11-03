@@ -1,0 +1,332 @@
+{
+  "id": "opnav558015",
+  "label": "OPNAV5580-15 - Department Of The NAVY Forensic Examination Request",
+  "directory": "OPNAV5580-15 - Department Of The NAVY Forensic Examination Request",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "priorityofexam",
+        "priorityofexam2",
+        "priorityofexam3",
+        "to",
+        "from",
+        "casefacts",
+        "evidencesubmitteda",
+        "evidencesubmittedb",
+        "examinationsandorcomparisonsrequested",
+        "suspectsfullname",
+        "victimsfullname",
+        "typeofoffense",
+        "evidencecustodydocumentEnclosed",
+        "evidencecustodydocumentEnclosed2",
+        "otherevvidencepreviouslybeensubmitted",
+        "otherevvidencepreviouslybeensubmitted2",
+        "labreportnumber",
+        "casecontrolnumberCCN",
+        "investigatorsname",
+        "investigatorsofficephoneNO",
+        "dispositionitemnumber",
+        "disposition",
+        "dNSDate3",
+        "requestertypedorprintedname",
+        "requestersignature"
+      ]
+    }
+  ],
+  "fields": {
+    "priorityofexam": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 436.7,
+        "top": 743.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_Priorityofexam_0"
+    },
+    "priorityofexam2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 436.7,
+        "top": 725.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_Priorityofexam_0"
+    },
+    "priorityofexam3": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 436.7,
+        "top": 706.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_Priorityofexam_0"
+    },
+    "to": {
+      "type": "text",
+      "label": "Enter who the forensic examination request is to.",
+      "page": 1,
+      "box": {
+        "left": 33.5,
+        "top": 672.8,
+        "width": 272.1,
+        "height": 54.0
+      },
+      "multiline": true
+    },
+    "from": {
+      "type": "text",
+      "label": "Enter who the forensic examination request is from.",
+      "page": 1,
+      "box": {
+        "left": 307.4,
+        "top": 672.8,
+        "width": 269.5,
+        "height": 54.0
+      },
+      "multiline": true
+    },
+    "casefacts": {
+      "type": "text",
+      "label": "Enter the case facts, give a brief description pertaining to the requested examination which may\r\nassist laboratory personnel in processing the evidence. Include date and place of crime.",
+      "page": 1,
+      "box": {
+        "left": 33.5,
+        "top": 589.9,
+        "width": 543.9,
+        "height": 86.9
+      },
+      "multiline": true
+    },
+    "evidencesubmitteda": {
+      "type": "text",
+      "label": "Enter the item number of evidence submitted.",
+      "page": 1,
+      "box": {
+        "left": 33.5,
+        "top": 472.5,
+        "width": 272.1,
+        "height": 54.0
+      },
+      "multiline": true
+    },
+    "evidencesubmittedb": {
+      "type": "text",
+      "label": "Enter the item description of evidence submitted.",
+      "page": 1,
+      "box": {
+        "left": 307.4,
+        "top": 472.5,
+        "width": 269.5,
+        "height": 54.0
+      },
+      "multiline": true
+    },
+    "examinationsandorcomparisonsrequested": {
+      "type": "text",
+      "label": "Enter the examinations and/or comparisons requested.",
+      "page": 1,
+      "box": {
+        "left": 33.5,
+        "top": 402.0,
+        "width": 543.9,
+        "height": 36.8
+      },
+      "multiline": true
+    },
+    "suspectsfullname": {
+      "type": "text",
+      "label": "Enter the suspect(s) full name.",
+      "page": 1,
+      "box": {
+        "left": 33.5,
+        "top": 347.8,
+        "width": 272.1,
+        "height": 29.5
+      }
+    },
+    "victimsfullname": {
+      "type": "text",
+      "label": "Enter the victim(s) full name.",
+      "page": 1,
+      "box": {
+        "left": 307.4,
+        "top": 347.8,
+        "width": 269.5,
+        "height": 29.5
+      }
+    },
+    "typeofoffense": {
+      "type": "text",
+      "label": "Enter the type of offense.",
+      "page": 1,
+      "box": {
+        "left": 147.8,
+        "top": 316.0,
+        "width": 429.1,
+        "height": 20.1
+      }
+    },
+    "evidencecustodydocumentEnclosed": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 423.6,
+        "top": 287.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_EvidencecustodydocumentEnclosed_0"
+    },
+    "evidencecustodydocumentEnclosed2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 511.3,
+        "top": 287.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_EvidencecustodydocumentEnclosed_0"
+    },
+    "otherevvidencepreviouslybeensubmitted": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 423.6,
+        "top": 266.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_Otherevvidencepreviouslybeensubmitted_0"
+    },
+    "otherevvidencepreviouslybeensubmitted2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 511.3,
+        "top": 266.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_Otherevvidencepreviouslybeensubmitted_0"
+    },
+    "labreportnumber": {
+      "type": "text",
+      "label": "Enter the lab report number.",
+      "page": 1,
+      "box": {
+        "left": 151.4,
+        "top": 250.2,
+        "width": 154.2,
+        "height": 15.9
+      }
+    },
+    "casecontrolnumberCCN": {
+      "type": "text",
+      "label": "Enter the case control number (CCN).",
+      "page": 1,
+      "box": {
+        "left": 451.9,
+        "top": 250.2,
+        "width": 125.0,
+        "height": 15.9
+      }
+    },
+    "investigatorsname": {
+      "type": "text",
+      "label": "Enter the investigator's name.",
+      "page": 1,
+      "box": {
+        "left": 323.1,
+        "top": 233.0,
+        "width": 180.3,
+        "height": 20.1
+      }
+    },
+    "investigatorsofficephoneNO": {
+      "type": "text",
+      "label": "Enter the investigator's office telephone number.",
+      "page": 1,
+      "box": {
+        "left": 506.2,
+        "top": 233.0,
+        "width": 70.7,
+        "height": 20.1
+      }
+    },
+    "dispositionitemnumber": {
+      "type": "text",
+      "label": "Enter the item number of the disposition of evidence after analysis/comparison.",
+      "page": 1,
+      "box": {
+        "left": 33.5,
+        "top": 183.4,
+        "width": 272.1,
+        "height": 66.5
+      },
+      "multiline": true
+    },
+    "disposition": {
+      "type": "text",
+      "label": "Enter the disposition of evidence after analysis/comparison.",
+      "page": 1,
+      "box": {
+        "left": 307.4,
+        "top": 183.4,
+        "width": 269.5,
+        "height": 66.5
+      },
+      "multiline": true
+    },
+    "dNSDate3": {
+      "type": "text",
+      "label": "Enter the certification date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 35.1,
+        "top": 67.1,
+        "width": 108.3,
+        "height": 21.1
+      }
+    },
+    "requestertypedorprintedname": {
+      "type": "text",
+      "label": "Enter the requester typed or printed name.",
+      "page": 1,
+      "box": {
+        "left": 145.2,
+        "top": 67.1,
+        "width": 160.5,
+        "height": 21.1
+      }
+    },
+    "requestersignature": {
+      "type": "text",
+      "label": "Enter the requester's signature.",
+      "page": 1,
+      "box": {
+        "left": 307.4,
+        "top": 67.1,
+        "width": 269.5,
+        "height": 21.1
+      }
+    }
+  }
+}

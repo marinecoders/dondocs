@@ -1,0 +1,315 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "checkBox1": {
+        "left": 188.0,
+        "top": 447.6,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "and",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dsm": {
+        "left": 174.3,
+        "top": 432.8,
+        "width": 276.6,
+        "height": 12.3,
+        "type": "text",
+        "description": "Name of Deceased Service Member",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name": {
+        "left": 41.0,
+        "top": 400.4,
+        "width": 201.0,
+        "height": 48.3,
+        "type": "text",
+        "description": "Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "addr": {
+        "left": 249.9,
+        "top": 400.4,
+        "width": 201.0,
+        "height": 48.3,
+        "type": "text",
+        "description": "Address",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "phnNo": {
+        "left": 456.5,
+        "top": 400.4,
+        "width": 116.7,
+        "height": 48.3,
+        "type": "text",
+        "description": "Phone Number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name2": {
+        "left": 41.0,
+        "top": 346.4,
+        "width": 201.0,
+        "height": 48.3,
+        "type": "text",
+        "description": "Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "addr2": {
+        "left": 249.9,
+        "top": 346.4,
+        "width": 201.0,
+        "height": 48.3,
+        "type": "text",
+        "description": "Address",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "phnNo2": {
+        "left": 456.5,
+        "top": 346.4,
+        "width": 116.7,
+        "height": 48.3,
+        "type": "text",
+        "description": "Phone Number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name3": {
+        "left": 41.0,
+        "top": 292.4,
+        "width": 201.0,
+        "height": 48.3,
+        "type": "text",
+        "description": "Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "addr3": {
+        "left": 249.9,
+        "top": 292.4,
+        "width": 201.0,
+        "height": 48.3,
+        "type": "text",
+        "description": "Address",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "phnNo3": {
+        "left": 456.5,
+        "top": 292.4,
+        "width": 116.7,
+        "height": 48.3,
+        "type": "text",
+        "description": "Phone Number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name4": {
+        "left": 41.0,
+        "top": 238.4,
+        "width": 201.0,
+        "height": 48.3,
+        "type": "text",
+        "description": "Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "addr4": {
+        "left": 249.9,
+        "top": 238.4,
+        "width": 201.0,
+        "height": 48.3,
+        "type": "text",
+        "description": "Address",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "phnNo4": {
+        "left": 456.5,
+        "top": 238.4,
+        "width": 116.7,
+        "height": 48.3,
+        "type": "text",
+        "description": "Phone Number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name5": {
+        "left": 41.0,
+        "top": 184.4,
+        "width": 201.0,
+        "height": 48.3,
+        "type": "text",
+        "description": "Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "addr5": {
+        "left": 249.9,
+        "top": 184.4,
+        "width": 201.0,
+        "height": 48.3,
+        "type": "text",
+        "description": "Address",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "phnNo5": {
+        "left": 456.5,
+        "top": 184.4,
+        "width": 116.7,
+        "height": 48.3,
+        "type": "text",
+        "description": "Phone Number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name6": {
+        "left": 41.0,
+        "top": 130.4,
+        "width": 201.0,
+        "height": 48.3,
+        "type": "text",
+        "description": "Name",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "addr6": {
+        "left": 249.9,
+        "top": 130.4,
+        "width": 201.0,
+        "height": 48.3,
+        "type": "text",
+        "description": "Address",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "phnNo6": {
+        "left": 456.5,
+        "top": 130.4,
+        "width": 116.7,
+        "height": 48.3,
+        "type": "text",
+        "description": "Phone Number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name7": {
+        "left": 38.8,
+        "top": 65.5,
+        "width": 203.2,
+        "height": 26.7,
+        "type": "text",
+        "description": "Name (Please Type or Print)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature": {
+        "left": 247.7,
+        "top": 65.5,
+        "width": 203.2,
+        "height": 26.7,
+        "type": "text",
+        "description": "Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateField1": {
+        "left": 456.5,
+        "top": 65.5,
+        "width": 116.7,
+        "height": 26.7,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "contBy": {
+        "left": 409.7,
+        "top": 32.2,
+        "width": 98.7,
+        "height": 6.6,
+        "type": "text",
+        "description": "CUI (when filled in) CONTROLLED BY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cUICat": {
+        "left": 409.7,
+        "top": 24.6,
+        "width": 98.7,
+        "height": 6.6,
+        "type": "text",
+        "description": "CUI CATEGORY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ldc": {
+        "left": 409.7,
+        "top": 17.0,
+        "width": 98.7,
+        "height": 6.6,
+        "type": "text",
+        "description": "LDC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "poc": {
+        "left": 409.7,
+        "top": 9.8,
+        "width": 98.7,
+        "height": 6.6,
+        "type": "text",
+        "description": "POC",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

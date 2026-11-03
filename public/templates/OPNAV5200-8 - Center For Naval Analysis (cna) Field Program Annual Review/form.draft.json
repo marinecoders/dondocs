@@ -1,0 +1,574 @@
+{
+  "id": "opnav52008",
+  "label": "OPNAV5200-8 - Center For Naval Analysis (cna) Field Program Annual Review",
+  "directory": "OPNAV5200-8 - Center For Naval Analysis (cna) Field Program Annual Review",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "submCmd",
+        "submDte",
+        "cmdPOCNme",
+        "pOCCde",
+        "pOCPhnNum",
+        "pOCFaxNum",
+        "pOCUnclEml",
+        "pOCClEml",
+        "radio",
+        "radio2",
+        "pOCUnclEml2",
+        "radio3",
+        "radio4",
+        "radio5",
+        "uniAnaExp",
+        "radio6",
+        "radio7",
+        "radio8",
+        "topIssExp",
+        "radio9",
+        "radio10",
+        "radio11",
+        "impkExp",
+        "radio12",
+        "radio13",
+        "radio14",
+        "contSupExp"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "radio15",
+        "radio16",
+        "radio17",
+        "rPExp",
+        "radio18",
+        "radio19",
+        "radio20",
+        "aEMExp",
+        "radio21",
+        "radio22",
+        "radio23",
+        "shaDemExp",
+        "radio24",
+        "radio25",
+        "radio26",
+        "conCapExp"
+      ]
+    }
+  ],
+  "fields": {
+    "submCmd": {
+      "type": "text",
+      "label": "1. Submitting Command",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 694.2,
+        "width": 439.9,
+        "height": 14.9
+      }
+    },
+    "submDte": {
+      "type": "text",
+      "label": "2. Submission Date",
+      "page": 1,
+      "box": {
+        "left": 481.6,
+        "top": 694.0,
+        "width": 94.5,
+        "height": 17.5
+      }
+    },
+    "cmdPOCNme": {
+      "type": "text",
+      "label": "3. Command POC Name and Rank",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 664.1,
+        "width": 229.1,
+        "height": 14.9
+      }
+    },
+    "pOCCde": {
+      "type": "text",
+      "label": "4. POC Code",
+      "page": 1,
+      "box": {
+        "left": 273.6,
+        "top": 664.1,
+        "width": 55.4,
+        "height": 14.9
+      }
+    },
+    "pOCPhnNum": {
+      "type": "text",
+      "label": "5. POC Telephone Number",
+      "page": 1,
+      "box": {
+        "left": 334.7,
+        "top": 664.1,
+        "width": 116.4,
+        "height": 14.9
+      }
+    },
+    "pOCFaxNum": {
+      "type": "text",
+      "label": "6. POC Fax Number",
+      "page": 1,
+      "box": {
+        "left": 456.8,
+        "top": 664.1,
+        "width": 116.4,
+        "height": 14.9
+      }
+    },
+    "pOCUnclEml": {
+      "type": "text",
+      "label": "7. POC Unclassified E-Mail Address",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 634.0,
+        "width": 264.5,
+        "height": 14.9
+      }
+    },
+    "pOCClEml": {
+      "type": "text",
+      "label": "8. POC Classified E-Mail Address",
+      "page": 1,
+      "box": {
+        "left": 308.7,
+        "top": 634.0,
+        "width": 264.5,
+        "height": 14.9
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 237.5,
+        "top": 585.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 269.0,
+        "top": 585.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "pOCUnclEml2": {
+      "type": "text",
+      "label": "P OC Uncl Eml 2",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 548.3,
+        "width": 534.4,
+        "height": 41.5
+      },
+      "multiline": true
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 191.9,
+        "top": 459.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 291.5,
+        "top": 459.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 399.5,
+        "top": 459.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "uniAnaExp": {
+      "type": "text",
+      "label": "11a. Provide Examples",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 431.9,
+        "width": 534.4,
+        "height": 55.6
+      },
+      "multiline": true
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 191.9,
+        "top": 355.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 291.5,
+        "top": 355.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 399.5,
+        "top": 355.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "topIssExp": {
+      "type": "text",
+      "label": "12a. Provide Examples",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 328.4,
+        "width": 534.4,
+        "height": 60.1
+      },
+      "multiline": true
+    },
+    "radio9": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 191.9,
+        "top": 247.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio10": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 291.5,
+        "top": 247.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio11": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 399.5,
+        "top": 247.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "impkExp": {
+      "type": "text",
+      "label": "13a. Provide Examples",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 220.3,
+        "width": 534.4,
+        "height": 60.1
+      },
+      "multiline": true
+    },
+    "radio12": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 191.9,
+        "top": 139.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio13": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 291.5,
+        "top": 139.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio14": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 1,
+      "box": {
+        "left": 399.5,
+        "top": 139.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "contSupExp": {
+      "type": "text",
+      "label": "14a. Provide Examples",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 112.3,
+        "width": 534.4,
+        "height": 60.1
+      },
+      "multiline": true
+    },
+    "radio15": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 241.4,
+        "top": 702.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio16": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 345.5,
+        "top": 702.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio17": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 426.5,
+        "top": 702.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "rPExp": {
+      "type": "text",
+      "label": "15a. Provide Examples",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 674.9,
+        "width": 534.4,
+        "height": 55.6
+      },
+      "multiline": true
+    },
+    "radio18": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 241.4,
+        "top": 612.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio19": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 345.5,
+        "top": 612.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio20": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 2,
+      "box": {
+        "left": 426.5,
+        "top": 612.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "aEMExp": {
+      "type": "text",
+      "label": "16a. Provide Examples",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 584.9,
+        "width": 534.4,
+        "height": 55.6
+      },
+      "multiline": true
+    },
+    "radio21": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 241.4,
+        "top": 522.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio22": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 345.5,
+        "top": 522.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio23": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 2,
+      "box": {
+        "left": 426.5,
+        "top": 522.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "shaDemExp": {
+      "type": "text",
+      "label": "17a. Provide Examples",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 494.9,
+        "width": 534.4,
+        "height": 55.6
+      },
+      "multiline": true
+    },
+    "radio24": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 241.4,
+        "top": 432.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio25": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 345.5,
+        "top": 432.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio26": {
+      "type": "radio",
+      "label": "Item2",
+      "page": 2,
+      "box": {
+        "left": 426.5,
+        "top": 432.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "conCapExp": {
+      "type": "text",
+      "label": "18a. Provide Examples",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 404.8,
+        "width": 534.4,
+        "height": 55.6
+      },
+      "multiline": true
+    }
+  }
+}

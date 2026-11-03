@@ -1,0 +1,6867 @@
+{
+  "id": "opnav47902p",
+  "label": "OPNAV4790-2P - Maint - Planning  Estimating Form",
+  "directory": "OPNAV4790-2P - Maint - Planning  Estimating Form",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "shipname",
+        "hull",
+        "ships1",
+        "ships2",
+        "ships3",
+        "ships4",
+        "ships5",
+        "work1",
+        "work2",
+        "work3",
+        "work4",
+        "jobeq1",
+        "jobeq2",
+        "jobeq3",
+        "jobeq4",
+        "periodic1",
+        "periodic2",
+        "periodic3",
+        "periodic4",
+        "periodic5",
+        "periodic6",
+        "periodic7",
+        "periodic8",
+        "periodic9",
+        "periodic10",
+        "periodic11",
+        "periodic12",
+        "periodicity",
+        "periodicity2",
+        "periodicity3",
+        "yymm1",
+        "yymm2",
+        "yymm3",
+        "yymm4",
+        "specdata1",
+        "specdata2",
+        "specdata3",
+        "specdata4",
+        "specdata5",
+        "specdata6",
+        "specdata7",
+        "specdata8",
+        "specdata9",
+        "specdata10",
+        "specdata11",
+        "key1",
+        "key2",
+        "othercon",
+        "norm1",
+        "norm",
+        "norm2",
+        "uICsig",
+        "tYCOMsig",
+        "lead1",
+        "lead2",
+        "lead3",
+        "lead4",
+        "lead5",
+        "lead6",
+        "lead7",
+        "lead8",
+        "lead9",
+        "lead10",
+        "lead11",
+        "lead12",
+        "lead13",
+        "lead14",
+        "lead15",
+        "lead16",
+        "lead17",
+        "lead18",
+        "lead19",
+        "lead20",
+        "lead21",
+        "lead22",
+        "lead23",
+        "lead24",
+        "lead25",
+        "lead26",
+        "lead27",
+        "lead28",
+        "lead29",
+        "lead30",
+        "leadw1",
+        "leadw2",
+        "leadw3",
+        "leadw4",
+        "leadw5",
+        "leadw6",
+        "leadw7",
+        "leadw8",
+        "leadw9",
+        "leadw10",
+        "leadw11",
+        "leadw12",
+        "leadw13",
+        "leadw14",
+        "leadw15",
+        "leadw16",
+        "leadw17",
+        "leadw18",
+        "leadw19",
+        "leadw20",
+        "leadw21",
+        "leadw22",
+        "leadw23",
+        "leadw24",
+        "leadw25",
+        "leadw26",
+        "leadw27",
+        "leadw28",
+        "leadw29",
+        "leadw30",
+        "leadwo1",
+        "leadwo2",
+        "leadwo3",
+        "leadwo4",
+        "leadwo5",
+        "leadwo6",
+        "leadwo7",
+        "leadwo8",
+        "leadwo9",
+        "leadwo10",
+        "leadwo11",
+        "leadwo12",
+        "leadwo13",
+        "leadwo14",
+        "leadwo15",
+        "leadwo16",
+        "leadwo17",
+        "leadwo18",
+        "leadwo19",
+        "leadwo20",
+        "leadwo21",
+        "leadwo22",
+        "leadwo23",
+        "leadwo24",
+        "leadwo25",
+        "leadwo26",
+        "leadwo27",
+        "leadwo28",
+        "leadwo29",
+        "leadwo30",
+        "leadwo110",
+        "leadwo210",
+        "leadwo32",
+        "leadwo42",
+        "leadwo52",
+        "leadwo62",
+        "leadwo72",
+        "leadwo82",
+        "leadwo92",
+        "leadwo102",
+        "leadwo112",
+        "leadwo122",
+        "leadwo132",
+        "leadwo142",
+        "leadwo152",
+        "leadwo162",
+        "leadwo172",
+        "leadwo182",
+        "leadwo192",
+        "leadwo202",
+        "leadwo212",
+        "leadwo222",
+        "leadwo232",
+        "leadwo242",
+        "leadwo252",
+        "leadwo262",
+        "leadwo272",
+        "leadwo282",
+        "leadwo292",
+        "leadwo302",
+        "leadwor1",
+        "leadwor2",
+        "leadwor3",
+        "leadwor4",
+        "leadwor5",
+        "leadwor6",
+        "leadwor7",
+        "leadwor8",
+        "leadwor9",
+        "leadwor10",
+        "leadwor11",
+        "leadwor12",
+        "leadwor13",
+        "leadwor14",
+        "leadwor15",
+        "leadwor16",
+        "leadwor17",
+        "leadwor18",
+        "leadwor19",
+        "leadwor20",
+        "leadwor21",
+        "leadwor22",
+        "leadwor23",
+        "leadwor24",
+        "leadwor25",
+        "leadwor26",
+        "leadwor27",
+        "leadwor28",
+        "leadwor29",
+        "leadwor30",
+        "leadwork1",
+        "leadwork2",
+        "leadwork3",
+        "leadwork4",
+        "leadwork5",
+        "leadwork6",
+        "leadwork7",
+        "leadwork8",
+        "leadwork9",
+        "leadwork10",
+        "leadwork11",
+        "leadwork12",
+        "leadwork13",
+        "leadwork14",
+        "leadwork15",
+        "leadwork16",
+        "leadwork17",
+        "leadwork18",
+        "leadwork19",
+        "leadwork20",
+        "leadwork21",
+        "leadwork22",
+        "leadwork23",
+        "leadwork24",
+        "leadwork25",
+        "leadwork26",
+        "leadwork27",
+        "leadwork28",
+        "leadwork29",
+        "leadwork30",
+        "on",
+        "on2",
+        "section1",
+        "section2",
+        "section3",
+        "section4",
+        "section5",
+        "section6",
+        "section7",
+        "section8",
+        "section9",
+        "section10",
+        "section11",
+        "section12",
+        "section13",
+        "section14",
+        "section15",
+        "section16",
+        "section17",
+        "section18",
+        "section19",
+        "section20",
+        "section21",
+        "section22",
+        "section23",
+        "section24",
+        "section25",
+        "section26",
+        "section27",
+        "section28",
+        "board",
+        "board2",
+        "sEction1",
+        "sEction2",
+        "sEction3",
+        "sEction4",
+        "sEction5",
+        "sEction6",
+        "sEction7",
+        "sEction8",
+        "sEction9",
+        "sEction10",
+        "sEction11",
+        "sEction12",
+        "sEction13",
+        "sEction14",
+        "sEction15",
+        "sEction16",
+        "sEction17",
+        "sEction18",
+        "sEction19",
+        "sEction20",
+        "sEction21",
+        "sEction22",
+        "sEction23",
+        "sEction24",
+        "sEction25",
+        "sEction26",
+        "sEction27",
+        "sEction28",
+        "on3",
+        "on4",
+        "seCtion1",
+        "seCtion2",
+        "seCtion3",
+        "seCtion4",
+        "seCtion5",
+        "seCtion6",
+        "seCtion7",
+        "seCtion8",
+        "seCtion9",
+        "seCtion10",
+        "seCtion11",
+        "seCtion12",
+        "seCtion13",
+        "seCtion14",
+        "seCtion15",
+        "seCtion16",
+        "seCtion17",
+        "seCtion18",
+        "seCtion19",
+        "seCtion20",
+        "seCtion21",
+        "seCtion22",
+        "seCtion23",
+        "seCtion24",
+        "seCtion25",
+        "seCtion26",
+        "seCtion27",
+        "seCtion28",
+        "board3",
+        "board4",
+        "secTion1",
+        "secTion2",
+        "secTion3",
+        "secTion4",
+        "secTion5",
+        "secTion6",
+        "secTion7",
+        "secTion8",
+        "secTion9",
+        "secTion10",
+        "secTion11",
+        "secTion12",
+        "secTion13",
+        "secTion14",
+        "secTion15",
+        "secTion16",
+        "secTion17",
+        "secTion18",
+        "secTion19",
+        "secTion20",
+        "secTion21",
+        "secTion22",
+        "secTion23",
+        "secTion24",
+        "secTion25",
+        "secTion26",
+        "secTion27",
+        "secTion28",
+        "sectionUIC1",
+        "sectionUIC2",
+        "sectionUIC3",
+        "sectionUIC4",
+        "sectionUIC5",
+        "sectionUIC6",
+        "sectionUIC7",
+        "sectionUIC8",
+        "sectionUIC9",
+        "sectionUIC10",
+        "sectionUIC11",
+        "sectionUIC12",
+        "sectionUIC13",
+        "sectionUIC14",
+        "sectionUIC15",
+        "sectionUIC16",
+        "sectionUIC17",
+        "sectionUIC18",
+        "sectionUIC19",
+        "sectionUIC20",
+        "sectionUIC21",
+        "sectionUIC22",
+        "sectionUIC23",
+        "sectionUIC24",
+        "sectionUIC25",
+        "sectionUIC26",
+        "sectionUIC27",
+        "sectionUIC28",
+        "sectionUIC29",
+        "sectionUIC30",
+        "sectionUIC110",
+        "sectionUIC210",
+        "sectionUIC32",
+        "sectionUIC42",
+        "sectionUIC52",
+        "sectionUIC62",
+        "sectionUIC72",
+        "sectionUIC82",
+        "sectionUIC92",
+        "sectionUIC102",
+        "sectionUIC112",
+        "sectionUIC122",
+        "sectionUIC132",
+        "sectionUIC142",
+        "sectionUIC152",
+        "sectionUIC162",
+        "sectionUIC172",
+        "sectionUIC182",
+        "sectionUIC192",
+        "sectionUIC202",
+        "sectionUIC212",
+        "sectionUIC222",
+        "sectionUIC232",
+        "sectionUIC242",
+        "sectionUIC252",
+        "sectionUIC262",
+        "sectionUIC272",
+        "sectionUIC282",
+        "sectionUIC292",
+        "sectionUIC302",
+        "sEctionUIC1",
+        "sEctionUIC2",
+        "sEctionUIC3",
+        "sEctionUIC4",
+        "sEctionUIC5",
+        "sEctionUIC6",
+        "sEctionUIC7",
+        "sEctionUIC8",
+        "sEctionUIC9",
+        "sEctionUIC10",
+        "sEctionUIC11",
+        "sEctionUIC12",
+        "sEctionUIC13",
+        "sEctionUIC14",
+        "sEctionUIC15",
+        "sEctionUIC16",
+        "sEctionUIC17",
+        "sEctionUIC18",
+        "sEctionUIC19",
+        "sEctionUIC20",
+        "sEctionUIC21",
+        "sEctionUIC22",
+        "sEctionUIC23",
+        "sEctionUIC24",
+        "sEctionUIC25",
+        "sEctionUIC26",
+        "sEctionUIC27",
+        "sEctionUIC28",
+        "sEctionUIC29",
+        "sEctionUIC30",
+        "seCtionUIC1",
+        "seCtionUIC2",
+        "seCtionUIC3",
+        "seCtionUIC4",
+        "seCtionUIC5",
+        "seCtionUIC6",
+        "seCtionUIC7",
+        "seCtionUIC8",
+        "seCtionUIC9",
+        "seCtionUIC10",
+        "seCtionUIC11",
+        "seCtionUIC12",
+        "seCtionUIC13",
+        "seCtionUIC14",
+        "seCtionUIC15",
+        "seCtionUIC16",
+        "seCtionUIC17",
+        "seCtionUIC18",
+        "seCtionUIC19",
+        "seCtionUIC20",
+        "seCtionUIC21",
+        "seCtionUIC22",
+        "seCtionUIC23",
+        "seCtionUIC24",
+        "seCtionUIC25",
+        "seCtionUIC26",
+        "seCtionUIC27",
+        "seCtionUIC28",
+        "seCtionUIC29",
+        "seCtionUIC30",
+        "secTionUIC1",
+        "secTionUIC2",
+        "secTionUIC3",
+        "secTionUIC4",
+        "secTionUIC5",
+        "secTionUIC6",
+        "secTionUIC7",
+        "secTionUIC8",
+        "secTionUIC9",
+        "secTionUIC10",
+        "secTionUIC11",
+        "secTionUIC12",
+        "secTionUIC13",
+        "secTionUIC14",
+        "secTionUIC15",
+        "secTionUIC16",
+        "secTionUIC17",
+        "secTionUIC18",
+        "secTionUIC19",
+        "secTionUIC20",
+        "secTionUIC21",
+        "secTionUIC22",
+        "secTionUIC23",
+        "secTionUIC24",
+        "secTionUIC25",
+        "secTionUIC26",
+        "secTionUIC27",
+        "secTionUIC28",
+        "secTionUIC29",
+        "secTionUIC30",
+        "sectIonUIC1",
+        "sectIonUIC2",
+        "sectIonUIC3",
+        "sectIonUIC4",
+        "sectIonUIC5",
+        "sectIonUIC6",
+        "sectIonUIC7",
+        "sectIonUIC8",
+        "sectIonUIC9",
+        "sectIonUIC10",
+        "sectIonUIC11",
+        "sectIonUIC12",
+        "sectIonUIC13",
+        "sectIonUIC14",
+        "sectIonUIC15",
+        "sectIonUIC16",
+        "sectIonUIC17",
+        "sectIonUIC18",
+        "sectIonUIC19",
+        "sectIonUIC20",
+        "sectIonUIC21",
+        "sectIonUIC22",
+        "sectIonUIC23",
+        "sectIonUIC24",
+        "sectIonUIC25",
+        "sectIonUIC26",
+        "sectIonUIC27",
+        "sectIonUIC28",
+        "sectIonUIC29",
+        "sectIonUIC30",
+        "sectionsup1",
+        "sectionsup2",
+        "sectionsup3",
+        "sectionsup4",
+        "sectionsup5",
+        "sectionsup6",
+        "sectionsup7",
+        "sectionsup8",
+        "sectionsup9",
+        "sectionsup10",
+        "sectionsup11",
+        "sectionsup12",
+        "sectionsup13",
+        "sectionsup14",
+        "sectionsup15",
+        "sectionsup16",
+        "sectionsup17",
+        "sectionsup18",
+        "sectionsup19",
+        "sectionsup20",
+        "sectionsup21",
+        "sectionsup22",
+        "sectionsup23",
+        "sectionsup24",
+        "sectionsup25",
+        "sectionsup26",
+        "sectionsup27",
+        "sectionsup28",
+        "sectionsup29",
+        "sectionsup30"
+      ]
+    }
+  ],
+  "fields": {
+    "shipname": {
+      "type": "text",
+      "label": "Enter the ship's name.",
+      "page": 1,
+      "box": {
+        "left": 44.2,
+        "top": 637.6,
+        "width": 204.3,
+        "height": 13.3
+      }
+    },
+    "hull": {
+      "type": "text",
+      "label": "Enter the hull number.",
+      "page": 1,
+      "box": {
+        "left": 252.0,
+        "top": 637.6,
+        "width": 83.1,
+        "height": 13.3
+      }
+    },
+    "ships1": {
+      "type": "text",
+      "label": "Enter the ship's UIC for the job control number.",
+      "page": 1,
+      "box": {
+        "left": 338.4,
+        "top": 637.6,
+        "width": 13.8,
+        "height": 13.3
+      }
+    },
+    "ships2": {
+      "type": "text",
+      "label": "Enter the ship's UIC for the job control number.",
+      "page": 1,
+      "box": {
+        "left": 355.3,
+        "top": 637.6,
+        "width": 13.8,
+        "height": 13.3
+      }
+    },
+    "ships3": {
+      "type": "text",
+      "label": "Enter the ship's UIC for the job control number.",
+      "page": 1,
+      "box": {
+        "left": 373.0,
+        "top": 637.6,
+        "width": 13.8,
+        "height": 13.3
+      }
+    },
+    "ships4": {
+      "type": "text",
+      "label": "Enter the ship's UIC for the job control number.",
+      "page": 1,
+      "box": {
+        "left": 390.3,
+        "top": 637.6,
+        "width": 13.8,
+        "height": 13.3
+      }
+    },
+    "ships5": {
+      "type": "text",
+      "label": "Enter the ship's UIC for the job control number.",
+      "page": 1,
+      "box": {
+        "left": 407.5,
+        "top": 637.6,
+        "width": 13.8,
+        "height": 13.3
+      }
+    },
+    "work1": {
+      "type": "text",
+      "label": "Enter the work center for the job control number.",
+      "page": 1,
+      "box": {
+        "left": 424.8,
+        "top": 637.6,
+        "width": 13.8,
+        "height": 13.3
+      }
+    },
+    "work2": {
+      "type": "text",
+      "label": "Enter the work center for the job control number.",
+      "page": 1,
+      "box": {
+        "left": 442.0,
+        "top": 637.6,
+        "width": 13.8,
+        "height": 13.3
+      }
+    },
+    "work3": {
+      "type": "text",
+      "label": "Enter the work center for the job control number.",
+      "page": 1,
+      "box": {
+        "left": 459.2,
+        "top": 637.6,
+        "width": 14.5,
+        "height": 13.3
+      }
+    },
+    "work4": {
+      "type": "text",
+      "label": "Enter the work center for the job control number.",
+      "page": 1,
+      "box": {
+        "left": 476.8,
+        "top": 637.6,
+        "width": 13.8,
+        "height": 13.3
+      }
+    },
+    "jobeq1": {
+      "type": "text",
+      "label": "Enter the job SEQ number.",
+      "page": 1,
+      "box": {
+        "left": 493.7,
+        "top": 637.6,
+        "width": 13.8,
+        "height": 13.3
+      }
+    },
+    "jobeq2": {
+      "type": "text",
+      "label": "Enter the job SEQ number.",
+      "page": 1,
+      "box": {
+        "left": 510.9,
+        "top": 637.6,
+        "width": 14.5,
+        "height": 13.3
+      }
+    },
+    "jobeq3": {
+      "type": "text",
+      "label": "Enter the job SEQ number.",
+      "page": 1,
+      "box": {
+        "left": 528.5,
+        "top": 637.6,
+        "width": 13.8,
+        "height": 13.3
+      }
+    },
+    "jobeq4": {
+      "type": "text",
+      "label": "Enter the job SEQ number.",
+      "page": 1,
+      "box": {
+        "left": 545.4,
+        "top": 637.6,
+        "width": 13.8,
+        "height": 13.3
+      }
+    },
+    "periodic1": {
+      "type": "text",
+      "label": "Enter the periodic maintenance requirement.",
+      "page": 1,
+      "box": {
+        "left": 44.3,
+        "top": 614.0,
+        "width": 14.5,
+        "height": 13.3
+      }
+    },
+    "periodic2": {
+      "type": "text",
+      "label": "Enter the periodic maintenance requirement.",
+      "page": 1,
+      "box": {
+        "left": 62.2,
+        "top": 614.0,
+        "width": 13.8,
+        "height": 13.3
+      }
+    },
+    "periodic3": {
+      "type": "text",
+      "label": "Enter the periodic maintenance requirement.",
+      "page": 1,
+      "box": {
+        "left": 79.1,
+        "top": 614.0,
+        "width": 14.2,
+        "height": 13.3
+      }
+    },
+    "periodic4": {
+      "type": "text",
+      "label": "Enter the periodic maintenance requirement.",
+      "page": 1,
+      "box": {
+        "left": 96.5,
+        "top": 614.0,
+        "width": 13.8,
+        "height": 13.3
+      }
+    },
+    "periodic5": {
+      "type": "text",
+      "label": "Enter the periodic maintenance requirement.",
+      "page": 1,
+      "box": {
+        "left": 113.4,
+        "top": 614.0,
+        "width": 14.2,
+        "height": 13.3
+      }
+    },
+    "periodic6": {
+      "type": "text",
+      "label": "Enter the periodic maintenance requirement.",
+      "page": 1,
+      "box": {
+        "left": 130.9,
+        "top": 614.0,
+        "width": 14.2,
+        "height": 13.3
+      }
+    },
+    "periodic7": {
+      "type": "text",
+      "label": "Enter the periodic maintenance requirement.",
+      "page": 1,
+      "box": {
+        "left": 148.3,
+        "top": 614.0,
+        "width": 14.2,
+        "height": 13.3
+      }
+    },
+    "periodic8": {
+      "type": "text",
+      "label": "Enter the periodic maintenance requirement.",
+      "page": 1,
+      "box": {
+        "left": 165.7,
+        "top": 614.0,
+        "width": 13.8,
+        "height": 13.3
+      }
+    },
+    "periodic9": {
+      "type": "text",
+      "label": "Enter the periodic maintenance requirement.",
+      "page": 1,
+      "box": {
+        "left": 182.6,
+        "top": 614.0,
+        "width": 13.8,
+        "height": 13.3
+      }
+    },
+    "periodic10": {
+      "type": "text",
+      "label": "Enter the periodic maintenance requirement.",
+      "page": 1,
+      "box": {
+        "left": 200.0,
+        "top": 614.0,
+        "width": 14.2,
+        "height": 13.3
+      }
+    },
+    "periodic11": {
+      "type": "text",
+      "label": "Enter the periodic maintenance requirement.",
+      "page": 1,
+      "box": {
+        "left": 217.5,
+        "top": 614.0,
+        "width": 13.8,
+        "height": 13.3
+      }
+    },
+    "periodic12": {
+      "type": "text",
+      "label": "Enter the periodic maintenance requirement.",
+      "page": 1,
+      "box": {
+        "left": 234.3,
+        "top": 614.0,
+        "width": 14.2,
+        "height": 13.3
+      }
+    },
+    "periodicity": {
+      "type": "text",
+      "label": "Enter the periodicity.",
+      "page": 1,
+      "box": {
+        "left": 251.6,
+        "top": 614.0,
+        "width": 14.2,
+        "height": 13.3
+      }
+    },
+    "periodicity2": {
+      "type": "text",
+      "label": "Enter the periodicity.",
+      "page": 1,
+      "box": {
+        "left": 269.2,
+        "top": 614.0,
+        "width": 14.2,
+        "height": 13.3
+      }
+    },
+    "periodicity3": {
+      "type": "text",
+      "label": "Enter the periodicity.",
+      "page": 1,
+      "box": {
+        "left": 286.7,
+        "top": 614.0,
+        "width": 13.8,
+        "height": 13.3
+      }
+    },
+    "yymm1": {
+      "type": "text",
+      "label": "Enter the Year issued.",
+      "page": 1,
+      "box": {
+        "left": 303.4,
+        "top": 614.0,
+        "width": 14.2,
+        "height": 13.3
+      }
+    },
+    "yymm2": {
+      "type": "text",
+      "label": "Enter the Year issued.",
+      "page": 1,
+      "box": {
+        "left": 320.7,
+        "top": 614.0,
+        "width": 14.2,
+        "height": 13.3
+      }
+    },
+    "yymm3": {
+      "type": "text",
+      "label": "Enter the Month issued.",
+      "page": 1,
+      "box": {
+        "left": 338.4,
+        "top": 614.0,
+        "width": 13.6,
+        "height": 13.3
+      }
+    },
+    "yymm4": {
+      "type": "text",
+      "label": "Enter the Month issued.",
+      "page": 1,
+      "box": {
+        "left": 355.3,
+        "top": 614.0,
+        "width": 14.2,
+        "height": 13.3
+      }
+    },
+    "specdata1": {
+      "type": "text",
+      "label": "Enter the special data.",
+      "page": 1,
+      "box": {
+        "left": 372.5,
+        "top": 614.0,
+        "width": 14.2,
+        "height": 13.3
+      }
+    },
+    "specdata2": {
+      "type": "text",
+      "label": "Enter the special data.",
+      "page": 1,
+      "box": {
+        "left": 390.1,
+        "top": 614.0,
+        "width": 13.8,
+        "height": 13.3
+      }
+    },
+    "specdata3": {
+      "type": "text",
+      "label": "Enter the special data.",
+      "page": 1,
+      "box": {
+        "left": 407.6,
+        "top": 614.0,
+        "width": 13.8,
+        "height": 13.3
+      }
+    },
+    "specdata4": {
+      "type": "text",
+      "label": "Enter the special data.",
+      "page": 1,
+      "box": {
+        "left": 424.4,
+        "top": 614.0,
+        "width": 14.2,
+        "height": 13.3
+      }
+    },
+    "specdata5": {
+      "type": "text",
+      "label": "Enter the special data.",
+      "page": 1,
+      "box": {
+        "left": 441.6,
+        "top": 614.0,
+        "width": 14.2,
+        "height": 13.3
+      }
+    },
+    "specdata6": {
+      "type": "text",
+      "label": "Enter the special data.",
+      "page": 1,
+      "box": {
+        "left": 459.3,
+        "top": 614.0,
+        "width": 14.2,
+        "height": 13.3
+      }
+    },
+    "specdata7": {
+      "type": "text",
+      "label": "Enter the special data.",
+      "page": 1,
+      "box": {
+        "left": 476.8,
+        "top": 614.0,
+        "width": 13.8,
+        "height": 13.3
+      }
+    },
+    "specdata8": {
+      "type": "text",
+      "label": "Enter the special data.",
+      "page": 1,
+      "box": {
+        "left": 493.5,
+        "top": 614.0,
+        "width": 14.2,
+        "height": 13.3
+      }
+    },
+    "specdata9": {
+      "type": "text",
+      "label": "Enter the special data.",
+      "page": 1,
+      "box": {
+        "left": 511.1,
+        "top": 614.0,
+        "width": 14.2,
+        "height": 13.3
+      }
+    },
+    "specdata10": {
+      "type": "text",
+      "label": "Enter the special data.",
+      "page": 1,
+      "box": {
+        "left": 528.5,
+        "top": 614.0,
+        "width": 13.6,
+        "height": 13.3
+      }
+    },
+    "specdata11": {
+      "type": "text",
+      "label": "Enter the special data.",
+      "page": 1,
+      "box": {
+        "left": 545.4,
+        "top": 614.0,
+        "width": 14.2,
+        "height": 13.3
+      }
+    },
+    "key1": {
+      "type": "text",
+      "label": "Enter the Key Event for special requirements.",
+      "page": 1,
+      "box": {
+        "left": 453.0,
+        "top": 582.3,
+        "width": 17.3,
+        "height": 15.7
+      }
+    },
+    "key2": {
+      "type": "text",
+      "label": "Enter the Key Event for special requirements.",
+      "page": 1,
+      "box": {
+        "left": 472.3,
+        "top": 582.3,
+        "width": 16.1,
+        "height": 15.7
+      }
+    },
+    "othercon": {
+      "type": "text",
+      "label": "Enter the other controls quality assurance requirements.",
+      "page": 1,
+      "box": {
+        "left": 355.7,
+        "top": 481.6,
+        "width": 83.6,
+        "height": 19.2
+      }
+    },
+    "norm1": {
+      "type": "checkbox",
+      "label": "Select if normally done by S/F.",
+      "page": 1,
+      "box": {
+        "left": 447.7,
+        "top": 449.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "norm": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 485.2,
+        "top": 449.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_norm_0"
+    },
+    "norm2": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 526.0,
+        "top": 449.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_norm_0"
+    },
+    "uICsig": {
+      "type": "text",
+      "label": "Enter the IUC signature.",
+      "page": 1,
+      "box": {
+        "left": 44.2,
+        "top": 448.6,
+        "width": 204.3,
+        "height": 11.9
+      }
+    },
+    "tYCOMsig": {
+      "type": "text",
+      "label": "Enter the TYCOM signature.",
+      "page": 1,
+      "box": {
+        "left": 252.0,
+        "top": 448.6,
+        "width": 186.6,
+        "height": 11.9
+      }
+    },
+    "lead1": {
+      "type": "text",
+      "label": "Enter the lead work center for scheduling in group 1 of 6.",
+      "page": 1,
+      "box": {
+        "left": 42.9,
+        "top": 409.3,
+        "width": 17.3,
+        "height": 11.1
+      }
+    },
+    "lead2": {
+      "type": "text",
+      "label": "Enter the lead work center for scheduling in group 1 of 6.",
+      "page": 1,
+      "box": {
+        "left": 60.9,
+        "top": 409.3,
+        "width": 16.5,
+        "height": 11.1
+      }
+    },
+    "lead3": {
+      "type": "text",
+      "label": "Enter the lead work center for scheduling in group 1 of 6.",
+      "page": 1,
+      "box": {
+        "left": 77.7,
+        "top": 409.3,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "lead4": {
+      "type": "text",
+      "label": "Enter the lead work center for scheduling in group 1 of 6.",
+      "page": 1,
+      "box": {
+        "left": 95.2,
+        "top": 409.3,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "lead5": {
+      "type": "text",
+      "label": "Enter the scheduling start date year.",
+      "page": 1,
+      "box": {
+        "left": 112.0,
+        "top": 409.3,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "lead6": {
+      "type": "text",
+      "label": "Enter the scheduling start date year.",
+      "page": 1,
+      "box": {
+        "left": 129.5,
+        "top": 409.3,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "lead7": {
+      "type": "text",
+      "label": "Enter the scheduling start date day.",
+      "page": 1,
+      "box": {
+        "left": 146.8,
+        "top": 409.3,
+        "width": 16.7,
+        "height": 11.1
+      }
+    },
+    "lead8": {
+      "type": "text",
+      "label": "Enter the scheduling start date day.",
+      "page": 1,
+      "box": {
+        "left": 164.4,
+        "top": 409.3,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "lead9": {
+      "type": "text",
+      "label": "Enter the scheduling completion date year.",
+      "page": 1,
+      "box": {
+        "left": 181.2,
+        "top": 409.3,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "lead10": {
+      "type": "text",
+      "label": "Enter the scheduling completion date year.",
+      "page": 1,
+      "box": {
+        "left": 198.7,
+        "top": 409.3,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "lead11": {
+      "type": "text",
+      "label": "Enter the scheduling completion date day.",
+      "page": 1,
+      "box": {
+        "left": 216.1,
+        "top": 409.3,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "lead12": {
+      "type": "text",
+      "label": "Enter the scheduling completion date day.",
+      "page": 1,
+      "box": {
+        "left": 233.0,
+        "top": 409.3,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "lead13": {
+      "type": "text",
+      "label": "Enter the EST MHRS.",
+      "page": 1,
+      "box": {
+        "left": 250.2,
+        "top": 409.3,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "lead14": {
+      "type": "text",
+      "label": "Enter the EST MHRS.",
+      "page": 1,
+      "box": {
+        "left": 267.9,
+        "top": 409.3,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "lead15": {
+      "type": "text",
+      "label": "Enter the EST MHRS.",
+      "page": 1,
+      "box": {
+        "left": 285.3,
+        "top": 409.3,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "lead16": {
+      "type": "text",
+      "label": "Enter the EST MHRS.",
+      "page": 1,
+      "box": {
+        "left": 302.1,
+        "top": 409.3,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "lead17": {
+      "type": "text",
+      "label": "Enter the key OP.",
+      "page": 1,
+      "box": {
+        "left": 319.3,
+        "top": 409.3,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "lead18": {
+      "type": "text",
+      "label": "Enter the key OP.",
+      "page": 1,
+      "box": {
+        "left": 337.0,
+        "top": 409.3,
+        "width": 16.3,
+        "height": 11.1
+      }
+    },
+    "lead19": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 353.9,
+        "top": 409.3,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "lead20": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 371.2,
+        "top": 409.3,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "lead21": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 388.8,
+        "top": 409.3,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "lead22": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 406.2,
+        "top": 409.3,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "lead23": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 423.0,
+        "top": 409.3,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "lead24": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 440.3,
+        "top": 409.3,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "lead25": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 458.0,
+        "top": 409.3,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "lead26": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 475.4,
+        "top": 409.3,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "lead27": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 492.1,
+        "top": 409.3,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "lead28": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 509.7,
+        "top": 409.3,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "lead29": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 527.1,
+        "top": 409.3,
+        "width": 16.3,
+        "height": 11.1
+      }
+    },
+    "lead30": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 544.0,
+        "top": 409.3,
+        "width": 16.1,
+        "height": 11.1
+      }
+    },
+    "leadw1": {
+      "type": "text",
+      "label": "Enter the assist work center for scheduling in group 2 of 6.",
+      "page": 1,
+      "box": {
+        "left": 42.9,
+        "top": 386.8,
+        "width": 17.3,
+        "height": 11.1
+      }
+    },
+    "leadw2": {
+      "type": "text",
+      "label": "Enter the assist work center for scheduling in group 2 of 6.",
+      "page": 1,
+      "box": {
+        "left": 60.9,
+        "top": 386.8,
+        "width": 16.5,
+        "height": 11.1
+      }
+    },
+    "leadw3": {
+      "type": "text",
+      "label": "Enter the assist work center for scheduling in group 2 of 6.",
+      "page": 1,
+      "box": {
+        "left": 77.7,
+        "top": 386.8,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadw4": {
+      "type": "text",
+      "label": "Enter the assist work center for scheduling in group 2 of 6.",
+      "page": 1,
+      "box": {
+        "left": 95.2,
+        "top": 386.8,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "leadw5": {
+      "type": "text",
+      "label": "Enter the scheduling start date year.",
+      "page": 1,
+      "box": {
+        "left": 112.0,
+        "top": 386.8,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadw6": {
+      "type": "text",
+      "label": "Enter the scheduling start date year.",
+      "page": 1,
+      "box": {
+        "left": 129.5,
+        "top": 386.8,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadw7": {
+      "type": "text",
+      "label": "Enter the scheduling start date day.",
+      "page": 1,
+      "box": {
+        "left": 146.8,
+        "top": 386.8,
+        "width": 16.7,
+        "height": 11.1
+      }
+    },
+    "leadw8": {
+      "type": "text",
+      "label": "Enter the scheduling start date day.",
+      "page": 1,
+      "box": {
+        "left": 164.4,
+        "top": 386.8,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "leadw9": {
+      "type": "text",
+      "label": "Enter the scheduling completion date year.",
+      "page": 1,
+      "box": {
+        "left": 181.2,
+        "top": 386.8,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "leadw10": {
+      "type": "text",
+      "label": "Enter the scheduling completion date year.",
+      "page": 1,
+      "box": {
+        "left": 198.7,
+        "top": 386.8,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadw11": {
+      "type": "text",
+      "label": "Enter the scheduling completion date day.",
+      "page": 1,
+      "box": {
+        "left": 216.1,
+        "top": 386.8,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "leadw12": {
+      "type": "text",
+      "label": "Enter the scheduling completion date day.",
+      "page": 1,
+      "box": {
+        "left": 233.0,
+        "top": 386.8,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadw13": {
+      "type": "text",
+      "label": "Enter the EST MHRS.",
+      "page": 1,
+      "box": {
+        "left": 250.2,
+        "top": 386.8,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadw14": {
+      "type": "text",
+      "label": "Enter the EST MHRS.",
+      "page": 1,
+      "box": {
+        "left": 267.9,
+        "top": 386.8,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadw15": {
+      "type": "text",
+      "label": "Enter the EST MHRS.",
+      "page": 1,
+      "box": {
+        "left": 285.3,
+        "top": 386.8,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "leadw16": {
+      "type": "text",
+      "label": "Enter the EST MHRS.",
+      "page": 1,
+      "box": {
+        "left": 302.1,
+        "top": 386.8,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadw17": {
+      "type": "text",
+      "label": "Enter the key OP.",
+      "page": 1,
+      "box": {
+        "left": 319.3,
+        "top": 386.8,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadw18": {
+      "type": "text",
+      "label": "Enter the key OP.",
+      "page": 1,
+      "box": {
+        "left": 337.0,
+        "top": 386.8,
+        "width": 16.3,
+        "height": 11.1
+      }
+    },
+    "leadw19": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 353.9,
+        "top": 386.8,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadw20": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 371.2,
+        "top": 386.8,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadw21": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 388.8,
+        "top": 386.8,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "leadw22": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 406.2,
+        "top": 386.8,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "leadw23": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 423.0,
+        "top": 386.8,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadw24": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 440.3,
+        "top": 386.8,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadw25": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 458.0,
+        "top": 386.8,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadw26": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 475.4,
+        "top": 386.8,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "leadw27": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 492.1,
+        "top": 386.8,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadw28": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 509.7,
+        "top": 386.8,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadw29": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 527.1,
+        "top": 386.8,
+        "width": 16.3,
+        "height": 11.1
+      }
+    },
+    "leadw30": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 544.0,
+        "top": 386.8,
+        "width": 16.1,
+        "height": 11.1
+      }
+    },
+    "leadwo1": {
+      "type": "text",
+      "label": "Enter the assist work center for scheduling in group 3 of 6.",
+      "page": 1,
+      "box": {
+        "left": 42.9,
+        "top": 364.1,
+        "width": 17.3,
+        "height": 11.1
+      }
+    },
+    "leadwo2": {
+      "type": "text",
+      "label": "Enter the assist work center for scheduling in group 3 of 6.",
+      "page": 1,
+      "box": {
+        "left": 60.9,
+        "top": 364.1,
+        "width": 16.5,
+        "height": 11.1
+      }
+    },
+    "leadwo3": {
+      "type": "text",
+      "label": "Enter the assist work center for scheduling in group 3 of 6.",
+      "page": 1,
+      "box": {
+        "left": 77.7,
+        "top": 364.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwo4": {
+      "type": "text",
+      "label": "Enter the assist work center for scheduling in group 3 of 6.",
+      "page": 1,
+      "box": {
+        "left": 95.2,
+        "top": 364.1,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "leadwo5": {
+      "type": "text",
+      "label": "Enter the scheduling start date year.",
+      "page": 1,
+      "box": {
+        "left": 112.0,
+        "top": 364.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwo6": {
+      "type": "text",
+      "label": "Enter the scheduling start date year.",
+      "page": 1,
+      "box": {
+        "left": 129.5,
+        "top": 364.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwo7": {
+      "type": "text",
+      "label": "Enter the scheduling start date day.",
+      "page": 1,
+      "box": {
+        "left": 146.8,
+        "top": 364.1,
+        "width": 16.7,
+        "height": 11.1
+      }
+    },
+    "leadwo8": {
+      "type": "text",
+      "label": "Enter the scheduling start date day.",
+      "page": 1,
+      "box": {
+        "left": 164.4,
+        "top": 364.1,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "leadwo9": {
+      "type": "text",
+      "label": "Enter the scheduling completion date year.",
+      "page": 1,
+      "box": {
+        "left": 181.2,
+        "top": 364.1,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "leadwo10": {
+      "type": "text",
+      "label": "Enter the scheduling completion date year.",
+      "page": 1,
+      "box": {
+        "left": 198.7,
+        "top": 364.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwo11": {
+      "type": "text",
+      "label": "Enter the scheduling completion date day.",
+      "page": 1,
+      "box": {
+        "left": 216.1,
+        "top": 364.1,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "leadwo12": {
+      "type": "text",
+      "label": "Enter the scheduling completion date day.",
+      "page": 1,
+      "box": {
+        "left": 233.0,
+        "top": 364.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwo13": {
+      "type": "text",
+      "label": "Enter the EST MHRS.",
+      "page": 1,
+      "box": {
+        "left": 250.2,
+        "top": 364.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwo14": {
+      "type": "text",
+      "label": "Enter the EST MHRS.",
+      "page": 1,
+      "box": {
+        "left": 267.9,
+        "top": 364.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwo15": {
+      "type": "text",
+      "label": "Enter the EST MHRS.",
+      "page": 1,
+      "box": {
+        "left": 285.3,
+        "top": 364.1,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "leadwo16": {
+      "type": "text",
+      "label": "Enter the EST MHRS.",
+      "page": 1,
+      "box": {
+        "left": 302.1,
+        "top": 364.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwo17": {
+      "type": "text",
+      "label": "Enter the key OP.",
+      "page": 1,
+      "box": {
+        "left": 319.3,
+        "top": 364.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwo18": {
+      "type": "text",
+      "label": "Enter the key OP.",
+      "page": 1,
+      "box": {
+        "left": 337.0,
+        "top": 364.1,
+        "width": 16.3,
+        "height": 11.1
+      }
+    },
+    "leadwo19": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 353.9,
+        "top": 364.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwo20": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 371.2,
+        "top": 364.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwo21": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 388.8,
+        "top": 364.1,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "leadwo22": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 406.2,
+        "top": 364.1,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "leadwo23": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 423.0,
+        "top": 364.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwo24": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 440.3,
+        "top": 364.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwo25": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 458.0,
+        "top": 364.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwo26": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 475.4,
+        "top": 364.1,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "leadwo27": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 492.1,
+        "top": 364.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwo28": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 509.7,
+        "top": 364.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwo29": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 527.1,
+        "top": 364.1,
+        "width": 16.3,
+        "height": 11.1
+      }
+    },
+    "leadwo30": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 544.0,
+        "top": 364.1,
+        "width": 16.1,
+        "height": 11.1
+      }
+    },
+    "leadwo110": {
+      "type": "text",
+      "label": "Enter the assist work center for scheduling in group 4 of 6.",
+      "page": 1,
+      "box": {
+        "left": 42.9,
+        "top": 341.6,
+        "width": 17.3,
+        "height": 11.1
+      }
+    },
+    "leadwo210": {
+      "type": "text",
+      "label": "Enter the assist work center for scheduling in group 4 of 6.",
+      "page": 1,
+      "box": {
+        "left": 60.9,
+        "top": 341.6,
+        "width": 16.5,
+        "height": 11.1
+      }
+    },
+    "leadwo32": {
+      "type": "text",
+      "label": "Enter the assist work center for scheduling in group 4 of 6.",
+      "page": 1,
+      "box": {
+        "left": 77.7,
+        "top": 341.6,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwo42": {
+      "type": "text",
+      "label": "Enter the assist work center for scheduling in group 4 of 6.",
+      "page": 1,
+      "box": {
+        "left": 95.2,
+        "top": 341.6,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "leadwo52": {
+      "type": "text",
+      "label": "Enter the scheduling start date year.",
+      "page": 1,
+      "box": {
+        "left": 112.0,
+        "top": 341.6,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwo62": {
+      "type": "text",
+      "label": "Enter the scheduling start date year.",
+      "page": 1,
+      "box": {
+        "left": 129.5,
+        "top": 341.6,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwo72": {
+      "type": "text",
+      "label": "Enter the scheduling start date day.",
+      "page": 1,
+      "box": {
+        "left": 146.8,
+        "top": 341.6,
+        "width": 16.7,
+        "height": 11.1
+      }
+    },
+    "leadwo82": {
+      "type": "text",
+      "label": "Enter the scheduling start date day.",
+      "page": 1,
+      "box": {
+        "left": 164.4,
+        "top": 341.6,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "leadwo92": {
+      "type": "text",
+      "label": "Enter the scheduling completion date year.",
+      "page": 1,
+      "box": {
+        "left": 181.2,
+        "top": 341.6,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "leadwo102": {
+      "type": "text",
+      "label": "Enter the scheduling completion date year.",
+      "page": 1,
+      "box": {
+        "left": 198.7,
+        "top": 341.6,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwo112": {
+      "type": "text",
+      "label": "Enter the scheduling completion date day.",
+      "page": 1,
+      "box": {
+        "left": 216.1,
+        "top": 341.6,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "leadwo122": {
+      "type": "text",
+      "label": "Enter the scheduling completion date day.",
+      "page": 1,
+      "box": {
+        "left": 233.0,
+        "top": 341.6,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwo132": {
+      "type": "text",
+      "label": "Enter the EST MHRS.",
+      "page": 1,
+      "box": {
+        "left": 250.2,
+        "top": 341.6,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwo142": {
+      "type": "text",
+      "label": "Enter the EST MHRS.",
+      "page": 1,
+      "box": {
+        "left": 267.9,
+        "top": 341.6,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwo152": {
+      "type": "text",
+      "label": "Enter the EST MHRS.",
+      "page": 1,
+      "box": {
+        "left": 285.3,
+        "top": 341.6,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "leadwo162": {
+      "type": "text",
+      "label": "Enter the EST MHRS.",
+      "page": 1,
+      "box": {
+        "left": 302.1,
+        "top": 341.6,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwo172": {
+      "type": "text",
+      "label": "Enter the key OP.",
+      "page": 1,
+      "box": {
+        "left": 319.3,
+        "top": 341.6,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwo182": {
+      "type": "text",
+      "label": "Enter the key OP.",
+      "page": 1,
+      "box": {
+        "left": 337.0,
+        "top": 341.6,
+        "width": 16.3,
+        "height": 11.1
+      }
+    },
+    "leadwo192": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 353.9,
+        "top": 341.6,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwo202": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 371.2,
+        "top": 341.6,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwo212": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 388.8,
+        "top": 341.6,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "leadwo222": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 406.2,
+        "top": 341.6,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "leadwo232": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 423.0,
+        "top": 341.6,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwo242": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 440.3,
+        "top": 341.6,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwo252": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 458.0,
+        "top": 341.6,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwo262": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 475.4,
+        "top": 341.6,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "leadwo272": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 492.1,
+        "top": 341.6,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwo282": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 509.7,
+        "top": 341.6,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwo292": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 527.1,
+        "top": 341.6,
+        "width": 16.3,
+        "height": 11.1
+      }
+    },
+    "leadwo302": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 544.0,
+        "top": 341.6,
+        "width": 16.1,
+        "height": 11.1
+      }
+    },
+    "leadwor1": {
+      "type": "text",
+      "label": "Enter the assist work center for scheduling in group 5 of 6.",
+      "page": 1,
+      "box": {
+        "left": 42.9,
+        "top": 319.1,
+        "width": 17.3,
+        "height": 11.1
+      }
+    },
+    "leadwor2": {
+      "type": "text",
+      "label": "Enter the assist work center for scheduling in group 5 of 6.",
+      "page": 1,
+      "box": {
+        "left": 60.9,
+        "top": 319.1,
+        "width": 16.5,
+        "height": 11.1
+      }
+    },
+    "leadwor3": {
+      "type": "text",
+      "label": "Enter the assist work center for scheduling in group 5 of 6.",
+      "page": 1,
+      "box": {
+        "left": 77.7,
+        "top": 319.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwor4": {
+      "type": "text",
+      "label": "Enter the assist work center for scheduling in group 5 of 6.",
+      "page": 1,
+      "box": {
+        "left": 95.2,
+        "top": 319.1,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "leadwor5": {
+      "type": "text",
+      "label": "Enter the scheduling start date year.",
+      "page": 1,
+      "box": {
+        "left": 112.0,
+        "top": 319.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwor6": {
+      "type": "text",
+      "label": "Enter the scheduling start date year.",
+      "page": 1,
+      "box": {
+        "left": 129.5,
+        "top": 319.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwor7": {
+      "type": "text",
+      "label": "Enter the scheduling start date day.",
+      "page": 1,
+      "box": {
+        "left": 146.8,
+        "top": 319.1,
+        "width": 16.7,
+        "height": 11.1
+      }
+    },
+    "leadwor8": {
+      "type": "text",
+      "label": "Enter the scheduling start date day.",
+      "page": 1,
+      "box": {
+        "left": 164.4,
+        "top": 319.1,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "leadwor9": {
+      "type": "text",
+      "label": "Enter the scheduling completion date year.",
+      "page": 1,
+      "box": {
+        "left": 181.2,
+        "top": 319.1,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "leadwor10": {
+      "type": "text",
+      "label": "Enter the scheduling completion date year.",
+      "page": 1,
+      "box": {
+        "left": 198.7,
+        "top": 319.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwor11": {
+      "type": "text",
+      "label": "Enter the scheduling completion date day.",
+      "page": 1,
+      "box": {
+        "left": 216.1,
+        "top": 319.1,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "leadwor12": {
+      "type": "text",
+      "label": "Enter the scheduling completion date day.",
+      "page": 1,
+      "box": {
+        "left": 233.0,
+        "top": 319.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwor13": {
+      "type": "text",
+      "label": "Enter the EST MHRS.",
+      "page": 1,
+      "box": {
+        "left": 250.2,
+        "top": 319.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwor14": {
+      "type": "text",
+      "label": "Enter the EST MHRS.",
+      "page": 1,
+      "box": {
+        "left": 267.9,
+        "top": 319.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwor15": {
+      "type": "text",
+      "label": "Enter the EST MHRS.",
+      "page": 1,
+      "box": {
+        "left": 285.3,
+        "top": 319.1,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "leadwor16": {
+      "type": "text",
+      "label": "Enter the EST MHRS.",
+      "page": 1,
+      "box": {
+        "left": 302.1,
+        "top": 319.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwor17": {
+      "type": "text",
+      "label": "Enter the key OP.",
+      "page": 1,
+      "box": {
+        "left": 319.3,
+        "top": 319.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwor18": {
+      "type": "text",
+      "label": "Enter the key OP.",
+      "page": 1,
+      "box": {
+        "left": 337.0,
+        "top": 319.1,
+        "width": 16.3,
+        "height": 11.1
+      }
+    },
+    "leadwor19": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 353.9,
+        "top": 319.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwor20": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 371.2,
+        "top": 319.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwor21": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 388.8,
+        "top": 319.1,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "leadwor22": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 406.2,
+        "top": 319.1,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "leadwor23": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 423.0,
+        "top": 319.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwor24": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 440.3,
+        "top": 319.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwor25": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 458.0,
+        "top": 319.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwor26": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 475.4,
+        "top": 319.1,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "leadwor27": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 492.1,
+        "top": 319.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwor28": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 509.7,
+        "top": 319.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwor29": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 527.1,
+        "top": 319.1,
+        "width": 16.3,
+        "height": 11.1
+      }
+    },
+    "leadwor30": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 544.0,
+        "top": 319.1,
+        "width": 16.1,
+        "height": 11.1
+      }
+    },
+    "leadwork1": {
+      "type": "text",
+      "label": "Enter the assist work center for scheduling in group 6 of 6.",
+      "page": 1,
+      "box": {
+        "left": 42.9,
+        "top": 296.6,
+        "width": 17.3,
+        "height": 11.1
+      }
+    },
+    "leadwork2": {
+      "type": "text",
+      "label": "Enter the assist work center for scheduling in group 6 of 6.",
+      "page": 1,
+      "box": {
+        "left": 60.9,
+        "top": 296.6,
+        "width": 16.5,
+        "height": 11.1
+      }
+    },
+    "leadwork3": {
+      "type": "text",
+      "label": "Enter the assist work center for scheduling in group 6 of 6.",
+      "page": 1,
+      "box": {
+        "left": 77.7,
+        "top": 296.6,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwork4": {
+      "type": "text",
+      "label": "Enter the assist work center for scheduling in group 6 of 6.",
+      "page": 1,
+      "box": {
+        "left": 95.2,
+        "top": 296.6,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "leadwork5": {
+      "type": "text",
+      "label": "Enter the scheduling start date year.",
+      "page": 1,
+      "box": {
+        "left": 112.0,
+        "top": 296.6,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwork6": {
+      "type": "text",
+      "label": "Enter the scheduling start date year.",
+      "page": 1,
+      "box": {
+        "left": 129.5,
+        "top": 296.6,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwork7": {
+      "type": "text",
+      "label": "Enter the scheduling start date day.",
+      "page": 1,
+      "box": {
+        "left": 146.8,
+        "top": 296.6,
+        "width": 16.7,
+        "height": 11.1
+      }
+    },
+    "leadwork8": {
+      "type": "text",
+      "label": "Enter the scheduling start date day.",
+      "page": 1,
+      "box": {
+        "left": 164.4,
+        "top": 296.6,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "leadwork9": {
+      "type": "text",
+      "label": "Enter the scheduling completion date year.",
+      "page": 1,
+      "box": {
+        "left": 181.2,
+        "top": 296.6,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "leadwork10": {
+      "type": "text",
+      "label": "Enter the scheduling completion date year.",
+      "page": 1,
+      "box": {
+        "left": 198.7,
+        "top": 296.6,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwork11": {
+      "type": "text",
+      "label": "Enter the scheduling completion date day.",
+      "page": 1,
+      "box": {
+        "left": 216.1,
+        "top": 296.6,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "leadwork12": {
+      "type": "text",
+      "label": "Enter the scheduling completion date day.",
+      "page": 1,
+      "box": {
+        "left": 233.0,
+        "top": 296.6,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwork13": {
+      "type": "text",
+      "label": "Enter the EST MHRS.",
+      "page": 1,
+      "box": {
+        "left": 250.2,
+        "top": 296.6,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwork14": {
+      "type": "text",
+      "label": "Enter the EST MHRS.",
+      "page": 1,
+      "box": {
+        "left": 267.9,
+        "top": 296.6,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwork15": {
+      "type": "text",
+      "label": "Enter the EST MHRS.",
+      "page": 1,
+      "box": {
+        "left": 285.3,
+        "top": 296.6,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "leadwork16": {
+      "type": "text",
+      "label": "Enter the EST MHRS.",
+      "page": 1,
+      "box": {
+        "left": 302.1,
+        "top": 296.6,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwork17": {
+      "type": "text",
+      "label": "Enter the key OP.",
+      "page": 1,
+      "box": {
+        "left": 319.3,
+        "top": 296.6,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwork18": {
+      "type": "text",
+      "label": "Enter the key OP.",
+      "page": 1,
+      "box": {
+        "left": 337.0,
+        "top": 296.6,
+        "width": 16.3,
+        "height": 11.1
+      }
+    },
+    "leadwork19": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 353.9,
+        "top": 296.6,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwork20": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 371.2,
+        "top": 296.6,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwork21": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 388.8,
+        "top": 296.6,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "leadwork22": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 406.2,
+        "top": 296.6,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "leadwork23": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 423.0,
+        "top": 296.6,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwork24": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 440.3,
+        "top": 296.6,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwork25": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 458.0,
+        "top": 296.6,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwork26": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 475.4,
+        "top": 296.6,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "leadwork27": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 492.1,
+        "top": 296.6,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwork28": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 509.7,
+        "top": 296.6,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "leadwork29": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 527.1,
+        "top": 296.6,
+        "width": 16.3,
+        "height": 11.1
+      }
+    },
+    "leadwork30": {
+      "type": "text",
+      "label": "Enter the task.",
+      "page": 1,
+      "box": {
+        "left": 544.0,
+        "top": 296.6,
+        "width": 16.1,
+        "height": 11.1
+      }
+    },
+    "on": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 530.2,
+        "top": 266.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_ON_0"
+    },
+    "on2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 548.2,
+        "top": 266.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_ON_0"
+    },
+    "section1": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 1 of 4.",
+      "page": 1,
+      "box": {
+        "left": 42.9,
+        "top": 264.7,
+        "width": 17.3,
+        "height": 11.1
+      }
+    },
+    "section2": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 1 of 4.",
+      "page": 1,
+      "box": {
+        "left": 60.9,
+        "top": 264.7,
+        "width": 16.5,
+        "height": 11.1
+      }
+    },
+    "section3": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 1 of 4.",
+      "page": 1,
+      "box": {
+        "left": 77.7,
+        "top": 264.7,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "section4": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 1 of 4.",
+      "page": 1,
+      "box": {
+        "left": 95.2,
+        "top": 264.7,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "section5": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 1 of 4.",
+      "page": 1,
+      "box": {
+        "left": 112.0,
+        "top": 264.7,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "section6": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 1 of 4.",
+      "page": 1,
+      "box": {
+        "left": 129.5,
+        "top": 264.7,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "section7": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 1 of 4.",
+      "page": 1,
+      "box": {
+        "left": 146.8,
+        "top": 264.7,
+        "width": 16.7,
+        "height": 11.1
+      }
+    },
+    "section8": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 1 of 4.",
+      "page": 1,
+      "box": {
+        "left": 164.4,
+        "top": 264.7,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "section9": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 1 of 4.",
+      "page": 1,
+      "box": {
+        "left": 181.2,
+        "top": 264.7,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "section10": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 1 of 4.",
+      "page": 1,
+      "box": {
+        "left": 198.7,
+        "top": 264.7,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "section11": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 1 of 4.",
+      "page": 1,
+      "box": {
+        "left": 216.1,
+        "top": 264.7,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "section12": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 1 of 4.",
+      "page": 1,
+      "box": {
+        "left": 233.0,
+        "top": 264.7,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "section13": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 1 of 4.",
+      "page": 1,
+      "box": {
+        "left": 250.2,
+        "top": 264.7,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "section14": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 1 of 4.",
+      "page": 1,
+      "box": {
+        "left": 267.9,
+        "top": 264.7,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "section15": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 1 of 4.",
+      "page": 1,
+      "box": {
+        "left": 285.3,
+        "top": 264.7,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "section16": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 1 of 4.",
+      "page": 1,
+      "box": {
+        "left": 302.1,
+        "top": 264.7,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "section17": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 1 of 4.",
+      "page": 1,
+      "box": {
+        "left": 319.3,
+        "top": 264.7,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "section18": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 1 of 4.",
+      "page": 1,
+      "box": {
+        "left": 337.0,
+        "top": 264.7,
+        "width": 16.3,
+        "height": 11.1
+      }
+    },
+    "section19": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 1 of 4.",
+      "page": 1,
+      "box": {
+        "left": 353.9,
+        "top": 264.7,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "section20": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 1 of 4.",
+      "page": 1,
+      "box": {
+        "left": 371.2,
+        "top": 264.7,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "section21": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 1 of 4.",
+      "page": 1,
+      "box": {
+        "left": 388.8,
+        "top": 264.7,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "section22": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 1 of 4.",
+      "page": 1,
+      "box": {
+        "left": 406.2,
+        "top": 264.7,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "section23": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 1 of 4.",
+      "page": 1,
+      "box": {
+        "left": 423.0,
+        "top": 264.7,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "section24": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 1 of 4.",
+      "page": 1,
+      "box": {
+        "left": 440.3,
+        "top": 264.7,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "section25": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 1 of 4.",
+      "page": 1,
+      "box": {
+        "left": 458.0,
+        "top": 264.7,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "section26": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 1 of 4.",
+      "page": 1,
+      "box": {
+        "left": 475.4,
+        "top": 264.7,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "section27": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 1 of 4.",
+      "page": 1,
+      "box": {
+        "left": 492.1,
+        "top": 264.7,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "section28": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 1 of 4.",
+      "page": 1,
+      "box": {
+        "left": 509.7,
+        "top": 264.7,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "board": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 530.2,
+        "top": 249.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_BOARD_0"
+    },
+    "board2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 548.2,
+        "top": 249.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_BOARD_0"
+    },
+    "sEction1": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 2 of 4.",
+      "page": 1,
+      "box": {
+        "left": 42.9,
+        "top": 247.9,
+        "width": 17.3,
+        "height": 11.1
+      }
+    },
+    "sEction2": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 2 of 4.",
+      "page": 1,
+      "box": {
+        "left": 60.9,
+        "top": 247.9,
+        "width": 16.5,
+        "height": 11.1
+      }
+    },
+    "sEction3": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 2 of 4.",
+      "page": 1,
+      "box": {
+        "left": 77.7,
+        "top": 247.9,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "sEction4": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 2 of 4.",
+      "page": 1,
+      "box": {
+        "left": 95.2,
+        "top": 247.9,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "sEction5": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 2 of 4.",
+      "page": 1,
+      "box": {
+        "left": 112.0,
+        "top": 247.9,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "sEction6": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 2 of 4.",
+      "page": 1,
+      "box": {
+        "left": 129.5,
+        "top": 247.9,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "sEction7": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 2 of 4.",
+      "page": 1,
+      "box": {
+        "left": 146.8,
+        "top": 247.9,
+        "width": 16.7,
+        "height": 11.1
+      }
+    },
+    "sEction8": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 2 of 4.",
+      "page": 1,
+      "box": {
+        "left": 164.4,
+        "top": 247.9,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "sEction9": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 2 of 4.",
+      "page": 1,
+      "box": {
+        "left": 181.2,
+        "top": 247.9,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "sEction10": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 2 of 4.",
+      "page": 1,
+      "box": {
+        "left": 198.7,
+        "top": 247.9,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "sEction11": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 2 of 4.",
+      "page": 1,
+      "box": {
+        "left": 216.1,
+        "top": 247.9,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "sEction12": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 2 of 4.",
+      "page": 1,
+      "box": {
+        "left": 233.0,
+        "top": 247.9,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "sEction13": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 2 of 4.",
+      "page": 1,
+      "box": {
+        "left": 250.2,
+        "top": 247.9,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "sEction14": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 2 of 4.",
+      "page": 1,
+      "box": {
+        "left": 267.9,
+        "top": 247.9,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "sEction15": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 2 of 4.",
+      "page": 1,
+      "box": {
+        "left": 285.3,
+        "top": 247.9,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "sEction16": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 2 of 4.",
+      "page": 1,
+      "box": {
+        "left": 302.1,
+        "top": 247.9,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "sEction17": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 2 of 4.",
+      "page": 1,
+      "box": {
+        "left": 319.3,
+        "top": 247.9,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "sEction18": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 2 of 4.",
+      "page": 1,
+      "box": {
+        "left": 337.0,
+        "top": 247.9,
+        "width": 16.3,
+        "height": 11.1
+      }
+    },
+    "sEction19": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 2 of 4.",
+      "page": 1,
+      "box": {
+        "left": 353.9,
+        "top": 247.9,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "sEction20": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 2 of 4.",
+      "page": 1,
+      "box": {
+        "left": 371.2,
+        "top": 247.9,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "sEction21": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 2 of 4.",
+      "page": 1,
+      "box": {
+        "left": 388.8,
+        "top": 247.9,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "sEction22": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 2 of 4.",
+      "page": 1,
+      "box": {
+        "left": 406.2,
+        "top": 247.9,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "sEction23": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 2 of 4.",
+      "page": 1,
+      "box": {
+        "left": 423.0,
+        "top": 247.9,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "sEction24": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 2 of 4.",
+      "page": 1,
+      "box": {
+        "left": 440.3,
+        "top": 247.9,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "sEction25": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 2 of 4.",
+      "page": 1,
+      "box": {
+        "left": 458.0,
+        "top": 247.9,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "sEction26": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 2 of 4.",
+      "page": 1,
+      "box": {
+        "left": 475.4,
+        "top": 247.9,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "sEction27": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 2 of 4.",
+      "page": 1,
+      "box": {
+        "left": 492.1,
+        "top": 247.9,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "sEction28": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 2 of 4.",
+      "page": 1,
+      "box": {
+        "left": 509.7,
+        "top": 247.9,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "on3": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 530.2,
+        "top": 232.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_on_0"
+    },
+    "on4": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 548.2,
+        "top": 232.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_on_0"
+    },
+    "seCtion1": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 3 of 4.",
+      "page": 1,
+      "box": {
+        "left": 42.9,
+        "top": 231.0,
+        "width": 17.3,
+        "height": 11.1
+      }
+    },
+    "seCtion2": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 3 of 4.",
+      "page": 1,
+      "box": {
+        "left": 60.9,
+        "top": 231.0,
+        "width": 16.5,
+        "height": 11.1
+      }
+    },
+    "seCtion3": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 3 of 4.",
+      "page": 1,
+      "box": {
+        "left": 77.7,
+        "top": 231.0,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "seCtion4": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 3 of 4.",
+      "page": 1,
+      "box": {
+        "left": 95.2,
+        "top": 231.0,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "seCtion5": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 3 of 4.",
+      "page": 1,
+      "box": {
+        "left": 112.0,
+        "top": 231.0,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "seCtion6": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 3 of 4.",
+      "page": 1,
+      "box": {
+        "left": 129.5,
+        "top": 231.0,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "seCtion7": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 3 of 4.",
+      "page": 1,
+      "box": {
+        "left": 146.8,
+        "top": 231.0,
+        "width": 16.7,
+        "height": 11.1
+      }
+    },
+    "seCtion8": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 3 of 4.",
+      "page": 1,
+      "box": {
+        "left": 164.4,
+        "top": 231.0,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "seCtion9": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 3 of 4.",
+      "page": 1,
+      "box": {
+        "left": 181.2,
+        "top": 231.0,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "seCtion10": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 3 of 4.",
+      "page": 1,
+      "box": {
+        "left": 198.7,
+        "top": 231.0,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "seCtion11": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 3 of 4.",
+      "page": 1,
+      "box": {
+        "left": 216.1,
+        "top": 231.0,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "seCtion12": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 3 of 4.",
+      "page": 1,
+      "box": {
+        "left": 233.0,
+        "top": 231.0,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "seCtion13": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 3 of 4.",
+      "page": 1,
+      "box": {
+        "left": 250.2,
+        "top": 231.0,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "seCtion14": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 3 of 4.",
+      "page": 1,
+      "box": {
+        "left": 267.9,
+        "top": 231.0,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "seCtion15": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 3 of 4.",
+      "page": 1,
+      "box": {
+        "left": 285.3,
+        "top": 231.0,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "seCtion16": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 3 of 4.",
+      "page": 1,
+      "box": {
+        "left": 302.1,
+        "top": 231.0,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "seCtion17": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 3 of 4.",
+      "page": 1,
+      "box": {
+        "left": 319.3,
+        "top": 231.0,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "seCtion18": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 3 of 4.",
+      "page": 1,
+      "box": {
+        "left": 337.0,
+        "top": 231.0,
+        "width": 16.3,
+        "height": 11.1
+      }
+    },
+    "seCtion19": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 3 of 4.",
+      "page": 1,
+      "box": {
+        "left": 353.9,
+        "top": 231.0,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "seCtion20": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 3 of 4.",
+      "page": 1,
+      "box": {
+        "left": 371.2,
+        "top": 231.0,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "seCtion21": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 3 of 4.",
+      "page": 1,
+      "box": {
+        "left": 388.8,
+        "top": 231.0,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "seCtion22": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 3 of 4.",
+      "page": 1,
+      "box": {
+        "left": 406.2,
+        "top": 231.0,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "seCtion23": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 3 of 4.",
+      "page": 1,
+      "box": {
+        "left": 423.0,
+        "top": 231.0,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "seCtion24": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 3 of 4.",
+      "page": 1,
+      "box": {
+        "left": 440.3,
+        "top": 231.0,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "seCtion25": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 3 of 4.",
+      "page": 1,
+      "box": {
+        "left": 458.0,
+        "top": 231.0,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "seCtion26": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 3 of 4.",
+      "page": 1,
+      "box": {
+        "left": 475.4,
+        "top": 231.0,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "seCtion27": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 3 of 4.",
+      "page": 1,
+      "box": {
+        "left": 492.1,
+        "top": 231.0,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "seCtion28": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 3 of 4.",
+      "page": 1,
+      "box": {
+        "left": 509.7,
+        "top": 231.0,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "board3": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 530.2,
+        "top": 215.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_board_0"
+    },
+    "board4": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 548.2,
+        "top": 215.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_board_0"
+    },
+    "secTion1": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 4 of 4.",
+      "page": 1,
+      "box": {
+        "left": 42.9,
+        "top": 214.1,
+        "width": 17.3,
+        "height": 11.1
+      }
+    },
+    "secTion2": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 4 of 4.",
+      "page": 1,
+      "box": {
+        "left": 60.9,
+        "top": 214.1,
+        "width": 16.5,
+        "height": 11.1
+      }
+    },
+    "secTion3": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 4 of 4.",
+      "page": 1,
+      "box": {
+        "left": 77.7,
+        "top": 214.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "secTion4": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 4 of 4.",
+      "page": 1,
+      "box": {
+        "left": 95.2,
+        "top": 214.1,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "secTion5": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 4 of 4.",
+      "page": 1,
+      "box": {
+        "left": 112.0,
+        "top": 214.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "secTion6": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 4 of 4.",
+      "page": 1,
+      "box": {
+        "left": 129.5,
+        "top": 214.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "secTion7": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 4 of 4.",
+      "page": 1,
+      "box": {
+        "left": 146.8,
+        "top": 214.1,
+        "width": 16.7,
+        "height": 11.1
+      }
+    },
+    "secTion8": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 4 of 4.",
+      "page": 1,
+      "box": {
+        "left": 164.4,
+        "top": 214.1,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "secTion9": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 4 of 4.",
+      "page": 1,
+      "box": {
+        "left": 181.2,
+        "top": 214.1,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "secTion10": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 4 of 4.",
+      "page": 1,
+      "box": {
+        "left": 198.7,
+        "top": 214.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "secTion11": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 4 of 4.",
+      "page": 1,
+      "box": {
+        "left": 216.1,
+        "top": 214.1,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "secTion12": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 4 of 4.",
+      "page": 1,
+      "box": {
+        "left": 233.0,
+        "top": 214.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "secTion13": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 4 of 4.",
+      "page": 1,
+      "box": {
+        "left": 250.2,
+        "top": 214.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "secTion14": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 4 of 4.",
+      "page": 1,
+      "box": {
+        "left": 267.9,
+        "top": 214.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "secTion15": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 4 of 4.",
+      "page": 1,
+      "box": {
+        "left": 285.3,
+        "top": 214.1,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "secTion16": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 4 of 4.",
+      "page": 1,
+      "box": {
+        "left": 302.1,
+        "top": 214.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "secTion17": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 4 of 4.",
+      "page": 1,
+      "box": {
+        "left": 319.3,
+        "top": 214.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "secTion18": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 4 of 4.",
+      "page": 1,
+      "box": {
+        "left": 337.0,
+        "top": 214.1,
+        "width": 16.3,
+        "height": 11.1
+      }
+    },
+    "secTion19": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 4 of 4.",
+      "page": 1,
+      "box": {
+        "left": 353.9,
+        "top": 214.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "secTion20": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 4 of 4.",
+      "page": 1,
+      "box": {
+        "left": 371.2,
+        "top": 214.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "secTion21": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 4 of 4.",
+      "page": 1,
+      "box": {
+        "left": 388.8,
+        "top": 214.1,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "secTion22": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 4 of 4.",
+      "page": 1,
+      "box": {
+        "left": 406.2,
+        "top": 214.1,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "secTion23": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 4 of 4.",
+      "page": 1,
+      "box": {
+        "left": 423.0,
+        "top": 214.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "secTion24": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 4 of 4.",
+      "page": 1,
+      "box": {
+        "left": 440.3,
+        "top": 214.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "secTion25": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 4 of 4.",
+      "page": 1,
+      "box": {
+        "left": 458.0,
+        "top": 214.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "secTion26": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 4 of 4.",
+      "page": 1,
+      "box": {
+        "left": 475.4,
+        "top": 214.1,
+        "width": 16.6,
+        "height": 11.1
+      }
+    },
+    "secTion27": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 4 of 4.",
+      "page": 1,
+      "box": {
+        "left": 492.1,
+        "top": 214.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "secTion28": {
+      "type": "text",
+      "label": "Enter the Technical Documentation for line 4 of 4.",
+      "page": 1,
+      "box": {
+        "left": 509.7,
+        "top": 214.1,
+        "width": 16.9,
+        "height": 11.1
+      }
+    },
+    "sectionUIC1": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 1 of 6.",
+      "page": 1,
+      "box": {
+        "left": 42.9,
+        "top": 183.3,
+        "width": 17.3,
+        "height": 11.0
+      }
+    },
+    "sectionUIC2": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 1 of 6.",
+      "page": 1,
+      "box": {
+        "left": 60.9,
+        "top": 183.3,
+        "width": 16.5,
+        "height": 11.0
+      }
+    },
+    "sectionUIC3": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 1 of 6.",
+      "page": 1,
+      "box": {
+        "left": 77.7,
+        "top": 183.3,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sectionUIC4": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 1 of 6.",
+      "page": 1,
+      "box": {
+        "left": 95.2,
+        "top": 183.3,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "sectionUIC5": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 1 of 6.",
+      "page": 1,
+      "box": {
+        "left": 112.0,
+        "top": 183.3,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sectionUIC6": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 1 of 6.",
+      "page": 1,
+      "box": {
+        "left": 129.5,
+        "top": 183.3,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sectionUIC7": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 1 of 6.",
+      "page": 1,
+      "box": {
+        "left": 146.8,
+        "top": 183.3,
+        "width": 16.7,
+        "height": 11.0
+      }
+    },
+    "sectionUIC8": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 1 of 6.",
+      "page": 1,
+      "box": {
+        "left": 164.4,
+        "top": 183.3,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "sectionUIC9": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 1 of 6.",
+      "page": 1,
+      "box": {
+        "left": 181.7,
+        "top": 183.3,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "sectionUIC10": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 1 of 6.",
+      "page": 1,
+      "box": {
+        "left": 198.7,
+        "top": 183.3,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sectionUIC11": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 1 of 6.",
+      "page": 1,
+      "box": {
+        "left": 216.1,
+        "top": 183.3,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "sectionUIC12": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 1 of 6.",
+      "page": 1,
+      "box": {
+        "left": 233.0,
+        "top": 183.3,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sectionUIC13": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 1 of 6.",
+      "page": 1,
+      "box": {
+        "left": 250.9,
+        "top": 183.3,
+        "width": 16.3,
+        "height": 11.0
+      }
+    },
+    "sectionUIC14": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 1 of 6.",
+      "page": 1,
+      "box": {
+        "left": 267.9,
+        "top": 183.3,
+        "width": 16.2,
+        "height": 11.0
+      }
+    },
+    "sectionUIC15": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 1 of 6.",
+      "page": 1,
+      "box": {
+        "left": 285.2,
+        "top": 183.3,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "sectionUIC16": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 1 of 6.",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 183.3,
+        "width": 16.4,
+        "height": 11.0
+      }
+    },
+    "sectionUIC17": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 1 of 6.",
+      "page": 1,
+      "box": {
+        "left": 320.0,
+        "top": 183.3,
+        "width": 16.3,
+        "height": 11.0
+      }
+    },
+    "sectionUIC18": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 1 of 6.",
+      "page": 1,
+      "box": {
+        "left": 337.0,
+        "top": 183.3,
+        "width": 16.3,
+        "height": 11.0
+      }
+    },
+    "sectionUIC19": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 1 of 6.",
+      "page": 1,
+      "box": {
+        "left": 353.9,
+        "top": 183.3,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sectionUIC20": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 1 of 6.",
+      "page": 1,
+      "box": {
+        "left": 371.8,
+        "top": 183.3,
+        "width": 16.4,
+        "height": 11.0
+      }
+    },
+    "sectionUIC21": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 1 of 6.",
+      "page": 1,
+      "box": {
+        "left": 388.8,
+        "top": 183.3,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "sectionUIC22": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 1 of 6.",
+      "page": 1,
+      "box": {
+        "left": 406.2,
+        "top": 183.3,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "sectionUIC23": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 1 of 6.",
+      "page": 1,
+      "box": {
+        "left": 423.0,
+        "top": 183.3,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sectionUIC24": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 1 of 6.",
+      "page": 1,
+      "box": {
+        "left": 440.3,
+        "top": 183.3,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sectionUIC25": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 1 of 6.",
+      "page": 1,
+      "box": {
+        "left": 458.0,
+        "top": 183.3,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sectionUIC26": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 1 of 6.",
+      "page": 1,
+      "box": {
+        "left": 475.4,
+        "top": 183.3,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "sectionUIC27": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 1 of 6.",
+      "page": 1,
+      "box": {
+        "left": 492.1,
+        "top": 183.3,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sectionUIC28": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 1 of 6.",
+      "page": 1,
+      "box": {
+        "left": 509.7,
+        "top": 183.3,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sectionUIC29": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 1 of 6.",
+      "page": 1,
+      "box": {
+        "left": 527.1,
+        "top": 183.3,
+        "width": 16.3,
+        "height": 11.0
+      }
+    },
+    "sectionUIC30": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 1 of 6.",
+      "page": 1,
+      "box": {
+        "left": 544.0,
+        "top": 183.3,
+        "width": 16.1,
+        "height": 11.0
+      }
+    },
+    "sectionUIC110": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 2 of 6.",
+      "page": 1,
+      "box": {
+        "left": 42.9,
+        "top": 166.3,
+        "width": 17.3,
+        "height": 11.0
+      }
+    },
+    "sectionUIC210": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 2 of 6.",
+      "page": 1,
+      "box": {
+        "left": 60.9,
+        "top": 166.3,
+        "width": 16.5,
+        "height": 11.0
+      }
+    },
+    "sectionUIC32": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 2 of 6.",
+      "page": 1,
+      "box": {
+        "left": 77.7,
+        "top": 166.3,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sectionUIC42": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 2 of 6.",
+      "page": 1,
+      "box": {
+        "left": 95.2,
+        "top": 166.3,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "sectionUIC52": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 2 of 6.",
+      "page": 1,
+      "box": {
+        "left": 112.0,
+        "top": 166.3,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sectionUIC62": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 2 of 6.",
+      "page": 1,
+      "box": {
+        "left": 129.5,
+        "top": 166.3,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sectionUIC72": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 2 of 6.",
+      "page": 1,
+      "box": {
+        "left": 146.8,
+        "top": 166.3,
+        "width": 16.7,
+        "height": 11.0
+      }
+    },
+    "sectionUIC82": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 2 of 6.",
+      "page": 1,
+      "box": {
+        "left": 164.4,
+        "top": 166.3,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "sectionUIC92": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 2 of 6.",
+      "page": 1,
+      "box": {
+        "left": 181.7,
+        "top": 166.3,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "sectionUIC102": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 2 of 6.",
+      "page": 1,
+      "box": {
+        "left": 198.7,
+        "top": 166.3,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sectionUIC112": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 2 of 6.",
+      "page": 1,
+      "box": {
+        "left": 216.1,
+        "top": 166.3,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "sectionUIC122": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 2 of 6.",
+      "page": 1,
+      "box": {
+        "left": 233.0,
+        "top": 166.3,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sectionUIC132": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 2 of 6.",
+      "page": 1,
+      "box": {
+        "left": 250.9,
+        "top": 166.3,
+        "width": 16.3,
+        "height": 11.0
+      }
+    },
+    "sectionUIC142": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 2 of 6.",
+      "page": 1,
+      "box": {
+        "left": 267.9,
+        "top": 166.3,
+        "width": 16.2,
+        "height": 11.0
+      }
+    },
+    "sectionUIC152": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 2 of 6.",
+      "page": 1,
+      "box": {
+        "left": 285.2,
+        "top": 166.3,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "sectionUIC162": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 2 of 6.",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 166.3,
+        "width": 16.4,
+        "height": 11.0
+      }
+    },
+    "sectionUIC172": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 2 of 6.",
+      "page": 1,
+      "box": {
+        "left": 320.0,
+        "top": 166.3,
+        "width": 16.3,
+        "height": 11.0
+      }
+    },
+    "sectionUIC182": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 2 of 6.",
+      "page": 1,
+      "box": {
+        "left": 337.0,
+        "top": 166.3,
+        "width": 16.3,
+        "height": 11.0
+      }
+    },
+    "sectionUIC192": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 2 of 6.",
+      "page": 1,
+      "box": {
+        "left": 353.9,
+        "top": 166.3,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sectionUIC202": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 2 of 6.",
+      "page": 1,
+      "box": {
+        "left": 371.8,
+        "top": 166.3,
+        "width": 16.4,
+        "height": 11.0
+      }
+    },
+    "sectionUIC212": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 2 of 6.",
+      "page": 1,
+      "box": {
+        "left": 388.8,
+        "top": 166.3,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "sectionUIC222": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 2 of 6.",
+      "page": 1,
+      "box": {
+        "left": 406.2,
+        "top": 166.3,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "sectionUIC232": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 2 of 6.",
+      "page": 1,
+      "box": {
+        "left": 423.0,
+        "top": 166.3,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sectionUIC242": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 2 of 6.",
+      "page": 1,
+      "box": {
+        "left": 440.3,
+        "top": 166.3,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sectionUIC252": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 2 of 6.",
+      "page": 1,
+      "box": {
+        "left": 458.0,
+        "top": 166.3,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sectionUIC262": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 2 of 6.",
+      "page": 1,
+      "box": {
+        "left": 475.4,
+        "top": 166.3,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "sectionUIC272": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 2 of 6.",
+      "page": 1,
+      "box": {
+        "left": 492.1,
+        "top": 166.3,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sectionUIC282": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 2 of 6.",
+      "page": 1,
+      "box": {
+        "left": 509.7,
+        "top": 166.3,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sectionUIC292": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 2 of 6.",
+      "page": 1,
+      "box": {
+        "left": 527.1,
+        "top": 166.3,
+        "width": 16.3,
+        "height": 11.0
+      }
+    },
+    "sectionUIC302": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 2 of 6.",
+      "page": 1,
+      "box": {
+        "left": 544.0,
+        "top": 166.3,
+        "width": 16.1,
+        "height": 11.0
+      }
+    },
+    "sEctionUIC1": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 3 of 6.",
+      "page": 1,
+      "box": {
+        "left": 42.9,
+        "top": 149.4,
+        "width": 17.3,
+        "height": 11.0
+      }
+    },
+    "sEctionUIC2": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 3 of 6.",
+      "page": 1,
+      "box": {
+        "left": 60.9,
+        "top": 149.4,
+        "width": 16.5,
+        "height": 11.0
+      }
+    },
+    "sEctionUIC3": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 3 of 6.",
+      "page": 1,
+      "box": {
+        "left": 77.7,
+        "top": 149.4,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sEctionUIC4": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 3 of 6.",
+      "page": 1,
+      "box": {
+        "left": 95.2,
+        "top": 149.4,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "sEctionUIC5": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 3 of 6.",
+      "page": 1,
+      "box": {
+        "left": 112.0,
+        "top": 149.4,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sEctionUIC6": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 3 of 6.",
+      "page": 1,
+      "box": {
+        "left": 129.5,
+        "top": 149.4,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sEctionUIC7": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 3 of 6.",
+      "page": 1,
+      "box": {
+        "left": 146.8,
+        "top": 149.4,
+        "width": 16.7,
+        "height": 11.0
+      }
+    },
+    "sEctionUIC8": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 3 of 6.",
+      "page": 1,
+      "box": {
+        "left": 164.4,
+        "top": 149.4,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "sEctionUIC9": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 3 of 6.",
+      "page": 1,
+      "box": {
+        "left": 181.7,
+        "top": 149.4,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "sEctionUIC10": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 3 of 6.",
+      "page": 1,
+      "box": {
+        "left": 198.7,
+        "top": 149.4,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sEctionUIC11": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 3 of 6.",
+      "page": 1,
+      "box": {
+        "left": 216.1,
+        "top": 149.4,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "sEctionUIC12": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 3 of 6.",
+      "page": 1,
+      "box": {
+        "left": 233.0,
+        "top": 149.4,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sEctionUIC13": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 3 of 6.",
+      "page": 1,
+      "box": {
+        "left": 250.9,
+        "top": 149.4,
+        "width": 16.3,
+        "height": 11.0
+      }
+    },
+    "sEctionUIC14": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 3 of 6.",
+      "page": 1,
+      "box": {
+        "left": 267.9,
+        "top": 149.4,
+        "width": 16.2,
+        "height": 11.0
+      }
+    },
+    "sEctionUIC15": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 3 of 6.",
+      "page": 1,
+      "box": {
+        "left": 285.2,
+        "top": 149.4,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "sEctionUIC16": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 3 of 6.",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 149.4,
+        "width": 16.4,
+        "height": 11.0
+      }
+    },
+    "sEctionUIC17": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 3 of 6.",
+      "page": 1,
+      "box": {
+        "left": 320.0,
+        "top": 149.4,
+        "width": 16.3,
+        "height": 11.0
+      }
+    },
+    "sEctionUIC18": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 3 of 6.",
+      "page": 1,
+      "box": {
+        "left": 337.0,
+        "top": 149.4,
+        "width": 16.3,
+        "height": 11.0
+      }
+    },
+    "sEctionUIC19": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 3 of 6.",
+      "page": 1,
+      "box": {
+        "left": 353.9,
+        "top": 149.4,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sEctionUIC20": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 3 of 6.",
+      "page": 1,
+      "box": {
+        "left": 371.8,
+        "top": 149.4,
+        "width": 16.4,
+        "height": 11.0
+      }
+    },
+    "sEctionUIC21": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 3 of 6.",
+      "page": 1,
+      "box": {
+        "left": 388.8,
+        "top": 149.4,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "sEctionUIC22": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 3 of 6.",
+      "page": 1,
+      "box": {
+        "left": 406.2,
+        "top": 149.4,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "sEctionUIC23": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 3 of 6.",
+      "page": 1,
+      "box": {
+        "left": 423.0,
+        "top": 149.4,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sEctionUIC24": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 3 of 6.",
+      "page": 1,
+      "box": {
+        "left": 440.3,
+        "top": 149.4,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sEctionUIC25": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 3 of 6.",
+      "page": 1,
+      "box": {
+        "left": 458.0,
+        "top": 149.4,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sEctionUIC26": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 3 of 6.",
+      "page": 1,
+      "box": {
+        "left": 475.4,
+        "top": 149.4,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "sEctionUIC27": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 3 of 6.",
+      "page": 1,
+      "box": {
+        "left": 492.1,
+        "top": 149.4,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sEctionUIC28": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 3 of 6.",
+      "page": 1,
+      "box": {
+        "left": 509.7,
+        "top": 149.4,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sEctionUIC29": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 3 of 6.",
+      "page": 1,
+      "box": {
+        "left": 527.1,
+        "top": 149.4,
+        "width": 16.3,
+        "height": 11.0
+      }
+    },
+    "sEctionUIC30": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 3 of 6.",
+      "page": 1,
+      "box": {
+        "left": 544.0,
+        "top": 149.4,
+        "width": 16.1,
+        "height": 11.0
+      }
+    },
+    "seCtionUIC1": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 4 of 6.",
+      "page": 1,
+      "box": {
+        "left": 42.9,
+        "top": 132.6,
+        "width": 17.3,
+        "height": 11.0
+      }
+    },
+    "seCtionUIC2": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 4 of 6.",
+      "page": 1,
+      "box": {
+        "left": 60.9,
+        "top": 132.6,
+        "width": 16.5,
+        "height": 11.0
+      }
+    },
+    "seCtionUIC3": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 4 of 6.",
+      "page": 1,
+      "box": {
+        "left": 77.7,
+        "top": 132.6,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "seCtionUIC4": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 4 of 6.",
+      "page": 1,
+      "box": {
+        "left": 95.2,
+        "top": 132.6,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "seCtionUIC5": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 4 of 6.",
+      "page": 1,
+      "box": {
+        "left": 112.0,
+        "top": 132.6,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "seCtionUIC6": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 4 of 6.",
+      "page": 1,
+      "box": {
+        "left": 129.5,
+        "top": 132.6,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "seCtionUIC7": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 4 of 6.",
+      "page": 1,
+      "box": {
+        "left": 146.8,
+        "top": 132.6,
+        "width": 16.7,
+        "height": 11.0
+      }
+    },
+    "seCtionUIC8": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 4 of 6.",
+      "page": 1,
+      "box": {
+        "left": 164.4,
+        "top": 132.6,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "seCtionUIC9": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 4 of 6.",
+      "page": 1,
+      "box": {
+        "left": 181.7,
+        "top": 132.6,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "seCtionUIC10": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 4 of 6.",
+      "page": 1,
+      "box": {
+        "left": 198.7,
+        "top": 132.6,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "seCtionUIC11": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 4 of 6.",
+      "page": 1,
+      "box": {
+        "left": 216.1,
+        "top": 132.6,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "seCtionUIC12": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 4 of 6.",
+      "page": 1,
+      "box": {
+        "left": 233.0,
+        "top": 132.6,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "seCtionUIC13": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 4 of 6.",
+      "page": 1,
+      "box": {
+        "left": 250.9,
+        "top": 132.6,
+        "width": 16.3,
+        "height": 11.0
+      }
+    },
+    "seCtionUIC14": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 4 of 6.",
+      "page": 1,
+      "box": {
+        "left": 267.9,
+        "top": 132.6,
+        "width": 16.2,
+        "height": 11.0
+      }
+    },
+    "seCtionUIC15": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 4 of 6.",
+      "page": 1,
+      "box": {
+        "left": 285.2,
+        "top": 132.6,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "seCtionUIC16": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 4 of 6.",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 132.6,
+        "width": 16.4,
+        "height": 11.0
+      }
+    },
+    "seCtionUIC17": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 4 of 6.",
+      "page": 1,
+      "box": {
+        "left": 320.0,
+        "top": 132.6,
+        "width": 16.3,
+        "height": 11.0
+      }
+    },
+    "seCtionUIC18": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 4 of 6.",
+      "page": 1,
+      "box": {
+        "left": 337.0,
+        "top": 132.6,
+        "width": 16.3,
+        "height": 11.0
+      }
+    },
+    "seCtionUIC19": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 4 of 6.",
+      "page": 1,
+      "box": {
+        "left": 353.9,
+        "top": 132.6,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "seCtionUIC20": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 4 of 6.",
+      "page": 1,
+      "box": {
+        "left": 371.8,
+        "top": 132.6,
+        "width": 16.4,
+        "height": 11.0
+      }
+    },
+    "seCtionUIC21": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 4 of 6.",
+      "page": 1,
+      "box": {
+        "left": 388.8,
+        "top": 132.6,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "seCtionUIC22": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 4 of 6.",
+      "page": 1,
+      "box": {
+        "left": 406.2,
+        "top": 132.6,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "seCtionUIC23": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 4 of 6.",
+      "page": 1,
+      "box": {
+        "left": 423.0,
+        "top": 132.6,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "seCtionUIC24": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 4 of 6.",
+      "page": 1,
+      "box": {
+        "left": 440.3,
+        "top": 132.6,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "seCtionUIC25": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 4 of 6.",
+      "page": 1,
+      "box": {
+        "left": 458.0,
+        "top": 132.6,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "seCtionUIC26": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 4 of 6.",
+      "page": 1,
+      "box": {
+        "left": 475.4,
+        "top": 132.6,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "seCtionUIC27": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 4 of 6.",
+      "page": 1,
+      "box": {
+        "left": 492.1,
+        "top": 132.6,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "seCtionUIC28": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 4 of 6.",
+      "page": 1,
+      "box": {
+        "left": 509.7,
+        "top": 132.6,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "seCtionUIC29": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 4 of 6.",
+      "page": 1,
+      "box": {
+        "left": 527.1,
+        "top": 132.6,
+        "width": 16.3,
+        "height": 11.0
+      }
+    },
+    "seCtionUIC30": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 4 of 6.",
+      "page": 1,
+      "box": {
+        "left": 544.0,
+        "top": 132.6,
+        "width": 16.1,
+        "height": 11.0
+      }
+    },
+    "secTionUIC1": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 5 of 6.",
+      "page": 1,
+      "box": {
+        "left": 42.9,
+        "top": 115.7,
+        "width": 17.3,
+        "height": 11.0
+      }
+    },
+    "secTionUIC2": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 5 of 6.",
+      "page": 1,
+      "box": {
+        "left": 60.9,
+        "top": 115.7,
+        "width": 16.5,
+        "height": 11.0
+      }
+    },
+    "secTionUIC3": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 5 of 6.",
+      "page": 1,
+      "box": {
+        "left": 77.7,
+        "top": 115.7,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "secTionUIC4": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 5 of 6.",
+      "page": 1,
+      "box": {
+        "left": 95.2,
+        "top": 115.7,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "secTionUIC5": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 5 of 6.",
+      "page": 1,
+      "box": {
+        "left": 112.0,
+        "top": 115.7,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "secTionUIC6": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 5 of 6.",
+      "page": 1,
+      "box": {
+        "left": 129.5,
+        "top": 115.7,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "secTionUIC7": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 5 of 6.",
+      "page": 1,
+      "box": {
+        "left": 146.8,
+        "top": 115.7,
+        "width": 16.7,
+        "height": 11.0
+      }
+    },
+    "secTionUIC8": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 5 of 6.",
+      "page": 1,
+      "box": {
+        "left": 164.4,
+        "top": 115.7,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "secTionUIC9": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 5 of 6.",
+      "page": 1,
+      "box": {
+        "left": 181.7,
+        "top": 115.7,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "secTionUIC10": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 5 of 6.",
+      "page": 1,
+      "box": {
+        "left": 198.7,
+        "top": 115.7,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "secTionUIC11": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 5 of 6.",
+      "page": 1,
+      "box": {
+        "left": 216.1,
+        "top": 115.7,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "secTionUIC12": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 5 of 6.",
+      "page": 1,
+      "box": {
+        "left": 233.0,
+        "top": 115.7,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "secTionUIC13": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 5 of 6.",
+      "page": 1,
+      "box": {
+        "left": 250.9,
+        "top": 115.7,
+        "width": 16.3,
+        "height": 11.0
+      }
+    },
+    "secTionUIC14": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 5 of 6.",
+      "page": 1,
+      "box": {
+        "left": 267.9,
+        "top": 115.7,
+        "width": 16.2,
+        "height": 11.0
+      }
+    },
+    "secTionUIC15": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 5 of 6.",
+      "page": 1,
+      "box": {
+        "left": 285.2,
+        "top": 115.7,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "secTionUIC16": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 5 of 6.",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 115.7,
+        "width": 16.4,
+        "height": 11.0
+      }
+    },
+    "secTionUIC17": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 5 of 6.",
+      "page": 1,
+      "box": {
+        "left": 320.0,
+        "top": 115.7,
+        "width": 16.3,
+        "height": 11.0
+      }
+    },
+    "secTionUIC18": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 5 of 6.",
+      "page": 1,
+      "box": {
+        "left": 337.0,
+        "top": 115.7,
+        "width": 16.3,
+        "height": 11.0
+      }
+    },
+    "secTionUIC19": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 5 of 6.",
+      "page": 1,
+      "box": {
+        "left": 353.9,
+        "top": 115.7,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "secTionUIC20": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 5 of 6.",
+      "page": 1,
+      "box": {
+        "left": 371.8,
+        "top": 115.7,
+        "width": 16.4,
+        "height": 11.0
+      }
+    },
+    "secTionUIC21": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 5 of 6.",
+      "page": 1,
+      "box": {
+        "left": 388.8,
+        "top": 115.7,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "secTionUIC22": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 5 of 6.",
+      "page": 1,
+      "box": {
+        "left": 406.2,
+        "top": 115.7,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "secTionUIC23": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 5 of 6.",
+      "page": 1,
+      "box": {
+        "left": 423.0,
+        "top": 115.7,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "secTionUIC24": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 5 of 6.",
+      "page": 1,
+      "box": {
+        "left": 440.3,
+        "top": 115.7,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "secTionUIC25": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 5 of 6.",
+      "page": 1,
+      "box": {
+        "left": 458.0,
+        "top": 115.7,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "secTionUIC26": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 5 of 6.",
+      "page": 1,
+      "box": {
+        "left": 475.4,
+        "top": 115.7,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "secTionUIC27": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 5 of 6.",
+      "page": 1,
+      "box": {
+        "left": 492.1,
+        "top": 115.7,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "secTionUIC28": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 5 of 6.",
+      "page": 1,
+      "box": {
+        "left": 509.7,
+        "top": 115.7,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "secTionUIC29": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 5 of 6.",
+      "page": 1,
+      "box": {
+        "left": 527.1,
+        "top": 115.7,
+        "width": 16.3,
+        "height": 11.0
+      }
+    },
+    "secTionUIC30": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 5 of 6.",
+      "page": 1,
+      "box": {
+        "left": 544.0,
+        "top": 115.7,
+        "width": 16.1,
+        "height": 11.0
+      }
+    },
+    "sectIonUIC1": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 6 of 6.",
+      "page": 1,
+      "box": {
+        "left": 42.9,
+        "top": 99.9,
+        "width": 17.3,
+        "height": 11.0
+      }
+    },
+    "sectIonUIC2": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 6 of 6.",
+      "page": 1,
+      "box": {
+        "left": 60.9,
+        "top": 99.9,
+        "width": 16.5,
+        "height": 11.0
+      }
+    },
+    "sectIonUIC3": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 6 of 6.",
+      "page": 1,
+      "box": {
+        "left": 77.7,
+        "top": 99.9,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sectIonUIC4": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 6 of 6.",
+      "page": 1,
+      "box": {
+        "left": 95.2,
+        "top": 99.9,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "sectIonUIC5": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 6 of 6.",
+      "page": 1,
+      "box": {
+        "left": 112.0,
+        "top": 99.9,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sectIonUIC6": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 6 of 6.",
+      "page": 1,
+      "box": {
+        "left": 129.5,
+        "top": 99.9,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sectIonUIC7": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 6 of 6.",
+      "page": 1,
+      "box": {
+        "left": 146.8,
+        "top": 99.9,
+        "width": 16.7,
+        "height": 11.0
+      }
+    },
+    "sectIonUIC8": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 6 of 6.",
+      "page": 1,
+      "box": {
+        "left": 164.4,
+        "top": 99.9,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "sectIonUIC9": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 6 of 6.",
+      "page": 1,
+      "box": {
+        "left": 181.7,
+        "top": 99.9,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "sectIonUIC10": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 6 of 6.",
+      "page": 1,
+      "box": {
+        "left": 198.7,
+        "top": 99.9,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sectIonUIC11": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 6 of 6.",
+      "page": 1,
+      "box": {
+        "left": 216.1,
+        "top": 99.9,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "sectIonUIC12": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 6 of 6.",
+      "page": 1,
+      "box": {
+        "left": 233.0,
+        "top": 99.9,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sectIonUIC13": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 6 of 6.",
+      "page": 1,
+      "box": {
+        "left": 250.9,
+        "top": 99.9,
+        "width": 16.3,
+        "height": 11.0
+      }
+    },
+    "sectIonUIC14": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 6 of 6.",
+      "page": 1,
+      "box": {
+        "left": 267.9,
+        "top": 99.9,
+        "width": 16.2,
+        "height": 11.0
+      }
+    },
+    "sectIonUIC15": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 6 of 6.",
+      "page": 1,
+      "box": {
+        "left": 285.2,
+        "top": 99.9,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "sectIonUIC16": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 6 of 6.",
+      "page": 1,
+      "box": {
+        "left": 302.6,
+        "top": 99.9,
+        "width": 16.4,
+        "height": 11.0
+      }
+    },
+    "sectIonUIC17": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 6 of 6.",
+      "page": 1,
+      "box": {
+        "left": 320.0,
+        "top": 99.9,
+        "width": 16.3,
+        "height": 11.0
+      }
+    },
+    "sectIonUIC18": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 6 of 6.",
+      "page": 1,
+      "box": {
+        "left": 337.0,
+        "top": 99.9,
+        "width": 16.3,
+        "height": 11.0
+      }
+    },
+    "sectIonUIC19": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 6 of 6.",
+      "page": 1,
+      "box": {
+        "left": 353.9,
+        "top": 99.9,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sectIonUIC20": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 6 of 6.",
+      "page": 1,
+      "box": {
+        "left": 371.8,
+        "top": 99.9,
+        "width": 16.4,
+        "height": 11.0
+      }
+    },
+    "sectIonUIC21": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 6 of 6.",
+      "page": 1,
+      "box": {
+        "left": 388.8,
+        "top": 99.9,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "sectIonUIC22": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 6 of 6.",
+      "page": 1,
+      "box": {
+        "left": 406.2,
+        "top": 99.9,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "sectIonUIC23": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 6 of 6.",
+      "page": 1,
+      "box": {
+        "left": 423.0,
+        "top": 99.9,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sectIonUIC24": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 6 of 6.",
+      "page": 1,
+      "box": {
+        "left": 440.3,
+        "top": 99.9,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sectIonUIC25": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 6 of 6.",
+      "page": 1,
+      "box": {
+        "left": 458.0,
+        "top": 99.9,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sectIonUIC26": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 6 of 6.",
+      "page": 1,
+      "box": {
+        "left": 475.4,
+        "top": 99.9,
+        "width": 16.6,
+        "height": 11.0
+      }
+    },
+    "sectIonUIC27": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 6 of 6.",
+      "page": 1,
+      "box": {
+        "left": 492.1,
+        "top": 99.9,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sectIonUIC28": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 6 of 6.",
+      "page": 1,
+      "box": {
+        "left": 509.7,
+        "top": 99.9,
+        "width": 16.9,
+        "height": 11.0
+      }
+    },
+    "sectIonUIC29": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 6 of 6.",
+      "page": 1,
+      "box": {
+        "left": 527.1,
+        "top": 99.9,
+        "width": 16.3,
+        "height": 11.0
+      }
+    },
+    "sectIonUIC30": {
+      "type": "text",
+      "label": "Enter the IUC/Repair Activity/TYCOM remarks on line 6 of 6.",
+      "page": 1,
+      "box": {
+        "left": 544.0,
+        "top": 99.9,
+        "width": 16.1,
+        "height": 11.0
+      }
+    },
+    "sectionsup1": {
+      "type": "text",
+      "label": "Enter the Est. MANDAYS for the Supplemental Planning.",
+      "page": 1,
+      "box": {
+        "left": 43.5,
+        "top": 66.1,
+        "width": 16.0,
+        "height": 11.0
+      }
+    },
+    "sectionsup2": {
+      "type": "text",
+      "label": "Enter the Est. MANDAYS for the Supplemental Planning.",
+      "page": 1,
+      "box": {
+        "left": 61.5,
+        "top": 66.1,
+        "width": 15.2,
+        "height": 11.0
+      }
+    },
+    "sectionsup3": {
+      "type": "text",
+      "label": "Enter the Est. MANDAYS for the Supplemental Planning.",
+      "page": 1,
+      "box": {
+        "left": 78.4,
+        "top": 66.1,
+        "width": 15.6,
+        "height": 11.0
+      }
+    },
+    "sectionsup4": {
+      "type": "text",
+      "label": "Enter the Est. MANDAYS for the Supplemental Planning.",
+      "page": 1,
+      "box": {
+        "left": 95.8,
+        "top": 66.1,
+        "width": 15.3,
+        "height": 11.0
+      }
+    },
+    "sectionsup5": {
+      "type": "text",
+      "label": "Enter the Est. MANDAYS for the Supplemental Planning.",
+      "page": 1,
+      "box": {
+        "left": 112.6,
+        "top": 66.1,
+        "width": 15.6,
+        "height": 11.0
+      }
+    },
+    "sectionsup6": {
+      "type": "text",
+      "label": "Enter the Est. MANDAYS Cost for the Supplemental Planning.",
+      "page": 1,
+      "box": {
+        "left": 130.1,
+        "top": 66.1,
+        "width": 15.6,
+        "height": 11.0
+      }
+    },
+    "sectionsup7": {
+      "type": "text",
+      "label": "Enter the Est. MANDAYS Cost for the Supplemental Planning.",
+      "page": 1,
+      "box": {
+        "left": 147.5,
+        "top": 66.1,
+        "width": 15.4,
+        "height": 11.0
+      }
+    },
+    "sectionsup8": {
+      "type": "text",
+      "label": "Enter the Est. MANDAYS Cost for the Supplemental Planning.",
+      "page": 1,
+      "box": {
+        "left": 165.0,
+        "top": 66.1,
+        "width": 15.3,
+        "height": 11.0
+      }
+    },
+    "sectionsup9": {
+      "type": "text",
+      "label": "Enter the Est. MANDAYS Cost for the Supplemental Planning.",
+      "page": 1,
+      "box": {
+        "left": 181.9,
+        "top": 66.1,
+        "width": 15.3,
+        "height": 11.0
+      }
+    },
+    "sectionsup10": {
+      "type": "text",
+      "label": "Enter the Est. MANDAYS Cost for the Supplemental Planning.",
+      "page": 1,
+      "box": {
+        "left": 199.3,
+        "top": 66.1,
+        "width": 15.6,
+        "height": 11.0
+      }
+    },
+    "sectionsup11": {
+      "type": "text",
+      "label": "Enter the Est. MANDAYS Cost for the Supplemental Planning.",
+      "page": 1,
+      "box": {
+        "left": 216.8,
+        "top": 66.1,
+        "width": 15.3,
+        "height": 11.0
+      }
+    },
+    "sectionsup12": {
+      "type": "text",
+      "label": "Enter the Est. MANDAYS Cost for the Supplemental Planning.",
+      "page": 1,
+      "box": {
+        "left": 233.6,
+        "top": 66.1,
+        "width": 15.6,
+        "height": 11.0
+      }
+    },
+    "sectionsup13": {
+      "type": "text",
+      "label": "Enter the Est. Material Cost for the Supplemental Planning.",
+      "page": 1,
+      "box": {
+        "left": 250.9,
+        "top": 66.1,
+        "width": 15.6,
+        "height": 11.0
+      }
+    },
+    "sectionsup14": {
+      "type": "text",
+      "label": "Enter the Est. Material Cost for the Supplemental Planning.",
+      "page": 1,
+      "box": {
+        "left": 268.4,
+        "top": 66.1,
+        "width": 15.1,
+        "height": 11.0
+      }
+    },
+    "sectionsup15": {
+      "type": "text",
+      "label": "Enter the Est. Material Cost for the Supplemental Planning.",
+      "page": 1,
+      "box": {
+        "left": 285.9,
+        "top": 66.1,
+        "width": 15.3,
+        "height": 11.0
+      }
+    },
+    "sectionsup16": {
+      "type": "text",
+      "label": "Enter the Est. Material Cost for the Supplemental Planning.",
+      "page": 1,
+      "box": {
+        "left": 302.7,
+        "top": 66.1,
+        "width": 15.6,
+        "height": 11.0
+      }
+    },
+    "sectionsup17": {
+      "type": "text",
+      "label": "Enter the Est. Material Cost for the Supplemental Planning.",
+      "page": 1,
+      "box": {
+        "left": 320.0,
+        "top": 66.1,
+        "width": 15.6,
+        "height": 11.0
+      }
+    },
+    "sectionsup18": {
+      "type": "text",
+      "label": "Enter the Est. Material Cost for the Supplemental Planning.",
+      "page": 1,
+      "box": {
+        "left": 337.7,
+        "top": 66.1,
+        "width": 15.0,
+        "height": 11.0
+      }
+    },
+    "sectionsup19": {
+      "type": "text",
+      "label": "Enter the Est. Total Cost for the Supplemental Planning.",
+      "page": 1,
+      "box": {
+        "left": 354.6,
+        "top": 66.1,
+        "width": 15.6,
+        "height": 11.0
+      }
+    },
+    "sectionsup20": {
+      "type": "text",
+      "label": "Enter the Est. Total Cost for the Supplemental Planning.",
+      "page": 1,
+      "box": {
+        "left": 371.8,
+        "top": 66.1,
+        "width": 15.6,
+        "height": 11.0
+      }
+    },
+    "sectionsup21": {
+      "type": "text",
+      "label": "Enter the Est. Total Cost for the Supplemental Planning.",
+      "page": 1,
+      "box": {
+        "left": 389.4,
+        "top": 66.1,
+        "width": 15.3,
+        "height": 11.0
+      }
+    },
+    "sectionsup22": {
+      "type": "text",
+      "label": "Enter the Est. Total Cost for the Supplemental Planning.",
+      "page": 1,
+      "box": {
+        "left": 406.9,
+        "top": 66.1,
+        "width": 15.3,
+        "height": 11.0
+      }
+    },
+    "sectionsup23": {
+      "type": "text",
+      "label": "Enter the Est. Total Cost for the Supplemental Planning.",
+      "page": 1,
+      "box": {
+        "left": 423.6,
+        "top": 66.1,
+        "width": 15.6,
+        "height": 11.0
+      }
+    },
+    "sectionsup24": {
+      "type": "text",
+      "label": "Enter the Est. Total Cost for the Supplemental Planning.",
+      "page": 1,
+      "box": {
+        "left": 440.9,
+        "top": 66.1,
+        "width": 15.6,
+        "height": 11.0
+      }
+    },
+    "sectionsup25": {
+      "type": "text",
+      "label": "Enter the Est. Total Cost for the Supplemental Planning.",
+      "page": 1,
+      "box": {
+        "left": 458.6,
+        "top": 66.1,
+        "width": 15.6,
+        "height": 11.0
+      }
+    },
+    "sectionsup26": {
+      "type": "text",
+      "label": "Enter any additional information for the Supplemental Planning.",
+      "page": 1,
+      "box": {
+        "left": 476.0,
+        "top": 66.1,
+        "width": 15.3,
+        "height": 11.0
+      }
+    },
+    "sectionsup27": {
+      "type": "text",
+      "label": "Enter any additional information for the Supplemental Planning.",
+      "page": 1,
+      "box": {
+        "left": 492.8,
+        "top": 66.1,
+        "width": 15.6,
+        "height": 11.0
+      }
+    },
+    "sectionsup28": {
+      "type": "text",
+      "label": "Enter any additional information for the Supplemental Planning.",
+      "page": 1,
+      "box": {
+        "left": 510.4,
+        "top": 66.1,
+        "width": 15.6,
+        "height": 11.0
+      }
+    },
+    "sectionsup29": {
+      "type": "text",
+      "label": "Enter any additional information for the Supplemental Planning.",
+      "page": 1,
+      "box": {
+        "left": 527.8,
+        "top": 66.1,
+        "width": 15.0,
+        "height": 11.0
+      }
+    },
+    "sectionsup30": {
+      "type": "text",
+      "label": "Enter any additional information for the Supplemental Planning.",
+      "page": 1,
+      "box": {
+        "left": 544.6,
+        "top": 66.1,
+        "width": 14.8,
+        "height": 11.0
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 5,
+      "rowStride": 15.92,
+      "editor": "grid",
+      "columns": {
+        "respaec": {
+          "type": "checkbox",
+          "label": "Select Special Interest for special requirements.",
+          "page": 1,
+          "box": {
+            "left": 451.4,
+            "top": 559.5,
+            "width": 10.0,
+            "height": 10.0
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 6,
+      "rowStride": 15.92,
+      "editor": "grid",
+      "columns": {
+        "qar": {
+          "type": "checkbox",
+          "label": "Select Sub Safe for the quality assurance requirements.",
+          "page": 1,
+          "box": {
+            "left": 229.3,
+            "top": 575.4,
+            "width": 10.0,
+            "height": 10.0
+          }
+        },
+        "qar2": {
+          "type": "checkbox",
+          "label": "Select Special Cleaning for the quality assurance requirements.",
+          "page": 1,
+          "box": {
+            "left": 360.3,
+            "top": 575.4,
+            "width": 10.0,
+            "height": 10.0
+          }
+        }
+      }
+    },
+    "rows3": {
+      "title": "Rows",
+      "page": 1,
+      "count": 7,
+      "rowStride": 15.92,
+      "editor": "grid",
+      "columns": {
+        "uic": {
+          "type": "checkbox",
+          "label": "Select depot accomplish under IUC for the screening action.",
+          "page": 1,
+          "box": {
+            "left": 52.6,
+            "top": 575.5,
+            "width": 10.0,
+            "height": 10.0
+          }
+        },
+        "tycom": {
+          "type": "checkbox",
+          "label": "Select depot accomplish under TYCOM for the screening action.",
+          "page": 1,
+          "box": {
+            "left": 74.6,
+            "top": 575.5,
+            "width": 10.0,
+            "height": 10.0
+          }
+        }
+      }
+    }
+  }
+}

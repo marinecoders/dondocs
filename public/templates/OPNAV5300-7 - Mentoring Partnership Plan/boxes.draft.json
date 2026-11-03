@@ -1,0 +1,581 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "yr": {
+        "left": 139.4,
+        "top": 690.6,
+        "width": 110.4,
+        "height": 21.3,
+        "type": "text",
+        "description": "YEAR OF PARTNERSHIP:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mnme": {
+        "left": 38.8,
+        "top": 619.2,
+        "width": 264.3,
+        "height": 16.9,
+        "type": "text",
+        "description": "NAME:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "pronme": {
+        "left": 308.8,
+        "top": 619.2,
+        "width": 264.3,
+        "height": 16.9,
+        "type": "text",
+        "description": "NAME:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mntle": {
+        "left": 38.8,
+        "top": 588.6,
+        "width": 264.3,
+        "height": 16.9,
+        "type": "text",
+        "description": "TITLE:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "protle": {
+        "left": 308.8,
+        "top": 588.6,
+        "width": 264.3,
+        "height": 16.9,
+        "type": "text",
+        "description": "TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mnphn": {
+        "left": 38.8,
+        "top": 556.7,
+        "width": 264.3,
+        "height": 16.0,
+        "type": "text",
+        "description": "TELEPHONE:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "propne": {
+        "left": 308.8,
+        "top": 556.7,
+        "width": 264.3,
+        "height": 16.0,
+        "type": "text",
+        "description": "TELEPHONE:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mnmail": {
+        "left": 38.8,
+        "top": 526.5,
+        "width": 264.3,
+        "height": 16.9,
+        "type": "text",
+        "description": "E-MAIL:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "promail": {
+        "left": 308.8,
+        "top": 526.5,
+        "width": 264.3,
+        "height": 16.9,
+        "type": "text",
+        "description": "E-MAIL:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "min": {
+        "left": 90.0,
+        "top": 467.7,
+        "width": 36.0,
+        "height": 16.5,
+        "type": "text",
+        "description": "min",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "prYr": {
+        "left": 164.5,
+        "top": 467.7,
+        "width": 36.0,
+        "height": 16.5,
+        "type": "text",
+        "description": "PrYr",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "obj1": {
+        "left": 47.8,
+        "top": 690.2,
+        "width": 165.3,
+        "height": 102.3,
+        "type": "text",
+        "description": "1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ap1a": {
+        "left": 226.8,
+        "top": 690.2,
+        "width": 166.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dC1a": {
+        "left": 398.8,
+        "top": 690.1,
+        "width": 174.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "dC1a",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dC1b": {
+        "left": 398.8,
+        "top": 663.0,
+        "width": 174.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "dC1b",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ap1b": {
+        "left": 226.8,
+        "top": 662.8,
+        "width": 166.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "2.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dC1c": {
+        "left": 398.8,
+        "top": 636.2,
+        "width": 174.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "dC1c",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ap1c": {
+        "left": 226.8,
+        "top": 635.8,
+        "width": 166.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "3.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ap1d": {
+        "left": 226.8,
+        "top": 609.2,
+        "width": 166.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dC1d": {
+        "left": 398.8,
+        "top": 609.2,
+        "width": 174.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "dC1d",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dC2a": {
+        "left": 398.8,
+        "top": 582.1,
+        "width": 174.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "dC2a",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "obj2": {
+        "left": 47.8,
+        "top": 581.9,
+        "width": 165.3,
+        "height": 102.3,
+        "type": "text",
+        "description": "2.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ap2a": {
+        "left": 226.8,
+        "top": 581.9,
+        "width": 166.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ap2b": {
+        "left": 226.8,
+        "top": 555.1,
+        "width": 166.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "2.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dC2b": {
+        "left": 398.8,
+        "top": 554.9,
+        "width": 174.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "dC2b",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ap2c": {
+        "left": 226.8,
+        "top": 527.9,
+        "width": 166.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "3.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dC2c": {
+        "left": 398.8,
+        "top": 527.9,
+        "width": 174.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "dC2c",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ap2d": {
+        "left": 226.8,
+        "top": 501.1,
+        "width": 166.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dC2d": {
+        "left": 398.8,
+        "top": 501.1,
+        "width": 174.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "dC2d",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "obj3": {
+        "left": 47.8,
+        "top": 474.6,
+        "width": 165.3,
+        "height": 102.3,
+        "type": "text",
+        "description": "3.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ap3a": {
+        "left": 226.8,
+        "top": 474.6,
+        "width": 166.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dC3a": {
+        "left": 398.8,
+        "top": 474.2,
+        "width": 174.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "dC3a",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ap3b": {
+        "left": 226.8,
+        "top": 447.4,
+        "width": 166.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "2.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dC3b": {
+        "left": 398.8,
+        "top": 447.4,
+        "width": 174.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "dC3b",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ap3c": {
+        "left": 226.8,
+        "top": 420.8,
+        "width": 166.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "3.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dC3c": {
+        "left": 398.8,
+        "top": 420.2,
+        "width": 174.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "dC3c",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ap3d": {
+        "left": 226.8,
+        "top": 393.5,
+        "width": 166.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dC3d": {
+        "left": 398.8,
+        "top": 393.2,
+        "width": 174.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "dC3d",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "obj4": {
+        "left": 47.3,
+        "top": 366.3,
+        "width": 165.8,
+        "height": 102.3,
+        "type": "text",
+        "description": "4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ap4a": {
+        "left": 226.8,
+        "top": 366.2,
+        "width": 166.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "1.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dC4a": {
+        "left": 398.8,
+        "top": 366.2,
+        "width": 174.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "dC4a",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ap4b": {
+        "left": 226.8,
+        "top": 339.2,
+        "width": 166.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "2.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dC4b": {
+        "left": 398.8,
+        "top": 339.1,
+        "width": 174.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "dC4b",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ap4c": {
+        "left": 226.8,
+        "top": 312.2,
+        "width": 166.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "3.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dC4c": {
+        "left": 398.8,
+        "top": 312.0,
+        "width": 174.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "dC4c",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ap4d": {
+        "left": 226.8,
+        "top": 285.2,
+        "width": 166.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "4.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dC4d": {
+        "left": 398.9,
+        "top": 285.1,
+        "width": 174.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "dC4d",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "psig": {
+        "left": 38.8,
+        "top": 221.7,
+        "width": 318.3,
+        "height": 23.4,
+        "type": "signature",
+        "description": "Protege Signature:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "psigDt": {
+        "left": 362.8,
+        "top": 221.7,
+        "width": 211.1,
+        "height": 23.4,
+        "type": "text",
+        "description": "DATE:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "menSig": {
+        "left": 38.8,
+        "top": 184.1,
+        "width": 318.3,
+        "height": 24.2,
+        "type": "signature",
+        "description": "Mentor Signature:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mensigDate": {
+        "left": 362.8,
+        "top": 184.1,
+        "width": 211.1,
+        "height": 24.2,
+        "type": "text",
+        "description": "DATE:",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

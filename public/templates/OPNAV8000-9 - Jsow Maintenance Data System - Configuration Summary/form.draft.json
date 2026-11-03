@@ -1,0 +1,216 @@
+{
+  "id": "opnav80009",
+  "label": "OPNAV8000-9 - Jsow Maintenance Data System - Configuration Summary",
+  "directory": "OPNAV8000-9 - Jsow Maintenance Data System - Configuration Summary",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "aURSerNo",
+        "nalc",
+        "softVer",
+        "aURPtNo",
+        "warSt",
+        "lstTstDte",
+        "mDDDte",
+        "tMCertDte",
+        "dDdte",
+        "tMFreq",
+        "warEnd",
+        "locUse"
+      ]
+    }
+  ],
+  "fields": {
+    "aURSerNo": {
+      "type": "text",
+      "label": " 2.  AUR SERIAL NUMBER:",
+      "page": 1,
+      "box": {
+        "left": 170.8,
+        "top": 722.7,
+        "width": 132.9,
+        "height": 25.8
+      }
+    },
+    "nalc": {
+      "type": "text",
+      "label": " 3.  NALC",
+      "page": 1,
+      "box": {
+        "left": 306.1,
+        "top": 722.7,
+        "width": 132.9,
+        "height": 25.8
+      }
+    },
+    "softVer": {
+      "type": "text",
+      "label": " 4.  SOFTWARE VERSION:",
+      "page": 1,
+      "box": {
+        "left": 441.4,
+        "top": 722.7,
+        "width": 132.9,
+        "height": 25.8
+      }
+    },
+    "aURPtNo": {
+      "type": "text",
+      "label": " 1.  AUR PART NUMBER:",
+      "page": 1,
+      "box": {
+        "left": 36.5,
+        "top": 721.3,
+        "width": 131.8,
+        "height": 25.8
+      }
+    },
+    "warSt": {
+      "type": "text",
+      "label": " 6.  WARREMTU START (,P/YR)",
+      "page": 1,
+      "box": {
+        "left": 170.8,
+        "top": 684.9,
+        "width": 132.9,
+        "height": 11.8
+      }
+    },
+    "lstTstDte": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 36.5,
+        "top": 683.5,
+        "width": 131.8,
+        "height": 24.4
+      }
+    },
+    "mDDDte": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 442.5,
+        "top": 683.5,
+        "width": 131.8,
+        "height": 24.4
+      }
+    },
+    "tMCertDte": {
+      "type": "text",
+      "label": "  7.  TM CERTIICATION DATE (YY/MM)",
+      "page": 1,
+      "box": {
+        "left": 306.1,
+        "top": 682.9,
+        "width": 132.9,
+        "height": 23.8
+      }
+    },
+    "dDdte": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 222.9,
+        "top": 671.5,
+        "width": 80.8,
+        "height": 13.7
+      }
+    },
+    "tMFreq": {
+      "type": "text",
+      "label": " 9.  TM FREQUENCY",
+      "page": 1,
+      "box": {
+        "left": 36.5,
+        "top": 645.6,
+        "width": 131.8,
+        "height": 23.8
+      }
+    },
+    "warEnd": {
+      "type": "text",
+      "label": " 10.  WARRENTY END (YY/MM)",
+      "page": 1,
+      "box": {
+        "left": 170.8,
+        "top": 645.6,
+        "width": 132.9,
+        "height": 23.8
+      }
+    },
+    "locUse": {
+      "type": "text",
+      "label": " 11.  LOCAL USE",
+      "page": 1,
+      "box": {
+        "left": 306.1,
+        "top": 645.6,
+        "width": 267.8,
+        "height": 23.8
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 34,
+      "rowStride": 14.38,
+      "editor": "grid",
+      "columns": {
+        "hLSDate": {
+          "type": "text",
+          "label": "Enter the date using the format DD MMM YYYY.",
+          "page": 1,
+          "box": {
+            "left": 37.4,
+            "top": 584.4,
+            "width": 94.9,
+            "height": 12.8
+          }
+        },
+        "uic": {
+          "type": "text",
+          "label": "UIC34",
+          "page": 1,
+          "box": {
+            "left": 135.3,
+            "top": 584.4,
+            "width": 116.0,
+            "height": 12.8
+          }
+        },
+        "opEvt": {
+          "type": "text",
+          "label": "OpEvt7",
+          "page": 1,
+          "box": {
+            "left": 254.6,
+            "top": 584.4,
+            "width": 116.1,
+            "height": 12.8
+          }
+        },
+        "rmks": {
+          "type": "text",
+          "label": "Rmks7",
+          "page": 1,
+          "box": {
+            "left": 374.3,
+            "top": 584.4,
+            "width": 200.2,
+            "height": 12.8
+          }
+        }
+      }
+    }
+  }
+}

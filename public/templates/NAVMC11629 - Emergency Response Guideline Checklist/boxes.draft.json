@@ -1,0 +1,249 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "nameLast": {
+        "left": 21.7,
+        "top": 647.0,
+        "width": 142.5,
+        "height": 17.3,
+        "type": "text",
+        "description": "nameLast",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameFirst": {
+        "left": 168.6,
+        "top": 647.0,
+        "width": 134.8,
+        "height": 17.3,
+        "type": "text",
+        "description": "nameFirst",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameMI": {
+        "left": 306.3,
+        "top": 647.0,
+        "width": 28.3,
+        "height": 17.3,
+        "type": "text",
+        "description": "nameMI",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mos": {
+        "left": 338.8,
+        "top": 647.0,
+        "width": 79.5,
+        "height": 17.3,
+        "type": "text",
+        "description": "MOS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "phoneNumber": {
+        "left": 421.6,
+        "top": 647.0,
+        "width": 98.6,
+        "height": 17.3,
+        "type": "text",
+        "description": "PhoneNumber",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date": {
+        "left": 522.2,
+        "top": 647.0,
+        "width": 68.8,
+        "height": 17.3,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "wsso": {
+        "left": 36.8,
+        "top": 557.0,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "WSSO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "corpsman": {
+        "left": 36.8,
+        "top": 510.8,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "Corpsman",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mciwsMCITWS": {
+        "left": 36.8,
+        "top": 466.1,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "MCIWS-MCITWS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ert": {
+        "left": 36.8,
+        "top": 429.7,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "ERT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "safetyVehicle": {
+        "left": 36.8,
+        "top": 385.8,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "SafetyVehicle",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "aed": {
+        "left": 36.8,
+        "top": 345.5,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "AED",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "poolDeck": {
+        "left": 36.8,
+        "top": 301.6,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "PoolDeck",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date2": {
+        "left": 407.9,
+        "top": 222.3,
+        "width": 61.1,
+        "height": 13.6,
+        "type": "text",
+        "description": "date2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "completion": {
+        "left": 36.8,
+        "top": 221.2,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "checkbox",
+        "description": "Completion",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameMCIWSorMCITWS": {
+        "left": 38.7,
+        "top": 152.1,
+        "width": 254.9,
+        "height": 16.6,
+        "type": "text",
+        "description": "NameMCIWSorMCITWS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mciwsMCITWSSig": {
+        "left": 297.4,
+        "top": 152.1,
+        "width": 152.1,
+        "height": 16.6,
+        "type": "signature",
+        "description": "MCIWS-MCITWSSig",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mciwsMCITWSPhone": {
+        "left": 455.0,
+        "top": 152.1,
+        "width": 90.7,
+        "height": 16.6,
+        "type": "text",
+        "description": "MCIWS-MCITWSPhone",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameWSSO": {
+        "left": 38.7,
+        "top": 108.4,
+        "width": 254.9,
+        "height": 16.6,
+        "type": "text",
+        "description": "NameWSSO",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "wSSOSig": {
+        "left": 297.4,
+        "top": 108.4,
+        "width": 152.1,
+        "height": 16.6,
+        "type": "signature",
+        "description": "WSSOSig",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "wSSOphone": {
+        "left": 455.0,
+        "top": 108.3,
+        "width": 90.7,
+        "height": 16.6,
+        "type": "text",
+        "description": "WSSOphone",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

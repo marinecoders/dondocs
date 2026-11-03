@@ -1,0 +1,282 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "canNme": {
+        "left": 38.8,
+        "top": 700.9,
+        "width": 448.6,
+        "height": 21.9,
+        "type": "text",
+        "description": "CANDIDATE NAME (Last Name, First Name, Middle Initial)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rnkGde": {
+        "left": 493.1,
+        "top": 700.9,
+        "width": 79.3,
+        "height": 21.9,
+        "type": "text",
+        "description": "RATE/GRADE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio": {
+        "left": 149.9,
+        "top": 612.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio2": {
+        "left": 282.5,
+        "top": 612.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio3": {
+        "left": 414.4,
+        "top": 612.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "forSys": {
+        "left": 38.8,
+        "top": 574.2,
+        "width": 534.0,
+        "height": 21.9,
+        "type": "text",
+        "description": "FOR (Aircraft/System/Work Center/Etc.,)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "divOffNme": {
+        "left": 38.8,
+        "top": 529.5,
+        "width": 206.2,
+        "height": 21.9,
+        "type": "text",
+        "description": "DIVISION OFFICER TYPED NAME AND RANK",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "divSigDte": {
+        "left": 251.2,
+        "top": 529.5,
+        "width": 109.2,
+        "height": 21.9,
+        "type": "text",
+        "description": "SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "divOffSig": {
+        "left": 366.7,
+        "top": 529.5,
+        "width": 206.2,
+        "height": 21.9,
+        "type": "text",
+        "description": "DIVISION OFFICER SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "qaaOffNme": {
+        "left": 39.2,
+        "top": 428.6,
+        "width": 206.2,
+        "height": 21.9,
+        "type": "text",
+        "description": "QA/A OFFICER TYPED NAME AND RANK",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "qaaSigDte": {
+        "left": 251.5,
+        "top": 428.6,
+        "width": 109.2,
+        "height": 21.9,
+        "type": "text",
+        "description": "SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "qaaOffSig": {
+        "left": 367.1,
+        "top": 428.6,
+        "width": 206.2,
+        "height": 21.9,
+        "type": "text",
+        "description": "QA/A OFFICER SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "matOffNme": {
+        "left": 39.2,
+        "top": 329.1,
+        "width": 206.2,
+        "height": 21.9,
+        "type": "text",
+        "description": "MAINTENANCE OFFICER TYPED NAME AND RANK",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "matSigDte": {
+        "left": 251.5,
+        "top": 329.1,
+        "width": 109.2,
+        "height": 21.9,
+        "type": "text",
+        "description": "SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mat": {
+        "left": 367.1,
+        "top": 329.1,
+        "width": 206.2,
+        "height": 21.9,
+        "type": "text",
+        "description": "MAINTENANCE OFFICER SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio4": {
+        "left": 175.7,
+        "top": 268.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio5": {
+        "left": 345.1,
+        "top": 268.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "commNme": {
+        "left": 38.9,
+        "top": 229.3,
+        "width": 206.2,
+        "height": 21.9,
+        "type": "text",
+        "description": "COMMANDING OFFICER TYPED NAME AND RANK",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "commSigDte": {
+        "left": 251.5,
+        "top": 229.3,
+        "width": 109.2,
+        "height": 21.9,
+        "type": "text",
+        "description": "SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "commSig": {
+        "left": 367.1,
+        "top": 229.3,
+        "width": 206.2,
+        "height": 21.9,
+        "type": "text",
+        "description": "COMMANDING OFFICER SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "canTypNme": {
+        "left": 39.2,
+        "top": 60.7,
+        "width": 206.2,
+        "height": 21.9,
+        "type": "text",
+        "description": "CANDIDATE TYPED NAME AND RANK",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "canSigDte": {
+        "left": 251.5,
+        "top": 60.7,
+        "width": 78.7,
+        "height": 21.9,
+        "type": "text",
+        "description": "SIGNATURE DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "canSig": {
+        "left": 337.9,
+        "top": 60.7,
+        "width": 167.5,
+        "height": 21.9,
+        "type": "text",
+        "description": "CANDIDATE SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "stmNo": {
+        "left": 510.5,
+        "top": 60.7,
+        "width": 62.7,
+        "height": 21.9,
+        "type": "text",
+        "description": "STAMP NO",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

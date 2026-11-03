@@ -1,0 +1,1483 @@
+{
+  "id": "navmc11642",
+  "label": "NAVMC11642 - Garrison Mess Hall Evaluation Record",
+  "directory": "NAVMC11642 - Garrison Mess Hall Evaluation Record",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "installation",
+        "organization",
+        "messHallNumber",
+        "aPoint1",
+        "aPoint2",
+        "aPoint3",
+        "aPoint4",
+        "aPoint5",
+        "aPoint6",
+        "totalA",
+        "totalARemark",
+        "bPoint1",
+        "bPoint2",
+        "bPoint3",
+        "bPoint4",
+        "totalB",
+        "totalBRemark",
+        "cPoint1",
+        "cPoint2",
+        "cPoint3",
+        "cPoint4",
+        "totalC",
+        "totalCRemark",
+        "dRemarks1",
+        "dPoint1",
+        "dRemarks2",
+        "dPoint2",
+        "dRemarks3",
+        "dPoint3",
+        "dRemarks4",
+        "dPoint4",
+        "dRemarks5",
+        "dPoint5",
+        "dRemarks6",
+        "dPoint6",
+        "dRemarks7",
+        "dPoint7",
+        "dPoint8",
+        "dRemarks8",
+        "dRemarks9",
+        "dPoint9",
+        "dPoint10",
+        "dRemarks10",
+        "totalD",
+        "totalDRemark"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "eRemarks4",
+        "ePoint4",
+        "eRemarks5",
+        "ePoint5",
+        "eRemarks6",
+        "ePoint6",
+        "eRemarks7",
+        "ePoint7",
+        "ePoint8",
+        "eRemarks8",
+        "eRemarks9",
+        "ePoint9",
+        "eRemarks10",
+        "ePoint10",
+        "eRemarks11",
+        "ePoint11",
+        "eRemarks12",
+        "ePoint12",
+        "eRemarks13",
+        "ePoint13",
+        "eRemarks14",
+        "ePoint14",
+        "totalE",
+        "totalERemark",
+        "fRemarks1",
+        "fPoint1",
+        "fRemarks2",
+        "fPoint2",
+        "totalF",
+        "totalFRemark",
+        "gRemarks1",
+        "gPoint1",
+        "gRemarks2",
+        "gPoint2",
+        "gRemarks3",
+        "gPoint3",
+        "gRemarks4",
+        "gPoint4",
+        "gRemarks5",
+        "gPoint5",
+        "gRemarks6",
+        "gPoint6",
+        "gRemarks7",
+        "gPoint7",
+        "totalG",
+        "totalGRemark",
+        "totalH",
+        "totalHRemark",
+        "iPoint1",
+        "iPoint2",
+        "iPoint3",
+        "iPoint4",
+        "iPoint5",
+        "totalI",
+        "totalIRemark"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "jPoint1",
+        "jRemarks1",
+        "jRemarks2",
+        "jPoint2",
+        "totalJ",
+        "totalJRemark",
+        "totalGrand",
+        "totalGrandRemark",
+        "addRemarks"
+      ]
+    }
+  ],
+  "fields": {
+    "installation": {
+      "type": "text",
+      "label": "Installation",
+      "page": 1,
+      "box": {
+        "left": 88.1,
+        "top": 746.0,
+        "width": 357.7,
+        "height": 15.0
+      }
+    },
+    "organization": {
+      "type": "text",
+      "label": "Organization",
+      "page": 1,
+      "box": {
+        "left": 96.0,
+        "top": 723.9,
+        "width": 349.5,
+        "height": 15.0
+      }
+    },
+    "messHallNumber": {
+      "type": "text",
+      "label": "MessHallNumber",
+      "page": 1,
+      "box": {
+        "left": 88.8,
+        "top": 702.4,
+        "width": 356.9,
+        "height": 14.5
+      }
+    },
+    "aPoint1": {
+      "type": "text",
+      "label": "APoint1",
+      "page": 1,
+      "box": {
+        "left": 236.4,
+        "top": 660.0,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "aPoint2": {
+      "type": "text",
+      "label": "APoint2",
+      "page": 1,
+      "box": {
+        "left": 236.7,
+        "top": 643.7,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "aPoint3": {
+      "type": "text",
+      "label": "APoint3",
+      "page": 1,
+      "box": {
+        "left": 236.7,
+        "top": 627.9,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "aPoint4": {
+      "type": "text",
+      "label": "APoint4",
+      "page": 1,
+      "box": {
+        "left": 236.2,
+        "top": 611.6,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "aPoint5": {
+      "type": "text",
+      "label": "APoint5",
+      "page": 1,
+      "box": {
+        "left": 236.7,
+        "top": 594.4,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "aPoint6": {
+      "type": "text",
+      "label": "APoint6",
+      "page": 1,
+      "box": {
+        "left": 236.9,
+        "top": 578.2,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "totalA": {
+      "type": "text",
+      "label": "totalA",
+      "page": 1,
+      "box": {
+        "left": 235.7,
+        "top": 559.7,
+        "width": 15.0,
+        "height": 14.6
+      }
+    },
+    "totalARemark": {
+      "type": "text",
+      "label": "totalARemark",
+      "page": 1,
+      "box": {
+        "left": 268.0,
+        "top": 559.0,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "bPoint1": {
+      "type": "text",
+      "label": "BPoint1",
+      "page": 1,
+      "box": {
+        "left": 236.8,
+        "top": 526.2,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "bPoint2": {
+      "type": "text",
+      "label": "BPoint2",
+      "page": 1,
+      "box": {
+        "left": 237.0,
+        "top": 510.5,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "bPoint3": {
+      "type": "text",
+      "label": "BPoint3",
+      "page": 1,
+      "box": {
+        "left": 237.0,
+        "top": 493.9,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "bPoint4": {
+      "type": "text",
+      "label": "BPoint4",
+      "page": 1,
+      "box": {
+        "left": 237.3,
+        "top": 478.4,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "totalB": {
+      "type": "text",
+      "label": "totalB",
+      "page": 1,
+      "box": {
+        "left": 235.0,
+        "top": 455.9,
+        "width": 15.0,
+        "height": 14.6
+      }
+    },
+    "totalBRemark": {
+      "type": "text",
+      "label": "totalBRemark",
+      "page": 1,
+      "box": {
+        "left": 268.0,
+        "top": 455.4,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "cPoint1": {
+      "type": "text",
+      "label": "CPoint1",
+      "page": 1,
+      "box": {
+        "left": 236.8,
+        "top": 415.6,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "cPoint2": {
+      "type": "text",
+      "label": "CPoint2",
+      "page": 1,
+      "box": {
+        "left": 237.0,
+        "top": 398.6,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "cPoint3": {
+      "type": "text",
+      "label": "CPoint3",
+      "page": 1,
+      "box": {
+        "left": 237.4,
+        "top": 382.3,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "cPoint4": {
+      "type": "text",
+      "label": "CPoint4",
+      "page": 1,
+      "box": {
+        "left": 236.5,
+        "top": 366.5,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "totalC": {
+      "type": "text",
+      "label": "totalC",
+      "page": 1,
+      "box": {
+        "left": 234.2,
+        "top": 346.2,
+        "width": 15.0,
+        "height": 14.6
+      }
+    },
+    "totalCRemark": {
+      "type": "text",
+      "label": "totalCRemark",
+      "page": 1,
+      "box": {
+        "left": 268.0,
+        "top": 345.1,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "dRemarks1": {
+      "type": "text",
+      "label": "DRemarks1",
+      "page": 1,
+      "box": {
+        "left": 268.0,
+        "top": 305.8,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "dPoint1": {
+      "type": "text",
+      "label": "DPoint1",
+      "page": 1,
+      "box": {
+        "left": 236.8,
+        "top": 305.4,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "dRemarks2": {
+      "type": "text",
+      "label": "DRemarks2",
+      "page": 1,
+      "box": {
+        "left": 268.0,
+        "top": 288.0,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "dPoint2": {
+      "type": "text",
+      "label": "DPoint2",
+      "page": 1,
+      "box": {
+        "left": 237.0,
+        "top": 287.6,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "dRemarks3": {
+      "type": "text",
+      "label": "DRemarks3",
+      "page": 1,
+      "box": {
+        "left": 268.0,
+        "top": 271.9,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "dPoint3": {
+      "type": "text",
+      "label": "DPoint3",
+      "page": 1,
+      "box": {
+        "left": 237.0,
+        "top": 271.8,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "dRemarks4": {
+      "type": "text",
+      "label": "DRemarks4",
+      "page": 1,
+      "box": {
+        "left": 268.0,
+        "top": 255.6,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "dPoint4": {
+      "type": "text",
+      "label": "DPoint4",
+      "page": 1,
+      "box": {
+        "left": 236.5,
+        "top": 255.5,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "dRemarks5": {
+      "type": "text",
+      "label": "DRemarks5",
+      "page": 1,
+      "box": {
+        "left": 268.0,
+        "top": 239.1,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "dPoint5": {
+      "type": "text",
+      "label": "DPoint5",
+      "page": 1,
+      "box": {
+        "left": 236.7,
+        "top": 238.9,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "dRemarks6": {
+      "type": "text",
+      "label": "DRemarks6",
+      "page": 1,
+      "box": {
+        "left": 268.0,
+        "top": 222.8,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "dPoint6": {
+      "type": "text",
+      "label": "DPoint6",
+      "page": 1,
+      "box": {
+        "left": 237.0,
+        "top": 222.1,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "dRemarks7": {
+      "type": "text",
+      "label": "DRemarks7",
+      "page": 1,
+      "box": {
+        "left": 268.0,
+        "top": 206.2,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "dPoint7": {
+      "type": "text",
+      "label": "DPoint7",
+      "page": 1,
+      "box": {
+        "left": 237.2,
+        "top": 205.9,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "dPoint8": {
+      "type": "text",
+      "label": "DPoint8",
+      "page": 1,
+      "box": {
+        "left": 237.2,
+        "top": 190.1,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "dRemarks8": {
+      "type": "text",
+      "label": "DRemarks8",
+      "page": 1,
+      "box": {
+        "left": 268.0,
+        "top": 190.0,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "dRemarks9": {
+      "type": "text",
+      "label": "DRemarks9",
+      "page": 1,
+      "box": {
+        "left": 268.0,
+        "top": 173.9,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "dPoint9": {
+      "type": "text",
+      "label": "DPoint9",
+      "page": 1,
+      "box": {
+        "left": 236.7,
+        "top": 173.8,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "dPoint10": {
+      "type": "text",
+      "label": "DPoint10",
+      "page": 1,
+      "box": {
+        "left": 236.9,
+        "top": 158.0,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "dRemarks10": {
+      "type": "text",
+      "label": "DRemarks10",
+      "page": 1,
+      "box": {
+        "left": 268.0,
+        "top": 157.7,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "totalD": {
+      "type": "text",
+      "label": "totalD",
+      "page": 1,
+      "box": {
+        "left": 235.4,
+        "top": 136.7,
+        "width": 15.0,
+        "height": 14.6
+      }
+    },
+    "totalDRemark": {
+      "type": "text",
+      "label": "totalDRemark",
+      "page": 1,
+      "box": {
+        "left": 268.0,
+        "top": 136.7,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "eRemarks4": {
+      "type": "text",
+      "label": "ERemarks4",
+      "page": 2,
+      "box": {
+        "left": 268.0,
+        "top": 746.2,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "ePoint4": {
+      "type": "text",
+      "label": "EPoint4",
+      "page": 2,
+      "box": {
+        "left": 236.2,
+        "top": 746.1,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "eRemarks5": {
+      "type": "text",
+      "label": "ERemarks5",
+      "page": 2,
+      "box": {
+        "left": 268.0,
+        "top": 728.4,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "ePoint5": {
+      "type": "text",
+      "label": "EPoint5",
+      "page": 2,
+      "box": {
+        "left": 236.7,
+        "top": 728.2,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "eRemarks6": {
+      "type": "text",
+      "label": "ERemarks6",
+      "page": 2,
+      "box": {
+        "left": 268.0,
+        "top": 712.1,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "ePoint6": {
+      "type": "text",
+      "label": "EPoint6",
+      "page": 2,
+      "box": {
+        "left": 237.0,
+        "top": 711.4,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "eRemarks7": {
+      "type": "text",
+      "label": "ERemarks7",
+      "page": 2,
+      "box": {
+        "left": 268.0,
+        "top": 695.5,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "ePoint7": {
+      "type": "text",
+      "label": "EPoint7",
+      "page": 2,
+      "box": {
+        "left": 237.2,
+        "top": 695.2,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "ePoint8": {
+      "type": "text",
+      "label": "EPoint8",
+      "page": 2,
+      "box": {
+        "left": 237.2,
+        "top": 679.4,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "eRemarks8": {
+      "type": "text",
+      "label": "ERemarks8",
+      "page": 2,
+      "box": {
+        "left": 268.0,
+        "top": 679.3,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "eRemarks9": {
+      "type": "text",
+      "label": "ERemarks9",
+      "page": 2,
+      "box": {
+        "left": 268.0,
+        "top": 663.2,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "ePoint9": {
+      "type": "text",
+      "label": "EPoint9",
+      "page": 2,
+      "box": {
+        "left": 236.7,
+        "top": 663.1,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "eRemarks10": {
+      "type": "text",
+      "label": "ERemarks10",
+      "page": 2,
+      "box": {
+        "left": 268.0,
+        "top": 647.0,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "ePoint10": {
+      "type": "text",
+      "label": "EPoint10",
+      "page": 2,
+      "box": {
+        "left": 236.9,
+        "top": 646.5,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "eRemarks11": {
+      "type": "text",
+      "label": "ERemarks11",
+      "page": 2,
+      "box": {
+        "left": 268.0,
+        "top": 630.8,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "ePoint11": {
+      "type": "text",
+      "label": "EPoint11",
+      "page": 2,
+      "box": {
+        "left": 236.8,
+        "top": 630.4,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "eRemarks12": {
+      "type": "text",
+      "label": "ERemarks12",
+      "page": 2,
+      "box": {
+        "left": 268.0,
+        "top": 614.5,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "ePoint12": {
+      "type": "text",
+      "label": "EPoint12",
+      "page": 2,
+      "box": {
+        "left": 237.0,
+        "top": 614.1,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "eRemarks13": {
+      "type": "text",
+      "label": "ERemarks13",
+      "page": 2,
+      "box": {
+        "left": 268.0,
+        "top": 598.4,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "ePoint13": {
+      "type": "text",
+      "label": "EPoint13",
+      "page": 2,
+      "box": {
+        "left": 237.0,
+        "top": 598.3,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "eRemarks14": {
+      "type": "text",
+      "label": "ERemarks14",
+      "page": 2,
+      "box": {
+        "left": 268.0,
+        "top": 582.6,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "ePoint14": {
+      "type": "text",
+      "label": "EPoint14",
+      "page": 2,
+      "box": {
+        "left": 236.7,
+        "top": 582.5,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "totalE": {
+      "type": "text",
+      "label": "totalE",
+      "page": 2,
+      "box": {
+        "left": 235.4,
+        "top": 558.6,
+        "width": 15.0,
+        "height": 14.6
+      }
+    },
+    "totalERemark": {
+      "type": "text",
+      "label": "totalERemark",
+      "page": 2,
+      "box": {
+        "left": 268.0,
+        "top": 556.9,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "fRemarks1": {
+      "type": "text",
+      "label": "FRemarks1",
+      "page": 2,
+      "box": {
+        "left": 268.0,
+        "top": 518.3,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "fPoint1": {
+      "type": "text",
+      "label": "FPoint1",
+      "page": 2,
+      "box": {
+        "left": 236.8,
+        "top": 517.9,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "fRemarks2": {
+      "type": "text",
+      "label": "FRemarks2",
+      "page": 2,
+      "box": {
+        "left": 268.0,
+        "top": 502.0,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "fPoint2": {
+      "type": "text",
+      "label": "FPoint2",
+      "page": 2,
+      "box": {
+        "left": 237.0,
+        "top": 501.7,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "totalF": {
+      "type": "text",
+      "label": "totalF",
+      "page": 2,
+      "box": {
+        "left": 235.0,
+        "top": 477.4,
+        "width": 15.0,
+        "height": 14.6
+      }
+    },
+    "totalFRemark": {
+      "type": "text",
+      "label": "totalFRemark",
+      "page": 2,
+      "box": {
+        "left": 268.0,
+        "top": 476.2,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "gRemarks1": {
+      "type": "text",
+      "label": "GRemarks1",
+      "page": 2,
+      "box": {
+        "left": 268.0,
+        "top": 436.6,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "gPoint1": {
+      "type": "text",
+      "label": "GPoint1",
+      "page": 2,
+      "box": {
+        "left": 236.8,
+        "top": 436.2,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "gRemarks2": {
+      "type": "text",
+      "label": "GRemarks2",
+      "page": 2,
+      "box": {
+        "left": 268.0,
+        "top": 420.4,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "gPoint2": {
+      "type": "text",
+      "label": "GPoint2",
+      "page": 2,
+      "box": {
+        "left": 237.0,
+        "top": 419.9,
+        "width": 12.3,
+        "height": 12.7
+      }
+    },
+    "gRemarks3": {
+      "type": "text",
+      "label": "GRemarks3",
+      "page": 2,
+      "box": {
+        "left": 268.0,
+        "top": 404.3,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "gPoint3": {
+      "type": "text",
+      "label": "GPoint3",
+      "page": 2,
+      "box": {
+        "left": 237.0,
+        "top": 404.1,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "gRemarks4": {
+      "type": "text",
+      "label": "GRemarks4",
+      "page": 2,
+      "box": {
+        "left": 268.0,
+        "top": 388.0,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "gPoint4": {
+      "type": "text",
+      "label": "GPoint4",
+      "page": 2,
+      "box": {
+        "left": 236.5,
+        "top": 387.9,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "gRemarks5": {
+      "type": "text",
+      "label": "GRemarks5",
+      "page": 2,
+      "box": {
+        "left": 268.0,
+        "top": 371.5,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "gPoint5": {
+      "type": "text",
+      "label": "GPoint5",
+      "page": 2,
+      "box": {
+        "left": 236.7,
+        "top": 371.3,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "gRemarks6": {
+      "type": "text",
+      "label": "GRemarks6",
+      "page": 2,
+      "box": {
+        "left": 268.0,
+        "top": 355.2,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "gPoint6": {
+      "type": "text",
+      "label": "GPoint6",
+      "page": 2,
+      "box": {
+        "left": 237.0,
+        "top": 354.5,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "gRemarks7": {
+      "type": "text",
+      "label": "GRemarks7",
+      "page": 2,
+      "box": {
+        "left": 268.0,
+        "top": 337.1,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "gPoint7": {
+      "type": "text",
+      "label": "GPoint7",
+      "page": 2,
+      "box": {
+        "left": 237.2,
+        "top": 336.8,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "totalG": {
+      "type": "text",
+      "label": "totalG",
+      "page": 2,
+      "box": {
+        "left": 235.4,
+        "top": 313.9,
+        "width": 15.0,
+        "height": 14.6
+      }
+    },
+    "totalGRemark": {
+      "type": "text",
+      "label": "totalGRemark",
+      "page": 2,
+      "box": {
+        "left": 268.0,
+        "top": 313.4,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "totalH": {
+      "type": "text",
+      "label": "totalH",
+      "page": 2,
+      "box": {
+        "left": 235.7,
+        "top": 170.5,
+        "width": 15.0,
+        "height": 14.6
+      }
+    },
+    "totalHRemark": {
+      "type": "text",
+      "label": "totalHRemark",
+      "page": 2,
+      "box": {
+        "left": 268.0,
+        "top": 169.7,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "iPoint1": {
+      "type": "text",
+      "label": "IPoint1",
+      "page": 2,
+      "box": {
+        "left": 236.8,
+        "top": 129.6,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "iPoint2": {
+      "type": "text",
+      "label": "IPoint2",
+      "page": 2,
+      "box": {
+        "left": 237.0,
+        "top": 112.6,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "iPoint3": {
+      "type": "text",
+      "label": "IPoint3",
+      "page": 2,
+      "box": {
+        "left": 237.4,
+        "top": 96.2,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "iPoint4": {
+      "type": "text",
+      "label": "IPoint4",
+      "page": 2,
+      "box": {
+        "left": 236.5,
+        "top": 80.5,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "iPoint5": {
+      "type": "text",
+      "label": "IPoint5",
+      "page": 2,
+      "box": {
+        "left": 236.7,
+        "top": 63.9,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "totalI": {
+      "type": "text",
+      "label": "totalI",
+      "page": 2,
+      "box": {
+        "left": 235.7,
+        "top": 39.8,
+        "width": 15.0,
+        "height": 14.6
+      }
+    },
+    "totalIRemark": {
+      "type": "text",
+      "label": "totalIRemark",
+      "page": 2,
+      "box": {
+        "left": 268.0,
+        "top": 38.9,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "jPoint1": {
+      "type": "text",
+      "label": "JPoint1",
+      "page": 3,
+      "box": {
+        "left": 236.8,
+        "top": 713.6,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "jRemarks1": {
+      "type": "text",
+      "label": "JRemarks1",
+      "page": 3,
+      "box": {
+        "left": 268.0,
+        "top": 713.6,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "jRemarks2": {
+      "type": "text",
+      "label": "JRemarks2",
+      "page": 3,
+      "box": {
+        "left": 268.0,
+        "top": 697.3,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "jPoint2": {
+      "type": "text",
+      "label": "JPoint2",
+      "page": 3,
+      "box": {
+        "left": 237.0,
+        "top": 696.6,
+        "width": 12.3,
+        "height": 12.8
+      }
+    },
+    "totalJ": {
+      "type": "text",
+      "label": "totalJ",
+      "page": 3,
+      "box": {
+        "left": 233.9,
+        "top": 672.1,
+        "width": 15.0,
+        "height": 14.6
+      }
+    },
+    "totalJRemark": {
+      "type": "text",
+      "label": "totalJRemark",
+      "page": 3,
+      "box": {
+        "left": 268.0,
+        "top": 672.0,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "totalGrand": {
+      "type": "text",
+      "label": "totalGrand",
+      "page": 3,
+      "box": {
+        "left": 229.8,
+        "top": 647.9,
+        "width": 18.6,
+        "height": 14.6
+      }
+    },
+    "totalGrandRemark": {
+      "type": "text",
+      "label": "totalGrandRemark",
+      "page": 3,
+      "box": {
+        "left": 268.0,
+        "top": 647.2,
+        "width": 323.1,
+        "height": 13.3
+      }
+    },
+    "addRemarks": {
+      "type": "text",
+      "label": "AddRemarks",
+      "page": 3,
+      "box": {
+        "left": 26.2,
+        "top": 607.5,
+        "width": 558.9,
+        "height": 106.7
+      },
+      "multiline": true
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 16.12,
+      "editor": "grid",
+      "columns": {
+        "ePoint": {
+          "type": "text",
+          "label": "EPoint1",
+          "page": 1,
+          "box": {
+            "left": 236.8,
+            "top": 90.7,
+            "width": 12.3,
+            "height": 12.8
+          }
+        },
+        "eRemarks": {
+          "type": "text",
+          "label": "ERemarks1",
+          "page": 1,
+          "box": {
+            "left": 268.0,
+            "top": 91.1,
+            "width": 323.1,
+            "height": 13.3
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 4,
+      "rowStride": 16.2,
+      "editor": "grid",
+      "columns": {
+        "cRemarks": {
+          "type": "text",
+          "label": "CRemarks1",
+          "page": 1,
+          "box": {
+            "left": 268.0,
+            "top": 415.6,
+            "width": 323.1,
+            "height": 13.3
+          }
+        }
+      }
+    },
+    "rows3": {
+      "title": "Rows",
+      "page": 1,
+      "count": 4,
+      "rowStride": 16.0,
+      "editor": "grid",
+      "columns": {
+        "bRemarks": {
+          "type": "text",
+          "label": "BRemarks1",
+          "page": 1,
+          "box": {
+            "left": 268.0,
+            "top": 526.5,
+            "width": 323.1,
+            "height": 13.3
+          }
+        }
+      }
+    },
+    "rows4": {
+      "title": "Rows",
+      "page": 1,
+      "count": 6,
+      "rowStride": 16.36,
+      "editor": "grid",
+      "columns": {
+        "aRemarks": {
+          "type": "text",
+          "label": "ARemarks1",
+          "page": 1,
+          "box": {
+            "left": 268.0,
+            "top": 660.5,
+            "width": 323.1,
+            "height": 13.3
+          }
+        }
+      }
+    },
+    "rows5": {
+      "title": "Rows",
+      "page": 2,
+      "count": 5,
+      "rowStride": 16.3,
+      "editor": "grid",
+      "columns": {
+        "iRemarks": {
+          "type": "text",
+          "label": "IRemarks1",
+          "page": 2,
+          "box": {
+            "left": 268.0,
+            "top": 129.6,
+            "width": 323.1,
+            "height": 13.3
+          }
+        }
+      }
+    },
+    "rows6": {
+      "title": "Rows",
+      "page": 2,
+      "count": 6,
+      "rowStride": 16.18,
+      "editor": "grid",
+      "columns": {
+        "hPoint": {
+          "type": "text",
+          "label": "HPoint1",
+          "page": 2,
+          "box": {
+            "left": 236.4,
+            "top": 270.6,
+            "width": 12.3,
+            "height": 12.8
+          }
+        },
+        "hRemarks": {
+          "type": "text",
+          "label": "HRemarks1",
+          "page": 2,
+          "box": {
+            "left": 268.0,
+            "top": 271.1,
+            "width": 323.1,
+            "height": 13.3
+          }
+        }
+      }
+    }
+  }
+}

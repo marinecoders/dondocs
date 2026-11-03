@@ -1,0 +1,596 @@
+{
+  "id": "opnav5510416",
+  "label": "OPNAV5510-416 - Information Security Program Data",
+  "directory": "OPNAV5510-416 - Information Security Program Data",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "date1",
+        "date2",
+        "telephone",
+        "name",
+        "office",
+        "authority1",
+        "authority2",
+        "topSecret1",
+        "secret2",
+        "topSecret2",
+        "secret1",
+        "confidential1",
+        "confidential2",
+        "derivative1",
+        "derivative2",
+        "topSecret3",
+        "topSecret4",
+        "secret3",
+        "secret4",
+        "confidential3",
+        "confidential4",
+        "requests1",
+        "requests2",
+        "requestCasesfull1",
+        "reDocsFull1",
+        "rePagesFull",
+        "requestCasespart1",
+        "rePagesPart",
+        "textField1",
+        "requestCasesDenied1",
+        "reDocsDenied1",
+        "rePagesDenied",
+        "carriedOver2",
+        "appeals1",
+        "appeals2",
+        "apCasesFull",
+        "apDocsFull",
+        "apPagesFull",
+        "apCasesPart",
+        "apDocPart",
+        "apPagesPart",
+        "apCasesDenied",
+        "apDocDenied",
+        "apPagesDenied",
+        "carriedOver3",
+        "reviewed1",
+        "declassification",
+        "remarks"
+      ]
+    }
+  ],
+  "fields": {
+    "date1": {
+      "type": "text",
+      "label": "Enter the starting date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 724.3,
+        "width": 79.9,
+        "height": 11.3
+      }
+    },
+    "date2": {
+      "type": "text",
+      "label": "Enter the ending date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 354.2,
+        "top": 724.3,
+        "width": 79.9,
+        "height": 11.3
+      }
+    },
+    "telephone": {
+      "type": "text",
+      "label": "Enter the command point of contact telephone number.",
+      "page": 1,
+      "box": {
+        "left": 450.7,
+        "top": 686.9,
+        "width": 121.0,
+        "height": 16.9
+      }
+    },
+    "name": {
+      "type": "text",
+      "label": "Enter the command point of contact name.",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 686.2,
+        "width": 203.8,
+        "height": 16.3
+      }
+    },
+    "office": {
+      "type": "text",
+      "label": "Enter the command point of contact office information.",
+      "page": 1,
+      "box": {
+        "left": 247.0,
+        "top": 686.2,
+        "width": 201.6,
+        "height": 16.3
+      }
+    },
+    "authority1": {
+      "type": "text",
+      "label": "Enter the name and position title of each top secret original classification authority.",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 645.8,
+        "width": 530.6,
+        "height": 16.3
+      }
+    },
+    "authority2": {
+      "type": "text",
+      "label": "Enter the name and position title of each  secret original classification authority.",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 607.7,
+        "width": 530.6,
+        "height": 17.3
+      }
+    },
+    "topSecret1": {
+      "type": "text",
+      "label": "Enter the top secret (original) number marked for declassification on a date or event in 10 years or less.",
+      "page": 1,
+      "box": {
+        "left": 222.0,
+        "top": 533.5,
+        "width": 174.7,
+        "height": 16.3
+      }
+    },
+    "secret2": {
+      "type": "text",
+      "label": "Enter the secret number marked for declassification with an \"X\" exempt from declass in 10 years or less.",
+      "page": 1,
+      "box": {
+        "left": 401.0,
+        "top": 533.5,
+        "width": 169.3,
+        "height": 16.3
+      }
+    },
+    "topSecret2": {
+      "type": "text",
+      "label": "Enter the top secret (original) number marked for declassification with an \"X\" exempt from declass in 10 years or less.",
+      "page": 1,
+      "box": {
+        "left": 401.8,
+        "top": 506.2,
+        "width": 169.3,
+        "height": 16.3
+      }
+    },
+    "secret1": {
+      "type": "text",
+      "label": "Enter the secret (original) number marked for declassification on a date or event in 10 years or less.",
+      "page": 1,
+      "box": {
+        "left": 222.0,
+        "top": 505.4,
+        "width": 174.7,
+        "height": 16.3
+      }
+    },
+    "confidential1": {
+      "type": "text",
+      "label": "Enter the (original) number marked for declassificationon a date or event in 10 years or less.",
+      "page": 1,
+      "box": {
+        "left": 222.0,
+        "top": 480.2,
+        "width": 174.7,
+        "height": 16.3
+      }
+    },
+    "confidential2": {
+      "type": "text",
+      "label": "Enter the confidential (original) number marked for declassification with an \"X\" exempt from declass in 10 years or less.",
+      "page": 1,
+      "box": {
+        "left": 402.3,
+        "top": 480.2,
+        "width": 169.3,
+        "height": 16.3
+      }
+    },
+    "derivative1": {
+      "type": "text",
+      "label": "Enter the number of derivative classification decisions made during this period.",
+      "page": 1,
+      "box": {
+        "left": 221.0,
+        "top": 460.1,
+        "width": 176.4,
+        "height": 46.8
+      },
+      "multiline": true
+    },
+    "derivative2": {
+      "type": "text",
+      "label": "Enter the number of derivative classification decisions made during this period.",
+      "page": 1,
+      "box": {
+        "left": 401.8,
+        "top": 460.1,
+        "width": 169.9,
+        "height": 46.8
+      },
+      "multiline": true
+    },
+    "topSecret3": {
+      "type": "text",
+      "label": "Enter the top secret (derivative) number marked for declassification on a date or event in 10 years or less.",
+      "page": 1,
+      "box": {
+        "left": 222.0,
+        "top": 406.8,
+        "width": 174.7,
+        "height": 16.3
+      }
+    },
+    "topSecret4": {
+      "type": "text",
+      "label": "Enter the top secret (derivative) number marked for declassification with an \"X\" exempt from declass in 10 years or less.",
+      "page": 1,
+      "box": {
+        "left": 401.1,
+        "top": 406.1,
+        "width": 170.6,
+        "height": 16.3
+      }
+    },
+    "secret3": {
+      "type": "text",
+      "label": "Enter the secret (derivative) number marked for declassification on a date or event in 10 years or less.",
+      "page": 1,
+      "box": {
+        "left": 222.0,
+        "top": 380.9,
+        "width": 174.7,
+        "height": 16.3
+      }
+    },
+    "secret4": {
+      "type": "text",
+      "label": "Enter the secret (derivative) number marked for declassification with an \"X\" exempt from declass in 10 years or less.",
+      "page": 1,
+      "box": {
+        "left": 401.1,
+        "top": 380.9,
+        "width": 170.6,
+        "height": 16.3
+      }
+    },
+    "confidential3": {
+      "type": "text",
+      "label": "Enter the (derivative) number marked for declassification on a date or event in 10 years or less.",
+      "page": 1,
+      "box": {
+        "left": 222.0,
+        "top": 353.5,
+        "width": 174.7,
+        "height": 16.3
+      }
+    },
+    "confidential4": {
+      "type": "text",
+      "label": "Enter the confidential (derivative) number marked for declassification with an \"X\" exempt from declass in 10 years or less.",
+      "page": 1,
+      "box": {
+        "left": 401.1,
+        "top": 353.5,
+        "width": 170.6,
+        "height": 16.3
+      }
+    },
+    "requests1": {
+      "type": "text",
+      "label": "Enter the requested number of cases carried over from the previous FY. ",
+      "page": 1,
+      "box": {
+        "left": 150.4,
+        "top": 240.5,
+        "width": 57.3,
+        "height": 16.3
+      }
+    },
+    "requests2": {
+      "type": "text",
+      "label": "Enter the requested number of new cases received this FY.",
+      "page": 1,
+      "box": {
+        "left": 211.0,
+        "top": 240.5,
+        "width": 58.5,
+        "height": 16.3
+      }
+    },
+    "requestCasesfull1": {
+      "type": "text",
+      "label": "Enter the number of case requests granted in full this FY.",
+      "page": 1,
+      "box": {
+        "left": 272.2,
+        "top": 240.5,
+        "width": 25.2,
+        "height": 16.3
+      }
+    },
+    "reDocsFull1": {
+      "type": "text",
+      "label": "Enter the number of document requests granted in full this FY.",
+      "page": 1,
+      "box": {
+        "left": 300.2,
+        "top": 240.5,
+        "width": 25.2,
+        "height": 16.3
+      }
+    },
+    "rePagesFull": {
+      "type": "text",
+      "label": "Enter the number of pages requests granted in full this FY.",
+      "page": 1,
+      "box": {
+        "left": 329.0,
+        "top": 240.5,
+        "width": 23.8,
+        "height": 16.3
+      }
+    },
+    "requestCasespart1": {
+      "type": "text",
+      "label": "Enter the number of case requests granted in part this FY.",
+      "page": 1,
+      "box": {
+        "left": 357.1,
+        "top": 240.5,
+        "width": 25.2,
+        "height": 16.3
+      }
+    },
+    "rePagesPart": {
+      "type": "text",
+      "label": "Enter the number of document requests granted in part this FY.",
+      "page": 1,
+      "box": {
+        "left": 385.2,
+        "top": 240.5,
+        "width": 25.2,
+        "height": 16.3
+      }
+    },
+    "textField1": {
+      "type": "text",
+      "label": "Enter the number of pages requests granted in full this FY.",
+      "page": 1,
+      "box": {
+        "left": 413.3,
+        "top": 240.5,
+        "width": 25.2,
+        "height": 16.3
+      }
+    },
+    "requestCasesDenied1": {
+      "type": "text",
+      "label": "Enter the number of case requests denied this FY.",
+      "page": 1,
+      "box": {
+        "left": 442.1,
+        "top": 240.5,
+        "width": 25.2,
+        "height": 16.3
+      }
+    },
+    "reDocsDenied1": {
+      "type": "text",
+      "label": "Enter the number of document requests denied this FY.",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 240.5,
+        "width": 25.2,
+        "height": 16.3
+      }
+    },
+    "rePagesDenied": {
+      "type": "text",
+      "label": "Enter the number of pages requests denied this FY.",
+      "page": 1,
+      "box": {
+        "left": 499.7,
+        "top": 240.5,
+        "width": 25.2,
+        "height": 16.3
+      }
+    },
+    "carriedOver2": {
+      "type": "text",
+      "label": "Enter the number of request cases carried over to next FY.",
+      "page": 1,
+      "box": {
+        "left": 529.9,
+        "top": 240.5,
+        "width": 41.7,
+        "height": 16.3
+      }
+    },
+    "appeals1": {
+      "type": "text",
+      "label": "Enter the appealed number of cases carried over from the previous FY. ",
+      "page": 1,
+      "box": {
+        "left": 150.4,
+        "top": 215.3,
+        "width": 57.3,
+        "height": 16.3
+      }
+    },
+    "appeals2": {
+      "type": "text",
+      "label": "Enter the appealed number of new cases received this FY.",
+      "page": 1,
+      "box": {
+        "left": 211.0,
+        "top": 215.3,
+        "width": 58.5,
+        "height": 16.3
+      }
+    },
+    "apCasesFull": {
+      "type": "text",
+      "label": "Enter the number of case appeals granted in full this FY.",
+      "page": 1,
+      "box": {
+        "left": 272.2,
+        "top": 215.3,
+        "width": 25.2,
+        "height": 16.3
+      }
+    },
+    "apDocsFull": {
+      "type": "text",
+      "label": "Enter the number of document appeals granted in full this FY.",
+      "page": 1,
+      "box": {
+        "left": 300.2,
+        "top": 215.3,
+        "width": 25.2,
+        "height": 16.3
+      }
+    },
+    "apPagesFull": {
+      "type": "text",
+      "label": "Enter the number of pages appeals granted in full this FY.",
+      "page": 1,
+      "box": {
+        "left": 329.0,
+        "top": 215.3,
+        "width": 23.8,
+        "height": 16.3
+      }
+    },
+    "apCasesPart": {
+      "type": "text",
+      "label": "Enter the number of case appeals granted in part this FY.",
+      "page": 1,
+      "box": {
+        "left": 357.1,
+        "top": 215.3,
+        "width": 25.2,
+        "height": 16.3
+      }
+    },
+    "apDocPart": {
+      "type": "text",
+      "label": "Enter the number of document appeals granted in part this FY.",
+      "page": 1,
+      "box": {
+        "left": 385.2,
+        "top": 215.3,
+        "width": 25.2,
+        "height": 16.3
+      }
+    },
+    "apPagesPart": {
+      "type": "text",
+      "label": "Enter the number of pages appeals granted in part this FY.",
+      "page": 1,
+      "box": {
+        "left": 413.3,
+        "top": 215.3,
+        "width": 25.2,
+        "height": 16.3
+      }
+    },
+    "apCasesDenied": {
+      "type": "text",
+      "label": "Enter the number of case appeals denied this FY.",
+      "page": 1,
+      "box": {
+        "left": 442.1,
+        "top": 215.3,
+        "width": 25.2,
+        "height": 16.3
+      }
+    },
+    "apDocDenied": {
+      "type": "text",
+      "label": "Enter the number of document appeals denied this FY.",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 215.3,
+        "width": 25.2,
+        "height": 16.3
+      }
+    },
+    "apPagesDenied": {
+      "type": "text",
+      "label": "Enter the number of pages appeals denied this FY.",
+      "page": 1,
+      "box": {
+        "left": 499.7,
+        "top": 215.3,
+        "width": 25.2,
+        "height": 16.3
+      }
+    },
+    "carriedOver3": {
+      "type": "text",
+      "label": "Enter the number of appeal cases carried over to next FY.",
+      "page": 1,
+      "box": {
+        "left": 529.9,
+        "top": 215.3,
+        "width": 41.7,
+        "height": 16.3
+      }
+    },
+    "reviewed1": {
+      "type": "text",
+      "label": "Enter the number of pages reviewed this FY.",
+      "page": 1,
+      "box": {
+        "left": 162.7,
+        "top": 161.3,
+        "width": 161.3,
+        "height": 16.3
+      }
+    },
+    "declassification": {
+      "type": "text",
+      "label": "Enter the number of pages declassified is FY.",
+      "page": 1,
+      "box": {
+        "left": 440.6,
+        "top": 161.3,
+        "width": 131.0,
+        "height": 16.3
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "Enter the remarks.",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 128.2,
+        "width": 530.6,
+        "height": 88.6
+      },
+      "multiline": true
+    }
+  }
+}

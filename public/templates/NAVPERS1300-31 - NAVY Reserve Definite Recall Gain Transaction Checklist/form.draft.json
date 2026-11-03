@@ -1,0 +1,410 @@
+{
+  "id": "navpers130031",
+  "label": "NAVPERS1300-31 - NAVY Reserve Definite Recall Gain Transaction Checklist",
+  "directory": "NAVPERS1300-31 - NAVY Reserve Definite Recall Gain Transaction Checklist",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "rr",
+        "cell2",
+        "cell3",
+        "cell1",
+        "yes",
+        "no",
+        "na"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "yes13",
+        "no13",
+        "na12",
+        "yes14",
+        "no14",
+        "na13",
+        "yes15",
+        "no15",
+        "yes16",
+        "no16",
+        "yes17",
+        "no17",
+        "repName",
+        "repSig",
+        "repDate",
+        "row2",
+        "nRAName",
+        "nRASig",
+        "nRADate"
+      ],
+      "editor": "checklist"
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "Full Name (Last, First Middle)",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 706.3,
+        "width": 426.2,
+        "height": 19.4
+      }
+    },
+    "rr": {
+      "type": "text",
+      "label": "Rank/Rating",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 706.3,
+        "width": 102.2,
+        "height": 19.4
+      }
+    },
+    "cell2": {
+      "type": "text",
+      "label": "Recall Assignment",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 670.3,
+        "width": 246.3,
+        "height": 19.4
+      }
+    },
+    "cell3": {
+      "type": "text",
+      "label": "Recall Start Date",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 670.3,
+        "width": 101.1,
+        "height": 19.4
+      }
+    },
+    "cell1": {
+      "type": "choice",
+      "label": "Recall Program",
+      "page": 1,
+      "box": {
+        "left": 39.1,
+        "top": 670.1,
+        "width": 173.8,
+        "height": 18.9
+      },
+      "options": [
+        "Officer MPN",
+        "Officer RPN",
+        "Officer Recruiting",
+        "Enlisted MPN",
+        "Enlisted RPN/AWS",
+        "Enlisted Recruiting"
+      ]
+    },
+    "yes": {
+      "type": "checkbox",
+      "label": "c. d. Select Select &quot;Check &quot;Create&quot; out&quot;",
+      "page": 1,
+      "box": {
+        "left": 471.9,
+        "top": 408.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 525.9,
+        "top": 408.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "na": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 525.9,
+        "top": 308.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "yes13": {
+      "type": "checkbox",
+      "label": "Directive",
+      "page": 2,
+      "box": {
+        "left": 417.9,
+        "top": 688.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no13": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 2,
+      "box": {
+        "left": 471.9,
+        "top": 688.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "na12": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 525.9,
+        "top": 688.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "yes14": {
+      "type": "checkbox",
+      "label": "Directive",
+      "page": 2,
+      "box": {
+        "left": 417.9,
+        "top": 659.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no14": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 2,
+      "box": {
+        "left": 471.9,
+        "top": 659.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "na13": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 525.9,
+        "top": 659.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "yes15": {
+      "type": "checkbox",
+      "label": "1. Endorse member\u2019s orders",
+      "page": 2,
+      "box": {
+        "left": 471.9,
+        "top": 612.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no15": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 2,
+      "box": {
+        "left": 525.9,
+        "top": 612.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "yes16": {
+      "type": "checkbox",
+      "label": "2. Scanned member\u2019s orders and all completed forms",
+      "page": 2,
+      "box": {
+        "left": 471.9,
+        "top": 589.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no16": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 2,
+      "box": {
+        "left": 525.9,
+        "top": 589.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "yes17": {
+      "type": "checkbox",
+      "label": "g. Select \u201cNeeded By Date\u201d",
+      "page": 2,
+      "box": {
+        "left": 471.9,
+        "top": 481.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "no17": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 2,
+      "box": {
+        "left": 525.9,
+        "top": 481.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "repName": {
+      "type": "text",
+      "label": "Representative Name and Rank/Rating",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 366.4,
+        "width": 228.3,
+        "height": 19.4
+      }
+    },
+    "repSig": {
+      "type": "text",
+      "label": "Representative Signature",
+      "page": 2,
+      "box": {
+        "left": 272.9,
+        "top": 366.4,
+        "width": 228.3,
+        "height": 19.4
+      }
+    },
+    "repDate": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 506.9,
+        "top": 366.4,
+        "width": 66.2,
+        "height": 19.4
+      }
+    },
+    "row2": {
+      "type": "text",
+      "label": "Row 2",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 330.4,
+        "width": 534.3,
+        "height": 192.3
+      },
+      "multiline": true
+    },
+    "nRAName": {
+      "type": "text",
+      "label": "Name and Rank",
+      "page": 2,
+      "box": {
+        "left": 38.9,
+        "top": 64.0,
+        "width": 228.3,
+        "height": 24.5
+      }
+    },
+    "nRASig": {
+      "type": "text",
+      "label": "Signature",
+      "page": 2,
+      "box": {
+        "left": 272.9,
+        "top": 64.0,
+        "width": 228.3,
+        "height": 24.5
+      }
+    },
+    "nRADate": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 506.9,
+        "top": 64.0,
+        "width": 66.2,
+        "height": 24.5
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 10,
+      "rowStride": 25.2,
+      "editor": "grid",
+      "columns": {
+        "na": {
+          "type": "checkbox",
+          "label": "No",
+          "page": 1,
+          "box": {
+            "left": 525.9,
+            "top": 282.8,
+            "width": 8.0,
+            "height": 8.0
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 11,
+      "rowStride": 25.2,
+      "editor": "grid",
+      "columns": {
+        "yes": {
+          "type": "checkbox",
+          "label": "1. NPPSC 1300/1 Application for Transfer and Advances",
+          "page": 1,
+          "box": {
+            "left": 417.9,
+            "top": 308.0,
+            "width": 8.0,
+            "height": 8.0
+          }
+        },
+        "no": {
+          "type": "checkbox",
+          "label": "Yes",
+          "page": 1,
+          "box": {
+            "left": 471.9,
+            "top": 308.0,
+            "width": 8.0,
+            "height": 8.0
+          }
+        }
+      }
+    }
+  }
+}

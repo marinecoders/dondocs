@@ -1,0 +1,121 @@
+{
+  "id": "opnav521112",
+  "label": "OPNAV5211-12 - General Purpose Act Statement",
+  "directory": "OPNAV5211-12 - General Purpose Act Statement",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "reqDocument",
+        "sponsorCode",
+        "desTitleOrReq",
+        "authority",
+        "prinPurp",
+        "routineUses",
+        "frmNumRepConSymOthIden",
+        "privActStmnt"
+      ]
+    }
+  ],
+  "fields": {
+    "reqDocument": {
+      "type": "text",
+      "label": "Req Document",
+      "page": 1,
+      "box": {
+        "left": 41.6,
+        "top": 685.7,
+        "width": 390.3,
+        "height": 36.2
+      },
+      "multiline": true
+    },
+    "sponsorCode": {
+      "type": "text",
+      "label": "2. SPONSOR CODE",
+      "page": 1,
+      "box": {
+        "left": 436.2,
+        "top": 685.1,
+        "width": 139.0,
+        "height": 35.7
+      },
+      "multiline": true
+    },
+    "desTitleOrReq": {
+      "type": "text",
+      "label": "Des Title Or Req",
+      "page": 1,
+      "box": {
+        "left": 41.6,
+        "top": 633.9,
+        "width": 533.5,
+        "height": 36.3
+      },
+      "multiline": true
+    },
+    "authority": {
+      "type": "text",
+      "label": "1. AUTHORITY",
+      "page": 1,
+      "box": {
+        "left": 41.6,
+        "top": 562.5,
+        "width": 533.5,
+        "height": 72.5
+      },
+      "multiline": true
+    },
+    "prinPurp": {
+      "type": "text",
+      "label": "2. PRINCIPLE PURPOSE(S)",
+      "page": 1,
+      "box": {
+        "left": 41.6,
+        "top": 473.3,
+        "width": 533.5,
+        "height": 148.5
+      },
+      "multiline": true
+    },
+    "routineUses": {
+      "type": "text",
+      "label": "3. ROUTINE USE(S)",
+      "page": 1,
+      "box": {
+        "left": 41.6,
+        "top": 309.3,
+        "width": 533.5,
+        "height": 196.6
+      },
+      "multiline": true
+    },
+    "frmNumRepConSymOthIden": {
+      "type": "text",
+      "label": "1. FORM NO./REPORT CONTROL SYMBOL/OTHER IDENTIFICATION",
+      "page": 1,
+      "box": {
+        "left": 41.6,
+        "top": 78.5,
+        "width": 390.3,
+        "height": 40.5
+      },
+      "multiline": true
+    },
+    "privActStmnt": {
+      "type": "text",
+      "label": "PRIVACY ACT STATEMENT",
+      "page": 1,
+      "box": {
+        "left": 436.2,
+        "top": 78.5,
+        "width": 139.0,
+        "height": 40.5
+      },
+      "multiline": true
+    }
+  }
+}

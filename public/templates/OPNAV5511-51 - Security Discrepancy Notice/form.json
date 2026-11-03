@@ -1,0 +1,424 @@
+{
+  "id": "opnav551151",
+  "label": "OPNAV5511-51 - Security Discrepancy Notice",
+  "directory": "OPNAV5511-51 - Security Discrepancy Notice",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "x1",
+        "x2",
+        "x3",
+        "x4",
+        "x5",
+        "x6",
+        "x7",
+        "x8",
+        "x9",
+        "x10",
+        "x11",
+        "otherone",
+        "x12",
+        "x13",
+        "x14",
+        "x15",
+        "x16",
+        "x17",
+        "x18",
+        "x19",
+        "x20",
+        "otherone1",
+        "x21",
+        "x22",
+        "x23",
+        "x24",
+        "x25",
+        "x26",
+        "x27",
+        "x28",
+        "sig",
+        "x29"
+      ],
+      "editor": "checklist"
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "x30"
+      ]
+    }
+  ],
+  "fields": {
+    "x1": {
+      "type": "text",
+      "label": "Enter who the security discrepency notice is from.",
+      "page": 1,
+      "box": {
+        "left": 41.7,
+        "top": 712.0,
+        "width": 413.4,
+        "height": 13.8
+      }
+    },
+    "x2": {
+      "type": "text",
+      "label": "Enter the date (DD MMM YYYY).",
+      "page": 1,
+      "box": {
+        "left": 457.3,
+        "top": 712.0,
+        "width": 112.3,
+        "height": 13.8
+      }
+    },
+    "x3": {
+      "type": "text",
+      "label": "Enter reference \"a\".",
+      "page": 1,
+      "box": {
+        "left": 78.3,
+        "top": 692.9,
+        "width": 332.8,
+        "height": 14.8
+      }
+    },
+    "x4": {
+      "type": "text",
+      "label": "Enter the enclosure information.",
+      "page": 1,
+      "box": {
+        "left": 68.7,
+        "top": 666.5,
+        "width": 500.9,
+        "height": 21.7
+      }
+    },
+    "x5": {
+      "type": "text",
+      "label": "Enter who the security discrepency notice is to.",
+      "page": 1,
+      "box": {
+        "left": 122.1,
+        "top": 626.0,
+        "width": 216.4,
+        "height": 47.7
+      },
+      "multiline": true
+    },
+    "x6": {
+      "type": "checkbox",
+      "label": "Select sent VIA non-registered/non-certified mail for improper transmittal and/or packaging.",
+      "page": 1,
+      "box": {
+        "left": 48.5,
+        "top": 513.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "x7": {
+      "type": "checkbox",
+      "label": "Select classification not marked on inner container for \r\nimproper transmittal and/or packaging.",
+      "page": 1,
+      "box": {
+        "left": 224.5,
+        "top": 513.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "x8": {
+      "type": "checkbox",
+      "label": "Select received in poor condition, compromise improbable \r\nfor improper transmittal and/or packaging.",
+      "page": 1,
+      "box": {
+        "left": 404.5,
+        "top": 513.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "x9": {
+      "type": "checkbox",
+      "label": "Select sent in single container for improper transmittal and/or packaging.",
+      "page": 1,
+      "box": {
+        "left": 48.5,
+        "top": 489.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "x10": {
+      "type": "checkbox",
+      "label": "Select no return receipt for improper transmittal and/or packaging.",
+      "page": 1,
+      "box": {
+        "left": 224.5,
+        "top": 489.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "x11": {
+      "type": "checkbox",
+      "label": "Select addressed improperly for improper transmittal and/or packaging.",
+      "page": 1,
+      "box": {
+        "left": 404.5,
+        "top": 489.5,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "otherone": {
+      "type": "text",
+      "label": "Enter the other (specify) for improper transmittal and/or packaging.",
+      "page": 1,
+      "box": {
+        "left": 485.5,
+        "top": 473.0,
+        "width": 84.2,
+        "height": 22.3
+      }
+    },
+    "x12": {
+      "type": "checkbox",
+      "label": "Select markings on outer container divulge classification of \r\ncontents for improper transmittal and/or packaging.",
+      "page": 1,
+      "box": {
+        "left": 48.5,
+        "top": 467.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "x13": {
+      "type": "checkbox",
+      "label": "Select inadequate wrapping, not wrapped or protected \r\nfor improper transmittal and/or packaging.",
+      "page": 1,
+      "box": {
+        "left": 224.5,
+        "top": 467.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "x14": {
+      "type": "checkbox",
+      "label": "Select other for improper transmittal and/or packaging.",
+      "page": 1,
+      "box": {
+        "left": 404.5,
+        "top": 467.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "x15": {
+      "type": "checkbox",
+      "label": "Select if basic classification is questionable.",
+      "page": 1,
+      "box": {
+        "left": 48.5,
+        "top": 431.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "x16": {
+      "type": "checkbox",
+      "label": "Select document subject marking for classification.",
+      "page": 1,
+      "box": {
+        "left": 224.5,
+        "top": 431.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "x17": {
+      "type": "checkbox",
+      "label": "Select chart, map or drawing marking for classification.",
+      "page": 1,
+      "box": {
+        "left": 404.5,
+        "top": 431.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "x18": {
+      "type": "checkbox",
+      "label": "Select overall markings for classification.",
+      "page": 1,
+      "box": {
+        "left": 48.5,
+        "top": 406.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "x19": {
+      "type": "checkbox",
+      "label": "Select document transmittal marking for classification.",
+      "page": 1,
+      "box": {
+        "left": 224.5,
+        "top": 406.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "x20": {
+      "type": "checkbox",
+      "label": "Select photo, film or recording marking for classification.",
+      "page": 1,
+      "box": {
+        "left": 404.5,
+        "top": 406.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "otherone1": {
+      "type": "text",
+      "label": "Enter the other (specify) for classification.",
+      "page": 1,
+      "box": {
+        "left": 485.5,
+        "top": 388.3,
+        "width": 84.2,
+        "height": 21.4
+      }
+    },
+    "x21": {
+      "type": "checkbox",
+      "label": "Select paragraph and/or component markings for classification.",
+      "page": 1,
+      "box": {
+        "left": 48.5,
+        "top": 382.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "x22": {
+      "type": "checkbox",
+      "label": "Select message marking for classification.",
+      "page": 1,
+      "box": {
+        "left": 224.5,
+        "top": 382.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "x23": {
+      "type": "checkbox",
+      "label": "Select other for classification.",
+      "page": 1,
+      "box": {
+        "left": 404.5,
+        "top": 382.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "x24": {
+      "type": "checkbox",
+      "label": "Select classification authority not identfied or authorized \r\nfor downgrading and/or declassification.",
+      "page": 1,
+      "box": {
+        "left": 48.5,
+        "top": 346.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "x25": {
+      "type": "checkbox",
+      "label": "Select downgrading data incorrect for downgrading and/or declassification.",
+      "page": 1,
+      "box": {
+        "left": 224.5,
+        "top": 346.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "x26": {
+      "type": "checkbox",
+      "label": "Select declassification (or review) data omitted or incorrect \r\nfor downgrading and/or declassification.",
+      "page": 1,
+      "box": {
+        "left": 404.5,
+        "top": 346.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "x27": {
+      "type": "text",
+      "label": "Enter the other information (specify) for downgrading and/or declassification.",
+      "page": 1,
+      "box": {
+        "left": 42.3,
+        "top": 318.3,
+        "width": 526.3,
+        "height": 33.7
+      },
+      "multiline": true
+    },
+    "x28": {
+      "type": "text",
+      "label": "Enter any comments (continue on reverse if necessary).",
+      "page": 1,
+      "box": {
+        "left": 42.7,
+        "top": 254.7,
+        "width": 525.9,
+        "height": 168.0
+      },
+      "multiline": true
+    },
+    "sig": {
+      "type": "text",
+      "label": "Enter the signature.",
+      "page": 1,
+      "box": {
+        "left": 41.7,
+        "top": 63.0,
+        "width": 261.9,
+        "height": 14.8
+      }
+    },
+    "x29": {
+      "type": "text",
+      "label": "Enter the title.",
+      "page": 1,
+      "box": {
+        "left": 305.5,
+        "top": 63.0,
+        "width": 263.6,
+        "height": 14.8
+      }
+    },
+    "x30": {
+      "type": "text",
+      "label": "Enter any additional information.",
+      "page": 2,
+      "box": {
+        "left": 46.7,
+        "top": 742.9,
+        "width": 518.3,
+        "height": 680.0
+      },
+      "multiline": true
+    }
+  }
+}

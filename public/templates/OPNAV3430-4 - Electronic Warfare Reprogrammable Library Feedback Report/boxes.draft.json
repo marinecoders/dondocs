@@ -1,0 +1,315 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "class": {
+        "left": 89.0,
+        "top": 741.0,
+        "width": 82.1,
+        "height": 20.7,
+        "type": "text",
+        "description": "Enter the classification.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unitReport": {
+        "left": 292.1,
+        "top": 630.4,
+        "width": 106.2,
+        "height": 16.5,
+        "type": "text",
+        "description": "Enter the unit report number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unit": {
+        "left": 43.3,
+        "top": 629.7,
+        "width": 115.2,
+        "height": 16.5,
+        "type": "text",
+        "description": "Enter the unit.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dNSDate3": {
+        "left": 169.4,
+        "top": 629.7,
+        "width": 112.0,
+        "height": 16.5,
+        "type": "text",
+        "description": "Enter the date using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mailingInstructions1": {
+        "left": 413.2,
+        "top": 614.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox for officer in charge.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "systemName": {
+        "left": 43.3,
+        "top": 594.2,
+        "width": 115.2,
+        "height": 16.5,
+        "type": "text",
+        "description": "Enter the system name.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "reportedBy1": {
+        "left": 169.4,
+        "top": 594.2,
+        "width": 112.0,
+        "height": 16.5,
+        "type": "text",
+        "description": "Enter whom reported by.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "reportedBy": {
+        "left": 292.1,
+        "top": 594.2,
+        "width": 106.2,
+        "height": 16.5,
+        "type": "text",
+        "description": "Enter the library designator.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mailingInstructions2": {
+        "left": 413.2,
+        "top": 570.1,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox for officer in charge.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "deletions": {
+        "left": 43.7,
+        "top": 555.1,
+        "width": 353.3,
+        "height": 65.9,
+        "type": "text",
+        "description": "Enter the recommended additions and/or deletions.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mailingInstructions3": {
+        "left": 413.2,
+        "top": 540.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox for commander in chief.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mailingInstructions4": {
+        "left": 413.2,
+        "top": 509.4,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox for commander.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mailingInstructions5": {
+        "left": 413.2,
+        "top": 471.8,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox for commander.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "description": {
+        "left": 43.7,
+        "top": 466.0,
+        "width": 353.3,
+        "height": 65.9,
+        "type": "text",
+        "description": "Enter the operating enviroment description.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mailingInstructions6": {
+        "left": 413.2,
+        "top": 427.7,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox for Naval Research Laboratory.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mailingInstructions7": {
+        "left": 413.2,
+        "top": 395.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox for Naval Electronic Systems.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "recommendation": {
+        "left": 43.7,
+        "top": 377.6,
+        "width": 353.3,
+        "height": 65.9,
+        "type": "text",
+        "description": "Enter the description of difficulty, action taken and recommendation.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mailingInstructions8": {
+        "left": 413.2,
+        "top": 359.0,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox for Naval Air Warfare Center.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mailingInstructions9": {
+        "left": 413.2,
+        "top": 322.1,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox for Naval Electronic System.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "correctedImpact": {
+        "left": 43.7,
+        "top": 287.8,
+        "width": 353.3,
+        "height": 149.2,
+        "type": "text",
+        "description": "Enter the impact if not corrected.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mailingInstructions10": {
+        "left": 413.2,
+        "top": 283.7,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox for Naval Air Warefare Center.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mailingInstructions11": {
+        "left": 413.2,
+        "top": 255.6,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox for Navelex Charleston (Code 043/40).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mailingInstructions12": {
+        "left": 413.2,
+        "top": 225.2,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox for Fleet Combat Direction Systems.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mailingInstructions13": {
+        "left": 413.2,
+        "top": 194.8,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox for Naval Avionics Center.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mailingInstructions14": {
+        "left": 413.2,
+        "top": 165.2,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox for Naval Air Development Center.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mailingInstructions15": {
+        "left": 413.2,
+        "top": 138.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "Select this checkbox for Ships.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "class2": {
+        "left": 102.9,
+        "top": 98.0,
+        "width": 82.1,
+        "height": 20.7,
+        "type": "text",
+        "description": "Enter the classification.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

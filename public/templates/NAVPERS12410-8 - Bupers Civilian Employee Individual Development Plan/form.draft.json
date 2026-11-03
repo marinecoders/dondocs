@@ -1,0 +1,374 @@
+{
+  "id": "navpers124108",
+  "label": "NAVPERS12410-8 - Bupers Civilian Employee Individual Development Plan",
+  "directory": "NAVPERS12410-8 - Bupers Civilian Employee Individual Development Plan",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "one",
+        "two",
+        "three",
+        "four",
+        "five",
+        "six",
+        "cell2",
+        "cell22",
+        "cell23",
+        "cell24",
+        "cell25",
+        "cell26",
+        "cell27",
+        "cell28",
+        "cell29",
+        "cell210",
+        "cell211",
+        "cell212",
+        "cell213",
+        "cell1",
+        "cell12",
+        "cell13",
+        "cell14",
+        "cell15",
+        "cell16",
+        "cell17",
+        "cell214",
+        "cell215",
+        "cell3"
+      ]
+    }
+  ],
+  "fields": {
+    "one": {
+      "type": "text",
+      "label": "1. Name (Last, First, MI)",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 609.1,
+        "width": 267.9,
+        "height": 19.4
+      }
+    },
+    "two": {
+      "type": "text",
+      "label": "2. Title or Rank/Rate",
+      "page": 1,
+      "box": {
+        "left": 312.5,
+        "top": 609.1,
+        "width": 159.9,
+        "height": 19.4
+      }
+    },
+    "three": {
+      "type": "text",
+      "label": "3. Code",
+      "page": 1,
+      "box": {
+        "left": 478.1,
+        "top": 609.1,
+        "width": 95.1,
+        "height": 19.4
+      }
+    },
+    "four": {
+      "type": "text",
+      "label": "4. Phone",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 573.1,
+        "width": 95.1,
+        "height": 19.4
+      }
+    },
+    "five": {
+      "type": "text",
+      "label": "5. Plan/KSA Series/Grade or Rate/Specialty",
+      "page": 1,
+      "box": {
+        "left": 139.7,
+        "top": 573.1,
+        "width": 231.9,
+        "height": 19.4
+      }
+    },
+    "six": {
+      "type": "text",
+      "label": "6. Location (Employee Bldg/Room/Cube)",
+      "page": 1,
+      "box": {
+        "left": 377.3,
+        "top": 573.1,
+        "width": 195.9,
+        "height": 19.4
+      }
+    },
+    "cell2": {
+      "type": "text",
+      "label": "SHORT RANGE GOALS (0-6 Months)",
+      "page": 1,
+      "box": {
+        "left": 56.2,
+        "top": 515.5,
+        "width": 516.3,
+        "height": 12.2
+      }
+    },
+    "cell22": {
+      "type": "text",
+      "label": "SHORT RANGE GOALS (0-6 Months)",
+      "page": 1,
+      "box": {
+        "left": 56.2,
+        "top": 497.5,
+        "width": 516.3,
+        "height": 12.2
+      }
+    },
+    "cell23": {
+      "type": "text",
+      "label": "SHORT RANGE GOALS (0-6 Months)",
+      "page": 1,
+      "box": {
+        "left": 56.2,
+        "top": 479.5,
+        "width": 516.3,
+        "height": 12.2
+      }
+    },
+    "cell24": {
+      "type": "text",
+      "label": "SHORT RANGE GOALS (0-6 Months)",
+      "page": 1,
+      "box": {
+        "left": 56.2,
+        "top": 429.1,
+        "width": 516.3,
+        "height": 12.2
+      }
+    },
+    "cell25": {
+      "type": "text",
+      "label": "SHORT RANGE GOALS (0-6 Months)",
+      "page": 1,
+      "box": {
+        "left": 56.2,
+        "top": 411.1,
+        "width": 516.3,
+        "height": 12.2
+      }
+    },
+    "cell26": {
+      "type": "text",
+      "label": "SHORT RANGE GOALS (0-6 Months)",
+      "page": 1,
+      "box": {
+        "left": 56.2,
+        "top": 393.1,
+        "width": 516.3,
+        "height": 12.2
+      }
+    },
+    "cell27": {
+      "type": "text",
+      "label": "LONG RANGE GOALS (12-24 Months)",
+      "page": 1,
+      "box": {
+        "left": 56.2,
+        "top": 342.7,
+        "width": 516.3,
+        "height": 12.2
+      }
+    },
+    "cell28": {
+      "type": "text",
+      "label": "LONG RANGE GOALS (12-24 Months)",
+      "page": 1,
+      "box": {
+        "left": 56.2,
+        "top": 324.7,
+        "width": 516.3,
+        "height": 12.2
+      }
+    },
+    "cell29": {
+      "type": "text",
+      "label": "LONG RANGE GOALS (12-24 Months)",
+      "page": 1,
+      "box": {
+        "left": 56.2,
+        "top": 306.7,
+        "width": 516.3,
+        "height": 12.2
+      }
+    },
+    "cell210": {
+      "type": "text",
+      "label": "List the Development Area",
+      "page": 1,
+      "box": {
+        "left": 56.9,
+        "top": 252.7,
+        "width": 264.3,
+        "height": 12.2
+      }
+    },
+    "cell211": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 252.7,
+        "width": 66.2,
+        "height": 12.2
+      }
+    },
+    "cell212": {
+      "type": "choice",
+      "label": "Priority Level",
+      "page": 1,
+      "box": {
+        "left": 327.2,
+        "top": 252.4,
+        "width": 101.8,
+        "height": 11.7
+      },
+      "options": [
+        "Priority 1 Essential",
+        "Priority 2 Needed",
+        "Priority 3 Helpful"
+      ]
+    },
+    "cell213": {
+      "type": "choice",
+      "label": "needed)",
+      "page": 1,
+      "box": {
+        "left": 435.2,
+        "top": 252.4,
+        "width": 65.7,
+        "height": 11.7
+      },
+      "options": [
+        "Formal",
+        "Informal"
+      ]
+    },
+    "cell1": {
+      "type": "text",
+      "label": "Employee Name (Last, First, MI)",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 203.7,
+        "width": 227.5,
+        "height": 19.4
+      }
+    },
+    "cell12": {
+      "type": "text",
+      "label": "Employee Signature",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 203.7,
+        "width": 227.5,
+        "height": 19.4
+      }
+    },
+    "cell13": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 506.2,
+        "top": 203.7,
+        "width": 66.2,
+        "height": 19.4
+      }
+    },
+    "cell14": {
+      "type": "text",
+      "label": "Immediate Supervisor Name (Last, First, MI)",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 167.7,
+        "width": 227.5,
+        "height": 19.4
+      }
+    },
+    "cell15": {
+      "type": "text",
+      "label": "Immediate Supervisor Signature",
+      "page": 1,
+      "box": {
+        "left": 272.9,
+        "top": 167.7,
+        "width": 227.5,
+        "height": 19.4
+      }
+    },
+    "cell16": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 506.2,
+        "top": 167.7,
+        "width": 66.2,
+        "height": 19.4
+      }
+    },
+    "cell17": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 56.2,
+        "top": 106.5,
+        "width": 48.2,
+        "height": 12.2
+      }
+    },
+    "cell214": {
+      "type": "text",
+      "label": "Remarks",
+      "page": 1,
+      "box": {
+        "left": 110.2,
+        "top": 106.5,
+        "width": 174.3,
+        "height": 12.2
+      }
+    },
+    "cell215": {
+      "type": "text",
+      "label": "Name",
+      "page": 1,
+      "box": {
+        "left": 290.2,
+        "top": 106.5,
+        "width": 138.3,
+        "height": 12.2
+      }
+    },
+    "cell3": {
+      "type": "text",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 434.2,
+        "top": 106.5,
+        "width": 138.3,
+        "height": 12.2
+      }
+    }
+  }
+}

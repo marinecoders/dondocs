@@ -1,0 +1,161 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "place": {
+        "left": 332.5,
+        "top": 675.1,
+        "width": 209.2,
+        "height": 30.3,
+        "type": "text",
+        "description": "Enter the place.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name1": {
+        "left": 71.9,
+        "top": 633.5,
+        "width": 469.8,
+        "height": 16.8,
+        "type": "text",
+        "description": "Enter the name of suspect.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "advised": {
+        "left": 155.2,
+        "top": 611.7,
+        "width": 386.5,
+        "height": 16.8,
+        "type": "text",
+        "description": "Enter by who the suspect has been advised by.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "suspected": {
+        "left": 155.2,
+        "top": 588.7,
+        "width": 386.5,
+        "height": 16.8,
+        "type": "text",
+        "description": "Indicate what the civilan is being suspected of.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature": {
+        "left": 351.5,
+        "top": 351.8,
+        "width": 190.2,
+        "height": 16.8,
+        "type": "text",
+        "description": "Enter the signature.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dNSDate31": {
+        "left": 364.9,
+        "top": 326.5,
+        "width": 72.6,
+        "height": 16.1,
+        "type": "text",
+        "description": "Enter the date using the format DD MMM YYYY of suspect's signature.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "timeField1": {
+        "left": 469.1,
+        "top": 326.5,
+        "width": 72.6,
+        "height": 16.1,
+        "type": "text",
+        "description": "Enter the time using the 24-hour clock (HH:MM:SS) of the suspect's time.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "witness1": {
+        "left": 107.1,
+        "top": 294.5,
+        "width": 101.2,
+        "height": 16.8,
+        "type": "text",
+        "description": "Enter the first witnessed signature.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "witness2": {
+        "left": 105.8,
+        "top": 267.7,
+        "width": 101.2,
+        "height": 16.8,
+        "type": "text",
+        "description": "Enter the second witnessed signature.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dNSDate32": {
+        "left": 369.1,
+        "top": 249.9,
+        "width": 72.6,
+        "height": 16.1,
+        "type": "text",
+        "description": "Enter the date using the format DD MMM YYYY of the witness's date.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "timeField2": {
+        "left": 469.5,
+        "top": 249.9,
+        "width": 72.6,
+        "height": 16.1,
+        "type": "text",
+        "description": "Enter the time using the 24-hour clock (HH:MM:SS) of the witness's time of signature.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name2": {
+        "left": 155.2,
+        "top": 229.6,
+        "width": 369.3,
+        "height": 17.2,
+        "type": "text",
+        "description": "Indicate who is making voluntary statement.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "statement": {
+        "left": 65.2,
+        "top": 179.6,
+        "width": 488.6,
+        "height": 104.4,
+        "type": "text",
+        "description": "Enter the voluntary statement.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

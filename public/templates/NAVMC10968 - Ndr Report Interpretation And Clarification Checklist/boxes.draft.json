@@ -1,0 +1,174 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "organization": {
+        "left": 311.3,
+        "top": 718.7,
+        "width": 278.3,
+        "height": 8.4,
+        "type": "text",
+        "description": "Organization",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name": {
+        "left": 57.1,
+        "top": 718.2,
+        "width": 181.6,
+        "height": 8.4,
+        "type": "text",
+        "description": "Name",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "reasonForClarif": {
+        "left": 59.8,
+        "top": 695.4,
+        "width": 493.1,
+        "height": 34.1,
+        "type": "text",
+        "description": "ReasonForClarif",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox1": {
+        "left": 432.8,
+        "top": 539.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "CheckBox1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox2": {
+        "left": 432.8,
+        "top": 525.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "CheckBox2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox3": {
+        "left": 432.8,
+        "top": 510.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "CheckBox3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox4": {
+        "left": 432.8,
+        "top": 495.6,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "CheckBox4",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox5": {
+        "left": 432.8,
+        "top": 481.2,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "CheckBox5",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox6": {
+        "left": 432.8,
+        "top": 466.6,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "CheckBox6",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox7": {
+        "left": 432.9,
+        "top": 451.6,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "CheckBox7",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox8": {
+        "left": 432.9,
+        "top": 436.2,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "CheckBox8",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox9": {
+        "left": 432.8,
+        "top": 421.8,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "CheckBox9",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox10": {
+        "left": 432.8,
+        "top": 407.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "CheckBox10",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox11": {
+        "left": 432.8,
+        "top": 392.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "CheckBox11",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

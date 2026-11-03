@@ -1,0 +1,196 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "radio": {
+        "left": 56.8,
+        "top": 682.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item2",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio2": {
+        "left": 335.7,
+        "top": 682.2,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio3": {
+        "left": 335.7,
+        "top": 668.7,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio4": {
+        "left": 56.8,
+        "top": 668.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "speStmt": {
+        "left": 38.8,
+        "top": 640.2,
+        "width": 534.4,
+        "height": 47.9,
+        "type": "text",
+        "description": "2. Statement (70 character limit)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "spcAlys": {
+        "left": 38.8,
+        "top": 577.2,
+        "width": 534.4,
+        "height": 128.9,
+        "type": "text",
+        "description": "3. Analysis (Unlimited character limit)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio5": {
+        "left": 88.3,
+        "top": 425.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio6": {
+        "left": 88.3,
+        "top": 402.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "spcActAgy": {
+        "left": 38.8,
+        "top": 358.3,
+        "width": 534.4,
+        "height": 18.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "spcRecSta": {
+        "left": 38.8,
+        "top": 325.2,
+        "width": 534.4,
+        "height": 40.5,
+        "type": "text",
+        "description": "6. Statement (70 character limit)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "spcRem": {
+        "left": 38.8,
+        "top": 271.1,
+        "width": 534.4,
+        "height": 128.9,
+        "type": "text",
+        "description": "7. Remarks (Unlimited character limit)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio7": {
+        "left": 52.3,
+        "top": 114.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio8": {
+        "left": 124.4,
+        "top": 114.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio9": {
+        "left": 169.4,
+        "top": 114.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item2",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "spcWhiFac": {
+        "left": 38.8,
+        "top": 85.4,
+        "width": 534.4,
+        "height": 46.6,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "spcCoOffCom": {
+        "left": 38.8,
+        "top": 743.7,
+        "width": 534.4,
+        "height": 705.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

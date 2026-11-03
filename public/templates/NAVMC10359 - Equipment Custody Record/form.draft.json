@@ -1,0 +1,512 @@
+{
+  "id": "navmc10359",
+  "label": "NAVMC10359 - Equipment Custody Record",
+  "directory": "NAVMC10359 - Equipment Custody Record",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "respUnit",
+        "authty",
+        "signature",
+        "signature2",
+        "signature3",
+        "signature4",
+        "signature5",
+        "signature6",
+        "signature7",
+        "signature8",
+        "signature9",
+        "signature10",
+        "signature11",
+        "signature12",
+        "signature13",
+        "signature14",
+        "signature15",
+        "signature16",
+        "signature17",
+        "carForw",
+        "contNum",
+        "allow1",
+        "desc1",
+        "acctNum",
+        "stkNum"
+      ]
+    }
+  ],
+  "fields": {
+    "respUnit": {
+      "type": "text",
+      "label": "Responsible Unit",
+      "page": 1,
+      "box": {
+        "left": 17.6,
+        "top": 300.8,
+        "width": 276.8,
+        "height": 13.6
+      }
+    },
+    "authty": {
+      "type": "text",
+      "label": "Authority. T/E, Allowance List, etc.",
+      "page": 1,
+      "box": {
+        "left": 296.0,
+        "top": 300.8,
+        "width": 276.8,
+        "height": 13.6
+      }
+    },
+    "signature": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 430.7,
+        "top": 273.5,
+        "width": 141.8,
+        "height": 10.9
+      }
+    },
+    "signature2": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 430.2,
+        "top": 261.6,
+        "width": 142.8,
+        "height": 10.9
+      }
+    },
+    "signature3": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 430.7,
+        "top": 249.8,
+        "width": 142.3,
+        "height": 10.4
+      }
+    },
+    "signature4": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 430.2,
+        "top": 238.4,
+        "width": 142.8,
+        "height": 11.4
+      }
+    },
+    "signature5": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 430.7,
+        "top": 227.6,
+        "width": 141.8,
+        "height": 11.4
+      }
+    },
+    "signature6": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 430.7,
+        "top": 215.2,
+        "width": 141.8,
+        "height": 10.4
+      }
+    },
+    "signature7": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 430.7,
+        "top": 203.9,
+        "width": 141.3,
+        "height": 10.9
+      }
+    },
+    "signature8": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 430.7,
+        "top": 192.5,
+        "width": 141.3,
+        "height": 10.9
+      }
+    },
+    "signature9": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 430.7,
+        "top": 180.6,
+        "width": 141.3,
+        "height": 10.9
+      }
+    },
+    "signature10": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 430.7,
+        "top": 169.3,
+        "width": 141.8,
+        "height": 10.9
+      }
+    },
+    "signature11": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 430.7,
+        "top": 157.4,
+        "width": 141.3,
+        "height": 10.9
+      }
+    },
+    "signature12": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 430.2,
+        "top": 145.6,
+        "width": 141.8,
+        "height": 10.4
+      }
+    },
+    "signature13": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 430.2,
+        "top": 134.2,
+        "width": 142.3,
+        "height": 10.9
+      }
+    },
+    "signature14": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 430.2,
+        "top": 122.9,
+        "width": 141.8,
+        "height": 10.9
+      }
+    },
+    "signature15": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 430.2,
+        "top": 111.0,
+        "width": 142.3,
+        "height": 10.9
+      }
+    },
+    "signature16": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 430.2,
+        "top": 99.6,
+        "width": 142.8,
+        "height": 11.4
+      }
+    },
+    "signature17": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 430.7,
+        "top": 87.8,
+        "width": 142.3,
+        "height": 10.4
+      }
+    },
+    "carForw": {
+      "type": "text",
+      "label": "Carried Forward",
+      "page": 1,
+      "box": {
+        "left": 236.0,
+        "top": 76.0,
+        "width": 58.7,
+        "height": 11.3
+      }
+    },
+    "contNum": {
+      "type": "text",
+      "label": "Control Number",
+      "page": 1,
+      "box": {
+        "left": 18.0,
+        "top": 55.4,
+        "width": 145.3,
+        "height": 10.1
+      }
+    },
+    "allow1": {
+      "type": "text",
+      "label": "Allowance",
+      "page": 1,
+      "box": {
+        "left": 490.7,
+        "top": 54.8,
+        "width": 82.0,
+        "height": 10.9
+      }
+    },
+    "desc1": {
+      "type": "text",
+      "label": "Description",
+      "page": 1,
+      "box": {
+        "left": 164.7,
+        "top": 54.7,
+        "width": 325.3,
+        "height": 29.3
+      }
+    },
+    "acctNum": {
+      "type": "text",
+      "label": "Account Number",
+      "page": 1,
+      "box": {
+        "left": 491.6,
+        "top": 36.9,
+        "width": 82.0,
+        "height": 11.4
+      }
+    },
+    "stkNum": {
+      "type": "text",
+      "label": "Stock Number",
+      "page": 1,
+      "box": {
+        "left": 18.0,
+        "top": 36.2,
+        "width": 145.3,
+        "height": 10.2
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 16,
+      "rowStride": 11.6,
+      "editor": "grid",
+      "columns": {
+        "incrs": {
+          "type": "text",
+          "label": "Amount Increased. Line 2.",
+          "page": 1,
+          "box": {
+            "left": 152.0,
+            "top": 262.7,
+            "width": 40.7,
+            "height": 11.3
+          }
+        },
+        "decrs": {
+          "type": "text",
+          "label": "Amount Decreased. Line 2.",
+          "page": 1,
+          "box": {
+            "left": 193.3,
+            "top": 262.7,
+            "width": 41.3,
+            "height": 11.3
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 17,
+      "rowStride": 11.59,
+      "editor": "grid",
+      "columns": {
+        "date": {
+          "type": "text",
+          "label": "Enter date using format 2002 06 27. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 17.8,
+            "top": 273.6,
+            "width": 42.8,
+            "height": 11.2
+          }
+        },
+        "vchNum": {
+          "type": "text",
+          "label": "Voucher Number. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 62.0,
+            "top": 274.0,
+            "width": 88.7,
+            "height": 10.7
+          }
+        },
+        "balance": {
+          "type": "text",
+          "label": "Balance. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 236.0,
+            "top": 274.0,
+            "width": 58.7,
+            "height": 10.7
+          }
+        },
+        "remarks": {
+          "type": "text",
+          "label": "Remarks. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 296.0,
+            "top": 274.0,
+            "width": 133.3,
+            "height": 10.7
+          }
+        }
+      }
+    },
+    "rows3": {
+      "title": "Rows",
+      "page": 2,
+      "count": 12,
+      "rowStride": 23.27,
+      "editor": "grid",
+      "columns": {
+        "serNum": {
+          "type": "text",
+          "label": "Record of Serial/USMC Registration Numbers. Row 1, Column 1.",
+          "page": 2,
+          "box": {
+            "left": 17.6,
+            "top": 323.2,
+            "width": 60.8,
+            "height": 13.6
+          }
+        },
+        "serNum2": {
+          "type": "text",
+          "label": "Record of Serial/USMC Registration Numbers. Row 1, Column 2.",
+          "page": 2,
+          "box": {
+            "left": 80.0,
+            "top": 323.2,
+            "width": 60.0,
+            "height": 13.6
+          }
+        },
+        "serNum3": {
+          "type": "text",
+          "label": "Record of Serial/USMC Registration Numbers. Row 1, Column 3.",
+          "page": 2,
+          "box": {
+            "left": 141.6,
+            "top": 323.2,
+            "width": 60.0,
+            "height": 13.6
+          }
+        },
+        "serNum4": {
+          "type": "text",
+          "label": "Record of Serial/USMC Registration Numbers. Row 1, Column 4.",
+          "page": 2,
+          "box": {
+            "left": 202.4,
+            "top": 323.2,
+            "width": 60.0,
+            "height": 13.6
+          }
+        },
+        "serNum5": {
+          "type": "text",
+          "label": "Record of Serial/USMC Registration Numbers. Row 1, Column 5.",
+          "page": 2,
+          "box": {
+            "left": 264.0,
+            "top": 323.2,
+            "width": 60.0,
+            "height": 13.6
+          }
+        },
+        "serNum6": {
+          "type": "text",
+          "label": "Record of Serial/USMC Registration Numbers. Row 1, Column 6.",
+          "page": 2,
+          "box": {
+            "left": 325.6,
+            "top": 323.2,
+            "width": 60.0,
+            "height": 13.6
+          }
+        },
+        "serNum7": {
+          "type": "text",
+          "label": "Record of Serial/USMC Registration Numbers. Row 1, Column 7.",
+          "page": 2,
+          "box": {
+            "left": 387.2,
+            "top": 323.2,
+            "width": 60.0,
+            "height": 13.6
+          }
+        },
+        "serNum8": {
+          "type": "text",
+          "label": "Record of Serial/USMC Registration Numbers. Row 1, Column 8.",
+          "page": 2,
+          "box": {
+            "left": 448.0,
+            "top": 323.2,
+            "width": 60.0,
+            "height": 13.6
+          }
+        },
+        "serNum9": {
+          "type": "text",
+          "label": "Record of Serial/USMC Registration Numbers. Row 1, Column 9.",
+          "page": 2,
+          "box": {
+            "left": 509.6,
+            "top": 323.2,
+            "width": 61.6,
+            "height": 13.6
+          }
+        }
+      }
+    }
+  }
+}

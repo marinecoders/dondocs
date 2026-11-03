@@ -1,0 +1,191 @@
+{
+  "id": "navmc10481",
+  "label": "NAVMC10481 - Counterintelligence Report",
+  "directory": "NAVMC10481 - Counterintelligence Report",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "fileNum",
+        "date1",
+        "subj1",
+        "repOrgan",
+        "ref1",
+        "repDist",
+        "repOrig",
+        "encl1",
+        "caseCat",
+        "period1",
+        "status1",
+        "synop1",
+        "sigRepBy",
+        "sigAppBy"
+      ]
+    }
+  ],
+  "fields": {
+    "fileNum": {
+      "type": "text",
+      "label": "File Number",
+      "page": 1,
+      "box": {
+        "left": 377.9,
+        "top": 709.1,
+        "width": 198.1,
+        "height": 17.1
+      }
+    },
+    "date1": {
+      "type": "text",
+      "label": "Enter date using format 2002 06 27.",
+      "page": 1,
+      "box": {
+        "left": 406.3,
+        "top": 681.2,
+        "width": 169.6,
+        "height": 17.7
+      }
+    },
+    "subj1": {
+      "type": "text",
+      "label": "Subject",
+      "page": 1,
+      "box": {
+        "left": 35.4,
+        "top": 653.4,
+        "width": 277.9,
+        "height": 101.3
+      },
+      "multiline": true
+    },
+    "repOrgan": {
+      "type": "text",
+      "label": "Reporting Organization",
+      "page": 1,
+      "box": {
+        "left": 315.2,
+        "top": 653.4,
+        "width": 262.7,
+        "height": 101.3
+      },
+      "multiline": true
+    },
+    "ref1": {
+      "type": "text",
+      "label": "References",
+      "page": 1,
+      "box": {
+        "left": 35.4,
+        "top": 545.2,
+        "width": 277.9,
+        "height": 101.3
+      },
+      "multiline": true
+    },
+    "repDist": {
+      "type": "text",
+      "label": "Distribution of Report",
+      "page": 1,
+      "box": {
+        "left": 315.2,
+        "top": 545.2,
+        "width": 263.3,
+        "height": 74.7
+      },
+      "multiline": true
+    },
+    "repOrig": {
+      "type": "text",
+      "label": "Origin of Report",
+      "page": 1,
+      "box": {
+        "left": 315.2,
+        "top": 462.2,
+        "width": 261.4,
+        "height": 17.1
+      }
+    },
+    "encl1": {
+      "type": "text",
+      "label": "Enclosures",
+      "page": 1,
+      "box": {
+        "left": 35.4,
+        "top": 430.6,
+        "width": 277.9,
+        "height": 74.1
+      },
+      "multiline": true
+    },
+    "caseCat": {
+      "type": "text",
+      "label": "Case Character/Category",
+      "page": 1,
+      "box": {
+        "left": 315.2,
+        "top": 428.7,
+        "width": 261.4,
+        "height": 17.1
+      }
+    },
+    "period1": {
+      "type": "text",
+      "label": "Period covered",
+      "page": 1,
+      "box": {
+        "left": 315.2,
+        "top": 399.6,
+        "width": 261.4,
+        "height": 17.1
+      }
+    },
+    "status1": {
+      "type": "text",
+      "label": "Status",
+      "page": 1,
+      "box": {
+        "left": 315.2,
+        "top": 373.6,
+        "width": 261.4,
+        "height": 17.1
+      }
+    },
+    "synop1": {
+      "type": "text",
+      "label": "Synopsis",
+      "page": 1,
+      "box": {
+        "left": 35.2,
+        "top": 348.0,
+        "width": 540.8,
+        "height": 249.6
+      },
+      "multiline": true
+    },
+    "sigRepBy": {
+      "type": "text",
+      "label": "Signature. Reported by.",
+      "page": 1,
+      "box": {
+        "left": 34.8,
+        "top": 76.2,
+        "width": 284.2,
+        "height": 17.1
+      }
+    },
+    "sigAppBy": {
+      "type": "text",
+      "label": "Signature. Approved by.",
+      "page": 1,
+      "box": {
+        "left": 320.3,
+        "top": 76.2,
+        "width": 257.6,
+        "height": 17.1
+      }
+    }
+  }
+}

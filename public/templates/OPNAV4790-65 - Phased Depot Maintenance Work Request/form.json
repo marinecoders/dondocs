@@ -1,0 +1,415 @@
+{
+  "id": "opnav479065",
+  "label": "OPNAV4790-65 - Phased Depot Maintenance Work Request",
+  "directory": "OPNAV4790-65 - Phased Depot Maintenance Work Request",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "reportingCust",
+        "acftModel",
+        "bureauNum",
+        "schedInductDate",
+        "period",
+        "extension",
+        "months",
+        "hours",
+        "totalCatapults",
+        "catapultsThisPeriod",
+        "catapultsThisPeriod2",
+        "months2",
+        "hours2",
+        "enginePositionFill",
+        "modelFill",
+        "serialNumberFill",
+        "hoursSinceNewFill",
+        "hoursSinceOverhaulFill",
+        "techDirIncorpFill1",
+        "techDirIncorpFill2",
+        "techDirIncorpFill3",
+        "techDirIncorpFill4",
+        "techDirNotIncorpFill1",
+        "techDirNotIncorpFill2",
+        "techDirNotIncorpFill3",
+        "techDirNotIncorpFill4",
+        "itemNumberFill",
+        "discrepancyFill",
+        "remarksFill",
+        "signatureRptOff",
+        "schedInductDate2",
+        "autovon",
+        "commercial"
+      ]
+    }
+  ],
+  "fields": {
+    "reportingCust": {
+      "type": "text",
+      "label": "A. REPORTING CUSTODIAN",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 715.5,
+        "width": 201.4,
+        "height": 13.4
+      }
+    },
+    "acftModel": {
+      "type": "text",
+      "label": "B. AIRCRAFT MODEL",
+      "page": 1,
+      "box": {
+        "left": 245.9,
+        "top": 715.5,
+        "width": 169.9,
+        "height": 13.4
+      }
+    },
+    "bureauNum": {
+      "type": "text",
+      "label": "C. BUREAU NUMBER",
+      "page": 1,
+      "box": {
+        "left": 421.4,
+        "top": 713.9,
+        "width": 151.8,
+        "height": 11.8
+      }
+    },
+    "schedInductDate": {
+      "type": "text",
+      "label": "D. SCHEDULED INDUCTION DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 684.0,
+        "width": 133.8,
+        "height": 13.4
+      }
+    },
+    "period": {
+      "type": "text",
+      "label": "E. FID/PED",
+      "page": 1,
+      "box": {
+        "left": 178.4,
+        "top": 684.0,
+        "width": 97.8,
+        "height": 13.4
+      }
+    },
+    "extension": {
+      "type": "text",
+      "label": "F. EXTENSION",
+      "page": 1,
+      "box": {
+        "left": 281.9,
+        "top": 684.0,
+        "width": 133.8,
+        "height": 13.4
+      }
+    },
+    "months": {
+      "type": "text",
+      "label": "MONTHS",
+      "page": 1,
+      "box": {
+        "left": 459.5,
+        "top": 683.0,
+        "width": 37.2,
+        "height": 12.3
+      }
+    },
+    "hours": {
+      "type": "text",
+      "label": "HOURS",
+      "page": 1,
+      "box": {
+        "left": 537.5,
+        "top": 683.0,
+        "width": 35.8,
+        "height": 12.3
+      }
+    },
+    "totalCatapults": {
+      "type": "text",
+      "label": "HOURS",
+      "page": 1,
+      "box": {
+        "left": 178.4,
+        "top": 652.5,
+        "width": 97.8,
+        "height": 13.4
+      }
+    },
+    "catapultsThisPeriod": {
+      "type": "text",
+      "label": "HOURS",
+      "page": 1,
+      "box": {
+        "left": 281.9,
+        "top": 652.5,
+        "width": 133.8,
+        "height": 13.4
+      }
+    },
+    "catapultsThisPeriod2": {
+      "type": "text",
+      "label": "HOURS",
+      "page": 1,
+      "box": {
+        "left": 421.4,
+        "top": 652.5,
+        "width": 151.9,
+        "height": 13.4
+      }
+    },
+    "months2": {
+      "type": "text",
+      "label": "MONTHS",
+      "page": 1,
+      "box": {
+        "left": 77.0,
+        "top": 651.4,
+        "width": 28.2,
+        "height": 12.3
+      }
+    },
+    "hours2": {
+      "type": "text",
+      "label": "HOURS",
+      "page": 1,
+      "box": {
+        "left": 145.9,
+        "top": 651.4,
+        "width": 26.8,
+        "height": 12.3
+      }
+    },
+    "enginePositionFill": {
+      "type": "text",
+      "label": "ENGINE POSITION",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 590.2,
+        "width": 115.8,
+        "height": 19.5
+      }
+    },
+    "modelFill": {
+      "type": "text",
+      "label": "MODEL",
+      "page": 1,
+      "box": {
+        "left": 160.4,
+        "top": 590.2,
+        "width": 88.8,
+        "height": 19.5
+      }
+    },
+    "serialNumberFill": {
+      "type": "text",
+      "label": "SERIAL NUMBER",
+      "page": 1,
+      "box": {
+        "left": 254.9,
+        "top": 590.2,
+        "width": 102.3,
+        "height": 19.5
+      }
+    },
+    "hoursSinceNewFill": {
+      "type": "text",
+      "label": "HOURS SINCE NEW",
+      "page": 1,
+      "box": {
+        "left": 362.9,
+        "top": 590.2,
+        "width": 102.3,
+        "height": 19.5
+      }
+    },
+    "hoursSinceOverhaulFill": {
+      "type": "text",
+      "label": "HOURS SINCE OVERHAUL",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 590.2,
+        "width": 102.3,
+        "height": 19.5
+      }
+    },
+    "techDirIncorpFill1": {
+      "type": "text",
+      "label": "ENGINE POSITION",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 547.0,
+        "width": 129.3,
+        "height": 19.5
+      }
+    },
+    "techDirIncorpFill2": {
+      "type": "text",
+      "label": "M. TECHNICAL DIRECTIVES",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 547.0,
+        "width": 129.3,
+        "height": 19.5
+      }
+    },
+    "techDirIncorpFill3": {
+      "type": "text",
+      "label": "DIRECTIVES INCORPORATED (LIST)",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 547.0,
+        "width": 129.3,
+        "height": 19.5
+      }
+    },
+    "techDirIncorpFill4": {
+      "type": "text",
+      "label": "NEW HOURS SINCE OVERHAUL",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 547.0,
+        "width": 129.3,
+        "height": 19.5
+      }
+    },
+    "techDirNotIncorpFill1": {
+      "type": "text",
+      "label": "DIRECTIVE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 467.3,
+        "width": 129.3,
+        "height": 19.5
+      }
+    },
+    "techDirNotIncorpFill2": {
+      "type": "text",
+      "label": "REASON",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 467.3,
+        "width": 129.3,
+        "height": 19.5
+      }
+    },
+    "techDirNotIncorpFill3": {
+      "type": "text",
+      "label": "DIRECTIVE",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 467.3,
+        "width": 129.3,
+        "height": 19.5
+      }
+    },
+    "techDirNotIncorpFill4": {
+      "type": "text",
+      "label": "REASON",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 467.3,
+        "width": 129.3,
+        "height": 19.5
+      }
+    },
+    "itemNumberFill": {
+      "type": "text",
+      "label": "ITEM NUMBER",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 348.0,
+        "width": 174.4,
+        "height": 19.5
+      }
+    },
+    "discrepancyFill": {
+      "type": "text",
+      "label": "DISCREPANCY",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 348.0,
+        "width": 174.4,
+        "height": 19.5
+      }
+    },
+    "remarksFill": {
+      "type": "text",
+      "label": "REMARKS",
+      "page": 1,
+      "box": {
+        "left": 398.9,
+        "top": 348.0,
+        "width": 174.4,
+        "height": 19.5
+      }
+    },
+    "signatureRptOff": {
+      "type": "text",
+      "label": "P. SIGNATURE (REPORTING OFFICER)",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 301.3,
+        "width": 223.9,
+        "height": 33.7
+      },
+      "multiline": true
+    },
+    "schedInductDate2": {
+      "type": "text",
+      "label": "R. DATE (DAY/MONTH/YEAR)",
+      "page": 1,
+      "box": {
+        "left": 448.4,
+        "top": 301.3,
+        "width": 124.8,
+        "height": 33.7
+      },
+      "multiline": true
+    },
+    "autovon": {
+      "type": "text",
+      "label": "DSN",
+      "page": 1,
+      "box": {
+        "left": 327.6,
+        "top": 298.0,
+        "width": 115.2,
+        "height": 12.3
+      }
+    },
+    "commercial": {
+      "type": "text",
+      "label": "COMMERCIAL",
+      "page": 1,
+      "box": {
+        "left": 327.6,
+        "top": 280.0,
+        "width": 115.2,
+        "height": 12.3
+      }
+    }
+  }
+}

@@ -1,0 +1,837 @@
+{
+  "id": "opnav13063",
+  "label": "OPNAV1306-3 - Command Senior Enlisted Leader Assignment Preference",
+  "directory": "OPNAV1306-3 - Command Senior Enlisted Leader Assignment Preference",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "curCMD",
+        "geo1",
+        "geo2",
+        "geo3",
+        "typImp",
+        "typ1",
+        "typ2",
+        "typ3",
+        "geoImp",
+        "asgLim",
+        "adsd",
+        "sc",
+        "curCMD2",
+        "rptDte",
+        "typ12",
+        "typ13",
+        "typ14",
+        "typ15",
+        "typ16",
+        "typ17",
+        "typ18",
+        "typ19",
+        "typ110",
+        "typ111",
+        "typ112",
+        "typ113",
+        "typ114",
+        "typ115",
+        "typ116",
+        "typ117",
+        "typ118",
+        "typ119",
+        "typ120",
+        "typ121",
+        "typ122",
+        "typ123",
+        "typ124",
+        "typ125",
+        "typ126",
+        "typ127",
+        "typ128",
+        "typ129",
+        "typ130",
+        "typ131",
+        "typ132",
+        "typ133",
+        "typ134",
+        "typ135",
+        "typ136",
+        "typ137",
+        "typ138",
+        "typ139",
+        "typ140",
+        "typ141",
+        "typ142",
+        "typ143",
+        "typ144",
+        "typ145",
+        "typ146",
+        "typ147",
+        "typ148",
+        "typ149",
+        "typ150",
+        "typ151",
+        "prntNme",
+        "dateField1",
+        "signatureField1"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "1. Full Name (Last, First Middle)",
+      "page": 1,
+      "box": {
+        "left": 155.6,
+        "top": 729.9,
+        "width": 417.6,
+        "height": 14.9
+      }
+    },
+    "curCMD": {
+      "type": "text",
+      "label": "2. Current Command Name",
+      "page": 1,
+      "box": {
+        "left": 155.6,
+        "top": 715.1,
+        "width": 417.6,
+        "height": 14.9
+      }
+    },
+    "geo1": {
+      "type": "text",
+      "label": "3. Geographic Location #1",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 687.3,
+        "width": 173.5,
+        "height": 12.2
+      }
+    },
+    "geo2": {
+      "type": "text",
+      "label": "4. Geographic Location #2",
+      "page": 1,
+      "box": {
+        "left": 218.6,
+        "top": 687.3,
+        "width": 173.5,
+        "height": 12.2
+      }
+    },
+    "geo3": {
+      "type": "text",
+      "label": "5. Geographic Location #3",
+      "page": 1,
+      "box": {
+        "left": 397.8,
+        "top": 687.3,
+        "width": 175.9,
+        "height": 12.2
+      }
+    },
+    "typImp": {
+      "type": "checkbox",
+      "label": "6. Check this block if Geographic Location is most important",
+      "page": 1,
+      "box": {
+        "left": 270.0,
+        "top": 668.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "typ1": {
+      "type": "text",
+      "label": "7. Type Duty #1",
+      "page": 1,
+      "box": {
+        "left": 39.4,
+        "top": 643.6,
+        "width": 173.5,
+        "height": 12.2
+      }
+    },
+    "typ2": {
+      "type": "text",
+      "label": "8. Type Duty #2",
+      "page": 1,
+      "box": {
+        "left": 218.6,
+        "top": 643.6,
+        "width": 173.5,
+        "height": 12.2
+      }
+    },
+    "typ3": {
+      "type": "text",
+      "label": "10. Type Duty #3",
+      "page": 1,
+      "box": {
+        "left": 397.8,
+        "top": 643.6,
+        "width": 175.9,
+        "height": 12.2
+      }
+    },
+    "geoImp": {
+      "type": "checkbox",
+      "label": "11. Check this block if Type Duty is most important",
+      "page": 1,
+      "box": {
+        "left": 270.0,
+        "top": 625.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "asgLim": {
+      "type": "text",
+      "label": "Location/Other Policy Considerations)",
+      "page": 1,
+      "box": {
+        "left": 204.1,
+        "top": 610.7,
+        "width": 369.6,
+        "height": 25.3
+      }
+    },
+    "adsd": {
+      "type": "text",
+      "label": "ADSD",
+      "page": 1,
+      "box": {
+        "left": 89.3,
+        "top": 579.7,
+        "width": 51.0,
+        "height": 29.0
+      }
+    },
+    "sc": {
+      "type": "text",
+      "label": "Prior",
+      "page": 1,
+      "box": {
+        "left": 195.5,
+        "top": 579.7,
+        "width": 51.0,
+        "height": 29.0
+      }
+    },
+    "curCMD2": {
+      "type": "text",
+      "label": "Security",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 579.7,
+        "width": 96.2,
+        "height": 29.0
+      }
+    },
+    "rptDte": {
+      "type": "text",
+      "label": "Date Reported to",
+      "page": 1,
+      "box": {
+        "left": 486.7,
+        "top": 579.7,
+        "width": 86.0,
+        "height": 29.0
+      }
+    },
+    "typ12": {
+      "type": "text",
+      "label": "Date(s)",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 527.7,
+        "width": 130.3,
+        "height": 15.4
+      }
+    },
+    "typ13": {
+      "type": "text",
+      "label": "Assignment (Command Name, Position(s) Held",
+      "page": 1,
+      "box": {
+        "left": 175.8,
+        "top": 527.7,
+        "width": 396.9,
+        "height": 15.4
+      }
+    },
+    "typ14": {
+      "type": "text",
+      "label": "Date(s)",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 512.3,
+        "width": 130.3,
+        "height": 15.4
+      }
+    },
+    "typ15": {
+      "type": "text",
+      "label": "Assignment (Command Name, Position(s) Held",
+      "page": 1,
+      "box": {
+        "left": 175.8,
+        "top": 512.3,
+        "width": 396.9,
+        "height": 15.4
+      }
+    },
+    "typ16": {
+      "type": "text",
+      "label": "Date(s)",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 497.0,
+        "width": 130.3,
+        "height": 15.4
+      }
+    },
+    "typ17": {
+      "type": "text",
+      "label": "Assignment (Command Name, Position(s) Held",
+      "page": 1,
+      "box": {
+        "left": 175.8,
+        "top": 497.0,
+        "width": 396.9,
+        "height": 15.4
+      }
+    },
+    "typ18": {
+      "type": "text",
+      "label": "Date(s)",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 481.6,
+        "width": 130.3,
+        "height": 15.4
+      }
+    },
+    "typ19": {
+      "type": "text",
+      "label": "Assignment (Command Name, Position(s) Held",
+      "page": 1,
+      "box": {
+        "left": 175.8,
+        "top": 481.6,
+        "width": 396.9,
+        "height": 15.4
+      }
+    },
+    "typ110": {
+      "type": "text",
+      "label": "Date(s)",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 466.2,
+        "width": 130.3,
+        "height": 15.4
+      }
+    },
+    "typ111": {
+      "type": "text",
+      "label": "Assignment (Command Name, Position(s) Held",
+      "page": 1,
+      "box": {
+        "left": 175.8,
+        "top": 466.2,
+        "width": 396.9,
+        "height": 15.4
+      }
+    },
+    "typ112": {
+      "type": "text",
+      "label": "Date(s)",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 450.9,
+        "width": 130.3,
+        "height": 15.4
+      }
+    },
+    "typ113": {
+      "type": "text",
+      "label": "Assignment (Command Name, Position(s) Held",
+      "page": 1,
+      "box": {
+        "left": 175.8,
+        "top": 450.9,
+        "width": 396.9,
+        "height": 15.4
+      }
+    },
+    "typ114": {
+      "type": "text",
+      "label": "Date(s)",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 435.5,
+        "width": 130.3,
+        "height": 15.4
+      }
+    },
+    "typ115": {
+      "type": "text",
+      "label": "Assignment (Command Name, Position(s) Held",
+      "page": 1,
+      "box": {
+        "left": 175.8,
+        "top": 435.5,
+        "width": 396.9,
+        "height": 15.4
+      }
+    },
+    "typ116": {
+      "type": "text",
+      "label": "Date(s)",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 420.2,
+        "width": 130.3,
+        "height": 15.4
+      }
+    },
+    "typ117": {
+      "type": "text",
+      "label": "Assignment (Command Name, Position(s) Held",
+      "page": 1,
+      "box": {
+        "left": 175.8,
+        "top": 420.2,
+        "width": 396.9,
+        "height": 15.4
+      }
+    },
+    "typ118": {
+      "type": "text",
+      "label": "Date(s)",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 404.8,
+        "width": 130.3,
+        "height": 15.4
+      }
+    },
+    "typ119": {
+      "type": "text",
+      "label": "Assignment (Command Name, Position(s) Held",
+      "page": 1,
+      "box": {
+        "left": 175.8,
+        "top": 404.8,
+        "width": 396.9,
+        "height": 15.4
+      }
+    },
+    "typ120": {
+      "type": "text",
+      "label": "Date(s)",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 389.4,
+        "width": 130.3,
+        "height": 15.4
+      }
+    },
+    "typ121": {
+      "type": "text",
+      "label": "Assignment (Command Name, Position(s) Held",
+      "page": 1,
+      "box": {
+        "left": 175.8,
+        "top": 389.4,
+        "width": 396.9,
+        "height": 15.4
+      }
+    },
+    "typ122": {
+      "type": "text",
+      "label": "Date(s)",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 374.1,
+        "width": 130.3,
+        "height": 15.4
+      }
+    },
+    "typ123": {
+      "type": "text",
+      "label": "Assignment (Command Name, Position(s) Held",
+      "page": 1,
+      "box": {
+        "left": 175.8,
+        "top": 374.1,
+        "width": 396.9,
+        "height": 15.4
+      }
+    },
+    "typ124": {
+      "type": "text",
+      "label": "Date(s)",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 358.7,
+        "width": 130.3,
+        "height": 15.4
+      }
+    },
+    "typ125": {
+      "type": "text",
+      "label": "Assignment (Command Name, Position(s) Held",
+      "page": 1,
+      "box": {
+        "left": 175.8,
+        "top": 358.7,
+        "width": 396.9,
+        "height": 15.4
+      }
+    },
+    "typ126": {
+      "type": "text",
+      "label": "Date(s)",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 343.4,
+        "width": 130.3,
+        "height": 15.4
+      }
+    },
+    "typ127": {
+      "type": "text",
+      "label": "Assignment (Command Name, Position(s) Held",
+      "page": 1,
+      "box": {
+        "left": 175.8,
+        "top": 343.4,
+        "width": 396.9,
+        "height": 15.4
+      }
+    },
+    "typ128": {
+      "type": "text",
+      "label": "Date(s)",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 328.0,
+        "width": 130.3,
+        "height": 15.4
+      }
+    },
+    "typ129": {
+      "type": "text",
+      "label": "Assignment (Command Name, Position(s) Held",
+      "page": 1,
+      "box": {
+        "left": 175.8,
+        "top": 328.0,
+        "width": 396.9,
+        "height": 15.4
+      }
+    },
+    "typ130": {
+      "type": "text",
+      "label": "Date(s)",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 312.7,
+        "width": 130.3,
+        "height": 15.4
+      }
+    },
+    "typ131": {
+      "type": "text",
+      "label": "Assignment (Command Name, Position(s) Held",
+      "page": 1,
+      "box": {
+        "left": 175.8,
+        "top": 312.7,
+        "width": 396.9,
+        "height": 15.4
+      }
+    },
+    "typ132": {
+      "type": "text",
+      "label": "Date(s)",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 297.3,
+        "width": 130.3,
+        "height": 15.4
+      }
+    },
+    "typ133": {
+      "type": "text",
+      "label": "Assignment (Command Name, Position(s) Held",
+      "page": 1,
+      "box": {
+        "left": 175.8,
+        "top": 297.3,
+        "width": 396.9,
+        "height": 15.4
+      }
+    },
+    "typ134": {
+      "type": "text",
+      "label": "Date(s)",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 281.9,
+        "width": 130.3,
+        "height": 15.4
+      }
+    },
+    "typ135": {
+      "type": "text",
+      "label": "Assignment (Command Name, Position(s) Held",
+      "page": 1,
+      "box": {
+        "left": 175.8,
+        "top": 281.9,
+        "width": 396.9,
+        "height": 15.4
+      }
+    },
+    "typ136": {
+      "type": "text",
+      "label": "18. Education (Keystone, NSLS, ELS, Degrees,",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 249.5,
+        "width": 130.3,
+        "height": 15.4
+      }
+    },
+    "typ137": {
+      "type": "text",
+      "label": "Degrees, Professional Certifications)",
+      "page": 1,
+      "box": {
+        "left": 175.8,
+        "top": 249.5,
+        "width": 396.9,
+        "height": 15.4
+      }
+    },
+    "typ138": {
+      "type": "text",
+      "label": "18. Education (Keystone, NSLS, ELS, Degrees,",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 234.2,
+        "width": 130.3,
+        "height": 15.4
+      }
+    },
+    "typ139": {
+      "type": "text",
+      "label": "Degrees, Professional Certifications)",
+      "page": 1,
+      "box": {
+        "left": 175.8,
+        "top": 234.2,
+        "width": 396.9,
+        "height": 15.4
+      }
+    },
+    "typ140": {
+      "type": "text",
+      "label": "18. Education (Keystone, NSLS, ELS, Degrees,",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 218.8,
+        "width": 130.3,
+        "height": 15.4
+      }
+    },
+    "typ141": {
+      "type": "text",
+      "label": "Degrees, Professional Certifications)",
+      "page": 1,
+      "box": {
+        "left": 175.8,
+        "top": 218.8,
+        "width": 396.9,
+        "height": 15.4
+      }
+    },
+    "typ142": {
+      "type": "text",
+      "label": "18. Education (Keystone, NSLS, ELS, Degrees,",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 203.4,
+        "width": 130.3,
+        "height": 15.4
+      }
+    },
+    "typ143": {
+      "type": "text",
+      "label": "Degrees, Professional Certifications)",
+      "page": 1,
+      "box": {
+        "left": 175.8,
+        "top": 203.4,
+        "width": 396.9,
+        "height": 15.4
+      }
+    },
+    "typ144": {
+      "type": "text",
+      "label": "18. Education (Keystone, NSLS, ELS, Degrees,",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 188.1,
+        "width": 130.3,
+        "height": 15.4
+      }
+    },
+    "typ145": {
+      "type": "text",
+      "label": "Degrees, Professional Certifications)",
+      "page": 1,
+      "box": {
+        "left": 175.8,
+        "top": 188.1,
+        "width": 396.9,
+        "height": 15.4
+      }
+    },
+    "typ146": {
+      "type": "text",
+      "label": "18. Education (Keystone, NSLS, ELS, Degrees,",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 172.7,
+        "width": 130.3,
+        "height": 15.4
+      }
+    },
+    "typ147": {
+      "type": "text",
+      "label": "Degrees, Professional Certifications)",
+      "page": 1,
+      "box": {
+        "left": 175.8,
+        "top": 172.7,
+        "width": 396.9,
+        "height": 15.4
+      }
+    },
+    "typ148": {
+      "type": "text",
+      "label": "18. Education (Keystone, NSLS, ELS, Degrees,",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 157.4,
+        "width": 130.3,
+        "height": 15.4
+      }
+    },
+    "typ149": {
+      "type": "text",
+      "label": "Degrees, Professional Certifications)",
+      "page": 1,
+      "box": {
+        "left": 175.8,
+        "top": 157.4,
+        "width": 396.9,
+        "height": 15.4
+      }
+    },
+    "typ150": {
+      "type": "text",
+      "label": "18. Education (Keystone, NSLS, ELS, Degrees,",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 142.0,
+        "width": 130.3,
+        "height": 15.4
+      }
+    },
+    "typ151": {
+      "type": "text",
+      "label": "Degrees, Professional Certifications)",
+      "page": 1,
+      "box": {
+        "left": 175.8,
+        "top": 142.0,
+        "width": 396.9,
+        "height": 15.4
+      }
+    },
+    "prntNme": {
+      "type": "text",
+      "label": "Member&apos;s Printed Name",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 71.2,
+        "width": 218.8,
+        "height": 32.8
+      },
+      "multiline": true
+    },
+    "dateField1": {
+      "type": "text",
+      "label": "Signature Date",
+      "page": 1,
+      "box": {
+        "left": 264.2,
+        "top": 71.2,
+        "width": 84.0,
+        "height": 35.6
+      },
+      "multiline": true
+    },
+    "signatureField1": {
+      "type": "text",
+      "label": "Member&apos;s Signature",
+      "page": 1,
+      "box": {
+        "left": 354.2,
+        "top": 71.2,
+        "width": 218.8,
+        "height": 35.6
+      },
+      "multiline": true
+    }
+  }
+}

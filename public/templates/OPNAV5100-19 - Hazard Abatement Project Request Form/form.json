@@ -1,0 +1,322 @@
+{
+  "id": "opnav510019",
+  "label": "OPNAV5100-19 - Hazard Abatement Project Request Form",
+  "directory": "OPNAV5100-19 - Hazard Abatement Project Request Form",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "datesubmitted1",
+        "address1",
+        "activity1",
+        "major1",
+        "project1",
+        "code1",
+        "code12",
+        "assessment1",
+        "assessment2",
+        "number1",
+        "estimated1",
+        "problem1",
+        "proposed1",
+        "applicable1",
+        "citation1",
+        "interim1",
+        "navosh1",
+        "email",
+        "facility1",
+        "email2",
+        "climant1",
+        "emai3"
+      ]
+    }
+  ],
+  "fields": {
+    "datesubmitted1": {
+      "type": "text",
+      "label": "Enter the date submitted using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 315.8,
+        "top": 685.7,
+        "width": 253.8,
+        "height": 13.1
+      }
+    },
+    "address1": {
+      "type": "text",
+      "label": "Enter the activity name and address.",
+      "page": 1,
+      "box": {
+        "left": 43.7,
+        "top": 685.0,
+        "width": 265.7,
+        "height": 76.3
+      },
+      "multiline": true
+    },
+    "activity1": {
+      "type": "text",
+      "label": "Enter the activity UIC.",
+      "page": 1,
+      "box": {
+        "left": 315.8,
+        "top": 653.4,
+        "width": 253.8,
+        "height": 13.1
+      }
+    },
+    "major1": {
+      "type": "text",
+      "label": "Enter the major claimant.",
+      "page": 1,
+      "box": {
+        "left": 315.8,
+        "top": 621.8,
+        "width": 253.8,
+        "height": 13.1
+      }
+    },
+    "project1": {
+      "type": "text",
+      "label": "Enter the porject title describe action to abate or eliminate the hazard.",
+      "page": 1,
+      "box": {
+        "left": 43.6,
+        "top": 563.1,
+        "width": 524.7,
+        "height": 14.5
+      }
+    },
+    "code1": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 441.9,
+        "top": 543.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_code1_0"
+    },
+    "code12": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 506.2,
+        "top": 543.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_code1_0"
+    },
+    "assessment1": {
+      "type": "text",
+      "label": "Enter the risk assessment code.",
+      "page": 1,
+      "box": {
+        "left": 346.5,
+        "top": 534.5,
+        "width": 21.0,
+        "height": 12.6
+      }
+    },
+    "assessment2": {
+      "type": "text",
+      "label": "Enter the risk assessment code.",
+      "page": 1,
+      "box": {
+        "left": 374.2,
+        "top": 534.5,
+        "width": 21.0,
+        "height": 12.6
+      }
+    },
+    "number1": {
+      "type": "text",
+      "label": "Enter the project number.",
+      "page": 1,
+      "box": {
+        "left": 43.6,
+        "top": 529.2,
+        "width": 99.0,
+        "height": 14.5
+      }
+    },
+    "estimated1": {
+      "type": "text",
+      "label": "Enter the estimated cost.",
+      "page": 1,
+      "box": {
+        "left": 149.5,
+        "top": 529.2,
+        "width": 111.7,
+        "height": 14.5
+      }
+    },
+    "problem1": {
+      "type": "text",
+      "label": "Enter the problem and the number of people regularly exposed to the hazard.",
+      "page": 1,
+      "box": {
+        "left": 43.6,
+        "top": 494.9,
+        "width": 524.7,
+        "height": 67.6
+      },
+      "multiline": true
+    },
+    "proposed1": {
+      "type": "text",
+      "label": "Enter the proposed corrective action.",
+      "page": 1,
+      "box": {
+        "left": 43.6,
+        "top": 407.9,
+        "width": 524.7,
+        "height": 64.5
+      },
+      "multiline": true
+    },
+    "applicable1": {
+      "type": "text",
+      "label": "Enter the applicable standards or regulations.",
+      "page": 1,
+      "box": {
+        "left": 43.7,
+        "top": 323.6,
+        "width": 524.7,
+        "height": 33.0
+      },
+      "multiline": true
+    },
+    "citation1": {
+      "type": "text",
+      "label": "Enter the citation (OSHA, state agencies, NOIU, ECT).",
+      "page": 1,
+      "box": {
+        "left": 43.7,
+        "top": 271.3,
+        "width": 524.7,
+        "height": 33.0
+      },
+      "multiline": true
+    },
+    "interim1": {
+      "type": "text",
+      "label": "Enter the interim controls.",
+      "page": 1,
+      "box": {
+        "left": 43.7,
+        "top": 218.9,
+        "width": 524.7,
+        "height": 39.9
+      },
+      "multiline": true
+    },
+    "navosh1": {
+      "type": "text",
+      "label": "Enter the point of contact for NAVOSH.",
+      "page": 1,
+      "box": {
+        "left": 95.4,
+        "top": 141.1,
+        "width": 126.1,
+        "height": 15.3
+      }
+    },
+    "email": {
+      "type": "text",
+      "label": "Enter the e-mail address.",
+      "page": 1,
+      "box": {
+        "left": 475.4,
+        "top": 141.1,
+        "width": 93.0,
+        "height": 15.3
+      }
+    },
+    "facility1": {
+      "type": "text",
+      "label": "Enter the point of contact for facilities.",
+      "page": 1,
+      "box": {
+        "left": 95.4,
+        "top": 124.1,
+        "width": 126.1,
+        "height": 16.0
+      }
+    },
+    "email2": {
+      "type": "text",
+      "label": "Enter the e-mail address.",
+      "page": 1,
+      "box": {
+        "left": 475.4,
+        "top": 123.4,
+        "width": 93.0,
+        "height": 15.3
+      }
+    },
+    "climant1": {
+      "type": "text",
+      "label": "Enter the point of contact for claimant.",
+      "page": 1,
+      "box": {
+        "left": 95.4,
+        "top": 105.7,
+        "width": 126.1,
+        "height": 15.6
+      }
+    },
+    "emai3": {
+      "type": "text",
+      "label": "Enter the e-mail address.",
+      "page": 1,
+      "box": {
+        "left": 475.4,
+        "top": 105.3,
+        "width": 93.0,
+        "height": 15.3
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 17.9,
+      "editor": "grid",
+      "columns": {
+        "telephone": {
+          "type": "text",
+          "label": "Enter the telephone number for point of contact (NAVOSH).",
+          "page": 1,
+          "box": {
+            "left": 243.7,
+            "top": 141.1,
+            "width": 120.7,
+            "height": 15.3
+          }
+        },
+        "fax": {
+          "type": "text",
+          "label": "Enter the fax number for point of contact (NAVOSH).",
+          "page": 1,
+          "box": {
+            "left": 378.4,
+            "top": 141.1,
+            "width": 91.4,
+            "height": 15.3
+          }
+        }
+      }
+    }
+  }
+}

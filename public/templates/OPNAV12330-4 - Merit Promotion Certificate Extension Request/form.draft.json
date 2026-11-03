@@ -1,0 +1,231 @@
+{
+  "id": "opnav123304",
+  "label": "OPNAV12330-4 - Merit Promotion Certificate Extension Request",
+  "directory": "OPNAV12330-4 - Merit Promotion Certificate Extension Request",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "reqDate",
+        "rPANbr",
+        "title",
+        "series",
+        "grade",
+        "justification",
+        "mgmtReq",
+        "intlEff",
+        "selDet",
+        "hOPrntNme",
+        "hOSigDate",
+        "hOSig",
+        "certIss",
+        "certExp",
+        "depDCHRPrntNme",
+        "depDCHRSigDate",
+        "depDCHRSig"
+      ]
+    }
+  ],
+  "fields": {
+    "reqDate": {
+      "type": "text",
+      "label": "1. REQUEST DATE",
+      "page": 1,
+      "box": {
+        "left": 486.6,
+        "top": 742.4,
+        "width": 88.3,
+        "height": 26.9
+      }
+    },
+    "rPANbr": {
+      "type": "text",
+      "label": "2. RPA NUMBER",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 702.5,
+        "width": 94.0,
+        "height": 23.0
+      }
+    },
+    "title": {
+      "type": "text",
+      "label": "3. TITLE",
+      "page": 1,
+      "box": {
+        "left": 140.1,
+        "top": 702.5,
+        "width": 242.5,
+        "height": 23.0
+      }
+    },
+    "series": {
+      "type": "text",
+      "label": "4. SERIES",
+      "page": 1,
+      "box": {
+        "left": 387.6,
+        "top": 702.5,
+        "width": 125.5,
+        "height": 23.0
+      }
+    },
+    "grade": {
+      "type": "text",
+      "label": "5. GRADE",
+      "page": 1,
+      "box": {
+        "left": 518.1,
+        "top": 702.5,
+        "width": 58.0,
+        "height": 23.0
+      }
+    },
+    "justification": {
+      "type": "text",
+      "label": "6. JUSTIFICATION (Why is management requesting an extension)",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 666.5,
+        "width": 535.0,
+        "height": 113.0
+      },
+      "multiline": true
+    },
+    "mgmtReq": {
+      "type": "text",
+      "label": "Mgmt Req",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 540.5,
+        "width": 535.0,
+        "height": 113.0
+      },
+      "multiline": true
+    },
+    "intlEff": {
+      "type": "text",
+      "label": "Intl Eff",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 414.5,
+        "width": 535.0,
+        "height": 113.0
+      },
+      "multiline": true
+    },
+    "selDet": {
+      "type": "text",
+      "label": "Sel Det",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 288.5,
+        "width": 535.0,
+        "height": 113.0
+      },
+      "multiline": true
+    },
+    "hOPrntNme": {
+      "type": "text",
+      "label": "10. PRINTED NAME AND TITLE OF HIRING OFFICIAL",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 162.4,
+        "width": 211.0,
+        "height": 36.4
+      },
+      "multiline": true
+    },
+    "hOSigDate": {
+      "type": "text",
+      "label": "11. SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 257.1,
+        "top": 162.4,
+        "width": 107.5,
+        "height": 36.4
+      },
+      "multiline": true
+    },
+    "hOSig": {
+      "type": "text",
+      "label": "12. SIGNATURE OF HIRING OFFICIAL",
+      "page": 1,
+      "box": {
+        "left": 369.6,
+        "top": 162.4,
+        "width": 206.5,
+        "height": 36.4
+      },
+      "multiline": true
+    },
+    "certIss": {
+      "type": "text",
+      "label": "13. DATE CERTIFICATE ISSUED",
+      "page": 1,
+      "box": {
+        "left": 175.3,
+        "top": 125.9,
+        "width": 121.7,
+        "height": 22.7
+      }
+    },
+    "certExp": {
+      "type": "text",
+      "label": "14. CERTIFICATE EXPIRATION DATE",
+      "page": 1,
+      "box": {
+        "left": 450.6,
+        "top": 125.9,
+        "width": 125.5,
+        "height": 22.7
+      }
+    },
+    "depDCHRPrntNme": {
+      "type": "text",
+      "label": "15. PRINTED NAME DEPUTY DCHR",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 72.4,
+        "width": 211.0,
+        "height": 36.4
+      },
+      "multiline": true
+    },
+    "depDCHRSigDate": {
+      "type": "text",
+      "label": "16. SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 257.1,
+        "top": 72.4,
+        "width": 107.5,
+        "height": 36.4
+      },
+      "multiline": true
+    },
+    "depDCHRSig": {
+      "type": "text",
+      "label": "17. SIGNATURE OF DEPUTY DCHR",
+      "page": 1,
+      "box": {
+        "left": 369.6,
+        "top": 72.4,
+        "width": 206.5,
+        "height": 36.4
+      },
+      "multiline": true
+    }
+  }
+}

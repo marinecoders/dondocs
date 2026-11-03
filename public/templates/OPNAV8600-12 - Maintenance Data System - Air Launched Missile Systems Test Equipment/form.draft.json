@@ -1,0 +1,872 @@
+{
+  "id": "opnav860012",
+  "label": "OPNAV8600-12 - Maintenance Data System - Air Launched Missile Systems Test Equipment",
+  "directory": "OPNAV8600-12 - Maintenance Data System - Air Launched Missile Systems Test Equipment",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "recordCount",
+        "uic",
+        "date",
+        "ser",
+        "suf",
+        "equipDesgnation",
+        "partNumber",
+        "serialNumber",
+        "localUse",
+        "jobOrderNumber",
+        "workNumber",
+        "ownership",
+        "date1",
+        "timeField1",
+        "date2",
+        "timeField2",
+        "date3",
+        "timeField3",
+        "date4",
+        "timeField4",
+        "date5",
+        "timeField5",
+        "date6",
+        "timeField6",
+        "date7",
+        "timeField7",
+        "date8",
+        "timeField8",
+        "date9",
+        "timeField9",
+        "date10",
+        "timeField10",
+        "date11",
+        "timeField11",
+        "date12",
+        "timeField12",
+        "date13",
+        "timeField13",
+        "date14",
+        "timeField14",
+        "date15",
+        "timeField15",
+        "date16",
+        "timeField16",
+        "date17",
+        "timeField17",
+        "date18",
+        "timeField18",
+        "date19",
+        "timeField19",
+        "date20",
+        "timeField20",
+        "date21",
+        "timeField21"
+      ]
+    }
+  ],
+  "fields": {
+    "recordCount": {
+      "type": "text",
+      "label": "Enter the record count.",
+      "page": 1,
+      "box": {
+        "left": 621.0,
+        "top": 536.1,
+        "width": 113.2,
+        "height": 24.7
+      }
+    },
+    "uic": {
+      "type": "text",
+      "label": "Enter the UIC.",
+      "page": 1,
+      "box": {
+        "left": 57.7,
+        "top": 482.1,
+        "width": 35.2,
+        "height": 14.2
+      }
+    },
+    "date": {
+      "type": "text",
+      "label": "Enter the date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 97.5,
+        "top": 482.1,
+        "width": 113.1,
+        "height": 14.2
+      }
+    },
+    "ser": {
+      "type": "text",
+      "label": "Enter the SER.",
+      "page": 1,
+      "box": {
+        "left": 216.0,
+        "top": 482.1,
+        "width": 49.5,
+        "height": 14.2
+      }
+    },
+    "suf": {
+      "type": "text",
+      "label": "Enter the SUF.",
+      "page": 1,
+      "box": {
+        "left": 270.0,
+        "top": 482.1,
+        "width": 36.0,
+        "height": 14.2
+      }
+    },
+    "equipDesgnation": {
+      "type": "text",
+      "label": "Enter the equipment designation.",
+      "page": 1,
+      "box": {
+        "left": 311.0,
+        "top": 482.1,
+        "width": 142.7,
+        "height": 14.2
+      }
+    },
+    "partNumber": {
+      "type": "text",
+      "label": "Enter the part number.",
+      "page": 1,
+      "box": {
+        "left": 458.2,
+        "top": 482.1,
+        "width": 129.8,
+        "height": 14.2
+      }
+    },
+    "serialNumber": {
+      "type": "text",
+      "label": "Enter the serial number.",
+      "page": 1,
+      "box": {
+        "left": 593.6,
+        "top": 482.1,
+        "width": 139.9,
+        "height": 14.2
+      }
+    },
+    "localUse": {
+      "type": "text",
+      "label": "Enter the local use information.",
+      "page": 1,
+      "box": {
+        "left": 57.7,
+        "top": 455.1,
+        "width": 396.8,
+        "height": 14.2
+      }
+    },
+    "jobOrderNumber": {
+      "type": "text",
+      "label": "Enter the job order number.",
+      "page": 1,
+      "box": {
+        "left": 459.7,
+        "top": 455.1,
+        "width": 88.8,
+        "height": 14.2
+      }
+    },
+    "workNumber": {
+      "type": "text",
+      "label": "Enter the work number.",
+      "page": 1,
+      "box": {
+        "left": 552.5,
+        "top": 455.1,
+        "width": 88.8,
+        "height": 14.2
+      }
+    },
+    "ownership": {
+      "type": "text",
+      "label": "Enter the ownership.",
+      "page": 1,
+      "box": {
+        "left": 644.8,
+        "top": 455.1,
+        "width": 88.8,
+        "height": 14.2
+      }
+    },
+    "date1": {
+      "type": "text",
+      "label": "This is row 1 of 21.  Enter the date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 57.7,
+        "top": 398.2,
+        "width": 47.6,
+        "height": 11.7
+      }
+    },
+    "timeField1": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 108.6,
+        "top": 398.2,
+        "width": 43.6,
+        "height": 11.7
+      }
+    },
+    "date2": {
+      "type": "text",
+      "label": "This is row 2 of 21.  Enter the date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 57.7,
+        "top": 383.2,
+        "width": 47.6,
+        "height": 11.7
+      }
+    },
+    "timeField2": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 108.6,
+        "top": 383.2,
+        "width": 43.6,
+        "height": 11.7
+      }
+    },
+    "date3": {
+      "type": "text",
+      "label": "This is row 3 of 21.  Enter the date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 57.7,
+        "top": 368.9,
+        "width": 47.6,
+        "height": 11.7
+      }
+    },
+    "timeField3": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 108.6,
+        "top": 368.9,
+        "width": 43.6,
+        "height": 11.7
+      }
+    },
+    "date4": {
+      "type": "text",
+      "label": "This is row 4 of 21.  Enter the date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 57.7,
+        "top": 354.6,
+        "width": 47.6,
+        "height": 11.7
+      }
+    },
+    "timeField4": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 108.6,
+        "top": 354.6,
+        "width": 43.6,
+        "height": 11.7
+      }
+    },
+    "date5": {
+      "type": "text",
+      "label": "This is row 5 of 21.  Enter the date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 57.7,
+        "top": 339.6,
+        "width": 47.6,
+        "height": 11.7
+      }
+    },
+    "timeField5": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 108.6,
+        "top": 339.6,
+        "width": 43.6,
+        "height": 11.7
+      }
+    },
+    "date6": {
+      "type": "text",
+      "label": "This is row 6 of 21.  Enter the date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 57.7,
+        "top": 324.6,
+        "width": 47.6,
+        "height": 11.7
+      }
+    },
+    "timeField6": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 108.6,
+        "top": 324.6,
+        "width": 43.6,
+        "height": 11.7
+      }
+    },
+    "date7": {
+      "type": "text",
+      "label": "This is row 7 of 21.  Enter the date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 57.7,
+        "top": 310.6,
+        "width": 47.6,
+        "height": 11.7
+      }
+    },
+    "timeField7": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 108.6,
+        "top": 310.6,
+        "width": 43.6,
+        "height": 11.7
+      }
+    },
+    "date8": {
+      "type": "text",
+      "label": "This is row 8 of 21.  Enter the date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 57.7,
+        "top": 295.6,
+        "width": 47.6,
+        "height": 11.7
+      }
+    },
+    "timeField8": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 108.6,
+        "top": 295.6,
+        "width": 43.6,
+        "height": 11.7
+      }
+    },
+    "date9": {
+      "type": "text",
+      "label": "This is row 9 of 21.  Enter the date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 57.7,
+        "top": 280.9,
+        "width": 47.6,
+        "height": 11.7
+      }
+    },
+    "timeField9": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 108.6,
+        "top": 280.9,
+        "width": 43.6,
+        "height": 11.7
+      }
+    },
+    "date10": {
+      "type": "text",
+      "label": "This is row 10 of 21.  Enter the date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 57.7,
+        "top": 266.3,
+        "width": 47.6,
+        "height": 11.7
+      }
+    },
+    "timeField10": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 108.6,
+        "top": 266.3,
+        "width": 43.6,
+        "height": 11.7
+      }
+    },
+    "date11": {
+      "type": "text",
+      "label": "This is row 11 of 21.  Enter the date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 57.7,
+        "top": 251.7,
+        "width": 47.6,
+        "height": 11.7
+      }
+    },
+    "timeField11": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 108.6,
+        "top": 251.7,
+        "width": 43.6,
+        "height": 11.7
+      }
+    },
+    "date12": {
+      "type": "text",
+      "label": "This is row 12 of 21.  Enter the date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 57.7,
+        "top": 237.1,
+        "width": 47.6,
+        "height": 11.7
+      }
+    },
+    "timeField12": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 108.6,
+        "top": 237.1,
+        "width": 43.6,
+        "height": 11.7
+      }
+    },
+    "date13": {
+      "type": "text",
+      "label": "This is row 13 of 21.  Enter the date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 57.7,
+        "top": 222.4,
+        "width": 47.6,
+        "height": 11.7
+      }
+    },
+    "timeField13": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 108.6,
+        "top": 222.4,
+        "width": 43.6,
+        "height": 11.7
+      }
+    },
+    "date14": {
+      "type": "text",
+      "label": "This is row 14 of 21.  Enter the date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 57.7,
+        "top": 207.8,
+        "width": 47.6,
+        "height": 11.7
+      }
+    },
+    "timeField14": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 108.6,
+        "top": 207.8,
+        "width": 43.6,
+        "height": 11.7
+      }
+    },
+    "date15": {
+      "type": "text",
+      "label": "This is row 15 of 21.  Enter the date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 57.7,
+        "top": 193.2,
+        "width": 47.6,
+        "height": 11.7
+      }
+    },
+    "timeField15": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 108.6,
+        "top": 193.2,
+        "width": 43.6,
+        "height": 11.7
+      }
+    },
+    "date16": {
+      "type": "text",
+      "label": "This is row 16 of 21.  Enter the date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 57.7,
+        "top": 178.6,
+        "width": 47.6,
+        "height": 11.7
+      }
+    },
+    "timeField16": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 108.6,
+        "top": 178.6,
+        "width": 43.6,
+        "height": 11.7
+      }
+    },
+    "date17": {
+      "type": "text",
+      "label": "This is row 17 of 21.  Enter the date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 57.7,
+        "top": 164.0,
+        "width": 47.6,
+        "height": 11.7
+      }
+    },
+    "timeField17": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 108.6,
+        "top": 164.0,
+        "width": 43.6,
+        "height": 11.7
+      }
+    },
+    "date18": {
+      "type": "text",
+      "label": "This is row 18 of 21.  Enter the date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 57.7,
+        "top": 120.7,
+        "width": 47.6,
+        "height": 11.7
+      }
+    },
+    "timeField18": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 108.7,
+        "top": 120.7,
+        "width": 43.6,
+        "height": 11.7
+      }
+    },
+    "date19": {
+      "type": "text",
+      "label": "This is row 19 of 21.  Enter the date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 57.7,
+        "top": 106.0,
+        "width": 47.6,
+        "height": 11.7
+      }
+    },
+    "timeField19": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 108.7,
+        "top": 106.0,
+        "width": 43.6,
+        "height": 11.7
+      }
+    },
+    "date20": {
+      "type": "text",
+      "label": "This is row 20 of 21.  Enter the date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 57.7,
+        "top": 91.4,
+        "width": 47.6,
+        "height": 11.7
+      }
+    },
+    "timeField20": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 108.7,
+        "top": 91.4,
+        "width": 43.6,
+        "height": 11.7
+      }
+    },
+    "date21": {
+      "type": "text",
+      "label": "This is row 21 of 21.  Enter the date (YYYY MM DD).  ",
+      "page": 1,
+      "box": {
+        "left": 57.7,
+        "top": 76.8,
+        "width": 47.6,
+        "height": 11.7
+      }
+    },
+    "timeField21": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HHMM).  ",
+      "page": 1,
+      "box": {
+        "left": 108.7,
+        "top": 76.8,
+        "width": 43.6,
+        "height": 11.7
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 4,
+      "rowStride": 14.63,
+      "editor": "grid",
+      "columns": {
+        "narrative": {
+          "type": "text",
+          "label": "Enter the narrative.",
+          "page": 1,
+          "box": {
+            "left": 155.3,
+            "top": 120.7,
+            "width": 195.7,
+            "height": 11.7
+          }
+        },
+        "date": {
+          "type": "text",
+          "label": "Enter the date (YYYY MM DD).  ",
+          "page": 1,
+          "box": {
+            "left": 353.9,
+            "top": 120.7,
+            "width": 66.9,
+            "height": 11.7
+          }
+        },
+        "timeField": {
+          "type": "text",
+          "label": "Enter the time of the day, using the 24-hour clock (HHMM).  ",
+          "page": 1,
+          "box": {
+            "left": 423.7,
+            "top": 120.7,
+            "width": 31.6,
+            "height": 11.7
+          }
+        },
+        "narrative2": {
+          "type": "text",
+          "label": "Enter the narrative.",
+          "page": 1,
+          "box": {
+            "left": 458.2,
+            "top": 120.7,
+            "width": 276.1,
+            "height": 11.7
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 17,
+      "rowStride": 14.61,
+      "editor": "grid",
+      "columns": {
+        "oprn": {
+          "type": "text",
+          "label": "Enter the oprn.",
+          "page": 1,
+          "box": {
+            "left": 155.9,
+            "top": 397.8,
+            "width": 25.0,
+            "height": 11.7
+          }
+        },
+        "nomenclature": {
+          "type": "text",
+          "label": "Enter the nomenclature.",
+          "page": 1,
+          "box": {
+            "left": 183.8,
+            "top": 397.8,
+            "width": 90.1,
+            "height": 11.7
+          }
+        },
+        "partNo": {
+          "type": "text",
+          "label": "Enter the part number.",
+          "page": 1,
+          "box": {
+            "left": 277.0,
+            "top": 397.8,
+            "width": 51.5,
+            "height": 11.7
+          }
+        },
+        "serialNo": {
+          "type": "text",
+          "label": "Enter the serial number.",
+          "page": 1,
+          "box": {
+            "left": 331.3,
+            "top": 397.8,
+            "width": 60.0,
+            "height": 11.7
+          }
+        },
+        "srceCode": {
+          "type": "text",
+          "label": "Enter the source code.",
+          "page": 1,
+          "box": {
+            "left": 394.4,
+            "top": 397.8,
+            "width": 26.4,
+            "height": 11.7
+          }
+        },
+        "fscm": {
+          "type": "text",
+          "label": "Enter the FSCM.",
+          "page": 1,
+          "box": {
+            "left": 423.7,
+            "top": 397.8,
+            "width": 31.6,
+            "height": 11.7
+          }
+        },
+        "manHours": {
+          "type": "text",
+          "label": "Enter the OPRN time.",
+          "page": 1,
+          "box": {
+            "left": 458.2,
+            "top": 397.8,
+            "width": 33.1,
+            "height": 11.7
+          }
+        },
+        "oprnTime": {
+          "type": "text",
+          "label": "Enter the OPRN time.",
+          "page": 1,
+          "box": {
+            "left": 494.2,
+            "top": 397.8,
+            "width": 33.1,
+            "height": 11.7
+          }
+        },
+        "results": {
+          "type": "text",
+          "label": "Enter the results.",
+          "page": 1,
+          "box": {
+            "left": 530.2,
+            "top": 397.8,
+            "width": 30.1,
+            "height": 11.7
+          }
+        },
+        "statusCode": {
+          "type": "text",
+          "label": "Enter the status code.",
+          "page": 1,
+          "box": {
+            "left": 563.1,
+            "top": 397.8,
+            "width": 30.1,
+            "height": 11.7
+          }
+        },
+        "presentCode": {
+          "type": "text",
+          "label": "Enter the present cond code.",
+          "page": 1,
+          "box": {
+            "left": 596.0,
+            "top": 397.8,
+            "width": 30.1,
+            "height": 11.7
+          }
+        },
+        "disp": {
+          "type": "text",
+          "label": "Enter the DISP.",
+          "page": 1,
+          "box": {
+            "left": 629.0,
+            "top": 397.8,
+            "width": 34.8,
+            "height": 11.7
+          }
+        },
+        "failureCategoryCode": {
+          "type": "text",
+          "label": "Enter the failure category code.",
+          "page": 1,
+          "box": {
+            "left": 666.6,
+            "top": 397.8,
+            "width": 67.7,
+            "height": 11.7
+          }
+        }
+      }
+    }
+  }
+}

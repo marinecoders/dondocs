@@ -1,0 +1,350 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "radio": {
+        "left": 67.6,
+        "top": 557.4,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio2": {
+        "left": 139.7,
+        "top": 557.4,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio3": {
+        "left": 334.1,
+        "top": 557.4,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio4": {
+        "left": 406.1,
+        "top": 557.4,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "callerName": {
+        "left": 38.8,
+        "top": 505.9,
+        "width": 325.6,
+        "height": 20.7,
+        "type": "text",
+        "description": "NAME (First and Last, no nicknames please)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "callerRank": {
+        "left": 370.1,
+        "top": 505.9,
+        "width": 203.2,
+        "height": 20.7,
+        "type": "text",
+        "description": "RATE/PAYGRADE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "callerAddress": {
+        "left": 38.8,
+        "top": 469.9,
+        "width": 217.6,
+        "height": 20.7,
+        "type": "text",
+        "description": "STREET MAILING ADDRESS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "callerAptnumber": {
+        "left": 262.1,
+        "top": 469.9,
+        "width": 152.7,
+        "height": 20.7,
+        "type": "text",
+        "description": "APARTMENT NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "callerCity": {
+        "left": 420.5,
+        "top": 469.9,
+        "width": 152.7,
+        "height": 20.7,
+        "type": "text",
+        "description": "CITY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "callerState": {
+        "left": 38.8,
+        "top": 433.9,
+        "width": 217.6,
+        "height": 20.7,
+        "type": "text",
+        "description": "STATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "callerZip": {
+        "left": 262.1,
+        "top": 433.9,
+        "width": 152.7,
+        "height": 20.7,
+        "type": "text",
+        "description": "ZIP CODE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "callerCountry": {
+        "left": 420.5,
+        "top": 433.9,
+        "width": 152.7,
+        "height": 20.7,
+        "type": "text",
+        "description": "COUNTRY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "callerDutyStation": {
+        "left": 262.1,
+        "top": 395.1,
+        "width": 311.2,
+        "height": 25.1,
+        "type": "text",
+        "description": "DUTY STATION / PLACE OF EMPLOYMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "callerPhone": {
+        "left": 38.8,
+        "top": 387.4,
+        "width": 217.6,
+        "height": 17.4,
+        "type": "text",
+        "description": "(Include country code, if applicable)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "callerEmail": {
+        "left": 247.7,
+        "top": 351.9,
+        "width": 174.4,
+        "height": 25.1,
+        "type": "text",
+        "description": "E-MAIL ADDRESS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "callerWorkNumber": {
+        "left": 38.8,
+        "top": 344.2,
+        "width": 203.2,
+        "height": 17.4,
+        "type": "text",
+        "description": "(Include DSN and/or country code, if applicable)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio5": {
+        "left": 449.3,
+        "top": 341.4,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio6": {
+        "left": 521.3,
+        "top": 341.4,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "involved": {
+        "left": 37.4,
+        "top": 307.8,
+        "width": 537.2,
+        "height": 76.0,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "subjects": {
+        "left": 38.8,
+        "top": 217.9,
+        "width": 268.0,
+        "height": 64.2,
+        "type": "text",
+        "description": "5. SUBJECT(s): (Who performed the wrong doing?)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "witnesses": {
+        "left": 312.5,
+        "top": 215.1,
+        "width": 260.8,
+        "height": 61.5,
+        "type": "text",
+        "description": "6. WITNESS(es): (Who are the witnesses?)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "wrongDoing": {
+        "left": 38.8,
+        "top": 135.9,
+        "width": 534.4,
+        "height": 97.2,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "lawViolated": {
+        "left": 38.8,
+        "top": 703.9,
+        "width": 534.4,
+        "height": 44.1,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "whenOccured": {
+        "left": 38.8,
+        "top": 644.5,
+        "width": 534.4,
+        "height": 38.7,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "whereOccured": {
+        "left": 38.8,
+        "top": 590.5,
+        "width": 534.4,
+        "height": 47.7,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "whyOccured": {
+        "left": 38.8,
+        "top": 527.5,
+        "width": 534.4,
+        "height": 65.7,
+        "type": "text",
+        "description": "11. Why do you think the incident took place?",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "whyIG": {
+        "left": 38.8,
+        "top": 446.5,
+        "width": 534.4,
+        "height": 63.9,
+        "type": "text",
+        "description": "12. Why do you want the IG involved?",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "triedResolve": {
+        "left": 38.8,
+        "top": 342.8,
+        "width": 534.4,
+        "height": 97.1,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "whatIG": {
+        "left": 38.8,
+        "top": 230.5,
+        "width": 534.4,
+        "height": 78.3,
+        "type": "text",
+        "description": "14. What do you want the IG to do?",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "additionalInfo": {
+        "left": 38.8,
+        "top": 134.1,
+        "width": 534.4,
+        "height": 95.4,
+        "type": "text",
+        "description": "15. Additional information you wish to provide",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

@@ -1,0 +1,7271 @@
+{
+  "id": "opnav479021a",
+  "label": "OPNAV4790-21A - Monthly Flight Summary",
+  "directory": "OPNAV4790-21A - Monthly Flight Summary",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "typModSer",
+        "bnSrNbr",
+        "serPer",
+        "perNo",
+        "opSerMos",
+        "act",
+        "opsermoc",
+        "pt1Dte",
+        "pt2DteAA",
+        "trPer",
+        "perNoA",
+        "opSerMosA",
+        "actA",
+        "opsermoca",
+        "pt1DteA",
+        "pt2Dte",
+        "trPerA",
+        "perNoB",
+        "opSerMosB",
+        "actB",
+        "opsermocb",
+        "pt1DteB",
+        "pt2DteA",
+        "trPerB",
+        "perNoC",
+        "opSerMosC",
+        "actC",
+        "opsermocc",
+        "pt1DteC",
+        "pt2DteB",
+        "trPerC",
+        "perNoD",
+        "opSerMosD",
+        "actD",
+        "opsermocd",
+        "pt1DteD",
+        "pt2DteC",
+        "trPerD",
+        "perNoE",
+        "opSerMosE",
+        "actE",
+        "opsermoce",
+        "pt1DteE",
+        "pt2DteD",
+        "trPerE",
+        "perNoF",
+        "opSerMosF",
+        "actF",
+        "opsermocf",
+        "pt1DteF",
+        "pt2DteE",
+        "trPerF",
+        "perNoG",
+        "opSerMosG",
+        "actG",
+        "opsermocg",
+        "pt1DteG",
+        "pt2DteF",
+        "trPerG",
+        "perNoH",
+        "opSerMosH",
+        "actH",
+        "opsermoch",
+        "pt1DteH",
+        "pt2DteG",
+        "trPerH",
+        "opsermoci",
+        "pt2DteH",
+        "trPerI",
+        "opsermocj",
+        "pt2DteI",
+        "trPerJ",
+        "extA",
+        "extB",
+        "extC",
+        "extD",
+        "extE",
+        "extF",
+        "extG",
+        "extH",
+        "extI",
+        "extJ",
+        "lnds",
+        "lnds1",
+        "lnds2",
+        "lnds3",
+        "lnds4",
+        "repCus",
+        "mo",
+        "per",
+        "sn",
+        "lndsA",
+        "lnds1A",
+        "lnds2A",
+        "lnds3A",
+        "lnds4A",
+        "mtlND",
+        "mtar",
+        "mTCats",
+        "aTLnd",
+        "mTar",
+        "aTCats",
+        "pt4Dte",
+        "repCusA",
+        "moa",
+        "perA",
+        "sna",
+        "lndsB",
+        "lnds1B",
+        "lnds2B",
+        "lnds3B",
+        "lnds4B",
+        "mtlNDA",
+        "mtara",
+        "mTCatsA",
+        "aTLndA",
+        "mTarA",
+        "aTCatsA",
+        "pt4DteA",
+        "repCusB",
+        "mob",
+        "perB",
+        "snb",
+        "lndsC",
+        "lnds1C",
+        "lnds2C",
+        "lnds3C",
+        "lnds4C",
+        "mtlNDB",
+        "mtarb",
+        "mTCatsB",
+        "aTLndB",
+        "mTarB",
+        "aTCatsB",
+        "pt4DteB",
+        "repCusC",
+        "moc",
+        "perC",
+        "snc",
+        "lndsD",
+        "lnds1D",
+        "lnds2D",
+        "lnds3D",
+        "lnds4D",
+        "mtlNDC",
+        "mtarc",
+        "mTCatsC",
+        "aTLndC",
+        "mTarC",
+        "aTCatsC",
+        "pt4DteC",
+        "repCusD",
+        "mod",
+        "perD",
+        "snd",
+        "lndsE",
+        "lnds1E",
+        "lnds2E",
+        "lnds3E",
+        "lnds4E",
+        "mtlNDD",
+        "mtard",
+        "mTCatsD",
+        "aTLndD",
+        "mTarD",
+        "aTCatsD",
+        "pt4DteD",
+        "repCusE",
+        "moe",
+        "perE",
+        "sne",
+        "lndsF",
+        "lnds1F",
+        "lnds2F",
+        "lnds3F",
+        "lnds4F",
+        "mtlNDE",
+        "mtare",
+        "mTCatsE",
+        "aTLndE",
+        "mTarE",
+        "aTCatsE",
+        "pt4DteE",
+        "repCusF",
+        "mof",
+        "perF",
+        "snf",
+        "lndsG",
+        "lnds1G",
+        "lnds2G",
+        "lnds3G",
+        "lnds4G",
+        "mtlNDF",
+        "mtarf",
+        "mTCatsF",
+        "aTLndF",
+        "mTarF",
+        "aTCatsF",
+        "pt4DteF",
+        "repCusG",
+        "mog",
+        "perG",
+        "sng",
+        "lndsH",
+        "lnds1H",
+        "lnds2H",
+        "lnds3H",
+        "lnds42",
+        "mtlNDG",
+        "mtarg",
+        "mTCatsG",
+        "aTLndG",
+        "mTarG",
+        "aTCatsG",
+        "pt4DteG"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "lndsI",
+        "lnds1I",
+        "lnds2I",
+        "lnds3I",
+        "lnds5I",
+        "repCusH",
+        "moh",
+        "perH",
+        "snh",
+        "lndsJ",
+        "lnds1J",
+        "lnds2J",
+        "lnds3J",
+        "lnds5J",
+        "mTLndH",
+        "mYarH",
+        "catsH",
+        "aTLndH",
+        "aTarH",
+        "aTCatsH",
+        "pt4DteH",
+        "repCusI",
+        "moi",
+        "perI",
+        "sni",
+        "lndsK",
+        "lnds1K",
+        "lnds2F2",
+        "lnds3K",
+        "lnds5K",
+        "mTLndI",
+        "mYarI",
+        "catsI",
+        "aTLndI",
+        "aTarI",
+        "aTCatsI",
+        "pt4DteI",
+        "repCusJ",
+        "moj",
+        "perJ",
+        "snj",
+        "lndsL",
+        "lnds1L",
+        "lnds2L",
+        "lnds3L",
+        "lnds5L",
+        "mTLndJ",
+        "mYarJ",
+        "catsJ",
+        "aTLndJ",
+        "aTarJ",
+        "aTCatsJ",
+        "pt4DteJ",
+        "repCusK",
+        "mok",
+        "perK",
+        "snk",
+        "lndsM",
+        "lnds1M",
+        "lnds2M",
+        "lnds3M",
+        "lnds5M",
+        "mTLndK",
+        "mYarK",
+        "catsK",
+        "aTLndK",
+        "aTarK",
+        "aTCatsK",
+        "pt4DteK",
+        "repCusL",
+        "modl",
+        "perL",
+        "snl",
+        "lndsN",
+        "lnds1N",
+        "lnds2N",
+        "lnds3N",
+        "lnds5N",
+        "mTLndL",
+        "mYarL",
+        "catsL",
+        "aTLndL",
+        "aTarL",
+        "aTCatsL",
+        "pt4DteL",
+        "repCusM",
+        "mom",
+        "perM",
+        "snm",
+        "lndsO",
+        "lnds1O",
+        "lnds2O",
+        "lnds3O",
+        "lnds5O",
+        "mTLndM",
+        "mYarM",
+        "catsM",
+        "aTLndM",
+        "aTarM",
+        "aTCatsM",
+        "pt4DteM",
+        "repCusN",
+        "mon",
+        "perN",
+        "snn",
+        "lndsP",
+        "lnds1P",
+        "lnds2P",
+        "lnds3P",
+        "lnds5P",
+        "mTLndN",
+        "mYarN",
+        "catsN",
+        "aTLndN",
+        "aTarN",
+        "aTCatsN",
+        "pt4DteN",
+        "repCusO",
+        "moo",
+        "perO",
+        "sno",
+        "lndsQ",
+        "lnds1Q",
+        "lnds2Q",
+        "lnds3Q",
+        "lnds5Q",
+        "mTLndO",
+        "mYarO",
+        "catsO",
+        "aTLndO",
+        "aTarO",
+        "aTCatsO",
+        "pt4DteO",
+        "repCusP",
+        "mop",
+        "perP",
+        "snp",
+        "lndsR",
+        "lnds1R",
+        "lnds2R",
+        "lnds3R",
+        "lnds5R",
+        "mTLndP",
+        "mYarP",
+        "catsP",
+        "aTLndP",
+        "aTarP",
+        "aTCatsP",
+        "pt4DteP",
+        "repCusQ",
+        "moq",
+        "perQ",
+        "snq",
+        "lndsS",
+        "lnds1S",
+        "lnds2S",
+        "lnds3S",
+        "lnds5S",
+        "mTLndQ",
+        "mYarQ",
+        "catsQ",
+        "aTLndQ",
+        "aTarQ",
+        "aTCatsQ",
+        "pt4DteQ",
+        "repCusR",
+        "mor",
+        "perR",
+        "snr",
+        "lndsT",
+        "lnds1T",
+        "lnds2T",
+        "lnds3T",
+        "lnds5T",
+        "mTLndR",
+        "mYarR",
+        "catsR",
+        "aTLndR",
+        "aTarR",
+        "aTCatsR",
+        "pt4DteR",
+        "repCusS",
+        "mos",
+        "perS",
+        "sns",
+        "lndsU",
+        "lnds1U",
+        "lnds2U",
+        "lnds3U",
+        "lnds5U",
+        "mTLndS",
+        "mYarS",
+        "catsS",
+        "aTLndS",
+        "aTarS",
+        "aTCatsS",
+        "pt4DteS",
+        "repCusT",
+        "mot",
+        "perT",
+        "snt",
+        "lndsV",
+        "lnds1V",
+        "lnds2V",
+        "lnds3V",
+        "lnds5V",
+        "mTLndT",
+        "mYarT",
+        "catsT",
+        "aTLndT",
+        "aTarT",
+        "aTCatsT",
+        "pt4DteT",
+        "repCusU",
+        "mou",
+        "perU",
+        "snu",
+        "lndsW",
+        "lnds1W",
+        "lnds2W",
+        "lnds3W",
+        "lnds5W",
+        "mTLndU",
+        "mYarU",
+        "catsU",
+        "aTLndU",
+        "aTarU",
+        "aTCatsU",
+        "pt4DteU",
+        "repCusV",
+        "mov",
+        "perV",
+        "snv",
+        "lndsX",
+        "lnds1X",
+        "lnds2X",
+        "lnds3X",
+        "lnds5X",
+        "mTLndV",
+        "mYarV",
+        "catsV",
+        "aTLndV",
+        "aTarV",
+        "aTCatsV",
+        "pt4DteV",
+        "repCusW",
+        "mow",
+        "perW",
+        "snw",
+        "lndsY",
+        "lnds1Y",
+        "lnds2Y",
+        "lnds3Y",
+        "lnds5Y",
+        "mTLndW",
+        "mYarW",
+        "catsW",
+        "aTLndW",
+        "aTarW",
+        "aTCatsW",
+        "pt4DteW",
+        "repCusX",
+        "mox",
+        "perX",
+        "snx",
+        "lndsZ",
+        "lnds1Z",
+        "lnds2Z",
+        "lnds3Z",
+        "lnds5Z",
+        "mTLndX",
+        "mYarX",
+        "catsX",
+        "aTLndX",
+        "aTarX",
+        "aTCatsX",
+        "pt4DteX",
+        "repCusY",
+        "moy",
+        "perY",
+        "sny",
+        "lndsAA",
+        "lnds1AA",
+        "lnds2AA",
+        "lnds3AA",
+        "lnds5AA",
+        "mTLndY",
+        "mYarY",
+        "catsY",
+        "aTLndY",
+        "aTarY",
+        "aTCatsY",
+        "pt4DteY",
+        "repCusZ",
+        "moz",
+        "perZ",
+        "snz",
+        "lndsBB",
+        "lnds1BB",
+        "lnds2BB",
+        "lnds3BB",
+        "lnds5BB",
+        "mTLndZ",
+        "mYarZ",
+        "catsZ",
+        "aTLndZ",
+        "aTarZ",
+        "aTCatsZ",
+        "pt4DteZ",
+        "repCusAA",
+        "moaa",
+        "perAA",
+        "snaa",
+        "lndsCC",
+        "lnds1CC",
+        "lnds2CC",
+        "lnds3CC",
+        "lnds5CC",
+        "mTLndAA",
+        "mYarAA",
+        "catsAA",
+        "aTLndAA",
+        "aTarAA",
+        "aTCatsAA",
+        "pt4DteAA",
+        "repCusBB",
+        "mobb",
+        "perBB",
+        "actBB",
+        "lndsDD",
+        "lnds1DD",
+        "lnds2DD",
+        "lnds3DD",
+        "lnds5DD",
+        "mTLndBB",
+        "mYarBB",
+        "catsBB",
+        "aTLndBB",
+        "aTarBB",
+        "aTCatsBB",
+        "pt4DteBB",
+        "repCusCC",
+        "mocc",
+        "perCC",
+        "sncc",
+        "lndsEE",
+        "lnds1EE",
+        "lnds2EE",
+        "lnds3EE",
+        "lnds5EE",
+        "mTLndCC",
+        "mYarCC",
+        "catsCC",
+        "aTLndCC",
+        "aTarCC",
+        "aTCatsCC",
+        "pt4DteCC",
+        "repCusDD",
+        "modd",
+        "perDD",
+        "sndd",
+        "lndsFF",
+        "lnds1FF",
+        "lnds2FF",
+        "lnds3FF",
+        "lnds5FF",
+        "mTLndDD",
+        "mYarDD",
+        "catsDD",
+        "aTLndDD",
+        "aTarDD",
+        "aTCatsDD",
+        "pt4DteDD",
+        "repCusEE",
+        "moee",
+        "perEE",
+        "snee",
+        "lndsGG",
+        "lnds1GG",
+        "lnds2GG",
+        "lnds3GG",
+        "lnds5GG",
+        "mTLndEE",
+        "mYarEE",
+        "catsEE",
+        "aTLndEE",
+        "aTarEE",
+        "aTCatsEE",
+        "pt4DteEE"
+      ]
+    }
+  ],
+  "fields": {
+    "typModSer": {
+      "type": "text",
+      "label": "MONTHLY FLIGHT SUMMARY",
+      "page": 1,
+      "box": {
+        "left": 355.6,
+        "top": 560.2,
+        "width": 129.6,
+        "height": 26.3
+      }
+    },
+    "bnSrNbr": {
+      "type": "text",
+      "label": "MONTHLY FLIGHT SUMMARY",
+      "page": 1,
+      "box": {
+        "left": 490.7,
+        "top": 560.2,
+        "width": 126.3,
+        "height": 26.3
+      }
+    },
+    "serPer": {
+      "type": "text",
+      "label": "MONTHLY FLIGHT SUMMARY",
+      "page": 1,
+      "box": {
+        "left": 623.7,
+        "top": 560.2,
+        "width": 129.6,
+        "height": 26.3
+      }
+    },
+    "perNo": {
+      "type": "text",
+      "label": "2. PERIOD NO",
+      "page": 1,
+      "box": {
+        "left": 107.3,
+        "top": 466.8,
+        "width": 64.2,
+        "height": 18.8
+      }
+    },
+    "opSerMos": {
+      "type": "text",
+      "label": "3. OPSERMOS",
+      "page": 1,
+      "box": {
+        "left": 171.7,
+        "top": 466.8,
+        "width": 60.8,
+        "height": 18.8
+      }
+    },
+    "act": {
+      "type": "text",
+      "label": "4. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 232.9,
+        "top": 466.8,
+        "width": 135.0,
+        "height": 18.8
+      }
+    },
+    "opsermoc": {
+      "type": "text",
+      "label": "INITIAL",
+      "page": 1,
+      "box": {
+        "left": 631.4,
+        "top": 466.8,
+        "width": 124.7,
+        "height": 18.8
+      }
+    },
+    "pt1Dte": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 463.9,
+        "width": 64.7,
+        "height": 13.1
+      }
+    },
+    "pt2DteAA": {
+      "type": "text",
+      "label": "INITIAL",
+      "page": 1,
+      "box": {
+        "left": 439.7,
+        "top": 463.9,
+        "width": 64.7,
+        "height": 13.1
+      }
+    },
+    "trPer": {
+      "type": "text",
+      "label": "INITIAL",
+      "page": 1,
+      "box": {
+        "left": 510.7,
+        "top": 463.9,
+        "width": 117.7,
+        "height": 13.1
+      }
+    },
+    "perNoA": {
+      "type": "text",
+      "label": "2. PERIOD NO",
+      "page": 1,
+      "box": {
+        "left": 107.3,
+        "top": 448.0,
+        "width": 64.2,
+        "height": 18.8
+      }
+    },
+    "opSerMosA": {
+      "type": "text",
+      "label": "3. OPSERMOS",
+      "page": 1,
+      "box": {
+        "left": 171.7,
+        "top": 448.0,
+        "width": 60.8,
+        "height": 18.8
+      }
+    },
+    "actA": {
+      "type": "text",
+      "label": "4. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 232.9,
+        "top": 448.0,
+        "width": 135.0,
+        "height": 18.8
+      }
+    },
+    "opsermoca": {
+      "type": "text",
+      "label": "REV./ADJ. 1",
+      "page": 1,
+      "box": {
+        "left": 631.4,
+        "top": 448.0,
+        "width": 124.7,
+        "height": 18.8
+      }
+    },
+    "pt1DteA": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 445.1,
+        "width": 64.7,
+        "height": 13.1
+      }
+    },
+    "pt2Dte": {
+      "type": "text",
+      "label": "REV./ADJ. 1",
+      "page": 1,
+      "box": {
+        "left": 439.7,
+        "top": 445.1,
+        "width": 64.7,
+        "height": 13.1
+      }
+    },
+    "trPerA": {
+      "type": "text",
+      "label": "REV./ADJ. 1",
+      "page": 1,
+      "box": {
+        "left": 510.7,
+        "top": 445.1,
+        "width": 117.7,
+        "height": 13.1
+      }
+    },
+    "perNoB": {
+      "type": "text",
+      "label": "2. PERIOD NO",
+      "page": 1,
+      "box": {
+        "left": 107.3,
+        "top": 429.2,
+        "width": 64.2,
+        "height": 18.8
+      }
+    },
+    "opSerMosB": {
+      "type": "text",
+      "label": "3. OPSERMOS",
+      "page": 1,
+      "box": {
+        "left": 171.7,
+        "top": 429.2,
+        "width": 60.8,
+        "height": 18.8
+      }
+    },
+    "actB": {
+      "type": "text",
+      "label": "4. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 232.9,
+        "top": 429.2,
+        "width": 135.0,
+        "height": 18.8
+      }
+    },
+    "opsermocb": {
+      "type": "text",
+      "label": "REV./ADJ. 2",
+      "page": 1,
+      "box": {
+        "left": 631.4,
+        "top": 429.2,
+        "width": 124.7,
+        "height": 18.8
+      }
+    },
+    "pt1DteB": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 426.4,
+        "width": 64.7,
+        "height": 13.1
+      }
+    },
+    "pt2DteA": {
+      "type": "text",
+      "label": "REV./ADJ. 2",
+      "page": 1,
+      "box": {
+        "left": 439.7,
+        "top": 426.4,
+        "width": 64.7,
+        "height": 13.1
+      }
+    },
+    "trPerB": {
+      "type": "text",
+      "label": "REV./ADJ. 2",
+      "page": 1,
+      "box": {
+        "left": 510.7,
+        "top": 426.4,
+        "width": 117.7,
+        "height": 13.1
+      }
+    },
+    "perNoC": {
+      "type": "text",
+      "label": "2. PERIOD NO",
+      "page": 1,
+      "box": {
+        "left": 107.3,
+        "top": 410.4,
+        "width": 64.2,
+        "height": 18.8
+      }
+    },
+    "opSerMosC": {
+      "type": "text",
+      "label": "3. OPSERMOS",
+      "page": 1,
+      "box": {
+        "left": 171.7,
+        "top": 410.4,
+        "width": 60.8,
+        "height": 18.8
+      }
+    },
+    "actC": {
+      "type": "text",
+      "label": "4. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 232.9,
+        "top": 410.4,
+        "width": 135.0,
+        "height": 18.8
+      }
+    },
+    "opsermocc": {
+      "type": "text",
+      "label": "REV./ADJ. 3",
+      "page": 1,
+      "box": {
+        "left": 631.4,
+        "top": 410.4,
+        "width": 124.7,
+        "height": 18.8
+      }
+    },
+    "pt1DteC": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 407.6,
+        "width": 64.7,
+        "height": 13.1
+      }
+    },
+    "pt2DteB": {
+      "type": "text",
+      "label": "REV./ADJ. 3",
+      "page": 1,
+      "box": {
+        "left": 439.7,
+        "top": 407.6,
+        "width": 64.7,
+        "height": 13.1
+      }
+    },
+    "trPerC": {
+      "type": "text",
+      "label": "REV./ADJ. 3",
+      "page": 1,
+      "box": {
+        "left": 510.7,
+        "top": 407.6,
+        "width": 117.7,
+        "height": 13.1
+      }
+    },
+    "perNoD": {
+      "type": "text",
+      "label": "2. PERIOD NO",
+      "page": 1,
+      "box": {
+        "left": 107.3,
+        "top": 391.6,
+        "width": 64.2,
+        "height": 18.8
+      }
+    },
+    "opSerMosD": {
+      "type": "text",
+      "label": "3. OPSERMOS",
+      "page": 1,
+      "box": {
+        "left": 171.7,
+        "top": 391.6,
+        "width": 60.8,
+        "height": 18.8
+      }
+    },
+    "actD": {
+      "type": "text",
+      "label": "4. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 232.9,
+        "top": 391.6,
+        "width": 135.0,
+        "height": 18.8
+      }
+    },
+    "opsermocd": {
+      "type": "text",
+      "label": "REV./ADJ. 4",
+      "page": 1,
+      "box": {
+        "left": 631.4,
+        "top": 391.6,
+        "width": 124.7,
+        "height": 18.8
+      }
+    },
+    "pt1DteD": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 388.8,
+        "width": 64.7,
+        "height": 13.1
+      }
+    },
+    "pt2DteC": {
+      "type": "text",
+      "label": "REV./ADJ. 4",
+      "page": 1,
+      "box": {
+        "left": 439.7,
+        "top": 388.8,
+        "width": 64.7,
+        "height": 13.1
+      }
+    },
+    "trPerD": {
+      "type": "text",
+      "label": "REV./ADJ. 4",
+      "page": 1,
+      "box": {
+        "left": 510.7,
+        "top": 388.8,
+        "width": 117.7,
+        "height": 13.1
+      }
+    },
+    "perNoE": {
+      "type": "text",
+      "label": "2. PERIOD NO",
+      "page": 1,
+      "box": {
+        "left": 107.3,
+        "top": 372.9,
+        "width": 64.2,
+        "height": 18.8
+      }
+    },
+    "opSerMosE": {
+      "type": "text",
+      "label": "3. OPSERMOS",
+      "page": 1,
+      "box": {
+        "left": 171.7,
+        "top": 372.9,
+        "width": 60.8,
+        "height": 18.8
+      }
+    },
+    "actE": {
+      "type": "text",
+      "label": "4. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 232.9,
+        "top": 372.9,
+        "width": 135.0,
+        "height": 18.8
+      }
+    },
+    "opsermoce": {
+      "type": "text",
+      "label": "REV./ADJ. 5",
+      "page": 1,
+      "box": {
+        "left": 631.4,
+        "top": 372.9,
+        "width": 124.7,
+        "height": 18.8
+      }
+    },
+    "pt1DteE": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 370.0,
+        "width": 64.7,
+        "height": 13.1
+      }
+    },
+    "pt2DteD": {
+      "type": "text",
+      "label": "REV./ADJ. 5",
+      "page": 1,
+      "box": {
+        "left": 439.7,
+        "top": 370.0,
+        "width": 64.7,
+        "height": 13.1
+      }
+    },
+    "trPerE": {
+      "type": "text",
+      "label": "REV./ADJ. 5",
+      "page": 1,
+      "box": {
+        "left": 510.7,
+        "top": 370.0,
+        "width": 117.7,
+        "height": 13.1
+      }
+    },
+    "perNoF": {
+      "type": "text",
+      "label": "2. PERIOD NO",
+      "page": 1,
+      "box": {
+        "left": 107.3,
+        "top": 354.1,
+        "width": 64.2,
+        "height": 18.8
+      }
+    },
+    "opSerMosF": {
+      "type": "text",
+      "label": "3. OPSERMOS",
+      "page": 1,
+      "box": {
+        "left": 171.7,
+        "top": 354.1,
+        "width": 60.8,
+        "height": 18.8
+      }
+    },
+    "actF": {
+      "type": "text",
+      "label": "4. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 232.9,
+        "top": 354.1,
+        "width": 135.0,
+        "height": 18.8
+      }
+    },
+    "opsermocf": {
+      "type": "text",
+      "label": "REV./ADJ. 6",
+      "page": 1,
+      "box": {
+        "left": 631.4,
+        "top": 354.1,
+        "width": 124.7,
+        "height": 18.8
+      }
+    },
+    "pt1DteF": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 351.2,
+        "width": 64.7,
+        "height": 13.1
+      }
+    },
+    "pt2DteE": {
+      "type": "text",
+      "label": "REV./ADJ. 6",
+      "page": 1,
+      "box": {
+        "left": 439.7,
+        "top": 351.2,
+        "width": 64.7,
+        "height": 13.1
+      }
+    },
+    "trPerF": {
+      "type": "text",
+      "label": "REV./ADJ. 6",
+      "page": 1,
+      "box": {
+        "left": 510.7,
+        "top": 351.2,
+        "width": 117.7,
+        "height": 13.1
+      }
+    },
+    "perNoG": {
+      "type": "text",
+      "label": "2. PERIOD NO",
+      "page": 1,
+      "box": {
+        "left": 107.3,
+        "top": 335.3,
+        "width": 64.2,
+        "height": 18.8
+      }
+    },
+    "opSerMosG": {
+      "type": "text",
+      "label": "3. OPSERMOS",
+      "page": 1,
+      "box": {
+        "left": 171.7,
+        "top": 335.3,
+        "width": 60.8,
+        "height": 18.8
+      }
+    },
+    "actG": {
+      "type": "text",
+      "label": "4. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 232.9,
+        "top": 335.3,
+        "width": 135.0,
+        "height": 18.8
+      }
+    },
+    "opsermocg": {
+      "type": "text",
+      "label": "REV./ADJ. 7",
+      "page": 1,
+      "box": {
+        "left": 631.4,
+        "top": 335.3,
+        "width": 124.7,
+        "height": 18.8
+      }
+    },
+    "pt1DteG": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 332.4,
+        "width": 64.7,
+        "height": 13.1
+      }
+    },
+    "pt2DteF": {
+      "type": "text",
+      "label": "REV./ADJ. 7",
+      "page": 1,
+      "box": {
+        "left": 439.7,
+        "top": 332.4,
+        "width": 64.7,
+        "height": 13.1
+      }
+    },
+    "trPerG": {
+      "type": "text",
+      "label": "REV./ADJ. 7",
+      "page": 1,
+      "box": {
+        "left": 510.7,
+        "top": 332.4,
+        "width": 117.7,
+        "height": 13.1
+      }
+    },
+    "perNoH": {
+      "type": "text",
+      "label": "2. PERIOD NO",
+      "page": 1,
+      "box": {
+        "left": 107.3,
+        "top": 316.5,
+        "width": 64.2,
+        "height": 18.8
+      }
+    },
+    "opSerMosH": {
+      "type": "text",
+      "label": "3. OPSERMOS",
+      "page": 1,
+      "box": {
+        "left": 171.7,
+        "top": 316.5,
+        "width": 60.8,
+        "height": 18.8
+      }
+    },
+    "actH": {
+      "type": "text",
+      "label": "4. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 232.9,
+        "top": 316.5,
+        "width": 135.0,
+        "height": 18.8
+      }
+    },
+    "opsermoch": {
+      "type": "text",
+      "label": "REV./ADJ. 8",
+      "page": 1,
+      "box": {
+        "left": 631.4,
+        "top": 316.5,
+        "width": 124.7,
+        "height": 18.8
+      }
+    },
+    "pt1DteH": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 313.7,
+        "width": 64.7,
+        "height": 13.1
+      }
+    },
+    "pt2DteG": {
+      "type": "text",
+      "label": "REV./ADJ. 8",
+      "page": 1,
+      "box": {
+        "left": 439.7,
+        "top": 313.7,
+        "width": 64.7,
+        "height": 13.1
+      }
+    },
+    "trPerH": {
+      "type": "text",
+      "label": "REV./ADJ. 8",
+      "page": 1,
+      "box": {
+        "left": 510.7,
+        "top": 313.7,
+        "width": 117.7,
+        "height": 13.1
+      }
+    },
+    "opsermoci": {
+      "type": "text",
+      "label": "REV./ADJ. 9",
+      "page": 1,
+      "box": {
+        "left": 631.4,
+        "top": 297.7,
+        "width": 124.7,
+        "height": 18.8
+      }
+    },
+    "pt2DteH": {
+      "type": "text",
+      "label": "REV./ADJ. 9",
+      "page": 1,
+      "box": {
+        "left": 439.7,
+        "top": 294.9,
+        "width": 64.7,
+        "height": 13.1
+      }
+    },
+    "trPerI": {
+      "type": "text",
+      "label": "REV./ADJ. 9",
+      "page": 1,
+      "box": {
+        "left": 510.7,
+        "top": 294.9,
+        "width": 117.7,
+        "height": 13.1
+      }
+    },
+    "opsermocj": {
+      "type": "text",
+      "label": "REV./ADJ. 10",
+      "page": 1,
+      "box": {
+        "left": 631.4,
+        "top": 278.9,
+        "width": 124.7,
+        "height": 18.8
+      }
+    },
+    "pt2DteI": {
+      "type": "text",
+      "label": "REV./ADJ. 10",
+      "page": 1,
+      "box": {
+        "left": 439.7,
+        "top": 276.1,
+        "width": 64.7,
+        "height": 13.1
+      }
+    },
+    "trPerJ": {
+      "type": "text",
+      "label": "REV./ADJ. 10",
+      "page": 1,
+      "box": {
+        "left": 510.7,
+        "top": 276.1,
+        "width": 117.7,
+        "height": 13.1
+      }
+    },
+    "extA": {
+      "type": "checkbox",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 76.9,
+        "top": 274.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "extB": {
+      "type": "checkbox",
+      "label": "Ext B",
+      "page": 1,
+      "box": {
+        "left": 103.4,
+        "top": 274.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "extC": {
+      "type": "checkbox",
+      "label": "PERIOD",
+      "page": 1,
+      "box": {
+        "left": 131.0,
+        "top": 274.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "extD": {
+      "type": "checkbox",
+      "label": "PART",
+      "page": 1,
+      "box": {
+        "left": 158.8,
+        "top": 274.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "extE": {
+      "type": "checkbox",
+      "label": "- EXTENSIONS",
+      "page": 1,
+      "box": {
+        "left": 186.1,
+        "top": 274.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "extF": {
+      "type": "checkbox",
+      "label": "EXTENSIONS",
+      "page": 1,
+      "box": {
+        "left": 213.7,
+        "top": 274.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "extG": {
+      "type": "checkbox",
+      "label": "EXTENSIONS",
+      "page": 1,
+      "box": {
+        "left": 241.3,
+        "top": 274.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "extH": {
+      "type": "checkbox",
+      "label": "Ext H",
+      "page": 1,
+      "box": {
+        "left": 268.8,
+        "top": 274.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "extI": {
+      "type": "checkbox",
+      "label": "ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 296.4,
+        "top": 274.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "extJ": {
+      "type": "checkbox",
+      "label": "Ext J",
+      "page": 1,
+      "box": {
+        "left": 324.0,
+        "top": 274.8,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "lnds": {
+      "type": "text",
+      "label": "A. MO B. PERIOD C. SINCE NEW",
+      "page": 1,
+      "box": {
+        "left": 323.2,
+        "top": 214.0,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds1": {
+      "type": "text",
+      "label": "A. MO B. PERIOD C. SINCE NEW",
+      "page": 1,
+      "box": {
+        "left": 355.5,
+        "top": 214.0,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds2": {
+      "type": "text",
+      "label": "A. MO B. PERIOD C. SINCE NEW",
+      "page": 1,
+      "box": {
+        "left": 387.9,
+        "top": 214.0,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds3": {
+      "type": "text",
+      "label": "A. MO B. PERIOD C. SINCE NEW",
+      "page": 1,
+      "box": {
+        "left": 420.2,
+        "top": 214.0,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds4": {
+      "type": "text",
+      "label": "A. MO B. PERIOD C. SINCE NEW",
+      "page": 1,
+      "box": {
+        "left": 452.5,
+        "top": 214.0,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "repCus": {
+      "type": "text",
+      "label": "CUSTODIAN",
+      "page": 1,
+      "box": {
+        "left": 97.2,
+        "top": 194.8,
+        "width": 75.9,
+        "height": 18.8
+      }
+    },
+    "mo": {
+      "type": "text",
+      "label": "A. MO",
+      "page": 1,
+      "box": {
+        "left": 172.8,
+        "top": 194.8,
+        "width": 34.1,
+        "height": 18.8
+      }
+    },
+    "per": {
+      "type": "text",
+      "label": "B. PERIOD",
+      "page": 1,
+      "box": {
+        "left": 207.7,
+        "top": 194.8,
+        "width": 48.1,
+        "height": 18.8
+      }
+    },
+    "sn": {
+      "type": "text",
+      "label": "C. SINCE NEW",
+      "page": 1,
+      "box": {
+        "left": 256.8,
+        "top": 194.8,
+        "width": 66.1,
+        "height": 18.8
+      }
+    },
+    "lndsA": {
+      "type": "text",
+      "label": "PART",
+      "page": 1,
+      "box": {
+        "left": 323.2,
+        "top": 194.8,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds1A": {
+      "type": "text",
+      "label": "4. LANDINGS",
+      "page": 1,
+      "box": {
+        "left": 355.5,
+        "top": 194.8,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds2A": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 1,
+      "box": {
+        "left": 387.9,
+        "top": 194.8,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds3A": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 1,
+      "box": {
+        "left": 420.2,
+        "top": 194.8,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds4A": {
+      "type": "text",
+      "label": "DATA",
+      "page": 1,
+      "box": {
+        "left": 452.5,
+        "top": 194.8,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "mtlND": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 1,
+      "box": {
+        "left": 484.7,
+        "top": 194.8,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mtar": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 1,
+      "box": {
+        "left": 529.9,
+        "top": 194.8,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mTCats": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 1,
+      "box": {
+        "left": 575.1,
+        "top": 194.8,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTLnd": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 1,
+      "box": {
+        "left": 620.2,
+        "top": 194.8,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mTar": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 1,
+      "box": {
+        "left": 665.4,
+        "top": 194.8,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTCats": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 1,
+      "box": {
+        "left": 710.6,
+        "top": 194.8,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "pt4Dte": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 1,
+      "box": {
+        "left": 39.9,
+        "top": 192.0,
+        "width": 52.7,
+        "height": 13.1
+      }
+    },
+    "repCusA": {
+      "type": "text",
+      "label": "CUSTODIAN",
+      "page": 1,
+      "box": {
+        "left": 97.2,
+        "top": 175.0,
+        "width": 75.9,
+        "height": 18.8
+      }
+    },
+    "moa": {
+      "type": "text",
+      "label": "A. MO",
+      "page": 1,
+      "box": {
+        "left": 172.8,
+        "top": 175.0,
+        "width": 34.1,
+        "height": 18.8
+      }
+    },
+    "perA": {
+      "type": "text",
+      "label": "B. PERIOD",
+      "page": 1,
+      "box": {
+        "left": 207.7,
+        "top": 175.0,
+        "width": 48.1,
+        "height": 18.8
+      }
+    },
+    "sna": {
+      "type": "text",
+      "label": "C. SINCE NEW",
+      "page": 1,
+      "box": {
+        "left": 256.8,
+        "top": 175.0,
+        "width": 66.1,
+        "height": 18.8
+      }
+    },
+    "lndsB": {
+      "type": "text",
+      "label": "PART",
+      "page": 1,
+      "box": {
+        "left": 323.2,
+        "top": 175.0,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds1B": {
+      "type": "text",
+      "label": "4. LANDINGS",
+      "page": 1,
+      "box": {
+        "left": 355.5,
+        "top": 175.0,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds2B": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 1,
+      "box": {
+        "left": 387.9,
+        "top": 175.0,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds3B": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 1,
+      "box": {
+        "left": 420.2,
+        "top": 175.0,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds4B": {
+      "type": "text",
+      "label": "DATA",
+      "page": 1,
+      "box": {
+        "left": 452.5,
+        "top": 175.0,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "mtlNDA": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 1,
+      "box": {
+        "left": 484.7,
+        "top": 175.0,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mtara": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 1,
+      "box": {
+        "left": 529.9,
+        "top": 175.0,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mTCatsA": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 1,
+      "box": {
+        "left": 575.1,
+        "top": 175.0,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTLndA": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 1,
+      "box": {
+        "left": 620.2,
+        "top": 175.0,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mTarA": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 1,
+      "box": {
+        "left": 665.4,
+        "top": 175.0,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTCatsA": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 1,
+      "box": {
+        "left": 710.6,
+        "top": 175.0,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "pt4DteA": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 1,
+      "box": {
+        "left": 39.9,
+        "top": 172.1,
+        "width": 52.7,
+        "height": 13.1
+      }
+    },
+    "repCusB": {
+      "type": "text",
+      "label": "CUSTODIAN",
+      "page": 1,
+      "box": {
+        "left": 97.2,
+        "top": 155.1,
+        "width": 75.9,
+        "height": 18.8
+      }
+    },
+    "mob": {
+      "type": "text",
+      "label": "A. MO",
+      "page": 1,
+      "box": {
+        "left": 172.8,
+        "top": 155.1,
+        "width": 34.1,
+        "height": 18.8
+      }
+    },
+    "perB": {
+      "type": "text",
+      "label": "B. PERIOD",
+      "page": 1,
+      "box": {
+        "left": 207.7,
+        "top": 155.1,
+        "width": 48.1,
+        "height": 18.8
+      }
+    },
+    "snb": {
+      "type": "text",
+      "label": "C. SINCE NEW",
+      "page": 1,
+      "box": {
+        "left": 256.8,
+        "top": 155.1,
+        "width": 66.1,
+        "height": 18.8
+      }
+    },
+    "lndsC": {
+      "type": "text",
+      "label": "PART",
+      "page": 1,
+      "box": {
+        "left": 323.2,
+        "top": 155.1,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds1C": {
+      "type": "text",
+      "label": "4. LANDINGS",
+      "page": 1,
+      "box": {
+        "left": 355.5,
+        "top": 155.1,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds2C": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 1,
+      "box": {
+        "left": 387.9,
+        "top": 155.1,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds3C": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 1,
+      "box": {
+        "left": 420.2,
+        "top": 155.1,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds4C": {
+      "type": "text",
+      "label": "DATA",
+      "page": 1,
+      "box": {
+        "left": 452.5,
+        "top": 155.1,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "mtlNDB": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 1,
+      "box": {
+        "left": 484.7,
+        "top": 155.1,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mtarb": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 1,
+      "box": {
+        "left": 529.9,
+        "top": 155.1,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mTCatsB": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 1,
+      "box": {
+        "left": 575.1,
+        "top": 155.1,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTLndB": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 1,
+      "box": {
+        "left": 620.2,
+        "top": 155.1,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mTarB": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 1,
+      "box": {
+        "left": 665.4,
+        "top": 155.1,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTCatsB": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 1,
+      "box": {
+        "left": 710.6,
+        "top": 155.1,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "pt4DteB": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 1,
+      "box": {
+        "left": 39.9,
+        "top": 152.3,
+        "width": 52.7,
+        "height": 13.1
+      }
+    },
+    "repCusC": {
+      "type": "text",
+      "label": "CUSTODIAN",
+      "page": 1,
+      "box": {
+        "left": 97.2,
+        "top": 135.2,
+        "width": 75.9,
+        "height": 18.8
+      }
+    },
+    "moc": {
+      "type": "text",
+      "label": "A. MO",
+      "page": 1,
+      "box": {
+        "left": 172.8,
+        "top": 135.2,
+        "width": 34.1,
+        "height": 18.8
+      }
+    },
+    "perC": {
+      "type": "text",
+      "label": "B. PERIOD",
+      "page": 1,
+      "box": {
+        "left": 207.7,
+        "top": 135.2,
+        "width": 48.1,
+        "height": 18.8
+      }
+    },
+    "snc": {
+      "type": "text",
+      "label": "C. SINCE NEW",
+      "page": 1,
+      "box": {
+        "left": 256.8,
+        "top": 135.2,
+        "width": 66.1,
+        "height": 18.8
+      }
+    },
+    "lndsD": {
+      "type": "text",
+      "label": "PART",
+      "page": 1,
+      "box": {
+        "left": 323.2,
+        "top": 135.2,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds1D": {
+      "type": "text",
+      "label": "4. LANDINGS",
+      "page": 1,
+      "box": {
+        "left": 355.5,
+        "top": 135.2,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds2D": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 1,
+      "box": {
+        "left": 387.9,
+        "top": 135.2,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds3D": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 1,
+      "box": {
+        "left": 420.2,
+        "top": 135.2,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds4D": {
+      "type": "text",
+      "label": "DATA",
+      "page": 1,
+      "box": {
+        "left": 452.5,
+        "top": 135.2,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "mtlNDC": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 1,
+      "box": {
+        "left": 484.7,
+        "top": 135.2,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mtarc": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 1,
+      "box": {
+        "left": 529.9,
+        "top": 135.2,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mTCatsC": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 1,
+      "box": {
+        "left": 575.1,
+        "top": 135.2,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTLndC": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 1,
+      "box": {
+        "left": 620.2,
+        "top": 135.2,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mTarC": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 1,
+      "box": {
+        "left": 665.4,
+        "top": 135.2,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTCatsC": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 1,
+      "box": {
+        "left": 710.6,
+        "top": 135.2,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "pt4DteC": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 1,
+      "box": {
+        "left": 39.9,
+        "top": 132.4,
+        "width": 52.7,
+        "height": 13.1
+      }
+    },
+    "repCusD": {
+      "type": "text",
+      "label": "CUSTODIAN",
+      "page": 1,
+      "box": {
+        "left": 97.2,
+        "top": 115.4,
+        "width": 75.9,
+        "height": 18.8
+      }
+    },
+    "mod": {
+      "type": "text",
+      "label": "A. MO",
+      "page": 1,
+      "box": {
+        "left": 172.8,
+        "top": 115.4,
+        "width": 34.1,
+        "height": 18.8
+      }
+    },
+    "perD": {
+      "type": "text",
+      "label": "B. PERIOD",
+      "page": 1,
+      "box": {
+        "left": 207.7,
+        "top": 115.4,
+        "width": 48.1,
+        "height": 18.8
+      }
+    },
+    "snd": {
+      "type": "text",
+      "label": "C. SINCE NEW",
+      "page": 1,
+      "box": {
+        "left": 256.8,
+        "top": 115.4,
+        "width": 66.1,
+        "height": 18.8
+      }
+    },
+    "lndsE": {
+      "type": "text",
+      "label": "PART",
+      "page": 1,
+      "box": {
+        "left": 323.2,
+        "top": 115.4,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds1E": {
+      "type": "text",
+      "label": "4. LANDINGS",
+      "page": 1,
+      "box": {
+        "left": 355.5,
+        "top": 115.4,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds2E": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 1,
+      "box": {
+        "left": 387.9,
+        "top": 115.4,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds3E": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 1,
+      "box": {
+        "left": 420.2,
+        "top": 115.4,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds4E": {
+      "type": "text",
+      "label": "DATA",
+      "page": 1,
+      "box": {
+        "left": 452.5,
+        "top": 115.4,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "mtlNDD": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 1,
+      "box": {
+        "left": 484.7,
+        "top": 115.4,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mtard": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 1,
+      "box": {
+        "left": 529.9,
+        "top": 115.4,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mTCatsD": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 1,
+      "box": {
+        "left": 575.1,
+        "top": 115.4,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTLndD": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 1,
+      "box": {
+        "left": 620.2,
+        "top": 115.4,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mTarD": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 1,
+      "box": {
+        "left": 665.4,
+        "top": 115.4,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTCatsD": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 1,
+      "box": {
+        "left": 710.6,
+        "top": 115.4,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "pt4DteD": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 1,
+      "box": {
+        "left": 39.9,
+        "top": 112.5,
+        "width": 52.7,
+        "height": 13.1
+      }
+    },
+    "repCusE": {
+      "type": "text",
+      "label": "CUSTODIAN",
+      "page": 1,
+      "box": {
+        "left": 97.2,
+        "top": 95.5,
+        "width": 75.9,
+        "height": 18.8
+      }
+    },
+    "moe": {
+      "type": "text",
+      "label": "A. MO",
+      "page": 1,
+      "box": {
+        "left": 172.8,
+        "top": 95.5,
+        "width": 34.1,
+        "height": 18.8
+      }
+    },
+    "perE": {
+      "type": "text",
+      "label": "B. PERIOD",
+      "page": 1,
+      "box": {
+        "left": 207.7,
+        "top": 95.5,
+        "width": 48.1,
+        "height": 18.8
+      }
+    },
+    "sne": {
+      "type": "text",
+      "label": "C. SINCE NEW",
+      "page": 1,
+      "box": {
+        "left": 256.8,
+        "top": 95.5,
+        "width": 66.1,
+        "height": 18.8
+      }
+    },
+    "lndsF": {
+      "type": "text",
+      "label": "PART",
+      "page": 1,
+      "box": {
+        "left": 323.2,
+        "top": 95.5,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds1F": {
+      "type": "text",
+      "label": "4. LANDINGS",
+      "page": 1,
+      "box": {
+        "left": 355.5,
+        "top": 95.5,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds2F": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 1,
+      "box": {
+        "left": 387.9,
+        "top": 95.5,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds3F": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 1,
+      "box": {
+        "left": 420.2,
+        "top": 95.5,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds4F": {
+      "type": "text",
+      "label": "DATA",
+      "page": 1,
+      "box": {
+        "left": 452.5,
+        "top": 95.5,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "mtlNDE": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 1,
+      "box": {
+        "left": 484.7,
+        "top": 95.5,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mtare": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 1,
+      "box": {
+        "left": 529.9,
+        "top": 95.5,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mTCatsE": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 1,
+      "box": {
+        "left": 575.1,
+        "top": 95.5,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTLndE": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 1,
+      "box": {
+        "left": 620.2,
+        "top": 95.5,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mTarE": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 1,
+      "box": {
+        "left": 665.4,
+        "top": 95.5,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTCatsE": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 1,
+      "box": {
+        "left": 710.6,
+        "top": 95.5,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "pt4DteE": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 1,
+      "box": {
+        "left": 39.9,
+        "top": 92.7,
+        "width": 52.7,
+        "height": 13.1
+      }
+    },
+    "repCusF": {
+      "type": "text",
+      "label": "CUSTODIAN",
+      "page": 1,
+      "box": {
+        "left": 97.2,
+        "top": 75.6,
+        "width": 75.9,
+        "height": 18.8
+      }
+    },
+    "mof": {
+      "type": "text",
+      "label": "A. MO",
+      "page": 1,
+      "box": {
+        "left": 172.8,
+        "top": 75.6,
+        "width": 34.1,
+        "height": 18.8
+      }
+    },
+    "perF": {
+      "type": "text",
+      "label": "B. PERIOD",
+      "page": 1,
+      "box": {
+        "left": 207.7,
+        "top": 75.6,
+        "width": 48.1,
+        "height": 18.8
+      }
+    },
+    "snf": {
+      "type": "text",
+      "label": "C. SINCE NEW",
+      "page": 1,
+      "box": {
+        "left": 256.8,
+        "top": 75.6,
+        "width": 66.1,
+        "height": 18.8
+      }
+    },
+    "lndsG": {
+      "type": "text",
+      "label": "PART",
+      "page": 1,
+      "box": {
+        "left": 323.2,
+        "top": 75.6,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds1G": {
+      "type": "text",
+      "label": "4. LANDINGS",
+      "page": 1,
+      "box": {
+        "left": 355.5,
+        "top": 75.6,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds2G": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 1,
+      "box": {
+        "left": 387.9,
+        "top": 75.6,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds3G": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 1,
+      "box": {
+        "left": 420.2,
+        "top": 75.6,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds4G": {
+      "type": "text",
+      "label": "DATA",
+      "page": 1,
+      "box": {
+        "left": 452.5,
+        "top": 75.6,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "mtlNDF": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 1,
+      "box": {
+        "left": 484.7,
+        "top": 75.6,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mtarf": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 1,
+      "box": {
+        "left": 529.9,
+        "top": 75.6,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mTCatsF": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 1,
+      "box": {
+        "left": 575.1,
+        "top": 75.6,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTLndF": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 1,
+      "box": {
+        "left": 620.2,
+        "top": 75.6,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mTarF": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 1,
+      "box": {
+        "left": 665.4,
+        "top": 75.6,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTCatsF": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 1,
+      "box": {
+        "left": 710.6,
+        "top": 75.6,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "pt4DteF": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 1,
+      "box": {
+        "left": 39.9,
+        "top": 72.8,
+        "width": 52.7,
+        "height": 13.1
+      }
+    },
+    "repCusG": {
+      "type": "text",
+      "label": "CUSTODIAN",
+      "page": 1,
+      "box": {
+        "left": 97.2,
+        "top": 55.8,
+        "width": 75.9,
+        "height": 18.8
+      }
+    },
+    "mog": {
+      "type": "text",
+      "label": "A. MO",
+      "page": 1,
+      "box": {
+        "left": 172.8,
+        "top": 55.8,
+        "width": 34.1,
+        "height": 18.8
+      }
+    },
+    "perG": {
+      "type": "text",
+      "label": "B. PERIOD",
+      "page": 1,
+      "box": {
+        "left": 207.7,
+        "top": 55.8,
+        "width": 48.1,
+        "height": 18.8
+      }
+    },
+    "sng": {
+      "type": "text",
+      "label": "C. SINCE NEW",
+      "page": 1,
+      "box": {
+        "left": 256.8,
+        "top": 55.8,
+        "width": 66.1,
+        "height": 18.8
+      }
+    },
+    "lndsH": {
+      "type": "text",
+      "label": "PART",
+      "page": 1,
+      "box": {
+        "left": 323.2,
+        "top": 55.8,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds1H": {
+      "type": "text",
+      "label": "4. LANDINGS",
+      "page": 1,
+      "box": {
+        "left": 355.5,
+        "top": 55.8,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds2H": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 1,
+      "box": {
+        "left": 387.9,
+        "top": 55.8,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds3H": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 1,
+      "box": {
+        "left": 420.2,
+        "top": 55.8,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds42": {
+      "type": "text",
+      "label": "DATA",
+      "page": 1,
+      "box": {
+        "left": 452.5,
+        "top": 55.8,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "mtlNDG": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 1,
+      "box": {
+        "left": 484.7,
+        "top": 55.8,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mtarg": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 1,
+      "box": {
+        "left": 529.9,
+        "top": 55.8,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mTCatsG": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 1,
+      "box": {
+        "left": 575.1,
+        "top": 55.8,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTLndG": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 1,
+      "box": {
+        "left": 620.2,
+        "top": 55.8,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mTarG": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 1,
+      "box": {
+        "left": 665.4,
+        "top": 55.8,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTCatsG": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 1,
+      "box": {
+        "left": 710.6,
+        "top": 55.8,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "pt4DteG": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 1,
+      "box": {
+        "left": 39.9,
+        "top": 52.9,
+        "width": 52.7,
+        "height": 13.1
+      }
+    },
+    "lndsI": {
+      "type": "text",
+      "label": "CUSTODIAN A. MO B. PERIOD C. SINCE NEW",
+      "page": 2,
+      "box": {
+        "left": 322.7,
+        "top": 526.3,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds1I": {
+      "type": "text",
+      "label": "CUSTODIAN A. MO B. PERIOD C. SINCE NEW",
+      "page": 2,
+      "box": {
+        "left": 355.0,
+        "top": 526.3,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds2I": {
+      "type": "text",
+      "label": "CUSTODIAN A. MO B. PERIOD C. SINCE NEW",
+      "page": 2,
+      "box": {
+        "left": 387.4,
+        "top": 526.3,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds3I": {
+      "type": "text",
+      "label": "CUSTODIAN A. MO B. PERIOD C. SINCE NEW",
+      "page": 2,
+      "box": {
+        "left": 419.7,
+        "top": 526.3,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds5I": {
+      "type": "text",
+      "label": "CUSTODIAN A. MO B. PERIOD C. SINCE NEW",
+      "page": 2,
+      "box": {
+        "left": 452.1,
+        "top": 526.3,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "repCusH": {
+      "type": "text",
+      "label": "CUSTODIAN",
+      "page": 2,
+      "box": {
+        "left": 96.7,
+        "top": 507.1,
+        "width": 75.9,
+        "height": 18.8
+      }
+    },
+    "moh": {
+      "type": "text",
+      "label": "A. MO",
+      "page": 2,
+      "box": {
+        "left": 172.3,
+        "top": 507.1,
+        "width": 34.1,
+        "height": 18.8
+      }
+    },
+    "perH": {
+      "type": "text",
+      "label": "B. PERIOD",
+      "page": 2,
+      "box": {
+        "left": 207.2,
+        "top": 507.1,
+        "width": 48.1,
+        "height": 18.8
+      }
+    },
+    "snh": {
+      "type": "text",
+      "label": "C. SINCE NEW",
+      "page": 2,
+      "box": {
+        "left": 256.3,
+        "top": 507.1,
+        "width": 66.1,
+        "height": 18.8
+      }
+    },
+    "lndsJ": {
+      "type": "text",
+      "label": "PART IV - MONTHLY",
+      "page": 2,
+      "box": {
+        "left": 322.7,
+        "top": 507.1,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds1J": {
+      "type": "text",
+      "label": "4. LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 355.0,
+        "top": 507.1,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds2J": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 387.4,
+        "top": 507.1,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds3J": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 419.7,
+        "top": 507.1,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds5J": {
+      "type": "text",
+      "label": "Continuation",
+      "page": 2,
+      "box": {
+        "left": 452.1,
+        "top": 507.1,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "mTLndH": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 484.2,
+        "top": 507.1,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mYarH": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 529.4,
+        "top": 507.1,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "catsH": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 574.6,
+        "top": 507.1,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTLndH": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 619.8,
+        "top": 507.1,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTarH": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 664.9,
+        "top": 507.1,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTCatsH": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 710.4,
+        "top": 507.1,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "pt4DteH": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 2,
+      "box": {
+        "left": 39.4,
+        "top": 504.3,
+        "width": 52.7,
+        "height": 13.1
+      }
+    },
+    "repCusI": {
+      "type": "text",
+      "label": "CUSTODIAN",
+      "page": 2,
+      "box": {
+        "left": 96.7,
+        "top": 487.3,
+        "width": 75.9,
+        "height": 18.8
+      }
+    },
+    "moi": {
+      "type": "text",
+      "label": "A. MO",
+      "page": 2,
+      "box": {
+        "left": 172.3,
+        "top": 487.3,
+        "width": 34.1,
+        "height": 18.8
+      }
+    },
+    "perI": {
+      "type": "text",
+      "label": "B. PERIOD",
+      "page": 2,
+      "box": {
+        "left": 207.2,
+        "top": 487.3,
+        "width": 48.1,
+        "height": 18.8
+      }
+    },
+    "sni": {
+      "type": "text",
+      "label": "C. SINCE NEW",
+      "page": 2,
+      "box": {
+        "left": 256.3,
+        "top": 487.3,
+        "width": 66.1,
+        "height": 18.8
+      }
+    },
+    "lndsK": {
+      "type": "text",
+      "label": "PART IV - MONTHLY",
+      "page": 2,
+      "box": {
+        "left": 322.7,
+        "top": 487.3,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds1K": {
+      "type": "text",
+      "label": "4. LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 355.0,
+        "top": 487.3,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds2F2": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 387.4,
+        "top": 487.3,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds3K": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 419.7,
+        "top": 487.3,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds5K": {
+      "type": "text",
+      "label": "Continuation",
+      "page": 2,
+      "box": {
+        "left": 452.1,
+        "top": 487.3,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "mTLndI": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 484.2,
+        "top": 487.3,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mYarI": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 529.4,
+        "top": 487.3,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "catsI": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 574.6,
+        "top": 487.3,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTLndI": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 619.8,
+        "top": 487.3,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTarI": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 664.9,
+        "top": 487.3,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTCatsI": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 710.4,
+        "top": 487.3,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "pt4DteI": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 2,
+      "box": {
+        "left": 39.4,
+        "top": 484.4,
+        "width": 52.7,
+        "height": 13.1
+      }
+    },
+    "repCusJ": {
+      "type": "text",
+      "label": "CUSTODIAN",
+      "page": 2,
+      "box": {
+        "left": 96.7,
+        "top": 467.4,
+        "width": 75.9,
+        "height": 18.8
+      }
+    },
+    "moj": {
+      "type": "text",
+      "label": "A. MO",
+      "page": 2,
+      "box": {
+        "left": 172.3,
+        "top": 467.4,
+        "width": 34.1,
+        "height": 18.8
+      }
+    },
+    "perJ": {
+      "type": "text",
+      "label": "B. PERIOD",
+      "page": 2,
+      "box": {
+        "left": 207.2,
+        "top": 467.4,
+        "width": 48.1,
+        "height": 18.8
+      }
+    },
+    "snj": {
+      "type": "text",
+      "label": "C. SINCE NEW",
+      "page": 2,
+      "box": {
+        "left": 256.3,
+        "top": 467.4,
+        "width": 66.1,
+        "height": 18.8
+      }
+    },
+    "lndsL": {
+      "type": "text",
+      "label": "PART IV - MONTHLY",
+      "page": 2,
+      "box": {
+        "left": 322.7,
+        "top": 467.4,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds1L": {
+      "type": "text",
+      "label": "4. LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 355.0,
+        "top": 467.4,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds2L": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 387.4,
+        "top": 467.4,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds3L": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 419.7,
+        "top": 467.4,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds5L": {
+      "type": "text",
+      "label": "Continuation",
+      "page": 2,
+      "box": {
+        "left": 452.1,
+        "top": 467.4,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "mTLndJ": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 484.2,
+        "top": 467.4,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mYarJ": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 529.4,
+        "top": 467.4,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "catsJ": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 574.6,
+        "top": 467.4,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTLndJ": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 619.8,
+        "top": 467.4,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTarJ": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 664.9,
+        "top": 467.4,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTCatsJ": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 710.4,
+        "top": 467.4,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "pt4DteJ": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 2,
+      "box": {
+        "left": 39.4,
+        "top": 464.6,
+        "width": 52.7,
+        "height": 13.1
+      }
+    },
+    "repCusK": {
+      "type": "text",
+      "label": "CUSTODIAN",
+      "page": 2,
+      "box": {
+        "left": 96.7,
+        "top": 447.5,
+        "width": 75.9,
+        "height": 18.8
+      }
+    },
+    "mok": {
+      "type": "text",
+      "label": "A. MO",
+      "page": 2,
+      "box": {
+        "left": 172.3,
+        "top": 447.5,
+        "width": 34.1,
+        "height": 18.8
+      }
+    },
+    "perK": {
+      "type": "text",
+      "label": "B. PERIOD",
+      "page": 2,
+      "box": {
+        "left": 207.2,
+        "top": 447.5,
+        "width": 48.1,
+        "height": 18.8
+      }
+    },
+    "snk": {
+      "type": "text",
+      "label": "C. SINCE NEW",
+      "page": 2,
+      "box": {
+        "left": 256.3,
+        "top": 447.5,
+        "width": 66.1,
+        "height": 18.8
+      }
+    },
+    "lndsM": {
+      "type": "text",
+      "label": "PART IV - MONTHLY",
+      "page": 2,
+      "box": {
+        "left": 322.7,
+        "top": 447.5,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds1M": {
+      "type": "text",
+      "label": "4. LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 355.0,
+        "top": 447.5,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds2M": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 387.4,
+        "top": 447.5,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds3M": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 419.7,
+        "top": 447.5,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds5M": {
+      "type": "text",
+      "label": "Continuation",
+      "page": 2,
+      "box": {
+        "left": 452.1,
+        "top": 447.5,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "mTLndK": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 484.2,
+        "top": 447.5,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mYarK": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 529.4,
+        "top": 447.5,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "catsK": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 574.6,
+        "top": 447.5,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTLndK": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 619.8,
+        "top": 447.5,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTarK": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 664.9,
+        "top": 447.5,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTCatsK": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 710.4,
+        "top": 447.5,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "pt4DteK": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 2,
+      "box": {
+        "left": 39.4,
+        "top": 444.7,
+        "width": 52.7,
+        "height": 13.1
+      }
+    },
+    "repCusL": {
+      "type": "text",
+      "label": "CUSTODIAN",
+      "page": 2,
+      "box": {
+        "left": 96.7,
+        "top": 427.7,
+        "width": 75.9,
+        "height": 18.8
+      }
+    },
+    "modl": {
+      "type": "text",
+      "label": "A. MO",
+      "page": 2,
+      "box": {
+        "left": 172.3,
+        "top": 427.7,
+        "width": 34.1,
+        "height": 18.8
+      }
+    },
+    "perL": {
+      "type": "text",
+      "label": "B. PERIOD",
+      "page": 2,
+      "box": {
+        "left": 207.2,
+        "top": 427.7,
+        "width": 48.1,
+        "height": 18.8
+      }
+    },
+    "snl": {
+      "type": "text",
+      "label": "C. SINCE NEW",
+      "page": 2,
+      "box": {
+        "left": 256.3,
+        "top": 427.7,
+        "width": 66.1,
+        "height": 18.8
+      }
+    },
+    "lndsN": {
+      "type": "text",
+      "label": "PART IV - MONTHLY",
+      "page": 2,
+      "box": {
+        "left": 322.7,
+        "top": 427.7,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds1N": {
+      "type": "text",
+      "label": "4. LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 355.0,
+        "top": 427.7,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds2N": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 387.4,
+        "top": 427.7,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds3N": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 419.7,
+        "top": 427.7,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds5N": {
+      "type": "text",
+      "label": "Continuation",
+      "page": 2,
+      "box": {
+        "left": 452.1,
+        "top": 427.7,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "mTLndL": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 484.2,
+        "top": 427.7,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mYarL": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 529.4,
+        "top": 427.7,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "catsL": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 574.6,
+        "top": 427.7,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTLndL": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 619.8,
+        "top": 427.7,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTarL": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 664.9,
+        "top": 427.7,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTCatsL": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 710.4,
+        "top": 427.7,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "pt4DteL": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 2,
+      "box": {
+        "left": 39.4,
+        "top": 424.8,
+        "width": 52.7,
+        "height": 13.1
+      }
+    },
+    "repCusM": {
+      "type": "text",
+      "label": "CUSTODIAN",
+      "page": 2,
+      "box": {
+        "left": 96.7,
+        "top": 407.8,
+        "width": 75.9,
+        "height": 18.8
+      }
+    },
+    "mom": {
+      "type": "text",
+      "label": "A. MO",
+      "page": 2,
+      "box": {
+        "left": 172.3,
+        "top": 407.8,
+        "width": 34.1,
+        "height": 18.8
+      }
+    },
+    "perM": {
+      "type": "text",
+      "label": "B. PERIOD",
+      "page": 2,
+      "box": {
+        "left": 207.2,
+        "top": 407.8,
+        "width": 48.1,
+        "height": 18.8
+      }
+    },
+    "snm": {
+      "type": "text",
+      "label": "C. SINCE NEW",
+      "page": 2,
+      "box": {
+        "left": 256.3,
+        "top": 407.8,
+        "width": 66.1,
+        "height": 18.8
+      }
+    },
+    "lndsO": {
+      "type": "text",
+      "label": "PART IV - MONTHLY",
+      "page": 2,
+      "box": {
+        "left": 322.7,
+        "top": 407.8,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds1O": {
+      "type": "text",
+      "label": "4. LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 355.0,
+        "top": 407.8,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds2O": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 387.4,
+        "top": 407.8,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds3O": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 419.7,
+        "top": 407.8,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds5O": {
+      "type": "text",
+      "label": "Continuation",
+      "page": 2,
+      "box": {
+        "left": 452.1,
+        "top": 407.8,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "mTLndM": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 484.2,
+        "top": 407.8,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mYarM": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 529.4,
+        "top": 407.8,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "catsM": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 574.6,
+        "top": 407.8,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTLndM": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 619.8,
+        "top": 407.8,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTarM": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 664.9,
+        "top": 407.8,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTCatsM": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 710.4,
+        "top": 407.8,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "pt4DteM": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 2,
+      "box": {
+        "left": 39.4,
+        "top": 405.0,
+        "width": 52.7,
+        "height": 13.1
+      }
+    },
+    "repCusN": {
+      "type": "text",
+      "label": "CUSTODIAN",
+      "page": 2,
+      "box": {
+        "left": 96.7,
+        "top": 387.9,
+        "width": 75.9,
+        "height": 18.8
+      }
+    },
+    "mon": {
+      "type": "text",
+      "label": "A. MO",
+      "page": 2,
+      "box": {
+        "left": 172.3,
+        "top": 387.9,
+        "width": 34.1,
+        "height": 18.8
+      }
+    },
+    "perN": {
+      "type": "text",
+      "label": "B. PERIOD",
+      "page": 2,
+      "box": {
+        "left": 207.2,
+        "top": 387.9,
+        "width": 48.1,
+        "height": 18.8
+      }
+    },
+    "snn": {
+      "type": "text",
+      "label": "C. SINCE NEW",
+      "page": 2,
+      "box": {
+        "left": 256.3,
+        "top": 387.9,
+        "width": 66.1,
+        "height": 18.8
+      }
+    },
+    "lndsP": {
+      "type": "text",
+      "label": "PART IV - MONTHLY",
+      "page": 2,
+      "box": {
+        "left": 322.7,
+        "top": 387.9,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds1P": {
+      "type": "text",
+      "label": "4. LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 355.0,
+        "top": 387.9,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds2P": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 387.4,
+        "top": 387.9,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds3P": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 419.7,
+        "top": 387.9,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds5P": {
+      "type": "text",
+      "label": "Continuation",
+      "page": 2,
+      "box": {
+        "left": 452.1,
+        "top": 387.9,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "mTLndN": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 484.2,
+        "top": 387.9,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mYarN": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 529.4,
+        "top": 387.9,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "catsN": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 574.6,
+        "top": 387.9,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTLndN": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 619.8,
+        "top": 387.9,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTarN": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 664.9,
+        "top": 387.9,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTCatsN": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 710.4,
+        "top": 387.9,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "pt4DteN": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 2,
+      "box": {
+        "left": 39.4,
+        "top": 385.1,
+        "width": 52.7,
+        "height": 13.1
+      }
+    },
+    "repCusO": {
+      "type": "text",
+      "label": "CUSTODIAN",
+      "page": 2,
+      "box": {
+        "left": 96.7,
+        "top": 368.1,
+        "width": 75.9,
+        "height": 18.8
+      }
+    },
+    "moo": {
+      "type": "text",
+      "label": "A. MO",
+      "page": 2,
+      "box": {
+        "left": 172.3,
+        "top": 368.1,
+        "width": 34.1,
+        "height": 18.8
+      }
+    },
+    "perO": {
+      "type": "text",
+      "label": "B. PERIOD",
+      "page": 2,
+      "box": {
+        "left": 207.2,
+        "top": 368.1,
+        "width": 48.1,
+        "height": 18.8
+      }
+    },
+    "sno": {
+      "type": "text",
+      "label": "C. SINCE NEW",
+      "page": 2,
+      "box": {
+        "left": 256.3,
+        "top": 368.1,
+        "width": 66.1,
+        "height": 18.8
+      }
+    },
+    "lndsQ": {
+      "type": "text",
+      "label": "PART IV - MONTHLY",
+      "page": 2,
+      "box": {
+        "left": 322.7,
+        "top": 368.1,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds1Q": {
+      "type": "text",
+      "label": "4. LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 355.0,
+        "top": 368.1,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds2Q": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 387.4,
+        "top": 368.1,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds3Q": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 419.7,
+        "top": 368.1,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds5Q": {
+      "type": "text",
+      "label": "Continuation",
+      "page": 2,
+      "box": {
+        "left": 452.1,
+        "top": 368.1,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "mTLndO": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 484.2,
+        "top": 368.1,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mYarO": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 529.4,
+        "top": 368.1,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "catsO": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 574.6,
+        "top": 368.1,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTLndO": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 619.8,
+        "top": 368.1,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTarO": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 664.9,
+        "top": 368.1,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTCatsO": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 710.4,
+        "top": 368.1,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "pt4DteO": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 2,
+      "box": {
+        "left": 39.4,
+        "top": 365.2,
+        "width": 52.7,
+        "height": 13.1
+      }
+    },
+    "repCusP": {
+      "type": "text",
+      "label": "CUSTODIAN",
+      "page": 2,
+      "box": {
+        "left": 96.7,
+        "top": 349.3,
+        "width": 75.9,
+        "height": 18.8
+      }
+    },
+    "mop": {
+      "type": "text",
+      "label": "A. MO",
+      "page": 2,
+      "box": {
+        "left": 172.3,
+        "top": 349.3,
+        "width": 34.1,
+        "height": 18.8
+      }
+    },
+    "perP": {
+      "type": "text",
+      "label": "B. PERIOD",
+      "page": 2,
+      "box": {
+        "left": 207.2,
+        "top": 349.3,
+        "width": 48.1,
+        "height": 18.8
+      }
+    },
+    "snp": {
+      "type": "text",
+      "label": "C. SINCE NEW",
+      "page": 2,
+      "box": {
+        "left": 256.3,
+        "top": 349.3,
+        "width": 66.1,
+        "height": 18.8
+      }
+    },
+    "lndsR": {
+      "type": "text",
+      "label": "PART IV - MONTHLY",
+      "page": 2,
+      "box": {
+        "left": 322.7,
+        "top": 349.3,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds1R": {
+      "type": "text",
+      "label": "4. LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 355.0,
+        "top": 349.3,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds2R": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 387.4,
+        "top": 349.3,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds3R": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 419.7,
+        "top": 349.3,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds5R": {
+      "type": "text",
+      "label": "Continuation",
+      "page": 2,
+      "box": {
+        "left": 452.1,
+        "top": 349.3,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "mTLndP": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 484.2,
+        "top": 349.3,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mYarP": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 529.4,
+        "top": 349.3,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "catsP": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 574.6,
+        "top": 349.3,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTLndP": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 619.8,
+        "top": 349.3,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTarP": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 664.9,
+        "top": 349.3,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTCatsP": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 710.4,
+        "top": 349.3,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "pt4DteP": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 2,
+      "box": {
+        "left": 39.4,
+        "top": 346.5,
+        "width": 52.7,
+        "height": 13.1
+      }
+    },
+    "repCusQ": {
+      "type": "text",
+      "label": "CUSTODIAN",
+      "page": 2,
+      "box": {
+        "left": 96.7,
+        "top": 329.4,
+        "width": 75.9,
+        "height": 18.8
+      }
+    },
+    "moq": {
+      "type": "text",
+      "label": "A. MO",
+      "page": 2,
+      "box": {
+        "left": 172.3,
+        "top": 329.4,
+        "width": 34.1,
+        "height": 18.8
+      }
+    },
+    "perQ": {
+      "type": "text",
+      "label": "B. PERIOD",
+      "page": 2,
+      "box": {
+        "left": 207.2,
+        "top": 329.4,
+        "width": 48.1,
+        "height": 18.8
+      }
+    },
+    "snq": {
+      "type": "text",
+      "label": "C. SINCE NEW",
+      "page": 2,
+      "box": {
+        "left": 256.3,
+        "top": 329.4,
+        "width": 66.1,
+        "height": 18.8
+      }
+    },
+    "lndsS": {
+      "type": "text",
+      "label": "PART IV - MONTHLY",
+      "page": 2,
+      "box": {
+        "left": 322.7,
+        "top": 329.4,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds1S": {
+      "type": "text",
+      "label": "4. LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 355.0,
+        "top": 329.4,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds2S": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 387.4,
+        "top": 329.4,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds3S": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 419.7,
+        "top": 329.4,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds5S": {
+      "type": "text",
+      "label": "Continuation",
+      "page": 2,
+      "box": {
+        "left": 452.1,
+        "top": 329.4,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "mTLndQ": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 484.2,
+        "top": 329.4,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mYarQ": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 529.4,
+        "top": 329.4,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "catsQ": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 574.6,
+        "top": 329.4,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTLndQ": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 619.8,
+        "top": 329.4,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTarQ": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 664.9,
+        "top": 329.4,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTCatsQ": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 710.4,
+        "top": 329.4,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "pt4DteQ": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 2,
+      "box": {
+        "left": 39.4,
+        "top": 326.6,
+        "width": 52.7,
+        "height": 13.1
+      }
+    },
+    "repCusR": {
+      "type": "text",
+      "label": "CUSTODIAN",
+      "page": 2,
+      "box": {
+        "left": 96.7,
+        "top": 309.6,
+        "width": 75.9,
+        "height": 18.8
+      }
+    },
+    "mor": {
+      "type": "text",
+      "label": "A. MO",
+      "page": 2,
+      "box": {
+        "left": 172.3,
+        "top": 309.6,
+        "width": 34.1,
+        "height": 18.8
+      }
+    },
+    "perR": {
+      "type": "text",
+      "label": "B. PERIOD",
+      "page": 2,
+      "box": {
+        "left": 207.2,
+        "top": 309.6,
+        "width": 48.1,
+        "height": 18.8
+      }
+    },
+    "snr": {
+      "type": "text",
+      "label": "C. SINCE NEW",
+      "page": 2,
+      "box": {
+        "left": 256.3,
+        "top": 309.6,
+        "width": 66.1,
+        "height": 18.8
+      }
+    },
+    "lndsT": {
+      "type": "text",
+      "label": "PART IV - MONTHLY",
+      "page": 2,
+      "box": {
+        "left": 322.7,
+        "top": 309.6,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds1T": {
+      "type": "text",
+      "label": "4. LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 355.0,
+        "top": 309.6,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds2T": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 387.4,
+        "top": 309.6,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds3T": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 419.7,
+        "top": 309.6,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds5T": {
+      "type": "text",
+      "label": "Continuation",
+      "page": 2,
+      "box": {
+        "left": 452.1,
+        "top": 309.6,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "mTLndR": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 484.2,
+        "top": 309.6,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mYarR": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 529.4,
+        "top": 309.6,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "catsR": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 574.6,
+        "top": 309.6,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTLndR": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 619.8,
+        "top": 309.6,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTarR": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 664.9,
+        "top": 309.6,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTCatsR": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 710.4,
+        "top": 309.6,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "pt4DteR": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 2,
+      "box": {
+        "left": 39.4,
+        "top": 306.7,
+        "width": 52.7,
+        "height": 13.1
+      }
+    },
+    "repCusS": {
+      "type": "text",
+      "label": "CUSTODIAN",
+      "page": 2,
+      "box": {
+        "left": 96.7,
+        "top": 289.7,
+        "width": 75.9,
+        "height": 18.8
+      }
+    },
+    "mos": {
+      "type": "text",
+      "label": "A. MO",
+      "page": 2,
+      "box": {
+        "left": 172.3,
+        "top": 289.7,
+        "width": 34.1,
+        "height": 18.8
+      }
+    },
+    "perS": {
+      "type": "text",
+      "label": "B. PERIOD",
+      "page": 2,
+      "box": {
+        "left": 207.2,
+        "top": 289.7,
+        "width": 48.1,
+        "height": 18.8
+      }
+    },
+    "sns": {
+      "type": "text",
+      "label": "C. SINCE NEW",
+      "page": 2,
+      "box": {
+        "left": 256.3,
+        "top": 289.7,
+        "width": 66.1,
+        "height": 18.8
+      }
+    },
+    "lndsU": {
+      "type": "text",
+      "label": "PART IV - MONTHLY",
+      "page": 2,
+      "box": {
+        "left": 322.7,
+        "top": 289.7,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds1U": {
+      "type": "text",
+      "label": "4. LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 355.0,
+        "top": 289.7,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds2U": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 387.4,
+        "top": 289.7,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds3U": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 419.7,
+        "top": 289.7,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds5U": {
+      "type": "text",
+      "label": "Continuation",
+      "page": 2,
+      "box": {
+        "left": 452.1,
+        "top": 289.7,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "mTLndS": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 484.2,
+        "top": 289.7,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mYarS": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 529.4,
+        "top": 289.7,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "catsS": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 574.6,
+        "top": 289.7,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTLndS": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 619.8,
+        "top": 289.7,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTarS": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 664.9,
+        "top": 289.7,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTCatsS": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 710.4,
+        "top": 289.7,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "pt4DteS": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 2,
+      "box": {
+        "left": 39.4,
+        "top": 286.9,
+        "width": 52.7,
+        "height": 13.1
+      }
+    },
+    "repCusT": {
+      "type": "text",
+      "label": "CUSTODIAN",
+      "page": 2,
+      "box": {
+        "left": 96.7,
+        "top": 270.9,
+        "width": 75.9,
+        "height": 18.8
+      }
+    },
+    "mot": {
+      "type": "text",
+      "label": "A. MO",
+      "page": 2,
+      "box": {
+        "left": 172.3,
+        "top": 270.9,
+        "width": 34.1,
+        "height": 18.8
+      }
+    },
+    "perT": {
+      "type": "text",
+      "label": "B. PERIOD",
+      "page": 2,
+      "box": {
+        "left": 207.2,
+        "top": 270.9,
+        "width": 48.1,
+        "height": 18.8
+      }
+    },
+    "snt": {
+      "type": "text",
+      "label": "C. SINCE NEW",
+      "page": 2,
+      "box": {
+        "left": 256.3,
+        "top": 270.9,
+        "width": 66.1,
+        "height": 18.8
+      }
+    },
+    "lndsV": {
+      "type": "text",
+      "label": "PART IV - MONTHLY",
+      "page": 2,
+      "box": {
+        "left": 322.7,
+        "top": 270.9,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds1V": {
+      "type": "text",
+      "label": "4. LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 355.0,
+        "top": 270.9,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds2V": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 387.4,
+        "top": 270.9,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds3V": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 419.7,
+        "top": 270.9,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds5V": {
+      "type": "text",
+      "label": "Continuation",
+      "page": 2,
+      "box": {
+        "left": 452.1,
+        "top": 270.9,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "mTLndT": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 484.2,
+        "top": 270.9,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mYarT": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 529.4,
+        "top": 270.9,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "catsT": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 574.6,
+        "top": 270.9,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTLndT": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 619.8,
+        "top": 270.9,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTarT": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 664.9,
+        "top": 270.9,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTCatsT": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 710.4,
+        "top": 270.9,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "pt4DteT": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 2,
+      "box": {
+        "left": 39.4,
+        "top": 268.1,
+        "width": 52.7,
+        "height": 13.1
+      }
+    },
+    "repCusU": {
+      "type": "text",
+      "label": "CUSTODIAN",
+      "page": 2,
+      "box": {
+        "left": 96.7,
+        "top": 251.1,
+        "width": 75.9,
+        "height": 18.8
+      }
+    },
+    "mou": {
+      "type": "text",
+      "label": "A. MO",
+      "page": 2,
+      "box": {
+        "left": 172.3,
+        "top": 251.1,
+        "width": 34.1,
+        "height": 18.8
+      }
+    },
+    "perU": {
+      "type": "text",
+      "label": "B. PERIOD",
+      "page": 2,
+      "box": {
+        "left": 207.2,
+        "top": 251.1,
+        "width": 48.1,
+        "height": 18.8
+      }
+    },
+    "snu": {
+      "type": "text",
+      "label": "C. SINCE NEW",
+      "page": 2,
+      "box": {
+        "left": 256.3,
+        "top": 251.1,
+        "width": 66.1,
+        "height": 18.8
+      }
+    },
+    "lndsW": {
+      "type": "text",
+      "label": "PART IV - MONTHLY",
+      "page": 2,
+      "box": {
+        "left": 322.7,
+        "top": 251.1,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds1W": {
+      "type": "text",
+      "label": "4. LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 355.0,
+        "top": 251.1,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds2W": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 387.4,
+        "top": 251.1,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds3W": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 419.7,
+        "top": 251.1,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds5W": {
+      "type": "text",
+      "label": "Continuation",
+      "page": 2,
+      "box": {
+        "left": 452.1,
+        "top": 251.1,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "mTLndU": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 484.2,
+        "top": 251.1,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mYarU": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 529.4,
+        "top": 251.1,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "catsU": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 574.6,
+        "top": 251.1,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTLndU": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 619.8,
+        "top": 251.1,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTarU": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 664.9,
+        "top": 251.1,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTCatsU": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 710.4,
+        "top": 251.1,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "pt4DteU": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 2,
+      "box": {
+        "left": 39.4,
+        "top": 248.2,
+        "width": 52.7,
+        "height": 13.1
+      }
+    },
+    "repCusV": {
+      "type": "text",
+      "label": "CUSTODIAN",
+      "page": 2,
+      "box": {
+        "left": 96.7,
+        "top": 231.2,
+        "width": 75.9,
+        "height": 18.8
+      }
+    },
+    "mov": {
+      "type": "text",
+      "label": "A. MO",
+      "page": 2,
+      "box": {
+        "left": 172.3,
+        "top": 231.2,
+        "width": 34.1,
+        "height": 18.8
+      }
+    },
+    "perV": {
+      "type": "text",
+      "label": "B. PERIOD",
+      "page": 2,
+      "box": {
+        "left": 207.2,
+        "top": 231.2,
+        "width": 48.1,
+        "height": 18.8
+      }
+    },
+    "snv": {
+      "type": "text",
+      "label": "C. SINCE NEW",
+      "page": 2,
+      "box": {
+        "left": 256.3,
+        "top": 231.2,
+        "width": 66.1,
+        "height": 18.8
+      }
+    },
+    "lndsX": {
+      "type": "text",
+      "label": "PART IV - MONTHLY",
+      "page": 2,
+      "box": {
+        "left": 322.7,
+        "top": 231.2,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds1X": {
+      "type": "text",
+      "label": "4. LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 355.0,
+        "top": 231.2,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds2X": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 387.4,
+        "top": 231.2,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds3X": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 419.7,
+        "top": 231.2,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds5X": {
+      "type": "text",
+      "label": "Continuation",
+      "page": 2,
+      "box": {
+        "left": 452.1,
+        "top": 231.2,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "mTLndV": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 484.2,
+        "top": 231.2,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mYarV": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 529.4,
+        "top": 231.2,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "catsV": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 574.6,
+        "top": 231.2,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTLndV": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 619.8,
+        "top": 231.2,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTarV": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 664.9,
+        "top": 231.2,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTCatsV": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 710.4,
+        "top": 231.2,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "pt4DteV": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 2,
+      "box": {
+        "left": 39.4,
+        "top": 228.4,
+        "width": 52.7,
+        "height": 13.1
+      }
+    },
+    "repCusW": {
+      "type": "text",
+      "label": "CUSTODIAN",
+      "page": 2,
+      "box": {
+        "left": 96.7,
+        "top": 211.3,
+        "width": 75.9,
+        "height": 18.8
+      }
+    },
+    "mow": {
+      "type": "text",
+      "label": "A. MO",
+      "page": 2,
+      "box": {
+        "left": 172.3,
+        "top": 211.3,
+        "width": 34.1,
+        "height": 18.8
+      }
+    },
+    "perW": {
+      "type": "text",
+      "label": "B. PERIOD",
+      "page": 2,
+      "box": {
+        "left": 207.2,
+        "top": 211.3,
+        "width": 48.1,
+        "height": 18.8
+      }
+    },
+    "snw": {
+      "type": "text",
+      "label": "C. SINCE NEW",
+      "page": 2,
+      "box": {
+        "left": 256.3,
+        "top": 211.3,
+        "width": 66.1,
+        "height": 18.8
+      }
+    },
+    "lndsY": {
+      "type": "text",
+      "label": "PART IV - MONTHLY",
+      "page": 2,
+      "box": {
+        "left": 322.7,
+        "top": 211.3,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds1Y": {
+      "type": "text",
+      "label": "4. LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 355.0,
+        "top": 211.3,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds2Y": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 387.4,
+        "top": 211.3,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds3Y": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 419.7,
+        "top": 211.3,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds5Y": {
+      "type": "text",
+      "label": "Continuation",
+      "page": 2,
+      "box": {
+        "left": 452.1,
+        "top": 211.3,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "mTLndW": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 484.2,
+        "top": 211.3,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mYarW": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 529.4,
+        "top": 211.3,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "catsW": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 574.6,
+        "top": 211.3,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTLndW": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 619.8,
+        "top": 211.3,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTarW": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 664.9,
+        "top": 211.3,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTCatsW": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 710.4,
+        "top": 211.3,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "pt4DteW": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 2,
+      "box": {
+        "left": 39.4,
+        "top": 208.5,
+        "width": 52.7,
+        "height": 13.1
+      }
+    },
+    "repCusX": {
+      "type": "text",
+      "label": "CUSTODIAN",
+      "page": 2,
+      "box": {
+        "left": 96.7,
+        "top": 192.5,
+        "width": 75.9,
+        "height": 18.8
+      }
+    },
+    "mox": {
+      "type": "text",
+      "label": "A. MO",
+      "page": 2,
+      "box": {
+        "left": 172.3,
+        "top": 192.5,
+        "width": 34.1,
+        "height": 18.8
+      }
+    },
+    "perX": {
+      "type": "text",
+      "label": "B. PERIOD",
+      "page": 2,
+      "box": {
+        "left": 207.2,
+        "top": 192.5,
+        "width": 48.1,
+        "height": 18.8
+      }
+    },
+    "snx": {
+      "type": "text",
+      "label": "C. SINCE NEW",
+      "page": 2,
+      "box": {
+        "left": 256.3,
+        "top": 192.5,
+        "width": 66.1,
+        "height": 18.8
+      }
+    },
+    "lndsZ": {
+      "type": "text",
+      "label": "PART IV - MONTHLY",
+      "page": 2,
+      "box": {
+        "left": 322.7,
+        "top": 192.5,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds1Z": {
+      "type": "text",
+      "label": "4. LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 355.0,
+        "top": 192.5,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds2Z": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 387.4,
+        "top": 192.5,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds3Z": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 419.7,
+        "top": 192.5,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds5Z": {
+      "type": "text",
+      "label": "Continuation",
+      "page": 2,
+      "box": {
+        "left": 452.1,
+        "top": 192.5,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "mTLndX": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 484.2,
+        "top": 192.5,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mYarX": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 529.4,
+        "top": 192.5,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "catsX": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 574.6,
+        "top": 192.5,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTLndX": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 619.8,
+        "top": 192.5,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTarX": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 664.9,
+        "top": 192.5,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTCatsX": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 710.4,
+        "top": 192.5,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "pt4DteX": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 2,
+      "box": {
+        "left": 39.4,
+        "top": 189.7,
+        "width": 52.7,
+        "height": 13.1
+      }
+    },
+    "repCusY": {
+      "type": "text",
+      "label": "CUSTODIAN",
+      "page": 2,
+      "box": {
+        "left": 96.7,
+        "top": 173.8,
+        "width": 75.9,
+        "height": 18.8
+      }
+    },
+    "moy": {
+      "type": "text",
+      "label": "A. MO",
+      "page": 2,
+      "box": {
+        "left": 172.3,
+        "top": 173.8,
+        "width": 34.1,
+        "height": 18.8
+      }
+    },
+    "perY": {
+      "type": "text",
+      "label": "B. PERIOD",
+      "page": 2,
+      "box": {
+        "left": 207.2,
+        "top": 173.8,
+        "width": 48.1,
+        "height": 18.8
+      }
+    },
+    "sny": {
+      "type": "text",
+      "label": "C. SINCE NEW",
+      "page": 2,
+      "box": {
+        "left": 256.3,
+        "top": 173.8,
+        "width": 66.1,
+        "height": 18.8
+      }
+    },
+    "lndsAA": {
+      "type": "text",
+      "label": "PART IV - MONTHLY",
+      "page": 2,
+      "box": {
+        "left": 322.7,
+        "top": 173.8,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds1AA": {
+      "type": "text",
+      "label": "4. LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 355.0,
+        "top": 173.8,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds2AA": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 387.4,
+        "top": 173.8,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds3AA": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 419.7,
+        "top": 173.8,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds5AA": {
+      "type": "text",
+      "label": "Continuation",
+      "page": 2,
+      "box": {
+        "left": 452.1,
+        "top": 173.8,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "mTLndY": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 484.2,
+        "top": 173.8,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mYarY": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 529.4,
+        "top": 173.8,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "catsY": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 574.6,
+        "top": 173.8,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTLndY": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 619.8,
+        "top": 173.8,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTarY": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 664.9,
+        "top": 173.8,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTCatsY": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 710.4,
+        "top": 173.8,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "pt4DteY": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 2,
+      "box": {
+        "left": 39.4,
+        "top": 170.9,
+        "width": 52.7,
+        "height": 13.1
+      }
+    },
+    "repCusZ": {
+      "type": "text",
+      "label": "CUSTODIAN",
+      "page": 2,
+      "box": {
+        "left": 96.7,
+        "top": 153.9,
+        "width": 75.9,
+        "height": 18.8
+      }
+    },
+    "moz": {
+      "type": "text",
+      "label": "A. MO",
+      "page": 2,
+      "box": {
+        "left": 172.3,
+        "top": 153.9,
+        "width": 34.1,
+        "height": 18.8
+      }
+    },
+    "perZ": {
+      "type": "text",
+      "label": "B. PERIOD",
+      "page": 2,
+      "box": {
+        "left": 207.2,
+        "top": 153.9,
+        "width": 48.1,
+        "height": 18.8
+      }
+    },
+    "snz": {
+      "type": "text",
+      "label": "C. SINCE NEW",
+      "page": 2,
+      "box": {
+        "left": 256.3,
+        "top": 153.9,
+        "width": 66.1,
+        "height": 18.8
+      }
+    },
+    "lndsBB": {
+      "type": "text",
+      "label": "PART IV - MONTHLY",
+      "page": 2,
+      "box": {
+        "left": 322.7,
+        "top": 153.9,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds1BB": {
+      "type": "text",
+      "label": "4. LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 355.0,
+        "top": 153.9,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds2BB": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 387.4,
+        "top": 153.9,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds3BB": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 419.7,
+        "top": 153.9,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds5BB": {
+      "type": "text",
+      "label": "Continuation",
+      "page": 2,
+      "box": {
+        "left": 452.1,
+        "top": 153.9,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "mTLndZ": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 484.2,
+        "top": 153.9,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mYarZ": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 529.4,
+        "top": 153.9,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "catsZ": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 574.6,
+        "top": 153.9,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTLndZ": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 619.8,
+        "top": 153.9,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTarZ": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 664.9,
+        "top": 153.9,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTCatsZ": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 710.4,
+        "top": 153.9,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "pt4DteZ": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 2,
+      "box": {
+        "left": 39.4,
+        "top": 151.1,
+        "width": 52.7,
+        "height": 13.1
+      }
+    },
+    "repCusAA": {
+      "type": "text",
+      "label": "CUSTODIAN",
+      "page": 2,
+      "box": {
+        "left": 96.7,
+        "top": 134.0,
+        "width": 75.9,
+        "height": 18.8
+      }
+    },
+    "moaa": {
+      "type": "text",
+      "label": "A. MO",
+      "page": 2,
+      "box": {
+        "left": 172.3,
+        "top": 134.0,
+        "width": 34.1,
+        "height": 18.8
+      }
+    },
+    "perAA": {
+      "type": "text",
+      "label": "B. PERIOD",
+      "page": 2,
+      "box": {
+        "left": 207.2,
+        "top": 134.0,
+        "width": 48.1,
+        "height": 18.8
+      }
+    },
+    "snaa": {
+      "type": "text",
+      "label": "C. SINCE NEW",
+      "page": 2,
+      "box": {
+        "left": 256.3,
+        "top": 134.0,
+        "width": 66.1,
+        "height": 18.8
+      }
+    },
+    "lndsCC": {
+      "type": "text",
+      "label": "PART IV - MONTHLY",
+      "page": 2,
+      "box": {
+        "left": 322.7,
+        "top": 134.0,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds1CC": {
+      "type": "text",
+      "label": "4. LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 355.0,
+        "top": 134.0,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds2CC": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 387.4,
+        "top": 134.0,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds3CC": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 419.7,
+        "top": 134.0,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds5CC": {
+      "type": "text",
+      "label": "Continuation",
+      "page": 2,
+      "box": {
+        "left": 452.1,
+        "top": 134.0,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "mTLndAA": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 484.2,
+        "top": 134.0,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mYarAA": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 529.4,
+        "top": 134.0,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "catsAA": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 574.6,
+        "top": 134.0,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTLndAA": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 619.8,
+        "top": 134.0,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTarAA": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 664.9,
+        "top": 134.0,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTCatsAA": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 710.4,
+        "top": 134.0,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "pt4DteAA": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 2,
+      "box": {
+        "left": 39.4,
+        "top": 131.2,
+        "width": 52.7,
+        "height": 13.1
+      }
+    },
+    "repCusBB": {
+      "type": "text",
+      "label": "CUSTODIAN",
+      "page": 2,
+      "box": {
+        "left": 96.7,
+        "top": 114.2,
+        "width": 75.9,
+        "height": 18.8
+      }
+    },
+    "mobb": {
+      "type": "text",
+      "label": "A. MO",
+      "page": 2,
+      "box": {
+        "left": 172.3,
+        "top": 114.2,
+        "width": 34.1,
+        "height": 18.8
+      }
+    },
+    "perBB": {
+      "type": "text",
+      "label": "B. PERIOD",
+      "page": 2,
+      "box": {
+        "left": 207.2,
+        "top": 114.2,
+        "width": 48.1,
+        "height": 18.8
+      }
+    },
+    "actBB": {
+      "type": "text",
+      "label": "C. SINCE NEW",
+      "page": 2,
+      "box": {
+        "left": 256.3,
+        "top": 114.2,
+        "width": 66.1,
+        "height": 18.8
+      }
+    },
+    "lndsDD": {
+      "type": "text",
+      "label": "PART IV - MONTHLY",
+      "page": 2,
+      "box": {
+        "left": 322.7,
+        "top": 114.2,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds1DD": {
+      "type": "text",
+      "label": "4. LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 355.0,
+        "top": 114.2,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds2DD": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 387.4,
+        "top": 114.2,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds3DD": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 419.7,
+        "top": 114.2,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds5DD": {
+      "type": "text",
+      "label": "Continuation",
+      "page": 2,
+      "box": {
+        "left": 452.1,
+        "top": 114.2,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "mTLndBB": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 484.2,
+        "top": 114.2,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mYarBB": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 529.4,
+        "top": 114.2,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "catsBB": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 574.6,
+        "top": 114.2,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTLndBB": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 619.8,
+        "top": 114.2,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTarBB": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 664.9,
+        "top": 114.2,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTCatsBB": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 710.4,
+        "top": 114.2,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "pt4DteBB": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 2,
+      "box": {
+        "left": 39.4,
+        "top": 111.3,
+        "width": 52.7,
+        "height": 13.1
+      }
+    },
+    "repCusCC": {
+      "type": "text",
+      "label": "CUSTODIAN",
+      "page": 2,
+      "box": {
+        "left": 96.7,
+        "top": 95.4,
+        "width": 75.9,
+        "height": 18.8
+      }
+    },
+    "mocc": {
+      "type": "text",
+      "label": "A. MO",
+      "page": 2,
+      "box": {
+        "left": 172.3,
+        "top": 95.4,
+        "width": 34.1,
+        "height": 18.8
+      }
+    },
+    "perCC": {
+      "type": "text",
+      "label": "B. PERIOD",
+      "page": 2,
+      "box": {
+        "left": 207.2,
+        "top": 95.4,
+        "width": 48.1,
+        "height": 18.8
+      }
+    },
+    "sncc": {
+      "type": "text",
+      "label": "C. SINCE NEW",
+      "page": 2,
+      "box": {
+        "left": 256.3,
+        "top": 95.4,
+        "width": 66.1,
+        "height": 18.8
+      }
+    },
+    "lndsEE": {
+      "type": "text",
+      "label": "PART IV - MONTHLY",
+      "page": 2,
+      "box": {
+        "left": 322.7,
+        "top": 95.4,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds1EE": {
+      "type": "text",
+      "label": "4. LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 355.0,
+        "top": 95.4,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds2EE": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 387.4,
+        "top": 95.4,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds3EE": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 419.7,
+        "top": 95.4,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds5EE": {
+      "type": "text",
+      "label": "Continuation",
+      "page": 2,
+      "box": {
+        "left": 452.1,
+        "top": 95.4,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "mTLndCC": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 484.2,
+        "top": 95.4,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mYarCC": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 529.4,
+        "top": 95.4,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "catsCC": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 574.6,
+        "top": 95.4,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTLndCC": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 619.8,
+        "top": 95.4,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTarCC": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 664.9,
+        "top": 95.4,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTCatsCC": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 710.4,
+        "top": 95.4,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "pt4DteCC": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 2,
+      "box": {
+        "left": 39.4,
+        "top": 92.5,
+        "width": 52.7,
+        "height": 13.1
+      }
+    },
+    "repCusDD": {
+      "type": "text",
+      "label": "CUSTODIAN",
+      "page": 2,
+      "box": {
+        "left": 96.7,
+        "top": 75.5,
+        "width": 75.9,
+        "height": 18.8
+      }
+    },
+    "modd": {
+      "type": "text",
+      "label": "A. MO",
+      "page": 2,
+      "box": {
+        "left": 172.3,
+        "top": 75.5,
+        "width": 34.1,
+        "height": 18.8
+      }
+    },
+    "perDD": {
+      "type": "text",
+      "label": "B. PERIOD",
+      "page": 2,
+      "box": {
+        "left": 207.2,
+        "top": 75.5,
+        "width": 48.1,
+        "height": 18.8
+      }
+    },
+    "sndd": {
+      "type": "text",
+      "label": "C. SINCE NEW",
+      "page": 2,
+      "box": {
+        "left": 256.3,
+        "top": 75.5,
+        "width": 66.1,
+        "height": 18.8
+      }
+    },
+    "lndsFF": {
+      "type": "text",
+      "label": "PART IV - MONTHLY",
+      "page": 2,
+      "box": {
+        "left": 322.7,
+        "top": 75.5,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds1FF": {
+      "type": "text",
+      "label": "4. LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 355.0,
+        "top": 75.5,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds2FF": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 387.4,
+        "top": 75.5,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds3FF": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 419.7,
+        "top": 75.5,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds5FF": {
+      "type": "text",
+      "label": "Continuation",
+      "page": 2,
+      "box": {
+        "left": 452.1,
+        "top": 75.5,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "mTLndDD": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 484.2,
+        "top": 75.5,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mYarDD": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 529.4,
+        "top": 75.5,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "catsDD": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 574.6,
+        "top": 75.5,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTLndDD": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 619.8,
+        "top": 75.5,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTarDD": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 664.9,
+        "top": 75.5,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTCatsDD": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 710.4,
+        "top": 75.5,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "pt4DteDD": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 2,
+      "box": {
+        "left": 39.4,
+        "top": 72.7,
+        "width": 52.7,
+        "height": 13.1
+      }
+    },
+    "repCusEE": {
+      "type": "text",
+      "label": "CUSTODIAN",
+      "page": 2,
+      "box": {
+        "left": 96.7,
+        "top": 55.7,
+        "width": 75.9,
+        "height": 18.8
+      }
+    },
+    "moee": {
+      "type": "text",
+      "label": "A. MO",
+      "page": 2,
+      "box": {
+        "left": 172.3,
+        "top": 55.7,
+        "width": 34.1,
+        "height": 18.8
+      }
+    },
+    "perEE": {
+      "type": "text",
+      "label": "B. PERIOD",
+      "page": 2,
+      "box": {
+        "left": 207.2,
+        "top": 55.7,
+        "width": 48.1,
+        "height": 18.8
+      }
+    },
+    "snee": {
+      "type": "text",
+      "label": "C. SINCE NEW",
+      "page": 2,
+      "box": {
+        "left": 256.3,
+        "top": 55.7,
+        "width": 66.1,
+        "height": 18.8
+      }
+    },
+    "lndsGG": {
+      "type": "text",
+      "label": "PART IV - MONTHLY",
+      "page": 2,
+      "box": {
+        "left": 322.7,
+        "top": 55.7,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds1GG": {
+      "type": "text",
+      "label": "4. LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 355.0,
+        "top": 55.7,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds2GG": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 387.4,
+        "top": 55.7,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds3GG": {
+      "type": "text",
+      "label": "LANDINGS",
+      "page": 2,
+      "box": {
+        "left": 419.7,
+        "top": 55.7,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "lnds5GG": {
+      "type": "text",
+      "label": "Continuation",
+      "page": 2,
+      "box": {
+        "left": 452.1,
+        "top": 55.7,
+        "width": 32.3,
+        "height": 18.8
+      }
+    },
+    "mTLndEE": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 484.2,
+        "top": 55.7,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "mYarEE": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 529.4,
+        "top": 55.7,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "catsEE": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 574.6,
+        "top": 55.7,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTLndEE": {
+      "type": "text",
+      "label": "A. LAND",
+      "page": 2,
+      "box": {
+        "left": 619.8,
+        "top": 55.7,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTarEE": {
+      "type": "text",
+      "label": "B. A/R",
+      "page": 2,
+      "box": {
+        "left": 664.9,
+        "top": 55.7,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "aTCatsEE": {
+      "type": "text",
+      "label": "C. CATS",
+      "page": 2,
+      "box": {
+        "left": 710.4,
+        "top": 55.7,
+        "width": 45.2,
+        "height": 18.8
+      }
+    },
+    "pt4DteEE": {
+      "type": "text",
+      "label": "1. DATE",
+      "page": 2,
+      "box": {
+        "left": 39.4,
+        "top": 52.8,
+        "width": 52.7,
+        "height": 13.1
+      }
+    }
+  }
+}

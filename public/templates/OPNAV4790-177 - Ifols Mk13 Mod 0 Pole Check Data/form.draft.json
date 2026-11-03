@@ -1,0 +1,399 @@
+{
+  "id": "opnav4790177",
+  "label": "OPNAV4790-177 - Ifols Mk13 Mod 0 Pole Check Data",
+  "directory": "OPNAV4790-177 - Ifols Mk13 Mod 0 Pole Check Data",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "dateTimeField1",
+        "dateTimeField12",
+        "lsor1",
+        "lsor12",
+        "lsod1r",
+        "lsod1r2",
+        "iflosd3r",
+        "iflosd3r2",
+        "iflosr1d",
+        "iflosr1d2",
+        "iflosr2d",
+        "iflosr2d2",
+        "iflosr2d22",
+        "iflosr2d23",
+        "iflos",
+        "iflos2",
+        "elapsetimemeter",
+        "lsohud",
+        "lsohud2",
+        "movlas",
+        "movlas2",
+        "wcsupervisor",
+        "branch",
+        "qainspector",
+        "maint"
+      ]
+    }
+  ],
+  "fields": {
+    "dateTimeField1": {
+      "type": "text",
+      "label": "ENTER DATE.",
+      "page": 1,
+      "box": {
+        "left": 74.8,
+        "top": 735.2,
+        "width": 156.3,
+        "height": 19.8
+      }
+    },
+    "dateTimeField12": {
+      "type": "text",
+      "label": "ENTER TIME.",
+      "page": 1,
+      "box": {
+        "left": 407.8,
+        "top": 735.2,
+        "width": 156.3,
+        "height": 19.8
+      }
+    },
+    "lsor1": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 146.8,
+        "top": 451.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_LSOR1_0"
+    },
+    "lsor12": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 241.3,
+        "top": 451.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_LSOR1_0"
+    },
+    "lsod1r": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 146.8,
+        "top": 419.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_LSOD1R_0"
+    },
+    "lsod1r2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 241.3,
+        "top": 419.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_LSOD1R_0"
+    },
+    "iflosd3r": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 146.8,
+        "top": 388.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_IFLOSD3R_0"
+    },
+    "iflosd3r2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 241.3,
+        "top": 388.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_IFLOSD3R_0"
+    },
+    "iflosr1d": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 146.8,
+        "top": 356.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_IFLOSR1D_0"
+    },
+    "iflosr1d2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 241.3,
+        "top": 356.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_IFLOSR1D_0"
+    },
+    "iflosr2d": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 146.8,
+        "top": 325.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_IFLOSR2D_0"
+    },
+    "iflosr2d2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 241.3,
+        "top": 325.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_IFLOSR2D_0"
+    },
+    "iflosr2d22": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 146.8,
+        "top": 293.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_IFLOSR2D2_0"
+    },
+    "iflosr2d23": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 241.3,
+        "top": 293.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_IFLOSR2D2_0"
+    },
+    "iflos": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 146.8,
+        "top": 266.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_IFLOS_0"
+    },
+    "iflos2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 241.3,
+        "top": 266.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_IFLOS_0"
+    },
+    "elapsetimemeter": {
+      "type": "text",
+      "label": "ENTER ELAPSE TIME METER.",
+      "page": 1,
+      "box": {
+        "left": 454.3,
+        "top": 240.2,
+        "width": 91.8,
+        "height": 12.3
+      }
+    },
+    "lsohud": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 146.8,
+        "top": 239.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_LSOHUD_0"
+    },
+    "lsohud2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 241.3,
+        "top": 239.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_LSOHUD_0"
+    },
+    "movlas": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 146.8,
+        "top": 212.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_MOVLAS_0"
+    },
+    "movlas2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 241.3,
+        "top": 212.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_MOVLAS_0"
+    },
+    "wcsupervisor": {
+      "type": "text",
+      "label": "ENTER W/C SUPERVISOR SIGNATURE.",
+      "page": 1,
+      "box": {
+        "left": 124.3,
+        "top": 181.7,
+        "width": 174.3,
+        "height": 12.3
+      }
+    },
+    "branch": {
+      "type": "text",
+      "label": "ENTER BRANCH LCPO/LPO SIGNATURE.",
+      "page": 1,
+      "box": {
+        "left": 401.1,
+        "top": 181.7,
+        "width": 163.1,
+        "height": 12.3
+      }
+    },
+    "qainspector": {
+      "type": "text",
+      "label": "ENTER QA INSPECTOR SIGNATURE.",
+      "page": 1,
+      "box": {
+        "left": 124.3,
+        "top": 154.7,
+        "width": 174.3,
+        "height": 12.3
+      }
+    },
+    "maint": {
+      "type": "text",
+      "label": "ENTER MAINT. CPO/OFFICER SIGNATURE.",
+      "page": 1,
+      "box": {
+        "left": 401.8,
+        "top": 154.7,
+        "width": 162.3,
+        "height": 12.3
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 6,
+      "rowStride": 31.5,
+      "editor": "grid",
+      "columns": {
+        "sig": {
+          "type": "text",
+          "label": "ENTER SIGNATURE.",
+          "page": 1,
+          "box": {
+            "left": 411.2,
+            "top": 451.7,
+            "width": 153.0,
+            "height": 12.3
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 12,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "pl": {
+          "type": "text",
+          "label": "ENTER POLE LOW.",
+          "page": 1,
+          "box": {
+            "left": 353.8,
+            "top": 681.2,
+            "width": 57.3,
+            "height": 12.3
+          }
+        },
+        "ph": {
+          "type": "text",
+          "label": "ENTER POLE HIGH.",
+          "page": 1,
+          "box": {
+            "left": 416.8,
+            "top": 681.2,
+            "width": 57.3,
+            "height": 12.3
+          }
+        },
+        "pa": {
+          "type": "text",
+          "label": "ENTER POLE ACTUAL.",
+          "page": 1,
+          "box": {
+            "left": 479.8,
+            "top": 681.2,
+            "width": 93.4,
+            "height": 12.3
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,1074 @@
+{
+  "id": "navpers130698",
+  "label": "NAVPERS1306-98 - Nuclear Power Program Activity Screening",
+  "directory": "NAVPERS1306-98 - Nuclear Power Program Activity Screening",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "rankRate",
+        "name",
+        "screeningType",
+        "proposedDetachDate",
+        "dutyPreference",
+        "cell2",
+        "cell3",
+        "cell4",
+        "cell22",
+        "cell32",
+        "cell42",
+        "cell23",
+        "cell33",
+        "cell43",
+        "cell24",
+        "cell34",
+        "cell44",
+        "cell25",
+        "cell35",
+        "cell45",
+        "cell46",
+        "cell26",
+        "cell36",
+        "cell47",
+        "cell27",
+        "cell37",
+        "cell28",
+        "cell38",
+        "cell48",
+        "cell49",
+        "cell29",
+        "cell39",
+        "cell210",
+        "cell310",
+        "cell410",
+        "cell1",
+        "cell211",
+        "cell311",
+        "cell212",
+        "cell312",
+        "cell411",
+        "cell213",
+        "cell313",
+        "cell214",
+        "cell314",
+        "cell412",
+        "cell215",
+        "cell413",
+        "cell216",
+        "cell315",
+        "cell217",
+        "cell316",
+        "cell414",
+        "cell12",
+        "cell218",
+        "cell317",
+        "cell415",
+        "cell219",
+        "cell318",
+        "cell13",
+        "cell220",
+        "cell319",
+        "cell416",
+        "cell221",
+        "cell320",
+        "cell14",
+        "cell222",
+        "cell321",
+        "field",
+        "field2",
+        "field3"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "cell15",
+        "field4",
+        "field5",
+        "field6",
+        "field7",
+        "field8",
+        "field9",
+        "field10",
+        "cell223",
+        "cell322",
+        "field11",
+        "field12",
+        "field13",
+        "field14",
+        "field15",
+        "field16"
+      ]
+    }
+  ],
+  "fields": {
+    "rankRate": {
+      "type": "text",
+      "label": "Rank/Rate:",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 708.5,
+        "width": 102.2,
+        "height": 21.6
+      }
+    },
+    "name": {
+      "type": "text",
+      "label": "Name:",
+      "page": 1,
+      "box": {
+        "left": 146.9,
+        "top": 708.5,
+        "width": 318.2,
+        "height": 21.6
+      }
+    },
+    "screeningType": {
+      "type": "choice",
+      "label": "Screening Type:",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 708.5,
+        "width": 102.2,
+        "height": 21.6
+      },
+      "options": [
+        "Instructor",
+        "Support"
+      ]
+    },
+    "proposedDetachDate": {
+      "type": "text",
+      "label": "Proposed Detach Date:",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 672.5,
+        "width": 102.2,
+        "height": 21.6
+      }
+    },
+    "dutyPreference": {
+      "type": "text",
+      "label": "Duty Preference:",
+      "page": 1,
+      "box": {
+        "left": 146.9,
+        "top": 672.5,
+        "width": 426.2,
+        "height": 21.6
+      }
+    },
+    "cell2": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 435.6,
+        "top": 626.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell3": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 626.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell4": {
+      "type": "signature",
+      "label": "INTERVIEWERS INITIALS",
+      "page": 1,
+      "box": {
+        "left": 506.2,
+        "top": 626.2,
+        "width": 66.2,
+        "height": 8.6
+      }
+    },
+    "cell22": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 435.6,
+        "top": 612.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell32": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 612.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell42": {
+      "type": "signature",
+      "label": "INTERVIEWERS INITIALS",
+      "page": 1,
+      "box": {
+        "left": 506.2,
+        "top": 611.8,
+        "width": 66.2,
+        "height": 8.6
+      }
+    },
+    "cell23": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 435.6,
+        "top": 598.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell33": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 598.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell43": {
+      "type": "signature",
+      "label": "INTERVIEWERS INITIALS",
+      "page": 1,
+      "box": {
+        "left": 506.2,
+        "top": 597.4,
+        "width": 66.2,
+        "height": 8.6
+      }
+    },
+    "cell24": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 435.6,
+        "top": 583.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell34": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 583.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell44": {
+      "type": "signature",
+      "label": "INTERVIEWERS INITIALS",
+      "page": 1,
+      "box": {
+        "left": 506.2,
+        "top": 583.0,
+        "width": 66.2,
+        "height": 8.6
+      }
+    },
+    "cell25": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 435.6,
+        "top": 569.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell35": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 569.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell45": {
+      "type": "signature",
+      "label": "INTERVIEWERS INITIALS",
+      "page": 1,
+      "box": {
+        "left": 506.2,
+        "top": 568.6,
+        "width": 66.2,
+        "height": 8.6
+      }
+    },
+    "cell46": {
+      "type": "signature",
+      "label": "INTERVIEWERS INITIALS",
+      "page": 1,
+      "box": {
+        "left": 506.2,
+        "top": 554.2,
+        "width": 66.2,
+        "height": 24.5
+      }
+    },
+    "cell26": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 435.6,
+        "top": 546.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell36": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 546.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell47": {
+      "type": "signature",
+      "label": "INTERVIEWERS INITIALS",
+      "page": 1,
+      "box": {
+        "left": 506.2,
+        "top": 523.9,
+        "width": 66.2,
+        "height": 19.4
+      }
+    },
+    "cell27": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 435.6,
+        "top": 519.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell37": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 519.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell28": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 435.6,
+        "top": 499.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell38": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 499.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell48": {
+      "type": "signature",
+      "label": "INTERVIEWERS INITIALS",
+      "page": 1,
+      "box": {
+        "left": 506.2,
+        "top": 498.7,
+        "width": 66.2,
+        "height": 8.6
+      }
+    },
+    "cell49": {
+      "type": "signature",
+      "label": "INTERVIEWERS INITIALS",
+      "page": 1,
+      "box": {
+        "left": 506.2,
+        "top": 485.7,
+        "width": 66.2,
+        "height": 20.6
+      }
+    },
+    "cell29": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 435.6,
+        "top": 480.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell39": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 480.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell210": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 435.6,
+        "top": 462.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell310": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 462.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell410": {
+      "type": "signature",
+      "label": "INTERVIEWERS INITIALS",
+      "page": 1,
+      "box": {
+        "left": 506.2,
+        "top": 462.2,
+        "width": 67.7,
+        "height": 10.1
+      }
+    },
+    "cell1": {
+      "type": "text",
+      "label": "11.  Personnel Officer Name and Rank:",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 439.2,
+        "width": 260.6,
+        "height": 18.0
+      }
+    },
+    "cell211": {
+      "type": "signature",
+      "label": "12.  Personnel Officer Signature:",
+      "page": 1,
+      "box": {
+        "left": 306.0,
+        "top": 439.2,
+        "width": 194.4,
+        "height": 18.0
+      }
+    },
+    "cell311": {
+      "type": "text",
+      "label": "13.  Date:",
+      "page": 1,
+      "box": {
+        "left": 506.2,
+        "top": 439.2,
+        "width": 66.2,
+        "height": 18.0
+      }
+    },
+    "cell212": {
+      "type": "text",
+      "label": " Time to qualify:",
+      "page": 1,
+      "box": {
+        "left": 306.0,
+        "top": 395.8,
+        "width": 123.8,
+        "height": 12.2
+      }
+    },
+    "cell312": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 435.6,
+        "top": 394.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell411": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 394.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell213": {
+      "type": "text",
+      "label": "Senior in Rate:",
+      "page": 1,
+      "box": {
+        "left": 360.0,
+        "top": 377.8,
+        "width": 69.8,
+        "height": 19.4
+      }
+    },
+    "cell313": {
+      "type": "text",
+      "label": "EWS/PPWS:",
+      "page": 1,
+      "box": {
+        "left": 486.0,
+        "top": 377.8,
+        "width": 86.4,
+        "height": 19.4
+      }
+    },
+    "cell214": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 435.6,
+        "top": 353.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell314": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 353.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell412": {
+      "type": "signature",
+      "label": "INTERVIEWERS INITIALS",
+      "page": 1,
+      "box": {
+        "left": 506.2,
+        "top": 352.6,
+        "width": 66.2,
+        "height": 8.6
+      }
+    },
+    "cell215": {
+      "type": "text",
+      "label": "Average:",
+      "page": 1,
+      "box": {
+        "left": 360.0,
+        "top": 338.2,
+        "width": 69.8,
+        "height": 19.4
+      }
+    },
+    "cell413": {
+      "type": "signature",
+      "label": "INTERVIEWERS INITIALS",
+      "page": 1,
+      "box": {
+        "left": 506.2,
+        "top": 338.2,
+        "width": 66.2,
+        "height": 19.4
+      }
+    },
+    "cell216": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 435.6,
+        "top": 333.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell315": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 333.4,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell217": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 435.6,
+        "top": 313.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell316": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 313.6,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell414": {
+      "type": "signature",
+      "label": "INTERVIEWERS INITIALS",
+      "page": 1,
+      "box": {
+        "left": 506.2,
+        "top": 313.0,
+        "width": 66.2,
+        "height": 8.6
+      }
+    },
+    "cell12": {
+      "type": "text",
+      "label": "6.  RX Dept Career Counselor/EDTA Name and Rank:",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 289.9,
+        "width": 260.6,
+        "height": 21.6
+      }
+    },
+    "cell218": {
+      "type": "signature",
+      "label": "8.  RX Dept Career Counselor/EDTA Signature:",
+      "page": 1,
+      "box": {
+        "left": 306.0,
+        "top": 289.9,
+        "width": 194.4,
+        "height": 21.6
+      }
+    },
+    "cell317": {
+      "type": "text",
+      "label": "9.  Date:",
+      "page": 1,
+      "box": {
+        "left": 506.2,
+        "top": 289.9,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "cell415": {
+      "type": "signature",
+      "label": "INTERVIEWERS INITIALS",
+      "page": 1,
+      "box": {
+        "left": 506.2,
+        "top": 244.6,
+        "width": 66.2,
+        "height": 19.4
+      }
+    },
+    "cell219": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 435.6,
+        "top": 239.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell318": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 239.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell13": {
+      "type": "text",
+      "label": "2.  Medical Officer Name and Rank:",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 210.7,
+        "width": 260.6,
+        "height": 21.6
+      }
+    },
+    "cell220": {
+      "type": "signature",
+      "label": "3.  Medical Officer Signature:",
+      "page": 1,
+      "box": {
+        "left": 306.0,
+        "top": 210.7,
+        "width": 194.4,
+        "height": 21.6
+      }
+    },
+    "cell319": {
+      "type": "text",
+      "label": "4.  Date:",
+      "page": 1,
+      "box": {
+        "left": 506.2,
+        "top": 210.7,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "cell416": {
+      "type": "signature",
+      "label": "INTERVIEWERS INITIALS",
+      "page": 1,
+      "box": {
+        "left": 506.2,
+        "top": 183.4,
+        "width": 66.2,
+        "height": 12.2
+      }
+    },
+    "cell221": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 435.6,
+        "top": 182.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell320": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 182.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell14": {
+      "type": "text",
+      "label": "6.  Dental Officer Name and Rank:",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 156.7,
+        "width": 260.6,
+        "height": 21.6
+      }
+    },
+    "cell222": {
+      "type": "signature",
+      "label": "7.  Dental Officer Signature:",
+      "page": 1,
+      "box": {
+        "left": 306.0,
+        "top": 156.7,
+        "width": 194.4,
+        "height": 21.6
+      }
+    },
+    "cell321": {
+      "type": "text",
+      "label": "8.  Date:",
+      "page": 1,
+      "box": {
+        "left": 506.2,
+        "top": 156.7,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "field": {
+      "type": "text",
+      "label": "1.  Member Name and Rank:",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 65.5,
+        "width": 260.6,
+        "height": 26.6
+      }
+    },
+    "field2": {
+      "type": "signature",
+      "label": "2.  Member Signature:",
+      "page": 1,
+      "box": {
+        "left": 306.0,
+        "top": 65.5,
+        "width": 194.4,
+        "height": 26.6
+      }
+    },
+    "field3": {
+      "type": "text",
+      "label": "3.  Date:",
+      "page": 1,
+      "box": {
+        "left": 506.2,
+        "top": 65.5,
+        "width": 66.2,
+        "height": 26.6
+      }
+    },
+    "cell15": {
+      "type": "text",
+      "label": "1.  Master Training Specialist Instructor Recommendation (include a personal interview statement from a Master Training Specialist.):",
+      "page": 2,
+      "box": {
+        "left": 39.6,
+        "top": 684.7,
+        "width": 532.8,
+        "height": 123.8
+      },
+      "multiline": true
+    },
+    "field4": {
+      "type": "text",
+      "label": "2.  Master Training Specialist Name and Rank:",
+      "page": 2,
+      "box": {
+        "left": 39.6,
+        "top": 546.5,
+        "width": 260.6,
+        "height": 21.6
+      }
+    },
+    "field5": {
+      "type": "signature",
+      "label": "3.  Master Training Specialist Signature:",
+      "page": 2,
+      "box": {
+        "left": 306.0,
+        "top": 546.5,
+        "width": 194.4,
+        "height": 21.6
+      }
+    },
+    "field6": {
+      "type": "text",
+      "label": "4.  Date:",
+      "page": 2,
+      "box": {
+        "left": 506.2,
+        "top": 546.5,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "field7": {
+      "type": "text",
+      "label": "5. RDMC/EDMC Endorsement:  \r(A summary statement evaluating the applicant is required. Provide written recommendation from RDMC/EDMC indicating member's potential to perform and excel in a Nuclear Power Program activity billet.)",
+      "page": 2,
+      "box": {
+        "left": 39.6,
+        "top": 491.3,
+        "width": 532.8,
+        "height": 110.4
+      },
+      "multiline": true
+    },
+    "field8": {
+      "type": "text",
+      "label": "6.  RDMC/EDMC Name and Rank:",
+      "page": 2,
+      "box": {
+        "left": 39.6,
+        "top": 366.5,
+        "width": 260.6,
+        "height": 21.6
+      }
+    },
+    "field9": {
+      "type": "signature",
+      "label": "7.  RDMC/EDMC Signature:",
+      "page": 2,
+      "box": {
+        "left": 306.0,
+        "top": 366.5,
+        "width": 194.4,
+        "height": 21.6
+      }
+    },
+    "field10": {
+      "type": "text",
+      "label": "8.  Date:",
+      "page": 2,
+      "box": {
+        "left": 506.2,
+        "top": 366.5,
+        "width": 66.2,
+        "height": 21.6
+      }
+    },
+    "cell223": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 2,
+      "box": {
+        "left": 507.6,
+        "top": 321.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cell322": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 2,
+      "box": {
+        "left": 542.9,
+        "top": 321.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "field11": {
+      "type": "signature",
+      "label": "2.  Initial Certification (upon nomination).  \rMember meets all requirements.  Signature required.",
+      "page": 2,
+      "box": {
+        "left": 39.6,
+        "top": 285.1,
+        "width": 260.6,
+        "height": 26.6
+      }
+    },
+    "field12": {
+      "type": "signature",
+      "label": "3.  Re-certification (within 5 working days of transfer).  \rMember continues to meet all requirements.  Signature required.",
+      "page": 2,
+      "box": {
+        "left": 306.0,
+        "top": 285.1,
+        "width": 266.4,
+        "height": 26.6
+      }
+    },
+    "field13": {
+      "type": "text",
+      "label": "4. Command Endorsement:\r(A summary statement evaluating the applicant is required. Provide written recommendation from the Commanding Officer/Reactor Officer (Nuclear Trained Surface Sailors) indicating member's potential to perform and excel in a Nuclear Power Program activity billet.)",
+      "page": 2,
+      "box": {
+        "left": 39.6,
+        "top": 216.7,
+        "width": 532.8,
+        "height": 141.8
+      },
+      "multiline": true
+    },
+    "field14": {
+      "type": "text",
+      "label": "5.  Commanding Officer/Reactor Officer Name and Rank:",
+      "page": 2,
+      "box": {
+        "left": 39.6,
+        "top": 60.5,
+        "width": 260.6,
+        "height": 21.6
+      }
+    },
+    "field15": {
+      "type": "signature",
+      "label": "6.  Commanding Officer/Reactor Officer Signature:",
+      "page": 2,
+      "box": {
+        "left": 306.0,
+        "top": 60.5,
+        "width": 195.8,
+        "height": 21.6
+      }
+    },
+    "field16": {
+      "type": "text",
+      "label": "7.  Date:",
+      "page": 2,
+      "box": {
+        "left": 507.6,
+        "top": 60.5,
+        "width": 64.8,
+        "height": 21.6
+      }
+    }
+  }
+}

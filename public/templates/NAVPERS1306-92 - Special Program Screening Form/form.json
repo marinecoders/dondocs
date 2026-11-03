@@ -1,0 +1,965 @@
+{
+  "id": "navpers130692",
+  "label": "NAVPERS1306-92 - Special Program Screening Form",
+  "directory": "NAVPERS1306-92 - Special Program Screening Form",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "textField1",
+        "textField12",
+        "dateTimeField1",
+        "textField13",
+        "radio",
+        "radio2",
+        "radio3",
+        "radio4",
+        "radio5",
+        "radio6",
+        "radio7",
+        "radio8",
+        "radio9",
+        "radio10",
+        "radio11",
+        "radio12",
+        "radio13",
+        "radio14",
+        "textField14",
+        "signatureField9",
+        "dateTimeField12",
+        "radio15",
+        "radio16",
+        "radio17",
+        "radio18",
+        "textField15",
+        "signatureField2",
+        "dateTimeField13",
+        "textField16",
+        "signatureField3",
+        "dateTimeField14",
+        "radio19",
+        "radio20",
+        "textField17",
+        "signatureField4",
+        "dateTimeField15",
+        "radio21",
+        "radio22",
+        "textField18",
+        "signatureField5",
+        "dateTimeField16",
+        "radio23",
+        "radio24",
+        "radio25",
+        "radio26"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "radio27",
+        "radio28",
+        "radio29",
+        "radio30",
+        "radio31",
+        "radio32",
+        "radio33",
+        "radio34",
+        "textField19",
+        "signatureField6",
+        "dateTimeField17",
+        "textField110",
+        "dateTimeField18",
+        "textField111",
+        "signatureField7",
+        "dateTimeField19",
+        "textField112",
+        "signatureField8",
+        "radio35",
+        "radio36",
+        "radio37",
+        "radio38",
+        "textField2",
+        "textField22",
+        "textField113",
+        "radio39",
+        "radio40",
+        "textField114",
+        "signatureField1",
+        "dateTimeField110"
+      ]
+    }
+  ],
+  "fields": {
+    "textField1": {
+      "type": "text",
+      "label": "1. NAME",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 635.5,
+        "width": 399.4,
+        "height": 11.7
+      }
+    },
+    "textField12": {
+      "type": "text",
+      "label": "2. RATE / RANK",
+      "page": 1,
+      "box": {
+        "left": 443.9,
+        "top": 635.5,
+        "width": 129.3,
+        "height": 11.7
+      }
+    },
+    "dateTimeField1": {
+      "type": "text",
+      "label": "4. PROPOSED DETACHMENT DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 608.5,
+        "width": 145.5,
+        "height": 11.7
+      }
+    },
+    "textField13": {
+      "type": "text",
+      "label": "5. PROPOSED PROGRAM / DUTY STATION",
+      "page": 1,
+      "box": {
+        "left": 190.1,
+        "top": 608.5,
+        "width": 383.2,
+        "height": 11.7
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 427.7,
+        "top": 550.5,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 550.5,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio3": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 427.7,
+        "top": 523.5,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio4": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 523.5,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio5": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 427.7,
+        "top": 495.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio6": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 495.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio7": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 427.7,
+        "top": 474.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio8": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 474.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio9": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 427.7,
+        "top": 456.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio10": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 456.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio11": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 427.7,
+        "top": 437.9,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio12": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 437.9,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio13": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 427.7,
+        "top": 415.4,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio14": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 415.4,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "textField14": {
+      "type": "text",
+      "label": "8. PERSONNEL OFFICER\u2019S NAME AND RANK",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 383.5,
+        "width": 232.0,
+        "height": 11.7
+      }
+    },
+    "signatureField9": {
+      "type": "text",
+      "label": "9. PERSONNEL OFFICER\u2019S SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 276.5,
+        "top": 383.5,
+        "width": 217.6,
+        "height": 11.7
+      }
+    },
+    "dateTimeField12": {
+      "type": "text",
+      "label": "10. DATE",
+      "page": 1,
+      "box": {
+        "left": 499.7,
+        "top": 383.5,
+        "width": 73.5,
+        "height": 11.7
+      }
+    },
+    "radio15": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 427.7,
+        "top": 325.4,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio16": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 325.4,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio17": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 427.7,
+        "top": 302.9,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio18": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 302.9,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "textField15": {
+      "type": "text",
+      "label": "3. MEDICAL OFFICER\u2019S NAME AND RANK",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 275.5,
+        "width": 232.0,
+        "height": 11.7
+      }
+    },
+    "signatureField2": {
+      "type": "text",
+      "label": "4. MEDICAL OFFICER\u2019S SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 276.5,
+        "top": 275.5,
+        "width": 217.6,
+        "height": 11.7
+      }
+    },
+    "dateTimeField13": {
+      "type": "text",
+      "label": "5. DATE",
+      "page": 1,
+      "box": {
+        "left": 499.7,
+        "top": 275.5,
+        "width": 73.5,
+        "height": 11.7
+      }
+    },
+    "textField16": {
+      "type": "text",
+      "label": "6. DENTAL OFFICER\u2019S NAME AND RANK",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 248.5,
+        "width": 232.0,
+        "height": 11.7
+      }
+    },
+    "signatureField3": {
+      "type": "text",
+      "label": "7. DENTAL OFFICER\u2019S SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 276.5,
+        "top": 248.5,
+        "width": 217.6,
+        "height": 11.7
+      }
+    },
+    "dateTimeField14": {
+      "type": "text",
+      "label": "8. DATE",
+      "page": 1,
+      "box": {
+        "left": 499.7,
+        "top": 248.5,
+        "width": 73.5,
+        "height": 11.7
+      }
+    },
+    "radio19": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 492.5,
+        "top": 208.5,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio20": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 535.7,
+        "top": 208.5,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "textField17": {
+      "type": "text",
+      "label": "2. COMMAND FINANCIAL SPECIALIST\u2019S NAME AND RANK",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 176.5,
+        "width": 232.0,
+        "height": 11.7
+      }
+    },
+    "signatureField4": {
+      "type": "text",
+      "label": "3. COMMAND FINANCIAL SPECIALIST SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 276.5,
+        "top": 176.5,
+        "width": 210.4,
+        "height": 11.7
+      }
+    },
+    "dateTimeField15": {
+      "type": "text",
+      "label": "4. DATE",
+      "page": 1,
+      "box": {
+        "left": 492.5,
+        "top": 176.5,
+        "width": 80.7,
+        "height": 11.7
+      }
+    },
+    "radio21": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 492.5,
+        "top": 158.9,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio22": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 535.7,
+        "top": 158.9,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "textField18": {
+      "type": "text",
+      "label": "6. COMMAND MASTER CHIEF NAME AND RANK",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 131.5,
+        "width": 232.0,
+        "height": 11.7
+      }
+    },
+    "signatureField5": {
+      "type": "text",
+      "label": "7. COMMAND MASTER CHIEF SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 276.5,
+        "top": 131.5,
+        "width": 210.4,
+        "height": 11.7
+      }
+    },
+    "dateTimeField16": {
+      "type": "text",
+      "label": "8. DATE",
+      "page": 1,
+      "box": {
+        "left": 492.5,
+        "top": 131.5,
+        "width": 80.7,
+        "height": 11.7
+      }
+    },
+    "radio23": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 427.7,
+        "top": 77.9,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio24": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 77.9,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio25": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 427.7,
+        "top": 55.6,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio26": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 1,
+      "box": {
+        "left": 470.9,
+        "top": 55.6,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio27": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 470.9,
+        "top": 699.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio28": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 427.7,
+        "top": 698.9,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio29": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 427.7,
+        "top": 681.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio30": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 470.9,
+        "top": 681.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio31": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 427.7,
+        "top": 663.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio32": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 470.9,
+        "top": 663.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio33": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 427.7,
+        "top": 646.8,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio34": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 470.9,
+        "top": 646.8,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "textField19": {
+      "type": "text",
+      "label": "7. COMMAND CAREER COUNSELOR\u2019S NAME AND RANK",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 621.1,
+        "width": 232.0,
+        "height": 11.7
+      }
+    },
+    "signatureField6": {
+      "type": "text",
+      "label": "8. COMMAND CAREER COUNSELOR\u2019S SIGNATURE",
+      "page": 2,
+      "box": {
+        "left": 276.5,
+        "top": 621.1,
+        "width": 217.6,
+        "height": 11.7
+      }
+    },
+    "dateTimeField17": {
+      "type": "text",
+      "label": "9. DATE",
+      "page": 2,
+      "box": {
+        "left": 499.7,
+        "top": 621.1,
+        "width": 73.5,
+        "height": 11.7
+      }
+    },
+    "textField110": {
+      "type": "text",
+      "label": "master training specialist or senior enlisted instructor.)",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 580.1,
+        "width": 534.4,
+        "height": 37.3
+      },
+      "multiline": true
+    },
+    "dateTimeField18": {
+      "type": "text",
+      "label": "13. DATE",
+      "page": 2,
+      "box": {
+        "left": 499.7,
+        "top": 522.9,
+        "width": 73.5,
+        "height": 25.1
+      }
+    },
+    "textField111": {
+      "type": "text",
+      "label": "INSTRUCTOR NAME AND RANK",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 514.6,
+        "width": 232.0,
+        "height": 16.8
+      }
+    },
+    "signatureField7": {
+      "type": "text",
+      "label": "INSTRUCTOR SIGNATURE",
+      "page": 2,
+      "box": {
+        "left": 276.5,
+        "top": 514.6,
+        "width": 217.6,
+        "height": 16.8
+      }
+    },
+    "dateTimeField19": {
+      "type": "text",
+      "label": "16. DATE",
+      "page": 2,
+      "box": {
+        "left": 499.7,
+        "top": 453.8,
+        "width": 73.5,
+        "height": 19.0
+      }
+    },
+    "textField112": {
+      "type": "text",
+      "label": "14. MEMBER\u2019S NAME AND RANK",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 452.4,
+        "width": 232.0,
+        "height": 17.6
+      }
+    },
+    "signatureField8": {
+      "type": "text",
+      "label": "15. MEMBER\u2019S SIGNATURE",
+      "page": 2,
+      "box": {
+        "left": 276.5,
+        "top": 452.4,
+        "width": 217.6,
+        "height": 17.6
+      }
+    },
+    "radio35": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 492.5,
+        "top": 411.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio36": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 535.7,
+        "top": 411.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio37": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 46.0,
+        "top": 373.2,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio38": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 125.3,
+        "top": 373.2,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "textField2": {
+      "type": "text",
+      "label": "DISAPPROVAL",
+      "page": 2,
+      "box": {
+        "left": 262.1,
+        "top": 371.5,
+        "width": 51.9,
+        "height": 12.6
+      }
+    },
+    "textField22": {
+      "type": "text",
+      "label": "FINAL APPROVAL",
+      "page": 2,
+      "box": {
+        "left": 413.3,
+        "top": 371.5,
+        "width": 51.9,
+        "height": 12.6
+      }
+    },
+    "textField113": {
+      "type": "text",
+      "label": "Text Field 113",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 324.9,
+        "width": 534.4,
+        "height": 196.1
+      },
+      "multiline": true
+    },
+    "radio39": {
+      "type": "radio",
+      "label": "Item1",
+      "page": 2,
+      "box": {
+        "left": 53.2,
+        "top": 123.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "radio40": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 2,
+      "box": {
+        "left": 125.4,
+        "top": 123.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "radio"
+    },
+    "textField114": {
+      "type": "text",
+      "label": "NAME AND RANK",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 59.5,
+        "width": 232.0,
+        "height": 20.7
+      }
+    },
+    "signatureField1": {
+      "type": "text",
+      "label": "SIGNATURE",
+      "page": 2,
+      "box": {
+        "left": 276.5,
+        "top": 59.5,
+        "width": 217.6,
+        "height": 20.7
+      }
+    },
+    "dateTimeField110": {
+      "type": "text",
+      "label": "DATE",
+      "page": 2,
+      "box": {
+        "left": 499.7,
+        "top": 59.5,
+        "width": 73.5,
+        "height": 20.7
+      }
+    }
+  }
+}

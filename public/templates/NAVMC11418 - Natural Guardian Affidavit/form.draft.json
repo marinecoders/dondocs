@@ -1,0 +1,246 @@
+{
+  "id": "navmc11418",
+  "label": "NAVMC11418 - Natural Guardian Affidavit",
+  "directory": "NAVMC11418 - Natural Guardian Affidavit",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "state1",
+        "county1",
+        "nameFirst1",
+        "nameMid1",
+        "nameLast1",
+        "sworn1",
+        "stateSworn",
+        "nameLast2",
+        "nameFirst2",
+        "nameMid2",
+        "nameLast3",
+        "nameFirst3",
+        "nameMid3",
+        "relat1",
+        "sig1",
+        "dayOfMon",
+        "month1",
+        "year1",
+        "sig2"
+      ]
+    }
+  ],
+  "fields": {
+    "state1": {
+      "type": "text",
+      "label": "State",
+      "page": 1,
+      "box": {
+        "left": 81.0,
+        "top": 719.6,
+        "width": 213.8,
+        "height": 14.7
+      }
+    },
+    "county1": {
+      "type": "text",
+      "label": "County",
+      "page": 1,
+      "box": {
+        "left": 81.9,
+        "top": 697.2,
+        "width": 213.8,
+        "height": 14.7
+      }
+    },
+    "nameFirst1": {
+      "type": "text",
+      "label": "First Name",
+      "page": 1,
+      "box": {
+        "left": 84.5,
+        "top": 655.8,
+        "width": 159.5,
+        "height": 14.7
+      }
+    },
+    "nameMid1": {
+      "type": "text",
+      "label": "Middle Name",
+      "page": 1,
+      "box": {
+        "left": 297.4,
+        "top": 655.8,
+        "width": 104.3,
+        "height": 14.7
+      }
+    },
+    "nameLast1": {
+      "type": "text",
+      "label": "Last Name",
+      "page": 1,
+      "box": {
+        "left": 456.9,
+        "top": 655.8,
+        "width": 126.7,
+        "height": 14.7
+      }
+    },
+    "sworn1": {
+      "type": "text",
+      "label": "Name of person administering oaths",
+      "page": 1,
+      "box": {
+        "left": 141.4,
+        "top": 612.7,
+        "width": 280.2,
+        "height": 14.7
+      }
+    },
+    "stateSworn": {
+      "type": "text",
+      "label": "State or, if by C. A. C. O., United States, in which person is administering oath",
+      "page": 1,
+      "box": {
+        "left": 101.7,
+        "top": 579.1,
+        "width": 482.8,
+        "height": 14.7
+      }
+    },
+    "nameLast2": {
+      "type": "text",
+      "label": "Last Name of minor. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 142.2,
+        "top": 507.5,
+        "width": 156.0,
+        "height": 14.7
+      }
+    },
+    "nameFirst2": {
+      "type": "text",
+      "label": "First Name of minor.  Line 1",
+      "page": 1,
+      "box": {
+        "left": 323.3,
+        "top": 507.5,
+        "width": 138.8,
+        "height": 14.7
+      }
+    },
+    "nameMid2": {
+      "type": "text",
+      "label": "Middle Name of minor.  Line 1",
+      "page": 1,
+      "box": {
+        "left": 491.4,
+        "top": 507.5,
+        "width": 94.0,
+        "height": 14.7
+      }
+    },
+    "nameLast3": {
+      "type": "text",
+      "label": "Last Name of minor. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 142.2,
+        "top": 479.9,
+        "width": 156.0,
+        "height": 14.7
+      }
+    },
+    "nameFirst3": {
+      "type": "text",
+      "label": "First Name of minor.  Line 2",
+      "page": 1,
+      "box": {
+        "left": 323.3,
+        "top": 479.9,
+        "width": 138.8,
+        "height": 14.7
+      }
+    },
+    "nameMid3": {
+      "type": "text",
+      "label": "Middle Name of minor.  Line 2",
+      "page": 1,
+      "box": {
+        "left": 491.4,
+        "top": 479.9,
+        "width": 94.0,
+        "height": 14.7
+      }
+    },
+    "relat1": {
+      "type": "text",
+      "label": "Relationship - for example father, mother, ecetera",
+      "page": 1,
+      "box": {
+        "left": 37.1,
+        "top": 437.8,
+        "width": 548.3,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "sig1": {
+      "type": "signature",
+      "label": "Sig1",
+      "page": 1,
+      "box": {
+        "left": 397.6,
+        "top": 318.8,
+        "width": 185.2,
+        "height": 22.3
+      }
+    },
+    "dayOfMon": {
+      "type": "text",
+      "label": "Day of the month - spelled out",
+      "page": 1,
+      "box": {
+        "left": 226.7,
+        "top": 244.6,
+        "width": 62.9,
+        "height": 14.7
+      }
+    },
+    "month1": {
+      "type": "text",
+      "label": "Month - spelled out",
+      "page": 1,
+      "box": {
+        "left": 325.0,
+        "top": 244.6,
+        "width": 81.9,
+        "height": 14.7
+      }
+    },
+    "year1": {
+      "type": "text",
+      "label": "Current year - 4 digits",
+      "page": 1,
+      "box": {
+        "left": 433.6,
+        "top": 244.6,
+        "width": 43.1,
+        "height": 14.7
+      }
+    },
+    "sig2": {
+      "type": "signature",
+      "label": "Sig2",
+      "page": 1,
+      "box": {
+        "left": 397.1,
+        "top": 187.9,
+        "width": 185.7,
+        "height": 22.2
+      }
+    }
+  }
+}

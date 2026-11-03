@@ -1,0 +1,436 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "ship1": {
+        "left": 95.4,
+        "top": 698.0,
+        "width": 84.6,
+        "height": 10.3,
+        "type": "text",
+        "description": "Enter the ship UIC.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "workcenter1": {
+        "left": 184.3,
+        "top": 698.0,
+        "width": 68.4,
+        "height": 10.3,
+        "type": "text",
+        "description": "Enter the work center.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "workcenter2": {
+        "left": 255.7,
+        "top": 698.0,
+        "width": 67.5,
+        "height": 10.3,
+        "type": "text",
+        "description": "Enter the work center.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "alteration1": {
+        "left": 327.4,
+        "top": 698.0,
+        "width": 246.7,
+        "height": 10.3,
+        "type": "text",
+        "description": "Enter the alterations (shipalt, FLD, CHG, ETC).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "shipName1": {
+        "left": 40.7,
+        "top": 680.0,
+        "width": 229.1,
+        "height": 9.9,
+        "type": "text",
+        "description": "Enter the ship's name.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "hullNumber1": {
+        "left": 273.7,
+        "top": 680.0,
+        "width": 139.7,
+        "height": 9.9,
+        "type": "text",
+        "description": "Enter the hull number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "bc1": {
+        "left": 418.2,
+        "top": 680.0,
+        "width": 120.8,
+        "height": 9.9,
+        "type": "text",
+        "description": "Enter the EIC.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "act1": {
+        "left": 542.8,
+        "top": 680.0,
+        "width": 31.4,
+        "height": 9.9,
+        "type": "text",
+        "description": "Enter the ACT.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "noun1": {
+        "left": 40.7,
+        "top": 661.1,
+        "width": 281.5,
+        "height": 9.1,
+        "type": "text",
+        "description": "Enter the equipment noun name.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sf1": {
+        "left": 327.9,
+        "top": 661.1,
+        "width": 66.6,
+        "height": 9.1,
+        "type": "text",
+        "description": "Enter the S/F MHRS. EXP.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "act2": {
+        "left": 398.8,
+        "top": 661.1,
+        "width": 50.8,
+        "height": 9.1,
+        "type": "text",
+        "description": "Enter the ACT.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dNSDate5": {
+        "left": 453.4,
+        "top": 661.1,
+        "width": 67.5,
+        "height": 9.1,
+        "type": "text",
+        "description": "Enter the completion date using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mr1": {
+        "left": 541.0,
+        "top": 661.1,
+        "width": 34.1,
+        "height": 9.1,
+        "type": "text",
+        "description": "Enter the M/R.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "jpb1": {
+        "left": 41.7,
+        "top": 623.8,
+        "width": 532.5,
+        "height": 54.8,
+        "type": "text",
+        "description": "Enter any job description or remaks.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "component1": {
+        "left": 39.8,
+        "top": 546.4,
+        "width": 462.1,
+        "height": 8.7,
+        "type": "text",
+        "description": "Enter the component noun name.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "information1": {
+        "left": 505.8,
+        "top": 546.4,
+        "width": 49.4,
+        "height": 8.7,
+        "type": "text",
+        "description": "Enter the information for number 14.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ca1": {
+        "left": 558.6,
+        "top": 546.4,
+        "width": 15.1,
+        "height": 8.7,
+        "type": "text",
+        "description": "Enter the CA.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "identification1": {
+        "left": 39.8,
+        "top": 530.8,
+        "width": 264.3,
+        "height": 8.7,
+        "type": "text",
+        "description": "Enter the component identification.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "serial1": {
+        "left": 309.4,
+        "top": 530.8,
+        "width": 264.3,
+        "height": 8.7,
+        "type": "text",
+        "description": "Enter the component serial number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "apl1": {
+        "left": 39.8,
+        "top": 514.3,
+        "width": 193.0,
+        "height": 8.3,
+        "type": "text",
+        "description": "Enter the component APL and or AEL.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "deck1": {
+        "left": 236.2,
+        "top": 514.3,
+        "width": 211.5,
+        "height": 8.3,
+        "type": "text",
+        "description": "Enter the location (deck, frame, side).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "eic1": {
+        "left": 453.0,
+        "top": 514.3,
+        "width": 120.8,
+        "height": 8.3,
+        "type": "text",
+        "description": "Enter the EIC.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sac1": {
+        "left": 415.5,
+        "top": 499.5,
+        "width": 86.5,
+        "height": 9.1,
+        "type": "text",
+        "description": "Enter the S.A.C.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "work1": {
+        "left": 506.7,
+        "top": 499.5,
+        "width": 67.0,
+        "height": 9.1,
+        "type": "text",
+        "description": "Enter the work.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "next1": {
+        "left": 39.8,
+        "top": 498.7,
+        "width": 371.8,
+        "height": 8.3,
+        "type": "text",
+        "description": "Enter the next higher assembly.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dat1": {
+        "left": 41.7,
+        "top": 481.5,
+        "width": 530.7,
+        "height": 53.2,
+        "type": "text",
+        "description": "Enter the name plate data.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mip1": {
+        "left": 44.4,
+        "top": 420.5,
+        "width": 260.6,
+        "height": 8.3,
+        "type": "text",
+        "description": "Enter the MIP.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "eoss1": {
+        "left": 308.9,
+        "top": 420.5,
+        "width": 260.6,
+        "height": 8.3,
+        "type": "text",
+        "description": "Enter the EOSS.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "im1": {
+        "left": 44.4,
+        "top": 405.7,
+        "width": 526.1,
+        "height": 9.1,
+        "type": "text",
+        "description": "Enter the TM.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rin1": {
+        "left": 44.4,
+        "top": 376.0,
+        "width": 80.0,
+        "height": 9.5,
+        "type": "text",
+        "description": "Enter the RIN.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ailsin1": {
+        "left": 128.7,
+        "top": 376.0,
+        "width": 210.6,
+        "height": 9.5,
+        "type": "text",
+        "description": "Enter the ailsin.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "office1": {
+        "left": 345.0,
+        "top": 376.0,
+        "width": 225.4,
+        "height": 9.5,
+        "type": "text",
+        "description": "Enter the secas office use.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "numberpages1": {
+        "left": 520.0,
+        "top": 61.8,
+        "width": 34.6,
+        "height": 12.5,
+        "type": "text",
+        "description": "Enter the total number of pages.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "supervisor1": {
+        "left": 38.9,
+        "top": 47.5,
+        "width": 68.4,
+        "height": 10.3,
+        "type": "text",
+        "description": "Enter the work center supervisor.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "divsion1": {
+        "left": 113.0,
+        "top": 47.5,
+        "width": 68.4,
+        "height": 10.3,
+        "type": "text",
+        "description": "Enter the information for division off.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "supply1": {
+        "left": 187.1,
+        "top": 47.5,
+        "width": 70.3,
+        "height": 10.3,
+        "type": "text",
+        "description": "Enter the information for the supply department.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "coordinator1": {
+        "left": 263.1,
+        "top": 47.5,
+        "width": 70.3,
+        "height": 10.3,
+        "type": "text",
+        "description": "Enter the information for the 3 M coordinator.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "shiip1": {
+        "left": 338.1,
+        "top": 47.5,
+        "width": 82.8,
+        "height": 10.3,
+        "type": "text",
+        "description": "Enter the information for the ship sequence number.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

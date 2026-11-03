@@ -1,0 +1,415 @@
+{
+  "id": "navpers521115",
+  "label": "NAVPERS5211-15 - Personally Identifiable Information (pii) Spot Check Checklist",
+  "directory": "NAVPERS5211-15 - Personally Identifiable Information (pii) Spot Check Checklist",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "dateInspected",
+        "code",
+        "cell2",
+        "cell22",
+        "cell23",
+        "cell24",
+        "cell25",
+        "cell26",
+        "cell27",
+        "cell28",
+        "cell29",
+        "cell210",
+        "cell211",
+        "cell212",
+        "cell213",
+        "cell214",
+        "cell215",
+        "cell216",
+        "cell217",
+        "cell218",
+        "cell219",
+        "cell220",
+        "cell221",
+        "cell222",
+        "cell223",
+        "cell224",
+        "cell225",
+        "cell226",
+        "commentsField",
+        "pIIname",
+        "pIIcode",
+        "pIIsignature",
+        "pIIdate"
+      ],
+      "editor": "checklist"
+    }
+  ],
+  "fields": {
+    "dateInspected": {
+      "type": "text",
+      "label": "COMMAND/CODE INSPECTED",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 708.5,
+        "width": 390.3,
+        "height": 21.6
+      }
+    },
+    "code": {
+      "type": "text",
+      "label": "DATE OF INSPECTION",
+      "page": 1,
+      "box": {
+        "left": 434.9,
+        "top": 708.5,
+        "width": 138.3,
+        "height": 21.6
+      }
+    },
+    "cell2": {
+      "type": "checkbox",
+      "label": "1. Do you know what makes PII sensitive?",
+      "page": 1,
+      "box": {
+        "left": 562.8,
+        "top": 665.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell22": {
+      "type": "checkbox",
+      "label": "5211.7A",
+      "page": 1,
+      "box": {
+        "left": 562.8,
+        "top": 648.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell23": {
+      "type": "checkbox",
+      "label": "5211.7A",
+      "page": 1,
+      "box": {
+        "left": 562.8,
+        "top": 629.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell24": {
+      "type": "checkbox",
+      "label": "5211.7A",
+      "page": 1,
+      "box": {
+        "left": 562.8,
+        "top": 615.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell25": {
+      "type": "checkbox",
+      "label": "5211.7A",
+      "page": 1,
+      "box": {
+        "left": 562.8,
+        "top": 598.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell26": {
+      "type": "checkbox",
+      "label": "5211.7A",
+      "page": 1,
+      "box": {
+        "left": 562.8,
+        "top": 579.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell27": {
+      "type": "checkbox",
+      "label": "5211.7A",
+      "page": 1,
+      "box": {
+        "left": 562.8,
+        "top": 564.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell28": {
+      "type": "checkbox",
+      "label": "5211.7A",
+      "page": 1,
+      "box": {
+        "left": 562.8,
+        "top": 550.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell29": {
+      "type": "checkbox",
+      "label": "5211.7A",
+      "page": 1,
+      "box": {
+        "left": 562.8,
+        "top": 533.2,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell210": {
+      "type": "checkbox",
+      "label": "10. Do you know what the Navy\u2019s policy is on faxing PII?",
+      "page": 1,
+      "box": {
+        "left": 562.8,
+        "top": 514.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell211": {
+      "type": "checkbox",
+      "label": "11. Do you always remove your CAC when you leave your desk?",
+      "page": 1,
+      "box": {
+        "left": 562.8,
+        "top": 500.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell212": {
+      "type": "checkbox",
+      "label": "5211.7A",
+      "page": 1,
+      "box": {
+        "left": 562.8,
+        "top": 485.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell213": {
+      "type": "checkbox",
+      "label": "5211.7A",
+      "page": 1,
+      "box": {
+        "left": 562.8,
+        "top": 468.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell214": {
+      "type": "checkbox",
+      "label": "5211.7A",
+      "page": 1,
+      "box": {
+        "left": 562.8,
+        "top": 449.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell215": {
+      "type": "checkbox",
+      "label": "5211.7A",
+      "page": 1,
+      "box": {
+        "left": 562.8,
+        "top": 435.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell216": {
+      "type": "checkbox",
+      "label": "5211.7A",
+      "page": 1,
+      "box": {
+        "left": 562.8,
+        "top": 412.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell217": {
+      "type": "checkbox",
+      "label": "5211.7A",
+      "page": 1,
+      "box": {
+        "left": 562.8,
+        "top": 388.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell218": {
+      "type": "checkbox",
+      "label": "5211.7A",
+      "page": 1,
+      "box": {
+        "left": 562.8,
+        "top": 369.3,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell219": {
+      "type": "checkbox",
+      "label": "5211.7A",
+      "page": 1,
+      "box": {
+        "left": 562.8,
+        "top": 331.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell220": {
+      "type": "checkbox",
+      "label": "5211.7A",
+      "page": 1,
+      "box": {
+        "left": 562.8,
+        "top": 312.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell221": {
+      "type": "checkbox",
+      "label": "5211.7A",
+      "page": 1,
+      "box": {
+        "left": 562.8,
+        "top": 295.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell222": {
+      "type": "checkbox",
+      "label": "5211.7A",
+      "page": 1,
+      "box": {
+        "left": 562.8,
+        "top": 276.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell223": {
+      "type": "checkbox",
+      "label": "5211.7A",
+      "page": 1,
+      "box": {
+        "left": 562.8,
+        "top": 259.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell224": {
+      "type": "checkbox",
+      "label": "5211.7A",
+      "page": 1,
+      "box": {
+        "left": 562.8,
+        "top": 226.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell225": {
+      "type": "checkbox",
+      "label": "5211.7A",
+      "page": 1,
+      "box": {
+        "left": 562.8,
+        "top": 209.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cell226": {
+      "type": "checkbox",
+      "label": "5211.7A",
+      "page": 1,
+      "box": {
+        "left": 562.8,
+        "top": 187.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "commentsField": {
+      "type": "text",
+      "label": "Please use this field to document discrepancies identified",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 155.4,
+        "width": 534.3,
+        "height": 69.8
+      },
+      "multiline": true
+    },
+    "pIIname": {
+      "type": "text",
+      "label": "PII COORDINATOR/INSPECTOR NAME",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 56.8,
+        "width": 192.3,
+        "height": 18.0
+      }
+    },
+    "pIIcode": {
+      "type": "text",
+      "label": "CODE",
+      "page": 1,
+      "box": {
+        "left": 236.9,
+        "top": 56.8,
+        "width": 66.2,
+        "height": 18.0
+      }
+    },
+    "pIIsignature": {
+      "type": "text",
+      "label": "PII COORDINATOR/INSPECTOR SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 308.9,
+        "top": 56.8,
+        "width": 192.3,
+        "height": 18.0
+      }
+    },
+    "pIIdate": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 506.9,
+        "top": 56.8,
+        "width": 66.2,
+        "height": 18.0
+      }
+    }
+  }
+}

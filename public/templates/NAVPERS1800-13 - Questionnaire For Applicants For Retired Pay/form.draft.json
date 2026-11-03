@@ -1,0 +1,427 @@
+{
+  "id": "navpers180013",
+  "label": "NAVPERS1800-13 - Questionnaire For Applicants For Retired Pay",
+  "directory": "NAVPERS1800-13 - Questionnaire For Applicants For Retired Pay",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "checkBox1",
+        "checkBox12",
+        "checkBox13",
+        "checkBox14",
+        "checkBox15",
+        "checkBox16",
+        "checkBox17",
+        "checkBox18",
+        "textField1",
+        "textField12",
+        "textField13",
+        "textField14",
+        "checkBox19",
+        "checkBox110",
+        "checkBox111",
+        "checkBox112",
+        "textField15",
+        "textField16",
+        "checkBox113",
+        "checkBox114",
+        "textField17",
+        "textField18",
+        "textField19",
+        "checkBox115",
+        "checkBox116",
+        "checkBox117",
+        "checkBox118",
+        "textField110",
+        "textField111",
+        "textField112",
+        "textField113",
+        "textField114",
+        "textField115",
+        "textField116"
+      ]
+    }
+  ],
+  "fields": {
+    "checkBox1": {
+      "type": "checkbox",
+      "label": "CheckBox1",
+      "page": 1,
+      "box": {
+        "left": 522.8,
+        "top": 567.0,
+        "width": 14.0,
+        "height": 14.0
+      }
+    },
+    "checkBox12": {
+      "type": "checkbox",
+      "label": "CheckBox1",
+      "page": 1,
+      "box": {
+        "left": 550.8,
+        "top": 567.0,
+        "width": 14.0,
+        "height": 14.0
+      }
+    },
+    "checkBox13": {
+      "type": "checkbox",
+      "label": "CheckBox1",
+      "page": 1,
+      "box": {
+        "left": 522.8,
+        "top": 547.0,
+        "width": 14.0,
+        "height": 14.0
+      }
+    },
+    "checkBox14": {
+      "type": "checkbox",
+      "label": "CheckBox1",
+      "page": 1,
+      "box": {
+        "left": 550.8,
+        "top": 547.0,
+        "width": 14.0,
+        "height": 14.0
+      }
+    },
+    "checkBox15": {
+      "type": "checkbox",
+      "label": "CheckBox1",
+      "page": 1,
+      "box": {
+        "left": 522.8,
+        "top": 527.0,
+        "width": 14.0,
+        "height": 14.0
+      }
+    },
+    "checkBox16": {
+      "type": "checkbox",
+      "label": "CheckBox1",
+      "page": 1,
+      "box": {
+        "left": 550.8,
+        "top": 527.0,
+        "width": 14.0,
+        "height": 14.0
+      }
+    },
+    "checkBox17": {
+      "type": "checkbox",
+      "label": "CheckBox1",
+      "page": 1,
+      "box": {
+        "left": 522.8,
+        "top": 511.0,
+        "width": 14.0,
+        "height": 14.0
+      }
+    },
+    "checkBox18": {
+      "type": "checkbox",
+      "label": "CheckBox1",
+      "page": 1,
+      "box": {
+        "left": 550.8,
+        "top": 511.0,
+        "width": 14.0,
+        "height": 14.0
+      }
+    },
+    "textField1": {
+      "type": "text",
+      "label": "CLAIM NUMBER:",
+      "page": 1,
+      "box": {
+        "left": 310.8,
+        "top": 482.7,
+        "width": 206.3,
+        "height": 7.8
+      }
+    },
+    "textField12": {
+      "type": "text",
+      "label": "ADDRESS OF PAYING OFFICE:",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 479.8,
+        "width": 266.3,
+        "height": 53.0
+      },
+      "multiline": true
+    },
+    "textField13": {
+      "type": "text",
+      "label": "EFFECTIVE DATE(S) OF AWARD:",
+      "page": 1,
+      "box": {
+        "left": 310.8,
+        "top": 458.7,
+        "width": 206.3,
+        "height": 7.8
+      }
+    },
+    "textField14": {
+      "type": "text",
+      "label": "MONTHLY AMOUNT(S):",
+      "page": 1,
+      "box": {
+        "left": 310.8,
+        "top": 434.7,
+        "width": 206.3,
+        "height": 7.8
+      }
+    },
+    "checkBox19": {
+      "type": "checkbox",
+      "label": "CheckBox1",
+      "page": 1,
+      "box": {
+        "left": 522.8,
+        "top": 423.0,
+        "width": 14.0,
+        "height": 14.0
+      }
+    },
+    "checkBox110": {
+      "type": "checkbox",
+      "label": "CheckBox1",
+      "page": 1,
+      "box": {
+        "left": 550.8,
+        "top": 423.0,
+        "width": 14.0,
+        "height": 14.0
+      }
+    },
+    "checkBox111": {
+      "type": "checkbox",
+      "label": "CheckBox1",
+      "page": 1,
+      "box": {
+        "left": 522.8,
+        "top": 403.0,
+        "width": 14.0,
+        "height": 14.0
+      }
+    },
+    "checkBox112": {
+      "type": "checkbox",
+      "label": "CheckBox1",
+      "page": 1,
+      "box": {
+        "left": 550.8,
+        "top": 403.0,
+        "width": 14.0,
+        "height": 14.0
+      }
+    },
+    "textField15": {
+      "type": "text",
+      "label": "EFFECTIVE DATE(S):",
+      "page": 1,
+      "box": {
+        "left": 310.8,
+        "top": 354.7,
+        "width": 206.3,
+        "height": 7.8
+      }
+    },
+    "textField16": {
+      "type": "text",
+      "label": "GROSS ANNUAL BASIC RATE(S) OF PAY:",
+      "page": 1,
+      "box": {
+        "left": 310.8,
+        "top": 330.7,
+        "width": 206.3,
+        "height": 7.8
+      }
+    },
+    "checkBox113": {
+      "type": "checkbox",
+      "label": "CheckBox1",
+      "page": 1,
+      "box": {
+        "left": 522.8,
+        "top": 315.0,
+        "width": 14.0,
+        "height": 14.0
+      }
+    },
+    "checkBox114": {
+      "type": "checkbox",
+      "label": "CheckBox1",
+      "page": 1,
+      "box": {
+        "left": 550.8,
+        "top": 315.0,
+        "width": 14.0,
+        "height": 14.0
+      }
+    },
+    "textField17": {
+      "type": "text",
+      "label": "A COPY OF DISCHARGE ORDERS:",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 266.7,
+        "width": 158.3,
+        "height": 7.8
+      }
+    },
+    "textField18": {
+      "type": "text",
+      "label": "DATE OF DISCHARGE:",
+      "page": 1,
+      "box": {
+        "left": 202.8,
+        "top": 266.7,
+        "width": 150.3,
+        "height": 7.8
+      }
+    },
+    "textField19": {
+      "type": "text",
+      "label": "AMOUNT OF SERVERANCE PAY::",
+      "page": 1,
+      "box": {
+        "left": 358.8,
+        "top": 266.7,
+        "width": 158.3,
+        "height": 7.8
+      }
+    },
+    "checkBox115": {
+      "type": "checkbox",
+      "label": "CheckBox1",
+      "page": 1,
+      "box": {
+        "left": 522.8,
+        "top": 255.0,
+        "width": 14.0,
+        "height": 14.0
+      }
+    },
+    "checkBox116": {
+      "type": "checkbox",
+      "label": "CheckBox1",
+      "page": 1,
+      "box": {
+        "left": 550.8,
+        "top": 255.0,
+        "width": 14.0,
+        "height": 14.0
+      }
+    },
+    "checkBox117": {
+      "type": "checkbox",
+      "label": "CheckBox1",
+      "page": 1,
+      "box": {
+        "left": 522.8,
+        "top": 235.0,
+        "width": 14.0,
+        "height": 14.0
+      }
+    },
+    "checkBox118": {
+      "type": "checkbox",
+      "label": "CheckBox1",
+      "page": 1,
+      "box": {
+        "left": 550.8,
+        "top": 235.0,
+        "width": 14.0,
+        "height": 14.0
+      }
+    },
+    "textField110": {
+      "type": "text",
+      "label": "NAME AND ADDRESS OF PAYING AGENCY:",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 186.7,
+        "width": 314.3,
+        "height": 31.8
+      },
+      "multiline": true
+    },
+    "textField111": {
+      "type": "text",
+      "label": "EFFECTIVE DATE(S):",
+      "page": 1,
+      "box": {
+        "left": 358.8,
+        "top": 186.7,
+        "width": 158.3,
+        "height": 7.8
+      }
+    },
+    "textField112": {
+      "type": "text",
+      "label": "MONTHLY AMOUNT(S):",
+      "page": 1,
+      "box": {
+        "left": 358.8,
+        "top": 162.7,
+        "width": 158.3,
+        "height": 7.8
+      }
+    },
+    "textField113": {
+      "type": "text",
+      "label": "13.  MEMBER'S NAME (LAST, FIRST, MIi):",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 138.7,
+        "width": 162.3,
+        "height": 19.8
+      }
+    },
+    "textField114": {
+      "type": "text",
+      "label": "15.  GRADE:",
+      "page": 1,
+      "box": {
+        "left": 370.8,
+        "top": 138.7,
+        "width": 50.3,
+        "height": 19.8
+      }
+    },
+    "textField115": {
+      "type": "text",
+      "label": "16.  SSN AND DESIG:",
+      "page": 1,
+      "box": {
+        "left": 426.8,
+        "top": 138.7,
+        "width": 86.3,
+        "height": 19.8
+      }
+    },
+    "textField116": {
+      "type": "text",
+      "label": "17.  DATE:",
+      "page": 1,
+      "box": {
+        "left": 518.8,
+        "top": 138.7,
+        "width": 54.3,
+        "height": 19.8
+      }
+    }
+  }
+}

@@ -1,0 +1,552 @@
+{
+  "id": "navmc6",
+  "label": "NAVMC 6 - Cash Sales-Request For Checkage For Government Property",
+  "directory": "NAVMC6 - Cash Sales-Request For Checkage For Government Property",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "chkCash",
+        "chkCheck",
+        "chkLost",
+        "chkDamag",
+        "chkDestr",
+        "origOffic1",
+        "org1",
+        "disbOffic1",
+        "nameChk",
+        "viaCO",
+        "totCheck",
+        "itemDesc0",
+        "itemDesc1",
+        "itemDesc2",
+        "itemDesc3",
+        "itemDesc4",
+        "itemDesc5",
+        "itemDesc6",
+        "itemDesc7",
+        "itemDesc8",
+        "vouchNum1",
+        "grndTot",
+        "signature",
+        "dateSig1",
+        "signature2",
+        "dateSig2",
+        "commOffic1",
+        "org2",
+        "disbOffic2",
+        "signature3",
+        "dateSig3",
+        "commOffic2",
+        "org3",
+        "origOffic2",
+        "org4",
+        "signature4",
+        "vouchNum2",
+        "period1",
+        "symb1",
+        "dateSig4"
+      ]
+    }
+  ],
+  "fields": {
+    "chkCash": {
+      "type": "checkbox",
+      "label": "Check for cash sale.",
+      "page": 1,
+      "box": {
+        "left": 317.6,
+        "top": 711.2,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "chkCheck": {
+      "type": "checkbox",
+      "label": "Check for checkage sale.",
+      "page": 1,
+      "box": {
+        "left": 436.8,
+        "top": 711.2,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "chkLost": {
+      "type": "checkbox",
+      "label": "Check for lost.",
+      "page": 1,
+      "box": {
+        "left": 174.4,
+        "top": 685.6,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "chkDamag": {
+      "type": "checkbox",
+      "label": "Check for damaged.",
+      "page": 1,
+      "box": {
+        "left": 317.6,
+        "top": 685.6,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "chkDestr": {
+      "type": "checkbox",
+      "label": "Check for destroyed.",
+      "page": 1,
+      "box": {
+        "left": 436.8,
+        "top": 685.6,
+        "width": 16.0,
+        "height": 16.0
+      }
+    },
+    "origOffic1": {
+      "type": "text",
+      "label": "From. Originating Officer.",
+      "page": 1,
+      "box": {
+        "left": 19.2,
+        "top": 646.4,
+        "width": 288.0,
+        "height": 17.6
+      }
+    },
+    "org1": {
+      "type": "text",
+      "label": "Organization.",
+      "page": 1,
+      "box": {
+        "left": 308.0,
+        "top": 646.4,
+        "width": 285.6,
+        "height": 17.6
+      }
+    },
+    "disbOffic1": {
+      "type": "text",
+      "label": "To. Disbursing Officer.",
+      "page": 1,
+      "box": {
+        "left": 19.2,
+        "top": 613.6,
+        "width": 288.0,
+        "height": 17.6
+      }
+    },
+    "nameChk": {
+      "type": "text",
+      "label": "Checkee including name, grade, and Service Number.",
+      "page": 1,
+      "box": {
+        "left": 308.0,
+        "top": 613.6,
+        "width": 285.6,
+        "height": 17.6
+      }
+    },
+    "viaCO": {
+      "type": "text",
+      "label": "VIA. Commanding Officer.",
+      "page": 1,
+      "box": {
+        "left": 19.2,
+        "top": 580.8,
+        "width": 288.0,
+        "height": 17.6
+      }
+    },
+    "totCheck": {
+      "type": "text",
+      "label": "Total checkage.",
+      "page": 1,
+      "box": {
+        "left": 308.0,
+        "top": 580.8,
+        "width": 285.6,
+        "height": 17.6
+      }
+    },
+    "itemDesc0": {
+      "type": "text",
+      "label": "Item Description. Line 1.",
+      "page": 1,
+      "box": {
+        "left": 147.7,
+        "top": 544.3,
+        "width": 292.1,
+        "height": 17.9
+      }
+    },
+    "itemDesc1": {
+      "type": "text",
+      "label": "Item Description. Line 2.",
+      "page": 1,
+      "box": {
+        "left": 147.7,
+        "top": 522.5,
+        "width": 292.1,
+        "height": 17.9
+      }
+    },
+    "itemDesc2": {
+      "type": "text",
+      "label": "Item Description. Line 3.",
+      "page": 1,
+      "box": {
+        "left": 147.7,
+        "top": 500.6,
+        "width": 292.1,
+        "height": 17.9
+      }
+    },
+    "itemDesc3": {
+      "type": "text",
+      "label": "Item Description. Line 4.",
+      "page": 1,
+      "box": {
+        "left": 147.7,
+        "top": 478.8,
+        "width": 292.1,
+        "height": 17.9
+      }
+    },
+    "itemDesc4": {
+      "type": "text",
+      "label": "Item Description. Line 5.",
+      "page": 1,
+      "box": {
+        "left": 147.7,
+        "top": 456.9,
+        "width": 292.1,
+        "height": 17.9
+      }
+    },
+    "itemDesc5": {
+      "type": "text",
+      "label": "Item Description. Line 6.",
+      "page": 1,
+      "box": {
+        "left": 147.7,
+        "top": 435.0,
+        "width": 292.1,
+        "height": 17.9
+      }
+    },
+    "itemDesc6": {
+      "type": "text",
+      "label": "Item Description. Line 7.",
+      "page": 1,
+      "box": {
+        "left": 148.2,
+        "top": 412.6,
+        "width": 292.1,
+        "height": 17.9
+      }
+    },
+    "itemDesc7": {
+      "type": "text",
+      "label": "Item Description. Line 8.",
+      "page": 1,
+      "box": {
+        "left": 147.7,
+        "top": 391.3,
+        "width": 292.1,
+        "height": 17.9
+      }
+    },
+    "itemDesc8": {
+      "type": "text",
+      "label": "Item Description. Line 9.",
+      "page": 1,
+      "box": {
+        "left": 147.7,
+        "top": 369.5,
+        "width": 292.1,
+        "height": 17.9
+      }
+    },
+    "vouchNum1": {
+      "type": "text",
+      "label": "Supply Voucher Number",
+      "page": 1,
+      "box": {
+        "left": 147.2,
+        "top": 347.4,
+        "width": 232.8,
+        "height": 18.8
+      }
+    },
+    "grndTot": {
+      "type": "text",
+      "label": "Grand Total",
+      "page": 1,
+      "box": {
+        "left": 509.9,
+        "top": 346.3,
+        "width": 83.4,
+        "height": 17.9
+      }
+    },
+    "signature": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 360.1,
+        "top": 315.8,
+        "width": 233.6,
+        "height": 19.3
+      }
+    },
+    "dateSig1": {
+      "type": "text",
+      "label": "Enter signature date using format 2002 06 27.",
+      "page": 1,
+      "box": {
+        "left": 44.8,
+        "top": 312.8,
+        "width": 263.2,
+        "height": 17.6
+      }
+    },
+    "signature2": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 359.1,
+        "top": 256.1,
+        "width": 234.1,
+        "height": 19.3
+      }
+    },
+    "dateSig2": {
+      "type": "text",
+      "label": "Enter signature date using format 2002 06 27.",
+      "page": 1,
+      "box": {
+        "left": 44.0,
+        "top": 252.8,
+        "width": 261.6,
+        "height": 17.6
+      }
+    },
+    "commOffic1": {
+      "type": "text",
+      "label": "From. Commanding Officer.",
+      "page": 1,
+      "box": {
+        "left": 19.2,
+        "top": 213.6,
+        "width": 288.0,
+        "height": 17.6
+      }
+    },
+    "org2": {
+      "type": "text",
+      "label": "Organization.",
+      "page": 1,
+      "box": {
+        "left": 308.8,
+        "top": 213.6,
+        "width": 285.6,
+        "height": 17.6
+      }
+    },
+    "disbOffic2": {
+      "type": "text",
+      "label": "To. Disbursing Officer.",
+      "page": 1,
+      "box": {
+        "left": 18.4,
+        "top": 187.2,
+        "width": 576.0,
+        "height": 17.6
+      }
+    },
+    "signature3": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 360.6,
+        "top": 156.8,
+        "width": 233.1,
+        "height": 19.3
+      }
+    },
+    "dateSig3": {
+      "type": "text",
+      "label": "Enter signature date using format 2002 06 27.",
+      "page": 1,
+      "box": {
+        "left": 44.8,
+        "top": 153.6,
+        "width": 261.6,
+        "height": 17.6
+      }
+    },
+    "commOffic2": {
+      "type": "text",
+      "label": "From. Commanding Officer.",
+      "page": 1,
+      "box": {
+        "left": 19.2,
+        "top": 113.7,
+        "width": 288.0,
+        "height": 17.6
+      }
+    },
+    "org3": {
+      "type": "text",
+      "label": "Organization.",
+      "page": 1,
+      "box": {
+        "left": 308.8,
+        "top": 113.7,
+        "width": 285.6,
+        "height": 17.6
+      }
+    },
+    "origOffic2": {
+      "type": "text",
+      "label": "To. Originating Officer.",
+      "page": 1,
+      "box": {
+        "left": 19.2,
+        "top": 86.5,
+        "width": 288.0,
+        "height": 17.6
+      }
+    },
+    "org4": {
+      "type": "text",
+      "label": "Organization.",
+      "page": 1,
+      "box": {
+        "left": 308.8,
+        "top": 86.5,
+        "width": 285.6,
+        "height": 17.6
+      }
+    },
+    "signature4": {
+      "type": "signature",
+      "label": "Signature",
+      "page": 1,
+      "box": {
+        "left": 422.3,
+        "top": 57.7,
+        "width": 171.4,
+        "height": 23.7
+      }
+    },
+    "vouchNum2": {
+      "type": "text",
+      "label": "Voucher Number",
+      "page": 1,
+      "box": {
+        "left": 20.0,
+        "top": 49.7,
+        "width": 105.6,
+        "height": 17.6
+      }
+    },
+    "period1": {
+      "type": "text",
+      "label": "Period",
+      "page": 1,
+      "box": {
+        "left": 126.4,
+        "top": 49.7,
+        "width": 68.8,
+        "height": 17.6
+      }
+    },
+    "symb1": {
+      "type": "text",
+      "label": "Symbol",
+      "page": 1,
+      "box": {
+        "left": 196.8,
+        "top": 49.7,
+        "width": 86.4,
+        "height": 17.6
+      }
+    },
+    "dateSig4": {
+      "type": "text",
+      "label": "Enter signature date using format 2002 06 27.",
+      "page": 1,
+      "box": {
+        "left": 284.8,
+        "top": 49.6,
+        "width": 85.6,
+        "height": 17.6
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 9,
+      "rowStride": 21.85,
+      "editor": "grid",
+      "columns": {
+        "qty": {
+          "type": "text",
+          "label": "Quantity. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 18.5,
+            "top": 544.3,
+            "width": 51.7,
+            "height": 17.9
+          }
+        },
+        "stkNum": {
+          "type": "text",
+          "label": "Stock Number. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 71.5,
+            "top": 544.3,
+            "width": 74.8,
+            "height": 17.9
+          }
+        },
+        "unitCost": {
+          "type": "text",
+          "label": "Unit Cost. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 441.1,
+            "top": 544.3,
+            "width": 67.5,
+            "height": 17.9
+          }
+        },
+        "totCost": {
+          "type": "text",
+          "label": "Total Cost. Line 1.",
+          "page": 1,
+          "box": {
+            "left": 509.9,
+            "top": 544.3,
+            "width": 83.4,
+            "height": 17.9
+          }
+        }
+      }
+    }
+  }
+}

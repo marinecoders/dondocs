@@ -1,0 +1,238 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "authNum": {
+        "left": 317.6,
+        "top": 754.4,
+        "width": 264.8,
+        "height": 34.4,
+        "type": "text",
+        "description": "Authorization Number",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "amndNum": {
+        "left": 380.0,
+        "top": 715.2,
+        "width": 207.2,
+        "height": 16.0,
+        "type": "text",
+        "description": "Amendment Number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date1": {
+        "left": 159.2,
+        "top": 714.4,
+        "width": 156.8,
+        "height": 16.0,
+        "type": "text",
+        "description": "Enter date using format 2002 06 27.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "from1": {
+        "left": 24.8,
+        "top": 685.6,
+        "width": 291.2,
+        "height": 48.8,
+        "type": "text",
+        "description": "From:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "prevAmt": {
+        "left": 324.6,
+        "top": 676.8,
+        "width": 260.2,
+        "height": 18.4,
+        "type": "text",
+        "description": "Previous Amount",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "incrDecr": {
+        "left": 324.6,
+        "top": 646.2,
+        "width": 262.6,
+        "height": 22.2,
+        "type": "text",
+        "description": "Increase/Decrease",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "to1": {
+        "left": 24.8,
+        "top": 624.0,
+        "width": 291.2,
+        "height": 48.8,
+        "type": "text",
+        "description": "To:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "newTot": {
+        "left": 324.6,
+        "top": 608.4,
+        "width": 266.0,
+        "height": 32.2,
+        "type": "text",
+        "description": "New Total",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "appr": {
+        "left": 27.2,
+        "top": 502.8,
+        "width": 68.8,
+        "height": 46.0,
+        "type": "text",
+        "description": "Appropriation",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "objCls": {
+        "left": 144.8,
+        "top": 502.8,
+        "width": 44.8,
+        "height": 46.0,
+        "type": "text",
+        "description": "Object Class",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "bcn1": {
+        "left": 192.0,
+        "top": 502.8,
+        "width": 48.0,
+        "height": 46.0,
+        "type": "text",
+        "description": "BCN",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "subAlt": {
+        "left": 242.4,
+        "top": 502.8,
+        "width": 44.8,
+        "height": 46.0,
+        "type": "text",
+        "description": "Sub Allot",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "aaan1": {
+        "left": 288.8,
+        "top": 502.8,
+        "width": 59.2,
+        "height": 46.0,
+        "type": "text",
+        "description": "AAAN",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "tranTypCd": {
+        "left": 350.4,
+        "top": 502.8,
+        "width": 48.0,
+        "height": 46.0,
+        "type": "text",
+        "description": "Trans Type Code",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "paan1": {
+        "left": 400.8,
+        "top": 502.2,
+        "width": 48.0,
+        "height": 45.4,
+        "type": "text",
+        "description": "PAAN",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "costCd": {
+        "left": 451.2,
+        "top": 502.2,
+        "width": 136.0,
+        "height": 45.4,
+        "type": "text",
+        "description": "Cost Code",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "subHd": {
+        "left": 98.4,
+        "top": 501.6,
+        "width": 44.8,
+        "height": 44.8,
+        "type": "text",
+        "description": "Subhead",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "desc1": {
+        "left": 25.6,
+        "top": 443.2,
+        "width": 564.0,
+        "height": 299.2,
+        "type": "text",
+        "description": "Description. Specs, Refs, Encls.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "reqstBy": {
+        "left": 25.6,
+        "top": 129.6,
+        "width": 564.0,
+        "height": 30.6,
+        "type": "text",
+        "description": "Requested By.  Branch or Section Head.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature": {
+        "left": 25.2,
+        "top": 81.7,
+        "width": 565.6,
+        "height": 26.7,
+        "type": "signature",
+        "description": "Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

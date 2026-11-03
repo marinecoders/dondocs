@@ -1,0 +1,168 @@
+{
+  "id": "navpers530014",
+  "label": "NAVPERS5300-14 - Request For Non-Appropriated Fund (naf) Personnel Folder (seperated Employee)",
+  "directory": "NAVPERS5300-14 - Request For Non-Appropriated Fund (naf) Personnel Folder (seperated Employee)",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "1",
+        "2",
+        "3",
+        "5",
+        "4",
+        "6",
+        "8",
+        "7",
+        "9",
+        "10",
+        "11",
+        "90"
+      ]
+    }
+  ],
+  "fields": {
+    "1": {
+      "type": "text",
+      "label": "(SEPARATED EMPLOYEE)",
+      "page": 1,
+      "box": {
+        "left": 407.4,
+        "top": 704.3,
+        "width": 114.8,
+        "height": 21.3
+      }
+    },
+    "2": {
+      "type": "text",
+      "label": "2. CURRENT NAME (LAST, FIRST, MIDDLE)",
+      "page": 1,
+      "box": {
+        "left": 32.8,
+        "top": 655.9,
+        "width": 271.3,
+        "height": 20.5
+      }
+    },
+    "3": {
+      "type": "text",
+      "label": "2A. NAME UNDER WHICH FORMERLY EMPLOYED NAF",
+      "page": 1,
+      "box": {
+        "left": 307.4,
+        "top": 650.2,
+        "width": 273.0,
+        "height": 15.6
+      }
+    },
+    "5": {
+      "type": "text",
+      "label": "ACTIVITY (IF DIFFERENT THAN ITEM 2)",
+      "page": 1,
+      "box": {
+        "left": 309.0,
+        "top": 627.2,
+        "width": 235.3,
+        "height": 18.0
+      }
+    },
+    "4": {
+      "type": "text",
+      "label": "2. CURRENT NAME (LAST, FIRST, MIDDLE)",
+      "page": 1,
+      "box": {
+        "left": 34.4,
+        "top": 626.4,
+        "width": 202.5,
+        "height": 16.4
+      }
+    },
+    "6": {
+      "type": "text",
+      "label": "6",
+      "page": 1,
+      "box": {
+        "left": 32.8,
+        "top": 578.1,
+        "width": 545.9,
+        "height": 59.8
+      },
+      "multiline": true
+    },
+    "8": {
+      "type": "text",
+      "label": "LOCATION",
+      "page": 1,
+      "box": {
+        "left": 266.4,
+        "top": 492.8,
+        "width": 123.0,
+        "height": 44.3
+      },
+      "multiline": true
+    },
+    "7": {
+      "type": "text",
+      "label": "ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 32.8,
+        "top": 492.0,
+        "width": 228.7,
+        "height": 42.6
+      },
+      "multiline": true
+    },
+    "9": {
+      "type": "text",
+      "label": "FROM",
+      "page": 1,
+      "box": {
+        "left": 391.8,
+        "top": 491.2,
+        "width": 98.4,
+        "height": 42.6
+      },
+      "multiline": true
+    },
+    "10": {
+      "type": "text",
+      "label": "TO",
+      "page": 1,
+      "box": {
+        "left": 491.8,
+        "top": 488.7,
+        "width": 86.1,
+        "height": 39.3
+      },
+      "multiline": true
+    },
+    "11": {
+      "type": "text",
+      "label": "NON-APPROPRIATED FUND",
+      "page": 1,
+      "box": {
+        "left": 33.6,
+        "top": 414.1,
+        "width": 545.9,
+        "height": 58.2
+      },
+      "multiline": true
+    },
+    "90": {
+      "type": "text",
+      "label": "8. COMPLETE ADDRESS TO WHICH FOLDER OR REPLY IS TO BE MAILED",
+      "page": 1,
+      "box": {
+        "left": 34.4,
+        "top": 125.6,
+        "width": 544.3,
+        "height": 59.8
+      },
+      "multiline": true
+    }
+  }
+}

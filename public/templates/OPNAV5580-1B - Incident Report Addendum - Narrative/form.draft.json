@@ -1,0 +1,92 @@
+{
+  "id": "opnav55801b",
+  "label": "OPNAV5580-1B - Incident Report Addendum - Narrative",
+  "directory": "OPNAV5580-1B - Incident Report Addendum - Narrative",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "radioButtonList",
+        "incident",
+        "radioButtonList2",
+        "report",
+        "pages1",
+        "pages2"
+      ]
+    }
+  ],
+  "fields": {
+    "radioButtonList": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 504.6,
+        "top": 736.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_RadioButtonList_0"
+    },
+    "incident": {
+      "type": "text",
+      "label": "Enter the incident number.",
+      "page": 1,
+      "box": {
+        "left": 360.0,
+        "top": 732.2,
+        "width": 133.9,
+        "height": 15.8
+      }
+    },
+    "radioButtonList2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 504.7,
+        "top": 724.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "F_0_P1_0_RadioButtonList_0"
+    },
+    "report": {
+      "type": "text",
+      "label": "Enter additional narrative information.",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 695.6,
+        "width": 534.2,
+        "height": 617.7
+      },
+      "multiline": true
+    },
+    "pages1": {
+      "type": "text",
+      "label": "Enter the current page number.",
+      "page": 1,
+      "box": {
+        "left": 506.1,
+        "top": 68.4,
+        "width": 14.3,
+        "height": 13.5
+      }
+    },
+    "pages2": {
+      "type": "text",
+      "label": "Enter the total number of pages.",
+      "page": 1,
+      "box": {
+        "left": 532.0,
+        "top": 68.4,
+        "width": 20.8,
+        "height": 13.5
+      }
+    }
+  }
+}

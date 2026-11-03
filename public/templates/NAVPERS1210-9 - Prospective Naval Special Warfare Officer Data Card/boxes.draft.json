@@ -1,0 +1,563 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "lastName": {
+        "left": 38.9,
+        "top": 582.5,
+        "width": 138.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "Last Name",
+        "options": null,
+        "group": null,
+        "required": true
+      },
+      "firstName": {
+        "left": 182.9,
+        "top": 582.5,
+        "width": 138.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "First Name",
+        "options": null,
+        "group": null,
+        "required": true
+      },
+      "middleInitial": {
+        "left": 326.9,
+        "top": 582.5,
+        "width": 30.2,
+        "height": 18.0,
+        "type": "text",
+        "description": "MI",
+        "options": null,
+        "group": null,
+        "required": true
+      },
+      "pSTDateAfDate": {
+        "left": 362.9,
+        "top": 582.5,
+        "width": 66.2,
+        "height": 18.0,
+        "type": "text",
+        "description": "Test Date",
+        "options": null,
+        "group": null,
+        "required": true
+      },
+      "pSTAdmin": {
+        "left": 434.9,
+        "top": 582.5,
+        "width": 138.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "Test Administrator",
+        "options": null,
+        "group": null,
+        "required": true
+      },
+      "swimMinutes": {
+        "left": 413.3,
+        "top": 558.7,
+        "width": 41.0,
+        "height": 12.2,
+        "type": "text",
+        "description": "Weight (lbs) Swim Time",
+        "options": null,
+        "group": null,
+        "required": true
+      },
+      "swimSeconds": {
+        "left": 496.1,
+        "top": 558.7,
+        "width": 41.0,
+        "height": 12.2,
+        "type": "text",
+        "description": "minutes",
+        "options": null,
+        "group": null,
+        "required": true
+      },
+      "age": {
+        "left": 38.9,
+        "top": 550.0,
+        "width": 66.2,
+        "height": 18.0,
+        "type": "text",
+        "description": "Age",
+        "options": null,
+        "group": null,
+        "required": true
+      },
+      "birthDateAfDate": {
+        "left": 110.9,
+        "top": 550.0,
+        "width": 102.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "Date of Birth",
+        "options": null,
+        "group": null,
+        "required": true
+      },
+      "height": {
+        "left": 218.9,
+        "top": 550.0,
+        "width": 66.2,
+        "height": 18.0,
+        "type": "text",
+        "description": "Height (in.)",
+        "options": null,
+        "group": null,
+        "required": true
+      },
+      "weight": {
+        "left": 290.9,
+        "top": 550.0,
+        "width": 66.2,
+        "height": 18.0,
+        "type": "text",
+        "description": "Weight (lbs)",
+        "options": null,
+        "group": null,
+        "required": true
+      },
+      "pstPushups": {
+        "left": 413.3,
+        "top": 539.2,
+        "width": 41.0,
+        "height": 12.2,
+        "type": "text",
+        "description": "Push-ups",
+        "options": null,
+        "group": null,
+        "required": true
+      },
+      "pstSitups": {
+        "left": 413.3,
+        "top": 519.8,
+        "width": 41.0,
+        "height": 12.2,
+        "type": "text",
+        "description": "Sit-ups",
+        "options": null,
+        "group": null,
+        "required": true
+      },
+      "compositePSTScore": {
+        "left": 493.3,
+        "top": 519.8,
+        "width": 46.8,
+        "height": 12.2,
+        "type": "text",
+        "description": "Sit-ups",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "email": {
+        "left": 38.9,
+        "top": 517.6,
+        "width": 192.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "E-mail Address",
+        "options": null,
+        "group": null,
+        "required": true
+      },
+      "phone": {
+        "left": 236.9,
+        "top": 517.6,
+        "width": 120.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "Phone Number",
+        "options": null,
+        "group": null,
+        "required": true
+      },
+      "pstPullups": {
+        "left": 413.3,
+        "top": 500.4,
+        "width": 41.0,
+        "height": 12.2,
+        "type": "text",
+        "description": "Pull-ups",
+        "options": null,
+        "group": null,
+        "required": true
+      },
+      "commissioning": {
+        "left": 236.9,
+        "top": 485.2,
+        "width": 120.3,
+        "height": 18.0,
+        "type": "text",
+        "description": "Month/Year of Commissioning",
+        "options": null,
+        "group": null,
+        "required": true
+      },
+      "accessionSource": {
+        "left": 39.1,
+        "top": 485.0,
+        "width": 191.8,
+        "height": 17.5,
+        "type": "choice",
+        "description": "Accession Source",
+        "options": [
+          "Inter-Service Academy",
+          "Inter-Service Transfer",
+          "Lateral Transfer",
+          "Merchant Marine",
+          "NROTC",
+          "OCS",
+          "STA21",
+          "USNA"
+        ],
+        "group": null,
+        "required": true
+      },
+      "runMinutes": {
+        "left": 413.3,
+        "top": 480.9,
+        "width": 41.0,
+        "height": 12.2,
+        "type": "text",
+        "description": "Run Time",
+        "options": null,
+        "group": null,
+        "required": true
+      },
+      "runSeconds": {
+        "left": 493.3,
+        "top": 480.9,
+        "width": 46.8,
+        "height": 12.2,
+        "type": "text",
+        "description": "minutes",
+        "options": null,
+        "group": null,
+        "required": true
+      },
+      "cell3": {
+        "left": 74.9,
+        "top": 429.1,
+        "width": 138.3,
+        "height": 22.8,
+        "type": "text",
+        "description": "College/University",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell4": {
+        "left": 218.9,
+        "top": 429.1,
+        "width": 71.4,
+        "height": 22.8,
+        "type": "text",
+        "description": "City",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell5": {
+        "left": 296.1,
+        "top": 429.1,
+        "width": 50.9,
+        "height": 22.8,
+        "type": "text",
+        "description": "State or Country",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell7": {
+        "left": 384.2,
+        "top": 429.1,
+        "width": 121.2,
+        "height": 22.8,
+        "type": "text",
+        "description": "Major/Minor",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell8": {
+        "left": 511.1,
+        "top": 429.1,
+        "width": 30.2,
+        "height": 22.8,
+        "type": "text",
+        "description": "GPA",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell9": {
+        "left": 547.1,
+        "top": 429.1,
+        "width": 25.7,
+        "height": 22.8,
+        "type": "text",
+        "description": "Scale",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell6": {
+        "left": 353.0,
+        "top": 428.8,
+        "width": 25.2,
+        "height": 22.3,
+        "type": "choice",
+        "description": "Degree",
+        "options": [
+          "BA",
+          "BS",
+          "JD",
+          "MA",
+          "MD",
+          "MS",
+          "PhD"
+        ],
+        "group": null,
+        "required": false
+      },
+      "cell32": {
+        "left": 72.0,
+        "top": 370.9,
+        "width": 162.0,
+        "height": 28.6,
+        "type": "text",
+        "description": "Language",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell42": {
+        "left": 234.3,
+        "top": 370.7,
+        "width": 107.5,
+        "height": 28.1,
+        "type": "choice",
+        "description": "Proficiency",
+        "options": [
+          "Beginner (1/1+)",
+          "Intermediate (2/2+)",
+          "Advanced (3/3)",
+          "Fluent (3+)"
+        ],
+        "group": null,
+        "required": false
+      },
+      "cell52": {
+        "left": 344.9,
+        "top": 368.1,
+        "width": 156.3,
+        "height": 22.8,
+        "type": "text",
+        "description": "Overseas Experience (Country)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell62": {
+        "left": 506.9,
+        "top": 368.1,
+        "width": 66.2,
+        "height": 22.8,
+        "type": "text",
+        "description": "# Years",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "priorService": {
+        "left": 72.3,
+        "top": 309.7,
+        "width": 71.5,
+        "height": 28.1,
+        "type": "choice",
+        "description": "Prior Service",
+        "options": [
+          "No",
+          "Yes"
+        ],
+        "group": null,
+        "required": false
+      },
+      "serviceBranch": {
+        "left": 144.3,
+        "top": 309.7,
+        "width": 143.5,
+        "height": 28.1,
+        "type": "choice",
+        "description": "Service Branch",
+        "options": [
+          "Air Force",
+          "Army",
+          "Marine Corps",
+          "Navy",
+          "Coast Guard",
+          "National Guard",
+          "Not Applicable"
+        ],
+        "group": null,
+        "required": false
+      },
+      "row1": {
+        "left": 290.9,
+        "top": 307.1,
+        "width": 66.2,
+        "height": 22.8,
+        "type": "text",
+        "description": "Years of Service",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row11": {
+        "left": 362.9,
+        "top": 307.1,
+        "width": 66.2,
+        "height": 22.8,
+        "type": "text",
+        "description": "Paygrade",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "row12": {
+        "left": 434.9,
+        "top": 307.1,
+        "width": 138.3,
+        "height": 22.8,
+        "type": "text",
+        "description": "Discharge Type",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell33": {
+        "left": 74.9,
+        "top": 246.1,
+        "width": 120.3,
+        "height": 22.8,
+        "type": "text",
+        "description": "Company/Unit",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell43": {
+        "left": 200.9,
+        "top": 246.1,
+        "width": 120.3,
+        "height": 22.8,
+        "type": "text",
+        "description": "Job Title/Position",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateTimeField1": {
+        "left": 326.9,
+        "top": 246.1,
+        "width": 48.3,
+        "height": 22.9,
+        "type": "text",
+        "description": "Start Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell63": {
+        "left": 380.9,
+        "top": 246.1,
+        "width": 48.2,
+        "height": 22.8,
+        "type": "text",
+        "description": "End Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell72": {
+        "left": 434.9,
+        "top": 246.1,
+        "width": 138.3,
+        "height": 22.8,
+        "type": "text",
+        "description": "Reason for Leaving",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell44": {
+        "left": 252.3,
+        "top": 187.7,
+        "width": 143.5,
+        "height": 28.1,
+        "type": "choice",
+        "description": "Level Participated",
+        "options": [
+          "Collegiate",
+          "Extracurricular",
+          "High School",
+          "Intramural",
+          "Professional"
+        ],
+        "group": null,
+        "required": false
+      },
+      "cell34": {
+        "left": 74.9,
+        "top": 185.0,
+        "width": 174.3,
+        "height": 22.8,
+        "type": "text",
+        "description": "Sport/Activity",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell53": {
+        "left": 398.9,
+        "top": 185.0,
+        "width": 174.3,
+        "height": 22.8,
+        "type": "text",
+        "description": "Leadership Role",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField1": {
+        "left": 38.8,
+        "top": 42.1,
+        "width": 534.4,
+        "height": 107.4,
+        "type": "text",
+        "description": "Previous BUD/S or SEAL Officer Screening",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

@@ -1,0 +1,260 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "shipStation": {
+        "left": 38.9,
+        "top": 706.3,
+        "width": 417.2,
+        "height": 19.4,
+        "type": "text",
+        "description": "SHIP OR STATION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date": {
+        "left": 461.9,
+        "top": 706.3,
+        "width": 111.2,
+        "height": 19.4,
+        "type": "text",
+        "description": "DATE ACTION WAS TAKEN ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radioButtonList1": {
+        "left": 56.8,
+        "top": 653.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].p1[0].Action[0].RadioButtonList1[0]",
+        "required": false
+      },
+      "radioButtonList12": {
+        "left": 56.8,
+        "top": 626.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].p1[0].Action[0].RadioButtonList1[0]",
+        "required": false
+      },
+      "radioButtonList13": {
+        "left": 56.8,
+        "top": 599.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "2",
+        "options": null,
+        "group": "form1[0].p1[0].Action[0].RadioButtonList1[0]",
+        "required": false
+      },
+      "radioButtonList14": {
+        "left": 56.8,
+        "top": 572.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "3",
+        "options": null,
+        "group": "form1[0].p1[0].Action[0].RadioButtonList1[0]",
+        "required": false
+      },
+      "radioButtonList15": {
+        "left": 56.8,
+        "top": 545.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "4",
+        "options": null,
+        "group": "form1[0].p1[0].Action[0].RadioButtonList1[0]",
+        "required": false
+      },
+      "checkBox1": {
+        "left": 56.8,
+        "top": 473.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "ARTICLE 117 - Provoking speeches or gestures",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox12": {
+        "left": 56.8,
+        "top": 449.1,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "ARTICLE 117a - Wrongful broadcast or distribution of intimate visual images",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox13": {
+        "left": 56.8,
+        "top": 424.6,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "ARTICLE 120 - Rape and sexual assault generally",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox14": {
+        "left": 56.8,
+        "top": 400.2,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "ARTICLE 120a - Mails: deposit of obscene matter",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox15": {
+        "left": 56.8,
+        "top": 375.8,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "ARTICLE 120b - Rape and sexual assault of a child",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox16": {
+        "left": 56.8,
+        "top": 351.4,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "ARTICLE 120c - Other sexual misconduct",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox17": {
+        "left": 56.8,
+        "top": 326.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "ARTICLE 134 - General article (Child pornography) (Sexual Harassment) (Indecent conduct) (Indecent language)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "checkBox18": {
+        "left": 56.8,
+        "top": 302.5,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "checkbox",
+        "description": "ARTICLE 80 - Attempts",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "voName": {
+        "left": 263.9,
+        "top": 231.1,
+        "width": 290.9,
+        "height": 19.4,
+        "type": "text",
+        "description": "NAME OF VERIFYING OFFICIAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "voSign": {
+        "left": 264.2,
+        "top": 194.7,
+        "width": 290.9,
+        "height": 19.4,
+        "type": "text",
+        "description": "SIGNATURE OF VERIFYING OFFICIAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "voRankGradeTitle": {
+        "left": 263.9,
+        "top": 159.1,
+        "width": 290.9,
+        "height": 19.4,
+        "type": "text",
+        "description": "VERIFYING OFFICIAL RANK OR GRADE/TITLE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "voDate": {
+        "left": 263.9,
+        "top": 123.1,
+        "width": 290.9,
+        "height": 19.4,
+        "type": "text",
+        "description": "DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name": {
+        "left": 38.9,
+        "top": 58.5,
+        "width": 237.2,
+        "height": 19.6,
+        "type": "text",
+        "description": "NAME (LAST, FIRST, MIDDLE)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ssn": {
+        "left": 281.9,
+        "top": 58.3,
+        "width": 192.2,
+        "height": 19.4,
+        "type": "text",
+        "description": "SOCIAL SECURITY NUMBER ",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "branchClass": {
+        "left": 479.9,
+        "top": 58.3,
+        "width": 93.2,
+        "height": 19.4,
+        "type": "text",
+        "description": "BRANCH AND CLASS",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

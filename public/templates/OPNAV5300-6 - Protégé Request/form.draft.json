@@ -1,0 +1,345 @@
+{
+  "id": "opnav53006",
+  "label": "OPNAV5300-6 - Prot\u00e9g\u00e9 Request",
+  "directory": "OPNAV5300-6 - Prot\u00e9g\u00e9 Request",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "rank",
+        "name",
+        "serv",
+        "pos",
+        "spec",
+        "unit",
+        "phn",
+        "eml",
+        "occ",
+        "rotat",
+        "ba",
+        "bs",
+        "dds",
+        "phd",
+        "do",
+        "md",
+        "comAct",
+        "other",
+        "adv",
+        "course",
+        "prog",
+        "billet",
+        "boards",
+        "navair",
+        "career",
+        "retention",
+        "othIn"
+      ]
+    }
+  ],
+  "fields": {
+    "rank": {
+      "type": "text",
+      "label": " 2.  RANK/GRADE:",
+      "page": 1,
+      "box": {
+        "left": 345.1,
+        "top": 672.6,
+        "width": 228.3,
+        "height": 29.0
+      }
+    },
+    "name": {
+      "type": "text",
+      "label": " 1.  NAME (First, Middle, Last):",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 671.6,
+        "width": 300.3,
+        "height": 28.0
+      }
+    },
+    "serv": {
+      "type": "text",
+      "label": " 4.  YEARS IN SERVICE:",
+      "page": 1,
+      "box": {
+        "left": 345.1,
+        "top": 629.0,
+        "width": 228.3,
+        "height": 29.0
+      }
+    },
+    "pos": {
+      "type": "text",
+      "label": " 3.  POSITION TITLE (Job):",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 627.1,
+        "width": 300.3,
+        "height": 27.0
+      }
+    },
+    "spec": {
+      "type": "text",
+      "label": " 6.  SPECIALTY AREA (Mil/Series)(Civil):",
+      "page": 1,
+      "box": {
+        "left": 345.1,
+        "top": 586.4,
+        "width": 228.3,
+        "height": 71.3
+      },
+      "multiline": true
+    },
+    "unit": {
+      "type": "text",
+      "label": " 5.  UNIT/COMPETENCY:",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 586.0,
+        "width": 300.3,
+        "height": 29.0
+      }
+    },
+    "phn": {
+      "type": "text",
+      "label": " 7.  WORK PHONE NUMBER:",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 542.8,
+        "width": 300.3,
+        "height": 27.0
+      }
+    },
+    "eml": {
+      "type": "text",
+      "label": " 8.  E-MAIL:",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 499.7,
+        "width": 300.3,
+        "height": 28.5
+      }
+    },
+    "occ": {
+      "type": "text",
+      "label": " 9.  OCCUPATION/POSITION TITLE:",
+      "page": 1,
+      "box": {
+        "left": 345.1,
+        "top": 499.3,
+        "width": 228.3,
+        "height": 28.2
+      }
+    },
+    "rotat": {
+      "type": "text",
+      "label": " 11.  ROTATION DATE (Military Only):",
+      "page": 1,
+      "box": {
+        "left": 345.1,
+        "top": 456.6,
+        "width": 228.3,
+        "height": 42.3
+      },
+      "multiline": true
+    },
+    "ba": {
+      "type": "checkbox",
+      "label": "BA",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 445.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "bs": {
+      "type": "checkbox",
+      "label": "BS",
+      "page": 1,
+      "box": {
+        "left": 146.8,
+        "top": 445.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "dds": {
+      "type": "checkbox",
+      "label": "DDS",
+      "page": 1,
+      "box": {
+        "left": 247.6,
+        "top": 445.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "phd": {
+      "type": "checkbox",
+      "label": "PHD",
+      "page": 1,
+      "box": {
+        "left": 247.6,
+        "top": 409.7,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "do": {
+      "type": "checkbox",
+      "label": "DO",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 408.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "md": {
+      "type": "checkbox",
+      "label": "MD",
+      "page": 1,
+      "box": {
+        "left": 146.8,
+        "top": 408.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "comAct": {
+      "type": "text",
+      "label": " 12.  COMMUNITY ACTIVITIES:",
+      "page": 1,
+      "box": {
+        "left": 345.1,
+        "top": 398.4,
+        "width": 228.3,
+        "height": 65.2
+      },
+      "multiline": true
+    },
+    "other": {
+      "type": "text",
+      "label": "OTHER:",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 360.9,
+        "width": 300.3,
+        "height": 27.2
+      }
+    },
+    "adv": {
+      "type": "checkbox",
+      "label": "ADVANCEMENT",
+      "page": 1,
+      "box": {
+        "left": 85.6,
+        "top": 272.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "course": {
+      "type": "checkbox",
+      "label": "COURSES AND TAD",
+      "page": 1,
+      "box": {
+        "left": 265.6,
+        "top": 272.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "prog": {
+      "type": "checkbox",
+      "label": "NAVY PROGRAMS",
+      "page": 1,
+      "box": {
+        "left": 445.6,
+        "top": 272.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "billet": {
+      "type": "checkbox",
+      "label": "BILLET INFORMATION",
+      "page": 1,
+      "box": {
+        "left": 85.6,
+        "top": 222.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "boards": {
+      "type": "checkbox",
+      "label": "BOARDS",
+      "page": 1,
+      "box": {
+        "left": 265.6,
+        "top": 222.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "navair": {
+      "type": "checkbox",
+      "label": "NAVAIR ISSUES",
+      "page": 1,
+      "box": {
+        "left": 445.6,
+        "top": 222.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "career": {
+      "type": "checkbox",
+      "label": "CAREER CHOICES",
+      "page": 1,
+      "box": {
+        "left": 85.8,
+        "top": 172.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "retention": {
+      "type": "checkbox",
+      "label": "RETENTION",
+      "page": 1,
+      "box": {
+        "left": 267.0,
+        "top": 172.1,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "othIn": {
+      "type": "text",
+      "label": "OTHER:",
+      "page": 1,
+      "box": {
+        "left": 55.9,
+        "top": 120.6,
+        "width": 516.7,
+        "height": 80.5
+      },
+      "multiline": true
+    }
+  }
+}

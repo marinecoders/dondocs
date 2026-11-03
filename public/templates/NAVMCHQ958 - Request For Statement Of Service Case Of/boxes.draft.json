@@ -1,0 +1,447 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "date": {
+        "left": 487.2,
+        "top": 731.8,
+        "width": 65.6,
+        "height": 15.0,
+        "type": "text",
+        "description": "Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "to": {
+        "left": 57.0,
+        "top": 696.4,
+        "width": 246.0,
+        "height": 64.2,
+        "type": "text",
+        "description": "To",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mmsb": {
+        "left": 353.1,
+        "top": 673.9,
+        "width": 38.3,
+        "height": 15.4,
+        "type": "text",
+        "description": "MMSB",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "suite": {
+        "left": 421.0,
+        "top": 664.5,
+        "width": 38.3,
+        "height": 15.4,
+        "type": "text",
+        "description": "Suite",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "subj": {
+        "left": 200.4,
+        "top": 621.9,
+        "width": 354.1,
+        "height": 34.4,
+        "type": "text",
+        "description": "Subject:  REQUEST STATEMENT OF SERVICE; CASE OF:",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "verifyDate": {
+        "left": 361.4,
+        "top": 555.5,
+        "width": 65.6,
+        "height": 15.0,
+        "type": "text",
+        "description": "VerifyDate",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "last4SSN1": {
+        "left": 293.3,
+        "top": 523.2,
+        "width": 54.4,
+        "height": 16.4,
+        "type": "text",
+        "description": "Last4SSN1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comp1": {
+        "left": 59.2,
+        "top": 522.5,
+        "width": 223.5,
+        "height": 15.4,
+        "type": "text",
+        "description": "Comp1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "verifyFrom1": {
+        "left": 357.4,
+        "top": 521.7,
+        "width": 94.5,
+        "height": 15.0,
+        "type": "text",
+        "description": "VerifyFrom1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "verifyTo1": {
+        "left": 458.7,
+        "top": 521.7,
+        "width": 94.5,
+        "height": 15.0,
+        "type": "text",
+        "description": "VerifyTo1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "last4SSN2": {
+        "left": 293.3,
+        "top": 503.7,
+        "width": 54.4,
+        "height": 16.4,
+        "type": "text",
+        "description": "Last4SSN2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comp2": {
+        "left": 59.2,
+        "top": 503.0,
+        "width": 223.5,
+        "height": 15.4,
+        "type": "text",
+        "description": "Comp2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "verifyFrom2": {
+        "left": 357.4,
+        "top": 503.0,
+        "width": 94.5,
+        "height": 15.0,
+        "type": "text",
+        "description": "VerifyFrom2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "verifyTo2": {
+        "left": 458.7,
+        "top": 503.0,
+        "width": 94.5,
+        "height": 15.0,
+        "type": "text",
+        "description": "VerifyTo2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "last4SSN3": {
+        "left": 293.3,
+        "top": 484.1,
+        "width": 54.4,
+        "height": 16.4,
+        "type": "text",
+        "description": "Last4SSN3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comp3": {
+        "left": 59.2,
+        "top": 483.4,
+        "width": 223.5,
+        "height": 15.4,
+        "type": "text",
+        "description": "Comp3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "verifyFrom3": {
+        "left": 357.4,
+        "top": 483.4,
+        "width": 94.5,
+        "height": 15.0,
+        "type": "text",
+        "description": "VerifyFrom3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "verifyTo3": {
+        "left": 458.7,
+        "top": 483.4,
+        "width": 94.5,
+        "height": 15.0,
+        "type": "text",
+        "description": "VerifyTo3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "byDirection": {
+        "left": 353.4,
+        "top": 461.0,
+        "width": 200.4,
+        "height": 15.4,
+        "type": "text",
+        "description": "ByDirection",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "endorseComp": {
+        "left": 56.4,
+        "top": 385.9,
+        "width": 78.6,
+        "height": 73.3,
+        "type": "text",
+        "description": "EndorseComp",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateEnl": {
+        "left": 138.9,
+        "top": 385.9,
+        "width": 71.7,
+        "height": 73.3,
+        "type": "text",
+        "description": "DateEnl",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateDischarge": {
+        "left": 214.8,
+        "top": 385.9,
+        "width": 73.2,
+        "height": 73.3,
+        "type": "text",
+        "description": "DateDischarge",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "charOfDischarge": {
+        "left": 291.6,
+        "top": 385.9,
+        "width": 105.9,
+        "height": 73.3,
+        "type": "text",
+        "description": "CharOfDischarge",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fromACDTURA": {
+        "left": 407.6,
+        "top": 368.0,
+        "width": 65.6,
+        "height": 15.0,
+        "type": "text",
+        "description": "FromACDTURA",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "activeFrom": {
+        "left": 486.3,
+        "top": 368.0,
+        "width": 65.6,
+        "height": 15.0,
+        "type": "text",
+        "description": "ActiveFrom",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "activeTo": {
+        "left": 486.3,
+        "top": 332.1,
+        "width": 65.6,
+        "height": 15.0,
+        "type": "text",
+        "description": "ActiveTo",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "toACDTURA": {
+        "left": 407.6,
+        "top": 332.0,
+        "width": 65.6,
+        "height": 15.0,
+        "type": "text",
+        "description": "ToACDTURA",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "reason": {
+        "left": 412.5,
+        "top": 276.5,
+        "width": 142.5,
+        "height": 68.2,
+        "type": "text",
+        "description": "Reason",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fromROTC": {
+        "left": 173.0,
+        "top": 260.8,
+        "width": 65.6,
+        "height": 15.0,
+        "type": "text",
+        "description": "FromROTC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fromService": {
+        "left": 261.0,
+        "top": 260.7,
+        "width": 65.6,
+        "height": 15.0,
+        "type": "text",
+        "description": "FromService",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "fromTimeLost": {
+        "left": 339.7,
+        "top": 260.7,
+        "width": 65.6,
+        "height": 15.0,
+        "type": "text",
+        "description": "FromTimeLost",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "lastRank": {
+        "left": 67.6,
+        "top": 260.0,
+        "width": 85.5,
+        "height": 15.4,
+        "type": "text",
+        "description": "LastRank",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "toROTC": {
+        "left": 173.0,
+        "top": 227.0,
+        "width": 65.6,
+        "height": 15.0,
+        "type": "text",
+        "description": "ToROTC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "toService": {
+        "left": 261.0,
+        "top": 226.9,
+        "width": 65.6,
+        "height": 15.0,
+        "type": "text",
+        "description": "ToService",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "toTimeLost": {
+        "left": 339.7,
+        "top": 226.9,
+        "width": 65.6,
+        "height": 15.0,
+        "type": "text",
+        "description": "ToTimeLost",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "payGrade": {
+        "left": 67.6,
+        "top": 226.1,
+        "width": 59.1,
+        "height": 15.4,
+        "type": "text",
+        "description": "PayGrade",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "misc": {
+        "left": 57.7,
+        "top": 190.1,
+        "width": 497.3,
+        "height": 105.9,
+        "type": "text",
+        "description": "Misc",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "title": {
+        "left": 122.1,
+        "top": 76.9,
+        "width": 122.0,
+        "height": 15.4,
+        "type": "text",
+        "description": "Title",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "sigSpouse": {
+        "left": 262.0,
+        "top": 76.9,
+        "width": 227.9,
+        "height": 15.4,
+        "type": "signature",
+        "description": "SigSpouse",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

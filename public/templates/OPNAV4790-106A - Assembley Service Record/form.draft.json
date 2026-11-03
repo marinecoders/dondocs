@@ -1,0 +1,962 @@
+{
+  "id": "opnav4790106a",
+  "label": "OPNAV4790-106A - Assembley Service Record",
+  "directory": "OPNAV4790-106A - Assembley Service Record",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "titleNomen",
+        "replacementDue",
+        "replacementInterval",
+        "timeRemaining",
+        "partNumber",
+        "serialNumber",
+        "workUnitCode",
+        "fst",
+        "cage",
+        "d1",
+        "d2",
+        "d3",
+        "d4",
+        "d4Fill",
+        "dateRmvdFill",
+        "intervalFill",
+        "repDueFill",
+        "nomenclatureFill",
+        "pnFill",
+        "snFill",
+        "dateInstFill",
+        "d1Fill",
+        "d2Fill",
+        "d3Fill",
+        "ahc",
+        "ahc2",
+        "ahc3",
+        "ahc4",
+        "taehc",
+        "taehc2",
+        "taehc3",
+        "taehc4",
+        "pnFill2",
+        "byFill",
+        "total1Fill",
+        "total2Fill",
+        "total3Fill",
+        "total4Fill",
+        "assembly1Fill",
+        "assembly2Fill",
+        "assembly3Fill",
+        "assembly4Fill",
+        "dateFill",
+        "taehc5",
+        "taehc6",
+        "taehc7",
+        "taehc8",
+        "ahc5",
+        "ahc6",
+        "ahc7",
+        "ahc8",
+        "dateIVFill",
+        "totalAcftIV1Fill",
+        "totalAcftIV2Fill",
+        "totalAcftIV3Fill",
+        "totalAcftIV4Fill",
+        "assemblyIV1Fill",
+        "assemblyIV2Fill",
+        "assemblyIV3Fill",
+        "assemblyIV4Fill",
+        "reasonIVFill",
+        "codeFill",
+        "basicFill",
+        "intFill",
+        "revFill",
+        "amFill",
+        "ptFill",
+        "kitFill",
+        "priFill",
+        "titleRemarksFill",
+        "byActivityFill",
+        "dateRmvdFill2",
+        "from",
+        "assembly1Fill2",
+        "activityVIFill",
+        "dateVIFill",
+        "descriptionVIFill",
+        "from2"
+      ]
+    }
+  ],
+  "fields": {
+    "titleNomen": {
+      "type": "text",
+      "label": "Title Nomen",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 574.6,
+        "width": 153.4,
+        "height": 18.7
+      }
+    },
+    "replacementDue": {
+      "type": "text",
+      "label": "ASSEMBLY SERVICE RECORD",
+      "page": 1,
+      "box": {
+        "left": 434.9,
+        "top": 562.2,
+        "width": 95.1,
+        "height": 10.3
+      }
+    },
+    "replacementInterval": {
+      "type": "text",
+      "label": "ASSEMBLY SERVICE RECORD",
+      "page": 1,
+      "box": {
+        "left": 535.7,
+        "top": 562.2,
+        "width": 116.7,
+        "height": 10.3
+      }
+    },
+    "timeRemaining": {
+      "type": "text",
+      "label": "ASSEMBLY SERVICE RECORD",
+      "page": 1,
+      "box": {
+        "left": 658.1,
+        "top": 562.2,
+        "width": 95.1,
+        "height": 10.3
+      }
+    },
+    "partNumber": {
+      "type": "text",
+      "label": "A. PART NUMBER",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 522.3,
+        "width": 135.2,
+        "height": 11.6
+      }
+    },
+    "serialNumber": {
+      "type": "text",
+      "label": "B. SERIAL NUMBER",
+      "page": 1,
+      "box": {
+        "left": 177.7,
+        "top": 522.3,
+        "width": 135.2,
+        "height": 11.6
+      }
+    },
+    "workUnitCode": {
+      "type": "text",
+      "label": "C. WORK UNIT CODE",
+      "page": 1,
+      "box": {
+        "left": 317.2,
+        "top": 522.3,
+        "width": 135.2,
+        "height": 11.6
+      }
+    },
+    "fst": {
+      "type": "text",
+      "label": "D. FST",
+      "page": 1,
+      "box": {
+        "left": 456.7,
+        "top": 522.3,
+        "width": 148.7,
+        "height": 11.6
+      }
+    },
+    "cage": {
+      "type": "text",
+      "label": "E. CAGE",
+      "page": 1,
+      "box": {
+        "left": 609.7,
+        "top": 522.3,
+        "width": 144.2,
+        "height": 11.6
+      }
+    },
+    "d1": {
+      "type": "text",
+      "label": "DATE INST",
+      "page": 1,
+      "box": {
+        "left": 343.5,
+        "top": 475.6,
+        "width": 55.7,
+        "height": 15.2
+      }
+    },
+    "d2": {
+      "type": "text",
+      "label": "DATE INST",
+      "page": 1,
+      "box": {
+        "left": 402.0,
+        "top": 475.6,
+        "width": 55.7,
+        "height": 15.2
+      }
+    },
+    "d3": {
+      "type": "text",
+      "label": "DATE INST",
+      "page": 1,
+      "box": {
+        "left": 460.5,
+        "top": 475.6,
+        "width": 55.7,
+        "height": 15.2
+      }
+    },
+    "d4": {
+      "type": "text",
+      "label": "DATE INST",
+      "page": 1,
+      "box": {
+        "left": 519.0,
+        "top": 475.6,
+        "width": 55.7,
+        "height": 15.2
+      }
+    },
+    "d4Fill": {
+      "type": "text",
+      "label": "COUNTS",
+      "page": 1,
+      "box": {
+        "left": 519.0,
+        "top": 457.6,
+        "width": 55.7,
+        "height": 11.9
+      }
+    },
+    "dateRmvdFill": {
+      "type": "text",
+      "label": "DATE RMVD",
+      "page": 1,
+      "box": {
+        "left": 577.5,
+        "top": 457.6,
+        "width": 55.7,
+        "height": 11.9
+      }
+    },
+    "intervalFill": {
+      "type": "text",
+      "label": "INTERVAL",
+      "page": 1,
+      "box": {
+        "left": 636.0,
+        "top": 457.6,
+        "width": 55.7,
+        "height": 11.9
+      }
+    },
+    "repDueFill": {
+      "type": "text",
+      "label": "DUE",
+      "page": 1,
+      "box": {
+        "left": 694.5,
+        "top": 457.6,
+        "width": 60.2,
+        "height": 11.9
+      }
+    },
+    "nomenclatureFill": {
+      "type": "text",
+      "label": "A. NOMENCLATURE",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 457.4,
+        "width": 98.0,
+        "height": 11.9
+      }
+    },
+    "pnFill": {
+      "type": "text",
+      "label": "B. P/N",
+      "page": 1,
+      "box": {
+        "left": 138.2,
+        "top": 457.4,
+        "width": 76.4,
+        "height": 11.9
+      }
+    },
+    "snFill": {
+      "type": "text",
+      "label": "C. S/N",
+      "page": 1,
+      "box": {
+        "left": 217.4,
+        "top": 457.4,
+        "width": 64.7,
+        "height": 11.9
+      }
+    },
+    "dateInstFill": {
+      "type": "text",
+      "label": "DATE INST",
+      "page": 1,
+      "box": {
+        "left": 285.0,
+        "top": 457.4,
+        "width": 55.7,
+        "height": 11.9
+      }
+    },
+    "d1Fill": {
+      "type": "text",
+      "label": "D 1 Fill",
+      "page": 1,
+      "box": {
+        "left": 343.5,
+        "top": 457.4,
+        "width": 55.7,
+        "height": 11.9
+      }
+    },
+    "d2Fill": {
+      "type": "text",
+      "label": "COMPONENT TIME",
+      "page": 1,
+      "box": {
+        "left": 402.0,
+        "top": 457.4,
+        "width": 55.7,
+        "height": 11.9
+      }
+    },
+    "d3Fill": {
+      "type": "text",
+      "label": "TIME OR COUNTS",
+      "page": 1,
+      "box": {
+        "left": 460.5,
+        "top": 457.4,
+        "width": 55.7,
+        "height": 11.9
+      }
+    },
+    "ahc": {
+      "type": "text",
+      "label": "Ahc",
+      "page": 1,
+      "box": {
+        "left": 519.0,
+        "top": 411.6,
+        "width": 55.7,
+        "height": 10.8
+      }
+    },
+    "ahc2": {
+      "type": "text",
+      "label": "ASSEMBLY HOURS",
+      "page": 1,
+      "box": {
+        "left": 577.5,
+        "top": 411.6,
+        "width": 55.7,
+        "height": 10.8
+      }
+    },
+    "ahc3": {
+      "type": "text",
+      "label": "HOURS OR COUNTS",
+      "page": 1,
+      "box": {
+        "left": 636.0,
+        "top": 411.6,
+        "width": 55.7,
+        "height": 10.8
+      }
+    },
+    "ahc4": {
+      "type": "text",
+      "label": "COUNTS",
+      "page": 1,
+      "box": {
+        "left": 694.5,
+        "top": 411.6,
+        "width": 60.1,
+        "height": 10.8
+      }
+    },
+    "taehc": {
+      "type": "text",
+      "label": "D. TOTAL AIRCRAFT",
+      "page": 1,
+      "box": {
+        "left": 285.0,
+        "top": 411.5,
+        "width": 55.7,
+        "height": 10.8
+      }
+    },
+    "taehc2": {
+      "type": "text",
+      "label": "AIRCRAFT / EQUIPMENT",
+      "page": 1,
+      "box": {
+        "left": 343.5,
+        "top": 411.5,
+        "width": 55.7,
+        "height": 10.8
+      }
+    },
+    "taehc3": {
+      "type": "text",
+      "label": "EQUIPMENT HOURS",
+      "page": 1,
+      "box": {
+        "left": 402.0,
+        "top": 411.5,
+        "width": 55.7,
+        "height": 10.8
+      }
+    },
+    "taehc4": {
+      "type": "text",
+      "label": "OR COUNTS",
+      "page": 1,
+      "box": {
+        "left": 460.5,
+        "top": 411.5,
+        "width": 55.7,
+        "height": 10.8
+      }
+    },
+    "pnFill2": {
+      "type": "text",
+      "label": "NO. INSTALLED ON",
+      "page": 1,
+      "box": {
+        "left": 138.2,
+        "top": 397.7,
+        "width": 76.4,
+        "height": 12.8
+      }
+    },
+    "byFill": {
+      "type": "text",
+      "label": "(Activity)",
+      "page": 1,
+      "box": {
+        "left": 217.5,
+        "top": 397.7,
+        "width": 64.7,
+        "height": 12.8
+      }
+    },
+    "total1Fill": {
+      "type": "text",
+      "label": "D. TOTAL AIRCRAFT",
+      "page": 1,
+      "box": {
+        "left": 285.0,
+        "top": 397.7,
+        "width": 55.7,
+        "height": 12.8
+      }
+    },
+    "total2Fill": {
+      "type": "text",
+      "label": "AIRCRAFT / EQUIPMENT",
+      "page": 1,
+      "box": {
+        "left": 343.5,
+        "top": 397.7,
+        "width": 55.7,
+        "height": 12.8
+      }
+    },
+    "total3Fill": {
+      "type": "text",
+      "label": "EQUIPMENT HOURS",
+      "page": 1,
+      "box": {
+        "left": 402.0,
+        "top": 397.7,
+        "width": 55.7,
+        "height": 12.8
+      }
+    },
+    "total4Fill": {
+      "type": "text",
+      "label": "OR COUNTS",
+      "page": 1,
+      "box": {
+        "left": 460.5,
+        "top": 397.7,
+        "width": 55.7,
+        "height": 12.8
+      }
+    },
+    "assembly1Fill": {
+      "type": "text",
+      "label": "Assembly 1 Fill",
+      "page": 1,
+      "box": {
+        "left": 519.0,
+        "top": 397.7,
+        "width": 55.7,
+        "height": 12.8
+      }
+    },
+    "assembly2Fill": {
+      "type": "text",
+      "label": "ASSEMBLY HOURS",
+      "page": 1,
+      "box": {
+        "left": 577.5,
+        "top": 397.7,
+        "width": 55.7,
+        "height": 12.8
+      }
+    },
+    "assembly3Fill": {
+      "type": "text",
+      "label": "HOURS OR COUNTS",
+      "page": 1,
+      "box": {
+        "left": 636.0,
+        "top": 397.7,
+        "width": 55.7,
+        "height": 12.8
+      }
+    },
+    "assembly4Fill": {
+      "type": "text",
+      "label": "COUNTS",
+      "page": 1,
+      "box": {
+        "left": 694.5,
+        "top": 397.7,
+        "width": 60.1,
+        "height": 12.8
+      }
+    },
+    "dateFill": {
+      "type": "text",
+      "label": "A. DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 396.3,
+        "width": 95.1,
+        "height": 10.0
+      }
+    },
+    "taehc5": {
+      "type": "text",
+      "label": "B. TOTAL AIRCRAFT",
+      "page": 1,
+      "box": {
+        "left": 149.9,
+        "top": 350.9,
+        "width": 55.7,
+        "height": 10.8
+      }
+    },
+    "taehc6": {
+      "type": "text",
+      "label": "AIRCRAFT / EQUIPMENT",
+      "page": 1,
+      "box": {
+        "left": 208.4,
+        "top": 350.9,
+        "width": 55.7,
+        "height": 10.8
+      }
+    },
+    "taehc7": {
+      "type": "text",
+      "label": "EQUIPMENT HOURS",
+      "page": 1,
+      "box": {
+        "left": 267.0,
+        "top": 350.9,
+        "width": 55.7,
+        "height": 10.8
+      }
+    },
+    "taehc8": {
+      "type": "text",
+      "label": "OR COUNTS",
+      "page": 1,
+      "box": {
+        "left": 325.5,
+        "top": 350.9,
+        "width": 55.7,
+        "height": 10.8
+      }
+    },
+    "ahc5": {
+      "type": "text",
+      "label": "Ahc 5",
+      "page": 1,
+      "box": {
+        "left": 384.0,
+        "top": 350.9,
+        "width": 55.7,
+        "height": 10.8
+      }
+    },
+    "ahc6": {
+      "type": "text",
+      "label": "ASSEMBLY HOURS",
+      "page": 1,
+      "box": {
+        "left": 442.5,
+        "top": 350.9,
+        "width": 55.7,
+        "height": 10.8
+      }
+    },
+    "ahc7": {
+      "type": "text",
+      "label": "HOURS OR COUNTS",
+      "page": 1,
+      "box": {
+        "left": 501.0,
+        "top": 350.9,
+        "width": 55.7,
+        "height": 10.8
+      }
+    },
+    "ahc8": {
+      "type": "text",
+      "label": "COUNTS",
+      "page": 1,
+      "box": {
+        "left": 559.5,
+        "top": 350.9,
+        "width": 60.1,
+        "height": 10.8
+      }
+    },
+    "dateIVFill": {
+      "type": "text",
+      "label": "A. DATE",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 337.0,
+        "width": 109.7,
+        "height": 12.8
+      }
+    },
+    "totalAcftIV1Fill": {
+      "type": "text",
+      "label": "B. TOTAL AIRCRAFT",
+      "page": 1,
+      "box": {
+        "left": 149.9,
+        "top": 337.0,
+        "width": 55.7,
+        "height": 12.8
+      }
+    },
+    "totalAcftIV2Fill": {
+      "type": "text",
+      "label": "AIRCRAFT / EQUIPMENT",
+      "page": 1,
+      "box": {
+        "left": 208.4,
+        "top": 337.0,
+        "width": 55.7,
+        "height": 12.8
+      }
+    },
+    "totalAcftIV3Fill": {
+      "type": "text",
+      "label": "EQUIPMENT HOURS",
+      "page": 1,
+      "box": {
+        "left": 267.0,
+        "top": 337.0,
+        "width": 55.7,
+        "height": 12.8
+      }
+    },
+    "totalAcftIV4Fill": {
+      "type": "text",
+      "label": "OR COUNTS",
+      "page": 1,
+      "box": {
+        "left": 325.5,
+        "top": 337.0,
+        "width": 55.7,
+        "height": 12.8
+      }
+    },
+    "assemblyIV1Fill": {
+      "type": "text",
+      "label": "Assembly IV 1 Fill",
+      "page": 1,
+      "box": {
+        "left": 384.0,
+        "top": 337.0,
+        "width": 55.7,
+        "height": 12.8
+      }
+    },
+    "assemblyIV2Fill": {
+      "type": "text",
+      "label": "ASSEMBLY HOURS",
+      "page": 1,
+      "box": {
+        "left": 442.5,
+        "top": 337.0,
+        "width": 55.7,
+        "height": 12.8
+      }
+    },
+    "assemblyIV3Fill": {
+      "type": "text",
+      "label": "HOURS OR COUNTS",
+      "page": 1,
+      "box": {
+        "left": 501.0,
+        "top": 337.0,
+        "width": 55.7,
+        "height": 12.8
+      }
+    },
+    "assemblyIV4Fill": {
+      "type": "text",
+      "label": "COUNTS",
+      "page": 1,
+      "box": {
+        "left": 559.5,
+        "top": 337.0,
+        "width": 60.1,
+        "height": 12.8
+      }
+    },
+    "reasonIVFill": {
+      "type": "text",
+      "label": "JOB CONTROL NUMBER",
+      "page": 1,
+      "box": {
+        "left": 622.5,
+        "top": 337.0,
+        "width": 132.2,
+        "height": 12.8
+      }
+    },
+    "codeFill": {
+      "type": "text",
+      "label": "CODE",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 269.5,
+        "width": 24.2,
+        "height": 14.4
+      }
+    },
+    "basicFill": {
+      "type": "text",
+      "label": "BASIC",
+      "page": 1,
+      "box": {
+        "left": 64.4,
+        "top": 269.5,
+        "width": 24.2,
+        "height": 14.4
+      }
+    },
+    "intFill": {
+      "type": "text",
+      "label": "INT",
+      "page": 1,
+      "box": {
+        "left": 91.4,
+        "top": 269.5,
+        "width": 24.2,
+        "height": 14.4
+      }
+    },
+    "revFill": {
+      "type": "text",
+      "label": "REV",
+      "page": 1,
+      "box": {
+        "left": 118.4,
+        "top": 269.5,
+        "width": 24.2,
+        "height": 14.4
+      }
+    },
+    "amFill": {
+      "type": "text",
+      "label": "AM",
+      "page": 1,
+      "box": {
+        "left": 145.4,
+        "top": 269.5,
+        "width": 24.2,
+        "height": 14.4
+      }
+    },
+    "ptFill": {
+      "type": "text",
+      "label": "PT",
+      "page": 1,
+      "box": {
+        "left": 172.4,
+        "top": 269.5,
+        "width": 24.2,
+        "height": 14.4
+      }
+    },
+    "kitFill": {
+      "type": "text",
+      "label": "KIT",
+      "page": 1,
+      "box": {
+        "left": 199.4,
+        "top": 269.5,
+        "width": 24.2,
+        "height": 14.4
+      }
+    },
+    "priFill": {
+      "type": "text",
+      "label": "PRI",
+      "page": 1,
+      "box": {
+        "left": 226.4,
+        "top": 269.5,
+        "width": 24.2,
+        "height": 14.4
+      }
+    },
+    "titleRemarksFill": {
+      "type": "text",
+      "label": "C. TITLE/REMARKS",
+      "page": 1,
+      "box": {
+        "left": 325.5,
+        "top": 269.5,
+        "width": 163.7,
+        "height": 14.4
+      }
+    },
+    "byActivityFill": {
+      "type": "text",
+      "label": "BY (Activity)",
+      "page": 1,
+      "box": {
+        "left": 492.0,
+        "top": 269.5,
+        "width": 73.7,
+        "height": 14.4
+      }
+    },
+    "dateRmvdFill2": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 568.5,
+        "top": 269.5,
+        "width": 73.7,
+        "height": 14.4
+      }
+    },
+    "from": {
+      "type": "text",
+      "label": "E. SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 645.0,
+        "top": 269.5,
+        "width": 109.7,
+        "height": 14.4
+      }
+    },
+    "assembly1Fill2": {
+      "type": "choice",
+      "label": "B. STATUS",
+      "page": 1,
+      "box": {
+        "left": 253.7,
+        "top": 269.3,
+        "width": 68.7,
+        "height": 13.9
+      },
+      "options": [
+        "INC",
+        "PINC",
+        "NINC",
+        "CANX",
+        "NIS",
+        "Q",
+        "N/A"
+      ]
+    },
+    "activityVIFill": {
+      "type": "text",
+      "label": "B. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 118.4,
+        "top": 224.0,
+        "width": 105.2,
+        "height": 15.8
+      }
+    },
+    "dateVIFill": {
+      "type": "text",
+      "label": "A. DATE",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 223.3,
+        "width": 78.2,
+        "height": 14.4
+      }
+    },
+    "descriptionVIFill": {
+      "type": "text",
+      "label": "C. DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 226.4,
+        "top": 223.3,
+        "width": 339.2,
+        "height": 14.4
+      }
+    },
+    "from2": {
+      "type": "text",
+      "label": "D. SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 568.5,
+        "top": 223.3,
+        "width": 186.2,
+        "height": 14.4
+      }
+    }
+  }
+}

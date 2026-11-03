@@ -1,0 +1,378 @@
+{
+  "id": "navmchq512",
+  "label": "NAVMCHQ512 - Classified Information Access Authorization",
+  "directory": "NAVMCHQ512 - Classified Information Access Authorization",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 2",
+      "fields": [
+        "rankGr",
+        "name",
+        "ssn",
+        "agency",
+        "reserve",
+        "active",
+        "citYes",
+        "citNo",
+        "sci",
+        "class1",
+        "class2",
+        "cosmic",
+        "atomal1",
+        "atomal2",
+        "nato2",
+        "accessNotReq",
+        "signatureField1",
+        "date2",
+        "signatureField2",
+        "date1",
+        "levDate1",
+        "basis1",
+        "date3",
+        "signatureField3",
+        "levDate2",
+        "basis2",
+        "signatureField4",
+        "date4",
+        "signatureField5",
+        "date5"
+      ]
+    }
+  ],
+  "fields": {
+    "rankGr": {
+      "type": "text",
+      "label": "RANK/GRADE",
+      "page": 2,
+      "box": {
+        "left": 344.8,
+        "top": 670.2,
+        "width": 93.3,
+        "height": 21.0
+      }
+    },
+    "name": {
+      "type": "text",
+      "label": "Enter Last name, first name and middle initial please",
+      "page": 2,
+      "box": {
+        "left": 21.7,
+        "top": 669.9,
+        "width": 317.4,
+        "height": 20.7
+      }
+    },
+    "ssn": {
+      "type": "text",
+      "label": "Enter numbers only",
+      "page": 2,
+      "box": {
+        "left": 443.8,
+        "top": 669.8,
+        "width": 146.9,
+        "height": 20.6
+      }
+    },
+    "agency": {
+      "type": "text",
+      "label": "AGENCY, PHONE NO. AND ROOM NO.",
+      "page": 2,
+      "box": {
+        "left": 414.3,
+        "top": 630.4,
+        "width": 177.0,
+        "height": 18.8
+      }
+    },
+    "reserve": {
+      "type": "checkbox",
+      "label": "Reserve",
+      "page": 2,
+      "box": {
+        "left": 373.7,
+        "top": 629.3,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "active": {
+      "type": "checkbox",
+      "label": "Active",
+      "page": 2,
+      "box": {
+        "left": 312.2,
+        "top": 629.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "citYes": {
+      "type": "checkbox",
+      "label": "CitYes",
+      "page": 2,
+      "box": {
+        "left": 162.6,
+        "top": 625.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "citNo": {
+      "type": "checkbox",
+      "label": "CitNo",
+      "page": 2,
+      "box": {
+        "left": 197.6,
+        "top": 625.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "sci": {
+      "type": "checkbox",
+      "label": "SCI",
+      "page": 2,
+      "box": {
+        "left": 231.9,
+        "top": 534.1,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "class1": {
+      "type": "checkbox",
+      "label": "Class1",
+      "page": 2,
+      "box": {
+        "left": 231.8,
+        "top": 511.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "class2": {
+      "type": "checkbox",
+      "label": "Class2",
+      "page": 2,
+      "box": {
+        "left": 288.2,
+        "top": 511.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "cosmic": {
+      "type": "checkbox",
+      "label": "Cosmic",
+      "page": 2,
+      "box": {
+        "left": 232.3,
+        "top": 489.2,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "atomal1": {
+      "type": "checkbox",
+      "label": "Atomal1",
+      "page": 2,
+      "box": {
+        "left": 232.3,
+        "top": 466.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "atomal2": {
+      "type": "checkbox",
+      "label": "Atomal2",
+      "page": 2,
+      "box": {
+        "left": 287.6,
+        "top": 465.9,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "nato2": {
+      "type": "checkbox",
+      "label": "Nato2",
+      "page": 2,
+      "box": {
+        "left": 287.5,
+        "top": 444.8,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "accessNotReq": {
+      "type": "checkbox",
+      "label": "ACCESS TO CLASSIFIED INFO NOT REQUIRED",
+      "page": 2,
+      "box": {
+        "left": 21.1,
+        "top": 426.5,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "signatureField1": {
+      "type": "signature",
+      "label": "Signature:",
+      "page": 2,
+      "box": {
+        "left": 377.1,
+        "top": 421.1,
+        "width": 131.5,
+        "height": 21.3
+      }
+    },
+    "date2": {
+      "type": "text",
+      "label": "Date:",
+      "page": 2,
+      "box": {
+        "left": 536.8,
+        "top": 421.1,
+        "width": 54.3,
+        "height": 21.3
+      }
+    },
+    "signatureField2": {
+      "type": "signature",
+      "label": "Signature:",
+      "page": 2,
+      "box": {
+        "left": 67.1,
+        "top": 405.2,
+        "width": 160.1,
+        "height": 19.8
+      }
+    },
+    "date1": {
+      "type": "text",
+      "label": "Date:",
+      "page": 2,
+      "box": {
+        "left": 260.5,
+        "top": 405.0,
+        "width": 48.3,
+        "height": 19.8
+      }
+    },
+    "levDate1": {
+      "type": "text",
+      "label": "Level and Date",
+      "page": 2,
+      "box": {
+        "left": 338.8,
+        "top": 333.2,
+        "width": 108.8,
+        "height": 13.3
+      }
+    },
+    "basis1": {
+      "type": "text",
+      "label": "Basis",
+      "page": 2,
+      "box": {
+        "left": 462.3,
+        "top": 333.2,
+        "width": 128.2,
+        "height": 14.8
+      }
+    },
+    "date3": {
+      "type": "text",
+      "label": "Date:",
+      "page": 2,
+      "box": {
+        "left": 351.6,
+        "top": 299.0,
+        "width": 85.8,
+        "height": 19.1
+      }
+    },
+    "signatureField3": {
+      "type": "signature",
+      "label": "Signature:",
+      "page": 2,
+      "box": {
+        "left": 86.1,
+        "top": 298.2,
+        "width": 225.3,
+        "height": 19.1
+      }
+    },
+    "levDate2": {
+      "type": "text",
+      "label": "Level and Date:",
+      "page": 2,
+      "box": {
+        "left": 103.3,
+        "top": 211.9,
+        "width": 184.8,
+        "height": 11.1
+      }
+    },
+    "basis2": {
+      "type": "text",
+      "label": "Basis",
+      "page": 2,
+      "box": {
+        "left": 361.8,
+        "top": 211.9,
+        "width": 184.8,
+        "height": 11.7
+      }
+    },
+    "signatureField4": {
+      "type": "signature",
+      "label": "Signature:",
+      "page": 2,
+      "box": {
+        "left": 73.9,
+        "top": 188.5,
+        "width": 214.1,
+        "height": 19.7
+      }
+    },
+    "date4": {
+      "type": "text",
+      "label": "Date:",
+      "page": 2,
+      "box": {
+        "left": 341.7,
+        "top": 187.0,
+        "width": 85.8,
+        "height": 15.8
+      }
+    },
+    "signatureField5": {
+      "type": "signature",
+      "label": "Signature:  ",
+      "page": 2,
+      "box": {
+        "left": 110.8,
+        "top": 64.8,
+        "width": 242.6,
+        "height": 19.8
+      }
+    },
+    "date5": {
+      "type": "text",
+      "label": "Date:  ",
+      "page": 2,
+      "box": {
+        "left": 435.9,
+        "top": 63.3,
+        "width": 105.8,
+        "height": 15.8
+      }
+    }
+  }
+}

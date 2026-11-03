@@ -1,0 +1,137 @@
+{
+  "id": "opnav4790136a",
+  "label": "OPNAV4790-136A - Preservation Depreservation Record",
+  "directory": "OPNAV4790-136A - Preservation Depreservation Record",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "acftModel",
+        "typeModelSeries",
+        "bunoSerialNumber",
+        "dateFill",
+        "byActivityFill",
+        "typePreservationFill",
+        "referenceFill",
+        "dateDueFill",
+        "dateDepFill",
+        "byActivityDepFill"
+      ]
+    }
+  ],
+  "fields": {
+    "acftModel": {
+      "type": "text",
+      "label": "1. AIRCRAFT MODEL OR EQUIPMENT NAME",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 535.1,
+        "width": 255.4,
+        "height": 19.2
+      }
+    },
+    "typeModelSeries": {
+      "type": "text",
+      "label": "2. TYPE / MODEL / SERIES",
+      "page": 1,
+      "box": {
+        "left": 299.9,
+        "top": 535.1,
+        "width": 277.9,
+        "height": 19.2
+      }
+    },
+    "bunoSerialNumber": {
+      "type": "text",
+      "label": "3. BUNO OR SERIAL NUMBER",
+      "page": 1,
+      "box": {
+        "left": 583.4,
+        "top": 535.1,
+        "width": 169.9,
+        "height": 19.2
+      }
+    },
+    "dateFill": {
+      "type": "text",
+      "label": "a. DATE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 456.2,
+        "width": 88.8,
+        "height": 19.7
+      }
+    },
+    "byActivityFill": {
+      "type": "text",
+      "label": "b. BY (Activity)",
+      "page": 1,
+      "box": {
+        "left": 133.4,
+        "top": 456.2,
+        "width": 97.8,
+        "height": 19.7
+      }
+    },
+    "typePreservationFill": {
+      "type": "text",
+      "label": "c. TYPE PRESERVATION",
+      "page": 1,
+      "box": {
+        "left": 236.9,
+        "top": 456.2,
+        "width": 124.8,
+        "height": 19.7
+      }
+    },
+    "referenceFill": {
+      "type": "text",
+      "label": "d. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 367.4,
+        "top": 456.2,
+        "width": 124.8,
+        "height": 19.7
+      }
+    },
+    "dateDueFill": {
+      "type": "text",
+      "label": "a. DATE DUE",
+      "page": 1,
+      "box": {
+        "left": 497.9,
+        "top": 456.2,
+        "width": 111.3,
+        "height": 19.7
+      }
+    },
+    "dateDepFill": {
+      "type": "text",
+      "label": "a. DATE",
+      "page": 1,
+      "box": {
+        "left": 614.9,
+        "top": 456.2,
+        "width": 61.8,
+        "height": 19.7
+      }
+    },
+    "byActivityDepFill": {
+      "type": "text",
+      "label": "b. BY (Activity)",
+      "page": 1,
+      "box": {
+        "left": 682.4,
+        "top": 456.2,
+        "width": 70.8,
+        "height": 19.7
+      }
+    }
+  }
+}

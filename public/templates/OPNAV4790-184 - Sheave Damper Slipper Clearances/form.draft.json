@@ -1,0 +1,138 @@
+{
+  "id": "opnav4790184",
+  "label": "OPNAV4790-184 - Sheave Damper Slipper Clearances",
+  "directory": "OPNAV4790-184 - Sheave Damper Slipper Clearances",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "engineno",
+        "dateTimeField1",
+        "jsn",
+        "hitno",
+        "hitssince",
+        "remarks",
+        "maintman",
+        "aglpocpo",
+        "qainspector",
+        "maintcpo"
+      ]
+    }
+  ],
+  "fields": {
+    "engineno": {
+      "type": "text",
+      "label": "ENTER ENGINE NUMBER",
+      "page": 1,
+      "box": {
+        "left": 96.5,
+        "top": 726.2,
+        "width": 89.7,
+        "height": 12.3
+      }
+    },
+    "dateTimeField1": {
+      "type": "text",
+      "label": "ENTER DATE.",
+      "page": 1,
+      "box": {
+        "left": 473.2,
+        "top": 726.2,
+        "width": 91.0,
+        "height": 12.3
+      }
+    },
+    "jsn": {
+      "type": "text",
+      "label": "ENTER JSN.",
+      "page": 1,
+      "box": {
+        "left": 282.3,
+        "top": 717.2,
+        "width": 65.9,
+        "height": 12.3
+      }
+    },
+    "hitno": {
+      "type": "text",
+      "label": "ENTER HIT NUMBER.",
+      "page": 1,
+      "box": {
+        "left": 81.4,
+        "top": 699.2,
+        "width": 104.8,
+        "height": 12.3
+      }
+    },
+    "hitssince": {
+      "type": "text",
+      "label": "ENTER HITS SINCE LAST INSPECTION.",
+      "page": 1,
+      "box": {
+        "left": 491.9,
+        "top": 699.2,
+        "width": 72.3,
+        "height": 12.3
+      }
+    },
+    "remarks": {
+      "type": "text",
+      "label": "ENTER REMARKS.",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 312.2,
+        "width": 534.3,
+        "height": 39.3
+      },
+      "multiline": true
+    },
+    "maintman": {
+      "type": "text",
+      "label": "ENTER MAINT. MAN.",
+      "page": 1,
+      "box": {
+        "left": 96.5,
+        "top": 258.2,
+        "width": 161.7,
+        "height": 12.3
+      }
+    },
+    "aglpocpo": {
+      "type": "text",
+      "label": "ENTER A/G LPO/CPO.",
+      "page": 1,
+      "box": {
+        "left": 410.0,
+        "top": 258.2,
+        "width": 145.2,
+        "height": 12.3
+      }
+    },
+    "qainspector": {
+      "type": "text",
+      "label": "ENTER QA INSPECTOR.",
+      "page": 1,
+      "box": {
+        "left": 115.7,
+        "top": 222.2,
+        "width": 142.4,
+        "height": 12.3
+      }
+    },
+    "maintcpo": {
+      "type": "text",
+      "label": "ENTER MAINT. CPO/OFFICER.",
+      "page": 1,
+      "box": {
+        "left": 441.9,
+        "top": 222.2,
+        "width": 113.3,
+        "height": 12.3
+      }
+    }
+  }
+}

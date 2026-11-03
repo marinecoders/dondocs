@@ -1,0 +1,670 @@
+{
+  "id": "opnav165014",
+  "label": "OPNAV1650-14 - Unit Award Recommendation",
+  "directory": "OPNAV1650-14 - Unit Award Recommendation",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "origName",
+        "appName",
+        "origAdd",
+        "appAdd",
+        "origUIC",
+        "appUIC",
+        "pOCName",
+        "dsn",
+        "pOCEmail",
+        "com",
+        "radio",
+        "radio2",
+        "citedUnit",
+        "citedUnitUIC",
+        "unitComponent",
+        "awardNum",
+        "notYetApp",
+        "recAward",
+        "prevAward",
+        "campaign",
+        "opOther",
+        "operation",
+        "otherUnit",
+        "fromPer",
+        "toPer",
+        "geoArea",
+        "fromPer2",
+        "toPer2",
+        "citedUnit2",
+        "recAward2",
+        "contBy",
+        "cUICat",
+        "ldc",
+        "poc"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "fromPer3",
+        "toPer3",
+        "citedUnit3",
+        "recAward3"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "fromPer4",
+        "toPer4",
+        "citedUnit4",
+        "recAward4"
+      ]
+    }
+  ],
+  "fields": {
+    "origName": {
+      "type": "text",
+      "label": "a. NAME",
+      "page": 1,
+      "box": {
+        "left": 95.0,
+        "top": 722.3,
+        "width": 209.6,
+        "height": 15.2
+      }
+    },
+    "appName": {
+      "type": "text",
+      "label": "a. NAME",
+      "page": 1,
+      "box": {
+        "left": 365.1,
+        "top": 722.3,
+        "width": 209.6,
+        "height": 15.2
+      }
+    },
+    "origAdd": {
+      "type": "text",
+      "label": "b. ADDRESS",
+      "page": 1,
+      "box": {
+        "left": 95.0,
+        "top": 704.3,
+        "width": 209.6,
+        "height": 40.4
+      },
+      "multiline": true
+    },
+    "appAdd": {
+      "type": "text",
+      "label": "b. ADDRESS",
+      "page": 1,
+      "box": {
+        "left": 365.1,
+        "top": 704.3,
+        "width": 209.6,
+        "height": 40.4
+      },
+      "multiline": true
+    },
+    "origUIC": {
+      "type": "text",
+      "label": "c. UIC/RUC",
+      "page": 1,
+      "box": {
+        "left": 95.0,
+        "top": 661.1,
+        "width": 209.6,
+        "height": 15.2
+      }
+    },
+    "appUIC": {
+      "type": "text",
+      "label": "c. UIC/RUC",
+      "page": 1,
+      "box": {
+        "left": 365.1,
+        "top": 661.1,
+        "width": 209.6,
+        "height": 15.2
+      }
+    },
+    "pOCName": {
+      "type": "text",
+      "label": "a. NAME",
+      "page": 1,
+      "box": {
+        "left": 77.0,
+        "top": 625.1,
+        "width": 227.6,
+        "height": 15.2
+      }
+    },
+    "dsn": {
+      "type": "text",
+      "label": "c. DSN",
+      "page": 1,
+      "box": {
+        "left": 347.1,
+        "top": 625.1,
+        "width": 227.6,
+        "height": 15.2
+      }
+    },
+    "pOCEmail": {
+      "type": "text",
+      "label": "b. EMAIL",
+      "page": 1,
+      "box": {
+        "left": 77.0,
+        "top": 607.1,
+        "width": 227.6,
+        "height": 15.2
+      }
+    },
+    "com": {
+      "type": "text",
+      "label": "d. COM",
+      "page": 1,
+      "box": {
+        "left": 347.1,
+        "top": 607.1,
+        "width": 227.6,
+        "height": 15.2
+      }
+    },
+    "radio": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 492.5,
+        "top": 584.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "radio2": {
+      "type": "radio",
+      "label": "Item0",
+      "page": 1,
+      "box": {
+        "left": 535.7,
+        "top": 584.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "radio"
+    },
+    "citedUnit": {
+      "type": "text",
+      "label": "5. CITED UNIT",
+      "page": 1,
+      "box": {
+        "left": 98.6,
+        "top": 567.5,
+        "width": 206.0,
+        "height": 15.2
+      }
+    },
+    "citedUnitUIC": {
+      "type": "text",
+      "label": "6. UIC/RUC OF CITED UNIT",
+      "page": 1,
+      "box": {
+        "left": 415.5,
+        "top": 567.5,
+        "width": 159.2,
+        "height": 15.2
+      }
+    },
+    "unitComponent": {
+      "type": "choice",
+      "label": "7. CITED UNIT COMPONENT",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 537.9,
+        "width": 265.7,
+        "height": 13.7
+      },
+      "options": [
+        "USN",
+        "USNR",
+        "USMC",
+        "USMCR",
+        "USCG",
+        "USCGR",
+        "USA",
+        "USAR",
+        "USAF",
+        "AFRES",
+        "ANG",
+        "ARNG",
+        "OTHER"
+      ]
+    },
+    "awardNum": {
+      "type": "choice",
+      "label": "8. RECOMMENDED AWARD NUMBER (e.g., 1, 2, 3, etc.)",
+      "page": 1,
+      "box": {
+        "left": 308.2,
+        "top": 537.9,
+        "width": 265.7,
+        "height": 13.7
+      },
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20"
+      ]
+    },
+    "notYetApp": {
+      "type": "text",
+      "label": "10. UNIT AWARDS RECOMMENDED - NOT YET APPROVED",
+      "page": 1,
+      "box": {
+        "left": 307.5,
+        "top": 509.8,
+        "width": 267.2,
+        "height": 15.2
+      }
+    },
+    "recAward": {
+      "type": "choice",
+      "label": "9. RECOMMENDED AWARD",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 509.1,
+        "width": 265.7,
+        "height": 13.7
+      },
+      "options": [
+        "EM Navy Expeditionary Medal",
+        "AE Armed Forces Expeditionary Medal",
+        "FS Armed Forces Service Medal",
+        "HS Humanitarian Service Medal",
+        "CR Combat Action Ribbon",
+        "PU Presidential Unit Citation",
+        "JU Joint Meritorious Unit Award",
+        "NU Navy Unit Commendation",
+        "MU Meritorious Unit Commendation",
+        "NE Navy \"E\" Ribbon",
+        "SC SECNAV LOC",
+        "CT CMC COC",
+        "CL CNO LOC",
+        "XX Letter of Commendation (All others)"
+      ]
+    },
+    "prevAward": {
+      "type": "text",
+      "label": "11. PREVIOUS UNIT AWARDS AND DATES RECOGNIZED",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 481.0,
+        "width": 537.2,
+        "height": 310.4
+      },
+      "multiline": true
+    },
+    "campaign": {
+      "type": "text",
+      "label": "a. CAMPAIGN",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 139.0,
+        "width": 177.2,
+        "height": 15.2
+      }
+    },
+    "opOther": {
+      "type": "text",
+      "label": "c. OPERATION (other)",
+      "page": 1,
+      "box": {
+        "left": 397.5,
+        "top": 139.0,
+        "width": 177.2,
+        "height": 15.2
+      }
+    },
+    "operation": {
+      "type": "choice",
+      "label": "b. OPERATION (if other, provide name in 12c)",
+      "page": 1,
+      "box": {
+        "left": 218.2,
+        "top": 138.2,
+        "width": 175.7,
+        "height": 13.7
+      },
+      "options": [
+        "Enduring Freedom",
+        "Iraqi Freedom",
+        "New Dawn",
+        "Freedom's Sentinel",
+        "Enduring Sentinel",
+        "Nomad Shadow",
+        "Inherent Resolve",
+        "Odyssey Lightning",
+        "Observant Compass",
+        "Pacific Eagle - Phillipines",
+        "Other"
+      ]
+    },
+    "otherUnit": {
+      "type": "text",
+      "label": "13. OTHER UNITS BEING RECOMMENDED FOR THE SAME ACTION",
+      "page": 1,
+      "box": {
+        "left": 37.4,
+        "top": 110.2,
+        "width": 537.2,
+        "height": 15.2
+      }
+    },
+    "fromPer": {
+      "type": "text",
+      "label": "MERITORIOUS PERIOD",
+      "page": 1,
+      "box": {
+        "left": 418.6,
+        "top": 92.2,
+        "width": 72.8,
+        "height": 26.0
+      }
+    },
+    "toPer": {
+      "type": "text",
+      "label": "APPROVED",
+      "page": 1,
+      "box": {
+        "left": 501.5,
+        "top": 92.2,
+        "width": 72.8,
+        "height": 26.0
+      }
+    },
+    "geoArea": {
+      "type": "choice",
+      "label": "14. GEOGRAPHIC AREA OF ACTION OR SERVICE",
+      "page": 1,
+      "box": {
+        "left": 38.2,
+        "top": 80.6,
+        "width": 265.7,
+        "height": 13.7
+      },
+      "options": [
+        "DC National Capital Region",
+        "HA Hawaii",
+        "US CONUS, Alaska, Territories, Canada ",
+        "CL Atlantic Area",
+        "CE Europe Area",
+        "CS Caribbean Sea",
+        "NA North Atlantic",
+        "SA South America",
+        "AN Antarctica",
+        "AR Arctic",
+        "MS Mediterranean Sea",
+        "IO Indian Ocean",
+        "CA Central America",
+        "SP South Pacific Islands",
+        "AG Southwest Asia",
+        "AW Western Asia",
+        "AD Northern Asia",
+        "AS Southern Asia",
+        "AE Eastern Asia",
+        "AB Southeast Asia",
+        "AF Africa",
+        "MU Multiple Locations"
+      ]
+    },
+    "fromPer2": {
+      "type": "text",
+      "label": "MERIT. PERIOD",
+      "page": 1,
+      "box": {
+        "left": 440.7,
+        "top": 63.4,
+        "width": 62.0,
+        "height": 26.0
+      }
+    },
+    "toPer2": {
+      "type": "text",
+      "label": "MERIT. PERIOD",
+      "page": 1,
+      "box": {
+        "left": 512.7,
+        "top": 63.4,
+        "width": 62.0,
+        "height": 26.0
+      }
+    },
+    "citedUnit2": {
+      "type": "text",
+      "label": "CITED UNIT NAME",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 51.2,
+        "width": 138.3,
+        "height": 12.3
+      }
+    },
+    "recAward2": {
+      "type": "choice",
+      "label": "CITED UNIT RECOMMENDED AWARD",
+      "page": 1,
+      "box": {
+        "left": 183.6,
+        "top": 50.4,
+        "width": 172.9,
+        "height": 10.8
+      },
+      "options": [
+        "PU Presidential Unit Citation",
+        "JU Joint Meritorious Unit Award",
+        "NU Navy Unit Commendation",
+        "MU Meritorious Unit Commendation",
+        "SC SECNAV LOC",
+        "CT CMC COC",
+        "CL CNO LOC",
+        "AE Armed Forces Expeditionary Medal",
+        "EM Navy Expeditionary Medal",
+        "HS Humanitarian Service Medal",
+        "CR Combat Action Ribbon",
+        "NE Navy \"E\" Ribbon"
+      ]
+    },
+    "contBy": {
+      "type": "text",
+      "label": "CUI (when filled in) CONTROLLED BY",
+      "page": 1,
+      "box": {
+        "left": 406.1,
+        "top": 32.8,
+        "width": 95.1,
+        "height": 6.6
+      }
+    },
+    "cUICat": {
+      "type": "text",
+      "label": "CUI CATEGORY",
+      "page": 1,
+      "box": {
+        "left": 406.1,
+        "top": 24.3,
+        "width": 95.1,
+        "height": 6.6
+      }
+    },
+    "ldc": {
+      "type": "text",
+      "label": "LDC",
+      "page": 1,
+      "box": {
+        "left": 406.1,
+        "top": 16.7,
+        "width": 95.1,
+        "height": 6.6
+      }
+    },
+    "poc": {
+      "type": "text",
+      "label": "POC",
+      "page": 1,
+      "box": {
+        "left": 406.1,
+        "top": 9.4,
+        "width": 95.1,
+        "height": 6.6
+      }
+    },
+    "fromPer3": {
+      "type": "text",
+      "label": "MERIT. PERIOD",
+      "page": 2,
+      "box": {
+        "left": 440.7,
+        "top": 63.4,
+        "width": 62.0,
+        "height": 26.0
+      }
+    },
+    "toPer3": {
+      "type": "text",
+      "label": "SECNAV M-1650.1",
+      "page": 2,
+      "box": {
+        "left": 512.7,
+        "top": 63.4,
+        "width": 62.0,
+        "height": 26.0
+      }
+    },
+    "citedUnit3": {
+      "type": "text",
+      "label": "CITED UNIT NAME",
+      "page": 2,
+      "box": {
+        "left": 38.8,
+        "top": 51.2,
+        "width": 138.3,
+        "height": 12.3
+      }
+    },
+    "recAward3": {
+      "type": "choice",
+      "label": "CITED UNIT RECOMMENDED AWARD",
+      "page": 2,
+      "box": {
+        "left": 183.6,
+        "top": 50.4,
+        "width": 172.9,
+        "height": 10.8
+      },
+      "options": [
+        "PU Presidential Unit Citation",
+        "JU Joint Meritorious Unit Award",
+        "NU Navy Unit Commendation",
+        "MU Meritorious Unit Commendation",
+        "SC SECNAV LOC",
+        "CT CMC COC",
+        "CL CNO LOC",
+        "AE Armed Forces Expeditionary Medal",
+        "EM Navy Expeditionary Medal",
+        "HS Humanitarian Service Medal",
+        "CR Combat Action Ribbon",
+        "NE Navy \"E\" Ribbon"
+      ]
+    },
+    "fromPer4": {
+      "type": "text",
+      "label": "MERIT. PERIOD",
+      "page": 3,
+      "box": {
+        "left": 440.7,
+        "top": 63.4,
+        "width": 62.0,
+        "height": 26.0
+      }
+    },
+    "toPer4": {
+      "type": "text",
+      "label": "SECNAV M-1650.1",
+      "page": 3,
+      "box": {
+        "left": 512.7,
+        "top": 63.4,
+        "width": 62.0,
+        "height": 26.0
+      }
+    },
+    "citedUnit4": {
+      "type": "text",
+      "label": "CITED UNIT NAME",
+      "page": 3,
+      "box": {
+        "left": 38.8,
+        "top": 51.2,
+        "width": 138.3,
+        "height": 12.3
+      }
+    },
+    "recAward4": {
+      "type": "choice",
+      "label": "CITED UNIT RECOMMENDED AWARD",
+      "page": 3,
+      "box": {
+        "left": 183.6,
+        "top": 50.4,
+        "width": 172.9,
+        "height": 10.8
+      },
+      "options": [
+        "PU Presidential Unit Citation",
+        "JU Joint Meritorious Unit Award",
+        "NU Navy Unit Commendation",
+        "MU Meritorious Unit Commendation",
+        "SC SECNAV LOC",
+        "CT CMC COC",
+        "CL CNO LOC",
+        "AE Armed Forces Expeditionary Medal",
+        "EM Navy Expeditionary Medal",
+        "HS Humanitarian Service Medal",
+        "CR Combat Action Ribbon",
+        "NE Navy \"E\" Ribbon"
+      ]
+    }
+  }
+}

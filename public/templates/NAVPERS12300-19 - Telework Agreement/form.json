@@ -1,0 +1,1331 @@
+{
+  "id": "navpers1230019",
+  "label": "NAVPERS12300-19 - Telework Agreement",
+  "directory": "NAVPERS12300-19 - Telework Agreement",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "name",
+        "title",
+        "pay",
+        "activity",
+        "0",
+        "02",
+        "1",
+        "12",
+        "2",
+        "22",
+        "3",
+        "32",
+        "4",
+        "42",
+        "03",
+        "04",
+        "05",
+        "13",
+        "14",
+        "15",
+        "23",
+        "24",
+        "25",
+        "33",
+        "34",
+        "35",
+        "43",
+        "44",
+        "45",
+        "26",
+        "27",
+        "36",
+        "37",
+        "46",
+        "47",
+        "06",
+        "07",
+        "16",
+        "17",
+        "28",
+        "38",
+        "48",
+        "49",
+        "410",
+        "29",
+        "210",
+        "39",
+        "310",
+        "411",
+        "412",
+        "08",
+        "18",
+        "19",
+        "211",
+        "311",
+        "312",
+        "413",
+        "414",
+        "415",
+        "212",
+        "213",
+        "416",
+        "417",
+        "313",
+        "314",
+        "09",
+        "110",
+        "111",
+        "214",
+        "418",
+        "419",
+        "420",
+        "315",
+        "316",
+        "317",
+        "318",
+        "319",
+        "421",
+        "422",
+        "010",
+        "112",
+        "113",
+        "215",
+        "216",
+        "320",
+        "321",
+        "322",
+        "423",
+        "424",
+        "425",
+        "altwork",
+        "workAddress",
+        "wkPH",
+        "eMail",
+        "wkfax",
+        "telecenadd",
+        "telcenemail",
+        "telcenph",
+        "telecenfax"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "othwrksite",
+        "oTHWRKph",
+        "othwrkemail",
+        "othwrkfax"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "dusta"
+      ]
+    },
+    {
+      "title": "Page 4",
+      "fields": [
+        "miles",
+        "commencement",
+        "empsig",
+        "supsig"
+      ]
+    }
+  ],
+  "fields": {
+    "name": {
+      "type": "text",
+      "label": "Employee's Last Name, First Name and Middle Initial",
+      "page": 1,
+      "box": {
+        "left": 69.9,
+        "top": 713.8,
+        "width": 471.6,
+        "height": 19.1
+      }
+    },
+    "title": {
+      "type": "text",
+      "label": "Employee's Title",
+      "page": 1,
+      "box": {
+        "left": 70.2,
+        "top": 675.0,
+        "width": 249.8,
+        "height": 19.1
+      }
+    },
+    "pay": {
+      "type": "text",
+      "label": "Employee's pay plan/series/grade",
+      "page": 1,
+      "box": {
+        "left": 320.1,
+        "top": 674.3,
+        "width": 220.6,
+        "height": 19.1
+      }
+    },
+    "activity": {
+      "type": "text",
+      "label": "Employee's home office or work e-mail",
+      "page": 1,
+      "box": {
+        "left": 69.1,
+        "top": 636.0,
+        "width": 471.6,
+        "height": 19.1
+      }
+    },
+    "0": {
+      "type": "text",
+      "label": "MON",
+      "page": 1,
+      "box": {
+        "left": 122.7,
+        "top": 471.0,
+        "width": 59.1,
+        "height": 17.8
+      }
+    },
+    "02": {
+      "type": "text",
+      "label": "MON",
+      "page": 1,
+      "box": {
+        "left": 123.3,
+        "top": 471.0,
+        "width": 59.1,
+        "height": 17.8
+      }
+    },
+    "1": {
+      "type": "text",
+      "label": "MON",
+      "page": 1,
+      "box": {
+        "left": 181.8,
+        "top": 471.0,
+        "width": 66.7,
+        "height": 17.8
+      }
+    },
+    "12": {
+      "type": "text",
+      "label": "MON",
+      "page": 1,
+      "box": {
+        "left": 182.4,
+        "top": 471.0,
+        "width": 66.7,
+        "height": 17.8
+      }
+    },
+    "2": {
+      "type": "text",
+      "label": "MON",
+      "page": 1,
+      "box": {
+        "left": 249.4,
+        "top": 471.0,
+        "width": 94.1,
+        "height": 17.8
+      }
+    },
+    "22": {
+      "type": "text",
+      "label": "MON",
+      "page": 1,
+      "box": {
+        "left": 250.1,
+        "top": 471.0,
+        "width": 94.1,
+        "height": 17.8
+      }
+    },
+    "3": {
+      "type": "text",
+      "label": "MON",
+      "page": 1,
+      "box": {
+        "left": 343.8,
+        "top": 471.0,
+        "width": 83.9,
+        "height": 17.8
+      }
+    },
+    "32": {
+      "type": "text",
+      "label": "MON",
+      "page": 1,
+      "box": {
+        "left": 344.5,
+        "top": 471.0,
+        "width": 83.9,
+        "height": 17.8
+      }
+    },
+    "4": {
+      "type": "text",
+      "label": "MON",
+      "page": 1,
+      "box": {
+        "left": 429.2,
+        "top": 471.0,
+        "width": 117.6,
+        "height": 17.8
+      }
+    },
+    "42": {
+      "type": "text",
+      "label": "MON",
+      "page": 1,
+      "box": {
+        "left": 429.8,
+        "top": 471.0,
+        "width": 117.6,
+        "height": 17.8
+      }
+    },
+    "03": {
+      "type": "text",
+      "label": "MON",
+      "page": 1,
+      "box": {
+        "left": 121.4,
+        "top": 470.4,
+        "width": 59.1,
+        "height": 17.8
+      }
+    },
+    "04": {
+      "type": "text",
+      "label": "MON",
+      "page": 1,
+      "box": {
+        "left": 122.0,
+        "top": 470.4,
+        "width": 59.1,
+        "height": 17.8
+      }
+    },
+    "05": {
+      "type": "text",
+      "label": "MON",
+      "page": 1,
+      "box": {
+        "left": 122.7,
+        "top": 470.4,
+        "width": 59.1,
+        "height": 17.8
+      }
+    },
+    "13": {
+      "type": "text",
+      "label": "MON",
+      "page": 1,
+      "box": {
+        "left": 180.5,
+        "top": 470.4,
+        "width": 66.7,
+        "height": 17.8
+      }
+    },
+    "14": {
+      "type": "text",
+      "label": "MON",
+      "page": 1,
+      "box": {
+        "left": 181.1,
+        "top": 470.4,
+        "width": 66.7,
+        "height": 17.8
+      }
+    },
+    "15": {
+      "type": "text",
+      "label": "MON",
+      "page": 1,
+      "box": {
+        "left": 181.8,
+        "top": 470.4,
+        "width": 66.7,
+        "height": 17.8
+      }
+    },
+    "23": {
+      "type": "text",
+      "label": "MON",
+      "page": 1,
+      "box": {
+        "left": 248.2,
+        "top": 470.4,
+        "width": 94.1,
+        "height": 17.8
+      }
+    },
+    "24": {
+      "type": "text",
+      "label": "MON",
+      "page": 1,
+      "box": {
+        "left": 248.8,
+        "top": 470.4,
+        "width": 94.1,
+        "height": 17.8
+      }
+    },
+    "25": {
+      "type": "text",
+      "label": "MON",
+      "page": 1,
+      "box": {
+        "left": 249.4,
+        "top": 470.4,
+        "width": 94.1,
+        "height": 17.8
+      }
+    },
+    "33": {
+      "type": "text",
+      "label": "MON",
+      "page": 1,
+      "box": {
+        "left": 342.5,
+        "top": 470.4,
+        "width": 83.9,
+        "height": 17.8
+      }
+    },
+    "34": {
+      "type": "text",
+      "label": "MON",
+      "page": 1,
+      "box": {
+        "left": 343.2,
+        "top": 470.4,
+        "width": 83.9,
+        "height": 17.8
+      }
+    },
+    "35": {
+      "type": "text",
+      "label": "MON",
+      "page": 1,
+      "box": {
+        "left": 343.8,
+        "top": 470.4,
+        "width": 83.9,
+        "height": 17.8
+      }
+    },
+    "43": {
+      "type": "text",
+      "label": "MON",
+      "page": 1,
+      "box": {
+        "left": 427.9,
+        "top": 470.4,
+        "width": 117.6,
+        "height": 17.8
+      }
+    },
+    "44": {
+      "type": "text",
+      "label": "MON",
+      "page": 1,
+      "box": {
+        "left": 428.6,
+        "top": 470.4,
+        "width": 117.6,
+        "height": 17.8
+      }
+    },
+    "45": {
+      "type": "text",
+      "label": "MON",
+      "page": 1,
+      "box": {
+        "left": 429.2,
+        "top": 470.4,
+        "width": 117.6,
+        "height": 17.8
+      }
+    },
+    "26": {
+      "type": "text",
+      "label": "TUE",
+      "page": 1,
+      "box": {
+        "left": 247.2,
+        "top": 453.2,
+        "width": 94.7,
+        "height": 17.8
+      }
+    },
+    "27": {
+      "type": "text",
+      "label": "TUE",
+      "page": 1,
+      "box": {
+        "left": 247.8,
+        "top": 453.2,
+        "width": 94.7,
+        "height": 17.8
+      }
+    },
+    "36": {
+      "type": "text",
+      "label": "TUE",
+      "page": 1,
+      "box": {
+        "left": 342.5,
+        "top": 453.2,
+        "width": 83.9,
+        "height": 17.8
+      }
+    },
+    "37": {
+      "type": "text",
+      "label": "TUE",
+      "page": 1,
+      "box": {
+        "left": 343.2,
+        "top": 453.2,
+        "width": 83.9,
+        "height": 17.8
+      }
+    },
+    "46": {
+      "type": "text",
+      "label": "TUE",
+      "page": 1,
+      "box": {
+        "left": 428.2,
+        "top": 453.2,
+        "width": 118.9,
+        "height": 17.8
+      }
+    },
+    "47": {
+      "type": "text",
+      "label": "TUE",
+      "page": 1,
+      "box": {
+        "left": 428.8,
+        "top": 453.2,
+        "width": 118.9,
+        "height": 17.8
+      }
+    },
+    "06": {
+      "type": "text",
+      "label": "TUE",
+      "page": 1,
+      "box": {
+        "left": 121.4,
+        "top": 452.6,
+        "width": 59.1,
+        "height": 17.8
+      }
+    },
+    "07": {
+      "type": "text",
+      "label": "TUE",
+      "page": 1,
+      "box": {
+        "left": 122.0,
+        "top": 452.6,
+        "width": 59.1,
+        "height": 17.8
+      }
+    },
+    "16": {
+      "type": "text",
+      "label": "TUE",
+      "page": 1,
+      "box": {
+        "left": 180.5,
+        "top": 452.6,
+        "width": 66.7,
+        "height": 17.8
+      }
+    },
+    "17": {
+      "type": "text",
+      "label": "TUE",
+      "page": 1,
+      "box": {
+        "left": 181.1,
+        "top": 452.6,
+        "width": 66.7,
+        "height": 17.8
+      }
+    },
+    "28": {
+      "type": "text",
+      "label": "TUE",
+      "page": 1,
+      "box": {
+        "left": 247.2,
+        "top": 452.6,
+        "width": 94.7,
+        "height": 17.8
+      }
+    },
+    "38": {
+      "type": "text",
+      "label": "TUE",
+      "page": 1,
+      "box": {
+        "left": 342.5,
+        "top": 452.6,
+        "width": 83.9,
+        "height": 17.8
+      }
+    },
+    "48": {
+      "type": "text",
+      "label": "TUE",
+      "page": 1,
+      "box": {
+        "left": 426.9,
+        "top": 452.6,
+        "width": 118.9,
+        "height": 17.8
+      }
+    },
+    "49": {
+      "type": "text",
+      "label": "TUE",
+      "page": 1,
+      "box": {
+        "left": 427.6,
+        "top": 452.6,
+        "width": 118.9,
+        "height": 17.8
+      }
+    },
+    "410": {
+      "type": "text",
+      "label": "TUE",
+      "page": 1,
+      "box": {
+        "left": 428.2,
+        "top": 452.6,
+        "width": 118.9,
+        "height": 17.8
+      }
+    },
+    "29": {
+      "type": "text",
+      "label": "WED",
+      "page": 1,
+      "box": {
+        "left": 247.2,
+        "top": 435.4,
+        "width": 94.7,
+        "height": 17.8
+      }
+    },
+    "210": {
+      "type": "text",
+      "label": "WED",
+      "page": 1,
+      "box": {
+        "left": 247.8,
+        "top": 435.4,
+        "width": 94.7,
+        "height": 17.8
+      }
+    },
+    "39": {
+      "type": "text",
+      "label": "WED",
+      "page": 1,
+      "box": {
+        "left": 343.2,
+        "top": 435.4,
+        "width": 84.5,
+        "height": 17.8
+      }
+    },
+    "310": {
+      "type": "text",
+      "label": "WED",
+      "page": 1,
+      "box": {
+        "left": 343.8,
+        "top": 435.4,
+        "width": 84.5,
+        "height": 17.8
+      }
+    },
+    "411": {
+      "type": "text",
+      "label": "WED",
+      "page": 1,
+      "box": {
+        "left": 428.8,
+        "top": 435.4,
+        "width": 117.6,
+        "height": 17.8
+      }
+    },
+    "412": {
+      "type": "text",
+      "label": "WED",
+      "page": 1,
+      "box": {
+        "left": 429.5,
+        "top": 435.4,
+        "width": 117.6,
+        "height": 17.8
+      }
+    },
+    "08": {
+      "type": "text",
+      "label": "WED",
+      "page": 1,
+      "box": {
+        "left": 121.4,
+        "top": 434.8,
+        "width": 59.1,
+        "height": 17.8
+      }
+    },
+    "18": {
+      "type": "text",
+      "label": "WED",
+      "page": 1,
+      "box": {
+        "left": 179.9,
+        "top": 434.8,
+        "width": 68.0,
+        "height": 17.8
+      }
+    },
+    "19": {
+      "type": "text",
+      "label": "WED",
+      "page": 1,
+      "box": {
+        "left": 180.5,
+        "top": 434.8,
+        "width": 68.0,
+        "height": 17.8
+      }
+    },
+    "211": {
+      "type": "text",
+      "label": "WED",
+      "page": 1,
+      "box": {
+        "left": 247.2,
+        "top": 434.8,
+        "width": 94.7,
+        "height": 17.8
+      }
+    },
+    "311": {
+      "type": "text",
+      "label": "WED",
+      "page": 1,
+      "box": {
+        "left": 342.5,
+        "top": 434.8,
+        "width": 84.5,
+        "height": 17.8
+      }
+    },
+    "312": {
+      "type": "text",
+      "label": "WED",
+      "page": 1,
+      "box": {
+        "left": 343.2,
+        "top": 434.8,
+        "width": 84.5,
+        "height": 17.8
+      }
+    },
+    "413": {
+      "type": "text",
+      "label": "WED",
+      "page": 1,
+      "box": {
+        "left": 427.6,
+        "top": 434.8,
+        "width": 117.6,
+        "height": 17.8
+      }
+    },
+    "414": {
+      "type": "text",
+      "label": "WED",
+      "page": 1,
+      "box": {
+        "left": 428.2,
+        "top": 434.8,
+        "width": 117.6,
+        "height": 17.8
+      }
+    },
+    "415": {
+      "type": "text",
+      "label": "WED",
+      "page": 1,
+      "box": {
+        "left": 428.8,
+        "top": 434.8,
+        "width": 117.6,
+        "height": 17.8
+      }
+    },
+    "212": {
+      "type": "text",
+      "label": "THU",
+      "page": 1,
+      "box": {
+        "left": 247.6,
+        "top": 417.6,
+        "width": 94.7,
+        "height": 17.8
+      }
+    },
+    "213": {
+      "type": "text",
+      "label": "THU",
+      "page": 1,
+      "box": {
+        "left": 248.2,
+        "top": 417.6,
+        "width": 94.7,
+        "height": 17.8
+      }
+    },
+    "416": {
+      "type": "text",
+      "label": "THU",
+      "page": 1,
+      "box": {
+        "left": 429.2,
+        "top": 417.6,
+        "width": 117.6,
+        "height": 17.8
+      }
+    },
+    "417": {
+      "type": "text",
+      "label": "THU",
+      "page": 1,
+      "box": {
+        "left": 429.8,
+        "top": 417.6,
+        "width": 117.6,
+        "height": 17.8
+      }
+    },
+    "313": {
+      "type": "text",
+      "label": "THU",
+      "page": 1,
+      "box": {
+        "left": 342.8,
+        "top": 417.3,
+        "width": 86.4,
+        "height": 17.8
+      }
+    },
+    "314": {
+      "type": "text",
+      "label": "THU",
+      "page": 1,
+      "box": {
+        "left": 343.5,
+        "top": 417.3,
+        "width": 86.4,
+        "height": 17.8
+      }
+    },
+    "09": {
+      "type": "text",
+      "label": "THU",
+      "page": 1,
+      "box": {
+        "left": 121.4,
+        "top": 417.0,
+        "width": 59.1,
+        "height": 17.8
+      }
+    },
+    "110": {
+      "type": "text",
+      "label": "THU",
+      "page": 1,
+      "box": {
+        "left": 179.2,
+        "top": 417.0,
+        "width": 67.4,
+        "height": 17.8
+      }
+    },
+    "111": {
+      "type": "text",
+      "label": "THU",
+      "page": 1,
+      "box": {
+        "left": 179.9,
+        "top": 417.0,
+        "width": 67.4,
+        "height": 17.8
+      }
+    },
+    "214": {
+      "type": "text",
+      "label": "THU",
+      "page": 1,
+      "box": {
+        "left": 247.6,
+        "top": 417.0,
+        "width": 94.7,
+        "height": 17.8
+      }
+    },
+    "418": {
+      "type": "text",
+      "label": "THU",
+      "page": 1,
+      "box": {
+        "left": 427.9,
+        "top": 417.0,
+        "width": 117.6,
+        "height": 17.8
+      }
+    },
+    "419": {
+      "type": "text",
+      "label": "THU",
+      "page": 1,
+      "box": {
+        "left": 428.6,
+        "top": 417.0,
+        "width": 117.6,
+        "height": 17.8
+      }
+    },
+    "420": {
+      "type": "text",
+      "label": "THU",
+      "page": 1,
+      "box": {
+        "left": 429.2,
+        "top": 417.0,
+        "width": 117.6,
+        "height": 17.8
+      }
+    },
+    "315": {
+      "type": "text",
+      "label": "THU",
+      "page": 1,
+      "box": {
+        "left": 341.5,
+        "top": 416.6,
+        "width": 86.4,
+        "height": 17.8
+      }
+    },
+    "316": {
+      "type": "text",
+      "label": "THU",
+      "page": 1,
+      "box": {
+        "left": 342.2,
+        "top": 416.6,
+        "width": 86.4,
+        "height": 17.8
+      }
+    },
+    "317": {
+      "type": "text",
+      "label": "THU",
+      "page": 1,
+      "box": {
+        "left": 342.8,
+        "top": 416.6,
+        "width": 86.4,
+        "height": 17.8
+      }
+    },
+    "318": {
+      "type": "text",
+      "label": "FRI",
+      "page": 1,
+      "box": {
+        "left": 343.5,
+        "top": 399.8,
+        "width": 85.2,
+        "height": 17.8
+      }
+    },
+    "319": {
+      "type": "text",
+      "label": "FRI",
+      "page": 1,
+      "box": {
+        "left": 344.1,
+        "top": 399.8,
+        "width": 85.2,
+        "height": 17.8
+      }
+    },
+    "421": {
+      "type": "text",
+      "label": "FRI",
+      "page": 1,
+      "box": {
+        "left": 429.2,
+        "top": 399.8,
+        "width": 118.2,
+        "height": 17.8
+      }
+    },
+    "422": {
+      "type": "text",
+      "label": "FRI",
+      "page": 1,
+      "box": {
+        "left": 429.8,
+        "top": 399.8,
+        "width": 118.2,
+        "height": 17.8
+      }
+    },
+    "010": {
+      "type": "text",
+      "label": "FRI",
+      "page": 1,
+      "box": {
+        "left": 121.4,
+        "top": 399.2,
+        "width": 59.1,
+        "height": 17.8
+      }
+    },
+    "112": {
+      "type": "text",
+      "label": "FRI",
+      "page": 1,
+      "box": {
+        "left": 179.2,
+        "top": 399.2,
+        "width": 68.0,
+        "height": 17.8
+      }
+    },
+    "113": {
+      "type": "text",
+      "label": "FRI",
+      "page": 1,
+      "box": {
+        "left": 179.9,
+        "top": 399.2,
+        "width": 68.0,
+        "height": 17.8
+      }
+    },
+    "215": {
+      "type": "text",
+      "label": "FRI",
+      "page": 1,
+      "box": {
+        "left": 248.2,
+        "top": 399.2,
+        "width": 93.4,
+        "height": 17.8
+      }
+    },
+    "216": {
+      "type": "text",
+      "label": "FRI",
+      "page": 1,
+      "box": {
+        "left": 248.8,
+        "top": 399.2,
+        "width": 93.4,
+        "height": 17.8
+      }
+    },
+    "320": {
+      "type": "text",
+      "label": "FRI",
+      "page": 1,
+      "box": {
+        "left": 342.2,
+        "top": 399.2,
+        "width": 85.2,
+        "height": 17.8
+      }
+    },
+    "321": {
+      "type": "text",
+      "label": "FRI",
+      "page": 1,
+      "box": {
+        "left": 342.8,
+        "top": 399.2,
+        "width": 85.2,
+        "height": 17.8
+      }
+    },
+    "322": {
+      "type": "text",
+      "label": "FRI",
+      "page": 1,
+      "box": {
+        "left": 343.5,
+        "top": 399.2,
+        "width": 85.2,
+        "height": 17.8
+      }
+    },
+    "423": {
+      "type": "text",
+      "label": "FRI",
+      "page": 1,
+      "box": {
+        "left": 427.9,
+        "top": 399.2,
+        "width": 118.2,
+        "height": 17.8
+      }
+    },
+    "424": {
+      "type": "text",
+      "label": "FRI",
+      "page": 1,
+      "box": {
+        "left": 428.6,
+        "top": 399.2,
+        "width": 118.2,
+        "height": 17.8
+      }
+    },
+    "425": {
+      "type": "text",
+      "label": "FRI",
+      "page": 1,
+      "box": {
+        "left": 429.2,
+        "top": 399.2,
+        "width": 118.2,
+        "height": 17.8
+      }
+    },
+    "altwork": {
+      "type": "text",
+      "label": "Employee's alternate worksite",
+      "page": 1,
+      "box": {
+        "left": 70.2,
+        "top": 328.6,
+        "width": 471.6,
+        "height": 19.1
+      }
+    },
+    "workAddress": {
+      "type": "text",
+      "label": "Employee's activity name and location",
+      "page": 1,
+      "box": {
+        "left": 70.9,
+        "top": 290.4,
+        "width": 471.6,
+        "height": 19.1
+      }
+    },
+    "wkPH": {
+      "type": "text",
+      "label": "Employee's home office or work area phone",
+      "page": 1,
+      "box": {
+        "left": 69.9,
+        "top": 251.4,
+        "width": 107.4,
+        "height": 19.1
+      }
+    },
+    "eMail": {
+      "type": "text",
+      "label": "Employee's home office or work e-mail",
+      "page": 1,
+      "box": {
+        "left": 326.1,
+        "top": 250.6,
+        "width": 214.8,
+        "height": 19.1
+      }
+    },
+    "wkfax": {
+      "type": "text",
+      "label": "Employee's home office or work area fax number",
+      "page": 1,
+      "box": {
+        "left": 190.5,
+        "top": 249.0,
+        "width": 125.2,
+        "height": 19.1
+      }
+    },
+    "telecenadd": {
+      "type": "text",
+      "label": "GSA Telecenter address",
+      "page": 1,
+      "box": {
+        "left": 70.8,
+        "top": 188.2,
+        "width": 471.6,
+        "height": 19.1
+      }
+    },
+    "telcenemail": {
+      "type": "text",
+      "label": "GSA Telecenter's e-mail address",
+      "page": 1,
+      "box": {
+        "left": 327.4,
+        "top": 148.6,
+        "width": 214.8,
+        "height": 19.1
+      }
+    },
+    "telcenph": {
+      "type": "text",
+      "label": "GSA Telecenter's phone number",
+      "page": 1,
+      "box": {
+        "left": 70.8,
+        "top": 148.1,
+        "width": 101.1,
+        "height": 19.1
+      }
+    },
+    "telecenfax": {
+      "type": "text",
+      "label": "Employee's home office or work e-mail",
+      "page": 1,
+      "box": {
+        "left": 189.4,
+        "top": 148.1,
+        "width": 129.0,
+        "height": 19.1
+      }
+    },
+    "othwrksite": {
+      "type": "text",
+      "label": "Other approved alternate worksite's address",
+      "page": 2,
+      "box": {
+        "left": 70.8,
+        "top": 693.5,
+        "width": 473.5,
+        "height": 19.1
+      }
+    },
+    "oTHWRKph": {
+      "type": "text",
+      "label": "Other approved alternate worksite's phone number",
+      "page": 2,
+      "box": {
+        "left": 70.5,
+        "top": 654.7,
+        "width": 118.9,
+        "height": 19.1
+      }
+    },
+    "othwrkemail": {
+      "type": "text",
+      "label": "Other approved alternate worksite's e-mail address",
+      "page": 2,
+      "box": {
+        "left": 328.7,
+        "top": 654.6,
+        "width": 214.2,
+        "height": 19.1
+      }
+    },
+    "othwrkfax": {
+      "type": "text",
+      "label": "Other approved alternate worksite's fax number",
+      "page": 2,
+      "box": {
+        "left": 198.9,
+        "top": 654.2,
+        "width": 118.9,
+        "height": 19.1
+      }
+    },
+    "dusta": {
+      "type": "text",
+      "label": "Employees official duty station",
+      "page": 3,
+      "box": {
+        "left": 236.6,
+        "top": 677.4,
+        "width": 300.0,
+        "height": 17.2
+      }
+    },
+    "miles": {
+      "type": "text",
+      "label": "Total reduction number of miles traveled each week",
+      "page": 4,
+      "box": {
+        "left": 148.4,
+        "top": 429.4,
+        "width": 33.1,
+        "height": 17.2
+      }
+    },
+    "commencement": {
+      "type": "text",
+      "label": "Date of commencement",
+      "page": 4,
+      "box": {
+        "left": 71.6,
+        "top": 265.3,
+        "width": 167.2,
+        "height": 19.1
+      }
+    },
+    "empsig": {
+      "type": "text",
+      "label": "Date member signed agreement",
+      "page": 4,
+      "box": {
+        "left": 366.0,
+        "top": 194.0,
+        "width": 118.9,
+        "height": 19.1
+      }
+    },
+    "supsig": {
+      "type": "text",
+      "label": "Date supervisor signed agreement",
+      "page": 4,
+      "box": {
+        "left": 366.1,
+        "top": 136.0,
+        "width": 118.9,
+        "height": 19.1
+      }
+    }
+  }
+}

@@ -1,0 +1,182 @@
+{
+  "id": "navmc10774",
+  "label": "NAVMC 10774 - Ammunition Nsn-Lot Number Record",
+  "directory": "NAVMC10774 - Ammunition Nsn-Lot Number Record",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "nsn",
+        "description",
+        "lotNumber",
+        "cond"
+      ]
+    }
+  ],
+  "fields": {
+    "nsn": {
+      "type": "text",
+      "label": "NSN/DODIC",
+      "page": 1,
+      "box": {
+        "left": 20.8,
+        "top": 542.7,
+        "width": 192.4,
+        "height": 20.4
+      }
+    },
+    "description": {
+      "type": "text",
+      "label": "DESCRIPTION",
+      "page": 1,
+      "box": {
+        "left": 218.9,
+        "top": 542.7,
+        "width": 309.4,
+        "height": 20.4
+      }
+    },
+    "lotNumber": {
+      "type": "text",
+      "label": "LOT NUMBER",
+      "page": 1,
+      "box": {
+        "left": 533.9,
+        "top": 542.7,
+        "width": 165.4,
+        "height": 20.4
+      }
+    },
+    "cond": {
+      "type": "text",
+      "label": "COND",
+      "page": 1,
+      "box": {
+        "left": 704.9,
+        "top": 542.7,
+        "width": 66.3,
+        "height": 20.4
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 23,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "broughtForward": {
+          "type": "text",
+          "label": "BROUGHT FORWARD",
+          "page": 1,
+          "box": {
+            "left": 83.8,
+            "top": 474.2,
+            "width": 129.3,
+            "height": 12.3
+          }
+        },
+        "tranCode": {
+          "type": "text",
+          "label": "CODE",
+          "page": 1,
+          "box": {
+            "left": 218.9,
+            "top": 474.2,
+            "width": 39.3,
+            "height": 12.3
+          }
+        },
+        "increase": {
+          "type": "text",
+          "label": "INCREASE",
+          "page": 1,
+          "box": {
+            "left": 263.9,
+            "top": 474.2,
+            "width": 57.3,
+            "height": 12.3
+          }
+        },
+        "decrease": {
+          "type": "text",
+          "label": "DECREASE",
+          "page": 1,
+          "box": {
+            "left": 326.9,
+            "top": 474.2,
+            "width": 57.3,
+            "height": 12.3
+          }
+        },
+        "remarks": {
+          "type": "text",
+          "label": "REMARKS",
+          "page": 1,
+          "box": {
+            "left": 533.9,
+            "top": 474.2,
+            "width": 237.4,
+            "height": 12.3
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 1,
+      "count": 24,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "date": {
+          "type": "text",
+          "label": "DATE",
+          "page": 1,
+          "box": {
+            "left": 20.8,
+            "top": 492.2,
+            "width": 57.3,
+            "height": 12.3
+          }
+        }
+      }
+    },
+    "rows3": {
+      "title": "Rows",
+      "page": 1,
+      "count": 25,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "available": {
+          "type": "text",
+          "label": "BROUGHT FORWARD",
+          "page": 1,
+          "box": {
+            "left": 389.9,
+            "top": 492.2,
+            "width": 66.3,
+            "height": 12.3
+          }
+        },
+        "balance": {
+          "type": "text",
+          "label": "BROUGHT FORWARD",
+          "page": 1,
+          "box": {
+            "left": 461.9,
+            "top": 492.2,
+            "width": 66.3,
+            "height": 12.3
+          }
+        }
+      }
+    }
+  }
+}

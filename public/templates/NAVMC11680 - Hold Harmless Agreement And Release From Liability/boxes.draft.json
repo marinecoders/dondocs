@@ -1,0 +1,139 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "applicantName": {
+        "left": 90.0,
+        "top": 698.7,
+        "width": 237.6,
+        "height": 15.7,
+        "type": "text",
+        "description": "ApplicantName",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "eventName": {
+        "left": 210.0,
+        "top": 668.4,
+        "width": 324.0,
+        "height": 15.4,
+        "type": "text",
+        "description": "EventName",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date1": {
+        "left": 184.7,
+        "top": 550.7,
+        "width": 186.0,
+        "height": 12.2,
+        "type": "text",
+        "description": "Enter MM/DD/YYYY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date2": {
+        "left": 390.0,
+        "top": 476.7,
+        "width": 90.0,
+        "height": 16.9,
+        "type": "text",
+        "description": "Enter DD/MM/YYYY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "applicantSign": {
+        "left": 72.0,
+        "top": 476.0,
+        "width": 256.8,
+        "height": 16.2,
+        "type": "text",
+        "description": "ApplicantSign",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "minorName": {
+        "left": 72.0,
+        "top": 227.6,
+        "width": 168.0,
+        "height": 21.6,
+        "type": "text",
+        "description": "MinorName",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "parentSign": {
+        "left": 252.0,
+        "top": 227.6,
+        "width": 210.0,
+        "height": 21.6,
+        "type": "text",
+        "description": "ParentSign",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date3": {
+        "left": 474.0,
+        "top": 227.6,
+        "width": 60.0,
+        "height": 21.6,
+        "type": "text",
+        "description": "Enter MM/DD/YYYY",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "notify": {
+        "left": 72.0,
+        "top": 140.1,
+        "width": 155.8,
+        "height": 36.1,
+        "type": "text",
+        "description": "                           Notify",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "address": {
+        "left": 230.0,
+        "top": 140.1,
+        "width": 203.1,
+        "height": 36.1,
+        "type": "text",
+        "description": "                                      Address",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "phoneNum": {
+        "left": 435.6,
+        "top": 135.6,
+        "width": 104.3,
+        "height": 32.5,
+        "type": "text",
+        "description": "Please enter phone number, without the '+' sign, using numerical ",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

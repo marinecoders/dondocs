@@ -1,0 +1,3631 @@
+{
+  "id": "navmc10835",
+  "label": "NAVMC10835 - USMC Fitness Report",
+  "directory": "NAVMC10835 - USMC Fitness Report",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf",
+    "page3.pdf",
+    "page4.pdf",
+    "page5.pdf",
+    "page6.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "fName",
+        "mi",
+        "ssn",
+        "grade",
+        "dor",
+        "pmos",
+        "bilMOS",
+        "lName",
+        "mcc",
+        "ruc",
+        "unitDescr",
+        "periodFrom",
+        "occ",
+        "periodTo",
+        "type",
+        "dutyAssign",
+        "yesA",
+        "adverse",
+        "noB",
+        "r260",
+        "deroMat",
+        "disAction",
+        "na",
+        "notObserved",
+        "extended",
+        "comMat",
+        "qual",
+        "height",
+        "resCom",
+        "decrTitle1",
+        "pft",
+        "weight",
+        "status",
+        "descrTitle2",
+        "bodyFat",
+        "cft",
+        "descrTitle3",
+        "repSenLName",
+        "repSenMI",
+        "repSenSvc",
+        "repSenSSN",
+        "repSenGrade",
+        "repSenDutyAssign",
+        "revOcfrLNamw",
+        "revOcfrMI",
+        "revOcfrSvc",
+        "revOcfrSSN",
+        "revOcfrGrade",
+        "revOcfrDuty",
+        "billetDescr",
+        "billetAccom"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "lName2",
+        "occ2",
+        "fName2",
+        "ssn2",
+        "periodFrom2",
+        "periodTo2",
+        "mi2",
+        "missonH",
+        "missonF",
+        "missonG",
+        "missonB",
+        "missonC",
+        "missonD",
+        "missonE",
+        "missonA",
+        "profG",
+        "profC",
+        "profD",
+        "profE",
+        "profF",
+        "profH",
+        "profB",
+        "profA",
+        "justA",
+        "courageA",
+        "courageG",
+        "courageB",
+        "courageC",
+        "courageD",
+        "courageF",
+        "courageH",
+        "courageE",
+        "effectD",
+        "effectF",
+        "effectB",
+        "effectC",
+        "effectE",
+        "effectG",
+        "effectA",
+        "effectH",
+        "intB",
+        "intD",
+        "intF",
+        "intG",
+        "intH",
+        "intA",
+        "intC",
+        "intE",
+        "justB"
+      ]
+    },
+    {
+      "title": "Page 3",
+      "fields": [
+        "mi3",
+        "ssn3",
+        "occ3",
+        "periodFrom3",
+        "periodTo3",
+        "lName3",
+        "fName3",
+        "lead1B",
+        "lead1G",
+        "lead1H",
+        "lead1A",
+        "lead1C",
+        "lead1F",
+        "lead1D",
+        "lead1E",
+        "lead2E",
+        "lead2D",
+        "lead2F",
+        "lead2G",
+        "lead2C",
+        "lead2H",
+        "lead2A",
+        "lead2B",
+        "lead3A",
+        "lead3B",
+        "lead3F",
+        "lead3G",
+        "lead3H",
+        "lead3D",
+        "lead3C",
+        "lead3E",
+        "lead4A",
+        "lead4G",
+        "lead4B",
+        "lead4C",
+        "lead4E",
+        "lead4F",
+        "lead4D",
+        "lead4H",
+        "lead5E",
+        "lead5A",
+        "lead5B",
+        "lead5G",
+        "lead5C",
+        "lead5F",
+        "lead5H",
+        "lead5D",
+        "textField1"
+      ]
+    },
+    {
+      "title": "Page 4",
+      "fields": [
+        "mi4",
+        "ssn4",
+        "occ4",
+        "periodFrom4",
+        "lName4",
+        "periodTo4",
+        "fName4",
+        "wisdomG",
+        "wisdomD",
+        "wisdomF",
+        "wisdomA",
+        "wisdomC",
+        "wisdomH",
+        "wisdomB",
+        "wisdomE",
+        "wisdomA1",
+        "wisdomB1",
+        "wisdomC1",
+        "wisdomD1",
+        "wisdomE1",
+        "wisdomG1",
+        "wisdomF1",
+        "wisdomH1",
+        "wisdomD2",
+        "wisdomA2",
+        "wisdomB2",
+        "wisdomC2",
+        "wisdomE2",
+        "wisdomF2",
+        "wisdomG2",
+        "wisdomH2",
+        "wisdomJust",
+        "fulfillA",
+        "fulfillE",
+        "fulfillF",
+        "fulfillG",
+        "fulfillD",
+        "fulfillH",
+        "fulfillB",
+        "fulfillC",
+        "fulfillJust"
+      ]
+    },
+    {
+      "title": "Page 5",
+      "fields": [
+        "periodTo5",
+        "lName5",
+        "fName5",
+        "mi5",
+        "ssn5",
+        "occ5",
+        "periodFrom5",
+        "addCmts",
+        "yearB",
+        "yearC",
+        "monthB",
+        "dayB",
+        "yearA",
+        "yearD",
+        "dayA",
+        "monthA",
+        "yearAA",
+        "yearDD",
+        "yearBB",
+        "yearCC",
+        "monthAA",
+        "monthBB",
+        "dayAA",
+        "dayBB",
+        "noState1",
+        "attachState1",
+        "insufficient",
+        "evalConcur",
+        "evalNonconcur",
+        "sufficient",
+        "qualMarine",
+        "oneFew",
+        "exceptQual",
+        "highlyQual",
+        "professional",
+        "majority",
+        "qualifiedMarine",
+        "unsatMarine",
+        "reviewOfficer",
+        "day2",
+        "day1",
+        "year1",
+        "year2",
+        "year3",
+        "year4",
+        "month1",
+        "month2",
+        "year1A",
+        "year2A",
+        "year3A",
+        "year4A",
+        "month1A",
+        "month2A",
+        "day1A",
+        "day2A",
+        "noState2",
+        "attachState2",
+        "addenPg"
+      ]
+    },
+    {
+      "title": "Page 6",
+      "fields": [
+        "lName6",
+        "fName6",
+        "mi6",
+        "ssn6",
+        "grade2",
+        "occ6",
+        "periodFrom6",
+        "periodTo6",
+        "ocfrSight",
+        "ro",
+        "justA2",
+        "just",
+        "mROState",
+        "sectionI",
+        "adminReview",
+        "suppMat",
+        "hQMCUse",
+        "text",
+        "lNameA",
+        "mIa",
+        "fNameA",
+        "sSNa",
+        "service",
+        "gradeA",
+        "dayA2",
+        "monthB2",
+        "yearB2",
+        "yearC2",
+        "dayB2",
+        "yearD2",
+        "yearA2",
+        "monthA2",
+        "lNameB",
+        "fNameB",
+        "mIb",
+        "sSNb",
+        "serviceB",
+        "gradeB",
+        "yearG",
+        "yearH",
+        "dayC",
+        "dayD",
+        "monthC",
+        "yearE",
+        "monthD",
+        "yearF",
+        "gOTitle",
+        "pageA",
+        "pageB"
+      ]
+    }
+  ],
+  "fields": {
+    "fName": {
+      "type": "text",
+      "label": "FName",
+      "page": 1,
+      "box": {
+        "left": 187.3,
+        "top": 636.7,
+        "width": 83.3,
+        "height": 17.2
+      }
+    },
+    "mi": {
+      "type": "text",
+      "label": "MI",
+      "page": 1,
+      "box": {
+        "left": 271.4,
+        "top": 636.7,
+        "width": 18.0,
+        "height": 17.2
+      }
+    },
+    "ssn": {
+      "type": "text",
+      "label": "SSN",
+      "page": 1,
+      "box": {
+        "left": 290.1,
+        "top": 636.7,
+        "width": 76.4,
+        "height": 17.2
+      }
+    },
+    "grade": {
+      "type": "text",
+      "label": "Grade",
+      "page": 1,
+      "box": {
+        "left": 366.7,
+        "top": 636.7,
+        "width": 64.4,
+        "height": 17.2
+      }
+    },
+    "dor": {
+      "type": "text",
+      "label": "DOR",
+      "page": 1,
+      "box": {
+        "left": 431.1,
+        "top": 636.7,
+        "width": 71.2,
+        "height": 17.2
+      }
+    },
+    "pmos": {
+      "type": "text",
+      "label": "PMOS",
+      "page": 1,
+      "box": {
+        "left": 503.1,
+        "top": 636.7,
+        "width": 40.4,
+        "height": 17.2
+      }
+    },
+    "bilMOS": {
+      "type": "text",
+      "label": "BilMOS",
+      "page": 1,
+      "box": {
+        "left": 545.1,
+        "top": 636.7,
+        "width": 45.0,
+        "height": 17.2
+      }
+    },
+    "lName": {
+      "type": "text",
+      "label": "LName",
+      "page": 1,
+      "box": {
+        "left": 33.4,
+        "top": 635.2,
+        "width": 148.1,
+        "height": 16.2
+      }
+    },
+    "mcc": {
+      "type": "text",
+      "label": "MCC",
+      "page": 1,
+      "box": {
+        "left": 29.2,
+        "top": 594.7,
+        "width": 35.2,
+        "height": 18.7
+      }
+    },
+    "ruc": {
+      "type": "text",
+      "label": "RUC",
+      "page": 1,
+      "box": {
+        "left": 65.9,
+        "top": 594.7,
+        "width": 51.7,
+        "height": 18.7
+      }
+    },
+    "unitDescr": {
+      "type": "text",
+      "label": "UnitDescr",
+      "page": 1,
+      "box": {
+        "left": 121.3,
+        "top": 594.7,
+        "width": 468.8,
+        "height": 18.7
+      }
+    },
+    "periodFrom": {
+      "type": "text",
+      "label": "Enter YYYYMMDD",
+      "page": 1,
+      "box": {
+        "left": 61.4,
+        "top": 551.2,
+        "width": 70.4,
+        "height": 19.5
+      }
+    },
+    "occ": {
+      "type": "text",
+      "label": "OCC",
+      "page": 1,
+      "box": {
+        "left": 29.2,
+        "top": 550.7,
+        "width": 31.4,
+        "height": 19.0
+      }
+    },
+    "periodTo": {
+      "type": "text",
+      "label": "Enter YYYYMMDD",
+      "page": 1,
+      "box": {
+        "left": 131.9,
+        "top": 550.7,
+        "width": 69.0,
+        "height": 19.0
+      }
+    },
+    "type": {
+      "type": "text",
+      "label": "Type",
+      "page": 1,
+      "box": {
+        "left": 202.4,
+        "top": 550.7,
+        "width": 31.4,
+        "height": 18.0
+      }
+    },
+    "dutyAssign": {
+      "type": "text",
+      "label": "DutyAssign",
+      "page": 1,
+      "box": {
+        "left": 238.0,
+        "top": 548.3,
+        "width": 347.7,
+        "height": 14.7
+      }
+    },
+    "yesA": {
+      "type": "text",
+      "label": "YesA",
+      "page": 1,
+      "box": {
+        "left": 451.9,
+        "top": 510.0,
+        "width": 9.7,
+        "height": 9.0
+      }
+    },
+    "adverse": {
+      "type": "text",
+      "label": "Adverse",
+      "page": 1,
+      "box": {
+        "left": 52.1,
+        "top": 509.6,
+        "width": 9.7,
+        "height": 9.0
+      }
+    },
+    "noB": {
+      "type": "text",
+      "label": "NoB",
+      "page": 1,
+      "box": {
+        "left": 495.8,
+        "top": 509.6,
+        "width": 9.7,
+        "height": 9.0
+      }
+    },
+    "r260": {
+      "type": "text",
+      "label": "R260",
+      "page": 1,
+      "box": {
+        "left": 175.1,
+        "top": 509.2,
+        "width": 9.7,
+        "height": 9.0
+      }
+    },
+    "deroMat": {
+      "type": "text",
+      "label": "DeroMat",
+      "page": 1,
+      "box": {
+        "left": 340.9,
+        "top": 509.2,
+        "width": 9.7,
+        "height": 9.0
+      }
+    },
+    "disAction": {
+      "type": "text",
+      "label": "DisAction",
+      "page": 1,
+      "box": {
+        "left": 391.5,
+        "top": 509.2,
+        "width": 9.7,
+        "height": 9.0
+      }
+    },
+    "na": {
+      "type": "text",
+      "label": "NA",
+      "page": 1,
+      "box": {
+        "left": 542.6,
+        "top": 509.2,
+        "width": 9.7,
+        "height": 9.0
+      }
+    },
+    "notObserved": {
+      "type": "text",
+      "label": "NotObserved",
+      "page": 1,
+      "box": {
+        "left": 116.9,
+        "top": 509.1,
+        "width": 9.7,
+        "height": 9.0
+      }
+    },
+    "extended": {
+      "type": "text",
+      "label": "Extended",
+      "page": 1,
+      "box": {
+        "left": 175.4,
+        "top": 509.1,
+        "width": 9.7,
+        "height": 9.0
+      }
+    },
+    "comMat": {
+      "type": "text",
+      "label": "ComMat",
+      "page": 1,
+      "box": {
+        "left": 265.1,
+        "top": 508.9,
+        "width": 9.7,
+        "height": 9.0
+      }
+    },
+    "qual": {
+      "type": "text",
+      "label": "Qual",
+      "page": 1,
+      "box": {
+        "left": 68.2,
+        "top": 479.1,
+        "width": 41.9,
+        "height": 19.3
+      }
+    },
+    "height": {
+      "type": "text",
+      "label": "Height",
+      "page": 1,
+      "box": {
+        "left": 161.2,
+        "top": 479.1,
+        "width": 41.9,
+        "height": 19.3
+      }
+    },
+    "resCom": {
+      "type": "text",
+      "label": "ResCom",
+      "page": 1,
+      "box": {
+        "left": 264.7,
+        "top": 479.1,
+        "width": 41.9,
+        "height": 19.3
+      }
+    },
+    "decrTitle1": {
+      "type": "text",
+      "label": "DecrTitle1",
+      "page": 1,
+      "box": {
+        "left": 363.6,
+        "top": 473.3,
+        "width": 224.8,
+        "height": 15.7
+      }
+    },
+    "pft": {
+      "type": "text",
+      "label": "PFT",
+      "page": 1,
+      "box": {
+        "left": 68.2,
+        "top": 459.7,
+        "width": 41.9,
+        "height": 20.0
+      }
+    },
+    "weight": {
+      "type": "text",
+      "label": "Weight",
+      "page": 1,
+      "box": {
+        "left": 161.2,
+        "top": 459.7,
+        "width": 41.9,
+        "height": 20.0
+      }
+    },
+    "status": {
+      "type": "text",
+      "label": "Status",
+      "page": 1,
+      "box": {
+        "left": 264.7,
+        "top": 459.7,
+        "width": 41.9,
+        "height": 20.0
+      }
+    },
+    "descrTitle2": {
+      "type": "text",
+      "label": "DescrTitle2",
+      "page": 1,
+      "box": {
+        "left": 363.6,
+        "top": 456.7,
+        "width": 225.9,
+        "height": 16.4
+      }
+    },
+    "bodyFat": {
+      "type": "text",
+      "label": "BodyFat",
+      "page": 1,
+      "box": {
+        "left": 161.2,
+        "top": 440.1,
+        "width": 41.9,
+        "height": 19.3
+      }
+    },
+    "cft": {
+      "type": "text",
+      "label": "CFT",
+      "page": 1,
+      "box": {
+        "left": 68.5,
+        "top": 439.5,
+        "width": 41.9,
+        "height": 18.0
+      }
+    },
+    "descrTitle3": {
+      "type": "text",
+      "label": "DescrTitle3",
+      "page": 1,
+      "box": {
+        "left": 363.6,
+        "top": 438.5,
+        "width": 225.9,
+        "height": 17.0
+      }
+    },
+    "repSenLName": {
+      "type": "text",
+      "label": "RepSenLName",
+      "page": 1,
+      "box": {
+        "left": 32.4,
+        "top": 398.1,
+        "width": 157.9,
+        "height": 20.2
+      }
+    },
+    "repSenMI": {
+      "type": "text",
+      "label": "RepSenMI",
+      "page": 1,
+      "box": {
+        "left": 191.9,
+        "top": 398.1,
+        "width": 24.7,
+        "height": 20.2
+      }
+    },
+    "repSenSvc": {
+      "type": "text",
+      "label": "RepSenSvc",
+      "page": 1,
+      "box": {
+        "left": 217.4,
+        "top": 398.1,
+        "width": 42.0,
+        "height": 20.2
+      }
+    },
+    "repSenSSN": {
+      "type": "text",
+      "label": "RepSenSSN",
+      "page": 1,
+      "box": {
+        "left": 260.1,
+        "top": 398.1,
+        "width": 78.7,
+        "height": 20.2
+      }
+    },
+    "repSenGrade": {
+      "type": "text",
+      "label": "RepSenGrade",
+      "page": 1,
+      "box": {
+        "left": 340.4,
+        "top": 398.1,
+        "width": 58.4,
+        "height": 20.2
+      }
+    },
+    "repSenDutyAssign": {
+      "type": "text",
+      "label": "RepSenDutyAssign",
+      "page": 1,
+      "box": {
+        "left": 402.6,
+        "top": 398.1,
+        "width": 187.6,
+        "height": 20.2
+      }
+    },
+    "revOcfrLNamw": {
+      "type": "text",
+      "label": "RevOcfrLNamw",
+      "page": 1,
+      "box": {
+        "left": 32.9,
+        "top": 357.0,
+        "width": 158.3,
+        "height": 19.4
+      }
+    },
+    "revOcfrMI": {
+      "type": "text",
+      "label": "RevOcfrMI",
+      "page": 1,
+      "box": {
+        "left": 191.9,
+        "top": 357.0,
+        "width": 24.0,
+        "height": 19.4
+      }
+    },
+    "revOcfrSvc": {
+      "type": "text",
+      "label": "RevOcfrSvc",
+      "page": 1,
+      "box": {
+        "left": 217.4,
+        "top": 357.0,
+        "width": 42.0,
+        "height": 19.4
+      }
+    },
+    "revOcfrSSN": {
+      "type": "text",
+      "label": "RevOcfrSSN",
+      "page": 1,
+      "box": {
+        "left": 260.1,
+        "top": 357.0,
+        "width": 78.7,
+        "height": 19.4
+      }
+    },
+    "revOcfrGrade": {
+      "type": "text",
+      "label": "RevOcfrGrade",
+      "page": 1,
+      "box": {
+        "left": 340.4,
+        "top": 357.0,
+        "width": 57.4,
+        "height": 19.5
+      }
+    },
+    "revOcfrDuty": {
+      "type": "text",
+      "label": "RevOcfrDuty",
+      "page": 1,
+      "box": {
+        "left": 401.1,
+        "top": 356.6,
+        "width": 186.5,
+        "height": 19.0
+      }
+    },
+    "billetDescr": {
+      "type": "text",
+      "label": "BilletDescr",
+      "page": 1,
+      "box": {
+        "left": 34.0,
+        "top": 320.4,
+        "width": 548.7,
+        "height": 136.1
+      },
+      "multiline": true
+    },
+    "billetAccom": {
+      "type": "text",
+      "label": "BilletAccom",
+      "page": 1,
+      "box": {
+        "left": 34.0,
+        "top": 162.2,
+        "width": 548.7,
+        "height": 127.8
+      },
+      "multiline": true
+    },
+    "lName2": {
+      "type": "text",
+      "label": "LName",
+      "page": 2,
+      "box": {
+        "left": 41.5,
+        "top": 735.6,
+        "width": 157.9,
+        "height": 13.8
+      }
+    },
+    "occ2": {
+      "type": "text",
+      "label": "OCC",
+      "page": 2,
+      "box": {
+        "left": 400.4,
+        "top": 734.4,
+        "width": 22.7,
+        "height": 12.5
+      }
+    },
+    "fName2": {
+      "type": "text",
+      "label": "FName",
+      "page": 2,
+      "box": {
+        "left": 209.5,
+        "top": 734.0,
+        "width": 78.2,
+        "height": 12.2
+      }
+    },
+    "ssn2": {
+      "type": "text",
+      "label": "SSN",
+      "page": 2,
+      "box": {
+        "left": 318.3,
+        "top": 734.0,
+        "width": 74.4,
+        "height": 12.1
+      }
+    },
+    "periodFrom2": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 2,
+      "box": {
+        "left": 431.8,
+        "top": 733.7,
+        "width": 60.0,
+        "height": 10.5
+      }
+    },
+    "periodTo2": {
+      "type": "text",
+      "label": "Enter YYYY-MM-DD",
+      "page": 2,
+      "box": {
+        "left": 504.0,
+        "top": 733.7,
+        "width": 63.2,
+        "height": 10.5
+      }
+    },
+    "mi2": {
+      "type": "text",
+      "label": "MI",
+      "page": 2,
+      "box": {
+        "left": 295.4,
+        "top": 733.6,
+        "width": 14.4,
+        "height": 11.8
+      }
+    },
+    "missonH": {
+      "type": "text",
+      "label": "MissonH",
+      "page": 2,
+      "box": {
+        "left": 555.5,
+        "top": 622.4,
+        "width": 9.0,
+        "height": 10.8
+      }
+    },
+    "missonF": {
+      "type": "text",
+      "label": "MissonF",
+      "page": 2,
+      "box": {
+        "left": 434.3,
+        "top": 622.2,
+        "width": 9.0,
+        "height": 10.5
+      }
+    },
+    "missonG": {
+      "type": "text",
+      "label": "MissonG",
+      "page": 2,
+      "box": {
+        "left": 533.2,
+        "top": 622.2,
+        "width": 9.0,
+        "height": 10.5
+      }
+    },
+    "missonB": {
+      "type": "text",
+      "label": "MissonB",
+      "page": 2,
+      "box": {
+        "left": 105.8,
+        "top": 621.9,
+        "width": 8.9,
+        "height": 10.1
+      }
+    },
+    "missonC": {
+      "type": "text",
+      "label": "MissonC",
+      "page": 2,
+      "box": {
+        "left": 165.8,
+        "top": 621.9,
+        "width": 8.8,
+        "height": 10.1
+      }
+    },
+    "missonD": {
+      "type": "text",
+      "label": "MissonD",
+      "page": 2,
+      "box": {
+        "left": 247.4,
+        "top": 621.9,
+        "width": 9.8,
+        "height": 10.4
+      }
+    },
+    "missonE": {
+      "type": "text",
+      "label": "MissonE",
+      "page": 2,
+      "box": {
+        "left": 339.1,
+        "top": 621.8,
+        "width": 8.7,
+        "height": 10.2
+      }
+    },
+    "missonA": {
+      "type": "text",
+      "label": "MissonA",
+      "page": 2,
+      "box": {
+        "left": 43.5,
+        "top": 620.4,
+        "width": 9.4,
+        "height": 7.2
+      }
+    },
+    "profG": {
+      "type": "text",
+      "label": "ProfG",
+      "page": 2,
+      "box": {
+        "left": 533.2,
+        "top": 527.1,
+        "width": 9.0,
+        "height": 9.9
+      }
+    },
+    "profC": {
+      "type": "text",
+      "label": "ProfC",
+      "page": 2,
+      "box": {
+        "left": 165.5,
+        "top": 527.0,
+        "width": 9.0,
+        "height": 8.8
+      }
+    },
+    "profD": {
+      "type": "text",
+      "label": "ProfD",
+      "page": 2,
+      "box": {
+        "left": 247.1,
+        "top": 527.0,
+        "width": 10.2,
+        "height": 9.1
+      }
+    },
+    "profE": {
+      "type": "text",
+      "label": "ProfE",
+      "page": 2,
+      "box": {
+        "left": 338.8,
+        "top": 527.0,
+        "width": 9.8,
+        "height": 9.0
+      }
+    },
+    "profF": {
+      "type": "text",
+      "label": "ProfF",
+      "page": 2,
+      "box": {
+        "left": 434.2,
+        "top": 527.0,
+        "width": 9.0,
+        "height": 9.0
+      }
+    },
+    "profH": {
+      "type": "text",
+      "label": "ProfH",
+      "page": 2,
+      "box": {
+        "left": 555.8,
+        "top": 527.0,
+        "width": 9.3,
+        "height": 9.3
+      }
+    },
+    "profB": {
+      "type": "text",
+      "label": "ProfB",
+      "page": 2,
+      "box": {
+        "left": 105.5,
+        "top": 526.8,
+        "width": 9.2,
+        "height": 9.0
+      }
+    },
+    "profA": {
+      "type": "text",
+      "label": "ProfA",
+      "page": 2,
+      "box": {
+        "left": 43.7,
+        "top": 526.7,
+        "width": 8.6,
+        "height": 9.0
+      }
+    },
+    "justA": {
+      "type": "text",
+      "label": "JustA",
+      "page": 2,
+      "box": {
+        "left": 40.8,
+        "top": 501.1,
+        "width": 527.2,
+        "height": 61.9
+      },
+      "multiline": true
+    },
+    "courageA": {
+      "type": "text",
+      "label": "CourageA",
+      "page": 2,
+      "box": {
+        "left": 43.1,
+        "top": 327.0,
+        "width": 9.1,
+        "height": 9.6
+      }
+    },
+    "courageG": {
+      "type": "text",
+      "label": "CourageG",
+      "page": 2,
+      "box": {
+        "left": 532.4,
+        "top": 327.0,
+        "width": 9.6,
+        "height": 9.1
+      }
+    },
+    "courageB": {
+      "type": "text",
+      "label": "CourageB",
+      "page": 2,
+      "box": {
+        "left": 105.5,
+        "top": 326.9,
+        "width": 9.5,
+        "height": 9.5
+      }
+    },
+    "courageC": {
+      "type": "text",
+      "label": "CourageC",
+      "page": 2,
+      "box": {
+        "left": 165.7,
+        "top": 326.9,
+        "width": 9.0,
+        "height": 9.8
+      }
+    },
+    "courageD": {
+      "type": "text",
+      "label": "CourageD",
+      "page": 2,
+      "box": {
+        "left": 247.1,
+        "top": 326.9,
+        "width": 9.8,
+        "height": 9.0
+      }
+    },
+    "courageF": {
+      "type": "text",
+      "label": "CourageF",
+      "page": 2,
+      "box": {
+        "left": 434.2,
+        "top": 326.9,
+        "width": 9.5,
+        "height": 9.8
+      }
+    },
+    "courageH": {
+      "type": "text",
+      "label": "CourageH",
+      "page": 2,
+      "box": {
+        "left": 555.2,
+        "top": 326.9,
+        "width": 9.5,
+        "height": 9.1
+      }
+    },
+    "courageE": {
+      "type": "text",
+      "label": "CourageE",
+      "page": 2,
+      "box": {
+        "left": 338.8,
+        "top": 326.6,
+        "width": 9.3,
+        "height": 8.8
+      }
+    },
+    "effectD": {
+      "type": "text",
+      "label": "EffectD",
+      "page": 2,
+      "box": {
+        "left": 247.6,
+        "top": 227.7,
+        "width": 9.5,
+        "height": 9.0
+      }
+    },
+    "effectF": {
+      "type": "text",
+      "label": "EffectF",
+      "page": 2,
+      "box": {
+        "left": 434.2,
+        "top": 227.7,
+        "width": 9.0,
+        "height": 8.8
+      }
+    },
+    "effectB": {
+      "type": "text",
+      "label": "EffectB",
+      "page": 2,
+      "box": {
+        "left": 105.4,
+        "top": 227.6,
+        "width": 9.8,
+        "height": 9.0
+      }
+    },
+    "effectC": {
+      "type": "text",
+      "label": "EffectC",
+      "page": 2,
+      "box": {
+        "left": 165.7,
+        "top": 227.6,
+        "width": 9.2,
+        "height": 8.7
+      }
+    },
+    "effectE": {
+      "type": "text",
+      "label": "EffectE",
+      "page": 2,
+      "box": {
+        "left": 339.1,
+        "top": 227.6,
+        "width": 8.9,
+        "height": 9.0
+      }
+    },
+    "effectG": {
+      "type": "text",
+      "label": "EffectG",
+      "page": 2,
+      "box": {
+        "left": 533.0,
+        "top": 227.6,
+        "width": 9.3,
+        "height": 8.7
+      }
+    },
+    "effectA": {
+      "type": "text",
+      "label": "EffectA",
+      "page": 2,
+      "box": {
+        "left": 43.3,
+        "top": 227.4,
+        "width": 9.3,
+        "height": 8.7
+      }
+    },
+    "effectH": {
+      "type": "text",
+      "label": "EffectH",
+      "page": 2,
+      "box": {
+        "left": 555.5,
+        "top": 227.4,
+        "width": 8.5,
+        "height": 9.4
+      }
+    },
+    "intB": {
+      "type": "text",
+      "label": "IntB",
+      "page": 2,
+      "box": {
+        "left": 105.5,
+        "top": 137.1,
+        "width": 9.9,
+        "height": 9.5
+      }
+    },
+    "intD": {
+      "type": "text",
+      "label": "IntD",
+      "page": 2,
+      "box": {
+        "left": 247.7,
+        "top": 137.1,
+        "width": 9.3,
+        "height": 9.6
+      }
+    },
+    "intF": {
+      "type": "text",
+      "label": "IntF",
+      "page": 2,
+      "box": {
+        "left": 434.2,
+        "top": 137.1,
+        "width": 9.1,
+        "height": 9.5
+      }
+    },
+    "intG": {
+      "type": "text",
+      "label": "IntG",
+      "page": 2,
+      "box": {
+        "left": 533.2,
+        "top": 137.1,
+        "width": 9.0,
+        "height": 9.3
+      }
+    },
+    "intH": {
+      "type": "text",
+      "label": "IntH",
+      "page": 2,
+      "box": {
+        "left": 555.7,
+        "top": 137.0,
+        "width": 9.3,
+        "height": 9.6
+      }
+    },
+    "intA": {
+      "type": "text",
+      "label": "IntA",
+      "page": 2,
+      "box": {
+        "left": 43.1,
+        "top": 136.8,
+        "width": 9.3,
+        "height": 9.2
+      }
+    },
+    "intC": {
+      "type": "text",
+      "label": "IntC",
+      "page": 2,
+      "box": {
+        "left": 166.0,
+        "top": 136.8,
+        "width": 8.7,
+        "height": 9.0
+      }
+    },
+    "intE": {
+      "type": "text",
+      "label": "IntE",
+      "page": 2,
+      "box": {
+        "left": 339.1,
+        "top": 136.5,
+        "width": 9.3,
+        "height": 8.4
+      }
+    },
+    "justB": {
+      "type": "text",
+      "label": "JustB",
+      "page": 2,
+      "box": {
+        "left": 40.8,
+        "top": 111.1,
+        "width": 528.3,
+        "height": 61.4
+      },
+      "multiline": true
+    },
+    "mi3": {
+      "type": "text",
+      "label": "MI",
+      "page": 3,
+      "box": {
+        "left": 292.4,
+        "top": 741.3,
+        "width": 17.9,
+        "height": 13.5
+      }
+    },
+    "ssn3": {
+      "type": "text",
+      "label": "SSN",
+      "page": 3,
+      "box": {
+        "left": 315.9,
+        "top": 741.0,
+        "width": 73.8,
+        "height": 13.1
+      }
+    },
+    "occ3": {
+      "type": "text",
+      "label": "OCC",
+      "page": 3,
+      "box": {
+        "left": 394.4,
+        "top": 741.0,
+        "width": 26.8,
+        "height": 13.1
+      }
+    },
+    "periodFrom3": {
+      "type": "text",
+      "label": "PeriodFrom",
+      "page": 3,
+      "box": {
+        "left": 427.1,
+        "top": 741.0,
+        "width": 64.1,
+        "height": 13.1
+      }
+    },
+    "periodTo3": {
+      "type": "text",
+      "label": "PeriodTo",
+      "page": 3,
+      "box": {
+        "left": 496.3,
+        "top": 741.0,
+        "width": 71.4,
+        "height": 13.1
+      }
+    },
+    "lName3": {
+      "type": "text",
+      "label": "LName",
+      "page": 3,
+      "box": {
+        "left": 39.0,
+        "top": 739.6,
+        "width": 160.3,
+        "height": 11.8
+      }
+    },
+    "fName3": {
+      "type": "text",
+      "label": "FName",
+      "page": 3,
+      "box": {
+        "left": 205.6,
+        "top": 739.6,
+        "width": 81.6,
+        "height": 11.8
+      }
+    },
+    "lead1B": {
+      "type": "text",
+      "label": "Lead1B",
+      "page": 3,
+      "box": {
+        "left": 103.4,
+        "top": 593.4,
+        "width": 9.4,
+        "height": 10.8
+      }
+    },
+    "lead1G": {
+      "type": "text",
+      "label": "Lead1G",
+      "page": 3,
+      "box": {
+        "left": 532.4,
+        "top": 593.4,
+        "width": 9.4,
+        "height": 10.8
+      }
+    },
+    "lead1H": {
+      "type": "text",
+      "label": "Lead1H",
+      "page": 3,
+      "box": {
+        "left": 552.9,
+        "top": 593.4,
+        "width": 9.4,
+        "height": 10.8
+      }
+    },
+    "lead1A": {
+      "type": "text",
+      "label": "Lead1A",
+      "page": 3,
+      "box": {
+        "left": 40.9,
+        "top": 592.9,
+        "width": 9.4,
+        "height": 10.8
+      }
+    },
+    "lead1C": {
+      "type": "text",
+      "label": "Lead1C",
+      "page": 3,
+      "box": {
+        "left": 163.9,
+        "top": 592.9,
+        "width": 9.4,
+        "height": 10.8
+      }
+    },
+    "lead1F": {
+      "type": "text",
+      "label": "Lead1F",
+      "page": 3,
+      "box": {
+        "left": 431.9,
+        "top": 592.9,
+        "width": 9.4,
+        "height": 10.8
+      }
+    },
+    "lead1D": {
+      "type": "text",
+      "label": "Lead1D",
+      "page": 3,
+      "box": {
+        "left": 245.4,
+        "top": 592.4,
+        "width": 9.4,
+        "height": 10.8
+      }
+    },
+    "lead1E": {
+      "type": "text",
+      "label": "Lead1E",
+      "page": 3,
+      "box": {
+        "left": 336.9,
+        "top": 592.4,
+        "width": 9.4,
+        "height": 10.8
+      }
+    },
+    "lead2E": {
+      "type": "text",
+      "label": "Lead2E",
+      "page": 3,
+      "box": {
+        "left": 336.9,
+        "top": 464.9,
+        "width": 9.4,
+        "height": 10.8
+      }
+    },
+    "lead2D": {
+      "type": "text",
+      "label": "Lead2D",
+      "page": 3,
+      "box": {
+        "left": 245.4,
+        "top": 464.4,
+        "width": 9.4,
+        "height": 10.8
+      }
+    },
+    "lead2F": {
+      "type": "text",
+      "label": "Lead2F",
+      "page": 3,
+      "box": {
+        "left": 432.4,
+        "top": 464.4,
+        "width": 9.4,
+        "height": 10.8
+      }
+    },
+    "lead2G": {
+      "type": "text",
+      "label": "Lead2G",
+      "page": 3,
+      "box": {
+        "left": 532.4,
+        "top": 464.4,
+        "width": 9.4,
+        "height": 10.8
+      }
+    },
+    "lead2C": {
+      "type": "text",
+      "label": "Lead2C",
+      "page": 3,
+      "box": {
+        "left": 163.9,
+        "top": 463.9,
+        "width": 9.4,
+        "height": 10.8
+      }
+    },
+    "lead2H": {
+      "type": "text",
+      "label": "Lead2H",
+      "page": 3,
+      "box": {
+        "left": 553.4,
+        "top": 463.9,
+        "width": 9.4,
+        "height": 10.8
+      }
+    },
+    "lead2A": {
+      "type": "text",
+      "label": "Lead2A",
+      "page": 3,
+      "box": {
+        "left": 41.9,
+        "top": 463.4,
+        "width": 9.4,
+        "height": 10.8
+      }
+    },
+    "lead2B": {
+      "type": "text",
+      "label": "Lead2B",
+      "page": 3,
+      "box": {
+        "left": 104.2,
+        "top": 462.9,
+        "width": 9.4,
+        "height": 10.8
+      }
+    },
+    "lead3A": {
+      "type": "text",
+      "label": "Lead3A",
+      "page": 3,
+      "box": {
+        "left": 41.4,
+        "top": 368.9,
+        "width": 9.4,
+        "height": 10.8
+      }
+    },
+    "lead3B": {
+      "type": "text",
+      "label": "Lead3B",
+      "page": 3,
+      "box": {
+        "left": 104.4,
+        "top": 368.9,
+        "width": 9.4,
+        "height": 10.8
+      }
+    },
+    "lead3F": {
+      "type": "text",
+      "label": "Lead3F",
+      "page": 3,
+      "box": {
+        "left": 432.4,
+        "top": 368.9,
+        "width": 9.4,
+        "height": 10.8
+      }
+    },
+    "lead3G": {
+      "type": "text",
+      "label": "Lead3G",
+      "page": 3,
+      "box": {
+        "left": 532.4,
+        "top": 368.4,
+        "width": 9.4,
+        "height": 10.8
+      }
+    },
+    "lead3H": {
+      "type": "text",
+      "label": "Lead3H",
+      "page": 3,
+      "box": {
+        "left": 553.4,
+        "top": 368.4,
+        "width": 9.4,
+        "height": 10.8
+      }
+    },
+    "lead3D": {
+      "type": "text",
+      "label": "Lead3D",
+      "page": 3,
+      "box": {
+        "left": 245.8,
+        "top": 368.3,
+        "width": 9.4,
+        "height": 10.8
+      }
+    },
+    "lead3C": {
+      "type": "text",
+      "label": "Lead3C",
+      "page": 3,
+      "box": {
+        "left": 164.4,
+        "top": 367.9,
+        "width": 9.4,
+        "height": 10.8
+      }
+    },
+    "lead3E": {
+      "type": "text",
+      "label": "Lead3E",
+      "page": 3,
+      "box": {
+        "left": 336.9,
+        "top": 367.9,
+        "width": 9.4,
+        "height": 10.8
+      }
+    },
+    "lead4A": {
+      "type": "text",
+      "label": "Lead4A",
+      "page": 3,
+      "box": {
+        "left": 42.4,
+        "top": 230.4,
+        "width": 9.4,
+        "height": 10.8
+      }
+    },
+    "lead4G": {
+      "type": "text",
+      "label": "Lead4G",
+      "page": 3,
+      "box": {
+        "left": 531.9,
+        "top": 230.4,
+        "width": 9.4,
+        "height": 10.8
+      }
+    },
+    "lead4B": {
+      "type": "text",
+      "label": "Lead4B",
+      "page": 3,
+      "box": {
+        "left": 103.9,
+        "top": 229.4,
+        "width": 9.4,
+        "height": 10.8
+      }
+    },
+    "lead4C": {
+      "type": "text",
+      "label": "Lead4C",
+      "page": 3,
+      "box": {
+        "left": 164.9,
+        "top": 229.4,
+        "width": 9.4,
+        "height": 10.8
+      }
+    },
+    "lead4E": {
+      "type": "text",
+      "label": "Lead4E",
+      "page": 3,
+      "box": {
+        "left": 337.9,
+        "top": 229.4,
+        "width": 9.4,
+        "height": 10.8
+      }
+    },
+    "lead4F": {
+      "type": "text",
+      "label": "Lead4F",
+      "page": 3,
+      "box": {
+        "left": 432.4,
+        "top": 229.4,
+        "width": 9.4,
+        "height": 10.8
+      }
+    },
+    "lead4D": {
+      "type": "text",
+      "label": "Lead4D",
+      "page": 3,
+      "box": {
+        "left": 245.9,
+        "top": 228.9,
+        "width": 9.4,
+        "height": 10.8
+      }
+    },
+    "lead4H": {
+      "type": "text",
+      "label": "Lead4H",
+      "page": 3,
+      "box": {
+        "left": 553.9,
+        "top": 228.4,
+        "width": 9.4,
+        "height": 10.8
+      }
+    },
+    "lead5E": {
+      "type": "text",
+      "label": "Lead5E",
+      "page": 3,
+      "box": {
+        "left": 336.9,
+        "top": 123.4,
+        "width": 9.4,
+        "height": 10.8
+      }
+    },
+    "lead5A": {
+      "type": "text",
+      "label": "Lead5A",
+      "page": 3,
+      "box": {
+        "left": 41.9,
+        "top": 122.9,
+        "width": 9.4,
+        "height": 10.8
+      }
+    },
+    "lead5B": {
+      "type": "text",
+      "label": "Lead5B",
+      "page": 3,
+      "box": {
+        "left": 103.4,
+        "top": 122.9,
+        "width": 9.4,
+        "height": 10.8
+      }
+    },
+    "lead5G": {
+      "type": "text",
+      "label": "Lead5G",
+      "page": 3,
+      "box": {
+        "left": 531.4,
+        "top": 122.9,
+        "width": 9.4,
+        "height": 10.8
+      }
+    },
+    "lead5C": {
+      "type": "text",
+      "label": "Lead5C",
+      "page": 3,
+      "box": {
+        "left": 163.9,
+        "top": 122.4,
+        "width": 9.4,
+        "height": 10.8
+      }
+    },
+    "lead5F": {
+      "type": "text",
+      "label": "Lead5F",
+      "page": 3,
+      "box": {
+        "left": 431.9,
+        "top": 122.4,
+        "width": 9.4,
+        "height": 10.8
+      }
+    },
+    "lead5H": {
+      "type": "text",
+      "label": "Lead5H",
+      "page": 3,
+      "box": {
+        "left": 553.4,
+        "top": 122.4,
+        "width": 9.4,
+        "height": 10.8
+      }
+    },
+    "lead5D": {
+      "type": "text",
+      "label": "Lead5D",
+      "page": 3,
+      "box": {
+        "left": 245.4,
+        "top": 121.9,
+        "width": 9.4,
+        "height": 10.8
+      }
+    },
+    "textField1": {
+      "type": "text",
+      "label": "TextField1",
+      "page": 3,
+      "box": {
+        "left": 41.6,
+        "top": 98.4,
+        "width": 522.2,
+        "height": 59.7
+      },
+      "multiline": true
+    },
+    "mi4": {
+      "type": "text",
+      "label": "MI",
+      "page": 4,
+      "box": {
+        "left": 287.3,
+        "top": 744.1,
+        "width": 23.9,
+        "height": 13.0
+      }
+    },
+    "ssn4": {
+      "type": "text",
+      "label": "SSN",
+      "page": 4,
+      "box": {
+        "left": 315.8,
+        "top": 744.0,
+        "width": 74.2,
+        "height": 13.0
+      }
+    },
+    "occ4": {
+      "type": "text",
+      "label": "OCC",
+      "page": 4,
+      "box": {
+        "left": 394.8,
+        "top": 744.0,
+        "width": 27.0,
+        "height": 13.0
+      }
+    },
+    "periodFrom4": {
+      "type": "text",
+      "label": "PeriodFrom",
+      "page": 4,
+      "box": {
+        "left": 427.9,
+        "top": 743.2,
+        "width": 65.5,
+        "height": 12.1
+      }
+    },
+    "lName4": {
+      "type": "text",
+      "label": "LName",
+      "page": 4,
+      "box": {
+        "left": 39.7,
+        "top": 743.1,
+        "width": 161.5,
+        "height": 13.5
+      }
+    },
+    "periodTo4": {
+      "type": "text",
+      "label": "PeriodTo",
+      "page": 4,
+      "box": {
+        "left": 501.2,
+        "top": 743.1,
+        "width": 67.6,
+        "height": 12.0
+      }
+    },
+    "fName4": {
+      "type": "text",
+      "label": "FName",
+      "page": 4,
+      "box": {
+        "left": 204.9,
+        "top": 742.4,
+        "width": 77.9,
+        "height": 11.3
+      }
+    },
+    "wisdomG": {
+      "type": "text",
+      "label": "WisdomG",
+      "page": 4,
+      "box": {
+        "left": 531.4,
+        "top": 582.6,
+        "width": 8.6,
+        "height": 9.8
+      }
+    },
+    "wisdomD": {
+      "type": "text",
+      "label": "WisdomD",
+      "page": 4,
+      "box": {
+        "left": 245.7,
+        "top": 582.2,
+        "width": 8.6,
+        "height": 9.8
+      }
+    },
+    "wisdomF": {
+      "type": "text",
+      "label": "WisdomF",
+      "page": 4,
+      "box": {
+        "left": 432.0,
+        "top": 582.1,
+        "width": 8.6,
+        "height": 9.8
+      }
+    },
+    "wisdomA": {
+      "type": "text",
+      "label": "WisdomA",
+      "page": 4,
+      "box": {
+        "left": 43.2,
+        "top": 581.8,
+        "width": 8.6,
+        "height": 9.8
+      }
+    },
+    "wisdomC": {
+      "type": "text",
+      "label": "WisdomC",
+      "page": 4,
+      "box": {
+        "left": 163.5,
+        "top": 581.8,
+        "width": 8.6,
+        "height": 9.8
+      }
+    },
+    "wisdomH": {
+      "type": "text",
+      "label": "WisdomH",
+      "page": 4,
+      "box": {
+        "left": 553.5,
+        "top": 581.8,
+        "width": 8.6,
+        "height": 9.8
+      }
+    },
+    "wisdomB": {
+      "type": "text",
+      "label": "WisdomB",
+      "page": 4,
+      "box": {
+        "left": 103.9,
+        "top": 581.4,
+        "width": 8.6,
+        "height": 9.8
+      }
+    },
+    "wisdomE": {
+      "type": "text",
+      "label": "WisdomE",
+      "page": 4,
+      "box": {
+        "left": 334.9,
+        "top": 581.4,
+        "width": 8.6,
+        "height": 9.8
+      }
+    },
+    "wisdomA1": {
+      "type": "text",
+      "label": "WisdomA1",
+      "page": 4,
+      "box": {
+        "left": 43.5,
+        "top": 460.7,
+        "width": 8.6,
+        "height": 9.8
+      }
+    },
+    "wisdomB1": {
+      "type": "text",
+      "label": "WisdomB1",
+      "page": 4,
+      "box": {
+        "left": 103.9,
+        "top": 460.7,
+        "width": 8.6,
+        "height": 9.8
+      }
+    },
+    "wisdomC1": {
+      "type": "text",
+      "label": "WisdomC1",
+      "page": 4,
+      "box": {
+        "left": 163.5,
+        "top": 460.7,
+        "width": 8.6,
+        "height": 9.8
+      }
+    },
+    "wisdomD1": {
+      "type": "text",
+      "label": "WisdomD1",
+      "page": 4,
+      "box": {
+        "left": 245.3,
+        "top": 460.7,
+        "width": 8.6,
+        "height": 9.8
+      }
+    },
+    "wisdomE1": {
+      "type": "text",
+      "label": "WisdomE1",
+      "page": 4,
+      "box": {
+        "left": 334.9,
+        "top": 460.7,
+        "width": 8.6,
+        "height": 9.8
+      }
+    },
+    "wisdomG1": {
+      "type": "text",
+      "label": "WisdomG1",
+      "page": 4,
+      "box": {
+        "left": 531.8,
+        "top": 460.7,
+        "width": 8.6,
+        "height": 9.8
+      }
+    },
+    "wisdomF1": {
+      "type": "text",
+      "label": "WisdomF1",
+      "page": 4,
+      "box": {
+        "left": 431.7,
+        "top": 460.3,
+        "width": 8.6,
+        "height": 9.8
+      }
+    },
+    "wisdomH1": {
+      "type": "text",
+      "label": "WisdomH1",
+      "page": 4,
+      "box": {
+        "left": 553.5,
+        "top": 460.3,
+        "width": 8.6,
+        "height": 9.8
+      }
+    },
+    "wisdomD2": {
+      "type": "text",
+      "label": "WisdomD2",
+      "page": 4,
+      "box": {
+        "left": 246.0,
+        "top": 368.0,
+        "width": 8.6,
+        "height": 9.8
+      }
+    },
+    "wisdomA2": {
+      "type": "text",
+      "label": "WisdomA2",
+      "page": 4,
+      "box": {
+        "left": 43.2,
+        "top": 367.7,
+        "width": 8.6,
+        "height": 9.8
+      }
+    },
+    "wisdomB2": {
+      "type": "text",
+      "label": "WisdomB2",
+      "page": 4,
+      "box": {
+        "left": 103.9,
+        "top": 367.7,
+        "width": 8.6,
+        "height": 9.8
+      }
+    },
+    "wisdomC2": {
+      "type": "text",
+      "label": "WisdomC2",
+      "page": 4,
+      "box": {
+        "left": 163.5,
+        "top": 367.7,
+        "width": 8.6,
+        "height": 9.8
+      }
+    },
+    "wisdomE2": {
+      "type": "text",
+      "label": "WisdomE2",
+      "page": 4,
+      "box": {
+        "left": 334.9,
+        "top": 367.7,
+        "width": 8.6,
+        "height": 9.8
+      }
+    },
+    "wisdomF2": {
+      "type": "text",
+      "label": "WisdomF2",
+      "page": 4,
+      "box": {
+        "left": 431.7,
+        "top": 367.7,
+        "width": 8.6,
+        "height": 9.8
+      }
+    },
+    "wisdomG2": {
+      "type": "text",
+      "label": "WisdomG2",
+      "page": 4,
+      "box": {
+        "left": 531.8,
+        "top": 367.7,
+        "width": 8.6,
+        "height": 9.8
+      }
+    },
+    "wisdomH2": {
+      "type": "text",
+      "label": "WisdomH2",
+      "page": 4,
+      "box": {
+        "left": 553.2,
+        "top": 367.3,
+        "width": 8.6,
+        "height": 9.8
+      }
+    },
+    "wisdomJust": {
+      "type": "text",
+      "label": "WisdomJust",
+      "page": 4,
+      "box": {
+        "left": 40.9,
+        "top": 343.1,
+        "width": 525.7,
+        "height": 61.4
+      },
+      "multiline": true
+    },
+    "fulfillA": {
+      "type": "text",
+      "label": "FulfillA",
+      "page": 4,
+      "box": {
+        "left": 43.3,
+        "top": 129.3,
+        "width": 8.6,
+        "height": 9.8
+      }
+    },
+    "fulfillE": {
+      "type": "text",
+      "label": "FulfillE",
+      "page": 4,
+      "box": {
+        "left": 334.9,
+        "top": 129.2,
+        "width": 8.6,
+        "height": 9.8
+      }
+    },
+    "fulfillF": {
+      "type": "text",
+      "label": "FulfillF",
+      "page": 4,
+      "box": {
+        "left": 431.7,
+        "top": 129.2,
+        "width": 8.6,
+        "height": 9.8
+      }
+    },
+    "fulfillG": {
+      "type": "text",
+      "label": "FulfillG",
+      "page": 4,
+      "box": {
+        "left": 531.4,
+        "top": 129.2,
+        "width": 8.6,
+        "height": 9.8
+      }
+    },
+    "fulfillD": {
+      "type": "text",
+      "label": "FulfillD",
+      "page": 4,
+      "box": {
+        "left": 245.7,
+        "top": 128.8,
+        "width": 8.6,
+        "height": 9.8
+      }
+    },
+    "fulfillH": {
+      "type": "text",
+      "label": "FulfillH",
+      "page": 4,
+      "box": {
+        "left": 553.5,
+        "top": 128.8,
+        "width": 8.6,
+        "height": 9.8
+      }
+    },
+    "fulfillB": {
+      "type": "text",
+      "label": "FulfillB",
+      "page": 4,
+      "box": {
+        "left": 103.9,
+        "top": 128.4,
+        "width": 8.6,
+        "height": 9.8
+      }
+    },
+    "fulfillC": {
+      "type": "text",
+      "label": "FulfillC",
+      "page": 4,
+      "box": {
+        "left": 163.2,
+        "top": 128.4,
+        "width": 8.6,
+        "height": 9.8
+      }
+    },
+    "fulfillJust": {
+      "type": "text",
+      "label": "FulfillJust",
+      "page": 4,
+      "box": {
+        "left": 40.9,
+        "top": 104.6,
+        "width": 525.7,
+        "height": 49.7
+      },
+      "multiline": true
+    },
+    "periodTo5": {
+      "type": "text",
+      "label": "Enter YYYYMMDD",
+      "page": 5,
+      "box": {
+        "left": 497.9,
+        "top": 736.3,
+        "width": 64.5,
+        "height": 12.5
+      }
+    },
+    "lName5": {
+      "type": "text",
+      "label": "LName",
+      "page": 5,
+      "box": {
+        "left": 37.8,
+        "top": 736.1,
+        "width": 155.7,
+        "height": 12.2
+      }
+    },
+    "fName5": {
+      "type": "text",
+      "label": "FName",
+      "page": 5,
+      "box": {
+        "left": 201.9,
+        "top": 736.1,
+        "width": 76.9,
+        "height": 12.3
+      }
+    },
+    "mi5": {
+      "type": "text",
+      "label": "MI",
+      "page": 5,
+      "box": {
+        "left": 288.3,
+        "top": 736.1,
+        "width": 15.7,
+        "height": 12.3
+      }
+    },
+    "ssn5": {
+      "type": "text",
+      "label": "SSN",
+      "page": 5,
+      "box": {
+        "left": 313.5,
+        "top": 736.1,
+        "width": 72.7,
+        "height": 12.3
+      }
+    },
+    "occ5": {
+      "type": "text",
+      "label": "OCC",
+      "page": 5,
+      "box": {
+        "left": 395.2,
+        "top": 736.1,
+        "width": 21.4,
+        "height": 12.3
+      }
+    },
+    "periodFrom5": {
+      "type": "text",
+      "label": "Enter YYYYMMDD",
+      "page": 5,
+      "box": {
+        "left": 425.5,
+        "top": 736.1,
+        "width": 63.4,
+        "height": 12.3
+      }
+    },
+    "addCmts": {
+      "type": "text",
+      "label": "AddCmts",
+      "page": 5,
+      "box": {
+        "left": 37.6,
+        "top": 705.6,
+        "width": 524.1,
+        "height": 125.2
+      },
+      "multiline": true
+    },
+    "yearB": {
+      "type": "text",
+      "label": "YearB",
+      "page": 5,
+      "box": {
+        "left": 454.1,
+        "top": 553.2,
+        "width": 10.7,
+        "height": 17.9
+      }
+    },
+    "yearC": {
+      "type": "text",
+      "label": "YearC",
+      "page": 5,
+      "box": {
+        "left": 468.8,
+        "top": 553.2,
+        "width": 10.8,
+        "height": 17.9
+      }
+    },
+    "monthB": {
+      "type": "text",
+      "label": "MonthB",
+      "page": 5,
+      "box": {
+        "left": 517.2,
+        "top": 553.2,
+        "width": 10.7,
+        "height": 17.9
+      }
+    },
+    "dayB": {
+      "type": "text",
+      "label": "DayB",
+      "page": 5,
+      "box": {
+        "left": 552.6,
+        "top": 553.2,
+        "width": 10.7,
+        "height": 17.9
+      }
+    },
+    "yearA": {
+      "type": "text",
+      "label": "YearA",
+      "page": 5,
+      "box": {
+        "left": 438.7,
+        "top": 552.7,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "yearD": {
+      "type": "text",
+      "label": "YearD",
+      "page": 5,
+      "box": {
+        "left": 482.6,
+        "top": 552.7,
+        "width": 10.7,
+        "height": 17.9
+      }
+    },
+    "dayA": {
+      "type": "text",
+      "label": "DayA",
+      "page": 5,
+      "box": {
+        "left": 537.2,
+        "top": 552.7,
+        "width": 10.7,
+        "height": 17.9
+      }
+    },
+    "monthA": {
+      "type": "text",
+      "label": "MonthA",
+      "page": 5,
+      "box": {
+        "left": 502.4,
+        "top": 552.2,
+        "width": 10.7,
+        "height": 17.9
+      }
+    },
+    "yearAA": {
+      "type": "text",
+      "label": "YearAA",
+      "page": 5,
+      "box": {
+        "left": 439.2,
+        "top": 507.9,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "yearDD": {
+      "type": "text",
+      "label": "YearDD",
+      "page": 5,
+      "box": {
+        "left": 483.5,
+        "top": 507.9,
+        "width": 8.4,
+        "height": 17.9
+      }
+    },
+    "yearBB": {
+      "type": "text",
+      "label": "YearBB",
+      "page": 5,
+      "box": {
+        "left": 453.7,
+        "top": 507.4,
+        "width": 10.3,
+        "height": 17.9
+      }
+    },
+    "yearCC": {
+      "type": "text",
+      "label": "YearCC",
+      "page": 5,
+      "box": {
+        "left": 469.5,
+        "top": 507.4,
+        "width": 8.4,
+        "height": 17.9
+      }
+    },
+    "monthAA": {
+      "type": "text",
+      "label": "MonthAA",
+      "page": 5,
+      "box": {
+        "left": 503.2,
+        "top": 507.4,
+        "width": 9.3,
+        "height": 17.9
+      }
+    },
+    "monthBB": {
+      "type": "text",
+      "label": "MonthBB",
+      "page": 5,
+      "box": {
+        "left": 517.1,
+        "top": 507.4,
+        "width": 9.3,
+        "height": 17.9
+      }
+    },
+    "dayAA": {
+      "type": "text",
+      "label": "DayAA",
+      "page": 5,
+      "box": {
+        "left": 538.2,
+        "top": 507.0,
+        "width": 9.3,
+        "height": 17.9
+      }
+    },
+    "dayBB": {
+      "type": "text",
+      "label": "DayBB",
+      "page": 5,
+      "box": {
+        "left": 553.1,
+        "top": 507.0,
+        "width": 9.3,
+        "height": 17.9
+      }
+    },
+    "noState1": {
+      "type": "text",
+      "label": "NoState1",
+      "page": 5,
+      "box": {
+        "left": 59.2,
+        "top": 500.4,
+        "width": 8.9,
+        "height": 10.1
+      }
+    },
+    "attachState1": {
+      "type": "text",
+      "label": "AttachState1",
+      "page": 5,
+      "box": {
+        "left": 59.7,
+        "top": 485.5,
+        "width": 8.9,
+        "height": 10.1
+      }
+    },
+    "insufficient": {
+      "type": "text",
+      "label": "Insufficient",
+      "page": 5,
+      "box": {
+        "left": 195.5,
+        "top": 454.2,
+        "width": 8.8,
+        "height": 10.1
+      }
+    },
+    "evalConcur": {
+      "type": "text",
+      "label": "EvalConcur",
+      "page": 5,
+      "box": {
+        "left": 399.2,
+        "top": 454.2,
+        "width": 8.9,
+        "height": 10.1
+      }
+    },
+    "evalNonconcur": {
+      "type": "text",
+      "label": "EvalNonconcur",
+      "page": 5,
+      "box": {
+        "left": 465.4,
+        "top": 454.2,
+        "width": 8.8,
+        "height": 10.1
+      }
+    },
+    "sufficient": {
+      "type": "text",
+      "label": "Sufficient",
+      "page": 5,
+      "box": {
+        "left": 129.7,
+        "top": 453.7,
+        "width": 8.8,
+        "height": 10.1
+      }
+    },
+    "qualMarine": {
+      "type": "text",
+      "label": "QualMarine",
+      "page": 5,
+      "box": {
+        "left": 376.2,
+        "top": 422.5,
+        "width": 8.8,
+        "height": 10.1
+      }
+    },
+    "oneFew": {
+      "type": "text",
+      "label": "OneFew",
+      "page": 5,
+      "box": {
+        "left": 375.7,
+        "top": 403.3,
+        "width": 8.9,
+        "height": 10.1
+      }
+    },
+    "exceptQual": {
+      "type": "text",
+      "label": "ExceptQual",
+      "page": 5,
+      "box": {
+        "left": 376.2,
+        "top": 388.8,
+        "width": 8.8,
+        "height": 10.1
+      }
+    },
+    "highlyQual": {
+      "type": "text",
+      "label": "HighlyQual",
+      "page": 5,
+      "box": {
+        "left": 375.7,
+        "top": 371.6,
+        "width": 8.9,
+        "height": 10.1
+      }
+    },
+    "professional": {
+      "type": "text",
+      "label": "Professional",
+      "page": 5,
+      "box": {
+        "left": 375.7,
+        "top": 357.6,
+        "width": 8.9,
+        "height": 10.1
+      }
+    },
+    "majority": {
+      "type": "text",
+      "label": "Majority",
+      "page": 5,
+      "box": {
+        "left": 375.7,
+        "top": 344.0,
+        "width": 8.9,
+        "height": 10.1
+      }
+    },
+    "qualifiedMarine": {
+      "type": "text",
+      "label": "QualifiedMarine",
+      "page": 5,
+      "box": {
+        "left": 375.7,
+        "top": 326.8,
+        "width": 8.9,
+        "height": 10.1
+      }
+    },
+    "unsatMarine": {
+      "type": "text",
+      "label": "UnsatMarine",
+      "page": 5,
+      "box": {
+        "left": 376.2,
+        "top": 307.6,
+        "width": 8.8,
+        "height": 10.1
+      }
+    },
+    "reviewOfficer": {
+      "type": "text",
+      "label": "ReviewOfficer",
+      "page": 5,
+      "box": {
+        "left": 38.0,
+        "top": 261.1,
+        "width": 524.1,
+        "height": 88.4
+      },
+      "multiline": true
+    },
+    "day2": {
+      "type": "text",
+      "label": "Day2",
+      "page": 5,
+      "box": {
+        "left": 552.2,
+        "top": 157.3,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "day1": {
+      "type": "text",
+      "label": "Day1",
+      "page": 5,
+      "box": {
+        "left": 537.2,
+        "top": 156.8,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "year1": {
+      "type": "text",
+      "label": "Year1",
+      "page": 5,
+      "box": {
+        "left": 439.2,
+        "top": 156.4,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "year2": {
+      "type": "text",
+      "label": "Year2",
+      "page": 5,
+      "box": {
+        "left": 453.2,
+        "top": 156.4,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "year3": {
+      "type": "text",
+      "label": "Year3",
+      "page": 5,
+      "box": {
+        "left": 468.1,
+        "top": 156.4,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "year4": {
+      "type": "text",
+      "label": "Year4",
+      "page": 5,
+      "box": {
+        "left": 481.2,
+        "top": 156.4,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "month1": {
+      "type": "text",
+      "label": "Month1",
+      "page": 5,
+      "box": {
+        "left": 501.7,
+        "top": 156.4,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "month2": {
+      "type": "text",
+      "label": "Month2",
+      "page": 5,
+      "box": {
+        "left": 515.8,
+        "top": 156.4,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "year1A": {
+      "type": "text",
+      "label": "Year1A",
+      "page": 5,
+      "box": {
+        "left": 438.7,
+        "top": 110.6,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "year2A": {
+      "type": "text",
+      "label": "Year2A",
+      "page": 5,
+      "box": {
+        "left": 453.9,
+        "top": 110.2,
+        "width": 9.8,
+        "height": 16.3
+      }
+    },
+    "year3A": {
+      "type": "text",
+      "label": "Year3A",
+      "page": 5,
+      "box": {
+        "left": 468.8,
+        "top": 110.2,
+        "width": 9.8,
+        "height": 16.3
+      }
+    },
+    "year4A": {
+      "type": "text",
+      "label": "Year4A",
+      "page": 5,
+      "box": {
+        "left": 481.6,
+        "top": 110.2,
+        "width": 9.8,
+        "height": 16.3
+      }
+    },
+    "month1A": {
+      "type": "text",
+      "label": "Month1A",
+      "page": 5,
+      "box": {
+        "left": 503.2,
+        "top": 110.2,
+        "width": 10.0,
+        "height": 16.8
+      }
+    },
+    "month2A": {
+      "type": "text",
+      "label": "Month2A",
+      "page": 5,
+      "box": {
+        "left": 517.6,
+        "top": 110.2,
+        "width": 10.0,
+        "height": 16.8
+      }
+    },
+    "day1A": {
+      "type": "text",
+      "label": "Day1A",
+      "page": 5,
+      "box": {
+        "left": 538.7,
+        "top": 110.2,
+        "width": 10.0,
+        "height": 16.8
+      }
+    },
+    "day2A": {
+      "type": "text",
+      "label": "Day2A",
+      "page": 5,
+      "box": {
+        "left": 553.1,
+        "top": 110.2,
+        "width": 10.0,
+        "height": 16.8
+      }
+    },
+    "noState2": {
+      "type": "text",
+      "label": "NoState2",
+      "page": 5,
+      "box": {
+        "left": 60.1,
+        "top": 105.0,
+        "width": 8.9,
+        "height": 10.1
+      }
+    },
+    "attachState2": {
+      "type": "text",
+      "label": "AttachState2",
+      "page": 5,
+      "box": {
+        "left": 60.1,
+        "top": 90.1,
+        "width": 8.9,
+        "height": 10.1
+      }
+    },
+    "addenPg": {
+      "type": "text",
+      "label": "AddenPg",
+      "page": 5,
+      "box": {
+        "left": 305.8,
+        "top": 55.7,
+        "width": 4.8,
+        "height": 12.1
+      }
+    },
+    "lName6": {
+      "type": "text",
+      "label": "Last Name",
+      "page": 6,
+      "box": {
+        "left": 28.4,
+        "top": 690.5,
+        "width": 148.5,
+        "height": 17.0
+      }
+    },
+    "fName6": {
+      "type": "text",
+      "label": "First Name",
+      "page": 6,
+      "box": {
+        "left": 180.2,
+        "top": 689.0,
+        "width": 84.6,
+        "height": 15.3
+      }
+    },
+    "mi6": {
+      "type": "text",
+      "label": "Middle Initial",
+      "page": 6,
+      "box": {
+        "left": 266.5,
+        "top": 689.0,
+        "width": 17.8,
+        "height": 15.3
+      }
+    },
+    "ssn6": {
+      "type": "text",
+      "label": "Enter numbers only",
+      "page": 6,
+      "box": {
+        "left": 286.7,
+        "top": 688.5,
+        "width": 74.1,
+        "height": 15.3
+      }
+    },
+    "grade2": {
+      "type": "text",
+      "label": "Grade",
+      "page": 6,
+      "box": {
+        "left": 363.9,
+        "top": 688.0,
+        "width": 56.9,
+        "height": 14.9
+      }
+    },
+    "occ6": {
+      "type": "text",
+      "label": "OCC",
+      "page": 6,
+      "box": {
+        "left": 423.2,
+        "top": 688.0,
+        "width": 27.6,
+        "height": 14.9
+      }
+    },
+    "periodFrom6": {
+      "type": "text",
+      "label": "Enter YYYYMMDD",
+      "page": 6,
+      "box": {
+        "left": 452.5,
+        "top": 688.0,
+        "width": 65.9,
+        "height": 14.4
+      }
+    },
+    "periodTo6": {
+      "type": "text",
+      "label": "Enter YYYYMMDD",
+      "page": 6,
+      "box": {
+        "left": 520.0,
+        "top": 688.0,
+        "width": 64.7,
+        "height": 14.4
+      }
+    },
+    "ocfrSight": {
+      "type": "text",
+      "label": "OcfrSight",
+      "page": 6,
+      "box": {
+        "left": 363.0,
+        "top": 632.3,
+        "width": 10.9,
+        "height": 14.3
+      }
+    },
+    "ro": {
+      "type": "text",
+      "label": "RO",
+      "page": 6,
+      "box": {
+        "left": 133.1,
+        "top": 632.1,
+        "width": 10.9,
+        "height": 14.3
+      }
+    },
+    "justA2": {
+      "type": "text",
+      "label": "JustA",
+      "page": 6,
+      "box": {
+        "left": 202.3,
+        "top": 632.0,
+        "width": 10.9,
+        "height": 14.3
+      }
+    },
+    "just": {
+      "type": "text",
+      "label": "Just",
+      "page": 6,
+      "box": {
+        "left": 47.3,
+        "top": 631.9,
+        "width": 10.9,
+        "height": 14.3
+      }
+    },
+    "mROState": {
+      "type": "text",
+      "label": "MROState",
+      "page": 6,
+      "box": {
+        "left": 299.7,
+        "top": 631.9,
+        "width": 10.9,
+        "height": 14.3
+      }
+    },
+    "sectionI": {
+      "type": "text",
+      "label": "SectionI",
+      "page": 6,
+      "box": {
+        "left": 99.8,
+        "top": 631.7,
+        "width": 10.9,
+        "height": 14.3
+      }
+    },
+    "adminReview": {
+      "type": "text",
+      "label": "AdminReview",
+      "page": 6,
+      "box": {
+        "left": 430.4,
+        "top": 631.7,
+        "width": 10.9,
+        "height": 12.9
+      }
+    },
+    "suppMat": {
+      "type": "text",
+      "label": "SuppMat",
+      "page": 6,
+      "box": {
+        "left": 492.3,
+        "top": 631.7,
+        "width": 10.9,
+        "height": 14.3
+      }
+    },
+    "hQMCUse": {
+      "type": "text",
+      "label": "HQMCUse",
+      "page": 6,
+      "box": {
+        "left": 555.1,
+        "top": 631.6,
+        "width": 10.9,
+        "height": 14.3
+      }
+    },
+    "text": {
+      "type": "text",
+      "label": "Text",
+      "page": 6,
+      "box": {
+        "left": 27.2,
+        "top": 601.7,
+        "width": 554.0,
+        "height": 378.2
+      },
+      "multiline": true
+    },
+    "lNameA": {
+      "type": "text",
+      "label": "LNameA",
+      "page": 6,
+      "box": {
+        "left": 25.9,
+        "top": 197.2,
+        "width": 167.3,
+        "height": 17.9
+      }
+    },
+    "mIa": {
+      "type": "text",
+      "label": "MIa",
+      "page": 6,
+      "box": {
+        "left": 321.5,
+        "top": 195.8,
+        "width": 25.4,
+        "height": 17.5
+      }
+    },
+    "fNameA": {
+      "type": "text",
+      "label": "FNameA",
+      "page": 6,
+      "box": {
+        "left": 196.9,
+        "top": 194.9,
+        "width": 121.8,
+        "height": 16.1
+      }
+    },
+    "sSNa": {
+      "type": "text",
+      "label": "Enter numbers only",
+      "page": 6,
+      "box": {
+        "left": 351.0,
+        "top": 194.9,
+        "width": 93.2,
+        "height": 16.1
+      }
+    },
+    "service": {
+      "type": "text",
+      "label": "Service",
+      "page": 6,
+      "box": {
+        "left": 447.0,
+        "top": 194.4,
+        "width": 59.1,
+        "height": 15.6
+      }
+    },
+    "gradeA": {
+      "type": "text",
+      "label": "GradeA",
+      "page": 6,
+      "box": {
+        "left": 511.1,
+        "top": 194.4,
+        "width": 70.0,
+        "height": 15.6
+      }
+    },
+    "dayA2": {
+      "type": "text",
+      "label": "DayA",
+      "page": 6,
+      "box": {
+        "left": 527.9,
+        "top": 169.3,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "monthB2": {
+      "type": "text",
+      "label": "MonthB",
+      "page": 6,
+      "box": {
+        "left": 506.9,
+        "top": 169.0,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "yearB2": {
+      "type": "text",
+      "label": "YearB",
+      "page": 6,
+      "box": {
+        "left": 440.6,
+        "top": 168.8,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "yearC2": {
+      "type": "text",
+      "label": "YearC",
+      "page": 6,
+      "box": {
+        "left": 454.8,
+        "top": 168.8,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "dayB2": {
+      "type": "text",
+      "label": "DayB",
+      "page": 6,
+      "box": {
+        "left": 544.3,
+        "top": 168.8,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "yearD2": {
+      "type": "text",
+      "label": "YearD",
+      "page": 6,
+      "box": {
+        "left": 469.9,
+        "top": 168.7,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "yearA2": {
+      "type": "text",
+      "label": "YearA",
+      "page": 6,
+      "box": {
+        "left": 426.0,
+        "top": 168.6,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "monthA2": {
+      "type": "text",
+      "label": "MonthA",
+      "page": 6,
+      "box": {
+        "left": 491.3,
+        "top": 168.6,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "lNameB": {
+      "type": "text",
+      "label": "LNameB",
+      "page": 6,
+      "box": {
+        "left": 25.0,
+        "top": 104.4,
+        "width": 165.5,
+        "height": 15.2
+      }
+    },
+    "fNameB": {
+      "type": "text",
+      "label": "b. First Name",
+      "page": 6,
+      "box": {
+        "left": 195.9,
+        "top": 104.3,
+        "width": 123.6,
+        "height": 15.2
+      }
+    },
+    "mIb": {
+      "type": "text",
+      "label": "MIb",
+      "page": 6,
+      "box": {
+        "left": 321.2,
+        "top": 103.8,
+        "width": 27.6,
+        "height": 14.3
+      }
+    },
+    "sSNb": {
+      "type": "text",
+      "label": "Enter numbers only",
+      "page": 6,
+      "box": {
+        "left": 349.8,
+        "top": 103.8,
+        "width": 95.2,
+        "height": 14.3
+      }
+    },
+    "serviceB": {
+      "type": "text",
+      "label": "ServiceB",
+      "page": 6,
+      "box": {
+        "left": 447.2,
+        "top": 102.9,
+        "width": 59.8,
+        "height": 12.9
+      }
+    },
+    "gradeB": {
+      "type": "text",
+      "label": "4. Grade",
+      "page": 6,
+      "box": {
+        "left": 509.8,
+        "top": 102.9,
+        "width": 71.8,
+        "height": 13.4
+      }
+    },
+    "yearG": {
+      "type": "text",
+      "label": "YearG",
+      "page": 6,
+      "box": {
+        "left": 455.0,
+        "top": 79.4,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "yearH": {
+      "type": "text",
+      "label": "YearH",
+      "page": 6,
+      "box": {
+        "left": 469.6,
+        "top": 79.4,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "dayC": {
+      "type": "text",
+      "label": "DayC",
+      "page": 6,
+      "box": {
+        "left": 527.5,
+        "top": 79.3,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "dayD": {
+      "type": "text",
+      "label": "DayD",
+      "page": 6,
+      "box": {
+        "left": 543.0,
+        "top": 79.2,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "monthC": {
+      "type": "text",
+      "label": "MonthC",
+      "page": 6,
+      "box": {
+        "left": 491.6,
+        "top": 78.8,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "yearE": {
+      "type": "text",
+      "label": "YearE",
+      "page": 6,
+      "box": {
+        "left": 426.2,
+        "top": 78.7,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "monthD": {
+      "type": "text",
+      "label": "MonthD",
+      "page": 6,
+      "box": {
+        "left": 506.1,
+        "top": 78.7,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "yearF": {
+      "type": "text",
+      "label": "YearF",
+      "page": 6,
+      "box": {
+        "left": 441.3,
+        "top": 78.6,
+        "width": 12.2,
+        "height": 17.9
+      }
+    },
+    "gOTitle": {
+      "type": "text",
+      "label": "GOTitle",
+      "page": 6,
+      "box": {
+        "left": 24.6,
+        "top": 73.5,
+        "width": 157.3,
+        "height": 18.4
+      }
+    },
+    "pageA": {
+      "type": "text",
+      "label": "PageA",
+      "page": 6,
+      "box": {
+        "left": 529.9,
+        "top": 37.3,
+        "width": 14.5,
+        "height": 13.8
+      }
+    },
+    "pageB": {
+      "type": "text",
+      "label": "PageB",
+      "page": 6,
+      "box": {
+        "left": 562.2,
+        "top": 37.2,
+        "width": 15.4,
+        "height": 12.9
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "dutyCode": {
+          "type": "text",
+          "label": "DutyCode1",
+          "page": 1,
+          "box": {
+            "left": 330.7,
+            "top": 474.7,
+            "width": 29.2,
+            "height": 17.2
+          }
+        }
+      }
+    }
+  }
+}

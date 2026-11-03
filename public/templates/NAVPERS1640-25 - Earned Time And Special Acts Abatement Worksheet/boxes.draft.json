@@ -1,0 +1,414 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "cell1": {
+        "left": 469.1,
+        "top": 717.1,
+        "width": 104.1,
+        "height": 15.8,
+        "type": "text",
+        "description": "Board Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell12": {
+        "left": 38.9,
+        "top": 686.9,
+        "width": 300.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "1. Name (Last, First, Middle)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell2": {
+        "left": 344.9,
+        "top": 686.9,
+        "width": 102.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "2. RCN",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell3": {
+        "left": 452.9,
+        "top": 686.9,
+        "width": 120.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "3. Release Date (YYYYMMDD)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell32": {
+        "left": 345.9,
+        "top": 658.5,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "5. Ineligible for Earned Time (ET)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell13": {
+        "left": 38.9,
+        "top": 636.5,
+        "width": 84.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "From",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell22": {
+        "left": 128.9,
+        "top": 636.5,
+        "width": 84.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "To",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell33": {
+        "left": 218.9,
+        "top": 636.5,
+        "width": 354.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "Reason",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "et": {
+        "left": 97.9,
+        "top": 596.9,
+        "width": 13.0,
+        "height": 13.0,
+        "type": "checkbox",
+        "description": "Evaluation",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ssa": {
+        "left": 269.2,
+        "top": 596.9,
+        "width": 13.0,
+        "height": 13.0,
+        "type": "checkbox",
+        "description": "Earned Time",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell23": {
+        "left": 440.0,
+        "top": 571.7,
+        "width": 13.0,
+        "height": 13.0,
+        "type": "checkbox",
+        "description": "7. Is Prisoner in Compliance with Program Plan?",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell34": {
+        "left": 512.3,
+        "top": 571.7,
+        "width": 13.0,
+        "height": 13.0,
+        "type": "checkbox",
+        "description": "Yes",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell24": {
+        "left": 440.0,
+        "top": 550.1,
+        "width": 13.0,
+        "height": 13.0,
+        "type": "checkbox",
+        "description": "8. Has the prisoner completed an acceptable release plan?",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell35": {
+        "left": 512.3,
+        "top": 550.1,
+        "width": 13.0,
+        "height": 13.0,
+        "type": "checkbox",
+        "description": "Yes",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell25": {
+        "left": 440.0,
+        "top": 528.5,
+        "width": 13.0,
+        "height": 13.0,
+        "type": "checkbox",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell36": {
+        "left": 512.3,
+        "top": 528.5,
+        "width": 13.0,
+        "height": 13.0,
+        "type": "checkbox",
+        "description": "Yes",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell14": {
+        "left": 38.9,
+        "top": 499.6,
+        "width": 174.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "10. Continuous Employment Date",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell26": {
+        "left": 218.9,
+        "top": 499.6,
+        "width": 354.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "11. Good Conduct Time (GCT) Rate (days per month)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell37": {
+        "left": 488.9,
+        "top": 429.1,
+        "width": 84.3,
+        "height": 15.8,
+        "type": "text",
+        "description": "Support Activities (Max 1 Day)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell27": {
+        "left": 446.5,
+        "top": 425.2,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Support Activities (Max 1 Day)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell38": {
+        "left": 488.9,
+        "top": 407.5,
+        "width": 84.3,
+        "height": 15.8,
+        "type": "text",
+        "description": "Education (Max 2 Days)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell28": {
+        "left": 446.5,
+        "top": 403.6,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Education (Max 2 Days)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell39": {
+        "left": 488.9,
+        "top": 385.9,
+        "width": 84.3,
+        "height": 15.8,
+        "type": "text",
+        "description": "Self-Improvement and Personal Growth (Max 2 Days)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell29": {
+        "left": 446.5,
+        "top": 381.9,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Self-Improvement and Personal Growth (Max 2 Days)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell310": {
+        "left": 488.9,
+        "top": 364.3,
+        "width": 84.3,
+        "height": 15.8,
+        "type": "text",
+        "description": "Offense Related Programs (Max 4 Days)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell210": {
+        "left": 446.5,
+        "top": 360.3,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Offense Related Programs (Max 4 Days)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell4": {
+        "left": 416.9,
+        "top": 321.1,
+        "width": 66.2,
+        "height": 19.4,
+        "type": "text",
+        "description": "Job Assignment",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell5": {
+        "left": 488.9,
+        "top": 321.1,
+        "width": 84.3,
+        "height": 19.4,
+        "type": "text",
+        "description": "Job Assignment",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell211": {
+        "left": 302.4,
+        "top": 315.3,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Job Assignment",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell311": {
+        "left": 374.4,
+        "top": 315.3,
+        "width": 8.0,
+        "height": 8.0,
+        "type": "checkbox",
+        "description": "Job Assignment",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell52": {
+        "left": 488.9,
+        "top": 274.3,
+        "width": 84.3,
+        "height": 30.2,
+        "type": "text",
+        "description": "Combined Total Days of Earned Time",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell212": {
+        "left": 208.1,
+        "top": 216.6,
+        "width": 275.1,
+        "height": 30.2,
+        "type": "text",
+        "description": "Event",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell312": {
+        "left": 488.9,
+        "top": 216.6,
+        "width": 84.3,
+        "height": 30.2,
+        "type": "text",
+        "description": "Event",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell213": {
+        "left": 213.5,
+        "top": 150.4,
+        "width": 176.1,
+        "height": 21.6,
+        "type": "text",
+        "description": "Board President Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell214": {
+        "left": 213.5,
+        "top": 114.4,
+        "width": 176.1,
+        "height": 21.6,
+        "type": "text",
+        "description": "Commanding Officer/Officer in Charge Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "cell215": {
+        "left": 272.9,
+        "top": 60.4,
+        "width": 228.3,
+        "height": 21.6,
+        "type": "text",
+        "description": "Prisoner Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

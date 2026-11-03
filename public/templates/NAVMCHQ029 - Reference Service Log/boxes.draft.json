@@ -1,0 +1,271 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "dateReceived": {
+        "left": 413.7,
+        "top": 687.2,
+        "width": 177.3,
+        "height": 11.0,
+        "type": "text",
+        "description": "DateReceived",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "receivedBy": {
+        "left": 23.9,
+        "top": 686.9,
+        "width": 381.9,
+        "height": 11.7,
+        "type": "text",
+        "description": "ReceivedBy",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "originatingOffice": {
+        "left": 23.4,
+        "top": 657.9,
+        "width": 279.7,
+        "height": 11.7,
+        "type": "text",
+        "description": "OriginatingOffice",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "requestor": {
+        "left": 311.5,
+        "top": 657.8,
+        "width": 279.7,
+        "height": 11.7,
+        "type": "text",
+        "description": "Requestor",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "reguestNature": {
+        "left": 21.4,
+        "top": 627.2,
+        "width": 569.8,
+        "height": 169.3,
+        "type": "text",
+        "description": "ReguestNature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "priority": {
+        "left": 22.9,
+        "top": 434.8,
+        "width": 279.7,
+        "height": 11.7,
+        "type": "text",
+        "description": "Priority",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "deadline": {
+        "left": 312.5,
+        "top": 434.8,
+        "width": 277.3,
+        "height": 11.7,
+        "type": "text",
+        "description": "Deadline",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radioButtonList": {
+        "left": 307.3,
+        "top": 412.4,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "form1[0].#subform[0].RadioButtonList[0]",
+        "required": false
+      },
+      "radioButtonList2": {
+        "left": 89.0,
+        "top": 412.3,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "form1[0].#subform[0].RadioButtonList[0]",
+        "required": false
+      },
+      "radioButtonList3": {
+        "left": 437.6,
+        "top": 412.3,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "2",
+        "options": null,
+        "group": "form1[0].#subform[0].RadioButtonList[0]",
+        "required": false
+      },
+      "assigned1": {
+        "left": 306.4,
+        "top": 366.6,
+        "width": 284.8,
+        "height": 11.7,
+        "type": "text",
+        "description": "Assigned1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date1": {
+        "left": 200.2,
+        "top": 364.8,
+        "width": 96.9,
+        "height": 11.0,
+        "type": "text",
+        "description": "Date1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "assigned2": {
+        "left": 306.4,
+        "top": 345.5,
+        "width": 284.8,
+        "height": 11.7,
+        "type": "text",
+        "description": "Assigned2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date2": {
+        "left": 200.1,
+        "top": 344.4,
+        "width": 96.9,
+        "height": 11.0,
+        "type": "text",
+        "description": "Date2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "assigned3": {
+        "left": 306.4,
+        "top": 324.9,
+        "width": 284.8,
+        "height": 11.7,
+        "type": "text",
+        "description": "Assigned3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date3": {
+        "left": 200.3,
+        "top": 322.7,
+        "width": 96.9,
+        "height": 11.0,
+        "type": "text",
+        "description": "Date3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "assigned4": {
+        "left": 306.4,
+        "top": 304.3,
+        "width": 284.8,
+        "height": 11.7,
+        "type": "text",
+        "description": "Assigned4",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date4": {
+        "left": 200.5,
+        "top": 302.4,
+        "width": 96.9,
+        "height": 11.0,
+        "type": "text",
+        "description": "Date4",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "assigned5": {
+        "left": 306.4,
+        "top": 283.1,
+        "width": 284.8,
+        "height": 11.7,
+        "type": "text",
+        "description": "Assigned5",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date5": {
+        "left": 199.9,
+        "top": 281.3,
+        "width": 96.9,
+        "height": 11.0,
+        "type": "text",
+        "description": "Date5",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "assigned6": {
+        "left": 306.4,
+        "top": 262.5,
+        "width": 284.8,
+        "height": 11.7,
+        "type": "text",
+        "description": "Assigned6",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date6": {
+        "left": 200.4,
+        "top": 261.2,
+        "width": 96.9,
+        "height": 11.0,
+        "type": "text",
+        "description": "Date6",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "remarks": {
+        "left": 21.4,
+        "top": 228.2,
+        "width": 569.8,
+        "height": 169.9,
+        "type": "text",
+        "description": "Remarks",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

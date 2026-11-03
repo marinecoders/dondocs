@@ -1,0 +1,175 @@
+{
+  "id": "opnav80203",
+  "label": "OPNAV8020-3 - Board Member Explosive And Weapon Verification Sheet",
+  "directory": "OPNAV8020-3 - Board Member Explosive And Weapon Verification Sheet",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "proDemDat",
+        "cerLevR1C2",
+        "insObs",
+        "expSOP",
+        "etrBy",
+        "textField1",
+        "textField12",
+        "textField13",
+        "textField2",
+        "signatureField1",
+        "vRMEMDate",
+        "vrmem"
+      ]
+    }
+  ],
+  "fields": {
+    "proDemDat": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 493.7,
+        "top": 562.1,
+        "width": 77.5,
+        "height": 20.8
+      }
+    },
+    "cerLevR1C2": {
+      "type": "choice",
+      "label": "CerLevR1C2",
+      "page": 1,
+      "box": {
+        "left": 274.5,
+        "top": 561.6,
+        "width": 90.7,
+        "height": 20.8
+      },
+      "options": [
+        " ",
+        "IT - ",
+        "TM - ",
+        "I - ",
+        "TL - ",
+        "QA - ",
+        "SO - ",
+        "QA/SO - "
+      ]
+    },
+    "insObs": {
+      "type": "text",
+      "label": "InsObs",
+      "page": 1,
+      "box": {
+        "left": 369.4,
+        "top": 559.3,
+        "width": 120.1,
+        "height": 15.2
+      }
+    },
+    "expSOP": {
+      "type": "text",
+      "label": "ExpSOP",
+      "page": 1,
+      "box": {
+        "left": 44.0,
+        "top": 558.7,
+        "width": 225.0,
+        "height": 15.2
+      }
+    },
+    "etrBy": {
+      "type": "text",
+      "label": "REMARKS",
+      "page": 1,
+      "box": {
+        "left": 42.8,
+        "top": 527.4,
+        "width": 527.2,
+        "height": 24.5
+      }
+    },
+    "textField1": {
+      "type": "text",
+      "label": "TRAINEE NAME (Last, First, MI):",
+      "page": 1,
+      "box": {
+        "left": 43.1,
+        "top": 479.9,
+        "width": 256.8,
+        "height": 20.2
+      }
+    },
+    "textField12": {
+      "type": "text",
+      "label": "TRAINEE RANK/RATE/GRADE;",
+      "page": 1,
+      "box": {
+        "left": 308.2,
+        "top": 479.9,
+        "width": 259.6,
+        "height": 20.2
+      }
+    },
+    "textField13": {
+      "type": "text",
+      "label": "COMMAND:",
+      "page": 1,
+      "box": {
+        "left": 43.1,
+        "top": 440.3,
+        "width": 456.6,
+        "height": 36.4
+      },
+      "multiline": true
+    },
+    "textField2": {
+      "type": "text",
+      "label": " UIC:",
+      "page": 1,
+      "box": {
+        "left": 507.0,
+        "top": 440.3,
+        "width": 64.5,
+        "height": 39.3
+      },
+      "multiline": true
+    },
+    "signatureField1": {
+      "type": "signature",
+      "label": "VERIFYING BOARD MEMBER SIGNATURE AND TITLE:",
+      "page": 1,
+      "box": {
+        "left": 43.0,
+        "top": 387.1,
+        "width": 326.3,
+        "height": 31.7
+      }
+    },
+    "vRMEMDate": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY.",
+      "page": 1,
+      "box": {
+        "left": 377.3,
+        "top": 384.9,
+        "width": 194.3,
+        "height": 75.4
+      },
+      "multiline": true
+    },
+    "vrmem": {
+      "type": "text",
+      "label": "VERIFYING BOARD MEMBER PRINTED NAME AND TITLE:",
+      "page": 1,
+      "box": {
+        "left": 43.0,
+        "top": 340.0,
+        "width": 326.3,
+        "height": 32.6
+      },
+      "multiline": true
+    }
+  }
+}

@@ -1,0 +1,363 @@
+{
+  "id": "navmc11622",
+  "label": "NAVMC 11622 - PFT-CFT Performance Worksheet",
+  "directory": "NAVMC11622 - PFT-CFT Performance Worksheet",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 2",
+      "fields": [
+        "unit",
+        "unit2",
+        "period",
+        "monitor"
+      ]
+    }
+  ],
+  "fields": {
+    "unit": {
+      "type": "text",
+      "label": "Unit",
+      "page": 2,
+      "box": {
+        "left": 68.2,
+        "top": 635.6,
+        "width": 181.1,
+        "height": 14.4
+      }
+    },
+    "unit2": {
+      "type": "text",
+      "label": "Date",
+      "page": 2,
+      "box": {
+        "left": 296.0,
+        "top": 635.6,
+        "width": 88.7,
+        "height": 14.4
+      }
+    },
+    "period": {
+      "type": "text",
+      "label": "Monitor Rank/Name",
+      "page": 2,
+      "box": {
+        "left": 464.3,
+        "top": 635.6,
+        "width": 251.2,
+        "height": 14.6
+      }
+    },
+    "monitor": {
+      "type": "text",
+      "label": "Monitor Signature",
+      "page": 2,
+      "box": {
+        "left": 789.2,
+        "top": 635.6,
+        "width": 197.5,
+        "height": 14.4
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 2,
+      "count": 25,
+      "rowStride": 21.38,
+      "editor": "grid",
+      "columns": {
+        "rank": {
+          "type": "text",
+          "label": "Rank",
+          "page": 2,
+          "box": {
+            "left": 21.3,
+            "top": 585.0,
+            "width": 32.4,
+            "height": 21.4
+          }
+        },
+        "firstName": {
+          "type": "text",
+          "label": "FirstName",
+          "page": 2,
+          "box": {
+            "left": 53.8,
+            "top": 585.0,
+            "width": 65.0,
+            "height": 21.4
+          }
+        },
+        "midInitial": {
+          "type": "text",
+          "label": "MidInitial",
+          "page": 2,
+          "box": {
+            "left": 118.6,
+            "top": 585.0,
+            "width": 14.6,
+            "height": 21.4
+          }
+        },
+        "lastName": {
+          "type": "text",
+          "label": "LastName",
+          "page": 2,
+          "box": {
+            "left": 133.0,
+            "top": 585.0,
+            "width": 81.7,
+            "height": 21.4
+          }
+        },
+        "lastName2": {
+          "type": "text",
+          "label": "LastName",
+          "page": 2,
+          "box": {
+            "left": 214.9,
+            "top": 585.0,
+            "width": 81.7,
+            "height": 21.4
+          }
+        },
+        "age": {
+          "type": "text",
+          "label": "Age",
+          "page": 2,
+          "box": {
+            "left": 296.5,
+            "top": 585.0,
+            "width": 29.6,
+            "height": 21.5
+          }
+        },
+        "scoreCrunches": {
+          "type": "text",
+          "label": "ScoreCrunches",
+          "page": 2,
+          "box": {
+            "left": 326.5,
+            "top": 585.0,
+            "width": 29.0,
+            "height": 21.4
+          }
+        },
+        "height": {
+          "type": "text",
+          "label": "Height",
+          "page": 2,
+          "box": {
+            "left": 355.7,
+            "top": 585.0,
+            "width": 36.5,
+            "height": 21.4
+          }
+        },
+        "weight": {
+          "type": "text",
+          "label": "Weight",
+          "page": 2,
+          "box": {
+            "left": 392.1,
+            "top": 585.0,
+            "width": 36.0,
+            "height": 21.4
+          }
+        },
+        "edipi": {
+          "type": "text",
+          "label": "Enter EDIPI",
+          "page": 2,
+          "box": {
+            "left": 428.1,
+            "top": 585.0,
+            "width": 38.8,
+            "height": 21.4
+          }
+        },
+        "pullUpOrFAH": {
+          "type": "text",
+          "label": "PullUpOrFAH",
+          "page": 2,
+          "box": {
+            "left": 466.6,
+            "top": 585.0,
+            "width": 29.5,
+            "height": 21.4
+          }
+        },
+        "pullUpOrFAH2": {
+          "type": "text",
+          "label": "PullUpOrFAH",
+          "page": 2,
+          "box": {
+            "left": 496.1,
+            "top": 585.0,
+            "width": 28.1,
+            "height": 21.4
+          }
+        },
+        "scorePullUpOrFAH": {
+          "type": "text",
+          "label": "ScorePullUpOrFAH",
+          "page": 2,
+          "box": {
+            "left": 524.2,
+            "top": 585.0,
+            "width": 28.8,
+            "height": 21.4
+          }
+        },
+        "scoreCrunches2": {
+          "type": "text",
+          "label": "ScoreCrunches",
+          "page": 2,
+          "box": {
+            "left": 552.8,
+            "top": 585.0,
+            "width": 29.0,
+            "height": 21.4
+          }
+        },
+        "scoreCrunches3": {
+          "type": "text",
+          "label": "ScoreCrunches",
+          "page": 2,
+          "box": {
+            "left": 581.8,
+            "top": 585.0,
+            "width": 28.8,
+            "height": 21.4
+          }
+        },
+        "kRow": {
+          "type": "text",
+          "label": "KRow",
+          "page": 2,
+          "box": {
+            "left": 610.9,
+            "top": 585.0,
+            "width": 36.0,
+            "height": 21.4
+          }
+        },
+        "kRow2": {
+          "type": "text",
+          "label": "KRow",
+          "page": 2,
+          "box": {
+            "left": 646.9,
+            "top": 585.0,
+            "width": 34.6,
+            "height": 21.4
+          }
+        },
+        "scoreThreeMileRun": {
+          "type": "text",
+          "label": "ScoreThreeMileRun",
+          "page": 2,
+          "box": {
+            "left": 681.6,
+            "top": 585.0,
+            "width": 28.8,
+            "height": 21.4
+          }
+        },
+        "pFTTotal": {
+          "type": "text",
+          "label": "PFTTotal",
+          "page": 2,
+          "box": {
+            "left": 710.3,
+            "top": 585.0,
+            "width": 42.8,
+            "height": 21.4
+          }
+        },
+        "mtc": {
+          "type": "text",
+          "label": "MTC",
+          "page": 2,
+          "box": {
+            "left": 753.1,
+            "top": 585.0,
+            "width": 28.2,
+            "height": 21.4
+          }
+        },
+        "timeMTC": {
+          "type": "text",
+          "label": "TimeMTC",
+          "page": 2,
+          "box": {
+            "left": 781.3,
+            "top": 585.0,
+            "width": 36.0,
+            "height": 21.4
+          }
+        },
+        "al": {
+          "type": "text",
+          "label": "AL",
+          "page": 2,
+          "box": {
+            "left": 817.3,
+            "top": 585.0,
+            "width": 28.8,
+            "height": 21.4
+          }
+        },
+        "reps": {
+          "type": "text",
+          "label": "Reps",
+          "page": 2,
+          "box": {
+            "left": 846.1,
+            "top": 585.0,
+            "width": 36.0,
+            "height": 21.4
+          }
+        },
+        "manuf": {
+          "type": "text",
+          "label": "MANUF",
+          "page": 2,
+          "box": {
+            "left": 882.0,
+            "top": 585.0,
+            "width": 35.5,
+            "height": 21.4
+          }
+        },
+        "timeMANUF": {
+          "type": "text",
+          "label": "TimeMANUF",
+          "page": 2,
+          "box": {
+            "left": 917.6,
+            "top": 585.0,
+            "width": 33.2,
+            "height": 21.4
+          }
+        },
+        "passFail": {
+          "type": "text",
+          "label": "PassFail",
+          "page": 2,
+          "box": {
+            "left": 950.3,
+            "top": 585.0,
+            "width": 36.3,
+            "height": 21.4
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,174 @@
+{
+  "id": "navmc11149",
+  "label": "NAVMC11149 - High School-Community College Update Report",
+  "directory": "NAVMC11149 - High School-Community College Update Report",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "rss",
+        "from",
+        "to"
+      ]
+    }
+  ],
+  "fields": {
+    "rss": {
+      "type": "text",
+      "label": "Enter first and last name and middle initial of dependent line 1.",
+      "page": 1,
+      "box": {
+        "left": 47.9,
+        "top": 678.7,
+        "width": 128.1,
+        "height": 24.2
+      }
+    },
+    "from": {
+      "type": "text",
+      "label": "Enter first and last name and middle initial of dependent line 1.",
+      "page": 1,
+      "box": {
+        "left": 209.4,
+        "top": 678.5,
+        "width": 178.2,
+        "height": 24.8
+      }
+    },
+    "to": {
+      "type": "text",
+      "label": "Enter first and last name and middle initial of dependent line 1.",
+      "page": 1,
+      "box": {
+        "left": 410.1,
+        "top": 678.5,
+        "width": 181.7,
+        "height": 24.8
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 20,
+      "rowStride": 27.01,
+      "editor": "grid",
+      "columns": {
+        "schoolCode": {
+          "type": "text",
+          "label": "Enter first and last name and middle initial of dependent line 1.",
+          "page": 1,
+          "box": {
+            "left": 19.6,
+            "top": 621.5,
+            "width": 98.6,
+            "height": 23.6
+          }
+        },
+        "acc": {
+          "type": "text",
+          "label": "Enter first and last name and middle initial of dependent line 1.",
+          "page": 1,
+          "box": {
+            "left": 121.0,
+            "top": 621.5,
+            "width": 50.8,
+            "height": 23.6
+          }
+        },
+        "stat": {
+          "type": "text",
+          "label": "Enter first and last name and middle initial of dependent line 1.",
+          "page": 1,
+          "box": {
+            "left": 173.8,
+            "top": 621.2,
+            "width": 50.8,
+            "height": 23.6
+          }
+        },
+        "init": {
+          "type": "text",
+          "label": "Enter first and last name and middle initial of dependent line 1.",
+          "page": 1,
+          "box": {
+            "left": 226.7,
+            "top": 621.3,
+            "width": 50.8,
+            "height": 23.6
+          }
+        },
+        "nrotc": {
+          "type": "text",
+          "label": "Enter first and last name and middle initial of dependent line 1.",
+          "page": 1,
+          "box": {
+            "left": 279.2,
+            "top": 621.2,
+            "width": 50.8,
+            "height": 23.6
+          }
+        },
+        "career": {
+          "type": "text",
+          "label": "Enter first and last name and middle initial of dependent line 1.",
+          "page": 1,
+          "box": {
+            "left": 332.1,
+            "top": 621.2,
+            "width": 50.8,
+            "height": 23.6
+          }
+        },
+        "list": {
+          "type": "text",
+          "label": "Enter first and last name and middle initial of dependent line 1.",
+          "page": 1,
+          "box": {
+            "left": 385.0,
+            "top": 621.2,
+            "width": 50.8,
+            "height": 23.6
+          }
+        },
+        "senior": {
+          "type": "text",
+          "label": "Enter first and last name and middle initial of dependent line 1.",
+          "page": 1,
+          "box": {
+            "left": 437.5,
+            "top": 621.2,
+            "width": 50.8,
+            "height": 23.6
+          }
+        },
+        "mon": {
+          "type": "text",
+          "label": "Enter first and last name and middle initial of dependent line 1.",
+          "page": 1,
+          "box": {
+            "left": 490.2,
+            "top": 621.2,
+            "width": 50.8,
+            "height": 23.6
+          }
+        },
+        "testNum": {
+          "type": "text",
+          "label": "Enter first and last name and middle initial of dependent line 1.",
+          "page": 1,
+          "box": {
+            "left": 542.6,
+            "top": 621.2,
+            "width": 50.8,
+            "height": 23.6
+          }
+        }
+      }
+    }
+  }
+}

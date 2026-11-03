@@ -1,0 +1,205 @@
+{
+  "id": "navpers701012",
+  "label": "NAVPERS7010-12 - General Journal Voucher",
+  "directory": "NAVPERS7010-12 - General Journal Voucher",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "fund",
+        "fundnumber",
+        "date1",
+        "number",
+        "totalcredits",
+        "totaldebits",
+        "explanation",
+        "preparer",
+        "date2",
+        "approver",
+        "date3"
+      ]
+    }
+  ],
+  "fields": {
+    "fund": {
+      "type": "text",
+      "label": "Enter the fund.",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 719.4,
+        "width": 264.3,
+        "height": 29.5
+      }
+    },
+    "fundnumber": {
+      "type": "text",
+      "label": "Enter the fund number.",
+      "page": 1,
+      "box": {
+        "left": 351.7,
+        "top": 719.4,
+        "width": 70.3,
+        "height": 29.4
+      }
+    },
+    "date1": {
+      "type": "text",
+      "label": "Enter the date using the format MM DD YY.",
+      "page": 1,
+      "box": {
+        "left": 427.7,
+        "top": 719.4,
+        "width": 87.3,
+        "height": 29.4
+      }
+    },
+    "number": {
+      "type": "text",
+      "label": "Enter the number.",
+      "page": 1,
+      "box": {
+        "left": 520.7,
+        "top": 719.4,
+        "width": 53.3,
+        "height": 29.4
+      }
+    },
+    "totalcredits": {
+      "type": "text",
+      "label": "Enter the total credits.",
+      "page": 1,
+      "box": {
+        "left": 418.9,
+        "top": 202.0,
+        "width": 137.0,
+        "height": 18.0
+      }
+    },
+    "totaldebits": {
+      "type": "text",
+      "label": "Enter the total debits.",
+      "page": 1,
+      "box": {
+        "left": 170.6,
+        "top": 201.4,
+        "width": 135.7,
+        "height": 16.7
+      }
+    },
+    "explanation": {
+      "type": "text",
+      "label": "Enter the explanation.",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 165.9,
+        "width": 535.2,
+        "height": 85.0
+      },
+      "multiline": true
+    },
+    "preparer": {
+      "type": "text",
+      "label": "Enter the preparer's signature.",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 61.5,
+        "width": 184.3,
+        "height": 22.4
+      }
+    },
+    "date2": {
+      "type": "text",
+      "label": "Enter the date (DD/MMM/YYYY).",
+      "page": 1,
+      "box": {
+        "left": 227.8,
+        "top": 61.5,
+        "width": 75.3,
+        "height": 22.4
+      }
+    },
+    "approver": {
+      "type": "text",
+      "label": "Enter the approver's signature.",
+      "page": 1,
+      "box": {
+        "left": 309.8,
+        "top": 61.5,
+        "width": 184.3,
+        "height": 22.4
+      }
+    },
+    "date3": {
+      "type": "text",
+      "label": "Enter the date (DD/MMM/YYYY).",
+      "page": 1,
+      "box": {
+        "left": 500.7,
+        "top": 61.5,
+        "width": 73.3,
+        "height": 22.4
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 25,
+      "rowStride": 18.0,
+      "editor": "grid",
+      "columns": {
+        "accountnumber": {
+          "type": "text",
+          "label": "This is row 1 of 25. Enter the account number.",
+          "page": 1,
+          "box": {
+            "left": 58.6,
+            "top": 651.4,
+            "width": 110.7,
+            "height": 16.7
+          }
+        },
+        "amount": {
+          "type": "text",
+          "label": "Enter the debit amount.",
+          "page": 1,
+          "box": {
+            "left": 170.6,
+            "top": 651.4,
+            "width": 135.7,
+            "height": 16.7
+          }
+        },
+        "accountnumber2": {
+          "type": "text",
+          "label": "Enter the account number.",
+          "page": 1,
+          "box": {
+            "left": 306.6,
+            "top": 651.4,
+            "width": 111.0,
+            "height": 16.7
+          }
+        },
+        "amount2": {
+          "type": "text",
+          "label": "Enter the credit amount.",
+          "page": 1,
+          "box": {
+            "left": 419.6,
+            "top": 651.4,
+            "width": 135.7,
+            "height": 16.7
+          }
+        }
+      }
+    }
+  }
+}

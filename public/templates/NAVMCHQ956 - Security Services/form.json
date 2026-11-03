@@ -1,0 +1,654 @@
+{
+  "id": "navmchq956",
+  "label": "NAVMC HQ 956 - Security Services",
+  "directory": "NAVMCHQ956 - Security Services",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "requestDate",
+        "lastName",
+        "firstName",
+        "phoneNumber",
+        "nameMI",
+        "officeCode",
+        "lastName2",
+        "otherComDescrip",
+        "crypto",
+        "secureProd",
+        "install",
+        "otherCom",
+        "locks",
+        "alarms",
+        "door",
+        "conduit",
+        "pds",
+        "pse",
+        "otherPhysDescrip",
+        "officeCert",
+        "antiTer",
+        "otherPhys",
+        "badge",
+        "access",
+        "sipr",
+        "swipe",
+        "cac",
+        "courier",
+        "visitor",
+        "investigat",
+        "mail",
+        "classified",
+        "jpas",
+        "otherPersDescrip",
+        "otherPers",
+        "desriProb",
+        "assignedTo",
+        "dateCompleted",
+        "followUp",
+        "rad1Yes",
+        "rad1Yes2",
+        "rad1Yes3",
+        "rad1Yes4",
+        "rad1Yes5",
+        "rad1Yes6",
+        "rad1Yes7",
+        "rad1Yes8",
+        "rad1Yes9",
+        "rad1Yes10",
+        "comments",
+        "custSignature",
+        "custSignatureDate"
+      ]
+    }
+  ],
+  "fields": {
+    "requestDate": {
+      "type": "text",
+      "label": "RequestDate",
+      "page": 1,
+      "box": {
+        "left": 102.8,
+        "top": 672.0,
+        "width": 76.5,
+        "height": 14.3
+      }
+    },
+    "lastName": {
+      "type": "text",
+      "label": "LastName",
+      "page": 1,
+      "box": {
+        "left": 20.9,
+        "top": 626.3,
+        "width": 198.9,
+        "height": 15.1
+      }
+    },
+    "firstName": {
+      "type": "text",
+      "label": "FirstName",
+      "page": 1,
+      "box": {
+        "left": 224.5,
+        "top": 626.3,
+        "width": 172.2,
+        "height": 15.1
+      }
+    },
+    "phoneNumber": {
+      "type": "text",
+      "label": "PhoneNumber",
+      "page": 1,
+      "box": {
+        "left": 423.5,
+        "top": 626.3,
+        "width": 84.0,
+        "height": 16.1
+      }
+    },
+    "nameMI": {
+      "type": "text",
+      "label": "NameMI",
+      "page": 1,
+      "box": {
+        "left": 401.1,
+        "top": 626.0,
+        "width": 18.4,
+        "height": 15.1
+      }
+    },
+    "officeCode": {
+      "type": "text",
+      "label": "OfficeCode",
+      "page": 1,
+      "box": {
+        "left": 512.3,
+        "top": 625.9,
+        "width": 79.2,
+        "height": 15.1
+      }
+    },
+    "lastName2": {
+      "type": "text",
+      "label": "LastName",
+      "page": 1,
+      "box": {
+        "left": 20.1,
+        "top": 595.9,
+        "width": 572.4,
+        "height": 15.1
+      }
+    },
+    "otherComDescrip": {
+      "type": "text",
+      "label": "OtherComDescrip",
+      "page": 1,
+      "box": {
+        "left": 457.7,
+        "top": 545.3,
+        "width": 126.0,
+        "height": 15.1
+      }
+    },
+    "crypto": {
+      "type": "checkbox",
+      "label": "Crypto",
+      "page": 1,
+      "box": {
+        "left": 34.0,
+        "top": 542.0,
+        "width": 11.0,
+        "height": 11.0
+      }
+    },
+    "secureProd": {
+      "type": "checkbox",
+      "label": "SecureProd",
+      "page": 1,
+      "box": {
+        "left": 168.7,
+        "top": 542.0,
+        "width": 11.0,
+        "height": 11.0
+      }
+    },
+    "install": {
+      "type": "checkbox",
+      "label": "Install",
+      "page": 1,
+      "box": {
+        "left": 324.1,
+        "top": 542.0,
+        "width": 11.0,
+        "height": 11.0
+      }
+    },
+    "otherCom": {
+      "type": "checkbox",
+      "label": "OtherCom",
+      "page": 1,
+      "box": {
+        "left": 414.6,
+        "top": 542.0,
+        "width": 11.0,
+        "height": 11.0
+      }
+    },
+    "locks": {
+      "type": "checkbox",
+      "label": "Locks",
+      "page": 1,
+      "box": {
+        "left": 34.3,
+        "top": 498.4,
+        "width": 11.0,
+        "height": 11.0
+      }
+    },
+    "alarms": {
+      "type": "checkbox",
+      "label": "Alarms",
+      "page": 1,
+      "box": {
+        "left": 107.1,
+        "top": 498.4,
+        "width": 11.0,
+        "height": 11.0
+      }
+    },
+    "door": {
+      "type": "checkbox",
+      "label": "Door",
+      "page": 1,
+      "box": {
+        "left": 184.3,
+        "top": 498.4,
+        "width": 11.0,
+        "height": 11.0
+      }
+    },
+    "conduit": {
+      "type": "checkbox",
+      "label": "Conduit",
+      "page": 1,
+      "box": {
+        "left": 293.1,
+        "top": 498.0,
+        "width": 11.0,
+        "height": 11.0
+      }
+    },
+    "pds": {
+      "type": "checkbox",
+      "label": "PDS",
+      "page": 1,
+      "box": {
+        "left": 374.0,
+        "top": 498.0,
+        "width": 11.0,
+        "height": 11.0
+      }
+    },
+    "pse": {
+      "type": "checkbox",
+      "label": "PSE",
+      "page": 1,
+      "box": {
+        "left": 449.8,
+        "top": 498.0,
+        "width": 11.0,
+        "height": 11.0
+      }
+    },
+    "otherPhysDescrip": {
+      "type": "text",
+      "label": "OtherPhysDescrip",
+      "page": 1,
+      "box": {
+        "left": 325.4,
+        "top": 477.4,
+        "width": 126.0,
+        "height": 15.1
+      }
+    },
+    "officeCert": {
+      "type": "checkbox",
+      "label": "OfficeCert",
+      "page": 1,
+      "box": {
+        "left": 34.4,
+        "top": 475.0,
+        "width": 11.0,
+        "height": 11.0
+      }
+    },
+    "antiTer": {
+      "type": "checkbox",
+      "label": "AntiTer",
+      "page": 1,
+      "box": {
+        "left": 154.2,
+        "top": 474.6,
+        "width": 11.0,
+        "height": 11.0
+      }
+    },
+    "otherPhys": {
+      "type": "checkbox",
+      "label": "OtherPhys",
+      "page": 1,
+      "box": {
+        "left": 282.2,
+        "top": 474.1,
+        "width": 11.0,
+        "height": 11.0
+      }
+    },
+    "badge": {
+      "type": "checkbox",
+      "label": "Badge",
+      "page": 1,
+      "box": {
+        "left": 34.6,
+        "top": 428.4,
+        "width": 11.0,
+        "height": 11.0
+      }
+    },
+    "access": {
+      "type": "checkbox",
+      "label": "Access",
+      "page": 1,
+      "box": {
+        "left": 120.7,
+        "top": 428.4,
+        "width": 11.0,
+        "height": 11.0
+      }
+    },
+    "sipr": {
+      "type": "checkbox",
+      "label": "SIPR",
+      "page": 1,
+      "box": {
+        "left": 211.2,
+        "top": 428.4,
+        "width": 11.0,
+        "height": 11.0
+      }
+    },
+    "swipe": {
+      "type": "checkbox",
+      "label": "Swipe",
+      "page": 1,
+      "box": {
+        "left": 297.1,
+        "top": 428.0,
+        "width": 11.0,
+        "height": 11.0
+      }
+    },
+    "cac": {
+      "type": "checkbox",
+      "label": "CAC",
+      "page": 1,
+      "box": {
+        "left": 390.5,
+        "top": 428.0,
+        "width": 11.0,
+        "height": 11.0
+      }
+    },
+    "courier": {
+      "type": "checkbox",
+      "label": "Courier",
+      "page": 1,
+      "box": {
+        "left": 484.8,
+        "top": 428.0,
+        "width": 11.0,
+        "height": 11.0
+      }
+    },
+    "visitor": {
+      "type": "checkbox",
+      "label": "Visitor",
+      "page": 1,
+      "box": {
+        "left": 34.6,
+        "top": 403.7,
+        "width": 11.0,
+        "height": 11.0
+      }
+    },
+    "investigat": {
+      "type": "checkbox",
+      "label": "Investigat",
+      "page": 1,
+      "box": {
+        "left": 120.6,
+        "top": 403.7,
+        "width": 11.0,
+        "height": 11.0
+      }
+    },
+    "mail": {
+      "type": "checkbox",
+      "label": "Mail",
+      "page": 1,
+      "box": {
+        "left": 239.9,
+        "top": 403.7,
+        "width": 11.0,
+        "height": 11.0
+      }
+    },
+    "classified": {
+      "type": "checkbox",
+      "label": "Classified",
+      "page": 1,
+      "box": {
+        "left": 330.2,
+        "top": 403.3,
+        "width": 11.0,
+        "height": 11.0
+      }
+    },
+    "jpas": {
+      "type": "checkbox",
+      "label": "JPAS",
+      "page": 1,
+      "box": {
+        "left": 441.4,
+        "top": 403.3,
+        "width": 11.0,
+        "height": 11.0
+      }
+    },
+    "otherPersDescrip": {
+      "type": "text",
+      "label": "OtherPersDescrip",
+      "page": 1,
+      "box": {
+        "left": 77.5,
+        "top": 381.4,
+        "width": 126.0,
+        "height": 15.1
+      }
+    },
+    "otherPers": {
+      "type": "checkbox",
+      "label": "OtherPers",
+      "page": 1,
+      "box": {
+        "left": 34.4,
+        "top": 378.3,
+        "width": 11.0,
+        "height": 11.0
+      }
+    },
+    "desriProb": {
+      "type": "text",
+      "label": "DesriProb",
+      "page": 1,
+      "box": {
+        "left": 19.3,
+        "top": 343.1,
+        "width": 571.8,
+        "height": 36.3
+      },
+      "multiline": true
+    },
+    "assignedTo": {
+      "type": "text",
+      "label": "AssignedTo",
+      "page": 1,
+      "box": {
+        "left": 20.1,
+        "top": 290.6,
+        "width": 490.6,
+        "height": 15.1
+      }
+    },
+    "dateCompleted": {
+      "type": "text",
+      "label": "DateCompleted",
+      "page": 1,
+      "box": {
+        "left": 516.0,
+        "top": 289.7,
+        "width": 76.5,
+        "height": 14.3
+      }
+    },
+    "followUp": {
+      "type": "text",
+      "label": "FollowUp",
+      "page": 1,
+      "box": {
+        "left": 19.3,
+        "top": 258.6,
+        "width": 571.8,
+        "height": 36.7
+      },
+      "multiline": true
+    },
+    "rad1Yes": {
+      "type": "radio",
+      "label": "7",
+      "page": 1,
+      "box": {
+        "left": 451.7,
+        "top": 195.8,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_0"
+    },
+    "rad1Yes2": {
+      "type": "radio",
+      "label": "4",
+      "page": 1,
+      "box": {
+        "left": 275.5,
+        "top": 195.7,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_0"
+    },
+    "rad1Yes3": {
+      "type": "radio",
+      "label": "5",
+      "page": 1,
+      "box": {
+        "left": 334.2,
+        "top": 195.7,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_0"
+    },
+    "rad1Yes4": {
+      "type": "radio",
+      "label": "8",
+      "page": 1,
+      "box": {
+        "left": 570.2,
+        "top": 195.7,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_0"
+    },
+    "rad1Yes5": {
+      "type": "radio",
+      "label": "3",
+      "page": 1,
+      "box": {
+        "left": 216.4,
+        "top": 195.6,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_0"
+    },
+    "rad1Yes6": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 41.7,
+        "top": 195.5,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_0"
+    },
+    "rad1Yes7": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 100.4,
+        "top": 195.5,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_0"
+    },
+    "rad1Yes8": {
+      "type": "radio",
+      "label": "6",
+      "page": 1,
+      "box": {
+        "left": 392.3,
+        "top": 195.1,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_0"
+    },
+    "rad1Yes9": {
+      "type": "radio",
+      "label": "9",
+      "page": 1,
+      "box": {
+        "left": 510.7,
+        "top": 195.0,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_0"
+    },
+    "rad1Yes10": {
+      "type": "radio",
+      "label": "2",
+      "page": 1,
+      "box": {
+        "left": 159.2,
+        "top": 194.9,
+        "width": 12.0,
+        "height": 12.0
+      },
+      "group": "form1_0_subform_0_Rad1Yes_0"
+    },
+    "comments": {
+      "type": "text",
+      "label": "Comments",
+      "page": 1,
+      "box": {
+        "left": 20.0,
+        "top": 141.5,
+        "width": 571.8,
+        "height": 53.3
+      },
+      "multiline": true
+    },
+    "custSignature": {
+      "type": "signature",
+      "label": "CustSignature",
+      "page": 1,
+      "box": {
+        "left": 123.6,
+        "top": 80.3,
+        "width": 227.8,
+        "height": 15.4
+      }
+    },
+    "custSignatureDate": {
+      "type": "text",
+      "label": "CustSignatureDate",
+      "page": 1,
+      "box": {
+        "left": 402.7,
+        "top": 79.9,
+        "width": 75.0,
+        "height": 14.3
+      }
+    }
+  }
+}

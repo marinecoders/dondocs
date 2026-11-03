@@ -1,0 +1,345 @@
+{
+  "id": "opnav35911",
+  "label": "OPNAV3591-1 - Small Arms Qualification Record",
+  "directory": "OPNAV3591-1 - Small Arms Qualification Record",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "pge",
+        "pgeOF",
+        "shista",
+        "divAct",
+        "weaFir",
+        "ranNmLoc",
+        "firDate",
+        "sigRO",
+        "datSRO"
+      ]
+    }
+  ],
+  "fields": {
+    "pge": {
+      "type": "text",
+      "label": "Pge",
+      "page": 1,
+      "box": {
+        "left": 703.3,
+        "top": 518.4,
+        "width": 13.8,
+        "height": 25.9
+      }
+    },
+    "pgeOF": {
+      "type": "text",
+      "label": "PgeOF",
+      "page": 1,
+      "box": {
+        "left": 736.8,
+        "top": 518.4,
+        "width": 13.8,
+        "height": 25.9
+      }
+    },
+    "shista": {
+      "type": "text",
+      "label": "Ship or Station",
+      "page": 1,
+      "box": {
+        "left": 44.0,
+        "top": 508.7,
+        "width": 150.6,
+        "height": 17.6
+      }
+    },
+    "divAct": {
+      "type": "text",
+      "label": "Division or Activity",
+      "page": 1,
+      "box": {
+        "left": 204.5,
+        "top": 508.7,
+        "width": 208.8,
+        "height": 17.6
+      }
+    },
+    "weaFir": {
+      "type": "text",
+      "label": "Weapon (s) Fired",
+      "page": 1,
+      "box": {
+        "left": 422.7,
+        "top": 508.7,
+        "width": 244.3,
+        "height": 17.6
+      }
+    },
+    "ranNmLoc": {
+      "type": "text",
+      "label": "Range Name and Location",
+      "page": 1,
+      "box": {
+        "left": 44.0,
+        "top": 448.4,
+        "width": 150.6,
+        "height": 30.0
+      }
+    },
+    "firDate": {
+      "type": "text",
+      "label": "Date of Firing",
+      "page": 1,
+      "box": {
+        "left": 201.5,
+        "top": 448.4,
+        "width": 89.7,
+        "height": 30.0
+      }
+    },
+    "sigRO": {
+      "type": "text",
+      "label": "Signature and Rate of Range Safety Officer",
+      "page": 1,
+      "box": {
+        "left": 41.2,
+        "top": 56.2,
+        "width": 488.3,
+        "height": 14.5
+      }
+    },
+    "datSRO": {
+      "type": "text",
+      "label": "Date of Range Safety Officer Signature",
+      "page": 1,
+      "box": {
+        "left": 536.3,
+        "top": 56.2,
+        "width": 211.5,
+        "height": 16.5
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 14,
+      "rowStride": 19.75,
+      "editor": "grid",
+      "columns": {
+        "nbeR": {
+          "type": "text",
+          "label": "Row 1 Full Name",
+          "page": 1,
+          "box": {
+            "left": 41.2,
+            "top": 359.5,
+            "width": 156.2,
+            "height": 16.8
+          }
+        },
+        "sSNLt": {
+          "type": "text",
+          "label": "Row 1 SSN (Last four)",
+          "page": 1,
+          "box": {
+            "left": 198.2,
+            "top": 359.5,
+            "width": 49.8,
+            "height": 16.8
+          }
+        },
+        "rank": {
+          "type": "text",
+          "label": "Row 1 Rank/Rate",
+          "page": 1,
+          "box": {
+            "left": 251.3,
+            "top": 359.3,
+            "width": 42.6,
+            "height": 16.8
+          }
+        },
+        "nHQCSc": {
+          "type": "text",
+          "label": "Row 1 NHQC Score",
+          "page": 1,
+          "box": {
+            "left": 297.7,
+            "top": 359.5,
+            "width": 37.7,
+            "height": 16.8
+          }
+        },
+        "nHQCAc": {
+          "type": "text",
+          "label": "Row 1 NHQC Award Code",
+          "page": 1,
+          "box": {
+            "left": 338.4,
+            "top": 359.5,
+            "width": 16.3,
+            "height": 16.8
+          }
+        },
+        "rQCSc": {
+          "type": "text",
+          "label": "Row 1 RQC Score Award",
+          "page": 1,
+          "box": {
+            "left": 357.9,
+            "top": 359.5,
+            "width": 37.7,
+            "height": 16.8
+          }
+        },
+        "rQCAc": {
+          "type": "text",
+          "label": "Row 1 RQC Award Code",
+          "page": 1,
+          "box": {
+            "left": 399.0,
+            "top": 359.5,
+            "width": 16.3,
+            "height": 16.8
+          }
+        },
+        "sPWCScT": {
+          "type": "text",
+          "label": "Row 1 SPWC Score T 1",
+          "page": 1,
+          "box": {
+            "left": 419.9,
+            "top": 359.5,
+            "width": 23.8,
+            "height": 16.8
+          }
+        },
+        "sPWCScT2": {
+          "type": "text",
+          "label": "Row 1 SPWC Score T 2",
+          "page": 1,
+          "box": {
+            "left": 446.0,
+            "top": 359.5,
+            "width": 23.8,
+            "height": 16.8
+          }
+        },
+        "sPWCScT3": {
+          "type": "text",
+          "label": "Row 1 SPWC Score T 3",
+          "page": 1,
+          "box": {
+            "left": 472.9,
+            "top": 359.5,
+            "width": 23.8,
+            "height": 16.8
+          }
+        },
+        "spwcqu": {
+          "type": "text",
+          "label": "Row 1 SPWC Score Q or U",
+          "page": 1,
+          "box": {
+            "left": 500.2,
+            "top": 359.5,
+            "width": 30.8,
+            "height": 16.8
+          }
+        },
+        "hPWCScT": {
+          "type": "text",
+          "label": "Row 1 HPWC Score T 1",
+          "page": 1,
+          "box": {
+            "left": 533.9,
+            "top": 359.5,
+            "width": 23.8,
+            "height": 16.8
+          }
+        },
+        "hPWCScT2": {
+          "type": "text",
+          "label": "Row 1 HPWC Score T 2",
+          "page": 1,
+          "box": {
+            "left": 560.8,
+            "top": 359.5,
+            "width": 23.8,
+            "height": 16.8
+          }
+        },
+        "hPWCScT3": {
+          "type": "text",
+          "label": "Row 1 HPWC Score T 3",
+          "page": 1,
+          "box": {
+            "left": 586.9,
+            "top": 359.5,
+            "width": 23.8,
+            "height": 16.8
+          }
+        },
+        "hpwcqu": {
+          "type": "text",
+          "label": "Row 1 HPWC Score Q or U",
+          "page": 1,
+          "box": {
+            "left": 613.6,
+            "top": 359.5,
+            "width": 30.8,
+            "height": 16.8
+          }
+        },
+        "hLLCSc": {
+          "type": "text",
+          "label": "Row 1 HLLC Numeric Score Award",
+          "page": 1,
+          "box": {
+            "left": 647.4,
+            "top": 359.5,
+            "width": 30.8,
+            "height": 16.8
+          }
+        },
+        "hllcqu": {
+          "type": "text",
+          "label": "Row 1 HLLC Score Q or U",
+          "page": 1,
+          "box": {
+            "left": 681.0,
+            "top": 359.5,
+            "width": 17.3,
+            "height": 16.8
+          }
+        },
+        "rLLCSc": {
+          "type": "text",
+          "label": "Row 1 RLLC Numeric Score Award",
+          "page": 1,
+          "box": {
+            "left": 701.3,
+            "top": 359.5,
+            "width": 30.8,
+            "height": 16.8
+          }
+        },
+        "rllcqu": {
+          "type": "text",
+          "label": "Row 1 RLLC Score Q or U",
+          "page": 1,
+          "box": {
+            "left": 734.9,
+            "top": 359.5,
+            "width": 17.3,
+            "height": 16.8
+          }
+        }
+      }
+    }
+  }
+}

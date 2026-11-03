@@ -1,0 +1,1293 @@
+{
+  "id": "opnav479022a",
+  "label": "OPNAV4790-22A - Inspection Record",
+  "directory": "OPNAV4790-22A - Inspection Record",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "perCond",
+        "aCmEPn",
+        "tyMdSr",
+        "bNsER",
+        "tpeDesIns",
+        "refer",
+        "datComm",
+        "dteComp",
+        "acty",
+        "sig",
+        "tpeDesInsA",
+        "referA",
+        "datCommA",
+        "dteCompA",
+        "actyA",
+        "sigA",
+        "tpeDesInsB",
+        "referB",
+        "datCommB",
+        "dteCompB",
+        "actyB",
+        "sigB",
+        "tpeDesInsC",
+        "referC",
+        "datCommC",
+        "dteCompC",
+        "actyC",
+        "sigC",
+        "tpeDesInsD",
+        "referD",
+        "datCommD",
+        "dteCompD",
+        "actyD",
+        "sigD",
+        "tpeDesInsE",
+        "referE",
+        "datCommE",
+        "dteCompE",
+        "actyE",
+        "sigE",
+        "tpeDesInsF",
+        "referF",
+        "datCommF",
+        "dteCompF",
+        "actyF",
+        "sigF",
+        "tpeDesInsG",
+        "referG",
+        "datCommG",
+        "dteCompG",
+        "actyG",
+        "sigG",
+        "tpeDesInsH",
+        "referH",
+        "datCommH",
+        "dteCompH",
+        "actyH",
+        "sigH",
+        "tpeDesInsI",
+        "referI",
+        "datCommI",
+        "dteCompI",
+        "actyI",
+        "sigI",
+        "tpeDesInsJ",
+        "referJ",
+        "datCommJ",
+        "dteCompJ",
+        "actyJ",
+        "sigJ",
+        "tpeDesInsK",
+        "referK",
+        "datCommK",
+        "dteCompK",
+        "actyK",
+        "sigK",
+        "tpeDesInsL",
+        "referL",
+        "datCommL",
+        "dteCompL",
+        "actyL",
+        "sigL",
+        "tpeDesInsM",
+        "referM",
+        "datCommM",
+        "dteCompM",
+        "actyM",
+        "sigM",
+        "tpeDesInsN",
+        "referN",
+        "datCommN",
+        "dteCompN",
+        "actyN",
+        "sigN",
+        "tpeDesInsO",
+        "referO",
+        "datCommO",
+        "dteCompO",
+        "actyO",
+        "sigO",
+        "tpeDesInsP",
+        "referP",
+        "datCommP",
+        "dteCompP",
+        "actyP",
+        "sigP"
+      ]
+    }
+  ],
+  "fields": {
+    "perCond": {
+      "type": "choice",
+      "label": "Per Cond",
+      "page": 1,
+      "box": {
+        "left": 92.1,
+        "top": 558.9,
+        "width": 118.9,
+        "height": 14.7
+      },
+      "options": [
+        "PERIODICAL",
+        "CONDITIONAL"
+      ]
+    },
+    "aCmEPn": {
+      "type": "text",
+      "label": "1. AIRCRAFT MODEL OR EQUIPMENT NAME",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 501.1,
+        "width": 234.3,
+        "height": 20.5
+      }
+    },
+    "tyMdSr": {
+      "type": "text",
+      "label": "2. TYPE/MODEL SERIES",
+      "page": 1,
+      "box": {
+        "left": 278.8,
+        "top": 501.1,
+        "width": 234.3,
+        "height": 20.5
+      }
+    },
+    "bNsER": {
+      "type": "text",
+      "label": "3. BUNO OR SERIAL NUMBER",
+      "page": 1,
+      "box": {
+        "left": 518.8,
+        "top": 501.1,
+        "width": 234.3,
+        "height": 20.5
+      }
+    },
+    "tpeDesIns": {
+      "type": "text",
+      "label": "INSPECTION",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 455.0,
+        "width": 161.9,
+        "height": 19.8
+      }
+    },
+    "refer": {
+      "type": "text",
+      "label": "5. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 208.4,
+        "top": 455.0,
+        "width": 171.4,
+        "height": 19.8
+      }
+    },
+    "datComm": {
+      "type": "text",
+      "label": "COMMENCED",
+      "page": 1,
+      "box": {
+        "left": 387.2,
+        "top": 455.0,
+        "width": 66.9,
+        "height": 19.8
+      }
+    },
+    "dteComp": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 457.6,
+        "top": 455.0,
+        "width": 64.0,
+        "height": 19.8
+      }
+    },
+    "acty": {
+      "type": "text",
+      "label": "8. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 527.9,
+        "top": 455.0,
+        "width": 126.4,
+        "height": 19.8
+      }
+    },
+    "sig": {
+      "type": "text",
+      "label": "9. Signature",
+      "page": 1,
+      "box": {
+        "left": 661.7,
+        "top": 455.0,
+        "width": 90.2,
+        "height": 19.8
+      }
+    },
+    "tpeDesInsA": {
+      "type": "text",
+      "label": "INSPECTION",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 429.5,
+        "width": 161.9,
+        "height": 19.1
+      }
+    },
+    "referA": {
+      "type": "text",
+      "label": "5. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 208.4,
+        "top": 429.5,
+        "width": 171.4,
+        "height": 19.1
+      }
+    },
+    "datCommA": {
+      "type": "text",
+      "label": "COMMENCED",
+      "page": 1,
+      "box": {
+        "left": 387.2,
+        "top": 429.5,
+        "width": 64.0,
+        "height": 19.1
+      }
+    },
+    "dteCompA": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 457.6,
+        "top": 429.5,
+        "width": 64.0,
+        "height": 19.1
+      }
+    },
+    "actyA": {
+      "type": "text",
+      "label": "8. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 527.9,
+        "top": 429.5,
+        "width": 126.4,
+        "height": 19.1
+      }
+    },
+    "sigA": {
+      "type": "text",
+      "label": "9. Signature",
+      "page": 1,
+      "box": {
+        "left": 661.7,
+        "top": 429.5,
+        "width": 90.2,
+        "height": 19.1
+      }
+    },
+    "tpeDesInsB": {
+      "type": "text",
+      "label": "INSPECTION",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 404.8,
+        "width": 161.9,
+        "height": 19.1
+      }
+    },
+    "referB": {
+      "type": "text",
+      "label": "5. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 208.4,
+        "top": 404.8,
+        "width": 171.4,
+        "height": 19.1
+      }
+    },
+    "datCommB": {
+      "type": "text",
+      "label": "COMMENCED",
+      "page": 1,
+      "box": {
+        "left": 387.2,
+        "top": 404.8,
+        "width": 64.0,
+        "height": 19.1
+      }
+    },
+    "dteCompB": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 457.6,
+        "top": 404.8,
+        "width": 64.0,
+        "height": 19.1
+      }
+    },
+    "actyB": {
+      "type": "text",
+      "label": "8. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 527.9,
+        "top": 404.8,
+        "width": 126.4,
+        "height": 19.1
+      }
+    },
+    "sigB": {
+      "type": "text",
+      "label": "9. Signature",
+      "page": 1,
+      "box": {
+        "left": 661.7,
+        "top": 404.8,
+        "width": 90.2,
+        "height": 19.1
+      }
+    },
+    "tpeDesInsC": {
+      "type": "text",
+      "label": "INSPECTION",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 380.0,
+        "width": 161.9,
+        "height": 19.1
+      }
+    },
+    "referC": {
+      "type": "text",
+      "label": "5. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 208.4,
+        "top": 380.0,
+        "width": 171.4,
+        "height": 19.1
+      }
+    },
+    "datCommC": {
+      "type": "text",
+      "label": "COMMENCED",
+      "page": 1,
+      "box": {
+        "left": 387.2,
+        "top": 380.0,
+        "width": 64.0,
+        "height": 19.1
+      }
+    },
+    "dteCompC": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 457.6,
+        "top": 380.0,
+        "width": 64.0,
+        "height": 19.1
+      }
+    },
+    "actyC": {
+      "type": "text",
+      "label": "8. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 527.9,
+        "top": 380.0,
+        "width": 126.4,
+        "height": 19.1
+      }
+    },
+    "sigC": {
+      "type": "text",
+      "label": "9. Signature",
+      "page": 1,
+      "box": {
+        "left": 661.7,
+        "top": 380.0,
+        "width": 90.2,
+        "height": 19.1
+      }
+    },
+    "tpeDesInsD": {
+      "type": "text",
+      "label": "INSPECTION",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 355.3,
+        "width": 161.9,
+        "height": 19.1
+      }
+    },
+    "referD": {
+      "type": "text",
+      "label": "5. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 208.4,
+        "top": 355.3,
+        "width": 171.4,
+        "height": 19.1
+      }
+    },
+    "datCommD": {
+      "type": "text",
+      "label": "COMMENCED",
+      "page": 1,
+      "box": {
+        "left": 387.2,
+        "top": 355.3,
+        "width": 64.0,
+        "height": 19.1
+      }
+    },
+    "dteCompD": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 457.6,
+        "top": 355.3,
+        "width": 64.0,
+        "height": 19.1
+      }
+    },
+    "actyD": {
+      "type": "text",
+      "label": "8. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 527.9,
+        "top": 355.3,
+        "width": 126.4,
+        "height": 19.1
+      }
+    },
+    "sigD": {
+      "type": "text",
+      "label": "9. Signature",
+      "page": 1,
+      "box": {
+        "left": 661.7,
+        "top": 355.3,
+        "width": 90.2,
+        "height": 19.1
+      }
+    },
+    "tpeDesInsE": {
+      "type": "text",
+      "label": "INSPECTION",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 330.6,
+        "width": 161.9,
+        "height": 19.1
+      }
+    },
+    "referE": {
+      "type": "text",
+      "label": "5. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 208.4,
+        "top": 330.6,
+        "width": 171.4,
+        "height": 19.1
+      }
+    },
+    "datCommE": {
+      "type": "text",
+      "label": "COMMENCED",
+      "page": 1,
+      "box": {
+        "left": 387.2,
+        "top": 330.6,
+        "width": 64.0,
+        "height": 19.1
+      }
+    },
+    "dteCompE": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 457.6,
+        "top": 330.6,
+        "width": 64.0,
+        "height": 19.1
+      }
+    },
+    "actyE": {
+      "type": "text",
+      "label": "8. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 527.9,
+        "top": 330.6,
+        "width": 126.4,
+        "height": 19.1
+      }
+    },
+    "sigE": {
+      "type": "text",
+      "label": "9. Signature",
+      "page": 1,
+      "box": {
+        "left": 661.7,
+        "top": 330.6,
+        "width": 90.2,
+        "height": 19.1
+      }
+    },
+    "tpeDesInsF": {
+      "type": "text",
+      "label": "INSPECTION",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 305.9,
+        "width": 161.9,
+        "height": 19.1
+      }
+    },
+    "referF": {
+      "type": "text",
+      "label": "5. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 208.4,
+        "top": 305.9,
+        "width": 171.4,
+        "height": 19.1
+      }
+    },
+    "datCommF": {
+      "type": "text",
+      "label": "COMMENCED",
+      "page": 1,
+      "box": {
+        "left": 387.2,
+        "top": 305.9,
+        "width": 64.0,
+        "height": 19.1
+      }
+    },
+    "dteCompF": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 457.6,
+        "top": 305.9,
+        "width": 64.0,
+        "height": 19.1
+      }
+    },
+    "actyF": {
+      "type": "text",
+      "label": "8. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 527.9,
+        "top": 305.9,
+        "width": 126.4,
+        "height": 19.1
+      }
+    },
+    "sigF": {
+      "type": "text",
+      "label": "9. Signature",
+      "page": 1,
+      "box": {
+        "left": 661.7,
+        "top": 305.9,
+        "width": 90.2,
+        "height": 19.1
+      }
+    },
+    "tpeDesInsG": {
+      "type": "text",
+      "label": "INSPECTION",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 281.1,
+        "width": 161.9,
+        "height": 19.1
+      }
+    },
+    "referG": {
+      "type": "text",
+      "label": "5. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 208.4,
+        "top": 281.1,
+        "width": 171.4,
+        "height": 19.1
+      }
+    },
+    "datCommG": {
+      "type": "text",
+      "label": "COMMENCED",
+      "page": 1,
+      "box": {
+        "left": 387.2,
+        "top": 281.1,
+        "width": 64.0,
+        "height": 19.1
+      }
+    },
+    "dteCompG": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 457.6,
+        "top": 281.1,
+        "width": 64.0,
+        "height": 19.1
+      }
+    },
+    "actyG": {
+      "type": "text",
+      "label": "8. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 527.9,
+        "top": 281.1,
+        "width": 126.4,
+        "height": 19.1
+      }
+    },
+    "sigG": {
+      "type": "text",
+      "label": "9. Signature",
+      "page": 1,
+      "box": {
+        "left": 661.7,
+        "top": 281.1,
+        "width": 90.2,
+        "height": 19.1
+      }
+    },
+    "tpeDesInsH": {
+      "type": "text",
+      "label": "INSPECTION",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 256.4,
+        "width": 161.9,
+        "height": 19.1
+      }
+    },
+    "referH": {
+      "type": "text",
+      "label": "5. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 208.4,
+        "top": 256.4,
+        "width": 171.4,
+        "height": 19.1
+      }
+    },
+    "datCommH": {
+      "type": "text",
+      "label": "COMMENCED",
+      "page": 1,
+      "box": {
+        "left": 387.2,
+        "top": 256.4,
+        "width": 64.0,
+        "height": 19.1
+      }
+    },
+    "dteCompH": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 457.6,
+        "top": 256.4,
+        "width": 64.0,
+        "height": 19.1
+      }
+    },
+    "actyH": {
+      "type": "text",
+      "label": "8. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 527.9,
+        "top": 256.4,
+        "width": 126.4,
+        "height": 19.1
+      }
+    },
+    "sigH": {
+      "type": "text",
+      "label": "9. Signature",
+      "page": 1,
+      "box": {
+        "left": 661.7,
+        "top": 256.4,
+        "width": 90.2,
+        "height": 19.1
+      }
+    },
+    "tpeDesInsI": {
+      "type": "text",
+      "label": "INSPECTION",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 231.7,
+        "width": 161.9,
+        "height": 19.1
+      }
+    },
+    "referI": {
+      "type": "text",
+      "label": "5. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 208.4,
+        "top": 231.7,
+        "width": 171.4,
+        "height": 19.1
+      }
+    },
+    "datCommI": {
+      "type": "text",
+      "label": "COMMENCED",
+      "page": 1,
+      "box": {
+        "left": 387.2,
+        "top": 231.7,
+        "width": 64.0,
+        "height": 19.1
+      }
+    },
+    "dteCompI": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 457.6,
+        "top": 231.7,
+        "width": 64.0,
+        "height": 19.1
+      }
+    },
+    "actyI": {
+      "type": "text",
+      "label": "8. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 527.9,
+        "top": 231.7,
+        "width": 126.4,
+        "height": 19.1
+      }
+    },
+    "sigI": {
+      "type": "text",
+      "label": "9. Signature",
+      "page": 1,
+      "box": {
+        "left": 661.7,
+        "top": 231.7,
+        "width": 90.2,
+        "height": 19.1
+      }
+    },
+    "tpeDesInsJ": {
+      "type": "text",
+      "label": "INSPECTION",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 207.0,
+        "width": 161.9,
+        "height": 19.1
+      }
+    },
+    "referJ": {
+      "type": "text",
+      "label": "5. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 208.4,
+        "top": 207.0,
+        "width": 171.4,
+        "height": 19.1
+      }
+    },
+    "datCommJ": {
+      "type": "text",
+      "label": "COMMENCED",
+      "page": 1,
+      "box": {
+        "left": 387.2,
+        "top": 207.0,
+        "width": 64.0,
+        "height": 19.1
+      }
+    },
+    "dteCompJ": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 457.6,
+        "top": 207.0,
+        "width": 64.0,
+        "height": 19.1
+      }
+    },
+    "actyJ": {
+      "type": "text",
+      "label": "8. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 527.9,
+        "top": 207.0,
+        "width": 126.4,
+        "height": 19.1
+      }
+    },
+    "sigJ": {
+      "type": "text",
+      "label": "9. Signature",
+      "page": 1,
+      "box": {
+        "left": 661.7,
+        "top": 207.0,
+        "width": 90.2,
+        "height": 19.1
+      }
+    },
+    "tpeDesInsK": {
+      "type": "text",
+      "label": "INSPECTION",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 182.2,
+        "width": 161.9,
+        "height": 19.1
+      }
+    },
+    "referK": {
+      "type": "text",
+      "label": "5. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 208.4,
+        "top": 182.2,
+        "width": 171.4,
+        "height": 19.1
+      }
+    },
+    "datCommK": {
+      "type": "text",
+      "label": "COMMENCED",
+      "page": 1,
+      "box": {
+        "left": 387.2,
+        "top": 182.2,
+        "width": 64.0,
+        "height": 19.1
+      }
+    },
+    "dteCompK": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 457.6,
+        "top": 182.2,
+        "width": 64.0,
+        "height": 19.1
+      }
+    },
+    "actyK": {
+      "type": "text",
+      "label": "8. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 527.9,
+        "top": 182.2,
+        "width": 126.4,
+        "height": 19.1
+      }
+    },
+    "sigK": {
+      "type": "text",
+      "label": "9. Signature",
+      "page": 1,
+      "box": {
+        "left": 661.7,
+        "top": 182.2,
+        "width": 90.2,
+        "height": 19.1
+      }
+    },
+    "tpeDesInsL": {
+      "type": "text",
+      "label": "INSPECTION",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 157.5,
+        "width": 161.9,
+        "height": 19.1
+      }
+    },
+    "referL": {
+      "type": "text",
+      "label": "5. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 208.4,
+        "top": 157.5,
+        "width": 171.4,
+        "height": 19.1
+      }
+    },
+    "datCommL": {
+      "type": "text",
+      "label": "COMMENCED",
+      "page": 1,
+      "box": {
+        "left": 387.2,
+        "top": 157.5,
+        "width": 64.0,
+        "height": 19.1
+      }
+    },
+    "dteCompL": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 457.6,
+        "top": 157.5,
+        "width": 64.0,
+        "height": 19.1
+      }
+    },
+    "actyL": {
+      "type": "text",
+      "label": "8. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 527.9,
+        "top": 157.5,
+        "width": 126.4,
+        "height": 19.1
+      }
+    },
+    "sigL": {
+      "type": "text",
+      "label": "9. Signature",
+      "page": 1,
+      "box": {
+        "left": 661.7,
+        "top": 157.5,
+        "width": 90.2,
+        "height": 19.1
+      }
+    },
+    "tpeDesInsM": {
+      "type": "text",
+      "label": "INSPECTION",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 132.8,
+        "width": 161.9,
+        "height": 19.1
+      }
+    },
+    "referM": {
+      "type": "text",
+      "label": "5. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 208.4,
+        "top": 132.8,
+        "width": 171.4,
+        "height": 19.1
+      }
+    },
+    "datCommM": {
+      "type": "text",
+      "label": "COMMENCED",
+      "page": 1,
+      "box": {
+        "left": 387.2,
+        "top": 132.8,
+        "width": 64.0,
+        "height": 19.1
+      }
+    },
+    "dteCompM": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 457.6,
+        "top": 132.8,
+        "width": 64.0,
+        "height": 19.1
+      }
+    },
+    "actyM": {
+      "type": "text",
+      "label": "8. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 527.9,
+        "top": 132.8,
+        "width": 126.4,
+        "height": 19.1
+      }
+    },
+    "sigM": {
+      "type": "text",
+      "label": "9. Signature",
+      "page": 1,
+      "box": {
+        "left": 661.7,
+        "top": 132.8,
+        "width": 90.2,
+        "height": 19.1
+      }
+    },
+    "tpeDesInsN": {
+      "type": "text",
+      "label": "INSPECTION",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 108.1,
+        "width": 161.9,
+        "height": 19.1
+      }
+    },
+    "referN": {
+      "type": "text",
+      "label": "5. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 208.4,
+        "top": 108.1,
+        "width": 171.4,
+        "height": 19.1
+      }
+    },
+    "datCommN": {
+      "type": "text",
+      "label": "COMMENCED",
+      "page": 1,
+      "box": {
+        "left": 387.2,
+        "top": 108.1,
+        "width": 64.0,
+        "height": 19.1
+      }
+    },
+    "dteCompN": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 457.6,
+        "top": 108.1,
+        "width": 64.0,
+        "height": 19.1
+      }
+    },
+    "actyN": {
+      "type": "text",
+      "label": "8. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 527.9,
+        "top": 108.1,
+        "width": 126.4,
+        "height": 19.1
+      }
+    },
+    "sigN": {
+      "type": "text",
+      "label": "9. Signature",
+      "page": 1,
+      "box": {
+        "left": 661.7,
+        "top": 108.1,
+        "width": 90.2,
+        "height": 19.1
+      }
+    },
+    "tpeDesInsO": {
+      "type": "text",
+      "label": "INSPECTION",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 83.3,
+        "width": 161.9,
+        "height": 19.1
+      }
+    },
+    "referO": {
+      "type": "text",
+      "label": "5. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 208.4,
+        "top": 83.3,
+        "width": 171.4,
+        "height": 19.1
+      }
+    },
+    "datCommO": {
+      "type": "text",
+      "label": "COMMENCED",
+      "page": 1,
+      "box": {
+        "left": 387.2,
+        "top": 83.3,
+        "width": 64.0,
+        "height": 19.1
+      }
+    },
+    "dteCompO": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 457.6,
+        "top": 83.3,
+        "width": 64.0,
+        "height": 19.1
+      }
+    },
+    "actyO": {
+      "type": "text",
+      "label": "8. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 527.9,
+        "top": 83.3,
+        "width": 126.4,
+        "height": 19.1
+      }
+    },
+    "sigO": {
+      "type": "text",
+      "label": "9. Signature",
+      "page": 1,
+      "box": {
+        "left": 661.7,
+        "top": 83.3,
+        "width": 90.2,
+        "height": 19.1
+      }
+    },
+    "tpeDesInsP": {
+      "type": "text",
+      "label": "INSPECTION",
+      "page": 1,
+      "box": {
+        "left": 38.9,
+        "top": 58.6,
+        "width": 161.9,
+        "height": 19.1
+      }
+    },
+    "referP": {
+      "type": "text",
+      "label": "5. REFERENCE",
+      "page": 1,
+      "box": {
+        "left": 208.4,
+        "top": 58.6,
+        "width": 171.4,
+        "height": 19.1
+      }
+    },
+    "datCommP": {
+      "type": "text",
+      "label": "COMMENCED",
+      "page": 1,
+      "box": {
+        "left": 387.2,
+        "top": 58.6,
+        "width": 64.0,
+        "height": 19.1
+      }
+    },
+    "dteCompP": {
+      "type": "text",
+      "label": "COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 457.6,
+        "top": 58.6,
+        "width": 64.0,
+        "height": 19.1
+      }
+    },
+    "actyP": {
+      "type": "text",
+      "label": "8. ACTIVITY",
+      "page": 1,
+      "box": {
+        "left": 527.9,
+        "top": 58.6,
+        "width": 126.4,
+        "height": 19.1
+      }
+    },
+    "sigP": {
+      "type": "text",
+      "label": "9. Signature",
+      "page": 1,
+      "box": {
+        "left": 661.7,
+        "top": 58.6,
+        "width": 90.2,
+        "height": 19.1
+      }
+    }
+  }
+}

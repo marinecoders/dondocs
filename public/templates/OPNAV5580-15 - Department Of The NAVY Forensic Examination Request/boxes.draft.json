@@ -1,0 +1,293 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 793
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "priorityofexam": {
+        "left": 436.7,
+        "top": 743.9,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "F[0].P1[0].Priorityofexam[0]",
+        "required": false
+      },
+      "priorityofexam2": {
+        "left": 436.7,
+        "top": 725.6,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "F[0].P1[0].Priorityofexam[0]",
+        "required": false
+      },
+      "priorityofexam3": {
+        "left": 436.7,
+        "top": 706.3,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "2",
+        "options": null,
+        "group": "F[0].P1[0].Priorityofexam[0]",
+        "required": false
+      },
+      "to": {
+        "left": 33.5,
+        "top": 672.8,
+        "width": 272.1,
+        "height": 54.0,
+        "type": "text",
+        "description": "Enter who the forensic examination request is to.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "from": {
+        "left": 307.4,
+        "top": 672.8,
+        "width": 269.5,
+        "height": 54.0,
+        "type": "text",
+        "description": "Enter who the forensic examination request is from.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "casefacts": {
+        "left": 33.5,
+        "top": 589.9,
+        "width": 543.9,
+        "height": 86.9,
+        "type": "text",
+        "description": "Enter the case facts, give a brief description pertaining to the requested examination which may\r\nassist laboratory personnel in processing the evidence. Include date and place of crime.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "evidencesubmitteda": {
+        "left": 33.5,
+        "top": 472.5,
+        "width": 272.1,
+        "height": 54.0,
+        "type": "text",
+        "description": "Enter the item number of evidence submitted.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "evidencesubmittedb": {
+        "left": 307.4,
+        "top": 472.5,
+        "width": 269.5,
+        "height": 54.0,
+        "type": "text",
+        "description": "Enter the item description of evidence submitted.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "examinationsandorcomparisonsrequested": {
+        "left": 33.5,
+        "top": 402.0,
+        "width": 543.9,
+        "height": 36.8,
+        "type": "text",
+        "description": "Enter the examinations and/or comparisons requested.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "suspectsfullname": {
+        "left": 33.5,
+        "top": 347.8,
+        "width": 272.1,
+        "height": 29.5,
+        "type": "text",
+        "description": "Enter the suspect(s) full name.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "victimsfullname": {
+        "left": 307.4,
+        "top": 347.8,
+        "width": 269.5,
+        "height": 29.5,
+        "type": "text",
+        "description": "Enter the victim(s) full name.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "typeofoffense": {
+        "left": 147.8,
+        "top": 316.0,
+        "width": 429.1,
+        "height": 20.1,
+        "type": "text",
+        "description": "Enter the type of offense.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "evidencecustodydocumentEnclosed": {
+        "left": 423.6,
+        "top": 287.4,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "F[0].P1[0].EvidencecustodydocumentEnclosed[0]",
+        "required": false
+      },
+      "evidencecustodydocumentEnclosed2": {
+        "left": 511.3,
+        "top": 287.4,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "F[0].P1[0].EvidencecustodydocumentEnclosed[0]",
+        "required": false
+      },
+      "otherevvidencepreviouslybeensubmitted": {
+        "left": 423.6,
+        "top": 266.0,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "0",
+        "options": null,
+        "group": "F[0].P1[0].Otherevvidencepreviouslybeensubmitted[0]",
+        "required": false
+      },
+      "otherevvidencepreviouslybeensubmitted2": {
+        "left": 511.3,
+        "top": 266.0,
+        "width": 10.0,
+        "height": 10.0,
+        "type": "radio",
+        "description": "1",
+        "options": null,
+        "group": "F[0].P1[0].Otherevvidencepreviouslybeensubmitted[0]",
+        "required": false
+      },
+      "labreportnumber": {
+        "left": 151.4,
+        "top": 250.2,
+        "width": 154.2,
+        "height": 15.9,
+        "type": "text",
+        "description": "Enter the lab report number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "casecontrolnumberCCN": {
+        "left": 451.9,
+        "top": 250.2,
+        "width": 125.0,
+        "height": 15.9,
+        "type": "text",
+        "description": "Enter the case control number (CCN).",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "investigatorsname": {
+        "left": 323.1,
+        "top": 233.0,
+        "width": 180.3,
+        "height": 20.1,
+        "type": "text",
+        "description": "Enter the investigator's name.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "investigatorsofficephoneNO": {
+        "left": 506.2,
+        "top": 233.0,
+        "width": 70.7,
+        "height": 20.1,
+        "type": "text",
+        "description": "Enter the investigator's office telephone number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dispositionitemnumber": {
+        "left": 33.5,
+        "top": 183.4,
+        "width": 272.1,
+        "height": 66.5,
+        "type": "text",
+        "description": "Enter the item number of the disposition of evidence after analysis/comparison.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "disposition": {
+        "left": 307.4,
+        "top": 183.4,
+        "width": 269.5,
+        "height": 66.5,
+        "type": "text",
+        "description": "Enter the disposition of evidence after analysis/comparison.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dNSDate3": {
+        "left": 35.1,
+        "top": 67.1,
+        "width": 108.3,
+        "height": 21.1,
+        "type": "text",
+        "description": "Enter the certification date using the format DD MMM YYYY.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "requestertypedorprintedname": {
+        "left": 145.2,
+        "top": 67.1,
+        "width": 160.5,
+        "height": 21.1,
+        "type": "text",
+        "description": "Enter the requester typed or printed name.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "requestersignature": {
+        "left": 307.4,
+        "top": 67.1,
+        "width": 269.5,
+        "height": 21.1,
+        "type": "text",
+        "description": "Enter the requester's signature.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

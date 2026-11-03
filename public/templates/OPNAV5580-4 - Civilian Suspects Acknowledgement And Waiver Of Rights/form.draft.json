@@ -1,0 +1,175 @@
+{
+  "id": "opnav55804",
+  "label": "OPNAV5580-4 - Civilian Suspects Acknowledgement And Waiver Of Rights",
+  "directory": "OPNAV5580-4 - Civilian Suspects Acknowledgement And Waiver Of Rights",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "place",
+        "name1",
+        "advised",
+        "suspected",
+        "signature",
+        "dNSDate31",
+        "timeField1",
+        "witness1",
+        "witness2",
+        "dNSDate32",
+        "timeField2",
+        "name2",
+        "statement"
+      ]
+    }
+  ],
+  "fields": {
+    "place": {
+      "type": "text",
+      "label": "Enter the place.",
+      "page": 1,
+      "box": {
+        "left": 332.5,
+        "top": 675.1,
+        "width": 209.2,
+        "height": 30.3
+      },
+      "multiline": true
+    },
+    "name1": {
+      "type": "text",
+      "label": "Enter the name of suspect.",
+      "page": 1,
+      "box": {
+        "left": 71.9,
+        "top": 633.5,
+        "width": 469.8,
+        "height": 16.8
+      }
+    },
+    "advised": {
+      "type": "text",
+      "label": "Enter by who the suspect has been advised by.",
+      "page": 1,
+      "box": {
+        "left": 155.2,
+        "top": 611.7,
+        "width": 386.5,
+        "height": 16.8
+      }
+    },
+    "suspected": {
+      "type": "text",
+      "label": "Indicate what the civilan is being suspected of.",
+      "page": 1,
+      "box": {
+        "left": 155.2,
+        "top": 588.7,
+        "width": 386.5,
+        "height": 16.8
+      }
+    },
+    "signature": {
+      "type": "text",
+      "label": "Enter the signature.",
+      "page": 1,
+      "box": {
+        "left": 351.5,
+        "top": 351.8,
+        "width": 190.2,
+        "height": 16.8
+      }
+    },
+    "dNSDate31": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY of suspect's signature.",
+      "page": 1,
+      "box": {
+        "left": 364.9,
+        "top": 326.5,
+        "width": 72.6,
+        "height": 16.1
+      }
+    },
+    "timeField1": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HH:MM:SS) of the suspect's time.",
+      "page": 1,
+      "box": {
+        "left": 469.1,
+        "top": 326.5,
+        "width": 72.6,
+        "height": 16.1
+      }
+    },
+    "witness1": {
+      "type": "text",
+      "label": "Enter the first witnessed signature.",
+      "page": 1,
+      "box": {
+        "left": 107.1,
+        "top": 294.5,
+        "width": 101.2,
+        "height": 16.8
+      }
+    },
+    "witness2": {
+      "type": "text",
+      "label": "Enter the second witnessed signature.",
+      "page": 1,
+      "box": {
+        "left": 105.8,
+        "top": 267.7,
+        "width": 101.2,
+        "height": 16.8
+      }
+    },
+    "dNSDate32": {
+      "type": "text",
+      "label": "Enter the date using the format DD MMM YYYY of the witness's date.",
+      "page": 1,
+      "box": {
+        "left": 369.1,
+        "top": 249.9,
+        "width": 72.6,
+        "height": 16.1
+      }
+    },
+    "timeField2": {
+      "type": "text",
+      "label": "Enter the time using the 24-hour clock (HH:MM:SS) of the witness's time of signature.",
+      "page": 1,
+      "box": {
+        "left": 469.5,
+        "top": 249.9,
+        "width": 72.6,
+        "height": 16.1
+      }
+    },
+    "name2": {
+      "type": "text",
+      "label": "Indicate who is making voluntary statement.",
+      "page": 1,
+      "box": {
+        "left": 155.2,
+        "top": 229.6,
+        "width": 369.3,
+        "height": 17.2
+      }
+    },
+    "statement": {
+      "type": "text",
+      "label": "Enter the voluntary statement.",
+      "page": 1,
+      "box": {
+        "left": 65.2,
+        "top": 179.6,
+        "width": 488.6,
+        "height": 104.4
+      },
+      "multiline": true
+    }
+  }
+}

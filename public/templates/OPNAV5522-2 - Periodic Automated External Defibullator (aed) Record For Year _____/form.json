@@ -1,0 +1,773 @@
+{
+  "id": "opnav55222",
+  "label": "OPNAV5522-2 - Periodic Automated External Defibullator (aed) Record For Year _____",
+  "directory": "OPNAV5522-2 - Periodic Automated External Defibullator (aed) Record For Year _____",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "textField1",
+        "textField2",
+        "textField22",
+        "jan",
+        "aed",
+        "aed2",
+        "aedcab",
+        "inspInit",
+        "feb",
+        "aeda",
+        "aeda2",
+        "aedcaba",
+        "inspInita",
+        "mar",
+        "aedb",
+        "aedb2",
+        "aedcabb",
+        "inspInitb",
+        "apr",
+        "aedc",
+        "aedc2",
+        "aedcabc",
+        "inspInitc",
+        "may",
+        "aedd",
+        "aedd2",
+        "aedcabd",
+        "inspInitd",
+        "jun",
+        "aede",
+        "aede2",
+        "aedcabe",
+        "inspInite",
+        "jul",
+        "aedf",
+        "aedf2",
+        "aedcabf",
+        "inspInitf",
+        "aug",
+        "aedg",
+        "aedg2",
+        "aedcabg",
+        "inspInitg",
+        "sep",
+        "aedh",
+        "aedh2",
+        "aedcabh",
+        "inspInith",
+        "oct",
+        "aedi",
+        "aedi2",
+        "aedcabi",
+        "inspIniti",
+        "nov",
+        "aedj",
+        "aedj2",
+        "aedcabj",
+        "inspInitj",
+        "dec",
+        "aedk",
+        "aedk2",
+        "aedcabk",
+        "inspInitk"
+      ]
+    }
+  ],
+  "fields": {
+    "textField1": {
+      "type": "text",
+      "label": "TextField1",
+      "page": 1,
+      "box": {
+        "left": 585.4,
+        "top": 449.0,
+        "width": 49.7,
+        "height": 13.4
+      }
+    },
+    "textField2": {
+      "type": "text",
+      "label": "Installation:",
+      "page": 1,
+      "box": {
+        "left": 203.2,
+        "top": 419.1,
+        "width": 187.4,
+        "height": 12.7
+      }
+    },
+    "textField22": {
+      "type": "text",
+      "label": "AED Location:",
+      "page": 1,
+      "box": {
+        "left": 460.4,
+        "top": 419.1,
+        "width": 176.4,
+        "height": 12.7
+      }
+    },
+    "jan": {
+      "type": "text",
+      "label": "jan",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 348.5,
+        "width": 35.3,
+        "height": 18.5
+      }
+    },
+    "aed": {
+      "type": "text",
+      "label": "aed",
+      "page": 1,
+      "box": {
+        "left": 212.0,
+        "top": 348.5,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "aed2": {
+      "type": "text",
+      "label": "aed",
+      "page": 1,
+      "box": {
+        "left": 274.5,
+        "top": 348.5,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "aedcab": {
+      "type": "text",
+      "label": "aedcab",
+      "page": 1,
+      "box": {
+        "left": 336.9,
+        "top": 348.5,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "inspInit": {
+      "type": "text",
+      "label": "InspInit",
+      "page": 1,
+      "box": {
+        "left": 399.4,
+        "top": 348.5,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "feb": {
+      "type": "text",
+      "label": "feb",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 330.0,
+        "width": 35.3,
+        "height": 18.5
+      }
+    },
+    "aeda": {
+      "type": "text",
+      "label": "aeda",
+      "page": 1,
+      "box": {
+        "left": 212.0,
+        "top": 330.0,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "aeda2": {
+      "type": "text",
+      "label": "aeda",
+      "page": 1,
+      "box": {
+        "left": 274.5,
+        "top": 330.0,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "aedcaba": {
+      "type": "text",
+      "label": "aedcaba",
+      "page": 1,
+      "box": {
+        "left": 336.9,
+        "top": 330.0,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "inspInita": {
+      "type": "text",
+      "label": "InspInita",
+      "page": 1,
+      "box": {
+        "left": 399.4,
+        "top": 330.0,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "mar": {
+      "type": "text",
+      "label": "mar",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 311.4,
+        "width": 35.3,
+        "height": 18.5
+      }
+    },
+    "aedb": {
+      "type": "text",
+      "label": "aedb",
+      "page": 1,
+      "box": {
+        "left": 212.0,
+        "top": 311.4,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "aedb2": {
+      "type": "text",
+      "label": "aedb",
+      "page": 1,
+      "box": {
+        "left": 274.5,
+        "top": 311.4,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "aedcabb": {
+      "type": "text",
+      "label": "aedcabb",
+      "page": 1,
+      "box": {
+        "left": 336.9,
+        "top": 311.4,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "inspInitb": {
+      "type": "text",
+      "label": "InspInitb",
+      "page": 1,
+      "box": {
+        "left": 399.4,
+        "top": 311.4,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "apr": {
+      "type": "text",
+      "label": "apr",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 292.9,
+        "width": 35.3,
+        "height": 18.5
+      }
+    },
+    "aedc": {
+      "type": "text",
+      "label": "aedc",
+      "page": 1,
+      "box": {
+        "left": 212.0,
+        "top": 292.9,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "aedc2": {
+      "type": "text",
+      "label": "aedc",
+      "page": 1,
+      "box": {
+        "left": 274.5,
+        "top": 292.9,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "aedcabc": {
+      "type": "text",
+      "label": "aedcabc",
+      "page": 1,
+      "box": {
+        "left": 336.9,
+        "top": 292.9,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "inspInitc": {
+      "type": "text",
+      "label": "InspInitc",
+      "page": 1,
+      "box": {
+        "left": 399.4,
+        "top": 292.9,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "may": {
+      "type": "text",
+      "label": "may",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 274.4,
+        "width": 35.3,
+        "height": 18.5
+      }
+    },
+    "aedd": {
+      "type": "text",
+      "label": "aedd",
+      "page": 1,
+      "box": {
+        "left": 212.0,
+        "top": 274.4,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "aedd2": {
+      "type": "text",
+      "label": "aedd",
+      "page": 1,
+      "box": {
+        "left": 274.5,
+        "top": 274.4,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "aedcabd": {
+      "type": "text",
+      "label": "aedcabd",
+      "page": 1,
+      "box": {
+        "left": 336.9,
+        "top": 274.4,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "inspInitd": {
+      "type": "text",
+      "label": "InspInitd",
+      "page": 1,
+      "box": {
+        "left": 399.4,
+        "top": 274.4,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "jun": {
+      "type": "text",
+      "label": "jun",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 255.9,
+        "width": 35.3,
+        "height": 18.5
+      }
+    },
+    "aede": {
+      "type": "text",
+      "label": "aede",
+      "page": 1,
+      "box": {
+        "left": 212.0,
+        "top": 255.9,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "aede2": {
+      "type": "text",
+      "label": "aede",
+      "page": 1,
+      "box": {
+        "left": 274.5,
+        "top": 255.9,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "aedcabe": {
+      "type": "text",
+      "label": "aedcabe",
+      "page": 1,
+      "box": {
+        "left": 336.9,
+        "top": 255.9,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "inspInite": {
+      "type": "text",
+      "label": "InspInite",
+      "page": 1,
+      "box": {
+        "left": 399.4,
+        "top": 255.9,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "jul": {
+      "type": "text",
+      "label": "jul",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 237.3,
+        "width": 35.3,
+        "height": 18.5
+      }
+    },
+    "aedf": {
+      "type": "text",
+      "label": "aedf",
+      "page": 1,
+      "box": {
+        "left": 212.0,
+        "top": 237.3,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "aedf2": {
+      "type": "text",
+      "label": "aedf",
+      "page": 1,
+      "box": {
+        "left": 274.5,
+        "top": 237.3,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "aedcabf": {
+      "type": "text",
+      "label": "aedcabf",
+      "page": 1,
+      "box": {
+        "left": 336.9,
+        "top": 237.3,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "inspInitf": {
+      "type": "text",
+      "label": "InspInitf",
+      "page": 1,
+      "box": {
+        "left": 399.4,
+        "top": 237.3,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "aug": {
+      "type": "text",
+      "label": "aug",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 218.8,
+        "width": 35.3,
+        "height": 18.5
+      }
+    },
+    "aedg": {
+      "type": "text",
+      "label": "aedg",
+      "page": 1,
+      "box": {
+        "left": 212.0,
+        "top": 218.8,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "aedg2": {
+      "type": "text",
+      "label": "aedg",
+      "page": 1,
+      "box": {
+        "left": 274.5,
+        "top": 218.8,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "aedcabg": {
+      "type": "text",
+      "label": "aedcabg",
+      "page": 1,
+      "box": {
+        "left": 336.9,
+        "top": 218.8,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "inspInitg": {
+      "type": "text",
+      "label": "InspInitg",
+      "page": 1,
+      "box": {
+        "left": 399.4,
+        "top": 218.8,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "sep": {
+      "type": "text",
+      "label": "sep",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 200.3,
+        "width": 35.3,
+        "height": 18.5
+      }
+    },
+    "aedh": {
+      "type": "text",
+      "label": "aedh",
+      "page": 1,
+      "box": {
+        "left": 212.0,
+        "top": 200.3,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "aedh2": {
+      "type": "text",
+      "label": "aedh",
+      "page": 1,
+      "box": {
+        "left": 274.5,
+        "top": 200.3,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "aedcabh": {
+      "type": "text",
+      "label": "aedcabh",
+      "page": 1,
+      "box": {
+        "left": 336.9,
+        "top": 200.3,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "inspInith": {
+      "type": "text",
+      "label": "InspInith",
+      "page": 1,
+      "box": {
+        "left": 399.4,
+        "top": 200.3,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "oct": {
+      "type": "text",
+      "label": "oct",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 181.7,
+        "width": 35.3,
+        "height": 18.5
+      }
+    },
+    "aedi": {
+      "type": "text",
+      "label": "aedi",
+      "page": 1,
+      "box": {
+        "left": 212.0,
+        "top": 181.7,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "aedi2": {
+      "type": "text",
+      "label": "aedi",
+      "page": 1,
+      "box": {
+        "left": 274.5,
+        "top": 181.7,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "aedcabi": {
+      "type": "text",
+      "label": "aedcabi",
+      "page": 1,
+      "box": {
+        "left": 336.9,
+        "top": 181.7,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "inspIniti": {
+      "type": "text",
+      "label": "InspIniti",
+      "page": 1,
+      "box": {
+        "left": 399.4,
+        "top": 181.7,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "nov": {
+      "type": "text",
+      "label": "nov",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 163.2,
+        "width": 35.3,
+        "height": 18.5
+      }
+    },
+    "aedj": {
+      "type": "text",
+      "label": "aedj",
+      "page": 1,
+      "box": {
+        "left": 212.0,
+        "top": 163.2,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "aedj2": {
+      "type": "text",
+      "label": "aedj",
+      "page": 1,
+      "box": {
+        "left": 274.5,
+        "top": 163.2,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "aedcabj": {
+      "type": "text",
+      "label": "aedcabj",
+      "page": 1,
+      "box": {
+        "left": 336.9,
+        "top": 163.2,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "inspInitj": {
+      "type": "text",
+      "label": "InspInitj",
+      "page": 1,
+      "box": {
+        "left": 399.4,
+        "top": 163.2,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "dec": {
+      "type": "text",
+      "label": "dec",
+      "page": 1,
+      "box": {
+        "left": 173.9,
+        "top": 144.7,
+        "width": 35.3,
+        "height": 18.5
+      }
+    },
+    "aedk": {
+      "type": "text",
+      "label": "aedk",
+      "page": 1,
+      "box": {
+        "left": 212.0,
+        "top": 144.7,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "aedk2": {
+      "type": "text",
+      "label": "aedk",
+      "page": 1,
+      "box": {
+        "left": 274.5,
+        "top": 144.7,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "aedcabk": {
+      "type": "text",
+      "label": "aedcabk",
+      "page": 1,
+      "box": {
+        "left": 336.9,
+        "top": 144.7,
+        "width": 59.6,
+        "height": 18.5
+      }
+    },
+    "inspInitk": {
+      "type": "text",
+      "label": "InspInitk",
+      "page": 1,
+      "box": {
+        "left": 399.4,
+        "top": 144.7,
+        "width": 59.6,
+        "height": 18.5
+      }
+    }
+  }
+}

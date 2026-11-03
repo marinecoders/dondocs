@@ -1,0 +1,416 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "unitGroup": {
+        "left": 106.1,
+        "top": 730.9,
+        "width": 79.8,
+        "height": 20.6,
+        "type": "text",
+        "description": "1. UNIT/GROUP",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "evolutionEvent": {
+        "left": 284.0,
+        "top": 730.9,
+        "width": 83.9,
+        "height": 20.6,
+        "type": "text",
+        "description": "2. EVOLUTION/EVENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date": {
+        "left": 411.5,
+        "top": 730.9,
+        "width": 65.4,
+        "height": 20.6,
+        "type": "text",
+        "description": "3. DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "time": {
+        "left": 517.6,
+        "top": 730.9,
+        "width": 53.7,
+        "height": 20.6,
+        "type": "text",
+        "description": "4. TIME",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "grading5": {
+        "left": 311.1,
+        "top": 677.7,
+        "width": 57.0,
+        "height": 62.1,
+        "type": "text",
+        "description": "GRADING",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comment5": {
+        "left": 373.8,
+        "top": 677.7,
+        "width": 197.3,
+        "height": 62.1,
+        "type": "text",
+        "description": "COMMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "grading6": {
+        "left": 309.7,
+        "top": 611.4,
+        "width": 59.8,
+        "height": 64.9,
+        "type": "text",
+        "description": "GRADING",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comment6": {
+        "left": 373.8,
+        "top": 609.9,
+        "width": 197.3,
+        "height": 62.1,
+        "type": "text",
+        "description": "COMMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "grading7": {
+        "left": 309.7,
+        "top": 543.6,
+        "width": 59.8,
+        "height": 40.9,
+        "type": "text",
+        "description": "GRADING",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comment7": {
+        "left": 373.8,
+        "top": 542.2,
+        "width": 197.3,
+        "height": 38.1,
+        "type": "text",
+        "description": "COMMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "grading8": {
+        "left": 311.1,
+        "top": 498.4,
+        "width": 57.0,
+        "height": 70.1,
+        "type": "text",
+        "description": "GRADING",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comment8": {
+        "left": 373.8,
+        "top": 498.4,
+        "width": 197.3,
+        "height": 70.1,
+        "type": "text",
+        "description": "COMMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "grading9": {
+        "left": 309.7,
+        "top": 424.0,
+        "width": 59.8,
+        "height": 48.9,
+        "type": "text",
+        "description": "GRADING",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comment9": {
+        "left": 373.8,
+        "top": 422.6,
+        "width": 197.3,
+        "height": 46.1,
+        "type": "text",
+        "description": "COMMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "grading10": {
+        "left": 309.7,
+        "top": 372.3,
+        "width": 59.8,
+        "height": 88.9,
+        "type": "text",
+        "description": "GRADING",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "ques10": {
+        "left": 373.8,
+        "top": 370.9,
+        "width": 197.3,
+        "height": 86.1,
+        "type": "text",
+        "description": "COMMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "grading11": {
+        "left": 309.7,
+        "top": 254.0,
+        "width": 59.8,
+        "height": 29.8,
+        "type": "text",
+        "description": "11. communicated to supporting/supported functional entities",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comment11": {
+        "left": 373.8,
+        "top": 252.6,
+        "width": 197.3,
+        "height": 27.0,
+        "type": "text",
+        "description": "11. communicated to supporting/supported functional entities",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "grading12": {
+        "left": 309.7,
+        "top": 221.4,
+        "width": 59.8,
+        "height": 29.8,
+        "type": "text",
+        "description": "12. by participants during execution",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comment12": {
+        "left": 373.8,
+        "top": 219.9,
+        "width": 197.3,
+        "height": 27.0,
+        "type": "text",
+        "description": "12. by participants during execution",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "grading13": {
+        "left": 309.7,
+        "top": 188.7,
+        "width": 59.8,
+        "height": 29.8,
+        "type": "text",
+        "description": "13. ID, RCAs, or RCA supervision)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comment13": {
+        "left": 373.8,
+        "top": 187.3,
+        "width": 197.3,
+        "height": 27.0,
+        "type": "text",
+        "description": "13. ID, RCAs, or RCA supervision)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "grading14": {
+        "left": 309.7,
+        "top": 156.1,
+        "width": 59.8,
+        "height": 29.8,
+        "type": "text",
+        "description": "14. /extreme&quot; and &quot;serious/high&quot; risks",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comment14": {
+        "left": 373.8,
+        "top": 154.6,
+        "width": 197.3,
+        "height": 27.0,
+        "type": "text",
+        "description": "14. /extreme&quot; and &quot;serious/high&quot; risks",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "grading15": {
+        "left": 309.7,
+        "top": 96.9,
+        "width": 59.8,
+        "height": 29.8,
+        "type": "text",
+        "description": "15. attended debrief",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comment15": {
+        "left": 373.8,
+        "top": 95.5,
+        "width": 197.3,
+        "height": 27.0,
+        "type": "text",
+        "description": "15. attended debrief",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    },
+    "page2": {
+      "grading16": {
+        "left": 309.7,
+        "top": 753.7,
+        "width": 59.8,
+        "height": 29.8,
+        "type": "text",
+        "description": "16. necessary participants",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comment16": {
+        "left": 373.8,
+        "top": 752.3,
+        "width": 197.3,
+        "height": 27.0,
+        "type": "text",
+        "description": "16. necessary participants",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "grading17": {
+        "left": 309.7,
+        "top": 721.0,
+        "width": 59.8,
+        "height": 29.8,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comment17": {
+        "left": 373.8,
+        "top": 719.6,
+        "width": 197.3,
+        "height": 27.0,
+        "type": "text",
+        "description": "OPNAVINST 3500.39 (Series)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "grading18": {
+        "left": 309.7,
+        "top": 688.4,
+        "width": 59.8,
+        "height": 29.8,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comment18": {
+        "left": 373.8,
+        "top": 687.0,
+        "width": 197.3,
+        "height": 27.0,
+        "type": "text",
+        "description": "OPNAVINST 3500.39 (Series)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "grading19": {
+        "left": 309.7,
+        "top": 629.3,
+        "width": 59.8,
+        "height": 29.8,
+        "type": "text",
+        "description": "GRADING",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comment19": {
+        "left": 373.8,
+        "top": 627.8,
+        "width": 197.3,
+        "height": 27.0,
+        "type": "text",
+        "description": "COMMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "grading20": {
+        "left": 309.7,
+        "top": 570.1,
+        "width": 59.8,
+        "height": 29.8,
+        "type": "text",
+        "description": "GRADE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comment20": {
+        "left": 373.8,
+        "top": 568.7,
+        "width": 197.3,
+        "height": 27.0,
+        "type": "text",
+        "description": "COMMENT",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

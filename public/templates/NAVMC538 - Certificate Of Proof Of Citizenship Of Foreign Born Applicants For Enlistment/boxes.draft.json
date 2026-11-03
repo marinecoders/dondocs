@@ -1,0 +1,458 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "textField2": {
+        "left": 190.2,
+        "top": 588.5,
+        "width": 46.9,
+        "height": 16.6,
+        "type": "text",
+        "description": "TextField2",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField3": {
+        "left": 239.6,
+        "top": 588.0,
+        "width": 46.9,
+        "height": 17.8,
+        "type": "text",
+        "description": "TextField3",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField1": {
+        "left": 121.0,
+        "top": 587.5,
+        "width": 43.5,
+        "height": 16.6,
+        "type": "text",
+        "description": "TextField1",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameAppl": {
+        "left": 480.7,
+        "top": 566.0,
+        "width": 92.7,
+        "height": 17.3,
+        "type": "text",
+        "description": "City",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameAppl1": {
+        "left": 71.3,
+        "top": 560.9,
+        "width": 262.0,
+        "height": 13.6,
+        "type": "text",
+        "description": "name of applicant",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField6": {
+        "left": 327.5,
+        "top": 542.1,
+        "width": 71.6,
+        "height": 21.1,
+        "type": "text",
+        "description": "TextField6",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField5": {
+        "left": 248.9,
+        "top": 541.6,
+        "width": 73.6,
+        "height": 20.1,
+        "type": "text",
+        "description": "TextField5",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "county1": {
+        "left": 17.1,
+        "top": 540.7,
+        "width": 115.8,
+        "height": 17.7,
+        "type": "text",
+        "description": "County",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField4": {
+        "left": 163.5,
+        "top": 538.6,
+        "width": 75.6,
+        "height": 18.1,
+        "type": "text",
+        "description": "TextField4",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField9": {
+        "left": 234.6,
+        "top": 511.9,
+        "width": 88.4,
+        "height": 22.1,
+        "type": "text",
+        "description": "TextField9",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField7": {
+        "left": 16.8,
+        "top": 510.9,
+        "width": 116.1,
+        "height": 19.6,
+        "type": "text",
+        "description": "TextField7",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField8": {
+        "left": 136.3,
+        "top": 510.9,
+        "width": 95.8,
+        "height": 20.3,
+        "type": "text",
+        "description": "TextField8",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "certNum1": {
+        "left": 464.8,
+        "top": 464.0,
+        "width": 111.2,
+        "height": 17.6,
+        "type": "text",
+        "description": "Certificate of Naturalization/Certificate of Citizenship number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkCitzMeth0": {
+        "left": 38.0,
+        "top": 462.0,
+        "width": 16.7,
+        "height": 16.7,
+        "type": "checkbox",
+        "description": "Check for United States citizenship by virtue of naturalization in his/her own right.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField12": {
+        "left": 435.7,
+        "top": 445.2,
+        "width": 77.6,
+        "height": 21.1,
+        "type": "text",
+        "description": "TextField12",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField11": {
+        "left": 351.7,
+        "top": 444.8,
+        "width": 80.5,
+        "height": 20.6,
+        "type": "text",
+        "description": "TextField11",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField10": {
+        "left": 249.9,
+        "top": 443.8,
+        "width": 83.0,
+        "height": 20.6,
+        "type": "text",
+        "description": "TextField10",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameAppl2": {
+        "left": 63.2,
+        "top": 442.4,
+        "width": 159.2,
+        "height": 17.6,
+        "type": "text",
+        "description": "Name of applicant",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "distCtLocApp": {
+        "left": 115.2,
+        "top": 409.6,
+        "width": 461.6,
+        "height": 17.6,
+        "type": "text",
+        "description": "Location of District Court.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "certNum2": {
+        "left": 418.4,
+        "top": 384.8,
+        "width": 109.6,
+        "height": 17.6,
+        "type": "text",
+        "description": "Certificate of Naturalization number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkCitzMeth1": {
+        "left": 36.7,
+        "top": 382.7,
+        "width": 17.3,
+        "height": 17.3,
+        "type": "checkbox",
+        "description": "Check for United States citizenship by virtue of naturalization of the applicant's mother.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField13": {
+        "left": 245.5,
+        "top": 365.2,
+        "width": 92.9,
+        "height": 21.6,
+        "type": "text",
+        "description": "TextField13",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField14": {
+        "left": 352.7,
+        "top": 363.8,
+        "width": 79.5,
+        "height": 19.6,
+        "type": "text",
+        "description": "TextField14",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField15": {
+        "left": 433.7,
+        "top": 363.8,
+        "width": 82.5,
+        "height": 19.1,
+        "type": "text",
+        "description": "TextField15",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameMoth": {
+        "left": 22.4,
+        "top": 363.2,
+        "width": 194.4,
+        "height": 17.6,
+        "type": "text",
+        "description": "Name of applicants mother.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "distCtLocMoth": {
+        "left": 117.6,
+        "top": 330.4,
+        "width": 458.4,
+        "height": 17.6,
+        "type": "text",
+        "description": "Location of District Court.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "certNum3": {
+        "left": 418.4,
+        "top": 308.8,
+        "width": 109.6,
+        "height": 17.6,
+        "type": "text",
+        "description": "Certificate of Naturalization number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkCitzMeth2": {
+        "left": 37.3,
+        "top": 307.3,
+        "width": 16.7,
+        "height": 16.7,
+        "type": "checkbox",
+        "description": "Check for United States citizenship by virtue of naturalization of the applicant's father.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField16": {
+        "left": 245.0,
+        "top": 290.1,
+        "width": 92.4,
+        "height": 22.0,
+        "type": "text",
+        "description": "TextField16",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField17": {
+        "left": 351.2,
+        "top": 289.2,
+        "width": 79.0,
+        "height": 19.1,
+        "type": "text",
+        "description": "TextField17",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "textField18": {
+        "left": 434.2,
+        "top": 288.2,
+        "width": 78.0,
+        "height": 19.1,
+        "type": "text",
+        "description": "TextField18",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameFath": {
+        "left": 22.4,
+        "top": 286.4,
+        "width": 194.4,
+        "height": 17.6,
+        "type": "text",
+        "description": "Name of applicants father.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "distCtLocAppFath": {
+        "left": 117.6,
+        "top": 255.2,
+        "width": 458.4,
+        "height": 17.6,
+        "type": "text",
+        "description": "Location of District Court.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkCitzMeth3": {
+        "left": 39.2,
+        "top": 230.6,
+        "width": 17.1,
+        "height": 17.1,
+        "type": "checkbox",
+        "description": "Check for United States citizenship by virtue of mother being a native-born citizen of the United States at the time of applicant's birth.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkCitzMeth4": {
+        "left": 39.3,
+        "top": 202.7,
+        "width": 16.7,
+        "height": 16.7,
+        "type": "checkbox",
+        "description": "Check for United States citizenship by virtue of father being a native-born citizen of the United States at the time of applicant's birth.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "chkCitzMeth5": {
+        "left": 39.1,
+        "top": 172.7,
+        "width": 16.7,
+        "height": 16.7,
+        "type": "checkbox",
+        "description": "Check for United States citizenship by virtue of other reason.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "oth1": {
+        "left": 60.0,
+        "top": 159.6,
+        "width": 516.0,
+        "height": 80.9,
+        "type": "text",
+        "description": "Explanation of other reason.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature": {
+        "left": 224.2,
+        "top": 80.7,
+        "width": 189.2,
+        "height": 19.3,
+        "type": "signature",
+        "description": "Signature",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "grade1": {
+        "left": 420.7,
+        "top": 80.7,
+        "width": 58.7,
+        "height": 17.3,
+        "type": "text",
+        "description": "Grade",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "usmc1": {
+        "left": 531.3,
+        "top": 80.7,
+        "width": 44.0,
+        "height": 17.3,
+        "type": "text",
+        "description": "U.S.M.C.",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

@@ -1,0 +1,220 @@
+{
+  "id": "opnav376032b",
+  "label": "OPNAV3760-32B - Record Of Flight Equipment Issue",
+  "directory": "OPNAV3760-32B - Record Of Flight Equipment Issue",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "doDIDNumber",
+        "name"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "anything",
+        "sig"
+      ]
+    }
+  ],
+  "fields": {
+    "doDIDNumber": {
+      "type": "text",
+      "label": "Enter the DoD ID Number.  ",
+      "page": 1,
+      "box": {
+        "left": 437.0,
+        "top": 697.8,
+        "width": 137.8,
+        "height": 20.3
+      }
+    },
+    "name": {
+      "type": "text",
+      "label": "Enter the name (last, first, middle initial).",
+      "page": 1,
+      "box": {
+        "left": 41.0,
+        "top": 697.7,
+        "width": 385.9,
+        "height": 20.2
+      }
+    },
+    "anything": {
+      "type": "text",
+      "label": "Enter any additional information.",
+      "page": 2,
+      "box": {
+        "left": 41.0,
+        "top": 243.4,
+        "width": 535.0,
+        "height": 170.1
+      },
+      "multiline": true
+    },
+    "sig": {
+      "type": "signature",
+      "label": "Enter the signature of the C.O. or Authorized Deputy.",
+      "page": 2,
+      "box": {
+        "left": 329.0,
+        "top": 59.8,
+        "width": 247.0,
+        "height": 22.5
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 44,
+      "rowStride": 12.96,
+      "editor": "grid",
+      "columns": {
+        "compdate": {
+          "type": "text",
+          "label": "Enter the date (DD MMM YYYY) the items (Safety, Flying Boots) Flight Equipment was Issued for line 1 of 4.",
+          "page": 1,
+          "box": {
+            "left": 216.6,
+            "top": 621.7,
+            "width": 106.7,
+            "height": 12.0
+          }
+        },
+        "action": {
+          "type": "choice",
+          "label": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+          "page": 1,
+          "box": {
+            "left": 324.6,
+            "top": 621.7,
+            "width": 77.9,
+            "height": 12.0
+          }
+        },
+        "issued": {
+          "type": "text",
+          "label": "Enter who issued or received.",
+          "page": 1,
+          "box": {
+            "left": 408.2,
+            "top": 621.7,
+            "width": 167.1,
+            "height": 12.0
+          }
+        }
+      }
+    },
+    "rows2": {
+      "title": "Rows",
+      "page": 2,
+      "count": 3,
+      "rowStride": 51.85,
+      "editor": "grid",
+      "columns": {
+        "item3": {
+          "type": "text",
+          "label": "Enter any additional items on line 1 of 3.",
+          "page": 2,
+          "box": {
+            "left": 38.8,
+            "top": 414.8,
+            "width": 174.3,
+            "height": 49.1
+          }
+        }
+      }
+    },
+    "rows3": {
+      "title": "Rows",
+      "page": 2,
+      "count": 4,
+      "rowStride": 12.97,
+      "editor": "grid",
+      "columns": {
+        "compdate": {
+          "type": "text",
+          "label": "Enter the date (DD MMM YYYY) the items (Winter Jacket) Flight Equipment was Issued for line 1 of 4.",
+          "page": 2,
+          "box": {
+            "left": 216.6,
+            "top": 726.7,
+            "width": 106.7,
+            "height": 12.0
+          }
+        },
+        "action": {
+          "type": "choice",
+          "label": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+          "page": 2,
+          "box": {
+            "left": 324.6,
+            "top": 726.7,
+            "width": 77.9,
+            "height": 12.0
+          }
+        },
+        "issued": {
+          "type": "text",
+          "label": "Enter who issued or received.",
+          "page": 2,
+          "box": {
+            "left": 408.2,
+            "top": 726.7,
+            "width": 167.1,
+            "height": 12.0
+          }
+        }
+      }
+    },
+    "rows4": {
+      "title": "Rows",
+      "page": 2,
+      "count": 32,
+      "rowStride": 12.96,
+      "editor": "grid",
+      "columns": {
+        "compdate2": {
+          "type": "text",
+          "label": "Enter the date (DD MMM YYYY) the items (Knife & Sheath) Flight Equipment was Issued for line 1 of 4.",
+          "page": 2,
+          "box": {
+            "left": 216.6,
+            "top": 674.9,
+            "width": 106.7,
+            "height": 12.0
+          }
+        },
+        "action2": {
+          "type": "choice",
+          "label": "Enter O-Original Issue, R-Replacement Issue, N-Returned or Surveyed out, not replaced; for the Action Code.",
+          "page": 2,
+          "box": {
+            "left": 324.6,
+            "top": 674.9,
+            "width": 77.9,
+            "height": 12.0
+          }
+        },
+        "issued2": {
+          "type": "text",
+          "label": "Enter who issued or received.",
+          "page": 2,
+          "box": {
+            "left": 408.2,
+            "top": 674.9,
+            "width": 167.1,
+            "height": 12.0
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,150 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 612,
+    "height": 792
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "reqDtd": {
+        "left": 41.5,
+        "top": 604.6,
+        "width": 146.5,
+        "height": 25.6,
+        "type": "text",
+        "description": "Enter the date of the request.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "reqNme": {
+        "left": 41.5,
+        "top": 564.4,
+        "width": 247.8,
+        "height": 25.6,
+        "type": "text",
+        "description": "Enter the requester's name.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "reqTph": {
+        "left": 425.7,
+        "top": 564.4,
+        "width": 145.0,
+        "height": 25.6,
+        "type": "text",
+        "description": "Enter the requester's telephone number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "reqCde": {
+        "left": 296.5,
+        "top": 563.6,
+        "width": 122.8,
+        "height": 24.8,
+        "type": "text",
+        "description": "Enter the requester's code.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "locEnt": {
+        "left": 41.5,
+        "top": 523.7,
+        "width": 530.0,
+        "height": 65.8,
+        "type": "text",
+        "description": "Enter the location of the event.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "natEnt": {
+        "left": 41.5,
+        "top": 442.4,
+        "width": 530.0,
+        "height": 65.1,
+        "type": "text",
+        "description": "6.  Nature of Event",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "evntdtd": {
+        "left": 309.4,
+        "top": 362.5,
+        "width": 262.8,
+        "height": 39.3,
+        "type": "text",
+        "description": "Enter date of event.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "parti": {
+        "left": 41.5,
+        "top": 353.5,
+        "width": 262.8,
+        "height": 30.3,
+        "type": "text",
+        "description": "Enter the approximate number of participants. (Alcohol use will be restricted to persons 21 years old or older)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "resNme": {
+        "left": 41.5,
+        "top": 307.3,
+        "width": 248.0,
+        "height": 24.1,
+        "type": "text",
+        "description": "Enter reponsible official's name. (Responsible Official must be in attendance of event to ensure alcohol use is not excessive.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "resCde": {
+        "left": 296.5,
+        "top": 307.3,
+        "width": 119.0,
+        "height": 24.1,
+        "type": "text",
+        "description": "Enter reponsible official's code.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "resTphn": {
+        "left": 422.0,
+        "top": 306.6,
+        "width": 148.8,
+        "height": 23.3,
+        "type": "text",
+        "description": "Enter reponsible official's telephone number.",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "comments": {
+        "left": 42.0,
+        "top": 254.3,
+        "width": 530.0,
+        "height": 72.9,
+        "type": "text",
+        "description": "Enter any additional comments (if necessary)",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

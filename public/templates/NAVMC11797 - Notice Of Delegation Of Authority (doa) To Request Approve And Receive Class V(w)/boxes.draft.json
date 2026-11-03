@@ -1,0 +1,1504 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 792,
+    "height": 612
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "orgName": {
+        "left": 20.8,
+        "top": 540.1,
+        "width": 210.5,
+        "height": 14.2,
+        "type": "text",
+        "description": "ORGANIZATION RECEIVING SUPPLIES (UNIT NAME)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unitLocation": {
+        "left": 237.0,
+        "top": 540.1,
+        "width": 341.2,
+        "height": 13.9,
+        "type": "text",
+        "description": "UNIT LOCATION",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "supportActivity": {
+        "left": 583.9,
+        "top": 540.0,
+        "width": 187.4,
+        "height": 13.9,
+        "type": "text",
+        "description": "SUPPORTING ACTIVITY (ASP NAME (DODAAC)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name1": {
+        "left": 20.8,
+        "top": 494.3,
+        "width": 210.4,
+        "height": 21.3,
+        "type": "text",
+        "description": "NAME (LAST, FIRST, MIDDLE INITIAL)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initials1": {
+        "left": 740.9,
+        "top": 494.3,
+        "width": 30.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "INITIALS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rank1": {
+        "left": 237.6,
+        "top": 493.5,
+        "width": 50.6,
+        "height": 19.8,
+        "type": "text",
+        "description": "GRADE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature1": {
+        "left": 547.4,
+        "top": 493.5,
+        "width": 187.1,
+        "height": 19.8,
+        "type": "text",
+        "description": "SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "priority1": {
+        "left": 396.9,
+        "top": 492.9,
+        "width": 41.6,
+        "height": 18.3,
+        "type": "choice",
+        "description": "PRIORITY",
+        "options": [
+          "UND A",
+          "UND B",
+          "UND C",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "request1": {
+        "left": 296.1,
+        "top": 492.8,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "REQUEST",
+        "options": [
+          "Yes",
+          "No",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "approve1": {
+        "left": 346.6,
+        "top": 492.8,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "APPROVE",
+        "options": [
+          "Yes",
+          "No",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "receive1": {
+        "left": 447.4,
+        "top": 492.8,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "RECEIVE",
+        "options": [
+          "Yes",
+          "No",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "srci1": {
+        "left": 497.8,
+        "top": 492.8,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "SRC I*",
+        "options": [
+          "Yes",
+          "No",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "name2": {
+        "left": 20.8,
+        "top": 467.3,
+        "width": 210.4,
+        "height": 21.3,
+        "type": "text",
+        "description": "NAME (LAST, FIRST, MIDDLE INITIAL)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initials2": {
+        "left": 740.9,
+        "top": 467.3,
+        "width": 30.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "INITIALS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rank2": {
+        "left": 237.6,
+        "top": 466.5,
+        "width": 50.6,
+        "height": 19.8,
+        "type": "text",
+        "description": "GRADE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature2": {
+        "left": 547.4,
+        "top": 466.5,
+        "width": 187.1,
+        "height": 19.8,
+        "type": "text",
+        "description": "SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "priority2": {
+        "left": 396.9,
+        "top": 465.9,
+        "width": 41.7,
+        "height": 18.5,
+        "type": "choice",
+        "description": "PRIORITY",
+        "options": [
+          "UND A",
+          "UND B",
+          "UND C",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "request2": {
+        "left": 296.2,
+        "top": 465.8,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "REQUEST",
+        "options": [
+          "Yes",
+          "No",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "approve2": {
+        "left": 346.6,
+        "top": 465.8,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "APPROVE",
+        "options": [
+          "Yes",
+          "No",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "receive2": {
+        "left": 447.4,
+        "top": 465.8,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "RECEIVE",
+        "options": [
+          "Yes",
+          "No",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "srci2": {
+        "left": 497.8,
+        "top": 465.8,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "SRC I*",
+        "options": [
+          "Yes",
+          "No",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "name3": {
+        "left": 20.8,
+        "top": 440.3,
+        "width": 210.4,
+        "height": 21.3,
+        "type": "text",
+        "description": "NAME (LAST, FIRST, MIDDLE INITIAL)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initials3": {
+        "left": 740.9,
+        "top": 440.3,
+        "width": 30.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "INITIALS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rank3": {
+        "left": 237.6,
+        "top": 439.5,
+        "width": 50.6,
+        "height": 19.8,
+        "type": "text",
+        "description": "GRADE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature3": {
+        "left": 547.4,
+        "top": 439.5,
+        "width": 187.1,
+        "height": 19.8,
+        "type": "text",
+        "description": "SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "request3": {
+        "left": 296.2,
+        "top": 438.8,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "REQUEST",
+        "options": [
+          "Yes",
+          "No",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "approve3": {
+        "left": 346.6,
+        "top": 438.8,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "APPROVE",
+        "options": [
+          "Yes",
+          "No",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "priority3": {
+        "left": 396.9,
+        "top": 438.8,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "PRIORITY",
+        "options": [
+          "UND A",
+          "UND B",
+          "UND C",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "receive3": {
+        "left": 447.4,
+        "top": 438.8,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "RECEIVE",
+        "options": [
+          "Yes",
+          "No",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "srci3": {
+        "left": 497.8,
+        "top": 438.8,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "SRC I*",
+        "options": [
+          "Yes",
+          "No",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "name4": {
+        "left": 20.8,
+        "top": 413.3,
+        "width": 210.4,
+        "height": 21.3,
+        "type": "text",
+        "description": "NAME (LAST, FIRST, MIDDLE INITIAL)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initials4": {
+        "left": 740.9,
+        "top": 413.3,
+        "width": 30.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "INITIALS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rank4": {
+        "left": 237.6,
+        "top": 412.5,
+        "width": 50.6,
+        "height": 19.8,
+        "type": "text",
+        "description": "GRADE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature4": {
+        "left": 547.4,
+        "top": 412.5,
+        "width": 187.1,
+        "height": 19.8,
+        "type": "text",
+        "description": "SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "request4": {
+        "left": 296.2,
+        "top": 411.8,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "REQUEST",
+        "options": [
+          "Yes",
+          "No",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "approve4": {
+        "left": 346.6,
+        "top": 411.8,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "APPROVE",
+        "options": [
+          "Yes",
+          "No",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "priority4": {
+        "left": 396.9,
+        "top": 411.8,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "PRIORITY",
+        "options": [
+          "UND A",
+          "UND B",
+          "UND C",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "receive4": {
+        "left": 447.4,
+        "top": 411.8,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "RECEIVE",
+        "options": [
+          "Yes",
+          "No",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "srci4": {
+        "left": 497.8,
+        "top": 411.8,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "SRC I*",
+        "options": [
+          "Yes",
+          "No",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "name5": {
+        "left": 20.8,
+        "top": 386.3,
+        "width": 210.4,
+        "height": 21.3,
+        "type": "text",
+        "description": "NAME (LAST, FIRST, MIDDLE INITIAL)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initials5": {
+        "left": 740.9,
+        "top": 386.3,
+        "width": 30.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "INITIALS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rank5": {
+        "left": 237.6,
+        "top": 385.5,
+        "width": 50.6,
+        "height": 19.8,
+        "type": "text",
+        "description": "GRADE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature5": {
+        "left": 547.4,
+        "top": 385.5,
+        "width": 187.1,
+        "height": 19.8,
+        "type": "text",
+        "description": "SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "request5": {
+        "left": 296.2,
+        "top": 384.8,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "REQUEST",
+        "options": [
+          "Yes",
+          "No",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "approve5": {
+        "left": 346.6,
+        "top": 384.8,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "APPROVE",
+        "options": [
+          "Yes",
+          "No",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "priority5": {
+        "left": 396.9,
+        "top": 384.8,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "PRIORITY",
+        "options": [
+          "UND A",
+          "UND B",
+          "UND C",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "receive5": {
+        "left": 447.4,
+        "top": 384.8,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "RECEIVE",
+        "options": [
+          "Yes",
+          "No",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "srci5": {
+        "left": 497.8,
+        "top": 384.8,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "SRC I*",
+        "options": [
+          "Yes",
+          "No",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "name6": {
+        "left": 20.8,
+        "top": 359.3,
+        "width": 210.4,
+        "height": 21.3,
+        "type": "text",
+        "description": "NAME (LAST, FIRST, MIDDLE INITIAL)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initials6": {
+        "left": 740.9,
+        "top": 359.3,
+        "width": 30.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "INITIALS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rank6": {
+        "left": 237.6,
+        "top": 358.5,
+        "width": 50.6,
+        "height": 19.8,
+        "type": "text",
+        "description": "GRADE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature6": {
+        "left": 547.4,
+        "top": 358.5,
+        "width": 187.1,
+        "height": 19.8,
+        "type": "text",
+        "description": "SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "request6": {
+        "left": 296.2,
+        "top": 357.8,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "REQUEST",
+        "options": [
+          "Yes",
+          "No",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "approve6": {
+        "left": 346.6,
+        "top": 357.8,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "APPROVE",
+        "options": [
+          "Yes",
+          "No",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "receive6": {
+        "left": 447.4,
+        "top": 357.8,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "RECEIVE",
+        "options": [
+          "Yes",
+          "No",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "srci6": {
+        "left": 497.8,
+        "top": 357.8,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "SRC I*",
+        "options": [
+          "Yes",
+          "No",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "priority6": {
+        "left": 396.9,
+        "top": 357.7,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "PRIORITY",
+        "options": [
+          "UND A",
+          "UND B",
+          "UND C",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "name7": {
+        "left": 20.8,
+        "top": 332.3,
+        "width": 210.4,
+        "height": 21.3,
+        "type": "text",
+        "description": "NAME (LAST, FIRST, MIDDLE INITIAL)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initials7": {
+        "left": 740.9,
+        "top": 332.3,
+        "width": 30.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "INITIALS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rank7": {
+        "left": 237.6,
+        "top": 331.5,
+        "width": 50.6,
+        "height": 19.8,
+        "type": "text",
+        "description": "GRADE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature7": {
+        "left": 547.4,
+        "top": 331.5,
+        "width": 187.1,
+        "height": 19.8,
+        "type": "text",
+        "description": "SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "request7": {
+        "left": 296.2,
+        "top": 330.7,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "REQUEST",
+        "options": [
+          "Yes",
+          "No",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "approve7": {
+        "left": 346.6,
+        "top": 330.7,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "APPROVE",
+        "options": [
+          "Yes",
+          "No",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "priority7": {
+        "left": 396.9,
+        "top": 330.7,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "PRIORITY",
+        "options": [
+          "UND A",
+          "UND B",
+          "UND C",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "receive7": {
+        "left": 447.4,
+        "top": 330.7,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "RECEIVE",
+        "options": [
+          "Yes",
+          "No",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "srci7": {
+        "left": 497.8,
+        "top": 330.7,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "SRC I*",
+        "options": [
+          "Yes",
+          "No",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "name8": {
+        "left": 20.8,
+        "top": 305.3,
+        "width": 210.4,
+        "height": 21.3,
+        "type": "text",
+        "description": "NAME (LAST, FIRST, MIDDLE INITIAL)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initials8": {
+        "left": 740.9,
+        "top": 305.3,
+        "width": 30.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "INITIALS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rank8": {
+        "left": 237.6,
+        "top": 304.5,
+        "width": 50.6,
+        "height": 19.8,
+        "type": "text",
+        "description": "GRADE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature8": {
+        "left": 547.4,
+        "top": 304.5,
+        "width": 187.1,
+        "height": 19.8,
+        "type": "text",
+        "description": "SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "request8": {
+        "left": 296.2,
+        "top": 303.7,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "REQUEST",
+        "options": [
+          "Yes",
+          "No",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "approve8": {
+        "left": 346.6,
+        "top": 303.7,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "APPROVE",
+        "options": [
+          "Yes",
+          "No",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "priority8": {
+        "left": 396.9,
+        "top": 303.7,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "PRIORITY",
+        "options": [
+          "UND A",
+          "UND B",
+          "UND C",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "receive8": {
+        "left": 447.4,
+        "top": 303.7,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "RECEIVE",
+        "options": [
+          "Yes",
+          "No",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "srci8": {
+        "left": 497.8,
+        "top": 303.7,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "SRC I*",
+        "options": [
+          "Yes",
+          "No",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "name9": {
+        "left": 20.8,
+        "top": 278.3,
+        "width": 210.4,
+        "height": 21.3,
+        "type": "text",
+        "description": "NAME (LAST, FIRST, MIDDLE INITIAL)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initials9": {
+        "left": 740.9,
+        "top": 278.3,
+        "width": 30.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "INITIALS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rank9": {
+        "left": 237.6,
+        "top": 277.5,
+        "width": 50.6,
+        "height": 19.8,
+        "type": "text",
+        "description": "GRADE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature9": {
+        "left": 547.4,
+        "top": 277.5,
+        "width": 187.1,
+        "height": 19.8,
+        "type": "text",
+        "description": "SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "request9": {
+        "left": 296.2,
+        "top": 276.7,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "REQUEST",
+        "options": [
+          "Yes",
+          "No",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "approve9": {
+        "left": 346.6,
+        "top": 276.7,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "APPROVE",
+        "options": [
+          "Yes",
+          "No",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "priority9": {
+        "left": 396.9,
+        "top": 276.7,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "PRIORITY",
+        "options": [
+          "UND A",
+          "UND B",
+          "UND C",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "receive9": {
+        "left": 447.4,
+        "top": 276.7,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "RECEIVE",
+        "options": [
+          "Yes",
+          "No",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "srci9": {
+        "left": 497.8,
+        "top": 276.7,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "SRC I*",
+        "options": [
+          "Yes",
+          "No",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "name10": {
+        "left": 20.8,
+        "top": 251.3,
+        "width": 210.4,
+        "height": 21.3,
+        "type": "text",
+        "description": "NAME (LAST, FIRST, MIDDLE INITIAL)",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "initials10": {
+        "left": 740.9,
+        "top": 251.3,
+        "width": 30.3,
+        "height": 21.3,
+        "type": "text",
+        "description": "INITIALS",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rank10": {
+        "left": 237.6,
+        "top": 250.5,
+        "width": 50.6,
+        "height": 19.8,
+        "type": "text",
+        "description": "GRADE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature10": {
+        "left": 547.4,
+        "top": 250.5,
+        "width": 187.1,
+        "height": 19.8,
+        "type": "text",
+        "description": "SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "request10": {
+        "left": 296.2,
+        "top": 249.7,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "REQUEST",
+        "options": [
+          "Yes",
+          "No",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "approve10": {
+        "left": 346.6,
+        "top": 249.7,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "APPROVE",
+        "options": [
+          "Yes",
+          "No",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "priority10": {
+        "left": 396.9,
+        "top": 249.7,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "PRIORITY",
+        "options": [
+          "UND A",
+          "UND B",
+          "UND C",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "receive10": {
+        "left": 447.4,
+        "top": 249.7,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "RECEIVE",
+        "options": [
+          "Yes",
+          "No",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "srci10": {
+        "left": 497.8,
+        "top": 249.7,
+        "width": 41.7,
+        "height": 18.3,
+        "type": "choice",
+        "description": "SRC I*",
+        "options": [
+          "Yes",
+          "No",
+          "N/A"
+        ],
+        "group": null,
+        "required": false
+      },
+      "radio": {
+        "left": 324.4,
+        "top": 168.8,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio2": {
+        "left": 175.1,
+        "top": 168.6,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio3": {
+        "left": 552.1,
+        "top": 168.6,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "dateAddition": {
+        "left": 474.5,
+        "top": 167.6,
+        "width": 51.9,
+        "height": 12.3,
+        "type": "text",
+        "description": "IS IN ADDITION TO DOA DATED",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateWithdrawal": {
+        "left": 713.7,
+        "top": 167.6,
+        "width": 51.9,
+        "height": 12.3,
+        "type": "text",
+        "description": "WITHDRAWALS FROM DOA DATED",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "unitIDCode": {
+        "left": 20.8,
+        "top": 140.7,
+        "width": 246.4,
+        "height": 14.2,
+        "type": "text",
+        "description": "UNIT IDENTIFICATION CODE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "telephoneNumber": {
+        "left": 272.9,
+        "top": 140.7,
+        "width": 246.4,
+        "height": 14.2,
+        "type": "text",
+        "description": "TELEPHONE NUMBER",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dodaac": {
+        "left": 524.9,
+        "top": 140.7,
+        "width": 138.3,
+        "height": 14.2,
+        "type": "text",
+        "description": "DODAAC",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "expiration": {
+        "left": 668.9,
+        "top": 140.6,
+        "width": 102.3,
+        "height": 14.1,
+        "type": "text",
+        "description": "EXPIRATION DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateRO": {
+        "left": 721.5,
+        "top": 120.9,
+        "width": 49.7,
+        "height": 23.3,
+        "type": "text",
+        "description": "DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name": {
+        "left": 20.8,
+        "top": 111.9,
+        "width": 312.1,
+        "height": 14.2,
+        "type": "text",
+        "description": "LAST NAME, FIRST, MIDDLE INITIAL",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "signature": {
+        "left": 404.4,
+        "top": 111.8,
+        "width": 279.7,
+        "height": 13.4,
+        "type": "text",
+        "description": "SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "rank": {
+        "left": 339.3,
+        "top": 111.3,
+        "width": 57.8,
+        "height": 12.8,
+        "type": "text",
+        "description": "RANK/GRADE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "nameMSC": {
+        "left": 392.8,
+        "top": 92.0,
+        "width": 148.1,
+        "height": 12.3,
+        "type": "text",
+        "description": "DENIED NAME/SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateMSC": {
+        "left": 721.5,
+        "top": 92.0,
+        "width": 49.7,
+        "height": 12.3,
+        "type": "text",
+        "description": "DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "mscsig": {
+        "left": 547.3,
+        "top": 91.2,
+        "width": 136.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "DENIED NAME/SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio4": {
+        "left": 255.9,
+        "top": 90.0,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "radio5": {
+        "left": 183.9,
+        "top": 89.8,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "nameASP": {
+        "left": 392.2,
+        "top": 74.0,
+        "width": 148.6,
+        "height": 12.3,
+        "type": "text",
+        "description": "DENIED NAME/SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "dateASP": {
+        "left": 721.5,
+        "top": 74.0,
+        "width": 49.7,
+        "height": 12.3,
+        "type": "text",
+        "description": "DATE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio6": {
+        "left": 255.9,
+        "top": 73.2,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "Item1",
+        "options": null,
+        "group": "radio",
+        "required": false
+      },
+      "aspsig": {
+        "left": 547.3,
+        "top": 73.2,
+        "width": 136.8,
+        "height": 10.8,
+        "type": "text",
+        "description": "DENIED NAME/SIGNATURE",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "radio7": {
+        "left": 183.9,
+        "top": 73.0,
+        "width": 12.0,
+        "height": 12.0,
+        "type": "radio",
+        "description": "Item0",
+        "options": null,
+        "group": "radio",
+        "required": false
+      }
+    }
+  }
+}

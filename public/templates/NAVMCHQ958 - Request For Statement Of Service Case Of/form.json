@@ -1,0 +1,404 @@
+{
+  "id": "navmchq958",
+  "label": "NAVMC HQ 958 - Request For Statement Of Service Case Of",
+  "directory": "NAVMCHQ958 - Request For Statement Of Service Case Of",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "date",
+        "to",
+        "mmsb",
+        "suite",
+        "subj",
+        "verifyDate",
+        "byDirection",
+        "endorseComp",
+        "dateEnl",
+        "dateDischarge",
+        "charOfDischarge",
+        "fromACDTURA",
+        "activeFrom",
+        "activeTo",
+        "toACDTURA",
+        "reason",
+        "fromROTC",
+        "fromService",
+        "fromTimeLost",
+        "lastRank",
+        "toROTC",
+        "toService",
+        "toTimeLost",
+        "payGrade",
+        "misc",
+        "title",
+        "sigSpouse"
+      ]
+    }
+  ],
+  "fields": {
+    "date": {
+      "type": "text",
+      "label": "Date",
+      "page": 1,
+      "box": {
+        "left": 487.2,
+        "top": 731.8,
+        "width": 65.6,
+        "height": 15.0
+      }
+    },
+    "to": {
+      "type": "text",
+      "label": "To",
+      "page": 1,
+      "box": {
+        "left": 57.0,
+        "top": 696.4,
+        "width": 246.0,
+        "height": 64.2
+      },
+      "multiline": true
+    },
+    "mmsb": {
+      "type": "text",
+      "label": "MMSB",
+      "page": 1,
+      "box": {
+        "left": 353.1,
+        "top": 673.9,
+        "width": 38.3,
+        "height": 15.4
+      }
+    },
+    "suite": {
+      "type": "text",
+      "label": "Suite",
+      "page": 1,
+      "box": {
+        "left": 421.0,
+        "top": 664.5,
+        "width": 38.3,
+        "height": 15.4
+      }
+    },
+    "subj": {
+      "type": "text",
+      "label": "Subject:  REQUEST STATEMENT OF SERVICE; CASE OF:",
+      "page": 1,
+      "box": {
+        "left": 200.4,
+        "top": 621.9,
+        "width": 354.1,
+        "height": 34.4
+      },
+      "multiline": true
+    },
+    "verifyDate": {
+      "type": "text",
+      "label": "VerifyDate",
+      "page": 1,
+      "box": {
+        "left": 361.4,
+        "top": 555.5,
+        "width": 65.6,
+        "height": 15.0
+      }
+    },
+    "byDirection": {
+      "type": "text",
+      "label": "ByDirection",
+      "page": 1,
+      "box": {
+        "left": 353.4,
+        "top": 461.0,
+        "width": 200.4,
+        "height": 15.4
+      }
+    },
+    "endorseComp": {
+      "type": "text",
+      "label": "EndorseComp",
+      "page": 1,
+      "box": {
+        "left": 56.4,
+        "top": 385.9,
+        "width": 78.6,
+        "height": 73.3
+      },
+      "multiline": true
+    },
+    "dateEnl": {
+      "type": "text",
+      "label": "DateEnl",
+      "page": 1,
+      "box": {
+        "left": 138.9,
+        "top": 385.9,
+        "width": 71.7,
+        "height": 73.3
+      },
+      "multiline": true
+    },
+    "dateDischarge": {
+      "type": "text",
+      "label": "DateDischarge",
+      "page": 1,
+      "box": {
+        "left": 214.8,
+        "top": 385.9,
+        "width": 73.2,
+        "height": 73.3
+      },
+      "multiline": true
+    },
+    "charOfDischarge": {
+      "type": "text",
+      "label": "CharOfDischarge",
+      "page": 1,
+      "box": {
+        "left": 291.6,
+        "top": 385.9,
+        "width": 105.9,
+        "height": 73.3
+      },
+      "multiline": true
+    },
+    "fromACDTURA": {
+      "type": "text",
+      "label": "FromACDTURA",
+      "page": 1,
+      "box": {
+        "left": 407.6,
+        "top": 368.0,
+        "width": 65.6,
+        "height": 15.0
+      }
+    },
+    "activeFrom": {
+      "type": "text",
+      "label": "ActiveFrom",
+      "page": 1,
+      "box": {
+        "left": 486.3,
+        "top": 368.0,
+        "width": 65.6,
+        "height": 15.0
+      }
+    },
+    "activeTo": {
+      "type": "text",
+      "label": "ActiveTo",
+      "page": 1,
+      "box": {
+        "left": 486.3,
+        "top": 332.1,
+        "width": 65.6,
+        "height": 15.0
+      }
+    },
+    "toACDTURA": {
+      "type": "text",
+      "label": "ToACDTURA",
+      "page": 1,
+      "box": {
+        "left": 407.6,
+        "top": 332.0,
+        "width": 65.6,
+        "height": 15.0
+      }
+    },
+    "reason": {
+      "type": "text",
+      "label": "Reason",
+      "page": 1,
+      "box": {
+        "left": 412.5,
+        "top": 276.5,
+        "width": 142.5,
+        "height": 68.2
+      },
+      "multiline": true
+    },
+    "fromROTC": {
+      "type": "text",
+      "label": "FromROTC",
+      "page": 1,
+      "box": {
+        "left": 173.0,
+        "top": 260.8,
+        "width": 65.6,
+        "height": 15.0
+      }
+    },
+    "fromService": {
+      "type": "text",
+      "label": "FromService",
+      "page": 1,
+      "box": {
+        "left": 261.0,
+        "top": 260.7,
+        "width": 65.6,
+        "height": 15.0
+      }
+    },
+    "fromTimeLost": {
+      "type": "text",
+      "label": "FromTimeLost",
+      "page": 1,
+      "box": {
+        "left": 339.7,
+        "top": 260.7,
+        "width": 65.6,
+        "height": 15.0
+      }
+    },
+    "lastRank": {
+      "type": "text",
+      "label": "LastRank",
+      "page": 1,
+      "box": {
+        "left": 67.6,
+        "top": 260.0,
+        "width": 85.5,
+        "height": 15.4
+      }
+    },
+    "toROTC": {
+      "type": "text",
+      "label": "ToROTC",
+      "page": 1,
+      "box": {
+        "left": 173.0,
+        "top": 227.0,
+        "width": 65.6,
+        "height": 15.0
+      }
+    },
+    "toService": {
+      "type": "text",
+      "label": "ToService",
+      "page": 1,
+      "box": {
+        "left": 261.0,
+        "top": 226.9,
+        "width": 65.6,
+        "height": 15.0
+      }
+    },
+    "toTimeLost": {
+      "type": "text",
+      "label": "ToTimeLost",
+      "page": 1,
+      "box": {
+        "left": 339.7,
+        "top": 226.9,
+        "width": 65.6,
+        "height": 15.0
+      }
+    },
+    "payGrade": {
+      "type": "text",
+      "label": "PayGrade",
+      "page": 1,
+      "box": {
+        "left": 67.6,
+        "top": 226.1,
+        "width": 59.1,
+        "height": 15.4
+      }
+    },
+    "misc": {
+      "type": "text",
+      "label": "Misc",
+      "page": 1,
+      "box": {
+        "left": 57.7,
+        "top": 190.1,
+        "width": 497.3,
+        "height": 105.9
+      },
+      "multiline": true
+    },
+    "title": {
+      "type": "text",
+      "label": "Title",
+      "page": 1,
+      "box": {
+        "left": 122.1,
+        "top": 76.9,
+        "width": 122.0,
+        "height": 15.4
+      }
+    },
+    "sigSpouse": {
+      "type": "signature",
+      "label": "SigSpouse",
+      "page": 1,
+      "box": {
+        "left": 262.0,
+        "top": 76.9,
+        "width": 227.9,
+        "height": 15.4
+      }
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 3,
+      "rowStride": 19.35,
+      "editor": "grid",
+      "columns": {
+        "comp": {
+          "type": "text",
+          "label": "Comp1",
+          "page": 1,
+          "box": {
+            "left": 59.2,
+            "top": 522.5,
+            "width": 223.5,
+            "height": 15.4
+          }
+        },
+        "last4SSN": {
+          "type": "text",
+          "label": "Last4SSN1",
+          "page": 1,
+          "box": {
+            "left": 293.3,
+            "top": 523.2,
+            "width": 54.4,
+            "height": 16.4
+          }
+        },
+        "verifyFrom": {
+          "type": "text",
+          "label": "VerifyFrom1",
+          "page": 1,
+          "box": {
+            "left": 357.4,
+            "top": 521.7,
+            "width": 94.5,
+            "height": 15.0
+          }
+        },
+        "verifyTo": {
+          "type": "text",
+          "label": "VerifyTo1",
+          "page": 1,
+          "box": {
+            "left": 458.7,
+            "top": 521.7,
+            "width": 94.5,
+            "height": 15.0
+          }
+        }
+      }
+    }
+  }
+}

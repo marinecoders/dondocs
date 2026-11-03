@@ -1,0 +1,73 @@
+{
+  "template": "page1.pdf",
+  "source": "acroform",
+  "pageSize": {
+    "width": 794,
+    "height": 609
+  },
+  "notes": [
+    "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
+    "rename keys to semantic names, then promote to boxes.json.",
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+  ],
+  "pages": {
+    "page1": {
+      "printingNote": {
+        "left": 16.1,
+        "top": 595.3,
+        "width": 160.8,
+        "height": 56.6,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "name": {
+        "left": 218.2,
+        "top": 247.0,
+        "width": 346.1,
+        "height": 16.2,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "number": {
+        "left": 324.0,
+        "top": 188.9,
+        "width": 146.1,
+        "height": 16.2,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "date": {
+        "left": 317.0,
+        "top": 98.5,
+        "width": 146.1,
+        "height": 16.2,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      },
+      "datePresented": {
+        "left": 89.9,
+        "top": 67.2,
+        "width": 146.1,
+        "height": 16.2,
+        "type": "text",
+        "description": "",
+        "options": null,
+        "group": null,
+        "required": false
+      }
+    }
+  }
+}

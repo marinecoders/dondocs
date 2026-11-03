@@ -1,0 +1,743 @@
+{
+  "id": "navmchq942",
+  "label": "NAVMCHQ942 - Directives Program Coordination Record",
+  "directory": "NAVMCHQ942 - Directives Program Coordination Record",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "shorttitle",
+        "longtitle",
+        "newdir",
+        "revision",
+        "change",
+        "adminchange",
+        "cancellation",
+        "canjustification",
+        "unclas",
+        "mco",
+        "confidential",
+        "mcbul",
+        "secret",
+        "topsecret",
+        "coordinationpg",
+        "coordinationpg2",
+        "coordinationpg3",
+        "otherdocumentation",
+        "cleardist",
+        "notcleardist",
+        "aoname",
+        "dcpname",
+        "dcpsign",
+        "dept",
+        "officecode",
+        "dcpworkph",
+        "aoworkph",
+        "aofax",
+        "dcpfax",
+        "aoemail",
+        "dcpemail",
+        "approvedforsign",
+        "dateCOMP",
+        "dateSUB",
+        "dateREC",
+        "approvalexpdate",
+        "ardbapprsign",
+        "ardbapprsigndate",
+        "formatinit",
+        "formatrevdate",
+        "reportinit",
+        "reportrevdat",
+        "approvedforcanc",
+        "formsinit",
+        "formsrevdate",
+        "ardbcancsign",
+        "ardbcancdate",
+        "pafoiainit",
+        "pafoiarevdate",
+        "sjainit",
+        "sjarevdate",
+        "comments",
+        "mrampcinit",
+        "mrampcrevdate",
+        "unioninit",
+        "unionrevdate",
+        "clinit",
+        "clrevdate",
+        "recmgmtinit",
+        "recmgmtrevdate"
+      ]
+    }
+  ],
+  "fields": {
+    "shorttitle": {
+      "type": "text",
+      "label": "1. SHORT TITLE",
+      "page": 1,
+      "box": {
+        "left": 36.0,
+        "top": 719.2,
+        "width": 90.0,
+        "height": 26.3
+      }
+    },
+    "longtitle": {
+      "type": "text",
+      "label": "DIRECTIVES PROGRAM COORDINATION RECORD",
+      "page": 1,
+      "box": {
+        "left": 126.0,
+        "top": 718.8,
+        "width": 450.1,
+        "height": 26.2
+      }
+    },
+    "newdir": {
+      "type": "checkbox",
+      "label": "1. SHORT",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 674.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "revision": {
+      "type": "checkbox",
+      "label": "New",
+      "page": 1,
+      "box": {
+        "left": 109.2,
+        "top": 674.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "change": {
+      "type": "checkbox",
+      "label": "Revision",
+      "page": 1,
+      "box": {
+        "left": 193.3,
+        "top": 674.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "adminchange": {
+      "type": "checkbox",
+      "label": "Change",
+      "page": 1,
+      "box": {
+        "left": 305.4,
+        "top": 674.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "cancellation": {
+      "type": "checkbox",
+      "label": "Administrative Change",
+      "page": 1,
+      "box": {
+        "left": 433.5,
+        "top": 674.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "canjustification": {
+      "type": "text",
+      "label": "Marine Corps Bulletin (MCBul)",
+      "page": 1,
+      "box": {
+        "left": 301.5,
+        "top": 648.0,
+        "width": 274.5,
+        "height": 64.8
+      },
+      "multiline": true
+    },
+    "unclas": {
+      "type": "checkbox",
+      "label": "Unclas",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 639.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "mco": {
+      "type": "checkbox",
+      "label": "Unclassified",
+      "page": 1,
+      "box": {
+        "left": 125.4,
+        "top": 639.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "confidential": {
+      "type": "checkbox",
+      "label": "Confidential",
+      "page": 1,
+      "box": {
+        "left": 40.0,
+        "top": 612.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "mcbul": {
+      "type": "checkbox",
+      "label": "Confidential",
+      "page": 1,
+      "box": {
+        "left": 125.4,
+        "top": 612.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "secret": {
+      "type": "checkbox",
+      "label": "Secret",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 585.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "topsecret": {
+      "type": "checkbox",
+      "label": "Topsecret",
+      "page": 1,
+      "box": {
+        "left": 39.8,
+        "top": 558.6,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "coordinationpg": {
+      "type": "checkbox",
+      "label": "AO",
+      "page": 1,
+      "box": {
+        "left": 456.6,
+        "top": 557.0,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "coordinationpg2": {
+      "type": "checkbox",
+      "label": "REVIEW REPORTS",
+      "page": 1,
+      "box": {
+        "left": 407.1,
+        "top": 556.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "coordinationpg3": {
+      "type": "checkbox",
+      "label": "O-6/GS 15",
+      "page": 1,
+      "box": {
+        "left": 537.6,
+        "top": 556.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "otherdocumentation": {
+      "type": "text",
+      "label": "Not Cleared for",
+      "page": 1,
+      "box": {
+        "left": 301.5,
+        "top": 528.1,
+        "width": 274.5,
+        "height": 28.4
+      }
+    },
+    "cleardist": {
+      "type": "checkbox",
+      "label": "Cleardist",
+      "page": 1,
+      "box": {
+        "left": 40.9,
+        "top": 517.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "notcleardist": {
+      "type": "checkbox",
+      "label": "Cleared Public Release for",
+      "page": 1,
+      "box": {
+        "left": 170.4,
+        "top": 517.5,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "aoname": {
+      "type": "text",
+      "label": "9. SPONSOR/ ACTION OFFICER NAME",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 468.8,
+        "width": 259.9,
+        "height": 16.8
+      }
+    },
+    "dcpname": {
+      "type": "text",
+      "label": "10. DIRECTIVES CONTROL POINT (DCP) NAME",
+      "page": 1,
+      "box": {
+        "left": 304.0,
+        "top": 468.1,
+        "width": 269.2,
+        "height": 16.1
+      }
+    },
+    "dcpsign": {
+      "type": "text",
+      "label": "DCP SIGNATURE",
+      "page": 1,
+      "box": {
+        "left": 304.0,
+        "top": 436.6,
+        "width": 269.2,
+        "height": 16.1
+      }
+    },
+    "dept": {
+      "type": "text",
+      "label": "DEPARTMENT",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 435.5,
+        "width": 126.6,
+        "height": 15.0
+      }
+    },
+    "officecode": {
+      "type": "text",
+      "label": "OFFICE CODE",
+      "page": 1,
+      "box": {
+        "left": 171.2,
+        "top": 435.5,
+        "width": 126.6,
+        "height": 15.0
+      }
+    },
+    "dcpworkph": {
+      "type": "text",
+      "label": "WORK PHONE",
+      "page": 1,
+      "box": {
+        "left": 304.4,
+        "top": 406.6,
+        "width": 132.0,
+        "height": 17.6
+      }
+    },
+    "aoworkph": {
+      "type": "text",
+      "label": "WORK PHONE",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 405.8,
+        "width": 124.8,
+        "height": 16.8
+      }
+    },
+    "aofax": {
+      "type": "text",
+      "label": "OFFICE CODE",
+      "page": 1,
+      "box": {
+        "left": 169.4,
+        "top": 405.8,
+        "width": 129.0,
+        "height": 16.8
+      }
+    },
+    "dcpfax": {
+      "type": "text",
+      "label": "(DCP) NAME",
+      "page": 1,
+      "box": {
+        "left": 442.2,
+        "top": 405.8,
+        "width": 130.7,
+        "height": 16.8
+      }
+    },
+    "aoemail": {
+      "type": "text",
+      "label": "E-MAIL ADDRESS",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 374.3,
+        "width": 259.9,
+        "height": 16.8
+      }
+    },
+    "dcpemail": {
+      "type": "text",
+      "label": "E-MAIL ADDRESS",
+      "page": 1,
+      "box": {
+        "left": 304.4,
+        "top": 374.3,
+        "width": 268.9,
+        "height": 16.8
+      }
+    },
+    "approvedforsign": {
+      "type": "checkbox",
+      "label": "DATE SUBMITTED DATE RECIEVED DATE COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 309.9,
+        "top": 332.4,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "dateCOMP": {
+      "type": "text",
+      "label": "DATE COMPLETED",
+      "page": 1,
+      "box": {
+        "left": 215.8,
+        "top": 325.7,
+        "width": 89.9,
+        "height": 19.6
+      }
+    },
+    "dateSUB": {
+      "type": "text",
+      "label": "DATE SUBMITTED",
+      "page": 1,
+      "box": {
+        "left": 36.0,
+        "top": 325.4,
+        "width": 89.9,
+        "height": 19.4
+      }
+    },
+    "dateREC": {
+      "type": "text",
+      "label": "DATE RECIEVED",
+      "page": 1,
+      "box": {
+        "left": 125.9,
+        "top": 325.4,
+        "width": 89.9,
+        "height": 19.4
+      }
+    },
+    "approvalexpdate": {
+      "type": "text",
+      "label": "APPROVAL EXPIRATION DATE",
+      "page": 1,
+      "box": {
+        "left": 469.4,
+        "top": 316.6,
+        "width": 103.8,
+        "height": 16.8
+      }
+    },
+    "ardbapprsign": {
+      "type": "text",
+      "label": "ARDB DIRECTIVES",
+      "page": 1,
+      "box": {
+        "left": 306.0,
+        "top": 285.7,
+        "width": 175.5,
+        "height": 33.6
+      },
+      "multiline": true
+    },
+    "ardbapprsigndate": {
+      "type": "text",
+      "label": "ARDB DIRECTIVES",
+      "page": 1,
+      "box": {
+        "left": 481.0,
+        "top": 285.7,
+        "width": 94.8,
+        "height": 33.6
+      },
+      "multiline": true
+    },
+    "formatinit": {
+      "type": "text",
+      "label": "ARDB DIRECTIVES",
+      "page": 1,
+      "box": {
+        "left": 140.6,
+        "top": 275.0,
+        "width": 80.4,
+        "height": 21.4
+      }
+    },
+    "formatrevdate": {
+      "type": "text",
+      "label": "ARDB DIRECTIVES",
+      "page": 1,
+      "box": {
+        "left": 223.9,
+        "top": 275.0,
+        "width": 80.4,
+        "height": 21.4
+      }
+    },
+    "reportinit": {
+      "type": "text",
+      "label": "ARDB REPORTS",
+      "page": 1,
+      "box": {
+        "left": 140.6,
+        "top": 250.8,
+        "width": 80.4,
+        "height": 21.4
+      }
+    },
+    "reportrevdat": {
+      "type": "text",
+      "label": "ARDB REPORTS",
+      "page": 1,
+      "box": {
+        "left": 223.9,
+        "top": 250.8,
+        "width": 80.4,
+        "height": 21.4
+      }
+    },
+    "approvedforcanc": {
+      "type": "checkbox",
+      "label": "ARDB REPORTS",
+      "page": 1,
+      "box": {
+        "left": 309.9,
+        "top": 246.9,
+        "width": 8.0,
+        "height": 8.0
+      }
+    },
+    "formsinit": {
+      "type": "text",
+      "label": "ARDB FORMS",
+      "page": 1,
+      "box": {
+        "left": 140.6,
+        "top": 226.6,
+        "width": 80.4,
+        "height": 21.4
+      }
+    },
+    "formsrevdate": {
+      "type": "text",
+      "label": "ARDB FORMS",
+      "page": 1,
+      "box": {
+        "left": 223.9,
+        "top": 226.6,
+        "width": 80.4,
+        "height": 21.4
+      }
+    },
+    "ardbcancsign": {
+      "type": "text",
+      "label": "SIGNATURE DATE",
+      "page": 1,
+      "box": {
+        "left": 306.0,
+        "top": 222.7,
+        "width": 175.5,
+        "height": 33.6
+      },
+      "multiline": true
+    },
+    "ardbcancdate": {
+      "type": "text",
+      "label": "DATE",
+      "page": 1,
+      "box": {
+        "left": 481.3,
+        "top": 222.7,
+        "width": 94.8,
+        "height": 33.6
+      },
+      "multiline": true
+    },
+    "pafoiainit": {
+      "type": "text",
+      "label": "ARDB RECORDS",
+      "page": 1,
+      "box": {
+        "left": 140.6,
+        "top": 202.4,
+        "width": 80.4,
+        "height": 21.4
+      }
+    },
+    "pafoiarevdate": {
+      "type": "text",
+      "label": "ARDB RECORDS",
+      "page": 1,
+      "box": {
+        "left": 223.9,
+        "top": 202.4,
+        "width": 80.4,
+        "height": 21.4
+      }
+    },
+    "sjainit": {
+      "type": "text",
+      "label": "ARSF PA/FOIA",
+      "page": 1,
+      "box": {
+        "left": 140.6,
+        "top": 178.2,
+        "width": 80.4,
+        "height": 21.4
+      }
+    },
+    "sjarevdate": {
+      "type": "text",
+      "label": "ARSF PA/FOIA",
+      "page": 1,
+      "box": {
+        "left": 223.9,
+        "top": 178.2,
+        "width": 80.4,
+        "height": 21.4
+      }
+    },
+    "comments": {
+      "type": "text",
+      "label": "UNION",
+      "page": 1,
+      "box": {
+        "left": 306.0,
+        "top": 177.9,
+        "width": 270.0,
+        "height": 119.5
+      },
+      "multiline": true
+    },
+    "mrampcinit": {
+      "type": "text",
+      "label": "MRA MPC - 40",
+      "page": 1,
+      "box": {
+        "left": 140.6,
+        "top": 154.1,
+        "width": 80.4,
+        "height": 21.4
+      }
+    },
+    "mrampcrevdate": {
+      "type": "text",
+      "label": "MRA MPC - 40",
+      "page": 1,
+      "box": {
+        "left": 223.9,
+        "top": 154.1,
+        "width": 80.4,
+        "height": 21.4
+      }
+    },
+    "unioninit": {
+      "type": "text",
+      "label": "UNION",
+      "page": 1,
+      "box": {
+        "left": 140.6,
+        "top": 129.9,
+        "width": 80.4,
+        "height": 21.4
+      }
+    },
+    "unionrevdate": {
+      "type": "text",
+      "label": "UNION",
+      "page": 1,
+      "box": {
+        "left": 223.9,
+        "top": 129.9,
+        "width": 80.4,
+        "height": 21.4
+      }
+    },
+    "clinit": {
+      "type": "text",
+      "label": "JAD",
+      "page": 1,
+      "box": {
+        "left": 140.6,
+        "top": 105.7,
+        "width": 80.4,
+        "height": 21.4
+      }
+    },
+    "clrevdate": {
+      "type": "text",
+      "label": "JAD",
+      "page": 1,
+      "box": {
+        "left": 223.9,
+        "top": 105.7,
+        "width": 80.4,
+        "height": 21.4
+      }
+    },
+    "recmgmtinit": {
+      "type": "text",
+      "label": "CL",
+      "page": 1,
+      "box": {
+        "left": 140.6,
+        "top": 81.5,
+        "width": 80.4,
+        "height": 21.4
+      }
+    },
+    "recmgmtrevdate": {
+      "type": "text",
+      "label": "CL",
+      "page": 1,
+      "box": {
+        "left": 223.9,
+        "top": 81.5,
+        "width": 80.4,
+        "height": 21.4
+      }
+    }
+  }
+}

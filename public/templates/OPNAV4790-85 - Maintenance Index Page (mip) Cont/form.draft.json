@@ -1,0 +1,926 @@
+{
+  "id": "opnav479085",
+  "label": "OPNAV4790-85 - Maintenance Index Page (mip) Cont",
+  "directory": "OPNAV4790-85 - Maintenance Index Page (mip) Cont",
+  "pages": [
+    "page1.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "testOther1",
+        "testOther12",
+        "testOther2",
+        "testOther22",
+        "testOther3",
+        "testOther32",
+        "testOther4",
+        "testOther42",
+        "testOther5",
+        "testOther52",
+        "testOther6",
+        "testOther62",
+        "testOther7",
+        "testOther72",
+        "testOther8",
+        "testOther82",
+        "testOther9",
+        "testOther92",
+        "testOther10",
+        "testOther102",
+        "testOther11",
+        "testOther112",
+        "testOther122",
+        "testOther123",
+        "testOther13",
+        "testOther132",
+        "testOther14",
+        "testOther142",
+        "testOther15",
+        "testOther152",
+        "testOther16",
+        "testOther162",
+        "testOther17",
+        "testOther172",
+        "testOther18",
+        "testOther182",
+        "testOther19",
+        "testOther192",
+        "testOther20",
+        "testOther202",
+        "testOther21",
+        "testOther212",
+        "testOther222",
+        "testOther223",
+        "testOther23",
+        "testOther232",
+        "testOther24",
+        "testOther242",
+        "testOther25",
+        "testOther252",
+        "testOther26",
+        "testOther262",
+        "testOther27",
+        "testOther272",
+        "testOther28",
+        "testOther282",
+        "testOther29",
+        "testOther292",
+        "testOther30",
+        "testOther302",
+        "testOther31",
+        "testOther312",
+        "testOther322",
+        "testOther323"
+      ]
+    }
+  ],
+  "fields": {
+    "testOther1": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 53.2,
+        "top": 706.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther1_0"
+    },
+    "testOther12": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 34.6,
+        "top": 706.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther1_0"
+    },
+    "testOther2": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 53.2,
+        "top": 683.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther2_0"
+    },
+    "testOther22": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 34.6,
+        "top": 683.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther2_0"
+    },
+    "testOther3": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 53.2,
+        "top": 662.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther3_0"
+    },
+    "testOther32": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 34.6,
+        "top": 662.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther3_0"
+    },
+    "testOther4": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 53.2,
+        "top": 641.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther4_0"
+    },
+    "testOther42": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 34.6,
+        "top": 641.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther4_0"
+    },
+    "testOther5": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 53.2,
+        "top": 620.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther5_0"
+    },
+    "testOther52": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 34.6,
+        "top": 619.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther5_0"
+    },
+    "testOther6": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 53.2,
+        "top": 599.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther6_0"
+    },
+    "testOther62": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 34.6,
+        "top": 598.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther6_0"
+    },
+    "testOther7": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 53.2,
+        "top": 578.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther7_0"
+    },
+    "testOther72": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 34.6,
+        "top": 577.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther7_0"
+    },
+    "testOther8": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 53.2,
+        "top": 557.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther8_0"
+    },
+    "testOther82": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 34.6,
+        "top": 556.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther8_0"
+    },
+    "testOther9": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 53.2,
+        "top": 536.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther9_0"
+    },
+    "testOther92": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 34.6,
+        "top": 535.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther9_0"
+    },
+    "testOther10": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 53.2,
+        "top": 515.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther10_0"
+    },
+    "testOther102": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 34.6,
+        "top": 514.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther10_0"
+    },
+    "testOther11": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 53.2,
+        "top": 494.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther11_0"
+    },
+    "testOther112": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 34.6,
+        "top": 493.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther11_0"
+    },
+    "testOther122": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 53.2,
+        "top": 473.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther12_0"
+    },
+    "testOther123": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 34.6,
+        "top": 472.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther12_0"
+    },
+    "testOther13": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 53.2,
+        "top": 452.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther13_0"
+    },
+    "testOther132": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 34.6,
+        "top": 451.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther13_0"
+    },
+    "testOther14": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 53.2,
+        "top": 431.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther14_0"
+    },
+    "testOther142": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 34.6,
+        "top": 430.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther14_0"
+    },
+    "testOther15": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 53.2,
+        "top": 410.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther15_0"
+    },
+    "testOther152": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 34.6,
+        "top": 409.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther15_0"
+    },
+    "testOther16": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 53.2,
+        "top": 389.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther16_0"
+    },
+    "testOther162": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 34.6,
+        "top": 388.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther16_0"
+    },
+    "testOther17": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 53.2,
+        "top": 368.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther17_0"
+    },
+    "testOther172": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 34.6,
+        "top": 367.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther17_0"
+    },
+    "testOther18": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 53.2,
+        "top": 347.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther18_0"
+    },
+    "testOther182": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 34.6,
+        "top": 346.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther18_0"
+    },
+    "testOther19": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 53.2,
+        "top": 326.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther19_0"
+    },
+    "testOther192": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 34.6,
+        "top": 325.4,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther19_0"
+    },
+    "testOther20": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 53.2,
+        "top": 305.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther20_0"
+    },
+    "testOther202": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 34.6,
+        "top": 304.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther20_0"
+    },
+    "testOther21": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 53.2,
+        "top": 284.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther21_0"
+    },
+    "testOther212": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 34.6,
+        "top": 283.3,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther21_0"
+    },
+    "testOther222": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 53.2,
+        "top": 262.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther22_0"
+    },
+    "testOther223": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 34.6,
+        "top": 262.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther22_0"
+    },
+    "testOther23": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 53.2,
+        "top": 241.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther23_0"
+    },
+    "testOther232": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 34.6,
+        "top": 241.2,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther23_0"
+    },
+    "testOther24": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 53.2,
+        "top": 220.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther24_0"
+    },
+    "testOther242": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 34.6,
+        "top": 220.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther24_0"
+    },
+    "testOther25": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 53.2,
+        "top": 199.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther25_0"
+    },
+    "testOther252": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 34.6,
+        "top": 199.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther25_0"
+    },
+    "testOther26": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 53.2,
+        "top": 178.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther26_0"
+    },
+    "testOther262": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 34.6,
+        "top": 178.1,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther26_0"
+    },
+    "testOther27": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 53.2,
+        "top": 157.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther27_0"
+    },
+    "testOther272": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 34.6,
+        "top": 157.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther27_0"
+    },
+    "testOther28": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 53.2,
+        "top": 136.7,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther28_0"
+    },
+    "testOther282": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 34.6,
+        "top": 136.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther28_0"
+    },
+    "testOther29": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 53.2,
+        "top": 115.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther29_0"
+    },
+    "testOther292": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 34.6,
+        "top": 114.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther29_0"
+    },
+    "testOther30": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 53.2,
+        "top": 94.6,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther30_0"
+    },
+    "testOther302": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 34.6,
+        "top": 93.9,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther30_0"
+    },
+    "testOther31": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 53.2,
+        "top": 73.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther31_0"
+    },
+    "testOther312": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 34.6,
+        "top": 72.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther31_0"
+    },
+    "testOther322": {
+      "type": "radio",
+      "label": "1",
+      "page": 1,
+      "box": {
+        "left": 53.2,
+        "top": 52.5,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther32_0"
+    },
+    "testOther323": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 34.6,
+        "top": 51.8,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_TestOther32_0"
+    }
+  },
+  "rowGroups": {
+    "rows": {
+      "title": "Rows",
+      "page": 1,
+      "count": 32,
+      "rowStride": 21.04,
+      "editor": "grid",
+      "columns": {
+        "conNo": {
+          "type": "text",
+          "label": "Enter the SYSCOM MRC control number.",
+          "page": 1,
+          "box": {
+            "left": 71.3,
+            "top": 708.2,
+            "width": 57.7,
+            "height": 13.3
+          }
+        },
+        "des": {
+          "type": "text",
+          "label": "Enter the maintenance requirement description.",
+          "page": 1,
+          "box": {
+            "left": 136.5,
+            "top": 708.9,
+            "width": 273.1,
+            "height": 14.0
+          }
+        },
+        "code": {
+          "type": "text",
+          "label": "Enter the periodicity code.",
+          "page": 1,
+          "box": {
+            "left": 416.6,
+            "top": 708.9,
+            "width": 28.7,
+            "height": 14.0
+          }
+        },
+        "rates": {
+          "type": "text",
+          "label": "Enter the rates.",
+          "page": 1,
+          "box": {
+            "left": 452.6,
+            "top": 708.9,
+            "width": 33.5,
+            "height": 14.0
+          }
+        },
+        "man": {
+          "type": "text",
+          "label": "Enter the man hours.",
+          "page": 1,
+          "box": {
+            "left": 493.1,
+            "top": 708.9,
+            "width": 45.3,
+            "height": 14.0
+          }
+        },
+        "rel": {
+          "type": "text",
+          "label": "Enter the related maintenance.",
+          "page": 1,
+          "box": {
+            "left": 546.5,
+            "top": 708.9,
+            "width": 37.9,
+            "height": 14.0
+          }
+        }
+      }
+    }
+  }
+}

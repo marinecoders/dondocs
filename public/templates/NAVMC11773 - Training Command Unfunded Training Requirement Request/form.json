@@ -1,0 +1,896 @@
+{
+  "id": "navmc11773",
+  "label": "NAVMC 11773 - Training Command Unfunded Training Requirement Request",
+  "directory": "NAVMC11773 - Training Command Unfunded Training Requirement Request",
+  "pages": [
+    "page1.pdf",
+    "page2.pdf"
+  ],
+  "sections": [
+    {
+      "title": "Page 1",
+      "fields": [
+        "requestingUnitSection",
+        "fiscalYr",
+        "pOCName",
+        "pOCPhoneNum",
+        "pOCemail",
+        "mCRank",
+        "mCRank2",
+        "mCRank3",
+        "cIDPOIDate",
+        "cIDPOIStatus",
+        "hHQComment",
+        "overheadCost",
+        "titleRequirement",
+        "radioButtonList",
+        "radioButtonList2",
+        "radioButtonList3",
+        "priorityNo1",
+        "priorityNo2",
+        "no",
+        "yes",
+        "no1",
+        "yes1",
+        "aPOct",
+        "aPNov",
+        "aPDec",
+        "aPJan",
+        "aPFeb",
+        "aPMar",
+        "aPApr",
+        "aPMay",
+        "apJun",
+        "aPJul",
+        "apAug",
+        "aPSep",
+        "aPTotal",
+        "oPOct",
+        "oPNov",
+        "opDec",
+        "oPJan",
+        "opFeb",
+        "oPMar",
+        "oPApr",
+        "oPMay",
+        "opJun",
+        "oPJul",
+        "oPAug",
+        "opSep",
+        "oPTotal"
+      ]
+    },
+    {
+      "title": "Page 2",
+      "fields": [
+        "civPayAmt",
+        "wWTADAmt",
+        "tADAmt",
+        "sMETADAmt",
+        "suppAmt",
+        "quantity",
+        "equipAmt",
+        "tAMControlNo",
+        "printAmt",
+        "civiLabBreak",
+        "maintAmt",
+        "postAmt",
+        "sCAmt",
+        "otherAmt",
+        "mIPRWRAmt",
+        "appn",
+        "fy10",
+        "fy11",
+        "fy12",
+        "fy13",
+        "fy14",
+        "fy15",
+        "total"
+      ]
+    }
+  ],
+  "fields": {
+    "requestingUnitSection": {
+      "type": "text",
+      "label": "1. Requesting Unit/Section",
+      "page": 1,
+      "box": {
+        "left": 38.8,
+        "top": 701.3,
+        "width": 381.3,
+        "height": 14.4
+      }
+    },
+    "fiscalYr": {
+      "type": "text",
+      "label": "2. FY",
+      "page": 1,
+      "box": {
+        "left": 425.8,
+        "top": 701.3,
+        "width": 147.3,
+        "height": 14.4
+      }
+    },
+    "pOCName": {
+      "type": "text",
+      "label": "POCName",
+      "page": 1,
+      "box": {
+        "left": 119.8,
+        "top": 672.5,
+        "width": 453.3,
+        "height": 12.3
+      }
+    },
+    "pOCPhoneNum": {
+      "type": "text",
+      "label": "POCPhoneNum",
+      "page": 1,
+      "box": {
+        "left": 119.8,
+        "top": 654.6,
+        "width": 453.4,
+        "height": 12.4
+      }
+    },
+    "pOCemail": {
+      "type": "text",
+      "label": "POCemail",
+      "page": 1,
+      "box": {
+        "left": 117.0,
+        "top": 639.4,
+        "width": 459.0,
+        "height": 18.0
+      }
+    },
+    "mCRank": {
+      "type": "choice",
+      "label": "Rank",
+      "page": 1,
+      "box": {
+        "left": 39.6,
+        "top": 621.4,
+        "width": 176.4,
+        "height": 16.0
+      },
+      "options": [
+        "O&M",
+        "MC",
+        "PMC"
+      ]
+    },
+    "mCRank2": {
+      "type": "choice",
+      "label": "Rank",
+      "page": 1,
+      "box": {
+        "left": 219.6,
+        "top": 621.4,
+        "width": 176.4,
+        "height": 16.0
+      },
+      "options": [
+        "3A2C Officer Acquisition",
+        "3B1D Specialized Skills Training",
+        "3B2D Flight Training",
+        "3B4D Training Support",
+        "BSS1 Base Ops"
+      ]
+    },
+    "mCRank3": {
+      "type": "choice",
+      "label": "Rank",
+      "page": 1,
+      "box": {
+        "left": 399.6,
+        "top": 621.4,
+        "width": 176.4,
+        "height": 16.0
+      },
+      "options": [
+        "POM/PR",
+        "OEF/OIF/OCO",
+        "Emergent Training Requirement",
+        "Bridge Funding"
+      ]
+    },
+    "cIDPOIDate": {
+      "type": "text",
+      "label": "CIDPOIDate",
+      "page": 1,
+      "box": {
+        "left": 170.0,
+        "top": 571.7,
+        "width": 102.3,
+        "height": 12.3
+      }
+    },
+    "cIDPOIStatus": {
+      "type": "text",
+      "label": "CIDPOIStatus",
+      "page": 1,
+      "box": {
+        "left": 317.8,
+        "top": 571.7,
+        "width": 255.3,
+        "height": 12.3
+      }
+    },
+    "hHQComment": {
+      "type": "text",
+      "label": "HHQComment",
+      "page": 1,
+      "box": {
+        "left": 170.0,
+        "top": 553.7,
+        "width": 403.1,
+        "height": 12.3
+      }
+    },
+    "overheadCost": {
+      "type": "text",
+      "label": "OverheadCost",
+      "page": 1,
+      "box": {
+        "left": 170.0,
+        "top": 535.7,
+        "width": 403.1,
+        "height": 12.3
+      }
+    },
+    "titleRequirement": {
+      "type": "text",
+      "label": "TitleRequirement",
+      "page": 1,
+      "box": {
+        "left": 170.0,
+        "top": 517.7,
+        "width": 403.1,
+        "height": 12.3
+      }
+    },
+    "radioButtonList": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 142.4,
+        "top": 487.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_0"
+    },
+    "radioButtonList2": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 142.4,
+        "top": 469.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_1"
+    },
+    "radioButtonList3": {
+      "type": "radio",
+      "label": "0",
+      "page": 1,
+      "box": {
+        "left": 142.4,
+        "top": 451.0,
+        "width": 10.0,
+        "height": 10.0
+      },
+      "group": "form1_0_subform_0_RadioButtonList_2"
+    },
+    "priorityNo1": {
+      "type": "text",
+      "label": "PriorityNo1",
+      "page": 1,
+      "box": {
+        "left": 110.8,
+        "top": 434.2,
+        "width": 39.3,
+        "height": 12.3
+      }
+    },
+    "priorityNo2": {
+      "type": "text",
+      "label": "PriorityNo2",
+      "page": 1,
+      "box": {
+        "left": 173.8,
+        "top": 434.2,
+        "width": 39.3,
+        "height": 12.3
+      }
+    },
+    "no": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 218.8,
+        "top": 248.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "yes": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 258.7,
+        "top": 248.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "no1": {
+      "type": "checkbox",
+      "label": "No",
+      "page": 1,
+      "box": {
+        "left": 452.8,
+        "top": 248.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "yes1": {
+      "type": "checkbox",
+      "label": "Yes",
+      "page": 1,
+      "box": {
+        "left": 492.7,
+        "top": 248.0,
+        "width": 10.0,
+        "height": 10.0
+      }
+    },
+    "aPOct": {
+      "type": "text",
+      "label": "APOct",
+      "page": 1,
+      "box": {
+        "left": 111.6,
+        "top": 194.4,
+        "width": 28.8,
+        "height": 10.8
+      }
+    },
+    "aPNov": {
+      "type": "text",
+      "label": "APNov",
+      "page": 1,
+      "box": {
+        "left": 147.6,
+        "top": 194.4,
+        "width": 28.8,
+        "height": 10.8
+      }
+    },
+    "aPDec": {
+      "type": "text",
+      "label": "APDec",
+      "page": 1,
+      "box": {
+        "left": 183.6,
+        "top": 194.4,
+        "width": 28.8,
+        "height": 10.8
+      }
+    },
+    "aPJan": {
+      "type": "text",
+      "label": "APJan",
+      "page": 1,
+      "box": {
+        "left": 219.6,
+        "top": 194.4,
+        "width": 28.8,
+        "height": 10.8
+      }
+    },
+    "aPFeb": {
+      "type": "text",
+      "label": "APFeb",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 194.4,
+        "width": 28.8,
+        "height": 10.8
+      }
+    },
+    "aPMar": {
+      "type": "text",
+      "label": "APMar",
+      "page": 1,
+      "box": {
+        "left": 291.6,
+        "top": 194.4,
+        "width": 28.8,
+        "height": 10.8
+      }
+    },
+    "aPApr": {
+      "type": "text",
+      "label": "APApr",
+      "page": 1,
+      "box": {
+        "left": 327.6,
+        "top": 194.4,
+        "width": 28.8,
+        "height": 10.8
+      }
+    },
+    "aPMay": {
+      "type": "text",
+      "label": "APMay",
+      "page": 1,
+      "box": {
+        "left": 363.6,
+        "top": 194.4,
+        "width": 28.8,
+        "height": 10.8
+      }
+    },
+    "apJun": {
+      "type": "text",
+      "label": "ApJun",
+      "page": 1,
+      "box": {
+        "left": 399.6,
+        "top": 194.4,
+        "width": 28.8,
+        "height": 10.8
+      }
+    },
+    "aPJul": {
+      "type": "text",
+      "label": "APJul",
+      "page": 1,
+      "box": {
+        "left": 435.6,
+        "top": 194.4,
+        "width": 28.8,
+        "height": 10.8
+      }
+    },
+    "apAug": {
+      "type": "text",
+      "label": "ApAug",
+      "page": 1,
+      "box": {
+        "left": 471.6,
+        "top": 194.4,
+        "width": 28.8,
+        "height": 10.8
+      }
+    },
+    "aPSep": {
+      "type": "text",
+      "label": "APSep",
+      "page": 1,
+      "box": {
+        "left": 507.6,
+        "top": 194.4,
+        "width": 28.8,
+        "height": 10.8
+      }
+    },
+    "aPTotal": {
+      "type": "text",
+      "label": "APTotal",
+      "page": 1,
+      "box": {
+        "left": 543.6,
+        "top": 194.4,
+        "width": 28.8,
+        "height": 10.8
+      }
+    },
+    "oPOct": {
+      "type": "text",
+      "label": "OPOct",
+      "page": 1,
+      "box": {
+        "left": 111.6,
+        "top": 176.4,
+        "width": 28.8,
+        "height": 10.8
+      }
+    },
+    "oPNov": {
+      "type": "text",
+      "label": "OPNov",
+      "page": 1,
+      "box": {
+        "left": 147.6,
+        "top": 176.4,
+        "width": 28.8,
+        "height": 10.8
+      }
+    },
+    "opDec": {
+      "type": "text",
+      "label": "OpDec",
+      "page": 1,
+      "box": {
+        "left": 183.6,
+        "top": 176.4,
+        "width": 28.8,
+        "height": 10.8
+      }
+    },
+    "oPJan": {
+      "type": "text",
+      "label": "OPJan",
+      "page": 1,
+      "box": {
+        "left": 219.6,
+        "top": 176.4,
+        "width": 28.8,
+        "height": 10.8
+      }
+    },
+    "opFeb": {
+      "type": "text",
+      "label": "OpFeb",
+      "page": 1,
+      "box": {
+        "left": 255.6,
+        "top": 176.4,
+        "width": 28.8,
+        "height": 10.8
+      }
+    },
+    "oPMar": {
+      "type": "text",
+      "label": "OPMar",
+      "page": 1,
+      "box": {
+        "left": 291.6,
+        "top": 176.4,
+        "width": 28.8,
+        "height": 10.8
+      }
+    },
+    "oPApr": {
+      "type": "text",
+      "label": "OPApr",
+      "page": 1,
+      "box": {
+        "left": 327.6,
+        "top": 176.4,
+        "width": 28.8,
+        "height": 10.8
+      }
+    },
+    "oPMay": {
+      "type": "text",
+      "label": "OPMay",
+      "page": 1,
+      "box": {
+        "left": 363.6,
+        "top": 176.4,
+        "width": 28.8,
+        "height": 10.8
+      }
+    },
+    "opJun": {
+      "type": "text",
+      "label": "OpJun",
+      "page": 1,
+      "box": {
+        "left": 399.6,
+        "top": 176.4,
+        "width": 28.8,
+        "height": 10.8
+      }
+    },
+    "oPJul": {
+      "type": "text",
+      "label": "OPJul",
+      "page": 1,
+      "box": {
+        "left": 435.6,
+        "top": 176.4,
+        "width": 28.8,
+        "height": 10.8
+      }
+    },
+    "oPAug": {
+      "type": "text",
+      "label": "OPAug",
+      "page": 1,
+      "box": {
+        "left": 471.6,
+        "top": 176.4,
+        "width": 28.8,
+        "height": 10.8
+      }
+    },
+    "opSep": {
+      "type": "text",
+      "label": "OpSep",
+      "page": 1,
+      "box": {
+        "left": 507.6,
+        "top": 176.4,
+        "width": 28.8,
+        "height": 10.8
+      }
+    },
+    "oPTotal": {
+      "type": "text",
+      "label": "OPTotal",
+      "page": 1,
+      "box": {
+        "left": 543.6,
+        "top": 176.4,
+        "width": 28.8,
+        "height": 10.8
+      }
+    },
+    "civPayAmt": {
+      "type": "text",
+      "label": "CivPayAmt",
+      "page": 2,
+      "box": {
+        "left": 129.6,
+        "top": 689.4,
+        "width": 82.8,
+        "height": 10.8
+      }
+    },
+    "wWTADAmt": {
+      "type": "text",
+      "label": "WWTADAmt",
+      "page": 2,
+      "box": {
+        "left": 129.6,
+        "top": 671.4,
+        "width": 82.8,
+        "height": 10.8
+      }
+    },
+    "tADAmt": {
+      "type": "text",
+      "label": "TADAmt",
+      "page": 2,
+      "box": {
+        "left": 129.6,
+        "top": 653.4,
+        "width": 82.8,
+        "height": 10.8
+      }
+    },
+    "sMETADAmt": {
+      "type": "text",
+      "label": "SMETADAmt",
+      "page": 2,
+      "box": {
+        "left": 129.6,
+        "top": 635.4,
+        "width": 82.8,
+        "height": 10.8
+      }
+    },
+    "suppAmt": {
+      "type": "text",
+      "label": "SuppAmt",
+      "page": 2,
+      "box": {
+        "left": 129.6,
+        "top": 617.4,
+        "width": 82.8,
+        "height": 10.8
+      }
+    },
+    "quantity": {
+      "type": "text",
+      "label": "Quantity",
+      "page": 2,
+      "box": {
+        "left": 489.3,
+        "top": 617.4,
+        "width": 82.8,
+        "height": 10.8
+      }
+    },
+    "equipAmt": {
+      "type": "text",
+      "label": "EquipAmt",
+      "page": 2,
+      "box": {
+        "left": 129.6,
+        "top": 599.4,
+        "width": 82.8,
+        "height": 10.8
+      }
+    },
+    "tAMControlNo": {
+      "type": "text",
+      "label": "TAMControlNo",
+      "page": 2,
+      "box": {
+        "left": 489.3,
+        "top": 599.4,
+        "width": 82.8,
+        "height": 10.8
+      }
+    },
+    "printAmt": {
+      "type": "text",
+      "label": "PrintAmt",
+      "page": 2,
+      "box": {
+        "left": 129.6,
+        "top": 581.4,
+        "width": 82.8,
+        "height": 10.8
+      }
+    },
+    "civiLabBreak": {
+      "type": "text",
+      "label": "CiviLabBreak",
+      "page": 2,
+      "box": {
+        "left": 489.3,
+        "top": 581.4,
+        "width": 82.8,
+        "height": 17.6
+      }
+    },
+    "maintAmt": {
+      "type": "text",
+      "label": "MaintAmt",
+      "page": 2,
+      "box": {
+        "left": 129.6,
+        "top": 563.4,
+        "width": 82.8,
+        "height": 10.8
+      }
+    },
+    "postAmt": {
+      "type": "text",
+      "label": "PostAmt",
+      "page": 2,
+      "box": {
+        "left": 129.6,
+        "top": 545.4,
+        "width": 82.8,
+        "height": 10.8
+      }
+    },
+    "sCAmt": {
+      "type": "text",
+      "label": "SCAmt",
+      "page": 2,
+      "box": {
+        "left": 129.6,
+        "top": 527.4,
+        "width": 82.8,
+        "height": 10.8
+      }
+    },
+    "otherAmt": {
+      "type": "text",
+      "label": "OtherAmt",
+      "page": 2,
+      "box": {
+        "left": 129.6,
+        "top": 509.4,
+        "width": 82.8,
+        "height": 10.8
+      }
+    },
+    "mIPRWRAmt": {
+      "type": "text",
+      "label": "MIPRWRAmt",
+      "page": 2,
+      "box": {
+        "left": 129.6,
+        "top": 491.4,
+        "width": 82.8,
+        "height": 17.6
+      }
+    },
+    "appn": {
+      "type": "text",
+      "label": "Appn",
+      "page": 2,
+      "box": {
+        "left": 39.6,
+        "top": 338.4,
+        "width": 60.3,
+        "height": 10.8
+      }
+    },
+    "fy10": {
+      "type": "text",
+      "label": "FY10",
+      "page": 2,
+      "box": {
+        "left": 107.1,
+        "top": 338.4,
+        "width": 60.3,
+        "height": 10.8
+      }
+    },
+    "fy11": {
+      "type": "text",
+      "label": "FY11",
+      "page": 2,
+      "box": {
+        "left": 174.6,
+        "top": 338.4,
+        "width": 60.3,
+        "height": 10.8
+      }
+    },
+    "fy12": {
+      "type": "text",
+      "label": "FY12",
+      "page": 2,
+      "box": {
+        "left": 242.1,
+        "top": 338.4,
+        "width": 60.3,
+        "height": 10.8
+      }
+    },
+    "fy13": {
+      "type": "text",
+      "label": "FY13",
+      "page": 2,
+      "box": {
+        "left": 309.6,
+        "top": 338.4,
+        "width": 60.3,
+        "height": 10.8
+      }
+    },
+    "fy14": {
+      "type": "text",
+      "label": "FY14",
+      "page": 2,
+      "box": {
+        "left": 377.1,
+        "top": 338.4,
+        "width": 60.3,
+        "height": 10.8
+      }
+    },
+    "fy15": {
+      "type": "text",
+      "label": "FY15",
+      "page": 2,
+      "box": {
+        "left": 444.6,
+        "top": 338.4,
+        "width": 60.3,
+        "height": 10.8
+      }
+    },
+    "total": {
+      "type": "text",
+      "label": "Total",
+      "page": 2,
+      "box": {
+        "left": 511.7,
+        "top": 338.4,
+        "width": 60.3,
+        "height": 10.8
+      }
+    }
+  }
+}

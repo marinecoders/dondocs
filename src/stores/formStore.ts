@@ -3,6 +3,7 @@ import { persist, createJSONStorage } from 'zustand/middleware';
 import { safeLocalStorage } from '@/lib/compressedStorage';
 import { format } from 'date-fns';
 import type { FormSignatureBlock, SignatureStyle } from '@/types/signature';
+import type { FormRows, FormValues } from '@/types/formConfig';
 
 /** Upgrade a persisted signature block from the pre-1.2.107 `digital` boolean
  *  to the `style` field, dropping the legacy key. Idempotent. */
@@ -108,6 +109,30 @@ interface FormStore {
   setNavmc11811Field: <K extends keyof Navmc11811Data>(key: K, value: Navmc11811Data[K]) => void;
   resetNavmc11811: () => void;
   clearNavmc11811: () => void;
+
+  /** Values for config-driven forms (form.json), keyed by form id then field
+   *  key. New forms get a slot here automatically — no per-form slice. */
+  configFormValues: Record<string, FormValues>;
+  setConfigFormValue: (formId: string, key: string, value: string | boolean) => void;
+  clearConfigForm: (formId: string) => void;
+
+  /** Wholesale replace of a config form's values and rows in one update —
+   *  used by the fill-test-data tool so a 200-cell roster is one state write,
+   *  not 200. */
+  setConfigFormData: (formId: string, values: FormValues, rows: FormRows) => void;
+
+  /** Row-group entries for config-driven roster forms: [formId][groupKey][row]. */
+  configFormRows: Record<string, FormRows>;
+  addConfigFormRow: (formId: string, groupKey: string) => void;
+  setConfigFormRowValue: (formId: string, groupKey: string, row: number, key: string, value: string | boolean) => void;
+  removeConfigFormRow: (formId: string, groupKey: string, row: number) => void;
+
+  /** Starred forms in the catalog, by formType id. */
+  favoriteForms: string[];
+  toggleFavoriteForm: (formId: string) => void;
+  /** Recently selected forms, most recent first (capped). */
+  recentForms: string[];
+  touchRecentForm: (formId: string) => void;
 
   // PDF generation options
   includeCoverPage: boolean;
@@ -276,6 +301,67 @@ export const useFormStore = create<FormStore>()(
     navmc11811: { ...EMPTY_NAVMC_11811 },
   }),
 
+  configFormValues: {},
+
+  setConfigFormValue: (formId, key, value) => set((state) => ({
+    configFormValues: {
+      ...state.configFormValues,
+      [formId]: { ...state.configFormValues[formId], [key]: value },
+    },
+  })),
+
+  clearConfigForm: (formId) => set((state) => {
+    const { [formId]: _cleared, ...rest } = state.configFormValues;
+    const { [formId]: _rowsCleared, ...restRows } = state.configFormRows;
+    return { configFormValues: rest, configFormRows: restRows };
+  }),
+
+  setConfigFormData: (formId, values, rows) => set((state) => ({
+    configFormValues: { ...state.configFormValues, [formId]: values },
+    configFormRows: { ...state.configFormRows, [formId]: rows },
+  })),
+
+  configFormRows: {},
+
+  addConfigFormRow: (formId, groupKey) => set((state) => {
+    const form = state.configFormRows[formId] ?? {};
+    return {
+      configFormRows: {
+        ...state.configFormRows,
+        [formId]: { ...form, [groupKey]: [...(form[groupKey] ?? []), {}] },
+      },
+    };
+  }),
+
+  setConfigFormRowValue: (formId, groupKey, row, key, value) => set((state) => {
+    const form = state.configFormRows[formId] ?? {};
+    const rows = [...(form[groupKey] ?? [])];
+    rows[row] = { ...rows[row], [key]: value };
+    return {
+      configFormRows: { ...state.configFormRows, [formId]: { ...form, [groupKey]: rows } },
+    };
+  }),
+
+  removeConfigFormRow: (formId, groupKey, row) => set((state) => {
+    const form = state.configFormRows[formId] ?? {};
+    const rows = (form[groupKey] ?? []).filter((_, i) => i !== row);
+    return {
+      configFormRows: { ...state.configFormRows, [formId]: { ...form, [groupKey]: rows } },
+    };
+  }),
+
+  favoriteForms: [],
+  toggleFavoriteForm: (formId) => set((state) => ({
+    favoriteForms: state.favoriteForms.includes(formId)
+      ? state.favoriteForms.filter((f) => f !== formId)
+      : [...state.favoriteForms, formId],
+  })),
+
+  recentForms: [],
+  touchRecentForm: (formId) => set((state) => ({
+    recentForms: [formId, ...state.recentForms.filter((f) => f !== formId)].slice(0, 5),
+  })),
+
   // PDF generation options
   includeCoverPage: false,
   setIncludeCoverPage: (value) => set({ includeCoverPage: value }),
@@ -288,6 +374,10 @@ export const useFormStore = create<FormStore>()(
       partialize: (s) => ({
         navmc10274: s.navmc10274,
         navmc11811: s.navmc11811,
+        configFormValues: s.configFormValues,
+        configFormRows: s.configFormRows,
+        favoriteForms: s.favoriteForms,
+        recentForms: s.recentForms,
         includeCoverPage: s.includeCoverPage,
       }),
       // Persisted sessions predating signatureBlocks hydrate a navmc10274
